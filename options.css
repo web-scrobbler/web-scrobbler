@@ -9,6 +9,14 @@ h1, h2, h3, h4, h5 {
 .gray {
    color: #aaa;
 }
+a {
+   color: #000;
+   text-decoration: none;
+   border-bottom: 1px solid #d51007;   
+}
+a:hover {
+   color: #d51007;
+}
 div.container {
 	width: 380px;
 	margin-left: auto;
@@ -57,4 +65,8 @@ p#status {
 	font-weight: bold;
 	font-size:18px;
 	display:none;
+}
+
+div.container.about p {
+   text-align: justify;
 }

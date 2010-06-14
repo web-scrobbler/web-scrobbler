@@ -124,7 +124,9 @@ function submit(sender) {
             } else {
                // Confirm the content_script, that the song has been scrobbled 
 				   if (sender)
-                  chrome.tabs.sendRequest(sender.tab.id, {type: "submitOK"});            
+                  chrome.tabs.sendRequest(sender.tab.id, {type: "submitOK"});
+               // Stats
+               _gaq.push(['_trackEvent', 'Track scrobbled']);            
             }  
 			};
 		http_request.open("POST", submissionURL, true);
