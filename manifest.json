@@ -1,0 +1,27 @@
+{
+   "name": "Last.fm Scrobbler",
+   "version": "0.1",
+   
+   "description": "Scrobble music videos all around the web!",  
+   "icons": { "128": "icon128.png" },
+   
+   "background_page": "background.html",
+   "options_page": "options.html",
+   
+   "permissions": [
+      "tabs",
+      "http://ws.audioscrobbler.com/",
+      "http://post.audioscrobbler.com/",
+      "http://post2.audioscrobbler.com/",
+      "http://gdata.youtube.com/feeds/api/videos/"
+   ],
+   
+   "content_scripts": [
+      {
+      "matches": ["http://www.youtube.com/watch*"],
+      "js": ["jquery-1.4.2.min.js", "youtube.js"],
+      "css": ["youtube.css"]
+      }
+   ]
+
+}

@@ -1,0 +1,9 @@
+span#chrome-scrobbler-status {
+	padding: 3px;
+	font-size: 14px;
+	margin-right: 4px;
+	color: white;
+	border-radius: 4px;
+	position: relative; top: -3px;
+	background: -webkit-gradient(linear, left bottom, left top, color-stop(0.15, rgb(130,42,39)), color-stop(0.58, rgb(213,17,7)));
+}
