@@ -98,9 +98,9 @@ function parseInfo(artistTitle) {
  */ 
 function displayMsg(msg) {
    if (msg) {         
-      if ($('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').length>0)
-         $('<span id="chrome-scrobbler-status">'+msg+'</span>').insertBefore($('#watch-headline-title > span[title]'));
-   } else {
+      if ($('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').length>0)         
+         $('<span id="chrome-scrobbler-status" title="Scrobbling to Last.fm">'+msg+'</span>').insertBefore($('#watch-headline-title > span[title][id!=chrome-scrobbler-status]'));
+   } else {           
       $('#chrome-scrobbler-status').remove();            
    }
 } 
@@ -126,7 +126,7 @@ function updateNowPlaying() {
    	var artist = parsedInfo['artist'];
    	var track = parsedInfo['track'];      	
    	
-   	var duration = '';
+   	duration = '';
    	if (info.entry.media$group.media$content != undefined)
          duration = info.entry.media$group.media$content[0].duration;
       else if (info.entry.media$group.yt$duration.seconds != undefined)
@@ -166,7 +166,9 @@ chrome.extension.onRequest.addListener(
          switch(request.type) {
             // called after track has been successfully marked as 'now playing' at the server
             case 'nowPlayingOK':
-               displayMsg('Scrobbling:');         
+               displayMsg('Scrobbling:');
+               var min_time = (240 < (duration/2)) ? 240 : (duration/2) //The minimum time is 240 seconds or half the track's total length. Duration comes from updateNowPlaying()
+               setTimeout('$("#chrome-scrobbler-status").addClass("scrobbled");$("#chrome-scrobbler-status").attr("title","The minimum time for a scrobble has past");', min_time*1000) // Turns status message into black when half of videos time has been played, to indicate that we are past the minimum time for a scrobble.    
                break;
             
             // not used yet
