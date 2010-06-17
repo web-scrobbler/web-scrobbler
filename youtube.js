@@ -59,14 +59,14 @@ function parseInfo(artistTitle) {
    
    // Figure out where to split; use " - " rather than "-" 
    if (artistTitle.indexOf(' - ') > -1) {
-      artist = artistTitle.split(' - ')[0];
-      track = artistTitle.split(' - ')[1];
+      artist = artistTitle.substring(0, artistTitle.indexOf(' - '));
+      track = artistTitle.substring(artistTitle.indexOf(' - ') + 3);
    } else if (artistTitle.indexOf('-') > -1) {
-      artist = artistTitle.split('-')[0];
-      track = artistTitle.split('-')[1];      
+      artist = artistTitle.substring(0, artistTitle.indexOf('-'));
+      track = artistTitle.substring(artistTitle.indexOf('-') + 1);      
    } else if (artistTitle.indexOf(':') > -1) {
-      artist = artistTitle.split(':')[0];
-      track = artistTitle.split(':')[1];   
+      artist = artistTitle.substring(0, artistTitle.indexOf(':'));
+      track = artistTitle.substring(artistTitle.indexOf(':') + 1);   
    } else {
       // can't parse
       return {artist:'', track:''};
@@ -132,15 +132,14 @@ function updateNowPlaying() {
    	if (artist == '' || track == '') {
          displayMsg('Not recognized:');
          return;      
-      }   	  
+      }   	        
    	
       // Validate given artist and track       
       chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
    		if (response == true)
             chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
          else
-            displayMsg('Not recognized:');
-            //console.log('Not recognized: "'+artist+'" - "'+track+'"');               		
+            displayMsg('Not recognized:');               		
    	});
       
    });
