@@ -117,12 +117,17 @@ function updateNowPlaying() {
    // Get clip info from youtube api
    chrome.extension.sendRequest({type: "xhr", url: googleURL}, function(response) {
    	var info = JSON.parse(response.text);
-   	
+         	
    	var parsedInfo = parseInfo(info.entry.title.$t);
    	
    	var artist = parsedInfo['artist'];
-   	var track = parsedInfo['track'];
-   	var duration = info.entry.media$group.media$content[0].duration;
+   	var track = parsedInfo['track'];      	
+   	
+   	var duration = '';
+   	if (info.entry.media$group.media$content != undefined)
+         duration = info.entry.media$group.media$content[0].duration;
+      else if (info.entry.media$group.yt$duration.seconds != undefined)
+         duration = info.entry.media$group.yt$duration.seconds;             
    	
    	if (artist == '' || track == '') {
          displayMsg('Not recognized:');
@@ -134,7 +139,8 @@ function updateNowPlaying() {
    		if (response == true)
             chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
          else
-            displayMsg('Not recognized:');               		
+            displayMsg('Not recognized:');
+            //console.log('Not recognized: "'+artist+'" - "'+track+'"');               		
    	});
       
    });
