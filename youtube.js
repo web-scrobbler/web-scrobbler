@@ -18,7 +18,10 @@ if (document.location.toString().indexOf('/watch#!v=') > -1) {
       }
       
       // watching ----> loading
-      if (state == 'watching' && $('#watch-headline-title > span[title]').length>0 && $('#watch-headline-title > span[title]').attr('title') != clipTitle) {
+      if (state == 'watching' && 
+          $('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').length>0 && 
+          $('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').attr('title') != clipTitle
+         ) {
          // fake loading state to match the next condition and reload the clip info
          state = 'loading';
          // By now, scrobbler.js should have info about song which has been marked
@@ -30,7 +33,7 @@ if (document.location.toString().indexOf('/watch#!v=') > -1) {
       // loading --[updateNowPlaying(), set clipTitle]--> watching
       if (state == 'loading' && $('#watch-headline-title').length > 0) {
          state = 'watching';
-         clipTitle = $('#watch-headline-title > span[title]').attr('title');
+         clipTitle = $('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').attr('title');
                   
          updateNowPlaying();
          
@@ -94,8 +97,8 @@ function parseInfo(artistTitle) {
  * call without parameter to clean the message.
  */ 
 function displayMsg(msg) {
-   if (msg) {   
-      if ($('#watch-headline-title > span[title]').length>0)
+   if (msg) {         
+      if ($('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').length>0)
          $('<span id="chrome-scrobbler-status">'+msg+'</span>').insertBefore($('#watch-headline-title > span[title]'));
    } else {
       $('#chrome-scrobbler-status').remove();            
