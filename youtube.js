@@ -3,7 +3,9 @@ if (document.location.toString().indexOf('/watch#!v=') > -1) {
    // === AJAX page load =======================================================
    
    // State for event handlers
-   var state = 'init';    
+   var state = 'init';
+
+   // Used only to remember last song title
    var clipTitle = '';    
    
    // Hook up for changes in header (Loading... -> Artist - Title)
@@ -113,20 +115,31 @@ function displayMsg(msg) {
 function updateNowPlaying() {
    // clear the message
    displayMsg();
-   
+
+   // http://code.google.com/intl/cs/apis/youtube/2.0/developers_guide_protocol_video_entries.html
    var videoID = document.URL.replace(/^[^v]+v.(.{11}).*/,"$1");
    var googleURL = "http://gdata.youtube.com/feeds/api/videos/" + videoID + "?alt=json";
    
    // Get clip info from youtube api
    chrome.extension.sendRequest({type: "xhr", url: googleURL}, function(response) {
-   	var info = JSON.parse(response.text);
-         	
+   	var info = JSON.parse(response.text);         	
    	var parsedInfo = parseInfo(info.entry.title.$t);
-   	
-   	var artist = parsedInfo['artist'];
-   	var track = parsedInfo['track'];      	
-   	
-   	duration = '';
+
+      artist = null; // global!
+      track = null; // global!
+
+      // Use video footer info rather than parsed video title. If this info is present, it's always valid Artist - Track
+      if ( $('div.watch-extra-info img.music-note').length == 1 && $('div.watch-extra-info .watch-extra-info-left').length == 1 ) {
+         artist = $('.watch-extra-info-left a strong').text();
+         track = $('.watch-extra-info-left').text().replace(artist, '');
+         track = track.replace(/^\s*\-\s*/, ''); // trim starting white chars and dash separating artist from track
+         track = track.replace(/\s*$/, ''); // trim trailing white chars
+      } else {
+         artist = parsedInfo['artist'];
+         track = parsedInfo['track'];
+      }
+
+      duration = ''; // global!
    	if (info.entry.media$group.media$content != undefined)
          duration = info.entry.media$group.media$content[0].duration;
       else if (info.entry.media$group.yt$duration.seconds != undefined)
