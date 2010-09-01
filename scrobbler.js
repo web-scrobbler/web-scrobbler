@@ -118,7 +118,7 @@ function nowPlaying(sender) {
 /**
  * Finally scrobble the song, but only if it has been playing long enough.
  * Cleans global variables "song" and "playingTab" on success. 
- * @param browser tab 
+ * @param sender browser tab
  */ 
 function submit(sender) {
    // bad function call
@@ -126,30 +126,32 @@ function submit(sender) {
       chrome.tabs.sendRequest(sender.tab.id, {type: "submitFAIL", reason: "No song"});
       return;
    }
-	
-	// need to (re)authenticate?
-	if (sessionID == "") 
+
+   // need to (re)authenticate?
+   if (sessionID == "")
       handshake();
-	
-	var playTime = parseInt(new Date().getTime() / 1000.0) - song.startTime;
-	
+
+   var playTime = parseInt(new Date().getTime() / 1000.0) - song.startTime;
+
    if (playTime > 30 && playTime > Math.min(240, song.duration / 2)) {
 		var params = "s=" + sessionID + "&a[0]=" + song.artist + "&t[0]=" + song.track + "&i[0]=" + song.startTime + "&o[0]=P&r[0]=&l[0]=" + song.duration + "&b[0]=&m[0]=&n[0]=";
 		var http_request = new XMLHttpRequest();
 		http_request.onreadystatechange = function() {
-			if (http_request.readyState == 4 && http_request.status == 200)
-			   // need to (re)authenticate
-         	if (http_request.responseText.split("\n")[0] == "BADSESSION") {
-               handshake(); 
-               submit(sender);
-            } else {
-               // Confirm the content_script, that the song has been scrobbled 
-				   if (sender)
-                  chrome.tabs.sendRequest(sender.tab.id, {type: "submitOK"});
-               // Stats
-               _gaq.push(['_trackEvent', 'Track scrobbled']);            
-            }  
-			};
+               if (http_request.readyState == 4 && http_request.status == 200) {
+                  // need to (re)authenticate
+                  if (http_request.responseText.split("\n")[0] == "BADSESSION") {
+                     handshake();
+                     submit(sender);
+                  } else {
+                     // stats
+                     _gaq.push(['_trackEvent', 'Track scrobbled']);
+
+                     // Confirm the content_script, that the song has been scrobbled
+                     if (sender)
+                        chrome.tabs.sendRequest(sender.tab.id, {type: "submitOK"});
+                  }
+               }
+		};
 		http_request.open("POST", submissionURL, true);
 		http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		http_request.send(params);

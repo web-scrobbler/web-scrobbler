@@ -47,6 +47,18 @@ if (document.location.toString().indexOf('/watch#!v=') > -1) {
 
 } else {
    // === regular page load ====================================================
+
+   // inject stats code
+   var _gaq = _gaq || [];
+   _gaq.push(['_setAccount', 'UA-16968457-1']);
+
+   (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = 'https://ssl.google-analytics.com/ga.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+   })();
+
+   // start scrobbler
    updateNowPlaying();
 }
 
@@ -167,7 +179,10 @@ function updateNowPlaying() {
  * Simply request the scrobbler.js to submit song previusly specified by calling updateNowPlaying()
  */ 
 function scrobbleTrack() {
-   chrome.extension.sendRequest({type: 'submit'});      
+   // stats
+   _gaq.push(['_trackEvent', 'Youtube video scrobbled']);
+
+   chrome.extension.sendRequest({type: 'submit'});
 }
 
 
@@ -185,7 +200,7 @@ chrome.extension.onRequest.addListener(
                break;
             
             // not used yet
-            case 'submitOK':
+            case 'submitOK':               
             case 'submitFAIL':
                break; 
          }
