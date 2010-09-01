@@ -1,9 +1,12 @@
 
 const APP_NAME = "Chrome Last.fm Scrobbler";
-const APP_VERSION = "0.1";
+const APP_VERSION = "0.5";
 
 // authentication token retrieved after handshake()
 var sessionID = "";
+
+// number of failed authentications after the last successful one
+var authFailCounter = 0;
 
 // browser tab with actually scrobbled track
 var nowPlayingTab = null;
@@ -29,9 +32,24 @@ function handshake() {
 	var http_request = new XMLHttpRequest();
 	http_request.onreadystatechange = function() {
 		if (http_request.readyState == 4 && http_request.status == 200) {
-			sessionID = http_request.responseText.split("\n")[1];
-			nowPlayingURL = http_request.responseText.split("\n")[2];
-			submissionURL = http_request.responseText.split("\n")[3];
+			switch (http_request.responseText.split("\n")[0]) {
+                     case 'OK':
+                        sessionID = http_request.responseText.split("\n")[1];
+                        nowPlayingURL = http_request.responseText.split("\n")[2];
+                        submissionURL = http_request.responseText.split("\n")[3];
+                        authFailCounter = 0;
+                        break;
+                     case 'BADAUTH':
+                        authFailCounter++;
+                        alert('Authentication failed!\n\nPlease check your username and password in options');
+                        break;
+                     default:
+                        authFailCounter++;
+                        alert('Last.fm auth server responded with error:\n' + http_request.responseText.split("\n")[0]);
+                        break;
+                  }
+
+                  
 		}
 	}
 	http_request.open(
@@ -65,7 +83,7 @@ function validate(artist, track) {
 
 /**
  * Tell server which song is playing right now (won't be scrobbled yet!)
- * @param browser tab
+ * @param sender browser tab
  */ 
 function nowPlaying(sender) {
    if (sessionID == '') 
@@ -76,15 +94,18 @@ function nowPlaying(sender) {
 	http_request.onreadystatechange = function() {
 		if (http_request.readyState == 4 && http_request.status == 200)
 		   // need to (re)authenticate
-			if (http_request.responseText.split("\n")[0] == "BADSESSION") {
-            handshake(); 
-            nowPlaying(sender);
-            return;
-         }
-			else {
-				// Confirm the content_script, that the song is "now playing" 
-				chrome.tabs.sendRequest(sender.tab.id, {type: "nowPlayingOK"});
-			}
+               if (http_request.responseText.split("\n")[0] == "BADSESSION") {
+                  // prevent looping on constantly failing auth
+                  if (authFailCounter == 0) {
+                     handshake();
+                     nowPlaying(sender);
+                  }
+                  return;
+               }
+               else {
+                     // Confirm the content_script, that the song is "now playing"
+                     chrome.tabs.sendRequest(sender.tab.id, {type: "nowPlayingOK"});
+               }
 	};	
 	http_request.open("POST", nowPlayingURL, true);
 	http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
