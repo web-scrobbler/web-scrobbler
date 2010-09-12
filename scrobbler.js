@@ -19,7 +19,21 @@ var submissionURL =  "http://post2.audioscrobbler.com:80/protocol_1.2";
 // song structure (artist, track, duration, startTime)
 var song = null;
 
+/**
+ * Notification
+ */
 
+const NOTIFICATION_TIMEOUT = 5000;
+
+function scrobblerNotification(text) {
+  var notification = webkitNotifications.createNotification(
+    'icon128.png',  // icon url
+    'Chrome Scrobbler',  // notification title
+    text + ': ' + song.artist + " | " + song.track + " | " + song.album  // notification body text
+  );
+  notification.show();
+  setTimeout(function() { notification.cancel() }, NOTIFICATION_TIMEOUT);
+}
 
 /**
  * Log in, retrieve sessionID
@@ -192,11 +206,13 @@ chrome.extension.onRequest.addListener(
       					"startTime"	:	parseInt(new Date().getTime() / 1000.0)};
       					      		
       		nowPlaying(sender);
+                  scrobblerNotification('Now playing');
       		sendResponse({});
       		
       		break;
    		case "submit":      		
       		submit(sender);
+                  scrobblerNotification('Scrobbled');
       		sendResponse({});
       		
       		break;

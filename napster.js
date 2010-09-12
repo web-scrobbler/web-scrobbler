@@ -19,11 +19,6 @@ function songInfo() {
     + ";B: " + localStorage.napster_album;
 }
 
-function songInfoPretty() {
-  return localStorage.napster_artist + " | "
-    + localStorage.napster_track + " | " + localStorage.napster_album;
-}
-
 function cleanTag(text) {
   var t = text;
   t = t.replace(/\[[^\]]+\]$/, ''); // [whatever]
@@ -82,10 +77,6 @@ function shouldSubmit() {
   }
 }
 
-function donotify(t) {
-  chrome.extension.sendRequest({type: 'notify', text: t});    
-}
-
 function initStorage() {
   if (localStorage.napster_artist == null) {
     // We need to store this information across pages as browsing the site resets the state otherwise
@@ -115,13 +106,11 @@ function init() {
                                     track: cleanTag(localStorage.napster_track),
                                     album: cleanTag(localStorage.napster_album),
                                     duration: localStorage.napster_duration});
-      donotify('Now playing: ' + songInfoPretty());
     }
     if (localStorage.napster_flaggedNew == N_FALSE && shouldSubmit()) {
       debug('Scrobbling');
       localStorage.napster_submitted = N_TRUE;
       chrome.extension.sendRequest({type: 'submit'});
-      donotify('Scrobbled: ' + songInfoPretty());
     }
   }, SLEEP_TIME);
 }
