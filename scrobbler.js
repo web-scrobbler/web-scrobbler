@@ -89,7 +89,7 @@ function nowPlaying(sender) {
    if (sessionID == '') 
       handshake();
 
-	var params = "s=" + sessionID + "&a=" + song.artist + "&t=" + song.track +	"&b=&l=" + song.duration + "&m=&n=";
+	var params = "s=" + sessionID + "&a=" + song.artist + "&t=" + song.track +	"&b=" + song.album + "&l=" + song.duration + "&m=&n=";
 	var http_request = new XMLHttpRequest();
 	http_request.onreadystatechange = function() {
 		if (http_request.readyState == 4 && http_request.status == 200)
@@ -134,7 +134,7 @@ function submit(sender) {
    var playTime = parseInt(new Date().getTime() / 1000.0) - song.startTime;
 
    if (playTime > 30 && playTime > Math.min(240, song.duration / 2)) {
-		var params = "s=" + sessionID + "&a[0]=" + song.artist + "&t[0]=" + song.track + "&i[0]=" + song.startTime + "&o[0]=P&r[0]=&l[0]=" + song.duration + "&b[0]=&m[0]=&n[0]=";
+		var params = "s=" + sessionID + "&a[0]=" + song.artist + "&t[0]=" + song.track + "&i[0]=" + song.startTime + "&o[0]=P&r[0]=&l[0]=" + song.duration + "&b[0]=" + song.album + "&m[0]=&n[0]=";
 		var http_request = new XMLHttpRequest();
 		http_request.onreadystatechange = function() {
                if (http_request.readyState == 4 && http_request.status == 200) {
@@ -187,6 +187,7 @@ chrome.extension.onRequest.addListener(
       		
       		song = {	"artist"	:	request.artist,
       					"track"		:	request.track,
+                                "album" : request.album,
       					"duration"	:	request.duration,
       					"startTime"	:	parseInt(new Date().getTime() / 1000.0)};
       					      		
