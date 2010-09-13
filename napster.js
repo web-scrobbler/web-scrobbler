@@ -111,6 +111,7 @@ function init() {
       debug('Scrobbling');
       localStorage.napster_submitted = N_TRUE;
       chrome.extension.sendRequest({type: 'submit'});
+      // @@@ We should check that this succeeded, or even better, implement a queue in scrobbler.js
     }
   }, SLEEP_TIME);
 }
