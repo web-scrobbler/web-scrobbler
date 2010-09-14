@@ -1,3 +1,5 @@
+const INIT_LOAD_DELAY = 5 * 1000;
+
 const NEW_WAIT_TIME = 10 * 1000;
 const N_TRUE = 1;
 const N_FALSE = 0;
@@ -118,5 +120,6 @@ function init() {
 
 // Only initialize for pages that are not the Flash player window
 if (document.location.href.match('^http://music\.napster\.com/coolplayer/') == null) {
-  init();
+  // Delay initialization so that player is loaded
+  setTimeout(function() { init() }, INIT_LOAD_DELAY);
 }
