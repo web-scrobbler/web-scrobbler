@@ -95,7 +95,7 @@ function handshake() {
  * @return bool
  */  
 function validate(artist, track) {
-   var validationURL = "http://ws.audioscrobbler.com/2.0/?method=track.getinfo&api_key=d9bb1870d3269646f740544d9def2c95&artist="+ artist + "&track=" + track;
+   var validationURL = "http://ws.audioscrobbler.com/2.0/?method=track.getinfo&api_key=d9bb1870d3269646f740544d9def2c95&artist=" + encodeURIComponent(artist) + "&track=" + encodeURIComponent(track);
    
    var req = new XMLHttpRequest();  
    req.open('GET', validationURL, false);   
