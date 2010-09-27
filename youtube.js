@@ -141,9 +141,9 @@ function updateNowPlaying() {
       track = null; // global!
 
       // Use video footer info rather than parsed video title. If this info is present, it's always valid Artist - Track
-      if ( $('div.watch-extra-info img.music-note').length == 1 && $('div.watch-extra-info .watch-extra-info-left').length == 1 ) {
+      if ( $('div.watch-extra-info img.music-note').length == 1 && $('div.watch-extra-info .watch-extra-info-left').length >= 1 ) {
          artist = $('.watch-extra-info-left a strong').text();
-         track = $('.watch-extra-info-left').text().replace(artist, '');
+         track = $('.watch-extra-info-left:last').text().replace(artist, '');
          track = track.replace(/^\s*\-\s*/, ''); // trim starting white chars and dash separating artist from track
          track = track.replace(/\s*$/, ''); // trim trailing white chars
       } else {
