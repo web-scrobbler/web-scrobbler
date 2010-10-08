@@ -89,27 +89,34 @@ function nowPlaying(sender) {
    if (sessionID == '') 
       handshake();
 
-	var params = "s=" + sessionID + "&a=" + song.artist + "&t=" + song.track +	"&b=&l=" + song.duration + "&m=&n=";
-	var http_request = new XMLHttpRequest();
-	http_request.onreadystatechange = function() {
-		if (http_request.readyState == 4 && http_request.status == 200)
-		   // need to (re)authenticate
-               if (http_request.responseText.split("\n")[0] == "BADSESSION") {
-                  // prevent looping on constantly failing auth
-                  if (authFailCounter == 0) {
-                     handshake();
-                     nowPlaying(sender);
-                  }
-                  return;
+   var params = "";
+   if (typeof(song.duration) != "undefined")
+      params = "s=" + sessionID + "&a=" + song.artist + "&t=" + song.track + "&b=&l=" + song.duration + "&m=&n=";
+   else
+      params = "s=" + sessionID + "&a=" + song.artist + "&t=" + song.track + "&b=&l=&m=&n=";
+
+   var http_request = new XMLHttpRequest();
+   http_request.onreadystatechange = function() {
+         if (http_request.readyState == 4 && http_request.status == 200)
+            // need to (re)authenticate
+            if (http_request.responseText.split("\n")[0] == "BADSESSION") {
+               // prevent looping on constantly failing auth
+               if (authFailCounter == 0) {
+                  handshake();
+                  nowPlaying(sender);
                }
-               else {
-                     // Confirm the content_script, that the song is "now playing"
-                     chrome.tabs.sendRequest(sender.tab.id, {type: "nowPlayingOK"});
-               }
-	};	
-	http_request.open("POST", nowPlayingURL, true);
-	http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-	http_request.send(params);
+               return;
+            }
+            else if (http_request.responseText.split("\n")[0] == "OK") {
+                  // Confirm the content_script, that the song is "now playing"
+                  chrome.tabs.sendRequest(sender.tab.id, {type: "nowPlayingOK"});
+            } else {
+               alert('Last.fm responded with unknown code on nowPlaying request');
+            }
+   };
+   http_request.open("POST", nowPlayingURL, true);
+   http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+   http_request.send(params);
 }
 
 
@@ -133,9 +140,14 @@ function submit(sender) {
 
    var playTime = parseInt(new Date().getTime() / 1000.0) - song.startTime;
 
-   if (playTime > 30 && playTime > Math.min(240, song.duration / 2)) {
-		var params = "s=" + sessionID + "&a[0]=" + song.artist + "&t[0]=" + song.track + "&i[0]=" + song.startTime + "&o[0]=P&r[0]=&l[0]=" + song.duration + "&b[0]=&m[0]=&n[0]=";
-		var http_request = new XMLHttpRequest();
+   if (playTime > 30 && (typeof(song.duration) == "undefined" || playTime > Math.min(240, song.duration / 2))) {
+		var params = "";
+            if (typeof(song.duration) != "undefined")
+               params = "s=" + sessionID + "&a[0]=" + song.artist + "&t[0]=" + song.track + "&i[0]=" + song.startTime + "&o[0]=P&r[0]=&l[0]=" + song.duration + "&b[0]=&m[0]=&n[0]=";
+		else
+               params = "s=" + sessionID + "&a[0]=" + song.artist + "&t[0]=" + song.track + "&i[0]=" + song.startTime + "&o[0]=P&r[0]=&l[0]=&b[0]=&m[0]=&n[0]=";
+
+            var http_request = new XMLHttpRequest();
 		http_request.onreadystatechange = function() {
                if (http_request.readyState == 4 && http_request.status == 200) {
                   // need to (re)authenticate
@@ -159,10 +171,10 @@ function submit(sender) {
 		nowPlayingTab = null;
 		song = null;
 	} else {
-      // song hasn't been playing long enough
-      if (sender)
-         chrome.tabs.sendRequest(sender.tab.id, {type: "submitFAIL", reason: "Song hasn't been playing long enough"});
-   }
+         // song hasn't been playing long enough
+         if (sender)
+            chrome.tabs.sendRequest(sender.tab.id, {type: "submitFAIL", reason: "Song hasn't been playing long enough"});
+      }
 }
 
 
@@ -176,20 +188,22 @@ function submit(sender) {
  * validate(artist, track) - validate artist-track pair against last.fm and return bool     
  */  
 chrome.extension.onRequest.addListener(
-	function(request, sender, sendResponse) {
-		switch(request.type) {
+	function(request, sender, sendResponse) {            
+            switch(request.type) {
    		case "nowPlaying":
       		// if there was a previously playing tab, try to submit it
-            if (nowPlayingTab != null) 
-               submit();
+                  if (nowPlayingTab != null)
+                     submit();
                
       		nowPlayingTab = sender.tab.id;
       		
-      		song = {	"artist"	:	request.artist,
-      					"track"		:	request.track,
-      					"duration"	:	request.duration,
+      		song = {          "artist"	:	request.artist,
+      					"track"	:	request.track,
       					"startTime"	:	parseInt(new Date().getTime() / 1000.0)};
-      					      		
+                  
+                  if (typeof(request.duration) != "undefined")
+                     song.duration = request.duration;
+
       		nowPlaying(sender);
       		sendResponse({});
       		
@@ -199,7 +213,7 @@ chrome.extension.onRequest.addListener(
       		sendResponse({});
       		
       		break;
-         case "xhr":
+            case "xhr":
       		var http_request = new XMLHttpRequest();
       		http_request.open("GET", request.url, true);
       		http_request.onreadystatechange = function() {
@@ -212,8 +226,8 @@ chrome.extension.onRequest.addListener(
       		sessionID = "";
       		break;
       	case "validate":
-            sendResponse( validate(request.artist, request.track) );
-            break; 
+                  sendResponse( validate(request.artist, request.track) );
+                  break;
 		}
 		
 	}
@@ -225,7 +239,7 @@ chrome.extension.onRequest.addListener(
 chrome.tabs.onUpdated.addListener(function(tabID, changeInfo, tab) {
 	if (tabID == nowPlayingTab)
 		if (changeInfo.url) 
-         submit();
+               submit();
 });
 
 /**
@@ -233,5 +247,5 @@ chrome.tabs.onUpdated.addListener(function(tabID, changeInfo, tab) {
  */ 
 chrome.tabs.onRemoved.addListener(function(tabID) {
 	if (tabID == nowPlayingTab) 
-      submit();
+         submit();
 });
