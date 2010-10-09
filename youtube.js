@@ -196,11 +196,14 @@ chrome.extension.onRequest.addListener(
             case 'nowPlayingOK':
                displayMsg('Scrobbling:');
                var min_time = (240 < (duration/2)) ? 240 : (duration/2) //The minimum time is 240 seconds or half the track's total length. Duration comes from updateNowPlaying()
-               setTimeout('$("#chrome-scrobbler-status").addClass("scrobbled");$("#chrome-scrobbler-status").attr("title","The minimum time for a scrobble has past");', min_time*1000) // Turns status message into black when half of videos time has been played, to indicate that we are past the minimum time for a scrobble.    
+               setTimeout(function(){$("#chrome-scrobbler-status").addClass("scrobbled");$("#chrome-scrobbler-status").attr("title","The minimum time for a scrobble has past");}, min_time*1000) // Turns status message into black when half of videos time has been played, to indicate that we are past the minimum time for a scrobble.
                break;
             
             // not used yet
-            case 'submitOK':               
+            case 'submitOK':
+               break;
+
+            // not used yet
             case 'submitFAIL':
                break; 
          }

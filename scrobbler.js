@@ -28,8 +28,8 @@ const NOTIFICATION_TIMEOUT = 5000;
 function scrobblerNotification(text) {
   var notification = webkitNotifications.createNotification(
     'icon128.png',  // icon url
-    'Chrome Scrobbler',  // notification title
-    text + ': ' + song.artist + " | " + song.track + " | " + song.album  // notification body text
+    'Last.fm Scrobbler',  // notification title
+    text + ': ' + song.artist + " | " + song.track  // notification body text
   );
   notification.show();
   setTimeout(function() { notification.cancel() }, NOTIFICATION_TIMEOUT);
@@ -104,11 +104,12 @@ function nowPlaying(sender) {
       handshake();
 
    var params = "s=" + sessionID + "&a=" + song.artist + "&t=" + song.track;
-   if (typeof(song.duration) != "undefined")
-      params += "&l=" + song.duration;
-   if (typeof(song.album) != "undefined")
-      params += "&b=" + song.album;
 
+   // these song params may not be set, but all query params has to be passed (even as null)
+   params += "&l[0]=" + (typeof(song.duration) != "undefined" ? song.duration : "");
+   params += "&b[0]=" + (typeof(song.album) != "undefined" ? song.album : "");
+   params += "&m=&n=";
+   
    var http_request = new XMLHttpRequest();
    http_request.onreadystatechange = function() {
          if (http_request.readyState == 4 && http_request.status == 200)
@@ -124,6 +125,7 @@ function nowPlaying(sender) {
             else if (http_request.responseText.split("\n")[0] == "OK") {
                   // Confirm the content_script, that the song is "now playing"
                   chrome.tabs.sendRequest(sender.tab.id, {type: "nowPlayingOK"});
+                  scrobblerNotification('Now playing');
             } else {
                alert('Last.fm responded with unknown code on nowPlaying request');
             }
@@ -145,6 +147,7 @@ function submit(sender) {
    // bad function call
    if (song == null || !song || song.artist == '' || song.track == '') {
       chrome.tabs.sendRequest(sender.tab.id, {type: "submitFAIL", reason: "No song"});
+      song = null;
       return;
    }
 
@@ -156,23 +159,30 @@ function submit(sender) {
 
    if (playTime > 30 && (typeof(song.duration) == "undefined" || playTime > Math.min(240, song.duration / 2))) {
 		var params = "s=" + sessionID + "&a[0]=" + song.artist + "&t[0]=" + song.track + "&i[0]=" + song.startTime + "&o[0]=P";
-            if (typeof(song.duration) != "undefined")
-               params += "&l[0]=" + song.duration;
-		if (typeof(song.album) != "undefined")
-               params += "&b[0]=" + song.album;
+
+            // these song params may not be set, but all query params has to be passed (even as null)
+            params += "&l[0]=" + (typeof(song.duration) != "undefined" ? song.duration : "");
+            params += "&b[0]=" + (typeof(song.album) != "undefined" ? song.album : "");
+            params += "&r[0]=&m[0]=&n[0]=";
 
             var http_request = new XMLHttpRequest();
 
 		http_request.onreadystatechange = function() {
+               console.log(http_request.responseText);
                if (http_request.readyState == 4 && http_request.status == 200) {
                   // need to (re)authenticate
                   if (http_request.responseText.split("\n")[0] == "BADSESSION") {
                      handshake();
                      submit(sender);
+                  } else if (http_request.responseText.split("\n")[0] == "FAILED") {
+                     alert(http_request.responseText);
                   } else {
+                     // notification
+                     scrobblerNotification('Scrobbled');
+                     
                      // stats
                      _gaq.push(['_trackEvent', 'Track scrobbled']);
-
+                     
                      // Confirm the content_script, that the song has been scrobbled
                      if (sender)
                         chrome.tabs.sendRequest(sender.tab.id, {type: "submitOK"});
@@ -221,14 +231,12 @@ chrome.extension.onRequest.addListener(
                          };
                   
 
-      		nowPlaying(sender);
-                  scrobblerNotification('Now playing');
+      		nowPlaying(sender);                  
       		sendResponse({});
       		
       		break;
    		case "submit":      		
-      		submit(sender);
-                  scrobblerNotification('Scrobbled');
+      		submit(sender);                  
       		sendResponse({});
       		
       		break;

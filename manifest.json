@@ -21,13 +21,12 @@
      {
        "matches": [ "http://music.napster.com/*", "https://music.napster.com/*" ],
        "js": [ "napster.js" ]
-     }
-     // Disabling YouTube for now as some state is stored in scrobbler.js, and I'm wary of interactions
-      /*{
+     },
+     {
       "matches": ["http://www.youtube.com/watch*"],
       "js": ["jquery-1.4.2.min.js", "jquery.dump.js", "youtube.js"],
       "css": ["youtube.css"]
-      }*/
+      }
    ]
 
 }
