@@ -19,7 +19,21 @@ var submissionURL =  "http://post2.audioscrobbler.com:80/protocol_1.2";
 // song structure (artist, track, duration, startTime)
 var song = null;
 
+/**
+ * Notification
+ */
 
+const NOTIFICATION_TIMEOUT = 5000;
+
+function scrobblerNotification(text) {
+  var notification = webkitNotifications.createNotification(
+    'icon128.png',  // icon url
+    'Chrome Scrobbler',  // notification title
+    text + ': ' + song.artist + " | " + song.track + " | " + song.album  // notification body text
+  );
+  notification.show();
+  setTimeout(function() { notification.cancel() }, NOTIFICATION_TIMEOUT);
+}
 
 /**
  * Log in, retrieve sessionID
@@ -89,11 +103,11 @@ function nowPlaying(sender) {
    if (sessionID == '') 
       handshake();
 
-   var params = "";
+   var params = "s=" + sessionID + "&a=" + song.artist + "&t=" + song.track;
    if (typeof(song.duration) != "undefined")
-      params = "s=" + sessionID + "&a=" + song.artist + "&t=" + song.track + "&b=&l=" + song.duration + "&m=&n=";
-   else
-      params = "s=" + sessionID + "&a=" + song.artist + "&t=" + song.track + "&b=&l=&m=&n=";
+      params += "&l=" + song.duration;
+   if (typeof(song.album) != "undefined")
+      params += "&b=" + song.album;
 
    var http_request = new XMLHttpRequest();
    http_request.onreadystatechange = function() {
@@ -141,13 +155,14 @@ function submit(sender) {
    var playTime = parseInt(new Date().getTime() / 1000.0) - song.startTime;
 
    if (playTime > 30 && (typeof(song.duration) == "undefined" || playTime > Math.min(240, song.duration / 2))) {
-		var params = "";
+		var params = "s=" + sessionID + "&a[0]=" + song.artist + "&t[0]=" + song.track + "&i[0]=" + song.startTime + "&o[0]=P";
             if (typeof(song.duration) != "undefined")
-               params = "s=" + sessionID + "&a[0]=" + song.artist + "&t[0]=" + song.track + "&i[0]=" + song.startTime + "&o[0]=P&r[0]=&l[0]=" + song.duration + "&b[0]=&m[0]=&n[0]=";
-		else
-               params = "s=" + sessionID + "&a[0]=" + song.artist + "&t[0]=" + song.track + "&i[0]=" + song.startTime + "&o[0]=P&r[0]=&l[0]=&b[0]=&m[0]=&n[0]=";
+               params += "&l[0]=" + song.duration;
+		if (typeof(song.album) != "undefined")
+               params += "&b[0]=" + song.album;
 
             var http_request = new XMLHttpRequest();
+
 		http_request.onreadystatechange = function() {
                if (http_request.readyState == 4 && http_request.status == 200) {
                   // need to (re)authenticate
@@ -197,19 +212,23 @@ chrome.extension.onRequest.addListener(
                
       		nowPlayingTab = sender.tab.id;
       		
+
       		song = {          "artist"	:	request.artist,
       					"track"	:	request.track,
-      					"startTime"	:	parseInt(new Date().getTime() / 1000.0)};
+                                    "album"     :     request.album,
+      					"duration"	:	request.duration,
+      					"startTime"	:	parseInt(new Date().getTime() / 1000.0)
+                         };
                   
-                  if (typeof(request.duration) != "undefined")
-                     song.duration = request.duration;
 
       		nowPlaying(sender);
+                  scrobblerNotification('Now playing');
       		sendResponse({});
       		
       		break;
    		case "submit":      		
       		submit(sender);
+                  scrobblerNotification('Scrobbled');
       		sendResponse({});
       		
       		break;
