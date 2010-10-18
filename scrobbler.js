@@ -15,6 +15,9 @@ var nowPlayingTab = null;
 var nowPlayingURL = "http://post.audioscrobbler.com:80/np_1.2";
 var submissionURL =  "http://post2.audioscrobbler.com:80/protocol_1.2";
 
+// api url
+var apiURL = "http://ws.audioscrobbler.com/2.0/?";
+
 
 // song structure (artist, track, duration, startTime)
 var song = null;
@@ -24,15 +27,27 @@ var song = null;
  */
 
 const NOTIFICATION_TIMEOUT = 5000;
+const NOTIFICATION_SEPARATOR = ':::';
 
-function scrobblerNotification(text) {
-  var notification = webkitNotifications.createNotification(
-    'icon128.png',  // icon url
-    'Last.fm Scrobbler',  // notification title
-    text + ': ' + song.artist + " | " + song.track  // notification body text
-  );
-  notification.show();
-  setTimeout(function() { notification.cancel() }, NOTIFICATION_TIMEOUT);
+function scrobblerNotification(text) {  
+   var title = 'Last.fm Scrobbler';
+   var body = '';
+   var boom = text.split(NOTIFICATION_SEPARATOR);
+
+   if (boom.length == 1)
+      body = boom[0];
+   else {
+      title = boom[0];
+      body = boom[1];
+   }
+
+   var notification = webkitNotifications.createNotification(
+      'icon128.png',
+      title,
+      body
+   );
+   notification.show();
+   setTimeout(function() {notification.cancel()}, NOTIFICATION_TIMEOUT);
 }
 
 /**
@@ -110,6 +125,8 @@ function nowPlaying(sender) {
    params += "&b[0]=" + (typeof(song.album) != "undefined" ? song.album : "");
    params += "&m=&n=";
    
+   var notifText =  'Now playing' + NOTIFICATION_SEPARATOR + song.artist + " - " + song.track;
+
    var http_request = new XMLHttpRequest();
    http_request.onreadystatechange = function() {
          if (http_request.readyState == 4 && http_request.status == 200)
@@ -125,7 +142,7 @@ function nowPlaying(sender) {
             else if (http_request.responseText.split("\n")[0] == "OK") {
                   // Confirm the content_script, that the song is "now playing"
                   chrome.tabs.sendRequest(sender.tab.id, {type: "nowPlayingOK"});
-                  scrobblerNotification('Now playing');
+                  scrobblerNotification(notifText);
             } else {
                alert('Last.fm responded with unknown code on nowPlaying request');
             }
@@ -158,18 +175,19 @@ function submit(sender) {
    var playTime = parseInt(new Date().getTime() / 1000.0) - song.startTime;
 
    if (playTime > 30 && (typeof(song.duration) == "undefined" || playTime > Math.min(240, song.duration / 2))) {
-		var params = "s=" + sessionID + "&a[0]=" + song.artist + "&t[0]=" + song.track + "&i[0]=" + song.startTime + "&o[0]=P";
+            var params = "s=" + sessionID + "&a[0]=" + song.artist + "&t[0]=" + song.track + "&i[0]=" + song.startTime + "&o[0]=P";
 
             // these song params may not be set, but all query params has to be passed (even as null)
             params += "&l[0]=" + (typeof(song.duration) != "undefined" ? song.duration : "");
             params += "&b[0]=" + (typeof(song.album) != "undefined" ? song.album : "");
             params += "&r[0]=&m[0]=&n[0]=";
 
+            var notifText =  'Scrobbled' + NOTIFICATION_SEPARATOR + song.artist + " - " + song.track;
+
             var http_request = new XMLHttpRequest();
 
-		http_request.onreadystatechange = function() {
-               console.log(http_request.responseText);
-               if (http_request.readyState == 4 && http_request.status == 200) {
+		http_request.onreadystatechange = function() {               
+               if (http_request.readyState == 4 && http_request.status == 200) {                  
                   // need to (re)authenticate
                   if (http_request.responseText.split("\n")[0] == "BADSESSION") {
                      handshake();
@@ -178,10 +196,10 @@ function submit(sender) {
                      alert(http_request.responseText);
                   } else {
                      // notification
-                     scrobblerNotification('Scrobbled');
+                     scrobblerNotification(notifText);
                      
                      // stats
-                     _gaq.push(['_trackEvent', 'Track scrobbled']);
+                     //_gaq.push(['_trackEvent', 'Track scrobbled']);
                      
                      // Confirm the content_script, that the song has been scrobbled
                      if (sender)
@@ -223,7 +241,7 @@ chrome.extension.onRequest.addListener(
       		nowPlayingTab = sender.tab.id;
       		
 
-      		song = {          "artist"	:	request.artist,
+      		song = {"artist"	:	request.artist,
       					"track"	:	request.track,
                                     "album"     :     request.album,
       					"duration"	:	request.duration,
@@ -235,7 +253,7 @@ chrome.extension.onRequest.addListener(
       		sendResponse({});
       		
       		break;
-   		case "submit":      		
+   		case "submit":		
       		submit(sender);                  
       		sendResponse({});
       		
@@ -266,7 +284,7 @@ chrome.extension.onRequest.addListener(
 chrome.tabs.onUpdated.addListener(function(tabID, changeInfo, tab) {
 	if (tabID == nowPlayingTab)
 		if (changeInfo.url) 
-               submit();
+               ;//submit();
 });
 
 /**
@@ -274,5 +292,5 @@ chrome.tabs.onUpdated.addListener(function(tabID, changeInfo, tab) {
  */ 
 chrome.tabs.onRemoved.addListener(function(tabID) {
 	if (tabID == nowPlayingTab) 
-         submit();
+         ;//submit();
 });
