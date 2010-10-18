@@ -1,6 +1,6 @@
 {
-   "name": "Last.fm Scrobbler + Napster",
-   "version": "0.5.1",
+   "name": "Last.fm Scrobbler",
+   "version": "0.6",
    
    "description": "Scrobble music videos all around the web!",  
    "icons": { "128": "icon128.png" },
