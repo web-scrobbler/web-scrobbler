@@ -199,7 +199,7 @@ function submit(sender) {
                      scrobblerNotification(notifText);
                      
                      // stats
-                     //_gaq.push(['_trackEvent', 'Track scrobbled']);
+                     _gaq.push(['_trackEvent', 'Track scrobbled']);
                      
                      // Confirm the content_script, that the song has been scrobbled
                      if (sender)
@@ -250,14 +250,19 @@ chrome.extension.onRequest.addListener(
                   
 
       		nowPlaying(sender);                  
-      		sendResponse({});
-      		
+      		sendResponse({});      		
       		break;
+                  
    		case "submit":		
       		submit(sender);                  
-      		sendResponse({});
-      		
+      		sendResponse({});      		
       		break;
+
+            case "trackStats":
+      		_gaq.push(['_trackEvent', request.text]);
+      		sendResponse({});
+      		break;
+
             case "xhr":
       		var http_request = new XMLHttpRequest();
       		http_request.open("GET", request.url, true);
@@ -267,9 +272,11 @@ chrome.extension.onRequest.addListener(
       		};
       		http_request.send(null);
       		break;
+
    		case "newSession":
       		sessionID = "";
       		break;
+                  
       	case "validate":
                   sendResponse( validate(request.artist, request.track) );
                   break;

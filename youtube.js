@@ -48,6 +48,7 @@ if (document.location.toString().indexOf('/watch#!v=') > -1) {
 } else {
    // === regular page load ====================================================
 
+   /*
    // inject stats code
    var _gaq = _gaq || [];
    _gaq.push(['_setAccount', 'UA-16968457-1']);
@@ -57,6 +58,7 @@ if (document.location.toString().indexOf('/watch#!v=') > -1) {
       ga.src = 'https://ssl.google-analytics.com/ga.js';
       (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
    })();
+   */
 
    // start scrobbler
    updateNowPlaying();
@@ -158,16 +160,16 @@ function updateNowPlaying() {
          duration = info.entry.media$group.yt$duration.seconds;             
    	
    	if (artist == '' || track == '') {
-         displayMsg('Not recognized:');
+         displayMsg('Not recognized');
          return;      
       }   	        
    	
       // Validate given artist and track       
       chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
    		if (response == true)
-            chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
+               chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
          else
-            displayMsg('Not recognized:');               		
+            displayMsg('Not recognized');               		
    	});
       
    });
@@ -180,8 +182,9 @@ function updateNowPlaying() {
  */ 
 function scrobbleTrack() {
    // stats
-   _gaq.push(['_trackEvent', 'Youtube video scrobbled']);
+   chrome.extension.sendRequest({type: 'trackStats', text: 'YouTube video scrobbled'});
    
+   // scrobble
    chrome.extension.sendRequest({type: 'submit'});
 }
 
@@ -194,7 +197,7 @@ chrome.extension.onRequest.addListener(
          switch(request.type) {
             // called after track has been successfully marked as 'now playing' at the server
             case 'nowPlayingOK':
-               //displayMsg('Scrobbling:');
+               displayMsg('Scrobbling');
                var min_time = (240 < (duration/2)) ? 240 : (duration/2); //The minimum time is 240 seconds or half the track's total length. Duration comes from updateNowPlaying()
                setTimeout(
                   function(){
