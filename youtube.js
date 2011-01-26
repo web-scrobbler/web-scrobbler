@@ -58,13 +58,16 @@ $(function(){
 
             // just check changes in the song title
             var titleEl = $('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]');
-            if (clipTitle != titleEl.text() && titleEl.text().length > 5) {
+            if (clipTitle != titleEl.text()) {
                updateNowPlaying();
                clipTitle = titleEl.text();
             }
          }
 
       });
+
+      // fire the DOMSubtreeModified event on first pageload (the binding above is executed after full DOM load)
+      $('#playnav-video-details').trigger('DOMSubtreeModified');
 
    } else {
       // === regular page load ====================================================
