@@ -2,6 +2,9 @@
 const APP_NAME = "Chrome Last.fm Scrobbler";
 const APP_VERSION = "0.5";
 
+// timeout in ms for ajax requests
+const AJAX_TIMEOUT = 5000;
+
 // authentication token retrieved after handshake()
 var sessionID = "";
 
@@ -49,6 +52,7 @@ function scrobblerNotification(text) {
    notification.show();
    setTimeout(function() {notification.cancel()}, NOTIFICATION_TIMEOUT);
 }
+
 
 /**
  * Log in, retrieve sessionID
@@ -126,6 +130,7 @@ function nowPlaying(sender) {
    params += "&m=&n=";
    
    var notifText =  'Now playing' + NOTIFICATION_SEPARATOR + song.artist + " - " + song.track;
+   var ajaxTimeout = null; // timeout object
 
    var http_request = new XMLHttpRequest();
    http_request.onreadystatechange = function() {
@@ -146,10 +151,18 @@ function nowPlaying(sender) {
             } else {
                alert('Last.fm responded with unknown code on nowPlaying request');
             }
+            
+            clearTimeout(ajaxTimeout);
    };
    http_request.open("POST", nowPlayingURL, true);
    http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
    http_request.send(params);
+   
+   // timeout
+   ajaxTimeout = setTimeout(function(){
+      http_request.abort();
+      scrobblerNotification("Unable to connect to Last.fm service. Please check your connection");
+   }, AJAX_TIMEOUT);      
 }
 
 
@@ -247,7 +260,7 @@ chrome.extension.onRequest.addListener(
       					"duration"	:	request.duration,
       					"startTime"	:	parseInt(new Date().getTime() / 1000.0)
                          };
-                  
+                         
 
       		nowPlaying(sender);                  
       		sendResponse({});      		
@@ -259,6 +272,7 @@ chrome.extension.onRequest.addListener(
       		break;
                   
             case "reset":
+                  nowPlayingTab = null;
                   song = null;
                   sendResponse({});
                   break;
