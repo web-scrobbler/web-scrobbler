@@ -1,6 +1,6 @@
 
 const APP_NAME = "Chrome Last.fm Scrobbler";
-const APP_VERSION = "0.5";
+const APP_VERSION = "0.7";
 
 // timeout in ms for ajax requests
 const AJAX_TIMEOUT = 5000;
