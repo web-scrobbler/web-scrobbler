@@ -1,70 +1,91 @@
 
-if (document.location.toString().indexOf('/watch#!v=') > -1) {
-   // === AJAX page load =======================================================
-   
-   // State for event handlers
-   var state = 'init';
+// State for event handlers
+var state = 'init';
 
-   // Used only to remember last song title
-   var clipTitle = '';    
-   
-   // Hook up for changes in header (Loading... -> Artist - Title)
-   $('#watch-pagetop-section').bind('DOMSubtreeModified', function(e) {      
-      
-      // simple FSM (not only) to prevent multiple calls of updateNowPlaying()                                                                
-   
-      // init ----> loading   
-      if (state == 'init' && $('#watch-loading').length > 0) {      
-         state = 'loading';              
-         return;
-      }
-      
-      // watching ----> loading
-      if (state == 'watching' && 
-          $('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').length>0 && 
-          $('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').attr('title') != clipTitle
-         ) {
-         // fake loading state to match the next condition and reload the clip info
-         state = 'loading';
-         // By now, scrobbler.js should have info about song which has been marked
-         // as 'now playing', but has not been submitted (scrobbled) yet.
-         // Let's submit it before we load another clip!
-         scrobbleTrack();                     
-      }
-      
-      // loading --[updateNowPlaying(), set clipTitle]--> watching
-      if (state == 'loading' && $('#watch-headline-title').length > 0) {
-         state = 'watching';
-         clipTitle = $('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').attr('title');
-                  
-         updateNowPlaying();
-         
-         return;    
-      }
-             
-   });
+// Used only to remember last song title
+var clipTitle = '';  
 
+// Timeout to scrobble track ater minimum time passes
+var scrobbleTimeout = null;
 
-} else {
-   // === regular page load ====================================================
+$(function(){
 
-   /*
-   // inject stats code
-   var _gaq = _gaq || [];
-   _gaq.push(['_setAccount', 'UA-16968457-1']);
+   if (document.location.toString().indexOf('/watch#!v=') > -1) {
+      // === AJAX page load =======================================================        
 
-   (function() {
-      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-      ga.src = 'https://ssl.google-analytics.com/ga.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
-   })();
-   */
+      // Hook up for changes in header (Loading... -> Artist - Title) on CLASSIC page
+      $('#watch-pagetop-section').bind('DOMSubtreeModified', function(e) {      
 
-   // start scrobbler
-   updateNowPlaying();
-}
+         // simple FSM (not only) to prevent multiple calls of updateNowPlaying()                                                                
 
+         // init ----> loading   
+         if (state == 'init' && $('#watch-loading').length > 0) {      
+            state = 'loading';              
+            return;
+         }
 
+         // watching ----> loading
+         if (state == 'watching' && 
+             $('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').length>0 && 
+             $('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').attr('title') != clipTitle
+            ) {
+            // fake loading state to match the next condition and reload the clip info
+            state = 'loading';
+            // By now, scrobbler.js should have info about song which has been marked
+            // as 'now playing', but has not been submitted (scrobbled) yet.
+            // Let's submit it before we load another clip!
+            //scrobbleTrack();                     
+         }
+
+         // loading --[updateNowPlaying(), set clipTitle]--> watching
+         if (state == 'loading' && $('#watch-headline-title').length > 0) {
+            state = 'watching';
+            clipTitle = $('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').attr('title');
+
+            updateNowPlaying();
+
+            return;    
+         }
+
+      });     
+
+   } else if ( $('#playnav-player').length > 0 ) {       
+
+      // Hook up for changes in title on users profile page
+      $('#playnav-video-details').bind('DOMSubtreeModified', function(e) {      
+
+         if ($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').length > 0) {
+
+            // just check changes in the song title
+            var titleEl = $('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]');
+            if (clipTitle != titleEl.text() && titleEl.text().length > 5) {
+               updateNowPlaying();
+               clipTitle = titleEl.text();
+            }
+         }
+
+      });
+
+   } else {
+      // === regular page load ====================================================
+
+      /*
+      // inject stats code
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-16968457-1']);
+
+      (function() {
+         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+         ga.src = 'https://ssl.google-analytics.com/ga.js';
+         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
+      })();
+      */
+
+      // start scrobbler
+      updateNowPlaying();
+   }
+
+});
 
 
 
@@ -113,9 +134,13 @@ function parseInfo(artistTitle) {
  * call without parameter to clean the message.
  */ 
 function displayMsg(msg) {
-   if (msg) {         
+   if (msg) {              
+      // regular page
       if ($('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').length>0)         
          $('<span id="chrome-scrobbler-status" title="">'+msg+'</span>').insertBefore($('#watch-headline-title > span[title][id!=chrome-scrobbler-status]'));
+      // user profile
+      if ($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').length>0)                  
+         $('<span id="chrome-scrobbler-status" title="">'+msg+'</span>').insertBefore($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]'));      
    } else {           
       $('#chrome-scrobbler-status').remove();            
    }
@@ -126,13 +151,33 @@ function displayMsg(msg) {
 /**
  * Called every time the player reloads
  */ 
-function updateNowPlaying() {
-   // clear the message
-   displayMsg();
+function updateNowPlaying() {   
+   
+   // get the video ID
+   var videoID = document.URL.match(/^[^v]+v.(.{11}).*/);
+   if (videoID && videoID.length > 0)
+      videoID = videoID[1];
+   else
+      videoID = null;
+   
+   // videoID from title at profile page
+   if (!videoID && $('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').length > 0) {
+      videoID = $('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').attr('onclick').toString().match(/\?v=(.{11})/);
+      if (videoID && videoID.length > 0)
+         videoID = videoID[1];
+   }
+   
+   // something changed?
+   if (!videoID) {
+      alert('YouTube has probably changed its code. Please get newer version of the Last.fm Scrobbler extension');
+      return;
+   }
 
    // http://code.google.com/intl/cs/apis/youtube/2.0/developers_guide_protocol_video_entries.html
-   var videoID = document.URL.replace(/^[^v]+v.(.{11}).*/,"$1");
    var googleURL = "http://gdata.youtube.com/feeds/api/videos/" + videoID + "?alt=json";
+   
+   // clear the message
+   displayMsg();
    
    // Get clip info from youtube api
    chrome.extension.sendRequest({type: "xhr", url: googleURL}, function(response) {
@@ -199,7 +244,13 @@ chrome.extension.onRequest.addListener(
             case 'nowPlayingOK':
                displayMsg('Scrobbling');
                var min_time = (240 < (duration/2)) ? 240 : (duration/2); //The minimum time is 240 seconds or half the track's total length. Duration comes from updateNowPlaying()
-               setTimeout(
+               
+               // cancel any previous timeout
+               if (scrobbleTimeout != null)
+                  clearTimeout(scrobbleTimeout);
+               
+               // set up a new timeout
+               scrobbleTimeout = setTimeout(
                   function(){
                      // Turns status message into black when half of videos time has been played, to indicate that we are past the minimum time for a scrobble.
                      //$("#chrome-scrobbler-status").addClass("scrobbled");

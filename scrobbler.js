@@ -257,6 +257,11 @@ chrome.extension.onRequest.addListener(
       		submit(sender);                  
       		sendResponse({});      		
       		break;
+                  
+            case "reset":
+                  song = null;
+                  sendResponse({});
+                  break;
 
             case "trackStats":
       		_gaq.push(['_trackEvent', request.text]);

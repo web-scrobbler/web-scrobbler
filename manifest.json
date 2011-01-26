@@ -23,7 +23,7 @@
        "js": [ "napster.js" ]
      },
      {
-      "matches": ["*://www.youtube.com/watch*"],
+      "matches": ["*://www.youtube.com/watch*", "*://www.youtube.com/user/*"],
       "js": ["jquery-1.4.2.min.js", "jquery.dump.js", "youtube.js"],
       "css": ["youtube.css"]
       }
