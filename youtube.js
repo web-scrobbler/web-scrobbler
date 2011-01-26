@@ -10,6 +10,7 @@ var scrobbleTimeout = null;
 
 $(function(){
 
+   // bindings to trigger song recognition on various (classic, profile) pages
    if (document.location.toString().indexOf('/watch#!v=') > -1) {
       // === AJAX page load =======================================================        
 
@@ -87,6 +88,19 @@ $(function(){
       // start scrobbler
       updateNowPlaying();
    }
+
+
+   // bind page unload function to discard current "now listening"
+   $(window).unload(function() {
+      // cancel the timeout
+      if (scrobbleTimeout != null)
+         window.clearTimeout(scrobbleTimeout);
+      
+      // reset the background scrobbler song data
+      chrome.extension.sendRequest({type: 'reset'});
+      
+      return true;      
+   });
 
 });
 
