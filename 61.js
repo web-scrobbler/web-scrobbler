@@ -13,17 +13,17 @@ var CONTAINER_SELECTOR = '#song_panel_title';
 
 $(function(){
 	$(CONTAINER_SELECTOR).bind('DOMSubtreeModified', function(e) {
-		// init ----> loading   
-    if (state == 'init' && $(CONTAINER_SELECTOR).length > 0) {      
-        state = 'loading';              
-        return;
-    }
+		// init ----> loading
+		if (state == 'init' && $(CONTAINER_SELECTOR).length > 0) {
+			state = 'loading';
+			return;
+		}
 		
 		// loading ---> playing
-    if (state == 'loading' && $(CONTAINER_SELECTOR).length > 0) {
-      updateNowPlaying();
+		if (state == 'loading' && $(CONTAINER_SELECTOR).length > 0) {
+			updateNowPlaying();
 			state = 'init';
- 			return;    
+			return;    
     }
 	});	
 });
@@ -34,14 +34,10 @@ $(function(){
 function updateNowPlaying(){
 	var parsedInfo = parseInfo($("title").text());
 	artist   = parsedInfo['artist']; 		//global
-  track    = parsedInfo['track'];			//global
+	track    = parsedInfo['track'];			//global
 	duration = parsedInfo['duration']; 	//global
 	
-	if (artist == '' || track == '' || duration == 0) {
-    return;      
-  }
-	
-	
+	if (artist == '' || track == '' || duration == 0) {return;}
 	
 	chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
 		if (response == true){
