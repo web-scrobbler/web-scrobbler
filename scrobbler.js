@@ -60,6 +60,13 @@ function scrobblerNotification(text) {
 function handshake() {
 	var username = localStorage.username;
 	var password = localStorage.password;
+
+      // check for empty username/password
+      if (!username || !password) {
+         alert('Oops! Seems like you forgot to fill in your Last.fm credentials.\n\nPlease head to the options page and do so.');
+         authFailCounter++;
+      }
+
 	var currentTime = parseInt(new Date().getTime() / 1000.0);
 	var token = MD5(password + currentTime);
 	var http_request = new XMLHttpRequest();
