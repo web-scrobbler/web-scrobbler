@@ -2,13 +2,15 @@
 <head>
 	<title>Options for Chrome Scrobbler</title>
 	<script type="text/javascript" src="md5.js"></script>
+	<script type="text/javascript" src="jquery-1.4.2.min.js"></script>
 	<script type="text/javascript" src="options.js"></script>
 	<link rel="stylesheet" type="text/css" href="options.css" />
 </head>
 <body onload="getCurrentUser()">
+   
 <div class="container">
 	<h1>Chrome Scrobbler</h1>
-	<form action="#" onSubmit="saveOptions();return false;">
+	<form action="#" onSubmit="saveCredentials();return false;">
 		<p>
 			<label for="username">Username:</label> 
 			<input type="text" id="username">
@@ -17,18 +19,33 @@
 			<label for="password">Password:</label> 
 			<input type="password" id="password">
 		</p>
-		<p id="buttons">
-			<input type="submit" onclick="saveOptions()" value="Save" />
-			<input type="button" onclick="deleteOptions()" value="Delete" />
+		<p class="buttons">
+			<input type="submit" onclick="saveCredentials()" value="Save" />
+			<input type="button" onclick="deleteCredentials()" value="Delete" />
 		</p>
 	</form>
-	<p id="status">&nbsp;</p>	
+	<p id="cred-status">&nbsp;</p>	
 	<p>
 		Enter your last.fm username and password, and then press save. 
 	</p>
 	<p>
 		To permanently delete your saved username/password, press the delete button.
 	</p>
+</div>
+   
+<div class="container options">
+   <h1>Options</h1>
+   
+   <ul>
+      <li>
+         <input type="checkbox" id="use-notifications">
+         <label for="use-notifications">Use desktop notifications (global)</label>                
+      </li>
+      <li>
+         <input type="checkbox" id="use-youtube-inpage">
+         <label for="use-youtube-inpage" title="Since there is an info icon in the omnibox, there is no need to keep a separate YT notifying. But you're the boss here.">Use YouTube <em>status box</em></label>                
+      </li>
+   </ul>
 </div>
 
 <div class="container about">
@@ -39,7 +56,14 @@
       online through their browser, and would like to keep an updated playback 
       history using last.fm's scrobbling service.
    </p>
-   <h4>By now the Scrobbler only supports YouTube and Napster (experimental)</h4>
+   <p>
+      Supported websites
+      <ul style="margin-top:0;">
+         <li>YouTube.com</li>
+         <li>Thesixtyone.com</li>
+         <li>Napster (experimental)</li>
+      </ul>
+   </p>
    <p>      
       As I don't visit many other websites with video content, the development of 
       <i>connectors</i> for other websites will be mostly up to you. Feel free to 
@@ -55,6 +79,7 @@
       <br />
       Contributors
       <ul style="margin-top:0;">
+         <li><a href="https://github.com/moski">Moski Doski</a> - Thesixtyone.com support</li>
          <li><a href="http://larve.net/people/hugo/">Hugo Haas</a> - Napster support</li>
       </ul>
    </p>

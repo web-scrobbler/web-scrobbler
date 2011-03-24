@@ -17,6 +17,7 @@ a {
 a:hover {
    color: #d51007;
 }
+
 div.container {
 	width: 380px;
 	margin-left: auto;
@@ -52,13 +53,13 @@ input[type="text"], input[type="password"] {
 	float:left;
 }
 
-p#buttons{
+p.buttons{
 	padding-top:8px;
 	clear:both;
 }
 /* END FORM */
 
-p#status {
+p#cred-status {
 	color: #D51007;
 	border: 1px dotted #ccc;	
 	width: 100%;
@@ -69,4 +70,21 @@ p#status {
 
 div.container.about p {
    text-align: justify;
+}
+
+
+.options ul {
+   list-style: none;
+}
+.options label {
+   display: inline;
+   float: none;
+}
+.options label[title] {
+   border-bottom: 1px dotted #ccc;
+}
+
+span#options-status {
+   padding-left: 10px;
+   font-weight: bold;
 }
