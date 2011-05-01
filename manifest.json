@@ -16,7 +16,6 @@
       "http://post2.audioscrobbler.com/",
       "http://gdata.youtube.com/feeds/api/videos/"
    ],
-   
    "content_scripts": [
      {
        "matches": [ "http://music.napster.com/*", "https://music.napster.com/*" ],
@@ -31,7 +30,11 @@
 			{
 	      "matches": ["http://www.thesixtyone.com/*"],
 	      "js": ["jquery-1.4.2.min.js", "jquery.dump.js", "61.js"]
-	    }
+	    },
+     {
+      "matches": ["http://ghostly.com/discovery/play"],
+      "js": ["jquery-1.4.2.min.js", "jquery.dump.js", "ghostly.js"]
+      }
 
    ]
 
