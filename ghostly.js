@@ -1,23 +1,22 @@
 var track, artist, album, duration
 var scrobbleTimeout = null;
+var durationTimeout = null;
 $(function(){
 	$("div#submit input").click(function(){
 		//Listen for change in result div
 		var c = 0;
 		$('div#result').bind('DOMNodeInserted', function(e) {
-			//HTML changed, NEW SONG!!!
+			//HTML changed, NEW SONG!!!			
 			if (c == 0) {c++; return false;} //The jquery bind gets triggerd two times, is to avoid the code from being executed two times.
-			
+			// cancel any previous timeout
+			if (scrobbleTimeout != null)clearTimeout(scrobbleTimeout);
+			if (durationTimeout != null)clearTimeout(durationTimeout);
+			displayMsg()
 			//set vars
 			artist = $("dd.artist").text()
 			track = $("dd.track").text()
 			album = $("dd.album").text()
-			setTimeout(function(){
-				var total_length = $("li#info_position").text().split(" / ")[1];
-				duration = parseInt(total_length.split(":")[0]*60)+parseInt(total_length.split(":")[1])	// turn eg: 5:50 into seconds
-			}, 1000);
-			setTimeout('updateNowPlaying()', 1000);
-			//small delay to allow duration to come up
+			waitForDuration(updateNowPlaying)
 			c=0	
 		})		
 	})
@@ -30,6 +29,7 @@ function updateNowPlaying() {
 		if (response == true){
 			chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
 			console.log({type: 'nowPlaying', artist: artist, track: track, duration: duration})
+			displayMsg("Scrobbling")
 			
 			var min_time = (240 < (duration/2)) ? 240 : (duration/2); //The minimum time is 240 seconds or half the track's total length. Duration comes from updateNowPlaying()
 			// cancel any previous timeout
@@ -55,3 +55,39 @@ function scrobbleTrack() {
    // scrobble
    chrome.extension.sendRequest({type: 'submit'});
 }
+
+
+
+
+
+function waitForDuration(callback) {
+	function getDuration() {
+		var duration_el = $("li#info_position").text()
+		if (duration_el == "loading..." || duration_el == "0:00")return false;
+		var total_length = duration_el.split(" / ")[1];
+		return parseInt(total_length.split(":")[0]*60)+parseInt(total_length.split(":")[1])	// turn eg: 5:50 into seconds
+	}
+	var check_1 = getDuration()
+durationTimeout = setTimeout(function(){
+		var check_2 = getDuration()
+		if (check_1 == check_2 && check_1 != false && check_1 != 0 ){
+			//not loading anymore
+			duration = check_1
+			console.log("check_1:"+check_1+" check_2:"+check_2)
+			callback()
+		}
+		else {
+			waitForDuration(callback)
+		}
+	}, 1000);
+}
+
+function displayMsg(msg) {
+	$('#chrome-scrobbler-status').remove();  
+	if (msg) {              
+		$('#playButton').append('<span id="chrome-scrobbler-status" title="">'+msg+'</span>')
+	}
+}
+
+
+

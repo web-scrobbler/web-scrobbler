@@ -1,0 +1,14 @@
+span#chrome-scrobbler-status {
+	padding: 5px;
+	font-family: "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
+	font-size: 10px;
+	margin-right: 4px;
+	color: white;
+	border-radius: 4px;
+	position: relative; top: -20px; left:80px;
+	background: -webkit-gradient(linear, left bottom, left top, color-stop(0.15, rgb(130,42,39)), color-stop(0.58, rgb(213,17,7)));
+}
+
+span#chrome-scrobbler-status.scrobbled {
+	background: -webkit-gradient(linear, left bottom, left top, color-stop(0.15, rgb(93,93,93)), color-stop(0.58, rgb(51,51,51)));
+}

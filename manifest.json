@@ -33,7 +33,8 @@
 	    },
      {
       "matches": ["http://ghostly.com/discovery/play"],
-      "js": ["jquery-1.4.2.min.js", "jquery.dump.js", "ghostly.js"]
+      "js": ["jquery-1.4.2.min.js", "jquery.dump.js", "ghostly.js"],
+      "css": ["ghostly.css"]
       }
 
    ]
