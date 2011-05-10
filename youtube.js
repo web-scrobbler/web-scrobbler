@@ -128,7 +128,12 @@ function parseInfo(artistTitle) {
       // can't parse
       return {artist:'', track:''};
    } 
-      
+
+   return cleanArtistTrack(artist, track);
+}
+
+function cleanArtistTrack(artist, track) {
+
    // Do some cleanup
    artist = artist.replace(/^\s+|\s+$/g,'');
    track = track.replace(/^\s+|\s+$/g,'');
