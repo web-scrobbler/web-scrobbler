@@ -214,14 +214,14 @@ function updateNowPlaying() {
       // Use the #eow-title #watch-headline-show-title if available
       var track_dom = $('#eow-title').clone();
       var artist_dom = $('#watch-headline-show-title', track_dom);
-      if (artist_dom) {
+      if (artist_dom.length) {
         artist = artist_dom.text();
         artist_dom.remove();
         track = track_dom.text();
         track = track.replace(/^[\s-]+/, ''); // trim starting white chars and dash separating artist from track
         track = track.replace(/[\s-]+$/, ''); // trim trailing white chars and dash
         parsedInfo = cleanArtistTrack(artist, track);
-      } else if (parsedInfo['artist'] != '') {
+      } else if (parsedInfo['artist'] == '') {
         parsedInfo = parseInfo(track_dom.text());
       }
       artist = parsedInfo['artist'];
