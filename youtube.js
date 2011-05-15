@@ -147,6 +147,7 @@ function cleanArtistTrack(artist, track) {
    track = track.replace(/\s*video\s*clip/i, ''); // video clip
    track = track.replace(/\s*music\s*video/i, ''); // music video
    track = track.replace(/\s*live$/i, ''); // live
+   track = track.replace(/[,:;~]+/, ' ');
 
    return {artist: artist, track: track};
 }
