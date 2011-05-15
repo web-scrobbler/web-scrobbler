@@ -139,7 +139,7 @@ function cleanArtistTrack(artist, track) {
    track = track.replace(/^\s+|\s+$/g,'');
    
    // Strip crap
-   track = track.replace(/\*+[^\*]+\*+$/, ''); // **NEW**
+   track = track.replace(/\s*\*+\s?\S+\s?\*+$/, ''); // **NEW**
    track = track.replace(/\[[^\]]+\]$/, ''); // [whatever]
    track = track.replace(/\([^\)]+\)$/, ''); // (whatever)   
    track = track.replace(/\.(avi|wmv|mpg|mpeg)$/i, ''); // video extensions
