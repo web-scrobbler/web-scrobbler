@@ -148,6 +148,8 @@ function cleanArtistTrack(artist, track) {
    track = track.replace(/\s*music\s*video/i, ''); // music video
    track = track.replace(/\s*live$/i, ''); // live
    track = track.replace(/[,:;~]+/, ' ');
+   track = track.replace(/^[\s-]+/, ''); // trim starting white chars and dash
+   track = track.replace(/[\s-]+$/, ''); // trim trailing white chars and dash
 
    return {artist: artist, track: track};
 }
@@ -218,8 +220,6 @@ function updateNowPlaying() {
         artist = artist_dom.text();
         artist_dom.remove();
         track = track_dom.text();
-        track = track.replace(/^[\s-]+/, ''); // trim starting white chars and dash separating artist from track
-        track = track.replace(/[\s-]+$/, ''); // trim trailing white chars and dash
         parsedInfo = cleanArtistTrack(artist, track);
       } else if (parsedInfo['artist'] == '') {
         parsedInfo = parseInfo(track_dom.text());
