@@ -143,9 +143,8 @@ function cleanArtistTrack(artist, track) {
    track = track.replace(/\s*\[[^\]]+\]$/, ''); // [whatever]
    track = track.replace(/.*"(.*)".*/, '$1'); // Artist - The new "Track title" featuring someone
    track = track.replace(/\s*\.(avi|wmv|mpg|mpeg)$/i, ''); // video extensions
-   track = track.replace(/\s*of+icial\s+video/i, ''); // official video
+   track = track.replace(/\s*(of+icial\s*)?(music\s*)?video/i, ''); // (official)? (music)? video
    track = track.replace(/\s*video\s*clip/i, ''); // video clip
-   track = track.replace(/\s*music\s*video/i, ''); // music video
    track = track.replace(/\s*live$/i, ''); // live
    track = track.replace(/[,:;~]+/, ' ');
    track = track.replace(/^[\s-]+/, ''); // trim starting white chars and dash
