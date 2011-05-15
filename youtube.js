@@ -147,6 +147,7 @@ function cleanArtistTrack(artist, track) {
    track = track.replace(/\s+\(?(HD|HQ)\)?$/, ''); // HD (HQ)
    track = track.replace(/\s*video\s*clip/i, ''); // video clip
    track = track.replace(/\s*live$/i, ''); // live
+   track = track.replace(/\(\s*\)/, ''); // Leftovers after e.g. (official video)
    track = track.replace(/[,:;~]+/, ' ');
    track = track.replace(/^[\s-]+/, ''); // trim starting white chars and dash
    track = track.replace(/[\s-]+$/, ''); // trim trailing white chars and dash
