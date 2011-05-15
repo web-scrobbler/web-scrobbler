@@ -137,17 +137,17 @@ function cleanArtistTrack(artist, track) {
    // Do some cleanup
    artist = artist.replace(/^\s+|\s+$/g,'');
    track = track.replace(/^\s+|\s+$/g,'');
-   
+
    // Strip crap
    track = track.replace(/\s*\*+\s?\S+\s?\*+$/, ''); // **NEW**
-   track = track.replace(/\[[^\]]+\]$/, ''); // [whatever]
-   track = track.replace(/\([^\)]+\)$/, ''); // (whatever)   
-   track = track.replace(/\.(avi|wmv|mpg|mpeg)$/i, ''); // video extensions
-   track = track.replace(/of+icial video/i, ''); // official video       
-   track = track.replace(/video[ ]?clip/i, ''); // video clip
-   track = track.replace(/music\s*video/i, ''); // music video
-   track = track.replace(/,?[ ]?live$/i, ''); // live   
-   
+   track = track.replace(/\s*\[[^\]]+\]$/, ''); // [whatever]
+   track = track.replace(/\s*\([^\)]+\)$/, ''); // (whatever)
+   track = track.replace(/\s*\.(avi|wmv|mpg|mpeg)$/i, ''); // video extensions
+   track = track.replace(/\s*of+icial\s+video/i, ''); // official video
+   track = track.replace(/\s*video\s*clip/i, ''); // video clip
+   track = track.replace(/\s*music\s*video/i, ''); // music video
+   track = track.replace(/\s*live$/i, ''); // live
+
    return {artist: artist, track: track};
 }
 
