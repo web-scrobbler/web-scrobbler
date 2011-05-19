@@ -141,7 +141,6 @@ function cleanArtistTrack(artist, track) {
    // Strip crap
    track = track.replace(/\s*\*+\s?\S+\s?\*+$/, ''); // **NEW**
    track = track.replace(/\s*\[[^\]]+\]$/, ''); // [whatever]
-   track = track.replace(/.*"(.*)".*/, '$1'); // Artist - The new "Track title" featuring someone
    track = track.replace(/\s*\.(avi|wmv|mpg|mpeg|flv)$/i, ''); // video extensions
    track = track.replace(/\s*(of+icial\s*)?(music\s*)?video/i, ''); // (official)? (music)? video
    track = track.replace(/\s+\(?(HD|HQ)\)?$/, ''); // HD (HQ)
@@ -151,6 +150,8 @@ function cleanArtistTrack(artist, track) {
    track = track.replace(/[,:;~]+/, ' ');
    track = track.replace(/^[\s-]+/, ''); // trim starting white chars and dash
    track = track.replace(/[\s-]+$/, ''); // trim trailing white chars and dash
+   track = track.replace(/^(|.*\s)"(.*)"(\s.*|)$/, '$2'); // Artist - The new "Track title" featuring someone
+   track = track.replace(/^(|.*\s)'(.*)'(\s.*|)$/, '$2'); // 'Track title'
 
    return {artist: artist, track: track};
 }
