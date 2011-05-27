@@ -101,7 +101,7 @@ function initStorage() {
 	localStorage.google_flaggedNew = N_FALSE;
 	localStorage.google_seenNew = mytime();
 	localStorage.google_submitted = N_FALSE;
-	notify('Initialized');
+	//notify('Initialized');
     }
 }
 
