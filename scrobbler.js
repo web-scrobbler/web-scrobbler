@@ -28,11 +28,80 @@ var song = null;
 /**
  * Notification
  */
-
 const NOTIFICATION_TIMEOUT = 5000;
 const NOTIFICATION_SEPARATOR = ':::';
 
-function scrobblerNotification(text) {  
+/**
+ * Page action icons
+ */
+const ICON_UNKNOWN = 'icon_unknown.png';  // not recognized
+const ICON_NOTE = 'icon_note.png';        // now playing
+const ICON_TICK = 'icon_tick.png';        // scrobbled
+
+/**
+ * Icon - title - popup set identificators
+ */
+const ACTION_UNKNOWN = 1;
+const ACTION_NOWPLAYING = 2;
+const ACTION_SCROBBLED = 3;
+const ACTION_UPDATED = 4;
+
+/**
+ * Default settings & update notification
+ */
+{
+   // use notifications by default
+   if(localStorage.useNotifications == null)
+      localStorage.useNotifications = 1;
+   
+   // don't use the YT statuses by default
+   if (localStorage.useYTInpage == null)
+      localStorage.useYTInpage = 0;
+   
+   // show update popup - based on different version
+   if (localStorage.appVersion != APP_VERSION) {
+      alert('updated!');
+      //localStorage.appVersion = APP_VERSION;
+   }
+}
+
+
+/**
+ * Sets up page action icon, including title and popup
+ * 'action' is one of the ACTION_ constants
+ */
+function setActionIcon(action, tabId) {
+   
+   var tab = tabId ? tabId : nowPlayingTab;   
+   chrome.pageAction.hide(tab);      
+   
+   switch(action) {
+      case ACTION_UNKNOWN:
+         chrome.pageAction.setIcon({tabId: tab, path: ICON_UNKNOWN});
+         chrome.pageAction.setTitle({tabId: tab, title: 'Song not recognized. Click the icon to correct its title'});
+         break;
+      case ACTION_NOWPLAYING:
+         chrome.pageAction.setIcon({tabId: tab, path: ICON_NOTE});
+         chrome.pageAction.setTitle({tabId: tab, title: 'Now playing: ' + song.artist + ' - ' + song.track});
+         break;
+      case ACTION_SCROBBLED:
+         chrome.pageAction.setIcon({tabId: tab, path: ICON_TICK});
+         chrome.pageAction.setTitle({tabId: tab, title: 'Song has been scrobbled'});
+         break;
+   }
+   
+   chrome.pageAction.show(tab);
+}
+
+
+/**
+ * Shows (or not) the notification, based on user settings
+ * Use 'force' to override settings and always show the notification (e.g. for errors)
+ */
+function scrobblerNotification(text, force) {
+   if (localStorage.useNotifications != 1 && !force)
+      return;
+
    var title = 'Last.fm Scrobbler';
    var body = '';
    var boom = text.split(NOTIFICATION_SEPARATOR);
@@ -115,6 +184,9 @@ function validate(artist, track) {
       if (req.responseText != "You must supply either an artist and track name OR a musicbrainz id.")
          return true;
    }  
+  
+   // Update page action icon to 'unknown'
+   setActionIcon(ACTION_UNKNOWN);
 
    return false;   
 }
@@ -154,7 +226,10 @@ function nowPlaying(sender) {
             else if (http_request.responseText.split("\n")[0] == "OK") {
                   // Confirm the content_script, that the song is "now playing"
                   chrome.tabs.sendRequest(sender.tab.id, {type: "nowPlayingOK"});
+                  // Show notification
                   scrobblerNotification(notifText);
+                  // Update page action icon
+                  setActionIcon(ACTION_NOWPLAYING, sender.tab.id);
             } else {
                alert('Last.fm responded with unknown code on nowPlaying request');
             }
@@ -168,7 +243,7 @@ function nowPlaying(sender) {
    // timeout
    ajaxTimeout = setTimeout(function(){
       http_request.abort();
-      scrobblerNotification("Unable to connect to Last.fm service. Please check your connection");
+      scrobblerNotification("Unable to connect to Last.fm service. Please check your connection", true);
    }, AJAX_TIMEOUT);      
 }
 
@@ -189,55 +264,60 @@ function submit(sender) {
    }
 
    // need to (re)authenticate?
-   if (sessionID == "")
+   if (sessionID == "") {
       handshake();
+   }
 
    var playTime = parseInt(new Date().getTime() / 1000.0) - song.startTime;
 
    if (playTime > 30 && (typeof(song.duration) == "undefined" || playTime > Math.min(240, song.duration / 2))) {
-            var params = "s=" + sessionID + "&a[0]=" + song.artist + "&t[0]=" + song.track + "&i[0]=" + song.startTime + "&o[0]=P";
+      var params = "s=" + sessionID + "&a[0]=" + song.artist + "&t[0]=" + song.track + "&i[0]=" + song.startTime + "&o[0]=P";
 
-            // these song params may not be set, but all query params has to be passed (even as null)
-            params += "&l[0]=" + (typeof(song.duration) != "undefined" ? song.duration : "");
-            params += "&b[0]=" + (typeof(song.album) != "undefined" ? song.album : "");
-            params += "&r[0]=&m[0]=&n[0]=";
+      // these song params may not be set, but all query params has to be passed (even as null)
+      params += "&l[0]=" + (typeof(song.duration) != "undefined" ? song.duration : "");
+      params += "&b[0]=" + (typeof(song.album) != "undefined" ? song.album : "");
+      params += "&r[0]=&m[0]=&n[0]=";
 
-            var notifText =  'Scrobbled' + NOTIFICATION_SEPARATOR + song.artist + " - " + song.track;
+      var notifText =  'Scrobbled' + NOTIFICATION_SEPARATOR + song.artist + " - " + song.track;
 
-            var http_request = new XMLHttpRequest();
+      var http_request = new XMLHttpRequest();
 
-		http_request.onreadystatechange = function() {               
-               if (http_request.readyState == 4 && http_request.status == 200) {                  
-                  // need to (re)authenticate
-                  if (http_request.responseText.split("\n")[0] == "BADSESSION") {
-                     handshake();
-                     submit(sender);
-                  } else if (http_request.responseText.split("\n")[0] == "FAILED") {
-                     alert(http_request.responseText);
-                  } else {
-                     // notification
-                     scrobblerNotification(notifText);
-                     
-                     // stats
-                     _gaq.push(['_trackEvent', 'Track scrobbled']);
-                     
-                     // Confirm the content_script, that the song has been scrobbled
-                     if (sender)
-                        chrome.tabs.sendRequest(sender.tab.id, {type: "submitOK"});
-                  }
-               }
-		};
-		http_request.open("POST", submissionURL, true);
-		http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		http_request.send(params);
-		
-		nowPlayingTab = null;
-		song = null;
-	} else {
-         // song hasn't been playing long enough
-         if (sender)
-            chrome.tabs.sendRequest(sender.tab.id, {type: "submitFAIL", reason: "Song hasn't been playing long enough"});
-      }
+      http_request.onreadystatechange = function() {               
+         if (http_request.readyState == 4 && http_request.status == 200) {                  
+            // need to (re)authenticate
+            if (http_request.responseText.split("\n")[0] == "BADSESSION") {
+               handshake();
+               submit(sender);
+            } else if (http_request.responseText.split("\n")[0] == "FAILED") {
+               alert(http_request.responseText);
+            } else {
+               // notification
+               scrobblerNotification(notifText);
+
+               // Update page action icon
+               var tab = sender.tab.id;
+               setActionIcon(ACTION_SCROBBLED, tab);
+
+               // stats
+               _gaq.push(['_trackEvent', 'Track scrobbled']);
+
+               // Confirm the content_script, that the song has been scrobbled
+               if (sender)
+                  chrome.tabs.sendRequest(sender.tab.id, {type: "submitOK"});
+            }
+         }
+      };
+      http_request.open("POST", submissionURL, true);
+      http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+      http_request.send(params);
+
+      nowPlayingTab = null;
+      song = null;
+   } else {
+      // song hasn't been playing long enough
+      if (sender)
+         chrome.tabs.sendRequest(sender.tab.id, {type: "submitFAIL", reason: "Song hasn't been playing long enough"});
+   }
 }
 
 
@@ -253,13 +333,12 @@ function submit(sender) {
 chrome.extension.onRequest.addListener(
 	function(request, sender, sendResponse) {            
             switch(request.type) {
-   		case "nowPlaying":
+   		case "nowPlaying":                  
       		// if there was a previously playing tab, try to submit it
                   if (nowPlayingTab != null)
-                     submit();
+                     submit(sender);                                 
                
-      		nowPlayingTab = sender.tab.id;
-      		
+      		nowPlayingTab = sender.tab.id;      		
 
       		song = {"artist"	:	request.artist,
       					"track"	:	request.track,
@@ -268,9 +347,8 @@ chrome.extension.onRequest.addListener(
       					"startTime"	:	parseInt(new Date().getTime() / 1000.0)
                          };
                          
-
       		nowPlaying(sender);                  
-      		sendResponse({});      		
+      		sendResponse({});                  
       		break;
                   
    		case "submit":		
@@ -288,6 +366,14 @@ chrome.extension.onRequest.addListener(
       		_gaq.push(['_trackEvent', request.text]);
       		sendResponse({});
       		break;
+                  
+            case "getOptions":      		
+                  var opts = {};
+      		for (var x in localStorage)
+                     opts[x] = localStorage[x];
+                  sendResponse({value: opts});
+                  //sendResponse({value: localStorage[request.key]});
+      		break;
 
             case "xhr":
       		var http_request = new XMLHttpRequest();
@@ -304,6 +390,7 @@ chrome.extension.onRequest.addListener(
       		break;
                   
       	case "validate":
+                  nowPlayingTab = sender.tab.id;                                    
                   sendResponse( validate(request.artist, request.track) );
                   break;
 		}

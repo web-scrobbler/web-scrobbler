@@ -1,3 +1,10 @@
+/**
+ * TODOs
+ *
+ * - get rid of preloaded options and use getOption to query the background script (blocked by bug 54257)
+ *
+ */
+
 
 // State for event handlers
 var state = 'init';
@@ -7,6 +14,14 @@ var clipTitle = '';
 
 // Timeout to scrobble track ater minimum time passes
 var scrobbleTimeout = null;
+
+// Preload options from the background script; hope that the call will be faster than DOM loading
+var options = {};
+chrome.extension.sendRequest({type: 'getOptions'}, function(response) {
+   options = response.value;
+});
+
+
 
 $(function(){
 
@@ -140,7 +155,7 @@ function parseInfo(artistTitle) {
    track = track.replace(/\.(avi|wmv|mpg|mpeg)$/i, ''); // video extensions
    track = track.replace(/of+icial video/i, ''); // official video       
    track = track.replace(/video[ ]?clip/i, ''); // video clip
-   track = track.replace(/,?[ ]?live$/i, ''); // live   
+   track = track.replace(/,?[ ]?live$/i, ''); // live
    
    return {artist: artist, track: track};
 }
@@ -151,6 +166,10 @@ function parseInfo(artistTitle) {
  * call without parameter to clean the message.
  */ 
 function displayMsg(msg) {
+   // consider options
+   if (getOption('useYTInpage') != 1)
+      return;
+   
    if (msg) {              
       // regular page
       if ($('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').length>0)         
@@ -219,14 +238,9 @@ function updateNowPlaying() {
    	if (info.entry.media$group.media$content != undefined)
          duration = info.entry.media$group.media$content[0].duration;
       else if (info.entry.media$group.yt$duration.seconds != undefined)
-         duration = info.entry.media$group.yt$duration.seconds;             
-   	
-   	if (artist == '' || track == '') {
-         displayMsg('Not recognized');
-         return;      
-      }   	        
-   	
-      // Validate given artist and track       
+         duration = info.entry.media$group.yt$duration.seconds;                	      
+      
+      // Validate given artist and track (even for empty strings; background script will refresh the omnibox icon)
       chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
    		if (response == true)
                chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
@@ -248,6 +262,13 @@ function scrobbleTrack() {
    
    // scrobble
    chrome.extension.sendRequest({type: 'submit'});
+}
+
+/**
+ * Gets an value from extension's localStorage (preloaded to 'options' object because of a bug 54257)
+ */
+function getOption(key) {   
+   return options[key];
 }
 
 
