@@ -128,20 +128,31 @@ function parseInfo(artistTitle) {
       // can't parse
       return {artist:'', track:''};
    } 
-      
+
+   return cleanArtistTrack(artist, track);
+}
+
+function cleanArtistTrack(artist, track) {
+
    // Do some cleanup
    artist = artist.replace(/^\s+|\s+$/g,'');
    track = track.replace(/^\s+|\s+$/g,'');
-   
+
    // Strip crap
-   track = track.replace(/\*+[^\*]+\*+$/, ''); // **NEW**
-   track = track.replace(/\[[^\]]+\]$/, ''); // [whatever]
-   track = track.replace(/\([^\)]+\)$/, ''); // (whatever)   
-   track = track.replace(/\.(avi|wmv|mpg|mpeg)$/i, ''); // video extensions
-   track = track.replace(/of+icial video/i, ''); // official video       
-   track = track.replace(/video[ ]?clip/i, ''); // video clip
-   track = track.replace(/,?[ ]?live$/i, ''); // live   
-   
+   track = track.replace(/\s*\*+\s?\S+\s?\*+$/, ''); // **NEW**
+   track = track.replace(/\s*\[[^\]]+\]$/, ''); // [whatever]
+   track = track.replace(/\s*\.(avi|wmv|mpg|mpeg|flv)$/i, ''); // video extensions
+   track = track.replace(/\s*(of+icial\s*)?(music\s*)?video/i, ''); // (official)? (music)? video
+   track = track.replace(/\s+\(\s*(HD|HQ)\s*\)$/, ''); // HD (HQ)
+   track = track.replace(/\s+(HD|HQ)\s*$/, ''); // HD (HQ)
+   track = track.replace(/\s*video\s*clip/i, ''); // video clip
+   track = track.replace(/\s+\(?live\)?$/i, ''); // live
+   track = track.replace(/\(\s*\)/, ''); // Leftovers after e.g. (official video)
+   track = track.replace(/^(|.*\s)"(.*)"(\s.*|)$/, '$2'); // Artist - The new "Track title" featuring someone
+   track = track.replace(/^(|.*\s)'(.*)'(\s.*|)$/, '$2'); // 'Track title'
+   track = track.replace(/^[\/\s,:;~-]+/, ''); // trim starting white chars and dash
+   track = track.replace(/[\/\s,:;~-]+$/, ''); // trim trailing white chars and dash
+
    return {artist: artist, track: track};
 }
 
@@ -204,16 +215,19 @@ function updateNowPlaying() {
       artist = null; // global!
       track = null; // global!
 
-      // Use video footer info rather than parsed video title. If this info is present, it's always valid Artist - Track
-      if ( $('div.watch-extra-info img.music-note').length == 1 && $('div.watch-extra-info .watch-extra-info-left').length >= 1 ) {
-         artist = $('.watch-extra-info-left a strong').text();
-         track = $('.watch-extra-info-left:last').text().replace(artist, '');
-         track = track.replace(/^\s*\-\s*/, ''); // trim starting white chars and dash separating artist from track
-         track = track.replace(/\s*$/, ''); // trim trailing white chars
-      } else {
-         artist = parsedInfo['artist'];
-         track = parsedInfo['track'];
+      // Use the #eow-title #watch-headline-show-title if available
+      var track_dom = $('#eow-title').clone();
+      var artist_dom = $('#watch-headline-show-title', track_dom);
+      if (artist_dom.length) {
+        artist = artist_dom.text();
+        artist_dom.remove();
+        track = track_dom.text();
+        parsedInfo = cleanArtistTrack(artist, track);
+      } else if (parsedInfo['artist'] == '') {
+        parsedInfo = parseInfo(track_dom.text());
       }
+      artist = parsedInfo['artist'];
+      track = parsedInfo['track'];
 
       duration = ''; // global!
    	if (info.entry.media$group.media$content != undefined)
