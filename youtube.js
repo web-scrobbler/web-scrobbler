@@ -12,9 +12,6 @@ var state = 'init';
 // Used only to remember last song title
 var clipTitle = '';  
 
-// Timeout to scrobble track ater minimum time passes
-var scrobbleTimeout = null;
-
 // Preload options from the background script; hope that the call will be faster than DOM loading
 var options = {};
 chrome.extension.sendRequest({type: 'getOptions'}, function(response) {
@@ -46,11 +43,7 @@ $(function(){
              $('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').attr('title') != clipTitle
             ) {
             // fake loading state to match the next condition and reload the clip info
-            state = 'loading';
-            // By now, scrobbler.js should have info about song which has been marked
-            // as 'now playing', but has not been submitted (scrobbled) yet.
-            // Let's submit it before we load another clip!
-            //scrobbleTrack();                     
+            state = 'loading';                    
          }
 
          // loading --[updateNowPlaying(), set clipTitle]--> watching
@@ -106,10 +99,7 @@ $(function(){
 
 
    // bind page unload function to discard current "now listening"
-   $(window).unload(function() {
-      // cancel the timeout
-      if (scrobbleTimeout != null)
-         window.clearTimeout(scrobbleTimeout);
+   $(window).unload(function() {      
       
       // reset the background scrobbler song data
       chrome.extension.sendRequest({type: 'reset'});
@@ -220,8 +210,8 @@ function updateNowPlaying() {
    	var info = JSON.parse(response.text);         	
    	var parsedInfo = parseInfo(info.entry.title.$t);
 
-      artist = null; // global!
-      track = null; // global!
+      var artist = null;
+      var track = null;
 
       // Use video footer info rather than parsed video title. If this info is present, it's always valid Artist - Track
       if ( $('div.watch-extra-info img.music-note').length == 1 && $('div.watch-extra-info .watch-extra-info-left').length >= 1 ) {
@@ -234,35 +224,32 @@ function updateNowPlaying() {
          track = parsedInfo['track'];
       }
 
-      duration = ''; // global!
+      // get the duration from the YT API response
+      var duration = '';
    	if (info.entry.media$group.media$content != undefined)
          duration = info.entry.media$group.media$content[0].duration;
       else if (info.entry.media$group.yt$duration.seconds != undefined)
          duration = info.entry.media$group.yt$duration.seconds;                	      
       
-      // Validate given artist and track (even for empty strings; background script will refresh the omnibox icon)
+      // Validate given artist and track (even for empty strings)
       chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
-   		if (response == true)
-               chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
-         else
-            displayMsg('Not recognized');               		
+         // on success send nowPlaying song
+         if (response != false) {
+            var song = response; // contains valid artist/track now
+            // substitute the original duration with the duration of the video
+            chrome.extension.sendRequest({type: 'nowPlaying', artist: song.artist, track: song.track, duration: duration});
+         }
+         // on failure send nowPlaying 'unknown song'
+         else {
+            chrome.extension.sendRequest({type: 'nowPlaying', duration: duration});
+            displayMsg('Not recognized');
+         }
    	});
       
    });
    
 }
 
-
-/**
- * Simply request the scrobbler.js to submit song previusly specified by calling updateNowPlaying()
- */ 
-function scrobbleTrack() {
-   // stats
-   chrome.extension.sendRequest({type: 'trackStats', text: 'YouTube video scrobbled'});
-   
-   // scrobble
-   chrome.extension.sendRequest({type: 'submit'});
-}
 
 /**
  * Gets an value from extension's localStorage (preloaded to 'options' object because of a bug 54257)
@@ -280,22 +267,7 @@ chrome.extension.onRequest.addListener(
          switch(request.type) {
             // called after track has been successfully marked as 'now playing' at the server
             case 'nowPlayingOK':
-               displayMsg('Scrobbling');
-               var min_time = (240 < (duration/2)) ? 240 : (duration/2); //The minimum time is 240 seconds or half the track's total length. Duration comes from updateNowPlaying()
-               
-               // cancel any previous timeout
-               if (scrobbleTimeout != null)
-                  clearTimeout(scrobbleTimeout);
-               
-               // set up a new timeout
-               scrobbleTimeout = setTimeout(
-                  function(){
-                     // Turns status message into black when half of videos time has been played, to indicate that we are past the minimum time for a scrobble.
-                     //$("#chrome-scrobbler-status").addClass("scrobbled");
-                     //$("#chrome-scrobbler-status").attr("title","The minimum time for a scrobble has past");
-                     setTimeout(scrobbleTrack, 2000);
-                  }, min_time*1000
-               ); 
+               displayMsg('Scrobbling');               
                break;
             
             // not used yet
