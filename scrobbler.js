@@ -232,7 +232,7 @@ function validate(artist, track) {
  * Tell server which song is playing right now (won't be scrobbled yet!)
  */ 
 function nowPlaying() {
-   console.log('nowplaying called');
+   console.log('nowPlaying called for %s - %s', song.artist, song.track);
 
    if (sessionID == '') 
       handshake();
@@ -260,6 +260,8 @@ function nowPlaying() {
                return;
             }
             else if (http_request.responseText.split("\n")[0] == "OK") {
+                  console.log('now playing %s - %s, (%s)', song.artist, song.track, http_request.responseText);
+               
                   // Confirm the content_script, that the song is "now playing"
                   chrome.tabs.sendRequest(nowPlayingTab, {type: "nowPlayingOK"});
                   // Show notification
@@ -304,6 +306,8 @@ function submit() {
    if (sessionID == "") {
       handshake();
    }
+   
+   console.log('submit called for %s - %s', song.artist, song.track);
 
    //var time = parseInt(new Date().getTime() / 1000.0);
    //var playTime = time - song.startTime;
@@ -329,6 +333,7 @@ function submit() {
                handshake();
                submit();
             } else if (http_request.responseText.split("\n")[0] == "FAILED") {
+               console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
                alert(http_request.responseText);
             } else {
                // notification
@@ -340,7 +345,7 @@ function submit() {
                // stats
                _gaq.push(['_trackEvent', 'Track scrobbled']);
 
-               console.log('submitted');
+               console.log('submitted %s - %s (%s)', song.artist, song.track, http_request.responseText);
 
                // Confirm the content script, that the song has been scrobbled
                if (nowPlayingTab)
@@ -376,7 +381,7 @@ chrome.extension.onRequest.addListener(
             // they have to be already validated! Otherwise they can be corrected from the popup.
             // Also sets up a timout to trigger the scrobbling procedure (when all data are valid)
    		case "nowPlaying":
-                  console.log('request nowplaying');
+                  console.log('nowPlaying requested');
       		// remember the caller
                   nowPlayingTab = sender.tab.id;
 
@@ -461,6 +466,8 @@ chrome.extension.onRequest.addListener(
             // Checks if the request.artist and request.track are valid and 
             // returns false if not or a song structure otherwise (may contain autocorrected values)
       	case "validate":
+                  console.log('validate requested');
+               
                   var res = validate(request.artist, request.track);                  
                               
                   // res is false or a valid song structure

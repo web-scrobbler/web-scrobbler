@@ -159,7 +159,9 @@ function displayMsg(msg) {
    // consider options
    if (getOption('useYTInpage') != 1)
       return;
-   
+      
+   $('#chrome-scrobbler-status').remove(); 
+
    if (msg) {              
       // regular page
       if ($('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').length>0)         
@@ -167,8 +169,6 @@ function displayMsg(msg) {
       // user profile
       if ($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').length>0)                  
          $('<span id="chrome-scrobbler-status" title="">'+msg+'</span>').insertBefore($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]'));      
-   } else {           
-      $('#chrome-scrobbler-status').remove();            
    }
 } 
 
