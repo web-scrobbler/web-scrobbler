@@ -2,6 +2,8 @@
  * TODOs
  * 
  * - add second validation to nowPlaying request handler or trust the data to be valid?
+ * 
+ * - & in artist/track - signature problems
  *
  */
 
@@ -10,9 +12,6 @@ const APP_VERSION = "0.7";
 
 // timeout in ms for ajax requests
 const AJAX_TIMEOUT = 5000;
-
-// authentication token retrieved after handshake()
-var sessionID = "";
 
 // number of failed authentications after the last successful one
 var authFailCounter = 0;
@@ -26,7 +25,7 @@ var submissionURL =  "http://post2.audioscrobbler.com:80/protocol_1.2";
 
 // api url
 var apiURL = "http://ws.audioscrobbler.com/2.0/?";
-
+var apiKey = "d9bb1870d3269646f740544d9def2c95";
 
 // song structure, filled in nowPlaying phase, (artist, track, duration, startTime)
 var song = {};
@@ -85,6 +84,58 @@ function reset() {
 
    nowPlayingTab = null;
    song = {};
+}
+
+
+
+/**
+ * Calculates MD5 hash of the API request
+ * stored in k=v&k=v&... format
+ * @param params object
+ * @return md5 hash
+ */
+function apiCallSignature(params) {   
+   var keys = new Array();
+   var o = '';
+   
+   for (var x in params)
+      keys.push(x);
+      
+   // params has to be ordered alphabetically
+   keys.sort();
+      
+   for (i = 0; i < keys.length; i++) {
+      if (keys[i] == 'format' || keys[i] == 'callback')
+         continue;
+      
+      o = o + keys[i] + params[keys[i]];
+   }
+   
+   //console.log('hashing %s', o);
+   
+   // append secret
+   return MD5(o + '2160733a567d4a1a69a73fad54c564b2');
+}
+
+
+/**
+ * Creates query string from object properties
+ */
+function createQueryString(params) {
+   var parts = new Array();
+   
+   for (var x in params)
+      parts.push( x + '=' + encodeUtf8( params[x] ) );
+   
+   return parts.join('&');
+}
+
+
+/**
+ * Encodes the utf8 string to use in parameter of API call
+ */
+function encodeUtf8(s) {
+   return encodeURIComponent( s );
 }
 
 /**
@@ -148,49 +199,76 @@ function scrobblerNotification(text, force) {
 
 
 /**
- * Log in, retrieve sessionID
+ * Retrieves a token and opens a new window for user to authorize it
+ */
+function authorize() {
+   var http_request = new XMLHttpRequest();  
+   http_request.open("GET", apiURL + 'method=auth.gettoken&api_key=' + apiKey, false); // synchronous
+   http_request.setRequestHeader("Content-Type", "application/xml");
+   http_request.send(null); 
+   
+   console.log('getToken response: %s', http_request.responseText);
+
+   var xmlDoc = $.parseXML(http_request.responseText);
+   var xml = $(xmlDoc);
+   var status = xml.find('lfm').attr('status');
+
+   if (status != 'ok') {
+      console.log('Error acquiring a token: %s', http_request.responseText);
+      localStorage.token = '';
+   } else {
+      localStorage.token = xml.find('token').text();
+
+      // open a tab with token authorization
+      var url = 'http://www.last.fm/api/auth/?api_key=' + apiKey + '&token=' + localStorage.token;
+      window.open(url);
+   }            
+}
+
+/**
+ * Retrieve sessionID token if not already available
+ * Returns false if the sessionID cannot be retrieved (try again later - user has to authorize)
  */ 
-function handshake() {
-	var username = localStorage.username;
-	var password = localStorage.password;
+function getSessionID() {	
+   // check for a token first
+   if (!localStorage.token || localStorage.token == '') {
+      authorize();
+      return false;
+   }      
+   
+   // do we already have a session?
+   if (localStorage.sessionID && localStorage.sessionID != '')
+      return localStorage.sessionID;
+      
+   var params = {
+      method: 'auth.getsession',
+      api_key: apiKey,
+      token: localStorage.token
+   };
+   var api_sig = apiCallSignature(params);
+   var url = apiURL + createQueryString(params) + '&api_sig=' + api_sig;
+   
+   var http_request = new XMLHttpRequest();
+   http_request.open("GET", url, false); // synchronous
+   http_request.setRequestHeader("Content-Type", "application/xml");
+   http_request.send(null); 
+        
+   console.log('getSession reponse: %s', http_request.responseText);
 
-      // check for empty username/password
-      if (!username || !password) {
-         alert('Oops! Seems like you forgot to fill in your Last.fm credentials.\n\nPlease head to the options page and do so.');
-         authFailCounter++;
-      }
+   var xmlDoc = $.parseXML(http_request.responseText);
+   var xml = $(xmlDoc);
+   var status = xml.find('lfm').attr('status');
 
-	var currentTime = parseInt(new Date().getTime() / 1000.0);
-	var token = MD5(password + currentTime);
-	var http_request = new XMLHttpRequest();
-	http_request.onreadystatechange = function() {
-		if (http_request.readyState == 4 && http_request.status == 200) {
-			switch (http_request.responseText.split("\n")[0]) {
-                     case 'OK':
-                        sessionID = http_request.responseText.split("\n")[1];
-                        nowPlayingURL = http_request.responseText.split("\n")[2];
-                        submissionURL = http_request.responseText.split("\n")[3];
-                        authFailCounter = 0;
-                        break;
-                     case 'BADAUTH':
-                        authFailCounter++;
-                        alert('Authentication failed!\n\nPlease check your username and password in options');
-                        break;
-                     default:
-                        authFailCounter++;
-                        alert('Last.fm auth server responded with error:\n' + http_request.responseText.split("\n")[0]);
-                        break;
-                  }
-
-                  
-		}
-	}
-	http_request.open(
-		"GET",
-		"http://post.audioscrobbler.com/?hs=true&p=1.2.1&c=chr&v=" + APP_VERSION + "&u=" + username + "&t=" + currentTime + "&a=" + token,
-		false);
-	http_request.setRequestHeader("Content-Type", "application/xml");
-	http_request.send(null);
+   if (status != 'ok') {
+      console.log('getSession: the token probably hasn\'t been authorized');
+      localStorage.sessionID = '';
+      authorize();
+   } else {
+      localStorage.sessionID = xml.find('key').text();
+      return localStorage.sessionID;
+   }
+   
+   return false;
 }
 
 
@@ -201,7 +279,7 @@ function handshake() {
  * @return object/false
  */  
 function validate(artist, track) {
-   var validationURL = "http://ws.audioscrobbler.com/2.0/?method=track.getinfo&api_key=d9bb1870d3269646f740544d9def2c95&autocorrect=1&artist=" + encodeURIComponent(artist) + "&track=" + encodeURIComponent(track);
+   var validationURL = "http://ws.audioscrobbler.com/2.0/?method=track.getinfo&api_key=" + apiKey + "&autocorrect=0&artist=" + encodeURIComponent(artist) + "&track=" + encodeURIComponent(track);
    console.log('validating %s - %s', artist, track);
    
    var req = new XMLHttpRequest();     
@@ -234,57 +312,46 @@ function validate(artist, track) {
 function nowPlaying() {
    console.log('nowPlaying called for %s - %s', song.artist, song.track);
 
-   if (sessionID == '') 
-      handshake();
-
-   var params = "s=" + sessionID + "&a=" + song.artist + "&t=" + song.track;
-
-   // these song params may not be set, but all query params has to be passed (even as null)
-   params += "&l[0]=" + (typeof(song.duration) != "undefined" ? song.duration : "");
-   params += "&b[0]=" + (typeof(song.album) != "undefined" ? song.album : "");
-   params += "&m=&n=";
+   // if the token/session is not authorized, wait for a while
+   var sessionID = getSessionID();
+   if (sessionID === false)
+      return;   
    
-   var notifText =  'Now playing' + NOTIFICATION_SEPARATOR + song.artist + " - " + song.track;
-   var ajaxTimeout = null; // timeout object
-
-   var http_request = new XMLHttpRequest();
-   http_request.onreadystatechange = function() {
-         if (http_request.readyState == 4 && http_request.status == 200)
-            // need to (re)authenticate
-            if (http_request.responseText.split("\n")[0] == "BADSESSION") {
-               // prevent looping on constantly failing auth
-               if (authFailCounter == 0) {
-                  handshake();
-                  nowPlaying();
-               }
-               return;
-            }
-            else if (http_request.responseText.split("\n")[0] == "OK") {
-                  console.log('now playing %s - %s, (%s)', song.artist, song.track, http_request.responseText);
-               
-                  // Confirm the content_script, that the song is "now playing"
-                  chrome.tabs.sendRequest(nowPlayingTab, {type: "nowPlayingOK"});
-                  // Show notification
-                  scrobblerNotification(notifText);
-                  // Update page action icon
-                  setActionIcon(ACTION_NOWPLAYING);
-            } else {
-               alert('Last.fm responded with unknown code on nowPlaying request');
-            }
-            
-            clearTimeout(ajaxTimeout);
+   var params = {
+      method: 'track.updatenowplaying',
+      track: song.track,
+      artist: song.artist,
+      api_key: apiKey,
+      sk: sessionID
    };
-   http_request.open("POST", nowPlayingURL, false); // synchronous
+   
+   var api_sig = apiCallSignature(params);
+   var url = apiURL + createQueryString(params) + '&api_sig=' + api_sig;
+   
+   var notifText =  'Now playing' + NOTIFICATION_SEPARATOR + song.artist + " - " + song.track;   
+
+   var http_request = new XMLHttpRequest();      
+   http_request.open("POST", url, false); // synchronous
    http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
    http_request.send(params);
-   
-   /*
-   // timeout
-   ajaxTimeout = setTimeout(function(){
-      http_request.abort();
-      scrobblerNotification("Unable to connect to Last.fm service. Please check your connection", true);
-   }, AJAX_TIMEOUT);      
-   */
+
+   console.log('nowPlaying response: %s', http_request.responseText);
+
+   var xmlDoc = $.parseXML(http_request.responseText);
+   var xml = $(xmlDoc);
+
+   if (xml.find('lfm').attr('status') == 'ok') {
+         console.log('now playing %s - %s', song.artist, song.track);
+
+         // Confirm the content_script, that the song is "now playing"
+         chrome.tabs.sendRequest(nowPlayingTab, {type: "nowPlayingOK"});
+         // Show notification
+         scrobblerNotification(notifText);
+         // Update page action icon
+         setActionIcon(ACTION_NOWPLAYING);
+   } else {
+      alert('Last.fm responded with unknown code on nowPlaying request');
+   }            
 }
 
 
@@ -302,66 +369,55 @@ function submit() {
       return;
    }
 
-   // need to (re)authenticate?
-   if (sessionID == "") {
-      handshake();
-   }
+   // if the token/session is not authorized, wait for a while
+   var sessionID = getSessionID();
+   if (sessionID === false)
+      return;
    
    console.log('submit called for %s - %s', song.artist, song.track);
 
-   //var time = parseInt(new Date().getTime() / 1000.0);
-   //var playTime = time - song.startTime;
+   var params = {
+      method: 'track.scrobble',
+      'timestamp[0]': song.startTime,
+      'track[0]': song.track,
+      'artist[0]': song.artist,
+      api_key: apiKey,
+      sk: sessionID
+   };
 
-   // the timeout is managed by background script and will not trigger until the minimum time has past
-   //if (playTime >= 30 && (typeof(song.duration) == "undefined" || playTime >= Math.min(240, song.duration / 2))) {
-      
-      var params = "s=" + sessionID + "&a[0]=" + song.artist + "&t[0]=" + song.track + "&i[0]=" + song.startTime + "&o[0]=P";
+   var api_sig = apiCallSignature(params);
+   var url = apiURL + createQueryString(params) + '&api_sig=' + api_sig;
+   
+   var http_request = new XMLHttpRequest();      
+   http_request.open("POST", url, false); // synchronous
+   http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+   http_request.send(params);
 
-      // these song params may not be set, but all query params has to be passed (even as null)
-      params += "&l[0]=" + (typeof(song.duration) != "undefined" ? song.duration : "");
-      params += "&b[0]=" + (typeof(song.album) != "undefined" ? song.album : "");
-      params += "&r[0]=&m[0]=&n[0]=";
-
+   if (http_request.status == 200) {
       var notifText =  'Scrobbled' + NOTIFICATION_SEPARATOR + song.artist + " - " + song.track;
+      
+      // notification
+      scrobblerNotification(notifText);
 
-      var http_request = new XMLHttpRequest();
+      // Update page action icon
+      setActionIcon(ACTION_SCROBBLED);
 
-      http_request.onreadystatechange = function() {               
-         if (http_request.readyState == 4 && http_request.status == 200) {            
-            // need to (re)authenticate
-            if (http_request.responseText.split("\n")[0] == "BADSESSION") {
-               handshake();
-               submit();
-            } else if (http_request.responseText.split("\n")[0] == "FAILED") {
-               console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
-               alert(http_request.responseText);
-            } else {
-               // notification
-               scrobblerNotification(notifText);
+      // stats
+      _gaq.push(['_trackEvent', 'Track scrobbled']);
 
-               // Update page action icon
-               setActionIcon(ACTION_SCROBBLED);
+      console.log('submitted %s - %s (%s)', song.artist, song.track, http_request.responseText);
 
-               // stats
-               _gaq.push(['_trackEvent', 'Track scrobbled']);
-
-               console.log('submitted %s - %s (%s)', song.artist, song.track, http_request.responseText);
-
-               // Confirm the content script, that the song has been scrobbled
-               if (nowPlayingTab)
-                  chrome.tabs.sendRequest(nowPlayingTab, {type: "submitOK"});
-            }
-         }
-      };
-      http_request.open("POST", submissionURL, false); // synchronous call!
-      http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-      http_request.send(params);
-
-      // clear the structures awaiting the next song
-      reset();
+      // Confirm the content script, that the song has been scrobbled
+      if (nowPlayingTab)
+         chrome.tabs.sendRequest(nowPlayingTab, {type: "submitOK"});
+      
+   } else {   
+      console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
+      alert('An error occured while scrobbling the track. Please try again later.');
+   }
    
-   // }
-   
+   // clear the structures awaiting the next song
+   reset();
 }
 
 
@@ -391,7 +447,7 @@ chrome.extension.onRequest.addListener(
                   if (typeof(request.artist) == 'undefined' || typeof(request.track) == 'undefined') {
                      // fill only the startTime, so the popup knows how to set up the timer
                      song = {
-                        startTime : parseInt(new Date().getTime() / 1000.0) // in seconds; needed in popup for timer
+                        startTime : parseInt(new Date().getTime() / 1000.0) // in seconds
                      };        
                      
                      // if we know something...
@@ -412,8 +468,8 @@ chrome.extension.onRequest.addListener(
                         artist : request.artist,
                         track : request.track,
                         /* album : request.album, */
-                        duration : request.duration
-                        /* startTime : parseInt(new Date().getTime() / 1000.0) */
+                        duration : request.duration,
+                        startTime : parseInt(new Date().getTime() / 1000.0) // in seconds
                      }   
 
                      // make the connection to last.fm service to notify
@@ -430,6 +486,10 @@ chrome.extension.onRequest.addListener(
                   
             // called when the window closes / unloads before the song can be scrobbled
             case "reset":
+                  // TEMP
+                  //delete localStorage.sessionID;
+                  //delete localStorage.token;
+               
                   reset();
                   sendResponse({});
                   break;
