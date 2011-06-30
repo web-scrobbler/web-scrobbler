@@ -68,9 +68,12 @@ const ACTION_UPDATED = 4;
       localStorage.useYTInpage = 0;
    
    // show update popup - based on different version
-   if (localStorage.appVersion != APP_VERSION) {
-      alert('updated!');
+   if (localStorage.appVersion != APP_VERSION) {      
       //localStorage.appVersion = APP_VERSION;
+      
+      // introduce new options if not already set
+      if (typeof localStorage.useAutocorrect == 'undefined')
+         localStorage.useAutocorrect = 0;
    }
 }
 
@@ -279,7 +282,8 @@ function getSessionID() {
  * @return object/false
  */  
 function validate(artist, track) {
-   var validationURL = "http://ws.audioscrobbler.com/2.0/?method=track.getinfo&api_key=" + apiKey + "&autocorrect=0&artist=" + encodeURIComponent(artist) + "&track=" + encodeURIComponent(track);
+   var autocorrect = localStorage.useAutocorrect ? localStorage.useAutocorrect : 0;   
+   var validationURL = "http://ws.audioscrobbler.com/2.0/?method=track.getinfo&api_key=" + apiKey + "&autocorrect="+ autocorrect +"&artist=" + encodeUtf8(artist) + "&track=" + encodeUtf8(track);
    console.log('validating %s - %s', artist, track);
    
    var req = new XMLHttpRequest();     

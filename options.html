@@ -6,33 +6,8 @@
 	<script type="text/javascript" src="options.js"></script>
 	<link rel="stylesheet" type="text/css" href="options.css" />
 </head>
-<body onload="getCurrentUser()">
-   
-<div class="container">
-	<h1>Chrome Scrobbler</h1>
-	<form action="#" onSubmit="saveCredentials();return false;">
-		<p>
-			<label for="username">Username:</label> 
-			<input type="text" id="username">
-		</p>
-		<p>
-			<label for="password">Password:</label> 
-			<input type="password" id="password">
-		</p>
-		<p class="buttons">
-			<input type="submit" onclick="saveCredentials()" value="Save" />
-			<input type="button" onclick="deleteCredentials()" value="Delete" />
-		</p>
-	</form>
-	<p id="cred-status">&nbsp;</p>	
-	<p>
-		Enter your last.fm username and password, and then press save. 
-	</p>
-	<p>
-		To permanently delete your saved username/password, press the delete button.
-	</p>
-</div>
-   
+<body>
+      
 <div class="container options">
    <h1>Options</h1>
    
@@ -40,6 +15,10 @@
       <li>
          <input type="checkbox" id="use-notifications">
          <label for="use-notifications">Use desktop notifications (global)</label>                
+      </li>
+      <li>
+         <input type="checkbox" id="use-autocorrect">
+         <label for="use-autocorrect">Use autocorrect (global)</label>                
       </li>
       <li>
          <input type="checkbox" id="use-youtube-inpage">
