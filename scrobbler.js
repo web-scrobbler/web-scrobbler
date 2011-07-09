@@ -1,9 +1,13 @@
 /**
+ * Last.fm Scrobbler for Chrome
+ * by David Sabata
+ *
+ * https://github.com/david-sabata/Chrome-Last.fm-Scrobbler
+ *
+ *
  * TODOs
  * 
  * - add second validation to nowPlaying request handler or trust the data to be valid?
- * 
- * - & in artist/track - signature problems
  *
  */
 
@@ -18,10 +22,6 @@ var authFailCounter = 0;
 
 // browser tab with actually scrobbled track
 var nowPlayingTab = null;
-
-// "now playing" and "scrobble" urls retrieved in handshake()
-var nowPlayingURL = "http://post.audioscrobbler.com:80/np_1.2";
-var submissionURL =  "http://post2.audioscrobbler.com:80/protocol_1.2";
 
 // api url
 var apiURL = "http://ws.audioscrobbler.com/2.0/?";
