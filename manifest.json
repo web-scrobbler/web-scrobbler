@@ -3,7 +3,9 @@
    "version": "0.7",
    
    "description": "Scrobble music videos all around the web!",  
-   "icons": { "128": "icon128.png" },
+   "icons": {
+      "128": "icon128.png"
+   },
    
    "background_page": "background.html",
    "options_page": "options.html",
@@ -19,20 +21,22 @@
    },
 
    "content_scripts": [
-     {
-       "matches": [ "http://music.napster.com/*", "https://music.napster.com/*" ],
-       "js": [ "napster.js" ]
-     },
-     {
-      "matches": ["*://www.youtube.com/watch*", "*://www.youtube.com/user/*"],
-      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "youtube.js"],
-      "css": ["youtube.css"],
-      "run_at" : "document_start"
+      /* Deactivated; needs to be ported to the 1.0 core
+      {
+         "matches": [ "http://music.napster.com/*", "https://music.napster.com/*" ],
+         "js": [ "napster.js" ]
+      },
+      */
+      {
+         "matches": ["*://www.youtube.com/watch*", "*://www.youtube.com/user/*"],
+         "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "youtube.js"],
+         "css": ["youtube.css"],
+         "run_at" : "document_start"
       },
       {
          "matches": ["http://www.thesixtyone.com/*"],
          "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "61.js"]
-       }
+      }
    ]
 
 }
