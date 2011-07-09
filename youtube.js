@@ -226,14 +226,25 @@ function updateNowPlaying() {
       // Use the #eow-title #watch-headline-show-title if available
       var track_dom = $('#eow-title').clone();
       var artist_dom = $('#watch-headline-show-title', track_dom);
+      var mdata_dom = $('#watch-description-extra-info .metadata-info > span.link-like');
       if (artist_dom.length) {
         artist = artist_dom.text();
         artist_dom.remove();
         track = track_dom.text();
         parsedInfo = cleanArtistTrack(artist, track);
-      } else if (parsedInfo['artist'] == '') {
+      }
+      // Use description metadata if available
+      else if ($('#watch-description-extra-info img.music-artist').length && mdata_dom.length) {
+        artist = mdata_dom.text();
+        track = track_dom.text();
+        track.replace(artist, '');
+        parsedInfo = cleanArtistTrack(artist, track);
+      }
+      // Still nothing? Last chance...
+      if (parsedInfo['artist'] == '') {
         parsedInfo = parseInfo(track_dom.text());
       }
+
       artist = parsedInfo['artist'];
       track = parsedInfo['track'];
 
