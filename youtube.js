@@ -209,7 +209,6 @@ function updateNowPlaying() {
    chrome.extension.sendRequest({type: "xhr", url: googleURL}, function(response) {
    	var info = JSON.parse(response.text);         	
    	var parsedInfo = parseInfo(info.entry.title.$t);
-
       var artist = null;
       var track = null;
 

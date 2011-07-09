@@ -11,9 +11,7 @@
    "permissions": [
       "tabs",
       "notifications",
-      "http://ws.audioscrobbler.com/",
-      "http://post.audioscrobbler.com/",
-      "http://post2.audioscrobbler.com/",
+      "http://ws.audioscrobbler.com/2.0/",
       "http://gdata.youtube.com/feeds/api/videos/"
    ],
    
@@ -31,12 +29,10 @@
       "css": ["youtube.css"],
       "run_at" : "document_start"
       },
-
-			{
-	      "matches": ["http://www.thesixtyone.com/*"],
-	      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "61.js"]
-	    }
-
+      {
+         "matches": ["http://www.thesixtyone.com/*"],
+         "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "61.js"]
+       }
    ]
 
 }

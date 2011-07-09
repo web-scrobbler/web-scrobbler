@@ -14,11 +14,6 @@
 const APP_NAME = "Chrome Last.fm Scrobbler";
 const APP_VERSION = "0.7";
 
-// timeout in ms for ajax requests
-const AJAX_TIMEOUT = 5000;
-
-// number of failed authentications after the last successful one
-var authFailCounter = 0;
 
 // browser tab with actually scrobbled track
 var nowPlayingTab = null;
@@ -283,7 +278,7 @@ function getSessionID() {
  */  
 function validate(artist, track) {
    var autocorrect = localStorage.useAutocorrect ? localStorage.useAutocorrect : 0;   
-   var validationURL = "http://ws.audioscrobbler.com/2.0/?method=track.getinfo&api_key=" + apiKey + "&autocorrect="+ autocorrect +"&artist=" + encodeUtf8(artist) + "&track=" + encodeUtf8(track);
+   var validationURL = apiURL + "method=track.getinfo&api_key=" + apiKey + "&autocorrect="+ autocorrect +"&artist=" + encodeUtf8(artist) + "&track=" + encodeUtf8(track);
    console.log('validating %s - %s', artist, track);
    
    var req = new XMLHttpRequest();     
