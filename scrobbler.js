@@ -362,7 +362,7 @@ function nowPlaying() {
  */ 
 function submit() {
    // bad function call
-   if (song == null || !song || song.artist == '' || song.track == '') {
+   if (song == null || !song || song.artist == '' || song.track == '' || typeof(song.artist) == "undefined" || typeof(song.track) == "undefined" ) {
       reset();
       chrome.tabs.sendRequest(nowPlayingTab, {type: "submitFAIL", reason: "No song"});      
       return;
@@ -437,10 +437,13 @@ chrome.extension.onRequest.addListener(
             // Also sets up a timout to trigger the scrobbling procedure (when all data are valid)
    		case "nowPlaying":
                   console.log('nowPlaying requested');
-      		// remember the caller
-                  nowPlayingTab = sender.tab.id;
-
                   console.log($.dump(request));
+
+                  // do the reset to be sure there is no other timer running
+                  reset();
+
+                  // remember the caller
+                  nowPlayingTab = sender.tab.id;
 
                   // data missing, save only startTime and show the unknown icon
                   if (typeof(request.artist) == 'undefined' || typeof(request.track) == 'undefined') {

@@ -63,10 +63,14 @@ $(function(){
       // Hook up for changes in title on users profile page
       $('#playnav-video-details').bind('DOMSubtreeModified', function(e) {      
 
-         if ($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').length > 0) {
+         if ($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').length > 0
+               || $('#playnav-curvideo-title > a').length > 0) {
 
             // just check changes in the song title
             var titleEl = $('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]');
+            if (titleEl.length == 0)
+               titleEl = $('#playnav-curvideo-title > a'); // newer version
+            
             if (clipTitle != titleEl.text()) {
                updateNowPlaying();
                clipTitle = titleEl.text();
@@ -203,6 +207,12 @@ function updateNowPlaying() {
       if (videoID && videoID.length > 0)
          videoID = videoID[1];
    }
+   // videoID from title at profile page - newer version
+   if (!videoID && $('#playnav-curvideo-title > a').length > 0) {
+      videoID = $('#playnav-curvideo-title > a').attr('href').toString().match(/\?v=(.{11})/);
+      if (videoID && videoID.length > 0)
+         videoID = videoID[1];
+   }
    
    // something changed?
    if (!videoID) {
@@ -233,15 +243,15 @@ function updateNowPlaying() {
         track = track_dom.text();
         parsedInfo = cleanArtistTrack(artist, track);
       }
+      /*
       // Use description metadata if available
       else if ($('#watch-description-extra-info img.music-artist').length && mdata_dom.length) {
         artist = mdata_dom.text();
         track = track_dom.text();
         track.replace(artist, '');
         parsedInfo = cleanArtistTrack(artist, track);
-      }
-      // Still nothing? Last chance...
-      if (parsedInfo['artist'] == '') {
+      }*/
+      else if (parsedInfo['artist'] == '') {
         parsedInfo = parseInfo(track_dom.text());
       }
 
