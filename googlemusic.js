@@ -1,136 +1,140 @@
-const INIT_LOAD_DELAY = 5 * 1000;
+// State for event handlers
+var state = 'init';
 
-const NEW_WAIT_TIME = 10 * 1000;
-const N_TRUE = 1;
-const N_FALSE = 0;
+// Used only to remember last song title
+var clipTitle = '';  
 
-const SLEEP_TIME = 1000;
+// Timeout to scrobble track ater minimum time passes
+var scrobbleTimeout = null;
 
-function mytime() {
-  var date = new Date()
-  return date.getTime();
+// Glabal constant for the song container ....
+var CONTAINER_SELECTOR = '#playerSongInfo';
+
+
+$(function(){   
+	$(CONTAINER_SELECTOR).live('DOMSubtreeModified', function(e) {
+		// init ----> loading
+		if (state == 'init' && $(CONTAINER_SELECTOR).length > 0) {
+			state = 'loading';
+			return;
+		}
+		
+		// loading ---> playing
+		if (state == 'loading' && $(CONTAINER_SELECTOR).length > 0) {
+			updateNowPlaying();
+			state = 'init';
+			return;    
+    }
+   });
+   
+   // first load
+   updateNowPlaying();
+   state = 'init';
+});
+
+/**
+ * Called every time we load a new song
+ */ 
+function updateNowPlaying(){
+	var parsedInfo = parseInfo();
+	artist   = parsedInfo['artist']; 		//global
+	track    = parsedInfo['track'];			//global
+	duration = parsedInfo['duration']; 	//global
+	
+	if (artist == '' || track == '' || duration == 0) {return;}
+    
+    if (clipTitle == track) {
+	return;
+    }
+    clipTitle = track;
+	
+    chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
+            if (response != false){
+			chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
+		}
+	});
 }
 
-function debug(text) {
-  console.log('ChromeGoogleMusicScrobbler: ' + text);
-}
 
-function songInfo() {
-  return "A: " + localStorage.google_artist
-    + ";T: " + localStorage.google_track
-    + ";B: " + localStorage.google_album;
-}
+function parseInfo() {
+    var artist   = '';
+    var track    = '';
+    var duration = 0;
 
-function cleanTag(text) {
-  var t = text;
-  t = t.replace(/\[[^\]]+\]$/, ''); // [whatever]
-  return t;
-}
-
-function getGooglePlayerInfo() {
     // Get artist and song names
     var artistParent = document.getElementById('playerArtist');
     var trackParent = document.getElementById('playerSongTitle');
-
-    if (artistParent != null) {
-  
-	var artist = artistParent.getElementsByClassName('fade-out-content')[0].getAttribute('title');
-	var track = trackParent.getElementsByClassName('fade-out-content')[0].getAttribute('title');
-
-	// Get album name todo
-	var album = "";
-
-	// Calculate play time
-	var time, duration;
-	var timeValue = document.getElementById('currentTime').innerHTML;
-	var durationValue = document.getElementById('duration').innerHTML;
-  
-	var tttime = timeValue.match(/(\d?\d):?(\d?\d?)/);
-	var ttduration = durationValue.match(/(\d?\d):?(\d?\d?)/);
-  
-	if (tttime != null) {
-	    time = Number(tttime[1]*60) + Number(tttime[2])
-	    duration = Number(ttduration[1]*60) + Number(ttduration[2])
-	} else {
-	    time = duration = -1;
-	}
-
-	if (time >= 0  && artist != '' && track != '') {
-	    if (artist != localStorage.google_artist || track != localStorage.google_track
-		|| album != localStorage.google_album || duration != localStorage.google_duration
-		|| time < localStorage.google_time) {
-		
-		// New song
-		localStorage.google_flaggedNew = N_TRUE;
-		localStorage.google_seenNew = mytime();
-		localStorage.google_submitted = N_FALSE;
-            
-		localStorage.google_artist = artist;
-		localStorage.google_album = album;
-		localStorage.google_track = track;
-		localStorage.google_duration = duration;
-
-		console.log('Detected new song (' + localStorage.google_seenNew + '): ' + songInfo() + ' | T: ' + time);
-	    }
-
-	    // Update play time
-	    localStorage.google_time = time;
-	}
-    }
-}
-
-function shouldSubmit() {
-    if (localStorage.google_submitted == N_FALSE &&
-	localStorage.google_time > 30 &&
-	localStorage.google_time > Math.min(240, localStorage.google_duration / 2)) {
-	return true;
-    } 
-    else {
-	return false;
-    }
-}
-
-function initStorage() {
-    if (localStorage.google_artist == null) {
+    var durationValue = document.getElementById('duration').innerHTML;
     
-	// We need to store this information across pages as browsing the site resets the state otherwise
-	localStorage.google_artist = '';
-	localStorage.google_track = '';
-	localStorage.google_album = '';
-	localStorage.google_duration = -1;
-	localStorage.google_flaggedNew = N_FALSE;
-	localStorage.google_seenNew = mytime();
-	localStorage.google_submitted = N_FALSE;
-	//notify('Initialized');
+    if (null != artistParent) {
+	artist = artistParent.getElementsByClassName('fade-out-content')[0].getAttribute('title');
     }
+    if (null != trackParent) {
+	track = trackParent.getElementsByClassName('fade-out-content')[0].getAttribute('title');
+    }
+    if (null != durationValue) {
+	duration = parseDuration(durationValue);
+    }
+	
+    artist = artist.replace(/^\s+|\s+$/g,'');
+    track = track.replace(/^\s+|\s+$/g,'');
+
+    return {artist: artist, track: track, duration : duration};
 }
 
-function init() {
+function parseDuration(artistTitle){
+	try {
+		match = artistTitle.match(/\d+:\d+/g)[0]
 
-    debug('Initialized');
-  
-    initStorage();
-
-    setInterval(function() {
-	getGooglePlayerInfo();
-	if (localStorage.google_flaggedNew == N_TRUE && (mytime() - localStorage.google_seenNew) >= NEW_WAIT_TIME) {
-	    debug('Registering Now Playing');
-	    localStorage.google_flaggedNew = N_FALSE;
-	    chrome.extension.sendRequest({type: 'nowPlaying',
-                                    artist: localStorage.google_artist,
-                                    track: cleanTag(localStorage.google_track),
-                                    album: cleanTag(localStorage.google_album),
-                                    duration: localStorage.google_duration});
+		mins    = match.substring(0, match.indexOf(':'));
+		seconds = match.substring(match.indexOf(':')+1);
+		return parseInt(mins*60) + parseInt(seconds);
+	} catch(err){
+		return 0;
 	}
-	if (localStorage.google_flaggedNew == N_FALSE && shouldSubmit()) {
-	    debug('Scrobbling');
-	    localStorage.google_submitted = N_TRUE;
-	    chrome.extension.sendRequest({type: 'submit'});
-	    // @@@ We should check that this succeeded, or even better, implement a queue in scrobbler.js
-	}
-    }, SLEEP_TIME);
 }
 
 
-// Delay initialization so that player is loaded
-setTimeout(function() { init() }, INIT_LOAD_DELAY);
+/**
+ * Simply request the scrobbler.js to submit song previusly specified by calling updateNowPlaying()
+ */ 
+function scrobbleTrack() {
+   // stats
+   chrome.extension.sendRequest({type: 'trackStats', text: 'The Google Music song scrobbled'});
+   
+   // scrobble
+   chrome.extension.sendRequest({type: 'submit'});
+}
+
+
+
+/**
+ * Listen for requests from scrobbler.js
+ */ 
+chrome.extension.onRequest.addListener(
+	function(request, sender, sendResponse) {
+		switch(request.type) {
+    	// called after track has been successfully marked as 'now playing' at the server
+      case 'nowPlayingOK':
+         /*
+        var min_time = (240 < (duration/2)) ? 240 : (duration/2); //The minimum time is 240 seconds or half the track's total length. Duration comes from updateNowPlaying()
+        
+				// cancel any previous timeout
+        if (scrobbleTimeout != null)
+      		clearTimeout(scrobbleTimeout);
+               
+       		// set up a new timeout
+        	scrobbleTimeout = setTimeout(function(){setTimeout(scrobbleTrack, 2000);}, min_time*1000); 
+            */
+          break;
+            
+        // not used yet
+        case 'submitOK':
+       		break;
+
+        // not used yet
+        case 'submitFAIL':
+          break; 
+    }
+	}
+);

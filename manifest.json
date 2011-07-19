@@ -36,6 +36,10 @@
       {
          "matches": ["http://www.thesixtyone.com/*"],
          "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "61.js"]
+      },
+      {
+         "matches": ["*://music.google.com/*"],
+         "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "googlemusic.js"]
       }
    ]
 
