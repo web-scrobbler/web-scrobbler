@@ -1,9 +1,11 @@
 {
    "name": "Last.fm Scrobbler",
-   "version": "0.7",
+   "version": "1.0",
    
    "description": "Scrobble music videos all around the web!",  
-   "icons": { "128": "icon128.png" },
+   "icons": {
+      "128": "icon128.png"
+   },
    
    "background_page": "background.html",
    "options_page": "options.html",
@@ -11,29 +13,30 @@
    "permissions": [
       "tabs",
       "notifications",
-      "http://ws.audioscrobbler.com/",
-      "http://post.audioscrobbler.com/",
-      "http://post2.audioscrobbler.com/",
+      "http://ws.audioscrobbler.com/2.0/",
       "http://gdata.youtube.com/feeds/api/videos/"
    ],
    
+   "page_action": {
+   },
+
    "content_scripts": [
-     {
-       "matches": [ "http://music.google.com/*", "https://music.google.com/*" ],
-       "js": [ "googlemusic.js" ]
-     },
-     {
-       "matches": [ "http://music.napster.com/*", "https://music.napster.com/*" ],
-       "js": [ "napster.js" ]
-     },
-     {
-      "matches": ["*://www.youtube.com/watch*", "*://www.youtube.com/user/*"],
-      "js": ["jquery-1.4.2.min.js", "jquery.dump.js", "youtube.js"],
-      "css": ["youtube.css"]
-     },
-     {
-      "matches": ["http://www.thesixtyone.com/*"],
-      "js": ["jquery-1.4.2.min.js", "jquery.dump.js", "61.js"]
-     }
+      /* Deactivated; needs to be ported to the 1.0 core
+      {
+         "matches": [ "http://music.napster.com/*", "https://music.napster.com/*" ],
+         "js": [ "napster.js" ]
+      },
+      */
+      {
+         "matches": ["*://www.youtube.com/watch*", "*://www.youtube.com/user/*"],
+         "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "youtube.js"],
+         "css": ["youtube.css"],
+         "run_at" : "document_start"
+      },
+      {
+         "matches": ["http://www.thesixtyone.com/*"],
+         "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "61.js"]
+      }
    ]
+
 }
