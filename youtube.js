@@ -61,7 +61,8 @@ $(function(){
    } else if ( $('#playnav-player').length > 0 ) {       
 
       // Hook up for changes in title on users profile page
-      $('#playnav-video-details').bind('DOMSubtreeModified', function(e) {      
+      $('#playnav-video-details').bind('DOMSubtreeModified', function(e) {
+         console.log('playnav-video-details subtree modified');
 
          if ($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').length > 0
                || $('#playnav-curvideo-title > a').length > 0) {
@@ -202,13 +203,13 @@ function updateNowPlaying() {
       videoID = null;
    
    // videoID from title at profile page
-   if (!videoID && $('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').length > 0) {
+   if ($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').length > 0) {
       videoID = $('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').attr('onclick').toString().match(/\?v=(.{11})/);
       if (videoID && videoID.length > 0)
          videoID = videoID[1];
    }
    // videoID from title at profile page - newer version
-   if (!videoID && $('#playnav-curvideo-title > a').length > 0) {
+   if ($('#playnav-curvideo-title > a').length > 0) {
       videoID = $('#playnav-curvideo-title > a').attr('href').toString().match(/\?v=(.{11})/);
       if (videoID && videoID.length > 0)
          videoID = videoID[1];
@@ -219,6 +220,8 @@ function updateNowPlaying() {
       alert('YouTube has probably changed its code. Please get newer version of the Last.fm Scrobbler extension');
       return;
    }
+   
+   console.log('videoID: ' + videoID);
 
    // http://code.google.com/intl/cs/apis/youtube/2.0/developers_guide_protocol_video_entries.html
    var googleURL = "http://gdata.youtube.com/feeds/api/videos/" + videoID + "?alt=json";
