@@ -12,7 +12,7 @@
  */
 
 const APP_NAME = "Chrome Last.fm Scrobbler";
-const APP_VERSION = "0.7";
+const APP_VERSION = "1.0";
 
 
 // browser tab with actually scrobbled track
@@ -64,7 +64,7 @@ const ACTION_UPDATED = 4;
    
    // show update popup - based on different version
    if (localStorage.appVersion != APP_VERSION) {      
-      //localStorage.appVersion = APP_VERSION;
+      localStorage.appVersion = APP_VERSION;
       
       // introduce new options if not already set
       if (typeof localStorage.useAutocorrect == 'undefined')
