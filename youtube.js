@@ -62,7 +62,6 @@ $(function(){
 
       // Hook up for changes in title on users profile page
       $('#playnav-video-details').bind('DOMSubtreeModified', function(e) {
-         console.log('playnav-video-details subtree modified');
 
          if ($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').length > 0
                || $('#playnav-curvideo-title > a').length > 0) {
@@ -219,9 +218,7 @@ function updateNowPlaying() {
    if (!videoID) {
       alert('YouTube has probably changed its code. Please get newer version of the Last.fm Scrobbler extension');
       return;
-   }
-   
-   console.log('videoID: ' + videoID);
+   }   
 
    // http://code.google.com/intl/cs/apis/youtube/2.0/developers_guide_protocol_video_entries.html
    var googleURL = "http://gdata.youtube.com/feeds/api/videos/" + videoID + "?alt=json";

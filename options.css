@@ -33,11 +33,6 @@ p, li {
 	font-size: 12px;
 }
 
-/* FORM */
-form {
-	width:280px;
-}
-
 label {
 	display:block;
 	width:70px;
@@ -57,7 +52,6 @@ p.buttons{
 	padding-top:8px;
 	clear:both;
 }
-/* END FORM */
 
 p#cred-status {
 	color: #D51007;
@@ -87,4 +81,8 @@ div.container.about p {
 span#options-status {
    padding-left: 10px;
    font-weight: bold;
+}
+
+div.faq h4 {
+   margin-bottom: 0;
 }
