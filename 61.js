@@ -11,7 +11,7 @@ var scrobbleTimeout = null;
 var CONTAINER_SELECTOR = '#song_panel_title';
 
 
-$(function(){
+$(function(){   
 	$(CONTAINER_SELECTOR).bind('DOMSubtreeModified', function(e) {
 		// init ----> loading
 		if (state == 'init' && $(CONTAINER_SELECTOR).length > 0) {
@@ -25,7 +25,11 @@ $(function(){
 			state = 'init';
 			return;    
     }
-	});	
+   });
+   
+   // first load
+   updateNowPlaying();
+   state = 'init';
 });
 
 /**
@@ -40,7 +44,7 @@ function updateNowPlaying(){
 	if (artist == '' || track == '' || duration == 0) {return;}
 	
 	chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
-		if (response == true){
+            if (response != false){
 			chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
 		}
 	});
@@ -110,6 +114,7 @@ chrome.extension.onRequest.addListener(
 		switch(request.type) {
     	// called after track has been successfully marked as 'now playing' at the server
       case 'nowPlayingOK':
+         /*
         var min_time = (240 < (duration/2)) ? 240 : (duration/2); //The minimum time is 240 seconds or half the track's total length. Duration comes from updateNowPlaying()
         
 				// cancel any previous timeout
@@ -118,6 +123,7 @@ chrome.extension.onRequest.addListener(
                
        		// set up a new timeout
         	scrobbleTimeout = setTimeout(function(){setTimeout(scrobbleTrack, 2000);}, min_time*1000); 
+            */
           break;
             
         // not used yet

@@ -1,29 +1,23 @@
-function saveOptions() {	
-	localStorage.username = document.getElementById("username").value;
-	localStorage.password = MD5(document.getElementById("password").value);
-	chrome.extension.sendRequest({type: "newSession"});
-	
-	//Update status box in options page to let user know their username and pass has been taken.
-	updateStatus("Will now scrobble using "+localStorage.username+".");
-	return false;
-}
 
-function deleteOptions() {
-	localStorage.clear();
-	chrome.extension.sendRequest({type: "newSession"});
-	
-	updateStatus("Account deleted.");
-}
+// options ---------------------------------------------------------------------
+$(function(){
+   
+   // use immediate-change checkboxes
+   
+   $('#use-notifications').click(function(){
+      localStorage['useNotifications'] = this.checked ? 1 : 0;
+   });
+   
+   $('#use-autocorrect').click(function(){
+      localStorage['useAutocorrect'] = this.checked ? 1 : 0;
+   });
+   
+   $('#use-youtube-inpage').click(function(){
+      localStorage['useYTInpage'] = this.checked ? 1 : 0;
+   });
 
-
-function updateStatus(msg) {
-	// Updates the status box
-	document.getElementById("status").style.display="block";
-	document.getElementById("status").innerHTML=msg;
-}
-
-function getCurrentUser() {
-	if (localStorage.username != null) {
-		updateStatus('Using '+localStorage.username+' to scrobble.')
-	}
-}
+   // preload options
+   $('#use-notifications').attr('checked', (localStorage['useNotifications'] == 1));   
+   $('#use-autocorrect').attr('checked', (localStorage['useAutocorrect'] == 1));   
+   $('#use-youtube-inpage').attr('checked', (localStorage['useYTInpage'] == 1));      
+});
