@@ -36,23 +36,26 @@ $(function(){
  * Called every time we load a new song
  */ 
 function updateNowPlaying(){
-	var parsedInfo = parseInfo();
-	artist   = parsedInfo['artist']; 		//global
-	track    = parsedInfo['track'];			//global
-	duration = parsedInfo['duration']; 	//global
+    var parsedInfo = parseInfo();
+    artist   = parsedInfo['artist']; 	//global
+    track    = parsedInfo['track'];	//global
+    duration = parsedInfo['duration']; 	//global
 	
-	if (artist == '' || track == '' || duration == 0) {return;}
+    if (artist == '' || track == '' || duration == 0) {return;}
     
     if (clipTitle == track) {
-	return;
+	artist = '';
+	track = '';
     }
-    clipTitle = track;
-	
+    else {
+	clipTitle = track;
+    }
+    	
     chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
-            if (response != false){
-			chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
-		}
-	});
+	if (response != false) {
+	    chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
+	}
+    });
 }
 
 
