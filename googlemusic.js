@@ -43,18 +43,22 @@ function updateNowPlaying(){
 	
     if (artist == '' || track == '' || duration == 0) {return;}
     
+    // check if the same track is being played and we have been called again
+    // if the same track is being played we return
     if (clipTitle == track) {
-	artist = '';
-	track = '';
+	return;
     }
-    else {
-	clipTitle = track;
-    }
-    	
+    clipTitle = track;
+    
     chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
 	if (response != false) {
 	    chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
 	}
+         // on failure send nowPlaying 'unknown song'
+         else {
+            chrome.extension.sendRequest({type: 'nowPlaying', duration: duration});
+            displayMsg('Not recognized');
+         }
     });
 }
 
