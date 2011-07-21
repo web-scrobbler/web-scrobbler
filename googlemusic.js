@@ -13,23 +13,16 @@ var CONTAINER_SELECTOR = '#playerSongInfo';
 
 $(function(){   
 	$(CONTAINER_SELECTOR).live('DOMSubtreeModified', function(e) {
-		// init ----> loading
-		if (state == 'init' && $(CONTAINER_SELECTOR).length > 0) {
-			state = 'loading';
-			return;
-		}
-		
-		// loading ---> playing
-		if (state == 'loading' && $(CONTAINER_SELECTOR).length > 0) {
+
+		if ($(CONTAINER_SELECTOR).length > 0) {
 			updateNowPlaying();
-			state = 'init';
 			return;    
-    }
+		}
+
    });
    
    // first load
    updateNowPlaying();
-   state = 'init';
 });
 
 /**
@@ -89,7 +82,7 @@ function parseInfo() {
     return {artist: artist, track: track, duration : duration};
 }
 
-function parseDuration(artistTitle){
+function parseDuration(artistTitle) {
 	try {
 		match = artistTitle.match(/\d+:\d+/g)[0]
 
