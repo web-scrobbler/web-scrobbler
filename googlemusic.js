@@ -50,7 +50,6 @@ function updateNowPlaying(){
          // on failure send nowPlaying 'unknown song'
          else {
             chrome.extension.sendRequest({type: 'nowPlaying', duration: duration});
-            displayMsg('Not recognized');
          }
     });
 }
