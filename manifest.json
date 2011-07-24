@@ -18,6 +18,7 @@
    ],
    
    "page_action": {
+      "chromeBroken": "remove this line after issue #86449 is resolved"
    },
 
    "content_scripts": [
