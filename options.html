@@ -14,11 +14,11 @@
    <ul>
       <li>
          <input type="checkbox" id="use-notifications">
-         <label for="use-notifications">Use desktop notifications (global)</label>                
+         <label for="use-notifications" title="Turns on/off popup scrobbling notifications for all supported websites">Use desktop notifications (global)</label>                
       </li>
       <li>
          <input type="checkbox" id="use-autocorrect">
-         <label for="use-autocorrect">Use autocorrect (global)</label>                
+         <label for="use-autocorrect" title="Auto-corrects the track title before scrobbling. (experimental)">Use autocorrect (global)</label>
       </li>
       <li>
          <input type="checkbox" id="use-youtube-inpage">
@@ -41,6 +41,7 @@
          <li>YouTube.com</li>
          <li>Thesixtyone.com</li>
          <li>Google Music</li>
+         <li>TTnetMuzik.com.tr</li>
          <li><span style="text-decoration: line-through">Napster</span> (not finished yet)</li>
       </ul>
    </p>
@@ -71,18 +72,19 @@
       <ul style="margin-top:0;">
          <li><a href="https://github.com/moski">Moski Doski</a> - Thesixtyone.com support</li>
          <li><a href="https://github.com/sharjeelaziz">Sharjeel Aziz</a> - Google Music support</li>
+         <li><a href="https://github.com/lacivert">Yasin Okumus</a> - TTnetMuzik support</li>
          <li style="text-decoration: line-through"><a href="http://larve.net/people/hugo/">Hugo Haas</a> - Napster support</li>
       </ul>
    </p>
 </div>
    
 <div class="container faq">
-   <h1>FAQ</h1>
+   <h1>FAQ</h1>   
    
-   <h4>Is the scrobbler available for the Firefox?</h4>
-   <p>      
-      It is not and it won't be. This is a Chrome extension and I have no intentions to port it for the Firefox 
-      or any other browser.
+   <h4>How do I temporarily disable scrobbling?</h4>
+   <p>
+      You can do that by clicking the icon in the omnibox (address bar). To enable scrobbling again, click the icon one more time.
+      The scrobbling will continue for the next song.
    </p>
    
    <h4>Will you add support for scrobbling at&nbsp;&nbsp;____ ?</h4>
@@ -93,13 +95,6 @@
       repository and send me a pull request. There is also a wiki page on the GitHub describing the extension core.
    </p>
    
-   <h4>Why isn't Napster finished yet?</h4>
-   <p>
-      Basically because the service is country-limited and I don't have US IP.<br>
-      Napster support is almost completed and it only need to adapt to the new 1.0 core. Sadly the original 
-      author doesn't use Last.fm anymore and no one else has submitted a patch yet.
-   </p>
-   
    <h4>Will you add&nbsp;&nbsp;____&nbsp;&nbsp;functionality?</h4>
    <p>
       Possibly, if it makes sense. A great example is functionality to correct the song title if it is not recognized. 
@@ -107,7 +102,20 @@
       I also think it is useful.<br>
       But if you want me to add some not-that-useful-but-really-cool functions, you'll probably get disappointed.
    </p>
+      
+   <h4>Is the scrobbler available for the Firefox?</h4>
+   <p>      
+      It is not and it won't be. This is a Chrome extension and I have no intentions to port it for the Firefox 
+      or any other browser.
+   </p>
    
+   <h4>Why isn't Napster finished yet?</h4>
+   <p>
+      Basically because the service is country-limited and I don't have US IP.<br>
+      Napster support is almost completed and it only need to adapt to the new 1.0 core. Sadly the original 
+      author doesn't use Last.fm anymore and no one else has submitted a patch yet.
+   </p>
+      
    <h4>Who is the author?</h4>
    <p>
       My name is David Šabata and I study IT at the Brno University of Technology, Czech Republic.
