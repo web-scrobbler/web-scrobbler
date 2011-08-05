@@ -27,15 +27,14 @@
          "matches": [ "http://music.napster.com/*", "https://music.napster.com/*" ],
          "js": [ "napster.js" ]
       },
-      */
-	  /* newly added */
-	  {
-         "matches": ["*://www.ttnetmuzik.com.tr/*"],
-         "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "ttnet.js"]
-      }
+      */      
       {
          "matches": ["<all_urls>"],
          "js": ["dummy.js"]
+      },
+      {
+         "matches": ["*://www.ttnetmuzik.com.tr/*"],
+         "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "ttnet.js"]
       },
       {
          "matches": ["*://www.youtube.com/watch*", "*://www.youtube.com/user/*"],

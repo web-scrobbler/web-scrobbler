@@ -28,6 +28,12 @@ var song = {};
 // timer to submit the song
 var scrobbleTimeout = null;
 
+// is scrobbling disabled?
+var disabled = false;
+
+// set up page action handler; use dummy.html popup to override
+chrome.pageAction.onClicked.addListener(pageActionClicked);
+
 
 /**
  * Notification
@@ -38,9 +44,11 @@ const NOTIFICATION_SEPARATOR = ':::';
 /**
  * Page action icons
  */
-const ICON_UNKNOWN = 'icon_unknown.png';  // not recognized
-const ICON_NOTE = 'icon_note.png';        // now playing
-const ICON_TICK = 'icon_tick.png';        // scrobbled
+const ICON_UNKNOWN = 'icon_unknown.png';           // not recognized
+const ICON_NOTE = 'icon_note.png';                 // now playing
+const ICON_NOTE_DISABLED = 'icon_note_gray.png';   // disabled
+const ICON_TICK = 'icon_tick.png';                 // scrobbled
+const ICON_TICK_DISABLED = 'icon_tick_gray.png';   // disabled
 
 /**
  * Icon - title - popup set identificators
@@ -49,6 +57,8 @@ const ACTION_UNKNOWN = 1;
 const ACTION_NOWPLAYING = 2;
 const ACTION_SCROBBLED = 3;
 const ACTION_UPDATED = 4;
+const ACTION_DISABLED = 5;
+const ACTION_REENABLED = 6;
 
 /**
  * Default settings & update notification
@@ -137,6 +147,24 @@ function encodeUtf8(s) {
 }
 
 /**
+ * Page action onclick handler. Switches scrobbling off and on
+ * and calls setActionIcon to re-set the icon accordingly
+ */
+function pageActionClicked(tabObj) {  
+   // switch
+   disabled = !disabled;   
+  
+   // set up new icon
+   if (disabled) {
+      reset();
+      setActionIcon(ACTION_DISABLED, tabObj.id);
+   } else {
+      setActionIcon(ACTION_REENABLED, tabObj.id);
+   }   
+}
+
+
+/**
  * Sets up page action icon, including title and popup
  * 'action' is one of the ACTION_ constants
  */
@@ -144,23 +172,32 @@ function setActionIcon(action, tabId) {
    
    var tab = tabId ? tabId : nowPlayingTab;   
    chrome.pageAction.hide(tab);
-   
+      
    switch(action) {
       case ACTION_UNKNOWN:
          chrome.pageAction.setIcon({tabId: tab, path: ICON_UNKNOWN});
          chrome.pageAction.setTitle({tabId: tab, title: 'Song not recognized. Click the icon to correct its title'});
          chrome.pageAction.setPopup({tabId: tab, popup: 'popup.html'});
          break;
-      case ACTION_NOWPLAYING:
+      case ACTION_NOWPLAYING:         
          chrome.pageAction.setIcon({tabId: tab, path: ICON_NOTE});
-         chrome.pageAction.setTitle({tabId: tab, title: 'Now playing: ' + song.artist + ' - ' + song.track});
+         chrome.pageAction.setTitle({tabId: tab, title: 'Now playing: ' + song.artist + ' - ' + song.track + '\nClick to disable scrobbling'});
          chrome.pageAction.setPopup({tabId: tab, popup: ''});
          break;
       case ACTION_SCROBBLED:
          chrome.pageAction.setIcon({tabId: tab, path: ICON_TICK});
-         chrome.pageAction.setTitle({tabId: tab, title: 'Song has been scrobbled'});
+         chrome.pageAction.setTitle({tabId: tab, title: 'Song has been scrobbled\nClick to disable scrobbling'});
+         chrome.pageAction.setPopup({tabId: tab, popup: ''});         
+         break;    
+      case ACTION_DISABLED:     
+         chrome.pageAction.setIcon({tabId: tab, path: ICON_NOTE_DISABLED});
+         chrome.pageAction.setTitle({tabId: tab, title: 'Scrobbling is disabled\nClick to enable'});
          chrome.pageAction.setPopup({tabId: tab, popup: ''});
          break;
+      case ACTION_REENABLED:
+         chrome.pageAction.setIcon({tabId: tab, path: ICON_TICK_DISABLED});
+         chrome.pageAction.setTitle({tabId: tab, title: 'Scrobbling will continue for the next song'});
+         chrome.pageAction.setPopup({tabId: tab, popup: 'dummy.html'});
    }
 
    chrome.pageAction.show(tab);
@@ -310,6 +347,10 @@ function validate(artist, track) {
  */ 
 function nowPlaying() {
    console.log('nowPlaying called for %s - %s', song.artist, song.track);
+   if (disabled) {
+      console.log('scrobbling disabled; exitting nowPlaying');
+      return;
+   }
 
    // if the token/session is not authorized, wait for a while
    var sessionID = getSessionID();
@@ -444,6 +485,12 @@ chrome.extension.onRequest.addListener(
 
                   // remember the caller
                   nowPlayingTab = sender.tab.id;
+                  
+                  // scrobbling disabled?
+                  if (disabled) {
+                     setActionIcon(ACTION_DISABLED, nowPlayingTab);
+                     break;
+                  }
 
                   // data missing, save only startTime and show the unknown icon
                   if (typeof(request.artist) == 'undefined' || typeof(request.track) == 'undefined') {
