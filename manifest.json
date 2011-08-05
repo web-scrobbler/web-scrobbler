@@ -28,6 +28,11 @@
          "js": [ "napster.js" ]
       },
       */
+	  /* newly added */
+	  {
+         "matches": ["*://www.ttnetmuzik.com.tr/*"],
+         "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "ttnet.js"]
+      }
       {
          "matches": ["<all_urls>"],
          "js": ["dummy.js"]
