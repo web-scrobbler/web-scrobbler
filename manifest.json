@@ -50,7 +50,15 @@
       {
          "matches": ["*://music.google.com/*"],
          "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "googlemusic.js"]
-      }
+      },
+	  /*{
+		 "matches": ["*://www.myspace.com/music/player*"],
+         "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "myspace.js"]
+	  },*/
+	  {
+		 "matches": ["*://www.fftunes.com/*"],
+         "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "fftunes.js"]
+	  }
    ]
 
 }
