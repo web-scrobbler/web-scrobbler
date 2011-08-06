@@ -7,7 +7,6 @@ var player = "#info";
 var durationDiv = "#timeDuration";
 var playingState = "#playingNow";
 var state = "init";
-alert("fftunes on work");
 
 $(function(){
 	$(durationDiv).bind('DOMSubtreeModified',function(e){
@@ -24,8 +23,18 @@ $(function(){
 				state = "done";
 			}
 		}
+		//when the next song started automatically
+		else if(state == 'done'){
+			var durDiv = $(durationDiv).text();
+			var separator = durDiv.indexOf("/");
+			var duration = durDiv.substring(separator+2);
+			if(duration == '00:00'){
+				state = 'init';
+			}
+		}
 		
 	});
+	//new song started by force
 	$(playingState).bind('DOMSubtreeModified',function(e){
 		if(state == 'done'){
 			state='init';
@@ -45,7 +54,6 @@ function process(title,time){
 			chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
 			}
 		});
-//		alert(artist + " - " + track + " - " + duration);
 	}
 }
 
