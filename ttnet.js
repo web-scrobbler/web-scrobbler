@@ -1,7 +1,7 @@
-
 /*
  *
  * Chrome-Last.fm-Scrobbler TTnetMuzik.com.tr Connector by Yasin Okumus
+ * http://www.yasinokumus.com
  * v0.2
  * - Long song names problem fixed
  * - "-" char in the song names problem fixed
