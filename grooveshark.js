@@ -24,6 +24,15 @@ $(function(){
 			
 		}
 	});
+	
+	// bind page unload function to discard current "now listening"
+   $(window).unload(function() {      
+      
+      // reset the background scrobbler song data
+      chrome.extension.sendRequest({type: 'reset'});
+      
+      return true;      
+   });
 });
 
 function updateNowPlaying(songInfo){

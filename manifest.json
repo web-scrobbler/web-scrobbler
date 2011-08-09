@@ -1,6 +1,6 @@
 {
    "name": "Last.fm Scrobbler",
-   "version": "1.1",
+   "version": "1.2",
    
    "description": "Scrobble music videos all around the web!",  
    "icons": {
@@ -51,10 +51,10 @@
          "matches": ["*://music.google.com/*"],
          "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "googlemusic.js"]
       },
-	  /*{
+	  {
 		 "matches": ["*://www.myspace.com/music/player*"],
          "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "myspace.js"]
-	  },*/
+	  },
 	  {
 		 "matches": ["*://www.fftunes.com/*"],
          "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "fftunes.js"]
