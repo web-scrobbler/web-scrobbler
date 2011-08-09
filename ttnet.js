@@ -1,8 +1,11 @@
-
 /*
  *
  * Chrome-Last.fm-Scrobbler TTnetMuzik.com.tr Connector by Yasin Okumus
- *
+ * http://www.yasinokumus.com
+ * v0.2
+ * - Long song names problem fixed
+ * - "-" char in the song names problem fixed
+ * - "(Album Version)" in the song names will not scrobbling
  */
  
 // track and artist will be stored
@@ -26,10 +29,14 @@ $(function(){
 		
 		// track starting here
 		else if(songHtml.indexOf("playingSongTitle") > -1 && state != 'playing'){
-			var title = $("div.playingSongTitle").text();
+			var title = $("div.playingSongTitle").attr("title"); 
+			separation = title.lastIndexOf(' - ');
+			var aTrack = title.substring(0, separation);
+			var anArtist = title.substring(separation + 3);
 			
-			track = title.substring(0, title.indexOf(' - '));
-			artist = title.substring(title.indexOf(' - ') + 3);
+			parsed = cleanArtistTrack(anArtist,aTrack);
+			artist = parsed['artist'];
+			track = parsed['track'];
 			
 			state = 'playing';
 			
@@ -41,7 +48,32 @@ $(function(){
 			
 		}	
 	});
+	
+	   // bind page unload function to discard current "now listening"
+   $(window).unload(function() {      
+      
+      // reset the background scrobbler song data
+      chrome.extension.sendRequest({type: 'reset'});
+      
+      return true;      
+   });
 });
+
+function cleanArtistTrack(artist, track) {
+
+   // Do some cleanup
+   artist = artist.replace(/^\s+|\s+$/g,'');
+   track = track.replace(/^\s+|\s+$/g,'');
+
+   // Strip crap
+
+   track = track.replace(/\s*(Explicit Album Version)/i, ''); // (Explicit Album Version)
+   track = track.replace(/\s*(Album Version)/i, ''); // (Album Version)
+   track = track.replace(/\s*(Explicit Version)/i, ''); // (Explicit Version)
+   track = track.replace(/\(\s*\)/, ''); // Leftovers after e.g. (official video)
+
+   return {artist: artist, track: track};
+}
 
 function getDuration(){
 		var durationDiv = $("div.time strong").text();

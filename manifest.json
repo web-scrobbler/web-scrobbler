@@ -11,10 +11,10 @@
    "options_page": "options.html",
    
    "permissions": [
-      "tabs",
-      "notifications",
-      "http://ws.audioscrobbler.com/2.0/",
-      "http://gdata.youtube.com/feeds/api/videos/"
+   "tabs",
+   "notifications",
+   "http://ws.audioscrobbler.com/2.0/",
+   "http://gdata.youtube.com/feeds/api/videos/"
    ],
    
    "page_action": {
@@ -22,34 +22,50 @@
    },
 
    "content_scripts": [
-      /* Deactivated; needs to be ported to the 1.0 core
-      {
-         "matches": [ "http://music.napster.com/*", "https://music.napster.com/*" ],
-         "js": [ "napster.js" ]
-      },
-      */      
-      {
-         "matches": ["<all_urls>"],
-         "js": ["dummy.js"]
-      },
-      {
-         "matches": ["*://www.ttnetmuzik.com.tr/*"],
-         "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "ttnet.js"]
-      },
-      {
-         "matches": ["*://www.youtube.com/watch*", "*://www.youtube.com/user/*"],
-         "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "youtube.js"],
-         "css": ["youtube.css"],
-         "run_at" : "document_start"
-      },
-      {
-         "matches": ["http://www.thesixtyone.com/*"],
-         "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "61.js"]
-      },
-      {
-         "matches": ["*://music.google.com/*"],
-         "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "googlemusic.js"]
-      }
+   /* Deactivated; needs to be ported to the 1.0 core
+   {
+      "matches": [ "http://music.napster.com/*", "https://music.napster.com/*" ],
+      "js": [ "napster.js" ]
+   },
+   */      
+   {
+      "matches": ["<all_urls>"],
+      "js": ["dummy.js"]
+   },
+   {
+      "matches": ["*://grooveshark.com/*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "grooveshark.js"]
+   },
+   {
+      "matches": ["*://www.ttnetmuzik.com.tr/*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "ttnet.js"]
+   },
+   {
+      "matches": ["*://www.youtube.com/watch*", "*://www.youtube.com/user/*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "youtube.js"],
+      "css": ["youtube.css"],
+      "run_at" : "document_start"
+   },
+   {
+      "matches": ["*://www.thesixtyone.com/*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "61.js"]
+   },
+   {
+      "matches": ["*://music.google.com/*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "googlemusic.js"]
+   },
+   {
+      "matches": ["*://www.myspace.com/music/player*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "myspace.js"]
+   },
+   {
+      "matches": ["*://www.fftunes.com/*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "fftunes.js"]
+   },
+   {
+      "matches": ["*://fizy.com/*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "fizy.js"]
+   }
    ]
 
 }
