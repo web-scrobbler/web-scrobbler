@@ -12,6 +12,12 @@ $(function(){
 	$(player).bind('DOMSubtreeModified', function(e){
 		process();
 	});
+	
+	$(window).unload(function() {      
+		// reset the background scrobbler song data
+		chrome.extension.sendRequest({type: 'reset'});
+		return true;      
+	});
 });
 
 function process(){
