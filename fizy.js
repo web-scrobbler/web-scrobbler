@@ -1,71 +1,33 @@
 /*
- * Chrome-Last.fm-Scrobbler FFTunes.com Connector by Yasin Okumus
+ * Chrome-Last.fm-Scrobbler fizy.com Connector by Yasin Okumus
  * http://www.yasinokumus.com
  */
-
-var player = "#info";
-var durationDiv = "#timeDuration";
-var playingState = "#playingNow";
-var state = "init";
+ 
+var player = "#playingSong";
 
 $(function(){
-	$(durationDiv).bind('DOMSubtreeModified',function(e){
-		if(state=="init"){
-			var playing = $(player).text();
-			
-			var durDiv = $(durationDiv).text();
-			var separator = durDiv.indexOf("/");
-			var duration = durDiv.substring(separator+2);
-			
-			if(playing != '' && duration != '' && duration != '00:00'){
-				process(playing,duration);
-				
-				state = "done";
-			}
-		}
-		//when the next song started automatically
-		else if(state == 'done'){
-			var durDiv = $(durationDiv).text();
-			var separator = durDiv.indexOf("/");
-			var duration = durDiv.substring(separator+2);
-			if(duration == '00:00'){
-				state = 'init';
-			}
-		}
-		
-	});
-	//new song started by force
-	$(playingState).bind('DOMSubtreeModified',function(e){
-		if(state == 'done'){
-			state='init';
-		}
-	});
-	
-	// bind page unload function to discard current "now listening"
-	$(window).unload(function() {      
-      
-      // reset the background scrobbler song data
-      chrome.extension.sendRequest({type: 'reset'});
-      
-      return true;      
+	//if opened by song
+	process();
+
+	$(player).bind('DOMSubtreeModified', function(e){
+		process();
 	});
 });
 
-function process(title,time){
-	var parsedTitle = parseTitle(title);
-	
-	if(parsedTitle){
-		var artist = parsedTitle['artist'];
-		var track = parsedTitle['track'];
-		var duration = parseDuration(time); 
-		chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
-			if (response != false){
-			chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
-			}
-		});
-	}
+function process(){
+		var title = $(player).text().substring(11);
+		var info = parseTitle(title);
+		var artist = info['artist'];
+		var track = info['track'];
+		if(track != undefined && artist != undefined){
+			chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
+				if (response != false){
+					var duration = (response['duration']/1000);
+					chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
+				}
+			});
+		}
 }
-
 function parseTitle(artistTitle){
    var artist = '';
    var track = '';
@@ -110,14 +72,4 @@ function cleanArtistTrack(artist, track) {
    track = track.replace(/[\/\s,:;~-]+$/, ''); // trim trailing white chars and dash
 
    return {artist: artist, track: track};
-}
-
-function parseDuration(match){
-	try{
-		mins    = match.substring(0, match.indexOf(':'));
-		seconds = match.substring(match.indexOf(':')+1);
-		return parseInt(mins*60) + parseInt(seconds);
-	}catch(err){
-		return 0;
-	}
 }
