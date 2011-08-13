@@ -18,7 +18,8 @@ function debug(text) {
 function songInfo() {
   return "A: " + localStorage.napster_artist
     + ";T: " + localStorage.napster_track
-    + ";B: " + localStorage.napster_album;
+    + ";B: " + localStorage.napster_album
+    + ";D: "+ localStorage.napster_duration;
 }
 
 function cleanTag(text) {
@@ -27,26 +28,26 @@ function cleanTag(text) {
   return t;
 }
 
+function getSecondsFromTime(id)
+{
+   var time_elem = document.getElementById(id);
+   if (time_elem == null) return -1;
+
+   var segments = /(\d+):(\d+)/(time_elem.textContent);
+   return segments == null ? -1 : Number(segments[1])*60 + Number(segments[2])
+}
+
 function getNapsterPlayerInfo() {
-  // Get artist and song names
-  var pb = document.getElementById('progressbar');
-  var artist = pb.getElementsByClassName('artistName')[0].firstChild.text;
-  var track = pb.getElementsByClassName('songName')[0].firstChild.nodeValue;
-  // Get album name
-  var pah = document.getElementById('playerAlbumHover');
-  var album = pah.getElementsByClassName('albumArt')[0].getAttribute('title');
+  
+  // Get artist, album, track (using the @title attribute to grab the sanitized text values)
+  var artist = document.getElementById('nx_artist_name').title;
+  var album = document.getElementById('nx_album_name').title;
+  var track = document.getElementById('nx_song_name').title;
 
   // Calculate play time
-  var t = pb.getElementsByClassName('timeShow')[0].firstChild.nodeValue;
-  var time, duration;
-  var tt = /(..):(..) \/ (..):(..)/(t);
-  if (tt != null) {
-    time = Number(tt[1]*60) + Number(tt[2])
-    duration = Number(tt[3]*60) + Number(tt[4])
-  } else {
-    time = duration = -1;
-  }
-
+  var time = getSecondsFromTime('nx_time_played');
+  var duration = getSecondsFromTime('nx_song_duration');
+  
   if (time >= 0  && artist != '' && track != '') {
     if (artist != localStorage.napster_artist || track != localStorage.napster_track
         || album != localStorage.napster_album || duration != localStorage.napster_duration
@@ -61,7 +62,7 @@ function getNapsterPlayerInfo() {
       localStorage.napster_track = track;
       localStorage.napster_duration = duration;
 
-      console.log('Detected new song (' + localStorage.napster_seenNew + '): ' + songInfo() + ' | T: ' + t);
+      console.log('Detected new song (' + localStorage.napster_seenNew + '): ' + songInfo());
     }
 
     // Update play time
@@ -70,13 +71,9 @@ function getNapsterPlayerInfo() {
 }
 
 function shouldSubmit() {
-  if (localStorage.napster_submitted == N_FALSE &&
+  return localStorage.napster_submitted == N_FALSE &&
       localStorage.napster_time > 30 &&
-      localStorage.napster_time > Math.min(240, localStorage.napster_duration / 2)) {
-    return true;
-  } else {
-    return false;
-  }
+      localStorage.napster_time > Math.min(240, localStorage.napster_duration / 2);
 }
 
 function initStorage() {
@@ -89,12 +86,11 @@ function initStorage() {
     localStorage.napster_flaggedNew = N_FALSE;
     localStorage.napster_seenNew = mytime();
     localStorage.napster_submitted = N_FALSE;
-    notify('Initialized');
+    //notify('Initialized');
   }
 }
 
 function init() {
-
   debug('Initialized');
   initStorage();
 

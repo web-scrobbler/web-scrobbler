@@ -22,12 +22,10 @@
    },
 
    "content_scripts": [
-   /* Deactivated; needs to be ported to the 1.0 core
    {
       "matches": [ "http://music.napster.com/*", "https://music.napster.com/*" ],
       "js": [ "napster.js" ]
    },
-   */      
    {
       "matches": ["<all_urls>"],
       "js": ["dummy.js"]
