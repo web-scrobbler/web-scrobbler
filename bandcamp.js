@@ -15,7 +15,7 @@ var durationRegex = /(\d+):(\d+)\/(\d+):(\d+)/;
 function parseDuration(match){
 	try{
 		var m = durationRegex.exec(match);
-		return {current: parseInt(m[1])*60 + parseInt(m[2]), total: parseInt(m[3])*60 + parseInt(m[4])};
+		return {current: parseInt(m[1],10)*60 + parseInt(m[2],10), total: parseInt(m[3],10)*60 + parseInt(m[4],10)};
 	}catch(err){
 		return 0;
 	}
@@ -67,6 +67,8 @@ console.log('BandCampScrobbler: loaded');
 $(durationPart).bind('DOMSubtreeModified',function(e){
 	var duration = parseDuration($(durationPart).text());
 	
+	console.log('duration - ' + duration.current + ' / ' + duration.total);
+
 	if(duration.current > 0) { // it's playing
 
 		var artist = parseArtist();
