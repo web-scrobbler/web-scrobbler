@@ -67,7 +67,7 @@ console.log('BandCampScrobbler: loaded');
 $(durationPart).bind('DOMSubtreeModified',function(e){
 	var duration = parseDuration($(durationPart).text());
 	
-	console.log('duration - ' + duration.current + ' / ' + duration.total);
+	//console.log('duration - ' + duration.current + ' / ' + duration.total);
 
 	if(duration.current > 0) { // it's playing
 
