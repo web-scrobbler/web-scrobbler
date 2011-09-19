@@ -65,7 +65,11 @@
    {
       "matches": ["*://fizy.com/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "fizy.js"]
+   },
+   {
+      "matches": ["*://*.bandcamp.com/*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "bandcamp.js"],
+      "run_at": "document_idle"
    }
    ]
-
 }
