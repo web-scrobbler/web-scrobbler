@@ -3,20 +3,19 @@
  *                (loosely based on Yasin Okumus's MySpace connector)
  * v0.1
  */
+ var lastTrack = null;
  
-var prevTrack = null;
-
 $(function(){
 	// bind page unload function to discard current "now listening"
 	cancel();
 });
 
 var durationPart = ".track_info .time";
-var durationRegex = /(\d+):(\d+)/;
+var durationRegex = /(\d+):(\d+)\/(\d+):(\d+)/;
 function parseDuration(match){
 	try{
 		var m = durationRegex.exec(match);
-		return parseInt(m[1]*60) + parseInt(m[2]);
+		return {current: parseInt(m[1])*60 + parseInt(m[2]), total: parseInt(m[3])*60 + parseInt(m[4])};
 	}catch(err){
 		return 0;
 	}
@@ -63,12 +62,16 @@ function cancel(){
 	});
 }
 
-console.log('BandCampScrobbler: ' + 'loaded');
+console.log('BandCampScrobbler: loaded');
 
 $(durationPart).bind('DOMSubtreeModified',function(e){
 	var duration = parseDuration($(durationPart).text());
 	
-	if(duration > 90){
+	if (duration.current == 0)
+	{
+		cancel();
+	}
+	else if(duration.current > 0) { // it's playing
 
 		var artist = parseArtist();
 		var track = parseTitle();
@@ -83,17 +86,20 @@ $(durationPart).bind('DOMSubtreeModified',function(e){
 		artist = $.trim(artist);
 		track = $.trim(track);
 
-		//ensure this is a new scrobble
-		if (track != prevTrack)
+		if (lastTrack != track)
 		{
-			prevTrack = track;
+			lastTrack = track;
 
-			console.log("BandCampScrobbler: scrobbling '" + track + "' by " + artist);
+			//console.log("BandCampScrobbler: scrobbling '" + track + "' by " + artist);
 			chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
 				if (response != false){
-					chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
+					chrome.extension.sendRequest({type: 'nowPlaying', artist: response.artist, track: response.track, duration: duration.total});
+				}
+				else
+				{
+					chrome.extension.sendRequest({type: 'nowPlaying', duration: duration.total});	
 				}
 			});
-		}	
+		}
 	}
 });
