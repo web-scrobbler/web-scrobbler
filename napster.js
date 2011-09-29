@@ -111,9 +111,12 @@ function init() {
       for(var i=0;i<=1;i++)
       {
          var trackImage = document.getElementById('nx_large_image_' + i);
-         if(trackImage != null && trackImage.src)
+
+         // the ordering of the images seems to be inconsistent; find the image with the same album name
+         if(trackImage && trackImage.src && trackImage.title == localStorage.napster_album)
          {
             artWork = trackImage.src;
+            break;
          }
       }
 
