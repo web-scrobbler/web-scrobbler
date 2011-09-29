@@ -208,7 +208,7 @@ function setActionIcon(action, tabId) {
  * Shows (or not) the notification, based on user settings
  * Use 'force' to override settings and always show the notification (e.g. for errors)
  */
-function scrobblerNotification(text, force) {
+function scrobblerNotification(text, force, song) {
    if (localStorage.useNotifications != 1 && !force)
       return;
 
@@ -224,7 +224,7 @@ function scrobblerNotification(text, force) {
    }
 
    var notification = webkitNotifications.createNotification(
-      'icon128.png',
+      song.image ? song.image : 'icon128.png',
       title,
       body
    );
@@ -386,7 +386,7 @@ function nowPlaying() {
          // Confirm the content_script, that the song is "now playing"
          chrome.tabs.sendRequest(nowPlayingTab, {type: "nowPlayingOK"});
          // Show notification
-         scrobblerNotification(notifText);
+         scrobblerNotification(notifText, null, song);
          // Update page action icon
          setActionIcon(ACTION_NOWPLAYING);
    } else {
@@ -437,7 +437,7 @@ function submit() {
       var notifText =  'Scrobbled' + NOTIFICATION_SEPARATOR + song.artist + " - " + song.track;
       
       // notification
-      scrobblerNotification(notifText);
+      scrobblerNotification(notifText, null, song);
 
       // Update page action icon
       setActionIcon(ACTION_SCROBBLED);
@@ -470,7 +470,8 @@ function submit() {
  * validate(artist, track) - validate artist-track pair against last.fm and return false or the valid song     
  */  
 chrome.extension.onRequest.addListener(
-	function(request, sender, sendResponse) {            
+
+	function(request, sender, sendResponse) {
          switch(request.type) {
                
             // Called when a new song has started playing. If the artist/track is filled,
@@ -516,6 +517,7 @@ chrome.extension.onRequest.addListener(
                      song = {
                         artist : request.artist,
                         track : request.track,
+                        image: request.image,
                         /* album : request.album, */
                         duration : request.duration,
                         startTime : parseInt(new Date().getTime() / 1000.0) // in seconds
@@ -583,9 +585,11 @@ chrome.extension.onRequest.addListener(
                   sendResponse( res );                  
                   break;
 		
+        case "napsterModuleEnabled":
+            sendResponse({enabled: localStorage['useNapsterModule'] == 1});
          
-            default:
-                  console.log('Unknown request: %s', $.dump(request));
+        default:
+            console.log('Unknown request: %s', $.dump(request));
          }
 	}
 );

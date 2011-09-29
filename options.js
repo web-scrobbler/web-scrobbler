@@ -16,8 +16,14 @@ $(function(){
       localStorage['useYTInpage'] = this.checked ? 1 : 0;
    });
 
+   $('#use-napster-module').click(function () {
+       localStorage['useNapsterModule'] = this.checked ? 1 : 0;
+   });
+
    // preload options
    $('#use-notifications').attr('checked', (localStorage['useNotifications'] == 1));   
-   $('#use-autocorrect').attr('checked', (localStorage['useAutocorrect'] == 1));   
-   $('#use-youtube-inpage').attr('checked', (localStorage['useYTInpage'] == 1));      
+   $('#use-autocorrect').attr('checked', (localStorage['useAutocorrect'] == 1));
+   $('#use-youtube-inpage').attr('checked', (localStorage['useYTInpage'] == 1));
+   $('#use-napster-module').attr('checked', (localStorage['useNapsterModule'] == 1));
+         
 });
