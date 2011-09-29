@@ -224,7 +224,7 @@ function scrobblerNotification(text, force, song) {
    }
 
    var notification = webkitNotifications.createNotification(
-      song.image ? song.image : 'icon128.png',
+      song && song.image ? song.image : 'icon128.png',
       title,
       body
    );
