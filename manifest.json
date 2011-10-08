@@ -65,6 +65,11 @@
    {
       "matches": ["*://fizy.com/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "fizy.js"]
+   },
+   {
+      "matches": ["http://ghostly.com/discovery/play"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "ghostly.js"],
+	  "css": ["ghostly.css"]
    }
    ]
 
