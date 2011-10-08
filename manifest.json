@@ -70,7 +70,11 @@
       "matches": ["http://ghostly.com/discovery/play"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "ghostly.js"],
 	  "css": ["ghostly.css"]
+   },
+   {
+      "matches": ["*://*.bandcamp.com/*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "bandcamp.js"],
+      "run_at": "document_idle"
    }
    ]
-
 }
