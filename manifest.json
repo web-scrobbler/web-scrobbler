@@ -1,6 +1,6 @@
 {
    "name": "Last.fm Scrobbler",
-   "version": "1.4",
+   "version": "1.5",
    
    "description": "Scrobble music videos all around the web!",  
    "icons": {
@@ -32,10 +32,12 @@
       "matches": ["<all_urls>"],
       "js": ["dummy.js"]
    },
+   /*
    {
       "matches": ["*://grooveshark.com/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "grooveshark.js"]
    },
+   */
    {
       "matches": ["*://www.ttnetmuzik.com.tr/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "ttnet.js"]

@@ -35,6 +35,10 @@ $(function(){
  */ 
 function updateNowPlaying(){
     var parsedInfo = parseInfo();
+    
+    if (parsedInfo == null)
+       return;
+    
     artist   = parsedInfo['artist']; 	//global
     track    = parsedInfo['track'];	//global
     duration = parsedInfo['duration']; 	//global
