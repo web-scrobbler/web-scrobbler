@@ -75,6 +75,11 @@
       "matches": ["*://*.bandcamp.com/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "bandcamp.js"],
       "run_at": "document_idle"
+   },
+   {
+      "matches": ["*://plus.google.com/*youtube/player"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "google+.js"],
+      "run_at": "document_idle"
    }
    ]
 }
