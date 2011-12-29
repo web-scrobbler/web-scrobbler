@@ -11,7 +11,7 @@ $(function(){
 });
 
 var durationPart = ".track_info .time";
-var durationRegex = /(\d+):(\d+)\/(\d+):(\d+)/;
+var durationRegex = /[ \n]*(\d+):(\d+)[ \n]*\/[ \n]*(\d+):(\d+)[ \n]*/;
 function parseDuration(match){
 	try{
 		var m = durationRegex.exec(match);
