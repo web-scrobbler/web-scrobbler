@@ -21,11 +21,6 @@ function LFM_TRACK_ARTIST() {
 	return $("a.playerBarArtist").html();
 }
 
-// function that returns album of current song (not used)
-function LFM_TRACK_ALBUM() {
-	return $("a.playerBarAlbum").html();
-}
-
 // function that returns duration of current song in seconds
 // called at begining of song
 function LFM_TRACK_DURATION() {
@@ -42,7 +37,6 @@ function LFM_updateNowPlaying(){
 	// Acquire data from page
 	title = LFM_TRACK_TITLE();
 	artist = LFM_TRACK_ARTIST();
-	album = LFM_TRACK_ALBUM();
 	duration = LFM_TRACK_DURATION();
 	newTrack = title + " " + artist;
 	// Update scrobbler if necessary
