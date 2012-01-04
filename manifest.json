@@ -2,7 +2,7 @@
    "name": "Last.fm Scrobbler",
    "version": "1.5",
    
-   "description": "Scrobble music videos all around the web!",  
+   "description": "Scrobble music all around the web!",  
    "icons": {
       "128": "icon128.png"
    },
@@ -82,6 +82,11 @@
       "matches": ["*://plus.google.com/*youtube/player"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "google+.js"],
       "run_at": "document_idle"
+   },
+   {
+      "matches": ["*://www.pandora.com/*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "pandora.js"],
+      "run_at" : "document_start"
    }
    ]
 }
