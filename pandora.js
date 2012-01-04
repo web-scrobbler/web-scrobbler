@@ -70,5 +70,10 @@ $(function(){
 		}
 	});
 
+	$(window).unload(function() {      
+		chrome.extension.sendRequest({type: 'reset'});
+		return true;      
+	});
+
 	LFM_updateNowPlaying();
 });
