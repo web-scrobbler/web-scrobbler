@@ -216,7 +216,8 @@ function updateNowPlaying() {
    
    // something changed?
    if (!videoID) {
-      alert('YouTube has probably changed its code. Please get newer version of the Last.fm Scrobbler extension');
+      console.log('If there is a YouTube player on this page, it has not been recognized. Please fill in an issue at GitHub');
+      //alert('YouTube has probably changed its code. Please get newer version of the Last.fm Scrobbler extension');
       return;
    }   
 
