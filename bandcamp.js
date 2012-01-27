@@ -32,8 +32,13 @@ function parseArtist()
 	{
 		byLine = $(".albumTitle nobr").text();
 	}
-
-	return $.trim($.trim(byLine).substring(2));
+	
+	var artist = $.trim($.trim(byLine).substring(2));
+	if(!artist) {
+		artist = $('span[itemprop=byArtist]').text();
+	}
+	
+	return artist;
 }
 
 
