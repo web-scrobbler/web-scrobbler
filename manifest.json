@@ -1,6 +1,6 @@
 {
    "name": "Last.fm Scrobbler",
-   "version": "1.6",
+   "version": "1.7",
    
    "description": "Scrobble music all around the web!",  
    "icons": {
@@ -21,13 +21,7 @@
       "chromeBroken": "remove this line after issue #86449 is resolved"
    },
 
-   "content_scripts": [
-   /* Deactivated; needs to be ported to the 1.0 core
-   {
-      "matches": [ "http://music.napster.com/*", "https://music.napster.com/*" ],
-      "js": [ "napster.js" ]
-   },
-   */      
+   "content_scripts": [     
    {
       "matches": ["<all_urls>"],
       "js": ["dummy.js"]
