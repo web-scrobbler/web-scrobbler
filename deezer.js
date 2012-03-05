@@ -2,7 +2,7 @@
  * Chrome-Last.fm-Scrobbler Deezer.com Connector by @damienalexandre
  *
  * The difficulty here is that the song duration can appear a long time after the
- * song start playing.
+ * song starts playing.
  * We use the title change to know when a song is played.
  */
 
@@ -10,21 +10,29 @@ var currentDeezerTimeout = null;
 
 $(document).ready(function() {
 
-    sendTrack(); // We maybe have a song playing right away.
+    sendTrack(); // We maybe have a song playing right away. There is no retry if this call fails.
 
-    $("title").bind('DOMSubtreeModified', function(e) {
+    $("title").bind('DOMSubtreeModified', function()
+    {
+        if (currentDeezerTimeout) // Handle song fast zapping
+        {
+            window.clearTimeout(currentDeezerTimeout);
+        }
 
-        console.log("Dom changed detected");
-        console.log(e);
-        currentDeezerTimeout = window.setTimeout(sendTrack, 1000); // As the duration may be not available. And song can be zapped fast.
+        currentDeezerTimeout = window.setTimeout(sendTrack, 1000); // As the duration may be not available.
     });
 
-    $(window).unload(function() {
+    $(window).unload(function()
+    {
         cancel();
         return true;
     });
 });
 
+/**
+ * Handle the chrome.extension
+ * and can retry itself too.
+ */
 function sendTrack()
 {
     if (currentDeezerTimeout)
@@ -36,9 +44,8 @@ function sendTrack()
 
     if (deezerSong && deezerSong.duration > 0)
     {
-        chrome.extension.sendRequest({type: 'validate', artist: deezerSong.artist, track: deezerSong.track}, function(response) {
-
-            console.log('responses from extension');
+        chrome.extension.sendRequest({type: 'validate', artist: deezerSong.artist, track: deezerSong.track}, function(response)
+        {
             if (response != false)
             {
                 var song = response; // contains valid artist/track now
@@ -59,7 +66,10 @@ function sendTrack()
     }
 }
 
-
+/**
+ * Try to get the song infos (track, artist, duration)
+ * @return object|boolean
+ */
 function getCurrentTrack()
 {
     if ($('#h_play').is(":hidden")) { // Play button hidden, the song is playing
@@ -73,6 +83,9 @@ function getCurrentTrack()
     return false;
 }
 
+/**
+ * Binded on the unload
+ */
 function cancel()
 {
     // reset the background scrobbler song data
@@ -80,22 +93,21 @@ function cancel()
 }
 
 /**
- * From 61.js
- *
  * Maybe this kind of common method should be in the Core
  *
- * @param durationString
+ * @param durationString Like "13;37".
+ * @return int The duration string translated to seconds
  */
-function parseDuration(durationString){
-
-    console.log(durationString);
-	try {
+function parseDuration(durationString)
+{
+    try
+    {
 		var match = durationString.match(/\d+:\d+/g);
 
         if (match)
         {
-            mins    = match[0].substring(0, match[0].indexOf(':'));
-            seconds = match[0].substring(match[0].indexOf(':')+1);
+            var mins    = match[0].substring(0, match[0].indexOf(':'));
+            var seconds = match[0].substring(match[0].indexOf(':')+1);
             return parseInt(mins*60, 10) + parseInt(seconds, 10);
         }
         else
