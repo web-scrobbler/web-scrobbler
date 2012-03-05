@@ -121,7 +121,6 @@ function parseDuration(durationString)
     }
     catch(err)
     {
-        throw err;
         return 0;
     }
 }
