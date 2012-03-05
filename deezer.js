@@ -1,9 +1,13 @@
 /**
  * Chrome-Last.fm-Scrobbler Deezer.com Connector by @damienalexandre
  *
+ * v1.0, 5 march 2012
+ *
  * The difficulty here is that the song duration can appear a long time after the
  * song starts playing.
  * We use the title change to know when a song is played.
+ *
+ * @todo Handle the song "pause"? (do we have to cancel the scrobble?)
  */
 
 var currentDeezerTimeout = null;
