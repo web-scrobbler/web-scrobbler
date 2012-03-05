@@ -106,7 +106,7 @@ function parseDuration(durationString)
 {
     try
     {
-		var match = durationString.match(/\d+:\d+/g);
+        var match = durationString.match(/\d+:\d+/g);
 
         if (match)
         {
@@ -118,10 +118,10 @@ function parseDuration(durationString)
         {
             return 0;
         }
-	}
+    }
     catch(err)
     {
         throw err;
-		return 0;
-	}
+        return 0;
+    }
 }
