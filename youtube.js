@@ -1,27 +1,20 @@
-/**
- * TODOs
- *
- * - get rid of preloaded options and use getOption to query the background script (blocked by bug 54257)
- *
- */
-
-
 // State for event handlers
 var state = 'init';
 
 // Used only to remember last song title
 var clipTitle = '';  
 
-// Preload options from the background script; hope that the call will be faster than DOM loading
+// Options
 var options = {};
-chrome.extension.sendRequest({type: 'getOptions'}, function(response) {
-   options = response.value;
+
+$(document).ready(function() {
+    chrome.extension.sendRequest({type: 'getOptions'}, function(response) {
+       options = response.value;
+       init();
+    });
 });
 
-
-
-$(function(){
-
+function init() {
    // bindings to trigger song recognition on various (classic, profile) pages
    if (document.location.toString().indexOf('/watch#!v=') > -1) {
       // === AJAX page load =======================================================        
@@ -110,8 +103,7 @@ $(function(){
       
       return true;      
    });
-
-});
+}
 
 
 
