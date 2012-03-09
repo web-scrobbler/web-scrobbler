@@ -33,8 +33,7 @@
    {
       "matches": ["*://www.youtube.com/watch*", "*://www.youtube.com/user/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "youtube.js"],
-      "css": ["youtube.css"],
-      "run_at" : "document_start"
+      "css": ["youtube.css"]
    },
    {
       "matches": ["*://www.thesixtyone.com/*"],
