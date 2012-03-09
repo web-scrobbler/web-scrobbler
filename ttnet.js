@@ -70,6 +70,7 @@ function cleanArtistTrack(artist, track) {
    track = track.replace(/\s*(Explicit Album Version)/i, ''); // (Explicit Album Version)
    track = track.replace(/\s*(Album Version)/i, ''); // (Album Version)
    track = track.replace(/\s*(Explicit Version)/i, ''); // (Explicit Version)
+   track = track.replace(/\s*[Explicit]/i, ''); // [Explicit]
    track = track.replace(/\(\s*\)/, ''); // Leftovers after e.g. (official video)
 
    return {artist: artist, track: track};
