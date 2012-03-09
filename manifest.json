@@ -1,27 +1,27 @@
 {
    "name": "Last.fm Scrobbler",
    "version": "1.7",
-   
-   "description": "Scrobble music all around the web!",  
+
+   "description": "Scrobble music all around the web!",
    "icons": {
       "128": "icon128.png"
    },
-   
+
    "background_page": "background.html",
    "options_page": "options.html",
-   
+
    "permissions": [
    "tabs",
    "notifications",
    "http://ws.audioscrobbler.com/2.0/",
    "http://gdata.youtube.com/feeds/api/videos/"
    ],
-   
+
    "page_action": {
       "chromeBroken": "remove this line after issue #86449 is resolved"
    },
 
-   "content_scripts": [     
+   "content_scripts": [
    {
       "matches": ["<all_urls>"],
       "js": ["dummy.js"]
@@ -75,6 +75,10 @@
       "matches": ["*://www.pandora.com/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "pandora.js"],
       "run_at" : "document_start"
+   },
+   {
+      "matches": ["*://www.deezer.com/*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "deezer.js"]
    }
    ]
 }
