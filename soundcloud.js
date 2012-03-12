@@ -8,7 +8,9 @@ $(function() {
 	var current; 
 
 	var track = function(context) {
-		return $('.info-header h3 a', context).get(0).text;
+		return ($(context).hasClass('set') && 
+		        $('li.playing .info a', context).get(0).text) ||
+		       $('.info-header h3 a', context).get(0).text;
 	};
 	var artist = function(context) {
 		return $('.info-header a.user-name', context).get(0).text;
@@ -39,8 +41,9 @@ $(function() {
 			return;
 
 		lastElement = element;
-		current = $(element).closest('div.player');
-		update(song(current));
+		current = $(element).closest('li.set').get(0) || $(element).closest('div.player').get(0);
+		if (current)
+		    update(song(current));
 	};
 
 	// Prevent multiple update firings.
@@ -66,11 +69,11 @@ $(function() {
 	};
 
 	var timespan;
-	$('.timecodes .editable').bind('DOMSubtreeModified', function() {
+	$('.timecodes .editable').live('DOMSubtreeModified', function() {
 		if (timespan == this)
 			return;
 		var text = $(this).text();
-		if (text === '0.00')
+		if (text === '0.01')
 			checkPlaying(timespan = this);
 	});
 
