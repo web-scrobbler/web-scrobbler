@@ -78,6 +78,10 @@
    {
       "matches": ["*://www.deezer.com/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "deezer.js"]
+   },
+   {
+      "matches": ["*://z-music.org/*"],
+      "js": ["jquery-1.6.1.min.js", "zmusic.js"]
    }
    ]
 }
