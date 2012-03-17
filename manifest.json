@@ -82,6 +82,11 @@
    {
       "matches": ["*://z-music.org/*"],
       "js": ["jquery-1.6.1.min.js", "zmusic.js"]
+   },
+   {
+      "matches": ["*://vk.com/*"],
+      "js": ["jquery-1.6.1.min.js", "vk.js"]
    }
+
    ]
 }
