@@ -1,6 +1,6 @@
 {
    "name": "Last.fm Scrobbler",
-   "version": "1.7",
+   "version": "1.8",
 
    "description": "Scrobble music all around the web!",
    "icons": {
@@ -40,7 +40,7 @@
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "61.js"]
    },
    {
-      "matches": ["*://music.google.com/*"],
+      "matches": ["*://play.google.com/music/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "googlemusic.js"]
    },
    {
