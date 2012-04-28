@@ -48,6 +48,10 @@
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "myspace.js"]
    },
    {
+      "matches": ["*://pitchfork.com/*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "pitchfork.js"]
+   },
+   {
       "matches": ["*://www.fftunes.com/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "fftunes.js"]
    },
