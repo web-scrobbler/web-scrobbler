@@ -14,6 +14,8 @@ $(function () {
     cancel();
 });
 
+var lastTrack = '';
+
 $(document).ready(function () {
     // while player not loaded on page monitor all changes
     $('body').bind('DOMNodeInserted', function () {
@@ -22,13 +24,17 @@ $(document).ready(function () {
 
             // when player loaded monitor track changes
             $(trackFrameSel).bind('DOMNodeInserted', function () {
-                if (!$(trackSel).length ||
-                        $(trackFrameSel + ' .source').text().length) {
-                    // check if wanted change (2 or 3 new elements inserted into
-                    // trackFrame when new track starts playing, we are
-                    // interested only once)
+                // check if wanted change (2 or 3 new elements inserted into
+                // trackFrame when new track starts playing, we are
+                // interested only once)
+                if (!$(trackSel).length) {
                     return;
                 }
+                trackStr = $(trackSel).text() + $(artistSel).text();
+                if(trackStr === lastTrack) {
+                    return;
+                }
+                lastTrack = trackStr;
 
                 // on new track wait until it starts playing to get duration if
                 // available
