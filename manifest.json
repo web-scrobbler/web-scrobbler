@@ -71,6 +71,11 @@
       "run_at": "document_idle"
    },
    {
+      "matches": ["*://www.jango.com/*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "jango.js", "jango-dom-inject.js"],
+      "run_at" : "document_start"
+   },
+   {
       "matches": ["*://www.pandora.com/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "pandora.js"],
       "run_at" : "document_start"
