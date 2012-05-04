@@ -8,6 +8,7 @@
  * 
  * Connector by Salim KAYABAŞI
  * http://www.salimkayabasi.com
+ * to debug change its' status to 'true'
  */
  
 var artist = '';
