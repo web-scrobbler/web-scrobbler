@@ -1,6 +1,6 @@
 {
-   "name": "Salim TEST",
-   "version": "0.1",
+   "name": "Last.fm Scrobbler",
+   "version": "1.8.1",
 
    "description": "Scrobble music all around the web!",
    "icons": {
