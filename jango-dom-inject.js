@@ -32,7 +32,7 @@ function chromeLastFMUpdateNowPlaying(skip_callback){
 
 function waitUi() {
   //console.log("waiting for _jui");
-  if (window["_jui"] === undefined) {
+  if (window["_jui"] === undefined || _jui.jango_player === undefined) {
     setTimeout(waitUi, 1000);
     return;
   }
