@@ -1,6 +1,6 @@
 {
    "name": "Last.fm Scrobbler",
-   "version": "1.8",
+   "version": "1.8.1",
 
    "description": "Scrobble music all around the web!",
    "icons": {
@@ -54,6 +54,10 @@
    {
       "matches": ["*://fizy.com/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "fizy.js"]
+   },
+   {
+      "matches": ["http://www.virginradioturkiye.com/live","http://live.radioeksen.com/live"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "virginradiotr.js"]
    },
    {
       "matches": ["http://ghostly.com/discovery/play"],
