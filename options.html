@@ -7,14 +7,14 @@
 	<link rel="stylesheet" type="text/css" href="options.css" />
 </head>
 <body>
-      
+
 <div class="container options">
    <h1>Options</h1>
-   
+
    <ul>
       <li>
          <input type="checkbox" id="use-notifications">
-         <label for="use-notifications" title="Turns on/off popup scrobbling notifications for all supported websites">Use desktop notifications (global)</label>                
+         <label for="use-notifications" title="Turns on/off popup scrobbling notifications for all supported websites">Use desktop notifications (global)</label>
       </li>
       <li>
          <input type="checkbox" id="use-autocorrect">
@@ -22,7 +22,7 @@
       </li>
       <li>
          <input type="checkbox" id="use-youtube-inpage">
-         <label for="use-youtube-inpage" title="Since there is an info icon in the omnibox, there is no need to keep a separate YT notifying. But you're the boss here.">Use YouTube <em>status box</em></label>                
+         <label for="use-youtube-inpage" title="Since there is an info icon in the omnibox, there is no need to keep a separate YT notifying. But you're the boss here.">Use YouTube <em>status box</em></label>
       </li>
    </ul>
 </div>
@@ -31,8 +31,8 @@
    <h1>About</h1>
    <!-- <h4><a href="http://scrobbler.davidsabata.cz">For details and changelog visit our website</a></h4> -->
    <p>
-      Last.fm Scrobbler for Chrome was created for people who listen to music 
-      online through their browser, and would like to keep an updated playback 
+      Last.fm Scrobbler for Chrome was created for people who listen to music
+      online through their browser, and would like to keep an updated playback
       history using last.fm's scrobbling service.
    </p>
    <p>
@@ -51,14 +51,15 @@
          <li>Deezer.com</li>
          <li>Virgin Radio Turkiye</li>
          <li>Amazon.com Cloud Player</li>
+         <li>Pitchfork.com</li>
       </ul>
    </p>
    <p>
-      As I don't visit many other websites with video content, the development of 
-      <i>connectors</i> for other websites will be mostly up to you. Feel free to 
-      send a pull request at <a href="http://github.com/david-sabata/Chrome-Last.fm-Scrobbler">GitHub</a>. 
-      <span class="gray">Don't worry, even if noone contributes I will still keep YouTube scrobbling 
-      working myself.</span>    
+      As I don't visit many other websites with video content, the development of
+      <i>connectors</i> for other websites will be mostly up to you. Feel free to
+      send a pull request at <a href="http://github.com/david-sabata/Chrome-Last.fm-Scrobbler">GitHub</a>.
+      <span class="gray">Don't worry, even if noone contributes I will still keep YouTube scrobbling
+      working myself.</span>
    </p>
    <p>
       <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
@@ -71,9 +72,9 @@
       </form>
    </p>
    <p>
-      And since we all love music and Last.fm, you can also stop by at 
+      And since we all love music and Last.fm, you can also stop by at
       <a href="http://www.last.fm/user/na1k_/">my Last.fm profile</a> to compare taste or maybe leave a kind message :-)
-   </p>   
+   </p>
    <p>
       <br />
       Contributors
@@ -81,61 +82,62 @@
          <li><a href="http://www.yasinokumus.com/">Yasin Okumus</a> - MySpace, FFtunes, Fizy, TTnetMuzik support</li>
          <li><a href="https://github.com/sharjeelaziz">Sharjeel Aziz</a> - Google Music support</li>
          <li><a href="https://github.com/moski">Moski Doski</a> - Thesixtyone.com support</li>
-         <li><a href="http://last.fm/user/Macint/">Peter McEvoy</a> - Ghostly Discovery support</li>         
+         <li><a href="http://last.fm/user/Macint/">Peter McEvoy</a> - Ghostly Discovery support</li>
          <li><a href="https://github.com/porges">George Pollard</a> - BandCamp support</li>
          <li><a href="http://jperr.com">Jordan Perr</a> - Pandora support</li>
          <li><a href="http://damienalexandre.fr/">Damien Alexandre</a> - Deezer support</li>
          <li><a href="http://www.salimkayabasi.com">Salim Kayabasi</a> - Virgin Radio Turkyie support</li>
          <li><a href="http://sheckel.net/">Jacob Tolar</a> - Amazon Cloud Player support</li>
+         <li><a href="http://github.com/vintitres">vintitres</a> - Pitchfork support</li>
       </ul>
    </p>
 </div>
-   
+
 <div class="container faq">
-   <h1>FAQ</h1>   
-   
+   <h1>FAQ</h1>
+
    <h4>How do I temporarily disable scrobbling?</h4>
    <p>
       You can do that by clicking the icon in the omnibox (address bar). To enable scrobbling again, click the icon one more time.
       The scrobbling will continue for the next song.
    </p>
-   
+
    <h4>The song was not recognized! Can you fix it?</h4>
    <p>
       Actually YOU can fix it :)<br>
       <br>
-      When a song cannot be recognized (and thus scrobbled) a gray icon with question mark appears at the right side of the omnibox (address bar). 
+      When a song cannot be recognized (and thus scrobbled) a gray icon with question mark appears at the right side of the omnibox (address bar).
       By clicking it a small window pops out where you can input the right song information.<br>
       <br>
       <span style="color: #666">
-      (The data you input are not stored anywhere, so the next time you play the song, you'll have to enter the data again. This feature is still 
-      work in progress. I'm not sure it is the right way to go for an extension to fix music websites errors. I'd be much happier to see websites 
+      (The data you input are not stored anywhere, so the next time you play the song, you'll have to enter the data again. This feature is still
+      work in progress. I'm not sure it is the right way to go for an extension to fix music websites errors. I'd be much happier to see websites
       implement some kind of music tagging - just like YouTube partially did.)
       </span>
    </p>
-   
+
    <h4>Will you add support for scrobbling at&nbsp;&nbsp;____ ?</h4>
    <p>
-      Possibly, but most likely no. I make the Scrobbler in my free time and that's why I manage only Youtube 
-      support - I simply don't use any other web music service. Nevertheless, it is really easy to create a <i>connector</i> 
-      and add support for a new website. You can simply fork the <a href="http://github.com/david-sabata/Chrome-Last.fm-Scrobbler">GitHub</a> 
+      Possibly, but most likely no. I make the Scrobbler in my free time and that's why I manage only Youtube
+      support - I simply don't use any other web music service. Nevertheless, it is really easy to create a <i>connector</i>
+      and add support for a new website. You can simply fork the <a href="http://github.com/david-sabata/Chrome-Last.fm-Scrobbler">GitHub</a>
       repository and send me a pull request. There is also a wiki page on the GitHub describing the extension core.
    </p>
-   
+
    <h4>Will you add&nbsp;&nbsp;____&nbsp;&nbsp;functionality?</h4>
    <p>
-      Possibly, if it makes sense. A great example is functionality to correct the song title if it is not recognized. 
-      This wasn't possible in earlier versions, but can be done since 1.0, because a lot of people was asking for it and 
+      Possibly, if it makes sense. A great example is functionality to correct the song title if it is not recognized.
+      This wasn't possible in earlier versions, but can be done since 1.0, because a lot of people was asking for it and
       I also think it is useful.<br>
       But if you want me to add some not-that-useful-but-really-cool functions, you'll probably get disappointed.
    </p>
-      
+
    <h4>Is the scrobbler available for the Firefox?</h4>
-   <p>      
-      It is not and it won't be. This is a Chrome extension and I have no intentions to port it for the Firefox 
+   <p>
+      It is not and it won't be. This is a Chrome extension and I have no intentions to port it for the Firefox
       or any other browser.
    </p>
-      
+
    <h4>Who is the author?</h4>
    <p>
       My name is David Šabata and I study IT at the Brno University of Technology, Czech Republic.
@@ -145,6 +147,6 @@
       </ul>
    </p>
 </div>
-   
+
 </body>
 </html>
