@@ -90,6 +90,20 @@
    {
       "matches": ["*://www.amazon.com/gp/dmusic/mp3/player*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "amazon.js"]
+   },
+   {
+      "matches": ["*://z-music.org/*"],
+      "js": ["jquery-1.6.1.min.js", "zmusic.js"]
+   },
+   {
+      "matches": ["*://vk.com/*"],
+      "js": ["jquery-1.6.1.min.js", "vk.js"]
+   },
+   {
+      "matches": ["*://zvooq.ru/*"],
+      "js": ["jquery-1.6.1.min.js", "zvooq.js"]
    }
+
+
    ]
 }
