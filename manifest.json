@@ -82,6 +82,10 @@
    {
       "matches": ["*://www.deezer.com/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "deezer.js"]
+   },
+   {
+      "matches": ["*://www.amazon.com/gp/dmusic/mp3/player*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "amazon.js"]
    }
    ]
 }
