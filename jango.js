@@ -6,9 +6,14 @@
 // Used to cache the song title to prevent repeated calls to updateNowPlaying
 var lastSongTitle = '';
 
-function updateNowPlaying(){
+function updateNowPlaying() {
   var commDiv = document.getElementById('chromeLastFM');
-  var songInfo = JSON.parse(commDiv.innerText);
+  try {
+    var songInfo = JSON.parse(commDiv.innerText);
+  } catch (e) {
+    // Skip malformed communication blobs
+    return;
+  }
 
   if (songInfo['title'] == lastSongTitle) {
     return;
@@ -16,7 +21,7 @@ function updateNowPlaying(){
   lastSongTitle = songInfo['title'];
 
   // Update scrobbler
-  //console.log('submitting a now playing request. artist: ' + songInfo['artist'] + ', title: ' + songInfo['title'] + ', duration: ' + songInfo['duration']);
+  console.log('submitting a now playing request. artist: ' + songInfo['artist'] + ', title: ' + songInfo['title'] + ', duration: ' + songInfo['duration']);
   chrome.extension.sendRequest({'type': 'validate', 'artist': songInfo['artist'], 'track': songInfo['title']}, function(response) {
     if (response != false) {
       chrome.extension.sendRequest({type: 'nowPlaying', 'artist': songInfo['artist'], 'track': songInfo['title'], 'duration': songInfo['duration']});
