@@ -10,17 +10,29 @@ var orig_attach_artist_pic;
 
 function chromeLastFMUpdateNowPlaying(skip_callback){
   var sm = _jp.soundManager;
-  var duration = sm.sounds[sm.soundIDs[sm.soundIDs.length - 1]].duration / 1000;
 
-  // We can start updating the attached pics before the sound manager has
-  // loaded the track (and knows the duration). If so, poll the sound manager for
-  // duration.
-  if (duration === 0) {
+  if (!sm) {
+    // The sound manager hasn't loaded yet, poll for it to load so we can get the song details.
     setTimeout(function() { chromeLastFMUpdateNowPlaying(true) }, 1000);
+
   } else {
-    var songInfo = {'title': _jm.song_info.song, 'artist': _jm.song_info.artist, 'duration': duration};
-    var commDiv = document.getElementById('chromeLastFM');
-    commDiv.innerText = JSON.stringify(songInfo);
+    var latest_sound = sm.sounds[sm.soundIDs[sm.soundIDs.length - 1]];
+
+    var duration = null;
+    if (latest_sound.bytesLoaded === null || latest_sound.bytesLoaded != latest_sound.bytesTotal) {
+      // The soung is still loading, continue to poll for it to load.
+      setTimeout(function() { chromeLastFMUpdateNowPlaying(true) }, 5000);
+    } else {
+      duration = latest_sound.duration / 1000;
+    }
+
+    // We can start updating the attached pics before the sound manager has
+    // loaded the track (and knows the duration).
+    if (duration) {
+      var songInfo = {'title': _jm.song_info.song, 'artist': _jm.song_info.artist, 'duration': duration};
+      var commDiv = document.getElementById('chromeLastFM');
+      commDiv.innerText = JSON.stringify(songInfo);
+    }
   }
 
   // Only call the original method once, don't call it each time we poll the
