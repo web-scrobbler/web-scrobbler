@@ -201,7 +201,7 @@ function setActionIcon(action, tabId) {
       case ACTION_REENABLED:
          chrome.pageAction.setIcon({tabId: tab, path: ICON_TICK_DISABLED});
          chrome.pageAction.setTitle({tabId: tab, title: 'Scrobbling will continue for the next song'});
-         chrome.pageAction.setPopup({tabId: tab, popup: 'dummy.html'});
+         chrome.pageAction.setPopup({tabId: tab, popup: ''});
          break;
       case ACTION_CONN_DISABLED:
          chrome.pageAction.setIcon({tabId: tab, path: ICON_CONN_DISABLED});

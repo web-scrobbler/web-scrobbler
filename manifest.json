@@ -7,14 +7,24 @@
       "128": "icon128.png"
    },
 
-   "background_page": "background.html",
+   "manifest_version": 2,
+   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+
+   "web_accessible_resources": [
+      "icon128.png"
+   ],
+
+   "background": {
+      "scripts": ["background-ga.js", "md5.js", "jquery-1.6.1.min.js", "jquery.dump.js", "scrobbler.js"]
+   },
+
    "options_page": "options.html",
 
    "permissions": [
-   "tabs",
-   "notifications",
-   "http://ws.audioscrobbler.com/2.0/",
-   "http://gdata.youtube.com/feeds/api/videos/"
+      "tabs",
+      "notifications",
+      "http://ws.audioscrobbler.com/2.0/",
+      "http://gdata.youtube.com/feeds/api/videos/"
    ],
 
    "page_action": {
