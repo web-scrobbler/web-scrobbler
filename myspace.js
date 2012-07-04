@@ -2,7 +2,7 @@
  * Chrome-Last.fm-Scrobbler MySpace.com Connector by Yasin Okumus
  * http://www.yasinokumus.com
  */
- 
+
 var durationPart = ".duration";
 var trackPart = ".songTitle";
 var artistPart  = ".bandName";
@@ -13,7 +13,17 @@ $(function(){
 });
 
 $(document).ready(function(){
-	
+
+      console.log('DOCUMENT READY');
+
+      // show disabled icon
+      chrome.extension.sendRequest({type: 'reportDisabled'}, function(response){
+         console.log(response);
+      });
+
+      console.log('REQUEST SENT');
+
+      /* reenable after fix
 	$(durationPart).bind('DOMSubtreeModified',function(e){
 		var duration = parseDuration($(durationPart).text());
 		// if track list deleted
@@ -30,6 +40,7 @@ $(document).ready(function(){
 			});
 		}
 	});
+      */
 });
 
 function parseDuration(match){
@@ -43,9 +54,9 @@ function parseDuration(match){
 }
 
 function cancel(){
-	$(window).unload(function() {      
+	$(window).unload(function() {
 		// reset the background scrobbler song data
 		chrome.extension.sendRequest({type: 'reset'});
-		return true;      
+		return true;
 	});
 }
