@@ -19,7 +19,7 @@ function scrobble(e) {
 
     if (duration > 0) {
         var artist = $(".title_wrap > .fl_l > b").text();
-        var title = $(".title_wrap > .fl_l").text().split(" - ").pop();
+        var title = $(".title_wrap > .fl_l").text().split(" – ").pop();
 
         if (lastTrack != $(".title_wrap > .fl_l").text()) {
             var total = duration;
