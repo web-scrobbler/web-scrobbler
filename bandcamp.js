@@ -94,15 +94,7 @@ $(durationPart).bind('DOMSubtreeModified',function(e){
 			lastTrack = track;
 
 			//console.log("BandCampScrobbler: scrobbling '" + track + "' by " + artist);
-			chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
-				if (response != false){
-					chrome.extension.sendRequest({type: 'nowPlaying', artist: response.artist, track: response.track, duration: duration.total});
-				}
-				else
-				{
-					chrome.extension.sendRequest({type: 'nowPlaying', duration: duration.total});	
-				}
-			});
+			chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration.total});
 		}
 	}
 });

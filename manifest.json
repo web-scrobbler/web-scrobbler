@@ -24,7 +24,8 @@
       "tabs",
       "notifications",
       "http://ws.audioscrobbler.com/2.0/",
-      "http://gdata.youtube.com/feeds/api/videos/"
+      "http://gdata.youtube.com/feeds/api/videos/",
+      "<all_urls>"
    ],
 
    "page_action": {

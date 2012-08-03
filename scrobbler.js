@@ -597,8 +597,13 @@ chrome.extension.onRequest.addListener(
                   // res is false or a valid song structure
                   sendResponse( res );
                   break;
-
-
+		
+		case "inject":
+			chrome.tabs.executeScript(null, {file: "jquery-1.6.1.min.js"}, function(){
+				chrome.tabs.executeScript(null, {file: "jquery.dump.js"}, function(){
+					chrome.tabs.executeScript(null, {file: request.file});
+				});			
+			});		
             default:
                   console.log('Unknown request: %s', $.dump(request));
          }
