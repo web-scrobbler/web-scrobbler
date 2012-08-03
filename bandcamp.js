@@ -24,7 +24,10 @@ function parseDuration(match){
 function parseArtist()
 {
 	var byLine = "";
-	if (isAlbum())
+	if( isDiscover()){
+		return $(".detail_item_link_2").text();
+	}
+	else if (isAlbum())
 	{
 		byLine = $("dt.hiddenAccess:contains('band name') ~ dd").text();
 	}
@@ -44,7 +47,7 @@ function parseArtist()
 
 function parseTitle()
 {
-	if (isAlbum())
+	if (isAlbum() || isDiscover())
 	{
 		return $(".track_info .title").text();
 	}
@@ -57,6 +60,10 @@ function parseTitle()
 function isAlbum()
 {
 	return document.location.toString().indexOf('/album/') >= 0;
+}
+
+function isDiscover(){
+	return document.location.toString().indexOf('bandcamp.com/discover') >= 0;
 }
 
 function cancel(){
@@ -93,7 +100,7 @@ $(durationPart).bind('DOMSubtreeModified',function(e){
 		{
 			lastTrack = track;
 
-			//console.log("BandCampScrobbler: scrobbling '" + track + "' by " + artist);
+			console.log("BandCampScrobbler: scrobbling '" + track + "' by " + artist);
 			chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration.total});
 		}
 	}
