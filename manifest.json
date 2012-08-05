@@ -126,6 +126,11 @@
     {
       "matches": ["*://22tracks.com/*"],
       "js": ["jquery-1.6.1.min.js", "22tracks.js"]
+    },
+    {
+      "matches": ["*://megalyrics.ru/*"],
+      "all_frames": true,
+      "js": ["jquery-1.6.1.min.js", "megalyrics.js"]
    }
 
 
