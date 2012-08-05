@@ -117,6 +117,10 @@
    {
       "matches": ["*://zvooq.ru/*"],
       "js": ["jquery-1.6.1.min.js", "zvooq.js"]
+   },
+   {
+      "matches": ["*://22tracks.com/*"],
+      "js": ["jquery-1.6.1.min.js", "22tracks.js"]
    }
 
 
