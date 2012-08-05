@@ -122,6 +122,10 @@
       "matches": ["*://www.weborama.fm/*"],
       "all_frames": true,
       "js": ["jquery-1.6.1.min.js", "weborama.js"]
+    },
+    {
+      "matches": ["*://22tracks.com/*"],
+      "js": ["jquery-1.6.1.min.js", "22tracks.js"]
    }
 
 
