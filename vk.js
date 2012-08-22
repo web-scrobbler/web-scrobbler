@@ -10,35 +10,39 @@ function parseDurationString(timestr) {
     return 0;
 }
 
-function scrobble(e) {
-    var timestr = $("#gp_duration").text();
-    if (timestr[0] == '-') {
-        timestr = timestr.substring(1);
-    }
-    var duration = parseDurationString(timestr);
-
-    if (duration > 0) {
-        var artist = $(".title_wrap > .fl_l > b").text();
-        var title = $(".title_wrap > .fl_l").text().split(" - ").pop();
-
-        if (lastTrack != $(".title_wrap > .fl_l").text()) {
-            var total = duration;
-
-            lastTrack = $(".title_wrap > .fl_l").text();
-
-            $r({type: 'validate', artist: artist, track: title}, function(response) {
-                if (response != false) {
-                    $r({
-                        type: 'nowPlaying', 
-                        artist: response.artist, 
-                        track: response.track, 
-                        duration: total
-                    });
-                } else {
-                    $r({type: 'nowPlaying', duration: total});	
-                }
-            });
+function scrobble(e) {	
+	var timestr	= '';
+	if ($("#ac_duration").length > 0) {
+	   timestr = $("#ac_duration").text();
+	} else if ($("#pd_duration").length > 0) {
+	   timestr = $("#pd_duration").text();
+	}
+	if (timestr != '') {
+		if (timestr[0] == '-') {
+            timestr = timestr.substring(1);
         }
+        var duration = parseDurationString(timestr);
+	}
+	var artist = $("#gp_performer").text();
+    var title = $("#gp_title").text();
+
+    if (lastTrack != artist + " " + title) {
+        var total = duration;
+
+        lastTrack = artist + " " + title;
+
+        $r({type: 'validate', artist: artist, track: title}, function(response) {
+            if (response != false) {
+                $r({
+                    type: 'nowPlaying', 
+                    artist: response.artist, 
+                    track: response.track, 
+                    duration: total
+                });
+            } else {
+                $r({type: 'nowPlaying', duration: total});	
+            }
+        });
     }
 } 
 
@@ -50,8 +54,8 @@ $(function() {
     });
 
     $(document).bind("DOMNodeInserted", function(e) {
-        if (e.target.id === "gp_duration") {
-            $("#gp_duration").bind('DOMSubtreeModified', scrobble);
-        }
+        if (e.target.id === "gp_performer") {
+			$("#gp_performer").bind('DOMSubtreeModified', function(e) { setTimeout(scrobble, 500) });
+		}
     });
 });
