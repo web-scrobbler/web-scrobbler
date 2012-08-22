@@ -39,9 +39,9 @@ function scrobble(e) {
                     track: response.track, 
                     duration: total
                 });
-            } /*else {
+            } else {
                 $r({type: 'nowPlaying', duration: total});	
-            }*/
+            }
         });
     }
 } 
@@ -55,7 +55,7 @@ $(function() {
 
     $(document).bind("DOMNodeInserted", function(e) {
         if (e.target.id === "gp_performer") {
-			$("#gp_performer").bind('DOMSubtreeModified', function(e) { setTimeout(scrobble, 300) });
+			$("#gp_performer").bind('DOMSubtreeModified', function(e) { setTimeout(scrobble, 500) });
 		}
     });
 });
