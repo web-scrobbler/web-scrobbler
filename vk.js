@@ -11,34 +11,50 @@ function parseDurationString(timestr) {
 }
 
 function scrobble(e) {
-    var timestr = $("#pd_duration").text();
-    if (timestr[0] == '-') {
-        timestr = timestr.substring(1);
-    }
-    var duration = parseDurationString(timestr);
-
-    if (duration > 0) {
-        var artist = $("#pd_performer").text();
-        var title = $("#pd_title").text();
-
-        if (lastTrack != artist + " " + title) {
-            var total = duration;
-
-            lastTrack = artist + " " + title;
-
-            $r({type: 'validate', artist: artist, track: title}, function(response) {
-                if (response != false) {
-                    $r({
-                        type: 'nowPlaying', 
-                        artist: response.artist, 
-                        track: response.track, 
-                        duration: total
-                    });
-                } else {
-                    $r({type: 'nowPlaying', duration: total});	
-                }
-            });
+    if ($("#pd_duration").length > 0) {
+        var timestr = $("#pd_duration").text();
+        if (timestr[0] == '-') {
+            timestr = timestr.substring(1);
         }
+        var duration = parseDurationString(timestr);
+    
+        if (duration > 0) {
+            var artist = $("#pd_performer").text();
+            var title = $("#pd_title").text();
+        }
+    } else if($("#initial_list").length > 0) {
+        var current = $("#initial_list .current");
+        var timestr = $(".duration", current).text();
+        if (timestr[0] == '-') {
+            timestr = timestr.substring(1);
+        }
+        var duration = parseDurationString(timestr);
+    
+        if (duration > 0) {
+            var artist = $(".title_wrap > b > a", current).text();
+            var title = $(".title > a", current).text();
+        }
+    } else {
+        return;
+    }
+
+    if (lastTrack != artist + " " + title) {
+        var total = duration;
+
+        lastTrack = artist + " " + title;
+
+        $r({type: 'validate', artist: artist, track: title}, function(response) {
+            if (response != false) {
+                $r({
+                    type: 'nowPlaying', 
+                    artist: response.artist, 
+                    track: response.track, 
+                    duration: total
+                });
+            } else {
+                $r({type: 'nowPlaying', duration: total});	
+            }
+        });
     }
 } 
 
