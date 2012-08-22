@@ -10,32 +10,21 @@ function parseDurationString(timestr) {
     return 0;
 }
 
-function scrobble(e) {
-    if ($("#pd_duration").length > 0) {
-        var timestr = $("#pd_duration").text();
-        if (timestr[0] == '-') {
+function scrobble(e) {	
+	var timestr	= '';
+	if ($("#ac_duration").length > 0) {
+	   timestr = $("#ac_duration").text();
+	} else if ($("#pd_duration").length > 0) {
+	   timestr = $("#pd_duration").text();
+	}
+	if (timestr != '') {
+		if (timestr[0] == '-') {
             timestr = timestr.substring(1);
         }
         var duration = parseDurationString(timestr);
-    
-        if (duration > 0) {
-            var artist = $("#pd_performer").text();
-            var title = $("#pd_title").text();
-        }
-    } else if($("#ac_duration").length > 0) {
-        var timestr = $("#ac_duration").text();
-        if (timestr[0] == '-') {
-            timestr = timestr.substring(1);
-        }
-        var duration = parseDurationString(timestr);
-    
-        if (duration > 0) {
-            var artist = $("#ac_performer").text();
-            var title = $("#ac_title").text();
-        }
-    } else {
-        return;
-    }
+	}
+	var artist = $("#gp_performer").text();
+    var title = $("#gp_title").text();
 
     if (lastTrack != artist + " " + title) {
         var total = duration;
@@ -65,8 +54,8 @@ $(function() {
     });
 
     $(document).bind("DOMNodeInserted", function(e) {
-        if (e.target.id === "pd_duration") {
-            $("#pd_duration").bind('DOMSubtreeModified', scrobble);
-        }
+        if (e.target.id === "gp_performer") {
+			$("#gp_performer").bind('DOMSubtreeModified', function(e) { setTimeout(scrobble, 500) });
+		}
     });
 });
