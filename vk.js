@@ -11,20 +11,20 @@ function parseDurationString(timestr) {
 }
 
 function scrobble(e) {
-    var timestr = $("#gp_duration").text();
+    var timestr = $("#pd_duration").text();
     if (timestr[0] == '-') {
         timestr = timestr.substring(1);
     }
     var duration = parseDurationString(timestr);
 
     if (duration > 0) {
-        var artist = $(".title_wrap > .fl_l > b").text();
-        var title = $(".title_wrap > .fl_l").text().split(" - ").pop();
+        var artist = $("#pd_performer").text();
+        var title = $("#pd_title").text();
 
-        if (lastTrack != $(".title_wrap > .fl_l").text()) {
+        if (lastTrack != artist + " " + title) {
             var total = duration;
 
-            lastTrack = $(".title_wrap > .fl_l").text();
+            lastTrack = artist + " " + title;
 
             $r({type: 'validate', artist: artist, track: title}, function(response) {
                 if (response != false) {
@@ -50,8 +50,8 @@ $(function() {
     });
 
     $(document).bind("DOMNodeInserted", function(e) {
-        if (e.target.id === "gp_duration") {
-            $("#gp_duration").bind('DOMSubtreeModified', scrobble);
+        if (e.target.id === "pd_duration") {
+            $("#pd_duration").bind('DOMSubtreeModified', scrobble);
         }
     });
 });
