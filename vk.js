@@ -22,17 +22,16 @@ function scrobble(e) {
             var artist = $("#pd_performer").text();
             var title = $("#pd_title").text();
         }
-    } else if($("#initial_list").length > 0) {
-        var current = $("#initial_list .current");
-        var timestr = $(".duration", current).text();
+    } else if($("#ac_duration").length > 0) {
+        var timestr = $("#ac_duration").text();
         if (timestr[0] == '-') {
             timestr = timestr.substring(1);
         }
         var duration = parseDurationString(timestr);
     
         if (duration > 0) {
-            var artist = $(".title_wrap > b > a", current).text();
-            var title = $(".title > a", current).text();
+            var artist = $("#ac_performer").text();
+            var title = $("#ac_title").text();
         }
     } else {
         return;
