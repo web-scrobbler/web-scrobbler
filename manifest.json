@@ -1,6 +1,6 @@
 {
    "name": "Last.fm Scrobbler",
-   "version": "1.9.1",
+   "version": "1.9",
 
    "description": "Scrobble music all around the web!",
    "icons": {
@@ -131,6 +131,10 @@
       "matches": ["*://megalyrics.ru/*"],
       "all_frames": true,
       "js": ["jquery-1.6.1.min.js", "megalyrics.js"]
+   },
+   {
+      "matches": ["*://*.iheart.com/*"],
+      "js": ["jquery-1.6.1.min.js", "iheart.js"]
    }
 
 
