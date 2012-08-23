@@ -1,6 +1,6 @@
 {
    "name": "Last.fm Scrobbler",
-   "version": "1.9",
+   "version": "1.9.1",
 
    "description": "Scrobble music all around the web!",
    "icons": {
@@ -117,6 +117,20 @@
    {
       "matches": ["*://zvooq.ru/*"],
       "js": ["jquery-1.6.1.min.js", "zvooq.js"]
+   },
+   {
+      "matches": ["*://www.weborama.fm/*"],
+      "all_frames": true,
+      "js": ["jquery-1.6.1.min.js", "weborama.js"]
+    },
+    {
+      "matches": ["*://22tracks.com/*"],
+      "js": ["jquery-1.6.1.min.js", "22tracks.js"]
+    },
+    {
+      "matches": ["*://megalyrics.ru/*"],
+      "all_frames": true,
+      "js": ["jquery-1.6.1.min.js", "megalyrics.js"]
    }
 
 
