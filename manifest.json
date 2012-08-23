@@ -74,9 +74,13 @@
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "virginradiotr.js"]
    },
    {
+      "matches": ["*://*.iheart.com/*"],
+      "js": ["jquery-1.6.1.min.js", "iheart.js"]
+   },
+   {
       "matches": ["http://ghostly.com/discovery/play"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "ghostly.js"],
-	  "css": ["ghostly.css"]
+      "css": ["ghostly.css"]
    },
    {
       "matches": ["*://*.bandcamp.com/*"],
