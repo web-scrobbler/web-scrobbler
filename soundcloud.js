@@ -103,11 +103,7 @@
 
             if (next && !parent.hasClass('endOfSound'))
                 return;
-
-            var playhead = $('.playhead[style]', parent);
-            if (!next && parseFloat(playhead.attr('style').substring(6)) < 70)
-                return;
-
+            
             current.validating = true;
 
             var s = song(current.player);
