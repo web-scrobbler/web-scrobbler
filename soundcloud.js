@@ -5,9 +5,9 @@
     var trackInfo = function(context) {
         var player = $(context);
         var title;
-        if ($(context).parent().hasClass('playlist-player')) {
+
+        if ($(context).parent().hasClass('playlist-player'))
             title =  $('.tracks li.playing .info a').text().trim();
-        }
 
         if(!title)
             title = $('.soundTitle__title', player).text().trim();
@@ -15,7 +15,22 @@
         if(!title)
             title = $('.info-header h3 a, .info-header h1 em', player).text().trim();
 
-        return title.split(" - ");
+        trackInfo = title.split(" - ");
+
+        if(!trackInfo[1])
+            return [artist(context),title];
+
+        return trackInfo;
+    };
+
+    var artist = function(context) {
+        var node = $('.info-header .user-name', context);
+        if (node.length)
+            return node[0].text;
+
+        node = $('.soundTitle__username', context);
+        if (node.length)
+            return node[0].text;
     };
 
     var duration = function(context) {
