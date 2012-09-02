@@ -89,13 +89,12 @@
                 return;
 
             if (!current || !current.context || current.context[0] != parent[0]) {
-                current = {submitted: false};
+                current = {};
                 current.context = parent;
             }
 
             if (!current.player) {
                 current.player = container(current.context);
-                return;
             }
 
             if (current.validating)
@@ -103,10 +102,10 @@
 
             if (next && !parent.hasClass('endOfSound'))
                 return;
-            
-            current.validating = true;
 
+            current.validating = true;
             var s = song(current.player);
+
             chrome.extension.sendRequest({type: 'validate',
                                         artist: s.artist,
                                          track: s.track},
