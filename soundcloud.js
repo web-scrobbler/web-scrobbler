@@ -15,7 +15,7 @@
         if(!title)
             title = $('.info-header h3 a, .info-header h1 em', player).text().trim();
 
-        trackInfo = title.split(" - ");
+        var trackInfo = title.split(" - ");
 
         if(!trackInfo[1])
             return [artist(context),title];
