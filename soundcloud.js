@@ -2,27 +2,20 @@
     var options;
     var current = {};
 
-    var track = function(context) {
+    var trackInfo = function(context) {
         var player = $(context);
-        if (player.hasClass('set'))
-            return $('li.playing .info a', player).text();
+        var title;
+        if ($(context).parent().hasClass('playlist-player')) {
+            title =  $('.tracks li.playing .info a').text().trim();
+        }
 
-        var title = $('.soundTitle__title', player);
-        if (title.length)
-            return title.text();
+        if(!title)
+            title = $('.soundTitle__title', player).text().trim();
 
-        else
-            return $('.info-header h3 a, .info-header h1 em', player).text();
-    };
+        if(!title)
+            title = $('.info-header h3 a, .info-header h1 em', player).text().trim();
 
-    var artist = function(context) {
-        var node = $('.info-header .user-name', context);
-        if (node.length)
-            return node[0].text;
-
-        node = $('.soundTitle__username', context);
-        if (node.length)
-            return node[0].text;
+        return title.split(" - ");
     };
 
     var duration = function(context) {
@@ -49,10 +42,11 @@
     };
 
     var song = function(context) {
+        var track = trackInfo(context);
         return {
-               'track': track(context),
-              'artist': artist(context),
-            'duration': duration(context)
+                'artist': track[0],
+                'track': track[1],
+                'duration': duration(context)
         };
     };
 
