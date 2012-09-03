@@ -2,28 +2,32 @@
     var options;
     var current = {};
 
-    var trackInfo = function(context) {
+    var song = function(context) {
         var player = $(context);
         var title;
 
         if ($(context).parent().hasClass('playlist-player'))
             title =  $('.tracks li.playing .info a').text().trim();
 
-        if(!title)
+        if (!title)
             title = $('.soundTitle__title', player).text().trim();
 
-        if(!title)
+        if (!title)
             title = $('.info-header h3 a, .info-header h1 em', player).text().trim();
 
         var trackInfo = title.split(" - ");
 
-        if(!trackInfo[1])
-            return [artist(context),title];
+        if (!trackInfo[1])
+            trackInfo = [userName(context),title];
 
-        return trackInfo;
+        return {
+            artist: trackInfo[0],
+            track: trackInfo[1],
+            duration: duration(context)
+        };
     };
 
-    var artist = function(context) {
+    var userName = function(context) {
         var node = $('.info-header .user-name', context);
         if (node.length)
             return node[0].text;
@@ -54,15 +58,6 @@
             }
             return seconds;
         }
-    };
-
-    var song = function(context) {
-        var track = trackInfo(context);
-        return {
-                'artist': track[0],
-                'track': track[1],
-                'duration': duration(context)
-        };
     };
 
     var container = function(context) {
