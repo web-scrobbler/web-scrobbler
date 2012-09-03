@@ -7,7 +7,7 @@
         var title;
 
         if ($(context).parent().hasClass('playlist-player'))
-            title =  $('.tracks li.playing .info a').text().trim();
+            title =  $('li.playing .info a', player.parents(".players").next()).text().trim();
 
         if (!title)
             title = $('.soundTitle__title', player).text().trim();
@@ -62,8 +62,7 @@
 
     var container = function(context) {
         var parent;
-        parent = $(context).closest('li.set')[0] ||  // 'old' soundcloud
-                 $(context).closest('div.player')[0] ||
+        parent = $(context).closest('div.player')[0] ||
                  $(context).closest('div.sound.playing')[0];  // 'new' ...
 
         if (!parent) {
