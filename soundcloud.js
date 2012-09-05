@@ -28,7 +28,12 @@
     };
 
     var userName = function(context) {
-        var node = $('.info-header .user-name', context);
+        var node;
+
+        if ($(context).parent().hasClass('playlist-player'))
+            context = $(context).parents('.set');
+            
+        node = $('.info-header .user-name', context);
         if (node.length)
             return node[0].text;
 
