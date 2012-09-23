@@ -136,6 +136,10 @@
    {
       "matches": ["*://*.iheart.com/*"],
       "js": ["jquery-1.6.1.min.js", "iheart.js"]
+   },
+   {
+      "matches": ["*://www.indieshuffle.com/*"],
+      "js": ["jquery-1.6.1.min.js", "indieshuffle.js"]
    }
 
 
