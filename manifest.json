@@ -70,7 +70,7 @@
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "fizy.js"]
    },
    {
-      "matches": ["http://www.virginradioturkiye.com/live","http://live.radioeksen.com/live"],
+      "matches": ["*://*.virginradioturkiye.com/*","*://*.radioeksen.com/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "virginradiotr.js"]
    },
    {
