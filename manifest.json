@@ -108,6 +108,10 @@
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "amazon.js"]
    },
    {
+      "matches": ["*://www.amazon.de/gp/dmusic/mp3/player*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "amazon.js"]
+   },
+   {
       "matches": ["*://z-music.org/*"],
       "js": ["jquery-1.6.1.min.js", "zmusic.js"]
    },
