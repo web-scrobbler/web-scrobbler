@@ -3,10 +3,10 @@
  * (c) 2012 Stephen Hamer <stephen.hamer@gmail.com>
  */
 
-// The attach_artist_pic method gets called in the evaluated javascript
+// The update_song_display method gets called in the evaluated javascript
 // returned when songs are switched to update the pictures associated with the
 // artist. This method is used as the trigger for scrobbling the song.
-var orig_attach_artist_pic;
+var orig_update_song_display;
 
 function chromeLastFMUpdateNowPlaying(skip_callback){
   var sm = _jp.soundManager;
@@ -38,7 +38,7 @@ function chromeLastFMUpdateNowPlaying(skip_callback){
   // Only call the original method once, don't call it each time we poll the
   // sound manager for the song duration
   if (!skip_callback) {
-    orig_attach_artist_pic();
+    orig_update_song_display();
   }
 }
 
@@ -48,7 +48,7 @@ function waitUi() {
     setTimeout(waitUi, 1000);
     return;
   }
-  orig_attach_artist_pic = _jui.jango_player.attach_artist_pic.bind(_jui.jango_player);
-  _jui.jango_player.attach_artist_pic = chromeLastFMUpdateNowPlaying;
+  orig_update_song_display = _jui.jango_player.update_song_display.bind(_jui.jango_player);
+  _jui.jango_player.update_song_display = chromeLastFMUpdateNowPlaying;
 }
 waitUi();

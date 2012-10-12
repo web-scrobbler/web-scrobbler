@@ -1,6 +1,6 @@
 /*
  * Chrome-Last.fm-Scrobbler amazon.com "new interface" Connector
- * 
+ *
  * Jacob Tolar --- http://sheckel.net --- jacob[at]sheckel[dot]net
  *
  * Derived from Pandora module by Jordan Perr
@@ -13,13 +13,13 @@ LFM_WATCHED_CONTAINER = "div.nowPlayingDetail";
 
 // function that returns title of current song
 function LFM_TRACK_TITLE() {
-  return $(".currentSongDetails .title").html();
+  return $(".currentSongDetails .title").text();
 }
 
 // function that returns artist of current song
 function LFM_TRACK_ARTIST() {
-  // substring(8) because format is: 'by&nbsp;Artist'
-  return $(".currentSongDetails .title").next().html().substring(8);
+  // substring(3) because format is: 'by Artist'
+  return $(".currentSongDetails .title").next().text().substring(3);
 }
 
 // function that returns duration of current song in seconds
@@ -57,7 +57,7 @@ function LFM_updateNowPlaying(){
 				chrome.extension.sendRequest({type: 'nowPlaying', duration: duration});
 			}
 		});
-	}	
+	}
 	LFM_isWaiting = 0;
 }
 
@@ -72,12 +72,12 @@ $(function(){
 				LFM_isWaiting = 1;
 				setTimeout(LFM_updateNowPlaying, 10000);
 			}
-			return;    
+			return;
 		}
 	});
 
-	$(window).unload(function() {      
+	$(window).unload(function() {
 		chrome.extension.sendRequest({type: 'reset'});
-		return true;      
+		return true;
 	});
 });
