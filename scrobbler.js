@@ -459,7 +459,7 @@ function submit() {
 
       // Confirm the content script, that the song has been scrobbled
       if (nowPlayingTab)
-         chrome.tabs.sendRequest(nowPlayingTab, {type: "submitOK"});
+        chrome.tabs.sendRequest(nowPlayingTab, {type: "submitOK", song: {artist:song.artist, track: song.track}});
 
    } else {
       console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
@@ -474,7 +474,7 @@ function submit() {
 
 /**
  * Extension inferface for content_script
- * nowPlaying(artist, track, duration) - send info to server which song is playing right now
+ * nowPlaying(artist, track, currentTime, duration) - send info to server which song is playing right now
  * xhr(url) - send XHR GET request and return response text
  * newSession() - start a new last.fm session (need to reauthenticate)
  * validate(artist, track) - validate artist-track pair against last.fm and return false or the valid song
@@ -514,6 +514,8 @@ chrome.extension.onRequest.addListener(
                         song.artist = request.artist;
                      if (typeof(request.track) != 'undefined')
                         song.track = request.track;
+                     if (typeof(request.currentTime) != 'undefined')
+                        song.currentTime = request.currentTime;
                      if (typeof(request.duration) != 'undefined')
                         song.duration = request.duration;
 
@@ -526,16 +528,18 @@ chrome.extension.onRequest.addListener(
                      song = {
                         artist : request.artist,
                         track : request.track,
-                        /* album : request.album, */
+                        currentTime : request.currentTime,
                         duration : request.duration,
-                        startTime : parseInt(new Date().getTime() / 1000.0) // in seconds
+                        startTime : ( parseInt (new Date().getTime() / 1000.0) - request.currentTime) // in seconds
                      }
 
                      // make the connection to last.fm service to notify
                      nowPlaying();
 
-                     // The minimum time is 240 seconds or half the track's total length
-                     var min_time = Math.min(240, song.duration / 2);
+                     // The minimum time is 240 seconds or half the
+                     // track's total length. Subtract the song's
+                     // current time (for the case of unpausing).
+                     var min_time = (Math.max(1, Math.min(240, song.duration / 2) - song.currentTime));
                      // Set up the timer
                      scrobbleTimeout = setTimeout(submit, min_time * 1000);
                   }
