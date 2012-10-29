@@ -10,30 +10,28 @@
 /********* Configuration: ***********/
 
 // changes to the DOM in this container will trigger an update.
-LFM_WATCHED_CONTAINER = "div.nowPlayingDetail";
+watchedContainer = "div.nowPlayingDetail";
 
 // changes to the DOM in this container are due to play/pause/forward/back
-LFM_PLAYER_MASTER_CONTROL = "div.mp3Player-MasterControl";
+playerMasterControl = "div.mp3Player-MasterControl";
 
-// function that returns title of current song
-function LFM_TRACK_TITLE() {
-  return $(".currentSongDetails .title").text();
+// function that returns title and artist of current song
+function titleAndArtist() {
+  var nowPlayingTableRow = $("tr.selectable").has("a.nowPlaying");
+  return {
+    title: nowPlayingTableRow.children("td.titleCell").attr("title"),
+    artist: nowPlayingTableRow.children("td.artistCell").attr("title")
+  }
 }
 
-// function that returns artist of current song
-function LFM_TRACK_ARTIST() {
-  // substring(3) because format is: 'by Artist'
-  return $(".currentSongDetails .title").next().text().substring(3);
-}
-
-function LFM_CURRENT_TIME () {
+function currentTime () {
   timeArr = $(".currentSongStatus .timer #currentTime").html().split(":");
   return parseInt(timeArr[0])*60 + parseInt(timeArr[1]);
 }
 
 // function that returns duration of current song in seconds
 // called at begining of song
-function LFM_TRACK_DURATION() {
+function trackDuration() {
   durationArr = $(".currentSongStatus .timer").children().filter(":last").html().split(":");
   return parseInt(durationArr[0])*60 + parseInt(durationArr[1]);
 }
@@ -78,14 +76,13 @@ var module = function() {
   var state = initState();
 
   var parseNewState = function() {
-    var t = LFM_TRACK_TITLE();
-    var a = LFM_TRACK_ARTIST();
+    var tAndA = titleAndArtist ();
     return {
-      title : t,
-      artist : a,
-      currentTime : LFM_CURRENT_TIME(),
-      duration : LFM_TRACK_DURATION(),
-      track : track (t, a)
+      title : tAndA.title,
+      artist : tAndA.artist,
+      currentTime : currentTime (),
+      duration : trackDuration (),
+      track : track (tAndA.title, tAndA.artist)
     }
   }
 
@@ -190,15 +187,15 @@ chrome.extension.onRequest.addListener(
 $(function(){
   console.log("Amazon module starting up");
 
-  $(LFM_WATCHED_CONTAINER).live('DOMSubtreeModified', function(e) {
+  $(watchedContainer).live('DOMSubtreeModified', function(e) {
     //console.log("Live watcher called");
-    if ($(LFM_WATCHED_CONTAINER).length > 0) {
+    if ($(watchedContainer).length > 0) {
       module.updateNowPlaying();
       return;
     }
   });
 
-  $(LFM_PLAYER_MASTER_CONTROL).click( function(e) {
+  $(playerMasterControl).click( function(e) {
     if (isPaused()) {
       module.pause();
     } else if (isPlaying()) {
