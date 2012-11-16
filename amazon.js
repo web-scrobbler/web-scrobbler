@@ -24,16 +24,26 @@ function titleAndArtist() {
   }
 }
 
-function currentTime () {
-  timeArr = $(".currentSongStatus .timer #currentTime").html().split(":");
-  return parseInt(timeArr[0])*60 + parseInt(timeArr[1]);
+/**
+ * Takes raw string, checks that it is in the form "xx:xx", and
+ * calculates and returns the number of seconds, otherwise returns
+ * -1 indicating failure to parse.
+ */
+function parseTime (maybeTime) {
+  if (typeof(maybeTime) == "string" && maybeTime.indexOf (":") > 0) {
+    var timeArr = maybeTime.split(":");
+    return parseInt(timeArr[0])*60 + parseInt(timeArr[1]);
+  } else {
+    return -1;
+  }
 }
 
-// function that returns duration of current song in seconds
-// called at begining of song
-function trackDuration() {
-  durationArr = $(".currentSongStatus .timer").children().filter(":last").html().split(":");
-  return parseInt(durationArr[0])*60 + parseInt(durationArr[1]);
+function currentTimeAndTrackDuration () {
+  var songStatusTimer = $(".currentSongStatus .timer");
+  return {
+    currentTime: parseTime(songStatusTimer.find("#currentTime").html()),
+    trackDuration: parseTime(songStatusTimer.children().filter(":last").html())
+  }
 }
 
 function isPaused() {
@@ -77,11 +87,12 @@ var module = function() {
 
   var parseNewState = function() {
     var tAndA = titleAndArtist ();
+    var timeAndDuration = currentTimeAndTrackDuration ();
     return {
       title : tAndA.title,
       artist : tAndA.artist,
-      currentTime : currentTime (),
-      duration : trackDuration (),
+      currentTime : timeAndDuration.currentTime,
+      duration : timeAndDuration.trackDuration,
       track : track (tAndA.title, tAndA.artist)
     }
   }
