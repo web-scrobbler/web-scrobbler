@@ -15,12 +15,27 @@ watchedContainer = "div.nowPlayingDetail";
 // changes to the DOM in this container are due to play/pause/forward/back
 playerMasterControl = "div.mp3Player-MasterControl";
 
-// function that returns title and artist of current song
+/**
+ * Function that returns title and artist of current song.
+ * Make best effort to get the full, untruncated values from the
+ * main cloud player pane. But, the user may have navigated away
+ * from that - if so, fall back to the (possibly truncated) values
+ * in the bottom now playing pane.
+ */
 function titleAndArtist() {
-  var nowPlayingTableRow = $("tr.selectable").has("a.nowPlaying");
-  return {
-    title: nowPlayingTableRow.children("td.titleCell").attr("title"),
-    artist: nowPlayingTableRow.children("td.artistCell").attr("title")
+  var mainContentTableRow = $("tr.selectable").has("a.nowPlaying");
+  if (mainContentTableRow.size () > 0) {
+    return {
+      title: mainContentTableRow.children("td.titleCell").attr("title"),
+      artist: mainContentTableRow.children("td.artistCell").attr("title")
+    }
+  } else {
+    var currentSongDetails = $(".currentSongDetails .title");
+    return {
+      title: currentSongDetails.text(),
+      // substring(3) because format is: 'by Artist'
+      artist: currentSongDetails.next().text().substring(3)
+    }
   }
 }
 
