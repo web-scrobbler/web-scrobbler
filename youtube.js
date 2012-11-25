@@ -212,7 +212,7 @@ function displayMsg(msg) {
 function updateNowPlaying() {
 
    // get the video ID
-   var videoID = document.URL.match(/^[^v]+v.(.{11}).*/);
+   var videoID = document.URL.match(/v[^a-z]([a-zA-Z0-9\-_]{11})/);
    if (videoID && videoID.length > 0)
       videoID = videoID[1];
    else
