@@ -502,6 +502,10 @@ chrome.extension.onRequest.addListener(
                      break;
                   }
 
+                  // backward compatibility for connectors which dont use currentTime
+                  if (typeof(request.currentTime) == 'undefined')
+                     request.currentTime = 0;
+
                   // data missing, save only startTime and show the unknown icon
                   if (typeof(request.artist) == 'undefined' || typeof(request.track) == 'undefined') {
                      // fill only the startTime, so the popup knows how to set up the timer
