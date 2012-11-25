@@ -461,7 +461,12 @@ function submit() {
       if (nowPlayingTab)
         chrome.tabs.sendRequest(nowPlayingTab, {type: "submitOK", song: {artist:song.artist, track: song.track}});
 
-   } else {
+   }
+   else if (http_request.status == 503) {
+      console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
+      alert('Unable to scrobble the track. Last.fm server is temporarily unavailable.');
+   }
+   else {
       console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
       alert('An error occured while scrobbling the track. Please try again later.');
    }
