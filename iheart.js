@@ -16,7 +16,7 @@ $(function () {
     $("#playerPlay,.b-playStation").click(function () {
         var c = 0;
         //wait for changes in artist name
-        $("#player h2.artist").bind("DOMSubtreeModified", function (e) {
+        $("#player h2.artist").bind("DOMSubtreeModified", function (e) {      
             //avoids being executed twice
             if (c == 0) {
                 c++;
@@ -74,7 +74,10 @@ function updateNowPlaying() {
 function waitForDuration(callback) {
     function getDuration() {
         var current_track_duration = $(".songDuration").text();
-        if (current_track_duration == "0:00" || current_track_duration == "") return false;
+        //need a new solution for duration on live stations
+        if (current_track_duration == "0:00" || current_track_duration == "") {
+        current_track_duration = "0:00 / 3:00";
+        }
         var total_length = current_track_duration.split(" / ")[1];
         return parseInt(total_length.split(":")[0] * 60) + parseInt(total_length.split(":")[1]);
     }
