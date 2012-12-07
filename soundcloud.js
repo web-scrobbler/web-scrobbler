@@ -2,53 +2,26 @@
     var options;
     var current = {};
 
-    var song = function(context) {
-        var player = $(context);
-        var title;
-
-        if ($(context).parent().hasClass('playlist-player'))
-            title =  $('li.playing .info a', player.parents(".players").next()).text().trim();
-
-        if (!title)
-            title = $('.soundTitle__title', player).text().trim();
-
-        if (!title)
-            title = $('.info-header h3 a, .info-header h1 em', player).text().trim();
-
-        var trackInfo = title.split(" - ");
-
+    var song = function(ptitle) {
+        var title = ptitle.split(' by ');
+        var trackInfo = title[0].replace(/"|\[|\]/g, '').split(' - ');
         if (!trackInfo[1])
-            trackInfo = [userName(context),title];
+            trackInfo = [title[1], trackInfo[0]];
+        else
+            trackInfo[0] = trackInfo[0]
 
         return {
             artist: trackInfo[0],
             track: trackInfo[1],
-            duration: duration(context)
+            duration: duration(title[0])
         };
     };
 
-    var userName = function(context) {
-        var node;
-
-        if ($(context).parent().hasClass('playlist-player'))
-            context = $(context).parents('.set');
-            
-        node = $('.info-header .user-name', context);
-        if (node.length)
-            return node[0].text;
-
-        node = $('.soundTitle__username', context);
-        if (node.length)
-            return node[0].text;
-    };
-
-    var duration = function(context) {
-        var node = $('span.duration', context);
-        if (node.length)
-            return parseInt($(node).attr('title').substring(2), 10);
-
-        node = $('.timeIndicator__total', context);
-        if (node.length) {
+    var duration = function(title) {
+        node = $('.timeIndicator__total');
+        // check if we can get duration of this track
+        // (available only on page of track)
+        if (node.length && $(node[0]).closest('.listenContent').find('.soundTitle__title').html() === title) {
             // time is given as h.m.s
             var digits = node[0].innerHTML.split(/\D/),
                 seconds = 0, length, digit;
@@ -62,48 +35,19 @@
                 seconds += parseInt(d, 10) * Math.pow(60, length - digits.length - 1);
             }
             return seconds;
-        }
-    };
-
-    var container = function(context) {
-        var parent;
-        parent = $(context).closest('div.player')[0] ||
-                 $(context).closest('div.sound.playing')[0];  // 'new' ...
-
-        if (!parent) {
-            // Couldn't find container element for this song...
-        }
-
-        return parent;
+        } 
+        // if unknown duration, assume 2 minutes 
+        return 120;
     };
 
     $(document).ready(function() {
-        var selectors = 'div.timeIndicator__current, .timecodes .editable';
-
-        $(selectors).live('DOMSubtreeModified', function() {
-            var next = $(this).hasClass('timeIndicator__current');
-
-            var parent = $(this).closest('.playing');
-            if (!parent.length)
+        var current_title = '';
+        $('title').live('DOMSubtreeModified', function() {
+            var title = $(this).text();
+            if (title[0] !== '▶' || current_title === title)
                 return;
-
-            if (!current || !current.context || current.context[0] != parent[0]) {
-                current = {};
-                current.context = parent;
-            }
-
-            if (!current.player) {
-                current.player = container(current.context);
-            }
-
-            if (current.validating)
-                return;
-
-            if (next && !parent.hasClass('endOfSound'))
-                return;
-
-            current.validating = true;
-            var s = song(current.player);
+            current_title = title;
+            var s = song(title.substr(2));
 
             chrome.extension.sendRequest({type: 'validate',
                                         artist: s.artist,
