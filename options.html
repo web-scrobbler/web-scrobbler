@@ -8,151 +8,196 @@
 </head>
 <body>
 
-<div class="container options">
-   <h1>Options</h1>
+   <div id="wrapper">
+      <div class="left">
+         <div class="container options">
+            <h1>Options</h1>
 
-   <ul>
-      <li>
-         <input type="checkbox" id="use-notifications">
-         <label for="use-notifications" title="Turns on/off popup scrobbling notifications for all supported websites">Use desktop notifications (global)</label>
-      </li>
-      <li>
-         <input type="checkbox" id="use-autocorrect">
-         <label for="use-autocorrect" title="Auto-corrects the track title before scrobbling. (experimental)">Use autocorrect (global)</label>
-      </li>
-      <li>
-         <input type="checkbox" id="use-youtube-inpage">
-         <label for="use-youtube-inpage" title="Since there is an info icon in the omnibox, there is no need to keep a separate YT notifying. But you're the boss here.">Use YouTube <em>status box</em></label>
-      </li>
-   </ul>
-</div>
-
-<div class="container about">
-   <h1>About</h1>
-   <!-- <h4><a href="http://scrobbler.davidsabata.cz">For details and changelog visit our website</a></h4> -->
-   <p>
-      Last.fm Scrobbler for Chrome was created for people who listen to music
-      online through their browser, and would like to keep an updated playback
-      history using last.fm's scrobbling service.
-   </p>
-   <p>
-      Supported websites
-      <ul style="margin-top:0;">
-         <li>YouTube</li>
-         <li>Ghostly Discovery</li>
-         <li>Google Music</li>
-         <li>MySpace</li>
-         <li>Thesixtyone.com</li>
-         <li>TTnetMuzik.com.tr</li>
-         <li>FFtunes.com</li>
-         <li>Fizy.com</li>
-         <li>BandCamp.com</li>
-         <li>Pandora.com (new interface)</li>
-         <li>Deezer.com</li>
-         <li>Virgin Radio Turkiye</li>
-         <li>Amazon.com Cloud Player</li>
-         <li>Pitchfork.com</li>
-         <li>Z-music.org</li>
-         <li>VK.com</li>
-         <li>Zvooq.ru</li>
-         <li>Jango.com</li>
-      </ul>
-   </p>
-   <p>
-      As I don't visit many other websites with video content, the development of
-      <i>connectors</i> for other websites will be mostly up to you. Feel free to
-      send a pull request at <a href="http://github.com/david-sabata/Chrome-Last.fm-Scrobbler">GitHub</a>.
-      <span class="gray">Don't worry, even if noone contributes I will still keep YouTube scrobbling
-      working myself.</span>
-   </p>
-   <p>
-      <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-         <div style="text-align: center">
-            <input type="hidden" name="cmd" value="_s-xclick">
-            <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
-            <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+            <ul>
+               <li>
+                  <input type="checkbox" id="use-notifications">
+                  <label for="use-notifications" title="Turns on/off popup scrobbling notifications for all supported websites">Use desktop notifications (global)</label>
+               </li>
+               <li>
+                  <input type="checkbox" id="use-autocorrect">
+                  <label for="use-autocorrect" title="Auto-corrects the track title before scrobbling. (experimental)">Use autocorrect (global)</label>
+               </li>
+               <li>
+                  <input type="checkbox" id="use-youtube-inpage">
+                  <label for="use-youtube-inpage" title="Since there is an info icon in the omnibox, there is no need to keep a separate YT notifying. But you're the boss here.">Use YouTube <em>status box</em></label>
+               </li>
+            </ul>
          </div>
-      </form>
-   </p>
-   <p>
-      And since we all love music and Last.fm, you can also stop by at
-      <a href="http://www.last.fm/user/na1k_/">my Last.fm profile</a> to compare taste or maybe leave a kind message :-)
-   </p>
-   <p>
-      <br />
-      Contributors
-      <ul style="margin-top:0;">
-         <li><a href="http://www.yasinokumus.com/">Yasin Okumus</a> - MySpace, FFtunes, Fizy, TTnetMuzik support</li>
-         <li><a href="https://github.com/sharjeelaziz">Sharjeel Aziz</a> - Google Music support</li>
-         <li><a href="https://github.com/moski">Moski Doski</a> - Thesixtyone.com support</li>
-         <li><a href="http://last.fm/user/Macint/">Peter McEvoy</a> - Ghostly Discovery support</li>
-         <li><a href="https://github.com/porges">George Pollard</a> - BandCamp support</li>
-         <li><a href="http://jperr.com">Jordan Perr</a> - Pandora support</li>
-         <li><a href="http://damienalexandre.fr/">Damien Alexandre</a> - Deezer support</li>
-         <li><a href="http://www.salimkayabasi.com">Salim Kayabasi</a> - Virgin Radio Turkyie support</li>
-         <li><a href="http://sheckel.net/">Jacob Tolar</a> - Amazon Cloud Player support</li>
-         <li><a href="http://github.com/vintitres">vintitres</a> - Pitchfork support</li>
-         <li><a href="http://github.com/nobodyzzz">nobodyzzz</a> - Z-music.org, VK.com, Zvooq.ru support</li>
-         <li><a href="https://github.com/shamer">Stephen Hamer</a> - Jango.com support</li>
-      </ul>
-   </p>
-</div>
 
-<div class="container faq">
-   <h1>FAQ</h1>
+         <div class="container about">
+            <h1>About</h1>
+            <!-- <h4><a href="http://scrobbler.davidsabata.cz">For details and changelog visit our website</a></h4> -->
+            <p>
+               Last.fm Scrobbler for Chrome was created for people who listen to music
+               online through their browser, and would like to keep an updated playback
+               history using last.fm's scrobbling service.
+            </p>
+            <p>
+               Supported websites <span class="gray">(alphabetically)</span>
+               <ul style="margin-top:0;">
+                  <li>22tracks.com</li>
+                  <li><strong>Amazon.com Cloud Player</strong></li>
+                  <li>BandCamp.com</li>
+                  <li>Deezer.com</li>
+                  <li>FFtunes.com</li>
+                  <li>Fizy.com</li>
+                  <li>Ghostly Discovery</li>
+                  <li><strong>Google Music</strong></li>
+                  <li>iHeart.com</li>
+                  <li>Indieshuffle.com</li>
+                  <li>Jango.com</li>
+                  <li>Megalyrics.ru</li>
+                  <li>MySpace</li>
+                  <li><strong>Pandora.com (new interface)</strong></li>
+                  <li>Pitchfork.com</li>
+                  <li>Thesixtyone.com</li>
+                  <li>TTnetMuzik.com.tr</li>
+                  <li>Tuba.fm</li>
+                  <li>Virgin Radio Turkiye</li>
+                  <li>VK.com</li>
+                  <li>Weborama.fm</li>
+                  <li><strong>YouTube</strong></li>
+                  <li>Zvooq.ru</li>
+                  <li>Z-music.org</li>
+               </ul>
+            </p>
+            <p>
+               As I don't visit many other websites with video content, the development of
+               <i>connectors</i> for other websites will be mostly up to you. Feel free to
+               send a pull request at <a href="http://github.com/david-sabata/Chrome-Last.fm-Scrobbler">GitHub</a>.
+               <span class="gray">Don't worry, even if no-one contributes I will still keep YouTube scrobbling
+               working myself.</span>
+            </p>
+            <p>
+               <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                  <div style="text-align: center">
+                     <input type="hidden" name="cmd" value="_s-xclick">
+                     <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----">
+                     <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                     <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                  </div>
+               </form>
+            </p>
+            <p>
+               And since we all love music and Last.fm, you can also stop by at
+               <a href="http://www.last.fm/user/na1k_/">my Last.fm profile</a> to compare taste or maybe leave a kind message :-)
+            </p>
+            <p>
+               <br />
+               Contributors
+               <ul style="margin-top:0;">
+                  <li><a href="http://www.yasinokumus.com/">Yasin Okumus</a> - MySpace, FFtunes, Fizy, TTnetMuzik support</li>
+                  <li><a href="https://github.com/sharjeelaziz">Sharjeel Aziz</a> - Google Music support</li>
+                  <li><a href="https://github.com/moski">Moski Doski</a> - Thesixtyone.com support</li>
+                  <li><a href="http://last.fm/user/Macint/">Peter McEvoy</a> - Ghostly Discovery support</li>
+                  <li><a href="https://github.com/porges">George Pollard</a> - BandCamp support</li>
+                  <li><a href="http://jperr.com">Jordan Perr</a> - Pandora support</li>
+                  <li><a href="http://damienalexandre.fr/">Damien Alexandre</a> - Deezer support</li>
+                  <li><a href="http://www.salimkayabasi.com">Salim Kayabasi</a> - Virgin Radio Turkyie support</li>
+                  <li><a href="http://sheckel.net/">Jacob Tolar</a> - Amazon Cloud Player support</li>
+                  <li><a href="http://github.com/vintitres">vintitres</a> - Pitchfork support</li>
+                  <li><a href="http://github.com/nobodyzzz">nobodyzzz</a> - Z-music.org, VK.com, Zvooq.ru support</li>
+                  <li><a href="https://github.com/shamer">Stephen Hamer</a> - Jango.com support</li>
+                  <li><a href="https://github.com/plushsteel">Natalia</a> - Weborama.fm, Megalyrics.ru, 22tracks.com support</li>
+                  <li><a href="https://github.com/fiv3isaliv3">fiv3isaliv3</a> - iHeart.com support</li>
+                  <li><a href="#">Titus Ramczykowski</a> - Indieshuffle.com support</li>
+			<li><a href="https://github.com/pluszak">Michal Rumanek</a> - Tuba.fm support</li>
+               </ul>
+            </p>
+         </div>
 
-   <h4>How do I temporarily disable scrobbling?</h4>
-   <p>
-      You can do that by clicking the icon in the omnibox (address bar). To enable scrobbling again, click the icon one more time.
-      The scrobbling will continue for the next song.
-   </p>
+         <div class="container faq">
+            <h1>FAQ</h1>
 
-   <h4>The song was not recognized! Can you fix it?</h4>
-   <p>
-      Actually YOU can fix it :)<br>
-      <br>
-      When a song cannot be recognized (and thus scrobbled) a gray icon with question mark appears at the right side of the omnibox (address bar).
-      By clicking it a small window pops out where you can input the right song information.<br>
-      <br>
-      <span style="color: #666">
-      (The data you input are not stored anywhere, so the next time you play the song, you'll have to enter the data again. This feature is still
-      work in progress. I'm not sure it is the right way to go for an extension to fix music websites errors. I'd be much happier to see websites
-      implement some kind of music tagging - just like YouTube partially did.)
-      </span>
-   </p>
+            <h4>How do I temporarily disable scrobbling?</h4>
+            <p>
+               You can do that by clicking the icon in the omnibox (address bar). To enable scrobbling again, click the icon one more time.
+               The scrobbling will continue for the next song.
+            </p>
 
-   <h4>Will you add support for scrobbling at&nbsp;&nbsp;____ ?</h4>
-   <p>
-      Possibly, but most likely no. I make the Scrobbler in my free time and that's why I manage only Youtube
-      support - I simply don't use any other web music service. Nevertheless, it is really easy to create a <i>connector</i>
-      and add support for a new website. You can simply fork the <a href="http://github.com/david-sabata/Chrome-Last.fm-Scrobbler">GitHub</a>
-      repository and send me a pull request. There is also a wiki page on the GitHub describing the extension core.
-   </p>
+            <h4>The song was not recognized! Can you fix it?</h4>
+            <p>
+               Actually YOU can fix it :)<br>
+               <br>
+               When a song cannot be recognized (and thus scrobbled) a gray icon with question mark appears at the right side of the omnibox (address bar).
+               By clicking it a small window pops out where you can input the right song information.<br>
+               <br>
+               <span style="color: #666">
+               (The data you input are not stored anywhere, so the next time you play the song, you'll have to enter the data again. This feature is still
+               work in progress. I'm not sure it is the right way to go for an extension to fix music websites errors. I'd be much happier to see websites
+               implement some kind of music tagging - just like YouTube partially did.)
+               </span>
+            </p>
 
-   <h4>Will you add&nbsp;&nbsp;____&nbsp;&nbsp;functionality?</h4>
-   <p>
-      Possibly, if it makes sense. A great example is functionality to correct the song title if it is not recognized.
-      This wasn't possible in earlier versions, but can be done since 1.0, because a lot of people was asking for it and
-      I also think it is useful.<br>
-      But if you want me to add some not-that-useful-but-really-cool functions, you'll probably get disappointed.
-   </p>
+            <h4>Will you add support for scrobbling at&nbsp;&nbsp;____ ?</h4>
+            <p>
+               Possibly, but most likely no. I make the Scrobbler in my free time and that's why I manage only Youtube
+               support - I simply don't use any other web music service. Nevertheless, it is really easy to create a <i>connector</i>
+               and add support for a new website. You can simply fork the <a href="http://github.com/david-sabata/Chrome-Last.fm-Scrobbler">GitHub</a>
+               repository and send me a pull request. There is also a wiki page on the GitHub describing the extension core.
+            </p>
 
-   <h4>Is the scrobbler available for the Firefox?</h4>
-   <p>
-      It is not and it won't be. This is a Chrome extension and I have no intentions to port it for the Firefox
-      or any other browser.
-   </p>
+            <h4>Will you add&nbsp;&nbsp;____&nbsp;&nbsp;functionality?</h4>
+            <p>
+               Possibly, if it makes sense. A great example is functionality to correct the song title if it is not recognized.
+               This wasn't possible in earlier versions, but can be done since 1.0, because a lot of people was asking for it and
+               I also think it is useful.<br>
+               But if you want me to add some not-that-useful-but-really-cool functions, you'll probably get disappointed.
+            </p>
 
-   <h4>Who is the author?</h4>
-   <p>
-      My name is David Šabata and I study IT at the Brno University of Technology, Czech Republic.
-      <ul>
-         <li><a href="https://plus.google.com/112444058875583505118">Google+ profile</a></li>
-         <li><a href="http://www.last.fm/user/na1k_">Last.fm profile</a></li>
-      </ul>
-   </p>
-</div>
+            <h4>Is the scrobbler available for the Firefox?</h4>
+            <p>
+               It is not and it won't be. This is a Chrome extension and I have no intentions to port it for the Firefox
+               or any other browser.
+            </p>
+
+            <h4>Who is the author?</h4>
+            <p>
+               My name is David Šabata and I study IT at the Brno University of Technology, Czech Republic.
+               <ul>
+                  <li><a href="https://plus.google.com/112444058875583505118">Google+ profile</a></li>
+                  <li><a href="http://www.last.fm/user/na1k_">Last.fm profile</a></li>
+               </ul>
+            </p>
+         </div>
+      </div>
+
+      <div class="right">
+         <div class="container news">
+            <h1>What's new</h1>
+
+            <h4>1.12</h4>
+            <ul>
+               <li>Tuba.fm support (by Michal Rumanek)</li>
+               <li>Amazon Player fixes (by Scott Bale)</li>
+               <li>Bugfixes & connectors updates</li>
+            </ul>
+
+            <h4>1.11</h4>
+            <ul>
+               <li>Indieshuffle.com support (by Titus Ramczykowski)</li>
+               <li>No longer stripping <i>(whatever remix)</i> off the YouTube clip titles</li>
+               <li>Bugfixes & connectors updates</li>
+            </ul>
+
+            <h4>1.10</h4>
+            <ul>
+               <li><i>What's new</i> section :-)</li>
+               <li>Fixed scrobbling on VK.com (by <a href="https://github.com/alex-volga">Alex</a>)</li>
+               <li>YouTube title recognition improved</li>
+               <li>Weborama.fm, Megalyrics.ru, 22tracks.com support<br>(by <a href="https://github.com/plushsteel">Natalia</a>)</li>
+               <li>iHeart.com support (by <a href="https://github.com/fiv3isaliv3">fiv3isaliv3</a>)</li>
+            </ul>
+
+         </div>
+      </div>
+
+   </div>
 
 </body>
 </html>

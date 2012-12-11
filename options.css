@@ -12,10 +12,23 @@ h1, h2, h3, h4, h5 {
 a {
    color: #000;
    text-decoration: none;
-   border-bottom: 1px solid #d51007;   
+   border-bottom: 1px solid #d51007;
 }
 a:hover {
    color: #d51007;
+}
+
+div#wrapper {
+   width: 830px;
+   margin: 0 auto;
+}
+div#wrapper > .left {
+   width: 410px;
+   float: left;
+}
+div#wrapper > .right {
+   width: 410px;
+   float: right;
 }
 
 div.container {
@@ -55,7 +68,7 @@ p.buttons{
 
 p#cred-status {
 	color: #D51007;
-	border: 1px dotted #ccc;	
+	border: 1px dotted #ccc;
 	width: 100%;
 	font-weight: bold;
 	font-size:18px;
@@ -85,4 +98,12 @@ span#options-status {
 
 div.faq h4 {
    margin-bottom: 0;
+}
+
+.news h4 {
+   margin-bottom: 0;
+   padding-bottom: 0;
+}
+.news ul {
+   margin-top: 5px;
 }

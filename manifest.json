@@ -1,6 +1,6 @@
 {
    "name": "Last.fm Scrobbler",
-   "version": "1.9",
+   "version": "1.12",
 
    "description": "Scrobble music all around the web!",
    "icons": {
@@ -11,7 +11,8 @@
    "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
 
    "web_accessible_resources": [
-      "icon128.png"
+      "icon128.png",
+      "jango-dom-inject.js"
    ],
 
    "background": {
@@ -59,7 +60,7 @@
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "myspace.js"]
    },
    {
-      "matches": ["*://pitchfork.com/*"],
+      "matches": ["*://pitchfork.com/*", "*://www.pitchfork.com/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "pitchfork.js"]
    },
    {
@@ -71,7 +72,7 @@
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "fizy.js"]
    },
    {
-      "matches": ["http://www.virginradioturkiye.com/live","http://live.radioeksen.com/live"],
+      "matches": ["*://*.virginradioturkiye.com/*","*://*.radioeksen.com/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "virginradiotr.js"]
    },
    {
@@ -118,8 +119,32 @@
    {
       "matches": ["*://zvooq.ru/*"],
       "js": ["jquery-1.6.1.min.js", "zvooq.js"]
+   },
+   {
+      "matches": ["*://www.weborama.fm/*"],
+      "all_frames": true,
+      "js": ["jquery-1.6.1.min.js", "weborama.js"]
+    },
+    {
+      "matches": ["*://22tracks.com/*"],
+      "js": ["jquery-1.6.1.min.js", "22tracks.js"]
+    },
+    {
+      "matches": ["*://megalyrics.ru/*"],
+      "all_frames": true,
+      "js": ["jquery-1.6.1.min.js", "megalyrics.js"]
+   },
+   {
+      "matches": ["*://*.iheart.com/*"],
+      "js": ["jquery-1.6.1.min.js", "iheart.js"]
+   },
+   {
+      "matches": ["*://www.indieshuffle.com/*"],
+      "js": ["jquery-1.6.1.min.js", "indieshuffle.js"]
+   },
+   {
+      "matches": ["*://fm.tuba.pl/*"],
+      "js": ["jquery-1.6.1.min.js", "tubafm.js"]
    }
-
-
    ]
 }
