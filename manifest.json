@@ -25,7 +25,8 @@
       "tabs",
       "notifications",
       "http://ws.audioscrobbler.com/2.0/",
-      "http://gdata.youtube.com/feeds/api/videos/"
+      "http://gdata.youtube.com/feeds/api/videos/",
+      "<all_urls>"
    ],
 
    "page_action": {
@@ -144,6 +145,12 @@
    {
       "matches": ["*://fm.tuba.pl/*"],
       "js": ["jquery-1.6.1.min.js", "tubafm.js"]
+   },
+   {
+      "matches" : ["*://*.spapps.co/*"],
+      "include_globs" : ["*player.spapps.co*"],
+      "all_frames" : true,
+      "js" : ["jquery-1.6.1.min.js", "spotify.js"]
    }
    ]
 }
