@@ -1,3 +1,9 @@
+/**
+ * Listen to a "play" event and communicate the current song to the extension
+ * via a Json string in a DOM node.
+ *
+ * @author Damien ALEXANDRE <dalexandre@jolicode.com>
+ */
 function chromeLastFMUpdateNowPlaying() {
     var spotify_context = window.context;
 
@@ -9,15 +15,22 @@ function chromeLastFMUpdateNowPlaying() {
     } else {
         spotify_context.addEventListener("play", function () {
             var context = this;
-            if (this._currentTrack && !this._currentTrack.advertisement) {
+            if (context._currentTrack && !context._currentTrack.advertisement) {
                 var songInfo = {
-                    'title': this._currentTrack.name,
-                    'artist': this._currentTrack.artists[0].name,
-                    'duration': parseInt(this._currentTrack.duration / 1000, 10)
+                    'title': context._currentTrack.name,
+                    'artist': context._currentTrack.artists[0].name,
+                    'duration': parseInt(context._currentTrack.duration / 1000, 10)
                 };
                 var commDiv = document.getElementById('chromeLastFM');
                 commDiv.innerText = JSON.stringify(songInfo);
             }
+        });
+
+        spotify_context.addEventListener("pause", function () {
+            var commDiv = document.getElementById('chromeLastFM');
+            commDiv.innerText = JSON.stringify({
+                'pause': true
+            });
         });
     }
 }

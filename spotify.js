@@ -16,6 +16,12 @@ function updateNowPlaying() {
         return;
     }
 
+    if (songInfo['pause'] && songInfo['pause'] === true) {
+        lastSongTitle = '';
+        chrome.extension.sendRequest({type: "reset"});
+        return;
+    }
+
     if (songInfo['title'] == lastSongTitle) {
         return;
     }
