@@ -12,7 +12,8 @@
 
    "web_accessible_resources": [
       "icon128.png",
-      "jango-dom-inject.js"
+      "jango-dom-inject.js",
+      "spotify-dom-inject.js"
    ],
 
    "background": {
