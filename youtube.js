@@ -2,7 +2,7 @@
 var state = 'init';
 
 // Used only to remember last song title
-var clipTitle = '';  
+var clipTitle = '';
 
 // Options
 var options = {};
@@ -17,26 +17,26 @@ $(document).ready(function() {
 function init() {
    // bindings to trigger song recognition on various (classic, profile) pages
    if (document.location.toString().indexOf('/watch#!v=') > -1) {
-      // === AJAX page load =======================================================        
+      // === AJAX page load =======================================================
 
       // Hook up for changes in header (Loading... -> Artist - Title) on CLASSIC page
-      $('#watch-pagetop-section').bind('DOMSubtreeModified', function(e) {      
+      $('#watch-pagetop-section').bind('DOMSubtreeModified', function(e) {
 
-         // simple FSM (not only) to prevent multiple calls of updateNowPlaying()                                                                
+         // simple FSM (not only) to prevent multiple calls of updateNowPlaying()
 
-         // init ----> loading   
-         if (state == 'init' && $('#watch-loading').length > 0) {      
-            state = 'loading';              
+         // init ----> loading
+         if (state == 'init' && $('#watch-loading').length > 0) {
+            state = 'loading';
             return;
          }
 
          // watching ----> loading
-         if (state == 'watching' && 
-             $('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').length>0 && 
+         if (state == 'watching' &&
+             $('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').length>0 &&
              $('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').attr('title') != clipTitle
             ) {
             // fake loading state to match the next condition and reload the clip info
-            state = 'loading';                    
+            state = 'loading';
          }
 
          // loading --[updateNowPlaying(), set clipTitle]--> watching
@@ -46,12 +46,12 @@ function init() {
 
             updateNowPlaying();
 
-            return;    
+            return;
          }
 
-      });     
+      });
 
-   } else if ( $('#playnav-player').length > 0 ) {       
+   } else if ( $('#playnav-player').length > 0 ) {
 
       // Hook up for changes in title on users profile page
       $('#playnav-video-details').bind('DOMSubtreeModified', function(e) {
@@ -63,7 +63,7 @@ function init() {
             var titleEl = $('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]');
             if (titleEl.length == 0)
                titleEl = $('#playnav-curvideo-title > a'); // newer version
-            
+
             if (clipTitle != titleEl.text()) {
                updateNowPlaying();
                clipTitle = titleEl.text();
@@ -96,43 +96,65 @@ function init() {
 
 
    // bind page unload function to discard current "now listening"
-   $(window).unload(function() {      
-      
+   $(window).unload(function() {
+
       // reset the background scrobbler song data
       chrome.extension.sendRequest({type: 'reset'});
-      
-      return true;      
+
+      return true;
    });
 }
 
 
 
 /**
- * Parse given string into artist and track
+ * Trim whitespaces from both endings of the string
+ */
+function trim(str) {
+   return str.replace(/^\s+|\s+$/g, '');
+}
+
+
+/**
+ * Find first occurence of possible separator in given string
+ * and return separator's position and size in chars or null
+ */
+function findSeparator(str) {
+   // care - minus vs hyphen
+   var separators = [' - ', ' – ', '-', '–', ':'];
+
+   for (i in separators) {
+      var sep = separators[i];
+      var index = str.indexOf(sep);
+      if (index > -1)
+         return { index: index, length: sep.length };
+   }
+
+   return null;
+}
+
+/**
+ * Parse given string into artist and track, assume common order Art - Ttl
  * @return {artist, track}
- */  
+ */
 function parseInfo(artistTitle) {
    var artist = '';
    var track = '';
-   
-   // Figure out where to split; use " - " rather than "-" 
-   if (artistTitle.indexOf(' - ') > -1) {
-      artist = artistTitle.substring(0, artistTitle.indexOf(' - '));
-      track = artistTitle.substring(artistTitle.indexOf(' - ') + 3);
-   } else if (artistTitle.indexOf('-') > -1) {
-      artist = artistTitle.substring(0, artistTitle.indexOf('-'));
-      track = artistTitle.substring(artistTitle.indexOf('-') + 1);      
-   } else if (artistTitle.indexOf(':') > -1) {
-      artist = artistTitle.substring(0, artistTitle.indexOf(':'));
-      track = artistTitle.substring(artistTitle.indexOf(':') + 1);   
-   } else {
-      // can't parse
-      return {artist:'', track:''};
-   } 
+
+   var separator = findSeparator(artistTitle);
+   if (separator == null)
+      return { artist: '', track: '' };
+
+   artist = artistTitle.substr(0, separator.index);
+   track = artistTitle.substr(separator.index + separator.length);
 
    return cleanArtistTrack(artist, track);
 }
 
+
+/**
+ * Clean non-informative garbage from title
+ */
 function cleanArtistTrack(artist, track) {
 
    // Do some cleanup
@@ -142,9 +164,11 @@ function cleanArtistTrack(artist, track) {
    // Strip crap
    track = track.replace(/\s*\*+\s?\S+\s?\*+$/, ''); // **NEW**
    track = track.replace(/\s*\[[^\]]+\]$/, ''); // [whatever]
+   track = track.replace(/\s*\([^\)]*version\)$/i, ''); // (whatever version)
    track = track.replace(/\s*\.(avi|wmv|mpg|mpeg|flv)$/i, ''); // video extensions
    track = track.replace(/\s*(of+icial\s*)?(music\s*)?video/i, ''); // (official)? (music)? video
    track = track.replace(/\s*\(\s*of+icial\s*\)/i, ''); // (official)
+   track = track.replace(/\s*\(\s*[0-9]{4}\s*\)/i, ''); // (1999)
    track = track.replace(/\s+\(\s*(HD|HQ)\s*\)$/, ''); // HD (HQ)
    track = track.replace(/\s+(HD|HQ)\s*$/, ''); // HD (HQ)
    track = track.replace(/\s*video\s*clip/i, ''); // video clip
@@ -162,38 +186,38 @@ function cleanArtistTrack(artist, track) {
 /**
  * Display message in front of clip title,
  * call without parameter to clean the message.
- */ 
+ */
 function displayMsg(msg) {
    // consider options
    if (getOption('useYTInpage') != 1)
       return;
-      
-   $('#chrome-scrobbler-status').remove(); 
 
-   if (msg) {              
+   $('#chrome-scrobbler-status').remove();
+
+   if (msg) {
       // regular page
-      if ($('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').length>0)         
+      if ($('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').length>0)
          $('<span id="chrome-scrobbler-status" title="">'+msg+'</span>').insertBefore($('#watch-headline-title > span[title][id!=chrome-scrobbler-status]'));
       // user profile
-      if ($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').length>0)                  
-         $('<span id="chrome-scrobbler-status" title="">'+msg+'</span>').insertBefore($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]'));      
+      if ($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').length>0)
+         $('<span id="chrome-scrobbler-status" title="">'+msg+'</span>').insertBefore($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]'));
    }
-} 
+}
 
 
 
 /**
  * Called every time the player reloads
- */ 
-function updateNowPlaying() {   
-   
+ */
+function updateNowPlaying() {
+
    // get the video ID
-   var videoID = document.URL.match(/^[^v]+v.(.{11}).*/);
+   var videoID = document.URL.match(/v[^a-z]([a-zA-Z0-9\-_]{11})/);
    if (videoID && videoID.length > 0)
       videoID = videoID[1];
    else
       videoID = null;
-   
+
    // videoID from title at profile page
    if ($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').length > 0) {
       videoID = $('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').attr('onclick').toString().match(/\?v=(.{11})/);
@@ -206,23 +230,23 @@ function updateNowPlaying() {
       if (videoID && videoID.length > 0)
          videoID = videoID[1];
    }
-   
+
    // something changed?
    if (!videoID) {
       console.log('If there is a YouTube player on this page, it has not been recognized. Please fill in an issue at GitHub');
       //alert('YouTube has probably changed its code. Please get newer version of the Last.fm Scrobbler extension');
       return;
-   }   
+   }
 
    // http://code.google.com/intl/cs/apis/youtube/2.0/developers_guide_protocol_video_entries.html
    var googleURL = "http://gdata.youtube.com/feeds/api/videos/" + videoID + "?alt=json";
-   
+
    // clear the message
    displayMsg();
-   
+
    // Get clip info from youtube api
    chrome.extension.sendRequest({type: "xhr", url: googleURL}, function(response) {
-   	var info = JSON.parse(response.text);         	
+   	var info = JSON.parse(response.text);
    	var parsedInfo = parseInfo(info.entry.title.$t);
       var artist = null;
       var track = null;
@@ -230,21 +254,32 @@ function updateNowPlaying() {
       // Use the #eow-title #watch-headline-show-title if available
       var track_dom = $('#eow-title').clone();
       var artist_dom = $('#watch-headline-show-title', track_dom);
-      var mdata_dom = $('#watch-description-extra-info .metadata-info > span.link-like');
+
+      // there is a hyperlink of artist in title
       if (artist_dom.length) {
+        var wholeTitleText = trim( track_dom.text() );
         artist = artist_dom.text();
-        artist_dom.remove();
-        track = track_dom.text();
+
+        var artistIndex = wholeTitleText.indexOf(artist);
+        var separator = findSeparator(wholeTitleText);
+
+        // no separator found, parseInfo would fail too
+        if (separator == null) {
+           parsedInfo = { artist: '', track: '' };
+        }
+        // separator AFTER artist, common order, cut after separator
+        else if (separator.index > artistIndex) {
+           track = wholeTitleText.substr(separator.index + separator.length);
+        }
+        // separator BEFORE artist, reversed order, cut before separator
+        else {
+           track = wholeTitleText.substr(0, separator.index);
+        }
+
         parsedInfo = cleanArtistTrack(artist, track);
       }
-      /*
-      // Use description metadata if available
-      else if ($('#watch-description-extra-info img.music-artist').length && mdata_dom.length) {
-        artist = mdata_dom.text();
-        track = track_dom.text();
-        track.replace(artist, '');
-        parsedInfo = cleanArtistTrack(artist, track);
-      }*/
+
+      // just a plain text title
       else if (parsedInfo['artist'] == '') {
         parsedInfo = parseInfo(track_dom.text());
       }
@@ -257,8 +292,8 @@ function updateNowPlaying() {
    	if (info.entry.media$group.media$content != undefined)
          duration = info.entry.media$group.media$content[0].duration;
       else if (info.entry.media$group.yt$duration.seconds != undefined)
-         duration = info.entry.media$group.yt$duration.seconds;                	      
-      
+         duration = info.entry.media$group.yt$duration.seconds;
+
       // Validate given artist and track (even for empty strings)
       chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
          // on success send nowPlaying song
@@ -273,31 +308,31 @@ function updateNowPlaying() {
             displayMsg('Not recognized');
          }
    	});
-      
+
    });
-   
+
 }
 
 
 /**
  * Gets an value from extension's localStorage (preloaded to 'options' object because of a bug 54257)
  */
-function getOption(key) {   
+function getOption(key) {
    return options[key];
 }
 
 
 /**
  * Listen for requests from scrobbler.js
- */ 
+ */
 chrome.extension.onRequest.addListener(
    function(request, sender, sendResponse) {
          switch(request.type) {
             // called after track has been successfully marked as 'now playing' at the server
             case 'nowPlayingOK':
-               displayMsg('Scrobbling');               
+               displayMsg('Scrobbling');
                break;
-            
+
             // not used yet
             case 'submitOK':
                break;
@@ -305,7 +340,7 @@ chrome.extension.onRequest.addListener(
             // not used yet
             case 'submitFAIL':
                //alert('submit fail');
-               break; 
+               break;
          }
    }
 );
