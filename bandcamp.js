@@ -46,7 +46,7 @@ function parseTitle()
 {
 	if (isAlbum())
 	{
-		return $(".track_info .title").text();
+		return $(".track_info .title").first().text();
 	}
 	else //isTrack
 	{
@@ -78,7 +78,7 @@ $(durationPart).bind('DOMSubtreeModified',function(e){
 
 		var artist = parseArtist();
 		var track = parseTitle();
-
+		
 		var dashIndex = track.indexOf('-');
 		if (artist == 'Various Artists' && dashIndex >= 0)
 		{
@@ -92,7 +92,7 @@ $(durationPart).bind('DOMSubtreeModified',function(e){
 		if (lastTrack != track)
 		{
 			lastTrack = track;
-
+			
 			//console.log("BandCampScrobbler: scrobbling '" + track + "' by " + artist);
 			chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
 				if (response != false){
