@@ -12,7 +12,8 @@
 
    "web_accessible_resources": [
       "icon128.png",
-      "jango-dom-inject.js"
+      "jango-dom-inject.js",
+      "spotify-dom-inject.js"
    ],
 
    "background": {
@@ -144,6 +145,10 @@
    {
       "matches": ["*://fm.tuba.pl/*"],
       "js": ["jquery-1.6.1.min.js", "tubafm.js"]
+   },
+   {
+      "matches": ["https://play.spotify.com/*"],
+      "js": ["jquery-1.6.1.min.js", "spotify.js"]
    }
    ]
 }
