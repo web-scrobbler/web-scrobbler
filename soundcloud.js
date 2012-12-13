@@ -18,10 +18,8 @@
     };
 
     var duration = function(title) {
-        node = $('.timeIndicator__total');
-        // check if we can get duration of this track
-        // (available only on page of track)
-        if (node.length && $(node[0]).closest('.listenContent').find('.soundTitle__title').html() === title) {
+        node = $('.sound.playing').not('.playlist').find('.timeIndicator__total');
+        if (node.length) {
             // time is given as h.m.s
             var digits = node[0].innerHTML.split(/\D/),
                 seconds = 0, length, digit;
@@ -35,8 +33,8 @@
                 seconds += parseInt(d, 10) * Math.pow(60, length - digits.length - 1);
             }
             return seconds;
-        } 
-        // if unknown duration, assume 2 minutes 
+        }
+        // if unknown duration, assume 2 minutes
         return 120;
     };
 
@@ -47,25 +45,27 @@
             if (title[0] !== '▶' || current_title === title)
                 return;
             current_title = title;
-            var s = song(title.substr(2));
+            setTimeout(function () {
+                var s = song(title.substr(2));
 
-            chrome.extension.sendRequest({type: 'validate',
-                                        artist: s.artist,
-                                         track: s.track},
-            function(response) {
-                current.validated = response;
-                if (response !== false) {
-                    chrome.extension.sendRequest({type: 'nowPlaying',
-                                                artist: response.artist,
-                                                 track: response.track,
-                                              duration: s.duration});
-                }
+                chrome.extension.sendRequest({type: 'validate',
+                                            artist: s.artist,
+                                             track: s.track},
+                function(response) {
+                    current.validated = response;
+                    if (response !== false) {
+                        chrome.extension.sendRequest({type: 'nowPlaying',
+                                                    artist: response.artist,
+                                                     track: response.track,
+                                                  duration: s.duration});
+                    }
 
-                else {
-                    chrome.extension.sendRequest({type: 'nowPlaying',
-                                              duration: s.duration});
-                }
-            });
+                    else {
+                        chrome.extension.sendRequest({type: 'nowPlaying',
+                                                  duration: s.duration});
+                    }
+                });
+            }, 500);
         });
     });
 
