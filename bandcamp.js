@@ -46,7 +46,7 @@ function parseTitle()
 {
 	if (isAlbum())
 	{
-		return $(".track_info .title").text();
+		return $(".track_info .title").first().text();
 	}
 	else //isTrack
 	{
