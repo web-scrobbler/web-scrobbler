@@ -67,8 +67,16 @@ const ACTION_CONN_DISABLED = 7;
  */
 {
    // use notifications by default
-   if(localStorage.useNotifications == null)
+   if (localStorage.useNotifications == null)
       localStorage.useNotifications = 1;
+
+   // now playing notifications
+   if (localStorage.useNotificationsNowPlaying == null)
+      localStorage.useNotificationsNowPlaying = 1;
+   
+   // scrobbled notifications
+   if (localStorage.useNotificationsScrobbled == null)
+      localStorage.useNotificationsScrobbled = 1;
 
    // don't use the YT statuses by default
    if (localStorage.useYTInpage == null)
@@ -395,8 +403,11 @@ function nowPlaying() {
 
          // Confirm the content_script, that the song is "now playing"
          chrome.tabs.sendRequest(nowPlayingTab, {type: "nowPlayingOK"});
+         
          // Show notification
-         scrobblerNotification(notifText);
+         if (localStorage.useNotificationsNowPlaying == 1)
+            scrobblerNotification(notifText);
+      
          // Update page action icon
          setActionIcon(ACTION_NOWPLAYING);
    } else {
@@ -447,7 +458,8 @@ function submit() {
       var notifText =  'Scrobbled' + NOTIFICATION_SEPARATOR + song.artist + " - " + song.track;
 
       // notification
-      scrobblerNotification(notifText);
+      if (localStorage.useNotificationsScrobbled == 1)
+         scrobblerNotification(notifText);
 
       // Update page action icon
       setActionIcon(ACTION_SCROBBLED);

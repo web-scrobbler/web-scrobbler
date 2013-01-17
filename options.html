@@ -17,7 +17,17 @@
                <li>
                   <input type="checkbox" id="use-notifications">
                   <label for="use-notifications" title="Turns on/off popup scrobbling notifications for all supported websites">Use desktop notifications (global)</label>
-               </li>
+                  <ul>
+                     <li>
+                        <input type="checkbox" id="use-notifications-nowplaying">
+                        <label for="use-notifications-nowplaying">Notify when song starts playing</label>
+                     </li>
+                     <li>
+                        <input type="checkbox" id="use-notifications-scrobbled">
+                        <label for="use-notifications-scrobbled">Notify when song has been scrobbled</label>
+                     </li>
+                  </ul>
+               </li>               
                <li>
                   <input type="checkbox" id="use-autocorrect">
                   <label for="use-autocorrect" title="Auto-corrects the track title before scrobbling. (experimental)">Use autocorrect (global)</label>
@@ -55,6 +65,7 @@
                   <li>MySpace</li>
                   <li><strong>Pandora.com (new interface)</strong></li>
                   <li>Pitchfork.com</li>
+                  <li>SoundCloud.com</li>
                   <li>Spotify.com</li>
                   <li>Thesixtyone.com</li>
                   <li>TTnetMuzik.com.tr</li>
@@ -108,6 +119,7 @@
                   <li><a href="https://github.com/fiv3isaliv3">fiv3isaliv3</a> - iHeart.com support</li>
                   <li><a href="#">Titus Ramczykowski</a> - Indieshuffle.com support</li>
 			<li><a href="https://github.com/pluszak">Michal Rumanek</a> - Tuba.fm support</li>
+			<li><a href="https://github.com/vintitres">vintitres</a> - SoundCloud.com support</li>
                </ul>
             </p>
          </div>
@@ -171,7 +183,15 @@
       <div class="right">
          <div class="container news">
             <h1>What's new</h1>
-
+           
+            <h4>1.13</h4>
+            <ul>
+               <li>SoundCloud support (by vintitres)</li>
+               <li>Spotify support (by Damien Alexandre)</li>
+               <li>You can now choose to be notified when song starts playing and/or is scrobbled</li>
+               <li>Bugfixes & connectors updates</li>
+            </ul>
+            
             <h4>1.12</h4>
             <ul>
                <li>Tuba.fm support (by Michal Rumanek)</li>
