@@ -56,7 +56,7 @@ function parseTitle()
 
 function isAlbum()
 {
-	return document.location.toString().indexOf('bandcamp.com/album/') >= 0;
+	return $('.trackView[itemtype="http://schema.org/MusicAlbum"]').length > 0;
 }
 
 function cancel(){
