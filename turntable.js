@@ -14,18 +14,24 @@ TT_WATCHED_CONTAINER = "div#song-log";
 // Returns the currently playing artist name
 function TT_getArtist( ) {
    var details = $("div#song-log div.details span:first").html();
-   return $.trim( details.replace(/^|<span.*\d+:\d+$/g, '') );
+   return TT_cleanLabel( details.replace(/^|<span.*\d+:\d+$/g, '') );
 }
 
 // Returns the currently playing track title
 function TT_getTrack( ) {
-   return $.trim( $("div#song-log div.title:first").text() );
+   return TT_cleanLabel( $("div#song-log div.title:first").text() );
 }
 
 // Returns the number of seconds left in the song
 function TT_getTimeLeft( ) {
    var remainingArr = $("div#time-left").text().split(":");
    return parseInt( remainingArr[0] ) * 60 + parseInt( remainingArr[1] );
+}
+
+// Perform some common cleanup of artist/song strings
+function TT_cleanLabel( label ) {
+   label = label.replace( '&amp;', '&' );
+   return $.trim( label );
 }
 
 /*** Scrobbler Interface ***/
