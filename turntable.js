@@ -13,8 +13,8 @@ TT_WATCHED_CONTAINER = "div#song-log";
 
 // Returns the currently playing artist name
 function TT_getArtist( ) {
-   var details = $("div#song-log div.details:first").text();
-   return $.trim( details.replace(/^|\s+-\s+\d+:\d+$/g, '') );
+   var details = $("div#song-log div.details span:first").html();
+   return $.trim( details.replace(/^|<span.*\d+:\d+$/g, '') );
 }
 
 // Returns the currently playing track title
