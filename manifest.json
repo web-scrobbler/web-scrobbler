@@ -153,6 +153,10 @@
    {
       "matches": ["https://play.spotify.com/*"],
       "js": ["jquery-1.6.1.min.js", "spotify.js"]
+   },
+   {
+      "matches": ["*://songza.com/*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "songza.js"]
    }
    ]
 }
