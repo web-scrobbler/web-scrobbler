@@ -54,8 +54,8 @@ $(function() {
     });
 
     $(document).bind("DOMNodeInserted", function(e) {
-        if (e.target.id === "gp_info") {
-			$("#gp_info").bind('DOMSubtreeModified', function(e) { setTimeout(scrobble, 500) });
+        if (e.target.id === "gp_performer") {
+			$("#gp_info>div").bind('DOMSubtreeModified', function(e) { setTimeout(scrobble, 500) });
 		}
     });
 });
