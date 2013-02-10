@@ -153,6 +153,11 @@
    {
       "matches": ["https://play.spotify.com/*"],
       "js": ["jquery-1.6.1.min.js", "spotify.js"]
+   },
+   {
+      "matches": ["*://www.slacker.com/*"],
+      "all_frames": true,
+      "js": ["jquery-1.6.1.min.js", "slacker.js"]
    }
    ]
 }
