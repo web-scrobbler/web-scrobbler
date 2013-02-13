@@ -155,9 +155,13 @@
       "js": ["jquery-1.6.1.min.js", "spotify.js"]
    },
    {
-      "matches": ["*://www.slacker.com/*"],
-      "all_frames": true,
+      "matches": ["*://www.slacker.com/webplayer/index_embed.vm"],
       "js": ["jquery-1.6.1.min.js", "slacker.js"]
+   },
+   {
+      "matches": ["*://www.slacker.com/*"],
+      "exclude_matches": ["*://www.slacker.com/webplayer/index_embed.vm"],
+      "js": ["jquery-1.6.1.min.js", "slacker2.js"]
    }
    ]
 }
