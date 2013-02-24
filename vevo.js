@@ -59,7 +59,7 @@ function LFM_updateNowPlaying(){
 			if (response != false) {
 				chrome.extension.sendRequest({type: 'nowPlaying', artist: song.artist, track: song.track, duration: song.duration});
 			} else { // on failure send nowPlaying 'unknown song'
-				chrome.extension.sendRequest({type: 'nowPlaying', duration: duration});
+				chrome.extension.sendRequest({type: 'nowPlaying', duration: song.duration});
 			}
 		});
 	}	
