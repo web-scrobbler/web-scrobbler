@@ -1,27 +1,17 @@
 /*
- * Chrome-Last.fm-Scrobbler Pandora.com "new interface" Connector
+ * Chrome-Last.fm-Scrobbler Reddit Playlister Connector
  * 
- * Jordan Perr --- http://jperr.com --- jordan[at]jperr[dot]com
+ * based on Pandora.com Jordan Perr --- http://jperr.com --- jordan[at]jperr[dot]com
  *
- * You can use this as a template for other connectors.
+ * with VERY slight modifications by lcz 
+ * http://github.com/thricedotted || http://last.fm/user/thricedotted
+ *
  */
 
 /********* Configuration: ***********/
 
 // changes to the DOM in this container will trigger an update.
 LFM_WATCHED_CONTAINER = "div#portablecontrols";
-
-// function that returns title of current song
-function LFM_TRACK_TITLE() {
-	var info = parseInfo($("div#portablecontrols h3").html());
-    return info.track;
-}
-
-// function that returns artist of current song
-function LFM_TRACK_ARTIST() {
-	var info = parseInfo($("div#portablecontrols h3").html());
-    return info.artist;
-}
 
 // function that returns duration of current song in seconds
 // called at begining of song
@@ -38,8 +28,9 @@ var LFM_isWaiting = 0;
 
 function LFM_updateNowPlaying(){
 	// Acquire data from page
-	title = LFM_TRACK_TITLE();
-	artist = LFM_TRACK_ARTIST();
+	allInfo = parseInfo($("div#portablecontrols h3").html());
+	title = allInfo.title;
+	artist = allInfo.artist;
 	duration = LFM_TRACK_DURATION();
 	newTrack = title + " " + artist;
 	// Update scrobbler if necessary
