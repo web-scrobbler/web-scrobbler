@@ -44,7 +44,7 @@
    },
    {
       "matches": ["*://www.youtube.com/watch*", "*://www.youtube.com/user/*"],
-      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "youtube.js"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "util.js", "youtube.js"],
       "css": ["youtube.css"]
    },
    {
@@ -106,7 +106,7 @@
    },
    {
       "matches": ["*://soundcloud.com/*"],
-      "js": ["jquery-1.6.1.min.js", "soundcloud.js"]
+      "js": ["jquery-1.6.1.min.js", "util.js", "soundcloud.js"]
    },
    {
       "matches": ["*://www.amazon.com/gp/dmusic/mp3/player*"],
@@ -153,6 +153,11 @@
    {
       "matches": ["https://play.spotify.com/*"],
       "js": ["jquery-1.6.1.min.js", "spotify.js"]
+   },
+   {
+      "matches": ["http://redditplayer.phoenixforgotten.com/*"],
+      "js": ["jquery-1.6.1.min.js", "util.js", "redditplayer.js"],
+      "run_at" : "document_start"
    }
    ]
 }
