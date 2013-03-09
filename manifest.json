@@ -157,6 +157,10 @@
    {
       "matches": ["https://play.spotify.com/*"],
       "js": ["jquery-1.6.1.min.js", "spotify.js"]
+   },
+   {
+      "matches": ["*://grooveshark.com/*"],
+      "js": ["jquery-1.6.1.min.js", "grooveshark.js"]
    }
    ]
 }
