@@ -13,12 +13,12 @@ LFM_WATCHED_CONTAINER = "div.nowplaying";
 
 // function that returns title of current song
 function LFM_TRACK_TITLE() {
-	return $("a.playerBarSong").html();
+	return $("a.playerBarSong").text();
 }
 
 // function that returns artist of current song
 function LFM_TRACK_ARTIST() {
-	return $("a.playerBarArtist").html();
+	return $("a.playerBarArtist").text();
 }
 
 // function that returns duration of current song in seconds
