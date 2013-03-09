@@ -60,6 +60,10 @@
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "myspace.js"]
    },
    {
+      "matches": ["*://new.myspace.com/*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "newmyspace.js"]
+   },
+   {
       "matches": ["*://pitchfork.com/*", "*://www.pitchfork.com/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "pitchfork.js"]
    },
