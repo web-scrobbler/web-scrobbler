@@ -1,9 +1,10 @@
 /*
- * Chrome-Last.fm-Scrobbler fizy.com Connector by Yasin Okumus
+ * Chrome-Last.fm-Scrobbler fizy.com / fizy.org Connector by Yasin Okumus
  * http://www.yasinokumus.com
  */
  
-var player = "#playingSong";
+var player = "#nowplaying";
+var playingText = "#nowPlayingText";
 
 $(function(){
 	//if opened by song
@@ -21,18 +22,19 @@ $(function(){
 });
 
 function process(){
-		var title = $(player).text().substring(11);
-		var info = parseTitle(title);
-		var artist = info['artist'];
-		var track = info['track'];
-		if(track != undefined && artist != undefined){
-			chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
-				if (response != false){
-					var duration = (response['duration']/1000);
-					chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
-				}
-			});
-		}
+	var title = $(playingText).text().replace(/^\s*\[[^\]]+\]/, ''); // [minute-second] etc. ignored
+	
+   var info = parseTitle(title);
+	var artist = info['artist'];
+	var track = info['track'];
+	if(track != undefined && artist != undefined){
+		chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
+			if (response != false){
+				var duration = (response['duration']/1000);
+				chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
+			}
+		});
+	}
 }
 function parseTitle(artistTitle){
    var artist = '';
@@ -56,6 +58,10 @@ function parseTitle(artistTitle){
    return cleanArtistTrack(artist, track);
 }
 
+/**
+ * Clean non-informative garbage from title
+ * (copied from youtube.js because some musics on fizy directly come from youtube)
+ */
 function cleanArtistTrack(artist, track) {
 
    // Do some cleanup
@@ -65,8 +71,11 @@ function cleanArtistTrack(artist, track) {
    // Strip crap
    track = track.replace(/\s*\*+\s?\S+\s?\*+$/, ''); // **NEW**
    track = track.replace(/\s*\[[^\]]+\]$/, ''); // [whatever]
+   track = track.replace(/\s*\([^\)]*version\)$/i, ''); // (whatever version)
    track = track.replace(/\s*\.(avi|wmv|mpg|mpeg|flv)$/i, ''); // video extensions
    track = track.replace(/\s*(of+icial\s*)?(music\s*)?video/i, ''); // (official)? (music)? video
+   track = track.replace(/\s*\(\s*of+icial\s*\)/i, ''); // (official)
+   track = track.replace(/\s*\(\s*[0-9]{4}\s*\)/i, ''); // (1999)
    track = track.replace(/\s+\(\s*(HD|HQ)\s*\)$/, ''); // HD (HQ)
    track = track.replace(/\s+(HD|HQ)\s*$/, ''); // HD (HQ)
    track = track.replace(/\s*video\s*clip/i, ''); // video clip
