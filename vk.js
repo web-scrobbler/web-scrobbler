@@ -55,7 +55,7 @@ $(function() {
 
     $(document).bind("DOMNodeInserted", function(e) {
         if (e.target.id === "gp_performer") {
-			$("#gp_performer").bind('DOMSubtreeModified', function(e) { setTimeout(scrobble, 500) });
+			$("#gp_info>div").bind('DOMSubtreeModified', function(e) { setTimeout(scrobble, 500) });
 		}
     });
 });
