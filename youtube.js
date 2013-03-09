@@ -177,8 +177,9 @@ function cleanArtistTrack(artist, track) {
    track = track.replace(/\(\s*\)/, ''); // Leftovers after e.g. (official video)
    track = track.replace(/^(|.*\s)"(.*)"(\s.*|)$/, '$2'); // Artist - The new "Track title" featuring someone
    track = track.replace(/^(|.*\s)'(.*)'(\s.*|)$/, '$2'); // 'Track title'
-   track = track.replace(/^[\/\s,:;~-]+/, ''); // trim starting white chars and dash
-   track = track.replace(/[\/\s,:;~-]+$/, ''); // trim trailing white chars and dash
+   track = track.replace(/^[\/\s,:;~-\s"]+/, ''); // trim starting white chars and dash
+   track = track.replace(/[\/\s,:;~-\s"\s!]+$/, ''); // trim trailing white chars and dash 
+   //" and ! added because some track names end as {"Some Track" Official Music Video!} and it becomes {"Some Track"!} example: http://www.youtube.com/watch?v=xj_mHi7zeRQ
 
    return {artist: artist, track: track};
 }
