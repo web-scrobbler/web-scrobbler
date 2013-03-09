@@ -68,7 +68,7 @@
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "fftunes.js"]
    },
    {
-      "matches": ["*://fizy.com/*"],
+      "matches": ["*://fizy.com/*", "*://fizy.org/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "fizy.js"]
    },
    {
