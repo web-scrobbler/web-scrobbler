@@ -13,7 +13,8 @@
    "web_accessible_resources": [
       "icon128.png",
       "jango-dom-inject.js",
-      "spotify-dom-inject.js"
+      "spotify-dom-inject.js",
+      "plugdj-dom-inject.js"
    ],
 
    "background": {
@@ -161,6 +162,10 @@
    {
       "matches": ["*://grooveshark.com/*"],
       "js": ["jquery-1.6.1.min.js", "grooveshark.js"]
+   },
+   {
+      "matches": ["http://plug.dj/*"],
+      "js": ["jquery-1.6.1.min.js", "plugdj.js"]
    }
    ]
 }
