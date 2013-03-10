@@ -170,6 +170,10 @@
    {
       "matches": ["http://plug.dj/*"],
       "js": ["jquery-1.6.1.min.js", "plugdj.js"]
+   },
+   {
+      "matches": ["*://turntable.fm/*"],
+      "js": ["jquery-1.6.1.min.js", "turntable.js"]
    }
    ]
 }
