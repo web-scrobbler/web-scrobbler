@@ -21,6 +21,8 @@ $(function(){
 
    });
    
+   console.log("Last.fm Scrobbler: starting Google Music connector")
+   
    // first load
    updateNowPlaying();
 });
@@ -61,24 +63,27 @@ function parseInfo() {
     var duration = 0;
 
     // Get artist and song names
-    var artistParent = document.getElementById('playerArtist');
-    var trackParent = document.getElementById('playerSongTitle');
-    var durationValue = document.getElementById('duration').innerHTML;
+    var artistParent = $("div#player-artist");
+    var trackParent = $("div#playerSongTitle");
+    var durationValue = $("span#duration").text();
     
-    if (null != artistParent) {
-	artist = artistParent.getElementsByClassName('fade-out-content')[0].getAttribute('title');
+    try {
+        if (null != artistParent) {
+            artist = $("div.fade-out-content", artistParent).html();
+            artist = artist.replace(/^\s+|\s+$/g,'');
+        }
+        if (null != trackParent) {
+            track = $("div.fade-out-content", trackParent).html();
+            track = track.replace(/^\s+|\s+$/g,'');
+        }
+        if (null != durationValue) {
+            duration = parseDuration(durationValue);
+        }
+    } catch(err) {
+        return {artist: '', track: '', duration: 0};
     }
-    if (null != trackParent) {
-	track = trackParent.getElementsByClassName('fade-out-content')[0].getAttribute('title');
-    }
-    if (null != durationValue) {
-	duration = parseDuration(durationValue);
-    }
-	
-    artist = artist.replace(/^\s+|\s+$/g,'');
-    track = track.replace(/^\s+|\s+$/g,'');
-
-    return {artist: artist, track: track, duration : duration};
+    
+    return {artist: artist, track: track, duration: duration};
 }
 
 function parseDuration(artistTitle) {
