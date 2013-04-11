@@ -1,6 +1,6 @@
 {
    "name": "Last.fm Scrobbler",
-   "version": "1.15",
+   "version": "1.16",
 
    "description": "Scrobble music all around the web!",
    "icons": {
@@ -67,6 +67,10 @@
    {
       "matches": ["*://pitchfork.com/*", "*://www.pitchfork.com/*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "pitchfork.js"]
+   },
+   {
+      "matches": ["*://pitchfork.com/advance/*", "*://www.pitchfork.com/advance/*"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "pitchfork_advance.js"]
    },
    {
       "matches": ["*://www.fftunes.com/*"],
