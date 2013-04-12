@@ -17,19 +17,19 @@ function LFM_IS_A_SONG() {
 
 // function that returns title of current song
 function LFM_TRACK_TITLE() {
-	return $("#player-track-name").html();
+	return $("#player-track-name").text();
 }
 
 
 // function that returns artist of current song
 function LFM_TRACK_ARTIST() {
-	return $("#player-artist-name").html();
+	return $("#player-artist-name").text();
 }
 
 // function that returns duration of current song in seconds
 // called at begining of song
 function LFM_TRACK_DURATION() {
-	durationArr = $('#total-length').html().split(":");
+	durationArr = $('#total-length').text().split(":");
 	return parseInt(durationArr[0], 10)*60 + parseInt(durationArr[1], 10);
 }
 
