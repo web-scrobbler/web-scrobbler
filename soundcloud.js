@@ -71,7 +71,7 @@ function cleanArtistTrack(artist, track) {
     var current = {};
 
     var song = function(ptitle) {
-        var title = ptitle.split(' by ');
+        var title = ptitle.split(/ (by|in) /);
         var parsedInfo = parseInfo(title[0]);
 
         if (parsedInfo.artist === '') {
