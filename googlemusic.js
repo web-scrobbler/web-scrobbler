@@ -69,11 +69,11 @@ function parseInfo() {
     
     try {
         if (null != artistParent) {
-            artist = $("div.fade-out-content", artistParent).html();
+            artist = $("div.fade-out-content", artistParent).text();
             artist = artist.replace(/^\s+|\s+$/g,'');
         }
         if (null != trackParent) {
-            track = $("div.fade-out-content", trackParent).html();
+            track = $("div.fade-out-content", trackParent).text();
             track = track.replace(/^\s+|\s+$/g,'');
         }
         if (null != durationValue) {

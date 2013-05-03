@@ -17,19 +17,24 @@ function LFM_IS_A_SONG() {
 
 // function that returns title of current song
 function LFM_TRACK_TITLE() {
-	return $("#player-track-name").html();
+	return $("#player-track-name").text();
 }
 
 
 // function that returns artist of current song
 function LFM_TRACK_ARTIST() {
-	return $("#player-artist-name").html();
+	return $("#player-artist-name").text();
+}
+
+// function that returns artist of current song
+function LFM_TRACK_ALBUM() {
+	return $("#player-album-name").text();
 }
 
 // function that returns duration of current song in seconds
 // called at begining of song
 function LFM_TRACK_DURATION() {
-	durationArr = $('#total-length').html().split(":");
+	durationArr = $('#total-length').text().split(":");
 	return parseInt(durationArr[0], 10)*60 + parseInt(durationArr[1], 10);
 }
 
@@ -44,6 +49,7 @@ function LFM_updateNowPlaying(){
 	title = LFM_TRACK_TITLE();
 	artist = LFM_TRACK_ARTIST();
 	duration = LFM_TRACK_DURATION();
+	album = LFM_TRACK_ALBUM();
 	newTrack = title + " " + artist;
 	isASong = LFM_IS_A_SONG();
 	// Update scrobbler if necessary
@@ -53,11 +59,11 @@ function LFM_updateNowPlaying(){
 			setTimeout(LFM_updateNowPlaying, 5000);
 			return 0;
 		}
-		console.log("submitting a now playing request. artist: "+artist+", title: "+title+", duration: "+duration);
+		console.log("submitting a now playing request. artist: "+artist+", title: "+title+", duration: "+duration + ", album: " + album);
 		LFM_lastTrack = newTrack;
 		chrome.extension.sendRequest({type: 'validate', artist: artist, track: title}, function(response) {
 			if (response !== false) {
-				chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: title, duration: duration});
+				chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: title, duration: duration, album: album});
 			} else { // on failure send nowPlaying 'unknown song'
 				chrome.extension.sendRequest({type: 'nowPlaying', duration: duration});
 			}
