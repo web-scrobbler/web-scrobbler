@@ -78,6 +78,9 @@ const ACTION_CONN_DISABLED = 7;
    if (localStorage.useNotificationsScrobbled == null)
       localStorage.useNotificationsScrobbled = 1;
 
+   if (localStorage.useNotificationsLove == null)
+      localStorage.useNotificationsLove = 1;
+
    // don't use the YT statuses by default
    if (localStorage.useYTInpage == null)
       localStorage.useYTInpage = 0;
@@ -487,6 +490,112 @@ function submit() {
    reset();
 }
 
+function love(artist, track) {
+   // bad function call
+  if (artist == '' || track == '' || typeof(artist) == "undefined" || typeof(track) == "undefined" ) {
+//      chrome.tabs.sendRequest(nowPlayingTab, {type: "loveFAIL", reason: "No song"});
+      return;
+   }
+
+   // if the token/session is not authorized, wait for a while
+   console.log('trying to get sid');
+   var sessionID = getSessionID();
+   if (sessionID === false)
+      return;
+
+   console.log('love called for %s - %s', artist, track);
+
+   var params = {
+      method: 'track.love',
+      'track': track,
+      'artist': artist,
+      'api_key': apiKey,
+      'sk': sessionID
+   };
+
+   var api_sig = apiCallSignature(params);
+   var url = apiURL + createQueryString(params) + '&api_sig=' + api_sig;
+
+	// sending request
+   var http_request = new XMLHttpRequest();
+   http_request.open("POST", url, false); // synchronous
+   http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+   http_request.send(params);
+
+   if (http_request.status == 200) {
+      var notifText =  'Loved' + NOTIFICATION_SEPARATOR + artist + " - " + track;
+
+      // notification
+      if (localStorage.useNotificationsLove == 1)
+         scrobblerNotification(notifText);
+
+      console.log('loved %s - %s (%s)',artist, track, http_request.responseText);
+
+   }
+   else if (http_request.status == 503) {
+      console.log('love failed %s - %s (%s)', artist, track, http_request.responseText);
+      alert('Unable to love the track. Last.fm server is temporarily unavailable.');
+   }
+   else {
+      console.log('love failed %s - %s (%s)', artist, track, http_request.responseText);
+      //alert(http_request.responseText);
+      alert('An error occured while loving the track. Please try again later.');
+   }
+	
+}
+
+function unlove(artist, track) {
+   // bad function call
+  if (artist == '' || track == '' || typeof(artist) == "undefined" || typeof(track) == "undefined" ) {
+//      chrome.tabs.sendRequest(nowPlayingTab, {type: "loveFAIL", reason: "No song"});
+      return;
+   }
+
+   // if the token/session is not authorized, wait for a while
+   console.log('trying to get sid');
+   var sessionID = getSessionID();
+   if (sessionID === false)
+      return;
+
+   console.log('unlove called for %s - %s', artist, track);
+
+   var params = {
+      method: 'track.unlove',
+      'track': track,
+      'artist': artist,
+      'api_key': apiKey,
+      'sk': sessionID
+   };
+
+   var api_sig = apiCallSignature(params);
+   var url = apiURL + createQueryString(params) + '&api_sig=' + api_sig;
+
+   var http_request = new XMLHttpRequest();
+   http_request.open("POST", url, false); // synchronous
+   http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+   http_request.send(params);
+
+   if (http_request.status == 200) {
+      var notifText =  'unLoved' + NOTIFICATION_SEPARATOR + artist + " - " + track;
+
+      // notification
+      if (localStorage.useNotificationsLove == 1)
+         scrobblerNotification(notifText);
+
+      console.log('unloved %s - %s (%s)',artist, track, http_request.responseText);
+
+   }
+   else if (http_request.status == 503) {
+      console.log('unlove failed %s - %s (%s)', artist, track, http_request.responseText);
+      alert('Unable to unlove the track. Last.fm server is temporarily unavailable.');
+   }
+   else {
+      console.log('unlove failed %s - %s (%s)', artist, track, http_request.responseText);
+      //alert(http_request.responseText);
+	  alert('An error occured while unloving the track. Please try again later.');
+   }
+}
+
 
 
 /**
@@ -498,7 +607,7 @@ function submit() {
  */
 chrome.extension.onRequest.addListener(
 	function(request, sender, sendResponse) {
-         switch(request.type) {
+		switch(request.type) {
 
             // Called when a new song has started playing. If the artist/track is filled,
             // they have to be already validated! Otherwise they can be corrected from the popup.
@@ -615,17 +724,26 @@ chrome.extension.onRequest.addListener(
             // Checks if the request.artist and request.track are valid and
             // returns false if not or a song structure otherwise (may contain autocorrected values)
       	case "validate":
-                  console.log('validate requested');
+            console.log('validate requested');
+            var res = validate(request.artist, request.track);
 
-                  var res = validate(request.artist, request.track);
-
-                  // res is false or a valid song structure
-                  sendResponse( res );
-                  break;
-
-
-            default:
-                  console.log('Unknown request: %s', $.dump(request));
-         }
-	}
+            // res is false or a valid song structure
+            sendResponse( res );
+            break;
+		case "love":
+            console.log('love requested');
+            love(request.artist, request.track);
+            sendResponse({});
+            break;
+		case "unlove":
+            console.log('unlove requested');
+            unlove(request.artist, request.track);
+            sendResponse({});
+            break;
+		default:
+            console.log('Unknown request: %s', $.dump(request));
+      }
+        
+        
+  }
 );
