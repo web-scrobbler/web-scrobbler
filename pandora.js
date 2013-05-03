@@ -51,6 +51,7 @@ function LFM_updateNowPlaying(){
 		LFM_lastTrack = newTrack;
 		chrome.extension.sendRequest({type: 'validate', artist: artist, track: title}, function(response) {
 			if (response != false) {
+				console.log("validated");
 				chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: title, duration: duration});
 			} else { // on failure send nowPlaying 'unknown song'
 				chrome.extension.sendRequest({type: 'nowPlaying', duration: duration});
@@ -60,9 +61,36 @@ function LFM_updateNowPlaying(){
 	LFM_isWaiting = 0;
 }
 
+function LFM_updateTrackLove() {
+    title = LFM_TRACK_TITLE();
+    artist = LFM_TRACK_ARTIST();
+    chrome.extension.sendRequest({type: 'validate', artist: artist, track: title}, function(response) {
+        if (response != false) {
+            console.log('love track');
+            chrome.extension.sendRequest({type: 'love', artist: artist, track: title});
+        }
+    });
+}
+
+function LFM_updateTrackUnlove() {
+    title = LFM_TRACK_TITLE();
+    artist = LFM_TRACK_ARTIST();
+
+    chrome.extension.sendRequest({type: 'validate', artist: artist, track: title}, function(response) {
+        if (response != false) {
+            console.log('unlove track');
+            chrome.extension.sendRequest({type: 'unlove', artist: artist, track: title});
+        }
+    });
+}
+
+
 // Run at startup
 $(function(){
 	console.log("Pandora module starting up");
+	
+    $("div.thumbUpButton").click(function(e) {LFM_updateTrackLove();});
+    $("div.thumbDownButton").click(function(e) {LFM_updateTrackUnlove();});
 
 	$(LFM_WATCHED_CONTAINER).live('DOMSubtreeModified', function(e) {
 		//console.log("Live watcher called");
