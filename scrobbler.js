@@ -12,7 +12,7 @@
  */
 
 const APP_NAME = "Chrome Last.fm Scrobbler";
-const APP_VERSION = "1.15";
+const APP_VERSION = "1.16";
 
 
 // browser tab with actually scrobbled track
