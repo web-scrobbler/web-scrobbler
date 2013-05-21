@@ -59,6 +59,10 @@
    {
       "matches": ["*://www.myspace.com/music/player*"],
       "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "myspace.js"]
+   },   
+   {
+      "matches": ["*://www.myspace.com/*/radio"],
+      "js": ["jquery-1.6.1.min.js", "jquery.dump.js", "myspace.js"]
    },
    {
       "matches": ["*://new.myspace.com/*"],
