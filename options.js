@@ -17,6 +17,10 @@ $(function(){
       localStorage['useNotificationsScrobbled'] = this.checked ? 1 : 0;
    });
 
+   $('#auto-hide-notifications').click(function(){
+      localStorage['autoHideNotifications'] = this.checked ? 1 : 0;
+   });
+
    $('#use-autocorrect').click(function(){
       localStorage['useAutocorrect'] = this.checked ? 1 : 0;
    });
@@ -29,6 +33,7 @@ $(function(){
    $('#use-notifications').attr('checked', (localStorage['useNotifications'] == 1));
    $('#use-notifications-nowplaying').attr('checked', (localStorage['useNotificationsNowPlaying'] == 1));
    $('#use-notifications-scrobbled').attr('checked', (localStorage['useNotificationsScrobbled'] == 1));
+   $('#auto-hide-notifications').attr('checked', (localStorage['autoHideNotifications'] == 1));
    $('#use-autocorrect').attr('checked', (localStorage['useAutocorrect'] == 1));
    $('#use-youtube-inpage').attr('checked', (localStorage['useYTInpage'] == 1));
    
@@ -36,6 +41,7 @@ $(function(){
    function updateDisabled() {
       $('#use-notifications-nowplaying').attr('disabled', (!$('#use-notifications').is(':checked')));
       $('#use-notifications-scrobbled').attr('disabled', (!$('#use-notifications').is(':checked')));
+      $('#auto-hide-notifications').attr('disabled', (!$('#use-notifications').is(':checked')));
    }
    
 });

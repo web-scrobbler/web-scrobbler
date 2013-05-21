@@ -78,6 +78,10 @@ const ACTION_CONN_DISABLED = 7;
    if (localStorage.useNotificationsScrobbled == null)
       localStorage.useNotificationsScrobbled = 1;
 
+   // hide notifications by default
+   if (localStorage.autoHideNotifications == null)
+      localStorage.autoHideNotifications = 1;
+
    // don't use the YT statuses by default
    if (localStorage.useYTInpage == null)
       localStorage.useYTInpage = 0;
@@ -247,7 +251,9 @@ function scrobblerNotification(text, force) {
       body
    );
    notification.show();
-   setTimeout(function() {notification.cancel()}, NOTIFICATION_TIMEOUT);
+
+   if (localStorage.autoHideNotifications == 1)
+      setTimeout(function() {notification.cancel()}, NOTIFICATION_TIMEOUT);
 }
 
 
