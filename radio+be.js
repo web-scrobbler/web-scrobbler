@@ -8,7 +8,7 @@ var clipTitle = '';
 var scrobbleTimeout = null;
 
 // Glabal constant for the song container ....
-var CONTAINER_SELECTOR = '#playerSongInfo';
+var CONTAINER_SELECTOR = '.now-playing-hidden';
 
 
 $(function(){   
@@ -83,10 +83,10 @@ function parseInfo() {
   } catch(err) {
     return {artist: '', track: '', duration: 0};
   }
-    
-	console.log("artist: " + artist + ", track: " + track + ", duration: " + duration);
+  
+  console.log("artist: " + artist + ", track: " + track + ", duration: " + duration);
 	
-  //return {artist: artist, track: track, duration: duration};
+  return {artist: artist, track: track, duration: duration};
 }
 
 function parseDuration(artistTitle) {
