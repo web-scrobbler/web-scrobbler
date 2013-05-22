@@ -186,7 +186,7 @@
    },
    {
       "matches": ["*://www.radioplus.be/*"],
-      "js": ["jquery-1.6.1.min.js", "radio+be.js"]
+      "js": ["jquery-1.6.1.min.js", "radioplusbe.js"]
    }
    ]
 }
