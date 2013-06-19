@@ -4,7 +4,7 @@ body {
 	font-family: "Lucida Grande", Arial, Helvetica, Calibri, Verdana, sans-serif;
 }
 input:focus {
-	background-color: pink;
+	background-color: #eee;
 }
 #wrapper {
 	width: 210px;
