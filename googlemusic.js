@@ -64,16 +64,15 @@ function parseInfo() {
 
     // Get artist and song names
     var artistValue = $("div#player-artist").text();
-    var trackParent = $("div#playerSongTitle");
-    var durationValue = $("span#duration").text();
+    var trackValue = $("div#playerSongTitle").text();
+    var durationValue = $("div#time_container_duration").text();
     
     try {
         if (null != artistValue) {
             artist = artistValue.replace(/^\s+|\s+$/g,'');
         }
-        if (null != trackParent) {
-            track = $("div.fade-out-content", trackParent).html();
-            track = track.replace(/^\s+|\s+$/g,'');
+        if (null != trackValue) {
+            track = trackValue.replace(/^\s+|\s+$/g,'');
         }
         if (null != durationValue) {
             duration = parseDuration(durationValue);
@@ -82,7 +81,7 @@ function parseInfo() {
         return {artist: '', track: '', duration: 0};
     }
     
-	//console.log("artist: " + artist + ", track: " + track + ", duration: " + duration);
+	console.log("artist: " + artist + ", track: " + track + ", duration: " + duration);
 	
     return {artist: artist, track: track, duration: duration};
 }
