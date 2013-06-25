@@ -17,6 +17,10 @@ $(function(){
       localStorage['useNotificationsScrobbled'] = this.checked ? 1 : 0;
    });
 
+   $('#yt-autosubmit').click(function(){
+      localStorage['autosubmitYT'] = this.checked ? 1 : 0;
+   });
+
    $('#use-autocorrect').click(function(){
       localStorage['useAutocorrect'] = this.checked ? 1 : 0;
    });
@@ -29,6 +33,7 @@ $(function(){
    $('#use-notifications').attr('checked', (localStorage['useNotifications'] == 1));
    $('#use-notifications-nowplaying').attr('checked', (localStorage['useNotificationsNowPlaying'] == 1));
    $('#use-notifications-scrobbled').attr('checked', (localStorage['useNotificationsScrobbled'] == 1));
+   $('#yt-autosubmit').attr('checked', (localStorage['autosubmitYT'] == 1));
    $('#use-autocorrect').attr('checked', (localStorage['useAutocorrect'] == 1));
    $('#use-youtube-inpage').attr('checked', (localStorage['useYTInpage'] == 1));
    

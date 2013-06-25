@@ -121,7 +121,7 @@ function trim(str) {
  */
 function findSeparator(str) {
    // care - minus vs hyphen
-   var separators = [' - ', ' – ', '-', '–', ':'];
+   var separators = [' - ', ' – ', ' _ ', '_', '-', '–', ':'];
 
    for (i in separators) {
       var sep = separators[i];
@@ -143,7 +143,7 @@ function parseInfo(artistTitle) {
 
    var separator = findSeparator(artistTitle);
    if (separator == null)
-      return { artist: '', track: '' };
+      return parseQuotes(artistTitle); // hope 
 
    artist = artistTitle.substr(0, separator.index);
    track = artistTitle.substr(separator.index + separator.length);
@@ -151,11 +151,32 @@ function parseInfo(artistTitle) {
    return cleanArtistTrack(artist, track);
 }
 
+/**
+ * Parse given string into artist and track, assume Art "Ttl"
+ * @return {artist, track}
+ */
+function parseQuotes(artistTitle) {
+   var artist = '';
+   var track = '';
+
+   track = artistTitle.replace(/^(.*)"(.*)"(.*)$/, '$2');
+   if (track != '') {
+      artist = artistTitle.replace(/^(.*)"(.*)"(.*)$/, '$1');
+   } else {
+      track = artistTitle.replace(/^(.*)'(.*)'(.*)$/, '$2'); // beware the Artist's
+      if (track != '')
+         artist = artistTitle.replace(/^(.*)'(?!s )(.*)'(.*)$/, '$1');
+   }
+
+   return cleanArtistTrack(artist, track);
+}
 
 /**
  * Clean non-informative garbage from title
  */
 function cleanArtistTrack(artist, track) {
+   console.log("Original Artist: %s", artist);
+   console.log("Original Title: %s", track);
 
    // Do some cleanup
    artist = artist.replace(/^\s+|\s+$/g,'');
@@ -164,22 +185,38 @@ function cleanArtistTrack(artist, track) {
    // Strip crap
    track = track.replace(/\s*\*+\s?\S+\s?\*+$/, ''); // **NEW**
    track = track.replace(/\s*\[[^\]]+\]$/, ''); // [whatever]
-   track = track.replace(/\s*\([^\)]*version\)$/i, ''); // (whatever version)
+   track = track.replace(/\s*\[\s*(M\/?V)\s*\]/, ''); // [MV] or [M/V]
+   track = track.replace(/\s*\(\s*(M\/?V)\s*\)/, ''); // (MV) or (M/V)
+   track = track.replace(/[\s\-–_]+(M\/?V)\s*/, ''); // MV or M/V
+   track = track.replace(/\s*\([^\)]*ver(\.|sion)?\s*\)$/i, ''); // (whatever version)
+   track = track.replace(/\s*[a-z]*\s*ver(\.|sion)?$/i, ''); // ver. and 1 word before (no parens)
    track = track.replace(/\s*\.(avi|wmv|mpg|mpeg|flv)$/i, ''); // video extensions
    track = track.replace(/\s*(of+icial\s*)?(music\s*)?video/i, ''); // (official)? (music)? video
    track = track.replace(/\s*(ALBUM TRACK\s*)?(album track\s*)/i, ''); // (ALBUM TRACK)
    track = track.replace(/\s*\(\s*of+icial\s*\)/i, ''); // (official)
    track = track.replace(/\s*\(\s*[0-9]{4}\s*\)/i, ''); // (1999)
    track = track.replace(/\s+\(\s*(HD|HQ)\s*\)$/, ''); // HD (HQ)
-   track = track.replace(/\s+(HD|HQ)\s*$/, ''); // HD (HQ)
-   track = track.replace(/\s*video\s*clip/i, ''); // video clip
+   track = track.replace(/[\s\-–_]+(HD|HQ)\s*$/, ''); // HD (HQ)
+   track = track.replace(/\s*video\s*clip/i, ''); // video clip   
    track = track.replace(/\s+\(?live\)?$/i, ''); // live
    track = track.replace(/\(\s*\)/, ''); // Leftovers after e.g. (official video)
    track = track.replace(/^(|.*\s)"(.*)"(\s.*|)$/, '$2'); // Artist - The new "Track title" featuring someone
    track = track.replace(/^(|.*\s)'(.*)'(\s.*|)$/, '$2'); // 'Track title'
-   track = track.replace(/^[\/\s,:;~-\s"]+/, ''); // trim starting white chars and dash
-   track = track.replace(/[\/\s,:;~-\s"\s!]+$/, ''); // trim trailing white chars and dash 
+   track = track.replace(/^[\/\s,:;~\-–_\s"]+/, ''); // trim starting white chars and dash
+   track = track.replace(/[\/\s,:;~\-–_\s"\s!]+$/, ''); // trim trailing white chars and dash 
    //" and ! added because some track names end as {"Some Track" Official Music Video!} and it becomes {"Some Track"!} example: http://www.youtube.com/watch?v=xj_mHi7zeRQ
+
+   // sometimes artist has this crap at the beginning too
+   artist = artist.replace(/\s*[0-1][0-9][0-1][0-9][0-3][0-9]\s*/, ''); // date formats ex. 130624
+   artist = artist.replace(/\[\s*(1080|720)p\s*\]/i, ''); // [1080p]
+   artist = artist.replace(/\[\s*(M\/?V)\s*\]/, ''); // [MV] or [M/V]
+   artist = artist.replace(/\(\s*(M\/?V)\s*\)/, ''); // (MV) or (M/V)
+   artist = artist.replace(/\s*(M\/?V)\s*/, ''); // MV or M/V
+   artist = artist.replace(/^[\/\s,:;~\-–_\s"]+/, ''); // trim starting white chars and dash
+   artist = artist.replace(/[\/\s,:;~\-–_\s"\s!]+$/, ''); // trim trailing white chars and dash 
+
+   console.log("Final Artist: %s", artist);
+   console.log("Final Title: %s", track);
 
    return {artist: artist, track: track};
 }

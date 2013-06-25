@@ -78,6 +78,9 @@ const ACTION_CONN_DISABLED = 7;
    if (localStorage.useNotificationsScrobbled == null)
       localStorage.useNotificationsScrobbled = 1;
 
+   if (localStorage.autosubmitYT == null)
+      localStorage.autosubmitYT = 1;
+   
    // don't use the YT statuses by default
    if (localStorage.useYTInpage == null)
       localStorage.useYTInpage = 0;
