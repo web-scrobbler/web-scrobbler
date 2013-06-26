@@ -185,27 +185,6 @@ function cleanArtistTrack(artist, track) {
 }
 
 
-/**
- * Display message in front of clip title,
- * call without parameter to clean the message.
- */
-function displayMsg(msg) {
-   // consider options
-   if (getOption('useYTInpage') != 1)
-      return;
-
-   $('#chrome-scrobbler-status').remove();
-
-   if (msg) {
-      // regular page
-      if ($('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').length>0)
-         $('<span id="chrome-scrobbler-status" title="">'+msg+'</span>').insertBefore($('#watch-headline-title > span[title][id!=chrome-scrobbler-status]'));
-      // user profile
-      if ($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').length>0)
-         $('<span id="chrome-scrobbler-status" title="">'+msg+'</span>').insertBefore($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]'));
-   }
-}
-
 
 
 /**
@@ -242,9 +221,6 @@ function updateNowPlaying() {
 
    // http://code.google.com/intl/cs/apis/youtube/2.0/developers_guide_protocol_video_entries.html
    var googleURL = "http://gdata.youtube.com/feeds/api/videos/" + videoID + "?alt=json";
-
-   // clear the message
-   displayMsg();
 
    // Get clip info from youtube api
    chrome.extension.sendRequest({type: "xhr", url: googleURL}, function(response) {
@@ -307,7 +283,6 @@ function updateNowPlaying() {
          // on failure send nowPlaying 'unknown song'
          else {
             chrome.extension.sendRequest({type: 'nowPlaying', duration: duration});
-            displayMsg('Not recognized');
          }
    	});
 
@@ -332,7 +307,6 @@ chrome.extension.onRequest.addListener(
          switch(request.type) {
             // called after track has been successfully marked as 'now playing' at the server
             case 'nowPlayingOK':
-               displayMsg('Scrobbling');
                break;
 
             // not used yet
