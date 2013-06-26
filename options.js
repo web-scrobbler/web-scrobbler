@@ -33,4 +33,46 @@ $(function(){
       $('#use-notifications-scrobbled').attr('disabled', (!$('#use-notifications').is(':checked')));
    }
    
+   // generate connectors and their checkboxes
+   createConnectors();
 });
+
+
+function createConnectors() {
+   var parent = $('ul#connectors');
+   
+   // prevent mutation of original
+   var conns = connectors.slice(0);
+   
+   // sort alphabetically
+   conns.sort(function(a, b){ return a.label.localeCompare(b.label); });
+   
+   conns.forEach(function(connector, index){
+      var newEl = $('<li><input type="checkbox" id="conn-' + index + '"> \n\
+                      <label for="conn-' + index + '">' + connector.label + '</label>\n\
+                  </li>');
+      
+      var domEl = newEl.appendTo(parent);
+      var checkbox = domEl.find('input');
+                    
+      checkbox.attr('checked', isConnectorEnabled(connector.label));
+      
+      checkbox.click(function(){
+         var box = $(this);
+         var disabledArray = JSON.parse(localStorage.disabledConnectors);
+         
+         // always remove, to prevent duplicates
+         var index = disabledArray.indexOf(connector.label);
+         if (index > -1) {
+            disabledArray.splice(index, 1);
+         }
+         
+         if (!box.is(':checked')) {
+            disabledArray.push(connector.label);
+         }
+         
+         localStorage.disabledConnectors = JSON.stringify(disabledArray);
+         console.log(localStorage.disabledConnectors);
+      });
+   });
+}

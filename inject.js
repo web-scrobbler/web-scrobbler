@@ -286,7 +286,8 @@ function createPattern(input) {
  * @returns boolean
  */
 function isConnectorEnabled(label) {
-   return (localStorage.disabledConnectors.indexOf(label) === -1);
+   var disabledArray = JSON.parse(localStorage.disabledConnectors);
+   return (disabledArray.indexOf(label) === -1);
 }
 
 
@@ -323,6 +324,8 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
                };
                chrome.tabs.executeScript(tabId, injectDetails);
             });
+         } else {
+            setActionIcon(ACTION_SITE_DISABLED, tabId);
          }
       }
       

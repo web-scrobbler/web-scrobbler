@@ -63,6 +63,7 @@ var ACTION_DISABLED = 5;
 var ACTION_REENABLED = 6;
 var ACTION_CONN_DISABLED = 7;
 var ACTION_SITE_RECOGNIZED = 8;
+var ACTION_SITE_DISABLED = 9;
 
 /**
  * Default settings & update notification
@@ -82,7 +83,7 @@ var ACTION_SITE_RECOGNIZED = 8;
 
    // no disabled connectors by default
    if (localStorage.disabledConnectors == null)
-      localStorage.disabledConnectors = [];
+      localStorage.disabledConnectors = JSON.stringify([]);
 
    // show update popup - based on different version
    if (localStorage.appVersion != APP_VERSION) {
@@ -221,6 +222,11 @@ function setActionIcon(action, tabId) {
       case ACTION_SITE_RECOGNIZED:
          chrome.pageAction.setIcon({tabId: tab, path: ICON_LOGO});
          chrome.pageAction.setTitle({tabId: tab, title: 'This site is supported for scrobbling'});
+         chrome.pageAction.setPopup({tabId: tab, popup: ''});
+         break;
+      case ACTION_SITE_DISABLED:
+         chrome.pageAction.setIcon({tabId: tab, path: ICON_LOGO});
+         chrome.pageAction.setTitle({tabId: tab, title: 'This site is supported, but you disabled it'});
          chrome.pageAction.setPopup({tabId: tab, popup: ''});
          break;
    }
