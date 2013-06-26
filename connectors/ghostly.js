@@ -8,9 +8,8 @@ var scrobbleTimeout = null;
 var durationTimeout = null;
 
 
-
 $(function(){
-	
+
 	//setup unload handler
 	$(window).unload(function() {      
 		// reset the background scrobbler song data
@@ -23,8 +22,7 @@ $(function(){
 	$("div#submit input").click(function(){
 		//Listen for change in result div
 		var c = 0;
-		$('div#result').bind('DOMNodeInserted', function(e) {
-			
+		$('div#result').bind('DOMNodeInserted', function(e) {			
 			//HTML changed, NEW SONG!!!	
 			//The jquery dom bind gets triggerd two times, this is to avoid the code from being executed twice.	
 			if (c == 0) {c++; return false;}

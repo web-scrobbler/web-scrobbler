@@ -11,8 +11,8 @@
  *
  */
 
-const APP_NAME = "Chrome Last.fm Scrobbler";
-const APP_VERSION = "1.16";
+var APP_NAME = "Chrome Last.fm Scrobbler";
+var APP_VERSION = "1.16";
 
 
 // browser tab with actually scrobbled track
@@ -38,29 +38,31 @@ chrome.pageAction.onClicked.addListener(pageActionClicked);
 /**
  * Notification
  */
-const NOTIFICATION_TIMEOUT = 5000;
-const NOTIFICATION_SEPARATOR = ':::';
+var NOTIFICATION_TIMEOUT = 5000;
+var NOTIFICATION_SEPARATOR = ':::';
 
 /**
  * Page action icons
  */
-const ICON_UNKNOWN = 'icon_unknown.png';           // not recognized
-const ICON_NOTE = 'icon_note.png';                 // now playing
-const ICON_NOTE_DISABLED = 'icon_note_gray.png';   // disabled
-const ICON_TICK = 'icon_tick.png';                 // scrobbled
-const ICON_TICK_DISABLED = 'icon_tick_gray.png';   // disabled
-const ICON_CONN_DISABLED = 'icon_cross_gray.png';  // connector is disabled
+var ICON_LOGO = 'icon.png';                      // Audioscrobbler logo
+var ICON_UNKNOWN = 'icon_unknown.png';           // not recognized
+var ICON_NOTE = 'icon_note.png';                 // now playing
+var ICON_NOTE_DISABLED = 'icon_note_gray.png';   // disabled
+var ICON_TICK = 'icon_tick.png';                 // scrobbled
+var ICON_TICK_DISABLED = 'icon_tick_gray.png';   // disabled
+var ICON_CONN_DISABLED = 'icon_cross_gray.png';  // connector is disabled
 
 /**
  * Icon - title - popup set identificators
  */
-const ACTION_UNKNOWN = 1;
-const ACTION_NOWPLAYING = 2;
-const ACTION_SCROBBLED = 3;
-const ACTION_UPDATED = 4;
-const ACTION_DISABLED = 5;
-const ACTION_REENABLED = 6;
-const ACTION_CONN_DISABLED = 7;
+var ACTION_UNKNOWN = 1;
+var ACTION_NOWPLAYING = 2;
+var ACTION_SCROBBLED = 3;
+var ACTION_UPDATED = 4;
+var ACTION_DISABLED = 5;
+var ACTION_REENABLED = 6;
+var ACTION_CONN_DISABLED = 7;
+var ACTION_SITE_RECOGNIZED = 8;
 
 /**
  * Default settings & update notification
@@ -81,6 +83,10 @@ const ACTION_CONN_DISABLED = 7;
    // don't use the YT statuses by default
    if (localStorage.useYTInpage == null)
       localStorage.useYTInpage = 0;
+
+   // no disabled connectors by default
+   if (localStorage.disabledConnectors == null)
+      localStorage.disabledConnectors = [];
 
    // show update popup - based on different version
    if (localStorage.appVersion != APP_VERSION) {
@@ -176,14 +182,14 @@ function pageActionClicked(tabObj) {
 
 /**
  * Sets up page action icon, including title and popup
- * 'action' is one of the ACTION_ constants
+ * 
+ * @param {integer} action one of the ACTION_ constants
+ * @param {integer} tabId
  */
 function setActionIcon(action, tabId) {
 
    var tab = tabId ? tabId : nowPlayingTab;
    chrome.pageAction.hide(tab);
-
-   console.log('set icon: ' + action);
 
    switch(action) {
       case ACTION_UNKNOWN:
@@ -214,6 +220,11 @@ function setActionIcon(action, tabId) {
       case ACTION_CONN_DISABLED:
          chrome.pageAction.setIcon({tabId: tab, path: ICON_CONN_DISABLED});
          chrome.pageAction.setTitle({tabId: tab, title: 'Scrobbling for this site is disabled, most likely because the site has changed its layout. Please contact the connector author.'});
+         chrome.pageAction.setPopup({tabId: tab, popup: ''});
+         break;
+      case ACTION_SITE_RECOGNIZED:
+         chrome.pageAction.setIcon({tabId: tab, path: ICON_LOGO});
+         chrome.pageAction.setTitle({tabId: tab, title: 'This site is supported for scrobbling'});
          chrome.pageAction.setPopup({tabId: tab, popup: ''});
          break;
    }
