@@ -21,16 +21,11 @@ $(function(){
       localStorage['useAutocorrect'] = this.checked ? 1 : 0;
    });
 
-   $('#use-youtube-inpage').click(function(){
-      localStorage['useYTInpage'] = this.checked ? 1 : 0;
-   });
-
    // preload options
    $('#use-notifications').attr('checked', (localStorage['useNotifications'] == 1));
    $('#use-notifications-nowplaying').attr('checked', (localStorage['useNotificationsNowPlaying'] == 1));
    $('#use-notifications-scrobbled').attr('checked', (localStorage['useNotificationsScrobbled'] == 1));
    $('#use-autocorrect').attr('checked', (localStorage['useAutocorrect'] == 1));
-   $('#use-youtube-inpage').attr('checked', (localStorage['useYTInpage'] == 1));
    
    // disable subitems
    function updateDisabled() {

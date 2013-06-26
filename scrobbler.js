@@ -80,10 +80,6 @@ var ACTION_SITE_RECOGNIZED = 8;
    if (localStorage.useNotificationsScrobbled == null)
       localStorage.useNotificationsScrobbled = 1;
 
-   // don't use the YT statuses by default
-   if (localStorage.useYTInpage == null)
-      localStorage.useYTInpage = 0;
-
    // no disabled connectors by default
    if (localStorage.disabledConnectors == null)
       localStorage.disabledConnectors = [];
