@@ -26,8 +26,8 @@
    "permissions": [
       "tabs",
       "notifications",
-      "http://ws.audioscrobbler.com/2.0/",
-      "http://gdata.youtube.com/feeds/api/videos/",
+      "https://ws.audioscrobbler.com/2.0/",
+      "https://gdata.youtube.com/feeds/api/videos/",
       "http://*/",
       "https://*/"
    ],

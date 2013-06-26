@@ -220,7 +220,7 @@ function updateNowPlaying() {
    }
 
    // http://code.google.com/intl/cs/apis/youtube/2.0/developers_guide_protocol_video_entries.html
-   var googleURL = "http://gdata.youtube.com/feeds/api/videos/" + videoID + "?alt=json";
+   var googleURL = "https://gdata.youtube.com/feeds/api/videos/" + videoID + "?alt=json";
 
    // Get clip info from youtube api
    chrome.runtime.sendMessage({type: "xhr", url: googleURL}, function(response) {

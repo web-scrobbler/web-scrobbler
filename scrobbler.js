@@ -19,7 +19,7 @@ var APP_VERSION = "1.16";
 var nowPlayingTab = null;
 
 // api url
-var apiURL = "http://ws.audioscrobbler.com/2.0/?";
+var apiURL = "https://ws.audioscrobbler.com/2.0/?";
 var apiKey = "d9bb1870d3269646f740544d9def2c95";
 
 // song structure, filled in nowPlaying phase, (artist, track, duration, startTime)
@@ -286,7 +286,7 @@ function authorize() {
       localStorage.token = xml.find('token').text();
 
       // open a tab with token authorization
-      var url = 'http://www.last.fm/api/auth/?api_key=' + apiKey + '&token=' + localStorage.token;
+      var url = 'https://www.last.fm/api/auth/?api_key=' + apiKey + '&token=' + localStorage.token;
       window.open(url);
    }
 }
