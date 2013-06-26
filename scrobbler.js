@@ -85,6 +85,10 @@ var ACTION_SITE_DISABLED = 9;
    if (localStorage.disabledConnectors == null)
       localStorage.disabledConnectors = JSON.stringify([]);
 
+   // hide notifications by default
+   if (localStorage.autoHideNotifications == null)
+      localStorage.autoHideNotifications = 1;
+
    // show update popup - based on different version
    if (localStorage.appVersion != APP_VERSION) {
       localStorage.appVersion = APP_VERSION;
@@ -260,7 +264,9 @@ function scrobblerNotification(text, force) {
       body
    );
    notification.show();
-   setTimeout(function() {notification.cancel()}, NOTIFICATION_TIMEOUT);
+
+   if (localStorage.autoHideNotifications == 1)
+      setTimeout(function() {notification.cancel()}, NOTIFICATION_TIMEOUT);
 }
 
 
