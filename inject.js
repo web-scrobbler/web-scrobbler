@@ -52,14 +52,8 @@ var connectors = [
    },
    
    {
-      label: "MySpace (old interface)",
-      matches: ["*://www.myspace.com/music/player*"],
-      js: ["connectors/myspace.js"]
-   },
-   
-   {
-      label: "MySpace (new interface)",
-      matches: ["*://new.myspace.com/*"],
+      label: "MySpace",
+      matches: ["*://myspace.com/*"],
       js: ["connectors/newmyspace.js"]
    },
    
