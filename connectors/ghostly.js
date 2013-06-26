@@ -56,9 +56,6 @@ function updateNowPlaying() {
 			chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
 			
 			console.log({type: 'nowPlaying', artist: artist, track: track, duration: duration});
-			
-			displayMsg("Scrobbling");
-
 		}
 		
 	});
@@ -90,15 +87,5 @@ function waitForDuration(callback) {
 									}
 	}, 1000);
 	
-	
-}
-
-function displayMsg(msg) {
-	
-	$('#chrome-scrobbler-status').remove(); 
-	 
-	if (msg) {              
-		$('#playButton').append('<span id="chrome-scrobbler-status" title="">'+msg+'</span>');
-	}
 	
 }
