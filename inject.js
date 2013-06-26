@@ -10,6 +10,7 @@
  * 
  *    label 
  *          - label to be shown in options to enable/disable the connector
+ *          - be careful with renaming, as connector disable state depends on the label
  *          
  *    matches 
  *          - array of positive matches in format described in Chrome Ext. Dev. guide
