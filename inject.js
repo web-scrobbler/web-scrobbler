@@ -69,12 +69,6 @@ var connectors = [
       js: ["connectors/pitchfork.js"]
    },
    
-   { // DEAD
-      label: "Fftunes",
-      matches: ["*://www.fftunes.com/*"],
-      js: ["connectors/fftunes.js"]
-   },
-   
    {
       label: "Fizy",
       matches: ["*://fizy.com/*", "*://fizy.org/*"],
