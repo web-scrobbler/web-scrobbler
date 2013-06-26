@@ -54,7 +54,7 @@ var connectors = [
    {
       label: "MySpace",
       matches: ["*://myspace.com/*"],
-      js: ["connectors/newmyspace.js"]
+      js: ["connectors/myspace.js"]
    },
    
    {
