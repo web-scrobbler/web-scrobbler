@@ -16,10 +16,10 @@
 
 $(function() {
     var lastTrack = null;
-    var $r = chrome.extension.sendRequest;
+    var $r = chrome.runtime.sendMessage;
 
     $(window).unload(function() {
-		chrome.extension.sendRequest({type: 'reset'});
+		chrome.runtime.sendMessage({type: 'reset'});
 		
 		return true;      
     }); 

@@ -8,7 +8,7 @@ $(function () {
     //setup unload handler
     $(window).unload(function () {
         //reset the background scrobbler song data
-        chrome.extension.sendRequest({
+        chrome.runtime.sendMessage({
             type: 'reset'
         });
         return true;
@@ -45,13 +45,13 @@ function updateNowPlaying() {
         return;
     }
     //validate track info
-    chrome.extension.sendRequest({
+    chrome.runtime.sendMessage({
         type: 'validate',
         artist: artist,
         track: track
     }, function (response) {
         if (response != false) {
-            chrome.extension.sendRequest({
+            chrome.runtime.sendMessage({
                 type: 'nowPlaying',
                 artist: artist,
                 track: track,

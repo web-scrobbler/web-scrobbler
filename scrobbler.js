@@ -415,7 +415,7 @@ function nowPlaying() {
          console.log('now playing %s - %s', song.artist, song.track);
 
          // Confirm the content_script, that the song is "now playing"
-         chrome.tabs.sendRequest(nowPlayingTab, {type: "nowPlayingOK"});
+         chrome.tabs.sendMessage(nowPlayingTab, {type: "nowPlayingOK"});
          
          // Show notification
          if (localStorage.useNotificationsNowPlaying == 1)
@@ -439,7 +439,7 @@ function submit() {
    // bad function call
    if (song == null || !song || song.artist == '' || song.track == '' || typeof(song.artist) == "undefined" || typeof(song.track) == "undefined" ) {
       reset();
-      chrome.tabs.sendRequest(nowPlayingTab, {type: "submitFAIL", reason: "No song"});
+      chrome.tabs.sendMessage(nowPlayingTab, {type: "submitFAIL", reason: "No song"});
       return;
    }
 
@@ -484,7 +484,7 @@ function submit() {
 
       // Confirm the content script, that the song has been scrobbled
       if (nowPlayingTab)
-        chrome.tabs.sendRequest(nowPlayingTab, {type: "submitOK", song: {artist:song.artist, track: song.track}});
+        chrome.tabs.sendMessage(nowPlayingTab, {type: "submitOK", song: {artist:song.artist, track: song.track}});
 
    }
    else if (http_request.status == 503) {
@@ -509,7 +509,7 @@ function submit() {
  * newSession() - start a new last.fm session (need to reauthenticate)
  * validate(artist, track) - validate artist-track pair against last.fm and return false or the valid song
  */
-chrome.extension.onRequest.addListener(
+chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
          switch(request.type) {
 
@@ -640,5 +640,7 @@ chrome.extension.onRequest.addListener(
             default:
                   console.log('Unknown request: %s', $.dump(request));
          }
+         
+         return true;
 	}
 );

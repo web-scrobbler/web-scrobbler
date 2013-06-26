@@ -120,11 +120,11 @@ var module = function() {
 
   var update = function(newState) {
     console.log("submitting a now playing request. artist: "+newState.artist+", title: "+newState.title+", current time: "+newState.currentTime+", duration: "+newState.duration);
-    chrome.extension.sendRequest({type: 'validate', artist: newState.artist, track: newState.title}, function(response) {
+    chrome.runtime.sendMessage({type: 'validate', artist: newState.artist, track: newState.title}, function(response) {
       if (response != false) {
-	chrome.extension.sendRequest({type: 'nowPlaying', artist: newState.artist, track: newState.title, currentTime:newState.currentTime, duration: newState.duration});
+         chrome.runtime.sendMessage({type: 'nowPlaying', artist: newState.artist, track: newState.title, currentTime:newState.currentTime, duration: newState.duration});
       } else { // on failure send nowPlaying 'unknown song'
-	chrome.extension.sendRequest({type: 'nowPlaying', duration: newState.duration});
+         chrome.runtime.sendMessage({type: 'nowPlaying', duration: newState.duration});
       }
     });
     state = resetState (newState.track);
@@ -155,7 +155,7 @@ var module = function() {
     if (force || !(state.scrobbled)) {
       clearTimeout();
       state = initState();
-      chrome.extension.sendRequest({type: "reset"});
+      chrome.runtime.sendMessage({type: "reset"});
     }
   }
 
@@ -194,7 +194,7 @@ var module = function() {
 /**
  * Listen for requests from scrobbler.js
  */
-chrome.extension.onRequest.addListener(
+chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     switch(request.type) {
     case 'submitOK':

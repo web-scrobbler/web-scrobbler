@@ -45,13 +45,13 @@ function updateNowPlaying(){
     }
     clipTitle = track;
     
-    chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
+    chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
 	if (response != false) {
-	    chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
+	    chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: track, duration: duration});
 	}
          // on failure send nowPlaying 'unknown song'
          else {
-            chrome.extension.sendRequest({type: 'nowPlaying', duration: duration});
+            chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
          }
     });
 }
@@ -105,10 +105,10 @@ function parseDuration(artistTitle) {
  */ 
 function scrobbleTrack() {
    // stats
-   chrome.extension.sendRequest({type: 'trackStats', text: 'The Google Music song scrobbled'});
+   chrome.runtime.sendMessage({type: 'trackStats', text: 'The Google Music song scrobbled'});
    
    // scrobble
-   chrome.extension.sendRequest({type: 'submit'});
+   chrome.runtime.sendMessage({type: 'submit'});
 }
 
 
@@ -116,7 +116,7 @@ function scrobbleTrack() {
 /**
  * Listen for requests from scrobbler.js
  */ 
-chrome.extension.onRequest.addListener(
+chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
 		switch(request.type) {
     	// called after track has been successfully marked as 'now playing' at the server

@@ -55,12 +55,12 @@ var updateNowPlaying = function() {
     if(!song.submitted) {
       song.submitted = true;
 
-      chrome.extension.sendRequest({type: 'validate', artist: song.artist, track: song.track}, function(response) {
+      chrome.runtime.sendMessage({type: 'validate', artist: song.artist, track: song.track}, function(response) {
            
            if (response !== false) { // autocorrected song object
-              chrome.extension.sendRequest({type: 'nowPlaying', artist: response.artist, track: response.track, duration: song.duration});
+              chrome.runtime.sendMessage({type: 'nowPlaying', artist: response.artist, track: response.track, duration: song.duration});
            } else {
-              chrome.extension.sendRequest({type: 'nowPlaying', duration: song.duration});
+              chrome.runtime.sendMessage({type: 'nowPlaying', duration: song.duration});
            }
 
       });
@@ -81,7 +81,7 @@ $(function(){
   });
 
   $(window).unload(function() {      
-    chrome.extension.sendRequest({type: 'reset'});
+    chrome.runtime.sendMessage({type: 'reset'});
     return true;      
   });
 

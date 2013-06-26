@@ -117,20 +117,20 @@ function cleanArtistTrack(artist, track) {
             setTimeout(function () {
                 var s = song(title.substr(2));
 
-                chrome.extension.sendRequest({type: 'validate',
+                chrome.runtime.sendMessage({type: 'validate',
                                             artist: s.artist,
                                              track: s.track},
                 function(response) {
                     current.validated = response;
                     if (response !== false) {
-                        chrome.extension.sendRequest({type: 'nowPlaying',
+                        chrome.runtime.sendMessage({type: 'nowPlaying',
                                                     artist: response.artist,
                                                      track: response.track,
                                                   duration: s.duration});
                     }
 
                     else {
-                        chrome.extension.sendRequest({type: 'nowPlaying',
+                        chrome.runtime.sendMessage({type: 'nowPlaying',
                                                   duration: s.duration});
                     }
                 });
@@ -139,7 +139,7 @@ function cleanArtistTrack(artist, track) {
     });
 
     $(window).unload(function() {
-        chrome.extension.sendRequest({type: 'reset'});
+        chrome.runtime.sendMessage({type: 'reset'});
         return true;
     });
 })();

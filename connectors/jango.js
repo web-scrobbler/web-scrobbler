@@ -22,12 +22,12 @@ function updateNowPlaying() {
 
   // Update scrobbler
   console.log('submitting a now playing request. artist: ' + songInfo['artist'] + ', title: ' + songInfo['title'] + ', duration: ' + songInfo['duration']);
-  chrome.extension.sendRequest({'type': 'validate', 'artist': songInfo['artist'], 'track': songInfo['title']}, function(response) {
+  chrome.runtime.sendMessage({'type': 'validate', 'artist': songInfo['artist'], 'track': songInfo['title']}, function(response) {
     if (response != false) {
-      chrome.extension.sendRequest({type: 'nowPlaying', 'artist': songInfo['artist'], 'track': songInfo['title'], 'duration': songInfo['duration']});
+      chrome.runtime.sendMessage({type: 'nowPlaying', 'artist': songInfo['artist'], 'track': songInfo['title'], 'duration': songInfo['duration']});
     } else {
       // on validation failure send nowPlaying 'unknown song'
-      chrome.extension.sendRequest({'type': 'nowPlaying', 'duration': songInfo['duration']});
+      chrome.runtime.sendMessage({'type': 'nowPlaying', 'duration': songInfo['duration']});
     }
   });
 }
@@ -55,7 +55,7 @@ $(document).ready(function(){
   $('#chromeLastFM').live('DOMSubtreeModified', updateNowPlaying);
 
   $(window).unload(function() {
-    chrome.extension.sendRequest({type: 'reset'});
+    chrome.runtime.sendMessage({type: 'reset'});
     return true;
   });
 });

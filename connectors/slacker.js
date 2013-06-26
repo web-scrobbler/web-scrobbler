@@ -57,11 +57,11 @@ function LFM_updateNowPlaying(){
 		}
 		console.log("submitting a now playing request. artist: "+artist+", title: "+title+", duration: "+duration);
 		LFM_lastTrack = newTrack;
-		chrome.extension.sendRequest({type: 'validate', artist: artist, track: title}, function(response) {
+		chrome.runtime.sendMessage({type: 'validate', artist: artist, track: title}, function(response) {
 			if (response !== false) {
-				chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: title, duration: duration});
+				chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: title, duration: duration});
 			} else { // on failure send nowPlaying 'unknown song'
-				chrome.extension.sendRequest({type: 'nowPlaying', duration: duration});
+				chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
 			}
 		});
 	}
@@ -84,7 +84,7 @@ $(function(){
 	});
 
 	$(window).unload(function() { 
-		chrome.extension.sendRequest({type: 'reset'});
+		chrome.runtime.sendMessage({type: 'reset'});
 		return true;
 	});
 });

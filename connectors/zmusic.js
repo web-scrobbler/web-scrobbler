@@ -12,7 +12,7 @@ $(function() {
 
     $(window).unload(function() {
 		// reset the background scrobbler song data
-		chrome.extension.sendRequest({type: 'reset'});
+		chrome.runtime.sendMessage({type: 'reset'});
 		return true;      
     });
 
@@ -25,7 +25,7 @@ $(function() {
             var title = m[2];
             var total = parseDurationString(m[3]); 
             var track = artist + "-" + title;
-            var $r = chrome.extension.sendRequest;
+            var $r = chrome.runtime.sendMessage;
             
             if (track != lastTrack) {
                 lastTrack = track;

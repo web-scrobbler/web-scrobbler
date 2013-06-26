@@ -43,7 +43,7 @@ $(document).ready(function () {
                     var
                         artist = $(artistSel).text(),
                         track = $(trackSel).text().replace(/"|\[|\]/g, '');
-                    chrome.extension.sendRequest(
+                    chrome.runtime.sendMessage(
                         {
                             type: 'validate',
                             artist: artist,
@@ -60,7 +60,7 @@ $(document).ready(function () {
                                     // determine it
                                     duration = 120;
                                 }
-                                chrome.extension.sendRequest({
+                                chrome.runtime.sendMessage({
                                     type: 'nowPlaying',
                                     artist: artist,
                                     track: track,
@@ -92,7 +92,7 @@ function parseDuration(match) {
 function cancel() {
     $(window).unload(function () {
         // reset the background scrobbler song data
-        chrome.extension.sendRequest({type: 'reset'});
+        chrome.runtime.sendMessage({type: 'reset'});
         return true;
     });
 }

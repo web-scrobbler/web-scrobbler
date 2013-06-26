@@ -26,7 +26,7 @@ $(function(){
 	 // bind page unload function to discard current "now listening"
 	$(window).unload(function() {      
 		// reset the background scrobbler song data
-		chrome.extension.sendRequest({type: 'reset'});
+		chrome.runtime.sendMessage({type: 'reset'});
 		return true;      
 	});
 });
@@ -52,9 +52,9 @@ function process()
 		try{
 				if(isNewSong)
 				{
-					chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
+					chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
 					if (response != false){
-						chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: '245'});
+						chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: track, duration: '245'});
 						if(debug)
 	{
 						console.log('--scrobbling--')

@@ -62,7 +62,7 @@ function isAlbum()
 function cancel(){
 	$(window).unload(function() {      
 		// reset the background scrobbler song data
-		chrome.extension.sendRequest({type: 'reset'});
+		chrome.runtime.sendMessage({type: 'reset'});
 		return true;      
 	});
 }
@@ -94,13 +94,13 @@ $(durationPart).bind('DOMSubtreeModified',function(e){
 			lastTrack = track;
 			
 			//console.log("BandCampScrobbler: scrobbling '" + track + "' by " + artist);
-			chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
+			chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
 				if (response != false){
-					chrome.extension.sendRequest({type: 'nowPlaying', artist: response.artist, track: response.track, duration: duration.total});
+					chrome.runtime.sendMessage({type: 'nowPlaying', artist: response.artist, track: response.track, duration: duration.total});
 				}
 				else
 				{
-					chrome.extension.sendRequest({type: 'nowPlaying', duration: duration.total});	
+					chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration.total});	
 				}
 			});
 		}

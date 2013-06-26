@@ -51,17 +51,17 @@ function sendTrack()
 
     if (deezerSong && deezerSong.duration > 0)
     {
-        chrome.extension.sendRequest({type: 'validate', artist: deezerSong.artist, track: deezerSong.track}, function(response)
+        chrome.runtime.sendMessage({type: 'validate', artist: deezerSong.artist, track: deezerSong.track}, function(response)
         {
             if (response != false)
             {
                 var song = response; // contains valid artist/track now
 
-                chrome.extension.sendRequest({type: 'nowPlaying', artist: song.artist, track: song.track, duration: deezerSong.duration});
+                chrome.runtime.sendMessage({type: 'nowPlaying', artist: song.artist, track: song.track, duration: deezerSong.duration});
             }
             else
             {
-                chrome.extension.sendRequest({type: 'nowPlaying', duration: deezerSong.duration});
+                chrome.runtime.sendMessage({type: 'nowPlaying', duration: deezerSong.duration});
                 displayMsg('Not recognized');
             }
         });
@@ -96,7 +96,7 @@ function getCurrentTrack()
 function cancel()
 {
     // reset the background scrobbler song data
-    chrome.extension.sendRequest({type: 'reset'});
+    chrome.runtime.sendMessage({type: 'reset'});
 }
 
 /**

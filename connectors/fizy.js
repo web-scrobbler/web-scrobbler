@@ -16,7 +16,7 @@ $(function(){
 	
 	$(window).unload(function() {      
 		// reset the background scrobbler song data
-		chrome.extension.sendRequest({type: 'reset'});
+		chrome.runtime.sendMessage({type: 'reset'});
 		return true;      
 	});
 });
@@ -28,10 +28,10 @@ function process(){
 	var artist = info['artist'];
 	var track = info['track'];
 	if(track != undefined && artist != undefined){
-		chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
+		chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
 			if (response != false){
 				var duration = (response['duration']/1000);
-				chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track, duration: duration});
+				chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: track, duration: duration});
 			}
 		});
 	}

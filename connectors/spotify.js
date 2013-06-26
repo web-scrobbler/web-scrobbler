@@ -25,7 +25,7 @@
         // If this is a "pause" event, just call the "reset"
         if (songInfo.pause && songInfo.pause === true) {
             lastSongTitle = '';
-            chrome.extension.sendRequest({type: "reset"});
+            chrome.runtime.sendMessage({type: "reset"});
             return;
         }
 
@@ -35,12 +35,12 @@
         }
         lastSongTitle = songInfo.title;
 
-        chrome.extension.sendRequest({'type': 'validate', 'artist': songInfo.artist, 'track': songInfo.title}, function (response) {
+        chrome.runtime.sendMessage({'type': 'validate', 'artist': songInfo.artist, 'track': songInfo.title}, function (response) {
             if (response !== false) {
-                chrome.extension.sendRequest({type: 'nowPlaying', 'artist': songInfo.artist, 'track': songInfo.title, 'duration': songInfo.duration});
+                chrome.runtime.sendMessage({type: 'nowPlaying', 'artist': songInfo.artist, 'track': songInfo.title, 'duration': songInfo.duration});
             } else {
                 // on validation failure send nowPlaying 'unknown song'
-                chrome.extension.sendRequest({'type': 'nowPlaying', 'duration': songInfo.duration});
+                chrome.runtime.sendMessage({'type': 'nowPlaying', 'duration': songInfo.duration});
             }
         });
     };
@@ -64,7 +64,7 @@
         $('#chromeLastFM').bind('DOMSubtreeModified', updateNowPlaying);
 
         $(window).unload(function () {
-            chrome.extension.sendRequest({type:'reset'});
+            chrome.runtime.sendMessage({type:'reset'});
             return true;
         });
     });

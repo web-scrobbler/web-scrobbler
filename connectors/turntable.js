@@ -51,15 +51,15 @@ function TT_updateNowPlaying() {
       //console.log("Submitting a now playing request. artist: "+artist+", title: "+title+", duration: "+duration);
       
       TT_LAST_TRACK = newTrack;
-      chrome.extension.sendRequest({type: 'validate', artist: artist, track: title}, function(response) {
+      chrome.runtime.sendMessage({type: 'validate', artist: artist, track: title}, function(response) {
          if (response != false) {
             // submit the validated song for scrobbling
             var song = response;
-            chrome.extension.sendRequest({type: 'nowPlaying', artist: song.artist, track: song.track, duration: duration});
+            chrome.runtime.sendMessage({type: 'nowPlaying', artist: song.artist, track: song.track, duration: duration});
          } else {
             // on failure send nowPlaying 'unknown song'
             console.log( "Song validation failed!" );
-            chrome.extension.sendRequest({type: 'nowPlaying', duration: duration});
+            chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
          }
       });
 	}
@@ -89,7 +89,7 @@ $(function(){
    });
 
    $(window).unload(function() {      
-      chrome.extension.sendRequest({type: 'reset'});
+      chrome.runtime.sendMessage({type: 'reset'});
       return true;      
    });
 });

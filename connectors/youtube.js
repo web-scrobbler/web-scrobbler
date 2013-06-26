@@ -8,7 +8,7 @@ var clipTitle = '';
 var options = {};
 
 $(document).ready(function() {
-    chrome.extension.sendRequest({type: 'getOptions'}, function(response) {
+    chrome.extension.sendMessage({type: 'getOptions'}, function(response) {
        options = response.value;
        init();
     });
@@ -99,7 +99,7 @@ function init() {
    $(window).unload(function() {
 
       // reset the background scrobbler song data
-      chrome.extension.sendRequest({type: 'reset'});
+      chrome.runtime.sendMessage({type: 'reset'});
 
       return true;
    });
@@ -223,7 +223,7 @@ function updateNowPlaying() {
    var googleURL = "http://gdata.youtube.com/feeds/api/videos/" + videoID + "?alt=json";
 
    // Get clip info from youtube api
-   chrome.extension.sendRequest({type: "xhr", url: googleURL}, function(response) {
+   chrome.runtime.sendMessage({type: "xhr", url: googleURL}, function(response) {
    	var info = JSON.parse(response.text);
    	var parsedInfo = parseInfo(info.entry.title.$t);
       var artist = null;
@@ -273,16 +273,16 @@ function updateNowPlaying() {
          duration = info.entry.media$group.yt$duration.seconds;
 
       // Validate given artist and track (even for empty strings)
-      chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
+      chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
          // on success send nowPlaying song
          if (response != false) {
             var song = response; // contains valid artist/track now
             // substitute the original duration with the duration of the video
-            chrome.extension.sendRequest({type: 'nowPlaying', artist: song.artist, track: song.track, duration: duration});
+            chrome.runtime.sendMessage({type: 'nowPlaying', artist: song.artist, track: song.track, duration: duration});
          }
          // on failure send nowPlaying 'unknown song'
          else {
-            chrome.extension.sendRequest({type: 'nowPlaying', duration: duration});
+            chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
          }
    	});
 
@@ -302,7 +302,7 @@ function getOption(key) {
 /**
  * Listen for requests from scrobbler.js
  */
-chrome.extension.onRequest.addListener(
+chrome.runtime.onMessage.addListener(
    function(request, sender, sendResponse) {
          switch(request.type) {
             // called after track has been successfully marked as 'now playing' at the server
