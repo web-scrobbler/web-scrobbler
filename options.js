@@ -17,16 +17,16 @@ $(function(){
       localStorage['useNotificationsScrobbled'] = this.checked ? 1 : 0;
    });
 
-   $('#yt-autosubmit').click(function(){
-      localStorage['autosubmitYT'] = this.checked ? 1 : 0;
-   });
-
    $('#use-autocorrect').click(function(){
       localStorage['useAutocorrect'] = this.checked ? 1 : 0;
    });
 
    $('#use-youtube-inpage').click(function(){
       localStorage['useYTInpage'] = this.checked ? 1 : 0;
+   });
+
+   $('#reset-stored-tracks').click(function(){
+      chrome.storage.sync.clear();
    });
 
    // preload options
