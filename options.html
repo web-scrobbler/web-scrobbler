@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>Options for Chrome Scrobbler</title>
+	<title>Options for Last.fm Scrobbler</title>
 	<script type="text/javascript" src="md5.js"></script>
 	<script type="text/javascript" src="jquery-1.6.1.min.js"></script>
 	<script type="text/javascript" src="options.js"></script>
@@ -53,47 +53,10 @@
             <h1>About</h1>
             
             <p>
-               Last.fm Scrobbler for Chrome was created for people who listen to music
+               Last.fm Scrobbler was created for people who listen to music
                online through their browser, and would like to keep an updated playback
                history using last.fm's scrobbling service.
             </p>
-            
-            <!--
-            <p>
-               Supported websites <span class="gray">(alphabetically)</span>
-               <ul style="margin-top:0;">
-                  <li>22tracks.com</li>
-                  <li><strong>Amazon.com / Amazon.de</strong></li>
-                  <li>BandCamp.com</li>
-                  <li>Deezer.com</li>
-                  <li>Fizy.com</li>
-                  <li>Ghostly Discovery</li>
-                  <li><strong>Google Music</strong></li>
-                  <li>Grooveshark.com</li>
-                  <li>iHeart.com</li>
-                  <li>Indieshuffle.com</li>
-                  <li>Jango.com</li>
-                  <li>Megalyrics.ru</li>
-                  <li><strong>MySpace (new interface)</strong></li>
-                  <li><strong>Pandora.com (new interface)</strong></li>
-                  <li>Pitchfork.com</li>
-                  <li>Plug.dj</li>
-                  <li>Slacker.com</li>
-                  <li>SoundCloud.com</li>
-                  <li>Spotify.com</li>
-                  <li>Thesixtyone.com</li>
-                  <li>TTnetMuzik.com.tr</li>
-                  <li>Tuba.fm</li>
-                  <li>TurnTable.fm</li>
-                  <li>Virgin Radio Turkiye</li>
-                  <li>VK.com</li>
-                  <li>Weborama.fm</li>
-                  <li><strong>YouTube</strong></li>
-                  <li>Zvooq.ru</li>
-                  <li>Z-music.org</li>
-               </ul>
-            </p>
-            -->
             
             <p>
                As I don't visit many other websites with video content, the development of
@@ -151,7 +114,8 @@
             <h4>How do I temporarily disable scrobbling?</h4>
             <p>
                You can do that by clicking the icon in the omnibox (address bar). To enable scrobbling again, click the icon one more time.
-               The scrobbling will continue for the next song.
+               The scrobbling will continue for the next song.<br>
+               As of version 1.17, you can also disable scrobbling for specific site for some reason. But the global disabling always takes priority.
             </p>
 
             <h4>The song was not recognized! Can you fix it?</h4>
@@ -186,16 +150,17 @@
 
             <h4>Is the scrobbler available for the Firefox?</h4>
             <p>
-               It is not and it won't be. This is a Chrome extension and I have no intentions to port it for the Firefox
-               or any other browser.
+               It is not and it won't be until Firefox supports Chromium extensions. Like Opera 15+ does.
             </p>
 
             <h4>Who is the author?</h4>
             <p>
-               My name is David Šabata and I study IT at the Brno University of Technology, Czech Republic.
+               My name is David Šabata, I graduated from IT at the Brno University of Technology, Czech Republic. I am obsessed with automating 
+               tedious tasks and that's probably why this whole extension was created.
                <ul>
-                  <li><a href="https://plus.google.com/112444058875583505118">Google+ profile</a></li>
                   <li><a href="http://www.last.fm/user/na1k_">Last.fm profile</a></li>
+                  <li><a href="http://linkedin.com/pub/david-%C5%A1abata/6b/3a4/2bb/">Linkedin profile</a></li>
+                  <li><a href="https://plus.google.com/112444058875583505118">Google+ profile</a></li>                  
                </ul>
             </p>
          </div>
@@ -204,6 +169,19 @@
       <div class="right">
          <div class="container news">
             <h1>What's new</h1>
+           
+            <h4>1.17</h4>
+            <ul>
+               <li>Opera Next (Opera 15+) is supported now!</li>
+               <li>Options to enable/disable scrobbling on specific sites</li>
+               <li>A new omnibox icon signalizing the current site is supported, event if it is disabled</li>               
+               <li>Option to prevent notifications from auto hiding</li>
+               <li>The scrobbler will work along with the HTTPS Everywhere extension (and its alternatives)</li>
+               <li>Updated MySpace connector to the one and only design</li>
+               <li>Fixed Google Music scrobbling again</li>
+               <li>Removed FFtunes connector, as the site has died</li>
+               <li>Other minor fixes and obsolete functionality cleanup</li>
+            </ul>
            
             <h4>1.16</h4>
             <ul>
