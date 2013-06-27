@@ -334,16 +334,16 @@ function updateNowPlaying() {
          duration = info.entry.media$group.yt$duration.seconds;
 
       // Validate given artist and track (even for empty strings)
-      chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
+      chrome.extension.sendRequest({type: 'validate', artist: artist, track: track, uniqueId: videoID}, function(response) {
          // on success send nowPlaying song
          if (response != false) {
             var song = response; // contains valid artist/track now
             // substitute the original duration with the duration of the video
-            chrome.extension.sendRequest({type: 'nowPlaying', artist: song.artist, track: song.track, duration: duration});
+            chrome.extension.sendRequest({type: 'nowPlaying', artist: song.artist, track: song.track, duration: duration, uniqueId: videoID});
          }
-         // on failure send nowPlaying 'unknown song'
+         // on failure send nowPlaying with validationFailed set
          else {
-            chrome.extension.sendRequest({type: 'nowPlaying', duration: duration});
+            chrome.extension.sendRequest({type: 'nowPlaying', validationFailed: true, artist: artist, track: track, duration: duration, uniqueId: videoID});
             displayMsg('Not recognized');
          }
    	});

@@ -24,6 +24,7 @@
    "options_page": "options.html",
 
    "permissions": [
+      "storage",
       "tabs",
       "notifications",
       "http://ws.audioscrobbler.com/2.0/",
