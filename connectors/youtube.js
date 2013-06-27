@@ -165,7 +165,7 @@ function parseQuotes(artistTitle) {
    } else {
       track = artistTitle.replace(/^(.*)'(.*)'(.*)$/, '$2'); // beware the Artist's
       if (track != '')
-         artist = artistTitle.replace(/^(.*)'(?!s )(.*)'(.*)$/, '$1');
+         artist = artistTitle.replace(/^(.*)'(.*)'(.*)$/, '$1');
    }
 
    return cleanArtistTrack(artist, track);
