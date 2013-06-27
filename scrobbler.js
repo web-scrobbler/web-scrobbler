@@ -246,6 +246,10 @@ function setActionIcon(action, tabId) {
 function scrobblerNotification(text, force) {
    if (localStorage.useNotifications != 1 && !force)
       return;
+   
+   // Opera compatibility
+   if (typeof(webkitNotification) === "undefined")
+      return;
 
    var title = 'Last.fm Scrobbler';
    var body = '';
