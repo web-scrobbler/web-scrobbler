@@ -31,13 +31,19 @@ $(function(){
    $('#use-notifications-scrobbled').attr('checked', (localStorage['useNotificationsScrobbled'] == 1));
    $('#auto-hide-notifications').attr('checked', (localStorage['autoHideNotifications'] == 1));
    $('#use-autocorrect').attr('checked', (localStorage['useAutocorrect'] == 1));
-   
+      
    // disable subitems
    function updateDisabled() {
       $('#use-notifications-nowplaying').attr('disabled', (!$('#use-notifications').is(':checked')));
       $('#use-notifications-scrobbled').attr('disabled', (!$('#use-notifications').is(':checked')));
       $('#auto-hide-notifications').attr('disabled', (!$('#use-notifications').is(':checked')));
    }
+   
+   
+   $('button#authorize').click(function() {
+      authorize();
+   });
+   
    
    // generate connectors and their checkboxes
    createConnectors();
