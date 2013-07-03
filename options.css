@@ -90,6 +90,10 @@ div.container.about p {
 .options label[title] {
    border-bottom: 1px dotted #ccc;
 }
+.options button {
+   margin: 15px auto 0 40px;
+   line-height: 200%;
+}
 
 span#options-status {
    padding-left: 10px;

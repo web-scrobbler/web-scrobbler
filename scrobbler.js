@@ -11,16 +11,9 @@
  *
  */
 
-var APP_NAME = "Chrome Last.fm Scrobbler";
-var APP_VERSION = "1.16";
-
 
 // browser tab with actually scrobbled track
 var nowPlayingTab = null;
-
-// api url
-var apiURL = "https://ws.audioscrobbler.com/2.0/?";
-var apiKey = "d9bb1870d3269646f740544d9def2c95";
 
 // song structure, filled in nowPlaying phase, (artist, track, duration, startTime)
 var song = {};
@@ -36,36 +29,6 @@ var disabled = false;
 // set up page action handler; use dummy.html popup to override
 chrome.pageAction.onClicked.addListener(pageActionClicked);
 
-
-/**
- * Notification
- */
-var NOTIFICATION_TIMEOUT = 5000;
-var NOTIFICATION_SEPARATOR = ':::';
-
-/**
- * Page action icons
- */
-var ICON_LOGO = 'icon.png';                      // Audioscrobbler logo
-var ICON_UNKNOWN = 'icon_unknown.png';           // not recognized
-var ICON_NOTE = 'icon_note.png';                 // now playing
-var ICON_NOTE_DISABLED = 'icon_note_gray.png';   // disabled
-var ICON_TICK = 'icon_tick.png';                 // scrobbled
-var ICON_TICK_DISABLED = 'icon_tick_gray.png';   // disabled
-var ICON_CONN_DISABLED = 'icon_cross_gray.png';  // connector is disabled
-
-/**
- * Icon - title - popup set identificators
- */
-var ACTION_UNKNOWN = 1;
-var ACTION_NOWPLAYING = 2;
-var ACTION_SCROBBLED = 3;
-var ACTION_UPDATED = 4;
-var ACTION_DISABLED = 5;
-var ACTION_REENABLED = 6;
-var ACTION_CONN_DISABLED = 7;
-var ACTION_SITE_RECOGNIZED = 8;
-var ACTION_SITE_DISABLED = 9;
 
 /**
  * Default settings & update notification
@@ -92,8 +55,8 @@ var ACTION_SITE_DISABLED = 9;
       localStorage.autoHideNotifications = 1;
 
    // show update popup - based on different version
-   if (localStorage.appVersion != APP_VERSION) {
-      localStorage.appVersion = APP_VERSION;
+   if (localStorage.appVersion != chrome.app.getDetails().version) {
+      localStorage.appVersion = chrome.app.getDetails().version;
 
       // introduce new options if not already set
       if (typeof localStorage.useAutocorrect == 'undefined')
@@ -247,6 +210,10 @@ function setActionIcon(action, tabId) {
  */
 function scrobblerNotification(text, force) {
    if (localStorage.useNotifications != 1 && !force)
+      return;
+   
+   // Opera compatibility
+   if (typeof(webkitNotification) === "undefined")
       return;
 
    var title = 'Last.fm Scrobbler';

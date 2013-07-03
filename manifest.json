@@ -1,6 +1,6 @@
 {
    "name": "Last.fm Scrobbler",
-   "version": "1.16",
+   "version": "1.18",
 
    "description": "Scrobble music all around the web!",
    "icons": {
@@ -18,7 +18,7 @@
    ],
 
    "background": {
-      "scripts": ["background-ga.js", "inject.js", "md5.js", "jquery-1.6.1.min.js", "jquery.dump.js", "scrobbler.js"]
+      "scripts": ["defines.js", "background-ga.js", "inject.js", "md5.js", "jquery-1.6.1.min.js", "jquery.dump.js", "scrobbler.js"]
    },
 
    "options_page": "options.html",

@@ -220,13 +220,6 @@ var connectors = [
 
 
 
-// path to jQuery, which is always included
-var JQUERY_PATH = "jquery-1.6.1.min.js";
-
-
-
-
-
 
 
 
