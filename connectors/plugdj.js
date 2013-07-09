@@ -94,7 +94,7 @@
             "    injectScript.type = 'text/javascript';\n" +
             "    injectScript.src = l;\n" +
             "    document.getElementsByTagName('head')[0].appendChild(injectScript);\n" +
-            "  })('" + chrome.extension.getURL('plugdj-dom-inject.js') + "');</script>");
+            "  })('" + chrome.extension.getURL('connectors/plugdj-dom-inject.js') + "');</script>");
 
         // Listen for 'messages' from the injected script
         $('#chromeLastFM').bind('DOMSubtreeModified', updateNowPlaying);
