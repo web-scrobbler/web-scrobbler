@@ -14,7 +14,7 @@
 
     var updateNowPlaying = function() {
         var commDiv = document.getElementById('chromeLastFM'), songInfo;
-
+        
         try {
             songInfo = JSON.parse(commDiv.innerText);
         } catch (e) {
@@ -58,7 +58,7 @@
             "    injectScript.type = 'text/javascript';\n" +
             "    injectScript.src = l;\n" +
             "    document.getElementsByTagName('head')[0].appendChild(injectScript);\n" +
-            "  })('" + chrome.extension.getURL('spotify-dom-inject.js') + "');</script>");
+            "  })('" + chrome.extension.getURL('connectors/spotify-dom-inject.js') + "');</script>");
 
         // Listen for 'messages' from the injected script
         $('#chromeLastFM').bind('DOMSubtreeModified', updateNowPlaying);
