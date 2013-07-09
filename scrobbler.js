@@ -211,7 +211,7 @@ function scrobblerNotification(text, force) {
       return;
    
    // Opera compatibility
-   if (typeof(webkitNotification) === "undefined")
+   if (typeof(webkitNotifications) === "undefined")
       return;
 
    var title = 'Last.fm Scrobbler';
