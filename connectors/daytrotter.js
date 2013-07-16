@@ -56,23 +56,15 @@ $(function(){
 
 		if (t_duration != duration && t_duration != "00:00" && t_duration != "" && (t_artist != artist || t_track != track))
 		{
-			/*
-			console.log("new track identified");	
-			console.log ("Polling Temp Track Info - DISPLAY[%s] - ARTIST[%s] - TRACK[%s] - CURRENT[%s] - DURATION[%s]",
-							tempStr, t_artist, t_track, t_current, t_duration);
-			*/
 
 			if (track != t_track || artist != t_artist)
 			{
-				console.log("new track identified");	
-
 				console.log ("Polling Temp Track Info - DISPLAY[%s] - ARTIST[%s] - TRACK[%s] - CURRENT[%s] - DURATION[%s]",
 							tempStr, t_artist, t_track, t_current, t_duration);
 
 				artist = t_artist;
 				track = t_track;
 				duration = t_duration;
-
 			}
 		}
 	});
