@@ -14,16 +14,16 @@ var current;
 
 var _flg_Reported;
 
-var container_duration  	= 'div#jp_interface_1.jp-interface div.jp-duration';
-var container_currenttime	= 'div#jp_interface_1.jp-interface div.jp-current-time';
-var container_mediainfo		= 'div#jp_playlist_1.jp-playlist.single ul.nof li a';
-var container_playbutton	= 'a.jp-play';		//'div#jp_playlist_1.jp-playlist.single ul.nof.jp-controls li a.jp-pause';
-var container_pausebutton	= 'a.jp-pause';		//'div#jp_playlist_1.jp-playlist.single ul.nof.jp-controls li a.jp-play';
+var container_duration = 'div#jp_interface_1.jp-interface div.jp-duration';
+var container_currenttime = 'div#jp_interface_1.jp-interface div.jp-current-time';
+var container_mediainfo	= 'div#jp_playlist_1.jp-playlist.single ul.nof li a';
+var container_playbutton = 'a.jp-play';		//'div#jp_playlist_1.jp-playlist.single ul.nof.jp-controls li a.jp-pause';
+var container_pausebutton = 'a.jp-pause';	//'div#jp_playlist_1.jp-playlist.single ul.nof.jp-controls li a.jp-play';
 
-var _flg_IsPlaying			= 0;
-var _flg_IsPaused 			= 0;
-var _flg_NeedsToBeReported	= 0;
-var _flg_HasBeenReported	= 0;
+var _flg_IsPlaying = 0;
+var _flg_IsPaused = 0;
+var _flg_NeedsToBeReported = 0;
+var _flg_HasBeenReported = 0;
 
 function IsPlaying(){
 	return _flg_IsPlaying;
@@ -32,8 +32,6 @@ function IsPlaying(){
 function IsPaused(){
 	return _flg_IsPaused;
 }
-
-
 
 $(function(){
 
@@ -47,12 +45,12 @@ $(function(){
 	$(container_duration).live('DOMSubtreeModified', function(e) {
 		//console.log("duration modified");
 
-		var tempStr		= $(container_mediainfo).text();
-		var tempSplit	= tempStr.split(" - ", 2);
-		var t_artist	= tempSplit[0];
-		var t_track		= tempSplit[1];
-		var t_duration	= $(container_duration).text();
-		var t_current	= $(container_currenttime).text();
+		var tempStr = $(container_mediainfo).text();
+		var tempSplit = tempStr.split(" - ", 2);
+		var t_artist = tempSplit[0];
+		var t_track = tempSplit[1];
+		var t_duration = $(container_duration).text();
+		var t_current = $(container_currenttime).text();
 
 		//console.log(t_duration);
 
@@ -60,10 +58,8 @@ $(function(){
 		{
 			/*
 			console.log("new track identified");	
-
 			console.log ("Polling Temp Track Info - DISPLAY[%s] - ARTIST[%s] - TRACK[%s] - CURRENT[%s] - DURATION[%s]",
 							tempStr, t_artist, t_track, t_current, t_duration);
-
 			*/
 
 			if (track != t_track || artist != t_artist)
@@ -78,9 +74,7 @@ $(function(){
 				duration = t_duration;
 
 			}
-
 		}
-
 	});
 
 	/*********************************************************************************************************************************
@@ -158,6 +152,4 @@ $(function(){
 		return true;      
 		*/
 	});
-
-
 });
