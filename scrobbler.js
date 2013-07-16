@@ -397,7 +397,7 @@ function nowPlaying() {
          // Update page action icon
          setActionIcon(ACTION_NOWPLAYING);
    } else {
-      alert('Last.fm responded with unknown code on nowPlaying request');
+      console.log('Last.fm responded with unknown code on nowPlaying request');
    }
 }
 
@@ -462,11 +462,11 @@ function submit() {
    }
    else if (http_request.status == 503) {
       console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
-      alert('Unable to scrobble the track. Last.fm server is temporarily unavailable.');
+      console.log('Unable to scrobble the track. Last.fm server is temporarily unavailable.');
    }
    else {
       console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
-      alert('An error occured while scrobbling the track. Please try again later.');
+      console.log('An error occured while scrobbling the track. Please try again later.');
    }
 
    // clear the structures awaiting the next song
