@@ -35,7 +35,7 @@ $(function(){
 
 	/*********************************************************************************************************************************
 
-		Monitor the duration container for changines to the track. When the duration changes and is set, it is definitely a new track.
+		Monitor the duration container for changes to the track. When the duration changes and is set, it is definitely a new track.
 
 	**********************************************************************************************************************************/
 	$(container_duration).live('DOMSubtreeModified', function(e) {
