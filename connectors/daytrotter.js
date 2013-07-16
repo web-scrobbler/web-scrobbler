@@ -20,17 +20,13 @@ var container_mediainfo	= 'div#jp_playlist_1.jp-playlist.single ul.nof li a';
 var container_playbutton = 'a.jp-play';		//'div#jp_playlist_1.jp-playlist.single ul.nof.jp-controls li a.jp-pause';
 var container_pausebutton = 'a.jp-pause';	//'div#jp_playlist_1.jp-playlist.single ul.nof.jp-controls li a.jp-play';
 
-var _flg_IsPlaying = 0;
-var _flg_IsPaused = 0;
+var _flg_IsPlaying = false;
+var _flg_IsPaused = false;
 var _flg_NeedsToBeReported = 0;
 var _flg_HasBeenReported = 0;
 
-function IsPlaying(){
-	return _flg_IsPlaying;
-}
-
 function IsPaused(){
-	return _flg_IsPaused;
+	return !_flg_IsPaused;
 }
 
 $(function(){
@@ -43,7 +39,6 @@ $(function(){
 
 	**********************************************************************************************************************************/
 	$(container_duration).live('DOMSubtreeModified', function(e) {
-		//console.log("duration modified");
 
 		var tempStr = $(container_mediainfo).text();
 		var tempSplit = tempStr.split(" - ", 2);
@@ -56,53 +51,26 @@ $(function(){
 
 		if (t_duration != duration && t_duration != "00:00" && t_duration != "" && (t_artist != artist || t_track != track))
 		{
-
 			if (track != t_track || artist != t_artist)
 			{
-				console.log ("Polling Temp Track Info - DISPLAY[%s] - ARTIST[%s] - TRACK[%s] - CURRENT[%s] - DURATION[%s]",
-							tempStr, t_artist, t_track, t_current, t_duration);
+				console.log ("Polling Temp Track Info - PLAYING[%s] - DISPLAY[%s] - ARTIST[%s] - TRACK[%s] - CURRENT[%s] - DURATION[%s]",
+							!IsPaused(), tempStr, t_artist, t_track, t_current, t_duration);
 
 				artist = t_artist;
 				track = t_track;
 				duration = t_duration;
+
+				if ( !IsPaused() )
+				{
+					console.log("post track info");
+				}
 			}
 		}
 	});
 
 	/*********************************************************************************************************************************
 
-		Monitor the play button to keep track of the "playing" status. It is shown while the pause button is hidden.
-
-	**********************************************************************************************************************************/
-
-	var playElement = $(container_playbutton).get(0); 
-
-	var playObserver = new WebKitMutationObserver(function (mutations) {
-		mutations.forEach(attrModified);
-	});
-
-	var playConfig = { attributes: true, childList: false, characterData: false };
-	playObserver.observe(playElement, playConfig);
-
-	function attrModified(mutation) {
-	 	var name = mutation.attributeName,
-	    newValue = mutation.target.getAttribute(name),
-	    oldValue = mutation.oldValue;
-
-		if (name == "style"  &&  newValue == "display: none;")
-		{	
-			console.log("play button hidden"); 
-		}
-
-		if (name == "style"  &&  newValue == "display: block;")
-		{ 
-			console.log("play button visible"); 
-		}
-	}
-
-	/*********************************************************************************************************************************
-
-		Monitor the pause button to keep track of the "pause" status. It is shown while the play button is hidden.
+		Monitor the pause button to keep track of the "pause" status. It is shown while the play button is hidden. (track is playing)
 
 	**********************************************************************************************************************************/
 
@@ -123,11 +91,12 @@ $(function(){
 		if (name == "style"  &&  newValue == "display: none;")
 		{	
 			console.log("pause button hidden"); 
+			_flg_IsPaused = false;
 		}
-		
-		if (name == "style"  &&  newValue == "display: block;")
-		{ 
-			console.log("pause button visible"); 
+		else
+		{
+			console.log("pause button visibile (should be)");
+			_flg_IsPaused = true;
 		}
 	}
 
@@ -139,9 +108,7 @@ $(function(){
 	$(window).unload(function() {     
 		console.log('unload');
 	
-		/*
 		chrome.runtime.sendMessage({type: 'reset'});
 		return true;      
-		*/
 	});
 });
