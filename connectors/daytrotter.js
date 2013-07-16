@@ -47,14 +47,12 @@ $(function(){
 		var t_duration = $(container_duration).text();
 		var t_current = $(container_currenttime).text();
 
-		//console.log(t_duration);
-
 		if (t_duration != duration && t_duration != "00:00" && t_duration != "" && (t_artist != artist || t_track != track))
 		{
 			if (track != t_track || artist != t_artist)
 			{
-				console.log ("Polling Temp Track Info - PLAYING[%s] - DISPLAY[%s] - ARTIST[%s] - TRACK[%s] - CURRENT[%s] - DURATION[%s]",
-							!IsPaused(), tempStr, t_artist, t_track, t_current, t_duration);
+				//console.log ("Polling Temp Track Info - PLAYING[%s] - DISPLAY[%s] - ARTIST[%s] - TRACK[%s] - CURRENT[%s] - DURATION[%s]",
+				//			!IsPaused(), tempStr, t_artist, t_track, t_current, t_duration);
 
 				artist = t_artist;
 				track = t_track;
@@ -62,7 +60,15 @@ $(function(){
 
 				if ( !IsPaused() )
 				{
-					console.log("post track info");
+					console.log("posting track info");
+					
+					chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
+						if (response != false) {
+							chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: track, duration: duration});
+						} else { // on failure send nowPlaying 'unknown song'
+							chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
+						}
+					});
 				}
 			}
 		}
