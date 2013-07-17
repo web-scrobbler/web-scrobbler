@@ -19,7 +19,7 @@ function IsPaused(){
 	return !_flg_IsPaused;
 }
 
-function UpdateMediaInfo( _mediainfo, _artist, _track, _duration) {
+function UpdateMediaInfo( _mediainfo, _artist, _track, _duration){
 	//console.log("updating media info");
 	mediainfo = _mediainfo;
 	artist = _artist;
