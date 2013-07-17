@@ -7,6 +7,7 @@
 
 console.log('Entered daytrotter.js');
 
+var mediainfo;
 var track;
 var artist;
 var duration;
@@ -40,8 +41,8 @@ $(function(){
 	**********************************************************************************************************************************/
 	$(container_duration).live('DOMSubtreeModified', function(e) {
 
-		var tempStr = $(container_mediainfo).text();
-		var tempSplit = tempStr.split(" - ", 2);
+		var t_mediainfo = $(container_mediainfo).text();
+		var tempSplit = t_mediainfo.split(" - ", 2);
 		var t_artist = tempSplit[0];
 		var t_track = tempSplit[1];
 		var t_duration = $(container_duration).text();
@@ -52,20 +53,28 @@ $(function(){
 			if (track != t_track || artist != t_artist)
 			{
 				//console.log ("Polling Temp Track Info - PLAYING[%s] - DISPLAY[%s] - ARTIST[%s] - TRACK[%s] - CURRENT[%s] - DURATION[%s]",
-				//			!IsPaused(), tempStr, t_artist, t_track, t_current, t_duration);
+				//			!IsPaused(), t_mediainfo, t_artist, t_track, t_current, t_duration);
 
+				mediainfo = t_mediainfo;
 				artist = t_artist;
 				track = t_track;
 				duration = t_duration;
 
+
 				if ( !IsPaused() )
 				{
-					console.log("posting track info");
+					//console.log("posting track info");
 					
 					chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
 						if (response != false) {
 							chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: track, duration: duration});
 						} else { // on failure send nowPlaying 'unknown song'
+
+							//if validation failed, consider trying to determine if it is from an "official" playlist and parsing out the media info again to validate.
+							//
+							//	To be done later
+							//
+
 							chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
 						}
 					});
@@ -96,12 +105,12 @@ $(function(){
 
 		if (name == "style"  &&  newValue == "display: none;")
 		{	
-			console.log("pause button hidden"); 
+			//console.log("pause button hidden"); 
 			_flg_IsPaused = false;
 		}
 		else
 		{
-			console.log("pause button visibile (should be)");
+			//console.log("pause button visibile (should be)");
 			_flg_IsPaused = true;
 		}
 	}
