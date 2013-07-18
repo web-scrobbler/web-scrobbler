@@ -29,9 +29,9 @@ function UpdateMediaInfo( _mediainfo, _artist, _track, _duration){
 
 function PostMediaInfo (){
 	//console.log("posting media info");
-	chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
+	chrome.runtime.sendMessage({'type': 'validate', 'artist': artist, 'track': track}, function(response) {
 		if (response != false) {
-			chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: track, duration: duration});
+			chrome.runtime.sendMessage({'type': 'nowPlaying', 'artist': artist, 'track': track, 'duration': duration});
 		} else { // on failure send nowPlaying 'unknown song'
 			chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
 		}
@@ -102,7 +102,7 @@ $(function(){
 	***********************************************************************************************/
 	$(window).unload(function() {     
 		//console.log('unload');
-		chrome.runtime.sendMessage({type: 'reset'});
+		chrome.runtime.sendMessage({'type': 'reset'});
 		return true;      
 	});
 });
