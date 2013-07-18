@@ -33,7 +33,7 @@ function PostMediaInfo (){
 		if (response != false) {
 			chrome.runtime.sendMessage({'type': 'nowPlaying', 'artist': artist, 'track': track, 'duration': duration});
 		} else { // on failure send nowPlaying 'unknown song'
-			chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
+			chrome.runtime.sendMessage({type: 'nowPlaying', 'duration': duration});
 		}
 	});
 }
