@@ -15,6 +15,7 @@ $(function(){
       $('#track').val(chrome.extension.getBackgroundPage().song.track);
 
 
+
    $('#submit').click(function(){
       $(this).attr('disabled', true);
       $(this).siblings().remove();
