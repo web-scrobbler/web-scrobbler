@@ -1,10 +1,6 @@
 body {
 	color: #D51007;
-	background-color: #fff;
-	font-family: "Lucida Grande", Arial, Helvetica, Calibri, Verdana, sans-serif;
-}
-input:focus {
-	background-color: #eee;
+	font-family: "Lucida Grande",Arial,Helvetica,Verdana,sans-serif;
 }
 #wrapper {
 	width: 210px;
@@ -12,37 +8,8 @@ input:focus {
 #form {
 	width: 100%;
 }
-input {
-	border: 1px solid #ccc;
-}
-input[type="text"] {
-	padding: 4px;
-}
 #valid {
 	display: none;
-	background-image: url(icon_tick_big.png);
-	background-repeat: no-repeat;
-	color: rgb(34, 138, 34);
-	background-position: 50% 0;
-	height: 58px;
-	font-size: small;
-	vertical-align: bottom;
-	box-sizing: border-box;
-	padding: 48px 0 0 0;
+	padding: 30px;
 	text-align: center;
-}
-label {
-	font-weight: bold;
-	display: inline-block;
-	width: 100px;
-	width: 46px;
-}
-#submit {
-	margin: 0;
-	color: #D51007;
-	background-color: #eee;
-	border: 1px solid #ccc;
-	font-weight: bold;
-	line-height: 1.8;
-	border-radius: 7px;
 }

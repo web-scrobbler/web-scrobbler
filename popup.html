@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html>
    <head>
-      <title>Submit last.fm scrobble manually</title>
+      <title></title>
       <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
       <script type="text/javascript" src="jquery-1.6.1.min.js"></script>
       <script type="text/javascript" src="jquery.dump.js"></script>
-      <script type="text/javascript" async="" src="popup.js"></script>
+      <script type="text/javascript" src="popup.js"></script>
       <link rel="stylesheet" href="popup.css">
    </head>
-   <body tabindex="-1">
+   <body>
       <div id="wrapper">
-	         <table id="form">
-	            <tr>
-	               <th><label for="artist" id="for-artist">Artist</label></th>
-	               <td><input type="text" id="artist" tabindex="0"></td>
-	            </tr>
-	            <tr>
-	               <th><label for="track" id="for-track">Track</label></th>
-	               <td><input type="text" id="track" tabindex="0"></td>
-	            </tr>
-	            <tr>
-	               <th></th>
-	               <td><input type="submit" id="submit" tabindex="0"></td>
-	            </tr>
-	         </table>
+         <table id="form">
+            <tr>
+               <th>Artist</th>
+               <td><input type="text" id="artist" tabindex="1" autofocus="autofocus"></td>
+            </tr>
+            <tr>
+               <th>Track</th>
+               <td><input type="text" id="track" tabindex="2"></td>
+            </tr>
+            <tr>
+               <th></th>
+               <td><input type="submit" id="submit" tabindex="3"></td>
+            </tr>
+         </table>
          <div id="valid">
-         	Scrobble submitted to last.fm.
+            <img src="icon_tick_big.png">
          </div>
       </div>
    </body>
