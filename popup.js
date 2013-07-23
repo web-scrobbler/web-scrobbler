@@ -14,16 +14,6 @@ $(function(){
    if (chrome.extension.getBackgroundPage().song.track != '')
       $('#track').val(chrome.extension.getBackgroundPage().song.track);
 
-   // attempts to fix issue #74 for windows - does not work
-   // but does seem to work properly for Chrome Canary Windows NT
-   $('#artist').bind('blur', function(){
-	  $('#track').focus();
-   });
-   $('#track').bind('blur', function(){
- 	  $('#submit').focus();
-   });
-
-   $('#artist').focus();
 
 
    $('#submit').click(function(){
