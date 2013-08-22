@@ -214,6 +214,12 @@ var connectors = [
       label: "Slacker (main page)",
       matches: ["*://www.slacker.com/*"],
       js: ["connectors/slacker2.js"]
+   },
+
+   {
+      label: "Daytrotter",
+      matches: ["*://www.daytrotter.com/*"],
+      js: ["connectors/daytrotter.js"]
    }   
    
 ];
