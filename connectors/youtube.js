@@ -227,7 +227,7 @@ function updateNowPlaying() {
 
    // Get clip info from youtube api
    chrome.runtime.sendMessage({type: "xhr", url: googleURL}, function(response) {
-   	var info = JSON.parse(response.text);
+      var info = JSON.parse(response.text);
    	var parsedInfo = parseInfo(info.entry.title.$t);
       var artist = null;
       var track = null;
@@ -244,9 +244,9 @@ function updateNowPlaying() {
         var artistIndex = wholeTitleText.indexOf(artist);
         var separator = findSeparator(wholeTitleText);
 
-        // no separator found, parseInfo would fail too
+        // no separator found, assume rest of the title is track name
         if (separator == null) {
-           parsedInfo = { artist: '', track: '' };
+            track = wholeTitleText.replace(artist, '');
         }
         // separator AFTER artist, common order, cut after separator
         else if (separator.index > artistIndex) {
