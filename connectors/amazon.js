@@ -1,4 +1,3 @@
-
 /*
  * Chrome-Last.fm-Scrobbler amazon.com "new interface" Connector
  *
@@ -31,10 +30,10 @@ function titleAndArtist() {
     }
   } else {
     var currentSongDetails = $(".currentSongDetails .title");
+    var currentSongStatus = $(".currentSongStatus > a");
     return {
       title: currentSongDetails.text(),
-      // substring(3) because format is: 'by Artist'
-      artist: currentSongDetails.next().text().substring(3)
+      artist: currentSongStatus.text()
     }
   }
 }
