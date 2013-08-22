@@ -236,6 +236,30 @@ function scrobblerNotification(text, force) {
       setTimeout(function() {notification.cancel()}, NOTIFICATION_TIMEOUT);
 }
 
+/**
+ * Shows an error notification (use this rather than alerts)
+ */
+function errorNotification(text) {
+   
+   // Opera compatibility
+   if (typeof(webkitNotifications) === "undefined")
+      return;
+
+   var title = 'Last.fm scrobbling error';
+
+   var notification = webkitNotifications.createNotification(
+      'icon128.png',
+      title,
+      text
+   );
+   notification.show();
+
+   if (localStorage.autoHideNotifications == 1)
+      setTimeout(function() {notification.cancel()}, NOTIFICATION_TIMEOUT);
+}
+
+
+
 
 /**
  * Retrieves a token and opens a new window for user to authorize it
@@ -407,7 +431,7 @@ function nowPlaying() {
          // Update page action icon
          setActionIcon(ACTION_NOWPLAYING);
    } else {
-      alert('Last.fm responded with unknown code on nowPlaying request');
+      errorNotification('Please see http://status.last.fm\nand check if everything is OK');
    }
 }
 
@@ -476,11 +500,11 @@ function submit() {
    }
    else if (http_request.status == 503) {
       console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
-      alert('Unable to scrobble the track. Last.fm server is temporarily unavailable.');
+      errorNotification('Please see http://status.last.fm\nand check if everything is OK');
    }
    else {
       console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
-      alert('An error occured while scrobbling the track. Please try again later.');
+      errorNotification('Please see http://status.last.fm\nand check if everything is OK');
    }
 
    // clear the structures awaiting the next song
