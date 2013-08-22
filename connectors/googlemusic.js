@@ -34,6 +34,7 @@ function updateNowPlaying(){
     var parsedInfo = parseInfo();
     artist   = parsedInfo['artist']; 	//global
     track    = parsedInfo['track'];	//global
+    album    = parsedInfo['album'];
     duration = parsedInfo['duration']; 	//global
 	
     if (artist == '' || track == '' || duration == 0) {return;}
@@ -46,13 +47,13 @@ function updateNowPlaying(){
     clipTitle = track;
     
     chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
-	if (response != false) {
-	    chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: track, duration: duration});
-	}
-         // on failure send nowPlaying 'unknown song'
-         else {
-            chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
-         }
+      if (response != false) {
+          chrome.extension.sendMessage({type: 'nowPlaying', artist: artist, track: track, album: album, duration: duration});
+      }
+      // on failure send nowPlaying 'unknown song'
+      else {
+         chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
+      }
     });
 }
 
@@ -60,11 +61,13 @@ function updateNowPlaying(){
 function parseInfo() {
     var artist   = '';
     var track    = '';
+    var album    = '';
     var duration = 0;
 
     // Get artist and song names
     var artistValue = $("div#player-artist").text();
     var trackValue = $("div#playerSongTitle").text();
+    var albumValue = $("div.player-album").text();
     var durationValue = $("div#time_container_duration").text();
     
     try {
@@ -74,6 +77,9 @@ function parseInfo() {
         if (null != trackValue) {
             track = trackValue.replace(/^\s+|\s+$/g,'');
         }
+        if (null != albumValue) {
+            album = albumValue.replace(/^\s+|\s+$/g,'');
+        }
         if (null != durationValue) {
             duration = parseDuration(durationValue);
         }
@@ -81,9 +87,9 @@ function parseInfo() {
         return {artist: '', track: '', duration: 0};
     }
     
-    //console.log("artist: " + artist + ", track: " + track + ", duration: " + duration);
-
-    return {artist: artist, track: track, duration: duration};
+    //console.log("artist: " + artist + ", track: " + track + ", album: " + album + ", duration: " + duration);
+	
+    return {artist: artist, track: track, album: album, duration: duration};
 }
 
 function parseDuration(artistTitle) {
