@@ -352,6 +352,7 @@ function validate(artist, track) {
  */
 function nowPlaying() {
    console.log('nowPlaying called for %s - %s (%s)', song.artist, song.track, song.album);
+   console.log(song);
    if (disabled) {
       console.log('scrobbling disabled; exitting nowPlaying');
       return;
@@ -373,6 +374,9 @@ function nowPlaying() {
    if(typeof(song.album) != 'undefined' && song.album != null) {
       params["album"] = song.album;
    }
+   if(typeof(song.duration) != 'undefined' && song.duration != null) {
+      params["duration"] = song.duration;
+   }
 
    var api_sig = apiCallSignature(params);
    var url = apiURL + createQueryString(params) + '&api_sig=' + api_sig;
@@ -384,6 +388,7 @@ function nowPlaying() {
    http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
    http_request.send(params);
 
+   console.log('nowPlaying request: %s', url);
    console.log('nowPlaying response: %s', http_request.responseText);
 
    var xmlDoc = $.parseXML(http_request.responseText);
