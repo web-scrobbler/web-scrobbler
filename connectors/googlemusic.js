@@ -22,9 +22,6 @@ $(function(){
    });
    
    //console.log("Last.fm Scrobbler: starting Google Music connector")
-   
-   // first load
-   updateNowPlaying();
 });
 
 /**
