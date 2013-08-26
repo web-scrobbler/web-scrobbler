@@ -33,7 +33,7 @@ $(function(){
    $(window).unload(function() {
 
       // reset the background scrobbler song data
-      chrome.extension.sendRequest({type: 'reset'});
+      chrome.runtime.sendMessage({type: 'reset'});
 
       return true;
    });
@@ -58,9 +58,9 @@ function updateNowPlaying(){
 
   clipTitle = track;
   
-  chrome.extension.sendRequest({type: 'validate', artist: artist, track: track}, function(response) {
+  chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
 	  if (response != false) {
-      chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: track});
+      chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: track});
     }
     // on failure send nowPlaying 'unknown song'
     else {
@@ -103,9 +103,9 @@ function parseInfo() {
  */ 
 function scrobbleTrack() {
    // stats
-   chrome.extension.sendRequest({type: 'trackStats', text: 'The Radio+ song scrobbled'});
+   chrome.runtime.sendMessage({type: 'trackStats', text: 'The Radio+ song scrobbled'});
    // scrobble
-   chrome.extension.sendRequest({type: 'submit'});
+   chrome.runtime.sendMessage({type: 'submit'});
 }
 
 
@@ -113,7 +113,7 @@ function scrobbleTrack() {
 /**
  * Listen for requests from scrobbler.js
  */ 
-chrome.extension.onRequest.addListener(
+chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
 	  switch(request.type) {
     	// called after track has been successfully marked as 'now playing' at the server
