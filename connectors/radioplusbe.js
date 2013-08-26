@@ -20,7 +20,6 @@ var CONTAINER_SELECTOR = '.item\\+0';
 $(function(){   
   $(CONTAINER_SELECTOR).live('DOMSubtreeModified', function(e) {
 		if ($(CONTAINER_SELECTOR).length > 0) {
-      console.log("Last.fm Scrobbler: Detected updated song")
 			updateNowPlaying();
 			return;    
 		}
@@ -91,7 +90,7 @@ function parseInfo() {
     return {artist: '', track: ''};
   }
   
-  console.log("artist: " + artist + ", track: " + track + ", divContents: " + divContents);
+  //console.log("artist: " + artist + ", track: " + track + ", divContents: " + divContents);
 	
   return {artist: artist, track: track};
 }
