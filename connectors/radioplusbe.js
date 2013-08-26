@@ -14,12 +14,13 @@ var clipTitle = '';
 var scrobbleTimeout = null;
 
 // Global constant for the song container ....
-var CONTAINER_SELECTOR = '.now-playing-hidden';
+var CONTAINER_SELECTOR = '.item\\+0';
 
 
 $(function(){   
   $(CONTAINER_SELECTOR).live('DOMSubtreeModified', function(e) {
 		if ($(CONTAINER_SELECTOR).length > 0) {
+      console.log("Last.fm Scrobbler: Detected updated song")
 			updateNowPlaying();
 			return;    
 		}
@@ -75,11 +76,9 @@ function parseInfo() {
   var track    = '';
   var duration = 0;
   
-  var divContents = $("h3.now-playing-hidden").text();
-  var combinedValue = divContents.split("**");
   // Get artist and song names
-  var artistValue = combinedValue[0];
-  var trackParent = combinedValue[1];
+  var artistValue = $(CONTAINER_SELECTOR + " .summary .artist").text(); //combinedValue[0];
+  var trackParent = $(CONTAINER_SELECTOR + " .summary .song").text(); //combinedValue[1];
     
   try {
     if (null != artistValue) {
@@ -92,7 +91,7 @@ function parseInfo() {
     return {artist: '', track: ''};
   }
   
-  //console.log("artist: " + artist + ", track: " + track);
+  console.log("artist: " + artist + ", track: " + track + ", divContents: " + divContents);
 	
   return {artist: artist, track: track};
 }
