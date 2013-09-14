@@ -1,109 +1,41 @@
-// State for event handlers
-var state = 'init';
 
-// Used only to remember last song title
-var clipTitle = '';
+// remember urls to detect ajax pageloads (using history API)
+var lastUrl = '';
 
-// Options
-var options = {};
 
-$(document).ready(function() {
-    chrome.extension.sendMessage({type: 'getOptions'}, function(response) {
-       options = response.value;
-       init();
+// we will observe changes at the main player element
+// which changes (amongst others) on ajax navigation
+var target = document.querySelector('#player-api');
+
+var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+        // detect first mutation that happens after url has changed
+        if (lastUrl != location.href) {
+            lastUrl = location.href;
+            updateNowPlaying();
+        }
     });
 });
 
-function init() {
-   // bindings to trigger song recognition on various (classic, profile) pages
-   if (document.location.toString().indexOf('/watch#!v=') > -1) {
-      // === AJAX page load =======================================================
 
-      // Hook up for changes in header (Loading... -> Artist - Title) on CLASSIC page
-      $('#watch-pagetop-section').bind('DOMSubtreeModified', function(e) {
+var config = { attributes: true };
 
-         // simple FSM (not only) to prevent multiple calls of updateNowPlaying()
-
-         // init ----> loading
-         if (state == 'init' && $('#watch-loading').length > 0) {
-            state = 'loading';
-            return;
-         }
-
-         // watching ----> loading
-         if (state == 'watching' &&
-             $('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').length>0 &&
-             $('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').attr('title') != clipTitle
-            ) {
-            // fake loading state to match the next condition and reload the clip info
-            state = 'loading';
-         }
-
-         // loading --[updateNowPlaying(), set clipTitle]--> watching
-         if (state == 'loading' && $('#watch-headline-title').length > 0) {
-            state = 'watching';
-            clipTitle = $('#watch-headline-title > span[title][id!=chrome-scrobbler-status]').attr('title');
-
-            updateNowPlaying();
-
-            return;
-         }
-
-      });
-
-   } else if ( $('#playnav-player').length > 0 ) {
-
-      // Hook up for changes in title on users profile page
-      $('#playnav-video-details').bind('DOMSubtreeModified', function(e) {
-
-         if ($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').length > 0
-               || $('#playnav-curvideo-title > a').length > 0) {
-
-            // just check changes in the song title
-            var titleEl = $('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]');
-            if (titleEl.length == 0)
-               titleEl = $('#playnav-curvideo-title > a'); // newer version
-
-            if (clipTitle != titleEl.text()) {
-               updateNowPlaying();
-               clipTitle = titleEl.text();
-            }
-         }
-
-      });
-
-      // fire the DOMSubtreeModified event on first pageload (the binding above is executed after full DOM load)
-      $('#playnav-video-details').trigger('DOMSubtreeModified');
-
-   } else {
-      // === regular page load ====================================================
-
-      /*
-      // inject stats code
-      var _gaq = _gaq || [];
-      _gaq.push(['_setAccount', 'UA-16968457-1']);
-
-      (function() {
-         var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-         ga.src = 'https://ssl.google-analytics.com/ga.js';
-         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ga);
-      })();
-      */
-
-      // start scrobbler
-      updateNowPlaying();
-   }
+observer.observe(target, config);
 
 
-   // bind page unload function to discard current "now listening"
-   $(window).unload(function() {
 
-      // reset the background scrobbler song data
-      chrome.runtime.sendMessage({type: 'reset'});
+// bind page unload function to discard current "now listening"
+$(window).unload(function() {
 
-      return true;
-   });
-}
+    // reset the background scrobbler song data
+    chrome.runtime.sendMessage({type: 'reset'});
+
+    return true;
+});
+
+
+
+
 
 
 
@@ -181,7 +113,7 @@ function cleanArtistTrack(artist, track) {
    track = track.replace(/^(|.*\s)"(.*)"(\s.*|)$/, '$2'); // Artist - The new "Track title" featuring someone
    track = track.replace(/^(|.*\s)'(.*)'(\s.*|)$/, '$2'); // 'Track title'
    track = track.replace(/^[\/\s,:;~-\s"]+/, ''); // trim starting white chars and dash
-   track = track.replace(/[\/\s,:;~-\s"\s!]+$/, ''); // trim trailing white chars and dash 
+   track = track.replace(/[\/\s,:;~-\s"\s!]+$/, ''); // trim trailing white chars and dash
    //" and ! added because some track names end as {"Some Track" Official Music Video!} and it becomes {"Some Track"!} example: http://www.youtube.com/watch?v=xj_mHi7zeRQ
 
    return {artist: artist, track: track};
@@ -294,13 +226,6 @@ function updateNowPlaying() {
 }
 
 
-/**
- * Gets an value from extension's localStorage (preloaded to 'options' object because of a bug 54257)
- */
-function getOption(key) {
-   return options[key];
-}
-
 
 /**
  * Listen for requests from scrobbler.js
@@ -308,18 +233,11 @@ function getOption(key) {
 chrome.runtime.onMessage.addListener(
    function(request, sender, sendResponse) {
          switch(request.type) {
-            // called after track has been successfully marked as 'now playing' at the server
-            case 'nowPlayingOK':
-               break;
 
-            // not used yet
-            case 'submitOK':
-               break;
-
-            // not used yet
-            case 'submitFAIL':
-               //alert('submit fail');
-               break;
+             // background calls this to see if the script is already injected
+             case 'ping':
+                 sendResponse(true);
+                 break;
          }
    }
 );
