@@ -39,7 +39,7 @@ chrome.pageAction.onClicked.addListener(pageActionClicked);
    // now playing notifications
    if (localStorage.useNotificationsNowPlaying == null)
       localStorage.useNotificationsNowPlaying = 1;
-   
+
    // scrobbled notifications
    if (localStorage.useNotificationsScrobbled == null)
       localStorage.useNotificationsScrobbled = 1;
@@ -146,7 +146,7 @@ function pageActionClicked(tabObj) {
 
 /**
  * Sets up page action icon, including title and popup
- * 
+ *
  * @param {integer} action one of the ACTION_ constants
  * @param {integer} tabId
  */
@@ -209,7 +209,7 @@ function setActionIcon(action, tabId) {
 function scrobblerNotification(text, force) {
    if (localStorage.useNotifications != 1 && !force)
       return;
-   
+
    // Opera compatibility
    if (typeof(webkitNotifications) === "undefined")
       return;
@@ -240,7 +240,7 @@ function scrobblerNotification(text, force) {
  * Shows an error notification (use this rather than alerts)
  */
 function errorNotification(text) {
-   
+
    // Opera compatibility
    if (typeof(webkitNotifications) === "undefined")
       return;
@@ -394,7 +394,7 @@ function nowPlaying() {
       api_key: apiKey,
       sk: sessionID
    };
-   
+
    if(typeof(song.album) != 'undefined' && song.album != null) {
       params["album"] = song.album;
    }
@@ -423,11 +423,11 @@ function nowPlaying() {
 
          // Confirm the content_script, that the song is "now playing"
          chrome.tabs.sendMessage(nowPlayingTab, {type: "nowPlayingOK"});
-         
+
          // Show notification
          if (localStorage.useNotificationsNowPlaying == 1)
             scrobblerNotification(notifText);
-      
+
          // Update page action icon
          setActionIcon(ACTION_NOWPLAYING);
    } else {
@@ -465,7 +465,7 @@ function submit() {
       api_key: apiKey,
       sk: sessionID
    };
-   
+
    if(typeof(song.album) != 'undefined' && song.album != null) {
       params["album[0]"] = song.album;
    }
@@ -544,27 +544,34 @@ chrome.runtime.onMessage.addListener(
                   }
 
                   // backward compatibility for connectors which dont use currentTime
-                  if (typeof(request.currentTime) == 'undefined')
+                  if (typeof(request.currentTime) == 'undefined' || !request.currentTime)
                      request.currentTime = 0;
 
                   // data missing, save only startTime and show the unknown icon
-                  if (typeof(request.artist) == 'undefined' || typeof(request.track) == 'undefined') {
+                  if (typeof(request.artist) == 'undefined' || !request.artist
+                      || typeof(request.track) == 'undefined' || !request.track)
+                  {
                      // fill only the startTime, so the popup knows how to set up the timer
                      song = {
                         startTime : parseInt(new Date().getTime() / 1000.0) // in seconds
                      };
 
                      // if we know something...
-                     if (typeof(request.artist) != 'undefined')
+                     if (typeof(request.artist) != 'undefined' && request.artist) {
                         song.artist = request.artist;
-                     if (typeof(request.track) != 'undefined')
+                     }
+                     if (typeof(request.track) != 'undefined' && request.track) {
                         song.track = request.track;
-                     if (typeof(request.currentTime) != 'undefined')
+                     }
+                     if (typeof(request.currentTime) != 'undefined' && request.currentTime) {
                         song.currentTime = request.currentTime;
-                     if (typeof(request.duration) != 'undefined')
+                     }
+                     if (typeof(request.duration) != 'undefined' && request.duration) {
                         song.duration = request.duration;
-                     if (typeof(request.album) != 'undefined')
+                     }
+                     if (typeof(request.album) != 'undefined' && request.album) {
                         song.album = request.album;
+                     }
 
                      // Update page action icon to 'unknown'
                      setActionIcon(ACTION_UNKNOWN, sender.tab.id);
@@ -579,7 +586,7 @@ chrome.runtime.onMessage.addListener(
                         duration : request.duration,
                         startTime : ( parseInt (new Date().getTime() / 1000.0) - request.currentTime) // in seconds
                      }
-					 
+
                      if(typeof(request.album) != 'undefined') {
                         song.album = request.album;
                      }
@@ -646,7 +653,11 @@ chrome.runtime.onMessage.addListener(
             // Checks if the request.artist and request.track are valid and
             // returns false if not or a song structure otherwise (may contain autocorrected values)
       	case "validate":
-                  console.log('validate requested');
+                  // quick deny for bad/incomplete info
+                  if (!request.artist || !request.track) {
+                      sendResponse(false);
+                      break;
+                  }
 
                   var res = validate(request.artist, request.track);
 
@@ -658,7 +669,7 @@ chrome.runtime.onMessage.addListener(
             default:
                   console.log('Unknown request: %s', $.dump(request));
          }
-         
+
          return true;
 	}
 );
