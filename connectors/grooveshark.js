@@ -65,7 +65,7 @@ function GS_updateNowPlaying() {
    if( GS_SCROBBLE != true ) {
       // Abort scrobbling
       return;
-   }   
+   }
    var title = GS_getTrack();
    var artist = GS_getArtist();
    var duration = GS_getDuration();
@@ -121,7 +121,7 @@ $(function(){
    $(GS_LOGIN_CONTAINER).live('DOMSubtreeModified', function(e) {
       GS_updateScrobbling();
    });
-   
+
    // Attach listener to "recently played" song list
    $(GS_WATCHED_CONTAINER).live('DOMSubtreeModified', function(e) {
       //console.log( "Update triggered" );
@@ -140,12 +140,28 @@ $(function(){
          return;
       }
    });
-   
+
    // Turn on scrobbling if user is logged out on page load
    GS_updateScrobbling();
-   
+
    $(window).unload(function() {
       GS_resetScrobbling();
       return true;
    });
 });
+
+
+/**
+ * Listen for requests from scrobbler.js
+ */
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        switch(request.type) {
+
+            // background calls this to see if the script is already injected
+            case 'ping':
+                sendResponse(true);
+                break;
+        }
+    }
+);
