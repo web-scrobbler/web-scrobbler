@@ -1,6 +1,6 @@
 /*
  * Chrome-Last.fm-Scrobbler Pandora.com "new interface" Connector
- * 
+ *
  * Jordan Perr --- http://jperr.com --- jordan[at]jperr[dot]com
  *
  * You can use this as a template for other connectors.
@@ -56,7 +56,7 @@ function LFM_updateNowPlaying(){
 				chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
 			}
 		});
-	}	
+	}
 	LFM_isWaiting = 0;
 }
 
@@ -71,12 +71,28 @@ $(function(){
 				LFM_isWaiting = 1;
 				setTimeout(LFM_updateNowPlaying, 10000);
 			}
-			return;    
+			return;
 		}
 	});
 
-	$(window).unload(function() {      
+	$(window).unload(function() {
 		chrome.runtime.sendMessage({type: 'reset'});
-		return true;      
+		return true;
 	});
 });
+
+
+/**
+ * Listen for requests from scrobbler.js
+ */
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        switch(request.type) {
+
+            // background calls this to see if the script is already injected
+            case 'ping':
+                sendResponse(true);
+                break;
+        }
+    }
+);
