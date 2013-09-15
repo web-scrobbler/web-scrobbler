@@ -77,7 +77,7 @@ var track = function(title, artist) {
 }
 
 var songTrack = function (song) {
-  return track (song.title, song.artist);
+  return track(song.title, song.artist);
 }
 
 /**
@@ -114,21 +114,21 @@ var module = function() {
   }
 
   var maybeScrobbled = function (scrobbledSong) {
-    if (state.lastTrack == songTrack (scrobbledSong)) {
+    if (state.lastTrack == songTrack(scrobbledSong)) {
       state.scrobbled = true;
     } 
   }
 
   var update = function(newState) {
-    console.log("submitting a now playing request. artist: "+newState.artist+", title: "+newState.title+", current time: "+newState.currentTime+", duration: "+newState.duration);
-    chrome.runtime.sendMessage({type: 'validate', artist: newState.artist, track: newState.title}, function(response) {
+    console.log("submitting a now playing request. artist: " + newState.artist + ", title: " + newState.title + ", current time: " + newState.currentTime + ", duration: " + newState.duration);
+    chrome.runtime.sendMessage({type: 'validate', artist: newState.artist, track: newState.title, album: newState.album}, function(response) {
       if (response != false) {
-         chrome.runtime.sendMessage({type: 'nowPlaying', artist: newState.artist, track: newState.title, currentTime:newState.currentTime, duration: newState.duration});
+         chrome.runtime.sendMessage({type: 'nowPlaying', artist: newState.artist, track: newState.title, currentTime:newState.currentTime, duration: newState.duration, album: newState.album});
       } else { // on failure send nowPlaying 'unknown song'
          chrome.runtime.sendMessage({type: 'nowPlaying', duration: newState.duration});
       }
     });
-    state = resetState (newState.track);
+    state = resetState(newState.track);
   }
 
   var isReadyToUpdate = function(newState) {
@@ -187,7 +187,7 @@ var module = function() {
      * Handle confirmation of scrobble from main scrobbler.js
      */
     scrobbled : function (song) {
-      maybeScrobbled (song);
+      maybeScrobbled(song);
     }
   }
 }();
@@ -202,7 +202,7 @@ chrome.runtime.onMessage.addListener(
       // translate song from scrobbler.js to amazon.js - TODO Clean
       // this up re: "title" versus "track" confusion
       var amazonSong = {artist: request.song.artist, title: request.song.track};
-      module.scrobbled (amazonSong);
+      module.scrobbled(amazonSong);
       break;
     }
   }
