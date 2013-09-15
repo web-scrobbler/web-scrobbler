@@ -528,8 +528,7 @@ chrome.runtime.onMessage.addListener(
             // they have to be already validated! Otherwise they can be corrected from the popup.
             // Also sets up a timout to trigger the scrobbling procedure (when all data are valid)
    		case "nowPlaying":
-                  console.log('nowPlaying requested');
-                  console.log($.dump(request));
+                  console.log('nowPlaying %o', request);
 
                   // do the reset to be sure there is no other timer running
                   reset();
