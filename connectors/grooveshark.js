@@ -5,18 +5,9 @@
  *
  * Inspired by Pandora connector, written by Jordan Perr, jordan[at]jperr[dot]com
  *
- * Note, this connector will only scrobble when no user is authenticated. If you
- * maintain a Grooveshark account, configure the built-in Last.fm scrobbling to
- * keep track of song plays while logged-in to the site.
  */
 
 /*** Configuration ***/
-
-// Determines whether this plugin will scrobble
-GS_SCROBBLE = true;
-
-// Changes to this div may toggle scrobbling
-GS_LOGIN_CONTAINER = "div#header-user-assets";
 
 // Additions to this div will trigger update
 GS_WATCHED_CONTAINER = "div#now-playing-metadata";
@@ -62,10 +53,6 @@ GS_TIMEOUT = "";
 
 // Validates and scrobbles the currently playing song
 function GS_updateNowPlaying() {
-   if( GS_SCROBBLE != true ) {
-      // Abort scrobbling
-      return;
-   }
    var title = GS_getTrack();
    var artist = GS_getArtist();
    var duration = GS_getDuration();
@@ -90,23 +77,6 @@ function GS_updateNowPlaying() {
    }
 }
 
-// Turns scrobbling on or off depending on user login state
-function GS_updateScrobbling() {
-   var loginButton = $("a#header-login-btn")[0];
-   if( loginButton != undefined && !GS_SCROBBLE ) {
-      // "Sign In" button is present, non-logged in user
-      // OK to scrobble
-      console.log("User logout detected. Enabling Chrome Last.fm scrobbler on Grooveshark.");
-      GS_SCROBBLE = true;
-   } else if ( loginButton == undefined && GS_SCROBBLE ) {
-      // "Sign In" button is gone, assume user is logged in
-      // Use built-in Grookshark scrobbling
-      console.log("User login detected. Disabling Chrome Last.fm scrobbler on Grooveshark.");
-      GS_resetScrobbling();
-      GS_SCROBBLE = false;
-   }
-}
-
 // Resets the plugin, cancelling any queued scrobbles
 function GS_resetScrobbling() {
    console.log("Resetting scrobbler.");
@@ -116,11 +86,6 @@ function GS_resetScrobbling() {
 // Attach listener for song changes, filter out duplicate event firings
 $(function(){
    console.log("Grooveshark scrobbling module starting up");
-
-   // Attach listener to login container
-   $(GS_LOGIN_CONTAINER).live('DOMSubtreeModified', function(e) {
-      GS_updateScrobbling();
-   });
 
    // Attach listener to "recently played" song list
    $(GS_WATCHED_CONTAINER).live('DOMSubtreeModified', function(e) {
@@ -140,9 +105,6 @@ $(function(){
          return;
       }
    });
-
-   // Turn on scrobbling if user is logged out on page load
-   GS_updateScrobbling();
 
    $(window).unload(function() {
       GS_resetScrobbling();
