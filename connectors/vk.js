@@ -46,7 +46,14 @@ function scrobble(e) {
     }
 } 
 
-$(function() {
+var readyStateCheckInterval = setInterval(function() {
+    if (document.readyState === "complete") {
+        init();
+        clearInterval(readyStateCheckInterval);
+    }
+}, 10);
+
+function init() {
     $(window).unload(function() {
 		// reset the background scrobbler song data
 		chrome.runtime.sendMessage({type: 'reset'});
@@ -58,4 +65,4 @@ $(function() {
 			$("#gp_info>div").bind('DOMSubtreeModified', function(e) { setTimeout(scrobble, 500) });
 		}
     });
-});
+}
