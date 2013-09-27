@@ -220,8 +220,13 @@ var connectors = [
         label: "AOL Radio",
         matches: ["*://aolradio.slacker.com/*"],
         js: ["connectors/aolradio.js"]
-    }
+    },
 
+    {
+        label: "Moje Polskie Radio",
+        matches: ["*://moje.polskieradio.pl/station/*"],
+        js: ["connectors/mojepolskieradio.js"]
+    }
 ];
 
 
