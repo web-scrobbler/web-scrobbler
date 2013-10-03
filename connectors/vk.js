@@ -10,7 +10,7 @@ function parseDurationString(timestr) {
     return 0;
 }
 
-function scrobble(e) {	
+function scrobble(e) {
 	var timestr	= '';
 	if ($("#ac_duration").length > 0) {
 	   timestr = $("#ac_duration").text();
@@ -34,23 +34,23 @@ function scrobble(e) {
         $r({type: 'validate', artist: artist, track: title}, function(response) {
             if (response != false) {
                 $r({
-                    type: 'nowPlaying', 
-                    artist: response.artist, 
-                    track: response.track, 
+                    type: 'nowPlaying',
+                    artist: response.artist,
+                    track: response.track,
                     duration: total
                 });
             } else {
-                $r({type: 'nowPlaying', duration: total});	
+                $r({type: 'nowPlaying', duration: total});
             }
         });
     }
-} 
+}
 
 $(function() {
     $(window).unload(function() {
 		// reset the background scrobbler song data
 		chrome.runtime.sendMessage({type: 'reset'});
-		return true;      
+		return true;
     });
 
     $(document).bind("DOMNodeInserted", function(e) {
@@ -59,3 +59,20 @@ $(function() {
 		}
     });
 });
+
+
+/**
+ * Listen for requests from scrobbler.js
+ */
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        switch(request.type) {
+
+            // background calls this to see if the script is already injected
+            case 'ping':
+                sendResponse(true);
+                break;
+        }
+    }
+);
+
