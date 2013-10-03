@@ -7,7 +7,7 @@
 
 console.log('Entered daytrotter.js');
 
-var mediainfo, track, artist, duration;
+var mediainfo, track, artist, duration, durationInSeconds;
 var album = "Daytrotter Session";
 var container_duration = 'div#jp_interface_1.jp-interface div.jp-duration';
 var container_currenttime = 'div#jp_interface_1.jp-interface div.jp-current-time';
@@ -25,15 +25,35 @@ function UpdateMediaInfo( _mediainfo, _artist, _track, _duration){
 	artist = _artist;
 	track = _track;
 	duration = _duration;
+	durationInSeconds = CalcSeconds(duration);
+}
+
+function CalcSeconds (_duration){
+	if (typeof(_duration) == "string" && _duration.indexOf(":") > 0){
+		var t = 0;
+		var splitTime = _duration.split(":");
+
+		if ( splitTime.length == 3){
+			t = ( parseInt(splitTime[0]*60*60) + parseInt(splitTime[1])*60 + parseInt(splitTime[3]) );
+		}else if (splitTime.length == 2){
+			t = ( parseInt(splitTime[0])*60 + parseInt(splitTime[1]) );
+		} else {
+			t = -1;
+		}
+	} else {
+		t = -1;
+	}
+
+	return t;
 }
 
 function PostMediaInfo (){
 	//console.log("posting media info");
 	chrome.runtime.sendMessage({'type': 'validate', 'artist': artist, 'track': track}, function(response) {
 		if (response != false) {
-			chrome.runtime.sendMessage({'type': 'nowPlaying', 'artist': artist, 'track': track, 'duration': duration});
+			chrome.runtime.sendMessage({'type': 'nowPlaying', 'artist': artist, 'track': track, 'duration': durationInSeconds});
 		} else { // on failure send nowPlaying 'unknown song'
-			chrome.runtime.sendMessage({type: 'nowPlaying', 'duration': duration});
+			chrome.runtime.sendMessage({type: 'nowPlaying', 'duration': durationInSeconds});
 		}
 	});
 }
