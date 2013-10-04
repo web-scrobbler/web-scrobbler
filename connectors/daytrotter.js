@@ -34,7 +34,7 @@ function CalcSeconds (_duration){
 		var splitTime = _duration.split(":");
 
 		if ( splitTime.length == 3){
-			t = ( parseInt(splitTime[0]*60*60) + parseInt(splitTime[1])*60 + parseInt(splitTime[3]) );
+			t = ( parseInt(splitTime[0])*60*60 + parseInt(splitTime[1])*60 + parseInt(splitTime[2]) )
 		}else if (splitTime.length == 2){
 			t = ( parseInt(splitTime[0])*60 + parseInt(splitTime[1]) );
 		} else {
