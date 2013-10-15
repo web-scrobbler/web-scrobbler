@@ -223,7 +223,6 @@ chrome.runtime.onMessage.addListener(
  */
 $(function(){
   console.log("Amazon module starting up");
-  window.taa = titleAndArtist;
 
   $(watchedContainer).live('DOMSubtreeModified', function(e) {
     //console.log("Live watcher called");
