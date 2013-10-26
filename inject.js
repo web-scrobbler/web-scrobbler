@@ -220,6 +220,12 @@ var connectors = [
         label: "AOL Radio",
         matches: ["*://aolradio.slacker.com/*"],
         js: ["connectors/aolradio.js"]
+    },
+
+    {
+        label: "8tracks",
+        matches: ["*://8tracks.com/*"],
+        js: ["connectors/8tracks.js"]
     }
 
 ];
