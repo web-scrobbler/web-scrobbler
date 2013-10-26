@@ -3,84 +3,111 @@
  * 
  * Matt Runkle - matt[at]mrunkle[dot]com
  *
- * Inspired by Pandora connector, written by Jordan Perr, jordan[at]jperr[dot]com
  */
 
 /*** Configuration ***/
 
 // Additions to this div will trigger update
-ET_WATCHED_CONTAINER = "#now_playing div.title_artist";
+WATCHED_CONTAINER = "#tracks_played";
 
 // Returns the currently playing artist name
-function ET_getArtist( ) {
-   return ET_cleanLabel( $("#now_playing div.title_artist > span.a:first").text() );
+function getArtist( ) {
+   return cleanLabel( $("#now_playing div.title_artist > span.a:first").text() );
 }
 
 // Returns the currently playing track title
-function ET_getTrack( ) {
-   return ET_cleanLabel( $("#now_playing div.title_artist > span.t:first").text() );
+function getTrack( ) {
+   return cleanLabel( $("#now_playing div.title_artist > span.t:first").text() );
 }
 
-function ET_getAlbum( ) {
-   return ET_cleanLabel( $("#now_playing div.album > span.detail:first").text() );
+function getAlbum( ) {
+   return cleanLabel( $("#now_playing div.album > span.detail:first").text() );
 }
 
 // Returns the number of pixels denoting the time expired in the song
-function ET_getPixelsDone( ) {
-   return parseInt( $("div#player_progress_bar_meter").width() );
-}
-
-// Returns the approx. numbers of seconds remaining
-function ET_getTimeLeft( start, end ) {
-   console.log( "pixels start: " + start + ", end: " + end);
-   var pixelsPerSecond = end - start;
+function getPercentDone( ) {
    var width = parseInt( $("div#player_progress_bar").width() );
-   return (width / pixelsPerSecond) - (end / pixelsPerSecond);
+   return parseInt( $("div#player_progress_bar_meter").width() ) / width;
 }
 
 // Perform some common cleanup of artist/song/album strings
-function ET_cleanLabel( label ) {
+function cleanLabel( label ) {
    label = label.replace( '&amp;', '&' );
    return $.trim( label );
 }
 
 /*** Scrobbler Interface ***/
-ET_LAST_TRACK = "";
-ET_TIMEOUT = "";
+LAST_TRACK = "";
+TIMEOUT = "";
 
+TIME_PERCENT = 10;
+START_TIME = 0;
 
-// Gets the first mark of the progress bar and sets a 1 second delay
-function ET_updateNowPlaying() {
-   var pixels = ET_getPixelsDone();
-   // What about songs longer than 473 secs?
-   setTimeout(function() {ET_scrobble(pixels);}, 1000);
+// Since we can't just pull the song duration from the DOM
+// we need to estimate. Luckily there is a nice progress bar
+function tryScrobble() {
+   var ratio = getPercentDone();
+   
+   if ( ratio > (1/TIME_PERCENT) ) {
+      // Measured enough, estimate time and scrobble
+      var endTime = new Date().getTime();
+      var elapsed = (endTime - START_TIME) / 1000;
+      
+      TIMEOUT = "";
+      START_TIME = 0;
+      updateNowPlaying(elapsed);
+      return;
+   }
+   
+   // Set timeout based on about how long we have left, max 50s / percent
+   TIMEOUT = setTimeout( tryScrobble, Math.min(500 / ratio, 50000 / TIME_PERCENT) );
 }
 
 // Validates and scrobbles the currently playing song
-function ET_scrobble(startPixels) {
-   var duration = ET_getTimeLeft(startPixels, ET_getPixelsDone());
-   var title = ET_getTrack();
-	var artist = ET_getArtist();
-   var album = ET_getAlbum();
+function updateNowPlaying(elapsed) {
+   elapsed = Math.floor(elapsed);
+   var duration = elapsed * TIME_PERCENT;
+   var title = getTrack();
+	var artist = getArtist();
+   var album = getAlbum();
    var newTrack = title + " " + artist;
    
 	// Update scrobbler if necessary
-	if ( newTrack != " " && newTrack != ET_LAST_TRACK ) {
-      console.log("Submitting a now playing request. artist: "+artist+", title: "+title+", album: " + album + ", duration: "+duration);
+	if ( newTrack != " " && newTrack != LAST_TRACK ) {
+      //console.log("Submitting a now playing request. artist: "+artist+", title: "+title+", album: " + album + ", duration: " + duration);
       
-      ET_LAST_TRACK = newTrack;
+      LAST_TRACK = newTrack;
       chrome.runtime.sendMessage({type: 'validate', artist: artist, track: title}, function(response) {
          if (response != false) {
             // submit the validated song for scrobbling
             var song = response;
-            chrome.runtime.sendMessage({type: 'nowPlaying', artist: song.artist, track: song.track, album: (album === "") ? null : album, duration: duration});
+            chrome.runtime.sendMessage({type: 'nowPlaying', artist: song.artist, track: song.track,
+               album: (album === "") ? null : album, currentTime: elapsed, duration: duration});
          } else {
             // on failure send nowPlaying 'unknown song'
             console.log( "Song validation failed!" );
-            chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
+            chrome.runtime.sendMessage({type: 'nowPlaying', currentTime: elapsed, duration: duration});
          }
       });
 	}
+}
+
+function triggerUpdate() {
+   var nowPlaying = getTrack() + " " + getArtist();
+   
+   if ( nowPlaying != " " && nowPlaying != LAST_TRACK ) {
+      START_TIME = new Date().getTime();
+      
+      // Stop any non-scrobbled songs (i.e. song skipped)
+      if( TIMEOUT != "" ) {
+         clearTimeout( TIMEOUT );
+      }
+      
+      // Schedule the next scrobble
+      TIMEOUT = setTimeout( tryScrobble, 500 );
+      
+      return;
+   }
 }
 
 // Attach listener for song changes, filter out duplicate event firings
@@ -88,22 +115,8 @@ $(function(){
    console.log("8tracks module starting up");
    
    // Attach listener to "recently played" song list
-   $(ET_WATCHED_CONTAINER).live('DOMSubtreeModified', function(e) {
-      console.log( "Update triggered" );
-      
-      var nowPlaying = ET_getTrack() + " " + ET_getArtist();
-      
-      if ( nowPlaying != " " && nowPlaying != ET_LAST_TRACK ) {
-         // Stop any non-scrobbled songs (i.e. song skipped)
-         if( ET_TIMEOUT != "" ) {
-            clearTimeout( ET_TIMEOUT );
-         }
-         
-         // Schedule the next scrobble
-         ET_TIMEOUT = setTimeout( ET_updateNowPlaying, 10000 );
-         
-         return;
-      }
+   $(WATCHED_CONTAINER).live('DOMNodeInserted', function(e) {
+      setTimeout( triggerUpdate, 500 );   // let player update
    });
 
    $(window).unload(function() {      
