@@ -41,6 +41,11 @@ $(function(){
          // make the connection to last.fm service to notify
          chrome.extension.getBackgroundPage().nowPlaying();
 
+         // Save to history
+         chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
+            chrome.extension.getBackgroundPage().saveHistory( tabs[0].url, artist, track );
+         });
+
          // The minimum time is 240 seconds or half the track's total length
          // minus the time that already past
          var past = parseInt(new Date().getTime() / 1000.0) - chrome.extension.getBackgroundPage().song.startTime;
