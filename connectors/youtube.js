@@ -69,7 +69,7 @@ function findSeparator(str) {
  * Parse given string into artist and track, assume common order Art - Ttl
  * @return {artist, track}
  */
-function parseInfo(artistTitle) {
+function parseInfo(artistTitle, cutFirstSeperator) {
    var artist = '';
    var track = '';
 
@@ -79,6 +79,14 @@ function parseInfo(artistTitle) {
 
    artist = artistTitle.substr(0, separator.index);
    track = artistTitle.substr(separator.index + separator.length);
+   
+   if (cutFirstSeperator) {
+      separator = findSeparator(track);
+      if (separator != null) {
+         artist = track.substr(0, separator.index);
+         track = track.substr(separator.index + separator.length);
+     }
+   }
 
    return cleanArtistTrack(artist, track);
 }
@@ -93,12 +101,15 @@ function cleanArtistTrack(artist, track) {
    artist = artist.replace(/^\s+|\s+$/g,'');
    track = track.replace(/^\s+|\s+$/g,'');
 
-   // Strip crap
+   // Strip crap in artist
+   artist = artist.replace(/^\[[^\]]+\]/, ''); // [whatever]
+   
+   // Strip crap in track
    track = track.replace(/\s*\*+\s?\S+\s?\*+$/, ''); // **NEW**
    track = track.replace(/\s*\[[^\]]+\]$/, ''); // [whatever]
    track = track.replace(/\s*\([^\)]*version\)$/i, ''); // (whatever version)
    track = track.replace(/\s*\.(avi|wmv|mpg|mpeg|flv)$/i, ''); // video extensions
-   track = track.replace(/\s*(LYRIC VIDEO\s*)?(lyric video\s*)/i, ''); // (LYRIC VIDEO)
+   track = track.replace(/\s*(LYRIC( VIDEO)?\s*)/i, ''); // (LYRIC( VIDEO)?)
    track = track.replace(/\s*(Official Track Stream*)/i, ''); // (Official Track Stream) 
    track = track.replace(/\s*(of+icial\s*)?(music\s*)?video/i, ''); // (official)? (music)? video
    track = track.replace(/\s*(of+icial\s*)?(music\s*)?audio/i, ''); // (official)? (music)? audio
@@ -161,7 +172,14 @@ function updateNowPlaying() {
    // Get clip info from youtube api
    chrome.runtime.sendMessage({type: "xhr", url: googleURL}, function(response) {
       var info = JSON.parse(response.text);
-   	var parsedInfo = parseInfo(info.entry.title.$t);
+      var isShow = false;
+      for (i = 0; i < info.entry.category.length; i++) {
+         if (info.entry.category[i].term == "Shows") {
+            isShow = true;
+            break;
+         }
+      }
+      var parsedInfo = parseInfo(info.entry.title.$t, isShow);
       var artist = null;
       var track = null;
 
@@ -195,7 +213,7 @@ function updateNowPlaying() {
 
       // just a plain text title
       else if (parsedInfo['artist'] == '') {
-        parsedInfo = parseInfo(track_dom.text());
+        parsedInfo = parseInfo(track_dom.text(), false);
       }
 
       artist = parsedInfo['artist'];
@@ -203,7 +221,7 @@ function updateNowPlaying() {
 
       // get the duration from the YT API response
       var duration = '';
-   	if (info.entry.media$group.media$content != undefined)
+      if (info.entry.media$group.media$content != undefined)
          duration = info.entry.media$group.media$content[0].duration;
       else if (info.entry.media$group.yt$duration.seconds != undefined)
          duration = info.entry.media$group.yt$duration.seconds;
