@@ -14,6 +14,10 @@ $(function(){
    if (chrome.extension.getBackgroundPage().song.track != '')
       $('#track').val(chrome.extension.getBackgroundPage().song.track);
 
+   $( "#form" ).submit(function( event ) {
+      $('#submit').click();
+      event.preventDefault();
+   });
 
    $('#submit').click(function(){
       $(this).attr('disabled', true);
