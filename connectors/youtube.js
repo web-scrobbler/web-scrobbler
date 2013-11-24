@@ -109,13 +109,14 @@ function cleanArtistTrack(artist, track) {
    track = track.replace(/\s*\[[^\]]+\]$/, ''); // [whatever]
    track = track.replace(/\s*\([^\)]*version\)$/i, ''); // (whatever version)
    track = track.replace(/\s*\.(avi|wmv|mpg|mpeg|flv)$/i, ''); // video extensions
-   track = track.replace(/\s*(LYRIC( VIDEO)?\s*)/i, ''); // (LYRIC( VIDEO)?)
+   track = track.replace(/\s*(LYRICS?( VIDEO)?\s*)/i, ''); // (LYRICS?( VIDEO)?)
    track = track.replace(/\s*(Official Track Stream*)/i, ''); // (Official Track Stream) 
    track = track.replace(/\s*(of+icial\s*)?(music\s*)?video/i, ''); // (official)? (music)? video
    track = track.replace(/\s*(of+icial\s*)?(music\s*)?audio/i, ''); // (official)? (music)? audio
    track = track.replace(/\s*(ALBUM TRACK\s*)?(album track\s*)/i, ''); // (ALBUM TRACK)
    track = track.replace(/\s*(COVER ART\s*)?(Cover Art\s*)/i, ''); // (Cover Art)
    track = track.replace(/\s*\(\s*of+icial\s*\)/i, ''); // (official)
+   track = track.replace(/\s*out now\s*/i, ''); // out now
    track = track.replace(/\s*\(\s*[0-9]{4}\s*\)/i, ''); // (1999)
    track = track.replace(/\s+\(\s*(HD|HQ)\s*\)$/, ''); // HD (HQ)
    track = track.replace(/\s+(HD|HQ)\s*$/, ''); // HD (HQ)
