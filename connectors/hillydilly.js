@@ -8,6 +8,17 @@ var watchedContainer = "#player_bar";
 var wait = false;
 var song = {};
 
+// bind page unload function to discard current "now listening"
+
+$(window).unload(function() {
+
+    // reset the background scrobbler song data
+    chrome.runtime.sendMessage({type: 'reset'});
+
+    return true;
+});
+
+
 var extractDuration = function(context) {
     var duration = 0;
 
@@ -69,6 +80,7 @@ var updateNowPlaying = function() {
         if(!song.submitted) {
             song.submitted = true;
 
+
             chrome.runtime.sendMessage({type: 'validate', artist: song.artist, track: song.track}, function(response) {
 
                 if (response !== false) { // autocorrected song object
@@ -90,13 +102,23 @@ $(function(){
     $(watchedContainer).live('DOMSubtreeModified', function(e) {
         if(!wait) {
             wait = true;
-            setTimeout(updateNowPlaying, 1000);
+            setTimeout(updateNowPlaying, 000);
         }
     });
 
-    $(window).unload(function() {
-        chrome.runtime.sendMessage({type: 'reset'});
-        return true;
-    });
-
 });
+
+/**
+ * Listen for requests from scrobbler.js
+ */
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        switch(request.type) {
+
+            // background calls this to see if the script is already injected
+            case 'ping':
+                sendResponse(true);
+                break;
+        }
+    }
+);
