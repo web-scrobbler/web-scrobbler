@@ -161,14 +161,18 @@ function updateNowPlaying() {
    // Get clip info from youtube api
    chrome.runtime.sendMessage({type: "xhr", url: googleURL}, function(response) {
       var info = JSON.parse(response.text);
-   	var parsedInfo = parseInfo(info.entry.title.$t);
+      var parsedInfo = parseInfo(info.entry.title.$t);
       var artist = null;
       var track = null;
-
-      // Use the #eow-title #watch-headline-show-title if available
-      var track_dom = $('#eow-title').clone();
-      var artist_dom = $('#watch-headline-show-title', track_dom);
-
+      if ($('#eow-title').length > 0 ) {
+        // Use the #eow-title #watch-headline-show-title if available
+        var track_dom = $('#eow-title').clone();
+        var artist_dom = $('#watch-headline-show-title', track_dom);
+      }
+      else {
+        // Otherwise use h1#vt from the YouTube's Feather Layout
+        var track_dom = $('h1#vt').clone();
+      }
       // there is a hyperlink of artist in title
       if (artist_dom.length) {
         var wholeTitleText = trim( track_dom.text() );
@@ -203,7 +207,7 @@ function updateNowPlaying() {
 
       // get the duration from the YT API response
       var duration = '';
-   	if (info.entry.media$group.media$content != undefined)
+      if (info.entry.media$group.media$content != undefined)
          duration = info.entry.media$group.media$content[0].duration;
       else if (info.entry.media$group.yt$duration.seconds != undefined)
          duration = info.entry.media$group.yt$duration.seconds;
@@ -220,7 +224,7 @@ function updateNowPlaying() {
          else {
             chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
          }
-   	});
+    });
 
    });
 
