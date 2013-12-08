@@ -244,6 +244,12 @@ var connectors = [
         label: "Moje Polskie Radio",
         matches: ["*://moje.polskieradio.pl/station/*"],
         js: ["connectors/mojepolskieradio.js"]
+    },
+
+    {
+        label: "Nova Planet",
+        matches: ['*://www.novaplanet.com/radionova/player'],
+        js: ["connectors/novaplanet.js"]
     }
 
 ];
