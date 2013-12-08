@@ -221,13 +221,19 @@ var connectors = [
         matches: ["*://aolradio.slacker.com/*"],
         js: ["connectors/aolradio.js"]
     },
+
     {
         label: "HillyDilly",
         matches: ["*://www.hillydilly.com/*"],
         js: ["connectors/hillydilly.js"]
-    }
+    },
 
-
+	{
+		label: "Xbox Music",
+		matches: ["*://music.xbox.com/*"],
+		js: ["connectors/xboxmusic.js"]
+	}
+    
 ];
 
 
