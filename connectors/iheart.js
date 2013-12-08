@@ -13,10 +13,10 @@ $(function () {
         });
         return true;
     });
-    $("#playerPlay,.b-playStation").click(function () {
+    $(".play").click(function () {
         var c = 0;
         //wait for changes in artist name
-        $("#player h2.artist").bind("DOMSubtreeModified", function (e) {      
+        $(".js-track-name").bind("DOMSubtreeModified", function (e) {
             //avoids being executed twice
             if (c == 0) {
                 c++;
@@ -27,9 +27,9 @@ $(function () {
             if (durationTimeout != null) clearTimeout(durationTimeout);
             //delay notification slightly
             setTimeout(function () {
-                artist = $("#player h2.artist a").attr("title");
-                track = $("#player h1.title a").attr("title");
-                duration = $(".songDuration").text();
+                artist = $(".js-artist-name").attr("title");
+                track = $(".js-track-name").attr("title");
+                duration = $(".js-duration").text();
             }, 1000);
             displayMsg()
             //song duration on page updates as the music gets loaded by the browser
