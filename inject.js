@@ -232,8 +232,14 @@ var connectors = [
 		label: "Xbox Music",
 		matches: ["*://music.xbox.com/*"],
 		js: ["connectors/xboxmusic.js"]
-	}
-    
+	},
+
+    {
+        label: "8tracks",
+        matches: ["*://8tracks.com/*"],
+        js: ["connectors/8tracks.js"]
+    }
+
 ];
 
 
