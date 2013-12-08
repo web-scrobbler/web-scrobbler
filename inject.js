@@ -238,6 +238,12 @@ var connectors = [
         label: "8tracks",
         matches: ["*://8tracks.com/*"],
         js: ["connectors/8tracks.js"]
+    },
+
+    {
+        label: "Moje Polskie Radio",
+        matches: ["*://moje.polskieradio.pl/station/*"],
+        js: ["connectors/mojepolskieradio.js"]
     }
 
 ];
