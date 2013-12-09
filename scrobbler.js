@@ -59,6 +59,10 @@ chrome.pageAction.onClicked.addListener(pageActionClicked);
       // introduce new options if not already set
       if (typeof localStorage.useAutocorrect == 'undefined')
          localStorage.useAutocorrect = 0;
+
+      // empty history by default
+      if (localStorage.history == 'undefined')
+         localStorage.history = JSON.stringify({});
    }
 }
 
@@ -357,9 +361,10 @@ function validate(artist, track) {
          var xml = $(xmlDoc);
 
          // return the valid song info
-         return {artist : xml.find('artist > name').text(),
-                  track : xml.find('track > name').text(),
-                  duration : xml.find('track > duration').text()
+         return {
+                   artist : xml.find('artist > name').text(),
+                   track : xml.find('track > name').text(),
+                   duration : xml.find('track > duration').text()
                 };
       } else {
          console.log('validation failed: %s', req.responseText);
@@ -511,7 +516,35 @@ function submit() {
    reset();
 }
 
+/**
+ * Return the key for history
+ */
+function getHistoryKey(id) {
+   return MD5(id);
+}
 
+/**
+ * Get the history for a given ID
+ */
+function getHistory(id) {
+   console.log("Retrieving history for " + id);
+   var history = JSON.parse(localStorage.history);
+   var key = getHistoryKey(id);
+   if (history[key] != null) {
+      return history[key];
+   }
+   return null;
+}
+
+/**
+ * Save history for a given ID
+ */
+function saveHistory(id, artist, track) {
+   console.log("Saving history");
+   var history = JSON.parse(localStorage.history);
+   history[getHistoryKey(id)] = { artist: artist, track: track };
+   localStorage.history = JSON.stringify(history);
+}
 
 /**
  * Extension inferface for content_script
@@ -659,7 +692,14 @@ chrome.runtime.onMessage.addListener(
                   }
 
                   var res = validate(request.artist, request.track);
-
+                  
+                  if (!res) {
+                     // Get the history for the current URL
+                     var history = getHistory(sender.tab.url);
+                     if (history != null)
+                        res = validate(history.artist, history.track);
+                  }
+                  
                   // res is false or a valid song structure
                   sendResponse( res );
                   break;
