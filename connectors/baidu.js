@@ -25,11 +25,11 @@ var pause;
 $(function(){
 	$(CONTAINER_SELECTOR).live('DOMSubtreeModified', function(e) {
 
-		if ($(CONTAINER_SELECTOR)[0].href.length > 0 && $(".songname")[0].href !== last_url) {
+		if ($(CONTAINER_SELECTOR)[0].href.length > 0 && $(".songname")[0].href.length > 1 && $(".songname")[0].href !== last_url) {
 
 				updateNowPlaying();
 				//console.log("Last.fm Scrobbler: starting Baidu Music connector");
-				//console.log($(".songname")[0].href);
+				console.log($(".songname")[0].href);
 				last_url = $(".songname")[0].href;
 				//console.log(i);
 				//i=i+1;
@@ -43,7 +43,10 @@ $(function(){
    console.log("Last.fm Scrobbler: starting Baidu Music connector");
    last_url = $(".songname")[0].href;
    // first load
-   updateNowPlaying();
+   if(last_url.length > 0) {
+   		updateNowPlaying();
+   }
+   
 });
 
 /**
@@ -103,11 +106,12 @@ function parseInfo() {
     } catch(err) {
         return {artist: '', track: '', duration: 0};
     }
-    console.log("artist: " + artistValue + ", track: " + trackValue + ", album: " + albumValue + ", duration: " + durationValue);
+    //console.log("artist: " + artistValue + ", track: " + trackValue + ", album: " + albumValue + ", duration: " + durationValue);
     console.log("artist: " + artist + ", track: " + track + ", album: " + album + ", duration: " + duration);
 
     return {artist: artist, track: track, album: album, duration: duration};
 }
+
 function parseDuration(artistTitle) {
 	try {
 		match = artistTitle.match(/\d+:\d+/g)[0]
