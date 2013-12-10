@@ -225,6 +225,36 @@ var connectors = [
         label: "AOL Radio",
         matches: ["*://aolradio.slacker.com/*"],
         js: ["connectors/aolradio.js"]
+    },
+
+    {
+        label: "HillyDilly",
+        matches: ["*://www.hillydilly.com/*"],
+        js: ["connectors/hillydilly.js"]
+    },
+
+	{
+		label: "Xbox Music",
+		matches: ["*://music.xbox.com/*"],
+		js: ["connectors/xboxmusic.js"]
+	},
+
+    {
+        label: "8tracks",
+        matches: ["*://8tracks.com/*"],
+        js: ["connectors/8tracks.js"]
+    },
+
+    {
+        label: "Moje Polskie Radio",
+        matches: ["*://moje.polskieradio.pl/station/*"],
+        js: ["connectors/mojepolskieradio.js"]
+    },
+
+    {
+        label: "Nova Planet",
+        matches: ['*://www.novaplanet.com/radionova/player'],
+        js: ["connectors/novaplanet.js"]
     }
 
 ];
