@@ -273,6 +273,12 @@ var connectors = [
         label: "Douban Programme",
         matches: ["http://music.douban.com/programme/*"],
         js: ["connectors/douban-programme.js"]
+    },
+
+    {
+        label: "Focus@Will",
+        matches: ["*://www.focusatwill.com/*"],
+        js: ["connectors/focusatwill.js"]
     }
 
 ];
