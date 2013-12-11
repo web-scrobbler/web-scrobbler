@@ -255,6 +255,12 @@ var connectors = [
         label: "Nova Planet",
         matches: ['*://www.novaplanet.com/radionova/player'],
         js: ["connectors/novaplanet.js"]
+    },
+
+    {
+        label: "Radio+ Belgium",
+        matches: ["*://www.radioplus.be/*"],
+        js: ["connectors/radioplusbe.js"]
     }
 
 ];
