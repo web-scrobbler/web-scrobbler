@@ -114,7 +114,7 @@ var connectors = [
 
     {
         label: "Amazon",
-        matches: ["*://www.amazon.com/gp/dmusic/mp3/player*", "*://www.amazon.de/gp/dmusic/mp3/player*", "*://www.amazon.es/gp/dmusic/mp3/player*"],
+        matches: ["*://www.amazon.com/gp/dmusic/mp3/player*", "*://www.amazon.de/gp/dmusic/mp3/player*", "*://www.amazon.es/gp/dmusic/mp3/player*", "*://www.amazon.co.uk/gp/dmusic/mp3/player*"],
         js: ["connectors/amazon.js"]
     },
 
