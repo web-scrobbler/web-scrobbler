@@ -27,6 +27,11 @@
  *
  */
 var connectors = [
+    {
+        label: "Baidu Music",
+        matches: ["*://play.baidu.com/*"],
+        js: ["connectors/baidu.js"]
+    },
 
     {
         label: "YouTube",
