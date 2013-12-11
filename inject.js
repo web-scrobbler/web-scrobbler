@@ -267,6 +267,12 @@ var connectors = [
         label: "Songza",
         matches: ["*://songza.com/*"],
         js: ["connectors/songza.js"]
+    },
+
+    {
+        label: "Douban Programme",
+        matches: ["http://music.douban.com/programme/*"],
+        js: ["connectors/douban-programme.js"]
     }
 
 ];
