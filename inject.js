@@ -279,6 +279,12 @@ var connectors = [
         label: "Focus@Will",
         matches: ["*://www.focusatwill.com/*"],
         js: ["connectors/focusatwill.js"]
+    },
+
+    {
+        label: "Le Tourne Disque",
+        matches: ["*://www.letournedisque.com/*"],
+        js: ["connectors/letournedisque.js"]
     }
 
 ];
