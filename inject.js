@@ -261,6 +261,12 @@ var connectors = [
         label: "Radio+ Belgium",
         matches: ["*://www.radioplus.be/*"],
         js: ["connectors/radioplusbe.js"]
+    },
+
+    {
+        label: "Songza",
+        matches: ["*://songza.com/*"],
+        js: ["connectors/songza.js"]
     }
 
 ];
