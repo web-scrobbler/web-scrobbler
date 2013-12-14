@@ -8,7 +8,7 @@ var clipTitle = '';
 var scrobbleTimeout = null;
 
 // Glabal constant for the song container ....
-var CONTAINER_SELECTOR = '#player';
+var CONTAINER_SELECTOR = '.App_PlayerFooter';
 
 
 $(function(){
@@ -21,7 +21,7 @@ $(function(){
 
    });
 
-   //console.log("Last.fm Scrobbler: starting Xbox Music connector")
+   //console.log("Last.fm Scrobbler: starting Rdio connector")
 
    // first load
    updateNowPlaying();
@@ -65,10 +65,10 @@ function parseInfo() {
     var duration = 0;
 
     // Get artist and song names
-    var artistValue = $("div#player .playerNowPlayingMetadata .secondaryMetadata>a:first-child").text().trim();
-    var trackValue = $("div#player .playerNowPlayingMetadata .primaryMetadata>a").text().trim();
-    var albumValue = $("div#player .playerNowPlayingMetadata .secondaryMetadata>a:last-child").text().trim();
-    var durationValue = $("div#player .playerDurationTextRemaining").text().trim();
+    var artistValue = $(".App_PlayerFooter .artist_title").text().trim();
+    var trackValue = $(".App_PlayerFooter .song_title").text().trim();
+    //var albumValue = null;
+    var durationValue = $(".App_PlayerFooter .bottom .duration").text().trim();
 
     try {
         if (null != artistValue) {
@@ -77,13 +77,13 @@ function parseInfo() {
         if (null != trackValue) {
             track = trackValue.replace(/^\s+|\s+$/g,'');
         }
-        if (null != albumValue) {
-            album = albumValue.replace(/^\s+|\s+$/g,'');
-        }
+        //if (null != albumValue) {
+        //    album = albumValue.replace(/^\s+|\s+$/g,'');
+        //}
         if (null != durationValue) {
             duration = parseDuration(durationValue);
         }
-    } catch(err) {
+    } catch (err) {
         return {artist: '', track: '', duration: 0};
     }
 
@@ -99,7 +99,7 @@ function parseDuration(artistTitle) {
                 mins    = match.substring(0, match.indexOf(':'));
                 seconds = match.substring(match.indexOf(':')+1);
                 return parseInt(mins*60) + parseInt(seconds);
-        } catch(err){
+        } catch (err) {
                 return 0;
         }
 }
@@ -110,7 +110,7 @@ function parseDuration(artistTitle) {
  */
 function scrobbleTrack() {
    // stats
-   chrome.runtime.sendMessage({type: 'trackStats', text: 'The Xbox Music song scrobbled'});
+   chrome.runtime.sendMessage({type: 'trackStats', text: 'The Rdio song scrobbled'});
 
    // scrobble
    chrome.runtime.sendMessage({type: 'submit'});

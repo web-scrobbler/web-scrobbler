@@ -233,11 +233,11 @@ var connectors = [
         js: ["connectors/hillydilly.js"]
     },
 
-	{
-		label: "Xbox Music",
-		matches: ["*://music.xbox.com/*"],
-		js: ["connectors/xboxmusic.js"]
-	},
+    {
+        label: "Xbox Music",
+        matches: ["*://music.xbox.com/*"],
+        js: ["connectors/xboxmusic.js"]
+    },
 
     {
         label: "8tracks",
@@ -285,6 +285,12 @@ var connectors = [
         label: "Le Tourne Disque",
         matches: ["*://www.letournedisque.com/*"],
         js: ["connectors/letournedisque.js"]
+    },
+
+    {
+        label: "Rdio",
+        matches: ["*://www.rdio.com/*"],
+        js: ["connectors/rdio.js"]
     }
 
 ];
