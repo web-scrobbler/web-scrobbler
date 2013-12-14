@@ -65,9 +65,9 @@ function parseInfo() {
     var duration = 0;
 
     // Get artist and song names
-    var artistValue = $("div#player .secondaryMetadata>:first-child").text().trim();
-    var trackValue = $("div#player .primaryMetadata").text().trim();
-    var albumValue = $("div#player .secondaryMetadata>:last-child").text().trim();
+    var artistValue = $("div#player .playerNowPlayingMetadata .secondaryMetadata>a:first-child").text().trim();
+    var trackValue = $("div#player .playerNowPlayingMetadata .primaryMetadata>a").text().trim();
+    var albumValue = $("div#player .playerNowPlayingMetadata .secondaryMetadata>a:last-child").text().trim();
     var durationValue = $("div#player .playerDurationTextRemaining").text().trim();
 
     try {
