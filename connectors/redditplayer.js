@@ -1,13 +1,12 @@
 /*
- * Chrome-Last.fm-Scrobbler Pandora.com "new interface" Connector
- * 
- * Jordan Perr --- http://jperr.com --- jordan[at]jperr[dot]com
+ * Chrome-Last.fm-Scrobbler Reddit Playlister Connector
  *
- * You can use this as a template for other connectors.
+ * based on Pandora.com Jordan Perr --- http://jperr.com --- jordan[at]jperr[dot]com
+ *
+ * with VERY slight modifications by lcz
+ * http://github.com/thricedotted || http://last.fm/user/thricedotted
+ *
  */
-
-
-/* code ganked from youtube.js (perhaps these should be in a util file?) */
 
 /**
  * Trim whitespaces from both endings of the string
@@ -128,36 +127,50 @@ function LFM_updateNowPlaying(){
 			setTimeout(LFM_updateNowPlaying, 5000);
 			return 0;
 		}
-		console.log("submitting a now playing request. artist: "+artist+", title: "+title+", duration: "+duration);
+
 		LFM_lastTrack = newTrack;
-		chrome.extension.sendRequest({type: 'validate', artist: artist, track: title}, function(response) {
+		chrome.runtime.sendMessage({type: 'validate', artist: artist, track: title}, function(response) {
 			if (response != false) {
-				chrome.extension.sendRequest({type: 'nowPlaying', artist: artist, track: title, duration: duration});
+				chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: title, duration: duration});
 			} else { // on failure send nowPlaying 'unknown song'
-				chrome.extension.sendRequest({type: 'nowPlaying', duration: duration});
+				chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
 			}
 		});
-	}	
+	}
 	LFM_isWaiting = 0;
 }
 
-// Run at startup
-$(function(){
-	console.log("redditplayer module starting up");
-
-	$(LFM_WATCHED_CONTAINER).live('DOMSubtreeModified', function(e) {
-		//console.log("Live watcher called");
-		if ($(LFM_WATCHED_CONTAINER).length > 0) {
-			if(LFM_isWaiting == 0){
-				LFM_isWaiting = 1;
-				setTimeout(LFM_updateNowPlaying, 10000);
-			}
-			return;    
-		}
-	});
-
-	$(window).unload(function() {      
-		chrome.extension.sendRequest({type: 'reset'});
-		return true;      
-	});
+// The script is automatically injected on domready, no need for $()
+$(LFM_WATCHED_CONTAINER).live('DOMSubtreeModified', function(e) {
+    //console.log("Live watcher called");
+    if ($(LFM_WATCHED_CONTAINER).length > 0) {
+        if(LFM_isWaiting == 0){
+            LFM_isWaiting = 1;
+            setTimeout(LFM_updateNowPlaying, 10000);
+        }
+        return;
+    }
 });
+
+$(window).unload(function() {
+    chrome.runtime.sendMessage({type: 'reset'});
+    return true;
+});
+
+
+
+
+/**
+ * Listen for requests from scrobbler.js
+ */
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        switch(request.type) {
+
+            // background calls this to see if the script is already injected
+            case 'ping':
+                sendResponse(true);
+                break;
+        }
+    }
+);

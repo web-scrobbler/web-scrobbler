@@ -291,6 +291,12 @@ var connectors = [
         label: "Rdio",
         matches: ["*://www.rdio.com/*"],
         js: ["connectors/rdio.js"]
+    },
+
+    {
+        label: "Reddit Playlister",
+        matches: ["*://redditplayer.phoenixforgotten.com/*"],
+        js: ["connectors/redditplayer.js"]
     }
 
 ];
