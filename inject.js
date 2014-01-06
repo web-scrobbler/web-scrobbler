@@ -297,6 +297,12 @@ var connectors = [
         label: "Reddit Playlister",
         matches: ["*://redditplayer.phoenixforgotten.com/*"],
         js: ["connectors/redditplayer.js"]
+    },
+
+    {
+      label: "Sullen-Ural",
+      matches: ["*://sullen-ural.ru/*", "*://*.sullen-ural.ru/*"],
+      js: ["connectors/sullen-ural.js"]
     }
 
 ];
