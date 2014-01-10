@@ -1,4 +1,3 @@
-
 // remember urls to detect ajax pageloads (using history API)
 var lastUrl = '';
 
@@ -112,6 +111,8 @@ function cleanArtistTrack(artist, track) {
    track = track.replace(/\s*\(\s*[0-9]{4}\s*\)/i, ''); // (1999)
    track = track.replace(/\s+\(\s*(HD|HQ)\s*\)$/, ''); // HD (HQ)
    track = track.replace(/\s+(HD|HQ)\s*$/, ''); // HD (HQ)
+   track = track.replace(/\s*\([^\)]*preview\)$/i, ''); // (whatever preview)
+   track = track.replace(/\s*\(\s*[A-Z]{1,5}[0-9]{3}\s*\)/i, ''); // (LABEL001) remove label catalog number
    track = track.replace(/\s*video\s*clip/i, ''); // video clip
    track = track.replace(/\s+\(?live\)?$/i, ''); // live
    track = track.replace(/\(\s*\)/, ''); // Leftovers after e.g. (official video)
