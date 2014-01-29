@@ -63,20 +63,20 @@ function updateNowPlaying(){
 
 function parseInfo(callback) {
     $detail = $(CONTAINER_SELECTOR + " > .artist-track-target");
-	$album = $(ALBUM_SELECTOR);
+	$album = $("#t-art");
 	
 	var authToken = "Bearer " + $.cookie("access_token");	
 	
-	var $albumArtLink = $album.find(".t-img a");
+	var albumArtLink = $album.css("background-image");
 	
-	if ($albumArtLink.length === 0) {
+	if (albumArtLink.length === 0) {
 		return;
 	}
-	var href = $albumArtLink.attr("href");
-	if (!href) return;
-	var urlParts = href.split("/");
 	
-	var albumApiUrl = "https://api.beatsmusic.com/api/albums/" + urlParts[2];
+	
+	var urlParts = albumArtLink.split("/");
+	
+	var albumApiUrl = "https://api.beatsmusic.com/api/albums/" + urlParts[5];
 	
     $.ajax({
 		type:"GET",
