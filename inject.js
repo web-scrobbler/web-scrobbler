@@ -309,8 +309,13 @@ var connectors = [
       label: "Digitally Imported",
       matches: ["*://www.di.fm/*"],
       js: ["connectors/difm.js"]
-    }
+    },
 
+    {
+      label: "Beats Music",
+      matches: ["*://*.beatsmusic.com/*"],
+      js: ["connectors/beats.js"]
+    }
 ];
 
 
