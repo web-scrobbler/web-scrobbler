@@ -307,7 +307,7 @@ var connectors = [
 
     {
       label: "Beats Music",
-      matches: ["*://*.beatsmusic.com/*", "*://*.sullen-ural.ru/*"],
+      matches: ["*://*.beatsmusic.com/*"],
       js: ["connectors/beats.js"]
     }
 ];
