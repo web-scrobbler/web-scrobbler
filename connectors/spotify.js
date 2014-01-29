@@ -56,7 +56,7 @@
         }
 
         // beginning of a new song
-        if (data.track.uri != lastTrackUri) {
+        if (data.track.uri != lastTrackUri && !data.track.advertisement) {
             var track = data.track;
             lastTrackUri = track.uri;
 
