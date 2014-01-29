@@ -303,8 +303,13 @@ var connectors = [
       label: "Sullen-Ural",
       matches: ["*://sullen-ural.ru/*", "*://*.sullen-ural.ru/*"],
       js: ["connectors/sullen-ural.js"]
-    }
+    },
 
+    {
+      label: "Beats Music",
+      matches: ["*://*.beatsmusic.com/*", "*://*.sullen-ural.ru/*"],
+      js: ["connectors/beats.js"]
+    }
 ];
 
 
