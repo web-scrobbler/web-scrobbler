@@ -16,4 +16,4 @@ You can get the source code by cloning the repository. Then you need to enable "
 browser and "Load unpacked extension".
 
 ## Development
-Check the [wiki pages](./wiki) to understand development of connectors.
+Check the [wiki pages](../../wiki) to understand development of connectors.
