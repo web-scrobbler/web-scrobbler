@@ -315,6 +315,12 @@ var connectors = [
       label: "Beats Music",
       matches: ["*://*.beatsmusic.com/*"],
       js: ["jquery.cookie.js", "connectors/beats.js"]
+    },
+
+    {
+      label: "RadioPlayer",
+      matches: ["*://*.bbc.co.uk/*", "*://*.absoluteradio.co.uk/*", "*://*.capitalfm.com/*", "*://*.heart.co.uk/*", "*://*.jackfm.co.uk/*", "*://*.kerrangradio.co.uk/*", "*://*.kissfmuk.com/*", "*://*.magic.co.uk/*", "*://*.piratefm.co.uk/*"],
+      js: ["connectors/radioplayer.js"]
     }
 ];
 
