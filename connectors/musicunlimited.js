@@ -1,5 +1,6 @@
 // Used only to remember last song title
-var clipTitle = '';
+var currentTrack = '';
+var currentDuration = '';
 
 // Glabal constant for the song container ....
 var CONTAINER_SELECTOR = '.GEKKVSQBL-';
@@ -10,11 +11,17 @@ var DURATION_SELECTOR = '#PlayerDuration';
 
 $(function(){
 	$(CONTAINER_SELECTOR).live('DOMSubtreeModified', function(e) {
+		if (!newTrack()) {
+			return;
+		}
 		updateNowPlaying();
 		return;
 	});
 
 	$(DURATION_SELECTOR).live('DOMSubtreeModified', function(e) {
+		if (!newTrack()) {
+			return;
+		}
 		updateNowPlaying();
 		return;
 	});
@@ -38,16 +45,9 @@ function updateNowPlaying(){
 
     if (artist == '' || track == '' || duration == 0) {return;}
 
-    // check if the same track is being played and we have been called again
-    // if the same track is being played we return
-    if (clipTitle == track) {
-		return;
-    }
-    clipTitle = track;
-
     chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
       if (response != false) {
-		console.log("Scrobbling information: artist: " + artist + ", track: " + track + ", album: " + album + ", duration: " + duration);
+		console.log("Scrobbling track: artist: " + artist + ", track: " + track + ", album: " + album + ", duration: " + duration);
         chrome.extension.sendMessage({type: 'nowPlaying', artist: artist, track: track, album: album, duration: duration});
       }
       // on failure send nowPlaying 'unknown song'
@@ -64,23 +64,23 @@ function parseInfo() {
     var duration = 0;
 
     // Get artist and song names
-    var trackValue = $(TRACK_SELECTOR).children().first().attr("title");
-    var artistValue = $(ARTIST_SELECTOR).children().first().attr("title");
-    var albumValue = $(ALBUM_SELECTOR).children().first().attr("title");
-    var durationValue = $(DURATION_SELECTOR).text();
+    var rawArtistValue = $(ARTIST_SELECTOR).children().first().attr("title");
+    var rawTrackValue = $(TRACK_SELECTOR).children().first().attr("title");
+    var rawAlbumValue = $(ALBUM_SELECTOR).children().first().attr("title");
+    var rawDurationValue = $(DURATION_SELECTOR).text();
 
     try {
-        if (null != artistValue) {
-            artist = artistValue.replace(/^\s+|\s+$/g,'');
+        if (null != rawArtistValue) {
+            artist = rawArtistValue.trim();
         }
-        if (null != trackValue) {
-            track = trackValue.replace(/^\s+|\s+$/g,'');
+        if (null != rawTrackValue) {
+            track = rawTrackValue.trim();
         }
-        if (null != albumValue) {
-            album = albumValue.replace(/^\s+|\s+$/g,'');
+        if (null != rawAlbumValue) {
+            album = rawAlbumValue.trim();
         }
-        if (null != durationValue) {
-            duration = parseDuration(durationValue);
+        if (null != rawDurationValue) {
+            duration = parseDuration(rawDurationValue);
         }
     } catch(err) {
         return {artist: '', track: '', duration: 0};
@@ -99,6 +99,17 @@ function parseDuration(artistTitle) {
 	} catch(err){
 		return 0;
 	}
+}
+
+function newTrack() {
+    var rawTrackValue = $(TRACK_SELECTOR).children().first().attr("title");
+    var rawDurationValue = $(DURATION_SELECTOR).text();
+	if (currentTrack == rawTrackValue || currentDuration == rawDurationValue) {
+		return false;
+	}
+	currentTrack = rawTrackValue;
+	currentDuration = rawDurationValue
+	return true;
 }
 
 /**
