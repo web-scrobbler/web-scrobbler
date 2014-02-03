@@ -315,6 +315,12 @@ var connectors = [
       label: "Beats Music",
       matches: ["*://*.beatsmusic.com/*"],
       js: ["connectors/beats.js"]
+    },
+	
+	{
+      label: "Music Unlimited",
+      matches: ["*://music.sonyentertainmentnetwork.com/*"],
+      js: ["connectors/musicunlimited.js"]
     }
 ];
 
