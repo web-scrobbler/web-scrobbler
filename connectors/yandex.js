@@ -1,10 +1,7 @@
 var lastTrack = null;
 var $r = chrome.runtime.sendMessage;
-var startScrobbling = false;
 
 function scrobble(e) {
-    if (startScrobbling) return; // prevent multiple execution
-    startScrobbling = true;
     var artist = $(".js-player-artist").text();
     var title = $(".js-player-title").text();
 
@@ -23,8 +20,6 @@ function scrobble(e) {
                 $r({type: 'nowPlaying'});
             }
         });
-        
-        startScrobbling = false;
     }
 }
 
