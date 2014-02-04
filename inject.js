@@ -315,6 +315,12 @@ var connectors = [
       label: "Beats Music",
       matches: ["*://*.beatsmusic.com/*"],
       js: ["jquery.cookie.js", "connectors/beats.js"]
+    },
+
+    {
+        label: "Pleer.Com (Prostopleer)",
+        matches: ["*://pleer.com/*", "*://prostopleer.com/*"],
+        js: ["connectors/pleer.js"]
     }
 ];
 
