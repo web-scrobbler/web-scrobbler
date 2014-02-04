@@ -315,6 +315,12 @@ var connectors = [
       label: "Beats Music",
       matches: ["*://*.beatsmusic.com/*"],
       js: ["jquery.cookie.js", "connectors/beats.js"]
+    },
+    
+    {
+        label: "Yandex.Music",
+        matches: ["*://music.yandex.ru/*"],
+        js: ["connectors/yandex.js"]
     }
 ];
 
