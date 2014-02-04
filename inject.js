@@ -325,12 +325,6 @@ var connectors = [
 ];
 
 /**
- * To update this list, go to any RadioPlayer, view the A-Z list and then run the following command.
- * function onlyUnique(value, index, self) { return self.indexOf(value) === index; } var list = new Array(); $('.overlay-item-link').each(function(i, v){ var url = $(v).attr('href'); url = url.substring(7); url = url.substring(0, url.indexOf('/')); list.push('*://'+url+'/*'); }); list = list.filter(onlyUnique); console.log(JSON.stringify(list));
- */
-
-
-/**
  * Creates regex from single match pattern
  *
  * @author lacivert
