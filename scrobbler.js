@@ -462,6 +462,8 @@ function submit() {
       'timestamp[0]': song.startTime,
       'track[0]': song.track,
       'artist[0]': song.artist,
+      'source[0]' : song.source,
+      'sourceId[0]' : song.sourceId,
       api_key: apiKey,
       sk: sessionID
    };
@@ -588,6 +590,12 @@ chrome.runtime.onMessage.addListener(
 
                      if(typeof(request.album) != 'undefined') {
                         song.album = request.album;
+                     }
+                     if (typeof(request.sourceId) != 'undefined' && request.sourceId) {
+                        song.sourceId = request.sourceId;
+                     }
+                     if (typeof(request.source) != 'undefined' && request.source) {
+                        song.source = request.source;
                      }
 
 

@@ -224,7 +224,7 @@ function updateNowPlaying() {
          if (response != false) {
             var song = response; // contains valid artist/track now
             // substitute the original duration with the duration of the video
-            chrome.runtime.sendMessage({type: 'nowPlaying', artist: song.artist, track: song.track, duration: duration});
+            chrome.runtime.sendMessage({type: 'nowPlaying', artist: song.artist, track: song.track, duration: duration, source: 'YouTube', sourceId: videoID});
          }
          // on failure send nowPlaying 'unknown song'
          else {
