@@ -9,13 +9,12 @@ function updateNowPlaying() {
 		var song = newTrack.substring(indexOfSeperator+1, newTrack.length);
 
 		chrome.runtime.sendMessage({type: 'validate', artist: artist, track: song}, function(response) {
-			 var duration = 180; //no duration information available in radio.nrk.no
 		     if (response != false) {
 		        var song = response;
-		        chrome.runtime.sendMessage({type: 'nowPlaying', artist: song.artist, track: song.track, duration: duration});
+		        chrome.runtime.sendMessage({type: 'nowPlaying', artist: song.artist, track: song.track, duration: song.duration/1000});
 		     }
 		     else {
-		        chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
+		        chrome.runtime.sendMessage({type: 'nowPlaying', duration: 0});
 		     }
 		     lastTrack = newTrack;
 		});
