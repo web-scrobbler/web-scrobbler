@@ -573,6 +573,12 @@ chrome.runtime.onMessage.addListener(
                      if (typeof(request.album) != 'undefined' && request.album) {
                         song.album = request.album;
                      }
+                     if (typeof(request.sourceId) != 'undefined' && request.sourceId) {
+                        song.sourceId = request.sourceId;
+                     }
+                     if (typeof(request.source) != 'undefined' && request.source) {
+                        song.source = request.source;
+                     }
 
                      // Update page action icon to 'unknown'
                      setActionIcon(ACTION_UNKNOWN, sender.tab.id);

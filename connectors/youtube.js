@@ -228,7 +228,7 @@ function updateNowPlaying() {
          }
          // on failure send nowPlaying 'unknown song'
          else {
-            chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
+            chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration, source: 'YouTube', sourceId: videoID});
          }
     });
 
