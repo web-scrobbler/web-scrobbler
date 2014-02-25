@@ -24,7 +24,7 @@ function getArtist() {
 // Get track length
 function getDuration() {
     var duration = $(SONG_DURATION_DOM).text().split(':');
-    return 60 * duration[0] + duration[1];
+    return 60 * parseInt(duration[0]) + parseInt(duration[1]);
 }
 
 /*
@@ -37,12 +37,13 @@ function updateNowPlaying() {
     var artist = getArtist();
     var duration = getDuration();
 
-    if (artist == '' || track == '') {
+    if (!artist || !track) {
         return;
     }
     if (previousTrack == track) {
         return;
     }
+
     previousTrack = track;
 
     console.log('Validating: ' + artist + ' @#@ ' + track + ' @#@ ' + duration);
@@ -51,9 +52,9 @@ function updateNowPlaying() {
         if (response != false) {
             console.log('Success: ' + artist + ' - ' + track + ' - ' + duration);
             chrome.runtime.sendMessage({type: 'nowPlaying',
-                artist: artist,
-                track: track,
-                duration: duration
+                artist: response.artist,
+                track: response.track,
+                duration: response.duration / 1000
             });
         } else {
             console.log('Failure: ' + duration);
@@ -67,8 +68,8 @@ function updateNowPlaying() {
 
 console.log('Gaana.com connector loading');
 
-// Track <TITLE> to observe change in track
-$("title").live('DOMSubtreeModified', function () {
+// Track enclosing <div>, id: 'mq' to observe track change
+$('#mq').live('DOMSubtreeModified', function () {
     setTimeout(updateNowPlaying, 5000);
 });
 
@@ -79,5 +80,20 @@ $(window).unload(function () {
     });
     return true;
 });
+
+/**
+ * Listen for requests from scrobbler.js
+ */
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        switch (request.type) {
+
+            // background calls this to see if the script is already injected
+            case 'ping':
+                sendResponse(true);
+                break;
+        }
+    }
+);
 
 console.log('Gaana.com connector loaded');
