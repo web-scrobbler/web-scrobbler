@@ -8,11 +8,15 @@ $(function(){
    $(o).appendTo('body');
    */
 
-   if (chrome.extension.getBackgroundPage().song.artist != '')
+   if (chrome.extension.getBackgroundPage().song.artist != '') {
       $('#artist').val(chrome.extension.getBackgroundPage().song.artist);
+      //chrome.extension.getBackgroundPage().console.log("Tried to set artist to : %s", chrome.extension.getBackgroundPage().song.artist)
+   }
 
-   if (chrome.extension.getBackgroundPage().song.track != '')
+   if (chrome.extension.getBackgroundPage().song.track != '') {
       $('#track').val(chrome.extension.getBackgroundPage().song.track);
+      //chrome.extension.getBackgroundPage().console.log("Tried to set track to : %s", chrome.extension.getBackgroundPage().song.track)
+   }
 
 
    $('#submit').click(function(){
@@ -26,7 +30,7 @@ $(function(){
       if (res == false) {
          $(this).attr('disabled', false);
          $(this).siblings().remove();
-         $(this).parent().append('<span class="note">Not valid</span>');
+         $(this).parent().append('<div class="note">Error: ' + chrome.extension.getBackgroundPage().errorMsg + '</div>');
       }
       else {
          // did the content script recognize at least the duration?
@@ -37,6 +41,17 @@ $(function(){
          chrome.extension.getBackgroundPage().song.artist = res.artist;
          chrome.extension.getBackgroundPage().song.track = res.track;
          //chrome.extension.getBackgroundPage().song.album = res.album;
+
+         // save corrected information for later re-use
+         if (chrome.extension.getBackgroundPage().song.uniqueId) {
+            var saveJson = {}
+            saveJson[chrome.extension.getBackgroundPage().song.uniqueId] = { artist : res.artist,
+                                                                              track : res.track,
+                                                                           uniqueId : chrome.extension.getBackgroundPage().song.uniqueId };
+            chrome.storage.sync.set(saveJson, function() {
+               //chrome.extension.getBackgroundPage().console.log("saved data for song: ", saveJson);
+            });
+         }
 
          // make the connection to last.fm service to notify
          chrome.extension.getBackgroundPage().nowPlaying();

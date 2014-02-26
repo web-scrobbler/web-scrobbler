@@ -18,6 +18,8 @@ var nowPlayingTab = null;
 // song structure, filled in nowPlaying phase, (artist, track, album, duration, startTime)
 var song = {};
 
+var errorMsg = "";
+
 // timer to submit the song
 var scrobbleTimeout = null;
 
@@ -350,6 +352,17 @@ function validate(artist, track) {
    var req = new XMLHttpRequest();
    req.open('GET', validationURL, false);
    req.send(null);
+   if(req.status == 400) { // Error codes all up in hurr
+      var xmlDoc = $.parseXML(req.responseText);
+      var xml = $(xmlDoc);
+
+      errorMsg = xml.find('error').text();
+
+      // populate with best guess anyway so popup will auto-fill
+      song.artist = artist;
+      song.track = track;
+      //console.log("stored best guess artist: %s, track: %s", song.artist, song.track)
+   }
    if(req.status == 200) {
       if (req.responseText != "You must supply either an artist and track name OR a musicbrainz id.") {
          // fill-in the song structure with validated data
@@ -542,6 +555,26 @@ chrome.runtime.onMessage.addListener(
                      break;
                   }
 
+                  if (typeof(request.validationFailed) != 'undefined') { // backwards compatible ftw
+                     // populate song with the info we know, to help the user
+                     song = {
+                        startTime : parseInt(new Date().getTime() / 1000.0) // in seconds
+                     };
+                     if (typeof(request.artist) != 'undefined')
+                        song.artist = request.artist;
+                     if (typeof(request.track) != 'undefined')
+                        song.track = request.track;
+                     if (typeof(request.currentTime) != 'undefined')
+                        song.currentTime = request.currentTime;
+                     if (typeof(request.duration) != 'undefined')
+                        song.duration = request.duration;
+                     if (typeof(request.uniqueId) != 'undefined')
+                        song.uniqueId = request.uniqueId;
+
+                     setActionIcon(ACTION_UNKNOWN, sender.tab.id);
+                     break;
+                  }
+
                   // backward compatibility for connectors which dont use currentTime
                   if (typeof(request.currentTime) == 'undefined' || !request.currentTime)
                      request.currentTime = 0;
@@ -656,6 +689,25 @@ chrome.runtime.onMessage.addListener(
                   if (!request.artist || !request.track) {
                       sendResponse(false);
                       break;
+                  }
+
+                  if (request.uniqueId) {
+                     song.uniqueId = request.uniqueId;
+
+                     // check our storage to see if we've named this manually
+                     chrome.storage.sync.get(song.uniqueId, function(obj) {
+                        if (typeof(obj[song.uniqueId]) != "undefined") {
+                           //console.log("found stored song info: ", obj);
+                           var res = validate(obj[song.uniqueId].artist, obj[song.uniqueId].track);
+                           sendResponse(res);
+                        }
+                        else {
+                           var res = validate(request.artist, request.track);
+                           sendResponse( res );
+                        }
+                     });
+
+                     break;
                   }
 
                   var res = validate(request.artist, request.track);

@@ -25,6 +25,10 @@ $(function(){
       localStorage['useAutocorrect'] = this.checked ? 1 : 0;
    });
 
+   $('#reset-stored-tracks').click(function(){
+      chrome.storage.sync.clear();
+   });
+
    // preload options
    $('#use-notifications').attr('checked', (localStorage['useNotifications'] == 1));
    $('#use-notifications-nowplaying').attr('checked', (localStorage['useNotificationsNowPlaying'] == 1));
