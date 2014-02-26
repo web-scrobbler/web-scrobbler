@@ -1,30 +1,52 @@
+/*
+ * Chrome-Last.fm-Scrobbler play.baidu.com Connector
+ *
+ * Plumes Zhao --- http://blog.summerecho.com --- zhaohonghao2010 at gmail.com
+ *
+ * Derived from Google Music module by Sharjeel Aziz
+ */
+
+
+// Glabal constant for the song container ....
 // State for event handlers
 var state = 'init';
-
-// Used only to remember last song title
-var clipTitle = '';
 
 // Timeout to scrobble track ater minimum time passes
 var scrobbleTimeout = null;
 
-// Glabal constant for the song container ....
-var CONTAINER_SELECTOR = '#playerSongInfo';
 
-
+var CONTAINER_SELECTOR = '.album-name a';
+var i=1;
+var last_url="";
+var pause;
+//当百度音乐盒右侧边栏中专辑图片下面的专辑名称更新时进行状态更新，
+//当加载新歌时，不管专辑是否相同，这个专辑名称都会更新
+//this function will be called when the album's name in  right side get changed
 $(function(){
 	$(CONTAINER_SELECTOR).live('DOMSubtreeModified', function(e) {
 
-		if ($(CONTAINER_SELECTOR).length > 0) {
-			updateNowPlaying();
-			return;
+		if ($(CONTAINER_SELECTOR)[0].href.length > 0 && $(".songname")[0].href.length > 1 && $(".songname")[0].href !== last_url) {
+
+				updateNowPlaying();
+				//console.log("Last.fm Scrobbler: starting Baidu Music connector");
+				console.log($(".songname")[0].href);
+				last_url = $(".songname")[0].href;
+				//console.log(i);
+				//i=i+1;
+				//clearTimeout(pause);
+				return;
+			
 		}
 
    });
 
-   //console.log("Last.fm Scrobbler: starting Google Music connector")
-
+   console.log("Last.fm Scrobbler: starting Baidu Music connector");
+   last_url = $(".songname")[0].href;
    // first load
-   updateNowPlaying();
+   if(last_url.length > 0) {
+   		updateNowPlaying();
+   }
+   
 });
 
 /**
@@ -41,10 +63,10 @@ function updateNowPlaying(){
 
     // check if the same track is being played and we have been called again
     // if the same track is being played we return
-    if (clipTitle == track) {
-	return;
-    }
-    clipTitle = track;
+    //if (clipTitle == track) {
+	//return;
+    //}
+    //clipTitle = track;
 
     chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
       if (response != false) {
@@ -56,8 +78,6 @@ function updateNowPlaying(){
       }
     });
 }
-
-
 function parseInfo() {
     var artist   = '';
     var track    = '';
@@ -65,10 +85,10 @@ function parseInfo() {
     var duration = 0;
 
     // Get artist and song names
-    var artistValue = $("div#player-artist").text();
-    var trackValue = $("div#playerSongTitle").text();
-    var albumValue = $("div.player-album").text();
-    var durationValue = $("div#time_container_duration").text();
+    var artistValue = $(".artist").text();
+    var trackValue = $(".songname").text();
+    var albumValue = $(".album-name a")[0].text.replace('《','').replace('》','');
+    var durationValue = $(".totalTime").text();
 
     try {
         if (null != artistValue) {
@@ -86,8 +106,8 @@ function parseInfo() {
     } catch(err) {
         return {artist: '', track: '', duration: 0};
     }
-
-    //console.log("artist: " + artist + ", track: " + track + ", album: " + album + ", duration: " + duration);
+    //console.log("artist: " + artistValue + ", track: " + trackValue + ", album: " + albumValue + ", duration: " + durationValue);
+    console.log("artist: " + artist + ", track: " + track + ", album: " + album + ", duration: " + duration);
 
     return {artist: artist, track: track, album: album, duration: duration};
 }
@@ -104,30 +124,28 @@ function parseDuration(artistTitle) {
 	}
 }
 
-
 /**
  * Simply request the scrobbler.js to submit song previusly specified by calling updateNowPlaying()
  */
 function scrobbleTrack() {
    // stats
-   chrome.runtime.sendMessage({type: 'trackStats', text: 'The Google Music song scrobbled'});
+   chrome.runtime.sendMessage({type: 'trackStats', text: 'The Baidu Music song scrobbled'});
 
    // scrobble
    chrome.runtime.sendMessage({type: 'submit'});
 }
 
-
-
 /**
  * Listen for requests from scrobbler.js
  */
 chrome.runtime.onMessage.addListener(
-	function(request, sender, sendResponse) {
-		switch(request.type) {
-            // background calls this to see if the script is already injected
-            case 'ping':
-                sendResponse(true);
-                break;
-    }
-	}
+   function(request, sender, sendResponse) {
+         switch(request.type) {
+
+             // background calls this to see if the script is already injected
+             case 'ping':
+                 sendResponse(true);
+                 break;
+         }
+   }
 );

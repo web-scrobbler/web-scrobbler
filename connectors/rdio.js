@@ -8,20 +8,20 @@ var clipTitle = '';
 var scrobbleTimeout = null;
 
 // Glabal constant for the song container ....
-var CONTAINER_SELECTOR = '#playerSongInfo';
+var CONTAINER_SELECTOR = '.App_PlayerFooter';
 
 
 $(function(){
-	$(CONTAINER_SELECTOR).live('DOMSubtreeModified', function(e) {
+        $(CONTAINER_SELECTOR).live('DOMSubtreeModified', function(e) {
 
-		if ($(CONTAINER_SELECTOR).length > 0) {
-			updateNowPlaying();
-			return;
-		}
+                if ($(CONTAINER_SELECTOR).length > 0) {
+                        updateNowPlaying();
+                        return;
+                }
 
    });
 
-   //console.log("Last.fm Scrobbler: starting Google Music connector")
+   //console.log("Last.fm Scrobbler: starting Rdio connector")
 
    // first load
    updateNowPlaying();
@@ -32,17 +32,17 @@ $(function(){
  */
 function updateNowPlaying(){
     var parsedInfo = parseInfo();
-    artist   = parsedInfo['artist']; 	//global
-    track    = parsedInfo['track'];	//global
+    artist   = parsedInfo['artist'];         //global
+    track    = parsedInfo['track'];        //global
     album    = parsedInfo['album'];
-    duration = parsedInfo['duration']; 	//global
+    duration = parsedInfo['duration'];         //global
 
     if (artist == '' || track == '' || duration == 0) {return;}
 
     // check if the same track is being played and we have been called again
     // if the same track is being played we return
     if (clipTitle == track) {
-	return;
+        return;
     }
     clipTitle = track;
 
@@ -65,10 +65,10 @@ function parseInfo() {
     var duration = 0;
 
     // Get artist and song names
-    var artistValue = $("div#player-artist").text();
-    var trackValue = $("div#playerSongTitle").text();
-    var albumValue = $("div.player-album").text();
-    var durationValue = $("div#time_container_duration").text();
+    var artistValue = $(".App_PlayerFooter .artist_title").text().trim();
+    var trackValue = $(".App_PlayerFooter .song_title").text().trim();
+    //var albumValue = null;
+    var durationValue = $(".App_PlayerFooter .bottom .duration").text().trim();
 
     try {
         if (null != artistValue) {
@@ -77,13 +77,13 @@ function parseInfo() {
         if (null != trackValue) {
             track = trackValue.replace(/^\s+|\s+$/g,'');
         }
-        if (null != albumValue) {
-            album = albumValue.replace(/^\s+|\s+$/g,'');
-        }
+        //if (null != albumValue) {
+        //    album = albumValue.replace(/^\s+|\s+$/g,'');
+        //}
         if (null != durationValue) {
             duration = parseDuration(durationValue);
         }
-    } catch(err) {
+    } catch (err) {
         return {artist: '', track: '', duration: 0};
     }
 
@@ -93,15 +93,15 @@ function parseInfo() {
 }
 
 function parseDuration(artistTitle) {
-	try {
-		match = artistTitle.match(/\d+:\d+/g)[0]
+        try {
+                match = artistTitle.match(/\d+:\d+/g)[0]
 
-		mins    = match.substring(0, match.indexOf(':'));
-		seconds = match.substring(match.indexOf(':')+1);
-		return parseInt(mins*60) + parseInt(seconds);
-	} catch(err){
-		return 0;
-	}
+                mins    = match.substring(0, match.indexOf(':'));
+                seconds = match.substring(match.indexOf(':')+1);
+                return parseInt(mins*60) + parseInt(seconds);
+        } catch (err) {
+                return 0;
+        }
 }
 
 
@@ -110,7 +110,7 @@ function parseDuration(artistTitle) {
  */
 function scrobbleTrack() {
    // stats
-   chrome.runtime.sendMessage({type: 'trackStats', text: 'The Google Music song scrobbled'});
+   chrome.runtime.sendMessage({type: 'trackStats', text: 'The Rdio song scrobbled'});
 
    // scrobble
    chrome.runtime.sendMessage({type: 'submit'});
@@ -122,12 +122,12 @@ function scrobbleTrack() {
  * Listen for requests from scrobbler.js
  */
 chrome.runtime.onMessage.addListener(
-	function(request, sender, sendResponse) {
-		switch(request.type) {
+        function(request, sender, sendResponse) {
+                switch(request.type) {
             // background calls this to see if the script is already injected
             case 'ping':
                 sendResponse(true);
                 break;
     }
-	}
+        }
 );

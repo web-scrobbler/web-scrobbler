@@ -1,31 +1,41 @@
 /*
- * Chrome-Last.fm-Scrobbler Pandora.com "new interface" Connector
+ * Chrome-Last.fm-Scrobbler AOL Radio Connector
+ * 
+ * Uses Jordan Perr's pandora connector as a template --- http://jperr.com --- jordan[at]jperr[dot]com
  *
- * Jordan Perr --- http://jperr.com --- jordan[at]jperr[dot]com
- *
- * You can use this as a template for other connectors.
+ * Joe Crawford joe@artlung.com
  */
 
 /********* Configuration: ***********/
 
 // changes to the DOM in this container will trigger an update.
-LFM_WATCHED_CONTAINER = "div.nowplaying";
+LFM_WATCHED_CONTAINER = "div#track-metadata";
+
+function LFM_IS_A_SONG() {
+	return !$("#player-track-name").hasClass("noClick");
+}
 
 // function that returns title of current song
 function LFM_TRACK_TITLE() {
-	return $("a.playerBarSong").text();
+	return $("#player-track-name").text();
 }
+
 
 // function that returns artist of current song
 function LFM_TRACK_ARTIST() {
-	return $("a.playerBarArtist").text();
+	return $("#player-artist-name").text();
+}
+
+// function that returns artist of current song
+function LFM_TRACK_ALBUM() {
+	return $("#player-album-name").text();
 }
 
 // function that returns duration of current song in seconds
 // called at begining of song
 function LFM_TRACK_DURATION() {
-	durationArr = $("div.remainingTime").html().split("-")[1].split(":");
-	return parseInt(durationArr[0])*60 + parseInt(durationArr[1]);
+	durationArr = $('#total-length').text().split(":");
+	return parseInt(durationArr[0], 10)*60 + parseInt(durationArr[1], 10);
 }
 
 
@@ -39,19 +49,21 @@ function LFM_updateNowPlaying(){
 	title = LFM_TRACK_TITLE();
 	artist = LFM_TRACK_ARTIST();
 	duration = LFM_TRACK_DURATION();
+	album = LFM_TRACK_ALBUM();
 	newTrack = title + " " + artist;
+	isASong = LFM_IS_A_SONG();
 	// Update scrobbler if necessary
-	if (newTrack != "" && newTrack != LFM_lastTrack){
-		if (duration == 0) {
+	if (isASong && newTrack != " " && newTrack != LFM_lastTrack){
+		if (duration === 0) {
 			// Nasty workaround for delayed duration visiblity with skipped tracks.
 			setTimeout(LFM_updateNowPlaying, 5000);
 			return 0;
 		}
-		console.log("submitting a now playing request. artist: "+artist+", title: "+title+", duration: "+duration);
+		console.log("submitting a now playing request. artist: "+artist+", title: "+title+", duration: "+duration + ", album: " + album);
 		LFM_lastTrack = newTrack;
 		chrome.runtime.sendMessage({type: 'validate', artist: artist, track: title}, function(response) {
-			if (response != false) {
-				chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: title, duration: duration});
+			if (response !== false) {
+				chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: title, duration: duration, album: album});
 			} else { // on failure send nowPlaying 'unknown song'
 				chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
 			}
@@ -62,12 +74,12 @@ function LFM_updateNowPlaying(){
 
 // Run at startup
 $(function(){
-	console.log("Pandora module starting up");
+	console.log("AOL Radio module starting up");
 
 	$(LFM_WATCHED_CONTAINER).live('DOMSubtreeModified', function(e) {
 		//console.log("Live watcher called");
 		if ($(LFM_WATCHED_CONTAINER).length > 0) {
-			if(LFM_isWaiting == 0){
+			if(LFM_isWaiting === 0){
 				LFM_isWaiting = 1;
 				setTimeout(LFM_updateNowPlaying, 10000);
 			}
@@ -80,19 +92,3 @@ $(function(){
 		return true;
 	});
 });
-
-
-/**
- * Listen for requests from scrobbler.js
- */
-chrome.runtime.onMessage.addListener(
-    function(request, sender, sendResponse) {
-        switch(request.type) {
-
-            // background calls this to see if the script is already injected
-            case 'ping':
-                sendResponse(true);
-                break;
-        }
-    }
-);

@@ -1,6 +1,6 @@
 {
    "name": "Last.fm Scrobbler",
-   "version": "1.19",
+   "version": "1.31",
 
    "description": "Scrobble music all around the web!",
    "icons": {
@@ -13,7 +13,6 @@
    "web_accessible_resources": [
       "icon128.png",
       "connectors/jango-dom-inject.js",
-      "connectors/spotify-dom-inject.js",
       "connectors/plugdj-dom-inject.js"
    ],
 
@@ -21,7 +20,7 @@
       "scripts": ["defines.js", "background-ga.js", "inject.js", "md5.js", "jquery-1.6.1.min.js", "jquery.dump.js", "scrobbler.js"]
    },
 
-   "options_page": "options.html",
+   "options_page": "options/options.html",
 
    "permissions": [
       "storage",
