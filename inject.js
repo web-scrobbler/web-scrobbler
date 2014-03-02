@@ -327,6 +327,12 @@ var connectors = [
         label: "Gaana.com",
         matches: ["*://gaana.com/*"],
         js: ["connectors/gaana.js"]
+    },
+	
+	{
+      label: "Music Unlimited",
+      matches: ["*://music.sonyentertainmentnetwork.com/*"],
+      js: ["connectors/musicunlimited.js"]
     }
 
 ];
