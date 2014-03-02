@@ -333,6 +333,12 @@ var connectors = [
       label: "Music Unlimited",
       matches: ["*://music.sonyentertainmentnetwork.com/*"],
       js: ["connectors/musicunlimited.js"]
+    },
+    
+    {
+        label: "Yandex.Music",
+        matches: ["*://music.yandex.ru/*"],
+        js: ["connectors/yandex.js"]
     }
 
 ];
