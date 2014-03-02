@@ -339,6 +339,12 @@ var connectors = [
         label: "Yandex.Music",
         matches: ["*://music.yandex.ru/*"],
         js: ["connectors/yandex.js"]
+    },
+
+    {
+        label: "Pleer.Com (Prostopleer)",
+        matches: ["*://pleer.com/*", "*://prostopleer.com/*"],
+        js: ["connectors/pleer.js"]
     }
 
 ];
