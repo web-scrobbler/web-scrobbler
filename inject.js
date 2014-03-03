@@ -306,8 +306,8 @@ var connectors = [
     },
 
     {
-        label: "Digitally Imported",
-        matches: ["*://www.di.fm/*"],
+        label: "Digitally Imported and Sky.FM",
+        matches: ["*://www.di.fm/*", "*://www.sky.fm/*"],
         js: ["connectors/difm.js"]
     },
 
