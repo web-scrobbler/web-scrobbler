@@ -13,7 +13,8 @@
    "web_accessible_resources": [
       "icon128.png",
       "connectors/jango-dom-inject.js",
-      "connectors/plugdj-dom-inject.js"
+      "connectors/plugdj-dom-inject.js",
+      "connectors/difm-dom-inject.js"
    ],
 
    "background": {

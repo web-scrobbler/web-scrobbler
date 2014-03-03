@@ -89,6 +89,7 @@
         var comNode = $('<div id="chromeLastFM" style="display: none"></div>');
         document.body.appendChild(comNode[0]);
 
+        // TODO: Change this to use `jsInPageScope` in inject.js
         $('body').append('<script type="text/javascript">(function(l) {\n' +
             "    var injectScript = document.createElement('script');\n" +
             "    injectScript.type = 'text/javascript';\n" +

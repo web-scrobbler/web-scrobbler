@@ -308,7 +308,8 @@ var connectors = [
     {
         label: "Digitally Imported",
         matches: ["*://www.di.fm/*"],
-        js: ["connectors/difm.js"]
+        js: ["connectors/difm.js"],
+        jsInPageScope: ["connectors/difm-dom-inject.js"],
     },
 
     {
@@ -451,6 +452,14 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
                         };
                         chrome.tabs.executeScript(tabId, injectDetails);
                     });
+
+                    // Inject any scripts that should run in the page's scope
+                    // rather than the extension sandbox
+                    if (connector.jsInPageScope) {
+                        connector.jsInPageScope.forEach(function (jsFile) {
+                            injectInPageScope(tabId, jsFile);
+                        });
+                    }
                 }
                 else {
                     console.log('-- subsequent ajax navigation, the scripts are already injected');
@@ -467,3 +476,21 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
         chrome.pageAction.hide(tabId);
     }
 });
+
+/**
+ * "Yo dawg, we heard you like scripts, so we put a script in a script."
+ * Injects a script to run in the scope of the page rather than in the context
+ * of this extension. To do so, we need to inject a <script> tag that loads
+ * a script.
+ *
+ * @param {number} tabID
+ * @param {string} jsFile
+ */
+function injectInPageScope(tabId, jsFile) {
+    var injectScript =
+        "var newScript = document.createElement('script');\n" +
+        "newScript.src = " + JSON.stringify(chrome.extension.getURL(jsFile)) + ";\n" +
+        "document.head.appendChild(newScript)";
+
+    chrome.tabs.executeScript(tabId, { code: injectScript });
+}
