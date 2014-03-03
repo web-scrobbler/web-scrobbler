@@ -489,7 +489,7 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 function injectInPageScope(tabId, jsFile) {
     var injectScript =
         "var newScript = document.createElement('script');\n" +
-        "newScript.src = '" + chrome.extension.getURL(jsFile) + "';\n" +
+        "newScript.src = " + JSON.stringify(chrome.extension.getURL(jsFile)) + ";\n" +
         "document.head.appendChild(newScript)";
 
     chrome.tabs.executeScript(tabId, { code: injectScript });
