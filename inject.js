@@ -340,7 +340,13 @@ var connectors = [
         matches: ["*://music.yandex.ru/*"],
         js: ["connectors/yandex.js"]
     },
-
+    
+    {
+      label: "PLEX",
+      matches: ["*://*32400/web/*"],
+      js: ["connectors/plex2.js"]
+    },
+    
     {
         label: "Pleer.Com (Prostopleer)",
         matches: ["*://pleer.com/*", "*://prostopleer.com/*"],
