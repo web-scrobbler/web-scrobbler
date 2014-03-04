@@ -344,7 +344,7 @@ var connectors = [
     {
       label: "PLEX",
       matches: ["*://*32400/web/*"],
-      js: ["connectors/plex2.js"]
+      js: ["connectors/plex.js"]
     },
     
     {
