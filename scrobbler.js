@@ -11,18 +11,11 @@
  *
  */
 
-const APP_NAME = "Chrome Last.fm Scrobbler";
-const APP_VERSION = "1.15";
-
 
 // browser tab with actually scrobbled track
 var nowPlayingTab = null;
 
-// api url
-var apiURL = "http://ws.audioscrobbler.com/2.0/?";
-var apiKey = "d9bb1870d3269646f740544d9def2c95";
-
-// song structure, filled in nowPlaying phase, (artist, track, duration, startTime)
+// song structure, filled in nowPlaying phase, (artist, track, album, duration, startTime)
 var song = {};
 
 // timer to submit the song
@@ -36,33 +29,6 @@ chrome.pageAction.onClicked.addListener(pageActionClicked);
 
 
 /**
- * Notification
- */
-const NOTIFICATION_TIMEOUT = 5000;
-const NOTIFICATION_SEPARATOR = ':::';
-
-/**
- * Page action icons
- */
-const ICON_UNKNOWN = 'icon_unknown.png';           // not recognized
-const ICON_NOTE = 'icon_note.png';                 // now playing
-const ICON_NOTE_DISABLED = 'icon_note_gray.png';   // disabled
-const ICON_TICK = 'icon_tick.png';                 // scrobbled
-const ICON_TICK_DISABLED = 'icon_tick_gray.png';   // disabled
-const ICON_CONN_DISABLED = 'icon_cross_gray.png';  // connector is disabled
-
-/**
- * Icon - title - popup set identificators
- */
-const ACTION_UNKNOWN = 1;
-const ACTION_NOWPLAYING = 2;
-const ACTION_SCROBBLED = 3;
-const ACTION_UPDATED = 4;
-const ACTION_DISABLED = 5;
-const ACTION_REENABLED = 6;
-const ACTION_CONN_DISABLED = 7;
-
-/**
  * Default settings & update notification
  */
 {
@@ -73,18 +39,22 @@ const ACTION_CONN_DISABLED = 7;
    // now playing notifications
    if (localStorage.useNotificationsNowPlaying == null)
       localStorage.useNotificationsNowPlaying = 1;
-   
+
    // scrobbled notifications
    if (localStorage.useNotificationsScrobbled == null)
       localStorage.useNotificationsScrobbled = 1;
 
-   // don't use the YT statuses by default
-   if (localStorage.useYTInpage == null)
-      localStorage.useYTInpage = 0;
+   // no disabled connectors by default
+   if (localStorage.disabledConnectors == null)
+      localStorage.disabledConnectors = JSON.stringify([]);
+
+   // hide notifications by default
+   if (localStorage.autoHideNotifications == null)
+      localStorage.autoHideNotifications = 1;
 
    // show update popup - based on different version
-   if (localStorage.appVersion != APP_VERSION) {
-      localStorage.appVersion = APP_VERSION;
+   if (localStorage.appVersion != chrome.app.getDetails().version) {
+      localStorage.appVersion = chrome.app.getDetails().version;
 
       // introduce new options if not already set
       if (typeof localStorage.useAutocorrect == 'undefined')
@@ -176,14 +146,14 @@ function pageActionClicked(tabObj) {
 
 /**
  * Sets up page action icon, including title and popup
- * 'action' is one of the ACTION_ constants
+ *
+ * @param {integer} action one of the ACTION_ constants
+ * @param {integer} tabId
  */
 function setActionIcon(action, tabId) {
 
    var tab = tabId ? tabId : nowPlayingTab;
    chrome.pageAction.hide(tab);
-
-   console.log('set icon: ' + action);
 
    switch(action) {
       case ACTION_UNKNOWN:
@@ -216,6 +186,16 @@ function setActionIcon(action, tabId) {
          chrome.pageAction.setTitle({tabId: tab, title: 'Scrobbling for this site is disabled, most likely because the site has changed its layout. Please contact the connector author.'});
          chrome.pageAction.setPopup({tabId: tab, popup: ''});
          break;
+      case ACTION_SITE_RECOGNIZED:
+         chrome.pageAction.setIcon({tabId: tab, path: ICON_LOGO});
+         chrome.pageAction.setTitle({tabId: tab, title: 'This site is supported for scrobbling'});
+         chrome.pageAction.setPopup({tabId: tab, popup: ''});
+         break;
+      case ACTION_SITE_DISABLED:
+         chrome.pageAction.setIcon({tabId: tab, path: ICON_LOGO});
+         chrome.pageAction.setTitle({tabId: tab, title: 'This site is supported, but you disabled it'});
+         chrome.pageAction.setPopup({tabId: tab, popup: ''});
+         break;
    }
 
    chrome.pageAction.show(tab);
@@ -228,6 +208,10 @@ function setActionIcon(action, tabId) {
  */
 function scrobblerNotification(text, force) {
    if (localStorage.useNotifications != 1 && !force)
+      return;
+
+   // Opera compatibility
+   if (typeof(webkitNotifications) === "undefined")
       return;
 
    var title = 'Last.fm Scrobbler';
@@ -247,8 +231,34 @@ function scrobblerNotification(text, force) {
       body
    );
    notification.show();
-   setTimeout(function() {notification.cancel()}, NOTIFICATION_TIMEOUT);
+
+   if (localStorage.autoHideNotifications == 1)
+      setTimeout(function() {notification.cancel()}, NOTIFICATION_TIMEOUT);
 }
+
+/**
+ * Shows an error notification (use this rather than alerts)
+ */
+function errorNotification(text) {
+
+   // Opera compatibility
+   if (typeof(webkitNotifications) === "undefined")
+      return;
+
+   var title = 'Last.fm scrobbling error';
+
+   var notification = webkitNotifications.createNotification(
+      'icon128.png',
+      title,
+      text
+   );
+   notification.show();
+
+   if (localStorage.autoHideNotifications == 1)
+      setTimeout(function() {notification.cancel()}, NOTIFICATION_TIMEOUT);
+}
+
+
 
 
 /**
@@ -273,7 +283,7 @@ function authorize() {
       localStorage.token = xml.find('token').text();
 
       // open a tab with token authorization
-      var url = 'http://www.last.fm/api/auth/?api_key=' + apiKey + '&token=' + localStorage.token;
+      var url = 'https://www.last.fm/api/auth/?api_key=' + apiKey + '&token=' + localStorage.token;
       window.open(url);
    }
 }
@@ -334,6 +344,7 @@ function getSessionID() {
 function validate(artist, track) {
    var autocorrect = localStorage.useAutocorrect ? localStorage.useAutocorrect : 0;
    var validationURL = apiURL + "method=track.getinfo&api_key=" + apiKey + "&autocorrect="+ autocorrect +"&artist=" + encodeUtf8(artist) + "&track=" + encodeUtf8(track);
+
    console.log('validating %s - %s', artist, track);
 
    var req = new XMLHttpRequest();
@@ -364,7 +375,8 @@ function validate(artist, track) {
  * Tell server which song is playing right now (won't be scrobbled yet!)
  */
 function nowPlaying() {
-   console.log('nowPlaying called for %s - %s', song.artist, song.track);
+   console.log('nowPlaying called for %s - %s (%s)', song.artist, song.track, song.album);
+   console.log(song);
    if (disabled) {
       console.log('scrobbling disabled; exitting nowPlaying');
       return;
@@ -383,6 +395,13 @@ function nowPlaying() {
       sk: sessionID
    };
 
+   if(typeof(song.album) != 'undefined' && song.album != null) {
+      params["album"] = song.album;
+   }
+   if(typeof(song.duration) != 'undefined' && song.duration != null) {
+      params["duration"] = song.duration;
+   }
+
    var api_sig = apiCallSignature(params);
    var url = apiURL + createQueryString(params) + '&api_sig=' + api_sig;
 
@@ -393,6 +412,7 @@ function nowPlaying() {
    http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
    http_request.send(params);
 
+   console.log('nowPlaying request: %s', url);
    console.log('nowPlaying response: %s', http_request.responseText);
 
    var xmlDoc = $.parseXML(http_request.responseText);
@@ -402,16 +422,16 @@ function nowPlaying() {
          console.log('now playing %s - %s', song.artist, song.track);
 
          // Confirm the content_script, that the song is "now playing"
-         chrome.tabs.sendRequest(nowPlayingTab, {type: "nowPlayingOK"});
-         
+         chrome.tabs.sendMessage(nowPlayingTab, {type: "nowPlayingOK"});
+
          // Show notification
          if (localStorage.useNotificationsNowPlaying == 1)
             scrobblerNotification(notifText);
-      
+
          // Update page action icon
          setActionIcon(ACTION_NOWPLAYING);
    } else {
-      alert('Last.fm responded with unknown code on nowPlaying request');
+      errorNotification('Please see http://status.last.fm\nand check if everything is OK');
    }
 }
 
@@ -426,7 +446,7 @@ function submit() {
    // bad function call
    if (song == null || !song || song.artist == '' || song.track == '' || typeof(song.artist) == "undefined" || typeof(song.track) == "undefined" ) {
       reset();
-      chrome.tabs.sendRequest(nowPlayingTab, {type: "submitFAIL", reason: "No song"});
+      chrome.tabs.sendMessage(nowPlayingTab, {type: "submitFAIL", reason: "No song"});
       return;
    }
 
@@ -435,16 +455,22 @@ function submit() {
    if (sessionID === false)
       return;
 
-   console.log('submit called for %s - %s', song.artist, song.track);
+   console.log('submit called for %s - %s (%s)', song.artist, song.track, song.album);
 
    var params = {
       method: 'track.scrobble',
       'timestamp[0]': song.startTime,
       'track[0]': song.track,
       'artist[0]': song.artist,
+      'source[0]' : song.source,
+      'sourceId[0]' : song.sourceId,
       api_key: apiKey,
       sk: sessionID
    };
+
+   if(typeof(song.album) != 'undefined' && song.album != null) {
+      params["album[0]"] = song.album;
+   }
 
    var api_sig = apiCallSignature(params);
    var url = apiURL + createQueryString(params) + '&api_sig=' + api_sig;
@@ -471,16 +497,16 @@ function submit() {
 
       // Confirm the content script, that the song has been scrobbled
       if (nowPlayingTab)
-        chrome.tabs.sendRequest(nowPlayingTab, {type: "submitOK", song: {artist:song.artist, track: song.track}});
+        chrome.tabs.sendMessage(nowPlayingTab, {type: "submitOK", song: {artist:song.artist, track: song.track}});
 
    }
    else if (http_request.status == 503) {
       console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
-      alert('Unable to scrobble the track. Last.fm server is temporarily unavailable.');
+      errorNotification('Please see http://status.last.fm\nand check if everything is OK');
    }
    else {
       console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
-      alert('An error occured while scrobbling the track. Please try again later.');
+      errorNotification('Please see http://status.last.fm\nand check if everything is OK');
    }
 
    // clear the structures awaiting the next song
@@ -496,7 +522,7 @@ function submit() {
  * newSession() - start a new last.fm session (need to reauthenticate)
  * validate(artist, track) - validate artist-track pair against last.fm and return false or the valid song
  */
-chrome.extension.onRequest.addListener(
+chrome.runtime.onMessage.addListener(
 	function(request, sender, sendResponse) {
          switch(request.type) {
 
@@ -504,8 +530,7 @@ chrome.extension.onRequest.addListener(
             // they have to be already validated! Otherwise they can be corrected from the popup.
             // Also sets up a timout to trigger the scrobbling procedure (when all data are valid)
    		case "nowPlaying":
-                  console.log('nowPlaying requested');
-                  console.log($.dump(request));
+                  console.log('nowPlaying %o', request);
 
                   // do the reset to be sure there is no other timer running
                   reset();
@@ -520,25 +545,40 @@ chrome.extension.onRequest.addListener(
                   }
 
                   // backward compatibility for connectors which dont use currentTime
-                  if (typeof(request.currentTime) == 'undefined')
+                  if (typeof(request.currentTime) == 'undefined' || !request.currentTime)
                      request.currentTime = 0;
 
                   // data missing, save only startTime and show the unknown icon
-                  if (typeof(request.artist) == 'undefined' || typeof(request.track) == 'undefined') {
+                  if (typeof(request.artist) == 'undefined' || !request.artist
+                      || typeof(request.track) == 'undefined' || !request.track)
+                  {
                      // fill only the startTime, so the popup knows how to set up the timer
                      song = {
                         startTime : parseInt(new Date().getTime() / 1000.0) // in seconds
                      };
 
                      // if we know something...
-                     if (typeof(request.artist) != 'undefined')
+                     if (typeof(request.artist) != 'undefined' && request.artist) {
                         song.artist = request.artist;
-                     if (typeof(request.track) != 'undefined')
+                     }
+                     if (typeof(request.track) != 'undefined' && request.track) {
                         song.track = request.track;
-                     if (typeof(request.currentTime) != 'undefined')
+                     }
+                     if (typeof(request.currentTime) != 'undefined' && request.currentTime) {
                         song.currentTime = request.currentTime;
-                     if (typeof(request.duration) != 'undefined')
+                     }
+                     if (typeof(request.duration) != 'undefined' && request.duration) {
                         song.duration = request.duration;
+                     }
+                     if (typeof(request.album) != 'undefined' && request.album) {
+                        song.album = request.album;
+                     }
+                     if (typeof(request.sourceId) != 'undefined' && request.sourceId) {
+                        song.sourceId = request.sourceId;
+                     }
+                     if (typeof(request.source) != 'undefined' && request.source) {
+                        song.source = request.source;
+                     }
 
                      // Update page action icon to 'unknown'
                      setActionIcon(ACTION_UNKNOWN, sender.tab.id);
@@ -553,6 +593,17 @@ chrome.extension.onRequest.addListener(
                         duration : request.duration,
                         startTime : ( parseInt (new Date().getTime() / 1000.0) - request.currentTime) // in seconds
                      }
+
+                     if(typeof(request.album) != 'undefined') {
+                        song.album = request.album;
+                     }
+                     if (typeof(request.sourceId) != 'undefined' && request.sourceId) {
+                        song.sourceId = request.sourceId;
+                     }
+                     if (typeof(request.source) != 'undefined' && request.source) {
+                        song.source = request.source;
+                     }
+
 
                      // make the connection to last.fm service to notify
                      nowPlaying();
@@ -615,7 +666,11 @@ chrome.extension.onRequest.addListener(
             // Checks if the request.artist and request.track are valid and
             // returns false if not or a song structure otherwise (may contain autocorrected values)
       	case "validate":
-                  console.log('validate requested');
+                  // quick deny for bad/incomplete info
+                  if (!request.artist || !request.track) {
+                      sendResponse(false);
+                      break;
+                  }
 
                   var res = validate(request.artist, request.track);
 
@@ -627,5 +682,7 @@ chrome.extension.onRequest.addListener(
             default:
                   console.log('Unknown request: %s', $.dump(request));
          }
+
+         return true;
 	}
 );

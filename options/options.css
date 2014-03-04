@@ -1,0 +1,61 @@
+body {
+	background-color: #e3e3e3;
+	margin:0;
+}
+h1, h2, h3, h4, h5 {
+	color: #D51007;
+	font-family: "Lucida Grande",Arial,Helvetica,Verdana,sans-serif;
+}
+.gray {
+   color: #aaa;
+}
+a {
+   color: #000;
+   text-decoration: none;
+   border-bottom: 1px solid #d51007;
+}
+a:hover {
+   color: #d51007;
+}
+
+h1 i {
+    margin-right: 20px
+}
+
+h4 {
+    margin-top: 30px;
+}
+
+ul {
+    list-style: none;
+}
+
+label {
+    display: inline-block;
+}
+
+input[type=checkbox] {
+    margin-top: 0;
+}
+
+p.indent {
+    padding-left: 30px;
+}
+
+
+#contact li {
+    line-height: 40px;
+}
+
+#contact a {
+    display: inline-block;
+    width: 130px;
+    text-decoration: none;
+    font-size: 1.5em;
+    margin-right: 20px;
+    border-bottom: none;
+}
+
+#contact a i {
+    margin-right: 10px;
+}
