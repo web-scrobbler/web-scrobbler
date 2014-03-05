@@ -122,6 +122,7 @@ function cleanArtistTrack(artist, track) {
    track = track.replace(/\s+(HD|HQ)\s*$/, ''); // HD (HQ)
    track = track.replace(/\s*video\s*clip/i, ''); // video clip
    track = track.replace(/\s+\(?live\)?$/i, ''); // live
+   track = track.replace(/\*\s*\*/, ''); // Leftovers after e.g. *OUT NOW*
    track = track.replace(/\(\s*\)/, ''); // Leftovers after e.g. (official video)
    track = track.replace(/^(|.*\s)"(.*)"(\s.*|)$/, '$2'); // Artist - The new "Track title" featuring someone
    track = track.replace(/^(|.*\s)'(.*)'(\s.*|)$/, '$2'); // 'Track title'
