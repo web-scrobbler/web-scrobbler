@@ -1,3 +1,6 @@
+// Created by j4cknife, using the Google Music connector
+
+
 // State for event handlers
 var state = 'init';
 
@@ -21,7 +24,7 @@ $(function(){
 
    });
 
-   //console.log("Last.fm Scrobbler: starting Google Music connector")
+   //console.log("Last.fm Scrobbler: starting Plex connector")
 
    // first load
    updateNowPlaying();
@@ -110,7 +113,7 @@ function parseDuration(artistTitle) {
  */
 function scrobbleTrack() {
    // stats
-   chrome.runtime.sendMessage({type: 'trackStats', text: 'The Google Music song scrobbled'});
+   chrome.runtime.sendMessage({type: 'trackStats', text: 'The Plex song scrobbled'});
 
    // scrobble
    chrome.runtime.sendMessage({type: 'submit'});
