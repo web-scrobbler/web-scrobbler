@@ -345,8 +345,13 @@ var connectors = [
         label: "Pleer.Com (Prostopleer)",
         matches: ["*://pleer.com/*", "*://prostopleer.com/*"],
         js: ["connectors/pleer.js"]
-    }
+    },
 
+    {
+        label: "Xiami.com",
+        matches: ["http://www.xiami.com/play*"],
+        js: ["connectors/xiami.js"]
+    }
 ];
 
 /**
