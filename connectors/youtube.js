@@ -111,8 +111,8 @@ function cleanArtistTrack(artist, track) {
    track = track.replace(/\s*\.(avi|wmv|mpg|mpeg|flv)$/i, ''); // video extensions
    track = track.replace(/\s*(LYRICS?( VIDEO)?\s*)/i, ''); // (LYRICS?( VIDEO)?)
    track = track.replace(/\s*(Official Track Stream*)/i, ''); // (Official Track Stream) 
-   track = track.replace(/\s*(of+icial\s*)?(music\s*)?video/i, ''); // (official)? (music)? video
-   track = track.replace(/\s*(of+icial\s*)?(music\s*)?audio/i, ''); // (official)? (music)? audio
+   track = track.replace(/\s*((un)?of+icial\s*)?(music\s*)?video/i, ''); // ((un)?official)? (music)? video
+   track = track.replace(/\s*((un)?of+icial\s*)?(music\s*)?audio/i, ''); // ((un)?official)? (music)? audio
    track = track.replace(/\s*(ALBUM TRACK\s*)?(album track\s*)/i, ''); // (ALBUM TRACK)
    track = track.replace(/\s*(COVER ART\s*)?(Cover Art\s*)/i, ''); // (Cover Art)
    track = track.replace(/\s*\(\s*of+icial\s*\)/i, ''); // (official)
@@ -123,6 +123,7 @@ function cleanArtistTrack(artist, track) {
    track = track.replace(/\s*video\s*clip/i, ''); // video clip
    track = track.replace(/\s+\(?live\)?$/i, ''); // live
    track = track.replace(/\*\s*\*/, ''); // Leftovers after e.g. *OUT NOW*
+   track = track.replace(/\[\s*\]/, ''); // Leftovers after e.g. [official video]
    track = track.replace(/\(\s*\)/, ''); // Leftovers after e.g. (official video)
    track = track.replace(/^(|.*\s)"(.*)"(\s.*|)$/, '$2'); // Artist - The new "Track title" featuring someone
    track = track.replace(/^(|.*\s)'(.*)'(\s.*|)$/, '$2'); // 'Track title'
