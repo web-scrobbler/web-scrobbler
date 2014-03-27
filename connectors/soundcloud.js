@@ -111,12 +111,12 @@ function cleanArtistTrack(artist, track) {
         var current_title = '';
         $('title').live('DOMSubtreeModified', function() {
             var title = $(this).text();
-            if (title[0] !== '▶' || current_title === title)
+            if (title.indexOf(' by ') < 0 || current_title === title)
                 return;
             current_title = title;
             setTimeout(function () {
-                var s = song(title.substr(2));
-
+                var s = song(title);
+                chrome.runtime.sendMessage({type: 'reset'});
                 chrome.runtime.sendMessage({type: 'validate',
                                             artist: s.artist,
                                              track: s.track},
@@ -143,3 +143,20 @@ function cleanArtistTrack(artist, track) {
         return true;
     });
 })();
+
+
+
+/**
+ * Listen for requests from scrobbler.js
+ */
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        switch(request.type) {
+
+            // background calls this to see if the script is already injected
+            case 'ping':
+                sendResponse(true);
+                break;
+        }
+    }
+);
