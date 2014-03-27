@@ -7,10 +7,10 @@
 var currentTrack = '';
 
 // Glabal constant for the song information
-var CONTAINER_SELECTOR = '.GEKKVSQBL-';
-var TRACK_SELECTOR = '.GEKKVSQBN-';
-var ARTIST_SELECTOR = '.GEKKVSQBAY';
-var ALBUM_SELECTOR = '.GEKKVSQBF-';
+var CONTAINER_SELECTOR = '.GEKKVSQBO-';
+var TRACK_SELECTOR = '.GEKKVSQBP-';
+var ARTIST_SELECTOR = '.GEKKVSQBCY';
+var ALBUM_SELECTOR = '.GEKKVSQBH-';
 var DURATION_SELECTOR = '#PlayerDuration';
 var POSITION_SELECTOR = '#PlayerPosition';
 
