@@ -462,14 +462,20 @@ function submit() {
       'timestamp[0]': song.startTime,
       'track[0]': song.track,
       'artist[0]': song.artist,
-      'source[0]' : song.source,
-      'sourceId[0]' : song.sourceId,
       api_key: apiKey,
       sk: sessionID
    };
 
    if(typeof(song.album) != 'undefined' && song.album != null) {
       params["album[0]"] = song.album;
+   }
+
+   if(typeof(song.source) != 'undefined' && song.source != null) {
+      params["source[0]"] = song.source;
+   }
+
+   if(typeof(song.sourceId) != 'undefined' && song.sourceId != null) {
+      params["sourceId[0]"] = song.sourceId;
    }
 
    var api_sig = apiCallSignature(params);
