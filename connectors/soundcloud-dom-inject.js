@@ -8,18 +8,22 @@
  */
 
 (function() {
-  require(['event-bus'], function(bus) {
-    bus.on('audio:play', function(e) {
-      window.postMessage({
-        type: 'SC_PLAY',
-        metadata: e.sound.attributes
-      }, '*');
+  if ('event_bus' in window) {}
+  else {
+    require(['event-bus'], function(bus) {
+      window.event_bus = bus;
+      bus.off('audio:play').on('audio:play', function(e) {
+        window.postMessage({
+          type: 'SC_PLAY',
+          metadata: e.sound.attributes
+        }, '*');
+      });
+      bus.off('audio:pause').on('audio:pause', function(e) {
+        window.postMessage({
+          type: 'SC_PAUSE',
+          metadata: e.sound.attributes
+        }, '*');
+      });
     });
-    bus.on('audio:pause', function(e) {
-      window.postMessage({
-        type: 'SC_PAUSE',
-        metadata: e.sound.attributes
-      }, '*');
-    });
-  });
+  }
 }());
