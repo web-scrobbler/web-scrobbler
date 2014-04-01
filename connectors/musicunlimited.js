@@ -10,19 +10,7 @@ var currentTrack = '';
 var DURATION_SELECTOR = '#PlayerDuration';
 var POSITION_SELECTOR = '#PlayerPosition';
 
-// This is the most reliable way I've found for selecting the right thing
-var CONTAINER_SELECTOR = '#ceneredSite div[style="position: absolute;"] div[style="position: relative; overflow: hidden;"]';
-
 $(function(){
-	//Whenever a new song starts playing, the container that holds media information should changes, thus triggering updateNowPlaying()
-	$(CONTAINER_SELECTOR).live('DOMSubtreeModified', function(e) {
-		if (!newTrack()) {
-			return;
-		}
-		updateNowPlaying();
-		return;
-	});
-
 	//This is the only way that I could think of to allow scrobbling the first song being played after the application launches, by monitoring the player duration
 	//If anyone comes up with a better way around it, please feel free to improve it
 	$(DURATION_SELECTOR).live('DOMSubtreeModified', function(e) {
@@ -44,7 +32,6 @@ $(function(){
 //Called every time we load a new song
 function updateNowPlaying(){
     var parsedInfo = parseInfo();
-    console.log(parsedInfo);
     artist   = parsedInfo['artist'];
     track    = parsedInfo['track'];
     album    = parsedInfo['album'];
