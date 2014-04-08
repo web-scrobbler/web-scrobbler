@@ -10,8 +10,8 @@ var defaultDuration = 120;
  * Simply gather the info, validate and submit
  */
 function updateNowPlaying() {
-	var artist = $('#player .player-state-display-info .szi-artist').text();
-	var track = $('#player .player-state-display-info .szi-title').text();
+	var artist = $('#player .miniplayer-info-artist-name a').attr('title'); 
+	var track = $('#player .miniplayer-info-track-title a').attr('title');
 
     chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
         if (response) {
@@ -27,21 +27,36 @@ function updateNowPlaying() {
 /**
  * Called when some player mutation is detected
  */
+
+// (timeout)
+var trackTitleTimeout;
+
 function onPlayerChanged() {
-    var trackTitle = $('#player .player-state .player-state-display-song').text().trim();
-    var isPaused = $('#player .sz-player').hasClass('sz-player-play-state-pause');
-
-    // reset on pausing
-    if (isPaused) {
-        chrome.runtime.sendMessage({type: 'reset'});
-        lastTrackTitle = '';
-        return;
+    var trackTitle;
+    var isPaused;
+    
+    // grab track title/play status as soon as it's present
+    if ($('#player .miniplayer-info-track-title a').attr('title')) {
+        trackTitle = $('#player .miniplayer-info-track-title a').attr('title');
+        isPaused = $('#player .player-wrapper').hasClass('player-state-pause');
+    } else {
+        trackTitleTimeout = window.setTimeout(onPlayerChanged, 10000);
     }
+        
+    // continue after we have the track title
+    if (trackTitle) {
+        // reset on pausing
+        if (isPaused) {
+            chrome.runtime.sendMessage({type: 'reset'});
+            lastTrackTitle = '';
+            return;
+        }
 
-    // detect the first mutation of track title
-    if (trackTitle.length > 0 && trackTitle != lastTrackTitle) {
-        lastTrackTitle = trackTitle;
-        updateNowPlaying();
+        // detect the first mutation of track title
+        if (trackTitle.length > 0 && trackTitle != lastTrackTitle) {
+            lastTrackTitle = trackTitle;
+            updateNowPlaying();
+        }
     }
 }
 
@@ -53,8 +68,8 @@ var observer = new MutationObserver(function(mutations) {
     mutations.forEach(onPlayerChanged);
 });
 
-var observeTarget = document.querySelector('#player .sz-player');
-var config = { childList: true };
+var observeTarget = document.querySelector('#player');
+var config = { childList: true, subtree: true };
 observer.observe(observeTarget, config);
 
 
