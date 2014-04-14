@@ -111,7 +111,7 @@ function cleanArtistTrack(artist, track) {
         var source = '';
         var sourceId = '';
 	if (document) {
-            var el = document.querySelector('.soundBadge.active > a');
+            var el = document.querySelector('.soundBadge.active > a, .sound.streamContext.playing > a');
             if (el) {
                 source = 'SoundCloud';
                 sourceId = el.href;
