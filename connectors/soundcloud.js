@@ -106,6 +106,22 @@ function cleanArtistTrack(artist, track) {
         // if unknown duration, assume 2 minutes
         return 120;
     };
+    
+    var getSource = function() {
+        var source = '';
+        var sourceId = '';
+	if (document) {
+            var el = document.querySelector('.soundBadge.active > a');
+            if (el) {
+                source = 'SoundCloud';
+                sourceId = el.href;
+            }
+        }
+        return {
+            source: source,
+            sourceId: sourceId
+        };
+    };
 
     $(document).ready(function() {
         var current_title = '';
@@ -116,6 +132,7 @@ function cleanArtistTrack(artist, track) {
             current_title = title;
             setTimeout(function () {
                 var s = song(title);
+                var sourceInfo = getSource();
                 chrome.runtime.sendMessage({type: 'reset'});
                 chrome.runtime.sendMessage({type: 'validate',
                                             artist: s.artist,
@@ -126,12 +143,16 @@ function cleanArtistTrack(artist, track) {
                         chrome.runtime.sendMessage({type: 'nowPlaying',
                                                     artist: response.artist,
                                                      track: response.track,
-                                                  duration: s.duration});
+                                                  duration: s.duration,
+                                                    source: sourceInfo.source,
+                                                  sourceId: sourceInfo.sourceId});
                     }
 
                     else {
                         chrome.runtime.sendMessage({type: 'nowPlaying',
-                                                  duration: s.duration});
+                                                  duration: s.duration,
+                                                    source: sourceInfo.source,
+                                                  sourceId: sourceInfo.sourceId});
                     }
                 });
             }, 500);
