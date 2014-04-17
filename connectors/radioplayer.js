@@ -27,12 +27,21 @@ var config = {childList: true, subtree: true, attributes: true};
 // BBC RadioPlayer stations show their Now Playing in the body
 // Others show it in the scrolling text in the head
 
+var BBC_CONTAINER = '#programme-info';
+var BBC_NP_ELEMENT = '#realtime:visible';
+var BBC_ARTIST_ELEMENT = '#artists';
+var BBC_TRACK_ELEMENT = '#track';
+var BBC_TRACK_CHILD_ELEMENT = ':not(.more-indicator)';
+
+var OTHER_CONTAINER = '#live-strip';
+var OTHER_TRACK_ELEMENT = '#live-strip .scrolling-text';
+
 // Identify BBC pages by their usual HTML structure
 
-if ($('#programme-info').length > 0) {
+if ($(BBC_CONTAINER).length > 0) {
     // BBC station
 
-    var bbcTarget = document.querySelector('#programme-info');
+    var bbcTarget = document.querySelector(BBC_CONTAINER);
     var bbcObserver = new MutationObserver(function(mutations) {
         mutations.forEach(updateBbc);
     });
@@ -41,7 +50,7 @@ if ($('#programme-info').length > 0) {
 } else {
     // Other station
 
-    var otherTarget = document.querySelector('#live-strip');
+    var otherTarget = document.querySelector(OTHER_CONTAINER);
     var otherObserver = new MutationObserver(function(mutations) {
         mutations.forEach(updateOther);
     });
@@ -55,10 +64,35 @@ $(window).unload(function() {
     return true;
 });
 
+/**
+ * Listen for requests from scrobbler.js
+ */
+chrome.runtime.onMessage.addListener(
+    function(request, sender, sendResponse) {
+        switch(request.type) {
+
+            // background calls this to see if the script is already injected
+            case 'ping':
+                sendResponse(true);
+                break;
+        }
+    }
+);
+
 function updateBbc() {
-    if ($('#programme-info #realtime:visible').length > 0) {
-        artist = $.trim($('#programme-info #realtime:visible #artists').text());
-        track = $.trim($('#programme-info #realtime:visible #track').text());
+    if ($(BBC_NP_ELEMENT).length > 0) {
+        artist = $.trim($(BBC_ARTIST_ELEMENT).text());
+        track = '';
+
+        if ($(BBC_TRACK_ELEMENT).children().length > 0) {
+            $(BBC_TRACK_ELEMENT).children().each(function() {
+                if ($(this).is(BBC_TRACK_CHILD_ELEMENT)) {
+                    track += $(this).text();
+                }
+            });
+        } else {
+            track = $(BBC_TRACK_ELEMENT).text();
+        }
 
         scrobbleTrack(artist, track, DEFAULT_TIMEOUT);
     }
@@ -68,7 +102,7 @@ function updateOther() {
     var artist = '';
     var track = '';
 
-    var text = $('#live-strip .scrolling-text').text();
+    var text = $(OTHER_TRACK_ELEMENT).text();
 
     text = text.replace(/\(\d+:\d+\)(.)*?/g , "");
 
@@ -94,15 +128,16 @@ function updateOther() {
 }
 
 function scrobbleTrack(artist, track, duration) {
-    if (artist == '' || track == '' || (lastArtist == artist && lastTrack == track) {
+    if (artist === '' || track === '' || (lastArtist === artist && lastTrack === track)) {
         return;
     }
 
     lastArtist = artist;
     lastTrack = track;
 
+    console.log("Scrobbled - Artist: " + artist + ", Track: " + track);
     chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
-        if (response != false) {
+        if (response !== false) {
             chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: track, duration: duration});
         }
     });
