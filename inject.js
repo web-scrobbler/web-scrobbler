@@ -348,7 +348,7 @@ var connectors = [
     },
 
     {
-        label: "MixCloud",
+        label: "MixCloud (Timestamped mixes only)",
         matches: ["*://mixcloud.com/*", "*://*.mixcloud.com/*"],
         js: ["connectors/mixcloud.js"]
     }
