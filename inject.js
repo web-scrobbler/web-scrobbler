@@ -345,6 +345,12 @@ var connectors = [
         label: "Pleer.Com (Prostopleer)",
         matches: ["*://pleer.com/*", "*://prostopleer.com/*"],
         js: ["connectors/pleer.js"]
+    },
+
+    {
+        label: "MixCloud (Timestamped mixes only)",
+        matches: ["*://mixcloud.com/*", "*://*.mixcloud.com/*"],
+        js: ["connectors/mixcloud.js"]
     }
 
 ];
