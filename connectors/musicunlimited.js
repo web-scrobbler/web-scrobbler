@@ -7,23 +7,10 @@
 var currentTrack = '';
 
 // Glabal constant for the song information
-var CONTAINER_SELECTOR = '.GEKKVSQBO-';
-var TRACK_SELECTOR = '.GEKKVSQBP-';
-var ARTIST_SELECTOR = '.GEKKVSQBCY';
-var ALBUM_SELECTOR = '.GEKKVSQBH-';
 var DURATION_SELECTOR = '#PlayerDuration';
 var POSITION_SELECTOR = '#PlayerPosition';
 
 $(function(){
-	//Whenever a new song starts playing, the container that holds media information should changes, thus triggering updateNowPlaying()
-	$(CONTAINER_SELECTOR).live('DOMSubtreeModified', function(e) {
-		if (!newTrack()) {
-			return;
-		}
-		updateNowPlaying();
-		return;
-	});
-
 	//This is the only way that I could think of to allow scrobbling the first song being played after the application launches, by monitoring the player duration
 	//If anyone comes up with a better way around it, please feel free to improve it
 	$(DURATION_SELECTOR).live('DOMSubtreeModified', function(e) {
@@ -37,7 +24,7 @@ $(function(){
 	//Setup unload handler
 	$(window).unload(function() {
 		chrome.runtime.sendMessage({type: 'reset'});
-		return true;      
+		return true;
 	});
 });
 
@@ -68,9 +55,9 @@ function parseInfo() {
     var artist, track, album, duration;
 
     // Get artist and song names
-    var rawArtistValue = $(ARTIST_SELECTOR).children().first().attr("title");
-    var rawTrackValue = $(TRACK_SELECTOR).children().first().attr("title");
-    var rawAlbumValue = $(ALBUM_SELECTOR).children().first().attr("title");
+    var rawArtistValue = getRawArtistValue();
+    var rawTrackValue = getRawTrackValue();
+    var rawAlbumValue = getRawAlbumValue();
     var rawDurationValue = $(DURATION_SELECTOR).text();
 
     try {
@@ -107,7 +94,7 @@ function parseDuration(artistTitle) {
 
 //Detects if a new song is indeed being played
 function newTrack() {
-    var rawTrackValue = $(TRACK_SELECTOR).children().first().attr("title");
+    var rawTrackValue = getRawTrackValue();
     var rawDurationValue = $(DURATION_SELECTOR).text();
 	if (currentTrack == rawTrackValue || '' == rawDurationValue || '0:00' == rawDurationValue) {
 		return false;
@@ -120,4 +107,25 @@ function newTrack() {
 	}
 	currentTrack = rawTrackValue;
 	return true;
+}
+
+function nowPlayingContainerElement() {
+	// Start at the duration, which is one of the few elements around here to have an ID that Music Unlimited doesn't keep changing... I hope
+	return document.querySelector(DURATION_SELECTOR).parentNode.parentNode
+}
+
+function trackTitlesContainer() {
+	return nowPlayingContainerElement().children[0].children[0].children[0];
+}
+
+function getRawTrackValue() {
+	return trackTitlesContainer().children[0].children[0].getAttribute("title");
+}
+
+function getRawArtistValue() {
+	return trackTitlesContainer().children[2].children[0].getAttribute("title");
+}
+
+function getRawAlbumValue() {
+	return trackTitlesContainer().children[1].children[0].getAttribute("title");
 }

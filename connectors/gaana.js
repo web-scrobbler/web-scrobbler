@@ -13,12 +13,13 @@ var previousTrack = '';
 
 // Get track name
 function getTrack() {
-    return $(SONG_DETAILS_DOM).text().split(' - ')[0];
+    var trackName = $(SONG_DETAILS_DOM).html();
+    return trackName.substring(0, trackName.indexOf('<span>')).split(' - ')[0];
 }
 
 // Get artist name
 function getArtist() {
-    return $(SONG_DETAILS_DOM).text().split(' - ')[2].split(' , ').sort()[0];
+    return $(SONG_DETAILS_DOM).children()[1].textContent.split(' - ')[1].split(' , ')[0];
 }
 
 // Get track length
