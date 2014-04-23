@@ -71,7 +71,7 @@ function cleanArtistTrack(artist, track) {
     var current = {};
 
     var song = function(ptitle) {
-        var title = ptitle.split(' by ');
+        var title = ptitle.split(/ (by|in) /);
         var parsedInfo = parseInfo(title[0]);
 
         if (parsedInfo.artist === '') {
@@ -111,7 +111,9 @@ function cleanArtistTrack(artist, track) {
         var current_title = '';
         $('title').live('DOMSubtreeModified', function() {
             var title = $(this).text();
-            if (title.indexOf(' by ') < 0 || current_title === title)
+            var isSongOrPlaylist = title.indexOf(' by ') >= 0 || title.indexOf(' in ') >= 0;
+
+            if (!isSongOrPlaylist || current_title === title)
                 return;
             current_title = title;
             setTimeout(function () {
