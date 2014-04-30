@@ -366,6 +366,12 @@ var connectors = [
     },
 
     {
+        label: "ReverbNation",
+        matches: ["*://www.reverbnation.com/*"],
+        js: ["connectors/reverbnation.js"]
+    },
+
+    {
         label: "Xiami.com",
         matches: ["http://www.xiami.com/play*"],
         js: ["connectors/xiami.js"]
