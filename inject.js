@@ -369,7 +369,13 @@ var connectors = [
         label: "Xiami.com",
         matches: ["http://www.xiami.com/play*"],
         js: ["connectors/xiami.js"]
-    }
+    },
+
+	{
+		label: "NRK Radio",
+		matches: ["*://radio.nrk.no/*"],
+		js: ["connectors/nrkradio.js"]
+	}
 ];
 
 /**
