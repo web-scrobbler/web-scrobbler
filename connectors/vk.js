@@ -1,38 +1,55 @@
-var lastTrack = null;
-var $r = chrome.runtime.sendMessage;
+var lastTrack = '';
+var lastTrackDuration = Number.MAX_VALUE;
+var startTime = 0;
+var updateChecker;
 
-function scrobble(e) {
-    var artist = $("#gp_performer").text();
-    var title = $("#gp_title").text();
+function scrobble () {
+    if (!$('#gp_play').hasClass('playing')) return;
+	
+    var artist = $('#gp_performer').text();
+    var title = $('#gp_title').text();
+    
+    var checkByTime = (new Date().getTime() - startTime) > lastTrackDuration; // for repeated listening
+    
+    // console.log(lastTrackDuration + ' ' + startTime + ' ' + checkByTime);
 
-    if (lastTrack != artist + " " + title) {
-        lastTrack = artist + " " + title;
+    if ((lastTrack != artist + ' ' + title) || checkByTime) {
+        lastTrack = artist + ' ' + title;
+        startTime = new Date().getTime();
 
-        $r({type: 'validate', artist: artist, track: title}, function(response) {
-            if (response != false) {
-                $r({
+        chrome.runtime.sendMessage({type: 'validate', artist: artist, track: title}, function (response) {
+            if (response !== false) {
+            	lastTrackDuration = response.duration;
+            	chrome.runtime.sendMessage({
                     type: 'nowPlaying',
                     artist: response.artist,
                     track: response.track,
                     duration: Math.floor(response.duration / 1000)
                 });
             } else {
-                $r({type: 'nowPlaying'});
+            	lastTrackDuration = Number.MAX_VALUE; // avoid checkByTime to be true 
+        	chrome.runtime.sendMessage({type: 'nowPlaying'});
             }
         });
     }
 }
 
-$(function() {
-    $(window).unload(function() {
-		// reset the background scrobbler song data
-		chrome.runtime.sendMessage({type: 'reset'});
-		return true;
+$(function () {
+    $(window).unload(function () {
+	// reset the background scrobbler song data
+	chrome.runtime.sendMessage({type: 'reset'});
+	clearInterval(updateChecker);
+	return true;
     });
 
-    $(document).bind("DOMNodeInserted", function(e) {
-        if (e.target.id === "gp_performer") {
-			$("#gp_info>div").bind('DOMSubtreeModified', function(e) { setTimeout(scrobble, 500) });
+    $(document).bind("DOMNodeInserted.scrobbler", function (e) {
+        if (e.target.id === "gp") { // player found
+		$(document).unbind("DOMNodeInserted.scrobbler"); // only once
+			// console.log("player found");
+			setTimeout(function () {
+				updateChecker = setInterval(scrobble, 1000);
+				// start processing player updates
+			}, 1000);
 		}
     });
 });
@@ -42,7 +59,7 @@ $(function() {
  * Listen for requests from scrobbler.js
  */
 chrome.runtime.onMessage.addListener(
-    function(request, sender, sendResponse) {
+    function (request, sender, sendResponse) {
         switch(request.type) {
 
             // background calls this to see if the script is already injected
