@@ -353,10 +353,16 @@ var connectors = [
         js: ["connectors/pleer.js"]
     },
 
-    {
-        label: "TuneIn",
-        matches: ["*://tunein.com/*"],
-        js: ["connectors/tunein.js"]
+	{
+		label: "TuneIn",
+		matches: ["*://tunein.com/*"],
+		js: ["connectors/tunein.js"]
+	},
+
+	{
+        label: "MixCloud (Timestamped mixes only)",
+        matches: ["*://mixcloud.com/*", "*://*.mixcloud.com/*"],
+        js: ["connectors/mixcloud.js"]
     }
 
 ];
