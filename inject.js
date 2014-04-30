@@ -363,8 +363,13 @@ var connectors = [
         label: "MixCloud (Timestamped mixes only)",
         matches: ["*://mixcloud.com/*", "*://*.mixcloud.com/*"],
         js: ["connectors/mixcloud.js"]
-    }
+    },
 
+    {
+        label: "Xiami.com",
+        matches: ["http://www.xiami.com/play*"],
+        js: ["connectors/xiami.js"]
+    }
 ];
 
 /**
