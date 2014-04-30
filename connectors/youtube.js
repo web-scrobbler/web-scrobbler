@@ -7,25 +7,34 @@ var lastUrl = '';
 // which changes (amongst others) on ajax navigation
 var target = null;
 var feather = false;
+
+function handleMutation (mutation) {
+	// detect first mutation that happens after url has changed
+	if (lastUrl != location.href) {
+		lastUrl = location.href;
+		updateNowPlaying();
+	}
+}
+
 var observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
-        // detect first mutation that happens after url has changed
-        if (lastUrl != location.href) {
-            lastUrl = location.href;
-            updateNowPlaying();
-        }
-    });
+    mutations.forEach(handleMutation);
 });
 
 
-var config = { attributes: true };
+var config = {
+	attributes: true,
+	attributeFilter: ['data-youtube-id', 'src']
+};
 
-target = document.querySelector('#player-api');
+target = document.querySelector('#player-api video');
 if (!target) {
     feather = true;
     updateNowPlaying();
 }
 else {
+	// trigger manually to detect change from '' -> 'something' on first regular page load
+	handleMutation(null);
+
     observer.observe(target, config);
 }
 // bind page unload function to discard current "now listening"
