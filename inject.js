@@ -477,9 +477,19 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 
                     // inject all scripts and jQuery, use slice to avoid mutating
                     var scripts = connector.js.slice(0);
-                    scripts.unshift(JQUERY_PATH);
 
-                    scripts.forEach(function (jsFile) {
+	                // for v2 connectors prepend BaseConnector, newer jQuery (!) and append starter
+	                if (typeof(connector.version) != 'undefined' && connector.version === 2) {
+		                scripts.unshift('v2/connector.js');
+		                scripts.unshift(JQUERY_PATH);
+		                scripts.push('v2/starter.js');
+	                }
+	                // for older connectors prepend older jQuery as a first loaded script
+	                else {
+		                scripts.unshift(JQUERY_1_6_PATH);
+	                }
+
+	                scripts.forEach(function (jsFile) {
                         var injectDetails = {
                             file: jsFile,
                             allFrames: connector.allFrames ? connector.allFrames : false
