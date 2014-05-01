@@ -46,7 +46,7 @@ function parseAlbum() {
 		return $('h2.trackTitle').text().trim();
 	}
 	else { // isTrack
-		return $('[itemprop="inAlbum"] [itemprop="name"]').text()
+		return $('[itemprop="inAlbum"] [itemprop="name"]').text();
 	}
 }
 
