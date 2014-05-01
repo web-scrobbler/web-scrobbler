@@ -41,6 +41,14 @@ function parseArtist()
 	return artist;
 }
 
+function parseAlbum() {
+	if (isAlbum()) {
+		return $('h2.trackTitle').text().trim();
+	}
+	else { // isTrack
+		return $('[itemprop="inAlbum"] [itemprop="name"]').text()
+	}
+}
 
 function parseTitle()
 {
@@ -78,6 +86,7 @@ $(durationPart).bind('DOMSubtreeModified',function(e){
 
 		var artist = parseArtist();
 		var track = parseTitle();
+		var album = parseAlbum();
 		
 		var dashIndex = track.indexOf('-');
 		if (artist == 'Various Artists' && dashIndex >= 0)
@@ -93,10 +102,10 @@ $(durationPart).bind('DOMSubtreeModified',function(e){
 		{
 			lastTrack = track;
 			
-			//console.log("BandCampScrobbler: scrobbling '" + track + "' by " + artist);
+			//console.log("BandCampScrobbler: scrobbling - Artist: " + artist + "; Album:  " + album + "; Track: " + track + "; duration: " + duration.total);
 			chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
 				if (response != false){
-					chrome.runtime.sendMessage({type: 'nowPlaying', artist: response.artist, track: response.track, duration: duration.total});
+					chrome.runtime.sendMessage({type: 'nowPlaying', artist: response.artist, track: response.track, duration: duration.total, album: album});
 				}
 				else
 				{
