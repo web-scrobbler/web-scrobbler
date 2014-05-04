@@ -1,11 +1,7 @@
 /**
- * Connector for RadioPlayer enabled streams (http://www.radioplayer.co.uk/)
- * Made by Jiminald
- * Based loosely on the Google Music connector by Sharjeel Aziz
- * Reworked by gerjomarty
- *
- * To update the inject list, Open a RadioPlayer, view the A-Z list, and run the following command below
- * function onlyUnique(value, index, self) { return self.indexOf(value) === index; } var list = new Array(); $('.overlay-item-link').each(function(i, v){ var url = $(v).attr('href'); url = url.substring(7); url = url.substring(0, url.indexOf('/')); list.push('*://'+url+'/*'); }); list = list.filter(onlyUnique); console.log(JSON.stringify(list));
+ * Connector for BBC RadioPlayer
+ * Adapted from the RadioPlayer script by Jiminald
+ * By gerjomarty
  */
 
 // Used to remember last song title and not scrobble if it is the same
@@ -18,9 +14,17 @@ var DEFAULT_TIMEOUT = 90;
 // Config for mutation observers
 var config = {childList: true, subtree: true, attributes: true};
 
-// Artist and title are shown in scrolling text in the header
-var CONTAINER = '#live-strip';
-var TRACK_ELEMENT = '#live-strip .scrolling-text';
+// BBC RadioPlayer stations show a Now Playing box inside the container
+// The box becomes invisible when the track stops, so we need to check for visibility
+
+var CONTAINER = '#programme-info';
+var NP_ELEMENT = '#realtime:visible';
+var ARTIST_ELEMENT = '#artists';
+
+// Track names are usually just text, but if they are too long, the div contains child
+// elements that include an ellipsis, which we want to remove.
+var TRACK_ELEMENT = '#track';
+var TRACK_CHILD_ELEMENT = ':not(.more-indicator)';
 
 /**
  * Call the specified function when the container contents change.
@@ -57,32 +61,25 @@ chrome.runtime.onMessage.addListener(
 );
 
 function updateTrack() {
-    var artist = '';
-    var track = '';
+    if ($(NP_ELEMENT).length > 0) {
+        artist = $(ARTIST_ELEMENT).text();
+        track = '';
 
-    var text = $(TRACK_ELEMENT).text();
+        if ($(TRACK_ELEMENT).children().length > 0) {
+            $(TRACK_ELEMENT).children().each(function() {
+                if ($(this).is(TRACK_CHILD_ELEMENT)) {
+                    track += $(this).text();
+                }
+            });
+        } else {
+            track = $(TRACK_ELEMENT).text();
+        }
 
-    text = text.replace(/\(\d+:\d+\)(.)*?/g , "");
-
-    // Figure out where to split; use " - " rather than "-"
-    if (text.indexOf(' - ') > -1) {
-        artist = text.substring(text.indexOf(' - ') + 3);
-        track = text.substring(0, text.indexOf(' - '));
-    } else if (text.indexOf('-') > -1) {
-        artist = text.substring(text.indexOf('-') + 1);
-        track = text.substring(0, text.indexOf('-'));
-    } else if (text.indexOf(':') > -1) {
-        artist = text.substring(text.indexOf(':') + 1);
-        track = text.substring(0, text.indexOf(':'));
+        scrobbleTrack($.trim(artist), $.trim(track), DEFAULT_TIMEOUT);
     } else {
-        // can't parse
-        return;
+        // Reset currently listening when the Now Playing box becomes invisible.
+        chrome.runtime.sendMessage({type: 'reset'});
     }
-
-    artist = artist.replace(/^\s+|\s+$/g,'');
-    track = track.replace(/^\s+|\s+$/g,'');
-
-    scrobbleTrack(artist, track, DEFAULT_TIMEOUT);
 }
 
 function scrobbleTrack(artist, track, duration) {
