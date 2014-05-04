@@ -25,7 +25,7 @@ var pause;
 $(function(){
 	$(CONTAINER_SELECTOR).live('DOMSubtreeModified', function(e) {
 
-		if ($(CONTAINER_SELECTOR)[0].href.length > 0 && $(".songname")[0].href.length > 1 && $(".songname")[0].href !== last_url) {
+		if ($(CONTAINER_SELECTOR)[0].href.length > 0 && $(".songname")[0].href.length > 1 && $(".songname")[0].href !== last_url && $(".album-name a").text() != "--") {
 
 				updateNowPlaying();
 				//console.log("Last.fm Scrobbler: starting Baidu Music connector");
