@@ -383,10 +383,16 @@ var connectors = [
         js: ["connectors/xiami.js"]
     },
 
+    {
+        label: "NRK Radio",
+        matches: ["*://radio.nrk.no/*"],
+        js: ["connectors/nrkradio.js"]
+    },
+
 	{
-		label: "NRK Radio",
-		matches: ["*://radio.nrk.no/*"],
-		js: ["connectors/nrkradio.js"]
+		label: "Archive.org",
+		matches: ["*://archive.org/details/*"],
+		js: ["connectors/archive.js"]
 	}
 ];
 
