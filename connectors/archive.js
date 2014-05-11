@@ -3,6 +3,8 @@
  *                (based on George Pollard's bandcamp connctor)
  * v0.1
  */
+"use strict";
+
 var lastTrack = null;
 
 $(function () {
@@ -35,7 +37,7 @@ function parseTitle() {
     var title = $(".playing > .ttl").text();
 
     // Some titles are stored as artist - track # - title
-    var parts = title.split('-');
+    var parts = title.split("-");
     if (parts.length > 0 && parts[0].trim() === parseArtist()) {
         // TODO: tighten up this
         title = parts[2].trim();
@@ -48,9 +50,9 @@ function parseAlbum() {
     var album = $(".x-archive-meta-title").text();
 
     // Remove artist from album
-    var parts = album.split('-');
+    var parts = album.split("-");
     if (parts.length > 0 && parts[0].trim() === parseArtist()) {
-        album = album.substr(album.indexOf('-') + 1).trim();
+        album = album.substr(album.indexOf("-") + 1).trim();
     }
 
     return album;
@@ -60,7 +62,7 @@ function cancel() {
     $(window).unload(function () {
         // reset the background scrobbler song data
         chrome.runtime.sendMessage({
-            type: 'reset'
+            type: "reset"
         });
         return true;
     });
@@ -68,7 +70,7 @@ function cancel() {
 
 //console.log('Archive.org: loaded');
 
-$(durationElapsed).live('DOMSubtreeModified', function (e) {
+$(durationElapsed).live("DOMSubtreeModified", function () {
 
     var duration = parseDuration($(durationElapsed).text(), $(durationTotal).text());
 
@@ -85,13 +87,13 @@ $(durationElapsed).live('DOMSubtreeModified', function (e) {
 
             //console.log("Archive.org: scrobbling - Artist: " + artist + "; Album:  " + album + "; Track: " + track + "; duration: " + duration.total);
             chrome.runtime.sendMessage({
-                type: 'validate',
+                type: "validate",
                 artist: artist,
                 track: track
             }, function (response) {
                 if (response !== false) {
                     chrome.runtime.sendMessage({
-                        type: 'nowPlaying',
+                        type: "nowPlaying",
                         artist: response.artist,
                         track: response.track,
                         duration: duration.total,
@@ -99,7 +101,7 @@ $(durationElapsed).live('DOMSubtreeModified', function (e) {
                     });
                 } else {
                     chrome.runtime.sendMessage({
-                        type: 'nowPlaying',
+                        type: "nowPlaying",
                         duration: duration.total
                     });
                 }
