@@ -34,12 +34,13 @@ function parseArtist() {
 }
 
 function parseTitle() {
+
+    // Get title directly from player
     var title = $(".playing > .ttl").text();
 
-    // Some titles are stored as artist - track # - title
+    // Some titles are stored as artist - track # - title so strip out non-title elements
     var parts = title.split("-");
-    if (parts.length > 0 && parts[0].trim() === parseArtist()) {
-        // TODO: tighten up this
+    if (parts.length === 3 && parts[0].trim() === parseArtist()) {
         title = parts[2].trim();
     }
 
