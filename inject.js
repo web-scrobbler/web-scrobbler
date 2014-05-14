@@ -1,4 +1,4 @@
-/**
+﻿/**
  * All connectors are defined here, instead of manifest.
  *
  * Matching connector is injected to the page after document_end event.
@@ -61,6 +61,12 @@ var connectors = [
         label: "MySpace",
         matches: ["*://myspace.com/*"],
         js: ["connectors/myspace.js"]
+    },
+
+    {
+        label: "Pitchfork Advance",
+        matches: ["*://pitchfork.com/advance/*", "*://www.pitchfork.com/advance/*"],
+        js: ["connectors/pitchfork-advance.js"]
     },
 
     {
