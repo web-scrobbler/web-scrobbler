@@ -30,7 +30,7 @@ function parseDuration(elapsed, total) {
 }
 
 function parseArtist() {
-    return $("span.key:contains('Artist/Composer:')").next().text();
+    return $("span.key:contains('Artist/Composer:'), span.key:contains('Band/Artist:')").next().text();
 }
 
 function parseTitle() {
