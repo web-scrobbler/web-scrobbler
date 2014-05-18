@@ -7,7 +7,7 @@
         "chrome": false
     },
     "globalstrict": true,
-    "quotmark": true,
+    "quotmark": "single",
     "smarttabs": true,
     "trailing": true,
     "undef": true,
