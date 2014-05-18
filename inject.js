@@ -314,7 +314,7 @@ var connectors = [
     {
         label: "Beats Music",
         matches: ["*://*.beatsmusic.com/*"],
-        js: ["jquery.cookie.js", "connectors/beats.js"]
+        js: ["vendor/jquery.cookie.js", "connectors/beats.js"]
     },
 
     {
