@@ -359,13 +359,13 @@ var connectors = [
         js: ["connectors/pleer.js"]
     },
 
-	{
-		label: "TuneIn",
-		matches: ["*://tunein.com/*"],
-		js: ["connectors/tunein.js"]
-	},
+    {
+        label: "TuneIn",
+        matches: ["*://tunein.com/*"],
+        js: ["connectors/tunein.js"]
+    },
 
-	{
+    {
         label: "MixCloud (Timestamped mixes only)",
         matches: ["*://mixcloud.com/*", "*://*.mixcloud.com/*"],
         js: ["connectors/mixcloud.js"]
@@ -383,11 +383,17 @@ var connectors = [
         js: ["connectors/xiami.js"]
     },
 
-	{
-		label: "NRK Radio",
-		matches: ["*://radio.nrk.no/*"],
-		js: ["connectors/nrkradio.js"]
-	}
+    {
+        label: "NRK Radio",
+        matches: ["*://radio.nrk.no/*"],
+        js: ["connectors/nrkradio.js"]
+    },
+
+    {
+        label: "Archive.org",
+        matches: ["*://archive.org/details/*"],
+        js: ["connectors/archive.js"]
+    }
 ];
 
 /**
@@ -484,18 +490,18 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
                     // inject all scripts and jQuery, use slice to avoid mutating
                     var scripts = connector.js.slice(0);
 
-	                // for v2 connectors prepend BaseConnector, newer jQuery (!) and append starter
-	                if (typeof(connector.version) != 'undefined' && connector.version === 2) {
-		                scripts.unshift('v2/connector.js');
-		                scripts.unshift(JQUERY_PATH);
-		                scripts.push('v2/starter.js');
-	                }
-	                // for older connectors prepend older jQuery as a first loaded script
-	                else {
-		                scripts.unshift(JQUERY_1_6_PATH);
-	                }
+                    // for v2 connectors prepend BaseConnector, newer jQuery (!) and append starter
+                    if (typeof(connector.version) != 'undefined' && connector.version === 2) {
+                        scripts.unshift('v2/connector.js');
+                        scripts.unshift(JQUERY_PATH);
+                        scripts.push('v2/starter.js');
+                    }
+                    // for older connectors prepend older jQuery as a first loaded script
+                    else {
+                        scripts.unshift(JQUERY_1_6_PATH);
+                    }
 
-	                scripts.forEach(function (jsFile) {
+                    scripts.forEach(function (jsFile) {
                         var injectDetails = {
                             file: jsFile,
                             allFrames: connector.allFrames ? connector.allFrames : false
