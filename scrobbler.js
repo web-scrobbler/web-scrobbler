@@ -18,6 +18,9 @@ var nowPlayingTab = null;
 // song structure, filled in nowPlaying phase, (artist, track, album, duration, startTime)
 var song = {};
 
+// remember previous song
+var restrictedSong = null;
+
 // timer to submit the song
 var scrobbleTimeout = null;
 
@@ -442,6 +445,11 @@ function nowPlaying() {
  * Finally scrobble the song, but only if it has been playing long enough.
  * Cleans global variables "song", "playingTab" and "scrobbleTimeout" on success.
  */
+
+function submit_() {
+   console.log('Fake submit')
+}
+
 function submit() {
    // bad function call
    if (song == null || !song || song.artist == '' || song.track == '' || typeof(song.artist) == "undefined" || typeof(song.track) == "undefined" ) {
@@ -518,7 +526,6 @@ function submit() {
    // clear the structures awaiting the next song
    reset();
 }
-
 
 
 /**
@@ -617,9 +624,26 @@ chrome.runtime.onMessage.addListener(
                      // The minimum time is 240 seconds or half the
                      // track's total length. Subtract the song's
                      // current time (for the case of unpausing).
-                     var min_time = (Math.max(1, Math.min(240, song.duration / 2) - song.currentTime));
+                     var half_track = Math.min(240, song.duration / 2);
+                     var min_time = Math.max(1, half_track - song.currentTime);
+
+                     // prevents from scrobbling single track multiple times
+                     // when unpausing frequently after achieving song.currentTime > song.duration/2
+                     // (also needs for submit() not to call reset() in the end)
+                     function protectedSubmit() {
+                        if (restrictedSong == null || !(song.artist == restrictedSong.artist && song.track == restrictedSong.track && song.duration == restrictedSong.duration)) {
+                              restrictedSong = song;
+                              submit();
+                              protectionTimeout = setTimeout(function(){restrictedSong = null}, half_track * 1000);
+                        } else {
+                              console.log('submit failed (protectedSubmit)')
+                        }
+                     }
+
                      // Set up the timer
-                     scrobbleTimeout = setTimeout(submit, min_time * 1000);
+                     scrobbleTimeout = setTimeout(protectedSubmit, min_time * 1000);
+
+                     //console.log('timeout set to ' + min_time + ' seconds, and currentTime is ' + song.currentTime + ' seconds.');
                   }
 
       		sendResponse({});
@@ -633,7 +657,7 @@ chrome.runtime.onMessage.addListener(
 
                   reset();
                   sendResponse({});
-                  break;
+            break;
 
             case "trackStats":
       		_gaq.push(['_trackEvent', request.text]);
