@@ -1,22 +1,44 @@
 var lastTrack = '';
 var lastTrackDuration = Number.MAX_VALUE;
+var lastPlaying = 0;
+
 var startTime = 0;
+var currentTime = 1;
+var lastControlPoint = new Date().getTime();
+var controlPoint = new Date().getTime();
+
 var updateChecker;
 
 function scrobble () {
-    if (!$('#gp_play').hasClass('playing')) return;
-	
+    // calculating elapsed song time by a more logical way
+    // put this block into beginning just to lessen mean bias
+    controlPoint = new Date().getTime();
+    if (lastPlaying) {
+        currentTime += (controlPoint - lastControlPoint);
+    }
+    lastControlPoint = controlPoint;
+
+    if (!$('#gp_play').hasClass('playing')) {
+        if (lastPlaying) {
+            chrome.runtime.sendMessage({type: 'nowPlaying'});
+        }
+        lastPlaying = 0;
+        return;
+    }
+
     var artist = $('#gp_performer').text();
     var title = $('#gp_title').text();
     
-    var checkByTime = (new Date().getTime() - startTime) > lastTrackDuration; // for repeated listening
+    var checkByTime = currentTime > lastTrackDuration;
     
     // console.log(lastTrackDuration + ' ' + startTime + ' ' + checkByTime);
 
     if ((lastTrack != artist + ' ' + title) || checkByTime) {
         lastTrack = artist + ' ' + title;
-        startTime = new Date().getTime();
+        currentTime = 1;
+    }
 
+    if ((lastTrack != artist + ' ' + title) || checkByTime || !lastPlaying) {
         chrome.runtime.sendMessage({type: 'validate', artist: artist, track: title}, function (response) {
             if (response !== false) {
             	lastTrackDuration = response.duration;
@@ -24,14 +46,16 @@ function scrobble () {
                     type: 'nowPlaying',
                     artist: response.artist,
                     track: response.track,
+                    currentTime: Math.floor(currentTime / 1000),
                     duration: Math.floor(response.duration / 1000)
                 });
             } else {
             	lastTrackDuration = Number.MAX_VALUE; // avoid checkByTime to be true 
-        	chrome.runtime.sendMessage({type: 'nowPlaying'});
+                chrome.runtime.sendMessage({type: 'nowPlaying'});
             }
         });
     }
+    lastPlaying = 1;
 }
 
 $(function () {
