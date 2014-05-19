@@ -446,10 +446,6 @@ function nowPlaying() {
  * Cleans global variables "song", "playingTab" and "scrobbleTimeout" on success.
  */
 
-function submit_() {
-   console.log('Fake submit')
-}
-
 function submit() {
    // bad function call
    if (song == null || !song || song.artist == '' || song.track == '' || typeof(song.artist) == "undefined" || typeof(song.track) == "undefined" ) {
