@@ -7,7 +7,7 @@ function parseDuration (duration) {
 }
 
 function scrobble () {
-    var res = /\S+\s(.+)\s\S\s(.+)\s\(([^)]+)\)/gi.exec($(".now-playing").text());
+    var res = /\S+\s(.+)\s\S\s(.+)\s\(([^)]+)\)/gi.exec($('.now-playing').text());
     
     var artist = res[1];
     var title = res[2];
@@ -42,8 +42,8 @@ $(function () {
 	return true;
     });
 
-    $(".pl-main-win").bind("DOMSubtreeModified", function () {
-        if ($("#play").attr("class").indexOf("pause") != -1) 
+    $('.pl-main-win').bind('DOMSubtreeModified', function () {
+        if ($('#play').attr('class').indexOf('pause') != -1) 
             setTimeout(scrobble, 1000);
     });
 });
