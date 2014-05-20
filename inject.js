@@ -393,6 +393,12 @@ var connectors = [
         label: "Archive.org",
         matches: ["*://archive.org/details/*"],
         js: ["connectors/archive.js"]
+    },
+
+    {
+        label: "bleep.com",
+        matches: ["*://bleep.com/*"],
+        js: ["connectors/bleep.js"]
     }
 ];
 

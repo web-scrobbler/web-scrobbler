@@ -1,5 +1,5 @@
 /*
- * Chrome-Last.fm-Scrobbler archive.org Connector by Malachi Soord
+ * Chrome-Last.fm-Scrobbler Bleep.com Connector by Malachi Soord
  *                (based on George Pollard's bandcamp connctor)
  * v0.1
  */
@@ -12,8 +12,8 @@ $(function () {
     cancel();
 });
 
-var durationElapsed = '#jw6_controlbar_elapsed';
-var durationTotal = '#jw6_controlbar_duration';
+var durationElapsed = '.current-time';
+var durationTotal = '.current-track-duration';
 var durationRegex = /(\d+):(\d+)/;
 
 function parseDuration(elapsed, total) {
@@ -30,33 +30,15 @@ function parseDuration(elapsed, total) {
 }
 
 function parseArtist() {
-    return $('span.key:contains("Artist/Composer:"), span.key:contains("Band/Artist:")').next().text();
+    return $('.player-current .track-artist > a').first().text();
 }
 
 function parseTitle() {
-
-    // Get title directly from player
-    var title = $('.playing > .ttl').text();
-
-    // Some titles are stored as artist - track # - title so strip out non-title elements
-    var parts = title.split('-');
-    if (parts.length === 3 && parts[0].trim() === parseArtist()) {
-        title = parts[2].trim();
-    }
-
-    return title;
+    return $('.player-current .track-name > a').first().text();
 }
 
 function parseAlbum() {
-    var album = $('.x-archive-meta-title').text();
-
-    // Remove artist from album
-    var parts = album.split('-');
-    if (parts.length > 0 && parts[0].trim() === parseArtist()) {
-        album = album.substr(album.indexOf('-') + 1).trim();
-    }
-
-    return album;
+    return $('.player-current .track-release > a').first().text();
 }
 
 function cancel() {
@@ -69,7 +51,7 @@ function cancel() {
     });
 }
 
-// console.log('Archive.org: loaded');
+// console.log('Bleep.com: loaded');
 
 $(durationElapsed).live('DOMSubtreeModified', function () {
 
@@ -86,7 +68,7 @@ $(durationElapsed).live('DOMSubtreeModified', function () {
         if (lastTrack !== track) {
             lastTrack = track;
 
-            console.log('Archive.org: scrobbling - Artist: ' + artist + '; Album:  ' + album + '; Track: ' + track + '; duration: ' + duration.total);
+            // console.log('Bleep.com: scrobbling - Artist: ' + artist + '; Album:  ' + album + '; Track: ' + track + '; duration: ' + duration.total);
             chrome.runtime.sendMessage({
                 type: 'validate',
                 artist: artist,
