@@ -3,14 +3,13 @@ var startTime = 0;
 
 function parseDuration (duration) {
     var res = /(\d+):(\d+)/.exec(duration);
-    // note: not found how songs which longer than 1 hour are displayed
     return parseInt(res[1], 10) * 60 + parseInt(res[2], 10);
 }
 
 function scrobble () {
-    var artist = $('.js-player-artist').text();
-    var title = $('.js-player-title').text();
-    var duration = parseDuration($('.b-jambox__ftime').text());
+    var artist = $('span.m_c_artist').text();
+    var title = $('span.m_track_source').text();
+    var duration = parseDuration($('span.m_h_player_seek_time_duration').text().substring(1));
 
     var now = new Date().getTime();
     var isNewPlaying = (lastTrack != artist + ' ' + title) || /* new artist-title pair or */
@@ -41,9 +40,14 @@ $(function () {
 	return true;
     });
 
-    $('.b-jambox__controls').bind('DOMSubtreeModified', function () {
-        if ($('.b-jambox__button.b-jambox__play.b-jambox__playing').length > 0)
-            setTimeout(scrobble, 1000);
+    $(document).bind('DOMSubtreeModified.waitplayer', function (e) {
+        if (e.target.id == 'm_mc') {
+            $(document).unbind('DOMSubtreeModified.waitplayer');
+            $('.m_h_player.m_h_i').bind('DOMSubtreeModified', function () {
+                    if (($('.__play').length == 0) && ($('.__pause').length > 0))
+                        setTimeout(scrobble, 1000);
+            });
+        }
     });
 });
 

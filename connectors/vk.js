@@ -1,57 +1,37 @@
-var lastTrack = '';
-var lastTrackDuration = Number.MAX_VALUE;
-var startTime = 0;
-var updateChecker;
-
-function scrobble () {
-    if (!$('#gp_play').hasClass('playing')) return;
-	
-    var artist = $('#gp_performer').text();
-    var title = $('#gp_title').text();
-    
-    var checkByTime = (new Date().getTime() - startTime) > lastTrackDuration; // for repeated listening
-    
-    // console.log(lastTrackDuration + ' ' + startTime + ' ' + checkByTime);
-
-    if ((lastTrack != artist + ' ' + title) || checkByTime) {
-        lastTrack = artist + ' ' + title;
-        startTime = new Date().getTime();
-
-        chrome.runtime.sendMessage({type: 'validate', artist: artist, track: title}, function (response) {
-            if (response !== false) {
-            	lastTrackDuration = response.duration;
-            	chrome.runtime.sendMessage({
-                    type: 'nowPlaying',
-                    artist: response.artist,
-                    track: response.track,
-                    duration: Math.floor(response.duration / 1000)
-                });
-            } else {
-            	lastTrackDuration = Number.MAX_VALUE; // avoid checkByTime to be true 
-        	chrome.runtime.sendMessage({type: 'nowPlaying'});
-            }
-        });
-    }
+function scrobble (artist, title, duration) {
+    chrome.runtime.sendMessage({type: 'validate', artist: artist, track: title}, function (response) {
+        if (response !== false) {
+            chrome.runtime.sendMessage({
+                type: 'nowPlaying',
+                artist: response.artist,
+                track: response.track,
+                duration: duration
+            });
+        } else
+            chrome.runtime.sendMessage({type: 'nowPlaying'}); // unidentified music
+    });
 }
 
 $(function () {
     $(window).unload(function () {
 	// reset the background scrobbler song data
 	chrome.runtime.sendMessage({type: 'reset'});
-	clearInterval(updateChecker);
 	return true;
     });
+    
+    window.addEventListener('message', function(event) {
+        if (event.source != window)
+            return;
 
-    $(document).bind("DOMNodeInserted.scrobbler", function (e) {
-        if (e.target.id === "gp") { // player found
-		$(document).unbind("DOMNodeInserted.scrobbler"); // only once
-			// console.log("player found");
-			setTimeout(function () {
-				updateChecker = setInterval(scrobble, 1000);
-				// start processing player updates
-			}, 1000);
-		}
-    });
+        if (event.data && event.data.artist && event.data.title && event.data.duration)
+            scrobble(event.data.artist, event.data.title, event.data.duration);
+        
+    }, false);
+
+    var injectScript = document.createElement('script');
+    injectScript.type = 'text/javascript';
+    injectScript.src = chrome.extension.getURL('connectors/vk-dom-inject.js');
+    (document.head || document.documentElement).appendChild(injectScript);
 });
 
 
