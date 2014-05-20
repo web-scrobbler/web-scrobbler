@@ -14,7 +14,8 @@
       "icon128.png",
       "connectors/jango-dom-inject.js",
       "connectors/plugdj-dom-inject.js",
-      "connectors/soundcloud-dom-inject.js"
+      "connectors/soundcloud-dom-inject.js",
+      "connectors/vk-dom-inject.js"
    ],
 
    "background": {
