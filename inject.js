@@ -348,9 +348,9 @@ var connectors = [
     },
     
     {
-      label: "PLEX",
-      matches: ["*://*32400/web/*"],
-      js: ["connectors/plex.js"]
+        label: "PLEX",
+        matches: ["*://*32400/web/*"],
+        js: ["connectors/plex.js"]
     },
     
     {
@@ -393,6 +393,13 @@ var connectors = [
         label: "Archive.org",
         matches: ["*://archive.org/details/*"],
         js: ["connectors/archive.js"]
+    },
+
+    {
+        label: "Odnoklassniki",
+        matches: ["*://odnoklassniki.ru/*"],
+        js: ["connectors/odnoklassniki.js"],
+        allFrames: true
     }
 ];
 
