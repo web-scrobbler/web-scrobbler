@@ -284,7 +284,7 @@ function authorize() {
 
       // open a tab with token authorization
       var url = 'https://www.last.fm/api/auth/?api_key=' + apiKey + '&token=' + localStorage.token;
-      window.open(url);
+      window.open(url, 'scrobbler-auth');
    }
 }
 
