@@ -19,7 +19,7 @@ function getTrack() {
 
 // Get artist name
 function getArtist() {
-    return $(SONG_DETAILS_DOM).children()[1].textContent.split(' - ')[1].split(' , ')[0];
+    return $(SONG_DETAILS_DOM).children()[1].textContent.split(',')[0].trim();
 }
 
 // Get track length
