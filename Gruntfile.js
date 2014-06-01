@@ -10,10 +10,21 @@ module.exports = function(grunt) {
 				jshintrc: true,
 				reporter: require('jshint-stylish')
 			}
+		},
+		compress: {
+			main: {
+				options: {
+					archive: 'web-scrobbler.zip',
+					pretty: true
+				},
+				expand: true,
+				src: ['*.*', 'connectors/**', 'options/**', 'vendor/**']
+			}
 		}
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-compress');
 
 	grunt.registerTask('lint', ['jshint']);
 	grunt.registerTask('default', ['lint']);
