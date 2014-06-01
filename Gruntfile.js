@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 
 	grunt.initConfig({
 		jshint: {
-			all: ['Gruntfile.js', 'defines.js'], // intentionally does not contain all files yet
+			all: ['Gruntfile.js', 'defines.js', 'connectors/archive.js', 'connectors/bleep.js'], // intentionally does not contain all files yet
 			options: {
 				jshintrc: true,
 				reporter: require('jshint-stylish')

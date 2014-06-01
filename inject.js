@@ -401,11 +401,17 @@ var connectors = [
         js: ["connectors/archive.js"]
     },
 
-    {
-        label: "Odnoklassniki",
-        matches: ["*://odnoklassniki.ru/*"],
-        js: ["connectors/odnoklassniki.js"],
-        allFrames: true
+	{
+		label: "Odnoklassniki",
+		matches: ["*://odnoklassniki.ru/*"],
+		js: ["connectors/odnoklassniki.js"],
+		allFrames: true
+	},
+
+	{
+        label: "bleep.com",
+        matches: ["*://bleep.com/*"],
+        js: ["connectors/bleep.js"]
     }
 ];
 
