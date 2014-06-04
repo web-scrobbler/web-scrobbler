@@ -34,7 +34,7 @@ function LFM_TRACK_ALBUM() {
 // function that returns duration of current song in seconds
 // called at begining of song
 function LFM_TRACK_DURATION() {
-	durationArr = $('#total-length').text().split(":");
+	durationArr = $('#progress-total').text().split(":");
 	return parseInt(durationArr[0], 10)*60 + parseInt(durationArr[1], 10);
 }
 
