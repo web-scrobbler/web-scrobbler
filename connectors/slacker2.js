@@ -12,29 +12,29 @@
 LFM_WATCHED_CONTAINER = "div#track-metadata";
 
 function LFM_IS_A_SONG() {
-	return !$("#player-track-name").hasClass("noClick");
+	return !$("#mini-track-name").hasClass("noClick");
 }
 
 // function that returns title of current song
 function LFM_TRACK_TITLE() {
-	return $("#player-track-name").text();
+	return $("#mini-track-name").text();
 }
 
 
 // function that returns artist of current song
 function LFM_TRACK_ARTIST() {
-	return $("#player-artist-name").text();
+	return $("#mini-artist-name").text();
 }
 
 // function that returns artist of current song
 function LFM_TRACK_ALBUM() {
-	return $("#player-album-name").text();
+	return false; // currently no way to get name of currently playing track
 }
 
 // function that returns duration of current song in seconds
 // called at begining of song
 function LFM_TRACK_DURATION() {
-	durationArr = $('#total-length').text().split(":");
+	durationArr = $('#progress-total').text().split(":");
 	return parseInt(durationArr[0], 10)*60 + parseInt(durationArr[1], 10);
 }
 
@@ -59,11 +59,15 @@ function LFM_updateNowPlaying(){
 			setTimeout(LFM_updateNowPlaying, 5000);
 			return 0;
 		}
-		console.log("submitting a now playing request. artist: "+artist+", title: "+title+", duration: "+duration + ", album: " + album);
+		console.log("submitting a now playing request. artist: "+artist+", title: "+title+", duration: "+duration);
 		LFM_lastTrack = newTrack;
 		chrome.runtime.sendMessage({type: 'validate', artist: artist, track: title}, function(response) {
 			if (response !== false) {
-				chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: title, duration: duration, album: album});
+				if (album) { // only if we really have an album again sometime
+					chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: title, duration: duration, album: album});
+				} else {
+					chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: title, duration: duration});
+				}
 			} else { // on failure send nowPlaying 'unknown song'
 				chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
 			}
