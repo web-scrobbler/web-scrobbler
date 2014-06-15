@@ -1,16 +1,18 @@
-
+/* jshint unused: false */
+'use strict';
 
 /**
  * L.FM API info
  */
-var apiURL = "https://ws.audioscrobbler.com/2.0/?";
-var apiKey = "d9bb1870d3269646f740544d9def2c95";
+var apiURL = 'https://ws.audioscrobbler.com/2.0/?';
+var apiKey = 'd9bb1870d3269646f740544d9def2c95';
 
 
 /**
- * Path to jQuery, which is always included with any connector
+ * Paths to jQuery, which is always included with any connector
  */
-var JQUERY_PATH = "jquery-1.6.1.min.js";
+var JQUERY_1_6_PATH = 'vendor/jquery-1.6.1.min.js';
+var JQUERY_PATH = 'vendor/jquery-2.1.0.min.js';
 
 
 /**

@@ -8,7 +8,7 @@ var clipTitle = '';
 var scrobbleTimeout = null;
 
 // Glabal constant for the song container ....
-var CONTAINER_SELECTOR = '#playerSongInfo';
+var CONTAINER_SELECTOR = 'div#plex.application.show-nav-bar.show-action-bar.show-breadcrumb-bar.show-music-player';
 
 
 $(function(){
@@ -21,7 +21,7 @@ $(function(){
 
    });
 
-   //console.log("Last.fm Scrobbler: starting Google Music connector")
+   //console.log("Last.fm Scrobbler: starting Plex/Web connector")
 
    // first load
    updateNowPlaying();
@@ -65,10 +65,10 @@ function parseInfo() {
     var duration = 0;
 
     // Get artist and song names
-    var artistValue = $("div#player-artist").text();
-    var trackValue = $("div#playerSongTitle").text();
-    var albumValue = $("div.player-album").text();
-    var durationValue = $("div#time_container_duration").text();
+    var artistValue = $("button.artist-title.btn-link").text();
+    var trackValue = $("button.track-title.btn-link").text();
+    var albumValue = $("h2.album-title").text();
+    var durationValue = $("span.player-duration").text();
 
     try {
         if (null != artistValue) {
@@ -110,7 +110,7 @@ function parseDuration(artistTitle) {
  */
 function scrobbleTrack() {
    // stats
-   chrome.runtime.sendMessage({type: 'trackStats', text: 'The Google Music song scrobbled'});
+   chrome.runtime.sendMessage({type: 'trackStats', text: 'The Plex/Web song scrobbled'});
 
    // scrobble
    chrome.runtime.sendMessage({type: 'submit'});

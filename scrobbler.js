@@ -15,7 +15,7 @@
 // browser tab with actually scrobbled track
 var nowPlayingTab = null;
 
-// song structure, filled in nowPlaying phase, (artist, track, duration, startTime)
+// song structure, filled in nowPlaying phase, (artist, track, album, duration, startTime)
 var song = {};
 
 // timer to submit the song
@@ -39,7 +39,7 @@ chrome.pageAction.onClicked.addListener(pageActionClicked);
    // now playing notifications
    if (localStorage.useNotificationsNowPlaying == null)
       localStorage.useNotificationsNowPlaying = 1;
-   
+
    // scrobbled notifications
    if (localStorage.useNotificationsScrobbled == null)
       localStorage.useNotificationsScrobbled = 1;
@@ -146,7 +146,7 @@ function pageActionClicked(tabObj) {
 
 /**
  * Sets up page action icon, including title and popup
- * 
+ *
  * @param {integer} action one of the ACTION_ constants
  * @param {integer} tabId
  */
@@ -209,7 +209,7 @@ function setActionIcon(action, tabId) {
 function scrobblerNotification(text, force) {
    if (localStorage.useNotifications != 1 && !force)
       return;
-   
+
    // Opera compatibility
    if (typeof(webkitNotifications) === "undefined")
       return;
@@ -236,6 +236,30 @@ function scrobblerNotification(text, force) {
       setTimeout(function() {notification.cancel()}, NOTIFICATION_TIMEOUT);
 }
 
+/**
+ * Shows an error notification (use this rather than alerts)
+ */
+function errorNotification(text) {
+
+   // Opera compatibility
+   if (typeof(webkitNotifications) === "undefined")
+      return;
+
+   var title = 'Last.fm scrobbling error';
+
+   var notification = webkitNotifications.createNotification(
+      'icon128.png',
+      title,
+      text
+   );
+   notification.show();
+
+   if (localStorage.autoHideNotifications == 1)
+      setTimeout(function() {notification.cancel()}, NOTIFICATION_TIMEOUT);
+}
+
+
+
 
 /**
  * Retrieves a token and opens a new window for user to authorize it
@@ -260,7 +284,7 @@ function authorize() {
 
       // open a tab with token authorization
       var url = 'https://www.last.fm/api/auth/?api_key=' + apiKey + '&token=' + localStorage.token;
-      window.open(url);
+      window.open(url, 'scrobbler-auth');
    }
 }
 
@@ -320,6 +344,7 @@ function getSessionID() {
 function validate(artist, track) {
    var autocorrect = localStorage.useAutocorrect ? localStorage.useAutocorrect : 0;
    var validationURL = apiURL + "method=track.getinfo&api_key=" + apiKey + "&autocorrect="+ autocorrect +"&artist=" + encodeUtf8(artist) + "&track=" + encodeUtf8(track);
+
    console.log('validating %s - %s', artist, track);
 
    var req = new XMLHttpRequest();
@@ -350,7 +375,8 @@ function validate(artist, track) {
  * Tell server which song is playing right now (won't be scrobbled yet!)
  */
 function nowPlaying() {
-   console.log('nowPlaying called for %s - %s', song.artist, song.track);
+   console.log('nowPlaying called for %s - %s (%s)', song.artist, song.track, song.album);
+   console.log(song);
    if (disabled) {
       console.log('scrobbling disabled; exitting nowPlaying');
       return;
@@ -369,6 +395,13 @@ function nowPlaying() {
       sk: sessionID
    };
 
+   if(typeof(song.album) != 'undefined' && song.album != null) {
+      params["album"] = song.album;
+   }
+   if(typeof(song.duration) != 'undefined' && song.duration != null) {
+      params["duration"] = song.duration;
+   }
+
    var api_sig = apiCallSignature(params);
    var url = apiURL + createQueryString(params) + '&api_sig=' + api_sig;
 
@@ -379,6 +412,7 @@ function nowPlaying() {
    http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
    http_request.send(params);
 
+   console.log('nowPlaying request: %s', url);
    console.log('nowPlaying response: %s', http_request.responseText);
 
    var xmlDoc = $.parseXML(http_request.responseText);
@@ -389,15 +423,15 @@ function nowPlaying() {
 
          // Confirm the content_script, that the song is "now playing"
          chrome.tabs.sendMessage(nowPlayingTab, {type: "nowPlayingOK"});
-         
+
          // Show notification
          if (localStorage.useNotificationsNowPlaying == 1)
             scrobblerNotification(notifText);
-      
+
          // Update page action icon
          setActionIcon(ACTION_NOWPLAYING);
    } else {
-      alert('Last.fm responded with unknown code on nowPlaying request');
+      errorNotification('Please see http://status.last.fm\nand check if everything is OK');
    }
 }
 
@@ -421,7 +455,7 @@ function submit() {
    if (sessionID === false)
       return;
 
-   console.log('submit called for %s - %s', song.artist, song.track);
+   console.log('submit called for %s - %s (%s)', song.artist, song.track, song.album);
 
    var params = {
       method: 'track.scrobble',
@@ -431,6 +465,18 @@ function submit() {
       api_key: apiKey,
       sk: sessionID
    };
+
+   if(typeof(song.album) != 'undefined' && song.album != null) {
+      params["album[0]"] = song.album;
+   }
+
+   if(typeof(song.source) != 'undefined' && song.source != null) {
+      params["source[0]"] = song.source;
+   }
+
+   if(typeof(song.sourceId) != 'undefined' && song.sourceId != null) {
+      params["sourceId[0]"] = song.sourceId;
+   }
 
    var api_sig = apiCallSignature(params);
    var url = apiURL + createQueryString(params) + '&api_sig=' + api_sig;
@@ -462,11 +508,11 @@ function submit() {
    }
    else if (http_request.status == 503) {
       console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
-      alert('Unable to scrobble the track. Last.fm server is temporarily unavailable.');
+      errorNotification('Please see http://status.last.fm\nand check if everything is OK');
    }
    else {
       console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
-      alert('An error occured while scrobbling the track. Please try again later.');
+      errorNotification('Please see http://status.last.fm\nand check if everything is OK');
    }
 
    // clear the structures awaiting the next song
@@ -490,8 +536,7 @@ chrome.runtime.onMessage.addListener(
             // they have to be already validated! Otherwise they can be corrected from the popup.
             // Also sets up a timout to trigger the scrobbling procedure (when all data are valid)
    		case "nowPlaying":
-                  console.log('nowPlaying requested');
-                  console.log($.dump(request));
+                  console.log('nowPlaying %o', request);
 
                   // do the reset to be sure there is no other timer running
                   reset();
@@ -506,25 +551,40 @@ chrome.runtime.onMessage.addListener(
                   }
 
                   // backward compatibility for connectors which dont use currentTime
-                  if (typeof(request.currentTime) == 'undefined')
+                  if (typeof(request.currentTime) == 'undefined' || !request.currentTime)
                      request.currentTime = 0;
 
                   // data missing, save only startTime and show the unknown icon
-                  if (typeof(request.artist) == 'undefined' || typeof(request.track) == 'undefined') {
+                  if (typeof(request.artist) == 'undefined' || !request.artist
+                      || typeof(request.track) == 'undefined' || !request.track)
+                  {
                      // fill only the startTime, so the popup knows how to set up the timer
                      song = {
                         startTime : parseInt(new Date().getTime() / 1000.0) // in seconds
                      };
 
                      // if we know something...
-                     if (typeof(request.artist) != 'undefined')
+                     if (typeof(request.artist) != 'undefined' && request.artist) {
                         song.artist = request.artist;
-                     if (typeof(request.track) != 'undefined')
+                     }
+                     if (typeof(request.track) != 'undefined' && request.track) {
                         song.track = request.track;
-                     if (typeof(request.currentTime) != 'undefined')
+                     }
+                     if (typeof(request.currentTime) != 'undefined' && request.currentTime) {
                         song.currentTime = request.currentTime;
-                     if (typeof(request.duration) != 'undefined')
+                     }
+                     if (typeof(request.duration) != 'undefined' && request.duration) {
                         song.duration = request.duration;
+                     }
+                     if (typeof(request.album) != 'undefined' && request.album) {
+                        song.album = request.album;
+                     }
+                     if (typeof(request.sourceId) != 'undefined' && request.sourceId) {
+                        song.sourceId = request.sourceId;
+                     }
+                     if (typeof(request.source) != 'undefined' && request.source) {
+                        song.source = request.source;
+                     }
 
                      // Update page action icon to 'unknown'
                      setActionIcon(ACTION_UNKNOWN, sender.tab.id);
@@ -539,6 +599,17 @@ chrome.runtime.onMessage.addListener(
                         duration : request.duration,
                         startTime : ( parseInt (new Date().getTime() / 1000.0) - request.currentTime) // in seconds
                      }
+
+                     if(typeof(request.album) != 'undefined') {
+                        song.album = request.album;
+                     }
+                     if (typeof(request.sourceId) != 'undefined' && request.sourceId) {
+                        song.sourceId = request.sourceId;
+                     }
+                     if (typeof(request.source) != 'undefined' && request.source) {
+                        song.source = request.source;
+                     }
+
 
                      // make the connection to last.fm service to notify
                      nowPlaying();
@@ -601,7 +672,11 @@ chrome.runtime.onMessage.addListener(
             // Checks if the request.artist and request.track are valid and
             // returns false if not or a song structure otherwise (may contain autocorrected values)
       	case "validate":
-                  console.log('validate requested');
+                  // quick deny for bad/incomplete info
+                  if (!request.artist || !request.track) {
+                      sendResponse(false);
+                      break;
+                  }
 
                   var res = validate(request.artist, request.track);
 
@@ -613,7 +688,7 @@ chrome.runtime.onMessage.addListener(
             default:
                   console.log('Unknown request: %s', $.dump(request));
          }
-         
+
          return true;
 	}
 );

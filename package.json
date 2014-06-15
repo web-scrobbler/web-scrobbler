@@ -1,0 +1,26 @@
+{
+  "name": "web-scrobbler",
+  "version": "1.0.0",
+  "author": "David Šabata <posta@davidsabata.cz>",
+  "description": "Dummy package for maintaining dev dependencies of Web Scrobbler browser extension. The package is not published anywhere",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/david-sabata/Chrome-Last.fm-Scrobbler.git"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "jshint": "~2.5.1",
+    "grunt-contrib-jshint": "~0.10.0",
+    "jshint-stylish": "~0.2.0",
+    "grunt-cli": "~0.1.13",
+    "grunt-contrib-compress": "~0.9.1"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "scripts": {
+    "test": "grunt"
+  },
+  "license": "MIT"
+}
