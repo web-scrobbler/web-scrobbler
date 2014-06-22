@@ -414,6 +414,12 @@ var connectors = [
         label: 'bleep.com',
         matches: ['*://bleep.com/*'],
         js: ['connectors/bleep.js']
+    },
+
+    {
+        label: 'Soundozer',
+        matches: ['*://soundozer.com/*'],
+        js: ['connectors/soundozer.js']
     }
 ];
 
