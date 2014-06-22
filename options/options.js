@@ -87,9 +87,9 @@ function createConnectors() {
    conns.sort(function(a, b){ return a.label.localeCompare(b.label); });
    
    conns.forEach(function(connector, index){
-      var newEl = $('<li><input type="checkbox" id="conn-' + index + '"> \n\
-                      <label for="conn-' + index + '">' + connector.label + '</label>\n\
-                  </li>');
+      var newEl = $('<li><input type="checkbox" id="conn-' + index + '">' +
+	                '<label for="conn-' + index + '">' + connector.label + '</label>' +
+                  '</li>');
       
       var domEl = newEl.appendTo(parent);
       var checkbox = domEl.find('input');

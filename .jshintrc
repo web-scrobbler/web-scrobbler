@@ -11,6 +11,5 @@
     "smarttabs": true,
     "trailing": true,
     "undef": true,
-    "unused": true,
-    "multistr": true
+    "unused": true
 }
