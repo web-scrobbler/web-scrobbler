@@ -43,12 +43,37 @@ $(function(){
    $('button#authorize').click(function() {
       authorize();
    });
-   
-   
+
+
+   $('input#toggle').click(function() {
+      var negatedCheckState = !$(this).is(':checked');
+
+      // First set each to the negated value and then trigger click
+      $('input[id^="conn"]').each(function(index, connector) {
+         $(connector).prop('checked', negatedCheckState);
+         $(connector).trigger('click');
+      });
+   });
+
    // generate connectors and their checkboxes
    createConnectors();
+
+   // Set the toggle init state
+   toggleInitState();
 });
 
+function toggleInitState() {
+   var checkedState = true;
+
+   $('input[id^="conn"]').each(function(index, connector) {
+      if (!$(this).is(':checked')) {
+         checkedState = false;
+         return false;
+      }
+   });
+
+   $('input#toggle').prop('checked', checkedState);
+}
 
 function createConnectors() {
    var parent = $('ul#connectors');
@@ -69,7 +94,7 @@ function createConnectors() {
                     
       checkbox.attr('checked', isConnectorEnabled(connector.label));
       
-      checkbox.click(function(){
+      checkbox.click(function(){ 
          var box = $(this);
          var disabledArray = JSON.parse(localStorage.disabledConnectors);
          
