@@ -3,29 +3,46 @@
 /* global module, require */
 module.exports = function(grunt) {
 
-	grunt.initConfig({
-		jshint: {
-			all: ['Gruntfile.js', 'defines.js', 'inject.js', 'options/options.js', 'connectors/archive.js'], // intentionally does not contain all files yet
-			options: {
-				jshintrc: true,
-				reporter: require('jshint-stylish')
-			}
-		},
-		compress: {
-			main: {
-				options: {
-					archive: 'web-scrobbler.zip',
-					pretty: true
-				},
-				expand: true,
-				src: ['*.*', 'connectors/**', 'options/**', 'vendor/**']
-			}
-		}
-	});
+    var jsFiles = ['Gruntfile.js', 'defines.js', 'inject.js', 'options/options.js', 'connectors/archive.js'];// intentionally does not contain all files yet
 
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-compress');
+    grunt.initConfig({
+        jshint: {
+            all: jsFiles,
+            options: {
+                jshintrc: true,
+                reporter: require('jshint-stylish')
+            }
+        },
+        compress: {
+            main: {
+                options: {
+                    archive: 'web-scrobbler.zip',
+                    pretty: true
+                },
+                expand: true,
+                src: ['*.*', 'connectors/**', 'options/**', 'vendor/**']
+            }
+        },
+        lintspaces: {
+            all: {
+                src: [
+                    jsFiles
+                ],
 
-	grunt.registerTask('lint', ['jshint']);
-	grunt.registerTask('default', ['lint']);
+                options: {
+                    editorconfig: '.editorconfig',
+                    ignores: [
+                        'js-comments'
+                    ]
+                }
+            }
+        }
+    });
+
+
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-compress');
+    grunt.loadNpmTasks('grunt-lintspaces');
+    grunt.registerTask('lint', ['jshint']);
+    grunt.registerTask('default', ['lint', 'lintspaces']);
 };

@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 /**
  * All connectors are defined here, instead of manifest.
@@ -354,13 +354,13 @@ var connectors = [
         matches: ['*://music.yandex.ru/*'],
         js: ['connectors/yandex.js']
     },
-    
+
     {
         label: 'PLEX',
         matches: ['*://*32400/web/*'],
         js: ['connectors/plex.js']
     },
-    
+
     {
         label: 'Pleer.Com (Prostopleer)',
         matches: ['*://pleer.com/*', '*://prostopleer.com/*'],
@@ -403,12 +403,12 @@ var connectors = [
         js: ['connectors/archive.js']
     },
 
-	{
-		label: 'Odnoklassniki',
-		matches: ['*://odnoklassniki.ru/*'],
-		js: ['connectors/odnoklassniki.js'],
-		allFrames: true
-	},
+    {
+        label: 'Odnoklassniki',
+        matches: ['*://odnoklassniki.ru/*'],
+        js: ['connectors/odnoklassniki.js'],
+        allFrames: true
+    },
 
     {
         label: 'Soundozer',
@@ -427,10 +427,10 @@ var connectors = [
 function createPattern(input) {
     if (typeof input !== 'string') return null;
     var match_pattern = '^',
-	    regEscape = function (s) {
+        regEscape = function (s) {
             return s.replace(/[[^$.|?*+(){}\\]/g, '\\$&');
         },
-	    result = /^(\*|https?|file|ftp|chrome-extension):\/\//.exec(input);
+        result = /^(\*|https?|file|ftp|chrome-extension):\/\//.exec(input);
 
     // Parse scheme
     if (!result) return null;
