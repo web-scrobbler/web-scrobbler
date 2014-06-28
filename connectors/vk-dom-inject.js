@@ -2,6 +2,8 @@ var lastTrack = '';
 var startTime = 0;
 
 setInterval(function () {
+    if (!ge('gp_performer')) return; // no player
+    if (ge('gp_play').getAttribute('class').indexOf('playing') < 0) return; // not playing (paused)
     var artist = ge('gp_performer').innerText;
     var title = ge('gp_title').innerText;
     var duration = audioPlayer.duration;
