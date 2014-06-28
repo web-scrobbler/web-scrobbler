@@ -3,9 +3,11 @@
 /* global module, require */
 module.exports = function(grunt) {
 
+	var jsFiles = ['Gruntfile.js', 'defines.js', 'inject.js', 'options/options.js', 'connectors/archive.js'];// intentionally does not contain all files yet
+
 	grunt.initConfig({
 		jshint: {
-			all: ['Gruntfile.js', 'defines.js', 'inject.js', 'options/options.js', 'connectors/archive.js'], // intentionally does not contain all files yet
+			all: jsFiles,
 			options: {
 				jshintrc: true,
 				reporter: require('jshint-stylish')
@@ -20,12 +22,27 @@ module.exports = function(grunt) {
 				expand: true,
 				src: ['*.*', 'connectors/**', 'options/**', 'vendor/**']
 			}
+		},
+		lintspaces: {
+			all: {
+				src: [
+					jsFiles
+				],
+
+				options: {
+					editorconfig: '.editorconfig',
+					ignores: [
+						'js-comments'
+					]
+				}
+			}
 		}
 	});
 
+
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-compress');
-
+	grunt.loadNpmTasks('grunt-lintspaces');
 	grunt.registerTask('lint', ['jshint']);
-	grunt.registerTask('default', ['lint']);
+	grunt.registerTask('default', ['lint', 'lintspaces']);
 };
