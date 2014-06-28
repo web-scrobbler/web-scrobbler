@@ -687,7 +687,7 @@ chrome.runtime.onMessage.addListener(
          // Interface for new V2 functionality. Routes control flow to new structures, so we can
          // have two cores side by side. The old functionality will be later removed
          case 'v2.stateChanged':
-
+			 console.log('received v2: ' + JSON.stringify(request));
 	         break;
 
 

@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 /**
  * All connectors are defined here, instead of manifest.
@@ -56,7 +56,8 @@ var connectors = [
 	{
 		label: 'Google Play Music',
 		matches: ['*://play.google.com/music/*'],
-		js: ['connectors/googlemusic.js']
+		js: ['connectors/v2/googlemusic.js'],
+		version: 2
 	},
 
 	{
@@ -516,22 +517,33 @@ chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
 
 					// for v2 connectors prepend BaseConnector, newer jQuery (!) and append starter
 					if (typeof(connector.version) != 'undefined' && connector.version === 2) {
-						scripts.unshift('v2/connector.js');
+						scripts.unshift('core/content/connector.js');
+						scripts.unshift('core/content/reactor.js');
+						scripts.unshift('vendor/underscore-min.js');
 						scripts.unshift(JQUERY_PATH);
-						scripts.push('v2/starter.js');
+
+						scripts.push('core/content/starter.js'); // needs to be the last script injected
 					}
 					// for older connectors prepend older jQuery as a first loaded script
 					else {
 						scripts.unshift(JQUERY_1_6_PATH);
 					}
 
-					scripts.forEach(function (jsFile) {
-						var injectDetails = {
-							file: jsFile,
-							allFrames: connector.allFrames ? connector.allFrames : false
-						};
-						chrome.tabs.executeScript(tabId, injectDetails);
-					});
+					// waits for script to be fully injected before injecting another one
+					var injectWorker = function () {
+						if (scripts.length > 0) {
+							var jsFile = scripts.shift();
+							var injectDetails = {
+								file: jsFile,
+								allFrames: connector.allFrames ? connector.allFrames : false
+							};
+
+							console.log('\tinjecting ' + jsFile);
+							chrome.tabs.executeScript(tabId, injectDetails, injectWorker);
+						}
+					};
+
+					injectWorker();
 				}
 				else {
 					console.log('-- subsequent ajax navigation, the scripts are already injected');
