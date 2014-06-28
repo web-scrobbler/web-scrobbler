@@ -684,9 +684,15 @@ chrome.runtime.onMessage.addListener(
                   sendResponse( res );
                   break;
 
+         // Interface for new V2 functionality. Routes control flow to new structures, so we can
+         // have two cores side by side. The old functionality will be later removed
+         case 'v2.stateChanged':
+
+	         break;
+
 
             default:
-                  console.log('Unknown request: %s', $.dump(request));
+                  console.log('Unknown request: %s', JSON.stringify(request));
          }
 
          return true;

@@ -3,7 +3,7 @@
 /* global module, require */
 module.exports = function(grunt) {
 
-	var jsFiles = ['Gruntfile.js', 'defines.js', 'inject.js', 'options/options.js', 'connectors/archive.js'];// intentionally does not contain all files yet
+	var jsFiles = ['Gruntfile.js', 'core/legacy/defines.js', 'inject.js', 'options/options.js', 'connectors/archive.js'];// intentionally does not contain all files yet
 
 	grunt.initConfig({
 		jshint: {

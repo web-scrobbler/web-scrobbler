@@ -20,8 +20,8 @@
 
    "background": {
       "scripts": [
-	      "defines.js", "background-ga.js", "inject.js", "vendor/md5.js", "vendor/jquery-1.6.1.min.js",
-	      "vendor/jquery.dump.js", "scrobbler.js"
+	      "core/legacy/defines.js", "core/legacy/background-ga.js", "inject.js", "vendor/md5.js", "vendor/jquery-1.6.1.min.js",
+	      "vendor/jquery.dump.js", "core/legacy/scrobbler.js"
       ]
    },
 
