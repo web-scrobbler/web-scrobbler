@@ -6,46 +6,23 @@ require([
 	'connectors',
 	'legacy/scrobbler',
 	'bootstrap'
-], function($, config, connectors, legacyScrobbler) {
+], function ($, config, connectors, legacyScrobbler) {
 
 	$(function () {
 
-		// use immediate-change checkboxes
+		// preload values and attach listeners
 
-		$('#use-notifications').click(function () {
-			localStorage.useNotifications = this.checked ? 1 : 0;
-			updateDisabled();
-		});
+		$('#use-notifications')
+			.attr('checked', (localStorage.useNotifications == 1))
+			.click(function () {
+				localStorage.useNotifications = this.checked ? 1 : 0;
+			});
 
-		$('#use-notifications-nowplaying').click(function () {
-			localStorage.useNotificationsNowPlaying = this.checked ? 1 : 0;
-		});
-
-		$('#use-notifications-scrobbled').click(function () {
-			localStorage.useNotificationsScrobbled = this.checked ? 1 : 0;
-		});
-
-		$('#auto-hide-notifications').click(function () {
-			localStorage.autoHideNotifications = this.checked ? 1 : 0;
-		});
-
-		$('#use-autocorrect').click(function () {
-			localStorage.useAutocorrect = this.checked ? 1 : 0;
-		});
-
-		// preload options
-		$('#use-notifications').attr('checked', (localStorage.useNotifications == 1));
-		$('#use-notifications-nowplaying').attr('checked', (localStorage.useNotificationsNowPlaying == 1));
-		$('#use-notifications-scrobbled').attr('checked', (localStorage.useNotificationsScrobbled == 1));
-		$('#auto-hide-notifications').attr('checked', (localStorage.autoHideNotifications == 1));
-		$('#use-autocorrect').attr('checked', (localStorage.useAutocorrect == 1));
-
-		// disable subitems
-		function updateDisabled() {
-			$('#use-notifications-nowplaying').attr('disabled', (!$('#use-notifications').is(':checked')));
-			$('#use-notifications-scrobbled').attr('disabled', (!$('#use-notifications').is(':checked')));
-			$('#auto-hide-notifications').attr('disabled', (!$('#use-notifications').is(':checked')));
-		}
+		$('#use-autocorrect')
+			.attr('checked', (localStorage.useAutocorrect == 1))
+			.click(function () {
+				localStorage.useAutocorrect = this.checked ? 1 : 0;
+			});
 
 
 		$('button#authorize').click(function () {
@@ -90,7 +67,9 @@ require([
 		var conns = connectors.slice(0);
 
 		// sort alphabetically
-		conns.sort(function (a, b) { return a.label.localeCompare(b.label);});
+		conns.sort(function (a, b) {
+			return a.label.localeCompare(b.label);
+		});
 
 		conns.forEach(function (connector, index) {
 			var newEl = $('<li><input type="checkbox" id="conn-' + index + '">' +

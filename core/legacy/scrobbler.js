@@ -13,8 +13,9 @@
 define([
 	'jquery',
 	'config',
-	'vendor/md5'
-], function($, config, MD5) {
+	'vendor/md5',
+	'notifications'
+], function($, config, MD5, notifications) {
 
 	// browser tab with actually scrobbled track
 	var nowPlayingTab = null;
@@ -40,21 +41,9 @@ define([
 	   if (localStorage.useNotifications == null)
 	      localStorage.useNotifications = 1;
 
-	   // now playing notifications
-	   if (localStorage.useNotificationsNowPlaying == null)
-	      localStorage.useNotificationsNowPlaying = 1;
-
-	   // scrobbled notifications
-	   if (localStorage.useNotificationsScrobbled == null)
-	      localStorage.useNotificationsScrobbled = 1;
-
 	   // no disabled connectors by default
 	   if (localStorage.disabledConnectors == null)
 	      localStorage.disabledConnectors = JSON.stringify([]);
-
-	   // hide notifications by default
-	   if (localStorage.autoHideNotifications == null)
-	      localStorage.autoHideNotifications = 1;
 
 	   // show update popup - based on different version
 	   if (localStorage.appVersion != chrome.app.getDetails().version) {
@@ -207,65 +196,6 @@ define([
 
 
 	/**
-	 * Shows (or not) the notification, based on user settings
-	 * Use 'force' to override settings and always show the notification (e.g. for errors)
-	 */
-	function scrobblerNotification(text, force) {
-	   if (localStorage.useNotifications != 1 && !force)
-	      return;
-
-	   // Opera compatibility
-	   if (typeof(webkitNotifications) === "undefined")
-	      return;
-
-	   var title = 'Last.fm Scrobbler';
-	   var body = '';
-	   var boom = text.split(config.NOTIFICATION_SEPARATOR);
-
-	   if (boom.length == 1)
-	      body = boom[0];
-	   else {
-	      title = boom[0];
-	      body = boom[1];
-	   }
-
-	   var notification = webkitNotifications.createNotification(
-	      'icon128.png',
-	      title,
-	      body
-	   );
-	   notification.show();
-
-	   if (localStorage.autoHideNotifications == 1)
-	      setTimeout(function() {notification.cancel()}, config.NOTIFICATION_TIMEOUT);
-	}
-
-	/**
-	 * Shows an error notification (use this rather than alerts)
-	 */
-	function errorNotification(text) {
-
-	   // Opera compatibility
-	   if (typeof(webkitNotifications) === "undefined")
-	      return;
-
-	   var title = 'Last.fm scrobbling error';
-
-	   var notification = webkitNotifications.createNotification(
-	      'icon128.png',
-	      title,
-	      text
-	   );
-	   notification.show();
-
-	   if (localStorage.autoHideNotifications == 1)
-	      setTimeout(function() {notification.cancel()}, config.NOTIFICATION_TIMEOUT);
-	}
-
-
-
-
-	/**
 	 * Retrieves a token and opens a new window for user to authorize it
 	 */
 	function authorize() {
@@ -409,8 +339,6 @@ define([
 	   var api_sig = apiCallSignature(params);
 	   var url = config.apiURL + createQueryString(params) + '&api_sig=' + api_sig;
 
-	   var notifText =  'Now playing' + config.NOTIFICATION_SEPARATOR + song.artist + " - " + song.track;
-
 	   var http_request = new XMLHttpRequest();
 	   http_request.open("POST", url, false); // synchronous
 	   http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
@@ -429,13 +357,12 @@ define([
 	         chrome.tabs.sendMessage(nowPlayingTab, {type: "nowPlayingOK"});
 
 	         // Show notification
-	         if (localStorage.useNotificationsNowPlaying == 1)
-	            scrobblerNotification(notifText);
+	         notifications.showPlaying(song);
 
 	         // Update page action icon
 	         setActionIcon(config.ACTION_NOWPLAYING);
 	   } else {
-	      errorNotification('Please see http://status.last.fm\nand check if everything is OK');
+	      notifications.showError('Please see http://status.last.fm and check if everything is OK');
 	   }
 	}
 
@@ -491,12 +418,6 @@ define([
 	   http_request.send(params);
 
 	   if (http_request.status == 200) {
-	      var notifText =  'Scrobbled' + config.NOTIFICATION_SEPARATOR + song.artist + " - " + song.track;
-
-	      // notification
-	      if (localStorage.useNotificationsScrobbled == 1)
-	         scrobblerNotification(notifText);
-
 	      // Update page action icon
 	      setActionIcon(config.ACTION_SCROBBLED);
 
@@ -512,11 +433,11 @@ define([
 	   }
 	   else if (http_request.status == 503) {
 	      console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
-	      errorNotification('Please see http://status.last.fm\nand check if everything is OK');
+	      notifications.showError('Please see http://status.last.fm and check if everything is OK');
 	   }
 	   else {
 	      console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
-	      errorNotification('Please see http://status.last.fm\nand check if everything is OK');
+	      notifications.showError('Please see http://status.last.fm and check if everything is OK');
 	   }
 
 	   // clear the structures awaiting the next song
