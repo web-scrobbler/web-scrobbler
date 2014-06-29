@@ -5,6 +5,7 @@
  *
  * Is there a way to get AMD version of Can with custom build?
  */
+/* globals can */
 define([
 	'canjs'
 ], function() {

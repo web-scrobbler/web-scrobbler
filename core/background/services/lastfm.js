@@ -72,7 +72,7 @@ define([
 
 		var url = apiUrl + '?' + paramPairs.join('&');
 
-		var internalOkCb = function(xmlDoc, status, jqXHR) {
+		var internalOkCb = function(xmlDoc, status) {
 			if (enableLogging) {
 				console.info('L.FM response to ' + url + ' : ' + status + '\n' + (new XMLSerializer()).serializeToString(xmlDoc));
 			}
