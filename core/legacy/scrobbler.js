@@ -15,8 +15,9 @@ define([
 	'config',
 	'notifications',
 	'services/lastfm',
+	'services/background-ga',
 	'helpers'
-], function($, config, notifications, LastFM, helpers) {
+], function($, config, notifications, LastFM, GA, helpers) {
 
 	// browser tab with actually scrobbled track
 	var nowPlayingTab = null;
@@ -392,7 +393,7 @@ define([
 	      setActionIcon(config.ACTION_SCROBBLED);
 
 	      // stats
-	      _gaq.push(['_trackEvent', 'Track scrobbled']);
+	      GA.send('event', 'legacy', 'scrobble', song.artist + ' - ' + song.track);
 
 	      console.log('submitted %s - %s (%s)', song.artist, song.track, http_request.responseText);
 
@@ -527,8 +528,9 @@ define([
 	                  break;
 
 	            case "trackStats":
-	            _gaq.push(['_trackEvent', request.text]);
-	            sendResponse({});
+					// intentionally not used - will be replaced by new connector API
+					//_gaq.push(['_trackEvent', request.text]);
+					sendResponse({});
 	            break;
 
 	            // returns the options in key => value pseudomap
