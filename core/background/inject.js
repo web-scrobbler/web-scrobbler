@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 /**
  * Handles matching page URL with defined connectors and injecting scripts into content document
  */
@@ -6,7 +6,7 @@ define([
 	'connectors',
 	'config',
 	'legacy/scrobbler' // for setActionIcon
-], function(connectors, config, legacyScrobbler) {
+], function (connectors, config, legacyScrobbler) {
 
 	/**
 	 * Creates regex from single match pattern
@@ -83,7 +83,7 @@ define([
 				//
 				// Sadly there is no way to silently check if the script has been already injected
 				// so we will see an error in the background console on load of every supported page
-				chrome.tabs.sendMessage(tabId, { type: 'ping' }, function (response) {
+				chrome.tabs.sendMessage(tabId, {type: 'ping'}, function (response) {
 					// if the message was sent to a non existing script or the script
 					// does not implement the 'ping' message, we get response==undefined;
 					if (!response) {

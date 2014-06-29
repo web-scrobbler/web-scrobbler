@@ -1,3 +1,6 @@
+'use strict';
+/* exported Reactor */
+
 /**
  * Reactor object is created only once in starter script.
  * It reacts to changes in supplied connector and communicates with background script as necessary
@@ -61,6 +64,6 @@ var Reactor = function(connector) {
 		};
 
 		chrome.runtime.sendMessage(msg);
-	}
+	};
 
 };

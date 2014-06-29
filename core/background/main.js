@@ -1,3 +1,8 @@
+'use strict';
+
+/**
+ * Background script entry point
+ */
 require([
 	'legacy/scrobbler',
 	'background-ga',
@@ -6,5 +11,7 @@ require([
 
 	// track background page loaded - happens once per browser session
 	ga.send('pageview');
+
+//	ga.send('event', 'test-category', 'test-action');
 
 });
