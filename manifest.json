@@ -8,7 +8,7 @@
    },
 
    "manifest_version": 2,
-   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+   "content_security_policy": "script-src 'self' https://www.google-analytics.com/analytics.js; object-src 'self'",
 
    "web_accessible_resources": [
       "icon128.png",
@@ -20,8 +20,10 @@
 
    "background": {
       "scripts": [
-	      "core/legacy/defines.js", "core/legacy/background-ga.js", "inject.js", "vendor/md5.js",
-	      "vendor/jquery-1.6.1.min.js", "core/legacy/scrobbler.js"
+	      "vendor/require.js", "core/background/requirejs-config.js",
+	      "core/background/main.js"
+	      //"core/legacy/defines.js", "core/legacy/background-ga.js", "inject.js", "vendor/md5.js",
+	      //"vendor/jquery-1.6.1.min.js", "core/legacy/scrobbler.js"
       ]
    },
 
