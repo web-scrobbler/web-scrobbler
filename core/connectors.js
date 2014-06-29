@@ -56,9 +56,15 @@ define(function() {
 		{
 			label: 'Google Play Music',
 			matches: ['*://play.google.com/music/*'],
-			js: ['connectors/v2/googlemusic.js'],
-			version: 2
+			js: ['connectors/googlemusic.js']
 		},
+
+//		{
+//			label: 'Google Play Music',
+//			matches: ['*://play.google.com/music/*'],
+//			js: ['connectors/v2/googlemusic.js'],
+//			version: 2
+//		},
 
 		{
 			label: 'MySpace',
