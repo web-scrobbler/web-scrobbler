@@ -5,7 +5,7 @@
  */
 require([
 	'legacy/scrobbler',
-	'background-ga',
+	'services/background-ga',
 	'inject'
 ], function(legacyScrobbler, ga) {
 

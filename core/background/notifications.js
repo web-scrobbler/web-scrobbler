@@ -1,7 +1,7 @@
 'use strict';
 
 define([
-	'chrome'
+	'wrappers/chrome'
 ], function(chrome) {
 
 	var emptyCB = function() {};

@@ -13,9 +13,10 @@
 define([
 	'jquery',
 	'config',
-	'vendor/md5',
-	'notifications'
-], function($, config, MD5, notifications) {
+	'notifications',
+	'services/lastfm',
+	'helpers'
+], function($, config, notifications, LastFM, helpers) {
 
 	// browser tab with actually scrobbled track
 	var nowPlayingTab = null;
@@ -65,37 +66,6 @@ define([
 
 	   nowPlayingTab = null;
 	   song = {};
-	}
-
-
-
-	/**
-	 * Calculates MD5 hash of the API request
-	 * stored in k=v&k=v&... format
-	 * @param params object
-	 * @return md5 hash
-	 */
-	function apiCallSignature(params) {
-	   var keys = new Array();
-	   var o = '';
-
-	   for (var x in params)
-	      keys.push(x);
-
-	   // params has to be ordered alphabetically
-	   keys.sort();
-
-	   for (i = 0; i < keys.length; i++) {
-	      if (keys[i] == 'format' || keys[i] == 'callback')
-	         continue;
-
-	      o = o + keys[i] + params[keys[i]];
-	   }
-
-	   //console.log('hashing %s', o);
-
-	   // append secret
-	   return MD5(o + '2160733a567d4a1a69a73fad54c564b2');
 	}
 
 
@@ -242,7 +212,7 @@ define([
 	      api_key: config.apiKey,
 	      token: localStorage.token
 	   };
-	   var api_sig = apiCallSignature(params);
+	   var api_sig = LastFM.generateSign(params);
 	   var url = config.apiURL + createQueryString(params) + '&api_sig=' + api_sig;
 
 	   var http_request = new XMLHttpRequest();
@@ -271,36 +241,36 @@ define([
 
 
 	/**
-	 * Validate song info against last.fm and return valid song structure
-	 * or false in case of failure
-	 * @return object/false
+	 * Validate song info against last.fm and calls callback with valid song structure
+	 * or false in case of failure as parameter
 	 */
-	function validate(artist, track) {
-	   var autocorrect = localStorage.useAutocorrect ? localStorage.useAutocorrect : 0;
-	   var validationURL = config.apiURL + "method=track.getinfo&api_key=" + config.apiKey + "&autocorrect="+ autocorrect +"&artist=" + encodeUtf8(artist) + "&track=" + encodeUtf8(track);
+	function validate(artist, track, callback) {
+		// dummy song structure - we dont use it globally yet
+		var songObj = helpers.createEmptySong();
+		songObj.attr({
+			artist: artist,
+			track: track
+		});
 
-	   console.log('validating %s - %s', artist, track);
+		// setup listening so we can reply to connector
+		songObj.bind('internal.attemptedLFMValidation', function(ev, newVal) {
+			if (newVal === true) {
+				if (songObj.internal.isLFMValid === false) {
+					callback(false);
+				} else {
+					// create plain old song object to maintain compatibility
+					var validSong = {
+						artist: songObj.artist,
+						track: songObj.track,
+						duration: songObj.duration * 1000 // legacy api expects miliseconds
+					};
 
-	   var req = new XMLHttpRequest();
-	   req.open('GET', validationURL, false);
-	   req.send(null);
-	   if(req.status == 200) {
-	      if (req.responseText != "You must supply either an artist and track name OR a musicbrainz id.") {
-	         // fill-in the song structure with validated data
-	         var xmlDoc = $.parseXML(req.responseText);
-	         var xml = $(xmlDoc);
+					callback(validSong);
+				}
+			}
+		});
 
-	         // return the valid song info
-	         return {artist : xml.find('artist > name').text(),
-	                  track : xml.find('track > name').text(),
-	                  duration : xml.find('track > duration').text()
-	                };
-	      } else {
-	         console.log('validation failed: %s', req.responseText);
-	      }
-	   }
-
-	   return false;
+		LastFM.loadSongInfo(songObj);
 	}
 
 
@@ -336,7 +306,7 @@ define([
 	      params["duration"] = song.duration;
 	   }
 
-	   var api_sig = apiCallSignature(params);
+	   var api_sig = LastFM.generateSign(params);
 	   var url = config.apiURL + createQueryString(params) + '&api_sig=' + api_sig;
 
 	   var http_request = new XMLHttpRequest();
@@ -409,7 +379,7 @@ define([
 	      params["sourceId[0]"] = song.sourceId;
 	   }
 
-	   var api_sig = apiCallSignature(params);
+	   var api_sig = LastFM.generateSign(params);
 	   var url = config.apiURL + createQueryString(params) + '&api_sig=' + api_sig;
 
 	   var http_request = new XMLHttpRequest();
@@ -593,17 +563,16 @@ define([
 	            // Checks if the request.artist and request.track are valid and
 	            // returns false if not or a song structure otherwise (may contain autocorrected values)
 	        case "validate":
-	                  // quick deny for bad/incomplete info
-	                  if (!request.artist || !request.track) {
-	                      sendResponse(false);
-	                      break;
-	                  }
+				// quick deny for bad/incomplete info
+				if (!request.artist || !request.track) {
+					sendResponse(false);
+				}
+				// use new API module to validate
+				else {
+					validate(request.artist, request.track, sendResponse);
+				}
+				break;
 
-	                  var res = validate(request.artist, request.track);
-
-	                  // res is false or a valid song structure
-	                  sendResponse( res );
-	                  break;
 
 	         // Interface for new V2 functionality. Routes control flow to new structures, so we can
 	         // have two cores side by side. The old functionality will be later removed
