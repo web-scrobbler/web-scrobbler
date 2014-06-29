@@ -533,14 +533,6 @@ define([
 					sendResponse({});
 	            break;
 
-	            // returns the options in key => value pseudomap
-	            case "getOptions":
-	                  var opts = {};
-	            for (var x in localStorage)
-	                     opts[x] = localStorage[x];
-	                  sendResponse({value: opts});
-	            break;
-
 	            // do we need this anymore? (content script can use ajax)
 	            case "xhr":
 	            var http_request = new XMLHttpRequest();
