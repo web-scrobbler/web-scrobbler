@@ -12,7 +12,7 @@ var CONTAINER_SELECTOR = 'div#plex.application.show-nav-bar.show-action-bar.show
 
 
 $(function(){
-	$(CONTAINER_SELECTOR).live('DOMSubtreeModified', function(e) {
+	$(CONTAINER_SELECTOR).on('DOMSubtreeModified', function(e) {
 
 		if ($(CONTAINER_SELECTOR).length > 0) {
 			updateNowPlaying();
