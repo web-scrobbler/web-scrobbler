@@ -1,3 +1,11 @@
+/*
+ * Chrome-Last.fm-Scrobbler PLEX connector by Hm
+ * https://github.com/j4cknife
+ * http://www.last.fm/user/davis1766
+ * 
+ * (based on google music connector)
+ *
+ */
 // State for event handlers
 var state = 'init';
 
