@@ -5,7 +5,7 @@
  */
 
 // DOM Nodes to keep track for song details
-var SONG_DETAILS_DOM = '.line1';
+var SONG_DETAILS_DOM = '#nowPlayingInfo .line1';
 
 // Prevent same track from being scrobbled continuously
 var previousTrack = '';
@@ -70,7 +70,7 @@ function updateNowPlaying() {
 console.log('TuneIn connector loading');
 
 // Track enclosing <div>, class: 'line1' to observe track change
-$(SONG_DETAILS_DOM).live('DOMSubtreeModified', function () {
+$(document).bind('DOMSubtreeModified', SONG_DETAILS_DOM, function () {
     setTimeout(updateNowPlaying, 5000);
 });
 
