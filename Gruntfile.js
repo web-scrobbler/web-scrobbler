@@ -3,7 +3,10 @@
 /* global module, require */
 module.exports = function(grunt) {
 
-	var jsFiles = ['Gruntfile.js', 'popup.js', 'core/background/*', 'core/content/*', 'options/options.js', 'connectors/archive.js']; // intentionally does not contain all files yet
+	var jsFiles = ['Gruntfile.js', 'popup.js', 'core/background/*', 'core/content/*', 'options/options.js',
+		'connectors/archive.js',
+		'connectors/bandcamp.js'
+	]; // intentionally does not contain all files yet
 
 	grunt.initConfig({
 		jshint: {

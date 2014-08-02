@@ -3,14 +3,16 @@
  *                (loosely based on Yasin Okumus's MySpace connector)
  * v0.1
  */
- var lastTrack = null;
- 
+'use strict';
+
+var lastTrack = null;
+
 $(function(){
-	// bind page unload function to discard current "now listening"
+	// bind page unload function to discard current 'now listening'
 	cancel();
 });
 
-var durationPart = ".track_info .time";
+var durationPart = '.track_info .time';
 var durationRegex = /[ \n]*(\d+):(\d+)[ \n]*\/[ \n]*(\d+):(\d+)[ \n]*/;
 function parseDuration(match){
 	try{
@@ -23,22 +25,22 @@ function parseDuration(match){
 
 function parseArtist()
 {
-	var byLine = "";
+	var byLine = '';
 	if (isAlbum())
 	{
-		byLine = $("dt.hiddenAccess:contains('band name') ~ dd").text();
+		byLine = $('dt.hiddenAccess:contains("band name") ~ dd').text();
 	}
 	else // isTrack
 	{
-		byLine = $(".albumTitle nobr").text();
+		byLine = $('.albumTitle nobr').text();
 	}
-	
+
 	var artist = $.trim($.trim(byLine).substring(2));
 	if(!artist) {
 		artist = $('span[itemprop=byArtist]').text();
 	}
-	
-	return artist;
+
+	return $.trim(artist);
 }
 
 function parseAlbum() {
@@ -54,11 +56,11 @@ function parseTitle()
 {
 	if (isAlbum())
 	{
-		return $(".track_info .title").first().text();
+		return $('.track_info .title').first().text();
 	}
 	else //isTrack
 	{
-		return $(".trackTitle").first().text();
+		return $('.trackTitle').first().text();
 	}
 }
 
@@ -68,18 +70,18 @@ function isAlbum()
 }
 
 function cancel(){
-	$(window).unload(function() {      
+	$(window).unload(function() {
 		// reset the background scrobbler song data
 		chrome.runtime.sendMessage({type: 'reset'});
-		return true;      
+		return true;
 	});
 }
 
 console.log('BandCampScrobbler: loaded');
 
-$(durationPart).bind('DOMSubtreeModified',function(e){
+$(durationPart).bind('DOMSubtreeModified',function() {
 	var duration = parseDuration($(durationPart).text());
-	
+
 	//console.log('duration - ' + duration.current + ' / ' + duration.total);
 
 	if(duration.current > 0) { // it's playing
@@ -87,9 +89,9 @@ $(durationPart).bind('DOMSubtreeModified',function(e){
 		var artist = parseArtist();
 		var track = parseTitle();
 		var album = parseAlbum();
-		
+
 		var dashIndex = track.indexOf('-');
-		if (artist == 'Various Artists' && dashIndex >= 0)
+		if (/^Various(\sArtists)?$/.test(artist) && dashIndex >= 0)
 		{
 			artist = track.substring(0, dashIndex);
 			track = track.substring(dashIndex + 1);
@@ -101,15 +103,15 @@ $(durationPart).bind('DOMSubtreeModified',function(e){
 		if (lastTrack != track)
 		{
 			lastTrack = track;
-			
-			//console.log("BandCampScrobbler: scrobbling - Artist: " + artist + "; Album:  " + album + "; Track: " + track + "; duration: " + duration.total);
+
+			//console.log('BandCampScrobbler: scrobbling - Artist: ' + artist + '; Album:  ' + album + '; Track: ' + track + '; duration: ' + duration.total);
 			chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
-				if (response != false){
+				if (response !== false){
 					chrome.runtime.sendMessage({type: 'nowPlaying', artist: response.artist, track: response.track, duration: duration.total, album: album});
 				}
 				else
 				{
-					chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration.total});	
+					chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration.total});
 				}
 			});
 		}
