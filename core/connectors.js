@@ -421,6 +421,12 @@ define(function() {
 			label: 'Soundozer',
 			matches: ['*://soundozer.com/*'],
 			js: ['connectors/soundozer.js']
+		},
+
+		{
+			label: '163 Music',
+			matches: ['*://music.163.com/*'],
+			js: ['connectors/163music.js']
 		}
 	];
 });
