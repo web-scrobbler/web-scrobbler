@@ -7,25 +7,34 @@ var lastUrl = '';
 // which changes (amongst others) on ajax navigation
 var target = null;
 var feather = false;
+
+function handleMutation (mutation) {
+	// detect first mutation that happens after url has changed
+	if (lastUrl != location.href) {
+		lastUrl = location.href;
+		updateNowPlaying();
+	}
+}
+
 var observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
-        // detect first mutation that happens after url has changed
-        if (lastUrl != location.href) {
-            lastUrl = location.href;
-            updateNowPlaying();
-        }
-    });
+    mutations.forEach(handleMutation);
 });
 
 
-var config = { attributes: true };
+var config = {
+	attributes: true,
+	attributeFilter: ['data-youtube-id', 'src']
+};
 
-target = document.querySelector('#player-api');
+target = document.querySelector('#player-api video');
 if (!target) {
     feather = true;
     updateNowPlaying();
 }
 else {
+	// trigger manually to detect change from '' -> 'something' on first regular page load
+	handleMutation(null);
+
     observer.observe(target, config);
 }
 // bind page unload function to discard current "now listening"
@@ -114,7 +123,7 @@ function cleanArtistTrack(artist, track) {
    track = track.replace(/\s+(HD|HQ)\s*$/, ''); // HD (HQ)
    track = track.replace(/\s*video\s*clip/i, ''); // video clip
    track = track.replace(/\s+\(?live\)?$/i, ''); // live
-   track = track.replace(/\(\s*\)/, ''); // Leftovers after e.g. (official video)
+   track = track.replace(/\(+\s*\)+/, ''); // Leftovers after e.g. (official video)
    track = track.replace(/^(|.*\s)"(.*)"(\s.*|)$/, '$2'); // Artist - The new "Track title" featuring someone
    track = track.replace(/^(|.*\s)'(.*)'(\s.*|)$/, '$2'); // 'Track title'
    track = track.replace(/^[\/\s,:;~-\s"]+/, ''); // trim starting white chars and dash

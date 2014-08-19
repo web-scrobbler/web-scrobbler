@@ -1,40 +1,37 @@
-var lastTrack = null;
-var $r = chrome.runtime.sendMessage;
-
-function scrobble(e) {
-    var artist = $("#gp_performer").text();
-    var title = $("#gp_title").text();
-
-    if (lastTrack != artist + " " + title) {
-        lastTrack = artist + " " + title;
-
-        $r({type: 'validate', artist: artist, track: title}, function(response) {
-            if (response != false) {
-                $r({
-                    type: 'nowPlaying',
-                    artist: response.artist,
-                    track: response.track,
-                    duration: Math.floor(response.duration / 1000)
-                });
-            } else {
-                $r({type: 'nowPlaying'});
-            }
-        });
-    }
+function scrobble (artist, title, duration) {
+    chrome.runtime.sendMessage({type: 'validate', artist: artist, track: title}, function (response) {
+        if (response !== false) {
+            chrome.runtime.sendMessage({
+                type: 'nowPlaying',
+                artist: response.artist,
+                track: response.track,
+                duration: duration
+            });
+        } else
+            chrome.runtime.sendMessage({type: 'nowPlaying'}); // unidentified music
+    });
 }
 
-$(function() {
-    $(window).unload(function() {
-		// reset the background scrobbler song data
-		chrome.runtime.sendMessage({type: 'reset'});
-		return true;
+$(function () {
+    $(window).unload(function () {
+	// reset the background scrobbler song data
+	chrome.runtime.sendMessage({type: 'reset'});
+	return true;
     });
+    
+    window.addEventListener('message', function(event) {
+        if (event.source != window)
+            return;
 
-    $(document).bind("DOMNodeInserted", function(e) {
-        if (e.target.id === "gp_performer") {
-			$("#gp_info>div").bind('DOMSubtreeModified', function(e) { setTimeout(scrobble, 500) });
-		}
-    });
+        if (event.data && event.data.artist && event.data.title && event.data.duration)
+            scrobble(event.data.artist, event.data.title, event.data.duration);
+        
+    }, false);
+
+    var injectScript = document.createElement('script');
+    injectScript.type = 'text/javascript';
+    injectScript.src = chrome.extension.getURL('connectors/vk-dom-inject.js');
+    (document.head || document.documentElement).appendChild(injectScript);
 });
 
 
@@ -42,7 +39,7 @@ $(function() {
  * Listen for requests from scrobbler.js
  */
 chrome.runtime.onMessage.addListener(
-    function(request, sender, sendResponse) {
+    function (request, sender, sendResponse) {
         switch(request.type) {
 
             // background calls this to see if the script is already injected

@@ -79,11 +79,11 @@ function sendTrack()
  */
 function getCurrentTrack()
 {
-    if ($('#h_play').is(":hidden")) { // Play button hidden, the song is playing
+    if ($('#player_control_play').is(":hidden")) { // Play button hidden, the song is playing
         return {
-            track: $('#current-track').html(),
-            artist: $('#current-artist').html(),
-            duration: parseDuration($('#end-track').html())
+            track: $('.track-info .title').text(),
+            artist: $('.track-info .artist').text(),
+            duration: parseDuration($('#player_track_length').text())
         }
     }
 
