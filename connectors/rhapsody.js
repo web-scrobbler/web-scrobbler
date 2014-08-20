@@ -3,14 +3,14 @@
 // Used only to remember last song title
 var clipTitle = '';
 
-// Timeout to scrobble track after minimum time passes
+// Timeout to scrobble track after minimum time passes in seconds
 var scrobbleTimeout = 30;
 
 $(function(){
 	$('#player-track-link').live('DOMSubtreeModified', function() {
 		setTimeout(function(){
 			updateNowPlaying();
-		},scrobbleTimeout);
+		},scrobbleTimeout*1000);
 	});
 	updateNowPlaying();
 });
