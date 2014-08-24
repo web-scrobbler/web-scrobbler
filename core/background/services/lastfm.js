@@ -230,17 +230,17 @@ define([
 				artistThumbUrl: $doc.find('album > image[size="medium"]').text()
 			});
 
-			song.internal.attr({
-				attemptedLFMValidation: true,
-				isLFMValid: true
-			});
+			song.internal.attr('isLFMValid', true);
+
+			// set the flag at last, so all changes are already done
+			song.internal.attr('attemptedLFMValidation', true);
 		};
 
 		var errCb = function() {
-			song.internal.attr({
-				attemptedLFMValidation: true,
-				isLFMValid: false
-			});
+			song.internal.attr('isLFMValid', false);
+
+			// set the flag at last, so all changes are already done
+			song.internal.attr('attemptedLFMValidation', true);
 		};
 
 		doRequest(params, false, okCb, errCb);
