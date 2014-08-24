@@ -170,74 +170,16 @@ define([
 	 * Retrieves a token and opens a new window for user to authorize it
 	 */
 	function authorize() {
-	   var http_request = new XMLHttpRequest();
-	   http_request.open("GET", config.apiURL + 'method=auth.gettoken&api_key=' + config.apiKey, false); // synchronous
-	   http_request.setRequestHeader("Content-Type", "application/xml");
-	   http_request.send(null);
+		var authUrl = LastFM.getAuthUrl();
 
-	   console.log('getToken response: %s', http_request.responseText);
-
-	   var xmlDoc = $.parseXML(http_request.responseText);
-	   var xml = $(xmlDoc);
-	   var status = xml.find('lfm').attr('status');
-
-	   if (status != 'ok') {
-	      console.log('Error acquiring a token: %s', http_request.responseText);
-	      localStorage.token = '';
-	   } else {
-	      localStorage.token = xml.find('token').text();
-
-	      // open a tab with token authorization
-	      var url = 'https://www.last.fm/api/auth/?api_key=' + config.apiKey + '&token=' + localStorage.token;
-	      window.open(url, 'scrobbler-auth');
-	   }
+		if (authUrl) {
+			notifications.showAuthenticate(authUrl);
+		} else {
+			notifications.showError('Unable to get token from Last.FM API. See console for details');
+		}
 	}
 
-	/**
-	 * Retrieve sessionID token if not already available
-	 * Returns false if the sessionID cannot be retrieved (try again later - user has to authorize)
-	 */
-	function getSessionID() {
-	   // check for a token first
-	   if (!localStorage.token || localStorage.token == '') {
-	      authorize();
-	      return false;
-	   }
 
-	   // do we already have a session?
-	   if (localStorage.sessionID && localStorage.sessionID != '')
-	      return localStorage.sessionID;
-
-	   var params = {
-	      method: 'auth.getsession',
-	      api_key: config.apiKey,
-	      token: localStorage.token
-	   };
-	   var api_sig = LastFM.generateSign(params);
-	   var url = config.apiURL + createQueryString(params) + '&api_sig=' + api_sig;
-
-	   var http_request = new XMLHttpRequest();
-	   http_request.open("GET", url, false); // synchronous
-	   http_request.setRequestHeader("Content-Type", "application/xml");
-	   http_request.send(null);
-
-	   console.log('getSession reponse: %s', http_request.responseText);
-
-	   var xmlDoc = $.parseXML(http_request.responseText);
-	   var xml = $(xmlDoc);
-	   var status = xml.find('lfm').attr('status');
-
-	   if (status != 'ok') {
-	      console.log('getSession: the token probably hasn\'t been authorized');
-	      localStorage.sessionID = '';
-	      authorize();
-	   } else {
-	      localStorage.sessionID = xml.find('key').text();
-	      return localStorage.sessionID;
-	   }
-
-	   return false;
-	}
 
 
 
@@ -288,7 +230,7 @@ define([
 	   }
 
 	   // if the token/session is not authorized, wait for a while
-	   var sessionID = getSessionID();
+	   var sessionID = LastFM.getSessionID();
 	   if (sessionID === false)
 	      return;
 
@@ -353,8 +295,8 @@ define([
 	   }
 
 	   // if the token/session is not authorized, wait for a while
-	   var sessionID = getSessionID();
-	   if (sessionID === false)
+	   var sessionID = LastFM.getSessionID();
+	   if (!sessionID)
 	      return;
 
 	   console.log('submit called for %s - %s (%s)', song.artist, song.track, song.album);
@@ -419,170 +361,156 @@ define([
 
 	/**
 	 * Extension inferface for content_script
-	 * nowPlaying(artist, track, currentTime, duration) - send info to server which song is playing right now
-	 * xhr(url) - send XHR GET request and return response text
-	 * newSession() - start a new last.fm session (need to reauthenticate)
-	 * validate(artist, track) - validate artist-track pair against last.fm and return false or the valid song
 	 */
-	chrome.runtime.onMessage.addListener(
-		function(request, sender, sendResponse) {
-	         switch(request.type) {
+	function runtimeOnMessageListener(request, sender, sendResponse) {
+		 switch(request.type) {
 
-	            // Called when a new song has started playing. If the artist/track is filled,
-	            // they have to be already validated! Otherwise they can be corrected from the popup.
-	            // Also sets up a timout to trigger the scrobbling procedure (when all data are valid)
-	        case "nowPlaying":
-	                  console.log('nowPlaying %o', request);
+			// Called when a new song has started playing. If the artist/track is filled,
+			// they have to be already validated! Otherwise they can be corrected from the popup.
+			// Also sets up a timout to trigger the scrobbling procedure (when all data are valid)
+			case "nowPlaying":
+				  console.log('nowPlaying %o', request);
 
-	                  // do the reset to be sure there is no other timer running
-	                  reset();
+				  // do the reset to be sure there is no other timer running
+				  reset();
 
-	                  // remember the caller
-	                  nowPlayingTab = sender.tab.id;
+				  // remember the caller
+				  nowPlayingTab = sender.tab.id;
 
-	                  // scrobbling disabled?
-	                  if (disabled) {
-	                     setActionIcon(config.ACTION_DISABLED, nowPlayingTab);
-	                     break;
-	                  }
+				  // scrobbling disabled?
+				  if (disabled) {
+					 setActionIcon(config.ACTION_DISABLED, nowPlayingTab);
+					 break;
+				  }
 
-	                  // backward compatibility for connectors which dont use currentTime
-	                  if (typeof(request.currentTime) == 'undefined' || !request.currentTime)
-	                     request.currentTime = 0;
+				  // backward compatibility for connectors which dont use currentTime
+				  if (typeof(request.currentTime) == 'undefined' || !request.currentTime)
+					 request.currentTime = 0;
 
-	                  // data missing, save only startTime and show the unknown icon
-	                  if (typeof(request.artist) == 'undefined' || !request.artist
-	                      || typeof(request.track) == 'undefined' || !request.track)
-	                  {
-	                     // fill only the startTime, so the popup knows how to set up the timer
-	                     song = {
-	                        startTime : parseInt(new Date().getTime() / 1000.0) // in seconds
-	                     };
+				  // data missing, save only startTime and show the unknown icon
+				  if (typeof(request.artist) == 'undefined' || !request.artist
+					  || typeof(request.track) == 'undefined' || !request.track)
+				  {
+					 // fill only the startTime, so the popup knows how to set up the timer
+					 song = {
+						startTime : parseInt(new Date().getTime() / 1000.0) // in seconds
+					 };
 
-	                     // if we know something...
-	                     if (typeof(request.artist) != 'undefined' && request.artist) {
-	                        song.artist = request.artist;
-	                     }
-	                     if (typeof(request.track) != 'undefined' && request.track) {
-	                        song.track = request.track;
-	                     }
-	                     if (typeof(request.currentTime) != 'undefined' && request.currentTime) {
-	                        song.currentTime = request.currentTime;
-	                     }
-	                     if (typeof(request.duration) != 'undefined' && request.duration) {
-	                        song.duration = request.duration;
-	                     }
-	                     if (typeof(request.album) != 'undefined' && request.album) {
-	                        song.album = request.album;
-	                     }
-	                     if (typeof(request.sourceId) != 'undefined' && request.sourceId) {
-	                        song.sourceId = request.sourceId;
-	                     }
-	                     if (typeof(request.source) != 'undefined' && request.source) {
-	                        song.source = request.source;
-	                     }
+					 // if we know something...
+					 if (typeof(request.artist) != 'undefined' && request.artist) {
+						song.artist = request.artist;
+					 }
+					 if (typeof(request.track) != 'undefined' && request.track) {
+						song.track = request.track;
+					 }
+					 if (typeof(request.currentTime) != 'undefined' && request.currentTime) {
+						song.currentTime = request.currentTime;
+					 }
+					 if (typeof(request.duration) != 'undefined' && request.duration) {
+						song.duration = request.duration;
+					 }
+					 if (typeof(request.album) != 'undefined' && request.album) {
+						song.album = request.album;
+					 }
+					 if (typeof(request.sourceId) != 'undefined' && request.sourceId) {
+						song.sourceId = request.sourceId;
+					 }
+					 if (typeof(request.source) != 'undefined' && request.source) {
+						song.source = request.source;
+					 }
 
-	                     // Update page action icon to 'unknown'
-	                     setActionIcon(config.ACTION_UNKNOWN, sender.tab.id);
-	                  }
-	                  // all data are avaliable and valid, set up the timer
-	                  else {
-	                     // fill the new playing song
-	                     song = {
-	                        artist : request.artist,
-	                        track : request.track,
-	                        currentTime : request.currentTime,
-	                        duration : request.duration,
-	                        startTime : ( parseInt (new Date().getTime() / 1000.0) - request.currentTime) // in seconds
-	                     }
+					 // Update page action icon to 'unknown'
+					 setActionIcon(config.ACTION_UNKNOWN, sender.tab.id);
+				  }
+				  // all data are avaliable and valid, set up the timer
+				  else {
+					 // fill the new playing song
+					 song = {
+						artist : request.artist,
+						track : request.track,
+						currentTime : request.currentTime,
+						duration : request.duration,
+						startTime : ( parseInt (new Date().getTime() / 1000.0) - request.currentTime) // in seconds
+					 }
 
-	                     if(typeof(request.album) != 'undefined') {
-	                        song.album = request.album;
-	                     }
-	                     if (typeof(request.sourceId) != 'undefined' && request.sourceId) {
-	                        song.sourceId = request.sourceId;
-	                     }
-	                     if (typeof(request.source) != 'undefined' && request.source) {
-	                        song.source = request.source;
-	                     }
-
-
-	                     // make the connection to last.fm service to notify
-	                     nowPlaying(song);
-
-	                     // The minimum time is 240 seconds or half the
-	                     // track's total length. Subtract the song's
-	                     // current time (for the case of unpausing).
-	                     var min_time = (Math.max(1, Math.min(240, song.duration / 2) - song.currentTime));
-	                     // Set up the timer
-	                     scrobbleTimeout = setTimeout(submit, min_time * 1000);
-	                  }
-
-	            sendResponse({});
-	            break;
-
-	            // called when the window closes / unloads before the song can be scrobbled
-	            case "reset":
-	                  reset();
-	                  sendResponse({});
-	                  break;
-
-	            case "trackStats":
-					// intentionally not used - will be replaced by new connector API
-					//_gaq.push(['_trackEvent', request.text]);
-					sendResponse({});
-	            break;
-
-	            // do we need this anymore? (content script can use ajax)
-	            case "xhr":
-	            var http_request = new XMLHttpRequest();
-	            http_request.open("GET", request.url, true);
-	            http_request.onreadystatechange = function() {
-	                if (http_request.readyState == 4 && http_request.status == 200)
-	                    sendResponse({text: http_request.responseText});
-	            };
-	            http_request.send(null);
-	            break;
-
-	            // for login
-	        case "newSession":
-	            sessionID = "";
-	            break;
-
-	            // connector tells us it is disabled
-	        case "reportDisabled":
-	            setActionIcon(config.ACTION_CONN_DISABLED, sender.tab.id);
-	            break;
-
-	            // Checks if the request.artist and request.track are valid and
-	            // returns false if not or a song structure otherwise (may contain autocorrected values)
-	        case "validate":
-				// quick deny for bad/incomplete info
-				if (!request.artist || !request.track) {
-					sendResponse(false);
-				}
-				// use new API module to validate
-				else {
-					validate(request.artist, request.track, sendResponse);
-				}
-				break;
+					 if(typeof(request.album) != 'undefined') {
+						song.album = request.album;
+					 }
+					 if (typeof(request.sourceId) != 'undefined' && request.sourceId) {
+						song.sourceId = request.sourceId;
+					 }
+					 if (typeof(request.source) != 'undefined' && request.source) {
+						song.source = request.source;
+					 }
 
 
-	         // Interface for new V2 functionality. Routes control flow to new structures, so we can
-	         // have two cores side by side. The old functionality will be later removed
-	         case 'v2.stateChanged':
-				 console.log('received v2: ' + JSON.stringify(request));
-		         console.err('not implemented yet');
-		         break;
+					 // make the connection to last.fm service to notify
+					 nowPlaying(song);
+
+					 // The minimum time is 240 seconds or half the
+					 // track's total length. Subtract the song's
+					 // current time (for the case of unpausing).
+					 var min_time = (Math.max(1, Math.min(240, song.duration / 2) - song.currentTime));
+					 // Set up the timer
+					 scrobbleTimeout = setTimeout(submit, min_time * 1000);
+				  }
+
+			sendResponse({});
+			break;
+
+			// called when the window closes / unloads before the song can be scrobbled
+			case "reset":
+				  reset();
+				  sendResponse({});
+				  break;
+
+			case "trackStats":
+				// intentionally not used - will be replaced by new connector API
+				//_gaq.push(['_trackEvent', request.text]);
+				sendResponse({});
+			break;
+
+			// do we need this anymore? (content script can use ajax)
+			case "xhr":
+			var http_request = new XMLHttpRequest();
+			http_request.open("GET", request.url, true);
+			http_request.onreadystatechange = function() {
+				if (http_request.readyState == 4 && http_request.status == 200)
+					sendResponse({text: http_request.responseText});
+			};
+			http_request.send(null);
+			break;
+
+			// for login - not used anymore
+		case "newSession":
+			sessionID = "";
+			break;
+
+			// connector tells us it is disabled
+		case "reportDisabled":
+			setActionIcon(config.ACTION_CONN_DISABLED, sender.tab.id);
+			break;
+
+			// Checks if the request.artist and request.track are valid and
+			// returns false if not or a song structure otherwise (may contain autocorrected values)
+		case "validate":
+			// quick deny for bad/incomplete info
+			if (!request.artist || !request.track) {
+				sendResponse(false);
+			}
+			// use new API module to validate
+			else {
+				validate(request.artist, request.track, sendResponse);
+			}
+			break;
 
 
-	            default:
-	                  console.log('Unknown request: %s', JSON.stringify(request));
-	         }
+			default:
+				  console.log('Unknown request: %s', JSON.stringify(request));
+		 }
 
-	         return true;
-		}
-	);
+		 return true;
+	}
 
 	// globals to be accessed from popup window
 	window.popupApi = {
@@ -600,7 +528,8 @@ define([
 	// public api (used in inject and options)
 	return {
 		authorize: authorize,
-		setActionIcon: setActionIcon
+		setActionIcon: setActionIcon,
+		runtimeOnMessage: runtimeOnMessageListener
 	};
 
 });

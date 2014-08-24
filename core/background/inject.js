@@ -5,8 +5,8 @@
 define([
 	'connectors',
 	'config',
-	'legacy/scrobbler' // for setActionIcon
-], function (connectors, config, legacyScrobbler) {
+	'injectResult'
+], function (connectors, config, injectResult) {
 
 	/**
 	 * Creates regex from single match pattern
@@ -16,7 +16,9 @@ define([
 	 * @returns RegExp
 	 */
 	function createPattern(input) {
-		if (typeof input !== 'string') return null;
+		if (typeof input !== 'string') {
+			return null;
+		}
 		var match_pattern = '^',
 			regEscape = function (s) {
 				return s.replace(/[[^$.|?*+(){}\\]/g, '\\$&');
@@ -24,13 +26,17 @@ define([
 			result = /^(\*|https?|file|ftp|chrome-extension):\/\//.exec(input);
 
 		// Parse scheme
-		if (!result) return null;
+		if (!result) {
+			return null;
+		}
 		input = input.substr(result[0].length);
 		match_pattern += result[1] === '*' ? 'https?://' : result[1] + '://';
 
 		// Parse host if scheme is not `file`
 		if (result[1] !== 'file') {
-			if (!(result = /^(?:\*|(\*\.)?([^\/*]+))/.exec(input))) return null;
+			if (!(result = /^(?:\*|(\*\.)?([^\/*]+))/.exec(input))) {
+				return null;
+			}
 			input = input.substr(result[0].length);
 			if (result[0] === '*') {    // host is '*'
 				match_pattern += '[^/]+';
@@ -51,13 +57,17 @@ define([
 
 
 	/**
-	 * Injects connectors to tabs upon page loading
+	 * Is triggered by chrome.tabs.onUpdated event
+	 * Checks for available connectors and injects matching connector into loaded page
+	 * while returning info about the connector
+	 *
+	 * @param {Number} tabId
+	 * @param {Object} changeInfo
+	 * @param {Object} tab
+	 * @param {Function} cb to be called to signalize the state of injecting
+	 * @return {Boolean}
 	 */
-	chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
-		// wait for the Loaded event
-		if (changeInfo.status !== 'complete')
-			return;
-
+	function onTabsUpdated(tabId, changeInfo, tab, cb) {
 		// run first available connector
 		var anyMatch = !connectors.every(function (connector) {
 			var matchOk = false;
@@ -67,11 +77,15 @@ define([
 			});
 
 			if (matchOk === true) {
-				console.log('connector ' + connector.label + ' matched for ' + tab.url);
-				legacyScrobbler.setActionIcon(config.ACTION_SITE_RECOGNIZED, tabId);
+//				console.log('connector ' + connector.label + ' matched for ' + tab.url);
+//				legacyScrobbler.setActionIcon(config.ACTION_SITE_RECOGNIZED, tabId);
 
 				if (!config.isConnectorEnabled(connector.label)) {
-					legacyScrobbler.setActionIcon(config.ACTION_SITE_DISABLED, tabId);
+					//legacyScrobbler.setActionIcon(config.ACTION_SITE_DISABLED, tabId);
+
+					// matched, but is not enabled
+					cb(new injectResult.InjectResult(injectResult.results.MATCHED_BUT_DISABLED, tabId, connector));
+
 					return false; // break forEach
 				}
 
@@ -118,11 +132,16 @@ define([
 								console.log('\tinjecting ' + jsFile);
 								chrome.tabs.executeScript(tabId, injectDetails, injectWorker);
 							}
+							else {
+								// done successfully
+								cb(new injectResult.InjectResult(injectResult.results.MATCHED_AND_INJECTED, tabId, connector));
+							}
 						};
 
 						injectWorker();
 					}
 					else {
+						// no cb() call, uselesss to report this state
 						console.log('-- subsequent ajax navigation, the scripts are already injected');
 					}
 				});
@@ -132,14 +151,25 @@ define([
 			return !matchOk;
 		});
 
-		// hide page action if there is no match
+
+		// report no match
 		if (!anyMatch) {
-			try {
-				chrome.pageAction.hide(tabId);
-			} catch (e) {
-				// ignore, the tab may no longer exist
-			}
+			cb(new injectResult.InjectResult(injectResult.results.NO_MATCH, tabId, null));
 		}
-	});
+
+//		// hide page action if there is no match
+//		if (!anyMatch) {
+//			try {
+//				chrome.pageAction.hide(tabId);
+//			} catch (e) {
+//				// ignore, the tab may no longer exist
+//			}
+//		}
+	}
+
+
+	return {
+		onTabsUpdated: onTabsUpdated
+	};
 
 });

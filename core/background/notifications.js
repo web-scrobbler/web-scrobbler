@@ -4,6 +4,15 @@ define([
 	'wrappers/chrome'
 ], function(chrome) {
 
+	/**
+	 * Map of click listeners indexed by notification IDs
+	 * @type {{}}
+	 */
+	var clickListeners = {};
+
+	/**
+	 * Dummy callback
+	 */
 	var emptyCB = function() {};
 
 	/**
@@ -19,6 +28,19 @@ define([
 	 */
 	function isAllowed() {
 		return localStorage.useNotifications == 1;
+	}
+
+	/**
+	 * Sets up listener for click on given notification.
+	 * All clicks are handled internally and transparently passed to listeners, if any.
+	 * Setting multiple listeners for single notification is not supported,
+	 * the last set listener will overwrite any previous.
+	 *
+	 * @param notificationId
+	 * @param callback - notification ID will be passed as a single parameter
+	 */
+	function addOnClickedListener(notificationId, callback) {
+		clickListeners[notificationId] = callback;
 	}
 
 
@@ -69,11 +91,52 @@ define([
 	}
 
 
+	function showAuthenticate(authUrl) {
+		if (!isAvailable()) {
+			// fallback for browsers with no notifications support
+			window.open(authUrl, 'scrobbler-auth');
+			return;
+		}
+
+		var notificationCreatedCb = function(notificationId) {
+			addOnClickedListener(notificationId, function() {
+				window.open(authUrl, 'scrobbler-auth');
+			});
+		};
+
+		var createNotification = function(permissionLevel) {
+			if (permissionLevel === 'granted') {
+
+				var options = {
+					type: 'basic',
+					iconUrl: 'icon128.png',
+					title: 'Connect your Last.FM account',
+					message: 'Click the notification or connect later in the extension options page',
+					isClickable: true
+				};
+
+				chrome.notifications.create('', options, notificationCreatedCb);
+			}
+		};
+
+		chrome.notifications.getPermissionLevel(createNotification);
+	}
+
+
+	// set up listening for clicks on all notifications
+	chrome.notifications.onClicked.addListener(function(notificationId) {
+		console.log('Notification onClicked: ' + notificationId);
+
+		if (clickListeners[notificationId]) {
+			clickListeners[notificationId](notificationId);
+		}
+	});
 
 
 	return {
 		showPlaying: showPlaying,
-		showError: showError
+		showError: showError,
+		showAuthenticate: showAuthenticate
 	};
 
 });

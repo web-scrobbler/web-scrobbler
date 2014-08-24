@@ -25,6 +25,9 @@ define(function() {
 	window.ga('set', 'checkProtocolTask', function(){});
 
 	return {
+		/**
+		 * @param {...*}
+		 */
 		send: function () {
 			var args = Array.prototype.slice.call(arguments, 0);
 			args.unshift('send');

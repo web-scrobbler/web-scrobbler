@@ -2,7 +2,7 @@
 define(function() {
 	return {
 		/**
-		 * L.FM API info
+		 * L.FM API info - used in legacy/scrobbler
 		 */
 		apiURL: 'https://ws.audioscrobbler.com/2.0/?',
 		apiKey: 'd9bb1870d3269646f740544d9def2c95',
@@ -12,12 +12,6 @@ define(function() {
 		 */
 		JQUERY_1_6_PATH: 'vendor/jquery-1.6.1.min.js',
 		JQUERY_PATH: 'vendor/jquery-2.1.0.min.js',
-
-		/**
-		 * Notifications
-		 */
-		NOTIFICATION_TIMEOUT: 5000,
-		NOTIFICATION_SEPARATOR: ':::',
 
 		/**
 		 * Page action icons

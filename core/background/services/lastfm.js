@@ -8,13 +8,118 @@
 define([
 	'jquery',
 	'config',
-	'vendor/md5'
-], function ($, config, MD5) {
+	'vendor/md5',
+	'storage'
+], function ($, config, MD5, Storage) {
 
 	var enableLogging = true;
 
 	var apiUrl = 'https://ws.audioscrobbler.com/2.0/';
+	var apiKey = 'd9bb1870d3269646f740544d9def2c95';
 	var apiSecret = '2160733a567d4a1a69a73fad54c564b2';
+
+	var storage = Storage.getNamespace('LastFM');
+
+	/**
+	 * Creates query string from object properties
+	 */
+	function createQueryString(params) {
+		var parts = [];
+
+		for (var x in params) {
+			if (params.hasOwnProperty(x)) {
+				parts.push( x + '=' + encodeURIComponent(params[x]));
+			}
+		}
+
+		return parts.join('&');
+	}
+
+	/**
+	 * Returns URL where user should grant permissions to our token or null on error.
+	 * Does a synchronous API call internally, so this method is blocking
+	 *
+	 * See http://www.last.fm/api/show/auth.getToken
+	 *
+	 * @return {String}
+	 */
+	function getAuthUrl() {
+		var http_request = new XMLHttpRequest();
+		http_request.open('GET', apiUrl + '?method=auth.gettoken&api_key=' + apiKey, false); // synchronous
+		http_request.setRequestHeader('Content-Type', 'application/xml');
+		http_request.send();
+
+		console.log('getToken response: %s', http_request.responseText);
+
+		var xmlDoc = $.parseXML(http_request.responseText);
+		var xml = $(xmlDoc);
+		var status = xml.find('lfm').attr('status');
+
+		if (status != 'ok') {
+			console.log('Error acquiring a token: %s', http_request.responseText);
+			storage.set('token', null);
+			return null;
+		} else {
+			storage.set('token', xml.find('token').text());
+			return 'https://www.last.fm/api/auth/?api_key=' + apiKey + '&token=' + storage.get('token');
+		}
+	}
+
+	/**
+	 * Returns application token or null if token was not obtained yet.
+	 * This token may or may not be authorized by user
+	 *
+	 * @return {String}
+	 */
+	function getToken() {
+		return storage.get('token') || null;
+	}
+
+	/**
+	 * Returns sessionID or null if there is no application token or the token is not authorized.
+	 * Does a synchronous API call internally if the session ID is not obtained yet, so this method is blocking
+	 *
+	 * @return {String}
+	 */
+	function getSessionID() {
+		// no token no fun
+		if (!getToken()) {
+			return null;
+		}
+
+		// return existing session ID if any
+		if (storage.get('sessionID')) {
+			return storage.get('sessionID');
+		}
+
+		var params = {
+			method: 'auth.getsession',
+			api_key: apiKey,
+			token: getToken()
+		};
+		var api_sig = generateSign(params);
+		var url = apiUrl + '?' + createQueryString(params) + '&api_sig=' + api_sig;
+
+		var http_request = new XMLHttpRequest();
+		http_request.open('GET', url, false); // synchronous
+		http_request.setRequestHeader('Content-Type', 'application/xml');
+		http_request.send();
+
+		console.log('getSession response: %s', http_request.responseText);
+
+		var xmlDoc = $.parseXML(http_request.responseText);
+		var xml = $(xmlDoc);
+		var status = xml.find('lfm').attr('status');
+
+		if (status != 'ok') {
+			console.log('getSession: the token probably hasn\'t been authorized');
+			storage.set('sessionID', null);
+			return null;
+		} else {
+			storage.set('sessionID', xml.find('key').text());
+			return storage.get('sessionID');
+		}
+	}
 
 	/**
 	 * Computes string for signing request
@@ -26,7 +131,9 @@ define([
 		var o = '';
 
 		for (var x in params) {
-			keys.push(x);
+			if (params.hasOwnProperty(x)) {
+				keys.push(x);
+			}
 		}
 
 		// params has to be ordered alphabetically
@@ -142,6 +249,8 @@ define([
 
 
 	return {
+		getAuthUrl: getAuthUrl,
+		getSessionID: getSessionID,
 		generateSign: generateSign,
 		loadSongInfo: loadSongInfo
 	};
