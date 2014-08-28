@@ -13,7 +13,7 @@ $(function () {
         });
         return true;
     });
-    $(".play").click(function () {
+    $(".js-play").click(function () {
         var c = 0;
         //wait for changes in artist name
         $(".js-track-name").bind("DOMSubtreeModified", function (e) {
