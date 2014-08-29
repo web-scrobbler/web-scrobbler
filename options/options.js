@@ -72,8 +72,9 @@ require([
 		});
 
 		conns.forEach(function (connector, index) {
-			var newEl = $('<li><input type="checkbox" id="conn-' + index + '">' +
-			'<label for="conn-' + index + '">' + connector.label + '</label>' +
+
+			var newEl = $('<li>\r\n<input type="checkbox" id="conn-' + index + '">\r\n' +
+			'<label for="conn-' + index + '">' + connector.label + '</label>\r\n' +
 			'</li>');
 
 			var domEl = newEl.appendTo(parent);

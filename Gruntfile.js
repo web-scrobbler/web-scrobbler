@@ -4,6 +4,7 @@
 module.exports = function(grunt) {
 
 	var jsFiles = ['Gruntfile.js', 'popup.js', 'core/background/*', 'core/content/*', 'options/options.js', 'connectors/archive.js']; // intentionally does not contain all files yet
+	var cssFiles = ['options/options.css'];
 
 	grunt.initConfig({
 		jshint: {
@@ -26,7 +27,7 @@ module.exports = function(grunt) {
 		lintspaces: {
 			all: {
 				src: [
-					jsFiles
+					jsFiles, cssFiles
 				],
 
 				options: {
