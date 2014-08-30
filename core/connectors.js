@@ -421,6 +421,13 @@ define(function() {
 			label: 'Soundozer',
 			matches: ['*://soundozer.com/*'],
 			js: ['connectors/soundozer.js']
+		},
+
+		{
+			label: 'blinkboxMusic',
+			matches: ['*://www.blinkboxmusic.com/*'],
+			js: ['connectors/blinkboxmusic.js']
 		}
+
 	];
 });
