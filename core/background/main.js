@@ -65,7 +65,18 @@ require([
 		}
 	};
 
+	/**
+	 * Returns controller for given tab. There should always be one
+	 *
+	 * @param {int} tabId
+	 */
+	function getControllerByTabId(tabId) {
+		if (!tabControllers[tabId]) {
+			console.warn('Missing controller for tab ' + tabId + ' (should only happen for legacy connector)');
+		}
 
+		return tabControllers[tabId];
+	}
 
 
 
@@ -78,12 +89,8 @@ require([
 			// Interface for new V2 functionality. Routes control flow to new structures, so we can
 			// have two cores side by side. The old functionality will be later removed
 			case 'v2.stateChanged':
-				var tabId = sender.tab.id;
-				if (tabControllers[tabId] !== undefined) {
-					tabControllers[tabId].onStateChanged(request.state);
-				} else {
-					console.error('Controller for tab ' + tabId + ' not found');
-				}
+				var ctrl = getControllerByTabId(sender.tab.id);
+				ctrl.onStateChanged(request.state);
 				break;
 
 			// Redirect all other messages to legacy listener
@@ -94,7 +101,7 @@ require([
 		return true;
 	});
 
-	//setup listener for tab updates
+	// setup listener for tab updates
 	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 		// wait for navigation to complete (this does not mean page onLoad)
 		if (changeInfo.status !== 'complete') {
@@ -103,6 +110,18 @@ require([
 
 		inject.onTabsUpdated(tabId, changeInfo, tab, injectCb);
 	});
+
+	// setup listener for page action clicks
+	chrome.pageAction.onClicked.addListener(function(tab) {
+		// route events to controllers or assume legacy scrobbler if no controller is found
+		var ctrl = getControllerByTabId(tab.id);
+		if (ctrl) {
+			ctrl.onPageActionClicked(tab);
+		} else {
+			legacyScrobbler.onPageActionClicked(tab);
+		}
+	});
+
 
 
 	// track background page loaded - happens once per browser session

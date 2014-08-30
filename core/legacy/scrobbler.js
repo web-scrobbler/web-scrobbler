@@ -31,8 +31,6 @@ define([
 	// is scrobbling disabled?
 	var disabled = false;
 
-	// set up page action handler; use dummy.html popup to override
-	chrome.pageAction.onClicked.addListener(pageActionClicked);
 
 
 	/**
@@ -529,7 +527,8 @@ define([
 	return {
 		authorize: authorize,
 		setActionIcon: setActionIcon,
-		runtimeOnMessage: runtimeOnMessageListener
+		runtimeOnMessage: runtimeOnMessageListener,
+		onPageActionClicked: pageActionClicked
 	};
 
 });

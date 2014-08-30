@@ -3,7 +3,9 @@
 /**
  * Controller for each tab
  */
-define([], function() {
+define([
+	'pageAction'
+], function(PageAction) {
 
 	/**
 	 * Constructor
@@ -13,10 +15,16 @@ define([], function() {
 	 */
 	return function(tabId, connector) {
 
+		var pageAction = new PageAction(tabId);
+
 		console.log('creating controller for %O', connector);
 
 		this.onStateChanged = function(newState) {
 			console.log('Tab ' + tabId + ': state changed, %O', newState);
+		};
+
+		this.onPageActionClicked = function() {
+			pageAction.onClicked();
 		};
 
 	};
