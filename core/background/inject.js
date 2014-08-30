@@ -77,12 +77,7 @@ define([
 			});
 
 			if (matchOk === true) {
-//				console.log('connector ' + connector.label + ' matched for ' + tab.url);
-//				legacyScrobbler.setActionIcon(config.ACTION_SITE_RECOGNIZED, tabId);
-
 				if (!config.isConnectorEnabled(connector.label)) {
-					//legacyScrobbler.setActionIcon(config.ACTION_SITE_DISABLED, tabId);
-
 					// matched, but is not enabled
 					cb(new injectResult.InjectResult(injectResult.results.MATCHED_BUT_DISABLED, tabId, connector));
 

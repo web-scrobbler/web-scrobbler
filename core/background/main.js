@@ -2,6 +2,11 @@
 
 /**
  * Background script entry point
+ *
+ * - sets up injecting mechanism for supported sites
+ * - creates controllers for each recognized tab
+ * - sets up all chrome.* listeners, which are forwarded controllers if needed
+ * - checks auth status on run (browser start or extension enabling) and prompts for login if needed
  */
 require([
 	'legacy/scrobbler',
@@ -58,9 +63,11 @@ require([
 				// intentionally overwrite previous controller, if any
 				tabControllers[tabId] = new Controller(tabId, result.getConnector());
 			}
+			else {
+				// show 'recognized' action icon until the track info is recognized and validated
+				legacyScrobbler.setActionIcon(config.ACTION_SITE_RECOGNIZED, tabId);
+			}
 
-			// show 'recognized' action icon until the track info is recognized and validated
-			legacyScrobbler.setActionIcon(config.ACTION_SITE_RECOGNIZED, tabId);
 			return;
 		}
 	};

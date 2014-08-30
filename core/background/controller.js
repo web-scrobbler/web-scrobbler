@@ -17,7 +17,6 @@ define([
 
 		var pageAction = new PageAction(tabId);
 
-		console.log('creating controller for %O', connector);
 
 		this.onStateChanged = function(newState) {
 			console.log('Tab ' + tabId + ': state changed, %O', newState);
@@ -26,6 +25,12 @@ define([
 		this.onPageActionClicked = function() {
 			pageAction.onClicked();
 		};
+
+
+		// setup initial page action; the controller means the page was recognized
+		pageAction.setSiteSupported();
+
+		console.log('created controller for connector %O', connector);
 
 	};
 
