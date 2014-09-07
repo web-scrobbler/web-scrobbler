@@ -6,6 +6,7 @@
 define([
 	'wrappers/can'
 ], function(can) {
+
 	return {
 
 		/**
@@ -14,24 +15,28 @@ define([
 		 */
 		createEmptySong: function() {
 			return new can.Map({
-				// basic properties obtained from connector
+				// following are parsed values from connectors
 				artist: null,
 				track: null,
 				album: null,
+				currentTime: 0, // in seconds
 				duration: null, // in seconds
 				uniqueID: null,
 				isPlaying: false,
 
-				// more metadata loaded from L.FM API
-				artistThumbUrl: null,
+				// data loaded from L.FM
+				metadata: {
+					artist: null,
+					track: null,
+					album: null,
+					duration: null,
+					albumThumbUrl: null,
+					artistThumbUrl: null
+				},
 
-				// properties for internal use of background script
-				internal: {
-					tabId: -1,
-					matchedConnector: null,
-					attemptedLFMValidation: false,
-					isLFMValid: false
-				}
+				// flags used by controller
+				attemptedLFMValidation: false,
+				isLFMValid: false
 			});
 		}
 

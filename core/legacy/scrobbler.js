@@ -194,9 +194,9 @@ define([
 		});
 
 		// setup listening so we can reply to connector
-		songObj.bind('internal.attemptedLFMValidation', function(ev, newVal) {
+		songObj.bind('attemptedLFMValidation', function(ev, newVal) {
 			if (newVal === true) {
-				if (songObj.internal.isLFMValid === false) {
+				if (songObj.isLFMValid === false) {
 					callback(false);
 				} else {
 					// create plain old song object to maintain compatibility

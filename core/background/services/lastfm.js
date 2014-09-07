@@ -9,8 +9,9 @@ define([
 	'jquery',
 	'config',
 	'vendor/md5',
-	'storage'
-], function ($, config, MD5, Storage) {
+	'storage',
+	'wrappers/can'
+], function ($, config, MD5, Storage, can) {
 
 	var enableLogging = true;
 
@@ -223,36 +224,99 @@ define([
 		var okCb = function(xmlDoc) {
 			var $doc = $(xmlDoc);
 
-			song.attr({
+			can.batch.start();
+
+			song.metadata.attr({
 				artist: $doc.find('artist > name').text(),
 				track: $doc.find('track > name').text(),
 				duration: parseInt($doc.find('track > duration').text()) / 1000,
 				artistThumbUrl: $doc.find('album > image[size="medium"]').text()
 			});
 
-			song.internal.attr('isLFMValid', true);
+			song.attr({
+				isLFMValid: true,
+				attemptedLFMValidation: true
+			});
 
-			// set the flag at last, so all changes are already done
-			song.internal.attr('attemptedLFMValidation', true);
+			can.batch.stop();
 		};
 
 		var errCb = function() {
-			song.internal.attr('isLFMValid', false);
+			can.batch.start();
 
-			// set the flag at last, so all changes are already done
-			song.internal.attr('attemptedLFMValidation', true);
+			song.attr({
+				'isLFMValid': false,
+				'attemptedLFMValidation': true
+			});
+
+			can.batch.stop();
 		};
 
 		doRequest(params, false, okCb, errCb);
 	}
 
+	/**
+	 * Send current song as 'now playing' to API
+	 * @param {can.Map}
+	 */
+	function sendNowPlaying(song) {
+		// if the token/session is not authorized, wait for a while
+		var sessionID = LastFM.getSessionID();
+		if (sessionID === false)
+			return;
+
+		var params = {
+			method: 'track.updatenowplaying',
+			track: song.track,
+			artist: song.artist,
+			api_key: config.apiKey,
+			sk: sessionID
+		};
+
+		if(typeof(song.album) != 'undefined' && song.album != null) {
+			params["album"] = song.album;
+		}
+		if(typeof(song.duration) != 'undefined' && song.duration != null) {
+			params["duration"] = song.duration;
+		}
+
+		var api_sig = LastFM.generateSign(params);
+		var url = config.apiURL + createQueryString(params) + '&api_sig=' + api_sig;
+
+		var http_request = new XMLHttpRequest();
+		http_request.open("POST", url, false); // synchronous
+		http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		http_request.send(params);
+
+		console.log('nowPlaying request: %s', url);
+		console.log('nowPlaying response: %s', http_request.responseText);
+
+		var xmlDoc = $.parseXML(http_request.responseText);
+		var xml = $(xmlDoc);
+
+		if (xml.find('lfm').attr('status') == 'ok') {
+			console.log('now playing %s - %s', song.artist, song.track);
+
+			// Confirm the content_script, that the song is "now playing"
+			chrome.tabs.sendMessage(nowPlayingTab, {type: "nowPlayingOK"});
+
+			// Show notification
+			notifications.showPlaying(song);
+
+			// Update page action icon
+			setActionIcon(config.ACTION_NOWPLAYING);
+		} else {
+			notifications.showError('Please see http://status.last.fm and check if everything is OK');
+		}
+	}
 
 
 	return {
 		getAuthUrl: getAuthUrl,
 		getSessionID: getSessionID,
 		generateSign: generateSign,
-		loadSongInfo: loadSongInfo
+		loadSongInfo: loadSongInfo,
+		sendNowPlaying: sendNowPlaying
 	};
 
 });

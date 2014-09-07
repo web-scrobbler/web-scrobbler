@@ -16,7 +16,8 @@ define([], function() {
 			BASE: '/icons/page_action_base.png',
 			RECOGNIZED: '/icons/page_action_note.png',
 			DISABLED: '/icons/page_action_disabled.png',
-			SCROBBLED: '/icons/page_action_tick.png'
+			SCROBBLED: '/icons/page_action_tick.png',
+			UNKNOWN: '/icons/page_action_question.png'
 		};
 
 		var documents = {
@@ -67,6 +68,10 @@ define([], function() {
 
 		this.setSongScrobbled = function() {
 			setPageAction(icons.SCROBBLED, 'Current song has been scrobbled', '');
+		};
+
+		this.setSongNotRecognized = function() {
+			setPageAction(icons.UNKNOWN, 'The song was not recognized. Click to enter correct info', '');
 		};
 
 	};
