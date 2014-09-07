@@ -7,8 +7,9 @@ define([
 	'services/lastfm',
 	'pageAction',
 	'helpers',
-	'timer'
-], function(LastFM, PageAction, Helpers, Timer) {
+	'timer',
+	'wrappers/can'
+], function(LastFM, PageAction, Helpers, Timer, can) {
 
 	/**
 	 * Constructor
@@ -48,8 +49,8 @@ define([
 		this.onStateChanged = function(newState) {
 			console.log('Tab ' + tabId + ': state changed, ' + JSON.stringify(newState));
 
-			var hasSongChanged = (newState.artist !== currentSong.artist || newState.track !== currentSong.track
-									|| newState.album !== currentSong.album || newState.uniqueID !== currentSong.uniqueID);
+			var hasSongChanged = (newState.artist !== currentSong.artist || newState.track !== currentSong.track ||
+									newState.album !== currentSong.album || newState.uniqueID !== currentSong.uniqueID);
 
 			// song property changed listeners will be called will not be called until batch ends
 			can.batch.start();
@@ -138,6 +139,12 @@ define([
 							playbackTimer.update(halfTime);
 							console.log('Tab ' + tabId + ': timer updated to ' + halfTime);
 						}
+
+						// set the song as now playing
+						var nowPlayingCB = function(success) {
+							console.log('Tab ' + tabId + ': song set as now playing: ' + success);
+						};
+						LastFM.sendNowPlaying(currentSong, nowPlayingCB);
 					} else {
 						pageAction.setSongNotRecognized();
 					}

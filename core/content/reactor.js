@@ -36,6 +36,7 @@ var Reactor = function(connector) {
 	 * @param newState
 	 * @param changedFields
 	 */
+	/* jshint unused: false */
 	this.onStateChanged = function(newState, changedFields) {
 		// ignore changes in current time - it can be used in future
 		//if (changedFields.indexOf('currentTime') > -1 && changedFields.length === 1) {

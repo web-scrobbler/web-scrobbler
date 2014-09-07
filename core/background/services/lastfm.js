@@ -159,12 +159,13 @@ define([
 	 * API key will be added to params by default
 	 * and all parameters will be encoded for use in query string internally
 	 *
+	 * @param method [GET,POST]
 	 * @param params object of key => value url parameters
 	 * @param signed {Boolean} should the request be signed?
 	 * @param okCb
 	 * @param errCb
 	 */
-	function doRequest(params, signed, okCb, errCb) {
+	function doRequest(method, params, signed, okCb, errCb) {
 		params.api_key = config.apiKey;
 
 		if (signed) {
@@ -196,9 +197,17 @@ define([
 			errCb.apply(this, arguments);
 		};
 
-		$.get(url)
-			.done(internalOkCb)
-			.fail(internalErrCb);
+		if (method === 'GET') {
+			$.get(url)
+				.done(internalOkCb)
+				.fail(internalErrCb);
+		} else if (method === 'POST') {
+			$.post(url)
+				.done(internalOkCb)
+				.fail(internalErrCb);
+		} else {
+			console.error('Unknown method: ' + method);
+		}
 	}
 
 
@@ -252,18 +261,19 @@ define([
 			can.batch.stop();
 		};
 
-		doRequest(params, false, okCb, errCb);
+		doRequest('GET', params, false, okCb, errCb);
 	}
 
 	/**
 	 * Send current song as 'now playing' to API
-	 * @param {can.Map}
+	 * @param {can.Map} song
+	 * @param {Function} callback with single bool parameter of success
 	 */
-	function sendNowPlaying(song) {
-		// if the token/session is not authorized, wait for a while
-		var sessionID = LastFM.getSessionID();
-		if (sessionID === false)
+	function sendNowPlaying(song, cb) {
+		var sessionID = getSessionID();
+		if (sessionID === false) {
 			return;
+		}
 
 		var params = {
 			method: 'track.updatenowplaying',
@@ -273,41 +283,28 @@ define([
 			sk: sessionID
 		};
 
-		if(typeof(song.album) != 'undefined' && song.album != null) {
-			params["album"] = song.album;
+		if (song.album) {
+			params.album = song.album;
 		}
-		if(typeof(song.duration) != 'undefined' && song.duration != null) {
-			params["duration"] = song.duration;
+		if (song.duration) {
+			params.duration = song.duration;
 		}
 
-		var api_sig = LastFM.generateSign(params);
-		var url = config.apiURL + createQueryString(params) + '&api_sig=' + api_sig;
+		var okCb = function(xmlDoc) {
+			var $doc = $(xmlDoc);
 
-		var http_request = new XMLHttpRequest();
-		http_request.open("POST", url, false); // synchronous
-		http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		http_request.send(params);
+			if ($doc.find('lfm').attr('status') == 'ok') {
+				cb(true);
+			} else {
+				cb(false); // request passed but returned error
+			}
+		};
 
-		console.log('nowPlaying request: %s', url);
-		console.log('nowPlaying response: %s', http_request.responseText);
+		var errCb = function() {
+			cb(false);
+		};
 
-		var xmlDoc = $.parseXML(http_request.responseText);
-		var xml = $(xmlDoc);
-
-		if (xml.find('lfm').attr('status') == 'ok') {
-			console.log('now playing %s - %s', song.artist, song.track);
-
-			// Confirm the content_script, that the song is "now playing"
-			chrome.tabs.sendMessage(nowPlayingTab, {type: "nowPlayingOK"});
-
-			// Show notification
-			notifications.showPlaying(song);
-
-			// Update page action icon
-			setActionIcon(config.ACTION_NOWPLAYING);
-		} else {
-			notifications.showError('Please see http://status.last.fm and check if everything is OK');
-		}
+		doRequest('POST', params, true, okCb, errCb);
 	}
 
 
