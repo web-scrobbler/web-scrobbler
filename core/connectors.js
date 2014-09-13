@@ -134,7 +134,7 @@ define(function() {
 
 		{
 			label: 'Amazon',
-			matches: ['*://www.amazon.com/gp/dmusic/*/player*', '*://www.amazon.de/gp/dmusic/*/player*', '*://www.amazon.es/gp/dmusic/*/player*', '*://www.amazon.co.uk/gp/dmusic/*/player*'],
+			matches: ['*://www.amazon.com/gp/dmusic/cloudplayer/*', '*://www.amazon.de/gp/dmusic/cloudplayer/*', '*://www.amazon.es/gp/dmusic/cloudplayer/*', '*://www.amazon.co.uk/gp/dmusic/cloudplayer/*'],
 			js: ['connectors/amazon.js']
 		},
 
