@@ -12,11 +12,11 @@ var state = 'init';
 // Used only to remember last song title
 var clipTitle = '';
 
-// Timeout to scrobble track ater minimum time passes
+// Timeout to scrobble track after minimum time passes
 var scrobbleTimeout = null;
 
-// Glabal constant for the song container ....
-var CONTAINER_SELECTOR = 'div#plex.application.show-nav-bar.show-mini-player.show-action-bar.show-breadcrumb-bar';
+// Global constant for the song container ....
+var CONTAINER_SELECTOR = 'div#plex';
 
 
 $(function(){
