@@ -61,6 +61,8 @@ define([
 			storage.set('token', null);
 			return null;
 		} else {
+			// set token and reset session so we will grab a new one
+			storage.set('sessionID', null);
 			storage.set('token', xml.find('token').text());
 			return 'https://www.last.fm/api/auth/?api_key=' + apiKey + '&token=' + storage.get('token');
 		}

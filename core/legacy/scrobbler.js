@@ -272,6 +272,8 @@ define([
 
 	         // Update page action icon
 	         setActionIcon(config.ACTION_NOWPLAYING);
+	   } else if (xml.find('lfm error').attr('code') == 9) {
+		   authorize();
 	   } else {
 	      notifications.showError('Please see http://status.last.fm and check if everything is OK');
 	   }
@@ -347,8 +349,14 @@ define([
 	      notifications.showError('Please see http://status.last.fm and check if everything is OK');
 	   }
 	   else {
-	      console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
-	      notifications.showError('Please see http://status.last.fm and check if everything is OK');
+		   var xmlDoc = $.parseXML(http_request.responseText);
+		   var xml = $(xmlDoc);
+		   if (xml.find('lfm error').attr('code') == 9) {
+			   authorize();
+		   } else {
+			   console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
+			   notifications.showError('Please see http://status.last.fm and check if everything is OK');
+		   }
 	   }
 
 	   // clear the structures awaiting the next song

@@ -109,7 +109,7 @@ define([
 
 				var options = {
 					type: 'basic',
-					iconUrl: 'icon128.png',
+					iconUrl: '/icon128.png',
 					title: 'Connect your Last.FM account',
 					message: 'Click the notification or connect later in the extension options page',
 					isClickable: true
