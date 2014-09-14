@@ -1,6 +1,6 @@
 {
    "name": "Last.fm Scrobbler",
-   "version": "1.38",
+   "version": "1.39",
 
    "description": "Scrobble music all around the web!",
    "icons": {
@@ -22,8 +22,6 @@
       "scripts": [
 	      "vendor/require.js", "core/background/requirejs-config.js",
 	      "core/background/main.js"
-	      //"core/legacy/defines.js", "core/legacy/background-ga.js", "inject.js", "vendor/md5.js",
-	      //"vendor/jquery-1.6.1.min.js", "core/legacy/scrobbler.js"
       ]
    },
 
