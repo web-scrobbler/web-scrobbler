@@ -427,6 +427,12 @@ define(function() {
 			label: '163 Music',
 			matches: ['*://music.163.com/*'],
 			js: ['connectors/163music.js']
+		},
+
+		{
+			label: 'blinkboxMusic',
+			matches: ['*://www.blinkboxmusic.com/*'],
+			js: ['connectors/blinkboxmusic.js']
 		}
 	];
 });
