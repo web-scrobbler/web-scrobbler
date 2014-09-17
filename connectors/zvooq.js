@@ -1,3 +1,5 @@
+// Connector for the zvooq.ru service
+
 function parseDurationString(timestr) {
     if (timestr) {
         var m = /(\d+):(\d+)/.exec(timestr);
@@ -5,6 +7,12 @@ function parseDurationString(timestr) {
         return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
     }
     return 0;
+}
+
+function extractFirstValue(selector) {
+    return $.makeArray($(selector)).map(function (a) {
+        return $(a).text();
+    })[0];
 }
 
 $(function() {
@@ -17,18 +25,23 @@ $(function() {
 		return true;      
     });
 
-    $(".topPanel_playerPlayback_leave").bind('DOMSubtreeModified', function (e) {
-        var duration = parseDurationString($(".topPanel_playerPlayback_leave").text());
+    $(".topPanelTimeline-title").bind('DOMSubtreeModified', function () {
+        var songDuration = parseDurationString(extractFirstValue(".topPanelTimeline-length"));
 
-        if (duration > 0) {
-            var m = /(.*)\s+—\s+(.*)/.exec($(".topPanel_playerPlayback_playered_name").text());
-            var artist = m[1];
-            var title = m[2];
+        if (songDuration > 0) {
+            var titleString = extractFirstValue(".topPanelTimeline-title>a");
+
+            if (!titleString) {
+                return;
+            }
+
+            var songInfo = /(.*)\s+—\s+(.*)/.exec(titleString);
+            var artist = songInfo[1],
+                 title = songInfo[2];
             
-            if (lastTrack != $(".topPanel_playerPlayback_playered_name").text()) {
-                var total = duration;
-
-                lastTrack = $(".topPanel_playerPlayback_playered_name").text();
+            if (lastTrack != titleString) {
+                var total = songDuration;
+                lastTrack = titleString;
                 
                 $r({type: 'validate', artist: artist, track: title}, function(response) {
                     if (response != false) {
@@ -43,7 +56,22 @@ $(function() {
                     }
                 });
             }
-            
         }
     });
 });
+
+/**
+ * Listen for requests from scrobbler.js
+ */
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        switch(request.type) {
+
+            // background calls this to see if the script is already injected
+            case 'ping':
+                sendResponse(true);
+                break;
+        }
+    }
+);
+
