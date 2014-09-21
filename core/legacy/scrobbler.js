@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Last.fm Scrobbler for Chrome
  * by David Sabata
@@ -37,28 +39,31 @@ define([
 	 * Default settings & update notification
 	 */
 	{
-	   // use notifications by default
-	   if (localStorage.useNotifications == null)
-	      localStorage.useNotifications = 1;
+		// use notifications by default
+		if (typeof localStorage.useNotifications === 'undefined') {
+			localStorage.useNotifications = 1;
+		}
 
-	   // no disabled connectors by default
-	   if (localStorage.disabledConnectors == null)
-	      localStorage.disabledConnectors = JSON.stringify([]);
+		// no disabled connectors by default
+		if (typeof localStorage.disabledConnectors === 'undefined') {
+			localStorage.disabledConnectors = JSON.stringify([]);
+		}
 
-	   // show update popup - based on different version
-	   if (localStorage.appVersion != chrome.app.getDetails().version) {
-	      localStorage.appVersion = chrome.app.getDetails().version;
+		// show update popup - based on different version
+		if (localStorage.appVersion !== chrome.app.getDetails().version) {
+			localStorage.appVersion = chrome.app.getDetails().version;
 
-	      // introduce new options if not already set
-	      if (typeof localStorage.useAutocorrect == 'undefined')
-	         localStorage.useAutocorrect = 0;
-	   }
+			// introduce new options if not already set
+			if (typeof localStorage.useAutocorrect === 'undefined') {
+				localStorage.useAutocorrect = 0;
+			}
+		}
 	}
 
 
 	function reset() {
 	   console.log('reset called');
-	   if (scrobbleTimeout != null) {
+	   if (scrobbleTimeout !== null) {
 	      clearTimeout(scrobbleTimeout);
 	      scrobbleTimeout = null;
 	   }
@@ -72,10 +77,11 @@ define([
 	 * Creates query string from object properties
 	 */
 	function createQueryString(params) {
-	   var parts = new Array();
+	   var parts = [];
 
-	   for (var x in params)
-	      parts.push( x + '=' + encodeUtf8( params[x] ) );
+	   for (var x in params) {
+			parts.push( x + '=' + encodeUtf8(params[x]));
+	   }
 
 	   return parts.join('&');
 	}
@@ -85,7 +91,7 @@ define([
 	 * Encodes the utf8 string to use in parameter of API call
 	 */
 	function encodeUtf8(s) {
-	   return encodeURIComponent( s );
+	   return encodeURIComponent(s);
 	}
 
 	/**
@@ -241,19 +247,19 @@ define([
 	      sk: sessionID
 	   };
 
-	   if(typeof(song.album) != 'undefined' && song.album != null) {
-	      params["album"] = song.album;
+	   if(typeof song.album !== 'undefined' && song.album !== null) {
+	      params.album = song.album;
 	   }
-	   if(typeof(song.duration) != 'undefined' && song.duration != null) {
-	      params["duration"] = song.duration;
+	   if(typeof song.duration !== 'undefined' && song.duration !== null) {
+	      params.duration = song.duration;
 	   }
 
 	   var api_sig = LastFM.generateSign(params);
 	   var url = config.apiURL + createQueryString(params) + '&api_sig=' + api_sig;
 
 	   var http_request = new XMLHttpRequest();
-	   http_request.open("POST", url, false); // synchronous
-	   http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	   http_request.open('POST', url, false); // synchronous
+	   http_request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	   http_request.send(params);
 
 	   console.log('nowPlaying request: %s', url);
@@ -265,8 +271,8 @@ define([
 	   if (xml.find('lfm').attr('status') == 'ok') {
 	         console.log('now playing %s - %s', song.artist, song.track);
 
-	         // Confirm the content_script, that the song is "now playing"
-	         chrome.tabs.sendMessage(nowPlayingTab, {type: "nowPlayingOK"});
+	         // Confirm the content_script, that the song is 'now playing'
+	         chrome.tabs.sendMessage(nowPlayingTab, {type: 'nowPlayingOK'});
 
 	         // Show notification
 	         notifications.showPlaying(song);
@@ -285,20 +291,21 @@ define([
 
 	/**
 	 * Finally scrobble the song, but only if it has been playing long enough.
-	 * Cleans global variables "song", "playingTab" and "scrobbleTimeout" on success.
+	 * Cleans global variables 'song', 'playingTab' and 'scrobbleTimeout' on success.
 	 */
 	function submit() {
 	   // bad function call
-	   if (song == null || !song || song.artist == '' || song.track == '' || typeof(song.artist) == "undefined" || typeof(song.track) == "undefined" ) {
+	   if (song === null || !song || song.artist === '' || song.track === '' || typeof song.artist  === 'undefined' || typeof song.track  === 'undefined' ) {
 	      reset();
-	      chrome.tabs.sendMessage(nowPlayingTab, {type: "submitFAIL", reason: "No song"});
+	      chrome.tabs.sendMessage(nowPlayingTab, {type: 'submitFAIL', reason: 'No song'});
 	      return;
 	   }
 
 	   // if the token/session is not authorized, wait for a while
 	   var sessionID = LastFM.getSessionID();
-	   if (!sessionID)
+	   if (!sessionID) {
 	      return;
+	   }
 
 	   console.log('submit called for %s - %s (%s)', song.artist, song.track, song.album);
 
@@ -311,24 +318,24 @@ define([
 	      sk: sessionID
 	   };
 
-	   if(typeof(song.album) != 'undefined' && song.album != null) {
-	      params["album[0]"] = song.album;
+	   if(typeof song.album  !== 'undefined' && song.album !== null) {
+	      params['album[0]'] = song.album;
 	   }
 
-	   if(typeof(song.source) != 'undefined' && song.source != null) {
-	      params["source[0]"] = song.source;
+	   if(typeof song.source  !== 'undefined' && song.source !== null) {
+	      params['source[0]'] = song.source;
 	   }
 
-	   if(typeof(song.sourceId) != 'undefined' && song.sourceId != null) {
-	      params["sourceId[0]"] = song.sourceId;
+	   if(typeof song.sourceId !== 'undefined' && song.sourceId !== null) {
+	      params['sourceId[0]'] = song.sourceId;
 	   }
 
 	   var api_sig = LastFM.generateSign(params);
 	   var url = config.apiURL + createQueryString(params) + '&api_sig=' + api_sig;
 
 	   var http_request = new XMLHttpRequest();
-	   http_request.open("POST", url, false); // synchronous
-	   http_request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	   http_request.open('POST', url, false); // synchronous
+	   http_request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 	   http_request.send(params);
 
 	   if (http_request.status == 200) {
@@ -341,8 +348,9 @@ define([
 	      console.log('submitted %s - %s (%s)', song.artist, song.track, http_request.responseText);
 
 	      // Confirm the content script, that the song has been scrobbled
-	      if (nowPlayingTab)
-	        chrome.tabs.sendMessage(nowPlayingTab, {type: "submitOK", song: {artist:song.artist, track: song.track}});
+	      if (nowPlayingTab) {
+	        chrome.tabs.sendMessage(nowPlayingTab, {type: 'submitOK', song: {artist:song.artist, track: song.track}});
+	    }
 
 	   }
 	   else if (http_request.status == 503) {
@@ -375,7 +383,7 @@ define([
 			// Called when a new song has started playing. If the artist/track is filled,
 			// they have to be already validated! Otherwise they can be corrected from the popup.
 			// Also sets up a timout to trigger the scrobbling procedure (when all data are valid)
-			case "nowPlaying":
+			case 'nowPlaying':
 				  console.log('nowPlaying %o', request);
 
 				  // do the reset to be sure there is no other timer running
@@ -391,12 +399,12 @@ define([
 				  }
 
 				  // backward compatibility for connectors which dont use currentTime
-				  if (typeof(request.currentTime) == 'undefined' || !request.currentTime)
+				  if (typeof request.currentTime  === 'undefined' || !request.currentTime) {
 					 request.currentTime = 0;
+				  }
 
 				  // data missing, save only startTime and show the unknown icon
-				  if (typeof(request.artist) == 'undefined' || !request.artist
-					  || typeof(request.track) == 'undefined' || !request.track)
+				  if (typeof request.artist === 'undefined' || !request.artist || typeof request.track === 'undefined' || !request.track)
 				  {
 					 // fill only the startTime, so the popup knows how to set up the timer
 					 song = {
@@ -404,25 +412,25 @@ define([
 					 };
 
 					 // if we know something...
-					 if (typeof(request.artist) != 'undefined' && request.artist) {
+					 if (typeof request.artist !== 'undefined' && request.artist) {
 						song.artist = request.artist;
 					 }
-					 if (typeof(request.track) != 'undefined' && request.track) {
+					 if (typeof request.track !== 'undefined' && request.track) {
 						song.track = request.track;
 					 }
-					 if (typeof(request.currentTime) != 'undefined' && request.currentTime) {
+					 if (typeof request.currentTime !== 'undefined' && request.currentTime) {
 						song.currentTime = request.currentTime;
 					 }
-					 if (typeof(request.duration) != 'undefined' && request.duration) {
+					 if (typeof request.duration !== 'undefined' && request.duration) {
 						song.duration = request.duration;
 					 }
-					 if (typeof(request.album) != 'undefined' && request.album) {
+					 if (typeof request.album !== 'undefined' && request.album) {
 						song.album = request.album;
 					 }
-					 if (typeof(request.sourceId) != 'undefined' && request.sourceId) {
+					 if (typeof request.sourceId !== 'undefined' && request.sourceId) {
 						song.sourceId = request.sourceId;
 					 }
-					 if (typeof(request.source) != 'undefined' && request.source) {
+					 if (typeof request.source !== 'undefined' && request.source) {
 						song.source = request.source;
 					 }
 
@@ -438,15 +446,15 @@ define([
 						currentTime : request.currentTime,
 						duration : request.duration,
 						startTime : ( parseInt (new Date().getTime() / 1000.0) - request.currentTime) // in seconds
-					 }
+					 };
 
-					 if(typeof(request.album) != 'undefined') {
+					 if(typeof request.album !== 'undefined') {
 						song.album = request.album;
 					 }
-					 if (typeof(request.sourceId) != 'undefined' && request.sourceId) {
+					 if (typeof request.sourceId !== 'undefined' && request.sourceId) {
 						song.sourceId = request.sourceId;
 					 }
-					 if (typeof(request.source) != 'undefined' && request.source) {
+					 if (typeof request.source !== 'undefined' && request.source) {
 						song.source = request.source;
 					 }
 
@@ -466,41 +474,37 @@ define([
 			break;
 
 			// called when the window closes / unloads before the song can be scrobbled
-			case "reset":
+			case 'reset':
 				  reset();
 				  sendResponse({});
 				  break;
 
-			case "trackStats":
+			case 'trackStats':
 				// intentionally not used - will be replaced by new connector API
 				//_gaq.push(['_trackEvent', request.text]);
 				sendResponse({});
 			break;
 
 			// do we need this anymore? (content script can use ajax)
-			case "xhr":
+			case 'xhr':
 			var http_request = new XMLHttpRequest();
-			http_request.open("GET", request.url, true);
+			http_request.open('GET', request.url, true);
 			http_request.onreadystatechange = function() {
-				if (http_request.readyState == 4 && http_request.status == 200)
+				if (http_request.readyState == 4 && http_request.status == 200) {
 					sendResponse({text: http_request.responseText});
+				}
 			};
 			http_request.send(null);
 			break;
 
-			// for login - not used anymore
-		case "newSession":
-			sessionID = "";
-			break;
-
 			// connector tells us it is disabled
-		case "reportDisabled":
+		case 'reportDisabled':
 			setActionIcon(config.ACTION_CONN_DISABLED, sender.tab.id);
 			break;
 
 			// Checks if the request.artist and request.track are valid and
 			// returns false if not or a song structure otherwise (may contain autocorrected values)
-		case "validate":
+		case 'validate':
 			// quick deny for bad/incomplete info
 			if (!request.artist || !request.track) {
 				sendResponse(false);
