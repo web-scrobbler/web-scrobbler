@@ -229,8 +229,9 @@ define([
 
 	   // if the token/session is not authorized, wait for a while
 	   var sessionID = LastFM.getSessionID();
-	   if (sessionID === false)
+	   if (sessionID === null) {
 	      return;
+	   }
 
 	   var params = {
 	      method: 'track.updatenowplaying',
