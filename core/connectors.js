@@ -433,6 +433,12 @@ define(function() {
 			label: 'blinkboxMusic',
 			matches: ['*://www.blinkboxmusic.com/*'],
 			js: ['connectors/blinkboxmusic.js']
+		},
+
+		{
+			label: 'ambientsleepingpill',
+			matches: ['*://*.ambientsleepingpill.com/'],
+			js: ['connectors/ambientsleepingpill.js']
 		}
 	];
 });
