@@ -91,15 +91,24 @@ define([
 	}
 
 
-	function showAuthenticate(authUrl) {
+	/**
+	 * Shows notifications with onclick leading to url to authenticate the extension.
+	 * The auth url is requested after clicking to prevent generating a new token for
+	 * an auth notification which may never be clicked.
+	 *
+	 * @param authUrlGetter {Function} method returning an url to be opened on click
+	 */
+	function showAuthenticate(authUrlGetter) {
 		if (!isAvailable()) {
 			// fallback for browsers with no notifications support
+			var authUrl = authUrlGetter();
 			window.open(authUrl, 'scrobbler-auth');
 			return;
 		}
 
 		var notificationCreatedCb = function(notificationId) {
 			addOnClickedListener(notificationId, function() {
+				var authUrl = authUrlGetter();
 				window.open(authUrl, 'scrobbler-auth');
 			});
 		};

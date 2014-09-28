@@ -16,8 +16,15 @@ require([
 	'inject',
 	'injectResult',
 	'controller',
+	'storage',
 	'config'
-], function(legacyScrobbler, GA, LastFM, Notifications, inject, injectResult, Controller, config) {
+], function(legacyScrobbler, GA, LastFM, Notifications, inject, injectResult, Controller, Storage, config) {
+
+	/**
+	 * Namespaced local storage
+	 * @type {Namespace}
+	 */
+	var storage = Storage.getNamespace('Core');
 
 	/**
 	 * Single controller instance for each tab with injected script
@@ -89,6 +96,33 @@ require([
 
 	// --- done once on background script load -------------------------------------------------------------------------
 
+	// cleanup and other stuff to be done on specific version changes
+	{
+		// introduction of namespaced local storage - transfer old records
+		if (!storage.get('appVersion') && localStorage.appVersion) {
+			storage.set('appVersion', localStorage.appVersion);
+			localStorage.removeItem('appVersion');
+		}
+
+		// version strings as floats for comparison
+		var storedVersion = parseFloat(storage.get('appVersion'));
+		var currentVersion = parseFloat(chrome.app.getDetails().version);
+
+		if (storedVersion < 1.41 && currentVersion >= 1.41) {
+			// session ID and token have moved to namespaced storage
+			localStorage.removeItem('token');
+			localStorage.removeItem('sessionID');
+
+			// remove possible old token to prevent attempt to trade it for session
+			LastFM.getStorage().set('token', null);
+		}
+
+		// patching done, store new version if changed
+		if (storedVersion < currentVersion) {
+			storage.set('appVersion', currentVersion.toString());
+		}
+	}
+
 
 	// setup listener for messages from connectors
 	chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -137,13 +171,7 @@ require([
 	// check session ID status and show notification if authentication is needed
 	var lfmSessionId = LastFM.getSessionID();
 	if (!lfmSessionId) {
-		var authUrl = LastFM.getAuthUrl();
-		if (authUrl) {
-			console.info('LastFM: No session ID, requesting authentication');
-			Notifications.showAuthenticate(authUrl);
-		} else {
-			Notifications.showError('Error obtaining API token. See console for details');
-		}
+		Notifications.showAuthenticate(LastFM.getAuthUrl);
 	} else {
 		console.info('LastFM: Session ID ' + lfmSessionId);
 	}

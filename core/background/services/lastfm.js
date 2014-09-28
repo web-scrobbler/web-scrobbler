@@ -38,7 +38,11 @@ define([
 
 	/**
 	 * Returns URL where user should grant permissions to our token or null on error.
-	 * Does a synchronous API call internally, so this method is blocking
+	 * Does a synchronous API call internally, so this method is blocking.
+	 *
+	 * Stores the new obtained token into storage so it will be traded for a new session when needed.
+	 * Because of this it is necessary this method is called only when user is really going to
+	 * approve the token and not sooner. Otherwise use of the token would result in an unauthorized request.
 	 *
 	 * See http://www.last.fm/api/show/auth.getToken
 	 *
@@ -69,58 +73,64 @@ define([
 	}
 
 	/**
-	 * Returns application token or null if token was not obtained yet.
-	 * This token may or may not be authorized by user
-	 *
-	 * @return {String}
-	 */
-	function getToken() {
-		return storage.get('token') || null;
-	}
-
-	/**
-	 * Returns sessionID or null if there is no application token or the token is not authorized.
+	 * Returns sessionID or null if there is no session or token to be traded for one.
 	 * Does a synchronous API call internally if the session ID is not obtained yet, so this method is blocking
+	 *
+	 * If there is a stored token it is preferably traded for a new session which is then returned.
 	 *
 	 * @return {String}
 	 */
 	function getSessionID() {
-		// no token no fun
-		if (!getToken()) {
-			return null;
+		// if we have a token it means it is fresh and we want to trade it for a new session ID
+		var token = storage.get('token') || null;
+		if (token) {
+			// remove from storage - token is for single use only
+			storage.set('token', null);
+
+			var session = tradeTokenForSession(token);
+
+			if (session === null) {
+				console.warn('Failed to trade token for session - the token is probably not authorized');
+				storage.set('sessionID', null);
+			} else {
+				storage.set('sessionID', session);
+			}
 		}
 
-		// return existing session ID if any
-		if (storage.get('sessionID')) {
-			return storage.get('sessionID');
-		}
+		// return existing or just traded session or null
+		return storage.get('sessionID');
+	}
 
+	/**
+	 * Does a synchronous call to API to trade token for session ID.
+	 * Assumes the token was authenticated by the user.
+	 *
+	 * @return {String,null}
+	 */
+	function tradeTokenForSession(token) {
 		var params = {
 			method: 'auth.getsession',
 			api_key: apiKey,
-			token: getToken()
+			token: token
 		};
-		var api_sig = generateSign(params);
-		var url = apiUrl + '?' + createQueryString(params) + '&api_sig=' + api_sig;
+		var apiSig = generateSign(params);
+		var url = apiUrl + '?' + createQueryString(params) + '&api_sig=' + apiSig;
 
-		var http_request = new XMLHttpRequest();
-		http_request.open('GET', url, false); // synchronous
-		http_request.setRequestHeader('Content-Type', 'application/xml');
-		http_request.send();
+		var request = new XMLHttpRequest();
+		request.open('GET', url, false); // synchronous
+		request.setRequestHeader('Content-Type', 'application/xml');
+		request.send();
 
-		console.log('getSession response: %s', http_request.responseText);
+		console.log('getSession response: %s', request.responseText);
 
-		var xmlDoc = $.parseXML(http_request.responseText);
+		var xmlDoc = $.parseXML(request.responseText);
 		var xml = $(xmlDoc);
 		var status = xml.find('lfm').attr('status');
 
 		if (status != 'ok') {
-			console.log('getSession: the token probably hasn\'t been authorized');
-			storage.set('sessionID', null);
 			return null;
 		} else {
-			storage.set('sessionID', xml.find('key').text());
-			return storage.get('sessionID');
+			return xml.find('key').text();
 		}
 	}
 
@@ -309,13 +319,18 @@ define([
 		doRequest('POST', params, true, okCb, errCb);
 	}
 
+	function getStorage() {
+		return storage;
+	}
+
 
 	return {
 		getAuthUrl: getAuthUrl,
 		getSessionID: getSessionID,
 		generateSign: generateSign,
 		loadSongInfo: loadSongInfo,
-		sendNowPlaying: sendNowPlaying
+		sendNowPlaying: sendNowPlaying,
+		getStorage: getStorage
 	};
 
 });

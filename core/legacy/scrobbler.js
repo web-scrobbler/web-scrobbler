@@ -44,15 +44,6 @@ define([
 	   // no disabled connectors by default
 	   if (localStorage.disabledConnectors == null)
 	      localStorage.disabledConnectors = JSON.stringify([]);
-
-	   // show update popup - based on different version
-	   if (localStorage.appVersion != chrome.app.getDetails().version) {
-	      localStorage.appVersion = chrome.app.getDetails().version;
-
-	      // introduce new options if not already set
-	      if (typeof localStorage.useAutocorrect == 'undefined')
-	         localStorage.useAutocorrect = 0;
-	   }
 	}
 
 
@@ -168,13 +159,7 @@ define([
 	 * Retrieves a token and opens a new window for user to authorize it
 	 */
 	function authorize() {
-		var authUrl = LastFM.getAuthUrl();
-
-		if (authUrl) {
-			notifications.showAuthenticate(authUrl);
-		} else {
-			notifications.showError('Unable to get token from Last.FM API. See console for details');
-		}
+		notifications.showAuthenticate(LastFM.getAuthUrl);
 	}
 
 
