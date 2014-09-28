@@ -4,6 +4,7 @@
 module.exports = function(grunt) {
 
 	var jsFiles = ['Gruntfile.js', 'popup.js', 'core/background/*', 'core/content/*', 'options/options.js', 'connectors/22tracks.js', 'connectors/archive.js', 'connectors/bandcamp.js', 'connectors/blinkboxmusic.js', 'popups/*.js']; // intentionally does not contain all files yet
+	var jsonFiles = ['*.json', '.jshintrc'];
 	var cssFiles = ['options/options.css', 'popups/base.css', 'dialogs/base.css'];
 
 	grunt.initConfig({
@@ -37,6 +38,11 @@ module.exports = function(grunt) {
 					]
 				}
 			}
+		},
+		jsonlint: {
+			sample: {
+				src: [ jsonFiles ]
+			}
 		}
 	});
 
@@ -44,6 +50,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-lintspaces');
+	grunt.loadNpmTasks('grunt-jsonlint');
 	grunt.registerTask('lint', ['jshint']);
-	grunt.registerTask('default', ['lint', 'lintspaces']);
+	grunt.registerTask('default', ['lint', 'lintspaces', 'jsonlint']);
 };

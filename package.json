@@ -13,6 +13,7 @@
     "grunt-cli": "~0.1.13",
     "grunt-contrib-compress": "~0.9.1",
     "grunt-contrib-jshint": "~0.10.0",
+    "grunt-jsonlint": "^1.0.4",
     "grunt-lintspaces": "^0.5.1",
     "jshint": "~2.5.1",
     "jshint-stylish": "~0.2.0"
