@@ -8,9 +8,9 @@ function parseDuration (duration) {
 }
 
 function scrobble () {
-    var artist = $('.js-player-artist').text();
-    var title = $('.js-player-title').text();
-    var duration = parseDuration($('.b-jambox__ftime').text());
+    var artist = $('.js-player-artist').text() || $('.player-controls__track .track__name .track__artists').text();
+    var title = $('.js-player-title').text() || $('.player-controls__track .track__name .track__title').text();
+    var duration = parseDuration($('.b-jambox__ftime').text() || $('.progress__right').first().text());
 
     var now = new Date().getTime();
     var isNewPlaying = (lastTrack != artist + ' ' + title) || /* new artist-title pair or */
@@ -41,10 +41,25 @@ $(function () {
 	return true;
     });
 
-    $('.b-jambox__controls').bind('DOMSubtreeModified', function () {
-        if ($('.b-jambox__button.b-jambox__play.b-jambox__playing').length > 0)
-            setTimeout(scrobble, 1000);
-    });
+	var whatToObserve = {childList: true, attributes: true, subtree: true, attributeOldValue: true, attributeFilter: ['class', 'style']};
+	var mutationObserver = new MutationObserver(function(mutationRecords) {
+		$.each(mutationRecords, function(index, mutationRecord) {
+			if ($('.b-jambox__button.b-jambox__play.b-jambox__playing').length || $('.player-controls__btn_pause').length)
+				setTimeout(scrobble, 1000);
+		});
+	});
+	
+	var panel;
+	if ($('.b-jambox__button.b-jambox__play').length)
+		panel = $('.b-jambox__button.b-jambox__play');
+	else if ($('.player-controls__btn_play').length)
+		panel = $('.player-controls__btn_play');
+	else {
+		console.log('player not found');
+		return;
+	}
+		
+	mutationObserver.observe($(panel)[0], whatToObserve);
 });
 
 
