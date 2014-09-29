@@ -21,6 +21,11 @@ function LFM_TRACK_ARTIST() {
 	return $("a.playerBarArtist").text();
 }
 
+// function that returns album of current song
+function LFM_TRACK_ALBUM() {
+	return $("a.playerBarAlbum").text();
+}
+
 // function that returns duration of current song in seconds
 // called at begining of song
 function LFM_TRACK_DURATION() {
@@ -37,6 +42,7 @@ var LFM_isWaiting = 0;
 function LFM_updateNowPlaying(){
 	// Acquire data from page
 	title = LFM_TRACK_TITLE();
+	album = LFM_TRACK_ALBUM();
 	artist = LFM_TRACK_ARTIST();
 	duration = LFM_TRACK_DURATION();
 	newTrack = title + " " + artist;
@@ -51,7 +57,7 @@ function LFM_updateNowPlaying(){
 		LFM_lastTrack = newTrack;
 		chrome.runtime.sendMessage({type: 'validate', artist: artist, track: title}, function(response) {
 			if (response != false) {
-				chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: title, duration: duration});
+				chrome.runtime.sendMessage({type: 'nowPlaying', artist: artist, track: title, album: album, duration: duration});
 			} else { // on failure send nowPlaying 'unknown song'
 				chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
 			}
