@@ -24,14 +24,26 @@ define(function() {
 	window.ga('create', 'UA-16968457-1', 'auto');
 	window.ga('set', 'checkProtocolTask', function(){});
 
+	/**
+	 * @param {...*}
+	 */
+	function send() {
+		var args = Array.prototype.slice.call(arguments, 0);
+		args.unshift('send');
+		window.ga.apply(window, args);
+	}
+
+	/**
+	 * @param {...*}
+	 */
+	function event() {
+		var args = Array.prototype.slice.call(arguments, 0);
+		args.unshift('event');
+		send.apply(window, args);
+	}
+
 	return {
-		/**
-		 * @param {...*}
-		 */
-		send: function () {
-			var args = Array.prototype.slice.call(arguments, 0);
-			args.unshift('send');
-			window.ga.apply(window, args);
-		}
+		send: send,
+		event: event
 	};
 });

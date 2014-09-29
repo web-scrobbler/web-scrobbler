@@ -1,19 +1,15 @@
 'use strict';
 
 define([
-	'wrappers/chrome'
-], function(chrome) {
+	'wrappers/chrome',
+	'services/background-ga'
+], function(chrome, GA) {
 
 	/**
 	 * Map of click listeners indexed by notification IDs
 	 * @type {{}}
 	 */
 	var clickListeners = {};
-
-	/**
-	 * Dummy callback
-	 */
-	var emptyCB = function() {};
 
 	/**
 	 * Checks for permissions and existence of Notifications API
@@ -50,6 +46,10 @@ define([
 			return;
 		}
 
+		var notificationCreatedCb = function() {
+			GA.event('notification', 'playing', 'show');
+		};
+
 		var createNotification = function(permissionLevel) {
 			if (permissionLevel === 'granted') {
 
@@ -60,7 +60,7 @@ define([
 					message: 'by ' + song.artist
 				};
 
-				chrome.notifications.create('', options, emptyCB);
+				chrome.notifications.create('', options, notificationCreatedCb);
 			}
 		};
 
@@ -73,6 +73,10 @@ define([
 			return;
 		}
 
+		var notificationCreatedCb = function() {
+			GA.event('notification', 'error', 'show');
+		};
+
 		var createNotification = function(permissionLevel) {
 			if (permissionLevel === 'granted') {
 
@@ -83,7 +87,7 @@ define([
 					message: message
 				};
 
-				chrome.notifications.create('', options, emptyCB);
+				chrome.notifications.create('', options, notificationCreatedCb);
 			}
 		};
 
@@ -100,6 +104,8 @@ define([
 	 */
 	function showAuthenticate(authUrlGetter) {
 		if (!isAvailable()) {
+			GA.event('notification', 'authenticate', 'open-unavailable');
+
 			// fallback for browsers with no notifications support
 			var authUrl = authUrlGetter();
 			window.open(authUrl, 'scrobbler-auth');
@@ -108,9 +114,13 @@ define([
 
 		var notificationCreatedCb = function(notificationId) {
 			addOnClickedListener(notificationId, function() {
+				GA.event('notification', 'authenticate', 'click');
+
 				var authUrl = authUrlGetter();
 				window.open(authUrl, 'scrobbler-auth');
 			});
+
+			GA.event('notification', 'authenticate', 'show');
 		};
 
 		var createNotification = function(permissionLevel) {

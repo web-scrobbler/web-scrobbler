@@ -404,7 +404,7 @@ define([
 			setActionIcon(config.ACTION_SCROBBLED);
 
 			// stats
-			GA.send('event', 'legacy', 'scrobble', song.artist + ' - ' + song.track);
+			GA.event('legacy', 'scrobble', song.artist + ' - ' + song.track);
 
 			console.log('submitted %s - %s (%s)', song.artist, song.track, http_request.responseText);
 
