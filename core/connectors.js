@@ -439,6 +439,12 @@ define(function() {
 			label: 'luooMusic',
 			matches: ['*://www.luoo.net/*'],
 			js: ['connectors/luoo.js']
+		},
+
+		{
+			label: 'ambientsleepingpill',
+			matches: ['*://*.ambientsleepingpill.com/'],
+			js: ['connectors/ambientsleepingpill.js']
 		}
 	];
 });
