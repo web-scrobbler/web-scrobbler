@@ -75,6 +75,8 @@ require([
 				legacyScrobbler.setActionIcon(config.ACTION_SITE_RECOGNIZED, tabId);
 			}
 
+			GA.send('event', 'core', 'inject', result.getConnector().label);
+
 			return;
 		}
 	};
