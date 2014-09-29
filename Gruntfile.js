@@ -3,13 +3,14 @@
 /* global module, require */
 module.exports = function(grunt) {
 
-	var jsFiles = ['Gruntfile.js', 'popup.js', 'core/background/*', 'core/content/*', 'options/options.js', 'core/legacy/scrobbler.js', 'connectors/22tracks.js', 'connectors/archive.js', 'connectors/bandcamp.js', 'connectors/blinkboxmusic.js', 'connectors/ambientsleepingpill.js', 'popups/*.js']; // intentionally does not contain all files yet
+	var jsConnectorFiles = ['connectors/22tracks.js', 'connectors/archive.js', 'connectors/bandcamp.js', 'connectors/blinkboxmusic.js', 'connectors/ambientsleepingpill.js']; // intentionally does not contain all files yet
+	var jsCoreFiles = ['Gruntfile.js', 'popup.js', 'core/*', 'options/options.js', 'popups/*.js'];
 	var jsonFiles = ['*.json', '.jshintrc'];
 	var cssFiles = ['options/options.css', 'popups/base.css', 'dialogs/base.css'];
 
 	grunt.initConfig({
 		jshint: {
-			all: jsFiles,
+			all: [jsCoreFiles, jsConnectorFiles],
 			options: {
 				jshintrc: true,
 				reporter: require('jshint-stylish')
@@ -28,7 +29,7 @@ module.exports = function(grunt) {
 		lintspaces: {
 			all: {
 				src: [
-					jsFiles, cssFiles
+					jsCoreFiles, jsConnectorFiles, cssFiles
 				],
 
 				options: {
