@@ -19,6 +19,7 @@ function scrobble () {
      * Detect this case and cancel scrobbling.
      */
     if (duration == 0) {
+        chrome.runtime.sendMessage({type: 'reset'});
         return;
     }
 
