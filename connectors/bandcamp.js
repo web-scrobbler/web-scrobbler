@@ -69,6 +69,25 @@ function isAlbum()
 	return $('.trackView[itemtype="http://schema.org/MusicAlbum"]').length > 0;
 }
 
+/**
+ * Check to see if all tracks are dashed.
+ *
+ * @return bool the result
+ */
+function allTracksDashed()
+{
+	var allDashed = true;
+
+	$('.track_list span[itemprop="name"]').each(function() {
+		if ($(this).text().indexOf('-') === -1) {
+			allDashed = false;
+			return false; // Break out loop
+		}
+	});
+
+	return allDashed;
+}
+
 function cancel(){
 	$(window).unload(function() {
 		// reset the background scrobbler song data
@@ -90,8 +109,14 @@ $(durationPart).bind('DOMSubtreeModified',function() {
 		var track = parseTitle();
 		var album = parseAlbum();
 
+		/**
+		 * Work out artist from the track if either:
+		 *
+		 *  - The artist is set to 'Various' or 'Various Artists' and track has a dash
+		 *  - This is an album and all the tracks have a dash
+		 */
 		var dashIndex = track.indexOf('-');
-		if (/^Various(\sArtists)?$/.test(artist) && dashIndex >= 0)
+		if ((/^Various(\sArtists)?$/.test(artist) && dashIndex > 0) || (isAlbum() && allTracksDashed()))
 		{
 			artist = track.substring(0, dashIndex);
 			track = track.substring(dashIndex + 1);
