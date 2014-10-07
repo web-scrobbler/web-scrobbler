@@ -25,11 +25,11 @@ $(function() {
 		return true;      
     });
 
-    $(".topPanelTimeline-title").bind('DOMSubtreeModified', function () {
+    function scrobble() {
         var songDuration = parseDurationString(extractFirstValue(".topPanelTimeline-length"));
 
         if (songDuration > 0) {
-            var titleString = extractFirstValue(".topPanelTimeline-title>a");
+            var titleString = extractFirstValue(".topPanelTimeline-title");
 
             if (!titleString) {
                 return;
@@ -37,27 +37,30 @@ $(function() {
 
             var songInfo = /(.*)\s+—\s+(.*)/.exec(titleString);
             var artist = songInfo[1],
-                 title = songInfo[2];
-            
+                title = songInfo[2];
+
             if (lastTrack != titleString) {
                 var total = songDuration;
                 lastTrack = titleString;
-                
+
                 $r({type: 'validate', artist: artist, track: title}, function(response) {
                     if (response != false) {
                         $r({
-                            type: 'nowPlaying', 
-                            artist: response.artist, 
-                            track: response.track, 
+                            type: 'nowPlaying',
+                            artist: response.artist,
+                            track: response.track,
                             duration: total
                         });
                     } else {
-                        $r({type: 'nowPlaying', duration: total});	
+                        $r({type: 'nowPlaying', duration: total});
                     }
                 });
             }
         }
-    });
+    }
+
+    $(".topPanelTimeline-title").bind('DOMSubtreeModified', scrobble);
+    $(".topPanel-center").bind('DOMSubtreeModified', scrobble);
 });
 
 /**
