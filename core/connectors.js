@@ -55,7 +55,7 @@ define(function() {
 
 		{
 			label: 'Google Play Music',
-			matches: ['*://play.google.com/music/*'],
+			matches: ['*://play.google.com/music/*', '*://play-music.sandbox.google.com/music/*'],
 			js: ['connectors/googlemusic.js']
 		},
 
