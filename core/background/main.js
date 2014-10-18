@@ -14,7 +14,7 @@ require([
 	'services/lastfm',
 	'notifications',
 	'inject',
-	'injectResult',
+	'objects/injectResult',
 	'controller',
 	'storage',
 	'config'

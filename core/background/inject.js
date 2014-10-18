@@ -5,7 +5,7 @@
 define([
 	'connectors',
 	'config',
-	'injectResult'
+	'objects/injectResult'
 ], function (connectors, config, injectResult) {
 
 	/**
