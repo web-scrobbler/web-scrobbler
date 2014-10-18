@@ -5,7 +5,7 @@
  * - Inspired by the Spotify scrobbler
  */
 
-$(function(){
+$(function() {
 	'use strict';
 
 	$(document).ready(function() {
@@ -51,8 +51,7 @@ $(function(){
 			 *  - This is an album and all the tracks have a dash
 			 */
 			var dashIndex = track.indexOf('-');
-			if ((/^Various(\sArtists)?$/.test(artist) && dashIndex > 0) || (isAlbum() && allTracksDashed()))
-			{
+			if ((/^Various(\sArtists)?$/.test(artist) && dashIndex > 0) || (isAlbum() && allTracksDashed())) {
 				artist = track.substring(0, dashIndex);
 				track = track.substring(dashIndex + 1);
 			}
@@ -64,13 +63,24 @@ $(function(){
 
 				console.log('BandCampScrobbler: scrobbling - Artist: ' + artist + '; Album:  ' + album + '; Track: ' + track + '; duration: ' + duration.total);
 
-				chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
-					if (response !== false){
-						chrome.runtime.sendMessage({type: 'nowPlaying', artist: response.artist, track: response.track, duration: duration.total, album: album});
-					}
-					else
-					{
-						chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration.total});
+				chrome.runtime.sendMessage({
+					type: 'validate',
+					artist: artist,
+					track: track
+				}, function(response) {
+					if (response !== false) {
+						chrome.runtime.sendMessage({
+							type: 'nowPlaying',
+							artist: response.artist,
+							track: response.track,
+							duration: duration.total,
+							album: album
+						});
+					} else {
+						chrome.runtime.sendMessage({
+							type: 'nowPlaying',
+							duration: duration.total
+						});
 					}
 				});
 			}
@@ -79,20 +89,17 @@ $(function(){
 		/**
 		 * Parse artist information.
 		 */
-		function parseArtist()
-		{
+		function parseArtist() {
 			var byLine = '';
-			if (isAlbum())
-			{
+			if (isAlbum()) {
 				byLine = $('dt.hiddenAccess:contains("band name") ~ dd').text();
-			}
-			else // isTrack
+			} else // isTrack
 			{
 				byLine = $('.albumTitle nobr').text();
 			}
 
 			var artist = $.trim($.trim(byLine).substring(2));
-			if(!artist) {
+			if (!artist) {
 				artist = $('span[itemprop=byArtist]').text();
 			}
 
@@ -105,8 +112,7 @@ $(function(){
 		function parseAlbum() {
 			if (isAlbum()) {
 				return $('h2.trackTitle').text().trim();
-			}
-			else { // isTrack
+			} else { // isTrack
 				return $('[itemprop="inAlbum"] [itemprop="name"]').text();
 			}
 		}
@@ -114,13 +120,10 @@ $(function(){
 		/**
 		 * Parse title information.
 		 */
-		function parseTitle()
-		{
-			if (isAlbum())
-			{
+		function parseTitle() {
+			if (isAlbum()) {
 				return $('.track_info .title').first().text();
-			}
-			else //isTrack
+			} else //isTrack
 			{
 				return $('.trackTitle').first().text();
 			}
@@ -129,19 +132,21 @@ $(function(){
 		/**
 		 * Determine whether the current playing page is an album.
 		 */
-		function isAlbum()
-		{
+		function isAlbum() {
 			return $('.trackView[itemtype="http://schema.org/MusicAlbum"]').length > 0;
 		}
 
 		/**
 		 * Parse duration information.
 		 */
-		function parseDuration(match){
-			try{
+		function parseDuration(match) {
+			try {
 				var m = durationRegex.exec(match);
-				return {current: parseInt(m[1],10)*60 + parseInt(m[2],10), total: parseInt(m[3],10)*60 + parseInt(m[4],10)};
-			}catch(err){
+				return {
+					current: parseInt(m[1], 10) * 60 + parseInt(m[2], 10),
+					total: parseInt(m[3], 10) * 60 + parseInt(m[4], 10)
+				};
+			} catch (err) {
 				return 0;
 			}
 		}
@@ -151,8 +156,7 @@ $(function(){
 		 *
 		 * @return bool the result
 		 */
-		function allTracksDashed()
-		{
+		function allTracksDashed() {
 			var allDashed = true;
 
 			$('.track_list span[itemprop="name"]').each(function() {
@@ -169,10 +173,12 @@ $(function(){
 	// bind page unload function to discard current 'now listening'
 	cancel();
 
-	function cancel(){
+	function cancel() {
 		$(window).unload(function() {
 			// reset the background scrobbler song data
-			chrome.runtime.sendMessage({type: 'reset'});
+			chrome.runtime.sendMessage({
+				type: 'reset'
+			});
 			return true;
 		});
 	}
