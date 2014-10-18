@@ -32,6 +32,12 @@ require([
 	 */
 	var tabControllers = {};
 
+	/**
+	 * Flag for "page session" where at least single injection occurred
+	 * Used for tracking number of actually active users
+	 * @type {boolean}
+	 */
+	var isActiveSession = false;
 
 	/**
 	 * Callback for injecting script
@@ -76,6 +82,11 @@ require([
 			}
 
 			GA.event('core', 'inject', result.getConnector().label);
+
+			if (!isActiveSession) {
+				isActiveSession = true;
+				GA.send('pageview', '/background-injected?version=' + chrome.app.getDetails().version);
+			}
 
 			return;
 		}
@@ -168,7 +179,7 @@ require([
 
 
 	// track background page loaded - happens once per browser session
-	GA.send('pageview');
+	GA.send('pageview', '/background-loaded?version=' + chrome.app.getDetails().version);
 
 	// check session ID status and show notification if authentication is needed
 	var lfmSessionId = LastFM.getSessionID();
