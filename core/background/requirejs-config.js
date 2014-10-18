@@ -9,8 +9,7 @@ require.config({
 		jquery: '/vendor/jquery-2.1.0.min',
 		canjs: '/vendor/can.custom',
 		bootstrap: '/vendor/bootstrap.min',
-		connectors: '/core/connectors',
-		analytics: 'https://www.google-analytics.com/analytics'
+		connectors: '/core/connectors'
 	},
 	shim: {
 		bootstrap: {
