@@ -1,7 +1,8 @@
 /**
  * Improved Bandcamp Scrobbler by Malachi Soord.
  *
- * Inspired by the Spotify scrobbler.
+ * - Build on the work of George Pollard
+ * - Inspired by the Spotify scrobbler
  */
 
 $(function(){
