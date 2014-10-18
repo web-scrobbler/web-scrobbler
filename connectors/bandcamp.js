@@ -33,7 +33,7 @@ $(function() {
 		var lastTrack = null;
 
 		/**
-		 * Bind events to audio
+		 * Bind scrobbling logic to the audio's playing event
 		 */
 		audio.addEventListener('playing', function() {
 
@@ -63,6 +63,8 @@ $(function() {
 
 				console.log('BandCampScrobbler: scrobbling - Artist: ' + artist + '; Album:  ' + album + '; Track: ' + track + '; duration: ' + duration.total);
 
+				lastTrack = track;
+
 				chrome.runtime.sendMessage({
 					type: 'validate',
 					artist: artist,
@@ -84,6 +86,17 @@ $(function() {
 					}
 				});
 			}
+		});
+
+		/**
+		 * Set lastTrack to null to reset playing and enabling re-scrobbling
+		 * of the same song again once audio has finished playing.
+		 */
+		audio.addEventListener('ended', function() {
+
+			console.log('BandCampScrobbler: song finished playing');
+
+			lastTrack = null;
 		});
 
 		/**
