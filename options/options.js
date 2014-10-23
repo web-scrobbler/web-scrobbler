@@ -40,6 +40,10 @@ require([
 			});
 		});
 
+		$('button#add-pattern').click(function() {
+			$('#conn-conf-list').append(createNewConfigInput());
+		});
+
 		// generate connectors and their checkboxes
 		createConnectors();
 
@@ -60,9 +64,7 @@ require([
 		$('input#toggle').prop('checked', checkedState);
 	}
 
-	function createConnectors() {
-		var parent = $('ul#connectors');
-
+	function listConnectors() {
 		// prevent mutation of original
 		var conns = connectors.slice(0);
 
@@ -71,9 +73,44 @@ require([
 			return a.label.localeCompare(b.label);
 		});
 
+		return conns;
+	}
+
+	function createNewConfigInput(value) {
+		value = typeof value === 'undefined' ? '' : value;
+
+		var newElt = $('<li></li>');
+
+		var input = $('<input type="text">').val(value);
+
+		newElt.append(input);
+
+		var closeBtn = $(
+		'<a href="#" class="conn-conf-del-input" tabindex="-1">' +
+		'<i class="icon-remove icon-fixed-width"></i>' +
+		'</a>').click(function(ev) {
+			ev.preventDefault();
+
+			$(this).closest('li').remove();
+		});
+
+		newElt.append(closeBtn);
+
+		return newElt;
+	}
+
+	function createConnectors() {
+		var parent = $('ul#connectors');
+
+		var conns = listConnectors();
+
 		conns.forEach(function (connector, index) {
 
-			var newEl = $('<li>\r\n<input type="checkbox" id="conn-' + index + '">\r\n' +
+			var newEl = $('<li>\r\n' +
+			'<a href="#" class="conn-config" data-conn="' + index + '">\r\n' +
+			'<i class="icon-gear icon-fixed-width"></i>\r\n' +
+			'</a>\r\n' +
+			'<input type="checkbox" id="conn-' + index + '">\r\n' +
 			'<label for="conn-' + index + '">' + connector.label + '</label>\r\n' +
 			'</li>');
 
@@ -99,6 +136,69 @@ require([
 				localStorage.disabledConnectors = JSON.stringify(disabledArray);
 				console.log(localStorage.disabledConnectors);
 			});
+		});
+
+		$('button#conn-conf-ok').click(function() {
+			var modal = $(this).closest('#conn-conf-modal');
+
+			var index = modal.data('conn');
+			var connector = conns[index];
+
+			var patterns = [];
+			$('#conn-conf-list').find('input:text').each(function() {
+				var pattern = $(this).val();
+				if (pattern.length > 0) {
+					patterns.push(pattern);
+				}
+			});
+
+			connector.originalMatches = connector.matches;
+			connector.matches = patterns;
+
+			var customPatterns = JSON.parse(localStorage.customPatterns);
+			customPatterns[connector.label] = patterns;
+			localStorage.customPatterns = JSON.stringify(customPatterns);
+
+			modal.modal('hide');
+		});
+
+		$('button#conn-conf-reset').click(function() {
+			var modal = $('#conn-conf-modal');
+
+			var index = modal.data('conn');
+			var connector = conns[index];
+
+			var customPatterns = JSON.parse(localStorage.customPatterns);
+			delete customPatterns[connector.label];
+			localStorage.customPatterns = JSON.stringify(customPatterns);
+
+			connector.matches = connector.originalMatches;
+			delete connector.originalMatches;
+
+			modal.modal('hide');
+		});
+
+		$('body').on('click', 'a.conn-config', function(event) {
+			event.preventDefault();
+
+			var modal = $('#conn-conf-modal');
+			var index = $(event.currentTarget).data('conn');
+			var connector = conns[index];
+
+			modal.data('conn', index);
+			modal.find('.conn-conf-title').html(connector.label);
+
+			var inputs = $('<ul class="list-unstyled" id="conn-conf-list"></ul>');
+			for (var i in connector.matches) {
+				var value = connector.matches[i];
+				var input = createNewConfigInput(value);
+
+				inputs.append(input);
+			}
+
+			modal.find('.conn-conf-patterns').html(inputs);
+
+			modal.modal('show');
 		});
 	}
 

@@ -28,7 +28,7 @@
  *
  */
 define(function() {
-	return [
+	var connectors = [
 		{
 			label: 'Baidu Music',
 			matches: ['*://play.baidu.com/*'],
@@ -447,4 +447,19 @@ define(function() {
 			js: ['connectors/ambientsleepingpill.js']
 		}
 	];
+
+	if (typeof localStorage.customPatterns === 'undefined') {
+		localStorage.customPatterns = JSON.stringify({});
+	}
+
+	var customPatterns = JSON.parse(localStorage.customPatterns);
+	for (var i in connectors) {
+		var connector = connectors[i];
+		if (connector.label in customPatterns) {
+			connector.originalMatches = connector.matches;
+			connector.matches = customPatterns[connector.label];
+		}
+	}
+
+	return connectors;
 });
