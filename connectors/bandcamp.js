@@ -13,7 +13,7 @@ $(function() {
 		console.log('BandCampScrobbler: loaded');
 
 		/**
-		 * The audio reference.
+		 * The music player reference.
 		 */
 		var audio = document.getElementsByTagName('audio')[0];
 
@@ -31,6 +31,11 @@ $(function() {
 		 * Last playing track.
 		 */
 		var lastTrack = null;
+
+		/**
+		 * If true then we are on a 'discovery' type of page.
+		 */
+		var onDiscovery = $('#discover').length > 0 ? true : false;
 
 		/**
 		 * Bind scrobbling logic to the audio's playing event
@@ -56,8 +61,6 @@ $(function() {
 				track = track.substring(dashIndex + 1);
 			}
 
-			artist = $.trim(artist);
-			track = $.trim(track);
 
 			if (track !== lastTrack) {
 
@@ -103,17 +106,21 @@ $(function() {
 		 * Parse artist information.
 		 */
 		function parseArtist() {
-			var byLine = '';
-			if (isAlbum()) {
-				byLine = $('dt.hiddenAccess:contains("band name") ~ dd').text();
-			} else // isTrack
-			{
-				byLine = $('.albumTitle nobr').text();
-			}
+			var artist;
+			if (onDiscovery) {
+				artist = $('.detail_item_link_2').text();
+			} else {
+				var byLine = '';
+				if (isAlbum()) {
+					byLine = $('dt.hiddenAccess:contains("band name") ~ dd').text();
+				} else {
+					byLine = $('.albumTitle nobr').text();
+				}
 
-			var artist = $.trim($.trim(byLine).substring(2));
-			if (!artist) {
-				artist = $('span[itemprop=byArtist]').text();
+				artist = $.trim($.trim(byLine).substring(2));
+				if (!artist) {
+					artist = $('span[itemprop=byArtist]').text();
+				}
 			}
 
 			return $.trim(artist);
@@ -123,23 +130,37 @@ $(function() {
 		 * Parse album information.
 		 */
 		function parseAlbum() {
-			if (isAlbum()) {
-				return $('h2.trackTitle').text().trim();
-			} else { // isTrack
-				return $('[itemprop="inAlbum"] [itemprop="name"]').text();
+			var album;
+
+			if (onDiscovery) {
+				album = $('.detail_item_link').text();
+			} else {
+				if (isAlbum()) {
+					 album = $('h2.trackTitle').text().trim();
+				} else { // isTrack
+					album =  $('[itemprop="inAlbum"] [itemprop="name"]').text();
+				}
 			}
+
+			return $.trim(album);
 		}
 
 		/**
 		 * Parse title information.
 		 */
 		function parseTitle() {
-			if (isAlbum()) {
-				return $('.track_info .title').first().text();
-			} else //isTrack
-			{
-				return $('.trackTitle').first().text();
+			var title;
+			if (onDiscovery) {
+			title = $('.track_info .title').first().text();
+			} else {
+				if (isAlbum()) {
+					title = $('.track_info .title').first().text();
+				} else {
+					title =  $('.trackTitle').first().text();
+				}
 			}
+
+			return $.trim(title);
 		}
 
 		/**
