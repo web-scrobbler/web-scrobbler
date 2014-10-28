@@ -11,9 +11,9 @@ $(function() {
 	$(document).ready(function() {
 
 		/**
-		 * The music player reference.
+		 * Audio player reference.
 		 */
-		var audio = document.getElementsByTagName('audio')[0];
+		var player = null;
 
 		/**
 		 * Duration selector.
@@ -53,11 +53,35 @@ $(function() {
 		console.log('BandCampScrobbler: Loaded! onDiscovery:' + onDiscovery + ' isAlbum:' + isAlbum);
 
 		/**
-		 * Bind scrobbling logic to the audio's playing event
+		 * Bind listeners to the audio player that has been triggered.
 		 */
-		audio.addEventListener('playing', function() {
+		$('audio').bind('DOMSubtreeModified', function(event) {
+			console.log('BandCampScrobbler: audio DOMSubtreeModified');
 
-			console.log('BandCampScrobbler: onPlayerChange()');
+			/**
+			 * Detach listeners from old player.
+			 */
+			if (player !== null) {
+				console.log('BandCampScrobbler: removing existing listeners');
+				player.removeEventListener('playing', scrobble);
+				player.removeEventListener('ended', reset);
+				player.removeEventListener('pause', reset);
+			}
+
+			var newPlayer = event.currentTarget;
+
+			newPlayer.addEventListener('playing', scrobble);
+			newPlayer.addEventListener('ended', reset);
+			newPlayer.addEventListener('pause', reset);
+
+			player = newPlayer;
+		});
+
+		/**
+		 * Scrobble function
+		 */
+		var scrobble = function() {
+			console.log('BandCampScrobbler: audio playing event!');
 
 			var duration = parseDuration($(durationPart).text());
 			var artist = parseArtist();
@@ -75,6 +99,8 @@ $(function() {
 				artist = track.substring(0, dashIndex);
 				track = track.substring(dashIndex + 1);
 			}
+
+			console.log('BandCampScrobbler: attempting:' + track);
 
 			if (track !== lastTrack) {
 
@@ -103,16 +129,19 @@ $(function() {
 					}
 				});
 			}
-		});
+		};
 
 		/**
 		 * Set lastTrack to null to reset playing and enabling re-scrobbling
 		 * of the same song again once audio has finished playing.
 		 */
-		audio.addEventListener('ended', function() {
-			console.log('BandCampScrobbler: song finished playing');
+		var reset = function() {
+			console.log('BandCampScrobbler: reset');
 			lastTrack = null;
-		});
+			chrome.runtime.sendMessage({
+				type: "reset"
+			});
+		};
 
 		/**
 		 * Parse artist information.
@@ -148,9 +177,9 @@ $(function() {
 				album = $('.detail_item_link').text();
 			} else {
 				if (isAlbum) {
-					 album = $('h2.trackTitle').text().trim();
+					album = $('h2.trackTitle').text().trim();
 				} else { // isTrack
-					album =  $('[itemprop="inAlbum"] [itemprop="name"]').text();
+					album = $('[itemprop="inAlbum"] [itemprop="name"]').text();
 				}
 			}
 
@@ -163,12 +192,12 @@ $(function() {
 		function parseTitle() {
 			var title;
 			if (onDiscovery) {
-			title = $('.track_info .title').first().text();
+				title = $('.track_info .title').first().text();
 			} else {
 				if (isAlbum) {
 					title = $('.track_info .title').first().text();
 				} else {
-					title =  $('.trackTitle').first().text();
+					title = $('.trackTitle').first().text();
 				}
 			}
 
