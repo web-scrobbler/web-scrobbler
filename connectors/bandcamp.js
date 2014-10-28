@@ -10,8 +10,6 @@ $(function() {
 
 	$(document).ready(function() {
 
-		console.log('BandCampScrobbler: loaded');
-
 		/**
 		 * The music player reference.
 		 */
@@ -19,23 +17,40 @@ $(function() {
 
 		/**
 		 * Duration selector.
+		 *
+		 * @type {string}
 		 */
 		var durationPart = '.track_info .time';
 
 		/**
 		 * Duration regex.
+		 *
+		 * @type {string}
 		 */
 		var durationRegex = /[ \n]*(\d+):(\d+)[ \n]*\/[ \n]*(\d+):(\d+)[ \n]*/;
 
 		/**
 		 * Last playing track.
+		 *
+		 * @type {string}
 		 */
 		var lastTrack = null;
 
 		/**
 		 * If true then we are on a 'discovery' type of page.
+		 *
+		 * @type {boolean}
 		 */
-		var onDiscovery = $('#discover').length > 0 ? true : false;
+		var onDiscovery = $('#discover').length > 0;
+
+		/**
+		 * To determine whether the current page is an album.
+		 *
+		 * @type {boolean}
+		 */
+		var isAlbum = $('.trackView[itemtype="http://schema.org/MusicAlbum"]').length > 0;
+
+		console.log('BandCampScrobbler: Loaded! onDiscovery:' + onDiscovery + ' isAlbum:' + isAlbum);
 
 		/**
 		 * Bind scrobbling logic to the audio's playing event
@@ -56,11 +71,10 @@ $(function() {
 			 *  - This is an album and all the tracks have a dash
 			 */
 			var dashIndex = track.indexOf('-');
-			if ((/^Various(\sArtists)?$/.test(artist) && dashIndex > 0) || (isAlbum() && allTracksDashed())) {
+			if ((/^Various(\sArtists)?$/.test(artist) && dashIndex > 0) || (isAlbum && allTracksDashed())) {
 				artist = track.substring(0, dashIndex);
 				track = track.substring(dashIndex + 1);
 			}
-
 
 			if (track !== lastTrack) {
 
@@ -96,9 +110,7 @@ $(function() {
 		 * of the same song again once audio has finished playing.
 		 */
 		audio.addEventListener('ended', function() {
-
 			console.log('BandCampScrobbler: song finished playing');
-
 			lastTrack = null;
 		});
 
@@ -111,7 +123,7 @@ $(function() {
 				artist = $('.detail_item_link_2').text();
 			} else {
 				var byLine = '';
-				if (isAlbum()) {
+				if (isAlbum) {
 					byLine = $('dt.hiddenAccess:contains("band name") ~ dd').text();
 				} else {
 					byLine = $('.albumTitle nobr').text();
@@ -135,7 +147,7 @@ $(function() {
 			if (onDiscovery) {
 				album = $('.detail_item_link').text();
 			} else {
-				if (isAlbum()) {
+				if (isAlbum) {
 					 album = $('h2.trackTitle').text().trim();
 				} else { // isTrack
 					album =  $('[itemprop="inAlbum"] [itemprop="name"]').text();
@@ -153,7 +165,7 @@ $(function() {
 			if (onDiscovery) {
 			title = $('.track_info .title').first().text();
 			} else {
-				if (isAlbum()) {
+				if (isAlbum) {
 					title = $('.track_info .title').first().text();
 				} else {
 					title =  $('.trackTitle').first().text();
@@ -161,13 +173,6 @@ $(function() {
 			}
 
 			return $.trim(title);
-		}
-
-		/**
-		 * Determine whether the current playing page is an album.
-		 */
-		function isAlbum() {
-			return $('.trackView[itemtype="http://schema.org/MusicAlbum"]').length > 0;
 		}
 
 		/**
