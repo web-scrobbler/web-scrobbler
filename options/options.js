@@ -5,8 +5,9 @@ require([
 	'config',
 	'connectors',
 	'legacy/scrobbler',
+	'customPatterns',
 	'bootstrap'
-], function ($, config, connectors, legacyScrobbler) {
+], function ($, config, connectors, legacyScrobbler, customPatterns, bootstrap) {
 
 	$(function () {
 
@@ -152,12 +153,8 @@ require([
 				}
 			});
 
-			connector.originalMatches = connector.matches;
-			connector.matches = patterns;
+			customPatterns.setPatterns(connector, patterns);
 
-			var customPatterns = JSON.parse(localStorage.customPatterns);
-			customPatterns[connector.label] = patterns;
-			localStorage.customPatterns = JSON.stringify(customPatterns);
 
 			modal.modal('hide');
 		});
@@ -168,12 +165,7 @@ require([
 			var index = modal.data('conn');
 			var connector = conns[index];
 
-			var customPatterns = JSON.parse(localStorage.customPatterns);
-			delete customPatterns[connector.label];
-			localStorage.customPatterns = JSON.stringify(customPatterns);
-
-			connector.matches = connector.originalMatches;
-			delete connector.originalMatches;
+			customPatterns.resetPatterns(connector);
 
 			modal.modal('hide');
 		});
@@ -187,6 +179,8 @@ require([
 
 			modal.data('conn', index);
 			modal.find('.conn-conf-title').html(connector.label);
+
+			customPatterns.updatePatterns(connector);
 
 			var inputs = $('<ul class="list-unstyled" id="conn-conf-list"></ul>');
 			for (var i in connector.matches) {
