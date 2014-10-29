@@ -1,3 +1,4 @@
+'use strict';
 define(['storage'], function (storageContainer) {
 	var storage = storageContainer.getNamespace('customPatterns');
 
