@@ -7,7 +7,7 @@ require([
 	'legacy/scrobbler',
 	'customPatterns',
 	'bootstrap'
-], function ($, config, connectors, legacyScrobbler, customPatterns, bootstrap) {
+], function ($, config, connectors, legacyScrobbler, customPatterns) {
 
 	$(function () {
 
