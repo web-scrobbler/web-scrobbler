@@ -18,5 +18,6 @@ require.config({
 		canjs: {
 			deps: ['jquery']
 		}
-	}
+	},
+	waitSeconds: 0
 });
