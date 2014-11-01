@@ -83,7 +83,6 @@ $(function() {
 		var scrobble = function() {
 			console.log('BandCampScrobbler: audio playing event!');
 
-			var duration = parseDuration($(durationPart).text());
 			var artist = parseArtist();
 			var track = parseTitle();
 			var album = parseAlbum();
@@ -100,9 +99,11 @@ $(function() {
 				track = track.substring(dashIndex + 1);
 			}
 
-			console.log('BandCampScrobbler: attempting:' + track);
+			console.log('BandCampScrobbler: attempting - Artist: ' + artist + '; Album:  ' + album + '; Track: ' + track);
 
 			if (track !== lastTrack) {
+
+				var duration = parseDuration();
 
 				console.log('BandCampScrobbler: scrobbling - Artist: ' + artist + '; Album:  ' + album + '; Track: ' + track + '; duration: ' + duration.total);
 
@@ -139,7 +140,7 @@ $(function() {
 			console.log('BandCampScrobbler: reset');
 			lastTrack = null;
 			chrome.runtime.sendMessage({
-				type: "reset"
+				type: 'reset'
 			});
 		};
 
@@ -207,9 +208,9 @@ $(function() {
 		/**
 		 * Parse duration information.
 		 */
-		function parseDuration(match) {
+		function parseDuration() {
 			try {
-				var m = durationRegex.exec(match);
+				var m = durationRegex.exec($(durationPart).text());
 				return {
 					current: parseInt(m[1], 10) * 60 + parseInt(m[2], 10),
 					total: parseInt(m[3], 10) * 60 + parseInt(m[4], 10)
