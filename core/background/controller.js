@@ -4,12 +4,12 @@
  * Controller for each tab
  */
 define([
+	'objects/song',
+	'pipeline/pipeline',
 	'services/lastfm',
 	'pageAction',
-	'helpers',
-	'timer',
-	'wrappers/can'
-], function(LastFM, PageAction, Helpers, Timer, can) {
+	'timer'
+], function(Song, Pipeline, LastFM, PageAction, Timer) {
 
 	/**
 	 * Constructor
@@ -27,18 +27,7 @@ define([
 
 		var pageAction = new PageAction(tabId),
 			playbackTimer = null,
-			currentSong = Helpers.createEmptySong();
-
-		/**
-		 * Counters for CanJS batch updates. Properties changed in a single batch
-		 * trigger multiple events, but share the batch number. By knowing it we
-		 * can respond only one time per batch
-		 *
-		 * @see http://canjs.com/docs/can.batch.html
-		 */
-		var batchNumbers = {
-			attemptedLFMValidation: null
-		};
+			currentSong = null;
 
 
 
@@ -49,36 +38,33 @@ define([
 		this.onStateChanged = function(newState) {
 			console.log('Tab ' + tabId + ': state changed, ' + JSON.stringify(newState));
 
-			var hasSongChanged = (newState.artist !== currentSong.artist || newState.track !== currentSong.track ||
-									newState.album !== currentSong.album || newState.uniqueID !== currentSong.uniqueID);
+			// don't trust the connector
+			if (newState.artist === null || newState.artist === '' || newState.track === null || newState.track === '') {
+				console.warn('Tab ' + tabId + ': state from connector is missing artist or track property');
+				pageAction.setSiteSupported();
+				return;
+			}
 
-			// song property changed listeners will be called will not be called until batch ends
-			can.batch.start();
+			var hasSongChanged = (currentSong === null ||
+									newState.artist !== currentSong.parsed.artist || newState.track !== currentSong.parsed.track ||
+									newState.album !== currentSong.parsed.album || newState.uniqueID !== currentSong.parsed.uniqueID);
 
-			// propagate new values to current song
-			currentSong.attr({
-				artist: newState.artist,
-				track: newState.track,
-				album: newState.album,
-				uniqueID: newState.uniqueID,
-				duration: newState.duration,
-				currentTime: newState.currentTime,
-				isPlaying: newState.isPlaying
-			});
-
-			// clear old data and run validation the first time we see a new song
-			if (hasSongChanged) {
-				currentSong.attr({
-					isLFMValid: false,
-					attemptedLFMValidation: false
+			// propagate values that can change without changing the song
+			if (!hasSongChanged) {
+				currentSong.parsed.attr({
+					currentTime: newState.currentTime,
+					isPlaying: newState.isPlaying
 				});
+			}
+			// we've hit a new song - clear old data and run processing
+			else {
+				// unbind previous song, so possible delayed changes don't trigger any event
+				if (currentSong !== null) {
+					unbindSongListeners(currentSong);
+				}
 
-				currentSong.metadata.attr({
-					artist: null,
-					track: null,
-					duration: null,
-					artistThumbUrl: null
-				});
+				currentSong = new Song(newState);
+				bindSongListeners(currentSong);
 
 				console.log('Tab ' + tabId + ': new song detected, ' + JSON.stringify(currentSong.attr()));
 
@@ -86,17 +72,91 @@ define([
 				// the timer is later optionally updated with loaded metadata
 				//
 				// this call starts timer and also resets any previously set timer
-				var destSeconds = Math.floor(currentSong.duration / 2) || DEFAULT_SCROBBLE_TIME;
+				var destSeconds = Math.floor(currentSong.parsed.duration / 2) || DEFAULT_SCROBBLE_TIME;
 				playbackTimer.start(destSeconds);
 				console.log('Tab ' + tabId + ': timer started for ' + destSeconds);
 
-				// run LFM validation which will update song's attemptedLFMValidation flag
-				LastFM.loadSongInfo(currentSong);
+				// start processing - result will trigger the listener
+				Pipeline.processSong(currentSong);
 			}
-
-			// commit batch - song property changed listeners will be called
-			can.batch.stop();
 		};
+
+		/**
+		 * Setup listeners for new song object
+		 * @param {Song} song
+		 */
+		function bindSongListeners(song) {
+			/**
+			 * Respond to changes of not/playing and pause timer accordingly to get real elapsed time
+			 */
+			song.bind('parsed.isPlaying', function(ev, newVal) {
+				console.log('Tab ' + tabId + ': isPlaying state changed to ' + newVal);
+
+				if (newVal) {
+					playbackTimer.resume();
+				} else {
+					playbackTimer.pause();
+				}
+			});
+
+			/**
+			 * Song has gone through processing pipeline
+			 */
+			song.bind('flags.isProcessed', function(ev, newVal) {
+				if (newVal) {
+					console.log('Tab ' + tabId + ': song finished processing ', JSON.stringify(song.attr()));
+					onProcessed(song);
+				}
+			});
+		}
+
+		/**
+		 * Unbind all song listener. The song will no longer be used in Controller, but may
+		 * remain in async calls and we don't want it to trigger any more listeners.
+		 * @param {Song} song
+		 */
+		function unbindSongListeners(song) {
+			song.unbind('parsed.isPlaying');
+			song.unbind('flags.isProcessed');
+		}
+
+		/**
+		 * Called when song finishes processing in pipeline. It may not have passed the pipeline
+		 * successfully, so checks for various flags are needed.
+		 * @param {Song} song
+		 */
+		function onProcessed(song) {
+			// currently supporting only L.FM valid songs;
+			// in future manually corrected songs will be stored in cache and sent too
+			if (song.flags.isLastfmValid === true) {
+				// set timer for new value if not parsed before and if loaded any duration
+				if (!song.parsed.duration && song.processed.duration && playbackTimer !== null) {
+					var halfTime = Math.floor(song.processed.duration / 2);
+					playbackTimer.update(halfTime);
+					console.log('Tab ' + tabId + ': timer updated to ' + halfTime);
+				}
+
+				setSongNowPlaying(song);
+			} else {
+				pageAction.setSongNotRecognized();
+			}
+		}
+
+		/**
+		 * Contains all actions to be done when song is ready to be marked as now playing
+		 * @param {Song} song
+		 */
+		function setSongNowPlaying(song) {
+			// set page action icon
+			pageAction.setSongRecognized(song);
+
+			// send to L.FM
+			var nowPlayingCB = function(success) {
+				console.log('Tab ' + tabId + ': song set as now playing: ' + success);
+			};
+			LastFM.sendNowPlaying(song, nowPlayingCB);
+		}
+
 
 		/**
 		 * Called when scrobble timer triggers
@@ -118,55 +178,6 @@ define([
 		// Active calls
 		//
 		//
-
-
-		/**
-		 * Respond to validation of parsed song data
-		 */
-		currentSong.bind('attemptedLFMValidation', function(ev, newVal) {
-			if (!ev.batchNum || ev.batchNum !== batchNumbers.attemptedLFMValidation) {
-				batchNumbers.attemptedLFMValidation = ev.batchNum;
-
-				if (newVal === true) {
-					console.log('Tab ' + tabId + ': after LFM validation: ' + JSON.stringify(currentSong.attr()));
-
-					if (currentSong.isLFMValid === true) { // metadata loaded successfully
-						pageAction.setSongRecognized(currentSong);
-
-						// set timer for new value if not parsed before
-						if (!currentSong.duration) {
-							var halfTime = Math.floor(currentSong.metadata.duration / 2);
-							playbackTimer.update(halfTime);
-							console.log('Tab ' + tabId + ': timer updated to ' + halfTime);
-						}
-
-						// set the song as now playing
-						var nowPlayingCB = function(success) {
-							console.log('Tab ' + tabId + ': song set as now playing: ' + success);
-						};
-						LastFM.sendNowPlaying(currentSong, nowPlayingCB);
-					} else {
-						pageAction.setSongNotRecognized();
-					}
-				} else {
-					pageAction.setSiteSupported();
-				}
-			}
-		});
-
-		/**
-		 * Respond to changes of not/playing and pause timer accordingly to get real elapsed time
-		 */
-		currentSong.bind('isPlaying', function(ev, newVal) {
-			console.log('Tab ' + tabId + ': isPlaying state changed to ' + newVal);
-
-			if (newVal) {
-				playbackTimer.resume();
-			} else {
-				playbackTimer.pause();
-			}
-		});
-
 
 
 		// create timer

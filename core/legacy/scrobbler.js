@@ -18,8 +18,8 @@ define([
 	'notifications',
 	'services/lastfm',
 	'services/background-ga',
-	'helpers'
-], function($, config, notifications, LastFM, GA, helpers) {
+	'objects/song'
+], function($, config, notifications, LastFM, GA, Song) {
 
 	// browser tab with actually scrobbled track
 	var nowPlayingTab = null;
@@ -249,31 +249,28 @@ define([
 	 */
 	function validate(artist, track, callback) {
 		// dummy song structure - we dont use it globally yet
-		var songObj = helpers.createEmptySong();
-		songObj.attr({
+		var songObj = new Song({
 			artist: artist,
 			track: track
 		});
 
 		// setup listening so we can reply to connector
-		songObj.bind('attemptedLFMValidation', function(ev, newVal) {
-			if (newVal === true) {
-				if (songObj.isLFMValid === false) {
-					callback(false);
-				} else {
-					// create plain old song object to maintain compatibility
-					var validSong = {
-						artist: songObj.artist,
-						track: songObj.track,
-						duration: songObj.duration * 1000 // legacy api expects miliseconds
-					};
+		var onValidated = function(result) {
+			if (result === true) {
+				// create plain old song object to maintain compatibility
+				var validSong = {
+					artist: songObj.processed.artist,
+					track: songObj.processed.track,
+					duration: songObj.processed.duration * 1000 // legacy api expects miliseconds
+				};
 
-					callback(validSong);
-				}
+				callback(validSong);
+			} else {
+				callback(false);
 			}
-		});
+		};
 
-		LastFM.loadSongInfo(songObj);
+		LastFM.loadSongInfo(songObj, onValidated);
 	}
 
 

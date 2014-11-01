@@ -232,14 +232,15 @@ define([
 	 * To wait for this call to finish, observe changes on song object
 	 * using song.bind('change', function(){...})
 	 *
-	 * @param song {can.Map} with mandatory "artist" and "track" properties
+	 * @param song {Song}
+	 * @param cb {Function(boolean)} callback where validation result will be passed
 	 */
-	function loadSongInfo(song) {
+	function loadSongInfo(song, cb) {
 		var params = {
 			method: 'track.getinfo',
 			autocorrect: localStorage.useAutocorrect ? localStorage.useAutocorrect : 0,
-			artist: song.artist,
-			track: song.track
+			artist: song.processed.artist,
+			track: song.processed.track
 		};
 
 		var okCb = function(xmlDoc) {
@@ -247,30 +248,26 @@ define([
 
 			can.batch.start();
 
-			song.metadata.attr({
+			song.processed.attr({
 				artist: $doc.find('artist > name').text(),
 				track: $doc.find('track > name').text(),
-				duration: parseInt($doc.find('track > duration').text()) / 1000,
+				duration: parseInt($doc.find('track > duration').text()) / 1000
+			});
+
+			song.metadata.attr({
 				artistThumbUrl: $doc.find('album > image[size="medium"]').text()
 			});
 
-			song.attr({
-				isLFMValid: true,
-				attemptedLFMValidation: true
-			});
+			song.flags.attr('isLastfmValid', true);
 
 			can.batch.stop();
+
+			cb(true);
 		};
 
 		var errCb = function() {
-			can.batch.start();
-
-			song.attr({
-				'isLFMValid': false,
-				'attemptedLFMValidation': true
-			});
-
-			can.batch.stop();
+			song.flags.attr('isLastfmValid', false);
+			cb(false);
 		};
 
 		doRequest('GET', params, false, okCb, errCb);
@@ -279,7 +276,7 @@ define([
 	/**
 	 * Send current song as 'now playing' to API
 	 * @param {can.Map} song
-	 * @param {Function} callback with single bool parameter of success
+	 * @param {Function} cb callback with single bool parameter of success
 	 */
 	function sendNowPlaying(song, cb) {
 		var sessionID = getSessionID();
