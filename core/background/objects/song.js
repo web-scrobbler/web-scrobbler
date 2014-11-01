@@ -47,7 +47,7 @@ define([
 			isLastfmValid: null // don't know
 		};
 
-		return can.Map({
+		return new can.Map({
 			parsed: parsed,
 			processed: processed,
 			metadata: metadata,

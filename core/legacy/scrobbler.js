@@ -259,8 +259,8 @@ define([
 			if (result === true) {
 				// create plain old song object to maintain compatibility
 				var validSong = {
-					artist: songObj.processed.artist,
-					track: songObj.processed.track,
+					artist: songObj.processed.artist || songObj.parsed.artist,
+					track: songObj.processed.track || songObj.parsed.track,
 					duration: songObj.processed.duration * 1000 // legacy api expects miliseconds
 				};
 

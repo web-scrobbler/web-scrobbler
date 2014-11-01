@@ -239,8 +239,8 @@ define([
 		var params = {
 			method: 'track.getinfo',
 			autocorrect: localStorage.useAutocorrect ? localStorage.useAutocorrect : 0,
-			artist: song.processed.artist,
-			track: song.processed.track
+			artist: song.processed.artist || song.parsed.artist,
+			track: song.processed.track || song.parsed.track
 		};
 
 		var okCb = function(xmlDoc) {
