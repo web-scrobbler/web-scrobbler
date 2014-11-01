@@ -50,7 +50,14 @@ $(function() {
 		 */
 		var isAlbum = $('.trackView[itemtype="http://schema.org/MusicAlbum"]').length > 0;
 
-		console.log('BandCampScrobbler: Loaded! onDiscovery:' + onDiscovery + ' isAlbum:' + isAlbum);
+		/**
+		 * To determine whether the current page is a compilation or not.
+		 *
+		 * @type {Boolean}
+		 */
+		var isCompilation = isAlbum && allTracksDashed();
+
+		console.log('BandCampScrobbler: Loaded! onDiscovery:' + onDiscovery + ' isAlbum:' + isAlbum + ' isCompilation:' + isCompilation);
 
 		/**
 		 * Bind listeners to the audio player that has been triggered.
@@ -91,10 +98,10 @@ $(function() {
 			 * Work out artist from the track if either:
 			 *
 			 *  - The artist is set to 'Various' or 'Various Artists' and track has a dash
-			 *  - This is an album and all the tracks have a dash
+			 *  - This is a compilation
 			 */
 			var dashIndex = track.indexOf('-');
-			if ((/^Various(\sArtists)?$/.test(artist) && dashIndex > 0) || (isAlbum && allTracksDashed())) {
+			if ((/^Various(\sArtists)?$/.test(artist) && dashIndex > 0) || isCompilation) {
 				artist = track.substring(0, dashIndex);
 				track = track.substring(dashIndex + 1);
 			}
