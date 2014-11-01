@@ -13,7 +13,7 @@ $(function() {
 		/**
 		 * Audio player reference.
 		 */
-		var player = null;
+		var player = document.getElementsByTagName('audio')[0];
 
 		/**
 		 * Duration selector.
@@ -60,35 +60,24 @@ $(function() {
 		console.log('BandCampScrobbler: Loaded! onDiscovery:' + onDiscovery + ' isAlbum:' + isAlbum + ' isCompilation:' + isCompilation);
 
 		/**
-		 * Bind listeners to the audio player that has been triggered.
+		 * Initial bind of listeners.
 		 */
-		$('audio').bind('DOMSubtreeModified', function(event) {
-			console.log('BandCampScrobbler: audio DOMSubtreeModified');
+		player.addEventListener('playing', scrobble);
+		player.addEventListener('ended', reset);
+		player.addEventListener('pause', reset);
 
-			/**
-			 * Detach listeners from old player.
-			 */
-			if (player !== null) {
-				console.log('BandCampScrobbler: removing existing listeners');
-				player.removeEventListener('playing', scrobble);
-				player.removeEventListener('ended', reset);
-				player.removeEventListener('pause', reset);
-			}
-
-			var newPlayer = event.currentTarget;
-
-			newPlayer.addEventListener('playing', scrobble);
-			newPlayer.addEventListener('ended', reset);
-			newPlayer.addEventListener('pause', reset);
-
-			player = newPlayer;
-		});
+		/**
+		 * Audio is already playing on visit so scrobble.
+		 */
+		if (!player.paused) {
+			scrobble();
+		}
 
 		/**
 		 * Scrobble function
 		 */
-		var scrobble = function() {
-			console.log('BandCampScrobbler: audio playing event!');
+		function scrobble() {
+			console.log('BandCampScrobbler: scrobble!');
 
 			var artist = parseArtist();
 			var track = parseTitle();
@@ -105,8 +94,6 @@ $(function() {
 				artist = track.substring(0, dashIndex);
 				track = track.substring(dashIndex + 1);
 			}
-
-			console.log('BandCampScrobbler: attempting - Artist: ' + artist + '; Album:  ' + album + '; Track: ' + track);
 
 			if (track !== lastTrack) {
 
@@ -137,19 +124,19 @@ $(function() {
 					}
 				});
 			}
-		};
+		}
 
 		/**
 		 * Set lastTrack to null to reset playing and enabling re-scrobbling
 		 * of the same song again once audio has finished playing.
 		 */
-		var reset = function() {
+		function reset() {
 			console.log('BandCampScrobbler: reset');
 			lastTrack = null;
 			chrome.runtime.sendMessage({
 				type: 'reset'
 			});
-		};
+		}
 
 		/**
 		 * Parse artist information.
