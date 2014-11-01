@@ -64,7 +64,6 @@ $(function() {
 		 */
 		player.addEventListener('playing', scrobble);
 		player.addEventListener('ended', reset);
-		player.addEventListener('pause', reset);
 
 		/**
 		 * Audio is already playing on visit so scrobble.
