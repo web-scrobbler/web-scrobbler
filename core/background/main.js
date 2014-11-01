@@ -184,6 +184,7 @@ require([
 	// check session ID status and show notification if authentication is needed
 	var lfmSessionId = LastFM.getSessionID();
 	if (!lfmSessionId) {
+		console.log('No session ID. localStorage: ' + JSON.stringify(localStorage)); // temporary debug info
 		Notifications.showAuthenticate(LastFM.getAuthUrl);
 	} else {
 		console.info('LastFM: Session ID ' + lfmSessionId);

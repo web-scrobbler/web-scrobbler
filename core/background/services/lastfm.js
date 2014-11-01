@@ -89,7 +89,7 @@ define([
 
 			var session = tradeTokenForSession(token);
 
-			if (session === null) {
+			if (session === null || session.trim().length === 0) {
 				console.warn('Failed to trade token for session - the token is probably not authorized');
 				storage.set('sessionID', null);
 			} else {
