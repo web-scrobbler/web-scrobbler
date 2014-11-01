@@ -7,8 +7,7 @@
 function chromeLastFMUpdateNowPlaying(mediaObject) {
     "use strict";
 
-    var commDiv = document.getElementById('chromeLastFM'),
-        message = null;
+	var message;
 
     if(mediaObject != null) {
         message = {
@@ -22,7 +21,7 @@ function chromeLastFMUpdateNowPlaying(mediaObject) {
         }
     }
 
-    commDiv.innerText = JSON.stringify(message);
+	window.postMessage(message, "*");
 }
 
 function chromeLastFMinit() {
@@ -38,7 +37,7 @@ function chromeLastFMinit() {
     } else {
 
         // subscrive to song change event
-        plugdjAPI.on(plugdjAPI.DJ_ADVANCE, function (plugdj_event) {
+        plugdjAPI.on(plugdjAPI.ADVANCE, function (plugdj_event) {
             console.log('Recieved DJ API event %o', plugdj_event);
             var mediaObject = plugdj_event == null ? null : plugdj_event.media;
             chromeLastFMUpdateNowPlaying(mediaObject);

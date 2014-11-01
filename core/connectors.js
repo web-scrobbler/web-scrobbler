@@ -208,7 +208,7 @@ define(function() {
 
 		{
 			label: 'Plug.dj',
-			matches: ['http://plug.dj/*'],
+			matches: ['*://plug.dj/*'],
 			js: ['connectors/plugdj.js']
 		},
 
