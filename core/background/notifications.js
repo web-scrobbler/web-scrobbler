@@ -55,9 +55,9 @@ define([
 
 				var options = {
 					type: 'basic',
-					iconUrl: 'icon128.png',
-					title: song.track,
-					message: 'by ' + song.artist
+					iconUrl: song.metadata.artistThumbUrl || 'icon128.png',
+					title: song.getTrack(),
+					message: 'by ' + song.getArtist()
 				};
 
 				chrome.notifications.create('', options, notificationCreatedCb);

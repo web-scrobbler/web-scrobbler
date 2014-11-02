@@ -9,8 +9,9 @@ define([
 	'services/lastfm',
 	'pageAction',
 	'timer',
+	'notifications',
 	'services/background-ga'
-], function(Song, Pipeline, LastFM, PageAction, Timer, GA) {
+], function(Song, Pipeline, LastFM, PageAction, Timer, Notifications, GA) {
 
 	/**
 	 * Constructor
@@ -37,13 +38,18 @@ define([
 		 * @param {Object} newState
 		 */
 		this.onStateChanged = function(newState) {
-			console.log('Tab ' + tabId + ': state changed, ' + JSON.stringify(newState));
-
 			// don't trust the connector
-			if (newState.artist === null || newState.artist === '' || newState.track === null || newState.track === '') {
-				console.warn('Tab ' + tabId + ': state from connector is missing artist or track property');
-				pageAction.setSiteSupported();
-				playbackTimer.reset();
+			if (!newState.artist || !newState.track) {
+				console.log('Tab ' + tabId + ': state from connector is missing artist or track property: ' + JSON.stringify(newState));
+
+				if (currentSong !== null) {
+					pageAction.setSiteSupported();
+					playbackTimer.reset();
+
+					unbindSongListeners(currentSong);
+					currentSong = null;
+				}
+
 				return;
 			}
 
@@ -53,6 +59,13 @@ define([
 
 			// propagate values that can change without changing the song
 			if (!hasSongChanged) {
+				// logging same message over and over saves space in console
+				if (newState.isPlaying == currentSong.parsed.isPlaying) {
+					console.log('Tab ' + tabId + ': state update: only currentTime has changed');
+				} else {
+					console.log('Tab ' + tabId + ': state update: ' + JSON.stringify(newState));
+				}
+
 				currentSong.parsed.attr({
 					currentTime: newState.currentTime,
 					isPlaying: newState.isPlaying
@@ -60,6 +73,8 @@ define([
 			}
 			// we've hit a new song - clear old data and run processing
 			else {
+				console.log('Tab ' + tabId + ': new track state: ' + JSON.stringify(newState));
+
 				// unbind previous song, so possible delayed changes don't trigger any event
 				if (currentSong !== null) {
 					unbindSongListeners(currentSong);
@@ -151,8 +166,9 @@ define([
 		 * @param {Song} song
 		 */
 		function setSongNowPlaying(song) {
-			// set page action icon
 			pageAction.setSongRecognized(song);
+
+			Notifications.showPlaying(song);
 
 			// send to L.FM
 			var nowPlayingCB = function(success) {
