@@ -4,12 +4,11 @@ define([], function() {
 
 	/**
 	 * Timer
-	 *
-	 * @param {Function} callback function to be called when timer expires
 	 */
-	return function(callback) {
+	return function() {
 
-		var timeoutId = null,
+		var callback = null,
+			timeoutId = null,
 			target = null, // target seconds
 			pausedOn = null, // marks pause time in seconds
 			startedOn = null, // marks start time in seconds
@@ -44,10 +43,11 @@ define([], function() {
 		 * Set timer to trigger callback in given seconds.
 		 * Time spent paused does not count
 		 */
-		this.start = function(seconds) {
+		this.start = function(seconds, cb) {
 			this.reset();
 			startedOn = now();
 			target = seconds;
+			callback = cb;
 			setTrigger(seconds);
 		};
 
@@ -106,6 +106,7 @@ define([], function() {
 			startedOn = null;
 			pausedOn = null;
 			spentPaused = 0;
+			callback = null;
 
 			clearTrigger();
 		};

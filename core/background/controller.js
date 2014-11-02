@@ -8,8 +8,9 @@ define([
 	'pipeline/pipeline',
 	'services/lastfm',
 	'pageAction',
-	'timer'
-], function(Song, Pipeline, LastFM, PageAction, Timer) {
+	'timer',
+	'services/background-ga'
+], function(Song, Pipeline, LastFM, PageAction, Timer, GA) {
 
 	/**
 	 * Constructor
@@ -42,6 +43,7 @@ define([
 			if (newState.artist === null || newState.artist === '' || newState.track === null || newState.track === '') {
 				console.warn('Tab ' + tabId + ': state from connector is missing artist or track property');
 				pageAction.setSiteSupported();
+				playbackTimer.reset();
 				return;
 			}
 
@@ -73,7 +75,9 @@ define([
 				//
 				// this call starts timer and also resets any previously set timer
 				var destSeconds = Math.floor(currentSong.parsed.duration / 2) || DEFAULT_SCROBBLE_TIME;
-				playbackTimer.start(destSeconds);
+				playbackTimer.start(destSeconds, function() {
+					onTimer(currentSong);
+				});
 				console.log('Tab ' + tabId + ': timer started for ' + destSeconds);
 
 				// start processing - result will trigger the listener
@@ -161,9 +165,22 @@ define([
 		/**
 		 * Called when scrobble timer triggers
 		 */
-		this.onTimer = function() {
-			console.info('Timer goes on! Should scrobble now...');
-		};
+		function onTimer(song) {
+			console.log('Tab ' + tabId + ': scrobbling song');
+
+			var scrobbleCB = function(result) {
+				if (result.isOk()) {
+					console.info('Tab ' + tabId + ': scrobbled successfully');
+
+					pageAction.setSongScrobbled(song);
+
+					GA.event('core', 'scrobble', connector.label);
+				} else {
+					console.error('Tab ' + tabId + ': scrobbling failed');
+				}
+			};
+			LastFM.scrobble(song, scrobbleCB);
+		}
 
 		/**
 		 * Forward event to PageAction
@@ -181,7 +198,7 @@ define([
 
 
 		// create timer
-		playbackTimer = new Timer(this.onTimer);
+		playbackTimer = new Timer();
 
 		// setup initial page action; the controller means the page was recognized
 		pageAction.setSiteSupported();

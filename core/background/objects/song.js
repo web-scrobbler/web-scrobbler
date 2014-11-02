@@ -37,7 +37,9 @@ define([
 		/**
 		 * Various optional data
 		 */
-		var metadata = {};
+		var metadata = {
+			startTimestamp: Math.floor(Date.now() / 1000) // UTC timestamp in seconds
+		};
 
 		/**
 		 * Various flags
@@ -47,11 +49,41 @@ define([
 			isLastfmValid: null // don't know
 		};
 
-		return new can.Map({
+		var song = new can.Map({
 			parsed: parsed,
 			processed: processed,
 			metadata: metadata,
 			flags: flags
 		});
+
+		/**
+		 * Helper method
+		 */
+		song.getArtist = function() {
+			return this.processed.artist || this.parsed.artist || null;
+		};
+
+		/**
+		 * Helper method
+		 */
+		song.getTrack = function() {
+			return this.processed.track || this.parsed.track || null;
+		};
+
+		/**
+		 * Helper method
+		 */
+		song.getAlbum = function() {
+			return this.processed.album || this.parsed.album || null;
+		};
+
+		/**
+		 * Helper method
+		 */
+		song.getDuration = function() {
+			return this.processed.duration || this.parsed.duration || null;
+		};
+
+		return song;
 	};
 });

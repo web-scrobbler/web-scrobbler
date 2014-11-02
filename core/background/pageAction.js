@@ -66,8 +66,8 @@ define([], function() {
 			setPageAction(icons.DISABLED, 'Current song will not be scrobbled', '');
 		};
 
-		this.setSongScrobbled = function() {
-			setPageAction(icons.SCROBBLED, 'Current song has been scrobbled', '');
+		this.setSongScrobbled = function(song) {
+			setPageAction(icons.SCROBBLED, 'Scrobbled ' + song.getArtist() + ' - ' + song.getTrack(), '');
 		};
 
 		this.setSongNotRecognized = function() {

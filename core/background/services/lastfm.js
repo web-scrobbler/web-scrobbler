@@ -10,8 +10,9 @@ define([
 	'config',
 	'vendor/md5',
 	'storage',
-	'wrappers/can'
-], function ($, config, MD5, Storage, can) {
+	'wrappers/can',
+	'objects/serviceCallResult'
+], function ($, config, MD5, Storage, can, ServiceCallResultFactory) {
 
 	var enableLogging = true;
 
@@ -275,28 +276,28 @@ define([
 
 	/**
 	 * Send current song as 'now playing' to API
-	 * @param {can.Map} song
+	 * @param {Song} song
 	 * @param {Function} cb callback with single bool parameter of success
 	 */
 	function sendNowPlaying(song, cb) {
 		var sessionID = getSessionID();
 		if (sessionID === false) {
-			return;
+			cb(false);
 		}
 
 		var params = {
 			method: 'track.updatenowplaying',
-			track: song.track,
-			artist: song.artist,
+			track: song.getTrack(),
+			artist: song.getArtist(),
 			api_key: config.apiKey,
 			sk: sessionID
 		};
 
 		if (song.album) {
-			params.album = song.album;
+			params.album = song.getAlbum();
 		}
 		if (song.duration) {
-			params.duration = song.duration;
+			params.duration = song.getDuration();
 		}
 
 		var okCb = function(xmlDoc) {
@@ -316,9 +317,60 @@ define([
 		doRequest('POST', params, true, okCb, errCb);
 	}
 
-	function getStorage() {
-		return storage;
+	/**
+	 * Send song to API to scrobble
+	 * @param {can.Map} song
+	 * @param {Function} cb callback with single ServiceCallResult parameter
+	 */
+	function scrobble(song, cb) {
+		var sessionID = getSessionID();
+		if (!sessionID) {
+			var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
+			cb(result);
+		}
+
+		var params = {
+			method: 'track.scrobble',
+			'timestamp[0]': song.metadata.startTimestamp,
+			'track[0]': song.processed.track || song.parsed.track,
+			'artist[0]': song.processed.artist || song.parsed.artist,
+			api_key: config.apiKey,
+			sk: sessionID
+		};
+
+		if (song.processed.album || song.parsed.album) {
+			params['album[0]'] = song.processed.album || song.parsed.album;
+		}
+
+		var okCb = function(xmlDoc) {
+			var $doc = $(xmlDoc),
+				result;
+
+			if ($doc.find('lfm').attr('status') == 'ok') {
+				result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.OK);
+				cb(result);
+			} else {  // request passed but returned error
+				result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR);
+				cb(result);
+			}
+		};
+
+		var errCb = function(jqXHR, status, response) {
+			var result;
+
+			if ($(response).find('lfm error').attr('code') == 9) {
+				result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
+			}
+			else {
+				result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_OTHER);
+			}
+
+			cb(result);
+		};
+
+		doRequest('POST', params, true, okCb, errCb);
 	}
+
 
 
 	return {
@@ -327,7 +379,10 @@ define([
 		generateSign: generateSign,
 		loadSongInfo: loadSongInfo,
 		sendNowPlaying: sendNowPlaying,
-		getStorage: getStorage
+		scrobble: scrobble,
+		getStorage: function getStorage() {
+			return storage;
+		}
 	};
 
 });
