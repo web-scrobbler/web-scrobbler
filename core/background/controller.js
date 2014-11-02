@@ -40,9 +40,10 @@ define([
 		this.onStateChanged = function(newState) {
 			// don't trust the connector
 			if (!newState.artist || !newState.track) {
-				console.log('Tab ' + tabId + ': state from connector is missing artist or track property: ' + JSON.stringify(newState));
 
 				if (currentSong !== null) {
+					console.log('Tab ' + tabId + ': state from connector is missing artist or track property: ' + JSON.stringify(newState));
+
 					pageAction.setSiteSupported();
 					playbackTimer.reset();
 
