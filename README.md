@@ -28,6 +28,10 @@ Check the [wiki pages](../../wiki) to understand development of connectors.
 
 You can also join us on our IRC channel #web-scrobbler on irc.freenode.net.
 
+If you are unfamiliar with IRC you can connect easily via [Kiwi IRC][0].
+
 ## License
 
 See [LICENSE.txt](LICENSE.txt)
+
+[0]: https://kiwiirc.com/client/irc.freenode.net/web-scrobbler
