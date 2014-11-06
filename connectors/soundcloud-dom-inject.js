@@ -8,24 +8,28 @@
  */
 
 window._ATTACHED = window._ATTACHED || false;
-
 (function() {
     // Exit if already attached.
     if (window._ATTACHED) return;
     // Attach event listeners to the event-bus.
-    require(['event-bus'], function(bus) {
-        bus.on('audio:play', function(e) {
-            window.postMessage({
-                type: 'SC_PLAY',
-                metadata: e.sound.attributes
-            }, '*');
-        });
-        bus.on('audio:pause', function(e) {
-            window.postMessage({
-                type: 'SC_PAUSE',
-                metadata: e.sound.attributes
-            }, '*');
-        });
-    });
+    webpackJsonp([1], 
+        { 
+          0: function(e, t, n) { 
+            bus = n(16); 
+            bus.on('audio:play', function(e) {
+                window.postMessage({
+                    type: 'SC_PLAY',
+                    metadata: e.sound.attributes
+                }, '*');
+            });
+            bus.on('audio:pause', function(e) {
+                window.postMessage({
+                    type: 'SC_PAUSE',
+                    metadata: e.sound.attributes
+                }, '*');
+            });
+        }
+      }
+    );
     window._ATTACHED = true;
 }());
