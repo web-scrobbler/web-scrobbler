@@ -329,8 +329,9 @@ define([
 				type: 'nowPlayingOK'
 			});
 
-			// Show notification
-			notifications.showPlaying(song);
+			// Show notification - wrap in new song object
+			var songObj = new Song(song);
+			notifications.showPlaying(songObj);
 
 			// Update page action icon
 			setActionIcon(config.ACTION_NOWPLAYING);
