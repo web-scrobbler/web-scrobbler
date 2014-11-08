@@ -10,36 +10,74 @@ $(function() {
 
 	$(document).ready(function() {
 
-		console.log('BandCampScrobbler: loaded');
-
 		/**
-		 * The audio reference.
+		 * Audio player reference.
 		 */
-		var audio = document.getElementsByTagName('audio')[0];
+		var player = document.getElementsByTagName('audio')[0];
 
 		/**
 		 * Duration selector.
+		 *
+		 * @type {string}
 		 */
 		var durationPart = '.track_info .time';
 
 		/**
 		 * Duration regex.
+		 *
+		 * @type {string}
 		 */
 		var durationRegex = /[ \n]*(\d+):(\d+)[ \n]*\/[ \n]*(\d+):(\d+)[ \n]*/;
 
 		/**
 		 * Last playing track.
+		 *
+		 * @type {string}
 		 */
 		var lastTrack = null;
 
 		/**
-		 * Bind scrobbling logic to the audio's playing event
+		 * If true then we are on a 'discovery' type of page.
+		 *
+		 * @type {boolean}
 		 */
-		audio.addEventListener('playing', function() {
+		var onDiscovery = $('#discover').length > 0;
 
-			console.log('BandCampScrobbler: onPlayerChange()');
+		/**
+		 * To determine whether the current page is an album.
+		 *
+		 * @type {boolean}
+		 */
+		var isAlbum = $('.trackView[itemtype="http://schema.org/MusicAlbum"]').length > 0;
 
-			var duration = parseDuration($(durationPart).text());
+		/**
+		 * To determine whether the current page is a compilation or not.
+		 *
+		 * @type {Boolean}
+		 */
+		var isCompilation = isAlbum && allTracksDashed();
+
+		console.log('BandCampScrobbler: Loaded! onDiscovery:' + onDiscovery + ' isAlbum:' + isAlbum + ' isCompilation:' + isCompilation);
+
+		/**
+		 * Initial bind of listeners.
+		 */
+		player.addEventListener('playing', scrobble);
+		player.addEventListener('ended', reset);
+
+		/**
+		 * Audio is already playing on visit so scrobble.
+		 */
+		if (!player.paused) {
+			scrobble();
+		}
+
+		/**
+		 * Scrobble function
+		 */
+		function scrobble() {
+			console.log('BandCampScrobbler: scrobble!');
+
 			var artist = parseArtist();
 			var track = parseTitle();
 			var album = parseAlbum();
@@ -48,18 +86,17 @@ $(function() {
 			 * Work out artist from the track if either:
 			 *
 			 *  - The artist is set to 'Various' or 'Various Artists' and track has a dash
-			 *  - This is an album and all the tracks have a dash
+			 *  - This is a compilation
 			 */
 			var dashIndex = track.indexOf('-');
-			if ((/^Various(\sArtists)?$/.test(artist) && dashIndex > 0) || (isAlbum() && allTracksDashed())) {
+			if ((/^Various(\sArtists)?$/.test(artist) && dashIndex > 0) || isCompilation) {
 				artist = track.substring(0, dashIndex);
 				track = track.substring(dashIndex + 1);
 			}
 
-			artist = $.trim(artist);
-			track = $.trim(track);
-
 			if (track !== lastTrack) {
+
+				var duration = parseDuration();
 
 				console.log('BandCampScrobbler: scrobbling - Artist: ' + artist + '; Album:  ' + album + '; Track: ' + track + '; duration: ' + duration.total);
 
@@ -86,34 +123,39 @@ $(function() {
 					}
 				});
 			}
-		});
+		}
 
 		/**
 		 * Set lastTrack to null to reset playing and enabling re-scrobbling
 		 * of the same song again once audio has finished playing.
 		 */
-		audio.addEventListener('ended', function() {
-
-			console.log('BandCampScrobbler: song finished playing');
-
+		function reset() {
+			console.log('BandCampScrobbler: reset');
 			lastTrack = null;
-		});
+			chrome.runtime.sendMessage({
+				type: 'reset'
+			});
+		}
 
 		/**
 		 * Parse artist information.
 		 */
 		function parseArtist() {
-			var byLine = '';
-			if (isAlbum()) {
-				byLine = $('dt.hiddenAccess:contains("band name") ~ dd').text();
-			} else // isTrack
-			{
-				byLine = $('.albumTitle nobr').text();
-			}
+			var artist;
+			if (onDiscovery) {
+				artist = $('.detail_item_link_2').text();
+			} else {
+				var byLine = '';
+				if (isAlbum) {
+					byLine = $('dt.hiddenAccess:contains("band name") ~ dd').text();
+				} else {
+					byLine = $('.albumTitle nobr').text();
+				}
 
-			var artist = $.trim($.trim(byLine).substring(2));
-			if (!artist) {
-				artist = $('span[itemprop=byArtist]').text();
+				artist = $.trim($.trim(byLine).substring(2));
+				if (!artist) {
+					artist = $('span[itemprop=byArtist]').text();
+				}
 			}
 
 			return $.trim(artist);
@@ -123,38 +165,45 @@ $(function() {
 		 * Parse album information.
 		 */
 		function parseAlbum() {
-			if (isAlbum()) {
-				return $('h2.trackTitle').text().trim();
-			} else { // isTrack
-				return $('[itemprop="inAlbum"] [itemprop="name"]').text();
+			var album;
+
+			if (onDiscovery) {
+				album = $('.detail_item_link').text();
+			} else {
+				if (isAlbum) {
+					album = $('h2.trackTitle').text().trim();
+				} else { // isTrack
+					album = $('[itemprop="inAlbum"] [itemprop="name"]').text();
+				}
 			}
+
+			return $.trim(album);
 		}
 
 		/**
 		 * Parse title information.
 		 */
 		function parseTitle() {
-			if (isAlbum()) {
-				return $('.track_info .title').first().text();
-			} else //isTrack
-			{
-				return $('.trackTitle').first().text();
+			var title;
+			if (onDiscovery) {
+				title = $('.track_info .title').first().text();
+			} else {
+				if (isAlbum) {
+					title = $('.track_info .title').first().text();
+				} else {
+					title = $('.trackTitle').first().text();
+				}
 			}
-		}
 
-		/**
-		 * Determine whether the current playing page is an album.
-		 */
-		function isAlbum() {
-			return $('.trackView[itemtype="http://schema.org/MusicAlbum"]').length > 0;
+			return $.trim(title);
 		}
 
 		/**
 		 * Parse duration information.
 		 */
-		function parseDuration(match) {
+		function parseDuration() {
 			try {
-				var m = durationRegex.exec(match);
+				var m = durationRegex.exec($(durationPart).text());
 				return {
 					current: parseInt(m[1], 10) * 60 + parseInt(m[2], 10),
 					total: parseInt(m[3], 10) * 60 + parseInt(m[4], 10)
