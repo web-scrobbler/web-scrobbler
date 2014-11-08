@@ -27,8 +27,14 @@ define([
 		 */
 		var DEFAULT_SCROBBLE_TIME = 30;
 
+		/**
+		 * Number of seconds of playback that is considered to be beginning of the track.
+		 * Used for re-play detection.
+		 */
+		var DEFAULT_START_TIME = 10;
+
 		var pageAction = new PageAction(tabId),
-			playbackTimer = null,
+			playbackTimer = new Timer(),
 			currentSong = null;
 
 
@@ -38,28 +44,43 @@ define([
 		 * @param {Object} newState
 		 */
 		this.onStateChanged = function(newState) {
-			// don't trust the connector
-			if (!newState.artist || !newState.track) {
 
+			// empty state has same semantics as reset; even if isPlaying, we have no data to use
+			var isEmptyState = (!newState.artist && !newState.track && !newState.uniqueID && !newState.duration);
+
+			if (isEmptyState) {
+				// throw away last song and reset state
 				if (currentSong !== null) {
-					console.log('Tab ' + tabId + ': state from connector is missing artist or track property: ' + JSON.stringify(newState));
+					console.log('Tab ' + tabId + ': received empty state - resetting');
+					resetState();
+				}
 
-					pageAction.setSiteSupported();
-					playbackTimer.reset();
-
-					unbindSongListeners(currentSong);
-					currentSong = null;
+				// warning for connector developer
+				if (newState.isPlaying) {
+					console.log('Tab ' + tabId + ': state from connector is missing any information about the playing track: ' + JSON.stringify(newState));
 				}
 
 				return;
 			}
 
-			var hasSongChanged = (currentSong === null ||
-									newState.artist !== currentSong.parsed.artist || newState.track !== currentSong.parsed.track ||
-									newState.album !== currentSong.parsed.album || newState.uniqueID !== currentSong.parsed.uniqueID);
+			//
+			// from here on there is at least some song data
+			//
+
+			var hasSongChanged = (currentSong === null || newState.artist !== currentSong.parsed.artist || newState.track !== currentSong.parsed.track ||
+															newState.album !== currentSong.parsed.album || newState.uniqueID !== currentSong.parsed.uniqueID);
+
+			// flag for current time of song being on its start;
+			// uses 5% of song duration if available or fixed interval
+			var isNewStateNearStart = (newState.duration !== null && newState.currentTime <= (newState.duration * 0.05)) ||
+										(newState.duration === null && newState.currentTime <= DEFAULT_START_TIME);
+
+			// seeking from song's end to its start is treated as a new play;
+			// this also covers automatic replaying of the same song over and over
+			var isReplayingSong = (!hasSongChanged && currentSong.isNearEnd() && isNewStateNearStart);
 
 			// propagate values that can change without changing the song
-			if (!hasSongChanged) {
+			if (!hasSongChanged && !isReplayingSong) {
 				// logging same message over and over saves space in console
 				if (newState.isPlaying == currentSong.parsed.isPlaying) {
 					console.log('Tab ' + tabId + ': state update: only currentTime has changed');
@@ -72,7 +93,7 @@ define([
 					isPlaying: newState.isPlaying
 				});
 			}
-			// we've hit a new song - clear old data and run processing
+			// we've hit a new song (or replaying the previous one) - clear old data and run processing
 			else {
 				console.log('Tab ' + tabId + ': new track state: ' + JSON.stringify(newState));
 
@@ -84,7 +105,7 @@ define([
 				currentSong = new Song(newState);
 				bindSongListeners(currentSong);
 
-				console.log('Tab ' + tabId + ': new song detected, ' + JSON.stringify(currentSong.attr()));
+				console.log('Tab ' + tabId + ': new ' + (isReplayingSong ? '(replaying) ' : '') + 'song detected: ' + JSON.stringify(currentSong.attr()));
 
 				// set timer to parsed duration or use default;
 				// the timer is later optionally updated with loaded metadata
@@ -138,6 +159,19 @@ define([
 		function unbindSongListeners(song) {
 			song.unbind('parsed.isPlaying');
 			song.unbind('flags.isProcessed');
+		}
+
+		/**
+		 * Resets controller state
+		 */
+		function resetState() {
+			pageAction.setSiteSupported();
+			playbackTimer.reset();
+
+			if (currentSong !== null) {
+				unbindSongListeners(currentSong);
+			}
+			currentSong = null;
 		}
 
 		/**
@@ -196,7 +230,13 @@ define([
 					console.error('Tab ' + tabId + ': scrobbling failed');
 				}
 			};
-			LastFM.scrobble(song, scrobbleCB);
+
+			// scrobble only if the song is valid (TODO: or corrected by user)
+			if (song.flags.isLastfmValid === true) {
+				LastFM.scrobble(song, scrobbleCB);
+			} else {
+				console.log('Tab ' + tabId + ': not scrobbling song with incomplete data');
+			}
 		}
 
 		/**
@@ -212,10 +252,6 @@ define([
 		// Active calls
 		//
 		//
-
-
-		// create timer
-		playbackTimer = new Timer();
 
 		// setup initial page action; the controller means the page was recognized
 		pageAction.setSiteSupported();

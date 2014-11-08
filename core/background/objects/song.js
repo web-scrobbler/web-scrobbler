@@ -19,7 +19,8 @@ define([
 			track: parsedData.track || null,
 			album: parsedData.album || null,
 			uniqueID: parsedData.uniqueID || null,
-			duration: parsedData.duration || null
+			duration: parsedData.duration || null,
+			currentTime: parsedData.currentTime || null
 		};
 
 		/**
@@ -78,10 +79,17 @@ define([
 		};
 
 		/**
-		 * Helper method
+		 * Returns song's processed or parsed duration in seconds
 		 */
 		song.getDuration = function() {
 			return this.processed.duration || this.parsed.duration || null;
+		};
+
+		/**
+		 * Returns true if the song playback time is reaching its total duration
+		 */
+		song.isNearEnd = function() {
+			return (this.getDuration() !== null && this.parsed.currentTime >= Math.floor(this.getDuration() * 0.95)); // last 5% of duration
 		};
 
 		return song;

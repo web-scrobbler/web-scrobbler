@@ -53,4 +53,12 @@
 		console.info('Web Scrobbler: Connector.playerSelector is empty. The current connector is expected to manually detect state changes');
 	}
 
+	/**
+	 * Automatically reset on window unload
+	 */
+	$(window).unload(function() {
+		reactor.sendStateToBackground({});
+		return true;
+	});
+
 })();
