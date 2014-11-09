@@ -97,10 +97,8 @@ define([
 			else {
 				console.log('Tab ' + tabId + ': new track state: ' + JSON.stringify(newState));
 
-				// unbind previous song, so possible delayed changes don't trigger any event
-				if (currentSong !== null) {
-					unbindSongListeners(currentSong);
-				}
+				// clear any previous song and its bindings
+				resetState();
 
 				currentSong = new Song(newState);
 				bindSongListeners(currentSong);
@@ -170,6 +168,11 @@ define([
 
 			if (currentSong !== null) {
 				unbindSongListeners(currentSong);
+
+				// remove notification if song was not scrobbled
+				if (!currentSong.flags.isScrobbled) {
+					Notifications.remove(currentSong.metadata.notificationId);
+				}
 			}
 			currentSong = null;
 		}
@@ -223,6 +226,7 @@ define([
 				if (result.isOk()) {
 					console.info('Tab ' + tabId + ': scrobbled successfully');
 
+					song.flags.attr('isScrobbled', true);
 					pageAction.setSongScrobbled(song);
 
 					GA.event('core', 'scrobble', connector.label);

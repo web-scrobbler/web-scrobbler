@@ -47,6 +47,7 @@ define([
 		 */
 		var flags = {
 			isProcessed: false, // has passed the pipeline
+			isScrobbled: false,
 			isLastfmValid: null // don't know
 		};
 

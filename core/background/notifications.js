@@ -46,8 +46,9 @@ define([
 			return;
 		}
 
-		var notificationCreatedCb = function() {
+		var notificationCreatedCb = function(notificationId) {
 			GA.event('notification', 'playing', 'show');
+			song.metadata.attr('notificationId', notificationId);
 		};
 
 		var createNotification = function(permissionLevel) {
@@ -141,6 +142,20 @@ define([
 		chrome.notifications.getPermissionLevel(createNotification);
 	}
 
+	/**
+	 * Completely removes notification.
+	 * Does nothing if ID does not match any existing notification
+	 */
+	function remove(notificationId) {
+		var onCleared = function(wasCleared) {
+			// nop
+		};
+
+		if (notificationId) {
+			chrome.notifications.clear(notificationId, onCleared);
+		}
+	}
+
 
 	// set up listening for clicks on all notifications
 	chrome.notifications.onClicked.addListener(function(notificationId) {
@@ -155,7 +170,8 @@ define([
 	return {
 		showPlaying: showPlaying,
 		showError: showError,
-		showAuthenticate: showAuthenticate
+		showAuthenticate: showAuthenticate,
+		remove: remove
 	};
 
 });
