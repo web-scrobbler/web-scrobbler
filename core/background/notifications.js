@@ -147,7 +147,7 @@ define([
 	 * Does nothing if ID does not match any existing notification
 	 */
 	function remove(notificationId) {
-		var onCleared = function(wasCleared) {
+		var onCleared = function() {
 			// nop
 		};
 
