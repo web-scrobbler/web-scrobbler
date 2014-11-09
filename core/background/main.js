@@ -139,12 +139,34 @@ require([
 
 	// setup listener for messages from connectors
 	chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+		var ctrl;
+
 		switch (request.type) {
 			// Interface for new V2 functionality. Routes control flow to new structures, so we can
 			// have two cores side by side. The old functionality will be later removed
 			case 'v2.stateChanged':
-				var ctrl = getControllerByTabId(sender.tab.id);
+				ctrl = getControllerByTabId(sender.tab.id);
 				ctrl.onStateChanged(request.state);
+				break;
+
+			// Returns current song object - used in page action popup.
+			// Tab ID is stored inside request data
+			case 'v2.getSong':
+				ctrl = getControllerByTabId(request.tabId);
+				if (ctrl) {
+					sendResponse(ctrl.getCurrentSong()); // object or null
+				} else {
+					sendResponse(false); // no v2 controller, legacy mode
+				}
+				break;
+
+			// Returns current song object - used in page action popup.
+			// Tab ID is stored inside request data
+			case 'v2.correctSong':
+				ctrl = getControllerByTabId(request.tabId);
+				if (ctrl) {
+					ctrl.setUserSongData(request.data);
+				}
 				break;
 
 			// Redirect all other messages to legacy listener

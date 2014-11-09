@@ -246,6 +246,33 @@ define([
 			pageAction.onClicked();
 		};
 
+		/**
+		 * Returns current song as plain object (not can.Map)
+		 * @return {{}}
+		 */
+		this.getCurrentSong = function() {
+			return currentSong === null ? {} : currentSong.attr();
+		};
+
+		/**
+		 * Sets data for current song from user input
+		 * TODO: check if all is ok for case when song is already valid
+		 */
+		this.setUserSongData = function(data) {
+			if (currentSong !== null) {
+				if (data.artist) {
+					currentSong.metadata.attr('userArtist', data.artist);
+				}
+				if (data.track) {
+					currentSong.metadata.attr('userTrack', data.track);
+				}
+
+				// re-send song to pipeline
+				if (data.artist || data.track) {
+					Pipeline.processSong(currentSong);
+				}
+			}
+		};
 
 		//
 		//

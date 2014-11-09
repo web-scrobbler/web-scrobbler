@@ -71,7 +71,7 @@ define([], function() {
 		};
 
 		this.setSongNotRecognized = function() {
-			setPageAction(icons.UNKNOWN, 'The song was not recognized. Click to enter correct info', '');
+			setPageAction(icons.UNKNOWN, 'The song was not recognized. Click to enter correct info', 'popup.html');
 		};
 
 	};
