@@ -155,7 +155,6 @@ require([
 
 			customPatterns.setPatterns(connector, patterns);
 
-
 			modal.modal('hide');
 		});
 
@@ -180,11 +179,11 @@ require([
 			modal.data('conn', index);
 			modal.find('.conn-conf-title').html(connector.label);
 
-			customPatterns.updatePatterns(connector);
+			var patterns = customPatterns.getConnectorPatterns(connector);
 
 			var inputs = $('<ul class="list-unstyled" id="conn-conf-list"></ul>');
-			for (var i in connector.matches) {
-				var value = connector.matches[i];
+			for (var i in patterns) {
+				var value = patterns[i];
 				var input = createNewConfigInput(value);
 
 				inputs.append(input);

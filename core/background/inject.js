@@ -73,9 +73,9 @@ define([
 		var anyMatch = !connectors.every(function (connector) {
 			var matchOk = false;
 
-			customPatterns.updatePatterns(connector);
+			var patterns = customPatterns.getConnectorPatterns(connector);
 
-			connector.matches.forEach(function (match) {
+			patterns.forEach(function (match) {
 				matchOk = matchOk || createPattern(match).test(tab.url);
 			});
 
