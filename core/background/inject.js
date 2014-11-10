@@ -5,8 +5,9 @@
 define([
 	'connectors',
 	'config',
-	'objects/injectResult'
-], function (connectors, config, injectResult) {
+	'objects/injectResult',
+	'customPatterns'
+], function (connectors, config, injectResult, customPatterns) {
 
 	/**
 	 * Creates regex from single match pattern
@@ -72,7 +73,9 @@ define([
 		var anyMatch = !connectors.every(function (connector) {
 			var matchOk = false;
 
-			connector.matches.forEach(function (match) {
+			var patterns = customPatterns.getConnectorPatterns(connector);
+
+			patterns.forEach(function (match) {
 				matchOk = matchOk || createPattern(match).test(tab.url);
 			});
 

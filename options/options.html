@@ -53,6 +53,7 @@
                             <small>Click the checkbox to enable/disable</small>
                             <ul id="connectors">
                                 <li>
+                                    <i class="icon-fixed-width icon-blank"></i>
                                     <input id="toggle" type="checkbox" />
                                     <label class="toggle" for="toggle">Toggle</label>
                                 </li>
@@ -536,6 +537,26 @@
     <div class="span1"></div>
 
 </div>
-
+<div class="modal fade" id="conn-conf-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title"><span class="conn-conf-title"></span> configuration</h4>
+            </div>
+            <div class="modal-body">
+                <p>Enter the URL patterns that the connector should match below.</p>
+                <div class="conn-conf-patterns">
+                </div>
+                <button type="button" id="add-pattern" class="btn btn-default">Add pattern</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-default" id="conn-conf-reset">Reset</button>
+                <button type="button" class="btn btn-default" id="conn-conf-ok">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>

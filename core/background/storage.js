@@ -25,6 +25,14 @@ define([
 			nsStorage.set(property, value);
 		};
 
+		this.remove = function(key) {
+			return nsStorage.remove(key);
+		};
+
+		this.has = function(key) {
+			return nsStorage.has(key);
+		};
+
 	};
 
 
