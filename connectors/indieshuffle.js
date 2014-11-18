@@ -26,22 +26,17 @@ var extractDuration = function(context) {
   return duration;
 };
 
-var extractTitle = function(context) {
-  var trackContainer = $('#now-playing-title a', context);
-  
-  var artist = $('strong',trackContainer).text();
-  var track = trackContainer.text().substr(artist.length);
-
+var extractTitle = function()) {
   return {
-    artist: artist,
-    track: track
+    artist: $('#currentSong .artist_name').text(),
+    track: $('#currentSong .song-details').text()
   };
 };
 
 var updateNowPlaying = function() {
   var context = watchedContainer;
 
-  var current = extractTitle(context);
+  var current = extractTitle();
 
   if((!song.artist && !song.track) ||
     song.artist !== current.artist ||

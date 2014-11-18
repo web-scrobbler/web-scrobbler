@@ -1,7 +1,7 @@
 /**
  * Chrome-Last.fm-Scrobbler plug.dj connector
  * @author Anton Stroganov <stroganov.a@gmail.com>
- * Heavily inspired by spotify.js by Damien Alexandre <dalexandre@jolicode.com>, 
+ * Heavily inspired by spotify.js by Damien Alexandre <dalexandre@jolicode.com>,
  * which was based on jango.js by Stephen Hamer <stephen.hamer@gmail.com>
  */
 (function ChromeLastFmPlugDjScrobbler($) {
@@ -43,15 +43,8 @@
      */
     var lastSongTitle = '';
 
-    var updateNowPlaying = function() {
-        var commDiv = document.getElementById('chromeLastFM'), songInfo, cleanInfo;
-
-        try {
-            songInfo = JSON.parse(commDiv.innerText);
-        } catch (e) {
-            // Skip malformed communication blobs
-            return;
-        }
+    var updateNowPlaying = function(songInfo) {
+        var cleanInfo;
 
         // If this is a "pause" event, just call the "reset"
         if (songInfo.pause && songInfo.pause === true) {
@@ -82,13 +75,7 @@
     };
 
     $(document).ready(function () {
-        // XXX(shamer): we can't directly access the page javascript from the
-        // extension. To get code running in the page context we have to add a script tag
-        // to the DOM. The script then is executed in the global context.
-        // To communicate between the injected JS and the extension a DOM node is updated with the text to send.
-        var comNode = $('<div id="chromeLastFM" style="display: none"></div>');
-        document.body.appendChild(comNode[0]);
-
+        // inject script to access page's JS context and communicate back using window.postMessage
         $('body').append('<script type="text/javascript">(function(l) {\n' +
             "    var injectScript = document.createElement('script');\n" +
             "    injectScript.type = 'text/javascript';\n" +
@@ -96,8 +83,18 @@
             "    document.getElementsByTagName('head')[0].appendChild(injectScript);\n" +
             "  })('" + chrome.extension.getURL('connectors/plugdj-dom-inject.js') + "');</script>");
 
-        // Listen for 'messages' from the injected script
-        $('#chromeLastFM').bind('DOMSubtreeModified', updateNowPlaying);
+		// Plug.DJ SDK seems to use window.postMessage too - be careful to listen only to our own messages
+		window.addEventListener('message', function(event) {
+			if (event.source != window) {
+				return;
+			}
+
+			console.log('Received window message: ', event.data);
+
+			if (event.data.artist && event.data.track) {
+				updateNowPlaying(event.data);
+			}
+		}, true);
 
         $(window).unload(function () {
             chrome.runtime.sendMessage({type:'reset'});
@@ -105,3 +102,19 @@
         });
     });
 })(jQuery);
+
+
+/**
+ * Listen for requests from scrobbler.js
+ */
+chrome.runtime.onMessage.addListener(
+		function(request, sender, sendResponse) {
+			switch(request.type) {
+
+				// background calls this to see if the script is already injected
+				case 'ping':
+					sendResponse(true);
+					break;
+			}
+		}
+);

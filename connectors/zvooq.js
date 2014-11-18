@@ -1,3 +1,5 @@
+// Connector for the zvooq.ru service
+
 function parseDurationString(timestr) {
     if (timestr) {
         var m = /(\d+):(\d+)/.exec(timestr);
@@ -5,6 +7,12 @@ function parseDurationString(timestr) {
         return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
     }
     return 0;
+}
+
+function extractFirstValue(selector) {
+    return $.makeArray($(selector)).map(function (a) {
+        return $(a).text();
+    })[0];
 }
 
 $(function() {
@@ -17,33 +25,56 @@ $(function() {
 		return true;      
     });
 
-    $(".topPanel_playerPlayback_leave").bind('DOMSubtreeModified', function (e) {
-        var duration = parseDurationString($(".topPanel_playerPlayback_leave").text());
+    function scrobble() {
+        var songDuration = parseDurationString(extractFirstValue(".topPanelTimeline-length"));
 
-        if (duration > 0) {
-            var m = /(.*)\s+—\s+(.*)/.exec($(".topPanel_playerPlayback_playered_name").text());
-            var artist = m[1];
-            var title = m[2];
-            
-            if (lastTrack != $(".topPanel_playerPlayback_playered_name").text()) {
-                var total = duration;
+        if (songDuration > 0) {
+            var titleString = extractFirstValue(".topPanelTimeline-title");
 
-                lastTrack = $(".topPanel_playerPlayback_playered_name").text();
-                
+            if (!titleString) {
+                return;
+            }
+
+            var songInfo = /(.*)\s+—\s+(.*)/.exec(titleString);
+            var artist = songInfo[1],
+                title = songInfo[2];
+
+            if (lastTrack != titleString) {
+                var total = songDuration;
+                lastTrack = titleString;
+
                 $r({type: 'validate', artist: artist, track: title}, function(response) {
                     if (response != false) {
                         $r({
-                            type: 'nowPlaying', 
-                            artist: response.artist, 
-                            track: response.track, 
+                            type: 'nowPlaying',
+                            artist: response.artist,
+                            track: response.track,
                             duration: total
                         });
                     } else {
-                        $r({type: 'nowPlaying', duration: total});	
+                        $r({type: 'nowPlaying', duration: total});
                     }
                 });
             }
-            
         }
-    });
+    }
+
+    $(".topPanelTimeline-title").bind('DOMSubtreeModified', scrobble);
+    $(".topPanel-center").bind('DOMSubtreeModified', scrobble);
 });
+
+/**
+ * Listen for requests from scrobbler.js
+ */
+chrome.runtime.onMessage.addListener(
+    function (request, sender, sendResponse) {
+        switch(request.type) {
+
+            // background calls this to see if the script is already injected
+            case 'ping':
+                sendResponse(true);
+                break;
+        }
+    }
+);
+

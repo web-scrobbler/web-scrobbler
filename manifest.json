@@ -1,6 +1,6 @@
 {
    "name": "Last.fm Scrobbler",
-   "version": "1.19",
+   "version": "1.42",
 
    "description": "Scrobble music all around the web!",
    "icons": {
@@ -8,20 +8,24 @@
    },
 
    "manifest_version": 2,
-   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
+   "content_security_policy": "script-src 'self' https://www.google-analytics.com/analytics.js; object-src 'self'",
 
    "web_accessible_resources": [
       "icon128.png",
       "connectors/jango-dom-inject.js",
-      "connectors/spotify-dom-inject.js",
-      "connectors/plugdj-dom-inject.js"
+      "connectors/plugdj-dom-inject.js",
+      "connectors/soundcloud-dom-inject.js",
+      "connectors/vk-dom-inject.js"
    ],
 
    "background": {
-      "scripts": ["defines.js", "background-ga.js", "inject.js", "md5.js", "jquery-1.6.1.min.js", "jquery.dump.js", "scrobbler.js"]
+      "scripts": [
+	      "vendor/require.js", "core/background/requirejs-config.js",
+	      "core/background/main.js"
+      ]
    },
 
-   "options_page": "options.html",
+   "options_page": "options/options.html",
 
    "permissions": [
       "tabs",

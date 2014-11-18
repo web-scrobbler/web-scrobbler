@@ -7,8 +7,7 @@
 function chromeLastFMUpdateNowPlaying(mediaObject) {
     "use strict";
 
-    var commDiv = document.getElementById('chromeLastFM'),
-        message = null;
+	var message;
 
     if(mediaObject != null) {
         message = {
@@ -22,7 +21,7 @@ function chromeLastFMUpdateNowPlaying(mediaObject) {
         }
     }
 
-    commDiv.innerText = JSON.stringify(message);
+	window.postMessage(message, "*");
 }
 
 function chromeLastFMinit() {
@@ -38,17 +37,25 @@ function chromeLastFMinit() {
     } else {
 
         // subscrive to song change event
-        plugdjAPI.addEventListener(plugdjAPI.DJ_ADVANCE, function (plugdj_event) {
+        plugdjAPI.on(plugdjAPI.ADVANCE, function (plugdj_event) {
+            console.log('Recieved DJ API event %o', plugdj_event);
             var mediaObject = plugdj_event == null ? null : plugdj_event.media;
             chromeLastFMUpdateNowPlaying(mediaObject);
         });
 
-        // getMedia() will return your next queued media object if nobody is playing
-        // so let's make sure that a DJ is performing, then send currently playing 
-        // song info
-        if(API.getDJs().length > 0) {
-            chromeLastFMUpdateNowPlaying(API.getMedia());
-        }
+        // wait for DJ to load, to recieve song which is playing when user joins the room
+        var loadInterval = setInterval(function(){
+            var dj = API.getDJ();
+
+            if(typeof(dj) == 'object' && typeof(dj.id) != 'undefined') {
+                console.log('Startup media %o', API.getMedia());
+                chromeLastFMUpdateNowPlaying(API.getMedia());
+                clearInterval(loadInterval);
+            } else {
+                console.log('Waiting for DJ');
+            }
+        }, 1000);
+
     }
 }
 

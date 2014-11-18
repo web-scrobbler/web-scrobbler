@@ -1,71 +1,129 @@
 /**
- * Chrome-Last.fm-Scrobbler play.spotify.com connector
- * @author Damien ALEXANDRE <dalexandre@jolicode.com>
- * Heavily inspired by jango.js by Stephen Hamer <stephen.hamer@gmail.com>
+ * Spotify Web Player connector
+ *
+ * TODO: Pause/Resume functionality
+ *
+ * @author David Sabata
  */
 (function ChromeLastFmSpotifyScrobbler($) {
     "use strict";
 
     /**
-     * Cache the last song called to avoid multiple calls
-     * @type {String}
+     * Last known track uri (internal Spotify API identificator)
      */
-    var lastSongTitle = '';
+    var lastTrackUri = null;
 
-    var updateNowPlaying = function() {
-        var commDiv = document.getElementById('chromeLastFM'), songInfo;
-        
-        try {
-            songInfo = JSON.parse(commDiv.innerText);
-        } catch (e) {
-            // Skip malformed communication blobs
-            return;
-        }
 
-        // If this is a "pause" event, just call the "reset"
-        if (songInfo.pause && songInfo.pause === true) {
-            lastSongTitle = '';
-            chrome.runtime.sendMessage({type: "reset"});
-            return;
-        }
 
-        // If the title is the same as the previous one, just leave
-        if (songInfo.title === lastSongTitle) {
-            return;
-        }
-        lastSongTitle = songInfo.title;
 
-        chrome.runtime.sendMessage({'type': 'validate', 'artist': songInfo.artist, 'track': songInfo.title}, function (response) {
-            if (response !== false) {
-                chrome.runtime.sendMessage({type: 'nowPlaying', 'artist': songInfo.artist, 'track': songInfo.title, 'duration': songInfo.duration});
-            } else {
-                // on validation failure send nowPlaying 'unknown song'
-                chrome.runtime.sendMessage({'type': 'nowPlaying', 'duration': songInfo.duration});
-            }
+    /**
+     * Function to be injected in the document. All it does is forwarding player's api events to the iframe object,
+     * where the extension can listen for them
+     *
+     * CAREFUL : The function will run in the document's context instead of sandbox and there is no jQuery!
+     */
+    var injectedFunction = function() {
+        // we're in document's context, where is no jQuery but some custom implementation of the dollar
+        var frame = $('app-player');
+
+        // hook player change events
+        frame.addEventListener('load', function() {
+            frame.contentWindow.require(['$api/models'], function(models) {
+                models.player.addEventListener('change', onPlayerChange);
+            });
         });
+
+        // forward all change events to the content script
+        var onPlayerChange = function(e) {
+            var evt = new CustomEvent('LFM_change', { detail: e.data });
+            frame.dispatchEvent(evt);
+        };
     };
 
+
+    /**
+     * Process the player's change events
+     */
+    var updateNowPlaying = function(e) {
+        var data = e.detail;
+        console.log(data);
+
+        // reset when the playback stops
+        if (data.track == null || data.playing != true) {
+            lastTrackUri = null;
+            chrome.runtime.sendMessage({type:'reset'});
+            return;
+        }
+
+        // beginning of a new song
+        if (data.track.uri != lastTrackUri && !data.track.advertisement) {
+            var track = data.track;
+            lastTrackUri = track.uri;
+
+            // validate that the object has all the mandatory data, just to be sure
+            if (!track.artists || track.artists.length == 0 || !track.artists[0].name || !track.duration || !track.name) {
+                return;
+            }
+
+            var artist = track.artists[0].name;
+            var duration = Math.round(track.duration / 1000); // miliseconds -> seconds
+            var album = track.albumName ? track.albumName : null;
+
+            chrome.runtime.sendMessage({'type': 'validate', 'artist': artist, 'track': track.name, album: album}, function (response) {
+                if (response !== false) {
+                    chrome.runtime.sendMessage({type: 'nowPlaying', 'artist': artist, 'track': track.name, 'duration': duration, album: album});
+                } else {
+                    // on validation failure send nowPlaying 'unknown song'
+                    chrome.runtime.sendMessage({'type': 'nowPlaying', 'duration': duration});
+                }
+            });
+        }
+
+    };
+
+
+
+
+    /**
+     * Setup code for the player events forwarding
+     */
     $(document).ready(function () {
-        // XXX(shamer): we can't directly access the page javascript from the
-        // extension. To get code running in the page context we have to add a script tag
-        // to the DOM. The script then is executed in the global context.
-        // To communicate between the injected JS and the extension a DOM node is updated with the text to send.
-        var comNode = $('<div id="chromeLastFM" style="display: none"></div>');
-        document.body.appendChild(comNode[0]);
 
-        $('body').append('<script type="text/javascript">(function(l) {\n' +
-            "    var injectScript = document.createElement('script');\n" +
-            "    injectScript.type = 'text/javascript';\n" +
-            "    injectScript.src = l;\n" +
-            "    document.getElementsByTagName('head')[0].appendChild(injectScript);\n" +
-            "  })('" + chrome.extension.getURL('connectors/spotify-dom-inject.js') + "');</script>");
+        // for some reason script node created via jQuery does not execute
+        var scriptNode = document.createElement('script');
+        scriptNode.type = 'text/javascript';
+        scriptNode.text = '(' + injectedFunction + ')();';
+        document.body.appendChild(scriptNode);
 
-        // Listen for 'messages' from the injected script
-        $('#chromeLastFM').bind('DOMSubtreeModified', updateNowPlaying);
 
+        // Listen for events from the injected script
+        $('#app-player').bind('LFM_change', updateNowPlaying);
+
+
+        // reset potential "now playing" song when leaving page
         $(window).unload(function () {
             chrome.runtime.sendMessage({type:'reset'});
             return true;
         });
+
     });
+
+
+
+
+    /**
+     * Listen for requests from scrobbler.js
+     */
+    chrome.runtime.onMessage.addListener(
+        function(request, sender, sendResponse) {
+            switch(request.type) {
+
+                // background calls this to see if the script is already injected
+                case 'ping':
+                    sendResponse(true);
+                    break;
+            }
+        }
+    );
+
 })(jQuery);

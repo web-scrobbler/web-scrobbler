@@ -51,6 +51,7 @@ function sendTrack()
 
     if (deezerSong && deezerSong.duration > 0)
     {
+		console.log(deezerSong);
         chrome.runtime.sendMessage({type: 'validate', artist: deezerSong.artist, track: deezerSong.track}, function(response)
         {
             if (response != false)
@@ -62,7 +63,6 @@ function sendTrack()
             else
             {
                 chrome.runtime.sendMessage({type: 'nowPlaying', duration: deezerSong.duration});
-                displayMsg('Not recognized');
             }
         });
     }
@@ -79,11 +79,20 @@ function sendTrack()
  */
 function getCurrentTrack()
 {
-    if ($('#h_play').is(":hidden")) { // Play button hidden, the song is playing
+	// for old design
+    if ($('#player_control_play').is(":hidden")) {
         return {
-            track: $('#current-track').html(),
-            artist: $('#current-artist').html(),
-            duration: parseDuration($('#end-track').html())
+            track: $('.track-info .title').text(),
+            artist: $('.track-info .artist').text(),
+            duration: parseDuration($('#player_track_length').text())
+        }
+    }
+	// for new 10/2014 design
+    else if ($('.player .control-pause').size() > 0) {
+        return {
+            track: $('.player-track-title').text(),
+            artist: $('.player-track-artist').text().replace($('.player-track-artist').children().first().text(), '').trim().replace(/,$/, ''),
+            duration: parseDuration($('.player-progress .progress-length').text())
         }
     }
 
