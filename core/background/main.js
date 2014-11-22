@@ -118,7 +118,7 @@ require([
 		}
 
 		// version strings as floats for comparison
-		var storedVersion = parseFloat(storage.get('appVersion'));
+		var storedVersion = parseFloat(storage.get('appVersion')) || 1;
 		var currentVersion = parseFloat(chrome.app.getDetails().version);
 
 		if (storedVersion < 1.41 && currentVersion >= 1.41) {
