@@ -445,6 +445,12 @@ define(function() {
 			label: 'ambientsleepingpill',
 			matches: ['*://*.ambientsleepingpill.com/'],
 			js: ['connectors/ambientsleepingpill.js']
+		},
+
+		{
+			label: 'Blitzr',
+			matches: ['*://www.blitzr.com/*'],
+			js: ['connectors/blitzr.js']
 		}
 	];
 });
