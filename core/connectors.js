@@ -445,6 +445,12 @@ define(function() {
 			label: 'ambientsleepingpill',
 			matches: ['*://*.ambientsleepingpill.com/'],
 			js: ['connectors/ambientsleepingpill.js']
+		},
+		
+		{
+			label: 'rmfon',
+			matches: ['*://www.rmfon.pl/*'],
+			js: ['connectors/rmfon.js']
 		}
 	];
 });
