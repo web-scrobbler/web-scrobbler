@@ -44,5 +44,5 @@ $(function()
 });
 
 function stripMinutes(timeText) {
-    return parseInt(timeText.split(':')[1])
+    return parseInt(timeText.split(':')[1]);
 }
