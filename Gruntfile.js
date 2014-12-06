@@ -3,7 +3,7 @@
 /* global module, require */
 module.exports = function(grunt) {
 
-	var jsConnectorFiles = ['connectors/22tracks.js', 'connectors/archive.js', 'connectors/bandcamp.js', 'connectors/blinkboxmusic.js', 'connectors/ambientsleepingpill.js']; // intentionally does not contain all files yet
+	var jsConnectorFiles = ['connectors/22tracks.js', 'connectors/archive.js', 'connectors/bandcamp.js', 'connectors/blinkboxmusic.js', 'connectors/ambientsleepingpill.js', 'connectors/rmfon.js']; // intentionally does not contain all files yet
 	var jsCoreFiles = ['Gruntfile.js', 'popup.js', 'core/*', 'options/options.js', 'popups/*.js'];
 	var jsonFiles = ['*.json', '.jshintrc'];
 	var cssFiles = ['options/options.css', 'popups/base.css', 'dialogs/base.css'];
