@@ -17,14 +17,9 @@ require([
 	'objects/injectResult',
 	'controller',
 	'storage',
-	'config'
-], function(legacyScrobbler, GA, LastFM, Notifications, inject, injectResult, Controller, Storage, config) {
-
-	/**
-	 * Namespaced local storage
-	 * @type {Namespace}
-	 */
-	var storage = Storage.getNamespace('Core');
+	'config',
+	'chromeStorage'
+], function(legacyScrobbler, GA, LastFM, Notifications, inject, injectResult, Controller, Storage, config, ChromeStorage) {
 
 	/**
 	 * Single controller instance for each tab with injected script
@@ -111,29 +106,30 @@ require([
 
 	// cleanup and other stuff to be done on specific version changes
 	{
-		// introduction of namespaced local storage - transfer old records
-		if (!storage.get('appVersion') && localStorage.appVersion) {
-			storage.set('appVersion', localStorage.appVersion);
-			localStorage.removeItem('appVersion');
-		}
+		var oldLfmStorage = Storage.getNamespace('LastFM');
 
-		// version strings as floats for comparison
-		var storedVersion = parseFloat(storage.get('appVersion')) || 1;
-		var currentVersion = parseFloat(chrome.app.getDetails().version);
+		// update Core namespace to Chrome storage
+		ChromeStorage.get(function(allData) {
+			// init
+			if (allData === null || Object.keys(allData).length === 0) {
+				allData = {
+					Core: {
+						appVersion: chrome.app.getDetails().version
+					},
+					LastFM: { // attempt to migrate from localStorage so user doesn't have to re-auth
+						token: oldLfmStorage.get('token') || null,
+						sessionID: oldLfmStorage.get('sessionID') || null
+					}
+				};
+			}
+			// update
+			else {
+				allData.Core.appVersion = chrome.app.getDetails().version;
+			}
 
-		if (storedVersion < 1.41 && currentVersion >= 1.41) {
-			// session ID and token have moved to namespaced storage
-			localStorage.removeItem('token');
-			localStorage.removeItem('sessionID');
-
-			// remove possible old token to prevent attempt to trade it for session
-			LastFM.getStorage().set('token', null);
-		}
-
-		// patching done, store new version if changed
-		if (storedVersion < currentVersion) {
-			storage.set('appVersion', currentVersion.toString());
-		}
+			// save and proceed in starting up
+			ChromeStorage.set(allData, startup);
+		});
 	}
 
 
@@ -199,17 +195,24 @@ require([
 	});
 
 
+	/**
+	 * Called on the extension start, after maintenance storage reads/writes are done
+	 */
+	function startup() {
+		// track background page loaded - happens once per browser session
+		GA.send('pageview', '/background-loaded?version=' + chrome.app.getDetails().version);
 
-	// track background page loaded - happens once per browser session
-	GA.send('pageview', '/background-loaded?version=' + chrome.app.getDetails().version);
+		// debug log internal storage state for people who send logs (tokens are anonymized)
+		ChromeStorage.debugLog();
 
-	// check session ID status and show notification if authentication is needed
-	var lfmSessionId = LastFM.getSessionID();
-	if (!lfmSessionId) {
-		console.log('No session ID. localStorage: ' + JSON.stringify(localStorage)); // temporary debug info
-		Notifications.showAuthenticate(LastFM.getAuthUrl);
-	} else {
-		console.info('LastFM: Session ID ' + lfmSessionId);
+		// check session ID status and show notification if authentication is needed
+		LastFM.getSessionID(function(sessionID) {
+			if (!sessionID) {
+				Notifications.showAuthenticate(LastFM.getAuthUrl);
+			} else {
+				console.info('LastFM: Session ID ' + 'xxxxx' + sessionID.substr(5));
+			}
+		});
 	}
 
 });

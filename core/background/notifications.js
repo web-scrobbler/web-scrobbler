@@ -101,45 +101,47 @@ define([
 	 * The auth url is requested after clicking to prevent generating a new token for
 	 * an auth notification which may never be clicked.
 	 *
-	 * @param authUrlGetter {Function} method returning an url to be opened on click
+	 * @param authUrlGetter {Function} method that calls callback in its parameter with url to be opened on click
 	 */
 	function showAuthenticate(authUrlGetter) {
-		if (!isAvailable()) {
-			GA.event('notification', 'authenticate', 'open-unavailable');
+		var onHaveAuthUrl = function(authUrl) {
+			if (!isAvailable()) {
+				GA.event('notification', 'authenticate', 'open-unavailable');
 
-			// fallback for browsers with no notifications support
-			var authUrl = authUrlGetter();
-			window.open(authUrl, 'scrobbler-auth');
-			return;
-		}
-
-		var notificationCreatedCb = function(notificationId) {
-			addOnClickedListener(notificationId, function() {
-				GA.event('notification', 'authenticate', 'click');
-
-				var authUrl = authUrlGetter();
+				// fallback for browsers with no notifications support
 				window.open(authUrl, 'scrobbler-auth');
-			});
-
-			GA.event('notification', 'authenticate', 'show');
-		};
-
-		var createNotification = function(permissionLevel) {
-			if (permissionLevel === 'granted') {
-
-				var options = {
-					type: 'basic',
-					iconUrl: '/icon128.png',
-					title: 'Connect your Last.FM account',
-					message: 'Click the notification or connect later in the extension options page',
-					isClickable: true
-				};
-
-				chrome.notifications.create('', options, notificationCreatedCb);
+				return;
 			}
+
+			var notificationCreatedCb = function(notificationId) {
+				addOnClickedListener(notificationId, function() {
+					GA.event('notification', 'authenticate', 'click');
+
+					window.open(authUrl, 'scrobbler-auth');
+				});
+
+				GA.event('notification', 'authenticate', 'show');
+			};
+
+			var createNotification = function(permissionLevel) {
+				if (permissionLevel === 'granted') {
+
+					var options = {
+						type: 'basic',
+						iconUrl: '/icon128.png',
+						title: 'Connect your Last.FM account',
+						message: 'Click the notification or connect later in the extension options page',
+						isClickable: true
+					};
+
+					chrome.notifications.create('', options, notificationCreatedCb);
+				}
+			};
+
+			chrome.notifications.getPermissionLevel(createNotification);
 		};
 
-		chrome.notifications.getPermissionLevel(createNotification);
+		authUrlGetter(onHaveAuthUrl);
 	}
 
 	/**

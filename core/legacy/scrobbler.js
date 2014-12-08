@@ -287,59 +287,60 @@ define([
 		}
 
 		// if the token/session is not authorized, wait for a while
-		var sessionID = LastFM.getSessionID();
-		if (sessionID === null) {
-			return;
-		}
+		LastFM.getSessionID(function(sessionID) {
+			if (sessionID === null) {
+				return;
+			}
 
-		var params = {
-			method: 'track.updatenowplaying',
-			track: song.track,
-			artist: song.artist,
-			api_key: config.apiKey,
-			sk: sessionID
-		};
+			var params = {
+				method: 'track.updatenowplaying',
+				track: song.track,
+				artist: song.artist,
+				api_key: config.apiKey,
+				sk: sessionID
+			};
 
-		if (typeof song.album !== 'undefined' && song.album !== null) {
-			params.album = song.album;
-		}
-		if (typeof song.duration !== 'undefined' && song.duration !== null) {
-			params.duration = song.duration;
-		}
+			if (typeof song.album !== 'undefined' && song.album !== null) {
+				params.album = song.album;
+			}
+			if (typeof song.duration !== 'undefined' && song.duration !== null) {
+				params.duration = song.duration;
+			}
 
-		var api_sig = LastFM.generateSign(params);
-		var url = config.apiURL + createQueryString(params) + '&api_sig=' + api_sig;
+			var api_sig = LastFM.generateSign(params);
+			var url = config.apiURL + createQueryString(params) + '&api_sig=' + api_sig;
 
-		var http_request = new XMLHttpRequest();
-		http_request.open('POST', url, false); // synchronous
-		http_request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-		http_request.send(params);
+			var http_request = new XMLHttpRequest();
+			http_request.open('POST', url, false); // synchronous
+			http_request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			http_request.send(params);
 
-		console.log('nowPlaying request: %s', url);
-		console.log('nowPlaying response: %s', http_request.responseText);
+			console.log('nowPlaying request: %s', url);
+			console.log('nowPlaying response: %s', http_request.responseText);
 
-		var xmlDoc = $.parseXML(http_request.responseText);
-		var xml = $(xmlDoc);
+			var xmlDoc = $.parseXML(http_request.responseText);
+			var xml = $(xmlDoc);
 
-		if (xml.find('lfm').attr('status') == 'ok') {
-			console.log('now playing %s - %s', song.artist, song.track);
+			if (xml.find('lfm').attr('status') == 'ok') {
+				console.log('now playing %s - %s', song.artist, song.track);
 
-			// Confirm the content_script, that the song is 'now playing'
-			chrome.tabs.sendMessage(nowPlayingTab, {
-				type: 'nowPlayingOK'
-			});
+				// Confirm the content_script, that the song is 'now playing'
+				chrome.tabs.sendMessage(nowPlayingTab, {
+					type: 'nowPlayingOK'
+				});
 
-			// Show notification - wrap in new song object
-			var songObj = new Song(song);
-			notifications.showPlaying(songObj);
+				// Show notification - wrap in new song object
+				var songObj = new Song(song);
+				notifications.showPlaying(songObj);
 
-			// Update page action icon
-			setActionIcon(config.ACTION_NOWPLAYING);
-		} else if (xml.find('lfm error').attr('code') == 9) {
-			authorize();
-		} else {
-			notifications.showError('Please see http://status.last.fm and check if everything is OK');
-		}
+				// Update page action icon
+				setActionIcon(config.ACTION_NOWPLAYING);
+			} else if (xml.find('lfm error').attr('code') == 9) {
+				authorize();
+			} else {
+				notifications.showError('Please see http://status.last.fm and check if everything is OK');
+			}
+		});
 	}
 
 
@@ -361,78 +362,79 @@ define([
 		}
 
 		// if the token/session is not authorized, wait for a while
-		var sessionID = LastFM.getSessionID();
-		if (!sessionID) {
-			return;
-		}
-
-		console.log('submit called for %s - %s (%s)', song.artist, song.track, song.album);
-
-		var params = {
-			method: 'track.scrobble',
-			'timestamp[0]': song.startTime,
-			'track[0]': song.track,
-			'artist[0]': song.artist,
-			api_key: config.apiKey,
-			sk: sessionID
-		};
-
-		if (typeof song.album !== 'undefined' && song.album !== null) {
-			params['album[0]'] = song.album;
-		}
-
-		if (typeof song.source !== 'undefined' && song.source !== null) {
-			params['source[0]'] = song.source;
-		}
-
-		if (typeof song.sourceId !== 'undefined' && song.sourceId !== null) {
-			params['sourceId[0]'] = song.sourceId;
-		}
-
-		var api_sig = LastFM.generateSign(params);
-		var url = config.apiURL + createQueryString(params) + '&api_sig=' + api_sig;
-
-		var http_request = new XMLHttpRequest();
-		http_request.open('POST', url, false); // synchronous
-		http_request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-		http_request.send(params);
-
-		if (http_request.status == 200) {
-			// Update page action icon
-			setActionIcon(config.ACTION_SCROBBLED);
-
-			// stats
-			GA.event('legacy', 'scrobble', song.artist + ' - ' + song.track);
-
-			console.log('submitted %s - %s (%s)', song.artist, song.track, http_request.responseText);
-
-			// Confirm the content script, that the song has been scrobbled
-			if (nowPlayingTab) {
-				chrome.tabs.sendMessage(nowPlayingTab, {
-					type: 'submitOK',
-					song: {
-						artist: song.artist,
-						track: song.track
-					}
-				});
+		LastFM.getSessionID(function(sessionID) {
+			if (!sessionID) {
+				return;
 			}
 
-		} else if (http_request.status == 503) {
-			console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
-			notifications.showError('Please see http://status.last.fm and check if everything is OK');
-		} else {
-			var xmlDoc = $.parseXML(http_request.responseText);
-			var xml = $(xmlDoc);
-			if (xml.find('lfm error').attr('code') == 9) {
-				authorize();
-			} else {
+			console.log('submit called for %s - %s (%s)', song.artist, song.track, song.album);
+
+			var params = {
+				method: 'track.scrobble',
+				'timestamp[0]': song.startTime,
+				'track[0]': song.track,
+				'artist[0]': song.artist,
+				api_key: config.apiKey,
+				sk: sessionID
+			};
+
+			if (typeof song.album !== 'undefined' && song.album !== null) {
+				params['album[0]'] = song.album;
+			}
+
+			if (typeof song.source !== 'undefined' && song.source !== null) {
+				params['source[0]'] = song.source;
+			}
+
+			if (typeof song.sourceId !== 'undefined' && song.sourceId !== null) {
+				params['sourceId[0]'] = song.sourceId;
+			}
+
+			var api_sig = LastFM.generateSign(params);
+			var url = config.apiURL + createQueryString(params) + '&api_sig=' + api_sig;
+
+			var http_request = new XMLHttpRequest();
+			http_request.open('POST', url, false); // synchronous
+			http_request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+			http_request.send(params);
+
+			if (http_request.status == 200) {
+				// Update page action icon
+				setActionIcon(config.ACTION_SCROBBLED);
+
+				// stats
+				GA.event('legacy', 'scrobble', song.artist + ' - ' + song.track);
+
+				console.log('submitted %s - %s (%s)', song.artist, song.track, http_request.responseText);
+
+				// Confirm the content script, that the song has been scrobbled
+				if (nowPlayingTab) {
+					chrome.tabs.sendMessage(nowPlayingTab, {
+						type: 'submitOK',
+						song: {
+							artist: song.artist,
+							track: song.track
+						}
+					});
+				}
+
+			} else if (http_request.status == 503) {
 				console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
 				notifications.showError('Please see http://status.last.fm and check if everything is OK');
+			} else {
+				var xmlDoc = $.parseXML(http_request.responseText);
+				var xml = $(xmlDoc);
+				if (xml.find('lfm error').attr('code') == 9) {
+					authorize();
+				} else {
+					console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
+					notifications.showError('Please see http://status.last.fm and check if everything is OK');
+				}
 			}
-		}
 
-		// clear the structures awaiting the next song
-		reset();
+			// clear the structures awaiting the next song
+			reset();
+		});
 	}
 
 

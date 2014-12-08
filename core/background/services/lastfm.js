@@ -9,10 +9,10 @@ define([
 	'jquery',
 	'config',
 	'vendor/md5',
-	'storage',
 	'wrappers/can',
-	'objects/serviceCallResult'
-], function ($, config, MD5, Storage, can, ServiceCallResultFactory) {
+	'objects/serviceCallResult',
+	'chromeStorage'
+], function ($, config, MD5, can, ServiceCallResultFactory, ChromeStorage) {
 
 	var enableLogging = true;
 
@@ -20,7 +20,7 @@ define([
 	var apiKey = 'd9bb1870d3269646f740544d9def2c95';
 	var apiSecret = '2160733a567d4a1a69a73fad54c564b2';
 
-	var storage = Storage.getNamespace('LastFM');
+	var storage = ChromeStorage.getNamespace('LastFM');
 
 	/**
 	 * Creates query string from object properties
@@ -38,18 +38,16 @@ define([
 	}
 
 	/**
-	 * Returns URL where user should grant permissions to our token or null on error.
-	 * Does a synchronous API call internally, so this method is blocking.
+	 * Calls callback with URL where user should grant permissions to our token or null on error.
+	 * If an error occurs, callback is called with null.
 	 *
 	 * Stores the new obtained token into storage so it will be traded for a new session when needed.
 	 * Because of this it is necessary this method is called only when user is really going to
 	 * approve the token and not sooner. Otherwise use of the token would result in an unauthorized request.
 	 *
 	 * See http://www.last.fm/api/show/auth.getToken
-	 *
-	 * @return {String}
 	 */
-	function getAuthUrl() {
+	function getAuthUrl(cb) {
 		var http_request = new XMLHttpRequest();
 		http_request.open('GET', apiUrl + '?method=auth.gettoken&api_key=' + apiKey, false); // synchronous
 		http_request.setRequestHeader('Content-Type', 'application/xml');
@@ -61,78 +59,89 @@ define([
 		var xml = $(xmlDoc);
 		var status = xml.find('lfm').attr('status');
 
-		if (status != 'ok') {
-			console.log('Error acquiring a token: %s', http_request.responseText);
-			storage.set('token', null);
-			return null;
-		} else {
-			// set token and reset session so we will grab a new one
-			storage.set('sessionID', null);
-			storage.set('token', xml.find('token').text());
-			return 'https://www.last.fm/api/auth/?api_key=' + apiKey + '&token=' + storage.get('token');
-		}
+		storage.get(function(data) {
+			if (status != 'ok') {
+				console.log('Error acquiring a token: %s', http_request.responseText);
+
+				data.token = null;
+				storage.set(data, function() {
+					cb(null);
+				});
+			} else {
+				// set token and reset session so we will grab a new one
+				data.sessionID = null;
+				data.token = xml.find('token').text();
+				storage.set(data, function() {
+					cb('https://www.last.fm/api/auth/?api_key=' + apiKey + '&token=' + data.token);
+				});
+			}
+		});
 	}
 
 	/**
-	 * Returns sessionID or null if there is no session or token to be traded for one.
-	 * Does a synchronous API call internally if the session ID is not obtained yet, so this method is blocking
+	 * Calls callback with sessionID or null if there is no session or token to be traded for one.
 	 *
 	 * If there is a stored token it is preferably traded for a new session which is then returned.
-	 *
-	 * @return {String}
 	 */
-	function getSessionID() {
-		// if we have a token it means it is fresh and we want to trade it for a new session ID
-		var token = storage.get('token') || null;
-		if (token) {
-			// remove from storage - token is for single use only
-			storage.set('token', null);
+	function getSessionID(cb) {
+		storage.get(function(data) {
+			// if we have a token it means it is fresh and we want to trade it for a new session ID
+			var token = data.token || null;
+			if (token) {
+				tradeTokenForSession(token, function(session) {
+					if (session === null || session.trim().length === 0) {
+						console.warn('Failed to trade token for session - the token is probably not authorized');
 
-			var session = tradeTokenForSession(token);
-
-			if (session === null || session.trim().length === 0) {
-				console.warn('Failed to trade token for session - the token is probably not authorized');
-				storage.set('sessionID', null);
-			} else {
-				storage.set('sessionID', session);
+						// both session and token are now invalid
+						data.token = null;
+						data.sessionID = null;
+						storage.set(data, function() {
+							cb(null);
+						});
+					} else {
+						// token is already used, reset it and store the new session
+						data.token = null;
+						data.sessionID = session;
+						storage.set(data, function() {
+							cb(session);
+						});
+					}
+				});
 			}
-		}
-
-		// return existing or just traded session or null
-		return storage.get('sessionID');
+			else {
+				cb(data.sessionID);
+			}
+		});
 	}
 
 	/**
-	 * Does a synchronous call to API to trade token for session ID.
+	 * Does a call to API to trade token for session ID.
 	 * Assumes the token was authenticated by the user.
 	 *
-	 * @return {String,null}
+	 * @param {String} token
+	 * @param {Function} cb result of the trade will be passed as the only parameter
 	 */
-	function tradeTokenForSession(token) {
+	function tradeTokenForSession(token, cb) {
 		var params = {
 			method: 'auth.getsession',
 			api_key: apiKey,
 			token: token
 		};
 		var apiSig = generateSign(params);
-		var url = apiUrl + '?' + createQueryString(params) + '&api_sig=' + apiSig;
+		var url = apiUrl + '?' + createQueryString(params) + '&api_sig=' + apiSig + '&format=json';
 
-		var request = new XMLHttpRequest();
-		request.open('GET', url, false); // synchronous
-		request.setRequestHeader('Content-Type', 'application/xml');
-		request.send();
-
-		console.log('getSession response: %s', request.responseText);
-
-		var xmlDoc = $.parseXML(request.responseText);
-		var xml = $(xmlDoc);
-		var status = xml.find('lfm').attr('status');
-
-		if (status != 'ok') {
-			return null;
-		} else {
-			return xml.find('key').text();
-		}
+		$.getJSON(url)
+			.done(function(response) {
+				if ((response.error && response.error > 0) || !response.session) {
+					console.log('auth.getSession response: ' + JSON.stringify(response));
+					cb(null);
+				} else {
+					cb(response.session.key);
+				}
+			})
+			.fail(function(jqxhr, textStatus, error) {
+				console.error('auth.getSession failed: ' + error + ', ' + textStatus);
+			});
 	}
 
 	/**
@@ -280,41 +289,42 @@ define([
 	 * @param {Function} cb callback with single bool parameter of success
 	 */
 	function sendNowPlaying(song, cb) {
-		var sessionID = getSessionID();
-		if (sessionID === false) {
-			cb(false);
-		}
-
-		var params = {
-			method: 'track.updatenowplaying',
-			track: song.getTrack(),
-			artist: song.getArtist(),
-			api_key: config.apiKey,
-			sk: sessionID
-		};
-
-		if (song.album) {
-			params.album = song.getAlbum();
-		}
-		if (song.duration) {
-			params.duration = song.getDuration();
-		}
-
-		var okCb = function(xmlDoc) {
-			var $doc = $(xmlDoc);
-
-			if ($doc.find('lfm').attr('status') == 'ok') {
-				cb(true);
-			} else {
-				cb(false); // request passed but returned error
+		getSessionID(function(sessionID) {
+			if (sessionID === false) {
+				cb(false);
 			}
-		};
 
-		var errCb = function() {
-			cb(false);
-		};
+			var params = {
+				method: 'track.updatenowplaying',
+				track: song.getTrack(),
+				artist: song.getArtist(),
+				api_key: config.apiKey,
+				sk: sessionID
+			};
 
-		doRequest('POST', params, true, okCb, errCb);
+			if (song.album) {
+				params.album = song.getAlbum();
+			}
+			if (song.duration) {
+				params.duration = song.getDuration();
+			}
+
+			var okCb = function(xmlDoc) {
+				var $doc = $(xmlDoc);
+
+				if ($doc.find('lfm').attr('status') == 'ok') {
+					cb(true);
+				} else {
+					cb(false); // request passed but returned error
+				}
+			};
+
+			var errCb = function() {
+				cb(false);
+			};
+
+			doRequest('POST', params, true, okCb, errCb);
+		});
 	}
 
 	/**
@@ -323,52 +333,53 @@ define([
 	 * @param {Function} cb callback with single ServiceCallResult parameter
 	 */
 	function scrobble(song, cb) {
-		var sessionID = getSessionID();
-		if (!sessionID) {
-			var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
-			cb(result);
-		}
-
-		var params = {
-			method: 'track.scrobble',
-			'timestamp[0]': song.metadata.startTimestamp,
-			'track[0]': song.processed.track || song.parsed.track,
-			'artist[0]': song.processed.artist || song.parsed.artist,
-			api_key: config.apiKey,
-			sk: sessionID
-		};
-
-		if (song.processed.album || song.parsed.album) {
-			params['album[0]'] = song.processed.album || song.parsed.album;
-		}
-
-		var okCb = function(xmlDoc) {
-			var $doc = $(xmlDoc),
-				result;
-
-			if ($doc.find('lfm').attr('status') == 'ok') {
-				result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.OK);
-				cb(result);
-			} else {  // request passed but returned error
-				result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR);
+		getSessionID(function(sessionID) {
+			if (!sessionID) {
+				var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
 				cb(result);
 			}
-		};
 
-		var errCb = function(jqXHR, status, response) {
-			var result;
+			var params = {
+				method: 'track.scrobble',
+				'timestamp[0]': song.metadata.startTimestamp,
+				'track[0]': song.processed.track || song.parsed.track,
+				'artist[0]': song.processed.artist || song.parsed.artist,
+				api_key: config.apiKey,
+				sk: sessionID
+			};
 
-			if ($(response).find('lfm error').attr('code') == 9) {
-				result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
+			if (song.processed.album || song.parsed.album) {
+				params['album[0]'] = song.processed.album || song.parsed.album;
 			}
-			else {
-				result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_OTHER);
-			}
 
-			cb(result);
-		};
+			var okCb = function(xmlDoc) {
+				var $doc = $(xmlDoc),
+					result;
 
-		doRequest('POST', params, true, okCb, errCb);
+				if ($doc.find('lfm').attr('status') == 'ok') {
+					result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.OK);
+					cb(result);
+				} else {  // request passed but returned error
+					result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR);
+					cb(result);
+				}
+			};
+
+			var errCb = function(jqXHR, status, response) {
+				var result;
+
+				if ($(response).find('lfm error').attr('code') == 9) {
+					result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
+				}
+				else {
+					result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_OTHER);
+				}
+
+				cb(result);
+			};
+
+			doRequest('POST', params, true, okCb, errCb);
+		});
 	}
 
 
@@ -379,10 +390,7 @@ define([
 		generateSign: generateSign,
 		loadSongInfo: loadSongInfo,
 		sendNowPlaying: sendNowPlaying,
-		scrobble: scrobble,
-		getStorage: function getStorage() {
-			return storage;
-		}
+		scrobble: scrobble
 	};
 
 });
