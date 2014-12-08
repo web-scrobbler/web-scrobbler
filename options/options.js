@@ -153,7 +153,11 @@ require([
 				}
 			});
 
-			customPatterns.setPatterns(connector, patterns);
+			if (patterns.length > 0) {
+				customPatterns.setPatterns(connector.label, patterns);
+			} else {
+				customPatterns.resetPatterns(connector.label);
+			}
 
 			modal.modal('hide');
 		});
@@ -164,7 +168,7 @@ require([
 			var index = modal.data('conn');
 			var connector = conns[index];
 
-			customPatterns.resetPatterns(connector);
+			customPatterns.resetPatterns(connector.label);
 
 			modal.modal('hide');
 		});
@@ -179,19 +183,21 @@ require([
 			modal.data('conn', index);
 			modal.find('.conn-conf-title').html(connector.label);
 
-			var patterns = customPatterns.getConnectorPatterns(connector);
+			var patterns = customPatterns.getAllPatterns(function(allPatterns) {
+				var patterns = allPatterns[connector.label] || [];
 
-			var inputs = $('<ul class="list-unstyled" id="conn-conf-list"></ul>');
-			for (var i in patterns) {
-				var value = patterns[i];
-				var input = createNewConfigInput(value);
+				var inputs = $('<ul class="list-unstyled" id="conn-conf-list"></ul>');
+				for (var i = 0; i < patterns.length; i++) {
+					var value = patterns[i];
+					var input = createNewConfigInput(value);
 
-				inputs.append(input);
-			}
+					inputs.append(input);
+				}
 
-			modal.find('.conn-conf-patterns').html(inputs);
+				modal.find('.conn-conf-patterns').html(inputs);
 
-			modal.modal('show');
+				modal.modal('show');
+			});
 		});
 	}
 

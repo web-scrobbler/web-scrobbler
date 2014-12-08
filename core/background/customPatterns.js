@@ -1,26 +1,24 @@
 'use strict';
-define(['storage'], function (storageContainer) {
-	var storage = storageContainer.getNamespace('customPatterns');
+define(['chromeStorage'], function (ChromeStorage) {
+	var storage = ChromeStorage.getNamespace('customPatterns');
 
 	return {
-		getConnectorPatterns: function (connector) {
-			var patterns;
-			if (storage.has(connector.label)) {
-				patterns = storage.get(connector.label);
-			}
-			else {
-				patterns = connector.matches;
-			}
-
-			return patterns;
+		getAllPatterns: function(cb) {
+			storage.get(cb);
 		},
 
 		setPatterns: function (connector, patterns) {
-			storage.set(connector.label, patterns);
+			storage.get(function(data) {
+				data[connector] = patterns;
+				storage.set(data);
+			});
 		},
 
 		resetPatterns: function (connector) {
-			storage.remove(connector.label);
+			storage.get(function(data) {
+				delete data[connector];
+				storage.set(data);
+			});
 		}
 	};
 });
