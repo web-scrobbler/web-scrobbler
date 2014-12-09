@@ -174,6 +174,13 @@ function updateNowPlaying() {
    // Get clip info from youtube api
    chrome.runtime.sendMessage({type: "xhr", url: googleURL}, function(response) {
       var info = JSON.parse(response.text);
+
+      // Return early if not in music category
+      var category = info.entry.category[1].label;
+      if (category !== 'Music') {
+      	return;
+      }
+
       var parsedInfo = parseInfo(info.entry.title.$t);
       var artist = null;
       var track = null;
