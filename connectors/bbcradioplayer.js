@@ -15,6 +15,7 @@ var DEFAULT_TIMEOUT = 90;
 var config = {childList: true, subtree: true, attributes: true};
 
 // BBC RadioPlayer stations show a Now Playing box inside the container
+// The box is removed when no track is played, so we need to check for it
 var CONTAINER = '.programme-details-wrapper ';
 var NP_ELEMENT = '#now-playing .playlister ';
 var ARTIST_ELEMENT = NP_ELEMENT+'.track .artist';
