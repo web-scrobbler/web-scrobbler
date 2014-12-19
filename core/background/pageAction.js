@@ -59,7 +59,7 @@ define([], function() {
 		 * @param {can.Map} songObj
 		 */
 		this.setSongRecognized = function(songObj) {
-			setPageAction(icons.RECOGNIZED, 'Now playing ' + songObj.artist + ' - ' + songObj.track, '');
+			setPageAction(icons.RECOGNIZED, 'Now playing ' + songObj.getArtist() + ' - ' + songObj.getTrack(), '');
 		};
 
 		this.setSongRecognizedDisabled = function() {
