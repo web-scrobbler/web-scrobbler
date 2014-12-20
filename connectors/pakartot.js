@@ -13,12 +13,12 @@ LFM_WATCHED_CONTAINER = "div.jp-info";
 
 // function that returns title of current song
 function LFM_TRACK_TITLE() {
-	return $(".jp-player-title>a").text();
+	return $(".jp-player-title>a").text().toLowerCase();
 }
 
 // function that returns artist of current song
 function LFM_TRACK_ARTIST() {
-	return $(".jp-player-artist>a").text();
+	return $(".jp-player-artist>a").text().toLowerCase();
 }
 
 // function that returns album of current song
@@ -29,7 +29,7 @@ function LFM_TRACK_ALBUM() {
 // function that returns duration of current song in seconds
 // called at begining of song
 function LFM_TRACK_DURATION() {
-	durationArr = $("div.jp-current-time").html().split(":")[1].split(":");
+	durationArr = $("div.jp-duration").html().split(":");
 	return parseInt(durationArr[0])*60 + parseInt(durationArr[1]);
 }
 
