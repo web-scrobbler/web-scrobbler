@@ -11,6 +11,12 @@ define([
 	 */
 	return function(parsedData) {
 		/**
+		 * Number of seconds of playback before the track is scrobbled.
+		 * This value is used only if no duration was parsed or loaded
+		 */
+		var DEFAULT_SCROBBLE_TIME = 30;
+
+		/**
 		 * Safe copy of initial parsed data.
 		 * Should not be changed during lifetime of this object
 		 */
@@ -48,6 +54,7 @@ define([
 		var flags = {
 			isProcessed: false, // has passed the pipeline
 			isScrobbled: false,
+			isCorrectedByUser: false, // user approved the data by either checking or entering it himself
 			isLastfmValid: null // don't know
 		};
 
@@ -91,6 +98,15 @@ define([
 		 */
 		song.isNearEnd = function() {
 			return (this.getDuration() !== null && this.parsed.currentTime >= Math.floor(this.getDuration() * 0.95)); // last 5% of duration
+		};
+
+		/**
+		 * Returns total number of seconds of playback needed for this track to be scrobbled
+		 */
+		song.getSecondsToScrobble = function() {
+			var max = 4 * 60; // really long tracks are scrobbled after 4 minutes
+			var val = Math.max(this.getDuration() / 2, DEFAULT_SCROBBLE_TIME);
+			return Math.min(val, max); // whatever occurs first
 		};
 
 		return song;

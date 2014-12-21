@@ -44,15 +44,13 @@ define([], function() {
 
 
 		/**
-		 * Set timer to trigger callback in given seconds.
-		 * Time spent paused does not count
+		 * Set timer and define trigger callback.
+		 * Use update function to define time to trigger.
 		 */
-		this.start = function(seconds, cb) {
+		this.start = function(cb) {
 			this.reset();
 			startedOn = now();
-			target = seconds;
 			callback = cb;
-			setTrigger(seconds);
 		};
 
 		/**
@@ -75,7 +73,7 @@ define([], function() {
 				spentPaused += now() - pausedOn;
 				pausedOn = null;
 
-				if (!hasTriggered) {
+				if (!hasTriggered && target !== null) {
 					setTrigger(target - this.getElapsed());
 				}
 			}
@@ -86,6 +84,9 @@ define([], function() {
 		 * Already elapsed time is not modified and callback
 		 * will be triggered immediately if the new time is less than elapsed.
 		 *
+		 * Pass null to set destination time to 'never' - this prevents the timer from
+		 * triggering but still keeps it counting time.
+		 *
 		 * Intentionally does not check if the callback was already triggered.
 		 * This allows to update the timer after it went out once and still
 		 * be able to properly trigger the callback for the new timeout.
@@ -95,8 +96,12 @@ define([], function() {
 			if (startedOn !== null) {
 				target = seconds;
 
-				if (pausedOn === null) {
-					setTrigger(target - this.getElapsed());
+				if (seconds !== null) {
+					if (pausedOn === null) {
+						setTrigger(target - this.getElapsed());
+					}
+				} else {
+					clearTrigger();
 				}
 			}
 		};
@@ -106,7 +111,13 @@ define([], function() {
 		 * Time spent paused does not count
 		 */
 		this.getElapsed = function() {
-			return now() - startedOn - spentPaused;
+			var val = now() - startedOn - spentPaused;
+
+			if (pausedOn !== null) {
+				val -= (now() - pausedOn);
+			}
+
+			return val;
 		};
 
 		/**
@@ -114,6 +125,17 @@ define([], function() {
 		 */
 		this.hasTriggered = function() {
 			return hasTriggered;
+		};
+
+		/**
+		 * Returns remaining (unpaused) seconds or null if no destination time is set
+		 */
+		this.getRemainingSeconds = function() {
+			if (target === null) {
+				return null;
+			}
+
+			return target - this.getElapsed();
 		};
 
 		/**

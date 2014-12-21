@@ -22,12 +22,6 @@ define([
 	return function(tabId, connector) {
 
 		/**
-		 * Number of seconds of playback before the track is scrobbled.
-		 * This value is used only if no duration was parsed or loaded
-		 */
-		var DEFAULT_SCROBBLE_TIME = 30;
-
-		/**
 		 * Number of seconds of playback that is considered to be beginning of the track.
 		 * Used for re-play detection.
 		 */
@@ -105,15 +99,11 @@ define([
 
 				console.log('Tab ' + tabId + ': new ' + (isReplayingSong ? '(replaying) ' : '') + 'song detected: ' + JSON.stringify(currentSong.attr()));
 
-				// set timer to parsed duration or use default;
-				// the timer is later optionally updated with loaded metadata
-				//
-				// this call starts timer and also resets any previously set timer
-				var destSeconds = Math.floor(currentSong.parsed.duration / 2) || DEFAULT_SCROBBLE_TIME;
-				playbackTimer.start(destSeconds, function() {
-					onTimer(currentSong);
+				// start the timer, actual time will be set after processing is done;
+				// we can call doScrobble directly, because the timer will be allowed to trigger only after the song is validated
+				playbackTimer.start(function() {
+					doScrobble(currentSong);
 				});
-				console.log('Tab ' + tabId + ': timer started for ' + destSeconds);
 
 				// start processing - result will trigger the listener
 				Pipeline.processSong(currentSong);
@@ -140,11 +130,15 @@ define([
 
 			/**
 			 * Song has gone through processing pipeline
+			 * This event may occur repeatedly, e.g. when triggered on page load and then corrected by user input
 			 */
 			song.bind('flags.isProcessed', function(ev, newVal) {
 				if (newVal) {
 					console.log('Tab ' + tabId + ': song finished processing ', JSON.stringify(song.attr()));
 					onProcessed(song);
+				} else {
+					console.log('Tab ' + tabId + ': song un-processed ', JSON.stringify(song.attr()));
+					onUnProcessed(song);
 				}
 			});
 		}
@@ -183,20 +177,27 @@ define([
 		 * @param {Song} song
 		 */
 		function onProcessed(song) {
-			// currently supporting only L.FM valid songs;
-			// in future manually corrected songs will be stored in cache and sent too
-			if (song.flags.isLastfmValid === true) {
-				// set timer for new value if not parsed before and if loaded any duration
-				if (!song.parsed.duration && song.processed.duration && playbackTimer !== null) {
-					var halfTime = Math.floor(song.processed.duration / 2);
-					playbackTimer.update(halfTime);
-					console.log('Tab ' + tabId + ': timer updated to ' + halfTime);
-				}
+			// song is considered valid if either L.FM or the user validated it
+			if (song.flags.isLastfmValid === true || song.flags.isCorrectedByUser === true) {
+
+				// set time-to-scrobble
+				playbackTimer.update(song.getSecondsToScrobble());
+				console.log('Tab ' + tabId + ': the song will be scrobbled after ' + playbackTimer.getRemainingSeconds() + ' more seconds of playback');
 
 				setSongNowPlaying(song);
 			} else {
 				pageAction.setSongNotRecognized();
 			}
+		}
+
+		/**
+		 * Called when song was already flagged as processed, but now is entering the pipeline again
+		 * @param {Song} song
+		 */
+		function onUnProcessed(song) {
+			/* jshint unused: false */
+			console.log('Tab ' + tabId + ': clearing playback timer destination time');
+			playbackTimer.update(null);
 		}
 
 		/**
@@ -217,10 +218,11 @@ define([
 
 
 		/**
-		 * Called when scrobble timer triggers
+		 * Called when scrobble timer triggers.
+		 * The time should be set only after the song is validated and ready to be scrobbled.
 		 */
-		function onTimer(song) {
-			console.log('Tab ' + tabId + ': scrobbling song');
+		function doScrobble(song) {
+			console.log('Tab ' + tabId + ': scrobbling song ' + song.getArtist() + ' - ' + song.getTrack());
 
 			var scrobbleCB = function(result) {
 				if (result.isOk()) {
@@ -235,12 +237,7 @@ define([
 				}
 			};
 
-			// scrobble only if the song is valid (TODO: or corrected by user)
-			if (song.flags.isLastfmValid === true) {
-				LastFM.scrobble(song, scrobbleCB);
-			} else {
-				console.log('Tab ' + tabId + ': not scrobbling song with incomplete data');
-			}
+			LastFM.scrobble(song, scrobbleCB);
 		}
 
 		/**
@@ -264,6 +261,12 @@ define([
 		 */
 		this.setUserSongData = function(data) {
 			if (currentSong !== null) {
+				if (currentSong.flags.isScrobbled) {
+					// should not happen
+					console.error('Tab ' + tabId + ': attempted to enter user data for already scrobbled song');
+					return;
+				}
+
 				if (data.artist) {
 					currentSong.metadata.attr('userArtist', data.artist);
 				}
