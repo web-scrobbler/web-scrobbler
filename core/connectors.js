@@ -455,7 +455,7 @@ define(function() {
 
 		{
 			label: 'Blitzr',
-			matches: ['*://*.blitzr.com/*'],
+			matches: ['*://*.blitzr.com/*', '*://blitzr.com/*'],
 			js: ['connectors/blitzr.js']
 		}
 	];

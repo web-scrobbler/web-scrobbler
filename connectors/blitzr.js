@@ -60,7 +60,7 @@ function BL_updateNowPlaying() {
    var newTrack = title + " " + artist;
 
    // Update scrobbler if necessary
-   if ( newTrack != " " && newTrack != BL_LAST_TRACK ) {
+   if ( newTrack != " " && newTrack != BL_LAST_TRACK && duration > 0 ) {
       //console.log("Submitting a now playing request. artist: "+artist+", title: "+title+", duration: "+duration);
 
       BL_LAST_TRACK = newTrack;
