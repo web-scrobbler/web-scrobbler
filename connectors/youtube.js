@@ -2,6 +2,9 @@
 // remember urls to detect ajax pageloads (using history API)
 var lastUrl = '';
 
+// options flag to scrobble only tracks from Music category;
+// loaded asynchronously from storage; default to false for backwards compatibility
+var scrobbleMusicOnly = false;
 
 // we will observe changes at the main player element
 // which changes (amongst others) on ajax navigation
@@ -46,6 +49,18 @@ $(window).unload(function() {
     return true;
 });
 
+
+// load options
+chrome.storage.local.get('Connectors', function(data) {
+	if (data && data['Connectors'] && data['Connectors']['YouTube']) {
+		var options = data['Connectors']['YouTube'];
+		if (options.scrobbleMusicOnly) {
+			scrobbleMusicOnly = true;
+		}
+
+		console.log('connector options: ' + JSON.stringify(options));
+	}
+});
 
 
 
@@ -112,7 +127,7 @@ function cleanArtistTrack(artist, track) {
    track = track.replace(/\s*\([^\)]*version\)$/i, ''); // (whatever version)
    track = track.replace(/\s*\.(avi|wmv|mpg|mpeg|flv)$/i, ''); // video extensions
    track = track.replace(/\s*(LYRIC VIDEO\s*)?(lyric video\s*)/i, ''); // (LYRIC VIDEO)
-   track = track.replace(/\s*(Official Track Stream*)/i, ''); // (Official Track Stream) 
+   track = track.replace(/\s*(Official Track Stream*)/i, ''); // (Official Track Stream)
    track = track.replace(/\s*(of+icial\s*)?(music\s*)?video/i, ''); // (official)? (music)? video
    track = track.replace(/\s*(of+icial\s*)?(music\s*)?audio/i, ''); // (official)? (music)? audio
    track = track.replace(/\s*(ALBUM TRACK\s*)?(album track\s*)/i, ''); // (ALBUM TRACK)
@@ -174,6 +189,23 @@ function updateNowPlaying() {
    // Get clip info from youtube api
    chrome.runtime.sendMessage({type: "xhr", url: googleURL}, function(response) {
       var info = JSON.parse(response.text);
+
+	  // Return early if not in music category
+      if (scrobbleMusicOnly) {
+		  var isMusic = false;
+		  for (var i = 0; i < info.entry.category.length; i++) {
+			  if (info.entry.category[i].term == 'Music') {
+				  isMusic = true;
+				  break;
+			  }
+		  }
+
+		  if (!isMusic) {
+			  console.log('Skipping track because it is not in Music category');
+			  return;
+		  }
+	  }
+
       var parsedInfo = parseInfo(info.entry.title.$t);
       var artist = null;
       var track = null;

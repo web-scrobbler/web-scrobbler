@@ -6,10 +6,13 @@ require([
 	'connectors',
 	'legacy/scrobbler',
 	'customPatterns',
+	'chromeStorage',
 	'bootstrap'
-], function ($, config, connectors, legacyScrobbler, customPatterns) {
+], function ($, config, connectors, legacyScrobbler, customPatterns, ChromeStorage) {
 
 	$(function () {
+		var connectorsOptions = ChromeStorage.getNamespace('Connectors');
+
 
 		// preload values and attach listeners
 
@@ -23,6 +26,19 @@ require([
 			.attr('checked', (localStorage.useAutocorrect == 1))
 			.click(function () {
 				localStorage.useAutocorrect = this.checked ? 1 : 0;
+			});
+
+		$('#yt-music-only')
+			.click(function () {
+				var checked = this.checked;
+				connectorsOptions.get(function(data) {
+					if (!data.YouTube) {
+						data.YouTube = {};
+					}
+
+					data.YouTube.scrobbleMusicOnly = checked;
+					connectorsOptions.set(data);
+				});
 			});
 
 
@@ -50,6 +66,13 @@ require([
 
 		// Set the toggle init state
 		toggleInitState();
+
+		// preload async values from storage
+		connectorsOptions.get(function (data) {
+			if (data && data.YouTube) {
+				$('#yt-music-only').attr('checked', data.YouTube.scrobbleMusicOnly);
+			}
+		});
 	});
 
 	function toggleInitState() {
