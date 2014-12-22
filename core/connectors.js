@@ -121,6 +121,12 @@ define(function() {
 		},
 
 		{
+			label: 'pakartot',
+			matches: ['*://www.pakartot.lt/*'],
+			js: ['connectors/pakartot.js']
+		},
+
+		{
 			label: 'Deezer',
 			matches: ['*://www.deezer.com/*'],
 			js: ['connectors/deezer.js']
