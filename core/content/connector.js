@@ -147,11 +147,19 @@ var BaseConnector = window.BaseConnector || function () {
 		 *
 		 * Override this method for more complex behaviour
 		 *
-		 * @returns {string|null}
+		 * @returns {{artist, track}|null}
 		 */
 		this.getArtistTrack = function () {
 			var text = $(this.artistTrackSelector).text();
-			return text || null;
+
+			if (text === null) {
+				return null;
+			} else {
+				var artist = text.substring(0, text.indexOf('-'));
+				var track =  text.substring(text.indexOf('-' + 1));
+
+				return {artist: artist, track: track};
+			}
 		};
 
 		/**
@@ -215,15 +223,23 @@ var BaseConnector = window.BaseConnector || function () {
 		 * Function for all the hard work around detecting and updating state
 		 */
 		var stateChangedWorker = function () {
+
 			var changedFields = [];
 
 			var newTrack = this.getTrack();
+			var newArtist = this.getArtist();
+
+			if (newTrack === null || newArtist === null) {
+				var artistTrack = this.getArtistTrack();
+				newArtist = artistTrack.artist;
+				newTrack = artistTrack.track;
+			}
+
 			if (newTrack !== currentState.track) {
 				currentState.track = newTrack;
 				changedFields.push('track');
 			}
 
-			var newArtist = this.getArtist();
 			if (newArtist !== currentState.artist) {
 				currentState.artist = newArtist;
 				changedFields.push('artist');
@@ -277,6 +293,7 @@ var BaseConnector = window.BaseConnector || function () {
 		 * Connectors are NOT supposed to override this method
 		 */
 		this.onStateChanged = function () {
+
 			/**
 			 * Because gathering the state from DOM is quite expensive and mutation events can be emitted REALLY often,
 			 * we use throttle to set a minimum delay between two calls of the state change listener.

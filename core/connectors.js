@@ -457,6 +457,13 @@ define(function() {
 			label: 'Blitzr',
 			matches: ['*://*.blitzr.com/*', '*://blitzr.com/*'],
 			js: ['connectors/blitzr.js']
-		}
+		},
+
+		{
+			label: 'Radionomy',
+			matches: ['*://www.radionomy.com/*'],
+			js: ['connectors/v2/radionomy.js'],
+			version: 2
+		},
 	];
 });
