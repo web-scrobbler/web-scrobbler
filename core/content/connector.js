@@ -147,19 +147,22 @@ var BaseConnector = window.BaseConnector || function () {
 		 *
 		 * Override this method for more complex behaviour
 		 *
-		 * @returns {{artist, track}|null}
+		 * @returns {{artist, track}}
 		 */
 		this.getArtistTrack = function () {
 			var text = $(this.artistTrackSelector).text();
+			var separator = this.findSeparator(text);
 
-			if (text === null) {
-				return null;
-			} else {
-				var artist = text.substring(0, text.indexOf('-'));
-				var track =  text.substring(text.indexOf('-' + 1));
+			var artist = null;
+			var track = null;
 
-				return {artist: artist, track: track};
+			if (separator !== null) {
+				artist = text.substr(0, separator.index);
+				track = text.substr(separator.index + separator.length);
 			}
+
+
+			return {artist: artist, track: track};
 		};
 
 		/**
@@ -229,9 +232,11 @@ var BaseConnector = window.BaseConnector || function () {
 			var newTrack = this.getTrack();
 			var newArtist = this.getArtist();
 
-			if (newTrack === null || newArtist === null) {
-				var artistTrack = this.getArtistTrack();
+			var artistTrack = this.getArtistTrack();
+			if (artistTrack.artist) {
 				newArtist = artistTrack.artist;
+			}
+			if (artistTrack.track) {
 				newTrack = artistTrack.track;
 			}
 
@@ -334,6 +339,32 @@ var BaseConnector = window.BaseConnector || function () {
 			}
 
 			return seconds || 0;
+		};
+
+		/**
+		 * Find first occurence of possible separator in given string
+		 * and return separator's position and size in chars or null.
+		 *
+		 * @returns {{index, length}|null}
+		 */
+		this.findSeparator = function (str) {
+
+			if (str === null || str.length === 0) {
+				return null;
+			}
+
+			// care - minus vs hyphen
+			var separators = [' - ', ' – ', '-', '–', ':'];
+
+			for (var i in separators) {
+				var sep = separators[i];
+				var index = str.indexOf(sep);
+				if (index > -1) {
+					return { index: index, length: sep.length };
+				}
+			}
+
+			return null;
 		};
 
 	};
