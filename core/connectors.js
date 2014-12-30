@@ -461,7 +461,7 @@ define(function() {
 
 		{
 			label: 'musicase',
-			matches: ['*://*.musicase.me/*', '*://musicase.me/*'],
+			matches: ['*://musicase.me/*'],
 			js: ['connectors/musicase.js']
 		}
 	];
