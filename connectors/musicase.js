@@ -9,26 +9,15 @@
 var lastTrack = null;
 var currectArtist = null;
 var currectSong = null;
+var currectAlbum = null;
 
 function updateNowPlaying(){
     /* Duration is not implemented*/
-    var parsedInfo = parseInfo();
-    artist = parsedInfo['artist'];
-    track  = parsedInfo['track'];
-    album  = parsedInfo['album'];
-
-    chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
+    chrome.runtime.sendMessage({type: 'validate', artist: currectArtist, track: currectSong}, function(response) {
         if (response != false) {
-            chrome.extension.sendMessage({type: 'nowPlaying', artist: artist, track: track, album: album});
+            chrome.extension.sendMessage({type: 'nowPlaying', artist: currectArtist, track: currectSong, album: currectAlbum});
         }
     });
-}
-
-function parseInfo(){
-    var artist = currectArtist;
-    var track = currectSong;
-    var album = currectAlbum;
-    return {artist: artist, track: track, album: album};
 }
 
 $(document).ready(function(){
