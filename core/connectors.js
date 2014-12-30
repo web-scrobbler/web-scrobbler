@@ -457,6 +457,12 @@ define(function() {
 			label: 'Blitzr',
 			matches: ['*://*.blitzr.com/*', '*://blitzr.com/*'],
 			js: ['connectors/blitzr.js']
+		},
+
+		{
+			label: 'musicase',
+			matches: ['*://*.musicase.me/*', '*://musicase.me/*'],
+			js: ['connectors/musicase.js']
 		}
 	];
 });
