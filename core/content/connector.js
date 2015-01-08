@@ -233,10 +233,10 @@ var BaseConnector = window.BaseConnector || function () {
 			var newArtist = this.getArtist();
 
 			var artistTrack = this.getArtistTrack();
-			if (artistTrack.artist) {
+			if (newArtist === null && artistTrack.artist) {
 				newArtist = artistTrack.artist;
 			}
-			if (artistTrack.track) {
+			if (newTrack === null && artistTrack.track) {
 				newTrack = artistTrack.track;
 			}
 
