@@ -15,11 +15,9 @@ var previousTrack = '';
 // Get track name
 function getTrack() {
     var trackName = $(SONG_DETAILS_DOM).html();
-	console.log("Trackname"+trackName);
 	if(!trackName){
 		return ;
  	}
-   console.log("Trackname Split"+trackName.substring(0, trackName.indexOf('<span')).split(' - ')[0]);
     return trackName.substring(0, trackName.indexOf('<span')).split(' - ')[0];
 }
 
@@ -29,9 +27,7 @@ if(!$(SONG_DETAILS_DOM).children()[1]){
 console.log("No Artist");
 retrun;
 }
-console.log("Artist"+$(SONG_DETAILS_DOM).children()[1].textContent.split(',')[0].trim());
-
-    return $(SONG_DETAILS_DOM).children()[1].textContent.split(',')[0].trim();
+return $(SONG_DETAILS_DOM).children()[1].textContent.split(',')[0].trim();
 }
 
 // Get track length
@@ -40,8 +36,6 @@ if(!$(SONG_DURATION_DOM)){
 return;}
 
     var duration = $(SONG_DURATION_DOM).text().split(':');
-	console.log("Duration : "+ (60 * parseInt(duration[0]) + parseInt(duration[1])));
-
     return 60 * parseInt(duration[0]) + parseInt(duration[1]);
 }
 
@@ -54,10 +48,6 @@ function updateNowPlaying() {
     var track = getTrack();
     var artist = getArtist();
     var duration = getDuration();
-console.log("Track"+track);
-console.log("artist"+artist);
-console.log("duration"+duration);
-console.log("previousTrack"+previousTrack);
 
     if (!artist || !track) {
 	console.log("No artist or Track");
