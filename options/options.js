@@ -7,8 +7,9 @@ require([
 	'legacy/scrobbler',
 	'customPatterns',
 	'chromeStorage',
+	'wrappers/chrome',
 	'bootstrap'
-], function ($, config, connectors, legacyScrobbler, customPatterns, ChromeStorage) {
+], function ($, config, connectors, legacyScrobbler, customPatterns, ChromeStorage, chrome) {
 
 	$(function () {
 		var connectorsOptions = ChromeStorage.getNamespace('Connectors');
@@ -72,6 +73,12 @@ require([
 			if (data && data.YouTube) {
 				$('#yt-music-only').attr('checked', data.YouTube.scrobbleMusicOnly);
 			}
+		});
+
+		$('a[data-dialog]').click(function() {
+			var url = chrome.extension.getURL('/dialogs/help/' + $(this).data('dialog') + '.html');
+			window.open(url, 'help', 'width=400,height=400');
+			return false;
 		});
 	});
 
