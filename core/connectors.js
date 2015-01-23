@@ -457,6 +457,13 @@ define(function() {
 			label: 'Blitzr',
 			matches: ['*://*.blitzr.com/*', '*://blitzr.com/*'],
 			js: ['connectors/blitzr.js']
+		},
+
+		{
+			label: 'Bop.fm',
+			matches: ['*://bop.fm/*'],
+			js: ['connectors/v2/bopfm.js'],
+			version: 2
 		}
 	];
 });
