@@ -333,6 +333,12 @@ define(function() {
 		},
 
 		{
+			label: 'New Digitally Imported',
+			matches: ['*://new.di.fm/*'],
+			js: ['connectors/difm2.js']
+		},
+
+		{
 			label: 'Beats Music',
 			matches: ['*://*.beatsmusic.com/*'],
 			js: ['vendor/jquery.cookie.js', 'connectors/beats.js']
