@@ -464,6 +464,14 @@ define(function() {
 			matches: ['*://bop.fm/*'],
 			js: ['connectors/v2/bopfm.js'],
 			version: 2
+		},
+
+		{
+			label: 'Radionomy',
+			matches: ['*://www.radionomy.com/*'],
+			js: ['connectors/v2/radionomy.js'],
+			version: 2
 		}
+
 	];
 });
