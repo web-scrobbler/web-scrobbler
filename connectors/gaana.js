@@ -2,6 +2,7 @@
  * Chrome-Last.fm-Scrobbler - Gaana.com Connector
  *
  * Author: Sitesh Shrivastava [siteshshrivastava@gmail.com]
+ * Changes : Vishal Ithape [vishal8492@gmail.com]
  */
 
 // DOM Nodes to keep track for song details
@@ -14,16 +15,28 @@ var previousTrack = '';
 // Get track name
 function getTrack() {
     var trackName = $(SONG_DETAILS_DOM).html();
-    return trackName.substring(0, trackName.indexOf('<span>')).split(' - ')[0];
+	if (!trackName) {
+		return ;
+ 	}
+
+    return trackName.substring(0, trackName.indexOf('<span')).split(' - ')[0];
 }
 
 // Get artist name
 function getArtist() {
-    return $(SONG_DETAILS_DOM).children()[1].textContent.split(',')[0].trim();
+	if (!$(SONG_DETAILS_DOM).children()[1]) {
+		return;
+	}
+
+	return $(SONG_DETAILS_DOM).children()[1].textContent.split(',')[0].trim();
 }
 
 // Get track length
 function getDuration() {
+	if (!$(SONG_DURATION_DOM)) {
+		return;
+	}
+
     var duration = $(SONG_DURATION_DOM).text().split(':');
     return 60 * parseInt(duration[0]) + parseInt(duration[1]);
 }
