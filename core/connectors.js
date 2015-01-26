@@ -462,7 +462,8 @@ define(function() {
 		{
 			label: 'musicase',
 			matches: ['*://musicase.me/*'],
-			js: ['connectors/musicase.js']
-		}
+			js: ['connectors/v2/musicase.js'],
+			version: 2
+ 		}
 	];
 });
