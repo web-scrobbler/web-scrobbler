@@ -98,8 +98,9 @@ define(function() {
 
 		{
 			label: 'Ghostly Discovery',
-			matches: ['http://ghostly.com/discovery/play'],
-			js: ['connectors/ghostly.js']
+			matches: ['http://ghostly.com/discovery/play', 'http://www.ghostly.com/discovery/play'],
+			js: ['connectors/v2/ghostly.js'],
+			version: 2
 		},
 
 		{
