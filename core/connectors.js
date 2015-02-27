@@ -191,7 +191,8 @@ define(function() {
 		{
 			label: 'Indie Shuffle',
 			matches: ['*://www.indieshuffle.com/*'],
-			js: ['connectors/indieshuffle.js']
+			js: ['connectors/v2/indieshuffle.js'],
+			version: 2
 		},
 
 		{
