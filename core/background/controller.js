@@ -206,7 +206,7 @@ define([
 		 */
 		function setSongNowPlaying(song) {
 			if(localStorage.privateMode == 1){
-				pageAction.setSongRecognizedDisabled();
+				pageAction.setLastFmInPrivateMode();
 				return false;
 			}
 
@@ -228,7 +228,7 @@ define([
 		 */
 		function doScrobble(song) {
 			if(localStorage.privateMode == 1){
-				pageAction.setSongRecognizedDisabled();
+				pageAction.setLastFmInPrivateMode();
 				return false;
 			}
 			console.log('Tab ' + tabId + ': scrobbling song ' + song.getArtist() + ' - ' + song.getTrack());
