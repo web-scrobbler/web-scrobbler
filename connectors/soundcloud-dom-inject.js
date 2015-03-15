@@ -12,10 +12,10 @@ window._ATTACHED = window._ATTACHED || false;
     // Exit if already attached.
     if (window._ATTACHED) return;
     // Attach event listeners to the event-bus.
-    webpackJsonp([1], 
-        { 
-          0: function(e, t, n) { 
-            bus = n(17);
+    webpackJsonp([1],
+        {
+          0: function(e, t, n) {
+            bus = n(16);
             bus.on('audio:play', function(e) {
                 window.postMessage({
                     type: 'SC_PLAY',
