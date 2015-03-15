@@ -485,6 +485,13 @@ define(function() {
 			matches: ['*://www.radionomy.com/*'],
 			js: ['connectors/v2/radionomy.js'],
 			version: 2
+		},
+
+		{
+			label: 'Jazzradio',
+			matches: ['*://www.jazzradio.com/*'],
+			js: ['connectors/v2/jazzradio.js'],
+			version: 2
 		}
 
 	];
