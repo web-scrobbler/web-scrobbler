@@ -467,6 +467,13 @@ define(function() {
 		},
 
 		{
+			label: 'TIDAL',
+			matches: ['*://listen.tidalhifi.com/*'],
+			js: ['connectors/v2/tidal.js'],
+			version: 2
+		},
+
+		{
 			label: 'Bop.fm',
 			matches: ['*://bop.fm/*'],
 			js: ['connectors/v2/bopfm.js'],
