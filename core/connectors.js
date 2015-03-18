@@ -493,6 +493,13 @@ define(function() {
 			matches: ['*://www.jazzradio.com/*'],
 			js: ['connectors/v2/jazzradio.js'],
 			version: 2
+		},
+
+		{
+			label: 'Noon Pacific',
+			matches: ['*://www.noonpacific.com/*', '*://noonpacific.com/*'],
+			js: ['connectors/v2/noonpacific.js'],
+			version: 2
 		}
 
 	];
