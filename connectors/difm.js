@@ -1,7 +1,10 @@
 var lastTrack;
 
+// care - minus vs hyphen
+var separators = [' - ', ' – ', '-', '–', ':'];
+
 $(function() {
-  $('#now-playing .title-container').bind('DOMSubtreeModified', function() {
+  $('.track-title').bind('DOMSubtreeModified', function() {
     updateNowPlaying();
   });
 
@@ -16,10 +19,7 @@ $(function() {
  * Find first occurence of possible separator in given string
  * and return separator's position and size in chars or null
  */
-function findSeparator(str) {
-  // care - minus vs hyphen
-  var separators = [' - ', ' – ', '-', '–', ':'];
-
+function findSeparator(str, separators) {
   for (i in separators) {
     var sep = separators[i];
     var index = str.indexOf(sep);
@@ -35,14 +35,16 @@ function findSeparator(str) {
  * @return {artist, track}
  */
 function parseInfo(artistTitle) {
-  var separator = findSeparator(artistTitle);
-  if (separator == null)
-    return { artist: '', track: '' };
+  if (artistTitle) {
+    var separator = findSeparator(artistTitle, separators);
+    if (separator == null)
+      return { artist: '', track: '' };
 
-  var artist = artistTitle.substr(0, separator.index);
-  var track = artistTitle.substr(separator.index + separator.length);
+    var artist = artistTitle.substr(0, separator.index);
+    var track = artistTitle.substr(separator.index + separator.length);
 
-  return cleanArtistTrack(artist, track);
+    return cleanArtistTrack(artist, track);
+  }
 }
 
 
@@ -71,43 +73,49 @@ function parseDurationString(timestr) {
   return 0;
 }
 
+function parseDurationStringByTimeCode(timeCode) {
+	if (timeCode) {
+		var separator = findSeparator(timeCode, [' / ']);
+		if (separator == null)
+			return 0;
+
+		var durationString = timeCode.substr(separator.index + separator.length);
+
+		return parseDurationString(durationString);
+	}
+}
+
 function updateNowPlaying() {
-  var $nowPlaying = $("#now-playing");
-  var trackInfo = $nowPlaying.find(".title").text();
+  var trackInfo = $(".track-name").attr("title");
   if ('' == trackInfo) return;
 
-  var elapsed = $nowPlaying.find(".timestamps .elapsed").text();
-  var remaining = $nowPlaying.find(".timestamps .remaining").text().substring(1);
-
-  var duration;
-  if (elapsed != '' && remaining != '') {
-    duration = parseDurationString(elapsed) + parseDurationString(remaining);
-  } else {
-    setTimeout(updateNowPlaying, 500); // Wait for timestamps to be loaded
-    return;
-  }
+  var timeCode = $(".progress").find('.timecode').text();
+  var duration = parseDurationStringByTimeCode(timeCode);
 
   var parsedInfo = parseInfo(trackInfo);
+  if (parsedInfo) {
+    var artist = parsedInfo['artist'];
+    var title = parsedInfo['track'];
 
-  var artist = parsedInfo['artist'];
-  var title = parsedInfo['track'];
+    if (lastTrack != artist + " " + title) {
+      lastTrack = artist + " " + title;
 
-  if (lastTrack != artist + " " + title) {
-    lastTrack = artist + " " + title;
-
-    chrome.runtime.sendMessage({type: 'validate', artist: artist, track: title}, function(response) {
-      if (response != false) {
-        chrome.runtime.sendMessage({
-          type: 'nowPlaying',
-          artist: response.artist,
-          track: response.track,
-          duration: duration
-        });
-      } else {
-        chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
-      }
-    });
+      chrome.runtime.sendMessage({type: 'validate', artist: artist, track: title}, function(response) {
+        if (response != false) {
+          chrome.runtime.sendMessage({
+            type: 'nowPlaying',
+            artist: response.artist,
+            track: response.track,
+            duration: duration
+          });
+        } else {
+          chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration});
+        }
+      });
+    }
   }
+
+
 }
 
 

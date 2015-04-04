@@ -329,15 +329,9 @@ define(function() {
 		},
 
 		{
-			label: 'Digitally Imported and Sky.FM',
-			matches: ['*://www.di.fm/*', '*://www.sky.fm/*'],
+			label: 'Digitally Imported',
+			matches: ['*://www.di.fm/*'],
 			js: ['connectors/difm.js']
-		},
-
-		{
-			label: 'New Digitally Imported',
-			matches: ['*://new.di.fm/*'],
-			js: ['connectors/difm2.js']
 		},
 
 		{
