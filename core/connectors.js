@@ -499,6 +499,12 @@ define(function() {
 			label: 'Musicload',
 			matches: ['*://www.musicload.de/*'],
 			js: ['connectors/v2/musicload.js'],
+		},
+
+		{
+			label: 'Noon Pacific',
+			matches: ['*://www.noonpacific.com/*', '*://noonpacific.com/*'],
+			js: ['connectors/v2/noonpacific.js'],
 			version: 2
 		}
 
