@@ -26,7 +26,8 @@ define([
 			album: parsedData.album || null,
 			uniqueID: parsedData.uniqueID || null,
 			duration: parsedData.duration || null,
-			currentTime: parsedData.currentTime || null
+			currentTime: parsedData.currentTime || null,
+			isPlaying: parsedData.isPlaying || false
 		};
 
 		/**

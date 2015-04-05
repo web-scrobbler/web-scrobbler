@@ -131,7 +131,7 @@ define([
 					playbackTimer.resume();
 
 					// maybe the song was not marked as playing yet
-					if (!song.flags.isMarkedAsPlaying) {
+					if (!song.flags.isMarkedAsPlaying && (song.flags.isLastfmValid === true || song.flags.isCorrectedByUser === true)) {
 						setSongNowPlaying(song);
 					}
 				} else {
