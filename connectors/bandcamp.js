@@ -158,7 +158,7 @@ $(function() {
 				}
 			}
 
-			return $.trim(artist);
+			return cleanUpMatched(artist);
 		}
 
 		/**
@@ -177,7 +177,7 @@ $(function() {
 				}
 			}
 
-			return $.trim(album);
+			return cleanUpMatched(album);
 		}
 
 		/**
@@ -195,7 +195,7 @@ $(function() {
 				}
 			}
 
-			return $.trim(title);
+			return cleanUpMatched(title);
 		}
 
 		/**
@@ -229,6 +229,28 @@ $(function() {
 			});
 
 			return allDashed;
+		}
+
+		/**
+		 * Clean up matched text.
+		 * @param  string input to clean up
+		 * @return string cleaned up matched text
+		 */
+		function cleanUpMatched(input) {
+			if (input === null) {
+				return input;
+			}
+			input = stripZeroWidthChars(input);
+			return $.trim(input);
+		}
+
+		/**
+		 * Strip zero width characters.
+		 * @param  string input to clean up
+		 * @return string stripped input
+		 */
+		function stripZeroWidthChars(input) {
+			return input.replace(/[\u200B-\u200D\uFEFF]/g, '');
 		}
 	});
 
