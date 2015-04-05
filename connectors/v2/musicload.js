@@ -7,6 +7,6 @@ Connector.getTrack = function() {
 }
 
 Connector.isPlaying = function() {
-  return ($('.control .play').css('display') == 'none');
+  return ($('.control.play').css('display') == 'none');
 
 };

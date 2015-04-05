@@ -494,6 +494,7 @@ define(function() {
 			label: 'Musicload',
 			matches: ['*://www.musicload.de/*'],
 			js: ['connectors/v2/musicload.js'],
+			version: 2
 		},
 
 		{
