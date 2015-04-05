@@ -55,7 +55,8 @@ define([
 			isProcessed: false, // has passed the pipeline
 			isScrobbled: false,
 			isCorrectedByUser: false, // user approved the data by either checking or entering it himself
-			isLastfmValid: null // don't know
+			isLastfmValid: null, // don't know
+			isMarkedAsPlaying: false // did we already show notification and mark as playing on L.FM?
 		};
 
 		var song = new can.Map({
