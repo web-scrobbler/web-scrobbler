@@ -15,7 +15,7 @@ window._ATTACHED = window._ATTACHED || false;
     webpackJsonp([1],
         {
           0: function(e, t, n) {
-            bus = n(16);
+            bus = n(19);
             bus.on('audio:play', function(e) {
                 window.postMessage({
                     type: 'SC_PLAY',
