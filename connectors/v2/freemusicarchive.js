@@ -1,4 +1,4 @@
-﻿var Connector;
+﻿
 // Some pages have multiple playlists so the entire content section is observed for changes
 Connector.playerSelector = '#content';
 
