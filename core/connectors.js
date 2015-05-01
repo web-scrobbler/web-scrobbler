@@ -118,7 +118,8 @@ define(function() {
 		{
 			label: 'Pandora',
 			matches: ['*://www.pandora.com/*'],
-			js: ['connectors/pandora.js']
+			js: ['connectors/v2/pandora.js'],
+			version: 2
 		},
 
 		{
