@@ -1,0 +1,1 @@
+Connector.playerSelector = 'div.nowplaying';
