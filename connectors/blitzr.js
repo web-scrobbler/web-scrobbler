@@ -11,7 +11,7 @@
 /*** Configuration ***/
 
 // Additions to this div will trigger update
-BL_WATCHED_CONTAINER = "#playerInfo";
+BL_WATCHED_CONTAINER = "#playerInfo #playerTitle";
 
 // Returns the currently playing artist name
 function BL_getArtist( ) {
