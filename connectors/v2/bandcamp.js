@@ -3,6 +3,9 @@
     currently passes 'Various Artist' (or other variant) as the artist name so tracks on albums with 
     various artists played on the discover page will most likely not be recognized.*/
 
+// wire audio element to fire state changes
+$('audio').first().bind('playing pause timeupdate', Connector.onStateChanged);
+
 /**
  * remove zero width characters & trim
  * @param  {string} text to clean up
@@ -18,8 +21,8 @@ function cleanText(input) {
 
 function getArtist() {
     'use strict';
-    var artist = $('.detail_item_link_2').text() || 
-                 $('span[itemprop=byArtist]').text() || 
+    var artist = $('.detail_item_link_2').text() ||
+                 $('span[itemprop=byArtist]').text() ||
                  null;
     return cleanText(artist);
 }
@@ -36,9 +39,9 @@ function artistIsVarious() {
     'use strict';
     // album page: true if all tracks contain a hyphen or vertical bar (pipe symbol)
     // example of pipe usage: http://tigersmilkrecords.bandcamp.com/album/peru-maravilloso-vintage-latin-tropical-cumbia
-    var allDashed = true;
     if ($('meta[property="og:type"]').attr('content') === 'album') {
-        $('.track_list span[itemprop="name"]').each(function() {
+        var allDashed = true;
+        $('.track_list span[itemprop="name"]').each(function () {
             if (!/\||-/.test($(this).text())) {
                 allDashed = false;
                 return false;
@@ -50,20 +53,19 @@ function artistIsVarious() {
     // and track contains a hyphen or vertical bar.
     // Also takes into account misspelling of various as varios
     //    http://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
-    return ( /^Variou?s(\sArtists)?$/.test(getArtist()) && /\||-/.test(getTrack()) );
+    return (/^Variou?s(\sArtists)?$/.test(getArtist()) && /\||-/.test(getTrack()));
 }
-
-Connector.playerSelector = 'div.inline_player';
 
 /* @returns {{artist, track}} */
 Connector.getArtistTrack = function () {
     'use strict';
     var artist = getArtist(),
-        track = getTrack();
+        track = getTrack(),
+        separatorIndex;
     if (artistIsVarious()) {
-        var separatorIndex = Math.max(track.indexOf('-'), track.indexOf('|'));
+        separatorIndex = Math.max(track.indexOf('-'), track.indexOf('|'));
         artist = track.substring(0, separatorIndex);
-	    track = track.substring(separatorIndex + 1);
+        track = track.substring(separatorIndex + 1);
     }
     return {
         artist: artist,
@@ -86,6 +88,5 @@ Connector.currentTimeSelector = 'span.time_elapsed';
 
 Connector.getDuration = function () {
     'use strict';
-    return Connector.stringToSeconds($('span.time_total').text());
+    return Math.round($('audio')[0].duration);
 };
-
