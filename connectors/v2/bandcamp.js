@@ -90,3 +90,14 @@ Connector.getDuration = function () {
     'use strict';
     return Math.round($('audio')[0].duration);
 };
+
+/** Returns a unique identifier of current track.
+ *  @returns {String|null} */
+Connector.getUniqueID = function () {
+    'use strict';
+    var match = /&id=(\d+)&/.exec($('audio').first().attr('src'));
+    if (match) {
+        return match[1];
+    }
+    return null;
+};
