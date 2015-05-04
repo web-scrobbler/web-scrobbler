@@ -392,7 +392,8 @@ define(function() {
 		{
 			label: 'MixCloud (Timestamped mixes only)',
 			matches: ['*://mixcloud.com/*', '*://*.mixcloud.com/*'],
-			js: ['connectors/mixcloud.js']
+			js: ['connectors/v2/mixcloud.js'],
+			version: 2
 		},
 
 		{
