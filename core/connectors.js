@@ -290,7 +290,8 @@ define(function() {
 		{
 			label: 'Songza',
 			matches: ['*://songza.com/*'],
-			js: ['connectors/songza.js']
+			js: ['connectors/v2/songza.js'],
+			version: 2
 		},
 
 		{
