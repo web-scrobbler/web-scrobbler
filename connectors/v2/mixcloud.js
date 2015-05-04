@@ -1,6 +1,7 @@
 ﻿
 /* In lieu of playerSelector, custom detection of player state changes to allow loading and scrubbing to be ignored.
      .player-handle:active occurs when user is scrubbing
+     .loading-state.spin classes are attached to play button during load
 */
 var observer = new window.MutationObserver(function () {
     'use strict';
@@ -25,4 +26,3 @@ Connector.isPlaying = function () {
     'use strict';
     return $('.player-control.pause-state').is(':visible');
 };
-
