@@ -64,6 +64,11 @@ function updateNowPlaying(metadata) {
             case 'EKTO_PLAY':
                 updateNowPlaying(e.data.metadata);
                 break;
+            case 'EKTO_STOP':
+                chrome.runtime.sendMessage({
+                    type: 'reset'
+                });
+                break;
             default:
                 break;
         }

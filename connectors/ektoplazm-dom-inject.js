@@ -17,6 +17,10 @@ function onPlay(data) {
     }
 }
 
+function onStop(data) {
+    window.postMessage({ type: 'EKTO_STOP'}, '*');
+}
+
 function onMetadata(data) {
     metadata[data.location] = {artist: data.artist, title: data.title};
     onPlay(data);
@@ -28,6 +32,7 @@ function onMetadata(data) {
     jQuery(function($) {
         $("*[id^='audioplayer_']").each(function (i, el) {
             AudioPlayer.addListener(el.id, "PLAY", "onPlay");
+            AudioPlayer.addListener(el.id, "PAUSE", "onStop");
             AudioPlayer.addListener(el.id, "METADATA", "onMetadata");
         });
     });
