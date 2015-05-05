@@ -18,7 +18,7 @@ function onPlay(data) {
 }
 
 function onStop(data) {
-    window.postMessage({ type: 'EKTO_STOP'}, '*');
+    window.postMessage({type: 'EKTO_STOP'}, '*');
 }
 
 function onMetadata(data) {
