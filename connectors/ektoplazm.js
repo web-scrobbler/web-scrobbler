@@ -10,9 +10,6 @@ var current = {
 
 // Send audio info to the scrobbler.
 function updateNowPlaying(metadata) {
-    // Exit if private tracks shouldn't be scrobbled.
-    if (!window._SCROBBLE_PRIVATE_TRACKS && ("sharing" in metadata) && metadata.sharing == "private") return;
-
     // Exit on un-pausing.
     if (metadata.title === current.title) return;
     current.title = metadata.title;
