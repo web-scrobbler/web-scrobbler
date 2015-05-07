@@ -268,37 +268,11 @@ define([
 				artistThumbUrl: $doc.find('album > image[size="medium"]').text()
 			});
 
-			// /*
-			// 	If cannot find artistThumbUrl, query MusicBrainz and CoverArtArchive for their data
-			// 	- http://musicbrainz.org/ws/2/release?query=Arctic%20Monkeys%20Do%20I%20Wanna%20Know&fmt=json&limit=1
-			// 	- coverartarchive.org/release/cab788d3-7e52-49d5-a4d8-7caaa1acbf48/front
+			song.flags.attr('isLastfmValid', true);
 
-			// 	// Query MusicBrainz for MBID
-			// 	// Get Album artwork from CoverArtArchive via MBID
-			// */
-			// if(!song.metadata.artistThumbUrl) {
-			// 	$.get("http://musicbrainz.org/ws/2/release?query="+song.getTrack()+" "+song.getArtist()+"&fmt=json&limit=1")
-			// 	.done(function(musicbrainz) {
-			// 		var MBID = musicbrainz.releases[0].id;
-			// 		song.metadata.artistThumbUrl = "http://coverartarchive.org/release/"+MBID+"/front";
-			// 		console.log("Found MUSICBRAINZ album artwork")
-			// 		console.log(song.metadata.artistThumbUrl)
-			// 		carryOn()
-			// 	})
-			// } else {
-			// 	carryOn()
-			// 	console.log("Found SPOTIFY album artwork")
-			// 	console.log(song.metadata.artistThumbUrl)
-			// }
+			can.batch.stop();
 
-			// function carryOn() {
-
-				song.flags.attr('isLastfmValid', true);
-
-				can.batch.stop();
-
-				cb(true);
-			// }
+			cb(true);
 		};
 
 		var errCb = function() {
