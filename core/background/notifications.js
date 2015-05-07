@@ -55,45 +55,45 @@ define([
 			if (permissionLevel === 'granted') {
 
 				if(!song.metadata.artistThumbUrl) {
-					$.get("http://musicbrainz.org/ws/2/release?query="+song.getTrack()+" "+song.getArtist()+"&fmt=json&limit=1")
+					$.get('http://musicbrainz.org/ws/2/release?query='+song.getTrack()+' '+song.getArtist()+'&fmt=json&limit=1')
 						.done(function(musicbrainz) {
 							var MBID = musicbrainz.releases[0].id;
-							var coverArtURL = "http://coverartarchive.org/release/"+MBID+"/front";
+							var coverArtURL = 'http://coverartarchive.org/release/'+MBID+'/front';
 
 							$.ajax({url: coverArtURL, type:'HEAD' })
 								.done(function() {
-							        song.metadata.artistThumbUrl = coverArtURL
-							        console.log("Found MUSICBRAINZ album artwork")
-							    })
-							    .fail(function() {
-							        console.warn("Couldn't find any artwork :(")
-							    })
-							    .always(function() {
-							        carryOn()
-							    })
+									song.metadata.artistThumbUrl = coverArtURL;
+									console.log('Found MUSICBRAINZ album artwork');
+								})
+								.fail(function() {
+									console.log('Couldn\'t find any artwork :(');
+								})
+								.always(function() {
+									carryOn();
+								});
 						})
 						.fail(function() {
-					        console.log("Couldnae get MusicBrainz ID for song")
-							carryOn()
-						})
+							console.log('Couldnae get MusicBrainz ID for song');
+							carryOn();
+						});
 				} else {
-					console.log("Got data on album artwork")
-					carryOn()
-				}
-
-				function carryOn() {
-					console.log(song.metadata.artistThumbUrl)
-					var options = {
-						type: 'basic',
-						iconUrl: song.metadata.artistThumbUrl || 'icon128.png',
-						title: song.getTrack(),
-						message: 'by ' + song.getArtist(),
-						priority: 1
-					};
-
-					chrome.notifications.create('', options, notificationCreatedCb);
+					console.log('Got data on album artwork');
+					carryOn();
 				}
 			}
+		};
+
+		var carryOn = function() {
+			console.log(song.metadata.artistThumbUrl);
+			var options = {
+				type: 'basic',
+				iconUrl: song.metadata.artistThumbUrl || 'icon128.png',
+				title: song.getTrack(),
+				message: 'by ' + song.getArtist(),
+				priority: 1
+			};
+
+			chrome.notifications.create('', options, notificationCreatedCb);
 		};
 
 		chrome.notifications.getPermissionLevel(createNotification);
