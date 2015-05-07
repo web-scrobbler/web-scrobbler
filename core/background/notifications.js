@@ -87,7 +87,8 @@ define([
 						type: 'basic',
 						iconUrl: song.metadata.artistThumbUrl || 'icon128.png',
 						title: song.getTrack(),
-						message: 'by ' + song.getArtist()
+						message: 'by ' + song.getArtist(),
+						priority: 1
 					};
 
 					chrome.notifications.create('', options, notificationCreatedCb);
