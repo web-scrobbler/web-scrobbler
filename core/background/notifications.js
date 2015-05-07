@@ -56,20 +56,33 @@ define([
 
 				if(!song.metadata.artistThumbUrl) {
 					$.get("http://musicbrainz.org/ws/2/release?query="+song.getTrack()+" "+song.getArtist()+"&fmt=json&limit=1")
-					.done(function(musicbrainz) {
-						var MBID = musicbrainz.releases[0].id;
-						song.metadata.artistThumbUrl = "http://coverartarchive.org/release/"+MBID+"/front";
-						console.log("Found MUSICBRAINZ album artwork")
-						console.log(song.metadata.artistThumbUrl)
-						carryOn()
-					})
+						.done(function(musicbrainz) {
+							var MBID = musicbrainz.releases[0].id;
+							var coverArtURL = "http://coverartarchive.org/release/"+MBID+"/front";
+
+							$.ajax({url: coverArtURL, type:'HEAD' })
+								.done(function() {
+							        song.metadata.artistThumbUrl = coverArtURL
+							        console.log("Found MUSICBRAINZ album artwork")
+							    })
+							    .fail(function() {
+							        console.warn("Couldn't find any artwork :(")
+							    })
+							    .always(function() {
+							        carryOn()
+							    })
+						})
+						.fail(function() {
+					        console.log("Couldnae get MusicBrainz ID for song")
+							carryOn()
+						})
 				} else {
+					console.log("Got data on album artwork")
 					carryOn()
-					console.log("Found SPOTIFY album artwork")
-					console.log(song.metadata.artistThumbUrl)
 				}
 
 				function carryOn() {
+					console.log(song.metadata.artistThumbUrl)
 					var options = {
 						type: 'basic',
 						iconUrl: song.metadata.artistThumbUrl || 'icon128.png',
