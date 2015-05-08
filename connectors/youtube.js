@@ -155,7 +155,6 @@ function cleanArtistTrack(artist, track) {
 function parseDuration(durationString) {
   var parts = durationString.substr(2).split(/[HMS]/);
   var count = parts.length;
-  var duration = 0;
   switch (count) {
     case 2: return parseInt(parts[0]);
     case 3: return parseInt(parts[0]) * 60 + parseInt(parts[1]);
