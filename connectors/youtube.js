@@ -1,3 +1,7 @@
+var MUSIC_CATEGORY_ID = "10";
+
+// google api v3 requires you to register your app and generate a key which is limited by request quota by the way :'(
+var API_KEY = "AIzaSyAaWFGiIhchQl7Up23HFmJON_mIVjDURHg";
 
 // remember urls to detect ajax pageloads (using history API)
 var lastUrl = '';
@@ -148,8 +152,16 @@ function cleanArtistTrack(artist, track) {
    return {artist: artist, track: track};
 }
 
-
-
+function parseDuration(durationString) {
+  var parts = durationString.substr(2).split(/[HMS]/);
+  var count = parts.length;
+  var duration = 0;
+  switch (count) {
+    case 2: return parseInt(parts[0]);
+    case 3: return parseInt(parts[0]) * 60 + parseInt(parts[1]);
+    case 4: return parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+  }
+}
 
 /**
  * Called every time the player reloads
@@ -183,30 +195,18 @@ function updateNowPlaying() {
       return;
    }
 
-   // http://code.google.com/intl/cs/apis/youtube/2.0/developers_guide_protocol_video_entries.html
-   var googleURL = "https://gdata.youtube.com/feeds/api/videos/" + videoID + "?alt=json";
+   var googleURL = "https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=" + videoID + "&key=" + API_KEY;
 
    // Get clip info from youtube api
    chrome.runtime.sendMessage({type: "xhr", url: googleURL}, function(response) {
-      var info = JSON.parse(response.text);
+      var info = JSON.parse(response.text).items[0];
 
-	  // Return early if not in music category
-      if (scrobbleMusicOnly) {
-		  var isMusic = false;
-		  for (var i = 0; i < info.entry.category.length; i++) {
-			  if (info.entry.category[i].term == 'Music') {
-				  isMusic = true;
-				  break;
-			  }
-		  }
+      if (scrobbleMusicOnly && info.snippet.categoryId != MUSIC_CATEGORY_ID) {
+        console.log('Skipping track because it is not in Music category');
+        return;
+      }
 
-		  if (!isMusic) {
-			  console.log('Skipping track because it is not in Music category');
-			  return;
-		  }
-	  }
-
-      var parsedInfo = { artist: '', track: '' }; // FIXME: hotfix after YT API was shut down... parseInfo(info.entry.title.$t);
+      var parsedInfo = parseInfo(info.snippet.title);
       var artist = null;
       var track = null;
       var artist_dom = '';
@@ -253,11 +253,7 @@ function updateNowPlaying() {
       track = parsedInfo['track'];
 
       // get the duration from the YT API response
-      var duration = '';
-      if (info.entry.media$group.media$content != undefined)
-         duration = info.entry.media$group.media$content[0].duration;
-      else if (info.entry.media$group.yt$duration.seconds != undefined)
-         duration = info.entry.media$group.yt$duration.seconds;
+      var duration = parseDuration(info.contentDetails.duration);
 
       // Validate given artist and track (even for empty strings)
       chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
