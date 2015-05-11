@@ -509,6 +509,13 @@ define(function() {
 			matches: ['*://somafm.com/player/*'],
 			js: ['connectors/v2/somafm.js'],
 			version: 2
+		},
+
+		{
+			label: 'Free Music Archive',
+			matches: ['*://www.freemusicarchive.org/*', '*://freemusicarchive.org/*'],
+			js: ['connectors/v2/freemusicarchive.js'],
+			version: 2
 		}
 	];
 });
