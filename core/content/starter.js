@@ -26,7 +26,6 @@
 	}
 
 	// observes state and communicates with background script
-	/* jshint unused: false */
 	var reactor = new Reactor(Connector);
 
 	/**
