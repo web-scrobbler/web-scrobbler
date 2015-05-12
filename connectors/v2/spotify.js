@@ -1,4 +1,6 @@
+'use strict';
 
+/* global Connector */
 
 Connector.getArtist = function() {
 	var el = $('#app-player').get(0).contentDocument.getElementById('track-artist');

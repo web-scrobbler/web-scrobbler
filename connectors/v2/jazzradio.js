@@ -1,3 +1,7 @@
+'use strict';
+
+/* global Connector */
+
 Connector.playerSelector = '#now-playing';
 
 Connector.artistTrackSelector = '#now-playing > div.info-container > div.title-container > div';
