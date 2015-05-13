@@ -9,31 +9,27 @@ define([], function() {
 				3. check if the CoverArt is actually a useable HTTP resource
 		*/
 		getCoverArt: function (song, cb) {
-			if(!song.metadata.artistThumbUrl) {
+			if(song.metadata.artistThumbUrl) {
+				console.log('Found album artwork via LastFM');
+				cb();
+			} else {
+				// Get MusicBrainz ID
 				$.get('http://musicbrainz.org/ws/2/release?query='+song.getTrack()+' '+song.getArtist()+'&fmt=json&limit=1')
 					.done(function(musicbrainz) {
 						var MBID = musicbrainz.releases[0].id;
-						var coverArtURL = 'http://coverartarchive.org/release/'+MBID+'/front';
-
-						$.ajax({url: coverArtURL, type:'HEAD' })
-							.done(function() {
-								song.metadata.artistThumbUrl = coverArtURL;
-								console.log('Found MUSICBRAINZ album artwork');
-							})
-							.fail(function() {
-								console.log('Couldn\'t find any artwork :(');
-							})
-							.always(function() {
-								cb();
-							});
+						getCoverArtArchiveImg(MBID);
 					})
-					.fail(function() {
-						console.log('Couldnae get MusicBrainz ID for song');
-						cb();
-					});
-			} else {
-				console.log('Found album artwork via LastFM');
-				cb();
+					.fail(cb);
+
+				function getCoverArtArchiveImg(MBID) {
+					// Look for CoverArtArchive.org images with this ID
+					$.ajax({url: 'http://coverartarchive.org/release/'+MBID+'/front', type:'HEAD' })
+						.done(function() {
+							console.log('Found album artwork via MusicBrainz/CoverArtArchive');
+							song.metadata.artistThumbUrl = coverArtURL;
+						})
+						.always(cb);
+				}
 			}
 		}
 	};
