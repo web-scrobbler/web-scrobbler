@@ -49,7 +49,7 @@ define([], function() {
 
 					'artistname:'+
 					'+"' + song.getArtist() + '"^4' +
-					song.getArtist() + ' ' +
+					song.getArtist() + ' '
 				)
 				.done(function(musicbrainz) {
 					if (musicbrainz.count === 0) {
