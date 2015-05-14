@@ -53,7 +53,6 @@ define([
 
 		var createNotification = function(permissionLevel) {
 			if (permissionLevel === 'granted') {
-
 				var options = {
 					type: 'basic',
 					iconUrl: song.metadata.artistThumbUrl || 'default_cover_art.png',
