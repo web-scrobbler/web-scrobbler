@@ -510,6 +510,13 @@ define(function() {
 			matches: ['*://www.noisetrade.com/*', '*://noisetrade.com/*'],
 			js: ['connectors/v2/noisetrade.js'],
 			version: 2
+		},
+
+		{
+			label: 'Free Music Archive',
+			matches: ['*://www.freemusicarchive.org/*', '*://freemusicarchive.org/*', '*://www.freemusicarchive.com/*', '*://freemusicarchive.com/*'],
+			js: ['connectors/v2/freemusicarchive.js'],
+			version: 2
 		}
 	];
 });
