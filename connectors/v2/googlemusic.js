@@ -6,12 +6,12 @@ Connector.playerSelector = '#player';
 
 Connector.artistSelector = '#player-artist';
 
-Connector.trackSelector = '#playerSongTitle';
+Connector.trackSelector = '#player-song-title';
 
-Connector.albumSelector = '#playerSongInfo .player-album';
+Connector.albumSelector = '#player-album';
 
 Connector.currentTimeSelector = '#time_container_current';
 
 Connector.isPlaying = function() {
-	return $('#player button[data-id="play-pause"]').hasClass('playing');
+	return $('#player *[data-id="play-pause"]').hasClass('playing');
 };
