@@ -232,7 +232,8 @@ define(function() {
 		{
 			label: 'Slacker (main page)',
 			matches: ['*://www.slacker.com/*'],
-			js: ['connectors/slacker2.js']
+			js: ['connectors/v2/slacker2.js'],
+			version: 2
 		},
 
 		{
