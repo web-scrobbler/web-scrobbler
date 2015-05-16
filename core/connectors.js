@@ -53,12 +53,6 @@ define(function() {
 			js: ['connectors/61.js']
 		},
 
-		//{
-		//	label: 'Google Play Music',
-		//	matches: ['*://play.google.com/music/*', '*://play-music.sandbox.google.com/music/*'],
-		//	js: ['connectors/googlemusic.js']
-		//},
-
 		{
 			label: 'Google Play Music',
 			matches: ['*://play.google.com/music/*'],
