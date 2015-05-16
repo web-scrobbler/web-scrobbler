@@ -1,4 +1,7 @@
-﻿
+'use strict';
+
+/* global Connector */
+
 Connector.playerSelector = '#bar';
 
 Connector.artistSelector = '.item.current [data-bind="text: artistName"]';
@@ -11,7 +14,6 @@ Connector.playButtonSelector = '#transport li.pause';
 
 /** @returns {number|null} track length in seconds */
 Connector.getDuration = function () {
-    'use strict';
-    return Connector.stringToSeconds($(Connector.currentTimeSelector).text() || '') +
-           Connector.stringToSeconds($('#progressContainer span:last').text() || '');
+	return Connector.stringToSeconds($(Connector.currentTimeSelector).text() || '') +
+		Connector.stringToSeconds($('#progressContainer span:last').text() || '');
 };
