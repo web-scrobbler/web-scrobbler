@@ -28,6 +28,10 @@ define(function() {
 	 * @param {...*}
 	 */
 	function send() {
+		if (localStorage.disableGa == 1) {
+			return;
+		}
+
 		var args = Array.prototype.slice.call(arguments, 0);
 		args.unshift('send');
 		window.ga.apply(window, args);
@@ -37,6 +41,10 @@ define(function() {
 	 * @param {...*}
 	 */
 	function event() {
+		if (localStorage.disableGa == 1) {
+			return;
+		}
+
 		var args = Array.prototype.slice.call(arguments, 0);
 		args.unshift('event');
 		send.apply(window, args);

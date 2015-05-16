@@ -14,7 +14,6 @@ require([
 	$(function () {
 		var connectorsOptions = ChromeStorage.getNamespace('Connectors');
 
-
 		// preload values and attach listeners
 
 		$('#use-notifications')
@@ -27,6 +26,12 @@ require([
 			.attr('checked', (localStorage.useAutocorrect == 1))
 			.click(function () {
 				localStorage.useAutocorrect = this.checked ? 1 : 0;
+			});
+
+		$('#disable-ga')
+			.attr('checked', (localStorage.disableGa == 1))
+			.click(function () {
+				localStorage.disableGa = this.checked ? 1 : 0;
 			});
 
 		$('#yt-music-only')
