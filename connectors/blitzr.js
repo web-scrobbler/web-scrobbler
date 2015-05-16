@@ -11,15 +11,15 @@
 /*** Configuration ***/
 
 // Additions to this div will trigger update
-BL_WATCHED_CONTAINER = "div.h4.player-title";
+BL_WATCHED_CONTAINER = "#playerInfo #playerTitle";
 
 // Returns the currently playing artist name
 function BL_getArtist( ) {
    // Grab title element, since text portion can be truncated
-   var artist = $("div#player a.marquee.marquee-artist").attr('title');
+   var artist = $("#playerInfo #playerArtists").attr('title');
    if( artist == undefined ) {
       // Fall back to text portion if title attr is empty
-      artist = $("div#player a.marquee.marquee-artist").text();
+      artist = $("#playerInfo #playerArtists").text();
    }
    return BL_cleanLabel( artist );
 }
@@ -27,17 +27,17 @@ function BL_getArtist( ) {
 // Returns the currently playing track title
 // Grab title element, since text portion can be truncated
 function BL_getTrack( ) {
-   var track = $("div#player a.marquee.marquee-title").attr('title');
+   var track = $("#playerInfo #playerTitle").attr('title');
    if( track == undefined ) {
       // Fall back to text portion if title attr is empty
-      track = $("div#player a.marquee.marquee-title").text();
+      track = $("#playerInfo #playerTitle").text();
    }
    return BL_cleanLabel( track );
 }
 
 // Returns the song length in seconds
 function BL_getDuration( ) {
-   var timeArr = $("span.duration").text().split(":");
+   var timeArr = $("#playerInfo #playerDuration").text().split(":");
    return parseInt( timeArr[0] ) * 60 + parseInt( timeArr[1] );
 }
 
