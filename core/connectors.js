@@ -503,6 +503,13 @@ define(function() {
 			matches: ['*://somafm.com/player/*'],
 			js: ['connectors/v2/somafm.js'],
 			version: 2
+		},
+
+		{
+			label: 'Noisetrade',
+			matches: ['*://www.noisetrade.com/*', '*://noisetrade.com/*'],
+			js: ['connectors/v2/noisetrade.js'],
+			version: 2
 		}
 	];
 });
