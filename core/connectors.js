@@ -210,12 +210,6 @@ define(function() {
 		},
 
 		{
-			label: 'Grooveshark',
-			matches: ['*://grooveshark.com/*'],
-			js: ['connectors/grooveshark.js']
-		},
-
-		{
 			label: 'Plug.dj',
 			matches: ['*://plug.dj/*'],
 			js: ['connectors/plugdj.js']
