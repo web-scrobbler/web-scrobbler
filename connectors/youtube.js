@@ -10,11 +10,6 @@ var lastUrl = '';
 // loaded asynchronously from storage; default to false for backwards compatibility
 var scrobbleMusicOnly = false;
 
-// we will observe changes at the main player element
-// which changes (amongst others) on ajax navigation
-var target = null;
-var feather = false;
-
 function handleMutation (mutation) {
 	// detect first mutation that happens after url has changed
 	if (lastUrl != location.href) {
@@ -27,23 +22,16 @@ var observer = new MutationObserver(function(mutations) {
     mutations.forEach(handleMutation);
 });
 
-
 var config = {
 	attributes: true,
 	attributeFilter: ['data-youtube-id', 'src']
 };
 
-target = document.querySelector('#player-api video');
-if (!target) {
-    feather = true;
-    updateNowPlaying();
-}
-else {
-	// trigger manually to detect change from '' -> 'something' on first regular page load
-	handleMutation(null);
+var target = document.querySelector('#player-api video');
 
-    observer.observe(target, config);
-}
+handleMutation(null);
+observer.observe(target, config);
+
 // bind page unload function to discard current "now listening"
 $(window).unload(function() {
 
@@ -52,7 +40,6 @@ $(window).unload(function() {
 
     return true;
 });
-
 
 // load options
 chrome.storage.local.get('Connectors', function(data) {
@@ -66,18 +53,12 @@ chrome.storage.local.get('Connectors', function(data) {
 	}
 });
 
-
-
-
-
-
 /**
  * Trim whitespaces from both endings of the string
  */
 function trim(str) {
    return str.replace(/^\s+|\s+$/g, '');
 }
-
 
 /**
  * Find first occurence of possible separator in given string
@@ -115,6 +96,28 @@ function parseInfo(artistTitle) {
    return cleanArtistTrack(artist, track);
 }
 
+/**
+ * Parse given duration string (either 'PT..<minutes>M_<seconds>S' or '..<minutes>:<seconds>' format)
+ * @return integer duration in seconds
+ */
+function parseDuration(durationString) {
+  if (durationString.indexOf('PT') == 0)
+    durationString = durationString.substr(2);
+
+  var parts = durationString.split(/[HMS:]/);
+  var count = parts.length;
+
+  if (parts[count - 1] == '') {
+    parts.pop();
+    count--;
+  }
+
+  switch (count) {
+    case 1: return parseInt(parts[0]);
+    case 2: return parseInt(parts[0]) * 60 + parseInt(parts[1]);
+    case 3: return parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
+  }
+}
 
 /**
  * Clean non-informative garbage from title
@@ -152,127 +155,107 @@ function cleanArtistTrack(artist, track) {
    return {artist: artist, track: track};
 }
 
-function parseDuration(durationString) {
-  var parts = durationString.substr(2).split(/[HMS]/);
-  var count = parts.length;
-  switch (count) {
-    case 2: return parseInt(parts[0]);
-    case 3: return parseInt(parts[0]) * 60 + parseInt(parts[1]);
-    case 4: return parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
-  }
-}
-
 /**
  * Called every time the player reloads
  */
 function updateNowPlaying() {
+  var videoID = document.URL.match(/v[^a-z]([a-zA-Z0-9\-_]{11})/);
 
-   // get the video ID
-   var videoID = document.URL.match(/v[^a-z]([a-zA-Z0-9\-_]{11})/);
-   if (videoID && videoID.length > 0)
+  if (videoID && videoID.length > 0)
+    videoID = videoID[1];
+  else
+    videoID = null;
+
+  // videoID from title at profile page
+  if ($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').length > 0) {
+    videoID = $('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').attr('onclick').toString().match(/\?v=(.{11})/);
+    if (videoID && videoID.length > 0)
       videoID = videoID[1];
-   else
-      videoID = null;
+  }
+  // videoID from title at profile page - newer version
+  if ($('#playnav-curvideo-title > a').length > 0) {
+    videoID = $('#playnav-curvideo-title > a').attr('href').toString().match(/\?v=(.{11})/);
+    if (videoID && videoID.length > 0)
+      videoID = videoID[1];
+  }
 
-   // videoID from title at profile page
-   if ($('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').length > 0) {
-      videoID = $('#playnav-curvideo-title > span[id!=chrome-scrobbler-status]').attr('onclick').toString().match(/\?v=(.{11})/);
-      if (videoID && videoID.length > 0)
-         videoID = videoID[1];
-   }
-   // videoID from title at profile page - newer version
-   if ($('#playnav-curvideo-title > a').length > 0) {
-      videoID = $('#playnav-curvideo-title > a').attr('href').toString().match(/\?v=(.{11})/);
-      if (videoID && videoID.length > 0)
-         videoID = videoID[1];
-   }
+  // something changed?
+  if (!videoID) {
+    console.log('If there is a YouTube player on this page, it has not been recognized. Please fill in an issue at GitHub');
+    //alert('YouTube has probably changed its code. Please get newer version of the Last.fm Scrobbler extension');
+    return;
+  }
 
-   // something changed?
-   if (!videoID) {
-      console.log('If there is a YouTube player on this page, it has not been recognized. Please fill in an issue at GitHub');
-      //alert('YouTube has probably changed its code. Please get newer version of the Last.fm Scrobbler extension');
-      return;
-   }
+  var xhr = new XMLHttpRequest();
 
-   var googleURL = "https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=" + videoID + "&key=" + API_KEY;
+  xhr.onreadystatechange = function () {
+    var info = null;
 
-   // Get clip info from youtube api
-   chrome.runtime.sendMessage({type: "xhr", url: googleURL}, function(response) {
-      var info = JSON.parse(response.text).items[0];
-
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      info = JSON.parse(xhr.responseText).items[0];
       if (scrobbleMusicOnly && info.snippet.categoryId != MUSIC_CATEGORY_ID) {
         console.log('Skipping track because it is not in Music category');
         return;
       }
+    }
 
-      var parsedInfo = parseInfo(info.snippet.title);
-      var artist = null;
-      var track = null;
-      var artist_dom = '';
-      var track_dom = '';
-      if (!feather) {
-        // Use the #eow-title #watch-headline-show-title if available
-        track_dom = $('#eow-title').clone();
-        artist_dom = $('#watch-headline-show-title', track_dom);
+    var parsedInfo = parseInfo(info ? info.snippet.title : '');
+    var track_dom = $('#eow-title').clone();
+    var artist_dom = $('#watch-headline-show-title', track_dom);
+    var track = null;
+    var artist = null;
+
+    if (artist_dom.length) {
+      artist = artist_dom.text();
+
+      var wholeTitleText = trim(track_dom.text());
+      var artistIndex = wholeTitleText.indexOf(artist);
+      var separator = findSeparator(wholeTitleText);
+
+      // no separator found, assume rest of the title is track name
+      if (separator == null) {
+        track = wholeTitleText.replace(artist, '');
       }
+      // separator AFTER artist, common order, cut after separator
+      else if (separator.index > artistIndex) {
+        track = wholeTitleText.substr(separator.index + separator.length);
+      }
+      // separator BEFORE artist, reversed order, cut before separator
       else {
-        // Otherwise use h1#vt from the YouTube's Feather Layout
-        track_dom = $('h1#vt').clone();
-      }
-      // there is a hyperlink of artist in title
-      if (artist_dom.length) {
-        var wholeTitleText = trim( track_dom.text() );
-        artist = artist_dom.text();
-
-        var artistIndex = wholeTitleText.indexOf(artist);
-        var separator = findSeparator(wholeTitleText);
-
-        // no separator found, assume rest of the title is track name
-        if (separator == null) {
-            track = wholeTitleText.replace(artist, '');
-        }
-        // separator AFTER artist, common order, cut after separator
-        else if (separator.index > artistIndex) {
-           track = wholeTitleText.substr(separator.index + separator.length);
-        }
-        // separator BEFORE artist, reversed order, cut before separator
-        else {
-           track = wholeTitleText.substr(0, separator.index);
-        }
-
-        parsedInfo = cleanArtistTrack(artist, track);
+        track = wholeTitleText.substr(0, separator.index);
       }
 
-      // just a plain text title
-      else if (parsedInfo['artist'] == '') {
-        parsedInfo = parseInfo(track_dom.text());
+      parsedInfo = cleanArtistTrack(artist, track);
+    }
+    else if (parsedInfo['artist'] == '') {
+      parsedInfo = parseInfo(track_dom.text());
+    }
+
+    artist = parsedInfo['artist'];
+    track = parsedInfo['track'];
+
+    var duration_dom = $('.ytp-time-duration').first();
+    var duration = parseDuration(info ? info.contentDetails.duration : duration_dom.text());
+
+    // Validate given artist and track (even for empty strings)
+    chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
+      // on success send nowPlaying song
+      if (response != false) {
+        var song = response; // contains valid artist/track now
+        // substitute the original duration with the duration of the video
+        chrome.runtime.sendMessage({type: 'nowPlaying', artist: song.artist, track: song.track, duration: duration, source: 'YouTube', sourceId: videoID});
       }
-
-      artist = parsedInfo['artist'];
-      track = parsedInfo['track'];
-
-      // get the duration from the YT API response
-      var duration = parseDuration(info.contentDetails.duration);
-
-      // Validate given artist and track (even for empty strings)
-      chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
-         // on success send nowPlaying song
-         if (response != false) {
-            var song = response; // contains valid artist/track now
-            // substitute the original duration with the duration of the video
-            chrome.runtime.sendMessage({type: 'nowPlaying', artist: song.artist, track: song.track, duration: duration, source: 'YouTube', sourceId: videoID});
-         }
-         // on failure send nowPlaying 'unknown song'
-         else {
-            chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration, source: 'YouTube', sourceId: videoID});
-         }
+      // on failure send nowPlaying 'unknown song'
+      else {
+        chrome.runtime.sendMessage({type: 'nowPlaying', duration: duration, source: 'YouTube', sourceId: videoID});
+      }
     });
+  };
 
-   });
-
+  var googleURL = 'https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=' + videoID + '&key=' + API_KEY;
+  xhr.open('GET', googleURL, true);
+  xhr.send();
 }
-
-
 
 /**
  * Listen for requests from scrobbler.js
