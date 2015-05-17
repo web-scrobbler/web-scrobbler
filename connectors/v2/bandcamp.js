@@ -83,6 +83,10 @@ Connector.playButtonSelector = 'div.playbutton:not(.playing)';
 
 Connector.currentTimeSelector = 'span.time_elapsed';
 
+Connector.getTrackArt = function() {
+	return $('#tralbumArt > a > img').attr('src') || $('#detail_gallery_container img').attr('src');
+};
+
 Connector.getDuration = function () {
 	return Math.round($('audio')[0].duration);
 };

@@ -264,8 +264,13 @@ define([
 				duration: parseInt($doc.find('track > duration').text()) / 1000
 			});
 
+			var thumbUrl = song.getTrackArt();
+			if (thumbUrl === null) {
+				thumbUrl = $doc.find('album > image[size="medium"]').text();
+			}
+
 			song.metadata.attr({
-				artistThumbUrl: $doc.find('album > image[size="medium"]').text()
+				artistThumbUrl: thumbUrl
 			});
 
 			song.flags.attr('isLastfmValid', true);
