@@ -8,7 +8,7 @@ Connector.artistSelector = '#player-artist';
 
 Connector.trackSelector = '#player-song-title';
 
-Connector.albumSelector = '#player-album';
+Connector.albumSelector = '.player-album';
 
 Connector.currentTimeSelector = '#time_container_current';
 
