@@ -1,3 +1,6 @@
+'use strict';
+
+/* global Connector */
 
 Connector.playerSelector = '#bop-player';
 

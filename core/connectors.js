@@ -53,12 +53,6 @@ define(function() {
 			js: ['connectors/61.js']
 		},
 
-		//{
-		//	label: 'Google Play Music',
-		//	matches: ['*://play.google.com/music/*', '*://play-music.sandbox.google.com/music/*'],
-		//	js: ['connectors/googlemusic.js']
-		//},
-
 		{
 			label: 'Google Play Music',
 			matches: ['*://play.google.com/music/*'],
@@ -98,14 +92,16 @@ define(function() {
 
 		{
 			label: 'Ghostly Discovery',
-			matches: ['http://ghostly.com/discovery/play'],
-			js: ['connectors/ghostly.js']
+			matches: ['http://ghostly.com/discovery/play', 'http://www.ghostly.com/discovery/play'],
+			js: ['connectors/v2/ghostly.js'],
+			version: 2
 		},
 
 		{
 			label: 'Bandcamp',
-			matches: ['*://*.bandcamp.com/*', '*://bandcamp.com/discover'],
-			js: ['connectors/bandcamp.js']
+			matches: ['*://*.bandcamp.com/*', '*://bandcamp.com/discover*'],
+			js: ['connectors/v2/bandcamp.js'],
+			version: 2
 		},
 
 		{
@@ -117,7 +113,8 @@ define(function() {
 		{
 			label: 'Pandora',
 			matches: ['*://www.pandora.com/*'],
-			js: ['connectors/pandora.js']
+			js: ['connectors/v2/pandora.js'],
+			version: 2
 		},
 
 		{
@@ -191,7 +188,8 @@ define(function() {
 		{
 			label: 'Indie Shuffle',
 			matches: ['*://www.indieshuffle.com/*'],
-			js: ['connectors/indieshuffle.js']
+			js: ['connectors/v2/indieshuffle.js'],
+			version: 2
 		},
 
 		{
@@ -203,13 +201,8 @@ define(function() {
 		{
 			label: 'Spotify',
 			matches: ['https://play.spotify.com/*'],
-			js: ['connectors/spotify.js']
-		},
-
-		{
-			label: 'Grooveshark',
-			matches: ['*://grooveshark.com/*'],
-			js: ['connectors/grooveshark.js']
+			js: ['connectors/v2/spotify.js'],
+			version: 2
 		},
 
 		{
@@ -233,7 +226,8 @@ define(function() {
 		{
 			label: 'Slacker (main page)',
 			matches: ['*://www.slacker.com/*'],
-			js: ['connectors/slacker2.js']
+			js: ['connectors/v2/slacker2.js'],
+			version: 2
 		},
 
 		{
@@ -287,7 +281,8 @@ define(function() {
 		{
 			label: 'Songza',
 			matches: ['*://songza.com/*'],
-			js: ['connectors/songza.js']
+			js: ['connectors/v2/songza.js'],
+			version: 2
 		},
 
 		{
@@ -327,15 +322,9 @@ define(function() {
 		},
 
 		{
-			label: 'Digitally Imported and Sky.FM',
-			matches: ['*://www.di.fm/*', '*://www.sky.fm/*'],
+			label: 'Digitally Imported',
+			matches: ['*://www.di.fm/*'],
 			js: ['connectors/difm.js']
-		},
-
-		{
-			label: 'New Digitally Imported',
-			matches: ['*://new.di.fm/*'],
-			js: ['connectors/difm2.js']
 		},
 
 		{
@@ -395,7 +384,8 @@ define(function() {
 		{
 			label: 'MixCloud (Timestamped mixes only)',
 			matches: ['*://mixcloud.com/*', '*://*.mixcloud.com/*'],
-			js: ['connectors/mixcloud.js']
+			js: ['connectors/v2/mixcloud.js'],
+			version: 2
 		},
 
 		{
@@ -466,6 +456,13 @@ define(function() {
 		},
 
 		{
+			label: 'TIDAL',
+			matches: ['*://listen.tidalhifi.com/*'],
+			js: ['connectors/v2/tidal.js'],
+			version: 2
+		},
+
+		{
 			label: 'Bop.fm',
 			matches: ['*://bop.fm/*'],
 			js: ['connectors/v2/bopfm.js'],
@@ -477,7 +474,48 @@ define(function() {
 			matches: ['*://www.radionomy.com/*'],
 			js: ['connectors/v2/radionomy.js'],
 			version: 2
-		}
+		},
 
+		{
+			label: 'Jazzradio',
+			matches: ['*://www.jazzradio.com/*'],
+			js: ['connectors/v2/jazzradio.js'],
+			version: 2
+		},
+
+		{
+			label: 'Musicload',
+			matches: ['*://www.musicload.de/*'],
+			js: ['connectors/v2/musicload.js'],
+			version: 2
+		},
+
+		{
+			label: 'Noon Pacific',
+			matches: ['*://www.noonpacific.com/*', '*://noonpacific.com/*'],
+			js: ['connectors/v2/noonpacific.js'],
+			version: 2
+		},
+
+		{
+			label: 'SomaFM',
+			matches: ['*://somafm.com/player/*'],
+			js: ['connectors/v2/somafm.js'],
+			version: 2
+		},
+
+		{
+			label: 'Noisetrade',
+			matches: ['*://www.noisetrade.com/*', '*://noisetrade.com/*'],
+			js: ['connectors/v2/noisetrade.js'],
+			version: 2
+		},
+
+		{
+			label: 'Free Music Archive',
+			matches: ['*://www.freemusicarchive.org/*', '*://freemusicarchive.org/*', '*://www.freemusicarchive.com/*', '*://freemusicarchive.com/*'],
+			js: ['connectors/v2/freemusicarchive.js'],
+			version: 2
+		}
 	];
 });

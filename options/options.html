@@ -51,6 +51,10 @@
                                 <label for="use-autocorrect" title="Auto-corrects the track title before scrobbling. (experimental)">Use
                                     autocorrect (global)</label>
                             </li>
+                            <li>
+                                <input type="checkbox" id="disable-ga">
+                                <label for="disable-ga" title="If checked than Google Analytics will be disabled">Disable Google Analytics</label>
+                            </li>
                         </ul>
 
                         <h4>YouTube</h4>
@@ -170,28 +174,33 @@
                     <div class="accordion-inner">
                         <ul>
                             <li>
-                                <a href="https://github.com/david-sabata/Chrome-Last.fm-Scrobbler/issues?state=open"><i class="icon-github-alt"></i> Github</a>
-                                to report an issue and contribute
+                                <a href="https://github.com/david-sabata/Chrome-Last.fm-Scrobbler/issues?state=open"><i class="icon-github-alt"></i>Github</a>
+                                Report an issue and contribute
                             </li>
 
                             <li>
-                                <a href="https://twitter.com/web_scrobbler"><i class="icon-twitter"></i> Twitter</a>
-                                to keep up with the updates and for quick chat
+                                <a href="https://twitter.com/web_scrobbler"><i class="icon-twitter"></i>Twitter</a>
+                                Keep up with the updates and for quick chat
                             </li>
 
                             <li>
-                                <a href="http://www.last.fm/user/na1k_"><i class="icon-music"></i> Last.fm</a>
-                                to compare taste and just say hi!
+                                <a href="http://www.last.fm/user/na1k_"><i class="icon-music"></i>Last.fm</a>
+                                Compare taste and just say hi!
                             </li>
 
                             <li>
-                                <a href="http://linkedin.com/pub/david-%C5%A1abata/6b/3a4/2bb/"><i class="icon-linkedin"></i> LinkedIn</a>
-                                to see what my professional-life occupation is
+                                <a href="http://linkedin.com/pub/david-%C5%A1abata/6b/3a4/2bb/"><i class="icon-linkedin"></i>LinkedIn</a>
+                                See what my professional-life occupation is
                             </li>
 
                             <li>
-                                <a href="http://davidsabata.cz"><i class="icon-home"></i> My web</a>
-                                to see what else I've done
+                                <a href="http://davidsabata.cz"><i class="icon-home"></i>My web</a>
+                                See what else I've done
+                            </li>
+
+                            <li>
+                                <a href=" https://github.com/david-sabata/web-scrobbler/wiki/Privacy-policy"><i class="icon-lock"></i>Privacy</a>
+                                View the privacy policy
                             </li>
                         </ul>
 
@@ -217,6 +226,44 @@
                 </div>
                 <div id="news" class="accordion-body collapse">
                     <div class="accordion-inner">
+						<h4>1.47</h4>
+						<ul>
+							<li>Fixed Google Music scrobbling</li>
+							<li>Fixed SoundCloud scrobbling</li>
+							<li>Fixed Blitzr scrobbling</li>
+							<li>Added Freemusicarchive.com scrobbling</li>
+							<li>Added NoiseTrade scrobbling</li>
+							<li>Switched BandCamp to new connector (<a href="#" data-dialog="v2_connectors">v2</a>)</li>
+							<li>Switched MixCloud to new connector (<a href="#" data-dialog="v2_connectors">v2</a>)</li>
+							<li>Switched Pandora to new connector (<a href="#" data-dialog="v2_connectors">v2</a>)</li>
+							<li>Switched Slacker to new connector (<a href="#" data-dialog="v2_connectors">v2</a>)</li>
+							<li>Switched Songza to new connector (<a href="#" data-dialog="v2_connectors">v2</a>)</li>
+							<li>No more GrooveShark scrobbling - RIP</li>
+							<li>You can opt-out from Google Analytics tracking of this extension usage</li>
+							<li>More artist/album thumbnails and new icon when no thumbnail is found</li>
+						</ul>
+
+						<h4>1.46</h4>
+						<ul>
+							<li>Fixed YouTube scrobbling</li>
+						</ul>
+
+						<h4>1.45</h4>
+						<ul>
+							<li>Fixed Digitally Imported scrobbling</li>
+							<li>Fixed SoundCloud scrobbling</li>
+							<li>Fixed artist detection on Amazon</li>
+							<li>Improved Bandcamp scrobbling</li>
+							<li>Switched Indie Shuffle to new connector (<a href="#" data-dialog="v2_connectors">v2</a>)</li>
+							<li>Switched Ghostly Discovery to new connector (<a href="#" data-dialog="v2_connectors">v2</a>)</li>
+							<li>Switched Spotify to new connector (<a href="#" data-dialog="v2_connectors">v2</a>)</li>
+							<li>Added Jazzradio connector (<a href="#" data-dialog="v2_connectors">v2</a>)</li>
+							<li>Added Musicload connector (<a href="#" data-dialog="v2_connectors">v2</a>)</li>
+							<li>Added Noon Pacific connector (<a href="#" data-dialog="v2_connectors">v2</a>)</li>
+							<li>Added SomaFM connector (<a href="#" data-dialog="v2_connectors">v2</a>)</li>
+							<li>Added TIDAL connector (<a href="#" data-dialog="v2_connectors">v2</a>)</li>
+						</ul>
+
 						<h4>1.44</h4>
 						<ul>
 							<li>Fixed Gaana scrobbling</li>
@@ -452,7 +499,7 @@
                             <li>Slacker.com support (by Joe Crawford)</li>
                             <li>Amazon connector works for German domain too</li>
                             <li>Grooveshark connector is back in the game</li>
-                            <li>Bugfixes & connectors updates</li>
+                            <li>Bugfixes &amp; connectors updates</li>
                         </ul>
 
                         <h4>1.13</h4>
@@ -460,21 +507,21 @@
                             <li>SoundCloud support (by vintitres)</li>
                             <li>Spotify support (by Damien Alexandre)</li>
                             <li>You can now choose to be notified when song starts playing and/or is scrobbled</li>
-                            <li>Bugfixes & connectors updates</li>
+                            <li>Bugfixes &amp; connectors updates</li>
                         </ul>
 
                         <h4>1.12</h4>
                         <ul>
                             <li>Tuba.fm support (by Michal Rumanek)</li>
                             <li>Amazon Player fixes (by Scott Bale)</li>
-                            <li>Bugfixes & connectors updates</li>
+                            <li>Bugfixes &amp; connectors updates</li>
                         </ul>
 
                         <h4>1.11</h4>
                         <ul>
                             <li>Indieshuffle.com support (by Titus Ramczykowski)</li>
                             <li>No longer stripping <i>(whatever remix)</i> off the YouTube clip titles</li>
-                            <li>Bugfixes & connectors updates</li>
+                            <li>Bugfixes &amp; connectors updates</li>
                         </ul>
 
                         <h4>1.10</h4>

@@ -28,7 +28,7 @@ function getArtist() {
 		return;
 	}
 
-	return $(SONG_DETAILS_DOM).children()[1].textContent.split(',')[0].trim();
+	return $(SONG_DETAILS_DOM).children()[1].textContent.trim();
 }
 
 // Get track length

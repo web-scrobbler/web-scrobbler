@@ -32,13 +32,11 @@ var titleAndArtist = function() {
   } else {
     var unDfined,
         currentSongTitle = $(".currentSongDetails .title"),
-        currentSongArtist = currentSongTitle.next().text(),
-        // Non-breakable space is char 0xa0 (160 dec)
-        artistTxt = (currentSongArtist.indexOf('\xA0') > 0 ? currentSongArtist.split('\xA0')[1] : currentSongArtist),
+        currentSongArtist = $(".currentSongDetails .artistLink"),
         currentSongStatus = $(".currentSongStatus > a");
     return {
       title: currentSongTitle.text(),
-      artist: artistTxt,
+      artist: currentSongArtist.text(),
       // Could be "From album" or "From playlist"...
       album: (currentSongStatus.parent().text().indexOf("album") > 0 ? currentSongStatus.attr('title') : unDfined)
     };

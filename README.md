@@ -30,6 +30,10 @@ You can also join us on our IRC channel #web-scrobbler on irc.freenode.net.
 
 If you are unfamiliar with IRC you can connect easily via [Kiwi IRC][0].
 
+## Privacy Policy
+
+See https://github.com/david-sabata/web-scrobbler/wiki/Privacy-policy
+
 ## License
 
 See [LICENSE.txt](LICENSE.txt)

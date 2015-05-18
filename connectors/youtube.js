@@ -206,7 +206,7 @@ function updateNowPlaying() {
 		  }
 	  }
 
-      var parsedInfo = parseInfo(info.entry.title.$t);
+      var parsedInfo = { artist: '', track: '' }; // FIXME: hotfix after YT API was shut down... parseInfo(info.entry.title.$t);
       var artist = null;
       var track = null;
       var artist_dom = '';

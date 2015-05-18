@@ -105,6 +105,12 @@ define([
 					doScrobble(currentSong);
 				});
 
+				// if we just detected the track and it's not playing yet, pause the timer right away;
+				// this is important, because isPlaying flag binding only calls pause/resume which assumes the timer is started
+				if (!newState.isPlaying) {
+					playbackTimer.pause();
+				}
+
 				// start processing - result will trigger the listener
 				Pipeline.processSong(currentSong);
 			}
@@ -123,6 +129,11 @@ define([
 
 				if (newVal) {
 					playbackTimer.resume();
+
+					// maybe the song was not marked as playing yet
+					if (!song.flags.isMarkedAsPlaying && (song.flags.isLastfmValid === true || song.flags.isCorrectedByUser === true)) {
+						setSongNowPlaying(song);
+					}
 				} else {
 					playbackTimer.pause();
 				}
@@ -179,12 +190,17 @@ define([
 		function onProcessed(song) {
 			// song is considered valid if either L.FM or the user validated it
 			if (song.flags.isLastfmValid === true || song.flags.isCorrectedByUser === true) {
+				// processing cleans this flag
+				song.flags.attr('isMarkedAsPlaying', false);
 
 				// set time-to-scrobble
 				playbackTimer.update(song.getSecondsToScrobble());
 				console.log('Tab ' + tabId + ': the song will be scrobbled after ' + playbackTimer.getRemainingSeconds() + ' more seconds of playback');
 
-				setSongNowPlaying(song);
+				// if the song is playing, mark it immediately; otherwise will be flagged in isPlaying binding
+				if (song.parsed.isPlaying) {
+					setSongNowPlaying(song);
+				}
 			} else {
 				pageAction.setSongNotRecognized();
 			}
@@ -219,6 +235,8 @@ define([
 				console.log('Tab ' + tabId + ': song set as now playing: ' + success);
 			};
 			LastFM.sendNowPlaying(song, nowPlayingCB);
+
+			song.flags.attr('isMarkedAsPlaying', true);
 		}
 
 
