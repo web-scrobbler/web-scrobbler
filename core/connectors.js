@@ -516,6 +516,13 @@ define(function() {
 			matches: ['*://www.freemusicarchive.org/*', '*://freemusicarchive.org/*', '*://www.freemusicarchive.com/*', '*://freemusicarchive.com/*'],
 			js: ['connectors/v2/freemusicarchive.js'],
 			version: 2
+		},
+
+		{
+			label: 'Reddit Music Player',
+			matches: ['*://reddit.music.player.il.ly/'],
+			js: ['connectors/v2/redditmusicplayer.js'],
+			version: 2
 		}
 	];
 });
