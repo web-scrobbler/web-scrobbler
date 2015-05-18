@@ -97,26 +97,25 @@ function parseInfo(artistTitle) {
 }
 
 /**
- * Parse given duration string (either 'PT..<minutes>M_<seconds>S' or '..<minutes>:<seconds>' format)
+ * Parse given duration string in 'PT<hours>H<minutes>M<seconds>S format
  * @return integer duration in seconds
  */
-function parseDuration(durationString) {
-  if (durationString.indexOf('PT') == 0)
-    durationString = durationString.substr(2);
+function parseDurationISO8601(durationString) {
+  var match = durationString.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
+  var hours = (parseInt(match[1]) || 0);
+  var minutes = (parseInt(match[2]) || 0);
+  var seconds = (parseInt(match[3]) || 0);
+  return hours * 3600 + minutes * 60 + seconds;
+}
 
-  var parts = durationString.split(/[HMS:]/);
-  var count = parts.length;
-
-  if (parts[count - 1] == '') {
-    parts.pop();
-    count--;
-  }
-
-  switch (count) {
-    case 1: return parseInt(parts[0]);
-    case 2: return parseInt(parts[0]) * 60 + parseInt(parts[1]);
-    case 3: return parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
-  }
+/**
+ * Parse given duration string in '<hours>:<minutes>:<seconds>' format
+ * @return integer duration in seconds
+ */
+function parseDurationColon(durationString) {
+  var parts = durationString.split(':');
+  parts = new Array(4 - parts.length).join('0').split('').concat(parts);
+  return parseInt(parts[0]) * 3600 + parseInt(parts[1]) * 60 + parseInt(parts[2]);
 }
 
 /**
@@ -235,7 +234,9 @@ function updateNowPlaying() {
     track = parsedInfo['track'];
 
     var duration_dom = $('.ytp-time-duration').first();
-    var duration = parseDuration(info ? info.contentDetails.duration : duration_dom.text());
+    var duration = info
+      ? parseDurationISO8601(info.contentDetails.duration)
+      : parseDurationColon(duration_dom.text());
 
     // Validate given artist and track (even for empty strings)
     chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
