@@ -10,12 +10,17 @@ Connector.artistSelector = nowPlayingSelector+' .track .artist';
 Connector.trackSelector = nowPlayingSelector+' .track .title';
 
 Connector.getUniqueID = function() {
-	return $(".context-panel-body #data-uid").text();
+	return $("#data-uid").text();
 };
 
-// Data provided seems to round up to next minute
+// Data provided rounds duration UP to next minute... Is usually longer than the last.fm version data.
 Connector.getDuration = function () {
 	return $("#data-end").text() - $("#data-start").text();
+};
+
+Connector.isPlaying = function() {
+	console.log($(nowPlayingSelector).length);
+	return $(nowPlayingSelector).length;
 };
 
 // In preparation for merge of PR#607 (https://github.com/david-sabata/web-scrobbler/pull/607)
