@@ -19,7 +19,6 @@ Connector.getDuration = function () {
 };
 
 Connector.isPlaying = function() {
-	console.log($(nowPlayingSelector).length);
 	return $(nowPlayingSelector).length;
 };
 
