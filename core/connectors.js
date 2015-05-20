@@ -342,7 +342,8 @@ define(function() {
 		{
 			label: 'BBC RadioPlayer',
 			matches: ['*://www.bbc.co.uk/radio/player/*'],
-			js: ['connectors/bbcradioplayer.js']
+			js: ['connectors/v2/bbcradioplayer.js'],
+			version: 2
 		},
 
 		{
