@@ -200,7 +200,7 @@ define(function() {
 
 		{
 			label: 'Spotify',
-			matches: ['https://play.spotify.com/*'],
+			matches: ['https://player.spotify.com/*'],
 			js: ['connectors/v2/spotify.js'],
 			version: 2
 		},
