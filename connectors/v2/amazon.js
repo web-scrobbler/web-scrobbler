@@ -13,12 +13,12 @@ Connector.getArtist = function() {
  */
 Connector.getTrack = function() {
 	return $('tr.selectable.currentlyPlaying td.titleCell').attr('title') ||
-		   $('.currentSongDetails .title').text() || null;
+		$('.currentSongDetails .title').text() || null;
 };
 
 Connector.getAlbum = function() {
 	return $('tr.selectable.currentlyPlaying td.albumCell').attr('title') ||
-		   $('.nowPlayingDetail img.albumImage').attr('title') || null;
+		$('.nowPlayingDetail img.albumImage').attr('title') || null;
 };
 
 Connector.currentTimeSelector = '#currentTime';
