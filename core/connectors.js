@@ -516,6 +516,13 @@ define(function() {
 			matches: ['*://www.freemusicarchive.org/*', '*://freemusicarchive.org/*', '*://www.freemusicarchive.com/*', '*://freemusicarchive.com/*'],
 			js: ['connectors/v2/freemusicarchive.js'],
 			version: 2
+		},
+
+		{
+			label: 'kollekt.fm',
+			matches: ['*://kollekt.fm/*'],
+			js: ['connectors/v2/kollekt.js'],
+			version: 2
 		}
 	];
 });
