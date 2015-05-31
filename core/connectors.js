@@ -206,6 +206,13 @@ define(function() {
 		},
 
 		{
+			label: 'Spotify',
+			matches: ['https://play.spotify.com/*'],
+			js: ['connectors/v2/spotify-play.js'],
+			version: 2
+		},
+
+		{
 			label: 'Plug.dj',
 			matches: ['*://plug.dj/*'],
 			js: ['connectors/plugdj.js']
