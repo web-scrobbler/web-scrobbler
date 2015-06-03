@@ -29,9 +29,8 @@ window._ATTACHED = window._ATTACHED || false;
             if (!bus || !isEventBus(bus)) {
                 var i;
                 for (i = 0; i < 3491; i++) {
-                    var test;
                     try{
-                        test = n(i);
+                        var test = n(i);
                         if (isEventBus(test)) {
                             bus = test;
                             console.log("Event bus index changed to " + i + ". Please report at https://github.com/david-sabata/web-scrobbler/issues");
