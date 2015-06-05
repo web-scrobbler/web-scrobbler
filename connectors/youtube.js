@@ -183,28 +183,22 @@ function updateNowPlaying() {
       return;
    }
 
-   // http://code.google.com/intl/cs/apis/youtube/2.0/developers_guide_protocol_video_entries.html
-   var googleURL = "https://gdata.youtube.com/feeds/api/videos/" + videoID + "?alt=json";
+   // https://developers.google.com/youtube/v3/docs/videos/list
+  var googleURL = "https://www.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails&id=" + videoID + "&key={API_KEY?}";
 
    // Get clip info from youtube api
    chrome.runtime.sendMessage({type: "xhr", url: googleURL}, function(response) {
-      var info = JSON.parse(response.text);
+      var response = JSON.parse(response.text);
+      var info = response.items[0].snippet;
+      var details = response.items[0].contentDetails;
 
 	  // Return early if not in music category
       if (scrobbleMusicOnly) {
-		  var isMusic = false;
-		  for (var i = 0; i < info.entry.category.length; i++) {
-			  if (info.entry.category[i].term == 'Music') {
-				  isMusic = true;
-				  break;
-			  }
-		  }
-
-		  if (!isMusic) {
-			  console.log('Skipping track because it is not in Music category');
-			  return;
-		  }
-	  }
+        if (info.categoryId != "10") {
+          console.log('Skipping track because it is not in Music category');
+          return;
+        }
+      }
 
       var parsedInfo = { artist: '', track: '' }; // FIXME: hotfix after YT API was shut down... parseInfo(info.entry.title.$t);
       var artist = null;
@@ -253,11 +247,7 @@ function updateNowPlaying() {
       track = parsedInfo['track'];
 
       // get the duration from the YT API response
-      var duration = '';
-      if (info.entry.media$group.media$content != undefined)
-         duration = info.entry.media$group.media$content[0].duration;
-      else if (info.entry.media$group.yt$duration.seconds != undefined)
-         duration = info.entry.media$group.yt$duration.seconds;
+      var duration = nezasa.iso8601.Period.parseToTotalSeconds(details.duration);
 
       // Validate given artist and track (even for empty strings)
       chrome.runtime.sendMessage({type: 'validate', artist: artist, track: track}, function(response) {
@@ -293,3 +283,9 @@ chrome.runtime.onMessage.addListener(
          }
    }
 );
+
+/* https://github.com/nezasa/iso8601-js-period */
+(function(b){function f(a,j){var b=j?j:!1,c=[2,3,4,5,7,8,9],e=[0,0,0,0,0,0,0],f=[0,12,4,7,24,60,60],h;if(a=a.toUpperCase()){if("string"!==typeof a)throw Error("Invalid iso8601 period string '"+a+"'");}else return e;if(h=/^P((\d+Y)?(\d+M)?(\d+W)?(\d+D)?)?(T(\d+H)?(\d+M)?(\d+S)?)?$/.exec(a))for(var d=0;d<c.length;d++){var k=c[d];e[d]=h[k]?+h[k].replace(/[A-Za-z]+/g,""):0}else throw Error("String '"+a+"' is not a valid ISO8601 period.");if(b)for(d=e.length-1;0<d;d--)e[d]>=f[d]&&(e[d-1]+=Math.floor(e[d]/
+f[d]),e[d]%=f[d]);return e}b.iso8601||(b.iso8601={});b.iso8601.Period||(b.iso8601.Period={});b.iso8601.version="0.2";b.iso8601.Period.parse=function(a,b){return f(a,b)};b.iso8601.Period.parseToTotalSeconds=function(a){var b=[31104E3,2592E3,604800,86400,3600,60,1];a=f(a);for(var g=0,c=0;c<a.length;c++)g+=a[c]*b[c];return g};b.iso8601.Period.isValid=function(a){try{return f(a),!0}catch(b){return!1}};b.iso8601.Period.parseToString=function(a,b,g,c){var e="      ".split(" ");a=f(a,c);b||(b="year month week day hour minute second".split(" "));
+g||(g="years months weeks days hours minutes seconds".split(" "));for(c=0;c<a.length;c++)0<a[c]&&(e[c]=1==a[c]?a[c]+" "+b[c]:a[c]+" "+g[c]);return e.join(" ").trim().replace(/[ ]{2,}/g," ")}})(window.nezasa=window.nezasa||{});
+
