@@ -188,9 +188,13 @@ function updateNowPlaying() {
   var xhr = new XMLHttpRequest();
 
   xhr.onreadystatechange = function () {
+    if (xhr.readyState != 4) {
+      return;
+    }
+
     var info = null;
 
-    if (xhr.readyState == 4 && xhr.status == 200) {
+    if (xhr.status == 200) {
       info = JSON.parse(xhr.responseText).items[0];
       if (scrobbleMusicOnly && info.snippet.categoryId != MUSIC_CATEGORY_ID) {
         console.log('Skipping track because it is not in Music category');
