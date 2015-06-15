@@ -20,17 +20,32 @@ window._ATTACHED = window._ATTACHED || false;
                     typeof f._events.all !== 'undefined';
             }
 
-            bus = n(19);
-            if (!isEventBus(bus)) {
+            var bus;
+            try{
+                bus = n(2459);
+            } catch (e) {
+            }
+
+            if (!bus || !isEventBus(bus)) {
                 var i;
-                for (i = 0; i < 255; i++) {
-                    var test = n(i);
-                    if (isEventBus(test)) {
-                        bus = test;
-                        break;
+                for (i = 0; i < 3491; i++) {
+                    try{
+                        var test = n(i);
+                        if (isEventBus(test)) {
+                            bus = test;
+                            console.log("Event bus index changed to " + i + ". Please report at https://github.com/david-sabata/web-scrobbler/issues");
+                            break;
+                        }
+                    } catch (e) {
                     }
                 }
             }
+
+            if (!bus) {
+                console.log("Cannot scrobble. Please report at https://github.com/david-sabata/web-scrobbler/issues");
+                return;
+            }
+            
             bus.on('audio:play', function(e) {
                 window.postMessage({
                     type: 'SC_PLAY',
