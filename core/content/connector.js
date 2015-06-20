@@ -79,6 +79,15 @@ var BaseConnector = window.BaseConnector || function () {
 		 */
 		this.playerSelector = null;
 
+		/**
+		 * Selector of image used to represent the track being played. is used for
+		 * the notification service.
+		 *
+		 * If not specified will fall back to last.fm API.
+		 *
+		 * @type {string}
+		 */
+		this.trackArtImageSelector = null;
 
 		/**
 		 * Default implementation of artist name lookup by selector
@@ -195,6 +204,16 @@ var BaseConnector = window.BaseConnector || function () {
 			return this.playButtonSelector === null || !$(this.playButtonSelector).is(':visible');
 		};
 
+		/**
+		 * Default implementation used to get the track art from the trackArtImageSelector.
+		 *
+		 * Override this method for more complex behavor
+		 * @return {String|null}
+		 */
+		this.getTrackArt = function () {
+			return this.trackArtImageSelector === null ? null : $(this.trackArtImageSelector).attr('src');
+		};
+
 
 		// --- state & api -------------------------------------------------------------------------------------------------
 
@@ -276,6 +295,12 @@ var BaseConnector = window.BaseConnector || function () {
 			if (newIsPlaying !== currentState.isPlaying) {
 				currentState.isPlaying = newIsPlaying;
 				changedFields.push('isPlaying');
+			}
+
+			var newTrackArt = this.getTrackArt();
+			if (newTrackArt !== currentState.trackArt) {
+				currentState.trackArt = newTrackArt;
+				changedFields.push('trackArt');
 			}
 
 			// take action if needed

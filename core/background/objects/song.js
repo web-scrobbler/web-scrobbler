@@ -27,7 +27,8 @@ define([
 			uniqueID: parsedData.uniqueID || null,
 			duration: parsedData.duration || null,
 			currentTime: parsedData.currentTime || null,
-			isPlaying: parsedData.isPlaying || false
+			isPlaying: parsedData.isPlaying || false,
+			trackArt: parsedData.trackArt || false
 		};
 
 		/**
@@ -109,6 +110,14 @@ define([
 			var max = 4 * 60; // really long tracks are scrobbled after 4 minutes
 			var val = Math.max(this.getDuration() / 2, DEFAULT_SCROBBLE_TIME);
 			return Math.min(val, max); // whatever occurs first
+		};
+
+		/**
+		 * Return the track art associated with the song.
+		 * @return {String|null}
+		 */
+		song.getTrackArt = function() {
+			return this.parsed.trackArt || null;
 		};
 
 		return song;
