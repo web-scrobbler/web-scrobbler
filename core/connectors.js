@@ -138,7 +138,8 @@ define(function() {
 		{
 			label: 'Amazon',
 			matches: ['*://www.amazon.com/gp/dmusic/cloudplayer/*', '*://www.amazon.de/gp/dmusic/cloudplayer/*', '*://www.amazon.es/gp/dmusic/cloudplayer/*', '*://www.amazon.co.uk/gp/dmusic/cloudplayer/*'],
-			js: ['connectors/amazon.js']
+			js: ['connectors/v2/amazon.js'],
+			version: 2
 		},
 
 		{ // DEAD?
