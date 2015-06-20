@@ -532,6 +532,13 @@ define(function() {
 			matches: ['*://musicase.me/*'],
 			js: ['connectors/v2/musicase.js'],
 			version: 2
+		},
+
+		{
+			label: 'Reddit Music Player',
+			matches: ['*://reddit.music.player.il.ly/'],
+			js: ['connectors/v2/redditmusicplayer.js'],
+			version: 2
 		}
 
 	];
