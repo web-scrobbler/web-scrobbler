@@ -465,6 +465,12 @@ define(function() {
 		},
 
 		{
+			label: 'Ektoplazm',
+			matches: ['*://www.ektoplazm.com/*'],
+			js: ['connectors/ektoplazm.js'],
+		},
+
+		{
 			label: 'TIDAL',
 			matches: ['*://listen.tidalhifi.com/*'],
 			js: ['connectors/v2/tidal.js'],

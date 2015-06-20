@@ -15,7 +15,8 @@
       "connectors/jango-dom-inject.js",
       "connectors/plugdj-dom-inject.js",
       "connectors/soundcloud-dom-inject.js",
-      "connectors/vk-dom-inject.js"
+      "connectors/vk-dom-inject.js",
+      "connectors/ektoplazm-dom-inject.js"
    ],
 
    "background": {
