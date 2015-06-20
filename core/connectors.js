@@ -516,6 +516,14 @@ define(function() {
 			matches: ['*://www.freemusicarchive.org/*', '*://freemusicarchive.org/*', '*://www.freemusicarchive.com/*', '*://freemusicarchive.com/*'],
 			js: ['connectors/v2/freemusicarchive.js'],
 			version: 2
+		},
+
+		{
+			label: 'musicase',
+			matches: ['*://musicase.me/*'],
+			js: ['connectors/v2/musicase.js'],
+			version: 2
 		}
+
 	];
 });
