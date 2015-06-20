@@ -246,6 +246,13 @@ define([
 	 * @param cb {Function(boolean)} callback where validation result will be passed
 	 */
 	function loadSongInfo(song, cb) {
+
+		if (song.processed.artist === null || song.prcoessed.track === null) {
+			song.flags.attr('isLastfmValid', false);
+			cb(false);
+			return;
+		}
+
 		var params = {
 			method: 'track.getinfo',
 			autocorrect: localStorage.useAutocorrect ? localStorage.useAutocorrect : 0,
