@@ -247,18 +247,18 @@ define([
 	 */
 	function loadSongInfo(song, cb) {
 
-		if (song.processed.artist === null || song.prcoessed.track === null) {
-			song.flags.attr('isLastfmValid', false);
-			cb(false);
-			return;
-		}
-
 		var params = {
 			method: 'track.getinfo',
 			autocorrect: localStorage.useAutocorrect ? localStorage.useAutocorrect : 0,
 			artist: song.processed.artist || song.parsed.artist,
 			track: song.processed.track || song.parsed.track
 		};
+
+		if (params.artist === null || params.track === null) {
+			song.flags.attr('isLastfmValid', false);
+			cb(false);
+			return;
+		}
 
 		var okCb = function(xmlDoc) {
 			var $doc = $(xmlDoc);
