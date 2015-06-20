@@ -539,6 +539,13 @@ define(function() {
 			matches: ['*://reddit.music.player.il.ly/'],
 			js: ['connectors/v2/redditmusicplayer.js'],
 			version: 2
+		},
+
+		{
+			label: 'kollekt.fm',
+			matches: ['*://kollekt.fm/*'],
+			js: ['connectors/v2/kollekt.js'],
+			version: 2
 		}
 
 	];
