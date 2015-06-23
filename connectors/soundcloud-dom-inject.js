@@ -22,7 +22,7 @@ window._ATTACHED = window._ATTACHED || false;
 
             var bus;
             try{
-                bus = n(2459);
+                bus = n(3524);
             } catch (e) {
             }
 
@@ -45,17 +45,17 @@ window._ATTACHED = window._ATTACHED || false;
                 console.log("Cannot scrobble. Please report at https://github.com/david-sabata/web-scrobbler/issues");
                 return;
             }
-            
+
             bus.on('audio:play', function(e) {
                 window.postMessage({
                     type: 'SC_PLAY',
-                    metadata: e.sound.attributes
+                    metadata: e.model.attributes
                 }, '*');
             });
             bus.on('audio:pause', function(e) {
                 window.postMessage({
                     type: 'SC_PAUSE',
-                    metadata: e.sound.attributes
+                    metadata: e.model.attributes
                 }, '*');
             });
         }
