@@ -16,7 +16,7 @@ window.SC_ATTACHED = window.SC_ATTACHED || false;
 		return;
 	}
 	/*jslint unparam: true */
-	webpackJsonp([], {
+	window.webpackJsonp([], {
 		0: function (e, t, require) {
 			var modules = require.c, moduleid, el;
 
@@ -28,7 +28,7 @@ window.SC_ATTACHED = window.SC_ATTACHED || false;
 					//console.groupEnd();
 
 					// playManager used to get current playing song when song starts on page load
-					if (typeof el.playCurrent === "function") {
+					if (typeof el.playCurrent === 'function') {
 						playManager = el;
 					}
 					else if (el.trigger && el.bind && el.listenToOnce && el.broadcast) {
@@ -44,7 +44,7 @@ window.SC_ATTACHED = window.SC_ATTACHED || false;
 	/*jslint unparam: false */
 
 	if (!eventBus) {
-		console.log("Cannot scrobble, unable to find event bus. Please report at https://github.com/david-sabata/web-scrobbler/issues");
+		console.log('Cannot scrobble, unable to find event bus. Please report at https://github.com/david-sabata/web-scrobbler/issues');
 		return;
 	}
 

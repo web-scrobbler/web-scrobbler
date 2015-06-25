@@ -114,7 +114,7 @@ var setSongData = function (metadata) {
 		switch (e.data.type) {
 			case 'SC_PLAY':
 				// don't scrobble private tracks
-				if (e.data.metadata.sharing && e.data.metadata.sharing === "private") {
+				if (e.data.metadata.sharing && e.data.metadata.sharing === 'private') {
 					console.log('Track is private so it won\'t be scrobbled.');
 					return;
 				}
