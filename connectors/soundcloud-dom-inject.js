@@ -22,13 +22,13 @@ window._ATTACHED = window._ATTACHED || false;
 
             var bus;
             try{
-                bus = n(2459);
+                bus = n(3524);
             } catch (e) {
             }
 
             if (!bus || !isEventBus(bus)) {
                 var i;
-                for (i = 0; i < 3491; i++) {
+                for (i = 0; i < 100000; i++) {
                     try{
                         var test = n(i);
                         if (isEventBus(test)) {
@@ -45,7 +45,7 @@ window._ATTACHED = window._ATTACHED || false;
                 console.log("Cannot scrobble. Please report at https://github.com/david-sabata/web-scrobbler/issues");
                 return;
             }
-            
+
             bus.on('audio:play', function(e) {
                 window.postMessage({
                     type: 'SC_PLAY',
