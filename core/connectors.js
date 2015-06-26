@@ -132,7 +132,8 @@ define(function() {
 		{
 			label: 'SoundCloud',
 			matches: ['*://soundcloud.com/*'],
-			js: ['connectors/soundcloud.js']
+			js: ['connectors/v2/soundcloud.js'],
+			version: 2
 		},
 
 		{
