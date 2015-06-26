@@ -59,15 +59,19 @@ define([], function() {
 		 * @param {can.Map} songObj
 		 */
 		this.setSongRecognized = function(songObj) {
-			setPageAction(icons.RECOGNIZED, 'Now playing ' + songObj.getArtist() + ' - ' + songObj.getTrack(), '');
+			setPageAction(icons.RECOGNIZED, 'Now playing ' + songObj.getArtist() + ' - ' + songObj.getTrack(), 'options/privatemode.html');
 		};
 
 		this.setSongRecognizedDisabled = function() {
-			setPageAction(icons.DISABLED, 'Current song will not be scrobbled', '');
+			setPageAction(icons.DISABLED, 'Current song will not be scrobbled', 'options/privatemode.html');
+		};
+
+		this.setLastFmInPrivateMode = function() {
+			setPageAction(icons.DISABLED, 'You\'re in private mode', 'options/privatemode.html');
 		};
 
 		this.setSongScrobbled = function(song) {
-			setPageAction(icons.SCROBBLED, 'Scrobbled ' + song.getArtist() + ' - ' + song.getTrack(), '');
+			setPageAction(icons.SCROBBLED, 'Scrobbled ' + song.getArtist() + ' - ' + song.getTrack(), 'options/privatemode.html');
 		};
 
 		this.setSongNotRecognized = function() {

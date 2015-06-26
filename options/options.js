@@ -22,6 +22,12 @@ require([
 				localStorage.useNotifications = this.checked ? 1 : 0;
 			});
 
+		$('#private-mode')
+			.attr('checked', (localStorage.privateMode == 1))
+			.click(function () {
+				localStorage.privateMode = this.checked ? 1 : 0;
+			});
+
 		$('#use-autocorrect')
 			.attr('checked', (localStorage.useAutocorrect == 1))
 			.click(function () {

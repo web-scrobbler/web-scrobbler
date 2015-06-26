@@ -221,6 +221,11 @@ define([
 		 * @param {Song} song
 		 */
 		function setSongNowPlaying(song) {
+			if(localStorage.privateMode == 1){
+				pageAction.setLastFmInPrivateMode();
+				return false;
+			}
+
 			pageAction.setSongRecognized(song);
 
 			Notifications.showPlaying(song);
@@ -240,6 +245,10 @@ define([
 		 * The time should be set only after the song is validated and ready to be scrobbled.
 		 */
 		function doScrobble(song) {
+			if(localStorage.privateMode == 1){
+				pageAction.setLastFmInPrivateMode();
+				return false;
+			}
 			console.log('Tab ' + tabId + ': scrobbling song ' + song.getArtist() + ' - ' + song.getTrack());
 
 			var scrobbleCB = function(result) {
