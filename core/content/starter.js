@@ -34,7 +34,11 @@
 	if (Connector.playerSelector !== null) {
 		console.log('Web Scrobbler: Setting up observer');
 
-		var observer = new MutationObserver(Connector.onStateChanged);
+		var observer = new window.MutationObserver(function () {
+			if (Connector.isStateChangeAllowed()) {
+				Connector.onStateChanged();
+			}
+		});
 
 		var observeTarget = document.querySelector(Connector.playerSelector);
 		var config = {

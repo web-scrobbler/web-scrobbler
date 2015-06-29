@@ -214,6 +214,16 @@ var BaseConnector = window.BaseConnector || function () {
 			return this.trackArtImageSelector === null ? null : $(this.trackArtImageSelector).attr('src');
 		};
 
+		/**
+		 * Default implementation of a check to see if a state change is allowed.
+		 *  MutationObserver will ignore mutations while this function returns false.
+		 *
+		 * Override this method to allow certain states to be ignored, for example if an advert is playing.
+		 * @return {Boolean}
+		 */
+		this.isStateChangeAllowed = function () {
+			return true;
+		};
 
 		// --- state & api -------------------------------------------------------------------------------------------------
 
