@@ -419,7 +419,8 @@ define(function() {
 		{
 			label: 'Archive.org',
 			matches: ['*://archive.org/details/*'],
-			js: ['connectors/archive.js']
+			js: ['connectors/v2/archive.js'],
+			version: 2
 		},
 
 		{
