@@ -547,6 +547,13 @@ define(function() {
 			matches: ['*://kollekt.fm/*'],
 			js: ['connectors/v2/kollekt.js'],
 			version: 2
+		},
+
+		{
+			label: 'novoeradio.by',
+			matches: ['*://www.novoeradio.by/*'],
+			js: ['connectors/v2/novoeradio.js'],
+			version: 2
 		}
 
 	];
