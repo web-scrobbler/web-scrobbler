@@ -36,7 +36,7 @@
 
 		var observeTarget = document.querySelector(Connector.playerSelector);
 
-		if (observeTarget != null) {
+		if (observeTarget !== null) {
 			var observer = new window.MutationObserver(function () {
 				if (Connector.isStateChangeAllowed()) {
 					Connector.onStateChanged();
