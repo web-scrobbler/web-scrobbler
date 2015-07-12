@@ -14,11 +14,17 @@ h1, h2, h3, h4, h5 {
 }
 
 a {
-	color: #000;
 	text-decoration: none;
 	border-bottom: 1px solid #d51007;
+	font-size: 0.75em;
+	color: #333;
+	border: none;
 }
 
 a:hover {
 	color: #d51007;
+}
+
+#wrapper {
+	width: 290px;
 }
