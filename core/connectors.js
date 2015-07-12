@@ -547,6 +547,13 @@ define(function() {
 			matches: ['*://kollekt.fm/*'],
 			js: ['connectors/v2/kollekt.js'],
 			version: 2
+		},
+
+		{
+			label: 'audiosplitter.fm',
+			matches: ['*://audiosplitter.fm/*'],
+			js: ['connectors/v2/audiosplitter.js'],
+			version: 2
 		}
 
 	];
