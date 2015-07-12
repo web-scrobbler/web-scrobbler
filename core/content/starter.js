@@ -11,7 +11,7 @@
 (function () {
 	// intentionally global lock to avoid multiple execution of this function
 	if (window.STARTER_LOADED !== undefined) {
-		console.warn('starter already loaded');
+		console.warn('Web Scrobbler: Starter already loaded');
 		return;
 	}
 	window.STARTER_LOADED = true;
@@ -34,20 +34,29 @@
 	if (Connector.playerSelector !== null) {
 		console.log('Web Scrobbler: Setting up observer');
 
-		var observer = new window.MutationObserver(function () {
-			if (Connector.isStateChangeAllowed()) {
-				Connector.onStateChanged();
-			}
-		});
-
 		var observeTarget = document.querySelector(Connector.playerSelector);
-		var config = {
-			childList: true,
-			subtree: true,
-			attributes: true,
-			characterData: true
-		};
-		observer.observe(observeTarget, config);
+
+		if (observeTarget != null) {
+			var observer = new window.MutationObserver(function () {
+				if (Connector.isStateChangeAllowed()) {
+					Connector.onStateChanged();
+				}
+			});
+
+			var config = {
+				childList: true,
+				subtree: true,
+				attributes: true,
+				characterData: true
+			};
+			observer.observe(observeTarget, config);
+		}
+		// Some pages (looking at you Google Music!) may do some crazy navigation API tricks before loading the final page,
+		// in which case we won't usually find the player. Instead of letting the observer to fire an error we just
+		// log it and hope that the next navigation event will trigger a new injection. Unload event is still hooked though.
+		else {
+			console.warn('Web Scrobbler: Player element (' + Connector.playerSelector + ') was not found in the page.');
+		}
 	}
 	/**
 	 * Player selector is not provided, current connector needs to detect state changes on its own
