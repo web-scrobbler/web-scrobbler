@@ -549,6 +549,13 @@ define(function() {
 			matches: ['*://audiosplitter.fm/*'],
 			js: ['connectors/v2/audiosplitter.js'],
 			version: 2
+		},
+
+		{
+			label: 'novoeradio.by',
+			matches: ['*://www.novoeradio.by/*'],
+			js: ['connectors/v2/novoeradio.js'],
+			version: 2
 		}
 
 	];
