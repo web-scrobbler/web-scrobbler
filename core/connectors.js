@@ -221,12 +221,6 @@ define(function() {
 		},
 
 		{
-			label: 'Turntable',
-			matches: ['*://turntable.fm/*'],
-			js: ['connectors/turntable.js']
-		},
-
-		{
 			label: 'Slacker (iframe)',
 			matches: ['*://www.slacker.com/webplayer/index_embed.vm'],
 			js: ['connectors/slacker.js']
