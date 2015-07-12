@@ -260,7 +260,8 @@ define(function() {
 		{
 			label: '8tracks',
 			matches: ['*://8tracks.com/*'],
-			js: ['connectors/8tracks.js']
+			js: ['connectors/v2/8tracks.js'],
+			version: 2
 		},
 
 		{
