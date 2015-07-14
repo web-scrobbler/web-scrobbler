@@ -1,6 +1,6 @@
 'use strict';
 
-/* Tradiio Connector */
+/* global Connector */
 
 Connector.playerSelector = '.leftmusicplayer';
 
@@ -12,4 +12,10 @@ Connector.playButtonSelector = '.leftmusicplayer .section-controls .btn-play';
 
 Connector.getDuration = function() {
     return Connector.stringToSeconds($('.leftmusicplayer .songDuration').text()) || null;
+};
+
+Connector.currentTimeSelector = '.leftmusicplayer .progress-play';
+
+Connector.getTrackArt = function () {
+    return $('.leftmusicplayer .cover-small img').attr('src').replace('-square.jpg', '-normal.jpg');
 };
