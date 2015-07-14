@@ -557,6 +557,13 @@ define(function() {
 			matches: ['*://www.novoeradio.by/*'],
 			js: ['connectors/v2/novoeradio.js'],
 			version: 2
+		},
+
+		{
+			label: 'Tradiio',
+			matches: ['*://*tradiio.com/*'],
+			js: ['connectors/v2/tradiio.js'],
+			version: 2
 		}
 
 	];
