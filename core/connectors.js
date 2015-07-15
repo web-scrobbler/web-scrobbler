@@ -564,6 +564,13 @@ define(function() {
 			matches: ['*://*tradiio.com/*'],
 			js: ['connectors/v2/tradiio.js'],
 			version: 2
+		},
+
+		{
+			label: 'Yandex radio',
+			matches: ['https://radio.yandex.ru/*'],
+			js: ['connectors/v2/yandexradio.js'],
+			version: 2
 		}
 
 	];
