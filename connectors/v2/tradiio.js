@@ -14,7 +14,7 @@ Connector.getDuration = function() {
 	return Connector.stringToSeconds($('.leftmusicplayer .songDuration').text()) || null;
 };
 
-Connector.currentTimeSelector = '.leftmusicplayer .progress-play';
+Connector.currentTimeSelector = '.leftmusicplayer .songDuration.s-progress';
 
 Connector.getTrackArt = function () {
 	return $('.leftmusicplayer .cover-small img').attr('src').replace('-square.jpg', '-normal.jpg');
