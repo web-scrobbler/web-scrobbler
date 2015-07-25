@@ -463,7 +463,7 @@ define(function() {
 
 		{
 			label: 'TIDAL',
-			matches: ['*://listen.tidalhifi.com/*'],
+			matches: ['*://listen.tidalhifi.com/*', '*://listen.tidal.com/*'],
 			js: ['connectors/v2/tidal.js'],
 			version: 2
 		},
