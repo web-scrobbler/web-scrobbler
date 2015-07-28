@@ -561,7 +561,7 @@ define(function() {
 
 		{
 			label: 'Tradiio',
-			matches: ['*://*tradiio.com/*'],
+			matches: ['*://tradiio.com/*', '*://*.tradiio.com/*'],
 			js: ['connectors/v2/tradiio.js'],
 			version: 2
 		},
