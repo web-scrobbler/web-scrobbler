@@ -571,6 +571,13 @@ define(function() {
 			matches: ['https://radio.yandex.ru/*'],
 			js: ['connectors/v2/yandexradio.js'],
 			version: 2
+		},
+
+		{
+			label: 'EDM.com',
+			matches: ['*://edm.com/*'],
+			js: ['connectors/v2/edm.js'],
+			version: 2
 		}
 
 	];
