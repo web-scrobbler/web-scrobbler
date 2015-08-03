@@ -571,6 +571,20 @@ define(function() {
 			matches: ['https://radio.yandex.ru/*'],
 			js: ['connectors/v2/yandexradio.js'],
 			version: 2
+		},
+
+		{
+			label: 'oplayer',
+			matches: ['*://oplayer.org/*'],
+			js: ['connectors/v2/jplayer-oplayer.js'],
+			version: 2
+		},
+
+		{
+			label: 'post-player',
+			matches: ['*://post-player.org/*'],
+			js: ['connectors/v2/jplayer-postplayer.js'],
+			version: 2
 		}
 
 	];
