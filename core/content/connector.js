@@ -386,7 +386,7 @@ var BaseConnector = window.BaseConnector || function () {
 			}
 
 			// care - minus vs hyphen
-			var separators = [' - ', ' – ', '-', '–', ':'];
+			var separators = [' - ', ' – ', ' — ', '-', '–', '—', ':'];
 
 			for (var i in separators) {
 				var sep = separators[i];
