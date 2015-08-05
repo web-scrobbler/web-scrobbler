@@ -46,7 +46,7 @@ Connector.getAlbum = function () {
 
 Connector.isPlaying = function() {
 	var e = $('.play-pause .play');
-	return e === null || !e.is(':visible');
+	return (e === null || !e.is(':visible'));
 }
 
 Connector.currentTimeSelector = '.played';
