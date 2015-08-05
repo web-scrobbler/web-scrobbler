@@ -571,6 +571,13 @@ define(function() {
 			matches: ['https://radio.yandex.ru/*'],
 			js: ['connectors/v2/yandexradio.js'],
 			version: 2
+		},
+
+		{
+			label: 'Dream FM',
+			matches: ['*://dreamfm.biz/*'],
+			js: ['connectors/v2/dreamfm.js'],
+			version: 2
 		}
 
 	];
