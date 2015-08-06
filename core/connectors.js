@@ -571,6 +571,14 @@ define(function() {
 			matches: ['https://radio.yandex.ru/*'],
 			js: ['connectors/v2/yandexradio.js'],
 			version: 2
+		},
+
+		{
+			label: 'Radio Paradise',
+			matches: ['*://*.radioparadise.com/*'],
+			js: ['connectors/v2/radioparadise.js'],
+			allFrames: true,
+			version: 2,
 		}
 
 	];
