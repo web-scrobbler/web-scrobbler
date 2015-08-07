@@ -28,16 +28,6 @@ function getTrack() {
 	return cleanText(track);
 }
 
-/* @returns {{artist, track}} */
-Connector.getArtistTrack = function () {
-	var artist = getArtist(),
-		track = getTrack();
-	return {
-		artist: artist,
-		track: track
-	};
-};
-
 Connector.getAlbum = function () {
 	var album = $('#album').text() ||
 				null;
