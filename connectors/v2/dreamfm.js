@@ -16,17 +16,17 @@ function cleanText(input) {
 	return input.replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
 }
 
-function getArtist() {
+Connector.getArtist = function() {
 	var artist = $('#tracka').text() ||
 				null;
 	return cleanText(artist);
-}
+};
 
-function getTrack() {
+Connector.getTrack = function() {
 	var track = $('#tracktitle').text() ||
 				null;
 	return cleanText(track);
-}
+};
 
 Connector.getAlbum = function () {
 	var album = $('#album').text() ||
