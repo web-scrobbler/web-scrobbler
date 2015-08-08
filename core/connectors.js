@@ -571,6 +571,13 @@ define(function() {
 			matches: ['https://radio.yandex.ru/*'],
 			js: ['connectors/v2/yandexradio.js'],
 			version: 2
+		},
+
+		{
+			label: 'beatport - www',
+			matches: ['https://www.beatport.com/*'],
+			js: ['connectors/v2/beatport-www.js'],
+			version: 2
 		}
 
 	];
