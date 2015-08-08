@@ -537,7 +537,7 @@ define(function() {
 
 		{
 			label: 'Reddit Music Player',
-			matches: ['*://reddit.music.player.il.ly/'],
+			matches: ['*://reddit.musicplayer.io/'],
 			js: ['connectors/v2/redditmusicplayer.js'],
 			version: 2
 		},
