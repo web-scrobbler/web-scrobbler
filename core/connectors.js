@@ -571,6 +571,13 @@ define(function() {
 			matches: ['https://radio.yandex.ru/*'],
 			js: ['connectors/v2/yandexradio.js'],
 			version: 2
+		},
+
+		{
+			label: 'themusicninja',
+			matches: ['*://www.themusicninja.com/*'],
+			js: ['connectors/v2/themusicninja.js'],
+			version: 2
 		}
 
 	];
