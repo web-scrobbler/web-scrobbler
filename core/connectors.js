@@ -571,6 +571,13 @@ define(function() {
 			matches: ['https://radio.yandex.ru/*'],
 			js: ['connectors/v2/yandexradio.js'],
 			version: 2
+		},
+
+		{
+			label: 'trntbl.me',
+			matches: ['*://*.trntbl.me/*', '*://trntbl.me/*'],
+			js: ['connectors/v2/trntblme.js'],
+			version: 2
 		}
 
 	];
