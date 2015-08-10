@@ -571,6 +571,13 @@ define(function() {
 			matches: ['https://radio.yandex.ru/*'],
 			js: ['connectors/v2/yandexradio.js'],
 			version: 2
+		},
+
+		{
+			label: 'wavo.me',
+			matches: ['https://wavo.me/*'],
+			js: ['connectors/v2/wavome.js'],
+			version: 2
 		}
 
 	];
