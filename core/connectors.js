@@ -282,12 +282,12 @@ define(function() {
 			js: ['connectors/radioplusbe.js']
 		},
 
-		{
-			label: 'Songza',
-			matches: ['*://songza.com/*'],
-			js: ['connectors/v2/songza.js'],
-			version: 2
-		},
+		// {
+		// 	label: 'Songza',
+		// 	matches: ['*://songza.com/*'],
+		// 	js: ['connectors/v2/songza.js'],
+		// 	version: 2
+		// },
 
 		{
 			label: 'Douban Programme',
@@ -402,7 +402,8 @@ define(function() {
 		{
 			label: 'Xiami.com',
 			matches: ['http://www.xiami.com/play*'],
-			js: ['connectors/xiami.js']
+			js: ['connectors/v2/xiami.js'],
+			version: 2
 		},
 
 		{
