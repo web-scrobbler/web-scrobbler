@@ -282,12 +282,12 @@ define(function() {
 			js: ['connectors/radioplusbe.js']
 		},
 
-		// {
-		// 	label: 'Songza',
-		// 	matches: ['*://songza.com/*'],
-		// 	js: ['connectors/v2/songza.js'],
-		// 	version: 2
-		// },
+		{
+		 	label: 'Songza',
+		 	matches: ['*://songza.com/*'],
+		 	js: ['connectors/v2/songza.js'],
+		 	version: 2
+		},
 
 		{
 			label: 'Douban Programme',
