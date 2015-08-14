@@ -283,10 +283,10 @@ define(function() {
 		},
 
 		{
-		 	label: 'Songza',
-		 	matches: ['*://songza.com/*'],
-		 	js: ['connectors/v2/songza.js'],
-		 	version: 2
+			label: 'Songza',
+			matches: ['*://songza.com/*'],
+			js: ['connectors/v2/songza.js'],
+			version: 2
 		},
 
 		{
