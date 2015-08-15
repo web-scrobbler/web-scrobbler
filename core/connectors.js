@@ -435,7 +435,8 @@ define(function() {
 		{
 			label: '163 Music',
 			matches: ['*://music.163.com/*'],
-			js: ['connectors/163music.js']
+			js: ['connectors/v2/163music.js'],
+			version: 2
 		},
 
 		{
