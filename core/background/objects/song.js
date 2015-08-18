@@ -4,8 +4,9 @@
  * Song object
  */
 define([
-	'wrappers/can'
-], function(can) {
+	'wrappers/can',
+	'services/lastfm'
+], function(can, LastFM) {
 	/**
 	 * @constructor
 	 */
@@ -119,6 +120,14 @@ define([
 		song.getTrackArt = function() {
 			return this.parsed.trackArt || null;
 		};
+
+		song.loveTrack = function(callback) {
+			LastFM.toggleLove(song, true, callback);
+ 		};
+
+ 		song.unloveTrack = function(callback) {
+			LastFM.toggleLove(song, false, callback);
+ 		};
 
 		return song;
 	};

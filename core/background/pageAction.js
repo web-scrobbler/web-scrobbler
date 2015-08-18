@@ -44,12 +44,10 @@ define([], function() {
 			chrome.pageAction.show(tabId);
 		}
 
-
-
 		this.onClicked = function() {
 			console.log('Page action clicked in tab ' + tabId);
+			setPageAction(icons.RECOGNIZED, 'Your Last.fm record for this song', 'popups/info.html');
 		};
-
 
 		this.setSiteSupported = function() {
 			setPageAction(icons.BASE, 'This site is supported for scrobbling', documents.BASE);
@@ -71,7 +69,7 @@ define([], function() {
 		};
 
 		this.setSongNotRecognized = function() {
-			setPageAction(icons.UNKNOWN, 'The song was not recognized. Click to enter correct info', 'popup.html');
+			setPageAction(icons.UNKNOWN, 'The song was not recognized. Click to enter correct info', 'popups/popup.html');
 		};
 
 	};

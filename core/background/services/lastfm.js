@@ -20,7 +20,7 @@ define([
 	var apiKey = 'd9bb1870d3269646f740544d9def2c95';
 	var apiSecret = '2160733a567d4a1a69a73fad54c564b2';
 
-	var storage = ChromeStorage.getNamespace('LastFM');
+	var storage = ChromeStorage.getNamespace('LastFM'); //+Date.now()
 
 	/**
 	 * Creates query string from object properties
@@ -95,13 +95,15 @@ define([
 						// both session and token are now invalid
 						data.token = null;
 						data.sessionID = null;
+						data.username = null;
 						storage.set(data, function() {
 							cb(null);
 						});
 					} else {
 						// token is already used, reset it and store the new session
 						data.token = null;
-						data.sessionID = session;
+						data.sessionID = session.key;
+						data.username = session.username;
 						storage.set(data, function() {
 							cb(session);
 						});
@@ -109,7 +111,7 @@ define([
 				});
 			}
 			else {
-				cb(data.sessionID);
+				cb(data.sessionID, data.username);
 			}
 		});
 	}
@@ -136,7 +138,7 @@ define([
 					console.log('auth.getSession response: ' + JSON.stringify(response));
 					cb(null);
 				} else {
-					cb(response.session.key);
+					cb(response.session);
 				}
 			})
 			.fail(function(jqxhr, textStatus, error) {
@@ -246,10 +248,12 @@ define([
 	 * @param cb {Function(boolean)} callback where validation result will be passed
 	 */
 	function loadSongInfo(song, cb) {
+		getSessionID(function(sessionID,username) {
 
 		var params = {
 			method: 'track.getinfo',
 			autocorrect: localStorage.useAutocorrect ? localStorage.useAutocorrect : 0,
+			username: username,
 			artist: song.processed.artist || song.parsed.artist,
 			track: song.processed.track || song.parsed.track
 		};
@@ -277,6 +281,7 @@ define([
 			}
 
 			song.metadata.attr({
+				userloved: $doc.find('userloved').text(),
 				artistThumbUrl: thumbUrl
 			});
 
@@ -293,6 +298,7 @@ define([
 		};
 
 		doRequest('GET', params, false, okCb, errCb);
+		})
 	}
 
 	/**
@@ -394,7 +400,44 @@ define([
 		});
 	}
 
+	/**
+	 * Send song to API to LOVE or UNLOVE
+	 * @param {Boolean} love true = send LOVE request, false = send UNLOVE request
+	 * @param {can.Map} song
+	 * @param {Function} cb callback with single ServiceCallResult parameter
+	 */
+	function toggleLove(song, shouldBeLoved, cb) {
+		getSessionID(function(sessionID) {
+			if (!sessionID) {
+				var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
+				cb(result);
+			}
 
+			var params = {
+				method: 'track.'+(shouldBeLoved ? 'love' : 'unlove' ),
+				'track[0]': song.processed.track || song.parsed.track,
+				'artist[0]': song.processed.artist || song.parsed.artist,
+				api_key: config.apiKey,
+				sk: sessionID
+			};
+
+			var okCb = function(xmlDoc) {
+				var $doc = $(xmlDoc);
+
+				if ($doc.find('lfm').attr('status') == 'ok') {
+					cb(true);
+				} else {
+					cb(false); // request passed but returned error
+				}
+			};
+
+			var errCb = function() {
+				cb(false);
+			};
+
+			doRequest('POST', params, true, okCb, errCb);
+		});
+	}
 
 	return {
 		getAuthUrl: getAuthUrl,
@@ -402,7 +445,8 @@ define([
 		generateSign: generateSign,
 		loadSongInfo: loadSongInfo,
 		sendNowPlaying: sendNowPlaying,
-		scrobble: scrobble
+		scrobble: scrobble,
+		toggleLove: toggleLove
 	};
 
 });
