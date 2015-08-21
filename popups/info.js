@@ -29,21 +29,6 @@ $(document).ready(function() {
                 onSongLoaded(tabId, response);
             }
         });
-
-		// UI listeners
-		$("#love").on('click', function() {
-			var isLoved = $("#love").attr('last-fm-loved') === "true"
-
-			console.log("Was "+isLoved+", should be "+!isLoved);
-			chrome.runtime.sendMessage({
-				type: 'v2.toggleLove',
-				data: { shouldBeLoved: !isLoved },
-				tabId: tabId
-			}, function() {
-				$("#love").attr('last-fm-loved', !isLoved);
-				console.log("Now "+!isLoved);
-			});
-		})
     }
 
     /**
@@ -60,9 +45,21 @@ $(document).ready(function() {
         $('#artist').text(song.processed.artist || song.parsed.artist).attr("href", song.metadata.artistUrl);
         $('#track').text(song.processed.track || song.parsed.track).attr("href", song.metadata.trackUrl);
         $('#album-art').css("background-image", "url('" + (song.metadata.artistThumbUrl || song.parsed.artistThumbUrl || 'img/default_artist_large.png') + "')");
-
-		console.log(song);
         $('#love').attr('last-fm-loved', song.metadata.userloved);
+
+		// UI listeners
+		$("#love").on('click', function() {
+			var currentLoveStatus = $("#love").attr('last-fm-loved') === "true";
+			var desiredLoveStatus = !currentLoveStatus;
+
+			chrome.runtime.sendMessage({
+				type: 'v2.toggleLove',
+				data: { shouldBeLoved: desiredLoveStatus },
+				tabId: tabId
+			}, function() {
+				$("#love").attr('last-fm-loved', desiredLoveStatus);
+			});
+		})
     }
 
     /**

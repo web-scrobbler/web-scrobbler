@@ -436,7 +436,6 @@ define([
 				cb(false);
 			};
 
-			console.info("!!! LOVE / UNLOVE: "+params.method,params)
 			doRequest('POST', params, true, okCb, errCb);
 		});
 	}
