@@ -299,10 +299,9 @@ define([
 			}
 		};
 
-		this.toggleLove = function(data) {
-			console.warn("!!! LOVE");
+		this.toggleLove = function(data, cb) {
 			if (currentSong !== null) {
-				LastFM.toggleLove(currentSong, data.shouldBeLoved);
+				LastFM.toggleLove(currentSong, data.shouldBeLoved, cb);
 			}
  		};
 
