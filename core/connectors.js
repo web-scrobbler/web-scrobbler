@@ -571,6 +571,13 @@ define(function() {
 			matches: ['https://radio.yandex.ru/*'],
 			js: ['connectors/v2/yandexradio.js'],
 			version: 2
+		},
+
+		{
+			label: 'Dash Radio',
+			matches: ['*://dashradio.com/*'],
+			js: ['connectors/v2/dashradio.js'],
+			version: 2
 		}
 
 	];
