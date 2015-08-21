@@ -281,7 +281,9 @@ define([
 			}
 
 			song.metadata.attr({
-				userloved: $doc.find('userloved').text() === 1,
+				artistUrl: $doc.find('artist > url').text(),
+				trackUrl: $doc.find('track > url').text(),
+				userloved: $doc.find('userloved').text() == 1,
 				artistThumbUrl: thumbUrl
 			});
 
