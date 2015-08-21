@@ -361,6 +361,7 @@ define([
 
 			var params = {
 				method: 'track.scrobble',
+				'timestamp[0]': song.metadata.startTimestamp,
 				'track[0]': song.processed.track || song.parsed.track,
 				'artist[0]': song.processed.artist || song.parsed.artist,
 				api_key: config.apiKey,
