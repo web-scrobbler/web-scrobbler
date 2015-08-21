@@ -361,8 +361,8 @@ define([
 
 			var params = {
 				method: 'track.scrobble',
-				'track': song.processed.track || song.parsed.track,
-				'artist': song.processed.artist || song.parsed.artist,
+				'track[0]': song.processed.track || song.parsed.track,
+				'artist[0]': song.processed.artist || song.parsed.artist,
 				api_key: config.apiKey,
 				sk: sessionID
 			};
@@ -416,8 +416,8 @@ define([
 
 			var params = {
 				method: 'track.'+(shouldBeLoved ? 'love' : 'unlove' ),
-				'track[0]': song.processed.track || song.parsed.track,
-				'artist[0]': song.processed.artist || song.parsed.artist,
+				'track': song.processed.track || song.parsed.track,
+				'artist': song.processed.artist || song.parsed.artist,
 				api_key: config.apiKey,
 				sk: sessionID
 			};
