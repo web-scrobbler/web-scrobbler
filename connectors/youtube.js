@@ -66,7 +66,7 @@ function trim(str) {
  */
 function findSeparator(str) {
    // care - minus vs hyphen
-   var separators = [' - ', ' – ', '-', '–', ':'];
+   var separators = [' - ', ' – ', '-', '–', ':', '|', '///'];
 
    for (i in separators) {
       var sep = separators[i];
