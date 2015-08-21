@@ -45,7 +45,7 @@ define([], function() {
 		}
 
 		this.onClicked = function() {
-			console.log('Page action clicked in tab ' + tabId);
+			// console.log('Page action clicked in tab ' + tabId);
 			setPageAction(icons.RECOGNIZED, 'Your Last.fm record for this song', 'popups/info.html');
 		};
 
@@ -69,7 +69,7 @@ define([], function() {
 		};
 
 		this.setSongNotRecognized = function() {
-			setPageAction(icons.UNKNOWN, 'The song was not recognized. Click to enter correct info', 'popups/popup.html');
+			setPageAction(icons.UNKNOWN, 'The song was not recognized. Click to enter correct info', 'manualScrobble.html');
 		};
 
 	};
