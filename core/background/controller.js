@@ -301,7 +301,10 @@ define([
 
 		this.toggleLove = function(data, cb) {
 			if (currentSong !== null) {
-				LastFM.toggleLove(currentSong, data.shouldBeLoved, cb);
+				LastFM.toggleLove(currentSong, data.shouldBeLoved, function() {
+					currentSong.metadata.attr('userloved', data.shouldBeLoved);
+					cb();
+				});
 			}
  		};
 
