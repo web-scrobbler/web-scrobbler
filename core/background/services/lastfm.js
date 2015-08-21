@@ -95,7 +95,7 @@ define([
 						// both session and token are now invalid
 						data.token = null;
 						data.sessionID = null;
-						data.username = null;
+						data.sessionName = null;
 						storage.set(data, function() {
 							cb(null);
 						});
@@ -103,7 +103,7 @@ define([
 						// token is already used, reset it and store the new session
 						data.token = null;
 						data.sessionID = session.key;
-						data.username = session.username;
+						data.sessionName = session.name;
 						storage.set(data, function() {
 							cb(session);
 						});
@@ -111,7 +111,7 @@ define([
 				});
 			}
 			else {
-				cb(data.sessionID, data.username);
+				cb(data.sessionID, data.sessionName);
 			}
 		});
 	}
@@ -248,12 +248,12 @@ define([
 	 * @param cb {Function(boolean)} callback where validation result will be passed
 	 */
 	function loadSongInfo(song, cb) {
-		getSessionID(function(sessionID,username) {
+		getSessionID(function(sessionID,sessionName) {
 
 		var params = {
 			method: 'track.getinfo',
 			autocorrect: localStorage.useAutocorrect ? localStorage.useAutocorrect : 0,
-			username: username,
+			username: sessionName,
 			artist: song.processed.artist || song.parsed.artist,
 			track: song.processed.track || song.parsed.track
 		};
