@@ -21,7 +21,7 @@ define([], function() {
 		};
 
 		var documents = {
-			BASE: '/popups/go_play_music.html'
+			BASE: '/popups/goPlayMusic/go_play_music.html'
 		};
 
 		/**
@@ -46,7 +46,7 @@ define([], function() {
 
 		this.onClicked = function() {
 			// console.log('Page action clicked in tab ' + tabId);
-			setPageAction(icons.RECOGNIZED, 'Your Last.fm record for this song', 'popups/info.html');
+			setPageAction(icons.RECOGNIZED, 'Your Last.fm record for this song', 'popups/info/info.html');
 		};
 
 		this.setSiteSupported = function() {
@@ -69,7 +69,7 @@ define([], function() {
 		};
 
 		this.setSongNotRecognized = function() {
-			setPageAction(icons.UNKNOWN, 'The song was not recognized. Click to enter correct info', 'manualScrobble.html');
+			setPageAction(icons.UNKNOWN, 'The song was not recognized. Click to enter correct info', 'popups/manualScrobble/manualScrobble.html');
 		};
 
 	};
