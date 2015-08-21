@@ -20,7 +20,7 @@ define([
 	var apiKey = 'd9bb1870d3269646f740544d9def2c95';
 	var apiSecret = '2160733a567d4a1a69a73fad54c564b2';
 
-	var storage = ChromeStorage.getNamespace('LastFM'); //+Date.now()
+	var storage = ChromeStorage.getNamespace('LastFM');
 
 	/**
 	 * Creates query string from object properties
@@ -250,57 +250,57 @@ define([
 	function loadSongInfo(song, cb) {
 		getSessionID(function(sessionID,sessionName) {
 
-		var params = {
-			method: 'track.getinfo',
-			autocorrect: localStorage.useAutocorrect ? localStorage.useAutocorrect : 0,
-			username: sessionName,
-			artist: song.processed.artist || song.parsed.artist,
-			track: song.processed.track || song.parsed.track
-		};
+			var params = {
+				method: 'track.getinfo',
+				autocorrect: localStorage.useAutocorrect ? localStorage.useAutocorrect : 0,
+				username: sessionName,
+				artist: song.processed.artist || song.parsed.artist,
+				track: song.processed.track || song.parsed.track
+			};
 
-		if (params.artist === null || params.track === null) {
-			song.flags.attr('isLastfmValid', false);
-			cb(false);
-			return;
-		}
-
-		var okCb = function(xmlDoc) {
-			var $doc = $(xmlDoc);
-
-			can.batch.start();
-
-			song.processed.attr({
-				artist: $doc.find('artist > name').text(),
-				track: $doc.find('track > name').text(),
-				duration: parseInt($doc.find('track > duration').text()) / 1000
-			});
-
-			var thumbUrl = song.getTrackArt();
-			if (thumbUrl === null) {
-				thumbUrl = $doc.find('album > image[size="medium"]').text();
+			if (params.artist === null || params.track === null) {
+				song.flags.attr('isLastfmValid', false);
+				cb(false);
+				return;
 			}
 
-			song.metadata.attr({
-				artistUrl: $doc.find('artist > url').text(),
-				trackUrl: $doc.find('track > url').text(),
-				userloved: $doc.find('userloved').text() == 1,
-				artistThumbUrl: thumbUrl
-			});
+			var okCb = function(xmlDoc) {
+				var $doc = $(xmlDoc);
 
-			song.flags.attr('isLastfmValid', true);
+				can.batch.start();
 
-			can.batch.stop();
+				song.processed.attr({
+					artist: $doc.find('artist > name').text(),
+					track: $doc.find('track > name').text(),
+					duration: parseInt($doc.find('track > duration').text()) / 1000
+				});
 
-			cb(true);
-		};
+				var thumbUrl = song.getTrackArt();
+				if (thumbUrl === null) {
+					thumbUrl = $doc.find('album > image[size="medium"]').text();
+				}
 
-		var errCb = function() {
-			song.flags.attr('isLastfmValid', false);
-			cb(false);
-		};
+				song.metadata.attr({
+					artistUrl: $doc.find('artist > url').text(),
+					trackUrl: $doc.find('track > url').text(),
+					userloved: $doc.find('userloved').text() == 1,
+					artistThumbUrl: thumbUrl
+				});
 
-		doRequest('GET', params, false, okCb, errCb);
-		})
+				song.flags.attr('isLastfmValid', true);
+
+				can.batch.stop();
+
+				cb(true);
+			};
+
+			var errCb = function() {
+				song.flags.attr('isLastfmValid', false);
+				cb(false);
+			};
+
+			doRequest('GET', params, false, okCb, errCb);
+		});
 	}
 
 	/**
@@ -403,8 +403,8 @@ define([
 
 	/**
 	 * Send song to API to LOVE or UNLOVE
-	 * @param {Boolean} love true = send LOVE request, false = send UNLOVE request
 	 * @param {can.Map} song
+	 * @param {Boolean} love true = send LOVE request, false = send UNLOVE request
 	 * @param {Function} cb callback with single ServiceCallResult parameter
 	 */
 	function toggleLove(song, shouldBeLoved, cb) {

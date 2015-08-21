@@ -313,7 +313,7 @@ define([
 			var http_request = new XMLHttpRequest();
 			http_request.open('POST', url, false); // synchronous
 			http_request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-			http_request.send();
+			http_request.send(params);
 
 			console.log('nowPlaying request: %s', url);
 			console.log('nowPlaying response: %s', http_request.responseText);
@@ -396,7 +396,7 @@ define([
 			var http_request = new XMLHttpRequest();
 			http_request.open('POST', url, false); // synchronous
 			http_request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-			http_request.send();
+			http_request.send(params);
 
 			if (http_request.status == 200) {
 				// Update page action icon

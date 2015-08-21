@@ -4,9 +4,8 @@
  * Song object
  */
 define([
-	'wrappers/can',
-	'services/lastfm'
-], function(can, LastFM) {
+	'wrappers/can'
+], function(can) {
 	/**
 	 * @constructor
 	 */
