@@ -89,3 +89,21 @@ a {
 #edit-links a:hover {
 	color: #AAA;
 }
+
+#love {
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	opacity: 0.7;
+	display: inline-block;
+	background: url("/icons/heart_grey.png") center no-repeat;
+}
+#love[last-fm-loved="true"] {
+	background-image: url("/icons/heart.png");
+}
+#love:hover {
+	opacity: 0.85;
+}
+#love:active {
+	opacity: 1;
+}

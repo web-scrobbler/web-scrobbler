@@ -44,15 +44,6 @@ $(document).ready(function() {
 		})
     }
 
-    function styleLoveLink() {
-        var icon = $("#love");
-        if (icon.attr("last-fm-loved") === '1') {
-            icon.html('<img src="/icons/heart.png" /> Loved!').attr("title", "Press to unlove the song");
-        } else {
-            icon.html('<img src="/icons/heart_grey.png" /> Not loved').attr("title", "Press to love the song");
-        }
-    }
-
     /**
      * Song data from background script are loaded
      */
@@ -72,7 +63,6 @@ $(document).ready(function() {
 
 		console.log(song);
         $('#love').attr('last-fm-loved', song.metadata.userloved);
-        styleLoveLink();
     }
 
     /**
