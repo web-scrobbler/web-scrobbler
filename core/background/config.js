@@ -16,13 +16,13 @@ define(function() {
 		/**
 		 * Page action icons
 		 */
-		ICON_LOGO: 'icon.png',                      // Audioscrobbler logo
-		ICON_UNKNOWN: 'icon_unknown.png',           // not recognized
-		ICON_NOTE: 'icon_note.png',                 // now playing
-		ICON_NOTE_DISABLED: 'icon_note_gray.png',   // disabled
-		ICON_TICK: 'icon_tick.png',                 // scrobbled
-		ICON_TICK_DISABLED: 'icon_tick_gray.png',   // disabled
-		ICON_CONN_DISABLED: 'icon_cross_gray.png',  // connector is disabled
+		ICON_LOGO: '/icons/icon.png',                      // Audioscrobbler logo
+		ICON_UNKNOWN: '/icons/icon_unknown.png',           // not recognized
+		ICON_NOTE: '/icons/icon_note.png',                 // now playing
+		ICON_NOTE_DISABLED: '/icons/icon_note_gray.png',   // disabled
+		ICON_TICK: '/icons/icon_tick.png',                 // scrobbled
+		ICON_TICK_DISABLED: '/icons/icon_tick_gray.png',   // disabled
+		ICON_CONN_DISABLED: '/icons/icon_cross_gray.png',  // connector is disabled
 
 		/**
 		 * Icon - title - popup set identificators
