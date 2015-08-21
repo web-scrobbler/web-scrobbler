@@ -3,11 +3,6 @@
 $(document).ready(function() {
 	console.log(chrome.extension.getBackgroundPage())
 
-    // UI listeners
-    $("#love").on('click', function() {
-        console.log($(this), $(this).attr('last-fm-loved'))
-    })
-
     // trick to get current tab ID
     chrome.tabs.query({
         active: true,
@@ -34,6 +29,19 @@ $(document).ready(function() {
                 onSongLoaded(tabId, response);
             }
         });
+
+		// UI listeners
+		$("#love").on('click', function() {
+			console.log("Was"+$(this), $(this).attr('last-fm-loved'));
+			chrome.runtime.sendMessage({
+				type: 'v2.toggleLove',
+				data: { shouldBeLoved: !$(this).attr('last-fm-loved') },
+				tabId: tabId
+			}, function() {
+				$(this).attr('last-fm-loved', !$(this).attr('last-fm-loved'))
+				console.log("Now "+$(this), $(this).attr('last-fm-loved'));
+			});
+		})
     }
 
     function styleLoveLink() {

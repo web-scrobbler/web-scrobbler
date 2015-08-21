@@ -299,6 +299,13 @@ define([
 			}
 		};
 
+		this.toggleLove = function(data) {
+			console.warn("!!! LOVE");
+			if (currentSong !== null) {
+				LastFM.toggleLove(currentSong, data.shouldBeLoved);
+			}
+ 		};
+
 		//
 		//
 		// Active calls

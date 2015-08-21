@@ -281,7 +281,7 @@ define([
 			}
 
 			song.metadata.attr({
-				userloved: $doc.find('userloved').text(),
+				userloved: $doc.find('userloved').text() === 1,
 				artistThumbUrl: thumbUrl
 			});
 
@@ -435,6 +435,7 @@ define([
 				cb(false);
 			};
 
+			console.info("!!! LOVE / UNLOVE: "+params.method,params)
 			doRequest('POST', params, true, okCb, errCb);
 		});
 	}

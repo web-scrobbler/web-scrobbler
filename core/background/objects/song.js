@@ -48,6 +48,7 @@ define([
 		 * Various optional data
 		 */
 		var metadata = {
+			userloved: parsedData.userloved === 1,
 			startTimestamp: Math.floor(Date.now() / 1000) // UTC timestamp in seconds
 		};
 
@@ -120,14 +121,6 @@ define([
 		song.getTrackArt = function() {
 			return this.parsed.trackArt || null;
 		};
-
-		song.loveTrack = function(callback) {
-			LastFM.toggleLove(song, true, callback);
- 		};
-
- 		song.unloveTrack = function(callback) {
-			LastFM.toggleLove(song, false, callback);
- 		};
 
 		return song;
 	};
