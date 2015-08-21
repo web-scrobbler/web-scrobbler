@@ -32,14 +32,16 @@ $(document).ready(function() {
 
 		// UI listeners
 		$("#love").on('click', function() {
-			console.log("Was"+$(this), $(this).attr('last-fm-loved'));
+			var isLoved = $("#love").attr('last-fm-loved') === "true"
+
+			console.log("Was "+isLoved+", should be "+!isLoved);
 			chrome.runtime.sendMessage({
 				type: 'v2.toggleLove',
-				data: { shouldBeLoved: !$(this).attr('last-fm-loved') },
+				data: { shouldBeLoved: !isLoved },
 				tabId: tabId
 			}, function() {
-				$(this).attr('last-fm-loved', !$(this).attr('last-fm-loved'))
-				console.log("Now "+$(this), $(this).attr('last-fm-loved'));
+				$("#love").attr('last-fm-loved', !isLoved);
+				console.log("Now "+!isLoved);
 			});
 		})
     }
@@ -48,8 +50,6 @@ $(document).ready(function() {
      * Song data from background script are loaded
      */
     function onSongLoaded(tabId, song) {
-    	console.log(song);
-
         console.log("onSongLoaded(" + tabId + ", song)");
         // no current song - should not happen, because page action with popup shows
         // only when there is a song that can be corrected
