@@ -483,6 +483,13 @@ define(function() {
 		},
 
 		{
+			label: 'Jolicloud',
+			matches: ['*://drive.jolicloud.com/*'],
+			js: ['connectors/v2/jolicloud.js'],
+			version: 2
+		},
+
+		{
 			label: 'Jazzradio',
 			matches: ['*://www.jazzradio.com/*'],
 			js: ['connectors/v2/jazzradio.js'],
