@@ -483,6 +483,13 @@ define(function() {
 		},
 
 		{
+			label: 'SlashFavorites',
+			matches: ['*://slashfavorites.com/*'],
+			js: ['connectors/v2/slashfavorites.js'],
+			version: 2
+		},
+
+		{
 			label: 'Jazzradio',
 			matches: ['*://www.jazzradio.com/*'],
 			js: ['connectors/v2/jazzradio.js'],
