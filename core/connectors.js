@@ -252,9 +252,9 @@ define(function() {
 		},
 
 		{
-			label: 'Xbox Music',
-			matches: ['*://music.xbox.com/*'],
-			js: ['connectors/xboxmusic.js']
+			label: 'Groove Music',
+			matches: ['*://music.microsoft.com/*'],
+			js: ['connectors/groovemusic.js']
 		},
 
 		{
