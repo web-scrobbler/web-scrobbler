@@ -95,13 +95,15 @@ define([
 						// both session and token are now invalid
 						data.token = null;
 						data.sessionID = null;
+						data.sessionName = null;
 						storage.set(data, function() {
 							cb(null);
 						});
 					} else {
 						// token is already used, reset it and store the new session
 						data.token = null;
-						data.sessionID = session;
+						data.sessionID = session.key;
+						data.sessionName = session.name;
 						storage.set(data, function() {
 							cb(session);
 						});
@@ -109,7 +111,7 @@ define([
 				});
 			}
 			else {
-				cb(data.sessionID);
+				cb(data.sessionID, data.sessionName);
 			}
 		});
 	}
@@ -136,7 +138,7 @@ define([
 					console.log('auth.getSession response: ' + JSON.stringify(response));
 					cb(null);
 				} else {
-					cb(response.session.key);
+					cb(response.session);
 				}
 			})
 			.fail(function(jqxhr, textStatus, error) {
@@ -246,53 +248,59 @@ define([
 	 * @param cb {Function(boolean)} callback where validation result will be passed
 	 */
 	function loadSongInfo(song, cb) {
+		getSessionID(function(sessionID,sessionName) {
 
-		var params = {
-			method: 'track.getinfo',
-			autocorrect: localStorage.useAutocorrect ? localStorage.useAutocorrect : 0,
-			artist: song.processed.artist || song.parsed.artist,
-			track: song.processed.track || song.parsed.track
-		};
+			var params = {
+				method: 'track.getinfo',
+				autocorrect: localStorage.useAutocorrect ? localStorage.useAutocorrect : 0,
+				username: sessionName,
+				artist: song.processed.artist || song.parsed.artist,
+				track: song.processed.track || song.parsed.track
+			};
 
-		if (params.artist === null || params.track === null) {
-			song.flags.attr('isLastfmValid', false);
-			cb(false);
-			return;
-		}
-
-		var okCb = function(xmlDoc) {
-			var $doc = $(xmlDoc);
-
-			can.batch.start();
-
-			song.processed.attr({
-				artist: $doc.find('artist > name').text(),
-				track: $doc.find('track > name').text(),
-				duration: parseInt($doc.find('track > duration').text()) / 1000
-			});
-
-			var thumbUrl = song.getTrackArt();
-			if (thumbUrl === null) {
-				thumbUrl = $doc.find('album > image[size="medium"]').text();
+			if (params.artist === null || params.track === null) {
+				song.flags.attr('isLastfmValid', false);
+				cb(false);
+				return;
 			}
 
-			song.metadata.attr({
-				artistThumbUrl: thumbUrl
-			});
+			var okCb = function(xmlDoc) {
+				var $doc = $(xmlDoc);
 
-			song.flags.attr('isLastfmValid', true);
+				can.batch.start();
 
-			can.batch.stop();
+				song.processed.attr({
+					artist: $doc.find('artist > name').text(),
+					track: $doc.find('track > name').text(),
+					duration: parseInt($doc.find('track > duration').text()) / 1000
+				});
 
-			cb(true);
-		};
+				var thumbUrl = song.getTrackArt();
+				if (thumbUrl === null) {
+					thumbUrl = $doc.find('album > image[size="medium"]').text();
+				}
 
-		var errCb = function() {
-			song.flags.attr('isLastfmValid', false);
-			cb(false);
-		};
+				song.metadata.attr({
+					artistUrl: $doc.find('artist > url').text(),
+					trackUrl: $doc.find('track > url').text(),
+					userloved: $doc.find('userloved').text() == 1,
+					artistThumbUrl: thumbUrl
+				});
 
-		doRequest('GET', params, false, okCb, errCb);
+				song.flags.attr('isLastfmValid', true);
+
+				can.batch.stop();
+
+				cb(true);
+			};
+
+			var errCb = function() {
+				song.flags.attr('isLastfmValid', false);
+				cb(false);
+			};
+
+			doRequest('GET', params, false, okCb, errCb);
+		});
 	}
 
 	/**
@@ -394,7 +402,44 @@ define([
 		});
 	}
 
+	/**
+	 * Send song to API to LOVE or UNLOVE
+	 * @param {can.Map} song
+	 * @param {Boolean} love true = send LOVE request, false = send UNLOVE request
+	 * @param {Function} cb callback with single ServiceCallResult parameter
+	 */
+	function toggleLove(song, shouldBeLoved, cb) {
+		getSessionID(function(sessionID) {
+			if (!sessionID) {
+				var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
+				cb(result);
+			}
 
+			var params = {
+				method: 'track.'+(shouldBeLoved ? 'love' : 'unlove' ),
+				'track': song.processed.track || song.parsed.track,
+				'artist': song.processed.artist || song.parsed.artist,
+				api_key: config.apiKey,
+				sk: sessionID
+			};
+
+			var okCb = function(xmlDoc) {
+				var $doc = $(xmlDoc);
+
+				if ($doc.find('lfm').attr('status') == 'ok') {
+					cb(true);
+				} else {
+					cb(false); // request passed but returned error
+				}
+			};
+
+			var errCb = function() {
+				cb(false);
+			};
+
+			doRequest('POST', params, true, okCb, errCb);
+		});
+	}
 
 	return {
 		getAuthUrl: getAuthUrl,
@@ -402,7 +447,8 @@ define([
 		generateSign: generateSign,
 		loadSongInfo: loadSongInfo,
 		sendNowPlaying: sendNowPlaying,
-		scrobble: scrobble
+		scrobble: scrobble,
+		toggleLove: toggleLove
 	};
 
 });

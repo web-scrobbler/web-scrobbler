@@ -47,6 +47,7 @@ define([
 		 * Various optional data
 		 */
 		var metadata = {
+			userloved: parsedData.userloved === 1,
 			startTimestamp: Math.floor(Date.now() / 1000) // UTC timestamp in seconds
 		};
 

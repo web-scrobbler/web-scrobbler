@@ -165,6 +165,13 @@ require([
 				}
 				break;
 
+			case 'v2.toggleLove':
+				ctrl = getControllerByTabId(request.tabId);
+				if (ctrl) {
+					ctrl.toggleLove(request.data, sendResponse);
+				}
+				break;
+
 			// Redirect all other messages to legacy listener
 			default:
 				legacyScrobbler.runtimeOnMessage(request, sender, sendResponse);
