@@ -36,6 +36,7 @@ $(document).ready(function() {
 	*/
 	function onSongLoaded(tabId, song) {
 		console.log('onSongLoaded(' + tabId + ', song)');
+		console.log(song);
 		// no current song - should not happen, because page action with popup shows
 		// only when there is a song that can be corrected
 		if (song === null) {
@@ -44,7 +45,7 @@ $(document).ready(function() {
 
 		$('#artist').text(song.processed.artist || song.parsed.artist).attr('href', song.metadata.artistUrl);
 		$('#track').text(song.processed.track || song.parsed.track).attr('href', song.metadata.trackUrl);
-		$('#album-art').css('background-image', 'url("' + (song.metadata.artistThumbUrl || song.parsed.artistThumbUrl || 'img/default_artist_large.png') + '")');
+		$('#album-art').css('background-image', 'url("' + (song.metadata.artistThumbUrl || song.parsed.artistThumbUrl || '../default_cover_art.png') + '")');
 		$('#love').attr('last-fm-loved', song.metadata.userloved);
 
 		// UI listeners
