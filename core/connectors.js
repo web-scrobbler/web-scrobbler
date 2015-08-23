@@ -621,6 +621,13 @@ define(function() {
 			matches: ['*://www.beatport.com/*'],
 			js: ['connectors/v2/beatport-www.js'],
 			version: 2
+		},
+
+		{
+			label: 'themusicninja',
+			matches: ['*://www.themusicninja.com/*'],
+			js: ['connectors/v2/themusicninja.js'],
+			version: 2
 		}
 
 	];
