@@ -581,9 +581,23 @@ define(function() {
 		},
 
 		{
+			label: 'oplayer',
+			matches: ['*://oplayer.org/*'],
+			js: ['connectors/v2/jplayer-oplayer.js'],
+			version: 2
+		},
+
+		{
 			label: 'EDM.com',
 			matches: ['*://edm.com/*'],
 			js: ['connectors/v2/edm.js'],
+			version: 2
+		},
+
+		{
+			label: 'post-player',
+			matches: ['*://post-player.org/*'],
+			js: ['connectors/v2/jplayer-postplayer.js'],
 			version: 2
 		}
 
