@@ -635,6 +635,13 @@ define(function() {
 			matches: ['*://*.trntbl.me/*', '*://trntbl.me/*'],
 			js: ['connectors/v2/trntblme.js'],
 			version: 2
+		},
+
+		{
+			label: 'wavo.me',
+			matches: ['https://wavo.me/*'],
+			js: ['connectors/v2/wavome.js'],
+			version: 2
 		}
 
 	];
