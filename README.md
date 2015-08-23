@@ -1,5 +1,7 @@
 # Last.fm Scrobbler for Chrome [![build status](https://api.travis-ci.org/david-sabata/web-scrobbler.svg)](https://travis-ci.org/david-sabata/web-scrobbler/)
 
+[![Join the chat at https://gitter.im/david-sabata/web-scrobbler](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/david-sabata/web-scrobbler?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Last.fm Scrobbler for Chrome was created for people who listen to music online through their browser, and would like to keep an updated playback history using [last.fm][1]'s scrobbling service.
 
 ## Usage
