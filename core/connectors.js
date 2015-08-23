@@ -606,6 +606,14 @@ define(function() {
 			matches: ['*://dreamfm.biz/*'],
 			js: ['connectors/v2/dreamfm.js'],
 			version: 2
+		},
+
+		{
+			label: 'Radio Paradise',
+			matches: ['*://*.radioparadise.com/*'],
+			js: ['connectors/v2/radioparadise.js'],
+			allFrames: true,
+			version: 2
 		}
 
 	];
