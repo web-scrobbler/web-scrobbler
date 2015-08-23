@@ -402,7 +402,8 @@ define(function() {
 		{
 			label: 'Xiami.com',
 			matches: ['http://www.xiami.com/play*'],
-			js: ['connectors/xiami.js']
+			js: ['connectors/v2/xiami.js'],
+			version: 2
 		},
 
 		{
@@ -434,7 +435,8 @@ define(function() {
 		{
 			label: '163 Music',
 			matches: ['*://music.163.com/*'],
-			js: ['connectors/163music.js']
+			js: ['connectors/v2/163music.js'],
+			version: 2
 		},
 
 		{
