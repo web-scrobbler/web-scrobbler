@@ -628,6 +628,13 @@ define(function() {
 			matches: ['*://www.themusicninja.com/*'],
 			js: ['connectors/v2/themusicninja.js'],
 			version: 2
+		},
+
+		{
+			label: 'trntbl.me',
+			matches: ['*://*.trntbl.me/*', '*://trntbl.me/*'],
+			js: ['connectors/v2/trntblme.js'],
+			version: 2
 		}
 
 	];
