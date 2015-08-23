@@ -578,6 +578,13 @@ define(function() {
 			matches: ['*://dashradio.com/*'],
 			js: ['connectors/v2/dashradio.js'],
 			version: 2
+		},
+
+		{
+			label: 'EDM.com',
+			matches: ['*://edm.com/*'],
+			js: ['connectors/v2/edm.js'],
+			version: 2
 		}
 
 	];
