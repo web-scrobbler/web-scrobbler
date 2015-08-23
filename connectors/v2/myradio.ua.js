@@ -4,19 +4,16 @@
 
 Connector.playerSelector = '.cur-blk';
 
-Connector.separators = [' -             '];
-
 Connector.getArtistTrack = function () {
-	var text = $('.name').text().substring(12);
-	text = text.substring(0, text.length - 1);
+	var text = $('.name').text();
 	var separator = this.findSeparator(text);
 
 	var artist = null;
 	var track = null;
 
 	if (separator !== null) {
-		artist = text.substr(0, separator.index);
-		track = text.substr(separator.index + separator.length);
+		artist = text.substr(0, separator.index).trim();
+		track = text.substr(separator.index + separator.length).trim();
 	}
 
 	return {artist: artist, track: track};
