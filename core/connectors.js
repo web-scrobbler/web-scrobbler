@@ -599,6 +599,13 @@ define(function() {
 			matches: ['*://post-player.org/*'],
 			js: ['connectors/v2/jplayer-postplayer.js'],
 			version: 2
+		},
+
+		{
+			label: 'Dream FM',
+			matches: ['*://dreamfm.biz/*'],
+			js: ['connectors/v2/dreamfm.js'],
+			version: 2
 		}
 
 	];
