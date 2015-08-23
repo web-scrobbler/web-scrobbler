@@ -614,6 +614,13 @@ define(function() {
 			js: ['connectors/v2/radioparadise.js'],
 			allFrames: true,
 			version: 2
+		},
+
+		{
+			label: 'beatport - www',
+			matches: ['*://www.beatport.com/*'],
+			js: ['connectors/v2/beatport-www.js'],
+			version: 2
 		}
 
 	];
