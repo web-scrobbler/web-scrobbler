@@ -55,7 +55,7 @@ define([], function() {
 						song.metadata.attr('coverArtURL', url);
 						return cb(true);
 					});
-				}
+				};
 
 				if(searchableMBIDs.length < 1) {
 					console.info('Track has no last.fm MBID data; searching manually for an MBID');
