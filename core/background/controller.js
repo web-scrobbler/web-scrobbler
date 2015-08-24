@@ -279,7 +279,7 @@ define([
 		 * Sets data for current song from user input
 		 * TODO: check if all is ok for case when song is already valid
 		 */
-		this.setUserSongData = function(data) {
+		this.setUserSongData = function(data, cb) {
 			if (currentSong !== null) {
 				if (currentSong.flags.isScrobbled) {
 					// should not happen
@@ -298,6 +298,10 @@ define([
 				if (data.artist || data.track) {
 					Pipeline.processSong(currentSong);
 				}
+
+				currentSong.bind('flags.isProcessed', function(ev, newVal) {
+					cb(currentSong);
+				});
 			}
 		};
 

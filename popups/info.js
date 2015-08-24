@@ -103,6 +103,8 @@ $(document).ready(function() {
 				}, function() {
 					$('body').attr('edit-mode', 'false');
 					$('.editable').attr('contenteditable',null);
+					// Then refresh the popup
+					onTabReady(tabId);
 				});
 			}
 		})

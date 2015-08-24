@@ -161,8 +161,7 @@ require([
 			case 'v2.correctSong':
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
-					ctrl.setUserSongData(request.data);
-					sendResponse();
+					ctrl.setUserSongData(request.data, sendResponse);
 				}
 				break;
 
