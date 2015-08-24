@@ -43,7 +43,6 @@ $(document).ready(function() {
 			return;
 		}
 
-		$('#album-art').css('background-image', 'url("' + (song.metadata.artistThumbUrl || song.parsed.artistThumbUrl || '/icons/default_cover_art.png') + '")');
 		var duration = song.processed.duration || song.parsed.duration;
 		console.log(song.processed.duration, song.parsed.duration)
 		console.log(duration)
@@ -63,6 +62,7 @@ $(document).ready(function() {
 		$('#track').text(song.processed.track || song.parsed.track).attr('href', song.metadata.trackUrl);
 		$('#album').show().text(song.processed.album || song.parsed.album).attr('href', song.metadata.albumUrl).attr('data-hide',!(song.processed.album || song.parsed.album));
 		$('#duration').text(MMSS(duration)).attr('data-hide',!(duration));
+		$('#album-art').css('background-image', 'url("' + (song.metadata.coverArtURL || song.parsed.coverArtURL || '/icons/default_cover_art.png') + '")');
 		$('#love').attr('last-fm-loved', song.metadata.userloved);
 		$('#data > div').text(JSON.stringify(song,null,2));
 

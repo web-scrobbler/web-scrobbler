@@ -275,16 +275,20 @@ define([
 					duration: parseInt($doc.find('track > duration').text()) / 1000
 				});
 
-				var thumbUrl = song.getTrackArt();
-				if (thumbUrl === null) {
-					thumbUrl = /*$doc.find('album > image[size="extralarge"]').text() ||*/ $doc.find('album > image[size="large"]').text() || $doc.find('album > image[size="medium"]').text() || $doc.find('album > image[size="small"]').text();
+				var coverArtURL = song.getTrackArt();
+				if (coverArtURL === null) {
+					coverArtURL = /*$doc.find('album > image[size="extralarge"]').text() ||*/ $doc.find('album > image[size="large"]').text() || $doc.find('album > image[size="medium"]').text() || $doc.find('album > image[size="small"]').text();
 				}
 
 				song.metadata.attr({
+					coverArtURL: coverArtURL,
 					artistUrl: $doc.find('artist > url').text(),
+					artistMBID: $doc.find('track > mbid').text(),
 					trackUrl: $doc.find('track > url').text(),
+					trackMBID: $doc.find('track > mbid').text(),
+					albumUrl: $doc.find('album > url').text(),
+					albumMBID: $doc.find('track > mbid').text(),
 					userloved: $doc.find('userloved').text() == 1,
-					artistThumbUrl: thumbUrl
 				});
 
 				song.flags.attr('isLastfmValid', true);
