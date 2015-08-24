@@ -72,7 +72,7 @@ a {
 	text-align: center;
 	height: 100px;
 	vertical-align: middle;
-	background: url('img/icon_tick_big.png') no-repeat center center;
+	background: url('/icons/icon_tick_big.png') no-repeat center center;
 }
 
 #edit-links {

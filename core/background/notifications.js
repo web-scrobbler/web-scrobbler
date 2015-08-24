@@ -82,7 +82,7 @@ define([
 
 				var options = {
 					type: 'basic',
-					iconUrl: 'icon128.png',
+					iconUrl: '/icons/icon128.png',
 					title: 'Web scrobbler error',
 					message: message
 				};
@@ -127,7 +127,7 @@ define([
 
 					var options = {
 						type: 'basic',
-						iconUrl: '/icon128.png',
+						iconUrl: '/icons/icon128.png',
 						title: 'Connect your Last.FM account',
 						message: 'Click the notification or connect later in the extension options page',
 						isClickable: true
