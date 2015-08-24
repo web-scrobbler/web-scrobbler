@@ -21,7 +21,9 @@ define([], function() {
 
 				for (var id in MBIDs){
 					var thisMBID = song.metadata[MBIDs[id]];
-				    if ( song.metadata[MBIDs[id]] ) searchableMBIDs.push(thisMBID);
+				    if (song.metadata[MBIDs[id]]) {
+						searchableMBIDs.push(thisMBID);
+					}
 				}
 
 				// # 1.1. If no MBIDs, then manually fetch MBIDs
@@ -47,23 +49,23 @@ define([], function() {
 				};
 
 				var findArt = function() {
-					console.info("Searching CoverArtArchive with MBIDs",searchableMBIDs)
+					console.info('Searching CoverArtArchive with MBIDs',searchableMBIDs);
 					loopThroughMBIDs(function(url) {
-						console.info("Found cover artwork via CoverArtArchive")
+						console.info('Found cover artwork via CoverArtArchive');
 						song.metadata.attr('coverArtURL', url);
 						return cb(true);
 					});
 				}
 
 				if(searchableMBIDs.length < 1) {
-					console.info("Track has no last.fm MBID data; searching manually for an MBID")
+					console.info('Track has no last.fm MBID data; searching manually for an MBID');
 					// Search both, just incase there's artwork for the album, but not for the song/single
 					var musicBrainzEndpoints = ['release','release-group'];
 
 					manualMBIDSearch(function(MBID) {
-						console.info("Guessed an MBID for this track: ", MBID)
+						console.info('Guessed an MBID for this track: ', MBID);
 						song.metadata.attr('guessedMBID', MBID);
-						searchableMBIDs.push(MBID)
+						searchableMBIDs.push(MBID);
 
 						findArt();
 					});

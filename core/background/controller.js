@@ -299,7 +299,7 @@ define([
 					Pipeline.processSong(currentSong);
 				}
 
-				currentSong.bind('flags.isProcessed', function(ev, newVal) {
+				currentSong.bind('flags.isProcessed', function() {
 					cb(currentSong);
 				});
 			}

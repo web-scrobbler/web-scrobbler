@@ -54,14 +54,13 @@ $(document).ready(function() {
 		$('#playcount').text(song.metadata.userplaycount || 0);
 		$('#data > div').text(JSON.stringify(song,null,2));
 
-		// $('#timetoscrobble').text(song.secondsToScrobble > 0 ? MMSS(song.secondsToScrobble)+" to scrobble" : "Scrobbled" );
 		(function scrobbleCountdown(){
 			if (song.secondsToScrobble > 0) {
-				$('#timetoscrobble').text(MMSS(song.secondsToScrobble)+" to scrobble");
+				$('#timetoscrobble').text(MMSS(song.secondsToScrobble)+' to scrobble');
 				song.secondsToScrobble--;
 				setTimeout(scrobbleCountdown, 1000);
 			} else {
-				$('#timetoscrobble').text("Scrobbled");
+				$('#timetoscrobble').text('Scrobbled');
 			}
 		})();
 
@@ -80,14 +79,14 @@ $(document).ready(function() {
 		});
 
 		$('body').attr('edit-mode', 'false');
-		$("#edit").on('click', function() {
+		$('#edit').on('click', function() {
 			if($('body').attr('edit-mode') === 'false') {
 				// Set edit mode ON
 				$('body').attr('edit-mode', 'true');
 				$('.editable').attr('contenteditable',true);
 
-				$(".editable")
-				.on('blur', function(e) {
+				$('.editable')
+				.on('blur', function() {
 					var dirtyText = $(this).text();
 					var cleansedText = dirtyText.replace(/\n/g,' ');
 					$(this).text(cleansedText);
@@ -111,7 +110,7 @@ $(document).ready(function() {
 					onTabReady(tabId);
 				});
 			}
-		})
+		});
 	}
 
 	/**
@@ -125,7 +124,6 @@ $(document).ready(function() {
 		if (song.artist === '' || song.track === '') {
 			top.location = 'change.html';
 		}
-
 	}
 
 });
@@ -136,9 +134,9 @@ function MMSS(str) {
 	var minutes = Math.floor((sec_num - (hours * 3600)) / 60);
 	var seconds = sec_num - (hours * 3600) - (minutes * 60);
 
-	if (hours   < 10) {hours   = "0"+hours;}
-	if (minutes < 10) {minutes = "0"+minutes;}
-	if (seconds < 10) {seconds = "0"+seconds;}
+	if (hours   < 10) {hours   = '0'+hours;}
+	if (minutes < 10) {minutes = '0'+minutes;}
+	if (seconds < 10) {seconds = '0'+seconds;}
 	var time    = +minutes+':'+seconds;
 	return time;
 }
