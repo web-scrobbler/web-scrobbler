@@ -289,6 +289,7 @@ define([
 					albumUrl: $doc.find('album > url').text(),
 					albumMBID: $doc.find('track > mbid').text(),
 					userloved: $doc.find('userloved').text() == 1,
+					userplaycount: $doc.find('userplaycount').text()
 				});
 
 				song.flags.attr('isLastfmValid', true);

@@ -93,7 +93,7 @@ a {
 }
 .ellipsis {
 	display: inline-block;
-    width: 240px;
+    max-width: 240px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -124,13 +124,12 @@ a {
 	content: "By ";
 }
 
-.album-link:before {
-	content: "Album ";
+#playcount:after {
+	content: " plays";
 }
 
-.scrobble-controls {
-	position: absolute;
-	bottom: 8px;
+.album-link:before {
+	content: "Album ";
 }
 
 #data {
@@ -146,6 +145,24 @@ a {
 /**
 	Interactions
 */
+
+.scrobble-controls {
+	position: absolute;
+	bottom: 8px;
+}
+
+.scrobble-controls > * {
+	vertical-align: middle;
+	text-transform: uppercase;
+	font-size: 85%;
+	font-weight: bold;
+	color: #AAA;
+}
+
+.scrobble-controls > * + *:before {
+	content: " • ";
+	opacity: 0.5;
+}
 
 #love {
 	width: 16px;

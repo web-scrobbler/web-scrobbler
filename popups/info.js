@@ -64,6 +64,7 @@ $(document).ready(function() {
 		$('#duration').text(MMSS(duration)).attr('data-hide',!(duration));
 		$('#album-art').css('background-image', 'url("' + (song.metadata.coverArtURL || song.parsed.coverArtURL || '/icons/default_cover_art.png') + '")');
 		$('#love').attr('last-fm-loved', song.metadata.userloved);
+		$('#playcount').text(song.metadata.userplaycount || 0);
 		$('#data > div').text(JSON.stringify(song,null,2));
 
 		// UI listeners
