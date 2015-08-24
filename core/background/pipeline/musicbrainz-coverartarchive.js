@@ -58,7 +58,7 @@ define([], function() {
 
 					var results = musicbrainz[endpoint + 's'];
 					var MBID = results[0].id;
-					song.metadata.musicBrainzId = MBID;
+					song.metadata.attr('musicBrainzId',MBID);
 
 					(typeof onSuccess === 'function' ? onSuccess : onFailure)(MBID);
 				})
@@ -75,7 +75,7 @@ define([], function() {
 				})
 				.done(function() {
 					console.log('Found album artwork via MusicBrainz');
-					song.metadata.artistThumbUrl = coverArtUrl;
+					song.metadata.attr('artistThumbUrl', coverArtUrl);
 
 					(typeof onSuccess === 'function' ? onSuccess : onFailure)(coverArtUrl);
 				})

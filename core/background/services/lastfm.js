@@ -277,7 +277,7 @@ define([
 
 				var thumbUrl = song.getTrackArt();
 				if (thumbUrl === null) {
-					thumbUrl = $doc.find('album > image[size="medium"]').text();
+					thumbUrl = /*$doc.find('album > image[size="extralarge"]').text() ||*/ $doc.find('album > image[size="large"]').text() || $doc.find('album > image[size="medium"]').text() || $doc.find('album > image[size="small"]').text();
 				}
 
 				song.metadata.attr({
