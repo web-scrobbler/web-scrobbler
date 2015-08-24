@@ -270,7 +270,9 @@ define([
 		 * @return {{}}
 		 */
 		this.getCurrentSong = function() {
-			return currentSong === null ? {} : currentSong.attr();
+			var currentSongData = currentSong.attr();
+			currentSongData.secondsToScrobble = playbackTimer.getRemainingSeconds();
+			return currentSong === null ? {} : currentSongData;
 		};
 
 		/**

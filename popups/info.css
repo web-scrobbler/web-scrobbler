@@ -148,7 +148,7 @@ a {
 
 .scrobble-controls {
 	position: absolute;
-	bottom: 8px;
+	bottom: 9px;
 }
 
 .scrobble-controls > * {
@@ -160,7 +160,9 @@ a {
 }
 
 .scrobble-controls > * + *:before {
-	content: " • ";
+	content: " \2022  ";
+	font-size: 150%;
+	vertical-align: middle;
 	opacity: 0.5;
 }
 
