@@ -45,7 +45,7 @@ $(document).ready(function() {
 
 		$('#artist').text(song.processed.artist || song.parsed.artist).attr('href', song.metadata.artistUrl);
 		$('#track').text(song.processed.track || song.parsed.track).attr('href', song.metadata.trackUrl);
-		$('#album-art').css('background-image', 'url("' + (song.metadata.artistThumbUrl || song.parsed.artistThumbUrl || '../default_cover_art.png') + '")');
+		$('#album-art').css('background-image', 'url("' + (song.metadata.artistThumbUrl || song.parsed.artistThumbUrl || '/icons/default_cover_art.png') + '")');
 		$('#love').attr('last-fm-loved', song.metadata.userloved);
 
 		// UI listeners
