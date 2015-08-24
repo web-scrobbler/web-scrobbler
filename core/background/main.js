@@ -162,6 +162,7 @@ require([
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
 					ctrl.setUserSongData(request.data);
+					sendResponse();
 				}
 				break;
 

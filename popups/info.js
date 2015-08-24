@@ -78,6 +78,34 @@ $(document).ready(function() {
 				$('#love').attr('last-fm-loved', desiredLoveStatus);
 			});
 		});
+
+		$('body').attr('edit-mode', 'false');
+		$("#edit").on('click', function() {
+			if($('body').attr('edit-mode') === 'false') {
+				// Set edit mode ON
+				$('body').attr('edit-mode', 'true');
+				$('.editable').attr('contenteditable',true);
+
+				$(".editable").on('blur', function(evt){
+				  var dirtyText = $(this).text();
+				  var cleansedText = dirtyText.replace(/\n/g,' ');
+				  $(this).text(cleansedText);
+			  });
+			} else {
+				// Send corrected data, then set edit mode OFF
+				chrome.runtime.sendMessage({
+					type: 'v2.correctSong',
+					data: {
+						artist: $('#artist').text(),
+						track: $('#track').text()
+					},
+					tabId: tabId
+				}, function() {
+					$('body').attr('edit-mode', 'false');
+					$('.editable').attr('contenteditable',null);
+				});
+			}
+		})
 	}
 
 	/**

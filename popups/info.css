@@ -119,9 +119,14 @@ a {
 .track-duration:after {
 	content: ")";
 }
-
 .artist-link:before {
 	content: "By ";
+}
+.artist-link {
+	max-width: 200px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
 }
 
 #playcount:after {
@@ -166,24 +171,68 @@ a {
 	opacity: 0.5;
 }
 
-#love {
+.scrobble-controls .ui-btn {
 	width: 16px;
 	height: 16px;
 	cursor: pointer;
 	opacity: 0.8;
 	display: inline-block;
-	background: url("/icons/heart_grey.png") center no-repeat;
 	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.scrobble-controls .ui-btn:hover {
+	opacity: 0.95;
 }
 
+.scrobble-controls .ui-btn:active {
+	opacity: 1;
+}
+
+#love {
+	background-image: url("/icons/heart_grey.png");
+}
 #love[last-fm-loved="true"] {
 	background-image: url("/icons/heart.png");
 }
 
-#love:hover {
-	opacity: 0.95;
+#edit {
+	background-image: url("/icons/icon_edit.png");
 }
-
-#love:active {
+body[edit-mode='true'] #edit {
+	background-image: url("/icons/icon_save.png");
+}
+body[edit-mode='true'] *,
+body[edit-mode='true'] *:before,
+body[edit-mode='true'] *:after {
+	color: #CCC;
+	cursor: default;
+	pointer-events: none;
+}
+body[edit-mode='true'] .editable {
+	color: #000;
+    cursor: text !important;
+    pointer-events: all;
+    position: relative;
+    overflow: visible;
+}
+body[edit-mode='true'] .ui-btn {
+	opacity: 0.3;
+}
+body[edit-mode='true'] #edit {
 	opacity: 1;
+	cursor: pointer !important;
+	pointer-events: all;
+}
+body[edit-mode='true'] .editable:after {
+	content: "";
+    background: url("/icons/icon_edit.png") center no-repeat;
+    position: absolute;
+    right: -17px;
+    height: 15px;
+    width: 15px;
+    background-size: contain;
+    bottom: 1px;
+    z-index: 999;
+    cursor: text !important;
 }
