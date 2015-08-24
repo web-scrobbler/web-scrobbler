@@ -9,17 +9,21 @@
 	<link rel="stylesheet" href="/popups/info.css" />
 </head>
 <body>
-	<div id="wrapper">
-		<div id="album-art"></div>
+	<div id="grid">
+		<div class='album-art'>
+			<div id="album-art" src=''></div>
+		</div>
 		<div id="info">
 			<div class='track-info'>
-				<a id="track" class="track-link" href="#" target="_blank"><span class='dynamic'>Track</span> <i class='icon-external-link'></i></a><br />
-				by <a id="artist" class="artist-link" href="#" target="_blank"><span class='dynamic'>Artist</span> <i class='icon-external-link'></i></a><br />
+				<a id="track" class="datum track-link" href="#" target="_blank">Unknown Track</a> <span id='duration' class='datum track-duration'></span><br>
+				<a id="artist" class="datum ellipsis artist-link" href="#" target="_blank">Unknown Artist</a><br>
+				<a id="album" class="datum ellipsis album-link" href="#" target="_blank">Unknown Album</a>
 			</div>
 			<div class="scrobble-controls">
 				<div id="love" title="Click to love/unlove this song"></div>
 			</div>
 		</div>
 	</div>
+	<div class='debug' id='data'><div></div></div>
 </body>
 </html>

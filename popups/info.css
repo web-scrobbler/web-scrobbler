@@ -2,14 +2,19 @@
 	Global / generic elements
 */
 
+* {
+	box-sizing: border-box;
+}
+
 body {
 	background-color: #FFF;
-	font-family: "Helvetica Neue", Helvetica, Verdana, Arial, sans-serif;
+	font-family: Helvetica, Verdana, Arial, sans-serif;
 	font-size: 12px;
 	line-height: 1.5em;
 	color: #333;
 	margin: 0px;
 	padding: 0px;
+	width: 360px;
 }
 
 a {
@@ -22,21 +27,22 @@ a {
 	Structure
 */
 
-#wrapper {
-	width: 360px;
+#grid {
 	outline: 1px solid #f00;
+	display: table;
+	width: 100%;
 }
 
-#wrapper:after {
-	display: table;
-	clear: both;
-	content: "";
+.album-art {
+	display: table-cell;
+	width: 100px;
 }
 
 #info {
-	float: left;
-	padding: 10px;
-	padding-left: 14px;
+	display: table-cell;
+    vertical-align: top;
+	position: relative;
+	/*width: 100%;*/
 }
 
 
@@ -47,7 +53,6 @@ a {
 #album-art {
 	width: 100px;
 	height: 100px;
-	float: left;
 	background-color: #EEE;
 	background-image: url('/icons/default_cover_art.png');
 	background-size: cover;
@@ -56,23 +61,86 @@ a {
 	overflow: hidden;
 }
 
-.track-link {
+#info {
+	padding: 11px 9px;
+	padding-left: 14px;
+}
+
+.track-info {
+	margin-bottom: 2em;
+}
+
+/*.track-info a:after {
+	opacity: 0.15;
+	font-size: 70%;
+    content: "  \f08e";
+	font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    text-decoration: inherit;
+    -webkit-font-smoothing: antialiased;
+}
+.track-info a:hover:after {
+	opacity: 0.5;
+}*/
+
+.datum {
 	font-weight: bold;
+	line-height: 1.05em;
+	display: inline-block;
+	opacity: 0.8;
+	vertical-align: middle;
+}
+.ellipsis {
+	display: inline-block;
+    width: 240px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.datum:before {
+	font-size: 90%;
+	opacity: 0.8;
+}
+[data-hide='true'] {
+	display: none !important;
+}
+
+.track-link {
 	font-size: 1.2em;
 }
 
-.track-info [class^="icon"] {
-	opacity: 0.15;
-	font-size: 70%;
-	position: relative;
-}
-.track-info *:hover [class^="icon"] {
+.track-duration {
 	opacity: 0.5;
+}
+.track-duration:before {
+	content: "(";
+}
+.track-duration:after {
+	content: ")";
+}
+
+.artist-link:before {
+	content: "By ";
+}
+
+.album-link:before {
+	content: "Album ";
 }
 
 .scrobble-controls {
 	position: absolute;
 	bottom: 8px;
+}
+
+#data {
+	white-space: pre;
+	overflow: auto;
+	padding: 10px;
+	opacity: 0.7;
+	font-size: 11px;
+	line-height: 1.1em;
+	font-family: monospace;
 }
 
 /**
