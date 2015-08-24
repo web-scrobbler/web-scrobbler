@@ -83,13 +83,13 @@ define([
 	 *
 	 * If there is a stored token it is preferably traded for a new session which is then returned.
 	 */
-	function getSessionID(cb) {
+	function getSession(cb) {
 		storage.get(function(data) {
 			// if we have a token it means it is fresh and we want to trade it for a new session ID
 			var token = data.token || null;
 			if (token) {
 				tradeTokenForSession(token, function(session) {
-					if (session === null || session.trim().length === 0) {
+					if (session === null || typeof session.key === 'undefined') {
 						console.warn('Failed to trade token for session - the token is probably not authorized');
 
 						// both session and token are now invalid
@@ -97,7 +97,7 @@ define([
 						data.sessionID = null;
 						data.sessionName = null;
 						storage.set(data, function() {
-							cb(null);
+							cb(null,null);
 						});
 					} else {
 						// token is already used, reset it and store the new session
@@ -105,7 +105,7 @@ define([
 						data.sessionID = session.key;
 						data.sessionName = session.name;
 						storage.set(data, function() {
-							cb(session);
+							cb(data.sessionID, data.sessionName);
 						});
 					}
 				});
@@ -248,7 +248,7 @@ define([
 	 * @param cb {Function(boolean)} callback where validation result will be passed
 	 */
 	function loadSongInfo(song, cb) {
-		getSessionID(function(sessionID,sessionName) {
+		getSession(function(sessionID,sessionName) {
 
 			var params = {
 				method: 'track.getinfo',
@@ -309,7 +309,7 @@ define([
 	 * @param {Function} cb callback with single bool parameter of success
 	 */
 	function sendNowPlaying(song, cb) {
-		getSessionID(function(sessionID) {
+		getSession(function(sessionID) {
 			if (sessionID === false) {
 				cb(false);
 			}
@@ -353,7 +353,7 @@ define([
 	 * @param {Function} cb callback with single ServiceCallResult parameter
 	 */
 	function scrobble(song, cb) {
-		getSessionID(function(sessionID) {
+		getSession(function(sessionID) {
 			if (!sessionID) {
 				var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
 				cb(result);
@@ -409,7 +409,7 @@ define([
 	 * @param {Function} cb callback with single ServiceCallResult parameter
 	 */
 	function toggleLove(song, shouldBeLoved, cb) {
-		getSessionID(function(sessionID) {
+		getSession(function(sessionID) {
 			if (!sessionID) {
 				var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
 				cb(result);
@@ -443,7 +443,7 @@ define([
 
 	return {
 		getAuthUrl: getAuthUrl,
-		getSessionID: getSessionID,
+		getSession: getSession,
 		generateSign: generateSign,
 		loadSongInfo: loadSongInfo,
 		sendNowPlaying: sendNowPlaying,

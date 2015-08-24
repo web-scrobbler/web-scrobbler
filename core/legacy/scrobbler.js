@@ -287,7 +287,7 @@ define([
 		}
 
 		// if the token/session is not authorized, wait for a while
-		LastFM.getSessionID(function(sessionID) {
+		LastFM.getSession(function(sessionID) {
 			if (sessionID === null) {
 				return;
 			}
@@ -362,7 +362,7 @@ define([
 		}
 
 		// if the token/session is not authorized, wait for a while
-		LastFM.getSessionID(function(sessionID) {
+		LastFM.getSession(function(sessionID) {
 			if (!sessionID) {
 				return;
 			}
