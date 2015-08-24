@@ -21,7 +21,7 @@ define([], function() {
 
 				for (var id in MBIDs){
 					var thisMBID = song.metadata[MBIDs[id]];
-				    if (song.metadata[MBIDs[id]]) {
+					if (song.metadata[MBIDs[id]]) {
 						searchableMBIDs.push(thisMBID);
 					}
 				}
@@ -76,30 +76,30 @@ define([], function() {
 		},
 
 		/* Get track or album MusicBrainz ID
-			* Search API docs:
-				http://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search
-			* Query syntax docs:
-				https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description
+		* Search API docs:
+		http://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search
+		* Query syntax docs:
+		https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description
 		*/
 		getMusicBrainzId: function(guessEndpoint, song, onFailure, onSuccess) {
 			$.get('http://musicbrainz.org/ws/2/' + guessEndpoint + '?fmt=json&query=' +
-					'title:'+
-					'+"' + song.getTrack() + '"^3 ' + // bias towards the exact string
-					song.getTrack() + ' ' + // and individual words
-					'artistname:'+
-					'+"' + song.getArtist() + '"^4' +
-					song.getArtist() + ' '
-				)
-				.done(function(musicbrainz) {
-					if (musicbrainz.count === 0) {
-						return onFailure();
-					}
+				'title:'+
+				'+"' + song.getTrack() + '"^3 ' + // bias towards the exact string
+				song.getTrack() + ' ' + // and individual words
+				'artistname:'+
+				'+"' + song.getArtist() + '"^4' +
+				song.getArtist() + ' '
+			)
+			.done(function(musicbrainz) {
+				if (musicbrainz.count === 0) {
+					return onFailure();
+				}
 
-					var results = musicbrainz[guessEndpoint + 's'];
-					var MBID = results[0].id;
-					(typeof onSuccess === 'function' ? onSuccess : onFailure)(MBID);
-				})
-				.fail(onFailure);
+				var results = musicbrainz[guessEndpoint + 's'];
+				var MBID = results[0].id;
+				(typeof onSuccess === 'function' ? onSuccess : onFailure)(MBID);
+			})
+			.fail(onFailure);
 		},
 
 		// Requires song.metadata.mbid to have been previously retrieved
@@ -107,13 +107,13 @@ define([], function() {
 			var coverArtUrl = 'http://coverartarchive.org/release/' + MBID + '/front';
 
 			$.ajax({
-					url: coverArtUrl,
-					type: 'HEAD' // Check if the CoverArt is actually a useable HTTP resource; prevents Chrome errors
-				})
-				.done(function() {
-					(typeof onSuccess === 'function' ? onSuccess : onFailure)(coverArtUrl);
-				})
-				.fail(onFailure);
+				url: coverArtUrl,
+				type: 'HEAD' // Check if the CoverArt is actually a useable HTTP resource; prevents Chrome errors
+			})
+			.done(function() {
+				(typeof onSuccess === 'function' ? onSuccess : onFailure)(coverArtUrl);
+			})
+			.fail(onFailure);
 		}
 	};
 
