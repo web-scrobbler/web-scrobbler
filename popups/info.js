@@ -56,14 +56,14 @@ $(document).ready(function() {
 
 		// $('#timetoscrobble').text(song.secondsToScrobble > 0 ? MMSS(song.secondsToScrobble)+" to scrobble" : "Scrobbled" );
 		(function scrobbleCountdown(){
-            if (song.secondsToScrobble > 0) {
-			   	$('#timetoscrobble').text(MMSS(song.secondsToScrobble)+" to scrobble");
+			if (song.secondsToScrobble > 0) {
+				$('#timetoscrobble').text(MMSS(song.secondsToScrobble)+" to scrobble");
 				song.secondsToScrobble--;
-               	setTimeout(scrobbleCountdown, 1000);
-            } else {
-               	$('#timetoscrobble').text("Scrobbled");
-            }
-        })();
+				setTimeout(scrobbleCountdown, 1000);
+			} else {
+				$('#timetoscrobble').text("Scrobbled");
+			}
+		})();
 
 		// UI listeners
 		$('#love').on('click', function() {
@@ -86,11 +86,15 @@ $(document).ready(function() {
 				$('body').attr('edit-mode', 'true');
 				$('.editable').attr('contenteditable',true);
 
-				$(".editable").on('blur', function(evt){
-				  var dirtyText = $(this).text();
-				  var cleansedText = dirtyText.replace(/\n/g,' ');
-				  $(this).text(cleansedText);
-			  });
+				$(".editable")
+				.on('blur', function(e) {
+					var dirtyText = $(this).text();
+					var cleansedText = dirtyText.replace(/\n/g,' ');
+					$(this).text(cleansedText);
+				})
+				.on('keypress', function(e) {
+					return e.which != 13;
+				});
 			} else {
 				// Send corrected data, then set edit mode OFF
 				chrome.runtime.sendMessage({

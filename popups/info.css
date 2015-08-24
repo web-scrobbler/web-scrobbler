@@ -87,7 +87,7 @@ a {
 .datum {
 	font-weight: bold;
 	line-height: 1.05em;
-	display: inline-block;
+	display: inline;
 	opacity: 0.8;
 	vertical-align: middle;
 }
@@ -121,12 +121,6 @@ a {
 }
 .artist-link:before {
 	content: "By ";
-}
-.artist-link {
-	max-width: 200px;
-	overflow: hidden;
-	white-space: nowrap;
-	text-overflow: ellipsis;
 }
 
 #playcount:after {
