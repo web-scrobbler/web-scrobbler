@@ -334,7 +334,8 @@ define(function() {
 		{
 			label: 'Beats Music',
 			matches: ['*://*.beatsmusic.com/*'],
-			js: ['vendor/jquery.cookie.js', 'connectors/beats.js']
+			js: ['connectors/v2/beats.js'],
+			version: 2
 		},
 
 		{
