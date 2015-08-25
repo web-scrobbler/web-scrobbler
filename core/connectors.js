@@ -485,6 +485,13 @@ define(function() {
 		},
 
 		{
+			label: 'Jamendo',
+			matches: ['*://www.jamendo.com/*'],
+			js: ['connectors/v2/jamendo.js'],
+			version: 2
+		},
+
+		{
 			label: 'Jolicloud',
 			matches: ['*://drive.jolicloud.com/*'],
 			js: ['connectors/v2/jolicloud.js'],
