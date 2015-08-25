@@ -89,23 +89,18 @@ $(document).ready(function() {
 				editables[index].focus();
 
 				$('.editable')
-				.on('blur', function() {
-					var dirtyText = $(this).text();
-					var cleansedText = dirtyText.replace(/\n/g,' ');
-					$(this).text(cleansedText);
-				})
-				.on('keypress', function(e) {
-					if(e.which === 13) {
-						if(index < editables.length - 1) {
-							index++
-						} else {
-							index = 0;
+					.on('keypress', function(e) {
+						if(e.which === 13) {
+							index = index < editables.length - 1 ? index + 1 : 0;
+							editables[index].focus();
 						}
-						editables[index].focus();
-					}
-
-					return e.which != 13;
-				});
+						return e.which != 13;
+					})
+					.on('blur', function() {
+						var dirtyText = $(this).text();
+						var cleansedText = dirtyText.replace(/\n/g,' ');
+						$(this).text(cleansedText);
+					});
 			} else {
 				// Send corrected data, then set edit mode OFF
 				chrome.runtime.sendMessage({
