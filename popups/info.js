@@ -84,6 +84,9 @@ $(document).ready(function() {
 				// Set edit mode ON
 				$('body').attr('edit-mode', 'true');
 				$('.editable').attr('contenteditable',true);
+				var index = 0;
+				var editables = $('.editable').toArray();
+				editables[index].focus();
 
 				$('.editable')
 				.on('blur', function() {
@@ -92,6 +95,15 @@ $(document).ready(function() {
 					$(this).text(cleansedText);
 				})
 				.on('keypress', function(e) {
+					if(e.which === 13) {
+						if(index < editables.length - 1) {
+							index++
+						} else {
+							index = 0;
+						}
+						editables[index].focus();
+					}
+
 					return e.which != 13;
 				});
 			} else {
