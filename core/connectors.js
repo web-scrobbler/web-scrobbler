@@ -485,6 +485,13 @@ define(function() {
 		},
 
 		{
+			label: 'Stereodose',
+			matches: ['*://www.stereodose.com/*'],
+			js: ['connectors/v2/stereodose.js'],
+			version: 2
+		},
+
+		{
 			label: 'Jolicloud',
 			matches: ['*://drive.jolicloud.com/*'],
 			js: ['connectors/v2/jolicloud.js'],
