@@ -335,7 +335,8 @@ define(function() {
 		{
 			label: 'Sullen-Ural',
 			matches: ['*://sullen-ural.ru/*', '*://*.sullen-ural.ru/*'],
-			js: ['connectors/sullen-ural.js']
+			js: ['connectors/v2/sullen-ural.js'],
+			version: 2
 		},
 
 		{
