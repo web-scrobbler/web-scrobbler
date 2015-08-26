@@ -21,12 +21,12 @@ $(document).ready(function() {
 		chrome.runtime.sendMessage({
 			type: 'v2.getSong',
 			tabId: tabId
-		}, function(response) {
+		}, function(song) {
 			// false means legacy mode
-			if (response === false) {
+			if (song === false) {
 				legacy();
 			} else {
-				onSongLoaded(tabId, response);
+				onSongLoaded(tabId, song);
 			}
 		});
 	}
@@ -134,9 +134,12 @@ $(document).ready(function() {
 			editElem.text(cleansedText);
 			editElem.toggleClass('edit-mode', false);
 			editElem.attr('contenteditable', null);
-			if($('.edit-mode').toArray().length === 0) {
-				saveCorrectedInfo();
-			}
+
+			setTimeout(function() {
+				if($('.edit-mode').length === 0) {
+					saveCorrectedInfo();
+				}
+			}, 1000);
 		}
 
 		function saveCorrectedInfo() {
