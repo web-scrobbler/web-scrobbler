@@ -213,7 +213,7 @@ require([
 		ChromeStorage.debugLog();
 
 		// check session ID status and show notification if authentication is needed
-		LastFM.getSessionID(function(sessionID) {
+		LastFM.getSession(function(sessionID) {
 			if (!sessionID) {
 				Notifications.showAuthenticate(LastFM.getAuthUrl);
 			} else {
