@@ -71,6 +71,10 @@ $(document).ready(function() {
 		var $editBtn = $('.edit');
 		var $loveBtn = $('#love');
 
+		if(song.flags.isLastfmValid === false && song.flags.isCorrectedByUser === false) {
+			console.info('Unrecognised song; entering edit mode.');
+			startEditing($editableEl.first());
+		}
 
 		$loveBtn.on('click', function() {
 			var currentLoveStatus = $('#love').attr('last-fm-loved') === 'true';

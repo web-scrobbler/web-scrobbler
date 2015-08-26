@@ -125,7 +125,7 @@ define([
 				});
 				chrome.pageAction.setPopup({
 					tabId: tab,
-					popup: 'popups/manual_scrobble.html'
+					popup: 'popups/info.html'
 				});
 				break;
 			case config.ACTION_NOWPLAYING:
