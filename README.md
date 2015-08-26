@@ -1,4 +1,4 @@
-# Last.fm Scrobbler for Chrome [![build status](https://api.travis-ci.org/david-sabata/web-scrobbler.svg)](https://travis-ci.org/david-sabata/web-scrobbler/)
+# Last.fm Scrobbler for Chrome [![build status](https://api.travis-ci.org/david-sabata/web-scrobbler.svg)](https://travis-ci.org/david-sabata/web-scrobbler/) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/david-sabata/web-scrobbler?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 Last.fm Scrobbler for Chrome was created for people who listen to music online through their browser, and would like to keep an updated playback history using [last.fm][1]'s scrobbling service.
 
@@ -24,11 +24,11 @@ https://chrome.google.com/webstore/detail/lastfm-scrobbler/hhinaapppaileiechjoii
 
 Check the [wiki pages](../../wiki) to understand development of connectors.
 
-### IRC
+### Gitter
 
-You can also join us on our IRC channel #web-scrobbler on irc.freenode.net.
+You can join us at Gitter room [david-sabata/web-scrobbler](https://gitter.im/david-sabata/web-scrobbler)
 
-If you are unfamiliar with IRC you can connect easily via [Kiwi IRC][0].
+There's also IRC channel #web-scrobbler on irc.freenode.net, but Gitter is preferred now :wink:
 
 ## Privacy Policy
 

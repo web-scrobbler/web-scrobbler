@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<script type="text/javascript" src="/vendor/jquery-2.1.0.min.js"></script>
+	<script type="text/javascript" src="/popups/info.js"></script>
+	<link href="/vendor/fontawesome/font-awesome.css" rel="stylesheet">
+	<link rel="stylesheet" href="/popups/info.css" />
+</head>
+<body>
+	<div id="grid">
+		<div class='album-art'>
+			<div id="album-art" src=''></div>
+		</div>
+		<div id="info">
+			<div class='track-info'>
+				<a id="track" class="editable datum track-link" href="#" target="_blank">Unknown Track</a><span id='duration' class='datum track-duration'></span> <span id="edit-track" class='ui-btn edit'></span><br>
+				<a id="artist" class="editable datum ellipsis artist-link" href="#" target="_blank">Unknown Artist</a> <span id="edit-artist" class='ui-btn edit'></span><br>
+				<!-- <a id="album" class="datum ellipsis album-link" href="#" target="_blank">Unknown Album</a> -->
+			</div>
+			<div class="scrobble-controls">
+				<span id="love" class='ui-btn' title="Love/unlove this song"></span>
+				<span id="playcount"></span>
+				<span id="timetoscrobble"></span>
+			</div>
+		</div>
+	</div>
+	<!-- <div class='debug' id='data'><div></div></div> -->
+</body>
+</html>

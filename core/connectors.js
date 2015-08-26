@@ -252,9 +252,9 @@ define(function() {
 		},
 
 		{
-			label: 'Xbox Music',
-			matches: ['*://music.xbox.com/*'],
-			js: ['connectors/xboxmusic.js']
+			label: 'Groove Music',
+			matches: ['*://music.microsoft.com/*'],
+			js: ['connectors/groovemusic.js']
 		},
 
 		{
@@ -402,7 +402,8 @@ define(function() {
 		{
 			label: 'Xiami.com',
 			matches: ['http://www.xiami.com/play*'],
-			js: ['connectors/xiami.js']
+			js: ['connectors/v2/xiami.js'],
+			version: 2
 		},
 
 		{
@@ -434,7 +435,8 @@ define(function() {
 		{
 			label: '163 Music',
 			matches: ['*://music.163.com/*'],
-			js: ['connectors/163music.js']
+			js: ['connectors/v2/163music.js'],
+			version: 2
 		},
 
 		{
@@ -479,6 +481,34 @@ define(function() {
 			label: 'Radionomy',
 			matches: ['*://www.radionomy.com/*'],
 			js: ['connectors/v2/radionomy.js'],
+			version: 2
+		},
+
+		{
+			label: 'Jolicloud',
+			matches: ['*://drive.jolicloud.com/*'],
+			js: ['connectors/v2/jolicloud.js'],
+			version: 2
+		},
+
+		{
+			label: 'myradio.ua',
+			matches: ['*://myradio.ua/*'],
+			js: ['connectors/v2/myradio.ua.js'],
+			version: 2
+		},
+
+		{
+			label: 'SlashFavorites',
+			matches: ['*://slashfavorites.com/*'],
+			js: ['connectors/v2/slashfavorites.js'],
+			version: 2
+		},
+
+		{
+			label: 'Solayo',
+			matches: ['*://www.solayo.com/*', '*://solayo.com/*'],
+			js: ['connectors/v2/solayo.js'],
 			version: 2
 		},
 
@@ -533,7 +563,7 @@ define(function() {
 
 		{
 			label: 'Reddit Music Player',
-			matches: ['*://reddit.music.player.il.ly/'],
+			matches: ['*://reddit.musicplayer.io/'],
 			js: ['connectors/v2/redditmusicplayer.js'],
 			version: 2
 		},
@@ -561,7 +591,7 @@ define(function() {
 
 		{
 			label: 'Tradiio',
-			matches: ['*://*tradiio.com/*'],
+			matches: ['*://tradiio.com/*', '*://*.tradiio.com/*'],
 			js: ['connectors/v2/tradiio.js'],
 			version: 2
 		},
@@ -574,9 +604,73 @@ define(function() {
 		},
 
 		{
+			label: 'Dash Radio',
+			matches: ['*://dashradio.com/*'],
+			js: ['connectors/v2/dashradio.js'],
+			version: 2
+		},
+
+		{
+			label: 'oplayer',
+			matches: ['*://oplayer.org/*'],
+			js: ['connectors/v2/jplayer-oplayer.js'],
+			version: 2
+		},
+
+		{
+			label: 'EDM.com',
+			matches: ['*://edm.com/*'],
+			js: ['connectors/v2/edm.js'],
+			version: 2
+		},
+
+		{
+			label: 'post-player',
+			matches: ['*://post-player.org/*'],
+			js: ['connectors/v2/jplayer-postplayer.js'],
+			version: 2
+		},
+
+		{
 			label: 'Dream FM',
 			matches: ['*://dreamfm.biz/*'],
 			js: ['connectors/v2/dreamfm.js'],
+			version: 2
+		},
+
+		{
+			label: 'Radio Paradise',
+			matches: ['*://*.radioparadise.com/*'],
+			js: ['connectors/v2/radioparadise.js'],
+			allFrames: true,
+			version: 2
+		},
+
+		{
+			label: 'beatport - www',
+			matches: ['*://www.beatport.com/*'],
+			js: ['connectors/v2/beatport-www.js'],
+			version: 2
+		},
+
+		{
+			label: 'themusicninja',
+			matches: ['*://www.themusicninja.com/*'],
+			js: ['connectors/v2/themusicninja.js'],
+			version: 2
+		},
+
+		{
+			label: 'trntbl.me',
+			matches: ['*://*.trntbl.me/*', '*://trntbl.me/*'],
+			js: ['connectors/v2/trntblme.js'],
+			version: 2
+		},
+
+		{
+			label: 'wavo.me',
+			matches: ['https://wavo.me/*'],
+			js: ['connectors/v2/wavome.js'],
 			version: 2
 		}
 

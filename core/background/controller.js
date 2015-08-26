@@ -270,14 +270,16 @@ define([
 		 * @return {{}}
 		 */
 		this.getCurrentSong = function() {
-			return currentSong === null ? {} : currentSong.attr();
+			var currentSongData = currentSong.attr();
+			currentSongData.secondsToScrobble = playbackTimer.getRemainingSeconds();
+			return currentSong === null ? {} : currentSongData;
 		};
 
 		/**
 		 * Sets data for current song from user input
 		 * TODO: check if all is ok for case when song is already valid
 		 */
-		this.setUserSongData = function(data) {
+		this.setUserSongData = function(data, cb) {
 			if (currentSong !== null) {
 				if (currentSong.flags.isScrobbled) {
 					// should not happen
@@ -296,6 +298,19 @@ define([
 				if (data.artist || data.track) {
 					Pipeline.processSong(currentSong);
 				}
+
+				currentSong.bind('flags.isProcessed', function() {
+					cb(currentSong);
+				});
+			}
+		};
+
+		this.toggleLove = function(data, cb) {
+			if (currentSong !== null) {
+				LastFM.toggleLove(currentSong, data.shouldBeLoved, function() {
+					currentSong.metadata.attr('userloved', data.shouldBeLoved);
+					cb();
+				});
 			}
 		};
 
