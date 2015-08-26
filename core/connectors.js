@@ -364,7 +364,7 @@ define(function() {
 
 		{
 			label: 'Yandex.Music',
-			matches: ['*://music.yandex.ru/*'],
+			matches: ['*://music.yandex.ru/*', '*://music.yandex.by/*', '*://music.yandex.kz/*', '*://music.yandex.ua/*'],
 			js: ['connectors/yandex.js']
 		},
 
@@ -485,6 +485,34 @@ define(function() {
 		},
 
 		{
+			label: 'GetWorkDoneMusic',
+			matches: ['*://www.getworkdonemusic.com/*', '*://getworkdonemusic.com/*'],
+			js: ['connectors/v2/getworkdonemusic.js'],
+			version: 2
+		},
+
+		{
+			label: 'Stereodose',
+			matches: ['*://www.stereodose.com/*'],
+			js: ['connectors/v2/stereodose.js'],
+			version: 2
+		},
+
+		{
+			label: 'Москва ФМ / Питер ФМ',
+			matches: ['*://www.moskva.fm/*', '*://www.piter.fm/*'],
+			js: ['connectors/v2/moskva-piter-fm.js'],
+			version: 2
+		},
+
+		{
+			label: 'Jamendo',
+			matches: ['*://www.jamendo.com/*'],
+			js: ['connectors/v2/jamendo.js'],
+			version: 2
+		},
+
+		{
 			label: 'Jolicloud',
 			matches: ['*://drive.jolicloud.com/*'],
 			js: ['connectors/v2/jolicloud.js'],
@@ -598,7 +626,7 @@ define(function() {
 
 		{
 			label: 'Yandex radio',
-			matches: ['https://radio.yandex.ru/*'],
+			matches: ['https://radio.yandex.ru/*', 'https://radio.yandex.by/*', 'https://radio.yandex.kz/*', 'https://radio.yandex.ua/*'],
 			js: ['connectors/v2/yandexradio.js'],
 			version: 2
 		},
