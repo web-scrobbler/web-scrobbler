@@ -152,7 +152,8 @@ define(function() {
 		{
 			label: 'VK',
 			matches: ['*://vk.com/*'],
-			js: ['connectors/vk.js']
+			js: ['connectors/v2/vk.js'],
+			version: 2
 		},
 
 		{
