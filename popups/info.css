@@ -192,24 +192,20 @@ a {
 
 .edit {
 	background-image: url("/icons/icon_edit.png");
-	opacity: 1.0;
+	display: none;
+	opacity: 0.5;
+	vertical-align: text-bottom;
 }
-
-.editable ~ .edit {
-	opacity: 0.0;
-}
-
-.editable:hover ~ .edit {
-	opacity: 0.3;
-}
-
-.editable:hover ~ .edit ~ .edit
-{
-	opacity: 0.0;
-}
-
+.editable:hover + .edit,
 .edit:hover {
-	opacity: 1.0;
+	opacity: 0.6;
+	display: inline-block;
+}
+.edit:hover,
+.edit:active,
+.editable[contenteditable] + .edit {
+	opacity: 1;
+	display: inline-block;
 }
 /*
 .editable.edit-mode ~ .edit {
