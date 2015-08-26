@@ -485,6 +485,13 @@ define(function() {
 		},
 
 		{
+			label: 'Москва ФМ / Питер ФМ',
+			matches: ['*://www.moskva.fm/*', '*://www.piter.fm/*'],
+			js: ['connectors/v2/moskva-piter-fm.js'],
+			version: 2
+		},
+
+		{
 			label: 'Jolicloud',
 			matches: ['*://drive.jolicloud.com/*'],
 			js: ['connectors/v2/jolicloud.js'],
