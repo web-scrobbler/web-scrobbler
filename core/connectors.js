@@ -364,7 +364,7 @@ define(function() {
 
 		{
 			label: 'Yandex.Music',
-			matches: ['*://music.yandex.ru/*'],
+			matches: ['*://music.yandex.ru/*', '*://music.yandex.by/*', '*://music.yandex.kz/*', '*://music.yandex.ua/*'],
 			js: ['connectors/yandex.js']
 		},
 
@@ -598,7 +598,7 @@ define(function() {
 
 		{
 			label: 'Yandex radio',
-			matches: ['https://radio.yandex.ru/*'],
+			matches: ['https://radio.yandex.ru/*', 'https://radio.yandex.by/*', 'https://radio.yandex.kz/*', 'https://radio.yandex.ua/*'],
 			js: ['connectors/v2/yandexradio.js'],
 			version: 2
 		},
