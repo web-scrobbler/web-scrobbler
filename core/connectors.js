@@ -485,6 +485,13 @@ define(function() {
 		},
 
 		{
+			label: 'GetWorkDoneMusic',
+			matches: ['*://www.getworkdonemusic.com/*', '*://getworkdonemusic.com/*'],
+			js: ['connectors/v2/getworkdonemusic.js'],
+			version: 2
+		},
+
+		{
 			label: 'Jolicloud',
 			matches: ['*://drive.jolicloud.com/*'],
 			js: ['connectors/v2/jolicloud.js'],
