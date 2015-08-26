@@ -60,7 +60,11 @@ define([
 					message: 'by ' + song.getArtist()
 				};
 
-				chrome.notifications.create('', options, notificationCreatedCb);
+				if(typeof song.metadata.notificationId === 'undefined') {
+					chrome.notifications.create(options, notificationCreatedCb);
+				} else {
+					chrome.notifications.update(song.metadata.notificationId, options, notificationCreatedCb);
+				}
 			}
 		};
 
