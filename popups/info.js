@@ -77,45 +77,67 @@ $(document).ready(function() {
 				$('#love').attr('last-fm-loved', desiredLoveStatus);
 			});
 		});
+		
+		function saveCorrectedInfo() {
+			chrome.runtime.sendMessage({
+				type: 'v2.correctSong',
+				data: {
+					artist: $('#artist').text(),
+					track: $('#track').text()
+				},
+				tabId: tabId
+			}, function() {
+				// Then refresh the popup
+				onTabReady(tabId);
+			});
+		}
 
-		$('body').attr('edit-mode', 'false');
-		$('#edit').on('click', function() {
-			if($('body').attr('edit-mode') === 'false') {
-				// Set edit mode ON
-				$('body').attr('edit-mode', 'true');
-				$('.editable').attr('contenteditable',true);
-				var index = 0;
-				var editables = $('.editable').toArray();
-				editables[index].focus();
+		function startEditing(editElem) {
+			editElem.attr('contenteditable',true);
+			editElem.toggleClass('edit-mode', true);
+			editElem.focus();
+		}
 
-				$('.editable')
-					.on('keypress', function(e) {
-						if(e.which === 13) {
-							index = index < editables.length - 1 ? index + 1 : 0;
-							editables[index].focus();
-						}
-						return e.which != 13;
-					})
-					.on('blur', function() {
-						var dirtyText = $(this).text();
-						var cleansedText = dirtyText.replace(/\n/g,' ');
-						$(this).text(cleansedText);
-					});
-			} else {
-				// Send corrected data, then set edit mode OFF
-				chrome.runtime.sendMessage({
-					type: 'v2.correctSong',
-					data: {
-						artist: $('#artist').text(),
-						track: $('#track').text()
-					},
-					tabId: tabId
-				}, function() {
-					$('body').attr('edit-mode', 'false');
-					$('.editable').attr('contenteditable',null);
-					// Then refresh the popup
-					onTabReady(tabId);
-				});
+		function finishEditing(editElem) {
+			var dirtyText = editElem.text();
+			var cleansedText = dirtyText.replace(/\n/g,' ');
+			editElem.text(cleansedText);
+			editElem.toggleClass('edit-mode', false);
+			editElem.attr('contenteditable', null);
+			saveCorrectedInfo();
+		}
+
+		$('.edit').on('click', function() {
+			// Find an editable element which is before the edit button
+			var editElem = $(this).prevAll('.editable:first');
+			if(editElem.length !== 0) {
+				if(editElem.hasClass('edit-mode') === false)
+				{
+					startEditing(editElem);
+				}
+			}
+		});
+
+		$('.editable').on('keypress', function(e) {
+			if($(this).hasClass('edit-mode') === true) {
+				if(e.which === 13) {
+					// Finish editing the current element and pass on to the next one
+					finishEditing($(this));
+					var editNext = $(this).nextAll('.editable:first');
+					if(editNext.length !== 0) {
+						startEditing(editNext);
+					}
+					else {
+						// No more fields left
+						$(this).blur();
+					}
+				}
+			}
+			return e.which != 13;
+		})
+		.on('blur', function() {
+			if($(this).hasClass('edit-mode') === true) {
+				finishEditing($(this));
 			}
 		});
 	}

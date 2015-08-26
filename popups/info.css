@@ -165,7 +165,7 @@ a {
 	opacity: 0.5;
 }
 
-.scrobble-controls .ui-btn {
+.ui-btn {
 	width: 16px;
 	height: 16px;
 	cursor: pointer;
@@ -190,43 +190,42 @@ a {
 	background-image: url("/icons/heart.png");
 }
 
-#edit {
+.edit {
 	background-image: url("/icons/icon_edit.png");
+	opacity: 1.0;
 }
-body[edit-mode='true'] #edit {
+
+.editable ~ .edit {
+	opacity: 0.0;
+}
+
+.editable:hover ~ .edit {
+	opacity: 0.3;
+}
+
+.editable:hover ~ .edit ~ .edit
+{
+	opacity: 0.0;
+}
+
+.edit:hover {
+	opacity: 1.0;
+}
+/*
+.editable.edit-mode ~ .edit {
 	background-image: url("/icons/icon_save.png");
+	opacity: 1.0;
 }
-body[edit-mode='true'] *,
-body[edit-mode='true'] *:before,
-body[edit-mode='true'] *:after {
-	color: #CCC;
-	cursor: default;
-	pointer-events: none;
+
+.editable.edit-mode ~ .edit ~ .edit
+{
+	opacity: 0.0;
 }
-body[edit-mode='true'] .editable {
+*/
+.editable.edit-mode {
 	color: #000;
-    cursor: text !important;
+    cursor: text;
     pointer-events: all;
     position: relative;
     overflow: visible;
-}
-body[edit-mode='true'] .ui-btn {
-	opacity: 0.3;
-}
-body[edit-mode='true'] #edit {
-	opacity: 1;
-	cursor: pointer !important;
-	pointer-events: all;
-}
-body[edit-mode='true'] .editable:after {
-	content: "";
-    background: url("/icons/icon_edit.png") center no-repeat;
-    position: absolute;
-    right: -17px;
-    height: 15px;
-    width: 15px;
-    background-size: contain;
-    bottom: 1px;
-    z-index: 999;
-    cursor: text !important;
 }
