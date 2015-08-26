@@ -83,33 +83,35 @@ define([
 	 *
 	 * If there is a stored token it is preferably traded for a new session which is then returned.
 	 */
-	function getSessionID(cb) {
+	function getSession(cb) {
 		storage.get(function(data) {
 			// if we have a token it means it is fresh and we want to trade it for a new session ID
 			var token = data.token || null;
 			if (token) {
 				tradeTokenForSession(token, function(session) {
-					if (session === null || session.trim().length === 0) {
+					if (session === null || typeof session.key === 'undefined') {
 						console.warn('Failed to trade token for session - the token is probably not authorized');
 
 						// both session and token are now invalid
 						data.token = null;
 						data.sessionID = null;
+						data.sessionName = null;
 						storage.set(data, function() {
-							cb(null);
+							cb(null,null);
 						});
 					} else {
 						// token is already used, reset it and store the new session
 						data.token = null;
-						data.sessionID = session;
+						data.sessionID = session.key;
+						data.sessionName = session.name;
 						storage.set(data, function() {
-							cb(session);
+							cb(data.sessionID, data.sessionName);
 						});
 					}
 				});
 			}
 			else {
-				cb(data.sessionID);
+				cb(data.sessionID, data.sessionName);
 			}
 		});
 	}
@@ -136,7 +138,7 @@ define([
 					console.log('auth.getSession response: ' + JSON.stringify(response));
 					cb(null);
 				} else {
-					cb(response.session.key);
+					cb(response.session);
 				}
 			})
 			.fail(function(jqxhr, textStatus, error) {
@@ -246,53 +248,64 @@ define([
 	 * @param cb {Function(boolean)} callback where validation result will be passed
 	 */
 	function loadSongInfo(song, cb) {
+		getSession(function(sessionID,sessionName) {
 
-		var params = {
-			method: 'track.getinfo',
-			autocorrect: localStorage.useAutocorrect ? localStorage.useAutocorrect : 0,
-			artist: song.processed.artist || song.parsed.artist,
-			track: song.processed.track || song.parsed.track
-		};
+			var params = {
+				method: 'track.getinfo',
+				autocorrect: localStorage.useAutocorrect ? localStorage.useAutocorrect : 0,
+				username: sessionName,
+				artist: song.processed.artist || song.parsed.artist,
+				track: song.processed.track || song.parsed.track
+			};
 
-		if (params.artist === null || params.track === null) {
-			song.flags.attr('isLastfmValid', false);
-			cb(false);
-			return;
-		}
-
-		var okCb = function(xmlDoc) {
-			var $doc = $(xmlDoc);
-
-			can.batch.start();
-
-			song.processed.attr({
-				artist: $doc.find('artist > name').text(),
-				track: $doc.find('track > name').text(),
-				duration: parseInt($doc.find('track > duration').text()) / 1000
-			});
-
-			var thumbUrl = song.getTrackArt();
-			if (thumbUrl === null) {
-				thumbUrl = $doc.find('album > image[size="medium"]').text();
+			if (params.artist === null || params.track === null) {
+				song.flags.attr('isLastfmValid', false);
+				cb(false);
+				return;
 			}
 
-			song.metadata.attr({
-				artistThumbUrl: thumbUrl
-			});
+			var okCb = function(xmlDoc) {
+				var $doc = $(xmlDoc);
 
-			song.flags.attr('isLastfmValid', true);
+				can.batch.start();
 
-			can.batch.stop();
+				song.processed.attr({
+					artist: $doc.find('artist > name').text(),
+					track: $doc.find('track > name').text(),
+					duration: parseInt($doc.find('track > duration').text()) / 1000
+				});
 
-			cb(true);
-		};
+				var coverArtURL = song.getTrackArt();
+				if (coverArtURL === null) {
+					coverArtURL = /*$doc.find('album > image[size="extralarge"]').text() ||*/ $doc.find('album > image[size="large"]').text() || $doc.find('album > image[size="medium"]').text() || $doc.find('album > image[size="small"]').text();
+				}
 
-		var errCb = function() {
-			song.flags.attr('isLastfmValid', false);
-			cb(false);
-		};
+				song.metadata.attr({
+					coverArtURL: coverArtURL,
+					artistUrl: $doc.find('artist > url').text(),
+					artistMBID: $doc.find('track > mbid').text(),
+					trackUrl: $doc.find('track > url').text(),
+					trackMBID: $doc.find('track > mbid').text(),
+					albumUrl: $doc.find('album > url').text(),
+					albumMBID: $doc.find('track > mbid').text(),
+					userloved: $doc.find('userloved').text() == 1,
+					userplaycount: $doc.find('userplaycount').text()
+				});
 
-		doRequest('GET', params, false, okCb, errCb);
+				song.flags.attr('isLastfmValid', true);
+
+				can.batch.stop();
+
+				cb(true);
+			};
+
+			var errCb = function() {
+				song.flags.attr('isLastfmValid', false);
+				cb(false);
+			};
+
+			doRequest('GET', params, false, okCb, errCb);
+		});
 	}
 
 	/**
@@ -301,7 +314,7 @@ define([
 	 * @param {Function} cb callback with single bool parameter of success
 	 */
 	function sendNowPlaying(song, cb) {
-		getSessionID(function(sessionID) {
+		getSession(function(sessionID) {
 			if (sessionID === false) {
 				cb(false);
 			}
@@ -345,7 +358,7 @@ define([
 	 * @param {Function} cb callback with single ServiceCallResult parameter
 	 */
 	function scrobble(song, cb) {
-		getSessionID(function(sessionID) {
+		getSession(function(sessionID) {
 			if (!sessionID) {
 				var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
 				cb(result);
@@ -394,15 +407,53 @@ define([
 		});
 	}
 
+	/**
+	 * Send song to API to LOVE or UNLOVE
+	 * @param {can.Map} song
+	 * @param {Boolean} love true = send LOVE request, false = send UNLOVE request
+	 * @param {Function} cb callback with single ServiceCallResult parameter
+	 */
+	function toggleLove(song, shouldBeLoved, cb) {
+		getSession(function(sessionID) {
+			if (!sessionID) {
+				var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
+				cb(result);
+			}
 
+			var params = {
+				method: 'track.'+(shouldBeLoved ? 'love' : 'unlove' ),
+				'track': song.processed.track || song.parsed.track,
+				'artist': song.processed.artist || song.parsed.artist,
+				api_key: config.apiKey,
+				sk: sessionID
+			};
+
+			var okCb = function(xmlDoc) {
+				var $doc = $(xmlDoc);
+
+				if ($doc.find('lfm').attr('status') == 'ok') {
+					cb(true);
+				} else {
+					cb(false); // request passed but returned error
+				}
+			};
+
+			var errCb = function() {
+				cb(false);
+			};
+
+			doRequest('POST', params, true, okCb, errCb);
+		});
+	}
 
 	return {
 		getAuthUrl: getAuthUrl,
-		getSessionID: getSessionID,
+		getSession: getSession,
 		generateSign: generateSign,
 		loadSongInfo: loadSongInfo,
 		sendNowPlaying: sendNowPlaying,
-		scrobble: scrobble
+		scrobble: scrobble,
+		toggleLove: toggleLove
 	};
 
 });

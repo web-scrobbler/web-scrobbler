@@ -161,7 +161,14 @@ require([
 			case 'v2.correctSong':
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
-					ctrl.setUserSongData(request.data);
+					ctrl.setUserSongData(request.data, sendResponse);
+				}
+				break;
+
+			case 'v2.toggleLove':
+				ctrl = getControllerByTabId(request.tabId);
+				if (ctrl) {
+					ctrl.toggleLove(request.data, sendResponse);
 				}
 				break;
 
@@ -206,7 +213,7 @@ require([
 		ChromeStorage.debugLog();
 
 		// check session ID status and show notification if authentication is needed
-		LastFM.getSessionID(function(sessionID) {
+		LastFM.getSession(function(sessionID) {
 			if (!sessionID) {
 				Notifications.showAuthenticate(LastFM.getAuthUrl);
 			} else {

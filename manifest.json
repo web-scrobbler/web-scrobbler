@@ -1,17 +1,17 @@
 {
    "name": "Last.fm Scrobbler",
-   "version": "1.49",
+   "version": "1.51",
 
    "description": "Scrobble music all around the web!",
    "icons": {
-      "128": "icon128.png"
+      "128": "/icons/icon128.png"
    },
 
    "manifest_version": 2,
    "content_security_policy": "script-src 'self' https://www.google-analytics.com/analytics.js; object-src 'self'",
 
    "web_accessible_resources": [
-      "icon128.png",
+      "/icons/icon128.png",
       "connectors/jango-dom-inject.js",
       "connectors/plugdj-dom-inject.js",
       "connectors/v2/soundcloud-dom-inject.js",

@@ -55,7 +55,7 @@ define([
 			if (permissionLevel === 'granted') {
 				var options = {
 					type: 'basic',
-					iconUrl: song.metadata.artistThumbUrl || 'default_cover_art.png',
+					iconUrl: song.metadata.coverArtURL || '/icons/default_cover_art.png',
 					title: song.getTrack(),
 					message: 'by ' + song.getArtist()
 				};
@@ -82,7 +82,7 @@ define([
 
 				var options = {
 					type: 'basic',
-					iconUrl: 'icon128.png',
+					iconUrl: '/icons/icon128.png',
 					title: 'Web scrobbler error',
 					message: message
 				};
@@ -127,7 +127,7 @@ define([
 
 					var options = {
 						type: 'basic',
-						iconUrl: '/icon128.png',
+						iconUrl: '/icons/icon128.png',
 						title: 'Connect your Last.FM account',
 						message: 'Click the notification or connect later in the extension options page',
 						isClickable: true

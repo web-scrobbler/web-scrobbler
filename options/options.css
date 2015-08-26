@@ -86,3 +86,14 @@ a.conn-config:hover {
 	position: relative;
 	top: -5px;
 }
+
+#connectors a {
+	text-decoration: none;
+	border: none;
+}
+
+#connectors .v2 {
+	color: #d51007;
+	font-size: 0.7em;
+	padding-left: 5px;
+}

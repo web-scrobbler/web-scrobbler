@@ -125,7 +125,7 @@ define([
 				});
 				chrome.pageAction.setPopup({
 					tabId: tab,
-					popup: 'popup.html'
+					popup: 'popups/manual_scrobble.html'
 				});
 				break;
 			case config.ACTION_NOWPLAYING:
@@ -287,7 +287,7 @@ define([
 		}
 
 		// if the token/session is not authorized, wait for a while
-		LastFM.getSessionID(function(sessionID) {
+		LastFM.getSession(function(sessionID) {
 			if (sessionID === null) {
 				return;
 			}
@@ -313,7 +313,7 @@ define([
 			var http_request = new XMLHttpRequest();
 			http_request.open('POST', url, false); // synchronous
 			http_request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-			http_request.send(params);
+			http_request.send();
 
 			console.log('nowPlaying request: %s', url);
 			console.log('nowPlaying response: %s', http_request.responseText);
@@ -362,7 +362,7 @@ define([
 		}
 
 		// if the token/session is not authorized, wait for a while
-		LastFM.getSessionID(function(sessionID) {
+		LastFM.getSession(function(sessionID) {
 			if (!sessionID) {
 				return;
 			}
@@ -396,7 +396,7 @@ define([
 			var http_request = new XMLHttpRequest();
 			http_request.open('POST', url, false); // synchronous
 			http_request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-			http_request.send(params);
+			http_request.send();
 
 			if (http_request.status == 200) {
 				// Update page action icon

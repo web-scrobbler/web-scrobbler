@@ -80,12 +80,16 @@ require([
 			}
 		});
 
+		bindDataDialogs();
+	});
+
+	function bindDataDialogs() {
 		$('a[data-dialog]').click(function() {
 			var url = chrome.extension.getURL('/dialogs/help/' + $(this).data('dialog') + '.html');
 			window.open(url, 'help', 'width=400,height=400');
 			return false;
 		});
-	});
+	}
 
 	function toggleInitState() {
 		var checkedState = true;
@@ -148,6 +152,7 @@ require([
 			'</a>\r\n' +
 			'<input type="checkbox" id="conn-' + index + '">\r\n' +
 			'<label for="conn-' + index + '">' + connector.label + '</label>\r\n' +
+			(connector.version === 2 ? ' <a href="#" data-dialog="v2_connectors" class="v2">v2</a>' : '') +
 			'</li>');
 
 			var domEl = newEl.appendTo(parent);
@@ -173,6 +178,8 @@ require([
 				console.log(localStorage.disabledConnectors);
 			});
 		});
+
+		bindDataDialogs();
 
 		$('button#conn-conf-ok').click(function() {
 			var modal = $(this).closest('#conn-conf-modal');

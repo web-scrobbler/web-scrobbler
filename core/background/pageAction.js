@@ -21,7 +21,8 @@ define([], function() {
 		};
 
 		var documents = {
-			BASE: '/popups/go_play_music.html'
+			BASE: '/popups/go_play_music.html',
+			SONG_INFO: '/popups/info.html'
 		};
 
 		/**
@@ -44,12 +45,9 @@ define([], function() {
 			chrome.pageAction.show(tabId);
 		}
 
-
-
 		this.onClicked = function() {
-			console.log('Page action clicked in tab ' + tabId);
+			// console.log('Page action clicked in tab ' + tabId);
 		};
-
 
 		this.setSiteSupported = function() {
 			setPageAction(icons.BASE, 'This site is supported for scrobbling', documents.BASE);
@@ -59,7 +57,7 @@ define([], function() {
 		 * @param {can.Map} songObj
 		 */
 		this.setSongRecognized = function(songObj) {
-			setPageAction(icons.RECOGNIZED, 'Now playing ' + songObj.getArtist() + ' - ' + songObj.getTrack(), '');
+			setPageAction(icons.RECOGNIZED, 'Now playing ' + songObj.getArtist() + ' - ' + songObj.getTrack(), documents.SONG_INFO);
 		};
 
 		this.setSongRecognizedDisabled = function() {
@@ -67,11 +65,11 @@ define([], function() {
 		};
 
 		this.setSongScrobbled = function(song) {
-			setPageAction(icons.SCROBBLED, 'Scrobbled ' + song.getArtist() + ' - ' + song.getTrack(), '');
+			setPageAction(icons.SCROBBLED, 'Scrobbled ' + song.getArtist() + ' - ' + song.getTrack(), documents.SONG_INFO);
 		};
 
 		this.setSongNotRecognized = function() {
-			setPageAction(icons.UNKNOWN, 'The song was not recognized. Click to enter correct info', 'popup.html');
+			setPageAction(icons.UNKNOWN, 'The song was not recognized. Click to enter correct info', 'popups/manual_scrobble.html');
 		};
 
 	};

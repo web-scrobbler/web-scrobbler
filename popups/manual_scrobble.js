@@ -41,9 +41,9 @@ $(function() {
 		$('#artist').val(song.processed.artist || song.parsed.artist);
 		$('#track').val(song.processed.track || song.parsed.track);
 
-		$('#submit').click(function () {
-			$(this).attr('disabled', true);
-			$(this).siblings().remove();
+		var submissionHandler = function() {
+			$('#submit').attr('disabled', true);
+			$('#submit').siblings().remove();
 
 			var data = {
 				artist: $('#artist').val(),
@@ -59,7 +59,16 @@ $(function() {
 			// show green tick even if the song may not be valid - we have no way of knowing yet
 			$('#form').fadeOut(0);
 			$('#valid').fadeIn(0);
+		};
+
+		// submission works for both click and enter key (using form wrapper)
+		$('#submit').click(function() {
+			submissionHandler();
 		});
+		$('#formwrapper').submit(function() {
+			submissionHandler();
+		});
+
 	}
 
 
@@ -78,9 +87,10 @@ $(function() {
 			$('#track').val(song.track);
 		}
 
-		$('#submit').click(function () {
-			$(this).attr('disabled', true);
-			$(this).siblings().remove();
+		var submissionHandler = function() {
+			console.log('handling legacy');
+			$('#submit').attr('disabled', true);
+			$('#submit').siblings().remove();
 
 			var artist = $('#artist').val();
 			var track = $('#track').val();
@@ -118,7 +128,15 @@ $(function() {
 			};
 
 			popupApi.validate(artist, track, validateCB);
+		};
+
+		$('#submit').click(function() {
+			submissionHandler();
 		});
+		$('#formwrapper').submit(function() {
+			submissionHandler();
+		});
+
 	}
 
 
