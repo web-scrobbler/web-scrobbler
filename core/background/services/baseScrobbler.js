@@ -200,6 +200,7 @@ define([
 		 * @param errCb
 		 */
 		doRequest: function (method, params, signed, okCb, errCb) {
+			var self = this;
 			params.api_key = config.apiKey;
 
 			if (signed) {
@@ -215,10 +216,8 @@ define([
 
 			var url = this.apiUrl + '?' + paramPairs.join('&');
 
-			var thiss = this;
-
 			var internalOkCb = function (xmlDoc, status) {
-				if (thiss.enableLogging) {
+				if (self.enableLogging) {
 					console.info('L.FM response to ' + url + ' : ' + status + '\n' + (new XMLSerializer()).serializeToString(xmlDoc));
 				}
 
@@ -226,7 +225,7 @@ define([
 			};
 
 			var internalErrCb = function (jqXHR, status, response) {
-				if (thiss.enableLogging) {
+				if (self.enableLogging) {
 					console.error('L.FM response to ' + url + ' : ' + status + '\n' + response);
 				}
 
@@ -260,7 +259,7 @@ define([
 		 */
 		loadSongInfo: function (song, cb) {
 
-			var thiss = this;
+			var self = this;
 
 			this.getSession(function (sessionID, sessionName) {
 				var params = {
@@ -320,7 +319,7 @@ define([
 					cb(isLastfmValid);
 				};
 
-				thiss.doRequest('GET', params, false, okCb, errCb);
+				self.doRequest('GET', params, false, okCb, errCb);
 			});
 		},
 
@@ -330,7 +329,7 @@ define([
 		 * @param {Function} cb callback with single bool parameter of success
 		 */
 		sendNowPlaying: function (song, cb) {
-			var thiss = this;
+			var self = this;
 			this.getSession(function (sessionID) {
 				if (!sessionID) {
 					cb(false);
@@ -366,7 +365,7 @@ define([
 					cb(false);
 				};
 
-				thiss.doRequest('POST', params, true, okCb, errCb);
+				self.doRequest('POST', params, true, okCb, errCb);
 			});
 		},
 
@@ -377,7 +376,7 @@ define([
 		 */
 		scrobble: function (song, cb) {
 
-			var thiss = this;
+			var self = this;
 			this.getSession(function (sessionID) {
 				if (!sessionID) {
 					var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
@@ -424,7 +423,7 @@ define([
 					cb(result);
 				};
 
-				thiss.doRequest('POST', params, true, okCb, errCb);
+				self.doRequest('POST', params, true, okCb, errCb);
 			});
 		},
 
@@ -435,7 +434,7 @@ define([
 		 * @param {Function} cb callback with single ServiceCallResult parameter
 		 */
 		toggleLove: function (song, shouldBeLoved, cb) {
-			var thiss = this;
+			var self = this;
 			this.getSession(function (sessionID) {
 				if (!sessionID) {
 					var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
@@ -464,7 +463,7 @@ define([
 					cb(false);
 				};
 
-				thiss.doRequest('POST', params, true, okCb, errCb);
+				self.doRequest('POST', params, true, okCb, errCb);
 			});
 		},
 
