@@ -58,7 +58,7 @@ $(document).ready(function() {
 			if (typeof song.secondsToScrobble === 'undefined') {
 				$('#timetoscrobble').text('Can\'t scrobble');
 			} else if (song.secondsToScrobble > 0) {
-				$('#timetoscrobble').text(MMSS(song.secondsToScrobble)+' to scrobble');
+				$('#timetoscrobble').text('scrobbling in '+MMSS(song.secondsToScrobble));
 				song.secondsToScrobble--;
 				setTimeout(scrobbleCountdown, 1000);
 			} else if(song.secondsToScrobble <= 0 || song.flags.isScrobbled === true) {
@@ -103,7 +103,6 @@ $(document).ready(function() {
 			.on('keydown', function(e) {
 				if($(this).hasClass('edit-mode') === true) {
 					if(e.which === 9 || e.which === 13) {
-						console.log(e.which);
 						e.preventDefault();
 
 						// Finish editing the current element and pass on to the next one
@@ -150,9 +149,8 @@ $(document).ready(function() {
 					track: $('#track').text()
 				},
 				tabId: tabId
-			}, function() {
-				// Then refresh the popup
-				onTabReady(tabId);
+			}, function(updatedSong) {
+				onSongLoaded(tabId, updatedSong);
 			});
 		}
 	}

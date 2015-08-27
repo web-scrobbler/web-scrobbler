@@ -284,7 +284,7 @@ define([
 				if (currentSong.flags.isScrobbled) {
 					// should not happen
 					console.error('Tab ' + tabId + ': attempted to enter user data for already scrobbled song');
-					return;
+					return cb(currentSong);
 				}
 
 				if (data.artist) {
