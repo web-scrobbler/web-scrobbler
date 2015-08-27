@@ -31,7 +31,7 @@
  */
 require([
 	'services/background-ga',
-	'services/lastfm',
+	'scrobblers/lastfm',
 	'notifications',
 	'inject',
 	'objects/injectResult',

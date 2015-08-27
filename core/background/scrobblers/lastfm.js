@@ -4,7 +4,7 @@
  * Module for all communication with L.FM
  */
 define([
-	'services/baseScrobbler'
+	'scrobblers/baseScrobbler'
 ], function (BaseScrobbler) {
 	var LastFM = new BaseScrobbler({
 		storage: 'LastFM',
