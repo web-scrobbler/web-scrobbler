@@ -6,7 +6,7 @@
 define([
 	'objects/song',
 	'pipeline/pipeline',
-	'services/lastfm',
+	'scrobblers/lastfm',
 	'pageAction',
 	'timer',
 	'notifications',

@@ -16,7 +16,7 @@ define([
 	'jquery',
 	'config',
 	'notifications',
-	'services/lastfm',
+	'scrobblers/lastfm',
 	'services/background-ga',
 	'objects/song'
 ], function($, config, notifications, LastFM, GA, Song) {

@@ -6,7 +6,7 @@
  * (some is still done in legacy/scrobbler)
  */
 define([
-	'services/baseScrobbler'
+	'scrobblers/baseScrobbler'
 ], function (BaseScrobbler) {
 
 	var LastFM = new BaseScrobbler({

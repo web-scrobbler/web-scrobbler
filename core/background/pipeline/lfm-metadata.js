@@ -1,7 +1,7 @@
 'use strict';
 
 define([
-	'services/lastfm'
+	'scrobblers/lastfm'
 ], function(LastFM) {
 
 	return {

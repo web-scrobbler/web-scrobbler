@@ -4,7 +4,7 @@
  * Module for all communication with libre.fm
  */
 define([
-    'services/baseScrobbler'
+    'scrobblers/baseScrobbler'
 ], function (BaseScrobbler) {
 
     var LibreFM = new BaseScrobbler({
