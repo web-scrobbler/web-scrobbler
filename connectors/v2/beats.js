@@ -29,22 +29,22 @@ var getMyAlbumData = function () {
 	}
 
 	var albumApiUrl = 'https://partner.api.beatsmusic.com/v1/api/tracks/' + songID[4] + '?client_id=j9uq3zvzz7sa4vxec9p6nva9';
-	
+
 	var albumName = '';
-    $.ajax({
+	$.ajax({
 		type:'GET',
 		async: false,
 		url: albumApiUrl,
 		success: function(msg) {
 			albumName = msg;
 		},
-		error: function() 
+		error: function()
 		{
 			console.log('Got a error attempting to get album data');
 			return null;
 		}
-    });
-    return albumName;
+	});
+	return albumName;
 };
 
 Connector.getAlbum = function () {
@@ -57,7 +57,7 @@ Connector.getAlbum = function () {
 	{
 		albumValue = cachedData.data.refs.album.display;
 	}
-	
+
 	return albumValue;
 };
 
@@ -71,7 +71,7 @@ Connector.getDuration = function () {
 	{
 		duration = cachedData.data.duration;
 	}
-	
+
 	return duration || 0;
 };
 
