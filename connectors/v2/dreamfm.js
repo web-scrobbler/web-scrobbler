@@ -57,7 +57,7 @@ Connector.getCurrentTime = function() {
 		return null;
 	}
 	return audio.currentTime;
-}
+};
 
 Connector.getTrackArt = function() {
 	return $('#imgcover').prop('src') ||
