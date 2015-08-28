@@ -236,12 +236,8 @@ define([
 	 * Retrieves a token and opens a new window for user to authorize it
 	 */
 	function authorize() {
-		notifications.showAuthenticate(LastFM.getAuthUrl);
+		notifications.showAuthenticate(LastFM.getAuthUrl.bind(LastFM))
 	}
-
-
-
-
 
 	/**
 	 * Validate song info against last.fm and calls callback with valid song structure
