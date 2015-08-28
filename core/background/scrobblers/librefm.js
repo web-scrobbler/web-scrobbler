@@ -11,7 +11,8 @@ define([
 		storage: 'LibreFm',
 		apiUrl: 'https://libre.fm/2.0/',
 		apiKey: '',
-		apiSecret: ''
+		apiSecret: '',
+		authUrl: 'https://www.libre.fm/api/auth/'
 	});
 
 	return LibreFM;

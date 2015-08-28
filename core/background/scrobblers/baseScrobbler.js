@@ -14,6 +14,7 @@ define([
 		this.apiUrl = options.apiUrl;
 		this.apiKey = options.apiKey;
 		this.apiSecret = options.apiSecret;
+		this.authUrl = options.authUrl;
 		this.storage = ChromeStorage.getNamespace(options.storage);
 	}
 
@@ -77,7 +78,7 @@ define([
 					data.sessionID = null;
 					data.token = xml.find('token').text();
 					self.storage.set(data, function () {
-						cb('https://www.last.fm/api/auth/?api_key=' + self.apiKey + '&token=' + data.token);
+						cb(self.authUrl + '?api_key=' + self.apiKey + '&token=' + data.token);
 					});
 				}
 			});
@@ -91,11 +92,12 @@ define([
 		 * @param cb
 		 */
 		getSession: function (cb) {
+			var self = this;
 			this.storage.get(function (data) {
 				// if we have a token it means it is fresh and we want to trade it for a new session ID
 				var token = data.token || null;
 				if (token) {
-					this.tradeTokenForSession(token, function (session) {
+					self.tradeTokenForSession(token, function (session) {
 						if (session === null || typeof session.key === 'undefined') {
 							console.warn('Failed to trade token for session - the token is probably not authorized');
 
@@ -103,7 +105,7 @@ define([
 							data.token = null;
 							data.sessionID = null;
 							data.sessionName = null;
-							this.storage.set(data, function () {
+							self.storage.set(data, function () {
 								cb(null,null);
 							});
 						} else {
@@ -111,7 +113,7 @@ define([
 							data.token = null;
 							data.sessionID = session.key;
 							data.sessionName = session.name;
-							this.storage.set(data, function () {
+							self.storage.set(data, function () {
 								cb(data.sessionID, data.sessionName);
 							});
 						}

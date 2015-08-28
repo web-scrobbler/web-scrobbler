@@ -215,11 +215,11 @@ require([
 		// check session ID status and show notification if authentication is needed
 		LastFM.getSession(function(sessionID) {
 			if (!sessionID) {
-				Notifications.showAuthenticate(LastFM.getAuthUrl);
+				Notifications.showAuthenticate(LastFM.getAuthUrl.bind(LastFM));
 			} else {
 				console.info('LastFM: Session ID ' + 'xxxxx' + sessionID.substr(5));
 			}
-		});
+		}.bind(LastFM));
 	}
 
 });
