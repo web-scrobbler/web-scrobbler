@@ -21,26 +21,26 @@ Connector.trackArtImageSelector = '#t-art';
 
 //This queries the beats api to get track info
 var getMyAlbumData = function () {
-	var songID = $('#app__transport > div > div.transport__detail > div > a').attr('href').split("/");
+	var songID = $('#app__transport > div > div.transport__detail > div > a').attr('href').split('/');
 
 	if (songID[4].length === 0) {
-		console.log("Got a error finding album");
+		console.log('Got a error finding album');
 		return null;
 	}
 
-	var albumApiUrl = "https://partner.api.beatsmusic.com/v1/api/tracks/" + songID[4] + "?client_id=j9uq3zvzz7sa4vxec9p6nva9";
+	var albumApiUrl = 'https://partner.api.beatsmusic.com/v1/api/tracks/' + songID[4] + '?client_id=j9uq3zvzz7sa4vxec9p6nva9';
 	
-	var albumName = "";
+	var albumName = '';
     $.ajax({
-		type:"GET",
+		type:'GET',
 		async: false,
 		url: albumApiUrl,
 		success: function(msg) {
 			albumName = msg;
 		},
-		error: function(request, status, error) 
+		error: function() 
 		{
-			console.log("Got a error attempting to get album data");
+			console.log('Got a error attempting to get album data');
 			return null;
 		}
     });
@@ -52,7 +52,7 @@ Connector.getAlbum = function () {
 	{
 		cachedData = getMyAlbumData();
 	}
-	var albumValue = "";
+	var albumValue = '';
 	if (cachedData !== null)
 	{
 		albumValue = cachedData.data.refs.album.display;
