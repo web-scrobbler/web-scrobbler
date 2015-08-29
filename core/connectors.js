@@ -298,7 +298,8 @@ define(function() {
 		{
 			label: 'Focus@Will',
 			matches: ['*://www.focusatwill.com/*'],
-			js: ['connectors/focusatwill.js']
+			js: ['connectors/v2/focusatwill.js'],
+			version: 2
 		},
 
 		{
