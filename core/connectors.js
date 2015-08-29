@@ -409,7 +409,8 @@ define(function() {
 		{
 			label: 'NRK Radio',
 			matches: ['*://radio.nrk.no/*'],
-			js: ['connectors/nrkradio.js']
+			js: ['connectors/v2/nrkradio.js'],
+			version: 2
 		},
 
 		{
