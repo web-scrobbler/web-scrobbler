@@ -396,7 +396,8 @@ define(function() {
 		{
 			label: 'ReverbNation',
 			matches: ['*://www.reverbnation.com/*'],
-			js: ['connectors/reverbnation.js']
+			js: ['connectors/v2/reverbnation.js'],
+			version: 2
 		},
 
 		{
