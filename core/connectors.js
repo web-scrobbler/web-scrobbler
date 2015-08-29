@@ -453,8 +453,9 @@ define(function() {
 
 		{
 			label: 'ambientsleepingpill',
-			matches: ['*://*.ambientsleepingpill.com/'],
-			js: ['connectors/ambientsleepingpill.js']
+			matches: ['*://*.ambientsleepingpill.com/', '*://ambientsleepingpill.com/'],
+			js: ['connectors/ambientsleepingpill.js'],
+			version: 2
 		},
 
 		{
