@@ -457,7 +457,8 @@ define(function() {
 		{
 			label: 'luooMusic',
 			matches: ['*://www.luoo.net/*'],
-			js: ['connectors/luoo.js']
+			js: ['connectors/v2/luoo.js'],
+			version: 2
 		},
 
 		{
