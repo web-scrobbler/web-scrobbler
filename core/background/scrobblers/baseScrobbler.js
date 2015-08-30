@@ -2,12 +2,11 @@
 
 define([
 	'jquery',
-	'config',
 	'vendor/md5',
 	'wrappers/can',
 	'objects/serviceCallResult',
 	'chromeStorage'
-], function ($, config, MD5, can, ServiceCallResultFactory, ChromeStorage) {
+], function ($, MD5, can, ServiceCallResultFactory, ChromeStorage) {
 	const GET_AUTH_URL_TIMEOUT = 10000;
 
 	function BaseScrobbler(options) {
@@ -204,7 +203,7 @@ define([
 		 */
 		doRequest: function (method, params, signed, okCb, errCb) {
 			var self = this;
-			params.api_key = config.apiKey;
+			params.api_key = this.apiKey;
 
 			if (signed) {
 				params.api_sig = this.generateSign(params);
@@ -343,7 +342,7 @@ define([
 					method: 'track.updatenowplaying',
 					track: song.getTrack(),
 					artist: song.getArtist(),
-					api_key: config.apiKey,
+					api_key: self.apiKey,
 					sk: sessionID
 				};
 
@@ -396,7 +395,7 @@ define([
 					'timestamp[0]': song.metadata.startTimestamp,
 					'track[0]': song.processed.track || song.parsed.track,
 					'artist[0]': song.processed.artist || song.parsed.artist,
-					api_key: config.this.apiKey,
+					api_key: self.apiKey,
 					sk: sessionID
 				};
 
@@ -457,7 +456,7 @@ define([
 					method: 'track.' + (shouldBeLoved ? 'love' : 'unlove'),
 					'track': song.processed.track || song.parsed.track,
 					'artist': song.processed.artist || song.parsed.artist,
-					api_key: config.this.apiKey,
+					api_key: self.apiKey,
 					sk: sessionID
 				};
 
