@@ -485,6 +485,13 @@ define(function() {
 		},
 
 		{
+			label: 'M2FR',
+			matches: ['*://www.m2radio.fr/*'],
+			js: ['connectors/v2/m2fr.js'],
+			version: 2
+		},
+
+		{
 			label: 'GetWorkDoneMusic',
 			matches: ['*://www.getworkdonemusic.com/*', '*://getworkdonemusic.com/*'],
 			js: ['connectors/v2/getworkdonemusic.js'],
