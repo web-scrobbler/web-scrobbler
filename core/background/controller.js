@@ -8,8 +8,9 @@ define([
 	'timer',
 	'notifications',
 	'services/background-ga',
-	'pipeline/local-cache'
-], function(Song, Pipeline, LastFM, PageAction, Timer, Notifications, GA, LocalCache) {
+	'pipeline/local-cache',
+	'services/scrobbleService'
+], function(Song, Pipeline, LastFM, PageAction, Timer, Notifications, GA, LocalCache, ScrobbleService) {
 
 	/**
 	 * Controller for each tab.
@@ -278,7 +279,7 @@ define([
 					pageAction.setError();
 				}
 			};
-			LastFM.sendNowPlaying(song, nowPlayingCB);
+			ScrobbleService.sendNowPlaying(song, nowPlayingCB);
 
 			song.flags.attr('isMarkedAsPlaying', true);
 		}
@@ -317,7 +318,7 @@ define([
 				}
 			};
 
-			LastFM.scrobble(song, scrobbleCB);
+			ScrobbleService.scrobble(song, scrobbleCB);
 		}
 
 		/**

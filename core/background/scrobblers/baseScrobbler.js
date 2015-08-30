@@ -12,6 +12,7 @@ define([
 
 	function BaseScrobbler(options) {
 		this.enableLogging = true;
+		this.label = options.label;
 		this.apiUrl = options.apiUrl;
 		this.apiKey = options.apiKey;
 		this.apiSecret = options.apiSecret;
@@ -108,7 +109,7 @@ define([
 							data.token = null;
 							data.sessionID = null;
 							data.sessionName = null;
-							this.storage.set(data, function () {
+							self.storage.set(data, function () {
 								cb(null, null);
 							});
 						} else {
@@ -190,7 +191,7 @@ define([
 		},
 
 		/**
-		 * Executes asynchronous request to L.FM and returns back in either callback
+		 * Executes asynchronous request and returns back in either callback
 		 *
 		 * API key will be added to params by default
 		 * and all parameters will be encoded for use in query string internally
@@ -220,7 +221,7 @@ define([
 
 			var internalOkCb = function (xmlDoc, status) {
 				if (self.enableLogging) {
-					console.info('L.FM response to ' + url + ' : ' + status + '\n' + (new XMLSerializer()).serializeToString(xmlDoc));
+					console.info(self.label + ' response to ' + url + ' : ' + status + '\n' + (new XMLSerializer()).serializeToString(xmlDoc));
 				}
 
 				okCb.apply(this, arguments);
@@ -228,7 +229,7 @@ define([
 
 			var internalErrCb = function (jqXHR, status, response) {
 				if (self.enableLogging) {
-					console.error('L.FM response to ' + url + ' : ' + status + '\n' + response);
+					console.error(self.label + ' response to ' + url + ' : ' + status + '\n' + response);
 				}
 
 				errCb.apply(this, arguments);
@@ -367,6 +368,10 @@ define([
 					cb(false);
 				};
 
+				if (self.enableLogging) {
+					console.log(self.label + ' sendNowPlaying()');
+				}
+
 				self.doRequest('POST', params, true, okCb, errCb);
 			});
 		},
@@ -425,6 +430,11 @@ define([
 					cb(result);
 				};
 
+				if (self.enableLogging) {
+					console.log(self.label + ' scrobble()');
+				}
+
+
 				self.doRequest('POST', params, true, okCb, errCb);
 			});
 		},
@@ -467,15 +477,6 @@ define([
 
 				self.doRequest('POST', params, true, okCb, errCb);
 			});
-		},
-
-		/**
-		 * Get the active state of the scrobbler.
-		 *
-		 * @param cb
-		 */
-		isActive: function (cb) {
-			this.storage.get(cb);
 		}
 	};
 

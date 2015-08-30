@@ -4,13 +4,14 @@ require([
 	'jquery',
 	'config',
 	'connectors',
-	'notifications',
-	'services/lastfm',
 	'customPatterns',
 	'chromeStorage',
 	'wrappers/chrome',
+	'scrobblers/lastfm',
+	'scrobblers/librefm',
+	'notifications',
 	'bootstrap'
-], function ($, config, connectors, Notifications, LastFM, customPatterns, ChromeStorage, chrome) {
+], function ($, config, connectors, customPatterns, ChromeStorage, chrome, LastFM, LibreFM, notifications) {
 	/**
 	 * Object that maps options to their element IDs.
 	 * @type {Object}
@@ -57,12 +58,13 @@ require([
 			}
 		}
 
-		$('button#authorize').click(function () {
-			LastFM.getAuthUrl().then((url) => {
-				chrome.tabs.create({ url });
-			});
+		$('button#authorize-lastfm').click(function () {
+			notifications.showAuthenticate(LastFM.getAuthUrl.bind(LastFM));
 		});
 
+		$('button#authorize-librefm').click(function () {
+			notifications.showAuthenticate(LibreFM.getAuthUrl.bind(LibreFM));
+		});
 
 		$('input#toggle').click(function () {
 			var negatedCheckState = !$(this).is(':checked');
