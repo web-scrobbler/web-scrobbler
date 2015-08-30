@@ -485,6 +485,13 @@ define(function() {
 		},
 
 		{
+			label: 'GoEar.Com',
+			matches: ['*://*.goear.com/*', '*://goear.com/*'],
+			js: ['connectors/v2/goear.com.js'],
+			version: 2
+		},
+
+		{
 			label: 'GetWorkDoneMusic',
 			matches: ['*://www.getworkdonemusic.com/*', '*://getworkdonemusic.com/*'],
 			js: ['connectors/v2/getworkdonemusic.js'],
