@@ -485,6 +485,13 @@ define(function() {
 		},
 
 		{
+			label: 'Player.fm',
+			matches: ['*://player.fm/*'],
+			js: ['connectors/v2/player.fm.js'],
+			version: 2
+		},
+
+		{
 			label: 'GetWorkDoneMusic',
 			matches: ['*://www.getworkdonemusic.com/*', '*://getworkdonemusic.com/*'],
 			js: ['connectors/v2/getworkdonemusic.js'],
