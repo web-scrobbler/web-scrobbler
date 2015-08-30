@@ -485,6 +485,13 @@ define(function() {
 		},
 
 		{
+			label: 'Wrzuta.pl',
+			matches: ['*://*.wrzuta.pl/*', '*://wrzuta.pl/*'],
+			js: ['connectors/v2/wrzuta.pl.js'],
+			version: 2
+		},
+
+		{
 			label: 'GetWorkDoneMusic',
 			matches: ['*://www.getworkdonemusic.com/*', '*://getworkdonemusic.com/*'],
 			js: ['connectors/v2/getworkdonemusic.js'],
