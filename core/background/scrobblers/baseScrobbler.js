@@ -58,7 +58,9 @@ define([
 			http_request.setRequestHeader('Content-Type', 'application/xml');
 			http_request.send();
 
-			console.log('getToken response: %s', http_request.responseText);
+			if (this.enableLogging) {
+				console.log(this.label + ' getToken response: %s', http_request.responseText);
+			}
 
 			var xmlDoc = $.parseXML(http_request.responseText);
 			var xml = $(xmlDoc);
@@ -94,7 +96,7 @@ define([
 			this.storage.get(function (data) {
 				// if we have a token it means it is fresh and we want to trade it for a new session ID
 				var token = data.token || null;
-				if (token) {
+				if (token !== null) {
 					self.tradeTokenForSession(token, function (session) {
 						if (session === null || typeof session.key === 'undefined') {
 							console.warn('Failed to trade token for session - the token is probably not authorized');
@@ -214,7 +216,7 @@ define([
 
 			var internalOkCb = function (xmlDoc, status) {
 				if (self.enableLogging) {
-					console.info(self.label + ' response to ' + url + ' : ' + status + '\n' + (new XMLSerializer()).serializeToString(xmlDoc));
+					console.info(self.label + ' response to ' + method + ' ' + url + ' : ' + status + '\n' + (new XMLSerializer()).serializeToString(xmlDoc));
 				}
 
 				okCb.apply(this, arguments);
@@ -414,7 +416,6 @@ define([
 				if (self.enableLogging) {
 					console.log(self.label + ' scrobble()');
 				}
-
 
 				self.doRequest('POST', params, true, okCb, errCb);
 			});
