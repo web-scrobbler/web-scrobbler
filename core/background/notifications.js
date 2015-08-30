@@ -94,7 +94,6 @@ define([
 		chrome.notifications.getPermissionLevel(createNotification);
 	}
 
-
 	/**
 	 * Shows notifications with onclick leading to url to authenticate the extension.
 	 * The auth url is requested after clicking to prevent generating a new token for

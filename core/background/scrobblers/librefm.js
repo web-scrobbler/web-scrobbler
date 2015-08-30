@@ -8,11 +8,12 @@ define([
 ], function (BaseScrobbler) {
 
 	var LibreFM = new BaseScrobbler({
-		storage: 'LibreFm',
+		label: 'Libre.FM',
+		storage: 'LibreFM',
 		apiUrl: 'https://libre.fm/2.0/',
 		apiKey: '',
 		apiSecret: '',
-		authUrl: 'https://www.libre.fm/api/auth/'
+		authUrl: 'http://www.libre.fm/api/auth/'
 	});
 
 	return LibreFM;
