@@ -485,6 +485,13 @@ define(function() {
 		},
 
 		{
+			label: 'SNDTST',
+			matches: ['*://www.sndtst.com/*', '*://sndtst.com/*'],
+			js: ['connectors/v2/sndtst.js'],
+			version: 2
+		},
+
+		{
 			label: 'GetWorkDoneMusic',
 			matches: ['*://www.getworkdonemusic.com/*', '*://getworkdonemusic.com/*'],
 			js: ['connectors/v2/getworkdonemusic.js'],
