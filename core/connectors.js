@@ -485,6 +485,13 @@ define(function() {
 		},
 
 		{
+			label: 'TheDrop',
+			matches: ['*://thedrop.club/*'],
+			js: ['connectors/v2/thedrop.js'],
+			version: 2
+		},
+
+		{
 			label: 'GetWorkDoneMusic',
 			matches: ['*://www.getworkdonemusic.com/*', '*://getworkdonemusic.com/*'],
 			js: ['connectors/v2/getworkdonemusic.js'],
