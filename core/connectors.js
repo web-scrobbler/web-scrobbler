@@ -485,6 +485,20 @@ define(function() {
 		},
 
 		{
+			label: 'AccuRadio',
+			matches: ['*://www.accuradio.com/*'],
+			js: ['connectors/v2/accuradio.js'],
+			version: 2
+		},
+
+		{
+			label: 'AccuJazz',
+			matches: ['*://*.slipstreamradio.com/*'],
+			js: ['connectors/v2/accujazz.js'],
+			version: 2
+		},
+
+		{
 			label: 'GetWorkDoneMusic',
 			matches: ['*://www.getworkdonemusic.com/*', '*://getworkdonemusic.com/*'],
 			js: ['connectors/v2/getworkdonemusic.js'],
