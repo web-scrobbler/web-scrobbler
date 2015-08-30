@@ -485,6 +485,13 @@ define(function() {
 		},
 
 		{
+			label: 'Wonder.fm',
+			matches: ['*://wonder.fm/*'],
+			js: ['connectors/v2/wonder.fm.js'],
+			version: 2
+		},
+
+		{
 			label: 'GetWorkDoneMusic',
 			matches: ['*://www.getworkdonemusic.com/*', '*://getworkdonemusic.com/*'],
 			js: ['connectors/v2/getworkdonemusic.js'],
