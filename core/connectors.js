@@ -50,7 +50,8 @@ define(function() {
 		{
 			label: 'Thesixtyone',
 			matches: ['*://www.thesixtyone.com/*'],
-			js: ['connectors/61.js']
+			js: ['connectors/v2/61.js'],
+			version: 2
 		},
 
 		{
