@@ -199,7 +199,8 @@ define(function() {
 		{
 			label: '22 Tracks',
 			matches: ['*://22tracks.com/*'],
-			js: ['connectors/22tracks.js']
+			js: ['connectors/v2/22tracks.js'],
+			version: 2
 		},
 
 		{
