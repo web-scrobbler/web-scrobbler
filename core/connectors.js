@@ -86,8 +86,16 @@ define(function() {
 
 		{
 			label: 'Virgin Radio Turkiye',
-			matches: ['*://*.virginradioturkiye.com/*', '*://*.radioeksen.com/*'],
-			js: ['connectors/virginradiotr.js']
+			matches: ['*://*.virginradioturkiye.com/*', '*://virginradioturkiye.com/*'],
+			js: ['connectors/v2/virginradiotr.js'],
+			version: 2
+		},
+
+		{
+			label: 'Radio Eksen',
+			matches: ['*://*.radioeksen.com/*', '*://radioeksen.com/*'],
+			js: ['connectors/v2/radioeksen.js'],
+			version: 2
 		},
 
 		{
@@ -310,7 +318,7 @@ define(function() {
 		{
 			label: 'Rdio',
 			matches: ['*://www.rdio.com/*'],
-			js: ['connectors/rdio.js']
+			js: ['connectors/v2/rdio.js']
 		},
 
 		{
