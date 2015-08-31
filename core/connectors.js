@@ -278,8 +278,9 @@ define(function() {
 
 		{
 			label: 'Radio+ Belgium',
-			matches: ['*://www.radioplus.be/*'],
-			js: ['connectors/radioplusbe.js']
+			matches: ['*://www.radioplus.be/*', '*://radioplus.be/*'],
+			js: ['connectors/v2/radioplusbe.js'],
+			version: 2
 		},
 
 		{
