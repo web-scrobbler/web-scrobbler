@@ -376,7 +376,8 @@ define(function() {
 		{
 			label: 'Yandex.Music',
 			matches: ['*://music.yandex.ru/*', '*://music.yandex.by/*', '*://music.yandex.kz/*', '*://music.yandex.ua/*'],
-			js: ['connectors/yandex.js']
+			js: ['connectors/v2/yandex.js'],
+			version: 2
 		},
 
 		{
