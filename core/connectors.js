@@ -383,7 +383,8 @@ define(function() {
 		{
 			label: 'TuneIn',
 			matches: ['*://tunein.com/*'],
-			js: ['connectors/tunein.js']
+			js: ['connectors/v2/tunein.js'],
+			version: 2
 		},
 
 		{
