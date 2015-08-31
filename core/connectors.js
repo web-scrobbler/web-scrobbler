@@ -428,8 +428,9 @@ define(function() {
 
 		{
 			label: 'Soundozer',
-			matches: ['*://soundozer.com/*'],
-			js: ['connectors/soundozer.js']
+			matches: ['*://www.soundozer.com/*', '*://soundozer.com/*'],
+			js: ['connectors/v2/soundozer.js'],
+			version: 2
 		},
 
 		{
