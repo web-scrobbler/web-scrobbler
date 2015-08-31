@@ -120,7 +120,8 @@ define(function() {
 		{
 			label: 'pakartot',
 			matches: ['*://www.pakartot.lt/*'],
-			js: ['connectors/pakartot.js']
+			js: ['connectors/v2/pakartot.js'],
+			version: 2
 		},
 
 		{
