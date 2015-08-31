@@ -353,7 +353,8 @@ define(function() {
 		{
 			label: 'Gaana.com',
 			matches: ['*://gaana.com/*'],
-			js: ['connectors/gaana.js']
+			js: ['connectors/v2/gaana.js'],
+			version: 2
 		},
 
 		{
