@@ -291,8 +291,9 @@ define(function() {
 
 		{
 			label: 'Douban Programme',
-			matches: ['http://music.douban.com/programme/*'],
-			js: ['connectors/douban-programme.js']
+			matches: ['*://music.douban.com/*'],
+			js: ['connectors/v2/douban-programme.js'],
+			version: 2
 		},
 
 		{
