@@ -248,7 +248,8 @@ define(function() {
 		{
 			label: 'HillyDilly',
 			matches: ['*://www.hillydilly.com/*'],
-			js: ['connectors/hillydilly.js']
+			js: ['connectors/v2/hillydilly.js'],
+			version: 2
 		},
 
 		{
