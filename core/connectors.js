@@ -164,8 +164,9 @@ define(function() {
 		{
 			label: 'Weborama',
 			matches: ['*://www.weborama.fm/*'],
-			js: ['connectors/weborama.js'],
-			allFrames: true
+			js: ['connectors/v2/weborama.js'],
+			allFrames: true,
+			version: 2
 		},
 
 		{
