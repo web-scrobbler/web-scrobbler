@@ -2,10 +2,7 @@
 
 /* global Connector */
 
-/*	What a y2k site design, seriously. Oh wait, it's VAPORWAVE!
-	That explains everything.
-*/
-Connector.playerSelector = '#main > center';
+Connector.playerSelector = '#player';
 
 /**
  * remove zero width characters & trim
@@ -16,67 +13,46 @@ function cleanText(input) {
 	if (input === null) {
 		return input;
 	}
-	input = input.replace('´', '\'');
-	input = input.replace('`', '\'');
 	return input.replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
 }
 
-// dreamfm.biz hack
-function getDreamPlayer() {
-	var players = $('#player > *, #player2 > *');
-	var player = players.filter(':visible').first();
-	return player || null;
-}
-
 Connector.getArtist = function() {
-	var artist = getDreamPlayer().find('#tracka').text() ||
+	var artist = $('#tracka').text() ||
 				null;
 	return cleanText(artist);
 };
 
 Connector.getTrack = function() {
-	var track = getDreamPlayer().find('#tracktitle').text() ||
+	var track = $('#tracktitle').text() ||
 				null;
 	return cleanText(track);
 };
 
 Connector.getAlbum = function () {
-	var album = getDreamPlayer().find('#album').text() ||
+	var album = $('#album').text() ||
 				null;
 	return cleanText(album);
 };
 
 Connector.isPlaying = function() {
-	var e = getDreamPlayer().find('button[title="Play"]');
+	var e = $('.play-pause .play');
 	return (e === null || !e.is(':visible'));
 };
 
-Connector.getCurrentTime = function() {
-	var audio = getDreamPlayer().find('audio')[0];
-	if (audio === null) {
-		return null;
-	}
-	return audio.currentTime;
-}
+Connector.currentTimeSelector = '.played';
 
 Connector.getTrackArt = function() {
-	return $('#imgcover').prop('src') ||
-		null;
+	return $('#imgcover').prop('src');
 };
 
 Connector.getDuration = function () {
-	var audio = getDreamPlayer().find('audio')[0];
-	if (audio === null) {
-		return null;
-	}
-	return Math.round(audio.duration);
+	return Math.round($('audio')[0].duration);
 };
 
 /** Returns a unique identifier of current track.
  *  @returns {String|null} */
 Connector.getUniqueID = function () {
-	var audio = getDreamPlayer().find('audio').first();
-	var match = /&id=(\d+)&/.exec(audio.attr('src'));
+	var match = /&id=(\d+)&/.exec($('audio').first().attr('src'));
 	if (match) {
 		return match[1];
 	}
