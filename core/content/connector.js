@@ -48,6 +48,14 @@ var BaseConnector = window.BaseConnector || function () {
 		this.currentTimeSelector = null;
 
 		/**
+		 * Selector of an element containing track current time in h:m:s format.
+		 * Only applies when default implementation of {@link BaseConnector#getCurrentTime} is used
+		 *
+		 * @type {string}
+		 */
+		this.durationSelector = null;
+
+		/**
 		 * Selector of an element containing both artist and track name.
 		 * {@link BaseConnector#artistSelector} and {@link BaseConnector#trackSelector} properties have priority over this,
 		 * and {@link BaseConnector#artistTrackSelector} is used only if any of the previous returns empty result.
@@ -143,7 +151,8 @@ var BaseConnector = window.BaseConnector || function () {
 		 * @returns {number|null} track length in seconds
 		 */
 		this.getDuration = function () {
-			return null;
+			var text = $(this.durationSelector).text();
+			return this.stringToSeconds(text);
 		};
 
 		/**
