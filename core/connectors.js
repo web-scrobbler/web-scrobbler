@@ -63,7 +63,8 @@ define(function() {
 		{
 			label: 'MySpace',
 			matches: ['*://myspace.com/*'],
-			js: ['connectors/myspace.js']
+			js: ['connectors/v2/myspace.js'],
+			version: 2
 		},
 
 		{
