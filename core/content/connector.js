@@ -48,8 +48,8 @@ var BaseConnector = window.BaseConnector || function () {
 		this.currentTimeSelector = null;
 
 		/**
-		 * Selector of an element containing track current time in h:m:s format.
-		 * Only applies when default implementation of {@link BaseConnector#getCurrentTime} is used
+		 * Selector of an element containing track duration (total time) in h:m:s format.
+		 * Only applies when default implementation of {@link BaseConnector#getDuration} is used
 		 *
 		 * @type {string}
 		 */
