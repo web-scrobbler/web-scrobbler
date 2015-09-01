@@ -85,3 +85,27 @@ Connector.getArtistTrack = function () {
 
 	return {artist: artist, track: track};
 };
+
+Connector.getPlaylist = function() {
+	var playlist = [];
+	var $container = $("#eow-description");
+
+	// for each line
+	var potentialTracks = $container.html().split("\n");
+	// add to arr if timestamp $('a[href=\'#\'][onclick]') found
+	_.each(potentialTracks, function(maybeTrack) {
+		$maybeTrack = jQuery.parseHTML(maybeTrack);
+		var $timestamp = $maybeTrack.find('a[href=\'#\'][onclick]');
+		if($timestamp) {
+			var entry = {};
+			entry.startTime = Connector.stringToSeconds($timestamp.text());
+			$timestamp.remove();
+			entry.track = $maybeTrack.text();
+		}
+		playlist.push(entry);
+	})
+
+	if(playlist.length <= 1) { return; }
+	console.log(playlist);
+	return playlist;
+}

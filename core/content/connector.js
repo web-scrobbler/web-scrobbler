@@ -243,6 +243,15 @@ var BaseConnector = window.BaseConnector || function () {
 			return true;
 		};
 
+		/**
+		 * Returns an array of PlaylistItem objects
+		 * @return {{ startTime: Number, track: String | null, artist: String | null, artistTrack: String | null }}
+		 */
+		this.getPlaylist = function () {
+			return null;
+		};
+
+
 		// --- state & api -------------------------------------------------------------------------------------------------
 
 
@@ -272,51 +281,13 @@ var BaseConnector = window.BaseConnector || function () {
 		 * Function for all the hard work around detecting and updating state
 		 */
 		var stateChangedWorker = function () {
+			console.warn("STATE CHANGE")
 			var changedFields = [];
-
-			var newTrack = this.getTrack();
-			var newArtist = this.getArtist();
-
-			var artistTrack = this.getArtistTrack();
-			if (newArtist === null && artistTrack.artist) {
-				newArtist = artistTrack.artist;
-			}
-			if (newTrack === null && artistTrack.track) {
-				newTrack = artistTrack.track;
-			}
-
-			if (newTrack !== currentState.track) {
-				currentState.track = newTrack;
-				changedFields.push('track');
-			}
-
-			if (newArtist !== currentState.artist) {
-				currentState.artist = newArtist;
-				changedFields.push('artist');
-			}
-
-			var newAlbum = this.getAlbum();
-			if (newAlbum !== currentState.album) {
-				currentState.album = newAlbum;
-				changedFields.push('album');
-			}
 
 			var newUID = this.getUniqueID();
 			if (newUID !== currentState.uniqueID) {
 				currentState.uniqueID = newUID;
 				changedFields.push('uniqueID');
-			}
-
-			var newDuration = this.getDuration();
-			if (newDuration !== currentState.duration) {
-				currentState.duration = newDuration;
-				changedFields.push('duration');
-			}
-
-			var newCurrentTime = this.getCurrentTime();
-			if (newCurrentTime !== currentState.currentTime) {
-				currentState.currentTime = newCurrentTime;
-				changedFields.push('currentTime');
 			}
 
 			var newIsPlaying = this.isPlaying();
@@ -329,6 +300,82 @@ var BaseConnector = window.BaseConnector || function () {
 			if (newTrackArt !== currentState.trackArt) {
 				currentState.trackArt = newTrackArt;
 				changedFields.push('trackArt');
+			}
+
+			var newCurrentTime = this.getCurrentTime();
+			if (newCurrentTime !== currentState.currentTime) {
+				currentState.currentTime = newCurrentTime;
+				changedFields.push('currentTime');
+
+			this.playlist = this.getPlaylist();
+
+			if(!this.playlist) {
+				console.warn("THIS IS A SINGLE-TRACK MEDIA",this.playlist)
+				/**
+				 * This media is a single track.
+				*/
+				var newTrack = this.getTrack();
+
+				var newArtist = this.getArtist();
+
+				var artistTrack = this.getArtistTrack();
+				if (newArtist === null && artistTrack.artist) {
+					newArtist = artistTrack.artist;
+				}
+				if (newTrack === null && artistTrack.track) {
+					newTrack = artistTrack.track;
+				}
+
+				var newAlbum = this.getAlbum();
+
+				var newDuration = this.getDuration();
+
+			} else {
+				console.warn("THIS IS A PLAYLIST MEDIA",this.playlist)
+				/**
+				 * This media is a collection of consecutive tracks.
+				*/
+				var newPlaylistTrack = this.playlistIncrementCheck();
+				var trackIndex = this.playlist.indexOf(newPlaylistTrack);
+
+				if(newPlaylistTrack) {
+					var newTrack = newPlaylistTrack.track;
+
+					var newArtist = newPlaylistTrack.artist;
+
+					var newArtistTrack = newPlaylistTrack.artistTrack;
+					var separator = this.findSeparator(newArtistTrack);
+					if (separator !== null) {
+						if(newPlaylistTrack.artist) {
+							newArtist = newArtistTrack.substr(0, separator.index);
+						}
+						if(newPlaylistTrack.track) {
+							newTrack = newArtistTrack.substr(separator.index + separator.length);
+						}
+					}
+
+					var newDuration = newPlaylistTrack.startTime + (this.playlist[trackIndex+1].startTime || 20 );
+				}
+			}
+
+			if (newTrack !== currentState.track) {
+				currentState.track = newTrack;
+				changedFields.push('track');
+			}
+
+			if (newArtist !== currentState.artist) {
+				currentState.artist = newArtist;
+				changedFields.push('artist');
+			}
+
+			if (newAlbum !== currentState.album) {
+				currentState.album = newAlbum;
+				changedFields.push('album');
+			}
+
+			if (newDuration !== currentState.duration) {
+				currentState.duration = newDuration;
+				changedFields.push('duration');
 			}
 
 			// take action if needed
@@ -364,6 +411,27 @@ var BaseConnector = window.BaseConnector || function () {
 			}
 		}.bind(this);
 
+		/**
+		 * Uses parsed playlist format from {@link BaseConnector#getPlaylist}
+		 * Checks this.playlist against this.currentTime,
+		 * and finds the track
+		 *
+		 * @returns {{artist, track}}
+		 */
+		this.playlistIncrementCheck = function() {
+			var Connector = this;
+			// Find first track in array that is at or before this.currentTime
+			var playlist = Connector.playlist;
+			var nextPlaylistTrack = _.find(playlist.reverse(), function(track) {
+				return track.startTime >= Connector.currentTime
+			});
+			console.warn("FOUND NEXT PLAYLIST TRACK", nextPlaylistTrack)
+
+			// if you found one, update the track data
+			if(nextPlaylistTrack) {
+				return { artist: nextPlaylistTrack.artist, track: nextPlaylistTrack.track }
+			}
+		}
 
 		/**
 		 * Helper method to convert given time-string into seconds
