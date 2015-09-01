@@ -75,7 +75,8 @@ define(function() {
 		{
 			label: 'Pitchfork',
 			matches: ['*://pitchfork.com/*', '*://www.pitchfork.com/*'],
-			js: ['connectors/pitchfork.js']
+			js: ['connectors/v2/pitchfork.js'],
+			version: 2
 		},
 
 		{
