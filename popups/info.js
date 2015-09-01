@@ -59,7 +59,9 @@ $(document).ready(function() {
 				$('#timetoscrobble').text('Can\'t scrobble');
 			} else if (song.secondsToScrobble > 0) {
 				$('#timetoscrobble').text('scrobbling in '+MMSS(song.secondsToScrobble));
-				song.secondsToScrobble--;
+				if(song.parsed.isPlaying === true) {
+					song.secondsToScrobble--;
+				}
 				setTimeout(scrobbleCountdown, 1000);
 			} else if(song.secondsToScrobble <= 0 || song.flags.isScrobbled === true) {
 				$('#timetoscrobble').text('Scrobbled');
