@@ -32,14 +32,16 @@
 require([
 	'services/background-ga',
 	'scrobblers/lastfm',
+	'scrobblers/librefm',
 	'notifications',
 	'inject',
 	'objects/injectResult',
 	'pageAction',
 	'controller',
 	'chromeStorage',
-	'config'
-], function(GA, LastFM, Notifications, inject, InjectResult, PageAction, Controller, ChromeStorage, Config) {
+	'config',
+	'services/scrobbleService'
+], function(GA, LastFM, LibreFM, Notifications, inject, InjectResult, PageAction, Controller, ChromeStorage, Config, ScrobbleService) {
 
 	/**
 	 * Current version of the extension.
@@ -295,8 +297,17 @@ require([
 				Notifications.showAuthenticate(LastFM.getAuthUrl.bind(LastFM));
 			} else {
 				console.info('LastFM: Session ID ' + 'xxxxx' + sessionID.substr(5));
+				ScrobbleService.bindScrobbler(LastFM);
 			}
 		}.bind(LastFM));
+
+		// check session ID status and show notification if authentication is needed
+		LibreFM.getSession(function(sessionID) {
+			if (sessionID) {
+				console.info('LibreFM: Session ID ' + 'xxxxx' + sessionID.substr(5));
+				ScrobbleService.bindScrobbler(LibreFM);
+			}
+		}.bind(LibreFM));
 	}
 
 	startup();
