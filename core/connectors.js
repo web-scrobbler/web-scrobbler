@@ -460,7 +460,8 @@ define(function() {
 		{
 			label: 'Blitzr',
 			matches: ['*://*.blitzr.com/*', '*://blitzr.com/*'],
-			js: ['connectors/blitzr.js']
+			js: ['connectors/v2/blitzr.js'],
+			version: 2
 		},
 
 		{
