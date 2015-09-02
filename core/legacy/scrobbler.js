@@ -236,7 +236,7 @@ define([
 	 * Retrieves a token and opens a new window for user to authorize it
 	 */
 	function authorize() {
-		notifications.showAuthenticate(LastFM.getAuthUrl.bind(LastFM))
+		notifications.showAuthenticate(LastFM.getAuthUrl.bind(LastFM));
 	}
 
 	/**

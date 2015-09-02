@@ -12,14 +12,16 @@ require([
 	'legacy/scrobbler',
 	'services/background-ga',
 	'scrobblers/lastfm',
+	'scrobblers/librefm',
 	'notifications',
 	'inject',
 	'objects/injectResult',
 	'controller',
 	'storage',
 	'config',
-	'chromeStorage'
-], function(legacyScrobbler, GA, LastFM, Notifications, inject, injectResult, Controller, Storage, config, ChromeStorage) {
+	'chromeStorage',
+	'services/scrobbleService'
+], function(legacyScrobbler, GA, LastFM, LibreFM, Notifications, inject, injectResult, Controller, Storage, config, ChromeStorage, ScrobbleService) {
 
 	/**
 	 * Single controller instance for each tab with injected script
@@ -218,8 +220,17 @@ require([
 				Notifications.showAuthenticate(LastFM.getAuthUrl.bind(LastFM));
 			} else {
 				console.info('LastFM: Session ID ' + 'xxxxx' + sessionID.substr(5));
+				ScrobbleService.bindScrobbler(LastFM);
 			}
 		}.bind(LastFM));
+
+		// check session ID status and show notification if authentication is needed
+		LibreFM.getSession(function(sessionID) {
+			if (sessionID) {
+				console.info('LibreFM: Session ID ' + 'xxxxx' + sessionID.substr(5));
+				ScrobbleService.bindScrobbler(LibreFM);
+			}
+		}.bind(LibreFM));
 	}
 
 });

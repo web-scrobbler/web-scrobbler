@@ -226,7 +226,6 @@ define([
 
 			Notifications.showPlaying(song);
 
-			// send to L.FM
 			var nowPlayingCB = function(success) {
 				console.log('Tab ' + tabId + ': song set as now playing: ' + success);
 			};
