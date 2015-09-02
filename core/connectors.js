@@ -323,8 +323,9 @@ define(function() {
 
 		{
 			label: 'Reddit Playlister',
-			matches: ['*://redditplayer.phoenixforgotten.com/*'],
-			js: ['connectors/redditplayer.js']
+			matches: ['*://redditplayer.phoenixforgotten.com/*', '*://redditplaylister.phoenixforgotten.com/*'],
+			js: ['connectors/v2/redditplayer.js'],
+			version: 2
 		},
 
 		{
