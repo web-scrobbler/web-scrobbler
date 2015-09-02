@@ -5,9 +5,8 @@ define([
 	'vendor/md5',
 	'wrappers/can',
 	'objects/serviceCallResult',
-	'chromeStorage',
-	'services/scrobbleService'
-], function ($, MD5, can, ServiceCallResultFactory, ChromeStorage, ScrobbleService) {
+	'chromeStorage'
+], function ($, MD5, can, ServiceCallResultFactory, ChromeStorage) {
 
 	function BaseScrobbler(options) {
 		this.enableLogging = true;
