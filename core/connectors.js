@@ -235,8 +235,9 @@ define(function() {
 
 		{
 			label: 'Daytrotter',
-			matches: ['*://www.daytrotter.com/*'],
-			js: ['connectors/daytrotter.js']
+			matches: ['*://www.daytrotter.com*'],
+			js: ['connectors/v2/daytrotter.js'],
+			version: 2
 		},
 
 		{
