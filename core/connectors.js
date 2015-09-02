@@ -126,7 +126,8 @@ define(function() {
 		{
 			label: 'Deezer',
 			matches: ['*://www.deezer.com/*'],
-			js: ['connectors/deezer.js']
+			js: ['connectors/v2/deezer.js'],
+			version: 2
 		},
 
 		{
