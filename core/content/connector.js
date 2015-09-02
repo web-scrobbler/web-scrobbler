@@ -333,7 +333,7 @@ var BaseConnector = window.BaseConnector || function () {
 			newDuration = this.getDuration();
 
 		} else {
-			console.info('This is a playlist.');
+			console.info('This is a playlist.',this.currentPlaylist);
 			/**
 			 * This media is a collection of consecutive tracks.
 			*/

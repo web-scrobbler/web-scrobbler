@@ -70,7 +70,7 @@ Connector.getPlaylist = function() {
 
 		if($timestamp.length) {
 			var entry = {};
-			entry.startTime = Connector.stringToSeconds($timestamp.text());
+			entry.startTime = Connector.stringToSeconds($timestamp.first().text());
 			$timestamp.remove();
 			entry.track = cleanseTrack($maybeTrack.text());
 			playlist.push(entry);
@@ -83,13 +83,16 @@ Connector.getPlaylist = function() {
 };
 
 function cleanseArtist(artist) {
-	// Do some cleanup
+	if(typeof artist === 'undefined' | artist === null) { return; }
+
 	artist = artist.replace(/^\s+|\s+$/g,'');
 
 	return artist;
 }
 
 function cleanseTrack(track) {
+	if(typeof track === 'undefined' | track === null) { return; }
+
 	track = track.replace(/^\s+|\s+$/g,'');
 
 	// Strip crap
