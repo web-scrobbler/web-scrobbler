@@ -38,7 +38,8 @@ define(function() {
 		{
 			label: 'YouTube',
 			matches: ['*://www.youtube.com/watch*', '*://www.youtube.com/user/*'],
-			js: ['connectors/youtube.js']
+			js: ['connectors/v2/youtube.js'],
+			version: 2
 		},
 
 		{
