@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* globals Connector, _ */
 
 var scrobbleMusicOnly = false;
 chrome.storage.local.get('Connectors', function(data) {
@@ -22,14 +22,14 @@ Connector.currentTimeSelector = '#player-api .ytp-time-current';
 
 Connector.durationSelector = '#player-api .ytp-time-duration';
 
-Connector.getUniqueID = function() {
-	var url = window.location.href;
-	var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-	var match = url.match(regExp);
-	if (match && match[7].length==11){
-		return match[7];
-	}
-};
+// Connector.getUniqueID = function() {
+// 	var url = window.location.href;
+// 	var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+// 	var match = url.match(regExp);
+// 	if (match && match[7].length==11){
+// 		return match[7];
+// 	}
+// };
 
 Connector.isPlaying = function() {
 	return (
@@ -51,12 +51,45 @@ Connector.getArtistTrack = function () {
 		track = text.substr(separator.index + separator.length);
 	}
 
-	/**
-	* Clean non-informative garbage from title
-	*/
+	return {
+		artist: cleanseArtist(artist),
+		track: cleanseTrack(track)
+	};
+};
 
+Connector.getPlaylist = function() {
+	var playlist = [];
+	var $container = $('#eow-description');
+
+	// for each line
+	var potentialTracks = $container.html().split(/\r\n|\r|\n|<br>/g);
+
+	_.each(potentialTracks.reverse(), function(maybeTrack) {
+		var $maybeTrack = $('<div>'+maybeTrack+'</div>');
+		var $timestamp = $maybeTrack.find('a[href=\'#\'][onclick]');
+
+		if($timestamp.length) {
+			var entry = {};
+			entry.startTime = Connector.stringToSeconds($timestamp.text());
+			$timestamp.remove();
+			entry.track = cleanseTrack($maybeTrack.text());
+			playlist.push(entry);
+		}
+	});
+
+	if(playlist.length <= 1) { return; }
+
+	return playlist;
+};
+
+function cleanseArtist(artist) {
 	// Do some cleanup
 	artist = artist.replace(/^\s+|\s+$/g,'');
+
+	return artist;
+}
+
+function cleanseTrack(track) {
 	track = track.replace(/^\s+|\s+$/g,'');
 
 	// Strip crap
@@ -83,29 +116,5 @@ Connector.getArtistTrack = function () {
 	track = track.replace(/[\/\s,:;~-\s"\s!]+$/, ''); // trim trailing white chars and dash
 	//" and ! added because some track names end as {"Some Track" Official Music Video!} and it becomes {"Some Track"!} example: http://www.youtube.com/watch?v=xj_mHi7zeRQ
 
-	return {artist: artist, track: track};
-};
-
-Connector.getPlaylist = function() {
-	var playlist = [];
-	var $container = $("#eow-description");
-
-	// for each line
-	var potentialTracks = $container.html().split("\n");
-	// add to arr if timestamp $('a[href=\'#\'][onclick]') found
-	_.each(potentialTracks, function(maybeTrack) {
-		$maybeTrack = jQuery.parseHTML(maybeTrack);
-		var $timestamp = $maybeTrack.find('a[href=\'#\'][onclick]');
-		if($timestamp) {
-			var entry = {};
-			entry.startTime = Connector.stringToSeconds($timestamp.text());
-			$timestamp.remove();
-			entry.track = $maybeTrack.text();
-		}
-		playlist.push(entry);
-	})
-
-	if(playlist.length <= 1) { return; }
-	console.log(playlist);
-	return playlist;
+	return track;
 }
