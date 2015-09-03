@@ -283,12 +283,6 @@ var BaseConnector = window.BaseConnector || function () {
 	var stateChangedWorker = function () {
 		var changedFields = [];
 
-		var newUID = this.getUniqueID();
-		if (newUID !== currentState.uniqueID) {
-			currentState.uniqueID = newUID;
-			changedFields.push('uniqueID');
-		}
-
 		var newIsPlaying = this.isPlaying();
 		if (newIsPlaying !== currentState.isPlaying) {
 			currentState.isPlaying = newIsPlaying;
@@ -309,7 +303,7 @@ var BaseConnector = window.BaseConnector || function () {
 
 		this.currentPlaylist = this.getPlaylist();
 
-		var newTrack, newArtist, artistTrack, newAlbum, newDuration;
+		var newTrack, newArtist, artistTrack, newAlbum, newDuration, newUID;
 
 		if(!this.currentPlaylist) {
 			console.info('This is a single-track music video.');
@@ -332,6 +326,7 @@ var BaseConnector = window.BaseConnector || function () {
 
 			newDuration = this.getDuration();
 
+			newUID = this.getUniqueID();
 		} else {
 			console.info('This is a playlist.',this.currentPlaylist);
 			/**
@@ -361,9 +356,21 @@ var BaseConnector = window.BaseConnector || function () {
 					if(newPlaylistTrack.track)  { newTrack = newArtistTrack.substr(separator.index + separator.length); }
 				}
 
-				var trackIndex = this.currentPlaylist.indexOf(newPlaylistTrack);
+				var trackIndex = _.findIndex(this.currentPlaylist, function(someTrack) {
+					console.log(Connector.getCurrentTime(), newPlaylistTrack, someTrack, newPlaylistTrack.startTime, someTrack.startTime);
+					return newPlaylistTrack.startTime === someTrack.startTime;
+				});
 				newDuration = newPlaylistTrack.startTime + (this.currentPlaylist[trackIndex+1].startTime || 20 );
+
+				// Append #NN (indexOf) to UID, to prevent scrobble issues due to repeated UID
+				newUID = this.getUniqueID()+"#"+trackIndex;
 			}
+		}
+
+		if (newUID !== currentState.uniqueID) {
+			console.log("This UID is ",trackIndex);
+			currentState.uniqueID = newUID;
+			changedFields.push('uniqueID');
 		}
 
 		if (newTrack !== currentState.track) {
@@ -431,14 +438,17 @@ var BaseConnector = window.BaseConnector || function () {
 		var Connector = this;
 		// Find first track in array that is at or before this.currentTime
 		var playlist = Connector.currentPlaylist;
-		var nextPlaylistTrack = _.find(playlist, function(track) {
+		var newPlaylistTrack = _.find(playlist.reverse(), function(track) {
 			return Connector.getCurrentTime() >= track.startTime;
 		});
 
 		// if you found one, update the track data
-		// console.info(nextPlaylistTrack)
-		if(nextPlaylistTrack) {
-			return { artist: nextPlaylistTrack.artist, track: nextPlaylistTrack.track };
+		if(newPlaylistTrack) {
+			return {
+				startTime: newPlaylistTrack.startTime,
+				artist: newPlaylistTrack.artist,
+				track: newPlaylistTrack.track
+			};
 		}
 	};
 

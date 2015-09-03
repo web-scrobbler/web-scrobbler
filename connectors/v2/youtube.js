@@ -22,14 +22,14 @@ Connector.currentTimeSelector = '#player-api .ytp-time-current';
 
 Connector.durationSelector = '#player-api .ytp-time-duration';
 
-// Connector.getUniqueID = function() {
-// 	var url = window.location.href;
-// 	var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-// 	var match = url.match(regExp);
-// 	if (match && match[7].length==11){
-// 		return match[7];
-// 	}
-// };
+Connector.getUniqueID = function() {
+	var url = window.location.href;
+	var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
+	var match = url.match(regExp);
+	if (match && match[7].length==11){
+		return match[7];
+	}
+};
 
 Connector.isPlaying = function() {
 	return (
@@ -78,6 +78,10 @@ Connector.getPlaylist = function() {
 	});
 
 	if(playlist.length <= 1) { return; }
+
+	playlist = _.sortBy(playlist, function(track) {
+		return track.startTime;
+	});
 
 	return playlist;
 };
