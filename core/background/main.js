@@ -219,15 +219,17 @@ require([
 			if (!sessionID) {
 				Notifications.showAuthenticate(LastFM.getAuthUrl.bind(LastFM));
 			} else {
-				console.info('LastFM: Session ID ' + 'xxxxx' + sessionID.substr(5));
+				console.info(LastFM.getLabel() + ' Session ID ' + 'xxxxx' + sessionID.substr(5));
 				ScrobbleService.bindScrobbler(LastFM);
 			}
 		}.bind(LastFM));
 
 		// check session ID status and show notification if authentication is needed
 		LibreFM.getSession(function(sessionID) {
-			if (sessionID) {
-				console.info('LibreFM: Session ID ' + 'xxxxx' + sessionID.substr(5));
+			if (!sessionID) {
+				Notifications.showAuthenticate(LibreFM.getAuthUrl.bind(LibreFM));
+			} else {
+				console.info(LibreFM.getLabel() + ' Session ID ' + 'xxxxx' + sessionID.substr(5));
 				ScrobbleService.bindScrobbler(LibreFM);
 			}
 		}.bind(LibreFM));

@@ -78,7 +78,10 @@ define([
 					data.sessionID = null;
 					data.token = xml.find('token').text();
 					self.storage.set(data, function () {
-						cb(self.authUrl + '?api_key=' + self.apiKey + '&token=' + data.token);
+						cb({
+							'authUrl': self.authUrl + '?api_key=' + self.apiKey + '&token=' + data.token,
+							'label': self.getLabel()
+						});
 					});
 				}
 			});
@@ -459,6 +462,15 @@ define([
 
 				self.doRequest('POST', params, true, okCb, errCb);
 			});
+		},
+
+		/**
+		 * Get the label.
+		 *
+		 * @returns {string}
+		 */
+		getLabel: function() {
+			return this.label;
 		}
 	};
 

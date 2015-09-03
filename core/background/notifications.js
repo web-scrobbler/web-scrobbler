@@ -102,12 +102,12 @@ define([
 	 * @param authUrlGetter {Function} method that calls callback in its parameter with url to be opened on click
 	 */
 	function showAuthenticate(authUrlGetter) {
-		var onHaveAuthUrl = function(authUrl) {
+		var onHaveAuthUrl = function(result) {
 			if (!isAvailable()) {
 				GA.event('notification', 'authenticate', 'open-unavailable');
 
 				// fallback for browsers with no notifications support
-				window.open(authUrl, 'scrobbler-auth');
+				window.open(result.authUrl, 'scrobbler-auth');
 				return;
 			}
 
@@ -115,7 +115,7 @@ define([
 				addOnClickedListener(notificationId, function() {
 					GA.event('notification', 'authenticate', 'click');
 
-					window.open(authUrl, 'scrobbler-auth');
+					window.open(result.authUrl, 'scrobbler-auth');
 				});
 
 				GA.event('notification', 'authenticate', 'show');
@@ -127,7 +127,7 @@ define([
 					var options = {
 						type: 'basic',
 						iconUrl: '/icon128.png',
-						title: 'Connect your Last.FM account',
+						title: 'Connect your ' + result.label +' account',
 						message: 'Click the notification or connect later in the extension options page',
 						isClickable: true
 					};
