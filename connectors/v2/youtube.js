@@ -59,45 +59,63 @@ Connector.getArtistTrack = function () {
 
 Connector.getPlaylist = function() {
 	var playlist = [];
-	var $container = $('#eow-description');
+	var $containers = $('#eow-description, .comment-text-content');
 
-	// for each line
-	var potentialTracks = $container.html().split(/\r\n|\r|\n|<br>/g);
-
-	_.each(potentialTracks, function(maybeTrack) {
-		var entry = {};
-		var $maybeTrack = $('<div>'+maybeTrack+'</div>');
-
-		// YouTube automatically adds markup to timestamps...
-		var $timestampEls = $maybeTrack.find('a[onclick*=\'seekTo\']');
-
-		// ... but not when HH:MM exceeds 59:59, so also search for HH:MM
+	var i = 0;
+	var found = false;
+	while($containers.get(i) && !found) {
+		var $container = $($containers.get(i));
+		var potentialPlaylist = [];
 		var timestampPattern = '[0-9]{0,2}:*[0-9]{1,2}:[0-9]{2}';
 		var timestampRegex = new RegExp(timestampPattern,'gi');
-		var timestampStrs = maybeTrack.match(timestampRegex);
 
-		if(($timestampEls !== null && $timestampEls.length) || (timestampStrs !== null && timestampStrs.length)) {
-			// console.log("MRaw");
-			if ($timestampEls !== null && $timestampEls.length) {
-				entry.startTime = Connector.stringToSeconds($timestampEls.first().text());
-			} else if (timestampStrs !== null && timestampStrs.length) {
-				entry.startTime = Connector.stringToSeconds(timestampStrs[0]);
-			}
+		if(timestampRegex.test($container.html())) {
 
-			// Cleanse trackArtist data of timestamp, delimiters, etc.
-			maybeTrack = maybeTrack.replace(/^\s*[0-9]+\s*[\.:-]*\s*/i,''); // 1. Trackname
-			maybeTrack = maybeTrack.replace(/^\s*[-:=]\s*/gi,''); // HH:MM - Track
-			maybeTrack = maybeTrack.replace(timestampRegex,'__TIMESTAMP__');
-			maybeTrack = maybeTrack.replace(/<a.*>(__TIMESTAMP__)<\/a>/gi,'$1');
-			maybeTrack = maybeTrack.replace(/\s*[\[\(\{]__TIMESTAMP__[\]\)\}]/gi,''); // [00:00]
-			maybeTrack = maybeTrack.replace('__TIMESTAMP__','');
-			if($timestampEls !== null) { $timestampEls.remove(); }
+			// for each line
+			var potentialTracks = $container.html().split(/\r\n|\r|\n|<br>/g);
+			console.log(potentialTracks);
 
-			entry.track = cleanseTrack(maybeTrack);
+			_.each(potentialTracks, function(maybeTrack) {
+				var entry = {};
+				var $maybeTrack = $('<div>'+maybeTrack+'</div>');
 
-			playlist.push(entry);
+				// YouTube automatically adds markup to timestamps...
+				var $timestampEls = $maybeTrack.find('a[onclick*=\'seekTo\']');
+
+				// ... but not when HH:MM exceeds 59:59, so also search for HH:MM
+				var timestampStrs = maybeTrack.match(timestampRegex);
+
+				if(($timestampEls !== null && $timestampEls.length) || (timestampStrs !== null && timestampStrs.length)) {
+					// console.log("MRaw");
+					if ($timestampEls !== null && $timestampEls.length) {
+						entry.startTime = Connector.stringToSeconds($timestampEls.first().text());
+					} else if (timestampStrs !== null && timestampStrs.length) {
+						entry.startTime = Connector.stringToSeconds(timestampStrs[0]);
+					}
+
+					// Cleanse trackArtist data of timestamp, delimiters, etc.
+					maybeTrack = maybeTrack.replace(/^\s*[0-9]+\s*[\.:-]*\s*/i,''); // 1. Trackname
+					maybeTrack = maybeTrack.replace(/^\s*[-:=]\s*/gi,''); // HH:MM - Track
+					maybeTrack = maybeTrack.replace(timestampRegex,'__TIMESTAMP__');
+					maybeTrack = maybeTrack.replace(/<a.*>(__TIMESTAMP__)<\/a>/gi,'$1');
+					maybeTrack = maybeTrack.replace(/\s*[\[\(\{]__TIMESTAMP__[\]\)\}]/gi,''); // [00:00]
+					maybeTrack = maybeTrack.replace('__TIMESTAMP__','');
+					if($timestampEls !== null) { $timestampEls.remove(); }
+
+					entry.track = cleanseTrack(maybeTrack);
+
+					potentialPlaylist.push(entry);
+				}
+			});
 		}
-	});
+
+		if (potentialPlaylist.length > 1) {
+			playlist = potentialPlaylist;
+			found = true;
+		} else {
+			i++;
+		}
+	}
 
 	if(playlist.length <= 1) { return; }
 
