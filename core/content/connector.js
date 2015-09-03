@@ -362,12 +362,11 @@ var BaseConnector = window.BaseConnector || function () {
 				newDuration = newPlaylistTrack.startTime + (this.currentPlaylist[trackIndex+1].startTime || 20 );
 
 				// Append #NN (indexOf) to UID, to prevent scrobble issues due to repeated UID
-				newUID = this.getUniqueID()+"#"+trackIndex;
+				newUID = this.getUniqueID()+'#'+trackIndex;
 			}
 		}
 
 		if (newUID !== currentState.uniqueID) {
-			console.log("This UID is ",trackIndex);
 			currentState.uniqueID = newUID;
 			changedFields.push('uniqueID');
 		}
