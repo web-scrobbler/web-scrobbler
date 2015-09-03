@@ -112,12 +112,13 @@ function parsePlaylist(potentialTracks) {
 			}
 
 			// Cleanse trackArtist data of timestamp, delimiters, etc.
-			maybeTrack = maybeTrack.replace(/^\s*[0-9]+\s*[\.:-]*\s*/i,''); // 1. Trackname
+			maybeTrack = maybeTrack.replace(/^\s*[0-9]+\s*[\.:-]*\s*/i,''); // 1. Trackname (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo)
 			maybeTrack = maybeTrack.replace(/^\s*[-:=]\s*/gi,''); // HH:MM - Track
 			maybeTrack = maybeTrack.replace(timestampRegex,'__TIMESTAMP__');
 			maybeTrack = maybeTrack.replace(/<a.*>(__TIMESTAMP__)<\/a>/gi,'$1');
-			maybeTrack = maybeTrack.replace(/\s*[\[\(\{]__TIMESTAMP__[\]\)\}]/gi,''); // [00:00]
+			maybeTrack = maybeTrack.replace(/\s*[\[\(\{]__TIMESTAMP__[\]\)\}]/gi,''); // [00:00] (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo)
 			maybeTrack = maybeTrack.replace('__TIMESTAMP__','');
+			maybeTrack = maybeTrack.replace(/\s*&[a-z]+;\s*/gi,''); // remove HTML entity codes (e.g. https://www.youtube.com/watch?v=VFOF47nalCY)
 			if($timestampEls !== null) { $timestampEls.remove(); }
 
 			entry.track = cleanseTrack(maybeTrack);
