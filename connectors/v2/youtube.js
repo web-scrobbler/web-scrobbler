@@ -64,15 +64,37 @@ Connector.getPlaylist = function() {
 	// for each line
 	var potentialTracks = $container.html().split(/\r\n|\r|\n|<br>/g);
 
-	_.each(potentialTracks.reverse(), function(maybeTrack) {
+	_.each(potentialTracks, function(maybeTrack) {
+		var entry = {};
 		var $maybeTrack = $('<div>'+maybeTrack+'</div>');
-		var $timestamp = $maybeTrack.find('a[href=\'#\'][onclick]');
 
-		if($timestamp.length) {
-			var entry = {};
-			entry.startTime = Connector.stringToSeconds($timestamp.first().text());
-			$timestamp.remove();
-			entry.track = cleanseTrack($maybeTrack.text());
+		// YouTube automatically adds markup to timestamps...
+		var $timestampEls = $maybeTrack.find('a[onclick*=\'seekTo\']');
+
+		// ... but not when HH:MM exceeds 59:59, so also search for HH:MM
+		var timestampPattern = '[0-9]{0,2}:*[0-9]{1,2}:[0-9]{2}';
+		var timestampRegex = new RegExp(timestampPattern,'gi');
+		var timestampStrs = maybeTrack.match(timestampRegex);
+
+		if(($timestampEls !== null && $timestampEls.length) || (timestampStrs !== null && timestampStrs.length)) {
+			// console.log("MRaw");
+			if ($timestampEls !== null && $timestampEls.length) {
+				entry.startTime = Connector.stringToSeconds($timestampEls.first().text());
+			} else if (timestampStrs !== null && timestampStrs.length) {
+				entry.startTime = Connector.stringToSeconds(timestampStrs[0]);
+			}
+
+			// Cleanse trackArtist data of timestamp, delimiters, etc.
+			maybeTrack = maybeTrack.replace(/^\s*[0-9]+\s*[\.:-]*\s*/i,''); // 1. Trackname
+			maybeTrack = maybeTrack.replace(/^\s*[-:=]\s*/gi,''); // HH:MM - Track
+			maybeTrack = maybeTrack.replace(timestampRegex,'__TIMESTAMP__');
+			maybeTrack = maybeTrack.replace(/<a.*>(__TIMESTAMP__)<\/a>/gi,'$1');
+			maybeTrack = maybeTrack.replace(/\s*[\[\(\{]__TIMESTAMP__[\]\)\}]/gi,''); // [00:00]
+			maybeTrack = maybeTrack.replace('__TIMESTAMP__','');
+			if($timestampEls !== null) { $timestampEls.remove(); }
+
+			entry.track = cleanseTrack(maybeTrack);
+
 			playlist.push(entry);
 		}
 	});
@@ -109,7 +131,9 @@ function cleanseTrack(track) {
 	track = track.replace(/\s*(of+icial\s*)?(music\s*)?video/i, ''); // (official)? (music)? video
 	track = track.replace(/\s*(of+icial\s*)?(music\s*)?audio/i, ''); // (official)? (music)? audio
 	track = track.replace(/\s*(ALBUM TRACK\s*)?(album track\s*)/i, ''); // (ALBUM TRACK)
+	track = track.replace(/\s*(FULL ALBUM\s*)?(full album\s*)/i, ''); // (FULL ALBUM)
 	track = track.replace(/\s*(COVER ART\s*)?(Cover Art\s*)/i, ''); // (Cover Art)
+	track = track.replace(/$\s*(REMASTERED\s*)?(remastered\s*)/i, ''); // (REMASTERED)
 	track = track.replace(/\s*\(\s*of+icial\s*\)/i, ''); // (official)
 	track = track.replace(/\s*\(\s*[0-9]{4}\s*\)/i, ''); // (1999)
 	track = track.replace(/\s+\(\s*(HD|HQ)\s*\)$/, ''); // HD (HQ)
