@@ -218,15 +218,15 @@ define([
 	 * @param {Promise} authUrlGetter Promise that will resolve with auth URL
 	 */
 	function showAuthenticate(authUrlGetter) {
-		authUrlGetter().then((authUrl) => {
+		authUrlGetter().then((result) => {
 			const options = {
-				title: 'Connect your Last.FM account',
+				title: 'Connect your ' + result.label + ' account',
 				message: 'Click the notification or connect later in the extension options page',
 			};
 			function onClicked() {
 				GA.event('notification', 'authenticate', 'click');
 
-				chrome.tabs.create({ url: authUrl });
+				chrome.tabs.create({ url: result.authUrl });
 			}
 
 			showNotification(options, onClicked).then(() => {
@@ -235,7 +235,7 @@ define([
 				GA.event('notification', 'authenticate', 'open-unavailable');
 
 				// fallback for browsers with no notifications support
-				chrome.tabs.create({ url: authUrl });
+				chrome.tabs.create({ url: result.authUrl });
 			});
 		}).catch(showSignInError);
 	}

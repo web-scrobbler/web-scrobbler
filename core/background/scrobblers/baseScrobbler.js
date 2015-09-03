@@ -79,7 +79,9 @@ define([
 
 							let authUrl = `${this.authUrl}?api_key=${this.apiKey}&token=${data.token}`;
 							this.storage.set(data, function() {
-								resolve(authUrl);
+								resolve({
+									authUrl, label: self.getLabel()
+								});
 							});
 						}
 					});
@@ -475,6 +477,15 @@ define([
 
 				self.doRequest('POST', params, true, okCb, errCb);
 			});
+		},
+
+		/**
+		 * Get the label.
+		 *
+		 * @returns {string}
+		 */
+		getLabel: function() {
+			return this.label;
 		}
 	};
 
