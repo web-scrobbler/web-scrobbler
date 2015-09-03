@@ -81,7 +81,9 @@ Connector.getPlaylist = function() {
 		}
 	}
 
-	if(playlist.length <= 1) { return; }
+	// It's probably not a playlist if it's just a few timestamps...
+	// E.g. "Omg lol at 01:05 and 02:45!11!1"
+	if(playlist.length < 3) { return; }
 
 	playlist = _.sortBy(playlist, function(track) {
 		return track.startTime;
