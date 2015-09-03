@@ -120,7 +120,7 @@ function parsePlaylist(potentialTracks) {
 			maybeTrack = maybeTrack.replace(/\s*[\[\(\{]__TIMESTAMP__[\]\)\}]/gi,''); // [00:00] (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo)
 			maybeTrack = maybeTrack.replace('__TIMESTAMP__','');
 			maybeTrack = maybeTrack.replace(/\s*&[a-z]+;\s*/gi,''); // remove HTML entity codes (e.g. https://www.youtube.com/watch?v=VFOF47nalCY)
-			maybeTrack = maybeTrack.replace(/\s*[\[\(]*[0-9]+[\.:\-\]\)]*\s*/i,''); // numbering in middle of str [1] 1) (e.g. https://www.youtube.com/watch?v=RW3li2XWgoM)
+			maybeTrack = maybeTrack.replace(/\s*[\[\(]*[0-9]+[\.:\-\]\)]+\s*/i,''); // numbering in middle of str [1] 1) (e.g. https://www.youtube.com/watch?v=RW3li2XWgoM)
 			maybeTrack = maybeTrack.replace(/^\s*[-:=]\s*/gi,''); // HH:MM - Track
 			if($timestampEls !== null) { $timestampEls.remove(); }
 
