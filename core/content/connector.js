@@ -357,7 +357,6 @@ var BaseConnector = window.BaseConnector || function () {
 				}
 
 				var trackIndex = _.findIndex(this.currentPlaylist, function(someTrack) {
-					console.log(Connector.getCurrentTime(), newPlaylistTrack, someTrack, newPlaylistTrack.startTime, someTrack.startTime);
 					return newPlaylistTrack.startTime === someTrack.startTime;
 				});
 				newDuration = newPlaylistTrack.startTime + (this.currentPlaylist[trackIndex+1].startTime || 20 );
@@ -438,7 +437,7 @@ var BaseConnector = window.BaseConnector || function () {
 		var Connector = this;
 		// Find first track in array that is at or before this.currentTime
 		var playlist = Connector.currentPlaylist;
-		var newPlaylistTrack = _.find(playlist.reverse(), function(track) {
+		var newPlaylistTrack = _.find(_.chain(playlist).sortBy().reverse().value(), function(track) {
 			return Connector.getCurrentTime() >= track.startTime;
 		});
 
