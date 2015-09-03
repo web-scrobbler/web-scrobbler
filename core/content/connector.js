@@ -304,6 +304,7 @@ var BaseConnector = window.BaseConnector || function () {
 		this.currentPlaylist = this.getPlaylist();
 
 		var newTrack, newArtist, artistTrack, newAlbum, newDuration, newUID;
+		newTrack = newArtist = artistTrack = newAlbum = newDuration = newUID = null;
 
 		if(!this.currentPlaylist) {
 			console.info('This is a single-track music video.');
@@ -339,10 +340,10 @@ var BaseConnector = window.BaseConnector || function () {
 				// Make use of Artist - Album Name convention, as a default fallback
 				artistTrack = this.getArtistTrack();
 				if ( (newArtist === null || typeof newArtist === 'undefined') && artistTrack.artist) {
-					newArtist = artistTrack.artist;
+					newArtist = artistTrack.artist || newArtist;
 				}
 				if ( (newAlbum === null || typeof newArtist === 'undefined') && artistTrack.track) {
-					newAlbum = artistTrack.track; // Format will probably be Artist - Album Name, so hijack it.
+					newAlbum = artistTrack.track || newAlbum; // Format will probably be Artist - Album Name, so hijack it.
 				}
 
 				// And then look for artistTrack / artist + track data specifically.
