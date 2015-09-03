@@ -282,6 +282,8 @@ var BaseConnector = window.BaseConnector || function () {
 	 */
 	var stateChangedWorker = function () {
 		var changedFields = [];
+		var newTrack, newArtist, artistTrack, newAlbum, newDuration, newUID;
+		newTrack = newArtist = artistTrack = newAlbum = newDuration = newUID = null;
 
 		var newIsPlaying = this.isPlaying();
 		if (newIsPlaying !== currentState.isPlaying) {
@@ -302,9 +304,6 @@ var BaseConnector = window.BaseConnector || function () {
 		}
 
 		this.currentPlaylist = this.getPlaylist();
-
-		var newTrack, newArtist, artistTrack, newAlbum, newDuration, newUID;
-		newTrack = newArtist = artistTrack = newAlbum = newDuration = newUID = null;
 
 		if(!this.currentPlaylist) {
 			console.info('This is a single-track music video.');
@@ -397,7 +396,6 @@ var BaseConnector = window.BaseConnector || function () {
 
 		// take action if needed
 		if (changedFields.length > 0 && this.reactorCallback !== null) {
-			console.log(changedFields, currentState);
 			this.reactorCallback(currentState, changedFields);
 		}
 
