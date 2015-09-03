@@ -335,12 +335,8 @@ var BaseConnector = window.BaseConnector || function () {
 			var newPlaylistTrack = this.playlistIncrementCheck();
 
 			if(newPlaylistTrack) {
-				newTrack = newPlaylistTrack.track;
-
-				newArtist = newPlaylistTrack.artist;
-
-				newAlbum = this.getAlbum();
-
+				// (assuming that only track title data will be available...)
+				// Make use of Artist - Album Name convention, as a default fallback
 				artistTrack = this.getArtistTrack();
 				if ( (newArtist === null || typeof newArtist === 'undefined') && artistTrack.artist) {
 					newArtist = artistTrack.artist;
@@ -349,16 +345,23 @@ var BaseConnector = window.BaseConnector || function () {
 					newAlbum = artistTrack.track; // Format will probably be Artist - Album Name, so hijack it.
 				}
 
+				// And then look for artistTrack / artist + track data specifically.
 				var newArtistTrack = newPlaylistTrack.artistTrack;
 				var separator = this.findSeparator(newArtistTrack);
 				if (separator !== null) {
-					if(newPlaylistTrack.artist) { newArtist = newArtistTrack.substr(0, separator.index); }
-					if(newPlaylistTrack.track)  { newTrack = newArtistTrack.substr(separator.index + separator.length); }
+					newArtist = newArtistTrack.substr(0, separator.index) || newArtist;
+					newTrack = newArtistTrack.substr(separator.index + separator.length) || newTrack;
 				}
+
+				// Then, lastly, override any bogus with the real McCoy, if it has been defined in newPlaylistTrack obj
+				newTrack = newPlaylistTrack.track || newTrack;
+				newArtist = newPlaylistTrack.artist || newArtist;
+				newAlbum = this.getAlbum() || newPlaylistTrack.album || newAlbum;
 
 				var trackIndex = _.findIndex(this.currentPlaylist, function(someTrack) {
 					return newPlaylistTrack.startTime === someTrack.startTime;
 				});
+
 				newDuration = newPlaylistTrack.startTime + (this.currentPlaylist[trackIndex+1].startTime || 20 );
 
 				// Append #NN (indexOf) to UID, to prevent scrobble issues due to repeated UID
@@ -393,6 +396,7 @@ var BaseConnector = window.BaseConnector || function () {
 
 		// take action if needed
 		if (changedFields.length > 0 && this.reactorCallback !== null) {
+			console.log(changedFields, currentState);
 			this.reactorCallback(currentState, changedFields);
 		}
 
@@ -445,7 +449,9 @@ var BaseConnector = window.BaseConnector || function () {
 			return {
 				startTime: newPlaylistTrack.startTime,
 				artist: newPlaylistTrack.artist,
-				track: newPlaylistTrack.track
+				track: newPlaylistTrack.track,
+				artistTrack: newPlaylistTrack.artistTrack,
+				album: newPlaylistTrack.album
 			};
 		}
 	};

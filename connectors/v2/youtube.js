@@ -114,23 +114,34 @@ function parsePlaylist(potentialTracks) {
 			}
 
 			// Cleanse trackArtist data of timestamp, delimiters, etc.
-			// maybeTrack = maybeTrack.replace(/^\s*[0-9]+\s*[\.:\-\)]*\s*/gi,''); // 1. Trackname (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo)
-			maybeTrack = maybeTrack.replace(timestampRegex,'__TIMESTAMP__');
-			maybeTrack = maybeTrack.replace(/<a.*>(__TIMESTAMP__)<\/a>/gi,'$1');
-			maybeTrack = maybeTrack.replace(/\s*[\[\(\{]__TIMESTAMP__[\]\)\}]/gi,''); // [00:00] (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo)
-			maybeTrack = maybeTrack.replace('__TIMESTAMP__','');
-			maybeTrack = maybeTrack.replace(/\s*&[a-z]+;\s*/gi,''); // remove HTML entity codes (e.g. https://www.youtube.com/watch?v=VFOF47nalCY)
-			maybeTrack = maybeTrack.replace(/\s*[\[\(]*[0-9]+[\.:\-\]\)]+\s*/i,''); // numbering in middle of str [1] 1) (e.g. https://www.youtube.com/watch?v=RW3li2XWgoM)
-			maybeTrack = maybeTrack.replace(/^\s*[-:=]\s*/gi,''); // HH:MM - Track
-			if($timestampEls !== null) { $timestampEls.remove(); }
+			maybeTrack = cleansePlaylistLine(maybeTrack);
+			maybeTrack = cleanseTrack(maybeTrack);
 
-			entry.track = cleanseTrack(maybeTrack);
+			// Are these tracks by a single artist, or artistTrack (a compilation e.g. https://www.youtube.com/watch?v=EzjX0QE_l8U)?
+			var separator = Connector.findSeparator(maybeTrack);
+			if (separator !== null) {
+				entry.artistTrack = maybeTrack;
+			} else {
+				entry.track = maybeTrack;
+			}
 
 			potentialPlaylist.push(entry);
 		}
 	});
 
 	return potentialPlaylist;
+}
+
+function cleansePlaylistLine(maybeTrack) {
+	maybeTrack = maybeTrack.replace(timestampRegex,'__TIMESTAMP__');
+	maybeTrack = maybeTrack.replace(/<a.*>(__TIMESTAMP__)<\/a>/gi,'$1');
+	maybeTrack = maybeTrack.replace(/\s*[\[\(\{]__TIMESTAMP__[\]\)\}]/gi,''); // [00:00] (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo)
+	maybeTrack = maybeTrack.replace('__TIMESTAMP__','');
+	maybeTrack = maybeTrack.replace(/\s*&[a-z]+;\s*/gi,''); // remove HTML entity codes (e.g. https://www.youtube.com/watch?v=VFOF47nalCY)
+	maybeTrack = maybeTrack.replace(/\s*[\[\(]*[0-9]+[\.:\-\]\)]+\s*/i,''); // numbering in middle of str [1] 1) (e.g. https://www.youtube.com/watch?v=RW3li2XWgoM)
+	maybeTrack = maybeTrack.replace(/^\s*[-:=]\s*/gi,''); // HH:MM - Track
+
+	return maybeTrack;
 }
 
 function cleanseArtist(artist) {
