@@ -80,33 +80,12 @@ function getPlaylist() {
 			potentialPlaylist = buildPlaylist(potentialTracks);
 		}
 
-		if (potentialPlaylist.length > 1) {
+		if (typeof potentialPlaylist !== 'undefined' && potentialPlaylist !== null) {
 			playlist = potentialPlaylist;
 			found = true;
 		} else {
 			i++;
 		}
-	}
-
-	if(playlist.length === 0) {
-		console.info('No playlists found; this is a single-track video.');
-		return null;
-	}
-	// It's probably not a playlist if it's just a few timestamps...
-	// E.g. "Omg lol at 01:05 and 02:45!11!1"
-	if(playlist.length < 3) {
-		console.info('Invalid playlist - too few timestamps; probably a false-positive');
-		return null;
-	}
-
-	// Do NOT rely on playlist numbering! e.g. https://www.youtube.com/watch?v=AIQKIcNGfZ8
-	playlist = _.sortBy(playlist, function(track) { return track.startTime; });
-
-	// If the last timestamp starts after the video ends... well, it's probably a broken playlist
-	// E.g. https://www.youtube.com/watch?v=EfcY9oFo1YQ
-	if(Connector.getDuration() && playlist[playlist.length-1].startTime > Connector.getDuration()) {
-		console.info('Invalid playlist - timestamps greater than clip duration');
-		return null;
 	}
 
 	console.info('This is a playlist.', playlist);
@@ -115,10 +94,31 @@ function getPlaylist() {
 }
 
 function buildPlaylist(potentialTracks) {
-	// console.log(potentialTracks);
+	var stringProperty = 'track'; // Used further down to ID which property to tweak en-masse.
 	var potentialPlaylist = parsePlaylist(potentialTracks);
 
-	var stringProperty = 'track'; // Used further down to ID which property to tweak en-masse.
+
+	/**
+	 * Check that this 'playlist' actually has enough....
+	*/
+	if(typeof potentialPlaylist === 'undefined' || potentialPlaylist === null || potentialPlaylist.length < 3) {
+		return null;
+	}
+
+
+	// Do NOT rely on playlist numbering! e.g. https://www.youtube.com/watch?v=AIQKIcNGfZ8
+	potentialPlaylist = _.sortBy(potentialPlaylist, function(track) { return track.startTime; });
+
+
+	/**
+	 * If the last timestamp starts after the video ends... well, it's probably a broken playlist
+	 * E.g. https://www.youtube.com/watch?v=EfcY9oFo1YQ
+	*/
+	if(Connector.getDuration() && potentialPlaylist[potentialPlaylist.length-1].startTime > Connector.getDuration()) {
+		console.info('Invalid playlist - timestamps greater than clip duration');
+		return null;
+	}
+
 
 	/**
 	 * A playlist will be:
@@ -127,13 +127,11 @@ function buildPlaylist(potentialTracks) {
 	 * So make corrections for occassional false-positive `artistTrack` recognitions.
 	 * e.g. 5. Undone - The Sweater Song (by Weezer) in https://www.youtube.com/watch?v=VFOF47nalCY
 	*/
-
 	var propertyCount = _.countBy(potentialPlaylist, function(track) {
 		if(track.artistTrack) { return 'artistTrack'; }
 		if(track.track) { return 'track'; }
 		return;
 	});
-
 	// If there's a mixture of tracks and ArtistTracks, something's clearly fishy...
 	if(propertyCount.track > 0 && propertyCount.artistTrack > 0) {
 		console.info('Playlist parser - fixing mashup of artistTrack + track', propertyCount);
@@ -161,11 +159,11 @@ function buildPlaylist(potentialTracks) {
 		stringProperty = 'artistTrack';
 	}
 
+
 	/**
 	 * If most tracks have numbers at the beginning, it's probably a case of shoddy playlist numbering
 	 * e.g. https://www.youtube.com/watch?v=epSWiHu7ggk
 	*/
-
 	var beginningNumberRegex = new RegExp(/^\s*[0-9]{1,2}[\s\-:\/](.+)/i);
 	var isNumbered = _.countBy(potentialPlaylist, function(track) {
 		return track[stringProperty].match(beginningNumberRegex) ? 'is' : 'isnt';
@@ -206,7 +204,9 @@ function parsePlaylist(potentialTracks) {
 
 			// Check that it's not just a random sentence.
 			// e.g. "Comment which is your favourite 19:13..." @ https://www.youtube.com/watch?v=_8pyf6ZW4Dk
-			if(maybeTrack.length > 70) { return; }
+			if(maybeTrack.length > 70) {
+				return false;
+			}
 
 			// Are these tracks by a single artist, or artistTrack (a compilation e.g. https://www.youtube.com/watch?v=EzjX0QE_l8U)?
 			var separator = Connector.findSeparator(maybeTrack);
