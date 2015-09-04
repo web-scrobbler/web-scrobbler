@@ -340,12 +340,14 @@ var BaseConnector = window.BaseConnector || function () {
 					return newPlaylistTrack.startTime === someTrack.startTime;
 				});
 
-				newDuration = this.currentPlaylist[trackIndex+1] ? // Find time to next track
-								this.currentPlaylist[trackIndex+1].startTime - newPlaylistTrack.startTime
-								: ( this.getDuration() ? // If you can't, it must be the last track, sooo...
-									this.getDuration() - newPlaylistTrack.startTime // Find time to end of whole media
-									: 20 // or... if !duration, just wing it and give it 20 seconds.
-								);
+				newDuration = newPlaylistTrack.duration ?
+								newPlaylistTrack.duration
+								: this.currentPlaylist[trackIndex+1] ? // Find time to next track
+									this.currentPlaylist[trackIndex+1].startTime - newPlaylistTrack.startTime
+									: ( this.getDuration() ? // If you can't, it must be the last track, sooo...
+										this.getDuration() - newPlaylistTrack.startTime // Find time to end of whole media
+										: 20 // or... if !duration, just wing it and give it 20 seconds.
+									);
 
 				// Append #NN (indexOf) to UID, to prevent scrobble issues due to repeated UID
 				newUID = this.getUniqueID()+'#'+trackIndex;
@@ -459,7 +461,8 @@ var BaseConnector = window.BaseConnector || function () {
 				artist: newPlaylistTrack.artist,
 				track: newPlaylistTrack.track,
 				artistTrack: newPlaylistTrack.artistTrack,
-				album: newPlaylistTrack.album
+				album: newPlaylistTrack.album,
+				duration: newPlaylistTrack.duration
 			};
 		}
 		return null;
