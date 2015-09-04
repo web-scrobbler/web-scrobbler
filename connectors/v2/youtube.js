@@ -14,7 +14,7 @@ chrome.storage.local.get('Connectors', function(data) {
 	}
 });
 
-Connector.playerSelector = '#page';
+Connector.playerSelector = '#player-api';
 
 Connector.artistTrackSelector = '#eow-title';
 
