@@ -99,6 +99,7 @@ function getPlaylist() {
 		return null;
 	}
 
+	// Do NOT rely on playlist numbering! e.g. https://www.youtube.com/watch?v=AIQKIcNGfZ8
 	playlist = _.sortBy(playlist, function(track) { return track.startTime; });
 
 	// If the last timestamp starts after the video ends... well, it's probably a broken playlist
@@ -194,11 +195,11 @@ function parsePlaylist(potentialTracks) {
 function cleansePlaylistLine(maybeTrack) {
 	maybeTrack = maybeTrack.replace(timestampRegex,'__TIMESTAMP__');
 	maybeTrack = maybeTrack.replace(/<a.*>(__TIMESTAMP__)<\/a>/gi,'$1');
-	maybeTrack = maybeTrack.replace(/\s*[\[\(\{]__TIMESTAMP__[\]\)\}]/gi,''); // [00:00] (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo)
+	maybeTrack = maybeTrack.replace(/\s*[\[\(\{]*\s*__TIMESTAMP__\s*[\]\)\}\–\-:]*\s*/gi,''); // [00:00] (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo / https://www.youtube.com/watch?v=thUQr7Q1vCY)
 	maybeTrack = maybeTrack.replace('__TIMESTAMP__','');
 	maybeTrack = maybeTrack.replace(/\s*&[a-z]+;\s*/gi,''); // remove HTML entity codes (e.g. https://www.youtube.com/watch?v=VFOF47nalCY)
 	maybeTrack = maybeTrack.replace(/^\s*[-:=]\s*/gi,''); // HH:MM - Track
-	maybeTrack = maybeTrack.replace(/\s*[\[\(\{\-]*\s*[0-9]{1,2}\s*[\.\-:=\)\]\}]{1,3}\s*/i,''); // numbering  1.  1 -  (1) etc. (e.g. https://www.youtube.com/watch?v=Y7QQS5V3cnI)
+	maybeTrack = maybeTrack.replace(/\s*(track|number|no|no\.|song)?\s*[\[\(\{\-]*\s*[0-9]{1,2}\s*[\.\-:=\)\]\}]{1,3}\s*/i,''); // numbering  1.  1 -  (1) etc. (e.g. https://www.youtube.com/watch?v=Y7QQS5V3cnI) and "track 1." (e.g. https://www.youtube.com/watch?v=FijBkSvN6N8)
 
 	return maybeTrack;
 }

@@ -346,7 +346,7 @@ var BaseConnector = window.BaseConnector || function () {
 									this.currentPlaylist[trackIndex+1].startTime - newPlaylistTrack.startTime
 									: ( this.getDuration() ? // If you can't, it must be the last track, sooo...
 										this.getDuration() - newPlaylistTrack.startTime // Find time to end of whole media
-										: 20 // or... if !duration, just wing it and give it 20 seconds.
+										: 60 // or... if !duration, just wing it and give it 1 minute
 									);
 
 				// Append #NN (indexOf) to UID, to prevent scrobble issues due to repeated UID
