@@ -73,7 +73,7 @@ function getPlaylist() {
 
 	while($containers.get(i) && !found) {
 		var $container = $($containers.get(i));
-		var potentialPlaylist = [];
+		var potentialPlaylist = null;
 
 		if(timestampRegex.test($container.html())) {
 			var potentialTracks = $container.html().split(/\r\n|\r|\n|<br>/g);
