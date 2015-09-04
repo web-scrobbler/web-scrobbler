@@ -88,9 +88,13 @@ function getPlaylist() {
 		}
 	}
 
-	console.info('This is a playlist.', playlist);
-
-	return playlist;
+	if(!found) {
+		console.info('No (valid) playlists found; this is a single-track media.');
+		return null;
+	} else {
+		console.info('This is a playlist.', playlist);
+		return playlist;
+	}
 }
 
 function buildPlaylist(potentialTracks) {
