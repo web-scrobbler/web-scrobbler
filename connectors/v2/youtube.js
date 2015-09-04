@@ -60,11 +60,11 @@ Connector.getArtistTrack = function () {
 var timestampPattern = '[0-9]{0,2}:*[0-9]{1,2}:[0-9]{2}';
 var timestampRegex = new RegExp(timestampPattern,'gi');
 
-// Run getPlaylist once very 5s, as it involves quite strenuous regex / jquery parsing of the DOM
+// Run getPlaylist once very 3s, as it involves quite strenuous regex / jquery parsing of the DOM
 // More to the point: the playlist only changes when the YT page does, so no point constantly scanning it.
-Connector.getPlaylist = _.throttle(getPlaylist, 5000);
+Connector.setThrottleInterval(3000);
 
-function getPlaylist() {
+Connector.getPlaylist = function () {
 	var playlist = [];
 
 	var $containers = $('#eow-description, .comment-text-content');
@@ -95,7 +95,7 @@ function getPlaylist() {
 		console.info('This is a playlist.', playlist);
 		return playlist;
 	}
-}
+};
 
 function buildPlaylist(potentialTracks) {
 	var stringProperty = 'track'; // Used further down to ID which property to tweak en-masse.
