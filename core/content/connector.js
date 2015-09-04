@@ -310,20 +310,20 @@ var BaseConnector = window.BaseConnector || function () {
 			 * This media is a collection of consecutive tracks.
 			*/
 
-			// (assuming that only track title data will be available...)
-			// Make use of Artist - Album Name convention, as a default fallback
-			artistTrack = this.getArtistTrack();
-			if (newArtist === null || typeof newArtist === 'undefined') {
-				newArtist = artistTrack.artist || newArtist;
-			}
-			if (newAlbum === null || typeof newAlbum === 'undefined') {
-				newAlbum = artistTrack.track || newAlbum; // Format will probably be Artist - Album Name, so hijack it.
-			}
-
 			// Find out which track is playing
 			var newPlaylistTrack = this.playlistIncrementCheck();
 			if(newPlaylistTrack) {
-				// And then look for artistTrack / artist + track data specifically.
+				// (assuming that only track title data will be available...)
+				// Make use of Artist - Album Name convention, as a default fallback
+				artistTrack = this.getArtistTrack();
+				if (newArtist === null || typeof newArtist === 'undefined') {
+					newArtist = artistTrack.artist || newArtist;
+				}
+				if (newAlbum === null || typeof newAlbum === 'undefined') {
+					newAlbum = artistTrack.track || newAlbum; // Format will probably be Artist - Album Name, so hijack it.
+				}
+
+				// Then look for track.artistTrack
 				var newArtistTrack = newPlaylistTrack.artistTrack;
 				var separator = this.findSeparator(newArtistTrack);
 				if (separator !== null) {
@@ -331,7 +331,7 @@ var BaseConnector = window.BaseConnector || function () {
 					newTrack = newArtistTrack.substr(separator.index + separator.length) || newTrack;
 				}
 
-				// Then, lastly, override any bogus with the real McCoy, if it has been defined in newPlaylistTrack obj
+				// Then, lastly, override with explicit track.track + track.artist
 				newTrack = newPlaylistTrack.track || newTrack;
 				newArtist = newPlaylistTrack.artist || newArtist;
 				newAlbum = this.getAlbum() || newPlaylistTrack.album || newAlbum;
