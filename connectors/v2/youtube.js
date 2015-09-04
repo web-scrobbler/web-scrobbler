@@ -156,31 +156,31 @@ function parsePlaylist(potentialTracks) {
 	// So make corrections for occassional false-positive `artistTrack` recognitions.
 	// e.g. 5. Undone - The Sweater Song (by Weezer) in https://www.youtube.com/watch?v=VFOF47nalCY
 	var propertyCount = _.countBy(potentialPlaylist, function(track) {
-        if(track.artistTrack) { return "artistTrack"; }
-        if(track.track) { return "track"; }
+		if(track.artistTrack) { return 'artistTrack'; }
+		if(track.track) { return 'track'; }
 		return;
 	});
 
 	// If there's a mixture of tracks and ArtistTracks, something's clearly fishy...
 	if(propertyCount.track > 0 && propertyCount.artistTrack > 0) {
-		console.info("Playlist parser - fixing mashup of artistTrack + track", propertyCount)
+		// # console.info('Playlist parser - fixing mashup of artistTrack + track', propertyCount);
 		// if there are a large number of tracks identified as NOT artistTrack
 		// then put the data in .track and cleanse .artistTrack;
 		if(propertyCount.track > propertyCount.artistTrack) {
-			console.info("Playlist parser - converting all to TRACK");
+			// # console.info('Playlist parser - converting all to TRACK');
 			_.each(potentialPlaylist, function(track) {
-		        track.track = track.artistTrack || track.track;
+				track.track = track.artistTrack || track.track;
 				delete track.artistTrack;
-		    });
+			});
 		}
 		// Otherwise it's likely the reverse situation,
 		// so put all data in .artistTrack and cleanse .track
 		else {
-			console.info("Playlist parser - converting all to ARTIST_TRACK");
+			// # console.info('Playlist parser - converting all to ARTIST_TRACK');
 			_.each(potentialPlaylist, function(track) {
-		        track.artistTrack = track.track || track.artistTrack;
+				track.artistTrack = track.track || track.artistTrack;
 				delete track.track;
-		    });
+			});
 		}
 	}
 
