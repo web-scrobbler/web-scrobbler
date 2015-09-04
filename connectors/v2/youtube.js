@@ -187,41 +187,44 @@ function parsePlaylist(potentialTracks) {
 
 	_.each(potentialTracks, function(maybeTrack) {
 		var entry = {};
+
 		var $maybeTrack = $('<div>'+maybeTrack+'</div>');
 
 		// YouTube automatically adds markup to timestamps...
 		var $timestampEls = $maybeTrack.find('a[onclick*=\'seekTo\']');
-
 		// ... but not when HH:MM exceeds 59:59, so also search for HH:MM
 		var timestampStrs = maybeTrack.match(timestampRegex);
 
-		if(($timestampEls !== null && $timestampEls.length) || (timestampStrs !== null && timestampStrs.length)) {
-			if ($timestampEls !== null && $timestampEls.length) {
-				entry.startTime = Connector.stringToSeconds($timestampEls.first().text());
-			} else if (timestampStrs !== null && timestampStrs.length) {
-				entry.startTime = Connector.stringToSeconds(timestampStrs[0]);
-			}
-
-			// Cleanse trackArtist data of timestamp, delimiters, etc.
-			maybeTrack = cleansePlaylistLine(maybeTrack);
-			maybeTrack = cleanseTrack(maybeTrack);
-
-			// Check that it's not just a random sentence.
-			// e.g. "Comment which is your favourite 19:13..." @ https://www.youtube.com/watch?v=_8pyf6ZW4Dk
-			if(maybeTrack.length > 70) {
-				return false;
-			}
-
-			// Are these tracks by a single artist, or artistTrack (a compilation e.g. https://www.youtube.com/watch?v=EzjX0QE_l8U)?
-			var separator = Connector.findSeparator(maybeTrack);
-			if (separator !== null) {
-				entry.artistTrack = maybeTrack;
-			} else {
-				entry.track = maybeTrack;
-			}
-
-			potentialPlaylist.push(entry);
+		// No timestamps in this line.
+		if(($timestampEls === null || !$timestampEls.length) && (timestampStrs === null || !timestampStrs.length)) {
+			return false;
 		}
+
+		if ($timestampEls !== null && $timestampEls.length) {
+			entry.startTime = Connector.stringToSeconds($timestampEls.first().text());
+		} else if (timestampStrs !== null && timestampStrs.length) {
+			entry.startTime = Connector.stringToSeconds(timestampStrs[0]);
+		}
+
+		// Cleanse trackArtist data of timestamp, delimiters, etc.
+		maybeTrack = cleansePlaylistLine(maybeTrack);
+		maybeTrack = cleanseTrack(maybeTrack);
+
+		// Check that it's not just a random sentence.
+		// e.g. "Comment which is your favourite 19:13..." @ https://www.youtube.com/watch?v=_8pyf6ZW4Dk
+		if(maybeTrack.length > 60) {
+			return false;
+		}
+
+		// Are these tracks by a single artist, or artistTrack (a compilation e.g. https://www.youtube.com/watch?v=EzjX0QE_l8U)?
+		var separator = Connector.findSeparator(maybeTrack);
+		if (separator !== null) {
+			entry.artistTrack = maybeTrack;
+		} else {
+			entry.track = maybeTrack;
+		}
+
+		potentialPlaylist.push(entry);
 	});
 
 	return potentialPlaylist;
