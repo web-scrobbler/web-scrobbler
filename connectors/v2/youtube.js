@@ -77,7 +77,7 @@ function getPlaylist() {
 
 		if(timestampRegex.test($container.html())) {
 			var potentialTracks = $container.html().split(/\r\n|\r|\n|<br>/g);
-			potentialPlaylist = parsePlaylist(potentialTracks);
+			potentialPlaylist = buildPlaylist(potentialTracks);
 		}
 
 		if (potentialPlaylist.length > 1) {
@@ -114,8 +114,73 @@ function getPlaylist() {
 	return playlist;
 }
 
-function parsePlaylist(potentialTracks) {
+function buildPlaylist(potentialTracks) {
 	// console.log(potentialTracks);
+	var potentialPlaylist = parsePlaylist(potentialTracks);
+
+	var stringProperty = 'track'; // Used further down to ID which property to tweak en-masse.
+
+	/**
+	 * A playlist will be:
+	 * - EITHER entirely `artistTrack` (1. artistName - trackName)
+	 * - OR entirely `track` (1. trackName )
+	 * So make corrections for occassional false-positive `artistTrack` recognitions.
+	 * e.g. 5. Undone - The Sweater Song (by Weezer) in https://www.youtube.com/watch?v=VFOF47nalCY
+	*/
+
+	var propertyCount = _.countBy(potentialPlaylist, function(track) {
+		if(track.artistTrack) { return 'artistTrack'; }
+		if(track.track) { return 'track'; }
+		return;
+	});
+
+	// If there's a mixture of tracks and ArtistTracks, something's clearly fishy...
+	if(propertyCount.track > 0 && propertyCount.artistTrack > 0) {
+		console.info('Playlist parser - fixing mashup of artistTrack + track', propertyCount);
+		// if there are a large number of tracks identified as NOT artistTrack
+		// then put the data in .track and cleanse .artistTrack;
+		if(propertyCount.track > propertyCount.artistTrack) {
+			// console.info('Playlist parser - converting all to TRACK');
+			_.each(potentialPlaylist, function(track) {
+				track.track = track.artistTrack || track.track;
+				delete track.artistTrack;
+			});
+			stringProperty = 'track';
+		}
+		// Otherwise it's likely the reverse situation,
+		// so put all data in .artistTrack and cleanse .track
+		else {
+			// # console.info('Playlist parser - converting all to ARTIST_TRACK');
+			_.each(potentialPlaylist, function(track) {
+				track.artistTrack = track.track || track.artistTrack;
+				delete track.track;
+			});
+			stringProperty = 'artistTrack';
+		}
+	} else if(propertyCount.artistTrack > 0) {
+		stringProperty = 'artistTrack';
+	}
+
+	/**
+	 * If most tracks have numbers at the beginning, it's probably a case of shoddy playlist numbering
+	 * e.g. https://www.youtube.com/watch?v=epSWiHu7ggk
+	*/
+
+	var beginningNumberRegex = new RegExp(/^\s*[0-9]{1,2}[\s\-:\/](.+)/i);
+	var isNumbered = _.countBy(potentialPlaylist, function(track) {
+		return track[stringProperty].match(beginningNumberRegex) ? 'is' : 'isnt';
+	});
+	if(isNumbered.is > isNumbered.isnt) {
+		console.info('Playlist parser - removing non-delimitered numbering from all track starts.',isNumbered);
+		_.each(potentialPlaylist, function(track) {
+			track[stringProperty] = track[stringProperty].replace(beginningNumberRegex,'$1');
+		});
+	}
+
+	return potentialPlaylist;
+}
+
+function parsePlaylist(potentialTracks) {
 	var potentialPlaylist = [];
 
 	_.each(potentialTracks, function(maybeTrack) {
@@ -141,7 +206,7 @@ function parsePlaylist(potentialTracks) {
 
 			// Check that it's not just a random sentence.
 			// e.g. "Comment which is your favourite 19:13..." @ https://www.youtube.com/watch?v=_8pyf6ZW4Dk
-			if(maybeTrack.length > 70) { return false; }
+			if(maybeTrack.length > 70) { return; }
 
 			// Are these tracks by a single artist, or artistTrack (a compilation e.g. https://www.youtube.com/watch?v=EzjX0QE_l8U)?
 			var separator = Connector.findSeparator(maybeTrack);
@@ -155,47 +220,14 @@ function parsePlaylist(potentialTracks) {
 		}
 	});
 
-	// A playlist will be:
-	// - EITHER entirely `artistTrack` (1. artistName - trackName)
-	// - OR entirely `track` (1. trackName )
-	// So make corrections for occassional false-positive `artistTrack` recognitions.
-	// e.g. 5. Undone - The Sweater Song (by Weezer) in https://www.youtube.com/watch?v=VFOF47nalCY
-	var propertyCount = _.countBy(potentialPlaylist, function(track) {
-		if(track.artistTrack) { return 'artistTrack'; }
-		if(track.track) { return 'track'; }
-		return;
-	});
-
-	// If there's a mixture of tracks and ArtistTracks, something's clearly fishy...
-	if(propertyCount.track > 0 && propertyCount.artistTrack > 0) {
-		// # console.info('Playlist parser - fixing mashup of artistTrack + track', propertyCount);
-		// if there are a large number of tracks identified as NOT artistTrack
-		// then put the data in .track and cleanse .artistTrack;
-		if(propertyCount.track > propertyCount.artistTrack) {
-			// # console.info('Playlist parser - converting all to TRACK');
-			_.each(potentialPlaylist, function(track) {
-				track.track = track.artistTrack || track.track;
-				delete track.artistTrack;
-			});
-		}
-		// Otherwise it's likely the reverse situation,
-		// so put all data in .artistTrack and cleanse .track
-		else {
-			// # console.info('Playlist parser - converting all to ARTIST_TRACK');
-			_.each(potentialPlaylist, function(track) {
-				track.artistTrack = track.track || track.artistTrack;
-				delete track.track;
-			});
-		}
-	}
-
 	return potentialPlaylist;
 }
 
 function cleansePlaylistLine(maybeTrack) {
 	maybeTrack = maybeTrack.replace(timestampRegex,'__TIMESTAMP__');
+	maybeTrack = maybeTrack.replace(/[\[\(\{\–\-]*\s*[0-9]{1,2}\.[0-9]{2}\s*[\]\)\}\–\-:]/gi,''); // Chop out bullshit other misformatted timestamps (e.g. https://www.youtube.com/watch?v=9-NFosnfd2c)
 	maybeTrack = maybeTrack.replace(/<a.*>(__TIMESTAMP__)<\/a>/gi,'$1');
-	maybeTrack = maybeTrack.replace(/\s*[\[\(\{]*\s*__TIMESTAMP__\s*[\]\)\}\–\-:]*\s*/gi,''); // [00:00] (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo / https://www.youtube.com/watch?v=thUQr7Q1vCY)
+	maybeTrack = maybeTrack.replace(/\s*[\[\(\{\–\-]*\s*__TIMESTAMP__\s*[\]\)\}\–\-:]*\s*/gi,''); // [00:00] (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo / https://www.youtube.com/watch?v=thUQr7Q1vCY)
 	maybeTrack = maybeTrack.replace('__TIMESTAMP__','');
 	maybeTrack = maybeTrack.replace(/\s*&[a-z]+;\s*/gi,''); // remove HTML entity codes (e.g. https://www.youtube.com/watch?v=VFOF47nalCY)
 	maybeTrack = maybeTrack.replace(/^\s*[-:=]\s*/gi,''); // HH:MM - Track
