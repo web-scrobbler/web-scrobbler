@@ -415,6 +415,13 @@ var BaseConnector = window.BaseConnector || function () {
 	var stateChangedWorkerThrottled = _.throttle(stateChangedWorker, 500);
 
 	/**
+	 * Sets a new throttle delay in ms
+	 */
+	this.setThrottleInterval = function (delay) {
+		stateChangedWorkerThrottled = _.throttle(stateChangedWorker, delay);
+	}.bind(this);
+
+	/**
 	 * Listener for the player state changes. Automatically detects the state, collects the track metadata
 	 * and communicates with the background script if needed.
 	 *
