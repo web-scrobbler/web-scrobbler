@@ -138,6 +138,10 @@ function parsePlaylist(potentialTracks) {
 			maybeTrack = cleansePlaylistLine(maybeTrack);
 			maybeTrack = cleanseTrack(maybeTrack);
 
+			// Check that it's not just a random sentence.
+			// e.g. "Comment which is your favourite 19:13..." @ https://www.youtube.com/watch?v=_8pyf6ZW4Dk
+			if(maybeTrack.length > 70) { return false; }
+
 			// Are these tracks by a single artist, or artistTrack (a compilation e.g. https://www.youtube.com/watch?v=EzjX0QE_l8U)?
 			var separator = Connector.findSeparator(maybeTrack);
 			if (separator !== null) {
