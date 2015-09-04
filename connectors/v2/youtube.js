@@ -60,19 +60,26 @@ Connector.getArtistTrack = function () {
 var timestampPattern = '[0-9]{0,2}:*[0-9]{1,2}:[0-9]{2}';
 var timestampRegex = new RegExp(timestampPattern,'gi');
 
-Connector.getPlaylist = function() {
-	var playlist = [];
-	var $containers = $('#eow-description, .comment-text-content');
+// Run getPlaylist once very 5s, as it involves quite strenuous regex / jquery parsing of the DOM
+// More to the point: the playlist only changes when the YT page does, so no point constantly scanning it.
+Connector.getPlaylist = _.throttle(getPlaylist, 5000);
 
+function getPlaylist() {
+	var playlist = [];
+
+	var $containers = $('#eow-description, .comment-text-content');
 	var i = 0;
 	var found = false;
+
 	while($containers.get(i) && !found) {
 		var $container = $($containers.get(i));
 		var potentialPlaylist = [];
+
 		if(timestampRegex.test($container.html())) {
 			var potentialTracks = $container.html().split(/\r\n|\r|\n|<br>/g);
 			potentialPlaylist = parsePlaylist(potentialTracks);
 		}
+
 		if (potentialPlaylist.length > 1) {
 			playlist = potentialPlaylist;
 			found = true;
@@ -81,19 +88,33 @@ Connector.getPlaylist = function() {
 		}
 	}
 
+	if(playlist.length === 0) {
+		console.info('No playlists found; this is a single-track video.');
+		return null;
+	}
 	// It's probably not a playlist if it's just a few timestamps...
 	// E.g. "Omg lol at 01:05 and 02:45!11!1"
-	if(playlist.length < 3) { return null; }
+	if(playlist.length < 3) {
+		console.info('Invalid playlist - too few timestamps; probably a false-positive');
+		return null;
+	}
 
-	playlist = _.sortBy(playlist, function(track) {
-		return track.startTime;
-	});
+	playlist = _.sortBy(playlist, function(track) { return track.startTime; });
+
+	// If the last timestamp starts after the video ends... well, it's probably a broken playlist
+	// E.g. https://www.youtube.com/watch?v=EfcY9oFo1YQ
+	if(Connector.getDuration() && playlist[playlist.length-1].startTime > Connector.getDuration()) {
+		console.info('Invalid playlist - timestamps greater than clip duration');
+		return null;
+	}
+
+	console.info('This is a playlist.', playlist);
 
 	return playlist;
-};
+}
 
 function parsePlaylist(potentialTracks) {
-	console.log(potentialTracks);
+	// console.log(potentialTracks);
 	var potentialPlaylist = [];
 
 	_.each(potentialTracks, function(maybeTrack) {
@@ -147,18 +168,18 @@ function cleansePlaylistLine(maybeTrack) {
 function cleanseArtist(artist) {
 	if(typeof artist === 'undefined' | artist === null) { return; }
 
-	artist = artist.replace(/^\s+|\s+$/g,'');
-	artist = artist.replace(/\s+/g, " ");
-	
+	artist = artist.replace(/^\s+|\s+$/g, '');
+	artist = artist.replace(/\s+/g, ' ');
+
 	return artist;
 }
 
 function cleanseTrack(track) {
 	if(typeof track === 'undefined' | track === null) { return; }
 
-	track = track.replace(/^\s+|\s+$/g,'');
-	track = track.replace(/\s+/g, " "); 
-	
+	track = track.replace(/^\s+|\s+$/g, '');
+	track = track.replace(/\s+/g, ' ');
+
 	// Strip crap
 	track = track.replace(/\s*\*+\s?\S+\s?\*+$/, ''); // **NEW**
 	track = track.replace(/\s*\[[^\]]+\]$/, ''); // [whatever]

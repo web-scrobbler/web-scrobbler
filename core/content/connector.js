@@ -304,23 +304,22 @@ var BaseConnector = window.BaseConnector || function () {
 		}
 
 		this.currentPlaylist = this.getPlaylist();
-		if(this.currentPlaylist)
-		{
-			console.info('This is a playlist.',this.currentPlaylist);
+
+		if(this.currentPlaylist) {
 			/**
 			 * This media is a collection of consecutive tracks.
 			*/
-			
+
 			// (assuming that only track title data will be available...)
 			// Make use of Artist - Album Name convention, as a default fallback
 			artistTrack = this.getArtistTrack();
-			if ( (newArtist === null || typeof newArtist === 'undefined') ) {
+			if (newArtist === null || typeof newArtist === 'undefined') {
 				newArtist = artistTrack.artist || newArtist;
 			}
-			if ( (newAlbum === null || typeof newAlbum === 'undefined') ) {
+			if (newAlbum === null || typeof newAlbum === 'undefined') {
 				newAlbum = artistTrack.track || newAlbum; // Format will probably be Artist - Album Name, so hijack it.
 			}
-			
+
 			// Find out which track is playing
 			var newPlaylistTrack = this.playlistIncrementCheck();
 			if(newPlaylistTrack) {
@@ -345,13 +344,10 @@ var BaseConnector = window.BaseConnector || function () {
 
 				// Append #NN (indexOf) to UID, to prevent scrobble issues due to repeated UID
 				newUID = this.getUniqueID()+'#'+trackIndex;
+			} else {
+				console.info('Playlist parse error - Could not get the current track.');
 			}
-			else {
-				console.info('Could not get the playing track.');
-			}
-		}
-		else {
-			console.info('This is a single-track music video.');
+		} else {
 			/**
 			 * This media is a single track.
 			*/
