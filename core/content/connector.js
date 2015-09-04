@@ -304,47 +304,26 @@ var BaseConnector = window.BaseConnector || function () {
 		}
 
 		this.currentPlaylist = this.getPlaylist();
-
-		if(!this.currentPlaylist) {
-			console.info('This is a single-track music video.');
-			/**
-			 * This media is a single track.
-			*/
-			newTrack = this.getTrack();
-
-			newArtist = this.getArtist();
-
-			artistTrack = this.getArtistTrack();
-			if (newArtist === null && artistTrack.artist) {
-				newArtist = artistTrack.artist;
-			}
-			if (newTrack === null && artistTrack.track) {
-				newTrack = artistTrack.track;
-			}
-
-			newAlbum = this.getAlbum();
-
-			newDuration = this.getDuration();
-
-			newUID = this.getUniqueID();
-		} else {
+		if(this.currentPlaylist)
+		{
 			console.info('This is a playlist.',this.currentPlaylist);
 			/**
 			 * This media is a collection of consecutive tracks.
 			*/
+			
+			// (assuming that only track title data will be available...)
+			// Make use of Artist - Album Name convention, as a default fallback
+			artistTrack = this.getArtistTrack();
+			if ( (newArtist === null || typeof newArtist === 'undefined') ) {
+				newArtist = artistTrack.artist || newArtist;
+			}
+			if ( (newAlbum === null || typeof newAlbum === 'undefined') ) {
+				newAlbum = artistTrack.track || newAlbum; // Format will probably be Artist - Album Name, so hijack it.
+			}
+			
+			// Find out which track is playing
 			var newPlaylistTrack = this.playlistIncrementCheck();
-
 			if(newPlaylistTrack) {
-				// (assuming that only track title data will be available...)
-				// Make use of Artist - Album Name convention, as a default fallback
-				artistTrack = this.getArtistTrack();
-				if ( (newArtist === null || typeof newArtist === 'undefined') && artistTrack.artist) {
-					newArtist = artistTrack.artist || newArtist;
-				}
-				if ( (newAlbum === null || typeof newArtist === 'undefined') && artistTrack.track) {
-					newAlbum = artistTrack.track || newAlbum; // Format will probably be Artist - Album Name, so hijack it.
-				}
-
 				// And then look for artistTrack / artist + track data specifically.
 				var newArtistTrack = newPlaylistTrack.artistTrack;
 				var separator = this.findSeparator(newArtistTrack);
@@ -367,6 +346,32 @@ var BaseConnector = window.BaseConnector || function () {
 				// Append #NN (indexOf) to UID, to prevent scrobble issues due to repeated UID
 				newUID = this.getUniqueID()+'#'+trackIndex;
 			}
+			else {
+				console.info('Could not get the playing track.');
+			}
+		}
+		else {
+			console.info('This is a single-track music video.');
+			/**
+			 * This media is a single track.
+			*/
+			newTrack = this.getTrack();
+
+			newArtist = this.getArtist();
+
+			artistTrack = this.getArtistTrack();
+			if (newArtist === null && artistTrack.artist) {
+				newArtist = artistTrack.artist;
+			}
+			if (newTrack === null && artistTrack.track) {
+				newTrack = artistTrack.track;
+			}
+
+			newAlbum = this.getAlbum();
+
+			newDuration = this.getDuration();
+
+			newUID = this.getUniqueID();
 		}
 
 		if (newUID !== currentState.uniqueID) {
@@ -439,9 +444,12 @@ var BaseConnector = window.BaseConnector || function () {
 		var Connector = this;
 		// Find first track in array that is at or before this.currentTime
 		var playlist = Connector.currentPlaylist;
-		var newPlaylistTrack = _.find(_.chain(playlist).sortBy().reverse().value(), function(track) {
+		var trackStack = _.sortBy(playlist, function(track) {
+			return track.startTime;
+		}).reverse();
+		var newPlaylistTrack = _.find(trackStack, function(track) {
 			return Connector.getCurrentTime() >= track.startTime;
-		});
+		}) || null;
 
 		// if you found one, update the track data
 		if(newPlaylistTrack) {
@@ -453,6 +461,7 @@ var BaseConnector = window.BaseConnector || function () {
 				album: newPlaylistTrack.album
 			};
 		}
+		return null;
 	};
 
 	/**
