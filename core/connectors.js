@@ -85,6 +85,13 @@ define(function() {
 		},
 
 		{
+			label: 'TurkcellMusic',
+			matches: ['*://turkcellmuzik.turkcell.com.tr/*'],
+			js: ['connectors/v2/turkcellmuzik.js'],
+			version: 2
+		},
+
+		{
 			label: 'Virgin Radio Turkiye',
 			matches: ['*://*.virginradioturkiye.com/*', '*://*.radioeksen.com/*'],
 			js: ['connectors/virginradiotr.js']
