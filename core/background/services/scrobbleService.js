@@ -10,13 +10,15 @@ define([], function () {
 
 	return {
 		bindScrobbler: function (scrobbler) {
-			scrobblers.push(scrobbler);
-			console.log('ScrobbleService: bindScrobbler() ' + scrobblers.length);
+			if (!scrobblers.some(function(s) { return s.getLabel() === scrobbler.getLabel()})) {
+				scrobblers.push(scrobbler);
+				console.log('ScrobbleService: bindScrobbler() ' + scrobbler.getLabel() + ' total:' + scrobblers.length);
+			}
 		},
 
 		unbindScrobbler: function (scrobbler) {
-			console.log('ScrobbleService: unbindScrobbler()');
-			scrobblers = this.scrobblers.filter(
+			console.log('ScrobbleService: unbindScrobbler() ' + scrobbler.getLabel() + ' total:' + scrobblers.length);
+			scrobblers = scrobblers.filter(
 				function (s) {
 					if (s !== scrobbler) {
 						return s;

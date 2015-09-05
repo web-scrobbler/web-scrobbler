@@ -293,23 +293,26 @@ require([
 
 		// check session ID status and show notification if authentication is needed
 		LastFM.getSession(function(sessionID) {
-			if (!sessionID) {
+			if (sessionID !== 'undefined') {
 				Notifications.showAuthenticate(LastFM.getAuthUrl.bind(LastFM));
 			} else {
 				console.info(LastFM.getLabel() + ' Session ID ' + 'xxxxx' + sessionID.substr(5));
-				ScrobbleService.bindScrobbler(LastFM);
 			}
 		}.bind(LastFM));
 
+		ScrobbleService.bindScrobbler(LastFM);
+
 		// check session ID status and show notification if authentication is needed
-		LibreFM.getSession(function(sessionID) {
-			if (!sessionID) {
+		LibreFM.getSession(function(sessionID, sessionName) {
+			console.log(sessionID + ' name:' + sessionName);
+			if (sessionID !== 'undefined') {
 				Notifications.showAuthenticate(LibreFM.getAuthUrl.bind(LibreFM));
 			} else {
 				console.info(LibreFM.getLabel() + ' Session ID ' + 'xxxxx' + sessionID.substr(5));
-				ScrobbleService.bindScrobbler(LibreFM);
 			}
 		}.bind(LibreFM));
+
+		ScrobbleService.bindScrobbler(LibreFM);
 	}
 
 	startup();
