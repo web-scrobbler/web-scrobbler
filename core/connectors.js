@@ -429,8 +429,9 @@ define(function() {
 		{
 			label: 'Odnoklassniki',
 			matches: ['*://odnoklassniki.ru/*', '*://ok.ru/*'],
-			js: ['connectors/odnoklassniki.js'],
-			allFrames: true
+			js: ['connectors/v2/odnoklassniki.js'],
+			allFrames: true,
+			version: 2
 		},
 
 		{
