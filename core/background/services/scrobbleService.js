@@ -10,7 +10,7 @@ define([], function () {
 
 	return {
 		bindScrobbler: function (scrobbler) {
-			if (!scrobblers.some(function(s) { return s.getLabel() === scrobbler.getLabel()})) {
+			if (!scrobblers.some(function(s) { return s.getLabel() === scrobbler.getLabel();})) {
 				scrobblers.push(scrobbler);
 				console.log('ScrobbleService: bindScrobbler() ' + scrobbler.getLabel() + ' total:' + scrobblers.length);
 			}
