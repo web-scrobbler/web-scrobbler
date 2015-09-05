@@ -44,7 +44,8 @@ define(function() {
 		{
 			label: 'TTNET Müzik',
 			matches: ['*://www.ttnetmuzik.com.tr/*'],
-			js: ['connectors/ttnet.js']
+			js: ['connectors/v2/ttnet.js'],
+			version: 2
 		},
 
 		{
