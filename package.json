@@ -17,7 +17,12 @@
     "grunt-jsonlint": "^1.0.4",
     "grunt-lintspaces": "^0.5.1",
     "jshint": "~2.5.1",
-    "jshint-stylish": "~0.2.0"
+    "jshint-stylish": "~0.2.0",
+    "requirejs": "~2.1.14",
+    "mocha": "~1.21.4",
+    "selenium-webdriver": "~2.43.5",
+    "selenium-chromedriver": "git://github.com/berrberr/selenium-chromedriver.git",
+    "mocha-retry": "~0.0.9"
   },
   "engines": {
     "node": ">=0.10.0"

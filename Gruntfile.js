@@ -5,6 +5,7 @@ module.exports = function(grunt) {
 
 	var jsConnectorFiles = ['connectors/v2/*.js', 'connectors/22tracks.js', 'connectors/archive.js', 'connectors/bandcamp.js', 'connectors/blinkboxmusic.js', 'connectors/ambientsleepingpill.js']; // intentionally does not contain all files yet
 	var jsCoreFiles = ['Gruntfile.js', 'popup.js', 'core/**/*.js', 'options/options.js', 'popups/*.js'];
+	var jsTestFiles = ['tests/**/*.js'];
 	var jsonFiles = ['*.json', '.jshintrc'];
 	var htmlFiles = ['*.html', 'options/*.html', 'popups/*.html', 'dialogs/**/*.html'];
 	var cssFiles = ['options/options.css', 'popups/base.css', 'dialogs/base.css'];
@@ -30,7 +31,7 @@ module.exports = function(grunt) {
 		lintspaces: {
 			all: {
 				src: [
-					jsCoreFiles, jsConnectorFiles, cssFiles, htmlFiles
+					jsCoreFiles, jsConnectorFiles, cssFiles, htmlFiles, jsTestFiles
 				],
 
 				options: {
@@ -53,7 +54,12 @@ module.exports = function(grunt) {
 			strict: {
 				src: [cssFiles]
 			}
-		}
+		},
+	    exec: {
+	      run_tests: {
+	        command: 'node test/runner.js'
+	      }
+	    },
 	});
 
 
@@ -63,5 +69,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-jsonlint');
 	grunt.loadNpmTasks('grunt-contrib-csslint');
 	grunt.registerTask('lint', ['jshint', 'csslint']);
+    grunt.registerTask('test', ['exec:run_tests']);
 	grunt.registerTask('default', ['lint', 'lintspaces', 'jsonlint']);
 };
