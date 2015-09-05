@@ -486,6 +486,13 @@ define(function() {
 		},
 
 		{
+			label: 'RadioTunes',
+			matches: ['*://www.radiotunes.com/*'],
+			js: ['connectors/v2/radiotunes.js'],
+			version: 2
+		},
+
+		{
 			label: 'GetWorkDoneMusic',
 			matches: ['*://www.getworkdonemusic.com/*', '*://getworkdonemusic.com/*'],
 			js: ['connectors/v2/getworkdonemusic.js'],
