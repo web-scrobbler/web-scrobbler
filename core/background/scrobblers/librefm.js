@@ -16,6 +16,9 @@ define([
 		authUrl: 'http://www.libre.fm/api/auth/'
 	});
 
+	/**
+	 * Overwrite default doRequest implementation due to API wanting the params encoded in the post body.
+	 */
 	LibreFM.doRequest = function (method, params, signed, okCb, errCb) {
 		var self = this;
 		params.api_key = this.apiKey;
