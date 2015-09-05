@@ -1,5 +1,5 @@
 'use strict';
-/* globals _, MetadataFilter */
+/* globals _, MetadataFilter, testReporter */
 /* exported Connector */
 
 /**
@@ -252,7 +252,7 @@ var BaseConnector = window.BaseConnector || function () {
 			duration: null,
 			currentTime: 0,
 			isPlaying: true,
-			url: window.location
+			url: window.location.href
 		};
 
 		/**
@@ -270,7 +270,7 @@ var BaseConnector = window.BaseConnector || function () {
 		var stateChangedWorker = function () {
 			var changedFields = [];
 
-			var newURL = window.location;
+			var newURL = window.location.href;
 			if (newURL !== currentState.url) {
 				currentState.url = newURL;
 				changedFields.push('url');
@@ -337,9 +337,17 @@ var BaseConnector = window.BaseConnector || function () {
 			}
 
 			// take action if needed
-			if (changedFields.length > 0 && this.reactorCallback !== null) {
-				this.reactorCallback(currentState, changedFields);
+			if (changedFields.length > 0) {
+				if(this.reactorCallback !== null) {
+					this.reactorCallback(currentState, changedFields);
+				}
+
+				// Report for scrobble testing
+				if (currentState.artist && currentState.track) {
+					testReporter('connector_state_changed', currentState);
+				}
 			}
+
 		}.bind(this);
 
 		/**

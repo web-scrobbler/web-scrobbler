@@ -5,6 +5,7 @@ module.exports = function(grunt) {
 
 	var jsConnectorFiles = ['connectors/v2/*.js']; // intentionally does not contain all files yet
 	var jsCoreFiles = ['Gruntfile.js', 'core/**/*.js', 'options/options.js', 'popups/*.js'];
+	var jsTestFiles = ['tests/**/*.js'];
 	var jsonFiles = ['*.json', '.jshintrc', '.csslintrc'];
 	var htmlFiles = ['options/*.html', 'popups/*.html', 'dialogs/**/*.html'];
 	var cssFiles = ['options/options.css', 'popups/base.css', 'dialogs/base.css'];
@@ -42,7 +43,7 @@ module.exports = function(grunt) {
 		lintspaces: {
 			all: {
 				src: [
-					jsCoreFiles, jsConnectorFiles, jsonFiles, cssFiles, htmlFiles
+					jsCoreFiles, jsConnectorFiles, jsTestFiles, jsonFiles, cssFiles, htmlFiles
 				],
 
 				options: {
@@ -69,6 +70,9 @@ module.exports = function(grunt) {
 		exec: {
 			publish: {
 				cmd: 'node scripts/publish-chrome-extension web-scrobbler.zip'
+			},
+			run_tests: {
+				command: 'node tests/runner.js'
 			}
 		}
 	});
@@ -87,5 +91,6 @@ module.exports = function(grunt) {
 		grunt.task.run(`bump:${ver}`);
 		grunt.task.run('publish');
 	});
+	grunt.registerTask('test', ['exec:run_tests']);
 	grunt.registerTask('default', ['lint']);
 };

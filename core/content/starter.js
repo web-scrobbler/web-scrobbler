@@ -1,5 +1,5 @@
 'use strict';
-/* globals Connector, BaseConnector, Reactor */
+/* globals Connector, BaseConnector, Reactor, testReporter */
 
 /**
  * This script is injected to the page after the {@link BaseConnector} and a custom
@@ -68,6 +68,10 @@
 			};
 			playerObserver.observe(document.body, playerObserverConfig);
 		}
+
+		document.addEventListener('web-scrobbler-test-loaded', function() {
+			testReporter('loaded');
+		});
 	}
 	/**
 	 * Player selector is not provided, current connector needs to detect state changes on its own

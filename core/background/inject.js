@@ -86,6 +86,7 @@ define([
 					scripts.unshift('core/content/connector.js');
 					scripts.unshift('core/content/filter.js');
 					scripts.unshift('core/content/reactor.js');
+					scripts.unshift('core/content/testReporter.js');
 					scripts.unshift('vendor/underscore-min.js');
 					scripts.unshift(config.JQUERY_PATH);
 

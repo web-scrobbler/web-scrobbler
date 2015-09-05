@@ -20,7 +20,14 @@
     "jshint-stylish": "~2.2.1",
     "webstore-upload": "~0.0.7",
     "grunt-exec": "~1.0.1",
-    "grunt-bump": "~0.8.0"
+    "grunt-bump": "~0.8.0",
+    "chai": "~1.9.1",
+    "mocha": "~3.0.2",
+    "selenium-webdriver": "~2.43.5",
+    "selenium-chromedriver": "git://github.com/berrberr/selenium-chromedriver.git",
+    "async": "~2.0.1",
+    "node-define": "~0.1.1",
+    "requirejs": "~2.2.0"
   },
   "engines": {
     "node": ">=0.10.0"
