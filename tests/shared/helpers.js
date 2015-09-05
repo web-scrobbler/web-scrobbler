@@ -261,21 +261,21 @@ var overrideAlerts = exports.overrideAlerts = function(driver) {
 */
 var alertCheck = exports.alertCheck = function(driver) {
 	var def = webdriver.promise.defer();
-	console.log("Checking for alerts...");
+	// console.log("Checking for alerts...");
 	driver.getAllWindowHandles().then(function(handles) {
 		driver.getWindowHandle().then(function(handle) {
 			if(handles.indexOf(handle) !== -1) {
-				console.log("There is a window open...");
+				// console.log("There is a window open...");
 				driver.switchTo().alert().then(function(alert) {
-					console.log("Accept alert...");
+					// console.log("Accept alert...");
 					alert.accept();
 					def.fulfill(null);
 				}, function(error) {
-					console.log("No alert found, continue...");
+					// console.log("No alert found, continue...");
 					def.fulfill(null);
 				});
 			} else {
-				console.log("No open window found!");
+				// console.log("No open window found!");
 				def.fulfill(null);
 			}
 		});
