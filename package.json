@@ -19,6 +19,7 @@
     "jshint": "~2.5.1",
     "jshint-stylish": "~0.2.0",
     "requirejs": "~2.1.14",
+    "chai": "~1.9.1",
     "mocha": "~1.21.4",
     "selenium-webdriver": "~2.43.5",
     "selenium-chromedriver": "git://github.com/berrberr/selenium-chromedriver.git",

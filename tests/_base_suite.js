@@ -1,49 +1,49 @@
-var define = require('requirejs');
-var fs = require("fs");
-var By = require("selenium-webdriver").By;
+'use strict';
 
-define([
-	'../core/connectors',
-	'_base_test',
-	'shared/musicsite.js',
-	'shared/helpers.js'
-], function(baseSites, base, shared, helpers) {
-	var driver = base.getDriver();
+/* globals describe, before, after, shared */
 
-	const TIMEOUT_ERROR = /Wait timed out after ([0-9]* ?)ms/;
-	const WAIT_TIMEOUT = 120000;
+require('node-define');
 
-	describe("WebScrobbler suite", function() {
+var base = require('./_base_test.js');
+var driver = base.getDriver();
+// var fs = require('fs');
+// var By = require('selenium-webdriver').By;
+var baseSites = require('../core/connectors');
 
-		before(function(done) {
-			// Wait for ABP to load
-			driver.sleep(1000).then(function() {
-				done();
-			});
+var driver = base.getDriver();
+
+// const TIMEOUT_ERROR = /Wait timed out after ([0-9]* ?)ms/;
+// const WAIT_TIMEOUT = 120000;
+
+describe('WebScrobbler suite', function() {
+
+	before(function(done) {
+		// Wait for ABP to load
+		driver.sleep(1000).then(function() {
+			done();
 		});
-
-		after(function() {
-			driver.quit();
-		});
-
-		baseSites.forEach(function(site) {
-			describe(site.label, function() {
-				shared.shouldBehaveLikeAMusicSite(driver, site.matches, site.version || 1);
-			});
-		});
-
-		/*
-		// @depends: div.artwork
-		describe("bop.fm", function() {
-			before(function(done) {
-				helpers.getAndWait(driver, "http://www.bop.fm");
-				helpers.waitAndClick(driver, {css: "div.artwork"});
-				done();
-			});
-
-			shared.shouldBehaveLikeAMusicSite(driver, false);
-		});
-		*/
 	});
 
+	after(function() {
+		driver.quit();
+	});
+
+	baseSites.forEach(function(site) {
+		describe(site.label, function() {
+			shared.shouldBehaveLikeAMusicSite(driver, site.matches, site.version || 1);
+		});
+	});
+
+	/*
+	// @depends: div.artwork
+	describe('bop.fm', function() {
+		before(function(done) {
+			helpers.getAndWait(driver, 'http://www.bop.fm');
+			helpers.waitAndClick(driver, {css: 'div.artwork'});
+			done();
+		});
+
+		shared.shouldBehaveLikeAMusicSite(driver, false);
+	});
+	*/
 });

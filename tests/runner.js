@@ -2,6 +2,7 @@
 
 /* globals __filename, process */
 
+require('selenium-chromedriver');
 var Mocha = require('mocha');
 var getPath = require('./shared/helpers.js').getPath;
 
