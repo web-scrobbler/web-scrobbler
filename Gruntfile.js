@@ -55,20 +55,21 @@ module.exports = function(grunt) {
 				src: [cssFiles]
 			}
 		},
-	    exec: {
-	      run_tests: {
-	        command: 'node test/runner.js'
-	      }
-	    },
+		exec: {
+			run_tests: {
+				command: 'node tests/runner.js'
+			}
+		}
 	});
 
 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-lintspaces');
+	grunt.loadNpmTasks('grunt-exec');
 	grunt.loadNpmTasks('grunt-jsonlint');
 	grunt.loadNpmTasks('grunt-contrib-csslint');
 	grunt.registerTask('lint', ['jshint', 'csslint']);
-    grunt.registerTask('test', ['exec:run_tests']);
+	grunt.registerTask('test', ['exec:run_tests']);
 	grunt.registerTask('default', ['lint', 'lintspaces', 'jsonlint']);
 };

@@ -22,7 +22,8 @@
     "mocha": "~1.21.4",
     "selenium-webdriver": "~2.43.5",
     "selenium-chromedriver": "git://github.com/berrberr/selenium-chromedriver.git",
-    "mocha-retry": "~0.0.9"
+    "mocha-retry": "~0.0.9",
+    "grunt-exec": "~0.4.6"
   },
   "engines": {
     "node": ">=0.10.0"

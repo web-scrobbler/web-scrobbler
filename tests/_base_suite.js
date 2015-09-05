@@ -4,8 +4,10 @@ var By = require("selenium-webdriver").By;
 
 define([
 	'../core/connectors',
-	'_base_test'
-], function(baseSites, base) {
+	'_base_test',
+	'shared/musicsite.js',
+	'shared/helpers.js'
+], function(baseSites, base, shared, helpers) {
 	var driver = base.getDriver();
 
 	const TIMEOUT_ERROR = /Wait timed out after ([0-9]* ?)ms/;
@@ -25,23 +27,23 @@ define([
 		});
 
 		baseSites.forEach(function(site) {
-			describe(site.name, function() {
-				shared.shouldBehaveLikeAMusicSite(driver, site.label, site.matches, site.version || 1);
+			describe(site.label, function() {
+				shared.shouldBehaveLikeAMusicSite(driver, site.matches, site.version || 1);
 			});
 		});
 
 		/*
-    	// @depends: div.artwork
-    	describe("bop.fm", function() {
-    		before(function(done) {
-        		helpers.getAndWait(driver, "http://www.bop.fm");
-        		helpers.waitAndClick(driver, {css: "div.artwork"});
-        		done();
-        	});
+		// @depends: div.artwork
+		describe("bop.fm", function() {
+			before(function(done) {
+				helpers.getAndWait(driver, "http://www.bop.fm");
+				helpers.waitAndClick(driver, {css: "div.artwork"});
+				done();
+			});
 
-        	shared.shouldBehaveLikeAMusicSite(driver, false);
-        });
-        */
-    });
+			shared.shouldBehaveLikeAMusicSite(driver, false);
+		});
+		*/
+	});
 
 });
