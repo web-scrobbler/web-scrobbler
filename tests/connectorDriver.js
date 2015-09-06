@@ -2,8 +2,7 @@ require('node-define');
 var chromedriver = require('selenium-webdriver/chrome');
 
 global.expect = require('chai').expect;
-global.shared = require('./shared/musicsite.js');
-global.helpers = require('./shared/helpers.js');
+global.helpers = require('./helpers.js');
 global.test = require('selenium-webdriver/testing');
 
 var chromeOptions = new chromedriver.Options();

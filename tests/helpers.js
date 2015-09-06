@@ -150,7 +150,7 @@ var waitForLog = exports.waitForLog = function(driver, opts) {
 	var def = opts.promise || webdriver.promise.defer();
 	if(opts.count > WAIT_COUNT) return def.fulfill(false);
 
-	console.log("Waiting for log...", opts.count);
+	console.log("		Waiting for log...", opts.count);
 	driver.manage().logs().get("browser").then(function(log) {
 		if(helpers.parseLog(log, opts.action)) {
 			return def.fulfill(true);
@@ -187,10 +187,10 @@ exports.waitAndClick = function(driver, selector, timeout) {
 	timeout = timeout || WAIT_TIMEOUT;
 
 	driver.wait(function() {
-		console.log("Waiting on click...");
+		console.log("		Waiting on click...");
 		return (driver.isElementPresent(selector));
 	}, timeout).then(function() {
-		console.log("Waiting for click done");
+		console.log("		Waiting for click done");
 		return driver.findElement(selector).click();
 	});
 };
@@ -204,10 +204,10 @@ exports.promiseClick = function(driver, selector, timeout) {
 	timeout = timeout || WAIT_TIMEOUT;
 
 	driver.wait(function() {
-		console.log("Waiting on click...", selector);
+		console.log("		Waiting on click...", selector);
 		return (driver.isElementPresent(selector));
 	}, 10000).then(function() {
-		console.log("Waiting for click done");
+		console.log("		Waiting for click done");
 		driver.findElement(selector).click().then(function() {
 			def.fulfill(null);
 		});
@@ -261,21 +261,21 @@ var overrideAlerts = exports.overrideAlerts = function(driver) {
 */
 var alertCheck = exports.alertCheck = function(driver) {
 	var def = webdriver.promise.defer();
-	// console.log("Checking for alerts...");
+	console.log("Checking for alerts...");
 	driver.getAllWindowHandles().then(function(handles) {
 		driver.getWindowHandle().then(function(handle) {
 			if(handles.indexOf(handle) !== -1) {
-				// console.log("There is a window open...");
+				console.log("There is a window open...");
 				driver.switchTo().alert().then(function(alert) {
-					// console.log("Accept alert...");
+					console.log("Accept alert...");
 					alert.accept();
 					def.fulfill(null);
 				}, function(error) {
-					// console.log("No alert found, continue...");
+					console.log("No alert found, continue...");
 					def.fulfill(null);
 				});
 			} else {
-				// console.log("No open window found!");
+				console.log("No open window found!");
 				def.fulfill(null);
 			}
 		});
@@ -289,7 +289,7 @@ var alertCheck = exports.alertCheck = function(driver) {
 */
 var waitForLoad = exports.waitForLoad = function(driver) {
 	return driver.wait(function() {
-		console.log("Waiting for pageload...");
+		console.log("		Waiting for pageload...");
 		return driver.executeScript("return document.readyState;").then(function(res) {
 			return (res === "complete");
 		});

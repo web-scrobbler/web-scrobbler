@@ -1,7 +1,7 @@
 var webdriver = require('selenium-webdriver');
 var NUM_RETRY = 4;
 
-module.exports.shouldBehaveLikeAMusicSite = function(driver, url) {
+module.exports.shouldLoad = function(driver, url) {
 
 	describe('Music site behaviour', function() {
 
