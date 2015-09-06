@@ -18,13 +18,14 @@
     "grunt-lintspaces": "^0.5.1",
     "jshint": "~2.5.1",
     "jshint-stylish": "~0.2.0",
-    "requirejs": "~2.1.14",
     "chai": "~1.9.1",
     "mocha": "~1.21.4",
     "selenium-webdriver": "~2.43.5",
     "selenium-chromedriver": "git://github.com/berrberr/selenium-chromedriver.git",
     "mocha-retry": "~0.0.9",
-    "grunt-exec": "~0.4.6"
+    "grunt-exec": "~0.4.6",
+    "async": "~1.4.2",
+    "node-define": "~0.1.1"
   },
   "engines": {
     "node": ">=0.10.0"
