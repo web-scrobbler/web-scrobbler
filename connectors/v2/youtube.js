@@ -82,36 +82,58 @@ var timestampRegex = new RegExp(timestampPattern,'gi');
 // More to the point: the playlist only changes when the YT page does, so no point constantly scanning it.
 Connector.setThrottleInterval(3000);
 
+// The playlist does not change on its own, so cache it and invalidate only when video id changes.
+var playlistCache = {
+	hash: null,
+	value: null
+};
+
 Connector.getPlaylist = function () {
-	var playlist = [];
+	var videoID = Connector.getUniqueID();
 
-	var $containers = $('#eow-description, .comment-text-content');
-	var i = 0;
-	var found = false;
-
-	while($containers.get(i) && !found) {
-		var $container = $($containers.get(i));
-		var potentialPlaylist = null;
-
-		if(timestampRegex.test($container.html())) {
-			var potentialTracks = $container.html().split(/\r\n|\r|\n|<br>/g);
-			potentialPlaylist = buildPlaylist(potentialTracks);
-		}
-
-		if (typeof potentialPlaylist !== 'undefined' && potentialPlaylist !== null) {
-			playlist = potentialPlaylist;
-			found = true;
-		} else {
-			i++;
-		}
-	}
-
-	if(!found) {
-		console.info('No (valid) playlists found; this is a single-track media.');
-		return null;
+	if (playlistCache.hash == videoID) {
+		// Cache hit
+		console.info('This is a cached playlist.');
+		return playlistCache.value;
 	} else {
-		console.info('This is a playlist.', playlist);
-		return playlist;
+		// Invalid cache - rebuild playlist
+		var playlist = [];
+
+		var $containers = $('#eow-description, .comment-text-content');
+		var i = 0;
+		var found = false;
+
+		while($containers.get(i) && !found) {
+			var $container = $($containers.get(i));
+			var potentialPlaylist = null;
+
+			if(timestampRegex.test($container.html())) {
+				var potentialTracks = $container.html().split(/\r\n|\r|\n|<br>/g);
+				potentialPlaylist = buildPlaylist(potentialTracks);
+			}
+
+			if (typeof potentialPlaylist !== 'undefined' && potentialPlaylist !== null) {
+				playlist = potentialPlaylist;
+				found = true;
+			} else {
+				i++;
+			}
+		}
+
+		if(!found) {
+			console.info('No (valid) playlists found; this is a single-track media.');
+			return null;
+		} else {
+			console.info('This is a playlist.', playlist);
+
+			// Cache the generated playlist
+			playlistCache = {
+				hash: videoID,
+				value: playlist
+			};
+
+			return playlist;
+		}
 	}
 };
 
