@@ -47,11 +47,11 @@ var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle,
 	opts.count = opts.count || 0;
 	opts.tries = opts.tries;
 
-	console.log("Listening for "+needle+" - " + opts.count+"/"+opts.tries);
+	console.log("		Listening for "+needle+" - " + opts.count+"/"+opts.tries);
 
 	if(opts.count == opts.tries) return def.reject("Extension message "+needle+" wait timeout!");
 
-	var injection = 'if (window.webScrobblerLastAction && window.webScrobblerLastAction.detail && window.webScrobblerLastAction().detail.detail === "'+needle+'") {\
+	var injection = 'if (window.webScrobblerLastAction && window.webScrobblerLastAction().detail.detail === "'+needle+'") {\
 		return window.webScrobblerLastAction().detail;\
 	}';
 
@@ -101,7 +101,7 @@ var parseLog = exports.parseLog = function(log, action) {
 * @return {Promise}
 */
 var waitForExtensionLoad = exports.waitForExtensionLoad = function(driver, opts) {
-	console.log("waitForExtensionLoad called..." + opts.count);
+	console.log("		waitForExtensionLoad called..." + opts.count);
 	var def = opts.promise || webdriver.promise.defer();
 	opts.count = opts.count || 0;
 
@@ -114,7 +114,7 @@ var waitForExtensionLoad = exports.waitForExtensionLoad = function(driver, opts)
 	.then(function() {
 		// console.log("DISPATCH SENT");
 		driver.executeScript(function() {
-			return (window.webScrobblerLastAction && window.webScrobblerLastAction.detail && window.webScrobblerLastAction().detail.detail === "loaded");
+			return (window.webScrobblerLastAction && window.webScrobblerLastAction().detail.detail === "loaded");
 		}).then(function(res) {
 			// console.log("Load result: ", res);
 			if(res) return def.fulfill(true);
@@ -267,7 +267,7 @@ exports.getAndWait = function(driver, url) {
 	// console.log("Override alerts/unloads");
 	driver.getWindowHandle().then(function(handle) {
 		// console.log("Window handle: ", handle);
-		// console.log("Getting: ", url);
+		console.log("Getting: ", url);
 		driver.get(url).then(function() {
 			// console.log("Got URL, checking alerts");
 			alertCheck(driver).then(function() {
@@ -331,12 +331,9 @@ var alertCheck = exports.alertCheck = function(driver) {
 */
 var waitForLoad = exports.waitForLoad = function(driver) {
 	return driver.wait(function() {
-		// console.log("		Waiting for pageload...");
-		return driver.executeScript("return {readyState: document.readyState == \"complete\", isAvailable: document.title.indexOf(\"is not available\") === -1};")
-		.then(function(res) {
-			if(res.isAvailable && res.readyState) {
-				return "Page loaded";
-			}
+		console.log("		Waiting for pageload...");
+		return driver.executeScript("return document.readyState === \"complete\" && document.title.indexOf(\"is not available\") === -1;").then(function(res) {
+			return res;
 		});
 	}, WAIT_TIMEOUT);
 };

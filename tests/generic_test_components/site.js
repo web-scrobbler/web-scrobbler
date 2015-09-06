@@ -26,18 +26,18 @@ module.exports.shouldLoad = function(driver, url, done) {
 					helpers.injectTestCapture(driver).then(function() {
 						helpers.waitForExtensionLoad(driver, {count: 0})
 						.then(function(result) {
-							console.log('Extension loaded!');
+							console.warn('Extension loaded!');
 							//expect(result).to.be.true;
 							if(!result) return done(new Error('Extension load error!'));
 							// cb();
 							done();
 						}, function(err) {
-							console.log('Extension error: ', err);
-							return done(new Error(err));
+							console.warn('Extension error: ', err);
+							return done(err);
 						});
 					});
 				}, function(err) {
-					console.log('Driver Timeout!', err);
+					console.warn('Driver Timeout!', err);
 					return done(err);
 				});
 			});

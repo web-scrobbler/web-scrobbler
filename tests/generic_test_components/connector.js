@@ -6,7 +6,6 @@ module.exports.shouldRecogniseATrack = function(driver, cb) {
 	it(NUM_RETRY, 'should recognise a playing song', function(done) {
 
 		helpers.listenFor(driver, "connector_state_changed", function(res) {
-			console.log(res,"Found track data, and sent it to core :)");
 			done();
 			cb();
 		}, function(res) {

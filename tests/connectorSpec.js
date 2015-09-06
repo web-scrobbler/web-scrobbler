@@ -22,10 +22,10 @@ describe('Web-Scrobbler Extension', function() {
 	});
 
 	// loopThroughConnectors();
-
-	describe('Website', function() {
+	var url = 'http://8tracks.com/action_hank/make-it-fun-kay';
+	describe('Website: '+url, function() {
 		before('should load', function(done) {
-			siteSpec.shouldLoad(driver, 'http://8tracks.com/action_hank/make-it-fun-kay', done);
+			siteSpec.shouldLoad(driver, url, done);
 			// siteSpec.shouldLoad(driver, 'http://8tracks.comadhank/make-it-fun-kay', done);
 		});
 		it('should actually load', function(done) { done(); })
@@ -40,8 +40,8 @@ describe('Web-Scrobbler Extension', function() {
 		});
 
 		after(function() {
-			// driver.quit();
-		})
+			driver.quit();
+		});
 	});
 
 });
