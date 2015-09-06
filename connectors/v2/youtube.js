@@ -40,16 +40,16 @@ Connector.isPlaying = function() {
 };
 
 Connector.getArtistTrack = function () {
-	var text = $(Connector.artistTrackSelector).text();
+	var text = $.trim($(Connector.artistTrackSelector).text());
+
 	var separator = Connector.findSeparator(text);
 
-	var artist = null;
-	var track = null;
-
-	if (separator !== null) {
-		artist = text.substr(0, separator.index);
-		track = text.substr(separator.index + separator.length);
+	if (separator === null || text.length === 0) {
+		return {artist: null, track: null};
 	}
+
+	var artist =  text.substr(0, separator.index);
+	var track = text.substr(separator.index + separator.length);
 
 	/**
 	* Clean non-informative garbage from title
