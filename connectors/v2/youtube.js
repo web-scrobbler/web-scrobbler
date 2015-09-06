@@ -14,11 +14,28 @@ chrome.storage.local.get('Connectors', function(data) {
 	}
 });
 
-Connector.playerSelector = '#player-api';
+/* State update hooks setup */
+
+// Turns out that idling youtube pages update nothing but the video element.
+var video = $('video').first();
+if (video.length !== 0) {
+	console.log('Found HTML5 video, hooking state change worker to it.');
+	video.bind('playing pause timeupdate', Connector.onStateChanged);
+} else {
+	// Video element not found (no HTML5?), resort to using old selectors
+	Connector.playerSelector = '#player-api';
+	console.info('HTML5 video element not found, is it disabled? Using an old hooker instead.');
+}
+
+Connector.getCurrentTime = function () {
+	if (video) {
+		return video[0].currentTime;
+	}
+	var textSeconds = $('#player-api .ytp-time-current').text();
+	return Connector.stringToSeconds(textSeconds) || null;
+};
 
 Connector.artistTrackSelector = '#eow-title';
-
-Connector.currentTimeSelector = '#player-api .ytp-time-current';
 
 Connector.durationSelector = '#player-api .ytp-time-duration';
 
@@ -29,6 +46,7 @@ Connector.getUniqueID = function() {
 	if (match && match[7].length==11){
 		return match[7];
 	}
+	return null;
 };
 
 Connector.isPlaying = function() {
@@ -64,36 +82,58 @@ var timestampRegex = new RegExp(timestampPattern,'gi');
 // More to the point: the playlist only changes when the YT page does, so no point constantly scanning it.
 Connector.setThrottleInterval(3000);
 
+// The playlist does not change on its own, so cache it and invalidate only when video id changes.
+var playlistCache = {
+	hash: null,
+	value: null
+};
+
 Connector.getPlaylist = function () {
-	var playlist = [];
+	var videoID = Connector.getUniqueID();
 
-	var $containers = $('#eow-description, .comment-text-content');
-	var i = 0;
-	var found = false;
-
-	while($containers.get(i) && !found) {
-		var $container = $($containers.get(i));
-		var potentialPlaylist = null;
-
-		if(timestampRegex.test($container.html())) {
-			var potentialTracks = $container.html().split(/\r\n|\r|\n|<br>/g);
-			potentialPlaylist = buildPlaylist(potentialTracks);
-		}
-
-		if (typeof potentialPlaylist !== 'undefined' && potentialPlaylist !== null) {
-			playlist = potentialPlaylist;
-			found = true;
-		} else {
-			i++;
-		}
-	}
-
-	if(!found) {
-		console.info('No (valid) playlists found; this is a single-track media.');
-		return null;
+	if (playlistCache.hash == videoID) {
+		// Cache hit
+		console.info('This is a cached playlist.');
+		return playlistCache.value;
 	} else {
-		console.info('This is a playlist.', playlist);
-		return playlist;
+		// Invalid cache - rebuild playlist
+		var playlist = [];
+
+		var $containers = $('#eow-description, .comment-text-content');
+		var i = 0;
+		var found = false;
+
+		while($containers.get(i) && !found) {
+			var $container = $($containers.get(i));
+			var potentialPlaylist = null;
+
+			if(timestampRegex.test($container.html())) {
+				var potentialTracks = $container.html().split(/\r\n|\r|\n|<br>/g);
+				potentialPlaylist = buildPlaylist(potentialTracks);
+			}
+
+			if (typeof potentialPlaylist !== 'undefined' && potentialPlaylist !== null) {
+				playlist = potentialPlaylist;
+				found = true;
+			} else {
+				i++;
+			}
+		}
+
+		if(!found) {
+			console.info('No (valid) playlists found; this is a single-track media.');
+			return null;
+		} else {
+			console.info('This is a playlist.', playlist);
+
+			// Cache the generated playlist
+			playlistCache = {
+				hash: videoID,
+				value: playlist
+			};
+
+			return playlist;
+		}
 	}
 };
 
