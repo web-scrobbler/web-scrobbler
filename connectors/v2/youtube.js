@@ -14,11 +14,13 @@ chrome.storage.local.get('Connectors', function(data) {
 	}
 });
 
-Connector.playerSelector = '#player-api';
+$('video').first().bind('playing pause timeupdate', Connector.onStateChanged);
+
+Connector.getCurrentTime = function () {
+	return $('video')[0].currentTime || null;
+};
 
 Connector.artistTrackSelector = '#eow-title';
-
-Connector.currentTimeSelector = '#player-api .ytp-time-current';
 
 Connector.durationSelector = '#player-api .ytp-time-duration';
 
@@ -29,6 +31,7 @@ Connector.getUniqueID = function() {
 	if (match && match[7].length==11){
 		return match[7];
 	}
+	return null;
 };
 
 Connector.isPlaying = function() {
