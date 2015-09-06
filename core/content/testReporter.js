@@ -1,4 +1,6 @@
-"use strict";
+'use strict';
+
+/* exported testReporter */
 
 /**
  * Log messages to console with prepended message. Also dispatches a JS event
@@ -8,14 +10,14 @@
  * @param [err] {Boolean} TRUE if the message is an error
 */
 var testReporter = function(msg, obj, err) {
-    if(msg) {
-		obj = obj || "";
+	if(msg) {
+		obj = obj || '';
 		if(err) {
-			console.error("WEB-SCROBBLER-ERROR: " + msg, obj);
-			msg = "ERROR: " + msg;
+			console.error('WEB-SCROBBLER-ERROR: ' + msg, obj);
+			msg = 'ERROR: ' + msg;
 		} else {
-			console.log("WEB-SCROBBLER-INFO: " + msg, obj);
+			console.log('WEB-SCROBBLER-INFO: ' + msg, obj);
 		}
-		document.dispatchEvent(new CustomEvent("web-scrobbler-test-response", {detail: {detail: msg, data: obj}}));
+		document.dispatchEvent(new CustomEvent('web-scrobbler-test-response', {detail: {detail: msg, data: obj}}));
 	}
 };

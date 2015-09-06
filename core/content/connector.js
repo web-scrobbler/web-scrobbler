@@ -1,5 +1,5 @@
 'use strict';
-/* globals _ */
+/* globals _, testReporter */
 /* exported Connector */
 
 /**
@@ -343,7 +343,7 @@ var BaseConnector = window.BaseConnector || function () {
 					typeof currentState.track !== 'undefined' && currentState.track !== null
 				) || typeof currentState.artistTrack !== 'undefined' && currentState.artistTrack !== null
 				) {
-					testReporter("connector_state_changed", currentState);
+					testReporter('connector_state_changed', currentState);
 				}
 			}
 

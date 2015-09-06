@@ -1,9 +1,9 @@
-var path = require("path"),
-fs = require("fs"),
-webdriver = require("selenium-webdriver");
+var path = require('path'),
+fs = require('fs'),
+webdriver = require('selenium-webdriver');
 
-const SKINFO = "STREAMKEYS-INFO: ";
-const SKERR = "STREAMKEYS-ERROR: ";
+const SKINFO = 'STREAMKEYS-INFO: ';
+const SKERR = 'STREAMKEYS-ERROR: ';
 const WAIT_TIMEOUT = 10000;
 const WAIT_COUNT = 10;
 const PLAYER_WAIT_COUNT = 4;
@@ -24,7 +24,7 @@ exports.getPath = function(base, filePath) {
 * @return {String} the js as a string
 */
 var eventScript = exports.eventScript = function(action) {
-	return "document.dispatchEvent(new CustomEvent('web-scrobbler-test', {detail: '" + action + "'}));";
+	return 'document.dispatchEvent(new CustomEvent('web-scrobbler-test', {detail: \'' + action + '\'}));';
 };
 
 /**
@@ -32,9 +32,9 @@ var eventScript = exports.eventScript = function(action) {
 */
 var injectTestCapture = exports.injectTestCapture = function(driver) {
 	return driver.executeScript(function() {
-		console.log("Listening for web-scrobbler-test-response");
+		console.log('Listening for web-scrobbler-test-response');
 		window.webScrobblerActionStack = window.webScrobblerActionStack || [];
-		document.addEventListener("web-scrobbler-test-response", function(e) {
+		document.addEventListener('web-scrobbler-test-response', function(e) {
 			window.webScrobblerActionStack.push(e);
 		});
 
@@ -47,23 +47,23 @@ var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle,
 	opts.count = opts.count || 0;
 	opts.tries = opts.tries;
 
-	console.log("		Listening for "+needle+" - " + opts.count+"/"+opts.tries);
+	console.log('		Listening for '+needle+' - ' + opts.count+'/'+opts.tries);
 
-	if(opts.count == opts.tries) return def.reject(new Error("Extension message "+needle+" wait timeout!"));
+	if(opts.count == opts.tries) return def.reject(new Error('Extension message '+needle+' wait timeout!'));
 
-	var injection = 'if (window.webScrobblerLastAction && window.webScrobblerLastAction().detail.detail === "'+needle+'") {\
+	var injection = 'if (window.webScrobblerLastAction && window.webScrobblerLastAction().detail.detail === ''+needle+'') {\
 		return window.webScrobblerLastAction().detail;\
 	}';
 
 	driver.sleep(500);
 	driver.executeScript(new Function(injection)).then(function(res) {
 		if(typeof res === 'undefined' || res === null) {
-			// /*#*/ console.log("Bad result:", res);
+			// /*#*/ console.log('Bad result:', res);
 			opts.count++;
 			return waitForExtensionMsg(driver, needle, opts, def);
 		}
 
-		console.log("		Good result: ");
+		console.log('		Good result: ');
 		console.log(res.data);
 		return def.fulfill(res);
 	});
@@ -92,7 +92,7 @@ var listenFor = exports.listenFor = function(driver, needle, cb, failCb, tries) 
 var parseLog = exports.parseLog = function(log, action) {
 	console.log(log);
 	return log.some(function(entry) {
-		var actionFound = (entry.message.indexOf(SKINFO + action) !== -1 || entry.message.indexOf(SKINFO + "disabled") !== -1);
+		var actionFound = (entry.message.indexOf(SKINFO + action) !== -1 || entry.message.indexOf(SKINFO + 'disabled') !== -1);
 		var errorFound = (entry.message.indexOf(SKERR) !== -1);
 		if(actionFound || errorFound) console.log(entry.message);
 		return actionFound;
@@ -104,22 +104,22 @@ var parseLog = exports.parseLog = function(log, action) {
 * @return {Promise}
 */
 var waitForExtensionLoad = exports.waitForExtensionLoad = function(driver, opts) {
-	// /*#*/ console.log("		waitForExtensionLoad called..." + opts.count);
+	// /*#*/ console.log('		waitForExtensionLoad called...' + opts.count);
 	var def = opts.promise || webdriver.promise.defer();
 	opts.count = opts.count || 0;
 
-	if(opts.count > 300) return def.reject("Extension load timeout!");
+	if(opts.count > 300) return def.reject('Extension load timeout!');
 
 	driver.executeScript(function() {
-		// console.log("Dispatched test load event");
-		document.dispatchEvent(new CustomEvent("web-scrobbler-test-loaded"));
+		// console.log('Dispatched test load event');
+		document.dispatchEvent(new CustomEvent('web-scrobbler-test-loaded'));
 	})
 	.then(function() {
-		// console.log("DISPATCH SENT");
+		// console.log('DISPATCH SENT');
 		driver.executeScript(function() {
-			return (window.webScrobblerLastAction && window.webScrobblerLastAction().detail.detail === "loaded");
+			return (window.webScrobblerLastAction && window.webScrobblerLastAction().detail.detail === 'loaded');
 		}).then(function(res) {
-			// console.log("Load result: ", res);
+			// console.log('Load result: ', res);
 			if(res) return def.fulfill(true);
 			else return waitForExtensionLoad(driver, {promise: def, count: (opts.count + 1)});
 		});
@@ -137,22 +137,22 @@ var waitForAction = exports.waitForAction = function(driver, opts) {
 	var def = opts.promise || webdriver.promise.defer();
 	opts.count = opts.count || 0;
 
-	if(opts.count > WAIT_COUNT) return def.reject("No response for action: " + opts.action);
+	if(opts.count > WAIT_COUNT) return def.reject('No response for action: ' + opts.action);
 
 	driver.executeScript(function() {
 		var lastAction = window.webScrobblerLastAction(),
 		action = arguments[arguments.length - 1];
 
-		if(typeof lastAction === "undefined") return false;
-		if(lastAction === action || lastAction.indexOf("disabled") !== -1)
-		return "success";
-		else if(lastAction.indexOf("FAILURE") !== -1)
-		return "fail";
+		if(typeof lastAction === 'undefined') return false;
+		if(lastAction === action || lastAction.indexOf('disabled') !== -1)
+		return 'success';
+		else if(lastAction.indexOf('FAILURE') !== -1)
+		return 'fail';
 	}, opts.action).then(function(res) {
-		console.log("Last action: " + opts.action + " - " + res);
+		console.log('Last action: ' + opts.action + ' - ' + res);
 
-		if(res === "success") return def.fulfill(true);
-		else if(res === "fail") return def.fulfill(false);
+		if(res === 'success') return def.fulfill(true);
+		else if(res === 'fail') return def.fulfill(false);
 		else return waitForAction(driver, {promise: def, action: opts.action, count: (opts.count + 1)});
 	});
 
@@ -195,8 +195,8 @@ var waitForLog = exports.waitForLog = function(driver, opts) {
 	var def = opts.promise || webdriver.promise.defer();
 	if(opts.count > WAIT_COUNT) return def.fulfill(false);
 
-	console.log("		Waiting for log...", opts.count);
-	driver.manage().logs().get("browser").then(function(log) {
+	console.log('		Waiting for log...', opts.count);
+	driver.manage().logs().get('browser').then(function(log) {
 		if(helpers.parseLog(log, opts.action)) {
 			return def.fulfill(true);
 		} else {
@@ -232,10 +232,10 @@ exports.waitAndClick = function(driver, selector, timeout) {
 	timeout = timeout || WAIT_TIMEOUT;
 
 	driver.wait(function() {
-		// console.log("		Waiting on click...");
+		// console.log('		Waiting on click...');
 		return (driver.isElementPresent(selector));
 	}, timeout).then(function() {
-		// console.log("		Waiting for click done");
+		// console.log('		Waiting for click done');
 		return driver.findElement(selector).click();
 	});
 };
@@ -249,10 +249,10 @@ exports.promiseClick = function(driver, selector, timeout) {
 	timeout = timeout || WAIT_TIMEOUT;
 
 	driver.wait(function() {
-		// console.log("		Waiting on click...", selector);
+		// console.log('		Waiting on click...', selector);
 		return (driver.isElementPresent(selector));
 	}, 10000).then(function() {
-		// console.log("		Waiting for click done");
+		// console.log('		Waiting for click done');
 		driver.findElement(selector).click().then(function() {
 			def.fulfill(null);
 		});
@@ -267,17 +267,17 @@ exports.promiseClick = function(driver, selector, timeout) {
 */
 exports.getAndWait = function(driver, url) {
 	var def = webdriver.promise.defer();
-	// console.log("Override alerts/unloads");
+	// console.log('Override alerts/unloads');
 	driver.getWindowHandle().then(function(handle) {
-		// console.log("Window handle: ", handle);
-		// /*#*/ console.log("Getting: ", url);
+		// console.log('Window handle: ', handle);
+		// /*#*/ console.log('Getting: ', url);
 		driver.get(url).then(function() {
-			// console.log("Got URL, checking alerts");
+			// console.log('Got URL, checking alerts');
 			alertCheck(driver).then(function() {
-				// console.log("Alert check complete!");
+				// console.log('Alert check complete!');
 				waitForLoad(driver)
 				.then(function() {
-					// console.log("Load complete!");
+					// console.log('Load complete!');
 					def.fulfill(null);
 				})
 				.thenCatch(function(err) {
@@ -297,7 +297,7 @@ exports.getAndWait = function(driver, url) {
 * @return {Promise}
 */
 var overrideAlerts = exports.overrideAlerts = function(driver) {
-	return driver.executeScript("window.onunload=null;window.onbeforeunload=null;window.alert=null;window.confirm=null;");
+	return driver.executeScript('window.onunload=null;window.onbeforeunload=null;window.alert=null;window.confirm=null;');
 };
 
 /**
@@ -306,21 +306,21 @@ var overrideAlerts = exports.overrideAlerts = function(driver) {
 */
 var alertCheck = exports.alertCheck = function(driver) {
 	var def = webdriver.promise.defer();
-	// console.log("Checking for alerts...");
+	// console.log('Checking for alerts...');
 	driver.getAllWindowHandles().then(function(handles) {
 		driver.getWindowHandle().then(function(handle) {
 			if(handles.indexOf(handle) !== -1) {
-				// console.log("There is a window open...");
+				// console.log('There is a window open...');
 				driver.switchTo().alert().then(function(alert) {
-					// console.log("Accept alert...");
+					// console.log('Accept alert...');
 					alert.accept();
 					def.fulfill(null);
 				}, function(error) {
-					// console.log("No alert found, continue...");
+					// console.log('No alert found, continue...');
 					def.fulfill(null);
 				});
 			} else {
-				// console.log("No open window found!");
+				// console.log('No open window found!');
 				def.fulfill(null);
 			}
 		});
@@ -334,8 +334,8 @@ var alertCheck = exports.alertCheck = function(driver) {
 */
 var waitForLoad = exports.waitForLoad = function(driver) {
 	return driver.wait(function() {
-		// /*#*/ console.log("		Waiting for pageload...");
-		return driver.executeScript("return document.readyState === \"complete\" && document.title.indexOf(\"is not available\") === -1;").then(function(res) {
+		// /*#*/ console.log('		Waiting for pageload...');
+		return driver.executeScript('return document.readyState === \'complete\' && document.title.indexOf(\'is not available\') === -1;').then(function(res) {
 			return res;
 		});
 	}, WAIT_TIMEOUT);
