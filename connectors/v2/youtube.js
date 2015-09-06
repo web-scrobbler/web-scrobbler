@@ -14,10 +14,25 @@ chrome.storage.local.get('Connectors', function(data) {
 	}
 });
 
-$('video').first().bind('playing pause timeupdate', Connector.onStateChanged);
+/* State update hooks setup */
+
+// Turns out that idling youtube pages update nothing but the video element.
+var video = $('video').first();
+if (video.length !== 0) {
+	console.log('Found HTML5 video, hooking state change worker to it.');
+	video.bind('playing pause timeupdate', Connector.onStateChanged);
+} else {
+	// Video element not found (no HTML5?), resort to using old selectors
+	Connector.playerSelector = '#player-api';
+	console.info('HTML5 video element not found, is it disabled? Using an old hooker instead.');
+}
 
 Connector.getCurrentTime = function () {
-	return $('video')[0].currentTime || null;
+	if (video) {
+		return video[0].currentTime;
+	}
+	var textSeconds = $('#player-api .ytp-time-current').text();
+	return Connector.stringToSeconds(textSeconds) || null;
 };
 
 Connector.artistTrackSelector = '#eow-title';
