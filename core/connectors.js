@@ -549,6 +549,13 @@ define(function() {
 		},
 
 		{
+			label: 'FarFromMoscow',
+			matches: ['*://www.farfrommoscow.com/*'],
+			js: ['connectors/v2/farfrommoscow.js'],
+			version: 2
+		},
+
+		{
 			label: 'Musicload',
 			matches: ['*://www.musicload.de/*'],
 			js: ['connectors/v2/musicload.js'],
