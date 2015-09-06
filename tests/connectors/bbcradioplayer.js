@@ -7,7 +7,7 @@ module.exports = function(driver, connector, next) {
 	it('should actually load', function(done) { done(); })
 
 	describe('Loaded website', function() {
-		connectorSpec.shouldRecogniseATrack(driver, 120);
+		connectorSpec.shouldRecogniseATrack(driver, 120, true);
 	});
 
 	after(function() { next(); });

@@ -24,7 +24,7 @@ exports.getPath = function(base, filePath) {
 * @return {String} the js as a string
 */
 var eventScript = exports.eventScript = function(action) {
-	return 'document.dispatchEvent(new CustomEvent('web-scrobbler-test', {detail: \'' + action + '\'}));';
+	return 'document.dispatchEvent(new CustomEvent(\'web-scrobbler-test\', {detail: \'' + action + '\'}));';
 };
 
 /**
@@ -51,7 +51,7 @@ var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle,
 
 	if(opts.count == opts.tries) return def.reject(new Error('Extension message '+needle+' wait timeout!'));
 
-	var injection = 'if (window.webScrobblerLastAction && window.webScrobblerLastAction().detail.detail === ''+needle+'') {\
+	var injection = 'if (window.webScrobblerLastAction && window.webScrobblerLastAction().detail.detail === \''+needle+'\') {\
 		return window.webScrobblerLastAction().detail;\
 	}';
 
@@ -75,11 +75,9 @@ var listenFor = exports.listenFor = function(driver, needle, cb, failCb, tries) 
 	injectTestCapture(driver).then(function() {
 		helpers.waitForExtensionMsg(driver, needle, {tries: tries || 30})
 			.then(function(result) {
-				console.log(result);
 				if(!result) return cb(new Error('Null response'));
 				return cb(true);
 			}, function(err) {
-				console.log(err);
 				return failCb(new Error('Invalid response'));
 			});
 	});
