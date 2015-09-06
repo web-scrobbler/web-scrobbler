@@ -43,13 +43,13 @@ var injectTestCapture = exports.injectTestCapture = function(driver) {
 };
 
 var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle, opts, promise) {
-	var def = opts.promise || webdriver.promise.defer();
+	var def = promise || webdriver.promise.defer();
 	opts.count = opts.count || 0;
 	opts.tries = opts.tries;
 
 	console.log("		Listening for "+needle+" - " + opts.count+"/"+opts.tries);
 
-	if(opts.count == opts.tries) return def.reject("Extension message "+needle+" wait timeout!");
+	if(opts.count == opts.tries) return def.reject(new Error("Extension message "+needle+" wait timeout!"));
 
 	var injection = 'if (window.webScrobblerLastAction && window.webScrobblerLastAction().detail.detail === "'+needle+'") {\
 		return window.webScrobblerLastAction().detail;\
@@ -58,12 +58,13 @@ var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle,
 	driver.sleep(500);
 	driver.executeScript(new Function(injection)).then(function(res) {
 		if(typeof res === 'undefined' || res === null) {
-			console.log("Bad result:", res);
+			// /*#*/ console.log("Bad result:", res);
 			opts.count++;
 			return waitForExtensionMsg(driver, needle, opts, def);
 		}
 
-		console.log("Good result: ", res.data);
+		console.log("		Good result: ");
+		console.log(res.data);
 		return def.fulfill(res);
 	});
 
@@ -73,12 +74,14 @@ var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle,
 var listenFor = exports.listenFor = function(driver, needle, cb, failCb, tries) {
 	injectTestCapture(driver).then(function() {
 		helpers.waitForExtensionMsg(driver, needle, {tries: tries || 30})
-		.then(function(result) {
-			if(!result) return cb(false);
-			cb(true);
-		}, function(err) {
-			return failCb(false);
-		});
+			.then(function(result) {
+				console.log(result);
+				if(!result) return cb(new Error('Null response'));
+				return cb(true);
+			}, function(err) {
+				console.log(err);
+				return failCb(new Error('Invalid response'));
+			});
 	});
 };
 
@@ -101,7 +104,7 @@ var parseLog = exports.parseLog = function(log, action) {
 * @return {Promise}
 */
 var waitForExtensionLoad = exports.waitForExtensionLoad = function(driver, opts) {
-	console.log("		waitForExtensionLoad called..." + opts.count);
+	// /*#*/ console.log("		waitForExtensionLoad called..." + opts.count);
 	var def = opts.promise || webdriver.promise.defer();
 	opts.count = opts.count || 0;
 
@@ -229,10 +232,10 @@ exports.waitAndClick = function(driver, selector, timeout) {
 	timeout = timeout || WAIT_TIMEOUT;
 
 	driver.wait(function() {
-		console.log("		Waiting on click...");
+		// console.log("		Waiting on click...");
 		return (driver.isElementPresent(selector));
 	}, timeout).then(function() {
-		console.log("		Waiting for click done");
+		// console.log("		Waiting for click done");
 		return driver.findElement(selector).click();
 	});
 };
@@ -246,10 +249,10 @@ exports.promiseClick = function(driver, selector, timeout) {
 	timeout = timeout || WAIT_TIMEOUT;
 
 	driver.wait(function() {
-		console.log("		Waiting on click...", selector);
+		// console.log("		Waiting on click...", selector);
 		return (driver.isElementPresent(selector));
 	}, 10000).then(function() {
-		console.log("		Waiting for click done");
+		// console.log("		Waiting for click done");
 		driver.findElement(selector).click().then(function() {
 			def.fulfill(null);
 		});
@@ -267,7 +270,7 @@ exports.getAndWait = function(driver, url) {
 	// console.log("Override alerts/unloads");
 	driver.getWindowHandle().then(function(handle) {
 		// console.log("Window handle: ", handle);
-		console.log("Getting: ", url);
+		// /*#*/ console.log("Getting: ", url);
 		driver.get(url).then(function() {
 			// console.log("Got URL, checking alerts");
 			alertCheck(driver).then(function() {
@@ -331,7 +334,7 @@ var alertCheck = exports.alertCheck = function(driver) {
 */
 var waitForLoad = exports.waitForLoad = function(driver) {
 	return driver.wait(function() {
-		console.log("		Waiting for pageload...");
+		// /*#*/ console.log("		Waiting for pageload...");
 		return driver.executeScript("return document.readyState === \"complete\" && document.title.indexOf(\"is not available\") === -1;").then(function(res) {
 			return res;
 		});

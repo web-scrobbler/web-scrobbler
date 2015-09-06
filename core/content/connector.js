@@ -332,9 +332,19 @@ var BaseConnector = window.BaseConnector || function () {
 			}
 
 			// take action if needed
-			if (changedFields.length > 0 && this.reactorCallback !== null) {
-				this.reactorCallback(currentState, changedFields);
-				testReporter("connector_state_changed", currentState);
+			if (changedFields.length > 0) {
+				if(this.reactorCallback !== null) {
+					this.reactorCallback(currentState, changedFields);
+				}
+
+				// Report for scrobble testing
+				if( (
+					typeof currentState.artist !== 'undefined' && currentState.artist !== null &&
+					typeof currentState.track !== 'undefined' && currentState.track !== null
+				) || typeof currentState.artistTrack !== 'undefined' && currentState.artistTrack !== null
+				) {
+					testReporter("connector_state_changed", currentState);
+				}
 			}
 
 		}.bind(this);

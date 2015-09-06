@@ -1,19 +1,15 @@
 var webdriver = require('selenium-webdriver');
-var NUM_RETRY = 4;
 
-module.exports.shouldRecogniseATrack = function(driver, cb) {
+module.exports.shouldRecogniseATrack = function(driver, timeout, optional) {
 
-	it(NUM_RETRY, 'should recognise a playing song', function(done) {
+	it('should recognise a playing song', !optional ? function(done) {
 
 		helpers.listenFor(driver, "connector_state_changed", function(res) {
-			done();
-			cb();
+			return done();
 		}, function(res) {
-			console.log(res,"FAIL")
-			done(new Error("Connector did not send any track data to core :("));
-			cb();
-		}, 50);
+			return done(new Error("Connector did not send any track data to core :("));
+		}, timeout || 50);
 
-    });
+    } : null);
 
 };
