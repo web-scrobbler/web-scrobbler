@@ -50,6 +50,10 @@
 				characterData: true
 			};
 			observer.observe(observeTarget, config);
+
+			document.addEventListener("web-scrobbler-test-loaded", function() {
+		      	testReporter("loaded");
+		    });
 		}
 		// Some pages (looking at you Google Music!) may do some crazy navigation API tricks before loading the final page,
 		// in which case we won't usually find the player. Instead of letting the observer to fire an error we just

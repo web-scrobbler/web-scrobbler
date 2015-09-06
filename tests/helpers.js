@@ -24,7 +24,7 @@ exports.getPath = function(base, filePath) {
 * @return {String} the js as a string
 */
 var eventScript = exports.eventScript = function(action) {
-	return "document.dispatchEvent(new CustomEvent('streamkeys-test', {detail: '" + action + "'}));";
+	return "document.dispatchEvent(new CustomEvent('web-scrobbler-test', {detail: '" + action + "'}));";
 };
 
 /**
@@ -32,12 +32,13 @@ var eventScript = exports.eventScript = function(action) {
 */
 var injectTestCapture = exports.injectTestCapture = function(driver) {
 	return driver.executeScript(function() {
-		window.sk_actionStack = window.sk_actionStack || [];
-		document.addEventListener("streamkeys-test-response", function(e) {
-			window.sk_actionStack.push(e.detail);
+		console.log("Listening for web-scrobbler-test-response: loaded");
+		window.webScrobblerActionStack = window.webScrobblerActionStack || [];
+		document.addEventListener("web-scrobbler-test-response", function(e) {
+			window.webScrobblerActionStack.push(e.detail);
 		});
 
-		window.sk_getLastAction = function() { return window.sk_actionStack[window.sk_actionStack.length - 1]; }
+		window.webScrobblerLastAction = function() { return window.webScrobblerActionStack[window.webScrobblerActionStack.length - 1]; }
 	});
 };
 
@@ -64,15 +65,16 @@ var waitForExtensionLoad = exports.waitForExtensionLoad = function(driver, opts)
 	var def = opts.promise || webdriver.promise.defer();
 	opts.count = opts.count || 0;
 
-	if(opts.count > 30) return def.reject("Extension load timeout!");
+	if(opts.count > 300) return def.reject("Extension load timeout!");
 
 	driver.executeScript(function() {
-		document.dispatchEvent(new CustomEvent("streamkeys-test-loaded"));
+		console.log("Dispatched test load event");
+		document.dispatchEvent(new CustomEvent("web-scrobbler-test-loaded"));
 	})
 	.then(function() {
 		console.log("DISPATCH SENT");
 		driver.executeScript(function() {
-			return (window.sk_getLastAction && window.sk_getLastAction() === "loaded");
+			return (window.webScrobblerLastAction && window.webScrobblerLastAction() === "loaded");
 		}).then(function(res) {
 			console.log("Load result: ", res);
 			if(res) return def.fulfill(true);
@@ -95,7 +97,7 @@ var waitForAction = exports.waitForAction = function(driver, opts) {
 	if(opts.count > WAIT_COUNT) return def.reject("No response for action: " + opts.action);
 
 	driver.executeScript(function() {
-		var lastAction = window.sk_getLastAction(),
+		var lastAction = window.webScrobblerLastAction(),
 		action = arguments[arguments.length - 1];
 
 		if(typeof lastAction === "undefined") return false;
