@@ -2,9 +2,8 @@
 
 /* globals __filename, process */
 
-require('selenium-chromedriver');
+global.helpers = global.thisPage = require('./helpers/helpers.js');
 var Mocha = require('mocha');
-var getPath = require('./helpers.js').getPath;
 
 // To run specific tests add to Mocha object: grep: /{PATTERN}/
 var mocha = new Mocha({
@@ -14,7 +13,7 @@ var mocha = new Mocha({
 	// grep: /skipthemall/
 });
 
-mocha.addFile(getPath(__filename, '/connectorSpec.js'));
+mocha.addFile(helpers.getPath(__filename, '/connectorSpec.js'));
 
 mocha.run(function(failures) {
 	process.on('exit', function () {

@@ -1,14 +1,11 @@
 require('node-define');
 var fs = require('fs');
 var async = require('async');
-var test = require('./testDriver');
+var driver = require('./helpers/chromeSpoofing').getDriver();
 var connectors = require('../core/connectors');
-var driver = test.getDriver();
-
-// Generic test components
 global.siteSpec = require('./generic_test_components/site');
 global.connectorSpec = require('./generic_test_components/connector');
-global.thisPage = global.helpers;
+global.expect = require('chai').expect;
 
 describe('Web-Scrobbler Extension', function() {
 
@@ -33,7 +30,7 @@ describe('Web-Scrobbler Extension', function() {
 				require('.'+testPath)(driver, connector, next);
 			} else {
 				// Generic test here - will rely on a defined test URL for each connector
-				it('__NO_TESTS__', function() {});
+				it('has no tests', function() {});
 				next();
 			}
 		});

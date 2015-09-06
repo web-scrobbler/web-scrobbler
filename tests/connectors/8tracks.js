@@ -1,10 +1,10 @@
 module.exports = function(driver, connector, next) {
 	var url = 'http://8tracks.com/action_hank/make-it-fun-kay';
 
-	before('should load', function(done) {
+	before('should load '+url, function(done) {
 		siteSpec.shouldLoad(driver, url, done);
 	});
-	it('should actually load', function(done) { done(); })
+	it('should load page: '+url, function(done) { done(); })
 
 	describe('Loaded website', function() {
 		before('Play a track', function() {
