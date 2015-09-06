@@ -1,19 +1,8 @@
 module.exports = function(driver, connector, next) {
-	var url = 'http://8tracks.com/action_hank/make-it-fun-kay';
 
-	before('should load '+url, function(done) {
-		siteSpec.shouldLoad(driver, url, done);
-	});
-	it('should load page: '+url, function(done) { done(); })
+	connectorSpec.loadPlayListen(driver, next,
+		'http://8tracks.com/action_hank/make-it-fun-kay',
+		'#play_overlay'
+	);
 
-	describe('Loaded website', function() {
-		before('Play a track', function() {
-			return thisPage.promiseClick(driver, {css: '#play_overlay'});
-		})
-		it('should play a song', function(done) { done(); })
-
-		connectorSpec.shouldRecogniseATrack(driver);
-	});
-
-	after(function() { next(); });
 };

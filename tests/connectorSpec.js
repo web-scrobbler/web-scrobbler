@@ -1,8 +1,8 @@
 require('node-define');
 var fs = require('fs');
-var async = require('async');
 var driver = require('./helpers/chromeSpoofing').getDriver();
 var connectors = require('../core/connectors');
+global.async = require('async');
 global.siteSpec = require('./generic_test_components/site');
 global.connectorSpec = require('./generic_test_components/connector');
 global.expect = require('chai').expect;
@@ -20,7 +20,7 @@ describe('Web-Scrobbler Extension', function() {
 	 * look for explicitly defined tests first,
 	 * falling back to a generic test if none are found.
 	*/
-	async.each(connectors.reverse(), function(connector, next) {
+	async.each(connectors, function(connector, next) {
 		describe('Connector: '+connector.label, function() {
 			var jsPathArr = connector.js[0].split('/');
 			var jsName = jsPathArr[jsPathArr.length-1];

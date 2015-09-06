@@ -7,7 +7,7 @@ module.exports = function(driver, connector, next) {
 	it('should load page: '+url, function(done) { done(); })
 
 	describe('Loaded website', function() {
-		connectorSpec.shouldRecogniseATrack(driver, 120, true);
+		connectorSpec.shouldRecogniseATrack(driver, {timeout: 120, optional: true});
 	});
 
 	after(function() { next(); });
