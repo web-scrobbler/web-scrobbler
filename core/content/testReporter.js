@@ -16,6 +16,6 @@ var testReporter = function(msg, obj, err) {
 		} else {
 			console.log("WEB-SCROBBLER-INFO: " + msg, obj);
 		}
-		document.dispatchEvent(new CustomEvent("web-scrobbler-test-response", {detail: msg}));
+		document.dispatchEvent(new CustomEvent("web-scrobbler-test-response", {detail: {detail: msg, data: obj}}));
 	}
 };

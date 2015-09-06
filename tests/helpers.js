@@ -4,7 +4,7 @@ webdriver = require("selenium-webdriver");
 
 const SKINFO = "STREAMKEYS-INFO: ";
 const SKERR = "STREAMKEYS-ERROR: ";
-const WAIT_TIMEOUT = 80000;
+const WAIT_TIMEOUT = 10000;
 const WAIT_COUNT = 10;
 const PLAYER_WAIT_COUNT = 4;
 
@@ -32,13 +32,53 @@ var eventScript = exports.eventScript = function(action) {
 */
 var injectTestCapture = exports.injectTestCapture = function(driver) {
 	return driver.executeScript(function() {
-		console.log("Listening for web-scrobbler-test-response: loaded");
+		console.log("Listening for web-scrobbler-test-response");
 		window.webScrobblerActionStack = window.webScrobblerActionStack || [];
 		document.addEventListener("web-scrobbler-test-response", function(e) {
-			window.webScrobblerActionStack.push(e.detail);
+			window.webScrobblerActionStack.push(e);
 		});
 
 		window.webScrobblerLastAction = function() { return window.webScrobblerActionStack[window.webScrobblerActionStack.length - 1]; }
+	});
+};
+
+var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle, opts, promise) {
+	var def = opts.promise || webdriver.promise.defer();
+	opts.count = opts.count || 0;
+	opts.tries = opts.tries;
+
+	console.log("Listening for "+needle+" - " + opts.count+"/"+opts.tries);
+
+	if(opts.count == opts.tries) return def.reject("Extension message "+needle+" wait timeout!");
+
+	var injection = 'if (window.webScrobblerLastAction && window.webScrobblerLastAction.detail && window.webScrobblerLastAction().detail.detail === "'+needle+'") {\
+		return window.webScrobblerLastAction().detail;\
+	}';
+
+	driver.sleep(500);
+	driver.executeScript(new Function(injection)).then(function(res) {
+		if(typeof res === 'undefined' || res === null) {
+			console.log("Bad result:", res);
+			opts.count++;
+			return waitForExtensionMsg(driver, needle, opts, def);
+		}
+
+		console.log("Good result: ", res.data);
+		return def.fulfill(res);
+	});
+
+	return def.promise;
+};
+
+var listenFor = exports.listenFor = function(driver, needle, cb, failCb, tries) {
+	injectTestCapture(driver).then(function() {
+		helpers.waitForExtensionMsg(driver, needle, {tries: tries || 30})
+		.then(function(result) {
+			if(!result) return cb(false);
+			cb(true);
+		}, function(err) {
+			return failCb(false);
+		});
 	});
 };
 
@@ -68,15 +108,15 @@ var waitForExtensionLoad = exports.waitForExtensionLoad = function(driver, opts)
 	if(opts.count > 300) return def.reject("Extension load timeout!");
 
 	driver.executeScript(function() {
-		console.log("Dispatched test load event");
+		// console.log("Dispatched test load event");
 		document.dispatchEvent(new CustomEvent("web-scrobbler-test-loaded"));
 	})
 	.then(function() {
-		console.log("DISPATCH SENT");
+		// console.log("DISPATCH SENT");
 		driver.executeScript(function() {
-			return (window.webScrobblerLastAction && window.webScrobblerLastAction() === "loaded");
+			return (window.webScrobblerLastAction && window.webScrobblerLastAction.detail && window.webScrobblerLastAction().detail.detail === "loaded");
 		}).then(function(res) {
-			console.log("Load result: ", res);
+			// console.log("Load result: ", res);
 			if(res) return def.fulfill(true);
 			else return waitForExtensionLoad(driver, {promise: def, count: (opts.count + 1)});
 		});
@@ -224,17 +264,17 @@ exports.promiseClick = function(driver, selector, timeout) {
 */
 exports.getAndWait = function(driver, url) {
 	var def = webdriver.promise.defer();
-	console.log("Override alerts/unloads");
+	// console.log("Override alerts/unloads");
 	driver.getWindowHandle().then(function(handle) {
-		console.log("Window handle: ", handle);
-		console.log("Getting: ", url);
+		// console.log("Window handle: ", handle);
+		// console.log("Getting: ", url);
 		driver.get(url).then(function() {
-			console.log("Got URL, checking alerts");
+			// console.log("Got URL, checking alerts");
 			alertCheck(driver).then(function() {
-				console.log("Alert check complete!");
+				// console.log("Alert check complete!");
 				waitForLoad(driver)
 				.then(function() {
-					console.log("Load complete!");
+					// console.log("Load complete!");
 					def.fulfill(null);
 				})
 				.thenCatch(function(err) {
@@ -263,21 +303,21 @@ var overrideAlerts = exports.overrideAlerts = function(driver) {
 */
 var alertCheck = exports.alertCheck = function(driver) {
 	var def = webdriver.promise.defer();
-	console.log("Checking for alerts...");
+	// console.log("Checking for alerts...");
 	driver.getAllWindowHandles().then(function(handles) {
 		driver.getWindowHandle().then(function(handle) {
 			if(handles.indexOf(handle) !== -1) {
-				console.log("There is a window open...");
+				// console.log("There is a window open...");
 				driver.switchTo().alert().then(function(alert) {
-					console.log("Accept alert...");
+					// console.log("Accept alert...");
 					alert.accept();
 					def.fulfill(null);
 				}, function(error) {
-					console.log("No alert found, continue...");
+					// console.log("No alert found, continue...");
 					def.fulfill(null);
 				});
 			} else {
-				console.log("No open window found!");
+				// console.log("No open window found!");
 				def.fulfill(null);
 			}
 		});
@@ -291,9 +331,12 @@ var alertCheck = exports.alertCheck = function(driver) {
 */
 var waitForLoad = exports.waitForLoad = function(driver) {
 	return driver.wait(function() {
-		console.log("		Waiting for pageload...");
-		return driver.executeScript("return document.readyState;").then(function(res) {
-			return (res === "complete");
+		// console.log("		Waiting for pageload...");
+		return driver.executeScript("return {readyState: document.readyState == \"complete\", isAvailable: document.title.indexOf(\"is not available\") === -1};")
+		.then(function(res) {
+			if(res.isAvailable && res.readyState) {
+				return "Page loaded";
+			}
 		});
 	}, WAIT_TIMEOUT);
 };

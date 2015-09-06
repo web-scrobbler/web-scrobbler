@@ -334,7 +334,9 @@ var BaseConnector = window.BaseConnector || function () {
 			// take action if needed
 			if (changedFields.length > 0 && this.reactorCallback !== null) {
 				this.reactorCallback(currentState, changedFields);
+				testReporter("connector_state_changed", currentState);
 			}
+
 		}.bind(this);
 
 		/**
