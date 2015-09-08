@@ -1,11 +1,13 @@
-module.exports = function(driver, connector, next) {
+module.exports = function (driver, connector, next) {
 
 	var url = 'https://www.youtube.com/watch?v=YqeW9_5kURI';
-	before('should load '+url, function(done) {
+	before('should load ' + url, function (done) {
 		siteSpec.shouldLoad(driver, url, done);
 	});
-	it('should load page: '+url, function(done) { done(); })
-	describe('Loaded website', function() {
+	it('should load page: ' + url, function (done) {
+		done();
+	})
+	describe('Loaded website', function () {
 		connectorSpec.shouldRecogniseATrack(driver);
 	});
 
@@ -27,11 +29,11 @@ module.exports = function(driver, connector, next) {
 	// 			});
 	// 			connectorSpec.shouldRecogniseATrack(driver);
 	// 			connectorSpec.shouldRecogniseAPlaylist(driver, {'comment': playlistVideo.comment });
-    //
+	//
 	// 			after(function() { nextPlaylist(); });
 	// 		});
 	// 	});
-    //
+	//
 	// 	describe('Invalid playlists', function() {
 	// 		async.each([ // From https://github.com/david-sabata/web-scrobbler/pull/755#issue-104480950
 	// 			{ url: 'https://youtube.com/watch?v=EfcY9oFo1YQ', comment: 'incorrect timestamps => invalid playlist' },
@@ -43,12 +45,12 @@ module.exports = function(driver, connector, next) {
 	// 				});
 	// 				connectorSpec.shouldRecogniseATrack(driver);
 	// 				connectorSpec.shouldRecogniseAPlaylist(driver, {'comment': playlistVideo.comment });
-    //
+	//
 	// 				after(function() { nextPlaylist(); });
 	// 			})
 	// 		});
 	// 	});
-    //
+	//
 	// 	after(function() { next(); });
 	// });
 };
