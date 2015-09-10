@@ -254,7 +254,8 @@ define(function() {
 		{
 			label: 'Groove Music',
 			matches: ['*://music.microsoft.com/*'],
-			js: ['connectors/groovemusic.js']
+			js: ['connectors/v2/groovemusic.js'],
+			version: 2
 		},
 
 		{
