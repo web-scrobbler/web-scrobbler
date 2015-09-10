@@ -9,20 +9,20 @@ Connector.isPlaying = function () {
 			$('.Artist-Mini-Playing').length ||
 			$('.Artist-Maximus-Playing').length ||
 			$('.Hello-Mini-Playing').length ||
-			($('#PlayerFrame iframe').contents().find("#Play").length ? //embed
-			$('#PlayerFrame iframe').contents().find("#Play").attr('src').indexOf('pause') !== -1 :
-			false);
+			($('#PlayerFrame iframe').contents().find('#Play').length ? //embed
+					$('#PlayerFrame iframe').contents().find('#Play').attr('src').indexOf('pause') !== -1 :
+					false);
 };
 
 Connector.getArtistTrack = function () {
 	var artist = null;
 	var track = null;
 
-	if ($('#PlayerFrame iframe').contents().find("#Play").length ? //embed
-			$('#PlayerFrame iframe').contents().find("#Play").attr('src').indexOf('pause') !== -1 :
+	if ($('#PlayerFrame iframe').contents().find('#Play').length ? //embed
+			$('#PlayerFrame iframe').contents().find('#Play').attr('src').indexOf('pause') !== -1 :
 			false) { //embed
 		artist = $('.H-artist').text();
-		track = $('#PlayerFrame iframe').contents().find("#PlayerPanel > :first-child").text();
+		track = $('#PlayerFrame iframe').contents().find('#PlayerPanel > :first-child').text();
 	} else if ($('.player-buttonPause').length) {
 		var text = $('.player:has(.player-buttonPause) .player-name span').text();
 		var separator = this.findSeparator(text);
@@ -46,7 +46,7 @@ Connector.getArtistTrack = function () {
 	return {artist: artist, track: track};
 };
 Connector.getAlbum = function () {
-	return $('#PlayerFrame iframe').contents().find("#Play").length ? //embed
+	return $('#PlayerFrame iframe').contents().find('#Play').length ? //embed
 			$('#TrackList h1').text() :
 			$('.Release-preview:has(.Hello-Mini-Playing) .Release-select strong').text() || null;
 };
