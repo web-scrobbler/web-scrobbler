@@ -54,7 +54,7 @@ define([
 		var createNotification = function(permissionLevel) {
 			if (permissionLevel === 'granted') {
 				var hhMM = function(date) {
-					var date = date ? date : new Date();
+					date = date ? date : new Date();
 					var hours = date.getHours();
 					var minutes = date.getMinutes();
 					var ampm = hours >= 12 ? 'pm' : 'am';
