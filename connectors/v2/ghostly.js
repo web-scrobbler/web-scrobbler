@@ -4,6 +4,8 @@
 
 Connector.playerSelector = '#result';
 
+Connector.trackArtImageSelector = '.image img';
+
 Connector.artistSelector = 'dd.artist';
 
 Connector.trackSelector = 'dd.track';
