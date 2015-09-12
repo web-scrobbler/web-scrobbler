@@ -51,9 +51,20 @@ var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle,
 
 	if(opts.count == opts.tries) return def.reject(new Error('Extension message '+needle+' wait timeout!'));
 
-	var injection = 'if (window.webScrobblerLastAction && window.webScrobblerLastAction().detail.detail === \''+needle+'\') {\
-		return window.webScrobblerLastAction().detail;\
-	}';
+	//e.timestamp >= Date.now() &&
+	var injection =
+	'var scrobble_find = function(arr, valid){\
+		if(!arr) return null;\
+		for(var x=0; x < arr.length; x+=1){ if(valid(arr[x])) return arr[x]; }\
+		return null;\
+	};\
+	var foundAction = scrobble_find(webScrobblerActionStack, function(e) {\
+		return e.detail.detail == \''+needle+'\'\
+	});\
+	if(foundAction && foundAction.detail) {\
+		window.console.info("WATCHALOOKINFOR",foundAction);\
+		return foundAction.detail;\
+	} else return null;';
 
 	driver.sleep(500);
 	driver.executeScript(new Function(injection)).then(function(res) {
