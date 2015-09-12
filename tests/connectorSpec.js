@@ -28,7 +28,6 @@ describe('Web-Scrobbler Extension', function() {
 	*/
 	async.each(connectors, function(connector, next) {
 		describe('Connector: '+connector.label, function() {
-			if(connector.label !== "EDM.com") return false;
 			var jsPathArr = connector.js[0].split('/');
 			var jsName = jsPathArr[jsPathArr.length-1];
 			var testPath = '/connectors/'+jsName;
