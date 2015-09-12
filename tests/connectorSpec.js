@@ -3,8 +3,8 @@ var fs = require('fs');
 var driver = require('./helpers/chromeSpoofing').getDriver();
 var connectors = require('../core/connectors');
 global.async = require('async');
-global.siteSpec = require('./generic_test_components/site');
-global.connectorSpec = require('./generic_test_components/connector');
+global.siteSpec = require('./components/site');
+global.connectorSpec = require('./components/connector');
 global.expect = require('chai').expect;
 
 describe('Web-Scrobbler Extension', function() {

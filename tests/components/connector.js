@@ -16,7 +16,7 @@ module.exports.shouldRecogniseATrack = function(driver, opts) {
 
 module.exports.loadPlayListen = function(driver, next, url, btnSelector, opts) {
 	before('should load '+url, function(done) {
-		siteSpec.shouldLoad(driver, url, done);
+		siteSpec.shouldLoad(driver, url, done, opts.load);
 	});
 
 	it('should load page: '+url, function(done) { done(); })

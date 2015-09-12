@@ -70,7 +70,7 @@ var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle,
 		return foundAction.detail;\
 	} else return null;';
 
-	driver.sleep(500);
+	driver.sleep(300);
 	driver.executeScript(new Function(injection)).then(function(res) {
 		if(typeof res === 'undefined' || res === null) {
 			opts.count++;
@@ -188,7 +188,7 @@ var playerAction = exports.playerAction = function(driver, opts) {
 			return def.fulfill(result);
 		}, function(err) {
 			console.log(err);
-			driver.sleep(1000).then(function() {
+			driver.sleep(750).then(function() {
 				return playerAction(driver, {promise: def, action: opts.action, count: (opts.count + 1)});
 			});
 		});
@@ -213,7 +213,7 @@ var waitForLog = exports.waitForLog = function(driver, opts) {
 		if(helpers.parseLog(log, opts.action)) {
 			return def.fulfill(true);
 		} else {
-			driver.sleep(500).then(function() {
+			driver.sleep(300).then(function() {
 				return waitForLog(driver, {promise: def, action: opts.action, count: (opts.count + 1)});
 			});
 		}
@@ -274,11 +274,17 @@ exports.promiseClick = function(driver, selector, timeout) {
 	return def.promise;
 }
 
+exports.promiseScroll = function(driver, opts, cb) {
+	var y = opts.y || 0;
+	var x = opts.x || 0;
+	driver.executeScript('window.scroll('+x+','+y+')','').then(cb);
+}
+
 /**
 * Get a site, dismiss alerts and wait for document load
 * @return {Promise}
 */
-exports.getAndWait = function(driver, url) {
+exports.getAndWait = function(driver, url, optionalTimeout) {
 	var def = webdriver.promise.defer();
 	// console.log('Override alerts/unloads');
 	driver.getWindowHandle().then(function(handle) {
@@ -288,7 +294,7 @@ exports.getAndWait = function(driver, url) {
 			// console.log('Got URL, checking alerts');
 			alertCheck(driver).then(function() {
 				// console.log('Alert check complete!');
-				waitForLoad(driver)
+				waitForLoad(driver,optionalTimeout)
 				.then(function() {
 					// console.log('Load complete!');
 					def.fulfill(null);
@@ -345,11 +351,12 @@ var alertCheck = exports.alertCheck = function(driver) {
 * Block until document.readyState is complete
 * @return {Promise}
 */
-var waitForLoad = exports.waitForLoad = function(driver) {
+var waitForLoad = exports.waitForLoad = function(driver, optionalTimeout) {
+	var timeout = optionalTimeout ? optionalTimeout : WAIT_TIMEOUT;
 	return driver.wait(function() {
 		// /*#*/ console.log('		Waiting for pageload...');
 		return driver.executeScript('return document.readyState === \'complete\' && document.title.indexOf(\'is not available\') === -1;').then(function(res) {
 			return res;
 		});
-	}, WAIT_TIMEOUT);
+	}, timeout);
 };
