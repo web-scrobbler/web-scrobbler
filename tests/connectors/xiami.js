@@ -1,6 +1,6 @@
 module.exports = function(driver, connector, next) {
 
-	console.log("			!!! Xiami is not globally accessible - cannot reliably test for load");
+	helpers.devInfo("Xiami is not globally accessible - cannot reliably test for load");
 	next();
 
 	// connectorSpec.loadPlayListen(driver, next,

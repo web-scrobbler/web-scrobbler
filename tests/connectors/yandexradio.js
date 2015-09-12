@@ -1,6 +1,6 @@
 module.exports = function(driver, connector, next) {
 
-	console.log("			!!! Yandex is not globally accessible - cannot reliably test for load");
+	helpers.devInfo("Yandex is not globally accessible - cannot reliably test for load");
 	next();
 
 	// connectorSpec.loadPlayListen(driver, next,

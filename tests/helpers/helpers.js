@@ -78,7 +78,6 @@ var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle,
 		}
 
 		process.stdout.write('\n');
-		console.log('		Good result: ');
 		console.log('\x1b[90m%s\x1b[0m',JSON.stringify(res.data,null,2));
 		return def.fulfill(res);
 	});
@@ -91,7 +90,7 @@ var listenFor = exports.listenFor = function(driver, needle, cb, failCb, tries) 
 		helpers.waitForExtensionMsg(driver, needle, {tries: tries || 30})
 			.then(function(result) {
 				if(!result) return cb(new Error('Null response'));
-				return cb(true);
+				return cb(result);
 			}, function(err) {
 				return failCb(new Error('Invalid response'));
 			});
@@ -360,3 +359,7 @@ var waitForLoad = exports.waitForLoad = function(driver, optionalTimeout) {
 		});
 	}, timeout);
 };
+
+var devInfo = exports.devInfo = function(msg) {
+	console.log("\t\t \x1b[36m"+msg+"\x1b[0m")
+}
