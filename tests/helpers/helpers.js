@@ -47,9 +47,13 @@ var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle,
 	opts.count = opts.count || 0;
 	opts.tries = opts.tries;
 
-	console.log('		Listening for '+needle+' - ' + opts.count+'/'+opts.tries);
+	process.stdout.write('\033[0G');
+	process.stdout.write('	    \x1b[93m Listening for ['+needle+' - ' + opts.count+'/'+opts.tries+']\x1b[0m');
 
-	if(opts.count == opts.tries) return def.reject(new Error('Extension message '+needle+' wait timeout!'));
+	if(opts.count == opts.tries) {
+		process.stdout.write('\n');
+		return def.reject(new Error('Extension message '+needle+' wait timeout!'));
+	}
 
 	//e.timestamp >= Date.now() &&
 	var injection =
@@ -69,13 +73,13 @@ var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle,
 	driver.sleep(500);
 	driver.executeScript(new Function(injection)).then(function(res) {
 		if(typeof res === 'undefined' || res === null) {
-			// /*#*/ console.log('Bad result:', res);
 			opts.count++;
 			return waitForExtensionMsg(driver, needle, opts, def);
 		}
 
+		process.stdout.write('\n');
 		console.log('		Good result: ');
-		console.log(res.data);
+		console.log('\x1b[90m%s\x1b[0m',JSON.stringify(res.data,null,2));
 		return def.fulfill(res);
 	});
 
