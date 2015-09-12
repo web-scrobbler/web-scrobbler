@@ -4,7 +4,7 @@ Last.fm Scrobbler for Chrome was created for people who listen to music online t
 
 ## Usage
 
-You can obtain the scrobbler either from Chrome Web Store directly or by installing as an "[unpacked extension][2]". 
+You can obtain the scrobbler either from Chrome Web Store directly or by installing as an "[unpacked extension][2]".
 
 ### Chrome Web Store
 
@@ -12,7 +12,7 @@ You can get it directly from Chrome Web Store:
 
 https://chrome.google.com/webstore/detail/lastfm-scrobbler/hhinaapppaileiechjoiifaancjggfjm
 
-### Unpacked extension 
+### Unpacked extension
 
 1. Grab a copy of the source code either by cloning the repository or by downloading and extracting the zipped source.
 
@@ -23,6 +23,18 @@ https://chrome.google.com/webstore/detail/lastfm-scrobbler/hhinaapppaileiechjoii
 ## Development
 
 Check the [wiki pages](../../wiki) to understand development of connectors.
+
+### Testing
+
+There is a Mocha/Selenium integration test suite that is intended to discover if a site changes their players which will break the extension. The automated Travis-CI will trigger on every pull request/push.
+
+To run the tests locally you will require ChromeDriver somewhere in your path. The node module selenium-chromedriver will do that for you. After npm install the ChromeDriver binary can be found in node_modules/selenium-chromedriver/bin. To run the tests:
+
+`node test/runner.js` or `grunt test`
+
+You may have to adjust your PATH by running:
+
+`PATH="node_modules/selenium-chromedriver/bin:$PATH"`
 
 ### Gitter
 

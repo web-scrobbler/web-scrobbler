@@ -1,5 +1,5 @@
 'use strict';
-/* globals Connector, BaseConnector, Reactor */
+/* globals Connector, BaseConnector, Reactor, testReporter */
 
 /**
  * This script is injected to the page after the {@link BaseConnector} and a custom
@@ -64,6 +64,10 @@
 	else {
 		console.info('Web Scrobbler: Connector.playerSelector is empty. The current connector is expected to manually detect state changes');
 	}
+
+	document.addEventListener('web-scrobbler-test-loaded', function() {
+		testReporter('loaded');
+	});
 
 	/**
 	 * Automatically reset on window unload
