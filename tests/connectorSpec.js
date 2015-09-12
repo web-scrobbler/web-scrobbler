@@ -3,15 +3,21 @@ var fs = require('fs');
 var driver = require('./helpers/chromeSpoofing').getDriver();
 var connectors = require('../core/connectors');
 global.async = require('async');
-global.siteSpec = require('./generic_test_components/site');
-global.connectorSpec = require('./generic_test_components/connector');
+global.siteSpec = require('./components/site');
+global.connectorSpec = require('./components/connector');
 global.expect = require('chai').expect;
 
 describe('Web-Scrobbler Extension', function() {
 
 	before(function(done) {
-		driver.sleep(1000).then(function() {
-			done();
+		// Wait for ABP install, then close the ABP 'installed' tab
+		driver.sleep(700).then(function() {
+			driver.getAllWindowHandles().then(function(tabs) {
+				driver.switchTo().window(tabs[1]);
+				driver.close();
+				driver.switchTo().window(tabs[0]);
+				done();
+			});
 		});
 	});
 
@@ -22,6 +28,7 @@ describe('Web-Scrobbler Extension', function() {
 	*/
 	async.each(connectors, function(connector, next) {
 		describe('Connector: '+connector.label, function() {
+			if(connector.label !== "EDM.com") return false;
 			var jsPathArr = connector.js[0].split('/');
 			var jsName = jsPathArr[jsPathArr.length-1];
 			var testPath = '/connectors/'+jsName;

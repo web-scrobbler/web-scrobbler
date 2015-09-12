@@ -14,15 +14,24 @@ module.exports.shouldRecogniseATrack = function(driver, opts) {
 
 };
 
-module.exports.shouldRecogniseAPlaylist = function(driver, opts) {
+module.exports.shouldRecogniseAPlaylist = function(driver, opts, cb) {
 	var opts = opts || {};
 	it(opts.comment ? opts.comment : 'should recognise a playlist of songs', !opts.optional ? function(done) {
 
-		helpers.listenFor(driver, 'connector_got_playlist', function(res) {
-			return done();
-		}, function(res) {
-			return done(new Error('Connector did not recognise a playlist :('));
+		helpers.listenFor(driver, 'connector_got_playlist', function found(res) {
+			(!opts.invert ? valid : invalid)(res)
+		}, function notFound(res) {
+			(!opts.invert ? invalid : valid)(res)
 		}, opts.timeout || 50);
+
+		function valid(res){
+			if(cb) { cb(done) } else return done();
+		}
+
+		function invalid(res) {
+			var err = new Error('Connector did not recognise a playlist :(')
+			if(cb) { cb(done,err) } else return done(err);
+		}
 
 	} : null);
 
@@ -30,7 +39,7 @@ module.exports.shouldRecogniseAPlaylist = function(driver, opts) {
 
 module.exports.loadPlayListen = function(driver, next, url, btnSelector, opts) {
 	before('should load '+url, function(done) {
-		siteSpec.shouldLoad(driver, url, done);
+		siteSpec.shouldLoad(driver, url, done, opts.load);
 	});
 
 	it('should load page: '+url, function(done) { done(); })

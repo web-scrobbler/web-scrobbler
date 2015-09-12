@@ -23,12 +23,18 @@ module.exports = function (driver, connector, next) {
 			{ url: 'https://youtube.com/watch?v=4Xg1usuLpsM',	 comment: 'Gets playlist from a comment' },
 			{ url: 'https://www.youtube.com/watch?v=9-NFosnfd2c', comment: 'Removes ridiculous other duration timestamps' }
 		], function(playlistVideo, nextPlaylist) {
-			describe('Playlist video: '+playlistVideo.url, function() {
+			describe('Video: '+playlistVideo.url, function() {
 				before('should load '+playlistVideo.url, function(done) {
 					siteSpec.shouldLoad(driver, playlistVideo.url, done);
 				});
 				connectorSpec.shouldRecogniseATrack(driver);
-				connectorSpec.shouldRecogniseAPlaylist(driver, {'comment': playlistVideo.comment });
+
+				describe('playlist recognition', function() {
+					before('should recognise playlist', function(done) {
+						helpers.promiseScroll(driver, {y: 6000}, done); // to load comments that may contain user-submitted playlists
+					})
+					connectorSpec.shouldRecogniseAPlaylist(driver, {'comment': playlistVideo.comment });
+				})
 
 				after(function() { nextPlaylist(); });
 			});
@@ -39,12 +45,16 @@ module.exports = function (driver, connector, next) {
 				{ url: 'https://youtube.com/watch?v=EfcY9oFo1YQ', comment: 'incorrect timestamps => invalid playlist' },
 				{ url: 'https://youtube.com/watch?v=YqeW9_5kURI', comment: 'a normal, single-track video' }
 			], function(playlistVideo, nextPlaylist) {
-				describe('Video: '+playlistVideo.urk, function() {
+				describe('Video: '+playlistVideo.urk, function(descriptionDone) {
 					before('should load '+playlistVideo.url, function(done) {
 						siteSpec.shouldLoad(driver, playlistVideo.url, done);
 					});
-					connectorSpec.shouldRecogniseATrack(driver);
-					connectorSpec.shouldRecogniseAPlaylist(driver, {'comment': playlistVideo.comment });
+					describe('playlist recognition', function() {
+						before('should recognise playlist', function(done) {
+							helpers.promiseScroll(driver, {y: 6000}, done); // to load comments that may contain user-submitted playlists
+						})
+						connectorSpec.shouldRecogniseAPlaylist(driver, {'comment': playlistVideo.comment, 'invert': true, 'timeout': 30 });
+					})
 
 					after(function() { nextPlaylist(); });
 				})
