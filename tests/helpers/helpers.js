@@ -115,7 +115,7 @@ var waitForExtensionLoad = exports.waitForExtensionLoad = function(driver, opts)
 	.then(function() {
 		// console.log('DISPATCH SENT');
 		driver.executeScript(function() {
-			return (window.webScrobblerLastAction && window.webScrobblerLastAction().detail.detail === 'loaded');
+			return (window.webScrobblerLastAction && window.webScrobblerLastAction().detail.detail);
 		}).then(function(res) {
 			// console.log('Load result: ', res);
 			if(res) return def.fulfill(true);

@@ -14,7 +14,7 @@ module.exports.shouldRecogniseATrack = function(driver, opts) {
 
 };
 
-module.exports.loadPlayListen = function(driver, next, url, btnSelector) {
+module.exports.loadPlayListen = function(driver, next, url, btnSelector, opts) {
 	before('should load '+url, function(done) {
 		siteSpec.shouldLoad(driver, url, done);
 	});
@@ -27,7 +27,7 @@ module.exports.loadPlayListen = function(driver, next, url, btnSelector) {
 		})
 		it('should play a song', function(done) { done(); })
 
-		connectorSpec.shouldRecogniseATrack(driver);
+		connectorSpec.shouldRecogniseATrack(driver, opts);
 	});
 
 	after(function() { next(); });

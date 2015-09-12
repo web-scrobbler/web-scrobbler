@@ -68,10 +68,6 @@
 			};
 			playerObserver.observe(document.body, playerObserverConfig);
 		}
-
-		document.addEventListener('web-scrobbler-test-loaded', function() {
-			testReporter('loaded');
-		});
 	}
 	/**
 	 * Player selector is not provided, current connector needs to detect state changes on its own
@@ -79,6 +75,10 @@
 	else {
 		console.info('Web Scrobbler: Connector.playerSelector is empty. The current connector is expected to manually detect state changes');
 	}
+
+	document.addEventListener('web-scrobbler-test-loaded', function() {
+		testReporter('loaded');
+	});
 
 	/**
 	 * Automatically reset on window unload

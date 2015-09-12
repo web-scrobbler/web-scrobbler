@@ -24,7 +24,7 @@ module.exports.shouldLoad = function(driver, url, done) {
 				helpers.injectTestCapture(driver).then(function() {
 					helpers.waitForExtensionLoad(driver, {count: 0})
 					.then(function(result) {
-						/*#*/ console.info('		Extension loaded!');
+						// /*#*/ console.info('		Extension loaded!');
 						//expect(result).to.be.true;
 						if(!result) return done(new Error('Extension load error!'));
 						// cb();
