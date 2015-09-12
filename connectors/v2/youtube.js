@@ -54,20 +54,20 @@ Connector.isPlaying = function() {
 		/* Can scrobble from any genre */ !scrobbleMusicOnly ||
 		/* OR only music AND is music  */ ( scrobbleMusicOnly && $('meta[itemprop=\"genre\"]').attr('content') == 'Music' )
 	)	? $('#player-api .html5-video-player').hasClass('playing-mode')
-		: false;
+	: false;
 };
 
 Connector.getArtistTrack = function () {
-	var text = $(Connector.artistTrackSelector).text();
+	var text = $.trim($(Connector.artistTrackSelector).text());
+
 	var separator = Connector.findSeparator(text);
 
-	var artist = null;
-	var track = null;
-
-	if (separator !== null) {
-		artist = text.substr(0, separator.index);
-		track = text.substr(separator.index + separator.length);
+	if (separator === null || text.length === 0) {
+		return {artist: null, track: null};
 	}
+
+	var artist =  text.substr(0, separator.index);
+	var track = text.substr(separator.index + separator.length);
 
 	return {
 		artist: cleanseArtist(artist),
@@ -143,7 +143,7 @@ function buildPlaylist(potentialTracks) {
 
 
 	/**
-	 * Check that this 'playlist' actually has enough....
+	* Check that this 'playlist' actually has enough....
 	*/
 	if(typeof potentialPlaylist === 'undefined' || potentialPlaylist === null || potentialPlaylist.length < 3) {
 		return null;
@@ -155,8 +155,8 @@ function buildPlaylist(potentialTracks) {
 
 
 	/**
-	 * If the last timestamp starts after the video ends... well, it's probably a broken playlist
-	 * E.g. https://www.youtube.com/watch?v=EfcY9oFo1YQ
+	* If the last timestamp starts after the video ends... well, it's probably a broken playlist
+	* E.g. https://www.youtube.com/watch?v=EfcY9oFo1YQ
 	*/
 	if(Connector.getDuration() && potentialPlaylist[potentialPlaylist.length-1].startTime > Connector.getDuration()) {
 		console.info('Invalid playlist - timestamps greater than clip duration');
@@ -165,11 +165,11 @@ function buildPlaylist(potentialTracks) {
 
 
 	/**
-	 * A playlist will be:
-	 * - EITHER entirely `artistTrack` (1. artistName - trackName)
-	 * - OR entirely `track` (1. trackName )
-	 * So make corrections for occassional false-positive `artistTrack` recognitions.
-	 * e.g. 5. Undone - The Sweater Song (by Weezer) in https://www.youtube.com/watch?v=VFOF47nalCY
+	* A playlist will be:
+	* - EITHER entirely `artistTrack` (1. artistName - trackName)
+	* - OR entirely `track` (1. trackName )
+	* So make corrections for occassional false-positive `artistTrack` recognitions.
+	* e.g. 5. Undone - The Sweater Song (by Weezer) in https://www.youtube.com/watch?v=VFOF47nalCY
 	*/
 	var propertyCount = _.countBy(potentialPlaylist, function(track) {
 		if(track.artistTrack) { return 'artistTrack'; }
@@ -205,8 +205,8 @@ function buildPlaylist(potentialTracks) {
 
 
 	/**
-	 * If most tracks have numbers at the beginning, it's probably a case of shoddy playlist numbering
-	 * e.g. https://www.youtube.com/watch?v=epSWiHu7ggk
+	* If most tracks have numbers at the beginning, it's probably a case of shoddy playlist numbering
+	* e.g. https://www.youtube.com/watch?v=epSWiHu7ggk
 	*/
 	var beginningNumberRegex = new RegExp(/^\s*[0-9]{1,2}[\s\-:\/](.+)/i);
 	var isNumbered = _.countBy(potentialPlaylist, function(track) {
