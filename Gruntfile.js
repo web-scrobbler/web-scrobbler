@@ -71,5 +71,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-csslint');
 	grunt.registerTask('lint', ['jshint', 'csslint']);
 	grunt.registerTask('test', ['exec:run_tests']);
-	grunt.registerTask('default', ['lint', 'lintspaces', 'jsonlint', 'test']);
+	grunt.registerTask('default', ['lint', 'lintspaces', 'jsonlint']);
 };
