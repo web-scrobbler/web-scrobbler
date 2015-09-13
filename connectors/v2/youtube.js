@@ -260,7 +260,7 @@ function parsePlaylist(potentialTracks) {
 	});
 
 	var getLeadingNumber = function (maybeTrack) {
-		var nubmerRegex = /^\s*(track|number|no|no\.|song)?\s*[\[\(\{\-]*\s*([0-9]{1,2})\s*[\.\-:=\)\]\}]*\s*/i;
+		var nubmerRegex = /^\s*(track|number|no|no\.|song)?\s*[\[\(\{\-]*\s*([0-9]{1,2})\s*[\.\-:=\)\]\}\|]*\s*/i;
 		var match = nubmerRegex.exec(maybeTrack);
 		var trackNumber = 0;
 		if (match !== null) {
@@ -292,11 +292,11 @@ function cleansePlaylistLine(maybeTrack) {
 	maybeTrack = maybeTrack.replace(timestampRegex,'__TIMESTAMP__');
 	maybeTrack = maybeTrack.replace(/[\[\(\{\–\-]*\s*[0-9]{1,2}\.[0-9]{2}\s*[\]\)\}\–\-:]/gi,''); // Chop out bullshit other misformatted timestamps (e.g. https://www.youtube.com/watch?v=9-NFosnfd2c)
 	maybeTrack = maybeTrack.replace(/<a.*>(__TIMESTAMP__)<\/a>/gi,'$1');
-	maybeTrack = maybeTrack.replace(/\s*[\[\(\{\–\-]*\s*__TIMESTAMP__\s*[\]\)\}\–\-:]*\s*/gi,''); // [00:00] (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo / https://www.youtube.com/watch?v=thUQr7Q1vCY)
+	maybeTrack = maybeTrack.replace(/\s*[\[\(\{\–\-\|]*\s*__TIMESTAMP__\s*[\]\)\}\–\-:\|]*\s*/gi,''); // [00:00] (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo / https://www.youtube.com/watch?v=thUQr7Q1vCY)
 	maybeTrack = maybeTrack.replace('__TIMESTAMP__','');
 	maybeTrack = maybeTrack.replace(/\s*&[a-z]+;\s*/gi,''); // remove HTML entity codes (e.g. https://www.youtube.com/watch?v=VFOF47nalCY)
 	maybeTrack = maybeTrack.replace(/^\s*[-:=]\s*/gi,''); // HH:MM - Track
-	maybeTrack = maybeTrack.replace(/^\s*(track|number|no|no\.|song)?\s*[\[\(\{\-]*\s*[0-9]{1,2}\s*[\.\-:=\)\]\}]{1,3}\s*/i,''); // numbering  1.  1 -  (1) etc. (e.g. https://www.youtube.com/watch?v=Y7QQS5V3cnI) and "track 1." (e.g. https://www.youtube.com/watch?v=FijBkSvN6N8)
+	maybeTrack = maybeTrack.replace(/^\s*(track|number|no|no\.|song)?\s*[\[\(\{\-]*\s*[0-9]{1,2}\s*[\.\-:=\)\]\}\|]{1,3}\s*/i,''); // numbering  1.  1 -  (1) etc. (e.g. https://www.youtube.com/watch?v=Y7QQS5V3cnI) and "track 1." (e.g. https://www.youtube.com/watch?v=FijBkSvN6N8)
 
 	return maybeTrack;
 }
