@@ -353,7 +353,7 @@ function parsePlaylist(potentialTracks) {
 			var maybeLeadingTrack = potentialTracks[firstTrackOffset - 1];
 			var leadingTrackNumber = getLeadingNumber(maybeLeadingTrack);
 			var firstTrackNumber = getLeadingNumber(potentialTracks[firstTrackOffset]);
-			if ((leadingTrackNumber == 1) && (firstTrackNumber == 2)) {
+			if ((leadingTrackNumber + 1 == firstTrackNumber) && (potentialPlaylist[0].startTime != 0)) {
 				// We have found the first track which missed the 00:00 timestamp - add it.
 				// Fixes https://www.youtube.com/watch?v=otvGoSmEDIQ without having to reparse DOM
 				var realFirstTrack = parseTrack(maybeLeadingTrack + ' 00:00');
