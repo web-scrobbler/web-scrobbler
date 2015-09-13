@@ -147,8 +147,6 @@ Connector.getPlaylist = function () {
 function buildPlaylist(potentialTracks) {
 	var stringProperty = 'track'; // Used further down to ID which property to tweak en-masse.
 	var potentialPlaylist = parsePlaylist(potentialTracks);
-
-
 	/**
 	 * Check that this 'playlist' actually has enough....
 	*/
@@ -156,10 +154,8 @@ function buildPlaylist(potentialTracks) {
 		return null;
 	}
 
-
 	// Do NOT rely on playlist numbering! e.g. https://www.youtube.com/watch?v=AIQKIcNGfZ8
 	potentialPlaylist = _.sortBy(potentialPlaylist, function(track) { return track.startTime; });
-
 
 	/**
 	 * If the last timestamp starts after the video ends... well, it's probably a broken playlist
@@ -169,7 +165,6 @@ function buildPlaylist(potentialTracks) {
 		console.info('Invalid playlist - timestamps greater than clip duration');
 		return null;
 	}
-
 
 	/**
 	 * A playlist will be:
@@ -210,7 +205,6 @@ function buildPlaylist(potentialTracks) {
 		stringProperty = 'artistTrack';
 	}
 
-
 	/**
 	 * If most tracks have numbers at the beginning, it's probably a case of shoddy playlist numbering
 	 * e.g. https://www.youtube.com/watch?v=epSWiHu7ggk
@@ -229,52 +223,148 @@ function buildPlaylist(potentialTracks) {
 	return potentialPlaylist;
 }
 
+function findTrackSequence(potentialTracks) {
+	// Parses the playlists which lack (some) time information
+	// The numbers have to be at the start of the string to qualify
+	var nubmerRegex = /^\s*(track|number|no|no\.|song)?\s*[\[\(\{\-]*\s*([0-9]{1,2})\s*[\.\-:=\)\]\}]*\s*/i;
+	// Find the longest uninterrupted track number sequence
+	var playlistStart = null;
+	var playlistLength = null;
+	potentialTracks.reduce(function(previousNumber, maybeTrack, index, array) {
+		// Highly inefficient, but youtube is a formatting winnipeg after all
+		var match = nubmerRegex.exec(maybeTrack);
+		var trackNumber = 0;
+		if (match !== null) {
+			trackNumber = parseInt(match[2], 10);
+		}
+		// Starting to collect a new playlist
+		if (previousNumber === null) {
+			// Assuming that virtually all playlists start with track 1
+			if (trackNumber == 1) {
+				// If it is the first playlist, initialize it:
+				if (playlistStart === null) {
+					playlistStart = index;
+					playlistLength = 1;
+				}
+				return 1;
+			} else {
+				// This is not track 1, therefore, it cannot be the start of the playlist
+				return null;
+			}
+		}
+		// Expanding the current playlist
+		else if (previousNumber + 1 == trackNumber) {
+			// If this playlist is at least as long as the previous one, it's better
+			if (trackNumber >= playlistLength) {
+				playlistStart = index + 1 - trackNumber;
+				playlistLength = trackNumber;
+			}
+			return trackNumber;
+		}
+		else {
+			// Improper ordering; start again but preserve the found playlist
+			return null;
+		}
+	}, null);
+
+	if ((playlistStart !== null) && (playlistLength !== null)) {
+		var numberedPlaylist = potentialTracks.slice(playlistStart, playlistStart + playlistLength);
+		// The only reason for me to write this function was https://www.youtube.com/watch?v=otvGoSmEDIQ
+		// However, it will find any track sequences with missing time data (to fetch it from lastmf?)
+		if (numberedPlaylist[0].search(timestampRegex) < 0) {
+			// Add '00:00' to the first track if it doesn't have any timestamp
+			numberedPlaylist[0] += ' 00:00';
+		}
+		return parsePlaylist(numberedPlaylist);
+	}
+	return null;
+}
+
+function parseTrack(maybeTrack) {
+	var entry = {};
+
+	var $maybeTrack = $('<div>'+maybeTrack+'</div>');
+
+	// YouTube automatically adds markup to timestamps...
+	var $timestampEls = $maybeTrack.find('a[onclick*=\'seekTo\']');
+	// ... but not when HH:MM exceeds 59:59, so also search for HH:MM
+	var timestampStrs = maybeTrack.match(timestampRegex);
+
+	// No timestamps in this line.
+	if(($timestampEls === null || !$timestampEls.length) && (timestampStrs === null || !timestampStrs.length)) {
+		return null;
+	}
+
+	if ($timestampEls !== null && $timestampEls.length) {
+		entry.startTime = Connector.stringToSeconds($timestampEls.first().text());
+	} else if (timestampStrs !== null && timestampStrs.length) {
+		entry.startTime = Connector.stringToSeconds(timestampStrs[0]);
+	}
+
+	// Cleanse trackArtist data of timestamp, delimiters, etc.
+	maybeTrack = cleansePlaylistLine(maybeTrack);
+	maybeTrack = cleanseTrack(maybeTrack);
+
+	// Check that it's not just a random sentence.
+	// e.g. "Comment which is your favourite 19:13..." @ https://www.youtube.com/watch?v=_8pyf6ZW4Dk
+	if(maybeTrack.length > 60) {
+		return null;
+	}
+
+	// Are these tracks by a single artist, or artistTrack (a compilation e.g. https://www.youtube.com/watch?v=EzjX0QE_l8U)?
+	var separator = Connector.findSeparator(maybeTrack);
+	if (separator !== null) {
+		entry.artistTrack = maybeTrack;
+	} else {
+		entry.track = maybeTrack;
+	}
+	return entry;
+}
+
 function parsePlaylist(potentialTracks) {
 	var potentialPlaylist = [];
+	// First track array index in potentialTracks
+	var firstTrackOffset = 0;
 
 	_.each(potentialTracks, function(maybeTrack) {
-		var entry = {};
-
-		var $maybeTrack = $('<div>'+maybeTrack+'</div>');
-
-		// YouTube automatically adds markup to timestamps...
-		var $timestampEls = $maybeTrack.find('a[onclick*=\'seekTo\']');
-		// ... but not when HH:MM exceeds 59:59, so also search for HH:MM
-		var timestampStrs = maybeTrack.match(timestampRegex);
-
-		// No timestamps in this line.
-		if(($timestampEls === null || !$timestampEls.length) && (timestampStrs === null || !timestampStrs.length)) {
-			return false;
-		}
-
-		if ($timestampEls !== null && $timestampEls.length) {
-			entry.startTime = Connector.stringToSeconds($timestampEls.first().text());
-		} else if (timestampStrs !== null && timestampStrs.length) {
-			entry.startTime = Connector.stringToSeconds(timestampStrs[0]);
-		}
-
-		// Cleanse trackArtist data of timestamp, delimiters, etc.
-		maybeTrack = cleansePlaylistLine(maybeTrack);
-		maybeTrack = cleanseTrack(maybeTrack);
-
-		// Check that it's not just a random sentence.
-		// e.g. "Comment which is your favourite 19:13..." @ https://www.youtube.com/watch?v=_8pyf6ZW4Dk
-		if(maybeTrack.length > 60) {
-			return false;
-		}
-
-		// Are these tracks by a single artist, or artistTrack (a compilation e.g. https://www.youtube.com/watch?v=EzjX0QE_l8U)?
-		var separator = Connector.findSeparator(maybeTrack);
-		if (separator !== null) {
-			entry.artistTrack = maybeTrack;
+		var entry = parseTrack(maybeTrack);
+		if (entry !== null)
+		{
+			potentialPlaylist.push(entry);
 		} else {
-			entry.track = maybeTrack;
+			if (potentialPlaylist.length == 0) {
+				firstTrackOffset++;
+			}
 		}
-
-		potentialPlaylist.push(entry);
 	});
 
-	return potentialPlaylist;
+	var getLeadingNumber = function (maybeTrack) {
+		var nubmerRegex = /^\s*(track|number|no|no\.|song)?\s*[\[\(\{\-]*\s*([0-9]{1,2})\s*[\.\-:=\)\]\}]*\s*/i;
+		var match = nubmerRegex.exec(maybeTrack);
+		var trackNumber = 0;
+		if (match !== null) {
+			trackNumber = parseInt(match[2], 10);
+		}
+		return trackNumber;
+	};
+
+	if (potentialPlaylist.length > 0) {
+		if (firstTrackOffset > 0) {
+			var maybeLeadingTrack = potentialTracks[firstTrackOffset - 1];
+			var leadingTrackNumber = getLeadingNumber(maybeLeadingTrack);
+			var firstTrackNumber = getLeadingNumber(potentialTracks[firstTrackOffset]);
+			if ((leadingTrackNumber == 1) && (firstTrackNumber == 2)) {
+				// We have found the first track which missed the 00:00 timestamp - add it.
+				// Fixes https://www.youtube.com/watch?v=otvGoSmEDIQ without having to reparse DOM
+				var realFirstTrack = parseTrack(maybeLeadingTrack + ' 00:00');
+				if (realFirstTrack !== null) {
+					potentialPlaylist.unshift(realFirstTrack);
+				}
+			}
+		}
+		return potentialPlaylist;
+	}
+	return null;
 }
 
 function cleansePlaylistLine(maybeTrack) {
