@@ -70,7 +70,7 @@ define([
 					iconUrl: song.metadata.artistThumbUrl || 'default_cover_art.png',
 					title: song.getTrack(),
 					message: 'by ' + song.getArtist(),
-					contextMessage: hhMM()
+					contextMessage: hhMM()+' · '+song.metadata.connector.label
 				};
 
 				chrome.notifications.create('', options, notificationCreatedCb);

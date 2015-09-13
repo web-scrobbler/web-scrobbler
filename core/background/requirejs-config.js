@@ -19,9 +19,9 @@ require.config({
 		canjs: {
 			deps: ['jquery']
 		},
-	    underscore: {
-	    	exports: '_'
-	    }
+		underscore: {
+			exports: '_'
+		}
 	},
 	waitSeconds: 0
 });
