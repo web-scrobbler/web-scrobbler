@@ -223,65 +223,6 @@ function buildPlaylist(potentialTracks) {
 	return potentialPlaylist;
 }
 
-function findTrackSequence(potentialTracks) {
-	// Parses the playlists which lack (some) time information
-	// The numbers have to be at the start of the string to qualify
-	var nubmerRegex = /^\s*(track|number|no|no\.|song)?\s*[\[\(\{\-]*\s*([0-9]{1,2})\s*[\.\-:=\)\]\}]*\s*/i;
-	// Find the longest uninterrupted track number sequence
-	var playlistStart = null;
-	var playlistLength = null;
-	potentialTracks.reduce(function(previousNumber, maybeTrack, index) {
-		// Highly inefficient, but youtube is a formatting winnipeg after all
-		var match = nubmerRegex.exec(maybeTrack);
-		var trackNumber = 0;
-		if (match !== null) {
-			trackNumber = parseInt(match[2], 10);
-		}
-		// Starting to collect a new playlist
-		if (previousNumber === null) {
-			// Assuming that virtually all playlists start with track 1
-			if (trackNumber == 1) {
-				// If it is the first playlist, initialize it:
-				if (playlistStart === null) {
-					playlistStart = index;
-					playlistLength = 1;
-				}
-				return 1;
-			} else {
-				// This is not track 1, therefore, it cannot be the start of the playlist
-				return null;
-			}
-		}
-		// Expanding the current playlist
-		else if (previousNumber + 1 == trackNumber) {
-			// If this playlist is at least as long as the previous one, it's better
-			if (trackNumber >= playlistLength) {
-				playlistStart = index + 1 - trackNumber;
-				playlistLength = trackNumber;
-			}
-			return trackNumber;
-		}
-		else {
-			// Improper ordering; start again but preserve the found playlist
-			return null;
-		}
-	}, null);
-
-	if ((playlistStart !== null) && (playlistLength !== null)) {
-		var numberedPlaylist = potentialTracks.slice(playlistStart, playlistStart + playlistLength);
-		// The only reason for me to write this function was https://www.youtube.com/watch?v=otvGoSmEDIQ
-		// However, it will find any track sequences with missing time data (to fetch it from lastmf?)
-		if (numberedPlaylist[0].search(timestampRegex) < 0) {
-			// Add '00:00' to the first track if it doesn't have any timestamp
-			numberedPlaylist[0] += ' 00:00';
-		}
-		return parsePlaylist(numberedPlaylist);
-	}
-	return null;
-}
-// Linting hack
-findTrackSequence([]);
-
 function parseTrack(maybeTrack) {
 	var entry = {};
 
