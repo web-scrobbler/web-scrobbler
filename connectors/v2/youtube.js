@@ -125,12 +125,12 @@ Connector.getPlaylist = function () {
 			i++;
 		}
 
-		if(playlists.length == 0) {
+		if(playlists.length === 0) {
 			console.info('No (valid) playlists found; this is a single-track media.');
 			return null;
 		} else {
 			// Select the longest playlist
-			var playlist = playlists.reduce(function(result, currentPlaylist, index, array) {
+			var playlist = playlists.reduce(function(result, currentPlaylist) {
 				if (currentPlaylist.length >= result.length) {
 					return currentPlaylist;
 				}
@@ -230,7 +230,7 @@ function findTrackSequence(potentialTracks) {
 	// Find the longest uninterrupted track number sequence
 	var playlistStart = null;
 	var playlistLength = null;
-	potentialTracks.reduce(function(previousNumber, maybeTrack, index, array) {
+	potentialTracks.reduce(function(previousNumber, maybeTrack, index) {
 		// Highly inefficient, but youtube is a formatting winnipeg after all
 		var match = nubmerRegex.exec(maybeTrack);
 		var trackNumber = 0;
@@ -279,6 +279,8 @@ function findTrackSequence(potentialTracks) {
 	}
 	return null;
 }
+// Linting hack
+findTrackSequence([]);
 
 function parseTrack(maybeTrack) {
 	var entry = {};
@@ -332,7 +334,7 @@ function parsePlaylist(potentialTracks) {
 		{
 			potentialPlaylist.push(entry);
 		} else {
-			if (potentialPlaylist.length == 0) {
+			if (potentialPlaylist.length === 0) {
 				firstTrackOffset++;
 			}
 		}
@@ -353,7 +355,7 @@ function parsePlaylist(potentialTracks) {
 			var maybeLeadingTrack = potentialTracks[firstTrackOffset - 1];
 			var leadingTrackNumber = getLeadingNumber(maybeLeadingTrack);
 			var firstTrackNumber = getLeadingNumber(potentialTracks[firstTrackOffset]);
-			if ((leadingTrackNumber + 1 == firstTrackNumber) && (potentialPlaylist[0].startTime != 0)) {
+			if ((leadingTrackNumber + 1 == firstTrackNumber) && (potentialPlaylist[0].startTime !== 0)) {
 				// We have found the first track which missed the 00:00 timestamp - add it.
 				// Fixes https://www.youtube.com/watch?v=otvGoSmEDIQ without having to reparse DOM
 				var realFirstTrack = parseTrack(maybeLeadingTrack + ' 00:00');
