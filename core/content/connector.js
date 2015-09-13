@@ -245,14 +245,28 @@ var BaseConnector = window.BaseConnector || function () {
 
 	/**
 	 * Returns an array of PlaylistItem objects
+	 * This method is called only if {@link BaseConnector#getPlaylistHash} returns a new value or null.
+	 * More straightforward update routines can be throttled with {@link BaseConnector#setThrottleInterval}
 	 * @return {{ startTime: Number, track: String | null, artist: String | null, artistTrack: String | null }}
 	 */
 	this.getPlaylist = function () {
 		return null;
 	};
 
+	/**
+	 * Returns a hash of the current playlist
+	 * The playlist update will occur only if this value changes, this is intended to reduce CPU overhead.
+	 * Defaults to querying getPlaylist each throttle interval if null is retruned.
+	 * @return {null | String}
+	 */
+	this.getPlaylistHash = function () {
+		return null;
+	};
+
+
 
 	// --- state & api -------------------------------------------------------------------------------------------------
+
 
 
 	/**
@@ -263,6 +277,7 @@ var BaseConnector = window.BaseConnector || function () {
 		artist: null,
 		album: null,
 		uniqueID: null,
+		playlistHash: null,
 		duration: null,
 		currentTime: 0,
 		isPlaying: true
@@ -303,7 +318,14 @@ var BaseConnector = window.BaseConnector || function () {
 			changedFields.push('currentTime');
 		}
 
-		this.currentPlaylist = this.getPlaylist();
+		var newPlaylistHash = this.getPlaylistHash();
+		if (newPlaylistHash === null) {
+			this.currentPlaylist = this.getPlaylist();
+		} else if ((currentState.playlistHash === null) || (currentState.playlistHash != newPlaylistHash)) {
+			this.currentPlaylist = this.getPlaylist();
+			currentState.playlistHash = newPlaylistHash;
+			//changedFields.push('playlistHash');
+		}
 
 		if(this.currentPlaylist) {
 			/**

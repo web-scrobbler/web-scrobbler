@@ -82,65 +82,43 @@ var timestampRegex = new RegExp(timestampPattern,'gi');
 // More to the point: the playlist only changes when the YT page does, so no point constantly scanning it.
 Connector.setThrottleInterval(3000);
 
-// The playlist does not change on its own, so cache it and invalidate when the video id or DOM changes
-var playlistCache = {
-	hash: null,
-	value: null,
-	getPageHash: function () {
-		return Connector.getUniqueID() + $('#eow-description, .comment-text-content').length;
-	},
-	isValid: function () {
-		return (this.hash == this.getPageHash());
-	},
-	setValue: function(newValue) {
-		this.hash = this.getPageHash();
-		this.value = newValue;
-	}
+Connector.getPlaylistHash = function () {
+	return Connector.getUniqueID() + $('#eow-description, .comment-text-content').length;
 };
 
 Connector.getPlaylist = function () {
-	if (playlistCache.isValid()) {
-		// Cache hit
-		console.info('This is a cached playlist.');
-		return playlistCache.value;
+	var $containers = $('#eow-description, .comment-text-content');
+	var i = 0;
+	// Fetch up to 3 playlists on the page
+	var playlists = [];
+	while($containers.get(i) && (playlists.length < 3)) {
+		var $container = $($containers.get(i));
+		var potentialPlaylist = null;
+
+		if(timestampRegex.test($container.html())) {
+			var potentialTracks = $container.html().split(/\r\n|\r|\n|<br>/g);
+			potentialPlaylist = buildPlaylist(potentialTracks);
+		}
+
+		if (typeof potentialPlaylist !== 'undefined' && potentialPlaylist !== null) {
+			playlists.push(potentialPlaylist);
+		}
+		i++;
+	}
+
+	if(playlists.length === 0) {
+		console.info('No (valid) playlists found; this is a single-track media.');
+		return null;
 	} else {
-		// Invalid cache - rebuild playlist
-		var playlists = [];
-
-		var $containers = $('#eow-description, .comment-text-content');
-		var i = 0;
-		// Fetch up to 3 playlists on the page
-		while($containers.get(i) && (playlists.length < 3)) {
-			var $container = $($containers.get(i));
-			var potentialPlaylist = null;
-
-			if(timestampRegex.test($container.html())) {
-				var potentialTracks = $container.html().split(/\r\n|\r|\n|<br>/g);
-				potentialPlaylist = buildPlaylist(potentialTracks);
+		// Select the longest playlist
+		var playlist = playlists.reduce(function(result, currentPlaylist) {
+			if (currentPlaylist.length >= result.length) {
+				return currentPlaylist;
 			}
-
-			if (typeof potentialPlaylist !== 'undefined' && potentialPlaylist !== null) {
-				playlists.push(potentialPlaylist);
-			}
-			i++;
-		}
-
-		if(playlists.length === 0) {
-			console.info('No (valid) playlists found; this is a single-track media.');
-			return null;
-		} else {
-			// Select the longest playlist
-			var playlist = playlists.reduce(function(result, currentPlaylist) {
-				if (currentPlaylist.length >= result.length) {
-					return currentPlaylist;
-				}
-				return result;
-			});
-			console.info('This is a playlist.', playlist);
-			playlistCache.setValue(playlist);
-
-			return playlist;
-		}
+			return result;
+		});
+		console.info('Parsed a playlist.');
+		return playlist;
 	}
 };
 
