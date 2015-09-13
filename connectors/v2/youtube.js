@@ -219,7 +219,7 @@ function buildPlaylist(potentialTracks) {
 	var isNumbered = _.countBy(potentialPlaylist, function(track) {
 		return track[stringProperty].match(beginningNumberRegex) ? 'is' : 'isnt';
 	});
-	if(isNumbered.is > isNumbered.isnt) {
+	if (isNumbered.is > 2 * isNumbered.isnt) {
 		console.info('Playlist parser - removing non-delimitered numbering from all track starts.',isNumbered);
 		_.each(potentialPlaylist, function(track) {
 			track[stringProperty] = track[stringProperty].replace(beginningNumberRegex,'$1');
@@ -285,7 +285,7 @@ function cleansePlaylistLine(maybeTrack) {
 	maybeTrack = maybeTrack.replace('__TIMESTAMP__','');
 	maybeTrack = maybeTrack.replace(/\s*&[a-z]+;\s*/gi,''); // remove HTML entity codes (e.g. https://www.youtube.com/watch?v=VFOF47nalCY)
 	maybeTrack = maybeTrack.replace(/^\s*[-:=]\s*/gi,''); // HH:MM - Track
-	maybeTrack = maybeTrack.replace(/\s*(track|number|no|no\.|song)?\s*[\[\(\{\-]*\s*[0-9]{1,2}\s*[\.\-:=\)\]\}]{1,3}\s*/i,''); // numbering  1.  1 -  (1) etc. (e.g. https://www.youtube.com/watch?v=Y7QQS5V3cnI) and "track 1." (e.g. https://www.youtube.com/watch?v=FijBkSvN6N8)
+	maybeTrack = maybeTrack.replace(/^\s*(track|number|no|no\.|song)?\s*[\[\(\{\-]*\s*[0-9]{1,2}\s*[\.\-:=\)\]\}]{1,3}\s*/i,''); // numbering  1.  1 -  (1) etc. (e.g. https://www.youtube.com/watch?v=Y7QQS5V3cnI) and "track 1." (e.g. https://www.youtube.com/watch?v=FijBkSvN6N8)
 
 	return maybeTrack;
 }
