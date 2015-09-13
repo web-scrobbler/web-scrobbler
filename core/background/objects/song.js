@@ -53,7 +53,6 @@ define([
 		var connector = _.find(connectors, function(connector) {
 			return _.find(connector.matches, function(patternStr) {
 				var pattern = RoutePattern.fromString(patternStr);
-				console.warn(patternStr, parsedData.url.href, pattern.matches(parsedData.url.href));
 				return pattern.matches(parsedData.url.href);
 			});
 		});
