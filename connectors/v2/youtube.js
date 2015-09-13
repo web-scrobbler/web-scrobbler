@@ -82,28 +82,35 @@ var timestampRegex = new RegExp(timestampPattern,'gi');
 // More to the point: the playlist only changes when the YT page does, so no point constantly scanning it.
 Connector.setThrottleInterval(3000);
 
-// The playlist does not change on its own, so cache it and invalidate only when video id changes.
+// The playlist does not change on its own, so cache it and invalidate when the video id or DOM changes
 var playlistCache = {
 	hash: null,
-	value: null
+	value: null,
+	getPageHash: function () {
+		return Connector.getUniqueID() + $('#eow-description, .comment-text-content').length;
+	},
+	isValid: function () {
+		return (this.hash == this.getPageHash());
+	},
+	setValue: function(newValue) {
+		this.hash = this.getPageHash();
+		this.value = newValue;
+	}
 };
 
 Connector.getPlaylist = function () {
-	var videoID = Connector.getUniqueID();
-
-	if (playlistCache.hash == videoID) {
+	if (playlistCache.isValid()) {
 		// Cache hit
 		console.info('This is a cached playlist.');
 		return playlistCache.value;
 	} else {
 		// Invalid cache - rebuild playlist
-		var playlist = [];
+		var playlists = [];
 
 		var $containers = $('#eow-description, .comment-text-content');
 		var i = 0;
-		var found = false;
-
-		while($containers.get(i) && !found) {
+		// Fetch up to 3 playlists on the page
+		while($containers.get(i) && (playlists.length < 3)) {
 			var $container = $($containers.get(i));
 			var potentialPlaylist = null;
 
@@ -113,24 +120,24 @@ Connector.getPlaylist = function () {
 			}
 
 			if (typeof potentialPlaylist !== 'undefined' && potentialPlaylist !== null) {
-				playlist = potentialPlaylist;
-				found = true;
-			} else {
-				i++;
+				playlists.push(potentialPlaylist);
 			}
+			i++;
 		}
 
-		if(!found) {
+		if(playlists.length == 0) {
 			console.info('No (valid) playlists found; this is a single-track media.');
 			return null;
 		} else {
+			// Select the longest playlist
+			var playlist = playlists.reduce(function(result, currentPlaylist, index, array) {
+				if (currentPlaylist.length >= result.length) {
+					return currentPlaylist;
+				}
+				return result;
+			});
 			console.info('This is a playlist.', playlist);
-
-			// Cache the generated playlist
-			playlistCache = {
-				hash: videoID,
-				value: playlist
-			};
+			playlistCache.setValue(playlist);
 
 			return playlist;
 		}
