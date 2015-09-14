@@ -82,66 +82,49 @@ var timestampRegex = new RegExp(timestampPattern,'gi');
 // More to the point: the playlist only changes when the YT page does, so no point constantly scanning it.
 Connector.setThrottleInterval(3000);
 
-// The playlist does not change on its own, so cache it and invalidate only when video id changes.
-var playlistCache = {
-	hash: null,
-	value: null
+Connector.getPlaylistHash = function () {
+	return Connector.getUniqueID() + $('#eow-description, .comment-text-content').length;
 };
 
 Connector.getPlaylist = function () {
-	var videoID = Connector.getUniqueID();
+	var $containers = $('#eow-description, .comment-text-content');
+	var i = 0;
+	// Fetch up to 3 playlists on the page
+	var playlists = [];
+	while($containers.get(i) && (playlists.length < 3)) {
+		var $container = $($containers.get(i));
+		var potentialPlaylist = null;
 
-	if (playlistCache.hash == videoID) {
-		// Cache hit
-		console.info('This is a cached playlist.');
-		return playlistCache.value;
+		if(timestampRegex.test($container.html())) {
+			var potentialTracks = $container.html().split(/\r\n|\r|\n|<br>/g);
+			potentialPlaylist = buildPlaylist(potentialTracks);
+		}
+
+		if (typeof potentialPlaylist !== 'undefined' && potentialPlaylist !== null) {
+			playlists.push(potentialPlaylist);
+		}
+		i++;
+	}
+
+	if(playlists.length === 0) {
+		console.info('No (valid) playlists found; this is a single-track media.');
+		return null;
 	} else {
-		// Invalid cache - rebuild playlist
-		var playlist = [];
-
-		var $containers = $('#eow-description, .comment-text-content');
-		var i = 0;
-		var found = false;
-
-		while($containers.get(i) && !found) {
-			var $container = $($containers.get(i));
-			var potentialPlaylist = null;
-
-			if(timestampRegex.test($container.html())) {
-				var potentialTracks = $container.html().split(/\r\n|\r|\n|<br>/g);
-				potentialPlaylist = buildPlaylist(potentialTracks);
+		// Select the longest playlist
+		var playlist = playlists.reduce(function(result, currentPlaylist) {
+			if (currentPlaylist.length >= result.length) {
+				return currentPlaylist;
 			}
-
-			if (typeof potentialPlaylist !== 'undefined' && potentialPlaylist !== null) {
-				playlist = potentialPlaylist;
-				found = true;
-			} else {
-				i++;
-			}
-		}
-
-		if(!found) {
-			console.info('No (valid) playlists found; this is a single-track media.');
-			return null;
-		} else {
-			console.info('This is a playlist.', playlist);
-
-			// Cache the generated playlist
-			playlistCache = {
-				hash: videoID,
-				value: playlist
-			};
-
-			return playlist;
-		}
+			return result;
+		});
+		console.info('Parsed a playlist.');
+		return playlist;
 	}
 };
 
 function buildPlaylist(potentialTracks) {
 	var stringProperty = 'track'; // Used further down to ID which property to tweak en-masse.
 	var potentialPlaylist = parsePlaylist(potentialTracks);
-
-
 	/**
 	 * Check that this 'playlist' actually has enough....
 	*/
@@ -149,10 +132,8 @@ function buildPlaylist(potentialTracks) {
 		return null;
 	}
 
-
 	// Do NOT rely on playlist numbering! e.g. https://www.youtube.com/watch?v=AIQKIcNGfZ8
 	potentialPlaylist = _.sortBy(potentialPlaylist, function(track) { return track.startTime; });
-
 
 	/**
 	 * If the last timestamp starts after the video ends... well, it's probably a broken playlist
@@ -162,7 +143,6 @@ function buildPlaylist(potentialTracks) {
 		console.info('Invalid playlist - timestamps greater than clip duration');
 		return null;
 	}
-
 
 	/**
 	 * A playlist will be:
@@ -203,7 +183,6 @@ function buildPlaylist(potentialTracks) {
 		stringProperty = 'artistTrack';
 	}
 
-
 	/**
 	 * If most tracks have numbers at the beginning, it's probably a case of shoddy playlist numbering
 	 * e.g. https://www.youtube.com/watch?v=epSWiHu7ggk
@@ -212,7 +191,7 @@ function buildPlaylist(potentialTracks) {
 	var isNumbered = _.countBy(potentialPlaylist, function(track) {
 		return track[stringProperty].match(beginningNumberRegex) ? 'is' : 'isnt';
 	});
-	if(isNumbered.is > isNumbered.isnt) {
+	if (isNumbered.is > 2 * isNumbered.isnt) {
 		console.info('Playlist parser - removing non-delimitered numbering from all track starts.',isNumbered);
 		_.each(potentialPlaylist, function(track) {
 			track[stringProperty] = track[stringProperty].replace(beginningNumberRegex,'$1');
@@ -222,63 +201,102 @@ function buildPlaylist(potentialTracks) {
 	return potentialPlaylist;
 }
 
+function parseTrack(maybeTrack) {
+	var entry = {};
+
+	var $maybeTrack = $('<div>'+maybeTrack+'</div>');
+
+	// YouTube automatically adds markup to timestamps...
+	var $timestampEls = $maybeTrack.find('a[onclick*=\'seekTo\']');
+	// ... but not when HH:MM exceeds 59:59, so also search for HH:MM
+	var timestampStrs = maybeTrack.match(timestampRegex);
+
+	// No timestamps in this line.
+	if(($timestampEls === null || !$timestampEls.length) && (timestampStrs === null || !timestampStrs.length)) {
+		return null;
+	}
+
+	if ($timestampEls !== null && $timestampEls.length) {
+		entry.startTime = Connector.stringToSeconds($timestampEls.first().text());
+	} else if (timestampStrs !== null && timestampStrs.length) {
+		entry.startTime = Connector.stringToSeconds(timestampStrs[0]);
+	}
+
+	// Cleanse trackArtist data of timestamp, delimiters, etc.
+	maybeTrack = cleansePlaylistLine(maybeTrack);
+	maybeTrack = cleanseTrack(maybeTrack);
+
+	// Check that it's not just a random sentence.
+	// e.g. "Comment which is your favourite 19:13..." @ https://www.youtube.com/watch?v=_8pyf6ZW4Dk
+	if(maybeTrack.length > 60) {
+		return null;
+	}
+
+	// Are these tracks by a single artist, or artistTrack (a compilation e.g. https://www.youtube.com/watch?v=EzjX0QE_l8U)?
+	var separator = Connector.findSeparator(maybeTrack);
+	if (separator !== null) {
+		entry.artistTrack = maybeTrack;
+	} else {
+		entry.track = maybeTrack;
+	}
+	return entry;
+}
+
 function parsePlaylist(potentialTracks) {
 	var potentialPlaylist = [];
+	// First track array index in potentialTracks
+	var firstTrackOffset = 0;
 
 	_.each(potentialTracks, function(maybeTrack) {
-		var entry = {};
-
-		var $maybeTrack = $('<div>'+maybeTrack+'</div>');
-
-		// YouTube automatically adds markup to timestamps...
-		var $timestampEls = $maybeTrack.find('a[onclick*=\'seekTo\']');
-		// ... but not when HH:MM exceeds 59:59, so also search for HH:MM
-		var timestampStrs = maybeTrack.match(timestampRegex);
-
-		// No timestamps in this line.
-		if(($timestampEls === null || !$timestampEls.length) && (timestampStrs === null || !timestampStrs.length)) {
-			return false;
-		}
-
-		if ($timestampEls !== null && $timestampEls.length) {
-			entry.startTime = Connector.stringToSeconds($timestampEls.first().text());
-		} else if (timestampStrs !== null && timestampStrs.length) {
-			entry.startTime = Connector.stringToSeconds(timestampStrs[0]);
-		}
-
-		// Cleanse trackArtist data of timestamp, delimiters, etc.
-		maybeTrack = cleansePlaylistLine(maybeTrack);
-		maybeTrack = cleanseTrack(maybeTrack);
-
-		// Check that it's not just a random sentence.
-		// e.g. "Comment which is your favourite 19:13..." @ https://www.youtube.com/watch?v=_8pyf6ZW4Dk
-		if(maybeTrack.length > 60) {
-			return false;
-		}
-
-		// Are these tracks by a single artist, or artistTrack (a compilation e.g. https://www.youtube.com/watch?v=EzjX0QE_l8U)?
-		var separator = Connector.findSeparator(maybeTrack);
-		if (separator !== null) {
-			entry.artistTrack = maybeTrack;
+		var entry = parseTrack(maybeTrack);
+		if (entry !== null)
+		{
+			potentialPlaylist.push(entry);
 		} else {
-			entry.track = maybeTrack;
+			if (potentialPlaylist.length === 0) {
+				firstTrackOffset++;
+			}
 		}
-
-		potentialPlaylist.push(entry);
 	});
 
-	return potentialPlaylist;
+	var getLeadingNumber = function (maybeTrack) {
+		var nubmerRegex = /^\s*(track|number|no|no\.|song)?\s*[\[\(\{\-]*\s*([0-9]{1,2})\s*[\.\-:=\)\]\}\|]*\s*/i;
+		var match = nubmerRegex.exec(maybeTrack);
+		var trackNumber = 0;
+		if (match !== null) {
+			trackNumber = parseInt(match[2], 10);
+		}
+		return trackNumber;
+	};
+
+	if (potentialPlaylist.length > 0) {
+		if (firstTrackOffset > 0) {
+			var maybeLeadingTrack = potentialTracks[firstTrackOffset - 1];
+			var leadingTrackNumber = getLeadingNumber(maybeLeadingTrack);
+			var firstTrackNumber = getLeadingNumber(potentialTracks[firstTrackOffset]);
+			if ((leadingTrackNumber + 1 == firstTrackNumber) && (potentialPlaylist[0].startTime !== 0)) {
+				// We have found the first track which missed the 00:00 timestamp - add it.
+				// Fixes https://www.youtube.com/watch?v=otvGoSmEDIQ without having to reparse DOM
+				var realFirstTrack = parseTrack(maybeLeadingTrack + ' 00:00');
+				if (realFirstTrack !== null) {
+					potentialPlaylist.unshift(realFirstTrack);
+				}
+			}
+		}
+		return potentialPlaylist;
+	}
+	return null;
 }
 
 function cleansePlaylistLine(maybeTrack) {
 	maybeTrack = maybeTrack.replace(timestampRegex,'__TIMESTAMP__');
 	maybeTrack = maybeTrack.replace(/[\[\(\{\–\-]*\s*[0-9]{1,2}\.[0-9]{2}\s*[\]\)\}\–\-:]/gi,''); // Chop out bullshit other misformatted timestamps (e.g. https://www.youtube.com/watch?v=9-NFosnfd2c)
 	maybeTrack = maybeTrack.replace(/<a.*>(__TIMESTAMP__)<\/a>/gi,'$1');
-	maybeTrack = maybeTrack.replace(/\s*[\[\(\{\–\-]*\s*__TIMESTAMP__\s*[\]\)\}\–\-:]*\s*/gi,''); // [00:00] (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo / https://www.youtube.com/watch?v=thUQr7Q1vCY)
+	maybeTrack = maybeTrack.replace(/\s*[\[\(\{\–\-\|]*\s*__TIMESTAMP__\s*[\]\)\}\–\-:\|]*\s*/gi,''); // [00:00] (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo / https://www.youtube.com/watch?v=thUQr7Q1vCY)
 	maybeTrack = maybeTrack.replace('__TIMESTAMP__','');
 	maybeTrack = maybeTrack.replace(/\s*&[a-z]+;\s*/gi,''); // remove HTML entity codes (e.g. https://www.youtube.com/watch?v=VFOF47nalCY)
 	maybeTrack = maybeTrack.replace(/^\s*[-:=]\s*/gi,''); // HH:MM - Track
-	maybeTrack = maybeTrack.replace(/\s*(track|number|no|no\.|song)?\s*[\[\(\{\-]*\s*[0-9]{1,2}\s*[\.\-:=\)\]\}]{1,3}\s*/i,''); // numbering  1.  1 -  (1) etc. (e.g. https://www.youtube.com/watch?v=Y7QQS5V3cnI) and "track 1." (e.g. https://www.youtube.com/watch?v=FijBkSvN6N8)
+	maybeTrack = maybeTrack.replace(/^\s*(track|number|no|no\.|song)?\s*[\[\(\{\-]*\s*[0-9]{1,2}\s*[\.\-:=\)\]\}\|]{1,3}\s*/i,''); // numbering  1.  1 -  (1) etc. (e.g. https://www.youtube.com/watch?v=Y7QQS5V3cnI) and "track 1." (e.g. https://www.youtube.com/watch?v=FijBkSvN6N8)
 
 	return maybeTrack;
 }
