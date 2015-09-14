@@ -246,13 +246,14 @@ define([
 	 *
 	 * @param song {Song}
 	 * @param cb {Function(boolean)} callback where validation result will be passed
+	 * @param forceAutocorrect {Boolean}
 	 */
-	function loadSongInfo(song, cb) {
+	function loadSongInfo(song, cb, forceAutocorrect) {
 		getSession(function(sessionID,sessionName) {
 
 			var params = {
 				method: 'track.getinfo',
-				autocorrect: localStorage.useAutocorrect ? localStorage.useAutocorrect : 0,
+				autocorrect: forceAutocorrect ? 1 : (localStorage.useAutocorrect ? localStorage.useAutocorrect : 0),
 				username: sessionName,
 				artist: song.processed.artist || song.parsed.artist,
 				track: song.processed.track || song.parsed.track
@@ -272,6 +273,7 @@ define([
 				song.processed.attr({
 					artist: $doc.find('artist > name').text(),
 					track: $doc.find('track > name').text(),
+					album: $doc.find('album > title').text(),
 					duration: parseInt($doc.find('track > duration').text()) / 1000
 				});
 
@@ -283,6 +285,7 @@ define([
 				song.metadata.attr({
 					artistUrl: $doc.find('artist > url').text(),
 					trackUrl: $doc.find('track > url').text(),
+					albumUrl: $doc.find('album > url').text(),
 					userloved: $doc.find('userloved').text() == 1,
 					artistThumbUrl: thumbUrl
 				});
@@ -296,6 +299,69 @@ define([
 
 			var errCb = function() {
 				song.flags.attr('isLastfmValid', false);
+				cb(false);
+			};
+
+			doRequest('GET', params, false, okCb, errCb);
+		});
+	}
+
+	/**
+	 * Asynchronously loads album info into given album object
+	 *
+	 * @param album {Album}
+	 * @param cb {Function(boolean)} callback where validation result will be passed
+	 * @param forceAutocorrect {Boolean}
+	 */
+	function loadAlbumInfo(album, cb, forceAutocorrect) {
+		getSession(function(sessionID,sessionName) {
+
+			var params = {
+				method: 'album.getinfo',
+				autocorrect: forceAutocorrect ? 1 : (localStorage.useAutocorrect ? localStorage.useAutocorrect : 0),
+				username: sessionName,
+				artist: album.artist,
+				album: album.album
+			};
+
+			if (params.artist === null || params.track === null) {
+				cb(false);
+				return;
+			}
+
+			var okCb = function(xmlDoc) {
+				var $doc = $(xmlDoc);
+
+				can.batch.start();
+
+				var albumName = $doc.find('album > name').text();
+				var tracks = [];
+				var $tracks = $doc.find('tracks > track');
+				$tracks.each(function (index, track) {
+					var $track = $(track);
+					// TODO: didn't bother about the structure
+					var song = {};
+					song.album = albumName;
+					song.artist = $track.find('artist > name').text();
+					song.artistUrl = $track.find('artist > url').text();
+					song.track = $track.children('name').text();
+					song.duration = parseInt($track.children('duration').text(), 10);
+					song.trackUrl = $track.children('url').text()
+					tracks.push(song);
+				});
+
+				album.artist = $doc.find('album > artist').text();
+				album.albumUrl = $doc.find('album > url').text();
+				album.thumbUrl = $doc.find('album > image[size="medium"]').text();
+				album.album = albumName;
+				album.tracks = tracks;
+
+				can.batch.stop();
+
+				cb(true);
+			};
+
+			var errCb = function() {
 				cb(false);
 			};
 
@@ -446,6 +512,7 @@ define([
 		getSession: getSession,
 		generateSign: generateSign,
 		loadSongInfo: loadSongInfo,
+		loadAlbumInfo: loadAlbumInfo,
 		sendNowPlaying: sendNowPlaying,
 		scrobble: scrobble,
 		toggleLove: toggleLove
