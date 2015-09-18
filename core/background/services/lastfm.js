@@ -346,7 +346,7 @@ define([
 					song.artistUrl = $track.find('artist > url').text();
 					song.track = $track.children('name').text();
 					song.duration = parseInt($track.children('duration').text(), 10);
-					song.trackUrl = $track.children('url').text()
+					song.trackUrl = $track.children('url').text();
 					tracks.push(song);
 				});
 

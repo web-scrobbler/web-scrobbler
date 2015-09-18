@@ -378,7 +378,7 @@ Connector.onPageChanged = function () {
 // Asynchronously fills asyncPlaylistCache with fixed playlist data
 Connector.asyncFixPlaylist = function (brokenPlaylist) {
 	var apc = Connector.asyncPlaylistCache;
-	if ((brokenPlaylist === null) || (brokenPlaylist.length == 0)) {
+	if ((brokenPlaylist === null) || (brokenPlaylist.length === 0)) {
 		console.info('Tried to fix an empty broken playlist');
 		return null;
 	}
@@ -426,7 +426,6 @@ Connector.asyncFixPlaylist = function (brokenPlaylist) {
 				return;
 			}
 			numRetry++;
-			var entry = null;
 			if (song === null) {
 				if (numRetry <= maxRetries) {
 					// Remove (remix) etc
@@ -469,16 +468,21 @@ function cleanseTrackHarder(maybeTrack, hardness) {
 		return null;
 	}
 	var before = maybeTrack.slice();
-	// fall-thru
 	switch(hardness)
 	{
 		default:
 		case 3:
 			maybeTrack = maybeTrack.replace(/\(.*\)/, '');
+			maybeTrack = cleansePlaylistLine(maybeTrack);
+			maybeTrack = cleanseTrack(maybeTrack);
+			break;
 		case 2:
 			maybeTrack = cleansePlaylistLine(maybeTrack);
+			maybeTrack = cleanseTrack(maybeTrack);
+			break;
 		case 1:
 			maybeTrack = cleanseTrack(maybeTrack);
+			break;
 	}
 	if ((before == maybeTrack) && (hardness < 3))
 	{
@@ -704,7 +708,7 @@ Connector.fixShoddyNumbering = function (playlist) {
 
 Connector.fixMissingFirstTrack = function (playlist, pagePlaylists) {
 	var track = playlist[0];
-	if (track.lineNumber != 0) {
+	if (track.lineNumber) {
 		var lines = pagePlaylists[track.pagePlaylistIndex];
 		var leadingTrack = Connector.parseTrack(lines[track.lineNumber - 1]);
 		if (leadingTrack === null) {
