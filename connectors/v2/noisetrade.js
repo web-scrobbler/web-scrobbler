@@ -14,8 +14,8 @@ $('audio').first().bind('playing pause', Connector.onStateChanged);
 var albumHasVariousArtists = (function () {
     var all = true;
     $('a.jp-playlist-item').each(function () {
-        if ($(this).text().indexOf("-") === -1) {
-            all = false
+        if ($(this).text().indexOf('-') === -1) {
+            all = false;
             return false;
         }
     });
@@ -42,7 +42,7 @@ var trackTitlesStartWithTrackNo = (function () {
     var all = true;
     $('a.jp-playlist-item').each(function () {
         if (!isNumber($(this).text().substring(0, 2))) {
-            all = false
+            all = false;
             return false;
         }
     });
