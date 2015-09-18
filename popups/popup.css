@@ -24,7 +24,6 @@ a {
 	height: 100px;
 	float: left;
 	background-image: url('img/default_artist_large.png');
-
 	/* .cover-image */
 	background-size: cover;
 	background-position: center;
@@ -34,7 +33,7 @@ a {
 
 #info {
 	margin-left: 110px;
-    line-height: 1.5em;
+	line-height: 1.5em;
 }
 
 .track-link {
@@ -79,13 +78,13 @@ a {
 	right: 10px;
 }
 
-#edit-links a {
-	color: #EEE;
-}
+	#edit-links a {
+		color: #EEE;
+	}
 
-#edit-links a:hover {
-	color: #AAA;
-}
+		#edit-links a:hover {
+			color: #AAA;
+		}
 
 #love {
 	width: 16px;
@@ -94,12 +93,15 @@ a {
 	display: inline-block;
 	background: url("/icons/love16.png") 0 0 no-repeat;
 }
-#love[last-fm-loved="true"] {
-    background-position-y: -32px;
-}
-#love:hover {
-	background-position-y: -16px;
-}
-#love[last-fm-loved="true"]:hover {
-    background-position-y: -48px;
-}
+
+	#love:hover {
+		background-position-y: -16px;
+	}
+
+	#love[last-fm-loved="true"] {
+		background-position-y: -32px;
+	}
+
+		#love[last-fm-loved="true"]:hover {
+			background-position-y: -48px;
+		}
