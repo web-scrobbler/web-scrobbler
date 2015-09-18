@@ -178,7 +178,7 @@ Connector.asyncPlaylistCache = {
 		}
 		this.playlist[index] = value;
 		if ((this.finished === this.playlist.length) && !this.expired()) {
-			if (this.busy && this.callback) { 
+			if (this.busy && this.callback) {
 				this.processed = this.callback() ? true : false;
 			}
 			this.busy = false;
