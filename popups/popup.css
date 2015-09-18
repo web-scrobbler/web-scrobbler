@@ -13,9 +13,9 @@ a {
 }
 
 #wrapper {
-	width: 300px;
+	width: 350px;
 	height: 100px;
-	padding: 10px;
+	padding: 5px;
 	outline: 1px solid #f00;
 }
 
@@ -28,16 +28,13 @@ a {
 	/* .cover-image */
 	background-size: cover;
 	background-position: center;
-	border-radius: 3px;
 	position: relative;
 	overflow: hidden;
-
-	/* .cover-image--inset */
-	box-shadow: inset 0 1px 3px rgba(0,0,0,0.4);
 }
 
 #info {
 	margin-left: 110px;
+    line-height: 1.5em;
 }
 
 .track-link {
@@ -78,7 +75,7 @@ a {
 #edit-links {
 	color: #EEE;
 	position: absolute;
-	bottom: 10px;
+	bottom: 5px;
 	right: 10px;
 }
 
@@ -94,16 +91,15 @@ a {
 	width: 16px;
 	height: 16px;
 	cursor: pointer;
-	opacity: 0.7;
 	display: inline-block;
-	background: url("/icons/heart_grey.png") center no-repeat;
+	background: url("/icons/love16.png") 0 0 no-repeat;
 }
 #love[last-fm-loved="true"] {
-	background-image: url("/icons/heart.png");
+    background-position-y: -32px;
 }
 #love:hover {
-	opacity: 0.85;
+	background-position-y: -16px;
 }
-#love:active {
-	opacity: 1;
+#love[last-fm-loved="true"]:hover {
+    background-position-y: -48px;
 }
