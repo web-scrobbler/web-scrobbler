@@ -12,14 +12,14 @@ $('audio').first().bind('playing pause', Connector.onStateChanged);
  * @type {boolean} true if all tracks contain a hyphen, otherwise false
  */
 var albumHasVariousArtists = (function () {
-    var all = true;
-    $('a.jp-playlist-item').each(function () {
-        if ($(this).text().indexOf('-') === -1) {
-            all = false;
-            return false;
-        }
-    });
-    return all;
+	var all = true;
+	$('a.jp-playlist-item').each(function () {
+		if ($(this).text().indexOf('-') === -1) {
+			all = false;
+			return false;
+		}
+	});
+	return all;
 }());
 
 /**
@@ -29,7 +29,7 @@ var albumHasVariousArtists = (function () {
  * @return {boolean}
  */
 function isNumber(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
+	return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 /**
@@ -39,14 +39,14 @@ function isNumber(n) {
  * @type {boolean} true if all tracks start with at least two numbers, otherwise false
  */
 var trackTitlesStartWithTrackNo = (function () {
-    var all = true;
-    $('a.jp-playlist-item').each(function () {
-        if (!isNumber($(this).text().substring(0, 2))) {
-            all = false;
-            return false;
-        }
-    });
-    return all;
+	var all = true;
+	$('a.jp-playlist-item').each(function () {
+		if (!isNumber($(this).text().substring(0, 2))) {
+			all = false;
+			return false;
+		}
+	});
+	return all;
 }());
 
 // the position of artist & album were switched but the class names
@@ -54,40 +54,40 @@ var trackTitlesStartWithTrackNo = (function () {
 Connector.albumSelector = '.col_album_titles h1.artist';
 
 Connector.getArtistTrack = function () {
-    // the position of artist & album were switched but the class names
-    //  weren't updated (artist has class name of "album")
-    var artist = $('.col_album_titles h2.album a').text().trim() || null,
+	// the position of artist & album were switched but the class names
+	//  weren't updated (artist has class name of "album")
+	var artist = $('.col_album_titles h2.album a').text().trim() || null,
 		track = $('a.jp-playlist-current').text().trim() || null,
 		execResult;
-    if (trackTitlesStartWithTrackNo) {
-        track = track.substring(2).trim();
-    }
-    if (albumHasVariousArtists) {
-        execResult = /([\w\W]+)\s?-\s?([\w\W]+)/.exec(track);
-        if (execResult) {
-            artist = execResult[1].trim();
-            track = execResult[2].trim();
-        }
-    }
-    return {
-        artist: artist,
-        track: track
-    };
+	if (trackTitlesStartWithTrackNo) {
+		track = track.substring(2).trim();
+	}
+	if (albumHasVariousArtists) {
+		execResult = /([\w\W]+)\s?-\s?([\w\W]+)/.exec(track);
+		if (execResult) {
+			artist = execResult[1].trim();
+			track = execResult[2].trim();
+		}
+	}
+	return {
+		artist: artist,
+		track: track
+	};
 };
 
 /** @returns {Boolean} true if playing, false otherwise */
 Connector.isPlaying = function () {
-    return $('audio')[0] && !$('audio')[0].paused;
+	return $('audio')[0] && !$('audio')[0].paused;
 };
 
 /** @returns {number|null} track length in seconds */
 Connector.getDuration = function () {
-    return ($('audio')[0] && Math.round($('audio')[0].duration)) || null;
+	return ($('audio')[0] && Math.round($('audio')[0].duration)) || null;
 };
 
 /** @returns {String|null} a unique identifier of current track */
 Connector.getUniqueID = function () {
-    return $('audio').first().attr('src') || null;
+	return $('audio').first().attr('src') || null;
 };
 
 Connector.trackArtImageSelector = 'img.album_page_shadow';
