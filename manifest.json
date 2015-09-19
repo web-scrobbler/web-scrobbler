@@ -4,7 +4,8 @@
 
   "description": "Scrobble music all around the web!",
   "icons": {
-    "16":  "icons/page_action_base.png",
+    "16": "icons/page_action_base.png",
+    "48": "icon48.png",
     "128": "icon128.png"
   },
 
