@@ -4,6 +4,8 @@
 
 Connector.playerSelector = '#plHelpers';
 
+Connector.trackArtImageSelector = '.scImage';
+
 Connector.artistTrackSelector = '.videoTitle.noColorLink';
 
 Connector.getArtistTrack = function () {

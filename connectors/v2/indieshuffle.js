@@ -8,6 +8,11 @@ Connector.artistSelector = '#currentSong .artist_name';
 
 Connector.trackSelector = '#currentSong .song-details';
 
+Connector.getTrackArt = function () {
+	var src = $('.songlink .song_artwork').attr('src');
+	return src.startsWith('//') ? src = 'https:'+src : src;
+};
+
 var timeRegex = /(\d+:\d+)\s\/\s(\d+:\d+)/;
 
 /**
