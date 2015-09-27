@@ -256,7 +256,8 @@ var BaseConnector = window.BaseConnector || function () {
 			uniqueID: null,
 			duration: null,
 			currentTime: 0,
-			isPlaying: true
+			isPlaying: true,
+			url: window.location
 		};
 
 		/**
@@ -273,6 +274,12 @@ var BaseConnector = window.BaseConnector || function () {
 		 */
 		var stateChangedWorker = function () {
 			var changedFields = [];
+
+			var newURL = window.location;
+			if (newURL !== currentState.url) {
+				currentState.url = newURL;
+				changedFields.push('url');
+			}
 
 			var newTrack = this.getTrack();
 			var newArtist = this.getArtist();
