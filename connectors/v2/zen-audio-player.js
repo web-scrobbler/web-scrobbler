@@ -2,43 +2,25 @@
 
 /* global Connector */
 
-var scrobbleMusicOnly = false;
-chrome.storage.local.get('Connectors', function(data) {
-	if (data && data.Connectors && data.Connectors.YouTube) {
-		var options = data.Connectors.YouTube;
-		if (options.scrobbleMusicOnly === true) {
-			scrobbleMusicOnly = true;
-		}
 
-		console.log('connector options: ' + JSON.stringify(options));
-	}
-});
+Connector.playerSelector = '#audioplayer';
 
-Connector.playerSelector = '#page';
+Connector.artistTrackSelector = '#zen-video-title';
 
-Connector.artistTrackSelector = '#eow-title';
+Connector.currentTimeSelector = '#currentTime';
 
-Connector.currentTimeSelector = '#player-api .ytp-time-current';
-
-Connector.durationSelector = '#player-api .ytp-time-duration';
+Connector.durationSelector = '#totalTime';
 
 Connector.getUniqueID = function() {
-	var url = window.location.href;
-	var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-	var match = url.match(regExp);
-	if (match && match[7].length==11){
-		return match[7];
-	}
+	// Get the value of the search box
+	return $("#v").val();
 };
 
 Connector.isPlaying = function() {
-	return (
-		/* Can scrobble from any genre */ !scrobbleMusicOnly ||
-		/* OR only music AND is music  */ ( scrobbleMusicOnly && $('meta[itemprop=\"genre\"]').attr('content') == 'Music' )
-	)	? $('#player-api .html5-video-player').hasClass('playing-mode')
-		: false;
+	return $("#pause").is(":visible");
 };
 
+// This code is pulled directly from the YouTube v2 connector
 Connector.getArtistTrack = function () {
 	var text = $.trim($(Connector.artistTrackSelector).text());
 
