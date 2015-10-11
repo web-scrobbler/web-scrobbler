@@ -634,6 +634,13 @@ define(function() {
 		},
 
 		{
+			label: 'Bandzone.cz',
+			matches: ['*://bandzone.cz/*'],
+			js: ['connectors/v2/bandzone.cz.js'],
+			version: 2
+		},
+
+		{
 			label: 'Jolicloud',
 			matches: ['*://drive.jolicloud.com/*'],
 			js: ['connectors/v2/jolicloud.js'],
