@@ -578,6 +578,13 @@ define(function() {
 		},
 
 		{
+			label: 'ThisIsMyJam',
+			matches: ['*://www.thisismyjam.com/*'],
+			js: ['connectors/v2/thisismyjam.js'],
+			version: 2
+		},
+
+		{
 			label: 'GetWorkDoneMusic',
 			matches: ['*://www.getworkdonemusic.com/*', '*://getworkdonemusic.com/*'],
 			js: ['connectors/v2/getworkdonemusic.js'],
