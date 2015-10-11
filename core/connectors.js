@@ -627,6 +627,13 @@ define(function() {
 		},
 
 		{
+			label: 'Mymusiccloud',
+			matches: ['*://www.mymusiccloud.com/*'],
+			js: ['connectors/v2/mymusiccloud.js'],
+			version: 2
+		},
+
+		{
 			label: 'Jolicloud',
 			matches: ['*://drive.jolicloud.com/*'],
 			js: ['connectors/v2/jolicloud.js'],
