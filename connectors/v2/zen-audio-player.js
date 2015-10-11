@@ -13,11 +13,11 @@ Connector.durationSelector = '#totalTime';
 
 Connector.getUniqueID = function() {
 	// Get the value of the search box
-	return $("#v").val();
+	return $('#v').val();
 };
 
 Connector.isPlaying = function() {
-	return $("#pause").is(":visible");
+	return $('#pause').is(':visible');
 };
 
 // This code is pulled directly from the YouTube v2 connector
