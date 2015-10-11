@@ -508,6 +508,13 @@ define(function() {
 		},
 
 		{
+			label: 'AccuRadio',
+			matches: ['*://www.accuradio.com/*'],
+			js: ['connectors/v2/accuradio.js'],
+			version: 2
+		},
+
+		{
 			label: 'RAW.FM',
 			matches: ['*://www.rawfm.com.au/stream/player/', '*://rawfm.com.au/stream/player/'],
 			js: ['connectors/v2/rawfm.js'],
@@ -525,6 +532,13 @@ define(function() {
 			label: 'GoEar.Com',
 			matches: ['*://*.goear.com/*', '*://goear.com/*'],
 			js: ['connectors/v2/goear.com.js'],
+			version: 2
+		},
+
+		{
+			label: 'AccuJazz',
+			matches: ['*://*.slipstreamradio.com/*'],
+			js: ['connectors/v2/accujazz.js'],
 			version: 2
 		},
 
