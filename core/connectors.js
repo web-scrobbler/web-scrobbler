@@ -108,7 +108,9 @@ define(function() {
 		{
 			label: 'Jango',
 			matches: ['*://www.jango.com/*'],
-			js: ['connectors/jango.js', 'connectors/jango-dom-inject.js']
+			js: ['connectors/v2/jango.js'],
+			allFrames: true,
+			version: 2
 		},
 
 		{
