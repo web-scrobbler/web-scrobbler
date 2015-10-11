@@ -43,6 +43,13 @@ define(function() {
 		},
 
 		{
+			label: 'Zen Audio Player',
+			matches: ['*://zen-audio-player.github.io/*',],
+			js: ['connectors/v2/zen-audio-player.js'],
+			version: 2
+		},
+
+		{
 			label: 'TTNET Müzik',
 			matches: ['*://www.ttnetmuzik.com.tr/*'],
 			js: ['connectors/ttnet.js']
