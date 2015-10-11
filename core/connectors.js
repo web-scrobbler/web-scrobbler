@@ -887,6 +887,13 @@ define(function() {
 			matches: ['https://wavo.me/*'],
 			js: ['connectors/v2/wavome.js'],
 			version: 2
+		},
+
+		{
+			label: 'WDVX',
+			matches: ['http://www.wdvx.com/listen-live/'],
+			js: ['connectors/v2/wdvx.js'],
+			version: 2
 		}
 
 	];
