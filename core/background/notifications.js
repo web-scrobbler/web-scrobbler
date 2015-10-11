@@ -73,7 +73,11 @@ define([
 					contextMessage: hhMM()+' · '+song.metadata.connector.label
 				};
 
-				chrome.notifications.create('', options, notificationCreatedCb);
+				try {
+					chrome.notifications.create('', options, notificationCreatedCb);
+				} catch(e) {
+					console.log('Failed to create a notification.', e);
+				}
 			}
 		};
 
