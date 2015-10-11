@@ -620,6 +620,13 @@ define(function() {
 		},
 
 		{
+			label: 'Whyd',
+			matches: ['*://whyd.com/*'],
+			js: ['connectors/v2/whyd.js'],
+			version: 2
+		},
+
+		{
 			label: 'Jolicloud',
 			matches: ['*://drive.jolicloud.com/*'],
 			js: ['connectors/v2/jolicloud.js'],
