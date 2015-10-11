@@ -14,6 +14,11 @@ Connector.getTrack = function() {
 	return $('.player-info-wrapper > .info > .title').contents().get(0).nodeValue.trim();
 };
 
+Connector.getAlbum = function () {
+	var text = $('.title[data-type="album"]').text().substring(7);
+	return text || null;
+};
+
 Connector.isPlaying = function() {
 	return ($('.control.play').css('display') == 'none');
 };
