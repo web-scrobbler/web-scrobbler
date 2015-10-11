@@ -600,6 +600,13 @@ define(function() {
 		},
 
 		{
+			label: 'Radio.com',
+			matches: ['*://player.radio.com*'],
+			js: ['connectors/v2/radio.com.js'],
+			version: 2
+		},
+
+		{
 			label: 'GetWorkDoneMusic',
 			matches: ['*://www.getworkdonemusic.com/*', '*://getworkdonemusic.com/*'],
 			js: ['connectors/v2/getworkdonemusic.js'],
