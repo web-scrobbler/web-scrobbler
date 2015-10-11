@@ -655,6 +655,13 @@ define(function() {
 		},
 
 		{
+			label: 'RMFON',
+			matches: ['*://www.rmfon.pl/*', '*://rmfon.pl/*'],
+			js: ['connectors/v2/rmfon.js'],
+			version: 2
+		},
+
+		{
 			label: 'Jolicloud',
 			matches: ['*://drive.jolicloud.com/*'],
 			js: ['connectors/v2/jolicloud.js'],
