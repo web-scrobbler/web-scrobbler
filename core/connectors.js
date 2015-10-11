@@ -648,6 +648,13 @@ define(function() {
 		},
 
 		{
+			label: 'Superplayer.fm',
+			matches: ['*://www.superplayer.fm/*'],
+			js: ['connectors/v2/superplayer.fm.js'],
+			version: 2
+		},
+
+		{
 			label: 'Jolicloud',
 			matches: ['*://drive.jolicloud.com/*'],
 			js: ['connectors/v2/jolicloud.js'],
