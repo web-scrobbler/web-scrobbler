@@ -270,19 +270,21 @@ define([
 		 * @return {{}}
 		 */
 		this.getCurrentSong = function() {
-			return currentSong === null ? {} : currentSong.attr();
+			var currentSongData = currentSong.attr();
+			currentSongData.secondsToScrobble = playbackTimer.getRemainingSeconds();
+			return currentSong === null ? {} : currentSongData;
 		};
 
 		/**
 		 * Sets data for current song from user input
 		 * TODO: check if all is ok for case when song is already valid
 		 */
-		this.setUserSongData = function(data) {
+		this.setUserSongData = function(data, cb) {
 			if (currentSong !== null) {
 				if (currentSong.flags.isScrobbled) {
 					// should not happen
 					console.error('Tab ' + tabId + ': attempted to enter user data for already scrobbled song');
-					return;
+					return cb(currentSong);
 				}
 
 				if (data.artist) {
@@ -296,6 +298,10 @@ define([
 				if (data.artist || data.track) {
 					Pipeline.processSong(currentSong);
 				}
+
+				currentSong.bind('flags.isProcessed', function() {
+					cb(currentSong);
+				});
 			}
 		};
 

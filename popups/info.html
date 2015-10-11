@@ -5,22 +5,27 @@
 	<title></title>
 	<script type="text/javascript" src="/vendor/jquery-2.1.0.min.js"></script>
 	<script type="text/javascript" src="/popups/info.js"></script>
-	<link rel="stylesheet" href="/popups/popup.css" />
+	<link href="/vendor/fontawesome/font-awesome.css" rel="stylesheet">
+	<link rel="stylesheet" href="/popups/info.css" />
 </head>
 <body>
-	<div id="wrapper">
-		<div id="album-art">&nbsp;</div>
-		<div id="info">
-			<a id="artist" class="artist-link" href="#" target="_blank">Artist</a><br />
-			<a id="track" class="track-link" href="#" target="_blank">Track</a><br />
-			<!--a id="add-playlist" class="add-playlist" href="playlist.html" title="Add song to playlist"><img src="img/table_add.png" /></a-->
+	<div id="grid">
+		<div class='album-art'>
+			<div id="album-art" src=''></div>
 		</div>
-		<div id="edit-links">
-			<div id="love" title="Press to (un)love the song"></div>
-			<!--a href="#" id="remove-link" title="Remove song from history">Remove</a>
-			<a href="#" id="disable-scrobbling-link" title="Disable this song for scrobbling">Disable</a>
-			<a href="change.html" id="change-link" title="Change the info on this song">Change</a-->
+		<div id="info">
+			<div class='track-info'>
+				<a id="track" class="editable datum track-link" target="_blank">Unknown Track</a><span id="edit-track" class='ui-btn edit'></span> <span id='duration' class='datum track-duration'></span><br>
+				<a id="artist" class="editable datum ellipsis artist-link" target="_blank">Unknown Artist</a><span id="edit-artist" class='ui-btn edit'></span><br>
+				<!-- <a id="album" class="datum ellipsis album-link" href="#" target="_blank">Unknown Album</a> -->
+			</div>
+			<div class="scrobble-controls">
+				<span id="love" class='ui-btn' title="Love/unlove this song"></span>
+				<span id="playcount"></span>
+				<span id="timetoscrobble"></span>
+			</div>
 		</div>
 	</div>
+	<!-- <div class='debug' id='data'><div></div></div> -->
 </body>
 </html>

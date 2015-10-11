@@ -1,0 +1,227 @@
+/**
+	Global / generic elements
+*/
+
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #FFF;
+	font-family: Helvetica, Verdana, Arial, sans-serif;
+	font-size: 12px;
+	line-height: 1.5em;
+	color: #333;
+	margin: 0px;
+	padding: 0px;
+	width: 360px;
+}
+
+a {
+	color: #000;
+	text-decoration: none;
+}
+
+
+/**
+	Structure
+*/
+
+#grid {
+	outline: 1px solid #f00;
+	display: table;
+	width: 100%;
+}
+
+.album-art {
+	display: table-cell;
+	width: 100px;
+}
+
+#info {
+	display: table-cell;
+    vertical-align: top;
+	position: relative;
+	/*width: 100%;*/
+}
+
+
+/**
+	Elements
+*/
+
+#album-art {
+	width: 100px;
+	height: 100px;
+	background-color: #EEE;
+	background-image: url('/icons/default_cover_art.png');
+	background-size: cover;
+	background-position: center;
+	position: relative;
+	overflow: hidden;
+}
+
+#info {
+	padding: 11px 9px;
+	padding-left: 14px;
+}
+
+.track-info {
+	margin-bottom: 2em;
+}
+
+/*.track-info a:after {
+	opacity: 0.15;
+	font-size: 70%;
+    content: "  \f08e";
+	font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    text-decoration: inherit;
+    -webkit-font-smoothing: antialiased;
+}
+.track-info a:hover:after {
+	opacity: 0.5;
+}*/
+
+.datum {
+	font-weight: bold;
+	line-height: 1.05em;
+	display: inline;
+	opacity: 0.8;
+	vertical-align: middle;
+}
+.ellipsis {
+	display: inline-block;
+    max-width: 240px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.datum:before {
+	font-size: 90%;
+	opacity: 0.8;
+}
+[data-hide='true'] {
+	display: none !important;
+}
+
+.track-link {
+	font-size: 1.2em;
+}
+
+.track-duration {
+	opacity: 0.5;
+}
+.track-duration:before {
+	content: "(";
+}
+.track-duration:after {
+	content: ")";
+}
+.artist-link:before {
+	content: "By ";
+}
+
+#playcount:after {
+	content: " plays";
+}
+
+.album-link:before {
+	content: "Album ";
+}
+
+#data {
+	white-space: pre;
+	overflow: auto;
+	padding: 10px;
+	opacity: 0.7;
+	font-size: 11px;
+	line-height: 1.1em;
+	font-family: monospace;
+}
+
+/**
+	Interactions
+*/
+
+.scrobble-controls {
+	position: absolute;
+	bottom: 9px;
+}
+
+.scrobble-controls > * {
+	vertical-align: middle;
+	text-transform: uppercase;
+	font-size: 85%;
+	font-weight: bold;
+	color: #AAA;
+}
+
+.scrobble-controls > * + *:before {
+	content: " \2022  ";
+	font-size: 150%;
+	vertical-align: middle;
+	opacity: 0.5;
+}
+
+.ui-btn {
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	opacity: 0.8;
+	display: inline-block;
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.scrobble-controls .ui-btn:hover {
+	opacity: 0.95;
+}
+
+.scrobble-controls .ui-btn:active {
+	opacity: 1;
+}
+
+#love {
+	background-image: url("/icons/heart_grey.png");
+}
+#love[last-fm-loved="true"] {
+	background-image: url("/icons/heart.png");
+}
+
+.edit {
+	background-image: url("/icons/icon_edit.png");
+	display: none;
+	opacity: 0.5;
+	vertical-align: text-bottom;
+}
+.editable:hover + .edit,
+.edit:hover {
+	opacity: 0.6;
+	display: inline-block;
+}
+.edit:hover,
+.edit:active,
+.editable[contenteditable] + .edit {
+	opacity: 1;
+	display: inline-block;
+}
+/*
+.editable.edit-mode ~ .edit {
+	background-image: url("/icons/icon_save.png");
+	opacity: 1.0;
+}
+
+.editable.edit-mode ~ .edit ~ .edit
+{
+	opacity: 0.0;
+}
+*/
+.editable.edit-mode {
+	color: #000;
+    cursor: text;
+    pointer-events: all;
+    position: relative;
+    overflow: visible;
+}

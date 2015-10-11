@@ -67,13 +67,17 @@ define([
 
 				var options = {
 					type: 'basic',
-					iconUrl: song.metadata.artistThumbUrl || 'default_cover_art.png',
+					iconUrl: song.metadata.coverArtURL || '/icons/default_cover_art.png',
 					title: song.getTrack(),
 					message: 'by ' + song.getArtist(),
 					contextMessage: hhMM()+' · '+song.metadata.connector.label
 				};
 
-				chrome.notifications.create('', options, notificationCreatedCb);
+				if(typeof song.metadata.notificationId === 'undefined') {
+					chrome.notifications.create(options, notificationCreatedCb);
+				} else {
+					chrome.notifications.update(song.metadata.notificationId, options, notificationCreatedCb);
+				}
 			}
 		};
 
@@ -95,7 +99,7 @@ define([
 
 				var options = {
 					type: 'basic',
-					iconUrl: 'icon128.png',
+					iconUrl: '/icons/icon128.png',
 					title: 'Web scrobbler error',
 					message: message
 				};
@@ -140,7 +144,7 @@ define([
 
 					var options = {
 						type: 'basic',
-						iconUrl: '/icon128.png',
+						iconUrl: '/icons/icon128.png',
 						title: 'Connect your Last.FM account',
 						message: 'Click the notification or connect later in the extension options page',
 						isClickable: true
