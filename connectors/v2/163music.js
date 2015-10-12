@@ -4,6 +4,8 @@
 
 Connector.playerSelector = '.m-playbar';
 
+Connector.trackArtImageSelector = '.head img';
+
 Connector.getTrack = function() {
 		var track = $('.fc1').text();
 		var re = new RegExp(String.fromCharCode(160), 'g');

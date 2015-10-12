@@ -4,7 +4,9 @@
 
 Connector.playerSelector = '.container';
 
-Connector.artistTrackSelector = '.sc-player.one .sc-title';
+Connector.trackArtImageSelector = '.playing .active img';
+
+Connector.artistTrackSelector = '.playing .sc-title';
 
 Connector.isPlaying = function () {
 	return $('.sc-remote-link').hasClass('playing');

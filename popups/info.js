@@ -45,8 +45,8 @@ $(document).ready(function() {
 
 		$('#artist').text(song.processed.artist || song.parsed.artist).attr('href', song.metadata.artistUrl);
 		$('#track').text(song.processed.track || song.parsed.track).attr('href', song.metadata.trackUrl);
-		$('#album-art').css('background-image', 'url("' + (song.metadata.artistThumbUrl || song.parsed.artistThumbUrl || '../default_cover_art.png') + '")');
-		$('#love').attr('last-fm-loved', song.metadata.userloved);
+		$('#album-art').css('background-image', 'url("' + (song.parsed.trackArt || song.metadata.artistThumbUrl || '../default_cover_art.png') + '")');
+		configHeart(song.metadata.userloved);
 
 		// UI listeners
 		$('#love').on('click', function() {
@@ -58,9 +58,14 @@ $(document).ready(function() {
 				data: { shouldBeLoved: desiredLoveStatus },
 				tabId: tabId
 			}, function() {
-				$('#love').attr('last-fm-loved', desiredLoveStatus);
+				configHeart(desiredLoveStatus);
 			});
 		});
+	}
+
+	function configHeart(userloved) {
+		$('#love').attr('last-fm-loved', userloved);
+		$('#love').attr('title', userloved ? 'unlove song' : 'love song');
 	}
 
 	/**

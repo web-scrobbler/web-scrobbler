@@ -14,6 +14,7 @@ define([], function() {
 
 		var icons = {
 			BASE: '/icons/page_action_base.png',
+			LOADING: '/icons/page_action_loading.png',
 			RECOGNIZED: '/icons/page_action_note.png',
 			DISABLED: '/icons/page_action_disabled.png',
 			SCROBBLED: '/icons/page_action_tick.png',
@@ -56,6 +57,10 @@ define([], function() {
 		/**
 		 * @param {can.Map} songObj
 		 */
+		this.setSongLoading = function (songObj) {
+			setPageAction(icons.LOADING, 'Looking up ' + songObj.getArtist() + ' - ' + songObj.getTrack(), '');
+		};
+
 		this.setSongRecognized = function(songObj) {
 			setPageAction(icons.RECOGNIZED, 'Now playing ' + songObj.getArtist() + ' - ' + songObj.getTrack(), documents.SONG_INFO);
 		};

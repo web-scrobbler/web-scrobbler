@@ -113,6 +113,7 @@ define([
 				}
 
 				// start processing - result will trigger the listener
+				pageAction.setSongLoading(currentSong);
 				Pipeline.processSong(currentSong);
 			}
 		};
@@ -201,6 +202,8 @@ define([
 				// if the song is playing, mark it immediately; otherwise will be flagged in isPlaying binding
 				if (song.parsed.isPlaying) {
 					setSongNowPlaying(song);
+				} else {
+					pageAction.setSiteSupported();
 				}
 			} else {
 				pageAction.setSongNotRecognized();
@@ -294,6 +297,7 @@ define([
 
 				// re-send song to pipeline
 				if (data.artist || data.track) {
+					pageAction.setSongLoading(currentSong);
 					Pipeline.processSong(currentSong);
 				}
 			}

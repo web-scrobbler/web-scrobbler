@@ -4,6 +4,8 @@
 
 Connector.playerSelector = '#playbackControl';
 
+Connector.trackArtImageSelector = '.playerBarArt';
+
 Connector.albumSelector = 'a.playerBarAlbum';
 
 Connector.artistSelector = 'a.playerBarArtist';

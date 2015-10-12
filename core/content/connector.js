@@ -48,6 +48,14 @@ var BaseConnector = window.BaseConnector || function () {
 		this.currentTimeSelector = null;
 
 		/**
+		 * Selector of an element containing track duration (total time) in h:m:s format.
+		 * Only applies when default implementation of {@link BaseConnector#getDuration} is used
+		 *
+		 * @type {string}
+		 */
+		this.durationSelector = null;
+
+		/**
 		 * Selector of an element containing both artist and track name.
 		 * {@link BaseConnector#artistSelector} and {@link BaseConnector#trackSelector} properties have priority over this,
 		 * and {@link BaseConnector#artistTrackSelector} is used only if any of the previous returns empty result.
@@ -96,7 +104,7 @@ var BaseConnector = window.BaseConnector || function () {
 		 *
  		 * @type {array}
 		 */
-		this.separators = [' - ', ' – ', ' — ', '-', '–', '—', ':', '|', '///'];
+		this.separators = [' -- ', '--', ' - ', ' – ', ' — ', '-', '–', '—', ':', '|', '///'];
 
 		/**
 		 * Default implementation of artist name lookup by selector
@@ -143,7 +151,8 @@ var BaseConnector = window.BaseConnector || function () {
 		 * @returns {number|null} track length in seconds
 		 */
 		this.getDuration = function () {
-			return null;
+			var text = $(this.durationSelector).text();
+			return this.stringToSeconds(text);
 		};
 
 		/**
@@ -247,7 +256,8 @@ var BaseConnector = window.BaseConnector || function () {
 			uniqueID: null,
 			duration: null,
 			currentTime: 0,
-			isPlaying: true
+			isPlaying: true,
+			url: window.location
 		};
 
 		/**
@@ -264,6 +274,12 @@ var BaseConnector = window.BaseConnector || function () {
 		 */
 		var stateChangedWorker = function () {
 			var changedFields = [];
+
+			var newURL = window.location;
+			if (newURL !== currentState.url) {
+				currentState.url = newURL;
+				changedFields.push('url');
+			}
 
 			var newTrack = this.getTrack();
 			var newArtist = this.getArtist();

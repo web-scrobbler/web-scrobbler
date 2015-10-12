@@ -24,5 +24,6 @@ Connector.isPlaying = function() {
 
 // In preparation for merge of PR#607 (https://github.com/david-sabata/web-scrobbler/pull/607)
 Connector.getTrackArt = function() {
-	return $('.radioplayer .playlister.playlister-expanded > img').attr('src');
+	var url = $('.radioplayer .playlister.playlister-expanded > img').attr('src');
+	return url.indexOf('generictrack') === -1 ? url : null; // Don't use the generic, 'unknown' tract art
 };

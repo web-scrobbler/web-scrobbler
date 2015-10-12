@@ -62,8 +62,8 @@ Connector.getArtistTrack = function () {
 		separatorIndex;
 	if (artistIsVarious()) {
 		separatorIndex = Math.max(track.indexOf('-'), track.indexOf('|'));
-		artist = track.substring(0, separatorIndex);
-		track = track.substring(separatorIndex + 1);
+		artist = cleanText(track.substring(0, separatorIndex));
+		track = cleanText(track.substring(separatorIndex + 1));
 	}
 	return {
 		artist: artist,
