@@ -214,6 +214,8 @@ require([
 		// debug log internal storage state for people who send logs (tokens are anonymized)
 		ChromeStorage.debugLog();
 
+		var scrobblerNotifications = ChromeStorage.getNamespace('ScrobblerNotifications');
+
 		// check session ID status and show notification if authentication is needed
 		LastFM.getSession(function(sessionID) {
 			if (sessionID !== 'undefined') {
@@ -226,10 +228,16 @@ require([
 		ScrobbleService.bindScrobbler(LastFM);
 
 		// check session ID status and show notification if authentication is needed
-		LibreFM.getSession(function(sessionID, sessionName) {
-			console.log(sessionID + ' name:' + sessionName);
+		LibreFM.getSession(function(sessionID) {
 			if (sessionID !== 'undefined') {
-				Notifications.showAuthenticate(LibreFM.getAuthUrl.bind(LibreFM));
+				scrobblerNotifications.get(function(data) {
+					console.log(data);
+					if (typeof data.librefm === 'undefined') {
+						Notifications.showAuthenticate(LibreFM.getAuthUrl.bind(LibreFM));
+						data.librefm = true;
+						scrobblerNotifications.set(data, null);
+					}
+				});
 			} else {
 				console.info(LibreFM.getLabel() + ' Session ID ' + 'xxxxx' + sessionID.substr(5));
 			}
