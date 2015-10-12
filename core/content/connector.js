@@ -245,7 +245,8 @@ var BaseConnector = window.BaseConnector || function () {
 
 	/**
 	 * Returns an array of PlaylistItem objects
-	 * This method is called only if {@link BaseConnector#getPlaylistHash} returns a new value or null.
+	 * If the method requires extensive parsing, you can compute it in {@link BaseConnector#onPageChanged}
+	 *  and only return the cached value from this method.
 	 * More straightforward update routines can be throttled with {@link BaseConnector#setThrottleInterval}
 	 * @return {{ startTime: Number, track: String | null, artist: String | null, artistTrack: String | null }}
 	 */
@@ -254,15 +255,22 @@ var BaseConnector = window.BaseConnector || function () {
 	};
 
 	/**
-	 * Returns a hash of the current playlist
-	 * The playlist update will occur only if this value changes, this is intended to reduce CPU overhead.
-	 * Defaults to querying getPlaylist each throttle interval if null is retruned.
+	 * Returns a string which is used to correspond to page contents.
+	 * {@link BaseConnector#onPageChanged} will be called when this value changes.
+	 * This is intended to happen when the page needs reparsing.
 	 * @return {null | String}
 	 */
-	this.getPlaylistHash = function () {
-		return null;
+	this.getPageHash = function () {
+		return this.getUniqueID();
 	};
 
+	/**
+	 * This method is invoked when the value returned by {@link BaseConnector#getPageHash} changes.
+	 * This is intended to happen when the page needs reparsing.
+	 */
+	this.onPageChanged = function () {
+		return;
+	};
 
 
 	// --- state & api -------------------------------------------------------------------------------------------------
@@ -277,7 +285,7 @@ var BaseConnector = window.BaseConnector || function () {
 		artist: null,
 		album: null,
 		uniqueID: null,
-		playlistHash: null,
+		pageHash: null,
 		duration: null,
 		currentTime: 0,
 		isPlaying: true
@@ -300,6 +308,13 @@ var BaseConnector = window.BaseConnector || function () {
 		var newTrack, newArtist, artistTrack, newAlbum, newDuration, newUID;
 		newTrack = newArtist = artistTrack = newAlbum = newDuration = newUID = null;
 
+		var newPageHash = this.getPageHash();
+		if (newPageHash !== currentState.pageHash) {
+			currentState.pageHash = newPageHash;
+			this.onPageChanged();
+			//changedFields.push('pageHash');
+		}
+
 		var newIsPlaying = this.isPlaying();
 		if (newIsPlaying !== currentState.isPlaying) {
 			currentState.isPlaying = newIsPlaying;
@@ -318,16 +333,8 @@ var BaseConnector = window.BaseConnector || function () {
 			changedFields.push('currentTime');
 		}
 
-		var newPlaylistHash = this.getPlaylistHash();
-		if (newPlaylistHash === null) {
-			this.currentPlaylist = this.getPlaylist();
-		} else if ((currentState.playlistHash === null) || (currentState.playlistHash != newPlaylistHash)) {
-			this.currentPlaylist = this.getPlaylist();
-			currentState.playlistHash = newPlaylistHash;
-			//changedFields.push('playlistHash');
-		}
-
-		if(this.currentPlaylist) {
+		this.currentPlaylist = this.getPlaylist();
+		if(this.currentPlaylist && (this.currentPlaylist.length > 0)) {
 			/**
 			 * This media is a collection of consecutive tracks.
 			*/
@@ -544,7 +551,6 @@ var BaseConnector = window.BaseConnector || function () {
 
 		return null;
 	};
-
 };
 
 /**

@@ -142,7 +142,9 @@ require([
 			// have two cores side by side. The old functionality will be later removed
 			case 'v2.stateChanged':
 				ctrl = getControllerByTabId(sender.tab.id);
-				ctrl.onStateChanged(request.state);
+				if (ctrl) {
+					ctrl.onStateChanged(request.state);
+				}
 				break;
 
 			// Returns current song object - used in page action popup.
@@ -169,6 +171,24 @@ require([
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
 					ctrl.toggleLove(request.data, sendResponse);
+				}
+				break;
+
+			// Fills the song object with missing data from lastfm.
+			// Use v2.getSong instead for fixing the current song.
+			case 'v2.loadSongInfo':
+				ctrl = getControllerByTabId(sender.tab.id);
+				if (ctrl) {
+					ctrl.loadSongInfo(request.data, sendResponse, request.autocorrect);
+				}
+				break;
+
+			// Fetches album data from LastFM by its name.
+			// The response contains many things including every track.
+			case 'v2.loadAlbumInfo':
+				ctrl = getControllerByTabId(sender.tab.id);
+				if (ctrl) {
+					ctrl.loadAlbumInfo(request.data, sendResponse, request.autocorrect);
 				}
 				break;
 
