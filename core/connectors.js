@@ -37,7 +37,7 @@ define(function() {
 
 		{
 			label: 'YouTube',
-			matches: ['*://www.youtube.com/watch*', '*://www.youtube.com/user/*'],
+			matches: ['*://www.youtube.com/*'],
 			js: ['connectors/v2/youtube.js'],
 			version: 2
 		},
