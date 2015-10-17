@@ -53,14 +53,17 @@ define([
 		var connector = _.find(connectors, function(connector) {
 			return _.find(connector.matches, function(patternStr) {
 				var pattern = RoutePattern.fromString(patternStr);
-				return pattern.matches(parsedData.url.href);
+				if (parsed.url !== null) {
+					return pattern.matches(parsed.url.href);
+				}
+				return false;
 			});
-		});
+		}) || null;
 
 		var metadata = {
 			userloved: parsedData.userloved === 1,
 			startTimestamp: Math.floor(Date.now() / 1000), // UTC timestamp in seconds
-			url: parsedData.url, // basic connector data
+			url: parsed.url, // basic connector data
 			connector: connector
 		};
 
