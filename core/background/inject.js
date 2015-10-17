@@ -137,7 +137,7 @@ define([
 			// run first available connector
 			var anyMatch = !connectors.every(function (connector) {
 				var matchOk = false,
-					patterns = connector.matches;
+					patterns = connector.matches || [];
 
 				// if there are custom patterns use only them, otherwise use only predefined patterns
 				if (customPatterns.hasOwnProperty(connector.label) && customPatterns[connector.label].length > 0) {

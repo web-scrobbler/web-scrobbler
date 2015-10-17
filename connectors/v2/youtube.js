@@ -37,7 +37,29 @@ Connector.getCurrentTime = function () {
 
 Connector.artistTrackSelector = '#eow-title';
 
-Connector.durationSelector = '#player-api .ytp-time-duration';
+/**
+ * Because player can be still present in the page, we need to detect that it's invisible
+ * and don't return current time. Otherwise resulting state may not be considered empty.
+ */
+Connector.getCurrentTime = function() {
+	if (isPlayerOffscreen()) {
+		return null;
+	}
+	var $time = $('#player-api .ytp-time-current');
+	return this.stringToSeconds($time.text());
+};
+
+/**
+ * Because player can be still present in the page, we need to detect that it's invisible
+ * and don't return duration. Otherwise resulting state may not be considered empty.
+ */
+Connector.getDuration = function() {
+	if (isPlayerOffscreen()) {
+		return 0;
+	}
+	var $duration = $('#player-api .ytp-time-duration');
+	return this.stringToSeconds($duration.text());
+};
 
 Connector.getUniqueID = function() {
 	var url = window.location.href;
@@ -58,17 +80,16 @@ Connector.isPlaying = function() {
 };
 
 Connector.getArtistTrack = function () {
-	var text = $(Connector.artistTrackSelector).text();
+	var text = $.trim($(Connector.artistTrackSelector).text());
+
 	var separator = Connector.findSeparator(text);
 
-	var artist = null;
-	var track = null;
-
-	if (separator !== null) {
-		artist = text.substr(0, separator.index);
-		track = text.substr(separator.index + separator.length);
+	if (separator === null || text.length === 0) {
+		return {artist: null, track: null};
 	}
 
+	var artist =  text.substr(0, separator.index);
+	var track = text.substr(separator.index + separator.length);
 	if (artist === null) {
 		// Use youtube copyright detector
 		var $tags = $('ul.content.watch-info-tag-list').first();
@@ -532,8 +553,8 @@ Connector.stripTimestamps = function (str) {
 		return null;
 	}
 	str = str.replace(timestampRegex,'__TIMESTAMP__');
-	str = str.replace(/[\[\(\{\â€“\-]*\s*[0-9]{1,2}\.[0-9]{2}\s*[\]\)\}\â€“\-:]/gi,''); // Chop out bullshit other misformatted timestamps (e.g. https://www.youtube.com/watch?v=9-NFosnfd2c)
-	str = str.replace(/(\s*[\[\(\{\â€“\-\|:]*\s*__TIMESTAMP__)+\s*[\]\)\}\â€“\-:\|]*\s*/i,''); // [00:00] (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo / https://www.youtube.com/watch?v=thUQr7Q1vCY)
+	str = str.replace(/[\[\(\{\–\-]*\s*[0-9]{1,2}\.[0-9]{2}\s*[\]\)\}\–\-:]/gi,''); // Chop out bullshit other misformatted timestamps (e.g. https://www.youtube.com/watch?v=9-NFosnfd2c)
+	str = str.replace(/(\s*[\[\(\{\–\-\|:]*\s*__TIMESTAMP__)+\s*[\]\)\}\–\-:\|]*\s*/i,''); // [00:00] (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo / https://www.youtube.com/watch?v=thUQr7Q1vCY)
 	str = str.replace('__TIMESTAMP__','');
 	str = str.replace(/^\s*[-:=]\s*/i,''); // HH:MM - Track
 
@@ -541,7 +562,7 @@ Connector.stripTimestamps = function (str) {
 };
 
 // numbering  1.  1 -  (1) etc. (e.g. https://www.youtube.com/watch?v=Y7QQS5V3cnI) and "track 1." (e.g. https://www.youtube.com/watch?v=FijBkSvN6N8)
-var trackNubmerRegex = /^\s*(track|number|no|no\.|song)?\s*[\[\(\{\-\âœ˜\|\*]*\s*([0-9]{1,2})(?![0-9])[\.\-\:\=\)\}\|\âœ˜\]\*\s]+/gi;
+var trackNubmerRegex = /^\s*(track|number|no|no\.|song)?\s*[\[\(\{\-\?\|\*]*\s*([0-9]{1,2})(?![0-9])[\.\-\:\=\)\}\|\?\]\*\s]+/gi;
 
 Connector.stripTrackNumber = function (str) {
 	if (typeof str === 'undefined' | str === null) {
@@ -1080,4 +1101,17 @@ function cleanseTrack(track) {
 	//" and ! added because some track names end as {"Some Track" Official Music Video!} and it becomes {"Some Track"!} example: http://www.youtube.com/watch?v=xj_mHi7zeRQ
 
 	return track;
+}
+/**
+ * YouTube doesn't really unload the player. It simply moves it outside viewport.
+ * That has to be checked, because our selectors are still able to detect it.
+ */
+function isPlayerOffscreen() {
+	var $player = $('#player-api');
+	if ($player.length === 0) {
+		return false;
+	}
+
+	var offset = $player.offset();
+	return offset.left < 0 || offset.top < 0;
 }

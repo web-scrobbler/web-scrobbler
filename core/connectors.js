@@ -37,8 +37,15 @@ define(function() {
 
 		{
 			label: 'YouTube',
-			matches: ['*://www.youtube.com/watch*', '*://www.youtube.com/user/*'],
+			matches: ['*://www.youtube.com/*'],
 			js: ['connectors/v2/youtube.js'],
+			version: 2
+		},
+
+		{
+			label: 'Zen Audio Player',
+			matches: ['*://zen-audio-player.github.io/*',],
+			js: ['connectors/v2/zen-audio-player.js'],
 			version: 2
 		},
 
@@ -108,7 +115,9 @@ define(function() {
 		{
 			label: 'Jango',
 			matches: ['*://www.jango.com/*'],
-			js: ['connectors/jango.js', 'connectors/jango-dom-inject.js']
+			js: ['connectors/v2/jango.js'],
+			allFrames: true,
+			version: 2
 		},
 
 		{
@@ -243,13 +252,15 @@ define(function() {
 		{
 			label: 'AOL Radio',
 			matches: ['*://aolradio.slacker.com/*'],
-			js: ['connectors/aolradio.js']
+			js: ['connectors/v2/aolradio.js'],
+			version: 2
 		},
 
 		{
 			label: 'HillyDilly',
 			matches: ['*://www.hillydilly.com/*'],
-			js: ['connectors/hillydilly.js']
+			js: ['connectors/v2/hillydilly.js'],
+			version: 2
 		},
 
 		{
@@ -335,7 +346,8 @@ define(function() {
 		{
 			label: 'Beats Music',
 			matches: ['*://*.beatsmusic.com/*'],
-			js: ['vendor/jquery.cookie.js', 'connectors/beats.js']
+			js: ['connectors/v2/beats.js'],
+			version: 2
 		},
 
 		{
@@ -354,7 +366,8 @@ define(function() {
 		{
 			label: 'Gaana.com',
 			matches: ['*://gaana.com/*'],
-			js: ['connectors/gaana.js']
+			js: ['connectors/v2/gaana.js'],
+			version: 2
 		},
 
 		{
@@ -479,9 +492,135 @@ define(function() {
 		},
 
 		{
+			label: 'Hype Machine',
+			matches: ['*://hypem.com/*'],
+			js: ['connectors/v2/hypem.js'],
+			version: 2
+		},
+
+		{
+			label: 'Shuffler.fm',
+			matches: ['*://www.shuffler.fm/*', '*://shuffler.fm/*'],
+			js: ['connectors/v2/shuffler.fm.js'],
+			version: 2
+		},
+
+		{
 			label: 'Radionomy',
 			matches: ['*://www.radionomy.com/*'],
 			js: ['connectors/v2/radionomy.js'],
+			version: 2
+		},
+
+		{
+			label: 'Jazzandrain / Relaxingbeats / Epicmusictime / Holidaychristmasmusic',
+			matches: ['*://www.jazzandrain.com/*', '*://relaxingbeats.com/*', '*://epicmusictime.com/*', '*://www.holidaychristmasmusic.com/*', '*://holidaychristmasmusic.com/*'],
+			js: ['connectors/v2/jazzandrain.js'],
+			version: 2
+		},
+
+		{
+			label: 'AccuRadio',
+			matches: ['*://www.accuradio.com/*'],
+			js: ['connectors/v2/accuradio.js'],
+			version: 2
+		},
+
+		{
+			label: 'RAW.FM',
+			matches: ['*://www.rawfm.com.au/stream/player/', '*://rawfm.com.au/stream/player/'],
+			js: ['connectors/v2/rawfm.js'],
+			version: 2
+		},
+
+		{
+			label: 'Imusic.am',
+			matches: ['*://imusic.am/*'],
+			js: ['connectors/v2/imusic.am.js'],
+			version: 2
+		},
+
+		{
+			label: 'GoEar.Com',
+			matches: ['*://*.goear.com/*', '*://goear.com/*'],
+			js: ['connectors/v2/goear.com.js'],
+			version: 2
+		},
+
+		{
+			label: 'AccuJazz',
+			matches: ['*://*.slipstreamradio.com/*'],
+			js: ['connectors/v2/accujazz.js'],
+			version: 2
+		},
+
+		{
+			label: 'Wrzuta.pl',
+			matches: ['*://*.wrzuta.pl/*', '*://wrzuta.pl/*'],
+			js: ['connectors/v2/wrzuta.pl.js'],
+			version: 2
+		},
+
+		{
+			label: 'Earbits',
+			matches: ['*://www.earbits.com/*'],
+			js: ['connectors/v2/earbits.js'],
+			version: 2
+		},
+
+		{
+			label: 'Player.fm',
+			matches: ['*://player.fm/*'],
+			js: ['connectors/v2/player.fm.js'],
+			version: 2
+		},
+
+		{
+			label: 'SNDTST',
+			matches: ['*://www.sndtst.com/*', '*://sndtst.com/*'],
+			js: ['connectors/v2/sndtst.js'],
+			version: 2
+		},
+
+		{
+			label: 'TheDrop',
+			matches: ['*://thedrop.club/*'],
+			js: ['connectors/v2/thedrop.js'],
+			version: 2
+		},
+
+		{
+			label: 'ThisIsMyJam',
+			matches: ['*://www.thisismyjam.com/*'],
+			js: ['connectors/v2/thisismyjam.js'],
+			version: 2
+		},
+
+		{
+			label: 'Wonder.fm',
+			matches: ['*://wonder.fm/*'],
+			js: ['connectors/v2/wonder.fm.js'],
+			version: 2
+		},
+
+		{
+			label: 'RadioTunes',
+			matches: ['*://www.radiotunes.com/*'],
+			js: ['connectors/v2/radiotunes.js'],
+			version: 2
+		},
+
+		{
+			label: 'Radio.com',
+			matches: ['*://player.radio.com*'],
+			js: ['connectors/v2/radio.com.js'],
+			version: 2
+		},
+
+		{
+			label: 'M2FR',
+			matches: ['*://www.m2radio.fr/*'],
+			js: ['connectors/v2/m2fr.js'],
 			version: 2
 		},
 
@@ -510,6 +649,54 @@ define(function() {
 			label: 'Jamendo',
 			matches: ['*://www.jamendo.com/*'],
 			js: ['connectors/v2/jamendo.js'],
+			version: 2
+		},
+
+		{
+			label: 'Whyd',
+			matches: ['*://whyd.com/*'],
+			js: ['connectors/v2/whyd.js'],
+			version: 2
+		},
+
+		{
+			label: 'Mymusiccloud',
+			matches: ['*://www.mymusiccloud.com/*'],
+			js: ['connectors/v2/mymusiccloud.js'],
+			version: 2
+		},
+
+		{
+			label: 'Bandzone.cz',
+			matches: ['*://bandzone.cz/*'],
+			js: ['connectors/v2/bandzone.cz.js'],
+			version: 2
+		},
+
+		{
+			label: 'Chorus',
+			js: ['connectors/v2/chorus.js'],
+			version: 2
+		},
+
+		{
+			label: 'Superplayer.fm',
+			matches: ['*://www.superplayer.fm/*'],
+			js: ['connectors/v2/superplayer.fm.js'],
+			version: 2
+		},
+
+		{
+			label: 'RMFON',
+			matches: ['*://www.rmfon.pl/*', '*://rmfon.pl/*'],
+			js: ['connectors/v2/rmfon.js'],
+			version: 2
+		},
+
+		{
+			label: 'Ampya',
+			matches: ['*://*.ampya.com/*'],
+			js: ['connectors/v2/ampya.js'],
 			version: 2
 		},
 
@@ -545,6 +732,13 @@ define(function() {
 			label: 'Jazzradio',
 			matches: ['*://www.jazzradio.com/*'],
 			js: ['connectors/v2/jazzradio.js'],
+			version: 2
+		},
+
+		{
+			label: 'FarFromMoscow',
+			matches: ['*://www.farfrommoscow.com/*'],
+			js: ['connectors/v2/farfrommoscow.js'],
 			version: 2
 		},
 
@@ -700,6 +894,20 @@ define(function() {
 			label: 'wavo.me',
 			matches: ['https://wavo.me/*'],
 			js: ['connectors/v2/wavome.js'],
+			version: 2
+		},
+
+		{
+			label: 'WDVX',
+			matches: ['http://www.wdvx.com/listen-live/'],
+			js: ['connectors/v2/wdvx.js'],
+			version: 2
+		},
+
+		{
+			label: 'dubtrack.fm',
+			matches: ['https://www.dubtrack.fm/*'],
+			js: ['connectors/v2/dubtrack.js'],
 			version: 2
 		}
 

@@ -4,8 +4,11 @@
  * Song object
  */
 define([
-	'wrappers/can'
-], function(can) {
+	'wrappers/can',
+	'connectors',
+	'vendor/route-pattern',
+	'underscore'
+], function(can, connectors, RoutePattern, _) {
 	/**
 	 * @constructor
 	 */
@@ -28,7 +31,8 @@ define([
 			duration: parsedData.duration || null,
 			currentTime: parsedData.currentTime || null,
 			isPlaying: parsedData.isPlaying || false,
-			trackArt: parsedData.trackArt || false
+			trackArt: parsedData.trackArt || false,
+			url: parsedData.url || null
 		};
 
 		/**
@@ -46,9 +50,21 @@ define([
 		/**
 		 * Various optional data
 		 */
+		var connector = _.find(connectors, function(connector) {
+			return _.find(connector.matches, function(patternStr) {
+				var pattern = RoutePattern.fromString(patternStr);
+				if (parsed.url !== null) {
+					return pattern.matches(parsed.url.href);
+				}
+				return false;
+			});
+		}) || null;
+
 		var metadata = {
 			userloved: parsedData.userloved === 1,
-			startTimestamp: Math.floor(Date.now() / 1000) // UTC timestamp in seconds
+			startTimestamp: Math.floor(Date.now() / 1000), // UTC timestamp in seconds
+			url: parsed.url, // basic connector data
+			connector: connector
 		};
 
 		/**

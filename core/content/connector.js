@@ -288,7 +288,8 @@ var BaseConnector = window.BaseConnector || function () {
 		pageHash: null,
 		duration: null,
 		currentTime: 0,
-		isPlaying: true
+		isPlaying: true,
+		url: window.location
 	};
 
 	/**
@@ -314,6 +315,12 @@ var BaseConnector = window.BaseConnector || function () {
 			this.onPageChanged();
 			//changedFields.push('pageHash');
 		}
+		var newURL = window.location;
+		if (newURL !== currentState.url) {
+			currentState.url = newURL;
+			changedFields.push('url');
+		}
+
 
 		var newIsPlaying = this.isPlaying();
 		if (newIsPlaying !== currentState.isPlaying) {
@@ -435,7 +442,6 @@ var BaseConnector = window.BaseConnector || function () {
 		if (changedFields.length > 0 && this.reactorCallback !== null) {
 			this.reactorCallback(currentState, changedFields);
 		}
-
 	}.bind(this);
 
 	/**

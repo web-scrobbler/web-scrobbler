@@ -72,7 +72,7 @@ define([
 				data.sessionID = null;
 				data.token = xml.find('token').text();
 				storage.set(data, function() {
-					cb('https://www.last.fm/api/auth/?api_key=' + apiKey + '&token=' + data.token);
+					cb('http://www.last.fm/api/auth/?api_key=' + apiKey + '&token=' + data.token);
 				});
 			}
 		});
