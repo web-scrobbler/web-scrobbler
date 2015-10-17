@@ -309,7 +309,6 @@ require([
 		LibreFM.getSession(function(sessionID) {
 			if (sessionID !== 'undefined') {
 				scrobblerNotifications.get(function(data) {
-					console.log(data);
 					if (typeof data.librefm === 'undefined') {
 						Notifications.showAuthenticate(LibreFM.getAuthUrl.bind(LibreFM));
 						data.librefm = true;
