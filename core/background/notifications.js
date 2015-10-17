@@ -131,8 +131,7 @@ define([
 			var notificationCreatedCb = function(notificationId) {
 				addOnClickedListener(notificationId, function() {
 					GA.event('notification', 'authenticate', 'click');
-
-					window.open(result.authUrl, 'scrobbler-auth');
+					window.open(result.authUrl, 'scrobbler-auth_' + notificationId);
 				});
 
 				GA.event('notification', 'authenticate', 'show');
