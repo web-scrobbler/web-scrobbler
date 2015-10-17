@@ -52,7 +52,6 @@ define([
 		 * @param cb
 		 */
 		getAuthUrl: function (cb) {
-			var self = this;
 			var http_request = new XMLHttpRequest();
 			http_request.open('GET', this.apiUrl + '?method=auth.gettoken&api_key=' + this.apiKey, false); // synchronous
 			http_request.setRequestHeader('Content-Type', 'application/xml');
@@ -70,21 +69,21 @@ define([
 				if (status !== 'ok') {
 					console.log('Error acquiring a token: %s', http_request.responseText);
 					data.token = null;
-					self.storage.set(data, function () {
+					this.storage.set(data, function () {
 						cb(null);
 					});
 				} else {
 					// set token and reset session so we will grab a new one
 					data.sessionID = null;
 					data.token = xml.find('token').text();
-					self.storage.set(data, function () {
+					this.storage.set(data, function () {
 						cb({
-							'authUrl': self.authUrl + '?api_key=' + self.apiKey + '&token=' + data.token,
-							'label': self.getLabel()
+							'authUrl': this.authUrl + '?api_key=' + this.apiKey + '&token=' + data.token,
+							'label': this.getLabel()
 						});
-					});
+					}.bind(this));
 				}
-			});
+			}.bind(this));
 		},
 
 		/**
@@ -95,12 +94,11 @@ define([
 		 * @param cb
 		 */
 		getSession: function (cb) {
-			var self = this;
 			this.storage.get(function (data) {
 				// if we have a token it means it is fresh and we want to trade it for a new session ID
 				var token = data.token || null;
 				if (token !== null) {
-					self.tradeTokenForSession(token, function (session) {
+					this.tradeTokenForSession(token, function (session) {
 						if (session === null || typeof session.key === 'undefined') {
 							console.warn('Failed to trade token for session - the token is probably not authorized');
 
@@ -108,7 +106,7 @@ define([
 							data.token = null;
 							data.sessionID = null;
 							data.sessionName = null;
-							self.storage.set(data, function () {
+							this.storage.set(data, function () {
 								cb(null, null);
 							});
 						} else {
@@ -116,16 +114,16 @@ define([
 							data.token = null;
 							data.sessionID = session.key;
 							data.sessionName = session.name;
-							self.storage.set(data, function () {
+							this.storage.set(data, function () {
 								cb(data.sessionID, data.sessionName);
 							});
 						}
-					});
+					}.bind(this));
 				}
 				else {
 					cb(data.sessionID, data.sessionName);
 				}
-			});
+			}.bind(this));
 		},
 
 		/**
@@ -201,7 +199,6 @@ define([
 		 * @param errCb
 		 */
 		doRequest: function (method, params, signed, okCb, errCb) {
-			var self = this;
 			params.api_key = this.apiKey;
 
 			if (signed) {
@@ -218,20 +215,20 @@ define([
 			var url = this.apiUrl + '?' + paramPairs.join('&');
 
 			var internalOkCb = function (xmlDoc, status) {
-				if (self.enableLogging) {
-					console.info(self.label + ' response to ' + method + ' ' + url + ' : ' + status + '\n' + (new XMLSerializer()).serializeToString(xmlDoc));
+				if (this.enableLogging) {
+					console.info(this.label + ' response to ' + method + ' ' + url + ' : ' + status + '\n' + (new XMLSerializer()).serializeToString(xmlDoc));
 				}
 
 				okCb.apply(this, arguments);
-			};
+			}.bind(this);
 
 			var internalErrCb = function (jqXHR, status, response) {
-				if (self.enableLogging) {
-					console.error(self.label + ' response to ' + url + ' : ' + status + '\n' + response);
+				if (this.enableLogging) {
+					console.error(this.label + ' response to ' + url + ' : ' + status + '\n' + response);
 				}
 
 				errCb.apply(this, arguments);
-			};
+			}.bind(this);
 
 			if (method === 'GET') {
 				$.get(url)
@@ -259,8 +256,6 @@ define([
 		 * @param cb {Function(boolean)} callback where validation result will be passed
 		 */
 		loadSongInfo: function (song, cb) {
-			var self = this;
-
 			this.getSession(function (sessionID, sessionName) {
 				var params = {
 					method: 'track.getinfo',
@@ -311,8 +306,8 @@ define([
 					cb(false);
 				};
 
-				self.doRequest('GET', params, false, okCb, errCb);
-			});
+				this.doRequest('GET', params, false, okCb, errCb);
+			}.bind(this));
 		},
 
 		/**
@@ -321,7 +316,6 @@ define([
 		 * @param {Function} cb callback with single bool parameter of success
 		 */
 		sendNowPlaying: function (song, cb) {
-			var self = this;
 			this.getSession(function (sessionID) {
 				if (sessionID === false) {
 					cb(false);
@@ -331,7 +325,7 @@ define([
 					method: 'track.updatenowplaying',
 					track: song.getTrack(),
 					artist: song.getArtist(),
-					api_key: self.apiKey,
+					api_key: this.apiKey,
 					sk: sessionID
 				};
 
@@ -356,12 +350,12 @@ define([
 					cb(false);
 				};
 
-				if (self.enableLogging) {
-					console.log(self.label + ' sendNowPlaying()');
+				if (this.enableLogging) {
+					console.log(this.label + ' sendNowPlaying()');
 				}
 
-				self.doRequest('POST', params, true, okCb, errCb);
-			});
+				this.doRequest('POST', params, true, okCb, errCb);
+			}.bind(this));
 		},
 
 		/**
@@ -370,7 +364,6 @@ define([
 		 * @param {Function} cb callback with single ServiceCallResult parameter
 		 */
 		scrobble: function (song, cb) {
-			var self = this;
 			this.getSession(function (sessionID) {
 				if (!sessionID) {
 					var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
@@ -382,7 +375,7 @@ define([
 					'timestamp[0]': song.metadata.startTimestamp,
 					'track[0]': song.processed.track || song.parsed.track,
 					'artist[0]': song.processed.artist || song.parsed.artist,
-					api_key: self.apiKey,
+					api_key: this.apiKey,
 					sk: sessionID
 				};
 
@@ -416,12 +409,12 @@ define([
 					cb(result);
 				};
 
-				if (self.enableLogging) {
-					console.log(self.label + ' scrobble()');
+				if (this.enableLogging) {
+					console.log(this.label + ' scrobble()');
 				}
 
-				self.doRequest('POST', params, true, okCb, errCb);
-			});
+				this.doRequest('POST', params, true, okCb, errCb);
+			}.bind(this));
 		},
 
 		/**
@@ -431,7 +424,6 @@ define([
 		 * @param {Function} cb callback with single ServiceCallResult parameter
 		 */
 		toggleLove: function (song, shouldBeLoved, cb) {
-			var self = this;
 			this.getSession(function (sessionID) {
 				if (!sessionID) {
 					var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
@@ -442,7 +434,7 @@ define([
 					method: 'track.' + (shouldBeLoved ? 'love' : 'unlove' ),
 					'track': song.processed.track || song.parsed.track,
 					'artist': song.processed.artist || song.parsed.artist,
-					api_key: self.apiKey,
+					api_key: this.apiKey,
 					sk: sessionID
 				};
 
@@ -460,8 +452,8 @@ define([
 					cb(false);
 				};
 
-				self.doRequest('POST', params, true, okCb, errCb);
-			});
+				this.doRequest('POST', params, true, okCb, errCb);
+			}.bind(this));
 		},
 
 		/**
