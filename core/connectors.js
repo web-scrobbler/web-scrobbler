@@ -44,7 +44,7 @@ define(function() {
 
 		{
 			label: 'Zen Audio Player',
-			matches: ['*://zen-audio-player.github.io/*',],
+			matches: ['*://zen-audio-player.github.io/*'],
 			js: ['connectors/v2/zen-audio-player.js'],
 			version: 2
 		},
@@ -909,7 +909,13 @@ define(function() {
 			matches: ['https://www.dubtrack.fm/*'],
 			js: ['connectors/v2/dubtrack.js'],
 			version: 2
-		}
+		},
 
+		{
+			label: 'cubic.fm',
+			matches: ['https://cubic.fm/*'],
+			js: ['connectors/v2/cubicfm.js'],
+			version: 2
+		}
 	];
 });
