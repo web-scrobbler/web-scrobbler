@@ -872,13 +872,12 @@ Connector.deleteTotalTimeRecord = function (playlist) {
 	// Use the first line as a reference
 	var ref = playlist[0];
 	if (invalid || line.match(/total|time|duration|length/i)) {
-		// it should take up the most time of the playlist
+		// it should contain a timestamp which is close to the end
 		var start = longest.startTime;
 		var end = Connector.getDuration();
-		var fraction = (end - start) / end;
-		if (fraction > 0.8) {
+		if (start / end > 0.8) {
 			// it shouldn't have a track number if others have it
-			if ((fraction >= 0.99) || (ref.number && !longest.number)) {
+			if ((start / end >= 0.99) || (ref.number && !longest.number)) {
 				console.log('Deleted a total time record from the playlist: "' + longest.text + '"');
 				playlist = _.filter(playlist, function(track) { return (track !== longest); });
 			}
