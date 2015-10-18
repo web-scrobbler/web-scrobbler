@@ -4,6 +4,8 @@
 
 Connector.playerSelector = '#player';
 
+Connector.trackArtImageSelector = '.miniplayer-album-art';
+
 Connector.artistSelector = '#player .active .fullplayer-info-artist-name a';
 
 Connector.getAlbum = function () {

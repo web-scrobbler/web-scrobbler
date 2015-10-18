@@ -4,6 +4,8 @@
 
 Connector.playerSelector = '.player-static';
 
+Connector.trackArtImageSelector = '.block-header img';
+
 Connector.artistSelector = '[data-block="player-artist-link"]';
 
 Connector.trackSelector = '[data-block="player-song-link"]';

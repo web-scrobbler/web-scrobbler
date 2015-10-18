@@ -82,8 +82,6 @@ require([
 				isActiveSession = true;
 				GA.send('pageview', '/background-injected?version=' + chrome.app.getDetails().version);
 			}
-
-			return;
 		}
 	};
 

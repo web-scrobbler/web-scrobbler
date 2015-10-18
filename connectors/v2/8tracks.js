@@ -4,6 +4,8 @@
 
 Connector.playerSelector = '#player';
 
+Connector.trackArtImageSelector = '#player_mix img';
+
 Connector.artistSelector = '#now_playing .title_artist .a:first';
 
 Connector.trackSelector = '#now_playing .title_artist .t:first';

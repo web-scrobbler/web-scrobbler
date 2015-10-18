@@ -4,6 +4,8 @@
 
 Connector.playerSelector = '#player';
 
+Connector.trackArtImageSelector = '.s30 img';
+
 Connector.artistSelector = '.currenttrack .artist > a';
 
 Connector.trackSelector = '.currenttrack .title > a';
