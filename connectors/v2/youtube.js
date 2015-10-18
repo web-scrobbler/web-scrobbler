@@ -16,6 +16,20 @@ chrome.storage.local.get('Connectors', function(data) {
 
 /* State update hooks setup */
 
+/**
+ * YouTube doesn't really unload the player. It simply moves it outside viewport.
+ * That has to be checked, because our selectors are still able to detect it.
+ */
+function isPlayerOffscreen() {
+	var $player = $('#player-api');
+	if ($player.length === 0) {
+		return false;
+	}
+
+	var offset = $player.offset();
+	return offset.left < 0 || offset.top < 0;
+}
+
 // Turns out that idling youtube pages update nothing but the video element.
 var video = $('video').first();
 if (video.length !== 0) {
@@ -855,12 +869,16 @@ Connector.deleteTotalTimeRecord = function (playlist) {
 		invalid = false;
 		line = reparsed.track;
 	}
-	var first = playlist[0];
+	// Use the first line as a reference
+	var ref = playlist[0];
 	if (invalid || line.match(/total|time|duration|length/i)) {
-		// it should be much longer
-		if (longest.startTime / Connector.getDuration() > 0.8) {
+		// it should take up the most time of the playlist
+		var start = longest.startTime;
+		var end = Connector.getDuration();
+		var fraction = (end - start) / end;
+		if (fraction > 0.8) {
 			// it shouldn't have a track number if others have it
-			if (!first.number || (!longest.number && first.number)) {
+			if ((fraction >= 0.99) || (ref.number && !longest.number)) {
 				console.log('Deleted a total time record from the playlist: "' + longest.text + '"');
 				playlist = _.filter(playlist, function(track) { return (track !== longest); });
 			}
