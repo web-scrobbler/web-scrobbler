@@ -13,15 +13,30 @@ define([], function() {
 	return function(tabId) {
 
 		var icons = {
-			BASE: '/icons/page_action_base.svg',
+			BASE: {
+				'19': '/icons/page_action_base.svg',
+				'38': '/icons/page_action_base.svg'
+			},
 			LOADING: {
 				'19': '/icons/page_action_loading.png',
 				'38': '/icons/page_action_loading_38.png'
 			},
-			RECOGNIZED: '/icons/page_action_note.svg',
-			DISABLED: '/icons/page_action_disabled.svg',
-			SCROBBLED: '/icons/page_action_tick.svg',
-			UNKNOWN: '/icons/page_action_question.svg'
+			RECOGNIZED: {
+				'19': '/icons/page_action_note.svg',
+				'38': '/icons/page_action_note.svg'
+			},
+			DISABLED: {
+				'19': '/icons/page_action_disabled.svg',
+				'38': '/icons/page_action_disabled.svg'
+			},
+			SCROBBLED: {
+				'19': '/icons/page_action_tick.svg',
+				'38': '/icons/page_action_tick.svg'
+			},
+			UNKNOWN: {
+				'19': '/icons/page_action_question.svg',
+				'38': '/icons/page_action_question.svg'
+			}
 		};
 
 		var documents = {
