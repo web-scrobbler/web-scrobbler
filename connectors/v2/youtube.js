@@ -553,16 +553,17 @@ Connector.stripTimestamps = function (str) {
 		return null;
 	}
 	str = str.replace(timestampRegex,'__TIMESTAMP__');
-	str = str.replace(/[\[\(\{\–\-]*\s*[0-9]{1,2}\.[0-9]{2}\s*[\]\)\}\–\-:]/gi,''); // Chop out bullshit other misformatted timestamps (e.g. https://www.youtube.com/watch?v=9-NFosnfd2c)
-	str = str.replace(/(\s*[\[\(\{\–\-\|:]*\s*__TIMESTAMP__)+\s*[\]\)\}\–\-:\|]*\s*/i,''); // [00:00] (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo / https://www.youtube.com/watch?v=thUQr7Q1vCY)
+	str = str.replace(/[\[\(\{\u2010-\u2015\-]*\s*[0-9]{1,2}\.[0-9]{2}\s*[\]\)\}\u2010-\u2015\-:]/gi,''); // Chop out bullshit other misformatted timestamps (e.g. https://www.youtube.com/watch?v=9-NFosnfd2c)
+	str = str.replace(/(\s*[\[\(\{\u2010-\u2015\-\|:]*\s*__TIMESTAMP__)+\s*[\]\)\}\u2010-\u2015\-:\|]*\s*/i,''); // [00:00] (e.g. https://www.youtube.com/watch?v=YKkOxFoE5yo / https://www.youtube.com/watch?v=thUQr7Q1vCY)
 	str = str.replace('__TIMESTAMP__','');
-	str = str.replace(/^\s*[-:=]\s*/i,''); // HH:MM - Track
+	str = str.replace(/^\s*[\u2010-\u2015\-:=]\s*/i,''); // HH:MM - Track
+	str = str.replace(/\s*[\u2010-\u2015\-:=]\s*$/i,''); // Track - HH:MM
 
 	return str;
 };
 
 // numbering  1.  1 -  (1) etc. (e.g. https://www.youtube.com/watch?v=Y7QQS5V3cnI) and "track 1." (e.g. https://www.youtube.com/watch?v=FijBkSvN6N8)
-var trackNubmerRegex = /^\s*(track|number|no|no\.|song)?\s*[\[\(\{\-\?\|\*]*\s*([0-9]{1,2})(?![0-9])[\.\-\:\=\)\}\|\?\]\*\s]+/gi;
+var trackNubmerRegex = /^\s*(track|number|no|no\.|song)?\s*[\[\(\{\u2010-\u2015\-\?\|\*]*\s*([0-9]{1,2})(?![0-9])[\.\u2010-\u2015\-\:\=\)\}\|\?\]\*\s]+/gi;
 
 Connector.stripTrackNumber = function (str) {
 	if (typeof str === 'undefined' | str === null) {
@@ -1096,22 +1097,9 @@ function cleanseTrack(track) {
 	track = track.replace(/\(+\s*\)+/, ''); // Leftovers after e.g. (official video)
 	track = track.replace(/^(|.*\s)"(.*)"(\s.*|)$/, '$2'); // Artist - The new "Track title" featuring someone
 	track = track.replace(/^(|.*\s)'(.*)'(\s.*|)$/, '$2'); // 'Track title'
-	track = track.replace(/^[\/,:;~\-\s"]+/, ''); // trim starting white chars and dash
-	track = track.replace(/([\/.,:;~\-"!]*\s*)+$/, ''); // trim trailing white chars and dash
+	track = track.replace(/^[\/,:;~\-\s"\u2018\u2019]+/, ''); // trim starting white chars and dash
+	track = track.replace(/([\/.,:;~\-"\u2018\u2019!]*\s*)+$/, ''); // trim trailing white chars and dash
 	//" and ! added because some track names end as {"Some Track" Official Music Video!} and it becomes {"Some Track"!} example: http://www.youtube.com/watch?v=xj_mHi7zeRQ
 
 	return track;
-}
-/**
- * YouTube doesn't really unload the player. It simply moves it outside viewport.
- * That has to be checked, because our selectors are still able to detect it.
- */
-function isPlayerOffscreen() {
-	var $player = $('#player-api');
-	if ($player.length === 0) {
-		return false;
-	}
-
-	var offset = $player.offset();
-	return offset.left < 0 || offset.top < 0;
 }
