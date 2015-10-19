@@ -25,6 +25,8 @@ function getTrack() {
     return trackName;
 }
 
+var prevUrl = "";
+
 //To get artist name by ajax
 function updateNowPlaying() {
     var track = getTrack();
@@ -34,10 +36,16 @@ function updateNowPlaying() {
     var url = track_url.attr("onclick");
     url = url.replace("Util.logAndGoToUrl('site:player:track-name:click', '", "");
     url = url.replace("');", "");
-    console.log(url);
+
+    if(url == prevUrl){
+        return;
+    }
+    else{
+        prevUrl = url;
+    }
     $.ajax({
       url: url,
-      context: document.body
+      context: document.body,
     }).done(function(data) {
 
         var start = data.indexOf('<meta property="music:musician" content="http://www.saavn.com/s/artist/') + '<meta property="music:musician" content="http://www.saavn.com/s/artist/'.length;
