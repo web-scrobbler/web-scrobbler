@@ -916,6 +916,13 @@ define(function() {
 			matches: ['https://cubic.fm/*'],
 			js: ['connectors/v2/cubicfm.js'],
 			version: 2
+		},
+
+		{
+			label: 'saavn',
+			matches: ['*://www.saavn.com/*'],
+			js: ['connectors/v2/saavn.js'],
+			version: 2
 		}
 	];
 });
