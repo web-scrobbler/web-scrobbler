@@ -1,8 +1,8 @@
 /**
- * Chrome-Last.fm-Scrobbler - Gaana.com Connector
+ * Chrome-Last.fm-Scrobbler - Saavn.com Connector
  *
- * Author: Sitesh Shrivastava [siteshshrivastava@gmail.com]
- * Changes : Vishal Ithape [vishal8492@gmail.com]
+ * Author: Mayank Meghwanshi [mayankmeghwanshi@gmail.com]
+ * Referred from Gaana.js
  */
 
 // DOM Nodes to keep track for song details
