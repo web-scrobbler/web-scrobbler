@@ -205,7 +205,22 @@ define([
 					pageAction.setSiteSupported();
 				}
 			} else {
-				pageAction.setSongNotRecognized();
+				// try to load a processed artist track from local storage
+				var key = song.parsed.uniqueID;
+				chrome.storage.local.get(key, function(data) {
+					var processed = data[key];
+					if (processed) {
+						// setUserSongData(processed);
+						// alert("doesn't reach here");
+
+						// temp fix
+						song.processed = processed;
+						song.flags.attr('isCorrectedByUser', true);
+						onProcessed(song);
+					} else {
+						pageAction.setSongNotRecognized();
+					}
+				});
 			}
 		}
 
