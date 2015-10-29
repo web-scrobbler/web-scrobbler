@@ -2,33 +2,30 @@
 
 /* global Connector */
 
-Connector.playerSelector = '#mp3Player';
+Connector.playerSelector = '#dragonflyTransport .rightSide';
 
 Connector.getArtist = function() {
-	return $('.currentSongDetails .artistLink').attr('title') || null;
+	return $('.trackInfoContainer .trackArtist a').attr('title');
 };
 
-/** prefer titles from playlist but in case user has navigated away from the playlist,
- *  fallback to the (possibly truncated) values in the bottom now playing pane.
- */
-Connector.getTrack = function() {
-	return $('tr.selectable.currentlyPlaying td.titleCell').attr('title') ||
-		$('.currentSongDetails .title').text() || null;
-};
+Connector.trackSelector = '.trackInfoContainer .trackTitle';
+
 
 Connector.getAlbum = function() {
 	return $('tr.selectable.currentlyPlaying td.albumCell').attr('title') ||
-		$('.nowPlayingDetail img.albumImage').attr('title') || null;
+		$('.nowPlayingDetail img.albumImage').attr('title') ||
+		$('.trackSourceLink a').attr('title');
 };
 
 Connector.currentTimeSelector = '#currentTime';
 
-Connector.playButtonSelector = 'span.mp3MasterPlay.icon-play';
+Connector.playButtonSelector = '.rightSide .playbackControls .playerIconPlay';
 
-/** @returns {number|null} track length in seconds */
 Connector.getDuration = function() {
 	return Connector.stringToSeconds($('#currentDuration').text()) || null;
 };
+
+Connector.trackArtImageSelector = '.rightSide .albumArtWrapper img';
 
 Connector.getUniqueID = function() {
 	var optionsHref = $('.buttonOption.main[title=Options]').attr('href');
