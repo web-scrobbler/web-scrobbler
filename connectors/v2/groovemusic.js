@@ -12,7 +12,7 @@ Connector.trackSelector = '#player .primaryMetadata a:first';
 
 Connector.getAlbum = function() {
 	var album = $('#player .imgWrapper .img').attr('alt');
-	album = album.substr(album.indexOf("-")+1).trim();
+	album = album.substr(album.indexOf('-')+1).trim();
 	return album || null;
 };
 
@@ -21,6 +21,6 @@ Connector.currentTimeSelector = '.playerDurationText .playerDurationTextOnGoing'
 Connector.playButtonSelector = '#player button.iconPlayerPlay';
 
 Connector.isPlaying = function () {
-	return $("#player button.iconPlayerPlay").length === 0;
+	return $('#player button.iconPlayerPlay').length === 0;
 };
 
