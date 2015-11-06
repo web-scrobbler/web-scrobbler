@@ -23,4 +23,3 @@ Connector.playButtonSelector = '#player button.iconPlayerPlay';
 Connector.isPlaying = function () {
 	return $('#player button.iconPlayerPlay').length === 0;
 };
-
