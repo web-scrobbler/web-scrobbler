@@ -19,7 +19,3 @@ Connector.getAlbum = function() {
 Connector.currentTimeSelector = '.playerDurationText .playerDurationTextOnGoing';
 
 Connector.playButtonSelector = '#player button.iconPlayerPlay';
-
-Connector.isPlaying = function () {
-	return $('#player button.iconPlayerPlay').length === 0;
-};
