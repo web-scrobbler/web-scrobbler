@@ -14,18 +14,18 @@ function scrobble (artist, title, duration) {
 
 $(function () {
     $(window).unload(function () {
-	// reset the background scrobbler song data
-	chrome.runtime.sendMessage({type: 'reset'});
-	return true;
+        // reset the background scrobbler song data
+        chrome.runtime.sendMessage({type: 'reset'});
+        return true;
     });
-    
+
     window.addEventListener('message', function(event) {
         if (event.source != window)
             return;
 
         if (event.data && event.data.artist && event.data.title && event.data.duration)
             scrobble(event.data.artist, event.data.title, event.data.duration);
-        
+
     }, false);
 
     var injectScript = document.createElement('script');
@@ -49,4 +49,3 @@ chrome.runtime.onMessage.addListener(
         }
     }
 );
-
