@@ -85,8 +85,6 @@ Connector.getAlbum = function () {
 
 Connector.playButtonSelector = 'div.playbutton:not(.playing)';
 
-Connector.currentTimeSelector = 'span.time_elapsed';
-
 Connector.getTrackArt = function() {
 	return $('#tralbumArt > a > img').attr('src') || $('#detail_gallery_container img').attr('src');
 };
