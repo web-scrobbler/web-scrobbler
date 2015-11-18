@@ -25,12 +25,16 @@ function getArtist() {
 	var artist = $('.detail_item_link_2').text() ||
 				$('span[itemprop=byArtist]').text() ||
 				null;
+	if (artist === null) {
+		artist = $('.waypoint-artist-title').text().substr(3);
+	}
 	return cleanText(artist);
 }
 
 function getTrack() {
 	var track = $('.track_info .title').first().text() ||
 				$('.trackTitle').first().text() ||
+				$('.waypoint-item-title').text() ||
 				null;
 	return cleanText(track);
 }
@@ -85,6 +89,10 @@ Connector.currentTimeSelector = 'span.time_elapsed';
 
 Connector.getTrackArt = function() {
 	return $('#tralbumArt > a > img').attr('src') || $('#detail_gallery_container img').attr('src');
+};
+
+Connector.getCurrentTime = function () {
+	return Math.round($('audio')[0].currentTime);
 };
 
 Connector.getDuration = function () {
