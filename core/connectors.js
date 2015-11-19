@@ -384,7 +384,7 @@ define(function() {
 
 		{
 			label: 'PLEX',
-			matches: ['*://*32400/web/*', '*://plex.tv/web/*'],
+			matches: ['*://*32400/web/*', '*://*.plex.tv/web/*'],
 			js: ['connectors/plex.js']
 		},
 
