@@ -167,7 +167,7 @@ define(function() {
 
 		{
 			label: 'Zvooq',
-			matches: ['*://zvooq.ru/*'],
+			matches: ['*://zvooq.ru/*', '*://zvooq.com/*'],
 			js: ['connectors/v2/zvooq.js'],
 			version: 2
 		},
