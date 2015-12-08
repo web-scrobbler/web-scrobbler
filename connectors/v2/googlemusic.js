@@ -4,11 +4,11 @@
 
 Connector.playerSelector = '#player';
 
-Connector.trackArtImageSelector = '#playingAlbumArt';
+Connector.trackArtImageSelector = '#playerBarArt';
 
 Connector.artistSelector = '#player-artist';
 
-Connector.trackSelector = '#player-song-title';
+Connector.trackSelector = '#currently-playing-title';
 
 Connector.albumSelector = '.player-album';
 
