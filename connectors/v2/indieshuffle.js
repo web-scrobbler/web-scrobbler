@@ -1,9 +1,17 @@
+'use strict';
+
+/* global Connector */
 
 Connector.playerSelector = '#currentSong';
 
 Connector.artistSelector = '#currentSong .artist_name';
 
 Connector.trackSelector = '#currentSong .song-details';
+
+Connector.getTrackArt = function () {
+	var src = $('.songlink .song_artwork').attr('src');
+	return src.startsWith('//') ? src = 'https:'+src : src;
+};
 
 var timeRegex = /(\d+:\d+)\s\/\s(\d+:\d+)/;
 
@@ -13,7 +21,6 @@ var timeRegex = /(\d+:\d+)\s\/\s(\d+:\d+)/;
  * @returns {{currentTime, duration}} both in seconds
  */
 var parseTime = function() {
-	'use strict';
 	var result = timeRegex.exec($('#currentSong .display-track-time').text()),
 		currentTime = null, duration = null;
 	if (result) {
@@ -24,21 +31,17 @@ var parseTime = function() {
 };
 
 Connector.getDuration = function () {
-	'use strict';
 	return parseTime().duration;
 };
 
 Connector.getCurrentTime = function () {
-	'use strict';
 	return parseTime().currentTime;
 };
 
 Connector.getUniqueID = function () {
-	'use strict';
 	return $('#currentSong .commontrack').attr('data-track-id') || null;
 };
 
 Connector.isPlaying = function () {
-	'use strict';
 	return $('#currentSong .commontrack').hasClass('active');
 };

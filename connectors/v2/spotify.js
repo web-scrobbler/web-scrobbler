@@ -1,45 +1,42 @@
+'use strict';
 
+/* global Connector */
 
 Connector.getArtist = function() {
-	var el = $('#app-player').get(0).contentDocument.getElementById('track-artist');
-	return (el === null) ? null : el.textContent.trim();
+	return $('#main').contents().find('#miniplayer .metadata .artist').text() || null;
 };
 
 Connector.getTrack = function() {
-	var el = $('#app-player').get(0).contentDocument.getElementById('track-name');
-	return (el === null) ? null : el.textContent.trim();
+	return $('#main').contents().find('#miniplayer .metadata .title').text() || null;
 };
 
 Connector.getDuration = function() {
-	var el = $('#app-player').get(0).contentDocument.getElementById('track-length');
-	if (el === null) {
-		return null;
-	}
-
-	return Connector.stringToSeconds(el.textContent.trim());
+	return Connector.stringToSeconds($('#main').contents().find('#remaining').text()) || null;
 };
 
 Connector.getCurrentTime = function() {
-	var el = $('#app-player').get(0).contentDocument.getElementById('track-current');
-	if (el === null) {
-		return null;
-	}
-
-	return Connector.stringToSeconds(el.textContent.trim());
+	return Connector.stringToSeconds($('#main').contents().find('#elapsed').text());
 };
 
 Connector.isPlaying = function() {
-	var btn = $('#app-player').get(0).contentDocument.getElementById('play-pause');
-	if (btn === null) {
-		return false;
-	}
+	return $('#main').contents().find('#play').hasClass('playing');
+};
 
-	return btn.classList.contains('playing');
+Connector.getTrackArt = function() {
+	var backgroundStyle = $('#main').contents().find('.cover-image').css('background-image');
+	if (!backgroundStyle) {
+		return null;
+	}
+	return backgroundStyle.replace('url(', '').replace(')', '');
+};
+
+Connector.getUniqueID = function() {
+	return $('#main').contents().find('.text .track a:first').attr('data-uri') || null;
 };
 
 var onPlayerLoaded = function() {
 	var observer = new MutationObserver(Connector.onStateChanged);
-	var observeTarget = $('#app-player').get(0).contentDocument.getElementById('wrap');
+	var observeTarget = $('#main').get(0).contentDocument.querySelector('footer');
 	var config = {
 		childList: true,
 		subtree: true,
@@ -50,4 +47,4 @@ var onPlayerLoaded = function() {
 };
 
 // wait for player to load
-$('#app-player').on('load', onPlayerLoaded);
+$('#main').on('load', onPlayerLoaded);

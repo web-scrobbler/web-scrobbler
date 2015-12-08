@@ -48,6 +48,14 @@ var BaseConnector = window.BaseConnector || function () {
 		this.currentTimeSelector = null;
 
 		/**
+		 * Selector of an element containing track duration (total time) in h:m:s format.
+		 * Only applies when default implementation of {@link BaseConnector#getDuration} is used
+		 *
+		 * @type {string}
+		 */
+		this.durationSelector = null;
+
+		/**
 		 * Selector of an element containing both artist and track name.
 		 * {@link BaseConnector#artistSelector} and {@link BaseConnector#trackSelector} properties have priority over this,
 		 * and {@link BaseConnector#artistTrackSelector} is used only if any of the previous returns empty result.
@@ -79,6 +87,24 @@ var BaseConnector = window.BaseConnector || function () {
 		 */
 		this.playerSelector = null;
 
+		/**
+		 * Selector of image used to represent the track being played. is used for
+		 * the notification service.
+		 *
+		 * If not specified will fall back to last.fm API.
+		 *
+		 * @type {string}
+		 */
+		this.trackArtImageSelector = null;
+
+		/**
+		 * Default array of seperators.
+		 *
+		 * Push new seprators in the implementation if required.
+		 *
+ 		 * @type {array}
+		 */
+		this.separators = [' -- ', '--', ' - ', ' – ', ' — ', '-', '–', '—', ':', '|', '///'];
 
 		/**
 		 * Default implementation of artist name lookup by selector
@@ -125,7 +151,8 @@ var BaseConnector = window.BaseConnector || function () {
 		 * @returns {number|null} track length in seconds
 		 */
 		this.getDuration = function () {
-			return null;
+			var text = $(this.durationSelector).text();
+			return this.stringToSeconds(text);
 		};
 
 		/**
@@ -195,6 +222,26 @@ var BaseConnector = window.BaseConnector || function () {
 			return this.playButtonSelector === null || !$(this.playButtonSelector).is(':visible');
 		};
 
+		/**
+		 * Default implementation used to get the track art from the trackArtImageSelector.
+		 *
+		 * Override this method for more complex behavor
+		 * @return {String|null}
+		 */
+		this.getTrackArt = function () {
+			return this.trackArtImageSelector === null ? null : $(this.trackArtImageSelector).attr('src');
+		};
+
+		/**
+		 * Default implementation of a check to see if a state change is allowed.
+		 *  MutationObserver will ignore mutations while this function returns false.
+		 *
+		 * Override this method to allow certain states to be ignored, for example if an advert is playing.
+		 * @return {Boolean}
+		 */
+		this.isStateChangeAllowed = function () {
+			return true;
+		};
 
 		// --- state & api -------------------------------------------------------------------------------------------------
 
@@ -209,7 +256,8 @@ var BaseConnector = window.BaseConnector || function () {
 			uniqueID: null,
 			duration: null,
 			currentTime: 0,
-			isPlaying: true
+			isPlaying: true,
+			url: window.location
 		};
 
 		/**
@@ -226,6 +274,12 @@ var BaseConnector = window.BaseConnector || function () {
 		 */
 		var stateChangedWorker = function () {
 			var changedFields = [];
+
+			var newURL = window.location;
+			if (newURL !== currentState.url) {
+				currentState.url = newURL;
+				changedFields.push('url');
+			}
 
 			var newTrack = this.getTrack();
 			var newArtist = this.getArtist();
@@ -276,6 +330,12 @@ var BaseConnector = window.BaseConnector || function () {
 			if (newIsPlaying !== currentState.isPlaying) {
 				currentState.isPlaying = newIsPlaying;
 				changedFields.push('isPlaying');
+			}
+
+			var newTrackArt = this.getTrackArt();
+			if (newTrackArt !== currentState.trackArt) {
+				currentState.trackArt = newTrackArt;
+				changedFields.push('trackArt');
 			}
 
 			// take action if needed
@@ -350,11 +410,8 @@ var BaseConnector = window.BaseConnector || function () {
 				return null;
 			}
 
-			// care - minus vs hyphen
-			var separators = [' - ', ' – ', '-', '–', ':'];
-
-			for (var i in separators) {
-				var sep = separators[i];
+			for (var i in this.separators) {
+				var sep = this.separators[i];
 				var index = str.indexOf(sep);
 				if (index > -1) {
 					return { index: index, length: sep.length };

@@ -1,4 +1,10 @@
+'use strict';
+
+/* global Connector */
+
 Connector.playerSelector = '#result';
+
+Connector.trackArtImageSelector = '.image img';
 
 Connector.artistSelector = 'dd.artist';
 
@@ -8,7 +14,7 @@ Connector.albumSelector = 'dd.album';
 
 Connector.getCurrentTime = function() {
 	return $('#info_position').text().split('/')[0].trim();
-}
+};
 
 Connector.isPlaying = function() {
 	return $('#play').hasClass('pause');

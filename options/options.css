@@ -1,6 +1,6 @@
 body {
 	background-color: #e3e3e3;
-	margin: 0;
+	margin: 30px 0 0 0;
 }
 
 h1, h2, h3, h4, h5 {
@@ -26,10 +26,6 @@ h1 i {
 	margin-right: 20px;
 }
 
-h4 {
-	margin-top: 30px;
-}
-
 ul {
 	list-style: none;
 }
@@ -42,7 +38,7 @@ input[type=checkbox] {
 	margin-top: 0;
 }
 
-p.indent {
+.indent {
 	padding-left: 30px;
 }
 
@@ -74,7 +70,7 @@ a.conn-config:hover {
 	border-bottom: none;
 }
 
-.conn-conf-patterns ul.list-unstyled {
+.conn-conf-patterns .list-unstyled {
 	margin-left: 0;
 }
 
@@ -89,4 +85,15 @@ a.conn-config:hover {
 	border-bottom: none;
 	position: relative;
 	top: -5px;
+}
+
+#connectors a {
+	text-decoration: none;
+	border: none;
+}
+
+#connectors .v2 {
+	color: #d51007;
+	font-size: 0.7em;
+	padding-left: 5px;
 }
