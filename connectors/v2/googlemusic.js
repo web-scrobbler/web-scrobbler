@@ -4,7 +4,10 @@
 
 Connector.playerSelector = '#player';
 
-Connector.trackArtImageSelector = '#playerBarArt';
+Connector.getTrackArt = function() {
+	return $('#playerBarArt').attr('src') ||
+		$('#playingAlbumArt').attr('src') || null;
+}
 
 Connector.artistSelector = '#player-artist';
 
