@@ -8,7 +8,10 @@ Connector.trackArtImageSelector = '#playerBarArt';
 
 Connector.artistSelector = '#player-artist';
 
-Connector.trackSelector = '#currently-playing-title';
+Connector.getTrack = function() {
+	return $('#currently-playing-title').text() ||
+		$('#player-song-title').text() || null;
+}
 
 Connector.albumSelector = '.player-album';
 
