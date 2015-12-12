@@ -30,6 +30,12 @@
 define(function() {
 	return [
 		{
+			label: 'FluxFM Berlin',
+			matches: ['*://www.fluxfm.de/stream/*'],
+			js: ['connectors/v2/flux-fm.js'],
+			version: 2
+		},
+		{
 			label: 'Ego FM',
 			matches: ['*://www.egofm.de/*'],
 			js: ['connectors/v2/ego-fm.js'],
