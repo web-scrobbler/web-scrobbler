@@ -30,6 +30,12 @@
 define(function() {
 	return [
 		{
+			label: 'Ego FM',
+			matches: ['*://www.egofm.de/*'],
+			js: ['connectors/v2/ego-fm.js'],
+			version: 2
+		},
+		{
 			label: 'Baidu Music',
 			matches: ['*://play.baidu.com/*'],
 			js: ['connectors/baidu.js']
