@@ -30,6 +30,12 @@
 define(function() {
 	return [
 		{
+			label: 'FluxFM Berlin',
+			matches: ['*://www.fluxfm.de/stream/*'],
+			js: ['connectors/v2/flux-fm.js'],
+			version: 2
+		},
+		{
 			label: 'Baidu Music',
 			matches: ['*://play.baidu.com/*'],
 			js: ['connectors/baidu.js']
