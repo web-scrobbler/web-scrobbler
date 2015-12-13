@@ -912,6 +912,13 @@ define(function() {
 		},
 
 		{
+			label: 'FluxFM Berlin',
+			matches: ['*://www.fluxfm.de/stream/*'],
+			js: ['connectors/v2/flux-fm.js'],
+			version: 2
+		},
+
+		{
 			label: 'cubic.fm',
 			matches: ['https://cubic.fm/*'],
 			js: ['connectors/v2/cubicfm.js'],
