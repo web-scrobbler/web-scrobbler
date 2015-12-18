@@ -23,11 +23,9 @@ Connector.isPlaying = function() {
 };
 
 Connector.getTrackArt = function() {
-	var backgroundStyle = $('#main').contents().find('.cover-image').css('background-image');
-	if (!backgroundStyle) {
-		return null;
-	}
-	return backgroundStyle.replace('url(', '').replace(')', '');
+	var backgroundStyle = $('#main').contents().find('.cover-image').css('background-image'),
+		backgroundUrl = /^url\((['"]?)(.*)\1\)$/.exec(backgroundStyle);
+	return backgroundUrl ? backgroundUrl[2] : null;
 };
 
 Connector.getUniqueID = function() {
