@@ -33,6 +33,10 @@ Connector.isPlaying = function() {
 	return duration && $('#play').hasClass('pause');
 };
 
+Connector.getUniqueID = function() {
+	return $('#player').attr('file_id');
+};
+
 /* Extract the information field from the whole string,
  * e.g. '00:01 deadmau5 & Kaskade — I Remember (03:51)'.
  */
