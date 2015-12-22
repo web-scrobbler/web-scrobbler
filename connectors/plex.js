@@ -2,7 +2,7 @@
  * Chrome-Last.fm-Scrobbler PLEX connector by Hm
  * https://github.com/j4cknife
  * http://www.last.fm/user/davis1766
- * 
+ *
  * (based on google music connector)
  *
  */
@@ -18,22 +18,36 @@ var scrobbleTimeout = null;
 // Global constant for the song container ....
 var CONTAINER_SELECTOR = 'div#plex';
 
+(function () {
+	'use strict';
 
-$(function(){
-	$(CONTAINER_SELECTOR).live('DOMSubtreeModified', function(e) {
+	function plexReady(fn) {
+		if (document.readyState !== 'loading') {
+			fn();
+		} else {
+			document.addEventListener('DOMContentLoaded', fn);
+		}
+	}
 
-		if ($(CONTAINER_SELECTOR).length > 0) {
-			updateNowPlaying();
-			return;
+	plexReady(function () {
+		var container = document.querySelector(CONTAINER_SELECTOR);
+
+		if (container) {
+			container.addEventListener('DOMSubtreeModified', function () {
+				var container = document.querySelector(CONTAINER_SELECTOR);
+				if (container) {
+					updateNowPlaying();
+				}
+			});
 		}
 
-   });
+	   //console.log("Last.fm Scrobbler: starting Plex/Web connector")
 
-   //console.log("Last.fm Scrobbler: starting Plex/Web connector")
+	   // first load
+	   updateNowPlaying();
+	});
 
-   // first load
-   updateNowPlaying();
-});
+}());
 
 /**
  * Called every time we load a new song
@@ -65,6 +79,13 @@ function updateNowPlaying(){
     });
 }
 
+function getText(selector) {
+	var element = document.querySelector(selector);
+	if (element) {
+		return element.textContent;
+	}
+	return null;
+}
 
 function parseInfo() {
     var artist   = '';
@@ -73,10 +94,10 @@ function parseInfo() {
     var duration = 0;
 
     // Get artist and song names
-    var artistValue = $("button.grandparent-title.btn-link.btn-metadata-link").text();
-    var trackValue = $("button.item-title.btn-link.btn-metadata-link").text();
-    var albumValue = $("h2.album-title").text();
-    var durationValue = $("span.player-duration").text();
+    var artistValue = getText("button.grandparent-title.btn-link.btn-metadata-link");
+    var trackValue = getText("button.item-title.btn-link.btn-metadata-link");
+    var albumValue = getText("h2.album-title");
+    var durationValue = getText("span.player-duration");
 
     try {
         if (null != artistValue) {
