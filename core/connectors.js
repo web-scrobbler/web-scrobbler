@@ -941,6 +941,14 @@ define(function() {
 			js: ['connectors/v2/noisefm.js'],
 			allFrames: true,
 			version: 2
+		},
+
+		{
+			label: 'WWOZ',
+			matches: ['*://www.wwoz.org/listen/player/*'],
+			js: ['connectors/v2/wwoz.js'],
+			version: 2
 		}
+
 	];
 });
