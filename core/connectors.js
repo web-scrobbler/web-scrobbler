@@ -391,7 +391,8 @@ define(function() {
 		{
 			label: 'Pleer.Com (Prostopleer)',
 			matches: ['*://pleer.com/*', '*://prostopleer.com/*'],
-			js: ['connectors/pleer.js']
+			js: ['connectors/v2/pleer.js'],
+			version: 2
 		},
 
 		{
