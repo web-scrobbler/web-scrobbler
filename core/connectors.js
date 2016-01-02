@@ -916,6 +916,13 @@ define(function() {
 			matches: ['https://cubic.fm/*'],
 			js: ['connectors/v2/cubicfm.js'],
 			version: 2
-		}
+		},
+
+		{
+			label: 'WWOZ',
+			matches: ['*://www.wwoz.org/listen/player/*'],
+			js: ['connectors/v2/wwoz.js'],
+			version: 2
+		},
 	];
 });
