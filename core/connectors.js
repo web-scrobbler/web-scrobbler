@@ -863,6 +863,12 @@ define(function() {
 			js: ['connectors/v2/dreamfm.js'],
 			version: 2
 		},
+		{
+			label: 'Ego FM',
+			matches: ['*://www.egofm.de/*'],
+			js: ['connectors/v2/ego-fm.js'],
+			version: 2
+		},
 
 		{
 			label: 'Radio Paradise',
