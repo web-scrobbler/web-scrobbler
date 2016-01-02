@@ -91,7 +91,7 @@ function getCurrentTrack()
     else if ($('.player .control-pause').size() > 0) {
         return {
             track: $('.player-track-title').text(),
-            artist: $('.player-track-artist').text().replace($('.player-track-artist').children().first().text(), '').trim().replace(/,$/, ''),
+            artist: $('.heading-2-sub').children('.player-track-link').text(),
             duration: parseDuration($('.player-progress .progress-length').text())
         }
     }
