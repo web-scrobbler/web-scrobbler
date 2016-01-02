@@ -919,6 +919,14 @@ define(function() {
 			matches: ['https://cubic.fm/*'],
 			js: ['connectors/v2/cubicfm.js'],
 			version: 2
+		},
+
+		{
+			label: 'Noise FM',
+			matches: ['https://noisefm.ru/*'],
+			js: ['connectors/v2/noisefm.js'],
+			allFrames: true,
+			version: 2
 		}
 	];
 });
