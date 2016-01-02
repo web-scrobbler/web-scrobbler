@@ -8,7 +8,7 @@ Connector.getTrack = function() {
 	var track = $('#song-info .song').text();
 
 	//strip extras
-	track = track.replace(/\"(.+?)\"/g,'$1') // stripping WWOZ's double quotes around name
+	track = track.replace(/\"(.+?)\"/g,'$1'); // stripping WWOZ's double quotes around name
 	track = track.replace(/\s*\[[^\]]+\]$/, ''); // [whatever]
 	track = track.replace(/\s*\([^\)]*version\)$/i, ''); // (whatever version)
 
