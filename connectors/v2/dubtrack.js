@@ -2,9 +2,9 @@
 
 /* global Connector */
 
-Connector.playerSelector = '.infoContainer';
+Connector.playerSelector = '#player-controller';
 
-Connector.trackArtImageSelector = '.imgEl';
+Connector.trackArtImageSelector = '.imgEl > img';
 
 
 Connector.getTrack = function() {
