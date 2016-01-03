@@ -8,7 +8,7 @@ Connector.currentTimeSelector = '.hidden-xs > .js-player-position';
 
 Connector.durationSelector = '.hidden-xs > .js-player-duration';
 
-Connector.playButtonSelector = '.icon-play';
+Connector.playButtonSelector = '.js-player-play-pause > .icon-play';
 
 Connector.getArtist = function () {
 	var text = $('.player-mini_track_information_artist').text();
