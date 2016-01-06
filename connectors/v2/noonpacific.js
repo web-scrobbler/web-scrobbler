@@ -41,8 +41,5 @@ function bindCollection() {
 
 	Connector.isPlaying = function () {
 		return $('.icon-play').parent().hasClass('ng-hide');
-	}
+	};
 }
-
-
-
