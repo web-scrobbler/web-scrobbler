@@ -755,7 +755,7 @@ define(function() {
 
 		{
 			label: 'Noon Pacific',
-			matches: ['*://www.noonpacific.com/*', '*://noonpacific.com/*'],
+			matches: ['*://noonpacific.com/*'],
 			js: ['connectors/v2/noonpacific.js'],
 			version: 2
 		},
