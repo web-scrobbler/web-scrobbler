@@ -948,6 +948,13 @@ define(function() {
 			matches: ['*://www.wwoz.org/listen/player/*'],
 			js: ['connectors/v2/wwoz.js'],
 			version: 2
+		},
+
+		{
+			label: 'Sonerezh',
+			matches: ['*://sonerezh.*/*', '*://*/*sonerezh*'],
+			js: ['connectors/v2/sonerezh.js'],
+			version: 2
 		}
 
 	];
