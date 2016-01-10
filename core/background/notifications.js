@@ -68,7 +68,7 @@ define([
 				var connector = song.metadata.connector ? ' · '+song.metadata.connector.label : '';
 				var options = {
 					type: 'basic',
-					iconUrl: song.metadata.artistThumbUrl || 'default_cover_art.png',
+					iconUrl: song.getTrackArt() || 'default_cover_art.png',
 					title: song.getTrack(),
 					message: 'by ' + song.getArtist(),
 					contextMessage: hhMM()+connector
