@@ -195,7 +195,7 @@ define(function() {
 		{
 			label: 'iHeartRadio',
 			matches: ['*://*.iheart.com/*'],
-			js: ['connectors/v2/iheart.js'],
+			js: ['connectors/v2/iheartradio.js'],
 			version: 2
 		},
 
