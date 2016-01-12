@@ -7,7 +7,7 @@
  * (c)2016 Lagardere Active CR
  */
 'use strict';
-
+/* global Connector */
 Connector.playerSelector = 'body';
 Connector.playButtonSelector = '.yr2-navbar-play';
 

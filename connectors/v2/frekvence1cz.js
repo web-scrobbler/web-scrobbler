@@ -7,7 +7,7 @@
  * (c)2016 Lagardere Active CR
  */
 'use strict';
-
+/* global Connector */
 Connector.playerSelector = '#player-core';
 Connector.artistSelector = '#artist';
 Connector.trackSelector = '#title';

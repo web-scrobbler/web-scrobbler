@@ -7,7 +7,7 @@
  * (c)2016 Lagardere Active CR
  */
 'use strict';
-
+/* global Connector */
 Connector.playerSelector = 'div#root>div#player';
 
 Connector.artistSelector = '#artist';

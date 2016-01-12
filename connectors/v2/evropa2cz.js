@@ -8,8 +8,8 @@
  */
 'use strict';
 
-var meta = $('.e2-player-meta-song').text().split(" · ");
-
+var meta = $('.e2-player-meta-song').text().split(' · ');
+/* global Connector */
 Connector.playerSelector = '.e2-player';
 Connector.playButtonSelector = '.e2-player-control-play';
 
