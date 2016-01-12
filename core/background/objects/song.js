@@ -134,7 +134,8 @@ define([
 		 * @return {String|null}
 		 */
 		song.getTrackArt = function() {
-			return this.parsed.trackArt || null;
+			// prefer parsed art, fall back to metadata (last.fm or coverArtArchive art)
+			return this.parsed.trackArt || this.metadata.trackUrl || null;
 		};
 
 		return song;
