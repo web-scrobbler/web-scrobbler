@@ -15,9 +15,9 @@ Connector.isPlaying = function() {
 
 Connector.getTrackArt = function() {
 	if ($('body').attr('data-modal-name')) {
-		return 'https:' + $('.dialog-fullscreen-player-art').attr('src') || null;
+		return 'https:' + $('.dialog-fullscreen-player-art').attr('src').split('?')[0] || null;
 	} else {
-		return 'https:' + $('.player-left .player-art img').attr('src') || null;
+		return 'https:' + $('.player-left .player-art img').attr('src').split('?')[0] || null;
 	}
 };
 
@@ -25,8 +25,7 @@ Connector.getArtist = function() { //grab artist and then check for fullscreen p
 	var artist = $('.player-left .player-artist').attr('title') || null;
 	if ($('body').attr('data-modal-name')) {
 		Connector.playerSelector = '.dialog-fullscreen-player-now-playing';
-		var artist = $('title').text().split('-');
-		return artist[1].trim();
+		return $('title').text().split('-')[1].trim();
 	}
 	return artist;
 };
