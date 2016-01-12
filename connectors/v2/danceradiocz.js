@@ -15,5 +15,5 @@ Connector.trackSelector = '#title';
 Connector.trackArtImageSelector = 'div#cover>img';
 
 Connector.isPlaying = function() {
-    return $('#playtoggle').hasClass('stop');
+	return $('#playtoggle').hasClass('stop');
 };
