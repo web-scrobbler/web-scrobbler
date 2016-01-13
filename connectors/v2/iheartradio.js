@@ -21,25 +21,19 @@ Connector.getTrackArt = function() {
 	}
 };
 
-Connector.getArtist = function() { //grab artist and then check for fullscreen player and use page title if found
-	var artist = $('.player-left .player-artist').attr('title') || null;
-	if ($('body').attr('data-modal-name')) {
-		Connector.playerSelector = '.dialog-fullscreen-player-now-playing';
-		return $('title').text().split('-')[1].trim();
-	}
-	return artist;
+Connector.getArtist = function() {
+	return $('.dialog-fullscreen-player-now-playing h2 a').text() || $('.player-left .player-artist').text() || null;
 };
 
-Connector.getTrack = function() { //if is fullscreen player fallback to track title in fullscreen player
-	return $('.player-left .player-song').text() ||
-		$('.dialog-fullscreen-player-now-playing .player-song').text() || null;
+Connector.getTrack = function() {
+	return $('.dialog-fullscreen-player-now-playing .player-song').text() || $('.player-left .player-song').text() || null;
 };
 
 Connector.getUniqueID = function() {
 	return $('.player-left .player-song').attr('href') || $('.dialog-fullscreen-player-now-playing .type-secondary a').attr('href') || null;
 };
 
-Connector.isStateChangeAllowed = function() { //this errors out
+Connector.isStateChangeAllowed = function() { //this errors on page load at first
 	try {
 		return !Connector.getTrack().startsWith('Thanks for listening to');
 	} catch (e) {
