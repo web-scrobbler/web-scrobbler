@@ -26,5 +26,3 @@ Connector.currentTimeSelector = '#played';
 
 Connector.durationSelector = '#duration';
 
-Connector.playButtonSelector = '#PlayTrack'
-
