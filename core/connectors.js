@@ -107,7 +107,7 @@ define(function() {
 
 		{
 			label: 'Bandcamp',
-			matches: ['*://*.bandcamp.com/*', '*://bandcamp.com/discover', '*://bandcamp.com/*/feed'],
+			matches: ['*://*.bandcamp.com/*', '*://bandcamp.com/*'],
 			js: ['connectors/v2/bandcamp.js'],
 			version: 2
 		},
