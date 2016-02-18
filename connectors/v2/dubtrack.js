@@ -9,5 +9,5 @@ Connector.trackArtImageSelector = '.imgEl > img';
 Connector.artistTrackSelector = '.currentSong';
 
 Connector.isPlaying = function () {
-	return $('.progressBg').width();
+	return $('.progressBg').width() > 0;
 };
