@@ -10,17 +10,17 @@ Connector.getTrackArt = function() {
 
 Connector.getArtist = function() {
 	return $('#songdetails_artist').text().split(' - ')[0] || null;
-}
+};
 
 Connector.trackSelector = '#songdetails_song';
 
 Connector.isPlaying = function() {
-	return !$('#playdeck audio').paused
-}
+	return !$('#playdeck audio').pausedi;
+};
 
 Connector.getAlbum = function() {
 	return $('#songdetails_artist').text().split(' - ')[1] || null;
-}
+};
 
 Connector.currentTimeSelector = '#played';
 
