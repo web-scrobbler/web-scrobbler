@@ -25,4 +25,3 @@ Connector.getAlbum = function() {
 Connector.currentTimeSelector = '#played';
 
 Connector.durationSelector = '#duration';
-
