@@ -24,7 +24,7 @@ function cleanText(input) {
 function getArtist() {
 	var artist = $('.detail_item_link_2').text() ||
 				$('span[itemprop=byArtist]').text() ||
-				$('.detail-artist a').text()
+				$('.detail-artist a').text() ||
 				null;
 	if (artist === null) {
 		artist = $('.waypoint-artist-title').text().substr(3);
@@ -36,7 +36,7 @@ function getTrack() {
 	var track = $('.track_info .title').first().text() ||
 				$('.trackTitle').first().text() ||
 				$('.waypoint-item-title').text() ||
-				$('.track_info .title')
+				$('.track_info .title') ||
 				null;
 	return cleanText(track);
 }
@@ -88,8 +88,8 @@ Connector.getAlbum = function () {
 Connector.playButtonSelector = 'div.playbutton:not(.playing)';
 
 Connector.getTrackArt = function() {
-	return $('#tralbumArt > a > img').attr('src') || 
-	$('#detail_gallery_container img').attr('src') || 
+	return $('#tralbumArt > a > img').attr('src') ||
+	$('#detail_gallery_container img').attr('src') ||
 	$('.discover-detail-inner img').attr('src');
 };
 
