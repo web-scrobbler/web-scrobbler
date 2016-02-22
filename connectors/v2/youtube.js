@@ -54,11 +54,12 @@ Connector.getUniqueID = function() {
 };
 
 Connector.isPlaying = function() {
-	return (
-		/* Can scrobble from any genre */ !scrobbleMusicOnly ||
-		/* OR only music AND is music  */ ( scrobbleMusicOnly && $('meta[itemprop=\"genre\"]').attr('content') == 'Music' )
-	)	? $('#player-api .html5-video-player').hasClass('playing-mode')
-		: false;
+	return $('#player-api .html5-video-player').hasClass('playing-mode');
+};
+
+Connector.isStateChangeAllowed = function() {
+	var videoCategory = $('meta[itemprop=\"genre\"]').attr('content');
+	return !scrobbleMusicOnly || (scrobbleMusicOnly && videoCategory == 'Music');
 };
 
 Connector.getArtistTrack = function () {
