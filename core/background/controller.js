@@ -84,7 +84,8 @@ define([
 
 				currentSong.parsed.attr({
 					currentTime: newState.currentTime,
-					isPlaying: newState.isPlaying
+					isPlaying: newState.isPlaying,
+					trackArt: newState.trackArt,
 				});
 			}
 			// we've hit a new song (or replaying the previous one) - clear old data and run processing
