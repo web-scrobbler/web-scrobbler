@@ -39,6 +39,12 @@ Connector.isPlaying = function() {
 	return btn.classList.contains('playing');
 };
 
+Connector.getTrackArt = function() {
+	var backgroundStyle = $('#app-player').contents().find('.sp-image-img').css('background-image'),
+		backgroundUrl = /^url\((['"]?)(.*)\1\)$/.exec(backgroundStyle);
+	return backgroundUrl ? backgroundUrl[2] : null;
+};
+
 var onPlayerLoaded = function() {
 	console.log('Web Scrobbler: player loaded, setting up observer');
 	var observer = new MutationObserver(Connector.onStateChanged);
