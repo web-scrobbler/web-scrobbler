@@ -23,7 +23,7 @@ a {
 	width: 100px;
 	height: 100px;
 	float: left;
-	background-image: url('img/default_artist_large.png');
+	background-image: url('../default_cover_art.png');
 	/* .cover-image */
 	background-size: cover;
 	background-position: center;
