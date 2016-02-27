@@ -44,7 +44,7 @@ define(function() {
 
 		{
 			label: 'Zen Audio Player',
-			matches: ['*://zen-audio-player.github.io/*'],
+			matches: ['*://zenplayer.audio/*'],
 			js: ['connectors/v2/zen-audio-player.js'],
 			version: 2
 		},
