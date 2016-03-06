@@ -88,15 +88,6 @@ var BaseConnector = window.BaseConnector || function () {
 		this.playerSelector = null;
 
 		/**
-		 * It takes a while to load the player on some sites such as one for Amazon Echo
-		 *
-		 * Set this to a value sufficient to load the player.
-		 *
-		 * @type {number}
-		 */
-		this.delayLoadPlayerSelector = null;
-
-		/**
 		 * Selector of image used to represent the track being played. is used for
 		 * the notification service.
 		 *

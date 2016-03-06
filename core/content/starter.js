@@ -34,36 +34,29 @@
 	if (Connector.playerSelector !== null) {
 		console.log('Web Scrobbler: Setting up observer');
 
-		// New injection is not fired on sites such as Amazon Echo, so specifying an initial delay fixes not finding the player
-		// This should probably be the approach Google Music connector should take as well?
-		var timeout = 0;
-		if(Connector.delayLoadPlayerSelector !== null) {
-			timeout = Connector.delayLoadPlayerSelector;
-		}
-		setTimeout(function() {
-			var observeTarget = document.querySelector(Connector.playerSelector);
-			if (observeTarget !== null) {
-				var observer = new window.MutationObserver(function () {
-					if (Connector.isStateChangeAllowed()) {
-						Connector.onStateChanged();
-					}
-				});
+		var observeTarget = document.querySelector(Connector.playerSelector);
 
-				var config = {
-					childList: true,
-					subtree: true,
-					attributes: true,
-					characterData: true
-				};
-				observer.observe(observeTarget, config);
-			}
-			// Some pages (looking at you Google Music!) may do some crazy navigation API tricks before loading the final page,
-			// in which case we won't usually find the player. Instead of letting the observer to fire an error we just
-			// log it and hope that the next navigation event will trigger a new injection. Unload event is still hooked though.
-			else {
-				console.warn('Web Scrobbler: Player element (' + Connector.playerSelector + ') was not found in the page.');
-			}
-		}, timeout);
+		if (observeTarget !== null) {
+			var observer = new window.MutationObserver(function () {
+				if (Connector.isStateChangeAllowed()) {
+					Connector.onStateChanged();
+				}
+			});
+
+			var config = {
+				childList: true,
+				subtree: true,
+				attributes: true,
+				characterData: true
+			};
+			observer.observe(observeTarget, config);
+		}
+		// Some pages (looking at you Google Music!) may do some crazy navigation API tricks before loading the final page,
+		// in which case we won't usually find the player. Instead of letting the observer to fire an error we just
+		// log it and hope that the next navigation event will trigger a new injection. Unload event is still hooked though.
+		else {
+			console.warn('Web Scrobbler: Player element (' + Connector.playerSelector + ') was not found in the page.');
+		}
 	}
 	/**
 	 * Player selector is not provided, current connector needs to detect state changes on its own

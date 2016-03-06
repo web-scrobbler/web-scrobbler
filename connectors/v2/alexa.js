@@ -2,9 +2,27 @@
 
 /* global Connector */
 
-Connector.delayLoadPlayerSelector = 1000;
+(function() {
+		var playerObserver = new MutationObserver(function() {
+		if (document.querySelector('#d-content')) {
+			playerObserver.disconnect();
+			var actualObserver = new MutationObserver(Connector.onStateChanged);
+			actualObserver.observe(document.querySelector('#d-content'), {
+				childList: true,
+				subtree: true,
+				attributes: true,
+				characterData: true
+			});
+		}
+	});
 
-Connector.playerSelector = '#d-now-playing';
+	playerObserver.observe(document.body, {
+		childList: true,
+		subtree: true,
+		attributes: false,
+		characterData: false
+	});
+})();
 
 var isPlayingLiveRadio = function() {
   if($('#d-secondary-control-left .disabled').size() == 1 && $('#d-secondary-control-right .disabled').size() == 1) {
@@ -42,4 +60,6 @@ Connector.getTrack = function() {
   }
 }
 
-Connector.playButtonSelector = '#d-primary-control .play';
+Connector.isPlaying = function () {
+	return $('#d-primary-control .play').size() == 0;
+};
