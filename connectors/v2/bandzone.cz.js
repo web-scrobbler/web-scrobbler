@@ -29,6 +29,6 @@ if (location.href === 'http://bandzone.cz/' || location.href === 'https://bandzo
 	Connector.trackSelector = '.ui-state-active .ui-audioplayer-song-title';
 
 	Connector.isPlaying = function () {
-		return $('ui-audioplayer-button').text() === 'stop';
+		return $('.ui-audioplayer-button').text() === 'stop';
 	};
 }
