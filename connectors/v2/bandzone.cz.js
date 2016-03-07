@@ -31,4 +31,22 @@ if (location.href === 'http://bandzone.cz/' || location.href === 'https://bandzo
 	Connector.isPlaying = function () {
 		return $('.ui-audioplayer-button').text() === 'stop';
 	};
+
+	Connector.getCurrentTime = function() {
+		var currentTimeStr = getSongInfo(INFO_CURRENT_TIME);
+		return Connector.stringToSeconds(currentTimeStr);
+	};
+
+	Connector.getDuration = function() {
+		var durationStr = getSongInfo(INFO_DURATION);
+		return Connector.stringToSeconds(durationStr);
+	};
+
+	var INFO_CURRENT_TIME = 1;
+	var INFO_DURATION = 2;
+	var getSongInfo = function(field) {
+		var infoStr = $('.ui-audioplayer-time').text();
+		var pattern = /(.+)\s\/\s(.+)/gi;
+		return pattern.exec(infoStr)[field];
+	};
 }
