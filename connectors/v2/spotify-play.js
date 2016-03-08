@@ -3,8 +3,7 @@
 /* global Connector */
 
 Connector.getArtist = function() {
-	var el = $('#app-player').get(0).contentDocument.getElementById('track-artist');
-	return (el === null) ? null : el.textContent.trim();
+	return $('#app-player').contents().find('#track-artist a').first().text();
 };
 
 Connector.getTrack = function() {
