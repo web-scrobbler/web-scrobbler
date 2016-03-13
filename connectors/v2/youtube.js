@@ -98,6 +98,7 @@ Connector.getArtistTrack = function () {
 	track = track.replace(/\s+\(\s*(HD|HQ)\s*\)$/, ''); // HD (HQ)
 	track = track.replace(/\s+(HD|HQ)\s*$/, ''); // HD (HQ)
 	track = track.replace(/\s*video\s*clip/i, ''); // video clip
+	track = track.replace(/\s*full\s*album/i, ''); // Full Album
 	track = track.replace(/\s+\(?live\)?$/i, ''); // live
 	track = track.replace(/\(+\s*\)+/, ''); // Leftovers after e.g. (official video)
 	track = track.replace(/^(|.*\s)"(.*)"(\s.*|)$/, '$2'); // Artist - The new "Track title" featuring someone
