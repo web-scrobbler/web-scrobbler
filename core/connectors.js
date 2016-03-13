@@ -153,6 +153,13 @@ define(function() {
 			version: 2
 		},
 
+		{
+			label: 'Amazon Echo',
+			matches: ['*://alexa.amazon.com/#player'],
+			js: ['connectors/v2/alexa.js'],
+			version: 2
+		},
+
 		{ // DEAD?
 			label: 'Z-Music',
 			matches: ['*://z-music.org/*'],
