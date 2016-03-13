@@ -6,7 +6,7 @@ Connector.playerSelector = '#plex';
 
 Connector.artistSelector = '.grandparent-title';
 
-Connector.trackSelector = '.item-title';
+Connector.trackSelector = '.title-container .item-title';
 
 Connector.currentTimeSelector = '.player-position';
 
