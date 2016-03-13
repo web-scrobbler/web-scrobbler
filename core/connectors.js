@@ -335,6 +335,13 @@ define(function() {
 		},
 
 		{
+			label: 'Subphonic (owncloud plugin)',
+			matches: ['*://*/*/apps/subphonic/minisub/*'],
+			js: ['connectors/v2/subphonic.js'],
+			version: 2
+		},
+
+		{
 			label: 'Sullen-Ural',
 			matches: ['*://sullen-ural.ru/*', '*://*.sullen-ural.ru/*'],
 			js: ['connectors/sullen-ural.js']
