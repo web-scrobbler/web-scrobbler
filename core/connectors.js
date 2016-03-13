@@ -193,9 +193,10 @@ define(function() {
 		},
 
 		{
-			label: 'iHeart',
+			label: 'iHeartRadio',
 			matches: ['*://*.iheart.com/*'],
-			js: ['connectors/iheart.js']
+			js: ['connectors/v2/iheartradio.js'],
+			version: 2
 		},
 
 		{
