@@ -970,6 +970,48 @@ define(function() {
 			matches: ['*://sonerezh.*/*', '*://*/*sonerezh*'],
 			js: ['connectors/v2/sonerezh.js'],
 			version: 2
+		},
+
+		{
+			label: 'Evropa 2',
+			matches: ['*://onair.evropa2.cz*'],
+			js: ['connectors/v2/evropa2cz.js'],
+			version: 2
+		},
+
+		{
+			label: 'Europa 2',
+			matches: ['*://onair.europa2.sk*'],
+			js: ['connectors/v2/evropa2cz.js'],
+			version: 2
+		},
+
+		{
+			label: 'Frekvence 1',
+			matches: ['*://vysilani.frekvence1.cz/*'],
+			js: ['connectors/v2/frekvence1cz.js'],
+			version: 2
+		},
+
+		{
+			label: 'Youradio',
+			matches: ['*://*youradio.cz/*'],
+			js: ['connectors/v2/youradiocz.js'],
+			version: 2
+		},
+
+		{
+			label: 'Dance radio',
+			matches: ['*://*danceradio.cz/*'],
+			js: ['connectors/v2/danceradiocz.js'],
+			version: 2
+		},
+
+		{
+			label: 'Rádio Bonton',
+			matches: ['*://*radiobonton.cz/*'],
+			js: ['connectors/v2/danceradiocz.js'],
+			version: 2
 		}
 
 	];
