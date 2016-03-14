@@ -1,11 +1,3 @@
-/*!
- * Evropa2.cz and Europa2.sk connector for Last.fm Scrobbler
- *
- * version: 1.0.0
- * author: jan.cermak@lagardere.cz
- *
- * (c)2016 Lagardere Active CR
- */
 'use strict';
 
 var meta = $('.e2-player-meta-song').text().split(' · ');

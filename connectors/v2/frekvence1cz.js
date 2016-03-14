@@ -1,11 +1,3 @@
-/*!
- * Frekvence1.cz connector for Last.fm Scrobbler
- *
- * version: 1.0.0
- * author: jan.cermak@lagardere.cz
- *
- * (c)2016 Lagardere Active CR
- */
 'use strict';
 /* global Connector */
 Connector.playerSelector = '#player-core';
