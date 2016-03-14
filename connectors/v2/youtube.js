@@ -54,11 +54,12 @@ Connector.getUniqueID = function() {
 };
 
 Connector.isPlaying = function() {
-	return (
-		/* Can scrobble from any genre */ !scrobbleMusicOnly ||
-		/* OR only music AND is music  */ ( scrobbleMusicOnly && $('meta[itemprop=\"genre\"]').attr('content') == 'Music' )
-	)	? $('#player-api .html5-video-player').hasClass('playing-mode')
-		: false;
+	return $('#player-api .html5-video-player').hasClass('playing-mode');
+};
+
+Connector.isStateChangeAllowed = function() {
+	var videoCategory = $('meta[itemprop=\"genre\"]').attr('content');
+	return !scrobbleMusicOnly || (scrobbleMusicOnly && videoCategory == 'Music');
 };
 
 Connector.getArtistTrack = function () {
@@ -97,6 +98,7 @@ Connector.getArtistTrack = function () {
 	track = track.replace(/\s+\(\s*(HD|HQ)\s*\)$/, ''); // HD (HQ)
 	track = track.replace(/\s+(HD|HQ)\s*$/, ''); // HD (HQ)
 	track = track.replace(/\s*video\s*clip/i, ''); // video clip
+	track = track.replace(/\s*full\s*album/i, ''); // Full Album
 	track = track.replace(/\s+\(?live\)?$/i, ''); // live
 	track = track.replace(/\(+\s*\)+/, ''); // Leftovers after e.g. (official video)
 	track = track.replace(/^(|.*\s)"(.*)"(\s.*|)$/, '$2'); // Artist - The new "Track title" featuring someone

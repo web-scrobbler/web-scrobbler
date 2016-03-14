@@ -44,7 +44,7 @@ define(function() {
 
 		{
 			label: 'Zen Audio Player',
-			matches: ['*://zen-audio-player.github.io/*'],
+			matches: ['*://zenplayer.audio/*'],
 			js: ['connectors/v2/zen-audio-player.js'],
 			version: 2
 		},
@@ -107,7 +107,7 @@ define(function() {
 
 		{
 			label: 'Bandcamp',
-			matches: ['*://*.bandcamp.com/*', '*://bandcamp.com/discover', '*://bandcamp.com/*/feed'],
+			matches: ['*://*.bandcamp.com/*', '*://bandcamp.com/*'],
 			js: ['connectors/v2/bandcamp.js'],
 			version: 2
 		},
@@ -153,6 +153,13 @@ define(function() {
 			version: 2
 		},
 
+		{
+			label: 'Amazon Echo',
+			matches: ['*://alexa.amazon.com/#player'],
+			js: ['connectors/v2/alexa.js'],
+			version: 2
+		},
+
 		{ // DEAD?
 			label: 'Z-Music',
 			matches: ['*://z-music.org/*'],
@@ -193,9 +200,10 @@ define(function() {
 		},
 
 		{
-			label: 'iHeart',
+			label: 'iHeartRadio',
 			matches: ['*://*.iheart.com/*'],
-			js: ['connectors/iheart.js']
+			js: ['connectors/v2/iheartradio.js'],
+			version: 2
 		},
 
 		{
@@ -331,6 +339,13 @@ define(function() {
 			label: 'Reddit Playlister',
 			matches: ['*://redditplayer.phoenixforgotten.com/*'],
 			js: ['connectors/redditplayer.js']
+		},
+
+		{
+			label: 'Subphonic (owncloud plugin)',
+			matches: ['*://*/*/apps/subphonic/minisub/*'],
+			js: ['connectors/v2/subphonic.js'],
+			version: 2
 		},
 
 		{
