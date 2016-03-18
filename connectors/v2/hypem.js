@@ -24,7 +24,7 @@ if (/^\/premiere\/.*/.test(window.location.pathname)) {
 
 	Connector.getTrackArt = function () {
 		return /url\((.+)\)/.exec($('.haarp-section-track.haarp-active').find('.thumb').attr('style'))[1];
-	}
+	};
 
 	Connector.isPlaying = function() {
 		return $('#playerPlay').hasClass('pause');
