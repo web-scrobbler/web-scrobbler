@@ -1012,7 +1012,14 @@ define(function() {
 			matches: ['*://*radiobonton.cz/*'],
 			js: ['connectors/v2/danceradiocz.js'],
 			version: 2
-		}
+		},
+		
+		{
+			label: 'Youtube Jukebox',
+			matches: ['http://youtube.nestharion.de/*'],
+			js: ['connectors/v2/yt-jukebox.js'],
+			version: 2
+		},
 
 	];
 });
