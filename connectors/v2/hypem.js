@@ -23,7 +23,14 @@ if (/^\/premiere\/.*/.test(window.location.pathname)) {
 	Connector.trackSelector = '#player-nowplaying [href^="/track/"]';
 
 	Connector.getTrackArt = function () {
-		return /url\((.+)\)/.exec($('.haarp-section-track.haarp-active').find('.thumb').attr('style'))[1];
+
+		var backgroundImage = /url\((.+)\)/.exec($('.haarp-section-track.haarp-active').find('.thumb').attr('style'));
+
+		if (backgroundImage !== null) {
+			backgroundImage = backgroundImage[1];
+		}
+
+		return backgroundImage;
 	};
 
 	Connector.isPlaying = function() {
