@@ -2,23 +2,10 @@
 
 /* global Connector */
 
-Connector.playerSelector = '#menu';
+Connector.playerSelector = '.menu__options';
 
-Connector.getArtistTrack = function () {
-			var text = $('#current_track').text();
-			var separator = this.findSeparator(text);
+Connector.artistSelector = '.currentTrack .artist';
 
-			var artist = null;
-			var track = null;
+Connector.trackSelector = '.currentTrack .song';
 
-			if (separator !== null) {
-				track = text.substr(0, separator.index);
-				artist = text.substr(separator.index + separator.length);
-			}
-
-			return {artist: artist, track: track};
-		};
-
-Connector.isPlaying = function () {
-	return $('.jp-pause').is(':visible');
-};
+Connector.playButtonSelector = '.player-buttons-main .player-play';
