@@ -8,9 +8,7 @@ Connector.artistSelector = '.track-artist';
 
 Connector.trackSelector = '.track-title';
 
-Connector.getTrackArt = function() {
-	return $('.cover img').attr('src');
-};
+Connector.trackArtImageSelector = '.cover img';
 
 Connector.isPlaying = function () {
 	return $('.player-play').attr('disabled') === 'disabled';
