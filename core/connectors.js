@@ -1012,6 +1012,13 @@ define(function() {
 			matches: ['*://*radiobonton.cz/*'],
 			js: ['connectors/v2/danceradiocz.js'],
 			version: 2
+		},
+
+		{
+			label: 'Youtubify',
+			matches: ['*://youtubify.vebto.com/*'],
+			js: ['connectors/v2/youtubify.js'],
+			version: 2
 		}
 
 	];
