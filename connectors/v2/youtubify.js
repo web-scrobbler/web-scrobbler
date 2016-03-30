@@ -4,14 +4,14 @@
 
 Connector.playerSelector = '#player-controls';
 
-Connector.artistSelector = '.track.playing .info .artist-name';
+Connector.artistSelector = '.current-track .info .artist-name';
 
-Connector.trackSelector = '.track.playing .info .track-name';
+Connector.trackSelector = '.current-track .info .track-name';
 
-Connector.trackArtImageSelector = '.playing .track-image img';
+Connector.trackArtImageSelector = '.current-track img';
 
-Connector.playButtonSelector = '.toggle-play';
+Connector.playButtonSelector = '#player-controls .icon-play';
 
-Connector.isPlaying = function () {
-	return $('.toggle-play').hasClass('icon-pause');
-};
+Connector.durationSelector = '.track-length';
+
+Connector.currentTimeSelector = '.elapsed-time';
