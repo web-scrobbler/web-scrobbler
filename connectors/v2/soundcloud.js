@@ -65,7 +65,6 @@ function cleanArtistTrack() {
  * parse metadata and set local variables
  */
 var setSongData = function (metadata) {
-	artist = '';
 	// Sometimes the artist name is in the track title.
 	// e.g. Tokyo Rose - Zender Overdrive by Aphasia Records.
 	/*jslint regexp: true*/
@@ -73,13 +72,12 @@ var setSongData = function (metadata) {
 		match = regex.exec(metadata.title);
 	/*jslint regexp: false*/
 
-	if (match) {
+	// But don't interpret patterns of the form
+	// "[Start of title] #1234 - [End of title]" as Artist - Title
+	if (match && ! /.*#\d+.*/.test(match[1])) {
 		artist = match[1];
 		track = match[2];
-	}
-
-	// If not, use the username.
-	if (artist === '') {
+	} else {
 		artist = metadata.user.username;
 		track = metadata.title;
 	}
