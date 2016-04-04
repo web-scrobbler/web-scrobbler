@@ -4,12 +4,9 @@
 
 Connector.playerSelector = '.player';
 
-Connector.trackSelector = '.p-song-info > a';
+Connector.trackSelector = '.p-info-display > a';
 
-Connector.getArtist = function () {
-	var text = $('.p-artist').text();
-	return text.length !== 0 ? text.substring(2) : null;
-};
+Connector.artistSelector = '.p-artist';
 
 Connector.getCurrentTime = function() {
 	return $('span.p-time.ng-binding').text().split('/')[0].trim();
@@ -20,6 +17,6 @@ Connector.isPlaying = function() {
 };
 
 Connector.getUniqueID = function (	) {
-	var text = $('.p-song-info > a').attr('href');
+	var text = $('.p-info-display > a').attr('href');
 	return text.length > 8 ? text.substring(8) : null;
 };

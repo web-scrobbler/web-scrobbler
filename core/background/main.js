@@ -84,8 +84,6 @@ require([
 				isActiveSession = true;
 				GA.send('pageview', '/background-injected?version=' + chrome.app.getDetails().version);
 			}
-
-			return;
 		}
 	};
 
@@ -144,7 +142,9 @@ require([
 			// have two cores side by side. The old functionality will be later removed
 			case 'v2.stateChanged':
 				ctrl = getControllerByTabId(sender.tab.id);
-				ctrl.onStateChanged(request.state);
+				if (ctrl) {
+					ctrl.onStateChanged(request.state);
+				}
 				break;
 
 			// Returns current song object - used in page action popup.

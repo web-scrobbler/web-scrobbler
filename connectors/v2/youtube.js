@@ -18,9 +18,31 @@ Connector.playerSelector = '#page';
 
 Connector.artistTrackSelector = '#eow-title';
 
-Connector.currentTimeSelector = '#player-api .ytp-time-current';
+/**
+ * Because player can be still present in the page, we need to detect that it's invisible
+ * and don't return current time. Otherwise resulting state may not be considered empty.
+ */
+Connector.getCurrentTime = function() {
+	if (isPlayerOffscreen()) {
+		return null;
+	}
 
-Connector.durationSelector = '#player-api .ytp-time-duration';
+	var $time = $('#player-api .ytp-time-current');
+	return this.stringToSeconds($time.text());
+};
+
+/**
+ * Because player can be still present in the page, we need to detect that it's invisible
+ * and don't return duration. Otherwise resulting state may not be considered empty.
+ */
+Connector.getDuration = function() {
+	if (isPlayerOffscreen()) {
+		return 0;
+	}
+
+	var $duration = $('#player-api .ytp-time-duration');
+	return this.stringToSeconds($duration.text());
+};
 
 Connector.getUniqueID = function() {
 	var url = window.location.href;
@@ -32,11 +54,12 @@ Connector.getUniqueID = function() {
 };
 
 Connector.isPlaying = function() {
-	return (
-		/* Can scrobble from any genre */ !scrobbleMusicOnly ||
-		/* OR only music AND is music  */ ( scrobbleMusicOnly && $('meta[itemprop=\"genre\"]').attr('content') == 'Music' )
-	)	? $('#player-api .html5-video-player').hasClass('playing-mode')
-		: false;
+	return $('#player-api .html5-video-player').hasClass('playing-mode');
+};
+
+Connector.isStateChangeAllowed = function() {
+	var videoCategory = $('meta[itemprop=\"genre\"]').attr('content');
+	return !scrobbleMusicOnly || (scrobbleMusicOnly && videoCategory == 'Music');
 };
 
 Connector.getArtistTrack = function () {
@@ -75,6 +98,7 @@ Connector.getArtistTrack = function () {
 	track = track.replace(/\s+\(\s*(HD|HQ)\s*\)$/, ''); // HD (HQ)
 	track = track.replace(/\s+(HD|HQ)\s*$/, ''); // HD (HQ)
 	track = track.replace(/\s*video\s*clip/i, ''); // video clip
+	track = track.replace(/\s*full\s*album/i, ''); // Full Album
 	track = track.replace(/\s+\(?live\)?$/i, ''); // live
 	track = track.replace(/\(+\s*\)+/, ''); // Leftovers after e.g. (official video)
 	track = track.replace(/^(|.*\s)"(.*)"(\s.*|)$/, '$2'); // Artist - The new "Track title" featuring someone
@@ -85,3 +109,17 @@ Connector.getArtistTrack = function () {
 
 	return {artist: artist, track: track};
 };
+
+/**
+ * YouTube doesn't really unload the player. It simply moves it outside viewport.
+ * That has to be checked, because our selectors are still able to detect it.
+ */
+function isPlayerOffscreen() {
+	var $player = $('#player-api');
+	if ($player.length === 0) {
+		return false;
+	}
+
+	var offset = $player.offset();
+	return offset.left < 0 || offset.top < 0;
+}

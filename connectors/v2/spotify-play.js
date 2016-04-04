@@ -3,13 +3,11 @@
 /* global Connector */
 
 Connector.getArtist = function() {
-	var el = $('#app-player').get(0).contentDocument.getElementById('track-artist');
-	return (el === null) ? null : el.textContent.trim();
+	return $('#app-player').contents().find('#track-artist a').first().text();
 };
 
 Connector.getTrack = function() {
-	var el = $('#app-player').get(0).contentDocument.getElementById('track-name');
-	return (el === null) ? null : el.textContent.trim();
+	return $('#app-player').contents().find('#track-name a').first().text();
 };
 
 Connector.getDuration = function() {
@@ -37,6 +35,12 @@ Connector.isPlaying = function() {
 	}
 
 	return btn.classList.contains('playing');
+};
+
+Connector.getTrackArt = function() {
+	var backgroundStyle = $('#app-player').contents().find('.sp-image-img').css('background-image'),
+		backgroundUrl = /^url\((['"]?)(.*)\1\)$/.exec(backgroundStyle);
+	return backgroundUrl ? backgroundUrl[2] : null;
 };
 
 var onPlayerLoaded = function() {

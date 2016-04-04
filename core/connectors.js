@@ -37,14 +37,14 @@ define(function() {
 
 		{
 			label: 'YouTube',
-			matches: ['*://www.youtube.com/watch*', '*://www.youtube.com/user/*'],
+			matches: ['*://www.youtube.com/*'],
 			js: ['connectors/v2/youtube.js'],
 			version: 2
 		},
 
 		{
 			label: 'Zen Audio Player',
-			matches: ['*://zen-audio-player.github.io/*',],
+			matches: ['*://zenplayer.audio/*'],
 			js: ['connectors/v2/zen-audio-player.js'],
 			version: 2
 		},
@@ -107,7 +107,7 @@ define(function() {
 
 		{
 			label: 'Bandcamp',
-			matches: ['*://*.bandcamp.com/*', '*://bandcamp.com/discover*'],
+			matches: ['*://*.bandcamp.com/*', '*://bandcamp.com/*'],
 			js: ['connectors/v2/bandcamp.js'],
 			version: 2
 		},
@@ -153,6 +153,13 @@ define(function() {
 			version: 2
 		},
 
+		{
+			label: 'Amazon Echo',
+			matches: ['*://alexa.amazon.com/#player'],
+			js: ['connectors/v2/alexa.js'],
+			version: 2
+		},
+
 		{ // DEAD?
 			label: 'Z-Music',
 			matches: ['*://z-music.org/*'],
@@ -167,8 +174,9 @@ define(function() {
 
 		{
 			label: 'Zvooq',
-			matches: ['*://zvooq.ru/*'],
-			js: ['connectors/zvooq.js']
+			matches: ['*://zvooq.ru/*', '*://zvooq.com/*'],
+			js: ['connectors/v2/zvooq.js'],
+			version: 2
 		},
 
 		{
@@ -192,9 +200,10 @@ define(function() {
 		},
 
 		{
-			label: 'iHeart',
+			label: 'iHeartRadio',
 			matches: ['*://*.iheart.com/*'],
-			js: ['connectors/iheart.js']
+			js: ['connectors/v2/iheartradio.js'],
+			version: 2
 		},
 
 		{
@@ -266,7 +275,8 @@ define(function() {
 		{
 			label: 'Groove Music',
 			matches: ['*://music.microsoft.com/*'],
-			js: ['connectors/groovemusic.js']
+			js: ['connectors/v2/groovemusic.js'],
+			version: 2
 		},
 
 		{
@@ -332,6 +342,13 @@ define(function() {
 		},
 
 		{
+			label: 'Subphonic (owncloud plugin)',
+			matches: ['*://*/*/apps/subphonic/minisub/*'],
+			js: ['connectors/v2/subphonic.js'],
+			version: 2
+		},
+
+		{
 			label: 'Sullen-Ural',
 			matches: ['*://sullen-ural.ru/*', '*://*.sullen-ural.ru/*'],
 			js: ['connectors/sullen-ural.js']
@@ -384,14 +401,16 @@ define(function() {
 
 		{
 			label: 'PLEX',
-			matches: ['*://*32400/web/*', '*://plex.tv/web/*'],
-			js: ['connectors/plex.js']
+			matches: ['*://*32400/web/*', '*://plex.tv/web/*', '*://*.plex.tv/web/*'],
+			js: ['connectors/v2/plex.js'],
+			version: 2
 		},
 
 		{
 			label: 'Pleer.Com (Prostopleer)',
 			matches: ['*://pleer.com/*', '*://prostopleer.com/*'],
-			js: ['connectors/pleer.js']
+			js: ['connectors/v2/pleer.js'],
+			version: 2
 		},
 
 		{
@@ -860,6 +879,12 @@ define(function() {
 			js: ['connectors/v2/dreamfm.js'],
 			version: 2
 		},
+		{
+			label: 'Ego FM',
+			matches: ['*://www.egofm.de/*'],
+			js: ['connectors/v2/ego-fm.js'],
+			version: 2
+		},
 
 		{
 			label: 'Radio Paradise',
@@ -908,6 +933,84 @@ define(function() {
 			label: 'dubtrack.fm',
 			matches: ['https://www.dubtrack.fm/*'],
 			js: ['connectors/v2/dubtrack.js'],
+			version: 2
+		},
+
+		{
+			label: 'FluxFM Berlin',
+			matches: ['*://www.fluxfm.de/stream/*'],
+			js: ['connectors/v2/flux-fm.js'],
+			version: 2
+		},
+
+		{
+			label: 'cubic.fm',
+			matches: ['https://cubic.fm/*'],
+			js: ['connectors/v2/cubicfm.js'],
+			version: 2
+		},
+
+		{
+			label: 'Noise FM',
+			matches: ['https://noisefm.ru/*'],
+			js: ['connectors/v2/noisefm.js'],
+			allFrames: true,
+			version: 2
+		},
+
+		{
+			label: 'WWOZ',
+			matches: ['*://www.wwoz.org/listen/player/*'],
+			js: ['connectors/v2/wwoz.js'],
+			version: 2
+		},
+
+		{
+			label: 'Sonerezh',
+			matches: ['*://sonerezh.*/*', '*://*/*sonerezh*'],
+			js: ['connectors/v2/sonerezh.js'],
+			version: 2
+		},
+
+		{
+			label: 'Evropa 2',
+			matches: ['*://onair.evropa2.cz*'],
+			js: ['connectors/v2/evropa2cz.js'],
+			version: 2
+		},
+
+		{
+			label: 'Europa 2',
+			matches: ['*://onair.europa2.sk*'],
+			js: ['connectors/v2/evropa2cz.js'],
+			version: 2
+		},
+
+		{
+			label: 'Frekvence 1',
+			matches: ['*://vysilani.frekvence1.cz/*'],
+			js: ['connectors/v2/frekvence1cz.js'],
+			version: 2
+		},
+
+		{
+			label: 'Youradio',
+			matches: ['*://*youradio.cz/*'],
+			js: ['connectors/v2/youradiocz.js'],
+			version: 2
+		},
+
+		{
+			label: 'Dance radio',
+			matches: ['*://*danceradio.cz/*'],
+			js: ['connectors/v2/danceradiocz.js'],
+			version: 2
+		},
+
+		{
+			label: 'Rádio Bonton',
+			matches: ['*://*radiobonton.cz/*'],
+			js: ['connectors/v2/danceradiocz.js'],
 			version: 2
 		}
 

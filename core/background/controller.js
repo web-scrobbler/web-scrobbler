@@ -40,8 +40,8 @@ define([
 		 */
 		this.onStateChanged = function(newState) {
 
-			// empty state has same semantics as reset; even if isPlaying, we have no data to use
-			var isEmptyState = (!newState.artist && !newState.track && !newState.uniqueID && !newState.duration);
+			// empty state has same semantics as reset; even if isPlaying, we don't have enough data to use
+			var isEmptyState = (!(newState.artist && newState.track) && !newState.uniqueID && !newState.duration);
 
 			if (isEmptyState) {
 				// throw away last song and reset state
@@ -52,7 +52,7 @@ define([
 
 				// warning for connector developer
 				if (newState.isPlaying) {
-					console.log('Tab ' + tabId + ': state from connector is missing any information about the playing track: ' + JSON.stringify(newState));
+					console.log('Tab ' + tabId + ': state from connector doesn\'t contain enough information about the playing track: ' + JSON.stringify(newState));
 				}
 
 				return;

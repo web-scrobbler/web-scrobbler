@@ -9,14 +9,17 @@ define([], function() {
 	var service = {
 		getCoverArt: function(song, cb) {
 			// Only query APIs if no cover art can be found
-			if (song.metadata.artistThumbUrl) {
+			if (song.parsed.trackArt) {
+				console.log('Using local/parsed artwork');
+				cb();
+			} else if (song.metadata.artistThumbUrl) {
 				console.log('Found album artwork via LastFM');
 				cb();
 			} else {
 				console.log('Looking for album artwork via MusicBrainz');
 
 				// Search both, just incase there's artwork for the album, but not for the song/single
-				var endpoints = ['release','release-group'];
+				var endpoints = ['release', 'release-group'];
 
 				var coverArtSearch = function() {
 					if (endpoints.length < 1) {
@@ -43,11 +46,11 @@ define([], function() {
 		*/
 		getMusicBrainzId: function(endpoint, song, onFailure, onSuccess) {
 			$.get('http://musicbrainz.org/ws/2/' + endpoint + '?fmt=json&query=' +
-					'title:'+
+					'title:' +
 					'+"' + song.getTrack() + '"^3 ' + // bias towards the exact string
 					song.getTrack() + ' ' + // and individual words
 
-					'artistname:'+
+					'artistname:' +
 					'+"' + song.getArtist() + '"^4' +
 					song.getArtist() + ' '
 				)
@@ -70,9 +73,9 @@ define([], function() {
 			var coverArtUrl = 'http://coverartarchive.org/release/' + song.metadata.musicBrainzId + '/front';
 
 			$.ajax({
-					url: coverArtUrl,
-					type: 'HEAD' // Check if the CoverArt is actually a useable HTTP resource; prevents Chrome errors
-				})
+				url: coverArtUrl,
+				type: 'HEAD' // Check if the CoverArt is actually a useable HTTP resource; prevents Chrome errors
+			})
 				.done(function() {
 					console.log('Found album artwork via MusicBrainz');
 					song.metadata.artistThumbUrl = coverArtUrl;

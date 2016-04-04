@@ -7,7 +7,7 @@
     various artists played on the discover page will most likely not be recognized.*/
 
 // wire audio element to fire state changes
-$('audio').first().bind('playing pause timeupdate', Connector.onStateChanged);
+$('audio').bind('playing pause timeupdate', Connector.onStateChanged);
 
 /**
  * remove zero width characters & trim
@@ -24,13 +24,19 @@ function cleanText(input) {
 function getArtist() {
 	var artist = $('.detail_item_link_2').text() ||
 				$('span[itemprop=byArtist]').text() ||
+				$('.detail-artist a').text() ||
 				null;
+	if (artist === null) {
+		artist = $('.waypoint-artist-title').text().substr(3);
+	}
 	return cleanText(artist);
 }
 
 function getTrack() {
 	var track = $('.track_info .title').first().text() ||
 				$('.trackTitle').first().text() ||
+				$('.waypoint-item-title').text() ||
+				$('.track_info .title') ||
 				null;
 	return cleanText(track);
 }
@@ -81,10 +87,14 @@ Connector.getAlbum = function () {
 
 Connector.playButtonSelector = 'div.playbutton:not(.playing)';
 
-Connector.currentTimeSelector = 'span.time_elapsed';
-
 Connector.getTrackArt = function() {
-	return $('#tralbumArt > a > img').attr('src') || $('#detail_gallery_container img').attr('src');
+	return $('#tralbumArt > a > img').attr('src') ||
+	$('#detail_gallery_container img').attr('src') ||
+	$('.discover-detail-inner img').attr('src');
+};
+
+Connector.getCurrentTime = function () {
+	return Math.round($('audio')[0].currentTime);
 };
 
 Connector.getDuration = function () {

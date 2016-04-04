@@ -2,14 +2,22 @@
 
 /* global Connector */
 
-Connector.playerSelector = '#player';
+Connector.playerSelector = '#app-player';
 
-Connector.trackArtImageSelector = '.s30 img';
+Connector.currentTimeSelector = '.hidden-xs > .js-player-position';
 
-Connector.artistSelector = '.currenttrack .artist > a';
+Connector.durationSelector = '.hidden-xs > .js-player-duration';
 
-Connector.trackSelector = '.currenttrack .title > a';
+Connector.playButtonSelector = '.js-player-play-pause > .icon-play';
 
-Connector.isPlaying = function () {
-	return $('.pause').is(':visible');
+Connector.trackArtImageSelector = '.js-full-player-cover-img';
+
+Connector.getArtist = function () {
+	var text = $('.player-mini_track_information_artist').text();
+	return $.trim(text);
+};
+
+Connector.getTrack = function () {
+	var text = $('.player-mini_track_information_title').text();
+	return $.trim(text);
 };
