@@ -17,7 +17,8 @@
       "connectors/jango-dom-inject.js",
       "connectors/plugdj-dom-inject.js",
       "connectors/v2/soundcloud-dom-inject.js",
-      "connectors/vk-dom-inject.js"
+      "connectors/vk-dom-inject.js",
+      "connectors/vk-new-dom-inject.js"
    ],
 
    "background": {
