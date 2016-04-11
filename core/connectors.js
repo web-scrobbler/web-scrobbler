@@ -175,7 +175,8 @@ define(function() {
 		{
 			label: 'VK new',
 			matches: ['*://new.vk.com/*'],
-			js: ['connectors/vk-new.js']
+			js: ['connectors/v2/vk-new.js'],
+			version: 2
 		},
 
 		{
