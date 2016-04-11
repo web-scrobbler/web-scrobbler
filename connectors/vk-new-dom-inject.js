@@ -19,4 +19,4 @@ setInterval(function () {
         window.postMessage({artist: artist, title: title, duration: duration}, '*');
     }
     
-}, 5000);
+}, 1000);
