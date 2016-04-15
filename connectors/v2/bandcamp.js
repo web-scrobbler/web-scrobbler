@@ -35,7 +35,8 @@ function getArtist() {
 function getTrack() {
 	var track = $('.track_info .title').first().text() ||
 				$('.trackTitle').first().text() ||
-				$('.waypoint-item-title').children().remove().end().text() ||
+				$('.collection-item-container.playing').find('.fav-track-static').first().text() ||
+				$('.waypoint-item-title').text() ||
 				$('.track_info .title') ||
 				null;
 	return cleanText(track);
