@@ -1,5 +1,6 @@
+'use strict';
+
 $(function() {
-	'use strict';
 
 	// trick to get current tab ID
 	chrome.tabs.query({
