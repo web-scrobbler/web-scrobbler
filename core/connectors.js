@@ -1012,6 +1012,14 @@ define(function() {
 			matches: ['*://*radiobonton.cz/*'],
 			js: ['connectors/v2/danceradiocz.js'],
 			version: 2
+		},
+
+		{
+			label: 'LondonBurning',
+			matches: ['*://www.londonburning.net/*'],
+			js: ['connectors/v2/londonburning.js'],
+			version: 2,
+			allFrames: true
 		}
 
 	];
