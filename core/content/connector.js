@@ -104,7 +104,7 @@ var BaseConnector = window.BaseConnector || function () {
 		 *
  		 * @type {array}
 		 */
-		this.separators = [' -- ', '--', ' - ', ' – ', ' — ', '-', '–', '—', ':', '|', '///'];
+		this.separators = [' -- ', '--', ' :: ', ' - ', ' – ', ' — ', '-', '–', '—', ':', '|', '///'];
 
 		/**
 		 * Default implementation of artist name lookup by selector
