@@ -234,9 +234,10 @@ define(function() {
 		},
 
 		{
-			label: 'Plug.dj',
+			label: 'plug.dj',
 			matches: ['*://plug.dj/*'],
-			js: ['connectors/plugdj.js']
+			js: ['connectors/v2/plugdj.js'],
+			version: 2
 		},
 
 		{
