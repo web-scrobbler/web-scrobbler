@@ -25,3 +25,7 @@ Connector.durationSelector = '#time_container_duration';
 Connector.isPlaying = function() {
 	return $('#player *[data-id="play-pause"]').hasClass('playing');
 };
+
+Connector.isStateChangeAllowed = function() {
+	return Connector.getArtist() !== 'Subscribe to go ad-free';
+};
