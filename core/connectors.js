@@ -148,7 +148,15 @@ define(function() {
 
 		{
 			label: 'Amazon',
-			matches: ['*://www.amazon.com/gp/dmusic/cloudplayer/*', '*://www.amazon.de/gp/dmusic/cloudplayer/*', '*://www.amazon.es/gp/dmusic/cloudplayer/*', '*://www.amazon.co.uk/gp/dmusic/cloudplayer/*'],
+			matches: [
+				'*://www.amazon.com/gp/dmusic/cloudplayer/*',
+				'*://www.amazon.de/gp/dmusic/cloudplayer/*',
+				'*://www.amazon.es/gp/dmusic/cloudplayer/*',
+				'*://www.amazon.co.uk/gp/dmusic/cloudplayer/*',
+				'*://music.amazon.com/*',
+				'*://music.amazon.de/*',
+				'*://music.amazon.es/*',
+				'*://music.amazon.co.uk/*'],
 			js: ['connectors/v2/amazon.js'],
 			version: 2
 		},
