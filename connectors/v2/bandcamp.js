@@ -35,7 +35,7 @@ function getArtist() {
 function getTrack() {
 	var track = $('.track_info .title').first().text() ||
 				$('.trackTitle').first().text() ||
-				$('.waypoint-item-title').text() ||
+				$('.waypoint-item-title').clone().children().remove().end().text() ||
 				$('.track_info .title') ||
 				null;
 	return cleanText(track);
