@@ -1020,6 +1020,13 @@ define(function() {
 			matches: ['*://*radiobonton.cz/*'],
 			js: ['connectors/v2/danceradiocz.js'],
 			version: 2
+		},
+
+		{
+			label: 'Vevo',
+			matches: ['*://www.vevo.com/watch/*'],
+			js: ['connectors/v2/vevo.js'],
+			version: 2
 		}
 
 	];
