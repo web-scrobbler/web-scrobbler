@@ -8,8 +8,8 @@ function updateTrackInfo() {
 	trackInfo = JSON.parse(localStorage.getItem('audio_v10_track'));
 }
 
-Connector.artistTrackSelector = ".top_audio_player_title";
-Connector.playerSelector = "#top_audio_player";
+Connector.artistTrackSelector = '.top_audio_player_title';
+Connector.playerSelector = '#top_audio_player';
 
 Connector.getArtist = function () {
 			updateTrackInfo();
