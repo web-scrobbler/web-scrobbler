@@ -207,6 +207,7 @@ define([
 				}
 			} else {
 				pageAction.setSongNotRecognized();
+				Notifications.showSongNotRecognized(song);
 			}
 		}
 
