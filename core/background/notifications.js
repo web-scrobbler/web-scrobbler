@@ -156,6 +156,19 @@ define([
 	}
 
 	/**
+	 * Show notification if song is not recognized.
+	 * @param  {Object} song Song instance
+	 */
+	function showSongNotRecognized(song) {
+		let options = {
+			iconUrl: 'icons/question.svg',
+			title: 'The song is not recognized',
+			message: song.getArtistTrackString()
+		};
+		showNotification(options);
+	}
+
+	/**
 	 * Show auth notification.
 	 *
 	 * @param {Promise} authUrlGetter Promise that will resolve with auth URL
@@ -239,6 +252,7 @@ define([
 	return {
 		showPlaying: showPlaying,
 		showError: showError,
+		showSongNotRecognized: showSongNotRecognized,
 		showAuthenticate: showAuthenticate,
 		remove: remove
 	};
