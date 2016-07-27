@@ -24,4 +24,4 @@ Connector.getTrack = function() {
 
 //Connector.albumSelector = '#now_playing .album .detail:first';
 
-Connector.playButtonSelector = '#player_play_button';
+Connector.playButtonSelector = '.jwplay';
