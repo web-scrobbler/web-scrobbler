@@ -1020,7 +1020,13 @@ define(function() {
 			matches: ['*://*radiobonton.cz/*'],
 			js: ['connectors/v2/danceradiocz.js'],
 			version: 2
-		}
+		},
 
+		{
+			label: 'TRT Türkü',
+			matches: ['*://*trtturku.net/*'],
+			js: ['connectors/v2/trtturku.js'],
+			version: 2
+		}
 	];
 });
