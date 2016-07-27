@@ -19,3 +19,7 @@ Connector.getTrack = function() {
 }
 
 Connector.playButtonSelector = '.jwplay';
+
+Connector.isPlaying = function () {
+	return $('.jwplay.jwtoggle').length == 1;
+};
