@@ -2,10 +2,10 @@
 
 /* global Connector */
 
-Connector.playerSelector = '.audio-player';
+Connector.playerSelector = '.sidebar .audio-player';
 
-Connector.artistSelector = '.audio-player__artist p';
+Connector.artistSelector = '.sidebar .audio-player__artist p';
 
-Connector.trackSelector = '.audio-player__song p';
+Connector.trackSelector = '.sidebar .audio-player__song p';
 
-Connector.playButtonSelector = '.audio-player__play';
+Connector.playButtonSelector = '.sidebar .audio-player__play .fa-play';
