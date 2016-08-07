@@ -1035,6 +1035,13 @@ define(function() {
 			matches: ['*://player.gpmusic.co/*'],
 			js: ['connectors/v2/gpmusic.js'],
 			version: 2
+		},
+
+		{
+			label: 'Youtube Jukebox',
+			matches: ['http://youtube.nestharion.de/*'],
+			js: ['connectors/v2/yt-jukebox.js'],
+			version: 2
 		}
 
 	];
