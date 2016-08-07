@@ -2,7 +2,7 @@
 
 /* global Connector */
 
-Connector.playerSelector = '#app-player';
+Connector.playerSelector = '#skeleton-player';
 
 Connector.currentTimeSelector = '.hidden-xs > .js-player-position';
 
