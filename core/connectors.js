@@ -633,7 +633,7 @@ define(function() {
 
 		{
 			label: 'Wonder.fm',
-			matches: ['*://wonder.fm/*'],
+			matches: ['*://wonder.fm/*', '*://white-label.fm/*', '*://primary.fm/*'],
 			js: ['connectors/v2/wonder.fm.js'],
 			version: 2
 		},
