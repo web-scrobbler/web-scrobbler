@@ -1042,6 +1042,13 @@ define(function() {
 			matches: ['http://youtube.nestharion.de/*'],
 			js: ['connectors/v2/yt-jukebox.js'],
 			version: 2
+		},
+
+		{
+			label: 'Nightwave Plaza',
+			matches: ['https://plaza.one/*'],
+			js: ['connectors/v2/nightwaveplaza.js'],
+			version: 2
 		}
 
 	];
