@@ -6,11 +6,7 @@ Connector.playButtonSelector = '.player-controls .play';
 Connector.durationSelector = '.player-duration-duration';
 
 Connector.isPlaying = function() {
-	if ($('.player-controls .icon-play').length == 1) {
-		return false;
-	} else {
-		return true;
-	}
+	return $('.player-controls .icon-play').length != 1;
 };
 
 Connector.getTrackArt = function() {
