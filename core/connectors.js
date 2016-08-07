@@ -181,6 +181,13 @@ define(function() {
 		},
 
 		{
+			label: 'new-VK',
+			matches: ['*://new.vk.com/*'],
+			js: ['connectors/v2/newvk.js'],
+			version: 2
+		},
+
+		{
 			label: 'Zvooq',
 			matches: ['*://zvooq.ru/*', '*://zvooq.com/*'],
 			js: ['connectors/v2/zvooq.js'],
