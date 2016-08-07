@@ -29,7 +29,8 @@ function bindNew() {
 	};
 
 	Connector.getArtist = function() {
-		return parseArtist();
+		return $('span.key:contains("Artist/Composer"), span.key:contains("Band/Artist")').next().text();
+		//return parseArtist();
 	};
 
 	Connector.getTrack = function() {
