@@ -1027,6 +1027,13 @@ define(function() {
 			matches: ['*://*radiobonton.cz/*'],
 			js: ['connectors/v2/danceradiocz.js'],
 			version: 2
+		},
+
+		{
+			label: 'GPMusic',
+			matches: ['*://player.gpmusic.co/*'],
+			js: ['connectors/v2/gpmusic.js'],
+			version: 2
 		}
 
 	];
