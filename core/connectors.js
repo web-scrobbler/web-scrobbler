@@ -1043,6 +1043,13 @@ define(function() {
 			matches: ['https://plaza.one/*'],
 			js: ['connectors/v2/nightwaveplaza.js'],
 			version: 2
+		},
+
+		{
+			label: 'Youtubify',
+			matches: ['*://youtubify.vebto.com/*'],
+			js: ['connectors/v2/youtubify.js'],
+			version: 2
 		}
 
 	];
