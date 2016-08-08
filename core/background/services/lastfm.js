@@ -53,8 +53,6 @@ define([
 		http_request.setRequestHeader('Content-Type', 'application/xml');
 		http_request.send();
 
-		console.log('getToken response: %s', http_request.responseText);
-
 		var xmlDoc = $.parseXML(http_request.responseText);
 		var xml = $(xmlDoc);
 		var status = xml.find('lfm').attr('status');
@@ -71,6 +69,10 @@ define([
 				// set token and reset session so we will grab a new one
 				data.sessionID = null;
 				data.token = xml.find('token').text();
+
+				var response = http_request.responseText;
+				console.log('getToken response: %s', response.replace(data.token, data.token.substr(5)));
+
 				storage.set(data, function() {
 					cb('http://www.last.fm/api/auth/?api_key=' + apiKey + '&token=' + data.token);
 				});
