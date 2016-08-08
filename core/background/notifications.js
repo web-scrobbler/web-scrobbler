@@ -117,10 +117,6 @@ define([
 			return;
 		}
 
-		var notificationCreatedCb = function() {
-			GA.event('notification', 'error', 'show');
-		};
-
 		var createNotification = function(permissionLevel) {
 			if (permissionLevel === 'granted') {
 
@@ -131,7 +127,7 @@ define([
 					message: song.getArtist() + ' — ' + song.getTrack()
 				};
 
-				chrome.notifications.create('', options, notificationCreatedCb);
+				chrome.notifications.create('', options);
 			}
 		};
 
