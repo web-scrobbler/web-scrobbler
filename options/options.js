@@ -23,6 +23,12 @@ require([
 				localStorage.useNotifications = this.checked ? 1 : 0;
 			});
 
+		$('#use-unrecognized-song-notifications')
+			.attr('checked', (localStorage.useUnrecognizedSongNotifications === '1'))
+			.click(function () {
+				localStorage.useUnrecognizedSongNotifications = this.checked ? 1 : 0;
+			});
+
 		$('#use-autocorrect')
 			.attr('checked', (localStorage.useAutocorrect === '1'))
 			.click(function () {

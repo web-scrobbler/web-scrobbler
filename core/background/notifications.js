@@ -160,6 +160,10 @@ define([
 	 * @param  {Object} song Song instance
 	 */
 	function showSongNotRecognized(song) {
+		if (localStorage.useUnrecognizedSongNotifications !== '1') {
+			return;
+		}
+
 		let options = {
 			iconUrl: 'icons/question.svg',
 			title: 'The song is not recognized',
