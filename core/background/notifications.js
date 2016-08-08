@@ -113,7 +113,7 @@ define([
 	}
 
 	function showSongNotRecognized(song) {
-		if (!isAvailable() || !isAllowed()) {
+		if (!isAvailable() || !isAllowed() || localStorage.useUnrecognizedSongNotifications != 1) {
 			return;
 		}
 
