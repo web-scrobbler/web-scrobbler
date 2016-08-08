@@ -13,7 +13,7 @@ Connector.getCurrentTime = function() {
 };
 
 Connector.isPlaying = function() {
-	return !$('a.as-icon.as-icon-play').hasClass('ng-hide');
+	return !$('a.as-icon.as-icon-pause').hasClass('ng-hide');
 };
 
 Connector.getUniqueID = function (	) {
