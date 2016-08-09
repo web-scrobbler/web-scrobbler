@@ -21,6 +21,7 @@ require([
 			.attr('checked', (localStorage.useNotifications === '1'))
 			.click(function () {
 				localStorage.useNotifications = this.checked ? 1 : 0;
+				$('#use-unrecognized-song-notifications').attr('disabled', !this.checked);
 			});
 
 		$('#use-unrecognized-song-notifications')
@@ -118,6 +119,9 @@ require([
 				$('#contact').removeClass('in');
 				break;
 		}
+
+		var showNotifications = $('#use-notifications').is(':checked');
+		$('#use-unrecognized-song-notifications').attr('disabled', !showNotifications);
 	}
 
 	function listConnectors() {
