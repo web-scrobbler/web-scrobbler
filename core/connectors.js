@@ -334,6 +334,13 @@ define(function() {
 		},
 
 		{
+			label: 'Douban FM',
+			matches: ['*://douban.fm/*'],
+			js: ['connectors/v2/doubanfm.js'],
+			version: 2
+		},
+
+		{
 			label: 'Focus@Will',
 			matches: ['*://www.focusatwill.com/*'],
 			js: ['connectors/focusatwill.js']
