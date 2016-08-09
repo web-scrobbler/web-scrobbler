@@ -135,7 +135,7 @@ define([
 		 */
 		song.getTrackArt = function() {
 			// prefer parsed art, fall back to metadata (last.fm or coverArtArchive art)
-			return this.parsed.trackArt || this.metadata.trackUrl || null;
+			return this.parsed.trackArt || this.metadata.artistThumbUrl || null;
 		};
 
 		return song;
