@@ -97,3 +97,7 @@ a.conn-config:hover {
 	font-size: 0.7em;
 	padding-left: 5px;
 }
+
+#use-unrecognized-song-notifications {
+	margin-left: 10px;
+}
