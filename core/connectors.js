@@ -549,6 +549,13 @@ define(function() {
 		},
 
 		{
+			label: 'AccuJazz',
+			matches: ['*://www.accuradio.com/pop_player/accujazz/*'],
+			js: ['connectors/v2/accujazz.js'],
+			version: 2
+		},
+
+		{
 			label: 'AccuRadio',
 			matches: ['*://www.accuradio.com/*'],
 			js: ['connectors/v2/accuradio.js'],
@@ -573,13 +580,6 @@ define(function() {
 			label: 'GoEar.Com',
 			matches: ['*://*.goear.com/*', '*://goear.com/*'],
 			js: ['connectors/v2/goear.com.js'],
-			version: 2
-		},
-
-		{
-			label: 'AccuJazz',
-			matches: ['*://*.slipstreamradio.com/*'],
-			js: ['connectors/v2/accujazz.js'],
 			version: 2
 		},
 
