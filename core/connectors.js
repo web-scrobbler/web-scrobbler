@@ -953,6 +953,13 @@ define(function() {
 		},
 
 		{
+			label: 'Retrowave',
+			matches: ['http://retrowave.ru/*'],
+			js: ['connectors/v2/retrowave.js'],
+			version: 2
+		},
+
+		{
 			label: 'Youtubify',
 			matches: ['*://youtubify.vebto.com/*'],
 			js: ['connectors/v2/bemusic.js'],
