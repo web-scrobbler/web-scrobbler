@@ -168,12 +168,6 @@ define(function() {
 			version: 2
 		},
 
-		{ // DEAD?
-			label: 'Z-Music',
-			matches: ['*://z-music.org/*'],
-			js: ['connectors/zmusic.js']
-		},
-
 		{
 			label: 'VK',
 			matches: ['*://vk.com/*'],
