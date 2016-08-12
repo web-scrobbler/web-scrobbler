@@ -2,10 +2,8 @@
 
 /* global Connector */
 
-Connector.playerSelector = '#lennon-ui';
+Connector.playerSelector = '.appPlayer';
 
-Connector.artistTrackSelector = '#lennon-now-playing';
+Connector.artistTrackSelector = '.appPlayer__title';
 
-Connector.isPlaying = function () {
-	return $('#lennon-pause').is(':visible');
-};
+Connector.playButtonSelector = '.appPlayer__play';
