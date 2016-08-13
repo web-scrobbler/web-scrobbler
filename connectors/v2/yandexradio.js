@@ -11,7 +11,7 @@ Connector.isPlaying = function() {
 
 Connector.getTrackArt = function() {
 	var backgroundStyle = $('.slider__item_playing .track__cover').css('background-image');
-	var	backgroundUrl = /^url\((['"]?)(.*)\1\)$/.exec(backgroundStyle);
+	var backgroundUrl = /^url\((['"]?)(.*)\1\)$/.exec(backgroundStyle);
 	return backgroundUrl ? backgroundUrl[2] : null;
 
 };
