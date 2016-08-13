@@ -71,7 +71,7 @@ define([
 				data.token = xml.find('token').text();
 
 				var response = http_request.responseText;
-				console.log('getToken response: %s', response.replace(data.token, data.token.substr(5)));
+				console.log('getToken response: %s', response.replace(data.token, 'xxxxx' + data.token.substr(5)));
 
 				storage.set(data, function() {
 					cb('http://www.last.fm/api/auth/?api_key=' + apiKey + '&token=' + data.token);
