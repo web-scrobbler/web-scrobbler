@@ -2,18 +2,24 @@
 
 /* global Connector */
 
-Connector.trackArtImageSelector = '.slider__items > div:nth-child(3) .track__cover';
-Connector.trackSelector = '.slider__items > div:nth-child(3) .track__title';
-Connector.artistSelector = '.slider__items > div:nth-child(3) .track__artists';
+Connector.trackSelector = '.player-controls__title';
+Connector.artistSelector = '.player-controls__artists';
 
 Connector.isPlaying = function() {
 	return $('body').hasClass('body_state_playing');
 };
 
+Connector.getTrackArt = function() {
+	var backgroundStyle = $('.slider__item_playing .track__cover').css('background-image');
+	var	backgroundUrl = /^url\((['"]?)(.*)\1\)$/.exec(backgroundStyle);
+	return backgroundUrl ? backgroundUrl[2] : null;
+
+};
+
 (function() {
 	var actualObserver;
 	var playerObserver = new MutationObserver(function() {
-		var playerSelector = document.querySelector('.page-station__bar');
+		var playerSelector = document.querySelector('.page-station');
 		if (playerSelector !== null) {
 			if (!actualObserver) {
 				actualObserver = new MutationObserver(Connector.onStateChanged);
