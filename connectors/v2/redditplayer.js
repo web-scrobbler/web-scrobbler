@@ -20,5 +20,5 @@ Connector.getArtistTrack = function () {
 	};
 
 Connector.isPlaying = function () {
-	return $('.playing').length;
+	return $('.playing').length > 0;
 };
