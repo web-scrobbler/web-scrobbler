@@ -7,9 +7,9 @@ Connector.playerSelector = '#audioplayer';
 
 Connector.artistTrackSelector = '#zen-video-title';
 
-Connector.currentTimeSelector = '#currentTime';
+Connector.currentTimeSelector = '.plyr__time--current';
 
-Connector.durationSelector = '#totalTime';
+Connector.durationSelector = '.plyr__time--duration';
 
 Connector.getUniqueID = function() {
 	// Get the value of the search box
@@ -17,7 +17,7 @@ Connector.getUniqueID = function() {
 };
 
 Connector.isPlaying = function() {
-	return $('#pause').is(':visible');
+	return $('.plyr').hasClass('plyr--playing');
 };
 
 // This code is pulled directly from the YouTube v2 connector
