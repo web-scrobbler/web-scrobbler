@@ -366,12 +366,6 @@ define(function() {
 		},
 
 		{
-			label: 'Music Unlimited',
-			matches: ['*://music.sonyentertainmentnetwork.com/*'],
-			js: ['connectors/musicunlimited.js']
-		},
-
-		{
 			label: 'Yandex.Music',
 			matches: ['*://music.yandex.ru/*', '*://music.yandex.by/*', '*://music.yandex.kz/*', '*://music.yandex.ua/*'],
 			js: ['connectors/v2/yandex.js'],
