@@ -355,7 +355,8 @@ define(function() {
 		{
 			label: 'Digitally Imported',
 			matches: ['*://www.di.fm/*'],
-			js: ['connectors/difm.js']
+			js: ['connectors/v2/difm.js'],
+			version: 2
 		},
 
 		{
