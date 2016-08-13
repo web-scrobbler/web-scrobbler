@@ -215,7 +215,8 @@ define(function() {
 		{
 			label: 'Tuba.FM',
 			matches: ['*://fm.tuba.pl/*'],
-			js: ['connectors/tubafm.js']
+			js: ['connectors/v2/tubafm.js'],
+			version: 2
 		},
 
 		{
