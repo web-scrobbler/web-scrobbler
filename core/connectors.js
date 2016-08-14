@@ -78,12 +78,6 @@ define(function() {
 		},
 
 		{
-			label: 'Fizy',
-			matches: ['*://fizy.com/*', '*://fizy.org/*'],
-			js: ['connectors/fizy.js']
-		},
-
-		{
 			label: 'Virgin Radio Turkiye',
 			matches: ['*://*.virginradioturkiye.com/*', '*://*.radioeksen.com/*'],
 			js: ['connectors/virginradiotr.js']
