@@ -286,7 +286,8 @@ define(function() {
 		{
 			label: 'Moje Polskie Radio',
 			matches: ['*://moje.polskieradio.pl/station/*'],
-			js: ['connectors/mojepolskieradio.js']
+			js: ['connectors/v2/mojepolskieradio.js'],
+			version: 2
 		},
 
 		{
