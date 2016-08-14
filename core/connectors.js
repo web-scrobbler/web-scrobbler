@@ -233,12 +233,6 @@ define(function() {
 		},
 
 		{
-			label: 'Slacker (iframe)',
-			matches: ['*://www.slacker.com/webplayer/index_embed.vm'],
-			js: ['connectors/slacker.js']
-		},
-
-		{
 			label: 'Slacker (main page)',
 			matches: ['*://www.slacker.com/*'],
 			js: ['connectors/v2/slacker2.js'],
