@@ -50,12 +50,6 @@ define(function() {
 		},
 
 		{
-			label: 'TTNET Müzik',
-			matches: ['*://www.ttnetmuzik.com.tr/*'],
-			js: ['connectors/ttnet.js']
-		},
-
-		{
 			label: 'Thesixtyone',
 			matches: ['*://www.thesixtyone.com/*'],
 			js: ['connectors/61.js']
