@@ -5,7 +5,7 @@
 Connector.playerSelector = $('#tracks-async').length ? '#tracks-async' : ($('.band-col-right').length ? '.band-col-right' : '.album-tracks');
 
 Connector.getArtistTrack = function () {
-	var text = $('.play').attr('download');
+	var text = $('.play:contains("ll")').attr('download');
 	var separator = this.findSeparator(text);
 
 	var artist = null;
