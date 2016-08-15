@@ -5,15 +5,17 @@
  */
 define([
 	'pipeline/user-input',
+	'pipeline/local-cache',
 	'pipeline/lfm-metadata',
 	'pipeline/musicbrainz-coverartarchive'
-], function(UserInput, LfmMetadata, MusicBrainz) {
+], function(UserInput, LocalCache, LfmMetadata, MusicBrainz) {
 
 	return {
 		processSong: function(song) {
 			// list of processors is recreated for every processing call
 			var processors = [
 				UserInput.loadData, // loads data stored by user
+				LocalCache.loadData, // loads data filled by user from storage
 				LfmMetadata.loadSong, // loads song metadata from L.FM and sets validation flag
 				MusicBrainz.getCoverArt // looks for fallback cover art via API, in the even that it wasn't found earlier
 			];
