@@ -27,27 +27,31 @@ var decodeHtmlEntity = function(str) {
 	});
 };
 
-
 Connector.artistTrackSelector = '.top_audio_player_title';
+
 Connector.playerSelector = '#top_audio_player';
 
 Connector.getArtist = function () {
-			updateTrackInfo();
-			return decodeHtmlEntity(trackInfo[INFO_ARTIST]);
-		};
+	updateTrackInfo();
+	return decodeHtmlEntity(trackInfo[INFO_ARTIST]);
+};
+
 Connector.getTrack = function () {
-			updateTrackInfo();
-			return decodeHtmlEntity(trackInfo[INFO_TRACK]);
-		};
+	updateTrackInfo();
+	return decodeHtmlEntity(trackInfo[INFO_TRACK]);
+};
+
 Connector.getCurrentTime = function () {
-			updateTrackInfo();
-			var progress = parseFloat(localStorage.getItem('audio_v10_progress'));
-			return Math.round(parseInt(trackInfo[INFO_DURATION]) * progress);
-		};
+	updateTrackInfo();
+	var progress = parseFloat(localStorage.getItem('audio_v10_progress'));
+	return Math.round(parseInt(trackInfo[INFO_DURATION]) * progress);
+};
+
 Connector.getDuration = function () {
-			updateTrackInfo();
-			return parseInt(trackInfo[INFO_DURATION]);
-		};
+	updateTrackInfo();
+	return parseInt(trackInfo[INFO_DURATION]);
+};
+
 Connector.isPlaying = function() {
 	return $(this.playerSelector).hasClass('top_audio_player_playing');
-		};
+};
