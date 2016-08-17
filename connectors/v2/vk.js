@@ -2,6 +2,10 @@
 
 /* global Connector */
 
+var INFO_TRACK = 3;
+var INFO_ARTIST = 4;
+var INFO_DURATION = 5;
+
 var trackInfo = null;
 
 function updateTrackInfo() {
@@ -29,20 +33,20 @@ Connector.playerSelector = '#top_audio_player';
 
 Connector.getArtist = function () {
 			updateTrackInfo();
-			return decodeHtmlEntity(trackInfo[4]);
+			return decodeHtmlEntity(trackInfo[INFO_ARTIST]);
 		};
 Connector.getTrack = function () {
 			updateTrackInfo();
-			return decodeHtmlEntity(trackInfo[3]);
+			return decodeHtmlEntity(trackInfo[INFO_TRACK]);
 		};
 Connector.getCurrentTime = function () {
 			updateTrackInfo();
 			var progress = parseFloat(localStorage.getItem('audio_v10_progress'));
-			return Math.round(parseInt(trackInfo[5])*progress);
+			return Math.round(parseInt(trackInfo[INFO_DURATION]) * progress);
 		};
 Connector.getDuration = function () {
 			updateTrackInfo();
-			return parseInt(trackInfo[5]);
+			return parseInt(trackInfo[INFO_DURATION]);
 		};
 Connector.isPlaying = function() {
 	return $(this.playerSelector).hasClass('top_audio_player_playing');
