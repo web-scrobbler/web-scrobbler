@@ -2,6 +2,7 @@
 
 /* global Connector */
 
+var INFO_ID = 0;
 var INFO_TRACK = 3;
 var INFO_ARTIST = 4;
 var INFO_DURATION = 5;
@@ -50,6 +51,11 @@ Connector.getCurrentTime = function () {
 Connector.getDuration = function () {
 	updateTrackInfo();
 	return parseInt(trackInfo[INFO_DURATION]);
+};
+
+Connector.getUniqueID = function() {
+	updateTrackInfo();
+	return trackInfo[INFO_ID];
 };
 
 Connector.isPlaying = function() {
