@@ -51,3 +51,17 @@ module.exports.loadPlayListen = function(driver, next, url, btnSelector, opts) {
 
 	after(function() { next(); });
 };
+
+module.exports.loadSite = function(driver, next, url, opts) {
+	before('should load ' + url, function(done) {
+		siteSpec.shouldLoad(driver, url, done, opts && opts.load ? opts.load : null);
+	});
+
+	it('should load page: ' + url, function(done) {
+		done();
+	});
+
+	after(function() {
+		next();
+	});
+};
