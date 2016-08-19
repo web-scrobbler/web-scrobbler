@@ -2,72 +2,108 @@
 
 /* global helpers, siteSpec, connectorSpec */
 
-module.exports.shouldRecogniseATrack = function(driver, opts) {
-	opts = opts || {};
-	it(opts.comment ? opts.comment : 'should recognise a playing song', !opts.optional ? function(done) {
+var DEFAULT_TRIES_COUNT = 50;
 
-		helpers.listenFor(driver, 'connector_state_changed', function(res) {
-			var song = res.data;
+/**
+ * Test if website can be loaded successfully
+ * @param  {Object} driver Webdriver instance
+ * @param  {Array} options Options
+ *
+ * Options
+ * @param  {String} url Website URL
+ */
+var loadSite = module.exports.loadSite = function(driver, options) {
+	var opts = options || {};
 
-			// Improvement flags
-			if(!song.trackArt) {
-				helpers.devInfo('No trackArt');
-			}
-			if(!song.uniqueID) {
-				helpers.devInfo('No uniqueID');
-			}
-
-			// Validate
-			if(song.artist && song.track || song.artistTrack) {
-				return valid();
-			} else if(song.isPlaying) {
-				return invalid(new Error('Connector sent null track data'));
-			}
-		}, function() {
-			return invalid(new Error('Connector did not send any track data to core :('));
-		}, opts.timeout || 50);
-
-		function valid() {
-			return done();
-		}
-
-		function invalid(err) {
-			return done(err);
-		}
-
-	} : null);
-
-};
-
-module.exports.loadPlayListen = function(driver, next, url, btnSelector, opts) {
-	before('should load '+url, function(done) {
-		siteSpec.shouldLoad(driver, url, done, opts && opts.load ? opts.load : null);
-	});
-
-	it('should load page: '+url, function(done) { done(); });
-
-	describe('Loaded website', function() {
-		before('Play a track', function() {
-			return helpers.promiseClick(driver, {css: btnSelector});
+	describe('Load website', function() {
+		before(function(done) {
+			siteSpec.shouldLoad(driver, opts.url, done);
 		});
-		it('should play a song', function(done) { done(); });
 
-		connectorSpec.shouldRecogniseATrack(driver, opts);
+		it('should load website', function(done) {
+			done();
+		});
 	});
-
-	after(function() { next(); });
 };
 
-module.exports.loadSite = function(driver, next, url, opts) {
-	before('should load ' + url, function(done) {
-		siteSpec.shouldLoad(driver, url, done, opts && opts.load ? opts.load : null);
-	});
+/**
+ * Test if play button can be clicked
+ * @param  {Object} driver Webdriver instance
+ * @param  {Array} options Options
+ *
+ * Options
+ * @param  {String} playButtonSelector CSS selector of play button
+ */
+var clickPlayButton = module.exports.clickPlayButton = function(driver, options) {
+	var opts = options || {};
 
-	it('should load page: ' + url, function(done) {
-		done();
-	});
+	if (opts.playButtonSelector) {
+		describe('Click on play button', function() {
+			it('should play a song', function(done) {
+				helpers.promiseClick(driver, {css: opts.playButtonSelector}).then(function() {
+					return done();
+				}, function(err) {
+					console.warn('Unable to click on ', opts.playButtonSelector);
+					return done(err);
+				});
+			});
+		});
+	}
+};
 
-	after(function() {
-		next();
+
+/**
+ * Test if a now playing song is correctly recognized
+ * @param  {Object} driver Webdriver instance
+ * @param  {Array} options Options
+ *
+ * Options
+ * @param  {Number} recongnizeTries How many times try to recognize song
+ */
+var recognizeSong = module.exports.recognizeSong = function(driver, options) {
+	var opts = options || {};
+
+	describe('Recognize a song', function() {
+		it('should recognise a playing song', function(done) {
+			helpers.listenFor(driver, 'connector_state_changed', function(res) {
+				var song = res.data;
+
+				// Improvement flags
+				if(!song.trackArt) {
+					helpers.devInfo('No trackArt');
+				}
+				if(!song.uniqueID) {
+					helpers.devInfo('No uniqueID');
+				}
+
+				// Validate
+				if (song.artist && song.track) {
+					return done();
+				} else if (song.isPlaying) {
+					return done(new Error('Connector sent null track data'));
+				}
+			}, function() {
+				return done(new Error('Connector did not send any track data to core :('));
+			}, opts.recognizeTries || DEFAULT_TRIES_COUNT);
+		});
 	});
+};
+
+/**
+ * Perform a complex test for website. Includes load test,
+ * play button click test and song recongnition test.
+ * @param  {Object} driver Webdriver instance
+ * @param  {Array} options Options
+ *
+ * Options
+ * @param  {String} url Website URL
+ * @param  {String} playButtonSelector CSS selector of play button
+ * @param  {Number} recongnizeTries How many times try to recognize song
+ */
+module.exports.loadPlayListen = function(driver, options) {
+	loadSite(driver, options);
+
+	clickPlayButton(driver, options);
+
+	recognizeSong(driver, options);
 };
