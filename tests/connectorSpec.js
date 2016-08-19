@@ -30,7 +30,7 @@ describe('Web-Scrobbler Extension', function() {
 				require('.'+testPath)(driver, connector, next);
 			} else {
 				// Generic test here - will rely on a defined test URL for each connector
-				it('has no tests', function() {});
+				// it('has no tests', function() {});
 				next();
 			}
 		});
