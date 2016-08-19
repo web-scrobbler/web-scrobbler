@@ -502,13 +502,6 @@ define(function() {
 		},
 
 		{
-			label: 'Bop.fm',
-			matches: ['*://bop.fm/*'],
-			js: ['connectors/v2/bopfm.js'],
-			version: 2
-		},
-
-		{
 			label: 'Hype Machine',
 			matches: ['*://hypem.com/*'],
 			js: ['connectors/v2/hypem.js'],
