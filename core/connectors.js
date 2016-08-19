@@ -552,7 +552,7 @@ define(function() {
 
 		{
 			label: 'RAW.FM',
-			matches: ['*://www.rawfm.com.au/stream/player/', '*://rawfm.com.au/stream/player/'],
+			matches: ['*://www.rawfm.com.au/stream/player*/', '*://rawfm.com.au/stream/player*/'],
 			js: ['connectors/v2/rawfm.js'],
 			version: 2
 		},
