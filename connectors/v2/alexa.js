@@ -4,10 +4,10 @@
 
 (function() {
 		var playerObserver = new MutationObserver(function() {
-		if (document.querySelector('#d-player-bar-container')) {
+		if (document.querySelector('#d-info-text')) {
 			playerObserver.disconnect();
 			var actualObserver = new MutationObserver(Connector.onStateChanged);
-			actualObserver.observe(document.querySelector('#d-player-bar-container'), {
+			actualObserver.observe(document.querySelector('#d-info-text'), {
 				childList: true,
 				subtree: true,
 				attributes: true,
