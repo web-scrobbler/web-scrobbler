@@ -2,8 +2,6 @@ var path = require('path'),
 fs = require('fs'),
 webdriver = require('selenium-webdriver');
 
-const SKINFO = 'STREAMKEYS-INFO: ';
-const SKERR = 'STREAMKEYS-ERROR: ';
 const WAIT_TIMEOUT = 10000;
 const WAIT_COUNT = 10;
 const PLAYER_WAIT_COUNT = 4;
@@ -17,15 +15,6 @@ const PLAYER_WAIT_COUNT = 4;
 exports.getPath = function(base, filePath) {
 	return path.join(path.dirname(base), filePath);
 }
-
-/**
-* Create a custom event containing a streamkeys test action
-* @param action {String} name of streamkeys-test action to perform
-* @return {String} the js as a string
-*/
-var eventScript = exports.eventScript = function(action) {
-	return 'document.dispatchEvent(new CustomEvent(\'web-scrobbler-test\', {detail: \'' + action + '\'}));';
-};
 
 /**
 * Setup listener for test response from extension
@@ -98,20 +87,6 @@ var listenFor = exports.listenFor = function(driver, needle, cb, failCb, tries) 
 };
 
 /**
-* Parses a log array looking for a streamkeys action or disabled message
-* @return {Boolean} true if action is found in log messages
-*/
-var parseLog = exports.parseLog = function(log, action) {
-	console.log(log);
-	return log.some(function(entry) {
-		var actionFound = (entry.message.indexOf(SKINFO + action) !== -1 || entry.message.indexOf(SKINFO + 'disabled') !== -1);
-		var errorFound = (entry.message.indexOf(SKERR) !== -1);
-		if(actionFound || errorFound) console.log(entry.message);
-		return actionFound;
-	});
-};
-
-/**
 * Wait to receive the extension loaded message. Trys a maximum of 30 times before failing
 * @return {Promise}
 */
@@ -141,87 +116,6 @@ var waitForExtensionLoad = exports.waitForExtensionLoad = function(driver, opts)
 };
 
 /**
-* Wait to receive success message from extension after request for an action. Will try a maximum
-* of WAIT_COUNT times before failing
-* @return {Promise}
-*/
-var waitForAction = exports.waitForAction = function(driver, opts) {
-	var def = opts.promise || webdriver.promise.defer();
-	opts.count = opts.count || 0;
-
-	if(opts.count > WAIT_COUNT) return def.reject('No response for action: ' + opts.action);
-
-	driver.executeScript(function() {
-		var lastAction = window.webScrobblerLastAction(),
-		action = arguments[arguments.length - 1];
-
-		if(typeof lastAction === 'undefined') return false;
-		if(lastAction === action || lastAction.indexOf('disabled') !== -1)
-		return 'success';
-		else if(lastAction.indexOf('FAILURE') !== -1)
-		return 'fail';
-	}, opts.action).then(function(res) {
-		console.log('Last action: ' + opts.action + ' - ' + res);
-
-		if(res === 'success') return def.fulfill(true);
-		else if(res === 'fail') return def.fulfill(false);
-		else return waitForAction(driver, {promise: def, action: opts.action, count: (opts.count + 1)});
-	});
-
-	return def.promise;
-};
-
-/**
-* Executes a player action and waits for success. Will try a maximum of PLAYER_WAIT_COUNT times before failing
-* @return {Promise}
-*/
-var playerAction = exports.playerAction = function(driver, opts) {
-	var def = opts.promise || webdriver.promise.defer();
-	opts.count = opts.count || 0;
-
-	if(opts.count > PLAYER_WAIT_COUNT) return def.fulfill(false);
-
-	driver.executeScript(eventScript(opts.action)).then(function() {
-		waitForAction(driver, {action: opts.action, count: 0})
-		.then(function(result) {
-			return def.fulfill(result);
-		}, function(err) {
-			console.log(err);
-			driver.sleep(750).then(function() {
-				return playerAction(driver, {promise: def, action: opts.action, count: (opts.count + 1)});
-			});
-		});
-	});
-
-	return def.promise;
-};
-
-/**
-* Waits for the log to contain a given value
-* @param opts.action {String} string to search log for
-* @param opts.count {Number} how many times has check has been performed
-* @param opts.promise {Promise} promise to resolve on success/fail
-* @return {Promise}
-*/
-var waitForLog = exports.waitForLog = function(driver, opts) {
-	var def = opts.promise || webdriver.promise.defer();
-	if(opts.count > WAIT_COUNT) return def.fulfill(false);
-
-	console.log('		Waiting for log...', opts.count);
-	driver.manage().logs().get('browser').then(function(log) {
-		if(helpers.parseLog(log, opts.action)) {
-			return def.fulfill(true);
-		} else {
-			driver.sleep(300).then(function() {
-				return waitForLog(driver, {promise: def, action: opts.action, count: (opts.count + 1)});
-			});
-		}
-	});
-
-	return def.promise;
-};
-
-/**
 * Waits until an element is visible
 * @param selector {Object} webdriver locator object
 * @param timeout {Number} optional timeout
@@ -236,26 +130,12 @@ exports.waitForSelector = function(driver, selector, timeout) {
 };
 
 /**
-* Waits for an element to be visible and then clicks it
-* @param selector {Object} webdriver locator object
-* @param timeout {Number} optional timeout
-*/
-exports.waitAndClick = function(driver, selector, timeout) {
-	timeout = timeout || WAIT_TIMEOUT;
-
-	driver.wait(function() {
-		// console.log('		Waiting on click...');
-		return (driver.isElementPresent(selector));
-	}, timeout).then(function() {
-		// console.log('		Waiting for click done');
-		return driver.findElement(selector).click();
-	});
-};
-
-/**
-* Same as waitAndClick except returns a promise
-* @return {Promise}
-*/
+ * Wait for an element to be visible and click on it
+ * @param  {Object} driver   Webdriver instance
+ * @param  {Object} selector Selector of element to be clicked
+ * @param  {Number} timeout  Optional timeout
+ * @return {Promise}
+ */
 exports.promiseClick = function(driver, selector, timeout) {
 	var def = webdriver.promise.defer();
 	timeout = timeout || WAIT_TIMEOUT;
@@ -271,12 +151,6 @@ exports.promiseClick = function(driver, selector, timeout) {
 	});
 
 	return def.promise;
-}
-
-exports.promiseScroll = function(driver, opts, cb) {
-	var y = opts.y || 0;
-	var x = opts.x || 0;
-	driver.executeScript('window.scroll('+x+','+y+')','').then(cb);
 }
 
 /**
@@ -308,14 +182,6 @@ exports.getAndWait = function(driver, url, optionalTimeout) {
 	});
 
 	return def.promise;
-};
-
-/**
-* Attempts to override alerts an unload events on a page
-* @return {Promise}
-*/
-var overrideAlerts = exports.overrideAlerts = function(driver) {
-	return driver.executeScript('window.onunload=null;window.onbeforeunload=null;window.alert=null;window.confirm=null;');
 };
 
 /**
