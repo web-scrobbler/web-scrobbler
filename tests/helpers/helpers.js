@@ -21,18 +21,17 @@ exports.getPath = function(base, filePath) {
 var injectTestCapture = exports.injectTestCapture = function(driver) {
 	return driver.executeScript(function() {
 		console.log('Listening for web-scrobbler-test-response');
-		window.webScrobblerActionStack = window.webScrobblerActionStack || [];
-		document.addEventListener('web-scrobbler-test-response', function(e) {
-			window.webScrobblerActionStack.push(e);
-		});
-
-		window.webScrobblerLastAction = function() {
-			return window.webScrobblerActionStack[window.webScrobblerActionStack.length - 1];
-		};
+		if (typeof window.webScrobblerActionStack === 'undefined') {
+			window.webScrobblerActionStack = [];
+			document.addEventListener('web-scrobbler-test-response', function(e) {
+				console.log('Push element into stack: ' + e.detail.detail);
+				window.webScrobblerActionStack.push(e);
+			});
+		}
 	});
 };
 
-var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle, opts, promise) {
+var waitForExtensionMsg = function(driver, needle, opts, promise) {
 	var def = promise || webdriver.promise.defer();
 	opts.count = opts.count || 0;
 	opts.tries = opts.tries;
@@ -45,7 +44,6 @@ var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle,
 		return def.reject(new Error('Extension message '+needle+' wait timeout!'));
 	}
 
-	//e.timestamp >= Date.now() &&
 	var injection =
 	'var scrobble_find = function(arr, valid){' +
 	'	if(!arr) return null;' +
@@ -53,7 +51,7 @@ var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle,
 	'	return null;' +
 	'};' +
 	'var foundAction = scrobble_find(webScrobblerActionStack, function(e) {' +
-	'	return e.detail.detail == \'' + needle + '\'' +
+	'	return e.detail.detail === "' + needle + '"' +
 	'});' +
 	'if(foundAction && foundAction.detail) {' +
 	'	window.console.info("WATCHALOOKINFOR",foundAction);' +
@@ -75,17 +73,16 @@ var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle,
 	return def.promise;
 };
 
-exports.listenFor = function(driver, needle, cb, failCb, tries) {
+var listenFor = exports.listenFor = function(driver, needle, cb, failCb, tries) {
 	injectTestCapture(driver).then(function() {
-		waitForExtensionMsg(driver, needle, {tries: tries || 30})
-			.then(function(result) {
-				if(!result) {
-					return cb(new Error('Null response'));
-				}
-				return cb(result);
-			}, function() {
-				return failCb(new Error('Invalid response'));
-			});
+		waitForExtensionMsg(driver, needle, {tries: tries || 30}).then(function(result) {
+			if (!result) {
+				return cb(new Error('Null response'));
+			}
+			return cb(result);
+		}, function() {
+			return failCb(new Error('Invalid response'));
+		});
 	});
 };
 
@@ -105,18 +102,12 @@ var waitForExtensionLoad = exports.waitForExtensionLoad = function(driver, opts)
 	driver.executeScript(function() {
 		// console.log('Dispatched test load event');
 		document.dispatchEvent(new CustomEvent('web-scrobbler-test-loaded'));
-	})
-	.then(function() {
-		// console.log('DISPATCH SENT');
-		driver.executeScript(function() {
-			return (window.webScrobblerLastAction && window.webScrobblerLastAction().detail.detail);
-		}).then(function(res) {
-			// console.log('Load result: ', res);
-			if(res) {
-				return def.fulfill(true);
-			} else {
-				return waitForExtensionLoad(driver, {promise: def, count: (opts.count + 1)});
-			}
+	}).then(function() {
+		console.log('DISPATCH SENT');
+		listenFor(driver, 'connector_injected', function() {
+			def.fulfill(true);
+		}, function(err) {
+			def.reject(err);
 		});
 	});
 

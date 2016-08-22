@@ -77,8 +77,9 @@
 	}
 
 	document.addEventListener('web-scrobbler-test-loaded', function() {
-		testReporter('loaded');
+		testReporter('connector_injected');
 	});
+	testReporter('connector_injected');
 
 	/**
 	 * Automatically reset on window unload
