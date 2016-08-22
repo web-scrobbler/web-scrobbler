@@ -3,6 +3,7 @@
 require('node-define');
 
 var fs = require('fs');
+var path = require('path');
 var driver = require('./helpers/chromeSpoofing').getDriver();
 var connectors = require('../core/connectors');
 
@@ -10,6 +11,11 @@ var async = global.async = require('async');
 global.siteSpec = require('./components/site');
 global.connectorSpec = require('./components/connector');
 global.expect = require('chai').expect;
+
+function getConnectorTestFilePath(connector) {
+	var testFileName = path.basename(connector.js[0]);
+	return path.join(__dirname, 'connectors', testFileName);
+}
 
 describe('Web-Scrobbler Extension', function() {
 	before(function(done) {
@@ -25,12 +31,9 @@ describe('Web-Scrobbler Extension', function() {
 	*/
 	async.each(connectors, function(connector, next) {
 		describe('Connector: ' + connector.label, function() {
-			var jsPathArr = connector.js[0].split('/');
-			var jsName = jsPathArr[jsPathArr.length - 1];
-			var testPath = '/connectors/' + jsName;
-			if (fs.existsSync(__dirname + testPath)) {
-				console.log('	Running EXPLICIT test ', testPath);
-				require('.' + testPath)(driver, connector, next);
+			var connectorFilePath = getConnectorTestFilePath(connector);
+			if (fs.existsSync(connectorFilePath)) {
+				require(connectorFilePath)(driver, connector, next);
 			} else {
 				// Generic test here - will rely on a defined test URL for each connector
 				// it('has no tests', function() {});
