@@ -69,7 +69,6 @@ var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle,
 		}
 
 		process.stdout.write('\n');
-		console.log('\x1b[90m%s\x1b[0m',JSON.stringify(res.data,null,2));
 		return def.fulfill(res);
 	});
 
@@ -235,6 +234,18 @@ var waitForLoad = exports.waitForLoad = function(driver, optionalTimeout) {
 	}, timeout);
 };
 
-var devInfo = exports.devInfo = function(msg) {
-	console.log("\t\t \x1b[36m"+msg+"\x1b[0m")
-}
+exports.info = function(msg) {
+	console.log('\t\t %s', msg);
+};
+
+exports.warn = function(msg) {
+	console.log('\t\t \x1b[33;1m%s\x1b[0m', msg);
+};
+
+exports.pass = function(msg) {
+	console.log('\t\t \x1b[32;1m√\x1b[0m', msg);
+};
+
+exports.fail = function(msg) {
+	console.log('\t\t \x1b[31;1m✗\x1b[0m', msg);
+};

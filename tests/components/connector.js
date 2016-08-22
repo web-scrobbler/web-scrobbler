@@ -68,13 +68,7 @@ var recognizeSong = module.exports.recognizeSong = function(driver, options) {
 			helpers.listenFor(driver, 'connector_state_changed', function(res) {
 				var song = res.data;
 
-				// Improvement flags
-				if(!song.trackArt) {
-					helpers.devInfo('No trackArt');
-				}
-				if(!song.uniqueID) {
-					helpers.devInfo('No uniqueID');
-				}
+				printSongInfo(song);
 
 				// Validate
 				if (song.artist && song.track) {
@@ -107,3 +101,39 @@ module.exports.loadPlayListen = function(driver, options) {
 
 	recognizeSong(driver, options);
 };
+
+/* Internal */
+
+function printSongField(song, fieldName) {
+	var fieldValue = song[fieldName];
+	if (fieldValue) {
+		helpers.pass(fieldName + ': ' + fieldValue);
+	} else {
+		helpers.fail('No ' + fieldName);
+	}
+}
+
+function checkSongField(song, fieldName, checkFunction) {
+	var fieldValue = song[fieldName];
+	if (checkFunction(fieldValue)) {
+		helpers.pass(fieldName + ': ' + fieldValue);
+	} else {
+		helpers.fail('Invalid ' + fieldName + ': ' + fieldValue);
+	}
+}
+
+function printSongInfo(song) {
+	printSongField(song, 'artist');
+	printSongField(song, 'track');
+	printSongField(song, 'album');
+
+	checkSongField(song, 'currentTime', function(data) {
+		return typeof data === 'number';
+	});
+	checkSongField(song, 'duration', function(data) {
+		return typeof data === 'number' && data > 0;
+	});
+
+	printSongField(song, 'trackArt');
+	printSongField(song, 'uniqueID');
+}
