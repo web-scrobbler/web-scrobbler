@@ -9,7 +9,7 @@ var mocha = new Mocha({
 	title: 'Connector tests'
 });
 
-mocha.addFile(helpers.getPath(__filename, '/connectorSpec.js'));
+mocha.addFile(helpers.getPath(__filename, '/connectorsTests.js'));
 
 mocha.run(function(failures) {
 	process.on('exit', function () {
