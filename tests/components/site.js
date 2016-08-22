@@ -1,3 +1,7 @@
+'use strict';
+
+/* global helpers */
+
 module.exports.shouldLoad = function(driver, url, done, loadOpts) {
 	var pageLoad = true;
 	var loadTimeout = loadOpts ? loadOpts.timeout : null;
@@ -10,7 +14,7 @@ module.exports.shouldLoad = function(driver, url, done, loadOpts) {
 			// console.log("LOADED "+url)
 			pageLoad = true;
 		})
-		.thenCatch(function(err) {
+		.thenCatch(function() {
 			return done(new Error('Driver timeout!'));
 		});
 	}
@@ -27,7 +31,9 @@ module.exports.shouldLoad = function(driver, url, done, loadOpts) {
 					.then(function(result) {
 						// /*#*/ console.info('		Extension loaded!');
 						//expect(result).to.be.true;
-						if(!result) return done(new Error('Extension load error!'));
+						if(!result) {
+							return done(new Error('Extension load error!'));
+						}
 						// cb();
 						done();
 					}, function(err) {

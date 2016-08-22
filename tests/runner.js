@@ -1,8 +1,6 @@
 'use strict';
 
-/* globals __filename, process */
-
-global.helpers = global.thisPage = require('./helpers/helpers.js');
+var helpers = global.helpers = require('./helpers/helpers.js');
 var Mocha = require('mocha');
 
 // To run specific tests add to Mocha object: grep: /{PATTERN}/

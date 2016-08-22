@@ -1,10 +1,9 @@
+'use strict';
+
 var path = require('path'),
-fs = require('fs'),
-webdriver = require('selenium-webdriver');
+	webdriver = require('selenium-webdriver');
 
 const WAIT_TIMEOUT = 10000;
-const WAIT_COUNT = 10;
-const PLAYER_WAIT_COUNT = 4;
 
 /**
 * Joins two paths based on first path directory name
@@ -14,7 +13,7 @@ const PLAYER_WAIT_COUNT = 4;
 */
 exports.getPath = function(base, filePath) {
 	return path.join(path.dirname(base), filePath);
-}
+};
 
 /**
 * Setup listener for test response from extension
@@ -27,7 +26,9 @@ var injectTestCapture = exports.injectTestCapture = function(driver) {
 			window.webScrobblerActionStack.push(e);
 		});
 
-		window.webScrobblerLastAction = function() { return window.webScrobblerActionStack[window.webScrobblerActionStack.length - 1]; }
+		window.webScrobblerLastAction = function() {
+			return window.webScrobblerActionStack[window.webScrobblerActionStack.length - 1];
+		};
 	});
 };
 
@@ -36,7 +37,7 @@ var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle,
 	opts.count = opts.count || 0;
 	opts.tries = opts.tries;
 
-	process.stdout.write('\033[0G');
+	process.stdout.write('\r');
 	process.stdout.write('	    \x1b[93m Listening for ['+needle+' - ' + opts.count+'/'+opts.tries+']\x1b[0m');
 
 	if(opts.count == opts.tries) {
@@ -46,20 +47,21 @@ var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle,
 
 	//e.timestamp >= Date.now() &&
 	var injection =
-	'var scrobble_find = function(arr, valid){\
-		if(!arr) return null;\
-		for(var x=0; x < arr.length; x+=1){ if(valid(arr[x])) return arr[x]; }\
-		return null;\
-	};\
-	var foundAction = scrobble_find(webScrobblerActionStack, function(e) {\
-		return e.detail.detail == \''+needle+'\'\
-	});\
-	if(foundAction && foundAction.detail) {\
-		window.console.info("WATCHALOOKINFOR",foundAction);\
-		return foundAction.detail;\
-	} else return null;';
+	'var scrobble_find = function(arr, valid){' +
+	'	if(!arr) return null;' +
+	'	for(var x=0; x < arr.length; x+=1){ if(valid(arr[x])) return arr[x]; }' +
+	'	return null;' +
+	'};' +
+	'var foundAction = scrobble_find(webScrobblerActionStack, function(e) {' +
+	'	return e.detail.detail == \'' + needle + '\'' +
+	'});' +
+	'if(foundAction && foundAction.detail) {' +
+	'	window.console.info("WATCHALOOKINFOR",foundAction);' +
+	'	return foundAction.detail;' +
+	'} else return null;';
 
 	driver.sleep(300);
+	/* jshint -W054 */
 	driver.executeScript(new Function(injection)).then(function(res) {
 		if(typeof res === 'undefined' || res === null) {
 			opts.count++;
@@ -74,13 +76,15 @@ var waitForExtensionMsg = exports.waitForExtensionMsg = function(driver, needle,
 	return def.promise;
 };
 
-var listenFor = exports.listenFor = function(driver, needle, cb, failCb, tries) {
+exports.listenFor = function(driver, needle, cb, failCb, tries) {
 	injectTestCapture(driver).then(function() {
-		helpers.waitForExtensionMsg(driver, needle, {tries: tries || 30})
+		waitForExtensionMsg(driver, needle, {tries: tries || 30})
 			.then(function(result) {
-				if(!result) return cb(new Error('Null response'));
+				if(!result) {
+					return cb(new Error('Null response'));
+				}
 				return cb(result);
-			}, function(err) {
+			}, function() {
 				return failCb(new Error('Invalid response'));
 			});
 	});
@@ -95,7 +99,9 @@ var waitForExtensionLoad = exports.waitForExtensionLoad = function(driver, opts)
 	var def = opts.promise || webdriver.promise.defer();
 	opts.count = opts.count || 0;
 
-	if(opts.count > 300) return def.reject('Extension load timeout!');
+	if(opts.count > 300) {
+		return def.reject('Extension load timeout!');
+	}
 
 	driver.executeScript(function() {
 		// console.log('Dispatched test load event');
@@ -107,8 +113,11 @@ var waitForExtensionLoad = exports.waitForExtensionLoad = function(driver, opts)
 			return (window.webScrobblerLastAction && window.webScrobblerLastAction().detail.detail);
 		}).then(function(res) {
 			// console.log('Load result: ', res);
-			if(res) return def.fulfill(true);
-			else return waitForExtensionLoad(driver, {promise: def, count: (opts.count + 1)});
+			if(res) {
+				return def.fulfill(true);
+			} else {
+				return waitForExtensionLoad(driver, {promise: def, count: (opts.count + 1)});
+			}
 		});
 	});
 
@@ -151,7 +160,7 @@ exports.promiseClick = function(driver, selector, timeout) {
 	});
 
 	return def.promise;
-}
+};
 
 /**
 * Get a site, dismiss alerts and wait for document load
@@ -160,7 +169,7 @@ exports.promiseClick = function(driver, selector, timeout) {
 exports.getAndWait = function(driver, url, optionalTimeout) {
 	var def = webdriver.promise.defer();
 	// console.log('Override alerts/unloads');
-	driver.getWindowHandle().then(function(handle) {
+	driver.getWindowHandle().then(function() {
 		// console.log('Window handle: ', handle);
 		// /*#*/ console.log('Getting: ', url);
 		driver.get(url).then(function() {
@@ -199,7 +208,7 @@ var alertCheck = exports.alertCheck = function(driver) {
 					// console.log('Accept alert...');
 					alert.accept();
 					def.fulfill(null);
-				}, function(error) {
+				}, function() {
 					// console.log('No alert found, continue...');
 					def.fulfill(null);
 				});
