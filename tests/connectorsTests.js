@@ -23,12 +23,17 @@ describe('Web-Scrobbler Extension', function() {
 		});
 	});
 
+	var sortedConnectors = connectors.slice(0);
+	sortedConnectors.sort(function(a, b) {
+		return a.label.localeCompare(b.label);
+	});
+
 	/**
 	 * Loop through all the connectors currently enabled,
 	 * look for explicitly defined tests first,
 	 * falling back to a generic test if none are found.
 	*/
-	async.each(connectors, function(connector, next) {
+	async.each(sortedConnectors, function(connector, next) {
 		describe('Connector: ' + connector.label, function() {
 			var connectorFilePath = getConnectorTestFilePath(connector);
 			if (fs.existsSync(connectorFilePath)) {
