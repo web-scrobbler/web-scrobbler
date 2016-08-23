@@ -115,20 +115,6 @@ var waitForExtensionLoad = exports.waitForExtensionLoad = function(driver, opts)
 };
 
 /**
-* Waits until an element is visible
-* @param selector {Object} webdriver locator object
-* @param timeout {Number} optional timeout
-* @return {Promise}
-*/
-exports.waitForSelector = function(driver, selector, timeout) {
-	timeout = timeout || WAIT_TIMEOUT;
-
-	return driver.wait(function() {
-		return (driver.isElementPresent(selector));
-	}, timeout);
-};
-
-/**
  * Wait for an element to be visible and click on it
  * @param  {Object} driver   Webdriver instance
  * @param  {Object} selector Selector of element to be clicked
@@ -156,27 +142,46 @@ exports.promiseClick = function(driver, selector, timeout) {
 * Get a site, dismiss alerts and wait for document load
 * @return {Promise}
 */
-exports.getAndWait = function(driver, url, optionalTimeout) {
+exports.getAndWait = function(driver, url) {
 	var def = webdriver.promise.defer();
-	// console.log('Override alerts/unloads');
+	var pageLoad = false;
+
+	console.log('Loading ' + url);
+
 	driver.getWindowHandle().then(function() {
-		// console.log('Window handle: ', handle);
-		// /*#*/ console.log('Getting: ', url);
 		driver.get(url).then(function() {
-			// console.log('Got URL, checking alerts');
-			alertCheck(driver).then(function() {
-				// console.log('Alert check complete!');
-				waitForLoad(driver,optionalTimeout)
-				.then(function() {
-					// console.log('Load complete!');
-					def.fulfill(null);
-				})
-				.thenCatch(function(err) {
-					def.reject(err);
-				});
-			});
+			console.log('LOADED ' + url);
+			pageLoad = true;
 		}, function(err) {
 			def.reject(err);
+		});
+	});
+
+	driver.wait(function() {
+		return pageLoad;
+	}).then(function() {
+		alertCheck(driver).then(function() {
+			console.log('Alert check done!\nStarting waitforload');
+
+			waitForLoad(driver).then(function() {
+				console.log('Wait for load done!\nInjecting test capture.');
+				injectTestCapture(driver).then(function() {
+					waitForExtensionLoad(driver, {count: 0}).then(function(result) {
+						console.info('		Extension loaded!');
+						if (!result) {
+							def.reject(new Error('Extension load error!'));
+						} else {
+							def.fulfill();
+						}
+					}, function(err) {
+						console.warn('Extension error: ', err);
+						def.reject(err);
+					});
+				});
+			}, function(err) {
+				console.warn('Driver Timeout!', err);
+				def.reject(err);
+			});
 		});
 	});
 
@@ -187,7 +192,7 @@ exports.getAndWait = function(driver, url, optionalTimeout) {
 * Accept an alert if visible
 * @return {Promise}
 */
-var alertCheck = exports.alertCheck = function(driver) {
+var alertCheck = function(driver) {
 	var def = webdriver.promise.defer();
 	// console.log('Checking for alerts...');
 	driver.getAllWindowHandles().then(function(handles) {
@@ -215,7 +220,7 @@ var alertCheck = exports.alertCheck = function(driver) {
 * Block until document.readyState is complete
 * @return {Promise}
 */
-var waitForLoad = exports.waitForLoad = function(driver, optionalTimeout) {
+exports.waitForLoad = function(driver, optionalTimeout) {
 	var timeout = optionalTimeout ? optionalTimeout : WAIT_TIMEOUT;
 	return driver.wait(function() {
 		// /*#*/ console.log('		Waiting for pageload...');

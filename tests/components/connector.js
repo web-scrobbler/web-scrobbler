@@ -17,40 +17,10 @@ var loadSite = module.exports.loadSite = function(driver, options) {
 
 	describe('Load website', function() {
 		it('should load website', function(done) {
-			console.log('Loading ' +  opts.url);
-			var pageLoad = false;
 			helpers.getAndWait(driver, opts.url).then(function() {
-				console.log('LOADED ' +  opts.url);
-				pageLoad = true;
-			}).thenCatch(function() {
-				return done(new Error('Driver timeout!'));
-			});
-
-			driver.wait(function() {
-				return pageLoad;
-			}).then(function() {
-				helpers.alertCheck(driver).then(function() {
-					console.log('Alert check done!\nStarting waitforload');
-					helpers.waitForLoad(driver).then(function() {
-						console.log('Wait for load done!\nInjecting test capture.');
-						helpers.injectTestCapture(driver).then(function() {
-							helpers.waitForExtensionLoad(driver, {count: 0}).then(function(result) {
-								console.info('		Extension loaded!');
-								if (!result) {
-									return done(new Error('Extension load error!'));
-								}
-
-								done();
-							}, function(err) {
-								console.warn('Extension error: ', err);
-								return done(err);
-							});
-						});
-					}, function(err) {
-						console.warn('Driver Timeout!', err);
-						return done(err);
-					});
-				});
+				done();
+			}, function(err) {
+				done(err);
 			});
 		});
 	});
