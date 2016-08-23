@@ -9,7 +9,7 @@ var chromeOptions = new chromedriver.Options();
 var extPath = '--load-extension=' + helpers.getPath(__dirname,'.././');
 console.log('Extension load path: ' + extPath);
 
-chromeOptions.addArguments([extPath, '--log-level=0', '--test-type']);
+chromeOptions.addArguments([extPath, '--log-level=0', '--test-type', '--lang=en-US']);
 chromeOptions.setLoggingPrefs({browser: 'ALL'});
 
 /* exports */

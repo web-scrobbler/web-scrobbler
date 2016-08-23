@@ -179,7 +179,7 @@ exports.getAndWait = function(driver, url) {
 					});
 				});
 			}, function(err) {
-				console.warn('Driver Timeout!', err);
+				console.warn('Load error', err);
 				def.reject(err);
 			});
 		});
@@ -221,12 +221,26 @@ var alertCheck = function(driver) {
 * @return {Promise}
 */
 var waitForLoad = function(driver, timeout) {
-	return driver.wait(function() {
-		// /*#*/ console.log('		Waiting for pageload...');
-		return driver.executeScript('return document.readyState === \'complete\' && document.title.indexOf(\'is not available\') === -1;').then(function(res) {
-			return res;
+	var def = webdriver.promise.defer();
+
+	driver.wait(function() {
+		return driver.executeScript(function() {
+			return document.readyState === 'complete';
+		}).then(function(result) {
+			if (result) {
+				driver.getTitle().then(function(documentTitle) {
+					if (documentTitle.indexOf('is not available') === -1) {
+						def.fulfill();
+					} else {
+						def.reject(new Error(documentTitle));
+					}
+				});
+			}
+			return result;
 		});
 	}, timeout || WAIT_LOAD_TIMEOUT);
+
+	return def.promise;
 };
 
 exports.info = function(msg) {
