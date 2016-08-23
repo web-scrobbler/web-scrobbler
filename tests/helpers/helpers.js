@@ -3,7 +3,8 @@
 var path = require('path'),
 	webdriver = require('selenium-webdriver');
 
-const WAIT_TIMEOUT = 10000;
+const WAIT_LOAD_TIMEOUT = 30000;
+const WAIT_CLICK_TIMEOUT = 10000;
 
 /**
 * Joins two paths based on first path directory name
@@ -123,12 +124,11 @@ var waitForExtensionLoad = exports.waitForExtensionLoad = function(driver, opts)
  */
 exports.promiseClick = function(driver, selector, timeout) {
 	var def = webdriver.promise.defer();
-	timeout = timeout || WAIT_TIMEOUT;
 
 	driver.wait(function() {
 		// console.log('		Waiting on click...', selector);
 		return (driver.isElementPresent(selector));
-	}, 10000).then(function() {
+	}, timeout || WAIT_CLICK_TIMEOUT).then(function() {
 		// console.log('		Waiting for click done');
 		driver.findElement(selector).click().then(function() {
 			def.fulfill(null);
@@ -220,14 +220,13 @@ var alertCheck = function(driver) {
 * Block until document.readyState is complete
 * @return {Promise}
 */
-exports.waitForLoad = function(driver, optionalTimeout) {
-	var timeout = optionalTimeout ? optionalTimeout : WAIT_TIMEOUT;
+var waitForLoad = function(driver, timeout) {
 	return driver.wait(function() {
 		// /*#*/ console.log('		Waiting for pageload...');
 		return driver.executeScript('return document.readyState === \'complete\' && document.title.indexOf(\'is not available\') === -1;').then(function(res) {
 			return res;
 		});
-	}, timeout);
+	}, timeout || WAIT_LOAD_TIMEOUT);
 };
 
 exports.info = function(msg) {
