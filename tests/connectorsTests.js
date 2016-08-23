@@ -8,7 +8,6 @@ var driver = require('./helpers/chromeSpoofing').getDriver();
 var connectors = require('../core/connectors');
 
 var async = global.async = require('async');
-global.siteSpec = require('./components/site');
 global.connectorSpec = require('./components/connector');
 global.expect = require('chai').expect;
 

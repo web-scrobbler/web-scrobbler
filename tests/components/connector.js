@@ -1,6 +1,6 @@
 'use strict';
 
-/* global helpers, siteSpec, connectorSpec */
+/* global helpers */
 
 var DEFAULT_TRIES_COUNT = 50;
 
@@ -16,12 +16,42 @@ var loadSite = module.exports.loadSite = function(driver, options) {
 	var opts = options || {};
 
 	describe('Load website', function() {
-		before(function(done) {
-			siteSpec.shouldLoad(driver, opts.url, done);
-		});
-
 		it('should load website', function(done) {
-			done();
+			console.log('Loading ' +  opts.url);
+			var pageLoad = false;
+			helpers.getAndWait(driver, opts.url).then(function() {
+				console.log('LOADED ' +  opts.url);
+				pageLoad = true;
+			}).thenCatch(function() {
+				return done(new Error('Driver timeout!'));
+			});
+
+			driver.wait(function() {
+				return pageLoad;
+			}).then(function() {
+				helpers.alertCheck(driver).then(function() {
+					console.log('Alert check done!\nStarting waitforload');
+					helpers.waitForLoad(driver).then(function() {
+						console.log('Wait for load done!\nInjecting test capture.');
+						helpers.injectTestCapture(driver).then(function() {
+							helpers.waitForExtensionLoad(driver, {count: 0}).then(function(result) {
+								console.info('		Extension loaded!');
+								if (!result) {
+									return done(new Error('Extension load error!'));
+								}
+
+								done();
+							}, function(err) {
+								console.warn('Extension error: ', err);
+								return done(err);
+							});
+						});
+					}, function(err) {
+						console.warn('Driver Timeout!', err);
+						return done(err);
+					});
+				});
+			});
 		});
 	});
 };
