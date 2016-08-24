@@ -6,6 +6,8 @@ var path = require('path'),
 const WAIT_LOAD_TIMEOUT = 30000;
 const WAIT_CLICK_TIMEOUT = 10000;
 
+const DEBUG = false;
+
 /**
 * Joins two paths based on first path directory name
 * @param base {String} should be __filename called from
@@ -92,7 +94,6 @@ var listenFor = exports.listenFor = function(driver, needle, cb, failCb, tries) 
 * @return {Promise}
 */
 var waitForExtensionLoad = exports.waitForExtensionLoad = function(driver, opts) {
-	// /*#*/ console.log('		waitForExtensionLoad called...' + opts.count);
 	var def = opts.promise || webdriver.promise.defer();
 	opts.count = opts.count || 0;
 
@@ -101,10 +102,10 @@ var waitForExtensionLoad = exports.waitForExtensionLoad = function(driver, opts)
 	}
 
 	driver.executeScript(function() {
-		// console.log('Dispatched test load event');
+		console.log('Dispatched "web-scrobbler-test-loaded" event');
 		document.dispatchEvent(new CustomEvent('web-scrobbler-test-loaded'));
 	}).then(function() {
-		console.log('DISPATCH SENT');
+		debug('Dispatched "web-scrobbler-test-loaded" event');
 		listenFor(driver, 'connector_injected', function() {
 			def.fulfill(true);
 		}, function(err) {
@@ -126,10 +127,10 @@ exports.promiseClick = function(driver, selector, timeout) {
 	var def = webdriver.promise.defer();
 
 	driver.wait(function() {
-		// console.log('		Waiting on click...', selector);
+		debug('Waiting on click ', selector);
 		return (driver.isElementPresent(selector));
 	}, timeout || WAIT_CLICK_TIMEOUT).then(function() {
-		// console.log('		Waiting for click done');
+		debug('Clicked on ', selector);
 		driver.findElement(selector).click().then(function() {
 			def.fulfill(null);
 		});
@@ -146,11 +147,11 @@ exports.getAndWait = function(driver, url) {
 	var def = webdriver.promise.defer();
 	var pageLoad = false;
 
-	console.log('Loading ' + url);
+	debug('Loading ' + url);
 
 	driver.getWindowHandle().then(function() {
 		driver.get(url).then(function() {
-			console.log('LOADED ' + url);
+			debug('Loaded ' + url);
 			pageLoad = true;
 		}, function(err) {
 			def.reject(err);
@@ -160,26 +161,34 @@ exports.getAndWait = function(driver, url) {
 	driver.wait(function() {
 		return pageLoad;
 	}).then(function() {
+		debug('Start alertCheck');
 		alertCheck(driver).then(function() {
-			console.log('Alert check done!\nStarting waitforload');
+			debug('Done alertCheck');
+			debug('Start waitForLoad');
 
 			waitForLoad(driver).then(function() {
-				console.log('Wait for load done!\nInjecting test capture.');
+				debug('Done waitForLoad');
+				debug('Start injectTestCapture');
+
 				injectTestCapture(driver).then(function() {
+					debug('Dpne injectTestCapture');
+					debug('Start waitForExtensionLoad');
+
 					waitForExtensionLoad(driver, {count: 0}).then(function(result) {
-						console.info('		Extension loaded!');
 						if (!result) {
+							debug('Error waitForExtensionLoad [1]');
 							def.reject(new Error('Extension load error!'));
 						} else {
+							debug('Done waitForExtensionLoad');
 							def.fulfill();
 						}
 					}, function(err) {
-						console.warn('Extension error: ', err);
+						debug('Error waitForExtensionLoad [2]');
 						def.reject(err);
 					});
 				});
 			}, function(err) {
-				console.warn('Load error', err);
+				debug('Load error', err);
 				def.reject(err);
 			});
 		});
@@ -194,23 +203,21 @@ exports.getAndWait = function(driver, url) {
 */
 var alertCheck = function(driver) {
 	var def = webdriver.promise.defer();
-	// console.log('Checking for alerts...');
+	debug('Checking for alerts');
 	driver.getAllWindowHandles().then(function(handles) {
 		driver.getWindowHandle().then(function(handle) {
 			if(handles.indexOf(handle) !== -1) {
-				// console.log('There is a window open...');
+				debug('There is a window open');
 				driver.switchTo().alert().then(function(alert) {
-					// console.log('Accept alert...');
+					debug('Accept alert');
 					alert.accept();
-					def.fulfill(null);
 				}, function() {
-					// console.log('No alert found, continue...');
-					def.fulfill(null);
+					debug('No alert found, continue');
 				});
 			} else {
-				// console.log('No open window found!');
-				def.fulfill(null);
+				debug('No open window found!');
 			}
+			def.fulfill(null);
 		});
 	});
 	return def.promise;
@@ -257,4 +264,17 @@ exports.pass = function(msg) {
 
 exports.fail = function(msg) {
 	console.log('\t\t \x1b[31;1m✗\x1b[0m', msg);
+};
+
+var debug = function(message, object) {
+	if (!DEBUG) {
+		return;
+	}
+
+	var colorMessage = '\t \x1b[35m' + message + '\x1b[0m';
+	if (object) {
+		console.log(colorMessage, object);
+	} else {
+		console.log(colorMessage);
+	}
 };
