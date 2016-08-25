@@ -651,7 +651,7 @@ define(function() {
 
 		{
 			label: 'Москва ФМ / Питер ФМ',
-			matches: ['*://www.moskva.fm/*', '*://www.piter.fm/*'],
+			matches: ['*://moskva.fm/*', '*://piter.fm/*'],
 			js: ['connectors/v2/moskva-piter-fm.js'],
 			version: 2
 		},
