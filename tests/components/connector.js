@@ -2,17 +2,18 @@
 
 /* global helpers */
 
-var DEFAULT_TRIES_COUNT = 50;
+const DEFAULT_TRIES_COUNT = 50;
+const webdriver = require('selenium-webdriver');
 
 /**
  * Test if website can be loaded successfully
  * @param  {Object} driver Webdriver instance
- * @param  {Array} options Options
+ * @param  {Array} options Options (see below)
  *
  * Options
  * @param  {String} url Website URL
  */
-var loadSite = module.exports.loadSite = function(driver, options) {
+module.exports.loadSite = function(driver, options) {
 	var opts = options || {};
 
 	describe('Load website', function() {
@@ -29,12 +30,12 @@ var loadSite = module.exports.loadSite = function(driver, options) {
 /**
  * Test if play button can be clicked
  * @param  {Object} driver Webdriver instance
- * @param  {Array} options Options
+ * @param  {Array} options Options (see below)
  *
  * Options
  * @param  {String} playButtonSelector CSS selector of play button
  */
-var clickPlayButton = module.exports.clickPlayButton = function(driver, options) {
+module.exports.clickPlayButton = function(driver, options) {
 	var opts = options || {};
 
 	if (opts.playButtonSelector) {
@@ -55,30 +56,19 @@ var clickPlayButton = module.exports.clickPlayButton = function(driver, options)
 /**
  * Test if a now playing song is correctly recognized
  * @param  {Object} driver Webdriver instance
- * @param  {Array} options Options
+ * @param  {Array} options Options (see below)
  *
  * Options
  * @param  {Number} recongnizeTries How many times try to recognize song
  */
-var recognizeSong = module.exports.recognizeSong = function(driver, options) {
-	var opts = options || {};
-
+module.exports.recognizeSong = function(driver, options) {
 	describe('Recognize a song', function() {
 		it('should recognise a playing song', function(done) {
-			helpers.listenFor(driver, 'connector_state_changed', function(res) {
-				var song = res.data;
-
-				printSongInfo(song);
-
-				// Validate
-				if (song.artist && song.track) {
-					return done();
-				} else if (song.isPlaying) {
-					return done(new Error('Connector sent null track data'));
-				}
-			}, function() {
-				return done(new Error('Connector did not send any track data to core :('));
-			}, opts.recognizeTries || DEFAULT_TRIES_COUNT);
+			promiseRecognizeSong(driver, options).then(function() {
+				done();
+			}, function(err) {
+				done(err);
+			});
 		});
 	});
 };
@@ -87,7 +77,7 @@ var recognizeSong = module.exports.recognizeSong = function(driver, options) {
  * Perform a complex test for website. Includes load test,
  * play button click test and song recongnition test.
  * @param  {Object} driver Webdriver instance
- * @param  {Array} options Options
+ * @param  {Array} options Options (see below)
  *
  * Options
  * @param  {String} url Website URL
@@ -95,14 +85,65 @@ var recognizeSong = module.exports.recognizeSong = function(driver, options) {
  * @param  {Number} recongnizeTries How many times try to recognize song
  */
 module.exports.loadPlayListen = function(driver, options) {
-	loadSite(driver, options);
-
-	clickPlayButton(driver, options);
-
-	recognizeSong(driver, options);
+	describe('Testing connector', function() {
+		it('should load site and recognize a song', function(done) {
+			promiseLoadPlayListen(driver, options).then(function() {
+				done();
+			}, function(err) {
+				done(err);
+			});
+		});
+	});
 };
 
 /* Internal */
+
+function promiseLoadSite(driver, options) {
+	var opts = options || {};
+	return helpers.getAndWait(driver, opts.url);
+}
+
+function promiseClickPlayButton(driver, options) {
+	var opts = options || {};
+
+	if (opts.playButtonSelector) {
+		return helpers.promiseClick(driver, {css: opts.playButtonSelector});
+	} else {
+		return webdriver.promise.fulfilled();
+	}
+}
+
+function promiseRecognizeSong(driver, options) {
+	var opts = options || {};
+	var defer = webdriver.promise.defer();
+
+	helpers.listenFor(driver, 'connector_state_changed', function(res) {
+		var song = res.data;
+
+		printSongInfo(song);
+
+		// Validate
+		if (song.artist && song.track) {
+			defer.fulfill();
+		} else if (song.isPlaying) {
+			defer.reject(new Error('Connector sent null track data'));
+		}
+	}, function() {
+		defer.reject(new Error('Connector did not send any track data to core :('));
+	}, opts.recognizeTries || DEFAULT_TRIES_COUNT);
+
+	return defer.promise;
+}
+
+function promiseLoadPlayListen(driver, options) {
+	var opts = options || {};
+
+	return promiseLoadSite(driver, opts).then(function() {
+		return promiseClickPlayButton(driver, opts);
+	}).then(function() {
+		return promiseRecognizeSong(driver, opts);
+	});
+}
 
 function printSongField(song, fieldName) {
 	var fieldValue = song[fieldName];
