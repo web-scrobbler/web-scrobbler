@@ -2,7 +2,7 @@
 
 /* global helpers */
 
-const DEFAULT_TRIES_COUNT = 50;
+const DEFAULT_RECOGNIZE_TIMEOUT = 30000;
 const webdriver = require('selenium-webdriver');
 
 /**
@@ -59,7 +59,7 @@ module.exports.clickPlayButton = function(driver, options) {
  * @param  {Array} options Options (see below)
  *
  * Options
- * @param  {Number} recongnizeTries How many times try to recognize song
+ * @param  {Number} recognizeTimeout Recognize timeout in milliseconds
  */
 module.exports.recognizeSong = function(driver, options) {
 	describe('Recognize a song', function() {
@@ -82,7 +82,7 @@ module.exports.recognizeSong = function(driver, options) {
  * Options
  * @param  {String} url Website URL
  * @param  {String} playButtonSelector CSS selector of play button
- * @param  {Number} recongnizeTries How many times try to recognize song
+ * @param  {Number} recognizeTimeout Recognize timeout in milliseconds
  */
 module.exports.loadPlayListen = function(driver, options) {
 	describe('Testing connector', function() {
@@ -130,7 +130,7 @@ function promiseRecognizeSong(driver, options) {
 		}
 	}, function() {
 		defer.reject(new Error('Connector did not send any track data to core :('));
-	}, opts.recognizeTries || DEFAULT_TRIES_COUNT);
+	}, opts.recognizeTimeout || DEFAULT_RECOGNIZE_TIMEOUT);
 
 	return defer.promise;
 }

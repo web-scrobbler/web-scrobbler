@@ -5,6 +5,9 @@ var path = require('path'),
 
 const WAIT_LOAD_TIMEOUT = 30000;
 const WAIT_CLICK_TIMEOUT = 10000;
+const WAIT_FOR_CONNECTOR_INJECTION_TIMEOUT = 15000;
+
+const WAIT_BETWEEN_EXTENSION_MSGS = 1000;
 
 const DEBUG = false;
 
@@ -37,7 +40,7 @@ var injectTestCapture = exports.injectTestCapture = function(driver) {
 var waitForExtensionMsg = function(driver, needle, opts, promise) {
 	var def = promise || webdriver.promise.defer();
 	opts.count = opts.count || 0;
-	opts.tries = opts.tries;
+	opts.tries = opts.tries || opts.timeout / WAIT_BETWEEN_EXTENSION_MSGS;
 
 	process.stdout.write('\r');
 	process.stdout.write('	    \x1b[93m Listening for ['+needle+' - ' + opts.count+'/'+opts.tries+']\x1b[0m');
@@ -61,7 +64,7 @@ var waitForExtensionMsg = function(driver, needle, opts, promise) {
 	'	return foundAction.detail;' +
 	'} else return null;';
 
-	driver.sleep(300);
+	driver.sleep(WAIT_BETWEEN_EXTENSION_MSGS);
 	/* jshint -W054 */
 	driver.executeScript(new Function(injection)).then(function(res) {
 		if(typeof res === 'undefined' || res === null) {
@@ -76,9 +79,9 @@ var waitForExtensionMsg = function(driver, needle, opts, promise) {
 	return def.promise;
 };
 
-var listenFor = exports.listenFor = function(driver, needle, cb, failCb, tries) {
+var listenFor = exports.listenFor = function(driver, needle, cb, failCb, timeout) {
 	injectTestCapture(driver).then(function() {
-		waitForExtensionMsg(driver, needle, {tries: tries || 30}).then(function(result) {
+		waitForExtensionMsg(driver, needle, {timeout: timeout}).then(function(result) {
 			if (!result) {
 				return cb(new Error('Null response'));
 			}
@@ -93,13 +96,8 @@ var listenFor = exports.listenFor = function(driver, needle, cb, failCb, tries) 
 * Wait to receive the extension loaded message. Trys a maximum of 30 times before failing
 * @return {Promise}
 */
-var waitForExtensionLoad = exports.waitForExtensionLoad = function(driver, opts) {
-	var def = opts.promise || webdriver.promise.defer();
-	opts.count = opts.count || 0;
-
-	if(opts.count > 300) {
-		return def.reject('Extension load timeout!');
-	}
+var waitForExtensionLoad = function(driver) {
+	var def = webdriver.promise.defer();
 
 	driver.executeScript(function() {
 		console.log('Dispatched "web-scrobbler-test-loaded" event');
@@ -110,7 +108,7 @@ var waitForExtensionLoad = exports.waitForExtensionLoad = function(driver, opts)
 			def.fulfill(true);
 		}, function(err) {
 			def.reject(err);
-		});
+		}, WAIT_FOR_CONNECTOR_INJECTION_TIMEOUT);
 	});
 
 	return def.promise;
@@ -174,7 +172,7 @@ exports.getAndWait = function(driver, url) {
 					debug('Dpne injectTestCapture');
 					debug('Start waitForExtensionLoad');
 
-					waitForExtensionLoad(driver, {count: 0}).then(function(result) {
+					waitForExtensionLoad(driver).then(function(result) {
 						if (!result) {
 							debug('Error waitForExtensionLoad [1]');
 							def.reject(new Error('Extension load error!'));
