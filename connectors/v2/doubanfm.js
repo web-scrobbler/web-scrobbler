@@ -6,7 +6,7 @@ Connector.playerSelector = '.fullplayer';
 
 Connector.trackArtImageSelector = '.playing-cover img';
 
-Connector.trackSelector =	'.fullplayer .titles .title a';
+Connector.trackSelector = '.fullplayer .titles .title a';
 
 Connector.artistSelector = '.fullplayer .link.artist-name';
 
