@@ -387,7 +387,7 @@ define(function() {
 
 		{
 			label: 'Saavn.com',
-			matches: ['*://saavn.com/*'],
+			matches: ['*://*.saavn.com/*'],
 			js: ['connectors/saavn.js'],
 		},
 

@@ -13,11 +13,9 @@
 var DOM_TRACK_NAME = '#player-track-name';
 var DOM_TRACK_DURATION = '#track-time';
 
-Connector.playerSelector = '#now-playing';
-
 // Prevent same track from being scrobbled continuously
 var previousTrack = '';
-var previousUrl = '';
+var previousURL = '';
 
 // Get track name
 function getTrack() {
@@ -63,9 +61,9 @@ function updateNowPlaying() {
 
         // Use jQuery to parse the HTML
         var trackDetailsDOM = $(trackDetailsHTML);
-        var artist = trackDetailsDOM.find('.page-meta-group > .meta-list').text()
+        var artist = trackDetailsDOM.find('.page-meta-group > .meta-list')[0].textContent
 
-        console.log('Validating: ' + artist + ' @#@ ' + track + ' @#@ ' + duration);
+        console.log('Validating: ' + artist + ' - ' + track + ' - ' + duration);
 
         if (!artist || !track || previousTrack == track) {
             return;
