@@ -20,7 +20,7 @@ module.exports = function(grunt) {
 			}
 		},
 		jshint: {
-			all: [jsCoreFiles, jsConnectorFiles],
+			all: [jsCoreFiles, jsConnectorFiles, jsTestFiles],
 			options: {
 				jshintrc: true,
 				reporter: require('jshint-stylish')
