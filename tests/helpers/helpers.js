@@ -9,8 +9,6 @@ const WAIT_FOR_CONNECTOR_INJECTION_TIMEOUT = 15000;
 
 const WAIT_BETWEEN_EXTENSION_MSGS = 1000;
 
-const DEBUG = false;
-
 /**
 * Joins two paths based on first path directory name
 * @param base {String} should be __filename called from
@@ -42,11 +40,16 @@ var waitForExtensionMsg = function(driver, needle, opts, promise) {
 	opts.count = opts.count || 0;
 	opts.tries = opts.tries || opts.timeout / WAIT_BETWEEN_EXTENSION_MSGS;
 
-	process.stdout.write('\r');
-	process.stdout.write('	    \x1b[93m Listening for ['+needle+' - ' + opts.count+'/'+opts.tries+']\x1b[0m');
+	if (global.DEBUG) {
+		var msg = '	    \x1b[93m Listening for [' + needle + ' - ' + opts.count + '/' + opts.tries + ']\x1b[0m';
+		process.stdout.write('\r');
+		process.stdout.write(msg);
+	}
 
-	if(opts.count == opts.tries) {
-		process.stdout.write('\n');
+	if (opts.count == opts.tries) {
+		if (global.DEBUG) {
+			process.stdout.write('\n');
+		}
 		return def.reject(new Error('Extension message '+needle+' wait timeout!'));
 	}
 
@@ -72,7 +75,9 @@ var waitForExtensionMsg = function(driver, needle, opts, promise) {
 			return waitForExtensionMsg(driver, needle, opts, def);
 		}
 
-		process.stdout.write('\n');
+		if (global.DEBUG) {
+			process.stdout.write('\n');
+		}
 		return def.fulfill(res);
 	});
 
@@ -265,7 +270,7 @@ exports.fail = function(msg) {
 };
 
 var debug = function(message, object) {
-	if (!DEBUG) {
+	if (!global.DEBUG) {
 		return;
 	}
 

@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * Enable to verbose unittests output
+ * @type {Boolean}
+ */
+global.DEBUG = false;
+
 var helpers = global.helpers = require('./helpers/helpers.js');
 var Mocha = require('mocha');
 

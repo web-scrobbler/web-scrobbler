@@ -120,7 +120,9 @@ function promiseRecognizeSong(driver, options) {
 	helpers.listenFor(driver, 'connector_state_changed', function(res) {
 		var song = res.data;
 
-		printSongInfo(song);
+		if (global.DEBUG) {
+			printSongInfo(song);
+		}
 
 		// Validate
 		if (song.artist && song.track) {
