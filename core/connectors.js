@@ -316,13 +316,6 @@ define(function() {
 		},
 
 		{
-			label: 'Songza',
-			matches: ['*://songza.com/*'],
-			js: ['connectors/v2/songza.js'],
-			version: 2
-		},
-
-		{
 			label: 'Douban Programme',
 			matches: ['http://music.douban.com/programme/*'],
 			js: ['connectors/douban-programme.js']
