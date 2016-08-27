@@ -18,6 +18,7 @@ function cleanText(input) {
 	if (input === null) {
 		return input;
 	}
+
 	return input.replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
 }
 
@@ -25,10 +26,13 @@ function getArtist() {
 	var artist = $('.detail_item_link_2').text() ||
 				$('span[itemprop=byArtist]').text() ||
 				$('.detail-artist a').text() ||
+				$('#tp_pi_artist').text() ||
 				null;
-	if (artist === null) {
+
+	if (artist === null && $('.waypoint-artist-title') !== null) {
 		artist = $('.waypoint-artist-title').text().substr(3);
 	}
+
 	return cleanText(artist);
 }
 
@@ -37,8 +41,13 @@ function getTrack() {
 				$('.trackTitle').first().text() ||
 				$('.collection-item-container.playing').find('.fav-track-static').first().text() ||
 				$('.waypoint-item-title').text() ||
-				$('.track_info .title') ||
+				$('.track_info .title').text() ||
 				null;
+
+	if (track === null && $('#tp_pi_title') !== null) {
+		track = $('#tp_pi_title').text();
+	}
+
 	return cleanText(track);
 }
 
