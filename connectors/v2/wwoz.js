@@ -5,7 +5,7 @@
 Connector.playerSelector = '#player';
 
 Connector.getTrack = function() {
-	var track = $('#song-info .song').text();
+	var track = $('#player .title').text();
 
 	//strip extras
 	track = track.replace(/\"(.+?)\"/g,'$1'); // stripping WWOZ's double quotes around name
@@ -16,9 +16,9 @@ Connector.getTrack = function() {
 };
 
 Connector.getArtist = function() {
-	return $('#song-info .artist').text().replace(/BY: (.+)/g,'$1') || null; // + stripping WWOZ's BY: before artist's name
+	return $('#player .artist').text() || null;
 };
 
 Connector.isPlaying = function() {
-	return $('#jp_container_1').hasClass('jp-state-playing');
+	return $('#oz-audio-container').hasClass('jp-state-playing');
 };
