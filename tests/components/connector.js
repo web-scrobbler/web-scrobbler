@@ -12,13 +12,14 @@ const webdriver = require('selenium-webdriver');
  *
  * Options
  * @param  {String} url Website URL
+ * @param  {Number} urlLoadTimeout URL load timeout is milliseconds
  */
 module.exports.loadSite = function(driver, options) {
 	var opts = options || {};
 
 	describe('Load website', function() {
 		it('should load website', function(done) {
-			helpers.getAndWait(driver, opts.url).then(function() {
+			helpers.getAndWait(driver, opts.url, opts.urlLoadTimeout).then(function() {
 				done();
 			}, function(err) {
 				done(err);
@@ -81,6 +82,7 @@ module.exports.recognizeSong = function(driver, options) {
  *
  * Options
  * @param  {String} url Website URL
+ * @param  {Number} urlLoadTimeout URL load timeout is milliseconds
  * @param  {String} playButtonSelector CSS selector of play button
  * @param  {Number} recognizeTimeout Recognize timeout in milliseconds
  */

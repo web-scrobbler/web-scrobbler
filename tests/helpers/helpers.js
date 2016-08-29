@@ -146,7 +146,7 @@ exports.promiseClick = function(driver, selector, timeout) {
 * Get a site, dismiss alerts and wait for document load
 * @return {Promise}
 */
-exports.getAndWait = function(driver, url) {
+exports.getAndWait = function(driver, url, timeout) {
 	var def = webdriver.promise.defer();
 	var pageLoad = false;
 
@@ -169,7 +169,7 @@ exports.getAndWait = function(driver, url) {
 			debug('Done alertCheck');
 			debug('Start waitForLoad');
 
-			waitForLoad(driver).then(function() {
+			waitForLoad(driver, timeout).then(function() {
 				debug('Done waitForLoad');
 				debug('Start injectTestCapture');
 
