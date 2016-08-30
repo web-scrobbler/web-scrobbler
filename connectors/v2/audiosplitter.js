@@ -8,12 +8,12 @@ Connector.trackSelector = '.p-info-display > a';
 
 Connector.artistSelector = '.p-artist';
 
-Connector.getCurrentTime = function() {
-	return $('span.p-time.ng-binding').text().split('/')[0].trim();
-};
+Connector.currentTimeSelector = '.current-p-time';
+
+Connector.durationSelector = '.full-p-time';
 
 Connector.isPlaying = function() {
-	return !$('a.as-icon.as-icon-play').hasClass('ng-hide');
+	return $('a.as-icon.as-icon-play').hasClass('ng-hide');
 };
 
 Connector.getUniqueID = function (	) {
