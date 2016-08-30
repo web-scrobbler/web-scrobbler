@@ -2,13 +2,16 @@
 
 /* global Connector */
 
-Connector.playerSelector = '#player_song';
+Connector.playerSelector = '#Wrapper';
 
-Connector.artistSelector = '#player_artist';
+Connector.artistSelector = '#track-artist';
 
-Connector.trackSelector = '#player_title';
+Connector.trackSelector = '#track-title';
 
+Connector.albumSelector = '#track-album';
+
+Connector.trackArtImageSelector = '#covercontainer img';
 
 Connector.isPlaying = function () {
-	return $('.play').is(':visible');
+	return $('#controls-play').hasClass('play');
 };
