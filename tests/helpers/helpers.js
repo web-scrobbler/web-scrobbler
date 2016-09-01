@@ -9,9 +9,138 @@ const WAIT_FOR_INJECTION_TIMEOUT = 15000;
 const WAIT_BETWEEN_EXTENSION_MSGS = 1000;
 
 /**
-* Setup listener for test response from extension
-*/
-var injectTestCapture = exports.injectTestCapture = function(driver) {
+ * Get a website, dismiss alerts and wait for document load
+ * @param  {Object} driver Webdriver instance
+ * @param  {String} url Website URL
+ * @param  {Number} timeout Load timeout in milliseconds
+ * @return {Promise} Promise that will be resolved when the task has completed
+ */
+exports.getAndWait = function(driver, url, timeout) {
+	var def = webdriver.promise.defer();
+
+	debug('Loading ' + url);
+
+	driver.getWindowHandle().then(function() {
+		return driver.get(url, timeout);
+	}).then(function() {
+		return alertCheck(driver);
+	}).then(function() {
+		return waitForLoad(driver, timeout);
+	}).then(function() {
+		return injectTestCapture(driver);
+	}).then(function() {
+		return waitForExtensionLoad(driver);
+	}).then(function() {
+		debug('Loaded ' + url);
+		def.fulfill();
+	}, function(err) {
+		debug('Unable to load ' + url);
+		def.reject(err);
+	});
+
+	return def.promise;
+};
+
+/**
+ * Wait for an element to be visible and click on it
+ * @param  {Object} driver Webdriver instance
+ * @param  {Object} selector Selector of element to be clicked
+ * @param  {Number} timeout Optional timeout in milliseconds
+ * @return {Promise} Promise that will be resolved when the task has completed
+ */
+exports.promiseClick = function(driver, selector, timeout) {
+	var def = webdriver.promise.defer();
+
+	driver.wait(function() {
+		debug('Waiting on click ', selector);
+		return (driver.isElementPresent(selector));
+	}, timeout || WAIT_CLICK_TIMEOUT).then(function() {
+		driver.findElement(selector).click().then(function() {
+			debug('Clicked on ', selector);
+			def.fulfill();
+		});
+	});
+
+	return def.promise;
+};
+
+/**
+ * Listen for message from a connector
+ * @param  {Object} driver Webdriver instance
+ * @param  {String} needle Message to be listen
+ * @param  {Number} timeout Timeout in milliseconds
+ * @return {Promise} Promise that will be resolved when the task has completed
+ */
+var listenFor = exports.listenFor = function(driver, needle, timeout) {
+	var defer = webdriver.promise.defer();
+
+	injectTestCapture(driver).then(function() {
+		waitForExtensionMsg(driver, needle, timeout).then(function(result) {
+			if (result) {
+				defer.fulfill(result);
+			} else {
+				defer.reject(new Error('Null response'));
+			}
+		}, function() {
+			defer.reject(new Error('Invalid response'));
+		});
+	});
+
+	return defer.promise;
+};
+
+/**
+ * Print informational message.
+ * @param  {String} msg Message text
+ */
+exports.info = function(msg) {
+	console.log('\t\t %s', msg);
+};
+/**
+ * Print warning message.
+ * @param  {String} msg Message text
+ */
+exports.warn = function(msg) {
+	console.log('\t\t \x1b[33;1m%s\x1b[0m', msg);
+};
+
+/**
+ * Print passed message.
+ * @param  {String} msg Message text
+ */
+exports.pass = function(msg) {
+	console.log('\t\t \x1b[32;1m√\x1b[0m', msg);
+};
+
+/**
+ * Print failed message.
+ * @param  {String} msg Message text
+ */
+exports.fail = function(msg) {
+	console.log('\t\t \x1b[31;1m✗\x1b[0m', msg);
+};
+
+/**
+ * Print debug message (purple color is used). Suppressed if global.DEBUG is false
+ * @param  {String} message Message text
+ * @param  {Object} object Optional object
+ */
+var debug = exports.debug = function(message, object) {
+	if (!global.DEBUG) {
+		return;
+	}
+
+	var colorMessage = '\t \x1b[35m' + message + '\x1b[0m';
+	if (object) {
+		console.log(colorMessage, object);
+	} else {
+		console.log(colorMessage);
+	}
+};
+
+/* Internal */
+
+var injectTestCapture = function(driver) {
 	debug('Injecting test capture');
 
 	return driver.executeScript(function() {
@@ -80,28 +209,6 @@ var waitForExtensionMsg = function(driver, needle, timeout) {
 	return def.promise;
 };
 
-var listenFor = exports.listenFor = function(driver, needle, timeout) {
-	var defer = webdriver.promise.defer();
-
-	injectTestCapture(driver).then(function() {
-		waitForExtensionMsg(driver, needle, timeout).then(function(result) {
-			if (result) {
-				defer.fulfill(result);
-			} else {
-				defer.reject(new Error('Null response'));
-			}
-		}, function() {
-			defer.reject(new Error('Invalid response'));
-		});
-	});
-
-	return defer.promise;
-};
-
-/**
-* Wait to receive the extension loaded message. Trys a maximum of 30 times before failing
-* @return {Promise}
-*/
 var waitForExtensionLoad = function(driver) {
 	debug('Waiting for extension load');
 
@@ -122,63 +229,6 @@ var waitForExtensionLoad = function(driver) {
 	return def.promise;
 };
 
-/**
- * Wait for an element to be visible and click on it
- * @param  {Object} driver   Webdriver instance
- * @param  {Object} selector Selector of element to be clicked
- * @param  {Number} timeout  Optional timeout
- * @return {Promise}
- */
-exports.promiseClick = function(driver, selector, timeout) {
-	var def = webdriver.promise.defer();
-
-	driver.wait(function() {
-		debug('Waiting on click ', selector);
-		return (driver.isElementPresent(selector));
-	}, timeout || WAIT_CLICK_TIMEOUT).then(function() {
-		driver.findElement(selector).click().then(function() {
-			debug('Clicked on ', selector);
-			def.fulfill();
-		});
-	});
-
-	return def.promise;
-};
-
-/**
-* Get a site, dismiss alerts and wait for document load
-* @return {Promise}
-*/
-exports.getAndWait = function(driver, url, timeout) {
-	var def = webdriver.promise.defer();
-
-	debug('Loading ' + url);
-
-	driver.getWindowHandle().then(function() {
-		return driver.get(url, timeout);
-	}).then(function() {
-		return alertCheck(driver);
-	}).then(function() {
-		return waitForLoad(driver, timeout);
-	}).then(function() {
-		return injectTestCapture(driver);
-	}).then(function() {
-		return waitForExtensionLoad(driver);
-	}).then(function() {
-		debug('Loaded ' + url);
-		def.fulfill();
-	}, function(err) {
-		debug('Unable to load ' + url);
-		def.reject(err);
-	});
-
-	return def.promise;
-};
-
-/**
-* Accept an alert if visible
-* @return {Promise}
-*/
 var alertCheck = function(driver) {
 	var def = webdriver.promise.defer();
 	debug('Checking for alerts');
@@ -203,10 +253,6 @@ var alertCheck = function(driver) {
 	return def.promise;
 };
 
-/**
-* Block until document.readyState is complete
-* @return {Promise}
-*/
 var waitForLoad = function(driver, timeout) {
 	var def = webdriver.promise.defer();
 
@@ -228,33 +274,4 @@ var waitForLoad = function(driver, timeout) {
 	}, timeout || WAIT_LOAD_TIMEOUT);
 
 	return def.promise;
-};
-
-exports.info = function(msg) {
-	console.log('\t\t %s', msg);
-};
-
-exports.warn = function(msg) {
-	console.log('\t\t \x1b[33;1m%s\x1b[0m', msg);
-};
-
-exports.pass = function(msg) {
-	console.log('\t\t \x1b[32;1m√\x1b[0m', msg);
-};
-
-exports.fail = function(msg) {
-	console.log('\t\t \x1b[31;1m✗\x1b[0m', msg);
-};
-
-var debug = function(message, object) {
-	if (!global.DEBUG) {
-		return;
-	}
-
-	var colorMessage = '\t \x1b[35m' + message + '\x1b[0m';
-	if (object) {
-		console.log(colorMessage, object);
-	} else {
-		console.log(colorMessage);
-	}
 };
