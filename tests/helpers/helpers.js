@@ -35,25 +35,13 @@ var injectTestCapture = exports.injectTestCapture = function(driver) {
 	});
 };
 
-var waitForExtensionMsg = function(driver, needle, opts, promise) {
-	var def = promise || webdriver.promise.defer();
-	opts.count = opts.count || 0;
-	opts.tries = opts.tries || opts.timeout / WAIT_BETWEEN_EXTENSION_MSGS;
+var waitForExtensionMsg = function(driver, needle, timeout) {
+	var def = webdriver.promise.defer();
+	var counter = 1;
+	var tries = timeout / WAIT_BETWEEN_EXTENSION_MSGS;
 
-	if (global.DEBUG) {
-		var msg = '	    \x1b[93m Listening for [' + needle + ' - ' + opts.count + '/' + opts.tries + ']\x1b[0m';
-		process.stdout.write('\r');
-		process.stdout.write(msg);
-	}
-
-	if (opts.count == opts.tries) {
-		if (global.DEBUG) {
-			process.stdout.write('\n');
-		}
-		return def.reject(new Error('Extension message '+needle+' wait timeout!'));
-	}
-
-	var injection =
+	/* jshint -W054 */
+	var injectedFunction = new Function(
 	'var scrobble_find = function(arr, valid){' +
 	'	if(!arr) return null;' +
 	'	for(var x=0; x < arr.length; x+=1){ if(valid(arr[x])) return arr[x]; }' +
@@ -65,28 +53,45 @@ var waitForExtensionMsg = function(driver, needle, opts, promise) {
 	'if(foundAction && foundAction.detail) {' +
 	'	window.console.info("WATCHALOOKINFOR",foundAction);' +
 	'	return foundAction.detail;' +
-	'} else return null;';
+	'} else return null;');
 
-	driver.sleep(WAIT_BETWEEN_EXTENSION_MSGS);
-	/* jshint -W054 */
-	driver.executeScript(new Function(injection)).then(function(res) {
-		if(typeof res === 'undefined' || res === null) {
-			opts.count++;
-			return waitForExtensionMsg(driver, needle, opts, def);
+	var syncLoop = function() {
+		if (counter > tries) {
+			if (global.DEBUG) {
+				process.stdout.write('\n');
+			}
+			def.reject(new Error('Extension message ' + needle + ' wait timeout!'));
+			return;
 		}
 
 		if (global.DEBUG) {
-			process.stdout.write('\n');
+			var msg = '	    \x1b[93m Listening for [' + needle + ' - ' + counter + '/' + tries + ']\x1b[0m';
+			process.stdout.write('\r');
+			process.stdout.write(msg);
 		}
-		return def.fulfill(res);
-	});
+
+		driver.sleep(WAIT_BETWEEN_EXTENSION_MSGS);
+		driver.executeScript(injectedFunction).then(function(result) {
+			counter++;
+
+			if (!result) {
+				syncLoop();
+			} else {
+				if (global.DEBUG) {
+					process.stdout.write('\n');
+				}
+				def.fulfill(result);
+			}
+		});
+	};
+	syncLoop();
 
 	return def.promise;
 };
 
 var listenFor = exports.listenFor = function(driver, needle, cb, failCb, timeout) {
 	injectTestCapture(driver).then(function() {
-		waitForExtensionMsg(driver, needle, {timeout: timeout}).then(function(result) {
+		waitForExtensionMsg(driver, needle, timeout).then(function(result) {
 			if (!result) {
 				return cb(new Error('Null response'));
 			}
