@@ -23,6 +23,8 @@ exports.getPath = function(base, filePath) {
 * Setup listener for test response from extension
 */
 var injectTestCapture = exports.injectTestCapture = function(driver) {
+	debug('Injecting test capture');
+
 	return driver.executeScript(function() {
 		console.log('Listening for web-scrobbler-test-response');
 		if (typeof window.webScrobblerActionStack === 'undefined') {
@@ -107,6 +109,8 @@ var listenFor = exports.listenFor = function(driver, needle, cb, failCb, timeout
 * @return {Promise}
 */
 var waitForExtensionLoad = function(driver) {
+	debug('Waiting for extension load');
+
 	var def = webdriver.promise.defer();
 
 	driver.executeScript(function() {
@@ -138,9 +142,9 @@ exports.promiseClick = function(driver, selector, timeout) {
 		debug('Waiting on click ', selector);
 		return (driver.isElementPresent(selector));
 	}, timeout || WAIT_CLICK_TIMEOUT).then(function() {
-		debug('Clicked on ', selector);
 		driver.findElement(selector).click().then(function() {
-			def.fulfill(null);
+			debug('Clicked on ', selector);
+			def.fulfill();
 		});
 	});
 
@@ -153,53 +157,25 @@ exports.promiseClick = function(driver, selector, timeout) {
 */
 exports.getAndWait = function(driver, url, timeout) {
 	var def = webdriver.promise.defer();
-	var pageLoad = false;
 
 	debug('Loading ' + url);
 
 	driver.getWindowHandle().then(function() {
-		driver.get(url).then(function() {
-			debug('Loaded ' + url);
-			pageLoad = true;
-		}, function(err) {
-			def.reject(err);
-		});
-	});
-
-	driver.wait(function() {
-		return pageLoad;
+		return driver.get(url, timeout);
 	}).then(function() {
-		debug('Start alertCheck');
-		alertCheck(driver).then(function() {
-			debug('Done alertCheck');
-			debug('Start waitForLoad');
-
-			waitForLoad(driver, timeout).then(function() {
-				debug('Done waitForLoad');
-				debug('Start injectTestCapture');
-
-				injectTestCapture(driver).then(function() {
-					debug('Dpne injectTestCapture');
-					debug('Start waitForExtensionLoad');
-
-					waitForExtensionLoad(driver).then(function(result) {
-						if (!result) {
-							debug('Error waitForExtensionLoad [1]');
-							def.reject(new Error('Extension load error!'));
-						} else {
-							debug('Done waitForExtensionLoad');
-							def.fulfill();
-						}
-					}, function(err) {
-						debug('Error waitForExtensionLoad [2]');
-						def.reject(err);
-					});
-				});
-			}, function(err) {
-				debug('Load error', err);
-				def.reject(err);
-			});
-		});
+		return alertCheck(driver);
+	}).then(function() {
+		return waitForLoad(driver, timeout);
+	}).then(function() {
+		return injectTestCapture(driver);
+	}).then(function() {
+		return waitForExtensionLoad(driver);
+	}).then(function() {
+		debug('Loaded ' + url);
+		def.fulfill();
+	}, function(err) {
+		debug('Unable to load ' + url);
+		def.reject(err);
 	});
 
 	return def.promise;
