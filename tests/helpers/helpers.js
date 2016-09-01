@@ -1,23 +1,12 @@
 'use strict';
 
-var path = require('path'),
-	webdriver = require('selenium-webdriver');
+const webdriver = require('selenium-webdriver');
 
 const WAIT_LOAD_TIMEOUT = 30000;
 const WAIT_CLICK_TIMEOUT = 10000;
 const WAIT_FOR_INJECTION_TIMEOUT = 15000;
 
 const WAIT_BETWEEN_EXTENSION_MSGS = 1000;
-
-/**
-* Joins two paths based on first path directory name
-* @param base {String} should be __filename called from
-* @param filePath {String} path to second file or directory, relative to base
-* @return {String} joined path
-*/
-exports.getPath = function(base, filePath) {
-	return path.join(path.dirname(base), filePath);
-};
 
 /**
 * Setup listener for test response from extension

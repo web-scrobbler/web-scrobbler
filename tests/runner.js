@@ -5,17 +5,17 @@
  * @type {Boolean}
  */
 global.DEBUG = false;
+global.helpers = require('./helpers/helpers.js');
 
-var helpers = global.helpers = require('./helpers/helpers.js');
+const path = require('path');
 var Mocha = require('mocha');
 
-// To run specific tests add to Mocha object: grep: /{PATTERN}/
 var mocha = new Mocha({
 	timeout: 120000,
 	title: 'Connector tests'
 });
 
-mocha.addFile(helpers.getPath(__filename, '/connectorsTests.js'));
+mocha.addFile(path.join(__dirname, 'connectorsTests.js'));
 
 mocha.run(function(failures) {
 	process.on('exit', function () {
