@@ -119,7 +119,8 @@ function promiseRecognizeSong(driver, options) {
 	var opts = options || {};
 	var defer = webdriver.promise.defer();
 
-	helpers.listenFor(driver, 'connector_state_changed', function(res) {
+	var timeout = opts.recognizeTimeout || DEFAULT_RECOGNIZE_TIMEOUT;
+	helpers.listenFor(driver, 'connector_state_changed', timeout).then(function(res) {
 		var song = res.data;
 
 		if (global.DEBUG) {
@@ -133,8 +134,8 @@ function promiseRecognizeSong(driver, options) {
 			defer.reject(new Error('Connector sent null track data'));
 		}
 	}, function() {
-		defer.reject(new Error('Connector did not send any track data to core :('));
-	}, opts.recognizeTimeout || DEFAULT_RECOGNIZE_TIMEOUT);
+		defer.reject(new Error('Connector did not send any track data to core'));
+	});
 
 	return defer.promise;
 }

@@ -5,7 +5,7 @@ var path = require('path'),
 
 const WAIT_LOAD_TIMEOUT = 30000;
 const WAIT_CLICK_TIMEOUT = 10000;
-const WAIT_FOR_CONNECTOR_INJECTION_TIMEOUT = 15000;
+const WAIT_FOR_INJECTION_TIMEOUT = 15000;
 
 const WAIT_BETWEEN_EXTENSION_MSGS = 1000;
 
@@ -91,17 +91,22 @@ var waitForExtensionMsg = function(driver, needle, timeout) {
 	return def.promise;
 };
 
-var listenFor = exports.listenFor = function(driver, needle, cb, failCb, timeout) {
+var listenFor = exports.listenFor = function(driver, needle, timeout) {
+	var defer = webdriver.promise.defer();
+
 	injectTestCapture(driver).then(function() {
 		waitForExtensionMsg(driver, needle, timeout).then(function(result) {
-			if (!result) {
-				return cb(new Error('Null response'));
+			if (result) {
+				defer.fulfill(result);
+			} else {
+				defer.reject(new Error('Null response'));
 			}
-			return cb(result);
 		}, function() {
-			return failCb(new Error('Invalid response'));
+			defer.reject(new Error('Invalid response'));
 		});
 	});
+
+	return defer.promise;
 };
 
 /**
@@ -118,11 +123,11 @@ var waitForExtensionLoad = function(driver) {
 		document.dispatchEvent(new CustomEvent('web-scrobbler-test-loaded'));
 	}).then(function() {
 		debug('Dispatched "web-scrobbler-test-loaded" event');
-		listenFor(driver, 'connector_injected', function() {
-			def.fulfill(true);
+		listenFor(driver, 'connector_injected', WAIT_FOR_INJECTION_TIMEOUT).then(function() {
+			def.fulfill();
 		}, function(err) {
 			def.reject(err);
-		}, WAIT_FOR_CONNECTOR_INJECTION_TIMEOUT);
+		});
 	});
 
 	return def.promise;
@@ -195,13 +200,15 @@ var alertCheck = function(driver) {
 				driver.switchTo().alert().then(function(alert) {
 					debug('Accept alert');
 					alert.accept();
+					def.fulfill();
 				}, function() {
 					debug('No alert found, continue');
+					def.fulfill();
 				});
 			} else {
 				debug('No open window found!');
+				def.fulfill();
 			}
-			def.fulfill(null);
 		});
 	});
 	return def.promise;
