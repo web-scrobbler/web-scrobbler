@@ -160,20 +160,17 @@ var waitForExtensionMsg = function(driver, needle, timeout) {
 	var counter = 1;
 	var tries = timeout / WAIT_BETWEEN_EXTENSION_MSGS;
 
-	/* jshint -W054 */
-	var injectedFunction = new Function(
-	'var scrobble_find = function(arr, valid){' +
-	'	if(!arr) return null;' +
-	'	for(var x=0; x < arr.length; x+=1){ if(valid(arr[x])) return arr[x]; }' +
-	'	return null;' +
-	'};' +
-	'var foundAction = scrobble_find(webScrobblerActionStack, function(e) {' +
-	'	return e.detail.detail === "' + needle + '"' +
-	'});' +
-	'if(foundAction && foundAction.detail) {' +
-	'	window.console.info("WATCHALOOKINFOR",foundAction);' +
-	'	return foundAction.detail;' +
-	'} else return null;');
+	var findWebScrobblerEvent = function(needle) {
+		/* global webScrobblerActionStack */
+		var foundEvent = webScrobblerActionStack.find(function(event) {
+			return event.detail.detail === needle;
+		});
+		if (foundEvent && foundEvent.detail) {
+			console.info('Found event', foundEvent.detail.detail);
+			return foundEvent.detail;
+		}
+		return null;
+	};
 
 	var syncLoop = function() {
 		if (counter > tries) {
@@ -191,7 +188,7 @@ var waitForExtensionMsg = function(driver, needle, timeout) {
 		}
 
 		driver.sleep(WAIT_BETWEEN_EXTENSION_MSGS);
-		driver.executeScript(injectedFunction).then(function(result) {
+		driver.executeScript(findWebScrobblerEvent, needle).then(function(result) {
 			counter++;
 
 			if (!result) {
