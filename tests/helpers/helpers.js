@@ -16,11 +16,9 @@ const WAIT_BETWEEN_EXTENSION_MSGS = 1000;
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 exports.getAndWait = function(driver, url, timeout) {
-	var def = webdriver.promise.defer();
-
 	debug('Loading ' + url);
 
-	driver.getWindowHandle().then(function() {
+	return driver.getWindowHandle().then(function() {
 		return driver.get(url, timeout);
 	}).then(function() {
 		return alertCheck(driver);
@@ -32,13 +30,10 @@ exports.getAndWait = function(driver, url, timeout) {
 		return waitForExtensionLoad(driver);
 	}).then(function() {
 		debug('Loaded ' + url);
-		def.fulfill();
 	}, function(err) {
 		debug('Unable to load ' + url);
-		def.reject(err);
+		throw err;
 	});
-
-	return def.promise;
 };
 
 /**
@@ -49,19 +44,17 @@ exports.getAndWait = function(driver, url, timeout) {
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 exports.promiseClick = function(driver, selector, timeout) {
-	var def = webdriver.promise.defer();
-
-	driver.wait(function() {
+	return driver.wait(function() {
 		debug('Waiting on click ', selector);
 		return (driver.isElementPresent(selector));
 	}, timeout || WAIT_CLICK_TIMEOUT).then(function() {
-		driver.findElement(selector).click().then(function() {
-			debug('Clicked on ', selector);
-			def.fulfill();
-		});
+		return driver.findElement(selector).click();
+	}).then(function() {
+		debug('Clicked on ', selector);
+	}, function(err) {
+		debug('Unable to click on ', selector);
+		throw err;
 	});
-
-	return def.promise;
 };
 
 /**
@@ -72,21 +65,17 @@ exports.promiseClick = function(driver, selector, timeout) {
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 var listenFor = exports.listenFor = function(driver, needle, timeout) {
-	var defer = webdriver.promise.defer();
-
-	injectTestCapture(driver).then(function() {
-		waitForExtensionMsg(driver, needle, timeout).then(function(result) {
-			if (result) {
-				defer.fulfill(result);
-			} else {
-				defer.reject(new Error('Null response'));
-			}
-		}, function() {
-			defer.reject(new Error('Invalid response'));
-		});
+	return injectTestCapture(driver).then(function() {
+		return waitForExtensionMsg(driver, needle, timeout);
+	}).then(function(result) {
+		if (result) {
+			return result;
+		} else {
+			throw new Error('Null response');
+		}
+	}, function() {
+		throw new Error('Invalid response');
 	});
-
-	return defer.promise;
 };
 
 /**
@@ -209,66 +198,38 @@ var waitForExtensionMsg = function(driver, needle, timeout) {
 var waitForExtensionLoad = function(driver) {
 	debug('Waiting for extension load');
 
-	var def = webdriver.promise.defer();
-
-	driver.executeScript(function() {
+	return driver.executeScript(function() {
 		console.log('Dispatched "web-scrobbler-test-loaded" event');
 		document.dispatchEvent(new CustomEvent('web-scrobbler-test-loaded'));
 	}).then(function() {
 		debug('Dispatched "web-scrobbler-test-loaded" event');
-		listenFor(driver, 'connector_injected', WAIT_FOR_INJECTION_TIMEOUT).then(function() {
-			def.fulfill();
-		}, function(err) {
-			def.reject(err);
-		});
+		return listenFor(driver, 'connector_injected', WAIT_FOR_INJECTION_TIMEOUT);
 	});
-
-	return def.promise;
 };
 
 var alertCheck = function(driver) {
-	var def = webdriver.promise.defer();
-	debug('Checking for alerts');
-	driver.getAllWindowHandles().then(function(handles) {
-		driver.getWindowHandle().then(function(handle) {
-			if(handles.indexOf(handle) !== -1) {
-				debug('There is a window open');
-				driver.switchTo().alert().then(function(alert) {
-					debug('Accept alert');
-					alert.accept();
-					def.fulfill();
-				}, function() {
-					debug('No alert found, continue');
-					def.fulfill();
-				});
-			} else {
-				debug('No open window found!');
-				def.fulfill();
-			}
-		});
+	return driver.switchTo().alert().then(function(alert) {
+		debug('Accept alert');
+		alert.accept();
+	}, function() {
+		// Suppress errors
 	});
-	return def.promise;
 };
 
 var waitForLoad = function(driver, timeout) {
-	var def = webdriver.promise.defer();
-
-	driver.wait(function() {
+	return driver.wait(function() {
 		return driver.executeScript(function() {
 			return document.readyState === 'complete';
-		}).then(function(result) {
-			if (result) {
-				driver.getTitle().then(function(documentTitle) {
-					if (documentTitle.indexOf('is not available') === -1) {
-						def.fulfill();
-					} else {
-						def.reject(new Error(documentTitle));
+		}).then(function(isDocumentReady) {
+			if (isDocumentReady) {
+				return driver.getTitle().then(function(documentTitle) {
+					if (documentTitle.indexOf('is not available') !== -1) {
+						throw new Error(documentTitle);
 					}
+					return true;
 				});
 			}
-			return result;
+			return false;
 		});
 	}, timeout || WAIT_LOAD_TIMEOUT);
-
-	return def.promise;
 };

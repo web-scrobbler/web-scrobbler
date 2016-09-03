@@ -108,27 +108,20 @@ function promiseClickPlayButton(driver, options) {
 
 function promiseRecognizeSong(driver, options) {
 	var opts = options || {};
-	var defer = webdriver.promise.defer();
-
 	var timeout = opts.recognizeTimeout || DEFAULT_RECOGNIZE_TIMEOUT;
-	helpers.listenFor(driver, 'connector_state_changed', timeout).then(function(res) {
+	return helpers.listenFor(driver, 'connector_state_changed', timeout).then(function(res) {
 		var song = res.data;
 
 		if (global.DEBUG) {
 			printSongInfo(song);
 		}
 
-		// Validate
-		if (song.artist && song.track) {
-			defer.fulfill();
-		} else if (song.isPlaying) {
-			defer.reject(new Error('Connector sent null track data'));
+		if (!(song.artist && song.track) && song.isPlaying) {
+			throw new Error('Connector sent null track data');
 		}
 	}, function() {
-		defer.reject(new Error('Connector did not send any track data to core'));
+		throw new Error('Connector did not send any track data to core');
 	});
-
-	return defer.promise;
 }
 
 function promiseLoadPlayListen(driver, options) {
