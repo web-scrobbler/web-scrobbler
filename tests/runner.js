@@ -8,16 +8,18 @@ global.DEBUG = false;
 global.helpers = require('./helpers/helpers.js');
 
 const path = require('path');
-var Mocha = require('mocha');
+const Mocha = require('mocha');
 
-var mocha = new Mocha({
-	timeout: 120000,
-	title: 'Connector tests'
-});
+function createMocha() {
+	var mocha = new Mocha({
+		timeout: 120000,
+		reporter: global.DEBUG ? 'spec' : 'tap'
+	});
+	mocha.addFile(path.join(__dirname, 'connectorsTests.js'));
+	return mocha;
+}
 
-mocha.addFile(path.join(__dirname, 'connectorsTests.js'));
-
-mocha.run(function(failures) {
+createMocha().run(function(failures) {
 	process.on('exit', function () {
 		process.exit(failures);
 	});

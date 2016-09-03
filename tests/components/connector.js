@@ -17,13 +17,11 @@ const webdriver = require('selenium-webdriver');
 module.exports.loadSite = function(driver, options) {
 	var opts = options || {};
 
-	describe('Load website', function() {
-		it('should load website', function(done) {
-			helpers.getAndWait(driver, opts.url, opts.urlLoadTimeout).then(function() {
-				done();
-			}, function(err) {
-				done(err);
-			});
+	it('should load website', function(done) {
+		helpers.getAndWait(driver, opts.url, opts.urlLoadTimeout).then(function() {
+			done();
+		}, function(err) {
+			done(err);
 		});
 	});
 };
@@ -40,14 +38,11 @@ module.exports.clickPlayButton = function(driver, options) {
 	var opts = options || {};
 
 	if (opts.playButtonSelector) {
-		describe('Click on play button', function() {
-			it('should play a song', function(done) {
-				helpers.promiseClick(driver, {css: opts.playButtonSelector}).then(function() {
-					return done();
-				}, function(err) {
-					console.warn('Unable to click on ', opts.playButtonSelector);
-					return done(err);
-				});
+		it('should play a song', function(done) {
+			helpers.promiseClick(driver, {css: opts.playButtonSelector}).then(function() {
+				done();
+			}, function(err) {
+				done(err);
 			});
 		});
 	}
@@ -63,13 +58,11 @@ module.exports.clickPlayButton = function(driver, options) {
  * @param  {Number} recognizeTimeout Recognize timeout in milliseconds
  */
 module.exports.recognizeSong = function(driver, options) {
-	describe('Recognize a song', function() {
-		it('should recognise a playing song', function(done) {
-			promiseRecognizeSong(driver, options).then(function() {
-				done();
-			}, function(err) {
-				done(err);
-			});
+	it('should recognise a playing song', function(done) {
+		promiseRecognizeSong(driver, options).then(function() {
+			done();
+		}, function(err) {
+			done(err);
 		});
 	});
 };
@@ -87,13 +80,11 @@ module.exports.recognizeSong = function(driver, options) {
  * @param  {Number} recognizeTimeout Recognize timeout in milliseconds
  */
 module.exports.loadPlayListen = function(driver, options) {
-	describe('Testing connector', function() {
-		it('should load site and recognize a song', function(done) {
-			promiseLoadPlayListen(driver, options).then(function() {
-				done();
-			}, function(err) {
-				done(err);
-			});
+	it('should load site and recognize a song', function(done) {
+		promiseLoadPlayListen(driver, options).then(function() {
+			done();
+		}, function(err) {
+			done(err);
 		});
 	});
 };

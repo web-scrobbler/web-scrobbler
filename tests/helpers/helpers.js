@@ -94,14 +94,14 @@ var listenFor = exports.listenFor = function(driver, needle, timeout) {
  * @param  {String} msg Message text
  */
 exports.info = function(msg) {
-	console.log('\t\t %s', msg);
+	console.log('      %s', msg);
 };
 /**
  * Print warning message.
  * @param  {String} msg Message text
  */
 exports.warn = function(msg) {
-	console.log('\t\t \x1b[33;1m%s\x1b[0m', msg);
+	console.log('      \x1b[33;1m%s\x1b[0m', msg);
 };
 
 /**
@@ -109,7 +109,7 @@ exports.warn = function(msg) {
  * @param  {String} msg Message text
  */
 exports.pass = function(msg) {
-	console.log('\t\t \x1b[32;1m√\x1b[0m', msg);
+	console.log('      \x1b[32;1m√\x1b[0m', msg);
 };
 
 /**
@@ -117,7 +117,7 @@ exports.pass = function(msg) {
  * @param  {String} msg Message text
  */
 exports.fail = function(msg) {
-	console.log('\t\t \x1b[31;1m✗\x1b[0m', msg);
+	console.log('      \x1b[31;1m✗\x1b[0m', msg);
 };
 
 /**
@@ -130,7 +130,7 @@ var debug = exports.debug = function(message, object) {
 		return;
 	}
 
-	var colorMessage = '\t \x1b[35m' + message + '\x1b[0m';
+	var colorMessage = '      \x1b[35;1m' + message + '\x1b[0m';
 	if (object) {
 		console.log(colorMessage, object);
 	} else {
@@ -182,7 +182,7 @@ var waitForExtensionMsg = function(driver, needle, timeout) {
 		}
 
 		if (global.DEBUG) {
-			var msg = '	    \x1b[93m Listening for [' + needle + ' - ' + counter + '/' + tries + ']\x1b[0m';
+			var msg = '     \x1b[93m Listening for [' + needle + ' - ' + counter + '/' + tries + ']\x1b[0m';
 			process.stdout.write('\r');
 			process.stdout.write(msg);
 		}

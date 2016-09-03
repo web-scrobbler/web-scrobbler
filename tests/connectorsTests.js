@@ -32,34 +32,45 @@ function getConnectorsList() {
 	return sortedConnectors;
 }
 
-describe('Web-Scrobbler Extension', function() {
-	before(function(done) {
-		driver.sleep(1000).then(function() {
-			done();
+function getTestDescription(connector) {
+	var connectorLabel = connector.label;
+	if (global.DEBUG) {
+		return 'Connector: ' + connectorLabel;
+	} else {
+		if (connectorLabel.length > 20) {
+			connectorLabel = connectorLabel.substring(0, 20) + '…';
+		}
+		return '[' + connectorLabel + ']';
+	}
+}
+
+function testConnector(connector, callback) {
+	var testDescription = getTestDescription(connector);
+	describe(testDescription, function() {
+		var connectorFilePath = getConnectorTestFilePath(connector);
+		if (fs.existsSync(connectorFilePath)) {
+			require(connectorFilePath)(driver, connector);
+		}
+
+		after(function() {
+			callback();
 		});
 	});
+}
 
-	var connectors = getConnectorsList();
+function runConnectorsTests() {
+	describe('', function() {
+		var connectors = getConnectorsList();
+		async.each(connectors, function(connector, callback) {
+			testConnector(connector, function() {
+				callback();
+			});
+		});
 
-	/**
-	 * Loop through all the connectors currently enabled,
-	 * look for explicitly defined tests first,
-	 * falling back to a generic test if none are found.
-	*/
-	async.each(connectors, function(connector, next) {
-		describe('Connector: ' + connector.label, function() {
-			var connectorFilePath = getConnectorTestFilePath(connector);
-			if (fs.existsSync(connectorFilePath)) {
-				require(connectorFilePath)(driver, connector, next);
-			} else {
-				// Generic test here - will rely on a defined test URL for each connector
-				// it('has no tests', function() {});
-				next();
-			}
+		after(function() {
+			driver.quit();
 		});
 	});
+}
 
-	after(function() {
-		driver.quit();
-	});
-});
+runConnectorsTests();
