@@ -2,11 +2,10 @@
 
 require('node-define');
 
-var fs = require('fs');
-var path = require('path');
-var driver = require('./helpers/chromeSpoofing').getDriver();
+const fs = require('fs');
+const path = require('path');
+const async = require('async');
 
-var async = global.async = require('async');
 global.connectorSpec = require('./components/connector');
 global.expect = require('chai').expect;
 
@@ -18,7 +17,7 @@ function getConnectorTestFilePath(connector) {
 function getConnectorsList() {
 	var connectors = require('../core/connectors');
 	var uniqueConnectors = [];
-	var sortedConnectors = connectors.filter(function(item) {
+	return connectors.filter(function(item) {
 		var filePath = getConnectorTestFilePath(item);
 		if (uniqueConnectors.indexOf(filePath) != -1) {
 			return false;
@@ -28,8 +27,40 @@ function getConnectorsList() {
 	}).sort(function(a, b) {
 		return a.label.localeCompare(b.label);
 	});
+}
 
-	return sortedConnectors;
+function getConnectorsToTest() {
+	var connectors = getConnectorsList();
+	var connectorsArgs = process.argv.slice(2);
+	if (connectorsArgs.length > 0) {
+		var invalidConnectors = [];
+
+		connectorsArgs = connectorsArgs.filter(function(item) {
+			var filePath = path.join(__dirname, 'connectors', item + '.js');
+			if (!fs.existsSync(filePath)) {
+				invalidConnectors.push(item);
+				return false;
+			}
+			return true;
+		});
+
+		connectors = connectors.filter(function(item) {
+			var connectorFileName = path.basename(item.js[0], '.js');
+			var fileNameIndex = connectorsArgs.indexOf(connectorFileName);
+			if (fileNameIndex !== -1) {
+				connectorsArgs.splice(fileNameIndex, 1);
+				return true;
+			}
+			return false;
+		});
+
+		invalidConnectors = invalidConnectors.concat(connectorsArgs);
+		if (invalidConnectors.length > 0) {
+			console.warn('Unknown connectors: ' + invalidConnectors.join(', '));
+		}
+	}
+
+	return connectors;
 }
 
 function getTestDescription(connector) {
@@ -44,7 +75,7 @@ function getTestDescription(connector) {
 	}
 }
 
-function testConnector(connector, callback) {
+function testConnector(driver, connector, callback) {
 	var testDescription = getTestDescription(connector);
 	describe(testDescription, function() {
 		var connectorFilePath = getConnectorTestFilePath(connector);
@@ -59,18 +90,22 @@ function testConnector(connector, callback) {
 }
 
 function runConnectorsTests() {
-	describe('', function() {
-		var connectors = getConnectorsList();
-		async.each(connectors, function(connector, callback) {
-			testConnector(connector, function() {
-				callback();
+	var connectors = getConnectorsToTest();
+	if (connectors.length > 0) {
+		var driver = require('./helpers/chromeSpoofing').getDriver();
+
+		describe('', function() {
+			async.each(connectors, function(connector, callback) {
+				testConnector(driver, connector, function() {
+					callback();
+				});
+			});
+
+			after(function() {
+				driver.quit();
 			});
 		});
-
-		after(function() {
-			driver.quit();
-		});
-	});
+	}
 }
 
 runConnectorsTests();

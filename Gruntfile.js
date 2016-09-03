@@ -72,7 +72,9 @@ module.exports = function(grunt) {
 				cmd: 'node scripts/publish-chrome-extension web-scrobbler.zip'
 			},
 			run_tests: {
-				command: 'node tests/runner.js'
+				cmd: function(...args) {
+					return `node tests/runner.js ${args.join(' ')}`;
+				}
 			}
 		}
 	});
@@ -91,6 +93,12 @@ module.exports = function(grunt) {
 		grunt.task.run(`bump:${ver}`);
 		grunt.task.run('publish');
 	});
-	grunt.registerTask('test', ['exec:run_tests']);
+	grunt.registerTask('test', 'Run tests.', function(...args) {
+		if (arguments.length > 0) {
+			grunt.task.run(`exec:run_tests:${args.join(':')}`);
+		} else {
+			grunt.task.run('exec:run_tests');
+		}
+	});
 	grunt.registerTask('default', ['lint']);
 };
