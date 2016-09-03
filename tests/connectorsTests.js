@@ -2,6 +2,8 @@
 
 require('node-define');
 
+const RETRIES_COUNT = 5;
+
 const fs = require('fs');
 const path = require('path');
 const async = require('async');
@@ -95,6 +97,8 @@ function runConnectorsTests() {
 		var driver = require('./helpers/chromeSpoofing').getDriver();
 
 		describe('', function() {
+			this.retries(RETRIES_COUNT);
+
 			async.each(connectors, function(connector, callback) {
 				testConnector(driver, connector, function() {
 					callback();
