@@ -47,6 +47,7 @@
 
 		if (observeTarget !== null) {
 			observer.observe(observeTarget, observerConfig);
+			testReporter('player_element_exists');
 		} else {
 			console.warn('Web Scrobbler: Player element (' + Connector.playerSelector + ') was not found in the page.');
 

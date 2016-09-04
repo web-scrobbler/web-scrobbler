@@ -12,6 +12,7 @@
  *  'connector_injected' - connector is injected
  *  'connector_state_changed' - state of connector is changed
  *     data: currentState
+ *  'player_element_exists' - the player element is on the page
  */
 var testReporter = function(msg, obj, err) {
 	if (err) {

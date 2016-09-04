@@ -3,6 +3,7 @@
 /* global helpers */
 
 const DEFAULT_RECOGNIZE_TIMEOUT = 30000;
+const WAIT_FOR_PLAYER_ELEMENT_TIMEOUT = 10000;
 const webdriver = require('selenium-webdriver');
 
 /**
@@ -68,6 +69,24 @@ module.exports.recognizeSong = function(driver, options) {
 };
 
 /**
+ * Load website and check if player element exists.
+ * @param  {Object} driver Webdriver instance
+ * @param  {Array} options Options (see below)
+ *
+ * Options
+ * @see {@link loadSite}
+ */
+exports.loadCheckPlayer = function(driver, options) {
+	it('should load website and check player element', function(done) {
+		promiseLoadCheckPlayer(driver, options).then(function() {
+			done();
+		}, function(err) {
+			done(err);
+		});
+	});
+};
+
+/**
  * Perform a complex test for website. Includes load test,
  * play button click test and song recongnition test.
  * @param  {Object} driver Webdriver instance
@@ -121,6 +140,19 @@ function promiseRecognizeSong(driver, options) {
 		}
 	}, function() {
 		throw new Error('Connector did not send any track data to core');
+	});
+}
+
+function promiseLoadCheckPlayer(driver, options) {
+	var opts = options || {};
+
+	return promiseLoadSite(driver, opts).then(function() {
+		return promiseClickPlayButton(driver, opts);
+	}).then(function() {
+		var timeout = WAIT_FOR_PLAYER_ELEMENT_TIMEOUT;
+		return helpers.listenFor(driver, 'player_element_exists', timeout).thenCatch(function() {
+			throw new Error('Player element is missing');
+		});
 	});
 }
 
