@@ -23,11 +23,11 @@ exports.getAndWait = function(driver, url, timeout) {
 	}).then(function() {
 		return alertCheck(driver);
 	}).then(function() {
-		return waitForLoad(driver, timeout);
-	}).then(function() {
 		return injectTestCapture(driver);
 	}).then(function() {
-		return waitForExtensionLoad(driver);
+		return waitForLoad(driver, timeout);
+	}).then(function() {
+		return waitForConnectorInjection(driver);
 	}).then(function() {
 		debug('Loaded ' + url);
 	}, function(err) {
@@ -65,9 +65,7 @@ exports.promiseClick = function(driver, selector, timeout) {
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 var listenFor = exports.listenFor = function(driver, needle, timeout) {
-	return injectTestCapture(driver).then(function() {
-		return waitForExtensionMsg(driver, needle, timeout);
-	}).then(function(result) {
+	return waitForExtensionMsg(driver, needle, timeout).then(function(result) {
 		if (result) {
 			return result;
 		} else {
@@ -195,16 +193,9 @@ var waitForExtensionMsg = function(driver, needle, timeout) {
 	return def.promise;
 };
 
-var waitForExtensionLoad = function(driver) {
+var waitForConnectorInjection = function(driver) {
 	debug('Waiting for extension load');
-
-	return driver.executeScript(function() {
-		console.log('Dispatched "web-scrobbler-test-loaded" event');
-		document.dispatchEvent(new CustomEvent('web-scrobbler-test-loaded'));
-	}).then(function() {
-		debug('Dispatched "web-scrobbler-test-loaded" event');
-		return listenFor(driver, 'connector_injected', WAIT_FOR_INJECTION_TIMEOUT);
-	});
+	return listenFor(driver, 'connector_injected', WAIT_FOR_INJECTION_TIMEOUT);
 };
 
 var alertCheck = function(driver) {

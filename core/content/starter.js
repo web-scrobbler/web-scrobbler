@@ -76,9 +76,6 @@
 		console.info('Web Scrobbler: Connector.playerSelector is empty. The current connector is expected to manually detect state changes');
 	}
 
-	document.addEventListener('web-scrobbler-test-loaded', function() {
-		testReporter('connector_injected');
-	});
 	testReporter('connector_injected');
 
 	/**
