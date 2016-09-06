@@ -23,7 +23,7 @@
     "grunt-bump": "~0.8.0",
     "chai": "~1.9.1",
     "mocha": "~3.0.2",
-    "selenium-webdriver": "~2.43.5",
+    "selenium-webdriver": "~3.0.0-beta-2",
     "selenium-chromedriver": "git://github.com/berrberr/selenium-chromedriver.git",
     "async": "~2.0.1",
     "node-define": "~0.1.1",

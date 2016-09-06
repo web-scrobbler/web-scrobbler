@@ -150,7 +150,7 @@ function promiseLoadCheckPlayer(driver, options) {
 		return promiseClickPlayButton(driver, opts);
 	}).then(function() {
 		var timeout = WAIT_FOR_PLAYER_ELEMENT_TIMEOUT;
-		return helpers.listenFor(driver, 'player_element_exists', timeout).thenCatch(function() {
+		return helpers.listenFor(driver, 'player_element_exists', timeout).catch(function() {
 			throw new Error('Player element is missing');
 		});
 	});

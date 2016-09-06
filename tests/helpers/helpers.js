@@ -46,7 +46,9 @@ exports.getAndWait = function(driver, url, timeout) {
 exports.promiseClick = function(driver, selector, timeout) {
 	return driver.wait(function() {
 		debug('Waiting on click ', selector);
-		return (driver.isElementPresent(selector));
+		return driver.findElements(selector).then(function(elements) {
+			return elements.length > 0;
+		});
 	}, timeout || WAIT_CLICK_TIMEOUT).then(function() {
 		return driver.findElement(selector).click();
 	}).then(function() {

@@ -2,6 +2,7 @@
 
 require('selenium-chromedriver');
 const path = require('path');
+const webdriver = require('selenium-webdriver');
 const chromedriver = require('selenium-webdriver/chrome');
 
 function getChromeOptions() {
@@ -21,7 +22,7 @@ function getChromeOptions() {
 
 module.exports = {
 	getDriver: function() {
-		var chromeOptions = getChromeOptions();
-		return chromedriver.createDriver(chromeOptions);
+		var options = getChromeOptions();
+		return new webdriver.Builder().forBrowser('chrome').setChromeOptions(options).build();
 	}
 };
