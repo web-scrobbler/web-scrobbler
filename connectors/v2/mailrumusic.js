@@ -14,4 +14,6 @@ Connector.getArtist = function() {
 	return $.trim(trackNameString);
 };
 
-Connector.playButtonSelector = '.l-music__player.playing';
+Connector.isPlaying = function () {
+	return $('.l-music__player').hasClass('playing');
+};
