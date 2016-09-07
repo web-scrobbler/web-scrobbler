@@ -4,8 +4,14 @@
 
 Connector.playerSelector = '.l-music__player';
 
-Connector.trackSelector = '.l-music__player__song__name'
+Connector.getTrack = function() {
+	var trackNameString = $('.l-music__player__song__name').text();
+	return $.trim(trackNameString);
+};
 
-Connector.artistSelector = '.l-music__player__song__author.sp-music-booster';
+Connector.getArtist = function() {
+	var trackNameString = $('.l-music__player__song__author').text();
+	return $.trim(trackNameString);
+};
 
 Connector.playButtonSelector = '.l-music__player.playing';
