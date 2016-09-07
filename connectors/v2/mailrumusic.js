@@ -10,8 +10,8 @@ Connector.getTrack = function() {
 };
 
 Connector.getArtist = function() {
-	var trackNameString = $('.l-music__player__song__author').text();
-	return $.trim(trackNameString);
+	var artistNameString = $('.l-music__player__song__author').text();
+	return $.trim(artistNameString);
 };
 
 Connector.isPlaying = function () {
