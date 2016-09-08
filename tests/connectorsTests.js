@@ -97,7 +97,9 @@ function runConnectorsTests() {
 		var driver = require('./helpers/chromeSpoofing').getDriver();
 
 		describe('', function() {
-			this.retries(RETRIES_COUNT);
+			if (!global.DEBUG) {
+				this.retries(RETRIES_COUNT);
+			}
 
 			async.each(connectors, function(connector, callback) {
 				testConnector(driver, connector, function() {
