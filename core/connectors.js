@@ -1025,6 +1025,13 @@ define(function() {
 			matches: ['*://youtubify.vebto.com/*'],
 			js: ['connectors/v2/youtubify.js'],
 			version: 2
+		},
+
+		{
+			label: 'Mail.ru Music',
+			matches: ['https://my.mail.ru/*'],
+			js: ['connectors/v2/mailrumusic.js'],
+			version: 2
 		}
 
 	];
