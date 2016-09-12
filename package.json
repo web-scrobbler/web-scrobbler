@@ -24,7 +24,7 @@
     "chai": "~1.9.1",
     "mocha": "~3.0.2",
     "selenium-webdriver": "~3.0.0-beta-2",
-    "selenium-chromedriver": "git://github.com/berrberr/selenium-chromedriver.git",
+    "chromedriver": "~2.24.1",
     "async": "~2.0.1",
     "node-define": "~0.1.1",
     "requirejs": "~2.2.0"

@@ -1,6 +1,6 @@
 'use strict';
 
-require('selenium-chromedriver');
+require('chromedriver');
 const path = require('path');
 const webdriver = require('selenium-webdriver');
 const chromedriver = require('selenium-webdriver/chrome');
