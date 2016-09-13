@@ -50,10 +50,10 @@ exports.promiseClick = function(driver, selector, timeout) {
 			return elements.length > 0;
 		});
 	}, timeout || WAIT_CLICK_TIMEOUT).then(function() {
-		return driver.findElement(selector).click();
-	}).then(function() {
-		debug('Clicked on ', selector);
-	}, function(err) {
+		return clickWithWebdriver(driver, selector).catch(function() {
+			clickWithJavaScript(driver, selector);
+		});
+	}).catch(function(err) {
 		debug('Unable to click on ', selector);
 		throw err;
 	});
@@ -128,6 +128,32 @@ var debug = exports.debug = function(message, object) {
 };
 
 /* Internal */
+
+/**
+ * Click on element using Webdriver function.
+ * @param  {Object} locator Locator of element to be clicked
+ * @return {Promise} Promise that will be resolved when the task has completed
+ */
+function clickWithWebdriver(driver, locator) {
+	return driver.findElement(locator).then(function(element) {
+		element.click();
+		debug(`Clicked on ${JSON.stringify(locator)} (Webdriver)`);
+	});
+}
+
+/**
+ * Click on emement using injected JavaScript function.
+ * @param  {Object} locator Locator of element to be clicked
+ * @return {Promise} Promise that will be resolved when the task has completed
+ */
+function clickWithJavaScript(driver, locator) {
+	return driver.executeScript(function(cssSelector) {
+		document.querySelector(cssSelector).click();
+	}, locator.css).then(function() {
+		debug(`Clicked on ${JSON.stringify(locator)} (JS)`);
+	});
+}
+
 
 var injectTestCapture = function(driver) {
 	debug('Injecting test capture');
