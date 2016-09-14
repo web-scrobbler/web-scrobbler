@@ -18,12 +18,8 @@ const webdriver = require('selenium-webdriver');
 module.exports.shouldLoadWebsite = function(driver, options) {
 	var opts = options || {};
 
-	it('should load website', function(done) {
-		driver.load(opts.url, opts.urlLoadTimeout).then(function() {
-			done();
-		}, function(err) {
-			done(err);
-		});
+	it('should load website', function() {
+		return driver.load(opts.url, opts.urlLoadTimeout);
 	});
 };
 
@@ -39,12 +35,8 @@ module.exports.shouldClickPlayButton = function(driver, options) {
 	var opts = options || {};
 
 	if (opts.playButtonSelector) {
-		it('should play a song', function(done) {
-			driver.click({css: opts.playButtonSelector}).then(function() {
-				done();
-			}, function(err) {
-				done(err);
-			});
+		it('should play a song', function() {
+			return driver.click({css: opts.playButtonSelector});
 		});
 	}
 };
@@ -59,12 +51,8 @@ module.exports.shouldClickPlayButton = function(driver, options) {
  * @param  {Number} recognizeTimeout Recognize timeout in milliseconds
  */
 module.exports.shouldRecogniseSong = function(driver, options) {
-	it('should recognise a playing song', function(done) {
-		promiseRecognizeSong(driver, options).then(function() {
-			done();
-		}, function(err) {
-			done(err);
-		});
+	it('should recognise a playing song', function() {
+		return promiseRecognizeSong(driver, options);
 	});
 };
 
@@ -77,12 +65,8 @@ module.exports.shouldRecogniseSong = function(driver, options) {
  * @see {@link shouldLoadWebsite}
  */
 exports.shouldContainPlayerElement = function(driver, options) {
-	it('should load website and check player element', function(done) {
-		promiseCheckPlayerElement(driver, options).then(function() {
-			done();
-		}, function(err) {
-			done(err);
-		});
+	it('should load website and check player element', function() {
+		return promiseCheckPlayerElement(driver, options);
 	});
 };
 
@@ -98,12 +82,8 @@ exports.shouldContainPlayerElement = function(driver, options) {
  * @see {@link shouldRecogniseSong}
  */
 module.exports.shouldBehaveLikeMusicSite = function(driver, options) {
-	it('should load site and recognize a song', function(done) {
-		promiseBehaveLikeMusicSite(driver, options).then(function() {
-			done();
-		}, function(err) {
-			done(err);
-		});
+	it('should load site and recognize a song', function() {
+		return promiseBehaveLikeMusicSite(driver, options);
 	});
 };
 
