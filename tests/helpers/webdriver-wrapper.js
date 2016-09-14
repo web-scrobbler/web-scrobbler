@@ -153,54 +153,53 @@ function injectTestCapture() {
  * @return {Promise} Promise that will be resolved with the found event data
  */
 function waitForConnectorEvent(needle, timeout) {
-	var def = webdriver.promise.defer();
-	var counter = 1;
-	var tries = timeout / WAIT_BETWEEN_EXTENSION_MSGS;
+	return webdriver.promise.fulfilled().then(function() {
+		var counter = 1;
+		var tries = timeout / WAIT_BETWEEN_EXTENSION_MSGS;
 
-	var findWebScrobblerEvent = function(needle) {
-		/* global webScrobblerActionStack */
-		var foundEvent = webScrobblerActionStack.find(function(event) {
-			return event.detail.detail === needle;
-		});
-		if (foundEvent && foundEvent.detail) {
-			console.info('Found event', foundEvent.detail.detail);
-			return foundEvent.detail;
-		}
-		return null;
-	};
-
-	var syncLoop = function() {
-		if (counter > tries) {
-			if (global.DEBUG) {
-				process.stdout.write('\n');
+		var findWebScrobblerEvent = function(needle) {
+			/* global webScrobblerActionStack */
+			var foundEvent = webScrobblerActionStack.find(function(event) {
+				return event.detail.detail === needle;
+			});
+			if (foundEvent && foundEvent.detail) {
+				console.info('Found event', foundEvent.detail.detail);
+				return foundEvent.detail;
 			}
-			def.reject(new Error('Extension message ' + needle + ' wait timeout!'));
-			return;
-		}
+			return null;
+		};
 
-		if (global.DEBUG) {
-			var msg = '     \x1b[93m Listening for [' + needle + ' - ' + counter + '/' + tries + ']\x1b[0m';
-			process.stdout.write('\r');
-			process.stdout.write(msg);
-		}
-
-		driver.sleep(WAIT_BETWEEN_EXTENSION_MSGS);
-		driver.executeScript(findWebScrobblerEvent, needle).then(function(result) {
-			counter++;
-
-			if (!result) {
-				syncLoop();
-			} else {
+		var syncLoop = function() {
+			if (counter > tries) {
 				if (global.DEBUG) {
 					process.stdout.write('\n');
 				}
-				def.fulfill(result);
+				throw new Error('Extension message ' + needle + ' wait timeout!');
 			}
-		});
-	};
-	syncLoop();
 
-	return def.promise;
+			if (global.DEBUG) {
+				var msg = '     \x1b[93m Listening for [' + needle + ' - ' + counter + '/' + tries + ']\x1b[0m';
+				process.stdout.write('\r');
+				process.stdout.write(msg);
+			}
+
+			return driver.sleep(WAIT_BETWEEN_EXTENSION_MSGS).then(function() {
+				return driver.executeScript(findWebScrobblerEvent, needle).then(function(result) {
+					counter++;
+
+					if (!result) {
+						return syncLoop();
+					} else {
+						if (global.DEBUG) {
+							process.stdout.write('\n');
+						}
+						return result;
+					}
+				});
+			});
+		};
+		return syncLoop();
+	});
 }
 
 /**
