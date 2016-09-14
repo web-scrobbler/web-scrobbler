@@ -5,7 +5,6 @@
  * @type {Boolean}
  */
 global.DEBUG = false;
-global.helpers = require('./helpers/helpers.js');
 
 const path = require('path');
 const Mocha = require('mocha');

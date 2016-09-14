@@ -8,9 +8,6 @@ const fs = require('fs');
 const path = require('path');
 const async = require('async');
 
-global.connectorSpec = require('./components/connector');
-global.expect = require('chai').expect;
-
 function getConnectorTestFilePath(connector) {
 	var testFileName = path.basename(connector.js[0]);
 	return path.join(__dirname, 'connectors', testFileName);
@@ -77,12 +74,12 @@ function getTestDescription(connector) {
 	}
 }
 
-function testConnector(driver, connector, callback) {
+function testConnector(connector, driver, connectorSpec, callback) {
 	var testDescription = getTestDescription(connector);
 	describe(testDescription, function() {
 		var connectorFilePath = getConnectorTestFilePath(connector);
 		if (fs.existsSync(connectorFilePath)) {
-			require(connectorFilePath)(driver, connector);
+			require(connectorFilePath)(driver, connectorSpec, connector);
 		}
 
 		after(function() {
@@ -94,7 +91,8 @@ function testConnector(driver, connector, callback) {
 function runConnectorsTests() {
 	var connectors = getConnectorsToTest();
 	if (connectors.length > 0) {
-		var driver = require('./helpers/chromeSpoofing').getDriver();
+		var driver = require('./helpers/webdriver-wrapper');
+		var connectorSpec = require('./components/connector-spec.js');
 
 		describe('', function() {
 			if (!global.DEBUG) {
@@ -102,13 +100,13 @@ function runConnectorsTests() {
 			}
 
 			async.each(connectors, function(connector, callback) {
-				testConnector(driver, connector, function() {
+				testConnector(connector, driver, connectorSpec, function() {
 					callback();
 				});
 			});
 
 			after(function() {
-				driver.quit();
+				return driver.quit();
 			});
 		});
 	}
