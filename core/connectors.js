@@ -1025,6 +1025,13 @@ define(function() {
 			matches: ['*://youtubify.vebto.com/*'],
 			js: ['connectors/v2/youtubify.js'],
 			version: 2
+		},
+
+		{
+			label: 'GrooveMP3',
+			matches: ['*://groovemp3.com/*', '*://www.groovemp3.com/*'],
+			js: ['connectors/v2/groovemp3.js'],
+			version: 2
 		}
 
 	];
