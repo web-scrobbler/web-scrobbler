@@ -48,7 +48,7 @@ Connector.getUniqueID = function() {
 	var url = window.location.href;
 	var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
 	var match = url.match(regExp);
-	if (match && match[7].length==11){
+	if (match && match[7].length == 11) {
 		return match[7];
 	}
 };
@@ -62,18 +62,27 @@ Connector.isStateChangeAllowed = function() {
 	return !scrobbleMusicOnly || (scrobbleMusicOnly && videoCategory == 'Music');
 };
 
-Connector.getArtistTrack = function () {
+Connector.getArtistTrack = function() {
 	var text = $.trim($(Connector.artistTrackSelector).text());
+
+	//support for topics
+	var topicMatch = /(.+) - Topic$/i.exec($('.yt-user-info').text().trim());
+	if (topicMatch) {
+		return {
+			artist: topicMatch[1].trim(),
+			track: text
+		}
+	}
 
 	text = text.replace(/^\[[^\]]+\]\s*-*\s*/i, ''); // remove [genre] from the beginning of the title
 
 	var separator = Connector.findSeparator(text);
 
 	if (separator === null || text.length === 0) {
-		return {artist: null, track: null};
+		return { artist: null, track: null };
 	}
 
-	var artist =  text.substr(0, separator.index);
+	var artist = text.substr(0, separator.index);
 	var track = text.substr(separator.index + separator.length);
 
 	/**
@@ -81,8 +90,8 @@ Connector.getArtistTrack = function () {
 	*/
 
 	// Do some cleanup
-	artist = artist.replace(/^\s+|\s+$/g,'');
-	track = track.replace(/^\s+|\s+$/g,'');
+	artist = artist.replace(/^\s+|\s+$/g, '');
+	track = track.replace(/^\s+|\s+$/g, '');
 
 	// Strip crap
 	track = track.replace(/\s*\*+\s?\S+\s?\*+$/, ''); // **NEW**
@@ -109,7 +118,7 @@ Connector.getArtistTrack = function () {
 	track = track.replace(/[\/\s,:;~-\s"\s!]+$/, ''); // trim trailing white chars and dash
 	//" and ! added because some track names end as {"Some Track" Official Music Video!} and it becomes {"Some Track"!} example: http://www.youtube.com/watch?v=xj_mHi7zeRQ
 
-	return {artist: artist, track: track};
+	return { artist: artist, track: track };
 };
 
 /**
