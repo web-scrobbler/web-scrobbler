@@ -71,7 +71,7 @@ Connector.getArtistTrack = function() {
 		return {
 			artist: topicMatch[1].trim(),
 			track: text
-		}
+		};
 	}
 
 	text = text.replace(/^\[[^\]]+\]\s*-*\s*/i, ''); // remove [genre] from the beginning of the title
