@@ -19,6 +19,10 @@ Connector.getArtistTrack = function() {
 	return {artist: artist, track: track};
 };
 
+Connector.getUniqueID = function() {
+	return $('.playlist-position.active a.js-file-link').attr('data-key');
+};
+
 Connector.durationSelector = '.playlist-position.active .position-time';
 
 Connector.isPlaying = function () {
