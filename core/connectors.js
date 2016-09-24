@@ -1025,6 +1025,13 @@ define(function() {
 			matches: ['*://youtubify.vebto.com/*'],
 			js: ['connectors/v2/youtubify.js'],
 			version: 2
+		},
+
+		{
+			label: 'Paste Radio',
+			matches: ['*://www.pastemagazine.com/radio*'],
+			js: ['connectors/v2/pasteradio.js'],
+			version: 2
 		}
 
 	];
