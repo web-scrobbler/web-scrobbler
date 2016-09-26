@@ -49,17 +49,20 @@ exports.load = function(url, timeout) {
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 exports.click = function(locator, timeout) {
+	var locatorStr = JSON.stringify(locator);
+	var timeoutDesc = 'Unable to click on ' + locatorStr + ': timed out';
+
 	return driver.wait(function() {
-		helpers.debug('Waiting on click ', locator);
+		helpers.debug('Waiting on click ', locatorStr);
 		return driver.findElements(locator).then(function(elements) {
 			return elements.length > 0;
 		});
-	}, timeout || WAIT_CLICK_TIMEOUT).then(function() {
+	}, timeout || WAIT_CLICK_TIMEOUT, timeoutDesc).then(function() {
 		return clickWithWebdriver(locator).catch(function() {
 			clickWithJavaScript(locator);
 		});
 	}).catch(function(err) {
-		helpers.debug('Unable to click on ', locator);
+		helpers.debug('Unable to click on ', locatorStr);
 		throw err;
 	});
 };
@@ -244,7 +247,7 @@ function waitForLoad(timeout) {
 			}
 			return false;
 		});
-	}, timeout || WAIT_LOAD_TIMEOUT);
+	}, timeout || WAIT_LOAD_TIMEOUT, 'Unable to load page: timed out');
 }
 
 function getChromeOptions() {
