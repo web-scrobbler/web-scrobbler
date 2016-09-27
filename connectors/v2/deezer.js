@@ -13,6 +13,10 @@ Connector.getArtist = function() {
 
 Connector.trackSelector = '.player-track-title';
 
+Connector.currentTimeSelector = '.player-progress .progress-time';
+
+Connector.durationSelector = '.player-progress .progress-length';
+
 Connector.trackArtImageSelector = '.player-cover img';
 
 Connector.isPlaying = function () {
