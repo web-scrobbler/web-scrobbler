@@ -51,8 +51,8 @@ exports.click = function(locator, timeout) {
 	var locatorStr = JSON.stringify(locator);
 	var timeoutDesc = 'Unable to click on ' + locatorStr + ': timed out';
 
+	helpers.debug('Waiting on click ', locatorStr);
 	return driver.wait(function() {
-		helpers.debug('Waiting on click ', locatorStr);
 		return driver.findElements(locator).then(function(elements) {
 			return elements.length > 0;
 		});
