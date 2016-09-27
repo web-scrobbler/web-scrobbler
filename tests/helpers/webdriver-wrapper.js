@@ -10,8 +10,7 @@ const chromedriver = require('selenium-webdriver/chrome');
 const WAIT_LOAD_TIMEOUT = 15000;
 const WAIT_CLICK_TIMEOUT = 5000;
 const WAIT_FOR_INJECTION_TIMEOUT = 5000;
-
-const WAIT_BETWEEN_EXTENSION_MSGS = 1000;
+const WAIT_BETWEEN_EVENT_SEARCH = 500;
 
 var driver = createWebDriver();
 
@@ -156,53 +155,26 @@ function injectTestCapture() {
  * @return {Promise} Promise that will be resolved with the found event data
  */
 function waitForConnectorEvent(needle, timeout) {
-	return webdriver.promise.fulfilled().then(function() {
-		var counter = 1;
-		var tries = timeout / WAIT_BETWEEN_EXTENSION_MSGS;
-
-		var findWebScrobblerEvent = function(needle) {
-			/* global webScrobblerActionStack */
-			var foundEvent = webScrobblerActionStack.find(function(event) {
-				return event.detail.detail === needle;
-			});
-			if (foundEvent && foundEvent.detail) {
-				console.info('Found event', foundEvent.detail.detail);
-				return foundEvent.detail;
+	var findWebScrobblerEvent = function(needle) {
+		/* global webScrobblerActionStack */
+		var foundEvent = webScrobblerActionStack.find(function(event) {
+			return event.detail.detail === needle;
+		});
+		if (foundEvent && foundEvent.detail) {
+			console.info('Found event', foundEvent.detail.detail);
+			return foundEvent.detail;
+		}
+		return null;
+	};
+	helpers.debug('Waiting for "' + needle + '" event');
+	return driver.wait(function() {
+		return driver.executeScript(findWebScrobblerEvent, needle).then(function(foundEvent) {
+			if (foundEvent) {
+				return foundEvent;
 			}
-			return null;
-		};
-
-		var syncLoop = function() {
-			if (counter > tries) {
-				if (global.DEBUG) {
-					process.stdout.write('\n');
-				}
-				throw new Error('Extension message ' + needle + ' wait timeout!');
-			}
-
-			if (global.DEBUG) {
-				var msg = '     \x1b[93m Listening for [' + needle + ' - ' + counter + '/' + tries + ']\x1b[0m';
-				process.stdout.write('\r');
-				process.stdout.write(msg);
-			}
-
-			return driver.sleep(WAIT_BETWEEN_EXTENSION_MSGS).then(function() {
-				return driver.executeScript(findWebScrobblerEvent, needle).then(function(result) {
-					counter++;
-
-					if (!result) {
-						return syncLoop();
-					} else {
-						if (global.DEBUG) {
-							process.stdout.write('\n');
-						}
-						return result;
-					}
-				});
-			});
-		};
-		return syncLoop();
-	});
+			return driver.sleep(WAIT_BETWEEN_EVENT_SEARCH);
+		});
+	}, timeout, 'Unable to find "' + needle + '" event: timed out');
 }
 
 /**
