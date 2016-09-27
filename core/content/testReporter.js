@@ -1,29 +1,66 @@
 'use strict';
 
-/* exported testReporter */
+/* exported TestReporter */
 
 /**
- * Dispatch a JS event to interact with tests
- * @param  {String} msg Message to send to tests
+ * Provide functions to interact with tests.
+ */
+var TestReporter = function createTestReporter() {
+	return {
+		/**
+		 * Notify the test that connector is injected.
+		 * @param  {Object} connector Injected connector
+		 */
+		reportInjection: function(connector) {
+			sendEventToTest('connector_injected');
+
+			if (connector.playerSelector &&
+				document.querySelector(connector.playerSelector)) {
+				sendEventToTest('player_element_exists');
+			}
+		},
+
+		/**
+		 * Notify the test that player element exists.
+		 */
+		reportPlayerElementExists: function() {
+			sendEventToTest('player_element_exists');
+		},
+
+		/**
+		 * Notify the test that song is recognized.
+		 * @param  {Object} song Recognized song
+		 */
+		reportSongRecognition: function(song) {
+			sendEventToTest('connector_state_changed', song);
+		}
+	};
+}();
+
+/* Internal */
+
+/**
+ * Dispatch a JS event to interact with tests.
+ * @param  {String} msg Event to send to tests
  * @param  {Object} obj Object to send to tests
  * @param  {Boolean} err True if the message is an error
  *
- * Messages:
+ * Events:
  *  'connector_injected' - connector is injected
+ *     data: connector copy
  *  'connector_state_changed' - state of connector is changed
  *     data: currentState
- *  'player_element_exists' - the player element is on the page
  */
-var testReporter = function(msg, obj, err) {
+function sendEventToTest(event, obj, err) {
 	if (err) {
-		console.error('WEB-SCROBBLER-ERROR: ' + msg, obj);
+		console.error('Web Scrobbler: ' + event, obj);
 	} else {
-		console.log('WEB-SCROBBLER-INFO: ' + msg, obj);
+		console.log('Web Scrobbler: ' + event, obj);
 	}
 	document.dispatchEvent(new CustomEvent('web-scrobbler-test-response', {
 		detail: {
-			detail: msg,
+			detail: event,
 			data: obj
-		}}
-	));
-};
+		}
+	}));
+}

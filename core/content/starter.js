@@ -1,5 +1,5 @@
 'use strict';
-/* globals Connector, BaseConnector, Reactor, testReporter */
+/* globals Connector, BaseConnector, Reactor, TestReporter */
 
 /**
  * This script is injected to the page after the {@link BaseConnector} and a custom
@@ -47,7 +47,6 @@
 
 		if (observeTarget !== null) {
 			observer.observe(observeTarget, observerConfig);
-			testReporter('player_element_exists');
 		} else {
 			console.warn('Web Scrobbler: Player element (' + Connector.playerSelector + ') was not found in the page.');
 
@@ -58,6 +57,7 @@
 
 					playerObserver.disconnect();
 					observer.observe(observeTarget, observerConfig);
+					TestReporter.reportPlayerElementExists();
 				}
 			});
 
@@ -77,7 +77,20 @@
 		console.info('Web Scrobbler: Connector.playerSelector is empty. The current connector is expected to manually detect state changes');
 	}
 
-	testReporter('connector_injected');
+	/**
+	 * Setup event listener to wait an event from the test suite. The test suite will send
+	 * this event after configuring the test capture. That means we can start to send events
+	 * to the test suite.
+	 */
+	console.info('Web Scrobbler: waiting for test capture to be configured');
+	document.addEventListener('web-scrobbler-test-capture-setup', function() {
+		TestReporter.reportInjection(Connector);
+	});
+
+	/**
+	 * In addition, send events w/o waiting for the extension event.
+	 */
+	TestReporter.reportInjection(Connector);
 
 	/**
 	 * Automatically reset on window unload

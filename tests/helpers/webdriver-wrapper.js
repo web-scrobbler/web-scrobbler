@@ -28,9 +28,9 @@ exports.load = function(url, timeout) {
 	}).then(function() {
 		return acceptAlerts();
 	}).then(function() {
-		return injectTestCapture();
-	}).then(function() {
 		return waitForLoad(timeout);
+	}).then(function() {
+		return injectTestCapture();
 	}).then(function() {
 		return waitForConnectorInjection();
 	}).then(function() {
@@ -145,12 +145,15 @@ function injectTestCapture() {
  * This function is called in the browser context.
  */
 function setupTestEventCapture() {
-	console.log('Listening for "web-scrobbler-test-response" event');
+	console.log('Listening for events from the extension');
 	window.webScrobblerActionStack = [];
 	document.addEventListener('web-scrobbler-test-response', function(e) {
-		console.log('Push element into stack: ' + e.detail.detail);
+		console.log('Web Scrobbler: push element into stack: ' + e.detail.detail);
 		window.webScrobblerActionStack.push(e);
 	});
+
+	console.log('Web Scrobbler: Tell the extension the test capture is configured');
+	document.dispatchEvent(new CustomEvent('web-scrobbler-test-capture-setup'));
 }
 
 /**

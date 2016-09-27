@@ -1,5 +1,5 @@
 'use strict';
-/* globals _, MetadataFilter, testReporter */
+/* globals _, MetadataFilter, TestReporter */
 /* exported Connector */
 
 /**
@@ -344,7 +344,7 @@ var BaseConnector = window.BaseConnector || function () {
 
 				// Report for scrobble testing
 				if (currentState.artist && currentState.track) {
-					testReporter('connector_state_changed', currentState);
+					TestReporter.reportSongRecognition(currentState);
 				}
 			}
 
