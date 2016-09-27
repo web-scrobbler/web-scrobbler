@@ -1,7 +1,7 @@
 'use strict';
 
-const DEFAULT_RECOGNIZE_TIMEOUT = 30000;
-const WAIT_FOR_PLAYER_ELEMENT_TIMEOUT = 10000;
+const DEFAULT_RECOGNIZE_TIMEOUT = 20000;
+const WAIT_FOR_PLAYER_ELEMENT_TIMEOUT = 5000;
 
 const helpers = require('./../helpers/helpers');
 const webdriver = require('selenium-webdriver');

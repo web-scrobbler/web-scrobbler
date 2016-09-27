@@ -7,9 +7,9 @@ const helpers = require('./helpers');
 const webdriver = require('selenium-webdriver');
 const chromedriver = require('selenium-webdriver/chrome');
 
-const WAIT_LOAD_TIMEOUT = 30000;
-const WAIT_CLICK_TIMEOUT = 10000;
-const WAIT_FOR_INJECTION_TIMEOUT = 15000;
+const WAIT_LOAD_TIMEOUT = 15000;
+const WAIT_CLICK_TIMEOUT = 5000;
+const WAIT_FOR_INJECTION_TIMEOUT = 5000;
 
 const WAIT_BETWEEN_EXTENSION_MSGS = 1000;
 
