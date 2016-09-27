@@ -72,7 +72,9 @@ exports.click = function(locator, timeout) {
  * @return {Promise} Promise that will be resolved with the song object
  */
 exports.waitForSongRecognition = function(timeout) {
-	return waitForConnectorEvent('connector_state_changed', timeout);
+	return waitForConnectorEvent('connector_state_changed', timeout).then(event => {
+		return event.data;
+	});
 };
 
 /**
@@ -129,43 +131,35 @@ function clickWithJavaScript(locator) {
 }
 
 /**
- * Inject test capture into a page to help the extension communicate with tests.
- * The Injected function listens to events sent by the extension and stores them in event stack.
+ * Inject test capture setup function into a page to configure
+ * communication between the extensions and tests.
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function injectTestCapture() {
 	helpers.debug('Injecting test capture');
+	return driver.executeScript(setupTestEventCapture);
+}
 
-	return driver.executeScript(function() {
-		console.log('Listening for web-scrobbler-test-response');
-		if (window.webScrobblerActionStack === undefined) {
-			window.webScrobblerActionStack = [];
-			document.addEventListener('web-scrobbler-test-response', function(e) {
-				console.log('Push element into stack: ' + e.detail.detail);
-				window.webScrobblerActionStack.push(e);
-			});
-		}
+/**
+ * Setup event listener to push events from the extension into the event stack.
+ * This function is called in the browser context.
+ */
+function setupTestEventCapture() {
+	console.log('Listening for "web-scrobbler-test-response" event');
+	window.webScrobblerActionStack = [];
+	document.addEventListener('web-scrobbler-test-response', function(e) {
+		console.log('Push element into stack: ' + e.detail.detail);
+		window.webScrobblerActionStack.push(e);
 	});
 }
 
 /**
- * Try to find specified event in event stack.
+ * Wait for the specified event from the extension.
  * @param  {String} needle Event name
  * @param  {number} timeout Timeout in milliseconds
- * @return {Promise} Promise that will be resolved with the found event data
+ * @return {Promise} Promise that will be resolved with the found event
  */
 function waitForConnectorEvent(needle, timeout) {
-	var findWebScrobblerEvent = function(needle) {
-		/* global webScrobblerActionStack */
-		var foundEvent = webScrobblerActionStack.find(function(event) {
-			return event.detail.detail === needle;
-		});
-		if (foundEvent && foundEvent.detail) {
-			console.info('Found event', foundEvent.detail.detail);
-			return foundEvent.detail;
-		}
-		return null;
-	};
 	helpers.debug('Waiting for "' + needle + '" event');
 	return driver.wait(function() {
 		return driver.executeScript(findWebScrobblerEvent, needle).then(function(foundEvent) {
@@ -175,6 +169,23 @@ function waitForConnectorEvent(needle, timeout) {
 			return driver.sleep(WAIT_BETWEEN_EVENT_SEARCH);
 		});
 	}, timeout, 'Unable to find "' + needle + '" event: timed out');
+}
+
+/**
+ * Try to find the specified event data in the event stack.
+ * This function is called in the browser context.
+ * @param  {String} needle Event name
+ * @return {Object} Found event
+ */
+function findWebScrobblerEvent(needle) {
+	var foundEvent = window.webScrobblerActionStack.find(function(event) {
+		return event.detail.detail === needle;
+	});
+	if (foundEvent && foundEvent.detail) {
+		console.log('Web Scrobbler: Found event', foundEvent.detail.detail);
+		return foundEvent.detail;
+	}
+	return null;
 }
 
 /**

@@ -119,9 +119,7 @@ function promiseClickPlayButton(driver, options) {
 function promiseRecognizeSong(driver, options) {
 	var opts = options || {};
 	var timeout = opts.recognizeTimeout || DEFAULT_RECOGNIZE_TIMEOUT;
-	return driver.waitForSongRecognition(timeout).then(function(res) {
-		var song = res.data;
-
+	return driver.waitForSongRecognition(timeout).then(function(song) {
 		if (global.DEBUG) {
 			printSongInfo(song);
 		}
