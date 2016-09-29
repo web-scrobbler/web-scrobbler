@@ -50,12 +50,6 @@ define(function() {
 		},
 
 		{
-			label: 'TTNET Müzik',
-			matches: ['*://www.ttnetmuzik.com.tr/*'],
-			js: ['connectors/ttnet.js']
-		},
-
-		{
 			label: 'Thesixtyone',
 			matches: ['*://www.thesixtyone.com/*'],
 			js: ['connectors/v2/61.js'],
@@ -462,12 +456,6 @@ define(function() {
 			matches: ['*://music.163.com/*'],
 			js: ['connectors/v2/163music.js'],
 			version: 2
-		},
-
-		{
-			label: 'blinkboxMusic',
-			matches: ['*://www.blinkboxmusic.com/*'],
-			js: ['connectors/blinkboxmusic.js']
 		},
 
 		{

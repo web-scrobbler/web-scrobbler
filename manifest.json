@@ -14,8 +14,6 @@
 
    "web_accessible_resources": [
       "icon128.png",
-      "connectors/jango-dom-inject.js",
-      "connectors/plugdj-dom-inject.js",
       "connectors/v2/soundcloud-dom-inject.js",
       "connectors/vk-dom-inject.js"
    ],
