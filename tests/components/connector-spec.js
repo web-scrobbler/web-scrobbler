@@ -30,13 +30,17 @@ module.exports.shouldLoadWebsite = function(driver, options) {
  *
  * Options
  * @param  {String} playButtonSelector CSS selector of play button
+ * @param  {Boolean} forceJsClick Use 'clickWithJavaScript' function to perform click
  */
 module.exports.shouldClickPlayButton = function(driver, options) {
 	var opts = options || {};
 
 	if (opts.playButtonSelector) {
 		it('should play a song', function() {
-			return driver.click({css: opts.playButtonSelector});
+			return driver.click(
+				{css: opts.playButtonSelector},
+				opts.forceJsClick
+			);
 		});
 	}
 };
@@ -106,7 +110,10 @@ function promiseClickPlayButton(driver, options) {
 	var opts = options || {};
 
 	if (opts.playButtonSelector) {
-		return driver.click({css: opts.playButtonSelector});
+		return driver.click(
+			{css: opts.playButtonSelector},
+			opts.forceJsClick
+		);
 	} else {
 		return webdriver.promise.fulfilled();
 	}

@@ -40,7 +40,7 @@ exports.load = function(url, timeout) {
  * @param  {Number} timeout Optional timeout in milliseconds
  * @return {Promise} Promise that will be resolved when the task has completed
  */
-exports.click = function(locator, timeout) {
+exports.click = function(locator, forceJsClick, timeout) {
 	var locatorStr = JSON.stringify(locator);
 	var timeoutDesc = 'Unable to click on ' + locatorStr + ': timed out';
 
@@ -50,8 +50,11 @@ exports.click = function(locator, timeout) {
 			return elements.length > 0;
 		});
 	}, timeout || WAIT_CLICK_TIMEOUT, timeoutDesc).then(function() {
+		if (forceJsClick) {
+			return clickWithJavaScript(locator);
+		}
 		return clickWithWebdriver(locator).catch(function() {
-			clickWithJavaScript(locator);
+			return clickWithJavaScript(locator);
 		});
 	}).catch(function(err) {
 		helpers.debug('Unable to click on ', locatorStr);
