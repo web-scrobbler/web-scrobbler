@@ -17,11 +17,15 @@ function getConnectorsList() {
 	var connectors = require('../core/connectors');
 	var uniqueConnectors = [];
 	return connectors.filter(function(item) {
-		var filePath = getConnectorTestFilePath(item);
-		if (uniqueConnectors.indexOf(filePath) != -1) {
+		var testFilePath = getConnectorTestFilePath(item);
+		if (!fs.existsSync(testFilePath)) {
 			return false;
 		}
-		uniqueConnectors.push(filePath);
+
+		if (uniqueConnectors.indexOf(testFilePath) !== -1) {
+			return false;
+		}
+		uniqueConnectors.push(testFilePath);
 		return true;
 	}).sort(function(a, b) {
 		return a.label.localeCompare(b.label);
@@ -33,15 +37,6 @@ function getConnectorsToTest() {
 	var connectorsArgs = process.argv.slice(2);
 	if (connectorsArgs.length > 0) {
 		var invalidConnectors = [];
-
-		connectorsArgs = connectorsArgs.filter(function(item) {
-			var filePath = path.join(__dirname, 'connectors', item + '.js');
-			if (!fs.existsSync(filePath)) {
-				invalidConnectors.push(item);
-				return false;
-			}
-			return true;
-		});
 
 		connectors = connectors.filter(function(item) {
 			var connectorFileName = path.basename(item.js[0], '.js');
@@ -78,9 +73,7 @@ function testConnector(connector, driver, connectorSpec, callback) {
 	var testDescription = getTestDescription(connector);
 	describe(testDescription, function() {
 		var connectorFilePath = getConnectorTestFilePath(connector);
-		if (fs.existsSync(connectorFilePath)) {
-			require(connectorFilePath)(driver, connectorSpec, connector);
-		}
+		require(connectorFilePath)(driver, connectorSpec, connector);
 
 		after(function() {
 			callback();
