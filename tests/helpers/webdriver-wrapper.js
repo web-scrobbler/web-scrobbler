@@ -7,7 +7,6 @@ const helpers = require('./helpers');
 const webdriver = require('selenium-webdriver');
 const chromedriver = require('selenium-webdriver/chrome');
 
-const WAIT_LOAD_TIMEOUT = 15000;
 const WAIT_CLICK_TIMEOUT = 5000;
 const WAIT_FOR_INJECTION_TIMEOUT = 5000;
 const WAIT_BETWEEN_EVENT_SEARCH = 500;
@@ -23,22 +22,16 @@ var driver = createWebDriver();
 exports.load = function(url, timeout) {
 	helpers.debug('Loading ' + url);
 
-	return driver.getWindowHandle().then(function() {
-		return driver.get(url, timeout);
-	}).then(function() {
-		return acceptAlerts();
-	}).then(function() {
-		return waitForLoad(timeout);
-	}).then(function() {
-		return injectTestCapture();
-	}).then(function() {
-		return waitForConnectorInjection();
-	}).then(function() {
-		helpers.debug('Loaded ' + url);
-	}, function(err) {
-		helpers.debug('Unable to load ' + url);
-		throw err;
-	});
+	return driver.get(url, timeout)
+		.then(acceptAlerts)
+		.then(injectTestCapture)
+		.then(waitForConnectorInjection)
+		.then(function() {
+			helpers.debug('Loaded ' + url);
+		}, function(err) {
+			helpers.debug('Unable to load ' + url);
+			throw err;
+		});
 };
 
 /**
@@ -211,29 +204,6 @@ function acceptAlerts() {
 	}, function() {
 		// Suppress errors
 	});
-}
-
-/**
- * Wait until a current page is loaded. Fail if the page is not available.
- * @param  {Number} timeout Timeout in milliseconds
- * @return {Promise} Promise that will be resolved when the task has completed
- */
-function waitForLoad(timeout) {
-	return driver.wait(function() {
-		return driver.executeScript(function() {
-			return document.readyState === 'complete';
-		}).then(function(isDocumentReady) {
-			if (isDocumentReady) {
-				return driver.getTitle().then(function(documentTitle) {
-					if (documentTitle.indexOf('is not available') !== -1) {
-						throw new Error(documentTitle);
-					}
-					return true;
-				});
-			}
-			return false;
-		});
-	}, timeout || WAIT_LOAD_TIMEOUT, 'Unable to load page: timed out');
 }
 
 function getChromeOptions() {
