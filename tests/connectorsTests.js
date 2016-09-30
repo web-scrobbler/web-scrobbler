@@ -69,15 +69,15 @@ function getTestDescription(connector) {
 	}
 }
 
-function testConnector(connector, driver, connectorSpec, callback) {
+function prepareTest(connector, driver, connectorSpec) {
 	var testDescription = getTestDescription(connector);
 	describe(testDescription, function() {
+		if (!global.DEBUG) {
+			this.retries(RETRIES_COUNT);
+		}
+
 		var connectorFilePath = getConnectorTestFilePath(connector);
 		require(connectorFilePath)(driver, connectorSpec, connector);
-
-		after(function() {
-			callback();
-		});
 	});
 }
 
@@ -87,20 +87,13 @@ function runConnectorsTests() {
 		var driver = require('./helpers/webdriver-wrapper');
 		var connectorSpec = require('./components/connector-spec.js');
 
-		describe('', function() {
-			if (!global.DEBUG) {
-				this.retries(RETRIES_COUNT);
-			}
+		// This code DOESN'T run tests immediately.
+		async.each(connectors, function(connector) {
+			prepareTest(connector, driver, connectorSpec);
+		});
 
-			async.each(connectors, function(connector, callback) {
-				testConnector(connector, driver, connectorSpec, function() {
-					callback();
-				});
-			});
-
-			after(function() {
-				return driver.quit();
-			});
+		after(function() {
+			return driver.quit();
 		});
 	}
 }
