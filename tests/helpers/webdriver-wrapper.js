@@ -47,7 +47,13 @@ exports.click = function(locator, forceJsClick, timeout) {
 	helpers.debug('Waiting on click ', locatorStr);
 	return driver.wait(function() {
 		return driver.findElements(locator).then(function(elements) {
-			return elements.length > 0;
+			var elementsCount = elements.length;
+			if (global.DEBUG && elementsCount > 1) {
+				helpers.warn(
+					'Ambiguous locator: ' + locatorStr +
+					' [' + elementsCount + ' elements]');
+			}
+			return elementsCount > 0;
 		});
 	}, timeout || WAIT_CLICK_TIMEOUT, timeoutDesc).then(function() {
 		if (forceJsClick) {
