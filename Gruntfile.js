@@ -104,16 +104,7 @@ module.exports = function(grunt) {
 		}
 	});
 
-	grunt.loadNpmTasks('grunt-bump');
-	grunt.loadNpmTasks('grunt-contrib-compress');
-	grunt.loadNpmTasks('grunt-lintspaces');
-	grunt.loadNpmTasks('grunt-preprocess');
-	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-jsonlint');
-	grunt.loadNpmTasks('grunt-contrib-csslint');
-	grunt.loadNpmTasks('grunt-exec');
-	grunt.loadNpmTasks('grunt-eslint');
+	require('load-grunt-tasks')(grunt);
 
 	grunt.registerTask('compile', ['clean:package', 'copy', 'preprocess']);
 	grunt.registerTask('build', ['compile', 'compress', 'clean:build']);

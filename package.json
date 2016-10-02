@@ -27,7 +27,8 @@
     "selenium-webdriver": "~3.0.1",
     "chromedriver": "~2.26.1",
     "node-define": "~0.1.1",
-    "requirejs": "~2.3.2"
+    "requirejs": "~2.3.2",
+    "load-grunt-tasks": "^3.5.2"
   },
   "engines": {
     "node": ">=6.0.0"
