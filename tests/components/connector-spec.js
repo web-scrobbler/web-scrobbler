@@ -127,13 +127,7 @@ function promiseRecognizeSong(driver, options) {
 	var opts = options || {};
 	var timeout = opts.recognizeTimeout || DEFAULT_RECOGNIZE_TIMEOUT;
 	return driver.waitForSongRecognition(timeout).then(function(song) {
-		if (global.DEBUG) {
-			printSongInfo(song);
-		}
-
-		if (!(song.artist && song.track) && song.isPlaying) {
-			throw new Error('Connector sent null track data');
-		}
+		printSongInfo(song);
 	}, function() {
 		throw new Error('Connector did not send any track data to core');
 	});
@@ -189,6 +183,10 @@ function checkSongField(song, fieldName, checkFunction) {
 }
 
 function printSongInfo(song) {
+	if (!global.DEBUG) {
+		return;
+	}
+
 	printSongField(song, 'artist');
 	printSongField(song, 'track');
 	printSongField(song, 'album');
