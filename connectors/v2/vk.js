@@ -9,6 +9,17 @@ var INFO_DURATION = 5;
 
 var trackInfo = null;
 
+(function () {
+	$(document.documentElement).append($('<script>', {
+		src: chrome.extension.getURL('connectors/v2/vk-dom-inject.js'),
+	}));
+	$(window).on('message', (event) => {
+		if (event.originalEvent.data.type === 'vk:player:update') {
+			Connector.onStateChanged();
+		}
+	});
+})();
+
 function updateTrackInfo() {
 	trackInfo = JSON.parse(localStorage.getItem('audio_v10_track'));
 }
