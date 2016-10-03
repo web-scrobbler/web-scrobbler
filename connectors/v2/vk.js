@@ -22,6 +22,7 @@ var isPlaying = false;
 		if (eventType.startsWith('vk:player')) {
 			if (eventType.endsWith('start')) {
 				isPlaying = true;
+				updateTrackInfo();
 			} else if (eventType.endsWith('stop') || eventType.endsWith('pause')) {
 				isPlaying = false;
 			}
@@ -50,28 +51,23 @@ var decodeHtmlEntity = function(str) {
 };
 
 Connector.getArtist = function () {
-	updateTrackInfo();
 	return decodeHtmlEntity(trackInfo[INFO_ARTIST]);
 };
 
 Connector.getTrack = function () {
-	updateTrackInfo();
 	return decodeHtmlEntity(trackInfo[INFO_TRACK]);
 };
 
 Connector.getCurrentTime = function () {
-	updateTrackInfo();
 	var progress = parseFloat(localStorage.getItem('audio_v10_progress'));
 	return Math.round(parseInt(trackInfo[INFO_DURATION]) * progress);
 };
 
 Connector.getDuration = function () {
-	updateTrackInfo();
 	return parseInt(trackInfo[INFO_DURATION]);
 };
 
 Connector.getUniqueID = function() {
-	updateTrackInfo();
 	return trackInfo[INFO_ID];
 };
 
