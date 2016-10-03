@@ -9,13 +9,13 @@ window.webScrobblerInjected = window.webScrobblerInjected || false;
 	if (window.webScrobblerInjected) {
 		return;
 	}
-	const sendUpdateEvent = () => {
-		window.postMessage({type: 'vk:player:update'}, '*');
+	const sendUpdateEvent = (type) => {
+		window.postMessage({type: `vk:player:${type}`}, '*');
 	};
 	for (let e of ['start', 'progress', 'pause', 'stop']) {
 		window.ap.subscribers.push({
 			et: e,
-			cb: sendUpdateEvent,
+			cb: sendUpdateEvent.bind(null, e),
 		});
 	}
 	window.webScrobblerInjected = true;

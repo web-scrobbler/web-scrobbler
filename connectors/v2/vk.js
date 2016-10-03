@@ -8,13 +8,23 @@ var INFO_ARTIST = 4;
 var INFO_DURATION = 5;
 
 var trackInfo = null;
+var isPlaying = false;
 
 (function () {
 	$(document.documentElement).append($('<script>', {
 		src: chrome.extension.getURL('connectors/v2/vk-dom-inject.js'),
 	}));
 	$(window).on('message', (event) => {
-		if (event.originalEvent.data.type === 'vk:player:update') {
+		let eventType = event.originalEvent.data.type;
+		if (typeof eventType !== 'string') {
+			return;
+		}
+		if (eventType.startsWith('vk:player')) {
+			if (eventType.endsWith('start')) {
+				isPlaying = true;
+			} else if (eventType.endsWith('stop') || eventType.endsWith('pause')) {
+				isPlaying = false;
+			}
 			Connector.onStateChanged();
 		}
 	});
@@ -38,10 +48,6 @@ var decodeHtmlEntity = function(str) {
 		return String.fromCharCode(dec);
 	});
 };
-
-Connector.artistTrackSelector = '.top_audio_player_title';
-
-Connector.playerSelector = '#top_audio_player';
 
 Connector.getArtist = function () {
 	updateTrackInfo();
@@ -70,5 +76,5 @@ Connector.getUniqueID = function() {
 };
 
 Connector.isPlaying = function() {
-	return $(this.playerSelector).hasClass('top_audio_player_playing');
+	return isPlaying;
 };
