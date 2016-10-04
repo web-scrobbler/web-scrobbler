@@ -172,6 +172,24 @@ require([
 				}
 				break;
 
+			// Fills the song object with missing data from lastfm.
+			// Use v2.getSong instead for fixing the current song.
+			case 'v2.loadSongInfo':
+				ctrl = getControllerByTabId(sender.tab.id);
+				if (ctrl) {
+					ctrl.loadSongInfo(request.data, sendResponse, request.autocorrect);
+				}
+				break;
+
+			// Fetches album data from LastFM by its name.
+			// The response contains many things including every track.
+			case 'v2.loadAlbumInfo':
+				ctrl = getControllerByTabId(sender.tab.id);
+				if (ctrl) {
+					ctrl.loadAlbumInfo(request.data, sendResponse, request.autocorrect);
+				}
+				break;
+
 			// Redirect all other messages to legacy listener
 			default:
 				legacyScrobbler.runtimeOnMessage(request, sender, sendResponse);

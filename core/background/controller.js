@@ -313,6 +313,44 @@ define([
 			}
 		};
 
+		/**
+		 * Loads the missing data from LastFM and corrects the song title
+		 * Can be used in playlists with missing time info etc.
+		 * Use loadAlbumInfo instead if the playlist is an album.
+		 * Returns null if the song was not recognized.
+		 * @param {{ artist, track }} data
+		 * @param {Function({Song | null})} cb
+		 * @param {Boolean} forceAutocorrect
+		 */
+		this.loadSongInfo = function(data, cb, forceAutocorrect) {
+			forceAutocorrect = forceAutocorrect ? true : false;
+			var song = new Song(data);
+			LastFM.loadSongInfo(song, function(result) {
+				if (result) {
+					cb(song);
+				} else {
+					cb(null);
+				}
+			}, forceAutocorrect);
+		};
+
+		/**
+		 * Loads the album from LastFM.
+		 * @param {{ artist, album }} data
+		 * @param {Function({Album | null})} cb
+		 * @param {Boolean} forceAutocorrect
+		 */
+		this.loadAlbumInfo = function(data, cb, forceAutocorrect) {
+			forceAutocorrect = forceAutocorrect ? true : false;
+			LastFM.loadAlbumInfo(data, function(result) {
+				if (result) {
+					cb(data);
+				} else {
+					cb(null);
+				}
+			}, forceAutocorrect);
+		};
+
 		//
 		//
 		// Active calls
