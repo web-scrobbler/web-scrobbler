@@ -223,6 +223,7 @@ function getChromeOptions() {
 	chromeOptions.addArguments([
 		'--load-extension=' + extPath,
 		'--log-level=' + logLevel,
+		'--start-maximized',
 		'--test-type',
 		'--lang=en-US'
 	]);
