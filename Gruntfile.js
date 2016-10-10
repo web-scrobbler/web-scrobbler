@@ -24,7 +24,11 @@ module.exports = function(grunt) {
 					pretty: true
 				},
 				expand: true,
-				src: ['*.*', 'connectors/**', 'options/**', 'vendor/**']
+				src: [
+					'connectors/**', 'core/**', 'dialogs/**',
+					'icons/**', 'options/**', 'popups/**', 'vendor/**',
+					'manifest.json', 'README.md', 'LISENSE.txt', '*.png'
+				]
 			}
 		},
 		lintspaces: {
