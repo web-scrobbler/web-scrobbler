@@ -1,7 +1,7 @@
 'use strict';
 
 /* global Connector */
-Connector.playerSelector = '.jp-play';
+Connector.playerSelector = '.jp-audio';
 
 Connector.getArtist = function () {
 	var text = $('.playing > .artist').text().trim();
