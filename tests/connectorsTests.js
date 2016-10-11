@@ -28,7 +28,7 @@ function getConnectorsList() {
 		uniqueConnectors.push(testFilePath);
 		return true;
 	}).sort(function(a, b) {
-		return a.label.localeCompare(b.label);
+		return a.js[0].localeCompare(b.js[0]);
 	});
 }
 
