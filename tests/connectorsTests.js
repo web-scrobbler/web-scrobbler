@@ -58,14 +58,11 @@ function getConnectorsToTest() {
 }
 
 function getTestDescription(connector) {
-	var connectorLabel = connector.label;
+	var filename = path.basename(connector.js[0], '.js');
 	if (global.DEBUG) {
-		return 'Connector: ' + connectorLabel;
+		return `Connector: ${filename}`;
 	} else {
-		if (connectorLabel.length > 20) {
-			connectorLabel = connectorLabel.substring(0, 20) + '…';
-		}
-		return '[' + connectorLabel + ']';
+		return `[${filename}]`;
 	}
 }
 
