@@ -476,13 +476,6 @@ define(function() {
 		},
 
 		{
-			label: 'Shuffler.fm',
-			matches: ['*://www.shuffler.fm/*', '*://shuffler.fm/*'],
-			js: ['connectors/v2/shuffler.fm.js'],
-			version: 2
-		},
-
-		{
 			label: 'Radionomy',
 			matches: ['*://www.radionomy.com/*'],
 			js: ['connectors/v2/radionomy.js'],
