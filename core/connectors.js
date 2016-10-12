@@ -560,13 +560,6 @@ define(function() {
 		},
 
 		{
-			label: 'TheDrop',
-			matches: ['*://thedrop.club/*'],
-			js: ['connectors/v2/thedrop.js'],
-			version: 2
-		},
-
-		{
 			label: 'ThisIsMyJam',
 			matches: ['*://www.thisismyjam.com/*'],
 			js: ['connectors/v2/thisismyjam.js'],
