@@ -895,7 +895,7 @@ define(function() {
 
 		{
 			label: 'WDVX',
-			matches: ['http://www.wdvx.com/listen-live/'],
+			matches: ['http://wdvx.com/listen-live/'],
 			js: ['connectors/v2/wdvx.js'],
 			version: 2
 		},
