@@ -870,7 +870,7 @@ define(function() {
 		},
 
 		{
-			label: 'beatport - www',
+			label: 'Beatport',
 			matches: ['*://www.beatport.com/*'],
 			js: ['connectors/v2/beatport-www.js'],
 			version: 2
