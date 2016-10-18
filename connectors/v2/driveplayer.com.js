@@ -13,9 +13,7 @@ Connector.getTrack = function () {
 	return text || null;
 };
 
-Connector.isPlaying = function () {
-	return $('.jp-play').css('display') === 'none';
-};
+Connector.playButtonSelector = '.jp-play';
 
 Connector.getCurrentTime = function() {
 	var currentTimeStr = $('.jp-current-time').text().trim();
