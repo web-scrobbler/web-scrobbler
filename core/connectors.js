@@ -1018,7 +1018,13 @@ define(function() {
 			matches: ['*://www.pastemagazine.com/radio*'],
 			js: ['connectors/v2/pasteradio.js'],
 			version: 2
-		}
+		},
 
+		{
+			label: 'Genie',
+			matches: ['http://www.genie.co.kr/player/fPlayer'],
+			js: ['connectors/v2/genie.js'],
+			version: 2
+		}
 	];
 });
