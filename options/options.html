@@ -213,6 +213,54 @@
 				</div>
 				<div id="news" class="accordion-body collapse">
 					<div class="accordion-inner">
+						<h4>1.58</h4>
+						<ul>
+							<li>Fixed AccuJazz connector</li>
+							<li>Fixed Archive Player</li>
+							<li>Fixed Audiosplitter connector</li>
+							<li>Fixed FluxFM connector</li>
+							<li>Fixed Hillydilly connector</li>
+							<li>Fixed Jamendo connector</li>
+							<li>Fixed Moskva.fm/Piter.fm connector</li>
+							<li>Fixed Prostopleer connector</li>
+							<li>Fixed Raw FM connector</li>
+							<li>Fixed Wonder.fm connector</li>
+							<li>Fixed wwoz connector</li>
+							<li>Fixed Yandex Radio connector</li>
+							<li>Fixed Zen Audio Player connector</li>
+
+							<li>Improved 163 Music scrobbling</li>
+							<li>Improved 8Tracks scrobbling</li>
+							<li>Improved AccuRadio scrobbling</li>
+							<li>Improved Amazon scrobbling</li>
+							<li>Improved BandCamp scrobbling</li>
+							<li>Improved Google Play scrobbling</li>
+							<li>Improved Hype Machine scrobbling</li>
+							<li>Improved SoundCloud scrobbling</li>
+
+							<li>Added DanceRadio.cz connector</li>
+							<li>Added Europa2.sk connector</li>
+							<li>Added Evropa2.cz connector</li>
+							<li>Added Frekvence1.cz connector</li>
+							<li>Added gpmusic connector</li>
+							<li>Added new.vk.com connector</li>
+							<li>Added Nightwave Plaza connector</li>
+							<li>Added RadioBonton.cz connector</li>
+							<li>Added Youradio.cz connector</li>
+							<li>Added Youtubify connector</li>
+							<li>Added Youtube Jukebox connector</li>
+
+							<li>Switched Ambient Sleeping Pill to new connector (<a href="#" data-dialog="v2_connectors">v2</a>)</li>
+							<li>Switched pakartot.lt to new connector (<a href="#" data-dialog="v2_connectors">v2</a>)</li>
+							<li>Switched PlugDJ to new connector (<a href="#" data-dialog="v2_connectors">v2</a>)</li>
+
+							<li>Removed Beats connector</li>
+							<li>Removed Bop.fm connector</li>
+							<li>Removed Rdio connector</li>
+							<li>Removed Songza connector</li>
+							<li>Removed Z-Music connector</li>
+						</ul>
+
 						<h4>1.57</h4>
 						<ul>
 							<li>Fixed Dubtrack scrobbling</li>
@@ -764,24 +812,22 @@
 	<div class="span1"></div>
 
 </div>
-<div class="modal fade" id="conn-conf-modal" tabindex="-1" role="dialog" aria-hidden="true">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title"><span class="conn-conf-title"></span> configuration</h4>
+<div id="conn-conf-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title"><span class="conn-conf-title"></span> configuration</h4>
+		</div>
+		<div class="modal-body">
+			<p>Enter the URL patterns that the connector should match below.</p>
+			<div class="conn-conf-patterns">
 			</div>
-			<div class="modal-body">
-				<p>Enter the URL patterns that the connector should match below.</p>
-				<div class="conn-conf-patterns">
-				</div>
-				<button type="button" id="add-pattern" class="btn btn-default">Add pattern</button>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-				<button type="button" class="btn btn-default" id="conn-conf-reset">Reset</button>
-				<button type="button" class="btn btn-default" id="conn-conf-ok">OK</button>
-			</div>
+			<button type="button" id="add-pattern" class="btn btn-default">Add pattern</button>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			<button type="button" class="btn btn-default" id="conn-conf-reset">Reset</button>
+			<button type="button" class="btn btn-default" id="conn-conf-ok">OK</button>
 		</div>
 	</div>
 </div>

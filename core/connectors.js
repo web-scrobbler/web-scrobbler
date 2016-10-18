@@ -50,15 +50,10 @@ define(function() {
 		},
 
 		{
-			label: 'TTNET Müzik',
-			matches: ['*://www.ttnetmuzik.com.tr/*'],
-			js: ['connectors/ttnet.js']
-		},
-
-		{
 			label: 'Thesixtyone',
 			matches: ['*://www.thesixtyone.com/*'],
-			js: ['connectors/61.js']
+			js: ['connectors/v2/61.js'],
+			version: 2
 		},
 
 		{
@@ -130,7 +125,8 @@ define(function() {
 		{
 			label: 'pakartot',
 			matches: ['*://www.pakartot.lt/*'],
-			js: ['connectors/pakartot.js']
+			js: ['connectors/v2/pakartot.js'],
+			version: 2
 		},
 
 		{
@@ -168,22 +164,10 @@ define(function() {
 			version: 2
 		},
 
-		{ // DEAD?
-			label: 'Z-Music',
-			matches: ['*://z-music.org/*'],
-			js: ['connectors/zmusic.js']
-		},
-
 		{
 			label: 'VK',
 			matches: ['*://vk.com/*'],
-			js: ['connectors/vk.js']
-		},
-
-		{
-			label: 'new-VK',
-			matches: ['*://new.vk.com/*'],
-			js: ['connectors/v2/newvk.js'],
+			js: ['connectors/v2/vk.js'],
 			version: 2
 		},
 
@@ -231,7 +215,8 @@ define(function() {
 		{
 			label: 'Tuba.FM',
 			matches: ['*://fm.tuba.pl/*'],
-			js: ['connectors/tubafm.js']
+			js: ['connectors/v2/tubafm.js'],
+			version: 2
 		},
 
 		{
@@ -321,13 +306,6 @@ define(function() {
 		},
 
 		{
-			label: 'Songza',
-			matches: ['*://songza.com/*'],
-			js: ['connectors/v2/songza.js'],
-			version: 2
-		},
-
-		{
 			label: 'Douban Programme',
 			matches: ['http://music.douban.com/programme/*'],
 			js: ['connectors/douban-programme.js']
@@ -350,12 +328,6 @@ define(function() {
 			label: 'Le Tourne Disque',
 			matches: ['*://www.letournedisque.com/*'],
 			js: ['connectors/letournedisque.js']
-		},
-
-		{
-			label: 'Rdio',
-			matches: ['*://www.rdio.com/*'],
-			js: ['connectors/rdio.js']
 		},
 
 		{
@@ -412,7 +384,8 @@ define(function() {
 		{
 			label: 'Yandex.Music',
 			matches: ['*://music.yandex.ru/*', '*://music.yandex.by/*', '*://music.yandex.kz/*', '*://music.yandex.ua/*'],
-			js: ['connectors/yandex.js']
+			js: ['connectors/v2/yandex.js'],
+			version: 2
 		},
 
 		{
@@ -423,8 +396,8 @@ define(function() {
 		},
 
 		{
-			label: 'Pleer.Com (Prostopleer)',
-			matches: ['*://pleer.com/*', '*://prostopleer.com/*'],
+			label: 'Prostopleer',
+			matches: ['*://pleer.net/*'],
 			js: ['connectors/v2/pleer.js'],
 			version: 2
 		},
@@ -478,7 +451,8 @@ define(function() {
 		{
 			label: 'Soundozer',
 			matches: ['*://soundozer.com/*'],
-			js: ['connectors/soundozer.js']
+			js: ['connectors/v2/soundozer.js'],
+			version: 2
 		},
 
 		{
@@ -486,12 +460,6 @@ define(function() {
 			matches: ['*://music.163.com/*'],
 			js: ['connectors/v2/163music.js'],
 			version: 2
-		},
-
-		{
-			label: 'blinkboxMusic',
-			matches: ['*://www.blinkboxmusic.com/*'],
-			js: ['connectors/blinkboxmusic.js']
 		},
 
 		{
@@ -517,13 +485,6 @@ define(function() {
 			label: 'TIDAL',
 			matches: ['*://listen.tidalhifi.com/*', '*://listen.tidal.com/*'],
 			js: ['connectors/v2/tidal.js'],
-			version: 2
-		},
-
-		{
-			label: 'Bop.fm',
-			matches: ['*://bop.fm/*'],
-			js: ['connectors/v2/bopfm.js'],
 			version: 2
 		},
 
@@ -556,6 +517,13 @@ define(function() {
 		},
 
 		{
+			label: 'AccuJazz',
+			matches: ['*://www.accuradio.com/pop_player/accujazz/*'],
+			js: ['connectors/v2/accujazz.js'],
+			version: 2
+		},
+
+		{
 			label: 'AccuRadio',
 			matches: ['*://www.accuradio.com/*'],
 			js: ['connectors/v2/accuradio.js'],
@@ -564,7 +532,7 @@ define(function() {
 
 		{
 			label: 'RAW.FM',
-			matches: ['*://www.rawfm.com.au/stream/player/', '*://rawfm.com.au/stream/player/'],
+			matches: ['*://www.rawfm.com.au/stream/player*/', '*://rawfm.com.au/stream/player*/'],
 			js: ['connectors/v2/rawfm.js'],
 			version: 2
 		},
@@ -580,13 +548,6 @@ define(function() {
 			label: 'GoEar.Com',
 			matches: ['*://*.goear.com/*', '*://goear.com/*'],
 			js: ['connectors/v2/goear.com.js'],
-			version: 2
-		},
-
-		{
-			label: 'AccuJazz',
-			matches: ['*://*.slipstreamradio.com/*'],
-			js: ['connectors/v2/accujazz.js'],
 			version: 2
 		},
 
@@ -676,7 +637,7 @@ define(function() {
 
 		{
 			label: 'Москва ФМ / Питер ФМ',
-			matches: ['*://www.moskva.fm/*', '*://www.piter.fm/*'],
+			matches: ['*://moskva.fm/*', '*://piter.fm/*'],
 			js: ['connectors/v2/moskva-piter-fm.js'],
 			version: 2
 		},
@@ -1056,6 +1017,13 @@ define(function() {
 			label: 'Youtubify',
 			matches: ['*://youtubify.vebto.com/*'],
 			js: ['connectors/v2/youtubify.js'],
+			version: 2
+		},
+
+		{
+			label: 'Paste Radio',
+			matches: ['*://www.pastemagazine.com/radio*'],
+			js: ['connectors/v2/pasteradio.js'],
 			version: 2
 		}
 
