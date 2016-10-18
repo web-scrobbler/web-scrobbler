@@ -665,6 +665,13 @@ define(function() {
 		},
 
 		{
+			label: 'Driveplayer.com',
+			matches: ['*://www.driveplayer.com/*'],
+			js: ['connectors/v2/driveplayer.com.js'],
+			version: 2
+		},
+
+		{
 			label: 'Chorus',
 			js: ['connectors/v2/chorus.js'],
 			version: 2
