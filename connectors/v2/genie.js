@@ -10,8 +10,8 @@ Connector.currentTimeSelector = '#playTime span';
 Connector.durationSelector = '#playTime strong';
 
 Connector.isPlaying = function() {
-	var btn = $('#PlayBtnArea')[0];
-	return btn.classList.contains('pause'); // if "pause" string in button, it means now playing.
+	var btn = $('#PlayBtnArea');
+	return btn.hasClass('pause'); // if "pause" string in button, it means now playing.
 };
 
 Connector.getTrackArt = function() {
