@@ -1,18 +1,18 @@
 {
-	"browser": true,
-	"curly": true,
-	"esnext": true,
-	"globals": {
-		"$": false,
-		"console": false,
-		"chrome": false,
-		"require": false,
-		"define": false
-	},
-	"globalstrict": true,
-	"quotmark": "single",
-	"smarttabs": true,
-	"trailing": true,
-	"undef": true,
-	"unused": true
+  "browser": true,
+  "curly": true,
+  "esnext": true,
+  "globals": {
+    "$": false,
+    "console": false,
+    "chrome": false,
+    "require": false,
+    "define": false
+  },
+  "globalstrict": true,
+  "quotmark": "single",
+  "smarttabs": true,
+  "trailing": true,
+  "undef": true,
+  "unused": true
 }
