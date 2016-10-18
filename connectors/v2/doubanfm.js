@@ -27,11 +27,11 @@
 Connector.trackArtImageSelector = '.playing-cover img';
 
 Connector.getTrack = function() {
-  return $('.player-wrapper .middle>div:nth-child(2) a').first().text();
+	return $('.player-wrapper .middle>div:nth-child(2) a').first().text();
 };
 
 Connector.getArtist = function() {
-  return $('.player-wrapper .link.artist-name').first().text();
+	return $('.player-wrapper .link.artist-name').first().text();
 };
 
 Connector.getDuration = function () {
@@ -40,6 +40,5 @@ Connector.getDuration = function () {
 };
 
 Connector.isPlaying = function () {
-  return $('.player-wrapper .buttons .icon-pause').length > 0;
+	return $('.player-wrapper .buttons .icon-pause').length > 0;
 };
-
