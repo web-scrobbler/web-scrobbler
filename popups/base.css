@@ -1,8 +1,8 @@
 body {
-	margin: 0;
-	padding: 20px;
 	background: -webkit-radial-gradient(center, circle closest-corner, #e3e3e3 0%, #ededed 100%);
 	font-family: "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
+	margin: 0;
+	padding: 20px;
 }
 
 h1, h2, h3, h4, h5 {
@@ -14,11 +14,11 @@ h1, h2, h3, h4, h5 {
 }
 
 a {
-	text-decoration: none;
-	border-bottom: 1px solid #d51007;
-	font-size: 0.75em;
-	color: #333;
 	border: none;
+	border-bottom: 1px solid #d51007;
+	color: #333;
+	font-size: 0.75em;
+	text-decoration: none;
 }
 
 a:hover {
