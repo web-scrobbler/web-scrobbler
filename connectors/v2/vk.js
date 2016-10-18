@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, MetadataFilter */
 
 var INFO_ID = 0;
 var INFO_TRACK = 3;
@@ -35,27 +35,16 @@ function updateTrackInfo() {
 	trackInfo = JSON.parse(localStorage.getItem('audio_v10_track'));
 }
 
-/**
- * Decodes HTML entities in given text string
- * @param  {String} str String with HTML entities
- * @return {String}     Decoded string
- */
-var decodeHtmlEntity = function(str) {
-	if (str === null) {
-		return null;
-	}
-
-	return str.replace(/&#(\d+);/g, function(match, dec) {
-		return String.fromCharCode(dec);
-	});
-};
+Connector.filter = new MetadataFilter({
+	all: [MetadataFilter.decodeHtmlEntities, MetadataFilter.trim]
+});
 
 Connector.getArtist = function () {
-	return decodeHtmlEntity(trackInfo[INFO_ARTIST]);
+	return trackInfo[INFO_ARTIST];
 };
 
 Connector.getTrack = function () {
-	return decodeHtmlEntity(trackInfo[INFO_TRACK]);
+	return trackInfo[INFO_TRACK];
 };
 
 Connector.getCurrentTime = function () {

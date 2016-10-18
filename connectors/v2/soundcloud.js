@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, YoutubeFilter */
 
 window.SC_ATTACHED = window.SC_ATTACHED || false;
 var artist, track, duration,
@@ -31,36 +31,7 @@ Connector.getTrackArt = function () {
 	return artwork_url || null;
 };
 
-/**
- * Clean non-informative garbage from title
- */
-function cleanArtistTrack() {
-	/*jslint regexp: true*/
-	// trim whitespace
-	artist = artist.replace(/^\s+|\s+$/g, '');
-	track = track.replace(/^\s+|\s+$/g, '');
-
-	// Strip crap
-	track = track.replace(/^\d+\.\s*/, ''); // 01.
-	track = track.replace(/\s*\*+\s?\S+\s?\*+$/, ''); // **NEW**
-	track = track.replace(/\s*\[[^\]]+\]$/, ''); // [whatever]
-	track = track.replace(/\s*\([^\)]*version\)$/i, ''); // (whatever version)
-	track = track.replace(/\s*\.(avi|wmv|mpg|mpeg|flv)$/i, ''); // video extensions
-	track = track.replace(/\s*(of+icial\s*)?(music\s*)?video/i, ''); // (official)? (music)? video
-	track = track.replace(/\s*\(\s*of+icial\s*\)/i, ''); // (official)
-	track = track.replace(/\s*\(\s*[0-9]{4}\s*\)/i, ''); // (1999)
-	track = track.replace(/\s+\(\s*(HD|HQ)\s*\)$/, ''); // HD (HQ)
-	track = track.replace(/\s+(HD|HQ)\s*$/, ''); // HD (HQ)
-	track = track.replace(/\s*video\s*clip/i, ''); // video clip
-	track = track.replace(/\s+\(?live\)?$/i, ''); // live
-	track = track.replace(/\(\s*\)/, ''); // Leftovers after e.g. (official video)
-	track = track.replace(/^(|.*\s)"(.*)"(\s.*|)$/, '$2'); // Artist - The new "Track title" featuring someone
-	track = track.replace(/^(|.*\s)'(.*)'(\s.*|)$/, '$2'); // 'Track title'
-	track = track.replace(/^[\/\s,:;~\-]+/, ''); // trim starting white chars and dash
-	track = track.replace(/[\/\s,:;~\-]+$/, ''); // trim trailing white chars and dash
-	/*jslint regexp: false*/
-}
-
+Connector.filter = YoutubeFilter;
 /**
  * parse metadata and set local variables
  */
@@ -81,8 +52,6 @@ var setSongData = function (metadata) {
 		artist = metadata.user.username;
 		track = metadata.title;
 	}
-
-	cleanArtistTrack();
 
 	duration = Math.floor(metadata.duration / 1000);
 	// use permalink url as the unique id

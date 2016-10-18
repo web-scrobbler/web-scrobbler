@@ -4,15 +4,9 @@
 
 Connector.playerSelector = '#content';
 
-Connector.getArtist = function () {
-	var text = $('[data-value=artist]').text().trim();
-	return text || null;
-};
+Connector.artistSelector = '[data-value=artist]';
 
-Connector.getTrack = function () {
-	var text = $('[data-value=name]').text().trim();
-	return text || null;
-};
+Connector.trackSelector = '[data-value=name]';
 
 Connector.isPlaying = function () {
 	return !$('[data-action="pause"]').hasClass('active');
