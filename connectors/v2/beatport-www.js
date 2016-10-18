@@ -2,37 +2,25 @@
 
 /* global Connector */
 
-Connector.playerSelector = '.omniplayer';
+Connector.playerSelector = '.player-container';
+
+Connector.artistSelector = '.player-track-name-artist-standard .track-artist';
+
+Connector.getTrack = function() {
+	var trackName = $('.player-track-name-artist-standard .primary-title').text();
+	var remixedBy = $('.player-track-name-artist-standard .remixed').text();
+	if (remixedBy === 'Original Mix') {
+		return trackName;
+	}
+	return trackName + ' (' + remixedBy + ')';
+};
+
+Connector.getUniqueID = function() {
+	var trackUrl = $('.player-current-track-container a').attr('href');
+	var index = trackUrl.lastIndexOf('/');
+	return trackUrl.substring(index + 1);
+};
 
 Connector.isPlaying = function() {
-	return $('.omniplayer').hasClass('is-playing');
+	return $('.player-controls .play-button').hasClass('pause');
 };
-
-Connector.getArtistTrack = function () {
-	var artist_all = $('.omniplayer--artist').text().trim().replace(/\s+/g, ' ');
-	var artist_first = $('.omniplayer--artist a:nth-child(1)').text().trim();
-
-	var track_clean = $('.omniplayer--title').clone().children().remove().end().text().trim();
-	var track_mix = $('.omniplayer--title').clone().children().text().trim();
-	var trackmix = track_clean + ' (' + track_mix + ')';
-
-	/* this is remix tracks, like:
-	 * [ Artist1, Artist2 - Trackname <Artist2 remix> ]
-	 * return first artist and track with mix mark
-	 */
-	var artist = artist_first || null;
-	var track = trackmix || null;
-
-	/* this is normal track, like:
-	 * [ Artist1, Artist2 - Trackname <Original Mix> ]
-	 * return all artists and track without mix mark
-	 */
-	if (track_mix == 'Original Mix') {
-		artist = artist_all || null;
-		track = track_clean || null;
-	}
-
-	return {artist: artist, track: track};
-};
-
-Connector.trackArtImageSelector = '.omniplayer--control img:nth-child(1)';

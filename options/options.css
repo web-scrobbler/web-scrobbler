@@ -13,9 +13,9 @@ h1, h2, h3, h4, h5 {
 }
 
 a {
+	border-bottom: 1px solid #d51007;
 	color: #000;
 	text-decoration: none;
-	border-bottom: 1px solid #d51007;
 }
 
 a:hover {
@@ -47,12 +47,12 @@ input[type=checkbox] {
 }
 
 #contact a {
+	border-bottom: none;
 	display: inline-block;
-	width: 130px;
-	text-decoration: none;
 	font-size: 1.5em;
 	margin-right: 20px;
-	border-bottom: none;
+	text-decoration: none;
+	width: 130px;
 }
 
 #contact a i {
@@ -65,9 +65,9 @@ input[type=checkbox] {
 
 a.conn-config,
 a.conn-config:hover {
+	border-bottom: none;
 	color: #D51007;
 	text-decoration: none;
-	border-bottom: none;
 }
 
 .conn-conf-patterns .list-unstyled {
@@ -80,16 +80,16 @@ a.conn-config:hover {
 
 .conn-conf-del-input,
 .conn-conf-del-input:hover {
-	color: #000;
-	text-decoration: none;
 	border-bottom: none;
+	color: #000;
 	position: relative;
+	text-decoration: none;
 	top: -5px;
 }
 
 #connectors a {
-	text-decoration: none;
 	border: none;
+	text-decoration: none;
 }
 
 #connectors .v2 {

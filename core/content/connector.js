@@ -102,7 +102,7 @@ var BaseConnector = window.BaseConnector || function () {
 		 *
 		 * Push new seprators in the implementation if required.
 		 *
- 		 * @type {array}
+		 * @type {array}
 		 */
 		this.separators = [' -- ', '--', ' - ', ' – ', ' — ', '-', '–', '—', ':', '|', '///'];
 

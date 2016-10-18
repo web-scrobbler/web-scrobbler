@@ -66,7 +66,8 @@ define(function() {
 		{
 			label: 'MySpace',
 			matches: ['*://myspace.com/*'],
-			js: ['connectors/myspace.js']
+			js: ['connectors/v2/myspace.js'],
+			version: 2
 		},
 
 		{
@@ -132,7 +133,8 @@ define(function() {
 		{
 			label: 'Deezer',
 			matches: ['*://www.deezer.com/*'],
-			js: ['connectors/deezer.js']
+			js: ['connectors/v2/deezer.js'],
+			version: 2
 		},
 
 		{
@@ -215,13 +217,7 @@ define(function() {
 		{
 			label: 'Tuba.FM',
 			matches: ['*://fm.tuba.pl/*'],
-			js: ['connectors/tubafm.js']
-		},
-
-		{
-			label: 'Spotify',
-			matches: ['https://player.spotify.com/*'],
-			js: ['connectors/v2/spotify.js'],
+			js: ['connectors/v2/tubafm.js'],
 			version: 2
 		},
 
@@ -319,7 +315,8 @@ define(function() {
 		{
 			label: 'Le Tourne Disque',
 			matches: ['*://www.letournedisque.com/*'],
-			js: ['connectors/letournedisque.js']
+			js: ['connectors/v2/letournedisque.js'],
+			version: 2
 		},
 
 		{
@@ -344,7 +341,8 @@ define(function() {
 		{
 			label: 'Digitally Imported',
 			matches: ['*://www.di.fm/*'],
-			js: ['connectors/difm.js']
+			js: ['connectors/v2/difm.js'],
+			version: 2
 		},
 
 		{
@@ -397,7 +395,8 @@ define(function() {
 		{
 			label: 'TuneIn',
 			matches: ['*://tunein.com/*'],
-			js: ['connectors/tunein.js']
+			js: ['connectors/v2/tunein.js'],
+			version: 2
 		},
 
 		{
@@ -443,7 +442,8 @@ define(function() {
 		{
 			label: 'Soundozer',
 			matches: ['*://soundozer.com/*'],
-			js: ['connectors/soundozer.js']
+			js: ['connectors/v2/soundozer.js'],
+			version: 2
 		},
 
 		{
@@ -662,6 +662,13 @@ define(function() {
 		},
 
 		{
+			label: 'Driveplayer.com',
+			matches: ['*://www.driveplayer.com/*'],
+			js: ['connectors/v2/driveplayer.com.js'],
+			version: 2
+		},
+
+		{
 			label: 'Chorus',
 			js: ['connectors/v2/chorus.js'],
 			version: 2
@@ -864,7 +871,7 @@ define(function() {
 		},
 
 		{
-			label: 'beatport - www',
+			label: 'Beatport',
 			matches: ['*://www.beatport.com/*'],
 			js: ['connectors/v2/beatport-www.js'],
 			version: 2
@@ -893,7 +900,7 @@ define(function() {
 
 		{
 			label: 'WDVX',
-			matches: ['http://www.wdvx.com/listen-live/'],
+			matches: ['http://wdvx.com/listen-live/'],
 			js: ['connectors/v2/wdvx.js'],
 			version: 2
 		},
@@ -1016,7 +1023,13 @@ define(function() {
 			matches: ['*://www.pastemagazine.com/radio*'],
 			js: ['connectors/v2/pasteradio.js'],
 			version: 2
-		}
+		},
 
+		{
+			label: 'Genie',
+			matches: ['http://www.genie.co.kr/player/fPlayer'],
+			js: ['connectors/v2/genie.js'],
+			version: 2
+		}
 	];
 });

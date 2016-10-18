@@ -2,12 +2,14 @@
 
 /* global Connector */
 
-Connector.playerSelector = '#frame';
+Connector.playerSelector = '#player-infos';
 
-Connector.artistSelector = '#now-artist';
+Connector.artistSelector = '#now-playing .artist';
 
-Connector.trackSelector = '#now-title';
+Connector.trackSelector = '#now-playing .title';
+
+Connector.trackArtImageSelector = '#cover-container img';
 
 Connector.isPlaying = function () {
-	return $('#btn-play').hasClass('play-on');
+	return $('#status').text() === 'odtwarzanie';
 };
