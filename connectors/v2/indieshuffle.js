@@ -19,7 +19,3 @@ Connector.durationSelector = '#player-current > .progress > .duration';
 Connector.isPlaying = function () {
 	return $('#playerPlaying').hasClass('active');
 };
-
-Connector.getUniqueID = function() {
-	return $('.commontrack.active').attr('data-track-id');
-};
