@@ -2,27 +2,7 @@
 
 /* global Connector */
 
-(function() {
-		var playerObserver = new MutationObserver(function() {
-		if (document.querySelector('#d-content')) {
-			playerObserver.disconnect();
-			var actualObserver = new MutationObserver(Connector.onStateChanged);
-			actualObserver.observe(document.querySelector('#d-content'), {
-				childList: true,
-				subtree: true,
-				attributes: true,
-				characterData: true
-			});
-		}
-	});
-
-	playerObserver.observe(document.body, {
-		childList: true,
-		subtree: true,
-		attributes: false,
-		characterData: false
-	});
-})();
+Connector.playerSelector = '#d-content';
 
 var isPlayingLiveRadio = function() {
 	if ($('#d-secondary-control-left .disabled').size() === 1 && $('#d-secondary-control-right .disabled').size() === 1) {
