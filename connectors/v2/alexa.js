@@ -4,10 +4,10 @@
 
 (function() {
 		var playerObserver = new MutationObserver(function() {
-		if (document.querySelector('#d-content')) {
+		if (document.querySelector('#d-info-text')) {
 			playerObserver.disconnect();
 			var actualObserver = new MutationObserver(Connector.onStateChanged);
-			actualObserver.observe(document.querySelector('#d-content'), {
+			actualObserver.observe(document.querySelector('#d-info-text'), {
 				childList: true,
 				subtree: true,
 				attributes: true,
@@ -34,13 +34,8 @@ var isPlayingLiveRadio = function() {
 
 Connector.getArtist = function() {
 	if (isPlayingLiveRadio() === 'true') {
-		var songTitle =  $('.d-queue-info .song-title').text();
-		if (songTitle.indexOf('-') == -1) {
 			//Maybe ad or program, so ignore
 			return null;
-		}
-		var results = songTitle.split('-');
-		return results[0].trim();
 	} else {
 		return $('#d-info-text .d-sub-text-1').text();
 	}
@@ -48,13 +43,8 @@ Connector.getArtist = function() {
 
 Connector.getTrack = function() {
 	if (isPlayingLiveRadio() === 'true') {
-		var songTitle =  $('.d-queue-info .song-title').text();
-		if (songTitle.indexOf('-') == -1) {
 			//Maybe ad or program, so ignore
 			return null;
-		}
-		var results = songTitle.split('-');
-		return results[1].trim();
 	} else {
 		return $('#d-info-text .d-main-text').text();
 	}
