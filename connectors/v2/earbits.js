@@ -2,15 +2,21 @@
 
 /* global Connector */
 
-Connector.playerSelector = '#audio-controls';
+Connector.playerSelector = '#player';
 
-Connector.getArtist = function () {
-	var text = $('.name-slider .artist-name').text().substring(5);
-	return text || null;
-};
+Connector.artistSelector = '#artist_name';
 
-Connector.trackSelector = '.name-slider .track-name';
+Connector.trackSelector = '.track_name';
+
+Connector.albumSelector = '.album_name';
+
+Connector.currentTimeSelector = '#time_current';
+
+Connector.durationSelector = '#time_end';
+
+Connector.trackArtImageSelector = '.album_cover';
 
 Connector.isPlaying = function () {
-	return $('.btn-playpause').hasClass('btn-pause');
+	var playButtonImgFilename = $('#play-pause img').attr('src');
+	return playButtonImgFilename.indexOf('pause') !== -1;
 };
