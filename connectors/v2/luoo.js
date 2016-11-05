@@ -8,6 +8,4 @@ Connector.artistSelector = '.track-meta .PLArtist';
 
 Connector.trackSelector = '.trackname .PLTrackname';
 
-Connector.isPlaying = function () {
-	return $('.jp-pause').is(':visible');
-};
+Connector.playButtonSelector = '.jp-play';
