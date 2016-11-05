@@ -27,7 +27,7 @@ module.exports = function(grunt) {
 				src: [
 					'connectors/**', 'core/**', 'dialogs/**',
 					'icons/**', 'options/**', 'popups/**', 'vendor/**',
-					'manifest.json', 'README.md', 'LISENSE.txt', '*.png'
+					'manifest.json', 'README.md', 'LICENSE.txt', '*.png'
 				]
 			}
 		},
