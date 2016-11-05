@@ -2,6 +2,7 @@
   "browser": true,
   "curly": true,
   "esnext": true,
+  "eqeqeq": true,
   "globals": {
     "$": false,
     "console": false,
