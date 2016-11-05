@@ -71,15 +71,10 @@ define(function() {
 		},
 
 		{
-			label: 'Pitchfork Advance',
-			matches: ['*://pitchfork.com/advance/*', '*://www.pitchfork.com/advance/*'],
-			js: ['connectors/pitchfork-advance.js']
-		},
-
-		{
 			label: 'Pitchfork',
 			matches: ['*://pitchfork.com/*', '*://www.pitchfork.com/*'],
-			js: ['connectors/pitchfork.js']
+			js: ['connectors/v2/pitchfork.js'],
+			version: 2
 		},
 
 		{
