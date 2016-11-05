@@ -288,7 +288,8 @@ define(function() {
 		{
 			label: 'Nova Planet',
 			matches: ['*://www.novaplanet.com/radionova/player'],
-			js: ['connectors/novaplanet.js']
+			js: ['connectors/v2/novaplanet.js'],
+			version: 2
 		},
 
 		{
