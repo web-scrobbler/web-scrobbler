@@ -17,10 +17,6 @@ Connector.getArtistTrack = function () {
 	return {artist: artist, track: track};
 };
 
-Connector.isPlaying = function () {
-	return true;
-};
-
 (function() {
 	var playerObserver = new MutationObserver(function() {
 		var playerElement = document.querySelector('.pi-infobox');
