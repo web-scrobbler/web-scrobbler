@@ -98,9 +98,9 @@ var BaseConnector = window.BaseConnector || function () {
 		this.trackArtImageSelector = null;
 
 		/**
-		 * Default array of seperators.
+		 * Default array of separators.
 		 *
-		 * Push new seprators in the implementation if required.
+		 * Push new separators in the implementation if required.
 		 *
 		 * @type {array}
 		 */
