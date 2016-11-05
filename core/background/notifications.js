@@ -202,7 +202,7 @@ define([
 			function onClicked() {
 				GA.event('notification', 'authenticate', 'click');
 
-				window.open(authUrl, 'scrobbler-auth');
+				chrome.tabs.create({ url: authUrl });
 			}
 
 			showNotification(options, onClicked).then(() => {
@@ -211,7 +211,7 @@ define([
 				GA.event('notification', 'authenticate', 'open-unavailable');
 
 				// fallback for browsers with no notifications support
-				window.open(authUrl, 'scrobbler-auth');
+				chrome.tabs.create({ url: authUrl });
 			});
 		}).catch(showSignInError);
 	}
