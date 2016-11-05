@@ -192,8 +192,9 @@ define(function() {
 		{
 			label: 'Megalyrics',
 			matches: ['*://megalyrics.ru/*'],
-			js: ['connectors/megalyrics.js'],
-			allFrames: true
+			js: ['connectors/v2/megalyrics.js'],
+			allFrames: true,
+			version: 2
 		},
 
 		{
