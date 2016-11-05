@@ -58,7 +58,7 @@ define([
 		var status = xml.find('lfm').attr('status');
 
 		storage.get(function(data) {
-			if (status != 'ok') {
+			if (status !== 'ok') {
 				console.log('Error acquiring a token: %s', http_request.responseText);
 
 				data.token = null;
@@ -168,7 +168,7 @@ define([
 		keys.sort();
 
 		for (var i = 0; i < keys.length; i++) {
-			if (keys[i] == 'format' || keys[i] == 'callback') {
+			if (keys[i] === 'format' || keys[i] === 'callback') {
 				continue;
 			}
 
@@ -286,7 +286,7 @@ define([
 				song.metadata.attr({
 					artistUrl: $doc.find('artist > url').text(),
 					trackUrl: $doc.find('track > url').text(),
-					userloved: $doc.find('userloved').text() == 1,
+					userloved: $doc.find('userloved').text() === 1,
 					artistThumbUrl: thumbUrl
 				});
 
@@ -335,7 +335,7 @@ define([
 			var okCb = function(xmlDoc) {
 				var $doc = $(xmlDoc);
 
-				if ($doc.find('lfm').attr('status') == 'ok') {
+				if ($doc.find('lfm').attr('status') === 'ok') {
 					cb(true);
 				} else {
 					cb(false); // request passed but returned error
@@ -379,7 +379,7 @@ define([
 				var $doc = $(xmlDoc),
 					result;
 
-				if ($doc.find('lfm').attr('status') == 'ok') {
+				if ($doc.find('lfm').attr('status') === 'ok') {
 					result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.OK);
 					cb(result);
 				} else {  // request passed but returned error
@@ -391,7 +391,7 @@ define([
 			var errCb = function(jqXHR, status, response) {
 				var result;
 
-				if ($(response).find('lfm error').attr('code') == 9) {
+				if ($(response).find('lfm error').attr('code') === 9) {
 					result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
 				}
 				else {
@@ -429,7 +429,7 @@ define([
 			var okCb = function(xmlDoc) {
 				var $doc = $(xmlDoc);
 
-				if ($doc.find('lfm').attr('status') == 'ok') {
+				if ($doc.find('lfm').attr('status') === 'ok') {
 					cb(true);
 				} else {
 					cb(false); // request passed but returned error

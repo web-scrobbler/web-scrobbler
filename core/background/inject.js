@@ -82,7 +82,7 @@ define([
 				var scripts = connector.js.slice(0);
 
 				// for v2 connectors prepend BaseConnector, newer jQuery (!) and append starter
-				if (typeof(connector.version) != 'undefined' && connector.version === 2) {
+				if (typeof(connector.version) !== 'undefined' && connector.version === 2) {
 					scripts.unshift('core/content/connector.js');
 					scripts.unshift('core/content/reactor.js');
 					scripts.unshift('vendor/underscore-min.js');

@@ -20,7 +20,7 @@
 	/**
 	 * Warnings to help developers with their custom connectors
 	 */
-	if (typeof(Connector) == 'undefined' || !(Connector instanceof BaseConnector)) {
+	if (typeof(Connector) === 'undefined' || !(Connector instanceof BaseConnector)) {
 		console.warn('Web Scrobbler: You have overwritten or unset the Connector object!');
 		return;
 	}

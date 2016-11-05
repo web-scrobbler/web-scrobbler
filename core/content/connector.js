@@ -364,7 +364,7 @@ var BaseConnector = window.BaseConnector || function () {
 			 * a quick play/pause/play or pause/play/pause sequence
 			 */
 			var isPlaying = this.isPlaying();
-			if (isPlaying != currentState.isPlaying) {
+			if (isPlaying !== currentState.isPlaying) {
 				stateChangedWorker();
 			} else {
 				stateChangedWorkerThrottled();
