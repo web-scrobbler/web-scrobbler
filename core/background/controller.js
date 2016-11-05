@@ -76,7 +76,7 @@ define([
 			// propagate values that can change without changing the song
 			if (!hasSongChanged && !isReplayingSong) {
 				// logging same message over and over saves space in console
-				if (newState.isPlaying == currentSong.parsed.isPlaying) {
+				if (newState.isPlaying === currentSong.parsed.isPlaying) {
 					console.log('Tab ' + tabId + ': state update: only currentTime has changed');
 				} else {
 					console.log('Tab ' + tabId + ': state update: ' + JSON.stringify(newState));

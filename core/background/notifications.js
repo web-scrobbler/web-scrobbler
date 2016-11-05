@@ -23,7 +23,7 @@ define([
 	 * Checks for user configuration
 	 */
 	function isAllowed() {
-		return localStorage.useNotifications == 1;
+		return localStorage.useNotifications === 1;
 	}
 
 	/**
