@@ -28,7 +28,7 @@ define(function() {
 	 * @param {...*}
 	 */
 	function send() {
-		if (localStorage.disableGa === 1) {
+		if (localStorage.disableGa === '1') {
 			return;
 		}
 
@@ -41,7 +41,7 @@ define(function() {
 	 * @param {...*}
 	 */
 	function event() {
-		if (localStorage.disableGa === 1) {
+		if (localStorage.disableGa === '1') {
 			return;
 		}
 

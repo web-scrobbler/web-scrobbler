@@ -17,19 +17,19 @@ require([
 		// preload values and attach listeners
 
 		$('#use-notifications')
-			.attr('checked', (localStorage.useNotifications === 1))
+			.attr('checked', (localStorage.useNotifications === '1'))
 			.click(function () {
 				localStorage.useNotifications = this.checked ? 1 : 0;
 			});
 
 		$('#use-autocorrect')
-			.attr('checked', (localStorage.useAutocorrect === 1))
+			.attr('checked', (localStorage.useAutocorrect === '1'))
 			.click(function () {
 				localStorage.useAutocorrect = this.checked ? 1 : 0;
 			});
 
 		$('#disable-ga')
-			.attr('checked', (localStorage.disableGa === 1))
+			.attr('checked', (localStorage.disableGa === '1'))
 			.click(function () {
 				localStorage.disableGa = this.checked ? 1 : 0;
 			});
