@@ -366,6 +366,12 @@ define(function() {
 		},
 
 		{
+			label: 'Saavn.com',
+			matches: ['*://*.saavn.com/*'],
+			js: ['connectors/saavn.js'],
+		},
+
+		{
 			label: 'Music Unlimited',
 			matches: ['*://music.sonyentertainmentnetwork.com/*'],
 			js: ['connectors/musicunlimited.js']
