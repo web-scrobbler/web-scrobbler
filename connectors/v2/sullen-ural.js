@@ -5,21 +5,20 @@
 Connector.playerSelector = '.album-tracks';
 
 Connector.getArtistTrack = function () {
+	var artist = null;
+	var track = null;
+
 	var text = $('.play:contains("ll")').attr('download');
 	if (text) {
 		var separator = this.findSeparator(text);
-
-		var artist = null;
-		var track = null;
 
 		if (separator !== null) {
 			artist = text.substr(0, separator.index);
 			track = text.substr(separator.index + separator.length);
 		}
-
-		return {artist: artist, track: track};
 	}
-	return {artist: null, track: null};
+
+	return {artist: artist, track: track};
 };
 
 Connector.isPlaying = function () {
