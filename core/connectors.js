@@ -235,12 +235,6 @@ define(function() {
 		},
 
 		{
-			label: 'Slacker (iframe)',
-			matches: ['*://www.slacker.com/webplayer/index_embed.vm'],
-			js: ['connectors/slacker.js']
-		},
-
-		{
 			label: 'Slacker (main page)',
 			matches: ['*://www.slacker.com/*'],
 			js: ['connectors/v2/slacker2.js'],
@@ -369,12 +363,6 @@ define(function() {
 		},
 
 		{
-			label: 'Music Unlimited',
-			matches: ['*://music.sonyentertainmentnetwork.com/*'],
-			js: ['connectors/musicunlimited.js']
-		},
-
-		{
 			label: 'Yandex.Music',
 			matches: ['*://music.yandex.ru/*', '*://music.yandex.by/*', '*://music.yandex.kz/*', '*://music.yandex.ua/*'],
 			js: ['connectors/v2/yandex.js'],
@@ -493,13 +481,6 @@ define(function() {
 		},
 
 		{
-			label: 'Shuffler.fm',
-			matches: ['*://www.shuffler.fm/*', '*://shuffler.fm/*'],
-			js: ['connectors/v2/shuffler.fm.js'],
-			version: 2
-		},
-
-		{
 			label: 'Radionomy',
 			matches: ['*://www.radionomy.com/*'],
 			js: ['connectors/v2/radionomy.js'],
@@ -573,13 +554,6 @@ define(function() {
 			label: 'SNDTST',
 			matches: ['*://www.sndtst.com/*', '*://sndtst.com/*'],
 			js: ['connectors/v2/sndtst.js'],
-			version: 2
-		},
-
-		{
-			label: 'TheDrop',
-			matches: ['*://thedrop.club/*'],
-			js: ['connectors/v2/thedrop.js'],
 			version: 2
 		},
 
