@@ -3,9 +3,11 @@
 /* global Connector, YoutubeFilter */
 
 window.SC_ATTACHED = window.SC_ATTACHED || false;
-var artist, track, duration,
-	uniqueID, artwork_url,
-	is_playing = false;
+var artist;
+var track;
+var duration;
+var uniqueID;
+var artwork_url;
 
 Connector.getArtist = function () {
 	return artist;
@@ -15,12 +17,18 @@ Connector.getTrack = function () {
 	return track;
 };
 
+const progressSelector = '.playbackTimeline__progressWrapper';
+Connector.getCurrentTime = function () {
+	return parseFloat($(progressSelector).attr('aria-valuenow')) / 1000;
+};
+
 Connector.getDuration = function () {
 	return duration;
 };
 
 Connector.isPlaying = function () {
-	return is_playing;
+	const playButtonSelector = '.playControls__controls button.playControl';
+	return $(playButtonSelector).hasClass('playing');
 };
 
 Connector.getUniqueID = function () {
@@ -32,6 +40,9 @@ Connector.getTrackArt = function () {
 };
 
 Connector.filter = YoutubeFilter;
+
+Connector.playerSelector = '.playControls__controls';
+
 /**
  * parse metadata and set local variables
  */
@@ -79,24 +90,11 @@ var setSongData = function (metadata) {
 	// Trigger functions based on message type.
 	function eventHandler(e) {
 		switch (e.data.type) {
-			case 'SC_PLAY':
-				// don't scrobble private tracks
-				if (e.data.metadata.sharing && e.data.metadata.sharing === 'private') {
-					console.log('Track is private so it won\'t be scrobbled.');
-					return;
-				}
-				is_playing = true;
-				// parse metadata and set local variables
-				setSongData(e.data.metadata);
-				// cause connector base to read the new variable values
-				Connector.onStateChanged();
-				break;
-			case 'SC_PAUSE':
-				is_playing = false;
-				Connector.onStateChanged();
-				break;
-			default:
-				break;
+		case 'SC_PLAY':
+			setSongData(e.data.metadata);
+			break;
+		default:
+			break;
 		}
 	}
 
