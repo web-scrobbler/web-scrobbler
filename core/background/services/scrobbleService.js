@@ -8,6 +8,10 @@ define([], function () {
 
 	console.log('ScrobbleService: start ' + scrobblers.length);
 
+	var hasScrobbler = function() {
+		return scrobblers.length !== 0;
+	};
+
 	return {
 		bindScrobbler: function (scrobbler) {
 			if (!scrobblers.some(function(s) { return s.getLabel() === scrobbler.getLabel();})) {
@@ -38,6 +42,16 @@ define([], function () {
 			scrobblers.forEach(function (scrobbler) {
 				scrobbler.scrobble(song, cb);
 			});
+		},
+
+		hasScrobblers: hasScrobbler,
+
+		getFirstBound: function() {
+			if (!hasScrobbler()) {
+				throw "No Scrobblers Bound";
+			}
+
+			return scrobblers[0];
 		}
 	};
 });
