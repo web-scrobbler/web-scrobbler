@@ -2,15 +2,14 @@
 
 /* global Connector */
 
-Connector.playerSelector = '.album-container';
+Connector.playerSelector = '.player-body-container';
 
-Connector.artistSelector = '.current .track-history-content h4';
+Connector.artistSelector = '.player-body-container .track-artist';
 
-Connector.getTrack = function () {
-	var text = $('.current .track-history-content h3').text().trim();
-	return text || null;
-};
+Connector.trackSelector = '.player-body-container .track-title';
+
+Connector.trackArtImageSelector = '.player-img-container img';
 
 Connector.isPlaying = function () {
-	return $('.play-pause-container').hasClass('stop');
+	return $('.play-container i').hasClass('fa-stop');
 };

@@ -22,8 +22,6 @@ function bindNew() {
 
 	Connector.playerSelector = '#theatre-ia';
 
-	Connector.artistSelector = '#wrap > div:nth-child(6) > div > div.col-sm-8.thats-left > div:nth-child(3) > span.value';
-
 	Connector.currentTimeSelector = '#jw6_controlbar_elapsed';
 
 	Connector.getAlbum = function() {
@@ -54,12 +52,7 @@ function bindNew() {
 	};
 
 	function parseArtist() {
-		var artist = $('#wrap > div:nth-child(6) > div > div.col-sm-8.thats-left > div:nth-child(3) > a').text();
-
-		if (artist.length === 0) {
-			artist = $('#wrap > div:nth-child(6) > div > div.col-sm-8.thats-left > div:nth-child(3) > span.value > a').text();
-		}
-
+		var artist = $('#wrap > div:nth-child(4) > div > div.col-sm-8.thats-left > div:nth-child(3) > span.value > a').text();
 		return  artist;
 	}
 }

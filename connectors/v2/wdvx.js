@@ -2,16 +2,12 @@
 
 /* global Connector */
 
-Connector.playerSelector = '#wrap div.fixed';
+Connector.playerSelector = '.audiojs';
 
-Connector.getArtist = function () {
-	return $('.artist').text().replace('Artist: ','');
-};
+Connector.artistSelector = '#now-playing .artist';
 
-Connector.getTrack = function () {
-	return $('.title').text().replace('Title: ', '');
-};
+Connector.trackSelector = '#now-playing .title';
 
-Connector.isPlaying = function () {
-	return $('.pauseW').is(':visible');
+Connector.isPlaying = function() {
+	return $('.audiojs').hasClass('playingW');
 };

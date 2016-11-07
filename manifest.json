@@ -1,6 +1,6 @@
 {
   "name": "Last.fm Scrobbler",
-  "version": "1.57",
+  "version": "1.58",
 
   "description": "Scrobble music all around the web!",
   "icons": {
@@ -9,44 +9,42 @@
     "128": "icon128.png"
   },
 
-   "manifest_version": 2,
-   "content_security_policy": "script-src 'self' https://www.google-analytics.com/analytics.js; object-src 'self'",
+  "manifest_version": 2,
+  "content_security_policy": "script-src 'self' https://www.google-analytics.com/analytics.js; object-src 'self'",
 
-   "web_accessible_resources": [
-      "icon128.png",
-      "connectors/jango-dom-inject.js",
-      "connectors/plugdj-dom-inject.js",
-      "connectors/v2/soundcloud-dom-inject.js",
-      "connectors/vk-dom-inject.js"
-   ],
+  "web_accessible_resources": [
+    "icon128.png",
+    "connectors/v2/soundcloud-dom-inject.js",
+    "connectors/v2/vk-dom-inject.js"
+  ],
 
-   "background": {
-      "scripts": [
-	      "vendor/require.js", "core/background/requirejs-config.js",
-	      "core/background/main.js"
-      ]
-   },
+  "background": {
+    "scripts": [
+      "vendor/require.js", "core/background/requirejs-config.js",
+      "core/background/main.js"
+    ]
+  },
 
-   "options_page": "options/options.html",
+  "options_page": "options/options.html",
 
-   "permissions": [
-      "tabs",
-      "notifications",
-      "storage",
-      "https://ws.audioscrobbler.com/2.0/",
-      "https://gdata.youtube.com/feeds/api/videos/",
-      "http://*/",
-      "https://*/"
-   ],
+  "permissions": [
+    "tabs",
+    "notifications",
+    "storage",
+    "https://ws.audioscrobbler.com/2.0/",
+    "https://gdata.youtube.com/feeds/api/videos/",
+    "http://*/",
+    "https://*/"
+  ],
 
-   "page_action": {
-      "chromeBroken": "remove this line after issue #86449 is resolved"
-   },
+  "page_action": {
+    "chromeBroken": "remove this line after issue #86449 is resolved"
+  },
 
-   "content_scripts": [
-      {
-         "matches": ["<all_urls>"],
-         "js": ["connectors/dummy.js"]
-      }
-   ]
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["connectors/dummy.js"]
+    }
+  ]
 }

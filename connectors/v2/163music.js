@@ -4,7 +4,7 @@
 
 Connector.playerSelector = '.m-playbar';
 
-Connector.trackArtImageSelector = '.head img';
+Connector.trackArtImageSelector = '.head.j-flag img';
 
 Connector.getTrack = function() {
 		var track = $('.fc1').text();

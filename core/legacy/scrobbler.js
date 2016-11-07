@@ -317,7 +317,7 @@ define([
 			var xmlDoc = $.parseXML(http_request.responseText);
 			var xml = $(xmlDoc);
 
-			if (xml.find('lfm').attr('status') == 'ok') {
+			if (xml.find('lfm').attr('status') === 'ok') {
 				console.log('now playing %s - %s', song.artist, song.track);
 
 				// Confirm the content_script, that the song is 'now playing'
@@ -331,7 +331,7 @@ define([
 
 				// Update page action icon
 				setActionIcon(config.ACTION_NOWPLAYING);
-			} else if (xml.find('lfm error').attr('code') == 9) {
+			} else if (xml.find('lfm error').attr('code') === 9) {
 				authorize();
 			} else {
 				notifications.showError('Please see http://status.last.fm and check if everything is OK');
@@ -394,7 +394,7 @@ define([
 			http_request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 			http_request.send();
 
-			if (http_request.status == 200) {
+			if (http_request.status === 200) {
 				// Update page action icon
 				setActionIcon(config.ACTION_SCROBBLED);
 
@@ -414,13 +414,13 @@ define([
 					});
 				}
 
-			} else if (http_request.status == 503) {
+			} else if (http_request.status === 503) {
 				console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
 				notifications.showError('Please see http://status.last.fm and check if everything is OK');
 			} else {
 				var xmlDoc = $.parseXML(http_request.responseText);
 				var xml = $(xmlDoc);
-				if (xml.find('lfm error').attr('code') == 9) {
+				if (xml.find('lfm error').attr('code') === 9) {
 					authorize();
 				} else {
 					console.log('submit failed %s - %s (%s)', song.artist, song.track, http_request.responseText);
@@ -550,7 +550,7 @@ define([
 				var http_request = new XMLHttpRequest();
 				http_request.open('GET', request.url, true);
 				http_request.onreadystatechange = function() {
-					if (http_request.readyState == 4 && http_request.status == 200) {
+					if (http_request.readyState === 4 && http_request.status === 200) {
 						sendResponse({
 							text: http_request.responseText
 						});

@@ -12,7 +12,7 @@ Connector.isPlaying = function () {
 	var spanelement = document.querySelector('.now');
 	if(spanelement !== null)
 	{
-		if( spanelement.innerHTML == 'Jetzt:')
+		if( spanelement.innerHTML === 'Jetzt:')
 		{
 			return true;
 		}

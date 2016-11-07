@@ -50,15 +50,10 @@ define(function() {
 		},
 
 		{
-			label: 'TTNET Müzik',
-			matches: ['*://www.ttnetmuzik.com.tr/*'],
-			js: ['connectors/ttnet.js']
-		},
-
-		{
 			label: 'Thesixtyone',
 			matches: ['*://www.thesixtyone.com/*'],
-			js: ['connectors/61.js']
+			js: ['connectors/v2/61.js'],
+			version: 2
 		},
 
 		{
@@ -71,25 +66,15 @@ define(function() {
 		{
 			label: 'MySpace',
 			matches: ['*://myspace.com/*'],
-			js: ['connectors/myspace.js']
-		},
-
-		{
-			label: 'Pitchfork Advance',
-			matches: ['*://pitchfork.com/advance/*', '*://www.pitchfork.com/advance/*'],
-			js: ['connectors/pitchfork-advance.js']
+			js: ['connectors/v2/myspace.js'],
+			version: 2
 		},
 
 		{
 			label: 'Pitchfork',
 			matches: ['*://pitchfork.com/*', '*://www.pitchfork.com/*'],
-			js: ['connectors/pitchfork.js']
-		},
-
-		{
-			label: 'Fizy',
-			matches: ['*://fizy.com/*', '*://fizy.org/*'],
-			js: ['connectors/fizy.js']
+			js: ['connectors/v2/pitchfork.js'],
+			version: 2
 		},
 
 		{
@@ -130,13 +115,15 @@ define(function() {
 		{
 			label: 'pakartot',
 			matches: ['*://www.pakartot.lt/*'],
-			js: ['connectors/pakartot.js']
+			js: ['connectors/v2/pakartot.js'],
+			version: 2
 		},
 
 		{
 			label: 'Deezer',
 			matches: ['*://www.deezer.com/*'],
-			js: ['connectors/deezer.js']
+			js: ['connectors/v2/deezer.js'],
+			version: 2
 		},
 
 		{
@@ -148,28 +135,33 @@ define(function() {
 
 		{
 			label: 'Amazon',
-			matches: ['*://www.amazon.com/gp/dmusic/cloudplayer/*', '*://www.amazon.de/gp/dmusic/cloudplayer/*', '*://www.amazon.es/gp/dmusic/cloudplayer/*', '*://www.amazon.co.uk/gp/dmusic/cloudplayer/*'],
+			matches: [
+				'*://www.amazon.com/gp/dmusic/cloudplayer/*',
+				'*://www.amazon.de/gp/dmusic/cloudplayer/*',
+				'*://www.amazon.es/gp/dmusic/cloudplayer/*',
+				'*://www.amazon.co.uk/gp/dmusic/cloudplayer/*',
+				'*://www.amazon.co.jp/gp/dmusic/cloudplayer/*',
+				'*://music.amazon.com/*',
+				'*://music.amazon.de/*',
+				'*://music.amazon.es/*',
+				'*://music.amazon.co.uk/*',
+				'*://music.amazon.co.jp/*'],
 			js: ['connectors/v2/amazon.js'],
 			version: 2
 		},
 
 		{
 			label: 'Amazon Echo',
-			matches: ['*://alexa.amazon.com/#player'],
+			matches: ['*://alexa.amazon.com/spa/index.html#player'],
 			js: ['connectors/v2/alexa.js'],
 			version: 2
-		},
-
-		{ // DEAD?
-			label: 'Z-Music',
-			matches: ['*://z-music.org/*'],
-			js: ['connectors/zmusic.js']
 		},
 
 		{
 			label: 'VK',
 			matches: ['*://vk.com/*'],
-			js: ['connectors/vk.js']
+			js: ['connectors/v2/vk.js'],
+			version: 2
 		},
 
 		{
@@ -180,23 +172,18 @@ define(function() {
 		},
 
 		{
-			label: 'Weborama',
-			matches: ['*://www.weborama.fm/*'],
-			js: ['connectors/weborama.js'],
-			allFrames: true
-		},
-
-		{
 			label: '22 Tracks',
 			matches: ['*://22tracks.com/*'],
-			js: ['connectors/22tracks.js']
+			js: ['connectors/v2/22tracks.js'],
+			version: 2
 		},
 
 		{
 			label: 'Megalyrics',
 			matches: ['*://megalyrics.ru/*'],
-			js: ['connectors/megalyrics.js'],
-			allFrames: true
+			js: ['connectors/v2/megalyrics.js'],
+			allFrames: true,
+			version: 2
 		},
 
 		{
@@ -216,13 +203,7 @@ define(function() {
 		{
 			label: 'Tuba.FM',
 			matches: ['*://fm.tuba.pl/*'],
-			js: ['connectors/tubafm.js']
-		},
-
-		{
-			label: 'Spotify',
-			matches: ['https://player.spotify.com/*'],
-			js: ['connectors/v2/spotify.js'],
+			js: ['connectors/v2/tubafm.js'],
 			version: 2
 		},
 
@@ -234,15 +215,10 @@ define(function() {
 		},
 
 		{
-			label: 'Plug.dj',
+			label: 'plug.dj',
 			matches: ['*://plug.dj/*'],
-			js: ['connectors/plugdj.js']
-		},
-
-		{
-			label: 'Slacker (iframe)',
-			matches: ['*://www.slacker.com/webplayer/index_embed.vm'],
-			js: ['connectors/slacker.js']
+			js: ['connectors/v2/plugdj.js'],
+			version: 2
 		},
 
 		{
@@ -289,25 +265,21 @@ define(function() {
 		{
 			label: 'Moje Polskie Radio',
 			matches: ['*://moje.polskieradio.pl/station/*'],
-			js: ['connectors/mojepolskieradio.js']
+			js: ['connectors/v2/mojepolskieradio.js'],
+			version: 2
 		},
 
 		{
 			label: 'Nova Planet',
 			matches: ['*://www.novaplanet.com/radionova/player'],
-			js: ['connectors/novaplanet.js']
+			js: ['connectors/v2/novaplanet.js'],
+			version: 2
 		},
 
 		{
 			label: 'Radio+ Belgium',
-			matches: ['*://www.radioplus.be/*'],
-			js: ['connectors/radioplusbe.js']
-		},
-
-		{
-			label: 'Songza',
-			matches: ['*://songza.com/*'],
-			js: ['connectors/v2/songza.js'],
+			matches: ['*://www.radioplus.be/*', '*://radioplus.be/*'],
+			js: ['connectors/v2/radioplusbe.js'],
 			version: 2
 		},
 
@@ -320,25 +292,22 @@ define(function() {
 		{
 			label: 'Focus@Will',
 			matches: ['*://www.focusatwill.com/*'],
-			js: ['connectors/focusatwill.js']
+			js: ['connectors/v2/focusatwill.js'],
+			version: 2
 		},
 
 		{
 			label: 'Le Tourne Disque',
 			matches: ['*://www.letournedisque.com/*'],
-			js: ['connectors/letournedisque.js']
-		},
-
-		{
-			label: 'Rdio',
-			matches: ['*://www.rdio.com/*'],
-			js: ['connectors/rdio.js']
+			js: ['connectors/v2/letournedisque.js'],
+			version: 2
 		},
 
 		{
 			label: 'Reddit Playlister',
-			matches: ['*://redditplayer.phoenixforgotten.com/*'],
-			js: ['connectors/redditplayer.js']
+			matches: ['*://redditplayer.phoenixforgotten.com/*', '*://redditplaylister.phoenixforgotten.com/*'],
+			js: ['connectors/v2/redditplayer.js'],
+			version: 2
 		},
 
 		{
@@ -351,26 +320,15 @@ define(function() {
 		{
 			label: 'Sullen-Ural',
 			matches: ['*://sullen-ural.ru/*', '*://*.sullen-ural.ru/*'],
-			js: ['connectors/sullen-ural.js']
+			js: ['connectors/v2/sullen-ural.js'],
+			version: 2
 		},
 
 		{
 			label: 'Digitally Imported',
 			matches: ['*://www.di.fm/*'],
-			js: ['connectors/difm.js']
-		},
-
-		{
-			label: 'Beats Music',
-			matches: ['*://*.beatsmusic.com/*'],
-			js: ['connectors/v2/beats.js'],
+			js: ['connectors/v2/difm.js'],
 			version: 2
-		},
-
-		{
-			label: 'RadioPlayer',
-			matches: ['*://www.thisisstar.co.uk/*', '*://live.thebridgeradio.net/*', '*://www.chorley.fm/*', '*://www.sun-fm.com/*', '*://www.minsterfm.com/*', '*://www.uckfieldfm.co.uk/*', '*://radioplayer.bishopfm.com/*', '*://player.jackbristol.com/*', '*://player.106jack.com/*', '*://player.jackradio.com/*', '*://www.tcrfm.co.uk/*', '*://sparksunderland.com/*', '*://player.juicefm.com/*', '*://rp.xrad.io/*', '*://www.radiojackie.com/*', '*://people.bath.ac.uk/*', '*://www.2br.co.uk/*', '*://player.three.fm/*', '*://player.therevolution962.com/*', '*://player.thewave.co.uk/*', '*://www.kcclive.com/*', '*://player.absoluteradio.co.uk/*', '*://aliveradio.net/*', '*://allfm.org/*', '*://www.amazingradio.com/*', '*://www.ambersoundfm.com/*', '*://player.bailriggfm.co.uk/*', '*://player.thebay.co.uk/*', '*://www.bcbradio.co.uk/*', '*://www.thebeach.co.uk/*', '*://www.thebee.co.uk/*', '*://www.bfbs.com/*', '*://player.boltonfm.com/*', '*://andoverplayer.thebreeze.com/*', '*://basingstokeplayer.thebreeze.com/*', '*://bristolplayer.thebreeze.com/*', '*://cheltenhamplayer.thebreeze.com/*', '*://easthampshireplayer.thebreeze.com/*', '*://westwiltsplayer.thebreeze.com/*', '*://newburyplayer.thebreeze.com/*', '*://northdorsetplayer.thebreeze.com/*', '*://northsomersetplayer.thebreeze.com/*', '*://southplayer.thebreeze.com/*', '*://southamptonplayer.thebreeze.com/*', '*://winchesterplayer.thebreeze.com/*', '*://southsomersetplayer.thebreeze.com/*', '*://bridge.fm/*', '*://www.capitalfm.com/*', '*://www.capitalxtra.com/*', '*://www.thecatradio.co.uk/*', '*://ukradioplayer.cfmradio.com/*', '*://www.southendandchelmsfordradio.com/*', '*://www.silk1069.com/*', '*://www.dee1063.com/*', '*://app.musicradio.com/*', '*://ukradioplayer.citytalk.fm/*', '*://www.classicfm.com/*', '*://ukradioplayer.clyde1.com/*', '*://ukradioplayer.clyde2.com/*', '*://player.compassfm.co.uk/*', '*://northamptonshire.connectfm.com/*', '*://peterborough.connectfm.com/*', '*://ukradioplayer.coolfm.co.uk/*', '*://www.crossrhythms.co.uk/*', '*://crushradio.co.uk/*', '*://player.dearnefm.co.uk/*', '*://diversefm.com/*', '*://ukradioplayer.downtown.co.uk/*', '*://www.dream100.com/*', '*://www.drystoneradio.co.uk/*', '*://www.eagleextra.co.uk/*', '*://www.964eagle.co.uk/*', '*://www.eagle3.co.uk/*', '*://www.energyfm.net/*', '*://ondemand.georgeandfire.co.uk/*', '*://www.forestfm.co.uk/*', '*://ukradioplayer.forth2.com/*', '*://ukradioplayer.forthone.com/*', '*://www.frenchradiolondon.com/*', '*://www.funkidslive.com/*', '*://www.futureradio.co.uk/*', '*://www.gateway978.com/*', '*://nwplayer.gaydio.co.uk/*', '*://player.gaydio.co.uk/*', '*://ukradioplayer.hallamfm.co.uk/*', '*://ukrp.musicradio.com/*', '*://www.heart.co.uk/*', '*://ukradioplayer.heatradio.com/*', '*://ukradioplayer.thehitsradio.com/*', '*://player.hot1028.com/*', '*://www.hubradio.co.uk/*', '*://imaginefm.net/*', '*://www.indigofm.co.uk/*', '*://www.iwradio.co.uk/*', '*://player.jackfmswindon.com/*', '*://www.jazzfm.co/*', '*://player.juicebrighton.com/*', '*://kanefm.com/*', '*://player.kcfm.co.uk/*', '*://ukradioplayer.kerrangradio.co.uk/*', '*://ukradioplayer.key103.co.uk/*', '*://player.kingdomfm.co.uk/*', '*://kiss101.ukradioplayer.kissfmuk.com/*', '*://kiss105.ukradioplayer.kissfmuk.com/*', '*://kiss100.ukradioplayer.kissfmuk.com/*', '*://ukradioplayer.kissfresh.kissfmuk.com/*', '*://ukradioplayer.kisstory.kissfmuk.com/*', '*://www.klfm967.co.uk/*', '*://streaming.kentonline.co.uk/*', '*://player.lincsfm.co.uk/*', '*://ukradioplayer.magic.co.uk/*', '*://ukradioplayer.manchestersmagic.co.uk/*', '*://ukradioplayer.magic1152.co.uk/*', '*://ukradioplayer.magic1161.co.uk/*', '*://ukradioplayer.magic1170.co.uk/*', '*://ukradioplayer.magic1548.co.uk/*', '*://ukradioplayer.magic828.co.uk/*', '*://ukradioplayer.magic999.co.uk/*', '*://ukradioplayer.magicam.co.uk/*', '*://player.manxradio.com/*', '*://ukradioplayer.metroradio.co.uk/*', '*://ukradioplayerone.mfr.co.uk/*', '*://ukradioplayertwo.mfr.co.uk/*', '*://www.ministryofsound.com/*', '*://www.mix96.co.uk/*', '*://www.mkfm.com/*', '*://nationhits.com/*', '*://www.nationradio.com/*', '*://www.northnorfolkradio.com/*', '*://ukradioplayer.northsound1.com/*', '*://ukradioplayer.northsound2.com/*', '*://www.999radionorwich.com/*', '*://player.oakfm.co.uk/*', '*://www.originalfm.com/*', '*://palm105.co.uk/*', '*://player.peakfm.net/*', '*://www.piratefm.co.uk/*', '*://player.planetrock.com/*', '*://www.premierradio.org.uk/*', '*://player.pulse2.net/*', '*://player.pulse.co.uk/*', '*://ukradioplayer.radioaire.co.uk/*', '*://ukradioplayer.radioborders.com/*', '*://radiocarmarthenshire.com/*', '*://www.radiocaroline.co.uk/*', '*://radioceredigion.com/*', '*://ukradioplayer.radiocity.co.uk/*', '*://www.radioessex.com/*', '*://player.radioexe.co.uk/*', '*://radiolab.beds.ac.uk/*', '*://radiopembrokeshire.com/*', '*://radioplus.org.uk/*', '*://www.radiotyneside.co.uk/*', '*://www.radioverulam.com/*', '*://player.wave965.com/*', '*://radioreverb.com/*', '*://www.realradionortheast.co.uk/*', '*://www.realradionorthwest.co.uk/*', '*://www.realradio-scotland.co.uk/*', '*://www.realradiowales.co.uk/*', '*://www.realradioxs.co.uk/*', '*://www.realradioyorkshire.co.uk/*', '*://www.reprezent.org.uk/*', '*://radioplayer.resonancefm.com/*', '*://player.ridingsfm.co.uk/*', '*://rinse.fm/*', '*://listen.insightradio.co.uk/*', '*://ukradioplayer.rockfm.co.uk/*', '*://player.rotherfm.co.uk/*', '*://player.rutlandradio.co.uk/*', '*://scarletfm.com/*', '*://www.sfmradio.com/*', '*://www.toxicflames.co.uk/*', '*://player.signal1.co.uk/*', '*://player.signal107.co.uk/*', '*://player.signal2.co.uk/*', '*://smilesussex.com/*', '*://www.smoothradio.co.uk/*', '*://www.solarradio.com/*', '*://www.somervalleyfm.co.uk/*', '*://player.soundartradio.org.uk/*', '*://www.thesourcefm.co.uk/*', '*://www.spectrumradio.net/*', '*://www.spirefm.co.uk/*', '*://www.spiritfm.net/*', '*://www.star107.co.uk/*', '*://www.strayfm.com/*', '*://www.susyradio.com/*', '*://player.swanseasound.co.uk/*', '*://www.switchradio.co.uk/*', '*://talksport.com/*', '*://tonefm.co.uk/*', '*://ukradioplayer.tayam.co.uk/*', '*://ukradioplayer.tayfm.co.uk/*', '*://www.teamrockradio.com/*', '*://ukradioplayer.tfmradio.com/*', '*://player.towerfm.co.uk/*', '*://www.town102.com/*', '*://player.traxfm.co.uk/*', '*://player.2lr.co.uk/*', '*://www.u105.com/*', '*://www.ucb.co.uk/*', '*://ury.org.uk/*', '*://urn1350.net/*', '*://ukradioplayer.vikingfm.co.uk/*', '*://www.thevoicefm.co.uk/*', '*://ruvr.co.uk/*', '*://ukradioplayer.wave105.com/*', '*://www.wessexfm.com/*', '*://ukradioplayer.westfm.co.uk/*', '*://ukradioplayer.westsound.co.uk/*', '*://ukradioplayer.westsoundradio.com/*', '*://player.wirefm.com/*', '*://player.wishfm.net/*', '*://www.xfm.co.uk/*', '*://www.yorkshirecoastradio.com/*'],
-			js: ['connectors/radioplayer.js']
 		},
 
 		{
@@ -388,15 +346,10 @@ define(function() {
 		},
 
 		{
-			label: 'Music Unlimited',
-			matches: ['*://music.sonyentertainmentnetwork.com/*'],
-			js: ['connectors/musicunlimited.js']
-		},
-
-		{
 			label: 'Yandex.Music',
 			matches: ['*://music.yandex.ru/*', '*://music.yandex.by/*', '*://music.yandex.kz/*', '*://music.yandex.ua/*'],
-			js: ['connectors/yandex.js']
+			js: ['connectors/v2/yandex.js'],
+			version: 2
 		},
 
 		{
@@ -407,8 +360,8 @@ define(function() {
 		},
 
 		{
-			label: 'Pleer.Com (Prostopleer)',
-			matches: ['*://pleer.com/*', '*://prostopleer.com/*'],
+			label: 'Prostopleer',
+			matches: ['*://pleer.net/*'],
 			js: ['connectors/v2/pleer.js'],
 			version: 2
 		},
@@ -416,7 +369,8 @@ define(function() {
 		{
 			label: 'TuneIn',
 			matches: ['*://tunein.com/*'],
-			js: ['connectors/tunein.js']
+			js: ['connectors/v2/tunein.js'],
+			version: 2
 		},
 
 		{
@@ -429,7 +383,8 @@ define(function() {
 		{
 			label: 'ReverbNation',
 			matches: ['*://www.reverbnation.com/*'],
-			js: ['connectors/reverbnation.js']
+			js: ['connectors/v2/reverbnation.js'],
+			version: 2
 		},
 
 		{
@@ -442,7 +397,8 @@ define(function() {
 		{
 			label: 'NRK Radio',
 			matches: ['*://radio.nrk.no/*'],
-			js: ['connectors/nrkradio.js']
+			js: ['connectors/v2/nrkradio.js'],
+			version: 2
 		},
 
 		{
@@ -455,14 +411,16 @@ define(function() {
 		{
 			label: 'Odnoklassniki',
 			matches: ['*://odnoklassniki.ru/*', '*://ok.ru/*'],
-			js: ['connectors/odnoklassniki.js'],
-			allFrames: true
+			js: ['connectors/v2/odnoklassniki.js'],
+			allFrames: true,
+			version: 2
 		},
 
 		{
 			label: 'Soundozer',
 			matches: ['*://soundozer.com/*'],
-			js: ['connectors/soundozer.js']
+			js: ['connectors/v2/soundozer.js'],
+			version: 2
 		},
 
 		{
@@ -473,21 +431,17 @@ define(function() {
 		},
 
 		{
-			label: 'blinkboxMusic',
-			matches: ['*://www.blinkboxmusic.com/*'],
-			js: ['connectors/blinkboxmusic.js']
-		},
-
-		{
 			label: 'luooMusic',
 			matches: ['*://www.luoo.net/*'],
-			js: ['connectors/luoo.js']
+			js: ['connectors/v2/luoo.js'],
+			version: 2
 		},
 
 		{
 			label: 'ambientsleepingpill',
-			matches: ['*://*.ambientsleepingpill.com/'],
-			js: ['connectors/ambientsleepingpill.js']
+			matches: ['*://ambientsleepingpill.com/'],
+			js: ['connectors/v2/ambientsleepingpill.js'],
+			version: 2
 		},
 
 		{
@@ -504,23 +458,9 @@ define(function() {
 		},
 
 		{
-			label: 'Bop.fm',
-			matches: ['*://bop.fm/*'],
-			js: ['connectors/v2/bopfm.js'],
-			version: 2
-		},
-
-		{
 			label: 'Hype Machine',
 			matches: ['*://hypem.com/*'],
 			js: ['connectors/v2/hypem.js'],
-			version: 2
-		},
-
-		{
-			label: 'Shuffler.fm',
-			matches: ['*://www.shuffler.fm/*', '*://shuffler.fm/*'],
-			js: ['connectors/v2/shuffler.fm.js'],
 			version: 2
 		},
 
@@ -539,6 +479,13 @@ define(function() {
 		},
 
 		{
+			label: 'AccuJazz',
+			matches: ['*://www.accuradio.com/pop_player/accujazz/*'],
+			js: ['connectors/v2/accujazz.js'],
+			version: 2
+		},
+
+		{
 			label: 'AccuRadio',
 			matches: ['*://www.accuradio.com/*'],
 			js: ['connectors/v2/accuradio.js'],
@@ -547,7 +494,7 @@ define(function() {
 
 		{
 			label: 'RAW.FM',
-			matches: ['*://www.rawfm.com.au/stream/player/', '*://rawfm.com.au/stream/player/'],
+			matches: ['*://www.rawfm.com.au/stream/player*/', '*://rawfm.com.au/stream/player*/'],
 			js: ['connectors/v2/rawfm.js'],
 			version: 2
 		},
@@ -563,13 +510,6 @@ define(function() {
 			label: 'GoEar.Com',
 			matches: ['*://*.goear.com/*', '*://goear.com/*'],
 			js: ['connectors/v2/goear.com.js'],
-			version: 2
-		},
-
-		{
-			label: 'AccuJazz',
-			matches: ['*://*.slipstreamradio.com/*'],
-			js: ['connectors/v2/accujazz.js'],
 			version: 2
 		},
 
@@ -602,13 +542,6 @@ define(function() {
 		},
 
 		{
-			label: 'TheDrop',
-			matches: ['*://thedrop.club/*'],
-			js: ['connectors/v2/thedrop.js'],
-			version: 2
-		},
-
-		{
 			label: 'ThisIsMyJam',
 			matches: ['*://www.thisismyjam.com/*'],
 			js: ['connectors/v2/thisismyjam.js'],
@@ -617,7 +550,7 @@ define(function() {
 
 		{
 			label: 'Wonder.fm',
-			matches: ['*://wonder.fm/*'],
+			matches: ['*://wonder.fm/*', '*://white-label.fm/*', '*://primary.fm/*'],
 			js: ['connectors/v2/wonder.fm.js'],
 			version: 2
 		},
@@ -659,7 +592,7 @@ define(function() {
 
 		{
 			label: 'Москва ФМ / Питер ФМ',
-			matches: ['*://www.moskva.fm/*', '*://www.piter.fm/*'],
+			matches: ['*://moskva.fm/*', '*://piter.fm/*'],
 			js: ['connectors/v2/moskva-piter-fm.js'],
 			version: 2
 		},
@@ -689,6 +622,13 @@ define(function() {
 			label: 'Bandzone.cz',
 			matches: ['*://bandzone.cz/*'],
 			js: ['connectors/v2/bandzone.cz.js'],
+			version: 2
+		},
+
+		{
+			label: 'Driveplayer.com',
+			matches: ['*://www.driveplayer.com/*'],
+			js: ['connectors/v2/driveplayer.com.js'],
 			version: 2
 		},
 
@@ -895,7 +835,7 @@ define(function() {
 		},
 
 		{
-			label: 'beatport - www',
+			label: 'Beatport',
 			matches: ['*://www.beatport.com/*'],
 			js: ['connectors/v2/beatport-www.js'],
 			version: 2
@@ -924,7 +864,7 @@ define(function() {
 
 		{
 			label: 'WDVX',
-			matches: ['http://www.wdvx.com/listen-live/'],
+			matches: ['http://wdvx.com/listen-live/'],
 			js: ['connectors/v2/wdvx.js'],
 			version: 2
 		},
@@ -1012,7 +952,48 @@ define(function() {
 			matches: ['*://*radiobonton.cz/*'],
 			js: ['connectors/v2/danceradiocz.js'],
 			version: 2
-		}
+		},
 
+		{
+			label: 'GPMusic',
+			matches: ['*://player.gpmusic.co/*'],
+			js: ['connectors/v2/gpmusic.js'],
+			version: 2
+		},
+
+		{
+			label: 'Youtube Jukebox',
+			matches: ['http://youtube.nestharion.de/*'],
+			js: ['connectors/v2/yt-jukebox.js'],
+			version: 2
+		},
+
+		{
+			label: 'Nightwave Plaza',
+			matches: ['https://plaza.one/*'],
+			js: ['connectors/v2/nightwaveplaza.js'],
+			version: 2
+		},
+
+		{
+			label: 'Youtubify',
+			matches: ['*://youtubify.vebto.com/*'],
+			js: ['connectors/v2/youtubify.js'],
+			version: 2
+		},
+
+		{
+			label: 'Paste Radio',
+			matches: ['*://www.pastemagazine.com/radio*'],
+			js: ['connectors/v2/pasteradio.js'],
+			version: 2
+		},
+
+		{
+			label: 'Genie',
+			matches: ['http://www.genie.co.kr/player/fPlayer'],
+			js: ['connectors/v2/genie.js'],
+			version: 2
+		}
 	];
 });

@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Requirejs configuration for all background scripts
  */

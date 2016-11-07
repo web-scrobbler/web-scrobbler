@@ -2,14 +2,12 @@
 
 /* global Connector */
 
-Connector.playerSelector = '.player-static';
+Connector.playerSelector = '#mbox_player';
 
-Connector.trackArtImageSelector = '.block-header img';
+Connector.trackArtImageSelector = '.aplayer_track-icon';
 
-Connector.artistSelector = '[data-block="player-artist-link"]';
+Connector.artistSelector = '.aplayer-track-title__singer';
 
-Connector.trackSelector = '[data-block="player-song-link"]';
+Connector.trackSelector = '.aplayer-track-title__song';
 
-Connector.isPlaying = function () {
-	return $('.player-play').hasClass('player-static-stream');
-};
+Connector.playButtonSelector = '.aplayer_button_play';

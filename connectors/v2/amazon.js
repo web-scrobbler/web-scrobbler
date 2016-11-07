@@ -17,7 +17,7 @@ Connector.getAlbum = function() {
 		$('.trackSourceLink a').attr('title');
 };
 
-Connector.currentTimeSelector = '#currentTime';
+Connector.currentTimeSelector = '.songDuration.timeElapsed';
 
 Connector.playButtonSelector = '.rightSide .playbackControls .playerIconPlay';
 

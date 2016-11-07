@@ -2,10 +2,7 @@
 
 /* global Connector */
 
-Connector.playerSelector = '.audio-player-wrapper';
-
-Connector.artistSelector = '.audio-player-song p';
-
-Connector.trackSelector = '.audio-player-artist p';
-
-Connector.playButtonSelector = '.fa-play';
+Connector.playerSelector = '.sidebar .audio-player';
+Connector.artistSelector = '.sidebar .audio-player__song p'; // yeah, these are the other way around in the app...
+Connector.trackSelector = '.sidebar .audio-player__artist p'; // yeah, these are the other way around in the app...
+Connector.playButtonSelector = '.sidebar .audio-player__play .fa-play';

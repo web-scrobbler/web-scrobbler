@@ -18,7 +18,7 @@ Connector.getTrack = function() {
 };
 
 $(document).ready(function(){
-	// Needed because DON is not changed during first song
+	// Needed because DOM is not changed during first song
 	setTimeout(function() {
 		$(Connector.playerSelector).append('<div class="webscrobbler-connector-loaded" style="display:none;"></div>');
 	}, 1000);
