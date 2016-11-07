@@ -199,7 +199,7 @@ require([
 		if (ctrl) {
 			ctrl.onPageActionClicked(tab);
 		} else {
-			legacyScrobbleService.bindScrobbler(LastFM);r.onPageActionClicked(tab);
+			legacyScrobbler.onPageActionClicked(tab);
 		}
 	});
 
