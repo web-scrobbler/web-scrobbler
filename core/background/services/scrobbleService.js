@@ -6,11 +6,11 @@
 define([], function () {
 	var scrobblers = [];
 
-	console.log('ScrobbleService: start ' + scrobblers.length);
+	console.log('ScrobbleService: init() total: ' + scrobblers.length);
 
-	var hasScrobbler = function() {
+	 function hasScrobbler() {
 		return scrobblers.length !== 0;
-	};
+	}
 
 	return {
 		bindScrobbler: function (scrobbler) {
