@@ -1,17 +1,22 @@
 'use strict';
 
 define([
-	'scrobblers/lastfm'
-], function(LastFM) {
+	'services/scrobbleService'
+], function(ScrobbleService) {
 
 	return {
 		loadSong: function (song, cb) {
+
 			var onLoaded = function (isLfmValid) {
 				cb(isLfmValid);
 			};
 
+			var Scrobbler = ScrobbleService.getFirstBound();
+
+			console.log('lfm-metadata loadSong() using: ' + Scrobbler.getLabel());
+
 			// load song metadata and update attemptedLFMValidation flag
-			LastFM.loadSongInfo(song, onLoaded);
+			Scrobbler.loadSongInfo(song, onLoaded);
 		}
 	};
 

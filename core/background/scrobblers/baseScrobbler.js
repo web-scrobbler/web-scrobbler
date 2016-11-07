@@ -5,8 +5,9 @@ define([
 	'vendor/md5',
 	'wrappers/can',
 	'objects/serviceCallResult',
-	'chromeStorage'
-], function ($, MD5, can, ServiceCallResultFactory, ChromeStorage) {
+	'chromeStorage',
+	'services/scrobbleService'
+], function ($, MD5, can, ServiceCallResultFactory, ChromeStorage, ScrobbleService) {
 	const GET_AUTH_URL_TIMEOUT = 10000;
 
 	function BaseScrobbler(options) {
@@ -17,6 +18,7 @@ define([
 		this.apiSecret = options.apiSecret;
 		this.authUrl = options.authUrl;
 		this.storage = ChromeStorage.getNamespace(options.storage);
+		this.scrobbleService = ScrobbleService;
 	}
 
 	BaseScrobbler.prototype = {
