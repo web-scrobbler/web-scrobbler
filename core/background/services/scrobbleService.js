@@ -48,7 +48,7 @@ define([], function () {
 
 		getFirstBound: function() {
 			if (!hasScrobbler()) {
-				throw "No Scrobblers Bound";
+				throw 'No Scrobblers Bound';
 			}
 
 			return scrobblers[0];
