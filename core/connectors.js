@@ -284,9 +284,10 @@ define(function() {
 		},
 
 		{
-			label: 'Douban Programme',
-			matches: ['http://music.douban.com/programme/*'],
-			js: ['connectors/douban-programme.js']
+			label: 'Douban FM',
+			matches: ['*://douban.fm/*'],
+			js: ['connectors/v2/doubanfm.js'],
+			version: 2
 		},
 
 		{
