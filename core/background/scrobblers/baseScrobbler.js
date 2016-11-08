@@ -115,6 +115,8 @@ define([
 							this.storage.set(data, function () {
 								cb(null, null);
 							});
+
+							this.scrobbleService.unbindScrobbler(this);
 						} else {
 							// token is already used, reset it and store the new session
 							data.token = null;
