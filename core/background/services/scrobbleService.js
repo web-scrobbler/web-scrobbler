@@ -4,12 +4,26 @@
  * Service to handle all scrobbling behaviour.
  */
 define([], function () {
-	var scrobblers = [];
+	var boundScrobblers = [];
+	var registeredScrobblers = [];
 
-	console.log('ScrobbleService: init() total: ' + scrobblers.length);
+	console.log('ScrobbleService: init() total: ' + boundScrobblers.length);
 
 	function hasScrobbler() {
-		return scrobblers.length !== 0;
+		return boundScrobblers.length !== 0;
+	}
+
+	function isScrobblerInArray(scrobbler, array) {
+		return array.some(s => {
+			return s.getLabel() === scrobbler.getLabel();
+		}).length > 0;
+	}
+
+	function registerScrobbler(scrobbler) {
+		if (!isScrobblerInArray(scrobbler, registeredScrobblers)) {
+			console.log('ScrobbleService: registerScrobbler: ' + scrobbler.getLabel());
+			registeredScrobblers.push(scrobbler);
+		}
 	}
 
 	return {
@@ -18,6 +32,8 @@ define([], function () {
 			let promises = unboundScrobblers.map(scrobbler => {
 				return new Promise(resolve => {
 					scrobbler.getSession(sessionId => {
+						registerScrobbler(scrobbler);
+
 						if (sessionId) {
 							this.bindScrobbler(scrobbler);
 						}
@@ -27,36 +43,37 @@ define([], function () {
 				});
 			});
 
-			return Promise.all(promises).then(() => scrobblers);
+			return Promise.all(promises).then(() => boundScrobblers);
 		},
 
 		bindScrobbler: function (scrobbler) {
-			if (!scrobblers.some(function(s) { return s.getLabel() === scrobbler.getLabel();})) {
-				scrobblers.push(scrobbler);
-				console.log('ScrobbleService: bindScrobbler() ' + scrobbler.getLabel() + ' total:' + scrobblers.length);
+			if (!isScrobblerInArray(scrobbler, boundScrobblers)) {
+				boundScrobblers.push(scrobbler);
+				console.log('ScrobbleService: bindScrobbler() ' + scrobbler.getLabel() + ' total:' + boundScrobblers.length);
 			}
 		},
 
 		unbindScrobbler: function (scrobbler) {
-			console.log('ScrobbleService: unbindScrobbler() ' + scrobbler.getLabel() + ' total:' + scrobblers.length);
-			scrobblers = scrobblers.filter(
+			boundScrobblers = boundScrobblers.filter(
 				function (s) {
 					if (s !== scrobbler) {
 						return s;
+					} else {
+						console.log('ScrobbleService: unbindScrobbler() ' + scrobbler.getLabel() + ' total:' + boundScrobblers.length);
 					}
 				}
 			);
 		},
 		sendNowPlaying: function (song, cb) {
-			console.log('ScrobbleService: sendNowPlaying() ' + scrobblers.length);
-			scrobblers.forEach(function (scrobbler) {
+			console.log('ScrobbleService: sendNowPlaying() ' + boundScrobblers.length);
+			boundScrobblers.forEach(function (scrobbler) {
 				scrobbler.sendNowPlaying(song, cb);
 			});
 		},
 
 		scrobble: function (song, cb) {
-			console.log('ScrobbleService: scrobble() ' + scrobblers.length);
-			scrobblers.forEach(function (scrobbler) {
+			console.log('ScrobbleService: scrobble() ' + boundScrobblers.length);
+			boundScrobblers.forEach(function (scrobbler) {
 				scrobbler.scrobble(song, cb);
 			});
 		},
@@ -68,7 +85,17 @@ define([], function () {
 				throw 'No Scrobblers Bound';
 			}
 
-			return scrobblers[0];
+			return boundScrobblers[0];
+		},
+
+		getScrobblerByLabel: function(label) {
+			for (let scrobbler of registeredScrobblers) {
+				if (scrobbler.getLabel() === label) {
+					return scrobbler;
+				}
+			}
+
+			return null;
 		}
 	};
 });
