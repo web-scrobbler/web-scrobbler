@@ -822,7 +822,7 @@ define(function() {
 		},
 		{
 			label: 'Ego FM',
-			matches: ['*://www.egofm.de/*'],
+			matches: ['*://www.egofm.de/*', '*://player.addradio.de/player/2366*'],
 			js: ['connectors/v2/ego-fm.js'],
 			version: 2
 		},
