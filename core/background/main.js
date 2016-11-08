@@ -292,35 +292,15 @@ require([
 		GA.pageview(`/background-loaded?version=${extVersion}`);
 
 
-		var scrobblerNotifications = ChromeStorage.getNamespace('ScrobblerNotifications');
-
-		// check session ID status and show notification if authentication is needed
-		LastFM.getSession(function(sessionID) {
-			if (!sessionID) {
-				Notifications.showAuthenticate(LastFM.getAuthUrl.bind(LastFM));
-			} else {
-				console.info(LastFM.getLabel() + ' Session ID ' + 'xxxxx' + sessionID.substr(5));
-				ScrobbleService.bindScrobbler(LastFM);
-			}
-		});
-
-
-		// check session ID status and show notification if authentication is needed
-		LibreFM.getSession(function(sessionID) {
-			if (!sessionID) {
-				scrobblerNotifications.get(function(data) {
-					if (typeof data.librefm === 'undefined') {
-						Notifications.showAuthenticate(LibreFM.getAuthUrl.bind(LibreFM));
-						data.librefm = true;
-						scrobblerNotifications.set(data, null);
-					}
+		let scrobblers = [LastFM, LibreFM];
+		ScrobbleService.bindScrobblers(scrobblers).then(boundScrobblers => {
+			if (boundScrobblers.length === 0) {
+				console.warn('No scrobblers are bound');
+				scrobblers.forEach(scrobbler => {
+					Notifications.showAuthenticate(scrobbler.getAuthUrl.bind(scrobbler));
 				});
-			} else {
-				console.info(LibreFM.getLabel() + ' Session ID ' + 'xxxxx' + sessionID.substr(5));
-				ScrobbleService.bindScrobbler(LibreFM);
 			}
 		});
-
 	}
 
 	startup();
