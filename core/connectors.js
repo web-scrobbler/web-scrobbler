@@ -886,7 +886,7 @@ define(function() {
 
 		{
 			label: 'cubic.fm',
-			matches: ['https://cubic.fm/*'],
+			matches: ['http://cubic.fm/*'],
 			js: ['connectors/v2/cubicfm.js'],
 			version: 2
 		},
