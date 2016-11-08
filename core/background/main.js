@@ -138,6 +138,14 @@ require([
 					ctrl.resetSongData();
 				}
 				break;
+
+			case 'v2.authenticate':
+				let scrobblerLabel = request.scrobbler;
+				let scrobbler = ScrobbleService.getScrobblerByLabel(scrobblerLabel);
+				if (scrobbler) {
+					Notifications.showAuthenticate(scrobbler.getAuthUrl.bind(scrobbler));
+				}
+				break;
 		}
 
 		return true;
