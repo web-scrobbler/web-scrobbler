@@ -8,11 +8,28 @@ define([], function () {
 
 	console.log('ScrobbleService: init() total: ' + scrobblers.length);
 
-	 function hasScrobbler() {
+	function hasScrobbler() {
 		return scrobblers.length !== 0;
 	}
 
 	return {
+		bindScrobblers: function(unboundScrobblers) {
+			// Convert each `getSession` call into Promise
+			let promises = unboundScrobblers.map(scrobbler => {
+				return new Promise(resolve => {
+					scrobbler.getSession(sessionId => {
+						if (sessionId) {
+							this.bindScrobbler(scrobbler);
+						}
+
+						resolve();
+					});
+				});
+			});
+
+			return Promise.all(promises).then(() => scrobblers);
+		},
+
 		bindScrobbler: function (scrobbler) {
 			if (!scrobblers.some(function(s) { return s.getLabel() === scrobbler.getLabel();})) {
 				scrobblers.push(scrobbler);

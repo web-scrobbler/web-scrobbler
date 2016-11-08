@@ -159,6 +159,7 @@ define([
 				})
 				.fail(function (jqxhr, textStatus, error) {
 					console.error('auth.getSession failed: ' + error + ', ' + textStatus);
+					cb(null);
 				});
 		},
 
