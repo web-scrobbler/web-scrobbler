@@ -8,7 +8,7 @@ define([], function () {
 
 	console.log('ScrobbleService: init() total: ' + scrobblers.length);
 
-	 function hasScrobbler() {
+	function hasScrobbler() {
 		return scrobblers.length !== 0;
 	}
 
