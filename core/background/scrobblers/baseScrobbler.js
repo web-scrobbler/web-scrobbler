@@ -11,7 +11,6 @@ define([
 	const GET_AUTH_URL_TIMEOUT = 10000;
 
 	function BaseScrobbler(options) {
-		this.enableLogging = true;
 		this.label = options.label;
 		this.apiUrl = options.apiUrl;
 		this.apiKey = options.apiKey;
@@ -105,7 +104,7 @@ define([
 				if (token !== null) {
 					this.tradeTokenForSession(token, function (session) {
 						if (session === null || typeof session.key === 'undefined') {
-							console.warn('Failed to trade token for session - the token is probably not authorized');
+							console.warn(this.label + ' Failed to trade token for session - the token is probably not authorized');
 
 							// both session and token are now invalid
 							data.token = null;
@@ -152,14 +151,14 @@ define([
 			$.getJSON(url)
 				.done(function (response) {
 					if ((response.error && response.error > 0) || !response.session) {
-						console.log('auth.getSession response: ' + JSON.stringify(response));
+						console.log(this.label + ' auth.getSession response: ' + JSON.stringify(response));
 						cb(null);
 					} else {
 						cb(response.session);
 					}
 				})
 				.fail(function (jqxhr, textStatus, error) {
-					console.error('auth.getSession failed: ' + error + ', ' + textStatus);
+					console.error(this.label + ' auth.getSession failed: ' + error + ', ' + textStatus);
 					cb(null);
 				});
 		},
@@ -223,18 +222,14 @@ define([
 			var url = this.apiUrl + '?' + paramPairs.join('&');
 
 			var internalOkCb = function (xmlDoc, status) {
-				if (this.enableLogging) {
-					console.info(this.label + ' response to ' + method + ' ' + url + ' : ' + status + '\n' + (new XMLSerializer()).serializeToString(xmlDoc));
-				}
+
+				console.info(this.label + ' response to ' + method + ' ' + url + ' : ' + status + '\n' + (new XMLSerializer()).serializeToString(xmlDoc));
 
 				okCb.apply(this, arguments);
 			}.bind(this);
 
 			var internalErrCb = function (jqXHR, status, response) {
-				if (this.enableLogging) {
-					console.error(this.label + ' response to ' + url + ' : ' + status + '\n' + response);
-				}
-
+				console.error(this.label + ' response to ' + url + ' : ' + status + '\n' + response);
 				errCb.apply(this, arguments);
 			}.bind(this);
 
@@ -247,7 +242,7 @@ define([
 					.done(internalOkCb)
 					.fail(internalErrCb);
 			} else {
-				console.error('Unknown method: ' + method);
+				console.error(this.label + ' Unknown method: ' + method);
 			}
 		},
 
@@ -367,9 +362,7 @@ define([
 					cb(false);
 				};
 
-				if (this.enableLogging) {
-					console.log(this.label + ' sendNowPlaying()');
-				}
+				console.log(this.label + ' sendNowPlaying()');
 
 				this.doRequest('POST', params, true, okCb, errCb);
 			}.bind(this));
@@ -427,9 +420,7 @@ define([
 					cb(result);
 				};
 
-				if (this.enableLogging) {
-					console.log(this.label + ' scrobble()');
-				}
+				console.log(this.label + ' scrobble()');
 
 				this.doRequest('POST', params, true, okCb, errCb);
 			}.bind(this));

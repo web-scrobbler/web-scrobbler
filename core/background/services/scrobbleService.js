@@ -19,8 +19,6 @@ define([], function () {
 	 */
 	var registeredScrobblers = [];
 
-	console.log('ScrobbleService: init() total: ' + boundScrobblers.length);
-
 	function hasScrobbler() {
 		return boundScrobblers.length !== 0;
 	}
