@@ -14,9 +14,27 @@ chrome.storage.local.get('Connectors', function(data) {
 	}
 });
 
-Connector.playerSelector = '#page';
+Connector.videoSelector = '#player-api .html5-main-video';
+
+{
+	$(Connector.videoSelector).on('timeupdate', () => {
+		if (Connector.isStateChangeAllowed()) {
+			Connector.onStateChanged();
+		}
+	});
+}
 
 Connector.artistTrackSelector = '#eow-title';
+
+Connector.escapeBadTimeValues = function (time) {
+	if (typeof time !== 'number') {
+		return null;
+	}
+	if (isNaN(time) || !isFinite(time)) {
+		return null;
+	}
+	return time;
+};
 
 /**
  * Because player can be still present in the page, we need to detect that it's invisible
@@ -26,9 +44,8 @@ Connector.getCurrentTime = function() {
 	if (isPlayerOffscreen()) {
 		return null;
 	}
-
-	var $time = $('#player-api .ytp-time-current');
-	return this.stringToSeconds($time.text());
+	const currentTime = $(this.videoSelector).prop('currentTime');
+	return this.escapeBadTimeValues(currentTime);
 };
 
 /**
@@ -37,11 +54,10 @@ Connector.getCurrentTime = function() {
  */
 Connector.getDuration = function() {
 	if (isPlayerOffscreen()) {
-		return 0;
+		return null;
 	}
-
-	var $duration = $('#player-api .ytp-time-duration');
-	return this.stringToSeconds($duration.text());
+	const duration = $(this.videoSelector).prop('duration');
+	return this.escapeBadTimeValues(duration);
 };
 
 Connector.getUniqueID = function() {
