@@ -143,8 +143,8 @@ define([
 					cb(response.session);
 				}
 			})
-			.fail(function(jqxhr, textStatus, error) {
-				console.error('auth.getSession failed: ' + error + ', ' + textStatus);
+			.fail(function(jqxhr) {
+				console.error('auth.getSession failed: ' + jqxhr.responseText);
 				cb(null);
 			});
 	}
@@ -216,9 +216,9 @@ define([
 			okCb.apply(this, arguments);
 		};
 
-		var internalErrCb = function(jqXHR, status, response) {
+		var internalErrCb = function(jqXHR) {
 			if (enableLogging) {
-				console.error('L.FM response to ' + url + ' : ' + status + '\n' + response);
+				console.error('L.FM response to ' + url + ' : ' + jqXHR.responseText);
 			}
 
 			errCb.apply(this, arguments);
