@@ -9,9 +9,8 @@ require([
 	'wrappers/chrome',
 	'scrobblers/lastfm',
 	'scrobblers/librefm',
-	'notifications',
 	'bootstrap'
-], function ($, config, connectors, customPatterns, ChromeStorage, chrome, LastFM, LibreFM, notifications) {
+], function ($, config, connectors, customPatterns, ChromeStorage, chrome, LastFM, LibreFM) {
 
 	$(function () {
 		var connectorsOptions = ChromeStorage.getNamespace('Connectors');
@@ -51,11 +50,17 @@ require([
 
 
 		$('button#authorize-lastfm').click(function () {
-			notifications.showAuthenticate(LastFM.getAuthUrl.bind(LastFM));
+			chrome.runtime.sendMessage({
+				type: 'v2.authenticate',
+				scrobbler: LastFM.getLabel()
+			});
 		});
 
 		$('button#authorize-librefm').click(function () {
-			notifications.showAuthenticate(LibreFM.getAuthUrl.bind(LibreFM));
+			chrome.runtime.sendMessage({
+				type: 'v2.authenticate',
+				scrobbler: LibreFM.getLabel()
+			});
 		});
 
 		$('input#toggle').click(function () {
