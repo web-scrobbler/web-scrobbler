@@ -11,7 +11,7 @@ Connector.artistTrackSelector = '.videoTitle.noColorLink';
 Connector.getArtistTrack = function () {
 	if ($(Connector.artistTrackSelector).text().match(/ - /g).length === 2) {
 		var arr = $(Connector.artistTrackSelector).text().split(' - ');
-		return {artist: arr[1].trim(), track: arr[2].trim()};
+		return {artist: arr[1], track: arr[2]};
 	}
 	var text = $(this.artistTrackSelector).text();
 	var separator = this.findSeparator(text);

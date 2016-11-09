@@ -24,9 +24,7 @@ function bindNew() {
 
 	Connector.currentTimeSelector = '#jw6_controlbar_elapsed';
 
-	Connector.getAlbum = function() {
-		return $('#wrap > div:nth-child(6) > div > div.col-sm-8.thats-left > h1').text().trim() || null;
-	};
+	Connector.albumSelector = '#wrap > div:nth-child(6) > div > div.col-sm-8.thats-left > h1';
 
 	Connector.getArtist = function() {
 		return parseArtist();
@@ -37,7 +35,7 @@ function bindNew() {
 
 		var parts = track.split('-');
 		if (parts.length === 3 && parts[0].trim() === parseArtist()) {
-			track = parts[2].trim();
+			track = parts[2];
 		}
 
 		return track;
@@ -69,7 +67,7 @@ function bindLegacy() {
 		// Remove artist from album
 		var parts = album.split('-');
 		if (parts.length > 0 && parts[0].trim() === parseArtist()) {
-			album = album.substr(album.indexOf('-') + 1).trim();
+			album = album.substr(album.indexOf('-') + 1);
 		}
 
 		return album;
@@ -86,7 +84,7 @@ function bindLegacy() {
 		// Some titles are stored as artist - track # - title so strip out non-title elements
 		var parts = title.split('-');
 		if (parts.length === 3 && parts[0].trim() === parseArtist()) {
-			title = parts[2].trim();
+			title = parts[2];
 		}
 
 		return title;

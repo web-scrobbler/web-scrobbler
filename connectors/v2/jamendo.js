@@ -4,6 +4,10 @@
 
 Connector.playerSelector = '#skeleton-player';
 
+Connector.artistSelector = '.player-mini_track_information_artist';
+
+Connector.trackSelector = '.player-mini_track_information_title';
+
 Connector.currentTimeSelector = '.hidden-xs > .js-player-position';
 
 Connector.durationSelector = '.hidden-xs > .js-player-duration';
@@ -11,13 +15,3 @@ Connector.durationSelector = '.hidden-xs > .js-player-duration';
 Connector.playButtonSelector = '.js-player-play-pause > .icon-play';
 
 Connector.trackArtImageSelector = '.js-full-player-cover-img';
-
-Connector.getArtist = function () {
-	var text = $('.player-mini_track_information_artist').text();
-	return $.trim(text);
-};
-
-Connector.getTrack = function () {
-	var text = $('.player-mini_track_information_title').text();
-	return $.trim(text);
-};
