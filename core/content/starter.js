@@ -35,27 +35,38 @@
 		console.log('Web Scrobbler: Setting up observer');
 
 		var observeTarget = document.querySelector(Connector.playerSelector);
+		var observer = new window.MutationObserver(function () {
+			if (Connector.isStateChangeAllowed()) {
+				Connector.onStateChanged();
+			}
+		});
+		var observerConfig = {
+			childList: true,
+			subtree: true,
+			attributes: true,
+			characterData: true
+		};
 
 		if (observeTarget !== null) {
-			var observer = new window.MutationObserver(function () {
-				if (Connector.isStateChangeAllowed()) {
-					Connector.onStateChanged();
+			observer.observe(observeTarget, observerConfig);
+		} else {
+			console.warn('Web Scrobbler: Player element (' + Connector.playerSelector + ') was not found in the page.');
+
+			var playerObserver = new MutationObserver(function() {
+				observeTarget = document.querySelector(Connector.playerSelector);
+				if (observeTarget) {
+					playerObserver.disconnect();
+					observer.observe(observeTarget, observerConfig);
 				}
 			});
 
-			var config = {
+			var playerObserverConfig = {
 				childList: true,
 				subtree: true,
-				attributes: true,
-				characterData: true
+				attributes: false,
+				characterData: false
 			};
-			observer.observe(observeTarget, config);
-		}
-		// Some pages (looking at you Google Music!) may do some crazy navigation API tricks before loading the final page,
-		// in which case we won't usually find the player. Instead of letting the observer to fire an error we just
-		// log it and hope that the next navigation event will trigger a new injection. Unload event is still hooked though.
-		else {
-			console.warn('Web Scrobbler: Player element (' + Connector.playerSelector + ') was not found in the page.');
+			playerObserver.observe(document.body, playerObserverConfig);
 		}
 	}
 	/**

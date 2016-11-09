@@ -2,27 +2,7 @@
 
 /* global Connector */
 
-(function() {
-		var playerObserver = new MutationObserver(function() {
-		if (document.querySelector('.player-wrapper')) {
-			playerObserver.disconnect();
-			var actualObserver = new MutationObserver(Connector.onStateChanged);
-			actualObserver.observe(document.querySelector('.player-wrapper'), {
-				childList: true,
-				subtree: true,
-				attributes: true,
-				characterData: true
-			});
-		}
-	});
-
-	playerObserver.observe(document.body, {
-		childList: true,
-		subtree: true,
-		attributes: false,
-		characterData: false
-	});
-})();
+Connector.playerSelector = '.player-wrapper';
 
 Connector.trackArtImageSelector = '.playing-cover img';
 

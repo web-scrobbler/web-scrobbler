@@ -114,8 +114,7 @@ var BaseConnector = window.BaseConnector || function () {
 		 * @returns {string|null}
 		 */
 		this.getArtist = function () {
-			var text = $(this.artistSelector).text();
-			return text || null;
+			return $(this.artistSelector).text();
 		};
 
 		/**
@@ -126,8 +125,7 @@ var BaseConnector = window.BaseConnector || function () {
 		 * @returns {string|null}
 		 */
 		this.getTrack = function () {
-			var text = $(this.trackSelector).text();
-			return text || null;
+			return $(this.trackSelector).text();
 		};
 
 		/**
@@ -138,8 +136,7 @@ var BaseConnector = window.BaseConnector || function () {
 		 * @returns {string|null}
 		 */
 		this.getAlbum = function () {
-			var text = $(this.albumSelector).text();
-			return text || null;
+			return $(this.albumSelector).text();
 		};
 
 		/**
@@ -281,10 +278,10 @@ var BaseConnector = window.BaseConnector || function () {
 				changedFields.push('url');
 			}
 
-			var newTrack = this.getTrack();
-			var newArtist = this.getArtist();
+			var newTrack = this.getTrack() || null;
+			var newArtist = this.getArtist() || null;
 
-			var artistTrack = this.getArtistTrack();
+			var artistTrack = this.getArtistTrack() || null;
 			if (newArtist === null && artistTrack.artist) {
 				newArtist = artistTrack.artist;
 			}
@@ -302,25 +299,25 @@ var BaseConnector = window.BaseConnector || function () {
 				changedFields.push('artist');
 			}
 
-			var newAlbum = this.getAlbum();
+			var newAlbum = this.getAlbum() || null;
 			if (newAlbum !== currentState.album) {
 				currentState.album = newAlbum;
 				changedFields.push('album');
 			}
 
-			var newUID = this.getUniqueID();
+			var newUID = this.getUniqueID() || null;
 			if (newUID !== currentState.uniqueID) {
 				currentState.uniqueID = newUID;
 				changedFields.push('uniqueID');
 			}
 
-			var newDuration = this.getDuration();
+			var newDuration = this.getDuration() || 0;
 			if (newDuration !== currentState.duration) {
 				currentState.duration = newDuration;
 				changedFields.push('duration');
 			}
 
-			var newCurrentTime = this.getCurrentTime();
+			var newCurrentTime = this.getCurrentTime() || 0;
 			if (newCurrentTime !== currentState.currentTime) {
 				currentState.currentTime = newCurrentTime;
 				changedFields.push('currentTime');
@@ -332,7 +329,7 @@ var BaseConnector = window.BaseConnector || function () {
 				changedFields.push('isPlaying');
 			}
 
-			var newTrackArt = this.getTrackArt();
+			var newTrackArt = this.getTrackArt() || null;
 			if (newTrackArt !== currentState.trackArt) {
 				currentState.trackArt = newTrackArt;
 				changedFields.push('trackArt');
@@ -420,7 +417,6 @@ var BaseConnector = window.BaseConnector || function () {
 
 			return null;
 		};
-
 	};
 
 
