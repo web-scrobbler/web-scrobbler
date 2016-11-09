@@ -3,15 +3,9 @@
 /* global Connector */
 Connector.playerSelector = '.jp-audio';
 
-Connector.getArtist = function () {
-	var text = $('.playing > .artist').text().trim();
-	return text || null;
-};
+Connector.artistSelector = '.playing > .artist';
 
-Connector.getTrack = function () {
-	var text = $('.playing > .title').text().trim();
-	return text || null;
-};
+Connector.trackSelector = '.playing > .title';
 
 Connector.playButtonSelector = '.jp-play';
 

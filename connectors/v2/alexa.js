@@ -20,7 +20,7 @@ Connector.getArtist = function() {
 			return null;
 		}
 		var results = songTitle.split('-');
-		return results[0].trim();
+		return results[0];
 	} else {
 		return $('#d-info-text .d-sub-text-1').text();
 	}
@@ -34,7 +34,7 @@ Connector.getTrack = function() {
 			return null;
 		}
 		var results = songTitle.split('-');
-		return results[1].trim();
+		return results[1];
 	} else {
 		return $('#d-info-text .d-main-text').text();
 	}

@@ -4,10 +4,7 @@
 
 Connector.playerSelector = '.radio-radionova';
 
-Connector.getArtist = function () {
-	var text = $('.artist').text().trim();
-	return text || null;
-};
+Connector.artistSelector = '.artist';
 
 Connector.trackSelector = '.ontheair-text .title';
 

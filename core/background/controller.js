@@ -96,7 +96,7 @@ define([
 				// clear any previous song and its bindings
 				resetState();
 
-				currentSong = new Song(newState);
+				currentSong = new Song(newState, connector);
 				bindSongListeners(currentSong);
 
 				console.log('Tab ' + tabId + ': new ' + (isReplayingSong ? '(replaying) ' : '') + 'song detected: ' + JSON.stringify(currentSong.attr()));

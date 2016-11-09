@@ -1,5 +1,5 @@
 'use strict';
-/* globals _ */
+/* globals _, TrimFilter */
 /* exported Connector */
 
 /**
@@ -240,6 +240,14 @@ var BaseConnector = window.BaseConnector || function () {
 			return true;
 		};
 
+		/**
+		 * Filter object used to filter song metadata.
+		 *
+		 * @see {link MetadataFilter}
+		 * @type {MetadataFilter}
+		 */
+		this.filter = TrimFilter;
+
 		// --- state & api -------------------------------------------------------------------------------------------------
 
 
@@ -289,17 +297,20 @@ var BaseConnector = window.BaseConnector || function () {
 				newTrack = artistTrack.track;
 			}
 
+			newTrack = this.filter.filterTrack(newTrack);
 			if (newTrack !== currentState.track) {
 				currentState.track = newTrack;
 				changedFields.push('track');
 			}
 
+			newArtist = this.filter.filterArtist(newArtist);
 			if (newArtist !== currentState.artist) {
 				currentState.artist = newArtist;
 				changedFields.push('artist');
 			}
 
 			var newAlbum = this.getAlbum() || null;
+			newAlbum = this.filter.filterAlbum(newAlbum);
 			if (newAlbum !== currentState.album) {
 				currentState.album = newAlbum;
 				changedFields.push('album');

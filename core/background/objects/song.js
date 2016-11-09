@@ -4,15 +4,12 @@
  * Song object
  */
 define([
-	'wrappers/can',
-	'connectors',
-	'vendor/route-pattern',
-	'underscore'
-], function(can, connectors, RoutePattern, _) {
+	'wrappers/can'
+], function(can) {
 	/**
 	 * @constructor
 	 */
-	return function(parsedData) {
+	return function(parsedData, connector) {
 		/**
 		 * Number of seconds of playback before the track is scrobbled.
 		 * This value is used only if no duration was parsed or loaded
@@ -50,16 +47,6 @@ define([
 		/**
 		 * Various optional data
 		 */
-		var connector = _.find(connectors, function(connector) {
-			return _.find(connector.matches, function(patternStr) {
-				var pattern = RoutePattern.fromString(patternStr);
-				if (parsed.url !== null) {
-					return pattern.matches(parsed.url.href);
-				}
-				return false;
-			});
-		}) || null;
-
 		var metadata = {
 			userloved: parsedData.userloved === 1,
 			startTimestamp: Math.floor(Date.now() / 1000), // UTC timestamp in seconds
