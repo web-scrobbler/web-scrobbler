@@ -16,7 +16,7 @@ define([], function () {
 	function isScrobblerInArray(scrobbler, array) {
 		return array.some(s => {
 			return s.getLabel() === scrobbler.getLabel();
-		}).length > 0;
+		});
 	}
 
 	function registerScrobbler(scrobbler) {
@@ -64,6 +64,7 @@ define([], function () {
 				}
 			);
 		},
+
 		sendNowPlaying: function (song, cb) {
 			console.log('ScrobbleService: sendNowPlaying() ' + boundScrobblers.length);
 			boundScrobblers.forEach(function (scrobbler) {
@@ -77,8 +78,6 @@ define([], function () {
 				scrobbler.scrobble(song, cb);
 			});
 		},
-
-		hasScrobblers: hasScrobbler,
 
 		getFirstBound: function() {
 			if (!hasScrobbler()) {
