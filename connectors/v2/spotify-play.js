@@ -16,7 +16,7 @@ Connector.getDuration = function() {
 		return null;
 	}
 
-	return Connector.stringToSeconds(el.textContent.trim());
+	return Connector.stringToSeconds(el.textContent);
 };
 
 Connector.getCurrentTime = function() {
@@ -25,7 +25,7 @@ Connector.getCurrentTime = function() {
 		return null;
 	}
 
-	return Connector.stringToSeconds(el.textContent.trim());
+	return Connector.stringToSeconds(el.textContent);
 };
 
 Connector.isPlaying = function() {
