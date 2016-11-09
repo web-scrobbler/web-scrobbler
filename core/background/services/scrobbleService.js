@@ -4,7 +4,19 @@
  * Service to handle all scrobbling behaviour.
  */
 define([], function () {
+
+	/**
+	 * Scrobblers that are bound, meaning they have valid session IDs.
+	 *
+	 * @type {Array}
+	 */
 	var boundScrobblers = [];
+
+	/**
+	 * Scrobblers that are registered and that can be bound.
+	 *
+	 * @type {Array}
+	 */
 	var registeredScrobblers = [];
 
 	console.log('ScrobbleService: init() total: ' + boundScrobblers.length);
@@ -21,7 +33,7 @@ define([], function () {
 
 	function registerScrobbler(scrobbler) {
 		if (!isScrobblerInArray(scrobbler, registeredScrobblers)) {
-			console.log('ScrobbleService: registerScrobbler: ' + scrobbler.getLabel());
+			console.log('ScrobbleService: registerScrobbler(): ' + scrobbler.getLabel());
 			registeredScrobblers.push(scrobbler);
 		}
 	}
