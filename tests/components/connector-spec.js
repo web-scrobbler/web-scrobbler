@@ -24,43 +24,6 @@ module.exports.shouldLoadWebsite = function(driver, options) {
 };
 
 /**
- * Test if play button can be clicked
- * @param  {Object} driver WebDriverWrapper instance
- * @param  {Array} options Options (see below)
- *
- * Options
- * @param  {String} playButtonSelector CSS selector of play button
- * @param  {Boolean} forceJsClick Use 'clickWithJavaScript' function to perform click
- */
-module.exports.shouldClickPlayButton = function(driver, options) {
-	var opts = options || {};
-
-	if (opts.playButtonSelector) {
-		it('should play a song', function() {
-			return driver.click(
-				{css: opts.playButtonSelector},
-				opts.forceJsClick
-			);
-		});
-	}
-};
-
-
-/**
- * Test if a now playing song is correctly recognized
- * @param  {Object} driver WebDriverWrapper instance
- * @param  {Array} options Options (see below)
- *
- * Options
- * @param  {Number} recognizeTimeout Recognize timeout in milliseconds
- */
-module.exports.shouldRecogniseSong = function(driver, options) {
-	it('should recognise a playing song', function() {
-		return promiseRecognizeSong(driver, options);
-	});
-};
-
-/**
  * Load website and check if player element exists.
  * @param  {Object} driver WebDriverWrapper instance
  * @param  {Array} options Options (see below)
@@ -82,8 +45,8 @@ exports.shouldContainPlayerElement = function(driver, options) {
  *
  * Options
  * @see {@link shouldLoadWebsite}
- * @see {@link shouldClickPlayButton}
- * @see {@link shouldRecogniseSong}
+ * @see {@link promiseClickPlayButton}
+ * @see {@link promiseRecogniseSong}
  */
 module.exports.shouldBehaveLikeMusicSite = function(driver, options) {
 	it('should load site and recognize a song', function() {
@@ -103,7 +66,14 @@ function promiseLoadSite(driver, options) {
 }
 
 /**
- * @see {@link shouldClickPlayButton}
+ * Test if play button can be clicked.
+ * @param  {Object} driver WebDriverWrapper instance
+ * @param  {Array} options Options (see below)
+ *
+ * Options
+ * @param  {String} playButtonSelector CSS selector of play button
+ * @param  {Boolean} forceJsClick Use 'clickWithJavaScript' function to perform click
+ *
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function promiseClickPlayButton(driver, options) {
@@ -120,7 +90,13 @@ function promiseClickPlayButton(driver, options) {
 }
 
 /**
- * @see {@link shouldRecogniseSong}
+ * Test if a now playing song is correctly recognized.
+ * @param  {Object} driver WebDriverWrapper instance
+ * @param  {Array} options Options (see below)
+ *
+ * Options
+ * @param  {Number} recognizeTimeout Recognize timeout in milliseconds
+ *
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function promiseRecognizeSong(driver, options) {
