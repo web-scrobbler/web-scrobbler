@@ -668,9 +668,9 @@ define(function() {
 		},
 
 		{
-			label: 'myradio.ua',
-			matches: ['*://myradio.ua/*'],
-			js: ['connectors/v2/myradio.ua.js'],
+			label: 'RADIO Обозреватель',
+			matches: ['*://radio.obozrevatel.com/*'],
+			js: ['connectors/v2/obozrevatel.js'],
 			version: 2
 		},
 
