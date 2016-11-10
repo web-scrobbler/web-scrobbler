@@ -139,15 +139,6 @@ define([
 		};
 
 		/**
-		 * Check if the song playback time is reaching its total duration.
-		 * @return {Boolean} Check result
-		 */
-		song.isNearEnd = function() {
-			// Last 5% of duration
-			return (this.getDuration() !== null && this.parsed.currentTime >= Math.floor(this.getDuration() * 0.95));
-		};
-
-		/**
 		 * Return total number of seconds of playback needed for this track
 		 * to be scrobbled.
 		 * @return {Number} Seconds to scrobble

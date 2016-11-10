@@ -21,17 +21,15 @@ define([
 	 */
 	return function(tabId, connector, enabled) {
 
-		/**
-		 * Number of seconds of playback that is considered to be beginning of the track.
-		 * Used for re-play detection.
-		 */
-		var DEFAULT_START_TIME = 10;
+		const pageAction = new PageAction(tabId);
+		const playbackTimer = new Timer();
+		const replayDetectionTimer = new Timer();
 
-		var pageAction = new PageAction(tabId),
-			playbackTimer = new Timer(),
-			currentSong = null;
+		let currentSong = null;
+		let isReplayingSong = false;
 
 		let isEnabled = true;
+
 
 		/**
 		 * React on state change.
@@ -71,15 +69,6 @@ define([
 				return;
 			}
 
-			// flag for current time of song being on its start;
-			// uses 5% of song duration if available or fixed interval
-			var isNewStateNearStart = (newState.duration !== null && newState.currentTime <= (newState.duration * 0.05)) ||
-										(newState.duration === null && newState.currentTime <= DEFAULT_START_TIME);
-
-			// seeking from song's end to its start is treated as a new play;
-			// this also covers automatic replaying of the same song over and over
-			var isReplayingSong = (!hasSongChanged && currentSong.isNearEnd() && isNewStateNearStart);
-
 			// propagate values that can change without changing the song
 			if (!hasSongChanged && !isReplayingSong) {
 				if (currentSong && currentSong.flags.isSkipped) {
@@ -110,9 +99,9 @@ define([
 				this.resetState();
 
 				currentSong = new Song(newState, connector);
-				bindSongListeners(currentSong);
 
-				console.log('Tab ' + tabId + ': new ' + (isReplayingSong ? '(replaying) ' : '') + 'song detected: ' + JSON.stringify(currentSong.attr()));
+				bindSongListeners(currentSong, {notify: !isReplayingSong});
+				console.log(`Tab ${tabId}: new ${isReplayingSong ? '(replaying) ' : ''} song detected: ${JSON.stringify(currentSong.attr())}`);
 
 				// start the timer, actual time will be set after processing is done;
 				// we can call doScrobble directly, because the timer will be allowed to trigger only after the song is validated
@@ -120,14 +109,20 @@ define([
 					doScrobble(currentSong);
 				});
 
+				replayDetectionTimer.start(() => {
+					isReplayingSong = true;
+				});
+
 				// if we just detected the track and it's not playing yet, pause the timer right away;
 				// this is important, because isPlaying flag binding only calls pause/resume which assumes the timer is started
 				if (!newState.isPlaying) {
 					playbackTimer.pause();
+					replayDetectionTimer.pause();
 				}
 
 				// start processing - result will trigger the listener
 				processSong(currentSong);
+				isReplayingSong = false;
 			}
 		};
 
@@ -140,6 +135,7 @@ define([
 
 			if (currentSong.isValid()) {
 				playbackTimer.update(currentSong.getSecondsToScrobble());
+				replayDetectionTimer.update(duration - Math.floor(Date.now() / 1000) - currentSong.metadata.startTimestamp);
 
 				let remainedSeconds = playbackTimer.getRemainingSeconds();
 				console.log(`Tab ${tabId}: update duration: ${duration}`);
@@ -151,7 +147,7 @@ define([
 		 * Setup listeners for new song object.
 		 * @param {Object} song Song instance
 		 */
-		function bindSongListeners(song) {
+		function bindSongListeners(song, options = {}) {
 			/**
 			 * Respond to changes of not/playing and pause timer accordingly to get real elapsed time
 			 */
@@ -160,13 +156,15 @@ define([
 
 				if (newVal) {
 					playbackTimer.resume();
+					replayDetectionTimer.resume();
 
 					// maybe the song was not marked as playing yet
 					if (!song.flags.isMarkedAsPlaying && song.isValid()) {
-						setSongNowPlaying(song);
+						setSongNowPlaying(song, options);
 					}
 				} else {
 					playbackTimer.pause();
+					replayDetectionTimer.pause();
 				}
 			});
 
@@ -177,7 +175,7 @@ define([
 			song.bind('flags.isProcessed', (ev, newVal) => {
 				if (newVal) {
 					console.log('Tab ' + tabId + ': song finished processing ', JSON.stringify(song.attr()));
-					onProcessed(song);
+					onProcessed(song, options);
 					notifySongIsUpdated(song);
 				} else {
 					console.log('Tab ' + tabId + ': song un-processed ', JSON.stringify(song.attr()));
@@ -214,6 +212,7 @@ define([
 		this.resetState = function() {
 			pageAction.setSiteSupported();
 			playbackTimer.reset();
+			replayDetectionTimer.reset();
 
 			if (currentSong !== null) {
 				unbindSongListeners(currentSong);
@@ -228,7 +227,7 @@ define([
 		 * are needed.
 		 * @param {Object} song Song instance
 		 */
-		function onProcessed(song) {
+		function onProcessed(song, options = {}) {
 			// song is considered valid if either L.FM or the user validated it
 			if (song.isValid()) {
 				// processing cleans this flag
@@ -236,11 +235,12 @@ define([
 
 				// set time-to-scrobble
 				playbackTimer.update(song.getSecondsToScrobble());
+				replayDetectionTimer.update(song.getDuration());
 				console.log('Tab ' + tabId + ': the song will be scrobbled after ' + playbackTimer.getRemainingSeconds() + ' more seconds of playback');
 
 				// if the song is playing, mark it immediately; otherwise will be flagged in isPlaying binding
 				if (song.parsed.isPlaying) {
-					setSongNowPlaying(song);
+					setSongNowPlaying(song, options);
 				} else {
 					pageAction.setSiteSupported();
 				}
@@ -256,6 +256,7 @@ define([
 		function onUnProcessed() {
 			console.log('Tab ' + tabId + ': clearing playback timer destination time');
 			playbackTimer.update(null);
+			replayDetectionTimer.update(null);
 		}
 
 		/**
@@ -263,9 +264,10 @@ define([
 		 * now playing.
 		 * @param {Object} song Song instance
 		 */
-		function setSongNowPlaying(song) {
-			Notifications.showPlaying(song);
-
+		function setSongNowPlaying(song, { notify = true } = {}) {
+			if (notify) {
+				Notifications.showPlaying(song);
+			}
 			// send to L.FM
 			var nowPlayingCB = function(result) {
 				if (result) {
