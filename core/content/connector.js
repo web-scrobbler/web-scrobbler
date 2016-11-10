@@ -175,17 +175,7 @@ var BaseConnector = window.BaseConnector || function () {
 		 */
 		this.getArtistTrack = function () {
 			var text = $(this.artistTrackSelector).text();
-			var separator = this.findSeparator(text);
-
-			var artist = null;
-			var track = null;
-
-			if (separator !== null) {
-				artist = text.substr(0, separator.index);
-				track = text.substr(separator.index + separator.length);
-			}
-
-			return {artist: artist, track: track};
+			return this.splitArtistTrack(text);
 		};
 
 		/**
@@ -404,6 +394,27 @@ var BaseConnector = window.BaseConnector || function () {
 			}
 
 			return seconds || 0;
+		};
+
+		/**
+		 * Split string to artist and track.
+		 * @param  {String} str [description]
+		 * @return {Object} Object contains artist and track fields
+		 */
+		this.splitArtistTrack = function(str) {
+			let artist = null;
+			let track = null;
+
+			if (str !== null) {
+				let separator = this.findSeparator(str);
+
+				if (separator !== null) {
+					artist = str.substr(0, separator.index);
+					track = str.substr(separator.index + separator.length);
+				}
+			}
+
+			return {artist, track};
 		};
 
 		/**
