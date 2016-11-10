@@ -995,6 +995,13 @@ define(function() {
 			matches: ['http://www.genie.co.kr/player/fPlayer'],
 			js: ['connectors/v2/genie.js'],
 			version: 2
+		},
+
+		{
+			label: 'Playmoss',
+			matches: ['https://playmoss.com/*'],
+			js: ['connectors/v2/playmoss.js'],
+			version: 2
 		}
 	];
 });
