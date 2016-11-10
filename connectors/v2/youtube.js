@@ -66,17 +66,7 @@ Connector.getArtistTrack = function () {
 	var text =$(Connector.artistTrackSelector).text();
 
 	text = text.replace(/^\[[^\]]+\]\s*-*\s*/i, ''); // remove [genre] from the beginning of the title
-
-	var separator = Connector.findSeparator(text);
-
-	if (separator === null || text.length === 0) {
-		return {artist: null, track: null};
-	}
-
-	var artist =  text.substr(0, separator.index);
-	var track = text.substr(separator.index + separator.length);
-
-	return {artist: artist, track: track};
+	return Connector.splitArtistTrack(text);
 };
 
 Connector.filter = YoutubeFilter;
