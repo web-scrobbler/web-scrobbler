@@ -64,15 +64,16 @@ define([], function () {
 		},
 
 		unbindScrobbler: function (scrobbler) {
-			boundScrobblers = boundScrobblers.filter(
-				function (s) {
-					if (s !== scrobbler) {
-						return s;
-					} else {
-						console.log('ScrobbleService: unbindScrobbler() ' + scrobbler.getLabel() + ' total:' + boundScrobblers.length);
-					}
-				}
-			);
+			if (isScrobblerInArray(scrobbler, boundScrobblers)) {
+				boundScrobblers = boundScrobblers.filter(function (s) {
+					return s !== scrobbler;
+				});
+
+				console.log('ScrobbleService: unbindScrobbler() ' + scrobbler.getLabel() + ' total:' + boundScrobblers.length);
+
+			} else {
+				console.error(scrobbler.getLabel() + ' is not bound');
+			}
 		},
 
 		sendNowPlaying: function (song, cb) {
