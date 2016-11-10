@@ -8,6 +8,7 @@ var track;
 var duration;
 var uniqueID;
 var artwork_url;
+var isPrivate = false;
 
 Connector.getArtist = function () {
 	return artist;
@@ -19,6 +20,9 @@ Connector.getTrack = function () {
 
 const progressSelector = '.playbackTimeline__progressWrapper';
 Connector.getCurrentTime = function () {
+	if (isPrivate) {
+		return null;
+	}
 	return parseFloat($(progressSelector).attr('aria-valuenow')) / 1000;
 };
 
@@ -27,6 +31,9 @@ Connector.getDuration = function () {
 };
 
 Connector.isPlaying = function () {
+	if (isPrivate) {
+		return false;
+	}
 	const playButtonSelector = '.playControls__controls button.playControl';
 	return $(playButtonSelector).hasClass('playing');
 };
@@ -47,6 +54,17 @@ Connector.playerSelector = '.playControls__controls';
  * parse metadata and set local variables
  */
 var setSongData = function (metadata) {
+	isPrivate = metadata.sharing === 'private';
+
+	if (isPrivate) {
+		artist = null;
+		track = null;
+		duration = null;
+		uniqueID = null;
+		artwork_url = null;
+		return;
+	}
+
 	// Sometimes the artist name is in the track title.
 	// e.g. Tokyo Rose - Zender Overdrive by Aphasia Records.
 	/*jslint regexp: true*/
