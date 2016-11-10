@@ -155,11 +155,11 @@ define([
 					} else {
 						cb(response.session);
 					}
-				})
+				}.bind(this))
 				.fail(function (jqxhr, textStatus, error) {
 					console.error(this.label + ' auth.getSession failed: ' + error + ', ' + textStatus);
 					cb(null);
-				});
+				}.bind(this));
 		},
 
 		/**
