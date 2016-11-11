@@ -78,12 +78,6 @@ define(function() {
 		},
 
 		{
-			label: 'Virgin Radio Turkiye',
-			matches: ['*://*.virginradioturkiye.com/*', '*://*.radioeksen.com/*'],
-			js: ['connectors/virginradiotr.js']
-		},
-
-		{
 			label: 'Ghostly Discovery',
 			matches: ['http://ghostly.com/discovery/play', 'http://www.ghostly.com/discovery/play'],
 			js: ['connectors/v2/ghostly.js'],
