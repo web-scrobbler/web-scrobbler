@@ -172,13 +172,6 @@ define(function() {
 		},
 
 		{
-			label: '22 Tracks',
-			matches: ['*://22tracks.com/*'],
-			js: ['connectors/v2/22tracks.js'],
-			version: 2
-		},
-
-		{
 			label: 'Megalyrics',
 			matches: ['*://megalyrics.ru/*'],
 			js: ['connectors/v2/megalyrics.js'],
