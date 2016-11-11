@@ -655,7 +655,7 @@ define(function() {
 
 		{
 			label: 'Ampya',
-			matches: ['*://*.ampya.com/*'],
+			matches: ['*://ampya.com/*'],
 			js: ['connectors/v2/ampya.js'],
 			version: 2
 		},
