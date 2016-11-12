@@ -564,6 +564,13 @@ define(function() {
 		},
 
 		{
+			label: 'RockRadio',
+			matches: ['*://www.rockradio.com/*'],
+			js: ['connectors/v2/radiotunes.js'],
+			version: 2
+		},
+
+		{
 			label: 'Radio.com',
 			matches: ['*://player.radio.com*'],
 			js: ['connectors/v2/radio.com.js'],
