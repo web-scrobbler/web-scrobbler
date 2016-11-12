@@ -691,7 +691,7 @@ define(function() {
 		{
 			label: 'Jazzradio',
 			matches: ['*://www.jazzradio.com/*'],
-			js: ['connectors/v2/jazzradio.js'],
+			js: ['connectors/v2/radiotunes.js'],
 			version: 2
 		},
 
