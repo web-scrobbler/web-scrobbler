@@ -64,6 +64,10 @@ define([
 			var hasSongChanged = (currentSong === null || newState.artist !== currentSong.parsed.artist || newState.track !== currentSong.parsed.track ||
 															newState.album !== currentSong.parsed.album || newState.uniqueID !== currentSong.parsed.uniqueID);
 
+			if (hasSongChanged && !newState.isPlaying) {
+				return;
+			}
+
 			// flag for current time of song being on its start;
 			// uses 5% of song duration if available or fixed interval
 			var isNewStateNearStart = (newState.duration !== null && newState.currentTime <= (newState.duration * 0.05)) ||
