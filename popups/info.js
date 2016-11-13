@@ -22,12 +22,7 @@ $(document).ready(function() {
 			type: 'v2.getSong',
 			tabId: tabId
 		}, function(response) {
-			// false means legacy mode
-			if (response === false) {
-				legacy();
-			} else {
-				onSongLoaded(tabId, response);
-			}
+			onSongLoaded(tabId, response);
 		});
 	}
 
@@ -67,19 +62,4 @@ $(document).ready(function() {
 		$('#love').attr('last-fm-loved', userloved);
 		$('#love').attr('title', userloved ? 'unlove song' : 'love song');
 	}
-
-	/**
-	* Legacy code for cases when legacy controller is loaded and active
-	*/
-	function legacy() {
-		console.log('legacy()');
-		var popupApi = chrome.extension.getBackgroundPage().popupApi;
-		var song = popupApi.getSong();
-
-		if (song.artist === '' || song.track === '') {
-			top.location = 'change.html';
-		}
-
-	}
-
 });

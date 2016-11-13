@@ -4,12 +4,13 @@ require([
 	'jquery',
 	'config',
 	'connectors',
-	'legacy/scrobbler',
+	'notifications',
+	'services/lastfm',
 	'customPatterns',
 	'chromeStorage',
 	'wrappers/chrome',
 	'bootstrap'
-], function ($, config, connectors, legacyScrobbler, customPatterns, ChromeStorage, chrome) {
+], function ($, config, connectors, Notifications, LastFM, customPatterns, ChromeStorage, chrome) {
 
 	$(function () {
 		var connectorsOptions = ChromeStorage.getNamespace('Connectors');
@@ -49,7 +50,7 @@ require([
 
 
 		$('button#authorize').click(function () {
-			legacyScrobbler.authorize();
+			Notifications.showAuthenticate(LastFM.getAuthUrl);
 		});
 
 

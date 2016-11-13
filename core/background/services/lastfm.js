@@ -2,17 +2,14 @@
 
 /**
  * Module for all communication with L.FM
- *
- * (some is still done in legacy/scrobbler)
  */
 define([
 	'jquery',
-	'config',
 	'vendor/md5',
 	'wrappers/can',
 	'objects/serviceCallResult',
 	'chromeStorage'
-], function ($, config, MD5, can, ServiceCallResultFactory, ChromeStorage) {
+], function ($, MD5, can, ServiceCallResultFactory, ChromeStorage) {
 
 	var enableLogging = true;
 
@@ -193,7 +190,7 @@ define([
 	 * @param errCb
 	 */
 	function doRequest(method, params, signed, okCb, errCb) {
-		params.api_key = config.apiKey;
+		params.api_key = apiKey;
 
 		if (signed) {
 			params.api_sig = generateSign(params);
@@ -321,7 +318,7 @@ define([
 				method: 'track.updatenowplaying',
 				track: song.getTrack(),
 				artist: song.getArtist(),
-				api_key: config.apiKey,
+				api_key: apiKey,
 				sk: sessionID
 			};
 
@@ -367,7 +364,7 @@ define([
 				'timestamp[0]': song.metadata.startTimestamp,
 				'track[0]': song.processed.track || song.parsed.track,
 				'artist[0]': song.processed.artist || song.parsed.artist,
-				api_key: config.apiKey,
+				api_key: apiKey,
 				sk: sessionID
 			};
 
@@ -422,7 +419,7 @@ define([
 				method: 'track.'+(shouldBeLoved ? 'love' : 'unlove' ),
 				'track': song.processed.track || song.parsed.track,
 				'artist': song.processed.artist || song.parsed.artist,
-				api_key: config.apiKey,
+				api_key: apiKey,
 				sk: sessionID
 			};
 
