@@ -7,16 +7,7 @@ if ($('.cnt-song-lst').length > 0) {
 
 	Connector.getArtistTrack = function() {
 		var text = $('.playing .song').clone().children('.like-count').remove().end().text();
-		var separator = Connector.findSeparator(text);
-
-		if (separator === null || text.length === 0) {
-			return {artist: null, track: null};
-		}
-
-		var artist =  text.substr(0, separator.index).trim();
-		var track = text.substr(separator.index + separator.length).trim();
-
-		return {artist: artist, track: track};
+		return Connector.splitArtistTrack(text);
 	};
 
 	Connector.isPlaying = function () {
@@ -33,19 +24,7 @@ if ($('.cnt-song-lst').length > 0) {
 } else if ($('.cur-blk').length > 0) {
 	Connector.playerSelector = '.cur-blk';
 
-	Connector.getArtistTrack = function() {
-		var text = $('.cur-blk .name').text();
-		var separator = Connector.findSeparator(text);
-
-		if (separator === null || text.length === 0) {
-			return {artist: null, track: null};
-		}
-
-		var artist =  text.substr(0, separator.index).trim();
-		var track = text.substr(separator.index + separator.length).trim();
-
-		return {artist: artist, track: track};
-	};
+	Connector.artistTrackSelector = '.cur-blk .name';
 
 	Connector.isPlaying = function () {
 		return $('.cur-blk #play').hasClass('pause');
