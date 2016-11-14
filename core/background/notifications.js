@@ -12,6 +12,17 @@ define([
 		iconUrl: '/icons/icon128.png',
 	};
 
+	/*
+	 * Function stub for Firefox.
+	 * Should be removed when this function will be implemented in Firefox.
+	 * http://arewewebextensionsyet.com/
+	 */
+	if (chrome.notifications.getPermissionLevel === undefined) {
+		chrome.notifications.getPermissionLevel = function(callback) {
+			callback('granted');
+		};
+	}
+
 	/**
 	 * Map of click listeners indexed by notification IDs.
 	 * @type {Object}
