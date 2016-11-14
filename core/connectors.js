@@ -998,6 +998,13 @@ define(function() {
 		},
 
 		{
+			label: 'Tidido',
+			matches: ['*://tidido.com/*'],
+			js: ['connectors/v2/tidido.js'],
+			version: 2
+		},
+
+		{
 			label: 'Playmoss',
 			matches: ['https://playmoss.com/*'],
 			js: ['connectors/v2/playmoss.js'],
