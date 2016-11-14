@@ -553,6 +553,13 @@ define(function() {
 		},
 
 		{
+			label: 'ClassicalRadio',
+			matches: ['*://www.classicalradio.com/*'],
+			js: ['connectors/v2/radiotunes.js'],
+			version: 2
+		},
+
+		{
 			label: 'Radio.com',
 			matches: ['*://player.radio.com*'],
 			js: ['connectors/v2/radio.com.js'],
