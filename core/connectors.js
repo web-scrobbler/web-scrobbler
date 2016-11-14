@@ -32,7 +32,8 @@ define(function() {
 		{
 			label: 'Baidu Music',
 			matches: ['*://play.baidu.com/*'],
-			js: ['connectors/baidu.js']
+			js: ['connectors/v2/baidu.js'],
+			version: 2
 		},
 
 		{
