@@ -439,12 +439,6 @@ define(function() {
 		},
 
 		{
-			label: 'Blitzr',
-			matches: ['*://*.blitzr.com/*', '*://blitzr.com/*'],
-			js: ['connectors/blitzr.js']
-		},
-
-		{
 			label: 'TIDAL',
 			matches: ['*://listen.tidalhifi.com/*', '*://listen.tidal.com/*'],
 			js: ['connectors/v2/tidal.js'],
