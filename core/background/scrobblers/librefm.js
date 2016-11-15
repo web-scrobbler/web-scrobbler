@@ -37,18 +37,12 @@ define([
 		var url = this.apiUrl + '?' + paramPairs.join('&');
 
 		var internalOkCb = function (xmlDoc, status) {
-			if (self.enableLogging) {
-				console.info(self.label + ' response to ' + method + ' ' + url + ' : ' + status + '\n' + (new XMLSerializer()).serializeToString(xmlDoc));
-			}
-
+			console.info(self.label + ' response to ' + method + ' ' + url + ' : ' + status + '\n' + (new XMLSerializer()).serializeToString(xmlDoc));
 			okCb.apply(this, arguments);
 		};
 
 		var internalErrCb = function (jqXHR, status, response) {
-			if (self.enableLogging) {
-				console.error(self.label + ' response to ' + url + ' : ' + status + '\n' + response);
-			}
-
+			console.error(self.label + ' response to ' + url + ' : ' + status + '\n' + response);
 			errCb.apply(this, arguments);
 		};
 
@@ -64,6 +58,17 @@ define([
 			console.error('Unknown method: ' + method);
 		}
 	}.bind(LibreFM);
+
+	/**
+	 * Overwrite default behaviour.
+	 *
+	 * @param song
+	 * @param cb
+	 */
+	LibreFM.loadSongInfo = function (song, cb) {
+		song.flags.attr('isLastfmValid', true);
+		cb(true);
+	};
 
 
 	return LibreFM;

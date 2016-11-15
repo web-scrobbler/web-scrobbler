@@ -7,16 +7,30 @@ define([
 	return {
 		loadSong: function (song, cb) {
 
+			var isSongValid = false;
+
 			var onLoaded = function (isLfmValid) {
-				cb(isLfmValid);
+				isSongValid = isLfmValid;
 			};
 
-			let scrobbler = ScrobbleService.getFirstBound();
 
-			console.log('metadata loadSong() using: ' + scrobbler.getLabel());
+			let scrobblers = ScrobbleService.getAllBound();
 
-			// load song metadata and update validation flag
-			scrobbler.loadSongInfo(song, onLoaded);
+			for (var index in scrobblers) {
+				let scrobbler = scrobblers[index];
+				console.log('metadata loadSong() attempt using: ' + scrobbler.getLabel());
+
+				// load song metadata and update validation flag
+				scrobbler.loadSongInfo(song, onLoaded);
+
+				if (isSongValid) {
+					break;
+				}
+			}
+
+			console.log('metadata loadSong() valid:' + isSongValid);
+
+			cb(isSongValid);
 		}
 	};
 

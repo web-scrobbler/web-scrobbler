@@ -301,10 +301,11 @@ require([
 
 
 		let scrobblers = [LastFM, LibreFM];
-		ScrobbleService.bindScrobblers(scrobblers).then(boundScrobblers => {
+		ScrobbleService.registerScrobblers(scrobblers).then(boundScrobblers => {
 			if (boundScrobblers.length === 0) {
 				console.warn('No scrobblers are bound');
 				scrobblers.forEach(scrobbler => {
+					console.log('Showing auth notification for ' + scrobbler.getLabel());
 					Notifications.showAuthenticate(scrobbler.getAuthUrl.bind(scrobbler));
 				});
 			}

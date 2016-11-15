@@ -19,10 +19,6 @@ define([], function () {
 	 */
 	var registeredScrobblers = [];
 
-	function hasScrobbler() {
-		return boundScrobblers.length !== 0;
-	}
-
 	function isScrobblerInArray(scrobbler, array) {
 		return array.some(s => {
 			return s.getLabel() === scrobbler.getLabel();
@@ -37,7 +33,14 @@ define([], function () {
 	}
 
 	return {
-		bindScrobblers: function(unboundScrobblers) {
+
+		/**
+		 * Register given scrobblers.
+		 *
+		 * @param unboundScrobblers
+		 * @returns {Promise.<Array>}
+		 */
+		registerScrobblers: function(unboundScrobblers) {
 			// Convert each `getSession` call into Promise
 			let promises = unboundScrobblers.map(scrobbler => {
 				return new Promise(resolve => {
@@ -56,6 +59,11 @@ define([], function () {
 			return Promise.all(promises).then(() => boundScrobblers);
 		},
 
+		/**
+		 * Bind given scrobbler.
+		 *
+		 * @param scrobbler
+		 */
 		bindScrobbler: function (scrobbler) {
 			if (!isScrobblerInArray(scrobbler, boundScrobblers)) {
 				boundScrobblers.push(scrobbler);
@@ -63,6 +71,12 @@ define([], function () {
 			}
 		},
 
+
+		/**
+		 * Unbind given scrobbler.
+		 *
+		 * @param scrobbler
+		 */
 		unbindScrobbler: function (scrobbler) {
 			if (isScrobblerInArray(scrobbler, boundScrobblers)) {
 				boundScrobblers = boundScrobblers.filter(function (s) {
@@ -76,28 +90,47 @@ define([], function () {
 			}
 		},
 
+		/**
+		 * Send now playing notification to each bound scrobbler.
+		 *
+		 * @param song
+		 * @param cb
+		 */
 		sendNowPlaying: function (song, cb) {
 			console.log('ScrobbleService: sendNowPlaying() ' + boundScrobblers.length);
-			boundScrobblers.forEach(function (scrobbler) {
+			boundScrobblers.map(scrobbler => {
 				scrobbler.sendNowPlaying(song, cb);
 			});
 		},
 
+		/**
+		 * Scrobble to each bound scrobbler.
+		 *
+		 * @param song
+		 * @param cb
+		 */
 		scrobble: function (song, cb) {
 			console.log('ScrobbleService: scrobble() ' + boundScrobblers.length);
-			boundScrobblers.forEach(function (scrobbler) {
+			boundScrobblers.map(scrobbler => {
 				scrobbler.scrobble(song, cb);
 			});
 		},
 
-		getFirstBound: function() {
-			if (!hasScrobbler()) {
-				throw 'No Scrobblers Bound';
-			}
-
-			return boundScrobblers[0];
+		/**
+		 * Get all bound scrobblers.
+		 *
+		 * @returns {Array}
+		 */
+		getAllBound: function() {
+			return boundScrobblers;
 		},
 
+		/**
+		 * Get scrobbler by label.
+		 *
+		 * @param label
+		 * @returns {BaseScrobbler|null}
+		 */
 		getScrobblerByLabel: function(label) {
 			for (let scrobbler of registeredScrobblers) {
 				if (scrobbler.getLabel() === label) {
