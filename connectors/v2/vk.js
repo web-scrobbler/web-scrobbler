@@ -32,7 +32,7 @@ var isPlaying = false;
 })();
 
 function updateTrackInfo() {
-	trackInfo = JSON.parse(localStorage.getItem('audio_v10_track'));
+	trackInfo = JSON.parse(localStorage.getItem('audio_v12_track'));
 }
 
 Connector.filter = new MetadataFilter({
@@ -48,7 +48,7 @@ Connector.getTrack = function () {
 };
 
 Connector.getCurrentTime = function () {
-	var progress = parseFloat(localStorage.getItem('audio_v10_progress'));
+	var progress = parseFloat(localStorage.getItem('audio_v12_progress'));
 	return Math.round(parseInt(trackInfo[INFO_DURATION]) * progress);
 };
 
