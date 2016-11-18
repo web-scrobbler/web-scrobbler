@@ -33,6 +33,10 @@ if (location.href === 'http://bandzone.cz/' || location.href === 'https://bandzo
 		return Connector.stringToSeconds(durationStr);
 	};
 
+	Connector.isStateChangeAllowed = function() {
+		return Connector.getDuration() > 0;
+	};
+
 	var removeGenre = function(text) {
 		var genre = $('.profile-name span').text();
 		return text.replace(genre, '');
