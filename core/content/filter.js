@@ -134,13 +134,22 @@ MetadataFilter.decodeHtmlEntities = function(text) {
  * @return {String} Filtered string
  */
 MetadataFilter.youtube = function(text) {
-	let filters = MetadataFilter.YoutubeTrackFilters;
-	for (let source in filters) {
-		let target = filters[source];
+	return MetadataFilter.filterWithMap(text, MetadataFilter.YoutubeTrackFilters);
+};
+
+/**
+ * Replace text according to given map object.
+ * @param  {String} text String to be filtered
+ * @param  {Object} map  Object contains rules of replace
+ * @return {String} Filtered string
+ */
+MetadataFilter.filterWithMap = function(text, map) {
+	for (let source in map) {
+		let target = map[source];
 
 		let regexParts = source.match(new RegExp('^/(.*?)/([img]*)$'));
 		if (!regexParts) {
-			console.log('Invalid Youtube filter: ' + source);
+			console.log(`Invalid regex: ${source}`);
 			continue;
 		}
 
