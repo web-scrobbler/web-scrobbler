@@ -1,6 +1,6 @@
 'use strict';
 
-/* exported MetadataFilter, TrimFilter, YoutubeFilter */
+/* exported MetadataFilter */
 /* jshint node: true */
 
 /**
@@ -134,7 +134,7 @@ MetadataFilter.decodeHtmlEntities = function(text) {
  * @return {String} Filtered string
  */
 MetadataFilter.youtube = function(text) {
-	return MetadataFilter.filterWithMap(text, MetadataFilter.YoutubeTrackFilters);
+	return MetadataFilter.filterWithMap(text, MetadataFilter.YOUTUBE_TRACK_FILTERS);
 };
 
 /**
@@ -165,7 +165,7 @@ MetadataFilter.filterWithMap = function(text, map) {
  * The filter set is an object that maps regular expressions to strings
  * that will be used as replacement.
  */
-MetadataFilter.YoutubeTrackFilters = {
+MetadataFilter.YOUTUBE_TRACK_FILTERS = {
 	'/^\\s+|\\s+$/g': '', // Trim whitespaces
 	'/\\s*\\*+\\s?\\S+\\s?\\*+$/': '', // **NEW**
 	'/\\s*\\[[^\\]]+\\]$/': '', // [whatever]
@@ -192,20 +192,24 @@ MetadataFilter.YoutubeTrackFilters = {
 };
 
 /**
- * Simple trim filter object used by default in a Connector object.
+ * Get simple trim filter object used by default in a Connector object.
  * @type {MetadataFilter}
  */
-const TrimFilter = new MetadataFilter({
-	artist: MetadataFilter.trim,
-	track: MetadataFilter.trim,
-	album: MetadataFilter.trim
-});
+MetadataFilter.getTrimFilter = function() {
+	return new MetadataFilter({
+		artist: MetadataFilter.trim,
+		track: MetadataFilter.trim,
+		album: MetadataFilter.trim
+	});
+};
 
 /**
- * Predefined filter object for Youtube-based connectors.
+ * Get predefined filter object for Youtube-based connectors.
  * @type {MetadataFilter}
  */
-const YoutubeFilter = new MetadataFilter({
-	track: MetadataFilter.youtube,
-	all: MetadataFilter.trim
-});
+MetadataFilter.getYoutubeFilter = function() {
+	return new MetadataFilter({
+		track: MetadataFilter.youtube,
+		all: MetadataFilter.trim
+	});
+};

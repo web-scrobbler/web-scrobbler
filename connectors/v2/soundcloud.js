@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector, YoutubeFilter */
+/* global Connector, MetadataFilter */
 
 window.SC_ATTACHED = window.SC_ATTACHED || false;
 var artist;
@@ -46,7 +46,7 @@ Connector.getTrackArt = function () {
 	return artwork_url || null;
 };
 
-Connector.filter = YoutubeFilter;
+Connector.filter = MetadataFilter.getYoutubeFilter();
 
 Connector.playerSelector = '.playControls__controls';
 

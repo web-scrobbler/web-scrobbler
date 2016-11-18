@@ -1,5 +1,5 @@
 'use strict';
-/* globals _, TrimFilter */
+/* globals _, MetadataFilter */
 /* exported Connector */
 
 /**
@@ -236,7 +236,7 @@ var BaseConnector = window.BaseConnector || function () {
 		 * @see {link MetadataFilter}
 		 * @type {MetadataFilter}
 		 */
-		this.filter = TrimFilter;
+		this.filter = MetadataFilter.getTrimFilter();
 
 		// --- state & api -------------------------------------------------------------------------------------------------
 

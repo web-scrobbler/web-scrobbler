@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector, YoutubeFilter */
+/* global Connector, MetadataFilter */
 
 var scrobbleMusicOnly = false;
 chrome.storage.local.get('Connectors', function(data) {
@@ -69,7 +69,7 @@ Connector.getArtistTrack = function () {
 	return Connector.splitArtistTrack(text);
 };
 
-Connector.filter = YoutubeFilter;
+Connector.filter = MetadataFilter.getYoutubeFilter();
 
 /**
  * YouTube doesn't really unload the player. It simply moves it outside viewport.
