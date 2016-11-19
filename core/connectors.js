@@ -999,6 +999,13 @@ define(function() {
 			matches: ['https://playmoss.com/*'],
 			js: ['connectors/v2/playmoss.js'],
 			version: 2
+		},
+
+		{
+			label: 'Apidog',
+			matches: ['*://apidog.ru/*'],
+			js: ['connectors/v2/apidog.js'],
+			version: 2
 		}
 	];
 });
