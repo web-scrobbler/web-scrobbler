@@ -32,7 +32,8 @@ define(function() {
 		{
 			label: 'Baidu Music',
 			matches: ['*://play.baidu.com/*'],
-			js: ['connectors/baidu.js']
+			js: ['connectors/v2/baidu.js'],
+			version: 2
 		},
 
 		{
@@ -75,12 +76,6 @@ define(function() {
 			matches: ['*://pitchfork.com/*', '*://www.pitchfork.com/*'],
 			js: ['connectors/v2/pitchfork.js'],
 			version: 2
-		},
-
-		{
-			label: 'Virgin Radio Turkiye',
-			matches: ['*://*.virginradioturkiye.com/*', '*://*.radioeksen.com/*'],
-			js: ['connectors/virginradiotr.js']
 		},
 
 		{
@@ -172,13 +167,6 @@ define(function() {
 		},
 
 		{
-			label: '22 Tracks',
-			matches: ['*://22tracks.com/*'],
-			js: ['connectors/v2/22tracks.js'],
-			version: 2
-		},
-
-		{
 			label: 'Megalyrics',
 			matches: ['*://megalyrics.ru/*'],
 			js: ['connectors/v2/megalyrics.js'],
@@ -231,7 +219,8 @@ define(function() {
 		{
 			label: 'Daytrotter',
 			matches: ['*://www.daytrotter.com/*'],
-			js: ['connectors/daytrotter.js']
+			js: ['connectors/v2/daytrotter.js'],
+			version: 2
 		},
 
 		{
@@ -446,12 +435,6 @@ define(function() {
 		},
 
 		{
-			label: 'Blitzr',
-			matches: ['*://*.blitzr.com/*', '*://blitzr.com/*'],
-			js: ['connectors/blitzr.js']
-		},
-
-		{
 			label: 'TIDAL',
 			matches: ['*://listen.tidalhifi.com/*', '*://listen.tidal.com/*'],
 			js: ['connectors/v2/tidal.js'],
@@ -564,6 +547,20 @@ define(function() {
 		},
 
 		{
+			label: 'RockRadio',
+			matches: ['*://www.rockradio.com/*'],
+			js: ['connectors/v2/radiotunes.js'],
+			version: 2
+		},
+
+		{
+			label: 'ClassicalRadio',
+			matches: ['*://www.classicalradio.com/*'],
+			js: ['connectors/v2/radiotunes.js'],
+			version: 2
+		},
+
+		{
 			label: 'Radio.com',
 			matches: ['*://player.radio.com*'],
 			js: ['connectors/v2/radio.com.js'],
@@ -655,7 +652,7 @@ define(function() {
 
 		{
 			label: 'Ampya',
-			matches: ['*://*.ampya.com/*'],
+			matches: ['*://ampya.com/*'],
 			js: ['connectors/v2/ampya.js'],
 			version: 2
 		},
@@ -691,7 +688,7 @@ define(function() {
 		{
 			label: 'Jazzradio',
 			matches: ['*://www.jazzradio.com/*'],
-			js: ['connectors/v2/jazzradio.js'],
+			js: ['connectors/v2/radiotunes.js'],
 			version: 2
 		},
 
@@ -797,13 +794,6 @@ define(function() {
 			label: 'oplayer',
 			matches: ['*://oplayer.org/*'],
 			js: ['connectors/v2/jplayer-oplayer.js'],
-			version: 2
-		},
-
-		{
-			label: 'EDM.com',
-			matches: ['*://edm.com/*'],
-			js: ['connectors/v2/edm.js'],
 			version: 2
 		},
 
@@ -994,6 +984,20 @@ define(function() {
 			label: 'Genie',
 			matches: ['http://www.genie.co.kr/player/fPlayer'],
 			js: ['connectors/v2/genie.js'],
+			version: 2
+		},
+
+		{
+			label: 'Tidido',
+			matches: ['*://tidido.com/*'],
+			js: ['connectors/v2/tidido.js'],
+			version: 2
+		},
+
+		{
+			label: 'Playmoss',
+			matches: ['https://playmoss.com/*'],
+			js: ['connectors/v2/playmoss.js'],
 			version: 2
 		}
 	];

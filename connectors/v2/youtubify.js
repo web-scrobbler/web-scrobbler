@@ -10,8 +10,10 @@ Connector.trackSelector = '.current-track .info .track-name';
 
 Connector.trackArtImageSelector = '.current-track img';
 
-Connector.playButtonSelector = '#player-controls .icon-play';
-
 Connector.durationSelector = '.track-length';
 
 Connector.currentTimeSelector = '.elapsed-time';
+
+Connector.isPlaying = function() {
+	return $('#player-controls .icon-pause').is(':visible');
+};

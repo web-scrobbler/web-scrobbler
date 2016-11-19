@@ -33,6 +33,15 @@ if (location.href === 'http://bandzone.cz/' || location.href === 'https://bandzo
 		return Connector.stringToSeconds(durationStr);
 	};
 
+	Connector.isStateChangeAllowed = function() {
+		return Connector.getDuration() > 0;
+	};
+
+	var removeGenre = function(text) {
+		var genre = $('.profile-name span').text();
+		return text.replace(genre, '');
+	};
+
 	Connector.filter = new MetadataFilter({
 		all: MetadataFilter.trim,
 		artist: removeGenre
@@ -44,10 +53,5 @@ if (location.href === 'http://bandzone.cz/' || location.href === 'https://bandzo
 		var infoStr = $('.ui-audioplayer-time').text();
 		var pattern = /(.+)\s\/\s(.+)/gi;
 		return pattern.exec(infoStr)[field];
-	};
-
-	var removeGenre = function(text) {
-		var genre = $('.profile-name span').text();
-		return text.replace(genre, '');
 	};
 }

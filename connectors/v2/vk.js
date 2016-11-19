@@ -22,10 +22,10 @@ var isPlaying = false;
 		if (eventType.startsWith('vk:player')) {
 			if (eventType.endsWith('start')) {
 				isPlaying = true;
-				updateTrackInfo();
 			} else if (eventType.endsWith('stop') || eventType.endsWith('pause')) {
 				isPlaying = false;
 			}
+			updateTrackInfo();
 			Connector.onStateChanged();
 		}
 	});
