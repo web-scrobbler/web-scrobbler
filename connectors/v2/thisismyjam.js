@@ -2,12 +2,12 @@
 
 /* global Connector */
 
-Connector.playerSelector = '#player-inner';
+Connector.playerSelector = '.foundaudio-player';
 
-Connector.artistSelector = '#artist-name';
+Connector.artistSelector = '.foundaudio-artist';
 
-Connector.trackSelector = '#track-title';
+Connector.trackSelector = '.foundaudio-title';
 
-Connector.isPlaying = function () {
-	return $('#playPause').hasClass('playing');
-};
+Connector.trackArtImageSelector = '.foundaudio-cover img';
+
+Connector.playButtonSelector = '#foundAudioPlay';
