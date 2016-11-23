@@ -20,5 +20,5 @@ Connector.durationSelector = '.player-progress .progress-length';
 Connector.trackArtImageSelector = '.player-cover img';
 
 Connector.isPlaying = function () {
-	return $('.control').hasClass('control-pause');
+	return $('.svg-icon-pause').length > 0;
 };
