@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector, YoutubeFilter */
+/* global Connector, MetadataFilter */
 
 (function () {
 	var appContainer = document.querySelector('#app');
@@ -35,7 +35,7 @@
 
 Connector.artistTrackSelector = '#now-playing-media .bar-value';
 
-Connector.filter = YoutubeFilter;
+Connector.filter = MetadataFilter.getYoutubeFilter();
 
 Connector.isPlaying = function () {
 	var timeLeft = $.trim($('#now-playing-time').text());

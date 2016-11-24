@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, MetadataFilter */
 
 Connector.getArtist = function() {
 	return $('#app-player').contents().find('#track-artist a').first().text();
@@ -42,6 +42,8 @@ Connector.getTrackArt = function() {
 		backgroundUrl = /^url\((['"]?)(.*)\1\)$/.exec(backgroundStyle);
 	return backgroundUrl ? backgroundUrl[2] : null;
 };
+
+Connector.filter = MetadataFilter.getRemasteredFilter();
 
 var onPlayerLoaded = function() {
 	console.log('Web Scrobbler: player loaded, setting up observer');

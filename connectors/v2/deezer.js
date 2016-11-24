@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, MetadataFilter */
 
 Connector.playerSelector = '#page_sidebar';
 
@@ -18,6 +18,8 @@ Connector.currentTimeSelector = '.player-progress .progress-time';
 Connector.durationSelector = '.player-progress .progress-length';
 
 Connector.trackArtImageSelector = '.player-cover img';
+
+Connector.filter = MetadataFilter.getRemasteredFilter();
 
 Connector.isPlaying = function () {
 	return $('.control').hasClass('control-pause');

@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector, YoutubeFilter */
+/* global Connector, MetadataFilter */
 
 
 Connector.playerSelector = '#audioplayer';
@@ -20,4 +20,4 @@ Connector.isPlaying = function() {
 	return $('.plyr').hasClass('plyr--playing');
 };
 
-Connector.filter = YoutubeFilter;
+Connector.filter = MetadataFilter.getYoutubeFilter();

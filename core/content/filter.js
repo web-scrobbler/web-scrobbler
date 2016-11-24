@@ -1,6 +1,6 @@
 'use strict';
 
-/* exported MetadataFilter, TrimFilter, YoutubeFilter */
+/* exported MetadataFilter */
 /* jshint node: true */
 
 /**
@@ -134,13 +134,31 @@ MetadataFilter.decodeHtmlEntities = function(text) {
  * @return {String} Filtered string
  */
 MetadataFilter.youtube = function(text) {
-	let filters = MetadataFilter.YoutubeTrackFilters;
-	for (let source in filters) {
-		let target = filters[source];
+	return MetadataFilter.filterWithMap(text, MetadataFilter.YOUTUBE_TRACK_FILTERS);
+};
+
+/**
+ * Remove "Remastered..."-like strings from the text.
+ * @param  {String} text String to be filtered
+ * @return {String} Filtered string
+ */
+MetadataFilter.removeRemastered = function(text) {
+	return MetadataFilter.filterWithMap(text, MetadataFilter.REMASTERED_FILTERS);
+};
+
+/**
+ * Replace text according to given map object.
+ * @param  {String} text String to be filtered
+ * @param  {Object} map  Object contains rules of replace
+ * @return {String} Filtered string
+ */
+MetadataFilter.filterWithMap = function(text, map) {
+	for (let source in map) {
+		let target = map[source];
 
 		let regexParts = source.match(new RegExp('^/(.*?)/([img]*)$'));
 		if (!regexParts) {
-			console.log('Invalid Youtube filter: ' + source);
+			console.log(`Invalid regex: ${source}`);
 			continue;
 		}
 
@@ -156,7 +174,7 @@ MetadataFilter.youtube = function(text) {
  * The filter set is an object that maps regular expressions to strings
  * that will be used as replacement.
  */
-MetadataFilter.YoutubeTrackFilters = {
+MetadataFilter.YOUTUBE_TRACK_FILTERS = {
 	'/^\\s+|\\s+$/g': '', // Trim whitespaces
 	'/\\s*\\*+\\s?\\S+\\s?\\*+$/': '', // **NEW**
 	'/\\s*\\[[^\\]]+\\]$/': '', // [whatever]
@@ -183,20 +201,63 @@ MetadataFilter.YoutubeTrackFilters = {
 };
 
 /**
- * Simple trim filter object used by default in a Connector object.
- * @type {MetadataFilter}
+ * A regex-based filter set that contains removal rules of "Remastered..."-like
+ * strings from a text. Used by Spotify and Deezer connectors.
  */
-const TrimFilter = new MetadataFilter({
-	artist: MetadataFilter.trim,
-	track: MetadataFilter.trim,
-	album: MetadataFilter.trim
-});
+MetadataFilter.REMASTERED_FILTERS = {
+	// Here Comes The Sun - Remastered
+	'/\\-\\sRemastered$/': '',
+	// Hey Jude - Remastered 2015
+	'/\\-\\sRemastered\\s\\d+$/': '',
+	// Let It Be (Remastered 2009)
+	'/\\(Remastered\\s\\d+\\)$/': '',
+	// Pigs On The Wing (Part One) [2011 - Remaster]
+	'/\\[\\d+\\s-\\sRemaster\\]$/': '',
+	// Comfortably Numb (2011 - Remaster)
+	'/\\(\\d+\\s-\\sRemaster\\)$/': '',
+	// Outside The Wall - 2011 - Remaster
+	'/\\-\\s\\d+\\s\\-\\sRemaster$/': '',
+	// Learning To Fly - 2001 Digital Remaster
+	'/\\-\\s\\d+\\s.+?\\sRemaster$/': '',
+	// Your Possible Pasts - 2011 Remastered Version
+	'/\\-\\s\\d+\\sRemastered Version$/': '',
+	// Roll Over Beethoven (Live / Remastered)
+	'/\\(Live\\s/\\sRemastered\\)$/i': '',
+	// Ticket To Ride - Live / Remastered
+	'/\\-\\sLive\\s/\\sRemastered$/': '',
+};
 
 /**
- * Predefined filter object for Youtube-based connectors.
+ * Get simple trim filter object used by default in a Connector object.
  * @type {MetadataFilter}
  */
-const YoutubeFilter = new MetadataFilter({
-	track: MetadataFilter.youtube,
-	all: MetadataFilter.trim
-});
+MetadataFilter.getTrimFilter = function() {
+	return new MetadataFilter({
+		artist: MetadataFilter.trim,
+		track: MetadataFilter.trim,
+		album: MetadataFilter.trim
+	});
+};
+
+/**
+ * Get predefined filter object for Youtube-based connectors.
+ * @type {MetadataFilter}
+ */
+MetadataFilter.getYoutubeFilter = function() {
+	return new MetadataFilter({
+		track: MetadataFilter.youtube,
+		all: MetadataFilter.trim
+	});
+};
+
+/**
+ * Get predefined filter object that uses 'removeRemastered' function.
+ * @type {MetadataFilter}
+ */
+MetadataFilter.getRemasteredFilter = function() {
+	return new MetadataFilter({
+		all: MetadataFilter.trim,
+		track: MetadataFilter.removeRemastered,
+		album: MetadataFilter.removeRemastered
+	});
+};
