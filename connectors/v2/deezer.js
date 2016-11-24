@@ -22,5 +22,5 @@ Connector.trackArtImageSelector = '.player-cover img';
 Connector.filter = MetadataFilter.getRemasteredFilter();
 
 Connector.isPlaying = function () {
-	return $('.control').hasClass('control-pause');
+	return $('.svg-icon-pause').length > 0;
 };
