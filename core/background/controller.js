@@ -92,6 +92,15 @@ define([
 					isPlaying: newState.isPlaying,
 					trackArt: newState.trackArt,
 				});
+
+				if (newState.duration && !currentSong.parsed.duration) {
+					updateSongDuration(newState.duration);
+
+					let songDuration = currentSong.getDuration();
+					let remainedSeconds = playbackTimer.getRemainingSeconds();
+					console.log(`Tab ${tabId}: update duration: ${songDuration}`);
+					console.log(`The song will be scrobbled after ${remainedSeconds} more seconds of playback`);
+				}
 			}
 			// we've hit a new song (or replaying the previous one) - clear old data and run processing
 			else {
@@ -122,6 +131,18 @@ define([
 				Pipeline.processSong(currentSong);
 			}
 		};
+
+		/**
+		 * Update song duration value.
+		 * @param  {Number} duration Duration in seconds
+		 */
+		function updateSongDuration(duration) {
+			currentSong.parsed.attr({ duration });
+
+			if (currentSong.flags.isProcessed) {
+				playbackTimer.update(currentSong.getSecondsToScrobble());
+			}
+		}
 
 		/**
 		 * Setup listeners for new song object
