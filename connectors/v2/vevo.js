@@ -16,10 +16,6 @@ Connector.isPlaying = function() {
 	return $('#control-bar').hasClass('state-playing');
 };
 
-Connector.isStateChangeAllowed = function() {
-	return Connector.getCurrentTime() > 0;
-};
-
 Connector.getUniqueID = function() {
 	return $('meta[property="og:ytid"]').attr('content');
 };

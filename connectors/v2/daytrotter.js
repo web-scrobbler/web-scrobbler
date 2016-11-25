@@ -24,10 +24,6 @@ function setupRadioPlayer() {
 	Connector.currentTimeSelector = '.jp-current-time';
 
 	Connector.durationSelector = '.jp-duration';
-
-	Connector.isStateChangeAllowed = function() {
-		return Connector.getCurrentTime() > 0;
-	};
 }
 
 function isPlaylistPlayer() {

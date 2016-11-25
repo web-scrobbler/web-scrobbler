@@ -25,10 +25,6 @@ function bindCommon() {
 	Connector.isPlaying = function() {
 		return !$('video')[0].paused;
 	};
-
-	Connector.isStateChangeAllowed = function() {
-		return Connector.getCurrentTime() > 1;
-	};
 }
 
 function bindNew() {

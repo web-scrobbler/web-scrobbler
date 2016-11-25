@@ -21,10 +21,6 @@ Connector.isPlaying = function () {
 	return $('.playing').length > 0;
 };
 
-Connector.isStateChangeAllowed = function() {
-	return Connector.getCurrentTime() > 0;
-};
-
 function getTimeInfo(field) {
 	var pattern = /(.+)\s-\s(.+)/gi;
 	var songInfo = pattern.exec($('.elapsed').text());

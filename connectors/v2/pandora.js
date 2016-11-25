@@ -34,10 +34,6 @@ function setupPandoraPlayer() {
 
 	Connector.playButtonSelector = 'div.playButton';
 
-	Connector.isStateChangeAllowed = function() {
-		return getElapsedTime() > 0;
-	};
-
 	Connector.getDuration = function () {
 		return getElapsedTime() + getRemainingTime();
 	};
