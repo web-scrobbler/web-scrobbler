@@ -2,6 +2,7 @@
 
 require('chromedriver');
 
+const fs = require('fs');
 const path = require('path');
 const helpers = require('./helpers');
 const webdriver = require('selenium-webdriver');
@@ -228,6 +229,13 @@ function getChromeOptions() {
 		'--lang=en-US'
 	]);
 	chromeOptions.setLoggingPrefs({browser: 'ALL'});
+
+	let uBlockFilePath = path.join(__dirname, '../ublock.zip');
+	if (fs.existsSync(uBlockFilePath)) {
+		chromeOptions.addExtensions(uBlockFilePath);
+		console.log(`Using uBlock extension: ${uBlockFilePath}`);
+	}
+
 	return chromeOptions;
 }
 
