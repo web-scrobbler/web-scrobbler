@@ -6,7 +6,6 @@ const RETRIES_COUNT = 5;
 
 const fs = require('fs');
 const path = require('path');
-const async = require('async');
 const helpers = require('./helpers/helpers');
 
 function getConnectorTestFilePath(connector) {
@@ -86,9 +85,9 @@ function runConnectorsTests() {
 		var connectorSpec = require('./components/connector-spec.js');
 
 		// This code DOESN'T run tests immediately.
-		async.each(connectors, function(connector) {
+		for (let connector of connectors) {
 			prepareTest(connector, driver, connectorSpec);
-		});
+		}
 
 		after(function() {
 			if (global.QUIT_ON_END) {
