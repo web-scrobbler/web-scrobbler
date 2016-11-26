@@ -91,7 +91,9 @@ function runConnectorsTests() {
 		});
 
 		after(function() {
-			return driver.quit();
+			if (global.QUIT_ON_END) {
+				return driver.quit();
+			}
 		});
 	}
 }
