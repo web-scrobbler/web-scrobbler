@@ -50,3 +50,41 @@ exports.debug = function(message, object) {
 		console.log(msgTemplate, MSG_INDENT, message);
 	}
 };
+
+exports.getConnectorsFromArgs = function() {
+	return process.argv.slice(2).filter((arg) => {
+		return arg.indexOf('=') === -1;
+	});
+};
+
+exports.getOptionsFromArgs = function() {
+	let args = process.argv.slice(2).filter((arg) => {
+		return arg.indexOf('=') !== -1;
+	});
+	let options = {};
+
+	for (let arg of args) {
+		let [key, val] = arg.split('=');
+		options[key] = val;
+	}
+
+	return options;
+};
+
+exports.processOptionValue = function(val) {
+	if (isValueOn(val)) {
+		return true;
+	} else if (isValueOff(val)) {
+		return false;
+	} else {
+		return null;
+	}
+};
+
+function isValueOn(val) {
+	return val === 'true' || val === 'on' || val === '1';
+}
+
+function isValueOff(val) {
+	return val === 'false' || val === 'off' || val === '0';
+}

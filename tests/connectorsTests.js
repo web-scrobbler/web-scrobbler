@@ -7,6 +7,7 @@ const RETRIES_COUNT = 5;
 const fs = require('fs');
 const path = require('path');
 const async = require('async');
+const helpers = require('./helpers/helpers');
 
 function getConnectorTestFilePath(connector) {
 	var testFileName = path.basename(connector.js[0]);
@@ -34,21 +35,21 @@ function getConnectorsList() {
 
 function getConnectorsToTest() {
 	var connectors = getConnectorsList();
-	var connectorsArgs = process.argv.slice(2);
-	if (connectorsArgs.length > 0) {
+	var connectorsFromArgs = helpers.getConnectorsFromArgs();
+	if (connectorsFromArgs.length > 0) {
 		var invalidConnectors = [];
 
 		connectors = connectors.filter(function(item) {
 			var connectorFileName = path.basename(item.js[0], '.js');
-			var fileNameIndex = connectorsArgs.indexOf(connectorFileName);
+			var fileNameIndex = connectorsFromArgs.indexOf(connectorFileName);
 			if (fileNameIndex !== -1) {
-				connectorsArgs.splice(fileNameIndex, 1);
+				connectorsFromArgs.splice(fileNameIndex, 1);
 				return true;
 			}
 			return false;
 		});
 
-		invalidConnectors = invalidConnectors.concat(connectorsArgs);
+		invalidConnectors = invalidConnectors.concat(connectorsFromArgs);
 		if (invalidConnectors.length > 0) {
 			console.warn('Unknown connectors: ' + invalidConnectors.join(', '));
 		}

@@ -8,6 +8,7 @@ global.DEBUG = false;
 
 const path = require('path');
 const Mocha = require('mocha');
+const helpers = require('./helpers/helpers');
 
 function createMocha() {
 	var mocha = new Mocha({
@@ -18,8 +19,33 @@ function createMocha() {
 	return mocha;
 }
 
-createMocha().run(function(failures) {
-	process.on('exit', function () {
-		process.exit(failures);
+function processOptionsFromArgs() {
+	let options = helpers.getOptionsFromArgs();
+	for (let key in options) {
+		let val = options[key];
+		switch (key) {
+			case 'debug':
+				let processedVal = helpers.processOptionValue(val);
+				if (processedVal !== null) {
+					global.DEBUG = processedVal;
+				} else {
+					console.log(`Unknown value of '${key}' option: ${val}`);
+				}
+				break;
+			default:
+				console.log(`Unknown option: ${key}`);
+				break;
+		}
+	}
+}
+
+function main() {
+	processOptionsFromArgs();
+	createMocha().run(function(failures) {
+		process.on('exit', function () {
+			process.exit(failures);
+		});
 	});
-});
+}
+
+main();
