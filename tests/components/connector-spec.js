@@ -1,5 +1,6 @@
 'use strict';
 
+const WAIT_UNTIL_TIMEOUT = 30000;
 const DEFAULT_RECOGNIZE_TIMEOUT = 20000;
 const WAIT_FOR_PLAYER_ELEMENT_TIMEOUT = 5000;
 
@@ -47,6 +48,7 @@ exports.shouldContainPlayerElement = function(driver, options) {
  * @see {@link shouldLoadWebsite}
  * @see {@link promiseClickPlayButton}
  * @see {@link promiseRecogniseSong}
+ * @param  {Function} waitUntil Function that returns promise resolves with truthy value
  */
 module.exports.shouldBehaveLikeMusicSite = function(driver, options) {
 	it('should load site and recognize a song', function() {
@@ -135,6 +137,10 @@ function promiseBehaveLikeMusicSite(driver, options) {
 
 	return promiseLoadSite(driver, opts).then(function() {
 		return promiseClickPlayButton(driver, opts);
+	}).then(function() {
+		if (opts.waitUntil) {
+			return driver.wait(opts.waitUntil, WAIT_UNTIL_TIMEOUT);
+		}
 	}).then(function() {
 		return promiseRecognizeSong(driver, opts);
 	});

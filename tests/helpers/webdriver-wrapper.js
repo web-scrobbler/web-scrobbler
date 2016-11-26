@@ -10,7 +10,7 @@ const chromedriver = require('selenium-webdriver/chrome');
 
 const WAIT_CLICK_TIMEOUT = 5000;
 const WAIT_FOR_INJECTION_TIMEOUT = 5000;
-const WAIT_BETWEEN_EVENT_SEARCH = 500;
+const WAIT_BETWEEN_CONDITION_CHECK = 500;
 
 var driver = createWebDriver();
 
@@ -38,15 +38,14 @@ exports.load = function(url, timeout) {
 /**
  * Wait for an element to be visible and click on it.
  * @param  {Object} locator Locator of element to be clicked
- * @param  {Number} timeout Optional timeout in milliseconds
  * @return {Promise} Promise that will be resolved when the task has completed
  */
-exports.click = function(locator, forceJsClick, timeout) {
+exports.click = function(locator, forceJsClick) {
 	var locatorStr = JSON.stringify(locator);
 	var timeoutDesc = 'Unable to click on ' + locatorStr + ': timed out';
 
 	helpers.debug('Waiting on click ', locatorStr);
-	return driver.wait(function() {
+	return exports.wait(function() {
 		return driver.findElements(locator).then(function(elements) {
 			var elementsCount = elements.length;
 			if (global.DEBUG && elementsCount > 1) {
@@ -56,7 +55,7 @@ exports.click = function(locator, forceJsClick, timeout) {
 			}
 			return elementsCount > 0;
 		});
-	}, timeout || WAIT_CLICK_TIMEOUT, timeoutDesc).then(function() {
+	}, WAIT_CLICK_TIMEOUT, timeoutDesc).then(function() {
 		if (forceJsClick) {
 			return clickWithJavaScript(locator);
 		}
@@ -87,6 +86,39 @@ exports.waitForSongRecognition = function(timeout) {
  */
 exports.waitForPlayerElement = function(timeout) {
 	return waitForConnectorEvent('player_element_exists', timeout);
+};
+
+/**
+ * Find an element on the page.
+ * @param  {String} selector CSS selector of the element
+ * @return {WebElementPromise} Promise that will be resolved with first found element
+ */
+exports.findElement = function(selector) {
+	return driver.findElements({css: selector}).then((elements) => {
+		if (elements.length === 0) {
+			throw new Error(`The ${selector} element is not found`);
+		}
+		return elements[0];
+	});
+};
+
+/**
+ * Wait for a condition.
+ * @param  {Function} condition Function that returns promise resolves with truthy value
+ * @param  {Number} timeout How long to wait for the condition to be true
+ * @param  {String} message Optional message to use if the wait times out
+ * @return {Promise} Promise that will be resolved when the condition is resolved with truthy value
+ */
+exports.wait = function(condition, timeout, message) {
+	return driver.wait(() => {
+		return condition().then((value) => {
+			if (value) {
+				// Forward result to promise chain
+				return value;
+			}
+			return driver.sleep(WAIT_BETWEEN_CONDITION_CHECK);
+		});
+	}, timeout, message);
 };
 
 /**
@@ -167,13 +199,8 @@ function setupTestEventCapture() {
  */
 function waitForConnectorEvent(needle, timeout) {
 	helpers.debug('Waiting for "' + needle + '" event');
-	return driver.wait(function() {
-		return driver.executeScript(findWebScrobblerEvent, needle).then(function(foundEvent) {
-			if (foundEvent) {
-				return foundEvent;
-			}
-			return driver.sleep(WAIT_BETWEEN_EVENT_SEARCH);
-		});
+	return exports.wait(() => {
+		return driver.executeScript(findWebScrobblerEvent, needle);
 	}, timeout, 'Unable to find "' + needle + '" event: timed out');
 }
 
