@@ -21,12 +21,11 @@
     "webstore-upload": "~0.0.7",
     "grunt-exec": "~1.0.1",
     "grunt-bump": "~0.8.0",
-    "chai": "~1.9.1",
-    "mocha": "~3.0.2",
-    "selenium-webdriver": "~3.0.0-beta-2",
-    "chromedriver": "~2.24.1",
+    "mocha": "~3.2.0",
+    "selenium-webdriver": "~3.0.1",
+    "chromedriver": "~2.25.1",
     "node-define": "~0.1.1",
-    "requirejs": "~2.2.0"
+    "requirejs": "~2.3.2"
   },
   "engines": {
     "node": ">=6.0.0"
