@@ -2,7 +2,7 @@
 
 /* global Connector */
 
-Connector.playerSelector = '#playerBox';
+Connector.playerSelector = '.player-block';
 
 Connector.artistSelector = '#p_songTitle .f_artist';
 
