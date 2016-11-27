@@ -17,56 +17,59 @@ switch (version) {
 		break;
 }
 
-
-function bindNew() {
-
-	Connector.playerSelector = '#theatre-ia';
-
+function bindCommon() {
 	Connector.currentTimeSelector = '#jw6_controlbar_elapsed';
 
-	Connector.albumSelector = '#wrap > div:nth-child(6) > div > div.col-sm-8.thats-left > h1';
-
-	Connector.getArtist = function() {
-		return parseArtist();
-	};
-
-	Connector.getTrack = function() {
-		var track =  $('.jwrowV2.playing .ttl').text();
-
-		var parts = track.split('-');
-		if (parts.length === 3 && parts[0].trim() === parseArtist()) {
-			track = parts[2];
-		}
-
-		return track;
-	};
+	Connector.durationSelector = '#jw6_controlbar_duration';
 
 	Connector.isPlaying = function() {
 		return !$('video')[0].paused;
 	};
 
-	Connector.getTrackArt = function() {
-		return $('#theatre-ia > div > div > div.row > div.col-xs-12.col-sm-6.col-md-5.col-lg-4 > center > img').attr('src') || null;
+	Connector.isStateChangeAllowed = function() {
+		return Connector.getCurrentTime() > 1;
+	};
+}
+
+function bindNew() {
+	bindCommon();
+
+	Connector.playerSelector = '#theatre-ia';
+
+	Connector.trackArtImageSelector = '#theatre-ia center > img';
+
+	Connector.getArtistTrack = function() {
+		let track = $('.jwrowV2.playing .ttl').text();
+		let artist = $('.key-val-big a').first().text();
+
+		let trackParts = track.split('-').map((item) => {
+			return item.trim();
+		});
+		if (trackParts.length === 3 && trackParts[0] === artist) {
+			track = trackParts[2];
+		}
+
+		return {artist, track};
 	};
 
-	function parseArtist() {
-		var artist = $('#wrap > div:nth-child(4) > div > div.col-sm-8.thats-left > div:nth-child(3) > span.value > a').text();
-		return  artist;
-	}
+	Connector.getAlbum = function() {
+		return $('.thats-left > h1').contents()[2].textContent;
+	};
 }
 
 function bindLegacy() {
+	bindCommon();
 
 	Connector.playerSelector = '#avplaydiv';
 
-	Connector.currentTimeSelector = '#jw6_controlbar_elapsed';
+	Connector.trackArtImageSelector = '#col1 > div:nth-child(1) > div:nth-child(2) > img';
 
 	Connector.getAlbum = function() {
 		var album = $('.x-archive-meta-title').text();
 
 		// Remove artist from album
 		var parts = album.split('-');
-		if (parts.length > 0 && parts[0].trim() === parseArtist()) {
+		if (parts.length > 0 && parts[0].trim() === Connector.getArtist()) {
 			album = album.substr(album.indexOf('-') + 1);
 		}
 
@@ -74,7 +77,7 @@ function bindLegacy() {
 	};
 
 	Connector.getArtist = function() {
-		return parseArtist();
+		return $('span.key:contains("Artist/Composer:"), span.key:contains("Band/Artist:")').next().text();
 	};
 
 	Connector.getTrack = function() {
@@ -83,22 +86,10 @@ function bindLegacy() {
 
 		// Some titles are stored as artist - track # - title so strip out non-title elements
 		var parts = title.split('-');
-		if (parts.length === 3 && parts[0].trim() === parseArtist()) {
+		if (parts.length === 3 && parts[0].trim() === Connector.getArtist()) {
 			title = parts[2];
 		}
 
 		return title;
 	};
-
-	Connector.isPlaying = function() {
-		return !$('video')[0].paused;
-	};
-
-	Connector.getTrackArt = function() {
-		return $('#col1 > div:nth-child(1) > div:nth-child(2) > img').attr('src') || null;
-	};
-
-	function parseArtist() {
-		return $('span.key:contains("Artist/Composer:"), span.key:contains("Band/Artist:")').next().text();
-	}
 }
