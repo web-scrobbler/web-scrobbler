@@ -1,5 +1,7 @@
 'use strict';
 
+const options = require('./options');
+
 const MSG_INDENT = '      ';
 
 /**
@@ -34,12 +36,12 @@ exports.fail = function(msg) {
 };
 
 /**
- * Print debug message (purple color is used). Suppressed if global.DEBUG is false
+ * Print debug message (purple color is used). Suppressed if debug mode is off.
  * @param  {String} message Message text
  * @param  {Object} object Optional object
  */
 exports.debug = function(message, object) {
-	if (!global.DEBUG) {
+	if (!options.get('debug')) {
 		return;
 	}
 
@@ -50,41 +52,3 @@ exports.debug = function(message, object) {
 		console.log(msgTemplate, MSG_INDENT, message);
 	}
 };
-
-exports.getConnectorsFromArgs = function() {
-	return process.argv.slice(2).filter((arg) => {
-		return arg.indexOf('=') === -1;
-	});
-};
-
-exports.getOptionsFromArgs = function() {
-	let args = process.argv.slice(2).filter((arg) => {
-		return arg.indexOf('=') !== -1;
-	});
-	let options = {};
-
-	for (let arg of args) {
-		let [key, val] = arg.split('=');
-		options[key] = val;
-	}
-
-	return options;
-};
-
-exports.processOptionValue = function(val) {
-	if (isValueOn(val)) {
-		return true;
-	} else if (isValueOff(val)) {
-		return false;
-	} else {
-		return null;
-	}
-};
-
-function isValueOn(val) {
-	return val === 'true' || val === 'on' || val === '1';
-}
-
-function isValueOff(val) {
-	return val === 'false' || val === 'off' || val === '0';
-}

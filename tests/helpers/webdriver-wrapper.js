@@ -5,6 +5,7 @@ require('chromedriver');
 const fs = require('fs');
 const path = require('path');
 const helpers = require('./helpers');
+const options = require('./options');
 const webdriver = require('selenium-webdriver');
 const chromedriver = require('selenium-webdriver/chrome');
 
@@ -48,7 +49,7 @@ exports.click = function(locator, forceJsClick) {
 	return exports.wait(function() {
 		return driver.findElements(locator).then(function(elements) {
 			var elementsCount = elements.length;
-			if (global.DEBUG && elementsCount > 1) {
+			if (options.get('debug') && elementsCount > 1) {
 				helpers.warn(
 					'Ambiguous locator: ' + locatorStr +
 					' [' + elementsCount + ' elements]');
@@ -245,7 +246,7 @@ function acceptAlerts() {
 
 function getChromeOptions() {
 	var extPath = path.join(__dirname, '../.././');
-	var logLevel = global.DEBUG ? '0' : '3';
+	var logLevel = options.get('debug') ? '0' : '3';
 
 	var chromeOptions = new chromedriver.Options();
 	chromeOptions.addArguments([

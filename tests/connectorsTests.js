@@ -6,7 +6,7 @@ const RETRIES_COUNT = 5;
 
 const fs = require('fs');
 const path = require('path');
-const helpers = require('./helpers/helpers');
+const options = require('./helpers/options');
 
 function getConnectorTestFilePath(connector) {
 	var testFileName = path.basename(connector.js[0]);
@@ -34,7 +34,7 @@ function getConnectorsList() {
 
 function getConnectorsToTest() {
 	var connectors = getConnectorsList();
-	var connectorsFromArgs = helpers.getConnectorsFromArgs();
+	var connectorsFromArgs = options.getConnectorsFromArgs();
 	if (connectorsFromArgs.length > 0) {
 		var invalidConnectors = [];
 
@@ -59,7 +59,7 @@ function getConnectorsToTest() {
 
 function getTestDescription(connector) {
 	var filename = path.basename(connector.js[0], '.js');
-	if (global.DEBUG) {
+	if (options.get('debug')) {
 		return `Connector: ${filename}`;
 	} else {
 		return `[${filename}]`;
@@ -69,7 +69,7 @@ function getTestDescription(connector) {
 function prepareTest(connector, driver, connectorSpec) {
 	var testDescription = getTestDescription(connector);
 	describe(testDescription, function() {
-		if (!global.DEBUG) {
+		if (!options.get('debug')) {
 			this.retries(RETRIES_COUNT);
 		}
 
@@ -90,7 +90,7 @@ function runConnectorsTests() {
 		}
 
 		after(function() {
-			if (global.QUIT_ON_END) {
+			if (options.get('quitOnEnd')) {
 				return driver.quit();
 			}
 		});

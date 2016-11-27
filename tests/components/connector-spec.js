@@ -5,6 +5,7 @@ const DEFAULT_RECOGNIZE_TIMEOUT = 20000;
 const WAIT_FOR_PLAYER_ELEMENT_TIMEOUT = 5000;
 
 const helpers = require('./../helpers/helpers');
+const options = require('./../helpers/options');
 const webdriver = require('selenium-webdriver');
 
 /**
@@ -165,7 +166,7 @@ function checkSongField(song, fieldName, checkFunction) {
 }
 
 function printSongInfo(song) {
-	if (!global.DEBUG) {
+	if (!options.get('debug')) {
 		return;
 	}
 
