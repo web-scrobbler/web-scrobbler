@@ -65,8 +65,18 @@ Connector.isStateChangeAllowed = function() {
 Connector.getArtistTrack = function () {
 	var text =$(Connector.artistTrackSelector).text();
 
-	text = text.replace(/^\[[^\]]+\]\s*-*\s*/i, ''); // remove [genre] from the beginning of the title
-	return Connector.splitArtistTrack(text);
+	// Remove [genre] from the beginning of the title
+	text = text.replace(/^\[[^\]]+\]\s*-*\s*/i, '');
+
+	let {artist, track} = Connector.splitArtistTrack(text);
+	if (artist === null && track === null) {
+		// Look for Artist "Track"
+		let artistTrack = text.match(/(.+?)\s"(.+?)"/);
+		if (artistTrack) {
+			[/* skip */, artist, track] = artistTrack;
+		}
+	}
+	return {artist, track};
 };
 
 Connector.filter = MetadataFilter.getYoutubeFilter();
