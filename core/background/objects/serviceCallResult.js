@@ -4,29 +4,19 @@
  * Factory for objects of service call result
  */
 define([], function() {
+	function ServiceCallResult(result) {
+		this.getResult = function() {
+			return result;
+		};
 
-	var results = {
-		OK: 'ok',
-		ERROR_AUTH: 'error-auth',
-		ERROR_OTHER: 'error-other'
-	};
+		this.isOk = function() {
+			return result === ServiceCallResult.OK;
+		};
+	}
 
-	return {
-		results: results,
+	ServiceCallResult.OK = 'ok';
+	ServiceCallResult.ERROR_AUTH = 'error-auth';
+	ServiceCallResult.ERROR_OTHER = 'error-other';
 
-		/**
-		 * Call with 'new' to create new service call result
-		 * @param result
-		 */
-		ServiceCallResult: function(result) {
-			this.getResult = function() {
-				return result;
-			};
-
-			this.isOk = function() {
-				return result === results.OK;
-			};
-		}
-	};
-
+	return ServiceCallResult;
 });

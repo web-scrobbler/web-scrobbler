@@ -9,30 +9,50 @@ define([
 	'pipeline/metadata',
 	'pipeline/musicbrainz-coverartarchive'
 ], function(UserInput, LocalCache, Metadata, MusicBrainz) {
-	return {
-		processSong: function(song) {
-			// list of processors is recreated for every processing call
-			var processors = [
-				UserInput.loadData, // loads data stored by user
-				LocalCache.loadData, // loads data filled by user from storage
-				Metadata.loadSong, // loads song metadata and sets validation flag
-				MusicBrainz.getCoverArt // looks for fallback cover art via API, in the even that it wasn't found earlier
-			];
-
-			var cb = function() {
-				if (processors.length > 0) {
-					var next = processors.shift();
-					next(song, cb);
-				} else {
-					// processing finished, just set the flag
-					song.flags.attr('isProcessed', true);
-				}
+	/**
+	 * Get array of functions that return promises.
+	 * Used for delayed promise execute.
+	 * @param  {Object} song Song instance
+	 * @return {Array} Array of promise factories
+	 */
+	function getProcessorFactories(song) {
+		// list of processors promise factories is recreated
+		// for every processing call
+		return [
+			// loads data stored by user
+			UserInput.loadData,
+			// loads data filled by user from storage
+			LocalCache.loadData,
+			// loads song metadata and sets validation flag
+			Metadata.loadSong,
+			// looks for fallback cover art via API,
+			// in the even that it wasn't found earlier
+			MusicBrainz.getCoverArt
+		].map((processorFactory) => {
+			return function() {
+				return processorFactory(song);
 			};
+		});
+	}
 
-			// reset possible flag, so we can detect changes on repeated processing of the same song
+	return {
+		/**
+		 * Process song using pipeline processors.
+		 * @param  {Object} song Song instance
+		 */
+		processSong: function(song) {
+			// reset possible flag, so we can detect changes
+			// on repeated processing of the same song
 			song.flags.attr('isProcessed', false);
 
-			cb(song);
+			let processorsSequence = Promise.resolve();
+			for (let processorFactory of getProcessorFactories(song)) {
+				processorsSequence = processorsSequence.then(processorFactory);
+			}
+
+			processorsSequence.then(() => {
+				song.flags.attr('isProcessed', true);
+			});
 		}
 	};
 });

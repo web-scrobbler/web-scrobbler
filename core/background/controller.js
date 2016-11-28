@@ -11,6 +11,14 @@ define([
 	'pipeline/local-cache',
 	'services/scrobbleService'
 ], function(Song, Pipeline, LastFM, PageAction, Timer, Notifications, GA, LocalCache, ScrobbleService) {
+	/**
+	 * Check if array of results contains at least one goog result.
+	 * @param  {Array} results Array of results
+	 * @return {Boolean} True if at least one good result is found
+	 */
+	function isAnyOkResult(results) {
+		return results.some((result) => result.isOk());
+	}
 
 	/**
 	 * Controller for each tab.
@@ -269,17 +277,16 @@ define([
 			if (notify) {
 				Notifications.showPlaying(song);
 			}
-			// send to L.FM
-			var nowPlayingCB = function(result) {
-				if (result) {
-					console.log(`Tab ${tabId}: song set as now playing)`);
+
+			ScrobbleService.sendNowPlaying(song).then((results) => {
+				if (isAnyOkResult(results)) {
+					console.log(`Tab ${tabId}: song set as now playing`);
 					pageAction.setSongRecognized(song);
 				} else {
 					console.warn(`Tab ${tabId}: song isn't set as now playing`);
 					pageAction.setError();
 				}
-			};
-			ScrobbleService.sendNowPlaying(song, nowPlayingCB);
+			});
 
 			song.flags.attr('isMarkedAsPlaying', true);
 		}
@@ -301,8 +308,8 @@ define([
 		function doScrobble(song) {
 			console.log('Tab ' + tabId + ': scrobbling song ' + song.getArtist() + ' - ' + song.getTrack());
 
-			var scrobbleCB = function(result) {
-				if (result.isOk()) {
+			ScrobbleService.scrobble(song).then((results) => {
+				if (isAnyOkResult(results)) {
 					console.info('Tab ' + tabId + ': scrobbled successfully');
 
 					song.flags.attr('isScrobbled', true);
@@ -316,9 +323,7 @@ define([
 
 					pageAction.setError();
 				}
-			};
-
-			ScrobbleService.scrobble(song, scrobbleCB);
+			});
 		}
 
 		/**
@@ -393,7 +398,7 @@ define([
 
 		this.toggleLove = function(data, cb) {
 			if (currentSong !== null) {
-				LastFM.toggleLove(currentSong, data.shouldBeLoved, function() {
+				LastFM.toggleLove(currentSong, data.shouldBeLoved).then(() => {
 					currentSong.metadata.attr('userloved', data.shouldBeLoved);
 					cb();
 				});

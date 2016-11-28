@@ -4,8 +4,9 @@
  * Module for all communication with libre.fm
  */
 define([
-	'scrobblers/baseScrobbler'
-], function (BaseScrobbler) {
+	'scrobblers/baseScrobbler',
+	'objects/serviceCallResult'
+], function (BaseScrobbler, ServiceCallResult) {
 
 	var LibreFM = new BaseScrobbler({
 		label: 'Libre.FM',
@@ -19,8 +20,7 @@ define([
 	/**
 	 * Overwrite default doRequest implementation due to API wanting the params encoded in the post body.
 	 */
-	LibreFM.doRequest = function (method, params, signed, okCb, errCb) {
-		var self = this;
+	LibreFM.doRequest = function (method, params, signed) {
 		params.api_key = this.apiKey;
 
 		if (signed) {
@@ -36,27 +36,25 @@ define([
 
 		var url = this.apiUrl + '?' + paramPairs.join('&');
 
-		var internalOkCb = function (xmlDoc, status) {
-			console.info(self.label + ' response to ' + method + ' ' + url + ' : ' + status + '\n' + (new XMLSerializer()).serializeToString(xmlDoc));
-			okCb.apply(this, arguments);
-		};
+		return new Promise((resolve, reject) => {
+			let internalOkCb = (xmlDoc, status) => {
+				console.log(`${this.label} response to ${url}: ${status}\n${new XMLSerializer().serializeToString(xmlDoc)}`);
+				resolve(xmlDoc);
+			};
 
-		var internalErrCb = function (jqXHR, status, response) {
-			console.error(self.label + ' response to ' + url + ' : ' + status + '\n' + response);
-			errCb.apply(this, arguments);
-		};
+			let internalErrCb = (jqXHR, status, response) => {
+				console.error(`${this.label} response to ${url}: ${status}\n${response}`);
+				reject(new ServiceCallResult(ServiceCallResult.ERROR_OTHER));
+			};
 
-		if (method === 'GET') {
-			$.get(url)
-				.done(internalOkCb)
-				.fail(internalErrCb);
-		} else if (method === 'POST') {
-			$.post(url, $.param(params))
-				.done(internalOkCb)
-				.fail(internalErrCb);
-		} else {
-			console.error('Unknown method: ' + method);
-		}
+			if (method === 'GET') {
+				$.get(url).done(internalOkCb).fail(internalErrCb);
+			} else if (method === 'POST') {
+				$.post(url, $.param(params)).done(internalOkCb).fail(internalErrCb);
+			} else {
+				reject(new ServiceCallResult(ServiceCallResult.ERROR_OTHER));
+			}
+		});
 	}.bind(LibreFM);
 
 	/**
@@ -65,9 +63,11 @@ define([
 	 * @param song
 	 * @param cb
 	 */
-	LibreFM.loadSongInfo = function (song, cb) {
+	LibreFM.loadSongInfo = function (song) {
 		song.flags.attr('isLastfmValid', true);
-		cb(true);
+		return new Promise((resolve) => {
+			resolve(true);
+		});
 	};
 
 

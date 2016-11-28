@@ -7,35 +7,43 @@ define([], function() {
 	// if we can come up with other uses for the MusicBrainz data.
 
 	var service = {
-		getCoverArt: function(song, cb) {
-			// Only query APIs if no cover art can be found
-			if (song.parsed.trackArt) {
-				console.log('Using local/parsed artwork');
-				cb();
-			} else if (song.metadata.artistThumbUrl) {
-				console.log('Found album artwork via LastFM');
-				cb();
-			} else {
-				console.log('Looking for album artwork via MusicBrainz');
+		/**
+		 * Fetch coverart from MusicBrainz archive.
+		 * @param  {Object} song Song instance
+		 * @return {Promise} Promise that will be resolved then the task will complete
+		 */
+		getCoverArt: function(song) {
+			return new Promise((resolve) => {
+				// Only query APIs if no cover art can be found
+				if (song.parsed.trackArt) {
+					console.log('Using local/parsed artwork');
+					resolve();
+				} else if (song.metadata.artistThumbUrl) {
+					console.log('Found album artwork via LastFM');
+					resolve();
+				} else {
+					console.log('Looking for album artwork via MusicBrainz');
 
-				// Search both, just incase there's artwork for the album, but not for the song/single
-				var endpoints = ['release', 'release-group'];
+					// Search both, just incase there's artwork for the album, but not for the song/single
+					var endpoints = ['release', 'release-group'];
 
-				var coverArtSearch = function() {
-					if (endpoints.length < 1) {
-						return cb();
-					}
+					var coverArtSearch = function() {
+						if (endpoints.length < 1) {
+							resolve();
+							return;
+						}
 
-					var endpoint = endpoints.shift();
-					// Try to ID the song via the MusicBrainz API
-					service.getMusicBrainzId(endpoint, song, coverArtSearch, function() {
-						// then Check for CoverArtArchive imagery against that MusicBrainz ID
-						service.getCoverArtArchive(song, coverArtSearch, cb);
-					});
-				};
+						var endpoint = endpoints.shift();
+						// Try to ID the song via the MusicBrainz API
+						service.getMusicBrainzId(endpoint, song, coverArtSearch, function() {
+							// then Check for CoverArtArchive imagery against that MusicBrainz ID
+							service.getCoverArtArchive(song, coverArtSearch);
+						});
+					};
 
-				coverArtSearch();
-			}
+					coverArtSearch();
+				}
+			});
 		},
 
 		/* Get track or album MusicBrainz ID

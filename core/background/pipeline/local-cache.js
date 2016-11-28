@@ -4,33 +4,37 @@ define(['chromeStorage'], function(ChromeStorage) {
 	const storage = ChromeStorage.getNamespace('LocalCache');
 	const fieldsToSave = ['artist', 'track', 'album'];
 
-	function loadData(song, cb) {
-		if (!song.parsed.uniqueID) {
-			cb();
-			return;
-		}
+	function loadData(song) {
+		return new Promise((resolve) => {
+			if (!song.parsed.uniqueID) {
+				resolve();
+				return;
+			}
 
-		storage.get((chromeData) => {
-			let songId = song.parsed.uniqueID;
+			storage.get((chromeData) => {
+				let songId = song.parsed.uniqueID;
 
-			if (chromeData[songId]) {
-				let isChanged = false;
-				let savedMetadata = chromeData[songId];
+				if (chromeData[songId]) {
+					let isChanged = false;
+					let savedMetadata = chromeData[songId];
 
-				for (let field of fieldsToSave) {
-					if (savedMetadata[field]) {
-						isChanged = true;
-						song.processed.attr(field, savedMetadata[field]);
+					for (let field of fieldsToSave) {
+						if (savedMetadata[field]) {
+							isChanged = true;
+							song.processed.attr(field, savedMetadata[field]);
+						}
+					}
+
+					if (isChanged) {
+						song.flags.attr('isCorrectedByUser', true);
 					}
 				}
 
-				if (isChanged) {
-					song.flags.attr('isCorrectedByUser', true);
-				}
-			}
-
-			cb();
+				resolve();
+			});
 		});
+
+
 	}
 
 	function removeSongFromStorage(song, cb) {

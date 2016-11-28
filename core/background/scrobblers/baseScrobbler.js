@@ -7,9 +7,17 @@ define([
 	'objects/serviceCallResult',
 	'chromeStorage',
 	'services/scrobbleService'
-], function ($, MD5, can, ServiceCallResultFactory, ChromeStorage, ScrobbleService) {
+], function ($, MD5, can, ServiceCallResult, ChromeStorage, ScrobbleService) {
 	const GET_AUTH_URL_TIMEOUT = 10000;
 
+	/**
+	 * Base scrobbler object.
+	 *
+	 * This object and its ancestors MUST return ServiceCallResult instance
+	 * as result or error value in methods that execute API methods.
+	 *
+	 * @constructor
+	 */
 	function BaseScrobbler(options) {
 		this.label = options.label;
 		this.apiUrl = options.apiUrl;
@@ -80,9 +88,7 @@ define([
 
 							let authUrl = `${this.authUrl}?api_key=${this.apiKey}&token=${data.token}`;
 							this.storage.set(data, function() {
-								resolve({
-									authUrl, label: self.getLabel()
-								});
+								resolve(authUrl);
 							});
 						}
 					});
@@ -92,44 +98,48 @@ define([
 
 		/**
 		 * Calls callback with sessionID or null if there is no session or token to be traded for one.
-		 *
 		 * If there is a stored token it is preferably traded for a new session which is then returned.
-		 *
-		 * @param cb
+		 * @return {Promise} Promise that will be resolved with the session data
 		 */
-		getSession: function (cb) {
-			this.storage.get(function (data) {
-				// if we have a token it means it is fresh and we want to trade it for a new session ID
-				var token = data.token || null;
-				if (token !== null) {
-					this.tradeTokenForSession(token, function (session) {
-						if (session === null || typeof session.key === 'undefined') {
+		getSession: function () {
+			return new Promise((resolve, reject) => {
+				this.storage.get((data) => {
+					// if we have a token it means it is fresh and we want to trade it for a new session ID
+					var token = data.token || null;
+					if (token !== null) {
+						this.tradeTokenForSession(token).then((session) => {
+							// token is already used, reset it and store the new session
+							data.token = null;
+							data.sessionID = session.key;
+							data.sessionName = session.name;
+							this.storage.set(data, () => {
+								resolve({
+									sessionID: data.sessionID,
+									sessionName: data.sessionName
+								});
+							});
+						}).catch(() => {
 							console.warn(this.label + ' Failed to trade token for session - the token is probably not authorized');
 
 							// both session and token are now invalid
 							data.token = null;
 							data.sessionID = null;
 							data.sessionName = null;
-							this.storage.set(data, function () {
-								cb(null, null);
+							this.storage.set(data, () => {
+								this.scrobbleService.unbindScrobbler(this);
+								reject(new ServiceCallResult(ServiceCallResult.ERROR_AUTH));
 							});
-
-							this.scrobbleService.unbindScrobbler(this);
-						} else {
-							// token is already used, reset it and store the new session
-							data.token = null;
-							data.sessionID = session.key;
-							data.sessionName = session.name;
-							this.storage.set(data, function () {
-								cb(data.sessionID, data.sessionName);
-							});
-						}
-					}.bind(this));
-				}
-				else {
-					cb(data.sessionID, data.sessionName);
-				}
-			}.bind(this));
+						});
+					} else if (!data.sessionID) {
+						reject(new ServiceCallResult(ServiceCallResult.ERROR_AUTH));
+					} else {
+						resolve({
+							sessionID: data.sessionID,
+							sessionName: data.sessionName
+						});
+					}
+				});
+			});
 		},
 
 		/**
@@ -137,9 +147,9 @@ define([
 		 * Assumes the token was authenticated by the user.
 		 *
 		 * @param {String} token
-		 * @param {Function} cb result of the trade will be passed as the only parameter
+		 * @return {Promise} Promise that will be resolved with the session ID
 		 */
-		tradeTokenForSession: function (token, cb) {
+		tradeTokenForSession: function (token) {
 			var params = {
 				method: 'auth.getsession',
 				api_key: this.apiKey,
@@ -148,19 +158,19 @@ define([
 			var apiSig = this.generateSign(params);
 			var url = this.apiUrl + '?' + this.createQueryString(params) + '&api_sig=' + apiSig + '&format=json';
 
-			$.getJSON(url)
-				.done(function (response) {
+			return new Promise((resolve, reject) => {
+				$.getJSON(url).done((response) => {
 					if ((response.error && response.error > 0) || !response.session) {
-						console.log(this.label + ' auth.getSession response: ' + JSON.stringify(response));
-						cb(null);
+						console.log(`${this.label} auth.getSession response: ${JSON.stringify(response)}`);
+						reject(new ServiceCallResult(ServiceCallResult.ERROR_AUTH));
 					} else {
-						cb(response.session);
+						resolve(response.session);
 					}
-				}.bind(this))
-				.fail(function (jqxhr, textStatus, error) {
-					console.error(this.label + ' auth.getSession failed: ' + error + ', ' + textStatus);
-					cb(null);
-				}.bind(this));
+				}).fail((jqxhr, textStatus, error) => {
+					console.error(`${this.label} auth.getSession failed: ${error}, ${textStatus}`);
+					reject(new ServiceCallResult(ServiceCallResult.ERROR_AUTH));
+				});
+			});
 		},
 
 		/**
@@ -199,13 +209,12 @@ define([
 		 * API key will be added to params by default
 		 * and all parameters will be encoded for use in query string internally
 		 *
-		 * @param method [GET,POST]
-		 * @param params object of key => value url parameters
-		 * @param signed {Boolean} should the request be signed?
-		 * @param okCb
-		 * @param errCb
+		 * @param  {String} method Used method (GET or POST)
+		 * @param  {Object} params Object of key => value url parameters
+		 * @param  {Boolean} signed Should the request be signed?
+		 * @return {Promise} Promise that will be resolved with parsed response
 		 */
-		doRequest: function (method, params, signed, okCb, errCb) {
+		doRequest: function (method, params, signed) {
 			params.api_key = this.apiKey;
 
 			if (signed) {
@@ -221,29 +230,25 @@ define([
 
 			var url = this.apiUrl + '?' + paramPairs.join('&');
 
-			var internalOkCb = function (xmlDoc, status) {
+			return new Promise((resolve, reject) => {
+				let internalOkCb = (xmlDoc, status) => {
+					console.log(`${this.label} response to ${url}: ${status}\n${new XMLSerializer().serializeToString(xmlDoc)}`);
+					resolve(xmlDoc);
+				};
 
-				console.info(this.label + ' response to ' + method + ' ' + url + ' : ' + status + '\n' + (new XMLSerializer()).serializeToString(xmlDoc));
+				let internalErrCb = (jqXHR, status, response) => {
+					console.error(`${this.label} response to ${url}: ${status}\n${response}`);
+					reject(new ServiceCallResult(ServiceCallResult.ERROR_OTHER));
+				};
 
-				okCb.apply(this, arguments);
-			}.bind(this);
-
-			var internalErrCb = function (jqXHR, status, response) {
-				console.error(this.label + ' response to ' + url + ' : ' + status + '\n' + response);
-				errCb.apply(this, arguments);
-			}.bind(this);
-
-			if (method === 'GET') {
-				$.get(url)
-					.done(internalOkCb)
-					.fail(internalErrCb);
-			} else if (method === 'POST') {
-				$.post(url)
-					.done(internalOkCb)
-					.fail(internalErrCb);
-			} else {
-				console.error(this.label + ' Unknown method: ' + method);
-			}
+				if (method === 'GET') {
+					$.get(url).done(internalOkCb).fail(internalErrCb);
+				} else if (method === 'POST') {
+					$.post(url).done(internalOkCb).fail(internalErrCb);
+				} else {
+					reject(new ServiceCallResult(ServiceCallResult.ERROR_OTHER));
+				}
+			});
 		},
 
 		/**
@@ -255,12 +260,12 @@ define([
 		 * To wait for this call to finish, observe changes on song object
 		 * using song.bind('change', function(){...})
 		 *
-		 * @param song {Song}
-		 * @param cb {Function(boolean)} callback where validation result will be passed
+		 * @param  {Song} song Song instance
+		 * @return {Promise} Promise that will be resolved with 'isValid' flag
 		 */
-		loadSongInfo: function (song, cb) {
-			this.getSession(function (sessionID, sessionName) {
-				var params = {
+		loadSongInfo: function (song) {
+			return this.getSession().then(({ sessionName }) => {
+				let params = {
 					method: 'track.getinfo',
 					autocorrect: localStorage.useAutocorrect ? localStorage.useAutocorrect : 0,
 					username: sessionName,
@@ -270,22 +275,20 @@ define([
 
 				if (params.artist === null || params.track === null) {
 					song.flags.attr('isLastfmValid', false);
-					cb(false);
-					return;
+					return false;
 				}
 
-				var okCb = function (xmlDoc) {
-					var $doc = $(xmlDoc);
+				return this.doRequest('GET', params, false).then((xmlDoc) => {
+					let $doc = $(xmlDoc);
 
 					can.batch.start();
-
 					song.processed.attr({
 						artist: $doc.find('artist > name').text(),
 						track: $doc.find('track > name').text(),
 						duration: (parseInt($doc.find('track > duration').text()) / 1000) || null
 					});
 
-					var thumbUrl = song.getTrackArt();
+					let thumbUrl = song.getTrackArt();
 					if (thumbUrl === null) {
 						let imageSizes = ['extralarge', 'large', 'medium'];
 						for (let imageSize of imageSizes) {
@@ -302,38 +305,27 @@ define([
 						userloved: $doc.find('userloved').text() === '1',
 						artistThumbUrl: thumbUrl
 					});
-
 					song.flags.attr('isLastfmValid', true);
-
 					can.batch.stop();
 
-					cb(true);
-				};
-
-				var errCb = function () {
+					return true;
+				}).catch(() => {
 					let isLastfmValid = localStorage.forceRecognize === '1';
 
 					song.flags.attr('isLastfmValid', isLastfmValid);
-					cb(isLastfmValid);
-				};
-
-				this.doRequest('GET', params, false, okCb, errCb);
-			}.bind(this));
+					return isLastfmValid;
+				});
+			});
 		},
 
 		/**
 		 * Send current song as 'now playing' to API
-		 * @param {Song} song
-		 * @param {Function} cb callback with single bool parameter of success
+		 * @param  {Object} song Song instance
+		 * @return {Promise} Promise that will be resolved with ServiceCallResult object
 		 */
-		sendNowPlaying: function (song, cb) {
-			this.getSession(function (sessionID) {
-				if (!sessionID) {
-					cb(false);
-					return;
-				}
-
-				var params = {
+		sendNowPlaying: function (song) {
+			return this.getSession().then(({ sessionID }) => {
+				let params = {
 					method: 'track.updatenowplaying',
 					track: song.getTrack(),
 					artist: song.getArtist(),
@@ -348,40 +340,28 @@ define([
 					params.duration = song.getDuration();
 				}
 
-				var okCb = function (xmlDoc) {
-					var $doc = $(xmlDoc);
+				console.log(`${this.label} sendNowPlaying()`);
 
-					if ($doc.find('lfm').attr('status') === 'ok') {
-						cb(true);
-					} else {
-						cb(false); // request passed but returned error
+				return this.doRequest('POST', params, true).then((xmlDoc) => {
+					if ($(xmlDoc).find('lfm').attr('status') !== 'ok') {
+						console.log(new XMLSerializer().serializeToString(xmlDoc));
+						// request passed but returned error
+						throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 					}
-				};
 
-				var errCb = function () {
-					cb(false);
-				};
-
-				console.log(this.label + ' sendNowPlaying()');
-
-				this.doRequest('POST', params, true, okCb, errCb);
-			}.bind(this));
+					return new ServiceCallResult(ServiceCallResult.OK);
+				});
+			});
 		},
 
 		/**
 		 * Send song to API to scrobble
-		 * @param {can.Map} song
-		 * @param {Function} cb callback with single ServiceCallResult parameter
+		 * @param  {Object} song Song instance
+		 * @return {Promise} Promise that will be resolved with ServiceCallResult object
 		 */
-		scrobble: function (song, cb) {
-			this.getSession(function (sessionID) {
-				if (!sessionID) {
-					var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
-					cb(result);
-					return;
-				}
-
-				var params = {
+		scrobble: function (song) {
+			return this.getSession().then(({ sessionID }) => {
+				let params = {
 					method: 'track.scrobble',
 					'timestamp[0]': song.metadata.startTimestamp,
 					'track[0]': song.processed.track || song.parsed.track,
@@ -394,81 +374,51 @@ define([
 					params['album[0]'] = song.getAlbum();
 				}
 
-				var okCb = function (xmlDoc) {
-					var $doc = $(xmlDoc),
-						result;
-
-					if ($doc.find('lfm').attr('status') === 'ok') {
-						result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.OK);
-						cb(result);
-					} else { // request passed but returned error
-						result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR);
-						cb(result);
-					}
-				};
-
-				var errCb = function (jqXHR, status, response) {
-					var result;
-
-					if ($(response).find('lfm error').attr('code') === 9) {
-						result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
-					}
-					else {
-						result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_OTHER);
-					}
-
-					cb(result);
-				};
-
 				console.log(this.label + ' scrobble()');
 
-				this.doRequest('POST', params, true, okCb, errCb);
-			}.bind(this));
+				return this.doRequest('POST', params, true).then((xmlDoc) => {
+					if ($(xmlDoc).find('lfm').attr('status') !== 'ok') {
+						console.log(new XMLSerializer().serializeToString(xmlDoc));
+						// request passed but returned error
+						throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+					}
+
+					return new ServiceCallResult(ServiceCallResult.OK);
+				});
+			});
 		},
 
 		/**
-		 * Send song to API to LOVE or UNLOVE
-		 * @param {can.Map} song
-		 * @param {Boolean} shouldBeLoved true = send LOVE request, false = send UNLOVE request
-		 * @param {Function} cb callback with single ServiceCallResult parameter
+		 * Love or unlove given song.
+		 * @param  {Object} song Song instance
+		 * @param  {Boolean} isLoved Flag means song should be loved or not
+		 * @return {Promise} Promise that will be resolved with ServiceCallResult object
 		 */
-		toggleLove: function (song, shouldBeLoved, cb) {
-			this.getSession(function (sessionID) {
-				if (!sessionID) {
-					var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
-					cb(result);
-				}
-
-				var params = {
-					method: 'track.' + (shouldBeLoved ? 'love' : 'unlove'),
+		toggleLove: function (song, isLoved) {
+			return this.getSession().then(({ sessionID }) => {
+				let params = {
+					method: 'track.' + (isLoved ? 'love' : 'unlove'),
 					'track': song.processed.track || song.parsed.track,
 					'artist': song.processed.artist || song.parsed.artist,
 					api_key: this.apiKey,
 					sk: sessionID
 				};
 
-				var okCb = function (xmlDoc) {
-					var $doc = $(xmlDoc);
-
-					if ($doc.find('lfm').attr('status') === 'ok') {
-						cb(true);
-					} else {
-						cb(false); // request passed but returned error
+				return this.doRequest('POST', params, true).then((xmlDoc) => {
+					if ($(xmlDoc).find('lfm').attr('status') !== 'ok') {
+						console.log(new XMLSerializer().serializeToString(xmlDoc));
+						// request passed but returned error
+						throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 					}
-				};
 
-				var errCb = function () {
-					cb(false);
-				};
-
-				this.doRequest('POST', params, true, okCb, errCb);
-			}.bind(this));
+					return new ServiceCallResult(ServiceCallResult.OK);
+				});
+			});
 		},
 
 		/**
 		 * Get the label.
-		 *
-		 * @returns {string}
+		 * @return {string} Scrobbler label
 		 */
 		getLabel: function() {
 			return this.label;

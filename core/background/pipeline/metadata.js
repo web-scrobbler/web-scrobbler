@@ -10,20 +10,20 @@ define([
 	 * @return {Array} Array of promise factories
 	 */
 	function getLoadSongInfoFactories(song) {
-		// FIXME: `loadSongInfo` should return Promise object
 		return ScrobbleService.getAllBound().map((scrobbler) => {
 			// Don't execute the promise immediately and return factory function
 			return function() {
-				return new Promise((resolve) => {
-					scrobbler.loadSongInfo(song, (isValid) => {
-						resolve(isValid);
-					});
-				});
+				return scrobbler.loadSongInfo(song);
 			};
 		});
 	}
 
-	function loadSong(song, cb) {
+	/**
+	 * Load song info using scrobblers API.
+	 * @param  {Object} song Song instance
+	 * @return {Promise} Promise that will be resolved then the first valid song info is fetched
+	 */
+	function loadSong(song) {
 		let isSongInfoValid = false;
 		let loadSongInfoSequence = Promise.resolve();
 
@@ -35,21 +35,17 @@ define([
 					let loadSongInfoPromise = loadSongInfoFactory();
 					return loadSongInfoPromise.then((isValid) => {
 						isSongInfoValid = isValid;
+					}).catch(() => {
+						isSongInfoValid = false;
 					});
 				}
 			});
 		});
 
-		// Run all queued promises
-		loadSongInfoSequence.then(() => {
-			cb();
-		}).catch((err) => {
-			console.error(err);
-		});
+		return loadSongInfoSequence;
 	}
 
 	return {
-		// FIXME: Convert pipeline functions into promises
 		loadSong: loadSong
 	};
 });

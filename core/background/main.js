@@ -143,7 +143,7 @@ require([
 				let scrobblerLabel = request.scrobbler;
 				let scrobbler = ScrobbleService.getScrobblerByLabel(scrobblerLabel);
 				if (scrobbler) {
-					Notifications.showAuthenticate(scrobbler.getAuthUrl.bind(scrobbler));
+					Notifications.showAuthenticate(scrobbler);
 				}
 				break;
 		}
@@ -306,7 +306,7 @@ require([
 				console.warn('No scrobblers are bound');
 				scrobblers.forEach(scrobbler => {
 					console.log('Showing auth notification for ' + scrobbler.getLabel());
-					Notifications.showAuthenticate(scrobbler.getAuthUrl.bind(scrobbler));
+					Notifications.showAuthenticate(scrobbler);
 				});
 			}
 		});

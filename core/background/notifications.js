@@ -215,18 +215,18 @@ define([
 	/**
 	 * Show auth notification.
 	 *
-	 * @param {Promise} authUrlGetter Promise that will resolve with auth URL
+	 * @param {Object} scrobbler Scrobbler instance
 	 */
-	function showAuthenticate(authUrlGetter) {
-		authUrlGetter().then((result) => {
+	function showAuthenticate(scrobbler) {
+		scrobbler.getAuthUrl().then((authUrl) => {
 			const options = {
-				title: 'Connect your ' + result.label + ' account',
+				title: `Connect your ${scrobbler.getLabel()} account`,
 				message: 'Click the notification or connect later in the extension options page',
 			};
 			function onClicked() {
 				GA.event('notification', 'authenticate', 'click');
 
-				chrome.tabs.create({ url: result.authUrl });
+				chrome.tabs.create({ url: authUrl });
 			}
 
 			showNotification(options, onClicked).then(() => {
@@ -235,7 +235,7 @@ define([
 				GA.event('notification', 'authenticate', 'open-unavailable');
 
 				// fallback for browsers with no notifications support
-				chrome.tabs.create({ url: result.authUrl });
+				chrome.tabs.create({ url: authUrl });
 			});
 		}).catch(showSignInError);
 	}
