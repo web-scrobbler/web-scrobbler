@@ -6,8 +6,7 @@ define([
 	'wrappers/can',
 	'objects/serviceCallResult',
 	'chromeStorage',
-	'services/scrobbleService'
-], function ($, MD5, can, ServiceCallResult, ChromeStorage, ScrobbleService) {
+], function ($, MD5, can, ServiceCallResult, ChromeStorage) {
 	const GET_AUTH_URL_TIMEOUT = 10000;
 
 	/**
@@ -24,8 +23,8 @@ define([
 		this.apiKey = options.apiKey;
 		this.apiSecret = options.apiSecret;
 		this.authUrl = options.authUrl;
+		this.statusUrl = options.statusUrl;
 		this.storage = ChromeStorage.getNamespace(options.storage);
-		this.scrobbleService = ScrobbleService;
 	}
 
 	BaseScrobbler.prototype = {
@@ -96,6 +95,15 @@ define([
 			}));
 		},
 
+
+		/**
+		 * Get status page URL.
+		 * @return {String} Status page URL
+		 */
+		getStatusUrl: function() {
+			return this.statusUrl;
+		},
+
 		/**
 		 * Calls callback with sessionID or null if there is no session or token to be traded for one.
 		 * If there is a stored token it is preferably traded for a new session which is then returned.
@@ -126,7 +134,6 @@ define([
 							data.sessionID = null;
 							data.sessionName = null;
 							this.storage.set(data, () => {
-								this.scrobbleService.unbindScrobbler(this);
 								reject(new ServiceCallResult(ServiceCallResult.ERROR_AUTH));
 							});
 						});

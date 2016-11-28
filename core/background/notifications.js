@@ -5,8 +5,6 @@ define([
 	'wrappers/chrome',
 	'services/background-ga'
 ], function(Util, chrome, GA) {
-	const SIGN_IN_ERROR_MESSAGE = 'Unable to log in to Last.fm. Please try later';
-
 	const DEFAULT_OPTIONS_VALUES = {
 		type: 'basic',
 		iconUrl: '/icons/icon128.png',
@@ -189,10 +187,15 @@ define([
 
 	/**
 	 * Show error notification if user is unable to sign in to Last.fm.
+	 * @param {String} label Scrobbler label
+	 * @param {String} statusUrl URL that will be opened on notification click
 	 */
-	function showSignInError() {
-		showError(SIGN_IN_ERROR_MESSAGE, () => {
-			chrome.tabs.create({ url: 'http://status.last.fm/' });
+	function showSignInError(label, statusUrl) {
+		let errorMessage = `Unable to sign in to ${label}. Please try later.`;
+		showError(errorMessage, () => {
+			if (statusUrl) {
+				chrome.tabs.createTab({ url: statusUrl });
+			}
 		});
 	}
 
@@ -215,29 +218,28 @@ define([
 	/**
 	 * Show auth notification.
 	 *
-	 * @param {Object} scrobbler Scrobbler instance
+	 * @param {String} label Scrobbler label
+	 * @param {String} authUrl URL that will be opened on notification click
 	 */
-	function showAuthenticate(scrobbler) {
-		scrobbler.getAuthUrl().then((authUrl) => {
-			const options = {
-				title: `Connect your ${scrobbler.getLabel()} account`,
-				message: 'Click the notification or connect later in the extension options page',
-			};
-			function onClicked() {
-				GA.event('notification', 'authenticate', 'click');
+	function showAuthenticate(label, authUrl) {
+		const options = {
+			title: `Connect your ${label} account`,
+			message: 'Click the notification or connect later in the extension options page',
+		};
+		function onClicked() {
+			GA.event('notification', 'authenticate', 'click');
 
-				chrome.tabs.create({ url: authUrl });
-			}
+			chrome.tabs.create({ url: authUrl });
+		}
 
-			showNotification(options, onClicked).then(() => {
-				GA.event('notification', 'authenticate', 'show');
-			}).catch(() => {
-				GA.event('notification', 'authenticate', 'open-unavailable');
+		showNotification(options, onClicked).then(() => {
+			GA.event('notification', 'authenticate', 'show');
+		}).catch(() => {
+			GA.event('notification', 'authenticate', 'open-unavailable');
 
-				// fallback for browsers with no notifications support
-				chrome.tabs.create({ url: authUrl });
-			});
-		}).catch(showSignInError);
+			// fallback for browsers with no notifications support
+			chrome.tabs.create({ url: authUrl });
+		});
 	}
 
 	/**
@@ -265,11 +267,7 @@ define([
 	});
 
 	return {
-		showPlaying: showPlaying,
-		showError: showError,
-		showSongNotRecognized: showSongNotRecognized,
-		showAuthenticate: showAuthenticate,
-		remove: remove
+		remove, showPlaying, showError, showSignInError,
+		showAuthenticate, showSongNotRecognized
 	};
-
 });

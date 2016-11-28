@@ -3,7 +3,9 @@
 /**
  * Service to handle all scrobbling behaviour.
  */
-define([], function () {
+define([
+	'notifications'
+], function (Notifications) {
 
 	/**
 	 * Scrobblers that are bound, meaning they have valid session IDs.
@@ -89,6 +91,20 @@ define([], function () {
 			}
 		},
 
+		authenticateScrobbler: function (scrobbler) {
+			let label = scrobbler.getLabel();
+
+			scrobbler.getAuthUrl().then((authUrl) => {
+				this.bindScrobbler(scrobbler);
+				Notifications.showAuthenticate(label, authUrl);
+			}).catch(() => {
+				console.log(`ScrobbleService: Unable to get auth URL for ${label}`);
+
+				let statusUrl = scrobbler.getStatusUrl();
+				Notifications.showSignInError(label, statusUrl);
+			});
+		},
+
 		/**
 		 * Send now playing notification to each bound scrobbler.
 		 * @param  {Object} song Song instance
@@ -99,7 +115,12 @@ define([], function () {
 
 			return Promise.all(boundScrobblers.map((scrobbler) => {
 				// Forward result (including errors) to caller
-				return scrobbler.sendNowPlaying(song).catch((result) => result);
+				return scrobbler.sendNowPlaying(song).catch((result) => {
+					if (result.isAuthError()) {
+						this.unbindScrobbler(scrobbler);
+					}
+					return result;
+				});
 			}));
 		},
 
@@ -113,7 +134,12 @@ define([], function () {
 
 			return Promise.all(boundScrobblers.map((scrobbler) => {
 				// Forward result (including errors) to caller
-				return scrobbler.scrobble(song).catch((result) => result);
+				return scrobbler.scrobble(song).catch((result) => {
+					if (result.isAuthError()) {
+						this.unbindScrobbler(scrobbler);
+					}
+					return result;
+				});
 			}));
 		},
 

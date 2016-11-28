@@ -33,7 +33,6 @@ require([
 	'services/background-ga',
 	'scrobblers/lastfm',
 	'scrobblers/librefm',
-	'notifications',
 	'inject',
 	'objects/injectResult',
 	'pageAction',
@@ -41,7 +40,7 @@ require([
 	'chromeStorage',
 	'config',
 	'services/scrobbleService'
-], function(GA, LastFM, LibreFM, Notifications, inject, InjectResult, PageAction, Controller, ChromeStorage, Config, ScrobbleService) {
+], function(GA, LastFM, LibreFM, inject, InjectResult, PageAction, Controller, ChromeStorage, Config, ScrobbleService) {
 
 	/**
 	 * Current version of the extension.
@@ -143,7 +142,7 @@ require([
 				let scrobblerLabel = request.scrobbler;
 				let scrobbler = ScrobbleService.getScrobblerByLabel(scrobblerLabel);
 				if (scrobbler) {
-					Notifications.showAuthenticate(scrobbler);
+					ScrobbleService.authenticateScrobbler(scrobbler);
 				}
 				break;
 		}
@@ -305,8 +304,7 @@ require([
 			if (boundScrobblers.length === 0) {
 				console.warn('No scrobblers are bound');
 				scrobblers.forEach(scrobbler => {
-					console.log('Showing auth notification for ' + scrobbler.getLabel());
-					Notifications.showAuthenticate(scrobbler);
+					ScrobbleService.authenticateScrobbler(scrobbler);
 				});
 			}
 		});
