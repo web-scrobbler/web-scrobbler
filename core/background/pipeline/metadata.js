@@ -3,35 +3,53 @@
 define([
 	'services/scrobbleService'
 ], function(ScrobbleService) {
+	/**
+	 * Get array of functions that return promises.
+	 * Used for delayed promise execute.
+	 * @param  {Object} song Song instance
+	 * @return {Array} Array of promise factories
+	 */
+	function getLoadSongInfoFactories(song) {
+		// FIXME: `loadSongInfo` should return Promise object
+		return ScrobbleService.getAllBound().map((scrobbler) => {
+			// Don't execute the promise immediately and return factory function
+			return function() {
+				return new Promise((resolve) => {
+					scrobbler.loadSongInfo(song, (isValid) => {
+						resolve(isValid);
+					});
+				});
+			};
+		});
+	}
+
+	function loadSong(song, cb) {
+		let isSongInfoValid = false;
+		let loadSongInfoSequence = Promise.resolve();
+
+		// Queue promises
+		getLoadSongInfoFactories(song).forEach((loadSongInfoFactory) => {
+			loadSongInfoSequence = loadSongInfoSequence.then(() => {
+				// Should be checked in runtime
+				if (!isSongInfoValid) {
+					let loadSongInfoPromise = loadSongInfoFactory();
+					return loadSongInfoPromise.then((isValid) => {
+						isSongInfoValid = isValid;
+					});
+				}
+			});
+		});
+
+		// Run all queued promises
+		loadSongInfoSequence.then(() => {
+			cb();
+		}).catch((err) => {
+			console.error(err);
+		});
+	}
 
 	return {
-		loadSong: function (song, cb) {
-
-			var isSongValid = false;
-
-			var onLoaded = function (isLfmValid) {
-				isSongValid = isLfmValid;
-			};
-
-
-			let scrobblers = ScrobbleService.getAllBound();
-
-			for (var index in scrobblers) {
-				let scrobbler = scrobblers[index];
-				console.log('metadata loadSong() attempt using: ' + scrobbler.getLabel());
-
-				// load song metadata and update validation flag
-				scrobbler.loadSongInfo(song, onLoaded);
-
-				if (isSongValid) {
-					break;
-				}
-			}
-
-			console.log('metadata loadSong() valid:' + isSongValid);
-
-			cb(isSongValid);
-		}
+		// FIXME: Convert pipeline functions into promises
+		loadSong: loadSong
 	};
-
 });
