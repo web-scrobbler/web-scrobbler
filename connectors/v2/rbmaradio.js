@@ -34,14 +34,14 @@ Connector.getDuration = function () {
 	var $progressControl = $('.c-player__controls > .c-player__progress > progress');
 	var duration = '';
 	if ($progressControl) {
-		duration = $progressControl.attr('max'); 
+		duration = $progressControl.attr('max');
 	}
 	return duration;
 };
 
 
 Connector.isPlaying = function () {
-	var playing = false; 
+	var playing = false;
 
 	var $playButton = $('.c-player .c-player__controls .c-player__buttons > div.c-control > span[role="button"] > svg > title');
 	if ($playButton) {
