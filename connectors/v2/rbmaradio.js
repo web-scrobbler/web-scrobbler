@@ -19,7 +19,7 @@ Connector.getArtist = function() {
 	// Pull artist out of track name
 	switch (this.getAlbum()) {
 		// Main stage title format is "[Artist] at [Venue]"
-		case "Main Stage":
+		case 'Main Stage':
 			artist = this.getTrack().split(' at ')[0];
 			break;
 		default:
