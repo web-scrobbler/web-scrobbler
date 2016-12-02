@@ -20,23 +20,6 @@ Connector.albumSelector = '.c-episode h1.c-episode__show-title';
 
 Connector.playButtonSelector = '.c-player__controls .c-player__buttons .c-control span[role="button"]';
 
-Connector.getTrackArt = function() {
-	var $trackArt = $('.c-episode .c-episode__image div.c-image--cover > img');
-
-	var trackArtUrl = null;
-
-	if ($trackArt) {
-		trackArtUrl = $trackArt.text();
-	}
-
-	// Correct URL - add protocol
-	if (trackArtUrl.startsWith('\/\/')) {
-		trackArtUrl = window.location.protocol + trackArtUrl;
-	}
-
-	return trackArtUrl;
-};
-
 Connector.getArtist = function() {
 
 	var artist = '';
