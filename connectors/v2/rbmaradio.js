@@ -4,19 +4,51 @@
 
 Connector.playerSelector = '.c-player';
 
-Connector.trackSelector = '.c-episode h1.c-episode__title';
+Connector.getTrack = function() {
+
+	// Some shows have individual track listings - try to find this first
+	var $artistTrack = $('.c-player .c-player__details .c-player__track > h3');
+
+	if ($artistTrack) {
+		return $artistTrack.text().split(' – ')[1];
+	}
+
+	return $('.c-episode h1.c-episode__title').text();
+};
 
 Connector.albumSelector = '.c-episode h1.c-episode__show-title';
 
 Connector.playButtonSelector = '.c-player__controls .c-player__buttons .c-control span[role="button"]';
 
-Connector.trackArtImageSelector = '.c-episode .c-episode__image div.c-image--cover > img';
+Connector.getTrackArt = function() {
+	var $trackArt = $('.c-episode .c-episode__image div.c-image--cover > img');
+
+	var trackArtUrl = null;
+
+	if ($trackArt) {
+		trackArtUrl = $trackArt.text();
+	}
+
+	// Correct URL - add protocol
+	if (trackArtUrl.startsWith('\/\/')) {
+		trackArtUrl = window.location.protocol + trackArtUrl;
+	}
+
+	return trackArtUrl;
+};
 
 Connector.getArtist = function() {
 
 	var artist = '';
 
-	// Pull artist out of track name
+	// Some shows have individual track listings - try to find this first
+	var $artistTrack = $('.c-player .c-player__details .c-player__track > h3');
+
+	if ($artistTrack) {
+		return $artistTrack.text().split(' – ')[0];
+	}
+
+	// Pull artist out of Show title if we don't have individual track listings'
 	switch (this.getAlbum()) {
 		// Main stage title format is "[Artist] at [Venue]"
 		case 'Main Stage':
@@ -32,9 +64,13 @@ Connector.getArtist = function() {
 
 Connector.getDuration = function () {
 	var $progressControl = $('.c-player__controls > .c-player__progress > progress');
-	var duration = '';
+	var duration = 0;
 	if ($progressControl) {
-		duration = $progressControl.attr('max');
+		try {
+			duration = parseInt($progressControl.attr('max'));
+		} catch (NumberFormatException) {
+			duration = 0;
+		}
 	}
 	return duration;
 };
