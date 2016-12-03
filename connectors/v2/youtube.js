@@ -73,7 +73,8 @@ Connector.getArtistTrack = function () {
 		// Look for Artist "Track"
 		let artistTrack = text.match(/(.+?)\s"(.+?)"/);
 		if (artistTrack) {
-			[/* skip */, artist, track] = artistTrack;
+			artist = artistTrack[1];
+			track = artistTrack[2];
 		}
 	}
 	return {artist, track};
