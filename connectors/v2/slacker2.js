@@ -4,9 +4,9 @@
 
 Connector.playerSelector = '#bar';
 
-Connector.artistSelector = '.item.current [data-bind="text: artistName"]';
+Connector.artistSelector = '.metadata span:nth-child(1)';
 
-Connector.trackSelector = '.item.current [data-bind="text: name"]';
+Connector.trackSelector = '.metadata span:nth-child(3)';
 
 Connector.currentTimeSelector = '#progressContainer span:first';
 
