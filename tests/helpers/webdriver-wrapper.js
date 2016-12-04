@@ -9,6 +9,7 @@ const options = require('./options');
 const webdriver = require('selenium-webdriver');
 const chromedriver = require('selenium-webdriver/chrome');
 
+const URL_LOAD_TIMEOUT = 30000;
 const WAIT_CLICK_TIMEOUT = 5000;
 const WAIT_FOR_INJECTION_TIMEOUT = 5000;
 const WAIT_BETWEEN_CONDITION_CHECK = 500;
@@ -24,7 +25,7 @@ var driver = createWebDriver();
 exports.load = function(url, timeout) {
 	helpers.debug('Loading ' + url);
 
-	return driver.get(url, timeout)
+	return getUrl(url, timeout)
 		.then(acceptAlerts)
 		.then(injectTestCapture)
 		.then(waitForConnectorInjection)
@@ -140,6 +141,19 @@ exports.quit = function() {
 };
 
 /* Internal */
+
+/**
+ * Navigate to given URL.
+ * @param  {String} url Page URL
+ * @param  {Number} timeout How long to wait until page is loaded
+ * @return {Promise} Promise that will be resolved when the document has finished loading
+ */
+function getUrl(url, timeout) {
+	let timeouts =  driver.manage().timeouts();
+	return timeouts.pageLoadTimeout(timeout || URL_LOAD_TIMEOUT).then(() => {
+		return driver.get(url);
+	});
+}
 
 /**
  * Click on element using Webdriver function.
