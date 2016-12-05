@@ -7,33 +7,27 @@ Connector.playerSelector = '#opbanner';
 //Connector.artistSelector = '#divsonglist ul li.play_current strong.singer_name';
 Connector.getArtist = function () {
 	console.log('web scrobbler: artist=>'+$('#sim_song_info .js_singer').attr('title'));
-	return  $('#sim_song_info .js_singer').attr('title') || null;
+	return  $('#sim_song_info .js_singer').attr('title');
 };
 
 // Connector.trackSelector = '#divsonglist ul li.play_current strong.music_name';
 Connector.getTrack = function() {
 	console.log('web scrobbler: song=>'+$('#sim_song_info .js_song').attr('title'));
-	return  $('#sim_song_info .js_song').attr('title') || null;
+	return  $('#sim_song_info .js_song').attr('title');
 };
 
 Connector.getDuration = function () {
 	var totalSecondValue = $('#time_show').text().split('/')[1], duration = '';
-	if (totalSecondValue) {
-		duration = +totalSecondValue.split(':')[0]*60 + (+totalSecondValue.split(':')[1]);
-	}
+	duration = Connector.stringToSeconds(totalSecondValue);
 	console.log('web scrobbler: duration=>'+duration);
 	return duration;
 };
 
 //Connector.currentTimeSelector = '#time_show';
 Connector.getCurrentTime = function() { 
-	var totalSecondValue = $('#time_show').text().split('/')[1], 
-		curSecondValue = $('#time_show').text().split('/')[0], 
-		duration = '', curTime = '';
-	if (totalSecondValue) {
-		duration = +totalSecondValue.split(':')[0]*60 + (+totalSecondValue.split(':')[1]);
-		curTime = +curSecondValue.split(':')[0]*60 + (+curSecondValue.split(':')[1]);
-	}
+	var curSecondValue = $('#time_show').text().split('/')[0], 
+		curTime = '';
+	curTime = Connector.stringToSeconds(curSecondValue);
 	console.log('web scrobbler: curTime=>'+curTime);
 	return curTime;
 };
@@ -43,16 +37,10 @@ Connector.isPlaying = function () {
 	return $('#btnplay').hasClass('btn_big_play--pause');
 };
 
-// Connector.trackArtImageSelector = '#divsonginfo a.album_pic img';
-Connector.getTrackArt = function() {
-	// console.log($('#song_pic').attr('src'));
-	// return  $('#song_pic').attr('src') || null;
-	return null;
-}
-
 
 Connector.getAlbum = function () {
-	console.log('web scrobbler: album_pic=>'+$('#song_pic').attr('src'));
-	return $('#song_pic').attr('src') || null;
+	console.log('web scrobbler: album_pic=>'+$('#album_name a').attr('title'));
+	return $('#album_name a').attr('title');
 };
-//Connector.playButtonSelector = '#divsongframe .bar_op strong:nth-child(2)';
+
+Connector.trackArtImageSelector = '#song_pic';
