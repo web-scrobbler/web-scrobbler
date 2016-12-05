@@ -17,12 +17,14 @@ Connector.getTrack = function() {
 };
 
 Connector.getDuration = function () {
-	var curTime = $("#wp_playTime").text(), curSecond, curProcess, total, duration=null;
-	if (curTime != '00:00') {
+	var curTime = $('#wp_playTime').text(), curSecond, curProcess, total, duration=null;
+	if (curTime !== '00:00') {
 		curSecond = Connector.stringToSeconds(curTime);
-		curProcess = +$("#wp_processBar").attr("style").replace('width: ','').replace('px;','');
-		total = +$("#wp_bufBar").attr("style").replace('width: ','').replace('px;','');
-		if(curProcess>0 && total%curProcess==0)duration = Math.ceil(curSecond*total / curProcess);
+		curProcess = +$('#wp_processBar').attr('style').replace('width: ','').replace('px;','');
+		total = +$('#wp_bufBar').attr('style').replace('width: ','').replace('px;','');
+		if(curProcess>0 && total%curProcess===0){
+			duration = Math.ceil(curSecond*total / curProcess);
+		}
 	}
 	console.log('web scrobbler: duration=>'+duration);
 	return duration;
@@ -30,7 +32,7 @@ Connector.getDuration = function () {
 
 //Connector.currentTimeSelector = '#time_show';
 Connector.getCurrentTime = function() { 
-	var curTime = $("#wp_playTime").text(), curSecond;
+	var curTime = $('#wp_playTime').text(), curSecond;
 	curSecond = Connector.stringToSeconds(curTime);
 	// console.log('web scrobbler: curSecond=>'+curSecond);
 	return curSecond;
