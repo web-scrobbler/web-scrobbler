@@ -31,7 +31,7 @@ Connector.getDuration = function () {
 };
 
 //Connector.currentTimeSelector = '#time_show';
-Connector.getCurrentTime = function() { 
+Connector.getCurrentTime = function() {
 	var curTime = $('#wp_playTime').text(), curSecond;
 	curSecond = Connector.stringToSeconds(curTime);
 	// console.log('web scrobbler: curSecond=>'+curSecond);
@@ -45,4 +45,3 @@ Connector.isPlaying = function () {
 
 // Connector.trackArtImageSelector = '#divsonginfo a.album_pic img';
 Connector.trackArtImageSelector = '#artist_Image';
-

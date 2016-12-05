@@ -24,8 +24,8 @@ Connector.getDuration = function () {
 };
 
 //Connector.currentTimeSelector = '#time_show';
-Connector.getCurrentTime = function() { 
-	var curSecondValue = $('#time_show').text().split('/')[0], 
+Connector.getCurrentTime = function() {
+	var curSecondValue = $('#time_show').text().split('/')[0],
 		curTime = '';
 	curTime = Connector.stringToSeconds(curSecondValue);
 	console.log('web scrobbler: curTime=>'+curTime);
@@ -36,7 +36,6 @@ Connector.isPlaying = function () {
 	// console.log('web scrobbler: isPlaying=>'+$('#btnplay').hasClass('btn_big_play--pause'));
 	return $('#btnplay').hasClass('btn_big_play--pause');
 };
-
 
 Connector.getAlbum = function () {
 	console.log('web scrobbler: album_pic=>'+$('#album_name a').attr('title'));
