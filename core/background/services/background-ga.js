@@ -1,57 +1,111 @@
 'use strict';
 
 /**
- * Includes Universal Analytics tracking code and provides method for sending data
+ * Implementation of Measurement Protocol. Includes Universal Analytics
+ * tracking code and provides methods for sending data.
  *
- * Does not track anything automatically
+ * https://developers.google.com/analytics/devguides/collection/protocol/v1/
+ *
+ * Does not track anything automatically.
  */
-define(function() {
-
-	// formatted GA isogram
-	(function(i, s, o, g, r, a, m) {
-		i.GoogleAnalyticsObject = r;
-		i[r] = i[r] || function() {
-			(i[r].q = i[r].q || []).push(arguments);
-		};
-		i[r].l = 1 * new Date();
-		a = s.createElement(o);
-		m = s.getElementsByTagName(o)[0];
-		a.async = 1;
-		a.src = g;
-		m.parentNode.insertBefore(a, m);
-	})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-
-	window.ga('create', 'UA-16968457-1', 'auto');
-	window.ga('set', 'checkProtocolTask', function() {});
+define(() => {
+	const GA_URL = 'https://www.google-analytics.com/collect';
+	const GA_TRACKING_ID = 'UA-16968457-1';
+	const GA_CLIENT_ID = getClientId();
+	const GA_PROTOCOL_VERSION = 1;
 
 	/**
-	 * @param {...*}
+	 * Send 'event' hit.
+	 * @param  {String} ec Event category
+	 * @param  {String} ea Event action
+	 * @param  {String} el Event label
+	 * @return {Promise} Promise that will resolve when the task has completed
 	 */
-	function send() {
-		if (localStorage.disableGa === '1') {
-			return;
-		}
-
-		var args = Array.prototype.slice.call(arguments, 0);
-		args.unshift('send');
-		window.ga.apply(window, args);
+	function event(ec, ea, el) {
+		return sendRequest({t: 'event', ec, ea, el});
 	}
 
 	/**
-	 * @param {...*}
+	 * Send 'pageview' hit.
+	 * @param  {String} dp Document path
+	 * @return {Promise} Promise that will resolve when the task has completed
 	 */
-	function event() {
-		if (localStorage.disableGa === '1') {
-			return;
-		}
-
-		var args = Array.prototype.slice.call(arguments, 0);
-		args.unshift('event');
-		send.apply(window, args);
+	function pageview(dp) {
+		return sendRequest({t: 'pageview', dp});
 	}
 
-	return {
-		send: send,
-		event: event
-	};
+	/**
+	 * Send request to Google Analytics API.
+	 * @param  {Object} query Payload data
+	 * @return {Promise} Promise that will resolve when the task has completed
+	 */
+	function sendRequest(query) {
+		if (localStorage.disableGa === '1') {
+			return Promise.resolve();
+		}
+
+		query.v = GA_PROTOCOL_VERSION;
+		query.tid = GA_TRACKING_ID;
+		query.cid = GA_CLIENT_ID;
+
+		return fetch(GA_URL, {
+			method: 'POST', body: $.param(query)
+		}).catch((e) => {
+			console.error(`Error sending report to Google Analytics: ${e}`);
+		});
+	}
+
+	/**
+	 * Get client ID. Generate new one if previously client ID is missing.
+	 * @return {String} Client ID
+	 */
+	function getClientId() {
+		let clientId = readCliendId();
+
+		if (clientId === null) {
+			clientId = generateClientId();
+			saveClientId(clientId);
+		}
+
+		return clientId;
+	}
+
+	/**
+	 * Read cliend ID from cookie.
+	 * It was previously stored by 'analytics.js'.
+	 * @return {String} Client ID
+	 */
+	function readCliendId() {
+		let match = document.cookie.match('(?:^|;)\\s*_ga=([^;]*)');
+		if (match) {
+			let gaCookieValue = match[1];
+			let rawGaCid = decodeURIComponent(gaCookieValue);
+			return rawGaCid.match(/(\d+\.\d+)$/)[1];
+		}
+
+		return null;
+	}
+
+	/**
+	 * Generate new cliend ID. The format of ID is compatible with
+	 * 'analytics.js' script.
+	 * @return {String} Client ID
+	 */
+	function generateClientId() {
+		let random1 = Math.round(2147483647 * Math.random());
+		let random2 = Math.round(2147483647 * Math.random());
+		let clientId = `${random1}.${random2}`;
+
+		return clientId;
+	}
+
+	/**
+	 * Save client ID to cookie.
+	 * @param  {String} clientId Client ID
+	 */
+	function saveClientId(clientId) {
+		document.cookie = `_ga=GA1.1.${clientId}`;
+	}
+
+	return { event, pageview };
 });

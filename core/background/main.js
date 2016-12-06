@@ -170,7 +170,7 @@ require([
 
 					if (!isActiveSession) {
 						isActiveSession = true;
-						GA.send('pageview', `/background-injected?version=${extVersion}`);
+						GA.pageview(`/background-injected?version=${extVersion}`);
 					}
 					break;
 				}
@@ -268,7 +268,7 @@ require([
 		setupChromeEventListeners();
 
 		// track background page loaded - happens once per browser session
-		GA.send('pageview', `/background-loaded?version=${extVersion}`);
+		GA.pageview(`/background-loaded?version=${extVersion}`);
 
 		// check session ID status and show notification if authentication is needed
 		LastFM.getSession(function(sessionID) {
