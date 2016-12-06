@@ -17,12 +17,12 @@ window.SC_ATTACHED = window.SC_ATTACHED || false;
 	}
 
 	window.webpackJsonp([], {
-		0: function (e, t, require) {
-			var modules = require.c, moduleid, el;
+		0: function (e, t, _require) {
+			var modules = _require.c, moduleid, el;
 
 			for (moduleid in modules) {
 				if (modules.hasOwnProperty(moduleid)) {
-					el = require(moduleid);
+					el = _require(moduleid);
 					//console.group('moduleid: ' + moduleid);
 					//console.dir(el);
 					//console.groupEnd();
