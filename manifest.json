@@ -10,7 +10,6 @@
   },
 
   "manifest_version": 2,
-  "content_security_policy": "script-src 'self' https://www.google-analytics.com/analytics.js; object-src 'self'",
 
   "web_accessible_resources": [
     "icons/icon128.png",
