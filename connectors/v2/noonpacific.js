@@ -60,9 +60,8 @@ function setupCollection2Player() {
 		// * Figgy :: You Were Mine (Daniel. T. Remix) [Artist :: Track]
 		let rawMetadata = null;
 		let selectors = [
-			'.track.current',
-			'.track:has(.current)',
-			'.track:has(.bg-darken-3)'
+			'.current',
+			'.bg-darken-3'
 		];
 		for (let selector of selectors) {
 			rawMetadata = $(selector).text();
