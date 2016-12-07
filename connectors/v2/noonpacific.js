@@ -18,7 +18,7 @@ function isMixtape() {
 }
 
 /**
- * Example URL: http://noonpacific.com/collections/gramovox/
+ * Example URL: http://collection.noonpacific.com/gramovox/
  */
 function setupCollection1Player() {
 	Connector.playerSelector = '#player';
@@ -42,9 +42,9 @@ function isCollection1() {
 
 /**
  * Example URLs:
- * - http://noonpacific.com/collections/spacejams/
- * - http://noonpacific.com/collections/midnightsnack/
- * - http://noonpacific.com/collections/coachella/
+ * - http://collection.noonpacific.com/spacejams/
+ * - http://collection.noonpacific.com/midnightsnack/
+ * - http://collection.noonpacific.com/coachella/
  */
 function setupCollection2Player() {
 	Connector.playerSelector = '#wrap';
