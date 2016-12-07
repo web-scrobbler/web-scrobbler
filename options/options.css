@@ -1,0 +1,99 @@
+body {
+	background-color: #e3e3e3;
+	margin: 30px 0 0 0;
+}
+
+h1, h2, h3, h4, h5 {
+	color: #D51007;
+	font-family: "Lucida Grande",Arial,Helvetica,Verdana,sans-serif;
+}
+
+.gray {
+	color: #aaa;
+}
+
+a {
+	border-bottom: 1px solid #d51007;
+	color: #000;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #d51007;
+}
+
+h1 i {
+	margin-right: 20px;
+}
+
+ul {
+	list-style: none;
+}
+
+label {
+	display: inline-block;
+}
+
+input[type=checkbox] {
+	margin-top: 0;
+}
+
+.indent {
+	padding-left: 30px;
+}
+
+#contact li {
+	line-height: 40px;
+}
+
+#contact a {
+	border-bottom: none;
+	display: inline-block;
+	font-size: 1.5em;
+	margin-right: 20px;
+	text-decoration: none;
+	width: 130px;
+}
+
+#contact a i {
+	margin-right: 10px;
+}
+
+.toggle {
+	font-weight: bold;
+}
+
+a.conn-config,
+a.conn-config:hover {
+	border-bottom: none;
+	color: #D51007;
+	text-decoration: none;
+}
+
+.conn-conf-patterns .list-unstyled {
+	margin-left: 0;
+}
+
+.conn-conf-patterns input {
+	width: 450px;
+}
+
+.conn-conf-del-input,
+.conn-conf-del-input:hover {
+	border-bottom: none;
+	color: #000;
+	position: relative;
+	text-decoration: none;
+	top: -5px;
+}
+
+#connectors a {
+	border: none;
+	text-decoration: none;
+}
+
+#connectors .v2 {
+	color: #d51007;
+	font-size: 0.7em;
+	padding-left: 5px;
+}

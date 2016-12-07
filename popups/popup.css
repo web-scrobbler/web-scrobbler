@@ -1,0 +1,107 @@
+body {
+	background-color: #FFF;
+	font-family: "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
+	font-size: 13px;
+	color: #000;
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	color: #000;
+	text-decoration: none;
+}
+
+#wrapper {
+	width: 350px;
+	height: 100px;
+	padding: 5px;
+	outline: 1px solid #f00;
+}
+
+#album-art {
+	width: 100px;
+	height: 100px;
+	float: left;
+	background-image: url('../default_cover_art.png');
+	/* .cover-image */
+	background-size: cover;
+	background-position: center;
+	position: relative;
+	overflow: hidden;
+}
+
+#info {
+	margin-left: 110px;
+	line-height: 1.5em;
+}
+
+.track-link {
+	font-weight: bold;
+	font-size: 1.2em;
+}
+
+.popup-text-input, .artist-input, .track-input {
+	width: 188px;
+}
+
+.popup-select {
+	width: 192px;
+	height: 1.8em;
+}
+
+.popup-button, .change-input {
+	width: 192px;
+	margin: 2px 0;
+	padding: 1px 0;
+}
+
+#change-info {
+	font-style: italic;
+	color: #f88;
+	text-align: center;
+}
+
+#valid {
+	display: none;
+	margin-left: 110px;
+	text-align: center;
+	height: 100px;
+	vertical-align: middle;
+	background: url('img/icon_tick_big.png') no-repeat center center;
+}
+
+#edit-links {
+	color: #EEE;
+	position: absolute;
+	bottom: 5px;
+	right: 10px;
+}
+
+	#edit-links a {
+		color: #EEE;
+	}
+
+		#edit-links a:hover {
+			color: #AAA;
+		}
+
+#love {
+	width: 16px;
+	height: 16px;
+	cursor: pointer;
+	display: inline-block;
+	background: url("/icons/love16.png") 0 0 no-repeat;
+}
+
+	#love:hover {
+		background-position-y: -16px;
+	}
+
+	#love[last-fm-loved="true"] {
+		background-position-y: -32px;
+	}
+
+		#love[last-fm-loved="true"]:hover {
+			background-position-y: -48px;
+		}
