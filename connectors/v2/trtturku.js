@@ -20,11 +20,11 @@ function toTitleCase(str) {
 Connector.playerSelector = '.jwplayer';
 
 Connector.getArtist = function() {
-	return toTitleCase($('#besa_mp3_play_area tr:nth-child(2) > td:nth-child(2)')[0].innerHTML.trim());
+	return toTitleCase($('#besa_mp3_play_area tr:nth-child(2) > td:nth-child(2)').text());
 };
 
 Connector.getTrack = function() {
-	return toTitleCase($('#besa_mp3_play_area tr:nth-child(3) > td:nth-child(2)')[0].innerHTML.trim());
+	return toTitleCase($('#besa_mp3_play_area tr:nth-child(3) > td:nth-child(2)').text());
 };
 
 Connector.isPlaying = function () {
