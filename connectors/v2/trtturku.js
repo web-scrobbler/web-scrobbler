@@ -20,19 +20,16 @@ function toTitleCase(str) {
 Connector.playerSelector = '.jwplayer';
 
 Connector.getArtist = function() {
-	return toTitleCase($('#besa_mp3_play_area')[0].getElementsByTagName('table')[0].getElementsByTagName('td')[3].innerHTML.trim());
+	return toTitleCase($('#besa_mp3_play_area tr:nth-child(2) > td:nth-child(2)')[0].innerHTML.trim());
 };
 
 Connector.getTrack = function() {
-	return toTitleCase($('#besa_mp3_play_area')[0].getElementsByTagName('table')[0].getElementsByTagName('td')[5].innerHTML.trim());
+	return toTitleCase($('#besa_mp3_play_area tr:nth-child(3) > td:nth-child(2)')[0].innerHTML.trim());
 };
-
-Connector.playButtonSelector = '.jwplay';
 
 Connector.isPlaying = function () {
 	return $('.jwplay.jwtoggle').length == 1;
 };
 
-Connector.getCurrentTime = function() {
-	return $('.jwgroup.jwleft')[0].children[3].innerHTML;
-};
+Connector.durationSelector = '.jwduration';
+Connector.currentTimeSelector = '.jwelapsed';
