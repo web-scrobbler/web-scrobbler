@@ -55,6 +55,8 @@
 			var playerObserver = new MutationObserver(function() {
 				observeTarget = document.querySelector(Connector.playerSelector);
 				if (observeTarget) {
+					console.log(`Web Scrobbler: found ${Connector.playerSelector} using second MutationObserver.`);
+
 					playerObserver.disconnect();
 					observer.observe(observeTarget, observerConfig);
 				}
