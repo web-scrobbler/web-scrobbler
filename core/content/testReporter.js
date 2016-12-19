@@ -1,5 +1,7 @@
 'use strict';
 
+// @ifdef DEBUG
+
 /* exported TestReporter */
 
 /**
@@ -64,3 +66,5 @@ function sendEventToTest(event, obj, err) {
 		}
 	}));
 }
+
+// @endif

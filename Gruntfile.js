@@ -10,6 +10,15 @@ module.exports = function(grunt) {
 	var htmlFiles = ['options/*.html', 'popups/*.html', 'dialogs/**/*.html'];
 	var cssFiles = ['options/options.css', 'popups/base.css', 'dialogs/base.css'];
 
+	const extensionSources = [
+		'connectors/**', 'core/**', 'dialogs/**',
+		'icons/**', 'options/**', 'popups/**', 'vendor/**',
+		'manifest.json', 'README.md', 'LICENSE.txt', '*.png',
+		// Skip files
+		'!core/content/testReporter.js'
+	];
+	const buildDir = 'build';
+
 	grunt.initConfig({
 		bump: {
 			options: {
@@ -26,6 +35,20 @@ module.exports = function(grunt) {
 				reporter: require('jshint-stylish')
 			}
 		},
+		copy: {
+			project_files: {
+				expand: true,
+				src: extensionSources,
+				dest: buildDir,
+			},
+		},
+		preprocess: {
+			js_files: {
+				src: `${buildDir}/**/*.js`,
+				inline: true,
+				expand: true
+			}
+		},
 		compress: {
 			main: {
 				options: {
@@ -33,13 +56,11 @@ module.exports = function(grunt) {
 					pretty: true
 				},
 				expand: true,
-				src: [
-					'connectors/**', 'core/**', 'dialogs/**',
-					'icons/**', 'options/**', 'popups/**', 'vendor/**',
-					'manifest.json', 'README.md', 'LICENSE.txt', '*.png'
-				]
+				cwd: buildDir,
+				src: '**/*',
 			}
 		},
+		clean: [buildDir],
 		lintspaces: {
 			all: {
 				src: [
@@ -83,6 +104,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-lintspaces');
+	grunt.loadNpmTasks('grunt-preprocess');
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-jsonlint');
 	grunt.loadNpmTasks('grunt-contrib-csslint');
 	grunt.loadNpmTasks('grunt-exec');
@@ -100,5 +124,8 @@ module.exports = function(grunt) {
 			grunt.task.run('exec:run_tests');
 		}
 	});
+	grunt.registerTask('build', 'Build release package.', [
+		'copy', 'preprocess', 'compress', 'clean'
+	]);
 	grunt.registerTask('default', ['lint']);
 };

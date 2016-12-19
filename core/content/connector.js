@@ -342,12 +342,14 @@ var BaseConnector = window.BaseConnector || function () {
 					this.reactorCallback(currentState, changedFields);
 				}
 
+				// @ifdef DEBUG
 				var isNewSongPlaying = (changedFields.length > 1) &&
 					(currentState.artist && currentState.track);
 				// Report for scrobble testing
 				if (isNewSongPlaying) {
 					TestReporter.reportSongRecognition(currentState);
 				}
+				// @endif
 			}
 
 		}.bind(this);
