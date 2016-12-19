@@ -2,13 +2,14 @@
 
 /* global Connector, MetadataFilter */
 
-var INFO_ID = 0;
-var INFO_TRACK = 3;
-var INFO_ARTIST = 4;
-var INFO_DURATION = 5;
+const INFO_ID = 0;
+const INFO_TRACK = 3;
+const INFO_ARTIST = 4;
+const INFO_DURATION = 5;
 
-var trackInfo = null;
-var isPlaying = false;
+let trackInfo = null;
+let progressInfo = null;
+let isPlaying = false;
 
 (function () {
 	$(document.documentElement).append($('<script>', {
@@ -32,7 +33,16 @@ var isPlaying = false;
 })();
 
 function updateTrackInfo() {
-	trackInfo = JSON.parse(localStorage.getItem('audio_v10_track'));
+	trackInfo = JSON.parse(localStorage.getItem('audio_v12_track'));
+	progressInfo = localStorage.getItem('audio_v12_progress');
+}
+
+function getTrackInfo(field, defaultValue=null) {
+	if (trackInfo) {
+		return trackInfo[field];
+	}
+
+	return defaultValue;
 }
 
 Connector.filter = new MetadataFilter({
@@ -40,24 +50,31 @@ Connector.filter = new MetadataFilter({
 });
 
 Connector.getArtist = function () {
-	return trackInfo[INFO_ARTIST];
+	return getTrackInfo(INFO_ARTIST);
 };
 
 Connector.getTrack = function () {
-	return trackInfo[INFO_TRACK];
+	return getTrackInfo(INFO_TRACK);
 };
 
+// Used as fallback
+Connector.artistTrackSelector = '.top_audio_player_title';
+
 Connector.getCurrentTime = function () {
-	var progress = parseFloat(localStorage.getItem('audio_v10_progress'));
-	return Math.round(parseInt(trackInfo[INFO_DURATION]) * progress);
+	if (progressInfo) {
+		let progressPercent = parseFloat(progressInfo);
+		return Math.round(Connector.getDuration() * progressPercent);
+	}
+
+	return 0;
 };
 
 Connector.getDuration = function () {
-	return parseInt(trackInfo[INFO_DURATION]);
+	return parseInt(getTrackInfo(INFO_DURATION, 0));
 };
 
 Connector.getUniqueID = function() {
-	return trackInfo[INFO_ID];
+	return getTrackInfo(INFO_ID);
 };
 
 Connector.isPlaying = function() {
