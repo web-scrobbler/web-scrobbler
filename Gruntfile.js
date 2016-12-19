@@ -118,11 +118,7 @@ module.exports = function(grunt) {
 		grunt.task.run('publish');
 	});
 	grunt.registerTask('test', 'Run tests.', function(...args) {
-		if (arguments.length > 0) {
-			grunt.task.run(`exec:run_tests:${args.join(':')}`);
-		} else {
-			grunt.task.run('exec:run_tests');
-		}
+		grunt.task.run(`exec:run_tests:${args.join(':')}`);
 	});
 	grunt.registerTask('build', 'Build release package.', [
 		'copy', 'preprocess', 'compress', 'clean'
