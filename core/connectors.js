@@ -1013,6 +1013,13 @@ define(function() {
 			matches: ['*://groovemp3.com/*', '*://www.groovemp3.com/*'],
 			js: ['connectors/v2/bemusic.js'],
 			version: 2
+		},
+
+		{
+			label: 'TRT Türkü',
+			matches: ['*://*trtturku.net/*'],
+			js: ['connectors/v2/trtturku.js'],
+			version: 2
 		}
 	];
 });
