@@ -16,12 +16,6 @@ chrome.storage.local.get('Connectors', function(data) {
 
 Connector.videoSelector = '#player-api .html5-main-video';
 
-{
-	$(Connector.videoSelector).on('timeupdate', () => {
-		Connector.onStateChanged();
-	});
-}
-
 Connector.artistTrackSelector = '#eow-title';
 
 Connector.escapeBadTimeValues = function (time) {
@@ -109,3 +103,33 @@ function isPlayerOffscreen() {
 	var offset = $player.offset();
 	return offset.left < 0 || offset.top < 0;
 }
+
+function setupMutationObserver() {
+	let isMusicVideoPresent = false;
+
+	let playerObserver = new MutationObserver(function() {
+		if (!isPlayerOffscreen()) {
+			if (isMusicVideoPresent) {
+				return;
+			}
+
+			$(Connector.videoSelector).on('timeupdate', () => {
+				Connector.onStateChanged();
+			});
+			isMusicVideoPresent = true;
+		} else {
+			Connector.onStateChanged();
+			isMusicVideoPresent = false;
+		}
+	});
+
+	let pageElement = document.getElementById('page');
+	playerObserver.observe(pageElement, {
+		subtree: true,
+		childList: true,
+		attributes: false,
+		characterData: false
+	});
+}
+
+setupMutationObserver();
