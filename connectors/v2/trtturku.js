@@ -10,7 +10,7 @@ function toTitleCase(str) {
 
 	for(var i = 0; i < str.length; ++i){
 		str[i] = str[i].split('');
-		str[i][0] = str[i][0] == 'i' ? 'İ' : str[i][0].toUpperCase();
+		str[i][0] = str[i][0] === 'i' ? 'İ' : str[i][0].toUpperCase();
 		str[i] = str[i].join('');
 	}
 
@@ -28,7 +28,7 @@ Connector.getTrack = function() {
 };
 
 Connector.isPlaying = function () {
-	return $('.jwplay.jwtoggle').length == 1;
+	return $('.jwplay.jwtoggle').length === 1;
 };
 
 Connector.durationSelector = '.jwduration';
