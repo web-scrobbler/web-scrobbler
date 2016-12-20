@@ -226,7 +226,7 @@ define(function() {
 		{
 			label: 'AOL Radio',
 			matches: ['*://aolradio.slacker.com/*'],
-			js: ['connectors/v2/aolradio.js'],
+			js: ['connectors/v2/slacker2.js'],
 			version: 2
 		},
 
