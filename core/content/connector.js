@@ -441,9 +441,16 @@ var BaseConnector = window.BaseConnector || function () {
 		};
 	};
 
+window.BaseConnector = BaseConnector;
 
 /**
  * Create object to be overridden in specific connector implementation
  * @type {BaseConnector}
  */
-var Connector = new BaseConnector();
+let Connector;
+if (window.Connector) {
+	Connector = window.Connector;
+} else {
+	Connector = new BaseConnector();
+	window.Connector = Connector;
+}
