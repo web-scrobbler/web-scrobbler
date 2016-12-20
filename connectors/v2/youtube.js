@@ -18,9 +18,7 @@ Connector.videoSelector = '#player-api .html5-main-video';
 
 {
 	$(Connector.videoSelector).on('timeupdate', () => {
-		if (Connector.isStateChangeAllowed()) {
-			Connector.onStateChanged();
-		}
+		Connector.onStateChanged();
 	});
 }
 
