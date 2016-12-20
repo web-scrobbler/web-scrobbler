@@ -2,6 +2,11 @@
 
 /* global Connector */
 
+/**
+ * This connector is for BeMusic music streaming engine.
+ * The connector currently covers Youtubify and GrooveMP3 music services.
+ */
+
 Connector.playerSelector = '#player-controls';
 
 Connector.artistSelector = '.current-track .info .artist-name';

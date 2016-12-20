@@ -969,7 +969,7 @@ define(function() {
 		{
 			label: 'Youtubify',
 			matches: ['*://youtubify.vebto.com/*'],
-			js: ['connectors/v2/youtubify.js'],
+			js: ['connectors/v2/bemusic.js'],
 			version: 2
 		},
 
@@ -1005,6 +1005,13 @@ define(function() {
 			label: 'Apidog',
 			matches: ['*://apidog.ru/*'],
 			js: ['connectors/v2/apidog.js'],
+			version: 2
+		},
+
+		{
+			label: 'GrooveMP3',
+			matches: ['*://groovemp3.com/*', '*://www.groovemp3.com/*'],
+			js: ['connectors/v2/bemusic.js'],
 			version: 2
 		}
 	];
