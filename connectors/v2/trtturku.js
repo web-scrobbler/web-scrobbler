@@ -1,9 +1,10 @@
 'use strict';
+
 // Author: Oğuzhan TÜRK
 
 // Scrobbling for: http://www.trtturku.net/
 
-/* global Connector */
+/* global Connector, MetadataFilter */
 
 function toTitleCase(str) {
 	str = str.toLowerCase().split(' ');
@@ -19,17 +20,18 @@ function toTitleCase(str) {
 
 Connector.playerSelector = '.jwplayer';
 
-Connector.getArtist = function() {
-	return toTitleCase($('#besa_mp3_play_area tr:nth-child(2) > td:nth-child(2)').text());
-};
+Connector.artistSelector = '#besa_mp3_play_area tr:nth-child(2) > td:nth-child(2)';
 
-Connector.getTrack = function() {
-	return toTitleCase($('#besa_mp3_play_area tr:nth-child(3) > td:nth-child(2)').text());
-};
+Connector.trackSelector = '#besa_mp3_play_area tr:nth-child(3) > td:nth-child(2)';
 
 Connector.isPlaying = function () {
 	return $('.jwplay.jwtoggle').length === 1;
 };
 
 Connector.durationSelector = '.jwduration';
+
 Connector.currentTimeSelector = '.jwelapsed';
+
+Connector.filter = new MetadataFilter({
+	all: [MetadataFilter.trim, toTitleCase]
+});
