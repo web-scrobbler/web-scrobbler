@@ -53,12 +53,7 @@ Connector.getDuration = function() {
 };
 
 Connector.getUniqueID = function() {
-	var url = window.location.href;
-	var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-	var match = url.match(regExp);
-	if (match && match[7].length === 11){
-		return match[7];
-	}
+	return $('meta[itemprop="videoId"]').attr('content');
 };
 
 Connector.isPlaying = function() {
