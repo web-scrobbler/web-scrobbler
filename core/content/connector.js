@@ -354,6 +354,10 @@ var BaseConnector = window.BaseConnector || function () {
 		 * Connectors are NOT supposed to override this method
 		 */
 		this.onStateChanged = function () {
+			if (!this.isStateChangeAllowed()) {
+				return;
+			}
+
 			/**
 			 * Because gathering the state from DOM is quite expensive and mutation events can be emitted REALLY often,
 			 * we use throttle to set a minimum delay between two calls of the state change listener.
@@ -441,9 +445,16 @@ var BaseConnector = window.BaseConnector || function () {
 		};
 	};
 
+window.BaseConnector = BaseConnector;
 
 /**
  * Create object to be overridden in specific connector implementation
  * @type {BaseConnector}
  */
-var Connector = new BaseConnector();
+let Connector;
+if (window.Connector) {
+	Connector = window.Connector;
+} else {
+	Connector = new BaseConnector();
+	window.Connector = Connector;
+}

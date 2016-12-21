@@ -18,7 +18,10 @@ Connector.getTrack = function () {
 	return track;
 };
 
-const progressSelector = '.playbackTimeline__progressWrapper';
+Connector.playerSelector = '.playControls';
+const progressSelector   = '.playControls div[role=progressbar]';
+const playButtonSelector = '.playControls button.playControl';
+
 Connector.getCurrentTime = function () {
 	if (isPrivate) {
 		return null;
@@ -34,7 +37,6 @@ Connector.isPlaying = function () {
 	if (isPrivate) {
 		return false;
 	}
-	const playButtonSelector = '.playControls__controls button.playControl';
 	return $(playButtonSelector).hasClass('playing');
 };
 
@@ -48,7 +50,6 @@ Connector.getTrackArt = function () {
 
 Connector.filter = MetadataFilter.getYoutubeFilter();
 
-Connector.playerSelector = '.playControls__controls';
 
 /**
  * parse metadata and set local variables

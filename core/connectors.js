@@ -226,7 +226,7 @@ define(function() {
 		{
 			label: 'AOL Radio',
 			matches: ['*://aolradio.slacker.com/*'],
-			js: ['connectors/v2/aolradio.js'],
+			js: ['connectors/v2/slacker2.js'],
 			version: 2
 		},
 
@@ -708,7 +708,7 @@ define(function() {
 
 		{
 			label: 'Noon Pacific',
-			matches: ['*://www.noonpacific.com/*', '*://noonpacific.com/*'],
+			matches: ['*://noonpacific.com/*', '*://collection.noonpacific.com/*'],
 			js: ['connectors/v2/noonpacific.js'],
 			version: 2
 		},
@@ -969,7 +969,7 @@ define(function() {
 		{
 			label: 'Youtubify',
 			matches: ['*://youtubify.vebto.com/*'],
-			js: ['connectors/v2/youtubify.js'],
+			js: ['connectors/v2/bemusic.js'],
 			version: 2
 		},
 
@@ -1011,6 +1011,19 @@ define(function() {
 			label: 'RBMA Radio',
 			matches: ['https://www.rbmaradio.com/*'],
 			js: ['connectors/v2/rbmaradio.js'],
+		},
+
+		{
+			label: 'GrooveMP3',
+			matches: ['*://groovemp3.com/*', '*://www.groovemp3.com/*'],
+			js: ['connectors/v2/bemusic.js'],
+			version: 2
+		},
+
+		{
+			label: 'TRT Türkü',
+			matches: ['*://*trtturku.net/*'],
+			js: ['connectors/v2/trtturku.js'],
 			version: 2
 		}
 	];

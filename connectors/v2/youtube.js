@@ -14,9 +14,19 @@ chrome.storage.local.get('Connectors', function(data) {
 	}
 });
 
-Connector.playerSelector = '#page';
+Connector.videoSelector = '#player-api .html5-main-video';
 
 Connector.artistTrackSelector = '#eow-title';
+
+Connector.escapeBadTimeValues = function (time) {
+	if (typeof time !== 'number') {
+		return null;
+	}
+	if (isNaN(time) || !isFinite(time)) {
+		return null;
+	}
+	return time;
+};
 
 /**
  * Because player can be still present in the page, we need to detect that it's invisible
@@ -26,9 +36,8 @@ Connector.getCurrentTime = function() {
 	if (isPlayerOffscreen()) {
 		return null;
 	}
-
-	var $time = $('#player-api .ytp-time-current');
-	return this.stringToSeconds($time.text());
+	const currentTime = $(this.videoSelector).prop('currentTime');
+	return this.escapeBadTimeValues(currentTime);
 };
 
 /**
@@ -37,11 +46,10 @@ Connector.getCurrentTime = function() {
  */
 Connector.getDuration = function() {
 	if (isPlayerOffscreen()) {
-		return 0;
+		return null;
 	}
-
-	var $duration = $('#player-api .ytp-time-duration');
-	return this.stringToSeconds($duration.text());
+	const duration = $(this.videoSelector).prop('duration');
+	return this.escapeBadTimeValues(duration);
 };
 
 Connector.getUniqueID = function() {
@@ -65,8 +73,19 @@ Connector.isStateChangeAllowed = function() {
 Connector.getArtistTrack = function () {
 	var text =$(Connector.artistTrackSelector).text();
 
-	text = text.replace(/^\[[^\]]+\]\s*-*\s*/i, ''); // remove [genre] from the beginning of the title
-	return Connector.splitArtistTrack(text);
+	// Remove [genre] from the beginning of the title
+	text = text.replace(/^\[[^\]]+\]\s*-*\s*/i, '');
+
+	let {artist, track} = Connector.splitArtistTrack(text);
+	if (artist === null && track === null) {
+		// Look for Artist "Track"
+		let artistTrack = text.match(/(.+?)\s"(.+?)"/);
+		if (artistTrack) {
+			artist = artistTrack[1];
+			track = artistTrack[2];
+		}
+	}
+	return {artist, track};
 };
 
 Connector.filter = MetadataFilter.getYoutubeFilter();
@@ -84,3 +103,33 @@ function isPlayerOffscreen() {
 	var offset = $player.offset();
 	return offset.left < 0 || offset.top < 0;
 }
+
+function setupMutationObserver() {
+	let isMusicVideoPresent = false;
+
+	let playerObserver = new MutationObserver(function() {
+		if (!isPlayerOffscreen()) {
+			if (isMusicVideoPresent) {
+				return;
+			}
+
+			$(Connector.videoSelector).on('timeupdate', () => {
+				Connector.onStateChanged();
+			});
+			isMusicVideoPresent = true;
+		} else {
+			Connector.onStateChanged();
+			isMusicVideoPresent = false;
+		}
+	});
+
+	let pageElement = document.getElementById('page');
+	playerObserver.observe(pageElement, {
+		subtree: true,
+		childList: true,
+		attributes: false,
+		characterData: false
+	});
+}
+
+setupMutationObserver();

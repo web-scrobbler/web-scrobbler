@@ -9,9 +9,23 @@ window.webScrobblerInjected = window.webScrobblerInjected || false;
 	if (window.webScrobblerInjected) {
 		return;
 	}
-	const sendUpdateEvent = (type) => {
-		window.postMessage({type: `vk:player:${type}`}, '*');
-	};
+	function sendUpdateEvent(type) {
+		const {currentTime} = window.ap._impl._currentAudioEl || {};
+		const {id, performer, title, duration} = window.audio || {};
+		window.postMessage({
+			sender: 'web-scrobbler',
+			type,
+			trackInfo: {
+				uniqueID: id,
+				artistTrack: {
+					artist: performer,
+					track: title,
+				},
+				currentTime,
+				duration,
+			},
+		}, '*');
+	}
 	for (let e of ['start', 'progress', 'pause', 'stop']) {
 		window.ap.subscribers.push({
 			et: e,
