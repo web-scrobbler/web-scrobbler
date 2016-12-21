@@ -17,7 +17,8 @@
     "grunt-jsonlint": "^1.1.0",
     "grunt-lintspaces": "^0.8.0",
     "jshint": "~2.9.3",
-    "jshint-stylish": "~2.2.1"
+    "jshint-stylish": "~2.2.1",
+    "webstore-upload": "~0.0.7"
   },
   "engines": {
     "node": ">=0.10.0"
