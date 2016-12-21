@@ -11,15 +11,17 @@
 require([
 	'legacy/scrobbler',
 	'services/background-ga',
-	'services/lastfm',
+	'scrobblers/lastfm',
+	'scrobblers/librefm',
 	'notifications',
 	'inject',
 	'objects/injectResult',
 	'controller',
 	'storage',
 	'config',
-	'chromeStorage'
-], function(legacyScrobbler, GA, LastFM, Notifications, inject, injectResult, Controller, Storage, config, ChromeStorage) {
+	'chromeStorage',
+	'services/scrobbleService'
+], function(legacyScrobbler, GA, LastFM, LibreFM, Notifications, inject, injectResult, Controller, Storage, config, ChromeStorage, ScrobbleService) {
 
 	/**
 	 * Single controller instance for each tab with injected script
@@ -172,6 +174,14 @@ require([
 				}
 				break;
 
+			case 'v2.authenticate':
+				let scrobblerLabel = request.scrobbler;
+				let scrobbler = ScrobbleService.getScrobblerByLabel(scrobblerLabel);
+				if (scrobbler) {
+					Notifications.showAuthenticate(scrobbler.getAuthUrl.bind(scrobbler));
+				}
+				break;
+
 			// Redirect all other messages to legacy listener
 			default:
 				legacyScrobbler.runtimeOnMessage(request, sender, sendResponse);
@@ -212,12 +222,14 @@ require([
 		// debug log internal storage state for people who send logs (tokens are anonymized)
 		ChromeStorage.debugLog();
 
-		// check session ID status and show notification if authentication is needed
-		LastFM.getSession(function(sessionID) {
-			if (!sessionID) {
-				Notifications.showAuthenticate(LastFM.getAuthUrl);
-			} else {
-				console.info('LastFM: Session ID ' + 'xxxxx' + sessionID.substr(5));
+		let scrobblers = [LastFM, LibreFM];
+		ScrobbleService.registerScrobblers(scrobblers).then(boundScrobblers => {
+			if (boundScrobblers.length === 0) {
+				console.warn('No scrobblers are bound');
+				scrobblers.forEach(scrobbler => {
+					console.log('Showing auth notification for ' + scrobbler.getLabel());
+					Notifications.showAuthenticate(scrobbler.getAuthUrl.bind(scrobbler));
+				});
 			}
 		});
 	}

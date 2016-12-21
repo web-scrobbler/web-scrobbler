@@ -4,12 +4,13 @@ require([
 	'jquery',
 	'config',
 	'connectors',
-	'legacy/scrobbler',
 	'customPatterns',
 	'chromeStorage',
 	'wrappers/chrome',
+	'scrobblers/lastfm',
+	'scrobblers/librefm',
 	'bootstrap'
-], function ($, config, connectors, legacyScrobbler, customPatterns, ChromeStorage, chrome) {
+], function ($, config, connectors, customPatterns, ChromeStorage, chrome, LastFM, LibreFM) {
 
 	$(function () {
 		var connectorsOptions = ChromeStorage.getNamespace('Connectors');
@@ -48,10 +49,19 @@ require([
 			});
 
 
-		$('button#authorize').click(function () {
-			legacyScrobbler.authorize();
+		$('button#authorize-lastfm').click(function () {
+			chrome.runtime.sendMessage({
+				type: 'v2.authenticate',
+				scrobbler: LastFM.getLabel()
+			});
 		});
 
+		$('button#authorize-librefm').click(function () {
+			chrome.runtime.sendMessage({
+				type: 'v2.authenticate',
+				scrobbler: LibreFM.getLabel()
+			});
+		});
 
 		$('input#toggle').click(function () {
 			var negatedCheckState = !$(this).is(':checked');

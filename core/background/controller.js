@@ -6,12 +6,13 @@
 define([
 	'objects/song',
 	'pipeline/pipeline',
-	'services/lastfm',
+	'scrobblers/lastfm',
 	'pageAction',
 	'timer',
 	'notifications',
-	'services/background-ga'
-], function(Song, Pipeline, LastFM, PageAction, Timer, Notifications, GA) {
+	'services/background-ga',
+	'services/scrobbleService'
+], function(Song, Pipeline, LastFM, PageAction, Timer, Notifications, GA, ScrobbleService) {
 
 	/**
 	 * Constructor
@@ -229,11 +230,10 @@ define([
 
 			Notifications.showPlaying(song);
 
-			// send to L.FM
 			var nowPlayingCB = function(success) {
 				console.log('Tab ' + tabId + ': song set as now playing: ' + success);
 			};
-			LastFM.sendNowPlaying(song, nowPlayingCB);
+			ScrobbleService.sendNowPlaying(song, nowPlayingCB);
 
 			song.flags.attr('isMarkedAsPlaying', true);
 		}
@@ -259,7 +259,7 @@ define([
 				}
 			};
 
-			LastFM.scrobble(song, scrobbleCB);
+			ScrobbleService.scrobble(song, scrobbleCB);
 		}
 
 		/**

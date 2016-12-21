@@ -4,8 +4,8 @@
 	<meta charset="utf-8">
 	<title>Options for Last.fm Scrobbler</title>
 
-	<link href="/vendor/bootstrap-combined.no-icons.min.css" rel="stylesheet">
-	<link href="/vendor/fontawesome/font-awesome.css" rel="stylesheet">
+	<link href="../vendor/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+	<link href="../vendor/fontawesome/font-awesome.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="options.css" />
 
 	<script src="../vendor/require.js"></script>
@@ -69,12 +69,20 @@
 						</p>
 
 
-						<h4>Last.fm account connection</h4>
-						<p class="indent">
-							<small class="gray">Sometimes re-authenticating the extension fixes problems with scrobbling</small>
-							<br />
-							<button id="authorize">Re-authenticate with Last.fm</button>
+						<h4>Accounts</h4>
+						<p>
+							Sometimes re-authenticating the extension fixes problems with scrobbling.
 						</p>
+						<h5>Last.fm</h5>
+						<p class="indent">
+							<button id="authorize-lastfm">Re-authenticate with Last.fm</button>
+						</p>
+
+						<h5>Libre.fm</h5>
+						<p class="indent">
+							<button id="authorize-librefm">Re-authenticate with Libre.fm</button>
+						</p>
+
 					</div>
 				</div>
 			</div>
