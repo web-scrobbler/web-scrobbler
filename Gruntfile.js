@@ -83,5 +83,9 @@ module.exports = function(grunt) {
 
 	grunt.registerTask('lint', ['jshint', 'csslint', 'jsonlint', 'lintspaces']);
 	grunt.registerTask('publish', ['compress', 'exec:publish']);
+	grunt.registerTask('release', (ver) => {
+		grunt.task.run(`bump:${ver}`);
+		grunt.task.run('publish');
+	});
 	grunt.registerTask('default', ['lint']);
 };
