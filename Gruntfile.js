@@ -57,15 +57,22 @@ module.exports = function(grunt) {
 			strict: {
 				src: [cssFiles]
 			}
+		},
+		exec: {
+			publish: {
+				cmd: 'node scripts/publish-chrome-extension web-scrobbler.zip'
+			}
 		}
 	});
-
 
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-lintspaces');
 	grunt.loadNpmTasks('grunt-jsonlint');
 	grunt.loadNpmTasks('grunt-contrib-csslint');
+	grunt.loadNpmTasks('grunt-exec');
+
 	grunt.registerTask('lint', ['jshint', 'csslint', 'jsonlint', 'lintspaces']);
+	grunt.registerTask('publish', ['compress', 'exec:publish']);
 	grunt.registerTask('default', ['lint']);
 };
