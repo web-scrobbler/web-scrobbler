@@ -1007,6 +1007,11 @@ define(function() {
 			js: ['connectors/v2/apidog.js'],
 			version: 2
 		},
+		{
+			label: 'RBMA Radio',
+			matches: ['https://www.rbmaradio.com/*'],
+			js: ['connectors/v2/rbmaradio.js'],
+		},
 
 		{
 			label: 'GrooveMP3',
