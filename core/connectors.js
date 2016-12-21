@@ -1011,6 +1011,7 @@ define(function() {
 			label: 'RBMA Radio',
 			matches: ['https://www.rbmaradio.com/*'],
 			js: ['connectors/v2/rbmaradio.js'],
+			version: 2
 		},
 
 		{
