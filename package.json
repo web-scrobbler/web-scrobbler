@@ -19,7 +19,8 @@
     "jshint": "~2.9.3",
     "jshint-stylish": "~2.2.1",
     "webstore-upload": "~0.0.7",
-    "grunt-exec": "~1.0.1"
+    "grunt-exec": "~1.0.1",
+    "grunt-bump": "~0.8.0"
   },
   "engines": {
     "node": ">=0.10.0"

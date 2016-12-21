@@ -10,6 +10,14 @@ module.exports = function(grunt) {
 	var cssFiles = ['options/options.css', 'popups/base.css', 'dialogs/base.css'];
 
 	grunt.initConfig({
+		bump: {
+			options: {
+				files: ['manifest.json'],
+				commit: true,
+				commitFiles: ['manifest.json'],
+				push: false
+			}
+		},
 		jshint: {
 			all: [jsCoreFiles, jsConnectorFiles],
 			options: {
@@ -65,6 +73,7 @@ module.exports = function(grunt) {
 		}
 	});
 
+	grunt.loadNpmTasks('grunt-bump');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-lintspaces');
