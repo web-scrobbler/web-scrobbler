@@ -46,36 +46,6 @@ a {
 	width: 100%;
 }
 
-.popup-text-input, .artist-input, .track-input {
-	width: 188px;
-}
-
-.popup-select {
-	width: 192px;
-	height: 1.8em;
-}
-
-.popup-button, .change-input {
-	width: 192px;
-	margin: 2px 0;
-	padding: 1px 0;
-}
-
-#change-info {
-	font-style: italic;
-	color: #f88;
-	text-align: center;
-}
-
-#valid {
-	display: none;
-	margin-left: 110px;
-	text-align: center;
-	height: 100px;
-	vertical-align: middle;
-	background: url('img/icon_tick_big.png') no-repeat center center;
-}
-
 #edit-controls {
 	position: absolute;
 	bottom: 5px;
