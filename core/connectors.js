@@ -1022,6 +1022,17 @@ define(function() {
 		},
 
 		{
+			label: 'Pinguin Radio',
+			matches: [
+				'*://pinguinradio.com/',
+				'*://pinguinplayer.com/*',
+				'*://www.pinguinplayer.com/*',
+			],
+			js: ['connectors/v2/pinguinradio.js'],
+			version: 2
+		},
+
+		{
 			label: 'TRT Türkü',
 			matches: ['*://*trtturku.net/*'],
 			js: ['connectors/v2/trtturku.js'],
