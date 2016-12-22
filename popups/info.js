@@ -56,17 +56,22 @@ $(document).ready(function() {
 		let isSongMetadataChanged = false;
 
 		for (let field of ['artist', 'track', 'album']) {
-			let inputData = $(`#${field}-input`).val();
-			let labelText = $(`#${field}`).text();
+			let fieldLabelSelector = `#${field}`;
+			let fieldInputSelector = `#${field}-input`;
 
-			if (!inputData) {
+			let inputText = $(fieldInputSelector).val();
+			let labelText = $(fieldLabelSelector).text();
+
+			// FIXME: remove this dirty hack
+			if (!inputText) {
 				// Don't allow to submit empty results.
-				$(`#${field}-input`).val(labelText);
+				$(fieldInputSelector).val(labelText);
 				continue;
 			}
 
-			if (labelText !== inputData) {
-				$(`#${field}`).text(inputData);
+			if (labelText !== inputText) {
+				$(fieldLabelSelector).text(inputText);
+				$(fieldLabelSelector).attr('data-hide', !inputText);
 				isSongMetadataChanged = true;
 			}
 		}
@@ -75,28 +80,49 @@ $(document).ready(function() {
 	}
 
 	function fillMetadataLabels(song) {
-		let artist = song.processed.artist || song.parsed.artist;
-		let track = song.processed.track || song.parsed.track;
-		let album = song.processed.album || song.parsed.album;
 		let albumArt = song.parsed.trackArt ||
 			song.metadata.artistThumbUrl ||
 			'../default_cover_art.png';
 
-		$('#artist').text(artist).attr('href', song.metadata.artistUrl);
-		$('#track').text(track).attr('href', song.metadata.trackUrl);
-		$('#album').text(album).attr('data-hide', !album);
 		$('#album-art').css('background-image', `url("${albumArt}")`);
-		configHeart(song.metadata.userloved);
 
-		// Last.fm doesn't provide album URL for some albums.
-		if (song.metadata.albumUrl) {
-			$('#album').attr('href', song.metadata.albumUrl);
-		} else {
-			$('#album').removeAttr('href');
-		}
+		let isSongValid = song.flags.isLastfmValid || song.flags.isCorrectedByUser;
+
+		let fieldUrlMap = {
+			artist: song.metadata.artistUrl,
+			track: song.metadata.trackUrl,
+			album: song.metadata.albumUrl
+		};
+		let fieldValuesMap = {
+			artist: song.processed.artist || song.parsed.artist,
+			track: song.processed.track || song.parsed.track,
+			album: song.processed.album || song.parsed.album
+		};
 
 		for (let field of ['artist', 'track', 'album']) {
-			$(`#${field}-input`).val($(`#${field}`).text());
+			let fieldValue = fieldValuesMap[field];
+			let fieldUrl = fieldUrlMap[field];
+
+			console.log(fieldValue);
+
+			let fieldLabelSelector = `#${field}`;
+			let fieldInputSelector = `#${field}-input`;
+
+			if (fieldUrl) {
+				$(fieldLabelSelector).attr('href', fieldUrl);
+			} else {
+				$(fieldLabelSelector).removeAttr('href');
+			}
+
+			// There's no sense to fill labels if song is not valid.
+			// They will be filled later after submitting changes.
+			if (isSongValid) {
+				$(fieldLabelSelector).text(fieldValue);
+			} else {
+				$(fieldLabelSelector).text(null);
+			}
+			$(fieldLabelSelector).attr('data-hide', !fieldValue);
+			$(fieldInputSelector).val(fieldValue);
 		}
 	}
 
