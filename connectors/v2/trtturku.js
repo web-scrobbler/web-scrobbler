@@ -54,13 +54,7 @@ function setupRadioPlayer() {
 }
 
 function setupPlaylistPlayer() {
-	Connector.getArtist = function () {
-		return $('.jwitem.active .jwtitle').text().split(' - ')[0];
-	};
-
-	Connector.getTrack = function () {
-		return $('.jwitem.active .jwtitle').text().split(' - ')[1];
-	};
+	Connector.artistTrackSelector = '.jwitem.active .jwtitle';
 }
 
 function isRadioPlayer() {
