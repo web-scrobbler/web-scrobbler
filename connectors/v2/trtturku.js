@@ -9,8 +9,9 @@
 function toTitleCase(str) {
 	var tempArray = str.toLowerCase().split(' ');
  	var realArray = [];
+	var i = 0;
 	
-	for(var i = 0; i < tempArray.length; ++i){
+	for(i = 0; i < tempArray.length; ++i){
 		var innerTempArray = tempArray[i].split('-');
 
 		for(var j = 0; ;){
@@ -24,7 +25,7 @@ function toTitleCase(str) {
 		}
 	}
 
-	for(var i = 0; i < realArray.length; ++i){
+	for(i = 0; i < realArray.length; ++i){
 		realArray[i] = realArray[i].split('');
 		realArray[i][0] = realArray[i][0] === 'i' ? 'İ' : realArray[i][0].toUpperCase();
 		realArray[i] = realArray[i].join('');
