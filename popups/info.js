@@ -38,9 +38,18 @@ $(document).ready(function() {
 			return;
 		}
 
-		$('#artist').text(song.processed.artist || song.parsed.artist).attr('href', song.metadata.artistUrl);
-		$('#track').text(song.processed.track || song.parsed.track).attr('href', song.metadata.trackUrl);
-		$('#album-art').css('background-image', 'url("' + (song.parsed.trackArt || song.metadata.artistThumbUrl || '../default_cover_art.png') + '")');
+		let artist = song.processed.artist || song.parsed.artist;
+		let track = song.processed.track || song.parsed.track;
+		let album = song.processed.album || song.parsed.album;
+		let albumArt = song.parsed.trackArt ||
+			song.metadata.artistThumbUrl ||
+			'../default_cover_art.png';
+
+		$('#artist').text(artist).attr('href', song.metadata.artistUrl);
+		$('#track').text(track).attr('href', song.metadata.trackUrl);
+		$('#album').text(album).attr('href', song.metadata.trackUrl)
+			.attr('data-hide', !album);
+		$('#album-art').css('background-image', `url("${albumArt}")`);
 		configHeart(song.metadata.userloved);
 
 		// UI listeners

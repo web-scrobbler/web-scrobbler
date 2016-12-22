@@ -105,3 +105,15 @@ a {
 		#love[last-fm-loved="true"]:hover {
 			background-position-y: -48px;
 		}
+
+[data-hide="true"] {
+	display: none !important;
+}
+
+#artist:before {
+	content: "by ";
+}
+
+#album:before {
+	content: "on ";
+}
