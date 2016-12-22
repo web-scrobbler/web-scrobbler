@@ -84,10 +84,16 @@ $(document).ready(function() {
 
 		$('#artist').text(artist).attr('href', song.metadata.artistUrl);
 		$('#track').text(track).attr('href', song.metadata.trackUrl);
-		$('#album').text(album).attr('href', song.metadata.trackUrl)
-			.attr('data-hide', !album);
+		$('#album').text(album).attr('data-hide', !album);
 		$('#album-art').css('background-image', `url("${albumArt}")`);
 		configHeart(song.metadata.userloved);
+
+		// Last.fm doesn't provide album URL for some albums.
+		if (song.metadata.albumUrl) {
+			$('#album').attr('href', song.metadata.albumUrl);
+		} else {
+			$('#album').removeAttr('href');
+		}
 
 		for (let field of ['artist', 'track', 'album']) {
 			$(`#${field}-input`).val($(`#${field}`).text());
