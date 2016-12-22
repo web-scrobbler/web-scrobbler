@@ -4,7 +4,8 @@ define(['chromeStorage'], function(ChromeStorage) {
 	const storage = ChromeStorage.getNamespace('LocalCache');
 	const fieldMap = {
 		'artist': 'userArtist',
-		'track': 'userTrack'
+		'track': 'userTrack',
+		'album': 'userAlbum'
 	};
 
 	function saveSongMetadataToStorage(song, cb) {

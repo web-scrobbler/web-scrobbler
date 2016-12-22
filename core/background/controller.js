@@ -303,9 +303,12 @@ define([
 				if (data.track) {
 					currentSong.metadata.attr('userTrack', data.track);
 				}
+				if (data.album) {
+					currentSong.metadata.attr('userAlbum', data.album);
+				}
 
 				// re-send song to pipeline
-				if (data.artist || data.track) {
+				if (data.artist || data.track || data.album) {
 					pageAction.setSongLoading(currentSong);
 					Pipeline.processSong(currentSong);
 				}

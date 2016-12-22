@@ -2,7 +2,7 @@
 
 define(['chromeStorage'], function(ChromeStorage) {
 	const storage = ChromeStorage.getNamespace('LocalCache');
-	const fieldsToSave = ['artist', 'track'];
+	const fieldsToSave = ['artist', 'track', 'album'];
 
 	function fillSongMetadataFromStorage(song, cb) {
 		if (!song.parsed.uniqueID) {
