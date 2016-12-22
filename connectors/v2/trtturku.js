@@ -8,19 +8,19 @@
 
 function toTitleCase(str) {
 	var tempArray = str.toLowerCase().split(' ');
- 	var realArray = [];
+	var realArray = [];
 	var i = 0;
-	
+
 	for(i = 0; i < tempArray.length; ++i){
 		var innerTempArray = tempArray[i].split('-');
 
 		for(var j = 0; ;){
 			realArray.push(innerTempArray[j]);
-			
+
 			if(++j >= innerTempArray.length){
 				break;
 			}
-			
+
 			realArray.push('-');
 		}
 	}
@@ -32,7 +32,7 @@ function toTitleCase(str) {
 	}
 
 	return realArray.join(' ');
- }
+}
 
 Connector.playerSelector = '.jwplayer';
 
@@ -57,7 +57,7 @@ function setupPlaylistPlayer() {
 	Connector.getArtist = function () {
 		return $('.jwitem.active .jwtitle').text().split(' - ')[0];
 	};
-	
+
 	Connector.getTrack = function () {
 		return $('.jwitem.active .jwtitle').text().split(' - ')[1];
 	};
