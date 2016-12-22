@@ -36,7 +36,7 @@ $(document).ready(function() {
 		}
 
 		configHeart(song.metadata.userloved);
-		configEditControls();
+		configEditControls(song);
 		fillMetadataLabels(song);
 
 		let isSongValid = song.flags.isLastfmValid || song.flags.isCorrectedByUser;
@@ -94,7 +94,12 @@ $(document).ready(function() {
 		}
 	}
 
-	function configEditControls() {
+	function configEditControls(song) {
+		if (song.flags.isScrobbled) {
+			$('#edit-link').addClass('disabled');
+			return;
+		}
+
 		$('#edit-link').on('click', () => {
 			if (isEditModeEnabled) {
 				setEditMode(false);

@@ -52,7 +52,13 @@ a {
 	margin-left: 110px;
 }
 #edit-link:hover {
+	cursor: pointer;
 	text-decoration: underline;
+}
+#edit-link.disabled {
+	color: #999;
+	cursor: default;
+	text-decoration: none;
 }
 
 #scrobble-controls {
