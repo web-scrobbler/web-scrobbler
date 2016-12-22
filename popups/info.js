@@ -38,6 +38,9 @@ $(document).ready(function() {
 		configHeart(song.metadata.userloved);
 		configEditControls();
 		fillMetadataLabels(song);
+
+		let isSongValid = song.flags.isLastfmValid || song.flags.isCorrectedByUser;
+		setEditMode(!isSongValid);
 	}
 
 	function setEditMode(flag) {

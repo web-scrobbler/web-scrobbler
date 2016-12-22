@@ -118,7 +118,7 @@ define([], function() {
 		this.setSongNotRecognized = function() {
 			setPageAction(icons.UNKNOWN,
 				'The song was not recognized. Click to enter correct info',
-				'popups/manual_scrobble.html');
+				documents.SONG_INFO);
 		};
 
 		this.setError = function() {
