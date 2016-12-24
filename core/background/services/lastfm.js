@@ -10,6 +10,8 @@ define([
 	'objects/serviceCallResult',
 	'chromeStorage'
 ], function ($, MD5, can, ServiceCallResultFactory, ChromeStorage) {
+	ChromeStorage.debugLog('LastFM');
+
 	const GET_AUTH_URL_TIMEOUT = 10000;
 
 	var enableLogging = true;

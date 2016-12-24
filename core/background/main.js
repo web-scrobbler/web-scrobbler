@@ -192,14 +192,12 @@ require([
 		GA.send('pageview', '/background-loaded?version=' + chrome.app.getDetails().version);
 
 		// debug log internal storage state for people who send logs (tokens are anonymized)
-		ChromeStorage.debugLog();
+		ChromeStorage.debugLog('Core');
 
 		// check session ID status and show notification if authentication is needed
 		LastFM.getSession(function(sessionID) {
 			if (!sessionID) {
 				Notifications.showAuthenticate(LastFM.getAuthUrl);
-			} else {
-				console.info('LastFM: Session ID ' + 'xxxxx' + sessionID.substr(5));
 			}
 		});
 	}
