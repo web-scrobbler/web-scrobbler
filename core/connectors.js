@@ -1022,6 +1022,13 @@ define(function() {
 		},
 
 		{
+			label: 'London Burning',
+			matches: ['*://londonbu.fastcast4u.com/'],
+			js: ['connectors/v2/londonburning.js'],
+			version: 2
+		},
+
+		{
 			label: 'Pinguin Radio',
 			matches: [
 				'*://pinguinradio.com/',
