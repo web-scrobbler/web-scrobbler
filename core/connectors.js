@@ -1044,6 +1044,13 @@ define(function() {
 			matches: ['*://*trtturku.net/*'],
 			js: ['connectors/v2/trtturku.js'],
 			version: 2
-		}
+		},
+
+		{
+			label: 'Vevo',
+			matches: ['*://www.vevo.com/*'],
+			js: ['connectors/v2/vevo.js'],
+			version: 2
+		},
 	];
 });
