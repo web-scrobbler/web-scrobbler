@@ -83,21 +83,29 @@ define([
 		chrome.storage.local.set(data, innerCb);
 	}
 
+	function hideStringInText(str, text) {
+		if (str) {
+			return text.replace(str, 'xxxxx' + str.substr(5));
+		}
+		return text;
+	}
+
 	/**
 	 * Logs all storage data to console
 	 */
-	function debugLog() {
+	function debugLog(namespace) {
 		get(function(data) {
-			var text = JSON.stringify(data);
-			if (data !== null && Object.keys(data).length > 0 && data.LastFM) {
-				if (data.LastFM.token) {
-					text = text.replace(data.LastFM.token, 'xxxxx' + data.LastFM.token.substr(5));
-				}
-				if (data.LastFM.sessionID) {
-					text = text.replace(data.LastFM.sessionID, 'xxxxx' + data.LastFM.sessionID.substr(5));
-				}
+			let namespaceData = data[namespace];
+			if (!namespaceData) {
+				return;
 			}
-			console.info('chrome.storage.local = ' + text);
+
+			let text = JSON.stringify(namespaceData, null, 2);
+			// Hide 'token' and 'sessionID' values if available
+			text = hideStringInText(namespaceData.token, text);
+			text = hideStringInText(namespaceData.sessionID, text);
+
+			console.info(`chrome.storage.local.${namespace} = ${text}`);
 		});
 	}
 
