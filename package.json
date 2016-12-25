@@ -25,6 +25,7 @@
     "grunt-contrib-copy": "~1.0.0",
     "grunt-contrib-clean": "~1.0.0",
     "mocha": "~3.2.0",
+    "chai": "^3.5.0",
     "selenium-webdriver": "~3.0.1",
     "chromedriver": "~2.26.1",
     "node-define": "~0.1.1",
