@@ -123,5 +123,5 @@ module.exports = function(grunt) {
 	grunt.registerTask('build', 'Build release package.', [
 		'copy', 'preprocess', 'compress', 'clean'
 	]);
-	grunt.registerTask('default', ['lint']);
+	grunt.registerTask('default', ['lint', 'test:core']);
 };
