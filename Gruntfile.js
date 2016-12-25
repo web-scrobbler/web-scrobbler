@@ -5,9 +5,19 @@ module.exports = function(grunt) {
 
 	var jsConnectorFiles = ['connectors/v2/*.js']; // intentionally does not contain all files yet
 	var jsCoreFiles = ['Gruntfile.js', 'core/**/*.js', 'options/options.js', 'popups/*.js'];
+	var jsTestFiles = ['tests/**/*.js'];
 	var jsonFiles = ['*.json', '.jshintrc', '.csslintrc'];
 	var htmlFiles = ['options/*.html', 'popups/*.html', 'dialogs/**/*.html'];
 	var cssFiles = ['options/options.css', 'popups/base.css', 'dialogs/base.css'];
+
+	const extensionSources = [
+		'connectors/**', 'core/**', 'dialogs/**',
+		'icons/**', 'options/**', 'popups/**', 'vendor/**',
+		'manifest.json', 'README.md', 'LICENSE.txt', '*.png',
+		// Skip files
+		'!core/content/testReporter.js'
+	];
+	const buildDir = 'build';
 
 	grunt.initConfig({
 		bump: {
@@ -19,10 +29,24 @@ module.exports = function(grunt) {
 			}
 		},
 		jshint: {
-			all: [jsCoreFiles, jsConnectorFiles],
+			all: [jsCoreFiles, jsConnectorFiles, jsTestFiles],
 			options: {
 				jshintrc: true,
 				reporter: require('jshint-stylish')
+			}
+		},
+		copy: {
+			project_files: {
+				expand: true,
+				src: extensionSources,
+				dest: buildDir,
+			},
+		},
+		preprocess: {
+			js_files: {
+				src: `${buildDir}/**/*.js`,
+				inline: true,
+				expand: true
 			}
 		},
 		compress: {
@@ -32,17 +56,15 @@ module.exports = function(grunt) {
 					pretty: true
 				},
 				expand: true,
-				src: [
-					'connectors/**', 'core/**', 'dialogs/**',
-					'icons/**', 'options/**', 'popups/**', 'vendor/**',
-					'manifest.json', 'README.md', 'LICENSE.txt', '*.png'
-				]
+				cwd: buildDir,
+				src: '**/*',
 			}
 		},
+		clean: [buildDir],
 		lintspaces: {
 			all: {
 				src: [
-					jsCoreFiles, jsConnectorFiles, jsonFiles, cssFiles, htmlFiles
+					jsCoreFiles, jsConnectorFiles, jsTestFiles, jsonFiles, cssFiles, htmlFiles
 				],
 
 				options: {
@@ -69,6 +91,11 @@ module.exports = function(grunt) {
 		exec: {
 			publish: {
 				cmd: 'node scripts/publish-chrome-extension web-scrobbler.zip'
+			},
+			run_tests: {
+				cmd: function(...args) {
+					return `node tests/runner.js ${args.join(' ')}`;
+				}
 			}
 		}
 	});
@@ -77,6 +104,9 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-lintspaces');
+	grunt.loadNpmTasks('grunt-preprocess');
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-jsonlint');
 	grunt.loadNpmTasks('grunt-contrib-csslint');
 	grunt.loadNpmTasks('grunt-exec');
@@ -87,5 +117,11 @@ module.exports = function(grunt) {
 		grunt.task.run(`bump:${ver}`);
 		grunt.task.run('publish');
 	});
+	grunt.registerTask('test', 'Run tests.', function(...args) {
+		grunt.task.run(`exec:run_tests:${args.join(':')}`);
+	});
+	grunt.registerTask('build', 'Build release package.', [
+		'copy', 'preprocess', 'compress', 'clean'
+	]);
 	grunt.registerTask('default', ['lint']);
 };
