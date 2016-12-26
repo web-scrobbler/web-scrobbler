@@ -27,14 +27,8 @@ define([
 			params.api_sig = this.generateSign(params);
 		}
 
-		var paramPairs = [];
-		for (var key in params) {
-			if (params.hasOwnProperty(key)) {
-				paramPairs.push(key + '=' + encodeURIComponent(params[key]));
-			}
-		}
-
-		var url = this.apiUrl + '?' + paramPairs.join('&');
+		let queryStr = this.createQueryString(params);
+		let url = `${this.apiUrl}?${queryStr}`;
 
 		return new Promise((resolve, reject) => {
 			let internalOkCb = (xmlDoc, status) => {
