@@ -108,9 +108,7 @@ function setupMutationObserver() {
 				return;
 			}
 
-			$(Connector.videoSelector).on('timeupdate', () => {
-				Connector.onStateChanged();
-			});
+			$(Connector.videoSelector).on('timeupdate', Connector.onStateChanged);
 			isMusicVideoPresent = true;
 		} else {
 			Connector.onStateChanged();
