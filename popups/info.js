@@ -129,6 +129,11 @@ $(document).ready(function() {
 	function configEditControls(song) {
 		if (song.flags.isScrobbled) {
 			$('#edit-link').addClass('disabled');
+			if (song.flags.isCorrectedByUser) {
+				$('#revert-link').addClass('disabled');
+			} else {
+				$('#revert-link').attr('data-hide', true);
+			}
 			return;
 		}
 
@@ -140,6 +145,15 @@ $(document).ready(function() {
 				setEditMode(true);
 			}
 		});
+		if (song.flags.isCorrectedByUser) {
+			$('#revert-link').on('click', () => {
+				sendMessageToCurrentTab('v2.resetSongData');
+				window.close();
+			});
+		} else {
+			$('#revert-link').attr('data-hide', true);
+		}
+
 		$('#edit input').keypress((e) => {
 			let isEnterKey = e.keyCode === 13;
 			if (isEnterKey) {

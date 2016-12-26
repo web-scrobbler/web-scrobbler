@@ -315,6 +315,18 @@ define([
 			}
 		};
 
+		/**
+		 * Reset song data and process it again.
+		 */
+		this.resetSongData = function() {
+			if (currentSong !== null) {
+				currentSong.resetSongData();
+
+				pageAction.setSongLoading(currentSong);
+				Pipeline.processSong(currentSong);
+			}
+		};
+
 		this.toggleLove = function(data, cb) {
 			if (currentSong !== null) {
 				LastFM.toggleLove(currentSong, data.shouldBeLoved, function() {
