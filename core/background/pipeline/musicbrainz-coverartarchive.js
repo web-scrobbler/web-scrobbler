@@ -1,98 +1,113 @@
 'use strict';
 
 define([], function() {
-
 	// NB:
-	// Could potentially split `getMusicBrainzId()` and `getCoverArtArchive()` into consecutive pipeline modules,
-	// if we can come up with other uses for the MusicBrainz data.
+	// Could potentially split `getMusicBrainzId()` and `checkCoverArt()`
+	// into consecutive pipeline modules, if we can come up with other uses
+	// for the MusicBrainz data.
 
-	var service = {
-		/**
-		 * Fetch coverart from MusicBrainz archive.
-		 * @param  {Object} song Song instance
-		 * @return {Promise} Promise that will be resolved then the task will complete
-		 */
-		getCoverArt: function(song) {
-			return new Promise((resolve) => {
-				// Only query APIs if no cover art can be found
-				if (song.parsed.trackArt) {
-					console.log('Using local/parsed artwork');
-					resolve();
-				} else if (song.metadata.artistThumbUrl) {
-					console.log('Found album artwork via LastFM');
-					resolve();
-				} else {
-					console.log('Looking for album artwork via MusicBrainz');
+	/**
+	 * Get array of functions that return promises.
+	 * Used for delayed promise execute.
+	 * @param  {Object} song Song instance
+	 * @return {Array} Array of promise factories
+	 */
+	function getPromiseFactories(song) {
+		let endpoints = ['release', 'release-group'];
+		return endpoints.map((endpoint) => {
+			return function() {
+				return getMusicBrainzId(endpoint, song).then((mbid) => {
+					return checkCoverArt(mbid);
+				});
+			};
+		});
+	}
 
-					// Search both, just incase there's artwork for the album, but not for the song/single
-					var endpoints = ['release', 'release-group'];
+	/**
+	 * Fetch coverart from MusicBrainz archive.
+	 * @param  {Object} song Song instance
+	 * @return {Promise} Promise that will be resolved then the task will complete
+	 */
+	function getCoverArt(song) {
+		// Only query APIs if no cover art can be found
+		if (song.parsed.trackArt) {
+			console.log('Using local/parsed artwork');
+			return Promise.resolve();
+		} else if (song.metadata.artistThumbUrl) {
+			console.log('Found album artwork via LastFM');
+			return Promise.resolve();
+		}
 
-					var coverArtSearch = function() {
-						if (endpoints.length < 1) {
-							resolve();
-							return;
-						}
+		let isCoverArtFound = false;
+		let promiseSequence = Promise.resolve();
 
-						var endpoint = endpoints.shift();
-						// Try to ID the song via the MusicBrainz API
-						service.getMusicBrainzId(endpoint, song, coverArtSearch, function() {
-							// then Check for CoverArtArchive imagery against that MusicBrainz ID
-							service.getCoverArtArchive(song, coverArtSearch);
-						});
-					};
+		// Queue promises
+		getPromiseFactories(song).forEach((promiseFactory) => {
+			promiseSequence = promiseSequence.then(() => {
+				// Should be checked in runtime
+				if (!isCoverArtFound) {
+					let promise = promiseFactory();
+					return promise.then((coverArtUrl) => {
+						isCoverArtFound = true;
 
-					coverArtSearch();
+						song.metadata.attr('artistThumbUrl', coverArtUrl);
+						console.log('Found album artwork via MusicBrainz');
+					}).catch(() => {
+						// Suppress errors
+					});
 				}
 			});
-		},
+		});
 
-		/* Get track or album MusicBrainz ID
-			* Search API docs:
-				http://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search
-			* Query syntax docs:
-				https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description
-		*/
-		getMusicBrainzId: function(endpoint, song, onFailure, onSuccess) {
-			$.get('http://musicbrainz.org/ws/2/' + endpoint + '?fmt=json&query=' +
-					'title:' +
-					'+"' + song.getTrack() + '"^3 ' + // bias towards the exact string
-					song.getTrack() + ' ' + // and individual words
+		return promiseSequence;
+	}
 
-					'artistname:' +
-					'+"' + song.getArtist() + '"^4' +
-					song.getArtist() + ' '
-			)
-				.done(function(musicbrainz) {
-					if (musicbrainz.count === 0) {
-						return onFailure();
-					}
+	/**
+	 * Get track or album MusicBrainz ID.
+	 * Search API docs:
+	 *	http://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search
+	 * Query syntax docs:
+	 *	https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description
+	 *
+	 * @param  {String} endpoint Endpoint
+	 * @param  {Object} song Song object
+	 * @return {Promise} Promise that will resolve with MusicBrainz ID
+	 */
+	function getMusicBrainzId(endpoint, song) {
+		let artist = song.getArtist();
+		let track = song.getTrack();
 
-					var results = musicbrainz[endpoint + 's'];
-					var MBID = results[0].id;
-					song.metadata.musicBrainzId = MBID;
+		let url = `http://musicbrainz.org/ws/2/${endpoint}?fmt=json&query=` +
+			`title:+"${track}"^3 ${track} artistname:+"${artist}"^4${artist}`;
+		return fetch(url).then((response) => {
+			return response.json();
+		}).then((musicbrainz) => {
+			if (musicbrainz.count === 0) {
+				throw new Error();
+			}
 
-					(typeof onSuccess === 'function' ? onSuccess : onFailure)(MBID);
-				})
-				.fail(onFailure);
-		},
+			let results = musicbrainz[endpoint + 's'];
+			let mbid = results[0].id;
+			song.metadata.musicBrainzId = mbid;
 
-		// Requires song.metadata.musicBrainzId to have been previously retrieved
-		getCoverArtArchive: function(song, onFailure, onSuccess) {
-			var coverArtUrl = 'http://coverartarchive.org/release/' + song.metadata.musicBrainzId + '/front';
+			return mbid;
+		});
+	}
 
-			$.ajax({
-				url: coverArtUrl,
-				type: 'HEAD' // Check if the CoverArt is actually a useable HTTP resource; prevents Chrome errors
-			})
-				.done(function() {
-					console.log('Found album artwork via MusicBrainz');
-					song.metadata.attr('artistThumbUrl', coverArtUrl);
+	/**
+	 * Check if cover art is accessible.
+	 * @param  {String} mbid MusicBrainz ID of track or album
+	 * @return {Promise} Promise that will resolve with accessible cover art url
+	 */
+	function checkCoverArt(mbid) {
+		let coverArtUrl = `http://coverartarchive.org/release/${mbid}/front`;
+		return fetch(coverArtUrl, { 'method': 'HEAD' }).then((result) => {
+			if (result.ok) {
+				return coverArtUrl;
+			}
+			throw new Error('Unable to fetch cover art from MusicBrainz');
+		});
+	}
 
-					(typeof onSuccess === 'function' ? onSuccess : onFailure)(coverArtUrl);
-				})
-				.fail(onFailure);
-		}
-	};
-
-	return service;
+	return { getCoverArt };
 });
