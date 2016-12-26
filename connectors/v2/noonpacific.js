@@ -37,7 +37,7 @@ function setupCollection1Player() {
 }
 
 function isCollection1() {
-	return $('div#player').length > 0;
+	return $('div#content').length > 0;
 }
 
 /**
