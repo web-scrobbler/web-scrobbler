@@ -29,9 +29,8 @@ define([
 
 	function processResponse(xmlDoc) {
 		if ($(xmlDoc).find('lfm').attr('status') !== 'ok') {
-			console.log(new XMLSerializer().serializeToString(xmlDoc));
 			// request passed but returned error
-			throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+			return new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 		}
 
 		return new ServiceCallResult(ServiceCallResult.OK);
@@ -167,26 +166,23 @@ define([
 		 * @return {Promise} Promise that will be resolved with the session ID
 		 */
 		tradeTokenForSession: function (token) {
-			var params = {
+			let params = {
 				method: 'auth.getsession',
 				api_key: this.apiKey,
 				token: token
 			};
-			var apiSig = this.generateSign(params);
-			var url = this.apiUrl + '?' + this.createQueryString(params) + '&api_sig=' + apiSig + '&format=json';
+			let apiSig = this.generateSign(params);
+			let queryStr = this.createQueryString(params);
+			let url = `${this.apiUrl}?${queryStr}&api_sig=${apiSig}&format=json`;
 
-			return new Promise((resolve, reject) => {
-				$.getJSON(url).done((response) => {
-					if ((response.error && response.error > 0) || !response.session) {
-						console.log(`${this.label} auth.getSession response: ${JSON.stringify(response)}`);
-						reject(new ServiceCallResult(ServiceCallResult.ERROR_AUTH));
-					} else {
-						resolve(response.session);
-					}
-				}).fail((jqxhr, textStatus, error) => {
-					console.error(`${this.label} auth.getSession failed: ${error}, ${textStatus}`);
-					reject(new ServiceCallResult(ServiceCallResult.ERROR_AUTH));
-				});
+			return fetch(url).then((response) => {
+				return response.json();
+			}).then((data) => {
+				console.log(JSON.stringify(data, null, 2));
+				return data.session;
+			}).catch((err) => {
+				console.error(`${this.label} auth.tradeTokenForSession failed: ${err}`);
+				throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
 			});
 		},
 
@@ -247,24 +243,13 @@ define([
 
 			var url = this.apiUrl + '?' + paramPairs.join('&');
 
-			return new Promise((resolve, reject) => {
-				let internalOkCb = (xmlDoc, status) => {
-					console.log(`${this.label} response to ${url}: ${status}\n${new XMLSerializer().serializeToString(xmlDoc)}`);
-					resolve(xmlDoc);
-				};
-
-				let internalErrCb = (jqXHR, status, response) => {
-					console.error(`${this.label} response to ${url}: ${status}\n${response}`);
-					reject(new ServiceCallResult(ServiceCallResult.ERROR_OTHER));
-				};
-
-				if (method === 'GET') {
-					$.get(url).done(internalOkCb).fail(internalErrCb);
-				} else if (method === 'POST') {
-					$.post(url).done(internalOkCb).fail(internalErrCb);
-				} else {
-					reject(new ServiceCallResult(ServiceCallResult.ERROR_OTHER));
-				}
+			return fetch(url, { method }).then((response) => {
+				return response.text();
+			}).then((text) => {
+				console.log(text);
+				return $.parseXML(text);
+			}).catch(() => {
+				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 			});
 		},
 
