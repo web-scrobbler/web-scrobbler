@@ -828,7 +828,7 @@ define(function() {
 		{
 			label: 'Beatport',
 			matches: ['*://www.beatport.com/*'],
-			js: ['connectors/v2/beatport-www.js'],
+			js: ['connectors/v2/beatport.js'],
 			version: 2
 		},
 
