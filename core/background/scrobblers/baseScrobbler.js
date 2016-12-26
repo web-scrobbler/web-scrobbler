@@ -270,11 +270,14 @@ define([
 				};
 
 				if (params.artist === null || params.track === null) {
-					song.flags.attr('isLastfmValid', false);
 					return false;
 				}
 
 				return this.doRequest('GET', params, false).then(($doc) => {
+					if ($doc.find('lfm').attr('status') !== 'ok') {
+						return false;
+					}
+
 					can.batch.start();
 					song.processed.attr({
 						artist: $doc.find('artist > name').text(),
@@ -299,15 +302,11 @@ define([
 						userloved: $doc.find('userloved').text() === '1',
 						artistThumbUrl: thumbUrl
 					});
-					song.flags.attr('isLastfmValid', true);
 					can.batch.stop();
 
 					return true;
 				}).catch(() => {
-					let isLastfmValid = localStorage.forceRecognize === '1';
-
-					song.flags.attr('isLastfmValid', isLastfmValid);
-					return isLastfmValid;
+					return false;
 				});
 			});
 		},

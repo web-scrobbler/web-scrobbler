@@ -35,14 +35,21 @@ define([
 					let loadSongInfoPromise = loadSongInfoFactory();
 					return loadSongInfoPromise.then((isValid) => {
 						isSongInfoValid = isValid;
+						return isValid;
 					}).catch(() => {
 						isSongInfoValid = false;
+						return false;
 					});
 				}
+
+				return isSongInfoValid;
 			});
 		});
 
-		return loadSongInfoSequence;
+		return loadSongInfoSequence.then((isValid) => {
+			let forceRecognize = localStorage.forceRecognize === '1';
+			song.flags.attr('isLastfmValid', isValid || forceRecognize);
+		});
 	}
 
 	return {

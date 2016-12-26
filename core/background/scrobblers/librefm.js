@@ -57,11 +57,8 @@ define([
 	 * @param song
 	 * @param cb
 	 */
-	LibreFM.loadSongInfo = function (song) {
-		song.flags.attr('isLastfmValid', true);
-		return new Promise((resolve) => {
-			resolve(true);
-		});
+	LibreFM.loadSongInfo = function() {
+		return Promise.resolve(false);
 	};
 
 
