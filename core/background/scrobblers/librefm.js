@@ -33,7 +33,7 @@ define([
 		return new Promise((resolve, reject) => {
 			let internalOkCb = (xmlDoc, status) => {
 				console.log(`${this.label} response to ${url}: ${status}\n${new XMLSerializer().serializeToString(xmlDoc)}`);
-				resolve(xmlDoc);
+				resolve($(xmlDoc));
 			};
 
 			let internalErrCb = (jqXHR, status, response) => {

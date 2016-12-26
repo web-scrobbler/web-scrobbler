@@ -27,8 +27,8 @@ define([
 		this.storage = ChromeStorage.getNamespace(options.storage);
 	}
 
-	function processResponse(xmlDoc) {
-		if ($(xmlDoc).find('lfm').attr('status') !== 'ok') {
+	function processResponse($doc) {
+		if ($doc.find('lfm').attr('status') !== 'ok') {
 			// request passed but returned error
 			return new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 		}
@@ -241,7 +241,7 @@ define([
 				return response.text();
 			}).then((text) => {
 				console.log(text);
-				return $.parseXML(text);
+				return $($.parseXML(text));
 			}).catch(() => {
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 			});
@@ -274,9 +274,7 @@ define([
 					return false;
 				}
 
-				return this.doRequest('GET', params, false).then((xmlDoc) => {
-					let $doc = $(xmlDoc);
-
+				return this.doRequest('GET', params, false).then(($doc) => {
 					can.batch.start();
 					song.processed.attr({
 						artist: $doc.find('artist > name').text(),
