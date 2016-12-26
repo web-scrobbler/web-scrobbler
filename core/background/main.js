@@ -160,6 +160,13 @@ require([
 					ctrl.toggleLove(request.data, sendResponse);
 				}
 				break;
+
+			case 'v2.resetSongData':
+				ctrl = getControllerByTabId(request.tabId);
+				if (ctrl) {
+					ctrl.resetSongData();
+				}
+				break;
 		}
 
 		return true;

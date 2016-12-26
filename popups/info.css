@@ -51,11 +51,17 @@ a {
 	bottom: 5px;
 	margin-left: 110px;
 }
-#edit-link:hover {
+#edit-controls > * + *:before {
+	/* content: '•&nbsp;' */
+	content: '\2022\0000a0';
+	display: inline-block;
+}
+
+.control-btn:hover {
 	cursor: pointer;
 	text-decoration: underline;
 }
-#edit-link.disabled {
+.control-btn.disabled {
 	color: #999;
 	cursor: default;
 	text-decoration: none;

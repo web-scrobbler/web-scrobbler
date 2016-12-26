@@ -133,6 +133,16 @@ define([
 			return this.parsed.trackArt || this.metadata.artistThumbUrl || null;
 		};
 
+		/**
+		 * Set default song data.
+		 */
+		song.resetSongData = function() {
+			this.attr('processed', processed);
+			this.attr('metadata', metadata);
+
+			this.flags.attr('isCorrectedByUser', false);
+		};
+
 		return song;
 	};
 });
