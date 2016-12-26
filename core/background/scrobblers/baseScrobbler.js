@@ -27,6 +27,16 @@ define([
 		this.storage = ChromeStorage.getNamespace(options.storage);
 	}
 
+	function processResponse(xmlDoc) {
+		if ($(xmlDoc).find('lfm').attr('status') !== 'ok') {
+			console.log(new XMLSerializer().serializeToString(xmlDoc));
+			// request passed but returned error
+			throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+		}
+
+		return new ServiceCallResult(ServiceCallResult.OK);
+	}
+
 	BaseScrobbler.prototype = {
 		constructor: BaseScrobbler,
 
@@ -349,15 +359,7 @@ define([
 
 				console.log(`${this.label} sendNowPlaying()`);
 
-				return this.doRequest('POST', params, true).then((xmlDoc) => {
-					if ($(xmlDoc).find('lfm').attr('status') !== 'ok') {
-						console.log(new XMLSerializer().serializeToString(xmlDoc));
-						// request passed but returned error
-						throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
-					}
-
-					return new ServiceCallResult(ServiceCallResult.OK);
-				});
+				return this.doRequest('POST', params, true).then(processResponse);
 			});
 		},
 
@@ -383,15 +385,7 @@ define([
 
 				console.log(this.label + ' scrobble()');
 
-				return this.doRequest('POST', params, true).then((xmlDoc) => {
-					if ($(xmlDoc).find('lfm').attr('status') !== 'ok') {
-						console.log(new XMLSerializer().serializeToString(xmlDoc));
-						// request passed but returned error
-						throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
-					}
-
-					return new ServiceCallResult(ServiceCallResult.OK);
-				});
+				return this.doRequest('POST', params, true).then(processResponse);
 			});
 		},
 
@@ -411,15 +405,7 @@ define([
 					sk: sessionID
 				};
 
-				return this.doRequest('POST', params, true).then((xmlDoc) => {
-					if ($(xmlDoc).find('lfm').attr('status') !== 'ok') {
-						console.log(new XMLSerializer().serializeToString(xmlDoc));
-						// request passed but returned error
-						throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
-					}
-
-					return new ServiceCallResult(ServiceCallResult.OK);
-				});
+				return this.doRequest('POST', params, true).then(processResponse);
 			});
 		},
 
