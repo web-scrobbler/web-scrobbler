@@ -149,10 +149,13 @@ define([
 			 * Song has gone through processing pipeline
 			 * This event may occur repeatedly, e.g. when triggered on page load and then corrected by user input
 			 */
-			song.bind('flags.isProcessed', function(ev, newVal) {
+			song.bind('flags.isProcessed', (ev, newVal) => {
 				if (newVal) {
 					console.log('Tab ' + tabId + ': song finished processing ', JSON.stringify(song.attr()));
 					onProcessed(song);
+					chrome.runtime.sendMessage({
+						type: 'v2.onSongUpdated',
+						data: song.attr(), tabId});
 				} else {
 					console.log('Tab ' + tabId + ': song un-processed ', JSON.stringify(song.attr()));
 					onUnProcessed();
