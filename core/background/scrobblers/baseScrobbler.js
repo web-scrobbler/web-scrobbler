@@ -256,6 +256,10 @@ define([
 			return Promise.resolve(false);
 		},
 
+		isLoadSongInfoSupported: function() {
+			return false;
+		},
+
 		/**
 		 * Send current song as 'now playing' to API
 		 * @param  {Object} song Song instance

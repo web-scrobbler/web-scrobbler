@@ -29,14 +29,15 @@ define([
 	 * @return {Promise} Promise that will resolve with 'isValid' flag
 	 */
 	LastFM.loadSongInfo = function(song) {
-		return this.getSession().then(({ sessionName }) => {
-			let params = {
-				method: 'track.getinfo',
-				autocorrect: localStorage.useAutocorrect ? localStorage.useAutocorrect : 0,
-				username: sessionName,
-				artist: song.processed.artist || song.parsed.artist,
-				track: song.processed.track || song.parsed.track
-			};
+		return this.getSession().then(({sessionName}) => {
+			return {username: sessionName};
+		}).catch(() => {
+			return {};
+		}).then((params) => {
+			params.method = 'track.getinfo';
+			params.autocorrect = localStorage.useAutocorrect ? localStorage.useAutocorrect : 0;
+			params.artist = song.processed.artist || song.parsed.artist;
+			params.track = song.processed.track || song.parsed.track;
 
 			if (params.artist === null || params.track === null) {
 				return false;
@@ -78,6 +79,10 @@ define([
 				return false;
 			});
 		});
+	};
+
+	LastFM.isLoadSongInfoSupported = function() {
+		return true;
 	};
 
 	return LastFM;
