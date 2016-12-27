@@ -50,6 +50,10 @@ $(document).ready(function() {
 		$('#edit').attr('data-hide', !isEditModeEnabled);
 
 		$('#edit-link').text(isEditModeEnabled ? 'Submit' : 'Edit');
+
+		if (isEditModeEnabled) {
+			$('input').first().focus();
+		}
 	}
 
 	function updateMetadataLabels() {
