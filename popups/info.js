@@ -4,6 +4,7 @@ $(document).ready(function() {
 	console.log(chrome.extension.getBackgroundPage());
 
 	let isEditModeEnabled = false;
+	let song = null;
 
 	function getCurrentTab() {
 		return new Promise((resolve) => {
@@ -14,6 +15,10 @@ $(document).ready(function() {
 				resolve(tabs[0].id);
 			});
 		});
+	}
+
+	function getCurrentSong() {
+		return sendMessageToCurrentTab('v2.getSong');
 	}
 
 	function sendMessageToCurrentTab(type, data) {
@@ -27,7 +32,7 @@ $(document).ready(function() {
 	/**
 	* Song data from background script are loaded
 	*/
-	function onSongLoaded(song) {
+	function onSongLoaded() {
 		console.log(song);
 		// no current song - should not happen, because page action with popup shows
 		// only when there is a song that can be corrected
@@ -35,9 +40,11 @@ $(document).ready(function() {
 			return;
 		}
 
-		configHeart(song.metadata.userloved);
-		configEditControls(song);
-		fillMetadataLabels(song);
+		configControls();
+		updateControls();
+		updateViews();
+
+		updateLovedIcon(song.metadata.userloved);
 
 		let isSongValid = song.flags.isLastfmValid || song.flags.isCorrectedByUser;
 		setEditMode(!isSongValid);
@@ -48,48 +55,33 @@ $(document).ready(function() {
 
 		$('#info').attr('data-hide', isEditModeEnabled);
 		$('#edit').attr('data-hide', !isEditModeEnabled);
-
-		$('#edit-link').text(isEditModeEnabled ? 'Submit' : 'Edit');
-
 		if (isEditModeEnabled) {
+			fillMetadataInputs();
 			$('input').first().focus();
 		}
+
+		updateControls();
 	}
 
-	function updateMetadataLabels() {
-		let isSongMetadataChanged = false;
-
-		for (let field of ['artist', 'track', 'album']) {
-			let fieldLabelSelector = `#${field}`;
+	function isSongMetadataChanged() {
+		let fieldValueMap = getSongFieldMap();
+		for (let field in fieldValueMap) {
 			let fieldInputSelector = `#${field}-input`;
-
 			let inputText = $(fieldInputSelector).val();
-			let labelText = $(fieldLabelSelector).text();
-
-			// FIXME: remove this dirty hack
 			if (!inputText) {
-				// Don't allow to submit empty results.
-				$(fieldInputSelector).val(labelText);
 				continue;
 			}
 
-			if (labelText !== inputText) {
-				$(fieldLabelSelector).text(inputText);
-				$(fieldLabelSelector).attr('data-hide', !inputText);
-				isSongMetadataChanged = true;
+			let fieldValue = fieldValueMap[field];
+			if (fieldValue !== inputText) {
+				return true;
 			}
 		}
 
-		return isSongMetadataChanged;
+		return false;
 	}
 
-	function fillMetadataLabels(song) {
-		let albumArt = song.parsed.trackArt ||
-			song.metadata.artistThumbUrl ||
-			'../default_cover_art.png';
-
-		$('#album-art').css('background-image', `url("${albumArt}")`);
-
+	function fillMetadataLabels() {
 		let isSongValid = song.flags.isLastfmValid || song.flags.isCorrectedByUser;
 
 		let fieldUrlMap = {
@@ -97,21 +89,13 @@ $(document).ready(function() {
 			track: song.metadata.trackUrl,
 			album: song.metadata.albumUrl
 		};
-		let fieldValuesMap = {
-			artist: song.processed.artist || song.parsed.artist,
-			track: song.processed.track || song.parsed.track,
-			album: song.processed.album || song.parsed.album
-		};
+		let fieldValuesMap = getSongFieldMap(song);
 
 		for (let field of ['artist', 'track', 'album']) {
 			let fieldValue = fieldValuesMap[field];
-			let fieldUrl = fieldUrlMap[field];
-
-			console.log(fieldValue);
-
 			let fieldLabelSelector = `#${field}`;
-			let fieldInputSelector = `#${field}-input`;
 
+			let fieldUrl = fieldUrlMap[field];
 			if (fieldUrl) {
 				$(fieldLabelSelector).attr('href', fieldUrl);
 			} else {
@@ -126,18 +110,52 @@ $(document).ready(function() {
 				$(fieldLabelSelector).text(null);
 			}
 			$(fieldLabelSelector).attr('data-hide', !fieldValue);
+		}
+	}
+
+	function fillMetadataInputs() {
+		let fieldValuesMap = getSongFieldMap();
+		for (let field of ['artist', 'track', 'album']) {
+			let fieldValue = fieldValuesMap[field];
+			let fieldInputSelector = `#${field}-input`;
+
 			$(fieldInputSelector).val(fieldValue);
 		}
 	}
 
-	function configEditControls(song) {
+	function fillAlbumCover() {
+		let albumArt = song.parsed.trackArt ||
+			song.metadata.artistThumbUrl ||
+			'../default_cover_art.png';
+
+		$('#album-art').css('background-image', `url("${albumArt}")`);
+	}
+
+	function copyInputsToLabels() {
+		for (let field of ['artist', 'track', 'album']) {
+			let fieldLabelSelector = `#${field}`;
+			let fieldInputSelector = `#${field}-input`;
+
+			let fieldInputValue = $(fieldInputSelector).val();
+
+			$(fieldLabelSelector).text(fieldInputValue);
+			$(fieldLabelSelector).attr('data-hide', !fieldInputValue);
+		}
+	}
+
+	function configControls() {
+		$('#love').on('click', function() {
+			var currentLoveStatus = $('#love').attr('last-fm-loved') === 'true';
+			var desiredLoveStatus = !currentLoveStatus;
+
+			sendMessageToCurrentTab('v2.toggleLove', {
+				shouldBeLoved: desiredLoveStatus
+			}).then(() => {
+				updateLovedIcon(desiredLoveStatus);
+			});
+		});
+
 		if (song.flags.isScrobbled) {
-			$('#edit-link').addClass('disabled');
-			if (song.flags.isCorrectedByUser) {
-				$('#revert-link').addClass('disabled');
-			} else {
-				$('#revert-link').attr('data-hide', true);
-			}
 			return;
 		}
 
@@ -167,24 +185,35 @@ $(document).ready(function() {
 		});
 	}
 
-	function configHeart(userloved) {
-		$('#love').attr('last-fm-loved', userloved);
-		$('#love').attr('title', userloved ? 'unlove song' : 'love song');
-		// UI listeners
-		$('#love').on('click', function() {
-			var currentLoveStatus = $('#love').attr('last-fm-loved') === 'true';
-			var desiredLoveStatus = !currentLoveStatus;
+	function updateLovedIcon(isLoved) {
+		$('#love').attr('last-fm-loved', isLoved);
+		$('#love').attr('title', isLoved ? 'unlove song' : 'love song');
+	}
 
-			sendMessageToCurrentTab('v2.toggleLove',  {
-				shouldBeLoved: desiredLoveStatus
-			}).then(() => {
-				configHeart(desiredLoveStatus);
-			});
-		});
+	function updateViews() {
+		fillMetadataLabels();
+		fillAlbumCover();
+	}
+
+	function updateControls() {
+		$('#edit-link').text(isEditModeEnabled ? 'Submit' : 'Edit');
+
+		if (song.flags.isScrobbled) {
+			$('#edit-link').addClass('disabled');
+			if (song.flags.isCorrectedByUser) {
+				$('#revert-link').addClass('disabled');
+			} else {
+				$('#revert-link').attr('data-hide', true);
+			}
+		} else {
+			let isRevertHidden = !song.flags.isCorrectedByUser || isEditModeEnabled;
+			$('#revert-link').attr('data-hide', isRevertHidden);
+		}
 	}
 
 	function correctSongInfo() {
-		if (updateMetadataLabels()) {
+		if (isSongMetadataChanged()) {
+			copyInputsToLabels();
 			sendMessageToCurrentTab('v2.correctSong', {
 				artist: $('#artist-input').val(),
 				track: $('#track-input').val(),
@@ -193,8 +222,32 @@ $(document).ready(function() {
 		}
 	}
 
+	function getSongFieldMap() {
+		return {
+			artist: song.processed.artist || song.parsed.artist,
+			track: song.processed.track || song.parsed.track,
+			album: song.processed.album || song.parsed.album
+		};
+	}
+
+	function setupMessageListener() {
+		chrome.runtime.onMessage.addListener((request) => {
+			switch (request.type) {
+				case 'v2.onSongUpdated':
+					song = request.data;
+					updateViews();
+					updateControls();
+					break;
+			}
+		});
+	}
+
 	function main() {
-		sendMessageToCurrentTab('v2.getSong').then(onSongLoaded);
+		setupMessageListener();
+		getCurrentSong().then((result) => {
+			song = result;
+			onSongLoaded();
+		});
 	}
 
 	main();
