@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang='en'>
+	<head>
+		<meta charset='UTF-8'>
+		<title>Service error</title>
+
+		<link rel='stylesheet' href='/vendor/bootstrap-combined.no-icons.min.css'>
+		<link rel='stylesheet' href='/vendor/fontawesome/font-awesome.css' >
+		<link rel='stylesheet' href='/popups/error.css'>
+	</head>
+	<body>
+		<div class='content text-center'>
+			<div class='header'>
+				<i class=' icon-exclamation-sign text-error icon-3x'></i>
+				<h4 class='text-error'>Some service error was occurred</h4>
+			</div>
+			<p class='description'>
+				Looks like something went wrong while scrobbling the music.
+				Please open options page and try to reauthenticate with services.
+				If reauthentication doesn't help, and you still see this message,
+				please create <a href='https://github.com/david-sabata/web-scrobbler/issues'
+				target='_blank'>a new issue</a> at the Github project page.
+			</p>
+			<a class='btn' href='/options/options.html' target='_blank'>
+				Open options page
+			</a>
+		</div>
+	</body>
+</html>

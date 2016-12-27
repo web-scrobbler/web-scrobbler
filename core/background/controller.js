@@ -229,13 +229,17 @@ define([
 		 * @param {Song} song
 		 */
 		function setSongNowPlaying(song) {
-			pageAction.setSongRecognized(song);
-
 			Notifications.showPlaying(song);
 
 			// send to L.FM
-			var nowPlayingCB = function(success) {
-				console.log('Tab ' + tabId + ': song set as now playing: ' + success);
+			var nowPlayingCB = function(result) {
+				if (result.isOk()) {
+					console.log(`Tab ${tabId}: song set as now playing)`);
+					pageAction.setSongRecognized(song);
+				} else {
+					console.warn(`Tab ${tabId}: song isn't set as now playing`);
+					pageAction.setError();
+				}
 			};
 			LastFM.sendNowPlaying(song, nowPlayingCB);
 
@@ -260,6 +264,8 @@ define([
 					GA.event('core', 'scrobble', connector.label);
 				} else {
 					console.error('Tab ' + tabId + ': scrobbling failed');
+
+					pageAction.setError();
 				}
 			};
 

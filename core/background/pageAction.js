@@ -36,12 +36,17 @@ define([], function() {
 			UNKNOWN: {
 				'19': '/icons/page_action_question.svg',
 				'38': '/icons/page_action_question.svg'
+			},
+			ERROR: {
+				'19': '/icons/page_action_error.svg',
+				'38': '/icons/page_action_error.svg'
 			}
 		};
 
 		var documents = {
 			BASE: '/popups/go_play_music.html',
-			SONG_INFO: '/popups/info.html'
+			SONG_INFO: '/popups/info.html',
+			ERROR_INFO: '/popups/error.html'
 		};
 
 		/**
@@ -116,6 +121,11 @@ define([], function() {
 				'popups/manual_scrobble.html');
 		};
 
+		this.setError = function() {
+			setPageAction(icons.ERROR,
+				'Some service error was occurred. Click for more information.',
+				documents.ERROR_INFO);
+		};
 	};
 
 });

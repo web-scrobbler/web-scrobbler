@@ -310,8 +310,10 @@ define([
 	 */
 	function sendNowPlaying(song, cb) {
 		getSession(function(sessionID) {
-			if (sessionID === false) {
-				cb(false);
+			if (!sessionID) {
+				var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
+				cb(result);
+				return;
 			}
 
 			var params = {
@@ -357,6 +359,7 @@ define([
 			if (!sessionID) {
 				var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
 				cb(result);
+				return;
 			}
 
 			var params = {
