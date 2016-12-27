@@ -51,16 +51,5 @@ define([
 		});
 	}.bind(LibreFM);
 
-	/**
-	 * Overwrite default behaviour.
-	 *
-	 * @param song
-	 * @param cb
-	 */
-	LibreFM.loadSongInfo = function() {
-		return Promise.resolve(false);
-	};
-
-
 	return LibreFM;
 });
