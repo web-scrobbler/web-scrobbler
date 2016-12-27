@@ -4,19 +4,55 @@
  * Factory for objects of service call result
  */
 define([], function() {
-	function ServiceCallResult(result) {
-		this.getResult = function() {
-			return result;
-		};
+	const OK = 'ok';
+	const ERROR_AUTH = 'error-auth';
+	const ERROR_OTHER = 'error-other';
 
-		this.isOk = function() {
-			return result === ServiceCallResult.OK;
-		};
+	/**
+	 * Object that represents result of service call.
+	 */
+	class ServiceCallResult {
+		constructor(result) {
+			this.result = result;
+		}
+
+		/**
+		 * Check if result is OK.
+		 * @return {Boolean} True if result is OK.
+		 */
+		isOk() {
+			return this.result === OK;
+		}
+
+		/**
+		 * Check if result is auth error.
+		 * @return {Boolean} True if result is auth error.
+		 */
+		isAuthError() {
+			return this.result === ERROR_AUTH;
+		}
 	}
 
-	ServiceCallResult.OK = 'ok';
-	ServiceCallResult.ERROR_AUTH = 'error-auth';
-	ServiceCallResult.ERROR_OTHER = 'error-other';
+	/**
+	 * Create object with 'OK' result.
+	 */
+	function Ok() {
+		return new ServiceCallResult(OK);
+	}
 
-	return ServiceCallResult;
+	/**
+	 * Create object with 'ERROR_OTHER' result.
+	 */
+	function OtherError() {
+		return new ServiceCallResult(ERROR_OTHER);
+	}
+
+	/**
+	 * Create object with 'ERROR_AUTH' result.
+	 */
+	function AuthError() {
+		return new ServiceCallResult(ERROR_AUTH);
+	}
+
+	return { Ok, OtherError, AuthError };
 });

@@ -29,10 +29,10 @@ define([
 	function processResponse($doc) {
 		if ($doc.find('lfm').attr('status') !== 'ok') {
 			// request passed but returned error
-			return new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+			return ServiceCallResult.OtherError();
 		}
 
-		return new ServiceCallResult(ServiceCallResult.OK);
+		return ServiceCallResult.Ok();
 	}
 
 	BaseScrobbler.prototype = {
@@ -142,11 +142,11 @@ define([
 							data.sessionID = null;
 							data.sessionName = null;
 							this.storage.set(data, () => {
-								reject(new ServiceCallResult(ServiceCallResult.ERROR_AUTH));
+								reject(ServiceCallResult.AuthError());
 							});
 						});
 					} else if (!data.sessionID) {
-						reject(new ServiceCallResult(ServiceCallResult.ERROR_AUTH));
+						reject(ServiceCallResult.AuthError());
 					} else {
 						resolve({
 							sessionID: data.sessionID,
@@ -181,7 +181,7 @@ define([
 				return data.session;
 			}).catch((err) => {
 				console.error(`${this.label} auth.tradeTokenForSession failed: ${err}`);
-				throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+				throw new Error(`${this.label} auth.tradeTokenForSession failed: ${err}`);
 			});
 		},
 
@@ -242,7 +242,7 @@ define([
 				console.log(text);
 				return $($.parseXML(text));
 			}).catch(() => {
-				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+				throw ServiceCallResult.OtherError();
 			});
 		},
 

@@ -38,7 +38,7 @@ define([
 
 			let internalErrCb = (jqXHR, status, response) => {
 				console.error(`${this.label} response to ${url}: ${status}\n${response}`);
-				reject(new ServiceCallResult(ServiceCallResult.ERROR_OTHER));
+				reject(ServiceCallResult.OtherError());
 			};
 
 			if (method === 'GET') {
@@ -46,7 +46,7 @@ define([
 			} else if (method === 'POST') {
 				$.post(url, $.param(params)).done(internalOkCb).fail(internalErrCb);
 			} else {
-				reject(new ServiceCallResult(ServiceCallResult.ERROR_OTHER));
+				reject(ServiceCallResult.OtherError());
 			}
 		});
 	}.bind(LibreFM);
