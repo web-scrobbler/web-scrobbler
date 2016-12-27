@@ -12,6 +12,10 @@ a {
 	text-decoration: none;
 }
 
+input {
+	width: 100%;
+}
+
 #wrapper {
 	width: 350px;
 	height: 100px;
@@ -40,10 +44,6 @@ a {
 .track-link {
 	font-weight: bold;
 	font-size: 1.2em;
-}
-
-.input {
-	width: 100%;
 }
 
 #edit-controls {
