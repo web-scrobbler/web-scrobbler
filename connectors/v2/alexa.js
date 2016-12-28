@@ -40,6 +40,8 @@ Connector.getTrack = function() {
 	}
 };
 
+Connector.albumSelector = '#d-info-text .d-sub-text-2';
+
 Connector.isPlaying = function () {
 	return $('#d-primary-control .play').size() === 0;
 };
