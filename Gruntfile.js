@@ -18,6 +18,7 @@ module.exports = function(grunt) {
 		'!core/content/testReporter.js'
 	];
 	const buildDir = 'build';
+	const packageName = 'web-scrobbler.zip';
 
 	grunt.initConfig({
 		bump: {
@@ -52,7 +53,7 @@ module.exports = function(grunt) {
 		compress: {
 			main: {
 				options: {
-					archive: 'web-scrobbler.zip',
+					archive: packageName,
 					pretty: true
 				},
 				expand: true,
@@ -60,7 +61,10 @@ module.exports = function(grunt) {
 				src: '**/*',
 			}
 		},
-		clean: [buildDir],
+		clean: {
+			build: [buildDir],
+			package: [packageName]
+		},
 		lintspaces: {
 			all: {
 				src: [
@@ -111,17 +115,17 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-csslint');
 	grunt.loadNpmTasks('grunt-exec');
 
-	grunt.registerTask('lint', ['jshint', 'csslint', 'jsonlint', 'lintspaces']);
+	grunt.registerTask('compile', ['clean:package', 'copy', 'preprocess']);
+	grunt.registerTask('build', ['compile', 'compress', 'clean:build']);
 	grunt.registerTask('publish', ['build', 'exec:publish']);
 	grunt.registerTask('release', (ver) => {
 		grunt.task.run(`bump:${ver}`);
 		grunt.task.run('publish');
 	});
+
 	grunt.registerTask('test', 'Run tests.', function(...args) {
 		grunt.task.run(`exec:run_tests:${args.join(':')}`);
 	});
-	grunt.registerTask('build', 'Build release package.', [
-		'copy', 'preprocess', 'compress', 'clean'
-	]);
+	grunt.registerTask('lint', ['jshint', 'csslint', 'jsonlint', 'lintspaces']);
 	grunt.registerTask('default', ['lint', 'test:core']);
 };
