@@ -82,7 +82,7 @@ Connector.isPlaying = function () {
 
 /** @returns {number|null} track length in seconds */
 Connector.getDuration = function () {
-	return ($('audio')[0] && Math.round($('audio')[0].duration)) || null;
+	return ($('audio')[0] && $('audio')[0].duration) || null;
 };
 
 /** @returns {String|null} a unique identifier of current track */

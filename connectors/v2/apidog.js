@@ -11,10 +11,8 @@ Connector.getArtistTrack = function() {
 	return Connector.splitArtistTrack(text);
 };
 
-
 Connector.getDuration = function() {
-	var duration = $('audio')[0].duration;
-	return Math.round(duration);
+	return $('audio')[0].duration;
 };
 
 Connector.isPlaying = function() {

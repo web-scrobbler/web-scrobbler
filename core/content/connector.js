@@ -312,13 +312,13 @@ var BaseConnector = window.BaseConnector || function () {
 				changedFields.push('uniqueID');
 			}
 
-			var newDuration = this.getDuration() || 0;
+			var newDuration = this.escapeBadTimeValues(this.getDuration());
 			if (newDuration !== currentState.duration) {
 				currentState.duration = newDuration;
 				changedFields.push('duration');
 			}
 
-			var newCurrentTime = this.getCurrentTime() || 0;
+			var newCurrentTime = this.escapeBadTimeValues(this.getCurrentTime());
 			if (newCurrentTime !== currentState.currentTime) {
 				currentState.currentTime = newCurrentTime;
 				changedFields.push('currentTime');
@@ -454,6 +454,16 @@ var BaseConnector = window.BaseConnector || function () {
 			}
 
 			return null;
+		};
+
+		this.escapeBadTimeValues = function(time) {
+			if (typeof time !== 'number') {
+				return null;
+			}
+			if (isNaN(time) || !isFinite(time)) {
+				return null;
+			}
+			return Math.round(time);
 		};
 	};
 

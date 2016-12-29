@@ -83,11 +83,11 @@ Connector.getTrackArt = function() {
 };
 
 Connector.getCurrentTime = function () {
-	return Math.round($('audio')[0].currentTime);
+	return $('audio')[0].currentTime;
 };
 
 Connector.getDuration = function () {
-	return Math.round($('audio')[0].duration);
+	return $('audio')[0].duration;
 };
 
 /** Returns a unique identifier of current track.

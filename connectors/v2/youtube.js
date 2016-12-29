@@ -18,16 +18,6 @@ Connector.videoSelector = '#player-api .html5-main-video';
 
 Connector.artistTrackSelector = '#eow-title';
 
-Connector.escapeBadTimeValues = function (time) {
-	if (typeof time !== 'number') {
-		return null;
-	}
-	if (isNaN(time) || !isFinite(time)) {
-		return null;
-	}
-	return time;
-};
-
 /**
  * Because player can be still present in the page, we need to detect that it's invisible
  * and don't return current time. Otherwise resulting state may not be considered empty.
@@ -36,8 +26,7 @@ Connector.getCurrentTime = function() {
 	if (isPlayerOffscreen()) {
 		return null;
 	}
-	const currentTime = $(this.videoSelector).prop('currentTime');
-	return this.escapeBadTimeValues(currentTime);
+	return $(this.videoSelector).prop('currentTime');
 };
 
 /**
@@ -48,8 +37,7 @@ Connector.getDuration = function() {
 	if (isPlayerOffscreen()) {
 		return null;
 	}
-	const duration = $(this.videoSelector).prop('duration');
-	return this.escapeBadTimeValues(duration);
+	return $(this.videoSelector).prop('duration');
 };
 
 Connector.getUniqueID = function() {
