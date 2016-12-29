@@ -61,11 +61,6 @@ input {
 	cursor: pointer;
 	text-decoration: underline;
 }
-.control-btn.disabled {
-	color: #999;
-	cursor: default;
-	text-decoration: none;
-}
 
 #scrobble-controls {
 	color: #EEE;
@@ -104,6 +99,11 @@ input {
 
 [data-hide="true"] {
 	display: none !important;
+}
+[data-disable="true"] {
+	color: #999;
+	cursor: default !important;
+	text-decoration: none !important;
 }
 
 #artist:before {
