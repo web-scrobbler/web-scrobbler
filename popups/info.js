@@ -200,8 +200,11 @@ $(document).ready(function() {
 
 		if (song.flags.isScrobbled) {
 			$('#edit-link').addClass('disabled');
+			$('#edit-link').attr('title', 'Scrobbled tracks cannot be edited');
+
 			if (song.flags.isCorrectedByUser) {
 				$('#revert-link').addClass('disabled');
+				$('#revert-link').attr('title', 'Scrobbled tracks cannot be reset');
 			} else {
 				$('#revert-link').attr('data-hide', true);
 			}
