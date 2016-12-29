@@ -20,7 +20,6 @@ input {
 	width: 350px;
 	height: 100px;
 	padding: 5px;
-	outline: 1px solid #f00;
 }
 
 #album-art {
@@ -37,6 +36,7 @@ input {
 
 #info, #edit {
 	margin-left: 110px;
+	margin-bottom: 25px;
 	line-height: 1.5em;
 	padding-right: 10px;
 }
