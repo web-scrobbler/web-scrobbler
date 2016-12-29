@@ -1,10 +1,12 @@
 'use strict';
 
 module.exports = function(driver, connectorSpec) {
-	connectorSpec.shouldContainPlayerElement(driver, {
-		url: 'http://onair.europa2.sk'
+	connectorSpec.shouldBehaveLikeMusicSite(driver, {
+		url: 'http://onair.europa2.sk',
+		playButtonSelector: '.e2-player-control-skip'
 	});
-	connectorSpec.shouldContainPlayerElement(driver, {
-		url: 'http://onair.europa2.sk'
+	connectorSpec.shouldBehaveLikeMusicSite(driver, {
+		url: 'http://onair.europa2.sk',
+		playButtonSelector: '.e2-player-control-skip'
 	});
 };
