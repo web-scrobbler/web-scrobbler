@@ -40,11 +40,7 @@ $(document).ready(function() {
 			return;
 		}
 
-		configControls();
-		updateControls();
-		updateViews();
-
-		updateLovedIcon(song.metadata.userloved);
+		updatePopupView();
 
 		let isSongValid = song.flags.isLastfmValid || song.flags.isCorrectedByUser;
 		setEditMode(!isSongValid);
@@ -144,6 +140,7 @@ $(document).ready(function() {
 	}
 
 	function configControls() {
+		$('#love').off('click');
 		$('#love').on('click', function() {
 			var currentLoveStatus = $('#love').attr('last-fm-loved') === 'true';
 			var desiredLoveStatus = !currentLoveStatus;
@@ -159,6 +156,7 @@ $(document).ready(function() {
 			return;
 		}
 
+		$('#edit-link').off('click');
 		$('#edit-link').on('click', () => {
 			if (isEditModeEnabled) {
 				setEditMode(false);
@@ -168,15 +166,15 @@ $(document).ready(function() {
 			}
 		});
 		if (song.flags.isCorrectedByUser) {
+			$('#revert-link').off('click');
 			$('#revert-link').on('click', () => {
 				sendMessageToCurrentTab('v2.resetSongData');
 				window.close();
 			});
-		} else {
-			$('#revert-link').attr('data-hide', true);
 		}
 
-		$('#edit input').keypress((e) => {
+		$('#edit input').off('keypress');
+		$('#edit input').on('keypress', (e) => {
 			let isEnterKey = e.keyCode === 13;
 			if (isEnterKey) {
 				setEditMode(false);
@@ -190,27 +188,31 @@ $(document).ready(function() {
 		$('#love').attr('title', isLoved ? 'unlove song' : 'love song');
 	}
 
-	function updateViews() {
+	function updatePopupView() {
 		fillMetadataLabels();
 		fillAlbumCover();
+
+		configControls();
+		updateControls();
+
+		updateLovedIcon(song.metadata.userloved);
 	}
 
 	function updateControls() {
 		$('#edit-link').text(isEditModeEnabled ? 'Submit' : 'Edit');
+		$('#edit-link').attr('data-disable', song.flags.isScrobbled);
+
+		$('#revert-link').attr('data-hide', !song.flags.isCorrectedByUser
+			|| isEditModeEnabled);
+		$('#revert-link').attr('data-disable', song.flags.isScrobbled ||
+			!song.flags.isCorrectedByUser);
 
 		if (song.flags.isScrobbled) {
-			$('#edit-link').addClass('disabled');
 			$('#edit-link').attr('title', 'Scrobbled tracks cannot be edited');
-
-			if (song.flags.isCorrectedByUser) {
-				$('#revert-link').addClass('disabled');
-				$('#revert-link').attr('title', 'Scrobbled tracks cannot be reset');
-			} else {
-				$('#revert-link').attr('data-hide', true);
-			}
+			$('#revert-link').attr('title', 'Scrobbled tracks cannot be reverted');
 		} else {
-			let isRevertHidden = !song.flags.isCorrectedByUser || isEditModeEnabled;
-			$('#revert-link').attr('data-hide', isRevertHidden);
+			$('#edit-link').attr('title', 'Edit song metadata');
+			$('#revert-link').attr('title', 'Revert changes');
 		}
 	}
 
@@ -238,8 +240,7 @@ $(document).ready(function() {
 			switch (request.type) {
 				case 'v2.onSongUpdated':
 					song = request.data;
-					updateViews();
-					updateControls();
+					updatePopupView();
 					break;
 			}
 		});
