@@ -97,7 +97,7 @@ define([
 		 * Returns song's processed or parsed duration in seconds
 		 */
 		song.getDuration = function() {
-			return this.processed.duration || this.parsed.duration || null;
+			return this.parsed.duration || this.processed.duration || null;
 		};
 
 		/**
