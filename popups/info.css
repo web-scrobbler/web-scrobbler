@@ -41,9 +41,17 @@ input {
 	padding-right: 10px;
 }
 
-.track-link {
+.metadata {
+	display: block;
+}
+.track {
 	font-weight: bold;
 	font-size: 1.2em;
+}
+.artist, .album {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 #edit-controls {
