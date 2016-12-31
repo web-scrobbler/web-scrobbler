@@ -968,7 +968,7 @@ define(function() {
 
 		{
 			label: 'Genie',
-			matches: ['http://www.genie.co.kr/player/fPlayer'],
+			matches: ['http://www.genie.co.kr/player/fPlayer*'],
 			js: ['connectors/v2/genie.js'],
 			version: 2
 		},
