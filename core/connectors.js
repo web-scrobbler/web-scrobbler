@@ -407,13 +407,6 @@ define(function() {
 		},
 
 		{
-			label: 'Soundozer',
-			matches: ['*://soundozer.com/*'],
-			js: ['connectors/v2/soundozer.js'],
-			version: 2
-		},
-
-		{
 			label: '163 Music',
 			matches: ['*://music.163.com/*'],
 			js: ['connectors/v2/163music.js'],
