@@ -54,18 +54,18 @@ Connector.getArtist = function () {
 	/*jslint regexp: true*/
 	switch (pageType) {
 	case 'artist':
-		return $('div.bcrumb h1').contents().filter(function () { return this.nodeType === 3; }).text().trim();
+		return $('div.bcrumb h1').contents().filter(function () { return this.nodeType === 3; }).text();
 	case 'album':
 		// if there are two anchors in the .playtxt span then it uses the format "Artist - TrackName" (albums with Various Artists)
 		if ($('div.gcol-electronic .playtxt a').length === 2) {
-			return $('div.gcol-electronic .playtxt a').first().text().trim();
+			return $('div.gcol-electronic .playtxt a').first().text();
 		}
 		return searchComment(/\[artist_name\] => (.+)/);
 	case 'song':
 		// return $('a[property="cc:attributionName"]').text();  //can't use, attribution isn't always present
 		return searchComment(/\[artist_name\] => (.+)/);
 	default:
-		return $('div.gcol-electronic .playtxt a').first().text().trim();
+		return $('div.gcol-electronic .playtxt a').first().text();
 	}
 };
 

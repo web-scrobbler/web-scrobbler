@@ -28,8 +28,8 @@ Connector.getArtistTrack = function () {
 		var separator = this.findSeparator(text);
 
 		if (separator !== null) {
-			artist = text.substr(0, separator.index).trim();
-			track = text.substr(separator.index + separator.length).trim();
+			artist = text.substr(0, separator.index);
+			track = text.substr(separator.index + separator.length);
 		}
 	} else if ($('.Hello-Mini-Playing').length) {
 		artist = $('.H-artist').text();

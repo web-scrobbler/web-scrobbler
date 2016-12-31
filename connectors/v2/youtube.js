@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, MetadataFilter */
 
 var scrobbleMusicOnly = false;
 chrome.storage.local.get('Connectors', function(data) {
@@ -14,7 +14,7 @@ chrome.storage.local.get('Connectors', function(data) {
 	}
 });
 
-Connector.playerSelector = '#page';
+Connector.videoSelector = '#player-api .html5-main-video';
 
 Connector.artistTrackSelector = '#eow-title';
 
@@ -26,9 +26,7 @@ Connector.getCurrentTime = function() {
 	if (isPlayerOffscreen()) {
 		return null;
 	}
-
-	var $time = $('#player-api .ytp-time-current');
-	return this.stringToSeconds($time.text());
+	return $(this.videoSelector).prop('currentTime');
 };
 
 /**
@@ -37,20 +35,13 @@ Connector.getCurrentTime = function() {
  */
 Connector.getDuration = function() {
 	if (isPlayerOffscreen()) {
-		return 0;
+		return null;
 	}
-
-	var $duration = $('#player-api .ytp-time-duration');
-	return this.stringToSeconds($duration.text());
+	return $(this.videoSelector).prop('duration');
 };
 
 Connector.getUniqueID = function() {
-	var url = window.location.href;
-	var regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-	var match = url.match(regExp);
-	if (match && match[7].length==11){
-		return match[7];
-	}
+	return $('meta[itemprop="videoId"]').attr('content');
 };
 
 Connector.isPlaying = function() {
@@ -59,58 +50,28 @@ Connector.isPlaying = function() {
 
 Connector.isStateChangeAllowed = function() {
 	var videoCategory = $('meta[itemprop=\"genre\"]').attr('content');
-	return !scrobbleMusicOnly || (scrobbleMusicOnly && videoCategory == 'Music');
+	return !scrobbleMusicOnly || (scrobbleMusicOnly && videoCategory === 'Music');
 };
 
 Connector.getArtistTrack = function () {
-	var text = $.trim($(Connector.artistTrackSelector).text());
+	var text =$(Connector.artistTrackSelector).text();
 
-	text = text.replace(/^\[[^\]]+\]\s*-*\s*/i, ''); // remove [genre] from the beginning of the title
+	// Remove [genre] from the beginning of the title
+	text = text.replace(/^\[[^\]]+\]\s*-*\s*/i, '');
 
-	var separator = Connector.findSeparator(text);
-
-	if (separator === null || text.length === 0) {
-		return {artist: null, track: null};
+	let {artist, track} = Connector.splitArtistTrack(text);
+	if (artist === null && track === null) {
+		// Look for Artist "Track"
+		let artistTrack = text.match(/(.+?)\s"(.+?)"/);
+		if (artistTrack) {
+			artist = artistTrack[1];
+			track = artistTrack[2];
+		}
 	}
-
-	var artist =  text.substr(0, separator.index);
-	var track = text.substr(separator.index + separator.length);
-
-	/**
-	* Clean non-informative garbage from title
-	*/
-
-	// Do some cleanup
-	artist = artist.replace(/^\s+|\s+$/g,'');
-	track = track.replace(/^\s+|\s+$/g,'');
-
-	// Strip crap
-	track = track.replace(/\s*\*+\s?\S+\s?\*+$/, ''); // **NEW**
-	track = track.replace(/\s*\[[^\]]+\]$/, ''); // [whatever]
-	track = track.replace(/\s*\([^\)]*version\)$/i, ''); // (whatever version)
-	track = track.replace(/\s*\.(avi|wmv|mpg|mpeg|flv)$/i, ''); // video extensions
-	track = track.replace(/\s*(LYRIC VIDEO\s*)?(lyric video\s*)/i, ''); // (LYRIC VIDEO)
-	track = track.replace(/\s*(Official Track Stream*)/i, ''); // (Official Track Stream)
-	track = track.replace(/\s*(of+icial\s*)?(music\s*)?video/i, ''); // (official)? (music)? video
-	track = track.replace(/\s*(of+icial\s*)?(music\s*)?audio/i, ''); // (official)? (music)? audio
-	track = track.replace(/\s*(ALBUM TRACK\s*)?(album track\s*)/i, ''); // (ALBUM TRACK)
-	track = track.replace(/\s*(COVER ART\s*)?(Cover Art\s*)/i, ''); // (Cover Art)
-	track = track.replace(/\s*\(\s*of+icial\s*\)/i, ''); // (official)
-	track = track.replace(/\s*\(\s*[0-9]{4}\s*\)/i, ''); // (1999)
-	track = track.replace(/\s+\(\s*(HD|HQ)\s*\)$/, ''); // HD (HQ)
-	track = track.replace(/\s+(HD|HQ)\s*$/, ''); // HD (HQ)
-	track = track.replace(/\s*video\s*clip/i, ''); // video clip
-	track = track.replace(/\s*full\s*album/i, ''); // Full Album
-	track = track.replace(/\s+\(?live\)?$/i, ''); // live
-	track = track.replace(/\(+\s*\)+/, ''); // Leftovers after e.g. (official video)
-	track = track.replace(/^(|.*\s)"(.*)"(\s.*|)$/, '$2'); // Artist - The new "Track title" featuring someone
-	track = track.replace(/^(|.*\s)'(.*)'(\s.*|)$/, '$2'); // 'Track title'
-	track = track.replace(/^[\/\s,:;~-\s"]+/, ''); // trim starting white chars and dash
-	track = track.replace(/[\/\s,:;~-\s"\s!]+$/, ''); // trim trailing white chars and dash
-	//" and ! added because some track names end as {"Some Track" Official Music Video!} and it becomes {"Some Track"!} example: http://www.youtube.com/watch?v=xj_mHi7zeRQ
-
-	return {artist: artist, track: track};
+	return {artist, track};
 };
+
+Connector.filter = MetadataFilter.getYoutubeFilter();
 
 /**
  * YouTube doesn't really unload the player. It simply moves it outside viewport.
@@ -125,3 +86,31 @@ function isPlayerOffscreen() {
 	var offset = $player.offset();
 	return offset.left < 0 || offset.top < 0;
 }
+
+function setupMutationObserver() {
+	let isMusicVideoPresent = false;
+
+	let playerObserver = new MutationObserver(function() {
+		if (!isPlayerOffscreen()) {
+			if (isMusicVideoPresent) {
+				return;
+			}
+
+			$(Connector.videoSelector).on('timeupdate', Connector.onStateChanged);
+			isMusicVideoPresent = true;
+		} else {
+			Connector.onStateChanged();
+			isMusicVideoPresent = false;
+		}
+	});
+
+	let pageElement = document.getElementById('page');
+	playerObserver.observe(pageElement, {
+		subtree: true,
+		childList: true,
+		attributes: false,
+		characterData: false
+	});
+}
+
+setupMutationObserver();

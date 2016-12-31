@@ -78,7 +78,7 @@ define([], function() {
 			})
 				.done(function() {
 					console.log('Found album artwork via MusicBrainz');
-					song.metadata.artistThumbUrl = coverArtUrl;
+					song.metadata.attr('artistThumbUrl', coverArtUrl);
 
 					(typeof onSuccess === 'function' ? onSuccess : onFailure)(coverArtUrl);
 				})

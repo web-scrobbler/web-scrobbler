@@ -81,19 +81,16 @@ define([
 				// inject all scripts and jQuery, use slice to avoid mutating
 				var scripts = connector.js.slice(0);
 
-				// for v2 connectors prepend BaseConnector, newer jQuery (!) and append starter
-				if (typeof(connector.version) != 'undefined' && connector.version === 2) {
-					scripts.unshift('core/content/connector.js');
-					scripts.unshift('core/content/reactor.js');
-					scripts.unshift('vendor/underscore-min.js');
-					scripts.unshift(config.JQUERY_PATH);
+				scripts.unshift('core/content/connector.js');
+				scripts.unshift('core/content/filter.js');
+				scripts.unshift('core/content/reactor.js');
+				// @ifdef DEBUG
+				scripts.unshift('core/content/testReporter.js');
+				// @endif
+				scripts.unshift('vendor/underscore-min.js');
+				scripts.unshift('vendor/jquery-2.1.0.min.js');
 
-					scripts.push('core/content/starter.js'); // needs to be the last script injected
-				}
-				// for older connectors prepend older jQuery as a first loaded script
-				else {
-					scripts.unshift(config.JQUERY_1_6_PATH);
-				}
+				scripts.push('core/content/starter.js'); // needs to be the last script injected
 
 				// waits for script to be fully injected before injecting another one
 				var injectWorker = function () {

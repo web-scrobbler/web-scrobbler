@@ -98,9 +98,9 @@ define([], function() {
 				documents.SONG_INFO);
 		};
 
-		this.setSongRecognizedDisabled = function() {
+		this.setWebsiteDisabled = function() {
 			setPageAction(icons.DISABLED,
-				'Current song will not be scrobbled',
+				'This site is supported, but you disabled it',
 				'');
 		};
 

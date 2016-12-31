@@ -1,38 +1,14 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, MetadataFilter */
 
 Connector.playerSelector = '#player';
 
-/**
- * remove zero width characters & trim
- * @param  {string} text to clean up
- * @return {string} cleaned up text
- */
-function cleanText(input) {
-	if (input === null) {
-		return input;
-	}
-	return input.replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
-}
+Connector.artistSelector = '#tracka';
 
-Connector.getArtist = function() {
-	var artist = $('#tracka').text() ||
-				null;
-	return cleanText(artist);
-};
+Connector.trackSelector = '#tracktitle';
 
-Connector.getTrack = function() {
-	var track = $('#tracktitle').text() ||
-				null;
-	return cleanText(track);
-};
-
-Connector.getAlbum = function () {
-	var album = $('#album').text() ||
-				null;
-	return cleanText(album);
-};
+Connector.albumSelector = '#album';
 
 Connector.isPlaying = function() {
 	var e = $('.play-pause .play');
@@ -46,7 +22,7 @@ Connector.getTrackArt = function() {
 };
 
 Connector.getDuration = function () {
-	return Math.round($('audio')[0].duration);
+	return $('audio')[0].duration;
 };
 
 /** Returns a unique identifier of current track.
@@ -58,3 +34,7 @@ Connector.getUniqueID = function () {
 	}
 	return null;
 };
+
+Connector.filter = new MetadataFilter({
+	all: [MetadataFilter.removeZeroWidth, MetadataFilter.trim]
+});

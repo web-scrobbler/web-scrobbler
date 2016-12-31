@@ -56,17 +56,17 @@ Connector.albumSelector = '.col_album_titles h1.artist';
 Connector.getArtistTrack = function () {
 	// the position of artist & album were switched but the class names
 	//  weren't updated (artist has class name of "album")
-	var artist = $('.col_album_titles h2.album a').text().trim() || null,
-		track = $('a.jp-playlist-current').text().trim() || null,
+	var artist = $('.col_album_titles h2.album a').text() || null,
+		track = $('a.jp-playlist-current').text() || null,
 		execResult;
 	if (trackTitlesStartWithTrackNo) {
-		track = track.substring(2).trim();
+		track = track.substring(2);
 	}
 	if (albumHasVariousArtists) {
 		execResult = /([\w\W]+)\s?-\s?([\w\W]+)/.exec(track);
 		if (execResult) {
-			artist = execResult[1].trim();
-			track = execResult[2].trim();
+			artist = execResult[1];
+			track = execResult[2];
 		}
 	}
 	return {
@@ -82,7 +82,7 @@ Connector.isPlaying = function () {
 
 /** @returns {number|null} track length in seconds */
 Connector.getDuration = function () {
-	return ($('audio')[0] && Math.round($('audio')[0].duration)) || null;
+	return ($('audio')[0] && $('audio')[0].duration) || null;
 };
 
 /** @returns {String|null} a unique identifier of current track */

@@ -16,13 +16,7 @@ Connector.currentTimeSelector = '#J_positionTime';
 
 Connector.trackArtImageSelector = '#J_playerCoverImg';
 
-Connector.getDuration = function () {
-	var totalSecondValue = $('#J_durationTime').text(), duration = '';
-	if (totalSecondValue) {
-		duration = +totalSecondValue.split(':')[0]*60 + (+totalSecondValue.split(':')[1]);
-	}
-	return duration;
-};
+Connector.durationSelector = '#J_durationTime';
 
 Connector.isPlaying = function () {
 	return $('#J_playBtn').hasClass('pause-btn');

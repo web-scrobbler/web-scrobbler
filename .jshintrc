@@ -2,6 +2,9 @@
   "browser": true,
   "curly": true,
   "esnext": true,
+  "eqeqeq": true,
+  "mocha": true,
+  "node": true,
   "globals": {
     "$": false,
     "console": false,

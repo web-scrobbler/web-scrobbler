@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, MetadataFilter */
 
 /** note: the discover page doesn't display the track artist for compilation albums.  This connector
     currently passes 'Various Artist' (or other variant) as the artist name so tracks on albums with
@@ -8,18 +8,6 @@
 
 // wire audio element to fire state changes
 $('audio').bind('playing pause timeupdate', Connector.onStateChanged);
-
-/**
- * remove zero width characters & trim
- * @param  {string} text to clean up
- * @return {string} cleaned up text
- */
-function cleanText(input) {
-	if (input === null) {
-		return input;
-	}
-	return input.replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
-}
 
 function getArtist() {
 	var artist = $('.detail_item_link_2').text() ||
@@ -29,7 +17,7 @@ function getArtist() {
 	if (artist === null) {
 		artist = $('.waypoint-artist-title').text().substr(3);
 	}
-	return cleanText(artist);
+	return artist;
 }
 
 function getTrack() {
@@ -39,7 +27,7 @@ function getTrack() {
 				$('.waypoint-item-title').text() ||
 				$('.track_info .title') ||
 				null;
-	return cleanText(track);
+	return track;
 }
 
 function artistIsVarious() {
@@ -69,8 +57,8 @@ Connector.getArtistTrack = function () {
 		separatorIndex;
 	if (artistIsVarious()) {
 		separatorIndex = Math.max(track.indexOf('-'), track.indexOf('|'));
-		artist = cleanText(track.substring(0, separatorIndex));
-		track = cleanText(track.substring(separatorIndex + 1));
+		artist = track.substring(0, separatorIndex);
+		track = track.substring(separatorIndex + 1);
 	}
 	return {
 		artist: artist,
@@ -83,7 +71,7 @@ Connector.getAlbum = function () {
 				$('h2.trackTitle').text() ||
 				$('[itemprop="inAlbum"] [itemprop="name"]').text() ||
 				null;
-	return cleanText(album);
+	return album;
 };
 
 Connector.playButtonSelector = 'div.playbutton:not(.playing)';
@@ -95,11 +83,11 @@ Connector.getTrackArt = function() {
 };
 
 Connector.getCurrentTime = function () {
-	return Math.round($('audio')[0].currentTime);
+	return $('audio')[0].currentTime;
 };
 
 Connector.getDuration = function () {
-	return Math.round($('audio')[0].duration);
+	return $('audio')[0].duration;
 };
 
 /** Returns a unique identifier of current track.
@@ -111,3 +99,7 @@ Connector.getUniqueID = function () {
 	}
 	return null;
 };
+
+Connector.filter = new MetadataFilter({
+	all: [MetadataFilter.removeZeroWidth, MetadataFilter.trim]
+});

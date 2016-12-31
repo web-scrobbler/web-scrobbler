@@ -64,6 +64,10 @@ define([
 			var hasSongChanged = (currentSong === null || newState.artist !== currentSong.parsed.artist || newState.track !== currentSong.parsed.track ||
 															newState.album !== currentSong.parsed.album || newState.uniqueID !== currentSong.parsed.uniqueID);
 
+			if (hasSongChanged && !newState.isPlaying) {
+				return;
+			}
+
 			// flag for current time of song being on its start;
 			// uses 5% of song duration if available or fixed interval
 			var isNewStateNearStart = (newState.duration !== null && newState.currentTime <= (newState.duration * 0.05)) ||
@@ -76,7 +80,7 @@ define([
 			// propagate values that can change without changing the song
 			if (!hasSongChanged && !isReplayingSong) {
 				// logging same message over and over saves space in console
-				if (newState.isPlaying == currentSong.parsed.isPlaying) {
+				if (newState.isPlaying === currentSong.parsed.isPlaying) {
 					console.log('Tab ' + tabId + ': state update: only currentTime has changed');
 				} else {
 					console.log('Tab ' + tabId + ': state update: ' + JSON.stringify(newState));
@@ -95,7 +99,7 @@ define([
 				// clear any previous song and its bindings
 				resetState();
 
-				currentSong = new Song(newState);
+				currentSong = new Song(newState, connector);
 				bindSongListeners(currentSong);
 
 				console.log('Tab ' + tabId + ': new ' + (isReplayingSong ? '(replaying) ' : '') + 'song detected: ' + JSON.stringify(currentSong.attr()));

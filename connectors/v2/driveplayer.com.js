@@ -3,24 +3,12 @@
 /* global Connector */
 Connector.playerSelector = '.jp-audio';
 
-Connector.getArtist = function () {
-	var text = $('.playing > .artist').text().trim();
-	return text || null;
-};
+Connector.artistSelector = '.playing > .artist';
 
-Connector.getTrack = function () {
-	var text = $('.playing > .title').text().trim();
-	return text || null;
-};
+Connector.trackSelector = '.playing > .title';
 
 Connector.playButtonSelector = '.jp-play';
 
-Connector.getCurrentTime = function() {
-	var currentTimeStr = $('.jp-current-time').text().trim();
-	return Connector.stringToSeconds(currentTimeStr);
-};
+Connector.currentTimeSelector = '.jp-current-time';
 
-Connector.getDuration = function() {
-	var durationStr = $('.jp-duration').text().trim();
-	return Connector.stringToSeconds(durationStr);
-};
+Connector.durationSelector = '.jp-duration';

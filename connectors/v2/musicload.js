@@ -11,7 +11,7 @@ Connector.getTrackArt = function () {
 };
 
 Connector.getTrack = function() {
-	return $('.player-info-wrapper > .info > .title').contents().get(0).nodeValue.trim();
+	return $('.player-info-wrapper > .info > .title').contents().get(0).nodeValue;
 };
 
 Connector.getAlbum = function () {
@@ -20,5 +20,5 @@ Connector.getAlbum = function () {
 };
 
 Connector.isPlaying = function() {
-	return ($('.control.play').css('display') == 'none');
+	return ($('.control.play').css('display') === 'none');
 };

@@ -1,5 +1,5 @@
 'use strict';
-/* globals _ */
+/* globals _, MetadataFilter, TestReporter */
 /* exported Connector */
 
 /**
@@ -98,9 +98,9 @@ var BaseConnector = window.BaseConnector || function () {
 		this.trackArtImageSelector = null;
 
 		/**
-		 * Default array of seperators.
+		 * Default array of separators.
 		 *
-		 * Push new seprators in the implementation if required.
+		 * Push new separators in the implementation if required.
 		 *
 		 * @type {array}
 		 */
@@ -114,8 +114,7 @@ var BaseConnector = window.BaseConnector || function () {
 		 * @returns {string|null}
 		 */
 		this.getArtist = function () {
-			var text = $(this.artistSelector).text();
-			return text || null;
+			return $(this.artistSelector).text();
 		};
 
 		/**
@@ -126,8 +125,7 @@ var BaseConnector = window.BaseConnector || function () {
 		 * @returns {string|null}
 		 */
 		this.getTrack = function () {
-			var text = $(this.trackSelector).text();
-			return text || null;
+			return $(this.trackSelector).text();
 		};
 
 		/**
@@ -138,8 +136,7 @@ var BaseConnector = window.BaseConnector || function () {
 		 * @returns {string|null}
 		 */
 		this.getAlbum = function () {
-			var text = $(this.albumSelector).text();
-			return text || null;
+			return $(this.albumSelector).text();
 		};
 
 		/**
@@ -178,17 +175,7 @@ var BaseConnector = window.BaseConnector || function () {
 		 */
 		this.getArtistTrack = function () {
 			var text = $(this.artistTrackSelector).text();
-			var separator = this.findSeparator(text);
-
-			var artist = null;
-			var track = null;
-
-			if (separator !== null) {
-				artist = text.substr(0, separator.index);
-				track = text.substr(separator.index + separator.length);
-			}
-
-			return {artist: artist, track: track};
+			return this.splitArtistTrack(text);
 		};
 
 		/**
@@ -243,6 +230,14 @@ var BaseConnector = window.BaseConnector || function () {
 			return true;
 		};
 
+		/**
+		 * Filter object used to filter song metadata.
+		 *
+		 * @see {link MetadataFilter}
+		 * @type {MetadataFilter}
+		 */
+		this.filter = MetadataFilter.getTrimFilter();
+
 		// --- state & api -------------------------------------------------------------------------------------------------
 
 
@@ -257,7 +252,7 @@ var BaseConnector = window.BaseConnector || function () {
 			duration: null,
 			currentTime: 0,
 			isPlaying: true,
-			url: window.location
+			url: window.location.href
 		};
 
 		/**
@@ -275,16 +270,16 @@ var BaseConnector = window.BaseConnector || function () {
 		var stateChangedWorker = function () {
 			var changedFields = [];
 
-			var newURL = window.location;
+			var newURL = window.location.href;
 			if (newURL !== currentState.url) {
 				currentState.url = newURL;
 				changedFields.push('url');
 			}
 
-			var newTrack = this.getTrack();
-			var newArtist = this.getArtist();
+			var newTrack = this.getTrack() || null;
+			var newArtist = this.getArtist() || null;
 
-			var artistTrack = this.getArtistTrack();
+			var artistTrack = this.getArtistTrack() || null;
 			if (newArtist === null && artistTrack.artist) {
 				newArtist = artistTrack.artist;
 			}
@@ -292,35 +287,38 @@ var BaseConnector = window.BaseConnector || function () {
 				newTrack = artistTrack.track;
 			}
 
+			newTrack = this.filter.filterTrack(newTrack);
 			if (newTrack !== currentState.track) {
 				currentState.track = newTrack;
 				changedFields.push('track');
 			}
 
+			newArtist = this.filter.filterArtist(newArtist);
 			if (newArtist !== currentState.artist) {
 				currentState.artist = newArtist;
 				changedFields.push('artist');
 			}
 
-			var newAlbum = this.getAlbum();
+			var newAlbum = this.getAlbum() || null;
+			newAlbum = this.filter.filterAlbum(newAlbum);
 			if (newAlbum !== currentState.album) {
 				currentState.album = newAlbum;
 				changedFields.push('album');
 			}
 
-			var newUID = this.getUniqueID();
+			var newUID = this.getUniqueID() || null;
 			if (newUID !== currentState.uniqueID) {
 				currentState.uniqueID = newUID;
 				changedFields.push('uniqueID');
 			}
 
-			var newDuration = this.getDuration();
+			var newDuration = this.escapeBadTimeValues(this.getDuration());
 			if (newDuration !== currentState.duration) {
 				currentState.duration = newDuration;
 				changedFields.push('duration');
 			}
 
-			var newCurrentTime = this.getCurrentTime();
+			var newCurrentTime = this.escapeBadTimeValues(this.getCurrentTime());
 			if (newCurrentTime !== currentState.currentTime) {
 				currentState.currentTime = newCurrentTime;
 				changedFields.push('currentTime');
@@ -332,16 +330,28 @@ var BaseConnector = window.BaseConnector || function () {
 				changedFields.push('isPlaying');
 			}
 
-			var newTrackArt = this.getTrackArt();
+			var newTrackArt = this.getTrackArt() || null;
 			if (newTrackArt !== currentState.trackArt) {
 				currentState.trackArt = newTrackArt;
 				changedFields.push('trackArt');
 			}
 
 			// take action if needed
-			if (changedFields.length > 0 && this.reactorCallback !== null) {
-				this.reactorCallback(currentState, changedFields);
+			if (changedFields.length > 0) {
+				if(this.reactorCallback !== null) {
+					this.reactorCallback(currentState, changedFields);
+				}
+
+				// @ifdef DEBUG
+				var isNewSongPlaying = (changedFields.length > 1) &&
+					(currentState.artist && currentState.track);
+				// Report for scrobble testing
+				if (isNewSongPlaying) {
+					TestReporter.reportSongRecognition(currentState);
+				}
+				// @endif
 			}
+
 		}.bind(this);
 
 		/**
@@ -356,6 +366,10 @@ var BaseConnector = window.BaseConnector || function () {
 		 * Connectors are NOT supposed to override this method
 		 */
 		this.onStateChanged = function () {
+			if (!this.isStateChangeAllowed()) {
+				return;
+			}
+
 			/**
 			 * Because gathering the state from DOM is quite expensive and mutation events can be emitted REALLY often,
 			 * we use throttle to set a minimum delay between two calls of the state change listener.
@@ -364,7 +378,7 @@ var BaseConnector = window.BaseConnector || function () {
 			 * a quick play/pause/play or pause/play/pause sequence
 			 */
 			var isPlaying = this.isPlaying();
-			if (isPlaying != currentState.isPlaying) {
+			if (isPlaying !== currentState.isPlaying) {
 				stateChangedWorker();
 			} else {
 				stateChangedWorkerThrottled();
@@ -399,6 +413,27 @@ var BaseConnector = window.BaseConnector || function () {
 		};
 
 		/**
+		 * Split string to artist and track.
+		 * @param  {String} str [description]
+		 * @return {Object} Object contains artist and track fields
+		 */
+		this.splitArtistTrack = function(str) {
+			let artist = null;
+			let track = null;
+
+			if (str !== null) {
+				let separator = this.findSeparator(str);
+
+				if (separator !== null) {
+					artist = str.substr(0, separator.index);
+					track = str.substr(separator.index + separator.length);
+				}
+			}
+
+			return {artist, track};
+		};
+
+		/**
 		 * Find first occurence of possible separator in given string
 		 * and return separator's position and size in chars or null.
 		 *
@@ -421,11 +456,27 @@ var BaseConnector = window.BaseConnector || function () {
 			return null;
 		};
 
+		this.escapeBadTimeValues = function(time) {
+			if (typeof time !== 'number') {
+				return null;
+			}
+			if (isNaN(time) || !isFinite(time)) {
+				return null;
+			}
+			return Math.round(time);
+		};
 	};
 
+window.BaseConnector = BaseConnector;
 
 /**
  * Create object to be overridden in specific connector implementation
  * @type {BaseConnector}
  */
-var Connector = new BaseConnector();
+let Connector;
+if (window.Connector) {
+	Connector = window.Connector;
+} else {
+	Connector = new BaseConnector();
+	window.Connector = Connector;
+}

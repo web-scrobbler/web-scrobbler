@@ -1,11 +1,14 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, MetadataFilter */
 
 window.SC_ATTACHED = window.SC_ATTACHED || false;
-var artist, track, duration,
-	uniqueID, artwork_url,
-	is_playing = false;
+var artist;
+var track;
+var duration;
+var uniqueID;
+var artwork_url;
+var isPrivate = false;
 
 Connector.getArtist = function () {
 	return artist;
@@ -15,12 +18,26 @@ Connector.getTrack = function () {
 	return track;
 };
 
+Connector.playerSelector = '.playControls';
+const progressSelector   = '.playControls div[role=progressbar]';
+const playButtonSelector = '.playControls button.playControl';
+
+Connector.getCurrentTime = function () {
+	if (isPrivate) {
+		return null;
+	}
+	return parseFloat($(progressSelector).attr('aria-valuenow')) / 1000;
+};
+
 Connector.getDuration = function () {
 	return duration;
 };
 
 Connector.isPlaying = function () {
-	return is_playing;
+	if (isPrivate) {
+		return false;
+	}
+	return $(playButtonSelector).hasClass('playing');
 };
 
 Connector.getUniqueID = function () {
@@ -31,40 +48,24 @@ Connector.getTrackArt = function () {
 	return artwork_url || null;
 };
 
-/**
- * Clean non-informative garbage from title
- */
-function cleanArtistTrack() {
-	/*jslint regexp: true*/
-	// trim whitespace
-	artist = artist.replace(/^\s+|\s+$/g, '');
-	track = track.replace(/^\s+|\s+$/g, '');
+Connector.filter = MetadataFilter.getYoutubeFilter();
 
-	// Strip crap
-	track = track.replace(/^\d+\.\s*/, ''); // 01.
-	track = track.replace(/\s*\*+\s?\S+\s?\*+$/, ''); // **NEW**
-	track = track.replace(/\s*\[[^\]]+\]$/, ''); // [whatever]
-	track = track.replace(/\s*\([^\)]*version\)$/i, ''); // (whatever version)
-	track = track.replace(/\s*\.(avi|wmv|mpg|mpeg|flv)$/i, ''); // video extensions
-	track = track.replace(/\s*(of+icial\s*)?(music\s*)?video/i, ''); // (official)? (music)? video
-	track = track.replace(/\s*\(\s*of+icial\s*\)/i, ''); // (official)
-	track = track.replace(/\s*\(\s*[0-9]{4}\s*\)/i, ''); // (1999)
-	track = track.replace(/\s+\(\s*(HD|HQ)\s*\)$/, ''); // HD (HQ)
-	track = track.replace(/\s+(HD|HQ)\s*$/, ''); // HD (HQ)
-	track = track.replace(/\s*video\s*clip/i, ''); // video clip
-	track = track.replace(/\s+\(?live\)?$/i, ''); // live
-	track = track.replace(/\(\s*\)/, ''); // Leftovers after e.g. (official video)
-	track = track.replace(/^(|.*\s)"(.*)"(\s.*|)$/, '$2'); // Artist - The new "Track title" featuring someone
-	track = track.replace(/^(|.*\s)'(.*)'(\s.*|)$/, '$2'); // 'Track title'
-	track = track.replace(/^[\/\s,:;~\-]+/, ''); // trim starting white chars and dash
-	track = track.replace(/[\/\s,:;~\-]+$/, ''); // trim trailing white chars and dash
-	/*jslint regexp: false*/
-}
 
 /**
  * parse metadata and set local variables
  */
 var setSongData = function (metadata) {
+	isPrivate = metadata.sharing === 'private';
+
+	if (isPrivate) {
+		artist = null;
+		track = null;
+		duration = null;
+		uniqueID = null;
+		artwork_url = null;
+		return;
+	}
+
 	// Sometimes the artist name is in the track title.
 	// e.g. Tokyo Rose - Zender Overdrive by Aphasia Records.
 	/*jslint regexp: true*/
@@ -81,8 +82,6 @@ var setSongData = function (metadata) {
 		artist = metadata.user.username;
 		track = metadata.title;
 	}
-
-	cleanArtistTrack();
 
 	duration = Math.floor(metadata.duration / 1000);
 	// use permalink url as the unique id
@@ -110,24 +109,11 @@ var setSongData = function (metadata) {
 	// Trigger functions based on message type.
 	function eventHandler(e) {
 		switch (e.data.type) {
-			case 'SC_PLAY':
-				// don't scrobble private tracks
-				if (e.data.metadata.sharing && e.data.metadata.sharing === 'private') {
-					console.log('Track is private so it won\'t be scrobbled.');
-					return;
-				}
-				is_playing = true;
-				// parse metadata and set local variables
-				setSongData(e.data.metadata);
-				// cause connector base to read the new variable values
-				Connector.onStateChanged();
-				break;
-			case 'SC_PAUSE':
-				is_playing = false;
-				Connector.onStateChanged();
-				break;
-			default:
-				break;
+		case 'SC_PLAY':
+			setSongData(e.data.metadata);
+			break;
+		default:
+			break;
 		}
 	}
 

@@ -4,12 +4,13 @@ require([
 	'jquery',
 	'config',
 	'connectors',
-	'legacy/scrobbler',
+	'notifications',
+	'services/lastfm',
 	'customPatterns',
 	'chromeStorage',
 	'wrappers/chrome',
 	'bootstrap'
-], function ($, config, connectors, legacyScrobbler, customPatterns, ChromeStorage, chrome) {
+], function ($, config, connectors, Notifications, LastFM, customPatterns, ChromeStorage, chrome) {
 
 	$(function () {
 		var connectorsOptions = ChromeStorage.getNamespace('Connectors');
@@ -17,19 +18,19 @@ require([
 		// preload values and attach listeners
 
 		$('#use-notifications')
-			.attr('checked', (localStorage.useNotifications == 1))
+			.attr('checked', (localStorage.useNotifications === '1'))
 			.click(function () {
 				localStorage.useNotifications = this.checked ? 1 : 0;
 			});
 
 		$('#use-autocorrect')
-			.attr('checked', (localStorage.useAutocorrect == 1))
+			.attr('checked', (localStorage.useAutocorrect === '1'))
 			.click(function () {
 				localStorage.useAutocorrect = this.checked ? 1 : 0;
 			});
 
 		$('#disable-ga')
-			.attr('checked', (localStorage.disableGa == 1))
+			.attr('checked', (localStorage.disableGa === '1'))
 			.click(function () {
 				localStorage.disableGa = this.checked ? 1 : 0;
 			});
@@ -49,7 +50,7 @@ require([
 
 
 		$('button#authorize').click(function () {
-			legacyScrobbler.authorize();
+			Notifications.showAuthenticate(LastFM.getAuthUrl);
 		});
 
 

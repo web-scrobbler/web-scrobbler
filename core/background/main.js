@@ -9,17 +9,17 @@
  * - checks auth status on run (browser start or extension enabling) and prompts for login if needed
  */
 require([
-	'legacy/scrobbler',
 	'services/background-ga',
 	'services/lastfm',
 	'notifications',
 	'inject',
 	'objects/injectResult',
+	'pageAction',
 	'controller',
 	'storage',
 	'config',
 	'chromeStorage'
-], function(legacyScrobbler, GA, LastFM, Notifications, inject, injectResult, Controller, Storage, config, ChromeStorage) {
+], function(GA, LastFM, Notifications, inject, injectResult, PageAction, Controller, Storage, config, ChromeStorage) {
 
 	/**
 	 * Single controller instance for each tab with injected script
@@ -60,21 +60,14 @@ require([
 
 		// matched, but the connector is disabled
 		if (result.getResult() === injectResult.results.MATCHED_BUT_DISABLED) {
-			legacyScrobbler.setActionIcon(config.ACTION_SITE_DISABLED, tabId);
+			new PageAction(tabId).setWebsiteDisabled();
 			return;
 		}
 
 		// matched, create controller if needed
 		if (result.getResult() === injectResult.results.MATCHED_AND_INJECTED) {
-			// controllers are used for v2 connectors only
-			if (result.getConnector().version === 2) {
-				// intentionally overwrite previous controller, if any
-				tabControllers[tabId] = new Controller(tabId, result.getConnector());
-			}
-			else {
-				// show 'recognized' action icon until the track info is recognized and validated
-				legacyScrobbler.setActionIcon(config.ACTION_SITE_RECOGNIZED, tabId);
-			}
+			// intentionally overwrite previous controller, if any
+			tabControllers[tabId] = new Controller(tabId, result.getConnector());
 
 			GA.event('core', 'inject', result.getConnector().label);
 
@@ -92,7 +85,7 @@ require([
 	 */
 	function getControllerByTabId(tabId) {
 		if (!tabControllers[tabId]) {
-			console.warn('Missing controller for tab ' + tabId + ' (should only happen for legacy connector)');
+			console.warn('Missing controller for tab ' + tabId);
 		}
 
 		return tabControllers[tabId];
@@ -136,8 +129,6 @@ require([
 		var ctrl;
 
 		switch (request.type) {
-			// Interface for new V2 functionality. Routes control flow to new structures, so we can
-			// have two cores side by side. The old functionality will be later removed
 			case 'v2.stateChanged':
 				ctrl = getControllerByTabId(sender.tab.id);
 				if (ctrl) {
@@ -151,8 +142,6 @@ require([
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
 					sendResponse(ctrl.getCurrentSong()); // object or null
-				} else {
-					sendResponse(false); // no v2 controller, legacy mode
 				}
 				break;
 
@@ -171,10 +160,6 @@ require([
 					ctrl.toggleLove(request.data, sendResponse);
 				}
 				break;
-
-			// Redirect all other messages to legacy listener
-			default:
-				legacyScrobbler.runtimeOnMessage(request, sender, sendResponse);
 		}
 
 		return true;
@@ -192,12 +177,9 @@ require([
 
 	// setup listener for page action clicks
 	chrome.pageAction.onClicked.addListener(function(tab) {
-		// route events to controllers or assume legacy scrobbler if no controller is found
 		var ctrl = getControllerByTabId(tab.id);
 		if (ctrl) {
 			ctrl.onPageActionClicked(tab);
-		} else {
-			legacyScrobbler.onPageActionClicked(tab);
 		}
 	});
 
