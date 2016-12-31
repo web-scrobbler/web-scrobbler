@@ -582,13 +582,6 @@ define(function() {
 		},
 
 		{
-			label: 'Stereodose',
-			matches: ['*://www.stereodose.com/*'],
-			js: ['connectors/v2/stereodose.js'],
-			version: 2
-		},
-
-		{
 			label: 'Москва ФМ / Питер ФМ',
 			matches: ['*://moskva.fm/*', '*://piter.fm/*'],
 			js: ['connectors/v2/moskva-piter-fm.js'],
