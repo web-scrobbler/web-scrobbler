@@ -112,6 +112,28 @@ define([
 		chrome.notifications.getPermissionLevel(createNotification);
 	}
 
+	function showSongNotRecognized(song) {
+		if (!isAvailable() || !isAllowed() || localStorage.useUnrecognizedSongNotifications != 1) {
+			return;
+		}
+
+		var createNotification = function(permissionLevel) {
+			if (permissionLevel === 'granted') {
+
+				var options = {
+					type: 'basic',
+					iconUrl: '/icons/question.svg',
+					title: 'The song was not recognized :c',
+					message: song.getArtist() + ' — ' + song.getTrack()
+				};
+
+				chrome.notifications.create('', options);
+			}
+		};
+
+		chrome.notifications.getPermissionLevel(createNotification);
+	}
+
 
 	/**
 	 * Shows notifications with onclick leading to url to authenticate the extension.
@@ -189,6 +211,7 @@ define([
 	return {
 		showPlaying: showPlaying,
 		showError: showError,
+		showSongNotRecognized: showSongNotRecognized,
 		showAuthenticate: showAuthenticate,
 		remove: remove
 	};
