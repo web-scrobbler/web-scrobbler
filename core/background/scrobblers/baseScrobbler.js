@@ -13,30 +13,17 @@ define([
 	 *
 	 * This object and its ancestors MUST return ServiceCallResult instance
 	 * as result or error value in methods that execute API methods.
-	 *
-	 * @constructor
 	 */
-	function BaseScrobbler(options) {
-		this.label = options.label;
-		this.apiUrl = options.apiUrl;
-		this.apiKey = options.apiKey;
-		this.apiSecret = options.apiSecret;
-		this.authUrl = options.authUrl;
-		this.statusUrl = options.statusUrl;
-		this.storage = ChromeStorage.getNamespace(options.storage);
-	}
-
-	function processResponse($doc) {
-		if ($doc.find('lfm').attr('status') !== 'ok') {
-			// request passed but returned error
-			return ServiceCallResult.OtherError();
+	class BaseScrobbler {
+		constructor(options) {
+			this.label = options.label;
+			this.apiUrl = options.apiUrl;
+			this.apiKey = options.apiKey;
+			this.apiSecret = options.apiSecret;
+			this.authUrl = options.authUrl;
+			this.statusUrl = options.statusUrl;
+			this.storage = ChromeStorage.getNamespace(options.storage);
 		}
-
-		return ServiceCallResult.Ok();
-	}
-
-	BaseScrobbler.prototype = {
-		constructor: BaseScrobbler,
 
 		/**
 		 * Creates query string from object properties.
@@ -44,7 +31,7 @@ define([
 		 * @param params
 		 * @returns {string}
 		 */
-		createQueryString: function (params) {
+		createQueryString(params) {
 			var parts = [];
 
 			for (var x in params) {
@@ -54,7 +41,7 @@ define([
 			}
 
 			return parts.join('&');
-		},
+		}
 
 		/**
 		 * Fetch auth URL where user should grant permissions to our token.
@@ -69,7 +56,7 @@ define([
 		 *
 		 * @return {Promise} Promise that will be resolved with the auth URL
 		 */
-		getAuthUrl: function() {
+		getAuthUrl() {
 			let url = `${this.apiUrl}?method=auth.gettoken&api_key=${this.apiKey}`;
 			return timeoutPromise(GET_AUTH_URL_TIMEOUT, fetch(url, { method: 'GET' }).then((response) => {
 				return response.text();
@@ -101,23 +88,23 @@ define([
 					});
 				});
 			}));
-		},
+		}
 
 
 		/**
 		 * Get status page URL.
 		 * @return {String} Status page URL
 		 */
-		getStatusUrl: function() {
+		getStatusUrl() {
 			return this.statusUrl;
-		},
+		}
 
 		/**
 		 * Calls callback with sessionID or null if there is no session or token to be traded for one.
 		 * If there is a stored token it is preferably traded for a new session which is then returned.
 		 * @return {Promise} Promise that will be resolved with the session data
 		 */
-		getSession: function () {
+		getSession() {
 			return new Promise((resolve, reject) => {
 				this.storage.get((data) => {
 					// if we have a token it means it is fresh and we want to trade it for a new session ID
@@ -155,7 +142,7 @@ define([
 					}
 				});
 			});
-		},
+		}
 
 		/**
 		 * Does a call to API to trade token for session ID.
@@ -164,7 +151,7 @@ define([
 		 * @param {String} token
 		 * @return {Promise} Promise that will be resolved with the session ID
 		 */
-		tradeTokenForSession: function (token) {
+		tradeTokenForSession(token) {
 			let params = {
 				method: 'auth.getsession',
 				api_key: this.apiKey,
@@ -183,14 +170,14 @@ define([
 				console.error(`${this.label} auth.tradeTokenForSession failed: ${err}`);
 				throw new Error(`${this.label} auth.tradeTokenForSession failed: ${err}`);
 			});
-		},
+		}
 
 		/**
 		 * Computes string for signing request
 		 *
 		 * See http://www.last.fm/api/authspec#8
 		 */
-		generateSign: function (params) {
+		generateSign(params) {
 			var keys = [];
 			var o = '';
 
@@ -213,7 +200,7 @@ define([
 
 			// append secret
 			return MD5(o + this.apiSecret);
-		},
+		}
 
 		/**
 		 * Executes asynchronous request and returns back in either callback
@@ -226,7 +213,7 @@ define([
 		 * @param  {Boolean} signed Should the request be signed?
 		 * @return {Promise} Promise that will be resolved with parsed response
 		 */
-		doRequest: function (method, params, signed) {
+		doRequest(method, params, signed) {
 			params.api_key = this.apiKey;
 
 			if (signed) {
@@ -244,7 +231,7 @@ define([
 			}).catch(() => {
 				throw ServiceCallResult.OtherError();
 			});
-		},
+		}
 
 		/**
 		 * Asynchronously loads song info into given song object.
@@ -252,20 +239,20 @@ define([
 		 * @param  {Song} song Song instance
 		 * @return {Promise} Promise that will be resolved with 'isValid' flag
 		 */
-		loadSongInfo: function() {
+		loadSongInfo() {
 			return Promise.resolve(false);
-		},
+		}
 
-		isLoadSongInfoSupported: function() {
+		isLoadSongInfoSupported() {
 			return false;
-		},
+		}
 
 		/**
 		 * Send current song as 'now playing' to API
 		 * @param  {Object} song Song instance
 		 * @return {Promise} Promise that will be resolved with ServiceCallResult object
 		 */
-		sendNowPlaying: function (song) {
+		sendNowPlaying(song) {
 			return this.getSession().then(({ sessionID }) => {
 				let params = {
 					method: 'track.updatenowplaying',
@@ -286,14 +273,14 @@ define([
 
 				return this.doRequest('POST', params, true).then(processResponse);
 			});
-		},
+		}
 
 		/**
 		 * Send song to API to scrobble
 		 * @param  {Object} song Song instance
 		 * @return {Promise} Promise that will be resolved with ServiceCallResult object
 		 */
-		scrobble: function (song) {
+		scrobble(song) {
 			return this.getSession().then(({ sessionID }) => {
 				let params = {
 					method: 'track.scrobble',
@@ -312,7 +299,7 @@ define([
 
 				return this.doRequest('POST', params, true).then(processResponse);
 			});
-		},
+		}
 
 		/**
 		 * Love or unlove given song.
@@ -320,7 +307,7 @@ define([
 		 * @param  {Boolean} isLoved Flag means song should be loved or not
 		 * @return {Promise} Promise that will be resolved with ServiceCallResult object
 		 */
-		toggleLove: function (song, isLoved) {
+		toggleLove(song, isLoved) {
 			return this.getSession().then(({ sessionID }) => {
 				let params = {
 					method: 'track.' + (isLoved ? 'love' : 'unlove'),
@@ -332,16 +319,25 @@ define([
 
 				return this.doRequest('POST', params, true).then(processResponse);
 			});
-		},
+		}
 
 		/**
 		 * Get the label.
 		 * @return {string} Scrobbler label
 		 */
-		getLabel: function() {
+		getLabel() {
 			return this.label;
 		}
-	};
+	}
+
+	function processResponse($doc) {
+		if ($doc.find('lfm').attr('status') !== 'ok') {
+			// request passed but returned error
+			return ServiceCallResult.OtherError();
+		}
+
+		return ServiceCallResult.Ok();
+	}
 
 	/**
 	 * Execute promise with specified timeout.
