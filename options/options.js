@@ -103,6 +103,15 @@ require([
 		});
 
 		$('input#toggle').prop('checked', checkedState);
+
+		switch (getElementIdFromLocation()) {
+			case 'reauth':
+				// Expand 'Options' section and collapse 'Contacts' one.
+				console.log('expand');
+				$('#options').addClass('in');
+				$('#contact').removeClass('in');
+				break;
+		}
 	}
 
 	function listConnectors() {
@@ -244,4 +253,29 @@ require([
 		});
 	}
 
+	function scrollToElement(selector) {
+		var aTag = $(selector);
+		console.log(aTag);
+		console.log(aTag.offset());
+		$('html,body').animate({ scrollTop: aTag.offset().top }, 'fast');
+	}
+
+	function getElementIdFromLocation() {
+		let url = window.location.href;
+		let match = /#(.+?)$/.exec(url);
+		if (match) {
+			return match[1];
+		}
+		return null;
+	}
+
+	$(document).ready(() => {
+		let elementId = getElementIdFromLocation();
+		switch (elementId) {
+			case 'reauth':
+				console.log('scroll');
+				scrollToElement('#reauth');
+				break;
+		}
+	});
 });
