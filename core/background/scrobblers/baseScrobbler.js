@@ -29,24 +29,6 @@ define([
 		}
 
 		/**
-		 * Creates query string from object properties.
-		 *
-		 * @param params
-		 * @returns {string}
-		 */
-		createQueryString(params) {
-			var parts = [];
-
-			for (var x in params) {
-				if (params.hasOwnProperty(x)) {
-					parts.push(x + '=' + encodeURIComponent(params[x]));
-				}
-			}
-
-			return parts.join('&');
-		}
-
-		/**
 		 * Fetch auth URL where user should grant permissions to our token.
 		 *
 		 * Stores the new obtained token into storage so it will be traded for
@@ -167,7 +149,7 @@ define([
 				token: token
 			};
 			let apiSig = this.generateSign(params);
-			let queryStr = this.createQueryString(params);
+			let queryStr = $.param(params);
 			let url = `${this.apiUrl}?${queryStr}&api_sig=${apiSig}&format=json`;
 
 			return fetch(url).then((response) => {
@@ -230,7 +212,7 @@ define([
 				params.api_sig = this.generateSign(params);
 			}
 
-			let queryStr = this.createQueryString(params);
+			let queryStr = $.param(params);
 			let url = `${this.apiUrl}?${queryStr}`;
 
 			return fetch(url, { method }).then((response) => {

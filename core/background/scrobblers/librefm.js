@@ -4,9 +4,10 @@
  * Module for all communication with libre.fm
  */
 define([
+	'jquery',
 	'scrobblers/baseScrobbler',
 	'objects/serviceCallResult'
-], function (BaseScrobbler, ServiceCallResult) {
+], function ($, BaseScrobbler, ServiceCallResult) {
 	class LibreFm extends BaseScrobbler {
 		doRequest(method, params, signed) {
 			params.api_key = this.apiKey;
@@ -15,7 +16,7 @@ define([
 				params.api_sig = this.generateSign(params);
 			}
 
-			let queryStr = this.createQueryString(params);
+			let queryStr = $.param(params);
 			let url = `${this.apiUrl}?${queryStr}`;
 
 			return new Promise((resolve, reject) => {
