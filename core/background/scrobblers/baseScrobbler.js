@@ -15,6 +15,9 @@ define([
 	 * as result or error value in methods that execute API methods.
 	 */
 	class BaseScrobbler {
+		/**
+		 * @param {Object} options Scrobbler options
+		 */
 		constructor(options) {
 			this.label = options.label;
 			this.apiUrl = options.apiUrl;
@@ -100,18 +103,24 @@ define([
 		}
 
 		/**
-		 * Calls callback with sessionID or null if there is no session or token to be traded for one.
-		 * If there is a stored token it is preferably traded for a new session which is then returned.
+		 * Load session data from storage. Get new session data if previously
+		 * saved session data is missing.
+		 *
+		 * If there is a stored token it is preferably traded for a new session
+		 * which is then returned.
+		 *
 		 * @return {Promise} Promise that will be resolved with the session data
 		 */
 		getSession() {
 			return new Promise((resolve, reject) => {
 				this.storage.get((data) => {
-					// if we have a token it means it is fresh and we want to trade it for a new session ID
+					// if we have a token it means it is fresh and we
+					// want to trade it for a new session ID
 					var token = data.token || null;
 					if (token !== null) {
 						this.tradeTokenForSession(token).then((session) => {
-							// token is already used, reset it and store the new session
+							// token is already used, reset it and store
+							// the new session
 							data.token = null;
 							data.sessionID = session.key;
 							data.sessionName = session.name;
@@ -145,10 +154,10 @@ define([
 		}
 
 		/**
-		 * Does a call to API to trade token for session ID.
-		 * Assumes the token was authenticated by the user.
+		 * Make a call to API to trade token for session ID.
+		 * Assume the token was authenticated by the user.
 		 *
-		 * @param {String} token
+		 * @param {String} token Token provided by scrobbler service
 		 * @return {Promise} Promise that will be resolved with the session ID
 		 */
 		tradeTokenForSession(token) {
@@ -173,9 +182,10 @@ define([
 		}
 
 		/**
-		 * Computes string for signing request
-		 *
+		 * Compute string for signing request.
 		 * See http://www.last.fm/api/authspec#8
+		 * @param  {Object} params Parameters of API method
+		 * @return {String} Signed parameters
 		 */
 		generateSign(params) {
 			var keys = [];
@@ -203,10 +213,10 @@ define([
 		}
 
 		/**
-		 * Executes asynchronous request and returns back in either callback
+		 * Execute asynchronous request.
 		 *
-		 * API key will be added to params by default
-		 * and all parameters will be encoded for use in query string internally
+		 * API key will be added to params by default and all parameters will be
+		 * encoded for use in query string internally.
 		 *
 		 * @param  {String} method Used method (GET or POST)
 		 * @param  {Object} params Object of key => value url parameters
@@ -234,7 +244,7 @@ define([
 		}
 
 		/**
-		 * Asynchronously loads song info into given song object.
+		 * Asynchronously load song info into given song object.
 		 *
 		 * @param  {Song} song Song instance
 		 * @return {Promise} Promise that will be resolved with 'isValid' flag
@@ -243,12 +253,16 @@ define([
 			return Promise.resolve(false);
 		}
 
+		/**
+		 * Check if service supports retrieving of song info.
+		 * @return {Boolean} True if service supports that; false otherwise
+		 */
 		isLoadSongInfoSupported() {
 			return false;
 		}
 
 		/**
-		 * Send current song as 'now playing' to API
+		 * Send current song as 'now playing' to API.
 		 * @param  {Object} song Song instance
 		 * @return {Promise} Promise that will be resolved with ServiceCallResult object
 		 */
@@ -276,7 +290,7 @@ define([
 		}
 
 		/**
-		 * Send song to API to scrobble
+		 * Send song to API to scrobble.
 		 * @param  {Object} song Song instance
 		 * @return {Promise} Promise that will be resolved with ServiceCallResult object
 		 */
@@ -322,7 +336,7 @@ define([
 		}
 
 		/**
-		 * Get the label.
+		 * Get the scrobbler label.
 		 * @return {string} Scrobbler label
 		 */
 		getLabel() {
@@ -330,6 +344,11 @@ define([
 		}
 	}
 
+	/**
+	 * Process response and return service call result.
+	 * @param  {Object} $doc Response that parsed by jQuery
+	 * @return {ServiceCallResult} Response result
+	 */
 	function processResponse($doc) {
 		if ($doc.find('lfm').attr('status') !== 'ok') {
 			// request passed but returned error

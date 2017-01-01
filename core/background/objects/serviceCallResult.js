@@ -35,6 +35,7 @@ define([], function() {
 
 	/**
 	 * Create object with 'OK' result.
+	 * @return {Object} ServiceCallResult object
 	 */
 	function Ok() {
 		return new ServiceCallResult(OK);
@@ -42,6 +43,7 @@ define([], function() {
 
 	/**
 	 * Create object with 'ERROR_OTHER' result.
+	 * @return {Object} ServiceCallResult object
 	 */
 	function OtherError() {
 		return new ServiceCallResult(ERROR_OTHER);
@@ -49,6 +51,7 @@ define([], function() {
 
 	/**
 	 * Create object with 'ERROR_AUTH' result.
+	 * @return {Object} ServiceCallResult object
 	 */
 	function AuthError() {
 		return new ServiceCallResult(ERROR_AUTH);

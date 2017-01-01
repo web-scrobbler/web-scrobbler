@@ -91,6 +91,10 @@ define([
 			}
 		},
 
+		/**
+		 * Ask user for grant access for service covered by given scrobbler.
+		 * @param  {Object} scrobbler Scrobbler instance
+		 */
 		authenticateScrobbler: function (scrobbler) {
 			let label = scrobbler.getLabel();
 
@@ -125,7 +129,7 @@ define([
 		},
 
 		/**
-		 * Scrobble to each bound scrobbler.
+		 * Scrobble song to each bound scrobbler.
 		 * @param  {Object} song Song instance
 		 * @return {Promise} Promise that will be resolved then the task will complete
 		 */
