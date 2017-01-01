@@ -233,7 +233,7 @@ define([
 
 			// send to L.FM
 			var nowPlayingCB = function(result) {
-				if (result.isOk()) {
+				if (result) {
 					console.log(`Tab ${tabId}: song set as now playing)`);
 					pageAction.setSongRecognized(song);
 				} else {

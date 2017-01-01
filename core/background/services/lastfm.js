@@ -311,8 +311,7 @@ define([
 	function sendNowPlaying(song, cb) {
 		getSession(function(sessionID) {
 			if (!sessionID) {
-				var result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR_AUTH);
-				cb(result);
+				cb(false);
 				return;
 			}
 
