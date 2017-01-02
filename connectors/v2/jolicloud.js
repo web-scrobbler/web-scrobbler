@@ -10,7 +10,7 @@ Connector.trackSelector = 'span.title';
 
 Connector.getTrackArt = function () {
 	var src = $('.image img').attr('src');
-	return src.startsWith('//') ? src = 'https:'+src : src;
+	return src.startsWith('//') ? src = 'https:' + src : src;
 };
 
 Connector.isPlaying = function () {

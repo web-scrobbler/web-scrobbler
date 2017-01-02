@@ -60,23 +60,23 @@ define([
 					var ampm = hours >= 12 ? 'pm' : 'am';
 					hours = hours % 12;
 					hours = hours ? hours : 12; // the hour '0' should be '12'
-					minutes = minutes < 10 ? '0'+minutes : minutes;
+					minutes = minutes < 10 ? '0' + minutes : minutes;
 					var strTime = hours + ':' + minutes + ampm;
 					return strTime;
 				};
 
-				var connector = song.metadata.connector ? ' · '+song.metadata.connector.label : '';
+				var connector = song.metadata.connector ? ' · ' + song.metadata.connector.label : '';
 				var options = {
 					type: 'basic',
 					iconUrl: song.getTrackArt() || 'default_cover_art.png',
 					title: song.getTrack(),
 					message: 'by ' + song.getArtist(),
-					contextMessage: hhMM()+connector
+					contextMessage: hhMM() + connector
 				};
 
 				try {
 					chrome.notifications.create('', options, notificationCreatedCb);
-				} catch(e) {
+				} catch (e) {
 					console.log('Failed to create a notification.', e);
 				}
 			}

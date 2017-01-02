@@ -4,7 +4,7 @@
 
 Connector.artistTrackSelector = '.topPanelTimeline-progress .topPanelTimeline-title';
 
-Connector.currentTimeSelector =  '.topPanelTimeline-progress .topPanelTimeline-time';
+Connector.currentTimeSelector = '.topPanelTimeline-progress .topPanelTimeline-time';
 
 Connector.durationSelector = '.topPanelTimeline-progress .topPanelTimeline-length';
 

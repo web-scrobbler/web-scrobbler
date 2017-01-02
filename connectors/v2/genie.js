@@ -15,5 +15,5 @@ Connector.isPlaying = function() {
 };
 
 Connector.getTrackArt = function() {
-	return 'http:'+$('#AlbumImgArea').find('img').attr('src');
+	return 'http:' + $('#AlbumImgArea').find('img').attr('src');
 };

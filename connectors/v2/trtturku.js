@@ -11,13 +11,13 @@ function toTitleCase(str) {
 	var realArray = [];
 	var i = 0;
 
-	for(i = 0; i < tempArray.length; ++i){
+	for (i = 0; i < tempArray.length; ++i) {
 		var innerTempArray = tempArray[i].split('-');
 
-		for(var j = 0; ;){
+		for (var j = 0; ;) {
 			realArray.push(innerTempArray[j]);
 
-			if(++j >= innerTempArray.length){
+			if (++j >= innerTempArray.length) {
 				break;
 			}
 
@@ -25,7 +25,7 @@ function toTitleCase(str) {
 		}
 	}
 
-	for(i = 0; i < realArray.length; ++i){
+	for (i = 0; i < realArray.length; ++i) {
 		realArray[i] = realArray[i].split('');
 		realArray[i][0] = realArray[i][0] === 'i' ? 'İ' : realArray[i][0].toUpperCase();
 		realArray[i] = realArray[i].join('');
@@ -66,10 +66,10 @@ function isPlaylistPlayer() {
 }
 
 function setupConnector() {
-	if (isRadioPlayer()){
+	if (isRadioPlayer()) {
 		setupRadioPlayer();
 	}
-	else if (isPlaylistPlayer()){
+	else if (isPlaylistPlayer()) {
 		setupPlaylistPlayer();
 	}
 }

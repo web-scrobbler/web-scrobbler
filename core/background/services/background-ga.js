@@ -22,7 +22,7 @@ define(function() {
 	})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
 	window.ga('create', 'UA-16968457-1', 'auto');
-	window.ga('set', 'checkProtocolTask', function(){});
+	window.ga('set', 'checkProtocolTask', function() {});
 
 	/**
 	 * @param {...*}

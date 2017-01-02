@@ -53,51 +53,51 @@ Connector.isPlaying = function () {
 Connector.getArtist = function () {
 	/*jslint regexp: true*/
 	switch (pageType) {
-	case 'artist':
-		return $('div.bcrumb h1').contents().filter(function () { return this.nodeType === 3; }).text();
-	case 'album':
-		// if there are two anchors in the .playtxt span then it uses the format "Artist - TrackName" (albums with Various Artists)
-		if ($('div.gcol-electronic .playtxt a').length === 2) {
+		case 'artist':
+			return $('div.bcrumb h1').contents().filter(function () { return this.nodeType === 3; }).text();
+		case 'album':
+			// if there are two anchors in the .playtxt span then it uses the format "Artist - TrackName" (albums with Various Artists)
+			if ($('div.gcol-electronic .playtxt a').length === 2) {
+				return $('div.gcol-electronic .playtxt a').first().text();
+			}
+			return searchComment(/\[artist_name\] => (.+)/);
+		case 'song':
+			// return $('a[property="cc:attributionName"]').text();  //can't use, attribution isn't always present
+			return searchComment(/\[artist_name\] => (.+)/);
+		default:
 			return $('div.gcol-electronic .playtxt a').first().text();
-		}
-		return searchComment(/\[artist_name\] => (.+)/);
-	case 'song':
-		// return $('a[property="cc:attributionName"]').text();  //can't use, attribution isn't always present
-		return searchComment(/\[artist_name\] => (.+)/);
-	default:
-		return $('div.gcol-electronic .playtxt a').first().text();
 	}
 };
 
 Connector.getAlbum = function () {
 	/*jslint regexp: true*/
 	switch (pageType) {
-	case 'artist':
-	case 'album':
-		return $('div.gcol-electronic').closest('.colr-lrg-10pad').find('h5.txthd2').text();
-	case 'searchOrGenre':
-		var albumName = $('div.gcol-electronic span.ptxt-album').text().trim().replace(/^\"|\"$/g, '');
-		// Em-dash is used to show "no album" - Em-dash character code is 8212
-		if (albumName.charCodeAt(0) === 8212) {
+		case 'artist':
+		case 'album':
+			return $('div.gcol-electronic').closest('.colr-lrg-10pad').find('h5.txthd2').text();
+		case 'searchOrGenre':
+			var albumName = $('div.gcol-electronic span.ptxt-album').text().trim().replace(/^\"|\"$/g, '');
+			// Em-dash is used to show "no album" - Em-dash character code is 8212
+			if (albumName.charCodeAt(0) === 8212) {
+				return null;
+			}
+			return albumName;
+		case 'song':
+			// can't use breadcrumb since album title may be truncated,
+			//  instead use an html comment that contains the album name
+			return searchComment(/\[album_title\] => (.+)/);
+		default:
 			return null;
-		}
-		return albumName;
-	case 'song':
-		// can't use breadcrumb since album title may be truncated,
-		//  instead use an html comment that contains the album name
-		return searchComment(/\[album_title\] => (.+)/);
-	default:
-		return null;
 	}
 };
 
 Connector.getTrack = function () {
 	switch (pageType) {
-	case 'searchOrGenre':
-		return $('div.gcol-electronic span.ptxt-track').text().replace(/^\"|\"$/g, '');
-	default:
-		//last anchor is used for 'other' page types where the Artist and song title are shown in the playlist
-		return $('div.gcol-electronic span.playtxt a').last().text().trim().replace(/^\"|\"$/g, '');
+		case 'searchOrGenre':
+			return $('div.gcol-electronic span.ptxt-track').text().replace(/^\"|\"$/g, '');
+		default:
+			//last anchor is used for 'other' page types where the Artist and song title are shown in the playlist
+			return $('div.gcol-electronic span.playtxt a').last().text().trim().replace(/^\"|\"$/g, '');
 	}
 };
 

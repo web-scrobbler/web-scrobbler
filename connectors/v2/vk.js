@@ -14,13 +14,13 @@ let isPlaying = false;
 			return;
 		}
 		switch (event.data.type) {
-		case 'start':
-			isPlaying = true;
-			break;
-		case 'stop':
-		case 'pause':
-			isPlaying = false;
-			break;
+			case 'start':
+				isPlaying = true;
+				break;
+			case 'stop':
+			case 'pause':
+				isPlaying = false;
+				break;
 		}
 		trackInfo = event.data.trackInfo;
 		Connector.onStateChanged();

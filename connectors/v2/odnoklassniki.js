@@ -27,7 +27,7 @@ function getTimeInfo(field) {
 	var pattern = /(.+)\s\/\s(.+)/gi;
 	var songInfo = pattern.exec($('.mus_player_time').text());
 	if (songInfo) {
-		return  Connector.stringToSeconds(songInfo[field]);
+		return Connector.stringToSeconds(songInfo[field]);
 	}
 	return 0;
 }

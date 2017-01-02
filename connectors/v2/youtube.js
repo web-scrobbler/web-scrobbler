@@ -54,7 +54,7 @@ Connector.isStateChangeAllowed = function() {
 };
 
 Connector.getArtistTrack = function () {
-	var text =$(Connector.artistTrackSelector).text();
+	var text = $(Connector.artistTrackSelector).text();
 
 	// Remove [genre] from the beginning of the title
 	text = text.replace(/^\[[^\]]+\]\s*-*\s*/i, '');

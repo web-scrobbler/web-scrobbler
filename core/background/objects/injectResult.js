@@ -6,7 +6,7 @@
 define([], function() {
 
 	return {
-		results : {
+		results: {
 			MATCHED_AND_INJECTED: 'matched-and-injected',
 			MATCHED_BUT_DISABLED: 'matched-but-disabled',
 			NO_MATCH: 'no-match'

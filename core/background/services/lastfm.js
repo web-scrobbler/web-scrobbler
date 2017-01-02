@@ -27,7 +27,7 @@ define([
 
 		for (var x in params) {
 			if (params.hasOwnProperty(x)) {
-				parts.push( x + '=' + encodeURIComponent(params[x]));
+				parts.push(x + '=' + encodeURIComponent(params[x]));
 			}
 		}
 
@@ -96,7 +96,7 @@ define([
 						data.sessionID = null;
 						data.sessionName = null;
 						storage.set(data, function() {
-							cb(null,null);
+							cb(null, null);
 						});
 					} else {
 						// token is already used, reset it and store the new session
@@ -248,7 +248,7 @@ define([
 	 * @param cb {Function(boolean)} callback where validation result will be passed
 	 */
 	function loadSongInfo(song, cb) {
-		getSession(function(sessionID,sessionName) {
+		getSession(function(sessionID, sessionName) {
 
 			var params = {
 				method: 'track.getinfo',
@@ -418,7 +418,7 @@ define([
 			}
 
 			var params = {
-				method: 'track.'+(shouldBeLoved ? 'love' : 'unlove' ),
+				method: 'track.' + (shouldBeLoved ? 'love' : 'unlove'),
 				'track': song.processed.track || song.parsed.track,
 				'artist': song.processed.artist || song.parsed.artist,
 				api_key: apiKey,

@@ -14,7 +14,7 @@ var isPlayingLiveRadio = function() {
 
 Connector.getArtist = function() {
 	if (isPlayingLiveRadio() === 'true') {
-		var songTitle =  $('.d-queue-info .song-title').text();
+		var songTitle = $('.d-queue-info .song-title').text();
 		if (songTitle.indexOf('-') === -1) {
 			//Maybe ad or program, so ignore
 			return null;
@@ -28,7 +28,7 @@ Connector.getArtist = function() {
 
 Connector.getTrack = function() {
 	if (isPlayingLiveRadio() === 'true') {
-		var songTitle =  $('.d-queue-info .song-title').text();
+		var songTitle = $('.d-queue-info .song-title').text();
 		if (songTitle.indexOf('-') === -1) {
 			//Maybe ad or program, so ignore
 			return null;

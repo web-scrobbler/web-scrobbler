@@ -155,7 +155,7 @@ define([
 					onProcessed(song);
 				} else {
 					console.log('Tab ' + tabId + ': song un-processed ', JSON.stringify(song.attr()));
-					onUnProcessed(song);
+					onUnProcessed();
 				}
 			});
 		}
@@ -216,10 +216,8 @@ define([
 
 		/**
 		 * Called when song was already flagged as processed, but now is entering the pipeline again
-		 * @param {Song} song
 		 */
-		function onUnProcessed(song) {
-			/* jshint unused: false */
+		function onUnProcessed() {
 			console.log('Tab ' + tabId + ': clearing playback timer destination time');
 			playbackTimer.update(null);
 		}

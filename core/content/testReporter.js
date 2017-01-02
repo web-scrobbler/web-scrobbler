@@ -8,6 +8,7 @@
  * Provide functions to interact with tests.
  */
 
+// eslint-disable-next-line no-unused-vars
 const TestReporter = {
 	/**
 	 * Notify the test that connector is injected.

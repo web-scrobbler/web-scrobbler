@@ -12,7 +12,7 @@ Connector.trackSelector = '#player .primaryMetadata a:first';
 
 Connector.getAlbum = function() {
 	var album = $('#player .imgWrapper .img').attr('alt');
-	album = album.substr(album.indexOf('-')+1);
+	album = album.substr(album.indexOf('-') + 1);
 	return album || null;
 };
 

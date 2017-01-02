@@ -16,7 +16,7 @@ Connector.isPlaying = function() {
 	return $('a.as-icon.as-icon-play').hasClass('ng-hide');
 };
 
-Connector.getUniqueID = function (	) {
+Connector.getUniqueID = function () {
 	var text = $('.p-info-display > a').attr('href');
 	return text.length > 8 ? text.substring(8) : null;
 };

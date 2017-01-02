@@ -19,7 +19,7 @@ Connector.getTrack = function () {
 };
 
 Connector.playerSelector = '.playControls';
-const progressSelector   = '.playControls div[role=progressbar]';
+const progressSelector = '.playControls div[role=progressbar]';
 const playButtonSelector = '.playControls button.playControl';
 
 Connector.getCurrentTime = function () {
@@ -109,11 +109,11 @@ var setSongData = function (metadata) {
 	// Trigger functions based on message type.
 	function eventHandler(e) {
 		switch (e.data.type) {
-		case 'SC_PLAY':
-			setSongData(e.data.metadata);
-			break;
-		default:
-			break;
+			case 'SC_PLAY':
+				setSongData(e.data.metadata);
+				break;
+			default:
+				break;
 		}
 	}
 

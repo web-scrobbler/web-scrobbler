@@ -7,7 +7,7 @@ Connector.playerSelector = '.player-info-wrapper';
 Connector.artistSelector = '.player-info-wrapper > .info > .title > span';
 
 Connector.getTrackArt = function () {
-	return location.origin+$('#player .element.active img').attr('src');
+	return location.origin + $('#player .element.active img').attr('src');
 };
 
 Connector.getTrack = function() {

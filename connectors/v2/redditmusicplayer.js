@@ -7,7 +7,7 @@ Connector.playerSelector = '.ui.controls';
 Connector.currentTimeSelector = '.item.start.time';
 
 Connector.getTrackArt = function () {
-	return 'https:'+$('.ui.item.active img').attr('src');
+	return 'https:' + $('.ui.item.active img').attr('src');
 };
 
 Connector.getArtistTrack = function () {

@@ -7,6 +7,7 @@
  *
  * @constructor
  */
+// eslint-disable-next-line no-unused-vars
 var Reactor = function(connector) {
 
 	/**
@@ -17,7 +18,7 @@ var Reactor = function(connector) {
 	 * @param sendResponse {function}
 	 */
 	var runtimeMessageListener = function(message, sender, sendResponse) {
-		switch(message.type) {
+		switch (message.type) {
 			// background calls this to see if the script is already injected
 			case 'ping':
 				sendResponse(true);
@@ -37,7 +38,7 @@ var Reactor = function(connector) {
 	 * @param changedFields
 	 */
 	/* jshint unused: false */
-	this.onStateChanged = function(newState, changedFields) {
+	this.onStateChanged = function(newState/*, changedFields*/) {
 		// ignore changes in current time - it can be used in future
 		//if (changedFields.indexOf('currentTime') > -1 && changedFields.length === 1) {
 		//	return;

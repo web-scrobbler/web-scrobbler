@@ -149,7 +149,7 @@ exports.quit = function() {
  * @return {Promise} Promise that will be resolved when the document has finished loading
  */
 function getUrl(url, timeout) {
-	let timeouts =  driver.manage().timeouts();
+	let timeouts = driver.manage().timeouts();
 	return timeouts.pageLoadTimeout(timeout || URL_LOAD_TIMEOUT).then(() => {
 		return driver.get(url);
 	});
