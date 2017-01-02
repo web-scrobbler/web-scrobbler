@@ -1,6 +1,5 @@
 'use strict';
 
-/* global module, require */
 module.exports = function(grunt) {
 
 	var jsConnectorFiles = ['connectors/v2/*.js'];
@@ -27,13 +26,6 @@ module.exports = function(grunt) {
 				commit: true,
 				commitFiles: ['manifest.json'],
 				push: false
-			}
-		},
-		jshint: {
-			all: [jsCoreFiles, jsConnectorFiles, jsTestFiles],
-			options: {
-				jshintrc: true,
-				reporter: require('jshint-stylish')
 			}
 		},
 		copy: {
@@ -64,6 +56,12 @@ module.exports = function(grunt) {
 		clean: {
 			build: [buildDir],
 			package: [packageName]
+		},
+		eslint: {
+			target: [jsCoreFiles, jsConnectorFiles, jsTestFiles],
+			options: {
+				configFile: '.eslintrc.js'
+			},
 		},
 		lintspaces: {
 			all: {
@@ -105,7 +103,6 @@ module.exports = function(grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-bump');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-lintspaces');
 	grunt.loadNpmTasks('grunt-preprocess');
@@ -114,6 +111,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-jsonlint');
 	grunt.loadNpmTasks('grunt-contrib-csslint');
 	grunt.loadNpmTasks('grunt-exec');
+	grunt.loadNpmTasks('grunt-eslint');
 
 	grunt.registerTask('compile', ['clean:package', 'copy', 'preprocess']);
 	grunt.registerTask('build', ['compile', 'compress', 'clean:build']);
@@ -126,6 +124,6 @@ module.exports = function(grunt) {
 	grunt.registerTask('test', 'Run tests.', function(...args) {
 		grunt.task.run(`exec:run_tests:${args.join(':')}`);
 	});
-	grunt.registerTask('lint', ['jshint', 'csslint', 'jsonlint', 'lintspaces']);
+	grunt.registerTask('lint', ['eslint', 'csslint', 'jsonlint', 'lintspaces']);
 	grunt.registerTask('default', ['lint', 'test:core']);
 };
