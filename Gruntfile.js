@@ -1,6 +1,7 @@
 'use strict';
 
 module.exports = function(grunt) {
+	let isTravisCi = (process.env.TRAVIS === 'true');
 
 	var jsConnectorFiles = ['connectors/v2/*.js'];
 	var jsCoreFiles = ['Gruntfile.js', 'core/**/*.js', 'options/options.js', 'popups/*.js'];
@@ -60,7 +61,8 @@ module.exports = function(grunt) {
 		eslint: {
 			target: [jsCoreFiles, jsConnectorFiles, jsTestFiles],
 			options: {
-				configFile: '.eslintrc.js'
+				configFile: '.eslintrc.js',
+				fix: !isTravisCi
 			},
 		},
 		lintspaces: {
