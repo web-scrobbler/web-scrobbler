@@ -1038,5 +1038,12 @@ define(function() {
 			js: ['connectors/v2/vevo.js'],
 			version: 2
 		},
+
+		{
+			label: 'Anghami',
+			matches: ['*://www.anghami.com/*'],
+			js: ['connectors/v2/anghami.js'],
+			version: 2
+		}
 	];
 });
