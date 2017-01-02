@@ -18,6 +18,7 @@
     "grunt-contrib-compress": "~1.4.1",
     "grunt-contrib-copy": "~1.0.0",
     "grunt-contrib-imagemin": "^1.0.1",
+    "grunt-contrib-rename": "~0.0.3",
     "grunt-eslint": "~19.0.0",
     "grunt-exec": "~2.0.0",
     "grunt-git": "^1.0.3",
