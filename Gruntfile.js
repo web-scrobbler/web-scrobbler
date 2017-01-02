@@ -37,6 +37,10 @@ module.exports = function(grunt) {
 		clean: {
 			build: buildDir,
 			package: packageName,
+			chrome: [
+				`${buildDir}/icons/icon128_firefox.png`,
+				`${buildDir}/icons/icon48_firefox.png`
+			],
 		},
 		copy: {
 			project_files: {
@@ -77,6 +81,17 @@ module.exports = function(grunt) {
 				src: `${buildDir}/**/*.js`,
 				inline: true,
 				expand: true
+			}
+		},
+		rename: {
+			firefox: {
+				files: [{
+					src: `${buildDir}/icons/icon128_firefox.png`,
+					dest: `${buildDir}/icons/icon128.png`
+				}, {
+					src: `${buildDir}/icons/icon48_firefox.png`,
+					dest: `${buildDir}/icons/icon48.png`
+				}]
 			}
 		},
 
@@ -143,21 +158,68 @@ module.exports = function(grunt) {
 	require('load-grunt-tasks')(grunt);
 
 	/**
-	 * Copy source files to build directory and preprocess them.
+	 * Some tasks take browser name as an argument.
+	 * We support only Chrome and Firefox, which can be specified
+	 * as 'chrome' and 'firefox' respectively:
+	 *
+	 *   Build a package for Chrome browser
+	 *   > grunt build:chrome
+	 *
+	 *   Compile sources for Firefox browser
+	 *   > grunt compile:firefox
 	 */
-	grunt.registerTask('compile', ['copy', 'preprocess', 'imagemin']);
+
+	/**
+	 * Set the extension icon according to specified browser.
+	 * @param {String} browser Browser name
+	 */
+	grunt.registerTask('icons', (browser) => {
+		switch (browser) {
+			case 'chrome':
+				grunt.task.run('clean:chrome');
+				break;
+			case 'firefox':
+				grunt.task.run('rename:firefox');
+				break;
+			default:
+				throw new Error(`Unknown browser: ${browser}`);
+		}
+	});
+
+	/**
+	 * Copy source filed to build directory, preprocess them and
+	 * set the extension icon according to specified browser.
+	 * @param {String} browser Browser name
+	 */
+	grunt.registerTask('compile', (browser) => {
+		grunt.task.run(['copy', 'preprocess', `icons:${browser}`, 'imagemin']);
+	});
+
 	/**
 	 * Compile source files and package them.
 	 */
-	grunt.registerTask('build', [
-		'clean:build', 'compile', 'clean:package', 'compress', 'clean:build'
-	]);
+	grunt.registerTask('build', (browser) => {
+		grunt.task.run([
+			'clean:build', `compile:${browser}`,
+			'clean:package', 'compress', 'clean:build'
+		]);
+	});
+
 	/**
-	 * Create package and publish it to Chrome Web Store.
+	 * Create package and publish it.
 	 */
-	grunt.registerTask('publish-cws', ['build', 'exec:publish_cws']);
+	grunt.registerTask('publish', (browser) => {
+		switch (browser) {
+			case 'chrome':
+				grunt.task.run(['build:chrome', 'exec:publish_cws']);
+				break;
+			default:
+				throw new Error(`Unknown browser: ${browser}`);
+		}
+	});
+
 	/**
-	 * Release new version and publish package to Chrome Web Store.
+	 * Release new version and publish all packages.
 	 * @param {String} versionType Version type that 'grunt-bump' supports
 	 */
 	grunt.registerTask('release', (versionType) => {
@@ -165,8 +227,9 @@ module.exports = function(grunt) {
 			grunt.fail.fatal('You should specify release type!');
 		}
 
-		grunt.task.run(`bump:${versionType}`);
-		grunt.task.run('publish-cws');
+		grunt.task.run([
+			`bump:${versionType}`, 'publish:chrome'
+		]);
 	});
 
 	/**
