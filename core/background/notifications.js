@@ -100,7 +100,7 @@ define([
 
 				var options = {
 					type: 'basic',
-					iconUrl: 'icon128.png',
+					iconUrl: '/icon128.png',
 					title: 'Web scrobbler error',
 					message: message
 				};
@@ -158,7 +158,9 @@ define([
 			chrome.notifications.getPermissionLevel(createNotification);
 		};
 
-		authUrlGetter(onHaveAuthUrl);
+		authUrlGetter().then(onHaveAuthUrl).catch(() => {
+			showError('Unable to log in to Last.fm. Please try later');
+		});
 	}
 
 	/**
