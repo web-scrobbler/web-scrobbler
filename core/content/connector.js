@@ -276,31 +276,31 @@ var BaseConnector = window.BaseConnector || function () {
 			changedFields.push('url');
 		}
 
-		var newTrack = this.getTrack() || null;
-		var newArtist = this.getArtist() || null;
+		var newTrack = this.getTrack();
+		var newArtist = this.getArtist();
 
 		var artistTrack = this.getArtistTrack() || {artist: null, track: null};
 		if (newArtist === null && artistTrack.artist) {
-			newArtist = artistTrack.artist || null;
+			newArtist = artistTrack.artist;
 		}
 		if (newTrack === null && artistTrack.track) {
-			newTrack = artistTrack.track || null;
+			newTrack = artistTrack.track;
 		}
 
-		newTrack = this.filter.filterTrack(newTrack);
+		newTrack = this.filter.filterTrack(newTrack) || null;
 		if (newTrack !== currentState.track) {
 			currentState.track = newTrack;
 			changedFields.push('track');
 		}
 
-		newArtist = this.filter.filterArtist(newArtist);
+		newArtist = this.filter.filterArtist(newArtist) || null;
 		if (newArtist !== currentState.artist) {
 			currentState.artist = newArtist;
 			changedFields.push('artist');
 		}
 
-		var newAlbum = this.getAlbum() || null;
-		newAlbum = this.filter.filterAlbum(newAlbum);
+		var newAlbum = this.getAlbum;
+		newAlbum = this.filter.filterAlbum(newAlbum) || null;
 		if (newAlbum !== currentState.album) {
 			currentState.album = newAlbum;
 			changedFields.push('album');
