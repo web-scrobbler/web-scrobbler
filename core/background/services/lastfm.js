@@ -10,6 +10,7 @@ define([
 	'objects/serviceCallResult',
 	'chromeStorage'
 ], function ($, MD5, can, ServiceCallResultFactory, ChromeStorage) {
+	const GET_AUTH_URL_TIMEOUT = 10000;
 
 	var enableLogging = true;
 
@@ -35,46 +36,74 @@ define([
 	}
 
 	/**
-	 * Calls callback with URL where user should grant permissions to our token or null on error.
-	 * If an error occurs, callback is called with null.
+	 * Execute promise with specified timeout.
+	 * @param  {Number} timeout Timeout in milliseconds
+	 * @param  {Promise} promise Promise to execute
+	 * @return {Promise} Promise that will resolve when the task has complete
+	 */
+	function timeoutPromise(timeout, promise) {
+		return new Promise((resolve, reject) => {
+			const timeoutId = setTimeout(() => {
+				reject(new Error('promise timeout'));
+			}, timeout);
+			promise.then(
+				(res) => {
+					clearTimeout(timeoutId);
+					resolve(res);
+				},
+				(err) => {
+					clearTimeout(timeoutId);
+					reject(err);
+				}
+			);
+		});
+	}
+
+	/**
+	 * Fetch auth URL where user should grant permissions to our token.
 	 *
-	 * Stores the new obtained token into storage so it will be traded for a new session when needed.
-	 * Because of this it is necessary this method is called only when user is really going to
-	 * approve the token and not sooner. Otherwise use of the token would result in an unauthorized request.
+	 * Stores the new obtained token into storage so it will be traded for
+	 * a new session when needed. Because of this it is necessary this method
+	 * is called only when user is really going to approve the token and
+	 * not sooner. Otherwise use of the token would result in an unauthorized
+	 * request.
 	 *
 	 * See http://www.last.fm/api/show/auth.getToken
+	 *
+	 * @return {Promise} Promise that will resolve with the auth URL
 	 */
-	function getAuthUrl(cb) {
-		var http_request = new XMLHttpRequest();
-		http_request.open('GET', apiUrl + '?method=auth.gettoken&api_key=' + apiKey, false); // synchronous
-		http_request.setRequestHeader('Content-Type', 'application/xml');
-		http_request.send();
+	function getAuthUrl() {
+		let url = `${apiUrl}?method=auth.gettoken&api_key=${apiKey}`;
+		return timeoutPromise(GET_AUTH_URL_TIMEOUT, fetch(url, {method: 'GET'}).then((response) => {
+			return response.text();
+		}).then((text) => {
+			let xml = $($.parseXML(text));
+			let status = xml.find('lfm').attr('status');
+			return new Promise((resolve, reject) => {
+				storage.get(function(data) {
+					if (status !== 'ok') {
+						console.log('Error acquiring a token: %s', text);
 
-		var xmlDoc = $.parseXML(http_request.responseText);
-		var xml = $(xmlDoc);
-		var status = xml.find('lfm').attr('status');
+						data.token = null;
+						storage.set(data, function() {
+							reject();
+						});
+					} else {
+						// set token and reset session so we will grab a new one
+						data.sessionID = null;
+						data.token = xml.find('token').text();
 
-		storage.get(function(data) {
-			if (status !== 'ok') {
-				console.log('Error acquiring a token: %s', http_request.responseText);
+						let response = text.replace(data.token, `xxxxx${data.token.substr(5)}`);
+						console.log(`getToken response: ${response}`);
 
-				data.token = null;
-				storage.set(data, function() {
-					cb(null);
+						let authUrl = `http://www.last.fm/api/auth/?api_key=${apiKey}&token=${data.token}`;
+						storage.set(data, function() {
+							resolve(authUrl);
+						});
+					}
 				});
-			} else {
-				// set token and reset session so we will grab a new one
-				data.sessionID = null;
-				data.token = xml.find('token').text();
-
-				var response = http_request.responseText;
-				console.log('getToken response: %s', response.replace(data.token, 'xxxxx' + data.token.substr(5)));
-
-				storage.set(data, function() {
-					cb('http://www.last.fm/api/auth/?api_key=' + apiKey + '&token=' + data.token);
-				});
-			}
-		});
+			});
+		}));
 	}
 
 	/**
