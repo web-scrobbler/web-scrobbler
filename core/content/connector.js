@@ -299,7 +299,7 @@ var BaseConnector = window.BaseConnector || function () {
 			changedFields.push('artist');
 		}
 
-		var newAlbum = this.getAlbum;
+		var newAlbum = this.getAlbum();
 		newAlbum = this.filter.filterAlbum(newAlbum) || null;
 		if (newAlbum !== currentState.album) {
 			currentState.album = newAlbum;
