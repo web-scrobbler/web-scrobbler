@@ -279,12 +279,12 @@ var BaseConnector = window.BaseConnector || function () {
 		var newTrack = this.getTrack() || null;
 		var newArtist = this.getArtist() || null;
 
-		var artistTrack = this.getArtistTrack() || null;
+		var artistTrack = this.getArtistTrack() || {artist: null, track: null};
 		if (newArtist === null && artistTrack.artist) {
-			newArtist = artistTrack.artist;
+			newArtist = artistTrack.artist || null;
 		}
 		if (newTrack === null && artistTrack.track) {
-			newTrack = artistTrack.track;
+			newTrack = artistTrack.track || null;
 		}
 
 		newTrack = this.filter.filterTrack(newTrack);
