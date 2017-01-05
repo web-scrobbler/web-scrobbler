@@ -109,11 +109,13 @@ module.exports = function(grunt) {
 	/**
 	 * Copy source files to build directory and preprocess them.
 	 */
-	grunt.registerTask('compile', ['clean:package', 'copy', 'preprocess']);
+	grunt.registerTask('compile', ['copy', 'preprocess']);
 	/**
 	 * Compile source files and package them.
 	 */
-	grunt.registerTask('build', ['compile', 'compress', 'clean:build']);
+	grunt.registerTask('build', [
+		'clean:build', 'compile', 'clean:package', 'compress', 'clean:build'
+	]);
 	/**
 	 * Create package and publish it to Chrome Web Store.
 	 */
