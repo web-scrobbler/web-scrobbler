@@ -21,13 +21,8 @@ Connector.playButtonSelector = '.btns .ply';
 Connector.currentTimeSelector = '.j-flag.time em';
 
 Connector.getDuration = function () {
-	var totalSecondValue = $('#g_player').find('.time').text();
-	var duration = '';
-	if (totalSecondValue) {
-		totalSecondValue = totalSecondValue.substr(totalSecondValue.length - 4);
-		duration = +totalSecondValue.split(':')[0] * 60 + (+totalSecondValue.split(':')[1]);
-	}
-	return duration;
+	let timeStr = $('#g_player .time').text();
+	return Connector.stringToSeconds(timeStr.substr(timeStr.length - 4));
 };
 
 Connector.isPlaying = function () {
