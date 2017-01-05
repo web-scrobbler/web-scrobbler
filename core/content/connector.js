@@ -276,8 +276,8 @@ var BaseConnector = window.BaseConnector || function () {
 			changedFields.push('url');
 		}
 
-		var newTrack = this.getTrack();
-		var newArtist = this.getArtist();
+		var newTrack = this.getTrack() || null;
+		var newArtist = this.getArtist() || null;
 
 		var artistTrack = this.getArtistTrack() || {artist: null, track: null};
 		if (newArtist === null && artistTrack.artist) {
