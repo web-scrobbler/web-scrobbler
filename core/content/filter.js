@@ -1,8 +1,5 @@
 'use strict';
 
-/* exported MetadataFilter */
-/* jshint node: true */
-
 /**
  * Export MetadataFilter constructor if script is run in Node.js context.
  */

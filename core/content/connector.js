@@ -1,6 +1,6 @@
 'use strict';
+
 /* globals _, MetadataFilter, TestReporter */
-/* exported Connector */
 
 /**
  * Connector base object

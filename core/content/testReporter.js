@@ -2,8 +2,6 @@
 
 // @ifdef DEBUG
 
-/* exported TestReporter */
-
 /**
  * Provide functions to interact with tests.
  */

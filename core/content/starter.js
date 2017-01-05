@@ -1,5 +1,6 @@
 'use strict';
-/* globals Connector, BaseConnector, Reactor, TestReporter */
+
+/* global Connector, BaseConnector, Reactor, TestReporter */
 
 /**
  * This script is injected to the page after the {@link BaseConnector} and a custom

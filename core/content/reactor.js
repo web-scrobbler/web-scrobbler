@@ -1,5 +1,4 @@
 'use strict';
-/* exported Reactor */
 
 /**
  * Reactor object is created only once in starter script.
