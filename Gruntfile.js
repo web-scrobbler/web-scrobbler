@@ -106,17 +106,62 @@ module.exports = function(grunt) {
 
 	require('load-grunt-tasks')(grunt);
 
+	/**
+	 * Copy source files to build directory and preprocess them.
+	 */
 	grunt.registerTask('compile', ['clean:package', 'copy', 'preprocess']);
+	/**
+	 * Compile source files and package them.
+	 */
 	grunt.registerTask('build', ['compile', 'compress', 'clean:build']);
+	/**
+	 * Create package and publish it to Chrome Web Store.
+	 */
 	grunt.registerTask('publish', ['build', 'exec:publish']);
+	/**
+	 * Release new version and publish package to Chrome Web Store.
+	 * @param {String} ver Version type that 'grunt-bump' supports
+	 */
 	grunt.registerTask('release', (ver) => {
 		grunt.task.run(`bump:${ver}`);
 		grunt.task.run('publish');
 	});
 
+	/**
+	 * Run core or connectors tests.
+	 *
+	 * You can easily run all test by the following command:
+	 *   > grunt test
+	 *
+	 * To run core tests use 'core' as an argument:
+	 *   > grunt test:core
+	 *
+	 * Note: running core and connectors tests at the same time is not supported.
+	 *
+	 * You can specify tests you want to run as arguments:
+	 *   > grunt test:8tracks
+	 *   Run single test for 8tracks connector
+	 *
+	 *   > grunt test:hypem:dashradio
+	 *   Run tests for Hype Machine and Dash Radio connectors
+	 *
+	 * Also, you can use following options:
+	 *   - debug: Enable debug mode. Disabled by default.
+	 *     Use true|on|1 value to enable debug mode and false|off|0 to disable it.
+	 *   - quitOnEnd: close browser when all tests are completed. Enabled by default.
+	 *     Use true|on|1 value to enable this feature and false|off|0 to disable it.
+	 *
+	 * Of course, you can mix both options and tests in arguments:
+	 *   > grunt test:8tracks:debug=1
+	 *
+	 * Core test runner doesn't support these options.
+	 */
 	grunt.registerTask('test', 'Run tests.', function(...args) {
 		grunt.task.run(`exec:run_tests:${args.join(':')}`);
 	});
+	/**
+	 * Lint source code using linters specified below.
+	 */
 	grunt.registerTask('lint', ['eslint', 'csslint', 'jsonlint', 'lintspaces']);
 	grunt.registerTask('default', ['lint', 'test:core']);
 };
