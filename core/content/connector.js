@@ -414,7 +414,7 @@ var BaseConnector = window.BaseConnector || function () {
 
 	/**
 	 * Split string to artist and track.
-	 * @param  {String} str [description]
+	 * @param  {String} str String contains artist and track info
 	 * @return {Object} Object contains artist and track fields
 	 */
 	this.splitArtistTrack = function(str) {

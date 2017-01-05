@@ -18,7 +18,7 @@ define(function() {
 
 	/**
 	 * Check if connector is enabled.
-	 * @param  {stringify}  label Label of connector
+	 * @param  {String}  label Label of connector
 	 * @return {Boolean} True if connector is enabled; false otherwise
 	 */
 	function isConnectorEnabled(label) {
