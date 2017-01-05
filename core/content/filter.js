@@ -63,9 +63,7 @@ function MetadataFilter(filterSet) {
 		}
 
 		filters.forEach(filter => {
-			console.log(`Before: ${text}`);
 			text = filter(text);
-			console.log(`After: ${text}`);
 		});
 
 		return text;
