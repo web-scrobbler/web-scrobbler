@@ -29,6 +29,18 @@ module.exports = function(grunt) {
 	const buildDir = 'build';
 	const packageName = 'web-scrobbler.zip';
 
+	const filesToUglify = [
+		'vendor/bootstrap.js',
+		'vendor/can.custom.js',
+		'vendor/jquery.js',
+		'vendor/md5.js',
+		'vendor/require.js',
+	];
+	const filesToMinify = [
+		'vendor/bootstrap.css',
+		'vendor/fontawesome/font-awesome.css'
+	];
+
 	grunt.initConfig({
 		/**
 		 * Configs of build tasks.
@@ -48,6 +60,11 @@ module.exports = function(grunt) {
 				src: extensionSources,
 				dest: buildDir,
 			},
+		},
+		cssmin: {
+			vendor: {
+				files: createUglifyFileMap(filesToMinify)
+			}
 		},
 		compress: {
 			main: {
@@ -107,6 +124,11 @@ module.exports = function(grunt) {
 					src: `${buildDir}/icons/icon48_firefox.png`,
 					dest: `${buildDir}/icons/icon48.png`
 				}]
+			}
+		},
+		uglify: {
+			vendor: {
+				files: createUglifyFileMap(filesToUglify)
 			}
 		},
 
@@ -210,7 +232,8 @@ module.exports = function(grunt) {
 		assertBrowserIsSupported(browser);
 
 		grunt.task.run([
-			'copy', `preprocess:${browser}`, `icons:${browser}`, , 'imagemin'
+			'copy', `preprocess:${browser}`, `icons:${browser}`,
+			'imagemin', 'uglify', 'cssmin'
 		]);
 	});
 
@@ -311,5 +334,20 @@ module.exports = function(grunt) {
 		if (supportedBrowsers.indexOf(browser) === -1) {
 			grunt.fail.fatal(`Unknown browser: ${browser}`);
 		}
+	}
+
+	/**
+	 * Create map of files that should be uglified/minified.
+	 * @param  {Array} paths Array of paths to files
+	 * @return {Object} Object that maps target files to source ones
+	 */
+	function createUglifyFileMap(paths) {
+		let fileMap = {};
+		for (let path of paths) {
+			let target = `${buildDir}/${path}`;
+			fileMap[target] = path;
+		}
+
+		return fileMap;
 	}
 };
