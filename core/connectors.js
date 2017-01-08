@@ -1044,6 +1044,13 @@ define(function() {
 			matches: ['*://www.anghami.com/*'],
 			js: ['connectors/v2/anghami.js'],
 			version: 2
+		},
+
+		{
+			label: 'Dewtone',
+			matches: ['*://dewtone.com/*'],
+			js: ['connectors/v2/dewtone.js'],
+			version: 2
 		}
 	];
 });
