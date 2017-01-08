@@ -1,8 +1,7 @@
 'use strict';
 
 module.exports = function(driver, connectorSpec) {
-	connectorSpec.shouldBehaveLikeMusicSite(driver, {
-		url: 'http://dewtone.com/',
-		playButtonSelector: '#footer-player-play',
+	connectorSpec.shouldContainPlayerElement(driver, {
+		url: 'http://dewtone.com/'
 	});
 };
