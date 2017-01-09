@@ -13,7 +13,7 @@ Connector.getUniqueID = function() {
 	return $('#data-uid').text();
 };
 
-// Data provided rounds duration UP to next minute... Is usually longer than the last.fm version data.
+// Data provided rounds duration UP to next minute... Is usually longer than the Last.fm version data.
 Connector.getDuration = function () {
 	return $('#data-end').text() - $('#data-start').text();
 };

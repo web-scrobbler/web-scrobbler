@@ -91,7 +91,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 * Selector of image used to represent the track being played. is used for
 	 * the notification service.
 	 *
-	 * If not specified will fall back to last.fm API.
+	 * If not specified will fall back to Last.fm API.
 	 *
 	 * @type {string}
 	 */
