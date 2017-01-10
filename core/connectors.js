@@ -1051,6 +1051,13 @@ define(function() {
 			matches: ['*://dewtone.com/*'],
 			js: ['connectors/v2/dewtone.js'],
 			version: 2
+		},
+
+		{
+			label: 'Style Jukebox',
+			matches: ['*://play.stylejukebox.com/*'],
+			js: ['connectors/v2/stylejukebox.js'],
+			version: 2
 		}
 	];
 });
