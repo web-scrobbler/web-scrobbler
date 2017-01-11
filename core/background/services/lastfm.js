@@ -352,10 +352,10 @@ define([
 				sk: sessionID
 			};
 
-			if (song.album) {
+			if (song.getAlbum()) {
 				params.album = song.getAlbum();
 			}
-			if (song.duration) {
+			if (song.getDuration()) {
 				params.duration = song.getDuration();
 			}
 
@@ -399,8 +399,8 @@ define([
 				sk: sessionID
 			};
 
-			if (song.processed.album || song.parsed.album) {
-				params['album[0]'] = song.processed.album || song.parsed.album;
+			if (song.getAlbum()) {
+				params['album[0]'] = song.getAlbum();
 			}
 
 			var okCb = function(xmlDoc) {
