@@ -9,6 +9,48 @@ define([
 	const GET_AUTH_URL_TIMEOUT = 10000;
 
 	/**
+	 * List of scrobbler options.
+	 * @type {Array}
+	 */
+	const SCROBBLER_OPTIONS = [
+		/**
+		 * Scrobbler label.
+		 * @type {String}
+		 */
+		'label',
+		/**
+		 * Storage namespace in which scrobbler options are stored.
+		 * @type {String}
+		 */
+		'storage',
+		/**
+		 * URL used to execute API methods.
+		 * @type {String}
+		 */
+		'apiUrl',
+		/**
+		 * URL used to authenticate user.
+		 * @type {String}
+		 */
+		'authUrl',
+		/**
+		 * URL used to view service status.
+		 * @type {String}
+		 */
+		'statusUrl',
+		/**
+		 * Service API key.
+		 * @type {String}
+		 */
+		'apiKey',
+		/**
+		 * Service API secret.
+		 * @type {String}
+		 */
+		'apiSecret'
+	];
+
+	/**
 	 * Base scrobbler object.
 	 *
 	 * This object and its ancestors MUST return ServiceCallResult instance
@@ -17,14 +59,14 @@ define([
 	class BaseScrobbler {
 		/**
 		 * @param {Object} options Scrobbler options
+		 *
+		 * @see {@link SCROBBLER_OPTIONS}
 		 */
 		constructor(options) {
-			this.label = options.label;
-			this.apiUrl = options.apiUrl;
-			this.apiKey = options.apiKey;
-			this.apiSecret = options.apiSecret;
-			this.authUrl = options.authUrl;
-			this.statusUrl = options.statusUrl;
+			for (let option of SCROBBLER_OPTIONS) {
+				this[option] = options[option];
+			}
+
 			this.storage = ChromeStorage.getNamespace(options.storage);
 		}
 
