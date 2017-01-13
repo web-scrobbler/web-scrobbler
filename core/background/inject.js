@@ -90,9 +90,8 @@ define([
 				var matchOk = false,
 					patterns = connector.matches || [];
 
-				// if there are custom patterns use only them, otherwise use only predefined patterns
-				if (customPatterns.hasOwnProperty(connector.label) && customPatterns[connector.label].length > 0) {
-					patterns = customPatterns[connector.label];
+				if (customPatterns[connector.label]) {
+					patterns.concat(customPatterns[connector.label]);
 				}
 
 				patterns.forEach(function (match) {
