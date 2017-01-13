@@ -38,15 +38,17 @@ const TestReporter = {
 
 	/**
 	 * Dispatch a JS event to interact with tests.
-	 * @param  {String} msg Event to send to tests
+	 * @param  {String} event Event to send to tests
 	 * @param  {Object} obj Object to send to tests
 	 * @param  {Boolean} err True if the message is an error
 	 *
 	 * Events:
-	 *  'connector_injected' - connector is injected
-	 *     data: connector copy
-	 *  'connector_state_changed' - state of connector is changed
-	 *     data: currentState
+	 *  * 'connector_injected': the connector is injected into a page
+	 *       data: null
+	 *  * 'player_element_exists': player element is found on a page
+	 *	     data: null
+	 *  * 'connector_state_changed': state of the connector is changed
+	 *       data: currentState
 	 */
 	sendEventToTest: function(event, obj, err) {
 		if (err) {

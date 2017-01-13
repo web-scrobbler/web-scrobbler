@@ -40,6 +40,7 @@ exports.load = function(url, timeout) {
 /**
  * Wait for an element to be visible and click on it.
  * @param  {Object} locator Locator of element to be clicked
+ * @param  {Boolean} forceJsClick If true, click with JavaScript by default
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 exports.click = function(locator, forceJsClick) {
@@ -125,7 +126,7 @@ exports.wait = function(condition, timeout, message) {
 
 /**
  * Sleep for given amount of time.
- * @param  {Number} The amount of time, in milliseconds, to sleep
+ * @param  {Number} timeout The amount of time, in milliseconds, to sleep
  * @return {Promise} Promise that will be resolved when the sleep has finished
  */
 exports.sleep = function(timeout) {

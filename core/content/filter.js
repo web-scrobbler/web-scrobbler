@@ -226,7 +226,7 @@ MetadataFilter.REMASTERED_FILTERS = {
 
 /**
  * Get simple trim filter object used by default in a Connector object.
- * @type {MetadataFilter}
+ * @return {MetadataFilter} Filter object
  */
 MetadataFilter.getTrimFilter = function() {
 	return new MetadataFilter({
@@ -238,7 +238,7 @@ MetadataFilter.getTrimFilter = function() {
 
 /**
  * Get predefined filter object for Youtube-based connectors.
- * @type {MetadataFilter}
+ * @return {MetadataFilter} Filter object
  */
 MetadataFilter.getYoutubeFilter = function() {
 	return new MetadataFilter({
@@ -249,7 +249,7 @@ MetadataFilter.getYoutubeFilter = function() {
 
 /**
  * Get predefined filter object that uses 'removeRemastered' function.
- * @type {MetadataFilter}
+ * @return {MetadataFilter} Filter object
  */
 MetadataFilter.getRemasteredFilter = function() {
 	return new MetadataFilter({

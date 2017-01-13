@@ -39,7 +39,7 @@ define([
 	 * Execute promise with specified timeout.
 	 * @param  {Number} timeout Timeout in milliseconds
 	 * @param  {Promise} promise Promise to execute
-	 * @return {Promise} Promise that will resolve when the task has complete
+	 * @return {Promise} Promise that will be resolved when the task has complete
 	 */
 	function timeoutPromise(timeout, promise) {
 		return new Promise((resolve, reject) => {
@@ -70,7 +70,7 @@ define([
 	 *
 	 * See http://www.last.fm/api/show/auth.getToken
 	 *
-	 * @return {Promise} Promise that will resolve with the auth URL
+	 * @return {Promise} Promise that will be resolved with the auth URL
 	 */
 	function getAuthUrl() {
 		let url = `${apiUrl}?method=auth.gettoken&api_key=${apiKey}`;
