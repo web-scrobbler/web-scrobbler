@@ -4,6 +4,7 @@ define([
 	'wrappers/chrome',
 	'services/background-ga'
 ], function(chrome, GA) {
+	const SIGN_IN_ERROR_MESSAGE = 'Unable to log in to Last.fm. Please try later';
 
 	/**
 	 * Map of click listeners indexed by notification IDs.
@@ -90,14 +91,16 @@ define([
 	/**
 	 * Show error notificiation.
 	 * @param  {String} message Notification message
+	 * @param  {Function} onClick Function that will be called on notification click
 	 */
-	function showError(message) {
+	function showError(message, onClick = null) {
 		if (!isAvailable() || !isAllowed()) {
 			return;
 		}
 
-		var notificationCreatedCb = function() {
+		var notificationCreatedCb = function(notificationId) {
 			GA.event('notification', 'error', 'show');
+			addOnClickedListener(notificationId, onClick);
 		};
 
 		var createNotification = function(permissionLevel) {
@@ -115,6 +118,15 @@ define([
 		};
 
 		chrome.notifications.getPermissionLevel(createNotification);
+	}
+
+	/**
+	 * Show error notification if user is unable to sign in to Last.fm.
+	 */
+	function showSignInError() {
+		showError(SIGN_IN_ERROR_MESSAGE, () => {
+			chrome.tabs.create({ url: 'http://status.last.fm/' });
+		});
 	}
 
 	/**
@@ -160,9 +172,7 @@ define([
 			chrome.notifications.getPermissionLevel(createNotification);
 		};
 
-		authUrlGetter().then(onHaveAuthUrl).catch(() => {
-			showError('Unable to log in to Last.fm. Please try later');
-		});
+		authUrlGetter().then(onHaveAuthUrl).catch(showSignInError);
 	}
 
 	/**
