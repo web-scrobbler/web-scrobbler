@@ -77,10 +77,25 @@ module.exports = function(grunt) {
 			}
 		},
 		preprocess: {
-			js_files: {
+			firefox: {
 				src: `${buildDir}/**/*.js`,
-				inline: true,
-				expand: true
+				expand: true,
+				options: {
+					inline: true,
+					context: {
+						FIREFOX: true,
+					}
+				}
+			},
+			chrome: {
+				src: `${buildDir}/**/*.js`,
+				expand: true,
+				options: {
+					inline: true,
+					context: {
+						CHROME: true,
+					}
+				}
 			}
 		},
 		rename: {
@@ -192,7 +207,9 @@ module.exports = function(grunt) {
 	 * @param {String} browser Browser name
 	 */
 	grunt.registerTask('compile', (browser) => {
-		grunt.task.run(['copy', 'preprocess', `icons:${browser}`, 'imagemin']);
+		grunt.task.run([
+			'copy', `preprocess:${browser}`, `icons:${browser}`, , 'imagemin'
+		]);
 	});
 
 	/**
