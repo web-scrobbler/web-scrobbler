@@ -79,13 +79,6 @@ define(function() {
 		},
 
 		{
-			label: 'Ghostly Discovery',
-			matches: ['http://ghostly.com/discovery/play', 'http://www.ghostly.com/discovery/play'],
-			js: ['connectors/v2/ghostly.js'],
-			version: 2
-		},
-
-		{
 			label: 'Bandcamp',
 			matches: ['*://*.bandcamp.com/*', '*://bandcamp.com/*'],
 			js: ['connectors/v2/bandcamp.js'],
