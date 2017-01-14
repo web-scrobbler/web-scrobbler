@@ -770,13 +770,6 @@ define(function() {
 		},
 
 		{
-			label: 'oplayer',
-			matches: ['*://oplayer.org/*'],
-			js: ['connectors/v2/jplayer-oplayer.js'],
-			version: 2
-		},
-
-		{
 			label: 'post-player',
 			matches: ['*://post-player.org/*'],
 			js: ['connectors/v2/jplayer-postplayer.js'],
