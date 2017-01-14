@@ -155,8 +155,6 @@ module.exports = function(grunt) {
 	 *
 	 * Of course, you can mix both options and tests in arguments:
 	 *   > grunt test:8tracks:debug=1
-	 *
-	 * Core test runner doesn't support these options.
 	 */
 	grunt.registerTask('test', 'Run tests.', function(...args) {
 		grunt.task.run(`exec:run_tests:${args.join(':')}`);
