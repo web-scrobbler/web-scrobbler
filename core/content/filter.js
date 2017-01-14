@@ -1,15 +1,6 @@
 'use strict';
 
 /**
- * Export MetadataFilter constructor if script is run in Node.js context.
- */
-if (typeof module !== 'undefined') {
-	module.exports = {
-		MetadataFilter: MetadataFilter,
-	};
-}
-
-/**
  * Base filter object that filters metadata fields by given filter set.
  * A filter set is an object containing 'artist', 'track', 'album' or 'all'
  * properties. Each property can be defined either as a filter function or as
@@ -284,3 +275,10 @@ MetadataFilter.getRemasteredFilter = function() {
 		album: MetadataFilter.removeRemastered
 	});
 };
+
+/**
+ * Export MetadataFilter constructor if script is run in Node.js context.
+ */
+if (typeof module !== 'undefined') {
+	module.exports = MetadataFilter;
+}

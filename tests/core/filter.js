@@ -2,7 +2,7 @@
 
 require('chai').should();
 
-const MetadataFilter = require('../../core/content/filter').MetadataFilter;
+const MetadataFilter = require('../../core/content/filter');
 
 /**
  * Test data is an array of objects. Each object must contain
