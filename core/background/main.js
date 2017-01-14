@@ -16,10 +16,8 @@ require([
 	'objects/injectResult',
 	'pageAction',
 	'controller',
-	'storage',
-	'config',
 	'chromeStorage'
-], function(GA, LastFM, Notifications, inject, injectResult, PageAction, Controller, Storage, config, ChromeStorage) {
+], function(GA, LastFM, Notifications, inject, injectResult, PageAction, Controller, ChromeStorage) {
 
 	/**
 	 * Single controller instance for each tab with injected script
@@ -90,39 +88,6 @@ require([
 
 		return tabControllers[tabId];
 	}
-
-
-
-	// --- done once on background script load -------------------------------------------------------------------------
-
-	// cleanup and other stuff to be done on specific version changes
-	{
-		var oldLfmStorage = Storage.getNamespace('LastFM');
-
-		// update Core namespace to Chrome storage
-		ChromeStorage.get(function(allData) {
-			// init
-			if (allData === null || Object.keys(allData).length === 0) {
-				allData = {
-					Core: {
-						appVersion: chrome.app.getDetails().version
-					},
-					LastFM: { // attempt to migrate from localStorage so user doesn't have to re-auth
-						token: oldLfmStorage.get('token') || null,
-						sessionID: oldLfmStorage.get('sessionID') || null
-					}
-				};
-			}
-			// update
-			else {
-				allData.Core.appVersion = chrome.app.getDetails().version;
-			}
-
-			// save and proceed in starting up
-			ChromeStorage.set(allData, startup);
-		});
-	}
-
 
 	// setup listener for messages from connectors
 	chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
@@ -215,4 +180,5 @@ require([
 		});
 	}
 
+	startup();
 });
