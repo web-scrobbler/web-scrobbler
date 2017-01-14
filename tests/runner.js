@@ -3,6 +3,16 @@
 const path = require('path');
 const Mocha = require('mocha');
 const options = require('./helpers/options');
+const requirejs = require('node-define');
+
+function configureRequireJs() {
+	requirejs.config({
+		paths: {
+			wrappers: 'tests/stubs/'
+		},
+		waitSeconds: 0
+	});
+}
 
 function getTestReporter() {
 	if (options.getTestMode() === 'core') {
@@ -29,6 +39,7 @@ function createMocha() {
 }
 
 function main() {
+	configureRequireJs();
 	createMocha().run(function(failures) {
 		process.on('exit', function () {
 			process.exit(failures);
