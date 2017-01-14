@@ -19,7 +19,7 @@ Connector.getDuration = function () {
 };
 
 Connector.isPlaying = function() {
-	return $(nowPlayingSelector).length;
+	return $(nowPlayingSelector).length > 0;
 };
 
 // In preparation for merge of PR#607 (https://github.com/david-sabata/web-scrobbler/pull/607)

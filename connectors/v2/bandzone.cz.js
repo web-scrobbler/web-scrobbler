@@ -10,7 +10,7 @@ if (location.href === 'http://bandzone.cz/' || location.href === 'https://bandzo
 	Connector.trackSelector = '.stat:has(.ui-miniaudioplayer-state-playing) .songTitle';
 
 	Connector.isPlaying = function () {
-		return $('.ui-miniaudioplayer-state-playing').length;
+		return $('.ui-miniaudioplayer-state-playing').length > 0;
 	};
 } else {
 	Connector.playerSelector = '#playerWidget';

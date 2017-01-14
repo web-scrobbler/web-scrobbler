@@ -7,5 +7,5 @@ Connector.playerSelector = '#controlbar > :first-child';
 Connector.artistTrackSelector = '.title .player-content-color';
 
 Connector.isPlaying = function () {
-	return $('.icon-putpat-pause').length;
+	return $('.icon-putpat-pause').length > 0;
 };

@@ -16,5 +16,5 @@ Connector.getTrackArt = function () {
 };
 
 Connector.isPlaying = function () {
-	return $('#playerPauseButton').length;
+	return $('#playerPauseButton').length > 0;
 };
