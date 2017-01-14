@@ -1,6 +1,10 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, MetadataFilter */
+
+Connector.filter = new MetadataFilter({
+	album: MetadataFilter.decodeHtmlEntities
+});
 
 Connector.playerSelector = '#dragonflyTransport .rightSide';
 
