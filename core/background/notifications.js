@@ -6,6 +6,11 @@ define([
 ], function(chrome, GA) {
 	const SIGN_IN_ERROR_MESSAGE = 'Unable to log in to Last.fm. Please try later';
 
+	const DEFAULT_OPTIONS_VALUES = {
+		type: 'basic',
+		iconUrl: '/icon128.png',
+	};
+
 	/**
 	 * Map of click listeners indexed by notification IDs.
 	 * @type {Object}
@@ -51,51 +56,73 @@ define([
 	}
 
 	/**
+	 * Show notification.
+	 * @param  {Object} options Notification options
+	 * @param  {Function} onClicked Function that will be called on notification click
+	 * @return {Promise} Promise that will be resolved with notification ID
+	 */
+	function showNotification(options, onClicked) {
+		if (!isAvailable() || !isAllowed()) {
+			return Promise.reject();
+		}
+
+		if (typeof onClicked === 'function') {
+			options.isClickable = true;
+		}
+
+		for (let key in DEFAULT_OPTIONS_VALUES) {
+			if (options[key]) {
+				continue;
+			}
+
+			let defaultValue = DEFAULT_OPTIONS_VALUES[key];
+			options[key] = defaultValue;
+		}
+
+		return new Promise((resolve, reject) => {
+			const notificationCreatedCb = (notificationId) => {
+				if (onClicked) {
+					addOnClickedListener(notificationId, onClicked);
+				}
+				resolve(notificationId);
+			};
+			const createNotification = function(permissionLevel) {
+				if (permissionLevel !== 'granted') {
+					reject();
+					return;
+				}
+				try {
+					chrome.notifications.create('', options, notificationCreatedCb);
+				} catch (e) {
+					reject(e);
+				}
+			};
+
+			chrome.notifications.getPermissionLevel(createNotification);
+		});
+	}
+
+	/**
 	 * Show 'Now playing' notification.
 	 * @param  {Object} song Copy of song instance
 	 */
 	function showPlaying(song) {
-		if (!isAvailable() || !isAllowed()) {
-			return;
+		let contextMessage = getCurrentTime();
+		if (song.metadata.connector) {
+			let connectorLabel = song.metadata.connector.label;
+			contextMessage = `${contextMessage} · ${connectorLabel}`;
 		}
 
-		var notificationCreatedCb = function(notificationId) {
+		var options = {
+			iconUrl: song.getTrackArt() || 'default_cover_art.png',
+			title: song.getTrack(),
+			message: 'by ' + song.getArtist(),
+			contextMessage
+		};
+		showNotification(options, null).then((notificationId) => {
 			GA.event('notification', 'playing', 'show');
 			song.metadata.attr('notificationId', notificationId);
-		};
-
-		var createNotification = function(permissionLevel) {
-			if (permissionLevel === 'granted') {
-				var hhMM = function(date) {
-					date = date ? date : new Date();
-					var hours = date.getHours();
-					var minutes = date.getMinutes();
-					var ampm = hours >= 12 ? 'pm' : 'am';
-					hours = hours % 12;
-					hours = hours ? hours : 12; // the hour '0' should be '12'
-					minutes = minutes < 10 ? '0' + minutes : minutes;
-					var strTime = hours + ':' + minutes + ampm;
-					return strTime;
-				};
-
-				var connector = song.metadata.connector ? ' · ' + song.metadata.connector.label : '';
-				var options = {
-					type: 'basic',
-					iconUrl: song.getTrackArt() || 'default_cover_art.png',
-					title: song.getTrack(),
-					message: 'by ' + song.getArtist(),
-					contextMessage: hhMM() + connector
-				};
-
-				try {
-					chrome.notifications.create('', options, notificationCreatedCb);
-				} catch (e) {
-					console.log('Failed to create a notification.', e);
-				}
-			}
-		};
-
-		chrome.notifications.getPermissionLevel(createNotification);
+		}).catch(nop);
 	}
 
 	/**
@@ -104,30 +131,13 @@ define([
 	 * @param  {Function} onClick Function that will be called on notification click
 	 */
 	function showError(message, onClick = null) {
-		if (!isAvailable() || !isAllowed()) {
-			return;
-		}
-
-		var notificationCreatedCb = function(notificationId) {
+		const options = {
+			title: 'Web scrobbler error',
+			message: message,
+		};
+		showNotification(options, onClick).then(() => {
 			GA.event('notification', 'error', 'show');
-			addOnClickedListener(notificationId, onClick);
-		};
-
-		var createNotification = function(permissionLevel) {
-			if (permissionLevel === 'granted') {
-
-				var options = {
-					type: 'basic',
-					iconUrl: '/icon128.png',
-					title: 'Web scrobbler error',
-					message: message
-				};
-
-				chrome.notifications.create('', options, notificationCreatedCb);
-			}
-		};
-
-		chrome.notifications.getPermissionLevel(createNotification);
+		}).catch(nop);
 	}
 
 	/**
@@ -145,7 +155,7 @@ define([
 	 * @param {Promise} authUrlGetter Promise that will resolve with auth URL
 	 */
 	function showAuthenticate(authUrlGetter) {
-		var onHaveAuthUrl = function(authUrl) {
+		authUrlGetter().then((authUrl) => {
 			if (!isAvailable()) {
 				GA.event('notification', 'authenticate', 'open-unavailable');
 
@@ -154,35 +164,20 @@ define([
 				return;
 			}
 
-			var notificationCreatedCb = function(notificationId) {
-				addOnClickedListener(notificationId, function() {
-					GA.event('notification', 'authenticate', 'click');
+			const options = {
+				title: 'Connect your Last.FM account',
+				message: 'Click the notification or connect later in the extension options page',
+			};
+			function onClicked() {
+				GA.event('notification', 'authenticate', 'click');
 
-					window.open(authUrl, 'scrobbler-auth');
-				});
+				window.open(authUrl, 'scrobbler-auth');
+			}
 
+			showNotification(options, onClicked).then(() => {
 				GA.event('notification', 'authenticate', 'show');
-			};
-
-			var createNotification = function(permissionLevel) {
-				if (permissionLevel === 'granted') {
-
-					var options = {
-						type: 'basic',
-						iconUrl: '/icon128.png',
-						title: 'Connect your Last.FM account',
-						message: 'Click the notification or connect later in the extension options page',
-						isClickable: true
-					};
-
-					chrome.notifications.create('', options, notificationCreatedCb);
-				}
-			};
-
-			chrome.notifications.getPermissionLevel(createNotification);
-		};
-
-		authUrlGetter().then(onHaveAuthUrl).catch(showSignInError);
+			}).catch(nop);
+		}).catch(showSignInError);
 	}
 
 	/**
@@ -199,6 +194,31 @@ define([
 		if (notificationId) {
 			chrome.notifications.clear(notificationId, onCleared);
 		}
+	}
+
+	/**
+	 * Get current time in hh:mm am/pm format.
+	 * @return {String} Formatted time string
+	 */
+	function getCurrentTime() {
+		let date = new Date();
+
+		let hours = date.getHours();
+		let minutes = date.getMinutes();
+		let ampm = hours >= 12 ? 'pm' : 'am';
+
+		hours = hours % 12;
+		hours = hours ? hours : 12; // the hour '0' should be '12'
+		minutes = minutes < 10 ? '0' + minutes : minutes;
+
+		return `${hours}:${minutes}${ampm}`;
+	}
+
+	/**
+	 * Do nothing. Used to suppress Promise errors.
+	 */
+	function nop() {
+		// do nothing
 	}
 
 	// Set up listening for clicks on all notifications
