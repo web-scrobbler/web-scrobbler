@@ -36,6 +36,7 @@ define([
 	 */
 	function isAvailable() {
 		if (chrome.notifications !== undefined) {
+			// @ifdef CHROME
 			// Chrome for MacOS doesn't show notifications in
 			// fullscreen mode.
 			return Util.getPlatformName().then((platform) => {
@@ -47,6 +48,10 @@ define([
 
 				return true;
 			});
+			// @endif
+			/* @ifdef FIREFOX
+			return Promise.resolve(true);
+			/* @endif */
 		}
 
 		return Promise.resolve(false);
