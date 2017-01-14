@@ -131,7 +131,9 @@ MetadataFilter.decodeHtmlEntities = function(text) {
  * @return {String} Filtered string
  */
 MetadataFilter.youtube = function(text) {
-	return MetadataFilter.filterWithMap(text, MetadataFilter.YOUTUBE_TRACK_FILTERS);
+	return MetadataFilter.filterWithFilterSet(
+		text, MetadataFilter.YOUTUBE_TRACK_FILTERS
+	);
 };
 
 /**
@@ -140,89 +142,113 @@ MetadataFilter.youtube = function(text) {
  * @return {String} Filtered string
  */
 MetadataFilter.removeRemastered = function(text) {
-	return MetadataFilter.filterWithMap(text, MetadataFilter.REMASTERED_FILTERS);
+	return MetadataFilter.filterWithFilterSet(
+		text, MetadataFilter.REMASTERED_FILTERS
+	);
 };
 
 /**
- * Replace text according to given map object.
+ * Replace text according to given filter set rules.
  * @param  {String} text String to be filtered
- * @param  {Object} map  Object contains rules of replace
+ * @param  {Object} set  Array of replace rules
  * @return {String} Filtered string
  */
-MetadataFilter.filterWithMap = function(text, map) {
-	for (let source in map) {
-		let target = map[source];
-
-		let regexParts = source.match(new RegExp('^/(.*?)/([img]*)$'));
-		if (!regexParts) {
-			console.log(`Invalid regex: ${source}`);
-			continue;
-		}
-
-		let regex = new RegExp(regexParts[1], regexParts[2]);
-		text = text.replace(regex, target);
+MetadataFilter.filterWithFilterSet = function(text, set) {
+	for (let data of set) {
+		text = text.replace(data.source, data.target);
 	}
 
 	return text;
 };
 
 /**
- * Predefined regex-based filter set for Youtube-based connectors.
- * The filter set is an object that maps regular expressions to strings
- * that will be used as replacement.
+ * The filter set is an array that contains replace rules.
+ *
+ * Each rule is an object that contains 'source' and 'target' properties.
+ * 'Source' property is a string or RegEx object which is replaced by
+ * 'target' property value.
  */
-MetadataFilter.YOUTUBE_TRACK_FILTERS = {
-	'/^\\s+|\\s+$/g': '', // Trim whitespaces
-	'/\\s*\\*+\\s?\\S+\\s?\\*+$/': '', // **NEW**
-	'/\\s*\\[[^\\]]+\\]$/': '', // [whatever]
-	'/\\s*\\([^\\)]*version\\)$/i': '', // (whatever version)
-	'/\\s*\\.(avi|wmv|mpg|mpeg|flv)$/i': '', // video extensions
-	'/\\s*(LYRIC VIDEO\\s*)?(lyric video\\s*)/i': '', // (LYRIC VIDEO)
-	'/\\s*(Official Track Stream*)/i': '', // (Official Track Stream)
-	'/\\s*(of+icial\\s*)?(music\\s*)?video/i': '', // (official)? (music)? video
-	'/\\s*(of+icial\\s*)?(music\\s*)?audio/i': '', // (official)? (music)? audio
-	'/\\s*(ALBUM TRACK\\s*)?(album track\\s*)/i': '', // (ALBUM TRACK)
-	'/\\s*(COVER ART\\s*)?(Cover Art\\s*)/i': '', // (Cover Art)
-	'/\\s*\\(\\s*of+icial\\s*\\)/i': '', // (official)
-	'/\\s*\\(\\s*[0-9]{4}\\s*\\)/i': '', // (1999)
-	'/\\s+\\(\\s*(HD|HQ)\\s*\\)$/': '', // HD (HQ)
-	'/\\s+(HD|HQ)\\s*$/': '', // HD (HQ)
-	'/\\s*video\\s*clip/i': '', // video clip
-	'/\\s*full\\s*album/i': '', // Full Album
-	'/\\s+\\(?live\\)?$/i': '', // live
-	'/\\(+\\s*\\)+/': '', // Leftovers after e.g. (official video)
-	'/^(|.*\\s)"(.*)"(\\s.*|)$/': '$2', // Artist - The new "Track title" featuring someone
-	'/^(|.*\\s)\'(.*)\'(\\s.*|)$/': '$2', // 'Track title'
-	'/^[\\/\\s,:;~-\\s"]+/': '', // trim starting white chars and dash
-	'/[\\/\\s,:;~-\\s"\\s!]+$/': '', // trim trailing white chars and dash
-};
+
+/**
+ * Predefined regex-based filter set for Youtube-based connectors.
+ * @type {Array}
+ */
+MetadataFilter.YOUTUBE_TRACK_FILTERS = [
+	// Trim whitespaces
+	{ source: /^\s+|\s+$/g, target: '' },
+	// **NEW**
+	{ source: /\s*\*+\s?\S+\s?\*+$/, target: '' },
+	// [whatever]
+	{ source: /\s*\[[^\]]+\]$/, target: '' },
+	// (whatever version)
+	{ source: /\s*\([^\)]*version\)$/i, target: '' },
+	// video extensions
+	{ source: /\s*\.(avi|wmv|mpg|mpeg|flv)$/i, target: '' },
+	// (LYRIC VIDEO)
+	{ source: /\s*(LYRIC VIDEO\s*)?(lyric video\s*)/i, target: '' },
+	// (Official Track Stream)
+	{ source: /\s*(Official Track Stream*)/i, target: '' },
+	// (official)? (music)? video
+	{ source: /\s*(of+icial\s*)?(music\s*)?video/i, target: '' },
+	// (official)? (music)? audio
+	{ source: /\s*(of+icial\s*)?(music\s*)?audio/i, target: '' },
+	// (ALBUM TRACK)
+	{ source: /\s*(ALBUM TRACK\s*)?(album track\s*)/i, target: '' },
+	// (Cover Art)
+	{ source: /\s*(COVER ART\s*)?(Cover Art\s*)/i, target: '' },
+	// (official)
+	{ source: /\s*\(\s*of+icial\s*\)/i, target: '' },
+	// (1999)
+	{ source: /\s*\(\s*[0-9]{4}\s*\)/i, target: '' },
+	// HD (HQ)
+	{ source: /\s+\(\s*(HD|HQ)\s*\)$/, target: '' },
+	// HD (HQ)
+	{ source: /\s+(HD|HQ)\s*$/, target: '' },
+	// video clip
+	{ source: /\s*video\s*clip/i, target: '' },
+	// Full Album
+	{ source: /\s*full\s*album/i, target: '' },
+	// live
+	{ source: /\s+\(?live\)?$/i, target: '' },
+	// Leftovers after e.g. (official video)
+	{ source: /\(+\s*\)+/, target: '' },
+	// Artist - The new "Track title" featuring someone
+	{ source: /^(|.*\s)"(.*)"(\s.*|)$/, target: '$2' },
+	// 'Track title'
+	{ source: /^(|.*\s)\'(.*)\'(\s.*|)$/, target: '$2' },
+	// trim starting white chars and dash
+	{ source: /^[\/\s,:;~-\s"]+/, target: '' },
+	// trim trailing white chars and dash
+	{ source: /[\/\s,:;~-\s"\s!]+$/, target: '' },
+];
 
 /**
  * A regex-based filter set that contains removal rules of "Remastered..."-like
  * strings from a text. Used by Spotify and Deezer connectors.
+ * @type {Array}
  */
-MetadataFilter.REMASTERED_FILTERS = {
+MetadataFilter.REMASTERED_FILTERS = [
 	// Here Comes The Sun - Remastered
-	'/\\-\\sRemastered$/': '',
+	{ source: /\-\sRemastered$/, target: '' },
 	// Hey Jude - Remastered 2015
-	'/\\-\\sRemastered\\s\\d+$/': '',
+	{ source: /\-\sRemastered\s\d+$/, target: '' },
 	// Let It Be (Remastered 2009)
-	'/\\(Remastered\\s\\d+\\)$/': '',
+	{ source: /\(Remastered\s\d+\)$/, target: '' },
 	// Pigs On The Wing (Part One) [2011 - Remaster]
-	'/\\[\\d+\\s-\\sRemaster\\]$/': '',
+	{ source: /\[\d+\s-\sRemaster\]$/, target: '' },
 	// Comfortably Numb (2011 - Remaster)
-	'/\\(\\d+\\s-\\sRemaster\\)$/': '',
+	{ source: /\(\d+\s-\sRemaster\)$/, target: '' },
 	// Outside The Wall - 2011 - Remaster
-	'/\\-\\s\\d+\\s\\-\\sRemaster$/': '',
+	{ source: /\-\s\d+\s\-\sRemaster$/, target: '' },
 	// Learning To Fly - 2001 Digital Remaster
-	'/\\-\\s\\d+\\s.+?\\sRemaster$/': '',
+	{ source: /\-\s\d+\s.+?\sRemaster$/, target: '' },
 	// Your Possible Pasts - 2011 Remastered Version
-	'/\\-\\s\\d+\\sRemastered Version$/': '',
+	{ source: /\-\s\d+\sRemastered Version$/, target: '' },
 	// Roll Over Beethoven (Live / Remastered)
-	'/\\(Live\\s/\\sRemastered\\)$/i': '',
+	{ source: /\(Live\s\/\sRemastered\)$/i, target: '' },
 	// Ticket To Ride - Live / Remastered
-	'/\\-\\sLive\\s/\\sRemastered$/': '',
-};
+	{ source: /\-\sLive\s\/\sRemastered$/, target: '' },
+];
 
 /**
  * Get simple trim filter object used by default in a Connector object.
