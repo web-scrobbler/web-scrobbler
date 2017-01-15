@@ -4,16 +4,8 @@
 
 Connector.playerSelector = '#d-content';
 
-var isPlayingLiveRadio = function() {
-	if ($('#d-secondary-control-left .disabled').size() === 1 && $('#d-secondary-control-right .disabled').size() === 1) {
-		return 'true';
-	} else {
-		return 'false';
-	}
-};
-
 Connector.getArtist = function() {
-	if (isPlayingLiveRadio() === 'true') {
+	if (isPlayingLiveRadio()) {
 		var songTitle = $('.d-queue-info .song-title').text();
 		if (songTitle.indexOf('-') === -1) {
 			//Maybe ad or program, so ignore
@@ -27,7 +19,7 @@ Connector.getArtist = function() {
 };
 
 Connector.getTrack = function() {
-	if (isPlayingLiveRadio() === 'true') {
+	if (isPlayingLiveRadio()) {
 		var songTitle = $('.d-queue-info .song-title').text();
 		if (songTitle.indexOf('-') === -1) {
 			//Maybe ad or program, so ignore
@@ -45,3 +37,8 @@ Connector.albumSelector = '#d-info-text .d-sub-text-2';
 Connector.isPlaying = function () {
 	return $('#d-primary-control .play').size() === 0;
 };
+
+function isPlayingLiveRadio() {
+	return $('#d-secondary-control-left .disabled').size() === 1 &&
+		$('#d-secondary-control-right .disabled').size() === 1;
+}
