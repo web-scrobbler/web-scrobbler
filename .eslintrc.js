@@ -29,11 +29,17 @@ module.exports = {
 		'no-duplicate-case': 'error',
 		// Disallow unnecessary boolean casts
 		'no-extra-boolean-cast': 'error',
+		// Disallow unnecessary semicolons
+		'no-extra-semi': 'error',
 		// Disallow template literal placeholder syntax in regular string
 		'no-template-curly-in-string': 'error',
 		// Disallow unreachable code after return, throw, continue,
-		//  and break statements
+		// and break statements
 		'no-unreachable': 'error',
+		// Require calls to `isNaN()` when checking for `NaN`
+		'use-isnan': 'error',
+		// Enforce comparing `typeof` expressions against valid strings
+		'valid-typeof': 'error',
 
 		/**
 		 * Best practices
@@ -89,6 +95,8 @@ module.exports = {
 		'linebreak-style': ['error', 'unix'],
 		// Disallow empty block statements
 		'no-empty': ['error', {'allowEmptyCatch': true}],
+		// Disallow `if` statements as the only statement in `else` blocks
+		'no-lonely-if': 'error',
 		// Disallow mixed spaces and tabs for indentation
 		'no-mixed-spaces-and-tabs': 'error',
 		// Disallow multiple spaces
