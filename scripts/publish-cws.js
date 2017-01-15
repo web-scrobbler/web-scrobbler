@@ -16,6 +16,8 @@
 const webstoreUpload = require('webstore-upload');
 const options = require('./publish-cws.json');
 
+const EXTENSION_ID = 'hhinaapppaileiechjoiifaancjggfjm';
+
 /**
  * Get option value from JSON configuration file.
  * @param  {String} key Option key
@@ -46,7 +48,7 @@ function uploadExtension(packagePath) {
 		},
 		extensions: {
 			'web-scrobbler': {
-				appID: getOption('appId'),
+				appID: EXTENSION_ID,
 				zip: packagePath
 			},
 		},
