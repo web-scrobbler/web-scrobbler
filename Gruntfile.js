@@ -3,7 +3,7 @@
 module.exports = function(grunt) {
 	let isTravisCi = (process.env.TRAVIS === 'true');
 
-	var jsConnectorFiles = ['connectors/v2/*.js'];
+	var jsConnectorFiles = ['connectors/**/*.js'];
 	var jsCoreFiles = ['Gruntfile.js', 'core/**/*.js', 'options/options.js', 'popups/*.js'];
 	var jsTestFiles = ['tests/**/*.js'];
 	var jsonFiles = ['*.json', '.jshintrc', '.csslintrc'];
