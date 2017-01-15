@@ -42,7 +42,7 @@ function printArrayItems(arr, desc) {
 	if (arr.length) {
 		console.info(`${desc} [${arr.length}]:`);
 		arr.sort().forEach(item => {
-			console.info(' *', item);
+			console.info(` ‒ ${item}`);
 		});
 	}
 }
