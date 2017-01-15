@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 function setupMixtapePlayer() {
 	Connector.playerSelector = '.sidebar .audio-player';
@@ -68,7 +68,7 @@ function setupCollection2Player() {
 
 		if (rawMetadata) {
 			[artist, track] = rawMetadata.split('::');
-			let artistTrack = Connector.splitArtistTrack(track);
+			let artistTrack = Util.splitArtistTrack(track);
 			if (artistTrack) {
 				return artistTrack;
 			}

@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 Connector.playerSelector = '.tradiio-music-player';
 
@@ -37,7 +37,7 @@ var getSongInfo = function() {
 		return null;
 	}
 
-	var separator = Connector.findSeparator(album_track);
+	var separator = Util.findSeparator(album_track);
 
 	var album = null;
 	var track = null;

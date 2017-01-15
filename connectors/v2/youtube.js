@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector, MetadataFilter */
+/* global Connector, MetadataFilter, Util */
 
 /**
  * Allow or disallow to scrobble videos that are in Music category only.
@@ -66,7 +66,7 @@ function setupDefaultPlayer() {
 			videoTitle = getItemPropValue('name');
 		}
 
-		return processYoutubeVideoTitle(videoTitle);
+		return Util.processYoutubeVideoTitle(videoTitle);
 	};
 
 	Connector.getUniqueID = function() {
@@ -127,7 +127,7 @@ function setupMaterialPlayer() {
 		}
 
 		let videoTitle = $('.ytp-title-link').text();
-		return processYoutubeVideoTitle(videoTitle);
+		return Util.processYoutubeVideoTitle(videoTitle);
 	};
 
 	Connector.getUniqueID = function() {
@@ -234,32 +234,6 @@ function setupGeneralProperties() {
 	Connector.isFullscreenMode = function() {
 		return $('.html5-video-player').hasClass('ytp-fullscreen');
 	};
-}
-
-/**
- * Parse Youtube video title and return object that contains information
- * about song artist and song title.
- * @param  {String} text Video title
- * @return {Object} Object that contains information aboud artist and track
- */
-function processYoutubeVideoTitle(text) {
-	if (!text) {
-		return { artist: null, track: null };
-	}
-
-	// Remove [genre] from the beginning of the title
-	text = text.replace(/^\[[^\]]+\]\s*-*\s*/i, '');
-
-	let {artist, track} = Connector.splitArtistTrack(text);
-	if (artist === null && track === null) {
-		// Look for Artist "Track"
-		let artistTrack = text.match(/(.+?)\s"(.+?)"/);
-		if (artistTrack) {
-			artist = artistTrack[1];
-			track = artistTrack[2];
-		}
-	}
-	return { artist, track };
 }
 
 /**

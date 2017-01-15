@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 Connector.playerSelector = '.player-wrapper';
 
@@ -16,7 +16,7 @@ Connector.getArtist = function() {
 
 Connector.getDuration = function () {
 	var text = $('.time').text();
-	return Connector.stringToSeconds(text.substring(1)) || null;
+	return Util.stringToSeconds(text.substring(1));
 };
 
 Connector.isPlaying = function () {

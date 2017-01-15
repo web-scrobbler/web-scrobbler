@@ -1,12 +1,12 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 Connector.playerSelector = '.album-tracks';
 
 Connector.getArtistTrack = function () {
 	var text = $('.play:contains("ll")').attr('download');
-	return Connector.splitArtistTrack(text);
+	return Util.splitArtistTrack(text);
 };
 
 Connector.isPlaying = function () {

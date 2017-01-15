@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 Connector.playerSelector = '#webplayer-region';
 
@@ -8,5 +8,5 @@ Connector.playButtonSelector = '.ico icon-play';
 
 Connector.getArtistTrack = function() {
 	var text = $('.track-name').attr('title');
-	return Connector.splitArtistTrack(text);
+	return Util.splitArtistTrack(text);
 };

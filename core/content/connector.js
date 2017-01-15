@@ -1,6 +1,6 @@
 'use strict';
 
-/* globals _, MetadataFilter, TestReporter */
+/* globals _, MetadataFilter, TestReporter, Util */
 
 /**
  * Connector base object.
@@ -115,15 +115,6 @@ var BaseConnector = window.BaseConnector || function () {
 	this.trackArtImageSelector = null;
 
 	/**
-	 * Default array of separators.
-	 *
-	 * Push new separators in the implementation if required.
-	 *
-	 * @type {array}
-	 */
-	this.separators = [' -- ', '--', ' - ', ' – ', ' — ', ' // ', '-', '–', '—', ':', '|', '///'];
-
-	/**
 	 * Default implementation of artist name lookup by selector.
 	 *
 	 * Override this method for more complex behaviour.
@@ -167,7 +158,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 */
 	this.getDuration = function () {
 		var text = $(this.durationSelector).text();
-		return this.stringToSeconds(text);
+		return Util.stringToSeconds(text);
 	};
 
 	/**
@@ -180,7 +171,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 */
 	this.getCurrentTime = function () {
 		var text = $(this.currentTimeSelector).text();
-		return this.stringToSeconds(text);
+		return Util.stringToSeconds(text);
 	};
 
 	/**
@@ -194,7 +185,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 */
 	this.getArtistTrack = function () {
 		var text = $(this.artistTrackSelector).text();
-		return this.splitArtistTrack(text);
+		return Util.splitArtistTrack(text);
 	};
 
 	/**
@@ -332,13 +323,13 @@ var BaseConnector = window.BaseConnector || function () {
 			changedFields.push('uniqueID');
 		}
 
-		var newDuration = this.escapeBadTimeValues(this.getDuration());
+		var newDuration = Util.escapeBadTimeValues(this.getDuration());
 		if (newDuration !== currentState.duration) {
 			currentState.duration = newDuration;
 			changedFields.push('duration');
 		}
 
-		var newCurrentTime = this.escapeBadTimeValues(this.getCurrentTime());
+		var newCurrentTime = Util.escapeBadTimeValues(this.getCurrentTime());
 		if (newCurrentTime !== currentState.currentTime) {
 			currentState.currentTime = newCurrentTime;
 			changedFields.push('currentTime');
@@ -407,87 +398,6 @@ var BaseConnector = window.BaseConnector || function () {
 			stateChangedWorkerThrottled();
 		}
 	}.bind(this);
-
-
-	/**
-	 * Helper method to convert given time-string into seconds
-	 *
-	 * @param str time-string in h:m:s format
-	 * @returns {number}
-	 */
-	this.stringToSeconds = function (str) {
-		var s = str.toString().trim();
-		var val, seconds = 0;
-
-		for (var i = 0; i < 3; i++) {
-			var idx = s.lastIndexOf(':');
-			if (idx > -1) {
-				val = parseInt(s.substr(idx + 1));
-				seconds += val * Math.pow(60, i);
-				s = s.substr(0, idx);
-			} else {
-				val = parseInt(s);
-				seconds += val * Math.pow(60, i);
-				break;
-			}
-		}
-
-		return seconds || 0;
-	};
-
-	/**
-	 * Split string to artist and track.
-	 * @param  {String} str String contains artist and track info
-	 * @return {Object} Object contains artist and track fields
-	 */
-	this.splitArtistTrack = function(str) {
-		let artist = null;
-		let track = null;
-
-		if (str !== null) {
-			let separator = this.findSeparator(str);
-
-			if (separator !== null) {
-				artist = str.substr(0, separator.index);
-				track = str.substr(separator.index + separator.length);
-			}
-		}
-
-		return {artist, track};
-	};
-
-	/**
-	 * Find first occurence of possible separator in given string
-	 * and return separator's position and size in chars or null.
-	 *
-	 * @returns {{index, length}|null}
-	 */
-	this.findSeparator = function (str) {
-
-		if (str === null || str.length === 0) {
-			return null;
-		}
-
-		for (var i in this.separators) {
-			var sep = this.separators[i];
-			var index = str.indexOf(sep);
-			if (index > -1) {
-				return { index: index, length: sep.length };
-			}
-		}
-
-		return null;
-	};
-
-	this.escapeBadTimeValues = function(time) {
-		if (typeof time !== 'number') {
-			return null;
-		}
-		if (isNaN(time) || !isFinite(time)) {
-			return null;
-		}
-		return Math.round(time);
-	};
 };
 
 window.BaseConnector = BaseConnector;

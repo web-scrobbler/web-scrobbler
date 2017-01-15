@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 var INFO_CURRENT_TIME = 1;
 var INFO_ARTIST = 2;
@@ -19,12 +19,12 @@ Connector.getTrack = function() {
 
 Connector.getDuration = function() {
 	var durationStr = getSongInfo(INFO_DURATION);
-	return Connector.stringToSeconds(durationStr);
+	return Util.stringToSeconds(durationStr);
 };
 
 Connector.getCurrentTime = function() {
 	var currentTimeStr = getSongInfo(INFO_CURRENT_TIME);
-	return Connector.stringToSeconds(currentTimeStr);
+	return Util.stringToSeconds(currentTimeStr);
 };
 
 Connector.isPlaying = function() {

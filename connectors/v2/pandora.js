@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 function setupNewPandoraPlayer() {
 	Connector.playerSelector = '.region-bottomBar';
@@ -40,13 +40,13 @@ function setupPandoraPlayer() {
 
 	function getElapsedTime() {
 		let timeStr = $('div.elapsedTime').text();
-		return Connector.stringToSeconds(timeStr);
+		return Util.stringToSeconds(timeStr);
 	}
 
 	function getRemainingTime() {
 		// Remove 'minus' sign
 		let timeStr = $('div.remainingTime').text().substring(1);
-		return Connector.stringToSeconds(timeStr);
+		return Util.stringToSeconds(timeStr);
 	}
 }
 

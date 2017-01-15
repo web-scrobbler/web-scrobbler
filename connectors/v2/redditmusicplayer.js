@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 Connector.playerSelector = '.ui.controls';
 
@@ -10,7 +10,7 @@ Connector.trackArtImageSelector = '.ui.item.active img';
 
 Connector.getArtistTrack = function () {
 	var text = $('.ui.item.active .title').text().replace(/ \[.*/, '');
-	return Connector.splitArtistTrack(text);
+	return Util.splitArtistTrack(text);
 };
 
 Connector.isPlaying = function() {

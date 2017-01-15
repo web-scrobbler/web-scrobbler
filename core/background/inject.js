@@ -36,6 +36,7 @@ define([
 				var scripts = connector.js.slice(0);
 
 				scripts.unshift('core/content/connector.js');
+				scripts.unshift('core/content/util.js');
 				scripts.unshift('core/content/filter.js');
 				scripts.unshift('core/content/reactor.js');
 				// @ifdef DEBUG
