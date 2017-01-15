@@ -2,7 +2,6 @@
 
 const fs = require('fs');
 const path = require('path');
-const options = require('./helpers/options');
 
 function getCoreTestFilePath(coreModule) {
 	let testFileName = path.basename(coreModule);
@@ -11,11 +10,7 @@ function getCoreTestFilePath(coreModule) {
 
 function getTestDescription(moduleFile) {
 	let moduleName = path.basename(moduleFile, '.js');
-	if (options.get('debug')) {
-		return `Module: ${moduleName}`;
-	} else {
-		return `[${moduleName}]`;
-	}
+	return `'${moduleName}' module`;
 }
 
 function queueTest(coreModule) {

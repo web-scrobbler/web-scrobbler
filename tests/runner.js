@@ -4,10 +4,18 @@ const path = require('path');
 const Mocha = require('mocha');
 const options = require('./helpers/options');
 
+function getTestReporter() {
+	if (options.getTestMode() === 'core') {
+		return 'spec';
+	}
+
+	return options.get('debug') ? 'spec' : 'tap';
+}
+
 function createMocha() {
 	var mocha = new Mocha({
 		timeout: 120000,
-		reporter: options.get('debug') ? 'spec' : 'tap'
+		reporter: getTestReporter()
 	});
 	switch (options.getTestMode()) {
 		case 'core':
