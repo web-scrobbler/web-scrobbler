@@ -28,8 +28,7 @@ define([
 			duration: parsedData.duration || null,
 			currentTime: parsedData.currentTime || null,
 			isPlaying: parsedData.isPlaying || false,
-			trackArt: parsedData.trackArt || false,
-			url: parsedData.url || null
+			trackArt: parsedData.trackArt || false
 		};
 
 		/**
@@ -49,8 +48,8 @@ define([
 		 */
 		var metadata = {
 			userloved: false,
-			startTimestamp: Math.floor(Date.now() / 1000), // UTC timestamp in seconds
-			url: parsed.url, // basic connector data
+			// UTC timestamp in seconds
+			startTimestamp: Math.floor(Date.now() / 1000),
 			connector: connector
 		};
 
