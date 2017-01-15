@@ -9,6 +9,7 @@ module.exports = function(grunt) {
 	var jsonFiles = ['*.json', '.jshintrc', '.csslintrc'];
 	var htmlFiles = ['options/*.html', 'popups/*.html', 'dialogs/**/*.html'];
 	var cssFiles = ['options/options.css', 'popups/base.css', 'popups/error.css', 'dialogs/base.css'];
+	var scriptFiles = ['scripts/*.js'];
 
 	const extensionSources = [
 		'connectors/**', 'core/**', 'dialogs/**',
@@ -59,7 +60,7 @@ module.exports = function(grunt) {
 			package: [packageName]
 		},
 		eslint: {
-			target: [jsCoreFiles, jsConnectorFiles, jsTestFiles],
+			target: [jsCoreFiles, jsConnectorFiles, jsTestFiles, scriptFiles],
 			options: {
 				configFile: '.eslintrc.js',
 				fix: !isTravisCi
@@ -68,9 +69,9 @@ module.exports = function(grunt) {
 		lintspaces: {
 			all: {
 				src: [
-					jsCoreFiles, jsConnectorFiles, jsTestFiles, jsonFiles, cssFiles, htmlFiles
+					jsCoreFiles, jsConnectorFiles, jsTestFiles,
+					scriptFiles, jsonFiles, cssFiles, htmlFiles
 				],
-
 				options: {
 					editorconfig: '.editorconfig',
 					ignores: [
