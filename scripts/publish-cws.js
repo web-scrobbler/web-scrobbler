@@ -53,7 +53,7 @@ function main(argv) {
 	if (packagePath) {
 		uploadExtension(packagePath);
 	} else {
-		throw new Error(`Package path is not specified`);
+		throw new Error('Package path is not specified');
 	}
 }
 
