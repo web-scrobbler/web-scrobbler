@@ -3,14 +3,25 @@
 'use strict';
 
 /**
- * Utility script to publish a Google Chrome extension to the Chrome Web Store.
+ * Utility script to publish an extension to the Chrome Web Store.
  * Usage:
  *   publish-cws.js path/to/package.zip
+ *
+ * Requirements:
+ *  - 'webstore-upload' package.
+ *
+ * Script preferences are placed into 'publish-cws.json' file.
  */
 
 const webstoreUpload = require('webstore-upload');
 const options = require('./publish-cws.json');
 
+/**
+ * Get option value from JSON configuration file.
+ * @param  {String} key Option key
+ * @return {String} Option value
+ * @throws {Error} if option is not defined
+ */
 function getOption(key) {
 	let value = options[key];
 	if (typeof value !== 'string' || value === '') {
@@ -19,6 +30,11 @@ function getOption(key) {
 	return value;
 }
 
+/**
+ * Upload extension to Chrome Web Store.
+ * @param  {String} packagePath Path to package
+ * @return {Promise} Promise that will be resolved when the task has complete
+ */
 function uploadExtension(packagePath) {
 	const uploadOptions = {
 		accounts: {

@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * Script that prints all supported connectors.
+ * Useful to easy update the description of the extension.
+ */
+
 require('node-define');
 
 function printSupportedConnectors() {

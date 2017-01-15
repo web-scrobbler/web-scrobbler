@@ -1,5 +1,11 @@
 'use strict';
 
+/**
+ * Script that prints useful information about tests:
+ *  ‒ list all missing connectors tests;
+ *  ‒ list all unused connectors tests.
+ */
+
 require('node-define');
 const fs = require('fs');
 const path = require('path');
