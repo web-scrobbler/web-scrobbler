@@ -48,7 +48,7 @@ define([
 		 * Various optional data
 		 */
 		var metadata = {
-			userloved: parsedData.userloved === 1,
+			userloved: false,
 			startTimestamp: Math.floor(Date.now() / 1000), // UTC timestamp in seconds
 			url: parsed.url, // basic connector data
 			connector: connector
