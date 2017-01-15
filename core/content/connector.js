@@ -66,6 +66,18 @@ var BaseConnector = window.BaseConnector || function () {
 	this.durationSelector = null;
 
 	/**
+	 * Selector of an element containing both current time and duration.
+	 * {@link BaseConnector#currentTimeSelector} and {@link BaseConnector#durationSelector}
+	 * properties have priority over this, and {@link BaseConnector#timeInfoSelector}
+	 * is used only if any of the previous returns empty result.
+	 *
+	 * Only applies when default implementation of {@link BaseConnector#getTimeInfo} is used.
+	 *
+	 * @type {String}
+	 */
+	this.timeInfoSelector = null;
+
+	/**
 	 * Selector of an element containing both artist and track name.
 	 * {@link BaseConnector#artistSelector} and
 	 * {@link BaseConnector#trackSelector} properties have priority over this,
@@ -172,6 +184,20 @@ var BaseConnector = window.BaseConnector || function () {
 	this.getCurrentTime = function () {
 		var text = $(this.currentTimeSelector).text();
 		return Util.stringToSeconds(text);
+	};
+
+	/**
+	 * Default implementation of current time and duration lookup by selector.
+	 * This method is called only when {@link BaseConnector#getArtist} and
+	 * {@link BaseConnector#getTrack} return an empty result.
+	 *
+	 * Override this method for more complex behaviour.
+	 *
+	 * @return {Object} Object contains current time and duration info
+	 */
+	this.getTimeInfo = function () {
+		var text = $(this.timeInfoSelector).text();
+		return Util.splitTimeInfo(text);
 	};
 
 	/**
@@ -324,12 +350,21 @@ var BaseConnector = window.BaseConnector || function () {
 		}
 
 		var newDuration = Util.escapeBadTimeValues(this.getDuration());
+		var newCurrentTime = Util.escapeBadTimeValues(this.getCurrentTime());
+
+		var timeInfo = this.getTimeInfo();
+		if (!newDuration !== null && timeInfo.duration) {
+			newDuration = timeInfo.duration;
+		}
+		if (newCurrentTime !== null && timeInfo.currentTime) {
+			newCurrentTime = timeInfo.currentTime;
+		}
+
 		if (newDuration !== currentState.duration) {
 			currentState.duration = newDuration;
 			changedFields.push('duration');
 		}
 
-		var newCurrentTime = Util.escapeBadTimeValues(this.getCurrentTime());
 		if (newCurrentTime !== currentState.currentTime) {
 			currentState.currentTime = newCurrentTime;
 			changedFields.push('currentTime');

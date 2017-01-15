@@ -63,7 +63,7 @@ const Util = {
 	 * @param  {Array} separators Array of separators
 	 * @return {Object} Object contains position and width of separator
 	 */
-	findSeparator(str, separators) {
+	findSeparator(str, separators = null) {
 		if (str === null || str.length === 0) {
 			return null;
 		}
@@ -102,6 +102,36 @@ const Util = {
 		}
 
 		return { artist, track };
+	},
+
+	/**
+	 * Split string to current time and duration.
+	 * @param  {String} str String contains current time and duration
+	 * @param  {String} separator Separator
+	 * @param  {Boolean} swap Swap currentTime and duration values
+	 * @return {Object} Object contains 'currentTime' and 'duration' fields
+	 */
+	splitTimeInfo(str, sep = '/', swap = false) {
+		let currentTime = null;
+		let duration = null;
+
+		if (str !== null) {
+			let separator = this.findSeparator(str, [sep]);
+
+			if (separator !== null) {
+				currentTime = str.substr(0, separator.index);
+				duration = str.substr(separator.index + separator.length);
+
+				currentTime = this.stringToSeconds(currentTime);
+				duration = this.stringToSeconds(duration);
+
+				if (swap) {
+					[currentTime, duration] = [duration, currentTime];
+				}
+			}
+		}
+
+		return { currentTime, duration };
 	},
 
 	/**
