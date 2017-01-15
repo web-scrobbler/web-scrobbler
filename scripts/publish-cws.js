@@ -5,11 +5,11 @@
 /**
  * Utility script to publish a Google Chrome extension to the Chrome Web Store.
  * Usage:
- *   publish-chrome-extension.js path/to/package.zip
+ *   publish-cws.js path/to/package.zip
  */
 
 const webstoreUpload = require('webstore-upload');
-const options = require('./publish-chrome-extension.json');
+const options = require('./publish-cws.json');
 
 function getOption(key) {
 	let value = options[key];

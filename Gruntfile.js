@@ -93,8 +93,8 @@ module.exports = function(grunt) {
 			}
 		},
 		exec: {
-			publish: {
-				cmd: 'node scripts/publish-chrome-extension web-scrobbler.zip'
+			publish_cws: {
+				cmd: `node scripts/publish-cws ${packageName}`
 			},
 			run_tests: {
 				cmd: function(...args) {
@@ -119,14 +119,14 @@ module.exports = function(grunt) {
 	/**
 	 * Create package and publish it to Chrome Web Store.
 	 */
-	grunt.registerTask('publish', ['build', 'exec:publish']);
+	grunt.registerTask('publish-cws', ['build', 'exec:publish_cws']);
 	/**
 	 * Release new version and publish package to Chrome Web Store.
 	 * @param {String} ver Version type that 'grunt-bump' supports
 	 */
 	grunt.registerTask('release', (ver) => {
 		grunt.task.run(`bump:${ver}`);
-		grunt.task.run('publish');
+		grunt.task.run('publish-cws');
 	});
 
 	/**
