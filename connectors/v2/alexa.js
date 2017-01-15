@@ -4,32 +4,15 @@
 
 Connector.playerSelector = '#d-content';
 
-Connector.getArtist = function() {
+Connector.getArtistTrack = function() {
 	if (isPlayingLiveRadio()) {
-		var songTitle = $('.d-queue-info .song-title').text();
-		if (songTitle.indexOf('-') === -1) {
-			//Maybe ad or program, so ignore
-			return null;
-		}
-		var results = songTitle.split('-');
-		return results[0];
-	} else {
-		return $('#d-info-text .d-sub-text-1').text();
+		let songTitle = $('.d-queue-info .song-title').text();
+		return Connector.splitArtistTrack(songTitle);
 	}
-};
 
-Connector.getTrack = function() {
-	if (isPlayingLiveRadio()) {
-		var songTitle = $('.d-queue-info .song-title').text();
-		if (songTitle.indexOf('-') === -1) {
-			//Maybe ad or program, so ignore
-			return null;
-		}
-		var results = songTitle.split('-');
-		return results[1];
-	} else {
-		return $('#d-info-text .d-main-text').text();
-	}
+	let artist = $('#d-info-text .d-sub-text-1').text();
+	let track = $('#d-info-text .d-main-text').text();
+	return { artist, track };
 };
 
 Connector.albumSelector = '#d-info-text .d-sub-text-2';
