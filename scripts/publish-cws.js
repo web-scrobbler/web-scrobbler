@@ -45,12 +45,12 @@ function uploadExtension(packagePath) {
 			}
 		},
 		extensions: {
-			extension1: {
+			'web-scrobbler': {
 				appID: getOption('appId'),
 				zip: packagePath
 			},
 		},
-		uploadExtensions: ['extension1']
+		uploadExtensions: ['web-scrobbler']
 	};
 
 	return webstoreUpload(uploadOptions, 'default');
