@@ -6,56 +6,9 @@ define([
 	'connectors',
 	'config',
 	'objects/injectResult',
-	'customPatterns'
-], function (connectors, config, injectResult, customPatterns) {
-
-	/**
-	 * Creates regex from single match pattern
-	 *
-	 * @author lacivert
-	 * @param {String} input
-	 * @returns RegExp
-	 */
-	function createPattern(input) {
-		if (typeof input !== 'string') {
-			return null;
-		}
-		var match_pattern = '^',
-			regEscape = function (s) {
-				return s.replace(/[[^$.|?*+(){}\\]/g, '\\$&');
-			},
-			result = /^(\*|https?|file|ftp|chrome-extension):\/\//.exec(input);
-
-		// Parse scheme
-		if (!result) {
-			return null;
-		}
-		input = input.substr(result[0].length);
-		match_pattern += result[1] === '*' ? 'https?://' : result[1] + '://';
-
-		// Parse host if scheme is not `file`
-		if (result[1] !== 'file') {
-			if (!(result = /^(?:\*|(\*\.)?([^\/*]+))/.exec(input))) {
-				return null;
-			}
-			input = input.substr(result[0].length);
-			if (result[0] === '*') {    // host is '*'
-				match_pattern += '[^/]+';
-			} else {
-				if (result[1]) {         // Subdomain wildcard exists
-					match_pattern += '(?:[^/]+\\.)?';
-				}
-				// Append host (escape special regex characters)
-				match_pattern += regEscape(result[2]);// + '/';
-			}
-		}
-		// Add remainder (path)
-		match_pattern += input.split('*').map(regEscape).join('.*');
-		match_pattern += '$';
-
-		return new RegExp(match_pattern);
-	}
-
+	'customPatterns',
+	'url-match'
+], function (connectors, config, injectResult, customPatterns, UrlMatch) {
 	/**
 	 * Pings the loaded page and checks if there is already loaded connector. If not injects it.
 	 *
@@ -142,7 +95,7 @@ define([
 				}
 
 				patterns.forEach(function (match) {
-					matchOk = matchOk || createPattern(match).test(tab.url);
+					matchOk = matchOk || UrlMatch.test(tab.url, match);
 				});
 
 				if (matchOk === true) {
