@@ -49,8 +49,14 @@ Connector.isPlaying = function() {
 };
 
 Connector.isStateChangeAllowed = function() {
-	var videoCategory = $('meta[itemprop=\"genre\"]').attr('content');
-	return !scrobbleMusicOnly || (scrobbleMusicOnly && videoCategory === 'Music');
+	let videoCategory = $('meta[itemprop="genre"]').attr('content');
+	if (videoCategory) {
+		return !scrobbleMusicOnly ||
+			(scrobbleMusicOnly && videoCategory === 'Music');
+	}
+
+	// Unable to get a video category; allow to scrobble the video
+	return true;
 };
 
 Connector.getArtistTrack = function () {
