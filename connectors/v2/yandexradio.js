@@ -30,11 +30,9 @@ Connector.getTrackArt = function() {
 					characterData: true
 				});
 			}
-		} else {
-			if (actualObserver) {
-				actualObserver.disconnect();
-				actualObserver = null;
-			}
+		} else if (actualObserver) {
+			actualObserver.disconnect();
+			actualObserver = null;
 		}
 	});
 
