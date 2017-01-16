@@ -1047,6 +1047,13 @@ define(function() {
 		},
 
 		{
+			label: 'Saavn',
+			matches: ['*://www.saavn.com/*'],
+			js: ['connectors/v2/saavn.js'],
+			version: 2
+		},
+
+		{
 			label: 'Anghami',
 			matches: ['*://www.anghami.com/*'],
 			js: ['connectors/v2/anghami.js'],
