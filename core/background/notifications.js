@@ -41,6 +41,16 @@ define([
 	}
 
 	/**
+	 * Remove onClicked listener for given notification.
+	 * @param {String} notificationId Notification ID
+	 */
+	function removeOnClickedListener(notificationId) {
+		if (clickListeners[notificationId]) {
+			delete clickListeners[notificationId];
+		}
+	}
+
+	/**
 	 * Show 'Now playing' notification.
 	 * @param  {Object} song Copy of song instance
 	 */
@@ -198,6 +208,9 @@ define([
 		if (clickListeners[notificationId]) {
 			clickListeners[notificationId](notificationId);
 		}
+	});
+	chrome.notifications.onClosed.addListener((notificationId) => {
+		removeOnClickedListener(notificationId);
 	});
 
 	return {
