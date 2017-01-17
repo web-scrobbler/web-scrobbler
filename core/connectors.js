@@ -140,7 +140,7 @@ define(function() {
 
 		{
 			label: 'Amazon Echo',
-			matches: ['*://alexa.amazon.*/spa/index.html#player'],
+			matches: ['*://alexa.amazon.*/spa/*'],
 			js: ['connectors/v2/alexa.js'],
 			version: 2
 		},
