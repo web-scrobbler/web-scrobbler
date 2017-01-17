@@ -181,6 +181,12 @@ require([
 
 		inject.onTabsUpdated(tabId, changeInfo, tab, injectCb);
 	});
+	chrome.tabs.onRemoved.addListener((tabId) => {
+		if (tabControllers[tabId]) {
+			console.log(`Tab ${tabId}: remove controller`);
+			delete tabControllers[tabId];
+		}
+	});
 
 	// setup listener for page action clicks
 	chrome.pageAction.onClicked.addListener(function(tab) {
