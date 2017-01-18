@@ -1058,6 +1058,16 @@ define(function() {
 			matches: ['*://play.stylejukebox.com/*'],
 			js: ['connectors/v2/stylejukebox.js'],
 			version: 2
-		}
+		},
+
+		{
+			label: 'Mail.ru Music',
+			matches: [
+				'*://my.mail.ru/music',
+				'*://my.mail.ru/music/*'
+			],
+			js: ['connectors/v2/mailrumusic.js'],
+			version: 2
+		},
 	];
 });
