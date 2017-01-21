@@ -35,9 +35,9 @@ require([
 	var isActiveSession = false;
 
 	/**
-	 * Callback for injecting script
+	 * Callback for injecting script.
 	 *
-	 * @param {InjectResult} result
+	 * @param {InjectResult} result InjectResult object
 	 */
 	var injectCb = function(result) {
 		var tabId = result.getTabId();
@@ -79,9 +79,9 @@ require([
 	};
 
 	/**
-	 * Returns controller for given tab. There should always be one
-	 *
-	 * @param {int} tabId
+	 * Return controller for given tab. There should always be one.
+	 * @param  {Number} tabId Tab ID
+	 * @return {Object} Controller instance for tab
 	 */
 	function getControllerByTabId(tabId) {
 		if (!tabControllers[tabId]) {

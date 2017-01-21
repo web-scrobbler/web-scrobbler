@@ -10,11 +10,11 @@
 var Reactor = function(connector) {
 
 	/**
-	 * Listener for runtime messages from the background script
+	 * Listener for runtime messages from the background script.
 	 *
-	 * @param message custom message
-	 * @param sender {MessageSender}
-	 * @param sendResponse {function}
+	 * @param {String} message Custom message
+	 * @param {Object} sender Message sender object
+	 * @param {Function} sendResponse Callback function
 	 */
 	var runtimeMessageListener = function(message, sender, sendResponse) {
 		switch (message.type) {
@@ -54,9 +54,9 @@ var Reactor = function(connector) {
 
 	/**
 	 * Sends given state to background script. There is only single message type
-	 * for V2 connectors. Validation, submission and all other procedures happen on background.
-	 *
-	 * @param state
+	 * for V2 connectors. Validation, submission and all other procedures happen
+	 * on background.
+	 * @param {Object} state Current state of connector
 	 */
 	this.sendStateToBackground = function(state) {
 		var msg = {

@@ -10,11 +10,12 @@ define([
 	'url-match'
 ], function (connectors, config, injectResult, customPatterns, UrlMatch) {
 	/**
-	 * Pings the loaded page and checks if there is already loaded connector. If not injects it.
+	 * Ping the loaded page and checks if there is already loaded connector.
+	 * If not injects it.
 	 *
-	 * @param tabId
-	 * @param connector
-	 * @param cb
+	 * @param {Number} tabId Tab ID
+	 * @param {Object} connector Connector match objects
+	 * @param {Function} cb Callback function
 	 */
 	function pingAndInject(tabId, connector, cb) {
 		// Ping the content page to see if the script is already in place.
@@ -74,13 +75,13 @@ define([
 
 	/**
 	 * Is triggered by chrome.tabs.onUpdated event
-	 * Checks for available connectors and injects matching connector into loaded page
-	 * while returning info about the connector
+	 * Check for available connectors and injects matching connector into
+	 * loaded page while returning info about the connector.
 	 *
-	 * @param {Number} tabId
-	 * @param {Object} changeInfo
-	 * @param {Object} tab
-	 * @param {Function} cb to be called to signalize the state of injecting
+	 * @param {Number} tabId Tab ID
+	 * @param {Object} changeInfo Change info
+	 * @param {Object} tab Tab object
+	 * @param {Function} cb Function callback
 	 */
 	function onTabsUpdated(tabId, changeInfo, tab, cb) {
 		var onPatternsReady = function(customPatterns) {

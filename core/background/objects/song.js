@@ -8,6 +8,8 @@ define([
 ], function(can) {
 	/**
 	 * @constructor
+	 * @param {Object} parsedData Current state received from connector
+	 * @param {Object} connector Connector match object
 	 */
 	return function(parsedData, connector) {
 		/**
@@ -72,42 +74,49 @@ define([
 		});
 
 		/**
-		 * Helper method
+		 * Get song artist.
+		 * @return {String} Song artist
 		 */
 		song.getArtist = function() {
 			return this.processed.artist || this.parsed.artist || null;
 		};
 
 		/**
-		 * Helper method
+		 * Get song title.
+		 * @return {String} Song title
 		 */
 		song.getTrack = function() {
 			return this.processed.track || this.parsed.track || null;
 		};
 
 		/**
-		 * Helper method
+		 * Get song album.
+		 * @return {String} Song album
 		 */
 		song.getAlbum = function() {
 			return this.processed.album || this.parsed.album || null;
 		};
 
 		/**
-		 * Returns song's processed or parsed duration in seconds
+		 * Returns song's processed or parsed duration in seconds.
+		 * Parsed duration (received from connector) is preferred.
+		 * @return {Number} Song duration
 		 */
 		song.getDuration = function() {
 			return this.parsed.duration || this.processed.duration || null;
 		};
 
 		/**
-		 * Returns true if the song playback time is reaching its total duration
+		 * Check if the song playback time is reaching its total duration.
+		 * @return {Boolean} Check result
 		 */
 		song.isNearEnd = function() {
 			return (this.getDuration() !== null && this.parsed.currentTime >= Math.floor(this.getDuration() * 0.95)); // last 5% of duration
 		};
 
 		/**
-		 * Returns total number of seconds of playback needed for this track to be scrobbled
+		 * Return total number of seconds of playback needed for this track to be scrobbled.
+		 * @return {Number} Seconds to scrobble
 		 */
 		song.getSecondsToScrobble = function() {
 			var max = 4 * 60; // really long tracks are scrobbled after 4 minutes
@@ -116,11 +125,11 @@ define([
 		};
 
 		/**
-		 * Return the track art associated with the song.
-		 * @return {String|null}
+		 * Return the track art URL associated with the song.
+		 * Parsed track art (received from connector) is preferred.
+		 * @return {String} Track art URL
 		 */
 		song.getTrackArt = function() {
-			// prefer parsed art, fall back to metadata (Last.fm or coverArtArchive art)
 			return this.parsed.trackArt || this.metadata.artistThumbUrl || null;
 		};
 

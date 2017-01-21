@@ -20,6 +20,7 @@ define([
 	/**
 	 * Check for permissions and existence of Notifications API
 	 * (to be safe to run on minor browsers like Opera).
+	 * @return {Boolean} True if notifications are available
 	 */
 	function isAvailable() {
 		return chrome.notifications !== undefined;
@@ -27,6 +28,7 @@ define([
 
 	/**
 	 * Check if notifications are allowed by user.
+	 * @return {Boolean} True if notifications are allowed by user
 	 */
 	function isAllowed() {
 		return localStorage.useNotifications === '1';

@@ -7,7 +7,7 @@ define([], function() {
 	 */
 	return function() {
 
-		var callback = null,
+		let callback = null,
 			timeoutId = null,
 			target = null, // target seconds
 			pausedOn = null, // marks pause time in seconds
@@ -16,7 +16,8 @@ define([], function() {
 			hasTriggered = false; // already triggered callback?
 
 		/**
-		 * Returns current time in seconds
+		 * Return current time in seconds.
+		 * @return {Number} Current time in seconds
 		 */
 		function now() {
 			return Math.round((new Date()).valueOf() / 1000);
@@ -31,7 +32,7 @@ define([], function() {
 		}
 
 		/**
-		 * Clears internal timeout
+		 * Clear internal timeout.
 		 */
 		function clearTrigger() {
 			if (timeoutId) {
@@ -46,6 +47,7 @@ define([], function() {
 		/**
 		 * Set timer and define trigger callback.
 		 * Use update function to define time to trigger.
+		 * @param {Function} cb Function that will be called when timer is triggered
 		 */
 		this.start = function(cb) {
 			this.reset();
@@ -54,7 +56,7 @@ define([], function() {
 		};
 
 		/**
-		 * Pause timer
+		 * Pause timer.
 		 */
 		this.pause = function() {
 			// only if timer was started and was running
@@ -65,7 +67,7 @@ define([], function() {
 		};
 
 		/**
-		 * Unpause timer
+		 * Unpause timer.
 		 */
 		this.resume = function() {
 			// only if timer was started and was paused
@@ -90,6 +92,8 @@ define([], function() {
 		 * Intentionally does not check if the callback was already triggered.
 		 * This allows to update the timer after it went out once and still
 		 * be able to properly trigger the callback for the new timeout.
+		 *
+		 * @param {Number} seconds Seconds
 		 */
 		this.update = function(seconds) {
 			// only if timer was started
@@ -107,8 +111,9 @@ define([], function() {
 		};
 
 		/**
-		 * Returns seconds passed from the timer was started.
+		 * Return seconds passed from the timer was started.
 		 * Time spent paused does not count
+		 * @return {Number} Elapsed seconds
 		 */
 		this.getElapsed = function() {
 			var val = now() - startedOn - spentPaused;
@@ -121,14 +126,16 @@ define([], function() {
 		};
 
 		/**
-		 * Checks if current timer has already triggered its callback
+		 * Check if current timer has already triggered its callback.
+		 * @return {Boolean} True is timer is triggered
 		 */
 		this.hasTriggered = function() {
 			return hasTriggered;
 		};
 
 		/**
-		 * Returns remaining (unpaused) seconds or null if no destination time is set
+		 * Return remaining (unpaused) seconds or null if no destination time is set.
+		 * @return {Number} Remaining seconds
 		 */
 		this.getRemainingSeconds = function() {
 			if (target === null) {
@@ -139,7 +146,7 @@ define([], function() {
 		};
 
 		/**
-		 * Reset timer
+		 * Reset timer.
 		 */
 		this.reset = function() {
 			target = null;

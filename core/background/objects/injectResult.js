@@ -13,10 +13,12 @@ define([], function() {
 		},
 
 		/**
-		 * Call with 'new' to create new inject result
-		 * @param result
-		 * @param {Number} tabId
-		 * @param {Object} connector
+		 * Object that represents result of inject of content scripts.
+		 *
+		 * @constructor
+		 * @param {String} result Result type
+		 * @param {Number} tabId Tab ID
+		 * @param {Object} connector Connector match object
 		 */
 		InjectResult: function(result, tabId, connector) {
 			this.getConnector = function() {
