@@ -826,13 +826,6 @@ define(function() {
 		},
 
 		{
-			label: 'WDVX',
-			matches: ['*://wdvx.com/listen-live/'],
-			js: ['connectors/v2/wdvx.js'],
-			version: 2
-		},
-
-		{
 			label: 'dubtrack.fm',
 			matches: ['https://www.dubtrack.fm/*'],
 			js: ['connectors/v2/dubtrack.js'],
