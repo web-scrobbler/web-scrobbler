@@ -197,7 +197,8 @@ define([
 			return fetch(url).then((response) => {
 				return response.json();
 			}).then((data) => {
-				console.log(JSON.stringify(data, null, 2));
+				let responseStr = JSON.stringify(data, null, 2);
+				console.log(`${this.label}: auth.getSession response:\n${responseStr}`);
 				return data.session;
 			}).catch((err) => {
 				console.error(`${this.label} auth.tradeTokenForSession failed: ${err}`);
@@ -260,7 +261,7 @@ define([
 			return fetch(url, { method }).then((response) => {
 				return response.text();
 			}).then((text) => {
-				console.log(text);
+				console.log(`${this.label}: ${params.method} response:\n${text}`);
 				return $($.parseXML(text));
 			}).catch(() => {
 				throw ServiceCallResult.OtherError();

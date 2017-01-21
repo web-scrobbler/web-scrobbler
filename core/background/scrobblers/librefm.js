@@ -20,13 +20,14 @@ define([
 			let url = `${this.apiUrl}?${queryStr}`;
 
 			return new Promise((resolve, reject) => {
-				let internalOkCb = (xmlDoc, status) => {
-					console.log(`${this.label} response to ${url}: ${status}\n${new XMLSerializer().serializeToString(xmlDoc)}`);
+				let internalOkCb = (xmlDoc) => {
+					let responseStr = new XMLSerializer().serializeToString(xmlDoc);
+					console.log(`${this.label} ${params.method} response:\n${responseStr}`);
 					resolve($(xmlDoc));
 				};
 
 				let internalErrCb = (jqXHR, status, response) => {
-					console.error(`${this.label} response to ${url}: ${status}\n${response}`);
+					console.error(`${this.label}${params.method} response: ${status}\n${response}`);
 					reject(ServiceCallResult.OtherError());
 				};
 
