@@ -196,6 +196,13 @@ define(function() {
 		},
 
 		{
+			label: 'Spotify (Open)',
+			matches: ['https://open.spotify.com/*'],
+			js: ['connectors/v2/spotify-open.js'],
+			version: 2
+		},
+
+		{
 			label: 'plug.dj',
 			matches: ['*://plug.dj/*'],
 			js: ['connectors/v2/plugdj.js'],
