@@ -3,43 +3,32 @@
 /* global Connector, MetadataFilter */
 
 Connector.getArtist = function() {
-	return $('#app-player').contents().find('#track-artist a').first().text();
+	return findIframeElement('#track-artist a').first().text();
 };
 
 Connector.getTrack = function() {
-	return $('#app-player').contents().find('#track-name a').first().text();
+	return findIframeElement('#track-name a').first().text();
 };
 
 Connector.getDuration = function() {
-	var el = $('#app-player').get(0).contentDocument.getElementById('track-length');
-	if (el === null) {
-		return null;
-	}
-
-	return Connector.stringToSeconds(el.textContent);
+	let durationStr = findIframeElement('#track-length').text();
+	return Connector.stringToSeconds(durationStr);
 };
 
 Connector.getCurrentTime = function() {
-	var el = $('#app-player').get(0).contentDocument.getElementById('track-current');
-	if (el === null) {
-		return null;
-	}
-
-	return Connector.stringToSeconds(el.textContent);
+	let currentTimeStr = findIframeElement('#track-current').text();
+	return Connector.stringToSeconds(currentTimeStr);
 };
 
 Connector.isPlaying = function() {
-	var btn = $('#app-player').get(0).contentDocument.getElementById('play-pause');
-	if (btn === null) {
-		return false;
-	}
-
-	return btn.classList.contains('playing');
+	let playButton = findIframeElement('#play-pause');
+	return playButton.hasClass('playing');
 };
 
 Connector.getTrackArt = function() {
-	var backgroundStyle = $('#app-player').contents().find('.sp-image-img').css('background-image'),
-		backgroundUrl = /^url\((['"]?)(.*)\1\)$/.exec(backgroundStyle);
+	let backgroundStyle = findIframeElement('.sp-image-img')
+		.css('background-image');
+	let backgroundUrl = /^url\((['"]?)(.*)\1\)$/.exec(backgroundStyle);
 	return backgroundUrl ? backgroundUrl[2] : null;
 };
 
