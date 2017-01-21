@@ -8,7 +8,10 @@ module.exports = function(grunt) {
 	var jsTestFiles = ['tests/**/*.js'];
 	var jsonFiles = ['*.json', '.jshintrc', '.csslintrc'];
 	var htmlFiles = ['options/*.html', 'popups/*.html', 'dialogs/**/*.html'];
-	var cssFiles = ['options/options.css', 'popups/base.css', 'popups/error.css', 'dialogs/base.css'];
+	var cssFiles = [
+		'options/options.css', 'popups/go_play_music.css',
+		'popups/error.css', 'dialogs/base.css'
+	];
 	var scriptFiles = ['scripts/*.js'];
 
 	const extensionSources = [
