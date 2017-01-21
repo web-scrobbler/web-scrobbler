@@ -64,7 +64,7 @@ define([
 	 * @return {Promise} Promise that will be resolved with notification ID
 	 */
 	function showNotification(options, onClicked) {
-		if (!isAvailable() || !isAllowed()) {
+		if (!isAvailable()) {
 			return Promise.reject();
 		}
 
@@ -109,6 +109,10 @@ define([
 	 * @param  {Object} song Copy of song instance
 	 */
 	function showPlaying(song) {
+		if (!isAllowed()) {
+			return;
+		}
+
 		let contextMessage = getCurrentTime();
 		if (song.metadata.connector) {
 			let connectorLabel = song.metadata.connector.label;
@@ -158,14 +162,6 @@ define([
 	 */
 	function showAuthenticate(authUrlGetter) {
 		authUrlGetter().then((authUrl) => {
-			if (!isAvailable()) {
-				GA.event('notification', 'authenticate', 'open-unavailable');
-
-				// fallback for browsers with no notifications support
-				window.open(authUrl, 'scrobbler-auth');
-				return;
-			}
-
 			const options = {
 				title: 'Connect your Last.FM account',
 				message: 'Click the notification or connect later in the extension options page',
@@ -178,7 +174,12 @@ define([
 
 			showNotification(options, onClicked).then(() => {
 				GA.event('notification', 'authenticate', 'show');
-			}).catch(nop);
+			}).catch(() => {
+				GA.event('notification', 'authenticate', 'open-unavailable');
+
+				// fallback for browsers with no notifications support
+				window.open(authUrl, 'scrobbler-auth');
+			});
 		}).catch(showSignInError);
 	}
 
