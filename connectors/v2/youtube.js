@@ -18,7 +18,7 @@ Connector.videoSelector = '#player-api .html5-main-video';
 
 Connector.artistTrackSelector = '#eow-title';
 
-/**
+/*
  * Because player can be still present in the page, we need to detect that it's invisible
  * and don't return current time. Otherwise resulting state may not be considered empty.
  */
@@ -29,7 +29,7 @@ Connector.getCurrentTime = function() {
 	return $(this.videoSelector).prop('currentTime');
 };
 
-/**
+/*
  * Because player can be still present in the page, we need to detect that it's invisible
  * and don't return duration. Otherwise resulting state may not be considered empty.
  */
@@ -80,8 +80,12 @@ Connector.getArtistTrack = function () {
 Connector.filter = MetadataFilter.getYoutubeFilter();
 
 /**
+ * Check if player is off screen.
+ *
  * YouTube doesn't really unload the player. It simply moves it outside viewport.
  * That has to be checked, because our selectors are still able to detect it.
+ *
+ * @return {Boolean} True if player is off screen; false otherwise
  */
 function isPlayerOffscreen() {
 	var $player = $('#player-api');

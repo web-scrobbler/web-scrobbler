@@ -60,7 +60,13 @@ module.exports.shouldBehaveLikeMusicSite = function(driver, options) {
 /* Internal */
 
 /**
- * @see {@link shouldLoadWebsite}
+ * Test if website can be loaded successfully
+ * @param  {Object} driver WebDriverWrapper instance
+ * @param  {Array} options Options (see below)
+ *
+ * Options
+ * @param  {String} url Website URL
+ * @param  {Number} urlLoadTimeout URL load timeout is milliseconds
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function promiseLoadSite(driver, options) {
@@ -110,7 +116,13 @@ function promiseRecognizeSong(driver, options) {
 }
 
 /**
- * @see {@link shouldContainPlayerElement}
+ * Load website and check if player element exists.
+ * @param  {Object} driver WebDriverWrapper instance
+ * @param  {Array} options Options (see below)
+ *
+ * Options
+ * @see {@link shouldLoadWebsite}
+ *
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function promiseCheckPlayerElement(driver, options) {
@@ -127,7 +139,14 @@ function promiseCheckPlayerElement(driver, options) {
 }
 
 /**
+ * Perform a complex test for website. Includes load test,
+ * play button click test and song recongnition test.
+ * @param  {Object} driver WebDriverWrapper instance
+ * @param  {Array} options Options (see below)
+ *
+ * Options
  * @see {@link shouldBehaveLikeMusicSite}
+ *
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function promiseBehaveLikeMusicSite(driver, options) {

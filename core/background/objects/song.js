@@ -59,11 +59,15 @@ define([
 		 * Various flags
 		 */
 		var flags = {
-			isProcessed: false, // has passed the pipeline
+			// Has song passed the pipeline
+			isProcessed: false,
 			isScrobbled: false,
-			isCorrectedByUser: false, // user approved the data by either checking or entering it himself
-			isLastfmValid: null, // don't know
-			isMarkedAsPlaying: false // did we already show notification and mark as playing on L.FM?
+			// User approved the data by either checking or entering it themself
+			isCorrectedByUser: false,
+			// Is song known by Last.fm
+			isLastfmValid: null,
+			// Did we already show notification and mark as playing on L.FM?
+			isMarkedAsPlaying: false
 		};
 
 		var song = new can.Map({
@@ -111,15 +115,18 @@ define([
 		 * @return {Boolean} Check result
 		 */
 		song.isNearEnd = function() {
-			return (this.getDuration() !== null && this.parsed.currentTime >= Math.floor(this.getDuration() * 0.95)); // last 5% of duration
+			// Last 5% of duration
+			return (this.getDuration() !== null && this.parsed.currentTime >= Math.floor(this.getDuration() * 0.95));
 		};
 
 		/**
-		 * Return total number of seconds of playback needed for this track to be scrobbled.
+		 * Return total number of seconds of playback needed for this track
+		 * to be scrobbled.
 		 * @return {Number} Seconds to scrobble
 		 */
 		song.getSecondsToScrobble = function() {
-			var max = 4 * 60; // really long tracks are scrobbled after 4 minutes
+			// Really long tracks are scrobbled after 4 minutes
+			var max = 4 * 60;
 			var val = Math.max(this.getDuration() / 2, DEFAULT_SCROBBLE_TIME);
 			return Math.min(val, max); // whatever occurs first
 		};

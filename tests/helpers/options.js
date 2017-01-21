@@ -37,6 +37,14 @@ exports.getConnectorsFromArgs = function() {
 	});
 };
 
+/**
+ * Get test mode defined by user. Test mode can be defined as
+ * command line argument.
+ *
+ * There are two modes only: 'core' and 'connectors'.
+ *
+ * @return {String} Test mode
+ */
 exports.getTestMode = function() {
 	function isCoreMode() {
 		return process.argv.slice(2).some((arg) => {

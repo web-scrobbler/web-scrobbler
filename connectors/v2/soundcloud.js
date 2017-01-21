@@ -52,7 +52,8 @@ Connector.filter = MetadataFilter.getYoutubeFilter();
 
 
 /**
- * parse metadata and set local variables
+ * Parse metadata and set local variables
+ * @param {Object} metadata Data received from script injected in DOM
  */
 var setSongData = function (metadata) {
 	isPrivate = metadata.sharing === 'private';
