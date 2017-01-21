@@ -10,6 +10,10 @@ define([
 ], function ($, BaseScrobbler, ServiceCallResult) {
 	class LibreFm extends BaseScrobbler {
 		doRequest(method, params, signed) {
+			if ('post' !== method.toLowerCase()) {
+				return super.doRequest(method, params, signed);
+			}
+
 			params.api_key = this.apiKey;
 
 			if (signed) {
@@ -20,24 +24,14 @@ define([
 			let url = `${this.apiUrl}?${queryStr}`;
 
 			return new Promise((resolve, reject) => {
-				let internalOkCb = (xmlDoc) => {
+				$.post(url, $.param(params)).done((xmlDoc) => {
 					let responseStr = new XMLSerializer().serializeToString(xmlDoc);
 					console.log(`${this.label} ${params.method} response:\n${responseStr}`);
 					resolve($(xmlDoc));
-				};
-
-				let internalErrCb = (jqXHR, status, response) => {
-					console.error(`${this.label}${params.method} response: ${status}\n${response}`);
+				}).fail((jqXHR, status, responseStr) => {
+					console.error(`${this.label}${params.method} response:\n${responseStr}`);
 					reject(ServiceCallResult.OtherError());
-				};
-
-				if (method === 'GET') {
-					$.get(url).done(internalOkCb).fail(internalErrCb);
-				} else if (method === 'POST') {
-					$.post(url, $.param(params)).done(internalOkCb).fail(internalErrCb);
-				} else {
-					reject(ServiceCallResult.OtherError());
-				}
+				});
 			});
 		}
 	}
