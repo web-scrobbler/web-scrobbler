@@ -43,7 +43,25 @@ Connector.getTrackArt = function() {
 	return backgroundUrl ? backgroundUrl[2] : null;
 };
 
+Connector.getUniqueID = function() {
+	let trackUrl = findIframeElement('#track-name a').attr('href');
+	if (trackUrl) {
+		return trackUrl.split('/').pop();
+	}
+
+	return null;
+};
+
 Connector.filter = MetadataFilter.getRemasteredFilter();
+
+/**
+ * Find element in player iframe content.
+ * @param  {String} selector CSS selector
+ * @return {Object} Found element
+ */
+function findIframeElement(selector) {
+	return $('#app-player').contents().find(selector);
+}
 
 var onPlayerLoaded = function() {
 	console.log('Web Scrobbler: player loaded, setting up observer');
