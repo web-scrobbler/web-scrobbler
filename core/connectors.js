@@ -1069,5 +1069,12 @@ define(function() {
 			js: ['connectors/v2/mailrumusic.js'],
 			version: 2
 		},
+
+		{
+			label: 'Emby',
+			matches: ['*://*8096/web/*', '*://*8920/web/*', '*://app.emby.media/*'],
+			js: ['connectors/v2/emby.js'],
+			version: 2
+		},
 	];
 });
