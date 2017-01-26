@@ -28,7 +28,7 @@ Connector.getTrackArt = function () {
 };
 
 Connector.getAlbum = function () {
-	return $('.detailSection .parentName:visible').text() ? $('.detailSection .itemName:visible').text() : null;
+	return $('.detailSection .parentName:visible').text() === this.getArtist() ? $('.detailSection .itemName:visible').text() : null;
 };
 
 Connector.getUniqueID = function () {
