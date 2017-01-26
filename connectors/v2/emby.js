@@ -24,7 +24,7 @@ Connector.getDuration = function () {
 
 Connector.getTrackArt = function () {
 	// cuts off `url("")` from the background-image property
-	return $('.nowPlayingBarInfoContainer .nowPlayingImage').css('background-image').slice(5,-2);
+	return $('.nowPlayingBarInfoContainer .nowPlayingImage').css('background-image').slice(5, -2);
 };
 
 Connector.getAlbum = function () {
@@ -38,5 +38,5 @@ Connector.getUniqueID = function () {
 
 Connector.isStateChangeAllowed = function () {
 	// avoids scrobble timer resetting on view change
-	return !this.getCurrentTime()>0
+	return !this.getCurrentTime() > 0;
 };
