@@ -38,5 +38,5 @@ Connector.getUniqueID = function () {
 
 Connector.isStateChangeAllowed = function () {
 	// avoids scrobble timer resetting on view change
-	return !this.getCurrentTime() > 0;
+	return this.getCurrentTime() <= 0;
 };
