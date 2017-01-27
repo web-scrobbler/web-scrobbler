@@ -30,6 +30,12 @@
 define(function() {
 	return [
 		{
+			label: 'delta radio',
+			matches: ['*://livestream.deltaradio.de/*'],
+			js: ['connectors/v2/deltaradio.js'],
+			version: 2
+		},
+		{
 			label: 'Baidu Music',
 			matches: ['*://play.baidu.com/*'],
 			js: ['connectors/v2/baidu.js'],
