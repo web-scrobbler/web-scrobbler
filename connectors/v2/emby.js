@@ -37,6 +37,6 @@ Connector.getUniqueID = function () {
 };
 
 Connector.isStateChangeAllowed = function () {
-	// avoids scrobble timer resetting on view change
-	return this.getCurrentTime() <= 0;
+	// prevents scrobble timer resetting when user changes view while playing a song
+	return this.getCurrentTime() === 0 || this.getCurrentTime() === this.getDuration();
 };
