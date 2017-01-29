@@ -2,15 +2,115 @@
 
 /* global Connector */
 
-Connector.playerSelector = '.player_wrapper';
+const ARTIST_SEPARATOR = ', ';
 
-Connector.artistSelector = '#tx > :last-child';
+/**
+ * The last track title. Used for detecting new songs.
+ * @type {String}
+ */
+let lastTrackTitle = null;
 
-Connector.getTrack = function () {
-	var text = $('.songName').length ? $('.songName').text() : $($('#tx').contents()[0]).text();
-	return text || null;
+/**
+ * Object that holds information about song.
+ * @type {Object}
+ */
+let songInfo = { artist: null, track: null };
+
+Connector.playerSelector = '.player';
+
+Connector.trackArtImageSelector = '.player-artwork img';
+
+Connector.getArtistTrack = function() {
+	requestSongInfo();
+	return songInfo;
 };
 
-Connector.isPlaying = function () {
+Connector.isPlaying = function() {
+	if (isSongInfoEmpty()) {
+		return false;
+	}
+
 	return $('.playPause ').hasClass('pause');
 };
+
+/**
+ * Helper functions.
+ */
+
+/**
+ * Check if current song info is empty.
+ * @return {Boolean} True if info is empty; false otherwise
+ */
+function isSongInfoEmpty() {
+	return songInfo.artist === null || songInfo.track === null;
+}
+
+/**
+ * Update current song info asynchronously.
+ */
+function requestSongInfo() {
+	if (isNewSongPlaying()) {
+		let relativeUrl = $('#atitle a').attr('href');
+		let albumInfoUrl = `http://gaana.com${relativeUrl}`;
+
+		fetchSongInfo(albumInfoUrl).then((data) => {
+			songInfo = data;
+		}).catch(() => {
+			resetSongInfo();
+		});
+	}
+}
+
+/**
+ * Reset current song info.
+ */
+function resetSongInfo() {
+	songInfo = { artist: null, track: null };
+}
+
+/**
+ * Check if song is changed.
+ * @return {Boolean} True if new song is playing; false otherwise
+ */
+function isNewSongPlaying() {
+	let track = $('#stitle').text();
+	if (lastTrackTitle !== track) {
+		lastTrackTitle = track;
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Load artist page asynchronously and fetch artist name.
+ * @param  {String} albumInfoUrl Album info URL
+ * @return {Promise} Promise that will be resolved with the song info
+ */
+function fetchSongInfo(albumInfoUrl) {
+	let track = lastTrackTitle;
+	let artist = null;
+
+	return new Promise((resolve, reject) => {
+		$.ajax({ url: albumInfoUrl }).done((html) => {
+			let $doc = $(html);
+
+			let songs = $doc.find('.s_l').toArray();
+			for (let song of songs) {
+				let songTitle = $(song).find('.s_title .sng_c').text();
+				if (songTitle === track) {
+					let artists = $(song).find('.s_artist .sng_c').toArray();
+					artist = artists.map((artist) => {
+						return artist.textContent;
+					}).join(ARTIST_SEPARATOR);
+
+					break;
+				}
+			}
+
+			resolve({ artist, track });
+		}).fail((jqXhr, textStatus, errorThrown) => {
+			reject(errorThrown);
+		});
+	});
+}
