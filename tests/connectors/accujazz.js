@@ -8,9 +8,9 @@ module.exports = function(driver, connectorSpec) {
 
 	function isAdPlayed() {
 		return driver.findElement('#statusLabel').then((element) => {
-			return element.getText().then((statusLabel) => {
-				return statusLabel === 'Playing';
-			});
+			return element.getText();
+		}).then((statusLabel) => {
+			return statusLabel === 'Playing';
 		});
 	}
 };
