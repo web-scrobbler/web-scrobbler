@@ -65,6 +65,8 @@ function requestSongInfo() {
 		resetSongInfo();
 		fetchSongInfo(trackInfoUrl).then((data) => {
 			songInfo = data;
+		}).catch((err) => {
+			console.error(`Error: ${err}`);
 		});
 
 		lastTrackInfoUrl = trackInfoUrl;
@@ -84,13 +86,15 @@ function resetSongInfo() {
  * @return {Promise} Promise that will be resolved with the song info
  */
 function fetchSongInfo(trackInfoUrl) {
-	return new Promise((resolve) => {
+	return new Promise((resolve, reject) => {
 		$.ajax({ url: trackInfoUrl }).done((html) => {
 			let $doc = $(html);
 			let artist = $doc.find('.page-meta-group > .meta-list')
 				.first().text() || null;
 			let track = $('#player-track-name').text() || null;
 			resolve({ artist, track });
+		}).fail((jqXhr, textStatus, errorThrown) => {
+			reject(errorThrown);
 		});
 	});
 }
