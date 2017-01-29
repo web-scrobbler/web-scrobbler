@@ -39,34 +39,31 @@ exports.load = function(url, timeout) {
 
 /**
  * Wait for an element to be visible and click on it.
- * @param  {Object} locator Locator of element to be clicked
+ * @param  {String} selector CSS selector of element
  * @param  {Boolean} forceJsClick If true, click with JavaScript by default
  * @return {Promise} Promise that will be resolved when the task has completed
  */
-exports.click = function(locator, forceJsClick) {
-	var locatorStr = JSON.stringify(locator);
-	var timeoutDesc = 'Unable to click on ' + locatorStr + ': timed out';
+exports.click = function(selector, forceJsClick) {
+	let timeoutDesc = `Unable to click on ${selector}: timed out`;
 
-	helpers.debug('Waiting on click ', locatorStr);
+	helpers.debug(`Waiting on click: ${selector}`);
 	return exports.wait(function() {
-		return driver.findElements(locator).then(function(elements) {
+		return driver.findElements({ css: selector }).then(function(elements) {
 			var elementsCount = elements.length;
 			if (options.get('debug') && elementsCount > 1) {
-				helpers.warn(
-					'Ambiguous locator: ' + locatorStr +
-					' [' + elementsCount + ' elements]');
+				helpers.warn(`Ambiguous selector: ${selector} [${elementsCount} elements]`);
 			}
 			return elementsCount > 0;
 		});
 	}, WAIT_CLICK_TIMEOUT, timeoutDesc).then(function() {
 		if (forceJsClick) {
-			return clickWithJavaScript(locator);
+			return clickWithJavaScript(selector);
 		}
-		return clickWithWebdriver(locator).catch(function() {
-			return clickWithJavaScript(locator);
+		return clickWithWebdriver(selector).catch(function() {
+			return clickWithJavaScript(selector);
 		});
 	}).catch(function(err) {
-		helpers.debug('Unable to click on ', locatorStr);
+		helpers.debug(`Unable to click on ${selector}`);
 		throw err;
 	});
 };
@@ -158,26 +155,26 @@ function getUrl(url, timeout) {
 
 /**
  * Click on element using Webdriver function.
- * @param  {Object} locator Locator of element to be clicked
+ * @param  {String} selector CSS selector of element
  * @return {Promise} Promise that will be resolved when the task has completed
  */
-function clickWithWebdriver(locator) {
-	return driver.findElement(locator).then(function(element) {
+function clickWithWebdriver(selector) {
+	return driver.findElement({ css: selector }).then(function(element) {
 		element.click();
-		helpers.debug(`Clicked on ${JSON.stringify(locator)} (WebDriver)`);
+		helpers.debug(`Clicked on ${selector} (WebDriver)`);
 	});
 }
 
 /**
  * Click on emement using injected JavaScript function.
- * @param  {Object} locator Locator of element to be clicked
+ * @param  {String} selector CSS selector of element
  * @return {Promise} Promise that will be resolved when the task has completed
  */
-function clickWithJavaScript(locator) {
+function clickWithJavaScript(selector) {
 	return driver.executeScript(function(cssSelector) {
 		document.querySelector(cssSelector).click();
-	}, locator.css).then(function() {
-		helpers.debug(`Clicked on ${JSON.stringify(locator)} (JS)`);
+	}, selector).then(function() {
+		helpers.debug(`Clicked on ${selector} (JS)`);
 	});
 }
 

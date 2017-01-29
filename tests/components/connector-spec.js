@@ -83,10 +83,7 @@ function promiseClickPlayButton(driver, options) {
 	var opts = options || {};
 
 	if (opts.playButtonSelector) {
-		return driver.click(
-			{css: opts.playButtonSelector},
-			opts.forceJsClick
-		);
+		return driver.click(opts.playButtonSelector, opts.forceJsClick);
 	} else {
 		return webdriver.promise.fulfilled();
 	}
