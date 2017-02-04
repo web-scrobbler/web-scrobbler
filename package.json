@@ -9,26 +9,26 @@
     "url": "https://github.com/david-sabata/Chrome-Last.fm-Scrobbler.git"
   },
   "devDependencies": {
-    "grunt": "~1.0.1",
+    "chai": "^3.5.0",
+    "chromedriver": "~2.26.1",
+    "grunt": "^1.0.1",
+    "grunt-bump": "~0.8.0",
     "grunt-cli": "~1.2.0",
+    "grunt-contrib-clean": "~1.0.0",
     "grunt-contrib-compress": "~1.3.0",
+    "grunt-contrib-copy": "~1.0.0",
     "grunt-contrib-csslint": "^2.0.0",
     "grunt-eslint": "~19.0.0",
+    "grunt-exec": "~1.0.1",
     "grunt-jsonlint": "^1.1.0",
     "grunt-lintspaces": "^0.8.0",
-    "webstore-upload": "~0.0.7",
-    "grunt-exec": "~1.0.1",
-    "grunt-bump": "~0.8.0",
     "grunt-preprocess": "~5.1.0",
-    "grunt-contrib-copy": "~1.0.0",
-    "grunt-contrib-clean": "~1.0.0",
+    "load-grunt-tasks": "^3.5.2",
     "mocha": "~3.2.0",
-    "chai": "^3.5.0",
-    "selenium-webdriver": "~3.0.1",
-    "chromedriver": "~2.26.1",
     "node-define": "~0.1.1",
     "requirejs": "~2.3.2",
-    "load-grunt-tasks": "^3.5.2"
+    "selenium-webdriver": "~3.0.1",
+    "webstore-upload": "~0.0.7"
   },
   "engines": {
     "node": ">=6.0.0"
