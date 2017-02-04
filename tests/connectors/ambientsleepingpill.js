@@ -1,7 +1,8 @@
 'use strict';
 
 module.exports = function(driver, connectorSpec) {
-	connectorSpec.shouldContainPlayerElement(driver, {
-		url: 'http://ambientsleepingpill.com/'
+	connectorSpec.shouldBehaveLikeMusicSite(driver, {
+		url: 'http://ambientsleepingpill.com/',
+		playButtonSelector: '#asp-play'
 	});
 };

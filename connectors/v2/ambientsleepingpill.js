@@ -2,14 +2,12 @@
 
 /* global Connector */
 
-Connector.playerSelector = '.container-fluid';
+Connector.playerSelector = '#player';
 
-Connector.artistSelector = '#cc_recenttracks_asp > .cctrack:first-child .ccartist';
+Connector.artistSelector = '#cc_strinfo_trackartist_asp';
 
-Connector.trackSelector = '#cc_recenttracks_asp > .cctrack:first-child .cctitle';
+Connector.trackSelector = '#cc_strinfo_tracktitle_asp';
 
-Connector.albumSelector = '#cc_recenttracks_asp > .cctrack:first-child .ccalbum';
+Connector.playButtonSelector = '#asp-play';
 
-Connector.isPlaying = function () {
-	return $('#jp_container_1').hasClass('jp-state-playing');
-};
+Connector.trackArtImageSelector = '#cc_strinfo_trackimageurl_asp';
