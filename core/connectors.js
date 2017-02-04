@@ -1041,7 +1041,7 @@ define(function() {
 
 		{
 			label: 'Anghami',
-			matches: ['*://www.anghami.com/*'],
+			matches: ['*://www.anghami.com/*', '*://play.anghami.com/*'],
 			js: ['connectors/v2/anghami.js'],
 			version: 2
 		},
