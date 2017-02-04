@@ -23,16 +23,16 @@ var driver = createWebDriver();
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 exports.load = function(url, timeout) {
-	helpers.debug('Loading ' + url);
+	helpers.debug(`Loading ${url}`);
 
 	return getUrl(url, timeout)
 		.then(acceptAlerts)
 		.then(injectTestCapture)
 		.then(waitForConnectorInjection)
-		.then(function() {
-			helpers.debug('Loaded ' + url);
-		}, function(err) {
-			helpers.debug('Unable to load ' + url);
+		.then(() => {
+			helpers.debug(`Loaded ${url}`);
+		}).catch((err) => {
+			helpers.debug(`Unable to load ${url}`);
 			throw err;
 		});
 };
@@ -248,10 +248,10 @@ function waitForConnectorInjection() {
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function acceptAlerts() {
-	return driver.switchTo().alert().then(function(alert) {
+	return driver.switchTo().alert().then((alert) => {
 		helpers.debug('Accept alert');
 		alert.accept();
-	}, function() {
+	}).catch(() => {
 		// Suppress errors
 	});
 }
