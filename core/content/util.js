@@ -163,6 +163,19 @@ const Util = {
 	},
 
 	/**
+	 * Inject script into document.
+	 * @param {String} scriptUrl script URL
+	 */
+	injectScriptIntoDocument(scriptUrl) {
+		let script = document.createElement('script');
+		script.src = scriptUrl;
+		script.onload = function () {
+			this.parentNode.removeChild(this);
+		};
+		(document.head || document.documentElement).appendChild(script);
+	},
+
+	/**
 	 * Default array of separators.
 	 * Push new separators in the implementation if required.
 	 *
