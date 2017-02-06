@@ -2,7 +2,7 @@
 
 /* global Connector */
 
-Connector.playerSelector      = '#custom-jw-player-wrapper';
+Connector.playerSelector = '#custom-jw-player-wrapper';
 
 Connector.artistTrackSelector = '#jw-player-text';
 
@@ -14,4 +14,4 @@ Connector.isPlaying = function () {
 
 Connector.currentTimeSelector = '#jw-current-time';
 
-Connector.durationSelector    = '#jw-total-time';
+Connector.durationSelector = '#jw-total-time';
