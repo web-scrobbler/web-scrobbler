@@ -1076,7 +1076,7 @@ define(function() {
 			js: ['connectors/v2/emby.js'],
 			version: 2
 		},
-		
+
 		{
 			label: 'Freegal',
 			matches: ['*://*.freegalmusic.com/*'],
