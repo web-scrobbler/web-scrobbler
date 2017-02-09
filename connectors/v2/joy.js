@@ -2,23 +2,25 @@
 
 /* global Connector */
 
-const DEFAULT_TRACK_ART = 'nocover.png';
+const DEFAULT_TRACK_ART = 'no-image-50.jpg';
 
-Connector.playerSelector = '#player';
+Connector.playerSelector = '.container';
 
-Connector.artistSelector = '#cc_strinfo_trackartist_asp';
+Connector.artistSelector = '.artist';
 
-Connector.trackSelector = '#cc_strinfo_tracktitle_asp';
-
-Connector.playButtonSelector = '#asp-play';
+Connector.trackSelector = '.song';
 
 Connector.getTrackArt = function() {
-	let trackArtUrl = $('#cc_strinfo_trackimageurl_asp').attr('src');
+	let trackArtUrl = $('.cd-art img').attr('src');
 	if (isDefaultTrackArt(trackArtUrl)) {
 		return null;
 	}
 
 	return trackArtUrl;
+};
+
+Connector.isPlaying = function() {
+	return $('.fa-play-circle').length === 0;
 };
 
 function isDefaultTrackArt(trackArtUrl) {

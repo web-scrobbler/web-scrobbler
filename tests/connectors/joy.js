@@ -2,7 +2,6 @@
 
 module.exports = function(driver, connectorSpec) {
 	connectorSpec.shouldBehaveLikeMusicSite(driver, {
-		url: 'http://ambientsleepingpill.com/',
-		playButtonSelector: '#asp-play'
+		url: 'https://myradiomatic.com/player/joyfm/player.htm',
 	});
 };
