@@ -1081,12 +1081,14 @@ define(function() {
 			label: 'Freegal',
 			matches: ['*://*.freegalmusic.com/*'],
 			js: ['connectors/v2/freegal.js'],
+			version: 2			
 		},
 
 		{
 			label: 'Joy.fm',
 			matches: ['https://myradiomatic.com/player/joyfm/player.htm'],
 			js: ['connectors/v2/joy.js'],
+			version: 2			
 		},
 	];
 });
