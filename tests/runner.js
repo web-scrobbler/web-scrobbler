@@ -11,7 +11,8 @@ const requirejs = require('node-define');
 function configureRequireJs() {
 	requirejs.config({
 		paths: {
-			wrappers: 'tests/stubs/'
+			wrappers: 'tests/stubs',
+			storage: 'core/background/storage'
 		},
 		waitSeconds: 0
 	});
