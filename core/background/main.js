@@ -161,16 +161,29 @@ require([
 		}
 	});
 
+	/**
+	 * Replace the extension version stored in
+	 * local storage by current one.
+	 */
+	function updateVersionInStorage() {
+		let storage = ChromeStorage.getNamespace('Core');
+		storage.get((data) => {
+			data.appVersion = chrome.app.getDetails().version;
+			storage.set(data, startup);
+		});
+
+		// debug log internal storage state for people who send logs (tokens are anonymized)
+		ChromeStorage.debugLog('Core');
+	}
 
 	/**
 	 * Called on the extension start, after maintenance storage reads/writes are done
 	 */
 	function startup() {
+		updateVersionInStorage();
+
 		// track background page loaded - happens once per browser session
 		GA.send('pageview', '/background-loaded?version=' + chrome.app.getDetails().version);
-
-		// debug log internal storage state for people who send logs (tokens are anonymized)
-		ChromeStorage.debugLog('Core');
 
 		// check session ID status and show notification if authentication is needed
 		LastFM.getSession(function(sessionID) {
