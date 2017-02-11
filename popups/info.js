@@ -60,6 +60,10 @@ $(document).ready(function() {
 	}
 
 	function isSongMetadataChanged() {
+		if (!song.flags.isLastfmValid) {
+			return true;
+		}
+
 		let fieldValueMap = getSongFieldMap();
 		for (let field in fieldValueMap) {
 			let fieldInputSelector = `#${field}-input`;
