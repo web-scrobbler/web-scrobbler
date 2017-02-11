@@ -4,7 +4,7 @@ define(['chromeStorage'], function(ChromeStorage) {
 	const storage = ChromeStorage.getNamespace('LocalCache');
 	const fieldsToSave = ['artist', 'track', 'album'];
 
-	function fillSongMetadataFromStorage(song, cb) {
+	function loadData(song, cb) {
 		if (!song.parsed.uniqueID) {
 			cb();
 			return;
@@ -33,7 +33,17 @@ define(['chromeStorage'], function(ChromeStorage) {
 		});
 	}
 
-	return {
-		loadData: fillSongMetadataFromStorage
-	};
+	function removeSongFromStorage(song, cb) {
+		let songId = song.parsed.uniqueID;
+		if (!songId) {
+			return cb();
+		}
+
+		storage.get((data) => {
+			delete data[songId];
+			storage.set(data, cb);
+		});
+	}
+
+	return { loadData, removeSongFromStorage };
 });
