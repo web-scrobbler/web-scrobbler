@@ -169,7 +169,7 @@ require([
 		let storage = ChromeStorage.getNamespace('Core');
 		storage.get((data) => {
 			data.appVersion = chrome.app.getDetails().version;
-			storage.set(data, startup);
+			storage.set(data);
 		});
 
 		// debug log internal storage state for people who send logs (tokens are anonymized)
