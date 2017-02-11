@@ -128,7 +128,7 @@ $(document).ready(function() {
 	function fillAlbumCover() {
 		let albumArt = song.parsed.trackArt ||
 			song.metadata.artistThumbUrl ||
-			'../default_cover_art.png';
+			'/icons/default_cover_art.png';
 
 		$('#album-art').css('background-image', `url("${albumArt}")`);
 	}

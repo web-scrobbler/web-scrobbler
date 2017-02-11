@@ -26,7 +26,7 @@ input {
 	width: 100px;
 	height: 100px;
 	float: left;
-	background-image: url('../default_cover_art.png');
+	background-image: url('/icons/default_cover_art.png');
 	/* .cover-image */
 	background-size: cover;
 	background-position: center;
