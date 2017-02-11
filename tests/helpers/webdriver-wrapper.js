@@ -160,8 +160,9 @@ function getUrl(url, timeout) {
  */
 function clickWithWebdriver(selector) {
 	return driver.findElement({ css: selector }).then(function(element) {
-		element.click();
-		helpers.debug(`Clicked on ${selector} (WebDriver)`);
+		element.click().then(() => {
+			helpers.debug(`Clicked on ${selector} (WebDriver)`);
+		});
 	});
 }
 
