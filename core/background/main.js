@@ -37,7 +37,7 @@ require([
 	'objects/injectResult',
 	'pageAction',
 	'controller',
-	'chromeStorage',
+	'storage/chromeStorage',
 	'config',
 	'services/scrobbleService'
 ], function(GA, LastFM, LibreFM, inject, InjectResult, PageAction, Controller, ChromeStorage, Config, ScrobbleService) {
@@ -265,14 +265,14 @@ require([
 	 * local storage by current one.
 	 */
 	function updateVersionInStorage() {
-		let storage = ChromeStorage.getNamespace('Core');
-		storage.get((data) => {
+		let storage = ChromeStorage.getLocalStorage('Core');
+		return storage.get().then((data) => {
 			data.appVersion = extVersion;
-			storage.set(data);
+			storage.set(data).then(() => {
+				// debug log internal storage state for people who send logs (tokens are anonymized)
+				storage.debugLog('Core');
+			});
 		});
-
-		// debug log internal storage state for people who send logs (tokens are anonymized)
-		ChromeStorage.debugLog('Core');
 	}
 
 	/**

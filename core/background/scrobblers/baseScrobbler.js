@@ -4,7 +4,7 @@ define([
 	'jquery',
 	'vendor/md5',
 	'objects/serviceCallResult',
-	'chromeStorage',
+	'storage/chromeStorage',
 ], function ($, MD5, ServiceCallResult, ChromeStorage) {
 	const GET_AUTH_URL_TIMEOUT = 10000;
 
@@ -67,7 +67,8 @@ define([
 				this[option] = options[option];
 			}
 
-			this.storage = ChromeStorage.getNamespace(options.storage);
+			this.storage = ChromeStorage.getLocalStorage(options.storage);
+			this.storage.debugLog();
 		}
 
 		/**
@@ -90,28 +91,28 @@ define([
 			}).then((text) => {
 				let xml = $($.parseXML(text));
 				let status = xml.find('lfm').attr('status');
-				return new Promise((resolve, reject) => {
-					this.storage.get((data) => {
-						if (status !== 'ok') {
-							console.log('Error acquiring a token: %s', text);
 
-							data.token = null;
-							this.storage.set(data, function() {
-								reject();
-							});
-						} else {
-							// set token and reset session so we will grab a new one
-							data.sessionID = null;
-							data.token = xml.find('token').text();
+				return this.storage.get().then((data) => {
+					if (status !== 'ok') {
+						console.log('Error acquiring a token: %s', text);
 
-							let response = text.replace(data.token, `xxxxx${data.token.substr(5)}`);
-							console.log(`getToken response: ${response}`);
+						data.token = null;
+						return this.storage.set(data).then(() => {
+							throw new Error('Error acquiring a token');
+						});
+					}
 
-							let authUrl = `${this.authUrl}?api_key=${this.apiKey}&token=${data.token}`;
-							this.storage.set(data, function() {
-								resolve(authUrl);
-							});
-						}
+					// set token and reset session so we will grab a new one
+					data.sessionID = null;
+					data.token = xml.find('token').text();
+
+					let response = text.replace(data.token, `xxxxx${data.token.substr(5)}`);
+					console.log(`getToken response: ${response}`);
+
+					let authUrl = `${this.authUrl}?api_key=${this.apiKey}&token=${data.token}`;
+					return this.storage.set(data).then(() => {
+						console.log(`AUth url: ${authUrl}`);
+						return authUrl;
 					});
 				});
 			}));
@@ -136,44 +137,44 @@ define([
 		 * @return {Promise} Promise that will be resolved with the session data
 		 */
 		getSession() {
-			return new Promise((resolve, reject) => {
-				this.storage.get((data) => {
-					// if we have a token it means it is fresh and we
-					// want to trade it for a new session ID
-					var token = data.token || null;
-					if (token !== null) {
-						this.tradeTokenForSession(token).then((session) => {
-							// token is already used, reset it and store
-							// the new session
-							data.token = null;
-							data.sessionID = session.key;
-							data.sessionName = session.name;
-							this.storage.set(data, () => {
-								resolve({
-									sessionID: data.sessionID,
-									sessionName: data.sessionName
-								});
-							});
-						}).catch(() => {
-							console.warn(this.label + ' Failed to trade token for session - the token is probably not authorized');
+			return this.storage.get().then((data) => {
+				// if we have a token it means it is fresh and we
+				// want to trade it for a new session ID
+				var token = data.token || null;
+				if (token !== null) {
+					return this.tradeTokenForSession(token).then((session) => {
+						// token is already used, reset it and store
+						// the new session
+						data.token = null;
+						data.sessionID = session.key;
+						data.sessionName = session.name;
 
-							// both session and token are now invalid
-							data.token = null;
-							data.sessionID = null;
-							data.sessionName = null;
-							this.storage.set(data, () => {
-								reject(ServiceCallResult.AuthError());
-							});
+						return this.storage.set(data).then(() => {
+							return {
+								sessionID: data.sessionID,
+								sessionName: data.sessionName
+							};
 						});
-					} else if (!data.sessionID) {
-						reject(ServiceCallResult.AuthError());
-					} else {
-						resolve({
-							sessionID: data.sessionID,
-							sessionName: data.sessionName
+					}).catch(() => {
+						console.warn(this.label + ' Failed to trade token for session - the token is probably not authorized');
+
+						// both session and token are now invalid
+						data.token = null;
+						data.sessionID = null;
+						data.sessionName = null;
+
+						return this.storage.set(data).then(() => {
+							throw ServiceCallResult.AuthError();
 						});
-					}
-				});
+					});
+				} else if (!data.sessionID) {
+					throw ServiceCallResult.AuthError();
+				} else {
+					return {
+						sessionID: data.sessionID,
+						sessionName: data.sessionName
+					};
+				}
 			});
 		}
 

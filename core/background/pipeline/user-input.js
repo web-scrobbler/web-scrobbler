@@ -1,7 +1,7 @@
 'use strict';
 
-define(['chromeStorage'], function(ChromeStorage) {
-	const storage = ChromeStorage.getNamespace('LocalCache');
+define(['storage/chromeStorage'], function(ChromeStorage) {
+	const storage = ChromeStorage.getLocalStorage('LocalCache');
 	const fieldMap = {
 		'artist': 'userArtist',
 		'track': 'userTrack',
@@ -14,7 +14,7 @@ define(['chromeStorage'], function(ChromeStorage) {
 			return;
 		}
 
-		storage.get(chromeData => {
+		storage.get().then((chromeData) => {
 			let isChanged = false;
 
 			if (!chromeData[songId]) {

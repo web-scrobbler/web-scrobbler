@@ -5,7 +5,7 @@ require([
 	'config',
 	'connectors',
 	'customPatterns',
-	'chromeStorage',
+	'storage/chromeStorage',
 	'wrappers/chrome',
 	'scrobblers/lastfm',
 	'scrobblers/librefm',
@@ -30,7 +30,8 @@ require([
 	};
 
 	$(function () {
-		var connectorsOptions = ChromeStorage.getNamespace('Connectors');
+		var connectorsOptions = ChromeStorage.getLocalStorage('Connectors');
+		connectorsOptions.debugLog();
 
 
 		// preload values and attach listeners
@@ -45,7 +46,7 @@ require([
 			for (let option in connectorsOptionsUiMap[connector]) {
 				let optionId = connectorsOptionsUiMap[connector][option];
 				$(optionId).click(function() {
-					connectorsOptions.get((data) => {
+					connectorsOptions.get().then((data) => {
 						if (!data[connector]) {
 							data[connector] = {};
 						}
@@ -92,7 +93,7 @@ require([
 		toggleInitState();
 
 		// preload async values from storage
-		connectorsOptions.get(function (data) {
+		connectorsOptions.get().then((data) => {
 			for (let connector in connectorsOptionsUiMap) {
 				for (let option in connectorsOptionsUiMap[connector]) {
 					if (data[connector]) {

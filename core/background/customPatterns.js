@@ -1,30 +1,24 @@
 'use strict';
 
-define(['chromeStorage'], function (ChromeStorage) {
-	const storage = ChromeStorage.getNamespace('customPatterns');
+define(['storage/chromeStorage'], (ChromeStorage) => {
+	const storage = ChromeStorage.getLocalStorage('customPatterns');
 
 	return {
 		getAllPatterns() {
-			return new Promise((resolve) => {
-				storage.get(resolve);
-			});
+			return storage.get();
 		},
 
 		setPatterns(connector, patterns) {
-			return new Promise((resolve) => {
-				storage.get((data) => {
-					data[connector] = patterns;
-					storage.set(data, resolve);
-				});
+			return storage.get().then((data) => {
+				data[connector] = patterns;
+				return storage.set(data);
 			});
 		},
 
 		resetPatterns(connector) {
-			return new Promise((resolve) => {
-				storage.get(function(data) {
-					delete data[connector];
-					storage.set(data, resolve);
-				});
+			return storage.get().then((data) => {
+				delete data[connector];
+				return storage.set(data);
 			});
 		}
 	};
