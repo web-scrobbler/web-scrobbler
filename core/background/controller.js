@@ -10,8 +10,9 @@ define([
 	'pageAction',
 	'timer',
 	'notifications',
-	'services/background-ga'
-], function(Song, Pipeline, LastFM, PageAction, Timer, Notifications, GA) {
+	'services/background-ga',
+	'pipeline/local-cache'
+], function(Song, Pipeline, LastFM, PageAction, Timer, Notifications, GA, LocalCache) {
 
 	/**
 	 * Constructor
@@ -324,9 +325,10 @@ define([
 		this.resetSongData = function() {
 			if (currentSong !== null) {
 				currentSong.resetSongData();
-
-				pageAction.setSongLoading(currentSong);
-				Pipeline.processSong(currentSong);
+				LocalCache.removeSongFromStorage(currentSong, () => {
+					pageAction.setSongLoading(currentSong);
+					Pipeline.processSong(currentSong);
+				});
 			}
 		};
 
