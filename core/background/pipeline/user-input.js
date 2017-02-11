@@ -19,6 +19,11 @@ define([], function() {
 
 			if (changed) {
 				song.flags.attr('isCorrectedByUser', true);
+
+				// save the processed artist track to local storage
+				var cache = {};
+				cache[song.parsed.attr('uniqueID')] = song.processed;
+				chrome.storage.local.set(cache);
 			}
 
 			cb();
