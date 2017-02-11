@@ -17,7 +17,7 @@ module.exports = function(grunt) {
 	const extensionSources = [
 		'connectors/**', 'core/**', 'dialogs/**',
 		'icons/**', 'options/**', 'popups/**', 'vendor/**',
-		'manifest.json', 'README.md', 'LICENSE.txt', '*.png',
+		'manifest.json', 'README.md', 'LICENSE.txt',
 		// Skip files
 		'!core/content/testReporter.js'
 	];
