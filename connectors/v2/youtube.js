@@ -2,65 +2,212 @@
 
 /* global Connector, MetadataFilter */
 
-var scrobbleMusicOnly = false;
-chrome.storage.local.get('Connectors', function(data) {
-	if (data && data.Connectors && data.Connectors.YouTube) {
-		var options = data.Connectors.YouTube;
-		if (options.scrobbleMusicOnly === true) {
-			scrobbleMusicOnly = true;
+/**
+ * Allow or disallow to scrobble videos that are in Music category only.
+ * @type {Boolean}
+ */
+let scrobbleMusicOnly = false;
+
+/**
+ * CSS selector of video element. It's common for both players.
+ * @type {String}
+ */
+const videoSelector = '.html5-main-video';
+
+/**
+ * Setup connector according to current Youtube design.
+ * This function is called on connector inject.
+ */
+function setupConnector() {
+	if (isDefaultPlayer()) {
+		readConnectorOptions();
+
+		setupBasePlayer();
+		setupDefaultPlayer();
+	} else {
+		setupBasePlayer();
+		setupMaterialPlayer();
+	}
+}
+
+/**
+ * Check if default player on the page.
+ * @return {Boolean} True if default player is on the page; false otherwise
+ */
+function isDefaultPlayer() {
+	return $('ytd-app').length === 0;
+}
+
+/**
+ * Setup default Youtube player.
+ */
+function setupDefaultPlayer() {
+	Connector.getArtistTrack = function () {
+		let text = getItemPropValue('name');
+		return processYoutubeVideoTitle(text);
+	};
+
+	Connector.getUniqueID = function() {
+		return getItemPropValue('videoId');
+	};
+
+	Connector.isStateChangeAllowed = function() {
+		let videoCategory = getItemPropValue('genre');
+		if (videoCategory) {
+			return !scrobbleMusicOnly ||
+				(scrobbleMusicOnly && videoCategory === 'Music');
 		}
 
-		console.log('connector options: ' + JSON.stringify(options));
+		// Unable to get a video category; allow to scrobble the video
+		return true;
+	};
+
+	/**
+	 * Check if player is off screen.
+	 *
+	 * YouTube doesn't really unload the player. It simply moves it outside
+	 * viewport. That has to be checked, because our selectors are still able
+	 * to detect it.
+	 *
+	 * @return {Boolean} True if player is off screen; false otherwise
+	 */
+	Connector.isPlayerOffscreen = function() {
+		let $player = $('#player-api');
+		if ($player.length === 0) {
+			return false;
+		}
+
+		let offset = $player.offset();
+		return offset.left < 0 || offset.top < 0;
+	};
+
+	function getItemPropValue(prop) {
+		return $(`meta[itemprop="${prop}"]`).attr('content');
 	}
-});
+}
 
-Connector.videoSelector = '#player-api .html5-main-video';
-
-Connector.artistTrackSelector = '#eow-title';
-
-/*
- * Because player can be still present in the page, we need to detect that it's invisible
- * and don't return current time. Otherwise resulting state may not be considered empty.
+/**
+ * Setup Material player.
  */
-Connector.getCurrentTime = function() {
-	if (isPlayerOffscreen()) {
-		return null;
-	}
-	return $(this.videoSelector).prop('currentTime');
-};
+function setupMaterialPlayer() {
+	Connector.getArtistTrack = function() {
+		/*
+		 * Youtube doesn't remove DOM object on AJAX navigation,
+		 * so we should not return track data if no song is playing.
+		 */
+		if (Connector.isPlayerOffscreen()) {
+			return { artist: null, track: null };
+		}
 
-/*
- * Because player can be still present in the page, we need to detect that it's invisible
- * and don't return duration. Otherwise resulting state may not be considered empty.
+		let text = $('h1.title.ytd-video-primary-info-renderer').text();
+		return processYoutubeVideoTitle(text);
+	};
+
+	Connector.getUniqueID = function() {
+		/*
+		 * Youtube doesn't remove DOM object on AJAX navigation,
+		 * so we should not return track data if no song is playing.
+		 */
+		if (Connector.isPlayerOffscreen()) {
+			return null;
+		}
+
+		let videoUrl = $('.ytp-title-link').attr('href');
+		let regExp = /v=(.+)&?/;
+		let match = videoUrl.match(regExp);
+		if (match) {
+			return match[1];
+		}
+
+		return null;
+	};
+
+	/**
+	 * Check if player is off screen.
+	 *
+	 * YouTube doesn't really unload the player. It simply moves it outside
+	 * viewport. That has to be checked, because our selectors are still able
+	 * to detect it.
+	 *
+	 * @return {Boolean} True if player is off screen; false otherwise
+	 */
+	Connector.isPlayerOffscreen = function() {
+		let $player = $('#player-container');
+		if ($player.length === 0) {
+			return false;
+		}
+
+		let offset = $player.offset();
+		return offset.left <= 0 || offset.top <= 0;
+	};
+}
+
+/**
+ * Setup common things for both players.
  */
-Connector.getDuration = function() {
-	if (isPlayerOffscreen()) {
-		return null;
+function setupBasePlayer() {
+	setupMutationObserver();
+
+	Connector.filter = MetadataFilter.getYoutubeFilter();
+
+	/*
+	 * Because player can be still present in the page, we need to detect
+	 * that it's invisible and don't return current time. Otherwise resulting
+	 * state may not be considered empty.
+	 */
+	Connector.getCurrentTime = function() {
+		if (Connector.isPlayerOffscreen()) {
+			return null;
+		}
+		return $(videoSelector).prop('currentTime');
+	};
+
+	Connector.getDuration = function() {
+		if (Connector.isPlayerOffscreen()) {
+			return null;
+		}
+		return $(videoSelector).prop('duration');
+	};
+
+	Connector.isPlaying = function() {
+		return $('.html5-video-player').hasClass('playing-mode');
+	};
+
+	function setupMutationObserver() {
+		let isMusicVideoPresent = false;
+
+		let playerObserver = new MutationObserver(function() {
+			if (Connector.isPlayerOffscreen()) {
+				Connector.onStateChanged();
+			} else {
+				if (isMusicVideoPresent) {
+					return;
+				}
+
+				$(videoSelector).on('timeupdate', Connector.onStateChanged);
+				isMusicVideoPresent = true;
+			}
+		});
+
+		playerObserver.observe(document.body, {
+			subtree: true,
+			childList: true,
+			attributes: false,
+			characterData: false
+		});
 	}
-	return $(this.videoSelector).prop('duration');
-};
+}
 
-Connector.getUniqueID = function() {
-	return $('meta[itemprop="videoId"]').attr('content');
-};
-
-Connector.isPlaying = function() {
-	return $('#player-api .html5-video-player').hasClass('playing-mode');
-};
-
-Connector.isStateChangeAllowed = function() {
-	let videoCategory = $('meta[itemprop="genre"]').attr('content');
-	if (videoCategory) {
-		return !scrobbleMusicOnly ||
-			(scrobbleMusicOnly && videoCategory === 'Music');
+/**
+ * Parse Youtube video title and return object that contains information
+ * about song artist and song title.
+ * @param  {String} text Video title
+ * @return {Object} Object that contains information aboud artist and track
+ */
+function processYoutubeVideoTitle(text) {
+	if (!text) {
+		return { artist: null, track: null };
 	}
-
-	// Unable to get a video category; allow to scrobble the video
-	return true;
-};
-
-Connector.getArtistTrack = function () {
-	var text = $(Connector.artistTrackSelector).text();
 
 	// Remove [genre] from the beginning of the title
 	text = text.replace(/^\[[^\]]+\]\s*-*\s*/i, '');
@@ -74,53 +221,23 @@ Connector.getArtistTrack = function () {
 			track = artistTrack[2];
 		}
 	}
-	return {artist, track};
-};
-
-Connector.filter = MetadataFilter.getYoutubeFilter();
+	return { artist, track };
+}
 
 /**
- * Check if player is off screen.
- *
- * YouTube doesn't really unload the player. It simply moves it outside viewport.
- * That has to be checked, because our selectors are still able to detect it.
- *
- * @return {Boolean} True if player is off screen; false otherwise
+ * Asynchronously read connector options.
  */
-function isPlayerOffscreen() {
-	var $player = $('#player-api');
-	if ($player.length === 0) {
-		return false;
-	}
-
-	var offset = $player.offset();
-	return offset.left < 0 || offset.top < 0;
-}
-
-function setupMutationObserver() {
-	let isMusicVideoPresent = false;
-
-	let playerObserver = new MutationObserver(function() {
-		if (!isPlayerOffscreen()) {
-			if (isMusicVideoPresent) {
-				return;
+function readConnectorOptions() {
+	chrome.storage.local.get('Connectors', function(data) {
+		if (data && data.Connectors && data.Connectors.YouTube) {
+			let options = data.Connectors.YouTube;
+			if (options.scrobbleMusicOnly === true) {
+				scrobbleMusicOnly = true;
 			}
 
-			$(Connector.videoSelector).on('timeupdate', Connector.onStateChanged);
-			isMusicVideoPresent = true;
-		} else {
-			Connector.onStateChanged();
-			isMusicVideoPresent = false;
+			console.log(`connector options: ${JSON.stringify(options)}`);
 		}
-	});
-
-	let pageElement = document.getElementById('page');
-	playerObserver.observe(pageElement, {
-		subtree: true,
-		childList: true,
-		attributes: false,
-		characterData: false
 	});
 }
 
-setupMutationObserver();
+setupConnector();
