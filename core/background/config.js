@@ -1,18 +1,41 @@
 'use strict';
 define(function() {
 	/**
+	 * Object that stores default option values.
+	 * @type {Object}
+	 */
+	const defaultOptionsMap = {
+		/**
+		 * Array of disabled connectors.
+		 * @type {String}
+		 */
+		disabledConnectors: '[]',
+		/**
+		 * Disable Google Analytics.
+		 * @type {Number}
+		 */
+		disableGa: 0,
+		/**
+		 * Use autocorrection when retrieving song info from Last.fm.
+		 * @type {Number}
+		 */
+		useAutocorrect: 0,
+		/**
+		 * Use now playing notifications.
+		 * @type {Number}
+		 */
+		useNotifications: 1
+	};
+
+	/**
 	 * Setup default options values.
 	 * This function is called on module init.
 	 */
 	function setupDefaultConfigValues() {
-		// use notifications by default
-		if (typeof localStorage.useNotifications === 'undefined') {
-			localStorage.useNotifications = 1;
-		}
-
-		// no disabled connectors by default
-		if (typeof localStorage.disabledConnectors === 'undefined') {
-			localStorage.disabledConnectors = JSON.stringify([]);
+		for (let key in defaultOptionsMap) {
+			if (typeof localStorage[key] === 'undefined') {
+				localStorage[key] = defaultOptionsMap[key];
+			}
 		}
 	}
 
