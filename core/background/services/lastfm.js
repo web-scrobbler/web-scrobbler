@@ -333,8 +333,10 @@ define([
 			};
 
 			var errCb = function() {
-				song.flags.attr('isLastfmValid', false);
-				cb(false);
+				let isLastfmValid = localStorage.forceRecognize === '1';
+
+				song.flags.attr('isLastfmValid', isLastfmValid);
+				cb(isLastfmValid);
 			};
 
 			doRequest('GET', params, false, okCb, errCb);

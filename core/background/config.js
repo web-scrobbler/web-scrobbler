@@ -16,6 +16,11 @@ define(function() {
 		 */
 		disableGa: 0,
 		/**
+		 * Force song recognition.
+		 * @type {Number}
+		 */
+		forceRecognize: 0,
+		/**
 		 * Use autocorrection when retrieving song info from Last.fm.
 		 * @type {Number}
 		 */
