@@ -140,6 +140,10 @@ define([
 			return this.parsed.trackArt || this.metadata.artistThumbUrl || null;
 		};
 
+		song.getArtistTrackString = function() {
+			return `${this.getArtist()} — ${this.getTrack()}`;
+		};
+
 		/**
 		 * Set default song data.
 		 */

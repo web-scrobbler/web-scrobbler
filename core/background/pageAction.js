@@ -93,13 +93,13 @@ define([], function() {
 		 */
 		this.setSongLoading = function(song) {
 			setPageAction(icons.LOADING,
-				'Looking up ' + song.getArtist() + ' - ' + song.getTrack(),
+				`Looking up ${song.getArtistTrackString()}`,
 				'');
 		};
 
 		this.setSongRecognized = function(song) {
 			setPageAction(icons.RECOGNIZED,
-				'Now playing ' + song.getArtist() + ' - ' + song.getTrack(),
+				`Now playing ${song.getArtistTrackString()}`,
 				documents.SONG_INFO);
 		};
 
@@ -111,7 +111,7 @@ define([], function() {
 
 		this.setSongScrobbled = function(song) {
 			setPageAction(icons.SCROBBLED,
-				'Scrobbled ' + song.getArtist() + ' - ' + song.getTrack(),
+				`Scrobbled ${song.getArtistTrackString()}`,
 				documents.SONG_INFO);
 		};
 
