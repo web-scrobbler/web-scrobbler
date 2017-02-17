@@ -165,7 +165,7 @@ define([
 		}
 
 		let options = {
-			iconUrl: 'icons/question.svg',
+			iconUrl: 'icons/question.png',
 			title: 'The song is not recognized',
 			message: song.getArtistTrackString()
 		};
