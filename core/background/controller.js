@@ -120,8 +120,7 @@ define([
 				}
 
 				// start processing - result will trigger the listener
-				pageAction.setSongLoading(currentSong);
-				Pipeline.processSong(currentSong);
+				processSong(currentSong);
 			}
 		};
 
@@ -299,6 +298,20 @@ define([
 		}
 
 		/**
+		 * Process song using pipeline module.
+		 * @param {Object} song Song instance
+		 * @param {Boolean} forceProcess Force processing for empty songs
+		 */
+		function processSong(song, forceProcess = false) {
+			if (song.isEmpty() && !forceProcess) {
+				pageAction.setSongNotRecognized();
+			} else {
+				pageAction.setSongLoading(song);
+				Pipeline.processSong(song);
+			}
+		}
+
+		/**
 		 * Forward event to PageAction
 		 */
 		this.onPageActionClicked = function() {
@@ -338,8 +351,7 @@ define([
 
 				// re-send song to pipeline
 				if (data.artist || data.track || data.album) {
-					pageAction.setSongLoading(currentSong);
-					Pipeline.processSong(currentSong);
+					processSong(currentSong, true);
 				}
 			}
 		};
@@ -351,8 +363,7 @@ define([
 			if (currentSong !== null) {
 				currentSong.resetSongData();
 				LocalCache.removeSongFromStorage(currentSong, () => {
-					pageAction.setSongLoading(currentSong);
-					Pipeline.processSong(currentSong);
+					processSong(currentSong);
 				});
 			}
 		};
