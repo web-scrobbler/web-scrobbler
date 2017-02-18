@@ -141,7 +141,19 @@ define([
 		};
 
 		song.getArtistTrackString = function() {
+			if (this.isEmpty()) {
+				return null;
+			}
 			return `${this.getArtist()} — ${this.getTrack()}`;
+		};
+
+		/**
+		 * Check if song is empty. Empty song means it's missing
+		 * either artist or track title.
+		 * @return {Boolean} True if song is empty; false otherwise
+		 */
+		song.isEmpty = function() {
+			return !(song.getArtist() && song.getTrack());
 		};
 
 		/**
