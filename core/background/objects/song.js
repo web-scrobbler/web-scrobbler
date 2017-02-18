@@ -140,6 +140,10 @@ define([
 			return this.parsed.trackArt || this.metadata.artistThumbUrl || null;
 		};
 
+		/**
+		 * Get formatted "Artist - Track" string. Return null if song is empty.
+		 * @return {String} Formatted string
+		 */
 		song.getArtistTrackString = function() {
 			if (this.isEmpty()) {
 				return null;
