@@ -1090,5 +1090,12 @@ define(function() {
 			js: ['connectors/v2/joy.js'],
 			version: 2
 		},
+
+		{
+			label: 'Monstercat',
+			matches: ['*://www.monstercat.com/*'],
+			js: ['connectors/v2/monstercat.js'],
+			version: 2
+		},
 	];
 });
