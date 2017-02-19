@@ -135,10 +135,14 @@ module.exports = function(grunt) {
 	grunt.registerTask('publish-cws', ['build', 'exec:publish_cws']);
 	/**
 	 * Release new version and publish package to Chrome Web Store.
-	 * @param {String} ver Version type that 'grunt-bump' supports
+	 * @param {String} versionType Version type that 'grunt-bump' supports
 	 */
-	grunt.registerTask('release', (ver) => {
-		grunt.task.run(`bump:${ver}`);
+	grunt.registerTask('release', (versionType) => {
+		if (!versionType) {
+			grunt.fail.fatal('You should specify release type!');
+		}
+
+		grunt.task.run(`bump:${versionType}`);
 		grunt.task.run('publish-cws');
 	});
 
