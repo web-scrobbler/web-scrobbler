@@ -110,9 +110,7 @@ module.exports = function(grunt) {
 				cmd: `node scripts/publish-cws ${packageName}`
 			},
 			run_tests: {
-				cmd: function(...args) {
-					return `node tests/runner.js ${args.join(' ')}`;
-				}
+				cmd: (...args) => `node tests/runner.js ${args.join(' ')}`
 			}
 		},
 	});
