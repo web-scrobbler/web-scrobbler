@@ -3,16 +3,22 @@
 module.exports = function(grunt) {
 	let isTravisCi = (process.env.TRAVIS === 'true');
 
-	var jsConnectorFiles = ['connectors/**/*.js'];
-	var jsCoreFiles = ['Gruntfile.js', 'core/**/*.js', 'options/options.js', 'popups/*.js'];
-	var jsTestFiles = ['tests/**/*.js'];
-	var jsonFiles = ['*.json', '.jshintrc', '.csslintrc'];
-	var htmlFiles = ['options/*.html', 'popups/*.html', 'dialogs/**/*.html'];
-	var cssFiles = [
+	const jsFiles = [
+		// Connectors
+		'connectors/**/*.js',
+		// Core files
+		'*.js', 'core/**/*.js', 'options/*.js', 'popups/*.js',
+		// Scripts
+		'scripts/*.js',
+		// Tests
+		'tests/**/*.js'
+	];
+	const jsonFiles = ['*.json', '.jshintrc', '.csslintrc'];
+	const htmlFiles = ['options/*.html', 'popups/*.html', 'dialogs/**/*.html'];
+	const cssFiles = [
 		'options/options.css', 'popups/go_play_music.css',
 		'popups/error.css', 'dialogs/base.css'
 	];
-	var scriptFiles = ['scripts/*.js'];
 
 	const extensionSources = [
 		'connectors/**', 'core/**', 'dialogs/**',
@@ -63,7 +69,7 @@ module.exports = function(grunt) {
 			package: [packageName]
 		},
 		eslint: {
-			target: [jsCoreFiles, jsConnectorFiles, jsTestFiles, scriptFiles],
+			target: [jsFiles],
 			options: {
 				configFile: '.eslintrc.js',
 				fix: !isTravisCi
@@ -71,10 +77,7 @@ module.exports = function(grunt) {
 		},
 		lintspaces: {
 			all: {
-				src: [
-					jsCoreFiles, jsConnectorFiles, jsTestFiles,
-					scriptFiles, jsonFiles, cssFiles, htmlFiles
-				],
+				src: [jsFiles, jsonFiles, cssFiles, htmlFiles],
 				options: {
 					editorconfig: '.editorconfig',
 					ignores: [
@@ -85,7 +88,7 @@ module.exports = function(grunt) {
 		},
 		jsonlint: {
 			sample: {
-				src: [ jsonFiles ]
+				src: [jsonFiles]
 			}
 		},
 		csslint: {
