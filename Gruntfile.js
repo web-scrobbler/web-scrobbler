@@ -31,13 +31,13 @@ module.exports = function(grunt) {
 	const packageName = 'web-scrobbler.zip';
 
 	grunt.initConfig({
-		bump: {
-			options: {
-				files: ['manifest.json'],
-				commit: true,
-				commitFiles: ['manifest.json'],
-				push: false
-			}
+		/**
+		 * Configs of build tasks.
+		 */
+
+		clean: {
+			build: buildDir,
+			package: packageName
 		},
 		copy: {
 			project_files: {
@@ -45,13 +45,6 @@ module.exports = function(grunt) {
 				src: extensionSources,
 				dest: buildDir,
 			},
-		},
-		preprocess: {
-			js_files: {
-				src: `${buildDir}/**/*.js`,
-				inline: true,
-				expand: true
-			}
 		},
 		compress: {
 			main: {
@@ -64,39 +57,52 @@ module.exports = function(grunt) {
 				src: '**/*',
 			}
 		},
-		clean: {
-			build: [buildDir],
-			package: [packageName]
+		preprocess: {
+			js_files: {
+				src: `${buildDir}/**/*.js`,
+				inline: true,
+				expand: true
+			}
+		},
+
+		/**
+		 * Linter configs.
+		 */
+
+		csslint: {
+			options: {
+				csslintrc: '.csslintrc'
+			},
+			src: cssFiles
 		},
 		eslint: {
-			target: [jsFiles],
+			target: jsFiles,
 			options: {
 				configFile: '.eslintrc.js',
 				fix: !isTravisCi
 			},
 		},
-		lintspaces: {
-			all: {
-				src: [jsFiles, jsonFiles, cssFiles, htmlFiles],
-				options: {
-					editorconfig: '.editorconfig',
-					ignores: [
-						'js-comments'
-					]
-				}
-			}
-		},
 		jsonlint: {
-			sample: {
-				src: [jsonFiles]
+			src: jsonFiles
+		},
+		lintspaces: {
+			src: [jsFiles, jsonFiles, cssFiles, htmlFiles],
+			options: {
+				editorconfig: '.editorconfig',
+				ignores: ['js-comments']
 			}
 		},
-		csslint: {
+
+		/**
+		 * Configs of other tasks.
+		 */
+
+		bump: {
 			options: {
-				csslintrc: '.csslintrc'
-			},
-			strict: {
-				src: [cssFiles]
+				files: ['manifest.json'],
+				commit: true,
+				commitFiles: ['manifest.json'],
+				push: false
 			}
 		},
 		exec: {
@@ -108,7 +114,7 @@ module.exports = function(grunt) {
 					return `node tests/runner.js ${args.join(' ')}`;
 				}
 			}
-		}
+		},
 	});
 
 	require('load-grunt-tasks')(grunt);
