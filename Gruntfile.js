@@ -189,6 +189,8 @@ module.exports = function(grunt) {
 	 * @param {String} browser Browser name
 	 */
 	grunt.registerTask('icons', (browser) => {
+		assertBrowserIsSupported(browser);
+
 		switch (browser) {
 			case 'chrome':
 				grunt.task.run('clean:chrome');
@@ -196,8 +198,6 @@ module.exports = function(grunt) {
 			case 'firefox':
 				grunt.task.run('rename:firefox');
 				break;
-			default:
-				throw new Error(`Unknown browser: ${browser}`);
 		}
 	});
 
@@ -207,6 +207,8 @@ module.exports = function(grunt) {
 	 * @param {String} browser Browser name
 	 */
 	grunt.registerTask('compile', (browser) => {
+		assertBrowserIsSupported(browser);
+
 		grunt.task.run([
 			'copy', `preprocess:${browser}`, `icons:${browser}`, , 'imagemin'
 		]);
@@ -216,6 +218,8 @@ module.exports = function(grunt) {
 	 * Compile source files and package them.
 	 */
 	grunt.registerTask('build', (browser) => {
+		assertBrowserIsSupported(browser);
+
 		grunt.task.run([
 			'clean:build', `compile:${browser}`,
 			'clean:package', 'compress', 'clean:build'
@@ -226,12 +230,12 @@ module.exports = function(grunt) {
 	 * Create package and publish it.
 	 */
 	grunt.registerTask('publish', (browser) => {
+		assertBrowserIsSupported(browser);
+
 		switch (browser) {
 			case 'chrome':
 				grunt.task.run(['build:chrome', 'exec:publish_cws']);
 				break;
-			default:
-				throw new Error(`Unknown browser: ${browser}`);
 		}
 	});
 
@@ -297,4 +301,15 @@ module.exports = function(grunt) {
 		'eslint', 'jsonlint', 'lintspaces', 'stylelint'
 	]);
 	grunt.registerTask('default', ['lint', 'test:core']);
+
+	/**
+	 * Throw an error if the extension doesn't support given browser.
+	 * @param  {String}  browser Browser name
+	 */
+	function assertBrowserIsSupported(browser) {
+		const supportedBrowsers = ['chrome', 'firefox'];
+		if (supportedBrowsers.indexOf(browser) === -1) {
+			grunt.fail.fatal(`Unknown browser: ${browser}`);
+		}
+	}
 };
