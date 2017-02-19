@@ -1,18 +1,18 @@
-# Last.fm Scrobbler for Chrome [![build status](https://api.travis-ci.org/david-sabata/web-scrobbler.svg)](https://travis-ci.org/david-sabata/web-scrobbler/) [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/david-sabata/web-scrobbler?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![devDependencies Status](https://david-dm.org/david-sabata/web-scrobbler/dev-status.svg)](https://david-dm.org/david-sabata/web-scrobbler?type=dev)
+# Last.fm Scrobbler for Chrome
 
-Last.fm Scrobbler for Chrome was created for people who listen to music online through their browser, and would like to keep an updated playback history using [Last.fm][1]'s scrobbling service.
+[![Chrome Web Store][0]][1] [![build status][2]][3] [![Gitter][4]][5] [![devDependencies status][6]][7]
+
+Last.fm Scrobbler for Chrome was created for people who listen to music online through their browser, and would like to keep an updated playback history using [Last.fm][8]'s scrobbling service.
 
 ## Usage
 
-You can obtain the scrobbler either from Chrome Web Store directly or by installing as an "[unpacked extension][2]". 
+You can obtain the extension either from Chrome Web Store directly or by installing as an "[unpacked extension][9]".
 
 ### Chrome Web Store
 
-You can get it directly from Chrome Web Store:
+You can get it directly from [Chrome Web Store][1].
 
-https://chrome.google.com/webstore/detail/lastfm-scrobbler/hhinaapppaileiechjoiifaancjggfjm
-
-### Unpacked extension 
+### Unpacked extension
 
 1. Grab a copy of the source code either by cloning the repository or by downloading and extracting the zipped source.
 
@@ -22,22 +22,30 @@ https://chrome.google.com/webstore/detail/lastfm-scrobbler/hhinaapppaileiechjoii
 
 ## Development
 
-Check the [wiki pages](../../wiki) to understand development of connectors.
+Check the [wiki page][10] to understand development of connectors. Please also read [contributions guidelines](CONTRIBUTING.md).
 
 ### Gitter
 
-You can join us at Gitter room [david-sabata/web-scrobbler](https://gitter.im/david-sabata/web-scrobbler)
-
-There's also IRC channel #web-scrobbler on irc.freenode.net, but Gitter is preferred now :wink:
+You can join us at Gitter room: [david-sabata/web-scrobbler][5].
+There's also IRC channel #web-scrobbler on irc.freenode.net, but Gitter is preferred now.
 
 ## Privacy Policy
 
-See https://github.com/david-sabata/web-scrobbler/wiki/Privacy-policy
+See the [privacy policy][11].
 
 ## License
 
-See [LICENSE.txt](LICENSE.txt)
+See the [license file](LICENSE.txt).
 
-[0]: https://kiwiirc.com/client/irc.freenode.net/web-scrobbler
-[1]: http://www.last.fm
-[2]: https://developer.chrome.com/extensions/getstarted#unpacked
+[0]: https://img.shields.io/chrome-web-store/d/hhinaapppaileiechjoiifaancjggfjm.svg?style=flat
+[1]: https://chrome.google.com/webstore/detail/lastfm-scrobbler/hhinaapppaileiechjoiifaancjggfjm
+[2]: https://api.travis-ci.org/david-sabata/web-scrobbler.svg
+[3]: https://travis-ci.org/david-sabata/web-scrobbler
+[4]: https://badges.gitter.im/Join%20Chat.svg
+[5]: https://gitter.im/david-sabata/web-scrobbler
+[6]: https://david-dm.org/david-sabata/web-scrobbler/dev-status.svg
+[7]: https://david-dm.org/david-sabata/web-scrobbler?type=dev
+[8]: http://www.last.fm/
+[9]: https://developer.chrome.com/extensions/getstarted#unpacked
+[10]: https://github.com/david-sabata/web-scrobbler/wiki/Connectors-development
+[11]: https://github.com/david-sabata/web-scrobbler/wiki/Privacy-policy
