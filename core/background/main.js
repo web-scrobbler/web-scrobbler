@@ -71,7 +71,7 @@ require([
 
 			if (!isActiveSession) {
 				isActiveSession = true;
-				GA.send('pageview', '/background-injected?version=' + chrome.app.getDetails().version);
+				GA.send('pageview', '/background-injected?version=' + chrome.runtime.getManifest().version);
 			}
 		}
 	};
@@ -168,7 +168,7 @@ require([
 	function updateVersionInStorage() {
 		let storage = ChromeStorage.getNamespace('Core');
 		storage.get((data) => {
-			data.appVersion = chrome.app.getDetails().version;
+			data.appVersion = chrome.runtime.getManifest().version;
 			storage.set(data);
 		});
 
@@ -183,7 +183,7 @@ require([
 		updateVersionInStorage();
 
 		// track background page loaded - happens once per browser session
-		GA.send('pageview', '/background-loaded?version=' + chrome.app.getDetails().version);
+		GA.send('pageview', '/background-loaded?version=' + chrome.runtime.getManifest().version);
 
 		// check session ID status and show notification if authentication is needed
 		LastFM.getSession(function(sessionID) {
