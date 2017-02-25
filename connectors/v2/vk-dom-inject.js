@@ -25,9 +25,9 @@ window.webScrobblerInjected = window.webScrobblerInjected || false;
 		window.postMessage({
 			sender: 'web-scrobbler',
 			type,
-			currentTime,
-			duration,
 			trackInfo: {
+				currentTime,
+				duration,
 				uniqueID: audioObject[INFO_ID],
 				artistTrack: {
 					artist: audioObject[INFO_ARTIST],
