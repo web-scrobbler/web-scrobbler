@@ -146,6 +146,20 @@ define(function() {
 		},
 
 		{
+			label: 'QQ Music',
+			matches: ['*://y.qq.com/portal/*'],
+			js: ['connectors/v2/qqmusic.js'],
+			version: 2
+		},
+
+		{
+			label: 'Kuwo Music',
+			matches: ['*://www.kuwo.cn/*'],
+			js: ['connectors/v2/kuwo.js'],
+			version: 2
+		},
+
+		{
 			label: 'VK',
 			matches: ['*://vk.com/*'],
 			js: ['connectors/v2/vk.js'],
