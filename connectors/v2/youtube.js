@@ -43,11 +43,22 @@ function isDefaultPlayer() {
  */
 function setupDefaultPlayer() {
 	Connector.getArtistTrack = function () {
-		let text = getItemPropValue('name');
-		return processYoutubeVideoTitle(text);
+		let videoTitle;
+		if (Connector.isFullscreenMode()) {
+			videoTitle = $('.ytp-title-link').text();
+		} else {
+			videoTitle = getItemPropValue('name');
+		}
+
+		return processYoutubeVideoTitle(videoTitle);
 	};
 
 	Connector.getUniqueID = function() {
+		if (Connector.isFullscreenMode()) {
+			let videoUrl = $('.ytp-title-link').attr('href');
+			return getVideoIdFromUrl(videoUrl);
+		}
+
 		return getItemPropValue('videoId');
 	};
 
@@ -99,8 +110,8 @@ function setupMaterialPlayer() {
 			return { artist: null, track: null };
 		}
 
-		let text = $('h1.title.ytd-video-primary-info-renderer').text();
-		return processYoutubeVideoTitle(text);
+		let videoTitle = $('.ytp-title-link').text();
+		return processYoutubeVideoTitle(videoTitle);
 	};
 
 	Connector.getUniqueID = function() {
@@ -113,13 +124,7 @@ function setupMaterialPlayer() {
 		}
 
 		let videoUrl = $('.ytp-title-link').attr('href');
-		let regExp = /v=(.+)&?/;
-		let match = videoUrl.match(regExp);
-		if (match) {
-			return match[1];
-		}
-
-		return null;
+		return getVideoIdFromUrl(videoUrl);
 	};
 
 	/**
@@ -173,6 +178,10 @@ function setupBasePlayer() {
 		return $('.html5-video-player').hasClass('playing-mode');
 	};
 
+	Connector.isFullscreenMode = function() {
+		return $('.html5-video-player').hasClass('ytp-fullscreen');
+	};
+
 	function setupMutationObserver() {
 		let isMusicVideoPresent = false;
 
@@ -222,6 +231,21 @@ function processYoutubeVideoTitle(text) {
 		}
 	}
 	return { artist, track };
+}
+
+/**
+ * Parse given video URL and return video ID.
+ * @param  {String} videoUrl Video URL
+ * @return {String} Video ID
+ */
+function getVideoIdFromUrl(videoUrl) {
+	let regExp = /v=([^#\&\?]*)/;
+	let match = videoUrl.match(regExp);
+	if (match) {
+		return match[1];
+	}
+
+	return null;
 }
 
 /**
