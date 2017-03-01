@@ -49,7 +49,7 @@ function MetadataFilter(filterSet) {
 	 * @return {String} Filtered string
 	 */
 	function filterField(text, filters) {
-		if (text === null || text === '') {
+		if (!text) {
 			return text;
 		}
 
