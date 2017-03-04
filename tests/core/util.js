@@ -117,6 +117,20 @@ const EXRACT_TRACK_ART_FROM_CSS_DATA = [{
  * Test data for testing 'Util.processYoutubeVideoTitle' function.
  * @type {Array}
  */
+const GET_YOUTUBE_VIDEO_ID_FROM_URL_DATA = [{
+	description: 'should return video ID from URL',
+	source: 'https://www.youtube.com/watch?v=JJYxNSRX6Oc',
+	expected: 'JJYxNSRX6Oc',
+}, {
+	description: 'should return video ID from URL contains seconds',
+	source: 'https://www.youtube.com/watch?v=JJYxNSRX6Oc&t=92s',
+	expected: 'JJYxNSRX6Oc',
+}];
+
+/**
+ * Test data for testing 'Util.processYoutubeVideoTitle' function.
+ * @type {Array}
+ */
 const PROCESS_YOUTUBE_TITLE_DATA = [{
 	description: 'should process youtube tilte',
 	source: 'Artist - Track',
@@ -186,6 +200,14 @@ function testSplitArtistTrack() {
 		});
 	}
 }
+
+/**
+ * Test 'Util.escapeBadTimeValues' function.
+ */
+function testGetYoutubeVideoIdFromUrl() {
+	testFunction(Util.getYoutubeVideoIdFromUrl, GET_YOUTUBE_VIDEO_ID_FROM_URL_DATA);
+}
+
 
 /**
  * Test 'Util.escapeBadTimeValues' function.
@@ -277,6 +299,7 @@ function runTests() {
 	describe('escapeBadTimeValues', testEscapeBadTimeValues);
 	describe('extractUrlFromCssProperty', testExtractTrackArtFromCss);
 	describe('processYoutubeVideoTitle', testProcessYoutubeVideoTitle);
+	describe('getYoutubeVideoIdFromUrl', testGetYoutubeVideoIdFromUrl);
 }
 
 module.exports = runTests;

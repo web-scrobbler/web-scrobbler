@@ -72,7 +72,7 @@ function setupDefaultPlayer() {
 	Connector.getUniqueID = function() {
 		if (Connector.isFullscreenMode()) {
 			let videoUrl = $('.ytp-title-link').attr('href');
-			return getVideoIdFromUrl(videoUrl);
+			return Util.getYoutubeVideoIdFromUrl(videoUrl);
 		}
 
 		return getItemPropValue('videoId');
@@ -140,7 +140,7 @@ function setupMaterialPlayer() {
 		}
 
 		let videoUrl = $('.ytp-title-link').attr('href');
-		return getVideoIdFromUrl(videoUrl);
+		return Util.getYoutubeVideoIdFromUrl(videoUrl);
 	};
 
 	/**
@@ -234,21 +234,6 @@ function setupGeneralProperties() {
 	Connector.isFullscreenMode = function() {
 		return $('.html5-video-player').hasClass('ytp-fullscreen');
 	};
-}
-
-/**
- * Parse given video URL and return video ID.
- * @param  {String} videoUrl Video URL
- * @return {String} Video ID
- */
-function getVideoIdFromUrl(videoUrl) {
-	let regExp = /v=([^#\&\?]*)/;
-	let match = videoUrl.match(regExp);
-	if (match) {
-		return match[1];
-	}
-
-	return null;
 }
 
 /**

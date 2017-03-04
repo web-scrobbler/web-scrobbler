@@ -32,6 +32,21 @@ const Util = {
 	},
 
 	/**
+	 * Parse given video URL and return video ID.
+	 * @param  {String} videoUrl Video URL
+	 * @return {String} Video ID
+	 */
+	getYoutubeVideoIdFromUrl(videoUrl) {
+		let regExp = /v=([^#\&\?]*)/;
+		let match = videoUrl.match(regExp);
+		if (match) {
+			return match[1];
+		}
+
+		return null;
+	},
+
+	/**
 	 * Convert given time-string into seconds.
 	 * @param  {String} str Time-string in h:m:s format
 	 * @return {Number} Seconds

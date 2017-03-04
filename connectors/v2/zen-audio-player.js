@@ -18,7 +18,7 @@ Connector.getArtistTrack = function () {
 
 Connector.getUniqueID = function() {
 	let videoUrl = $('#zen-video-title').attr('href');
-	return getVideoIdFromUrl(videoUrl);
+	return Util.getYoutubeVideoIdFromUrl(videoUrl);
 };
 
 Connector.isPlaying = function() {
@@ -26,18 +26,3 @@ Connector.isPlaying = function() {
 };
 
 Connector.filter = MetadataFilter.getYoutubeFilter();
-
-/**
- * Parse given video URL and return video ID.
- * @param  {String} videoUrl Video URL
- * @return {String} Video ID
- */
-function getVideoIdFromUrl(videoUrl) {
-	let regExp = /v=([^#\&\?]*)/;
-	let match = videoUrl.match(regExp);
-	if (match) {
-		return match[1];
-	}
-
-	return null;
-}
