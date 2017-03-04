@@ -308,7 +308,13 @@ define([
 
 				var thumbUrl = song.getTrackArt();
 				if (thumbUrl === null) {
-					thumbUrl = $doc.find('album > image[size="medium"]').text();
+					let imageSizes = ['extralarge', 'large', 'medium'];
+					for (let imageSize of imageSizes) {
+						thumbUrl = $doc.find(`album > image[size="${imageSize}"]`).text();
+						if (thumbUrl) {
+							break;
+						}
+					}
 				}
 
 				song.metadata.attr({
