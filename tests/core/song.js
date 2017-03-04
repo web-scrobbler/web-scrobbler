@@ -34,29 +34,19 @@ const PROCESSED_DATA = {
 };
 
 /**
- * Create non-processed song object.
- * @param  {Object} customParsedData Object contains custom parsed data values.
- * @return {Object} Non-processed song object
- */
-function createNonProcessedSong(customParsedData) {
-	let parsedData = PARSED_DATA;
-	if (customParsedData) {
-		parsedData = Object.assign(parsedData, customParsedData);
-	}
-
-	return new Song(parsedData);
-}
-
-/**
- * Create processed song object.
- * @param  {Object} customParsedData Object contains custom parsed data values.
+ * Create song object.
+ * @param  {Object} parsed Object contains custom parsed data values
+ * @param  {Object} parsed Object contains custom processed data values
  * @return {Object} Processed song object
  */
-function createProcessedSong(customParsedData) {
-	let song = createNonProcessedSong(customParsedData);
+function createSong(parsed, processed) {
+	let parsedDataCopy = Object.assign({}, parsed || PARSED_DATA);
+	let song = new Song(parsedDataCopy);
 
-	for (let field in PROCESSED_DATA) {
-		song.processed[field] = PROCESSED_DATA[field];
+	if (processed) {
+		for (let field in processed) {
+			song.processed[field] = PROCESSED_DATA[field];
+		}
 	}
 
 	return song;
@@ -66,7 +56,7 @@ function createProcessedSong(customParsedData) {
  * Test if song getters return parsed values.
  */
 function testParsedMetadataFields() {
-	let song = createNonProcessedSong();
+	let song = createSong();
 	let valuesMap = {
 		artist: {
 			expected: PARSED_DATA.artist,
@@ -104,7 +94,7 @@ function testParsedMetadataFields() {
  * Test if song getters return processed values, except duration.
  */
 function testProcessedMetadataFields() {
-	let song = createProcessedSong();
+	let song = createSong(null, PROCESSED_DATA);
 	let valuesMap = {
 		artist: {
 			expected: PROCESSED_DATA.artist,
@@ -136,16 +126,49 @@ function testProcessedMetadataFields() {
 }
 
 /**
+ * Test 'Song.isEmpty' function.
+ */
+function testIsEmpty() {
+	it('should return true if song has no metadata', () => {
+		let songs = [
+			createSong({ artist: 'Artist', track: null}),
+			createSong({ artist: null, track: 'Track'}),
+			createSong({ artist: null, track: null })
+		];
+
+		for (let song of songs) {
+			expect(song.isEmpty()).to.be.equal(true);
+		}
+	});
+
+	it('should return false if song has metadata', () => {
+		let song = createSong();
+		expect(song.isEmpty()).to.be.equal(false);
+	});
+}
+
+function testGetArtistTrackString() {
+	it('should return `Artist - Track` string if song has metadata', () => {
+		let song = createSong({ artist: 'Artist', track: 'Track' });
+		expect(song.getArtistTrackString()).to.be.equal('Artist — Track');
+	});
+	it('should return null value if song is empty', () => {
+		let song = createSong({ artist: null, track: null });
+		expect(song.getArtistTrackString()).to.be.equal(null);
+	});
+}
+
+/**
  * Test 'Song.getSecondsToScrobble' function.
  */
 function testGetSecondsToScrobble() {
 	it('should return proper value', () => {
-		let song1 = createProcessedSong({duration: 300});
+		let song1 = createSong({duration: 300});
 		expect(song1.getSecondsToScrobble()).to.be.equal(150);
 	});
 
 	it('should return proper value for songs longer that 4 minutes', () => {
-		let song1 = createProcessedSong({duration: 600});
+		let song1 = createSong({duration: 600});
 		expect(song1.getSecondsToScrobble()).to.be.equal(240);
 	});
 }
@@ -157,7 +180,9 @@ function runTests() {
 	describe('parsedData', testParsedMetadataFields);
 	describe('processedData', testProcessedMetadataFields);
 
+	describe('isSongEmpty', testIsEmpty);
 	describe('secondsToScrobble', testGetSecondsToScrobble);
+	describe('getArtistTrackString', testGetArtistTrackString);
 }
 
 module.exports = runTests;
