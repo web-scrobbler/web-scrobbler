@@ -19,6 +19,12 @@ Connector.getArtist = function() {
 
 Connector.trackSelector = '.now-playing-bar div > div > div > a';
 
+Connector.getTrackArt = function() {
+	let backgroundStyle = $('.now-playing-bar .cover-art-image-loaded')
+		.css('background-image');
+	let backgroundUrl = /^url\((['"]?)(.*)\1\)$/.exec(backgroundStyle);
+	return backgroundUrl ? backgroundUrl[2] : null;
+};
 Connector.isPlaying = function() {
 	return $('.spoticon-pause-32').length > 0;
 };
