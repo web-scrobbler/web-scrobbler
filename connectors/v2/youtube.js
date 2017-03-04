@@ -22,8 +22,13 @@ function setupConnector() {
 	if (isDefaultPlayer()) {
 		readConnectorOptions();
 
-		setupBasePlayer();
-		setupDefaultPlayer();
+		if (isViewTubeInstalled()) {
+			setupDefaultPlayer();
+			setupViewTubePlayer();
+		} else {
+			setupBasePlayer();
+			setupDefaultPlayer();
+		}
 	} else {
 		setupBasePlayer();
 		setupMaterialPlayer();
@@ -36,6 +41,15 @@ function setupConnector() {
  */
 function isDefaultPlayer() {
 	return $('ytd-app').length === 0;
+}
+
+/**
+ * Check if ViewTube script is installed.
+ * ViewTube script uses another player instead of Youtube default one.
+ * @return {Boolean} True if ViewTube script is installed; false otherwise
+ */
+function isViewTubeInstalled() {
+	return $('select[title]').length > 0;
 }
 
 /**
@@ -92,6 +106,10 @@ function setupDefaultPlayer() {
 		return offset.left < 0 || offset.top < 0;
 	};
 
+	Connector.isFullscreenMode = function() {
+		return $('.html5-video-player').hasClass('ytp-fullscreen');
+	};
+
 	function getItemPropValue(prop) {
 		return $(`meta[itemprop="${prop}"]`).attr('content');
 	}
@@ -145,6 +163,21 @@ function setupMaterialPlayer() {
 		let offset = $player.offset();
 		return offset.left <= 0 || offset.top <= 0;
 	};
+
+	Connector.isFullscreenMode = function() {
+		return $('.html5-video-player').hasClass('ytp-fullscreen');
+	};
+}
+
+/**
+ * Setup `isPlaying` function if ViewTube player is detected.
+ */
+function setupViewTubePlayer() {
+	Connector.playerSelector = '#page';
+
+	Connector.isPlaying = function() {
+		return true;
+	};
 }
 
 /**
@@ -176,10 +209,6 @@ function setupBasePlayer() {
 
 	Connector.isPlaying = function() {
 		return $('.html5-video-player').hasClass('playing-mode');
-	};
-
-	Connector.isFullscreenMode = function() {
-		return $('.html5-video-player').hasClass('ytp-fullscreen');
 	};
 
 	function setupMutationObserver() {
