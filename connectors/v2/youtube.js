@@ -21,10 +21,11 @@ const videoSelector = '.html5-main-video';
 function setupConnector() {
 	if (isDefaultPlayer()) {
 		readConnectorOptions();
+		setupGeneralProperties();
 
 		if (isViewTubeInstalled()) {
 			setupDefaultPlayer();
-			setupViewTubePlayer();
+			applyViewTubeFixes();
 		} else {
 			setupBasePlayer();
 			setupDefaultPlayer();
@@ -106,10 +107,6 @@ function setupDefaultPlayer() {
 		return offset.left < 0 || offset.top < 0;
 	};
 
-	Connector.isFullscreenMode = function() {
-		return $('.html5-video-player').hasClass('ytp-fullscreen');
-	};
-
 	function getItemPropValue(prop) {
 		return $(`meta[itemprop="${prop}"]`).attr('content');
 	}
@@ -163,16 +160,12 @@ function setupMaterialPlayer() {
 		let offset = $player.offset();
 		return offset.left <= 0 || offset.top <= 0;
 	};
-
-	Connector.isFullscreenMode = function() {
-		return $('.html5-video-player').hasClass('ytp-fullscreen');
-	};
 }
 
 /**
  * Setup `isPlaying` function if ViewTube player is detected.
  */
-function setupViewTubePlayer() {
+function applyViewTubeFixes() {
 	Connector.playerSelector = '#page';
 
 	Connector.isPlaying = function() {
@@ -185,8 +178,6 @@ function setupViewTubePlayer() {
  */
 function setupBasePlayer() {
 	setupMutationObserver();
-
-	Connector.filter = MetadataFilter.getYoutubeFilter();
 
 	/*
 	 * Because player can be still present in the page, we need to detect
@@ -234,6 +225,14 @@ function setupBasePlayer() {
 			characterData: false
 		});
 	}
+}
+
+function setupGeneralProperties() {
+	Connector.filter = MetadataFilter.getYoutubeFilter();
+
+	Connector.isFullscreenMode = function() {
+		return $('.html5-video-player').hasClass('ytp-fullscreen');
+	};
 }
 
 /**
