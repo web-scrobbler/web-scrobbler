@@ -57,6 +57,22 @@ module.exports = function(grunt) {
 				src: '**/*',
 			}
 		},
+		imagemin: {
+			static: {
+				options: {
+					svgoPlugins: [{
+						removeViewBox: false
+					}],
+				},
+				files: [{
+					expand: true,
+					src: [
+						`${buildDir}/icons/*.svg`,
+						`${buildDir}/icons/*.png`
+					]
+				}]
+			}
+		},
 		preprocess: {
 			js_files: {
 				src: `${buildDir}/**/*.js`,
@@ -120,7 +136,7 @@ module.exports = function(grunt) {
 	/**
 	 * Copy source files to build directory and preprocess them.
 	 */
-	grunt.registerTask('compile', ['copy', 'preprocess']);
+	grunt.registerTask('compile', ['copy', 'preprocess', 'imagemin']);
 	/**
 	 * Compile source files and package them.
 	 */
