@@ -13,7 +13,7 @@ const Util = {
 	 */
 	processYoutubeVideoTitle(videoTitle) {
 		if (!videoTitle) {
-			return { artist: null, track: null };
+			return this.emptyArtistTrack;
 		}
 
 		// Remove [genre] from the beginning of the title
@@ -184,7 +184,13 @@ const Util = {
 	separators: [
 		' -- ', '--', ' - ', ' – ', ' — ',
 		' // ', '-', '–', '—', ':', '|', '///'
-	]
+	],
+
+	/**
+	 * Object that contains no artist and track info.
+	 * @type {Object}
+	 */
+	emptyArtistTrack: { artist: null, track: null }
 };
 
 /**

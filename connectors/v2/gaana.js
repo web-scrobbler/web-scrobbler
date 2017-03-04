@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 const ARTIST_SEPARATOR = ', ';
 
@@ -14,7 +14,7 @@ let lastTrackTitle = null;
  * Object that holds information about song.
  * @type {Object}
  */
-let songInfo = { artist: null, track: null };
+let songInfo = Util.emptyArtistTrack;
 
 Connector.playerSelector = '.player';
 
@@ -65,7 +65,7 @@ function requestSongInfo() {
  * Reset current song info.
  */
 function resetSongInfo() {
-	songInfo = { artist: null, track: null };
+	songInfo = Util.emptyArtistTrack;
 }
 
 /**
