@@ -12,8 +12,8 @@ Connector.currentTimeSelector = '.plyr__time--current';
 Connector.durationSelector = '.plyr__time--duration';
 
 Connector.getUniqueID = function() {
-	// Get the value of the search box
-	return $('#v').val();
+	let videoUrl = $('#zen-video-title').attr('href');
+	return getVideoIdFromUrl(videoUrl);
 };
 
 Connector.isPlaying = function() {
@@ -21,3 +21,18 @@ Connector.isPlaying = function() {
 };
 
 Connector.filter = MetadataFilter.getYoutubeFilter();
+
+/**
+ * Parse given video URL and return video ID.
+ * @param  {String} videoUrl Video URL
+ * @return {String} Video ID
+ */
+function getVideoIdFromUrl(videoUrl) {
+	let regExp = /v=([^#\&\?]*)/;
+	let match = videoUrl.match(regExp);
+	if (match) {
+		return match[1];
+	}
+
+	return null;
+}
