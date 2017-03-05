@@ -256,7 +256,22 @@ var BaseConnector = window.BaseConnector || function () {
 	 * @return {String} Track art URL
 	 */
 	this.getTrackArt = function () {
-		return this.trackArtImageSelector === null ? null : $(this.trackArtImageSelector).attr('src');
+		if (this.trackArtImageSelector) {
+			let imageUrl = $(this.trackArtImageSelector).attr('src');
+			if (imageUrl) {
+				return imageUrl;
+			}
+
+			let cssProperties = ['background-image', 'background'];
+			for (let property of cssProperties) {
+				let propertyValue = $(this.trackArtImageSelector).css(property);
+				if (propertyValue) {
+					return Util.extractUrlFromCssProperty(propertyValue);
+				}
+			}
+		}
+
+		return null;
 	};
 
 	/**

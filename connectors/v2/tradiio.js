@@ -12,6 +12,8 @@ Connector.currentTimeSelector = '.tradiio-music-player .s-progress';
 
 Connector.durationSelector = '.tradiio-music-player .s-total';
 
+Connector.trackArtImageSelector = 'div.bgimge';
+
 Connector.getTrack = function() {
 	var songInfo = getSongInfo();
 	return songInfo[INFO_TRACK];
@@ -20,12 +22,6 @@ Connector.getTrack = function() {
 Connector.getAlbum = function() {
 	var songInfo = getSongInfo();
 	return songInfo[INFO_ALBUM];
-};
-
-Connector.getTrackArt = function() {
-	var backgroundStyle = $('div.bgimge').css('background'),
-		backgroundUrl = /url\((['"]?)(.*)\1\)/.exec(backgroundStyle);
-	return backgroundUrl ? backgroundUrl[2] : null;
 };
 
 var INFO_ALBUM = 'album';

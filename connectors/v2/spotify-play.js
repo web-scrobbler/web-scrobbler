@@ -28,8 +28,7 @@ Connector.isPlaying = function() {
 Connector.getTrackArt = function() {
 	let backgroundStyle = findIframeElement('.sp-image-img')
 		.css('background-image');
-	let backgroundUrl = /^url\((['"]?)(.*)\1\)$/.exec(backgroundStyle);
-	return backgroundUrl ? backgroundUrl[2] : null;
+	return Util.extractUrlFromCssProperty(backgroundStyle);
 };
 
 Connector.getUniqueID = function() {
