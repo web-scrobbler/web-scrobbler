@@ -6,7 +6,6 @@ const WAIT_FOR_PLAYER_ELEMENT_TIMEOUT = 5000;
 
 const helpers = require('./../helpers/helpers');
 const options = require('./../helpers/options');
-const webdriver = require('selenium-webdriver');
 
 /**
  * Test if website can be loaded successfully
@@ -91,7 +90,7 @@ function promiseClickPlayButton(driver, options) {
 	if (opts.playButtonSelector) {
 		return driver.click(opts.playButtonSelector, opts.forceJsClick);
 	} else {
-		return webdriver.promise.fulfilled();
+		return Promise.resolve();
 	}
 }
 
