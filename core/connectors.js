@@ -1103,6 +1103,17 @@ define(function () {
 		matches: ['*://www.fairpricemusic.com/*'],
 		js: ['connectors/v2/fairpricemusic.js'],
 		version: 2
-	}
-	];
+	},
+
+	{
+		label: 'Jazz24',
+		matches: [
+			// Website
+			'*://www.jazz24.org/',
+			// Web player
+			'*://v6.player.abacast.net/854'
+		],
+		js: ['connectors/v2/jazz24.js'],
+		version: 2
+	}];
 });
