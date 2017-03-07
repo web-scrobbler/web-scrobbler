@@ -150,6 +150,19 @@ const Util = {
 	},
 
 	/**
+	 * Extract track art URL from CSS property.
+	 * @param  {String} style CSS property
+	 * @return {String} Track art URL
+	 */
+	extractUrlFromCssProperty(cssProperty) {
+		let match = /url\((['"]?)(.*)\1\)/.exec(cssProperty);
+		if (match) {
+			return match[2].trim();
+		}
+		return null;
+	},
+
+	/**
 	 * Default array of separators.
 	 * Push new separators in the implementation if required.
 	 *
