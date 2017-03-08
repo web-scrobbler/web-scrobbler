@@ -988,7 +988,7 @@ define(function () {
 	},
 	{
 		label: 'RBMA Radio',
-		matches: ['https://www.rbmaradio.com/*'],
+		matches: ['*://www.redbullradio.com/*'],
 		js: ['connectors/v2/rbmaradio.js'],
 		version: 2
 	},
