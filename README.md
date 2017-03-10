@@ -26,8 +26,7 @@ Check the [wiki page][10] to understand development of connectors. Please also r
 
 ### Gitter
 
-You can join us at Gitter room: [david-sabata/web-scrobbler][5].
-There's also IRC channel #web-scrobbler on irc.freenode.net, but Gitter is preferred now.
+We use gitter and you can join us @ [david-sabata/web-scrobbler][5].
 
 ## Privacy Policy
 
