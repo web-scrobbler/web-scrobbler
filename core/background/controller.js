@@ -233,8 +233,7 @@ define([
 					pageAction.setSiteSupported();
 				}
 			} else {
-				pageAction.setSongNotRecognized();
-				Notifications.showSongNotRecognized(song);
+				setSongNotRecognized();
 			}
 		}
 
@@ -270,6 +269,13 @@ define([
 			song.flags.attr('isMarkedAsPlaying', true);
 		}
 
+		/**
+		 * Notify user that song it not recognized by the extension.
+		 */
+		function setSongNotRecognized() {
+			pageAction.setSongNotRecognized();
+			Notifications.showSongNotRecognized();
+		}
 
 		/**
 		 * Called when scrobble timer triggers.
@@ -305,7 +311,7 @@ define([
 		 */
 		function processSong(song, forceProcess = false) {
 			if (song.isEmpty() && !forceProcess) {
-				pageAction.setSongNotRecognized();
+				setSongNotRecognized();
 			} else {
 				pageAction.setSongLoading(song);
 				Pipeline.processSong(song);

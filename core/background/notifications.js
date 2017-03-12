@@ -157,9 +157,8 @@ define([
 
 	/**
 	 * Show notification if song is not recognized.
-	 * @param  {Object} song Song instance
 	 */
-	function showSongNotRecognized(song) {
+	function showSongNotRecognized() {
 		if (localStorage.useUnrecognizedSongNotifications !== '1') {
 			return;
 		}
