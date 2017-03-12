@@ -166,7 +166,7 @@ define([
 		let options = {
 			iconUrl: 'icons/question.png',
 			title: 'The song is not recognized',
-			message: song.getArtistTrackString()
+			message: 'Click on the icon in the extensions bar to correct and submit song info'
 		};
 		showNotification(options);
 	}
