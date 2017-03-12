@@ -104,18 +104,7 @@ const Util = {
 	 * @return {Object} Object contains artist and track fields
 	 */
 	splitArtistTrack(str, separators = null) {
-		let artist = null;
-		let track = null;
-
-		if (str !== null) {
-			let separator = this.findSeparator(str, separators);
-
-			if (separator !== null) {
-				artist = str.substr(0, separator.index);
-				track = str.substr(separator.index + separator.length);
-			}
-		}
-
+		let [artist, track] = this.splitString(str, separators);
 		return { artist, track };
 	},
 
@@ -124,7 +113,7 @@ const Util = {
 	 * @param  {String} str String contains current time and duration
 	 * @param  {String} separator Separator
 	 * @param  {Boolean} swap Swap currentTime and duration values
-	 * @return {Object} Object contains 'currentTime' and 'duration' fields
+	 * @return {Object} Array of strings
 	 */
 	splitTimeInfo(str, sep = '/', swap = false) {
 		let currentTime = null;
@@ -147,6 +136,28 @@ const Util = {
 		}
 
 		return { currentTime, duration };
+	},
+
+	/**
+	 * Split string to two ones using array of separators.
+	 * @param  {String} str Any string
+	 * @param  {Array} separators Array of separators
+	 * @return {Object} Object contains first and second parts of string
+	 */
+	splitString(str, separators = null) {
+		let first = null;
+		let second = null;
+
+		if (str !== null) {
+			let separator = this.findSeparator(str, separators);
+
+			if (separator !== null) {
+				first = str.substr(0, separator.index);
+				second = str.substr(separator.index + separator.length);
+			}
+		}
+
+		return [first, second];
 	},
 
 	/**
@@ -184,7 +195,7 @@ const Util = {
 	injectScriptIntoDocument(scriptUrl) {
 		let script = document.createElement('script');
 		script.src = scriptUrl;
-		script.onload = function () {
+		script.onload = function() {
 			this.parentNode.removeChild(this);
 		};
 		(document.head || document.documentElement).appendChild(script);
