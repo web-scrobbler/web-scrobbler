@@ -27,23 +27,23 @@ Connector.getAlbum = function() {
 var INFO_ALBUM = 'album';
 var INFO_TRACK = 'track';
 
-var getSongInfo = function() {
-	var album_track = $('.tradiio-music-player .musicname').text();
-	if (album_track === null) {
+function getSongInfo() {
+	var albumTrack = $('.tradiio-music-player .musicname').text();
+	if (albumTrack === null) {
 		return null;
 	}
 
-	var separator = Util.findSeparator(album_track);
+	var separator = Util.findSeparator(albumTrack);
 
 	var album = null;
 	var track = null;
 
 	if (separator !== null) {
-		album = album_track.substr(0, separator.index);
-		track = album_track.substr(separator.index + separator.length);
+		album = albumTrack.substr(0, separator.index);
+		track = albumTrack.substr(separator.index + separator.length);
 	} else {
-		track = album_track;
+		track = albumTrack;
 	}
 
-	return {album: album, track: track};
-};
+	return { album, track };
+}
