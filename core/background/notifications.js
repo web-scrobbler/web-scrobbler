@@ -12,6 +12,7 @@ define([
 		iconUrl: '/icons/icon128.png',
 	};
 
+	// @ifdef FIREFOX
 	/*
 	 * Function stub for Firefox.
 	 * Should be removed when this function will be implemented in Firefox.
@@ -22,6 +23,7 @@ define([
 			callback('granted');
 		};
 	}
+	// @endif
 
 	/**
 	 * Map of click listeners indexed by notification IDs.
