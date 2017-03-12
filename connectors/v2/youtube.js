@@ -19,9 +19,10 @@ const videoSelector = '.html5-main-video';
  * This function is called on connector inject.
  */
 function setupConnector() {
+	setupGeneralProperties();
+
 	if (isDefaultPlayer()) {
 		readConnectorOptions();
-		setupGeneralProperties();
 
 		if (isViewTubeInstalled()) {
 			setupDefaultPlayer();
