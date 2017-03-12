@@ -113,7 +113,7 @@ const Util = {
 	 * @param  {String} str String contains current time and duration
 	 * @param  {String} separator Separator
 	 * @param  {Boolean} swap Swap currentTime and duration values
-	 * @return {Object} Array of strings
+	 * @return {Object} Array ontains 'currentTime' and 'duration' fields
 	 */
 	splitTimeInfo(str, sep = '/', swap = false) {
 		let currentTime = null;
@@ -142,7 +142,7 @@ const Util = {
 	 * Split string to two ones using array of separators.
 	 * @param  {String} str Any string
 	 * @param  {Array} separators Array of separators
-	 * @return {Object} Object contains first and second parts of string
+	 * @return {Array} Array of strings splitted by separator
 	 */
 	splitString(str, separators = null) {
 		let first = null;

@@ -26,21 +26,7 @@ Connector.getAlbum = function() {
 
 function getSongInfo() {
 	let albumTrack = $('.tradiio-music-player .musicname').text();
-	if (albumTrack === null) {
-		return null;
-	}
-
-	let separator = Util.findSeparator(albumTrack);
-
-	let album = null;
-	let track = null;
-
-	if (separator !== null) {
-		album = albumTrack.substr(0, separator.index);
-		track = albumTrack.substr(separator.index + separator.length);
-	} else {
-		track = albumTrack;
-	}
+	let [album, track] = Util.splitString(albumTrack);
 
 	return { album, track };
 }
