@@ -15,28 +15,25 @@ Connector.durationSelector = '.tradiio-music-player .s-total';
 Connector.trackArtImageSelector = 'div.bgimge';
 
 Connector.getTrack = function() {
-	var songInfo = getSongInfo();
-	return songInfo[INFO_TRACK];
+	let songInfo = getSongInfo();
+	return songInfo.track;
 };
 
 Connector.getAlbum = function() {
-	var songInfo = getSongInfo();
-	return songInfo[INFO_ALBUM];
+	let songInfo = getSongInfo();
+	return songInfo.album;
 };
 
-var INFO_ALBUM = 'album';
-var INFO_TRACK = 'track';
-
 function getSongInfo() {
-	var albumTrack = $('.tradiio-music-player .musicname').text();
+	let albumTrack = $('.tradiio-music-player .musicname').text();
 	if (albumTrack === null) {
 		return null;
 	}
 
-	var separator = Util.findSeparator(albumTrack);
+	let separator = Util.findSeparator(albumTrack);
 
-	var album = null;
-	var track = null;
+	let album = null;
+	let track = null;
 
 	if (separator !== null) {
 		album = albumTrack.substr(0, separator.index);
