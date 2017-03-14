@@ -8,7 +8,7 @@ define([
 
 	const DEFAULT_OPTIONS_VALUES = {
 		type: 'basic',
-		iconUrl: 'icons/icon128.png',
+		iconUrl: '/icons/icon128.png',
 	};
 
 	/**
@@ -120,7 +120,7 @@ define([
 		}
 
 		var options = {
-			iconUrl: song.getTrackArt() || 'icons/default_cover_art.png',
+			iconUrl: song.getTrackArt() || '/icons/default_cover_art.png',
 			title: song.getTrack(),
 			message: 'by ' + song.getArtist(),
 			contextMessage
