@@ -2,8 +2,6 @@
 
 /* global Connector, Util */
 
-const ARTIST_SEPARATOR = ', ';
-
 /**
  * The last track title. Used for detecting new songs.
  * @type {String}
@@ -100,10 +98,7 @@ function fetchSongInfo(albumInfoUrl) {
 				let songTitle = $(song).find('.s_title .sng_c').text();
 				if (songTitle === track) {
 					let artists = $(song).find('.s_artist .sng_c').toArray();
-					artist = artists.map((artist) => {
-						return artist.textContent;
-					}).join(ARTIST_SEPARATOR);
-
+					artist = Util.joinArtists(artists);
 					break;
 				}
 			}

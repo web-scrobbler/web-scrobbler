@@ -1,20 +1,16 @@
 'use strict';
 
-/* global Connector, MetadataFilter */
+/* global Connector, MetadataFilter, Util */
 
 /**
  * The connector for new version of Spotify (open.spotify.com).
  */
 
-const ARTIST_SEPARATOR = ', ';
-
 Connector.playerSelector = '.now-playing-bar';
 
 Connector.getArtist = function() {
 	let artists = $('.now-playing-bar span > span > a').toArray();
-	return artists.map((artist) => {
-		return artist.textContent;
-	}).join(ARTIST_SEPARATOR);
+	return Util.joinArtists(artists);
 };
 
 Connector.trackSelector = '.now-playing-bar div > div > div > a';

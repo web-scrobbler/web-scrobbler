@@ -4,6 +4,12 @@
  * Module that contains some useful helper functions.
  */
 
+/**
+ * Separator used to join array of artist names into a single string.
+ * @type {String}
+ */
+const ARTIST_SEPARATOR = ', ';
+
 const Util = {
 	/**
 	 * Extract artist and track from Youtube video title.
@@ -95,6 +101,18 @@ const Util = {
 		}
 
 		return null;
+	},
+
+	/**
+	 * Join array of artist name into a string. The array must contain objects
+	 * that have 'textContent' property (DOM node).
+	 * @param  {Array} artists Array of DOM nodes
+	 * @return {String} String joined by separator
+	 */
+	joinArtists(artists) {
+		return artists.map((artist) => {
+			return artist.textContent;
+		}).join(ARTIST_SEPARATOR);
 	},
 
 	/**

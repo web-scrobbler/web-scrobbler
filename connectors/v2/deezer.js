@@ -1,14 +1,12 @@
 'use strict';
 
-/* global Connector, MetadataFilter */
+/* global Connector, MetadataFilter, Util */
 
 Connector.playerSelector = '#page_sidebar';
 
 Connector.getArtist = function() {
-	var artists = $.map($('.player-track-artist').children(), function(artist) {
-		return $.text(artist);
-	});
-	return artists.join(', ');
+	let artists = $('.player-track-artist').children().toArray();
+	return Util.joinArtists(artists);
 };
 
 Connector.trackSelector = '.player-track-title';
