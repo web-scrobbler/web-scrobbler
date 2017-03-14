@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, MetadataFilter */
 
 /**
  * The connector for new version of Spotify (open.spotify.com).
@@ -24,3 +24,5 @@ Connector.trackArtImageSelector = '.now-playing-bar .cover-art-image-loaded';
 Connector.isPlaying = function() {
 	return $('.spoticon-pause-32').length > 0;
 };
+
+Connector.filter = MetadataFilter.getRemasteredFilter();
