@@ -160,6 +160,11 @@ function applyViewTubeFixes() {
 	};
 
 	Connector.getUniqueID = function() {
+		let videoTitle = $('.ytp-title-link').text();
+		if (!videoTitle) {
+			return null;
+		}
+
 		let videoUrl = $('.ytp-title-link').attr('href');
 		return getVideoIdFromUrl(videoUrl);
 	};
