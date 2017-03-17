@@ -69,15 +69,6 @@ function setupDefaultPlayer() {
 		return Util.processYoutubeVideoTitle(videoTitle);
 	};
 
-	Connector.getUniqueID = function() {
-		if (Connector.isFullscreenMode()) {
-			let videoUrl = $('.ytp-title-link').attr('href');
-			return Util.getYoutubeVideoIdFromUrl(videoUrl);
-		}
-
-		return getItemPropValue('videoId');
-	};
-
 	Connector.isStateChangeAllowed = function() {
 		let videoCategory = getItemPropValue('genre');
 		if (videoCategory) {
@@ -130,19 +121,6 @@ function setupMaterialPlayer() {
 		return Util.processYoutubeVideoTitle(videoTitle);
 	};
 
-	Connector.getUniqueID = function() {
-		/*
-		 * Youtube doesn't remove DOM object on AJAX navigation,
-		 * so we should not return track data if no song is playing.
-		 */
-		if (Connector.isPlayerOffscreen()) {
-			return null;
-		}
-
-		let videoUrl = $('.ytp-title-link').attr('href');
-		return Util.getYoutubeVideoIdFromUrl(videoUrl);
-	};
-
 	/**
 	 * Check if player is off screen.
 	 *
@@ -171,6 +149,11 @@ function applyViewTubeFixes() {
 
 	Connector.isPlaying = function() {
 		return true;
+	};
+
+	Connector.getUniqueID = function() {
+		let videoUrl = $('.ytp-title-link').attr('href');
+		return Util.getYoutubeVideoIdFromUrl(videoUrl);
 	};
 }
 
@@ -201,6 +184,30 @@ function setupBasePlayer() {
 
 	Connector.isPlaying = function() {
 		return $('.html5-video-player').hasClass('playing-mode');
+	};
+
+	Connector.getUniqueID = function() {
+		/*
+		 * Youtube doesn't remove DOM object on AJAX navigation,
+		 * so we should not return track data if no song is playing.
+		 */
+		if (Connector.isPlayerOffscreen()) {
+			return null;
+		}
+
+		/*
+		 * Youtube doesn't update video title immediately in fullscreen mode.
+		 * We don't return video ID until video title is shown.
+		 */
+		if (Connector.isFullscreenMode()) {
+			let videoTitle = $('.ytp-title-link').text();
+			if (!videoTitle) {
+				return null;
+			}
+		}
+
+		let videoUrl = $('.ytp-title-link').attr('href');
+		return Util.getYoutubeVideoIdFromUrl(videoUrl);
 	};
 
 	function setupMutationObserver() {
