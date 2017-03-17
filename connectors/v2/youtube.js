@@ -137,7 +137,7 @@ function setupMaterialPlayer() {
 		}
 
 		let offset = $player.offset();
-		return offset.left <= 0 || offset.top <= 0;
+		return offset.left <= 0 && offset.top <= 0;
 	};
 }
 
