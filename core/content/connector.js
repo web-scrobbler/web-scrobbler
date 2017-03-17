@@ -448,6 +448,19 @@ var BaseConnector = window.BaseConnector || function () {
 			stateChangedWorkerThrottled();
 		}
 	}.bind(this);
+
+	/**
+	 * Send request to core to reset current state. Should be used if connector
+	 * has custom state change listener.
+	 *
+	 * Connectors are NOT supposed to override this method.
+	 */
+	this.resetState = function() {
+		if (this.reactorCallback !== null) {
+			// TODO: passs 'changedFields' parameter
+			this.reactorCallback({});
+		}
+	}.bind(this);
 };
 
 window.BaseConnector = BaseConnector;

@@ -90,6 +90,10 @@ function setupDefaultPlayer() {
 	 * @return {Boolean} True if player is off screen; false otherwise
 	 */
 	Connector.isPlayerOffscreen = function() {
+		if (Connector.isFullscreenMode()) {
+			return false;
+		}
+
 		let $player = $('#player-api');
 		if ($player.length === 0) {
 			return false;
@@ -131,6 +135,10 @@ function setupMaterialPlayer() {
 	 * @return {Boolean} True if player is off screen; false otherwise
 	 */
 	Connector.isPlayerOffscreen = function() {
+		if (Connector.isFullscreenMode()) {
+			return false;
+		}
+
 		let $player = $('#player-container');
 		if ($player.length === 0) {
 			return false;
@@ -211,18 +219,24 @@ function setupBasePlayer() {
 	};
 
 	function setupMutationObserver() {
-		let isMusicVideoPresent = false;
+		let isStateReset = false;
+		let isEventListenerSetUp = false;
 
 		let playerObserver = new MutationObserver(function() {
 			if (Connector.isPlayerOffscreen()) {
-				Connector.onStateChanged();
+				if (!isStateReset) {
+					Connector.resetState();
+					isStateReset = true;
+				}
 			} else {
-				if (isMusicVideoPresent) {
+				isStateReset = false;
+
+				if (isEventListenerSetUp) {
 					return;
 				}
 
 				$(videoSelector).on('timeupdate', Connector.onStateChanged);
-				isMusicVideoPresent = true;
+				isEventListenerSetUp = true;
 			}
 		});
 
