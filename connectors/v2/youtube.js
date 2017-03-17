@@ -59,13 +59,7 @@ function isViewTubeInstalled() {
  */
 function setupDefaultPlayer() {
 	Connector.getArtistTrack = function () {
-		let videoTitle;
-		if (Connector.isFullscreenMode()) {
-			videoTitle = $('.ytp-title-link').text();
-		} else {
-			videoTitle = getItemPropValue('name');
-		}
-
+		let videoTitle = $('.ytp-title-link').text();
 		return processYoutubeVideoTitle(videoTitle);
 	};
 
