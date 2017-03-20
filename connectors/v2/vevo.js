@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector, Util */
+/* global Connector, MetadataFilter, Util */
 
 Connector.playerSelector = '#markup';
 
@@ -9,6 +9,8 @@ Connector.trackSelector = '.watch-info .video-name';
 Connector.currentTimeSelector = '.progress-texts span:nth-child(1)';
 
 Connector.durationSelector = '.progress-texts span:nth-child(3)';
+
+Connector.filter = MetadataFilter.getYoutubeFilter();
 
 Connector.getArtist = function() {
 	let artists = $('.watch-info .artist a').toArray();
