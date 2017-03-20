@@ -1,16 +1,19 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 Connector.playerSelector = '#markup';
 
-Connector.artistSelector = '.artist';
-
-Connector.trackSelector = '.title';
+Connector.trackSelector = '.watch-info .video-name';
 
 Connector.currentTimeSelector = '.progress-texts span:nth-child(1)';
 
 Connector.durationSelector = '.progress-texts span:nth-child(3)';
+
+Connector.getArtist = function() {
+	let artists = $('.watch-info .artist a').toArray();
+	return Util.joinArtists(artists);
+};
 
 Connector.isPlaying = function() {
 	return $('#control-bar').hasClass('state-playing');
