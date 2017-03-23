@@ -1115,5 +1115,23 @@ define(function () {
 		],
 		js: ['connectors/v2/jazz24.js'],
 		version: 2
+	},
+
+	{
+		label: 'RadioPlayer (NEW)',
+		matches: [	'*://www.heart.co.uk/*',
+					'*://www.mygoldmusic.co.uk/radio/player/*',
+					'*://player.absoluteradio.co.uk/*',
+					'*://www.thebreeze.com/*radioplayer/*',
+					'*://ukradioplayer.*',
+					'*://radioplayer.*',
+					'*://www.2br.co.uk/*',
+					'*://*/radioplayer/*',
+					'*://*/radioplayer/'
+					],
+		js: ['connectors/v2/radioplayer.js'],
+		version: 2
 	}];
+
+
 });
