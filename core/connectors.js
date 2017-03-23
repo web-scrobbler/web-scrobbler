@@ -1066,5 +1066,10 @@ define(function () {
 		version: 2
 	},
 
-	];
+	{
+		label: 'Delta Radio UK',
+		matches: ['*://deltaradiouk.co.uk/popout-player*'],
+		js: ['connectors/v2/deltaradio.js'],
+		version: 2
+	}];
 });
