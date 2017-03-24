@@ -227,7 +227,7 @@ function setupBasePlayer() {
 					Connector.resetState();
 					isStateReset = true;
 				}
-			} else {
+			} else if ($(videoSelector).length > 0) {
 				isStateReset = false;
 
 				if (isEventListenerSetUp) {
@@ -236,6 +236,8 @@ function setupBasePlayer() {
 
 				$(videoSelector).on('timeupdate', Connector.onStateChanged);
 				isEventListenerSetUp = true;
+
+				console.log('Web scrobbler: setup "timeupdate" event');
 			}
 		});
 
