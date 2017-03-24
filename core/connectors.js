@@ -1099,6 +1099,13 @@ define(function () {
 	},
 
 	{
+		label: 'Randomtube',
+		matches: ['*://youtube-playlist-randomizer.valami.info/*'],
+		js: ['connectors/v2/randomtube.js'],
+		version: 2
+	},
+
+	{
 		label: 'Fair Price Music',
 		matches: ['*://www.fairpricemusic.com/*'],
 		js: ['connectors/v2/fairpricemusic.js'],
