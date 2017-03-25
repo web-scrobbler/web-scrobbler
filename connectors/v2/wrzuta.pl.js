@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 var DEFAULT_TRACK_ART_URL = 'http://c.wrzuta.pl/wi470/cbab02ab001342d756010226';
 
@@ -13,7 +13,7 @@ Connector.isPlaying = function () {
 function setupPlaylistPlayer() {
 	Connector.getArtistTrack = function() {
 		var text = $('.playlist-position.active a.js-file-link').attr('title');
-		return Connector.splitArtistTrack(text);
+		return Util.splitArtistTrack(text);
 	};
 
 	Connector.getUniqueID = function() {

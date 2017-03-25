@@ -16,10 +16,8 @@ require([
 	'objects/injectResult',
 	'pageAction',
 	'controller',
-	'storage',
-	'config',
 	'chromeStorage'
-], function(GA, LastFM, Notifications, inject, injectResult, PageAction, Controller, Storage, config, ChromeStorage) {
+], function(GA, LastFM, Notifications, inject, injectResult, PageAction, Controller, ChromeStorage) {
 
 	/**
 	 * Single controller instance for each tab with injected script
@@ -91,39 +89,6 @@ require([
 		return tabControllers[tabId];
 	}
 
-
-
-	// --- done once on background script load -------------------------------------------------------------------------
-
-	// cleanup and other stuff to be done on specific version changes
-	{
-		var oldLfmStorage = Storage.getNamespace('LastFM');
-
-		// update Core namespace to Chrome storage
-		ChromeStorage.get(function(allData) {
-			// init
-			if (allData === null || Object.keys(allData).length === 0) {
-				allData = {
-					Core: {
-						appVersion: chrome.app.getDetails().version
-					},
-					LastFM: { // attempt to migrate from localStorage so user doesn't have to re-auth
-						token: oldLfmStorage.get('token') || null,
-						sessionID: oldLfmStorage.get('sessionID') || null
-					}
-				};
-			}
-			// update
-			else {
-				allData.Core.appVersion = chrome.app.getDetails().version;
-			}
-
-			// save and proceed in starting up
-			ChromeStorage.set(allData, startup);
-		});
-	}
-
-
 	// setup listener for messages from connectors
 	chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 		var ctrl;
@@ -160,6 +125,13 @@ require([
 					ctrl.toggleLove(request.data, sendResponse);
 				}
 				break;
+
+			case 'v2.resetSongData':
+				ctrl = getControllerByTabId(request.tabId);
+				if (ctrl) {
+					ctrl.resetSongData();
+				}
+				break;
 		}
 
 		return true;
@@ -174,6 +146,12 @@ require([
 
 		inject.onTabsUpdated(tabId, changeInfo, tab, injectCb);
 	});
+	chrome.tabs.onRemoved.addListener((tabId) => {
+		if (tabControllers[tabId]) {
+			console.log(`Tab ${tabId}: remove controller`);
+			delete tabControllers[tabId];
+		}
+	});
 
 	// setup listener for page action clicks
 	chrome.pageAction.onClicked.addListener(function(tab) {
@@ -183,25 +161,37 @@ require([
 		}
 	});
 
+	/**
+	 * Replace the extension version stored in
+	 * local storage by current one.
+	 */
+	function updateVersionInStorage() {
+		let storage = ChromeStorage.getNamespace('Core');
+		storage.get((data) => {
+			data.appVersion = chrome.app.getDetails().version;
+			storage.set(data);
+		});
+
+		// debug log internal storage state for people who send logs (tokens are anonymized)
+		ChromeStorage.debugLog('Core');
+	}
 
 	/**
 	 * Called on the extension start, after maintenance storage reads/writes are done
 	 */
 	function startup() {
+		updateVersionInStorage();
+
 		// track background page loaded - happens once per browser session
 		GA.send('pageview', '/background-loaded?version=' + chrome.app.getDetails().version);
-
-		// debug log internal storage state for people who send logs (tokens are anonymized)
-		ChromeStorage.debugLog();
 
 		// check session ID status and show notification if authentication is needed
 		LastFM.getSession(function(sessionID) {
 			if (!sessionID) {
 				Notifications.showAuthenticate(LastFM.getAuthUrl);
-			} else {
-				console.info('LastFM: Session ID ' + 'xxxxx' + sessionID.substr(5));
 			}
 		});
 	}
 
+	startup();
 });

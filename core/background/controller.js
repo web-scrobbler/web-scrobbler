@@ -1,8 +1,5 @@
 'use strict';
 
-/**
- * Controller for each tab
- */
 define([
 	'objects/song',
 	'pipeline/pipeline',
@@ -10,14 +7,16 @@ define([
 	'pageAction',
 	'timer',
 	'notifications',
-	'services/background-ga'
-], function(Song, Pipeline, LastFM, PageAction, Timer, Notifications, GA) {
+	'services/background-ga',
+	'pipeline/local-cache'
+], function(Song, Pipeline, LastFM, PageAction, Timer, Notifications, GA, LocalCache) {
 
 	/**
-	 * Constructor
+	 * Controller for each tab.
 	 *
-	 * @param {Number} tabId
-	 * @param {Object} connector
+	 * @constructor
+	 * @param {Number} tabId Tab ID
+	 * @param {Object} connector Connector match object.
 	 */
 	return function(tabId, connector) {
 
@@ -34,8 +33,8 @@ define([
 
 
 		/**
-		 * React on state change
-		 * @param {Object} newState
+		 * React on state change.
+		 * @param {Object} newState State of connector
 		 */
 		this.onStateChanged = function(newState) {
 
@@ -91,6 +90,10 @@ define([
 					isPlaying: newState.isPlaying,
 					trackArt: newState.trackArt,
 				});
+
+				if (newState.duration && !currentSong.parsed.duration) {
+					updateSongDuration(newState.duration);
+				}
 			}
 			// we've hit a new song (or replaying the previous one) - clear old data and run processing
 			else {
@@ -117,14 +120,29 @@ define([
 				}
 
 				// start processing - result will trigger the listener
-				pageAction.setSongLoading(currentSong);
-				Pipeline.processSong(currentSong);
+				processSong(currentSong);
 			}
 		};
 
 		/**
-		 * Setup listeners for new song object
-		 * @param {Song} song
+		 * Update song duration value.
+		 * @param  {Number} duration Duration in seconds
+		 */
+		function updateSongDuration(duration) {
+			currentSong.parsed.attr({ duration });
+
+			if (currentSong.flags.isProcessed) {
+				playbackTimer.update(currentSong.getSecondsToScrobble());
+
+				let remainedSeconds = playbackTimer.getRemainingSeconds();
+				console.log(`Tab ${tabId}: update duration: ${duration}`);
+				console.log(`The song will be scrobbled after ${remainedSeconds} more seconds of playback`);
+			}
+		}
+
+		/**
+		 * Setup listeners for new song object.
+		 * @param {Object} song Song instance
 		 */
 		function bindSongListeners(song) {
 			/**
@@ -149,10 +167,13 @@ define([
 			 * Song has gone through processing pipeline
 			 * This event may occur repeatedly, e.g. when triggered on page load and then corrected by user input
 			 */
-			song.bind('flags.isProcessed', function(ev, newVal) {
+			song.bind('flags.isProcessed', (ev, newVal) => {
 				if (newVal) {
 					console.log('Tab ' + tabId + ': song finished processing ', JSON.stringify(song.attr()));
 					onProcessed(song);
+					chrome.runtime.sendMessage({
+						type: 'v2.onSongUpdated',
+						data: song.attr(), tabId});
 				} else {
 					console.log('Tab ' + tabId + ': song un-processed ', JSON.stringify(song.attr()));
 					onUnProcessed();
@@ -161,9 +182,10 @@ define([
 		}
 
 		/**
-		 * Unbind all song listener. The song will no longer be used in Controller, but may
-		 * remain in async calls and we don't want it to trigger any more listeners.
-		 * @param {Song} song
+		 * Unbind all song listener. The song will no longer be used in
+		 * Controller, but may remain in async calls and we don't want it
+		 * to trigger any more listeners.
+		 * @param {Object} song Song instance
 		 */
 		function unbindSongListeners(song) {
 			song.unbind('parsed.isPlaying');
@@ -189,9 +211,10 @@ define([
 		}
 
 		/**
-		 * Called when song finishes processing in pipeline. It may not have passed the pipeline
-		 * successfully, so checks for various flags are needed.
-		 * @param {Song} song
+		 * Called when song finishes processing in pipeline. It may not have
+		 * passed the pipeline successfully, so checks for various flags
+		 * are needed.
+		 * @param {Object} song Song instance
 		 */
 		function onProcessed(song) {
 			// song is considered valid if either L.FM or the user validated it
@@ -210,12 +233,13 @@ define([
 					pageAction.setSiteSupported();
 				}
 			} else {
-				pageAction.setSongNotRecognized();
+				setSongNotRecognized();
 			}
 		}
 
 		/**
-		 * Called when song was already flagged as processed, but now is entering the pipeline again
+		 * Called when song was already flagged as processed, but now is
+		 * entering the pipeline again.
 		 */
 		function onUnProcessed() {
 			console.log('Tab ' + tabId + ': clearing playback timer destination time');
@@ -223,8 +247,9 @@ define([
 		}
 
 		/**
-		 * Contains all actions to be done when song is ready to be marked as now playing
-		 * @param {Song} song
+		 * Contains all actions to be done when song is ready to be marked as
+		 * now playing.
+		 * @param {Object} song Song instance
 		 */
 		function setSongNowPlaying(song) {
 			Notifications.showPlaying(song);
@@ -244,10 +269,19 @@ define([
 			song.flags.attr('isMarkedAsPlaying', true);
 		}
 
+		/**
+		 * Notify user that song it not recognized by the extension.
+		 */
+		function setSongNotRecognized() {
+			pageAction.setSongNotRecognized();
+			Notifications.showSongNotRecognized();
+		}
 
 		/**
 		 * Called when scrobble timer triggers.
-		 * The time should be set only after the song is validated and ready to be scrobbled.
+		 * The time should be set only after the song is validated and ready
+		 * to be scrobbled.
+		 * @param {Object} song Song instance
 		 */
 		function doScrobble(song) {
 			console.log('Tab ' + tabId + ': scrobbling song ' + song.getArtist() + ' - ' + song.getTrack());
@@ -271,6 +305,20 @@ define([
 		}
 
 		/**
+		 * Process song using pipeline module.
+		 * @param {Object} song Song instance
+		 * @param {Boolean} forceProcess Force processing for empty songs
+		 */
+		function processSong(song, forceProcess = false) {
+			if (song.isEmpty() && !forceProcess) {
+				setSongNotRecognized();
+			} else {
+				pageAction.setSongLoading(song);
+				Pipeline.processSong(song);
+			}
+		}
+
+		/**
 		 * Forward event to PageAction
 		 */
 		this.onPageActionClicked = function() {
@@ -278,8 +326,8 @@ define([
 		};
 
 		/**
-		 * Returns current song as plain object (not can.Map)
-		 * @return {{}}
+		 * Get current song as plain object.
+		 * @return {Object} Song copy
 		 */
 		this.getCurrentSong = function() {
 			return currentSong === null ? {} : currentSong.attr();
@@ -288,6 +336,7 @@ define([
 		/**
 		 * Sets data for current song from user input
 		 * TODO: check if all is ok for case when song is already valid
+		 * @param {Object} data Object contains song data
 		 */
 		this.setUserSongData = function(data) {
 			if (currentSong !== null) {
@@ -303,12 +352,26 @@ define([
 				if (data.track) {
 					currentSong.metadata.attr('userTrack', data.track);
 				}
+				if (data.album) {
+					currentSong.metadata.attr('userAlbum', data.album);
+				}
 
 				// re-send song to pipeline
-				if (data.artist || data.track) {
-					pageAction.setSongLoading(currentSong);
-					Pipeline.processSong(currentSong);
+				if (data.artist || data.track || data.album) {
+					processSong(currentSong, true);
 				}
+			}
+		};
+
+		/**
+		 * Reset song data and process it again.
+		 */
+		this.resetSongData = function() {
+			if (currentSong !== null) {
+				currentSong.resetSongData();
+				LocalCache.removeSongFromStorage(currentSong, () => {
+					processSong(currentSong);
+				});
 			}
 		};
 

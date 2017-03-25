@@ -1,13 +1,13 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 Connector.playerSelector = '#d-content';
 
 Connector.getArtistTrack = function() {
 	if (isPlayingLiveRadio()) {
 		let songTitle = $('.d-queue-info .song-title').text();
-		return Connector.splitArtistTrack(songTitle);
+		return Util.splitArtistTrack(songTitle);
 	}
 
 	let artist = $('#d-info-text .d-sub-text-1').text();

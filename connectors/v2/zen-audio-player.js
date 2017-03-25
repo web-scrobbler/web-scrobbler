@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector, MetadataFilter */
+/* global Connector, MetadataFilter,  Util */
 
 
 Connector.playerSelector = '#audioplayer';
@@ -11,9 +11,14 @@ Connector.currentTimeSelector = '.plyr__time--current';
 
 Connector.durationSelector = '.plyr__time--duration';
 
+Connector.getArtistTrack = function () {
+	var text = $(Connector.artistTrackSelector).text();
+	return Util.processYoutubeVideoTitle(text);
+};
+
 Connector.getUniqueID = function() {
-	// Get the value of the search box
-	return $('#v').val();
+	let videoUrl = $('#zen-video-title').attr('href');
+	return Util.getYoutubeVideoIdFromUrl(videoUrl);
 };
 
 Connector.isPlaying = function() {

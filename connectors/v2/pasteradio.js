@@ -18,9 +18,3 @@ Connector.getUniqueID = function() {
 	var idMatch = /\/(\d+)\.mp3/.exec($('audio').attr('src'));
 	return idMatch ? idMatch[1] : null;
 };
-
-// duration is 0 for a brief while; this allows
-// duration to update
-Connector.isStateChangeAllowed = function() {
-	return Connector.getCurrentTime() > 1;
-};

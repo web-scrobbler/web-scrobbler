@@ -23,17 +23,17 @@ var driver = createWebDriver();
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 exports.load = function(url, timeout) {
-	helpers.debug('Loading ' + url);
+	helpers.debug(`Loading ${url}`);
 
 	return getUrl(url, timeout)
 		.then(acceptAlerts)
 		.then(injectTestCapture)
 		.then(waitForConnectorInjection)
-		.then(function() {
-			helpers.debug('Loaded ' + url);
-		}, function(err) {
-			helpers.debug('Unable to load ' + url);
-			throw err;
+		.then(() => {
+			helpers.debug(`Loaded ${url}`);
+		}).catch((err) => {
+			helpers.debug(`Unable to load ${url}`);
+			rethrowError(err);
 		});
 };
 
@@ -64,7 +64,7 @@ exports.click = function(selector, forceJsClick) {
 		});
 	}).catch(function(err) {
 		helpers.debug(`Unable to click on ${selector}`);
-		throw err;
+		rethrowError(err);
 	});
 };
 
@@ -118,7 +118,9 @@ exports.wait = function(condition, timeout, message) {
 			}
 			return driver.sleep(WAIT_BETWEEN_CONDITION_CHECK);
 		});
-	}, timeout, message);
+	}, timeout, message).catch((err) => {
+		rethrowError(err);
+	});
 };
 
 /**
@@ -149,7 +151,9 @@ exports.quit = function() {
 function getUrl(url, timeout) {
 	let timeouts = driver.manage().timeouts();
 	return timeouts.pageLoadTimeout(timeout || URL_LOAD_TIMEOUT).then(() => {
-		return driver.get(url);
+		return driver.get(url).catch(() => {
+			throw new Error('Unable to load URL: timed out');
+		});
 	});
 }
 
@@ -160,8 +164,9 @@ function getUrl(url, timeout) {
  */
 function clickWithWebdriver(selector) {
 	return driver.findElement({ css: selector }).then(function(element) {
-		element.click();
-		helpers.debug(`Clicked on ${selector} (WebDriver)`);
+		element.click().then(() => {
+			helpers.debug(`Clicked on ${selector} (WebDriver)`);
+		});
 	});
 }
 
@@ -214,7 +219,9 @@ function waitForConnectorEvent(needle, timeout) {
 	helpers.debug('Waiting for "' + needle + '" event');
 	return exports.wait(() => {
 		return driver.executeScript(findWebScrobblerEvent, needle);
-	}, timeout, 'Unable to find "' + needle + '" event: timed out');
+	}, timeout).catch(() => {
+		throw new Error(`Unable to find ${needle} event: timed out`);
+	});
 }
 
 /**
@@ -248,12 +255,21 @@ function waitForConnectorInjection() {
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function acceptAlerts() {
-	return driver.switchTo().alert().then(function(alert) {
+	return driver.switchTo().alert().then((alert) => {
 		helpers.debug('Accept alert');
 		alert.accept();
-	}, function() {
+	}).catch(() => {
 		// Suppress errors
 	});
+}
+
+/**
+ * Throw new error with message of given error object.
+ * Used to reduce Mocha stacktrackes.
+ * @param  {Object} err Error
+ */
+function rethrowError(err) {
+	throw new Error(err.message);
 }
 
 function getChromeOptions() {

@@ -1,14 +1,14 @@
 'use strict';
 
-/* global Connector, MetadataFilter */
+/* global Connector, MetadataFilter, Util */
 
 let trackInfo = {};
 let isPlaying = false;
 
 (function () {
-	$(document.documentElement).append($('<script>', {
-		src: chrome.extension.getURL('connectors/v2/vk-dom-inject.js'),
-	}));
+	let scriptUrl = chrome.extension.getURL('connectors/v2/vk-dom-inject.js');
+	Util.injectScriptIntoDocument(scriptUrl);
+
 	$(window).on('message', ({originalEvent: event}) => {
 		if (event.data.sender !== 'web-scrobbler') {
 			return;

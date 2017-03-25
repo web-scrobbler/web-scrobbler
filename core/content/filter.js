@@ -49,7 +49,7 @@ function MetadataFilter(filterSet) {
 	 * @return {String} Filtered string
 	 */
 	function filterField(text, filters) {
-		if (text === null || text === '') {
+		if (!text) {
 			return text;
 		}
 
@@ -195,6 +195,10 @@ MetadataFilter.YOUTUBE_TRACK_FILTERS = [
 	{ source: /\s+\(\s*(HD|HQ)\s*\)$/, target: '' },
 	// HD (HQ)
 	{ source: /\s+(HD|HQ)\s*$/, target: '' },
+	// video clip officiel (french)
+	{ source: /\s*vid[\u00E9e]o\s*clip officiel/i, target: '' },
+	// video clip
+	{ source: /\s*vid[\u00E9e]o\s*clip/i, target: '' },
 	// video clip
 	{ source: /\s*video\s*clip/i, target: '' },
 	// Full Album

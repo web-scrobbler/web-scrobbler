@@ -11,29 +11,29 @@ require([
 	'wrappers/chrome',
 	'bootstrap'
 ], function ($, config, connectors, Notifications, LastFM, customPatterns, ChromeStorage, chrome) {
+	/**
+	 * Object that maps options to their element IDs.
+	 * @type {Object}
+	 */
+	const optionsUiMap = {
+		disableGa: '#disable-ga',
+		forceRecognize: '#force-recognize',
+		useAutocorrect: '#use-autocorrect',
+		useNotifications: '#use-notifications',
+		useUnrecognizedSongNotifications: '#use-unrecognized-song-notifications'
+	};
 
 	$(function () {
 		var connectorsOptions = ChromeStorage.getNamespace('Connectors');
 
 		// preload values and attach listeners
-
-		$('#use-notifications')
-			.attr('checked', (localStorage.useNotifications === '1'))
-			.click(function () {
-				localStorage.useNotifications = this.checked ? 1 : 0;
+		for (let option in optionsUiMap) {
+			let optionId = optionsUiMap[option];
+			$(optionId).attr('checked', localStorage[option] === '1').click(function() {
+				localStorage[option] = this.checked ? 1 : 0;
+				updateOptionsState();
 			});
-
-		$('#use-autocorrect')
-			.attr('checked', (localStorage.useAutocorrect === '1'))
-			.click(function () {
-				localStorage.useAutocorrect = this.checked ? 1 : 0;
-			});
-
-		$('#disable-ga')
-			.attr('checked', (localStorage.disableGa === '1'))
-			.click(function () {
-				localStorage.disableGa = this.checked ? 1 : 0;
-			});
+		}
 
 		$('#yt-music-only')
 			.click(function () {
@@ -112,6 +112,8 @@ require([
 				$('#contact').removeClass('in');
 				break;
 		}
+
+		updateOptionsState();
 	}
 
 	function listConnectors() {
@@ -251,6 +253,13 @@ require([
 				modal.modal('show');
 			});
 		});
+	}
+
+	function updateOptionsState() {
+		$('#use-unrecognized-song-notifications').attr('disabled',
+			localStorage.useNotifications !== '1' ||
+			localStorage.forceRecognize === '1'
+		);
 	}
 
 	function scrollToElement(selector) {

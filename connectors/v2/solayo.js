@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 Connector.playerSelector = '#plHelpers';
 
@@ -16,7 +16,7 @@ Connector.getArtistTrack = function () {
 		return {artist: arr[1], track: arr[2]};
 	}
 
-	return Connector.splitArtistTrack(text);
+	return Util.splitArtistTrack(text);
 };
 
 Connector.isPlaying = function () {

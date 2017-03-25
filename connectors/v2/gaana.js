@@ -1,8 +1,6 @@
 'use strict';
 
-/* global Connector */
-
-const ARTIST_SEPARATOR = ', ';
+/* global Connector, Util */
 
 /**
  * The last track title. Used for detecting new songs.
@@ -14,7 +12,7 @@ let lastTrackTitle = null;
  * Object that holds information about song.
  * @type {Object}
  */
-let songInfo = { artist: null, track: null };
+let songInfo = Util.emptyArtistTrack;
 
 Connector.playerSelector = '.player';
 
@@ -65,7 +63,7 @@ function requestSongInfo() {
  * Reset current song info.
  */
 function resetSongInfo() {
-	songInfo = { artist: null, track: null };
+	songInfo = Util.emptyArtistTrack;
 }
 
 /**
@@ -100,10 +98,7 @@ function fetchSongInfo(albumInfoUrl) {
 				let songTitle = $(song).find('.s_title .sng_c').text();
 				if (songTitle === track) {
 					let artists = $(song).find('.s_artist .sng_c').toArray();
-					artist = artists.map((artist) => {
-						return artist.textContent;
-					}).join(ARTIST_SEPARATOR);
-
+					artist = Util.joinArtists(artists);
 					break;
 				}
 			}

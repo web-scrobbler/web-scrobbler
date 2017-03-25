@@ -1,23 +1,24 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, MetadataFilter, Util */
 
 Connector.playerSelector = '#markup';
 
-Connector.artistSelector = '.artist';
-
-Connector.trackSelector = '.title';
+Connector.trackSelector = '.watch-info .video-name';
 
 Connector.currentTimeSelector = '.progress-texts span:nth-child(1)';
 
 Connector.durationSelector = '.progress-texts span:nth-child(3)';
 
-Connector.isPlaying = function() {
-	return $('#control-bar').hasClass('state-playing');
+Connector.filter = MetadataFilter.getYoutubeFilter();
+
+Connector.getArtist = function() {
+	let artists = $('.watch-info .artist a').toArray();
+	return Util.joinArtists(artists);
 };
 
-Connector.isStateChangeAllowed = function() {
-	return Connector.getCurrentTime() > 0;
+Connector.isPlaying = function() {
+	return $('#control-bar').hasClass('state-playing');
 };
 
 Connector.getUniqueID = function() {

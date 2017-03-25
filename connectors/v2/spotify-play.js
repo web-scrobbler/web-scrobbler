@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector, MetadataFilter */
+/* global Connector, MetadataFilter, Util */
 
 Connector.getArtist = function() {
 	return findIframeElement('#track-artist a').first().text();
@@ -12,12 +12,12 @@ Connector.getTrack = function() {
 
 Connector.getDuration = function() {
 	let durationStr = findIframeElement('#track-length').text();
-	return Connector.stringToSeconds(durationStr);
+	return Util.stringToSeconds(durationStr);
 };
 
 Connector.getCurrentTime = function() {
 	let currentTimeStr = findIframeElement('#track-current').text();
-	return Connector.stringToSeconds(currentTimeStr);
+	return Util.stringToSeconds(currentTimeStr);
 };
 
 Connector.isPlaying = function() {
@@ -28,8 +28,7 @@ Connector.isPlaying = function() {
 Connector.getTrackArt = function() {
 	let backgroundStyle = findIframeElement('.sp-image-img')
 		.css('background-image');
-	let backgroundUrl = /^url\((['"]?)(.*)\1\)$/.exec(backgroundStyle);
-	return backgroundUrl ? backgroundUrl[2] : null;
+	return Util.extractUrlFromCssProperty(backgroundStyle);
 };
 
 Connector.getUniqueID = function() {

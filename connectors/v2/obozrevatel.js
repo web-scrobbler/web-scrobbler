@@ -1,13 +1,13 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 if ($('.cnt-song-lst').length > 0) {
 	Connector.playerSelector = '.cnt-song-lst';
 
 	Connector.getArtistTrack = function() {
 		var text = $('.playing .song').clone().children('.like-count').remove().end().text();
-		return Connector.splitArtistTrack(text);
+		return Util.splitArtistTrack(text);
 	};
 
 	Connector.isPlaying = function () {

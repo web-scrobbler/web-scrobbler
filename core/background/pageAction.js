@@ -1,14 +1,11 @@
 'use strict';
 
-/**
- * Defines an object for access to page action of a single controller (tab)
- */
 define([], function() {
-
 	/**
-	 * Constructor
+	 * Object for access to page action of a single controller (tab).
 	 *
-	 * @param {Number} tabId
+	 * @constructor
+	 * @param {Number} tabId Tab ID
 	 */
 	return function(tabId) {
 
@@ -50,7 +47,10 @@ define([], function() {
 		};
 
 		/**
-		 * Helper function to set icon, title and popup in single call
+		 * Set icon, title and popup in single call.
+		 * @param {String} icon Path to page action icon
+		 * @param {String} title Page action title
+		 * @param {String} popup Path to popup document
 		 */
 		function setPageAction(icon, title, popup) {
 			chrome.tabs.get(tabId, function() {
@@ -89,17 +89,17 @@ define([], function() {
 		};
 
 		/**
-		 * @param {can.Map} songObj
+		 * @param {Object} song Song instance
 		 */
-		this.setSongLoading = function(songObj) {
+		this.setSongLoading = function(song) {
 			setPageAction(icons.LOADING,
-				'Looking up ' + songObj.getArtist() + ' - ' + songObj.getTrack(),
+				`Looking up ${song.getArtistTrackString()}`,
 				'');
 		};
 
-		this.setSongRecognized = function(songObj) {
+		this.setSongRecognized = function(song) {
 			setPageAction(icons.RECOGNIZED,
-				'Now playing ' + songObj.getArtist() + ' - ' + songObj.getTrack(),
+				`Now playing ${song.getArtistTrackString()}`,
 				documents.SONG_INFO);
 		};
 
@@ -111,14 +111,14 @@ define([], function() {
 
 		this.setSongScrobbled = function(song) {
 			setPageAction(icons.SCROBBLED,
-				'Scrobbled ' + song.getArtist() + ' - ' + song.getTrack(),
+				`Scrobbled ${song.getArtistTrackString()}`,
 				documents.SONG_INFO);
 		};
 
 		this.setSongNotRecognized = function() {
 			setPageAction(icons.UNKNOWN,
 				'The song was not recognized. Click to enter correct info',
-				'popups/manual_scrobble.html');
+				documents.SONG_INFO);
 		};
 
 		this.setError = function() {

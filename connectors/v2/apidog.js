@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 Connector.playerSelector = '#headplayer';
 Connector.currentTimeSelector = '#player-playedtime';
@@ -8,7 +8,7 @@ Connector.artistTrackSelector = '.headplayer-titleReal';
 
 Connector.getArtistTrack = function() {
 	var text = $(this.artistTrackSelector).first().text();
-	return Connector.splitArtistTrack(text);
+	return Util.splitArtistTrack(text);
 };
 
 Connector.getDuration = function() {

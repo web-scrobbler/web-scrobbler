@@ -12,18 +12,21 @@ a {
 	text-decoration: none;
 }
 
+input {
+	width: 100%;
+}
+
 #wrapper {
 	width: 350px;
 	height: 100px;
 	padding: 5px;
-	outline: 1px solid #f00;
 }
 
 #album-art {
 	width: 100px;
 	height: 100px;
 	float: left;
-	background-image: url('../default_cover_art.png');
+	background-image: url('/icons/default_cover_art.png');
 	/* .cover-image */
 	background-size: cover;
 	background-position: center;
@@ -31,58 +34,54 @@ a {
 	overflow: hidden;
 }
 
-#info {
+#info, #edit {
 	margin-left: 110px;
+	margin-bottom: 25px;
 	line-height: 1.5em;
+	padding-right: 10px;
 }
 
-.track-link {
+.metadata {
+	display: block;
+}
+.track {
 	font-weight: bold;
 	font-size: 1.2em;
 }
-
-.popup-text-input, .artist-input, .track-input {
-	width: 188px;
+.artist, .album {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
-.popup-select {
-	width: 192px;
-	height: 1.8em;
-}
-
-.popup-button, .change-input {
-	width: 192px;
-	margin: 2px 0;
-	padding: 1px 0;
-}
-
-#change-info {
-	font-style: italic;
-	color: #f88;
-	text-align: center;
-}
-
-#valid {
-	display: none;
+#edit-controls {
+	position: absolute;
+	bottom: 5px;
 	margin-left: 110px;
-	text-align: center;
-	height: 100px;
-	vertical-align: middle;
-	background: url('img/icon_tick_big.png') no-repeat center center;
+}
+#edit-controls > * + *:before {
+	/* content: '•&nbsp;' */
+	content: '\2022\0000a0';
+	display: inline-block;
 }
 
-#edit-links {
+.control-btn:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+#scrobble-controls {
 	color: #EEE;
 	position: absolute;
 	bottom: 5px;
 	right: 10px;
 }
 
-	#edit-links a {
+	#scrobble-controls a {
 		color: #EEE;
 	}
 
-		#edit-links a:hover {
+		#scrobble-controls a:hover {
 			color: #AAA;
 		}
 
@@ -105,3 +104,20 @@ a {
 		#love[last-fm-loved="true"]:hover {
 			background-position-y: -48px;
 		}
+
+[data-hide="true"] {
+	display: none !important;
+}
+[data-disable="true"] {
+	color: #999;
+	cursor: default !important;
+	text-decoration: none !important;
+}
+
+#artist:before {
+	content: "by ";
+}
+
+#album:before {
+	content: "on ";
+}

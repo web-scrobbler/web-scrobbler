@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 Connector.playerSelector = '.global-content';
 
@@ -25,7 +25,7 @@ Connector.getArtistTrack = function () {
 		track = $('#PlayerFrame iframe').contents().find('#PlayerPanel > :first-child').text();
 	} else if ($('.player-buttonPause').length) {
 		var text = $('.player:has(.player-buttonPause) .player-name span').text();
-		var separator = this.findSeparator(text);
+		var separator = Util.findSeparator(text);
 
 		if (separator !== null) {
 			artist = text.substr(0, separator.index);

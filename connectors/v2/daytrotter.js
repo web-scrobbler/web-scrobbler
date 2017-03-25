@@ -24,19 +24,13 @@ function setupRadioPlayer() {
 	Connector.currentTimeSelector = '.jp-current-time';
 
 	Connector.durationSelector = '.jp-duration';
-
-	Connector.isStateChangeAllowed = function() {
-		return Connector.getCurrentTime() > 0;
-	};
 }
 
 function isPlaylistPlayer() {
 	return $('body').hasClass('pl');
 }
 
-/**
- * Example: http://www.daytrotter.com/radio.html?playlistid=1239601&trackid=4893828
- */
+// Example: http://daytrotter.com/radio.html?playlistid=1239601&trackid=4893828
 function isRadioPlayer() {
 	return $('body').hasClass('radio');
 }

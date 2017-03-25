@@ -3,17 +3,13 @@
 /* global Connector */
 
 Connector.trackSelector = '.player-controls__title';
+
 Connector.artistSelector = '.player-controls__artists';
+
+Connector.trackArtImageSelector = '.slider__item_playing .track__cover';
 
 Connector.isPlaying = function() {
 	return $('body').hasClass('body_state_playing');
-};
-
-Connector.getTrackArt = function() {
-	var backgroundStyle = $('.slider__item_playing .track__cover').css('background-image');
-	var backgroundUrl = /^url\((['"]?)(.*)\1\)$/.exec(backgroundStyle);
-	return backgroundUrl ? backgroundUrl[2] : null;
-
 };
 
 (function() {

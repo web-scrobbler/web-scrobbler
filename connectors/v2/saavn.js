@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 /**
  * An example of connector that loads information about song asynchronously.
@@ -17,7 +17,7 @@ let lastTrackInfoUrl = null;
  * Object that holds information about song.
  * @type {Object}
  */
-let songInfo = { artist: null, track: null };
+let songInfo = Util.emptyArtistTrack;
 
 /**
  * Connector object setup.
@@ -77,7 +77,7 @@ function requestSongInfo() {
  * Reset current song info.
  */
 function resetSongInfo() {
-	songInfo = { artist: null, track: null };
+	songInfo = Util.emptyArtistTrack;
 }
 
 /**

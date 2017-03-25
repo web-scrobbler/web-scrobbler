@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector, MetadataFilter */
+/* global Connector, MetadataFilter, Util */
 
 Connector.filter = new MetadataFilter({
 	album: MetadataFilter.decodeHtmlEntities,
@@ -27,7 +27,7 @@ Connector.currentTimeSelector = '.songDuration.timeElapsed';
 Connector.playButtonSelector = '.rightSide .playbackControls .playerIconPlay';
 
 Connector.getDuration = function() {
-	return Connector.stringToSeconds($('#currentDuration').text()) || null;
+	return Util.stringToSeconds($('#currentDuration').text());
 };
 
 Connector.trackArtImageSelector = '.rightSide .albumArtWrapper img';

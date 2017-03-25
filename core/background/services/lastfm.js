@@ -10,6 +10,8 @@ define([
 	'objects/serviceCallResult',
 	'chromeStorage'
 ], function ($, MD5, can, ServiceCallResultFactory, ChromeStorage) {
+	ChromeStorage.debugLog('LastFM');
+
 	const GET_AUTH_URL_TIMEOUT = 10000;
 
 	var enableLogging = true;
@@ -306,12 +308,19 @@ define([
 
 				var thumbUrl = song.getTrackArt();
 				if (thumbUrl === null) {
-					thumbUrl = $doc.find('album > image[size="medium"]').text();
+					let imageSizes = ['extralarge', 'large', 'medium'];
+					for (let imageSize of imageSizes) {
+						thumbUrl = $doc.find(`album > image[size="${imageSize}"]`).text();
+						if (thumbUrl) {
+							break;
+						}
+					}
 				}
 
 				song.metadata.attr({
 					artistUrl: $doc.find('artist > url').text(),
 					trackUrl: $doc.find('track > url').text(),
+					albumUrl: $doc.find('album > url').text(),
 					userloved: $doc.find('userloved').text() === '1',
 					artistThumbUrl: thumbUrl
 				});
@@ -324,8 +333,10 @@ define([
 			};
 
 			var errCb = function() {
-				song.flags.attr('isLastfmValid', false);
-				cb(false);
+				let isLastfmValid = localStorage.forceRecognize === '1';
+
+				song.flags.attr('isLastfmValid', isLastfmValid);
+				cb(isLastfmValid);
 			};
 
 			doRequest('GET', params, false, okCb, errCb);

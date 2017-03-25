@@ -6,7 +6,6 @@ const WAIT_FOR_PLAYER_ELEMENT_TIMEOUT = 5000;
 
 const helpers = require('./../helpers/helpers');
 const options = require('./../helpers/options');
-const webdriver = require('selenium-webdriver');
 
 /**
  * Test if website can be loaded successfully
@@ -60,7 +59,13 @@ module.exports.shouldBehaveLikeMusicSite = function(driver, options) {
 /* Internal */
 
 /**
- * @see {@link shouldLoadWebsite}
+ * Test if website can be loaded successfully
+ * @param  {Object} driver WebDriverWrapper instance
+ * @param  {Array} options Options (see below)
+ *
+ * Options
+ * @param  {String} url Website URL
+ * @param  {Number} urlLoadTimeout URL load timeout is milliseconds
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function promiseLoadSite(driver, options) {
@@ -85,7 +90,7 @@ function promiseClickPlayButton(driver, options) {
 	if (opts.playButtonSelector) {
 		return driver.click(opts.playButtonSelector, opts.forceJsClick);
 	} else {
-		return webdriver.promise.fulfilled();
+		return Promise.resolve();
 	}
 }
 
@@ -110,7 +115,13 @@ function promiseRecognizeSong(driver, options) {
 }
 
 /**
- * @see {@link shouldContainPlayerElement}
+ * Load website and check if player element exists.
+ * @param  {Object} driver WebDriverWrapper instance
+ * @param  {Array} options Options (see below)
+ *
+ * Options
+ * @see {@link shouldLoadWebsite}
+ *
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function promiseCheckPlayerElement(driver, options) {
@@ -127,7 +138,14 @@ function promiseCheckPlayerElement(driver, options) {
 }
 
 /**
+ * Perform a complex test for website. Includes load test,
+ * play button click test and song recongnition test.
+ * @param  {Object} driver WebDriverWrapper instance
+ * @param  {Array} options Options (see below)
+ *
+ * Options
  * @see {@link shouldBehaveLikeMusicSite}
+ *
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function promiseBehaveLikeMusicSite(driver, options) {

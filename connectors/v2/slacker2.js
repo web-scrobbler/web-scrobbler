@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 Connector.playerSelector = '#bar';
 
@@ -14,8 +14,8 @@ Connector.playButtonSelector = '#transport li.pause';
 
 /** @returns {number|null} track length in seconds */
 Connector.getDuration = function () {
-	return Connector.stringToSeconds($(Connector.currentTimeSelector).text() || '') +
-		Connector.stringToSeconds($('#progressContainer span:last').text() || '');
+	return Util.stringToSeconds($(Connector.currentTimeSelector).text()) +
+		Util.stringToSeconds($('#progressContainer span:last').text());
 };
 
 Connector.trackArtImageSelector = 'td.art img';

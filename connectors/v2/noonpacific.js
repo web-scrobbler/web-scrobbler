@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 function setupMixtapePlayer() {
 	Connector.playerSelector = '.sidebar .audio-player';
@@ -30,10 +30,6 @@ function setupCollection1Player() {
 	Connector.currentTimeSelector = '.h5 .left';
 
 	Connector.durationSelector = '.h5 .right';
-
-	Connector.isStateChangeAllowed = function() {
-		return Connector.getCurrentTime() > 0;
-	};
 }
 
 function isCollection1() {
@@ -72,7 +68,7 @@ function setupCollection2Player() {
 
 		if (rawMetadata) {
 			[artist, track] = rawMetadata.split('::');
-			let artistTrack = Connector.splitArtistTrack(track);
+			let artistTrack = Util.splitArtistTrack(track);
 			if (artistTrack) {
 				return artistTrack;
 			}

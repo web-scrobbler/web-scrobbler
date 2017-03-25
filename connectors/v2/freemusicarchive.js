@@ -25,12 +25,13 @@ var pageType = (function () {
 
 //console.log('pageType = ' + pageType);
 
-/** Returns the result of a regular expression search execution against an html comment.
- *    The html comment is present in album & song type pages and contains information
- *    about the artist and/or album.
+/**
+ * Return the result of a regular expression search execution against an html comment.
+ * The html comment is present in album & song type pages and contains information
+ * about the artist and/or album.
  *
- * @param {RegExp} regEx - the regular expression used to match
- * @returns {String|null}
+ * @param  {Object} regEx Regular expression used to match
+ * @return {String} Found string
 */
 function searchComment(regEx) {
 	var result,

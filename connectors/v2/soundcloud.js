@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector, MetadataFilter */
+/* global Connector, MetadataFilter, Util */
 
 window.SC_ATTACHED = window.SC_ATTACHED || false;
 var artist;
@@ -52,7 +52,8 @@ Connector.filter = MetadataFilter.getYoutubeFilter();
 
 
 /**
- * parse metadata and set local variables
+ * Parse metadata and set local variables
+ * @param {Object} metadata Data received from script injected in DOM
  */
 var setSongData = function (metadata) {
 	isPrivate = metadata.sharing === 'private';
@@ -99,12 +100,8 @@ var setSongData = function (metadata) {
 	}
 
 	// Inject script to extract events from the Soundcloud API event-bus.
-	var s = document.createElement('script');
-	s.src = chrome.extension.getURL('connectors/v2/soundcloud-dom-inject.js');
-	s.onload = function () {
-		this.parentNode.removeChild(this);
-	};
-	(document.head || document.documentElement).appendChild(s);
+	let scriptUrl = chrome.extension.getURL('connectors/v2/soundcloud-dom-inject.js');
+	Util.injectScriptIntoDocument(scriptUrl);
 
 	// Trigger functions based on message type.
 	function eventHandler(e) {

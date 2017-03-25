@@ -8,7 +8,7 @@ define([
 
 	const DEFAULT_OPTIONS_VALUES = {
 		type: 'basic',
-		iconUrl: '/icon128.png',
+		iconUrl: '/icons/icon128.png',
 	};
 
 	/**
@@ -120,7 +120,7 @@ define([
 		}
 
 		var options = {
-			iconUrl: song.getTrackArt() || 'default_cover_art.png',
+			iconUrl: song.getTrackArt() || '/icons/default_cover_art.png',
 			title: song.getTrack(),
 			message: 'by ' + song.getArtist(),
 			contextMessage
@@ -153,6 +153,22 @@ define([
 		showError(SIGN_IN_ERROR_MESSAGE, () => {
 			chrome.tabs.create({ url: 'http://status.last.fm/' });
 		});
+	}
+
+	/**
+	 * Show notification if song is not recognized.
+	 */
+	function showSongNotRecognized() {
+		if (localStorage.useUnrecognizedSongNotifications !== '1') {
+			return;
+		}
+
+		let options = {
+			iconUrl: 'icons/question.png',
+			title: 'The song is not recognized',
+			message: 'Click on the icon in the extensions bar to correct and submit song info'
+		};
+		showNotification(options);
 	}
 
 	/**
@@ -239,6 +255,7 @@ define([
 	return {
 		showPlaying: showPlaying,
 		showError: showError,
+		showSongNotRecognized: showSongNotRecognized,
 		showAuthenticate: showAuthenticate,
 		remove: remove
 	};

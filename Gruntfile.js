@@ -3,21 +3,27 @@
 module.exports = function(grunt) {
 	let isTravisCi = (process.env.TRAVIS === 'true');
 
-	var jsConnectorFiles = ['connectors/**/*.js'];
-	var jsCoreFiles = ['Gruntfile.js', 'core/**/*.js', 'options/options.js', 'popups/*.js'];
-	var jsTestFiles = ['tests/**/*.js'];
-	var jsonFiles = ['*.json', '.jshintrc', '.csslintrc'];
-	var htmlFiles = ['options/*.html', 'popups/*.html', 'dialogs/**/*.html'];
-	var cssFiles = [
+	const jsFiles = [
+		// Connectors
+		'connectors/**/*.js',
+		// Core files
+		'*.js', 'core/**/*.js', 'options/*.js', 'popups/*.js',
+		// Scripts
+		'scripts/*.js',
+		// Tests
+		'tests/**/*.js'
+	];
+	const jsonFiles = ['*.json', '.jshintrc', '.csslintrc'];
+	const htmlFiles = ['options/*.html', 'popups/*.html', 'dialogs/**/*.html'];
+	const cssFiles = [
 		'options/options.css', 'popups/go_play_music.css',
 		'popups/error.css', 'dialogs/base.css'
 	];
-	var scriptFiles = ['scripts/*.js'];
 
 	const extensionSources = [
 		'connectors/**', 'core/**', 'dialogs/**',
 		'icons/**', 'options/**', 'popups/**', 'vendor/**',
-		'manifest.json', 'README.md', 'LICENSE.txt', '*.png',
+		'manifest.json', 'README.md', 'LICENSE.txt',
 		// Skip files
 		'!core/content/testReporter.js'
 	];
@@ -25,13 +31,13 @@ module.exports = function(grunt) {
 	const packageName = 'web-scrobbler.zip';
 
 	grunt.initConfig({
-		bump: {
-			options: {
-				files: ['manifest.json'],
-				commit: true,
-				commitFiles: ['manifest.json'],
-				push: false
-			}
+		/**
+		 * Configs of build tasks.
+		 */
+
+		clean: {
+			build: buildDir,
+			package: packageName
 		},
 		copy: {
 			project_files: {
@@ -39,13 +45,6 @@ module.exports = function(grunt) {
 				src: extensionSources,
 				dest: buildDir,
 			},
-		},
-		preprocess: {
-			js_files: {
-				src: `${buildDir}/**/*.js`,
-				inline: true,
-				expand: true
-			}
 		},
 		compress: {
 			main: {
@@ -58,42 +57,52 @@ module.exports = function(grunt) {
 				src: '**/*',
 			}
 		},
-		clean: {
-			build: [buildDir],
-			package: [packageName]
+		preprocess: {
+			js_files: {
+				src: `${buildDir}/**/*.js`,
+				inline: true,
+				expand: true
+			}
+		},
+
+		/**
+		 * Linter configs.
+		 */
+
+		csslint: {
+			options: {
+				csslintrc: '.csslintrc'
+			},
+			src: cssFiles
 		},
 		eslint: {
-			target: [jsCoreFiles, jsConnectorFiles, jsTestFiles, scriptFiles],
+			target: jsFiles,
 			options: {
 				configFile: '.eslintrc.js',
 				fix: !isTravisCi
 			},
 		},
-		lintspaces: {
-			all: {
-				src: [
-					jsCoreFiles, jsConnectorFiles, jsTestFiles,
-					scriptFiles, jsonFiles, cssFiles, htmlFiles
-				],
-				options: {
-					editorconfig: '.editorconfig',
-					ignores: [
-						'js-comments'
-					]
-				}
-			}
-		},
 		jsonlint: {
-			sample: {
-				src: [ jsonFiles ]
+			src: jsonFiles
+		},
+		lintspaces: {
+			src: [jsFiles, jsonFiles, cssFiles, htmlFiles],
+			options: {
+				editorconfig: '.editorconfig',
+				ignores: ['js-comments']
 			}
 		},
-		csslint: {
+
+		/**
+		 * Configs of other tasks.
+		 */
+
+		bump: {
 			options: {
-				csslintrc: '.csslintrc'
-			},
-			strict: {
-				src: [cssFiles]
+				files: ['manifest.json'],
+				commit: true,
+				commitFiles: ['manifest.json'],
+				push: false
 			}
 		},
 		exec: {
@@ -101,11 +110,9 @@ module.exports = function(grunt) {
 				cmd: `node scripts/publish-cws ${packageName}`
 			},
 			run_tests: {
-				cmd: function(...args) {
-					return `node tests/runner.js ${args.join(' ')}`;
-				}
+				cmd: (...args) => `node tests/runner.js ${args.join(' ')}`
 			}
-		}
+		},
 	});
 
 	require('load-grunt-tasks')(grunt);
@@ -126,10 +133,14 @@ module.exports = function(grunt) {
 	grunt.registerTask('publish-cws', ['build', 'exec:publish_cws']);
 	/**
 	 * Release new version and publish package to Chrome Web Store.
-	 * @param {String} ver Version type that 'grunt-bump' supports
+	 * @param {String} versionType Version type that 'grunt-bump' supports
 	 */
-	grunt.registerTask('release', (ver) => {
-		grunt.task.run(`bump:${ver}`);
+	grunt.registerTask('release', (versionType) => {
+		if (!versionType) {
+			grunt.fail.fatal('You should specify release type!');
+		}
+
+		grunt.task.run(`bump:${versionType}`);
 		grunt.task.run('publish-cws');
 	});
 

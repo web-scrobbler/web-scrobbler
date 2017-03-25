@@ -23,10 +23,10 @@ var albumHasVariousArtists = (function () {
 }());
 
 /**
- * Returns true if object is a number, false otherwise
+ * Check if given argument is a number.
  *
- * @param {object} n
- * @return {boolean}
+ * @param {Object} n Any object
+ * @return {Boolean} True if object is a number; false otherwise
  */
 function isNumber(n) {
 	return !isNaN(parseFloat(n)) && isFinite(n);

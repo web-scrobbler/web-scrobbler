@@ -8,6 +8,8 @@ Connector.artistSelector = '.nowPlayingBarText .textActionButton[data-type="Musi
 
 Connector.trackSelector = '.nowPlayingBarText .textActionButton[data-type="MusicAlbum"]';
 
+Connector.trackArtImageSelector = '.nowPlayingBarInfoContainer .nowPlayingImage';
+
 Connector.isPlaying = function () {
 	return $('.nowPlayingBarCenter .playPauseButton .md-icon').text() === 'pause';
 };
@@ -20,11 +22,6 @@ Connector.getCurrentTime = function () {
 Connector.getDuration = function () {
 	var text = $('.nowPlayingBarCenter .nowPlayingBarCurrentTime').text().split('/')[1];
 	return this.stringToSeconds(text);
-};
-
-Connector.getTrackArt = function () {
-	// cuts off `url("")` from the background-image property
-	return $('.nowPlayingBarInfoContainer .nowPlayingImage').css('background-image').slice(5, -2);
 };
 
 Connector.getAlbum = function () {

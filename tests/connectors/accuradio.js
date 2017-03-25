@@ -3,7 +3,7 @@
 module.exports = function(driver, connectorSpec) {
 	connectorSpec.shouldBehaveLikeMusicSite(driver, {
 		url: 'http://www.accuradio.com/',
-		playButtonSelector: '.channel.featured',
+		playButtonSelector: '.channel.featured > a',
 		waitUntil: isPlayerLoaded
 	});
 
