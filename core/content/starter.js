@@ -70,7 +70,7 @@
 				attributes: false,
 				characterData: false
 			};
-			playerObserver.observe(document.body, playerObserverConfig);
+			playerObserver.observe(document, playerObserverConfig);
 		}
 	}
 	/**
