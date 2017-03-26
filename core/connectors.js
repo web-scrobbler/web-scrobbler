@@ -1106,6 +1106,13 @@ define(function () {
 	},
 
 	{
+		label: 'Listen.moe',
+		matches: ['*://listen.moe/*'],
+		js: ['connectors/v2/listen.js'],
+		version: 2
+	},
+
+	{
 		label: 'Fair Price Music',
 		matches: ['*://www.fairpricemusic.com/*'],
 		js: ['connectors/v2/fairpricemusic.js'],
