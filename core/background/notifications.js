@@ -15,15 +15,29 @@ define([
 	 * Map of click listeners indexed by notification IDs.
 	 * @type {Object}
 	 */
-	var clickListeners = {};
+	const clickListeners = {};
 
 	/**
 	 * Check for permissions and existence of Notifications API
 	 * (to be safe to run on minor browsers like Opera).
-	 * @return {Boolean} True if notifications are available
+	 * @return {Promise} Promise that will be resolved with check result
 	 */
 	function isAvailable() {
-		return chrome.notifications !== undefined;
+		if (chrome.notifications !== undefined) {
+			// Chrome for MacOS doesn't show notifications in
+			// fullscreen mode.
+			return getPlatformName().then((platform) => {
+				if (platform === 'mac') {
+					return isFullscreenMode().then((isFullscreen) => {
+						return !isFullscreen;
+					});
+				}
+
+				return true;
+			});
+		}
+
+		return Promise.resolve(false);
 	}
 
 	/**
@@ -32,6 +46,26 @@ define([
 	 */
 	function isAllowed() {
 		return localStorage.useNotifications === '1';
+	}
+
+	function getPlatformName() {
+		return new Promise((resolve) => {
+			chrome.runtime.getPlatformInfo((info) => {
+				resolve(info.os);
+			});
+		});
+	}
+
+	/**
+	 * Check if browser is in fullscreen mode.
+	 * @return {Promise} Promise that will be resolved with check result
+	 */
+	function isFullscreenMode() {
+		return new Promise((resolve) => {
+			chrome.windows.getCurrent((chromeWindow) => {
+				resolve(chromeWindow.state === 'fullscreen');
+			});
+		});
 	}
 
 	/**
@@ -64,43 +98,45 @@ define([
 	 * @return {Promise} Promise that will be resolved with notification ID
 	 */
 	function showNotification(options, onClicked) {
-		if (!isAvailable()) {
-			return Promise.reject();
-		}
-
-		if (typeof onClicked === 'function') {
-			options.isClickable = true;
-		}
-
-		for (let key in DEFAULT_OPTIONS_VALUES) {
-			if (options[key]) {
-				continue;
+		return isAvailable().then((isAvailable) => {
+			if (!isAvailable) {
+				throw new Error('Notifications are not available');
 			}
 
-			let defaultValue = DEFAULT_OPTIONS_VALUES[key];
-			options[key] = defaultValue;
-		}
+			if (typeof onClicked === 'function') {
+				options.isClickable = true;
+			}
 
-		return new Promise((resolve, reject) => {
-			const notificationCreatedCb = (notificationId) => {
-				if (onClicked) {
-					addOnClickedListener(notificationId, onClicked);
+			for (let key in DEFAULT_OPTIONS_VALUES) {
+				if (options[key]) {
+					continue;
 				}
-				resolve(notificationId);
-			};
-			const createNotification = function(permissionLevel) {
-				if (permissionLevel !== 'granted') {
-					reject();
-					return;
-				}
-				try {
-					chrome.notifications.create('', options, notificationCreatedCb);
-				} catch (e) {
-					reject(e);
-				}
-			};
 
-			chrome.notifications.getPermissionLevel(createNotification);
+				let defaultValue = DEFAULT_OPTIONS_VALUES[key];
+				options[key] = defaultValue;
+			}
+
+			return new Promise((resolve, reject) => {
+				const notificationCreatedCb = (notificationId) => {
+					if (onClicked) {
+						addOnClickedListener(notificationId, onClicked);
+					}
+					resolve(notificationId);
+				};
+				const createNotification = function(permissionLevel) {
+					if (permissionLevel !== 'granted') {
+						reject();
+						return;
+					}
+					try {
+						chrome.notifications.create('', options, notificationCreatedCb);
+					} catch (e) {
+						reject(e);
+					}
+				};
+
+				chrome.notifications.getPermissionLevel(createNotification);
+			});
 		});
 	}
 
