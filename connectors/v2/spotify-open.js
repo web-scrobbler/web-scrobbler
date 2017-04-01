@@ -18,7 +18,7 @@ Connector.trackSelector = '.now-playing-bar div > div > div > a';
 Connector.trackArtImageSelector = '.now-playing-bar .cover-art-image-loaded';
 
 Connector.isPlaying = function() {
-	return $('.spoticon-pause-32').length > 0;
+	return $('.control-button[title="Pause"]').length > 0;
 };
 
 Connector.filter = MetadataFilter.getRemasteredFilter();
