@@ -1120,6 +1120,41 @@ define(function () {
 	},
 
 	{
+		label: 'Radio ULTRA',
+		matches: ['*://player.radioultra.ru/*'],
+		js: ['connectors/v2/radioultra.js'],
+		version: 2
+	},
+
+	{
+		label: 'Наше Радио',
+		matches: ['*://player.nashe.ru/*'],
+		js: ['connectors/v2/radioultra.js'],
+		version: 2
+	},
+
+	{
+		label: 'RockFM',
+		matches: ['*://player.rockfm.ru/*'],
+		js: ['connectors/v2/radioultra.js'],
+		version: 2
+	},
+
+	{
+		label: 'Radio JAZZ',
+		matches: ['*://player.radiojazzfm.ru/*'],
+		js: ['connectors/v2/radioultra.js'],
+		version: 2
+	},
+
+	{
+		label: 'Best FM',
+		matches: ['*://player.bestfm.ru/*'],
+		js: ['connectors/v2/radioultra.js'],
+		version: 2
+	},
+
+	{
 		label: 'Jazz24',
 		matches: [
 			// Website
