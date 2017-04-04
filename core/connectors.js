@@ -449,8 +449,29 @@ define(function () {
 	},
 
 	{
-		label: 'Jazzandrain / Relaxingbeats / Epicmusictime / Holidaychristmasmusic',
-		matches: ['*://www.jazzandrain.com/*', '*://relaxingbeats.com/*', '*://epicmusictime.com/*', '*://www.holidaychristmasmusic.com/*', '*://holidaychristmasmusic.com/*'],
+		label: 'Jazzandrain',
+		matches: ['*://www.jazzandrain.com/*'],
+		js: ['connectors/v2/jazzandrain.js'],
+		version: 2
+	},
+
+	{
+		label: 'Relaxingbeats',
+		matches: ['*://relaxingbeats.com/*'],
+		js: ['connectors/v2/jazzandrain.js'],
+		version: 2
+	},
+
+	{
+		label: 'Epicmusictime',
+		matches: ['*://epicmusictime.com/*'],
+		js: ['connectors/v2/jazzandrain.js'],
+		version: 2
+	},
+
+	{
+		label: 'Holidaychristmasmusic',
+		matches: ['*://www.holidaychristmasmusic.com/*', '*://holidaychristmasmusic.com/*'],
 		js: ['connectors/v2/jazzandrain.js'],
 		version: 2
 	},
