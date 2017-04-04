@@ -8,17 +8,19 @@
 
 Connector.playerSelector = '.now-playing-bar';
 
-Connector.getArtist = function() {
-	let artists = $('.now-playing-bar span > span > a').toArray();
+Connector.getArtist = function () {
+	let artists = $('.track-info__artists a').toArray();
 	return Util.joinArtists(artists);
 };
 
-Connector.trackSelector = '.now-playing-bar div > div > div > a';
+Connector.trackSelector = '.track-info__name a';
 
-Connector.trackArtImageSelector = '.now-playing-bar .cover-art-image-loaded';
+Connector.trackArtImageSelector = '.now-playing__cover-art .cover-art-image-loaded';
 
-Connector.isPlaying = function() {
-	return $('.control-button[title="Pause"]').length > 0;
-};
+Connector.playButtonSelector = '.control-button[class*="spoticon-play-"]';
+
+Connector.currentTimeSelector = '.player-controls__progress-time:first-child';
+
+Connector.durationSelector = '.player-controls__progress-time:last-child';
 
 Connector.filter = MetadataFilter.getRemasteredFilter();
