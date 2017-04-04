@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "chromedriver": "~2.27.2",
+    "chromedriver": "~2.28.0",
     "grunt": "^1.0.1",
     "grunt-bump": "~0.8.0",
     "grunt-cli": "~1.2.0",
