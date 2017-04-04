@@ -1,14 +1,14 @@
 'use strict';
 
-/* global Connector, Util */
+/* global Connector, MetadataFilter, Util */
 
 /**
  * The connector for new version of Spotify (open.spotify.com).
  */
 
-Connector.playerSelector = '.nowPlayingBar-container';
+Connector.playerSelector = '.now-playing-bar';
 
-Connector.getArtist = function() {
+Connector.getArtist = function () {
 	let artists = $('.track-info__artists a').toArray();
 	return Util.joinArtists(artists);
 };
@@ -22,3 +22,5 @@ Connector.playButtonSelector = '.control-button[class*="spoticon-play-"]';
 Connector.currentTimeSelector = '.player-controls__progress-time:first-child';
 
 Connector.durationSelector = '.player-controls__progress-time:last-child';
+
+Connector.filter = MetadataFilter.getRemasteredFilter();
