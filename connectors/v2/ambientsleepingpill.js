@@ -6,14 +6,14 @@ const DEFAULT_TRACK_ART = 'nocover.png';
 
 Connector.playerSelector = '#player';
 
-Connector.artistSelector = '#cc_strinfo_trackartist_asp';
+Connector.artistSelector = '#trackartist';
 
-Connector.trackSelector = '#cc_strinfo_tracktitle_asp';
+Connector.trackSelector = '#tracktitle';
 
 Connector.playButtonSelector = '#asp-play';
 
 Connector.getTrackArt = function() {
-	let trackArtUrl = $('#cc_strinfo_trackimageurl_asp').attr('src');
+	let trackArtUrl = $('#trackimageurl').attr('src');
 	if (isDefaultTrackArt(trackArtUrl)) {
 		return null;
 	}
