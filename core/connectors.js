@@ -757,7 +757,7 @@ define(function () {
 
 	{
 		label: 'kollekt.fm',
-		matches: ['*://kollekt.fm/*'],
+		matches: ['*://kollekt.fm/*', '*://*.kollekt.fm/*'],
 		js: ['connectors/v2/kollekt.js'],
 		version: 2
 	},
