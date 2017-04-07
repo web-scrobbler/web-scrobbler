@@ -12,6 +12,8 @@ function setupNewPandoraPlayer() {
 	Connector.durationSelector = 'span[data-qa="remaining_time"]';
 
 	Connector.trackArtImageSelector = '.Tuner__Audio__TrackDetail__img img';
+	
+	Connector.albumSelector = 'a.nowPlayingTopInfo__current__albumName';
 
 	Connector.isPlaying = function() {
 		// #ic_play_7a43ed1f23aeda3fadb7bdaa3bb07cbe
