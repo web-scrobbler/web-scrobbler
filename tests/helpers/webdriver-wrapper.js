@@ -26,8 +26,8 @@ exports.load = function(url, timeout) {
 	helpers.debug(`Loading ${url}`);
 
 	return acceptAlerts().then(() => {
-			return getUrl(url, timeout);
-		})
+		return getUrl(url, timeout);
+	})
 		.then(acceptAlerts)
 		.then(injectTestCapture)
 		.then(waitForConnectorInjection)
