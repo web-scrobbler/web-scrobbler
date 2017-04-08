@@ -31,93 +31,80 @@ define(function () {
 	return [{
 		label: 'Baidu Music',
 		matches: ['*://play.baidu.com/*'],
-		js: ['connectors/v2/baidu.js'],
-		version: 2
+		js: ['connectors/baidu.js'],
 	},
 
 	{
 		label: 'YouTube',
 		matches: ['*://www.youtube.com/*'],
-		js: ['connectors/v2/youtube.js'],
-		version: 2
+		js: ['connectors/youtube.js'],
 	},
 
 	{
 		label: 'Zen Audio Player',
 		matches: ['*://zenplayer.audio/*'],
-		js: ['connectors/v2/zen-audio-player.js'],
-		version: 2
+		js: ['connectors/zen-audio-player.js'],
 	},
 
 	{
 		label: 'Thesixtyone',
 		matches: ['*://www.thesixtyone.com/*'],
-		js: ['connectors/v2/61.js'],
-		version: 2
+		js: ['connectors/61.js'],
 	},
 
 	{
 		label: 'Google Play Music',
 		matches: ['*://play.google.com/music/*'],
-		js: ['connectors/v2/googlemusic.js'],
-		version: 2
+		js: ['connectors/googlemusic.js'],
 	},
 
 	{
 		label: 'MySpace',
 		matches: ['*://myspace.com/*'],
-		js: ['connectors/v2/myspace.js'],
-		version: 2
+		js: ['connectors/myspace.js'],
 	},
 
 	{
 		label: 'Pitchfork',
 		matches: ['*://pitchfork.com/*', '*://www.pitchfork.com/*'],
-		js: ['connectors/v2/pitchfork.js'],
-		version: 2
+		js: ['connectors/pitchfork.js'],
 	},
 
 	{
 		label: 'Bandcamp',
 		matches: ['*://*.bandcamp.com/*', '*://bandcamp.com/*'],
-		js: ['connectors/v2/bandcamp.js'],
-		version: 2
+		js: ['connectors/bandcamp.js'],
 	},
 
 	{
 		label: 'Jango',
 		matches: ['*://www.jango.com/*'],
-		js: ['connectors/v2/jango.js'],
+		js: ['connectors/jango.js'],
 		allFrames: true,
-		version: 2
 	},
 
 	{
 		label: 'Pandora',
 		matches: ['*://www.pandora.com/*'],
-		js: ['connectors/v2/pandora.js'],
-		version: 2
+		js: ['connectors/pandora.js'],
 	},
 
 	{
 		label: 'pakartot',
 		matches: ['*://www.pakartot.lt/*'],
-		js: ['connectors/v2/pakartot.js'],
-		version: 2
+		js: ['connectors/pakartot.js'],
 	},
 
 	{
 		label: 'Deezer',
 		matches: ['*://www.deezer.com/*'],
-		js: ['connectors/v2/deezer.js'],
-		version: 2
+		js: ['connectors/deezer.js'],
 	},
 
 	{
 		label: 'SoundCloud',
 		matches: ['*://soundcloud.com/*'],
-		js: ['connectors/v2/soundcloud.js'],
-		version: 2
+		js: ['connectors/soundcloud.js'],
 	},
 
 	{
@@ -134,891 +121,764 @@ define(function () {
 			'*://music.amazon.co.uk/*',
 			'*://music.amazon.co.jp/*'
 		],
-		js: ['connectors/v2/amazon.js'],
-		version: 2
+		js: ['connectors/amazon.js'],
 	},
 
 	{
 		label: 'Amazon Echo',
 		matches: ['*://alexa.amazon.*/spa/*'],
-		js: ['connectors/v2/alexa.js'],
-		version: 2
+		js: ['connectors/alexa.js'],
 	},
 
 	{
 		label: 'VK',
 		matches: ['*://vk.com/*'],
-		js: ['connectors/v2/vk.js'],
-		version: 2
+		js: ['connectors/vk.js'],
 	},
 
 	{
 		label: 'Zvooq',
 		matches: ['*://zvooq.ru/*', '*://zvooq.com/*'],
-		js: ['connectors/v2/zvooq.js'],
-		version: 2
+		js: ['connectors/zvooq.js'],
 	},
 
 	{
 		label: 'Megalyrics',
 		matches: ['*://megalyrics.ru/*'],
-		js: ['connectors/v2/megalyrics.js'],
+		js: ['connectors/megalyrics.js'],
 		allFrames: true,
-		version: 2
 	},
 
 	{
 		label: 'iHeartRadio',
 		matches: ['*://*.iheart.com/*'],
-		js: ['connectors/v2/iheartradio.js'],
-		version: 2
+		js: ['connectors/iheartradio.js'],
 	},
 
 	{
 		label: 'Indie Shuffle',
 		matches: ['*://www.indieshuffle.com/*'],
-		js: ['connectors/v2/indieshuffle.js'],
-		version: 2
+		js: ['connectors/indieshuffle.js'],
 	},
 
 	{
 		label: 'Tuba.FM',
 		matches: ['*://fm.tuba.pl/*'],
-		js: ['connectors/v2/tubafm.js'],
-		version: 2
+		js: ['connectors/tubafm.js'],
 	},
 
 	{
 		label: 'Spotify',
 		matches: ['https://play.spotify.com/*'],
-		js: ['connectors/v2/spotify-play.js'],
-		version: 2
+		js: ['connectors/spotify-play.js'],
 	},
 
 	{
 		label: 'Spotify (Open)',
 		matches: ['https://open.spotify.com/*'],
-		js: ['connectors/v2/spotify-open.js'],
-		version: 2
+		js: ['connectors/spotify-open.js'],
 	},
 
 	{
 		label: 'plug.dj',
 		matches: ['*://plug.dj/*'],
-		js: ['connectors/v2/plugdj.js'],
-		version: 2
+		js: ['connectors/plugdj.js'],
 	},
 
 	{
 		label: 'Slacker (main page)',
 		matches: ['*://www.slacker.com/*'],
-		js: ['connectors/v2/slacker2.js'],
-		version: 2
+		js: ['connectors/slacker2.js'],
 	},
 
 	{
 		label: 'Daytrotter',
 		matches: ['*://www.daytrotter.com/*'],
-		js: ['connectors/v2/daytrotter.js'],
-		version: 2
+		js: ['connectors/daytrotter.js'],
 	},
 
 	{
 		label: 'AOL Radio',
 		matches: ['*://aolradio.slacker.com/*'],
-		js: ['connectors/v2/slacker2.js'],
-		version: 2
+		js: ['connectors/slacker2.js'],
 	},
 
 	{
 		label: 'HillyDilly',
 		matches: ['*://www.hillydilly.com/*'],
-		js: ['connectors/v2/hillydilly.js'],
-		version: 2
+		js: ['connectors/hillydilly.js'],
 	},
 
 	{
 		label: 'Groove Music',
 		matches: ['*://music.microsoft.com/*'],
-		js: ['connectors/v2/groovemusic.js'],
-		version: 2
+		js: ['connectors/groovemusic.js'],
 	},
 
 	{
 		label: '8tracks',
 		matches: ['*://8tracks.com/*'],
-		js: ['connectors/v2/8tracks.js'],
-		version: 2
+		js: ['connectors/8tracks.js'],
 	},
 
 	{
 		label: 'Moje Polskie Radio',
 		matches: ['*://moje.polskieradio.pl/station/*'],
-		js: ['connectors/v2/mojepolskieradio.js'],
-		version: 2
+		js: ['connectors/mojepolskieradio.js'],
 	},
 
 	{
 		label: 'Nova Planet',
 		matches: ['*://www.novaplanet.com/radionova/player'],
-		js: ['connectors/v2/novaplanet.js'],
-		version: 2
+		js: ['connectors/novaplanet.js'],
 	},
 
 	{
 		label: 'Radio+ Belgium',
 		matches: ['*://www.radioplus.be/*', '*://radioplus.be/*'],
-		js: ['connectors/v2/radioplusbe.js'],
-		version: 2
+		js: ['connectors/radioplusbe.js'],
 	},
 
 	{
 		label: 'Douban FM',
 		matches: ['*://douban.fm/*'],
-		js: ['connectors/v2/doubanfm.js'],
-		version: 2
+		js: ['connectors/doubanfm.js'],
 	},
 
 	{
 		label: 'Focus@Will',
 		matches: ['*://www.focusatwill.com/*'],
-		js: ['connectors/v2/focusatwill.js'],
-		version: 2
+		js: ['connectors/focusatwill.js'],
 	},
 
 	{
 		label: 'Le Tourne Disque',
 		matches: ['*://www.letournedisque.com/*'],
-		js: ['connectors/v2/letournedisque.js'],
-		version: 2
+		js: ['connectors/letournedisque.js'],
 	},
 
 	{
 		label: 'Reddit Playlister',
 		matches: ['*://redditplayer.phoenixforgotten.com/*', '*://redditplaylister.phoenixforgotten.com/*'],
-		js: ['connectors/v2/redditplayer.js'],
-		version: 2
+		js: ['connectors/redditplayer.js'],
 	},
 
 	{
 		label: 'Subphonic (owncloud plugin)',
 		matches: ['*://*/*/apps/subphonic/minisub/*'],
-		js: ['connectors/v2/subphonic.js'],
-		version: 2
+		js: ['connectors/subphonic.js'],
 	},
 
 	{
 		label: 'Sullen-Ural',
 		matches: ['*://sullen-ural.ru/*', '*://*.sullen-ural.ru/*'],
-		js: ['connectors/v2/sullen-ural.js'],
-		version: 2
+		js: ['connectors/sullen-ural.js'],
 	},
 
 	{
 		label: 'Digitally Imported',
 		matches: ['*://www.di.fm/*'],
-		js: ['connectors/v2/difm.js'],
-		version: 2
+		js: ['connectors/difm.js'],
 	},
 
 	{
 		label: 'BBC RadioPlayer',
 		matches: ['*://www.bbc.co.uk/radio/player/*'],
-		js: ['connectors/v2/bbcradioplayer.js'],
-		version: 2
+		js: ['connectors/bbcradioplayer.js'],
 	},
 
 	{
 		label: 'Gaana.com',
 		matches: ['*://gaana.com/*'],
-		js: ['connectors/v2/gaana.js'],
-		version: 2
+		js: ['connectors/gaana.js'],
 	},
 
 	{
 		label: 'Yandex.Music',
 		matches: ['*://music.yandex.ru/*', '*://music.yandex.by/*', '*://music.yandex.kz/*', '*://music.yandex.ua/*'],
-		js: ['connectors/v2/yandex.js'],
-		version: 2
+		js: ['connectors/yandex.js'],
 	},
 
 	{
 		label: 'PLEX',
 		matches: ['*://*32400/web/*', '*://plex.tv/web/*', '*://*.plex.tv/web/*'],
-		js: ['connectors/v2/plex.js'],
-		version: 2
+		js: ['connectors/plex.js'],
 	},
 
 	{
 		label: 'Prostopleer',
 		matches: ['*://pleer.net/*'],
-		js: ['connectors/v2/pleer.js'],
-		version: 2
+		js: ['connectors/pleer.js'],
 	},
 
 	{
 		label: 'TuneIn',
 		matches: ['*://tunein.com/*'],
-		js: ['connectors/v2/tunein.js'],
-		version: 2
+		js: ['connectors/tunein.js'],
 	},
 
 	{
 		label: 'MixCloud (Timestamped mixes only)',
 		matches: ['*://mixcloud.com/*', '*://*.mixcloud.com/*'],
-		js: ['connectors/v2/mixcloud.js'],
-		version: 2
+		js: ['connectors/mixcloud.js'],
 	},
 
 	{
 		label: 'ReverbNation',
 		matches: ['*://www.reverbnation.com/*'],
-		js: ['connectors/v2/reverbnation.js'],
-		version: 2
+		js: ['connectors/reverbnation.js'],
 	},
 
 	{
 		label: 'Xiami.com',
 		matches: ['http://www.xiami.com/play*'],
-		js: ['connectors/v2/xiami.js'],
-		version: 2
+		js: ['connectors/xiami.js'],
 	},
 
 	{
 		label: 'NRK Radio',
 		matches: ['*://radio.nrk.no/*'],
-		js: ['connectors/v2/nrkradio.js'],
-		version: 2
+		js: ['connectors/nrkradio.js'],
 	},
 
 	{
 		label: 'Archive.org',
 		matches: ['*://archive.org/details/*'],
-		js: ['connectors/v2/archive.js'],
-		version: 2
+		js: ['connectors/archive.js'],
 	},
 
 	{
 		label: 'Odnoklassniki',
 		matches: ['*://odnoklassniki.ru/*', '*://ok.ru/*'],
-		js: ['connectors/v2/odnoklassniki.js'],
+		js: ['connectors/odnoklassniki.js'],
 		allFrames: true,
-		version: 2
 	},
 
 	{
 		label: '163 Music',
 		matches: ['*://music.163.com/*'],
-		js: ['connectors/v2/163music.js'],
-		version: 2
+		js: ['connectors/163music.js'],
 	},
 
 	{
 		label: 'luooMusic',
 		matches: ['*://www.luoo.net/*'],
-		js: ['connectors/v2/luoo.js'],
-		version: 2
+		js: ['connectors/luoo.js'],
 	},
 
 	{
 		label: 'ambientsleepingpill',
 		matches: ['*://ambientsleepingpill.com/'],
-		js: ['connectors/v2/ambientsleepingpill.js'],
-		version: 2
+		js: ['connectors/ambientsleepingpill.js'],
 	},
 
 	{
 		label: 'TIDAL',
 		matches: ['*://listen.tidalhifi.com/*', '*://listen.tidal.com/*'],
-		js: ['connectors/v2/tidal.js'],
-		version: 2
+		js: ['connectors/tidal.js'],
 	},
 
 	{
 		label: 'Hype Machine',
 		matches: ['*://hypem.com/*'],
-		js: ['connectors/v2/hypem.js'],
-		version: 2
+		js: ['connectors/hypem.js'],
 	},
 
 	{
 		label: 'Radionomy',
 		matches: ['*://www.radionomy.com/*'],
-		js: ['connectors/v2/radionomy.js'],
-		version: 2
+		js: ['connectors/radionomy.js'],
 	},
 
 	{
 		label: 'Jazzandrain',
 		matches: ['*://www.jazzandrain.com/*'],
-		js: ['connectors/v2/jazzandrain.js'],
-		version: 2
+		js: ['connectors/jazzandrain.js'],
 	},
 
 	{
 		label: 'Relaxingbeats',
 		matches: ['*://relaxingbeats.com/*'],
-		js: ['connectors/v2/jazzandrain.js'],
-		version: 2
+		js: ['connectors/jazzandrain.js'],
 	},
 
 	{
 		label: 'Epicmusictime',
 		matches: ['*://epicmusictime.com/*'],
-		js: ['connectors/v2/jazzandrain.js'],
-		version: 2
+		js: ['connectors/jazzandrain.js'],
 	},
 
 	{
 		label: 'Holidaychristmasmusic',
 		matches: ['*://www.holidaychristmasmusic.com/*', '*://holidaychristmasmusic.com/*'],
-		js: ['connectors/v2/jazzandrain.js'],
-		version: 2
+		js: ['connectors/jazzandrain.js'],
 	},
 
 	{
 		label: 'AccuJazz',
 		matches: ['*://www.accuradio.com/pop_player/accujazz/*'],
-		js: ['connectors/v2/accujazz.js'],
-		version: 2
+		js: ['connectors/accujazz.js'],
 	},
 
 	{
 		label: 'AccuRadio',
 		matches: ['*://www.accuradio.com/*'],
-		js: ['connectors/v2/accuradio.js'],
-		version: 2
+		js: ['connectors/accuradio.js'],
 	},
 
 	{
 		label: 'RAW.FM',
 		matches: ['*://www.rawfm.com.au/stream/player*/', '*://rawfm.com.au/stream/player*/'],
-		js: ['connectors/v2/rawfm.js'],
-		version: 2
+		js: ['connectors/rawfm.js'],
 	},
 
 	{
 		label: 'Imusic.am',
 		matches: ['*://imusic.am/*'],
-		js: ['connectors/v2/imusic.am.js'],
-		version: 2
+		js: ['connectors/imusic.am.js'],
 	},
 
 	{
 		label: 'GoEar.Com',
 		matches: ['*://*.goear.com/*', '*://goear.com/*'],
-		js: ['connectors/v2/goear.com.js'],
-		version: 2
+		js: ['connectors/goear.com.js'],
 	},
 
 	{
 		label: 'Wrzuta.pl',
 		matches: ['*://*.wrzuta.pl/*', '*://wrzuta.pl/*'],
-		js: ['connectors/v2/wrzuta.pl.js'],
-		version: 2
+		js: ['connectors/wrzuta.pl.js'],
 	},
 
 	{
 		label: 'Earbits',
 		matches: ['*://www.earbits.com/*'],
-		js: ['connectors/v2/earbits.js'],
-		version: 2
+		js: ['connectors/earbits.js'],
 	},
 
 	{
 		label: 'Player.fm',
 		matches: ['*://player.fm/*'],
-		js: ['connectors/v2/player.fm.js'],
-		version: 2
+		js: ['connectors/player.fm.js'],
 	},
 
 	{
 		label: 'SNDTST',
 		matches: ['*://www.sndtst.com/*', '*://sndtst.com/*'],
-		js: ['connectors/v2/sndtst.js'],
-		version: 2
+		js: ['connectors/sndtst.js'],
 	},
 
 	{
 		label: 'ThisIsMyJam',
 		matches: ['*://www.thisismyjam.com/*'],
-		js: ['connectors/v2/thisismyjam.js'],
-		version: 2
+		js: ['connectors/thisismyjam.js'],
 	},
 
 	{
 		label: 'Wonder.fm',
 		matches: ['*://wonder.fm/*', '*://white-label.fm/*', '*://primary.fm/*'],
-		js: ['connectors/v2/wonder.fm.js'],
-		version: 2
+		js: ['connectors/wonder.fm.js'],
 	},
 
 	{
 		label: 'RadioTunes',
 		matches: ['*://www.radiotunes.com/*'],
-		js: ['connectors/v2/radiotunes.js'],
-		version: 2
+		js: ['connectors/radiotunes.js'],
 	},
 
 	{
 		label: 'RockRadio',
 		matches: ['*://www.rockradio.com/*'],
-		js: ['connectors/v2/radiotunes.js'],
-		version: 2
+		js: ['connectors/radiotunes.js'],
 	},
 
 	{
 		label: 'ClassicalRadio',
 		matches: ['*://www.classicalradio.com/*'],
-		js: ['connectors/v2/radiotunes.js'],
-		version: 2
+		js: ['connectors/radiotunes.js'],
 	},
 
 	{
 		label: 'Radio.com',
 		matches: ['*://player.radio.com*'],
-		js: ['connectors/v2/radio.com.js'],
-		version: 2
+		js: ['connectors/radio.com.js'],
 	},
 
 	{
 		label: 'M2FR',
 		matches: ['*://www.m2radio.fr/*'],
-		js: ['connectors/v2/m2fr.js'],
-		version: 2
+		js: ['connectors/m2fr.js'],
 	},
 
 	{
 		label: 'GetWorkDoneMusic',
 		matches: ['*://www.getworkdonemusic.com/*', '*://getworkdonemusic.com/*'],
-		js: ['connectors/v2/getworkdonemusic.js'],
-		version: 2
+		js: ['connectors/getworkdonemusic.js'],
 	},
 
 	{
 		label: 'Москва ФМ / Питер ФМ',
 		matches: ['*://moskva.fm/*', '*://piter.fm/*'],
-		js: ['connectors/v2/moskva-piter-fm.js'],
-		version: 2
+		js: ['connectors/moskva-piter-fm.js'],
 	},
 
 	{
 		label: 'Jamendo',
 		matches: ['*://www.jamendo.com/*'],
-		js: ['connectors/v2/jamendo.js'],
-		version: 2
+		js: ['connectors/jamendo.js'],
 	},
 
 	{
 		label: 'Whyd',
 		matches: ['*://whyd.com/*'],
-		js: ['connectors/v2/whyd.js'],
-		version: 2
+		js: ['connectors/whyd.js'],
 	},
 
 	{
 		label: 'Mymusiccloud',
 		matches: ['*://www.mymusiccloud.com/*'],
-		js: ['connectors/v2/mymusiccloud.js'],
-		version: 2
+		js: ['connectors/mymusiccloud.js'],
 	},
 
 	{
 		label: 'Bandzone.cz',
 		matches: ['*://bandzone.cz/*'],
-		js: ['connectors/v2/bandzone.cz.js'],
-		version: 2
+		js: ['connectors/bandzone.cz.js'],
 	},
 
 	{
 		label: 'Driveplayer.com',
 		matches: ['*://www.driveplayer.com/*'],
-		js: ['connectors/v2/driveplayer.com.js'],
-		version: 2
+		js: ['connectors/driveplayer.com.js'],
 	},
 
 	{
 		label: 'Chorus',
-		js: ['connectors/v2/chorus.js'],
-		version: 2
+		js: ['connectors/chorus.js'],
 	},
 
 	{
 		label: 'Superplayer.fm',
 		matches: ['*://www.superplayer.fm/*'],
-		js: ['connectors/v2/superplayer.fm.js'],
-		version: 2
+		js: ['connectors/superplayer.fm.js'],
 	},
 
 	{
 		label: 'RMFON',
 		matches: ['*://www.rmfon.pl/*', '*://rmfon.pl/*'],
-		js: ['connectors/v2/rmfon.js'],
-		version: 2
+		js: ['connectors/rmfon.js'],
 	},
 
 	{
 		label: 'Ampya',
 		matches: ['*://ampya.com/*'],
-		js: ['connectors/v2/ampya.js'],
-		version: 2
+		js: ['connectors/ampya.js'],
 	},
 
 	{
 		label: 'Jolicloud',
 		matches: ['*://drive.jolicloud.com/*'],
-		js: ['connectors/v2/jolicloud.js'],
-		version: 2
+		js: ['connectors/jolicloud.js'],
 	},
 
 	{
 		label: 'RADIO Обозреватель',
 		matches: ['*://radio.obozrevatel.com/*'],
-		js: ['connectors/v2/obozrevatel.js'],
-		version: 2
+		js: ['connectors/obozrevatel.js'],
 	},
 
 	{
 		label: 'SlashFavorites',
 		matches: ['*://slashfavorites.com/*'],
-		js: ['connectors/v2/slashfavorites.js'],
-		version: 2
+		js: ['connectors/slashfavorites.js'],
 	},
 
 	{
 		label: 'Solayo',
 		matches: ['*://www.solayo.com/*', '*://solayo.com/*'],
-		js: ['connectors/v2/solayo.js'],
-		version: 2
+		js: ['connectors/solayo.js'],
 	},
 
 	{
 		label: 'Jazzradio',
 		matches: ['*://www.jazzradio.com/*'],
-		js: ['connectors/v2/radiotunes.js'],
-		version: 2
+		js: ['connectors/radiotunes.js'],
 	},
 
 	{
 		label: 'FarFromMoscow',
 		matches: ['*://www.farfrommoscow.com/*'],
-		js: ['connectors/v2/farfrommoscow.js'],
-		version: 2
+		js: ['connectors/farfrommoscow.js'],
 	},
 
 	{
 		label: 'Musicload',
 		matches: ['*://www.musicload.de/*'],
-		js: ['connectors/v2/musicload.js'],
-		version: 2
+		js: ['connectors/musicload.js'],
 	},
 
 	{
 		label: 'Noon Pacific',
 		matches: ['*://noonpacific.com/*', '*://collection.noonpacific.com/*'],
-		js: ['connectors/v2/noonpacific.js'],
-		version: 2
+		js: ['connectors/noonpacific.js'],
 	},
 
 	{
 		label: 'SomaFM',
 		matches: ['*://somafm.com/player/*'],
-		js: ['connectors/v2/somafm.js'],
-		version: 2
+		js: ['connectors/somafm.js'],
 	},
 
 	{
 		label: 'Noisetrade',
 		matches: ['*://www.noisetrade.com/*', '*://noisetrade.com/*'],
-		js: ['connectors/v2/noisetrade.js'],
-		version: 2
+		js: ['connectors/noisetrade.js'],
 	},
 
 	{
 		label: 'Free Music Archive',
 		matches: ['*://www.freemusicarchive.org/*', '*://freemusicarchive.org/*', '*://www.freemusicarchive.com/*', '*://freemusicarchive.com/*'],
-		js: ['connectors/v2/freemusicarchive.js'],
-		version: 2
+		js: ['connectors/freemusicarchive.js'],
 	},
 
 	{
 		label: 'musicase',
 		matches: ['*://musicase.me/*'],
-		js: ['connectors/v2/musicase.js'],
-		version: 2
+		js: ['connectors/musicase.js'],
 	},
 
 	{
 		label: 'Reddit Music Player',
 		matches: ['*://reddit.musicplayer.io/'],
-		js: ['connectors/v2/redditmusicplayer.js'],
-		version: 2
+		js: ['connectors/redditmusicplayer.js'],
 	},
 
 	{
 		label: 'kollekt.fm',
 		matches: ['*://kollekt.fm/*', '*://*.kollekt.fm/*'],
-		js: ['connectors/v2/kollekt.js'],
-		version: 2
+		js: ['connectors/kollekt.js'],
 	},
 
 	{
 		label: 'novoeradio.by',
 		matches: ['*://www.novoeradio.by/*'],
-		js: ['connectors/v2/novoeradio.js'],
-		version: 2
+		js: ['connectors/novoeradio.js'],
 	},
 
 	{
 		label: 'Tradiio',
 		matches: ['*://tradiio.com/*', '*://*.tradiio.com/*'],
-		js: ['connectors/v2/tradiio.js'],
-		version: 2
+		js: ['connectors/tradiio.js'],
 	},
 
 	{
 		label: 'Yandex radio',
 		matches: ['https://radio.yandex.ru/*', 'https://radio.yandex.by/*', 'https://radio.yandex.kz/*', 'https://radio.yandex.ua/*'],
-		js: ['connectors/v2/yandexradio.js'],
-		version: 2
+		js: ['connectors/yandexradio.js'],
 	},
 
 	{
 		label: 'Dash Radio',
 		matches: ['*://dashradio.com/*'],
-		js: ['connectors/v2/dashradio.js'],
-		version: 2
+		js: ['connectors/dashradio.js'],
 	},
 
 	{
 		label: 'post-player',
 		matches: ['*://post-player.org/*'],
-		js: ['connectors/v2/jplayer-postplayer.js'],
-		version: 2
+		js: ['connectors/jplayer-postplayer.js'],
 	},
 
 	{
 		label: 'Dream FM',
 		matches: ['*://dreamfm.biz/*'],
-		js: ['connectors/v2/dreamfm.js'],
-		version: 2
+		js: ['connectors/dreamfm.js'],
 	},
 	{
 		label: 'Ego FM',
 		matches: ['*://www.egofm.de/*', '*://player.addradio.de/player/2366*'],
-		js: ['connectors/v2/ego-fm.js'],
-		version: 2
+		js: ['connectors/ego-fm.js'],
 	},
 
 	{
 		label: 'Radio Paradise',
 		matches: ['*://*.radioparadise.com/*'],
-		js: ['connectors/v2/radioparadise.js'],
+		js: ['connectors/radioparadise.js'],
 		allFrames: true,
-		version: 2
 	},
 
 	{
 		label: 'Beatport',
 		matches: ['*://www.beatport.com/*'],
-		js: ['connectors/v2/beatport.js'],
-		version: 2
+		js: ['connectors/beatport.js'],
 	},
 
 	{
 		label: 'themusicninja',
 		matches: ['*://www.themusicninja.com/*'],
-		js: ['connectors/v2/themusicninja.js'],
-		version: 2
+		js: ['connectors/themusicninja.js'],
 	},
 
 	{
 		label: 'trntbl.me',
 		matches: ['*://*.trntbl.me/*', '*://trntbl.me/*'],
-		js: ['connectors/v2/trntblme.js'],
-		version: 2
+		js: ['connectors/trntblme.js'],
 	},
 
 	{
 		label: 'wavo.me',
 		matches: ['https://wavo.me/*'],
-		js: ['connectors/v2/wavome.js'],
-		version: 2
+		js: ['connectors/wavome.js'],
 	},
 
 	{
 		label: 'dubtrack.fm',
 		matches: ['https://www.dubtrack.fm/*'],
-		js: ['connectors/v2/dubtrack.js'],
-		version: 2
+		js: ['connectors/dubtrack.js'],
 	},
 
 	{
 		label: 'FluxFM Berlin',
 		matches: ['*://www.fluxfm.de/stream/*'],
-		js: ['connectors/v2/flux-fm.js'],
-		version: 2
+		js: ['connectors/flux-fm.js'],
 	},
 
 	{
 		label: 'cubic.fm',
 		matches: ['http://cubic.fm/*'],
-		js: ['connectors/v2/cubicfm.js'],
-		version: 2
+		js: ['connectors/cubicfm.js'],
 	},
 
 	{
 		label: 'Noise FM',
 		matches: ['https://noisefm.ru/*'],
-		js: ['connectors/v2/noisefm.js'],
+		js: ['connectors/noisefm.js'],
 		allFrames: true,
-		version: 2
 	},
 
 	{
 		label: 'WWOZ',
 		matches: ['*://www.wwoz.org/listen/player/*'],
-		js: ['connectors/v2/wwoz.js'],
-		version: 2
+		js: ['connectors/wwoz.js'],
 	},
 
 	{
 		label: 'Sonerezh',
 		matches: ['*://sonerezh.*/*', '*://*/*sonerezh*'],
-		js: ['connectors/v2/sonerezh.js'],
-		version: 2
+		js: ['connectors/sonerezh.js'],
 	},
 
 	{
 		label: 'Evropa 2',
 		matches: ['*://onair.evropa2.cz*'],
-		js: ['connectors/v2/evropa2cz.js'],
-		version: 2
+		js: ['connectors/evropa2cz.js'],
 	},
 
 	{
 		label: 'Europa 2',
 		matches: ['*://onair.europa2.sk*'],
-		js: ['connectors/v2/evropa2cz.js'],
-		version: 2
+		js: ['connectors/evropa2cz.js'],
 	},
 
 	{
 		label: 'Frekvence 1',
 		matches: ['*://vysilani.frekvence1.cz/*'],
-		js: ['connectors/v2/frekvence1cz.js'],
-		version: 2
+		js: ['connectors/frekvence1cz.js'],
 	},
 
 	{
 		label: 'Youradio',
 		matches: ['*://*youradio.cz/*'],
-		js: ['connectors/v2/youradiocz.js'],
-		version: 2
+		js: ['connectors/youradiocz.js'],
 	},
 
 	{
 		label: 'Dance radio',
 		matches: ['*://*danceradio.cz/*'],
-		js: ['connectors/v2/danceradiocz.js'],
-		version: 2
+		js: ['connectors/danceradiocz.js'],
 	},
 
 	{
 		label: 'Rádio Bonton',
 		matches: ['*://*radiobonton.cz/*'],
-		js: ['connectors/v2/danceradiocz.js'],
-		version: 2
+		js: ['connectors/danceradiocz.js'],
 	},
 
 	{
 		label: 'GPMusic',
 		matches: ['*://player.gpmusic.co/*'],
-		js: ['connectors/v2/gpmusic.js'],
-		version: 2
+		js: ['connectors/gpmusic.js'],
 	},
 
 	{
 		label: 'Youtube Jukebox',
 		matches: ['http://youtube.nestharion.de/*'],
-		js: ['connectors/v2/yt-jukebox.js'],
-		version: 2
+		js: ['connectors/yt-jukebox.js'],
 	},
 
 	{
 		label: 'Nightwave Plaza',
 		matches: ['https://plaza.one/*'],
-		js: ['connectors/v2/nightwaveplaza.js'],
-		version: 2
+		js: ['connectors/nightwaveplaza.js'],
 	},
 
 	{
 		label: 'Retrowave',
 		matches: ['http://retrowave.ru/*'],
-		js: ['connectors/v2/retrowave.js'],
-		version: 2
+		js: ['connectors/retrowave.js'],
 	},
 
 	{
 		label: 'Youtubify',
 		matches: ['*://youtubify.vebto.com/*'],
-		js: ['connectors/v2/bemusic.js'],
-		version: 2
+		js: ['connectors/bemusic.js'],
 	},
 
 	{
 		label: 'Paste Radio',
 		matches: ['*://www.pastemagazine.com/radio*'],
-		js: ['connectors/v2/pasteradio.js'],
-		version: 2
+		js: ['connectors/pasteradio.js'],
 	},
 
 	{
 		label: 'Genie',
 		matches: ['http://www.genie.co.kr/player/fPlayer*'],
-		js: ['connectors/v2/genie.js'],
-		version: 2
+		js: ['connectors/genie.js'],
 	},
 
 	{
 		label: 'Tidido',
 		matches: ['*://tidido.com/*'],
-		js: ['connectors/v2/tidido.js'],
-		version: 2
+		js: ['connectors/tidido.js'],
 	},
 
 	{
 		label: 'Playmoss',
 		matches: ['https://playmoss.com/*'],
-		js: ['connectors/v2/playmoss.js'],
-		version: 2
+		js: ['connectors/playmoss.js'],
 	},
 
 	{
 		label: 'Apidog',
 		matches: ['*://apidog.ru/*'],
-		js: ['connectors/v2/apidog.js'],
-		version: 2
+		js: ['connectors/apidog.js'],
 	},
 	{
 		label: 'RBMA Radio',
 		matches: ['*://www.redbullradio.com/*'],
-		js: ['connectors/v2/rbmaradio.js'],
-		version: 2
+		js: ['connectors/rbmaradio.js'],
 	},
 
 	{
 		label: 'GrooveMP3',
 		matches: ['*://groovemp3.com/*', '*://www.groovemp3.com/*'],
-		js: ['connectors/v2/bemusic.js'],
-		version: 2
+		js: ['connectors/bemusic.js'],
 	},
 
 	{
 		label: 'London Burning',
 		matches: ['*://londonbu.fastcast4u.com/'],
-		js: ['connectors/v2/londonburning.js'],
-		version: 2
+		js: ['connectors/londonburning.js'],
 	},
 
 	{
@@ -1028,50 +888,43 @@ define(function () {
 			'*://pinguinplayer.com/*',
 			'*://www.pinguinplayer.com/*',
 		],
-		js: ['connectors/v2/pinguinradio.js'],
-		version: 2
+		js: ['connectors/pinguinradio.js'],
 	},
 
 	{
 		label: 'TRT Türkü',
 		matches: ['*://*trtturku.net/*'],
-		js: ['connectors/v2/trtturku.js'],
-		version: 2
+		js: ['connectors/trtturku.js'],
 	},
 
 	{
 		label: 'Vevo',
 		matches: ['*://www.vevo.com/*'],
-		js: ['connectors/v2/vevo.js'],
-		version: 2
+		js: ['connectors/vevo.js'],
 	},
 
 	{
 		label: 'Saavn',
 		matches: ['*://www.saavn.com/*'],
-		js: ['connectors/v2/saavn.js'],
-		version: 2
+		js: ['connectors/saavn.js'],
 	},
 
 	{
 		label: 'Anghami',
 		matches: ['*://www.anghami.com/*', '*://play.anghami.com/*'],
-		js: ['connectors/v2/anghami.js'],
-		version: 2
+		js: ['connectors/anghami.js'],
 	},
 
 	{
 		label: 'Dewtone',
 		matches: ['*://dewtone.com/*'],
-		js: ['connectors/v2/dewtone.js'],
-		version: 2
+		js: ['connectors/dewtone.js'],
 	},
 
 	{
 		label: 'Style Jukebox',
 		matches: ['*://play.stylejukebox.com/*'],
-		js: ['connectors/v2/stylejukebox.js'],
-		version: 2
+		js: ['connectors/stylejukebox.js'],
 	},
 
 	{
@@ -1080,99 +933,85 @@ define(function () {
 			'*://my.mail.ru/music',
 			'*://my.mail.ru/music/*'
 		],
-		js: ['connectors/v2/mailrumusic.js'],
-		version: 2
+		js: ['connectors/mailrumusic.js'],
 	},
 
 	{
 		label: 'Emby',
 		matches: ['*://*8096/web/*', '*://*8920/web/*', '*://app.emby.media/*'],
-		js: ['connectors/v2/emby.js'],
-		version: 2
+		js: ['connectors/emby.js'],
 	},
 
 	{
 		label: 'Freegal',
 		matches: ['*://*.freegalmusic.com/*'],
-		js: ['connectors/v2/freegal.js'],
-		version: 2
+		js: ['connectors/freegal.js'],
 	},
 
 	{
 		label: 'Joy.fm',
 		matches: ['https://myradiomatic.com/player/joyfm/player.htm'],
-		js: ['connectors/v2/joy.js'],
-		version: 2
+		js: ['connectors/joy.js'],
 	},
 
 	{
 		label: 'Monstercat',
 		matches: ['*://www.monstercat.com/*'],
-		js: ['connectors/v2/monstercat.js'],
-		version: 2
+		js: ['connectors/monstercat.js'],
 	},
 
 	{
 		label: 'Randomtube',
 		matches: ['*://youtube-playlist-randomizer.valami.info/*'],
-		js: ['connectors/v2/randomtube.js'],
-		version: 2
+		js: ['connectors/randomtube.js'],
 	},
 
 	{
 		label: 'Listen.moe',
 		matches: ['*://listen.moe/*'],
-		js: ['connectors/v2/listen.js'],
-		version: 2
+		js: ['connectors/listen.js'],
 	},
 
 	{
 		label: 'Fair Price Music',
 		matches: ['*://www.fairpricemusic.com/*'],
-		js: ['connectors/v2/fairpricemusic.js'],
-		version: 2
+		js: ['connectors/fairpricemusic.js'],
 	},
 
 	{
 		label: 'My Cloud Player',
 		matches: ['*://mycloudplayers.com/*'],
-		js: ['connectors/v2/mycloudplayer.js'],
-		version: 2
+		js: ['connectors/mycloudplayer.js'],
 	},
 
 	{
 		label: 'Radio ULTRA',
 		matches: ['*://player.radioultra.ru/*'],
-		js: ['connectors/v2/radioultra.js'],
-		version: 2
+		js: ['connectors/radioultra.js'],
 	},
 
 	{
 		label: 'Наше Радио',
 		matches: ['*://player.nashe.ru/*'],
-		js: ['connectors/v2/radioultra.js'],
-		version: 2
+		js: ['connectors/radioultra.js'],
 	},
 
 	{
 		label: 'RockFM',
 		matches: ['*://player.rockfm.ru/*'],
-		js: ['connectors/v2/radioultra.js'],
-		version: 2
+		js: ['connectors/radioultra.js'],
 	},
 
 	{
 		label: 'Radio JAZZ',
 		matches: ['*://player.radiojazzfm.ru/*'],
-		js: ['connectors/v2/radioultra.js'],
-		version: 2
+		js: ['connectors/radioultra.js'],
 	},
 
 	{
 		label: 'Best FM',
 		matches: ['*://player.bestfm.ru/*'],
-		js: ['connectors/v2/radioultra.js'],
-		version: 2
+		js: ['connectors/radioultra.js'],
 	},
 
 	{
@@ -1183,7 +1022,6 @@ define(function () {
 			// Web player
 			'*://v6.player.abacast.net/854'
 		],
-		js: ['connectors/v2/jazz24.js'],
-		version: 2
+		js: ['connectors/jazz24.js'],
 	}];
 });

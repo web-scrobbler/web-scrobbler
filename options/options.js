@@ -164,7 +164,6 @@ require([
 			'</a>\r\n' +
 			'<input type="checkbox" id="conn-' + index + '">\r\n' +
 			'<label for="conn-' + index + '">' + connector.label + '</label>\r\n' +
-			(connector.version === 2 ? ' <a href="#" data-dialog="v2_connectors" class="v2">v2</a>' : '') +
 			'</li>');
 
 			var domEl = newEl.appendTo(parent);
