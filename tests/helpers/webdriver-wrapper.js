@@ -25,7 +25,9 @@ var driver = createWebDriver();
 exports.load = function(url, timeout) {
 	helpers.debug(`Loading ${url}`);
 
-	return getUrl(url, timeout)
+	return acceptAlerts().then(() => {
+			return getUrl(url, timeout);
+		})
 		.then(acceptAlerts)
 		.then(injectTestCapture)
 		.then(waitForConnectorInjection)
