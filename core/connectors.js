@@ -1134,6 +1134,13 @@ define(function () {
 	},
 
 	{
+		label: 'My Cloud Player',
+		matches: ['*://mycloudplayers.com/*'],
+		js: ['connectors/v2/mycloudplayer.js'],
+		version: 2
+	},
+
+	{
 		label: 'Radio ULTRA',
 		matches: ['*://player.radioultra.ru/*'],
 		js: ['connectors/v2/radioultra.js'],
