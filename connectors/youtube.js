@@ -64,6 +64,10 @@ function setupDefaultPlayer() {
 	};
 
 	Connector.isStateChangeAllowed = function() {
+		if ($('.videoAdUi').length > 0) {
+			return false;
+		}
+
 		let videoCategory = getItemPropValue('genre');
 		if (videoCategory) {
 			return !scrobbleMusicOnly ||
@@ -117,6 +121,10 @@ function setupMaterialPlayer() {
 
 		let videoTitle = $('.ytp-title-link').text();
 		return Util.processYoutubeVideoTitle(videoTitle);
+	};
+
+	Connector.isStateChangeAllowed = function() {
+		return $('.videoAdUi').length === 0;
 	};
 
 	/**
