@@ -6,7 +6,7 @@ let trackInfo = {};
 let isPlaying = false;
 
 (function () {
-	let scriptUrl = chrome.extension.getURL('connectors/v2/vk-dom-inject.js');
+	let scriptUrl = chrome.extension.getURL('connectors/vk-dom-inject.js');
 	Util.injectScriptIntoDocument(scriptUrl);
 
 	$(window).on('message', ({originalEvent: event}) => {

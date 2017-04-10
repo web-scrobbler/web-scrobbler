@@ -14,8 +14,8 @@
 
   "web_accessible_resources": [
     "icons/icon128.png",
-    "connectors/v2/soundcloud-dom-inject.js",
-    "connectors/v2/vk-dom-inject.js"
+    "connectors/soundcloud-dom-inject.js",
+    "connectors/vk-dom-inject.js"
   ],
 
   "background": {
