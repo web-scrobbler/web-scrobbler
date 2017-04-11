@@ -114,6 +114,7 @@ require([
 		}
 
 		updateOptionsState();
+		updateReleaseNotesUrl();
 	}
 
 	function listConnectors() {
@@ -259,6 +260,12 @@ require([
 			localStorage.useNotifications !== '1' ||
 			localStorage.forceRecognize === '1'
 		);
+	}
+
+	function updateReleaseNotesUrl() {
+		let extVersion = chrome.runtime.getManifest().version;
+		let releaseNotesUrl = `https://github.com/david-sabata/web-scrobbler/releases/tag/v${extVersion}`;
+		$('a#latest-release').attr('href', releaseNotesUrl);
 	}
 
 	function scrollToElement(selector) {
