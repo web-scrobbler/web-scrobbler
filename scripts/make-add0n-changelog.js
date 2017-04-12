@@ -16,7 +16,7 @@ const CHANGELOG_DATA_FILENAME = 'changelog.json';
 
 const repo = { owner: 'david-sabata', repo: 'web-scrobbler' };
 const mdUrlRegEx = /\[(.+?)\]\(.+?\)/g; // [desc](URL)
-const mdHeaderRegEx = /#+\s(.+)/g; // # Header
+const mdLiRegEx = /\*\s(.+)/g; // * Text
 
 /**
  * Entry point.
@@ -61,9 +61,12 @@ function getChangelog() {
  * @return {String} Formatted text
  */
 function stripMarkdown(text) {
-	return text.replace(mdUrlRegEx, '$1')
-		.replace(mdHeaderRegEx, '$1\:')
-		.replace(/\r/g, '');
+	let processedText = text.replace(mdUrlRegEx, '$1');
+	let ulElements = processedText.match(mdLiRegEx).map((element) => {
+		return element.replace(mdLiRegEx, '$1');
+	});
+
+	return ulElements.join('\n');
 }
 
 /**
