@@ -2,7 +2,7 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "Added an option to show notification if song is not recognized by the extension/nAdded an option to force song recognition/nAdded Listen.moe connector/nAdded My Cloud Player connector/nAdded Randomtube connector/nAdded Radio ULTRA connector/nAdded Nashe Radio connector/nAdded Best FM  connector/nAdded Rock FM connector/nAdded Radio JAZZ connector/nImproved authentication on MacOS/nRemoved Audiosplitter connector/nFixed Ambientsleepingpill connector/nFixed Kollekt.fm connector/nFixed Spotify Open connector/nFixed Vevo connector/nFixed Youtube connector"
+        "en-US": "Added an option to show notification if song is not recognized by the extension\nAdded an option to force song recognition\nAdded Listen.moe connector\nAdded My Cloud Player connector\nAdded Randomtube connector\nAdded Radio ULTRA connector\nAdded Nashe Radio connector\nAdded Best FM  connector\nAdded Rock FM connector\nAdded Radio JAZZ connector\nImproved authentication on MacOS\nRemoved Audiosplitter connector\nFixed Ambientsleepingpill connector\nFixed Kollekt.fm connector\nFixed Spotify Open connector\nFixed Vevo connector\nFixed Youtube connector"
       },
       "files": [
         {
