@@ -4,6 +4,8 @@
 
 Last.fm Scrobbler for Chrome was created for people who listen to music online through their browser, and would like to keep an updated playback history using [Last.fm][8]'s scrobbling service.
 
+For more information and discussion please visit [the extension page][12] on add0n.com website.
+
 ## Usage
 
 You can obtain the extension either from Chrome Web Store directly or by installing as an "[unpacked extension][9]".
@@ -48,3 +50,4 @@ See the [license file](LICENSE.txt).
 [9]: https://developer.chrome.com/extensions/getstarted#unpacked
 [10]: https://github.com/david-sabata/web-scrobbler/wiki/Connectors-development
 [11]: https://github.com/david-sabata/web-scrobbler/wiki/Privacy-policy
+[12]: http://add0n.com/lastfm-scrobbler.html
