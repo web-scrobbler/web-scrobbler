@@ -81,6 +81,11 @@ require([
 		chrome.tabs.onActivated.addListener(onTabChanged);
 
 		chrome.runtime.onMessage.addListener(onMessage);
+		chrome.runtime.onInstalled.addListener((details) => {
+			if (details.reason === 'install') {
+				onExtensionInstalled();
+			}
+		});
 	}
 
 	/**
@@ -208,6 +213,13 @@ require([
 	 */
 	function onTabChanged(activeInfo) {
 		setupContextMenu(activeInfo.tabId);
+	}
+
+	/**
+	 * Called when extension is installed first time.
+	 */
+	function onExtensionInstalled() {
+		chrome.tabs.create({ url: 'http://add0n.com/lastfm-scrobbler.html' });
 	}
 
 	/**
