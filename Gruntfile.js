@@ -118,6 +118,9 @@ module.exports = function(grunt) {
 			}
 		},
 		exec: {
+			make_add0n_changelog: {
+				cmd: 'node scripts/make-add0n-changelog'
+			},
 			publish_cws: {
 				cmd: `node scripts/publish-cws ${packageName}`
 			},
@@ -125,6 +128,16 @@ module.exports = function(grunt) {
 				cmd: (...args) => `node tests/runner.js ${args.join(' ')}`
 			}
 		},
+		gitcommit: {
+			add0n_changelog: {
+				options: {
+					message: 'Update changelog on add0n.com'
+				},
+				files: {
+					src: ['.add0n/changelog.json']
+				}
+			}
+		}
 	});
 
 	require('load-grunt-tasks')(grunt);
@@ -155,6 +168,13 @@ module.exports = function(grunt) {
 		grunt.task.run(`bump:${versionType}`);
 		grunt.task.run('publish-cws');
 	});
+
+	/**
+	 * Generate and commit changelog file for add0n.com website.
+	 */
+	grunt.registerTask('publish-add0n', [
+		'exec:make_add0n_changelog', 'gitcommit:add0n_changelog'
+	]);
 
 	/**
 	 * Run core or connectors tests.

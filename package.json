@@ -20,6 +20,7 @@
     "grunt-contrib-imagemin": "^1.0.1",
     "grunt-eslint": "~19.0.0",
     "grunt-exec": "~2.0.0",
+    "grunt-git": "^1.0.3",
     "grunt-jsonlint": "^1.1.0",
     "grunt-lintspaces": "^0.8.0",
     "grunt-preprocess": "~5.1.0",
