@@ -331,6 +331,14 @@ module.exports = function(grunt) {
 	 */
 	function assertBrowserIsSupported(browser) {
 		const supportedBrowsers = ['chrome', 'firefox'];
+
+		if (!browser) {
+			grunt.fail.fatal(
+				'You have not specified browser.\n' +
+				`Currently supported browsers: ${supportedBrowsers.join(', ')}.`
+			);
+		}
+
 		if (supportedBrowsers.indexOf(browser) === -1) {
 			grunt.fail.fatal(`Unknown browser: ${browser}`);
 		}
