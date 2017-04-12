@@ -1,0 +1,15 @@
+{
+  "results": [
+    {
+      "release_notes": {
+        "en-US": "Added:\n\n* Added an option to show notification if song is not recognized by the extension\nNotifications aren't shown if \"Force song recognition\" option is enabled. The option is disabled by default.\n* Added an option to force song recognition\nIf this option is enabled, the extension will scrobble song even if it's not recognized (that means it's not validated by Last.fm). The option is disabled by default.\n* Added Listen.moe connector\n* Added My Cloud Player connector\n* Added Randomtube connector\n* Added Radio ULTRA connector\n* Added Nashe Radio connector\n* Added Best FM  connector\n* Added Rock FM connector\n* Added Radio JAZZ connector\n\nChanged:\n * Improved authentication on MacOS\nOpen Last.fm page directly if Chrome is in fullscreen mode.\n * Removed Audiosplitter connector\nAudiosplitter is closed.\n\nFixed:\n * Fixed Ambientsleepingpill connector\n * Fixed Kollekt.fm connector\n * Fixed Spotify Open connector\nFixed a bug that prevented the connector to recognize a playing song.\nMetadata filter that strips \"Remastered...\"-like strings is moved back.\n * Fixed Vevo connector\nFixed a bug that prevented the extension to parse artist and track correctly.\nAdded an ability to strip \"Official Video\"-like strings from the song title (like the Youtube connector does).\n * Fixed Youtube connector\nFixed a regression that made the extension to scrobble ads. "
+      },
+      "files": [
+        {
+          "created": "11-4-2017"
+        }
+      ],
+      "version": "1.63.0"
+    }
+  ]
+}
