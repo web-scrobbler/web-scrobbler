@@ -13,7 +13,7 @@ Connector.trackSelector = '.player-song-text';
 Connector.isStateChangeAllowed = function() {
 	let track = Connector.getTrack();
 	if (track) {
-		return !Connector.getTrack().startsWith('Thanks for listening to');
+		return !track.startsWith('Thanks for listening to');
 	}
 	return false;
 };
