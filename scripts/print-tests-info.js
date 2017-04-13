@@ -13,13 +13,13 @@ const fs = require('fs');
 const path = require('path');
 
 const IGNORED_FILES = [
-	'soundcloud-dom-inject.js', 'vk-dom-inject.js',
+	'dummy.js', 'soundcloud-dom-inject.js', 'vk-dom-inject.js',
 ];
 
 const extensionDir = path.join(__dirname, '..');
 
 function getConnectorsList() {
-	let connectorsDir = path.join(extensionDir, 'connectors', 'v2');
+	let connectorsDir = path.join(extensionDir, 'connectors');
 	return fs.readdirSync(connectorsDir).map(filename => {
 		return filename.split('/').pop();
 	});
