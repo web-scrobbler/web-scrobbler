@@ -85,12 +85,6 @@ module.exports = function(grunt) {
 		 * Linter configs.
 		 */
 
-		csslint: {
-			options: {
-				csslintrc: '.csslintrc'
-			},
-			src: cssFiles
-		},
 		eslint: {
 			target: jsFiles,
 			options: {
@@ -107,6 +101,9 @@ module.exports = function(grunt) {
 				editorconfig: '.editorconfig',
 				ignores: ['js-comments']
 			}
+		},
+		stylelint: {
+			all: cssFiles
 		},
 
 		/**
@@ -193,6 +190,8 @@ module.exports = function(grunt) {
 	/**
 	 * Lint source code using linters specified below.
 	 */
-	grunt.registerTask('lint', ['eslint', 'csslint', 'jsonlint', 'lintspaces']);
+	grunt.registerTask('lint', [
+		'eslint', 'jsonlint', 'lintspaces', 'stylelint'
+	]);
 	grunt.registerTask('default', ['lint', 'test:core']);
 };
