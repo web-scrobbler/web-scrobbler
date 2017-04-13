@@ -16,8 +16,7 @@ module.exports = function(grunt) {
 	const jsonFiles = ['*.json', '.jshintrc', '.csslintrc'];
 	const htmlFiles = ['options/*.html', 'popups/*.html', 'dialogs/**/*.html'];
 	const cssFiles = [
-		'options/options.css', 'popups/go_play_music.css',
-		'popups/error.css', 'dialogs/base.css'
+		'options/options.css', 'popups/*.css', 'dialogs/base.css'
 	];
 
 	const extensionSources = [

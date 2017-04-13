@@ -1,11 +1,11 @@
 body {
 	background-color: #e3e3e3;
-	margin: 30px 0 0 0;
+	margin: 30px 0 0;
 }
 
 h1, h2, h3, h4, h5 {
-	color: #D51007;
-	font-family: "Lucida Grande",Arial,Helvetica,Verdana,sans-serif;
+	color: #d51007;
+	font-family: "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
 }
 
 .gray {
@@ -68,7 +68,7 @@ input[type=checkbox] {
 a.conn-config,
 a.conn-config:hover {
 	border-bottom: none;
-	color: #D51007;
+	color: #d51007;
 	text-decoration: none;
 }
 
