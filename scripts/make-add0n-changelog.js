@@ -14,9 +14,10 @@ const GitHubApi = require('github');
 const CONTENT_DIRECTORY = '.add0n';
 const CHANGELOG_DATA_FILENAME = 'changelog.json';
 
-const repo = { owner: 'david-sabata', repo: 'web-scrobbler' };
 const mdUrlRegEx = /\[(.+?)\]\(.+?\)/g; // [desc](URL)
 const mdLiRegEx = /\*\s(.+)/g; // * Text
+
+const RELEASE_COUNT = 3;
 
 /**
  * Entry point.
@@ -36,13 +37,17 @@ function main() {
  */
 function getChangelog() {
 	let github = new GitHubApi();
-	return github.repos.getLatestRelease(repo).then((release) => {
-		let changelog = stripMarkdown(release.data.body);
-		let version = release.data.tag_name.substring(1); // skip "v" prefix
-		let created = reformatDate(release.data.published_at);
+	return github.repos.getReleases({
+		owner: 'david-sabata', repo: 'web-scrobbler', per_page: RELEASE_COUNT
+	}).then((response) => {
+		let changelogObject = { results: [] };
 
-		return {
-			results: [{
+		for (let release of response.data) {
+			let changelog = stripMarkdown(release.body);
+			let version = release.tag_name.substring(1); // skip "v" prefix
+			let created = reformatDate(release.published_at);
+
+			changelogObject.results.push({
 				release_notes: {
 					'en-US': changelog
 				},
@@ -50,8 +55,10 @@ function getChangelog() {
 					created
 				}],
 				version
-			}]
-		};
+			});
+		}
+
+		return changelogObject;
 	});
 }
 
