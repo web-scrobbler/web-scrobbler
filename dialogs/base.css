@@ -20,5 +20,7 @@ a {
 }
 
 a:hover {
+	border-bottom: 1px solid #d51007;
 	color: #d51007;
+	text-decoration: none;
 }
