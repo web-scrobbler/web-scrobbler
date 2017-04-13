@@ -42,7 +42,6 @@ define([
 				// @ifdef DEBUG
 				scripts.unshift('core/content/testReporter.js');
 				// @endif
-				scripts.unshift('vendor/underscore-min.js');
 				scripts.unshift('vendor/jquery-2.1.0.min.js');
 
 				scripts.push('core/content/starter.js'); // needs to be the last script injected

@@ -1,6 +1,6 @@
 'use strict';
 
-/* globals _, MetadataFilter, TestReporter, Util */
+/* globals MetadataFilter, TestReporter, Util */
 
 /**
  * Connector base object.
@@ -418,7 +418,7 @@ var BaseConnector = window.BaseConnector || function () {
 	/**
 	 * Throttled call for state changed worker.
 	 */
-	var stateChangedWorkerThrottled = _.throttle(stateChangedWorker, 500);
+	var stateChangedWorkerThrottled = Util.throttle(stateChangedWorker, 500);
 
 	/**
 	 * Listener for the player state changes. Automatically detects the state,
