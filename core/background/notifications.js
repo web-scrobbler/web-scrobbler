@@ -1,9 +1,10 @@
 'use strict';
 
 define([
+	'util',
 	'wrappers/chrome',
 	'services/background-ga'
-], function(chrome, GA) {
+], function(Util, chrome, GA) {
 	const SIGN_IN_ERROR_MESSAGE = 'Unable to log in to Last.fm. Please try later';
 
 	const DEFAULT_OPTIONS_VALUES = {
@@ -26,9 +27,9 @@ define([
 		if (chrome.notifications !== undefined) {
 			// Chrome for MacOS doesn't show notifications in
 			// fullscreen mode.
-			return getPlatformName().then((platform) => {
+			return Util.getPlatformName().then((platform) => {
 				if (platform === 'mac') {
-					return isFullscreenMode().then((isFullscreen) => {
+					return Util.isFullscreenMode().then((isFullscreen) => {
 						return !isFullscreen;
 					});
 				}
@@ -46,26 +47,6 @@ define([
 	 */
 	function isAllowed() {
 		return localStorage.useNotifications === '1';
-	}
-
-	function getPlatformName() {
-		return new Promise((resolve) => {
-			chrome.runtime.getPlatformInfo((info) => {
-				resolve(info.os);
-			});
-		});
-	}
-
-	/**
-	 * Check if browser is in fullscreen mode.
-	 * @return {Promise} Promise that will be resolved with check result
-	 */
-	function isFullscreenMode() {
-		return new Promise((resolve) => {
-			chrome.windows.getCurrent((chromeWindow) => {
-				resolve(chromeWindow.state === 'fullscreen');
-			});
-		});
 	}
 
 	/**
@@ -149,7 +130,7 @@ define([
 			return;
 		}
 
-		let contextMessage = getCurrentTime();
+		let contextMessage = Util.getCurrentTime();
 		if (song.metadata.connector) {
 			let connectorLabel = song.metadata.connector.label;
 			contextMessage = `${contextMessage} · ${connectorLabel}`;
@@ -249,24 +230,6 @@ define([
 		if (notificationId) {
 			chrome.notifications.clear(notificationId, onCleared);
 		}
-	}
-
-	/**
-	 * Get current time in hh:mm am/pm format.
-	 * @return {String} Formatted time string
-	 */
-	function getCurrentTime() {
-		let date = new Date();
-
-		let hours = date.getHours();
-		let minutes = date.getMinutes();
-		let ampm = hours >= 12 ? 'pm' : 'am';
-
-		hours = hours % 12;
-		hours = hours ? hours : 12; // the hour '0' should be '12'
-		minutes = minutes < 10 ? '0' + minutes : minutes;
-
-		return `${hours}:${minutes}${ampm}`;
 	}
 
 	/**

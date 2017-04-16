@@ -4,8 +4,9 @@
  * Wrapper around chrome.storage
  */
 define([
+	'util',
 	'wrappers/chrome'
-], function(chrome) {
+], function(Util, chrome) {
 
 	/**
 	 * Storage namespace wrapper
@@ -83,13 +84,6 @@ define([
 		chrome.storage.local.set(data, innerCb);
 	}
 
-	function hideStringInText(str, text) {
-		if (str) {
-			return text.replace(str, 'xxxxx' + str.substr(5));
-		}
-		return text;
-	}
-
 	/**
 	 * Logs all storage data to console
 	 */
@@ -102,8 +96,8 @@ define([
 
 			let text = JSON.stringify(namespaceData, null, 2);
 			// Hide 'token' and 'sessionID' values if available
-			text = hideStringInText(namespaceData.token, text);
-			text = hideStringInText(namespaceData.sessionID, text);
+			text = Util.hideStringInText(namespaceData.token, text);
+			text = Util.hideStringInText(namespaceData.sessionID, text);
 
 			console.info(`chrome.storage.local.${namespace} = ${text}`);
 		});
