@@ -19,8 +19,8 @@ Connector.trackArtImageSelector = '.now-playing__cover-art .cover-art-image-load
 
 Connector.playButtonSelector = '.control-button[class*="spoticon-play-"]';
 
-Connector.currentTimeSelector = '.player-controls__progress-time:first-child';
+Connector.currentTimeSelector = '.playback-bar__progress-time:first-child';
 
-Connector.durationSelector = '.player-controls__progress-time:last-child';
+Connector.durationSelector = '.playback-bar__progress-time:last-child';
 
 Connector.filter = MetadataFilter.getRemasteredFilter();
