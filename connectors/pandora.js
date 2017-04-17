@@ -19,6 +19,10 @@ function setupNewPandoraPlayer() {
 		let playButtonHref = $('.PlayButton use').attr('xlink:href');
 		return playButtonHref.startsWith('#ic_pause');
 	};
+
+	Connector.isStateChangeAllowed = function() {
+		return $('.Tuner__Audio__TrackDetail__title--ad').length === 0;
+	};
 }
 
 function setupPandoraPlayer() {
