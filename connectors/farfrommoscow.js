@@ -48,5 +48,5 @@ Connector.getArtistTrack = function () {
 Connector.getAlbum = function () {
 	return $('#PlayerFrame iframe').contents().find('#Play').length ? //embed
 			$('#TrackList h1').text() :
-			$('.Release-preview:has(.Hello-Mini-Playing) .Release-select strong').text() || null;
+			$('.Release-preview:has(.Hello-Mini-Playing) .Release-select strong').text();
 };

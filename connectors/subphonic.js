@@ -4,12 +4,8 @@
 
 Connector.playerSelector = '#playdeck';
 
-Connector.getTrackArt = function() {
-	return $('#coverartimage img').attr('src') || null;
-};
-
 Connector.getArtist = function() {
-	return $('#songdetails_artist').text().split(' - ')[0] || null;
+	return $('#songdetails_artist').text().split(' - ')[0];
 };
 
 Connector.trackSelector = '#songdetails_song';
@@ -19,8 +15,10 @@ Connector.isPlaying = function() {
 };
 
 Connector.getAlbum = function() {
-	return $('#songdetails_artist').text().split(' - ')[1] || null;
+	return $('#songdetails_artist').text().split(' - ')[1];
 };
+
+Connector.trackArtImageSelector = '#coverartimage img';
 
 Connector.currentTimeSelector = '#played';
 

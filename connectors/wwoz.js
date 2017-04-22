@@ -4,6 +4,8 @@
 
 Connector.playerSelector = '#player';
 
+Connector.artistSelector = '#player .artist';
+
 Connector.getTrack = function() {
 	var track = $('#player .title').text();
 
@@ -12,11 +14,7 @@ Connector.getTrack = function() {
 	track = track.replace(/\s*\[[^\]]+\]$/, ''); // [whatever]
 	track = track.replace(/\s*\([^\)]*version\)$/i, ''); // (whatever version)
 
-	return track || null;
-};
-
-Connector.getArtist = function() {
-	return $('#player .artist').text() || null;
+	return track;
 };
 
 Connector.isPlaying = function() {

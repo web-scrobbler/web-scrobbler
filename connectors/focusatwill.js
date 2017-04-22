@@ -5,8 +5,7 @@
 Connector.playerSelector = '#scroller';
 
 Connector.getArtist = function () {
-	var text = $('.artist').text().substring(4);
-	return text || null;
+	return $('.artist').text().substring(4);
 };
 
 Connector.trackSelector = '.track';

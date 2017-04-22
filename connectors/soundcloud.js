@@ -41,11 +41,11 @@ Connector.isPlaying = function () {
 };
 
 Connector.getUniqueID = function () {
-	return uniqueID || null;
+	return uniqueID;
 };
 
 Connector.getTrackArt = function () {
-	return artwork_url || null;
+	return artwork_url;
 };
 
 Connector.filter = MetadataFilter.getYoutubeFilter();

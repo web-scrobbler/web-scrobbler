@@ -15,8 +15,7 @@ Connector.getTrack = function() {
 };
 
 Connector.getAlbum = function () {
-	var text = $('.title[data-type="album"]').text().substring(7);
-	return text || null;
+	return $('.title[data-type="album"]').text().substring(7);
 };
 
 Connector.isPlaying = function() {

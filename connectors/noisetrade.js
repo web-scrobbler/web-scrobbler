@@ -82,12 +82,12 @@ Connector.isPlaying = function () {
 
 /** @returns {number|null} track length in seconds */
 Connector.getDuration = function () {
-	return ($('audio')[0] && $('audio')[0].duration) || null;
+	return ($('audio')[0] && $('audio')[0].duration);
 };
 
 /** @returns {String|null} a unique identifier of current track */
 Connector.getUniqueID = function () {
-	return $('audio').first().attr('src') || null;
+	return $('audio').first().attr('src');
 };
 
 Connector.trackArtImageSelector = 'img.album_page_shadow';

@@ -5,13 +5,11 @@
 Connector.playerSelector = '#cM';
 
 Connector.getArtist = function () {
-	var text = $('.present .artist').first().text();
-	return text || null;
+	return $('.present .artist').first().text();
 };
 
 Connector.getTrack = function () {
-	var text = $('.present .title').first().text();
-	return text || null;
+	return $('.present .title').first().text();
 };
 
 Connector.isPlaying = function () {

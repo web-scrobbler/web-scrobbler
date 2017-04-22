@@ -13,13 +13,13 @@ Connector.currentTimeSelector = '.player-position';
 Connector.durationSelector = '.player-duration';
 
 Connector.isPlaying = function () {
-	return $('.player .play-btn').hasClass('hidden') || false;
+	return $('.player .play-btn').hasClass('hidden');
 };
 
 Connector.getTrackArt = function () {
-	return $('.player .media-poster').data('imageUrl') || null;
+	return $('.player .media-poster').data('imageUrl');
 };
 
 Connector.getAlbum = function () {
-	return $('.player .media-poster').data('parentTitle') || null;
+	return $('.player .media-poster').data('parentTitle');
 };

@@ -5,15 +5,14 @@
 Connector.playerSelector = '#player';
 
 Connector.getTrackArt = function() {
-	return $('#playerBarArt').attr('src') ||
-		$('#playingAlbumArt').attr('src') || null;
+	return $('#playerBarArt').attr('src') || $('#playingAlbumArt').attr('src');
 };
 
 Connector.artistSelector = '#player-artist';
 
 Connector.getTrack = function() {
 	return $('#currently-playing-title').text() ||
-		$('#player-song-title').text() || null;
+		$('#player-song-title').text();
 };
 
 Connector.albumSelector = '.player-album';
