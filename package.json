@@ -6,7 +6,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/david-sabata/Chrome-Last.fm-Scrobbler.git"
+    "url": "https://github.com/david-sabata/web-scrobbler.git"
   },
   "devDependencies": {
     "chai": "^3.5.0",
