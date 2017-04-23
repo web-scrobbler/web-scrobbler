@@ -9,6 +9,7 @@
  * @type {String}
  */
 const ARTIST_SEPARATOR = ', ';
+const videoIdRegExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
 
 const Util = {
 	/**
@@ -43,10 +44,9 @@ const Util = {
 	 * @return {String} Video ID
 	 */
 	getYoutubeVideoIdFromUrl(videoUrl) {
-		let regExp = /v=([^#\&\?]*)/;
-		let match = videoUrl.match(regExp);
+		let match = videoUrl.match(videoIdRegExp);
 		if (match) {
-			return match[1];
+			return match[7];
 		}
 
 		return null;
