@@ -52,7 +52,6 @@ Connector.isPlaying = function () {
 };
 
 Connector.getArtist = function () {
-	/*jslint regexp: true*/
 	switch (pageType) {
 		case 'artist':
 			return $('div.bcrumb h1').contents().filter(function () { return this.nodeType === 3; }).text();
@@ -71,7 +70,6 @@ Connector.getArtist = function () {
 };
 
 Connector.getAlbum = function () {
-	/*jslint regexp: true*/
 	switch (pageType) {
 		case 'artist':
 		case 'album':

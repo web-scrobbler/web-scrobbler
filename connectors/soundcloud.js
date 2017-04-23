@@ -69,10 +69,8 @@ var setSongData = function (metadata) {
 
 	// Sometimes the artist name is in the track title.
 	// e.g. Tokyo Rose - Zender Overdrive by Aphasia Records.
-	/*jslint regexp: true*/
 	var regex = /(.+)\s?[\-–:]\s?(.+)/,
 		match = regex.exec(metadata.title);
-	/*jslint regexp: false*/
 
 	// But don't interpret patterns of the form
 	// "[Start of title] #1234 - [End of title]" as Artist - Title

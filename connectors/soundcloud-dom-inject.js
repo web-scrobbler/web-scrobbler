@@ -15,7 +15,7 @@ window.SC_ATTACHED = window.SC_ATTACHED || false;
 	if (window.SC_ATTACHED) {
 		return;
 	}
-	/*jslint unparam: true */
+
 	window.webpackJsonp([], {
 		0: function (e, t, require) {
 			var modules = require.c, moduleid, el;
@@ -41,7 +41,6 @@ window.SC_ATTACHED = window.SC_ATTACHED || false;
 			}
 		}
 	});
-	/*jslint unparam: false */
 
 	if (!eventBus) {
 		console.log('Cannot scrobble, unable to find event bus. Please report at https://github.com/david-sabata/web-scrobbler/issues');
@@ -65,12 +64,10 @@ window.SC_ATTACHED = window.SC_ATTACHED || false;
 	// so send play event
 	currentMetaData = playManager.getCurrentMetadata();
 	if (currentMetaData) {
-		/*jslint nomen: true */
 		window.postMessage({
 			type: 'SC_PLAY',
 			metadata: currentMetaData.sound._previousAttributes
 		}, '*');
-		/*jslint nomen: false */
 	}
 
 	window.SC_ATTACHED = true;
