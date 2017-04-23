@@ -24,7 +24,7 @@ You can get it directly from [Chrome Web Store][1].
 
 ## Development
 
-Check the [wiki page][10] to understand development of connectors. Please also read [contributions guidelines](CONTRIBUTING.md).
+Check the [wiki page][10] to understand development of connectors. Please also read [contributions guidelines](.github/CONTRIBUTING.md).
 
 ### Gitter
 
