@@ -2,7 +2,7 @@
 
 require('node-define');
 
-const RETRIES_COUNT = 5;
+const RETRIES_COUNT = 4;
 
 const fs = require('fs');
 const path = require('path');
