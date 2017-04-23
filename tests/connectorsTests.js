@@ -58,7 +58,7 @@ function getConnectorsToTest() {
 }
 
 function getTestDescription(connector) {
-	var filename = path.basename(connector.js[0], '.js');
+	var filename = getConnectorName(connector);
 	if (options.get('debug')) {
 		return `Connector: ${filename}`;
 	} else {
@@ -78,15 +78,25 @@ function prepareTest(connector, driver, connectorSpec) {
 	});
 }
 
+function getConnectorName(connector) {
+	return path.basename(connector.js[0], '.js');
+}
+
 function runConnectorsTests() {
-	var connectors = getConnectorsToTest();
+	let connectors = getConnectorsToTest();
+
 	if (connectors.length > 0) {
-		var driver = require('./helpers/webdriver-wrapper');
-		var connectorSpec = require('./components/connector-spec.js');
+		let skipList = options.get('skip');
+
+		let driver = require('./helpers/webdriver-wrapper');
+		let connectorSpec = require('./components/connector-spec.js');
 
 		// This code DOESN'T run tests immediately.
 		for (let connector of connectors) {
-			prepareTest(connector, driver, connectorSpec);
+			let filename = getConnectorName(connector);
+			if (skipList.indexOf(filename) === -1) {
+				prepareTest(connector, driver, connectorSpec);
+			}
 		}
 
 		after(function() {

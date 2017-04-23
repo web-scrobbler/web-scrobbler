@@ -4,6 +4,9 @@ const MODE_CORE = 'core';
 const MODE_CONNECTORS = 'connectors';
 
 const TYPE_BOOLEAN = 'boolean';
+const TYPE_ARRAY = 'array';
+
+const SEPARATOR = ',';
 
 /**
  * Default options values.
@@ -14,6 +17,11 @@ const options = {
 		value: false,
 		context: [MODE_CORE, MODE_CONNECTORS],
 		type: TYPE_BOOLEAN
+	},
+	skip: {
+		value: [],
+		context: [MODE_CONNECTORS],
+		type: TYPE_ARRAY
 	},
 	quitOnEnd: {
 		value: true,
@@ -93,6 +101,10 @@ function processOptionsFromArgs() {
 					options[key].value = processBooleanOption(val);
 					break;
 				}
+				case TYPE_ARRAY: {
+					options[key].value = processArrayOption(val);
+					break;
+				}
 			}
 		} catch (err) {
 			console.warn(`Unknown value of '${key}' option: ${val}`);
@@ -128,6 +140,19 @@ function processBooleanOption(val) {
 		return true;
 	} else if (isValueFalsy(val)) {
 		return false;
+	} else {
+		throw new Error('Invalid value');
+	}
+}
+
+/**
+ * Parse value constains listed strings and store it in options object.
+ * @param  {String} val Option raw value
+ * @return {Array} Processed value
+ */
+function processArrayOption(val) {
+	if (val && typeof val === 'string') {
+		return val.split(SEPARATOR).map((value) => value.trim());
 	} else {
 		throw new Error('Invalid value');
 	}

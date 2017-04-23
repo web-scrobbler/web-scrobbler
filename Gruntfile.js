@@ -195,10 +195,12 @@ module.exports = function(grunt) {
 	 *   Run tests for Hype Machine and Dash Radio connectors
 	 *
 	 * Also, you can use following options:
-	 *   - debug: Enable debug mode. Disabled by default.
-	 *     Use true|on|1 value to enable debug mode and false|off|0 to disable it.
+	 *   - debug: enable debug mode. Disabled by default.
+	 *     Use true|on|1 value to enable and false|off|0 to disable debug mode.
 	 *   - quitOnEnd: close browser when all tests are completed. Enabled by default.
-	 *     Use true|on|1 value to enable this feature and false|off|0 to disable it.
+	 *     Use true|on|1 value to enable and false|off|0 to disable this feature.
+	 *   - skip: skip given tests.
+	 *     Tests can be specified as string of tests filenames joined by comma.
 	 *
 	 * Of course, you can mix both options and tests in arguments:
 	 *   > grunt test:8tracks:debug=1
