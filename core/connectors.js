@@ -258,12 +258,6 @@ define(function () {
 	},
 
 	{
-		label: 'Reddit Playlister',
-		matches: ['*://redditplayer.phoenixforgotten.com/*', '*://redditplaylister.phoenixforgotten.com/*'],
-		js: ['connectors/redditplayer.js'],
-	},
-
-	{
 		label: 'Subphonic (owncloud plugin)',
 		matches: ['*://*/*/apps/subphonic/minisub/*'],
 		js: ['connectors/subphonic.js'],
