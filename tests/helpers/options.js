@@ -3,6 +3,8 @@
 const MODE_CORE = 'core';
 const MODE_CONNECTORS = 'connectors';
 
+const TYPE_BOOLEAN = 'boolean';
+
 /**
  * Default options values.
  * @type {Object}
@@ -10,11 +12,13 @@ const MODE_CONNECTORS = 'connectors';
 const options = {
 	debug: {
 		value: false,
-		context: [MODE_CORE, MODE_CONNECTORS]
+		context: [MODE_CORE, MODE_CONNECTORS],
+		type: TYPE_BOOLEAN
 	},
 	quitOnEnd: {
 		value: true,
-		context: [MODE_CONNECTORS]
+		context: [MODE_CONNECTORS],
+		type: TYPE_BOOLEAN
 	},
 };
 
@@ -83,15 +87,15 @@ function processOptionsFromArgs() {
 		}
 
 		let val = rawOptions[key];
-		switch (key) {
-			case 'debug': {
-				processBooleanOption(key, val);
-				break;
+		try {
+			switch (optionsData.type) {
+				case TYPE_BOOLEAN: {
+					options[key].value = processBooleanOption(val);
+					break;
+				}
 			}
-			case 'quitOnEnd': {
-				processBooleanOption(key, val);
-				break;
-			}
+		} catch (err) {
+			console.warn(`Unknown value of '${key}' option: ${val}`);
 		}
 	}
 }
@@ -116,16 +120,16 @@ function getOptionsFromArgs() {
 
 /**
  * Parse boolean option value and store it in options object.
- * @param  {String} key Option key
  * @param  {String} val Option raw value
+ * @return {Boolean} Processed value
  */
-function processBooleanOption(key, val) {
+function processBooleanOption(val) {
 	if (isValueTruthy(val)) {
-		options[key].value = true;
+		return true;
 	} else if (isValueFalsy(val)) {
-		options[key].value = false;
+		return false;
 	} else {
-		console.warn(`Unknown value of '${key}' option: ${val}`);
+		throw new Error('Invalid value');
 	}
 }
 
