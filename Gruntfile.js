@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 		// Tests
 		'tests/**/*.js'
 	];
-	const jsonFiles = ['*.json', '.jshintrc', '.csslintrc'];
+	const jsonFiles = ['*.json', '.stylelintrc'];
 	const htmlFiles = ['options/*.html', 'popups/*.html', 'dialogs/**/*.html'];
 	const cssFiles = [
 		'options/options.css', 'popups/*.css', 'dialogs/base.css'
