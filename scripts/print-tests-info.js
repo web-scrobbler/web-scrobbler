@@ -8,7 +8,6 @@
  *  ‒ list all unused connectors tests.
  */
 
-require('node-define');
 const fs = require('fs');
 const path = require('path');
 
