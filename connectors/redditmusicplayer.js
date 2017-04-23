@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector, Util */
+/* global Connector, MetadataFilter, Util */
 
 Connector.playerSelector = '.ui.controls';
 
@@ -18,5 +18,8 @@ Connector.isPlaying = function() {
 };
 
 Connector.getUniqueID = function() {
-	return $('.ui.item.active').attr('data-id');
+	let videoUrl = $('#player').attr('src');
+	return Util.getYoutubeVideoIdFromUrl(videoUrl);
 };
+
+Connector.filter = MetadataFilter.getYoutubeFilter();
