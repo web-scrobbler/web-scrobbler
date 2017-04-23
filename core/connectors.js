@@ -43,7 +43,7 @@ define(function () {
 	{
 		label: 'Zen Audio Player',
 		matches: ['*://zenplayer.audio/*'],
-		js: ['connectors/zen-audio-player.js'],
+		js: ['connectors/zenplayer.js'],
 	},
 
 	{
@@ -90,7 +90,7 @@ define(function () {
 	},
 
 	{
-		label: 'pakartot',
+		label: 'Pakartot',
 		matches: ['*://www.pakartot.lt/*'],
 		js: ['connectors/pakartot.js'],
 	},
@@ -127,7 +127,7 @@ define(function () {
 	{
 		label: 'Amazon Echo',
 		matches: ['*://alexa.amazon.*/spa/*'],
-		js: ['connectors/alexa.js'],
+		js: ['connectors/amazon-alexa.js'],
 	},
 
 	{
@@ -152,7 +152,7 @@ define(function () {
 	{
 		label: 'iHeartRadio',
 		matches: ['*://*.iheart.com/*'],
-		js: ['connectors/iheartradio.js'],
+		js: ['connectors/iheart.js'],
 	},
 
 	{
@@ -182,13 +182,13 @@ define(function () {
 	{
 		label: 'plug.dj',
 		matches: ['*://plug.dj/*'],
-		js: ['connectors/plugdj.js'],
+		js: ['connectors/plug.dj.js'],
 	},
 
 	{
-		label: 'Slacker (main page)',
+		label: 'Slacker',
 		matches: ['*://www.slacker.com/*'],
-		js: ['connectors/slacker2.js'],
+		js: ['connectors/slacker.js'],
 	},
 
 	{
@@ -200,7 +200,7 @@ define(function () {
 	{
 		label: 'AOL Radio',
 		matches: ['*://aolradio.slacker.com/*'],
-		js: ['connectors/slacker2.js'],
+		js: ['connectors/slacker.js'],
 	},
 
 	{
@@ -224,7 +224,7 @@ define(function () {
 	{
 		label: 'Moje Polskie Radio',
 		matches: ['*://moje.polskieradio.pl/station/*'],
-		js: ['connectors/mojepolskieradio.js'],
+		js: ['connectors/polskieradio.js'],
 	},
 
 	{
@@ -234,15 +234,15 @@ define(function () {
 	},
 
 	{
-		label: 'Radio+ Belgium',
+		label: 'Radioplus',
 		matches: ['*://www.radioplus.be/*', '*://radioplus.be/*'],
-		js: ['connectors/radioplusbe.js'],
+		js: ['connectors/radioplus.js'],
 	},
 
 	{
-		label: 'Douban FM',
+		label: 'Douban.FM',
 		matches: ['*://douban.fm/*'],
-		js: ['connectors/doubanfm.js'],
+		js: ['connectors/douban.fm.js'],
 	},
 
 	{
@@ -264,7 +264,7 @@ define(function () {
 	},
 
 	{
-		label: 'Sullen-Ural',
+		label: 'Sullen Ural',
 		matches: ['*://sullen-ural.ru/*', '*://*.sullen-ural.ru/*'],
 		js: ['connectors/sullen-ural.js'],
 	},
@@ -272,7 +272,7 @@ define(function () {
 	{
 		label: 'Digitally Imported',
 		matches: ['*://www.di.fm/*'],
-		js: ['connectors/difm.js'],
+		js: ['connectors/di.js'],
 	},
 
 	{
@@ -282,15 +282,15 @@ define(function () {
 	},
 
 	{
-		label: 'Gaana.com',
+		label: 'Gaana',
 		matches: ['*://gaana.com/*'],
 		js: ['connectors/gaana.js'],
 	},
 
 	{
-		label: 'Yandex.Music',
+		label: 'Яндекс.Музыка',
 		matches: ['*://music.yandex.ru/*', '*://music.yandex.by/*', '*://music.yandex.kz/*', '*://music.yandex.ua/*'],
-		js: ['connectors/yandex.js'],
+		js: ['connectors/yandex-music.js'],
 	},
 
 	{
@@ -312,7 +312,7 @@ define(function () {
 	},
 
 	{
-		label: 'MixCloud (Timestamped mixes only)',
+		label: 'MixCloud',
 		matches: ['*://mixcloud.com/*', '*://*.mixcloud.com/*'],
 		js: ['connectors/mixcloud.js'],
 	},
@@ -324,7 +324,7 @@ define(function () {
 	},
 
 	{
-		label: 'Xiami.com',
+		label: 'Xiami',
 		matches: ['http://www.xiami.com/play*'],
 		js: ['connectors/xiami.js'],
 	},
@@ -332,11 +332,11 @@ define(function () {
 	{
 		label: 'NRK Radio',
 		matches: ['*://radio.nrk.no/*'],
-		js: ['connectors/nrkradio.js'],
+		js: ['connectors/nrk-radio.js'],
 	},
 
 	{
-		label: 'Archive.org',
+		label: 'Internet Archive',
 		matches: ['*://archive.org/details/*'],
 		js: ['connectors/archive.js'],
 	},
@@ -351,7 +351,7 @@ define(function () {
 	{
 		label: '163 Music',
 		matches: ['*://music.163.com/*'],
-		js: ['connectors/163music.js'],
+		js: ['connectors/163-music.js'],
 	},
 
 	{
@@ -361,13 +361,13 @@ define(function () {
 	},
 
 	{
-		label: 'ambientsleepingpill',
+		label: 'Ambient Sleeping Pill',
 		matches: ['*://ambientsleepingpill.com/'],
 		js: ['connectors/ambientsleepingpill.js'],
 	},
 
 	{
-		label: 'TIDAL',
+		label: 'Tidal',
 		matches: ['*://listen.tidalhifi.com/*', '*://listen.tidal.com/*'],
 		js: ['connectors/tidal.js'],
 	},
@@ -385,25 +385,25 @@ define(function () {
 	},
 
 	{
-		label: 'Jazzandrain',
+		label: 'JazzAndRain',
 		matches: ['*://www.jazzandrain.com/*'],
 		js: ['connectors/jazzandrain.js'],
 	},
 
 	{
-		label: 'Relaxingbeats',
+		label: 'RelaxingBeats',
 		matches: ['*://relaxingbeats.com/*'],
 		js: ['connectors/jazzandrain.js'],
 	},
 
 	{
-		label: 'Epicmusictime',
+		label: 'EpicMusicTime',
 		matches: ['*://epicmusictime.com/*'],
 		js: ['connectors/jazzandrain.js'],
 	},
 
 	{
-		label: 'Holidaychristmasmusic',
+		label: 'HolidayChristmasMusic',
 		matches: ['*://www.holidaychristmasmusic.com/*', '*://holidaychristmasmusic.com/*'],
 		js: ['connectors/jazzandrain.js'],
 	},
@@ -439,9 +439,9 @@ define(function () {
 	},
 
 	{
-		label: 'Wrzuta.pl',
+		label: 'WRZUTA',
 		matches: ['*://*.wrzuta.pl/*', '*://wrzuta.pl/*'],
-		js: ['connectors/wrzuta.pl.js'],
+		js: ['connectors/wrzuta.js'],
 	},
 
 	{
@@ -469,9 +469,9 @@ define(function () {
 	},
 
 	{
-		label: 'Wonder.fm',
+		label: 'Wonder',
 		matches: ['*://wonder.fm/*', '*://white-label.fm/*', '*://primary.fm/*'],
-		js: ['connectors/wonder.fm.js'],
+		js: ['connectors/wonder.js'],
 	},
 
 	{
@@ -499,9 +499,9 @@ define(function () {
 	},
 
 	{
-		label: 'M2FR',
+		label: 'M2 RADIO',
 		matches: ['*://www.m2radio.fr/*'],
-		js: ['connectors/m2fr.js'],
+		js: ['connectors/m2radio.js'],
 	},
 
 	{
@@ -529,7 +529,7 @@ define(function () {
 	},
 
 	{
-		label: 'Mymusiccloud',
+		label: 'MyMusicCloud',
 		matches: ['*://www.mymusiccloud.com/*'],
 		js: ['connectors/mymusiccloud.js'],
 	},
@@ -541,9 +541,9 @@ define(function () {
 	},
 
 	{
-		label: 'Driveplayer.com',
+		label: 'Music Player for Google Drive',
 		matches: ['*://www.driveplayer.com/*'],
-		js: ['connectors/driveplayer.com.js'],
+		js: ['connectors/driveplayer.js'],
 	},
 
 	{
@@ -552,9 +552,9 @@ define(function () {
 	},
 
 	{
-		label: 'Superplayer.fm',
+		label: 'Superplayer',
 		matches: ['*://www.superplayer.fm/*'],
-		js: ['connectors/superplayer.fm.js'],
+		js: ['connectors/superplayer.js'],
 	},
 
 	{
@@ -594,13 +594,13 @@ define(function () {
 	},
 
 	{
-		label: 'Jazzradio',
+		label: 'JazzRadio',
 		matches: ['*://www.jazzradio.com/*'],
 		js: ['connectors/radiotunes.js'],
 	},
 
 	{
-		label: 'FarFromMoscow',
+		label: 'Far from Moscow',
 		matches: ['*://www.farfrommoscow.com/*'],
 		js: ['connectors/farfrommoscow.js'],
 	},
@@ -648,13 +648,13 @@ define(function () {
 	},
 
 	{
-		label: 'kollekt.fm',
+		label: 'KOLLEKT.FM',
 		matches: ['*://kollekt.fm/*', '*://*.kollekt.fm/*'],
-		js: ['connectors/kollekt.js'],
+		js: ['connectors/kollekt.fm.js'],
 	},
 
 	{
-		label: 'novoeradio.by',
+		label: 'Новое Радио',
 		matches: ['*://www.novoeradio.by/*'],
 		js: ['connectors/novoeradio.js'],
 	},
@@ -666,9 +666,9 @@ define(function () {
 	},
 
 	{
-		label: 'Yandex radio',
+		label: 'Яндекс.Радио',
 		matches: ['https://radio.yandex.ru/*', 'https://radio.yandex.by/*', 'https://radio.yandex.kz/*', 'https://radio.yandex.ua/*'],
-		js: ['connectors/yandexradio.js'],
+		js: ['connectors/yandex-radio.js'],
 	},
 
 	{
@@ -680,18 +680,18 @@ define(function () {
 	{
 		label: 'post-player',
 		matches: ['*://post-player.org/*'],
-		js: ['connectors/jplayer-postplayer.js'],
+		js: ['connectors/post-player.js'],
 	},
 
 	{
-		label: 'Dream FM',
+		label: 'DREAMFM',
 		matches: ['*://dreamfm.biz/*'],
 		js: ['connectors/dreamfm.js'],
 	},
 	{
-		label: 'Ego FM',
+		label: 'egoFM',
 		matches: ['*://www.egofm.de/*', '*://player.addradio.de/player/2366*'],
-		js: ['connectors/ego-fm.js'],
+		js: ['connectors/egofm.js'],
 	},
 
 	{
@@ -708,39 +708,39 @@ define(function () {
 	},
 
 	{
-		label: 'themusicninja',
+		label: 'The Music Ninja',
 		matches: ['*://www.themusicninja.com/*'],
 		js: ['connectors/themusicninja.js'],
 	},
 
 	{
-		label: 'trntbl.me',
+		label: 'trntbl',
 		matches: ['*://*.trntbl.me/*', '*://trntbl.me/*'],
-		js: ['connectors/trntblme.js'],
+		js: ['connectors/trntbl.js'],
 	},
 
 	{
-		label: 'wavo.me',
+		label: 'wavo',
 		matches: ['https://wavo.me/*'],
-		js: ['connectors/wavome.js'],
+		js: ['connectors/wavo.js'],
 	},
 
 	{
-		label: 'dubtrack.fm',
+		label: 'Dubtrack.fm',
 		matches: ['https://www.dubtrack.fm/*'],
-		js: ['connectors/dubtrack.js'],
+		js: ['connectors/dubtrack.fm.js'],
 	},
 
 	{
 		label: 'FluxFM Berlin',
 		matches: ['*://www.fluxfm.de/stream/*'],
-		js: ['connectors/flux-fm.js'],
+		js: ['connectors/fluxfm.js'],
 	},
 
 	{
 		label: 'cubic.fm',
 		matches: ['http://cubic.fm/*'],
-		js: ['connectors/cubicfm.js'],
+		js: ['connectors/cubic.fm.js'],
 	},
 
 	{
@@ -765,37 +765,37 @@ define(function () {
 	{
 		label: 'Evropa 2',
 		matches: ['*://onair.evropa2.cz*'],
-		js: ['connectors/evropa2cz.js'],
+		js: ['connectors/evropa2.js'],
 	},
 
 	{
 		label: 'Europa 2',
 		matches: ['*://onair.europa2.sk*'],
-		js: ['connectors/evropa2cz.js'],
+		js: ['connectors/evropa2.js'],
 	},
 
 	{
 		label: 'Frekvence 1',
 		matches: ['*://vysilani.frekvence1.cz/*'],
-		js: ['connectors/frekvence1cz.js'],
+		js: ['connectors/frekvence1.js'],
 	},
 
 	{
 		label: 'Youradio',
 		matches: ['*://*youradio.cz/*'],
-		js: ['connectors/youradiocz.js'],
+		js: ['connectors/youradio.js'],
 	},
 
 	{
 		label: 'Dance radio',
 		matches: ['*://*danceradio.cz/*'],
-		js: ['connectors/danceradiocz.js'],
+		js: ['connectors/danceradio.js'],
 	},
 
 	{
 		label: 'Rádio Bonton',
 		matches: ['*://*radiobonton.cz/*'],
-		js: ['connectors/danceradiocz.js'],
+		js: ['connectors/danceradio.js'],
 	},
 
 	{
@@ -813,7 +813,7 @@ define(function () {
 	{
 		label: 'Nightwave Plaza',
 		matches: ['https://plaza.one/*'],
-		js: ['connectors/nightwaveplaza.js'],
+		js: ['connectors/plaza.js'],
 	},
 
 	{
@@ -860,7 +860,7 @@ define(function () {
 	{
 		label: 'RBMA Radio',
 		matches: ['*://www.redbullradio.com/*'],
-		js: ['connectors/rbmaradio.js'],
+		js: ['connectors/redbullradio.js'],
 	},
 
 	{
@@ -927,7 +927,7 @@ define(function () {
 			'*://my.mail.ru/music',
 			'*://my.mail.ru/music/*'
 		],
-		js: ['connectors/mailrumusic.js'],
+		js: ['connectors/mail.ru.js'],
 	},
 
 	{
@@ -939,13 +939,13 @@ define(function () {
 	{
 		label: 'Freegal',
 		matches: ['*://*.freegalmusic.com/*'],
-		js: ['connectors/freegal.js'],
+		js: ['connectors/freegalmusic.js'],
 	},
 
 	{
 		label: 'Joy.fm',
 		matches: ['https://myradiomatic.com/player/joyfm/player.htm'],
-		js: ['connectors/joy.js'],
+		js: ['connectors/joy.fm.js'],
 	},
 
 	{
@@ -963,7 +963,7 @@ define(function () {
 	{
 		label: 'Listen.moe',
 		matches: ['*://listen.moe/*'],
-		js: ['connectors/listen.js'],
+		js: ['connectors/listen.moe.js'],
 	},
 
 	{
