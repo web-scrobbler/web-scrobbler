@@ -9,7 +9,7 @@ Connector.currentTimeSelector = '.item.start.time';
 Connector.trackArtImageSelector = '.ui.item.active img';
 
 Connector.getArtistTrack = function () {
-	var text = $('.ui.item.active .title').text().replace(/ \[.*/, '');
+	let text = $('.current .title').text().replace(/ \[.*/, '');
 	return Util.splitArtistTrack(text);
 };
 
