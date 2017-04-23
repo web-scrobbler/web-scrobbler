@@ -140,9 +140,9 @@ function processBooleanOption(val) {
 		return true;
 	} else if (isValueFalsy(val)) {
 		return false;
-	} else {
-		throw new Error('Invalid value');
 	}
+
+	throw new Error('Invalid value');
 }
 
 /**
@@ -153,9 +153,9 @@ function processBooleanOption(val) {
 function processArrayOption(val) {
 	if (val && typeof val === 'string') {
 		return val.split(SEPARATOR).map((value) => value.trim());
-	} else {
-		throw new Error('Invalid value');
 	}
+
+	throw new Error('Invalid value');
 }
 
 /**

@@ -61,9 +61,9 @@ function getTestDescription(connector) {
 	var filename = getConnectorName(connector);
 	if (options.get('debug')) {
 		return `Connector: ${filename}`;
-	} else {
-		return `[${filename}]`;
 	}
+
+	return `[${filename}]`;
 }
 
 function prepareTest(connector, driver, connectorSpec) {

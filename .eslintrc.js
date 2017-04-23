@@ -27,16 +27,26 @@ module.exports = {
 		'no-dupe-keys': 'error',
 		// Disallow duplicate case labels
 		'no-duplicate-case': 'error',
+		// Disallow empty block statements
+		'no-empty': 'error',
+		// Disallow reassigning exceptions in `catch` clauses
+		'no-ex-assign': 'error',
 		// Disallow unnecessary boolean casts
 		'no-extra-boolean-cast': 'error',
 		// Disallow unnecessary semicolons
 		'no-extra-semi': 'error',
+		// Disallow reassigning function declarations
+		'no-func-assign': 'error',
+		// Disallow calling global object properties as functions
+		'no-obj-calls': 'error',
 		// Disallow template literal placeholder syntax in regular string
 		'no-template-curly-in-string': 'error',
 		// Disallow unreachable code after return, throw, continue,
 		// and break statements
 		'no-unreachable': 'error',
 		// Require calls to `isNaN()` when checking for `NaN`
+		'no-unsafe-negation': 'error',
+		// Disallow negating the left operand of relational operators
 		'use-isnan': 'error',
 		// Enforce comparing `typeof` expressions against valid strings
 		'valid-typeof': 'error',
@@ -48,12 +58,22 @@ module.exports = {
 		'curly': 'error',
 		// Require the use of === and !==
 		'eqeqeq': 'error',
+		// Disallow `else` blocks after `return` statements in `if` statements
+		'no-else-return': 'error',
+		// Disallow empty functions
+		// 'no-empty-function': 'error',
 		// Disallow assignments to native objects or read-only global variables
 		'no-global-assign': 'error',
 		// Disallow function declarations and expressions inside loop statements
 		'no-loop-func': 'error',
 		// Disallow new operators with the String, Number, and Boolean objects
 		'no-new-wrappers': 'error',
+		// Disallow variable redeclaration
+		'no-redeclare': 'error',
+		// Disallow assignments where both sides are exactly the same
+		'no-self-assign': 'error',
+		// Disallow redundant return statements
+		'no-useless-return': 'error',
 
 		/**
 		 * Strict mode
@@ -123,6 +143,10 @@ module.exports = {
 		/**
 		 * ECMAScript 6
 		 */
+		// Disallow reassigning class members
+		'no-class-assign': 'error',
+		// Disallow modifying variables that are declared using `const`
+		'no-const-assign': 'error',
 		// Disallow spacing around embedded expressions of template strings
 		'template-curly-spacing': 'error',
 

@@ -89,9 +89,9 @@ function promiseClickPlayButton(driver, options) {
 
 	if (opts.playButtonSelector) {
 		return driver.click(opts.playButtonSelector, opts.forceJsClick);
-	} else {
-		return Promise.resolve();
 	}
+
+	return Promise.resolve();
 }
 
 /**

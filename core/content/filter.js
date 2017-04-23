@@ -66,9 +66,9 @@ function MetadataFilter(filterSet) {
 			return [filterFunction];
 		} else if (Object.prototype.toString.call(filters) === '[object Array]') {
 			return filters;
-		} else {
-			return [];
 		}
+
+		return [];
 	}
 
 	function createMergedFilters(filterSet) {
