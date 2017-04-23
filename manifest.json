@@ -31,8 +31,7 @@
     "tabs",
     "notifications",
     "storage",
-    "https://ws.audioscrobbler.com/2.0/",
-    "https://gdata.youtube.com/feeds/api/videos/",
+
     "http://*/",
     "https://*/"
   ],
