@@ -31,7 +31,6 @@ require([
 			let optionId = optionsUiMap[option];
 			$(optionId).attr('checked', localStorage[option] === '1').click(function() {
 				localStorage[option] = this.checked ? 1 : 0;
-				updateOptionsState();
 			});
 		}
 
@@ -113,7 +112,6 @@ require([
 				break;
 		}
 
-		updateOptionsState();
 		updateReleaseNotesUrl();
 	}
 
@@ -253,13 +251,6 @@ require([
 				modal.modal('show');
 			});
 		});
-	}
-
-	function updateOptionsState() {
-		$('#use-unrecognized-song-notifications').attr('disabled',
-			localStorage.useNotifications !== '1' ||
-			localStorage.forceRecognize === '1'
-		);
 	}
 
 	function updateReleaseNotesUrl() {
