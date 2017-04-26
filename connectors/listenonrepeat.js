@@ -10,8 +10,6 @@ Connector.playButtonSelector = '.controls > button:nth-child(4)';
 
 Connector.getArtistTrack = function () {
 	var text = $(Connector.artistTrackSelector).text();
-
-	console.log(text);
 	return Util.processYoutubeVideoTitle(text);
 };
 
