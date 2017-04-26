@@ -1017,5 +1017,11 @@ define(function () {
 			'*://v6.player.abacast.net/854'
 		],
 		js: ['connectors/jazz24.js'],
+	},
+
+	{
+		label: 'Listen on repeat',
+		matches: ['*://listenonrepeat.com/*'],
+		js: ['connectors/listenonrepeat.js'],
 	}];
 });
