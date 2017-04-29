@@ -4,13 +4,6 @@
  * Module that contains some useful helper functions.
  */
 
-/**
- * Separator used to join array of artist names into a single string.
- * @type {String}
- */
-const ARTIST_SEPARATOR = ', ';
-const videoIdRegExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/;
-
 const Util = {
 	/**
 	 * Extract artist and track from Youtube video title.
@@ -44,7 +37,7 @@ const Util = {
 	 * @return {String} Video ID
 	 */
 	getYoutubeVideoIdFromUrl(videoUrl) {
-		let match = videoUrl.match(videoIdRegExp);
+		let match = videoUrl.match(Util.videoIdRegExp);
 		if (match) {
 			return match[7];
 		}
@@ -112,7 +105,7 @@ const Util = {
 	joinArtists(artists) {
 		return artists.map((artist) => {
 			return artist.textContent;
-		}).join(ARTIST_SEPARATOR);
+		}).join(this.ARTIST_SEPARATOR);
 	},
 
 	/**
@@ -282,7 +275,15 @@ const Util = {
 	 * Object that contains no artist and track info.
 	 * @type {Object}
 	 */
-	emptyArtistTrack: { artist: null, track: null }
+	emptyArtistTrack: { artist: null, track: null },
+
+	videoIdRegExp: /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#\&\?]*).*/,
+
+	/**
+	 * Separator used to join array of artist names into a single string.
+	 * @type {String}
+	 */
+	ARTIST_SEPARATOR: ', ',
 };
 
 /**
