@@ -1,12 +1,14 @@
 'use strict';
 
-/* global Connector Util */
+/* global Connector, MetadataFilter, Util */
 
 const videoIdRegExp = /v=?([^#\&\?]*).*/;
 
 Connector.playerSelector = '.player-controls';
 
 Connector.artistTrackSelector = '.player-controls > .video-title:first';
+
+Connector.filter = MetadataFilter.getYoutubeFilter();
 
 Connector.getArtistTrack = function () {
 	var text = $(Connector.artistTrackSelector).text();
