@@ -20,9 +20,9 @@ const videoSelector = '.html5-main-video';
  */
 function setupConnector() {
 	setupGeneralProperties();
+	readConnectorOptions();
 
 	if (isDefaultPlayer()) {
-		readConnectorOptions();
 
 		if (isViewTubeInstalled()) {
 			setupDefaultPlayer();
@@ -106,6 +106,26 @@ function setupDefaultPlayer() {
 	}
 }
 
+let categoryCache = new Map();
+const CATEGORY_MUSIC = 10;
+const YT_API_KEY = 'AIzaSyApDdf5_bvYEq0CjiwKJ_VRo3CrAT3HscQ';
+
+function getVideoCategory(videoId) {
+	if (!categoryCache.has(videoId)) {
+		const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${YT_API_KEY}`;
+		$.getJSON(url)
+			.then((data) => {
+				let category = data.items[0].snippet.categoryId;
+				if (typeof category === 'string') {
+					categoryCache.set(videoId, parseInt(category));
+				}
+			});
+		return null;
+	}
+	return categoryCache.get(videoId);
+
+}
+
 /**
  * Setup Material player.
  */
@@ -124,7 +144,19 @@ function setupMaterialPlayer() {
 	};
 
 	Connector.isStateChangeAllowed = function() {
-		return $('.videoAdUi').length === 0;
+		if ($('.videoAdUi').length > 0) {
+			return false;
+		}
+
+		const params = new URLSearchParams(document.location.search.substring(1));
+		const videoId = params.get('v');
+		let videoCategory = getVideoCategory(videoId);
+		if (videoCategory) {
+			let result = !scrobbleMusicOnly || (scrobbleMusicOnly && videoCategory === CATEGORY_MUSIC);
+			return result;
+		}
+
+		return false;
 	};
 
 	/**
