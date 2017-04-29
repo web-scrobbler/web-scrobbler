@@ -88,7 +88,7 @@ function setupDefaultPlayer() {
 }
 
 let categoryCache = new Map();
-const CATEGORY_MUSIC = 10;
+const CATEGORY_MUSIC = '10';
 const YT_API_KEY = 'AIzaSyApDdf5_bvYEq0CjiwKJ_VRo3CrAT3HscQ';
 
 function getVideoCategory(videoId) {
@@ -101,7 +101,7 @@ function getVideoCategory(videoId) {
 			.then((data) => {
 				let category = data.items[0].snippet.categoryId;
 				if (typeof category === 'string') {
-					categoryCache.set(videoId, parseInt(category));
+					categoryCache.set(videoId, category);
 				}
 			});
 		return null;
