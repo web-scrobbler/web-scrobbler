@@ -227,12 +227,15 @@ function setupBasePlayer() {
 			return false;
 		}
 
+		if (!scrobbleMusicOnly) {
+			return true;
+		}
+
 		const params = new URLSearchParams(document.location.search.substring(1));
 		const videoId = params.get('v');
 		let videoCategory = getVideoCategory(videoId);
-		if (videoCategory) {
-			let result = !scrobbleMusicOnly || (scrobbleMusicOnly && videoCategory === CATEGORY_MUSIC);
-			return result;
+		if (videoCategory !== null) {
+			return videoCategory === CATEGORY_MUSIC;
 		}
 
 		return false;
