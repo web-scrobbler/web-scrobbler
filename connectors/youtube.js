@@ -63,21 +63,6 @@ function setupDefaultPlayer() {
 		return Util.processYoutubeVideoTitle(videoTitle);
 	};
 
-	Connector.isStateChangeAllowed = function() {
-		if ($('.videoAdUi').length > 0) {
-			return false;
-		}
-
-		let videoCategory = getItemPropValue('genre');
-		if (videoCategory) {
-			return !scrobbleMusicOnly ||
-				(scrobbleMusicOnly && videoCategory === 'Music');
-		}
-
-		// Unable to get a video category; allow to scrobble the video
-		return true;
-	};
-
 	/**
 	 * Check if player is off screen.
 	 *
@@ -100,10 +85,6 @@ function setupDefaultPlayer() {
 		let offset = $player.offset();
 		return offset.left < 0 || offset.top < 0;
 	};
-
-	function getItemPropValue(prop) {
-		return $(`meta[itemprop="${prop}"]`).attr('content');
-	}
 }
 
 let categoryCache = new Map();
@@ -141,22 +122,6 @@ function setupMaterialPlayer() {
 
 		let videoTitle = $('.ytp-title-link').text();
 		return Util.processYoutubeVideoTitle(videoTitle);
-	};
-
-	Connector.isStateChangeAllowed = function() {
-		if ($('.videoAdUi').length > 0) {
-			return false;
-		}
-
-		const params = new URLSearchParams(document.location.search.substring(1));
-		const videoId = params.get('v');
-		let videoCategory = getVideoCategory(videoId);
-		if (videoCategory) {
-			let result = !scrobbleMusicOnly || (scrobbleMusicOnly && videoCategory === CATEGORY_MUSIC);
-			return result;
-		}
-
-		return false;
 	};
 
 	/**
@@ -255,6 +220,22 @@ function setupBasePlayer() {
 
 		let videoUrl = $('.ytp-title-link').attr('href');
 		return Util.getYoutubeVideoIdFromUrl(videoUrl);
+	};
+
+	Connector.isStateChangeAllowed = function() {
+		if ($('.videoAdUi').length > 0) {
+			return false;
+		}
+
+		const params = new URLSearchParams(document.location.search.substring(1));
+		const videoId = params.get('v');
+		let videoCategory = getVideoCategory(videoId);
+		if (videoCategory) {
+			let result = !scrobbleMusicOnly || (scrobbleMusicOnly && videoCategory === CATEGORY_MUSIC);
+			return result;
+		}
+
+		return false;
 	};
 
 	function setupMutationObserver() {
