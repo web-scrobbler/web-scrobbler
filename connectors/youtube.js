@@ -92,6 +92,9 @@ const CATEGORY_MUSIC = 10;
 const YT_API_KEY = 'AIzaSyApDdf5_bvYEq0CjiwKJ_VRo3CrAT3HscQ';
 
 function getVideoCategory(videoId) {
+	if (videoId === null) {
+		return null;
+	}
 	if (!categoryCache.has(videoId)) {
 		const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${YT_API_KEY}`;
 		$.getJSON(url)
@@ -231,9 +234,7 @@ function setupBasePlayer() {
 			return true;
 		}
 
-		const params = new URLSearchParams(document.location.search.substring(1));
-		const videoId = params.get('v');
-		let videoCategory = getVideoCategory(videoId);
+		let videoCategory = getVideoCategory(Connector.getUniqueID());
 		if (videoCategory !== null) {
 			return videoCategory === CATEGORY_MUSIC;
 		}
