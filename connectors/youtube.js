@@ -246,18 +246,12 @@ function setupBasePlayer() {
 	};
 
 	function setupMutationObserver() {
-		let isStateReset = false;
 		let isEventListenerSetUp = false;
 
 		let playerObserver = new MutationObserver(function() {
 			if (Connector.isPlayerOffscreen()) {
-				if (!isStateReset) {
-					Connector.resetState();
-					isStateReset = true;
-				}
+				Connector.resetState();
 			} else if ($(videoSelector).length > 0) {
-				isStateReset = false;
-
 				if (isEventListenerSetUp) {
 					return;
 				}
