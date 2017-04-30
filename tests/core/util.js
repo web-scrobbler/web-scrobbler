@@ -122,9 +122,21 @@ const GET_YOUTUBE_VIDEO_ID_FROM_URL_DATA = [{
 	source: 'https://www.youtube.com/watch?v=JJYxNSRX6Oc',
 	expected: 'JJYxNSRX6Oc',
 }, {
-	description: 'should return video ID from URL contains seconds',
+	description: 'should return video ID from URL with several params',
 	source: 'https://www.youtube.com/watch?v=JJYxNSRX6Oc&t=92s',
 	expected: 'JJYxNSRX6Oc',
+}, {
+	description: 'should return video ID from URL when "v" param is in the end of query',
+	source: 'https://www.youtube.com/watch?list=PLjTdkvaV6GM-J-6PHx9Cw5Cg2tI5utWe7&v=ALZHF5UqnU4',
+	expected: 'ALZHF5UqnU4',
+}, {
+	description: 'should return video ID from short URL',
+	source: 'https://youtu.be/Mssm8Ml5sOo',
+	expected: 'Mssm8Ml5sOo',
+}, {
+	description: 'should return video ID from embed video URL',
+	source: 'https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com',
+	expected: 'M7lc1UVf-VE',
 }];
 
 /**
