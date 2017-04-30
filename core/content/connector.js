@@ -288,6 +288,18 @@ var BaseConnector = window.BaseConnector || function () {
 	};
 
 	/**
+	 * Default implementation of a check to see if a scrobbling is allowed.
+	 * The connector resets current state if this function returns falsy result.
+	 *
+	 * Override this method to allow certain states to be reset.
+	 *
+	 * @return {Boolean} True if state change is allowed; false otherwise
+	 */
+	this.isScrobblingAllowed = function() {
+		return true;
+	};
+
+	/**
 	 * Filter object used to filter song metadata.
 	 *
 	 * @see {link MetadataFilter}
@@ -312,6 +324,14 @@ var BaseConnector = window.BaseConnector || function () {
 		currentTime: 0,
 		isPlaying: true
 	};
+
+	/**
+	 * Flag indicates the current state is reset by the connector.
+	 * Used to prevent spamming the controller by empty states.
+	 *
+	 * @type {Boolean}
+	 */
+	let isStateReset = false;
 
 	/**
 	 * Callback set by the reactor to listen on state changes of this connector.
@@ -428,9 +448,16 @@ var BaseConnector = window.BaseConnector || function () {
 	 * Connectors are NOT supposed to override this method.
 	 */
 	this.onStateChanged = function () {
+		if (!this.isScrobblingAllowed()) {
+			this.resetState();
+			return;
+		}
+
 		if (!this.isStateChangeAllowed()) {
 			return;
 		}
+
+		isStateReset = false;
 
 		/**
 		 * Because gathering the state from DOM is quite expensive and mutation
@@ -456,10 +483,16 @@ var BaseConnector = window.BaseConnector || function () {
 	 * Connectors are NOT supposed to override this method.
 	 */
 	this.resetState = function() {
+		if (isStateReset) {
+			return;
+		}
+
 		if (this.reactorCallback !== null) {
 			// TODO: passs 'changedFields' parameter
 			this.reactorCallback({});
 		}
+
+		isStateReset = true;
 	}.bind(this);
 };
 
