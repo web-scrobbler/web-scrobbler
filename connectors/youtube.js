@@ -2,11 +2,14 @@
 
 /* global Connector, MetadataFilter, Util */
 
+const CATEGORY_MUSIC = '10';
+const CATEGORY_ENTERTAINMENT = '24';
+
 /**
- * Allow or disallow to scrobble videos that are in Music category only.
- * @type {Boolean}
+ * Array of categories allowed to be scrobbled.
+ * @type {Array}
  */
-let scrobbleMusicOnly = false;
+let allowedCategories = [];
 
 /**
  * CSS selector of video element. It's common for both players.
@@ -88,7 +91,6 @@ function setupDefaultPlayer() {
 }
 
 let categoryCache = new Map();
-const CATEGORY_MUSIC = '10';
 const YT_API_KEY = 'AIzaSyApDdf5_bvYEq0CjiwKJ_VRo3CrAT3HscQ';
 
 function getVideoCategory(videoId) {
@@ -100,6 +102,7 @@ function getVideoCategory(videoId) {
 		$.getJSON(url)
 			.then((data) => {
 				let category = data.items[0].snippet.categoryId;
+				console.log(category);
 				if (typeof category === 'string') {
 					categoryCache.set(videoId, category);
 				}
@@ -230,13 +233,13 @@ function setupBasePlayer() {
 			return false;
 		}
 
-		if (!scrobbleMusicOnly) {
+		if (allowedCategories.length === 0) {
 			return true;
 		}
 
 		let videoCategory = getVideoCategory(Connector.getUniqueID());
 		if (videoCategory !== null) {
-			return videoCategory === CATEGORY_MUSIC;
+			return allowedCategories.indexOf(videoCategory) !== -1;
 		}
 
 		return false;
@@ -287,11 +290,15 @@ function setupGeneralProperties() {
  * Asynchronously read connector options.
  */
 function readConnectorOptions() {
-	chrome.storage.local.get('Connectors', function(data) {
+	chrome.storage.local.get('Connectors', (data) => {
 		if (data && data.Connectors && data.Connectors.YouTube) {
 			let options = data.Connectors.YouTube;
-			if (options.scrobbleMusicOnly === true) {
-				scrobbleMusicOnly = true;
+
+			if (options.scrobbleMusicOnly) {
+				allowedCategories.push(CATEGORY_MUSIC);
+			}
+			if (options.scrobbleEntertainmentOnly) {
+				allowedCategories.push(CATEGORY_ENTERTAINMENT);
 			}
 
 			console.log(`connector options: ${JSON.stringify(options)}`);

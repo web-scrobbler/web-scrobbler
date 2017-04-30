@@ -22,6 +22,12 @@ require([
 		useNotifications: '#use-notifications',
 		useUnrecognizedSongNotifications: '#use-unrecognized-song-notifications'
 	};
+	const connectorsOptionsUiMap = {
+		YouTube: {
+			scrobbleMusicOnly: '#yt-music-only',
+			scrobbleEntertainmentOnly: '#yt-entertainment-only'
+		}
+	};
 
 	$(function () {
 		var connectorsOptions = ChromeStorage.getNamespace('Connectors');
@@ -34,19 +40,21 @@ require([
 			});
 		}
 
-		$('#yt-music-only')
-			.click(function () {
-				var checked = this.checked;
-				connectorsOptions.get(function(data) {
-					if (!data.YouTube) {
-						data.YouTube = {};
-					}
+		for (let connector in connectorsOptionsUiMap) {
+			for (let option in connectorsOptionsUiMap[connector]) {
+				let optionId = connectorsOptionsUiMap[connector][option];
+				$(optionId).click(function() {
+					connectorsOptions.get((data) => {
+						if (!data[connector]) {
+							data[connector] = {};
+						}
 
-					data.YouTube.scrobbleMusicOnly = checked;
-					connectorsOptions.set(data);
+						data[connector][option] = this.checked;
+						connectorsOptions.set(data);
+					});
 				});
-			});
-
+			}
+		}
 
 		$('button#authorize').click(function () {
 			Notifications.showAuthenticate(LastFM.getAuthUrl);
@@ -75,8 +83,13 @@ require([
 
 		// preload async values from storage
 		connectorsOptions.get(function (data) {
-			if (data && data.YouTube) {
-				$('#yt-music-only').attr('checked', data.YouTube.scrobbleMusicOnly);
+			for (let connector in connectorsOptionsUiMap) {
+				for (let option in connectorsOptionsUiMap[connector]) {
+					if (data[connector]) {
+						let optionId = connectorsOptionsUiMap[connector][option];
+						$(optionId).attr('checked', data[connector][option]);
+					}
+				}
 			}
 		});
 
