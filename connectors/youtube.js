@@ -228,7 +228,7 @@ function setupBasePlayer() {
 		return Util.getYoutubeVideoIdFromUrl(videoUrl);
 	};
 
-	Connector.isStateChangeAllowed = function() {
+	Connector.isScrobblingAllowed = function() {
 		if ($('.videoAdUi').length > 0) {
 			return false;
 		}
