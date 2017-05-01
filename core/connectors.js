@@ -433,12 +433,6 @@ define(function () {
 	},
 
 	{
-		label: 'GoEar.Com',
-		matches: ['*://*.goear.com/*', '*://goear.com/*'],
-		js: ['connectors/goear.com.js'],
-	},
-
-	{
 		label: 'WRZUTA',
 		matches: ['*://*.wrzuta.pl/*', '*://wrzuta.pl/*'],
 		js: ['connectors/wrzuta.js'],
