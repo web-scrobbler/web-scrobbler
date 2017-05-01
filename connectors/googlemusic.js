@@ -25,6 +25,6 @@ Connector.isPlaying = function() {
 	return $('#player *[data-id="play-pause"]').hasClass('playing');
 };
 
-Connector.isStateChangeAllowed = function() {
+Connector.isScrobblingAllowed = function() {
 	return Connector.getArtist() !== 'Subscribe to go ad-free';
 };

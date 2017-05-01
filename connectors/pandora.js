@@ -20,7 +20,7 @@ function setupNewPandoraPlayer() {
 		return playButtonHref.startsWith('#ic_pause');
 	};
 
-	Connector.isStateChangeAllowed = function() {
+	Connector.isScrobblingAllowed = function() {
 		return $('.Tuner__Audio__TrackDetail__title--ad').length === 0;
 	};
 }
