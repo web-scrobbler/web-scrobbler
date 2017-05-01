@@ -12,6 +12,12 @@ const CATEGORY_ENTERTAINMENT = '24';
 let allowedCategories = [];
 
 /**
+ * "Video Id=Category" map.
+ * @type {Map}
+ */
+let categoryCache = new Map();
+
+/**
  * CSS selector of video element. It's common for both players.
  * @type {String}
  */
@@ -96,8 +102,11 @@ function setupDefaultPlayer() {
 	};
 }
 
-let categoryCache = new Map();
-
+/**
+ * Get video category using Youtube API.
+ * @param  {String} videoId Video ID
+ * @return {String} Video category
+ */
 function getVideoCategory(videoId) {
 	if (videoId === null) {
 		return null;
