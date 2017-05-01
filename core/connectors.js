@@ -132,7 +132,7 @@ define(function () {
 
 	{
 		label: 'Zvooq',
-		matches: ['*://zvooq.ru/*', '*://zvooq.com/*'],
+		matches: ['*://zvooq.com/*'],
 		js: ['connectors/zvooq.js'],
 	},
 
