@@ -47,12 +47,6 @@ define(function () {
 	},
 
 	{
-		label: 'Thesixtyone',
-		matches: ['*://www.thesixtyone.com/*'],
-		js: ['connectors/61.js'],
-	},
-
-	{
 		label: 'Google Play Music',
 		matches: ['*://play.google.com/music/*'],
 		js: ['connectors/googlemusic.js'],
