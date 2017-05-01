@@ -18,6 +18,12 @@ let allowedCategories = [];
 const videoSelector = '.html5-main-video';
 
 /**
+ * Youtube API key used to get video category.
+ * @type {String}
+ */
+const YT_API_KEY = 'AIzaSyA3VNMxXEIr7Ml3_zUuzA7Ilba80A657KE';
+
+/**
  * Setup connector according to current Youtube design.
  * This function is called on connector inject.
  */
@@ -91,7 +97,6 @@ function setupDefaultPlayer() {
 }
 
 let categoryCache = new Map();
-const YT_API_KEY = 'AIzaSyApDdf5_bvYEq0CjiwKJ_VRo3CrAT3HscQ';
 
 function getVideoCategory(videoId) {
 	if (videoId === null) {
