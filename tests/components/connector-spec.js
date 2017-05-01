@@ -51,7 +51,7 @@ exports.shouldContainPlayerElement = function(driver, options) {
  * @param  {Function} waitUntil Function that returns promise resolves with truthy value
  */
 module.exports.shouldBehaveLikeMusicSite = function(driver, options) {
-	it('should load site and recognize a song', function() {
+	it('should load website and recognize a song', function() {
 		return promiseBehaveLikeMusicSite(driver, options);
 	});
 };
