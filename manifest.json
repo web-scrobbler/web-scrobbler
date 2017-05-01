@@ -28,6 +28,7 @@
   "options_page": "options/options.html",
 
   "permissions": [
+    "contextMenus",
     "tabs",
     "notifications",
     "storage",

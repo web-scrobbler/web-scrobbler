@@ -16,8 +16,9 @@ require([
 	'objects/injectResult',
 	'pageAction',
 	'controller',
-	'chromeStorage'
-], function(GA, LastFM, Notifications, inject, InjectResult, PageAction, Controller, ChromeStorage) {
+	'chromeStorage',
+	'config'
+], function(GA, LastFM, Notifications, inject, InjectResult, PageAction, Controller, ChromeStorage, Config) {
 
 	/**
 	 * Single controller instance for each tab with injected script
@@ -38,16 +39,30 @@ require([
 	 * @return {Object} Controller instance for tab
 	 */
 	function getControllerByTabId(tabId) {
-		if (!tabControllers[tabId]) {
-			console.warn('Missing controller for tab ' + tabId);
-		}
-
 		return tabControllers[tabId];
 	}
 
-	// setup listener for messages from connectors
-	chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-		var ctrl;
+	/**
+	 * Setup Chrome event listeners. Called on startup.
+	 */
+	function setupChromeEventListeners() {
+		chrome.tabs.onUpdated.addListener(onTabUpdated);
+		chrome.tabs.onRemoved.addListener(onTabRemoved);
+		chrome.tabs.onActiveChanged.addListener(setupContextMenu);
+
+		chrome.pageAction.onClicked.addListener(onPageActionClicked);
+
+		chrome.runtime.onMessage.addListener(onMessage);
+	}
+
+	/**
+	 * Called when something sent message to background script.
+	 * @param  {Any} request Message sent by the calling script
+	 * @param  {Object} sender Message sender
+	 * @param  {Function} sendResponse Response callback
+	 */
+	function onMessage(request, sender, sendResponse) {
+		let ctrl;
 
 		switch (request.type) {
 			case 'v2.stateChanged':
@@ -91,10 +106,26 @@ require([
 		}
 
 		return true;
-	});
+	}
 
-	// setup listener for tab updates
-	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
+	/**
+	 * Called when user clicks on page action icon.
+	 * @param  {Objeect} tab Tab object
+	 */
+	function onPageActionClicked(tab) {
+		let ctrl = getControllerByTabId(tab.id);
+		if (ctrl) {
+			ctrl.onPageActionClicked(tab);
+		}
+	}
+
+	/**
+	 * Called when tab is updated.
+	 * @param  {Number} tabId Tab ID
+	 * @param  {Object} changeInfo Object contains changes of updated tab
+	 * @param  {Objeect} tab State of updated tab
+	 */
+	function onTabUpdated(tabId, changeInfo, tab) {
 		// wait for navigation to complete (this does not mean page onLoad)
 		if (changeInfo.status !== 'complete') {
 			return;
@@ -121,14 +152,12 @@ require([
 					break;
 				}
 
-				case InjectResult.MATCHED_BUT_DISABLED: {
-					new PageAction(tabId).setWebsiteDisabled();
-					break;
-				}
-
+				case InjectResult.MATCHED_BUT_DISABLED:
 				case InjectResult.MATCHED_AND_INJECTED: {
 					// intentionally overwrite previous controller, if any
-					tabControllers[tabId] = new Controller(tabId, result.connector);
+					let enabled = result.type === InjectResult.MATCHED_AND_INJECTED;
+					tabControllers[tabId] = new Controller(tabId, result.connector, enabled);
+					setupContextMenu(tabId);
 
 					GA.event('core', 'inject', result.connector.label);
 
@@ -140,21 +169,65 @@ require([
 				}
 			}
 		});
-	});
-	chrome.tabs.onRemoved.addListener((tabId) => {
+	}
+
+	/**
+	 * Called when tab is closed.
+	 * @param  {Number} tabId Tab ID
+	 */
+	function onTabRemoved(tabId) {
 		if (tabControllers[tabId]) {
 			console.log(`Tab ${tabId}: remove controller`);
 			delete tabControllers[tabId];
 		}
-	});
+	}
 
-	// setup listener for page action clicks
-	chrome.pageAction.onClicked.addListener(function(tab) {
-		var ctrl = getControllerByTabId(tab.id);
-		if (ctrl) {
-			ctrl.onPageActionClicked(tab);
+	/**
+	 * Setup context menu of page action icon.
+	 * Called when active tab is changed.
+	 * @param  {Number} tabId Tab ID
+	 */
+	function setupContextMenu(tabId) {
+		let controller = getControllerByTabId(tabId);
+		if (!controller) {
+			return;
 		}
-	});
+		let connector = controller.getConnector();
+
+		chrome.contextMenus.removeAll();
+		if (controller.isEnabled()) {
+			addContextMenuItem(`Disable ${connector.label} connector`, () => {
+				controller.setEnabled(false);
+				Config.setConnectorEnabled(connector.label, false);
+
+				setupContextMenu(tabId);
+			});
+			addContextMenuItem('Disable connector until tab is closed', () => {
+				controller.setEnabled(false);
+				setupContextMenu(tabId);
+			});
+		} else {
+			addContextMenuItem(`Enable ${connector.label} connector`, () => {
+				controller.setEnabled(true);
+				Config.setConnectorEnabled(connector, true);
+				setupContextMenu(tabId);
+			});
+		}
+
+		addContextMenuItem(null, null, 'separator');
+	}
+
+	/**
+	 * Helper function to add item to page action context menu.
+	 * @param {String} title Item title
+	 * @param {Function} onclick Function that will be called on item click
+	 * @param {String} [type='normal'] Item type
+	 */
+	function addContextMenuItem(title, onclick, type = 'normal') {
+		chrome.contextMenus.create({
+			title, type, onclick, contexts: ['page_action'],
+		});
+	}
 
 	/**
 	 * Replace the extension version stored in
@@ -176,6 +249,7 @@ require([
 	 */
 	function startup() {
 		updateVersionInStorage();
+		setupChromeEventListeners();
 
 		// track background page loaded - happens once per browser session
 		GA.send('pageview', '/background-loaded?version=' + chrome.app.getDetails().version);

@@ -103,7 +103,7 @@ define([], function() {
 				documents.SONG_INFO);
 		};
 
-		this.setWebsiteDisabled = function() {
+		this.setSiteDisabled = function() {
 			setPageAction(icons.DISABLED,
 				'This site is supported, but you disabled it',
 				'');
