@@ -1014,7 +1014,7 @@ define(function () {
 	},
 
 	{
-		label: 'Listen on repeat',
+		label: 'ListenOnRepeat',
 		matches: ['*://listenonrepeat.com/*'],
 		js: ['connectors/listenonrepeat.js'],
 	}];
