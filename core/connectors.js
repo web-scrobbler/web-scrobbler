@@ -499,9 +499,15 @@ define(function () {
 	},
 
 	{
-		label: 'Москва ФМ / Питер ФМ',
-		matches: ['*://moskva.fm/*', '*://piter.fm/*'],
-		js: ['connectors/moskva-piter-fm.js'],
+		label: 'Москва ФМ',
+		matches: ['*://moskva.fm/*'],
+		js: ['connectors/moskva.fm.js'],
+	},
+
+	{
+		label: 'Питер ФМ',
+		matches: ['*://piter.fm/*'],
+		js: ['connectors/moskva.fm.js'],
 	},
 
 	{
