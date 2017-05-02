@@ -2,12 +2,12 @@
 
 /* global Connector */
 
-Connector.playerSelector = '#app';
+Connector.playerSelector = '.now-playing-wrapper';
 
-Connector.artistSelector = '.text-right > span:nth-child(2)';
+Connector.artistSelector = '.text-right .title';
 
-Connector.trackSelector = '.text-right > span:nth-child(3)';
+Connector.trackSelector = '.text-right .track';
 
-Connector.trackArtImageSelector = 'div.now-playing-block:nth-child(3) > div:nth-child(1)';
+Connector.trackArtImageSelector = '.now-playing-block.right .image';
 
 Connector.playButtonSelector = '.play';
