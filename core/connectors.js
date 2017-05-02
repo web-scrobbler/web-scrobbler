@@ -1023,5 +1023,11 @@ define(function () {
 		label: 'ListenOnRepeat',
 		matches: ['*://listenonrepeat.com/*'],
 		js: ['connectors/listenonrepeat.js'],
+	},
+
+	{
+		label: 'Duckburg Radio',
+		matches: ['*://*.radio-mb.com/*'],
+		js: ['connectors/radio-mb.js'],
 	}];
 });
