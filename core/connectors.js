@@ -1017,8 +1017,8 @@ define(function () {
 		label: 'Planet Radio',
 		matches: ['*://planetradio.co.uk/*/player/*'],
 		js: ['connectors/planetradio.js'],
-	},       
-       
+	},
+
 	{
 		label: 'ListenOnRepeat',
 		matches: ['*://listenonrepeat.com/*'],
