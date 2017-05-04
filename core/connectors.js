@@ -1020,6 +1020,12 @@ define(function () {
 	},
 
 	{
+		label: 'Roxx Radio',
+		matches: ['*://roxx.gr/radio/*'],
+		js: ['connectors/roxx.js'],
+	},
+
+	{
 		label: 'ListenOnRepeat',
 		matches: ['*://listenonrepeat.com/*'],
 		js: ['connectors/listenonrepeat.js'],
