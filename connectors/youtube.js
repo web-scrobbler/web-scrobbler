@@ -116,7 +116,6 @@ function getVideoCategory(videoId) {
 		$.getJSON(url)
 			.then((data) => {
 				let category = data.items[0].snippet.categoryId;
-				console.log(category);
 				if (typeof category === 'string') {
 					categoryCache.set(videoId, category);
 				}
