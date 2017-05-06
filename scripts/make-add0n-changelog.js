@@ -38,11 +38,14 @@ function main() {
 function getChangelog() {
 	let github = new GitHubApi();
 	return github.repos.getReleases({
-		owner: 'david-sabata', repo: 'web-scrobbler', per_page: RELEASE_COUNT
+		owner: 'david-sabata', repo: 'web-scrobbler'
 	}).then((response) => {
 		let changelogObject = { results: [] };
+		let releases = response.data.sort((a, b) => {
+			return a.published_at.localeCompare(b.published_at);
+		}).reverse().slice(0, RELEASE_COUNT);
 
-		for (let release of response.data) {
+		for (let release of releases) {
 			let changelog = stripMarkdown(release.body);
 			let version = release.tag_name.substring(1); // skip "v" prefix
 			let created = reformatDate(release.published_at);
