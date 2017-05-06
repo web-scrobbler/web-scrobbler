@@ -28,7 +28,7 @@
     "load-grunt-tasks": "^3.5.2",
     "mocha": "~3.3.0",
     "node-define": "~0.1.1",
-    "node-github": "0.0.3",
+    "github": "~9.2.0",
     "requirejs": "~2.3.2",
     "selenium-webdriver": "~3.4.0",
     "stylelint-order": "^0.4.3",
