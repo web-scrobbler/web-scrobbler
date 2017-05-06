@@ -2,6 +2,17 @@
   "results": [
     {
       "release_notes": {
+        "en-US": "Added Duckburg Radio connector\nAdded ListenOnRepeat connector\nAdded Planet Radio connector\nAdded Roxx Radio connector\nAdded an option to scrobble Youtube videos from \"Entertainment\" category only\nAdded URL to 'Custom URL patterns' page to the options page\nChanged default cover art image\nImproved Reddit Music Player connector\nRemoved GoEar connector\nRemoved Reddit Playlister connector\nRemoved Thesixtyone connector\nRemoved option dependency\nUpdate names of supported services\nFixed 163 Music connector\nFixed Pandora connector\nFixed Reddit Music Player connector\nFixed Spotify Open connector\nFixed Youtube connector\nFixed other minor issues"
+      },
+      "files": [
+        {
+          "created": "6-5-2017"
+        }
+      ],
+      "version": "1.64.0"
+    },
+    {
+      "release_notes": {
         "en-US": "Added an option to show notification if song is not recognized by the extension\nAdded an option to force song recognition\nAdded Listen.moe connector\nAdded My Cloud Player connector\nAdded Randomtube connector\nAdded Radio ULTRA connector\nAdded Nashe Radio connector\nAdded Best FM  connector\nAdded Rock FM connector\nAdded Radio JAZZ connector\nImproved authentication on MacOS\nRemoved Audiosplitter connector\nFixed Ambientsleepingpill connector\nFixed Kollekt.fm connector\nFixed Spotify Open connector\nFixed Vevo connector\nFixed Youtube connector"
       },
       "files": [
@@ -10,6 +21,17 @@
         }
       ],
       "version": "1.63.0"
+    },
+    {
+      "release_notes": {
+        "en-US": "Many improvements for Youtube connector"
+      },
+      "files": [
+        {
+          "created": "24-3-2017"
+        }
+      ],
+      "version": "1.62.2"
     }
   ]
 }
