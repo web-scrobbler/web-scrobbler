@@ -155,7 +155,8 @@ function promiseBehaveLikeMusicSite(driver, options) {
 		return promiseClickPlayButton(driver, opts);
 	}).then(function() {
 		if (opts.waitUntil) {
-			return driver.wait(opts.waitUntil, WAIT_UNTIL_TIMEOUT);
+			let timeout = opts.waitUntilTimeout || WAIT_UNTIL_TIMEOUT;
+			return driver.wait(opts.waitUntil, timeout);
 		}
 	}).then(function() {
 		return promiseRecognizeSong(driver, opts);
