@@ -13,6 +13,6 @@ Connector.getUniqueID = () => {
 	return Util.getYoutubeVideoIdFromUrl(videoUrl);
 };
 
-Connector.filter = new MetadataFilter({
+Connector.filter = MetadataFilter.getYoutubeFilter().append({
 	track: (text) => text.replace(/ \[.*/, '')
 });

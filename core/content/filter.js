@@ -13,7 +13,8 @@
  * @param {Object} filterSet Set of filters
  */
 function MetadataFilter(filterSet) {
-	const mergedFilterSet = createMergedFilters(filterSet);
+	let mergedFilterSet = {};
+	appendFilters(filterSet);
 
 	/**
 	 * Filter text using filters for artist metadata field.
@@ -40,6 +41,16 @@ function MetadataFilter(filterSet) {
 	 */
 	this.filterAlbum = function(text) {
 		return filterField(text, mergedFilterSet.album);
+	};
+
+	/**
+	 * Append new filter set to existing filters.
+	 * @param  {Object} filterSet Set of filters
+	 * @return {MetadataFilter} Current instance
+	 */
+	this.append = function(filterSet) {
+		appendFilters(filterSet);
+		return this;
 	};
 
 	/**
@@ -71,13 +82,16 @@ function MetadataFilter(filterSet) {
 		return [];
 	}
 
-	function createMergedFilters(filterSet) {
-		let mergedFilterSet = {};
+	function appendFilters(filterSet) {
 		for (let field of ['artist', 'track', 'album']) {
-			mergedFilterSet[field] = createFilters(filterSet[field])
+			if (mergedFilterSet[field] === undefined) {
+				mergedFilterSet[field] = [];
+			}
+
+			mergedFilterSet[field] = mergedFilterSet[field]
+				.concat(createFilters(filterSet[field]))
 				.concat(createFilters(filterSet.all));
 		}
-		return mergedFilterSet;
 	}
 }
 
