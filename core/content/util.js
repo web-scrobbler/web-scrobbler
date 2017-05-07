@@ -37,6 +37,10 @@ const Util = {
 	 * @return {String} Video ID
 	 */
 	getYoutubeVideoIdFromUrl(videoUrl) {
+		if (!videoUrl) {
+			return null;
+		}
+
 		let match = videoUrl.match(Util.videoIdRegExp);
 		if (match) {
 			return match[7];
