@@ -7,5 +7,5 @@ Connector.artistSelector = '#track-title > #artist';
 Connector.trackSelector = '#track-title > #title';
 
 Connector.isPlaying = function() {
-	return $('#play').text() == "pause";
+	return $('#play').text() === 'pause';
 };
