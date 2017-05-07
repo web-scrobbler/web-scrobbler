@@ -12,7 +12,7 @@ const TestReporter = {
 	 * Notify the test that connector is injected.
 	 * @param  {Object} connector Injected connector
 	 */
-	reportInjection: function(connector) {
+	reportInjection(connector) {
 		this.sendEventToTest('connector_injected');
 
 		if (connector.playerSelector &&
@@ -24,7 +24,7 @@ const TestReporter = {
 	/**
 	 * Notify the test that player element exists.
 	 */
-	reportPlayerElementExists: function() {
+	reportPlayerElementExists() {
 		this.sendEventToTest('player_element_exists');
 	},
 
@@ -32,15 +32,14 @@ const TestReporter = {
 	 * Notify the test that song is recognized.
 	 * @param  {Object} song Recognized song
 	 */
-	reportSongRecognition: function(song) {
+	reportSongRecognition(song) {
 		this.sendEventToTest('connector_state_changed', song);
 	},
 
 	/**
 	 * Dispatch a JS event to interact with tests.
-	 * @param  {String} event Event to send to tests
-	 * @param  {Object} obj Object to send to tests
-	 * @param  {Boolean} err True if the message is an error
+	 * @param  {String} detail Event to send to tests
+	 * @param  {Object} data Object to send to tests
 	 *
 	 * Events:
 	 *  * 'connector_injected': the connector is injected into a page
@@ -50,17 +49,16 @@ const TestReporter = {
 	 *  * 'connector_state_changed': state of the connector is changed
 	 *       data: currentState
 	 */
-	sendEventToTest: function(event, obj, err) {
-		if (err) {
-			console.error('Web Scrobbler: ' + event, obj);
-		} else {
-			console.log('Web Scrobbler: ' + event, obj);
+	sendEventToTest(detail, data) {
+		let logMessage = `Web Scrobbler: Send "${detail}" event`;
+		if (data) {
+			let dataStr = JSON.stringify(data, null, 2);
+			logMessage = `${logMessage}: ${dataStr}`;
 		}
+		console.log(logMessage);
+
 		document.dispatchEvent(new CustomEvent('web-scrobbler-test-response', {
-			detail: {
-				detail: event,
-				data: obj
-			}
+			detail: { detail, data }
 		}));
 	}
 };
