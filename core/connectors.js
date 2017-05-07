@@ -392,8 +392,8 @@ define(function () {
 
 	{
 		label: 'Lofi Radio',
-		matches: ['*://www.lofi-radio.co/*'],
-		js: ['connectors/lofiradio.js'],
+		matches: ['*://lofi-radio.co/*'],
+		js: ['connectors/lofi-radio.js'],
 	},
 
 	{
