@@ -102,34 +102,59 @@
 				</div>
 				<div id="faq" class="accordion-body collapse">
 					<div class="accordion-inner">
-						<h4>How do I temporarily disable scrobbling?</h4>
-
+						<h4>How can I start using the extension?</h4>
 						<p>
-							You can do that by clicking the icon in the omnibox (address bar). To enable scrobbling again, click the
-							icon one more time.
-							The scrobbling will continue for the next song.<br>
-							As of version 1.17, you can also disable scrobbling for specific site for some reason. But the global
-							disabling always takes priority.
+							You should click on a notification that is shown when the extension is loaded first time.
+							Then, you should grant access to your Last.fm account.
+						</p>
+						<p>
+							Note: In some cases, the notification won't be shown, e.g. on Mac OS if Chrome is running in full-screen mode;
+							the extension will open a tab where you can grant access to your account.
+						</p>
+
+						<h4>How do I temporarily disable scrobbling?</h4>
+						<p>
+							You can do that by right-clicking on the extension icon in the extension bar.
+							Using the context menu you can disable the connector for current web service.
+						</p>
+						<p>
+							Use the checkboxes on the options page to disable certain connector,
+							or the "Toogle" checkbox to disable scrobbling globally.
 						</p>
 
 						<h4>The song was not recognized! Can you fix it?</h4>
-
 						<p>
-							Actually YOU can fix it :)<br>
-							<br>
-							When a song cannot be recognized (and thus scrobbled) a gray icon with question mark appears at the right
-							side of the omnibox (address bar).
-							By clicking it a small window pops out where you can input the right song information.<br>
-							<br>
-							<span style="color: #666">
-								(The data you input are not stored anywhere, so the next time you play the song, you'll have to enter the data again. This feature is still
-								work in progress. I'm not sure it is the right way to go for an extension to fix music websites errors. I'd be much happier to see websites
-								implement some kind of music tagging - just like YouTube partially did.)
-							</span>
+							When a song cannot be recognized, a gray icon with question mark appears in the extension bar.
+							You can click on this icon and input correct data in the opened popup window.
+						</p>
+						<p style="color: #666">
+							The data you input is stored for certain connectors which support this feature.
+						</p>
+						<p>
+							Also, there's an option called "Force song recognition" that makes the extension
+							to force scrobbling the song even if song is not validated by Last.fm.
 						</p>
 
-						<h4>Will you add support for scrobbling at&nbsp;&nbsp;____ ?</h4>
+						<h4>Some musics on Bandcamp cannot be scrobbled. Is it possible to fix this?</h4>
+						<p>
+							Looks like the music is hosted on a custom domain and we cannot detect whether it’s Bandcamp or not.
+						</p>
+						<p>
+							As a workaround, configure the extension to work with custom domains as follows:
+							<ol>
+								<li>Open the extension setting page and expand the “Options” section.</li>
+								<li>Find the Bandcamp connector in the list of supported services.</li>
+								<li>Click on the gear icon near the connector label.</li>
+								<li>Add URL pattern that matches the Bandcamp custom domain URL and apply the changes.</li>
+							</ol>
+						</p>
+						<p>
+							You can learn more about the custom URL patterns
+							<a target='_blank' href="https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns">here</a>.
+						</p>
 
+
+						<h4>Will you add support for scrobbling at&nbsp;&nbsp;____ ?</h4>
 						<p>
 							Possibly, but most likely no. I make the Scrobbler in my free time and that's why I manage only Youtube
 							support - I simply don't use any other web music service. Nevertheless, it is really easy to create a <i>connector</i>
@@ -140,23 +165,22 @@
 						</p>
 
 						<h4>Will you add&nbsp;&nbsp;____&nbsp;&nbsp;functionality?</h4>
-
 						<p>
 							Possibly, if it makes sense. A great example is functionality to correct the song title if it is not
 							recognized.
 							This wasn't possible in earlier versions, but can be done since 1.0, because a lot of people was asking for
-							it and I also think it is useful.<br>
+							it and I also think it is useful.
+						</p>
+						<p>
 							But if you want me to add some not-that-useful-but-really-cool functions, you'll probably get disappointed.
 						</p>
 
 						<h4>Is the scrobbler available for the Firefox?</h4>
-
 						<p>
 							It is not and it won't be until Firefox supports Chromium extensions. Like Opera 15+ does.
 						</p>
 
 						<h4>Who is the author?</h4>
-
 						<p>
 							My name is David Šabata, I graduated from IT at the Brno University of Technology, Czech Republic. I am
 							obsessed with automating
