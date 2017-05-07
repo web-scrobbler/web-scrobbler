@@ -391,6 +391,12 @@ define(function () {
 	},
 
 	{
+		label: 'Lofi Radio',
+		matches: ['*://www.lofi-radio.co/*'],
+		js: ['connectors/lofiradio.js'],
+	},
+
+	{
 		label: 'EpicMusicTime',
 		matches: ['*://epicmusictime.com/*'],
 		js: ['connectors/jazzandrain.js'],
