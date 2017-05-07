@@ -1035,5 +1035,11 @@ define(function () {
 		label: 'Duckburg Radio',
 		matches: ['*://*.radio-mb.com/*'],
 		js: ['connectors/radio-mb.js'],
+	},
+
+	{
+		label: 'radd.it',
+		matches: ['*://radd.it/*'],
+		js: ['connectors/radd.it.js'],
 	}];
 });
