@@ -392,7 +392,7 @@ define(function () {
 
 	{
 		label: 'Lofi Radio',
-		matches: ['*://lofi-radio.co/*'],
+		matches: ['*://lofi-radio.co/*', '*://www.lofi-radio.co/*'],
 		js: ['connectors/lofi-radio.js'],
 	},
 
