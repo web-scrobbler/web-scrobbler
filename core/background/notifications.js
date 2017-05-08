@@ -156,9 +156,15 @@ define([
 
 		var options = {
 			iconUrl: song.getTrackArt() || '/icons/default_cover_art.png',
+			// @ifdef CHROME
 			title: song.getTrack(),
 			message: 'by ' + song.getArtist(),
 			contextMessage
+			// @endif
+			/* @ifdef FIREFOX
+			title: 'Last.fm Scrobbler',
+			message: `${song.getTrack()}\nby ${song.getArtist()}\n${contextMessage}`
+			/* @endif */
 		};
 		showNotification(options, null).then((notificationId) => {
 			GA.event('notification', 'playing', 'show');
