@@ -1082,5 +1082,11 @@ define(function () {
 		label: 'byte.fm',
 		matches: ['*://www.byte.fm/player/*'],
 		js: ['connectors/byte.fm.js'],
+	},
+
+	{
+		label: 'Deutschlandfunk Nova',
+		matches: ['*://www.deutschlandfunknova.de/*'],
+		js: ['connectors/deutschlandfunknova.js'],
 	}];
 });
