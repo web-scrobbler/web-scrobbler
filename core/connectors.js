@@ -1072,5 +1072,34 @@ define(function () {
 		matches: ['*://deltaradiouk.co.uk/popout-player*'],
 		js: ['connectors/v2/deltaradio.js'],
 		version: 2
-	}];
+	},
+
+	{
+		label: 'RadioPlayer',
+		matches: ['*://www.heart.co.uk/*',
+			'*://www.mygoldmusic.co.uk/radio/player/*',
+			'*://player.absoluteradio.co.uk/*',
+			'*://www.thebreeze.com/*radioplayer/*',
+			'*://ukradioplayer.*',
+			'*://radioplayer.*',
+			'*://www.2br.co.uk/*',
+			'*://*/radioplayer/*',
+			'*://*/radioplayer/'
+			],
+		js: ['connectors/v2/radioplayer.js'],
+		version: 2
+	},
+
+	{
+		label: 'Delta Radio UK',
+		matches: ['*://deltaradiouk.co.uk/popout-player*'],
+		js: ['connectors/v2/deltaradiouk.js'],
+		version: 2
+	},];
+
+
+
+
 });
+
+
