@@ -24,7 +24,7 @@ module.exports = function(grunt) {
 		'icons/**', 'options/**', 'popups/**', 'vendor/**',
 		'manifest.json', 'README.md', 'LICENSE.txt',
 		// Skip files
-		'!core/content/testReporter.js'
+		'!core/content/testReporter.js', '!icons/src/**',
 	];
 	const buildDir = 'build';
 	const packageName = 'web-scrobbler.zip';
