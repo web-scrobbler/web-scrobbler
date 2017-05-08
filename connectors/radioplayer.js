@@ -1,18 +1,21 @@
 'use strict';
 
 /* global Connector, Util */
-Connector.playButtonSelector = 'button.play';
-Connector.playerSelector = '.live-info';
 
-Connector.getArtistTrack = function() {
-	let t = '';
+const artistTrackSelectors = [
+	'.song-text', '.scrolling-text'
+];
 
-	if ($('.song-text').html()) {
-		t = $('.song-text').html();
+Connector.playerSelector = '.radioplayer-head';
+
+Connector.playButtonSelector = '#play';
+
+Connector.getArtistTrack = () => {
+	for (let selector of artistTrackSelectors) {
+		if ($(selector).length > 0) {
+			return Util.splitArtistTrack($(selector).text());
+		}
 	}
-	else if ($('.scrolling-text')) {
-		t = $('.scrolling-text').html();
-	}
-	//console.log('Current Track:', Util.splitArtistTrack(t))
-	return Util.splitArtistTrack(t);
+
+	return Util.emptyArtistTrack;
 };
