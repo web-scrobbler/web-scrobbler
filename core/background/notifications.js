@@ -155,7 +155,7 @@ define([
 	 */
 	function showError(message, onClick = null) {
 		const options = {
-			title: 'Web scrobbler error',
+			title: 'Last.fm Scrobbler error',
 			message: message,
 		};
 		showNotification(options, onClick).then(() => {
