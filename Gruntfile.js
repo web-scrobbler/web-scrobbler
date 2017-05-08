@@ -36,7 +36,8 @@ module.exports = function(grunt) {
 
 		clean: {
 			build: buildDir,
-			package: packageName
+			package: packageName,
+			test: 'debug.log',
 		},
 		copy: {
 			project_files: {
@@ -206,7 +207,9 @@ module.exports = function(grunt) {
 	 *   > grunt test:8tracks:debug=1
 	 */
 	grunt.registerTask('test', 'Run tests.', function(...args) {
-		grunt.task.run(`exec:run_tests:${args.join(':')}`);
+		grunt.task.run([
+			`exec:run_tests:${args.join(':')}`, 'clean:test'
+		]);
 	});
 	/**
 	 * Lint source code using linters specified below.
