@@ -22,6 +22,16 @@ window.webScrobblerInjected = window.webScrobblerInjected || false;
 		let audioElImpl = window.ap._impl._currentAudioEl || {};
 		let {currentTime, duration} = audioElImpl;
 
+		/*
+		 * VK player sets current time equal to song duration on startup.
+ 		 * This makes the extension to think the song is seeking to its
+ 		 * beginning, and repeat the song. Ignore this stage to avoid
+ 		 * this behavior.
+		 */
+		if (currentTime === duration) {
+			return;
+		}
+
 		window.postMessage({
 			sender: 'web-scrobbler',
 			type,
