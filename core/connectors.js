@@ -1076,5 +1076,11 @@ define(function () {
 		label: 'deltaradio',
 		matches: ['*://www.deltaradio.de/*'],
 		js: ['connectors/deltaradio.de.js'],
+	},
+
+	{
+		label: 'byte.fm',
+		matches: ['*://www.byte.fm/player/*'],
+		js: ['connectors/byte.fm.js'],
 	}];
 });
