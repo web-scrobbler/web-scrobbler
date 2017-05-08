@@ -1053,14 +1053,15 @@ define(function () {
 		label: 'RadioPlayer',
 		matches: [
 			'*://www.heart.co.uk/*',
-			'*://www.mygoldmusic.co.uk/radio/player/*',
 			'*://player.absoluteradio.co.uk/*',
 			'*://www.thebreeze.com/*radioplayer/*',
 			'*://ukradioplayer.*',
 			'*://radioplayer.*',
 			'*://www.2br.co.uk/*',
 			'*://*/radioplayer/*',
-			'*://*/radioplayer/'
+			'*://*/radioplayer/',
+			'*://*/radio/player/',
+			'*://*/*/radio/player/',
 		],
 		js: ['connectors/radioplayer.js'],
 		version: 2
