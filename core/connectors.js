@@ -1070,7 +1070,7 @@ define(function () {
 	{
 		label: 'Delta Radio UK',
 		matches: ['*://deltaradiouk.co.uk/popout-player*'],
-		js: ['connectors/v2/deltaradio.js'],
+		js: ['connectors/deltaradiouk.js'],
 		version: 2
 	}];
 });
