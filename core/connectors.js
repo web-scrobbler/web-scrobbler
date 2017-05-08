@@ -1064,13 +1064,11 @@ define(function () {
 			'*://*/*/radio/player/',
 		],
 		js: ['connectors/radioplayer.js'],
-		version: 2
 	},
 
 	{
 		label: 'Delta Radio UK',
 		matches: ['*://deltaradiouk.co.uk/popout-player*'],
 		js: ['connectors/deltaradiouk.js'],
-		version: 2
 	}];
 });
