@@ -251,6 +251,13 @@ define([
 		removeOnClickedListener(notificationId);
 	});
 
+	// Define getPermissionLevel missing on firefox browser
+	if (chrome.notifications.getPermissionLevel == undefined) { 
+		chrome.notifications.getPermissionLevel = function(notification) {
+				notification("granted");
+			}
+	}
+
 	return {
 		showPlaying: showPlaying,
 		showError: showError,
