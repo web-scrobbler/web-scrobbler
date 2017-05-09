@@ -17,7 +17,7 @@ define([
 	 * @param {Object} connector Connector match objects
 	 * @param {Function} cb Callback function
 	 */
-	function pingAndInject(tabId, connector, cb) {
+	function pingAndInject(tabId, connector) {
 		// Ping the content page to see if the script is already in place.
 		// In the future, connectors will have unified interface, so they will all support
 		// the 'ping' request. Right now only YouTube supports this, because it
@@ -26,50 +26,50 @@ define([
 		//
 		// Sadly there is no way to silently check if the script has been already injected
 		// so we will see an error in the background console on load of every supported page
-		chrome.tabs.sendMessage(tabId, {type: 'ping'}, function (response) {
-			// if the message was sent to a non existing script or the script
-			// does not implement the 'ping' message, we get response==undefined;
-			if (!response) {
-				console.log('-- loaded for the first time, injecting the scripts');
+		return new Promise((resolve) => {
+			chrome.tabs.sendMessage(tabId, {type: 'ping'}, function (response) {
+				// if the message was sent to a non existing script or the script
+				// does not implement the 'ping' message, we get response==undefined;
+				if (!response) {
+					console.log('-- loaded for the first time, injecting the scripts');
 
-				// inject all scripts and jQuery, use slice to avoid mutating
-				var scripts = connector.js.slice(0);
+					// inject all scripts and jQuery, use slice to avoid mutating
+					let scripts = connector.js.slice(0);
 
-				scripts.unshift('core/content/connector.js');
-				scripts.unshift('core/content/util.js');
-				scripts.unshift('core/content/filter.js');
-				scripts.unshift('core/content/reactor.js');
-				// @ifdef DEBUG
-				scripts.unshift('core/content/testReporter.js');
-				// @endif
-				scripts.unshift('vendor/jquery-2.1.0.min.js');
+					scripts.unshift('core/content/connector.js');
+					scripts.unshift('core/content/util.js');
+					scripts.unshift('core/content/filter.js');
+					scripts.unshift('core/content/reactor.js');
+					// @ifdef DEBUG
+					scripts.unshift('core/content/testReporter.js');
+					// @endif
+					scripts.unshift('vendor/jquery-2.1.0.min.js');
 
-				scripts.push('core/content/starter.js'); // needs to be the last script injected
+					scripts.push('core/content/starter.js'); // needs to be the last script injected
 
-				// waits for script to be fully injected before injecting another one
-				var injectWorker = function () {
-					if (scripts.length > 0) {
-						var jsFile = scripts.shift();
-						var injectDetails = {
-							file: jsFile,
-							allFrames: connector.allFrames ? connector.allFrames : false
-						};
+					// waits for script to be fully injected before injecting another one
+					let injectWorker = function() {
+						if (scripts.length > 0) {
+							let jsFile = scripts.shift();
+							let injectDetails = {
+								file: jsFile,
+								allFrames: connector.allFrames ? connector.allFrames : false
+							};
 
-						console.log('\tinjecting ' + jsFile);
-						chrome.tabs.executeScript(tabId, injectDetails, injectWorker);
-					}
-					else {
-						// done successfully
-						cb(new injectResult.InjectResult(injectResult.results.MATCHED_AND_INJECTED, tabId, connector));
-					}
-				};
+							console.log('\tinjecting ' + jsFile);
+							chrome.tabs.executeScript(tabId, injectDetails, injectWorker);
+						} else {
+							// done successfully
+							resolve(new injectResult.InjectResult(injectResult.results.MATCHED_AND_INJECTED, tabId, connector));
+						}
+					};
 
-				injectWorker();
-			}
-			else {
-				// no cb() call, useless to report this state
-				console.log('-- subsequent ajax navigation, the scripts are already injected');
-			}
+					injectWorker();
+				} else {
+					console.log('-- subsequent ajax navigation, the scripts are already injected');
+					resolve(null);
+				}
+			});
 		});
 	}
 
@@ -83,12 +83,12 @@ define([
 	 * @param {Object} tab Tab object
 	 * @param {Function} cb Function callback
 	 */
-	function onTabsUpdated(tabId, changeInfo, tab, cb) {
-		var onPatternsReady = function(customPatterns) {
-			// run first available connector
-			var anyMatch = !connectors.every(function (connector) {
-				var matchOk = false,
-					patterns = connector.matches || [];
+	function onTabsUpdated(tabId, changeInfo, tab) {
+		// asynchronously preload all custom patterns and then start matching
+		return customPatterns.getAllPatterns().then((customPatterns) => {
+			for (let connector of connectors) {
+				let matchOk = false;
+				let patterns = connector.matches || [];
 
 				if (customPatterns[connector.label]) {
 					patterns.concat(customPatterns[connector.label]);
@@ -98,34 +98,23 @@ define([
 					matchOk = matchOk || UrlMatch.test(tab.url, match);
 				});
 
-				if (matchOk === true) {
+				if (matchOk) {
 					if (!config.isConnectorEnabled(connector.label)) {
 						// matched, but is not enabled
-						cb(new injectResult.InjectResult(injectResult.results.MATCHED_BUT_DISABLED, tabId, connector));
-
-						return false; // break forEach connector
+						return new injectResult.InjectResult(injectResult.results.MATCHED_BUT_DISABLED, tabId, connector);
 					}
 
-					// checks if there's already injected connector and injects it if needed
-					pingAndInject(tabId, connector, cb);
+					// Checks if there's already injected connector
+					// and injects it if needed
+					return pingAndInject(tabId, connector);
 				}
 
-				return !matchOk;
-			});
-
-			// report no match
-			if (!anyMatch) {
-				cb(new injectResult.InjectResult(injectResult.results.NO_MATCH, tabId, null));
+				// return !matchOk;
 			}
-		};
 
-		// asynchronously preload all custom patterns and then start matching
-		customPatterns.getAllPatterns(onPatternsReady);
+			return new injectResult.InjectResult(injectResult.results.NO_MATCH, tabId, null);
+		});
 	}
 
-
-	return {
-		onTabsUpdated: onTabsUpdated
-	};
-
+	return { onTabsUpdated };
 });

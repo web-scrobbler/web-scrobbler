@@ -144,7 +144,7 @@ require([
 			return;
 		}
 
-		inject.onTabsUpdated(tabId, changeInfo, tab, injectCb);
+		inject.onTabsUpdated(tabId, changeInfo, tab).then(injectCb);
 	});
 	chrome.tabs.onRemoved.addListener((tabId) => {
 		if (tabControllers[tabId]) {
