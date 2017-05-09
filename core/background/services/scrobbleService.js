@@ -152,6 +152,18 @@ define([
 			}));
 		},
 
+		toggleLove(song, flag) {
+			return Promise.all(boundScrobblers.map((scrobbler) => {
+				// Forward result (including errors) to caller
+				return scrobbler.toggleLove(song, flag).catch((result) => {
+					if (result.isAuthError()) {
+						this.unbindScrobbler(scrobbler);
+					}
+					return result;
+				});
+			}));
+		},
+
 		/**
 		 * Get all registered scrobblers.
 		 * @returns {Array} Array of bound scrobblers

@@ -3,14 +3,13 @@
 define([
 	'objects/song',
 	'pipeline/pipeline',
-	'scrobblers/lastfm',
 	'pageAction',
 	'timer',
 	'notifications',
 	'services/background-ga',
 	'pipeline/local-cache',
 	'services/scrobbleService'
-], function(Song, Pipeline, LastFM, PageAction, Timer, Notifications, GA, LocalCache, ScrobbleService) {
+], function(Song, Pipeline, PageAction, Timer, Notifications, GA, LocalCache, ScrobbleService) {
 	/**
 	 * Check if array of results contains at least one goog result.
 	 * @param  {Array} results Array of results
@@ -399,7 +398,7 @@ define([
 
 		this.toggleLove = function(data, cb) {
 			if (currentSong !== null) {
-				LastFM.toggleLove(currentSong, data.shouldBeLoved).then(() => {
+				ScrobbleService.toggleLove(currentSong, data.shouldBeLoved).then(() => {
 					currentSong.metadata.attr('userloved', data.shouldBeLoved);
 					cb();
 				});
