@@ -172,7 +172,7 @@ require([
 	}
 
 	/**
-	 * Called on the extension start, after maintenance storage reads/writes are done
+	 * Called on the extension start.
 	 */
 	function startup() {
 		updateVersionInStorage();
