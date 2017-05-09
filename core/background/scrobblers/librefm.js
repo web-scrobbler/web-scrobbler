@@ -31,11 +31,11 @@ define([
 
 			return new Promise((resolve, reject) => {
 				$.post(url, $.param(params)).done((xmlDoc) => {
-					let responseStr = new XMLSerializer().serializeToString(xmlDoc);
-					console.log(`${this.label} ${params.method} response:\n${responseStr}`);
+					let text = new XMLSerializer().serializeToString(xmlDoc);
+					this.debugLog(`${params.method} response:\n${text}`);
 					resolve($(xmlDoc));
-				}).fail((jqXHR, status, responseStr) => {
-					console.error(`${this.label}${params.method} response:\n${responseStr}`);
+				}).fail((jqXHR, status, text) => {
+					this.debugLog(`${params.method} response:\n${text}`);
 					reject(ServiceCallResult.OtherError());
 				});
 			});

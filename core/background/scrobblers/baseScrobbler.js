@@ -95,7 +95,7 @@ define([
 
 				return this.storage.get().then((data) => {
 					if (status !== 'ok') {
-						console.log('Error acquiring a token: %s', text);
+						this.debugLog(`Error acquiring a token: ${text}`, 'warn');
 
 						data.token = null;
 						return this.storage.set(data).then(() => {
@@ -107,11 +107,11 @@ define([
 					data.sessionID = null;
 					data.token = xml.find('token').text();
 
-					console.log(`getToken response: ${Util.hideStringInText(data.token, text)}`);
+					this.debugLog(`gettoken response: ${Util.hideStringInText(data.token, text)}`);
 
 					let authUrl = `${this.authUrl}?api_key=${this.apiKey}&token=${data.token}`;
 					return this.storage.set(data).then(() => {
-						console.log(`AUth url: ${authUrl}`);
+						this.debugLog(`Auth url: ${authUrl}`);
 						return authUrl;
 					});
 				});
@@ -174,7 +174,7 @@ define([
 							return session;
 						});
 					}).catch(() => {
-						console.warn(this.label + ' Failed to trade token for session - the token is probably not authorized');
+						this.debugLog('Failed to trade token for session', 'warn');
 
 						// both session and token are now invalid
 						return this.signOut().then(() => {
@@ -275,7 +275,7 @@ define([
 			}).then((text) => {
 				let $doc = $($.parseXML(text));
 				let debugMsg = hideUserData($doc, text);
-				console.log(`${this.label}: ${params.method} response:\n${debugMsg}`);
+				this.debugLog(`${params.method} response:\n${debugMsg}`);
 
 				return $doc;
 			}).catch(() => {
@@ -323,8 +323,6 @@ define([
 					params.duration = song.getDuration();
 				}
 
-				console.log(`${this.label} sendNowPlaying()`);
-
 				return this.doRequest('POST', params, true).then(processResponse);
 			});
 		}
@@ -348,8 +346,6 @@ define([
 				if (song.getAlbum()) {
 					params['album[0]'] = song.getAlbum();
 				}
-
-				console.log(this.label + ' scrobble()');
 
 				return this.doRequest('POST', params, true).then(processResponse);
 			});
@@ -381,6 +377,22 @@ define([
 		 */
 		getLabel() {
 			return this.label;
+		}
+
+		debugLog(text, type = 'log') {
+			let message = `${this.label}: ${text}`;
+
+			switch (type) {
+				case 'log':
+					console.log(message);
+					break;
+				case 'warn':
+					console.warn(message);
+					break;
+				case 'error':
+					console.error(message);
+					break;
+			}
 		}
 	}
 

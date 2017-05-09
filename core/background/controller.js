@@ -29,6 +29,7 @@ define([
 	 * @param {Boolean} enabled Flag indicates initial stage
 	 */
 	return function(tabId, connector, enabled) {
+		debugLog(`Created controller for ${connector.label} connector`);
 
 		const pageAction = new PageAction(tabId);
 		const playbackTimer = new Timer();
@@ -55,13 +56,13 @@ define([
 			if (isEmptyState) {
 				// throw away last song and reset state
 				if (currentSong !== null) {
-					console.log('Tab ' + tabId + ': received empty state - resetting');
+					debugLog('Received empty state - resetting');
 					this.resetState();
 				}
 
 				// warning for connector developer
 				if (newState.isPlaying) {
-					console.log('Tab ' + tabId + ': state from connector doesn\'t contain enough information about the playing track: ' + JSON.stringify(newState));
+					debugLog(`State from connector doesn't contain enough information about the playing track:\n${JSON.stringify(newState)}`);
 				}
 
 				return;
@@ -86,9 +87,9 @@ define([
 
 				// logging same message over and over saves space in console
 				if (newState.isPlaying === currentSong.parsed.isPlaying) {
-					console.log('Tab ' + tabId + ': state update: only currentTime has changed');
+					debugLog('State update: only currentTime has changed');
 				} else {
-					console.log('Tab ' + tabId + ': state update: ' + JSON.stringify(newState));
+					debugLog(`State update: ${JSON.stringify(newState)}`);
 				}
 
 				currentSong.parsed.attr({
@@ -101,16 +102,14 @@ define([
 					updateSongDuration(newState.duration);
 				}
 			} else {
-				// we've hit a new song (or replaying the previous one) - clear old data and run processing
-				console.log('Tab ' + tabId + ': new track state: ' + JSON.stringify(newState));
-
+				// We've hit a new song (or replaying the previous one)
 				// clear any previous song and its bindings
 				this.resetState();
 
 				currentSong = new Song(newState, connector);
 
 				bindSongListeners(currentSong, { notify: !isReplayingSong });
-				console.log(`Tab ${tabId}: new ${isReplayingSong ? '(replaying) ' : ''} song detected: ${JSON.stringify(currentSong.attr())}`);
+				debugLog(`New song detected: ${JSON.stringify(currentSong.attr())}`);
 
 				// start the timer, actual time will be set after processing is done;
 				// we can call doScrobble directly, because the timer will be allowed to trigger only after the song is validated
@@ -147,8 +146,8 @@ define([
 				replayDetectionTimer.update(duration - Math.floor(Date.now() / 1000) - currentSong.metadata.startTimestamp);
 
 				let remainedSeconds = playbackTimer.getRemainingSeconds();
-				console.log(`Tab ${tabId}: update duration: ${duration}`);
-				console.log(`The song will be scrobbled after ${remainedSeconds} more seconds of playback`);
+				debugLog(`Update duration: ${duration}`);
+				debugLog(`The song will be scrobbled after ${remainedSeconds} more seconds of playback`);
 			}
 		}
 
@@ -161,7 +160,7 @@ define([
 			 * Respond to changes of not/playing and pause timer accordingly to get real elapsed time
 			 */
 			song.bind('parsed.isPlaying', function(ev, newVal) {
-				console.log('Tab ' + tabId + ': isPlaying state changed to ' + newVal);
+				debugLog(`isPlaying state changed to ${newVal}`);
 
 				if (newVal) {
 					playbackTimer.resume();
@@ -183,11 +182,11 @@ define([
 			 */
 			song.bind('flags.isProcessed', (ev, newVal) => {
 				if (newVal) {
-					console.log('Tab ' + tabId + ': song finished processing ', JSON.stringify(song.attr()));
+					debugLog(`Song finished processing:\n${JSON.stringify(song.attr())}`);
 					onProcessed(song, options);
 					notifySongIsUpdated(song);
 				} else {
-					console.log('Tab ' + tabId + ': song un-processed ', JSON.stringify(song.attr()));
+					debugLog(`Song unprocessed:\n${JSON.stringify(song.attr())}`);
 					onUnProcessed();
 				}
 			});
@@ -245,7 +244,9 @@ define([
 				// set time-to-scrobble
 				playbackTimer.update(song.getSecondsToScrobble());
 				replayDetectionTimer.update(song.getDuration());
-				console.log('Tab ' + tabId + ': the song will be scrobbled after ' + playbackTimer.getRemainingSeconds() + ' more seconds of playback');
+
+				let remainedSeconds = playbackTimer.getRemainingSeconds();
+				debugLog(`The song will be scrobbled after ${remainedSeconds} more seconds of playback`);
 
 				// if the song is playing, mark it immediately; otherwise will be flagged in isPlaying binding
 				if (song.parsed.isPlaying) {
@@ -263,7 +264,7 @@ define([
 		 * entering the pipeline again.
 		 */
 		function onUnProcessed() {
-			console.log('Tab ' + tabId + ': clearing playback timer destination time');
+			debugLog('Clearing playback timer destination time');
 			playbackTimer.update(null);
 			replayDetectionTimer.update(null);
 		}
@@ -280,10 +281,10 @@ define([
 
 			ScrobbleService.sendNowPlaying(song).then((results) => {
 				if (isAnyOkResult(results)) {
-					console.log(`Tab ${tabId}: song set as now playing`);
+					debugLog('Song set as now playing');
 					pageAction.setSongRecognized(song);
 				} else {
-					console.warn(`Tab ${tabId}: song isn't set as now playing`);
+					debugLog('Song isn\'t set as now playing');
 					pageAction.setError();
 				}
 			});
@@ -306,11 +307,11 @@ define([
 		 * @param {Object} song Song instance
 		 */
 		function doScrobble(song) {
-			console.log('Tab ' + tabId + ': scrobbling song ' + song.getArtist() + ' - ' + song.getTrack());
+			debugLog(`Scrobbling ${song.getArtistTrackString()}`);
 
 			ScrobbleService.scrobble(song).then((results) => {
 				if (isAnyOkResult(results)) {
-					console.info('Tab ' + tabId + ': scrobbled successfully');
+					console.info('Scrobbled successfully');
 
 					song.flags.attr('isScrobbled', true);
 					pageAction.setSongScrobbled(song);
@@ -319,7 +320,7 @@ define([
 
 					GA.event('core', 'scrobble', connector.label);
 				} else {
-					console.error('Tab ' + tabId + ': scrobbling failed');
+					console.error('Scrobbling failed');
 
 					pageAction.setError();
 				}
@@ -363,7 +364,7 @@ define([
 			if (currentSong !== null) {
 				if (currentSong.flags.isScrobbled) {
 					// should not happen
-					console.error('Tab ' + tabId + ': attempted to enter user data for already scrobbled song');
+					debugLog('Attempted to enter user data for already scrobbled song');
 					return;
 				}
 
@@ -461,6 +462,8 @@ define([
 		// setup initial page action; the controller means the page was recognized
 		this.setEnabled(enabled);
 
-		console.log('Tab ' + tabId + ': created controller for connector: ' + JSON.stringify(connector));
+		function debugLog(text) {
+			console.log(`Tab ${tabId}: ${text}`);
+		}
 	};
 });

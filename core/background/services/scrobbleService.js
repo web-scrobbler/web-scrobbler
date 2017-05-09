@@ -39,7 +39,7 @@ define([
 	 */
 	function registerScrobbler(scrobbler) {
 		if (!isScrobblerInArray(scrobbler, registeredScrobblers)) {
-			console.log('ScrobbleService: registerScrobbler(): ' + scrobbler.getLabel());
+			console.log(`Register ${scrobbler.getLabel()} scrobbler`);
 			registeredScrobblers.push(scrobbler);
 		}
 	}
@@ -57,7 +57,7 @@ define([
 				return scrobbler.getSession().then(() => {
 					this.bindScrobbler(scrobbler);
 				}).catch(() => {
-					console.warn(`ScrobbleService: Unable to bind ${scrobbler.getLabel()}`);
+					console.warn(`Unable to bind ${scrobbler.getLabel()}`);
 				});
 			});
 
@@ -71,7 +71,7 @@ define([
 		bindScrobbler: function (scrobbler) {
 			if (!isScrobblerInArray(scrobbler, boundScrobblers)) {
 				boundScrobblers.push(scrobbler);
-				console.log('ScrobbleService: bindScrobbler() ' + scrobbler.getLabel() + ' total:' + boundScrobblers.length);
+				console.log(`Bind ${scrobbler.getLabel()} scrobbler`);
 			}
 		},
 
@@ -85,7 +85,7 @@ define([
 					return s !== scrobbler;
 				});
 
-				console.log('ScrobbleService: unbindScrobbler() ' + scrobbler.getLabel() + ' total:' + boundScrobblers.length);
+				console.log(`Unbind ${scrobbler.getLabel()} scrobbler`);
 			} else {
 				console.error(`${scrobbler.getLabel()} is not bound`);
 			}
@@ -107,7 +107,7 @@ define([
 					chrome.tabs.create({ url: authUrl });
 				}
 			}).catch(() => {
-				console.log(`ScrobbleService: Unable to get auth URL for ${label}`);
+				console.log(`Unable to get auth URL for ${label}`);
 
 				let statusUrl = scrobbler.getStatusUrl();
 				Notifications.showSignInError(label, statusUrl);
@@ -120,7 +120,7 @@ define([
 		 * @return {Promise} Promise that will be resolved then the task will complete
 		 */
 		sendNowPlaying: function (song) {
-			console.log(`ScrobbleService: sendNowPlaying() ${boundScrobblers.length}`);
+			console.log(`Send "now playing" request: ${boundScrobblers.length}`);
 
 			return Promise.all(boundScrobblers.map((scrobbler) => {
 				// Forward result (including errors) to caller
@@ -139,7 +139,7 @@ define([
 		 * @return {Promise} Promise that will be resolved then the task will complete
 		 */
 		scrobble: function (song) {
-			console.log(`ScrobbleService: scrobble() ${boundScrobblers.length}`);
+			console.log(`Send "scrobble" request: ${boundScrobblers.length}`);
 
 			return Promise.all(boundScrobblers.map((scrobbler) => {
 				// Forward result (including errors) to caller
