@@ -194,13 +194,14 @@ require([
 	 * @param  {Number} tabId Tab ID
 	 */
 	function setupContextMenu(tabId) {
+		chrome.contextMenus.removeAll();
+
 		let controller = getControllerByTabId(tabId);
 		if (!controller) {
 			return;
 		}
 		let connector = controller.getConnector();
 
-		chrome.contextMenus.removeAll();
 		if (controller.isEnabled()) {
 			addContextMenuItem(`Disable ${connector.label} connector`, () => {
 				controller.setEnabled(false);
