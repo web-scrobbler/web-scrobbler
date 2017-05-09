@@ -5,7 +5,8 @@ define([
 	'vendor/md5',
 	'objects/serviceCallResult',
 	'storage/chromeStorage',
-], function ($, MD5, ServiceCallResult, ChromeStorage) {
+	'util'
+], function ($, MD5, ServiceCallResult, ChromeStorage, Util) {
 	const GET_AUTH_URL_TIMEOUT = 10000;
 
 	/**
@@ -86,7 +87,7 @@ define([
 		 */
 		getAuthUrl() {
 			let url = `${this.apiUrl}?method=auth.gettoken&api_key=${this.apiKey}`;
-			return timeoutPromise(GET_AUTH_URL_TIMEOUT, fetch(url, { method: 'GET' }).then((response) => {
+			return Util.timeoutPromise(GET_AUTH_URL_TIMEOUT, fetch(url, { method: 'GET' }).then((response) => {
 				return response.text();
 			}).then((text) => {
 				let xml = $($.parseXML(text));
@@ -106,8 +107,7 @@ define([
 					data.sessionID = null;
 					data.token = xml.find('token').text();
 
-					let response = text.replace(data.token, `xxxxx${data.token.substr(5)}`);
-					console.log(`getToken response: ${response}`);
+					console.log(`getToken response: ${Util.hideStringInText(data.token, text)}`);
 
 					let authUrl = `${this.authUrl}?api_key=${this.apiKey}&token=${data.token}`;
 					return this.storage.set(data).then(() => {
@@ -399,30 +399,6 @@ define([
 		}
 
 		return ServiceCallResult.Ok();
-	}
-
-	/**
-	 * Execute promise with specified timeout.
-	 * @param  {Number} timeout Timeout in milliseconds
-	 * @param  {Promise} promise Promise to execute
-	 * @return {Promise} Promise that will be resolved when the task has complete
-	 */
-	function timeoutPromise(timeout, promise) {
-		return new Promise((resolve, reject) => {
-			const timeoutId = setTimeout(() => {
-				reject(new Error('promise timeout'));
-			}, timeout);
-			promise.then(
-				(res) => {
-					clearTimeout(timeoutId);
-					resolve(res);
-				},
-				(err) => {
-					clearTimeout(timeoutId);
-					reject(err);
-				}
-			);
-		});
 	}
 
 	return BaseScrobbler;

@@ -60,7 +60,32 @@ define(['wrappers/chrome'], (chrome) => {
 		});
 	}
 
+	/**
+	 * Execute promise with specified timeout.
+	 * @param  {Number} timeout Timeout in milliseconds
+	 * @param  {Promise} promise Promise to execute
+	 * @return {Promise} Promise that will be resolved when the task has complete
+	 */
+	function timeoutPromise(timeout, promise) {
+		return new Promise((resolve, reject) => {
+			const timeoutId = setTimeout(() => {
+				reject(new Error('promise timeout'));
+			}, timeout);
+			promise.then(
+				(res) => {
+					clearTimeout(timeoutId);
+					resolve(res);
+				},
+				(err) => {
+					clearTimeout(timeoutId);
+					reject(err);
+				}
+			);
+		});
+	}
+
 	return {
-		getCurrentTab, getPlatformName,	hideStringInText, isFullscreenMode
+		getCurrentTab, timeoutPromise, getPlatformName,
+		hideStringInText, isFullscreenMode
 	};
 });
