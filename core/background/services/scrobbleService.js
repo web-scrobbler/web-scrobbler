@@ -50,7 +50,7 @@ define([
 		 * @param {Array} unboundScrobblers Array of unbound scrobbler instances
 		 * @returns {Promise} Promise that will resolve with array of bound scrobblers
 		 */
-		registerScrobblers: function(unboundScrobblers) {
+		registerScrobblers(unboundScrobblers) {
 			// Convert each `getSession` call into Promise
 			let promises = unboundScrobblers.map(scrobbler => {
 				registerScrobbler(scrobbler);
@@ -68,7 +68,7 @@ define([
 		 * Bind given scrobbler.
 		 * @param {Object} scrobbler Scrobbler instance
 		 */
-		bindScrobbler: function (scrobbler) {
+		bindScrobbler(scrobbler) {
 			if (!isScrobblerInArray(scrobbler, boundScrobblers)) {
 				boundScrobblers.push(scrobbler);
 				console.log(`Bind ${scrobbler.getLabel()} scrobbler`);
@@ -79,7 +79,7 @@ define([
 		 * Unbind given scrobbler.
 		 * @param {Object} scrobbler Scrobbler instance
 		 */
-		unbindScrobbler: function (scrobbler) {
+		unbindScrobbler(scrobbler) {
 			if (isScrobblerInArray(scrobbler, boundScrobblers)) {
 				boundScrobblers = boundScrobblers.filter(function (s) {
 					return s !== scrobbler;
@@ -96,7 +96,7 @@ define([
 		 * @param  {Object} scrobbler Scrobbler instance
 		 * @param  {Object} notify Use notifications to ask for authentication
 		 */
-		authenticateScrobbler: function (scrobbler, notify = true) {
+		authenticateScrobbler(scrobbler, notify = true) {
 			let label = scrobbler.getLabel();
 
 			scrobbler.getAuthUrl().then((authUrl) => {
@@ -119,7 +119,7 @@ define([
 		 * @param  {Object} song Song instance
 		 * @return {Promise} Promise that will be resolved then the task will complete
 		 */
-		sendNowPlaying: function (song) {
+		sendNowPlaying(song) {
 			console.log(`Send "now playing" request: ${boundScrobblers.length}`);
 
 			return Promise.all(boundScrobblers.map((scrobbler) => {
@@ -138,7 +138,7 @@ define([
 		 * @param  {Object} song Song instance
 		 * @return {Promise} Promise that will be resolved then the task will complete
 		 */
-		scrobble: function (song) {
+		scrobble(song) {
 			console.log(`Send "scrobble" request: ${boundScrobblers.length}`);
 
 			return Promise.all(boundScrobblers.map((scrobbler) => {
@@ -165,7 +165,7 @@ define([
 		 * @param  {String} label Scrobbler label
 		 * @return {Object} Found scrobbler object
 		 */
-		getScrobblerByLabel: function(label) {
+		getScrobblerByLabel(label) {
 			for (let scrobbler of registeredScrobblers) {
 				if (scrobbler.getLabel() === label) {
 					return scrobbler;
