@@ -153,11 +153,11 @@ define([
 		},
 
 		/**
-		 * Get all bound scrobblers.
+		 * Get all registered scrobblers.
 		 * @returns {Array} Array of bound scrobblers
 		 */
-		getAllBound: function() {
-			return boundScrobblers;
+		getRegisteredScrobblers() {
+			return registeredScrobblers;
 		},
 
 		/**

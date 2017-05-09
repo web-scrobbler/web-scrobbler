@@ -10,7 +10,7 @@ define([
 	 * @return {Array} Array of promise factories
 	 */
 	function getLoadSongInfoFactories(song) {
-		return ScrobbleService.getAllBound().filter((scrobbler) => {
+		return ScrobbleService.getRegisteredScrobblers().filter((scrobbler) => {
 			return scrobbler.isLoadSongInfoSupported();
 		}).map((scrobbler) => {
 			// Don't execute the promise immediately and return factory function
