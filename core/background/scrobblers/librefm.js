@@ -40,6 +40,10 @@ define([
 				});
 			});
 		}
+
+		isSongInfoLoadingSupported() {
+			return true;
+		}
 	}
 
 	return new LibreFm({

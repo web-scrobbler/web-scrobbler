@@ -10,9 +10,7 @@ define([
 	 * @return {Array} Array of promise factories
 	 */
 	function getLoadSongInfoFactories(song) {
-		return ScrobbleService.getRegisteredScrobblers().filter((scrobbler) => {
-			return scrobbler.isLoadSongInfoSupported();
-		}).map((scrobbler) => {
+		return ScrobbleService.getRegisteredScrobblers().map((scrobbler) => {
 			// Don't execute the promise immediately and return factory function
 			return function() {
 				return scrobbler.loadSongInfo(song);
@@ -28,25 +26,32 @@ define([
 	function loadSong(song) {
 		let factories = getLoadSongInfoFactories(song);
 		if (factories.length > 0) {
-			let isSongInfoValid = false;
+			/*
+			 * Song means invalid if at least one info loader
+			 * return 'false' result.
+			 */
+			let isSongInfoValid = true;
 			let loadSongInfoSequence = Promise.resolve();
 
 			// Queue promises
 			factories.forEach((loadSongInfoFactory) => {
 				loadSongInfoSequence = loadSongInfoSequence.then(() => {
-					// Should be checked in runtime
-					if (!isSongInfoValid) {
+					// Wait for first invalid result
+					if (isSongInfoValid) {
 						let loadSongInfoPromise = loadSongInfoFactory();
 						return loadSongInfoPromise.then((isValid) => {
 							isSongInfoValid = isValid;
-							return isValid;
+							return isSongInfoValid;
 						}).catch(() => {
-							isSongInfoValid = false;
-							return false;
+							/*
+							 * Looks like service is not available.
+							 * Assume song is valid, but we don't know actually.
+							 */
+							return true;
 						});
 					}
 
-					return isSongInfoValid;
+					return false;
 				});
 			});
 			return loadSongInfoSequence.then((isValid) => {

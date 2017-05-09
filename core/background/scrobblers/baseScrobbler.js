@@ -5,8 +5,9 @@ define([
 	'vendor/md5',
 	'objects/serviceCallResult',
 	'storage/chromeStorage',
-	'util'
-], function ($, MD5, ServiceCallResult, ChromeStorage, Util) {
+	'util',
+	'wrappers/can'
+], function ($, MD5, ServiceCallResult, ChromeStorage, Util, can) {
 	const GET_AUTH_URL_TIMEOUT = 10000;
 
 	/**
@@ -284,20 +285,155 @@ define([
 		}
 
 		/**
-		 * Asynchronously load song info into given song object.
+		 * Asynchronously loads song info into given song object.
 		 *
 		 * @param  {Song} song Song instance
-		 * @return {Promise} Promise that will be resolved with 'isValid' flag
+		 * @return {Promise} Promise that will resolve with 'isValid' flag
 		 */
-		loadSongInfo() {
-			return Promise.resolve(false);
+		loadSongInfo(song) {
+			if (!this.isSongInfoLoadingSupported()) {
+				return Promise.resolve(true);
+			}
+
+			return this.getSession().then(({ sessionName }) => {
+				return { username: sessionName };
+			}).catch(() => {
+				return {};
+			}).then((params) => {
+				params.method = 'track.getinfo';
+				params.autocorrect = localStorage.useAutocorrect || 0;
+				params.artist = song.getArtist();
+				params.track = song.getTrack();
+
+				if (params.artist === null || params.track === null) {
+					return false;
+				}
+
+				return this.doRequest('GET', params, false).then(($doc) => {
+					let result = processResponse($doc);
+					if (!result.isOk()) {
+						throw new Error('Unable to load song info');
+					}
+
+					return this.parseSongInfo($doc);
+				}).then((data) => {
+					if (data.isValid) {
+						this.fillSongInfo(data, song);
+						if (this.isSongInfoCorrectionSupported()) {
+							this.correctSongInfo(data, song);
+						}
+					}
+
+					return data.isValid;
+				});
+			});
+		}
+
+		/**
+		 * Parse service response and return parsed data.
+		 * @param  {Object} $doc Response that parsed by jQuery
+		 * @return {Promise} Promise that will resolve with parsed data
+		 */
+		parseSongInfo($doc) {
+			let isValid = true;
+
+			if ($doc.find('lfm').attr('status') !== 'ok') {
+				isValid = false;
+				return { isValid };
+			}
+
+			let userloved = undefined;
+			let userlovedStatus = $doc.find('userloved').text();
+			if (userlovedStatus) {
+				userloved = userlovedStatus === '1';
+			}
+
+			if (this.isSongInfoCorrectionSupported()) {
+				let artist = $doc.find('artist > name').text();
+				let track = $doc.find('track > name').text();
+				let duration = (parseInt($doc.find('track > duration').text()) / 1000) || null;
+
+				let artistThumbUrl = null;
+				let imageSizes = ['extralarge', 'large', 'medium'];
+				for (let imageSize of imageSizes) {
+					artistThumbUrl = $doc.find(`album > image[size="${imageSize}"]`).text();
+					if (artistThumbUrl) {
+						break;
+					}
+				}
+
+				let artistUrl = $doc.find('artist > url').text();
+				let trackUrl = $doc.find('track > url').text();
+
+				return {
+					artist, track, duration,
+					artistThumbUrl, artistUrl,
+					trackUrl, userloved,
+					isValid
+				};
+			}
+
+			return { userloved, isValid };
+		}
+
+		/**
+		 * Fill song info according to parsed data.
+		 * This function is called if service is supported song info loading
+		 * and if song data is valid.
+		 *
+		 * @param  {Object} data Parsed data
+		 * @param  {Song} song Song instance
+		 */
+		fillSongInfo(data, song) {
+			// Set song as userloved if it's loved on all services.
+			if (data.userloved !== undefined) {
+				if (data.userloved) {
+					song.metadata.attr({ userloved: true });
+				} else if (song.metadata.userloved) {
+					song.metadata.attr({ userloved: false });
+				}
+			}
+		}
+
+		/**
+		 * Correct song info according to parsed data.
+		 * This function is called if service is supported song info correction
+		 * and if song data is valid.
+		 *
+		 * @param  {Object} data Parsed data
+		 * @param  {Song} song Song instance
+		 */
+		correctSongInfo(data, song) {
+			// TODO: Don't allow scrobblers to overwrite properties.
+			can.batch.start();
+
+			song.processed.attr({
+				duration: data.duration,
+				artist: data.artist,
+				track: data.track
+			});
+			song.metadata.attr({
+				artistThumbUrl: data.artistThumbUrl,
+				artistUrl: data.artistUrl,
+				trackUrl: data.trackUrl
+			});
+
+			can.batch.stop();
 		}
 
 		/**
 		 * Check if service supports retrieving of song info.
 		 * @return {Boolean} True if service supports that; false otherwise
 		 */
-		isLoadSongInfoSupported() {
+		isSongInfoLoadingSupported() {
+			return false;
+		}
+
+		/**
+		 * Check if service supports correction of song info.
+		 * @return {Boolean} True if service supports that; false otherwise
+		 */
+		isSongInfoCorrectionSupported() {
 			return false;
 		}
 
