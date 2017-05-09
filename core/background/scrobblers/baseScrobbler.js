@@ -167,14 +167,11 @@ define([
 						// token is already used, reset it and store
 						// the new session
 						data.token = null;
-						data.sessionID = session.key;
-						data.sessionName = session.name;
+						data.sessionID = session.sessionID;
+						data.sessionName = session.sessionName;
 
 						return this.storage.set(data).then(() => {
-							return {
-								sessionID: data.sessionID,
-								sessionName: data.sessionName
-							};
+							return session;
 						});
 					}).catch(() => {
 						console.warn(this.label + ' Failed to trade token for session - the token is probably not authorized');
@@ -205,22 +202,19 @@ define([
 		tradeTokenForSession(token) {
 			let params = {
 				method: 'auth.getsession',
-				api_key: this.apiKey,
 				token: token
 			};
-			let apiSig = this.generateSign(params);
-			let queryStr = $.param(params);
-			let url = `${this.apiUrl}?${queryStr}&api_sig=${apiSig}&format=json`;
 
-			return fetch(url).then((response) => {
-				return response.json();
-			}).then((data) => {
-				let responseStr = JSON.stringify(data, null, 2);
-				console.log(`${this.label}: auth.getSession response:\n${responseStr}`);
-				return data.session;
-			}).catch((err) => {
-				console.error(`${this.label} auth.tradeTokenForSession failed: ${err}`);
-				throw new Error(`${this.label} auth.tradeTokenForSession failed: ${err}`);
+			return this.doRequest('GET', params, true).then(($doc) => {
+				let result = processResponse($doc);
+				if (!result.isOk()) {
+					throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+				}
+
+				let sessionName = $doc.find('session > name').text();
+				let sessionID = $doc.find('session > key').text();
+
+				return { sessionID, sessionName };
 			});
 		}
 
@@ -279,8 +273,11 @@ define([
 			return fetch(url, { method }).then((response) => {
 				return response.text();
 			}).then((text) => {
-				console.log(`${this.label}: ${params.method} response:\n${text}`);
-				return $($.parseXML(text));
+				let $doc = $($.parseXML(text));
+				let debugMsg = hideUserData($doc, text);
+				console.log(`${this.label}: ${params.method} response:\n${debugMsg}`);
+
+				return $doc;
 			}).catch(() => {
 				throw ServiceCallResult.OtherError();
 			});
@@ -385,6 +382,17 @@ define([
 		getLabel() {
 			return this.label;
 		}
+	}
+
+	function hideUserData($doc, text) {
+		let sessionId = $doc.find('session > key').text();
+		let token = $doc.find('token').text();
+
+		let debugMsg = text;
+		debugMsg = Util.hideStringInText(token, debugMsg);
+		debugMsg = Util.hideStringInText(sessionId, debugMsg);
+
+		return debugMsg;
 	}
 
 	/**
