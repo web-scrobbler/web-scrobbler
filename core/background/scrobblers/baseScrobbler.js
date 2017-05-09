@@ -98,14 +98,15 @@ define([
 					if (status !== 'ok') {
 						this.debugLog(`Error acquiring a token: ${text}`, 'warn');
 
-						data.token = null;
+						delete data.token;
 						return this.storage.set(data).then(() => {
 							throw new Error('Error acquiring a token');
 						});
 					}
 
 					// set token and reset session so we will grab a new one
-					data.sessionID = null;
+					delete data.sessionID;
+					delete data.sessionName;
 					data.token = xml.find('token').text();
 
 					this.debugLog(`gettoken response: ${Util.hideStringInText(data.token, text)}`);
@@ -126,8 +127,8 @@ define([
 		signOut() {
 			return this.storage.get().then((data) => {
 				// data.token = null;
-				data.sessionID = null;
-				data.sessionName = null;
+				delete data.sessionID;
+				delete data.sessionName;
 
 				return this.storage.set(data);
 			});
@@ -167,7 +168,7 @@ define([
 					return this.tradeTokenForSession(token).then((session) => {
 						// token is already used, reset it and store
 						// the new session
-						data.token = null;
+						delete data.token;
 						data.sessionID = session.sessionID;
 						data.sessionName = session.sessionName;
 
