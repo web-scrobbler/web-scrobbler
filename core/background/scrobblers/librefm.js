@@ -36,7 +36,7 @@ define([
 					resolve($(xmlDoc));
 				}).fail((jqXHR, status, text) => {
 					this.debugLog(`${params.method} response:\n${text}`);
-					reject(ServiceCallResult.OtherError());
+					reject(new ServiceCallResult(ServiceCallResult.ERROR_OTHER));
 				});
 			});
 		}

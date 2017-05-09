@@ -3,59 +3,37 @@
 /**
  * Factory for objects of service call result
  */
-define([], function() {
-	const OK = 'ok';
-	const ERROR_AUTH = 'error-auth';
-	const ERROR_OTHER = 'error-other';
 
+class ServiceCallResult {
 	/**
 	 * Object that represents result of service call.
+	 *
+	 * @constructor
+	 * @param {String} type Result type
 	 */
-	class ServiceCallResult {
-		constructor(result) {
-			this.result = result;
-		}
-
-		/**
-		 * Check if result is OK.
-		 * @return {Boolean} True if result is OK.
-		 */
-		isOk() {
-			return this.result === OK;
-		}
-
-		/**
-		 * Check if result is auth error.
-		 * @return {Boolean} True if result is auth error.
-		 */
-		isAuthError() {
-			return this.result === ERROR_AUTH;
-		}
+	constructor(type) {
+		this.type = type;
 	}
 
-	/**
-	 * Create object with 'OK' result.
-	 * @return {Object} ServiceCallResult object
-	 */
-	function Ok() {
-		return new ServiceCallResult(OK);
+	isOk() {
+		return this.type === ServiceCallResult.OK;
 	}
 
-	/**
-	 * Create object with 'ERROR_OTHER' result.
-	 * @return {Object} ServiceCallResult object
-	 */
-	function OtherError() {
-		return new ServiceCallResult(ERROR_OTHER);
+	isAuthError() {
+		return this.type === ServiceCallResult.ERROR_AUTH;
 	}
 
-	/**
-	 * Create object with 'ERROR_AUTH' result.
-	 * @return {Object} ServiceCallResult object
-	 */
-	function AuthError() {
-		return new ServiceCallResult(ERROR_AUTH);
+	static get OK() {
+		return 'ok';
 	}
 
-	return { Ok, OtherError, AuthError };
-});
+	static get ERROR_AUTH() {
+		return 'error-auth';
+	}
+
+	static get ERROR_OTHER() {
+		return 'error-other';
+	}
+}
+
+define([], () => ServiceCallResult);

@@ -178,11 +178,11 @@ define([
 
 						// both session and token are now invalid
 						return this.signOut().then(() => {
-							throw ServiceCallResult.AuthError();
+							throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
 						});
 					});
 				} else if (!data.sessionID) {
-					throw ServiceCallResult.AuthError();
+					throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
 				} else {
 					return {
 						sessionID: data.sessionID,
@@ -279,7 +279,7 @@ define([
 
 				return $doc;
 			}).catch(() => {
-				throw ServiceCallResult.OtherError();
+				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 			});
 		}
 
@@ -415,10 +415,10 @@ define([
 	function processResponse($doc) {
 		if ($doc.find('lfm').attr('status') !== 'ok') {
 			// request passed but returned error
-			return ServiceCallResult.OtherError();
+			return new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 		}
 
-		return ServiceCallResult.Ok();
+		return new ServiceCallResult(ServiceCallResult.OK);
 	}
 
 	return BaseScrobbler;
