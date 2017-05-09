@@ -1,15 +1,12 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 Connector.playerSelector = '#player';
 
-Connector.getArtist = function() {
-	return $('#wp_text').attr('title').split('-')[1] || null;
-};
-
-Connector.getTrack = function() {
-	return $('#wp_text').attr('title').split('-')[0] || null;
+Connector.getArtistTrack = function() {
+	let artistTrack = $('#wp_text').attr('title');
+	return Util.splitArtistTrack(artistTrack, null, true);
 };
 
 Connector.isPlaying = function () {

@@ -116,10 +116,11 @@ const Util = {
 	 * Split string to artist and track.
 	 * @param  {String} str String contains artist and track
 	 * @param  {Array} separators Array of separators
+	 * @param  {Boolean} swap Swap artist and track values
 	 * @return {Object} Object contains artist and track fields
 	 */
-	splitArtistTrack(str, separators = null) {
-		let [artist, track] = this.splitString(str, separators);
+	splitArtistTrack(str, separators = null, swap = false) {
+		let [artist, track] = this.splitString(str, separators, swap);
 		return { artist, track };
 	},
 
@@ -131,23 +132,12 @@ const Util = {
 	 * @return {Object} Array ontains 'currentTime' and 'duration' fields
 	 */
 	splitTimeInfo(str, sep = '/', swap = false) {
-		let currentTime = null;
-		let duration = null;
-
-		if (str !== null) {
-			let separator = this.findSeparator(str, [sep]);
-
-			if (separator !== null) {
-				currentTime = str.substr(0, separator.index);
-				duration = str.substr(separator.index + separator.length);
-
-				currentTime = this.stringToSeconds(currentTime);
-				duration = this.stringToSeconds(duration);
-
-				if (swap) {
-					[currentTime, duration] = [duration, currentTime];
-				}
-			}
+		let [currentTime, duration] = this.splitString(str, [sep], swap);
+		if (currentTime) {
+			currentTime = this.stringToSeconds(currentTime);
+		}
+		if (duration) {
+			duration = this.stringToSeconds(duration);
 		}
 
 		return { currentTime, duration };
@@ -157,9 +147,10 @@ const Util = {
 	 * Split string to two ones using array of separators.
 	 * @param  {String} str Any string
 	 * @param  {Array} separators Array of separators
+	 * @param  {Boolean} swap Swap  values
 	 * @return {Array} Array of strings splitted by separator
 	 */
-	splitString(str, separators = null) {
+	splitString(str, separators = null, swap = false) {
 		let first = null;
 		let second = null;
 
@@ -169,6 +160,10 @@ const Util = {
 			if (separator !== null) {
 				first = str.substr(0, separator.index);
 				second = str.substr(separator.index + separator.length);
+
+				if (swap) {
+					[second, first] = [first, second];
+				}
 			}
 		}
 
