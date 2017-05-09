@@ -21,6 +21,12 @@ require([
 ], function(GA, LastFM, Notifications, inject, InjectResult, PageAction, Controller, ChromeStorage, Config) {
 
 	/**
+	 * Current version of the extension.
+	 * @type {String}
+	 */
+	const extVersion = chrome.runtime.getManifest().version;
+
+	/**
 	 * Single controller instance for each tab with injected script
 	 * This allows us to work with tabs independently
 	 */
@@ -163,7 +169,7 @@ require([
 
 					if (!isActiveSession) {
 						isActiveSession = true;
-						GA.send('pageview', '/background-injected?version=' + chrome.app.getDetails().version);
+						GA.send('pageview', `/background-injected?version=${extVersion}`);
 					}
 					break;
 				}
@@ -236,7 +242,7 @@ require([
 	function updateVersionInStorage() {
 		let storage = ChromeStorage.getNamespace('Core');
 		storage.get((data) => {
-			data.appVersion = chrome.app.getDetails().version;
+			data.appVersion = extVersion;
 			storage.set(data);
 		});
 
@@ -252,7 +258,7 @@ require([
 		setupChromeEventListeners();
 
 		// track background page loaded - happens once per browser session
-		GA.send('pageview', '/background-loaded?version=' + chrome.app.getDetails().version);
+		GA.send('pageview', `/background-loaded?version=${extVersion}`);
 
 		// check session ID status and show notification if authentication is needed
 		LastFM.getSession(function(sessionID) {
