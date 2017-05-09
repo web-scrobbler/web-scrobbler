@@ -8,7 +8,7 @@ define([
 	'objects/injectResult',
 	'customPatterns',
 	'url-match'
-], function (connectors, config, injectResult, customPatterns, UrlMatch) {
+], function (connectors, config, InjectResult, customPatterns, UrlMatch) {
 	/**
 	 * Ping the loaded page and checks if there is already loaded connector.
 	 * If not injects it.
@@ -60,7 +60,7 @@ define([
 							chrome.tabs.executeScript(tabId, injectDetails, injectWorker);
 						} else {
 							// done successfully
-							resolve(new injectResult.InjectResult(injectResult.results.MATCHED_AND_INJECTED, tabId, connector));
+							resolve(new InjectResult(InjectResult.MATCHED_AND_INJECTED, tabId, connector));
 						}
 					};
 
@@ -101,7 +101,7 @@ define([
 				if (matchOk) {
 					if (!config.isConnectorEnabled(connector.label)) {
 						// matched, but is not enabled
-						return new injectResult.InjectResult(injectResult.results.MATCHED_BUT_DISABLED, tabId, connector);
+						return new InjectResult(InjectResult.MATCHED_BUT_DISABLED, tabId, connector);
 					}
 
 					// Checks if there's already injected connector
@@ -112,7 +112,7 @@ define([
 				// return !matchOk;
 			}
 
-			return new injectResult.InjectResult(injectResult.results.NO_MATCH, tabId, null);
+			return new InjectResult(InjectResult.NO_MATCH, tabId, null);
 		});
 	}
 

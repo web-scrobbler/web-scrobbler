@@ -17,64 +17,20 @@ require([
 	'pageAction',
 	'controller',
 	'chromeStorage'
-], function(GA, LastFM, Notifications, inject, injectResult, PageAction, Controller, ChromeStorage) {
+], function(GA, LastFM, Notifications, inject, InjectResult, PageAction, Controller, ChromeStorage) {
 
 	/**
 	 * Single controller instance for each tab with injected script
 	 * This allows us to work with tabs independently
 	 */
-	var tabControllers = {};
+	const tabControllers = {};
 
 	/**
 	 * Flag for "page session" where at least single injection occurred
 	 * Used for tracking number of actually active users
 	 * @type {boolean}
 	 */
-	var isActiveSession = false;
-
-	/**
-	 * Callback for injecting script.
-	 *
-	 * @param {InjectResult} result InjectResult object
-	 */
-	var injectCb = function(result) {
-		var tabId = result.getTabId();
-
-		// no match - do cleanup
-		if (result.getResult() === injectResult.results.NO_MATCH) {
-			// remove controller if any
-			if (tabControllers[tabId] !== undefined) {
-				delete tabControllers[tabId];
-			}
-
-			// hide action icon - there may be any
-			try {
-				chrome.pageAction.hide(tabId);
-			} catch (e) {
-				// ignore, the tab may no longer exist
-			}
-			return;
-		}
-
-		// matched, but the connector is disabled
-		if (result.getResult() === injectResult.results.MATCHED_BUT_DISABLED) {
-			new PageAction(tabId).setWebsiteDisabled();
-			return;
-		}
-
-		// matched, create controller if needed
-		if (result.getResult() === injectResult.results.MATCHED_AND_INJECTED) {
-			// intentionally overwrite previous controller, if any
-			tabControllers[tabId] = new Controller(tabId, result.getConnector());
-
-			GA.event('core', 'inject', result.getConnector().label);
-
-			if (!isActiveSession) {
-				isActiveSession = true;
-				GA.send('pageview', '/background-injected?version=' + chrome.app.getDetails().version);
-			}
-		}
-	};
+	let isActiveSession = false;
 
 	/**
 	 * Return controller for given tab. There should always be one.
@@ -144,7 +100,46 @@ require([
 			return;
 		}
 
-		inject.onTabsUpdated(tabId, changeInfo, tab).then(injectCb);
+		inject.onTabsUpdated(tabId, changeInfo, tab).then((result) => {
+			if (!result) {
+				return;
+			}
+
+			let tabId = result.tabId;
+			switch (result.type) {
+				case InjectResult.NO_MATCH: {
+					// remove controller if any
+					if (tabControllers[tabId] !== undefined) {
+						delete tabControllers[tabId];
+					}
+
+					try {
+						chrome.pageAction.hide(tabId);
+					} catch (e) {
+						// ignore, the tab may no longer exist
+					}
+					break;
+				}
+
+				case InjectResult.MATCHED_BUT_DISABLED: {
+					new PageAction(tabId).setWebsiteDisabled();
+					break;
+				}
+
+				case InjectResult.MATCHED_AND_INJECTED: {
+					// intentionally overwrite previous controller, if any
+					tabControllers[tabId] = new Controller(tabId, result.connector);
+
+					GA.event('core', 'inject', result.connector.label);
+
+					if (!isActiveSession) {
+						isActiveSession = true;
+						GA.send('pageview', '/background-injected?version=' + chrome.app.getDetails().version);
+					}
+					break;
+				}
+			}
+		});
 	});
 	chrome.tabs.onRemoved.addListener((tabId) => {
 		if (tabControllers[tabId]) {

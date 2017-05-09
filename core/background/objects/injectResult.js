@@ -3,36 +3,35 @@
 /**
  * Factory for objects of injection result
  */
-define([], function() {
 
-	return {
-		results: {
-			MATCHED_AND_INJECTED: 'matched-and-injected',
-			MATCHED_BUT_DISABLED: 'matched-but-disabled',
-			NO_MATCH: 'no-match'
-		},
+class InjectResult {
+	/**
+	 * Object that represents result of inject of content scripts.
+	 *
+	 * @constructor
+	 * @param {String} type Result type
+	 * @param {Number} tabId Tab ID
+	 * @param {Object} connector Connector match object
+	 */
+	constructor(type, tabId, connector) {
+		this.type = type;
+		this.tabId = tabId;
+		this.connector = connector;
+	}
 
-		/**
-		 * Object that represents result of inject of content scripts.
-		 *
-		 * @constructor
-		 * @param {String} result Result type
-		 * @param {Number} tabId Tab ID
-		 * @param {Object} connector Connector match object
-		 */
-		InjectResult: function(result, tabId, connector) {
-			this.getConnector = function() {
-				return connector;
-			};
+	static get MATCHED_AND_INJECTED() {
+		return 'matched-and-injected';
+	}
 
-			this.getResult = function() {
-				return result;
-			};
+	static get MATCHED_BUT_DISABLED() {
+		return 'matched-but-disabled';
+	}
 
-			this.getTabId = function() {
-				return tabId;
-			};
-		}
-	};
+	static get NO_MATCH() {
+		return 'no-match';
+	}
+}
 
+define([], () => {
+	return InjectResult;
 });
