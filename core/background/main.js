@@ -306,6 +306,10 @@ require([
 				scrobblers.forEach(scrobbler => {
 					ScrobbleService.authenticateScrobbler(scrobbler);
 				});
+			} else {
+				for (let scrobbler of boundScrobblers) {
+					GA.event('core', 'bind', scrobbler.getLabel());
+				}
 			}
 		});
 	}
