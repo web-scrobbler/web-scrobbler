@@ -473,8 +473,8 @@ define([
 				let params = {
 					method: 'track.scrobble',
 					'timestamp[0]': song.metadata.startTimestamp,
-					'track[0]': song.processed.track || song.parsed.track,
-					'artist[0]': song.processed.artist || song.parsed.artist,
+					'track[0]': song.getTrack(),
+					'artist[0]': song.getArtist(),
 					api_key: this.apiKey,
 					sk: sessionID
 				};
@@ -497,8 +497,8 @@ define([
 			return this.getSession().then(({ sessionID }) => {
 				let params = {
 					method: 'track.' + (isLoved ? 'love' : 'unlove'),
-					'track': song.processed.track || song.parsed.track,
-					'artist': song.processed.artist || song.parsed.artist,
+					'track': song.getTrack(),
+					'artist': song.getArtist(),
 					api_key: this.apiKey,
 					sk: sessionID
 				};
