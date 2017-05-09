@@ -1080,7 +1080,7 @@ define(function () {
 
 	{
 		label: 'ByteFM',
-		matches: ['*://www.byte.fm/player/*'],
+		matches: ['*://www.byte.fm/*'],
 		js: ['connectors/byte.fm.js'],
 	},
 
