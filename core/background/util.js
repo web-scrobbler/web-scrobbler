@@ -47,7 +47,20 @@ define(['wrappers/chrome'], (chrome) => {
 		});
 	}
 
+	/**
+	 * Return curent tab.
+	 * @return {Promise} Promise that will be resolved with current tab object
+	 */
+	function getCurrentTab() {
+		return new Promise((resolve) => {
+			let query = { active: true, lastFocusedWindow: true };
+			chrome.tabs.query(query, (tabs) => {
+				resolve(tabs[0]);
+			});
+		});
+	}
+
 	return {
-		getPlatformName, hideStringInText, isFullscreenMode
+		getCurrentTab, getPlatformName,	hideStringInText, isFullscreenMode
 	};
 });

@@ -94,13 +94,18 @@ define([
 		/**
 		 * Ask user for grant access for service covered by given scrobbler.
 		 * @param  {Object} scrobbler Scrobbler instance
+		 * @param  {Object} notify Use notifications to ask for authentication
 		 */
-		authenticateScrobbler: function (scrobbler) {
+		authenticateScrobbler: function (scrobbler, notify = true) {
 			let label = scrobbler.getLabel();
 
 			scrobbler.getAuthUrl().then((authUrl) => {
 				this.bindScrobbler(scrobbler);
-				Notifications.showAuthenticate(label, authUrl);
+				if (notify) {
+					Notifications.showAuthenticate(label, authUrl);
+				} else {
+					chrome.tabs.create({ url: authUrl });
+				}
 			}).catch(() => {
 				console.log(`ScrobbleService: Unable to get auth URL for ${label}`);
 

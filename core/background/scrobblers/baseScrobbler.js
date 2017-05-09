@@ -118,6 +118,19 @@ define([
 			}));
 		}
 
+		/**
+		 * Remove session info.
+	 	 * @return {Promise} Promise that will be resolved when the task has complete
+		 */
+		signOut() {
+			return this.storage.get().then((data) => {
+				// data.token = null;
+				data.sessionID = null;
+				data.sessionName = null;
+
+				return this.storage.set(data);
+			});
+		}
 
 		/**
 		 * Get status page URL.
@@ -125,6 +138,14 @@ define([
 		 */
 		getStatusUrl() {
 			return this.statusUrl;
+		}
+
+		/**
+		 * Get URL to profile page.
+		 * @return {Promise} Promise that will be resolved with URL
+		 */
+		getProfileUrl() {
+			return Promise.resolve(null);
 		}
 
 		/**
@@ -159,11 +180,7 @@ define([
 						console.warn(this.label + ' Failed to trade token for session - the token is probably not authorized');
 
 						// both session and token are now invalid
-						data.token = null;
-						data.sessionID = null;
-						data.sessionName = null;
-
-						return this.storage.set(data).then(() => {
+						return this.signOut().then(() => {
 							throw ServiceCallResult.AuthError();
 						});
 					});

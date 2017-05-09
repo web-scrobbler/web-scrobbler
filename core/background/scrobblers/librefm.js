@@ -9,6 +9,12 @@ define([
 	'objects/serviceCallResult'
 ], function ($, BaseScrobbler, ServiceCallResult) {
 	class LibreFm extends BaseScrobbler {
+		getProfileUrl() {
+			return this.getSession().then((session) => {
+				return `https://libre.fm/user/${session.sessionName}`;
+			});
+		}
+
 		doRequest(method, params, signed) {
 			if ('post' !== method.toLowerCase()) {
 				return super.doRequest(method, params, signed);

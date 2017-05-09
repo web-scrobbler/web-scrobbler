@@ -142,7 +142,7 @@ require([
 				let scrobblerLabel = request.scrobbler;
 				let scrobbler = ScrobbleService.getScrobblerByLabel(scrobblerLabel);
 				if (scrobbler) {
-					ScrobbleService.authenticateScrobbler(scrobbler);
+					ScrobbleService.authenticateScrobbler(scrobbler, request.notify);
 				}
 				break;
 		}

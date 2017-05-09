@@ -9,8 +9,9 @@ require([
 	'wrappers/chrome',
 	'scrobblers/lastfm',
 	'scrobblers/librefm',
+	'util',
 	'bootstrap'
-], function ($, config, connectors, customPatterns, ChromeStorage, chrome, LastFM, LibreFM) {
+], function ($, config, connectors, customPatterns, ChromeStorage, chrome, LastFM, LibreFM, Util) {
 	/**
 	 * Object that maps options to their element IDs.
 	 * @type {Object}
@@ -58,20 +59,6 @@ require([
 			}
 		}
 
-		$('button#authorize-lastfm').click(function () {
-			chrome.runtime.sendMessage({
-				type: 'v2.authenticate',
-				scrobbler: LastFM.getLabel()
-			});
-		});
-
-		$('button#authorize-librefm').click(function () {
-			chrome.runtime.sendMessage({
-				type: 'v2.authenticate',
-				scrobbler: LibreFM.getLabel()
-			});
-		});
-
 		$('input#toggle').click(function () {
 			var negatedCheckState = !$(this).is(':checked');
 
@@ -103,7 +90,88 @@ require([
 				}
 			}
 		});
+
+		createAccountViews();
+		setupChromeListeners();
 	});
+
+	function setupChromeListeners() {
+		Util.getCurrentTab().then((tab) => {
+			chrome.tabs.onActivated.addListener((activeInfo) => {
+				if (tab.id === activeInfo.tabId) {
+					createAccountViews();
+				}
+			});
+		});
+	}
+
+	function createAccountViews() {
+		createAccountView(LastFM).then(() => {
+			return createAccountView(LibreFM);
+		});
+	}
+
+	function createAccountView(scrobbler) {
+		return scrobbler.getSession().then((session) => {
+			createAuthorizedAccountView(scrobbler, session);
+		}).catch(() => {
+			createUnauthorizedAccountView(scrobbler);
+		});
+	}
+
+	function createAuthorizedAccountView(scrobbler, session) {
+		let $account = $(`#${getAccountViewId(scrobbler)}`);
+		$account.empty();
+
+		let $label = $('<h3/>').text(scrobbler.getLabel());
+		let $authStr = $('<p/>').text(`You're signed in as ${session.sessionName}.`);
+		let $controls = $('<div/>').addClass('controls');
+
+		let $profileBtn = $('<a href="#"/>').text('Profile').click(() => {
+			scrobbler.getProfileUrl().then((profileUrl) => {
+				if (profileUrl) {
+					chrome.tabs.create({ url: profileUrl });
+				}
+			});
+		});
+		let $reauthBtn = $('<a href="#"/>').text('Reauthenticate').click(() => {
+			chrome.runtime.sendMessage({
+				type: 'v2.authenticate',
+				scrobbler: scrobbler.getLabel(),
+				notify: false
+			});
+			createAccountView(scrobbler);
+		});
+		let $logoutBtn = $('<a href="#"/>').text('Sign out').click(() => {
+			scrobbler.signOut().then(() => {
+				createAccountView(scrobbler);
+			});
+		});
+
+		$controls.append($profileBtn, ' • ', $reauthBtn, ' • ', $logoutBtn);
+		$account.append($label, $authStr, $controls);
+	}
+
+	function createUnauthorizedAccountView(scrobbler) {
+		let $account = $(`#${getAccountViewId(scrobbler)}`);
+		$account.empty();
+
+		let $label = $('<h3/>').text(scrobbler.getLabel());
+		let $authUrl = $('<a href="#"/>').text('Sign in').click(() => {
+			chrome.runtime.sendMessage({
+				type: 'v2.authenticate',
+				scrobbler: scrobbler.getLabel(),
+				notify: false
+			});
+		});
+		let $authStr = $('<p/>').text('You\'re not signed in. ').append($authUrl);
+
+		$account.append($label, $authStr);
+	}
+
+	function getAccountViewId(scrobbler) {
+		return scrobbler.getLabel().replace('.', '');
+	}
 
 	function toggleInitState() {
 		var checkedState = true;
@@ -118,10 +186,9 @@ require([
 		$('input#toggle').prop('checked', checkedState);
 
 		switch (getElementIdFromLocation()) {
-			case 'reauth':
-				// Expand 'Options' section and collapse 'Contacts' one.
-				console.log('expand');
-				$('#options').addClass('in');
+			case 'accounts':
+				// Expand 'Accounts' section and collapse 'Contacts' one.
+				$('#accounts').addClass('in');
 				$('#contact').removeClass('in');
 				break;
 		}
@@ -281,13 +348,6 @@ require([
 		$('a#latest-release').attr('href', releaseNotesUrl);
 	}
 
-	function scrollToElement(selector) {
-		var aTag = $(selector);
-		console.log(aTag);
-		console.log(aTag.offset());
-		$('html,body').animate({ scrollTop: aTag.offset().top }, 'fast');
-	}
-
 	function getElementIdFromLocation() {
 		let url = window.location.href;
 		let match = /#(.+?)$/.exec(url);
@@ -296,14 +356,4 @@ require([
 		}
 		return null;
 	}
-
-	$(document).ready(() => {
-		let elementId = getElementIdFromLocation();
-		switch (elementId) {
-			case 'reauth':
-				console.log('scroll');
-				scrollToElement('#reauth');
-				break;
-		}
-	});
 });

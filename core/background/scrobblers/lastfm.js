@@ -8,6 +8,12 @@ define([
 	'wrappers/can',
 ], function (BaseScrobbler, can) {
 	class LastFm extends BaseScrobbler {
+		getProfileUrl() {
+			return this.getSession().then((session) => {
+				return `https://last.fm/user/${session.sessionName}`;
+			});
+		}
+
 		loadSongInfo(song) {
 			return this.getSession().then(({ sessionName }) => {
 				return { username: sessionName };
