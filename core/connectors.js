@@ -1079,7 +1079,7 @@ define(function () {
 	},
 
 	{
-		label: 'byte.fm',
+		label: 'ByteFM',
 		matches: ['*://www.byte.fm/player/*'],
 		js: ['connectors/byte.fm.js'],
 	},
