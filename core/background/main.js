@@ -100,7 +100,7 @@ require([
 			return;
 		}
 
-		inject.onTabsUpdated(tabId, changeInfo, tab).then((result) => {
+		inject.onTabsUpdated(tab).then((result) => {
 			if (!result) {
 				return;
 			}

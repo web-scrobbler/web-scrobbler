@@ -80,13 +80,10 @@ define([
 	 * Check for available connectors and injects matching connector into
 	 * loaded page while returning info about the connector.
 	 *
-	 * @param {Number} tabId Tab ID
-	 * @param {Object} changeInfo Change info
 	 * @param {Object} tab Tab object
-	 *
 	 * @return {Promise} Promise that will be resolved with InjectResult value
 	 */
-	function onTabsUpdated(tabId, changeInfo, tab) {
+	function onTabsUpdated(tab) {
 		// Asynchronously preload all custom patterns and then start matching
 		return customPatterns.getAllPatterns().then((customPatterns) => {
 			for (let connector of connectors) {
@@ -103,16 +100,16 @@ define([
 
 				if (matchOk) {
 					if (!config.isConnectorEnabled(connector.label)) {
-						return new InjectResult(InjectResult.MATCHED_BUT_DISABLED, tabId, connector);
+						return new InjectResult(InjectResult.MATCHED_BUT_DISABLED, tab.id, connector);
 					}
 
 					// Checks if there's already injected connector
 					// and injects it if needed
-					return pingAndInject(tabId, connector);
+					return pingAndInject(tab.id, connector);
 				}
 			}
 
-			return new InjectResult(InjectResult.NO_MATCH, tabId, null);
+			return new InjectResult(InjectResult.NO_MATCH, tab.id, null);
 		});
 	}
 
