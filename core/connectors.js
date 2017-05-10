@@ -1088,5 +1088,17 @@ define(function () {
 		label: 'Deutschlandfunk Nova',
 		matches: ['*://www.deutschlandfunknova.de/*'],
 		js: ['connectors/deutschlandfunknova.js'],
+	},
+
+	{
+		label: 'radioeins',
+		matches: ['*://www.radioeins.de/livestream/*'],
+		js: ['connectors/radioeins.js'],
+	},
+
+	{
+		label: 'fritz',
+		matches: ['*://www.fritz.de/livestream/*'],
+		js: ['connectors/fritz.js'],
 	}];
 });
