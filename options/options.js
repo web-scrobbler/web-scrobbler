@@ -184,7 +184,21 @@ require([
 			checkbox.attr('checked', config.isConnectorEnabled(connector.label));
 
 			checkbox.click(function () {
-				config.setConnectorEnabled(connector.label, this.checked);
+				var box = $(this);
+				var disabledArray = JSON.parse(localStorage.disabledConnectors);
+
+				// always remove, to prevent duplicates
+				var index = disabledArray.indexOf(connector.label);
+				if (index > -1) {
+					disabledArray.splice(index, 1);
+				}
+
+				if (!box.is(':checked')) {
+					disabledArray.push(connector.label);
+				}
+
+				localStorage.disabledConnectors = JSON.stringify(disabledArray);
+				console.log(localStorage.disabledConnectors);
 			});
 		});
 

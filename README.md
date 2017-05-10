@@ -12,9 +12,7 @@ You can obtain the extension either from Chrome Web Store directly or by install
 
 ### Chrome Web Store
 
-You can install it directly from [Chrome Web Store][1], if you use Chrome.
-
-Opera users can install the extension from Chrome Web Store using the [Download Chrome Extension][13] addon for Opera.
+You can get it directly from [Chrome Web Store][1].
 
 ### Unpacked extension
 
@@ -53,4 +51,3 @@ See the [license file](LICENSE.txt).
 [10]: https://github.com/david-sabata/web-scrobbler/wiki/Connectors-development
 [11]: https://github.com/david-sabata/web-scrobbler/wiki/Privacy-policy
 [12]: http://add0n.com/lastfm-scrobbler.html
-[13]: https://addons.opera.com/extensions/details/app_id/kipjbhgniklcnglfaldilecjomjaddfi

@@ -16,28 +16,65 @@ require([
 	'objects/injectResult',
 	'pageAction',
 	'controller',
-	'chromeStorage',
-	'config'
-], function(GA, LastFM, Notifications, inject, InjectResult, PageAction, Controller, ChromeStorage, Config) {
-
-	/**
-	 * Current version of the extension.
-	 * @type {String}
-	 */
-	const extVersion = chrome.runtime.getManifest().version;
+	'chromeStorage'
+], function(GA, LastFM, Notifications, inject, injectResult, PageAction, Controller, ChromeStorage) {
 
 	/**
 	 * Single controller instance for each tab with injected script
 	 * This allows us to work with tabs independently
 	 */
-	const tabControllers = {};
+	var tabControllers = {};
 
 	/**
 	 * Flag for "page session" where at least single injection occurred
 	 * Used for tracking number of actually active users
 	 * @type {boolean}
 	 */
-	let isActiveSession = false;
+	var isActiveSession = false;
+
+	/**
+	 * Callback for injecting script.
+	 *
+	 * @param {InjectResult} result InjectResult object
+	 */
+	var injectCb = function(result) {
+		var tabId = result.getTabId();
+
+		// no match - do cleanup
+		if (result.getResult() === injectResult.results.NO_MATCH) {
+			// remove controller if any
+			if (tabControllers[tabId] !== undefined) {
+				delete tabControllers[tabId];
+			}
+
+			// hide action icon - there may be any
+			try {
+				chrome.pageAction.hide(tabId);
+			} catch (e) {
+				// ignore, the tab may no longer exist
+			}
+			return;
+		}
+
+		// matched, but the connector is disabled
+		if (result.getResult() === injectResult.results.MATCHED_BUT_DISABLED) {
+			new PageAction(tabId).setWebsiteDisabled();
+			return;
+		}
+
+		// matched, create controller if needed
+		if (result.getResult() === injectResult.results.MATCHED_AND_INJECTED) {
+			// intentionally overwrite previous controller, if any
+			tabControllers[tabId] = new Controller(tabId, result.getConnector());
+
+			GA.event('core', 'inject', result.getConnector().label);
+
+			if (!isActiveSession) {
+				isActiveSession = true;
+				GA.send('pageview', '/background-injected?version=' + chrome.app.getDetails().version);
+			}
+		}
+	};
 
 	/**
 	 * Return controller for given tab. There should always be one.
@@ -45,30 +82,16 @@ require([
 	 * @return {Object} Controller instance for tab
 	 */
 	function getControllerByTabId(tabId) {
+		if (!tabControllers[tabId]) {
+			console.warn('Missing controller for tab ' + tabId);
+		}
+
 		return tabControllers[tabId];
 	}
 
-	/**
-	 * Setup Chrome event listeners. Called on startup.
-	 */
-	function setupChromeEventListeners() {
-		chrome.tabs.onUpdated.addListener(onTabUpdated);
-		chrome.tabs.onRemoved.addListener(onTabRemoved);
-		chrome.tabs.onActiveChanged.addListener(setupContextMenu);
-
-		chrome.pageAction.onClicked.addListener(onPageActionClicked);
-
-		chrome.runtime.onMessage.addListener(onMessage);
-	}
-
-	/**
-	 * Called when something sent message to background script.
-	 * @param  {Any} request Message sent by the calling script
-	 * @param  {Object} sender Message sender
-	 * @param  {Function} sendResponse Response callback
-	 */
-	function onMessage(request, sender, sendResponse) {
-		let ctrl;
+	// setup listener for messages from connectors
+	chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+		var ctrl;
 
 		switch (request.type) {
 			case 'v2.stateChanged':
@@ -112,129 +135,31 @@ require([
 		}
 
 		return true;
-	}
+	});
 
-	/**
-	 * Called when user clicks on page action icon.
-	 * @param  {Objeect} tab Tab object
-	 */
-	function onPageActionClicked(tab) {
-		let ctrl = getControllerByTabId(tab.id);
-		if (ctrl) {
-			ctrl.onPageActionClicked(tab);
-		}
-	}
-
-	/**
-	 * Called when tab is updated.
-	 * @param  {Number} tabId Tab ID
-	 * @param  {Object} changeInfo Object contains changes of updated tab
-	 * @param  {Objeect} tab State of updated tab
-	 */
-	function onTabUpdated(tabId, changeInfo, tab) {
+	// setup listener for tab updates
+	chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
 		// wait for navigation to complete (this does not mean page onLoad)
 		if (changeInfo.status !== 'complete') {
 			return;
 		}
 
-		inject.onTabsUpdated(tab).then((result) => {
-			if (!result) {
-				return;
-			}
-
-			let tabId = result.tabId;
-			switch (result.type) {
-				case InjectResult.NO_MATCH: {
-					// remove controller if any
-					if (tabControllers[tabId] !== undefined) {
-						delete tabControllers[tabId];
-					}
-
-					try {
-						chrome.pageAction.hide(tabId);
-					} catch (e) {
-						// ignore, the tab may no longer exist
-					}
-					break;
-				}
-
-				case InjectResult.MATCHED_BUT_DISABLED:
-				case InjectResult.MATCHED_AND_INJECTED: {
-					// intentionally overwrite previous controller, if any
-					let enabled = result.type === InjectResult.MATCHED_AND_INJECTED;
-					tabControllers[tabId] = new Controller(tabId, result.connector, enabled);
-					setupContextMenu(tabId);
-
-					GA.event('core', 'inject', result.connector.label);
-
-					if (!isActiveSession) {
-						isActiveSession = true;
-						GA.send('pageview', `/background-injected?version=${extVersion}`);
-					}
-					break;
-				}
-			}
-		});
-	}
-
-	/**
-	 * Called when tab is closed.
-	 * @param  {Number} tabId Tab ID
-	 */
-	function onTabRemoved(tabId) {
+		inject.onTabsUpdated(tabId, changeInfo, tab, injectCb);
+	});
+	chrome.tabs.onRemoved.addListener((tabId) => {
 		if (tabControllers[tabId]) {
 			console.log(`Tab ${tabId}: remove controller`);
 			delete tabControllers[tabId];
 		}
-	}
+	});
 
-	/**
-	 * Setup context menu of page action icon.
-	 * Called when active tab is changed.
-	 * @param  {Number} tabId Tab ID
-	 */
-	function setupContextMenu(tabId) {
-		chrome.contextMenus.removeAll();
-
-		let controller = getControllerByTabId(tabId);
-		if (!controller) {
-			return;
+	// setup listener for page action clicks
+	chrome.pageAction.onClicked.addListener(function(tab) {
+		var ctrl = getControllerByTabId(tab.id);
+		if (ctrl) {
+			ctrl.onPageActionClicked(tab);
 		}
-		let connector = controller.getConnector();
-
-		if (controller.isEnabled()) {
-			addContextMenuItem(`Disable ${connector.label} connector`, () => {
-				controller.setEnabled(false);
-				Config.setConnectorEnabled(connector.label, false);
-
-				setupContextMenu(tabId);
-			});
-			addContextMenuItem('Disable connector until tab is closed', () => {
-				controller.setEnabled(false);
-				setupContextMenu(tabId);
-			});
-		} else {
-			addContextMenuItem(`Enable ${connector.label} connector`, () => {
-				controller.setEnabled(true);
-				Config.setConnectorEnabled(connector, true);
-				setupContextMenu(tabId);
-			});
-		}
-
-		addContextMenuItem(null, null, 'separator');
-	}
-
-	/**
-	 * Helper function to add item to page action context menu.
-	 * @param {String} title Item title
-	 * @param {Function} onclick Function that will be called on item click
-	 * @param {String} [type='normal'] Item type
-	 */
-	function addContextMenuItem(title, onclick, type = 'normal') {
-		chrome.contextMenus.create({
-			title, type, onclick, contexts: ['page_action'],
-		});
-	}
+	});
 
 	/**
 	 * Replace the extension version stored in
@@ -243,7 +168,7 @@ require([
 	function updateVersionInStorage() {
 		let storage = ChromeStorage.getNamespace('Core');
 		storage.get((data) => {
-			data.appVersion = extVersion;
+			data.appVersion = chrome.app.getDetails().version;
 			storage.set(data);
 		});
 
@@ -252,14 +177,13 @@ require([
 	}
 
 	/**
-	 * Called on the extension start.
+	 * Called on the extension start, after maintenance storage reads/writes are done
 	 */
 	function startup() {
 		updateVersionInStorage();
-		setupChromeEventListeners();
 
 		// track background page loaded - happens once per browser session
-		GA.send('pageview', `/background-loaded?version=${extVersion}`);
+		GA.send('pageview', '/background-loaded?version=' + chrome.app.getDetails().version);
 
 		// check session ID status and show notification if authentication is needed
 		LastFM.getSession(function(sessionID) {

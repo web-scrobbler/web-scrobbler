@@ -1088,31 +1088,5 @@ define(function () {
 		label: 'Deutschlandfunk Nova',
 		matches: ['*://www.deutschlandfunknova.de/*'],
 		js: ['connectors/deutschlandfunknova.js'],
-	},
-
-	{
-		label: 'QQ Music',
-		matches: ['*://y.qq.com/portal/*'],
-		js: ['connectors/qq.js'],
-		version: 2
-	},
-
-	{
-		label: 'Kuwo Music',
-		matches: ['*://kuwo.cn/*', '*://www.kuwo.cn/*'],
-		js: ['connectors/kuwo.js'],
-		version: 2
-	},
-
-	{
-		label: 'radioeins',
-		matches: ['*://www.radioeins.de/livestream/*'],
-		js: ['connectors/radioeins.js'],
-	},
-
-	{
-		label: 'Fritz',
-		matches: ['*://www.fritz.de/livestream/*'],
-		js: ['connectors/fritz.js'],
 	}];
 });
