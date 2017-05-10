@@ -1102,5 +1102,17 @@ define(function () {
 		matches: ['*://kuwo.cn/*', '*://www.kuwo.cn/*'],
 		js: ['connectors/kuwo.js'],
 		version: 2
-	}, ];
+	},
+
+	{
+		label: 'radioeins',
+		matches: ['*://www.radioeins.de/livestream/*'],
+		js: ['connectors/radioeins.js'],
+	},
+
+	{
+		label: 'Fritz',
+		matches: ['*://www.fritz.de/livestream/*'],
+		js: ['connectors/fritz.js'],
+	}];
 });
