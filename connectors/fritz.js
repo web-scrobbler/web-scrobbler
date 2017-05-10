@@ -16,17 +16,17 @@ Connector.isPlaying = function () {
 };
 
 function retrieveJwplayerState() {
-	var scriptContent = "if (typeof jwplayer !== 'undefined') $('body').attr('tmp_state', jwplayer().getState !== 'undefined' ? jwplayer().getState() : '');\n"
+	var scriptContent = 'if (typeof jwplayer !== "undefined") $("body").attr("tmp_state", jwplayer().getState !== "undefined" ? jwplayer().getState() : "");\n';
 
 	var script = document.createElement('script');
 	script.id = 'tmpScript';
 	script.appendChild(document.createTextNode(scriptContent));
 	(document.body || document.head || document.documentElement).appendChild(script);
 
-	var ret = $("body").attr("tmp_state");
+	var ret = $('body').attr('tmp_state');
 
-	$("body").removeAttr("tmp_state");
-	$("#tmpScript").remove();
+	$('body').removeAttr('tmp_state');
+	$('#tmpScript').remove();
 
 	return ret;
 }
