@@ -1097,7 +1097,7 @@ define(function () {
 	},
 
 	{
-		label: 'fritz',
+		label: 'Fritz',
 		matches: ['*://www.fritz.de/livestream/*'],
 		js: ['connectors/fritz.js'],
 	}];
