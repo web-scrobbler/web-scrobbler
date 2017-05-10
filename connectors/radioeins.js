@@ -7,16 +7,12 @@ Connector.artistSelector = 'p.artist';
 Connector.trackSelector = 'p.songtitle';
 
 Connector.isPlaying = function () {
-	var result = false;
 	var state = retrieveJwplayerState();
-	if (typeof state === 'string') {
-		result = (state.toUpperCase() === 'PLAYING');
-	}
-	return result;
+	return (typeof state === 'string') && (state.toUpperCase() === 'PLAYING');
 };
 
 function retrieveJwplayerState() {
-	var scriptContent = 'if (typeof jwplayer !== "undefined") $("body").attr("tmp_state", jwplayer().getState !== "undefined" ? jwplayer().getState() : "");\n';
+	var scriptContent = 'if (typeof jwplayer === "function") $("body").attr("tmp_state", typeof jwplayer().getState === "function" ? jwplayer().getState() : "");\n';
 
 	var script = document.createElement('script');
 	script.id = 'tmpScript';
