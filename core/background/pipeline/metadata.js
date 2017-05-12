@@ -1,8 +1,11 @@
 'use strict';
 
 define([
-	'services/scrobbleService'
-], function(ScrobbleService) {
+	'services/scrobbleService',
+	'storage/chromeStorage'
+], function(ScrobbleService, ChromeStorage) {
+	const options = ChromeStorage.getLocalStorage('Options');
+
 	/**
 	 * Get array of functions that return promises.
 	 * Used for delayed promise execute.
@@ -55,8 +58,9 @@ define([
 				});
 			});
 			return loadSongInfoSequence.then((isValid) => {
-				let forceRecognize = localStorage.forceRecognize === '1';
-				song.flags.attr('isLastfmValid', isValid || forceRecognize);
+				return options.get().then((data) => {
+					song.flags.attr('isLastfmValid', isValid || data.forceRecognize);
+				});
 			});
 		}
 

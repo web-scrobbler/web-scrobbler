@@ -52,6 +52,8 @@ define([
 		'apiSecret'
 	];
 
+	const options = ChromeStorage.getLocalStorage('Options');
+
 	/**
 	 * Base scrobbler object.
 	 *
@@ -301,31 +303,33 @@ define([
 			}).catch(() => {
 				return {};
 			}).then((params) => {
-				params.method = 'track.getinfo';
-				params.autocorrect = localStorage.useAutocorrect || 0;
-				params.artist = song.getArtist();
-				params.track = song.getTrack();
+				return options.get().then((data) => {
+					params.method = 'track.getinfo';
+					params.autocorrect = data.useAutocorrect ? 1 : 0;
+					params.artist = song.getArtist();
+					params.track = song.getTrack();
 
-				if (params.artist === null || params.track === null) {
-					return false;
-				}
-
-				return this.doRequest('GET', params, false).then(($doc) => {
-					let result = processResponse($doc);
-					if (!result.isOk()) {
-						throw new Error('Unable to load song info');
+					if (params.artist === null || params.track === null) {
+						return false;
 					}
 
-					return this.parseSongInfo($doc);
-				}).then((data) => {
-					if (data.isValid) {
-						this.fillSongInfo(data, song);
-						if (this.isSongInfoCorrectionSupported()) {
-							this.correctSongInfo(data, song);
+					return this.doRequest('GET', params, false).then(($doc) => {
+						let result = processResponse($doc);
+						if (!result.isOk()) {
+							throw new Error('Unable to load song info');
 						}
-					}
 
-					return data.isValid;
+						return this.parseSongInfo($doc);
+					}).then((data) => {
+						if (data.isValid) {
+							this.fillSongInfo(data, song);
+							if (this.isSongInfoCorrectionSupported()) {
+								this.correctSongInfo(data, song);
+							}
+						}
+
+						return data.isValid;
+					});
 				});
 			});
 		}

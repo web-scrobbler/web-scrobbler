@@ -3,8 +3,11 @@
 define([
 	'util',
 	'wrappers/chrome',
+	'storage/chromeStorage',
 	'services/background-ga'
-], function(Util, chrome, GA) {
+], function(Util, chrome, ChromeStorage, GA) {
+	const options = ChromeStorage.getLocalStorage('Options');
+
 	const DEFAULT_OPTIONS_VALUES = {
 		type: 'basic',
 		iconUrl: '/icons/icon128.png',
@@ -59,10 +62,12 @@ define([
 
 	/**
 	 * Check if notifications are allowed by user.
-	 * @return {Boolean} True if notifications are allowed by user
+	 * @return {Promise} Promise that will be resolved with check result
 	 */
 	function isAllowed() {
-		return localStorage.useNotifications === '1';
+		return options.get().then((data) => {
+			return data.useNotifications;
+		});
 	}
 
 	/**
@@ -146,27 +151,29 @@ define([
 	 * @param  {Object} song Copy of song instance
 	 */
 	function showPlaying(song) {
-		if (!isAllowed()) {
-			return;
-		}
+		isAllowed().then((flag) => {
+			if (!flag) {
+				return;
+			}
 
-		let connectorLabel = song.metadata.connector.label;
+			let connectorLabel = song.metadata.connector.label;
 
-		let options = {
-			iconUrl: song.getTrackArt() || '/icons/default_cover_art.png',
-			// @ifdef CHROME
-			title: song.getTrack(),
-			message: 'by ' + song.getArtist(),
-			contextMessage: connectorLabel
-			// @endif
-			/* @ifdef FIREFOX
-			title: 'Last.fm Scrobbler',
-			message: `${song.getTrack()}\nby ${song.getArtist()}\n${connectorLabel}`
-			/* @endif */
-		};
-		showNotification(options, null).then((notificationId) => {
-			GA.event('notification', 'playing', 'show');
-			song.metadata.attr('notificationId', notificationId);
+			let options = {
+				iconUrl: song.getTrackArt() || '/icons/default_cover_art.png',
+				// @ifdef CHROME
+				title: song.getTrack(),
+				message: 'by ' + song.getArtist(),
+				contextMessage: connectorLabel
+				// @endif
+				/* @ifdef FIREFOX
+				title: 'Last.fm Scrobbler',
+				message: `${song.getTrack()}\nby ${song.getArtist()}\n${connectorLabel}`
+				/* @endif */
+			};
+			showNotification(options, null).then((notificationId) => {
+				GA.event('notification', 'playing', 'show');
+				song.metadata.attr('notificationId', notificationId);
+			});
 		});
 	}
 
@@ -203,16 +210,18 @@ define([
 	 * Show notification if song is not recognized.
 	 */
 	function showSongNotRecognized() {
-		if (localStorage.useUnrecognizedSongNotifications !== '1') {
-			return;
-		}
+		options.get().then((data) => {
+			if (!data.useUnrecognizedSongNotifications) {
+				return;
+			}
 
-		let options = {
-			iconUrl: 'icons/question.png',
-			title: 'The song is not recognized',
-			message: 'Click on the icon in the extensions bar to correct and submit song info'
-		};
-		showNotification(options);
+			let options = {
+				iconUrl: 'icons/question.png',
+				title: 'The song is not recognized',
+				message: 'Click on the icon in the extensions bar to correct and submit song info'
+			};
+			showNotification(options);
+		});
 	}
 
 	/**

@@ -30,16 +30,18 @@ require([
 		}
 	};
 
+	const options = ChromeStorage.getLocalStorage('Options');
+	const connectorsOptions = ChromeStorage.getLocalStorage('Connectors');
+
 	$(function () {
-		var connectorsOptions = ChromeStorage.getLocalStorage('Connectors');
-		connectorsOptions.debugLog();
-
-
 		// preload values and attach listeners
 		for (let option in optionsUiMap) {
 			let optionId = optionsUiMap[option];
-			$(optionId).attr('checked', localStorage[option] === '1').click(function() {
-				localStorage[option] = this.checked ? 1 : 0;
+			$(optionId).click(function() {
+				options.get().then((data) => {
+					data[option] = this.checked;
+					options.set(data);
+				});
 			});
 		}
 
@@ -78,19 +80,6 @@ require([
 
 		// Set the toggle init state
 		toggleInitState();
-
-		// preload async values from storage
-		connectorsOptions.get().then((data) => {
-			for (let connector in connectorsOptionsUiMap) {
-				for (let option in connectorsOptionsUiMap[connector]) {
-					if (data[connector]) {
-						let optionId = connectorsOptionsUiMap[connector][option];
-						$(optionId).attr('checked', data[connector][option]);
-					}
-				}
-			}
-		});
-
 		createAccountViews();
 		setupChromeListeners();
 	});
@@ -193,6 +182,24 @@ require([
 				break;
 		}
 
+		// preload async values from storage
+		options.get().then((data) => {
+			for (let option in optionsUiMap) {
+				let optionId = optionsUiMap[option];
+				$(optionId).attr('checked', data[option]);
+			}
+		});
+		connectorsOptions.get().then((data) => {
+			for (let connector in connectorsOptionsUiMap) {
+				for (let option in connectorsOptionsUiMap[connector]) {
+					if (data[connector]) {
+						let optionId = connectorsOptionsUiMap[connector][option];
+						$(optionId).attr('checked', data[connector][option]);
+					}
+				}
+			}
+		});
+
 		updateReleaseNotesUrl();
 	}
 
@@ -236,23 +243,26 @@ require([
 
 		var conns = listConnectors();
 
-		conns.forEach(function (connector, index) {
+		options.get().then((data) => {
+			let disabledConnectors = data.disabledConnectors;
 
-			var newEl = $('<li>\r\n' +
-			'<a href="#" class="conn-config" data-conn="' + index + '">\r\n' +
-			'<i class="icon-gear icon-fixed-width"></i>\r\n' +
-			'</a>\r\n' +
-			'<input type="checkbox" id="conn-' + index + '">\r\n' +
-			'<label for="conn-' + index + '">' + connector.label + '</label>\r\n' +
-			'</li>');
+			conns.forEach((connector, index) => {
+				var newEl = $('<li>\r\n' +
+				'<a href="#" class="conn-config" data-conn="' + index + '">\r\n' +
+				'<i class="icon-gear icon-fixed-width"></i>\r\n' +
+				'</a>\r\n' +
+				'<input type="checkbox" id="conn-' + index + '">\r\n' +
+				'<label for="conn-' + index + '">' + connector.label + '</label>\r\n' +
+				'</li>');
 
-			var domEl = newEl.appendTo(parent);
-			var checkbox = domEl.find('input');
+				var domEl = newEl.appendTo(parent);
+				var checkbox = domEl.find('input');
 
-			checkbox.attr('checked', config.isConnectorEnabled(connector.label));
-
-			checkbox.click(function () {
-				config.setConnectorEnabled(connector.label, this.checked);
+				checkbox.click(function () {
+					config.setConnectorEnabled(connector.label, this.checked);
+				});
+				let isConnectorEnabled = disabledConnectors.indexOf(connector.label) === -1;
+				checkbox.attr('checked', isConnectorEnabled);
 			});
 		});
 
@@ -293,10 +303,11 @@ require([
 		$('body').on('click', '#view-edited', function(event) {
 			event.preventDefault();
 
-			const localCache = ChromeStorage.getNamespace('LocalCache');
+			const localCache = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
+			console.log(localCache);
 
 			let cache = $('<ul class="list-unstyled"></ul>');
-			localCache.get((data) => {
+			localCache.get().then((data) => {
 				if (Object.keys(data).length === 0) {
 					cache.append($('<li>').text('No items in the cache.'));
 				} else {

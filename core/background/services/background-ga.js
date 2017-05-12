@@ -8,7 +8,9 @@
  *
  * Does not track anything automatically.
  */
-define(() => {
+define(['storage/chromeStorage'], (ChromeStorage) => {
+	const options = ChromeStorage.getLocalStorage('Options');
+
 	const GA_URL = 'https://www.google-analytics.com/collect';
 	const GA_TRACKING_ID = 'UA-16968457-1';
 	const GA_CLIENT_ID = getClientId();
@@ -40,18 +42,20 @@ define(() => {
 	 * @return {Promise} Promise that will resolve when the task has completed
 	 */
 	function sendRequest(query) {
-		if (localStorage.disableGa === '1') {
-			return Promise.resolve();
-		}
+		return isAllowed().then((flag) => {
+			if (!flag) {
+				return Promise.resolve();
+			}
 
-		query.v = GA_PROTOCOL_VERSION;
-		query.tid = GA_TRACKING_ID;
-		query.cid = GA_CLIENT_ID;
+			query.v = GA_PROTOCOL_VERSION;
+			query.tid = GA_TRACKING_ID;
+			query.cid = GA_CLIENT_ID;
 
-		return fetch(GA_URL, {
-			method: 'POST', body: $.param(query)
-		}).catch((e) => {
-			console.error(`Error sending report to Google Analytics: ${e}`);
+			return fetch(GA_URL, {
+				method: 'POST', body: $.param(query)
+			}).catch((e) => {
+				console.error(`Error sending report to Google Analytics: ${e}`);
+			});
 		});
 	}
 
@@ -105,6 +109,16 @@ define(() => {
 	 */
 	function saveClientId(clientId) {
 		document.cookie = `_ga=GA1.1.${clientId}`;
+	}
+
+	/**
+	 * Check if GA tracking is allowed by user.
+	 * @return {Boolean} True if GA is allowed; false otherwise
+	 */
+	function isAllowed() {
+		return options.get((data) => {
+			return !data.disableGa;
+		});
 	}
 
 	return { event, pageview };

@@ -30,6 +30,7 @@
  *  - v2.skipSong: Ignore (don't scrobble) current song
  */
 require([
+	'migrate',
 	'services/background-ga',
 	'scrobblers/lastfm',
 	'scrobblers/librefm',
@@ -40,7 +41,7 @@ require([
 	'storage/chromeStorage',
 	'config',
 	'services/scrobbleService'
-], function(GA, LastFM, LibreFM, inject, InjectResult, PageAction, Controller, ChromeStorage, Config, ScrobbleService) {
+], function(Migrate, GA, LastFM, LibreFM, inject, InjectResult, PageAction, Controller, ChromeStorage, Config, ScrobbleService) {
 
 	/**
 	 * Current version of the extension.
@@ -270,7 +271,7 @@ require([
 			data.appVersion = extVersion;
 			storage.set(data).then(() => {
 				// debug log internal storage state for people who send logs (tokens are anonymized)
-				storage.debugLog('Core');
+				storage.debugLog();
 			});
 		});
 	}
@@ -292,25 +293,25 @@ require([
 	 * Called on the extension start.
 	 */
 	function startup() {
-		updateVersionInStorage();
-		setupChromeEventListeners();
+		Migrate.migrate().then(() => {
+			updateVersionInStorage();
+			setupChromeEventListeners();
 
-		// track background page loaded - happens once per browser session
-		GA.pageview(`/background-loaded?version=${extVersion}`);
+			// track background page loaded - happens once per browser session
+			GA.pageview(`/background-loaded?version=${extVersion}`);
 
 
-		let scrobblers = [LastFM, LibreFM];
-		ScrobbleService.registerScrobblers(scrobblers).then(boundScrobblers => {
-			if (boundScrobblers.length === 0) {
-				console.warn('No scrobblers are bound');
-				scrobblers.forEach(scrobbler => {
-					ScrobbleService.authenticateScrobbler(scrobbler);
-				});
-			} else {
-				for (let scrobbler of boundScrobblers) {
-					GA.event('core', 'bind', scrobbler.getLabel());
+			let scrobblers = [LastFM, LibreFM];
+			ScrobbleService.registerScrobblers(scrobblers).then((boundScrobblers) => {
+				if (boundScrobblers.length === 0) {
+					console.warn('No scrobblers are bound');
+					scrobblers.forEach(ScrobbleService.authenticateScrobbler);
+				} else {
+					for (let scrobbler of boundScrobblers) {
+						GA.event('core', 'bind', scrobbler.getLabel());
+					}
 				}
-			}
+			});
 		});
 	}
 
