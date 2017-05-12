@@ -57,7 +57,9 @@ require([
 		}
 
 		$('button#authorize').click(function () {
-			Notifications.showAuthenticate(LastFM.getAuthUrl);
+			LastFM.getAuthUrl().then((url) => {
+				chrome.tabs.create({ url });
+			});
 		});
 
 
