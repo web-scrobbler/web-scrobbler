@@ -6,7 +6,7 @@ define([
 	'storage/chromeStorage',
 	'services/background-ga'
 ], function(Util, chrome, ChromeStorage, GA) {
-	const options = ChromeStorage.getLocalStorage('Options');
+	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 
 	const DEFAULT_OPTIONS_VALUES = {
 		type: 'basic',

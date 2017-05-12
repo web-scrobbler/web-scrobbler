@@ -1,7 +1,7 @@
 'use strict';
 
 define(['storage/chromeStorage'], function(ChromeStorage) {
-	const storage = ChromeStorage.getLocalStorage('LocalCache');
+	const storage = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
 	const fieldMap = {
 		'artist': 'userArtist',
 		'track': 'userTrack',

@@ -1,7 +1,7 @@
 'use strict';
 
 define(['storage/chromeStorage'], (ChromeStorage) => {
-	const storage = ChromeStorage.getLocalStorage('customPatterns');
+	const storage = ChromeStorage.getStorage(ChromeStorage.CUSTOM_PATTERNS);
 
 	return {
 		getAllPatterns() {

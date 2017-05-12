@@ -30,8 +30,8 @@ require([
 		}
 	};
 
-	const options = ChromeStorage.getLocalStorage('Options');
-	const connectorsOptions = ChromeStorage.getLocalStorage('Connectors');
+	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
+	const connectorsOptions = ChromeStorage.getStorage(ChromeStorage.CONNECTORS_OPTIONS);
 
 	$(function () {
 		// preload values and attach listeners

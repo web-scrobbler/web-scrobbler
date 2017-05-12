@@ -1,7 +1,7 @@
 'use strict';
 
 define(['storage/chromeStorage'], (ChromeStorage) => {
-	const options = ChromeStorage.getLocalStorage('Options');
+	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 
 	/**
 	 * Object that stores default option values.

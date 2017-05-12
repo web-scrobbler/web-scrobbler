@@ -52,7 +52,7 @@ define([
 		'apiSecret'
 	];
 
-	const options = ChromeStorage.getLocalStorage('Options');
+	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 
 	/**
 	 * Base scrobbler object.
@@ -71,7 +71,7 @@ define([
 				this[option] = options[option];
 			}
 
-			this.storage = ChromeStorage.getLocalStorage(options.storage);
+			this.storage = ChromeStorage.getScrobblerStorage(options.storage);
 			this.storage.debugLog();
 		}
 

@@ -10,7 +10,7 @@ define(['storage/chromeStorage'], (ChromeStorage) => {
 	 * @return {Promise} Promise that will be resolved when the task has complete
 	 */
 	function migrateFromLocalStorage() {
-		let options = ChromeStorage.getLocalStorage('Options');
+		let options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 		let defaultOptions = [
 			'disableGa', 'forceRecognize',
 			'useAutocorrect', 'useNotifications'

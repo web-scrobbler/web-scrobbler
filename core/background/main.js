@@ -266,7 +266,7 @@ require([
 	 * local storage by current one.
 	 */
 	function updateVersionInStorage() {
-		let storage = ChromeStorage.getLocalStorage('Core');
+		let storage = ChromeStorage.getStorage(ChromeStorage.CORE);
 		return storage.get().then((data) => {
 			data.appVersion = extVersion;
 			storage.set(data).then(() => {

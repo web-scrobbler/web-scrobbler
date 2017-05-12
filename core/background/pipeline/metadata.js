@@ -4,7 +4,7 @@ define([
 	'services/scrobbleService',
 	'storage/chromeStorage'
 ], function(ScrobbleService, ChromeStorage) {
-	const options = ChromeStorage.getLocalStorage('Options');
+	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 
 	/**
 	 * Get array of functions that return promises.

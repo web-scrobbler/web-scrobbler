@@ -9,7 +9,7 @@
  * Does not track anything automatically.
  */
 define(['storage/chromeStorage'], (ChromeStorage) => {
-	const options = ChromeStorage.getLocalStorage('Options');
+	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 
 	const GA_URL = 'https://www.google-analytics.com/collect';
 	const GA_TRACKING_ID = 'UA-16968457-1';
