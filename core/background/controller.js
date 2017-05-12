@@ -18,7 +18,7 @@ define([
 	 * @param {Number} tabId Tab ID
 	 * @param {Object} connector Connector match object.
 	 */
-	return function(tabId, connector, enabled) {
+	return function(tabId, connector) {
 
 		/**
 		 * Number of seconds of playback that is considered to be beginning of the track.
@@ -30,16 +30,13 @@ define([
 			playbackTimer = new Timer(),
 			currentSong = null;
 
-		let isEnabled = true;
+
 
 		/**
 		 * React on state change.
 		 * @param {Object} newState State of connector
 		 */
 		this.onStateChanged = function(newState) {
-			if (!isEnabled) {
-				return;
-			}
 
 			// empty state has same semantics as reset; even if isPlaying, we don't have enough data to use
 			var isEmptyState = (!(newState.artist && newState.track) && !newState.uniqueID && !newState.duration);
@@ -199,11 +196,7 @@ define([
 		 * Resets controller state
 		 */
 		function resetState() {
-			if (isEnabled) {
-				pageAction.setSiteSupported();
-			} else {
-				pageAction.setSiteDisabled();
-			}
+			pageAction.setSiteSupported();
 			playbackTimer.reset();
 
 			if (currentSong !== null) {
@@ -391,33 +384,14 @@ define([
 			}
 		};
 
-		/**
-		 * Switch the state of controller.
-		 * @param {Boolean} flag True means enabled and vice versa
-		 */
-		this.setEnabled = function(flag) {
-			isEnabled = flag;
-			resetState();
-		};
-
-		/**
-		 * Check if controller is enabled.
-		 * @return {Boolean} True if controller is enabled; false otherwise
-		 */
-		this.isEnabled = function() {
-			return isEnabled;
-		};
-
-		/**
-		 * Get connector match object.
-		 * @return {Object} Connector
-		 */
-		this.getConnector = function() {
-			return connector;
-		};
+		//
+		//
+		// Active calls
+		//
+		//
 
 		// setup initial page action; the controller means the page was recognized
-		this.setEnabled(enabled);
+		pageAction.setSiteSupported();
 
 		console.log('Tab ' + tabId + ': created controller for connector: ' + JSON.stringify(connector));
 	};
