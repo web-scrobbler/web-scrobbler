@@ -89,29 +89,15 @@ define([
 		 * @return {Promise} Promise that will be resolved with the auth URL
 		 */
 		getAuthUrl() {
-			let url = `${this.apiUrl}?method=auth.gettoken&api_key=${this.apiKey}`;
-			return Util.timeoutPromise(GET_AUTH_URL_TIMEOUT, fetch(url, { method: 'GET' }).then((response) => {
-				return response.text();
-			}).then((text) => {
-				let xml = $($.parseXML(text));
-				let status = xml.find('lfm').attr('status');
-
+			let params = {
+				method: 'auth.gettoken',
+			};
+			let requestPromise = this.doRequest('GET', params, false).then(($doc) => {
 				return this.storage.get().then((data) => {
-					if (status !== 'ok') {
-						this.debugLog(`Error acquiring a token: ${text}`, 'warn');
-
-						delete data.token;
-						return this.storage.set(data).then(() => {
-							throw new Error('Error acquiring a token');
-						});
-					}
-
 					// set token and reset session so we will grab a new one
 					delete data.sessionID;
 					delete data.sessionName;
-					data.token = xml.find('token').text();
-
-					this.debugLog(`gettoken response: ${Util.hideStringInText(data.token, text)}`);
+					data.token = $doc.find('token').text();
 
 					let authUrl = `${this.authUrl}?api_key=${this.apiKey}&token=${data.token}`;
 					return this.storage.set(data).then(() => {
@@ -119,7 +105,18 @@ define([
 						return authUrl;
 					});
 				});
-			}));
+			}).catch(() => {
+				this.debugLog('Error acquiring a token', 'warn');
+
+				return this.storage.get().then((data) => {
+					delete data.token;
+					return this.storage.set(data).then(() => {
+						throw new Error('Error acquiring a token');
+					});
+				});
+			});
+
+			return Util.timeoutPromise(GET_AUTH_URL_TIMEOUT, requestPromise);
 		}
 
 		/**
