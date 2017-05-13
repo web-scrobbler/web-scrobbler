@@ -480,7 +480,6 @@ define([
 					'timestamp[0]': song.metadata.startTimestamp,
 					'track[0]': song.getTrack(),
 					'artist[0]': song.getArtist(),
-					api_key: this.apiKey,
 					sk: sessionID
 				};
 
@@ -504,7 +503,6 @@ define([
 					method: 'track.' + (isLoved ? 'love' : 'unlove'),
 					'track': song.getTrack(),
 					'artist': song.getArtist(),
-					api_key: this.apiKey,
 					sk: sessionID
 				};
 
