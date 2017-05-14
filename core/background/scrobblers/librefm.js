@@ -47,7 +47,7 @@ define([
 	}
 
 	return new LibreFm({
-		label: 'Libre.FM',
+		label: 'Libre.fm',
 		storage: 'LibreFM',
 		apiUrl: 'https://libre.fm/2.0/',
 		apiKey: 'test',

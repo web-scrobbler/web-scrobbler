@@ -33,6 +33,11 @@ require([
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 	const connectorsOptions = ChromeStorage.getStorage(ChromeStorage.CONNECTORS_OPTIONS);
 
+	const scrobblerIds = {
+		'LastFM': LastFM.getLabel(),
+		'LibreFM': LibreFM.getLabel()
+	};
+
 	$(function () {
 		// preload values and attach listeners
 		for (let option in optionsUiMap) {
@@ -109,7 +114,7 @@ require([
 	}
 
 	function createAuthorizedAccountView(scrobbler, session) {
-		let $account = $(`#${getAccountViewId(scrobbler)}`);
+		let $account = $(getAccountViewId(scrobbler));
 		$account.empty();
 
 		let $label = $('<h3/>').text(scrobbler.getLabel());
@@ -142,7 +147,7 @@ require([
 	}
 
 	function createUnauthorizedAccountView(scrobbler) {
-		let $account = $(`#${getAccountViewId(scrobbler)}`);
+		let $account = $(getAccountViewId(scrobbler));
 		$account.empty();
 
 		let $label = $('<h3/>').text(scrobbler.getLabel());
@@ -159,7 +164,12 @@ require([
 	}
 
 	function getAccountViewId(scrobbler) {
-		return scrobbler.getLabel().replace('.', '');
+		for (let scrobblerId in scrobblerIds) {
+			let label = scrobblerIds[scrobblerId];
+			if (label === scrobbler.getLabel()) {
+				return `#${scrobblerId}`;
+			}
+		}
 	}
 
 	function toggleInitState() {

@@ -23,7 +23,7 @@ define([
 	}
 
 	return new LastFm({
-		label: 'Last.FM',
+		label: 'Last.fm',
 		storage: 'LastFM',
 		apiUrl: 'https://ws.audioscrobbler.com/2.0/',
 		apiKey: 'd9bb1870d3269646f740544d9def2c95',
