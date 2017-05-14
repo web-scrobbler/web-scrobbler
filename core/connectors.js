@@ -1112,5 +1112,10 @@ define(function () {
 		matches: ['*://lyricstraining.com/*'],
 		js: ['connectors/lyricstraining.js'],
 		version: 2
-	}, ];
+	}, {
+		label: 'Music Walker',
+		matches: ['*://arkanath.com/MusicWalker/*'],
+		js: ['connectors/musicwalker.js'],
+		version: 2
+	}];
 });
