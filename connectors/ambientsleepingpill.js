@@ -10,7 +10,7 @@ Connector.artistSelector = '#trackartist';
 
 Connector.trackSelector = '#tracktitle';
 
-Connector.playButtonSelector = '#asp-play';
+Connector.playButtonSelector = '#play';
 
 Connector.getTrackArt = function() {
 	let trackArtUrl = $('#trackimageurl').attr('src');
