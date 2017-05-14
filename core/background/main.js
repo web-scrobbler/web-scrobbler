@@ -57,6 +57,12 @@ require([
 	const tabControllers = {};
 
 	/**
+	 * Array of versions have notable changes.
+	 * @type {Array}
+	 */
+	const versionsToNofify = [];
+
+	/**
 	 * Flag for "page session" where at least single injection occurred
 	 * Used for tracking number of actually active users
 	 * @type {boolean}
@@ -219,7 +225,15 @@ require([
 	 * Called when extension is installed first time.
 	 */
 	function onExtensionInstalled() {
+		openAdd0nComWebsite();
+	}
+
+	function openAdd0nComWebsite() {
 		chrome.tabs.create({ url: 'http://add0n.com/lastfm-scrobbler.html' });
+	}
+
+	function openChangelogSection() {
+		chrome.tabs.create({ url: `https://github.com/david-sabata/web-scrobbler/releases/tag/v${extVersion}` });
 	}
 
 	/**
@@ -279,7 +293,7 @@ require([
 		let storage = ChromeStorage.getStorage(ChromeStorage.CORE);
 		return storage.get().then((data) => {
 			data.appVersion = extVersion;
-			storage.set(data).then(() => {
+			return storage.set(data).then(() => {
 				// debug log internal storage state for people who send logs (tokens are anonymized)
 				storage.debugLog();
 			});
@@ -300,11 +314,38 @@ require([
 	}
 
 	/**
+	 * Check if current version has notable changes and show
+	 * the extension page on add0n.com website.
+	 * @return {Promise} Promise that will be resolved when the task has complete
+	 */
+	function notifyOfNotableChanges() {
+		let storage = ChromeStorage.getStorage(ChromeStorage.CORE);
+		return storage.get().then((data) => {
+			if (!data.notify) {
+				data.notify = {};
+			}
+
+			for (let version of versionsToNofify) {
+				if (data.notify[version] === undefined) {
+					data.notify[version] = true;
+				}
+			}
+
+			if (data.notify[extVersion]) {
+				openChangelogSection();
+				data.notify[extVersion] = false;
+			}
+
+			return storage.set(data);
+		});
+	}
+
+	/**
 	 * Called on the extension start.
 	 */
 	function startup() {
 		Migrate.migrate().then(() => {
-			updateVersionInStorage();
+			updateVersionInStorage().then(notifyOfNotableChanges);
 			setupChromeEventListeners();
 
 			// track background page loaded - happens once per browser session
