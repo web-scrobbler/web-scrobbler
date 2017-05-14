@@ -390,19 +390,19 @@ define([
 		this.resetSongData = function() {
 			if (currentSong !== null) {
 				currentSong.resetSongData();
-				LocalCache.removeSongFromStorage(currentSong, () => {
+				LocalCache.removeSongFromStorage(currentSong).then(() => {
 					processSong(currentSong);
 				});
 			}
 		};
 
-		this.toggleLove = function(data, cb) {
+		this.toggleLove = function(data) {
 			if (currentSong !== null) {
-				ScrobbleService.toggleLove(currentSong, data.shouldBeLoved).then(() => {
+				return ScrobbleService.toggleLove(currentSong, data.shouldBeLoved).then(() => {
 					currentSong.metadata.attr('userloved', data.shouldBeLoved);
-					cb();
 				});
 			}
+			return Promise.reject();
 		};
 
 		/**

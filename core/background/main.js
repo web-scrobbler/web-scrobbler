@@ -121,7 +121,7 @@ require([
 			case 'v2.toggleLove':
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
-					ctrl.toggleLove(request.data, sendResponse);
+					ctrl.toggleLove(request.data).then(sendResponse);
 				}
 				break;
 

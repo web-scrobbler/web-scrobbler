@@ -5,47 +5,39 @@ define(['storage/chromeStorage'], function(ChromeStorage) {
 	const fieldsToSave = ['artist', 'track', 'album'];
 
 	function loadData(song) {
-		return new Promise((resolve) => {
-			if (!song.parsed.uniqueID) {
-				resolve();
-				return;
-			}
+		let songId = song.parsed.uniqueID;
+		if (!songId) {
+			return Promise.resolve();
+		}
 
-			storage.get().then((chromeData) => {
-				let songId = song.parsed.uniqueID;
+		return storage.get().then((data) => {
+			if (data[songId]) {
+				let isChanged = false;
+				let savedMetadata = data[songId];
 
-				if (chromeData[songId]) {
-					let isChanged = false;
-					let savedMetadata = chromeData[songId];
-
-					for (let field of fieldsToSave) {
-						if (savedMetadata[field]) {
-							isChanged = true;
-							song.processed.attr(field, savedMetadata[field]);
-						}
-					}
-
-					if (isChanged) {
-						song.flags.attr('isCorrectedByUser', true);
+				for (let field of fieldsToSave) {
+					if (savedMetadata[field]) {
+						isChanged = true;
+						song.processed.attr(field, savedMetadata[field]);
 					}
 				}
 
-				resolve();
-			});
+				if (isChanged) {
+					song.flags.attr('isCorrectedByUser', true);
+				}
+			}
 		});
-
-
 	}
 
-	function removeSongFromStorage(song, cb) {
+	function removeSongFromStorage(song) {
 		let songId = song.parsed.uniqueID;
 		if (!songId) {
-			return cb();
+			return Promise.resolve();
 		}
 
-		storage.get().then((data) => {
+		return storage.get().then((data) => {
 			delete data[songId];
-			storage.set(data, cb);
+			return storage.set(data);
 		});
 	}
 
