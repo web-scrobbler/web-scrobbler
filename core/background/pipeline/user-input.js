@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * The pipeline stage applies custom song info data to given song info.
+ * Plus, it saves the song info to Chrome storage.
+ */
+
 define(['storage/chromeStorage'], function(ChromeStorage) {
 	const storage = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
 	const fieldMap = {
@@ -8,6 +13,10 @@ define(['storage/chromeStorage'], function(ChromeStorage) {
 		'album': 'userAlbum'
 	};
 
+	/**
+	 * Save custom song info to Chrome storage.
+	 * @param  {Object} song Song instance
+	 */
 	function saveSongMetadataToStorage(song) {
 		let songId = song.parsed.uniqueID;
 		if (!songId) {

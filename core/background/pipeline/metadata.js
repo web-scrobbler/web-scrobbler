@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * This pipeline stage loads song info from external services.
+ */
+
 define([
 	'services/scrobbleService',
 	'storage/chromeStorage'

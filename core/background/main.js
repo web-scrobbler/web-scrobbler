@@ -28,6 +28,9 @@
  *    @param  {Boolean} isLoved Flag indicates song is loved
  *  - v2.resetSongData: Reset corrected song info
  *  - v2.skipSong: Ignore (don't scrobble) current song
+ *  - v2.authenticate: Authenticate scrobbler
+ *    @param  {String} scrobbler Scrobbler label
+ *    @param  {Boolean} notify Use notification
  */
 require([
 	'migrate',
@@ -100,8 +103,6 @@ require([
 				}
 				break;
 
-			// Returns current song object - used in page action popup.
-			// Tab ID is stored inside request data
 			case 'v2.getSong':
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
@@ -109,8 +110,6 @@ require([
 				}
 				break;
 
-			// Returns current song object - used in page action popup.
-			// Tab ID is stored inside request data
 			case 'v2.correctSong':
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
@@ -264,6 +263,7 @@ require([
 	/**
 	 * Replace the extension version stored in
 	 * local storage by current one.
+	 * @return {Promise} Promise that will be resolved when the task has complete
 	 */
 	function updateVersionInStorage() {
 		let storage = ChromeStorage.getStorage(ChromeStorage.CORE);

@@ -214,7 +214,7 @@ define([
 		}
 
 		/**
-		 * Resets controller state
+		 * Reset controller state.
 		 */
 		this.resetState = function() {
 			pageAction.setSiteSupported();
@@ -396,6 +396,11 @@ define([
 			}
 		};
 
+		/**
+		 * Send request to love or unlove current song.
+		 * @param  {boolean} isLoved Flag indicated song is loved
+		 * @return {Promise} Promise that will be resolved when the task has complete
+		 */
 		this.toggleLove = function(isLoved) {
 			if (currentSong !== null) {
 				return ScrobbleService.toggleLove(currentSong, isLoved).then(() => {

@@ -1,9 +1,20 @@
 'use strict';
 
+/**
+ * This pipeline stage loads song info from Chrome storage
+ * and apply it to given song. This module also provides
+ * a function to remove song info from storage.
+ */
+
 define(['storage/chromeStorage'], function(ChromeStorage) {
 	const storage = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
 	const fieldsToSave = ['artist', 'track', 'album'];
 
+	/**
+	 * Load song info from Chrome storage.
+	 * @param  {Object} song Song object
+	 * @return {Promise} Promise that will be resolved when the task has complete
+	 */
 	function loadData(song) {
 		let songId = song.parsed.uniqueID;
 		if (!songId) {
@@ -29,6 +40,11 @@ define(['storage/chromeStorage'], function(ChromeStorage) {
 		});
 	}
 
+	/**
+	 * Remove song info from Chrome storage.
+	 * @param  {Object} song Song object
+	 * @return {Promise} Promise that will be resolved when the task has complete
+	 */
 	function removeSongFromStorage(song) {
 		let songId = song.parsed.uniqueID;
 		if (!songId) {

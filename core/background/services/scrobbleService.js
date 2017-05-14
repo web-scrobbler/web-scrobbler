@@ -152,6 +152,12 @@ define([
 			}));
 		},
 
+		/**
+		 * Toggle song love status.
+		 * @param  {Object} song Song instance
+		 * @param  {Boolean} flag Flag indicates song is loved
+		 * @return {Promise} Promise that will be resolved then the task will complete
+		 */
 		toggleLove(song, flag) {
 			return Promise.all(boundScrobblers.map((scrobbler) => {
 				// Forward result (including errors) to caller

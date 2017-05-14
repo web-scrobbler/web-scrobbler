@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- *
+ * The module applies functions provided by pipeline stages to given song.
  */
 define([
 	'pipeline/user-input',
