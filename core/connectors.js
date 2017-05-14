@@ -1102,5 +1102,10 @@ define(function () {
 		matches: ['*://kuwo.cn/*', '*://www.kuwo.cn/*'],
 		js: ['connectors/kuwo.js'],
 		version: 2
+	}, {
+		label: 'NPR',
+		matches: ['*://www.npr.org/*'],
+		js: ['connectors/npr.js'],
+		version: 2
 	}, ];
 });
