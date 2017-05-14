@@ -276,14 +276,12 @@ function rethrowError(err) {
 
 function getChromeOptions() {
 	var extPath = path.join(__dirname, '../.././');
-	var logLevel = options.get('debug') ? '0' : '3';
 
 	var chromeOptions = new chromedriver.Options();
 	chromeOptions.addArguments([
 		'--load-extension=' + extPath,
-		'--log-level=' + logLevel,
 		'--start-maximized',
-		'--test-type',
+		'--disable-logging',
 		'--lang=en-US'
 	]);
 	chromeOptions.setLoggingPrefs({browser: 'ALL'});
