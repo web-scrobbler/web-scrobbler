@@ -60,8 +60,11 @@ function setupCollection2Player() {
 			'.bg-darken-3'
 		];
 		for (let selector of selectors) {
-			rawMetadata = $(selector).text();
-			if (rawMetadata) {
+			let element = $(selector);
+			if (element.length) {
+				rawMetadata = element.contents().filter((index, item) => {
+					return item.nodeType === 3;
+				}).text();
 				break;
 			}
 		}
@@ -69,7 +72,7 @@ function setupCollection2Player() {
 		if (rawMetadata) {
 			[artist, track] = rawMetadata.split('::');
 			let artistTrack = Util.splitArtistTrack(track);
-			if (artistTrack) {
+			if (!Util.isArtistTrackEmpty(artistTrack)) {
 				return artistTrack;
 			}
 		}
