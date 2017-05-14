@@ -272,6 +272,9 @@ define([
 			let url = `${this.apiUrl}?${queryStr}`;
 
 			return fetch(url, { method }).then((response) => {
+				if (!response.ok) {
+					throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+				}
 				return response.text();
 			}).then((text) => {
 				let $doc = $($.parseXML(text));

@@ -80,10 +80,13 @@ define([], function() {
 		let url = `http://musicbrainz.org/ws/2/${endpoint}?fmt=json&query=` +
 			`title:+"${track}"^3 ${track} artistname:+"${artist}"^4${artist}`;
 		return fetch(url).then((response) => {
+			if (!response.ok) {
+				throw new Error('Unable to fetch MusicBrainz ID');
+			}
 			return response.json();
 		}).then((musicbrainz) => {
 			if (musicbrainz.count === 0) {
-				throw new Error();
+				throw new Error('Unable to fetch MusicBrainz ID');
 			}
 
 			let results = musicbrainz[endpoint + 's'];
