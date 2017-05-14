@@ -259,6 +259,10 @@ const Util = {
 		};
 	},
 
+	isArtistTrackEmpty(artistTrack) {
+		return !(artistTrack.artist && artistTrack.track);
+	},
+
 	/**
 	 * Default array of separators.
 	 * Push new separators in the implementation if required.

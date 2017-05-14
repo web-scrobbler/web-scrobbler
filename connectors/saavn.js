@@ -35,7 +35,7 @@ Connector.getArtistTrack = function() {
 };
 
 Connector.isPlaying = function() {
-	if (isSongInfoEmpty()) {
+	if (Util.isSongInfoEmpty(songInfo)) {
 		return false;
 	}
 	return $('#controls #play').hasClass('hide');
@@ -44,14 +44,6 @@ Connector.isPlaying = function() {
 /**
  * Helper functions.
  */
-
-/**
- * Check if current song info is empty.
- * @return {Boolean} True if info is empty; false otherwise
- */
-function isSongInfoEmpty() {
-	return songInfo.artist === null || songInfo.track === null;
-}
 
 /**
  * Update current song info asynchronously.
