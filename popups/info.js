@@ -145,7 +145,7 @@ $(document).ready(function() {
 			var desiredLoveStatus = !currentLoveStatus;
 
 			sendMessageToCurrentTab('v2.toggleLove', {
-				shouldBeLoved: desiredLoveStatus
+				isLoved: desiredLoveStatus
 			}).then(() => {
 				updateLovedIcon(desiredLoveStatus);
 			});

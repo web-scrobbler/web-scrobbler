@@ -396,10 +396,10 @@ define([
 			}
 		};
 
-		this.toggleLove = function(data) {
+		this.toggleLove = function(isLoved) {
 			if (currentSong !== null) {
-				return ScrobbleService.toggleLove(currentSong, data.shouldBeLoved).then(() => {
-					currentSong.metadata.attr('userloved', data.shouldBeLoved);
+				return ScrobbleService.toggleLove(currentSong, isLoved).then(() => {
+					currentSong.metadata.attr('userloved', isLoved);
 				});
 			}
 			return Promise.reject();

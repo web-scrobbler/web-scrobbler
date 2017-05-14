@@ -25,7 +25,7 @@
  *  - v2.correctSong: Correct song info
  *    @param  {Object} data Object contains corrected song info
  *  - v2.toggleLove: Toggle song love status
- *    @param  {Object} data Object contains 'shouldBeLoved' flag
+ *    @param  {Boolean} isLoved Flag indicates song is loved
  *  - v2.resetSongData: Reset corrected song info
  *  - v2.skipSong: Ignore (don't scrobble) current song
  */
@@ -121,7 +121,7 @@ require([
 			case 'v2.toggleLove':
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
-					ctrl.toggleLove(request.data).then(sendResponse);
+					ctrl.toggleLove(request.data.isLoved).then(sendResponse);
 				}
 				break;
 
