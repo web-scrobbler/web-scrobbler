@@ -1107,5 +1107,10 @@ define(function () {
 		matches: ['*://www.npr.org/*'],
 		js: ['connectors/npr.js'],
 		version: 2
+	}, {
+		label: 'LyricsTraining',
+		matches: ['*://lyricstraining.com/*'],
+		js: ['connectors/lyricstraining.js'],
+		version: 2
 	}, ];
 });
