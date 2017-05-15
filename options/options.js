@@ -57,7 +57,9 @@ require([
 		}
 
 		$('button#authorize').click(function () {
-			Notifications.showAuthenticate(LastFM.getAuthUrl);
+			LastFM.getAuthUrl().then((url) => {
+				chrome.tabs.create({ url });
+			});
 		});
 
 
@@ -92,17 +94,7 @@ require([
 				}
 			}
 		});
-
-		bindDataDialogs();
 	});
-
-	function bindDataDialogs() {
-		$('a[data-dialog]').click(function() {
-			var url = chrome.extension.getURL('/dialogs/help/' + $(this).data('dialog') + '.html');
-			window.open(url, 'help', 'width=400,height=400');
-			return false;
-		});
-	}
 
 	function toggleInitState() {
 		var checkedState = true;
@@ -187,8 +179,6 @@ require([
 				config.setConnectorEnabled(connector.label, this.checked);
 			});
 		});
-
-		bindDataDialogs();
 
 		$('button#conn-conf-ok').click(function() {
 			var modal = $(this).closest('#conn-conf-modal');

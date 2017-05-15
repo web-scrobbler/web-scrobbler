@@ -199,6 +199,16 @@ const FIND_SEPARATOR_DATA = [{
 	expected: null,
 }];
 
+const IS_ARTIST_TRACK_EMPTY_DATA = [{
+	description: 'should return true for empty Artist-Track pair',
+	source: { artist: null, track: null },
+	expected: true
+}, {
+	description: 'should return false for non-empty Artist-Track pair',
+	source: { artist: 'Artist', track: 'Track' },
+	expected: false
+}];
+
 /**
  * Test 'Util.splitArtistTrack' function.
  */
@@ -285,6 +295,13 @@ function testFindSeparator() {
 }
 
 /**
+ * Test 'Util.findSeparator' function.
+ */
+function testIsArtistTrackEmpty() {
+	testFunction(Util.isArtistTrackEmpty, IS_ARTIST_TRACK_EMPTY_DATA);
+}
+
+/**
  * Test function.
  * @param  {Function} func Function to be tested
  * @param  {Array} testData Array of test data
@@ -308,6 +325,7 @@ function runTests() {
 	describe('splitTimeInfo', testSplitTimeInfo);
 	describe('stringToSeconds', testStringToSeconds);
 	describe('splitArtistTrack', testSplitArtistTrack);
+	describe('isArtistTrackEmpty', testIsArtistTrackEmpty);
 	describe('escapeBadTimeValues', testEscapeBadTimeValues);
 	describe('extractUrlFromCssProperty', testExtractTrackArtFromCss);
 	describe('processYoutubeVideoTitle', testProcessYoutubeVideoTitle);

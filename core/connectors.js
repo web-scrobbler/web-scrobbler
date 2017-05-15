@@ -1102,15 +1102,26 @@ define(function () {
 		matches: ['*://kuwo.cn/*', '*://www.kuwo.cn/*'],
 		js: ['connectors/kuwo.js'],
 		version: 2
-	},
-
-	{
+	}, {
+		label: 'NPR',
+		matches: ['*://www.npr.org/*'],
+		js: ['connectors/npr.js'],
+		version: 2
+	}, {
+		label: 'LyricsTraining',
+		matches: ['*://lyricstraining.com/*'],
+		js: ['connectors/lyricstraining.js'],
+		version: 2
+	}, {
+		label: 'Music Walker',
+		matches: ['*://arkanath.com/MusicWalker/*'],
+		js: ['connectors/musicwalker.js'],
+		version: 2
+	}, {
 		label: 'radioeins',
 		matches: ['*://www.radioeins.de/livestream/*'],
 		js: ['connectors/radioeins.js'],
-	},
-
-	{
+	}, {
 		label: 'Fritz',
 		matches: ['*://www.fritz.de/livestream/*'],
 		js: ['connectors/fritz.js'],
