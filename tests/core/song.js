@@ -36,7 +36,7 @@ const PROCESSED_DATA = {
 /**
  * Create song object.
  * @param  {Object} parsed Object contains custom parsed data values
- * @param  {Object} parsed Object contains custom processed data values
+ * @param  {Object} processed Object contains custom processed data values
  * @return {Object} Processed song object
  */
 function createSong(parsed, processed) {

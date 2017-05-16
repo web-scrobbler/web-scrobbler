@@ -21,6 +21,7 @@ const RELEASE_COUNT = 3;
 
 /**
  * Entry point.
+ * @return {Promise} Promise that will be resolved when the task has complete
  */
 function main() {
 	return getChangelog().then((changelog) => {

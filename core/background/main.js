@@ -66,6 +66,7 @@ require([
 	 * @param  {Any} request Message sent by the calling script
 	 * @param  {Object} sender Message sender
 	 * @param  {Function} sendResponse Response callback
+	 * @return {Boolean} True value
 	 */
 	function onMessage(request, sender, sendResponse) {
 		let ctrl;

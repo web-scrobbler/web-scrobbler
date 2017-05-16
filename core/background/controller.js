@@ -16,7 +16,8 @@ define([
 	 *
 	 * @constructor
 	 * @param {Number} tabId Tab ID
-	 * @param {Object} connector Connector match object.
+	 * @param {Object} connector Connector match object
+	 * @param {Boolean} enabled Flag indicates initial stage
 	 */
 	return function(tabId, connector, enabled) {
 

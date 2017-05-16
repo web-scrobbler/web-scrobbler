@@ -32,9 +32,7 @@ var Reactor = function(connector) {
 
 	/**
 	 * Listens for state changes on connector and determines further actions
-	 *
-	 * @param newState
-	 * @param changedFields
+	 * @param {Object} newState Connector state
 	 */
 	this.onStateChanged = function(newState/*, changedFields*/) {
 		// ignore changes in current time - it can be used in future

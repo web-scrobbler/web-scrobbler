@@ -127,7 +127,7 @@ const Util = {
 	/**
 	 * Split string to current time and duration.
 	 * @param  {String} str String contains current time and duration
-	 * @param  {String} separator Separator
+	 * @param  {String} sep Separator
 	 * @param  {Boolean} swap Swap currentTime and duration values
 	 * @return {Object} Array ontains 'currentTime' and 'duration' fields
 	 */
@@ -187,7 +187,7 @@ const Util = {
 
 	/**
 	 * Extract track art URL from CSS property.
-	 * @param  {String} style CSS property
+	 * @param  {String} cssProperty CSS property
 	 * @return {String} Track art URL
 	 */
 	extractUrlFromCssProperty(cssProperty) {
