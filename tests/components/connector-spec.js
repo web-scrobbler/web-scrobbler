@@ -16,11 +16,9 @@ const options = require('./../helpers/options');
  * @param  {String} url Website URL
  * @param  {Number} urlLoadTimeout URL load timeout is milliseconds
  */
-module.exports.shouldLoadWebsite = function(driver, options) {
-	var opts = options || {};
-
+module.exports.shouldLoadWebsite = function(driver, options = {}) {
 	it('should load website', function() {
-		return driver.load(opts.url, opts.urlLoadTimeout);
+		return driver.load(options.url, options.urlLoadTimeout);
 	});
 };
 
@@ -68,9 +66,8 @@ module.exports.shouldBehaveLikeMusicSite = function(driver, options) {
  * @param  {Number} urlLoadTimeout URL load timeout is milliseconds
  * @return {Promise} Promise that will be resolved when the task has completed
  */
-function promiseLoadSite(driver, options) {
-	var opts = options || {};
-	return driver.load(opts.url);
+function promiseLoadSite(driver, options = {}) {
+	return driver.load(options.url);
 }
 
 /**
@@ -84,11 +81,9 @@ function promiseLoadSite(driver, options) {
  *
  * @return {Promise} Promise that will be resolved when the task has completed
  */
-function promiseClickPlayButton(driver, options) {
-	var opts = options || {};
-
-	if (opts.playButtonSelector) {
-		return driver.click(opts.playButtonSelector, opts.forceJsClick);
+function promiseClickPlayButton(driver, options = {}) {
+	if (options.playButtonSelector) {
+		return driver.click(options.playButtonSelector, options.forceJsClick);
 	}
 
 	return Promise.resolve();
@@ -104,9 +99,8 @@ function promiseClickPlayButton(driver, options) {
  *
  * @return {Promise} Promise that will be resolved when the task has completed
  */
-function promiseRecognizeSong(driver, options) {
-	var opts = options || {};
-	var timeout = opts.recognizeTimeout || DEFAULT_RECOGNIZE_TIMEOUT;
+function promiseRecognizeSong(driver, options = {}) {
+	var timeout = options.recognizeTimeout || DEFAULT_RECOGNIZE_TIMEOUT;
 	return driver.waitForSongRecognition(timeout).then(function(song) {
 		printSongInfo(song);
 	}, function() {
@@ -125,10 +119,8 @@ function promiseRecognizeSong(driver, options) {
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function promiseCheckPlayerElement(driver, options) {
-	var opts = options || {};
-
-	return promiseLoadSite(driver, opts).then(function() {
-		return promiseClickPlayButton(driver, opts);
+	return promiseLoadSite(driver, options).then(function() {
+		return promiseClickPlayButton(driver, options);
 	}).then(function() {
 		var timeout = WAIT_FOR_PLAYER_ELEMENT_TIMEOUT;
 		return driver.waitForPlayerElement(timeout).catch(function() {
@@ -148,18 +140,16 @@ function promiseCheckPlayerElement(driver, options) {
  *
  * @return {Promise} Promise that will be resolved when the task has completed
  */
-function promiseBehaveLikeMusicSite(driver, options) {
-	var opts = options || {};
-
-	return promiseLoadSite(driver, opts).then(function() {
-		return promiseClickPlayButton(driver, opts);
+function promiseBehaveLikeMusicSite(driver, options = {}) {
+	return promiseLoadSite(driver, options).then(function() {
+		return promiseClickPlayButton(driver, options);
 	}).then(function() {
-		if (opts.waitUntil) {
-			let timeout = opts.waitUntilTimeout || WAIT_UNTIL_TIMEOUT;
-			return driver.wait(opts.waitUntil, timeout);
+		if (options.waitUntil) {
+			let timeout = options.waitUntilTimeout || WAIT_UNTIL_TIMEOUT;
+			return driver.wait(options.waitUntil, timeout);
 		}
 	}).then(function() {
-		return promiseRecognizeSong(driver, opts);
+		return promiseRecognizeSong(driver, options);
 	});
 }
 
