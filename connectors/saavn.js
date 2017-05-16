@@ -35,7 +35,7 @@ Connector.getArtistTrack = function() {
 };
 
 Connector.isPlaying = function() {
-	if (Util.isSongInfoEmpty(songInfo)) {
+	if (Util.isArtistTrackEmpty(songInfo)) {
 		return false;
 	}
 	return $('#controls #play').hasClass('hide');
