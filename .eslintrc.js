@@ -48,6 +48,8 @@ module.exports = {
 		'no-unsafe-negation': 'error',
 		// Disallow negating the left operand of relational operators
 		'use-isnan': 'error',
+		// Enforce valid JSDoc comments
+		// 'valid-jsdoc': ['error', { 'requireReturn': false }],
 		// Enforce comparing `typeof` expressions against valid strings
 		'valid-typeof': 'error',
 
@@ -84,6 +86,8 @@ module.exports = {
 		/**
 		 * Variables
 		 */
+		// Disallow deleting variables
+		'no-delete-var': 'error',
 		// Disallow the use of undeclared variables
 		'no-undef': 'error',
 		// Disallow unused variables
@@ -147,6 +151,10 @@ module.exports = {
 		'no-class-assign': 'error',
 		// Disallow modifying variables that are declared using `const`
 		'no-const-assign': 'error',
+		// Disallow duplicate class members
+		'no-dupe-class-members': 'error',
+		// Disallow `this` or `super` before calling super() in constructors
+		'no-this-before-super': 'error',
 		// Disallow spacing around embedded expressions of template strings
 		'template-curly-spacing': 'error',
 
