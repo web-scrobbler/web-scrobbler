@@ -33,7 +33,9 @@ const TestReporter = {
 	 * @param  {Object} song Recognized song
 	 */
 	reportSongRecognition(song) {
-		this.sendEventToTest('connector_state_changed', song);
+		if (song.isPlaying && song.artist && song.track) {
+			this.sendEventToTest('connector_state_changed', song);
+		}
 	},
 
 	/**

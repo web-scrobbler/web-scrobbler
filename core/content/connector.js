@@ -424,9 +424,7 @@ var BaseConnector = window.BaseConnector || function () {
 			}
 
 			// @ifdef DEBUG
-			var isNewSongPlaying = (changedFields.length > 1) &&
-				(currentState.artist && currentState.track);
-			// Report for scrobble testing
+			var isNewSongPlaying = (changedFields.length > 1);
 			if (isNewSongPlaying) {
 				TestReporter.reportSongRecognition(currentState);
 			}
