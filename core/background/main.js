@@ -104,6 +104,13 @@ require([
 				}
 				break;
 
+			case 'v2.skipSong':
+				ctrl = getControllerByTabId(request.tabId);
+				if (ctrl) {
+					ctrl.skipCurrentSong();
+				}
+				break;
+
 			case 'v2.resetSongData':
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {

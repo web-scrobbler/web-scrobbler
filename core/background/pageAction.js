@@ -22,6 +22,10 @@ define([], function() {
 				'19': '/icons/page_action_note.svg',
 				'38': '/icons/page_action_note.svg'
 			},
+			IGNORED: {
+				'19': '/icons/page_action_ignored.svg',
+				'38': '/icons/page_action_ignored.svg'
+			},
 			DISABLED: {
 				'19': '/icons/page_action_disabled.svg',
 				'38': '/icons/page_action_disabled.svg'
@@ -91,6 +95,12 @@ define([], function() {
 		this.setSongRecognized = function(song) {
 			setPageAction(icons.RECOGNIZED,
 				`Now playing ${song.getArtistTrackString()}`,
+				documents.SONG_INFO);
+		};
+
+		this.setSongSkipped = function(song) {
+			setPageAction(icons.IGNORED,
+				`Skipped ${song.getArtistTrackString()}`,
 				documents.SONG_INFO);
 		};
 

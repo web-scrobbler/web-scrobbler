@@ -162,20 +162,31 @@ $(document).ready(function() {
 			return;
 		}
 
-		$('#edit-link').off('click');
-		$('#edit-link').on('click', () => {
-			if (isEditModeEnabled) {
-				setEditMode(false);
-				correctSongInfo();
-			} else {
-				setEditMode(true);
-			}
-		});
 		if (song.flags.isCorrectedByUser) {
 			$('#revert-link').off('click');
 			$('#revert-link').on('click', () => {
 				sendMessageToCurrentTab('v2.resetSongData');
 				window.close();
+			});
+		}
+
+		$('#edit-link').off('click');
+		$('#skip-link').off('click');
+
+		if (!song.flags.isSkipped) {
+			$('#edit-link').on('click', () => {
+				if (isEditModeEnabled) {
+					setEditMode(false);
+					correctSongInfo();
+				} else {
+					setEditMode(true);
+				}
+			});
+			$('#skip-link').on('click', () => {
+				skipSong();
+
+				configControls();
+				updateControls();
 			});
 		}
 
@@ -206,19 +217,29 @@ $(document).ready(function() {
 
 	function updateControls() {
 		$('#edit-link').text(isEditModeEnabled ? 'Submit' : 'Edit');
-		$('#edit-link').attr('data-disable', song.flags.isScrobbled);
+		$('#edit-link').attr('data-disable', song.flags.isScrobbled ||
+			song.flags.isSkipped);
 
 		$('#revert-link').attr('data-hide', !song.flags.isCorrectedByUser
 			|| isEditModeEnabled);
 		$('#revert-link').attr('data-disable', song.flags.isScrobbled ||
 			!song.flags.isCorrectedByUser);
 
+		$('#skip-link').attr('data-hide', isEditModeEnabled);
+		$('#skip-link').attr('data-disable', song.flags.isSkipped ||
+			song.flags.isScrobbled);
+
 		if (song.flags.isScrobbled) {
 			$('#edit-link').attr('title', 'Scrobbled tracks cannot be edited');
 			$('#revert-link').attr('title', 'Scrobbled tracks cannot be reverted');
+			$('#skip-link').attr('title', 'Scrobbled songs cannot be skipped');
+		} else if (song.flags.isSkipped) {
+			$('#edit-link').attr('title', 'Skipped song cannot be edited');
+			$('#skip-link').attr('title', 'Song is already skipped');
 		} else {
 			$('#edit-link').attr('title', 'Edit song metadata');
 			$('#revert-link').attr('title', 'Revert changes');
+			$('#skip-link').attr('title', 'Don\'t scrobble current song');
 		}
 	}
 
@@ -231,6 +252,11 @@ $(document).ready(function() {
 				album: $('#album-input').val()
 			});
 		}
+	}
+
+	function skipSong() {
+		song.flags.isSkipped = true;
+		sendMessageToCurrentTab('v2.skipSong');
 	}
 
 	function getSongFieldMap() {

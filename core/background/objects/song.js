@@ -95,7 +95,12 @@ define([
 			 * Flag indicates song is marked as playing by controller.
 			 * @type {Boolean}
 			 */
-			isMarkedAsPlaying: false
+			isMarkedAsPlaying: false,
+			/**
+			 * Flag means song is ignored by controller.
+			 * @type {Boolean}
+			 */
+			isSkipped: false
 		};
 
 		const song = new can.Map({ parsed, processed, metadata,	flags });

@@ -82,6 +82,10 @@ define([
 
 			// propagate values that can change without changing the song
 			if (!hasSongChanged && !isReplayingSong) {
+				if (currentSong && currentSong.flags.isSkipped) {
+					return;
+				}
+
 				// logging same message over and over saves space in console
 				if (newState.isPlaying === currentSong.parsed.isPlaying) {
 					console.log('Tab ' + tabId + ': state update: only currentTime has changed');
@@ -395,6 +399,23 @@ define([
 		};
 
 		/**
+		 * Make the controller to ignore current song.
+		 */
+		this.skipCurrentSong = function() {
+			if (!currentSong) {
+				return;
+			}
+
+			pageAction.setSongSkipped(currentSong);
+
+			currentSong.flags.attr({ isSkipped: true });
+
+			playbackTimer.reset();
+			unbindSongListeners(currentSong);
+			clearNotification(currentSong);
+		};
+
+		/**
 		 * Switch the state of controller.
 		 * @param {Boolean} flag True means enabled and vice versa
 		 */
@@ -435,5 +456,4 @@ define([
 
 		console.log('Tab ' + tabId + ': created controller for connector: ' + JSON.stringify(connector));
 	};
-
 });
