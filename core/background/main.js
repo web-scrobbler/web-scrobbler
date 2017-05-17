@@ -7,6 +7,25 @@
  * - creates controllers for each recognized tab
  * - sets up all chrome.* listeners, which are forwarded controllers if needed
  * - checks auth status on run (browser start or extension enabling) and prompts for login if needed
+ *
+ * The extension uses `chrome.runtime.sendMessage` function for communication
+ * between different modules using the following message types:
+ *
+ * 1) events:
+ *  - v2.stateChanged: The connector state is changed
+ *    @param  {Object} state Connector state
+ *  - v2.onSongUpdated: The current song is updated
+ *    @param  {Object} data Song instance copy
+ *
+ * 2) requests:
+ *  - v2.getSong: Get now playing song
+ *    @return {Object} Song instance copy
+ *  - v2.correctSong: Correct song info
+ *    @param  {Object} data Object contains corrected song info
+ *  - v2.toggleLove: Toggle song love status
+ *    @param  {Object} data Object contains 'shouldBeLoved' flag
+ *  - v2.resetSongData: Reset corrected song info
+ *  - v2.skipSong: Ignore (don't scrobble) current song
  */
 require([
 	'services/background-ga',
