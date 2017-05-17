@@ -178,9 +178,7 @@ define([
 				if (newVal) {
 					console.log('Tab ' + tabId + ': song finished processing ', JSON.stringify(song.attr()));
 					onProcessed(song);
-					chrome.runtime.sendMessage({
-						type: 'v2.onSongUpdated',
-						data: song.attr(), tabId});
+					notifySongIsUpdated(song);
 				} else {
 					console.log('Tab ' + tabId + ': song un-processed ', JSON.stringify(song.attr()));
 					onUnProcessed();
@@ -197,6 +195,17 @@ define([
 		function unbindSongListeners(song) {
 			song.unbind('parsed.isPlaying');
 			song.unbind('flags.isProcessed');
+		}
+
+		/**
+		 * Notify other modules song is updated.
+		 * @param {Object} song Song instance
+		 */
+		function notifySongIsUpdated(song) {
+			let type = 'v2.onSongUpdated';
+			let data = song.attr();
+
+			chrome.runtime.sendMessage({ type, data, tabId });
 		}
 
 		/**
@@ -295,6 +304,8 @@ define([
 
 					song.flags.attr('isScrobbled', true);
 					pageAction.setSongScrobbled(song);
+
+					notifySongIsUpdated(song);
 
 					GA.event('core', 'scrobble', connector.label);
 				} else {
