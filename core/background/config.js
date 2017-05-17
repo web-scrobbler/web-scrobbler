@@ -1,6 +1,6 @@
 'use strict';
 
-define(['storage/chromeStorage'], (ChromeStorage) => {
+define(['storage/chromeStorage', 'connectors'], (ChromeStorage, connectors) => {
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 
 	/**
@@ -81,9 +81,26 @@ define(['storage/chromeStorage'], (ChromeStorage) => {
 		});
 	}
 
+	/**
+	 * Enable or disable all connectors.
+	 * @param  {Boolean} state True if connector is enabled; false otherwise
+	 */
+	function setAllConnectorsEnabled(state) {
+		options.get().then((data) => {
+			data.disabledConnectors = [];
+			if (!state) {
+				for (let connector of connectors) {
+					data.disabledConnectors.push(connector.label);
+				}
+			}
+
+			options.set(data);
+		});
+	}
+
 	setupDefaultConfigValues();
 
 	return {
-		isConnectorEnabled, setConnectorEnabled
+		isConnectorEnabled, setConnectorEnabled, setAllConnectorsEnabled
 	};
 });

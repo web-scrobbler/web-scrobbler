@@ -66,16 +66,6 @@ require([
 			}
 		}
 
-		$('input#toggle').click(function () {
-			var negatedCheckState = !$(this).is(':checked');
-
-			// First set each to the negated value and then trigger click
-			$('input[id^="conn"]').each(function (index, connector) {
-				$(connector).prop('checked', negatedCheckState);
-				$(connector).trigger('click');
-			});
-		});
-
 		$('button#add-pattern').click(function() {
 			$('#conn-conf-list').append(createNewConfigInput());
 		});
@@ -173,17 +163,6 @@ require([
 	}
 
 	function toggleInitState() {
-		var checkedState = true;
-
-		$('input[id^="conn"]').each(function () {
-			if (!$(this).is(':checked')) {
-				checkedState = false;
-				return false;
-			}
-		});
-
-		$('input#toggle').prop('checked', checkedState);
-
 		switch (getElementIdFromLocation()) {
 			case 'accounts':
 				// Expand 'Accounts' section and collapse 'Contacts' one.
@@ -255,6 +234,7 @@ require([
 
 		options.get().then((data) => {
 			let disabledConnectors = data.disabledConnectors;
+			let toggleCheckboxState = false;
 
 			conns.forEach((connector, index) => {
 				var newEl = $('<li>\r\n' +
@@ -273,6 +253,19 @@ require([
 				});
 				let isConnectorEnabled = disabledConnectors.indexOf(connector.label) === -1;
 				checkbox.attr('checked', isConnectorEnabled);
+
+				if (isConnectorEnabled) {
+					toggleCheckboxState = true;
+				}
+			});
+
+			$('input#toggle').attr('checked', toggleCheckboxState);
+			$('input#toggle').click(function () {
+				// First set each to the negated value and then trigger click
+				$('input[id^="conn"]').each((index, connector) => {
+					$(connector).prop('checked', this.checked);
+				});
+				config.setAllConnectorsEnabled(this.checked);
 			});
 		});
 
