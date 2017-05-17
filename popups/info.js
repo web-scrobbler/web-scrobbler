@@ -270,7 +270,7 @@ $(document).ready(function() {
 	function setupMessageListener() {
 		chrome.runtime.onMessage.addListener((request) => {
 			switch (request.type) {
-				case 'v2.onSongUpdated':
+				case 'v2.songUpdated':
 					song = request.data;
 					updatePopupView();
 					break;

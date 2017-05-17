@@ -14,7 +14,7 @@
  * 1) events:
  *  - v2.stateChanged: The connector state is changed
  *    @param  {Object} state Connector state
- *  - v2.onSongUpdated: The current song is updated
+ *  - v2.songUpdated: The current song is updated
  *    @param  {Object} data Song instance copy
  *
  * 2) requests:

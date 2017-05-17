@@ -202,7 +202,7 @@ define([
 		 * @param {Object} song Song instance
 		 */
 		function notifySongIsUpdated(song) {
-			let type = 'v2.onSongUpdated';
+			let type = 'v2.songUpdated';
 			let data = song.attr();
 
 			chrome.runtime.sendMessage({ type, data, tabId });
