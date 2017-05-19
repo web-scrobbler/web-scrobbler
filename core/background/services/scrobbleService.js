@@ -4,22 +4,24 @@
  * Service to handle all scrobbling behaviour.
  */
 define([
-	'notifications'
-], function (Notifications) {
+	'notifications',
+	'scrobblers/lastfm',
+	'scrobblers/librefm'
+], function (Notifications, LastFM, LibreFM) {
 
 	/**
 	 * Scrobblers that are bound, meaning they have valid session IDs.
 	 *
 	 * @type {Array}
 	 */
-	var boundScrobblers = [];
+	const boundScrobblers = [];
 
 	/**
 	 * Scrobblers that are registered and that can be bound.
 	 *
 	 * @type {Array}
 	 */
-	var registeredScrobblers = [];
+	const registeredScrobblers = [LastFM, LibreFM];
 
 	/**
 	 * Check if scrobbler is in given array of scrobblers.
@@ -33,27 +35,15 @@ define([
 		});
 	}
 
-	/**
-	 * Register given scrobbler.
-	 * @param {Object} scrobbler Scrobbler instance
-	 */
-	function registerScrobbler(scrobbler) {
-		if (!isScrobblerInArray(scrobbler, registeredScrobblers)) {
-			console.log(`Register ${scrobbler.getLabel()} scrobbler`);
-			registeredScrobblers.push(scrobbler);
-		}
-	}
-
 	return {
 		/**
-		 * Register given scrobblers.
+		 * Bind array of scrobblers scrobblers.
 		 * @param {Array} unboundScrobblers Array of unbound scrobbler instances
 		 * @returns {Promise} Promise that will resolve with array of bound scrobblers
 		 */
-		registerScrobblers(unboundScrobblers) {
+		bindScrobblers(unboundScrobblers) {
 			// Convert each `getSession` call into Promise
 			let promises = unboundScrobblers.map(scrobbler => {
-				registerScrobbler(scrobbler);
 				return scrobbler.getSession().then(() => {
 					this.bindScrobbler(scrobbler);
 				}).catch(() => {
@@ -81,9 +71,8 @@ define([
 		 */
 		unbindScrobbler(scrobbler) {
 			if (isScrobblerInArray(scrobbler, boundScrobblers)) {
-				boundScrobblers = boundScrobblers.filter(function (s) {
-					return s !== scrobbler;
-				});
+				let index = boundScrobblers.indexOf(scrobbler);
+				boundScrobblers.splice(index, 1);
 
 				console.log(`Unbind ${scrobbler.getLabel()} scrobbler`);
 			} else {

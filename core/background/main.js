@@ -35,8 +35,6 @@
 require([
 	'migrate',
 	'services/background-ga',
-	'scrobblers/lastfm',
-	'scrobblers/librefm',
 	'inject',
 	'objects/injectResult',
 	'pageAction',
@@ -44,7 +42,7 @@ require([
 	'storage/chromeStorage',
 	'config',
 	'services/scrobbleService'
-], function(Migrate, GA, LastFM, LibreFM, inject, InjectResult, PageAction, Controller, ChromeStorage, Config, ScrobbleService) {
+], function(Migrate, GA, inject, InjectResult, PageAction, Controller, ChromeStorage, Config, ScrobbleService) {
 
 	/**
 	 * Current version of the extension.
@@ -300,12 +298,13 @@ require([
 			// track background page loaded - happens once per browser session
 			GA.pageview(`/background-loaded?version=${extVersion}`);
 
-
-			let scrobblers = [LastFM, LibreFM];
-			ScrobbleService.registerScrobblers(scrobblers).then((boundScrobblers) => {
+			let scrobblers = ScrobbleService.getRegisteredScrobblers();
+			ScrobbleService.bindScrobblers(scrobblers).then((boundScrobblers) => {
 				if (boundScrobblers.length === 0) {
 					console.warn('No scrobblers are bound');
-					scrobblers.forEach(ScrobbleService.authenticateScrobbler);
+					for (let scrobbler of scrobblers) {
+						ScrobbleService.authenticateScrobbler(scrobbler);
+					}
 				} else {
 					for (let scrobbler of boundScrobblers) {
 						GA.event('core', 'bind', scrobbler.getLabel());

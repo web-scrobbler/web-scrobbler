@@ -7,11 +7,10 @@ require([
 	'customPatterns',
 	'storage/chromeStorage',
 	'wrappers/chrome',
-	'scrobblers/lastfm',
-	'scrobblers/librefm',
+	'services/scrobbleService',
 	'util',
 	'bootstrap'
-], function ($, config, connectors, customPatterns, ChromeStorage, chrome, LastFM, LibreFM, Util) {
+], function ($, config, connectors, customPatterns, ChromeStorage, chrome, ScrobbleService, Util) {
 	/**
 	 * Object that maps options to their element IDs.
 	 * @type {Object}
@@ -32,11 +31,6 @@ require([
 
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 	const connectorsOptions = ChromeStorage.getStorage(ChromeStorage.CONNECTORS_OPTIONS);
-
-	const scrobblerIds = {
-		'LastFM': LastFM.getLabel(),
-		'LibreFM': LibreFM.getLabel()
-	};
 
 	$(function () {
 		// preload values and attach listeners
@@ -90,12 +84,12 @@ require([
 	}
 
 	function createAccountViews() {
-		createAccountView(LastFM).then(() => {
-			return createAccountView(LibreFM);
-		});
+		ScrobbleService.getRegisteredScrobblers().forEach(createAccountView);
 	}
 
 	function createAccountView(scrobbler) {
+		createEmptyView(scrobbler);
+
 		return scrobbler.getSession().then((session) => {
 			createAuthorizedAccountView(scrobbler, session);
 		}).catch(() => {
@@ -104,7 +98,7 @@ require([
 	}
 
 	function createAuthorizedAccountView(scrobbler, session) {
-		let $account = $(getAccountViewId(scrobbler));
+		let $account = $(`#${getAccountViewId(scrobbler)}`);
 		$account.empty();
 
 		let $label = $('<h3/>').text(scrobbler.getLabel());
@@ -137,7 +131,7 @@ require([
 	}
 
 	function createUnauthorizedAccountView(scrobbler) {
-		let $account = $(getAccountViewId(scrobbler));
+		let $account = $(`#${getAccountViewId(scrobbler)}`);
 		$account.empty();
 
 		let $label = $('<h3/>').text(scrobbler.getLabel());
@@ -153,13 +147,16 @@ require([
 		$account.append($label, $authStr);
 	}
 
-	function getAccountViewId(scrobbler) {
-		for (let scrobblerId in scrobblerIds) {
-			let label = scrobblerIds[scrobblerId];
-			if (label === scrobbler.getLabel()) {
-				return `#${scrobblerId}`;
-			}
+	function createEmptyView(scrobbler) {
+		let elementId = getAccountViewId(scrobbler);
+		if ($(`#${elementId}`).length === 0) {
+			let $account = $('<div/>').attr('id', elementId);
+			$('#accounts div').append($account);
 		}
+	}
+
+	function getAccountViewId(scrobbler) {
+		return scrobbler.getLabel().replace('.', '');
 	}
 
 	function toggleInitState() {
