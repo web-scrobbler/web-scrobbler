@@ -94,7 +94,7 @@ $(document).ready(function() {
 
 			let fieldUrl = fieldUrlMap[field];
 			if (fieldUrl) {
-				let fieldTitle = `View "${fieldValue}" ${field} on Last.fm`;
+				let fieldTitle = `View "${fieldValue}" ${field} page`;
 				$(fieldLabelSelector).attr('href', fieldUrl);
 				$(fieldLabelSelector).attr('title', fieldTitle);
 			} else {

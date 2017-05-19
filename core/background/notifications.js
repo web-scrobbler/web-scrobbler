@@ -184,7 +184,7 @@ define([
 	 */
 	function showError(message, onClick = null) {
 		const options = {
-			title: 'Last.fm Scrobbler error',
+			title: 'Authentication error',
 			message: message,
 		};
 		showNotification(options, onClick).then(() => {
@@ -193,7 +193,7 @@ define([
 	}
 
 	/**
-	 * Show error notification if user is unable to sign in to Last.fm.
+	 * Show error notification if user is unable to sign in to service.
 	 * @param {String} label Scrobbler label
 	 * @param {String} statusUrl URL that will be opened on notification click
 	 */

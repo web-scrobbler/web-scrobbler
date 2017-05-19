@@ -24,7 +24,7 @@ define(['storage/chromeStorage', 'connectors'], (ChromeStorage, connectors) => {
 		 */
 		forceRecognize: false,
 		/**
-		 * Use autocorrection when retrieving song info from Last.fm.
+		 * Use autocorrection when retrieving song info from services.
 		 * @type {Boolean}
 		 */
 		useAutocorrect: false,
