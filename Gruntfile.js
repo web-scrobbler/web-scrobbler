@@ -28,6 +28,7 @@ module.exports = function(grunt) {
 	];
 	const buildDir = 'build';
 	const packageName = 'web-scrobbler.zip';
+	const packageSrcName = 'web-scrobbler-src.zip';
 
 	const filesToUglify = [
 		'vendor/bootstrap.js',
@@ -48,7 +49,7 @@ module.exports = function(grunt) {
 
 		clean: {
 			build: buildDir,
-			package: packageName,
+			package: [packageName, packageSrcName],
 			chrome: [
 				`${buildDir}/icons/icon128_firefox.png`,
 				`${buildDir}/icons/icon48_firefox.png`
@@ -180,6 +181,15 @@ module.exports = function(grunt) {
 				cmd: (...args) => `node tests/runner.js ${args.join(' ')}`
 			}
 		},
+		gitarchive: {
+			sources: {
+				options: {
+					format: 'zip',
+					treeIsh: 'head',
+					output: packageSrcName,
+				}
+			}
+		},
 		gitcommit: {
 			add0n_changelog: {
 				options: {
@@ -244,8 +254,8 @@ module.exports = function(grunt) {
 		assertBrowserIsSupported(browser);
 
 		grunt.task.run([
-			'clean:build', `compile:${browser}`,
-			'clean:package', 'compress', 'clean:build'
+			'clean:build', `compile:${browser}`, 'clean:package',
+			'compress', 'gitarchive:sources', 'clean:build',
 		]);
 	});
 
