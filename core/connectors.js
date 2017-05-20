@@ -1125,5 +1125,9 @@ define(function () {
 		label: 'Fritz',
 		matches: ['*://www.fritz.de/livestream/*'],
 		js: ['connectors/fritz.js'],
+	}, {
+		label: 'Musicoin',
+		matches: ['*://musicoin.org/*'],
+		js: ['connectors/musicoin.js']
 	}];
 });
