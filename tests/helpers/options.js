@@ -49,7 +49,7 @@ exports.get = function(key) {
  */
 exports.getConnectorsFromArgs = function() {
 	return process.argv.slice(2).filter((arg) => {
-		return arg.indexOf('=') === -1;
+		return !arg.includes('=');
 	});
 };
 
@@ -93,7 +93,7 @@ function processOptionsFromArgs() {
 
 		let context = exports.getTestMode();
 		let optionsData = options[key];
-		if (optionsData.context.indexOf(context) === -1) {
+		if (!optionsData.context.includes(context)) {
 			console.warn(`The option is not allowed in ${context} context: ${key}`);
 			continue;
 		}
@@ -122,7 +122,7 @@ function processOptionsFromArgs() {
  */
 function getOptionsFromArgs() {
 	let args = process.argv.slice(2).filter((arg) => {
-		return arg.indexOf('=') !== -1;
+		return arg.includes('=');
 	});
 	let rawOptions = {};
 

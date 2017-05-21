@@ -33,7 +33,7 @@ const WAIT_FOR_PLAYER_ELEMENT_TIMEOUT = 5000;
  * @param  {Number} urlLoadTimeout URL load timeout is milliseconds
  */
 module.exports.shouldLoadWebsite = function(driver, options = {}) {
-	it('should load website', function() {
+	it('should load website', () => {
 		return driver.load(options.url, options.urlLoadTimeout);
 	});
 };
@@ -47,7 +47,7 @@ module.exports.shouldLoadWebsite = function(driver, options = {}) {
  * @see {@link shouldLoadWebsite}
  */
 exports.shouldContainPlayerElement = function(driver, options) {
-	it('should load website and check player element', function() {
+	it('should load website and check player element', () => {
 		return promiseCheckPlayerElement(driver, options);
 	});
 };
@@ -65,7 +65,7 @@ exports.shouldContainPlayerElement = function(driver, options) {
  * @param  {Function} waitUntil Function that returns promise resolves with truthy value
  */
 module.exports.shouldBehaveLikeMusicSite = function(driver, options) {
-	it('should load website and recognize a song', function() {
+	it('should load website and recognize a song', () => {
 		return promiseBehaveLikeMusicSite(driver, options);
 	});
 };
@@ -116,10 +116,8 @@ function promiseClickPlayButton(driver, options = {}) {
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function promiseRecognizeSong(driver, options = {}) {
-	var timeout = options.recognizeTimeout || DEFAULT_RECOGNIZE_TIMEOUT;
-	return driver.waitForSongRecognition(timeout).then(function(song) {
-		printConnectorState(song);
-	}, function() {
+	let timeout = options.recognizeTimeout || DEFAULT_RECOGNIZE_TIMEOUT;
+	return driver.waitForSongRecognition(timeout).then(printConnectorState).catch(() => {
 		throw new Error('Connector did not send any track data to core');
 	});
 }
@@ -135,11 +133,11 @@ function promiseRecognizeSong(driver, options = {}) {
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function promiseCheckPlayerElement(driver, options) {
-	return promiseLoadSite(driver, options).then(function() {
+	return promiseLoadSite(driver, options).then(() => {
 		return promiseClickPlayButton(driver, options);
-	}).then(function() {
-		var timeout = WAIT_FOR_PLAYER_ELEMENT_TIMEOUT;
-		return driver.waitForPlayerElement(timeout).catch(function() {
+	}).then(() => {
+		let timeout = WAIT_FOR_PLAYER_ELEMENT_TIMEOUT;
+		return driver.waitForPlayerElement(timeout).catch(() => {
 			throw new Error('Player element is missing');
 		});
 	});
@@ -157,14 +155,14 @@ function promiseCheckPlayerElement(driver, options) {
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function promiseBehaveLikeMusicSite(driver, options = {}) {
-	return promiseLoadSite(driver, options).then(function() {
+	return promiseLoadSite(driver, options).then(() => {
 		return promiseClickPlayButton(driver, options);
-	}).then(function() {
+	}).then(() => {
 		if (options.waitUntil) {
 			let timeout = options.waitUntilTimeout || WAIT_UNTIL_TIMEOUT;
 			return driver.wait(options.waitUntil, timeout);
 		}
-	}).then(function() {
+	}).then(() => {
 		return promiseRecognizeSong(driver, options);
 	});
 }
@@ -175,11 +173,11 @@ function promiseBehaveLikeMusicSite(driver, options = {}) {
  * @param  {String} fieldName Field to print
  */
 function printStateField(state, fieldName) {
-	var fieldValue = state[fieldName];
+	let fieldValue = state[fieldName];
 	if (fieldValue) {
-		helpers.pass(fieldName + ': ' + fieldValue);
+		helpers.pass(`${fieldName}: ${fieldValue}`);
 	} else {
-		helpers.fail('No ' + fieldName);
+		helpers.fail(`No ${fieldName}`);
 	}
 }
 
@@ -191,11 +189,11 @@ function printStateField(state, fieldName) {
  * @param  {Function} checkFunction Function used to check field value
  */
 function checkStateField(state, fieldName, checkFunction) {
-	var fieldValue = state[fieldName];
+	let fieldValue = state[fieldName];
 	if (checkFunction(fieldValue)) {
-		helpers.pass(fieldName + ': ' + fieldValue);
+		helpers.pass(`${fieldName}: ${fieldValue}`);
 	} else {
-		helpers.fail('Invalid ' + fieldName + ': ' + fieldValue);
+		helpers.fail(`Invalid ${fieldName}: fieldValue`);
 	}
 }
 
@@ -212,10 +210,10 @@ function printConnectorState(state) {
 	printStateField(state, 'track');
 	printStateField(state, 'album');
 
-	checkStateField(state, 'currentTime', function(data) {
+	checkStateField(state, 'currentTime', (data) => {
 		return typeof data === 'number';
 	});
-	checkStateField(state, 'duration', function(data) {
+	checkStateField(state, 'duration', (data) => {
 		return typeof data === 'number' && data > 0;
 	});
 

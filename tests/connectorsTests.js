@@ -19,7 +19,7 @@ const options = require('./helpers/options');
  * @return {String} Path to module
  */
 function getConnectorTestFilePath(connector) {
-	var testFileName = path.basename(connector.js[0]);
+	let testFileName = path.basename(connector.js[0]);
 	return path.join(__dirname, 'connectors', testFileName);
 }
 
@@ -28,22 +28,20 @@ function getConnectorTestFilePath(connector) {
  * @return {Array} List of connectors
  */
 function getConnectorsList() {
-	var connectors = require('../core/connectors');
-	var uniqueConnectors = [];
-	return connectors.filter(function(item) {
-		var testFilePath = getConnectorTestFilePath(item);
+	let connectors = require('../core/connectors');
+	let uniqueConnectors = [];
+	return connectors.filter((item) => {
+		let testFilePath = getConnectorTestFilePath(item);
 		if (!fs.existsSync(testFilePath)) {
 			return false;
 		}
 
-		if (uniqueConnectors.indexOf(testFilePath) !== -1) {
+		if (uniqueConnectors.includes(testFilePath)) {
 			return false;
 		}
 		uniqueConnectors.push(testFilePath);
 		return true;
-	}).sort(function(a, b) {
-		return a.js[0].localeCompare(b.js[0]);
-	});
+	}).sort((a, b) => a.js[0].localeCompare(b.js[0]));
 }
 
 /**
@@ -93,7 +91,7 @@ function getConnectorsToTest() {
  * @return {String} Test description
  */
 function getTestDescription(connector) {
-	var filename = getConnectorName(connector);
+	let filename = getConnectorName(connector);
 	if (options.get('debug')) {
 		return `Connector: ${filename}`;
 	}
@@ -108,13 +106,13 @@ function getTestDescription(connector) {
  * @param  {Object} connectorSpec
  */
 function prepareTest(connector, driver, connectorSpec) {
-	var testDescription = getTestDescription(connector);
+	let testDescription = getTestDescription(connector);
 	describe(testDescription, function() {
 		if (!options.get('debug')) {
 			this.retries(RETRIES_COUNT);
 		}
 
-		var connectorFilePath = getConnectorTestFilePath(connector);
+		let connectorFilePath = getConnectorTestFilePath(connector);
 		require(connectorFilePath)(driver, connectorSpec, connector);
 	});
 }
@@ -143,7 +141,7 @@ function runConnectorsTests() {
 			prepareTest(connector, driver, connectorSpec);
 		}
 
-		after(function() {
+		after(() => {
 			if (options.get('quitOnEnd')) {
 				return driver.quit();
 			}

@@ -34,7 +34,7 @@ function getTestReporter() {
  * @return {Object} Mocha instance
  */
 function createMocha() {
-	var mocha = new Mocha({
+	let mocha = new Mocha({
 		timeout: 120000,
 		reporter: getTestReporter()
 	});
@@ -54,8 +54,8 @@ function createMocha() {
  */
 function main() {
 	configureRequireJs();
-	createMocha().run(function(failures) {
-		process.on('exit', function () {
+	createMocha().run((failures) => {
+		process.on('exit', () => {
 			process.exit(failures);
 		});
 	});

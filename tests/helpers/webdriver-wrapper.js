@@ -18,7 +18,7 @@ const WAIT_CLICK_TIMEOUT = 5000;
 const WAIT_FOR_INJECTION_TIMEOUT = 5000;
 const WAIT_BETWEEN_CONDITION_CHECK = 500;
 
-var driver = createWebDriver();
+const driver = createWebDriver();
 
 /**
  * Get a website, dismiss alerts and wait for document load.
@@ -53,22 +53,22 @@ exports.click = function(selector, forceJsClick) {
 	let timeoutDesc = `Unable to click on ${selector}: timed out`;
 
 	helpers.debug(`Waiting on click: ${selector}`);
-	return exports.wait(function() {
-		return driver.findElements({ css: selector }).then(function(elements) {
-			var elementsCount = elements.length;
+	return exports.wait(() => {
+		return driver.findElements({ css: selector }).then((elements) => {
+			let elementsCount = elements.length;
 			if (options.get('debug') && elementsCount > 1) {
 				helpers.warn(`Ambiguous selector: ${selector} [${elementsCount} elements]`);
 			}
 			return elementsCount > 0;
 		});
-	}, WAIT_CLICK_TIMEOUT, timeoutDesc).then(function() {
+	}, WAIT_CLICK_TIMEOUT, timeoutDesc).then(() => {
 		if (forceJsClick) {
 			return clickWithJavaScript(selector);
 		}
-		return clickWithWebdriver(selector).catch(function() {
+		return clickWithWebdriver(selector).catch(() => {
 			return clickWithJavaScript(selector);
 		});
-	}).catch(function(err) {
+	}).catch((err) => {
 		helpers.debug(`Unable to click on ${selector}`);
 		rethrowError(err);
 	});
@@ -80,7 +80,7 @@ exports.click = function(selector, forceJsClick) {
  * @return {Promise} Promise that will be resolved with the song object
  */
 exports.waitForSongRecognition = function(timeout) {
-	return waitForConnectorEvent('connector_state_changed', timeout).then(event => {
+	return waitForConnectorEvent('connector_state_changed', timeout).then((event) => {
 		return event.data;
 	});
 };
@@ -134,17 +134,13 @@ exports.wait = function(condition, timeout, message) {
  * @param  {Number} timeout The amount of time, in milliseconds, to sleep
  * @return {Promise} Promise that will be resolved when the sleep has finished
  */
-exports.sleep = function(timeout) {
-	return driver.sleep(timeout);
-};
+exports.sleep = (timeout) => driver.sleep(timeout);
 
 /**
  * Terminates browser session.
  * @return {Promise} Promise that will be resolved when the task has completed
  */
-exports.quit = function() {
-	return driver.quit();
-};
+exports.quit = () => driver.quit();
 
 /* Internal */
 
@@ -169,7 +165,7 @@ function getUrl(url, timeout) {
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function clickWithWebdriver(selector) {
-	return driver.findElement({ css: selector }).then(function(element) {
+	return driver.findElement({ css: selector }).then((element) => {
 		element.click().then(() => {
 			helpers.debug(`Clicked on ${selector} (WebDriver)`);
 		});
@@ -182,9 +178,9 @@ function clickWithWebdriver(selector) {
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function clickWithJavaScript(selector) {
-	return driver.executeScript(function(cssSelector) {
+	return driver.executeScript((cssSelector) => {
 		document.querySelector(cssSelector).click();
-	}, selector).then(function() {
+	}, selector).then(() => {
 		helpers.debug(`Clicked on ${selector} (JS)`);
 	});
 }
@@ -206,7 +202,7 @@ function injectTestCapture() {
 function setupTestEventCapture() {
 	console.log('Listening for events from the extension');
 	window.webScrobblerActionStack = [];
-	document.addEventListener('web-scrobbler-test-response', function(e) {
+	document.addEventListener('web-scrobbler-test-response', (e) => {
 		console.log('Web Scrobbler: push element into stack: ' + e.detail.detail);
 		window.webScrobblerActionStack.push(e);
 	});
@@ -237,7 +233,7 @@ function waitForConnectorEvent(needle, timeout) {
  * @return {Object} Found event
  */
 function findWebScrobblerEvent(needle) {
-	var foundEvent = window.webScrobblerActionStack.find(function(event) {
+	let foundEvent = window.webScrobblerActionStack.find((event) => {
 		return event.detail.detail === needle;
 	});
 	if (foundEvent && foundEvent.detail) {
@@ -283,16 +279,16 @@ function rethrowError(err) {
  * @return {Object} Chrome options
  */
 function getChromeOptions() {
-	var extPath = path.join(__dirname, '../.././');
+	let extPath = path.join(__dirname, '../.././');
 
-	var chromeOptions = new chromedriver.Options();
+	let chromeOptions = new chromedriver.Options();
 	chromeOptions.addArguments([
-		'--load-extension=' + extPath,
+		`--load-extension=${extPath}`,
 		'--start-maximized',
 		'--disable-logging',
 		'--lang=en-US'
 	]);
-	chromeOptions.setLoggingPrefs({browser: 'ALL'});
+	chromeOptions.setLoggingPrefs({ browser: 'ALL' });
 
 	let uBlockFilePath = path.join(__dirname, '../ublock.zip');
 	if (fs.existsSync(uBlockFilePath)) {
@@ -308,6 +304,6 @@ function getChromeOptions() {
  * @return {Object} WebDriver instance
  */
 function createWebDriver() {
-	var options = getChromeOptions();
+	let options = getChromeOptions();
 	return new webdriver.Builder().forBrowser('chrome').setChromeOptions(options).build();
 }

@@ -45,7 +45,7 @@ exports.debug = function(message, object) {
 		return;
 	}
 
-	var msgTemplate = '%s\x1b[35;1m%s\x1b[0m';
+	let msgTemplate = '%s\x1b[35;1m%s\x1b[0m';
 	if (object) {
 		console.log(msgTemplate, MSG_INDENT, message, object);
 	} else {
