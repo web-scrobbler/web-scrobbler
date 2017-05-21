@@ -39,7 +39,7 @@ $(document).ready(function() {
 
 		updatePopupView();
 
-		let isSongValid = song.flags.isLastfmValid || song.flags.isCorrectedByUser;
+		let isSongValid = song.flags.isValid || song.flags.isCorrectedByUser;
 		setEditMode(!isSongValid);
 	}
 
@@ -57,7 +57,7 @@ $(document).ready(function() {
 	}
 
 	function isSongMetadataChanged() {
-		if (!song.flags.isLastfmValid) {
+		if (!song.flags.isValid) {
 			return true;
 		}
 
@@ -79,7 +79,7 @@ $(document).ready(function() {
 	}
 
 	function fillMetadataLabels() {
-		let isSongValid = song.flags.isLastfmValid || song.flags.isCorrectedByUser;
+		let isSongValid = song.flags.isValid || song.flags.isCorrectedByUser;
 
 		let fieldUrlMap = {
 			artist: song.metadata.artistUrl,

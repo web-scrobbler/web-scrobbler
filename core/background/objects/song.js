@@ -95,7 +95,7 @@ define([
 			 * Flag indicated song is known by scrobbling service.
 			 * @type {Boolean}
 			 */
-			isLastfmValid: false,
+			isValid: false,
 			/**
 			 * Flag indicates song is marked as playing by controller.
 			 * @type {Boolean}
@@ -189,7 +189,7 @@ define([
 		 */
 		song.isValid = function() {
 			return song.flags.isProcessed &&
-				song.flags.isLastfmValid || song.flags.isCorrectedByUser;
+				song.flags.isValid || song.flags.isCorrectedByUser;
 		};
 
 		/**

@@ -63,13 +63,13 @@ define([
 			});
 			return loadSongInfoSequence.then((isValid) => {
 				return options.get().then((data) => {
-					song.flags.attr('isLastfmValid', isValid || data.forceRecognize);
+					song.flags.attr('isValid', isValid || data.forceRecognize);
 				});
 			});
 		}
 
 		return Promise.resolve().then(() => {
-			song.flags.attr('isLastfmValid', true);
+			song.flags.attr('isValid', true);
 		});
 	}
 
