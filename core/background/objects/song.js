@@ -14,15 +14,15 @@ define([
 	return function(parsedData, connector) {
 		/**
 		 * Number of seconds of playback before the track is scrobbled.
-		 * This value is used only if no duration was parsed or loaded
+		 * This value is used only if no duration was parsed or loaded.
 		 */
-		var DEFAULT_SCROBBLE_TIME = 30;
+		const DEFAULT_SCROBBLE_TIME = 30;
 
 		/**
 		 * Safe copy of initial parsed data.
-		 * Should not be changed during lifetime of this object
+		 * Should not be changed during lifetime of this object.
 		 */
-		var parsed = {
+		const parsed = {
 			artist: parsedData.artist || null,
 			track: parsedData.track || null,
 			album: parsedData.album || null,
@@ -36,9 +36,9 @@ define([
 		/**
 		 * Post-processed song data, for example auto-corrected.
 		 * Initially filled with parsed data and optionally changed
-		 * as the object is processed in pipeline
+		 * as the object is processed in pipeline.
 		 */
-		var processed = {
+		const processed = {
 			artist: parsed.artist,
 			track: parsed.track,
 			album: parsed.album,
@@ -46,31 +46,59 @@ define([
 		};
 
 		/**
-		 * Various optional data
+		 * Various optional data.
 		 */
-		var metadata = {
+		const metadata = {
+			/**
+			 * Flag indicates song is loved by used on service.
+			 * @type {Boolean}
+			 */
 			userloved: false,
-			// UTC timestamp in seconds
+			/**
+			 * Time when song is started playing in UNIX timestamp format.
+			 * @type {Number}
+			 */
 			startTimestamp: Math.floor(Date.now() / 1000),
+			/**
+			 * Connector match object.
+			 * @type {Object}
+			 */
 			connector: connector
 		};
 
 		/**
-		 * Various flags
+		 * Various flags.
 		 */
-		var flags = {
+		const flags = {
 			// Has song passed the pipeline
+			/**
+			 * Flag indicates song is processed by pipeline.
+			 * @type {Boolean}
+			 */
 			isProcessed: false,
+			/**
+			 * Flag means song is scrobbled successfully.
+			 * @type {Boolean}
+			 */
 			isScrobbled: false,
-			// User approved the data by either checking or entering it themself
+			/**
+			 * Flag indicated song info is changed or approved by user.
+			 * @type {Boolean}
+			 */
 			isCorrectedByUser: false,
-			// Is song known by Last.fm
-			isLastfmValid: null,
-			// Did we already show notification and mark as playing on L.FM?
+			/**
+			 * Flag indicated song is known by scrobbling service.
+			 * @type {Boolean}
+			 */
+			isLastfmValid: false,
+			/**
+			 * Flag indicates song is marked as playing by controller.
+			 * @type {Boolean}
+			 */
 			isMarkedAsPlaying: false
 		};
 
-		var song = new can.Map({
+		const song = new can.Map({
 			parsed: parsed,
 			processed: processed,
 			metadata: metadata,
