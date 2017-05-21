@@ -347,7 +347,7 @@ var BaseConnector = window.BaseConnector || function () {
 	/**
 	 * Function for all the hard work around detecting and updating state.
 	 */
-	var stateChangedWorker = function () {
+	this.stateChangedWorker = () => {
 		var changedFields = [];
 
 		var newTrack = this.getTrack() || null;
@@ -434,19 +434,19 @@ var BaseConnector = window.BaseConnector || function () {
 			// @endif
 		}
 
-	}.bind(this);
+	};
 
 	/**
 	 * Throttled call for state changed worker.
 	 */
-	var stateChangedWorkerThrottled = Util.throttle(stateChangedWorker, 500);
+	this.stateChangedWorkerThrottled = Util.throttle(this.stateChangedWorker, 500);
 
 	/**
 	 * Listener for the player state changes. Automatically detects the state,
 	 * collects the track metadata and communicates with the background script
 	 * if needed.
 	 */
-	this.onStateChanged = function () {
+	this.onStateChanged = () => {
 		if (!this.isScrobblingAllowed()) {
 			this.resetState();
 			return;
@@ -469,17 +469,17 @@ var BaseConnector = window.BaseConnector || function () {
 		 */
 		var isPlaying = this.isPlaying();
 		if (isPlaying !== currentState.isPlaying) {
-			stateChangedWorker();
+			this.stateChangedWorker();
 		} else {
-			stateChangedWorkerThrottled();
+			this.stateChangedWorkerThrottled();
 		}
-	}.bind(this);
+	};
 
 	/**
 	 * Send request to core to reset current state. Should be used if connector
 	 * has custom state change listener.
 	 */
-	this.resetState = function() {
+	this.resetState = () => {
 		if (isStateReset) {
 			return;
 		}
@@ -490,7 +490,7 @@ var BaseConnector = window.BaseConnector || function () {
 		}
 
 		isStateReset = true;
-	}.bind(this);
+	};
 };
 
 window.BaseConnector = BaseConnector;
