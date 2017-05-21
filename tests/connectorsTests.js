@@ -33,18 +33,21 @@ function getConnectorsList() {
 }
 
 function getConnectorsToTest() {
-	var connectors = getConnectorsList();
-	var connectorsFromArgs = options.getConnectorsFromArgs();
-	if (connectorsFromArgs.length > 0) {
-		var invalidConnectors = [];
+	let connectors = getConnectorsList();
+	let connectorsFromArgs = options.getConnectorsFromArgs();
+	let skipList = options.get('skip');
 
-		connectors = connectors.filter(function(item) {
-			var connectorFileName = path.basename(item.js[0], '.js');
-			var fileNameIndex = connectorsFromArgs.indexOf(connectorFileName);
+	if (connectorsFromArgs.length > 0) {
+		let invalidConnectors = [];
+
+		connectors = connectors.filter((connector) => {
+			let connectorName = getConnectorName(connector);
+			let fileNameIndex = connectorsFromArgs.indexOf(connectorName);
 			if (fileNameIndex !== -1) {
 				connectorsFromArgs.splice(fileNameIndex, 1);
 				return true;
 			}
+
 			return false;
 		});
 
@@ -52,6 +55,13 @@ function getConnectorsToTest() {
 		if (invalidConnectors.length > 0) {
 			console.warn('Unknown connectors: ' + invalidConnectors.join(', '));
 		}
+	}
+
+	if (skipList.length > 0) {
+		connectors = connectors.filter((connector) => {
+			let connectorName = getConnectorName(connector);
+			return !skipList.includes(connectorName);
+		});
 	}
 
 	return connectors;
@@ -86,17 +96,12 @@ function runConnectorsTests() {
 	let connectors = getConnectorsToTest();
 
 	if (connectors.length > 0) {
-		let skipList = options.get('skip');
-
 		let driver = require('./helpers/webdriver-wrapper');
 		let connectorSpec = require('./components/connector-spec.js');
 
 		// This code DOESN'T run tests immediately.
 		for (let connector of connectors) {
-			let filename = getConnectorName(connector);
-			if (skipList.indexOf(filename) === -1) {
-				prepareTest(connector, driver, connectorSpec);
-			}
+			prepareTest(connector, driver, connectorSpec);
 		}
 
 		after(function() {
