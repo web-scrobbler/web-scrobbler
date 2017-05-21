@@ -309,13 +309,17 @@ var BaseConnector = window.BaseConnector || function () {
 
 	/**
 	 * State & API.
+	 *
+	 * Connectors are NOT supposed to override functions and properties
+	 * defined below.
 	 */
 
 	/**
 	 * Gathered info about the current track for internal use of
-	 * baseconnector only.
+	 * BaseConnector only.
+	 * @type {Object}
 	 */
-	var currentState = {
+	const currentState = {
 		track: null,
 		artist: null,
 		album: null,
@@ -335,8 +339,6 @@ var BaseConnector = window.BaseConnector || function () {
 
 	/**
 	 * Callback set by the reactor to listen on state changes of this connector.
-	 *
-	 * Custom connectors are NOT supposed to set this property.
 	 *
 	 * @type {Function}
 	 */
@@ -443,8 +445,6 @@ var BaseConnector = window.BaseConnector || function () {
 	 * Listener for the player state changes. Automatically detects the state,
 	 * collects the track metadata and communicates with the background script
 	 * if needed.
-	 *
-	 * Connectors are NOT supposed to override this method.
 	 */
 	this.onStateChanged = function () {
 		if (!this.isScrobblingAllowed()) {
@@ -478,8 +478,6 @@ var BaseConnector = window.BaseConnector || function () {
 	/**
 	 * Send request to core to reset current state. Should be used if connector
 	 * has custom state change listener.
-	 *
-	 * Connectors are NOT supposed to override this method.
 	 */
 	this.resetState = function() {
 		if (isStateReset) {
