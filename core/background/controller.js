@@ -200,20 +200,12 @@ define([
 		 * Resets controller state
 		 */
 		function resetState() {
-			if (isEnabled) {
-				pageAction.setSiteSupported();
-			} else {
-				pageAction.setSiteDisabled();
-			}
+			pageAction.setSiteSupported();
 			playbackTimer.reset();
 
 			if (currentSong !== null) {
 				unbindSongListeners(currentSong);
-
-				// remove notification if song was not scrobbled
-				if (!currentSong.flags.isScrobbled) {
-					Notifications.remove(currentSong.metadata.notificationId);
-				}
+				clearNotification(currentSong);
 			}
 			currentSong = null;
 		}
@@ -327,6 +319,17 @@ define([
 		}
 
 		/**
+		 * Clear now playing notification for given song.
+		 * @param {Object} song Song instance
+		 */
+		function clearNotification(song) {
+			// Remove notification if song was not scrobbled.
+			if (!song.flags.isScrobbled) {
+				Notifications.remove(song.metadata.notificationId);
+			}
+		}
+
+		/**
 		 * Forward event to PageAction
 		 */
 		this.onPageActionClicked = function() {
@@ -398,7 +401,18 @@ define([
 		 */
 		this.setEnabled = function(flag) {
 			isEnabled = flag;
-			resetState();
+
+			if (isEnabled) {
+				pageAction.setSiteSupported();
+			} else {
+				pageAction.setSiteDisabled();
+			}
+
+			if (!isEnabled && currentSong) {
+				playbackTimer.reset();
+				unbindSongListeners(currentSong);
+				clearNotification(currentSong);
+			}
 		};
 
 		/**
