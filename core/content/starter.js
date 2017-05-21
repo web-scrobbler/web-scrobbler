@@ -43,7 +43,7 @@
 			observer.observe(observeTarget, observerConfig);
 		} else {
 			// Unable to get player element; wait until it is on the page.
-			console.warn('Web Scrobbler: Player element (' + Connector.playerSelector + ') was not found in the page.');
+			console.warn(`Web Scrobbler: Player element (${Connector.playerSelector}) was not found in the page.`);
 
 			var playerObserver = new MutationObserver(function() {
 				observeTarget = document.querySelector(Connector.playerSelector);
