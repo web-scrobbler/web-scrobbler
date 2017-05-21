@@ -388,7 +388,7 @@ var BaseConnector = window.BaseConnector || function () {
 		var newCurrentTime = Util.escapeBadTimeValues(this.getCurrentTime());
 
 		var timeInfo = this.getTimeInfo();
-		if (!newDuration !== null && timeInfo.duration) {
+		if (newDuration !== null && timeInfo.duration) {
 			newDuration = timeInfo.duration;
 		}
 		if (newCurrentTime !== null && timeInfo.currentTime) {
