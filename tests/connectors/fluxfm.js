@@ -1,8 +1,7 @@
 'use strict';
 
-module.exports = function(driver, connectorSpec) {
-	connectorSpec.shouldBehaveLikeMusicSite(driver, {
-		url: 'https://www.fluxfm.de/stream/#fluxfm/play',
-		playButtonSelector: '#controls-play'
+module.exports = (driver, spec) => {
+	spec.shouldBehaveLikeMusicSite(driver, {
+		url: 'https://www.fluxfm.de/stream/#fluxfm/play'
 	});
 };

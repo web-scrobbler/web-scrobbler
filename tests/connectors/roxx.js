@@ -1,7 +1,8 @@
 'use strict';
 
-module.exports = function(driver, connectorSpec) {
-	connectorSpec.shouldBehaveLikeMusicSite(driver, {
-		url: 'http://roxx.gr/radio/'
+module.exports = (driver, spec) => {
+	spec.shouldBehaveLikeMusicSite(driver, {
+		url: 'http://roxx.gr/radio/',
+		playButtonSelector: '.icon-play'
 	});
 };
