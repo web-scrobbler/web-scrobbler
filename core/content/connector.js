@@ -424,7 +424,8 @@ var BaseConnector = window.BaseConnector || function () {
 			}
 
 			// @ifdef DEBUG
-			var isNewSongPlaying = (changedFields.length > 1);
+			let isNewSongPlaying = !(changedFields.length === 1 &&
+				changedFields.includes('currentTime'));
 			if (isNewSongPlaying) {
 				TestReporter.reportSongRecognition(currentState);
 			}
