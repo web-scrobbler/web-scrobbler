@@ -223,12 +223,8 @@ define([
 	 * @param  {String} notificationId Notification ID
 	 */
 	function remove(notificationId) {
-		var onCleared = function() {
-			// nop
-		};
-
 		if (notificationId) {
-			chrome.notifications.clear(notificationId, onCleared);
+			chrome.notifications.clear(notificationId, nop);
 		}
 	}
 
