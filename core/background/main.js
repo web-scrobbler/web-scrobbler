@@ -54,7 +54,7 @@ require([
 	function setupChromeEventListeners() {
 		chrome.tabs.onUpdated.addListener(onTabUpdated);
 		chrome.tabs.onRemoved.addListener(onTabRemoved);
-		chrome.tabs.onActivated.addListener(setupContextMenu);
+		chrome.tabs.onActivated.addListener(onTabChanged);
 
 		chrome.pageAction.onClicked.addListener(onPageActionClicked);
 
@@ -190,14 +190,21 @@ require([
 	}
 
 	/**
+	 * Called when current tab is changed.
+	 * @param  {Object} activeInfo Object contains info about current tab
+	 */
+	function onTabChanged(activeInfo) {
+		setupContextMenu(activeInfo.tabId);
+	}
+
+	/**
 	 * Setup context menu of page action icon.
 	 * Called when active tab is changed.
-	 * @param  {Object} activeInfo Object contains current tab ID
+	 * @param  {Number} tabId Tab ID
 	 */
-	function setupContextMenu(activeInfo) {
+	function setupContextMenu(tabId) {
 		chrome.contextMenus.removeAll();
 
-		let { tabId } = activeInfo;
 		let controller = getControllerByTabId(tabId);
 		if (!controller) {
 			return;
