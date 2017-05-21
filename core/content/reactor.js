@@ -2,13 +2,14 @@
 
 /**
  * Reactor object is created only once in starter script.
- * It reacts to changes in supplied connector and communicates with background script as necessary
+ * It reacts to changes in supplied connector and communicates
+ * with background script as necessary.
  *
  * @constructor
+ * @param {Object} connector Connector object
  */
 // eslint-disable-next-line no-unused-vars
-var Reactor = function(connector) {
-
+const Reactor = function(connector) {
 	/**
 	 * Listener for runtime messages from the background script.
 	 *
@@ -16,22 +17,21 @@ var Reactor = function(connector) {
 	 * @param {Object} sender Message sender object
 	 * @param {Function} sendResponse Callback function
 	 */
-	var runtimeMessageListener = function(message, sender, sendResponse) {
+	function onRuntimeMessage(message, sender, sendResponse) {
 		switch (message.type) {
-			// background calls this to see if the script is already injected
+			// Background script calls this to see
+			// if the script is already injected.
 			case 'ping':
 				sendResponse(true);
 				break;
 		}
-	};
+	}
 
-	// setup the listener immediately
-	chrome.runtime.onMessage.addListener(runtimeMessageListener);
-
-
+	// Setup the listener immediately.
+	chrome.runtime.onMessage.addListener(onRuntimeMessage);
 
 	/**
-	 * Listens for state changes on connector and determines further actions
+	 * Listen for state changes on connector and determines further actions.
 	 * @param {Object} newState Connector state
 	 */
 	this.onStateChanged = function(newState/*, changedFields*/) {
@@ -40,14 +40,13 @@ var Reactor = function(connector) {
 		//	return;
 		//}
 
-		// distribute all other changes to background script to do all the hard work
+		// Distribute all other changes to background script
+		// to do all the hard work.
 		this.sendStateToBackground(newState);
 	}.bind(this);
 
-	// setup listening for state changes on connector
+	// Setup listening for state changes on connector.
 	connector.reactorCallback = this.onStateChanged;
-
-
 
 	/**
 	 * Sends given state to background script. There is only single message type
@@ -56,12 +55,7 @@ var Reactor = function(connector) {
 	 * @param {Object} state Current state of connector
 	 */
 	this.sendStateToBackground = function(state) {
-		var msg = {
-			type: 'v2.stateChanged',
-			state: state
-		};
-
+		let msg = { type: 'v2.stateChanged', state };
 		chrome.runtime.sendMessage(msg);
 	};
-
 };

@@ -3,35 +3,30 @@
 /* global Connector, BaseConnector, Reactor, TestReporter */
 
 /**
- * This script is injected to the page after the {@link BaseConnector} and a custom
- * connector are already in place and set up
+ * This script is injected to the page after the {@link BaseConnector} and
+ * a custom connector are already in place and set up.
  *
  * As custom connectors should be declarative only without any actions triggered
  * on pageload, this starter is needed for connectors to start running
  */
 (function () {
-	// intentionally global lock to avoid multiple execution of this function
+	// Intentionally global lock to avoid multiple execution of this function.
 	if (window.STARTER_LOADED !== undefined) {
 		console.warn('Web Scrobbler: Starter already loaded');
 		return;
 	}
 	window.STARTER_LOADED = true;
 
-
-	/**
-	 * Warnings to help developers with their custom connectors
-	 */
+	// Warnings to help developers with their custom connectors
 	if (typeof(Connector) === 'undefined' || !(Connector instanceof BaseConnector)) {
 		console.warn('Web Scrobbler: You have overwritten or unset the Connector object!');
 		return;
 	}
 
-	// observes state and communicates with background script
+	// Observe state and communicates with background script.
 	var reactor = new Reactor(Connector);
 
-	/**
-	 * Set up Mutation observing as a default state change detection
-	 */
+	// Set up Mutation observing as a default state change detection
 	if (Connector.playerSelector !== null) {
 		console.log('Web Scrobbler: Setting up observer');
 
@@ -49,6 +44,7 @@
 		if (observeTarget !== null) {
 			observer.observe(observeTarget, observerConfig);
 		} else {
+			// Unable to get player element; wait until it is on the page.
 			console.warn('Web Scrobbler: Player element (' + Connector.playerSelector + ') was not found in the page.');
 
 			var playerObserver = new MutationObserver(function() {
@@ -72,11 +68,11 @@
 			};
 			playerObserver.observe(document, playerObserverConfig);
 		}
-	}
-	/**
-	 * Player selector is not provided, current connector needs to detect state changes on its own
-	 */
-	else {
+	} else {
+		/**
+		 * Player selector is not provided, current connector needs
+		 * to detect state changes on its own.
+		 */
 		console.info('Web Scrobbler: Connector.playerSelector is empty. The current connector is expected to manually detect state changes');
 	}
 
@@ -98,11 +94,11 @@
 	// @endif
 
 	/**
-	 * Automatically reset on window unload
+	 * Automatically reset on window unload.
+	 * TODO: Move this code to background.
 	 */
 	$(window).unload(function() {
 		reactor.sendStateToBackground({});
 		return true;
 	});
-
 })();
