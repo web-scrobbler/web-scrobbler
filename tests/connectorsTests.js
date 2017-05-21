@@ -1,5 +1,10 @@
 'use strict';
 
+/**
+ * This runner executes tests of the extension connectors.
+ * These tests are placed into 'connectors' directory.
+ */
+
 require('node-define');
 
 const RETRIES_COUNT = 4;
@@ -8,11 +13,20 @@ const fs = require('fs');
 const path = require('path');
 const options = require('./helpers/options');
 
+/**
+ * Get full path to test module.
+ * @param  {Object} connector Connector match object
+ * @return {String} Path to module
+ */
 function getConnectorTestFilePath(connector) {
 	var testFileName = path.basename(connector.js[0]);
 	return path.join(__dirname, 'connectors', testFileName);
 }
 
+/**
+ * Get list of supported connectors. The list is sorted alphabetically.
+ * @return {Array} List of connectors
+ */
 function getConnectorsList() {
 	var connectors = require('../core/connectors');
 	var uniqueConnectors = [];
@@ -32,6 +46,12 @@ function getConnectorsList() {
 	});
 }
 
+/**
+ * Get list of connectors to test. This list contains:
+ *  - connectors have test modules;
+ *  - connectors are specified by user.
+ * @return {Array} List of connectors
+ */
 function getConnectorsToTest() {
 	let connectors = getConnectorsList();
 	let connectorsFromArgs = options.getConnectorsFromArgs();
@@ -67,6 +87,11 @@ function getConnectorsToTest() {
 	return connectors;
 }
 
+/**
+ * Get description of test module for given connector.
+ * @param  {Object} connector Connector match object
+ * @return {String} Test description
+ */
 function getTestDescription(connector) {
 	var filename = getConnectorName(connector);
 	if (options.get('debug')) {
@@ -76,6 +101,12 @@ function getTestDescription(connector) {
 	return `[${filename}]`;
 }
 
+/**
+ * Queue test. This function does not run test immediately.
+ * @param  {Object} connector Connector match object
+ * @param  {Object} driver WebDriver instance
+ * @param  {Object} connectorSpec
+ */
 function prepareTest(connector, driver, connectorSpec) {
 	var testDescription = getTestDescription(connector);
 	describe(testDescription, function() {
@@ -88,10 +119,18 @@ function prepareTest(connector, driver, connectorSpec) {
 	});
 }
 
+/**
+ * Get connector filename.
+ * @param  {Object} connector Connector match object
+ * @return {String} Connector filename
+ */
 function getConnectorName(connector) {
 	return path.basename(connector.js[0], '.js');
 }
 
+/**
+ * Run all core tests. Called on module init.
+ */
 function runConnectorsTests() {
 	let connectors = getConnectorsToTest();
 

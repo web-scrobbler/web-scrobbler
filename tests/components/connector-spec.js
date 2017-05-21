@@ -1,11 +1,27 @@
 'use strict';
 
-const WAIT_UNTIL_TIMEOUT = 30000;
-const DEFAULT_RECOGNIZE_TIMEOUT = 20000;
-const WAIT_FOR_PLAYER_ELEMENT_TIMEOUT = 5000;
+/**
+ * This module contains functions that help how to test connectors.
+ */
 
 const helpers = require('./../helpers/helpers');
 const options = require('./../helpers/options');
+
+/**
+ * How long to wait until user defined contition is true.
+ * @type {Number}
+ */
+const WAIT_UNTIL_TIMEOUT = 30000;
+/**
+ * How long to wait until song is recognized by the extension.
+ * @type {Number}
+ */
+const DEFAULT_RECOGNIZE_TIMEOUT = 20000;
+/**
+ * How long to wait until player element is present on the page.
+ * @type {Number}
+ */
+const WAIT_FOR_PLAYER_ELEMENT_TIMEOUT = 5000;
 
 /**
  * Test if website can be loaded successfully
@@ -102,7 +118,7 @@ function promiseClickPlayButton(driver, options = {}) {
 function promiseRecognizeSong(driver, options = {}) {
 	var timeout = options.recognizeTimeout || DEFAULT_RECOGNIZE_TIMEOUT;
 	return driver.waitForSongRecognition(timeout).then(function(song) {
-		printSongInfo(song);
+		printConnectorState(song);
 	}, function() {
 		throw new Error('Connector did not send any track data to core');
 	});
@@ -153,8 +169,13 @@ function promiseBehaveLikeMusicSite(driver, options = {}) {
 	});
 }
 
-function printSongField(song, fieldName) {
-	var fieldValue = song[fieldName];
+/**
+ * Print field value of given connector state.
+ * @param  {Object} state Connector state
+ * @param  {String} fieldName Field to print
+ */
+function printStateField(state, fieldName) {
+	var fieldValue = state[fieldName];
 	if (fieldValue) {
 		helpers.pass(fieldName + ': ' + fieldValue);
 	} else {
@@ -162,8 +183,15 @@ function printSongField(song, fieldName) {
 	}
 }
 
-function checkSongField(song, fieldName, checkFunction) {
-	var fieldValue = song[fieldName];
+/**
+ * Print field value of given connector state. Use given function
+ * to check if field value is valid.
+ * @param  {Object} state Connector state
+ * @param  {String} fieldName Field to print
+ * @param  {Function} checkFunction Function used to check field value
+ */
+function checkStateField(state, fieldName, checkFunction) {
+	var fieldValue = state[fieldName];
 	if (checkFunction(fieldValue)) {
 		helpers.pass(fieldName + ': ' + fieldValue);
 	} else {
@@ -171,22 +199,26 @@ function checkSongField(song, fieldName, checkFunction) {
 	}
 }
 
-function printSongInfo(song) {
+/**
+ * Print current connector state. Called if debug mode is on.
+ * @param  {Object} state Connector state
+ */
+function printConnectorState(state) {
 	if (!options.get('debug')) {
 		return;
 	}
 
-	printSongField(song, 'artist');
-	printSongField(song, 'track');
-	printSongField(song, 'album');
+	printStateField(state, 'artist');
+	printStateField(state, 'track');
+	printStateField(state, 'album');
 
-	checkSongField(song, 'currentTime', function(data) {
+	checkStateField(state, 'currentTime', function(data) {
 		return typeof data === 'number';
 	});
-	checkSongField(song, 'duration', function(data) {
+	checkStateField(state, 'duration', function(data) {
 		return typeof data === 'number' && data > 0;
 	});
 
-	printSongField(song, 'trackArt');
-	printSongField(song, 'uniqueID');
+	printStateField(state, 'trackArt');
+	printStateField(state, 'uniqueID');
 }

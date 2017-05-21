@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * Module that parses options specified as CLI arguments.
+ */
+
 const MODE_CORE = 'core';
 const MODE_CONNECTORS = 'connectors';
 

@@ -5,6 +5,9 @@ const Mocha = require('mocha');
 const options = require('./helpers/options');
 const requirejs = require('node-define');
 
+/**
+ * Configure RequireJS module,
+ */
 function configureRequireJs() {
 	requirejs.config({
 		paths: {
@@ -14,6 +17,10 @@ function configureRequireJs() {
 	});
 }
 
+/**
+ * Get Mocha test reporter name.
+ * @return {String} Test reporter name
+ */
 function getTestReporter() {
 	if (options.getTestMode() === 'core') {
 		return 'spec';
@@ -22,6 +29,10 @@ function getTestReporter() {
 	return options.get('debug') ? 'spec' : 'tap';
 }
 
+/**
+ * Create Mocha object with certain configuration.
+ * @return {Object} Mocha instance
+ */
 function createMocha() {
 	var mocha = new Mocha({
 		timeout: 120000,
@@ -38,6 +49,9 @@ function createMocha() {
 	return mocha;
 }
 
+/**
+ * Entry point.
+ */
 function main() {
 	configureRequireJs();
 	createMocha().run(function(failures) {

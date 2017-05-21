@@ -1,5 +1,9 @@
 'use strict';
 
+/**
+ * A wrapper around WebDriver module.
+ */
+
 require('chromedriver');
 
 const fs = require('fs');
@@ -274,6 +278,10 @@ function rethrowError(err) {
 	throw new Error(err.message);
 }
 
+/**
+ * Get Chrome options.
+ * @return {Object} Chrome options
+ */
 function getChromeOptions() {
 	var extPath = path.join(__dirname, '../.././');
 
@@ -295,6 +303,10 @@ function getChromeOptions() {
 	return chromeOptions;
 }
 
+/**
+ * Create new WebDriver object.
+ * @return {Object} WebDriver instance
+ */
 function createWebDriver() {
 	var options = getChromeOptions();
 	return new webdriver.Builder().forBrowser('chrome').setChromeOptions(options).build();
