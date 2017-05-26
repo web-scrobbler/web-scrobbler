@@ -1,4 +1,4 @@
-# Last.fm Scrobbler for Chrome
+# Last.fm Scrobbler
 
 [![Chrome Web Store][0]][1] [![Mozilla Add-on][14]][15]
 
