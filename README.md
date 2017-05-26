@@ -20,7 +20,7 @@ Opera users can install the extension from Chrome Web Store using the [Download 
 
 ### AMO
 
-For those who prefer Firefox as a main browser, the extension is available [here][14].
+For those who prefer Firefox as a main browser, the extension is available [here][15].
 
 ### Unpacked extension
 
