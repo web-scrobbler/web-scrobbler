@@ -1,7 +1,7 @@
 'use strict';
 
-module.exports = function(driver, connectorSpec) {
-	connectorSpec.shouldLoadWebsite(driver, {
+module.exports = (driver, spec) => {
+	spec.shouldContainPlayerElement(driver, {
 		url: 'https://www.redbullradio.com/'
 	});
 };
