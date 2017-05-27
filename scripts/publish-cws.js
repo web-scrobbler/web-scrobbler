@@ -21,12 +21,16 @@ const EXTENSION_ID = 'hhinaapppaileiechjoiifaancjggfjm';
 /**
  * Get option value from JSON configuration file.
  * @param  {String} key Option key
+ * @param  {Boolean} optional Flag means option is not required
  * @return {String} Option value
  * @throws {Error} if option is not defined
  */
-function getOption(key) {
+function getOption(key, optional = false) {
 	let value = options[key];
 	if (typeof value !== 'string' || value === '') {
+		if (optional) {
+			return undefined;
+		}
 		throw new Error(`Required '${key}' option is not set`);
 	}
 	return value;
@@ -43,7 +47,8 @@ function uploadExtension(packagePath) {
 			default: {
 				publish: true,
 				client_id: getOption('clientId'),
-				client_secret: getOption('clientSecret')
+				client_secret: getOption('clientSecret'),
+				refresh_token: getOption('refreshToken', true),
 			}
 		},
 		extensions: {
