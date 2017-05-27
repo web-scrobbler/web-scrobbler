@@ -2,6 +2,7 @@
 
 module.exports = (driver, spec) => {
 	spec.shouldBehaveLikeMusicSite(driver, {
-		url: 'https://www.anghami.com/playlist/14',
+		url: 'http://www.radiobonton.cz/cs/index.shtml',
+		playButtonSelector: '#playtoggle'
 	});
 };
