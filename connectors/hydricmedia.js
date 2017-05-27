@@ -2,6 +2,11 @@
 
 /* global Connector */
 
+/**
+ * The connector covers services owned by Hydric Media:
+ * "Primary" and "White Label".
+ */
+
 Connector.playerSelector = '.menu__options';
 
 Connector.artistSelector = '.currentTrack .artist';

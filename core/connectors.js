@@ -463,9 +463,15 @@ define(function () {
 	},
 
 	{
-		label: 'Wonder',
-		matches: ['*://wonder.fm/*', '*://white-label.fm/*', '*://primary.fm/*'],
-		js: ['connectors/wonder.js'],
+		label: 'Primary',
+		matches: ['*://primary.fm/*'],
+		js: ['connectors/hydricmedia.js'],
+	},
+
+	{
+		label: 'White Label',
+		matches: ['*://white-label.fm/*'],
+		js: ['connectors/hydricmedia.js'],
 	},
 
 	{

@@ -11,8 +11,4 @@ module.exports = function(driver, connectorSpec) {
 		url: 'http://white-label.fm',
 		playButtonSelector
 	});
-	connectorSpec.shouldBehaveLikeMusicSite(driver, {
-		url: 'http://wonder.fm',
-		playButtonSelector
-	});
 };
