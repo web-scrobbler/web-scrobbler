@@ -5,7 +5,8 @@
  */
 
 define(['wrappers/chrome'], (chrome) => {
-	const STR_REPLACER = 'xxxxx';
+	const STR_REPLACER = 'x';
+	const REPLACER_LEN = 5;
 
 	/**
 	 * Return platform name using Chrome API.
@@ -26,10 +27,10 @@ define(['wrappers/chrome'], (chrome) => {
 	 * @return {String} Modified text
 	 */
 	function hideStringInText(str, text) {
-		if (str) {
-			// FIXME: check if length of str is lower than replacer length.
+		if (str && text) {
+			let replacer = STR_REPLACER.repeat(Math.min(REPLACER_LEN, text.length));
 			return text.replace(str,
-				`${STR_REPLACER}${str.substr(STR_REPLACER.length)}`
+				`${replacer}${str.substr(replacer.length)}`
 			);
 		}
 		return text;
