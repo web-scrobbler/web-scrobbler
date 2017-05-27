@@ -12,7 +12,7 @@ define([
 		iconUrl: '/icons/icon128.png',
 	};
 
-	// @ifdef FIREFOX
+	// @ifdef DEBUG
 	/*
 	 * Function stub for Firefox.
 	 * Should be removed when this function will be implemented in Firefox.
@@ -122,19 +122,23 @@ define([
 					}
 					resolve(notificationId);
 				};
+				// @ifndef FIREFOX
 				const createNotification = function(permissionLevel) {
 					if (permissionLevel !== 'granted') {
 						reject();
 						return;
 					}
+				// @endif
 					try {
 						chrome.notifications.create('', options, notificationCreatedCb);
 					} catch (e) {
 						reject(e);
 					}
+				// @ifndef FIREFOX
 				};
 
 				chrome.notifications.getPermissionLevel(createNotification);
+				// @endif
 			});
 		});
 	}
