@@ -24,7 +24,7 @@
 	}
 
 	// Observe state and communicates with background script.
-	var reactor = new Reactor(Connector);
+	new Reactor(Connector);
 
 	// Set up Mutation observing as a default state change detection
 	if (Connector.playerSelector !== null) {
@@ -94,13 +94,4 @@
 	 */
 	TestReporter.reportInjection(Connector);
 	// @endif
-
-	/**
-	 * Automatically reset on window unload.
-	 * TODO: Move this code to background.
-	 */
-	$(window).unload(function() {
-		reactor.sendStateToBackground({});
-		return true;
-	});
 })();

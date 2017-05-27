@@ -49,7 +49,7 @@ define([
 				// throw away last song and reset state
 				if (currentSong !== null) {
 					console.log('Tab ' + tabId + ': received empty state - resetting');
-					resetState();
+					this.resetState();
 				}
 
 				// warning for connector developer
@@ -104,7 +104,7 @@ define([
 				console.log('Tab ' + tabId + ': new track state: ' + JSON.stringify(newState));
 
 				// clear any previous song and its bindings
-				resetState();
+				this.resetState();
 
 				currentSong = new Song(newState, connector);
 				bindSongListeners(currentSong);
@@ -199,7 +199,7 @@ define([
 		/**
 		 * Resets controller state
 		 */
-		function resetState() {
+		this.resetState = function() {
 			pageAction.setSiteSupported();
 			playbackTimer.reset();
 
@@ -208,7 +208,7 @@ define([
 				clearNotification(currentSong);
 			}
 			currentSong = null;
-		}
+		};
 
 		/**
 		 * Called when song finishes processing in pipeline. It may not have

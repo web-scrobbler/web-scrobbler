@@ -184,6 +184,8 @@ require([
 	 */
 	function onTabRemoved(tabId) {
 		if (tabControllers[tabId]) {
+			tabControllers[tabId].resetState();
+
 			console.log(`Tab ${tabId}: remove controller`);
 			delete tabControllers[tabId];
 		}
