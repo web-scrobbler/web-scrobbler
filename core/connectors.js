@@ -788,14 +788,14 @@ define(function () {
 
 	{
 		label: 'Dance radio',
-		matches: ['*://*danceradio.cz/*'],
+		matches: ['*://www.danceradio.cz/*'],
 		js: ['connectors/danceradio.js'],
 	},
 
 	{
 		label: 'Rádio Bonton',
-		matches: ['*://*radiobonton.cz/*'],
-		js: ['connectors/danceradio.js'],
+		matches: ['*://www.radiobonton.cz/*'],
+		js: ['connectors/radiobonton.js'],
 	},
 
 	{
