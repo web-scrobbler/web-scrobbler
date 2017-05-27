@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 /**
  * This connector is for BeMusic music streaming engine.
@@ -9,7 +9,12 @@
 
 Connector.playerSelector = '#player-controls';
 
-Connector.artistSelector = '.current-track .info .artist-name';
+Connector.getArtist = () => {
+	let artists = $('.current-track .info .artist').toArray().map((item) => {
+		return item.firstChild;
+	});
+	return Util.joinArtists(artists);
+};
 
 Connector.trackSelector = '.current-track .info .track-name';
 
