@@ -2,6 +2,17 @@
   "results": [
     {
       "release_notes": {
+        "en-US": "Added feature to disable connectors via context menu\nAdded ByteFM connector\nAdded Delta Radio UK connector\nAdded deltaradio connector\nAdded Deutschlandfunk Nova connector\nAdded Fritz connector\nAdded LoFi Radio connector\nAdded LyricsTraining connector\nAdded Kuwo connector\nAdded Musicoin connector\nAdded Music Walker connector\nAdded NPR connector\nAdded QQ connector\nAdded radd.it connector\nAdded radioeins connector\nAdded RadioPlayer connector\nUpdated reauth mechanism\nUpdated Wonder connector\nFixed 8tracks connector\nFixed Ambient Sleeping Pill connector\nFixed Bemusic connector\nFix Dance radio connector\nFixed Noon Pacific connector\nFixed Radiotunes connector\nFixed Red Bull Radio connector\nFixed VK connector"
+      },
+      "files": [
+        {
+          "created": "28-5-2017"
+        }
+      ],
+      "version": "1.65.0"
+    },
+    {
+      "release_notes": {
         "en-US": "Added Duckburg Radio connector\nAdded ListenOnRepeat connector\nAdded Planet Radio connector\nAdded Roxx Radio connector\nAdded an option to scrobble Youtube videos from \"Entertainment\" category only\nAdded URL to 'Custom URL patterns' page to the options page\nChanged default cover art image\nImproved Reddit Music Player connector\nRemoved GoEar connector\nRemoved Reddit Playlister connector\nRemoved Thesixtyone connector\nRemoved option dependency\nUpdate names of supported services\nFixed 163 Music connector\nFixed Pandora connector\nFixed Reddit Music Player connector\nFixed Spotify Open connector\nFixed Youtube connector\nFixed other minor issues"
       },
       "files": [
@@ -21,17 +32,6 @@
         }
       ],
       "version": "1.63.0"
-    },
-    {
-      "release_notes": {
-        "en-US": "Many improvements for Youtube connector"
-      },
-      "files": [
-        {
-          "created": "24-3-2017"
-        }
-      ],
-      "version": "1.62.2"
     }
   ]
 }
