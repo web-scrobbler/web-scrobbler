@@ -153,6 +153,7 @@ define([
 		/**
 		 * Setup listeners for new song object.
 		 * @param {Object} song Song instance
+		 * @param {Object} options Options
 		 */
 		function bindSongListeners(song, options = {}) {
 			/**
@@ -233,6 +234,7 @@ define([
 		 * passed the pipeline successfully, so checks for various flags
 		 * are needed.
 		 * @param {Object} song Song instance
+		 * @param {Object} options Options
 		 */
 		function onProcessed(song, options = {}) {
 			// song is considered valid if either L.FM or the user validated it

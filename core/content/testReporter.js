@@ -47,7 +47,7 @@ const TestReporter = {
 	 *  - connector_injected: The connector is injected into a page
 	 *  - player_element_exists: The player element is found on a page
 	 *  - connector_state_changed: The state of the connector is changed
-	 *    @param {Object} data Connector state
+	 *    data: Connector state
 	 */
 	sendEventToTest(detail, data) {
 		let logMessage = `Web Scrobbler: Send "${detail}" event`;

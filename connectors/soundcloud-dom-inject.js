@@ -17,6 +17,7 @@ window.SC_ATTACHED = window.SC_ATTACHED || false;
 	}
 
 	window.webpackJsonp([], {
+		// eslint-disable-next-line object-shorthand
 		0: function (e, t, _require) {
 			let modules = _require.c, moduleid, el;
 

@@ -103,7 +103,7 @@ function getTestDescription(connector) {
  * Queue test. This function does not run test immediately.
  * @param  {Object} connector Connector match object
  * @param  {Object} driver WebDriver instance
- * @param  {Object} connectorSpec
+ * @param  {Object} connectorSpec Test specification module
  */
 function prepareTest(connector, driver, connectorSpec) {
 	let testDescription = getTestDescription(connector);

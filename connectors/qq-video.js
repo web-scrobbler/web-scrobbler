@@ -43,11 +43,9 @@ function setupConnector() {
 	// Set up connector depending on player type
 	if (isCoverPlayer()) {
 		setupCoverPlayer();
-	}
-	else if (isPagePlayer()) {
+	}	else if (isPagePlayer()) {
 		setupPagePlayer();
-	}
-	else {
+	}	else {
 		console.warn('QQ Video connector: unknown player');
 	}
 }

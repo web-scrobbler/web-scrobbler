@@ -52,7 +52,7 @@ module.exports = {
 		// Disallow negating the left operand of relational operators
 		'use-isnan': 'error',
 		// Enforce valid JSDoc comments
-		// 'valid-jsdoc': ['error', { 'requireReturn': false }],
+		'valid-jsdoc': ['error', { 'requireReturn': false }],
 		// Enforce comparing `typeof` expressions against valid strings
 		'valid-typeof': 'error',
 
@@ -66,7 +66,7 @@ module.exports = {
 		// Disallow `else` blocks after `return` statements in `if` statements
 		'no-else-return': 'error',
 		// Disallow empty functions
-		// 'no-empty-function': 'error',
+		'no-empty-function': 'error',
 		// Disallow assignments to native objects or read-only global variables
 		'no-global-assign': 'error',
 		// Disallow function declarations and expressions inside loop statements
@@ -102,7 +102,7 @@ module.exports = {
 		// Require 'one true brace style', in which the opening brace
 		// of a block is placed on the same line as its corresponding
 		// statement or declaration
-		// 'brace-style': ['error', '1tbs'],
+		'brace-style': ['error', '1tbs'],
 		// Disallow spaces inside of brackets
 		'array-bracket-spacing': ['error', 'never'],
 		// Require space after comma
@@ -164,6 +164,8 @@ module.exports = {
 		'no-dupe-class-members': 'error',
 		// Disallow `this` or `super` before calling super() in constructors
 		'no-this-before-super': 'error',
+		// Require method and property shorthand syntax for object literals
+		'object-shorthand': ['error', 'always'],
 		// Disallow spacing around embedded expressions of template strings
 		'template-curly-spacing': 'error',
 
