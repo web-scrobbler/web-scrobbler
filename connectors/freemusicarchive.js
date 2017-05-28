@@ -35,7 +35,9 @@ var pageType = (function () {
 */
 function searchComment(regEx) {
 	var result,
-		pageDataNode = $('div.colr-sml-toppad').contents().filter(function () { return this.nodeType === 8; })[0];
+		pageDataNode = $('div.colr-sml-toppad').contents().filter(function () {
+			return this.nodeType === 8;
+		})[0];
 	if (pageDataNode) {
 		result = regEx.exec(pageDataNode.textContent);
 		if (result) {
@@ -54,7 +56,9 @@ Connector.isPlaying = function () {
 Connector.getArtist = function () {
 	switch (pageType) {
 		case 'artist':
-			return $('div.bcrumb h1').contents().filter(function () { return this.nodeType === 3; }).text();
+			return $('div.bcrumb h1').contents().filter(function () {
+				return this.nodeType === 3;
+			}).text();
 		case 'album':
 			// if there are two anchors in the .playtxt span then it uses the format "Artist - TrackName" (albums with Various Artists)
 			if ($('div.gcol-electronic .playtxt a').length === 2) {
@@ -102,7 +106,9 @@ Connector.getTrack = function () {
 
 Connector.getDuration = function () {
 	// the duration is in the last textNode
-	var durStr = $('div.gcol-electronic span.playtxt').contents().filter(function () { return this.nodeType === 3; }).last().text().trim(),
+	var durStr = $('div.gcol-electronic span.playtxt').contents().filter(function () {
+			return this.nodeType === 3;
+		}).last().text().trim(),
 		m = /(\d{2}):(\d{2})/.exec(durStr);
 	if (m) {
 		return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);

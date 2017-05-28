@@ -30,8 +30,7 @@ window.SC_ATTACHED = window.SC_ATTACHED || false;
 					// playManager used to get current playing song when song starts on page load
 					if (typeof el.playCurrent === 'function') {
 						playManager = el;
-					}
-					else if (el.trigger && el.bind && el.listenToOnce && el.broadcast) {
+					} else if (el.trigger && el.bind && el.listenToOnce && el.broadcast) {
 						eventBus = el;
 					}
 					if (playManager && eventBus) {

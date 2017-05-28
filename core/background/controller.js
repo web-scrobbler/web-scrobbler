@@ -98,9 +98,8 @@ define([
 				if (newState.duration && !currentSong.parsed.duration) {
 					updateSongDuration(newState.duration);
 				}
-			}
-			// we've hit a new song (or replaying the previous one) - clear old data and run processing
-			else {
+			} else {
+				// we've hit a new song (or replaying the previous one) - clear old data and run processing
 				console.log('Tab ' + tabId + ': new track state: ' + JSON.stringify(newState));
 
 				// clear any previous song and its bindings

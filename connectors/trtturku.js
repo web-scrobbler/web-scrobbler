@@ -68,8 +68,7 @@ function isPlaylistPlayer() {
 function setupConnector() {
 	if (isRadioPlayer()) {
 		setupRadioPlayer();
-	}
-	else if (isPlaylistPlayer()) {
+	} else if (isPlaylistPlayer()) {
 		setupPlaylistPlayer();
 	}
 }
