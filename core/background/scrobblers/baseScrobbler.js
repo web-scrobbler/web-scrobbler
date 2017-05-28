@@ -201,10 +201,7 @@ define([
 		 * @return {Promise} Promise that will be resolved with the session ID
 		 */
 		tradeTokenForSession(token) {
-			let params = {
-				method: 'auth.getsession',
-				token: token
-			};
+			let params = { method: 'auth.getsession', token };
 
 			return this.doRequest('GET', params, true).then(($doc) => {
 				let result = processResponse($doc);

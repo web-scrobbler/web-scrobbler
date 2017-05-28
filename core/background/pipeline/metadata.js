@@ -73,7 +73,5 @@ define([
 		});
 	}
 
-	return {
-		loadSong: loadSong
-	};
+	return { loadSong };
 });

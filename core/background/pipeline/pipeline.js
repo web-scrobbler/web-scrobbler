@@ -40,7 +40,7 @@ define([
 		 * Process song using pipeline processors.
 		 * @param  {Object} song Song instance
 		 */
-		processSong: function(song) {
+		processSong(song) {
 			// reset possible flag, so we can detect changes
 			// on repeated processing of the same song
 			song.flags.attr('isProcessed', false);
