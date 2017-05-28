@@ -40,6 +40,7 @@
 		};
 
 		if (observeTarget !== null) {
+			Connector.onReady();
 			observer.observe(observeTarget, observerConfig);
 		} else {
 			// Unable to get player element; wait until it is on the page.
@@ -51,6 +52,8 @@
 					console.log(`Web Scrobbler: found ${Connector.playerSelector} using second MutationObserver.`);
 
 					playerObserver.disconnect();
+
+					Connector.onReady();
 					observer.observe(observeTarget, observerConfig);
 					// @ifdef DEBUG
 					TestReporter.reportPlayerElementExists();
@@ -71,6 +74,7 @@
 		 * Player selector is not provided, current connector needs
 		 * to detect state changes on its own.
 		 */
+		Connector.onReady();
 		console.info('Web Scrobbler: Connector.playerSelector is empty. The current connector is expected to manually detect state changes');
 	}
 

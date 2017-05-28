@@ -308,6 +308,16 @@ var BaseConnector = window.BaseConnector || function () {
 	this.filter = MetadataFilter.getTrimFilter();
 
 	/**
+	 * Function that will be called when the connector is injected and
+	 * the starter is configured to listen to state change.
+	 *
+	 * Override this method for more complex behaviour.
+	 */
+	this.onReady = function() {
+		// do nothing
+	};
+
+	/**
 	 * State & API.
 	 *
 	 * Connectors are NOT supposed to override functions and properties
