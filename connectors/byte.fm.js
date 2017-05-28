@@ -19,3 +19,5 @@ Connector.getArtistTrack = function() {
 Connector.isPlaying = function () {
 	return $('.player-pause').is(':visible');
 };
+
+Connector.onReady = Connector.onStateChanged;
