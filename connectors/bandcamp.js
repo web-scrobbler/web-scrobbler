@@ -60,10 +60,7 @@ Connector.getArtistTrack = function () {
 		artist = track.substring(0, separatorIndex);
 		track = track.substring(separatorIndex + 1);
 	}
-	return {
-		artist: artist,
-		track: track
-	};
+	return { artist, track };
 };
 
 Connector.getAlbum = function () {

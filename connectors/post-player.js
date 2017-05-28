@@ -10,5 +10,5 @@ Connector.playButtonSelector = '.jp-play';
 Connector.getArtistTrack = function () {
 	var artist = $('#searchme').attr('data-title');
 	var track = $('#searchme').attr('data-artist');
-	return {artist: artist, track: track};
+	return { artist, track };
 };

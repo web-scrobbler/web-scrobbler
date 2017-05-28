@@ -48,11 +48,11 @@ define([], function() {
 
 		/**
 		 * Set icon, title and popup in single call.
-		 * @param {String} icon Path to page action icon
+		 * @param {String} path Path to page action icon
 		 * @param {String} title Page action title
 		 * @param {String} popup Path to popup document
 		 */
-		function setPageAction(icon, title, popup) {
+		function setPageAction(path, title, popup) {
 			chrome.tabs.get(tabId, function() {
 				if (chrome.runtime.lastError) {
 					// tab doesn't exist
@@ -61,18 +61,9 @@ define([], function() {
 				} else {
 					// tab exists
 					chrome.pageAction.hide(tabId);
-					chrome.pageAction.setIcon({
-						tabId: tabId,
-						path: icon
-					});
-					chrome.pageAction.setTitle({
-						tabId: tabId,
-						title: title
-					});
-					chrome.pageAction.setPopup({
-						tabId: tabId,
-						popup: popup
-					});
+					chrome.pageAction.setIcon({ tabId, path });
+					chrome.pageAction.setTitle({ tabId, title });
+					chrome.pageAction.setPopup({ tabId, popup });
 					chrome.pageAction.show(tabId);
 				}
 			});

@@ -43,7 +43,7 @@ Connector.getArtistTrack = function () {
 				$('.Artist-Maximus-Playing').attr('title');
 	}
 
-	return {artist: artist, track: track};
+	return { artist, track };
 };
 Connector.getAlbum = function () {
 	return $('#PlayerFrame iframe').contents().find('#Play').length ? //embed

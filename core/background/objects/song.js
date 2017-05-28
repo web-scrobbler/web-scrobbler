@@ -63,7 +63,7 @@ define([
 			 * Connector match object.
 			 * @type {Object}
 			 */
-			connector: connector
+			connector
 		};
 
 		/**
@@ -98,12 +98,7 @@ define([
 			isMarkedAsPlaying: false
 		};
 
-		const song = new can.Map({
-			parsed: parsed,
-			processed: processed,
-			metadata: metadata,
-			flags: flags
-		});
+		const song = new can.Map({ parsed, processed, metadata,	flags });
 
 		/**
 		 * Get song artist.

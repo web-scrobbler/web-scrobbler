@@ -69,10 +69,7 @@ Connector.getArtistTrack = function () {
 			track = execResult[2];
 		}
 	}
-	return {
-		artist: artist,
-		track: track
-	};
+	return { artist, track };
 };
 
 /** @returns {Boolean} true if playing, false otherwise */
