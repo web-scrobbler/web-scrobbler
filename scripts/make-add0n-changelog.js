@@ -49,7 +49,7 @@ function getChangelog() {
 		for (let release of releases) {
 			let changelog = stripMarkdown(release.body);
 			let version = release.tag_name.substring(1); // skip "v" prefix
-			let created = reformatDate(release.published_at);
+			let created = release.published_at;
 
 			changelogObject.results.push({
 				release_notes: {
@@ -78,16 +78,6 @@ function stripMarkdown(text) {
 	});
 
 	return ulElements.join('\n');
-}
-
-/**
- * Reformat date in string format to DD-MM-YYYY format.
- * @param  {String} dateString Date in ISO8601 format
- * @return {String} String in DD-MM-YYYY format
- */
-function reformatDate(dateString) {
-	let date = new Date(dateString);
-	return `${date.getDate()}-${date.getMonth() + 1}-${date.getFullYear()}`;
 }
 
 main().catch((err) => {
