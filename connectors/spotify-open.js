@@ -16,7 +16,7 @@ Connector.getArtist = function () {
 };
 
 Connector.getAlbum = function () {
-	if($('.now-playing a')[0].href.indexOf('artist') >= 0 || $('.now-playing a')[0].href.indexOf('playlist') >= 0){
+	if($('.now-playing a')[0].href.indexOf('artist') >= 0 || $('.now-playing a')[0].href.indexOf('playlist') >= 0 || $('.now-playing a')[0].href.indexOf('search') >= 0){
 		$.ajax({ url: $('.now-playing .react-contextmenu-wrapper a')[0].href, success: function(data) { parseAlbumTitle(data); }});
 	}
 	else if($('.now-playing a')[0].href.indexOf('album') >= 0){
