@@ -203,7 +203,7 @@ $(document).ready(function() {
 
 	function updateLovedIcon(isLoved) {
 		$('#love').attr('last-fm-loved', isLoved);
-		$('#love').attr('title', isLoved ? 'unlove song' : 'love song');
+		$('#love').attr('title', isLoved ? 'Unlove song' : 'Love song');
 	}
 
 	function updatePopupView() {
