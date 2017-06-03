@@ -349,9 +349,9 @@ const FILTERS_DATA = [{
  */
 function testFilter(filter, fields, testData) {
 	let filterFunctions = {
-		artist: filter.filterArtist,
-		track: filter.filterTrack,
-		album: filter.filterAlbum
+		artist: filter.filterArtist.bind(filter),
+		track: filter.filterTrack.bind(filter),
+		album: filter.filterAlbum.bind(filter)
 	};
 
 	for (let field of fields) {
