@@ -33,6 +33,9 @@ input {
 	width: 100px;
 	/* .cover-image */
 }
+#album-art:hover {
+	cursor: pointer;
+}
 
 #info, #edit {
 	line-height: 1.5em;

@@ -126,11 +126,7 @@ $(document).ready(function() {
 	}
 
 	function fillAlbumCover() {
-		let albumArt = song.parsed.trackArt ||
-			song.metadata.artistThumbUrl ||
-			'/icons/default_cover_art.png';
-
-		$('#album-art').css('background-image', `url("${albumArt}")`);
+		$('#album-art').css('background-image', `url("${getCoverArt()}")`);
 	}
 
 	function copyInputsToLabels() {
@@ -197,6 +193,11 @@ $(document).ready(function() {
 				setEditMode(false);
 				correctSongInfo();
 			}
+		});
+
+		$('#album-art').off('click');
+		$('#album-art').on('click', () => {
+			chrome.tabs.create({ url: getCoverArt() });
 		});
 	}
 
@@ -276,6 +277,11 @@ $(document).ready(function() {
 					break;
 			}
 		});
+	}
+
+	function getCoverArt() {
+		return song.parsed.trackArt || song.metadata.artistThumbUrl ||
+			'/icons/default_cover_art.png';
 	}
 
 	function main() {
