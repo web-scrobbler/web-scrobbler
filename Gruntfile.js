@@ -16,12 +16,12 @@ module.exports = function(grunt) {
 	const jsonFiles = ['*.json', '.stylelintrc'];
 	const htmlFiles = ['options/*.html', 'popups/*.html', 'dialogs/**/*.html'];
 	const cssFiles = [
-		'options/options.css', 'popups/*.css', 'dialogs/base.css'
+		'options/options.css', 'popups/*.css'
 	];
 
 	const extensionSources = [
-		'connectors/**', 'core/**', 'dialogs/**',
-		'icons/**', 'options/**', 'popups/**', 'vendor/**',
+		'connectors/**', 'core/**', 'icons/**',
+		'options/**', 'popups/**', 'vendor/**',
 		'manifest.json', 'README.md', 'LICENSE.txt',
 		// Skip files
 		'!core/content/testReporter.js', '!icons/src/**',
