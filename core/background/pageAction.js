@@ -1,54 +1,62 @@
 'use strict';
 
-define([], function() {
+define([], () => {
+	const ICONS = {
+		BASE: {
+			'19': '/icons/page_action_base.svg',
+			'38': '/icons/page_action_base.svg'
+		},
+		LOADING: {
+			'19': '/icons/page_action_loading.png',
+			'38': '/icons/page_action_loading_38.png'
+		},
+		RECOGNIZED: {
+			'19': '/icons/page_action_note.svg',
+			'38': '/icons/page_action_note.svg'
+		},
+		SKIPPED: {
+			'19': '/icons/page_action_skipped.svg',
+			'38': '/icons/page_action_skipped.svg'
+		},
+		DISABLED: {
+			'19': '/icons/page_action_disabled.svg',
+			'38': '/icons/page_action_disabled.svg'
+		},
+		SCROBBLED: {
+			'19': '/icons/page_action_tick.svg',
+			'38': '/icons/page_action_tick.svg'
+		},
+		UNKNOWN: {
+			'19': '/icons/page_action_question.svg',
+			'38': '/icons/page_action_question.svg'
+		},
+		ERROR: {
+			'19': '/icons/page_action_error.svg',
+			'38': '/icons/page_action_error.svg'
+		}
+	};
+
+	const DOCUMENTS = {
+		BASE: '/popups/go_play_music.html',
+		SONG_INFO: '/popups/info.html',
+		ERROR_INFO: '/popups/error.html'
+	};
+
 	/**
 	 * Object for access to page action of a single controller (tab).
-	 *
-	 * @constructor
-	 * @param {Number} tabId Tab ID
 	 */
-	return function(tabId) {
+	class PageAction {
+		/**
+		 * @constructor
+   	 	 * @param {Number} tabId Tab ID
+		 */
+		constructor(tabId) {
+			this.tabId = tabId;
+		}
 
-		var icons = {
-			BASE: {
-				'19': '/icons/page_action_base.svg',
-				'38': '/icons/page_action_base.svg'
-			},
-			LOADING: {
-				'19': '/icons/page_action_loading.png',
-				'38': '/icons/page_action_loading_38.png'
-			},
-			RECOGNIZED: {
-				'19': '/icons/page_action_note.svg',
-				'38': '/icons/page_action_note.svg'
-			},
-			SKIPPED: {
-				'19': '/icons/page_action_skipped.svg',
-				'38': '/icons/page_action_skipped.svg'
-			},
-			DISABLED: {
-				'19': '/icons/page_action_disabled.svg',
-				'38': '/icons/page_action_disabled.svg'
-			},
-			SCROBBLED: {
-				'19': '/icons/page_action_tick.svg',
-				'38': '/icons/page_action_tick.svg'
-			},
-			UNKNOWN: {
-				'19': '/icons/page_action_question.svg',
-				'38': '/icons/page_action_question.svg'
-			},
-			ERROR: {
-				'19': '/icons/page_action_error.svg',
-				'38': '/icons/page_action_error.svg'
-			}
-		};
-
-		var documents = {
-			BASE: '/popups/go_play_music.html',
-			SONG_INFO: '/popups/info.html',
-			ERROR_INFO: '/popups/error.html'
-		};
+		onClicked() {
+			// console.log('Page action clicked in tab ' + tabId);
+		}
 
 		/**
 		 * Set icon, title and popup in single call.
@@ -56,11 +64,12 @@ define([], function() {
 		 * @param {String} title Page action title
 		 * @param {String} popup Path to popup document
 		 */
-		function setPageAction(path, title, popup) {
-			chrome.tabs.get(tabId, function() {
+		setPageAction(path, title, popup = '') {
+			let tabId = this.tabId;
+			chrome.tabs.get(tabId, () => {
 				if (chrome.runtime.lastError) {
 					// tab doesn't exist
-					console.info('While executing setPageAction: ' +
+					console.info('While executing this.setPageAction: ' +
 						chrome.runtime.lastError.message);
 				} else {
 					// tab exists
@@ -73,60 +82,57 @@ define([], function() {
 			});
 		}
 
-		this.onClicked = function() {
-			// console.log('Page action clicked in tab ' + tabId);
-		};
-
-		this.setSiteSupported = function() {
-			setPageAction(icons.BASE,
+		setSiteSupported() {
+			this.setPageAction(ICONS.BASE,
 				'This site is supported for scrobbling',
-				documents.BASE);
-		};
+				DOCUMENTS.BASE);
+		}
 
 		/**
 		 * @param {Object} song Song instance
 		 */
-		this.setSongLoading = function(song) {
-			setPageAction(icons.LOADING,
-				`Looking up ${song.getArtistTrackString()}`,
-				'');
-		};
+		setSongLoading(song) {
+			this.setPageAction(
+				ICONS.LOADING, `Looking up ${song.getArtistTrackString()}`
+			);
+		}
 
-		this.setSongRecognized = function(song) {
-			setPageAction(icons.RECOGNIZED,
+		setSongRecognized(song) {
+			this.setPageAction(ICONS.RECOGNIZED,
 				`Now playing ${song.getArtistTrackString()}`,
-				documents.SONG_INFO);
-		};
+				DOCUMENTS.SONG_INFO);
+		}
 
-		this.setSongSkipped = function(song) {
-			setPageAction(icons.SKIPPED,
+		setSongSkipped(song) {
+			this.setPageAction(ICONS.SKIPPED,
 				`Skipped ${song.getArtistTrackString()}`,
-				documents.SONG_INFO);
-		};
+				DOCUMENTS.SONG_INFO);
+		}
 
-		this.setSiteDisabled = function() {
-			setPageAction(icons.DISABLED,
-				'This site is supported, but you disabled it',
-				'');
-		};
+		setSiteDisabled() {
+			this.setPageAction(
+				ICONS.DISABLED,	'This site is supported, but you disabled it'
+			);
+		}
 
-		this.setSongScrobbled = function(song) {
-			setPageAction(icons.SCROBBLED,
+		setSongScrobbled(song) {
+			this.setPageAction(ICONS.SCROBBLED,
 				`Scrobbled ${song.getArtistTrackString()}`,
-				documents.SONG_INFO);
-		};
+				DOCUMENTS.SONG_INFO);
+		}
 
-		this.setSongNotRecognized = function() {
-			setPageAction(icons.UNKNOWN,
+		setSongNotRecognized() {
+			this.setPageAction(ICONS.UNKNOWN,
 				'The song was not recognized. Click to enter correct info',
-				documents.SONG_INFO);
-		};
+				DOCUMENTS.SONG_INFO);
+		}
 
-		this.setError = function() {
-			setPageAction(icons.ERROR,
+		setError() {
+			this.setPageAction(this.tabId, ICONS.ERROR,
 				'Some service error was occurred. Click for more information.',
-				documents.ERROR_INFO);
-		};
-	};
+				DOCUMENTS.ERROR_INFO);
+		}
+	}
 
+	return PageAction;
 });
