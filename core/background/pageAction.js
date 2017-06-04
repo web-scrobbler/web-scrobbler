@@ -128,7 +128,7 @@ define([], () => {
 		}
 
 		setError() {
-			this.setPageAction(this.tabId, ICONS.ERROR,
+			this.setPageAction(ICONS.ERROR,
 				'Some service error was occurred. Click for more information.',
 				DOCUMENTS.ERROR_INFO);
 		}
