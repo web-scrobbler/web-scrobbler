@@ -72,7 +72,7 @@ require([
 	 */
 	function setupChromeEventListeners() {
 		chrome.tabs.onUpdated.addListener(onTabUpdated);
-		chrome.tabs.onRemoved.addListener(onTabRemoved);
+		chrome.tabs.onRemoved.addListener(unloadController);
 		chrome.tabs.onActivated.addListener(onTabChanged);
 
 		chrome.pageAction.onClicked.addListener(onPageActionClicked);
@@ -172,10 +172,8 @@ require([
 			let tabId = result.tabId;
 			switch (result.type) {
 				case InjectResult.NO_MATCH: {
-					// remove controller if any
-					if (tabControllers[tabId] !== undefined) {
-						delete tabControllers[tabId];
-					}
+					// Remove controller if any
+					unloadController(tabId);
 
 					try {
 						chrome.pageAction.hide(tabId);
@@ -187,7 +185,9 @@ require([
 
 				case InjectResult.MATCHED_BUT_DISABLED:
 				case InjectResult.MATCHED_AND_INJECTED: {
-					// intentionally overwrite previous controller, if any
+					// Remove previous controller if any
+					unloadController(tabId);
+
 					let enabled = result.type === InjectResult.MATCHED_AND_INJECTED;
 					tabControllers[tabId] = new Controller(tabId, result.connector, enabled);
 					setupContextMenu(tabId);
@@ -202,19 +202,6 @@ require([
 				}
 			}
 		});
-	}
-
-	/**
-	 * Called when tab is closed.
-	 * @param  {Number} tabId Tab ID
-	 */
-	function onTabRemoved(tabId) {
-		if (tabControllers[tabId]) {
-			tabControllers[tabId].resetState();
-
-			console.log(`Tab ${tabId}: remove controller`);
-			delete tabControllers[tabId];
-		}
 	}
 
 	/**
@@ -286,6 +273,19 @@ require([
 
 		// debug log internal storage state for people who send logs (tokens are anonymized)
 		ChromeStorage.debugLog('Core');
+	}
+
+	/**
+	 * Stop and remove controller for given tab ID.
+	 * @param  {Number} tabId Tab ID
+	 */
+	function unloadController(tabId) {
+		if (tabControllers[tabId]) {
+			console.log(`Tab ${tabId}: remove controller`);
+
+			tabControllers[tabId].resetState();
+			delete tabControllers[tabId];
+		}
 	}
 
 	/**
