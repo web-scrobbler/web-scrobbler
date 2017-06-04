@@ -27,6 +27,10 @@ class ServiceCallResult {
 		return 'ok';
 	}
 
+	static get IGNORED() {
+		return 'ignored';
+	}
+
 	static get ERROR_AUTH() {
 		return 'error-auth';
 	}

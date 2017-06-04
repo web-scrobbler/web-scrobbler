@@ -18,6 +18,10 @@ define([], () => {
 			'19': '/icons/page_action_skipped.svg',
 			'38': '/icons/page_action_skipped.svg'
 		},
+		IGNORED: {
+			'19': '/icons/page_action_ignored.svg',
+			'38': '/icons/page_action_ignored.svg'
+		},
 		DISABLED: {
 			'19': '/icons/page_action_disabled.svg',
 			'38': '/icons/page_action_disabled.svg'
@@ -103,6 +107,12 @@ define([], () => {
 			this.setPageAction(ICONS.SKIPPED,
 				`Skipped ${song.getArtistTrackString()}`,
 				DOCUMENTS.SONG_INFO);
+		}
+
+		setSongIgnored(song) {
+			this.setPageAction(
+				ICONS.IGNORED, `Ignored ${song.getArtistTrackString()}`
+			);
 		}
 
 		setSiteDisabled() {

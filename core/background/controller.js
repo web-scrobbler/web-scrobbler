@@ -8,15 +8,27 @@ define([
 	'notifications',
 	'services/background-ga',
 	'pipeline/local-cache',
-	'services/scrobbleService'
-], function(Song, Pipeline, PageAction, Timer, Notifications, GA, LocalCache, ScrobbleService) {
+	'services/scrobbleService',
+	'objects/serviceCallResult',
+], function(Song, Pipeline, PageAction, Timer, Notifications, GA, LocalCache, ScrobbleService, ServiceCallResult) {
 	/**
-	 * Check if array of results contains at least one goog result.
+	 * Check if array of results contains at least one result with given type.
 	 * @param  {Array} results Array of results
+	 * @param  {String} type Result type
 	 * @return {Boolean} True if at least one good result is found
 	 */
-	function isAnyOkResult(results) {
-		return results.some((result) => result.isOk());
+	function isAnyResult(results, type) {
+		return results.some((result) => result.type === type);
+	}
+
+	/**
+	 * Check if array of results contains all results with given type.
+	 * @param  {Array} results Array of results
+	 * @param  {String} type Result type
+	 * @return {Boolean} True if at least one good result is found
+	 */
+	function areAllResults(results, type) {
+		return results.every((result) => result.type === type);
 	}
 
 	/**
@@ -281,7 +293,7 @@ define([
 			}
 
 			ScrobbleService.sendNowPlaying(song).then((results) => {
-				if (isAnyOkResult(results)) {
+				if (isAnyResult(results, ServiceCallResult.OK)) {
 					debugLog('Song set as now playing');
 					pageAction.setSongRecognized(song);
 				} else {
@@ -311,7 +323,7 @@ define([
 			debugLog(`Scrobbling ${song.getArtistTrackString()}`);
 
 			ScrobbleService.scrobble(song).then((results) => {
-				if (isAnyOkResult(results)) {
+				if (isAnyResult(results, ServiceCallResult.OK)) {
 					console.info('Scrobbled successfully');
 
 					song.flags.attr('isScrobbled', true);
@@ -320,6 +332,9 @@ define([
 					notifySongIsUpdated(song);
 
 					GA.event('core', 'scrobble', connector.label);
+				} else if (areAllResults(results, ServiceCallResult.IGNORED)) {
+					debugLog('Song is ignored by service');
+					pageAction.setSongIgnored(song);
 				} else {
 					console.error('Scrobbling failed');
 

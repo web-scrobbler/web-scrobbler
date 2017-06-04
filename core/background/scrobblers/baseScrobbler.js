@@ -520,6 +520,12 @@ define([
 			return new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 		}
 
+		let acceptedCounter = $doc.find('scrobbles').attr('accepted');
+		if (acceptedCounter && acceptedCounter === '0') {
+			// The song is ignored by service.
+			return new ServiceCallResult(ServiceCallResult.IGNORED);
+		}
+
 		return new ServiceCallResult(ServiceCallResult.OK);
 	}
 
