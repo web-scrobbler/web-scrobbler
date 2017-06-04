@@ -49,7 +49,7 @@ define(['storage/chromeStorage'], function(ChromeStorage) {
 	 * @param  {Object} song Song instance
 	 * @return {Promise} Promise that will be resolved then the task will complete
 	 */
-	function loadData(song) {
+	function process(song) {
 		return new Promise((resolve) => {
 			let isChanged = false;
 
@@ -72,5 +72,5 @@ define(['storage/chromeStorage'], function(ChromeStorage) {
 		});
 	}
 
-	return { loadData };
+	return { process };
 });

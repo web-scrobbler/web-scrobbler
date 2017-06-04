@@ -28,7 +28,7 @@ define([], function() {
 	 * @param  {Object} song Song instance
 	 * @return {Promise} Promise that will be resolved then the task will complete
 	 */
-	function getCoverArt(song) {
+	function process(song) {
 		// Only query APIs if no cover art can be found
 		if (song.parsed.trackArt) {
 			console.log('Using local/parsed artwork');
@@ -112,5 +112,5 @@ define([], function() {
 		});
 	}
 
-	return { getCoverArt };
+	return { process };
 });

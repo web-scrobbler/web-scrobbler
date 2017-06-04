@@ -16,7 +16,7 @@ define([
 	 * @param  {Object} song Song instance
 	 * @return {Promise} Promise resolved when task has complete
 	 */
-	function loadSong(song) {
+	function process(song) {
 		return ScrobbleService.getSongInfo(song).then((songInfoArr) => {
 			let songInfo = getInfo(songInfoArr);
 			let isSongValid = songInfo !== null;
@@ -80,5 +80,5 @@ define([
 		return keyCount;
 	}
 
-	return { loadSong };
+	return { process };
 });

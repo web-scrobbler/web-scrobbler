@@ -10,30 +10,30 @@ define([
 	'pipeline/musicbrainz-coverartarchive'
 ], function(UserInput, LocalCache, Metadata, MusicBrainz) {
 	/**
-	 * Get array of functions that return promises.
-	 * Used for delayed promise execute.
-	 * @param  {Object} song Song instance
-	 * @return {Array} Array of promise factories
+	 * List of processors.
+	 * Each procesor is an object contains `process` function takes song object
+	 * and returns Promise.
+	 * @type {Array}
 	 */
-	function getProcessorFactories(song) {
-		// list of processors promise factories is recreated
-		// for every processing call
-		return [
-			// loads data stored by user
-			UserInput.loadData,
-			// loads data filled by user from storage
-			LocalCache.loadData,
-			// loads song metadata and sets validation flag
-			Metadata.loadSong,
-			// looks for fallback cover art via API,
-			// in the even that it wasn't found earlier
-			MusicBrainz.getCoverArt
-		].map((processorFactory) => {
-			return function() {
-				return processorFactory(song);
-			};
-		});
-	}
+	const processors = [
+		/**
+		 * Load data submitted by user.
+		 */
+		UserInput,
+		//
+		/**
+		 * Load data filled by user from storage.
+		 */
+		LocalCache,
+		/**
+		 * Load song metadata using ScrobbleService.
+		 */
+		Metadata,
+		/**
+		 * Looks for fallback cover art via MusicBrainz API.
+		 */
+		MusicBrainz,
+	];
 
 	return {
 		/**
@@ -46,8 +46,10 @@ define([
 			song.flags.attr('isProcessed', false);
 
 			let processorsSequence = Promise.resolve();
-			for (let processorFactory of getProcessorFactories(song)) {
-				processorsSequence = processorsSequence.then(processorFactory);
+			for (let processor of processors) {
+				processorsSequence = processorsSequence.then(() => {
+					return processor.process(song);
+				});
 			}
 
 			processorsSequence.then(() => {

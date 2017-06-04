@@ -15,7 +15,7 @@ define(['storage/chromeStorage'], function(ChromeStorage) {
 	 * @param  {Object} song Song object
 	 * @return {Promise} Promise that will be resolved when the task has complete
 	 */
-	function loadData(song) {
+	function process(song) {
 		let songId = song.parsed.uniqueID;
 		if (!songId) {
 			return Promise.resolve();
@@ -57,5 +57,5 @@ define(['storage/chromeStorage'], function(ChromeStorage) {
 		});
 	}
 
-	return { loadData, removeSongFromStorage };
+	return { process, removeSongFromStorage };
 });
