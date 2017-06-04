@@ -7,9 +7,9 @@ require.config({
 	baseUrl: '/core/background',
 	paths: {
 		vendor: '/vendor',
-		jquery: '/vendor/jquery',
-		canjs: '/vendor/can.custom',
-		bootstrap: '/vendor/bootstrap',
+		jquery: '/vendor/jquery.min',
+		canjs: '/vendor/can.jquery.min',
+		bootstrap: '/vendor/bootstrap/bootstrap.min',
 		connectors: '/core/connectors'
 	},
 	shim: {

@@ -43,7 +43,7 @@ define([
 					// @ifdef DEBUG
 					scripts.unshift('core/content/testReporter.js');
 					// @endif
-					scripts.unshift('vendor/jquery.js');
+					scripts.unshift('vendor/jquery.min.js');
 
 					// Needs to be the last script injected
 					scripts.push('core/content/starter.js');

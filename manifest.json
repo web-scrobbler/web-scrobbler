@@ -19,7 +19,7 @@
 
   "background": {
     "scripts": [
-      "vendor/require.js", "core/background/requirejs-config.js",
+      "vendor/require.min.js", "core/background/requirejs-config.js",
       "core/background/main.js"
     ]
   },
