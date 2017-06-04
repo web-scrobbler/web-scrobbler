@@ -104,6 +104,21 @@ define([
 		},
 
 		/**
+		 * Retrieve song info using scrobbler APIs.
+		 * @param  {Object} song Song instance
+		 * @return {Promise} Promise resolved with array of song info objects
+		 */
+		getSongInfo(song) {
+			console.log(`Send "get info" request: ${registeredScrobblers.length}`);
+
+			return Promise.all(registeredScrobblers.map((scrobbler) => {
+				return scrobbler.getSongInfo(song).catch(() => {
+					return null;
+				});
+			}));
+		},
+
+		/**
 		 * Send now playing notification to each bound scrobbler.
 		 * @param  {Object} song Song instance
 		 * @return {Promise} Promise that will be resolved then the task will complete

@@ -6,8 +6,7 @@ define([
 	'objects/serviceCallResult',
 	'storage/chromeStorage',
 	'util',
-	'wrappers/can'
-], function ($, MD5, ServiceCallResult, ChromeStorage, Util, can) {
+], function ($, MD5, ServiceCallResult, ChromeStorage, Util) {
 	const GET_AUTH_URL_TIMEOUT = 10000;
 
 	/**
@@ -290,7 +289,7 @@ define([
 		 * @param  {Song} song Song instance
 		 * @return {Promise} Promise that will resolve with 'isValid' flag
 		 */
-		loadSongInfo(song) {
+		getSongInfo(song) {
 			if (!this.isSongInfoLoadingSupported()) {
 				return Promise.resolve(true);
 			}
@@ -318,14 +317,11 @@ define([
 
 						return this.parseSongInfo($doc);
 					}).then((data) => {
-						if (data.isValid) {
+						if (data) {
 							this.fillSongInfo(data, song);
-							if (this.isSongInfoCorrectionSupported()) {
-								this.correctSongInfo(data, song);
-							}
 						}
 
-						return data.isValid;
+						return data;
 					});
 				});
 			});
@@ -337,11 +333,8 @@ define([
 		 * @return {Promise} Promise that will resolve with parsed data
 		 */
 		parseSongInfo($doc) {
-			let isValid = true;
-
 			if ($doc.find('lfm').attr('status') !== 'ok') {
-				isValid = false;
-				return { isValid };
+				return null;
 			}
 
 			let userloved = undefined;
@@ -370,12 +363,11 @@ define([
 				return {
 					artist, track, duration,
 					artistThumbUrl, artistUrl,
-					trackUrl, userloved,
-					isValid
+					trackUrl, userloved
 				};
 			}
 
-			return { userloved, isValid };
+			return { userloved };
 		}
 
 		/**
@@ -395,32 +387,6 @@ define([
 					song.metadata.attr({ userloved: false });
 				}
 			}
-		}
-
-		/**
-		 * Correct song info according to parsed data.
-		 * This function is called if service is supported song info correction
-		 * and if song data is valid.
-		 *
-		 * @param  {Object} data Parsed data
-		 * @param  {Song} song Song instance
-		 */
-		correctSongInfo(data, song) {
-			// TODO: Don't allow scrobblers to overwrite properties.
-			can.batch.start();
-
-			song.processed.attr({
-				duration: data.duration,
-				artist: data.artist,
-				track: data.track
-			});
-			song.metadata.attr({
-				artistThumbUrl: data.artistThumbUrl,
-				artistUrl: data.artistUrl,
-				trackUrl: data.trackUrl
-			});
-
-			can.batch.stop();
 		}
 
 		/**

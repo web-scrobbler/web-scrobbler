@@ -6,71 +6,78 @@
 
 define([
 	'services/scrobbleService',
-	'storage/chromeStorage'
-], function(ScrobbleService, ChromeStorage) {
+	'storage/chromeStorage',
+	'wrappers/can'
+], function(ScrobbleService, ChromeStorage, can) {
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 
 	/**
-	 * Get array of functions that return promises.
-	 * Used for delayed promise execute.
+	 * Load song info using ScrobblerService object.
 	 * @param  {Object} song Song instance
-	 * @return {Array} Array of promise factories
+	 * @return {Promise} Promise resolved when task has complete
 	 */
-	function getLoadSongInfoFactories(song) {
-		return ScrobbleService.getRegisteredScrobblers().map((scrobbler) => {
-			// Don't execute the promise immediately and return factory function
-			return function() {
-				return scrobbler.loadSongInfo(song);
-			};
+	function loadSong(song) {
+		return ScrobbleService.getSongInfo(song).then((songInfoArr) => {
+			let songInfo = getInfo(songInfoArr);
+			let isSongValid = songInfo !== null;
+			if (isSongValid) {
+				can.batch.start();
+
+				song.processed.attr({
+					duration: songInfo.duration,
+					artist: songInfo.artist,
+					track: songInfo.track
+				});
+				song.metadata.attr({
+					artistThumbUrl: songInfo.artistThumbUrl,
+					artistUrl: songInfo.artistUrl,
+					trackUrl: songInfo.trackUrl
+				});
+
+				can.batch.stop();
+			}
+
+			return options.get().then((data) => {
+				song.flags.attr('isValid', isSongValid || data.forceRecognize);
+			});
 		});
 	}
 
 	/**
-	 * Load song info using scrobblers API.
-	 * @param  {Object} song Song instance
-	 * @return {Promise} Promise that will be resolved then the first valid song info is fetched
+	 * Get song info from array contains the highest keys count.
+	 * @param  {Array} songInfoArr Array of song info objects
+	 * @return {Object} Song info object
 	 */
-	function loadSong(song) {
-		let factories = getLoadSongInfoFactories(song);
-		if (factories.length > 0) {
-			/*
-			 * Song means invalid if at least one info loader
-			 * return 'false' result.
-			 */
-			let isSongInfoValid = true;
-			let loadSongInfoSequence = Promise.resolve();
+	function getInfo(songInfoArr) {
+		return songInfoArr.reduce((prev, current) => {
+			if (!current) {
+				return prev;
+			}
+			if (!prev) {
+				return current;
+			}
+			if (getNonEmptyKeyCount(current) > getNonEmptyKeyCount(prev)) {
+				return current;
+			}
 
-			// Queue promises
-			factories.forEach((loadSongInfoFactory) => {
-				loadSongInfoSequence = loadSongInfoSequence.then(() => {
-					// Wait for first invalid result
-					if (isSongInfoValid) {
-						let loadSongInfoPromise = loadSongInfoFactory();
-						return loadSongInfoPromise.then((isValid) => {
-							isSongInfoValid = isValid;
-							return isSongInfoValid;
-						}).catch(() => {
-							/*
-							 * Looks like service is not available.
-							 * Assume song is valid, but we don't know actually.
-							 */
-							return true;
-						});
-					}
+			return prev;
+		}, null);
+	}
 
-					return false;
-				});
-			});
-			return loadSongInfoSequence.then((isValid) => {
-				return options.get().then((data) => {
-					song.flags.attr('isValid', isValid || data.forceRecognize);
-				});
-			});
+	/**
+	 * Return number of non-empty object keys.
+	 * @param  {Object} obj Object instance
+	 * @return {Number} Number of non-empty object keys
+	 */
+	function getNonEmptyKeyCount(obj) {
+		let keyCount = 0;
+		for (let key in obj) {
+			if (obj[key]) {
+				++keyCount;
+			}
 		}
 
-		return Promise.resolve().then(() => {
-			song.flags.attr('isValid', true);
-		});
+		return keyCount;
 	}
 
 	return { loadSong };
