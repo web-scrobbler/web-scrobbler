@@ -1,0 +1,16 @@
+body {
+	font-family: "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
+	padding: 10px;
+}
+
+a {
+	border-bottom: 1px solid #d51007;
+	color: #000;
+	text-decoration: none;
+}
+
+a:hover {
+	border-bottom: 1px solid #d51007;
+	color: #d51007;
+	text-decoration: none;
+}

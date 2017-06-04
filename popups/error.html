@@ -5,8 +5,12 @@
 		<title>Service error</title>
 
 		<link rel='stylesheet' href='/vendor/bootstrap.css'>
-		<link rel='stylesheet' href='/vendor/fontawesome/font-awesome.css' >
+		<link rel='stylesheet' href='/vendor/fontawesome/font-awesome.css'>
+		<link rel='stylesheet' href='/popups/base.css'>
 		<link rel='stylesheet' href='/popups/error.css'>
+
+		<script type="text/javascript" src="/vendor/jquery.js"></script>
+		<script type='text/javascript' src='/popups/error.js'></script>
 	</head>
 	<body>
 		<div class='content text-center'>
@@ -21,9 +25,9 @@
 				please create <a href='https://github.com/david-sabata/web-scrobbler/issues'
 				target='_blank'>a new issue</a> at the GitHub project page.
 			</p>
-			<a class='btn' href='/options/options.html#reauth' target='_blank'>
+			<button class='btn' id='reauth'>
 				Open options page
-			</a>
+			</button>
 		</div>
 	</body>
 </html>
