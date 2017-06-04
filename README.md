@@ -40,6 +40,14 @@ Check the [wiki page][10] to understand development of connectors. Please also r
 
 We use gitter and you can join us @ [david-sabata/web-scrobbler][5].
 
+## Used 3rd-party libraries
+
+* [Bootstrap v2.3.2][16]
+* [Can JS v2.3.27][20]
+* [Font Awesome v.3.2.1][17]
+* [jQuery v2.1.0][18]
+* [RequireJS v2.3.3][19]
+
 ## Privacy Policy
 
 See the [privacy policy][11].
@@ -64,3 +72,9 @@ See the [license file](LICENSE.txt).
 [13]: https://addons.opera.com/extensions/details/app_id/kipjbhgniklcnglfaldilecjomjaddfi
 [14]: https://img.shields.io/amo/users/web-scrobbler.svg
 [15]: https://addons.mozilla.org/en-US/firefox/addon/web-scrobbler/
+
+[16]: http://getbootstrap.com/2.3.2/assets/bootstrap.zip
+[17]: http://fontawesome.io/3.2.1/assets/font-awesome.zip
+[18]: http://code.jquery.com/jquery-2.1.0.min.js
+[19]: http://requirejs.org/docs/release/2.3.3/minified/require.js
+[20]: http://canjs.com/release/2.3.27/can.jquery.min.js
