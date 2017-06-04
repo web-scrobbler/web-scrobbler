@@ -16,6 +16,7 @@ define(['storage/chromeStorage'], function(ChromeStorage) {
 	/**
 	 * Save custom song info to Chrome storage.
 	 * @param  {Object} song Song instance
+	 * @return {Promise} Promise resolved when data is saved
 	 */
 	function saveSongMetadataToStorage(song) {
 		let songId = song.parsed.uniqueID;
@@ -23,7 +24,7 @@ define(['storage/chromeStorage'], function(ChromeStorage) {
 			return;
 		}
 
-		storage.get().then((chromeData) => {
+		return storage.get().then((chromeData) => {
 			let isChanged = false;
 
 			if (!chromeData[songId]) {
@@ -39,7 +40,7 @@ define(['storage/chromeStorage'], function(ChromeStorage) {
 			}
 
 			if (isChanged) {
-				storage.set(chromeData);
+				return storage.set(chromeData);
 			}
 		});
 	}
@@ -50,26 +51,24 @@ define(['storage/chromeStorage'], function(ChromeStorage) {
 	 * @return {Promise} Promise that will be resolved then the task will complete
 	 */
 	function process(song) {
-		return new Promise((resolve) => {
-			let isChanged = false;
+		let isChanged = false;
 
-			// currently just transforms user data from metadata to processed data,
-			// which makes it source data for next pipeline steps
-			for (let field in fieldMap) {
-				let userField = fieldMap[field];
-				if (song.metadata.attr(userField)) {
-					song.processed.attr(field, song.metadata.attr(userField));
-					isChanged = true;
-				}
+		// currently just transforms user data from metadata to processed data,
+		// which makes it source data for next pipeline steps
+		for (let field in fieldMap) {
+			let userField = fieldMap[field];
+			if (song.metadata.attr(userField)) {
+				song.processed.attr(field, song.metadata.attr(userField));
+				isChanged = true;
 			}
+		}
 
-			if (isChanged) {
-				song.flags.attr('isCorrectedByUser', true);
-				saveSongMetadataToStorage(song);
-			}
+		if (isChanged) {
+			song.flags.attr('isCorrectedByUser', true);
+			return saveSongMetadataToStorage(song);
+		}
 
-			resolve();
-		});
+		return Promise.resolve();
 	}
 
 	return { process };
