@@ -31,7 +31,6 @@ input {
 	overflow: hidden;
 	position: relative;
 	width: 100px;
-	/* .cover-image */
 }
 #album-art:hover {
 	cursor: pointer;
@@ -75,17 +74,8 @@ input {
 
 #scrobble-controls {
 	bottom: 5px;
-	color: #eee;
 	position: absolute;
 	right: 10px;
-}
-
-#scrobble-controls a {
-	color: #eee;
-}
-
-#scrobble-controls a:hover {
-	color: #aaa;
 }
 
 #love {
