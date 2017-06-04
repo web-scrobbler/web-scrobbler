@@ -22,9 +22,9 @@ define([], function() {
 				'19': '/icons/page_action_note.svg',
 				'38': '/icons/page_action_note.svg'
 			},
-			IGNORED: {
-				'19': '/icons/page_action_ignored.svg',
-				'38': '/icons/page_action_ignored.svg'
+			SKIPPED: {
+				'19': '/icons/page_action_skipped.svg',
+				'38': '/icons/page_action_skipped.svg'
 			},
 			DISABLED: {
 				'19': '/icons/page_action_disabled.svg',
@@ -99,7 +99,7 @@ define([], function() {
 		};
 
 		this.setSongSkipped = function(song) {
-			setPageAction(icons.IGNORED,
+			setPageAction(icons.SKIPPED,
 				`Skipped ${song.getArtistTrackString()}`,
 				documents.SONG_INFO);
 		};
