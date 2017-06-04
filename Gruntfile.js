@@ -110,6 +110,18 @@ module.exports = function(grunt) {
 				}]
 			}
 		},
+		update_json: {
+			firefox: {
+				src: `${buildDir}/manifest.json`,
+				data: {
+					applications: {
+						gecko: {
+							id: '{799c0914-748b-41df-a25c-22d008f9e83f}'
+						}
+					}
+				}
+			},
+		},
 
 		/**
 		 * Linter configs.
@@ -223,6 +235,10 @@ module.exports = function(grunt) {
 			'copy', `preprocess:${browser}`,
 			`icons:${browser}`,	'imagemin'
 		]);
+
+		if (browser === 'firefox') {
+			grunt.task.run('update_json:firefox');
+		}
 	});
 
 	/**
