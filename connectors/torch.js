@@ -4,19 +4,21 @@
 
 Connector.playerSelector = '#td_player';
 
-Connector.artistSelector = '#artist';
+Connector.artistSelector = '#player_links .artist';
 
-Connector.trackSelector = '.album_track_song';
+Connector.trackSelector = '#player_title';
 
-Connector.albumSelector = '.album';
+Connector.albumSelector = '#player_links .album';
 
-Connector.currentTimeSelector = '.ytplayer-getCurrentTime()';
+Connector.timeInfoSelector = '#div_time';
 
-Connector.durationSelector = '#yt_time_duration';
+Connector.isPlaying = () => $('.player_btn.pause').length > 0;
 
-Connector.trackArtImageSelector = '.album_cover_container';
+Connector.getTrackArt = () => {
+	let url = $('#player_thumb img').attr('src');
+	if (url && url.indexOf('noimage') === -1) {
+		return url;
+	}
 
-Connector.isPlaying = function () {
-	var playButtonImgFilename = $('#play-pause img').attr('src');
-	return playButtonImgFilename.indexOf('pause') !== -1;
+	return null;
 };
