@@ -1,25 +1,22 @@
 'use strict';
 
-/* global Connector */
-
-setupIsPlayingFunction();
+/* global Connector, Util */
 
 Connector.playerSelector = '#row-player-controls';
 
-Connector.artistTrackSelector = '.title-container .title';
+Connector.getArtistTrack = () => {
+	let artist = $('.artist-name').text();
+	let track = $('.track-name').text();
 
-function setupIsPlayingFunction() {
-	if (isNewPlayer()) {
-		Connector.isPlaying = () => {
-			return $('#webplayer-region').attr('data-state') === 'playing';
-		};
-	} else {
-		Connector.isPlaying = () => {
-			return $('#ctl-play .icon').hasClass('icon-stop');
-		};
+	if (artist && track) {
+		// The 'artist' element contains dash at the end of string.
+		let artistTrack = artist + track;
+		return Util.splitArtistTrack(artistTrack);
 	}
-}
 
-function isNewPlayer() {
-	return $('#webplayer-region').length > 0;
-}
+	return null;
+};
+
+Connector.isPlaying = () => {
+	return $('#webplayer-region').attr('data-state') === 'playing';
+};
