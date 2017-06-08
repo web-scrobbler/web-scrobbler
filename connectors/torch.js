@@ -12,13 +12,8 @@ Connector.albumSelector = '#player_links .album';
 
 Connector.timeInfoSelector = '#div_time';
 
+Connector.trackArtImageSelector = '#player_thumb img';
+
 Connector.isPlaying = () => $('.player_btn.pause').length > 0;
 
-Connector.getTrackArt = () => {
-	let url = $('#player_thumb img').attr('src');
-	if (url && url.indexOf('noimage') === -1) {
-		return url;
-	}
-
-	return null;
-};
+Connector.isTrackArtDefault = (url) => url.indexOf('noimage') === -1;

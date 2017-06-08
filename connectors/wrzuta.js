@@ -20,17 +20,9 @@ function setupPlaylistPlayer() {
 		return $('.playlist-position.active a.js-file-link').attr('data-key');
 	};
 
-	Connector.getTrackArt = function() {
-		var trackArt = $('.playlist-position.active .file-img');
-		if (trackArt) {
-			var trackArtUrl = trackArt.attr('src');
-			if (trackArtUrl !== DEFAULT_TRACK_ART_URL) {
-				return trackArtUrl;
-			}
-		}
+	Connector.trackArtImageSelector = '.playlist-position.active .file-img';
 
-		return null;
-	};
+	Connector.isTrackArtDefault = (url) => url !== DEFAULT_TRACK_ART_URL;
 
 	Connector.durationSelector = '.playlist-position.active .position-time';
 }

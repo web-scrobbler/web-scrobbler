@@ -10,20 +10,10 @@ Connector.artistSelector = '.artist';
 
 Connector.trackSelector = '.song';
 
-Connector.getTrackArt = function() {
-	let trackArtUrl = $('.cd-art img').attr('src');
-	if (isDefaultTrackArt(trackArtUrl)) {
-		return null;
-	}
+Connector.trackArtImageSelector = '.cd-art img';
 
-	return trackArtUrl;
-};
+Connector.isTrackArtDefault = (url) => url.endsWith(DEFAULT_TRACK_ART);
 
 Connector.isPlaying = function() {
 	return $('.fa-play-circle').length === 0;
 };
-
-function isDefaultTrackArt(trackArtUrl) {
-	let trackArtFileName = trackArtUrl.split('/').pop();
-	return trackArtFileName === DEFAULT_TRACK_ART;
-}

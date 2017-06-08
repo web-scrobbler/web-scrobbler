@@ -256,22 +256,39 @@ var BaseConnector = window.BaseConnector || function () {
 	 * @return {String} Track art URL
 	 */
 	this.getTrackArt = function () {
-		if (this.trackArtImageSelector) {
-			let imageUrl = $(this.trackArtImageSelector).attr('src');
-			if (imageUrl) {
-				return imageUrl;
-			}
+		if (!this.trackArtImageSelector) {
+			return null;
+		}
 
+		let trackArtUrl = $(this.trackArtImageSelector).attr('src');
+		if (!trackArtUrl) {
 			let cssProperties = ['background-image', 'background'];
 			for (let property of cssProperties) {
 				let propertyValue = $(this.trackArtImageSelector).css(property);
 				if (propertyValue) {
-					return Util.extractUrlFromCssProperty(propertyValue);
+					trackArtUrl = Util.extractUrlFromCssProperty(propertyValue);
 				}
 			}
 		}
 
+		if (trackArtUrl && !this.isTrackArtDefault(trackArtUrl)) {
+			return trackArtUrl;
+		}
+
 		return null;
+	};
+
+	/**
+	 * Check if given track art URL equals default one.
+	 * Default track arts are not used by the extension.
+	 * Override this method for more complex behaviour.
+	 *
+	 * @param  {String} trackArtUrl Track art URL
+	 * @return {Boolean} Check result
+	 */
+	// eslint-disable-next-line no-unused-vars
+	this.isTrackArtDefault = function(trackArtUrl) {
+		return false;
 	};
 
 	/**
