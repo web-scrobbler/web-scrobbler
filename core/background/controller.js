@@ -162,7 +162,7 @@ define([
 					playbackTimer.resume();
 
 					// maybe the song was not marked as playing yet
-					if (!song.flags.isMarkedAsPlaying && (song.flags.isLastfmValid === true || song.flags.isCorrectedByUser === true)) {
+					if (!song.flags.isMarkedAsPlaying && song.isValid()) {
 						setSongNowPlaying(song);
 					}
 				} else {
@@ -230,7 +230,7 @@ define([
 		 */
 		function onProcessed(song) {
 			// song is considered valid if either L.FM or the user validated it
-			if (song.flags.isLastfmValid === true || song.flags.isCorrectedByUser === true) {
+			if (song.isValid()) {
 				// processing cleans this flag
 				song.flags.attr('isMarkedAsPlaying', false);
 

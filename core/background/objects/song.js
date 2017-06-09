@@ -189,6 +189,16 @@ define([
 		};
 
 		/**
+		 * Check if song is vaild. The song means valid if it's known by
+		 * scrobbler service or is corrected by the user.
+		 * @return {Boolean} True if song is valid; false otherwise
+		 */
+		song.isValid = function() {
+			return song.flags.isProcessed &&
+				song.flags.isLastfmValid || song.flags.isCorrectedByUser;
+		};
+
+		/**
 		 * Set default song data.
 		 */
 		song.resetSongData = function() {
