@@ -110,15 +110,11 @@ module.exports = function(grunt) {
 				}]
 			}
 		},
-		update_json: {
+		replace_json: {
 			firefox: {
 				src: `${buildDir}/manifest.json`,
-				data: {
-					applications: {
-						gecko: {
-							id: '{799c0914-748b-41df-a25c-22d008f9e83f}'
-						}
-					}
+				changes: {
+					'applications.gecko.id': '{799c0914-748b-41df-a25c-22d008f9e83f}'
 				}
 			},
 		},
@@ -237,7 +233,7 @@ module.exports = function(grunt) {
 		]);
 
 		if (browser === 'firefox') {
-			grunt.task.run('update_json:firefox');
+			grunt.task.run('replace_json:firefox');
 		}
 	});
 
