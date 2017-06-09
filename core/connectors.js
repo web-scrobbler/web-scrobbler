@@ -1116,7 +1116,7 @@ define(function () {
 	}, {
 		label: 'Torch Music',
 		matches: ['*://music.torchbrowser.com/*'],
-		js: ['connectors/torch.js']
+		js: ['connectors/torchbrowser.js']
 	}, {
 		label: 'LyricsTraining',
 		matches: ['*://lyricstraining.com/*'],
