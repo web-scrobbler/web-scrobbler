@@ -1139,5 +1139,9 @@ define(function () {
 		label: 'Musicoin',
 		matches: ['*://musicoin.org/*'],
 		js: ['connectors/musicoin.js']
+	}, {
+		label: '181.fm',
+		matches: ['*://181fm.mystreamplayer.com/*'],
+		js: ['connectors/181.fm.js']
 	}];
 });
