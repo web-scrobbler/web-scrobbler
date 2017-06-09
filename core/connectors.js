@@ -1114,6 +1114,10 @@ define(function () {
 		js: ['connectors/npr.js'],
 		version: 2
 	}, {
+		label: 'Torch Music',
+		matches: ['*://music.torchbrowser.com/*'],
+		js: ['connectors/torch.js']
+	}, {
 		label: 'LyricsTraining',
 		matches: ['*://lyricstraining.com/*'],
 		js: ['connectors/lyricstraining.js'],
