@@ -129,10 +129,7 @@ define([
 			return Promise.all(boundScrobblers.map((scrobbler) => {
 				// Forward result (including errors) to caller
 				return scrobbler.sendNowPlaying(song).catch((result) => {
-					if (result.isAuthError()) {
-						this.unbindScrobbler(scrobbler);
-					}
-					return result;
+					return this.processResult(scrobbler, result);
 				});
 			}));
 		},
@@ -148,10 +145,7 @@ define([
 			return Promise.all(boundScrobblers.map((scrobbler) => {
 				// Forward result (including errors) to caller
 				return scrobbler.scrobble(song).catch((result) => {
-					if (result.isAuthError()) {
-						this.unbindScrobbler(scrobbler);
-					}
-					return result;
+					return this.processResult(scrobbler, result);
 				});
 			}));
 		},
@@ -166,10 +160,7 @@ define([
 			return Promise.all(boundScrobblers.map((scrobbler) => {
 				// Forward result (including errors) to caller
 				return scrobbler.toggleLove(song, flag).catch((result) => {
-					if (result.isAuthError()) {
-						this.unbindScrobbler(scrobbler);
-					}
-					return result;
+					return this.processResult(scrobbler, result);
 				});
 			}));
 		},
@@ -195,6 +186,27 @@ define([
 			}
 
 			return null;
+		},
+
+		/**
+		 * Process result received from scrobbler.
+		 * @param  {Object} scrobbler Scrobbler instance
+		 * @param  {Object} result API call result
+		 * @return {Promise} Promise resolved with result object
+		 */
+		processResult(scrobbler, result) {
+			if (result.isAuthError()) {
+				// Don't unbind scrobblers which have tokens
+				return scrobbler.isReadyForGrantAccess().then((flag) => {
+					if (!flag) {
+						this.unbindScrobbler(scrobbler);
+					}
+					// Forward result
+					return result;
+				});
+			}
+			// Forward result
+			return result;
 		}
 	};
 });
