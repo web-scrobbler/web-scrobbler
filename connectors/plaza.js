@@ -10,6 +10,6 @@ Connector.trackSelector = '.track-title';
 
 Connector.trackArtImageSelector = '.cover img';
 
-Connector.isPlaying = function () {
-	return $('.player-play').attr('disabled') === 'disabled';
-};
+Connector.timeInfoSelector = '.player-time';
+
+Connector.isPlaying = () => $('.player-play').text() === 'Stop';
