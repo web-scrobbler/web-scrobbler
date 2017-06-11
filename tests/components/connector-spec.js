@@ -32,7 +32,7 @@ const WAIT_FOR_PLAYER_ELEMENT_TIMEOUT = 5000;
  * @param  {String} url Website URL
  * @param  {Number} urlLoadTimeout URL load timeout is milliseconds
  */
-module.exports.shouldLoadWebsite = function(driver, options = {}) {
+exports.shouldLoadWebsite = function(driver, options = {}) {
 	it('should load website', () => {
 		return driver.load(options.url, options.urlLoadTimeout);
 	});
@@ -64,7 +64,7 @@ exports.shouldContainPlayerElement = function(driver, options) {
  * @see {@link promiseRecogniseSong}
  * @param  {Function} waitUntil Function that returns promise resolves with truthy value
  */
-module.exports.shouldBehaveLikeMusicSite = function(driver, options) {
+exports.shouldBehaveLikeMusicSite = function(driver, options) {
 	it('should load website and recognize a song', () => {
 		return promiseBehaveLikeMusicSite(driver, options);
 	});
