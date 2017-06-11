@@ -169,7 +169,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 * @return {Number} Track length in seconds
 	 */
 	this.getDuration = function () {
-		var text = $(this.durationSelector).text();
+		let text = $(this.durationSelector).text();
 		return Util.stringToSeconds(text);
 	};
 
@@ -182,7 +182,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 * @return {Number} Number of seconds passed from the beginning of the track
 	 */
 	this.getCurrentTime = function () {
-		var text = $(this.currentTimeSelector).text();
+		let text = $(this.currentTimeSelector).text();
 		return Util.stringToSeconds(text);
 	};
 
@@ -196,7 +196,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 * @return {Object} Object contains current time and duration info
 	 */
 	this.getTimeInfo = function () {
-		var text = $(this.timeInfoSelector).text();
+		let text = $(this.timeInfoSelector).text();
 		return Util.splitTimeInfo(text);
 	};
 
@@ -210,7 +210,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 * @return {Object} Object contain artist and track information
 	 */
 	this.getArtistTrack = function () {
-		var text = $(this.artistTrackSelector).text();
+		let text = $(this.artistTrackSelector).text();
 		return Util.splitArtistTrack(text);
 	};
 
@@ -375,12 +375,12 @@ var BaseConnector = window.BaseConnector || function () {
 	 * Function for all the hard work around detecting and updating state.
 	 */
 	this.stateChangedWorker = () => {
-		var changedFields = [];
+		let changedFields = [];
 
-		var newTrack = this.getTrack() || null;
-		var newArtist = this.getArtist() || null;
+		let newTrack = this.getTrack() || null;
+		let newArtist = this.getArtist() || null;
 
-		var artistTrack = this.getArtistTrack() || Util.emptyArtistTrack;
+		let artistTrack = this.getArtistTrack() || Util.emptyArtistTrack;
 		if (newArtist === null && artistTrack.artist) {
 			newArtist = artistTrack.artist;
 		}
@@ -400,23 +400,23 @@ var BaseConnector = window.BaseConnector || function () {
 			changedFields.push('artist');
 		}
 
-		var newAlbum = this.getAlbum();
+		let newAlbum = this.getAlbum();
 		newAlbum = this.filter.filterAlbum(newAlbum) || null;
 		if (newAlbum !== currentState.album) {
 			currentState.album = newAlbum;
 			changedFields.push('album');
 		}
 
-		var newUID = this.getUniqueID() || null;
+		let newUID = this.getUniqueID() || null;
 		if (newUID !== currentState.uniqueID) {
 			currentState.uniqueID = newUID;
 			changedFields.push('uniqueID');
 		}
 
-		var newDuration = Util.escapeBadTimeValues(this.getDuration());
-		var newCurrentTime = Util.escapeBadTimeValues(this.getCurrentTime());
+		let newDuration = Util.escapeBadTimeValues(this.getDuration());
+		let newCurrentTime = Util.escapeBadTimeValues(this.getCurrentTime());
 
-		var timeInfo = this.getTimeInfo();
+		let timeInfo = this.getTimeInfo();
 		if (newDuration !== null && timeInfo.duration) {
 			newDuration = timeInfo.duration;
 		}
@@ -434,13 +434,13 @@ var BaseConnector = window.BaseConnector || function () {
 			changedFields.push('currentTime');
 		}
 
-		var newIsPlaying = this.isPlaying();
+		let newIsPlaying = this.isPlaying();
 		if (newIsPlaying !== currentState.isPlaying) {
 			currentState.isPlaying = newIsPlaying;
 			changedFields.push('isPlaying');
 		}
 
-		var newTrackArt = this.getTrackArt() || null;
+		let newTrackArt = this.getTrackArt() || null;
 		if (newTrackArt !== currentState.trackArt) {
 			currentState.trackArt = newTrackArt;
 			changedFields.push('trackArt');
@@ -494,7 +494,7 @@ var BaseConnector = window.BaseConnector || function () {
 		 * immediately so we don't miss a quick play/pause/play or
 		 * pause/play/pause sequence.
 		 */
-		var isPlaying = this.isPlaying();
+		let isPlaying = this.isPlaying();
 		if (isPlaying !== currentState.isPlaying) {
 			this.stateChangedWorker();
 		} else {
