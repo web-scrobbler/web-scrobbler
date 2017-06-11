@@ -40,10 +40,10 @@ function createMocha() {
 	});
 	switch (options.getTestMode()) {
 		case 'core':
-			mocha.addFile(path.join(__dirname, 'coreTests.js'));
+			mocha.addFile(path.join(__dirname, 'core-tests.js'));
 			break;
 		case 'connectors':
-			mocha.addFile(path.join(__dirname, 'connectorsTests.js'));
+			mocha.addFile(path.join(__dirname, 'connectors-tests.js'));
 			break;
 	}
 	return mocha;
