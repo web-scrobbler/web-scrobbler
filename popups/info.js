@@ -1,8 +1,6 @@
 'use strict';
 
 $(document).ready(function() {
-	console.log(chrome.extension.getBackgroundPage());
-
 	let isEditModeEnabled = false;
 	let song = null;
 
@@ -33,7 +31,6 @@ $(document).ready(function() {
 	* Song data from background script are loaded
 	*/
 	function onSongLoaded() {
-		console.log(song);
 		// no current song - should not happen, because page action with popup shows
 		// only when there is a song that can be corrected
 		if (song === null) {

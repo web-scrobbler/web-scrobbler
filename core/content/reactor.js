@@ -37,7 +37,6 @@ class Reactor {
 			// Background script calls this to see
 			// if the script is already injected.
 			case 'ping':
-				console.log('sendResponse');
 				sendResponse(true);
 				break;
 		}
