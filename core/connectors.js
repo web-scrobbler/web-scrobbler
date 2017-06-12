@@ -567,12 +567,6 @@ define(function () {
 	},
 
 	{
-		label: 'Ampya',
-		matches: ['*://ampya.com/*'],
-		js: ['connectors/ampya.js'],
-	},
-
-	{
 		label: 'Jolicloud',
 		matches: ['*://drive.jolicloud.com/*'],
 		js: ['connectors/jolicloud.js'],
