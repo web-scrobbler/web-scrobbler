@@ -24,6 +24,12 @@ function setupRadioPlayer() {
 	Connector.currentTimeSelector = '.jp-current-time';
 
 	Connector.durationSelector = '.jp-duration';
+
+	Connector.getUniqueID = function() {
+		let idMatch = /\/(\d+)\.mp3/.exec($('audio').attr('src'));
+		return idMatch ? idMatch[1] : null;
+	};
+
 }
 
 function isPlaylistPlayer() {
