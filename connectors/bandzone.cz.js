@@ -2,7 +2,22 @@
 
 /* global Connector, MetadataFilter */
 
-if (location.href === 'http://bandzone.cz/' || location.href === 'https://bandzone.cz/') {
+setupConnector();
+
+function setupConnector() {
+	if (isMainPage()) {
+		setupMainPagePlayer();
+	} else {
+		setupDefaultPlayer();
+	}
+}
+
+function isMainPage() {
+	return location.href === 'http://bandzone.cz/' ||
+		location.href === 'https://bandzone.cz/';
+}
+
+function setupMainPagePlayer() {
 	Connector.playerSelector = '#stats';
 
 	Connector.artistSelector = '.stat:has(.ui-miniaudioplayer-state-playing) h4';
@@ -12,7 +27,9 @@ if (location.href === 'http://bandzone.cz/' || location.href === 'https://bandzo
 	Connector.isPlaying = function () {
 		return $('.ui-miniaudioplayer-state-playing').length > 0;
 	};
-} else {
+}
+
+function setupDefaultPlayer() {
 	Connector.playerSelector = '#playerWidget';
 
 	Connector.artistSelector = '.profile-name h1';
@@ -21,17 +38,17 @@ if (location.href === 'http://bandzone.cz/' || location.href === 'https://bandzo
 
 	Connector.timeInfoSelector = '.ui-audioplayer-time';
 
-	Connector.isPlaying = function () {
+	Connector.isPlaying = () => {
 		return $('.ui-audioplayer-button').text() === 'stop';
-	};
-
-	var removeGenre = function(text) {
-		var genre = $('.profile-name span').text();
-		return text.replace(genre, '');
 	};
 
 	Connector.filter = new MetadataFilter({
 		all: MetadataFilter.trim,
 		artist: removeGenre
 	});
+
+	function removeGenre(text) {
+		let genre = $('.profile-name span').text();
+		return text.replace(genre, '');
+	}
 }
