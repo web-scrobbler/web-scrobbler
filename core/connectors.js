@@ -73,8 +73,7 @@ define(function () {
 	{
 		label: 'Jango',
 		matches: ['*://www.jango.com/*'],
-		js: ['connectors/jango.js'],
-		allFrames: true,
+		js: ['connectors/jango.js']
 	},
 
 	{
@@ -139,8 +138,7 @@ define(function () {
 	{
 		label: 'Megalyrics',
 		matches: ['*://megalyrics.ru/*'],
-		js: ['connectors/megalyrics.js'],
-		allFrames: true,
+		js: ['connectors/megalyrics.js']
 	},
 
 	{
@@ -338,8 +336,7 @@ define(function () {
 	{
 		label: 'Odnoklassniki',
 		matches: ['*://odnoklassniki.ru/*', '*://ok.ru/*'],
-		js: ['connectors/odnoklassniki.js'],
-		allFrames: true,
+		js: ['connectors/odnoklassniki.js']
 	},
 
 	{
