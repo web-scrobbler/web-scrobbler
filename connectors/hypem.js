@@ -1,6 +1,6 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 setupConnector();
 
@@ -36,12 +36,8 @@ function setupDefaultPlayer() {
 	Connector.trackSelector = '#player-nowplaying [href^="/track/"]';
 
 	Connector.getTrackArt = () => {
-		let backgroundImage = /url\((.+)\)/.exec($('.haarp-section-track.haarp-active').find('.thumb').attr('style'));
-		if (backgroundImage !== null) {
-			backgroundImage = backgroundImage[1];
-		}
-
-		return backgroundImage;
+		let styleProperty = $('.thumb').attr('style');
+		return Util.extractUrlFromCssProperty(styleProperty);
 	};
 
 	Connector.getUniqueID = () => {
