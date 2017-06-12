@@ -18,8 +18,10 @@ function isYoutubePlayer() {
 function setupYoutubePlayer() {
 	Connector.playerSelector = '#main';
 
-	Connector.isPlaying = function() {
-		return $('#mix_youtube').hasClass('playing');
+	Connector.isPlaying = () => $('#mix_youtube').hasClass('playing');
+
+	Connector.getUniqueID = () => {
+		return $('.track_details_container a').attr('data-track_id');
 	};
 }
 
@@ -38,7 +40,7 @@ function setupCommonProperties() {
 
 	Connector.trackArtSelector = '#player_mix img';
 
-	Connector.getUniqueID = function() {
+	Connector.getUniqueID = () => {
 		let trackId = $('.track_details').attr('id');
 		if (trackId) {
 			return trackId.replace('track_details_', '');
