@@ -16,4 +16,4 @@ Connector.trackArtImageSelector = '#player_thumb img';
 
 Connector.isPlaying = () => $('.player_btn.pause').length > 0;
 
-Connector.isTrackArtDefault = (url) => url.indexOf('noimage') === -1;
+Connector.isTrackArtDefault = (url) => url.indexOf('noimage') !== -1;
