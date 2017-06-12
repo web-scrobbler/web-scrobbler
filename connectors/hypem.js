@@ -44,5 +44,13 @@ function setupDefaultPlayer() {
 		return backgroundImage;
 	};
 
+	Connector.getUniqueID = () => {
+		let trackUrl = $('#player-nowplaying [href^="/track/"]').attr('href');
+		if (trackUrl) {
+			return trackUrl.split('/').pop();
+		}
+		return null;
+	};
+
 	Connector.isPlaying = () => $('#playerPlay').hasClass('pause');
 }
