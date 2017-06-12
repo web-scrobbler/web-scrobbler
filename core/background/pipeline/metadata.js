@@ -31,7 +31,8 @@ define([
 				song.metadata.attr({
 					artistThumbUrl: songInfo.artistThumbUrl,
 					artistUrl: songInfo.artistUrl,
-					trackUrl: songInfo.trackUrl
+					trackUrl: songInfo.trackUrl,
+					albumUrl: songInfo.albumUrl
 				});
 
 				can.batch.stop();

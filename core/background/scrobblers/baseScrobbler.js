@@ -370,11 +370,11 @@ define([
 
 				let artistUrl = $doc.find('artist > url').text();
 				let trackUrl = $doc.find('track > url').text();
+				let albumUrl = $doc.find('album > url').text();
 
 				return {
-					artist, track, duration,
-					artistThumbUrl, artistUrl,
-					trackUrl, userloved
+					artist, track, duration, userloved,
+					artistThumbUrl, artistUrl, albumUrl, trackUrl
 				};
 			}
 
