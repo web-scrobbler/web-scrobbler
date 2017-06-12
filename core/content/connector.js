@@ -90,18 +90,18 @@ var BaseConnector = window.BaseConnector || function () {
 	 * Only applies when default implementation of
 	 * {@link BaseConnector#getArtistTrack} is used.
 	 *
-	 * @type {string}
+	 * @type {String}
 	 */
 	this.artistTrackSelector = null;
 
 	/**
-	 * Selector of an play button element. If the element is not visible,
+	 * Selector of a play button element. If the element is not visible,
 	 * the playback is considered to be playing.
 	 *
 	 * Only applies when default implementation of
 	 * {@link BaseConnector#isPlaying} is used.
 	 *
-	 * @type {string}
+	 * @type {String}
 	 */
 	this.playButtonSelector = null;
 
@@ -112,17 +112,20 @@ var BaseConnector = window.BaseConnector || function () {
 	 * Set this selector to use with default {@link MutationEvent} observing or
 	 * set up some custom detection of player state changing.
 	 *
-	 * @type {string}
+	 * @type {String}
 	 */
 	this.playerSelector = null;
 
 	/**
-	 * Selector of image used to represent the track being played. is used for
-	 * the notification service.
+	 * Selector of element contains a track art of now playing song.
+	 * Default implmentation looks for track art URL in 'src' attribute or
+	 * 'background-image' ('background') CSS property of given element.
+	 *
+	 * Used for the notification service and "Now playing" popup.
 	 *
 	 * If not specified will fall back to Last.fm API.
 	 *
-	 * @type {string}
+	 * @type {String}
 	 */
 	this.trackArtSelector = null;
 
@@ -188,8 +191,8 @@ var BaseConnector = window.BaseConnector || function () {
 
 	/**
 	 * Default implementation of current time and duration lookup by selector.
-	 * This method is called only when {@link BaseConnector#getArtist} and
-	 * {@link BaseConnector#getTrack} return an empty result.
+	 * This method is called only when {@link BaseConnector#getCurrentTime} and
+	 * {@link BaseConnector#getDuration} return an empty result.
 	 *
 	 * Override this method for more complex behaviour.
 	 *
@@ -281,6 +284,7 @@ var BaseConnector = window.BaseConnector || function () {
 	/**
 	 * Check if given track art URL equals default one.
 	 * Default track arts are not used by the extension.
+	 *
 	 * Override this method for more complex behaviour.
 	 *
 	 * @param  {String} trackArtUrl Track art URL
@@ -319,8 +323,8 @@ var BaseConnector = window.BaseConnector || function () {
 	/**
 	 * Filter object used to filter song metadata.
 	 *
-	 * @see {link MetadataFilter}
-	 * @type {MetadataFilter}
+	 * @see {@link MetadataFilter}
+	 * @type {Object}
 	 */
 	this.filter = MetadataFilter.getTrimFilter();
 
@@ -524,7 +528,7 @@ window.BaseConnector = BaseConnector;
 
 /**
  * Create object to be overridden in specific connector implementation
- * @type {BaseConnector}
+ * @type {Object}
  */
 let Connector;
 if (window.Connector) {
