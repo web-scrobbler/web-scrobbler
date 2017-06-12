@@ -838,12 +838,6 @@ define(function () {
 	},
 
 	{
-		label: 'Tidido',
-		matches: ['*://tidido.com/*'],
-		js: ['connectors/tidido.js'],
-	},
-
-	{
 		label: 'Playmoss',
 		matches: ['https://playmoss.com/*'],
 		js: ['connectors/playmoss.js'],
