@@ -128,7 +128,7 @@ define([
 						reject();
 						return;
 					}
-				// @endif
+					// @endif
 					try {
 						chrome.notifications.create('', options, notificationCreatedCb);
 					} catch (e) {

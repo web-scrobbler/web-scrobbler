@@ -33,10 +33,12 @@ function createPattern(input) {
 			return null;
 		}
 		input = input.substr(result[0].length);
-		if (result[0] === '*') {    // host is '*'
+		// Host is '*'
+		if (result[0] === '*') {
 			match_pattern += '[^/]+';
 		} else {
-			if (result[1]) {         // Subdomain wildcard exists
+			// Subdomain wildcard exists
+			if (result[1]) {
 				match_pattern += '(?:[^/]+\\.)?';
 			}
 			// Append host (escape special regex characters)
