@@ -2,33 +2,45 @@
 
 /* global Connector, Util */
 
-if ($('.cnt-song-lst').length > 0) {
+setupConnector();
+
+function setupConnector() {
+	if (isRadioPlayer()) {
+		setupRadioPlayer();
+	} else if (isMusicPlayer()) {
+		setupMusicPlayer();
+	}
+}
+
+function isRadioPlayer() {
+	return $('.cur-blk').length > 0;
+}
+
+function isMusicPlayer() {
+	$('.cnt-song-lst').length > 0;
+}
+
+function setupMusicPlayer() {
 	Connector.playerSelector = '.cnt-song-lst';
 
 	Connector.getArtistTrack = function() {
-		var text = $('.playing .song').clone().children('.like-count').remove().end().text();
+		let text = $('.playing .song').clone().children('.like-count').remove().end().text();
 		return Util.splitArtistTrack(text);
 	};
 
-	Connector.isPlaying = function () {
-		return $('.playing .pause').length > 0;
-	};
+	Connector.isPlaying = () => $('.playing .pause').length > 0;
 
-	Connector.getCurrentTime = function() {
-		return $('.playing .p-btn').attr('sec');
-	};
+	Connector.getCurrentTime = () => $('.playing .p-btn').attr('sec');
 
-	Connector.getDuration = function() {
-		return $('.playing .p-btn').attr('data-to_sec');
-	};
-} else if ($('.cur-blk').length > 0) {
+	Connector.getDuration = () => $('.playing .p-btn').attr('data-to_sec');
+}
+
+function setupRadioPlayer() {
 	Connector.playerSelector = '.cur-blk';
 
 	Connector.artistTrackSelector = '.cur-blk .name';
 
-	Connector.isPlaying = function () {
-		return $('.cur-blk #play').hasClass('pause');
-	};
+	Connector.isPlaying = () => $('.cur-blk #play').hasClass('pause');
 
 	Connector.durationSelector = '.cur-blk .total-time';
 }
