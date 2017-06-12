@@ -751,7 +751,7 @@ define(function () {
 
 	{
 		label: 'Noise FM',
-		matches: ['https://noisefm.ru/*'],
+		matches: ['*://noisefm.ru/*'],
 		js: ['connectors/noisefm.js'],
 		allFrames: true,
 	},
