@@ -6,7 +6,9 @@ Connector.playerSelector = '#webplayer-region';
 
 Connector.playButtonSelector = '.ico icon-play';
 
-Connector.getArtistTrack = function() {
-	var text = $('.track-name').attr('title');
+Connector.timeInfoSelector = '.timecode';
+
+Connector.getArtistTrack = () => {
+	let text = $('.track-name').attr('title');
 	return Util.splitArtistTrack(text);
 };
