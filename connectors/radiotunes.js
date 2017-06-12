@@ -14,7 +14,7 @@ Connector.getArtistTrack = () => {
 		return Util.splitArtistTrack(artistTrack);
 	}
 
-	return null;
+	return Util.emptyArtistTrack;
 };
 
 Connector.isPlaying = () => {
