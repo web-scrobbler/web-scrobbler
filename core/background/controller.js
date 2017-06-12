@@ -138,7 +138,7 @@ define([
 		function updateSongDuration(duration) {
 			currentSong.parsed.attr({ duration });
 
-			if (currentSong.flags.isProcessed) {
+			if (currentSong.isValid()) {
 				playbackTimer.update(currentSong.getSecondsToScrobble());
 
 				let remainedSeconds = playbackTimer.getRemainingSeconds();
