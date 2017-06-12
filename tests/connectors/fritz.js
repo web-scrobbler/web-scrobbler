@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(driver, connectorSpec) {
-	connectorSpec.shouldBehaveLikeMusicSite(driver, {
+	connectorSpec.shouldContainPlayerElement(driver, {
 		url: 'https://www.fritz.de/livestream/index.html'
 	});
 };
