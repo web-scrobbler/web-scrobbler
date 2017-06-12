@@ -13,4 +13,4 @@ Connector.isPlaying = function () {
 	return $('#wp_playBtn').hasClass('zan');
 };
 
-Connector.trackArtImageSelector = '#artist_Image';
+Connector.trackArtSelector = '#artist_Image';

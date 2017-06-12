@@ -18,7 +18,7 @@ Connector.getDuration = function () {
 		Util.stringToSeconds($('#progressContainer span:last').text());
 };
 
-Connector.trackArtImageSelector = 'td.art img';
+Connector.trackArtSelector = 'td.art img';
 
 /* At end of song, current time becomes "0:00" for a brief time before changing song info
  * which the controller treats as a rewind and a notification is displayed.

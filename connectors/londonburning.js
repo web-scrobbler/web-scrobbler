@@ -10,4 +10,4 @@ Connector.trackSelector = '#title-title';
 
 Connector.playButtonSelector = '.play';
 
-Connector.trackArtImageSelector = '#artist-image';
+Connector.trackArtSelector = '#artist-image';

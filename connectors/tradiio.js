@@ -12,7 +12,7 @@ Connector.currentTimeSelector = '.tradiio-music-player .s-progress';
 
 Connector.durationSelector = '.tradiio-music-player .s-total';
 
-Connector.trackArtImageSelector = 'div.bgimge';
+Connector.trackArtSelector = 'div.bgimge';
 
 Connector.getTrack = function() {
 	let songInfo = getSongInfo();

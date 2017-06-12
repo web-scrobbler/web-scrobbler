@@ -10,7 +10,7 @@ if (/^\/premiere\/.*/.test(window.location.pathname)) {
 
 	Connector.trackSelector = 'li.active .title';
 
-	Connector.trackArtImageSelector = 'img#album-big';
+	Connector.trackArtSelector = 'img#album-big';
 
 	Connector.isPlaying = function() {
 		return $('.hype-player').hasClass('playing');

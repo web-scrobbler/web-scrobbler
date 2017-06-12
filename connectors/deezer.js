@@ -15,7 +15,7 @@ Connector.currentTimeSelector = '.player-progress .progress-time';
 
 Connector.durationSelector = '.player-progress .progress-length';
 
-Connector.trackArtImageSelector = '.player-cover img';
+Connector.trackArtSelector = '.player-cover img';
 
 Connector.filter = MetadataFilter.getRemasteredFilter();
 

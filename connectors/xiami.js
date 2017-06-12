@@ -14,7 +14,7 @@ Connector.playButtonSelector = '#J_playBtn';
 
 Connector.currentTimeSelector = '#J_positionTime';
 
-Connector.trackArtImageSelector = '#J_playerCoverImg';
+Connector.trackArtSelector = '#J_playerCoverImg';
 
 Connector.durationSelector = '#J_durationTime';
 

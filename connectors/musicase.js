@@ -10,7 +10,7 @@ Connector.trackSelector = '#blockInfo > a[name|="name"]';
 
 Connector.albumSelector = '#blockInfo > a[name|="album"]';
 
-Connector.trackArtImageSelector = '[name="cover"]';
+Connector.trackArtSelector = '[name="cover"]';
 
 Connector.isPlaying = function() {
 	var audio = $('body > audio').get(0);

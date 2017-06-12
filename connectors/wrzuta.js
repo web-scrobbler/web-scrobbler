@@ -20,7 +20,7 @@ function setupPlaylistPlayer() {
 		return $('.playlist-position.active a.js-file-link').attr('data-key');
 	};
 
-	Connector.trackArtImageSelector = '.playlist-position.active .file-img';
+	Connector.trackArtSelector = '.playlist-position.active .file-img';
 
 	Connector.isTrackArtDefault = (url) => url !== DEFAULT_TRACK_ART_URL;
 

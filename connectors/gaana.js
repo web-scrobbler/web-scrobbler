@@ -16,7 +16,7 @@ let songInfo = Util.emptyArtistTrack;
 
 Connector.playerSelector = '.player';
 
-Connector.trackArtImageSelector = '.player-artwork img';
+Connector.trackArtSelector = '.player-artwork img';
 
 Connector.getArtistTrack = function() {
 	requestSongInfo();

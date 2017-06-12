@@ -16,7 +16,7 @@ Connector.artistSelector = '#artist';
 
 Connector.trackSelector = '#song';
 
-Connector.trackArtImageSelector = '.songimg';
+Connector.trackArtSelector = '.songimg';
 
 Connector.isTrackArtDefault = (trackArtUrl) => {
 	return trackArtUrl.endsWith(DEFAULT_TRACK_ART);

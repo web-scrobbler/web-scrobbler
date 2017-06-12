@@ -124,7 +124,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 *
 	 * @type {string}
 	 */
-	this.trackArtImageSelector = null;
+	this.trackArtSelector = null;
 
 	/**
 	 * Default implementation of artist name lookup by selector.
@@ -256,15 +256,15 @@ var BaseConnector = window.BaseConnector || function () {
 	 * @return {String} Track art URL
 	 */
 	this.getTrackArt = function () {
-		if (!this.trackArtImageSelector) {
+		if (!this.trackArtSelector) {
 			return null;
 		}
 
-		let trackArtUrl = $(this.trackArtImageSelector).attr('src');
+		let trackArtUrl = $(this.trackArtSelector).attr('src');
 		if (!trackArtUrl) {
 			let cssProperties = ['background-image', 'background'];
 			for (let property of cssProperties) {
-				let propertyValue = $(this.trackArtImageSelector).css(property);
+				let propertyValue = $(this.trackArtSelector).css(property);
 				if (propertyValue) {
 					trackArtUrl = Util.extractUrlFromCssProperty(propertyValue);
 				}

@@ -14,7 +14,7 @@ Connector.currentTimeSelector = '#time_current';
 
 Connector.durationSelector = '#time_end';
 
-Connector.trackArtImageSelector = '.album_cover';
+Connector.trackArtSelector = '.album_cover';
 
 Connector.isPlaying = function () {
 	var playButtonImgFilename = $('#play-pause img').attr('src');

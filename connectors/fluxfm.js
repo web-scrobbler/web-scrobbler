@@ -10,7 +10,7 @@ Connector.trackSelector = '#track-title';
 
 Connector.albumSelector = '#track-album';
 
-Connector.trackArtImageSelector = '#covercontainer img';
+Connector.trackArtSelector = '#covercontainer img';
 
 Connector.isPlaying = function () {
 	return $('#controls-play').hasClass('play');

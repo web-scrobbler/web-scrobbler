@@ -14,4 +14,4 @@ Connector.durationSelector = '.hidden-xs > .js-player-duration';
 
 Connector.playButtonSelector = '.js-player-play-pause > .icon-play';
 
-Connector.trackArtImageSelector = '.js-full-player-cover-img';
+Connector.trackArtSelector = '.js-full-player-cover-img';

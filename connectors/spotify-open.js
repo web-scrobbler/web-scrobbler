@@ -15,7 +15,7 @@ Connector.getArtist = function () {
 
 Connector.trackSelector = '.track-info__name a';
 
-Connector.trackArtImageSelector = '.now-playing__cover-art .cover-art-image-loaded';
+Connector.trackArtSelector = '.now-playing__cover-art .cover-art-image-loaded';
 
 Connector.playButtonSelector = '.control-button[class*="spoticon-play-"]';
 

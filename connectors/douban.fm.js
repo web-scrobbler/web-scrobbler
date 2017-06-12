@@ -4,7 +4,7 @@
 
 Connector.playerSelector = '.player-wrapper';
 
-Connector.trackArtImageSelector = '.playing-cover img';
+Connector.trackArtSelector = '.playing-cover img';
 
 Connector.getTrack = function() {
 	return $('.player-wrapper .middle>div:nth-child(2) a').first().text();

@@ -10,7 +10,7 @@ Connector.artistSelector = '.artist';
 
 Connector.trackSelector = '.song';
 
-Connector.trackArtImageSelector = '.cd-art img';
+Connector.trackArtSelector = '.cd-art img';
 
 Connector.isTrackArtDefault = (url) => url.endsWith(DEFAULT_TRACK_ART);
 

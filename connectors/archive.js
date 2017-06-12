@@ -32,7 +32,7 @@ function bindNew() {
 
 	Connector.playerSelector = '#theatre-ia';
 
-	Connector.trackArtImageSelector = '#theatre-ia center > img';
+	Connector.trackArtSelector = '#theatre-ia center > img';
 
 	Connector.getArtistTrack = function() {
 		let track = $('.jwrowV2.playing .ttl').text();
@@ -58,7 +58,7 @@ function bindLegacy() {
 
 	Connector.playerSelector = '#avplaydiv';
 
-	Connector.trackArtImageSelector = '#col1 > div:nth-child(1) > div:nth-child(2) > img';
+	Connector.trackArtSelector = '#col1 > div:nth-child(1) > div:nth-child(2) > img';
 
 	Connector.getAlbum = function() {
 		var album = $('.x-archive-meta-title').text();

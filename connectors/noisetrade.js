@@ -87,4 +87,4 @@ Connector.getUniqueID = function () {
 	return $('audio').first().attr('src');
 };
 
-Connector.trackArtImageSelector = 'img.album_page_shadow';
+Connector.trackArtSelector = 'img.album_page_shadow';

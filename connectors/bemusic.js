@@ -18,7 +18,7 @@ Connector.getArtist = () => {
 
 Connector.trackSelector = '.current-track .info .track-name';
 
-Connector.trackArtImageSelector = '.current-track img';
+Connector.trackArtSelector = '.current-track img';
 
 Connector.durationSelector = '.track-length';
 

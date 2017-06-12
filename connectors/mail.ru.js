@@ -14,7 +14,7 @@ Connector.currentTimeSelector = '.l-music__player__song__time.current';
 
 Connector.durationSelector = '.l-music__player__song__time.duration';
 
-Connector.trackArtImageSelector = '.l-music__player__song__cover';
+Connector.trackArtSelector = '.l-music__player__song__cover';
 
 Connector.isTrackArtDefault = (url) => url.endsWith(DEFAULT_TRACK_ART);
 

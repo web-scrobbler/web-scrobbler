@@ -6,7 +6,7 @@ Connector.playerSelector = '.ui.controls';
 
 Connector.currentTimeSelector = '.item.start.time';
 
-Connector.trackArtImageSelector = '.ui.item.active img';
+Connector.trackArtSelector = '.ui.item.active img';
 
 Connector.getArtistTrack = function () {
 	let text = $('.current .title').text().replace(/ \[.*/, '');

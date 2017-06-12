@@ -18,4 +18,4 @@ Connector.isPlaying = function () {
 
 Connector.timeInfoSelector = '#time_show';
 
-Connector.trackArtImageSelector = '#song_pic';
+Connector.trackArtSelector = '#song_pic';

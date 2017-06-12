@@ -8,7 +8,7 @@ Connector.artistSelector = '.nowPlayingBarText .textActionButton[data-type="Musi
 
 Connector.trackSelector = '.nowPlayingBarText .textActionButton[data-type="MusicAlbum"]';
 
-Connector.trackArtImageSelector = '.nowPlayingBarInfoContainer .nowPlayingImage';
+Connector.trackArtSelector = '.nowPlayingBarInfoContainer .nowPlayingImage';
 
 Connector.isPlaying = function () {
 	return $('.nowPlayingBarCenter .playPauseButton .md-icon').text() === 'pause';

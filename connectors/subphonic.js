@@ -18,7 +18,7 @@ Connector.getAlbum = function() {
 	return $('#songdetails_artist').text().split(' - ')[1];
 };
 
-Connector.trackArtImageSelector = '#coverartimage img';
+Connector.trackArtSelector = '#coverartimage img';
 
 Connector.currentTimeSelector = '#played';
 

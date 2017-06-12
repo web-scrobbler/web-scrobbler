@@ -4,7 +4,7 @@
 
 Connector.playerSelector = '#mbox_player';
 
-Connector.trackArtImageSelector = '.aplayer_track-icon';
+Connector.trackArtSelector = '.aplayer_track-icon';
 
 Connector.artistSelector = '.aplayer-track-title__singer';
 

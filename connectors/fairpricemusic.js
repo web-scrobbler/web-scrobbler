@@ -11,7 +11,7 @@ function setupPlaylistPlayer() {
 
 	Connector.albumSelector = '#hpPlayer-albumName';
 
-	Connector.trackArtImageSelector = '#hpPlayer-img';
+	Connector.trackArtSelector = '#hpPlayer-img';
 
 	Connector.currentTimeSelector = '#hpPlayer-currentTimeText';
 
@@ -33,7 +33,7 @@ function setupAlbumPlayer() {
 
 	Connector.albumSelector = '#albumPlayer-albumName';
 
-	Connector.trackArtImageSelector = '.cc-profile-photo .visible-xs img';
+	Connector.trackArtSelector = '.cc-profile-photo .visible-xs img';
 
 	Connector.currentTimeSelector = '#albumPlayer-currentTimeText';
 
@@ -55,7 +55,7 @@ function setupBandPagePlayer() {
 
 	Connector.albumSelector = '#bandPlayer-albumName';
 
-	Connector.trackArtImageSelector = '.cc-profile-photo .visible-xs img'; // TODO: link to the album table below?
+	Connector.trackArtSelector = '.cc-profile-photo .visible-xs img'; // TODO: link to the album table below?
 
 	Connector.currentTimeSelector = '#bandPlayer-currentTimeText';
 

@@ -8,7 +8,7 @@ Connector.artistTrackSelector = '#display-title';
 
 Connector.durationSelector = '#display-time-total';
 
-Connector.trackArtImageSelector = '#player-cover';
+Connector.trackArtSelector = '#player-cover';
 
 Connector.isPlaying = function() {
 	return !$('#player').hasClass('player_paused');

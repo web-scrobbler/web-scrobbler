@@ -10,4 +10,4 @@ Connector.trackSelector = '#labeltitle';
 
 Connector.albumSelector = '#labelalbum';
 
-Connector.trackArtImageSelector = '#artistimg';
+Connector.trackArtSelector = '#artistimg';

@@ -12,7 +12,7 @@ Connector.albumSelector = '#span_information_album';
 
 Connector.durationSelector = '#durationLabel';
 
-Connector.trackArtImageSelector = '#img_cover_1';
+Connector.trackArtSelector = '#img_cover_1';
 
 Connector.isPlaying = function () {
 	return $('#statusLabel').text() === 'Playing';

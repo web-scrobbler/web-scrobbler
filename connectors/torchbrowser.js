@@ -12,7 +12,7 @@ Connector.albumSelector = '#player_links .album';
 
 Connector.timeInfoSelector = '#div_time';
 
-Connector.trackArtImageSelector = '#player_thumb img';
+Connector.trackArtSelector = '#player_thumb img';
 
 Connector.isPlaying = () => $('.player_btn.pause').length > 0;
 

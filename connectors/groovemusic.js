@@ -4,7 +4,7 @@
 
 Connector.playerSelector = '#player';
 
-Connector.trackArtImageSelector = '#player .imgWrapper .img';
+Connector.trackArtSelector = '#player .imgWrapper .img';
 
 Connector.artistSelector = '#player .secondaryMetadata a:first';
 

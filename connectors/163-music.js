@@ -6,7 +6,7 @@ const trackRegEx = new RegExp(String.fromCharCode(160), 'g');
 
 Connector.playerSelector = '.m-playbar';
 
-Connector.trackArtImageSelector = '.head.j-flag img';
+Connector.trackArtSelector = '.head.j-flag img';
 
 Connector.getTrack = function() {
 	let track = $('.fc1').text();

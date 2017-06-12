@@ -11,7 +11,7 @@ Connector.artistSelector = '.b-player__artist';
 // The `.b-player__name` element contains truncated text.
 Connector.getTrack = () => $('.b-player__img img').attr('alt');
 
-Connector.trackArtImageSelector = '.b-player__img img';
+Connector.trackArtSelector = '.b-player__img img';
 
 Connector.isTrackArtDefault = (url) => url !== DEFAULT_TRACK_ART;
 

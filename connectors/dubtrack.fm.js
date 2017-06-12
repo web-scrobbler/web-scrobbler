@@ -4,7 +4,7 @@
 
 Connector.playerSelector = '#player-controller';
 
-Connector.trackArtImageSelector = '.imgEl > img';
+Connector.trackArtSelector = '.imgEl > img';
 
 Connector.artistTrackSelector = '.currentSong';
 

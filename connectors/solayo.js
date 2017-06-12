@@ -4,7 +4,7 @@
 
 Connector.playerSelector = '#plHelpers';
 
-Connector.trackArtImageSelector = '.scImage';
+Connector.trackArtSelector = '.scImage';
 
 Connector.artistTrackSelector = '.videoTitle.noColorLink';
 

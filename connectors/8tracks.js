@@ -36,7 +36,7 @@ function setupCommonProperties() {
 
 	Connector.albumSelector = '#now_playing .album .detail';
 
-	Connector.trackArtImageSelector = '#player_mix img';
+	Connector.trackArtSelector = '#player_mix img';
 
 	Connector.getUniqueID = function() {
 		let trackId = $('.track_details').attr('id');

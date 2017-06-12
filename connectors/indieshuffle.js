@@ -10,7 +10,7 @@ Connector.getArtist = function () {
 
 Connector.trackSelector = '#player-current .title';
 
-Connector.trackArtImageSelector = '#player-current > div > a.ajaxlink.pink > img';
+Connector.trackArtSelector = '#player-current > div > a.ajaxlink.pink > img';
 
 Connector.currentTimeSelector = '#player-current > .progress > .seek';
 

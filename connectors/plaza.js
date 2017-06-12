@@ -8,7 +8,7 @@ Connector.artistSelector = '.track-artist';
 
 Connector.trackSelector = '.track-title';
 
-Connector.trackArtImageSelector = '.cover img';
+Connector.trackArtSelector = '.cover img';
 
 Connector.timeInfoSelector = '.player-time';
 

@@ -30,7 +30,7 @@ Connector.getDuration = function() {
 	return Util.stringToSeconds($('#currentDuration').text());
 };
 
-Connector.trackArtImageSelector = '.rightSide .albumArtWrapper img';
+Connector.trackArtSelector = '.rightSide .albumArtWrapper img';
 
 Connector.getUniqueID = function() {
 	var optionsHref = $('.buttonOption.main[title=Options]').attr('href');

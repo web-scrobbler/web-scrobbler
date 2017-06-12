@@ -12,6 +12,6 @@ Connector.currentTimeSelector = '#progress';
 
 Connector.durationSelector = '#duration';
 
-Connector.trackArtImageSelector = '#artwork img';
+Connector.trackArtSelector = '#artwork img';
 
 Connector.isPlaying = () => $('.playtoggle').hasClass('pause');

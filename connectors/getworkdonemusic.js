@@ -4,7 +4,7 @@
 
 Connector.playerSelector = '.container';
 
-Connector.trackArtImageSelector = '.playing .active img';
+Connector.trackArtSelector = '.playing .active img';
 
 Connector.artistTrackSelector = '.playing .sc-title';
 
