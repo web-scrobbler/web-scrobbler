@@ -50,7 +50,7 @@ define([
 
 					// Waits for script to be fully injected before
 					// injecting another one
-					let injectWorker = function() {
+					function injectWorker() {
 						if (scripts.length > 0) {
 							let jsFile = scripts.shift();
 							let injectDetails = {
@@ -64,7 +64,7 @@ define([
 							// done successfully
 							resolve(new InjectResult(InjectResult.MATCHED_AND_INJECTED, tabId, connector));
 						}
-					};
+					}
 
 					injectWorker();
 				} else {

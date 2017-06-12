@@ -14,11 +14,13 @@ function createPattern(input) {
 	if (typeof input !== 'string') {
 		return null;
 	}
-	var match_pattern = '^',
-		regEscape = function (s) {
-			return s.replace(/[[^$.|?*+(){}\\]/g, '\\$&');
-		},
-		result = /^(\*|https?|file|ftp|chrome-extension):\/\//.exec(input);
+
+	function regEscape(s) {
+		return s.replace(/[[^$.|?*+(){}\\]/g, '\\$&');
+	}
+
+	let match_pattern = '^';
+	let result = /^(\*|https?|file|ftp|chrome-extension):\/\//.exec(input);
 
 	// Parse scheme
 	if (!result) {

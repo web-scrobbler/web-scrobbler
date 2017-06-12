@@ -51,7 +51,7 @@ function findIframeElement(selector) {
 	return $('#app-player').contents().find(selector);
 }
 
-var onPlayerLoaded = function() {
+function onPlayerLoaded() {
 	console.log('Web Scrobbler: player loaded, setting up observer');
 	var observer = new MutationObserver(Connector.onStateChanged);
 	var observeTarget = $('#app-player').get(0).contentDocument.getElementById('wrap');
@@ -62,7 +62,7 @@ var onPlayerLoaded = function() {
 		characterData: true
 	};
 	observer.observe(observeTarget, config);
-};
+}
 
 // wait for player to load
 $('#app-player').on('load', onPlayerLoaded);

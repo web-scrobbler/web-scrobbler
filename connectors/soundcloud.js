@@ -55,7 +55,7 @@ Connector.filter = MetadataFilter.getYoutubeFilter();
  * Parse metadata and set local variables
  * @param {Object} metadata Data received from script injected in DOM
  */
-var setSongData = function (metadata) {
+function setSongData(metadata) {
 	isPrivate = metadata.sharing === 'private';
 
 	if (isPrivate) {
@@ -86,7 +86,7 @@ var setSongData = function (metadata) {
 	// use permalink url as the unique id
 	uniqueID = metadata.permalink_url;
 	artwork_url = metadata.artwork_url;
-};
+}
 
 /**
  * Run at initialisation; add dom script and attach events.

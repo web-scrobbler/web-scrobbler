@@ -226,14 +226,14 @@ const Util = {
 		let context, args, result;
 		let timeout = null;
 		let previous = 0;
-		let later = function() {
+		function later() {
 			previous = options.leading === false ? 0 : Date.now();
 			timeout = null;
 			result = func.apply(context, args);
 			if (!timeout) {
 				context = args = null;
 			}
-		};
+		}
 		return function() {
 			let now = Date.now();
 			if (!previous && options.leading === false) {

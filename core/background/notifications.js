@@ -123,7 +123,7 @@ define([
 					resolve(notificationId);
 				};
 				// @ifndef FIREFOX
-				const createNotification = function(permissionLevel) {
+				function createNotification(permissionLevel) {
 					if (permissionLevel !== 'granted') {
 						reject();
 						return;
@@ -135,7 +135,7 @@ define([
 						reject(e);
 					}
 				// @ifndef FIREFOX
-				};
+				}
 
 				chrome.notifications.getPermissionLevel(createNotification);
 				// @endif
