@@ -17,7 +17,7 @@
  *  - v2.songUpdated: The current song is updated
  *    @param  {Object} data Song instance copy
  *  - v2.onReady: The connector is injected and the controller is created
- *  - ping: Check if connector is injected
+ *  - v2.onPing: The 'ping' event to check if connector is injected
  *
  * 2) requests:
  *  - v2.getSong: Get now playing song

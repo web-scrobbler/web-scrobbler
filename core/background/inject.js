@@ -27,7 +27,7 @@ define([
 		 * on load of every supported page.
 		 */
 		return new Promise((resolve) => {
-			chrome.tabs.sendMessage(tabId, {type: 'ping'}, function (response) {
+			chrome.tabs.sendMessage(tabId, { type: 'v2.onPing' }, (response) => {
 				// if the message was sent to a non existing script or the script
 				// does not implement the 'ping' message, we get response==undefined;
 				if (!response) {

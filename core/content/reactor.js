@@ -39,7 +39,7 @@ class Reactor {
 		switch (message.type) {
 			// Background script calls this to see
 			// if the script is already injected.
-			case 'ping':
+			case 'v2.onPing':
 				sendResponse(true);
 				break;
 			// The controller is created and is ready to receive connector state
