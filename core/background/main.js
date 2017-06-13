@@ -16,6 +16,8 @@
  *    @param  {Object} state Connector state
  *  - v2.songUpdated: The current song is updated
  *    @param  {Object} data Song instance copy
+ *  - v2.onReady: The connector is injected and the controller is created
+ *  - ping: Check if connector is injected
  *
  * 2) requests:
  *  - v2.getSong: Get now playing song
@@ -190,6 +192,8 @@ require([
 
 					let enabled = result.type === InjectResult.MATCHED_AND_INJECTED;
 					tabControllers[tabId] = new Controller(tabId, result.connector, enabled);
+					chrome.tabs.sendMessage(tabId, { type: 'v2.onReady' });
+
 					setupContextMenu(tabId);
 
 					GA.event('core', 'inject', result.connector.label);

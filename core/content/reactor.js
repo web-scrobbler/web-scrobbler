@@ -13,6 +13,7 @@ class Reactor {
 	 */
 	constructor(connector) {
 		this.setupChromeListener();
+		this.connector = connector;
 
 		// Setup listening for state changes on connector.
 		connector.reactorCallback = this.onStateChanged;
@@ -22,7 +23,9 @@ class Reactor {
 	 * Setup Chrome event Listener.
 	 */
 	setupChromeListener() {
-		chrome.runtime.onMessage.addListener(this.onRuntimeMessage);
+		chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+			this.onRuntimeMessage(message, sender, sendResponse);
+		});
 	}
 
 	/**
@@ -38,6 +41,10 @@ class Reactor {
 			// if the script is already injected.
 			case 'ping':
 				sendResponse(true);
+				break;
+			// The controller is created and is ready to receive connector state
+			case 'v2.onReady':
+				this.connector.onReady();
 				break;
 		}
 	}
