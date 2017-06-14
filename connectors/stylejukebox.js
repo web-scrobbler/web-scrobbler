@@ -2,6 +2,7 @@
 
 /* global Connector */
 
+const DEFAULT_TRACK_ART = 'defaultAlbum.jpg';
 
 Connector.artistSelector = '.song-artist';
 
@@ -13,10 +14,9 @@ Connector.durationSelector = '.seeking-time > div:last-child';
 
 Connector.playerSelector = 'audio-player';
 
-Connector.getTrackArt = function () {
-	var src = $('.playerAlbumArt > img').attr('src');
-	return src.split('/').pop() === 'defaultAlbum.jpg' ? null : src;
-};
+Connector.trackArtSelector = '.playerAlbumArt > img';
+
+Connector.isTrackArtDefault = (url) => url.endsWith(DEFAULT_TRACK_ART);
 
 Connector.isPlaying = function () {
 	// Check pause button visibility instead of play button invisibility,
