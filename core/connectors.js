@@ -1084,7 +1084,7 @@ define(function () {
 	{
 		label: 'QQ Music',
 		matches: ['*://y.qq.com/portal/*'],
-		js: ['connectors/qq.js'],
+		js: ['connectors/qq-music.js'],
 		version: 2
 	},
 	{
