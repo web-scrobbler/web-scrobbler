@@ -1087,6 +1087,11 @@ define(function () {
 		js: ['connectors/qq.js'],
 		version: 2
 	},
+	{
+		label: 'QQ Video',
+		matches: ['*://v.qq.com/x/*'],
+		js: ['connectors/qq-video.js']
+	},
 
 	{
 		label: 'Kuwo Music',
