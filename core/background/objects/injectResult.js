@@ -1,9 +1,5 @@
 'use strict';
 
-/**
- * Factory for objects of injection result
- */
-
 class InjectResult {
 	/**
 	 * Object that represents result of inject of content scripts.

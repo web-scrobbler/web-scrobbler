@@ -147,7 +147,7 @@ const Util = {
 	 * Split string to two ones using array of separators.
 	 * @param  {String} str Any string
 	 * @param  {Array} separators Array of separators
-	 * @param  {Boolean} swap Swap  values
+	 * @param  {Boolean} swap Swap values
 	 * @return {Array} Array of strings splitted by separator
 	 */
 	splitString(str, separators = null, swap = false) {
@@ -172,6 +172,7 @@ const Util = {
 
 	/**
 	 * Verify time value and return time as a Number object.
+	 * Return null value if time value is not a number.
 	 * @param  {Any} time Time value
 	 * @return {Number} time value as a Number object
 	 */
@@ -259,12 +260,18 @@ const Util = {
 		};
 	},
 
+	/**
+	 * Check if given 'artistTrack' object is empty. The object means empty
+	 * if its 'artist' and 'track' properties are undefined, null or empty.
+	 * @param  {Object}  artistTrack Object contains artist and track info
+	 * @return {Boolean} True if object is empty; false otherwise
+	 */
 	isArtistTrackEmpty(artistTrack) {
 		return !(artistTrack.artist && artistTrack.track);
 	},
 
 	/**
-	 * Default array of separators.
+	 * Default array of separators used to split artist and track info.
 	 * Push new separators in the implementation if required.
 	 *
 	 * @type {Array}
@@ -280,6 +287,11 @@ const Util = {
 	 */
 	emptyArtistTrack: { artist: null, track: null },
 
+	/**
+	 * Regular expression used to get Youtube video ID from URL. It covers
+	 * default, shortened and embed URLs.
+	 * @type {RegExp}
+	 */
 	videoIdRegExp: /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?.*v=))([^#\&\?]*).*/,
 
 	/**

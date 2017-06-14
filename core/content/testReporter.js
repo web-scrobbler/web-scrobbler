@@ -3,7 +3,7 @@
 // @ifdef DEBUG
 
 /**
- * Provide functions to interact with tests.
+ * Provide functions to interact with tests. Isn't inlcuded in release version.
  */
 
 // eslint-disable-next-line no-unused-vars
@@ -44,12 +44,10 @@ const TestReporter = {
 	 * @param  {Object} data Object to send to tests
 	 *
 	 * Events:
-	 *  * 'connector_injected': the connector is injected into a page
-	 *       data: null
-	 *  * 'player_element_exists': player element is found on a page
-	 *	     data: null
-	 *  * 'connector_state_changed': state of the connector is changed
-	 *       data: currentState
+	 *  - connector_injected: The connector is injected into a page
+	 *  - player_element_exists: The player element is found on a page
+	 *  - connector_state_changed: The state of the connector is changed
+	 *    @param {Object} data Connector state
 	 */
 	sendEventToTest(detail, data) {
 		let logMessage = `Web Scrobbler: Send "${detail}" event`;

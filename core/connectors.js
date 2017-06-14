@@ -1,31 +1,21 @@
 'use strict';
+
 /**
  * All connectors are defined here, instead of manifest.
  *
  * Matching connector is injected to the page after document_end event.
  *
- * Do not include jQuery - it is included by default.
- *
- *
  * Supported fields:
- *
- *    label
- *          - label to be shown in options to enable/disable the connector
- *          - be careful with renaming, as connector disable state depends on the label
- *
- *    matches
- *          - array of positive matches in format described in Chrome Ext. Dev. guide
- *          - connectors are processed in order and the first match is used; you can use
- *            this behaviour to emulate exclude matches
- *
- *    js
- *          - array of paths of files to be executed
- *          - all executions happen on or after 'document_end'
- *
- *    allFrames (optional)
- *          - boolean value representing InjectDetails.allFrames
- *          - FALSE by default
- *
+ *   @param {String} label Label to be shown in options to enable/disable
+ *   the connector. Be careful with renaming, as connector disable state
+ *   depends on the label.
+ *   @param {Array} matches Array of positive matches in format described in
+ *   Chrome Ext. Dev. guide. Connectors are processed in order and the
+ *   first match is used; you can use this behaviour to emulate exclude matches,
+ *   @param {Array} js Array of paths of files to be executed. All executions
+ *   happen on or after 'document_end'.
+ *   @param {Boolean} allFrames Value representing InjectDetails.allFrames.
+ *   False by default.
  */
 define(function () {
 	return [{
