@@ -1,19 +1,20 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
+const artistTrackRe = /(.+?)《(.+?)》/;
 
 function setupCoverPlayer() {
 	Connector.getArtistTrack = function() {
 		let text = $('.video_title ._base_title').attr('title');
-		return this.splitArtistTrack(text);
+		return extractArtistTrack(text);
 	};
 }
 
 function setupPagePlayer() {
 	Connector.getArtistTrack = function() {
 		let text = $('.video_title').attr('title');
-		return this.splitArtistTrack(text);
+		return extractArtistTrack(text);
 	};
 }
 
@@ -27,27 +28,19 @@ function isPagePlayer() {
 	return window.location.href.includes('x/page/');
 }
 
+// Example: 周华健《朋友》(KTV版)
+function extractArtistTrack(artistTrackStr) {
+	let match = artistTrackStr.match(artistTrackRe);
+	if (match) {
+		return { artist: match[1], track: match[2] };
+	}
+
+	return Util.emptyArtistTrack;
+}
+
 function setupConnector() {
 	// Set up variables common to all player types
 	Connector.playerSelector = '.container_player';
-
-	Connector.splitArtistTrack = function(str) {
-		// Example: 周华健《朋友》(KTV版)
-		let artist = '';
-		let track = '';
-		let artistMatch = str.split('《');
-		let trackMatch = str.match(/《(.*?)》/);
-
-		if (artistMatch.length > 0) {
-			artist = artistMatch[0];
-		}
-
-		if (trackMatch.length > 1) {
-			track = trackMatch[1];
-		}
-
-		return { artist, track };
-	};
 
 	// Set up connector depending on player type
 	if (isCoverPlayer()) {
