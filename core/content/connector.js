@@ -357,8 +357,11 @@ var BaseConnector = window.BaseConnector || function () {
 		uniqueID: null,
 		duration: null,
 		currentTime: 0,
-		isPlaying: true
+		isPlaying: true,
+		trackArt: null
 	};
+
+	const filteredState = Object.assign({}, currentState);
 
 	/**
 	 * Flag indicates the current state is reset by the connector.
@@ -392,20 +395,17 @@ var BaseConnector = window.BaseConnector || function () {
 			newTrack = artistTrack.track;
 		}
 
-		newTrack = this.filter.filterTrack(newTrack) || null;
 		if (newTrack !== currentState.track) {
 			currentState.track = newTrack;
 			changedFields.push('track');
 		}
 
-		newArtist = this.filter.filterArtist(newArtist) || null;
 		if (newArtist !== currentState.artist) {
 			currentState.artist = newArtist;
 			changedFields.push('artist');
 		}
 
-		let newAlbum = this.getAlbum();
-		newAlbum = this.filter.filterAlbum(newAlbum) || null;
+		let newAlbum = this.getAlbum() || null;
 		if (newAlbum !== currentState.album) {
 			currentState.album = newAlbum;
 			changedFields.push('album');
@@ -417,8 +417,8 @@ var BaseConnector = window.BaseConnector || function () {
 			changedFields.push('uniqueID');
 		}
 
-		let newDuration = Util.escapeBadTimeValues(this.getDuration());
-		let newCurrentTime = Util.escapeBadTimeValues(this.getCurrentTime());
+		let newDuration = this.getDuration();
+		let newCurrentTime = this.getCurrentTime();
 
 		let timeInfo = this.getTimeInfo();
 		if (newDuration !== null && timeInfo.duration) {
@@ -452,8 +452,10 @@ var BaseConnector = window.BaseConnector || function () {
 
 		// take action if needed
 		if (changedFields.length > 0) {
+			this.filterState(changedFields);
+
 			if (this.reactorCallback !== null) {
-				this.reactorCallback(currentState, changedFields);
+				this.reactorCallback(filteredState, changedFields);
 			}
 
 			// @ifdef DEBUG
@@ -465,6 +467,32 @@ var BaseConnector = window.BaseConnector || function () {
 			// @endif
 		}
 
+	};
+
+	/**
+	 * Filter changed fields.
+	 * @param  {Array} changedFields List of changed fields
+	 */
+	this.filterState = function(changedFields) {
+		for (let field of changedFields) {
+			let fieldValue = currentState[field];
+
+			switch (field) {
+				case 'artist':
+				case 'track':
+				case 'album': {
+					fieldValue = this.filter.filterField(field, fieldValue);
+					break;
+				}
+				case 'currentTime':
+				case 'duration': {
+					fieldValue = Util.escapeBadTimeValues(fieldValue);
+					break;
+				}
+			}
+
+			filteredState[field] = fieldValue;
+		}
 	};
 
 	/**

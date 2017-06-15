@@ -28,7 +28,7 @@ class MetadataFilter {
 	 * @return {String} Filtered string
 	 */
 	filterArtist(text) {
-		return this.filterField(text, this.mergedFilterSet.artist);
+		return this.filterText(text, this.mergedFilterSet.artist);
 	}
 
 	/**
@@ -37,7 +37,7 @@ class MetadataFilter {
 	 * @return {String} Filtered string
 	 */
 	filterTrack(text) {
-		return this.filterField(text, this.mergedFilterSet.track);
+		return this.filterText(text, this.mergedFilterSet.track);
 	}
 
 	/**
@@ -46,7 +46,17 @@ class MetadataFilter {
 	 * @return {String} Filtered string
 	 */
 	filterAlbum(text) {
-		return this.filterField(text, this.mergedFilterSet.album);
+		return this.filterText(text, this.mergedFilterSet.album);
+	}
+
+	/**
+	 * Filter field using filters for given field.
+	 * @param  {String} field Metadata field
+	 * @param  {String} text String to be filtered
+	 * @return {String} Filtered string
+	 */
+	filterField(field, text) {
+		return this.filterText(text, this.mergedFilterSet[field]);
 	}
 
 	/**
@@ -69,7 +79,7 @@ class MetadataFilter {
 	 * @param  {Array} filters Array of filter functions
 	 * @return {String} Filtered string
 	 */
-	filterField(text, filters) {
+	filterText(text, filters) {
 		if (!text) {
 			return text;
 		}
