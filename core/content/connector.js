@@ -252,6 +252,42 @@ var BaseConnector = window.BaseConnector || function () {
 	};
 
 	/**
+	 * Get current state of connector. Used to get all info per one call.
+	 * See documentation of 'currentState' variable for supported properties.
+	 * @return {Object} Current state
+	 */
+	this.getCurrentState = () => {
+		let newState = {
+			track: this.getTrack(),
+			artist: this.getArtist(),
+			album: this.getAlbum(),
+			uniqueID: this.getUniqueID(),
+			duration: this.getDuration(),
+			currentTime: this.getCurrentTime(),
+			isPlaying: this.isPlaying(),
+			trackArt: this.getTrackArt()
+		};
+
+		let artistTrack = this.getArtistTrack() || Util.emptyArtistTrack;
+		if (!newState.artist && artistTrack.artist) {
+			newState.artist = artistTrack.artist;
+		}
+		if (!newState.track && artistTrack.track) {
+			newState.track = artistTrack.track;
+		}
+
+		let timeInfo = this.getTimeInfo();
+		if (!newState.duration && timeInfo.duration) {
+			newState.duration = timeInfo.duration;
+		}
+		if (!newState.currentTime && timeInfo.currentTime) {
+			newState.currentTime = timeInfo.currentTime;
+		}
+
+		return newState;
+	};
+
+	/**
 	 * Default implementation used to get the track art URL from the selector.
 	 *
 	 * Override this method for more complex behaviour.
@@ -346,11 +382,10 @@ var BaseConnector = window.BaseConnector || function () {
 	 */
 
 	/**
-	 * Gathered info about the current track for internal use of
-	 * BaseConnector only.
+	 * Default values of state properties.
 	 * @type {Object}
 	 */
-	const currentState = {
+	const defaultState = {
 		track: null,
 		artist: null,
 		album: null,
@@ -361,7 +396,17 @@ var BaseConnector = window.BaseConnector || function () {
 		trackArt: null
 	};
 
-	const filteredState = Object.assign({}, currentState);
+	/**
+	 * Gathered info about the current track for internal use.
+	 * @type {Object}
+	 */
+	const currentState = Object.assign({}, defaultState);
+
+	/**
+	 * Filtered info about the current track for internal use.
+	 * @type {Object}
+	 */
+	const filteredState = Object.assign({}, defaultState);
 
 	/**
 	 * Flag indicates the current state is reset by the connector.
@@ -383,71 +428,21 @@ var BaseConnector = window.BaseConnector || function () {
 	 */
 	this.stateChangedWorker = () => {
 		let changedFields = [];
+		let newState = this.getCurrentState();
 
-		let newTrack = this.getTrack() || null;
-		let newArtist = this.getArtist() || null;
+		for (let key in currentState) {
+			let newValue;
+			if (newState[key] || newState[key] === false) {
+				newValue = newState[key];
+			} else {
+				newValue = defaultState[key];
+			}
+			let oldValue = currentState[key];
 
-		let artistTrack = this.getArtistTrack() || Util.emptyArtistTrack;
-		if (newArtist === null && artistTrack.artist) {
-			newArtist = artistTrack.artist;
-		}
-		if (newTrack === null && artistTrack.track) {
-			newTrack = artistTrack.track;
-		}
-
-		if (newTrack !== currentState.track) {
-			currentState.track = newTrack;
-			changedFields.push('track');
-		}
-
-		if (newArtist !== currentState.artist) {
-			currentState.artist = newArtist;
-			changedFields.push('artist');
-		}
-
-		let newAlbum = this.getAlbum() || null;
-		if (newAlbum !== currentState.album) {
-			currentState.album = newAlbum;
-			changedFields.push('album');
-		}
-
-		let newUID = this.getUniqueID() || null;
-		if (newUID !== currentState.uniqueID) {
-			currentState.uniqueID = newUID;
-			changedFields.push('uniqueID');
-		}
-
-		let newDuration = this.getDuration();
-		let newCurrentTime = this.getCurrentTime();
-
-		let timeInfo = this.getTimeInfo();
-		if (newDuration !== null && timeInfo.duration) {
-			newDuration = timeInfo.duration;
-		}
-		if (newCurrentTime !== null && timeInfo.currentTime) {
-			newCurrentTime = timeInfo.currentTime;
-		}
-
-		if (newDuration !== currentState.duration) {
-			currentState.duration = newDuration;
-			changedFields.push('duration');
-		}
-
-		if (newCurrentTime !== currentState.currentTime) {
-			currentState.currentTime = newCurrentTime;
-			changedFields.push('currentTime');
-		}
-
-		let newIsPlaying = this.isPlaying();
-		if (newIsPlaying !== currentState.isPlaying) {
-			currentState.isPlaying = newIsPlaying;
-			changedFields.push('isPlaying');
-		}
-
-		let newTrackArt = this.getTrackArt() || null;
-		if (newTrackArt !== currentState.trackArt) {
-			currentState.trackArt = newTrackArt;
-			changedFields.push('trackArt');
+			if (newValue !== oldValue) {
+				currentState[key] = newValue;
+				changedFields.push(key);
+			}
 		}
 
 		// take action if needed
@@ -462,7 +457,7 @@ var BaseConnector = window.BaseConnector || function () {
 			let isNewSongPlaying = !(changedFields.length === 1 &&
 				changedFields.includes('currentTime'));
 			if (isNewSongPlaying) {
-				TestReporter.reportSongRecognition(currentState);
+				TestReporter.reportSongRecognition(filteredState);
 			}
 			// @endif
 		}
