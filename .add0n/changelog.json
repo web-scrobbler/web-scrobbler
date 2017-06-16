@@ -2,6 +2,17 @@
   "results": [
     {
       "release_notes": {
+        "en-US": "Added a feature to skip current song\nAdded an ability to open cover art in new tab\nAdded QQ Video connector\nAdded Torch Music connector\nAdded 181.fm connector\nImproved song info correction\nImproved Digitally Imported connector\nRemoved Ampya connector\nRemoved Tidido connector\nFixed now playing notifications\nFixed scrobbling of unrecognized songs\nFixed Ambient Sleeping Pill connector\nFixed My Cloud Player connector\nFixed Noise FM connector\nFixed Odnoklassniki connector\nFixed Plaza connector\nFixed Radiotunes connector"
+      },
+      "files": [
+        {
+          "created": "2017-06-16T04:20:45Z"
+        }
+      ],
+      "version": "1.66.0"
+    },
+    {
+      "release_notes": {
         "en-US": "Added feature to disable connectors via context menu\nAdded ByteFM connector\nAdded Delta Radio UK connector\nAdded deltaradio connector\nAdded Deutschlandfunk Nova connector\nAdded Fritz connector\nAdded LoFi Radio connector\nAdded LyricsTraining connector\nAdded Kuwo connector\nAdded Musicoin connector\nAdded Music Walker connector\nAdded NPR connector\nAdded QQ connector\nAdded radd.it connector\nAdded radioeins connector\nAdded RadioPlayer connector\nUpdated reauth mechanism\nUpdated Wonder connector\nFixed 8tracks connector\nFixed Ambient Sleeping Pill connector\nFixed Bemusic connector\nFix Dance radio connector\nFixed Noon Pacific connector\nFixed Radiotunes connector\nFixed Red Bull Radio connector\nFixed VK connector"
       },
       "files": [
@@ -21,17 +32,6 @@
         }
       ],
       "version": "1.64.0"
-    },
-    {
-      "release_notes": {
-        "en-US": "Added an option to show notification if song is not recognized by the extension\nAdded an option to force song recognition\nAdded Listen.moe connector\nAdded My Cloud Player connector\nAdded Randomtube connector\nAdded Radio ULTRA connector\nAdded Nashe Radio connector\nAdded Best FM  connector\nAdded Rock FM connector\nAdded Radio JAZZ connector\nImproved authentication on MacOS\nRemoved Audiosplitter connector\nFixed Ambientsleepingpill connector\nFixed Kollekt.fm connector\nFixed Spotify Open connector\nFixed Vevo connector\nFixed Youtube connector"
-      },
-      "files": [
-        {
-          "created": "2017-04-11T18:26:26Z"
-        }
-      ],
-      "version": "1.63.0"
     }
   ]
 }
