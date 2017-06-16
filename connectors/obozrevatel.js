@@ -17,7 +17,7 @@ function isRadioPlayer() {
 }
 
 function isMusicPlayer() {
-	$('.cnt-song-lst').length > 0;
+	return $('.cnt-song-lst').length > 0;
 }
 
 function setupMusicPlayer() {
