@@ -323,15 +323,10 @@ define([
 		/**
 		 * Process song using pipeline module.
 		 * @param {Object} song Song instance
-		 * @param {Boolean} forceProcess Force processing for empty songs
 		 */
-		function processSong(song, forceProcess = false) {
-			if (song.isEmpty() && !forceProcess) {
-				setSongNotRecognized();
-			} else {
-				pageAction.setSongLoading(song);
-				Pipeline.processSong(song);
-			}
+		function processSong(song) {
+			pageAction.setSongLoading(song);
+			Pipeline.processSong(song);
 		}
 
 		/**
@@ -385,7 +380,7 @@ define([
 
 				// re-send song to pipeline
 				if (data.artist || data.track || data.album) {
-					processSong(currentSong, true);
+					processSong(currentSong);
 				}
 			}
 		};
