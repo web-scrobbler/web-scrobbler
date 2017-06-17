@@ -202,6 +202,10 @@ define([
 			this.flags.attr('isCorrectedByUser', false);
 		};
 
+		song.toString = function() {
+			return JSON.stringify(this.attr());
+		};
+
 		return song;
 	};
 });

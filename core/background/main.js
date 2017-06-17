@@ -224,7 +224,7 @@ require([
 		}
 		let connector = controller.getConnector();
 
-		if (controller.isEnabled()) {
+		if (controller.isEnabled) {
 			addContextMenuItem(`Disable ${connector.label} connector`, () => {
 				controller.setEnabled(false);
 				Config.setConnectorEnabled(connector.label, false);
