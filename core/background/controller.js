@@ -184,7 +184,7 @@ define([
 
 				// warning for connector developer
 				if (newState.isPlaying) {
-					this.debugLog(`State from connector doesn't contain enough information about the playing track:\n${JSON.stringify(newState)}`);
+					this.debugLog(`State from connector doesn't contain enough information about the playing track: ${toString(newState)}`);
 				}
 
 				return;
@@ -256,7 +256,7 @@ define([
 
 			// logging same message over and over saves space in console
 			if (newState.isPlaying !== this.currentSong.parsed.isPlaying) {
-				this.debugLog(`State update: ${JSON.stringify(newState)}`);
+				this.debugLog(`State update: ${toString(newState)}`);
 			}
 
 			this.currentSong.parsed.attr({
@@ -503,6 +503,15 @@ define([
 	 */
 	function isStateEmpty(state) {
 		return !(state.artist && state.track) && !state.uniqueID && !state.duration;
+	}
+
+	/**
+	 * Get string representation of given object.
+	 * @param  {Object} obj Any object
+	 * @return {String} String value
+	 */
+	function toString(obj) {
+		return JSON.stringify(obj, null, 2);
 	}
 
 	/**

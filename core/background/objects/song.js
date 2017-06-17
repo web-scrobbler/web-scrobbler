@@ -203,7 +203,7 @@ define([
 		};
 
 		song.toString = function() {
-			return JSON.stringify(this.attr());
+			return JSON.stringify(this.attr(), null, 2);
 		};
 
 		return song;
