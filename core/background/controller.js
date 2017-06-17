@@ -255,9 +255,7 @@ define([
 			}
 
 			// logging same message over and over saves space in console
-			if (newState.isPlaying === this.currentSong.parsed.isPlaying) {
-				this.debugLog('State update: only currentTime has changed');
-			} else {
+			if (newState.isPlaying !== this.currentSong.parsed.isPlaying) {
 				this.debugLog(`State update: ${JSON.stringify(newState)}`);
 			}
 
@@ -280,10 +278,10 @@ define([
 			/**
 			 * Respond to changes of not/playing and pause timer accordingly to get real elapsed time
 			 */
-			this.currentSong.bind('parsed.isPlaying', function(ev, newVal) {
-				this.debugLog(`isPlaying state changed to ${newVal}`);
+			this.currentSong.bind('parsed.isPlaying', (ev, isPlaying) => {
+				this.debugLog(`isPlaying state changed to ${isPlaying}`);
 
-				if (newVal) {
+				if (isPlaying) {
 					this.playbackTimer.resume();
 					this.replayDetectionTimer.resume();
 
@@ -301,8 +299,8 @@ define([
 			 * Song has gone through processing pipeline
 			 * This event may occur repeatedly, e.g. when triggered on page load and then corrected by user input
 			 */
-			this.currentSong.bind('flags.isProcessed', (ev, newVal) => {
-				if (newVal) {
+			this.currentSong.bind('flags.isProcessed', (ev, isProcessed) => {
+				if (isProcessed) {
 					this.debugLog(`Song finished processing: ${this.currentSong.toString()}`);
 					this.onProcessed(options);
 					this.notifySongIsUpdated();
