@@ -10,7 +10,7 @@
   },
   "devDependencies": {
     "chai": "^4.0.0",
-    "chromedriver": "~2.29.0",
+    "chromedriver": "^2.0.0",
     "github": "~9.2.0",
     "grunt": "^1.0.1",
     "grunt-bump": "~0.8.0",
@@ -20,7 +20,7 @@
     "grunt-contrib-copy": "~1.0.0",
     "grunt-contrib-imagemin": "^1.0.1",
     "grunt-contrib-uglify": "^3.0.0",
-    "grunt-eslint": "~19.0.0",
+    "grunt-eslint": "^20.0.0",
     "grunt-exec": "~2.0.0",
     "grunt-git": "^1.0.3",
     "grunt-jsonlint": "^1.1.0",
