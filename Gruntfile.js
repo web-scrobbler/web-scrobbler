@@ -114,7 +114,8 @@ module.exports = function(grunt) {
 			firefox: {
 				src: `${buildDir}/manifest.json`,
 				changes: {
-					'applications.gecko.id': '{799c0914-748b-41df-a25c-22d008f9e83f}'
+					'applications.gecko.id': '{799c0914-748b-41df-a25c-22d008f9e83f}',
+					'applications.gecko.strict_min_version': '48.0'
 				}
 			},
 		},
