@@ -53,7 +53,7 @@ define([], function() {
 					'artistname:' +
 					'+"' + song.getArtist() + '"^4' +
 					song.getArtist() + ' '
-				)
+			)
 				.done(function(musicbrainz) {
 					if (musicbrainz.count === 0) {
 						return onFailure();

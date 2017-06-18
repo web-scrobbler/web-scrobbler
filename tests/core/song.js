@@ -131,8 +131,8 @@ function testProcessedMetadataFields() {
 function testIsEmpty() {
 	it('should return true if song has no metadata', () => {
 		let songs = [
-			createSong({ artist: 'Artist', track: null}),
-			createSong({ artist: null, track: 'Track'}),
+			createSong({ artist: 'Artist', track: null }),
+			createSong({ artist: null, track: 'Track' }),
 			createSong({ artist: null, track: null })
 		];
 
@@ -163,12 +163,12 @@ function testGetArtistTrackString() {
  */
 function testGetSecondsToScrobble() {
 	it('should return proper value', () => {
-		let song1 = createSong({duration: 300});
+		let song1 = createSong({ duration: 300 });
 		expect(song1.getSecondsToScrobble()).to.be.equal(150);
 	});
 
 	it('should return proper value for songs longer that 4 minutes', () => {
-		let song1 = createSong({duration: 600});
+		let song1 = createSong({ duration: 600 });
 		expect(song1.getSecondsToScrobble()).to.be.equal(240);
 	});
 }

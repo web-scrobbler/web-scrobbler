@@ -22,7 +22,7 @@ $(document).ready(function() {
 	function sendMessageToCurrentTab(type, data) {
 		return getCurrentTab().then((tabId) => {
 			return new Promise((resolve) => {
-				chrome.runtime.sendMessage({type, data, tabId}, resolve);
+				chrome.runtime.sendMessage({ type, data, tabId }, resolve);
 			});
 		});
 	}

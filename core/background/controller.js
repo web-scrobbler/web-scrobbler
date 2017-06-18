@@ -100,7 +100,7 @@ define([
 
 				currentSong = new Song(newState, connector);
 
-				bindSongListeners(currentSong, {notify: !isReplayingSong});
+				bindSongListeners(currentSong, { notify: !isReplayingSong });
 				console.log(`Tab ${tabId}: new ${isReplayingSong ? '(replaying) ' : ''} song detected: ${JSON.stringify(currentSong.attr())}`);
 
 				// start the timer, actual time will be set after processing is done;

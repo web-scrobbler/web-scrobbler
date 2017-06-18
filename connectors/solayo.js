@@ -13,7 +13,7 @@ Connector.getArtistTrack = function () {
 
 	if (text.match(/ - /g).length === 2) {
 		var arr = text.split(' - ');
-		return {artist: arr[1], track: arr[2]};
+		return { artist: arr[1], track: arr[2] };
 	}
 
 	return Util.splitArtistTrack(text);

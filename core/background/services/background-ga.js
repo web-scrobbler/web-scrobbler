@@ -22,7 +22,7 @@ define(() => {
 	 * @return {Promise} Promise that will resolve when the task has completed
 	 */
 	function event(ec, ea, el) {
-		return sendRequest({t: 'event', ec, ea, el});
+		return sendRequest({ t: 'event', ec, ea, el });
 	}
 
 	/**
@@ -31,7 +31,7 @@ define(() => {
 	 * @return {Promise} Promise that will resolve when the task has completed
 	 */
 	function pageview(dp) {
-		return sendRequest({t: 'pageview', dp});
+		return sendRequest({ t: 'pageview', dp });
 	}
 
 	/**

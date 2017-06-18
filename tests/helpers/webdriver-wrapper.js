@@ -100,7 +100,7 @@ exports.waitForPlayerElement = function(timeout) {
  * @return {WebElementPromise} Promise that will be resolved with first found element
  */
 exports.findElement = function(selector) {
-	return driver.findElements({css: selector}).then((elements) => {
+	return driver.findElements({ css: selector }).then((elements) => {
 		if (elements.length === 0) {
 			throw new Error(`The ${selector} element is not found`);
 		}

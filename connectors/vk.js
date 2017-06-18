@@ -8,7 +8,7 @@ let currentState = {};
 	let scriptUrl = chrome.extension.getURL('connectors/vk-dom-inject.js');
 	Util.injectScriptIntoDocument(scriptUrl);
 
-	$(window).on('message', ({originalEvent: event}) => {
+	$(window).on('message', ({ originalEvent: event }) => {
 		if (event.data.sender !== 'web-scrobbler') {
 			return;
 		}

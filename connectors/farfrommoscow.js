@@ -10,8 +10,8 @@ Connector.isPlaying = function () {
 			$('.Artist-Maximus-Playing').length ||
 			$('.Hello-Mini-Playing').length ||
 			($('#PlayerFrame iframe').contents().find('#Play').length ? //embed
-					$('#PlayerFrame iframe').contents().find('#Play').attr('src').indexOf('pause') !== -1 :
-					false);
+			$('#PlayerFrame iframe').contents().find('#Play').attr('src').indexOf('pause') !== -1 :
+				false);
 };
 
 Connector.getArtistTrack = function () {
@@ -19,8 +19,8 @@ Connector.getArtistTrack = function () {
 	var track = null;
 
 	if ($('#PlayerFrame iframe').contents().find('#Play').length ? //embed
-			$('#PlayerFrame iframe').contents().find('#Play').attr('src').indexOf('pause') !== -1 :
-			false) { //embed
+	$('#PlayerFrame iframe').contents().find('#Play').attr('src').indexOf('pause') !== -1 :
+		false) { //embed
 		artist = $('.H-artist').text();
 		track = $('#PlayerFrame iframe').contents().find('#PlayerPanel > :first-child').text();
 	} else if ($('.player-buttonPause').length) {
@@ -47,6 +47,6 @@ Connector.getArtistTrack = function () {
 };
 Connector.getAlbum = function () {
 	return $('#PlayerFrame iframe').contents().find('#Play').length ? //embed
-			$('#TrackList h1').text() :
-			$('.Release-preview:has(.Hello-Mini-Playing) .Release-select strong').text();
+	$('#TrackList h1').text() :
+		$('.Release-preview:has(.Hello-Mini-Playing) .Release-select strong').text();
 };

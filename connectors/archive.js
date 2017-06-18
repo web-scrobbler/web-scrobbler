@@ -45,7 +45,7 @@ function bindNew() {
 			track = trackParts[2];
 		}
 
-		return {artist, track};
+		return { artist, track };
 	};
 
 	Connector.getAlbum = function() {

@@ -142,7 +142,7 @@ require([
 		newElt.append(input);
 
 		var closeBtn = $(
-		'<a href="#" class="conn-conf-del-input" tabindex="-1">' +
+			'<a href="#" class="conn-conf-del-input" tabindex="-1">' +
 		'<i class="icon-remove icon-fixed-width"></i>' +
 		'</a>').click(function(ev) {
 			ev.preventDefault();

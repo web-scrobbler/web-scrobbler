@@ -77,7 +77,7 @@ function setupCollection2Player() {
 			}
 		}
 
-		return {artist, track};
+		return { artist, track };
 	};
 }
 

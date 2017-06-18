@@ -76,7 +76,7 @@ define([
 	 */
 	function getAuthUrl() {
 		let url = `${apiUrl}?method=auth.gettoken&api_key=${apiKey}`;
-		return timeoutPromise(GET_AUTH_URL_TIMEOUT, fetch(url, {method: 'GET'}).then((response) => {
+		return timeoutPromise(GET_AUTH_URL_TIMEOUT, fetch(url, { method: 'GET' }).then((response) => {
 			return response.text();
 		}).then((text) => {
 			let xml = $($.parseXML(text));
@@ -421,7 +421,7 @@ define([
 				if ($doc.find('lfm').attr('status') === 'ok') {
 					result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.OK);
 					cb(result);
-				} else {  // request passed but returned error
+				} else { // request passed but returned error
 					result = new ServiceCallResultFactory.ServiceCallResult(ServiceCallResultFactory.results.ERROR);
 					cb(result);
 				}
