@@ -8,14 +8,8 @@ Connector.isPlaying = function () {
 	return $('#control_playpause').hasClass('playing');
 };
 
-Connector.getArtist = function () {
-  return "Phish";
-};
+Connector.artistSelector = 'Phish';
 
-Connector.getTrack = function () {
-  return $('#player_title').text();
-};
+Connector.trackSelector = '#player_title';
 
-Connector.getAlbum = function () {
-  return $('#player_detail').text();
-};
+Connector.albumSelector = '#player_detail';
