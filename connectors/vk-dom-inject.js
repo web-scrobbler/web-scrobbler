@@ -6,6 +6,7 @@
 const INFO_ID = 0;
 const INFO_TRACK = 3;
 const INFO_ARTIST = 4;
+const INFO_DURATION = 5;
 
 window.webScrobblerInjected = window.webScrobblerInjected || false;
 
@@ -20,7 +21,7 @@ window.webScrobblerInjected = window.webScrobblerInjected || false;
 		}
 
 		let audioElImpl = window.ap._impl._currentAudioEl || {};
-		let {currentTime, duration} = audioElImpl;
+		let { currentTime } = audioElImpl;
 
 		/*
 		 * VK player sets current time equal to song duration on startup.
@@ -28,7 +29,7 @@ window.webScrobblerInjected = window.webScrobblerInjected || false;
  		 * beginning, and repeat the song. Ignore this stage to avoid
  		 * this behavior.
 		 */
-		if (currentTime === duration) {
+		if (currentTime === audioObject[INFO_DURATION]) {
 			return;
 		}
 
@@ -37,7 +38,7 @@ window.webScrobblerInjected = window.webScrobblerInjected || false;
 			type,
 			trackInfo: {
 				currentTime,
-				duration,
+				duration: audioObject[INFO_DURATION],
 				uniqueID: audioObject[INFO_ID],
 				artistTrack: {
 					artist: audioObject[INFO_ARTIST],
