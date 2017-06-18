@@ -17,6 +17,9 @@ module.exports = {
 		/**
 		 * Possible errors
 		 */
+		// Enforce “for” loop update clause moving the counter
+		// in the right direction
+		'for-direction': 'error',
 		// Disallow assignment operators in conditional expressions
 		'no-cond-assign': 'error',
 		// Disallow constant expressions in conditions
@@ -100,8 +103,10 @@ module.exports = {
 		// of a block is placed on the same line as its corresponding
 		// statement or declaration
 		// 'brace-style': ['error', '1tbs'],
+		// Disallow spaces inside of brackets
+		'array-bracket-spacing': ['error', 'never'],
 		// Require space after comma
-		'comma-spacing': ['error', {'after': true}],
+		'comma-spacing': ['error', { 'after': true }],
 		// Require or Disallow newline at the end of files
 		'eol-last': ['error', 'always'],
 		// Disallow spacing between function identifiers and their invocations
@@ -112,13 +117,13 @@ module.exports = {
 			'SwitchCase': 1,
 		}],
 		// Require space after colon in object literal properties
-		'key-spacing': ['error', {'afterColon': true}],
+		'key-spacing': ['error', { 'afterColon': true }],
 		// Require space before and after keywords
 		'keyword-spacing': ['error'],
 		// Require Unix line endings
 		'linebreak-style': ['error', 'unix'],
 		// Disallow empty block statements
-		'no-empty': ['error', {'allowEmptyCatch': true}],
+		'no-empty': ['error', { 'allowEmptyCatch': true }],
 		// Disallow `if` statements as the only statement in `else` blocks
 		'no-lonely-if': 'error',
 		// Disallow mixed spaces and tabs for indentation
@@ -133,6 +138,8 @@ module.exports = {
 		'no-unneeded-ternary': 'error',
 		// Disallow whitespace before properties
 		'no-whitespace-before-property': 'error',
+		// Require spaces inside curly braces
+		'object-curly-spacing': ['error', 'always'],
 		// Require single quotes
 		'quotes': ['error', 'single'],
 		// Require space before blocks
@@ -143,6 +150,8 @@ module.exports = {
 		'space-infix-ops': 'error',
 		// Require semicolon at the end of statement
 		'semi': ['error', 'always'],
+		// Enforce spacing around colons of switch statements
+		'switch-colon-spacing': ['error', { 'after': true, 'before': false }],
 
 		/**
 		 * ECMAScript 6
