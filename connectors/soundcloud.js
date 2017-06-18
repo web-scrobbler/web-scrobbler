@@ -3,53 +3,37 @@
 /* global Connector, MetadataFilter, Util */
 
 window.SC_ATTACHED = window.SC_ATTACHED || false;
-var artist;
-var track;
-var duration;
-var uniqueID;
-var artwork_url;
-var isPrivate = false;
 
-Connector.getArtist = function () {
-	return artist;
-};
+let currentState = {};
+/**
+ * Flag indicates now playing track is private.
+ * The extension does not scrobble such tracks.
+ * @type {Boolean}
+ */
+let isPrivate = false;
 
-Connector.getTrack = function () {
-	return track;
-};
-
-Connector.playerSelector = '.playControls';
 const progressSelector = '.playControls div[role=progressbar]';
 const playButtonSelector = '.playControls button.playControl';
 
-Connector.getCurrentTime = function () {
-	if (isPrivate) {
-		return null;
-	}
-	return parseFloat($(progressSelector).attr('aria-valuenow')) / 1000;
+Connector.playerSelector = '.playControls';
+
+Connector.getCurrentState = () => {
+	currentState.currentTime = getCurrentTime();
+	currentState.isPlaying = isPlaying();
+	return currentState;
 };
 
-Connector.getDuration = function () {
-	return duration;
-};
-
-Connector.isPlaying = function () {
-	if (isPrivate) {
-		return false;
-	}
-	return $(playButtonSelector).hasClass('playing');
-};
-
-Connector.getUniqueID = function () {
-	return uniqueID;
-};
-
-Connector.getTrackArt = function () {
-	return artwork_url;
-};
+Connector.isScrobblingAllowed = () => !isPrivate;
 
 Connector.filter = MetadataFilter.getYoutubeFilter();
 
+function getCurrentTime() {
+	return parseFloat($(progressSelector).attr('aria-valuenow')) / 1000;
+}
+
+function isPlaying() {
+	return $(playButtonSelector).hasClass('playing');
+}
 
 /**
  * Parse metadata and set local variables
@@ -59,33 +43,29 @@ function setSongData(metadata) {
 	isPrivate = metadata.sharing === 'private';
 
 	if (isPrivate) {
-		artist = null;
-		track = null;
-		duration = null;
-		uniqueID = null;
-		artwork_url = null;
+		currentState = {};
 		return;
 	}
 
-	// Sometimes the artist name is in the track title.
+	// Sometimes the artist name is in the track title,
 	// e.g. Tokyo Rose - Zender Overdrive by Aphasia Records.
-	var regex = /(.+)\s?[\-–:]\s?(.+)/,
-		match = regex.exec(metadata.title);
+	let regex = /(.+)\s?[\-–:]\s?(.+)/;
+	let match = regex.exec(metadata.title);
 
 	// But don't interpret patterns of the form
 	// "[Start of title] #1234 - [End of title]" as Artist - Title
 	if (match && ! /.*#\d+.*/.test(match[1])) {
-		artist = match[1];
-		track = match[2];
+		currentState.artist = match[1];
+		currentState.track = match[2];
 	} else {
-		artist = metadata.user.username;
-		track = metadata.title;
+		currentState.artist = metadata.user.username;
+		currentState.track = metadata.title;
 	}
 
-	duration = Math.floor(metadata.duration / 1000);
-	// use permalink url as the unique id
-	uniqueID = metadata.permalink_url;
-	artwork_url = metadata.artwork_url;
+	currentState.duration = Math.floor(metadata.duration / 1000);
+	// Use permalink url as the unique id
+	currentState.uniqueID = metadata.permalink_url;
+	currentState.trackArt = metadata.artwork_url;
 }
 
 /**
@@ -115,5 +95,4 @@ function setSongData(metadata) {
 	// Attach listener for message events.
 	window.addEventListener('message', eventHandler);
 	window.SC_ATTACHED = true;
-
 }());
