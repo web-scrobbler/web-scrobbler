@@ -1,5 +1,7 @@
 'use strict';
 
+/* global Connector */
+
 Connector.playerSelector = '#player_container';
 
 Connector.playButtonSelector = '#control_playpause';
@@ -9,7 +11,7 @@ Connector.isPlaying = function () {
 };
 
 Connector.getArtist = function () {
-  return "Phish";
+	return 'Phish';
 };
 
 Connector.trackSelector = '#player_title';
