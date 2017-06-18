@@ -40,11 +40,8 @@ window.webScrobblerInjected = window.webScrobblerInjected || false;
 				currentTime,
 				duration: audioObject[INFO_DURATION],
 				uniqueID: audioObject[INFO_ID],
-				artistTrack: {
-					artist: audioObject[INFO_ARTIST],
-					track: audioObject[INFO_TRACK],
-				},
-
+				artist: audioObject[INFO_ARTIST],
+				track: audioObject[INFO_TRACK],
 			},
 		}, '*');
 	}
