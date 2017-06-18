@@ -316,10 +316,6 @@ define([
 					params.artist = song.getArtist();
 					params.track = song.getTrack();
 
-					if (params.artist === null || params.track === null) {
-						return false;
-					}
-
 					return this.doRequest('GET', params, false).then(($doc) => {
 						let result = processResponse($doc);
 						if (!result.isOk()) {

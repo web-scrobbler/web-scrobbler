@@ -17,6 +17,10 @@ define([
 	 * @return {Promise} Promise resolved when task has complete
 	 */
 	function process(song) {
+		if (song.isEmpty()) {
+			return Promise.resolve(false);
+		}
+
 		return ScrobbleService.getSongInfo(song).then((songInfoArr) => {
 			let songInfo = getInfo(songInfoArr);
 			let isSongValid = songInfo !== null;

@@ -36,6 +36,8 @@ define([], function() {
 		} else if (song.metadata.artistThumbUrl) {
 			console.log('Found album artwork via LastFM');
 			return Promise.resolve();
+		} else if (song.isEmpty()) {
+			return Promise.resolve();
 		}
 
 		let isCoverArtFound = false;
