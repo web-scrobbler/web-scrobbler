@@ -1123,5 +1123,9 @@ define(function () {
 		label: '181.fm',
 		matches: ['*://181fm.mystreamplayer.com/*'],
 		js: ['connectors/181.fm.js']
+	}, {
+		label: 'Phish.in',
+		matches: ['*://phish.in/*'],
+		js: ['connectors/phish.in.js']
 	}];
 });
