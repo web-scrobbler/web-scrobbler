@@ -8,7 +8,9 @@ Connector.isPlaying = function () {
 	return $('#control_playpause').hasClass('playing');
 };
 
-Connector.artistSelector = 'Phish';
+Connector.getArtist = function () {
+  return "Phish";
+};
 
 Connector.trackSelector = '#player_title';
 
