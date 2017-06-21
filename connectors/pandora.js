@@ -17,7 +17,7 @@ function setupNewPandoraPlayer() {
 		// #ic_play_7a43ed1f23aeda3fadb7bdaa3bb07cbe
 		// #ic_pause_829b1bd4f7297ce64c54560a4a499300
 		let playButtonHref = $('.PlayButton use').attr('xlink:href');
-		return playButtonHref.startsWith('#ic_pause');
+		return playButtonHref.includes('pause');
 	};
 
 	Connector.isScrobblingAllowed = function() {
