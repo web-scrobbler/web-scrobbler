@@ -12,9 +12,20 @@ const DEFAULT_TRACK_ART = 'configs/images/noalbum-white.png';
 
 Connector.playerSelector = '.player';
 
-Connector.artistSelector = '#artist';
+Connector.artistSelector = '.heading-group .fill_artist';
 
-Connector.trackSelector = '#song';
+Connector.trackSelector = '.heading-group .fill_song';
+
+Connector.getAlbum = () => {
+	// Artist / Album
+	let artistAlbumStr = $('#artist').text();
+	let artistSlash = `${Connector.getArtist()} / `;
+	if (artistAlbumStr && artistAlbumStr.includes(artistSlash)) {
+		return artistAlbumStr.replace(artistSlash, '');
+	}
+
+	return null;
+};
 
 Connector.trackArtSelector = '.songimg';
 
