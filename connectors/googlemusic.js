@@ -5,7 +5,10 @@
 Connector.playerSelector = '#player';
 
 Connector.getTrackArt = function() {
-	return $('#playerBarArt').attr('src') || $('#playingAlbumArt').attr('src');
+	let trackArtUrl = $('#playerBarArt').attr('src');
+	if (trackArtUrl) {
+		return trackArtUrl.replace('=s90-c-e100', '');
+	}
 };
 
 Connector.artistSelector = '#player-artist';
