@@ -224,7 +224,7 @@ require([
 			modal.data('conn', index);
 			modal.find('.conn-conf-title').html(connector.label);
 
-			customPatterns.getAllPatterns(function(allPatterns) {
+			customPatterns.getAllPatterns().then((allPatterns) => {
 				var patterns = allPatterns[connector.label] || [];
 
 				var inputs = $('<ul class="list-unstyled" id="conn-conf-list"></ul>');
