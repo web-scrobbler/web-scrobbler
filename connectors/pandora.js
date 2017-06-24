@@ -13,9 +13,16 @@ function setupNewPandoraPlayer() {
 
 	Connector.trackArtSelector = '.Tuner__Audio__TrackDetail__img img';
 
+	Connector.getTrackArt = () => {
+		let trackArtUrl = $('.Tuner__Audio__TrackDetail__img img').attr('src');
+		if (trackArtUrl) {
+			return trackArtUrl.replace('90W_90H', '500W_500H');
+		}
+
+		return null;
+	};
+
 	Connector.isPlaying = function() {
-		// #ic_play_7a43ed1f23aeda3fadb7bdaa3bb07cbe
-		// #ic_pause_829b1bd4f7297ce64c54560a4a499300
 		let playButtonHref = $('.PlayButton use').attr('xlink:href');
 		return playButtonHref.includes('pause');
 	};
