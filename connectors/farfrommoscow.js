@@ -6,21 +6,20 @@ Connector.playerSelector = '.global-content';
 
 Connector.isPlaying = function () {
 	return $('.player-buttonPause').length ||
-			$('.Artist-Mini-Playing').length ||
-			$('.Artist-Maximus-Playing').length ||
-			$('.Hello-Mini-Playing').length ||
-			($('#PlayerFrame iframe').contents().find('#Play').length ? //embed
-			$('#PlayerFrame iframe').contents().find('#Play').attr('src').indexOf('pause') !== -1 :
-				false);
+		$('.Artist-Mini-Playing').length ||
+		$('.Artist-Maximus-Playing').length ||
+		$('.Hello-Mini-Playing').length ||
+
+		($('#PlayerFrame iframe').contents().find('#Play').length &&
+		$('#PlayerFrame iframe').contents().find('#Play').attr('src').includes('pause'));
 };
 
 Connector.getArtistTrack = function () {
 	var artist = null;
 	var track = null;
 
-	if ($('#PlayerFrame iframe').contents().find('#Play').length ? //embed
-	$('#PlayerFrame iframe').contents().find('#Play').attr('src').indexOf('pause') !== -1 :
-		false) { //embed
+	if ($('#PlayerFrame iframe').contents().find('#Play').length &&
+		$('#PlayerFrame iframe').contents().find('#Play').attr('src').includes('pause')) { //embed
 		artist = $('.H-artist').text();
 		track = $('#PlayerFrame iframe').contents().find('#PlayerPanel > :first-child').text();
 	} else if ($('.player-buttonPause').length) {
