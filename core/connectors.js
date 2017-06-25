@@ -1121,5 +1121,9 @@ define(function () {
 		label: 'Phish.in',
 		matches: ['*://phish.in/*'],
 		js: ['connectors/phish.in.js']
+	}, {
+		label: 'Rainwave',
+		matches: ['*://rainwave.cc/*'],
+		js: ['connectors/rainwave.js']
 	}];
 });
