@@ -2,6 +2,17 @@
   "results": [
     {
       "release_notes": {
+        "en-US": "Added Phish.in connector\nAdded Rainwave connector\nUpdated logic of repeat detection.\nImproved Google Play Music connector\nImproved Pandora connector\nFixed configuration popup of custom URL patterns\nFixed loading saved song info\nFixed 181.fm connector\nFixed Pandora connector"
+      },
+      "files": [
+        {
+          "created": "2017-06-25T08:08:11Z"
+        }
+      ],
+      "version": "1.67.0"
+    },
+    {
+      "release_notes": {
         "en-US": "Added a feature to skip current song\nAdded an ability to open cover art in new tab\nAdded QQ Video connector\nAdded Torch Music connector\nAdded 181.fm connector\nImproved song info correction\nImproved Digitally Imported connector\nRemoved Ampya connector\nRemoved Tidido connector\nFixed now playing notifications\nFixed scrobbling of unrecognized songs\nFixed Ambient Sleeping Pill connector\nFixed My Cloud Player connector\nFixed Noise FM connector\nFixed Odnoklassniki connector\nFixed Plaza connector\nFixed Radiotunes connector"
       },
       "files": [
@@ -21,17 +32,6 @@
         }
       ],
       "version": "1.65.0"
-    },
-    {
-      "release_notes": {
-        "en-US": "Added Duckburg Radio connector\nAdded ListenOnRepeat connector\nAdded Planet Radio connector\nAdded Roxx Radio connector\nAdded an option to scrobble Youtube videos from \"Entertainment\" category only\nAdded URL to 'Custom URL patterns' page to the options page\nChanged default cover art image\nImproved Reddit Music Player connector\nRemoved GoEar connector\nRemoved Reddit Playlister connector\nRemoved Thesixtyone connector\nRemoved option dependency\nUpdate names of supported services\nFixed 163 Music connector\nFixed Pandora connector\nFixed Reddit Music Player connector\nFixed Spotify Open connector\nFixed Youtube connector\nFixed other minor issues"
-      },
-      "files": [
-        {
-          "created": "2017-05-06T14:37:40Z"
-        }
-      ],
-      "version": "1.64.0"
     }
   ]
 }
