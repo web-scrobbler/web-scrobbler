@@ -1,10 +1,13 @@
 'use strict';
 
-/* global Connector */
+/* global Connector, Util */
 
 Connector.playerSelector = 'body';
 
-Connector.artistSelector = '.now_playing .artist';
+Connector.getArtist = () => {
+	let artists = $('.now_playing .artist a').toArray();
+	return Util.joinArtists(artists);
+};
 
 Connector.trackSelector = '.now_playing .title';
 
