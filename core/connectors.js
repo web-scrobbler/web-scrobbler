@@ -1123,7 +1123,14 @@ define(function () {
 		js: ['connectors/phish.in.js']
 	}, {
 		label: 'Rainwave',
-		matches: ['*://rainwave.cc/*'],
+		matches: [
+			'*://rainwave.cc/*',
+			'*://all.rainwave.cc/*',
+			'*://game.rainwave.cc/*',
+			'*://chiptune.rainwave.cc/*',
+			'*://ocr.rainwave.cc/*',
+			'*://covers.rainwave.cc/*',
+		],
 		js: ['connectors/rainwave.js']
 	}];
 });
