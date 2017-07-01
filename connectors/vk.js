@@ -3,6 +3,7 @@
 /* global Connector, MetadataFilter, Util */
 
 let currentState = {};
+let isPlaying = false;
 
 (function () {
 	let scriptUrl = chrome.extension.getURL('connectors/vk-dom-inject.js');
@@ -13,17 +14,19 @@ let currentState = {};
 			return;
 		}
 
-		currentState = event.data.trackInfo;
-
 		switch (event.data.type) {
 			case 'start':
-				currentState.isPlaying = true;
+				isPlaying = true;
 				break;
 			case 'stop':
 			case 'pause':
-				currentState.isPlaying = false;
+				isPlaying = false;
 				break;
 		}
+
+		currentState = event.data.trackInfo;
+		currentState.isPlaying = isPlaying;
+
 		Connector.onStateChanged();
 	});
 })();
