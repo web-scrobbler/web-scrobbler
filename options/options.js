@@ -219,15 +219,15 @@ require([
 			event.preventDefault();
 
 			const localCache = ChromeStorage.getNamespace('LocalCache');
-			
+
 			let cache = $('<ul class="list-unstyled"></ul>');
 			localCache.get((data) => {
 				if (Object.keys(data).length === 0) {
 					cache.append($('<li>').text('No items in the cache.'));
 				} else {
 					$.each(data, function(cachedKey, cachedData) {
-					cache.append($('<li>').text(cachedData.artist + ' - ' + cachedData.track));
-				});
+						cache.append($('<li>').text(cachedData.artist + ' - ' + cachedData.track));
+					});
 				}
 			});
 
