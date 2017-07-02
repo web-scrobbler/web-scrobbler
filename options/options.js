@@ -32,6 +32,7 @@ require([
 	$(function () {
 		var connectorsOptions = ChromeStorage.getNamespace('Connectors');
 
+
 		// preload values and attach listeners
 		for (let option in optionsUiMap) {
 			let optionId = optionsUiMap[option];
@@ -212,6 +213,29 @@ require([
 			customPatterns.resetPatterns(connector.label);
 
 			modal.modal('hide');
+		});
+
+		$('body').on('click', '#view-edited', function(event) {
+			event.preventDefault();
+
+			const localCache = ChromeStorage.getNamespace('LocalCache');
+			
+			let cache = $('<ul class="list-unstyled"></ul>');
+			localCache.get((data) => {
+				if (Object.keys(data).length === 0) {
+					cache.append($('<li>').text('No items in the cache.'));
+				} else {
+					$.each(data, function(cachedKey, cachedData) {
+					cache.append($('<li>').text(cachedData.artist + ' - ' + cachedData.track));
+				});
+				}
+			});
+
+			let modal = $('#edited-track-modal');
+
+			modal.find('.edited-track-contents').html(cache);
+
+			modal.modal('show');
 		});
 
 		$('body').on('click', 'a.conn-config', function(event) {
