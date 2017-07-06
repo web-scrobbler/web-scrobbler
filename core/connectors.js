@@ -1132,5 +1132,10 @@ define(function () {
 			'*://covers.rainwave.cc/*',
 		],
 		js: ['connectors/rainwave.js']
+	}, {
+		label: 'Nightcore',
+		matches: ['*://www.nightcore.com/*'],
+		js: ['connectors/youtube.js'],
+		allFrames: true,
 	}];
 });
