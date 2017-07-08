@@ -1135,7 +1135,7 @@ define(function () {
 	}, {
 		label: 'Nightcore',
 		matches: ['*://www.nightcore.com/*'],
-		js: ['connectors/youtube.js'],
+		js: ['connectors/youtube.js', 'connectors/nightcore.js'],
 		allFrames: true,
 	}];
 });
