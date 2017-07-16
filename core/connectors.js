@@ -671,11 +671,6 @@ define(function () {
 	},
 
 	{
-		label: 'DREAMFM',
-		matches: ['*://dreamfm.biz/*'],
-		js: ['connectors/dreamfm.js'],
-	},
-	{
 		label: 'egoFM',
 		matches: ['*://www.egofm.de/*', '*://player.addradio.de/player/2366*'],
 		js: ['connectors/egofm.js'],
