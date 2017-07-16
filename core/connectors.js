@@ -432,12 +432,6 @@ define(function () {
 	},
 
 	{
-		label: 'ThisIsMyJam',
-		matches: ['*://www.thisismyjam.com/*'],
-		js: ['connectors/thisismyjam.js'],
-	},
-
-	{
 		label: 'Primary',
 		matches: ['*://primary.fm/*'],
 		js: ['connectors/hydricmedia.js'],
