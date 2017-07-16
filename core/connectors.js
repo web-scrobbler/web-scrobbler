@@ -384,12 +384,6 @@ define(function () {
 	},
 
 	{
-		label: 'HolidayChristmasMusic',
-		matches: ['*://www.holidaychristmasmusic.com/*', '*://holidaychristmasmusic.com/*'],
-		js: ['connectors/jazzandrain.js'],
-	},
-
-	{
 		label: 'AccuJazz',
 		matches: ['*://www.accuradio.com/pop_player/accujazz/*'],
 		js: ['connectors/accujazz.js'],
