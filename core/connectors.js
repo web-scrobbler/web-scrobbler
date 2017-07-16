@@ -551,12 +551,6 @@ define(function () {
 	},
 
 	{
-		label: 'SlashFavorites',
-		matches: ['*://slashfavorites.com/*'],
-		js: ['connectors/slashfavorites.js'],
-	},
-
-	{
 		label: 'Solayo',
 		matches: ['*://www.solayo.com/*', '*://solayo.com/*'],
 		js: ['connectors/solayo.js'],
