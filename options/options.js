@@ -226,7 +226,8 @@ require([
 					cache.append($('<li>').text('No items in the cache.'));
 				} else {
 					$.each(data, function(cachedKey, cachedData) {
-						cache.append($('<li>').text(cachedData.artist + ' - ' + cachedData.track));
+						let { artist, track } = cachedData;
+						cache.append($('<li>').text(`${artist} - ${track}`));
 					});
 				}
 			});
