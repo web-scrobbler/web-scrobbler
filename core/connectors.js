@@ -901,12 +901,6 @@ define(function () {
 	},
 
 	{
-		label: 'Joy.fm',
-		matches: ['https://myradiomatic.com/player/joyfm/player.htm'],
-		js: ['connectors/joy.fm.js'],
-	},
-
-	{
 		label: 'Monstercat',
 		matches: ['*://www.monstercat.com/*'],
 		js: ['connectors/monstercat.js'],
