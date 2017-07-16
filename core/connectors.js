@@ -725,12 +725,6 @@ define(function () {
 	},
 
 	{
-		label: 'cubic.fm',
-		matches: ['http://cubic.fm/*'],
-		js: ['connectors/cubic.fm.js'],
-	},
-
-	{
 		label: 'Noise FM',
 		matches: ['*://noisefm.ru/*'],
 		js: ['connectors/noisefm.js'],
