@@ -545,12 +545,6 @@ define(function () {
 	},
 
 	{
-		label: 'Jolicloud',
-		matches: ['*://drive.jolicloud.com/*'],
-		js: ['connectors/jolicloud.js'],
-	},
-
-	{
 		label: 'RADIO Обозреватель',
 		matches: ['*://radio.obozrevatel.com/*'],
 		js: ['connectors/obozrevatel.js'],
