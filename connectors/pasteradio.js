@@ -12,7 +12,7 @@ Connector.currentTimeSelector = '.jp-current-time';
 
 Connector.durationSelector = '.jp-duration';
 
-Connector.getUniqueID = function() {
-	var idMatch = /\/(\d+)\.mp3/.exec($('audio').attr('src'));
+Connector.getUniqueID = () => {
+	let idMatch = /\/(\d+)\.mp3/.exec($('audio').attr('src'));
 	return idMatch ? idMatch[1] : null;
 };

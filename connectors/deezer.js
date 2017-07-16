@@ -2,7 +2,7 @@
 
 Connector.playerSelector = '#page_sidebar';
 
-Connector.getArtist = function() {
+Connector.getArtist = () => {
 	let artists = $('.player-track-artist').children().toArray();
 	return Util.joinArtists(artists);
 };
@@ -17,6 +17,4 @@ Connector.trackArtSelector = '.player-cover img';
 
 Connector.filter = MetadataFilter.getRemasteredFilter();
 
-Connector.isPlaying = function () {
-	return $('.svg-icon-pause').length > 0;
-};
+Connector.isPlaying = () => $('.svg-icon-pause').length > 0;

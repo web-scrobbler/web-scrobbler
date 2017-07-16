@@ -45,7 +45,7 @@ function setupCollection2Player() {
 
 	Connector.playButtonSelector = '.button-icon:has(.plangular-icon-play)';
 
-	Connector.getArtistTrack = function() {
+	Connector.getArtistTrack = () => {
 		let artist = null;
 		let track = null;
 

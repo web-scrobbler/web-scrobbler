@@ -27,6 +27,4 @@ Connector.getArtistTrack = () => {
 	return { artist, track };
 };
 
-Connector.isPlaying = () => {
-	return $('.player-basic').hasClass('is-playing');
-};
+Connector.isPlaying = () => $('.player-basic').hasClass('is-playing');

@@ -6,6 +6,4 @@ Connector.artistSelector = '[data-role="artist"]';
 
 Connector.trackSelector = '[data-role="title"]';
 
-Connector.isPlaying = function () {
-	return $('.btn_pause').is(':visible');
-};
+Connector.isPlaying = () => $('.btn_pause').is(':visible');

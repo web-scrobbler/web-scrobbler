@@ -22,11 +22,11 @@ Connector.durationSelector = '.track-length';
 
 Connector.currentTimeSelector = '.elapsed-time';
 
-Connector.isPlaying = function() {
+Connector.isPlaying = () => {
 	return $('#player-controls .icon-pause').is(':visible');
 };
 
-Connector.getUniqueID = function() {
+Connector.getUniqueID = () => {
 	try {
 		let lastTrack = JSON.parse(localStorage.getItem('last-track'));
 		if (lastTrack) {

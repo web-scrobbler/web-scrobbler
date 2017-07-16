@@ -3,14 +3,14 @@
 const artistTrackRe = /(.+?)《(.+?)》/;
 
 function setupCoverPlayer() {
-	Connector.getArtistTrack = function() {
+	Connector.getArtistTrack = () => {
 		let text = $('.video_title ._base_title').attr('title');
 		return extractArtistTrack(text);
 	};
 }
 
 function setupPagePlayer() {
-	Connector.getArtistTrack = function() {
+	Connector.getArtistTrack = () => {
 		let text = $('.video_title').attr('title');
 		return extractArtistTrack(text);
 	};
@@ -37,7 +37,7 @@ function extractArtistTrack(artistTrackStr) {
 }
 
 function setupConnector() {
-	// Set up variables common to all player types
+	// Set up letiables common to all player types
 	Connector.playerSelector = '.container_player';
 
 	// Set up connector depending on player type

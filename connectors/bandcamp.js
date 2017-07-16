@@ -1,14 +1,14 @@
 'use strict';
 
 /** note: the discover page doesn't display the track artist for compilation albums.  This connector
-    currently passes 'Various Artist' (or other variant) as the artist name so tracks on albums with
-    various artists played on the discover page will most likely not be recognized.*/
+    currently passes 'letious Artist' (or other letiant) as the artist name so tracks on albums with
+    letious artists played on the discover page will most likely not be recognized.*/
 
 // wire audio element to fire state changes
 $('audio').bind('playing pause timeupdate', Connector.onStateChanged);
 
 function getArtist() {
-	var artist = $('.detail_item_link_2').text() ||
+	let artist = $('.detail_item_link_2').text() ||
 				$('span[itemprop=byArtist]').text() ||
 				$('.detail-artist a').text() ||
 				null;
@@ -19,7 +19,7 @@ function getArtist() {
 }
 
 function getTrack() {
-	var track = $('.track_info .title').first().text() ||
+	let track = $('.track_info .title').first().text() ||
 				$('.trackTitle').first().text() ||
 				$('.collection-item-container.playing').find('.fav-track-static').first().text() ||
 				$('.waypoint-item-title').text() ||
@@ -28,11 +28,11 @@ function getTrack() {
 	return track;
 }
 
-function artistIsVarious() {
+function artistIsletious() {
 	// album page: true if all tracks contain a hyphen or vertical bar (pipe symbol)
 	// example of pipe usage: http://tigersmilkrecords.bandcamp.com/album/peru-maravilloso-vintage-latin-tropical-cumbia
 	if ($('meta[property="og:type"]').attr('content') === 'album') {
-		var allDashed = true;
+		let allDashed = true;
 		$('.track_list span[itemprop="name"]').each(function () {
 			if (!/\||-/.test($(this).text())) {
 				allDashed = false;
@@ -41,19 +41,19 @@ function artistIsVarious() {
 		});
 		return allDashed;
 	}
-	// discover & song pages: true if artist name is 'Various' or 'Various Artists'
+	// discover & song pages: true if artist name is 'letious' or 'letious Artists'
 	// and track contains a hyphen or vertical bar.
-	// Also takes into account misspelling of various as varios
+	// Also takes into account misspelling of letious as letios
 	//    http://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
-	return (/^Variou?s(\sArtists)?$/.test(getArtist()) && /\||-/.test(getTrack()));
+	return (/^letiou?s(\sArtists)?$/.test(getArtist()) && /\||-/.test(getTrack()));
 }
 
 /* @returns {{artist, track}} */
-Connector.getArtistTrack = function () {
-	var artist = getArtist(),
+Connector.getArtistTrack = () => {
+	let artist = getArtist(),
 		track = getTrack(),
 		separatorIndex;
-	if (artistIsVarious()) {
+	if (artistIsletious()) {
 		separatorIndex = Math.max(track.indexOf('-'), track.indexOf('|'));
 		artist = track.substring(0, separatorIndex);
 		track = track.substring(separatorIndex + 1);
@@ -61,8 +61,8 @@ Connector.getArtistTrack = function () {
 	return { artist, track };
 };
 
-Connector.getAlbum = function () {
-	var album = $('.detail_item_link').text() ||
+Connector.getAlbum = () => {
+	let album = $('.detail_item_link').text() ||
 				$('h2.trackTitle').text() ||
 				$('[itemprop="inAlbum"] [itemprop="name"]').text() ||
 				null;
@@ -71,22 +71,22 @@ Connector.getAlbum = function () {
 
 Connector.playButtonSelector = 'div.playbutton:not(.playing)';
 
-Connector.getTrackArt = function() {
+Connector.getTrackArt = () => {
 	return $('#tralbumArt > a > img').attr('src') ||
 	$('#detail_gallery_container img').attr('src') ||
 	$('.discover-detail-inner img').attr('src');
 };
 
-Connector.getCurrentTime = function () {
+Connector.getCurrentTime = () => {
 	return $('audio')[0].currentTime;
 };
 
-Connector.getDuration = function () {
+Connector.getDuration = () => {
 	return $('audio')[0].duration;
 };
 
-Connector.getUniqueID = function () {
-	var match = /&id=(\d+)&/.exec($('audio').first().attr('src'));
+Connector.getUniqueID = () => {
+	let match = /&id=(\d+)&/.exec($('audio').first().attr('src'));
 	if (match) {
 		return match[1];
 	}

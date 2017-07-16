@@ -4,17 +4,17 @@ Connector.playerSelector = '#player';
 
 Connector.artistTrackSelector = '.player-current-title';
 
-Connector.getArtistTrack = function() {
-	var text = $(Connector.artistTrackSelector).text();
-	var m = text.match(/ - /g);
+Connector.getArtistTrack = () => {
+	let text = $(Connector.artistTrackSelector).text();
+	let m = text.match(/ - /g);
 	if (m && (m.length === 2)) {
-		var arr = text.split(' - ');
+		let arr = text.split(' - ');
 		return { artist: arr[1], track: arr[2] };
 	}
 	return Util.splitArtistTrack(text);
 };
 
-Connector.isPlaying = function () {
+Connector.isPlaying = () => {
 	return $('.player-pause').is(':visible');
 };
 

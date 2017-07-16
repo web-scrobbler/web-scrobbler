@@ -5,9 +5,7 @@ function setupPlaylistPlayer() {
 
 	Connector.artistTrackSelector = '#jp_playlist_1 .ovr';
 
-	Connector.isPlaying = function () {
-		return $('.jp-pause').is(':visible');
-	};
+	Connector.isPlaying = () => $('.jp-pause').is(':visible');
 }
 
 function setupRadioPlayer() {
@@ -23,7 +21,7 @@ function setupRadioPlayer() {
 
 	Connector.durationSelector = '.jp-duration';
 
-	Connector.getUniqueID = function() {
+	Connector.getUniqueID = () => {
 		let idMatch = /\/(\d+)\.mp3/.exec($('audio').attr('src'));
 		return idMatch ? idMatch[1] : null;
 	};

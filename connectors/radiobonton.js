@@ -8,6 +8,4 @@ Connector.trackSelector = '#title';
 
 Connector.trackArtSelector = 'div#cover>img';
 
-Connector.isPlaying = function() {
-	return $('#playtoggle').hasClass('stop');
-};
+Connector.isPlaying = () => $('#playtoggle').hasClass('stop');

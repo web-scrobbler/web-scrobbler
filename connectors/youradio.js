@@ -10,7 +10,7 @@ Connector.trackSelector = '.yr2-navbar-player-metadata-info-song';
 
 Connector.trackArtSelector = '.yr2-navbar-player-metadata-cover';
 
-Connector.getTrackArt = function() {
+Connector.getTrackArt = () => {
 	// Popup does not accepts URL without protocol
 	return 'https:' + $(Connector.trackArtSelector).attr('src');
 };

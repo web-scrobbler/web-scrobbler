@@ -8,11 +8,9 @@ Connector.trackSelector = '#songtitle';
 
 Connector.albumSelector = '#albumtitle';
 
-Connector.getTrackArt = function () {
-	var trackArtUrl = $('#albumArtImg').attr('src');
+Connector.getTrackArt = () => {
+	let trackArtUrl = $('#albumArtImg').attr('src');
 	return trackArtUrl !== null ? 'http:' + trackArtUrl : null;
 };
 
-Connector.isPlaying = function () {
-	return $('#playerPauseButton').length > 0;
-};
+Connector.isPlaying = () => $('#playerPauseButton').length > 0;

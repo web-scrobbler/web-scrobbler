@@ -2,7 +2,7 @@
 
 Connector.playerSelector = '.global-content';
 
-Connector.isPlaying = function () {
+Connector.isPlaying = () => {
 	return $('.player-buttonPause').length ||
 		$('.Artist-Mini-Playing').length ||
 		$('.Artist-Maximus-Playing').length ||
@@ -12,17 +12,17 @@ Connector.isPlaying = function () {
 		$('#PlayerFrame iframe').contents().find('#Play').attr('src').includes('pause'));
 };
 
-Connector.getArtistTrack = function () {
-	var artist = null;
-	var track = null;
+Connector.getArtistTrack = () => {
+	let artist = null;
+	let track = null;
 
 	if ($('#PlayerFrame iframe').contents().find('#Play').length &&
 		$('#PlayerFrame iframe').contents().find('#Play').attr('src').includes('pause')) { //embed
 		artist = $('.H-artist').text();
 		track = $('#PlayerFrame iframe').contents().find('#PlayerPanel > :first-child').text();
 	} else if ($('.player-buttonPause').length) {
-		var text = $('.player:has(.player-buttonPause) .player-name span').text();
-		var separator = Util.findSeparator(text);
+		let text = $('.player:has(.player-buttonPause) .player-name span').text();
+		let separator = Util.findSeparator(text);
 
 		if (separator !== null) {
 			artist = text.substr(0, separator.index);
@@ -42,7 +42,7 @@ Connector.getArtistTrack = function () {
 
 	return { artist, track };
 };
-Connector.getAlbum = function () {
+Connector.getAlbum = () => {
 	return $('#PlayerFrame iframe').contents().find('#Play').length ? //embed
 	$('#TrackList h1').text() :
 		$('.Release-preview:has(.Hello-Mini-Playing) .Release-select strong').text();

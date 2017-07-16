@@ -2,13 +2,11 @@
 
 Connector.playerSelector = '#player';
 
-Connector.getArtistTrack = function() {
+Connector.getArtistTrack = () => {
 	let artistTrack = $('#wp_text').attr('title');
 	return Util.splitArtistTrack(artistTrack, null, true);
 };
 
-Connector.isPlaying = function () {
-	return $('#wp_playBtn').hasClass('zan');
-};
+Connector.isPlaying = () => $('#wp_playBtn').hasClass('zan');
 
 Connector.trackArtSelector = '#artist_Image';

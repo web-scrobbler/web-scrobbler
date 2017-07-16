@@ -2,9 +2,8 @@
 
 Connector.playerSelector = '#player_inside_wrapper';
 
-Connector.isPlaying = function() {
-	return $('#player-features').hasClass('tmn_playing');
-};
+Connector.isPlaying = () => $('#player-features').hasClass('tmn_playing');
+
 Connector.artistSelector = '#track_title .artist';
 
 Connector.trackSelector = '#track_title .title';

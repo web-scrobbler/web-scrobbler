@@ -8,6 +8,4 @@ Connector.trackSelector = '.recaster-currentSong';
 
 Connector.trackArtSelector = '.recaster-coverLink img';
 
-Connector.isPlaying = function() {
-	return $('.recaster-mainBt').hasClass('rc-active');
-};
+Connector.isPlaying = () => $('.recaster-mainBt').hasClass('rc-active');

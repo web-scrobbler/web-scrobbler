@@ -16,8 +16,6 @@ Connector.trackArtSelector = '.playerAlbumArt > img';
 
 Connector.isTrackArtDefault = (url) => url.endsWith(DEFAULT_TRACK_ART);
 
-Connector.isPlaying = function () {
-	// Check pause button visibility instead of play button invisibility,
-	// to avoid automatic scrobbling on startup
-	return $('.pause-button').is(':visible');
-};
+// Check pause button visibility instead of play button invisibility,
+// to avoid automatic scrobbling on startup
+Connector.isPlaying = () => $('.pause-button').is(':visible');

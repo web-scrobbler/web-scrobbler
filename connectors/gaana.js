@@ -16,12 +16,12 @@ Connector.playerSelector = '.player';
 
 Connector.trackArtSelector = '.player-artwork img';
 
-Connector.getArtistTrack = function() {
+Connector.getArtistTrack = () => {
 	requestSongInfo();
 	return songInfo;
 };
 
-Connector.isPlaying = function() {
+Connector.isPlaying = () => {
 	if (Util.isArtistTrackEmpty(songInfo)) {
 		return false;
 	}

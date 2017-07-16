@@ -20,12 +20,12 @@ function setupNewPandoraPlayer() {
 		return null;
 	};
 
-	Connector.isPlaying = function() {
+	Connector.isPlaying = () => {
 		let playButtonHref = $('.PlayButton use').attr('xlink:href');
 		return playButtonHref.includes('pause');
 	};
 
-	Connector.isScrobblingAllowed = function() {
+	Connector.isScrobblingAllowed = () => {
 		return $('.Tuner__Audio__TrackDetail__title--ad').length === 0;
 	};
 }
@@ -43,7 +43,7 @@ function setupPandoraPlayer() {
 
 	Connector.playButtonSelector = 'div.playButton';
 
-	Connector.getDuration = function () {
+	Connector.getDuration = () => {
 		return getElapsedTime() + getRemainingTime();
 	};
 

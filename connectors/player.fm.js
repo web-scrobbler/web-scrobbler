@@ -6,6 +6,4 @@ Connector.artistSelector = '.current-series-link';
 
 Connector.trackSelector = '.current-episode-link';
 
-Connector.isPlaying = function () {
-	return $('.jp-pause').is(':visible');
-};
+Connector.isPlaying = () => $('.jp-pause').is(':visible');

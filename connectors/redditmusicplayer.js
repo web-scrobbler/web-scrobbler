@@ -6,16 +6,14 @@ Connector.currentTimeSelector = '.item.start.time';
 
 Connector.trackArtSelector = '.ui.item.active img';
 
-Connector.getArtistTrack = function () {
+Connector.getArtistTrack = () => {
 	let text = $('.current .title').text().replace(/ \[.*/, '');
 	return Util.splitArtistTrack(text);
 };
 
-Connector.isPlaying = function() {
-	return $('.item.play.button').hasClass('active');
-};
+Connector.isPlaying = () => $('.item.play.button').hasClass('active');
 
-Connector.getUniqueID = function() {
+Connector.getUniqueID = () => {
 	let videoUrl = $('#player').attr('src');
 	return Util.getYoutubeVideoIdFromUrl(videoUrl);
 };

@@ -71,7 +71,7 @@ function isViewTubeInstalled() {
  * Setup default Youtube player.
  */
 function setupDefaultPlayer() {
-	Connector.getArtistTrack = function () {
+	Connector.getArtistTrack = () => {
 		let videoTitle = $('.ytp-title-link').text();
 		return Util.processYoutubeVideoTitle(videoTitle);
 	};
@@ -85,7 +85,7 @@ function setupDefaultPlayer() {
 	 *
 	 * @return {Boolean} True if player is off screen; false otherwise
 	 */
-	Connector.isPlayerOffscreen = function() {
+	Connector.isPlayerOffscreen = () => {
 		if (Connector.isFullscreenMode()) {
 			return false;
 		}
@@ -128,7 +128,7 @@ function getVideoCategory(videoId) {
  * Setup Material player.
  */
 function setupMaterialPlayer() {
-	Connector.getArtistTrack = function() {
+	Connector.getArtistTrack = () => {
 		/*
 		 * Youtube doesn't remove DOM object on AJAX navigation,
 		 * so we should not return track data if no song is playing.
@@ -150,7 +150,7 @@ function setupMaterialPlayer() {
 	 *
 	 * @return {Boolean} True if player is off screen; false otherwise
 	 */
-	Connector.isPlayerOffscreen = function() {
+	Connector.isPlayerOffscreen = () => {
 		if (Connector.isFullscreenMode()) {
 			return false;
 		}
@@ -171,11 +171,11 @@ function setupMaterialPlayer() {
 function applyViewTubeFixes() {
 	Connector.playerSelector = '#page';
 
-	Connector.isPlaying = function() {
+	Connector.isPlaying = () => {
 		return true;
 	};
 
-	Connector.getUniqueID = function() {
+	Connector.getUniqueID = () => {
 		let videoTitle = $('.ytp-title-link').text();
 		if (!videoTitle) {
 			return null;
@@ -197,25 +197,25 @@ function setupBasePlayer() {
 	 * that it's invisible and don't return current time. Otherwise resulting
 	 * state may not be considered empty.
 	 */
-	Connector.getCurrentTime = function() {
+	Connector.getCurrentTime = () => {
 		if (Connector.isPlayerOffscreen()) {
 			return null;
 		}
 		return $(videoSelector).prop('currentTime');
 	};
 
-	Connector.getDuration = function() {
+	Connector.getDuration = () => {
 		if (Connector.isPlayerOffscreen()) {
 			return null;
 		}
 		return $(videoSelector).prop('duration');
 	};
 
-	Connector.isPlaying = function() {
+	Connector.isPlaying = () => {
 		return $('.html5-video-player').hasClass('playing-mode');
 	};
 
-	Connector.getUniqueID = function() {
+	Connector.getUniqueID = () => {
 		/*
 		 * Youtube doesn't remove DOM object on AJAX navigation,
 		 * so we should not return track data if no song is playing.
@@ -239,7 +239,7 @@ function setupBasePlayer() {
 		return Util.getYoutubeVideoIdFromUrl(videoUrl);
 	};
 
-	Connector.isScrobblingAllowed = function() {
+	Connector.isScrobblingAllowed = () => {
 		if ($('.videoAdUi').length > 0) {
 			return false;
 		}
@@ -250,7 +250,7 @@ function setupBasePlayer() {
 
 		let videoCategory = getVideoCategory(Connector.getUniqueID());
 		if (videoCategory !== null) {
-			return allowedCategories.indexOf(videoCategory) !== -1;
+			return allowedCategories.includes(videoCategory);
 		}
 
 		return false;
@@ -286,7 +286,7 @@ function setupBasePlayer() {
 function setupGeneralProperties() {
 	Connector.filter = MetadataFilter.getYoutubeFilter();
 
-	Connector.isFullscreenMode = function() {
+	Connector.isFullscreenMode = () => {
 		return $('.html5-video-player').hasClass('ytp-fullscreen');
 	};
 }

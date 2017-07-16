@@ -8,7 +8,7 @@ Connector.artistSelector = '.player-artist';
 
 Connector.trackSelector = '.player-song-text';
 
-Connector.isStateChangeAllowed = function() {
+Connector.isStateChangeAllowed = () => {
 	let track = Connector.getTrack();
 	if (track) {
 		return !track.startsWith('Thanks for listening to');

@@ -10,15 +10,11 @@ Connector.durationSelector = '.progress-texts span:nth-child(3)';
 
 Connector.filter = MetadataFilter.getYoutubeFilter();
 
-Connector.getArtist = function() {
+Connector.getArtist = () => {
 	let artists = $('.watch-info .artist a').toArray();
 	return Util.joinArtists(artists);
 };
 
-Connector.isPlaying = function() {
-	return $('#control-bar').hasClass('state-playing');
-};
+Connector.isPlaying = () => $('#control-bar').hasClass('state-playing');
 
-Connector.getUniqueID = function() {
-	return $('meta[property="og:ytid"]').attr('content');
-};
+Connector.getUniqueID = () => $('meta[property="og:ytid"]').attr('content');

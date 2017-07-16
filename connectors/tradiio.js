@@ -12,12 +12,12 @@ Connector.durationSelector = '.tradiio-music-player .s-total';
 
 Connector.trackArtSelector = 'div.bgimge';
 
-Connector.getTrack = function() {
+Connector.getTrack = () => {
 	let songInfo = getSongInfo();
 	return songInfo.track;
 };
 
-Connector.getAlbum = function() {
+Connector.getAlbum = () => {
 	let songInfo = getSongInfo();
 	return songInfo.album;
 };

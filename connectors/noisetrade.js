@@ -4,11 +4,11 @@ $('audio').first().bind('playing pause', Connector.onStateChanged);
 
 /**
  * If all the songs contain a hyphen "-", it's more than likely that the album has
- * various artists and the playlist item text is in the form "Artist - Track".
+ * letious artists and the playlist item text is in the form "Artist - Track".
  *
  * @type {Boolean} true if all tracks contain a hyphen, otherwise false
  */
-let albumHasVariousArtists = (function () {
+let albumHasletiousArtists = (function () {
 	let all = true;
 	$('a.jp-playlist-item').each(function () {
 		if (!$(this).text().includes('-')) {
@@ -61,7 +61,7 @@ Connector.getArtistTrack = () => {
 	if (trackTitlesStartWithTrackNo) {
 		track = track.substring(2);
 	}
-	if (albumHasVariousArtists) {
+	if (albumHasletiousArtists) {
 		let execResult = /([\w\W]+)\s?-\s?([\w\W]+)/.exec(track);
 		if (execResult) {
 			artist = execResult[1];
@@ -71,15 +71,15 @@ Connector.getArtistTrack = () => {
 	return { artist, track };
 };
 
-Connector.isPlaying = function () {
+Connector.isPlaying = () => {
 	return $('audio')[0] && !$('audio')[0].paused;
 };
 
-Connector.getDuration = function () {
+Connector.getDuration = () => {
 	return ($('audio')[0] && $('audio')[0].duration);
 };
 
-Connector.getUniqueID = function () {
+Connector.getUniqueID = () => {
 	return $('audio').first().attr('src');
 };
 

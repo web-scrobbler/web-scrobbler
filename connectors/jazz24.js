@@ -8,6 +8,4 @@ Connector.trackSelector = '.current-track';
 
 Connector.albumSelector = '.current-album';
 
-Connector.isPlaying = function() {
-	return $('body').hasClass('is-playing');
-};
+Connector.isPlaying = () => $('body').hasClass('is-playing');

@@ -4,17 +4,17 @@ const DEFAULT_TRACK_ART_URL = 'http://c.wrzuta.pl/wi470/cbab02ab001342d756010226
 
 Connector.playerSelector = '#content';
 
-Connector.isPlaying = function () {
+Connector.isPlaying = () => {
 	return $('.npp-container').hasClass('playing');
 };
 
 function setupPlaylistPlayer() {
-	Connector.getArtistTrack = function() {
-		var text = $('.playlist-position.active a.js-file-link').attr('title');
+	Connector.getArtistTrack = () => {
+		let text = $('.playlist-position.active a.js-file-link').attr('title');
 		return Util.splitArtistTrack(text);
 	};
 
-	Connector.getUniqueID = function() {
+	Connector.getUniqueID = () => {
 		return $('.playlist-position.active a.js-file-link').attr('data-key');
 	};
 
@@ -28,7 +28,7 @@ function setupPlaylistPlayer() {
 function setupVideoPlayer() {
 	Connector.artistTrackSelector = '.js-file-title';
 
-	Connector.getTrackArt = function() {
+	Connector.getTrackArt = () => {
 		return $('.npp-container video').attr('poster');
 	};
 }

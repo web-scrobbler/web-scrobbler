@@ -8,6 +8,4 @@ Connector.trackSelector = '.player-body-container .track-title';
 
 Connector.trackArtSelector = '.player-img-container img';
 
-Connector.isPlaying = function () {
-	return $('.play-container i').hasClass('fa-stop');
-};
+Connector.isPlaying = () => $('.play-container i').hasClass('fa-stop');

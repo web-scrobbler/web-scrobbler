@@ -2,9 +2,7 @@
 
 Connector.playerSelector = '#turntable';
 
-Connector.isPlaying = function() {
-	return $('#play-pause').hasClass('pause');
-};
+Connector.isPlaying = () => $('#play-pause').hasClass('pause');
 
 Connector.artistTrackSelector = '#artist-song';
 

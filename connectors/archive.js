@@ -1,6 +1,6 @@
 'use strict';
 
-var version = $('body').hasClass('navia') ? 'new' : 'legacy';
+let version = $('body').hasClass('navia') ? 'new' : 'legacy';
 switch (version) {
 	case 'new':
 		bindNew();
@@ -20,7 +20,7 @@ function bindCommon() {
 
 	Connector.durationSelector = '#jw6_controlbar_duration';
 
-	Connector.isPlaying = function() {
+	Connector.isPlaying = () => {
 		return !$('video')[0].paused;
 	};
 }
@@ -32,7 +32,7 @@ function bindNew() {
 
 	Connector.trackArtSelector = '#theatre-ia center > img';
 
-	Connector.getArtistTrack = function() {
+	Connector.getArtistTrack = () => {
 		let track = $('.jwrowV2.playing .ttl').text();
 		let artist = $('.key-val-big a').first().text();
 
@@ -46,7 +46,7 @@ function bindNew() {
 		return { artist, track };
 	};
 
-	Connector.getAlbum = function() {
+	Connector.getAlbum = () => {
 		return $('.thats-left > h1').contents()[2].textContent;
 	};
 }
@@ -58,11 +58,11 @@ function bindLegacy() {
 
 	Connector.trackArtSelector = '#col1 > div:nth-child(1) > div:nth-child(2) > img';
 
-	Connector.getAlbum = function() {
-		var album = $('.x-archive-meta-title').text();
+	Connector.getAlbum = () => {
+		let album = $('.x-archive-meta-title').text();
 
 		// Remove artist from album
-		var parts = album.split('-');
+		let parts = album.split('-');
 		if (parts.length > 0 && parts[0].trim() === Connector.getArtist()) {
 			album = album.substr(album.indexOf('-') + 1);
 		}
@@ -70,16 +70,16 @@ function bindLegacy() {
 		return album;
 	};
 
-	Connector.getArtist = function() {
+	Connector.getArtist = () => {
 		return $('span.key:contains("Artist/Composer:"), span.key:contains("Band/Artist:")').next().text();
 	};
 
-	Connector.getTrack = function() {
+	Connector.getTrack = () => {
 		// Get title directly from player
-		var title = $('.playing > .ttl').text();
+		let title = $('.playing > .ttl').text();
 
 		// Some titles are stored as artist - track # - title so strip out non-title elements
-		var parts = title.split('-');
+		let parts = title.split('-');
 		if (parts.length === 3 && parts[0].trim() === Connector.getArtist()) {
 			title = parts[2];
 		}

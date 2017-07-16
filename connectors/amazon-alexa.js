@@ -2,7 +2,7 @@
 
 Connector.playerSelector = '#d-content';
 
-Connector.getArtistTrack = function() {
+Connector.getArtistTrack = () => {
 	if (isPlayingLiveRadio()) {
 		let songTitle = $('.d-queue-info .song-title').text();
 		return Util.splitArtistTrack(songTitle);
@@ -15,9 +15,7 @@ Connector.getArtistTrack = function() {
 
 Connector.albumSelector = '#d-info-text .d-sub-text-2';
 
-Connector.isPlaying = function () {
-	return $('#d-primary-control .play').size() === 0;
-};
+Connector.isPlaying = () => $('#d-primary-control .play').size() === 0;
 
 function isPlayingLiveRadio() {
 	return $('#d-secondary-control-left .disabled').size() === 1 &&

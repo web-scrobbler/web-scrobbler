@@ -6,6 +6,4 @@ Connector.artistSelector = '#artist';
 
 Connector.trackSelector = '#title';
 
-Connector.getTrackArt = function() {
-	return $('#player-current-song').attr('rel');
-};
+Connector.getTrackArt = () => $('#player-current-song').attr('rel');

@@ -16,6 +16,4 @@ Connector.trackArtSelector = '#J_playerCoverImg';
 
 Connector.durationSelector = '#J_durationTime';
 
-Connector.isPlaying = function () {
-	return $('#J_playBtn').hasClass('pause-btn');
-};
+Connector.isPlaying = () => $('#J_playBtn').hasClass('pause-btn');

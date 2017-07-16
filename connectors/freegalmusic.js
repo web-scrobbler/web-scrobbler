@@ -4,9 +4,7 @@ Connector.playerSelector = '#custom-jw-player-wrapper';
 
 Connector.artistTrackSelector = '#jw-player-text';
 
-Connector.isPlaying = function () {
-	return $('#jw-play-button').text() === '';
-};
+Connector.isPlaying = () => $('#jw-play-button').text() === '';
 
 Connector.currentTimeSelector = '#jw-current-time';
 

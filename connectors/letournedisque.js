@@ -6,6 +6,4 @@ Connector.artistSelector = '.artiste .inside_call';
 
 Connector.trackSelector = '.info-text .name';
 
-Connector.isPlaying = function () {
-	return $('.playing').length > 0;
-};
+Connector.isPlaying = () => $('.playing').length > 0;

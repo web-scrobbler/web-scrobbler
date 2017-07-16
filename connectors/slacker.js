@@ -10,7 +10,7 @@ Connector.currentTimeSelector = '#progressContainer span:first';
 
 Connector.playButtonSelector = '#transport li.pause';
 
-Connector.getDuration = function () {
+Connector.getDuration = () => {
 	return Util.stringToSeconds($(Connector.currentTimeSelector).text()) +
 		Util.stringToSeconds($('#progressContainer span:last').text());
 };
@@ -21,6 +21,6 @@ Connector.trackArtSelector = 'td.art img';
  * which the controller treats as a rewind and a notification is displayed.
  * To overcome this, don't allow state change if current time is 0:00.
  */
-Connector.isStateChangeAllowed = function () {
+Connector.isStateChangeAllowed = () => {
 	return $(Connector.currentTimeSelector).text() !== '0:00';
 };

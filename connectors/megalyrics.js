@@ -6,6 +6,4 @@ Connector.artistTrackSelector = '#pr_title';
 
 Connector.timeInfoSelector = '#pr_time';
 
-Connector.isPlaying = function () {
-	return $('#pr_play').hasClass('playing');
-};
+Connector.isPlaying = () => $('#pr_play').hasClass('playing');

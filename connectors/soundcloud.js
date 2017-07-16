@@ -34,7 +34,7 @@ function isPlaying() {
 }
 
 /**
- * Parse metadata and set local variables
+ * Parse metadata and set local letiables
  * @param {Object} metadata Data received from script injected in DOM
  */
 function setSongData(metadata) {

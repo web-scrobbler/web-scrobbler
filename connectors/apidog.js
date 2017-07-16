@@ -6,15 +6,15 @@ Connector.currentTimeSelector = '#player-playedtime';
 
 Connector.artistTrackSelector = '.headplayer-titleReal';
 
-Connector.getArtistTrack = function() {
-	var text = $(this.artistTrackSelector).first().text();
+Connector.getArtistTrack = () => {
+	let text = $(Connector.artistTrackSelector).first().text();
 	return Util.splitArtistTrack(text);
 };
 
-Connector.getDuration = function() {
+Connector.getDuration = () => {
 	return $('audio')[0].duration;
 };
 
-Connector.isPlaying = function() {
+Connector.isPlaying = () => {
 	return $('#headplayer-play').hasClass('hidden');
 };

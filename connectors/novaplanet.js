@@ -6,6 +6,4 @@ Connector.artistSelector = '.artist';
 
 Connector.trackSelector = '.ontheair-text .title';
 
-Connector.isPlaying = function () {
-	return $('.btn_pause').is(':visible');
-};
+Connector.isPlaying = () => $('.btn_pause').is(':visible');

@@ -12,6 +12,4 @@ Connector.durationSelector = '#durationLabel';
 
 Connector.trackArtSelector = '#img_cover_1';
 
-Connector.isPlaying = function () {
-	return $('#statusLabel').text() === 'Playing';
-};
+Connector.isPlaying = () => $('#statusLabel').text() === 'Playing';

@@ -43,7 +43,7 @@ function setupNewMusicPlayer() {
 function setupMusicPlayer() {
 	Connector.playerSelector = '.cnt-song-lst';
 
-	Connector.getArtistTrack = function() {
+	Connector.getArtistTrack = () => {
 		let text = $('.playing .song').clone().children('.like-count').remove().end().text();
 		return Util.splitArtistTrack(text);
 	};

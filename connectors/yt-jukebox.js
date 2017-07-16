@@ -4,6 +4,4 @@ Connector.playerSelector = '#playerControls';
 
 Connector.artistTrackSelector = '#videoTitle';
 
-Connector.isPlaying = function () {
-	return $('.ui-slider-range').width() > 0;
-};
+Connector.isPlaying = () => $('.ui-slider-range').width() > 0;

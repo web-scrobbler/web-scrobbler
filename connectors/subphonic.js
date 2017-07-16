@@ -2,17 +2,15 @@
 
 Connector.playerSelector = '#playdeck';
 
-Connector.getArtist = function() {
+Connector.getArtist = () => {
 	return $('#songdetails_artist').text().split(' - ')[0];
 };
 
 Connector.trackSelector = '#songdetails_song';
 
-Connector.isPlaying = function() {
-	return !$('#playdeck audio').pausedi;
-};
+Connector.isPlaying = () => !$('#playdeck audio').pausedi;
 
-Connector.getAlbum = function() {
+Connector.getAlbum = () => {
 	return $('#songdetails_artist').text().split(' - ')[1];
 };
 

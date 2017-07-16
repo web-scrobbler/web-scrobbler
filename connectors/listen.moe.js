@@ -4,6 +4,4 @@ Connector.playerSelector = '.container';
 
 Connector.artistTrackSelector = '.title:first';
 
-Connector.isPlaying = function() {
-	return $('.player-icon').attr('id') === 'pause';
-};
+Connector.isPlaying = () => $('.player-icon').attr('id') === 'pause';

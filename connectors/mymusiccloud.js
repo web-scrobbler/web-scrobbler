@@ -6,6 +6,4 @@ Connector.artistSelector = '#playerArtistName a';
 
 Connector.trackSelector = '#playerTrackName a';
 
-Connector.isPlaying = function () {
-	return $('#playerPauseButton').is(':visible');
-};
+Connector.isPlaying = () => $('#playerPauseButton').is(':visible');

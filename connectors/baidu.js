@@ -10,6 +10,4 @@ Connector.currentTimeSelector = '.curTime';
 
 Connector.durationSelector = '.totalTime';
 
-Connector.isPlaying = function () {
-	return !$('.play').hasClass('stop');
-};
+Connector.isPlaying = () => !$('.play').hasClass('stop');

@@ -11,6 +11,4 @@ Connector.artistSelector = '.track-info .artist';
 
 Connector.trackSelector = '.track-info .song';
 
-Connector.isPlaying = function() {
-	return $('#jp_container_1').hasClass('jp-state-playing');
-};
+Connector.isPlaying = () => $('#jp_container_1').hasClass('jp-state-playing');

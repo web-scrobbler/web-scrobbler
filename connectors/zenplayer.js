@@ -8,18 +8,16 @@ Connector.currentTimeSelector = '.plyr__time--current';
 
 Connector.durationSelector = '.plyr__time--duration';
 
-Connector.getArtistTrack = function () {
-	var text = $(Connector.artistTrackSelector).text();
+Connector.getArtistTrack = () => {
+	let text = $(Connector.artistTrackSelector).text();
 	return Util.processYoutubeVideoTitle(text);
 };
 
-Connector.getUniqueID = function() {
+Connector.getUniqueID = () => {
 	let videoUrl = $('#zen-video-title').attr('href');
 	return Util.getYoutubeVideoIdFromUrl(videoUrl);
 };
 
-Connector.isPlaying = function() {
-	return $('.plyr').hasClass('plyr--playing');
-};
+Connector.isPlaying = () => $('.plyr').hasClass('plyr--playing');
 
 Connector.filter = MetadataFilter.getYoutubeFilter();

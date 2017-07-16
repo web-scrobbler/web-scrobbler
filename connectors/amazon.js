@@ -7,14 +7,14 @@ Connector.filter = new MetadataFilter({
 
 Connector.playerSelector = '#dragonflyTransport .rightSide';
 
-Connector.getArtist = function() {
+Connector.getArtist = () => {
 	return $('.trackInfoContainer .trackArtist a').attr('title');
 };
 
 Connector.trackSelector = '.trackInfoContainer .trackTitle';
 
 
-Connector.getAlbum = function() {
+Connector.getAlbum = () => {
 	return $('tr.selectable.currentlyPlaying td.albumCell').attr('title') ||
 		$('.nowPlayingDetail img.albumImage').attr('title') ||
 		$('.trackSourceLink a').attr('title');
@@ -24,14 +24,14 @@ Connector.currentTimeSelector = '.songDuration.timeElapsed';
 
 Connector.playButtonSelector = '.rightSide .playbackControls .playerIconPlay';
 
-Connector.getDuration = function() {
+Connector.getDuration = () => {
 	return Util.stringToSeconds($('#currentDuration').text());
 };
 
 Connector.trackArtSelector = '.rightSide .albumArtWrapper img';
 
-Connector.getUniqueID = function() {
-	var optionsHref = $('.buttonOption.main[title=Options]').attr('href');
+Connector.getUniqueID = () => {
+	let optionsHref = $('.buttonOption.main[title=Options]').attr('href');
 	if (optionsHref) {
 		return optionsHref.replace(/[\w|\W]+adriveId=/, '');
 	}

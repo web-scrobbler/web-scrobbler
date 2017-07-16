@@ -6,6 +6,4 @@ Connector.artistSelector = '#nowplaying [id^=artiste_]';
 
 Connector.trackSelector = '#nowplaying [id^=titre_]';
 
-Connector.isPlaying = function () {
-	return $('.jp-pause').is(':visible');
-};
+Connector.isPlaying = () => $('.jp-pause').is(':visible');

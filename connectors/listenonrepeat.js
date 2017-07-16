@@ -8,16 +8,16 @@ Connector.artistTrackSelector = '.player-controls > .video-title:first';
 
 Connector.filter = MetadataFilter.getYoutubeFilter();
 
-Connector.getArtistTrack = function () {
-	var text = $(Connector.artistTrackSelector).text();
+Connector.getArtistTrack = () => {
+	let text = $(Connector.artistTrackSelector).text();
 	return Util.processYoutubeVideoTitle(text);
 };
 
-Connector.isPlaying = function() {
+Connector.isPlaying = () => {
 	return $('button:contains(Pause Video)').length > 0;
 };
 
-Connector.getUniqueID = function() {
+Connector.getUniqueID = () => {
 	let videoUrl = $('meta[property="og:url"]').attr('content');
 	return getYoutubeVideoIdFromUrl(videoUrl);
 };

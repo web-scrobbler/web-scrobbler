@@ -6,13 +6,13 @@ Connector.artistSelector = '.player-track-name-artist-standard .track-artist';
 
 Connector.trackSelector = '.player-track-name-artist-standard .primary-title';
 
-Connector.getUniqueID = function() {
-	var trackUrl = $('.player-current-track-container a').attr('href');
-	var index = trackUrl.lastIndexOf('/');
+Connector.getUniqueID = () => {
+	let trackUrl = $('.player-current-track-container a').attr('href');
+	let index = trackUrl.lastIndexOf('/');
 	return trackUrl.substring(index + 1);
 };
 
-Connector.isPlaying = function() {
+Connector.isPlaying = () => {
 	return $('.player-controls .play-button').hasClass('pause');
 };
 

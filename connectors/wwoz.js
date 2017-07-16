@@ -4,8 +4,8 @@ Connector.playerSelector = '#player';
 
 Connector.artistSelector = '#player .artist';
 
-Connector.getTrack = function() {
-	var track = $('#player .title').text();
+Connector.getTrack = () => {
+	let track = $('#player .title').text();
 
 	//strip extras
 	track = track.replace(/\"(.+?)\"/g, '$1'); // stripping WWOZ's double quotes around name
@@ -15,6 +15,4 @@ Connector.getTrack = function() {
 	return track;
 };
 
-Connector.isPlaying = function() {
-	return $('#oz-audio-container').hasClass('jp-state-playing');
-};
+Connector.isPlaying = () => $('#oz-audio-container').hasClass('jp-state-playing');

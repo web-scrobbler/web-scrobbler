@@ -4,6 +4,6 @@ Connector.playerSelector = '#componentWrapper';
 
 Connector.artistTrackSelector = '.fontMeasure';
 
-Connector.isPlaying = function () {
-	return $('.controls_toggle img').attr('src').indexOf('pause') !== -1;
+Connector.isPlaying = () => {
+	return $('.controls_toggle img').attr('src').includes('pause');
 };

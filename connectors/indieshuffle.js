@@ -2,9 +2,7 @@
 
 Connector.playerSelector = '#indieshuffle_player';
 
-Connector.getArtist = function () {
-	return $('#player-current .artist').text().slice(0, -3);
-};
+Connector.getArtist = () => $('#player-current .artist').text().slice(0, -3);
 
 Connector.trackSelector = '#player-current .title';
 
@@ -14,6 +12,4 @@ Connector.currentTimeSelector = '#player-current > .progress > .seek';
 
 Connector.durationSelector = '#player-current > .progress > .duration';
 
-Connector.isPlaying = function () {
-	return $('#playerPlaying').hasClass('active');
-};
+Connector.isPlaying = () => $('#playerPlaying').hasClass('active');

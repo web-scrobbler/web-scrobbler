@@ -4,14 +4,14 @@
 // Scrobbling for: http://www.trtturku.net/
 
 function toTitleCase(str) {
-	var tempArray = str.toLowerCase().split(' ');
-	var realArray = [];
-	var i = 0;
+	let tempArray = str.toLowerCase().split(' ');
+	let realArray = [];
+	let i = 0;
 
 	for (i = 0; i < tempArray.length; ++i) {
-		var innerTempArray = tempArray[i].split('-');
+		let innerTempArray = tempArray[i].split('-');
 
-		for (var j = 0; ;) {
+		for (let j = 0; ;) {
 			realArray.push(innerTempArray[j]);
 
 			if (++j >= innerTempArray.length) {
@@ -33,9 +33,7 @@ function toTitleCase(str) {
 
 Connector.playerSelector = '.jwplayer';
 
-Connector.isPlaying = function () {
-	return $('.jwplay.jwtoggle').length === 1;
-};
+Connector.isPlaying = () => $('.jwplay.jwtoggle').length === 1;
 
 Connector.durationSelector = '.jwduration';
 

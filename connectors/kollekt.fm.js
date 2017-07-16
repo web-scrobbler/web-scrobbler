@@ -6,10 +6,10 @@ Connector.artistTrackSelector = '.current-track-title > span';
 
 Connector.currentTimeSelector = '#current-progress';
 
-Connector.isPlaying = function() {
+Connector.isPlaying = () => {
 	return $('div.controls > i.fa.fa-play').hasClass('fa-pause');
 };
 
-Connector.getUniqueID = function() {
+Connector.getUniqueID = () => {
 	return $('#current-track > div.current-track-title > span').attr('href');
 };

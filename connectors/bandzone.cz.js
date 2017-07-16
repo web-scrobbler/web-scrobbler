@@ -22,9 +22,7 @@ function setupMainPagePlayer() {
 
 	Connector.trackSelector = '.stat:has(.ui-miniaudioplayer-state-playing) .songTitle';
 
-	Connector.isPlaying = function () {
-		return $('.ui-miniaudioplayer-state-playing').length > 0;
-	};
+	Connector.isPlaying = () => $('.ui-miniaudioplayer-state-playing').length > 0;
 }
 
 function setupDefaultPlayer() {
@@ -36,9 +34,7 @@ function setupDefaultPlayer() {
 
 	Connector.timeInfoSelector = '.ui-audioplayer-time';
 
-	Connector.isPlaying = () => {
-		return $('.ui-audioplayer-button').text() === 'stop';
-	};
+	Connector.isPlaying = () => $('.ui-audioplayer-button').text() === 'stop';
 
 	Connector.filter = new MetadataFilter({
 		all: MetadataFilter.trim,

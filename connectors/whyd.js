@@ -4,6 +4,4 @@ Connector.playerSelector = '.progressPanel';
 
 Connector.artistTrackSelector = '#trackTitle';
 
-Connector.isPlaying = function () {
-	return $('#btnPlay').hasClass('playing');
-};
+Connector.isPlaying = () => $('#btnPlay').hasClass('playing');

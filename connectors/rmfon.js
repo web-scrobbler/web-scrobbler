@@ -8,6 +8,4 @@ Connector.trackSelector = '#now-playing .title';
 
 Connector.trackArtSelector = '#cover-container img';
 
-Connector.isPlaying = function () {
-	return $('#status').text() === 'odtwarzanie';
-};
+Connector.isPlaying = () => $('#status').text() === 'odtwarzanie';

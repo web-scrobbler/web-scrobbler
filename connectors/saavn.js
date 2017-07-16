@@ -27,12 +27,12 @@ Connector.currentTimeSelector = '#track-elapsed';
 
 Connector.durationSelector = '#track-time';
 
-Connector.getArtistTrack = function() {
+Connector.getArtistTrack = () => {
 	requestSongInfo();
 	return songInfo;
 };
 
-Connector.isPlaying = function() {
+Connector.isPlaying = () => {
 	if (Util.isArtistTrackEmpty(songInfo)) {
 		return false;
 	}

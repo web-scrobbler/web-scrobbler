@@ -1,35 +1,35 @@
 'use strict';
 
-Connector.getArtist = function() {
+Connector.getArtist = () => {
 	return findIframeElement('#track-artist a').first().text();
 };
 
-Connector.getTrack = function() {
+Connector.getTrack = () => {
 	return findIframeElement('#track-name a').first().text();
 };
 
-Connector.getDuration = function() {
+Connector.getDuration = () => {
 	let durationStr = findIframeElement('#track-length').text();
 	return Util.stringToSeconds(durationStr);
 };
 
-Connector.getCurrentTime = function() {
+Connector.getCurrentTime = () => {
 	let currentTimeStr = findIframeElement('#track-current').text();
 	return Util.stringToSeconds(currentTimeStr);
 };
 
-Connector.isPlaying = function() {
+Connector.isPlaying = () => {
 	let playButton = findIframeElement('#play-pause');
 	return playButton.hasClass('playing');
 };
 
-Connector.getTrackArt = function() {
+Connector.getTrackArt = () => {
 	let backgroundStyle = findIframeElement('.sp-image-img')
 		.css('background-image');
 	return Util.extractUrlFromCssProperty(backgroundStyle);
 };
 
-Connector.getUniqueID = function() {
+Connector.getUniqueID = () => {
 	let trackUrl = findIframeElement('#track-name a').attr('href');
 	if (trackUrl) {
 		return trackUrl.split('/').pop();
@@ -51,9 +51,9 @@ function findIframeElement(selector) {
 
 function onPlayerLoaded() {
 	console.log('Web Scrobbler: player loaded, setting up observer');
-	var observer = new MutationObserver(Connector.onStateChanged);
-	var observeTarget = $('#app-player').get(0).contentDocument.getElementById('wrap');
-	var config = {
+	let observer = new MutationObserver(Connector.onStateChanged);
+	let observeTarget = $('#app-player').get(0).contentDocument.getElementById('wrap');
+	let config = {
 		childList: true,
 		subtree: true,
 		attributes: true,
