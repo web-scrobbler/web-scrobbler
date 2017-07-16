@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#td_player';
 
 Connector.artistSelector = '#player_links .artist';

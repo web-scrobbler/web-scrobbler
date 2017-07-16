@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, Util */
-
 setupConnector();
 
 function setupConnector() {

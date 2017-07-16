@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#music_player';
 
 Connector.artistSelector = '[data-role="artist"]';

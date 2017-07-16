@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, MetadataFilter */
-
 /** note: the discover page doesn't display the track artist for compilation albums.  This connector
     currently passes 'Various Artist' (or other variant) as the artist name so tracks on albums with
     various artists played on the discover page will most likely not be recognized.*/

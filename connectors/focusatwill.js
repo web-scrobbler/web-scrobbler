@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#scroller';
 
 Connector.getArtist = function () {

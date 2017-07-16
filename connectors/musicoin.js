@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, MetadataFilter, Util */
-
 Connector.getArtist = () => {
 	return getIframeElement('#player-artist').first().text();
 };

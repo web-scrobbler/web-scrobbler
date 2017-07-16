@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.row.col-wrap';
 
 Connector.artistSelector = '#labelartist';

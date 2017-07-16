@@ -1,9 +1,9 @@
 'use strict';
 
-/* global Connector, Util */
-
 Connector.playerSelector = '#headplayer';
+
 Connector.currentTimeSelector = '#player-playedtime';
+
 Connector.artistTrackSelector = '.headplayer-titleReal';
 
 Connector.getArtistTrack = function() {

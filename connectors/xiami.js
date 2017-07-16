@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#player-main';
 
 Connector.trackSelector = '#J_trackInfo a:first';

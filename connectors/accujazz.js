@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#div_player_wrapper';
 
 Connector.artistSelector = '#span_information_artist';

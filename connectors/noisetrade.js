@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 $('audio').first().bind('playing pause', Connector.onStateChanged);
 
 /**

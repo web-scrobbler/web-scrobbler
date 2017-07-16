@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#opbanner';
 
 Connector.getArtist = function () {

@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, Util */
-
 function setupNewPandoraPlayer() {
 	Connector.playerSelector = '.region-bottomBar';
 

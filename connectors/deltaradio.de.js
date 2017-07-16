@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.recaster-mainWrapper';
 
 Connector.artistSelector = '.recaster-currentArtist';

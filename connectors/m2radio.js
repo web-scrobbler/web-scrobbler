@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#onair_block';
 
 Connector.artistSelector = '#nowplaying [id^=artiste_]';

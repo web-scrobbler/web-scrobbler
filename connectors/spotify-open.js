@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, MetadataFilter, Util */
-
 /**
  * The connector for new version of Spotify (open.spotify.com).
  */

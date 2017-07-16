@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.now-playing-wrapper';
 
 Connector.artistSelector = '.text-right .title';

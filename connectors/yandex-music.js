@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.player-controls';
 
 Connector.artistSelector = '.track_type_player .track__artists';

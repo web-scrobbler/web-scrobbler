@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#footer';
 
 Connector.artistSelector = '.playing-song-meta';

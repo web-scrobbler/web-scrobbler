@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#mbox_player';
 
 Connector.trackArtSelector = '.aplayer_track-icon';

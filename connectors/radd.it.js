@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, MetadataFilter, Util */
-
 Connector.playerSelector = 'body';
 
 Connector.artistTrackSelector = '.nav-wrapper span.title';

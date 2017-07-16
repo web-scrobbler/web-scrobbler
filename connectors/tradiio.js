@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, Util */
-
 Connector.playerSelector = '.tradiio-music-player';
 
 Connector.artistSelector = '.tradiio-music-player a.artist';

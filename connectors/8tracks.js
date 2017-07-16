@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 function setupConnector() {
 	setupCommonProperties();
 	if (isYoutubePlayer()) {

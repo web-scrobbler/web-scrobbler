@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, Util */
-
 Connector.playerSelector = '.album-tracks';
 
 Connector.getArtistTrack = function () {

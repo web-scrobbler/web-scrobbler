@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, Util */
-
 Connector.playerSelector = '#plHelpers';
 
 Connector.trackArtSelector = '.scImage';

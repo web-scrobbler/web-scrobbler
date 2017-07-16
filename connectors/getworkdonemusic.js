@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.container';
 
 Connector.trackArtSelector = '.playing .active img';

@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, MetadataFilter, Util */
-
 const videoIdRegExp = /v=?([^#\&\?]*).*/;
 
 Connector.playerSelector = '.player-controls';

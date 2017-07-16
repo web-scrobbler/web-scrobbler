@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, Util */
-
 const artistTrackRe = /(.+?)《(.+?)》/;
 
 function setupCoverPlayer() {

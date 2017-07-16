@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, Util */
-
 /**
  * This connector is for BeMusic music streaming engine.
  * The connector currently covers Youtubify and GrooveMP3 music services.

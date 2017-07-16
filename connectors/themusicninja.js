@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#player_inside_wrapper';
 
 Connector.isPlaying = function() {

@@ -1,10 +1,7 @@
 'use strict';
 
 // Author: Oğuzhan TÜRK
-
 // Scrobbling for: http://www.trtturku.net/
-
-/* global Connector, MetadataFilter */
 
 function toTitleCase(str) {
 	var tempArray = str.toLowerCase().split(' ');

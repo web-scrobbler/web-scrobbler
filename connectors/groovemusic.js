@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#player';
 
 Connector.trackArtSelector = '#player .imgWrapper .img';

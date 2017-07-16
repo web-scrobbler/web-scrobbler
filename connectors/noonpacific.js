@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, Util */
-
 function setupMixtapePlayer() {
 	Connector.playerSelector = '.sidebar .audio-player';
 

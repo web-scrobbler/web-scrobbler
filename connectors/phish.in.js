@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#player_container';
 
 Connector.playButtonSelector = '#control_playpause';

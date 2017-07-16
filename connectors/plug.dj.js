@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, MetadataFilter */
-
 Connector.playerSelector = '#now-playing-bar';
 
 Connector.artistTrackSelector = '#now-playing-media .bar-value';

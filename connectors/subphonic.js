@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#playdeck';
 
 Connector.getArtist = function() {

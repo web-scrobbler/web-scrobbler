@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 function setupPlaylistPlayer() {
 	Connector.playerSelector = '#audio_player_section';
 

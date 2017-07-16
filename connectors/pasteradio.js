@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#radio-player';
 
 Connector.artistSelector = 'li.playing .artist';

@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#masthead';
 
 Connector.artistSelector = '#player_current_artist a';

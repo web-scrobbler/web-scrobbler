@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#areaCenter';
 
 Connector.artistSelector = '#blockInfo > a[name|="artist"]';

@@ -5,8 +5,6 @@
  * Radio JAZZ and Best FM which have the same web player.
  */
 
-/* global Connector */
-
 Connector.playerSelector = '#jp_container_1';
 
 Connector.artistSelector = '.track-info .artist';

@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.progressPanel';
 
 Connector.artistTrackSelector = '#trackTitle';

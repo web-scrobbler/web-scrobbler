@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 const trackRegEx = new RegExp(String.fromCharCode(160), 'g');
 
 Connector.playerSelector = '.m-playbar';

@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, MetadataFilter, Util */
-
 Connector.getArtist = function() {
 	return findIframeElement('#track-artist a').first().text();
 };

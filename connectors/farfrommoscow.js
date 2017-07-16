@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, Util */
-
 Connector.playerSelector = '.global-content';
 
 Connector.isPlaying = function () {

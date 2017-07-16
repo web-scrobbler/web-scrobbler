@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#player';
 
 Connector.playButtonSelector = '.player-center [aria-labelledby="play"]';

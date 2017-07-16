@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, MetadataFilter, Util */
-
 let currentState = {};
 let isPlaying = false;
 

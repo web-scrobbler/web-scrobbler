@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.radio-controls';
 
 Connector.artistSelector = '.current-artist';

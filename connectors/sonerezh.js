@@ -1,8 +1,6 @@
 
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.navbar-player';
 
 Connector.artistSelector = '.song-artist';

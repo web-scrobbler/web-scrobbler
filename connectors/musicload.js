@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.player-info-wrapper';
 
 Connector.artistSelector = '.player-info-wrapper > .info > .title > span';

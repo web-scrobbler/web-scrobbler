@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.audio-controller';
 
 Connector.artistSelector = '.info .artist';

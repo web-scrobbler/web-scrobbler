@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.lecteur';
 
 Connector.artistSelector = '.artiste .inside_call';

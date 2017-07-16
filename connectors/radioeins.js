@@ -1,9 +1,9 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.livestream';
+
 Connector.artistSelector = 'p.artist';
+
 Connector.trackSelector = 'p.songtitle';
 
 Connector.isPlaying = function () {

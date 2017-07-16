@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 /**
  * The connector covers services owned by Hydric Media:
  * "Primary" and "White Label".

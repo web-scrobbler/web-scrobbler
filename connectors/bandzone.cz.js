@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, MetadataFilter */
-
 setupConnector();
 
 function setupConnector() {

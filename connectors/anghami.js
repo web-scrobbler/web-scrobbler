@@ -1,8 +1,5 @@
 'use strict';
 
-/* global Connector */
-
-
 Connector.artistSelector = '.track-artist';
 
 Connector.trackSelector = '.track-title';

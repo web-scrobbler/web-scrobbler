@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#player-controls';
 
 Connector.artistTrackSelector = '.current-track-title > span';

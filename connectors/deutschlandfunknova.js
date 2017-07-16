@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, Util */
-
 Connector.playerSelector = '.player__main';
 
 Connector.artistTrackSelector = 'span.title--title';

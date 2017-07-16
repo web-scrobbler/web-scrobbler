@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, MetadataFilter, Util */
-
 Connector.filter = new MetadataFilter({
 	album: MetadataFilter.decodeHtmlEntities,
 	all: MetadataFilter.trim

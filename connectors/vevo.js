@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, MetadataFilter, Util */
-
 Connector.playerSelector = '#markup';
 
 Connector.trackSelector = '.watch-info .video-name';

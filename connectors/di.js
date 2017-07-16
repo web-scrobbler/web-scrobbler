@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, Util */
-
 Connector.playerSelector = '#webplayer-region';
 
 Connector.playButtonSelector = '.ico icon-play';

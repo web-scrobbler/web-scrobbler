@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 const DEFAULT_TRACK_ART = 'defaultAlbum.jpg';
 
 Connector.artistSelector = '.song-artist';

@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.ui-box';
 
 Connector.artistSelector = '.ui-box > h3';

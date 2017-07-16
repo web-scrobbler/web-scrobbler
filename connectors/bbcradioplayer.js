@@ -1,7 +1,6 @@
 'use strict';
 
-/* global Connector */
-var nowPlayingSelector = '#now-playing .playlister';
+const nowPlayingSelector = '#now-playing .playlister';
 
 Connector.playerSelector = '.programme-details-wrapper';
 

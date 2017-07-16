@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#html5player';
 
 Connector.getTrack = () => $('#staticHeader h3').contents()[0].textContent;

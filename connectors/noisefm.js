@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.artistTrackSelector = '.progress > span';
 
 Connector.playButtonSelector = 'a.play';

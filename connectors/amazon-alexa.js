@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, Util */
-
 Connector.playerSelector = '#d-content';
 
 Connector.getArtistTrack = function() {

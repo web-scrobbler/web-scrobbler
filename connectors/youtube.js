@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, MetadataFilter, Util */
-
 const CATEGORY_MUSIC = '10';
 const CATEGORY_ENTERTAINMENT = '24';
 

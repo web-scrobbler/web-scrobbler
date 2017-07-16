@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, MetadataFilter, Util */
-
 Connector.playerSelector = '#page_sidebar';
 
 Connector.getArtist = function() {

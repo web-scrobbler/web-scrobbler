@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, MetadataFilter */
-
 Connector.playerSelector = '.player-container';
 
 Connector.artistSelector = '.player-track-name-artist-standard .track-artist';

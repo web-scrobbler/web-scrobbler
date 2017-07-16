@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#playerCt';
 
 Connector.artistSelector = '.track-meta .PLArtist';

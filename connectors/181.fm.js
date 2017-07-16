@@ -6,8 +6,6 @@
  * from this website impossible.
  */
 
-/* global Connector */
-
 const DEFAULT_TRACK_ART = 'configs/images/noalbum-white.png';
 
 Connector.playerSelector = '.player';

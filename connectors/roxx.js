@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#rj-player';
 
 Connector.artistSelector = '#trackInfo .artist';

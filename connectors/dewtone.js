@@ -1,8 +1,5 @@
 'use strict';
 
-/* global Connector */
-
-
 Connector.artistTrackSelector = '#footer-player-track';
 
 Connector.playerSelector = '#player';

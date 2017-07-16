@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, MetadataFilter, Util */
-
 window.SC_ATTACHED = window.SC_ATTACHED || false;
 
 let currentState = {};

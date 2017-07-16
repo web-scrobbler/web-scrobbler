@@ -1,8 +1,5 @@
 'use strict';
 
-/* global Connector, MetadataFilter,  Util */
-
-
 Connector.playerSelector = '#audioplayer';
 
 Connector.artistTrackSelector = '#zen-video-title';

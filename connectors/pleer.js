@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, Util */
-
 var INFO_CURRENT_TIME = 1;
 var INFO_ARTIST = 2;
 var INFO_TITLE = 3;

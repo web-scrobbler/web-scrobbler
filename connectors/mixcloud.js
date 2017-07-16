@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = 'div.player-current-audio';
 
 Connector.artistSelector = '.current-artist .ng-binding';

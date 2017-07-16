@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 const DEFAULT_TRACK_ART = 'https://c.lagardere.cz/dance/100';
 
 Connector.playerSelector = '.b-player';

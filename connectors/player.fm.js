@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.miniplayer';
 
 Connector.artistSelector = '.current-series-link';

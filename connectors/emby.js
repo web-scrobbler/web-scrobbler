@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.nowPlayingBar';
 
 Connector.artistSelector = '.nowPlayingBarText .textActionButton[data-type="MusicArtist"]';

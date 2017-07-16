@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 const DEFAULT_TRACK_ART = 'empty-cover.svg';
 
 Connector.playerSelector = '.l-music__player';

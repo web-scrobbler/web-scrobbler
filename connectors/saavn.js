@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, Util */
-
 /**
  * An example of connector that loads information about song asynchronously.
  * Note that current time and duration are still synchronous.

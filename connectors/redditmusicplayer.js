@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, MetadataFilter, Util */
-
 Connector.playerSelector = '.ui.controls';
 
 Connector.currentTimeSelector = '.item.start.time';

@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#content';
 
 Connector.artistSelector = '[data-value=artist]';

@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.player-block';
 
 Connector.artistSelector = '#p_songTitle .f_artist';

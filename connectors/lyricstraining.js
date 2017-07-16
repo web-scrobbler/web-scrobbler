@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, Util */
-
 Connector.playerSelector = '#game-area';
 
 Connector.artistSelector = '#lyrics-info h2';

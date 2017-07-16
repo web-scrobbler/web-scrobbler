@@ -1,6 +1,5 @@
 'use strict';
 
-/* global Connector */
 Connector.playerSelector = '.jp-audio';
 
 Connector.artistSelector = '.playing > .artist';

@@ -1,8 +1,6 @@
 'use strict';
 
-/* global Connector, Util */
-
-var DEFAULT_TRACK_ART_URL = 'http://c.wrzuta.pl/wi470/cbab02ab001342d756010226';
+const DEFAULT_TRACK_ART_URL = 'http://c.wrzuta.pl/wi470/cbab02ab001342d756010226';
 
 Connector.playerSelector = '#content';
 

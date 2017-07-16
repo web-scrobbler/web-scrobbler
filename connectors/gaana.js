@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector, Util */
-
 /**
  * The last track title. Used for detecting new songs.
  * @type {String}

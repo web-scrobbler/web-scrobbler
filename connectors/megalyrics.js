@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#player';
 
 Connector.artistTrackSelector = '#pr_title';

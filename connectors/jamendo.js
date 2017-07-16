@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '#skeleton-player';
 
 Connector.artistSelector = '.player-mini_track_information_artist';

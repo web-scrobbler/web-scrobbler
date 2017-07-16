@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 /**
  * Artist, "Title"
  * Land of Talk, "What Was I Thinking?"

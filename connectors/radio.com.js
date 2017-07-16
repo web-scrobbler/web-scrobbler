@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.player-body-container';
 
 Connector.artistSelector = '.player-body-container .track-artist';

@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 Connector.playerSelector = '.app-layout';
 
 Connector.artistSelector = '.text .artist';

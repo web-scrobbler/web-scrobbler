@@ -1,7 +1,5 @@
 'use strict';
 
-/* global Connector */
-
 var version = $('body').hasClass('navia') ? 'new' : 'legacy';
 switch (version) {
 	case 'new':
