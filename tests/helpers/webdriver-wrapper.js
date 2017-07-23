@@ -19,19 +19,17 @@ const WAIT_FOR_INJECTION_TIMEOUT = 5000;
 const WAIT_BETWEEN_CONDITION_CHECK = 500;
 
 const driver = createWebDriver();
+driver.manage().setTimeouts({ pageLoad: URL_LOAD_TIMEOUT });
 
 /**
  * Get a website, dismiss alerts and wait for document load.
  * @param  {String} url Website URL
- * @param  {Number} timeout Load timeout in milliseconds
  * @return {Promise} Promise that will be resolved when the task has completed
  */
-exports.load = function(url, timeout) {
+exports.load = function(url) {
 	helpers.debug(`Loading ${url}`);
 
-	return acceptAlerts().then(() => {
-		return getUrl(url, timeout);
-	})
+	return driver.get(url)
 		.then(acceptAlerts)
 		.then(injectTestCapture)
 		.then(waitForConnectorInjection)
@@ -143,21 +141,6 @@ exports.sleep = (timeout) => driver.sleep(timeout);
 exports.quit = () => driver.quit();
 
 /* Internal */
-
-/**
- * Navigate to given URL.
- * @param  {String} url Page URL
- * @param  {Number} timeout How long to wait until page is loaded
- * @return {Promise} Promise that will be resolved when the document has finished loading
- */
-function getUrl(url, timeout = URL_LOAD_TIMEOUT) {
-	let timeouts = { pageLoad: timeout };
-	return driver.manage().setTimeouts(timeouts).then(() => {
-		return driver.get(url).catch(() => {
-			throw new Error('Unable to load URL: timed out');
-		});
-	});
-}
 
 /**
  * Click on element using Webdriver function.
