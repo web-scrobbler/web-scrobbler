@@ -193,7 +193,7 @@ function checkStateField(state, fieldName, checkFunction) {
 	if (checkFunction(fieldValue)) {
 		helpers.pass(`${fieldName}: ${fieldValue}`);
 	} else {
-		helpers.fail(`Invalid ${fieldName}: fieldValue`);
+		helpers.fail(`Invalid ${fieldName}: ${fieldValue}`);
 	}
 }
 
