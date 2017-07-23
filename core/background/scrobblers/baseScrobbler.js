@@ -279,16 +279,18 @@ define([
 			let url = `${this.apiUrl}?${queryStr}`;
 
 			return fetch(url, { method }).then((response) => {
-				if (!response.ok) {
-					throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
-				}
-				return response.text();
-			}).then((text) => {
-				let $doc = $($.parseXML(text));
-				let debugMsg = hideUserData($doc, text);
-				this.debugLog(`${params.method} response:\n${debugMsg}`);
+				return response.text().then((text) => {
+					let $doc = $($.parseXML(text));
+					let debugMsg = hideUserData($doc, text);
 
-				return $doc;
+					if (!response.ok) {
+						this.debugLog(`${params.method} response:\n${debugMsg}`, 'error');
+						throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+					}
+
+					this.debugLog(`${params.method} response:\n${debugMsg}`);
+					return $doc;
+				});
 			}).catch(() => {
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 			});
