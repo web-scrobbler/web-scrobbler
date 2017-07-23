@@ -1085,5 +1085,9 @@ define(function () {
 			'*://covers.rainwave.cc/*',
 		],
 		js: ['connectors/rainwave.js']
+	}, {
+		label: 'Fanburst',
+		matches: ['*://fanburst.com/*'],
+		js: ['connectors/fanburst.js']
 	}];
 });
