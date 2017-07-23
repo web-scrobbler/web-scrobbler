@@ -233,27 +233,17 @@ define([
 		 * @return {String} Signed parameters
 		 */
 		generateSign(params) {
-			var keys = [];
-			var o = '';
+			let keys = Object.keys(params).sort();
+			let o = '';
 
-			for (var x in params) {
-				if (params.hasOwnProperty(x)) {
-					keys.push(x);
-				}
-			}
-
-			// params has to be ordered alphabetically
-			keys.sort();
-
-			for (var i = 0; i < keys.length; i++) {
-				if (keys[i] === 'format' || keys[i] === 'callback') {
+			for (let key of keys) {
+				if (['format', 'callback'].includes(key)) {
 					continue;
 				}
 
-				o = o + keys[i] + params[keys[i]];
+				o += key + params[key];
 			}
 
-			// append secret
 			return MD5(o + this.apiSecret);
 		}
 
