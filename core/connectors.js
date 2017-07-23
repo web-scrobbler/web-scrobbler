@@ -1093,5 +1093,9 @@ define(function () {
 		label: 'SESHstation',
 		matches: ['https://radio.sesh.team/'],
 		js: ['connectors/sesh.js']
+	}, {
+		label: 'Радиоволна.нет',
+		matches: ['*://radiovolna.net/*'],
+		js: ['connectors/radiovolna.js']
 	}];
 });
