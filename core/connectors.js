@@ -1089,5 +1089,9 @@ define(function () {
 		label: 'Fanburst',
 		matches: ['*://fanburst.com/*'],
 		js: ['connectors/fanburst.js']
+	}, {
+		label: 'SESHstation',
+		matches: ['https://radio.sesh.team/'],
+		js: ['connectors/sesh.js']
 	}];
 });
