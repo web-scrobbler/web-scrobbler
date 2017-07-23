@@ -305,6 +305,9 @@ function readConnectorOptions() {
 			if (options.scrobbleEntertainmentOnly) {
 				allowedCategories.push(CATEGORY_ENTERTAINMENT);
 			}
+			if (options.scrobbleAll) {
+				allowedCategories = [];
+			}
 
 			console.log(`connector options: ${JSON.stringify(options)}`);
 		}

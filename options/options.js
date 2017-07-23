@@ -24,8 +24,24 @@ require([
 	};
 	const connectorsOptionsUiMap = {
 		YouTube: {
-			scrobbleMusicOnly: '#yt-music-only',
-			scrobbleEntertainmentOnly: '#yt-entertainment-only'
+			scrobbleMusicOnly: {
+				selector: '#yt-music-only',
+				conflictsWith: ['scrobbleAll'],
+				defaultValue: true,
+			},
+			scrobbleEntertainmentOnly: {
+				selector: '#yt-entertainment-only',
+				conflictsWith: ['scrobbleAll'],
+				defaultValue: false,
+			},
+			scrobbleAll: {
+				selector: '#yt-scrobble-all',
+				conflictsWith: [
+					'scrobbleEntertainmentOnly',
+					'scrobbleMusicOnly',
+				],
+				defaultValue: false,
+			},
 		}
 	};
 
@@ -42,14 +58,24 @@ require([
 
 		for (let connector in connectorsOptionsUiMap) {
 			for (let option in connectorsOptionsUiMap[connector]) {
-				let optionId = connectorsOptionsUiMap[connector][option];
-				$(optionId).click(function() {
+				let optionObject = connectorsOptionsUiMap[connector][option];
+				let optionId = optionObject.selector;
+				$(optionId).change(function() {
 					connectorsOptions.get((data) => {
 						if (!data[connector]) {
 							data[connector] = {};
 						}
 
 						data[connector][option] = this.checked;
+
+						if (this.checked) {
+							for (let conflicting of optionObject.conflictsWith) {
+								let curOptionObject = connectorsOptionsUiMap[connector][conflicting];
+								$(curOptionObject.selector).prop('checked', false);
+								data[connector][conflicting] = false;
+							}
+						}
+
 						connectorsOptions.set(data);
 					});
 				});
@@ -88,7 +114,11 @@ require([
 			for (let connector in connectorsOptionsUiMap) {
 				for (let option in connectorsOptionsUiMap[connector]) {
 					if (data[connector]) {
-						let optionId = connectorsOptionsUiMap[connector][option];
+						let optionObject = connectorsOptionsUiMap[connector][option];
+						let optionId = optionObject.selector;
+						if (!data[connector].hasOwnProperty(option)) {
+							data[connector][option] = optionObject.defaultValue;
+						}
 						$(optionId).attr('checked', data[connector][option]);
 					}
 				}
