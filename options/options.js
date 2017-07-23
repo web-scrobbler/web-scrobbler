@@ -227,7 +227,7 @@ require([
 				} else {
 					$.each(data, function(cachedKey, cachedData) {
 						let { artist, track } = cachedData;
-						cache.append($('<li>').text(`${artist} - ${track}`));
+						cache.append($('<li>').text(`${artist} — ${track}`));
 					});
 				}
 			});
