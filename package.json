@@ -34,7 +34,7 @@
     "node-define": "~0.1.1",
     "requirejs": "~2.3.2",
     "selenium-webdriver": "~3.4.0",
-    "stylelint-order": "^0.5.0",
+    "stylelint-order": "^0.6.0",
     "webstore-upload": "~0.0.7"
   },
   "engines": {
