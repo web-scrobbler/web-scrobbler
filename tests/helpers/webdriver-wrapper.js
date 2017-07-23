@@ -150,9 +150,9 @@ exports.quit = () => driver.quit();
  * @param  {Number} timeout How long to wait until page is loaded
  * @return {Promise} Promise that will be resolved when the document has finished loading
  */
-function getUrl(url, timeout) {
-	let timeouts = driver.manage().timeouts();
-	return timeouts.pageLoadTimeout(timeout || URL_LOAD_TIMEOUT).then(() => {
+function getUrl(url, timeout = URL_LOAD_TIMEOUT) {
+	let timeouts = { pageLoad: timeout };
+	return driver.manage().setTimeouts(timeouts).then(() => {
 		return driver.get(url).catch(() => {
 			throw new Error('Unable to load URL: timed out');
 		});
