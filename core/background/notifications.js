@@ -159,7 +159,7 @@ define([
 			// @ifdef CHROME
 			title: song.getTrack(),
 			message: 'by ' + song.getArtist(),
-			connectorLabel
+			contextMessage: connectorLabel
 			// @endif
 			/* @ifdef FIREFOX
 			title: 'Last.fm Scrobbler',
