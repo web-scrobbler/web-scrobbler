@@ -152,20 +152,18 @@ define([
 			return;
 		}
 
-		let currentTime = Util.getCurrentTime();
 		let connectorLabel = song.metadata.connector.label;
-		let contextMessage = `${currentTime} · ${connectorLabel}`;
 
 		let options = {
 			iconUrl: song.getTrackArt() || '/icons/default_cover_art.png',
 			// @ifdef CHROME
 			title: song.getTrack(),
 			message: 'by ' + song.getArtist(),
-			contextMessage
+			connectorLabel
 			// @endif
 			/* @ifdef FIREFOX
 			title: 'Last.fm Scrobbler',
-			message: `${song.getTrack()}\nby ${song.getArtist()}\n${contextMessage}`
+			message: `${song.getTrack()}\nby ${song.getArtist()}\n${connectorLabel}`
 			/* @endif */
 		};
 		showNotification(options, null).then((notificationId) => {

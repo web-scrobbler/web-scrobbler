@@ -8,24 +8,6 @@ define(['wrappers/chrome'], (chrome) => {
 	const STR_REPLACER = 'xxxxx';
 
 	/**
-	 * Get current time in hh:mm am/pm format.
-	 * @return {String} Formatted time string
-	 */
-	function getCurrentTime() {
-		let date = new Date();
-
-		let hours = date.getHours();
-		let minutes = date.getMinutes();
-		let ampm = hours >= 12 ? 'pm' : 'am';
-
-		hours = hours % 12;
-		hours = hours ? hours : 12; // the hour '0' should be '12'
-		minutes = minutes < 10 ? '0' + minutes : minutes;
-
-		return `${hours}:${minutes}${ampm}`;
-	}
-
-	/**
 	 * Return platform name using Chrome API.
 	 * @return {Promise} Promise that will be resolved with platform name
 	 */
@@ -66,7 +48,6 @@ define(['wrappers/chrome'], (chrome) => {
 	}
 
 	return {
-		getCurrentTime, getPlatformName,
-		hideStringInText, isFullscreenMode
+		getPlatformName, hideStringInText, isFullscreenMode
 	};
 });
