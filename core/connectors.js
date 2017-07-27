@@ -354,6 +354,12 @@ define(function () {
 	},
 
 	{
+		label: 'Hype Machine Premieres',
+		matches: ['*://hypem.com/premiere/*'],
+		js: ['connectors/hypem-premieres.js'],
+	},
+
+	{
 		label: 'Hype Machine',
 		matches: ['*://hypem.com/*'],
 		js: ['connectors/hypem.js'],
