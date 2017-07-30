@@ -234,12 +234,6 @@ define(function () {
 	},
 
 	{
-		label: 'Le Tourne Disque',
-		matches: ['*://www.letournedisque.com/*'],
-		js: ['connectors/letournedisque.js'],
-	},
-
-	{
 		label: 'Subphonic (owncloud plugin)',
 		matches: ['*://*/*/apps/subphonic/minisub/*'],
 		js: ['connectors/subphonic.js'],
