@@ -486,7 +486,7 @@ var BaseConnector = window.BaseConnector || function () {
 				}
 			}
 
-			filteredState[field] = fieldValue;
+			filteredState[field] = fieldValue || defaultState[field];
 		}
 	};
 
