@@ -341,13 +341,6 @@ define([
 		}
 
 		/**
-		 * Forward event to PageAction
-		 */
-		this.onPageActionClicked = function() {
-			pageAction.onClicked();
-		};
-
-		/**
 		 * Get current song as plain object.
 		 * @return {Object} Song copy
 		 */

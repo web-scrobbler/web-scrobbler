@@ -77,8 +77,6 @@ require([
 		chrome.tabs.onRemoved.addListener(unloadController);
 		chrome.tabs.onActivated.addListener(onTabChanged);
 
-		chrome.pageAction.onClicked.addListener(onPageActionClicked);
-
 		chrome.runtime.onMessage.addListener(onMessage);
 	}
 
@@ -141,17 +139,6 @@ require([
 		}
 
 		return true;
-	}
-
-	/**
-	 * Called when user clicks on page action icon.
-	 * @param  {Objeect} tab Tab object
-	 */
-	function onPageActionClicked(tab) {
-		let ctrl = getControllerByTabId(tab.id);
-		if (ctrl) {
-			ctrl.onPageActionClicked(tab);
-		}
 	}
 
 	/**

@@ -54,10 +54,6 @@ define([], () => {
 			this.tabId = tabId;
 		}
 
-		onClicked() {
-			// console.log('Page action clicked in tab ' + tabId);
-		}
-
 		/**
 		 * Set icon, title and popup in single call.
 		 * @param {String} path Path to page action icon
