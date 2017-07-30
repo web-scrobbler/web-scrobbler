@@ -13,3 +13,5 @@ Connector.trackArtSelector = '#covercontainer img';
 Connector.isPlaying = () => {
 	return $('#controls-play').hasClass('play');
 };
+
+Connector.onReady = Connector.onStateChanged;
