@@ -19,6 +19,11 @@ define([
 		const DEFAULT_SCROBBLE_TIME = 30;
 
 		/**
+		 * Max number of seconds of playback before the track is scrobbled.
+		 */
+		const MAX_SCROBBLE_TIME = 240;
+
+		/**
 		 * Safe copy of initial parsed data.
 		 * Should not be changed during lifetime of this object.
 		 */
@@ -144,10 +149,8 @@ define([
 		 * @return {Number} Seconds to scrobble
 		 */
 		song.getSecondsToScrobble = function() {
-			// Really long tracks are scrobbled after 4 minutes
-			var max = 4 * 60;
-			var val = Math.max(this.getDuration() / 2, DEFAULT_SCROBBLE_TIME);
-			return Math.min(val, max); // whatever occurs first
+			let val = Math.max(this.getDuration() / 2, DEFAULT_SCROBBLE_TIME);
+			return Math.min(val, MAX_SCROBBLE_TIME);
 		};
 
 		/**
