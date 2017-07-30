@@ -25,7 +25,7 @@ We also use EditorConfig, which helps to keep code in the same code style in dif
 
 ### Connectors development
 
-Connectors development is explained in [this article][6].
+Connectors development is explained in [this][6] and [this][7] articles.
 
 [1]: https://github.com/david-sabata/web-scrobbler/wiki/How-to-debug-the-extension
 [2]: http://www.chiark.greenend.org.uk/~sgtatham/bugs.html
@@ -33,3 +33,4 @@ Connectors development is explained in [this article][6].
 [4]: http://gruntjs.com/getting-started
 [5]: http://editorconfig.org/#overview
 [6]: https://github.com/david-sabata/web-scrobbler/wiki/Connectors-development
+[7]: https://github.com/david-sabata/web-scrobbler/wiki/Setup-development-environment
