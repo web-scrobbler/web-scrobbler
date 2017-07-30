@@ -23,14 +23,14 @@ define([
 		 * Should not be changed during lifetime of this object.
 		 */
 		const parsed = {
-			artist: parsedData.artist || null,
-			track: parsedData.track || null,
-			album: parsedData.album || null,
-			uniqueID: parsedData.uniqueID || null,
-			duration: parsedData.duration || null,
-			currentTime: parsedData.currentTime || null,
-			isPlaying: parsedData.isPlaying || false,
-			trackArt: parsedData.trackArt || false
+			artist: parsedData.artist,
+			track: parsedData.track,
+			album: parsedData.album,
+			uniqueID: parsedData.uniqueID,
+			duration: parsedData.duration,
+			currentTime: parsedData.currentTime,
+			isPlaying: parsedData.isPlaying,
+			trackArt: parsedData.trackArt,
 		};
 
 		/**
@@ -110,7 +110,7 @@ define([
 		 * @return {String} Song artist
 		 */
 		song.getArtist = function() {
-			return this.processed.artist || this.parsed.artist || null;
+			return this.processed.artist || this.parsed.artist;
 		};
 
 		/**
@@ -118,7 +118,7 @@ define([
 		 * @return {String} Song title
 		 */
 		song.getTrack = function() {
-			return this.processed.track || this.parsed.track || null;
+			return this.processed.track || this.parsed.track;
 		};
 
 		/**
@@ -126,7 +126,7 @@ define([
 		 * @return {String} Song album
 		 */
 		song.getAlbum = function() {
-			return this.processed.album || this.parsed.album || null;
+			return this.processed.album || this.parsed.album;
 		};
 
 		/**
@@ -135,7 +135,7 @@ define([
 		 * @return {Number} Song duration
 		 */
 		song.getDuration = function() {
-			return this.parsed.duration || this.processed.duration || null;
+			return this.parsed.duration || this.processed.duration;
 		};
 
 		/**
