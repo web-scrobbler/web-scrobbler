@@ -169,7 +169,7 @@ define([
 		showNotification(options, null).then((notificationId) => {
 			GA.event('notification', 'playing', 'show');
 			song.metadata.attr('notificationId', notificationId);
-		}).catch(nop);
+		});
 	}
 
 	/**
@@ -184,7 +184,7 @@ define([
 		};
 		showNotification(options, onClick).then(() => {
 			GA.event('notification', 'error', 'show');
-		}).catch(nop);
+		});
 	}
 
 	/**
@@ -248,15 +248,8 @@ define([
 	 */
 	function remove(notificationId) {
 		if (notificationId) {
-			chrome.notifications.clear(notificationId, nop);
+			chrome.notifications.clear(notificationId);
 		}
-	}
-
-	/**
-	 * Do nothing. Used to suppress Promise errors.
-	 */
-	function nop() {
-		// do nothing
 	}
 
 	// Set up listening for clicks on all notifications
