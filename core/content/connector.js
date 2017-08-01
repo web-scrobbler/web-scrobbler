@@ -476,17 +476,17 @@ var BaseConnector = window.BaseConnector || function () {
 				case 'artist':
 				case 'track':
 				case 'album': {
-					fieldValue = this.filter.filterField(field, fieldValue);
+					fieldValue = this.filter.filterField(field, fieldValue) || defaultState[field];
 					break;
 				}
 				case 'currentTime':
 				case 'duration': {
-					fieldValue = Util.escapeBadTimeValues(fieldValue);
+					fieldValue = Util.escapeBadTimeValues(fieldValue) || defaultState[field];
 					break;
 				}
 			}
 
-			filteredState[field] = fieldValue || defaultState[field];
+			filteredState[field] = fieldValue;
 		}
 	};
 
