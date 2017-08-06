@@ -122,7 +122,6 @@ define([
 
 		/**
 		 * Sets data for current song from user input
-		 * TODO: check if all is ok for case when song is already valid
 		 * @param {Object} data Object contains song data
 		 */
 		setUserSongData(data) {

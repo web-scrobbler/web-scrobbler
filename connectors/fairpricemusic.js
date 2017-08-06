@@ -53,7 +53,7 @@ function setupBandPagePlayer() {
 
 	Connector.albumSelector = '#bandPlayer-albumName';
 
-	Connector.trackArtSelector = '.cc-profile-photo .visible-xs img'; // TODO: link to the album table below?
+	Connector.trackArtSelector = '.cc-profile-photo .visible-xs img';
 
 	Connector.currentTimeSelector = '#bandPlayer-currentTimeText';
 
