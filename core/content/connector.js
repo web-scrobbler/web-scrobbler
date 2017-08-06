@@ -539,8 +539,7 @@ var BaseConnector = window.BaseConnector || function () {
 		}
 
 		if (this.reactorCallback !== null) {
-			// TODO: passs 'changedFields' parameter
-			this.reactorCallback({});
+			this.reactorCallback({}, Object.keys(defaultState));
 		}
 
 		isStateReset = true;
