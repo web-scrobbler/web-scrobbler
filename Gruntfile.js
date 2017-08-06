@@ -1,7 +1,11 @@
 'use strict';
 
+const fs = require('fs');
+
 module.exports = function(grunt) {
 	let isTravisCi = (process.env.TRAVIS === 'true');
+
+	const chromeExtensionId = 'hhinaapppaileiechjoiifaancjggfjm';
 
 	const jsFiles = [
 		// Connectors
@@ -29,6 +33,8 @@ module.exports = function(grunt) {
 	const buildDir = 'build';
 	const packageName = 'web-scrobbler.zip';
 	const packageSrcName = 'web-scrobbler-src.zip';
+
+	const webStoreConfig = loadConfig('./.publish/web-store.json');
 
 	grunt.initConfig({
 		/**
@@ -119,6 +125,21 @@ module.exports = function(grunt) {
 				}
 			},
 		},
+		webstore_upload: {
+			accounts: {
+				default: {
+					publish: true,
+					client_id: webStoreConfig.clientId,
+					client_secret: webStoreConfig.clientSecret,
+				},
+			},
+			extensions: {
+				'web-scrobbler': {
+					appID: chromeExtensionId,
+					zip: packageName,
+				}
+			}
+		},
 
 		/**
 		 * Linter configs.
@@ -160,9 +181,6 @@ module.exports = function(grunt) {
 		exec: {
 			make_add0n_changelog: {
 				cmd: 'node scripts/make-add0n-changelog'
-			},
-			publish_cws: {
-				cmd: `node scripts/publish-cws ${packageName}`
 			},
 			run_tests: {
 				cmd: (...args) => `node tests/runner.js ${args.join(' ')}`
@@ -258,7 +276,7 @@ module.exports = function(grunt) {
 
 		switch (browser) {
 			case 'chrome':
-				grunt.task.run(['build:chrome', 'exec:publish_cws']);
+				grunt.task.run(['build:chrome', 'webstore_upload']);
 				break;
 		}
 	});
@@ -343,5 +361,18 @@ module.exports = function(grunt) {
 		if (supportedBrowsers.indexOf(browser) === -1) {
 			grunt.fail.fatal(`Unknown browser: ${browser}`);
 		}
+	}
+
+	/**
+	 * Get JSON config.
+	 * @param  {String} configPath Path to config file
+	 * @return {Object} Config object
+	 */
+	function loadConfig(configPath) {
+		if (fs.existsSync(configPath)) {
+			return require(configPath);
+		}
+
+		return {};
 	}
 };

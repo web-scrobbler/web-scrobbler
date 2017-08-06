@@ -3,6 +3,7 @@ nbproject
 node_modules
 .DS_Store
 .idea
+.publish
 .tern-project
 *.iml
 *.zip
