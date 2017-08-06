@@ -6,11 +6,15 @@ define([
 	'storage/chromeStorage',
 	'services/background-ga'
 ], function(Util, chrome, ChromeStorage, GA) {
+	// The module uses `chrome.extension.getURL` function.
+	// This funciton is deprecated since Chrome 58.
+	// FIXME: Replace to `chrome.runtime.getURL`.
+
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 
 	const DEFAULT_OPTIONS_VALUES = {
 		type: 'basic',
-		iconUrl: '/icons/icon128.png',
+		iconUrl: chrome.extension.getURL('/icons/icon128.png'),
 	};
 
 	// @ifdef DEBUG
@@ -159,7 +163,7 @@ define([
 			let connectorLabel = song.metadata.connector.label;
 
 			let options = {
-				iconUrl: song.getTrackArt() || '/icons/default_cover_art.png',
+				iconUrl: song.getTrackArt() || chrome.extension.getURL('/icons/default_cover_art.png'),
 				// @ifdef CHROME
 				title: song.getTrack(),
 				message: `by ${song.getArtist()}`,
@@ -213,7 +217,7 @@ define([
 			}
 
 			let options = {
-				iconUrl: 'icons/question.png',
+				iconUrl: chrome.extension.getURL('icons/question.png'),
 				title: 'The song is not recognized',
 				message: 'Click on the icon in the extensions bar to correct and submit song info'
 			};
