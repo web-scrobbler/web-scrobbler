@@ -103,9 +103,17 @@ define([
 						return new InjectResult(InjectResult.MATCHED_BUT_DISABLED, tab.id, connector);
 					}
 
-					// Checks if there's already injected connector
-					// and injects it if needed
-					return pingAndInject(tab.id, connector);
+					return config.isConnectorEnabled(connector.label).then((isEnabled) => {
+						if (!isEnabled) {
+							return new InjectResult(InjectResult.MATCHED_BUT_DISABLED, tab.id, connector);
+						}
+
+
+						// Checks if there's already injected connector
+						// and injects it if needed
+						return pingAndInject(tab.id, connector);
+					});
+
 				}
 			}
 
