@@ -84,9 +84,9 @@ class MetadataFilter {
 			return text;
 		}
 
-		filters.forEach(filter => {
+		for (let filter of filters) {
 			text = filter(text);
-		});
+		}
 
 		return text;
 	}

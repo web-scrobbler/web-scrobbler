@@ -94,9 +94,9 @@ define([
 					patterns = patterns.concat(customPatterns[connector.label]);
 				}
 
-				patterns.forEach(function (match) {
-					matchOk = matchOk || UrlMatch.test(tab.url, match);
-				});
+				for (let pattern of patterns) {
+					matchOk = matchOk || UrlMatch.test(tab.url, pattern);
+				}
 
 				if (matchOk) {
 					if (!config.isConnectorEnabled(connector.label)) {
