@@ -1,11 +1,6 @@
 'use strict';
 
-define([], function() {
-	// NB:
-	// Could potentially split `getMusicBrainzId()` and `checkCoverArt()`
-	// into consecutive pipeline modules, if we can come up with other uses
-	// for the MusicBrainz data.
-
+define(() => {
 	/**
 	 * Get array of functions that return promises.
 	 * Used for delayed promise execute.

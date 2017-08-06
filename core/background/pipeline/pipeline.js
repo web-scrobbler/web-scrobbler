@@ -7,8 +7,8 @@ define([
 	'pipeline/user-input',
 	'pipeline/local-cache',
 	'pipeline/metadata',
-	'pipeline/musicbrainz-coverartarchive'
-], function(UserInput, LocalCache, Metadata, MusicBrainz) {
+	'pipeline/coverartarchive'
+], function(UserInput, LocalCache, Metadata, CoverArtArchive) {
 	/**
 	 * List of processors.
 	 * Each procesor is an object contains `process` function takes song object
@@ -30,9 +30,9 @@ define([
 		 */
 		Metadata,
 		/**
-		 * Looks for fallback cover art via MusicBrainz API.
+		 * Looks for fallback cover art using Cover Art Archive service.
 		 */
-		MusicBrainz,
+		CoverArtArchive,
 	];
 
 	return {
