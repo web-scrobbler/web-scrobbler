@@ -13,27 +13,32 @@ define([
 	return {
 		processSong: function(song) {
 			// list of processors is recreated for every processing call
-			var processors = [
+			const processors = [
 				UserInput.loadData, // loads data stored by user
 				LocalCache.loadData, // loads data filled by user from storage
 				LfmMetadata.loadSong, // loads song metadata from L.FM and sets validation flag
+			];
+			const optionalProcessors = [
 				MusicBrainz.getCoverArt // looks for fallback cover art via API, in the even that it wasn't found earlier
 			];
 
-			var cb = function() {
+			const cb = function() {
 				if (processors.length > 0) {
-					var next = processors.shift();
+					const next = processors.shift();
 					next(song, cb);
 				} else {
-					// processing finished, just set the flag
 					song.flags.attr('isProcessed', true);
+					if (optionalProcessors.length > 0) {
+						const next = optionalProcessors.shift();
+						next(song, cb);
+					}
 				}
 			};
 
 			// reset possible flag, so we can detect changes on repeated processing of the same song
 			song.flags.attr('isProcessed', false);
 
-			cb(song);
+			cb();
 		}
 	};
 });
