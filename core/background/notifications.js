@@ -198,7 +198,7 @@ define([
 		let errorMessage = `Unable to sign in to ${label}. Please try later.`;
 		showError(errorMessage, () => {
 			if (statusUrl) {
-				chrome.tabs.createTab({ url: statusUrl });
+				chrome.tabs.create({ url: statusUrl });
 			}
 		});
 	}
