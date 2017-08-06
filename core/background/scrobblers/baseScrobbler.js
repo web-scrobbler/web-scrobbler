@@ -149,7 +149,6 @@ define([
 		 */
 		getProfileUrl() {
 			return this.getSession().then((session) => {
-				console.log(this);
 				return `${this.profileUrl}${session.sessionName}`;
 			});
 		}

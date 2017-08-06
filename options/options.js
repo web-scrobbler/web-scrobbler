@@ -302,7 +302,6 @@ require([
 			event.preventDefault();
 
 			const localCache = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
-			console.log(localCache);
 
 			let cache = $('<ul class="list-unstyled"></ul>');
 			localCache.get().then((data) => {

@@ -6,9 +6,6 @@ Connector.getArtistTrack = () => {
 	let track = $('#footer_player_track').text();
 	let artistTrack = Util.splitArtistTrack(track);
 
-	console.log(track);
-	console.log(artistTrack);
-
 	if (Util.isArtistTrackEmpty(artistTrack)) {
 		let artist = $('#footer_player_artist').text();
 		return { artist, track };

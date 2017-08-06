@@ -269,8 +269,6 @@ function setupBasePlayer() {
 
 				$(videoSelector).on('timeupdate', Connector.onStateChanged);
 				isEventListenerSetUp = true;
-
-				console.log('Web scrobbler: setup "timeupdate" event');
 			}
 		});
 
