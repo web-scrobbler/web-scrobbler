@@ -303,7 +303,7 @@ define([
 				song.processed.attr({
 					artist: $doc.find('artist > name').text(),
 					track: $doc.find('track > name').text(),
-					duration: parseInt($doc.find('track > duration').text()) / 1000
+					duration: (parseInt($doc.find('track > duration').text()) / 1000) || null
 				});
 
 				var thumbUrl = song.getTrackArt();
