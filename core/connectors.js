@@ -288,7 +288,7 @@ define(function() {
 	},
 
 	{
-		label: 'TuneIn-Beta',
+		label: 'TuneIn (Beta)',
 		matches: ['*://beta.tunein.com/*'],
 		js: ['connectors/tunein-beta.js'],
 	},
