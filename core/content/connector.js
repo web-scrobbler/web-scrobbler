@@ -391,7 +391,7 @@ var BaseConnector = window.BaseConnector || function () {
 		album: null,
 		uniqueID: null,
 		duration: null,
-		currentTime: 0,
+		currentTime: null,
 		isPlaying: true,
 		trackArt: null
 	};
