@@ -1097,11 +1097,13 @@ define(function () {
 		label: 'Радиоволна.нет',
 		matches: ['*://radiovolna.net/*'],
 		js: ['connectors/radiovolna.js']
-	},
-
-	{
+	}, {
 		label: 'Feedbands',
 		matches: ['*://feedbands.com/*'],
 		js: ['connectors/feedbands.js']
+	}, {
+		label: 'Vimeo',
+		matches: ['*://vimeo.com/*'],
+		js: ['connectors/vimeo.js']
 	}];
 });
