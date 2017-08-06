@@ -91,7 +91,7 @@ define([
 				let patterns = connector.matches || [];
 
 				if (customPatterns[connector.label]) {
-					patterns.concat(customPatterns[connector.label]);
+					patterns = patterns.concat(customPatterns[connector.label]);
 				}
 
 				patterns.forEach(function (match) {
