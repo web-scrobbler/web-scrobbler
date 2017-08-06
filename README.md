@@ -54,7 +54,7 @@ See the [privacy policy][11].
 
 ## License
 
-See the [license file](LICENSE.txt).
+See the [license file](LICENSE.md).
 
 [0]: https://img.shields.io/chrome-web-store/d/hhinaapppaileiechjoiifaancjggfjm.svg?style=flat
 [1]: https://chrome.google.com/webstore/detail/lastfm-scrobbler/hhinaapppaileiechjoiifaancjggfjm
