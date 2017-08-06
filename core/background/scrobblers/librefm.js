@@ -29,7 +29,7 @@ define([
 					this.debugLog(`${params.method} response:\n${text}`);
 					resolve($(xmlDoc));
 				}).fail((jqXHR, status, text) => {
-					this.debugLog(`${params.method} response:\n${text}`);
+					this.debugLog(`${params.method} response:\n${text}`, 'error');
 					reject(new ServiceCallResult(ServiceCallResult.ERROR_OTHER));
 				});
 			});
