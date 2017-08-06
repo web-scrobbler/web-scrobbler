@@ -2,6 +2,28 @@
   "results": [
     {
       "release_notes": {
+        "en-US": "Added a feature to view edited tracks.\nAdded Fanburst connector\nAdded Feedbands connector\nAdded Radiovolna connector\nAdded SESHstation connector\nAdded Vimeo connector\nImproved RADIO Obozrevatel connector\nImproved Rainwave connector\nRemoved dead or unused websites\nSeparated Hype Machine connector\nFixed an issue when a song contains emoji in artist or track titles wasn't scrobbled\nFixed a regression when the extension was starting to search for a now playing song continuously.\nFixed NoiseTrade connector\nFixed Spotify connector\nFixed VK connector"
+      },
+      "files": [
+        {
+          "created": "2017-08-06T13:33:45Z"
+        }
+      ],
+      "version": "1.68.0"
+    },
+    {
+      "release_notes": {
+        "en-US": "Fixed Rainwave connector"
+      },
+      "files": [
+        {
+          "created": "2017-06-25T18:40:10Z"
+        }
+      ],
+      "version": "1.67.1"
+    },
+    {
+      "release_notes": {
         "en-US": "Added Phish.in connector\nAdded Rainwave connector\nUpdated logic of repeat detection.\nImproved Google Play Music connector\nImproved Pandora connector\nFixed configuration popup of custom URL patterns\nFixed loading saved song info\nFixed 181.fm connector\nFixed Pandora connector"
       },
       "files": [
@@ -10,28 +32,6 @@
         }
       ],
       "version": "1.67.0"
-    },
-    {
-      "release_notes": {
-        "en-US": "Added a feature to skip current song\nAdded an ability to open cover art in new tab\nAdded QQ Video connector\nAdded Torch Music connector\nAdded 181.fm connector\nImproved song info correction\nImproved Digitally Imported connector\nRemoved Ampya connector\nRemoved Tidido connector\nFixed now playing notifications\nFixed scrobbling of unrecognized songs\nFixed Ambient Sleeping Pill connector\nFixed My Cloud Player connector\nFixed Noise FM connector\nFixed Odnoklassniki connector\nFixed Plaza connector\nFixed Radiotunes connector"
-      },
-      "files": [
-        {
-          "created": "2017-06-16T04:20:45Z"
-        }
-      ],
-      "version": "1.66.0"
-    },
-    {
-      "release_notes": {
-        "en-US": "Added feature to disable connectors via context menu\nAdded ByteFM connector\nAdded Delta Radio UK connector\nAdded deltaradio connector\nAdded Deutschlandfunk Nova connector\nAdded Fritz connector\nAdded LoFi Radio connector\nAdded LyricsTraining connector\nAdded Kuwo connector\nAdded Musicoin connector\nAdded Music Walker connector\nAdded NPR connector\nAdded QQ connector\nAdded radd.it connector\nAdded radioeins connector\nAdded RadioPlayer connector\nUpdated reauth mechanism\nUpdated Wonder connector\nFixed 8tracks connector\nFixed Ambient Sleeping Pill connector\nFixed Bemusic connector\nFix Dance radio connector\nFixed Noon Pacific connector\nFixed Radiotunes connector\nFixed Red Bull Radio connector\nFixed VK connector"
-      },
-      "files": [
-        {
-          "created": "2017-05-28T09:41:53Z"
-        }
-      ],
-      "version": "1.65.0"
     }
   ]
 }
