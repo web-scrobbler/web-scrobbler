@@ -146,10 +146,14 @@ module.exports = {
 		'quotes': ['error', 'single'],
 		// Require space before blocks
 		'space-before-blocks': ['error', 'always'],
+		// Disallow a space before function parenthesis
+		'space-before-function-paren': ['error', 'never'],
 		// Disallow spaces inside of parentheses
 		'space-in-parens': 'error',
 		// Require spacing around infix operators
 		'space-infix-ops': 'error',
+		// Enforce consistent spacing after the // or /* in a comment
+		'spaced-comment': 'error',
 		// Require semicolon at the end of statement
 		'semi': ['error', 'always'],
 		// Enforce spacing around colons of switch statements

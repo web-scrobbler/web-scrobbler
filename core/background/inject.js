@@ -8,7 +8,7 @@ define([
 	'objects/injectResult',
 	'customPatterns',
 	'url-match'
-], function (connectors, config, InjectResult, customPatterns, UrlMatch) {
+], function(connectors, config, InjectResult, customPatterns, UrlMatch) {
 	/**
 	 * Ping the loaded page and checks if there is already loaded connector.
 	 * If not injects it.

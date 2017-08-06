@@ -7,7 +7,7 @@ define([
 	'notifications',
 	'scrobblers/lastfm',
 	'scrobblers/librefm'
-], function (Notifications, LastFM, LibreFM) {
+], function(Notifications, LastFM, LibreFM) {
 
 	/**
 	 * Scrobblers that are bound, meaning they have valid session IDs.

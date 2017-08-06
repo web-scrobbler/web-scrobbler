@@ -10,7 +10,7 @@ require([
 	'services/scrobbleService',
 	'util',
 	'bootstrap'
-], function ($, config, connectors, customPatterns, ChromeStorage, chrome, ScrobbleService, Util) {
+], function($, config, connectors, customPatterns, ChromeStorage, chrome, ScrobbleService, Util) {
 	/**
 	 * Object that maps options to their element IDs.
 	 * @type {Object}
@@ -33,7 +33,7 @@ require([
 
 	const sortedConnetors = getConnectors();
 
-	$(function () {
+	$(function() {
 		// preload values and attach listeners
 		for (let option in optionsUiMap) {
 			let optionId = optionsUiMap[option];

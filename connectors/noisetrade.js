@@ -8,9 +8,9 @@ $('audio').first().bind('playing pause', Connector.onStateChanged);
  *
  * @type {Boolean} true if all tracks contain a hyphen, otherwise false
  */
-let albumHasletiousArtists = (function () {
+let albumHasletiousArtists = (function() {
 	let all = true;
-	$('a.jp-playlist-item').each(function () {
+	$('a.jp-playlist-item').each(function() {
 		if (!$(this).text().includes('-')) {
 			all = false;
 			return false;
@@ -35,9 +35,9 @@ function isNumber(n) {
  *
  * @type {Boolean} true if all tracks start with at least two numbers, otherwise false
  */
-let trackTitlesStartWithTrackNo = (function () {
+let trackTitlesStartWithTrackNo = (function() {
 	let all = true;
-	$('a.jp-playlist-item').each(function () {
+	$('a.jp-playlist-item').each(function() {
 		if (!isNumber($(this).text().substring(0, 2))) {
 			all = false;
 			return false;

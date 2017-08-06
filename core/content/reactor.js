@@ -53,7 +53,7 @@ class Reactor {
 	 * Listen for state changes on connector and determines further actions.
 	 * @param {Object} state Connector state
 	 */
-	onStateChanged(state/*, changedFields*/) {
+	onStateChanged(state/* , changedFields*/) {
 		// ignore changes in current time - it can be used in future
 		// if (changedFields.indexOf('currentTime') > -1 && changedFields.length === 1) {
 		// 	return;

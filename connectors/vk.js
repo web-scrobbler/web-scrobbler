@@ -3,7 +3,7 @@
 let currentState = {};
 let isPlaying = false;
 
-(function () {
+(function() {
 	let scriptUrl = chrome.extension.getURL('connectors/vk-dom-inject.js');
 	Util.injectScriptIntoDocument(scriptUrl);
 

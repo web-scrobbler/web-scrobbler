@@ -10,7 +10,7 @@
  *
  * @constructor
  */
-var BaseConnector = window.BaseConnector || function () {
+var BaseConnector = window.BaseConnector || function() {
 
 	/**
 	 * Selector of an element containing artist name. The containing string will
@@ -136,7 +136,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 *
 	 * @return {String} Song artist
 	 */
-	this.getArtist = function () {
+	this.getArtist = function() {
 		return $(this.artistSelector).text();
 	};
 
@@ -147,7 +147,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 *
 	 * @return {String} Song title
 	 */
-	this.getTrack = function () {
+	this.getTrack = function() {
 		return $(this.trackSelector).text();
 	};
 
@@ -158,7 +158,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 *
 	 * @returns {String} Song album
 	 */
-	this.getAlbum = function () {
+	this.getAlbum = function() {
 		return $(this.albumSelector).text();
 	};
 
@@ -171,7 +171,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 *
 	 * @return {Number} Track length in seconds
 	 */
-	this.getDuration = function () {
+	this.getDuration = function() {
 		let text = $(this.durationSelector).text();
 		return Util.stringToSeconds(text);
 	};
@@ -184,7 +184,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 *
 	 * @return {Number} Number of seconds passed from the beginning of the track
 	 */
-	this.getCurrentTime = function () {
+	this.getCurrentTime = function() {
 		let text = $(this.currentTimeSelector).text();
 		return Util.stringToSeconds(text);
 	};
@@ -198,7 +198,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 *
 	 * @return {Object} Object contains current time and duration info
 	 */
-	this.getTimeInfo = function () {
+	this.getTimeInfo = function() {
 		let text = $(this.timeInfoSelector).text();
 		return Util.splitTimeInfo(text);
 	};
@@ -212,7 +212,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 *
 	 * @return {Object} Object contain artist and track information
 	 */
-	this.getArtistTrack = function () {
+	this.getArtistTrack = function() {
 		let text = $(this.artistTrackSelector).text();
 		return Util.splitArtistTrack(text);
 	};
@@ -232,7 +232,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 *
 	 * @return {String} Song unique ID
 	 */
-	this.getUniqueID = function () {
+	this.getUniqueID = function() {
 		return null;
 	};
 
@@ -247,7 +247,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 *
 	 * @return {Boolean} True if song is now playing; false otherwise
 	 */
-	this.isPlaying = function () {
+	this.isPlaying = function() {
 		return this.playButtonSelector === null || !$(this.playButtonSelector).is(':visible');
 	};
 
@@ -294,7 +294,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 *
 	 * @return {String} Track art URL
 	 */
-	this.getTrackArt = function () {
+	this.getTrackArt = function() {
 		if (!this.trackArtSelector) {
 			return null;
 		}
@@ -340,7 +340,7 @@ var BaseConnector = window.BaseConnector || function () {
 	 *
 	 * @return {Boolean} True if state change is allowed; false otherwise
 	 */
-	this.isStateChangeAllowed = function () {
+	this.isStateChangeAllowed = function() {
 		return true;
 	};
 

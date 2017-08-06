@@ -6,7 +6,7 @@ define([
 	'objects/serviceCallResult',
 	'storage/chromeStorage',
 	'util',
-], function ($, MD5, ServiceCallResult, ChromeStorage, Util) {
+], function($, MD5, ServiceCallResult, ChromeStorage, Util) {
 	const GET_AUTH_URL_TIMEOUT = 10000;
 
 	/**

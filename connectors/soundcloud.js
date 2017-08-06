@@ -69,7 +69,7 @@ function setSongData(metadata) {
 /**
  * Run at initialisation; add dom script and attach events.
  */
-(function () {
+(function() {
 	// Exit if already attached.
 	if (window.SC_ATTACHED) {
 		return;

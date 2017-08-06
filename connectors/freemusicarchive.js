@@ -4,7 +4,7 @@
 Connector.playerSelector = '#content';
 
 // store the type of page
-let pageType = (function () {
+let pageType = (function() {
 	if ($('div.bcrumb h1 span.minitag-artist')[0]) {
 		return 'artist';
 	}
@@ -17,11 +17,11 @@ let pageType = (function () {
 	if (location.href.split('/')[3] === 'search' || location.href.split('/')[3] === 'genre') {
 		return 'searchOrGenre';
 	}
-	//the main page or blog pages, for example
+	// the main page or blog pages, for example
 	return 'other';
 }());
 
-//console.log('pageType = ' + pageType);
+// console.log('pageType = ' + pageType);
 
 /**
  * Return the result of a regular expression search execution against an html comment.
@@ -33,7 +33,7 @@ let pageType = (function () {
 */
 function searchComment(regEx) {
 	let result,
-		pageDataNode = $('div.colr-sml-toppad').contents().filter(function () {
+		pageDataNode = $('div.colr-sml-toppad').contents().filter(function() {
 			return this.nodeType === 8;
 		})[0];
 	if (pageDataNode) {
@@ -54,7 +54,7 @@ Connector.isPlaying = () => {
 Connector.getArtist = () => {
 	switch (pageType) {
 		case 'artist':
-			return $('div.bcrumb h1').contents().filter(function () {
+			return $('div.bcrumb h1').contents().filter(function() {
 				return this.nodeType === 3;
 			}).text();
 		case 'album':
@@ -97,14 +97,14 @@ Connector.getTrack = () => {
 		case 'searchOrGenre':
 			return $('div.gcol-electronic span.ptxt-track').text().replace(/^\"|\"$/g, '');
 		default:
-			//last anchor is used for 'other' page types where the Artist and song title are shown in the playlist
+			// last anchor is used for 'other' page types where the Artist and song title are shown in the playlist
 			return $('div.gcol-electronic span.playtxt a').last().text().trim().replace(/^\"|\"$/g, '');
 	}
 };
 
 Connector.getDuration = () => {
 	// the duration is in the last textNode
-	let durStr = $('div.gcol-electronic span.playtxt').contents().filter(function () {
+	let durStr = $('div.gcol-electronic span.playtxt').contents().filter(function() {
 			return this.nodeType === 3;
 		}).last().text().trim(),
 		m = /(\d{2}):(\d{2})/.exec(durStr);

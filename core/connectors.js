@@ -17,7 +17,7 @@
  *   @param {Boolean} allFrames Value representing InjectDetails.allFrames.
  *   False by default.
  */
-define(function () {
+define(function() {
 	return [{
 		label: 'Baidu Music',
 		matches: ['*://play.baidu.com/*'],

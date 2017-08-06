@@ -17,7 +17,7 @@ Connector.getArtistTrack = () => {
 	let track = null;
 
 	if ($('#PlayerFrame iframe').contents().find('#Play').length &&
-		$('#PlayerFrame iframe').contents().find('#Play').attr('src').includes('pause')) { //embed
+		$('#PlayerFrame iframe').contents().find('#Play').attr('src').includes('pause')) { // embed
 		artist = $('.H-artist').text();
 		track = $('#PlayerFrame iframe').contents().find('#PlayerPanel > :first-child').text();
 	} else if ($('.player-buttonPause').length) {
@@ -43,7 +43,7 @@ Connector.getArtistTrack = () => {
 	return { artist, track };
 };
 Connector.getAlbum = () => {
-	return $('#PlayerFrame iframe').contents().find('#Play').length ? //embed
+	return $('#PlayerFrame iframe').contents().find('#Play').length ? // embed
 	$('#TrackList h1').text() :
 		$('.Release-preview:has(.Hello-Mini-Playing) .Release-select strong').text();
 };

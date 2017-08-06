@@ -8,7 +8,7 @@
 
 window.SC_ATTACHED = window.SC_ATTACHED || false;
 
-(function () {
+(function() {
 	let eventBus, playManager, currentMetaData;
 
 	// Exit if already attached.
@@ -18,15 +18,15 @@ window.SC_ATTACHED = window.SC_ATTACHED || false;
 
 	window.webpackJsonp([], {
 		// eslint-disable-next-line object-shorthand
-		0: function (e, t, _require) {
+		0: function(e, t, _require) {
 			let modules = _require.c, moduleid, el;
 
 			for (moduleid in modules) {
 				if (modules.hasOwnProperty(moduleid)) {
 					el = _require(moduleid);
-					//console.group('moduleid: ' + moduleid);
-					//console.dir(el);
-					//console.groupEnd();
+					// console.group('moduleid: ' + moduleid);
+					// console.dir(el);
+					// console.groupEnd();
 
 					// playManager used to get current playing song when song starts on page load
 					if (typeof el.playCurrent === 'function') {
@@ -47,13 +47,13 @@ window.SC_ATTACHED = window.SC_ATTACHED || false;
 		return;
 	}
 
-	eventBus.on('audio:play', function (e) {
+	eventBus.on('audio:play', function(e) {
 		window.postMessage({
 			type: 'SC_PLAY',
 			metadata: e.model.attributes
 		}, '*');
 	});
-	eventBus.on('audio:pause', function (e) {
+	eventBus.on('audio:pause', function(e) {
 		window.postMessage({
 			type: 'SC_PAUSE',
 			metadata: e.model.attributes

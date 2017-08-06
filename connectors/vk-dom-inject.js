@@ -10,7 +10,7 @@ const INFO_DURATION = 5;
 
 window.webScrobblerInjected = window.webScrobblerInjected || false;
 
-(function () {
+(function() {
 	if (window.webScrobblerInjected) {
 		return;
 	}

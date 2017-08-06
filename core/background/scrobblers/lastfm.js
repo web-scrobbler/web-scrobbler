@@ -5,7 +5,7 @@
  */
 define([
 	'scrobblers/baseScrobbler',
-], function (BaseScrobbler) {
+], function(BaseScrobbler) {
 	class LastFm extends BaseScrobbler {
 		isSongInfoLoadingSupported() {
 			return true;

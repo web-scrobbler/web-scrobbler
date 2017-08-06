@@ -33,7 +33,7 @@ function artistIsletious() {
 	// example of pipe usage: http://tigersmilkrecords.bandcamp.com/album/peru-maravilloso-vintage-latin-tropical-cumbia
 	if ($('meta[property="og:type"]').attr('content') === 'album') {
 		let allDashed = true;
-		$('.track_list span[itemprop="name"]').each(function () {
+		$('.track_list span[itemprop="name"]').each(function() {
 			if (!/\||-/.test($(this).text())) {
 				allDashed = false;
 				return false;

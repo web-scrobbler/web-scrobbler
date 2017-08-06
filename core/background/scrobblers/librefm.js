@@ -7,7 +7,7 @@ define([
 	'jquery',
 	'scrobblers/baseScrobbler',
 	'objects/serviceCallResult'
-], function ($, BaseScrobbler, ServiceCallResult) {
+], function($, BaseScrobbler, ServiceCallResult) {
 	class LibreFm extends BaseScrobbler {
 		doRequest(method, params, signed) {
 			if ('post' !== method.toLowerCase()) {
