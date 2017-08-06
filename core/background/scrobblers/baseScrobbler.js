@@ -352,6 +352,7 @@ define([
 			if (this.isSongInfoCorrectionSupported()) {
 				let artist = $doc.find('artist > name').text();
 				let track = $doc.find('track > name').text();
+				let album = $doc.find('album > title').text();
 				let duration = (parseInt($doc.find('track > duration').text()) / 1000) || null;
 
 				let artistThumbUrl = null;
@@ -368,7 +369,7 @@ define([
 				let albumUrl = $doc.find('album > url').text();
 
 				return {
-					artist, track, duration, userloved,
+					artist, track, album, duration, userloved,
 					artistThumbUrl, artistUrl, albumUrl, trackUrl
 				};
 			}

@@ -32,6 +32,10 @@ define([
 					artist: songInfo.artist,
 					track: songInfo.track
 				});
+				if (!song.getAlbum()) {
+					song.processed.attr('album', songInfo.album);
+				}
+
 				song.metadata.attr({
 					artistThumbUrl: songInfo.artistThumbUrl,
 					artistUrl: songInfo.artistUrl,
