@@ -4,6 +4,7 @@ let currentState = {};
 let isPlaying = false;
 
 (function() {
+	// FIXME: Replace to `chrome.runtime.getURL`.
 	let scriptUrl = chrome.extension.getURL('connectors/vk-dom-inject.js');
 	Util.injectScriptIntoDocument(scriptUrl);
 

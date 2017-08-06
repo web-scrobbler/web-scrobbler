@@ -76,6 +76,7 @@ function setSongData(metadata) {
 	}
 
 	// Inject script to extract events from the Soundcloud API event-bus.
+	// FIXME: Replace to `chrome.runtime.getURL`.
 	let scriptUrl = chrome.extension.getURL('connectors/soundcloud-dom-inject.js');
 	Util.injectScriptIntoDocument(scriptUrl);
 
