@@ -56,8 +56,6 @@ define([
 		'apiSecret'
 	];
 
-	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
-
 	/**
 	 * Base scrobbler object.
 	 *
@@ -310,26 +308,27 @@ define([
 			}).catch(() => {
 				return {};
 			}).then((params) => {
-				return options.get().then((data) => {
-					params.method = 'track.getinfo';
-					params.autocorrect = data.useAutocorrect ? 1 : 0;
-					params.artist = song.getArtist();
-					params.track = song.getTrack();
+				params.method = 'track.getinfo';
+				params.artist = song.getArtist();
+				params.track = song.getTrack();
 
-					return this.doRequest('GET', params, false).then(($doc) => {
-						let result = processResponse($doc);
-						if (!result.isOk()) {
-							throw new Error('Unable to load song info');
-						}
+				if (song.getAlbum()) {
+					params.album = song.getAlbum();
+				}
 
-						return this.parseSongInfo($doc);
-					}).then((data) => {
-						if (data) {
-							this.fillSongInfo(data, song);
-						}
+				return this.doRequest('GET', params, false).then(($doc) => {
+					let result = processResponse($doc);
+					if (!result.isOk()) {
+						throw new Error('Unable to load song info');
+					}
 
-						return data;
-					});
+					return this.parseSongInfo($doc);
+				}).then((data) => {
+					if (data) {
+						this.fillSongInfo(data, song);
+					}
+
+					return data;
 				});
 			});
 		}

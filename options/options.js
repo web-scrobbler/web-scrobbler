@@ -18,7 +18,6 @@ require([
 	const optionsUiMap = {
 		disableGa: '#disable-ga',
 		forceRecognize: '#force-recognize',
-		useAutocorrect: '#use-autocorrect',
 		useNotifications: '#use-notifications',
 		useUnrecognizedSongNotifications: '#use-unrecognized-song-notifications'
 	};

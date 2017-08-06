@@ -24,11 +24,6 @@ define(['storage/chromeStorage', 'connectors'], (ChromeStorage, connectors) => {
 		 */
 		forceRecognize: false,
 		/**
-		 * Use autocorrection when retrieving song info from services.
-		 * @type {Boolean}
-		 */
-		useAutocorrect: false,
-		/**
 		 * Use now playing notifications.
 		 * @type {Boolean}
 		 */
