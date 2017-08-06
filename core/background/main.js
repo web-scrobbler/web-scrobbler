@@ -30,7 +30,6 @@
  *  - v2.skipSong: Ignore (don't scrobble) current song
  *  - v2.authenticate: Authenticate scrobbler
  *    @param  {String} scrobbler Scrobbler label
- *    @param  {Boolean} notify Use notification
  */
 require([
 	'migrate',
@@ -41,8 +40,9 @@ require([
 	'controller',
 	'storage/chromeStorage',
 	'config',
-	'services/scrobbleService'
-], function(Migrate, GA, inject, InjectResult, PageAction, Controller, ChromeStorage, Config, ScrobbleService) {
+	'services/scrobbleService',
+	'notifications'
+], function(Migrate, GA, inject, InjectResult, PageAction, Controller, ChromeStorage, Config, ScrobbleService, Notifications) {
 
 	/**
 	 * Current version of the extension.
@@ -140,7 +140,7 @@ require([
 				let scrobblerLabel = request.scrobbler;
 				let scrobbler = ScrobbleService.getScrobblerByLabel(scrobblerLabel);
 				if (scrobbler) {
-					ScrobbleService.authenticateScrobbler(scrobbler, request.notify);
+					ScrobbleService.authenticateScrobbler(scrobbler);
 				}
 				break;
 		}
@@ -302,9 +302,7 @@ require([
 			ScrobbleService.bindScrobblers(scrobblers).then((boundScrobblers) => {
 				if (boundScrobblers.length === 0) {
 					console.warn('No scrobblers are bound');
-					for (let scrobbler of scrobblers) {
-						ScrobbleService.authenticateScrobbler(scrobbler);
-					}
+					Notifications.askForAuthentication();
 				} else {
 					for (let scrobbler of boundScrobblers) {
 						GA.event('core', 'bind', scrobbler.getLabel());

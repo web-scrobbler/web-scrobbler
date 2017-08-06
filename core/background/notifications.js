@@ -223,14 +223,13 @@ define([
 
 	/**
 	 * Show auth notification.
-	 *
-	 * @param {String} label Scrobbler label
-	 * @param {String} authUrl URL that will be opened on notification click
+	 * @return {Promise} Promise resolved when the task has complete
 	 */
-	function showAuthenticate(label, authUrl) {
+	function askForAuthentication() {
+		let authUrl = chrome.extension.getURL('/options/options.html#accounts');
 		const options = {
-			title: `Connect your ${label} account`,
-			message: 'Click the notification or connect later in the extension options page',
+			title: 'Connect your accounts',
+			message: 'Click the notification to connect your accounts',
 		};
 		function onClicked() {
 			GA.event('notification', 'authenticate', 'click');
@@ -238,7 +237,7 @@ define([
 			chrome.tabs.create({ url: authUrl });
 		}
 
-		showNotification(options, onClicked).then(() => {
+		return showNotification(options, onClicked).then(() => {
 			GA.event('notification', 'authenticate', 'show');
 		}).catch(() => {
 			GA.event('notification', 'authenticate', 'open-unavailable');
@@ -274,6 +273,6 @@ define([
 
 	return {
 		remove, showPlaying, showError, showSignInError,
-		showAuthenticate, showSongNotRecognized
+		askForAuthentication, showSongNotRecognized
 	};
 });

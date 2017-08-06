@@ -137,8 +137,7 @@ require([
 		let $authUrl = $('<a href="#"/>').text('Sign in').click(() => {
 			chrome.runtime.sendMessage({
 				type: 'v2.authenticate',
-				scrobbler: scrobbler.getLabel(),
-				notify: false
+				scrobbler: scrobbler.getLabel()
 			});
 		});
 		let $authStr = $('<p/>').text('You\'re not signed in. ').append($authUrl);
