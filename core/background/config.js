@@ -54,7 +54,7 @@ define(['storage/chromeStorage', 'connectors'], (ChromeStorage, connectors) => {
 	 */
 	function isConnectorEnabled(label) {
 		return options.get().then((data) => {
-			return data.disabledConnectors.indexOf(label) === -1;
+			return !data.disabledConnectors.includes(label);
 		});
 	}
 
