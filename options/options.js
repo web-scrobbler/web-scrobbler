@@ -31,6 +31,8 @@ require([
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 	const connectorsOptions = ChromeStorage.getStorage(ChromeStorage.CONNECTORS_OPTIONS);
 
+	const sortedConnetors = getConnectors();
+
 	$(function () {
 		// preload values and attach listeners
 		for (let option in optionsUiMap) {
@@ -59,12 +61,11 @@ require([
 			}
 		}
 
-		$('button#add-pattern').click(function() {
-			$('#conn-conf-list').append(createNewConfigInput());
-		});
+		// Generate connectors and their checkboxes
+		initConnectorsList();
 
-		// generate connectors and their checkboxes
-		createConnectors();
+		initAddPatternDialog();
+		initViewEditedDialog();
 
 		// Set the toggle init state
 		toggleInitState();
@@ -187,66 +188,59 @@ require([
 		updateReleaseNotesUrl();
 	}
 
-	function listConnectors() {
-		// prevent mutation of original
-		var conns = connectors.slice(0);
-
-		// sort alphabetically
-		conns.sort(function (a, b) {
+	/**
+	 * Return sorted array of connectors.
+	 * @return {Array} Array of connectors
+	 */
+	function getConnectors() {
+		return connectors.slice(0).sort((a, b) => {
 			return a.label.localeCompare(b.label);
 		});
-
-		return conns;
 	}
 
 	function createNewConfigInput(value) {
-		value = typeof value === 'undefined' ? '' : value;
+		let newElt = $('<li></li>');
+		let input = $('<input type="text">').val(value || '');
 
-		var newElt = $('<li></li>');
-
-		var input = $('<input type="text">').val(value);
-
-		newElt.append(input);
-
-		var closeBtn = $(
+		let closeBtn = $(
 			'<a href="#" class="conn-conf-del-input" tabindex="-1">' +
-		'<i class="icon-remove icon-fixed-width"></i>' +
-		'</a>').click(function(ev) {
+			'<i class="icon-remove icon-fixed-width"></i>' +
+			'</a>'
+		).click(function(ev) {
 			ev.preventDefault();
-
 			$(this).closest('li').remove();
 		});
 
+		newElt.append(input);
 		newElt.append(closeBtn);
 
 		return newElt;
 	}
 
-	function createConnectors() {
-		var parent = $('ul#connectors');
-
-		var conns = listConnectors();
+	function initConnectorsList() {
+		let parent = $('ul#connectors');
 
 		options.get().then((data) => {
 			let disabledConnectors = data.disabledConnectors;
 			let toggleCheckboxState = false;
 
-			conns.forEach((connector, index) => {
-				var newEl = $(`${'<li>\r\n' +
-				'<a href="#" class="conn-config" data-conn="'}${index}">\r\n` +
-				'<i class="icon-gear icon-fixed-width"></i>\r\n' +
-				'</a>\r\n' +
-				`<input type="checkbox" id="conn-${index}">\r\n` +
-				`<label for="conn-${index}">${connector.label}</label>\r\n` +
-				'</li>');
+			sortedConnetors.forEach((connector, index) => {
+				let newEl = $(`${'<li>\r\n' +
+					'<a href="#" class="conn-config" data-conn="'}${index}">\r\n` +
+					'<i class="icon-gear icon-fixed-width"></i>\r\n' +
+					'</a>\r\n' +
+					`<input type="checkbox" id="conn-${index}">\r\n` +
+					`<label for="conn-${index}">${connector.label}</label>\r\n` +
+					'</li>'
+				);
 
-				var domEl = newEl.appendTo(parent);
-				var checkbox = domEl.find('input');
+				let domEl = newEl.appendTo(parent);
+				let checkbox = domEl.find('input');
 
-				checkbox.click(function () {
+				checkbox.click(function() {
 					config.setConnectorEnabled(connector.label, this.checked);
 				});
-				let isConnectorEnabled = disabledConnectors.indexOf(connector.label) === -1;
+				let isConnectorEnabled = !disabledConnectors.includes(connector.label);
 				checkbox.attr('checked', isConnectorEnabled);
 
 				if (isConnectorEnabled) {
@@ -255,7 +249,7 @@ require([
 			});
 
 			$('input#toggle').attr('checked', toggleCheckboxState);
-			$('input#toggle').click(function () {
+			$('input#toggle').click(function() {
 				// First set each to the negated value and then trigger click
 				$('input[id^="conn"]').each((index, connector) => {
 					$(connector).prop('checked', this.checked);
@@ -263,16 +257,41 @@ require([
 				config.setAllConnectorsEnabled(this.checked);
 			});
 		});
+	}
+
+	function initAddPatternDialog() {
+		$('body').on('click', 'a.conn-config', (e) => {
+			e.preventDefault();
+
+			let modal = $('#conn-conf-modal');
+			let index = $(e.currentTarget).data('conn');
+			let connector = sortedConnetors[index];
+
+			modal.data('conn', index);
+			modal.find('.conn-conf-title').html(connector.label);
+
+			customPatterns.getAllPatterns().then((allPatterns) => {
+				let patterns = allPatterns[connector.label] || [];
+
+				let inputs = $('<ul class="list-unstyled" id="conn-conf-list"></ul>');
+				for (let value of patterns) {
+					inputs.append(createNewConfigInput(value));
+				}
+
+				modal.find('.conn-conf-patterns').html(inputs);
+				modal.modal('show');
+			});
+		});
 
 		$('button#conn-conf-ok').click(function() {
-			var modal = $(this).closest('#conn-conf-modal');
+			let modal = $(this).closest('#conn-conf-modal');
 
-			var index = modal.data('conn');
-			var connector = conns[index];
+			let index = modal.data('conn');
+			let connector = sortedConnetors[index];
 
-			var patterns = [];
+			let patterns = [];
 			$('#conn-conf-list').find('input:text').each(function() {
-				var pattern = $(this).val();
+				let pattern = $(this).val();
 				if (pattern.length > 0) {
 					patterns.push(pattern);
 				}
@@ -287,66 +306,42 @@ require([
 			modal.modal('hide');
 		});
 
-		$('button#conn-conf-reset').click(function() {
-			var modal = $('#conn-conf-modal');
+		$('button#add-pattern').click(() => {
+			$('#conn-conf-list').append(createNewConfigInput());
+		});
 
-			var index = modal.data('conn');
-			var connector = conns[index];
+		$('button#conn-conf-reset').click(function() {
+			let modal = $(this).closest('#conn-conf-modal');
+
+			let index = modal.data('conn');
+			let connector = sortedConnetors[index];
 
 			customPatterns.resetPatterns(connector.label);
 
 			modal.modal('hide');
 		});
+	}
 
-		$('body').on('click', '#view-edited', function(event) {
-			event.preventDefault();
-
-			const localCache = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
-
+	function initViewEditedDialog() {
+		$('#view-edited').click(() => {
+			let localCache = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
 			let cache = $('<ul class="list-unstyled"></ul>');
+
 			localCache.get().then((data) => {
 				if (Object.keys(data).length === 0) {
 					cache.append($('<li>').text('No items in the cache.'));
 				} else {
-					$.each(data, function(cachedKey, cachedData) {
-						let { artist, track } = cachedData;
+					for (let songId in data) {
+						let { artist, track } = data[songId];
 						cache.append($('<li>').text(`${artist} — ${track}`));
-					});
+					}
 				}
 			});
 
 			let modal = $('#edited-track-modal');
 
 			modal.find('.edited-track-contents').html(cache);
-
 			modal.modal('show');
-		});
-
-		$('body').on('click', 'a.conn-config', function(event) {
-			event.preventDefault();
-
-			var modal = $('#conn-conf-modal');
-			var index = $(event.currentTarget).data('conn');
-			var connector = conns[index];
-
-			modal.data('conn', index);
-			modal.find('.conn-conf-title').html(connector.label);
-
-			customPatterns.getAllPatterns().then((allPatterns) => {
-				var patterns = allPatterns[connector.label] || [];
-
-				var inputs = $('<ul class="list-unstyled" id="conn-conf-list"></ul>');
-				for (var i = 0; i < patterns.length; i++) {
-					var value = patterns[i];
-					var input = createNewConfigInput(value);
-
-					inputs.append(input);
-				}
-
-				modal.find('.conn-conf-patterns').html(inputs);
-
-				modal.modal('show');
-			});
 		});
 	}
 
