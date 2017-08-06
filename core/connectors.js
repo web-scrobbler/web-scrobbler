@@ -770,7 +770,7 @@ define(function() {
 
 	{
 		label: 'Retrowave',
-		matches: ['http://retrowave.ru/*'],
+		matches: ['*://retrowave.ru/*'],
 		js: ['connectors/retrowave.js'],
 	},
 
