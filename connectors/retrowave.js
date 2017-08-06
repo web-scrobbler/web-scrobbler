@@ -1,6 +1,6 @@
 'use strict';
 
-Connector.playerSelector = '#player';
+Connector.playerSelector = '.theme__container';
 
 Connector.artistTrackSelector = '#display-title';
 
