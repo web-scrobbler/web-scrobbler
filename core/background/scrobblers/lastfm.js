@@ -7,12 +7,6 @@ define([
 	'scrobblers/baseScrobbler',
 ], function (BaseScrobbler) {
 	class LastFm extends BaseScrobbler {
-		getProfileUrl() {
-			return this.getSession().then((session) => {
-				return `https://last.fm/user/${session.sessionName}`;
-			});
-		}
-
 		isSongInfoLoadingSupported() {
 			return true;
 		}
@@ -29,6 +23,7 @@ define([
 		apiKey: 'd9bb1870d3269646f740544d9def2c95',
 		apiSecret: '2160733a567d4a1a69a73fad54c564b2',
 		authUrl: 'https://www.last.fm/api/auth/',
-		statusUrl: 'http://status.last.fm/'
+		statusUrl: 'http://status.last.fm/',
+		profileUrl: 'https://last.fm/user/',
 	});
 });

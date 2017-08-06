@@ -40,6 +40,11 @@ define([
 		 */
 		'statusUrl',
 		/**
+		 * URL used to view user profile.
+		 * @type {String}
+		 */
+		'profileUrl',
+		/**
 		 * Service API key.
 		 * @type {String}
 		 */
@@ -145,7 +150,10 @@ define([
 		 * @return {Promise} Promise that will be resolved with URL
 		 */
 		getProfileUrl() {
-			return Promise.resolve(null);
+			return this.getSession().then((session) => {
+				console.log(this);
+				return `${this.profileUrl}${session.sessionName}`;
+			});
 		}
 
 		/**
