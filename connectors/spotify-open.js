@@ -22,3 +22,9 @@ Connector.currentTimeSelector = '.playback-bar__progress-time:first-child';
 Connector.durationSelector = '.playback-bar__progress-time:last-child';
 
 Connector.filter = MetadataFilter.getRemasteredFilter();
+
+Connector.isScrobblingAllowed = () => {
+	// When ad is playing, artist URL is like "https://shrt.spotify.com/XXX"
+	let artistUrl = $('.track-info__artists a').attr('href');
+	return artistUrl && artistUrl.includes('artist');
+};
