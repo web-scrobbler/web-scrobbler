@@ -232,12 +232,12 @@ require([
 			let toggleCheckboxState = false;
 
 			conns.forEach((connector, index) => {
-				var newEl = $('<li>\r\n' +
-				'<a href="#" class="conn-config" data-conn="' + index + '">\r\n' +
+				var newEl = $(`${'<li>\r\n' +
+				'<a href="#" class="conn-config" data-conn="'}${index}">\r\n` +
 				'<i class="icon-gear icon-fixed-width"></i>\r\n' +
 				'</a>\r\n' +
-				'<input type="checkbox" id="conn-' + index + '">\r\n' +
-				'<label for="conn-' + index + '">' + connector.label + '</label>\r\n' +
+				`<input type="checkbox" id="conn-${index}">\r\n` +
+				`<label for="conn-${index}">${connector.label}</label>\r\n` +
 				'</li>');
 
 				var domEl = newEl.appendTo(parent);

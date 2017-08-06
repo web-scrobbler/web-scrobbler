@@ -469,9 +469,9 @@ define([
 		toggleLove(song, isLoved) {
 			return this.getSession().then(({ sessionID }) => {
 				let params = {
-					method: 'track.' + (isLoved ? 'love' : 'unlove'),
-					'track': song.getTrack(),
-					'artist': song.getArtist(),
+					method: isLoved ? 'track.love' : 'track.unlove',
+					track: song.getTrack(),
+					artist: song.getArtist(),
 					sk: sessionID
 				};
 

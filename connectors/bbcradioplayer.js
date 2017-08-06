@@ -4,9 +4,9 @@ const nowPlayingSelector = '#now-playing .playlister';
 
 Connector.playerSelector = '.programme-details-wrapper';
 
-Connector.artistSelector = nowPlayingSelector + ' .track .artist';
+Connector.artistSelector = `${nowPlayingSelector} .track .artist`;
 
-Connector.trackSelector = nowPlayingSelector + ' .track .title';
+Connector.trackSelector = `${nowPlayingSelector} .track .title`;
 
 Connector.getUniqueID = () => {
 	return $('#data-uid').text();

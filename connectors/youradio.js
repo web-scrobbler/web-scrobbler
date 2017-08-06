@@ -12,5 +12,5 @@ Connector.trackArtSelector = '.yr2-navbar-player-metadata-cover';
 
 Connector.getTrackArt = () => {
 	// Popup does not accepts URL without protocol
-	return 'https:' + $(Connector.trackArtSelector).attr('src');
+	return `https:${$(Connector.trackArtSelector).attr('src')}`;
 };

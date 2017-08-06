@@ -18,5 +18,5 @@ Connector.isPlaying = () => {
 };
 
 Connector.getTrackArt = () => {
-	return 'http:' + $('#AlbumImgArea').find('img').attr('src');
+	return `http:${$('#AlbumImgArea').find('img').attr('src')}`;
 };

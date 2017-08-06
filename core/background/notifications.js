@@ -162,7 +162,7 @@ define([
 				iconUrl: song.getTrackArt() || '/icons/default_cover_art.png',
 				// @ifdef CHROME
 				title: song.getTrack(),
-				message: 'by ' + song.getArtist(),
+				message: `by ${song.getArtist()}`,
 				contextMessage: connectorLabel
 				// @endif
 				/* @ifdef FIREFOX
@@ -261,7 +261,7 @@ define([
 
 	// Set up listening for clicks on all notifications
 	chrome.notifications.onClicked.addListener(function(notificationId) {
-		console.log('Notification onClicked: ' + notificationId);
+		console.log(`Notification onClicked: ${notificationId}`);
 
 		if (clickListeners[notificationId]) {
 			clickListeners[notificationId](notificationId);

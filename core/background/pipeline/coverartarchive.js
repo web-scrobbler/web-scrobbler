@@ -86,7 +86,7 @@ define(() => {
 				throw new Error('Unable to fetch MusicBrainz ID');
 			}
 
-			let results = musicbrainz[endpoint + 's'];
+			let results = musicbrainz[`${endpoint}s`];
 			let mbid = results[0].id;
 			song.metadata.musicBrainzId = mbid;
 

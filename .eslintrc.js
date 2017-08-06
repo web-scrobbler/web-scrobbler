@@ -77,6 +77,8 @@ module.exports = {
 		'no-redeclare': 'error',
 		// Disallow assignments where both sides are exactly the same
 		'no-self-assign': 'error',
+		// Disallow unnecessary concatenation of strings
+		'no-useless-concat': 'error',
 		// Disallow redundant return statements
 		'no-useless-return': 'error',
 
@@ -166,6 +168,8 @@ module.exports = {
 		'no-this-before-super': 'error',
 		// Require method and property shorthand syntax for object literals
 		'object-shorthand': ['error', 'always'],
+		// Require template literals instead of string concatenation
+		'prefer-template': 'error',
 		// Disallow spacing around embedded expressions of template strings
 		'template-curly-spacing': 'error',
 

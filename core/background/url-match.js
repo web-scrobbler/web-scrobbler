@@ -27,7 +27,7 @@ function createPattern(input) {
 		return null;
 	}
 	input = input.substr(result[0].length);
-	match_pattern += result[1] === '*' ? 'https?://' : result[1] + '://';
+	match_pattern += result[1] === '*' ? 'https?://' : `${result[1]}://`;
 
 	// Parse host if scheme is not `file`
 	if (result[1] !== 'file') {

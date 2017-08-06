@@ -69,8 +69,8 @@ define([], () => {
 			chrome.tabs.get(tabId, () => {
 				if (chrome.runtime.lastError) {
 					// tab doesn't exist
-					console.info('While executing this.setPageAction: ' +
-						chrome.runtime.lastError.message);
+					console.info(`While executing this.setPageAction: ${
+						chrome.runtime.lastError.message}`);
 				} else {
 					// tab exists
 					chrome.pageAction.hide(tabId);

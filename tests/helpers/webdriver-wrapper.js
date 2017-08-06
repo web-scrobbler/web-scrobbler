@@ -186,7 +186,7 @@ function setupTestEventCapture() {
 	console.log('Listening for events from the extension');
 	window.webScrobblerActionStack = [];
 	document.addEventListener('web-scrobbler-test-response', (e) => {
-		console.log('Web Scrobbler: push element into stack: ' + e.detail.detail);
+		console.log(`Web Scrobbler: push element into stack: ${e.detail.detail}`);
 		window.webScrobblerActionStack.push(e);
 	});
 
@@ -201,7 +201,7 @@ function setupTestEventCapture() {
  * @return {Promise} Promise that will be resolved with the found event
  */
 function waitForConnectorEvent(needle, timeout) {
-	helpers.debug('Waiting for "' + needle + '" event');
+	helpers.debug(`Waiting for "${needle}" event`);
 	return exports.wait(() => {
 		return driver.executeScript(findWebScrobblerEvent, needle);
 	}, timeout).catch(() => {

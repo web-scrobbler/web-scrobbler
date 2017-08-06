@@ -71,7 +71,7 @@ function getConnectorsToTest() {
 
 		invalidConnectors = invalidConnectors.concat(connectorsFromArgs);
 		if (invalidConnectors.length > 0) {
-			console.warn('Unknown connectors: ' + invalidConnectors.join(', '));
+			console.warn(`Unknown connectors: ${invalidConnectors.join(', ')}`);
 		}
 	}
 

@@ -31,7 +31,7 @@ define([
 				// if the message was sent to a non existing script or the script
 				// does not implement the 'ping' message, we get response==undefined;
 				if (!response) {
-					console.log('-- loaded for the first time, injecting the scripts');
+					console.log('Loaded for the first time, injecting the scripts');
 
 					// inject all scripts and jQuery, use slice to avoid mutating
 					let scripts = connector.js.slice(0);
@@ -58,7 +58,7 @@ define([
 								allFrames: connector.allFrames ? connector.allFrames : false
 							};
 
-							console.log('\tinjecting ' + jsFile);
+							console.log(`Injecting ${jsFile}`);
 							chrome.tabs.executeScript(tabId, injectDetails, injectWorker);
 						} else {
 							// done successfully
@@ -68,7 +68,7 @@ define([
 
 					injectWorker();
 				} else {
-					console.log('-- subsequent ajax navigation, the scripts are already injected');
+					console.log('Subsequent ajax navigation, the scripts are already injected');
 					resolve(null);
 				}
 			});
