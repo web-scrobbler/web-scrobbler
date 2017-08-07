@@ -151,13 +151,13 @@ define(function() {
 
 	{
 		label: 'Spotify',
-		matches: ['https://play.spotify.com/*'],
+		matches: ['*://play.spotify.com/*'],
 		js: ['connectors/spotify-play.js'],
 	},
 
 	{
 		label: 'Spotify (Open)',
-		matches: ['https://open.spotify.com/*'],
+		matches: ['*://open.spotify.com/*'],
 		js: ['connectors/spotify-open.js'],
 	},
 
@@ -307,7 +307,7 @@ define(function() {
 
 	{
 		label: 'Xiami',
-		matches: ['http://www.xiami.com/play*'],
+		matches: ['*://www.xiami.com/play*'],
 		js: ['connectors/xiami.js'],
 	},
 
@@ -630,7 +630,10 @@ define(function() {
 
 	{
 		label: 'Яндекс.Радио',
-		matches: ['https://radio.yandex.ru/*', 'https://radio.yandex.by/*', 'https://radio.yandex.kz/*', 'https://radio.yandex.ua/*'],
+		matches: [
+			'*://radio.yandex.ru/*', '*://radio.yandex.by/*',
+			'*://radio.yandex.kz/*', '*://radio.yandex.ua/*'
+		],
 		js: ['connectors/yandex-radio.js'],
 	},
 
@@ -679,13 +682,13 @@ define(function() {
 
 	{
 		label: 'wavo',
-		matches: ['https://wavo.me/*'],
+		matches: ['*://wavo.me/*'],
 		js: ['connectors/wavo.js'],
 	},
 
 	{
 		label: 'Dubtrack.fm',
-		matches: ['https://www.dubtrack.fm/*'],
+		matches: ['*://www.dubtrack.fm/*'],
 		js: ['connectors/dubtrack.fm.js'],
 	},
 
@@ -758,13 +761,13 @@ define(function() {
 
 	{
 		label: 'Youtube Jukebox',
-		matches: ['http://youtube.nestharion.de/*'],
+		matches: ['*://youtube.nestharion.de/*'],
 		js: ['connectors/yt-jukebox.js'],
 	},
 
 	{
 		label: 'Nightwave Plaza',
-		matches: ['https://plaza.one/*'],
+		matches: ['*://plaza.one/*'],
 		js: ['connectors/plaza.js'],
 	},
 
@@ -788,13 +791,13 @@ define(function() {
 
 	{
 		label: 'Genie',
-		matches: ['http://www.genie.co.kr/player/fPlayer*'],
+		matches: ['*://www.genie.co.kr/player/fPlayer*'],
 		js: ['connectors/genie.js'],
 	},
 
 	{
 		label: 'Playmoss',
-		matches: ['https://playmoss.com/*'],
+		matches: ['*://playmoss.com/*'],
 		js: ['connectors/playmoss.js'],
 	},
 
@@ -1097,7 +1100,7 @@ define(function() {
 		js: ['connectors/fanburst.js']
 	}, {
 		label: 'SESHstation',
-		matches: ['https://radio.sesh.team/'],
+		matches: ['*://radio.sesh.team/'],
 		js: ['connectors/sesh.js']
 	}, {
 		label: 'Радиоволна.нет',
