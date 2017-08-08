@@ -12,8 +12,8 @@ define(['storage/chromeStorage'], (ChromeStorage) => {
 	function migrateFromLocalStorage() {
 		let options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 		let defaultOptions = [
-			'disableGa', 'forceRecognize',
-			'useAutocorrect', 'useNotifications'
+			'disableGa', 'forceRecognize', 'useNotifications',
+			'useUnrecognizedSongNotifications',
 		];
 
 		return options.get().then((data) => {
