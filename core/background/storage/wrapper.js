@@ -64,7 +64,12 @@ define(['wrappers/chrome', 'util'], (chrome, Util) => {
 		 */
 		debugLog() {
 			this.get().then((data) => {
-				debugLog(this.namespace, data);
+				let text = JSON.stringify(data, null, 2);
+				// Hide 'token' and 'sessionID' values if available
+				text = Util.hideStringInText(data.token, text);
+				text = Util.hideStringInText(data.sessionID, text);
+
+				console.info(`chrome.storage.${this.namespace} = ${text}`);
 			});
 		}
 
@@ -83,19 +88,6 @@ define(['wrappers/chrome', 'util'], (chrome, Util) => {
 					resolve();
 				});
 			});
-		}
-	}
-
-	function debugLog(key, data) {
-		let text = JSON.stringify(data, null, 2);
-		// Hide 'token' and 'sessionID' values if available
-		text = Util.hideStringInText(data.token, text);
-		text = Util.hideStringInText(data.sessionID, text);
-
-		if (key) {
-			console.info(`chrome.storage.${key} = ${text}`);
-		} else {
-			console.info(`chrome.storage = ${text}`);
 		}
 	}
 
