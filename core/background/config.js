@@ -27,7 +27,12 @@ define(['storage/chromeStorage', 'connectors'], (ChromeStorage, connectors) => {
 		 * Use now playing notifications.
 		 * @type {Boolean}
 		 */
-		useNotifications: true
+		useNotifications: true,
+		/**
+		 * Notify if song is not recognized.
+		 * @type {Boolean}
+		 */
+		useUnrecognizedSongNotifications: false,
 	};
 
 	/**
@@ -96,6 +101,6 @@ define(['storage/chromeStorage', 'connectors'], (ChromeStorage, connectors) => {
 	setupDefaultConfigValues();
 
 	return {
-		isConnectorEnabled, setConnectorEnabled, setAllConnectorsEnabled
+		isConnectorEnabled, setConnectorEnabled, setAllConnectorsEnabled,
 	};
 });
