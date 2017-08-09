@@ -1,6 +1,6 @@
 'use strict';
 
-define([], () => {
+define(() => {
 	const ICONS = {
 		BASE: {
 			'19': '/icons/page_action_base.svg',

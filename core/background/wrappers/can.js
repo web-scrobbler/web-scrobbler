@@ -1,13 +1,8 @@
 'use strict';
 
+/* global can */
+
 /**
- * Wrapper to avoid using global Can
- *
- * Is there a way to get AMD version of Can with custom build?
+ * Wrapper to avoid using global `can`.
  */
-/* globals can */
-define([
-	'canjs'
-], function() {
-	return can;
-});
+define(['canjs'], () => can);

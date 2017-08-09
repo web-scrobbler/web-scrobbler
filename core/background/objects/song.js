@@ -3,9 +3,7 @@
 /**
  * Song object
  */
-define([
-	'wrappers/can'
-], function(can) {
+define(['wrappers/can'], (can) => {
 	/**
 	 * @constructor
 	 * @param {Object} parsedData Current state received from connector

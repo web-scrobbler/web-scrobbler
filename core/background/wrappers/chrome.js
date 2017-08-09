@@ -1,8 +1,6 @@
 'use strict';
 
 /**
- * Simple wrapper for chrome so we dont use the global one
+ * Simple wrapper for `chrome` so we dont use the global one
  */
-define(function() {
-	return chrome;
-});
+define(() => chrome);

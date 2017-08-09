@@ -1,6 +1,6 @@
 'use strict';
 
-define([], () => {
+define(() => {
 	class Timer {
 		constructor() {
 			this.reset();

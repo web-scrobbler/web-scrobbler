@@ -28,6 +28,4 @@ class InjectResult {
 	}
 }
 
-define([], () => {
-	return InjectResult;
-});
+define(() => InjectResult);

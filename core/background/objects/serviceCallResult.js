@@ -40,4 +40,4 @@ class ServiceCallResult {
 	}
 }
 
-define([], () => ServiceCallResult);
+define(() => ServiceCallResult);
