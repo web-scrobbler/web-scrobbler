@@ -7,6 +7,8 @@ Connector.getTrackArt = () => {
 	if (trackArtUrl) {
 		return trackArtUrl.replace('=s90-c-e100', '');
 	}
+
+	return null;
 };
 
 Connector.artistSelector = '#player-artist';
