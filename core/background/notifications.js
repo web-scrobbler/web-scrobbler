@@ -195,12 +195,12 @@ define([
 
 	/**
 	 * Show error notification if user is unable to sign in to service.
-	 * @param {String} label Scrobbler label
-	 * @param {String} statusUrl URL that will be opened on notification click
+	 * @param  {Object} scrobbler Scrobbler instance
 	 */
-	function showSignInError(label, statusUrl) {
-		let errorMessage = `Unable to sign in to ${label}. Please try later.`;
+	function showSignInError(scrobbler) {
+		let errorMessage = `Unable to sign in to ${scrobbler.getLabel()}. Please try later.`;
 		showError(errorMessage, () => {
+			let statusUrl = scrobbler.getStatusUrl();
 			if (statusUrl) {
 				chrome.tabs.create({ url: statusUrl });
 			}

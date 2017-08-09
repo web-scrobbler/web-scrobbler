@@ -84,16 +84,13 @@ define([
 		 * @param  {Object} scrobbler Scrobbler instance
 		 */
 		authenticateScrobbler(scrobbler) {
-			let label = scrobbler.getLabel();
-
 			scrobbler.getAuthUrl().then((authUrl) => {
 				this.bindScrobbler(scrobbler);
 				chrome.tabs.create({ url: authUrl });
 			}).catch(() => {
-				console.log(`Unable to get auth URL for ${label}`);
+				console.log(`Unable to get auth URL for ${scrobbler.getLabel()}`);
 
-				let statusUrl = scrobbler.getStatusUrl();
-				Notifications.showSignInError(label, statusUrl);
+				Notifications.showSignInError(scrobbler);
 			});
 		},
 
