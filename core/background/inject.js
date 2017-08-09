@@ -30,47 +30,48 @@ define([
 			chrome.tabs.sendMessage(tabId, { type: 'v2.onPing' }, (response) => {
 				// if the message was sent to a non existing script or the script
 				// does not implement the 'ping' message, we get response==undefined;
-				if (!response) {
-					console.log('Loaded for the first time, injecting the scripts');
-
-					// inject all scripts and jQuery, use slice to avoid mutating
-					let scripts = connector.js.slice(0);
-
-					scripts.unshift('core/content/connector.js');
-					scripts.unshift('core/content/util.js');
-					scripts.unshift('core/content/filter.js');
-					scripts.unshift('core/content/reactor.js');
-					// @ifdef DEBUG
-					scripts.unshift('core/content/testReporter.js');
-					// @endif
-					scripts.unshift('vendor/jquery.min.js');
-
-					// Needs to be the last script injected
-					scripts.push('core/content/starter.js');
-
-					// Waits for script to be fully injected before
-					// injecting another one
-					function injectWorker() {
-						if (scripts.length > 0) {
-							let jsFile = scripts.shift();
-							let injectDetails = {
-								file: jsFile,
-								allFrames: connector.allFrames ? connector.allFrames : false
-							};
-
-							console.log(`Injecting ${jsFile}`);
-							chrome.tabs.executeScript(tabId, injectDetails, injectWorker);
-						} else {
-							// done successfully
-							resolve(new InjectResult(InjectResult.MATCHED_AND_INJECTED, tabId, connector));
-						}
-					}
-
-					injectWorker();
-				} else {
+				if (response) {
 					console.log('Subsequent ajax navigation, the scripts are already injected');
 					resolve(null);
+					return;
 				}
+
+				console.log('Loaded for the first time, injecting the scripts');
+
+				// inject all scripts and jQuery, use slice to avoid mutating
+				let scripts = connector.js.slice(0);
+
+				scripts.unshift('core/content/connector.js');
+				scripts.unshift('core/content/util.js');
+				scripts.unshift('core/content/filter.js');
+				scripts.unshift('core/content/reactor.js');
+				// @ifdef DEBUG
+				scripts.unshift('core/content/testReporter.js');
+				// @endif
+				scripts.unshift('vendor/jquery.min.js');
+
+				// Needs to be the last script injected
+				scripts.push('core/content/starter.js');
+
+				// Waits for script to be fully injected before
+				// injecting another one
+				function injectWorker() {
+					if (scripts.length > 0) {
+						let jsFile = scripts.shift();
+						let injectDetails = {
+							file: jsFile,
+							allFrames: connector.allFrames ? connector.allFrames : false
+						};
+
+						console.log(`Injecting ${jsFile}`);
+						chrome.tabs.executeScript(tabId, injectDetails, injectWorker);
+					} else {
+						// done successfully
+						resolve(new InjectResult(InjectResult.MATCHED_AND_INJECTED, tabId, connector));
+					}
+				}
+
+				injectWorker();
 			});
 		});
 	}

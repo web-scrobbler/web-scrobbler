@@ -1,6 +1,6 @@
 'use strict';
 
-const videoIdRegExp = /v=?([^#\&\?]*).*/;
+const videoIdRegExp = /v=?([^#&?]*).*/;
 
 Connector.playerSelector = '.player-controls';
 

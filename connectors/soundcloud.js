@@ -47,7 +47,7 @@ function setSongData(metadata) {
 
 	// Sometimes the artist name is in the track title,
 	// e.g. Tokyo Rose - Zender Overdrive by Aphasia Records.
-	let regex = /(.+)\s?[\-–:]\s?(.+)/;
+	let regex = /(.+)\s?[–:]\s?(.+)/;
 	let match = regex.exec(metadata.title);
 
 	// But don't interpret patterns of the form

@@ -213,7 +213,7 @@ class MetadataFilter {
 			// [whatever]
 			{ source: /\s*\[[^\]]+\]$/, target: '' },
 			// (whatever version)
-			{ source: /\s*\([^\)]*version\)$/i, target: '' },
+			{ source: /\s*\([^)]*version\)$/i, target: '' },
 			// video extensions
 			{ source: /\s*\.(avi|wmv|mpg|mpeg|flv)$/i, target: '' },
 			// (LYRIC VIDEO)
@@ -251,11 +251,11 @@ class MetadataFilter {
 			// Artist - The new "Track title" featuring someone
 			{ source: /^(|.*\s)"(.*)"(\s.*|)$/, target: '$2' },
 			// 'Track title'
-			{ source: /^(|.*\s)\'(.*)\'(\s.*|)$/, target: '$2' },
+			{ source: /^(|.*\s)'(.*)'(\s.*|)$/, target: '$2' },
 			// trim starting white chars and dash
-			{ source: /^[\/\s,:;~-\s"]+/, target: '' },
+			{ source: /^[/,:;~-\s"]+/, target: '' },
 			// trim trailing white chars and dash
-			{ source: /[\/\s,:;~-\s"\s!]+$/, target: '' },
+			{ source: /[/,:;~-\s"!]+$/, target: '' },
 		];
 	}
 
@@ -267,9 +267,9 @@ class MetadataFilter {
 	static get REMASTERED_FILTERS() {
 		return [
 			// Here Comes The Sun - Remastered
-			{ source: /\-\sRemastered$/, target: '' },
+			{ source: /-\sRemastered$/, target: '' },
 			// Hey Jude - Remastered 2015
-			{ source: /\-\sRemastered\s\d+$/, target: '' },
+			{ source: /-\sRemastered\s\d+$/, target: '' },
 			// Let It Be (Remastered 2009)
 			{ source: /\(Remastered\s\d+\)$/, target: '' },
 			// Pigs On The Wing (Part One) [2011 - Remaster]
@@ -277,15 +277,15 @@ class MetadataFilter {
 			// Comfortably Numb (2011 - Remaster)
 			{ source: /\(\d+\s-\sRemaster\)$/, target: '' },
 			// Outside The Wall - 2011 - Remaster
-			{ source: /\-\s\d+\s\-\sRemaster$/, target: '' },
+			{ source: /-\s\d+\s-\sRemaster$/, target: '' },
 			// Learning To Fly - 2001 Digital Remaster
-			{ source: /\-\s\d+\s.+?\sRemaster$/, target: '' },
+			{ source: /-\s\d+\s.+?\sRemaster$/, target: '' },
 			// Your Possible Pasts - 2011 Remastered Version
-			{ source: /\-\s\d+\sRemastered Version$/, target: '' },
+			{ source: /-\s\d+\sRemastered Version$/, target: '' },
 			// Roll Over Beethoven (Live / Remastered)
 			{ source: /\(Live\s\/\sRemastered\)$/i, target: '' },
 			// Ticket To Ride - Live / Remastered
-			{ source: /\-\sLive\s\/\sRemastered$/, target: '' },
+			{ source: /-\sLive\s\/\sRemastered$/, target: '' },
 		];
 	}
 

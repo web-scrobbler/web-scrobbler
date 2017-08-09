@@ -292,7 +292,7 @@ const Util = {
 	 * default, shortened and embed URLs.
 	 * @type {RegExp}
 	 */
-	videoIdRegExp: /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?.*v=))([^#\&\?]*).*/,
+	videoIdRegExp: /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?.*v=))([^#&?]*).*/,
 
 	/**
 	 * Separator used to join array of artist names into a single string.

@@ -31,7 +31,7 @@ function createPattern(input) {
 
 	// Parse host if scheme is not `file`
 	if (result[1] !== 'file') {
-		if (!(result = /^(?:\*|(\*\.)?([^\/*]+))/.exec(input))) {
+		if (!(result = /^(?:\*|(\*\.)?([^/*]+))/.exec(input))) {
 			return null;
 		}
 		input = input.substr(result[0].length);

@@ -15,11 +15,11 @@ Connector.filter = new MetadataFilter({
 
 function cleanTrack(track) {
 	// stripping WWOZ's double quotes around name
-	track = track.replace(/\"(.+?)\"/g, '$1');
+	track = track.replace(/"(.+?)"/g, '$1');
 	// [whatever]
 	track = track.replace(/\s*\[[^\]]+\]$/, '');
 	// (whatever version)
-	track = track.replace(/\s*\([^\)]*version\)$/i, '');
+	track = track.replace(/\s*\([^)]*version\)$/i, '');
 
 	return track;
 }

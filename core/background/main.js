@@ -147,13 +147,14 @@ require([
 				}
 				break;
 
-			case 'v2.authenticate':
+			case 'v2.authenticate': {
 				let scrobblerLabel = request.scrobbler;
 				let scrobbler = ScrobbleService.getScrobblerByLabel(scrobblerLabel);
 				if (scrobbler) {
 					ScrobbleService.authenticateScrobbler(scrobbler);
 				}
 				break;
+			}
 		}
 
 		return true;
