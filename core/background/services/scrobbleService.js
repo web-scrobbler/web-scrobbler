@@ -37,13 +37,12 @@ define([
 
 	return {
 		/**
-		 * Bind array of scrobblers scrobblers.
-		 * @param {Array} unboundScrobblers Array of unbound scrobbler instances
+		 * Bind all registered scrobblers.
 		 * @returns {Promise} Promise that will resolve with array of bound scrobblers
 		 */
-		bindScrobblers(unboundScrobblers) {
+		bindAllScrobblers() {
 			// Convert each `getSession` call into Promise
-			let promises = unboundScrobblers.map(scrobbler => {
+			let promises = registeredScrobblers.map(scrobbler => {
 				return scrobbler.getSession().then(() => {
 					this.bindScrobbler(scrobbler);
 				}).catch(() => {
