@@ -166,7 +166,7 @@ define([
 			return this.storage.get().then((data) => {
 				// if we have a token it means it is fresh and we
 				// want to trade it for a new session ID
-				var token = data.token || null;
+				let token = data.token || null;
 				if (token !== null) {
 					return this.tradeTokenForSession(token).then((session) => {
 						// token is already used, reset it and store

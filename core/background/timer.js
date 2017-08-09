@@ -138,7 +138,7 @@ define([], () => {
 		 * @return {Number} Elapsed seconds
 		 */
 		getElapsed() {
-			var val = now() - this.startedOn - this.spentPaused;
+			let val = now() - this.startedOn - this.spentPaused;
 
 			if (this.pausedOn !== null) {
 				val -= (now() - this.pausedOn);
