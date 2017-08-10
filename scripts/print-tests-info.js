@@ -19,22 +19,22 @@ const extensionDir = path.join(__dirname, '..');
 
 function getConnectorsList() {
 	let connectorsDir = path.join(extensionDir, 'connectors');
-	return fs.readdirSync(connectorsDir).map(filename => {
+	return fs.readdirSync(connectorsDir).map((filename) => {
 		return filename.split('/').pop();
 	});
 }
 
 function getTestsList() {
 	let testsDir = path.join(extensionDir, 'tests', 'connectors');
-	return fs.readdirSync(testsDir).map(filename => {
+	return fs.readdirSync(testsDir).map((filename) => {
 		return filename.split('/').pop();
 	});
 }
 
 function getArrayDiff(arr1, arr2) {
-	return arr1.filter(item => {
+	return arr1.filter((item) => {
 		return arr2.indexOf(item) === -1;
-	}).filter(filename => {
+	}).filter((filename) => {
 		return IGNORED_FILES.indexOf(filename) === -1;
 	});
 }
@@ -42,7 +42,7 @@ function getArrayDiff(arr1, arr2) {
 function printArrayItems(arr, desc) {
 	if (arr.length) {
 		console.info(`${desc} [${arr.length}]:`);
-		arr.sort().forEach(item => {
+		arr.sort().forEach((item) => {
 			console.info(` ‒ ${item}`);
 		});
 	}

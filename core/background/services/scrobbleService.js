@@ -30,7 +30,7 @@ define([
 	 * @return {Boolean} True if scrobbler is in array, false otherwise
 	 */
 	function isScrobblerInArray(scrobbler, array) {
-		return array.some(s => {
+		return array.some((s) => {
 			return s.getLabel() === scrobbler.getLabel();
 		});
 	}
@@ -42,7 +42,7 @@ define([
 		 */
 		bindAllScrobblers() {
 			// Convert each `getSession` call into Promise
-			let promises = registeredScrobblers.map(scrobbler => {
+			let promises = registeredScrobblers.map((scrobbler) => {
 				return scrobbler.getSession().then(() => {
 					this.bindScrobbler(scrobbler);
 				}).catch(() => {

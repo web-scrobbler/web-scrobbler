@@ -116,6 +116,9 @@ module.exports = {
 		/**
 		 * ECMAScript 6
 		 */
+		// Require parentheses around arrow function arguments
+		'arrow-parens': 'error',
+		'arrow-spacing': 'error',
 		// Require method and property shorthand syntax for object literals
 		'object-shorthand': ['error', 'always'],
 		// Require template literals instead of string concatenation
