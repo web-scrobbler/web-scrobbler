@@ -2,13 +2,18 @@
 
 Connector.playerSelector = 'body';
 
-Connector.artistSelector = '.artist';
+Connector.artistSelector = '.artist-name';
 
-Connector.trackSelector = '.title';
+Connector.trackSelector = '.artist-track';
 
-Connector.playButtonSelector = '.play';
+Connector.playButtonSelector = '.fa-play';
 
-Connector.getTrackArt = () => {
-	let relativeTrackArtUrl = $('.artist-img img').attr('src');
-	return `http://www.pinguinplayer.com/${relativeTrackArtUrl}`;
-};
+Connector.trackArtSelector = '.artist-image img';
+
+Connector.filter = MetadataFilter.getTrimFilter().append({
+	artist: removeByPrefix
+});
+
+function removeByPrefix(text) {
+	return text.replace('by: ', '');
+}

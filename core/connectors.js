@@ -820,11 +820,7 @@ define(function() {
 
 	{
 		label: 'Pinguin Radio',
-		matches: [
-			'*://pinguinradio.com/',
-			'*://pinguinplayer.com/*',
-			'*://www.pinguinplayer.com/*',
-		],
+		matches: ['*://pinguinradio.com/*'],
 		js: ['connectors/pinguinradio.js'],
 	},
 
