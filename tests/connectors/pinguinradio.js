@@ -2,6 +2,6 @@
 
 module.exports = function(driver, connectorSpec) {
 	connectorSpec.shouldBehaveLikeMusicSite(driver, {
-		url: 'http://www.pinguinplayer.com/'
+		url: 'https://pinguinradio.com/player/pinguin-radio'
 	});
 };
