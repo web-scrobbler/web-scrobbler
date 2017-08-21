@@ -481,7 +481,7 @@ define([
 
 		/**
 		 * Get the scrobbler label.
-		 * @return {string} Scrobbler label
+		 * @return {String} Scrobbler label
 		 */
 		getLabel() {
 			return this.label;

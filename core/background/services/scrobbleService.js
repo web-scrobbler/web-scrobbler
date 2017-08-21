@@ -38,7 +38,7 @@ define([
 	return {
 		/**
 		 * Bind all registered scrobblers.
-		 * @returns {Promise} Promise that will resolve with array of bound scrobblers
+		 * @return {Promise} Promise that will resolve with array of bound scrobblers
 		 */
 		bindAllScrobblers() {
 			// Convert each `getSession` call into Promise
@@ -158,7 +158,7 @@ define([
 
 		/**
 		 * Get all registered scrobblers.
-		 * @returns {Array} Array of bound scrobblers
+		 * @return {Array} Array of bound scrobblers
 		 */
 		getRegisteredScrobblers() {
 			return registeredScrobblers;

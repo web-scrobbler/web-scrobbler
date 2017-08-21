@@ -26,7 +26,12 @@ module.exports = {
 		// Disallow template literal placeholder syntax in regular string
 		'no-template-curly-in-string': 'error',
 		// Enforce valid JSDoc comments
-		'valid-jsdoc': ['error', { 'requireReturn': false }],
+		'valid-jsdoc': ['error', {
+			'prefer': {
+				'arg': 'param', 'argument': 'param', 'returns': 'return',
+			},
+			'requireReturn': false
+		}],
 
 		/**
 		 * Best practices

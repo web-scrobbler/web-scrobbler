@@ -156,7 +156,7 @@ var BaseConnector = window.BaseConnector || function() {
 	 *
 	 * Override this method for more complex behaviour.
 	 *
-	 * @returns {String} Song album
+	 * @return {String} Song album
 	 */
 	this.getAlbum = function() {
 		return $(this.albumSelector).text();

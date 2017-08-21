@@ -154,7 +154,7 @@ define([
 
 		/**
 		 * Send request to love or unlove current song.
-		 * @param  {boolean} isLoved Flag indicated song is loved
+		 * @param  {Boolean} isLoved Flag indicated song is loved
 		 * @return {Promise} Promise that will be resolved when the task has complete
 		 */
 		toggleLove(isLoved) {

@@ -65,7 +65,7 @@ require([
 	/**
 	 * Flag for "page session" where at least single injection occurred
 	 * Used for tracking number of actually active users
-	 * @type {boolean}
+	 * @type {Boolean}
 	 */
 	let isActiveSession = false;
 

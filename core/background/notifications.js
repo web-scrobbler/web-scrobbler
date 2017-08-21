@@ -81,7 +81,7 @@ define([
 	 * the last set listener will overwrite any previous.
 	 *
 	 * @param {String} notificationId Notification ID
-	 * @param {function} callback Function that will be called on notification click
+	 * @param {Function} callback Function that will be called on notification click
 	 */
 	function addOnClickedListener(notificationId, callback) {
 		clickListeners[notificationId] = callback;

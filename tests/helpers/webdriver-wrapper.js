@@ -197,7 +197,7 @@ function setupTestEventCapture() {
 /**
  * Wait for the specified event from the extension.
  * @param  {String} needle Event name
- * @param  {number} timeout Timeout in milliseconds
+ * @param  {Number} timeout Timeout in milliseconds
  * @return {Promise} Promise that will be resolved with the found event
  */
 function waitForConnectorEvent(needle, timeout) {
