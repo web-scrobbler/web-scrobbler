@@ -3,7 +3,27 @@
 /**
  * Song object
  */
-define(['wrappers/can'], (can) => {
+define(['vendor/md5', 'wrappers/can'], (MD5, can) => {
+	/**
+	 * Create unique song ID based on data parsed by connector.
+	 * @param {Object} parsedData Current state received from connector
+	 * @return {String} Unique ID
+	 */
+	function makeUniqueId(parsedData) {
+		let inputStr = '';
+		let fields = ['artist', 'track', 'album'];
+		for (let field of fields) {
+			if (parsedData[field]) {
+				inputStr += parsedData[field];
+			}
+		}
+		if (inputStr) {
+			return MD5(inputStr);
+		}
+
+		return null;
+	}
+
 	/**
 	 * @constructor
 	 * @param {Object} parsedData Current state received from connector
@@ -45,8 +65,16 @@ define(['wrappers/can'], (can) => {
 			artist: parsed.artist,
 			track: parsed.track,
 			album: parsed.album,
-			duration: parsed.duration
+			duration: parsed.duration,
+			uniqueId: parsed.uniqueID || makeUniqueId(parsed),
 		};
+
+		/**
+		 * Internal song ID based on data from connector. Used if
+		 * `uniqueID` property is empty.
+		 * @type {String}
+		 */
+		const internalId = parsed.uniqueID || makeUniqueId(parsed);
 
 		/**
 		 * Various optional data.
@@ -169,6 +197,10 @@ define(['wrappers/can'], (can) => {
 				return null;
 			}
 			return `${this.getArtist()} — ${this.getTrack()}`;
+		};
+
+		song.getUniqueId = function() {
+			return internalId;
 		};
 
 		/**

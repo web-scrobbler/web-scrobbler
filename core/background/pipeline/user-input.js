@@ -19,7 +19,7 @@ define(['storage/chromeStorage'], function(ChromeStorage) {
 	 * @return {Promise} Promise resolved when data is saved
 	 */
 	function saveSongMetadataToStorage(song) {
-		let songId = song.parsed.uniqueID;
+		let songId = song.getUniqueId();
 		if (!songId) {
 			return;
 		}
