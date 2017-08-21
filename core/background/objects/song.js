@@ -66,7 +66,6 @@ define(['vendor/md5', 'wrappers/can'], (MD5, can) => {
 			track: parsed.track,
 			album: parsed.album,
 			duration: parsed.duration,
-			uniqueId: parsed.uniqueID || makeUniqueId(parsed),
 		};
 
 		/**
