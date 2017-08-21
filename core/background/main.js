@@ -229,10 +229,18 @@ require([
 		openAdd0nComWebsite();
 	}
 
+	/**
+	 * Create new tab with opened project homepage.
+	 * Called on first install.
+	 */
 	function openAdd0nComWebsite() {
 		chrome.tabs.create({ url: 'http://add0n.com/lastfm-scrobbler.html' });
 	}
 
+	/**
+	 * Create new tab with release notes of current version.
+	 * Called after update to version with notable changes.
+	 */
 	function openChangelogSection() {
 		chrome.tabs.create({ url: `https://github.com/david-sabata/web-scrobbler/releases/tag/v${extVersion}` });
 	}

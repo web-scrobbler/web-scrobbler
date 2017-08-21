@@ -1,7 +1,13 @@
 'use strict';
 
 define(() => {
+	/**
+	 * Timer object.
+	 */
 	class Timer {
+		/**
+		 * @constructor
+		 */
 		constructor() {
 			this.reset();
 		}

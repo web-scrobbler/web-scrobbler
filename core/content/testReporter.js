@@ -3,11 +3,10 @@
 // @ifdef DEBUG
 
 /**
- * Provide functions to interact with tests. Isn't inlcuded in release version.
+ * Module that provides functions to interact with tests.
+ * Isn't inlcuded in release versions.
  */
-
-// eslint-disable-next-line no-unused-vars
-const TestReporter = {
+const TestReporter = { // eslint-disable-line no-unused-vars
 	/**
 	 * Notify the test that connector is injected.
 	 * @param  {Object} connector Injected connector

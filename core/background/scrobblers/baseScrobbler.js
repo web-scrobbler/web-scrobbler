@@ -487,6 +487,11 @@ define([
 			return this.label;
 		}
 
+		/**
+		 * Helper function to show debug output.
+		 * @param  {String} text Debug message
+		 * @param  {String} type Log type
+		 */
 		debugLog(text, type = 'log') {
 			let message = `${this.label}: ${text}`;
 
@@ -504,6 +509,12 @@ define([
 		}
 	}
 
+	/**
+	 * Hide sensitive user data from debug output.
+	 * @param  {Object} $doc Response that parsed by jQuery
+	 * @param  {String} text Debug message
+	 * @return {String} Text with hidden data
+	 */
 	function hideUserData($doc, text) {
 		let sessionId = $doc.find('session > key').text();
 		let token = $doc.find('token').text();

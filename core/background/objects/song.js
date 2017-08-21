@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Song object
+ * Song object.
  */
 define(['vendor/md5', 'wrappers/can'], (MD5, can) => {
 	/**

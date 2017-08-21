@@ -11,6 +11,9 @@ define([
 	'services/scrobbleService',
 	'objects/serviceCallResult',
 ], function(Song, Pipeline, PageAction, Timer, Notifications, GA, LocalCache, ScrobbleService, ServiceCallResult) {
+	/**
+	 * Object that handles song playback and scrobbling actions.
+	 */
 	class Controller {
 		/**
 		 * @constructor
@@ -490,6 +493,10 @@ define([
 			});
 		}
 
+		/**
+		 * Pring debug message with prefixed tab ID.
+		 * @param  {String} text Debug message
+		 */
 		debugLog(text) {
 			console.log(`Tab ${this.tabId}: ${text}`);
 		}

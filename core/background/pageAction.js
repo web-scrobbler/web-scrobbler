@@ -82,6 +82,9 @@ define(() => {
 			});
 		}
 
+		/**
+		 * Show read Last.fm icon (connector is injected).
+		 */
 		setSiteSupported() {
 			this.setPageAction(ICONS.BASE,
 				'This site is supported for scrobbling',
@@ -89,6 +92,7 @@ define(() => {
 		}
 
 		/**
+		 * Show search icon (song is processing by pipeline).
 		 * @param {Object} song Song instance
 		 */
 		setSongLoading(song) {
@@ -97,42 +101,67 @@ define(() => {
 			);
 		}
 
+		/**
+		 * Show now playing icon.
+		 * @param {Object} song Song instance
+		 */
 		setSongRecognized(song) {
 			this.setPageAction(ICONS.RECOGNIZED,
 				`Now playing ${song.getArtistTrackString()}`,
 				DOCUMENTS.SONG_INFO);
 		}
 
+		/**
+		 * Show gray now playing icon (song is skipped by user).
+		 * @param {Object} song Song instance
+		 */
 		setSongSkipped(song) {
 			this.setPageAction(ICONS.SKIPPED,
 				`Skipped ${song.getArtistTrackString()}`,
 				DOCUMENTS.SONG_INFO);
 		}
 
+		/**
+		 * Show red cross icon (song is ignored by scrobbling service).
+		 * @param {Object} song Song instance
+		 */
 		setSongIgnored(song) {
 			this.setPageAction(
 				ICONS.IGNORED, `Ignored ${song.getArtistTrackString()}`
 			);
 		}
 
+		/**
+		 * Show gray Last.fm icon (connector is disabled).
+		 */
 		setSiteDisabled() {
 			this.setPageAction(
 				ICONS.DISABLED,	'This site is supported, but you disabled it'
 			);
 		}
 
+		/**
+		 * Show green tick icon (song is scrobbled).
+		 * @param {Object} song Song instance
+		 */
 		setSongScrobbled(song) {
 			this.setPageAction(ICONS.SCROBBLED,
 				`Scrobbled ${song.getArtistTrackString()}`,
 				DOCUMENTS.SONG_INFO);
 		}
 
+		/**
+		 * Show gray question icon (song is not known by scrobbling service).
+		 */
 		setSongNotRecognized() {
 			this.setPageAction(ICONS.UNKNOWN,
 				'The song was not recognized. Click to enter correct info',
 				DOCUMENTS.SONG_INFO);
 		}
 
+		/**
+		 * Show orange Last.fm icon (auth error is occurred).
+		 */
 		setError() {
 			this.setPageAction(ICONS.ERROR,
 				'Some service error was occurred. Click for more information.',

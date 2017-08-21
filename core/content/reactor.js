@@ -5,8 +5,7 @@
  * It reacts to changes in supplied connector and communicates
  * with background script as necessary.
  */
-// eslint-disable-next-line no-unused-vars
-class Reactor {
+class Reactor { // eslint-disable-line no-unused-vars
 	/**
 	 * @constructor
 	 * @param {Object} connector Connector object
