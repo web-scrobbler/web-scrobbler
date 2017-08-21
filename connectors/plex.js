@@ -1,17 +1,60 @@
 'use strict';
 
-Connector.playerSelector = '#plex';
+setupConnector();
 
-Connector.artistSelector = '.grandparent-title';
+/**
+ * Setup properties.
+ */
+function setupConnector() {
+	if (isRemoteUI()) {
+		setupRemoteUI();
+	} else {
+		setupLocalUI();
+	}
+}
 
-Connector.trackSelector = '.title-container .item-title';
+/**
+ * Check if remote UI is used.
+ * @return {Boolean} Check result
+ */
+function isRemoteUI() {
+	return location.hostname === 'app.plex.tv';
+}
 
-Connector.currentTimeSelector = '.player-position';
+/**
+ * Setup properties for UI available on http://127.0.x.x:xxxxx.
+ */
+function setupLocalUI() {
+	Connector.playerSelector = '#plex';
 
-Connector.durationSelector = '.player-duration';
+	Connector.artistSelector = '.grandparent-title';
 
-Connector.isPlaying = () => $('.player .play-btn').hasClass('hidden');
+	Connector.trackSelector = '.title-container .item-title';
 
-Connector.getTrackArt = () => $('.player .media-poster').data('imageUrl');
+	Connector.currentTimeSelector = '.player-position';
 
-Connector.getAlbum = () => $('.player .media-poster').data('parentTitle');
+	Connector.durationSelector = '.player-duration';
+
+	Connector.isPlaying = () => $('.player .play-btn').hasClass('hidden');
+
+	Connector.getTrackArt = () => $('.player .media-poster').data('imageUrl');
+
+	Connector.getAlbum = () => $('.player .media-poster').data('parentTitle');
+}
+
+/**
+ * Setup properties for UI available on https://app.plex.tv/web/app.
+ */
+function setupRemoteUI() {
+	Connector.playerSelector = '[class^=MiniPlayerContainer-miniPlayer]';
+
+	Connector.artistSelector = `${Connector.playerSelector} [class*=MetadataPosterTitle-title] > a:nth-child(1)`;
+
+	Connector.trackSelector = `${Connector.playerSelector} [class*=titlesContainer] > a`;
+
+	Connector.albumSelector = `${Connector.playerSelector} [class*=MetadataPosterTitle-title] > a:nth-child(3)`;
+
+	Connector.playButtonSelector = `${Connector.playerSelector} [class^=plex-icon-player-play]`;
+
+	Connector.timeInfoSelector = `${Connector.playerSelector} [class^=DurationRemaining-container]`;
+}
