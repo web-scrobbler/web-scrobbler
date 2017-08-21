@@ -147,6 +147,30 @@ function testIsEmpty() {
 	});
 }
 
+function testGetUniqueId() {
+	it('should return unique ID if song has parsed unique ID', () => {
+		let uniqueId = 'unique';
+		let song = createSong({
+			artist: 'Artist', track: 'Title', album: 'Album',
+			uniqueID: uniqueId
+		});
+		expect(song.getUniqueId()).to.be.equal(uniqueId);
+	});
+
+	it('should return unique ID if song has no parsed unique ID', () => {
+		let uniqueId = '8021e94350ed56f71a673b08eaea0888';
+		let song = createSong({
+			artist: 'Artist', track: 'Title', album: 'Album'
+		});
+		expect(song.getUniqueId()).to.be.equal(uniqueId);
+	});
+
+	it('should not return unique ID if song is empty', () => {
+		let song = createSong({});
+		expect(song.getUniqueId()).to.be.equal(null);
+	});
+}
+
 function testGetArtistTrackString() {
 	it('should return `Artist - Track` string if song has metadata', () => {
 		let song = createSong({ artist: 'Artist', track: 'Track' });
@@ -181,6 +205,7 @@ function runTests() {
 	describe('processedData', testProcessedMetadataFields);
 
 	describe('isSongEmpty', testIsEmpty);
+	describe('getUniqueId', testGetUniqueId);
 	describe('secondsToScrobble', testGetSecondsToScrobble);
 	describe('getArtistTrackString', testGetArtistTrackString);
 }
