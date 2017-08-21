@@ -436,10 +436,6 @@ define([
 		 * now playing.
 		 */
 		setSongNowPlaying({ notify = true } = {}) {
-			if (notify) {
-				Notifications.showPlaying(this.currentSong);
-			}
-
 			ScrobbleService.sendNowPlaying(this.currentSong).then((results) => {
 				if (isAnyResult(results, ServiceCallResult.OK)) {
 					this.debugLog('Song set as now playing');
@@ -447,6 +443,10 @@ define([
 				} else {
 					this.debugLog('Song isn\'t set as now playing');
 					this.pageAction.setError();
+				}
+
+				if (notify) {
+					Notifications.showPlaying(this.currentSong);
 				}
 			});
 
