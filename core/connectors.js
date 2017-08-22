@@ -528,8 +528,8 @@ define(function() {
 	},
 
 	{
-		label: 'Chorus',
-		js: ['connectors/chorus.js'],
+		label: 'Kodi',
+		js: ['connectors/kodi.js'],
 	},
 
 	{
