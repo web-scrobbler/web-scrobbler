@@ -21,8 +21,6 @@ define(['storage/chromeStorage'], (ChromeStorage) => {
 				return;
 			}
 
-			console.log('Convert options');
-
 			for (let option of defaultOptions) {
 				if (localStorage[option] !== undefined) {
 					data[option] = localStorage[option] === '1';
@@ -33,6 +31,8 @@ define(['storage/chromeStorage'], (ChromeStorage) => {
 
 			return options.set(data).then(() => {
 				localStorage.clear();
+			}).then(() => {
+				console.log('Converted "Options" storage');
 			});
 		});
 	}
