@@ -328,18 +328,26 @@ require([
 	 * @return {Promise} Promise that will be resolved when the task has complete
 	 */
 	function notifyOfNotableChanges() {
+		let storage = ChromeStorage.getStorage(ChromeStorage.NOTIFICATIONS);
+
 		if (versionsToNofify.includes(extVersion)) {
-			let storage = ChromeStorage.getStorage(ChromeStorage.CORE);
 			return storage.get().then((data) => {
-				if (!(data.notify && data.notify[extVersion])) {
+				if (!data.changelog) {
+					data.changelog = {};
+				}
+
+				if (!data.changelog[extVersion]) {
 					openChangelogSection();
-					data.notify[extVersion] = true;
+					data.changelog[extVersion] = true;
 
 					return storage.set(data);
 				}
+			}).then(() => {
+				storage.debugLog();
 			});
 		}
 
+		storage.debugLog();
 		return Promise.resolve();
 	}
 

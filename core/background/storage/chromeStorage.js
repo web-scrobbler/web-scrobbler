@@ -8,6 +8,7 @@ define([
 
 	const CONNECTORS_OPTIONS = 'Connectors';
 	const CUSTOM_PATTERNS = 'customPatterns';
+	const NOTIFICATIONS = 'Notifications';
 	const LOCAL_CACHE = 'LocalCache';
 	const OPTIONS = 'Options';
 	const CORE = 'Core';
@@ -16,6 +17,7 @@ define([
 
 	storageTypeMap[CONNECTORS_OPTIONS] = LOCAL;
 	storageTypeMap[CUSTOM_PATTERNS] = LOCAL;
+	storageTypeMap[NOTIFICATIONS] = LOCAL;
 	storageTypeMap[LOCAL_CACHE] = LOCAL;
 	storageTypeMap[OPTIONS] = LOCAL;
 	storageTypeMap[CORE] = LOCAL;
@@ -76,6 +78,7 @@ define([
 
 		getLocalStorage, getSyncStorage,
 
-		CONNECTORS_OPTIONS, CUSTOM_PATTERNS, LOCAL_CACHE, OPTIONS, CORE
+		CONNECTORS_OPTIONS, CUSTOM_PATTERNS,
+		NOTIFICATIONS, LOCAL_CACHE, OPTIONS, CORE
 	};
 });
