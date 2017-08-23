@@ -15,11 +15,12 @@ define([
 
 	const storageTypeMap = {};
 
-	storageTypeMap[CONNECTORS_OPTIONS] = LOCAL;
-	storageTypeMap[CUSTOM_PATTERNS] = LOCAL;
-	storageTypeMap[NOTIFICATIONS] = LOCAL;
+	storageTypeMap[CONNECTORS_OPTIONS] = SYNC;
+	storageTypeMap[CUSTOM_PATTERNS] = SYNC;
+	storageTypeMap[NOTIFICATIONS] = SYNC;
+	storageTypeMap[OPTIONS] = SYNC;
+
 	storageTypeMap[LOCAL_CACHE] = LOCAL;
-	storageTypeMap[OPTIONS] = LOCAL;
 	storageTypeMap[CORE] = LOCAL;
 
 	/**

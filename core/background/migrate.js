@@ -38,11 +38,43 @@ define(['storage/chromeStorage'], (ChromeStorage) => {
 	}
 
 	/**
+	 * Migrate from `chrome.storage.local` to `chrome.storage.sync`;
+	 * @return {Promise} Promise resolved when the task has complete
+	 */
+	function migrateFromLocalToSync() {
+		let namespaces = [
+			ChromeStorage.CONNECTORS_OPTIONS,
+			ChromeStorage.CUSTOM_PATTERNS
+		];
+		let promises = namespaces.map((namespace) => {
+			let localStorage = ChromeStorage.getLocalStorage(namespace);
+			let syncStorage = ChromeStorage.getSyncStorage(namespace);
+
+			return localStorage.get().then((data) => {
+				if (!Object.keys(data).length) {
+					return;
+				}
+
+				return syncStorage.set(data).then(() => {
+					return localStorage.clear();
+				}).then(() => {
+					console.log(`Converted "${namespace}" storage`);
+				});
+			});
+		});
+
+		return Promise.all(promises);
+	}
+
+	/**
 	 * Perform a migration.
 	 * @return {Promise} Promise that will be resolved when the task has complete
 	 */
 	function migrate() {
-		return migrateFromLocalStorage();
+		return Promise.all([
+			migrateFromLocalStorage(),
+			migrateFromLocalToSync(),
+		]);
 	}
 
 	return { migrate };
