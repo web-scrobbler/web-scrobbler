@@ -60,7 +60,7 @@ define([
 	 * Base scrobbler object.
 	 *
 	 * This object and its ancestors MUST return ServiceCallResult instance
-	 * as result or error value in methods that execute API methods.
+	 * as result or error value in functions that perform API calls.
 	 */
 	class BaseScrobbler {
 		/**
@@ -223,7 +223,7 @@ define([
 		/**
 		 * Check if the scrobbler is waiting until user grant access to
 		 * scrobbler service (means the token is in Chrome storage).
-		 * @return {Boolean} Check result
+		 * @return {Promise} Promise that will be resolved with check value
 		 */
 		isReadyForGrantAccess() {
 			return this.storage.get().then((data) => {
@@ -295,7 +295,7 @@ define([
 		 * Asynchronously loads song info into given song object.
 		 *
 		 * @param  {Song} song Song instance
-		 * @return {Promise} Promise that will resolve with 'isValid' flag
+		 * @return {Promise} Promise that will be resolved with 'isValid' flag
 		 */
 		getSongInfo(song) {
 			if (!this.isSongInfoLoadingSupported()) {
@@ -335,7 +335,7 @@ define([
 		/**
 		 * Parse service response and return parsed data.
 		 * @param  {Object} $doc Response that parsed by jQuery
-		 * @return {Promise} Promise that will resolve with parsed data
+		 * @return {Promise} Promise that will be resolved with parsed data
 		 */
 		parseSongInfo($doc) {
 			if ($doc.find('lfm').attr('status') !== 'ok') {
