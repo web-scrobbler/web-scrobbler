@@ -325,6 +325,9 @@ require([
 	function initViewEditedDialog() {
 		$('#view-edited').click(() => {
 			let localCache = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
+
+			let cacheDom = $('<div></div>');
+
 			let cache = $('<ul class="list-unstyled"></ul>');
 
 			localCache.get().then((data) => {
@@ -338,9 +341,20 @@ require([
 				}
 			});
 
+			cacheDom.append(cache);
+
+			let cacheClearButton = $('<button>Clear Cache</button>');
+
+			cacheClearButton.on('click', function() {
+				localCache.clear();
+				modal.modal('hide');
+			});
+
+			cacheDom.append(cacheClearButton);
+
 			let modal = $('#edited-track-modal');
 
-			modal.find('.edited-track-contents').html(cache);
+			modal.find('.edited-track-contents').html(cacheDom);
 			modal.modal('show');
 		});
 	}
