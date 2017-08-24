@@ -154,7 +154,7 @@ const Util = {
 		let first = null;
 		let second = null;
 
-		if (str !== null) {
+		if (str) {
 			let separator = this.findSeparator(str, separators);
 
 			if (separator !== null) {
