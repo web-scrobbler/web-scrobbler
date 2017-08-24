@@ -258,6 +258,7 @@ module.exports = function(grunt) {
 
 	/**
 	 * Compile source files and package them.
+	 * @param  {String} browser Browser name
 	 */
 	grunt.registerTask('build', (browser) => {
 		assertBrowserIsSupported(browser);
@@ -270,6 +271,7 @@ module.exports = function(grunt) {
 
 	/**
 	 * Create package and publish it.
+	 * @param  {String} browser Browser name
 	 */
 	grunt.registerTask('publish', (browser) => {
 		assertBrowserIsSupported(browser);
