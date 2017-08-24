@@ -345,7 +345,7 @@ require([
 
 			let cacheClearButton = $('<button>Clear Cache</button>');
 
-			cacheClearButton.on('click', function() {
+			cacheClearButton.click(() => {
 				localCache.clear();
 				modal.modal('hide');
 			});
