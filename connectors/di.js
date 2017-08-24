@@ -7,8 +7,14 @@ Connector.playButtonSelector = '.ico icon-play';
 Connector.timeInfoSelector = '.timecode';
 
 Connector.getArtistTrack = () => {
-	let text = $('.track-name').attr('title');
-	return Util.splitArtistTrack(text);
+	let artistWithDash = $('.artist-name').text();
+	let track = $('.track-name').text();
+
+	if (artistWithDash && track) {
+		return Util.splitArtistTrack(artistWithDash + track);
+	}
+
+	return Util.emptyArtistTrack;
 };
 
 Connector.getTrackArt = () => {
