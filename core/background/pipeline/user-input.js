@@ -5,7 +5,7 @@
  * Plus, it saves the song info to Chrome storage.
  */
 
-define(['storage/chromeStorage'], function(ChromeStorage) {
+define(['storage/chromeStorage'], (ChromeStorage) => {
 	const storage = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
 	const fieldMap = {
 		'artist': 'userArtist',

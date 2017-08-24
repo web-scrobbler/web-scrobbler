@@ -6,7 +6,7 @@
  * a function to remove song info from storage.
  */
 
-define(['storage/chromeStorage'], function(ChromeStorage) {
+define(['storage/chromeStorage'], (ChromeStorage) => {
 	const storage = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
 	const fieldsToSave = ['artist', 'track', 'album'];
 

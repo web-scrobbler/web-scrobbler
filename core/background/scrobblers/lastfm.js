@@ -3,9 +3,7 @@
 /**
  * Module for all communication with L.FM
  */
-define([
-	'scrobblers/baseScrobbler',
-], function(BaseScrobbler) {
+define(['scrobblers/baseScrobbler'], (BaseScrobbler) => {
 	class LastFm extends BaseScrobbler {
 		isSongInfoLoadingSupported() {
 			return true;

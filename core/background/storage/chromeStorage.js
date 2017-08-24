@@ -1,8 +1,6 @@
 'use strict';
 
-define([
-	'wrappers/chrome', 'storage/wrapper'
-], function(chrome, StorageWrapper) {
+define(['wrappers/chrome', 'storage/wrapper'], (chrome, StorageWrapper) => {
 	const LOCAL = 0;
 	const SYNC = 1;
 
