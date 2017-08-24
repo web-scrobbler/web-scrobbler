@@ -4,7 +4,9 @@ Connector.playerSelector = '#webplayer-region';
 
 Connector.playButtonSelector = '.ico icon-play';
 
-Connector.timeInfoSelector = '.timecode';
+Connector.currentTimeSelector = '.timecode .time';
+
+Connector.durationSelector = '.timecode .total';
 
 Connector.getArtistTrack = () => {
 	let artistWithDash = $('.artist-name').text();
