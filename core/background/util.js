@@ -85,8 +85,25 @@ define(['wrappers/chrome'], (chrome) => {
 		});
 	}
 
+	/**
+	 * Run given promises sequentially.
+	 * @param  {Array} factories Array of function return promises
+	 * @param  {Any} args Arguments applied to each factory function
+	 * @return {Promise} Promise that will be resolved when all tasks have complete
+	 */
+	function queuePromises(factories, ...args) {
+		let promiseSequence = Promise.resolve();
+		for (let func of factories) {
+			promiseSequence = promiseSequence.then(() => {
+				return func(...args);
+			});
+		}
+
+		return promiseSequence;
+	}
+
 	return {
 		getCurrentTab, timeoutPromise, getPlatformName,
-		hideStringInText, isFullscreenMode
+		hideStringInText, isFullscreenMode, queuePromises
 	};
 });

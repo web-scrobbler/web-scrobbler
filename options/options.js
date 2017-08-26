@@ -84,7 +84,14 @@ require([
 	}
 
 	function createAccountViews() {
-		ScrobbleService.getRegisteredScrobblers().forEach(createAccountView);
+		let scrobblers = ScrobbleService.getRegisteredScrobblers();
+		let factoryFunctions = scrobblers.map((scrobbler) => {
+			return () => {
+				return createAccountView(scrobbler);
+			};
+		});
+
+		return Util.queuePromises(factoryFunctions);
 	}
 
 	function createAccountView(scrobbler) {
