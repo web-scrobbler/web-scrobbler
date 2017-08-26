@@ -5,7 +5,7 @@ define([
 	'wrappers/chrome',
 	'storage/chromeStorage',
 	'services/background-ga'
-], function(Util, chrome, ChromeStorage, GA) {
+], function(Util, chrome, ChromeStorage) {
 	// The module uses `chrome.extension.getURL` function.
 	// This funciton is deprecated since Chrome 58.
 	// FIXME: Replace to `chrome.runtime.getURL`.
@@ -175,7 +175,6 @@ define([
 				/* @endif */
 			};
 			showNotification(options, null).then((notificationId) => {
-				GA.event('notification', 'playing', 'show');
 				song.metadata.attr('notificationId', notificationId);
 			});
 		});
