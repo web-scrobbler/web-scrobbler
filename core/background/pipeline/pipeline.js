@@ -7,8 +7,9 @@ define([
 	'pipeline/user-input',
 	'pipeline/local-cache',
 	'pipeline/metadata',
-	'pipeline/coverartarchive'
-], function(UserInput, LocalCache, Metadata, CoverArtArchive) {
+	'pipeline/coverartarchive',
+	'util'
+], (UserInput, LocalCache, Metadata, CoverArtArchive, Util) => {
 	/**
 	 * List of processors.
 	 * Each procesor is an object contains `process` function takes song object
@@ -39,20 +40,15 @@ define([
 		/**
 		 * Process song using pipeline processors.
 		 * @param  {Object} song Song instance
+		 * @return {Promise} Promise that will be resolved when all processors process song
 		 */
 		processSong(song) {
-			// reset possible flag, so we can detect changes
-			// on repeated processing of the same song
+			// Reset possible flag, so we can detect changes
+			// on repeated processing of the same song.
 			song.flags.attr('isProcessed', false);
 
-			let processorsSequence = Promise.resolve();
-			for (let processor of processors) {
-				processorsSequence = processorsSequence.then(() => {
-					return processor.process(song);
-				});
-			}
-
-			processorsSequence.then(() => {
+			let factories = processors.map((processor) => processor.process);
+			return Util.queuePromises(factories, song).then(() => {
 				song.flags.attr('isProcessed', true);
 			});
 		}
