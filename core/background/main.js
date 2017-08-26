@@ -365,7 +365,18 @@ require([
 			ScrobbleService.bindAllScrobblers().then((boundScrobblers) => {
 				if (boundScrobblers.length === 0) {
 					console.warn('No scrobblers are bound');
-					Notifications.askForAuthentication();
+
+					let authUrl = chrome.extension.getURL('/options/options.html#accounts');
+					Notifications.showAuthNotification(() => {
+						chrome.tabs.create({ url: authUrl });
+
+						GA.event('core', 'auth', 'default');
+					}).catch(() => {
+						// Fallback for browsers with no notifications support
+						chrome.tabs.create({ url: authUrl });
+
+						GA.event('core', 'auth', 'fallback');
+					});
 				} else {
 					for (let scrobbler of boundScrobblers) {
 						GA.event('core', 'bind', scrobbler.getLabel());

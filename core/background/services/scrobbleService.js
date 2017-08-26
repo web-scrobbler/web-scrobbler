@@ -90,7 +90,12 @@ define([
 			}).catch(() => {
 				console.log(`Unable to get auth URL for ${scrobbler.getLabel()}`);
 
-				Notifications.showSignInError(scrobbler);
+				Notifications.showSignInError(scrobbler, () => {
+					let statusUrl = scrobbler.getStatusUrl();
+					if (statusUrl) {
+						chrome.tabs.create({ url: statusUrl });
+					}
+				});
 			});
 		},
 

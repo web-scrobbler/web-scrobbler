@@ -188,23 +188,17 @@ define([
 	 */
 	function showError(message, onClick = null) {
 		const options = { title: 'Authentication error', message };
-		showNotification(options, onClick).then(() => {
-			GA.event('notification', 'error', 'show');
-		});
+		showNotification(options, onClick);
 	}
 
 	/**
 	 * Show error notification if user is unable to sign in to service.
 	 * @param  {Object} scrobbler Scrobbler instance
+	 * @param  {Function} onClicked Function that will be called on notification click
 	 */
-	function showSignInError(scrobbler) {
+	function showSignInError(scrobbler, onClicked) {
 		let errorMessage = `Unable to sign in to ${scrobbler.getLabel()}. Please try later.`;
-		showError(errorMessage, () => {
-			let statusUrl = scrobbler.getStatusUrl();
-			if (statusUrl) {
-				chrome.tabs.create({ url: statusUrl });
-			}
-		});
+		showError(errorMessage, onClicked);
 	}
 
 	/**
@@ -227,28 +221,16 @@ define([
 
 	/**
 	 * Show auth notification.
+	 * @param  {Function} onClicked Function that will be called on notification click
 	 * @return {Promise} Promise resolved when the task has complete
 	 */
-	function askForAuthentication() {
-		let authUrl = chrome.extension.getURL('/options/options.html#accounts');
+	function showAuthNotification(onClicked) {
 		const options = {
 			title: 'Connect your accounts',
 			message: 'Click the notification to connect your accounts',
 		};
-		function onClicked() {
-			GA.event('notification', 'authenticate', 'click');
 
-			chrome.tabs.create({ url: authUrl });
-		}
-
-		return showNotification(options, onClicked).then(() => {
-			GA.event('notification', 'authenticate', 'show');
-		}).catch(() => {
-			GA.event('notification', 'authenticate', 'open-unavailable');
-
-			// fallback for browsers with no notifications support
-			chrome.tabs.create({ url: authUrl });
-		});
+		return showNotification(options, onClicked);
 	}
 
 	/**
@@ -277,6 +259,6 @@ define([
 
 	return {
 		remove, showPlaying, showError, showSignInError,
-		askForAuthentication, showSongNotRecognized
+		showAuthNotification, showSongNotRecognized
 	};
 });
