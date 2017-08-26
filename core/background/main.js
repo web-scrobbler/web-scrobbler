@@ -36,13 +36,12 @@ require([
 	'services/background-ga',
 	'inject',
 	'objects/injectResult',
-	'pageAction',
 	'controller',
 	'storage/chromeStorage',
 	'config',
 	'services/scrobbleService',
 	'notifications'
-], function(Migrate, GA, inject, InjectResult, PageAction, Controller, ChromeStorage, Config, ScrobbleService, Notifications) {
+], (Migrate, GA, inject, InjectResult, Controller, ChromeStorage, Config, ScrobbleService, Notifications) => {
 
 	/**
 	 * Current version of the extension.

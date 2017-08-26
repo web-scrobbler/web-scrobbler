@@ -3,8 +3,7 @@
 define([
 	'util',
 	'wrappers/chrome',
-	'storage/chromeStorage',
-	'services/background-ga'
+	'storage/chromeStorage'
 ], function(Util, chrome, ChromeStorage) {
 	// The module uses `chrome.extension.getURL` function.
 	// This funciton is deprecated since Chrome 58.
