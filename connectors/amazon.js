@@ -13,7 +13,6 @@ Connector.getArtist = () => {
 
 Connector.trackSelector = '.trackInfoContainer .trackTitle';
 
-
 Connector.getAlbum = () => {
 	return $('tr.selectable.currentlyPlaying td.albumCell').attr('title') ||
 		$('.nowPlayingDetail img.albumImage').attr('title') ||
@@ -24,9 +23,7 @@ Connector.currentTimeSelector = '.songDuration.timeElapsed';
 
 Connector.playButtonSelector = '.rightSide .playbackControls .playerIconPlay';
 
-Connector.getDuration = () => {
-	return Util.stringToSeconds($('#currentDuration').text());
-};
+Connector.durationSelector = '#currentDuration';
 
 Connector.trackArtSelector = '.rightSide .albumArtWrapper img';
 
