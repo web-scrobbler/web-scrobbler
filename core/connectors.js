@@ -1114,5 +1114,9 @@ define(function() {
 		label: 'Vimeo',
 		matches: ['*://vimeo.com/*'],
 		js: ['connectors/vimeo.js']
+	}, {
+		label: 'Taazi',
+		matches: ['*://taazi.com/*'],
+		js: ['connectors/taazi.js']
 	}];
 });
