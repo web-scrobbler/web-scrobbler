@@ -1118,5 +1118,9 @@ define(function() {
 		label: 'Taazi',
 		matches: ['*://taazi.com/*'],
 		js: ['connectors/taazi.js']
+	}, {
+		label: 'Patari',
+		matches: ['*://patari.pk/*'],
+		js: ['connectors/patari.js']
 	}];
 });
