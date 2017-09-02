@@ -166,8 +166,8 @@ require([
 	}
 
 	function toggleInitState() {
-		switch (getElementIdFromLocation()) {
-			case 'accounts':
+		switch (location.hash) {
+			case '#accounts':
 				// Expand 'Accounts' section and collapse 'Contacts' one.
 				$('#accounts').addClass('in');
 				$('#contact').removeClass('in');
@@ -370,14 +370,5 @@ require([
 		let extVersion = chrome.runtime.getManifest().version;
 		let releaseNotesUrl = `https://github.com/david-sabata/web-scrobbler/releases/tag/v${extVersion}`;
 		$('a#latest-release').attr('href', releaseNotesUrl);
-	}
-
-	function getElementIdFromLocation() {
-		let url = window.location.href;
-		let match = /#(.+?)$/.exec(url);
-		if (match) {
-			return match[1];
-		}
-		return null;
 	}
 });
