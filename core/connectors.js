@@ -1068,6 +1068,10 @@ define(function() {
 		matches: ['*://www.fritz.de/livestream/*'],
 		js: ['connectors/fritz.js'],
 	}, {
+		label: 'S2Music',
+		matches: ['*://s2music.com/*', '*://www.s2music.com/*'],
+		js: ['connectors/bemusic.js'],
+	}, {
 		label: 'Musicoin',
 		matches: ['*://musicoin.org/*'],
 		js: ['connectors/musicoin.js']
