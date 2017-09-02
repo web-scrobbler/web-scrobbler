@@ -669,12 +669,6 @@ define(function() {
 	},
 
 	{
-		label: 'trntbl',
-		matches: ['*://*.trntbl.me/*', '*://trntbl.me/*'],
-		js: ['connectors/trntbl.js'],
-	},
-
-	{
 		label: 'wavo',
 		matches: ['*://wavo.me/*'],
 		js: ['connectors/wavo.js'],
