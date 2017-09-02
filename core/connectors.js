@@ -414,12 +414,6 @@ define(function() {
 	},
 
 	{
-		label: 'WRZUTA',
-		matches: ['*://*.wrzuta.pl/*', '*://wrzuta.pl/*'],
-		js: ['connectors/wrzuta.js'],
-	},
-
-	{
 		label: 'Earbits',
 		matches: ['*://www.earbits.com/*'],
 		js: ['connectors/earbits.js'],
