@@ -350,7 +350,7 @@ require([
 
 			cacheDom.append(cache);
 
-			let cacheClearButton = $('<button>Clear Cache</button>');
+			let cacheClearButton = $('<button class="btn btn-default">Clear Cache</button>');
 
 			cacheClearButton.click(() => {
 				localCache.clear();
