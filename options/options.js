@@ -125,11 +125,11 @@ require([
 				scrobbler: scrobbler.getLabel(),
 				notify: false
 			});
-			createAccountView(scrobbler);
+			createUnauthorizedAccountView(scrobbler);
 		});
 		let $logoutBtn = $('<a href="#"/>').text('Sign out').click(() => {
 			scrobbler.signOut().then(() => {
-				createAccountView(scrobbler);
+				createUnauthorizedAccountView(scrobbler);
 			});
 		});
 
@@ -157,7 +157,7 @@ require([
 		let elementId = getAccountViewId(scrobbler);
 		if ($(`#${elementId}`).length === 0) {
 			let $account = $('<div/>').attr('id', elementId);
-			$('#accounts div').append($account);
+			$('#accounts-wrapper').append($account);
 		}
 	}
 
