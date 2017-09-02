@@ -1,17 +1,23 @@
 'use strict';
 
-Connector.playerSelector = 'div.player-current-audio';
+Connector.playerSelector = '.player';
 
-Connector.artistSelector = '.current-artist .ng-binding';
+Connector.artistSelector = '.current-artist';
 
 Connector.trackSelector = '.current-track';
 
-Connector.isPlaying = () => $('.player-control.pause-state').is(':visible');
+Connector.isPlaying = () => $('.player-control').hasClass('pause-state');
 
-/* Ignore changes while loading and scrubbing.
- *	 .player-handle:active occurs when user is scrubbing
- *	 .loading-state.spin classes are attached to play button during load
-*/
 Connector.isStateChangeAllowed = () => {
-	return (!$('.player-handle:active')[0] && !$('.loading-state.spin')[0]);
+	// Mixcloud player hides artist and track elements while seeking the stream,
+	// and we should not update state in such case.
+	return Connector.getArtist() && Connector.getTrack();
 };
+
+Connector.filter = MetadataFilter.getTrimFilter().append({
+	artist: removeByPrefix
+});
+
+function removeByPrefix(text) {
+	return text.replace('by ', '');
+}
