@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = function(driver, connectorSpec) {
-	connectorSpec.shouldContainPlayerElement(driver, {
-		url: 'http://tunein.com/radio/70s-Hits-s249944/'
+	connectorSpec.shouldLoadWebsite(driver, {
+		url: 'https://tunein.com/radio/Classic-Rock-Hits-s249994/'
 	});
 };

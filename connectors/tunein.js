@@ -1,9 +1,9 @@
 'use strict';
 
-Connector.playerSelector = '.container';
+Connector.playerSelector = '.player__playerContainer___JEJ2U';
 
-Connector.artistTrackSelector = '.line1._navigateNowPlaying';
+Connector.artistTrackSelector = '#playerTitle';
 
-Connector.trackArtSelector = '.album.logo';
+Connector.trackArtSelector = '#playerArtwork';
 
-Connector.isPlaying = () => $('#tuner').hasClass('playing');
+Connector.isPlaying = () => $('#playerActionButton').hasClass('playing');

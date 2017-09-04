@@ -288,12 +288,6 @@ define(function() {
 	},
 
 	{
-		label: 'TuneIn (Beta)',
-		matches: ['*://beta.tunein.com/*'],
-		js: ['connectors/tunein-beta.js'],
-	},
-
-	{
 		label: 'MixCloud',
 		matches: ['*://mixcloud.com/*', '*://*.mixcloud.com/*'],
 		js: ['connectors/mixcloud.js'],
