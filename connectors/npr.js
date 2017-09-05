@@ -5,7 +5,7 @@
  * Land of Talk, "What Was I Thinking?"
  * @type {RegEx}
  */
-const titleRegEx = /(.+?),\s["'](.+?)["']/;
+const titleRegEx = /(.+?),\s["'](.+)["']/;
 
 Connector.playerSelector = '.npr-player';
 
