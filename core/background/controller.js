@@ -220,7 +220,7 @@ define([
 			this.currentSong = new Song(newState, this.connector);
 
 			this.bindSongListeners({ notify: !this.isReplayingSong });
-			this.debugLog(`New song detected: ${this.currentSong.toString()}`);
+			this.debugLog(`New song detected: ${toString(newState)}`);
 
 			// Start the timer, actual time will be set after processing
 			// is done; we can call doScrobble directly, because the timer
