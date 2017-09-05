@@ -467,7 +467,7 @@ define([
 		scrobbleSong() {
 			ScrobbleService.scrobble(this.currentSong).then((results) => {
 				if (isAnyResult(results, ServiceCallResult.OK)) {
-					console.info('Scrobbled successfully');
+					this.debugLog('Scrobbled successfully');
 
 					this.currentSong.flags.attr('isScrobbled', true);
 					this.pageAction.setSongScrobbled(this.currentSong);
@@ -479,7 +479,7 @@ define([
 					this.debugLog('Song is ignored by service');
 					this.pageAction.setSongIgnored(this.currentSong);
 				} else {
-					console.error('Scrobbling failed');
+					this.debugLog('Scrobbling failed', 'warn');
 
 					this.pageAction.setError();
 				}
@@ -489,9 +489,22 @@ define([
 		/**
 		 * Pring debug message with prefixed tab ID.
 		 * @param  {String} text Debug message
+		 * @param  {String} type Log type
 		 */
-		debugLog(text) {
-			console.log(`Tab ${this.tabId}: ${text}`);
+		debugLog(text, type = 'log') {
+			let message = `Tab ${this.tabId}: ${text}`;
+
+			switch (type) {
+				case 'log':
+					console.log(message);
+					break;
+				case 'warn':
+					console.warn(message);
+					break;
+				case 'error':
+					console.error(message);
+					break;
+			}
 		}
 	}
 
