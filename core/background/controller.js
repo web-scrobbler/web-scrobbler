@@ -256,11 +256,6 @@ define([
 				return;
 			}
 
-			// logging same message over and over saves space in console
-			if (newState.isPlaying !== this.currentSong.parsed.isPlaying) {
-				this.debugLog(`State update: ${toString(newState)}`);
-			}
-
 			this.currentSong.parsed.attr({
 				currentTime: newState.currentTime,
 				isPlaying: newState.isPlaying,
@@ -470,8 +465,6 @@ define([
 		 * to be scrobbled.
 		 */
 		scrobbleSong() {
-			this.debugLog(`Scrobbling ${this.currentSong.getArtistTrackString()}`);
-
 			ScrobbleService.scrobble(this.currentSong).then((results) => {
 				if (isAnyResult(results, ServiceCallResult.OK)) {
 					console.info('Scrobbled successfully');
