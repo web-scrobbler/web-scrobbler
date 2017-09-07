@@ -8,10 +8,8 @@
 Connector.playerSelector = '#player-controls';
 
 Connector.getArtist = () => {
-	let artists = $('.current-track .info .artist').toArray().map((item) => {
-		return item.firstChild;
-	});
-	return Util.joinArtists(artists);
+	let artist = $('.current-track .info .artist').first();
+	return artist.get(0).firstChild.textContent;
 };
 
 Connector.trackSelector = '.current-track .info .track-name';
