@@ -1,49 +1,79 @@
 'use strict';
 
 define(() => {
-	const ICONS = {
-		BASE: {
-			'19': '/icons/page_action_base.svg',
-			'38': '/icons/page_action_base.svg'
+	const state = {
+		base: {
+			path: {
+				'19': '/icons/page_action_base.svg',
+				'38': '/icons/page_action_base.svg'
+			},
+			popup: '/popups/go_play_music.html',
+			i18n: 'pageActionBase',
 		},
-		LOADING: {
-			'19': '/icons/page_action_loading.png',
-			'38': '/icons/page_action_loading_38.png'
+		loading: {
+			path: {
+				'19': '/icons/page_action_loading.png',
+				'38': '/icons/page_action_loading_38.png'
+			},
+			popup: '',
+			i18n: 'pageActionLoading',
 		},
-		RECOGNIZED: {
-			'19': '/icons/page_action_note.svg',
-			'38': '/icons/page_action_note.svg'
+		recognized: {
+			path: {
+				'19': '/icons/page_action_note.svg',
+				'38': '/icons/page_action_note.svg'
+			},
+			popup: '/popups/info.html',
+			i18n: 'pageActionRecognized',
 		},
-		SKIPPED: {
-			'19': '/icons/page_action_skipped.svg',
-			'38': '/icons/page_action_skipped.svg'
+		scrobbled: {
+			path: {
+				'19': '/icons/page_action_tick.svg',
+				'38': '/icons/page_action_tick.svg'
+			},
+			popup: '/popups/info.html',
+			i18n: 'pageActionScrobbled',
 		},
-		IGNORED: {
-			'19': '/icons/page_action_ignored.svg',
-			'38': '/icons/page_action_ignored.svg'
+		skipped: {
+			path: {
+				'19': '/icons/page_action_skipped.svg',
+				'38': '/icons/page_action_skipped.svg'
+			},
+			popup: '/popups/info.html',
+			i18n: 'pageActionSkipped',
 		},
-		DISABLED: {
-			'19': '/icons/page_action_disabled.svg',
-			'38': '/icons/page_action_disabled.svg'
+		ignored: {
+			path: {
+				'19': '/icons/page_action_ignored.svg',
+				'38': '/icons/page_action_ignored.svg'
+			},
+			popup: '',
+			i18n: 'pageActionIgnored',
 		},
-		SCROBBLED: {
-			'19': '/icons/page_action_tick.svg',
-			'38': '/icons/page_action_tick.svg'
+		disabled: {
+			path: {
+				'19': '/icons/page_action_disabled.svg',
+				'38': '/icons/page_action_disabled.svg'
+			},
+			popup: '',
+			i18n: 'pageActionDisabled',
 		},
-		UNKNOWN: {
-			'19': '/icons/page_action_question.svg',
-			'38': '/icons/page_action_question.svg'
+		unknown: {
+			path: {
+				'19': '/icons/page_action_question.svg',
+				'38': '/icons/page_action_question.svg'
+			},
+			popup: '/popups/info.html',
+			i18n: 'pageActionUnknown',
 		},
-		ERROR: {
-			'19': '/icons/page_action_error.svg',
-			'38': '/icons/page_action_error.svg'
+		error: {
+			path: {
+				'19': '/icons/page_action_error.svg',
+				'38': '/icons/page_action_error.svg'
+			},
+			popup: '/popups/error.html',
+			i18n: 'pageActionError',
 		}
-	};
-
-	const DOCUMENTS = {
-		BASE: '/popups/go_play_music.html',
-		SONG_INFO: '/popups/info.html',
-		ERROR_INFO: '/popups/error.html'
 	};
 
 	/**
@@ -52,7 +82,7 @@ define(() => {
 	class PageAction {
 		/**
 		 * @constructor
-   	 	 * @param {Number} tabId Tab ID
+		 * @param {Number} tabId Tab ID
 		 */
 		constructor(tabId) {
 			this.tabId = tabId;
@@ -60,19 +90,19 @@ define(() => {
 
 		/**
 		 * Set icon, title and popup in single call.
-		 * @param {String} path Path to page action icon
-		 * @param {String} title Page action title
-		 * @param {String} popup Path to popup document
+		 * @param {Object} state Page action state
+		 * @param {String} placeholder String used to format page action title
 		 */
-		setPageAction(path, title, popup = '') {
+		setPageAction(state, placeholder) {
 			let tabId = this.tabId;
 			chrome.tabs.get(tabId, () => {
 				if (chrome.runtime.lastError) {
-					// tab doesn't exist
 					console.info(`While executing this.setPageAction: ${
 						chrome.runtime.lastError.message}`);
 				} else {
-					// tab exists
+					let { path, popup, i18n } = state;
+					let title = chrome.i18n.getMessage(i18n, placeholder);
+
 					chrome.pageAction.hide(tabId);
 					chrome.pageAction.setIcon({ tabId, path });
 					chrome.pageAction.setTitle({ tabId, title });
@@ -86,9 +116,7 @@ define(() => {
 		 * Show read Last.fm icon (connector is injected).
 		 */
 		setSiteSupported() {
-			this.setPageAction(ICONS.BASE,
-				'This site is supported for scrobbling',
-				DOCUMENTS.BASE);
+			this.setPageAction(state.base);
 		}
 
 		/**
@@ -96,9 +124,7 @@ define(() => {
 		 * @param {Object} song Song instance
 		 */
 		setSongLoading(song) {
-			this.setPageAction(
-				ICONS.LOADING, `Looking up ${song.getArtistTrackString()}`
-			);
+			this.setPageAction(state.loading, song.getArtistTrackString());
 		}
 
 		/**
@@ -106,9 +132,7 @@ define(() => {
 		 * @param {Object} song Song instance
 		 */
 		setSongRecognized(song) {
-			this.setPageAction(ICONS.RECOGNIZED,
-				`Now playing ${song.getArtistTrackString()}`,
-				DOCUMENTS.SONG_INFO);
+			this.setPageAction(state.recognized, song.getArtistTrackString());
 		}
 
 		/**
@@ -116,9 +140,7 @@ define(() => {
 		 * @param {Object} song Song instance
 		 */
 		setSongSkipped(song) {
-			this.setPageAction(ICONS.SKIPPED,
-				`Skipped ${song.getArtistTrackString()}`,
-				DOCUMENTS.SONG_INFO);
+			this.setPageAction(state.skipped, song.getArtistTrackString());
 		}
 
 		/**
@@ -126,18 +148,14 @@ define(() => {
 		 * @param {Object} song Song instance
 		 */
 		setSongIgnored(song) {
-			this.setPageAction(
-				ICONS.IGNORED, `Ignored ${song.getArtistTrackString()}`
-			);
+			this.setPageAction(state.ignored, song.getArtistTrackString());
 		}
 
 		/**
 		 * Show gray Last.fm icon (connector is disabled).
 		 */
 		setSiteDisabled() {
-			this.setPageAction(
-				ICONS.DISABLED,	'This site is supported, but you disabled it'
-			);
+			this.setPageAction(state.disabled);
 		}
 
 		/**
@@ -145,27 +163,21 @@ define(() => {
 		 * @param {Object} song Song instance
 		 */
 		setSongScrobbled(song) {
-			this.setPageAction(ICONS.SCROBBLED,
-				`Scrobbled ${song.getArtistTrackString()}`,
-				DOCUMENTS.SONG_INFO);
+			this.setPageAction(state.scrobbled, song.getArtistTrackString());
 		}
 
 		/**
 		 * Show gray question icon (song is not known by scrobbling service).
 		 */
 		setSongNotRecognized() {
-			this.setPageAction(ICONS.UNKNOWN,
-				'The song was not recognized. Click to enter correct info',
-				DOCUMENTS.SONG_INFO);
+			this.setPageAction(state.unknown);
 		}
 
 		/**
 		 * Show orange Last.fm icon (auth error is occurred).
 		 */
 		setError() {
-			this.setPageAction(ICONS.ERROR,
-				'Some service error was occurred. Click for more information.',
-				DOCUMENTS.ERROR_INFO);
+			this.setPageAction(state.error);
 		}
 	}
 

@@ -1,40 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<title></title>
 
-		<link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
-		<link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-		<link rel="stylesheet" href="/popups/base.css">
-		<link rel="stylesheet" href="/popups/go_play_music.css">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
 
-		<script type="text/javascript" src="/vendor/jquery.min.js"></script>
-		<script type="text/javascript" src="/popups/go_play_music.js"></script>
-	</head>
-	<body>
-		<div class="text-center content">
-			<div class='header'>
-				<i class="icon-music icon-5x"></i><br>
-				<h4>Play some music to get started</h4>
-			</div>
-			<p>
-				<a href="#" class="help">Is it already playing?</a>
-			</p>
-			<div id="description" class='description' data-hide="true">
-				<p>
-					In most cases this means the site has changed somehow.
-					The change does not have to be visible to user, but means
-					a lot to the extension.
-				</p>
-				<p>
-					The connector code for this specific website needs to be updated.
-					You can navigate to the <a href="https://github.com/david-sabata/web-scrobbler/issues" target="_blank">list of issues</a>
-					and see if this website is already reported. If it is not,
-					you can submit a new issue describing what's wrong, what's
-					expected behaviour and what's happening instead.
-				</p>
-			</div>
+	<link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/popups/base.css">
+	<link rel="stylesheet" href="/popups/go_play_music.css">
+
+	<script type="text/javascript" src="/vendor/jquery.min.js"></script>
+	<script type="text/javascript" src="/popups/go_play_music.js"></script>
+	<script type="text/javascript" src="/core/i18n.js"></script>
+</head>
+
+<body>
+	<div class="text-center content">
+		<div class='header'>
+			<i class="icon-music icon-5x"></i>
+			<h4 i18n="getStartedHeader"></h4>
 		</div>
-	</body>
+		<p>
+			<a href="#" class="help" i18n="getStartedSubheader"></a>
+		</p>
+		<div id="description" class='description' data-hide="true">
+			<p i18n="getStartedSiteChanged"></p>
+			<p i18n="getStartedSubmitIssue"></p>
+		</div>
+	</div>
+</body>
+
 </html>

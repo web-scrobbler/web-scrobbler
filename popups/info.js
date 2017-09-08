@@ -94,9 +94,21 @@ $(document).ready(function() {
 
 			let fieldUrl = fieldUrlMap[field];
 			if (fieldUrl) {
-				let fieldTitle = `View "${fieldValue}" ${field} page`;
+				let fieldTitleTag;
+				switch (field) {
+					case 'artist':
+						fieldTitleTag = 'infoViewArtistPage';
+						break;
+					case 'track':
+						fieldTitleTag = 'infoViewTrackPage';
+						break;
+					case 'album':
+						fieldTitleTag = 'infoViewAlbumPage';
+						break;
+				}
+
 				$(fieldLabelSelector).attr('href', fieldUrl);
-				$(fieldLabelSelector).attr('title', fieldTitle);
+				$(fieldLabelSelector).attr('title', i18n(fieldTitleTag));
 			} else {
 				$(fieldLabelSelector).removeAttr('href');
 			}
@@ -200,7 +212,7 @@ $(document).ready(function() {
 
 	function updateLovedIcon(isLoved) {
 		$('#love').attr('last-fm-loved', isLoved);
-		$('#love').attr('title', isLoved ? 'Unlove song' : 'Love song');
+		$('#love').attr('title', i18n(isLoved ? 'infoUnlove' : 'infoLove'));
 	}
 
 	function updatePopupView() {
@@ -214,30 +226,32 @@ $(document).ready(function() {
 	}
 
 	function updateControls() {
-		$('#edit-link').text(isEditModeEnabled ? 'Submit' : 'Edit');
-		$('#edit-link').attr('data-disable', song.flags.isScrobbled ||
-			song.flags.isSkipped);
+		$('#edit-link').text(i18n(isEditModeEnabled ? 'infoSubmit' : 'infoEdit'));
+		$('#edit-link').attr('data-disable', song.flags.isSkipped ||
+			song.flags.isScrobbled);
 
+		$('#revert-link').text(i18n('infoRevert'));
 		$('#revert-link').attr('data-hide', !song.flags.isCorrectedByUser
 			|| isEditModeEnabled);
 		$('#revert-link').attr('data-disable', song.flags.isScrobbled ||
 			!song.flags.isCorrectedByUser);
 
+		$('#skip-link').text(i18n('infoSkip'));
 		$('#skip-link').attr('data-hide', isEditModeEnabled);
 		$('#skip-link').attr('data-disable', song.flags.isSkipped ||
 			song.flags.isScrobbled);
 
 		if (song.flags.isScrobbled) {
-			$('#edit-link').attr('title', 'Scrobbled tracks cannot be edited');
-			$('#revert-link').attr('title', 'Scrobbled tracks cannot be reverted');
-			$('#skip-link').attr('title', 'Scrobbled songs cannot be skipped');
+			$('#edit-link').attr('title', i18n('infoEditUnableTitle'));
+			$('#revert-link').attr('title', i18n('infoRevertUnableTitle'));
+			$('#skip-link').attr('title', i18n('infoSkipUnableTitle'));
 		} else if (song.flags.isSkipped) {
-			$('#edit-link').attr('title', 'Skipped song cannot be edited');
-			$('#skip-link').attr('title', 'Song is already skipped');
+			$('#edit-link').attr('title', i18n('infoEditSkippedTitle'));
+			$('#skip-link').attr('title', i18n('infoSkipAlreadyTitle'));
 		} else {
-			$('#edit-link').attr('title', 'Edit song metadata');
-			$('#revert-link').attr('title', 'Revert changes');
-			$('#skip-link').attr('title', 'Don\'t scrobble current song');
+			$('#edit-link').attr('title', i18n('infoEditTitle'));
+			$('#revert-link').attr('title', i18n('infoRevertTitle'));
+			$('#skip-link').attr('title', i18n('infoSkipTitle'));
 		}
 	}
 
@@ -279,6 +293,10 @@ $(document).ready(function() {
 	function getCoverArt() {
 		return song.parsed.trackArt || song.metadata.artistThumbUrl ||
 			'/icons/default_cover_art.png';
+	}
+
+	function i18n(tag, ...context) {
+		return chrome.i18n.getMessage(tag, context);
 	}
 
 	function main() {

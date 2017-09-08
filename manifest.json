@@ -11,6 +11,8 @@
 
   "manifest_version": 2,
 
+  "default_locale": "en",
+
   "web_accessible_resources": [
     "icons/icon128.png",
     "connectors/soundcloud-dom-inject.js",

@@ -1,33 +1,29 @@
 <!DOCTYPE html>
-<html lang='en'>
-	<head>
-		<meta charset='UTF-8'>
-		<title>Service error</title>
+<html lang="en">
 
-		<link rel='stylesheet' href='/vendor/bootstrap/bootstrap.min.css'>
-		<link rel='stylesheet' href='/vendor/font-awesome/css/font-awesome.min.css'>
-		<link rel='stylesheet' href='/popups/base.css'>
-		<link rel='stylesheet' href='/popups/error.css'>
+<head>
+	<meta charset="UTF-8">
+	<title>Service error</title>
 
-		<script type="text/javascript" src="/vendor/jquery.min.js"></script>
-		<script type='text/javascript' src='/popups/error.js'></script>
-	</head>
-	<body>
-		<div class='content text-center'>
-			<div class='header'>
-				<i class=' icon-exclamation-sign text-error icon-3x'></i>
-				<h4 class='text-error'>Some service error was occurred</h4>
-			</div>
-			<p class='description'>
-				Looks like something went wrong while scrobbling the music.
-				Please open options page and try to reauthenticate with services.
-				If reauthentication doesn't help, and you still see this message,
-				please create <a href='https://github.com/david-sabata/web-scrobbler/issues'
-				target='_blank'>a new issue</a> at the GitHub project page.
-			</p>
-			<button class='btn' id='reauth'>
-				Open options page
-			</button>
+	<link rel="stylesheet" href="/vendor/bootstrap/bootstrap.min.css">
+	<link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/popups/base.css">
+	<link rel="stylesheet" href="/popups/error.css">
+
+	<script type="text/javascript" src="/vendor/jquery.min.js"></script>
+	<script type="text/javascript" src="/popups/error.js"></script>
+	<script type="text/javascript" src="/core/i18n.js"></script>
+</head>
+
+<body>
+	<div class="content text-center">
+		<div class="header">
+			<i class="icon-exclamation-sign text-error icon-3x"></i>
+			<h4 class="text-error" i18n="serviceErrorHeader"></h4>
 		</div>
-	</body>
+		<p class="description" i18n="serviceErrorDesc"></p>
+		<button class="btn" id="reauth" i18n="serviceErrorButton"></p>
+	</div>
+</body>
+
 </html>

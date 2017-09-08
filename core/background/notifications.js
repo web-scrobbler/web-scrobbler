@@ -195,7 +195,7 @@ define([
 	 * @param  {Function} onClicked Function that will be called on notification click
 	 */
 	function showSignInError(scrobbler, onClicked) {
-		let errorMessage = `Unable to sign in to ${scrobbler.getLabel()}. Please try later.`;
+		let errorMessage = i18n('notificationUnableSignIn', scrobbler.label);
 		showError(errorMessage, onClicked);
 	}
 
@@ -210,8 +210,8 @@ define([
 
 			let options = {
 				iconUrl: chrome.extension.getURL('icons/question.png'),
-				title: 'The song is not recognized',
-				message: 'Click on the icon in the extensions bar to correct and submit song info'
+				title: i18n('notificationNotRecognized'),
+				message: i18n('notificationNotRecognizedText')
 			};
 			showNotification(options);
 		});
@@ -224,8 +224,8 @@ define([
 	 */
 	function showAuthNotification(onClicked) {
 		const options = {
-			title: 'Connect your accounts',
-			message: 'Click the notification to connect your accounts',
+			title: i18n('notificationConnectAccounts'),
+			message: i18n('notificationConnectAccountsText'),
 		};
 
 		return showNotification(options, onClicked);
@@ -241,6 +241,10 @@ define([
 		if (notificationId) {
 			chrome.notifications.clear(notificationId);
 		}
+	}
+
+	function i18n(tag, ...context) {
+		return chrome.i18n.getMessage(tag, context);
 	}
 
 	// Set up listening for clicks on all notifications

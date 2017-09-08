@@ -2,15 +2,17 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Options for Last.fm Scrobbler</title>
+	<title i18n="optionsTitle"></title>
 
 	<link href="/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
 	<link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="options.css" />
 
-	<script src="../vendor/require.min.js"></script>
-	<script src="../core/background/requirejs-config.js"></script>
+	<script type="text/javascript" src="/vendor/jquery.min.js"></script>
+	<script type="text/javascript" src="/vendor/require.min.js"></script>
+	<script type="text/javascript" src="/core/background/requirejs-config.js"></script>
 	<script type="text/javascript" src="options.js"></script>
+	<script type="text/javascript" src="/core/i18n.js"></script>
 
 </head>
 <body>
@@ -23,7 +25,10 @@
 			<div class="accordion-group">
 				<div class="accordion-heading">
 					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionLeft" href="#accounts">
-						<h1><i class="icon-user"></i> Accounts</h1>
+						<h1>
+							<i class="icon-user"></i>
+							<span i18n='optionsAccounts'></span>
+						</h1>
 					</a>
 				</div>
 				<div id="accounts" class="accordion-body collapse">
@@ -36,28 +41,31 @@
 
 				<div class="accordion-heading">
 					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionLeft" href="#options">
-						<h1><i class="icon-gear"></i> Options</h1>
+						<h1>
+							<i class="icon-gear"></i>
+							<span i18n='optionsOptions'></span>
+						</h1>
 					</a>
 				</div>
 				<div id="options" class="accordion-body collapse">
 					<div class="accordion-inner">
-						<h4>General</h4>
+						<h4 i18n="optionsGeneral"></h4>
 						<ul>
 							<li>
 								<input type="checkbox" id="use-notifications">
-								<label for="use-notifications" title="Turn on/off popup scrobbling notifications for all supported websites">Use desktop notifications</label>
+								<label for="use-notifications" i18n="optionUseNotifications" i18n-title="optionUseNotificationsTitle"></label>
 							</li>
 							<li>
 								<input type="checkbox" id="use-unrecognized-song-notifications">
-								<label for="use-unrecognized-song-notifications" title="Show notification if song is not recognized by the extension">Notify if song is not recongized</label>
+								<label for="use-unrecognized-song-notifications" i18n="optionUnrecognizedNotifications" i18n-title="optionUnrecognizedNotificationsTitle"></label>
 							</li>
 							<li>
 								<input type="checkbox" id="force-recognize">
-								<label for="force-recognize" title="Force recognition of unknown songs">Force song recognition</label>
+								<label for="force-recognize" i18n="optionForceRecognize" i18n-title="optionForceRecognizeTitle"></label>
 							</li>
 							<li>
 								<input type="checkbox" id="disable-ga">
-								<label for="disable-ga" title="Disable sending data to Google Analytics">Disable Google Analytics</label>
+								<label for="disable-ga" i18n="optionDisableGa" i18n-title="optionDisableGaTitle"></label>
 							</li>
 						</ul>
 
@@ -65,36 +73,35 @@
 						<ul>
 							<li>
 								<input type="checkbox" id="yt-music-only">
-								<label for="yt-music-only" title="Check to ignore videos that are not in Music category">Scrobble videos from "Music" category</label>
+								<label for="yt-music-only" i18n="optionYtMusicOnly" i18n-title="optionYtMusicOnlyTitle"></label>
 							</li>
 							<li>
 								<input type="checkbox" id="yt-entertainment-only">
-							<label for="yt-entertainment-only" title="Check to ignore videos that are not in Entertainment category">Scrobble videos from "Entertainment" category</label>
+								<label for="yt-entertainment-only" i18n="optionYtEntertainmentOnly" i18n-title="optionYtEntertainmentOnlyTitle"></label>
 							</li>
 						</ul>
 
-						<h4>Edited tracks</h4>
+						<h4 i18n="optionsEditedTracks"></h4>
 						<div>
-							<p>This extention stores edited tracks.</p>
-							<button id="view-edited" type="button" class="btn btn-default">View edited</button>
+							<p i18n="optionsEditedTracksDesc"></p>
+							<button id="view-edited" type="button" class="btn btn-default" i18n="optionsViewEdited"></button>
 						</div>
 
-						<h4>Supported websites</h4>
+						<h4 i18n="optionsSupportedWebsites"></h4>
 						<div>
-							<p class="indent"><small>Click the checkbox to enable/disable connectors.</small></p>
 							<p class="indent">
-								<small>
-									Click the gear icon to configure custom URL patterns for connectors.
-									<a target='_blank' href="https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns">Learn more</a>
-								</small>
+								<small i18n="optionsEnableDisableHint"></small>
+							</p>
+							<p class="indent">
+								<small i18n="optionsCustomPatternsHint"></small>
 							</p>
 							<ul id="connectors">
 								<li>
 									<i class="icon-fixed-width icon-blank"></i>
 									<input id="toggle" type="checkbox" />
-									<label class="toggle" for="toggle">Toggle</label>
+									<label class="toggle" for="toggle" i18n="optionsToggle"></label>
 								</li>
-								<!-- generated by JS based on inject.js -->
+								<!-- Generated by JS -->
 							</ul>
 						</div>
 					</div>
@@ -104,40 +111,43 @@
 			<div class="accordion-group">
 				<div class="accordion-heading">
 					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionLeft" href="#contact">
-						<h1><i class="icon-pencil"></i> Contact</h1>
+						<h1>
+							<i class="icon-pencil"></i>
+							<span i18n="contactTitle"></span>
+						</h1>
 					</a>
 				</div>
 				<div id="contact" class="accordion-body collapse in">
 					<div class="accordion-inner">
 						<ul>
 							<li>
-								<a href="https://github.com/david-sabata/web-scrobbler/issues?state=open"><i class="icon-github-alt"></i>GitHub</a>
-								Report an issue and contribute
+								<a href="https://github.com/david-sabata/web-scrobbler/issues"><i class="icon-github-alt"></i>GitHub</a>
+								<span i18n="contactGitHubDesc"></span>
 							</li>
 
 							<li>
 								<a href="https://twitter.com/web_scrobbler"><i class="icon-twitter"></i>Twitter</a>
-								Keep up with the updates and for quick chat
+								<span i18n="contactTwitterDesc"></span>
 							</li>
 
 							<li>
 								<a href="http://www.last.fm/user/na1k_"><i class="icon-music"></i>Last.fm</a>
-								Compare taste and just say hi!
+								<span i18n="contactLastfmDesc"></span>
 							</li>
 
 							<li>
 								<a href="http://linkedin.com/pub/david-%C5%A1abata/6b/3a4/2bb/"><i class="icon-linkedin"></i>LinkedIn</a>
-								See what my professional-life occupation is
+								<span i18n="contactLinkedInDesc"></span>
 							</li>
 
 							<li>
 								<a href="http://davidsabata.cz"><i class="icon-home"></i>My web</a>
-								See what else I've done
+								<span i18n="contactMyWebDesc"></span>
 							</li>
 
 							<li>
 								<a href=" https://github.com/david-sabata/web-scrobbler/wiki/Privacy-policy"><i class="icon-lock"></i>Privacy</a>
-								View the privacy policy
+								<span i18n="contactPrivacyPolicyDesc"></span>
 							</li>
 						</ul>
 					</div>
@@ -151,90 +161,45 @@
 			<div class="accordion-group">
 				<div class="accordion-heading">
 					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionRight" href="#faq">
-						<h1><i class="icon-question-sign"></i> FAQ</h1>
+						<h1>
+							<i class="icon-question-sign"></i>
+							<span i18n="faqTitle"></span>
+						</h1>
 					</a>
 				</div>
 				<div id="faq" class="accordion-body collapse">
 					<div class="accordion-inner">
-						<h4>How can I start using the extension?</h4>
-						<p>
-							You should click on a notification that is shown when the extension is loaded first time.
-							Then, you should grant access to your account.
-						</p>
-						<p>
-							Note: In some cases, the notification won't be shown, e.g. on Mac OS if Chrome is running in full-screen mode;
-							the extension will open a tab where you can grant access to your account.
-						</p>
+						<h4 i18n="faqQuestion1"></h4>
+						<p i18n="faqAnswer1a"></p>
+						<p i18n="faqAnswer1b"></p>
 
-						<h4>How do I temporarily disable scrobbling?</h4>
-						<p>
-							You can do that by right-clicking on the extension icon in the extension bar.
-							Using the context menu you can disable the connector for current web service.
-						</p>
-						<p>
-							Use the checkboxes on the options page to disable certain connector,
-							or the "Toogle" checkbox to disable scrobbling globally.
-						</p>
+						<h4 i18n="faqQuestion2"></h4>
+						<p i18n="faqAnswer2a"></p>
+						<p i18n="faqAnswer2b"></p>
 
-						<h4>The song was not recognized! Can you fix it?</h4>
-						<p>
-							When a song cannot be recognized, a gray icon with question mark appears in the extension bar.
-							You can click on this icon and input correct data in the opened popup window.
-						</p>
-						<p style="color: #666">
-							The data you input is stored for certain connectors which support this feature.
-						</p>
-						<p>
-							Also, there's an option called "Force song recognition" that makes the extension
-							to force scrobbling the song even if song is not validated by Last.fm.
-						</p>
+						<h4 i18n="faqQuestion3"></h4>
+						<p i18n="faqAnswer3a"></p>
+						<p i18n="faqAnswer3b"></p>
 
-						<h4>Some musics on Bandcamp cannot be scrobbled. Is it possible to fix this?</h4>
-						<p>
-							Looks like the music is hosted on a custom domain and we cannot detect whether it’s Bandcamp or not.
-						</p>
-						<p>
-							As a workaround, configure the extension to work with custom domains as follows:
-							<ol>
-								<li>Open the extension setting page and expand the “Options” section.</li>
-								<li>Find the Bandcamp connector in the list of supported services.</li>
-								<li>Click on the gear icon near the connector label.</li>
-								<li>Add URL pattern that matches the Bandcamp custom domain URL and apply the changes.</li>
-							</ol>
-						</p>
-						<p>
-							You can learn more about the custom URL patterns
-							<a target='_blank' href="https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns">here</a>.
-						</p>
+						<h4 i18n="faqQuestion4"></h4>
+						<p i18n="faqAnswer4a"></p>
+						<p i18n="faqAnswer4b"></p>
+						<ol>
+							<li i18n="faqAnswer4b1"></li>
+							<li i18n="faqAnswer4b2"></li>
+							<li i18n="faqAnswer4b3"></li>
+							<li i18n="faqAnswer4b4"></li>
+						</ol>
+						<p i18n="faqAnswer4c"></p>
 
+						<h4 i18n="faqQuestion5"></h4>
+						<p i18n="faqAnswer5"></p>
 
-						<h4>Will you add support for scrobbling at&nbsp;&nbsp;____ ?</h4>
-						<p>
-							Possibly, but most likely no. I make the Scrobbler in my free time and that's why I manage only Youtube
-							support - I simply don't use any other web music service. Nevertheless, it is really easy to create a <i>connector</i>
-							and add support for a new website. You can simply fork the <a
-								href="http://github.com/david-sabata/web-scrobbler">GitHub</a>
-							repository and send me a pull request. There is also a wiki page on the GitHub describing the extension
-							core.
-						</p>
+						<h4 i18n="faqQuestion6"></h4>
+						<p i18n="faqAnswer6"></p>
 
-						<h4>Will you add&nbsp;&nbsp;____&nbsp;&nbsp;functionality?</h4>
-						<p>
-							Possibly, if it makes sense. A great example is functionality to correct the song title if it is not
-							recognized.
-							This wasn't possible in earlier versions, but can be done since 1.0, because a lot of people was asking for
-							it and I also think it is useful.
-						</p>
-						<p>
-							But if you want me to add some not-that-useful-but-really-cool functions, you'll probably get disappointed.
-						</p>
-
-						<h4>Who is the author?</h4>
-						<p>
-							My name is David Šabata, I graduated from IT at the Brno University of Technology, Czech Republic. I am
-							obsessed with automating
-							tedious tasks and that's probably why this whole extension was created.
-						</p>
+						<h4 i18n="faqQuestion7"></h4>
+						<p i18n="faqAnswer7"></p>
 					</div>
 				</div>
 			</div>
@@ -242,45 +207,23 @@
 			<div class="accordion-group">
 				<div class="accordion-heading">
 					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionRight" href="#about">
-						<h1><i class="icon-info-sign"></i> About</h1>
+						<h1>
+							<i class="icon-info-sign"></i>
+							<span i18n="optionsAbout"></span>
+						</h1>
 					</a>
 				</div>
 				<div id="about" class="accordion-body collapse">
 					<div class="accordion-inner">
-						<p>
-							The changelog of current version is available
-							<a id="latest-release" target="_blank" href="#">here</a>.
-							For the full changelog please visit
-							<a target="_blank" href="https://github.com/david-sabata/web-scrobbler/releases">this page</a>.
-						</p>
-						<p>
-							Last.fm Scrobbler was created for people who listen to music
-							online through their browser, and would like to keep an updated playback
-							history using Last.fm's scrobbling service.
-						</p>
+						<p i18n="aboutText1"></p>
+						<p i18n="aboutText2"></p>
+						<p i18n="aboutText3"></p>
+						<p i18n="aboutText4" class="gray"></p>
+						<p i18n="aboutText5"></p>
 
-						<p>
-							As I don't visit many other websites with video content, the development of
-							<i>connectors</i> for other websites will be mostly up to you. Feel free to
-							send a pull request at <a href="http://github.com/david-sabata/web-scrobbler">GitHub</a>.
-							<br />
-							<span class="gray">Don't worry, even if no-one contributes I will still keep YouTube scrobbling working myself.</span>
-						</p>
-
-						<p>
-							And since we all love music and Last.fm, you can also stop by at
-							<a href="http://www.last.fm/user/na1k_/">my Last.fm profile</a> to compare taste or maybe leave a kind
-							message :-)
-						</p>
-
-
-						<h4>Contributors</h4>
-
-						I'm happy to say, that there are number of great people contributing to this extension!<br />
-						There used to be a list of them at this very page, but it grew quickly in size. Also it listed mostly
-						major contributors (authors of connectors) while not mentioning minor, but also very important ones (fixes and other improvements).<br />
-						<br />
-						To give proper credit to everyone and to avoid duplicit information, you can now find the list of contributors <a href="https://github.com/david-sabata/web-scrobbler/graphs/contributors">right at the GitHub</a>
+						<h4 i18n="contributorsTitle"></h4>
+						<p i18n="contributorsText1"></p>
+						<p i18n="contributorsText2"></p>
 					</div>
 				</div>
 			</div>
@@ -288,20 +231,16 @@
 			<div class="accordion-group">
 				<div class="accordion-heading">
 					<a class="accordion-toggle" data-toggle="collapse" data-parent="#accordionRight" href="#collapseTwo">
-						<h1><i class="icon-heart"></i> Show some love</h1>
+						<h1>
+							<i class="icon-heart"></i>
+							<span i18n="showSomeLoveTitle"></span>
+						</h1>
 					</a>
 				</div>
 				<div id="collapseTwo" class="accordion-body collapse in">
 					<div class="accordion-inner">
-						<p>
-							Unlike other extensions, this one does not contain any flashing banners or sneaky ads.
-						</p>
-						<p>
-							I develop this extension in my free time, with source wide open and I am and will be doing it for free.
-						</p>
-						<p>
-							But still please consider donating a few bucks to keep me motivated and to make sure I always have enough pizza and coffee for late night programming
-						</p>
+						<p i18n="showSomeLoveText1"></p>
+						<p i18n="showSomeLoveText2"></p>
 
 						<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 							<div style="text-align: center">
@@ -314,31 +253,25 @@
 					</div>
 				</div>
 			</div>
-
 		</div>
-
-
 	</div>
-
 	<div class="span1"></div>
-
 </div>
 <div id="conn-conf-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-content">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-			<h4 class="modal-title"><span class="conn-conf-title"></span> configuration</h4>
+			<h4 class="modal-title conn-conf-title"></h4>
 		</div>
 		<div class="modal-body">
-			<p>Enter the URL patterns that the connector should match below.</p>
-			<div class="conn-conf-patterns">
-			</div>
-			<button type="button" id="add-pattern" class="btn btn-default">Add pattern</button>
+			<p i18n="customPatternsHint"></p>
+			<div class="conn-conf-patterns"></div>
+			<button type="button" id="add-pattern" class="btn btn-default" i18n="customPatternsAdd"></button>
 		</div>
 		<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-			<button type="button" class="btn btn-default" id="conn-conf-reset">Reset</button>
-			<button type="button" class="btn btn-default" id="conn-conf-ok">OK</button>
+			<button type="button" class="btn btn-default" data-dismiss="modal" i18n="buttonCancel"></button>
+			<button type="button" class="btn btn-default" id="conn-conf-reset" i18n="buttonReset"></button>
+			<button type="button" class="btn btn-default" id="conn-conf-ok" i18n="buttonOk"></button>
 		</div>
 	</div>
 </div>
@@ -346,13 +279,16 @@
 	<div class="modal-content">
 		<div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span></button>
-			<h4 class="modal-title">Edited tracks</h4>
+			<h4 class="modal-title" i18n="editedTracksTitle"></h4>
 		</div>
 		<div class="modal-body">
-			<div class="edited-track-contents"></div>
+			<div>
+				<ul id="edited-track-content" class="list-unstyled"></ul>
+			</div>
 		</div>
 		<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+			<button type="button" class="btn btn-default" id="clear-cache" i18n="buttonClear"></button>
+			<button type="button" class="btn btn-default" data-dismiss="modal" i18n="buttonCancel"></button>
 		</div>
 	</div>
 </div>

@@ -1,33 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<title></title>
 	<script type="text/javascript" src="/vendor/jquery.min.js"></script>
 	<script type="text/javascript" src="/popups/info.js"></script>
+	<script type="text/javascript" src="/core/i18n.js"></script>
 	<link rel="stylesheet" href="/popups/info.css" />
 </head>
+
 <body>
 	<div id="wrapper">
-		<div id="album-art" title="Open album art in new tab">&nbsp;</div>
+		<div id="album-art" i18n-title="infoOpenAlbumArt">&nbsp;</div>
 		<div id="info">
-			<a id="track" class="track metadata" href="#" target="_blank">Track</a>
-			<a id="artist" class="artist metadata" href="#" target="_blank">Artist</a>
-			<a id="album" class="album metadata" href="#" target="_blank">Album</a>
+			<a id="track" class="track metadata" href="#" target="_blank"></a>
+			<a id="artist" class="artist metadata" href="#" target="_blank"></a>
+			<a id="album" class="album metadata" href="#" target="_blank"></a>
 		</div>
 		<div id="edit" data-hide="true">
-			<input type="text" id="track-input" placeholder="Track title" tabindex="1" />
-			<input type="text" id="artist-input" placeholder="Artist" tabindex="2" />
-			<input type="text" id="album-input" placeholder="Album (optional)" tabindex="3"/>
+			<input type="text" id="track-input" i18n-placeholder="infoTrackPlaceholder" tabindex="1" />
+			<input type="text" id="artist-input" i18n-placeholder="infoArtistPlaceholder" tabindex="2" />
+			<input type="text" id="album-input" i18n-placeholder="infoAlbumPlaceholder" tabindex="3" />
 		</div>
 		<div id="edit-controls">
-			<span id="edit-link" class='control-btn'>Edit</span>
-			<span id="revert-link" class='control-btn'>Revert</span>
-			<span id="skip-link" class='control-btn'>Skip</span>
+			<span id="edit-link" class="control-btn"></span>
+			<span id="revert-link" class="control-btn"></span>
+			<span id="skip-link" class="control-btn"></span>
 		</div>
 		<div id="scrobble-controls">
-			<div id="love" title="Love song"></div>
+			<div id="love"></div>
 		</div>
 	</div>
 </body>
+
 </html>

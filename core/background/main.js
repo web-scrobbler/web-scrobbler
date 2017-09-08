@@ -255,18 +255,22 @@ require([
 		let connector = controller.getConnector();
 
 		if (controller.isEnabled) {
-			addContextMenuItem(`Disable ${connector.label} connector`, () => {
+			let title1 = chrome.i18n.getMessage('menuDisableConnector', connector.label);
+			addContextMenuItem(title1, () => {
 				controller.setEnabled(false);
 				Config.setConnectorEnabled(connector.label, false);
 
 				setupContextMenu(tabId);
 			});
-			addContextMenuItem('Disable connector until tab is closed', () => {
+
+			let title2 = chrome.i18n.getMessage('menuDisableUntilTabClosed');
+			addContextMenuItem(title2, () => {
 				controller.setEnabled(false);
 				setupContextMenu(tabId);
 			});
 		} else {
-			addContextMenuItem(`Enable ${connector.label} connector`, () => {
+			let title = chrome.i18n.getMessage('menuEnableConnector', connector.label);
+			addContextMenuItem(title, () => {
 				controller.setEnabled(true);
 				Config.setConnectorEnabled(connector, true);
 				setupContextMenu(tabId);

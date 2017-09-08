@@ -1,7 +1,6 @@
 'use strict';
 
 require([
-	'jquery',
 	'config',
 	'connectors',
 	'customPatterns',
@@ -10,7 +9,7 @@ require([
 	'services/scrobbleService',
 	'util',
 	'bootstrap'
-], function($, config, connectors, customPatterns, ChromeStorage, chrome, ScrobbleService, Util) {
+], function(config, connectors, customPatterns, ChromeStorage, chrome, ScrobbleService, Util) {
 	/**
 	 * Object that maps options to their element IDs.
 	 * @type {Object}
@@ -109,31 +108,23 @@ require([
 		$account.empty();
 
 		let $label = $('<h3/>').text(scrobbler.getLabel());
-		let $authStr = $('<p/>').text(`You're signed in as ${session.sessionName}.`);
+		let $authStr = $('<p/>').text(chrome.i18n.getMessage('accountsSignedInAs', session.sessionName));
 		let $controls = $('<div/>').addClass('controls');
 
-		let $profileBtn = $('<a href="#"/>').text('Profile').click(() => {
+		let $profileBtn = $('<a href="#"/>').attr('i18n', 'accountsProfile').click(() => {
 			scrobbler.getProfileUrl().then((profileUrl) => {
 				if (profileUrl) {
 					chrome.tabs.create({ url: profileUrl });
 				}
 			});
 		});
-		let $reauthBtn = $('<a href="#"/>').text('Reauthenticate').click(() => {
-			chrome.runtime.sendMessage({
-				type: 'v2.authenticate',
-				scrobbler: scrobbler.getLabel(),
-				notify: false
-			});
-			createUnauthorizedAccountView(scrobbler);
-		});
-		let $logoutBtn = $('<a href="#"/>').text('Sign out').click(() => {
+		let $logoutBtn = $('<a href="#"/>').attr('i18n', 'accountsSignOut').click(() => {
 			scrobbler.signOut().then(() => {
 				createUnauthorizedAccountView(scrobbler);
 			});
 		});
 
-		$controls.append($profileBtn, ' • ', $reauthBtn, ' • ', $logoutBtn);
+		$controls.append($profileBtn, ' • ', $logoutBtn);
 		$account.append($label, $authStr, $controls);
 	}
 
@@ -142,15 +133,17 @@ require([
 		$account.empty();
 
 		let $label = $('<h3/>').text(scrobbler.getLabel());
-		let $authUrl = $('<a href="#"/>').text('Sign in').click(() => {
+		let $authUrl = $('<a href="#"/>').attr('i18n', 'accountsSignIn').click(() => {
 			chrome.runtime.sendMessage({
 				type: 'v2.authenticate',
 				scrobbler: scrobbler.getLabel()
 			});
 		});
-		let $authStr = $('<p/>').text('You\'re not signed in. ').append($authUrl);
+		console.log($authUrl);
+		let $authStr = $('<span/>').attr('i18n', 'accountsNotSignedIn');
+		let $placeholder = $('<span/>').html('&nbsp;');
 
-		$account.append($label, $authStr);
+		$account.append($label, $authStr, $placeholder, $authUrl);
 	}
 
 	function createEmptyView(scrobbler) {
@@ -331,37 +324,28 @@ require([
 
 	function initViewEditedDialog() {
 		$('#view-edited').click(() => {
+			let modal = $('#edited-track-modal');
+			let cacheDom = $('#edited-track-content');
+
 			let localCache = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
-
-			let cacheDom = $('<div></div>');
-
-			let cache = $('<ul class="list-unstyled"></ul>');
-
 			localCache.get().then((data) => {
+				cacheDom.empty();
+
 				if (Object.keys(data).length === 0) {
-					cache.append($('<li>').text('No items in the cache.'));
+					cacheDom.append($('<li>').attr('i18n', 'noItemsInCache'));
 				} else {
 					for (let songId in data) {
 						let { artist, track } = data[songId];
-						cache.append($('<li>').text(`${artist} — ${track}`));
+						cacheDom.append($('<li>').text(`${artist} — ${track}`));
 					}
 				}
 			});
 
-			cacheDom.append(cache);
-
-			let cacheClearButton = $('<button class="btn btn-default">Clear Cache</button>');
-
-			cacheClearButton.click(() => {
+			$('#clear-cache').click(() => {
 				localCache.clear();
 				modal.modal('hide');
 			});
 
-			cacheDom.append(cacheClearButton);
-
-			let modal = $('#edited-track-modal');
-
-			modal.find('.edited-track-contents').html(cacheDom);
 			modal.modal('show');
 		});
 	}
