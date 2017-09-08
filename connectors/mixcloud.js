@@ -2,7 +2,7 @@
 
 Connector.playerSelector = '.player';
 
-Connector.artistSelector = '.current-artist';
+Connector.artistSelector = '.current-artist span';
 
 Connector.trackSelector = '.current-track';
 
@@ -13,11 +13,3 @@ Connector.isStateChangeAllowed = () => {
 	// and we should not update state in such case.
 	return Connector.getArtist() && Connector.getTrack();
 };
-
-Connector.filter = MetadataFilter.getTrimFilter().append({
-	artist: removeByPrefix
-});
-
-function removeByPrefix(text) {
-	return text.replace('by ', '');
-}
