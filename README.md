@@ -36,6 +36,8 @@ If you use Chrome or Chrome-based extension (like Opera) you can install the ext
 
 Check the [wiki page][10] to understand development of connectors. Please also read [contributions guidelines](.github/CONTRIBUTING.md).
 
+Join our [translation team][21] on Transifex.
+
 ### Gitter
 
 We use gitter and you can join us @ [david-sabata/web-scrobbler][5].
@@ -72,6 +74,7 @@ See the [license file](LICENSE.md).
 [13]: https://addons.opera.com/extensions/details/app_id/kipjbhgniklcnglfaldilecjomjaddfi
 [14]: https://img.shields.io/amo/users/web-scrobbler.svg
 [15]: https://addons.mozilla.org/en-US/firefox/addon/web-scrobbler/
+[21]: https://www.transifex.com/web-scrobbler/web-scrobbler/dashboard/
 
 [16]: http://getbootstrap.com/2.3.2/assets/bootstrap.zip
 [17]: http://fontawesome.io/3.2.1/assets/font-awesome.zip
