@@ -46,8 +46,8 @@ $(document).ready(function() {
 	function setEditMode(flag) {
 		isEditModeEnabled = flag;
 
-		$('#info').attr('hidden', isEditModeEnabled);
-		$('#edit').attr('hidden', !isEditModeEnabled);
+		$('#info').attr('data-hide', isEditModeEnabled);
+		$('#edit').attr('data-hide', !isEditModeEnabled);
 		if (isEditModeEnabled) {
 			fillMetadataInputs();
 			$('input').first().focus();
@@ -108,7 +108,7 @@ $(document).ready(function() {
 			} else {
 				$(fieldLabelSelector).text(null);
 			}
-			$(fieldLabelSelector).attr('hidden', !fieldValue);
+			$(fieldLabelSelector).attr('data-hide', !fieldValue);
 		}
 	}
 
@@ -134,7 +134,7 @@ $(document).ready(function() {
 			let fieldInputValue = $(fieldInputSelector).val();
 
 			$(fieldLabelSelector).text(fieldInputValue);
-			$(fieldLabelSelector).attr('hidden', !fieldInputValue);
+			$(fieldLabelSelector).attr('data-hide', !fieldInputValue);
 		}
 	}
 
@@ -215,16 +215,16 @@ $(document).ready(function() {
 
 	function updateControls() {
 		$('#edit-link').text(isEditModeEnabled ? 'Submit' : 'Edit');
-		$('#edit-link').attr('ddisabled', song.flags.isScrobbled ||
+		$('#edit-link').attr('data-disable', song.flags.isScrobbled ||
 			song.flags.isSkipped);
 
-		$('#revert-link').attr('hidden', !song.flags.isCorrectedByUser
+		$('#revert-link').attr('data-hide', !song.flags.isCorrectedByUser
 			|| isEditModeEnabled);
-		$('#revert-link').attr('disabled', song.flags.isScrobbled ||
+		$('#revert-link').attr('data-disable', song.flags.isScrobbled ||
 			!song.flags.isCorrectedByUser);
 
-		$('#skip-link').attr('hidden', isEditModeEnabled);
-		$('#skip-link').attr('disabled', song.flags.isSkipped ||
+		$('#skip-link').attr('data-hide', isEditModeEnabled);
+		$('#skip-link').attr('data-disable', song.flags.isSkipped ||
 			song.flags.isScrobbled);
 
 		if (song.flags.isScrobbled) {
