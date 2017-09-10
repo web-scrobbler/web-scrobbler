@@ -98,15 +98,6 @@ input {
 	background-position-y: -48px;
 }
 
-[data-hide="true"] {
-	display: none !important;
-}
-[data-disable="true"] {
-	color: #999;
-	cursor: default !important;
-	text-decoration: none !important;
-}
-
 #artist:before {
 	content: "by ";
 }

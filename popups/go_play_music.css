@@ -10,7 +10,3 @@
 .help {
 	font-size: 0.9em;
 }
-
-[data-hide="true"] {
-	display: none !important;
-}
