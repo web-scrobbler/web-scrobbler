@@ -107,7 +107,7 @@ require([
 		let $account = $(`#${getAccountViewId(scrobbler)}`);
 		$account.empty();
 
-		let $label = $('<h3/>').text(scrobbler.getLabel());
+		let $label = $('<h4/>').text(scrobbler.getLabel());
 		let $authStr = $('<p/>').text(chrome.i18n.getMessage('accountsSignedInAs', session.sessionName));
 		let $controls = $('<div/>').addClass('controls');
 
@@ -132,7 +132,7 @@ require([
 		let $account = $(`#${getAccountViewId(scrobbler)}`);
 		$account.empty();
 
-		let $label = $('<h3/>').text(scrobbler.getLabel());
+		let $label = $('<h4/>').text(scrobbler.getLabel());
 		let $authUrl = $('<a href="#"/>').attr('i18n', 'accountsSignIn').click(() => {
 			chrome.runtime.sendMessage({
 				type: 'v2.authenticate',
