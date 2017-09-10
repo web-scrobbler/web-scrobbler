@@ -25,7 +25,7 @@ module.exports = function(grunt) {
 	];
 
 	const extensionSources = [
-		'connectors/**', 'core/**', 'icons/**',
+		'_locales/**', 'connectors/**', 'core/**', 'icons/**',
 		'options/**', 'popups/**', 'vendor/**',
 		'manifest.json', 'README.md', 'LICENSE.txt',
 		// Skip files
