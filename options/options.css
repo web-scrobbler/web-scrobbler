@@ -93,9 +93,3 @@ a.conn-config:hover {
 	border: none;
 	text-decoration: none;
 }
-
-#connectors .v2 {
-	color: #d51007;
-	font-size: 0.7em;
-	padding-left: 5px;
-}
