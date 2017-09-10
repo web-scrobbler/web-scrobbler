@@ -1,27 +1,19 @@
 body {
 	background-color: #e3e3e3;
+	font-family: "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
 	margin: 30px 0 0;
 }
 
 h1, h2, h3, h4, h5 {
 	color: #d51007;
-	font-family: "Lucida Grande", Arial, Helvetica, Verdana, sans-serif;
 }
 
 .gray {
 	color: #aaa;
 }
 
-a {
-	border-bottom: 1px solid #d51007;
-	color: #000;
-	text-decoration: none;
-}
-
-a:hover {
-	border-bottom: 1px solid #d51007;
+a, a:hover {
 	color: #d51007;
-	text-decoration: none;
 }
 
 h1 i {
@@ -50,6 +42,7 @@ input[type=checkbox] {
 
 #contact a {
 	border-bottom: none;
+	color: #000;
 	display: inline-block;
 	font-size: 1.5em;
 	margin-right: 20px;
@@ -87,6 +80,11 @@ a.conn-config:hover {
 	position: relative;
 	text-decoration: none;
 	top: -5px;
+}
+
+.accordion-toggle {
+	border-bottom: 1px solid #d51007;
+	text-decoration: none;
 }
 
 #connectors a {
