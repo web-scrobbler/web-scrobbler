@@ -165,7 +165,7 @@ define([
 				iconUrl: song.getTrackArt() || chrome.extension.getURL('/icons/default_cover_art.png'),
 				// @ifdef CHROME
 				title: song.getTrack(),
-				message: `by ${song.getArtist()}`,
+				message: song.getArtist(),
 				contextMessage: connectorLabel
 				// @endif
 				/* @ifdef FIREFOX

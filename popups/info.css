@@ -106,11 +106,3 @@ input {
 	cursor: default !important;
 	text-decoration: none !important;
 }
-
-#artist:before {
-	content: "by ";
-}
-
-#album:before {
-	content: "on ";
-}
