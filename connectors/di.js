@@ -2,8 +2,6 @@
 
 Connector.playerSelector = '#webplayer-region';
 
-Connector.playButtonSelector = '.ico icon-play';
-
 Connector.currentTimeSelector = '.timecode .time';
 
 Connector.durationSelector = '.timecode .total';
@@ -27,4 +25,8 @@ Connector.getTrackArt = () => {
 		return `http:${trackArtUrl}`;
 	}
 	return null;
+};
+
+Connector.isPlaying = () => {
+	return $('#webplayer-region').attr('data-state') === 'playing';
 };
