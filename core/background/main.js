@@ -172,10 +172,6 @@ require([
 		}
 
 		inject.onTabsUpdated(tab).then((result) => {
-			if (!result) {
-				return;
-			}
-
 			let tabId = result.tabId;
 			switch (result.type) {
 				case InjectResult.NO_MATCH: {

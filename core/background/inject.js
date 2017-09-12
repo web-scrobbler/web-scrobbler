@@ -32,7 +32,7 @@ define([
 				// does not implement the 'ping' message, we get response==undefined;
 				if (response) {
 					console.log('Subsequent ajax navigation, the scripts are already injected');
-					resolve(null);
+					resolve(new InjectResult(InjectResult.ALREADY_INJECTED, tabId, connector));
 					return;
 				}
 

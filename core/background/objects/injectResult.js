@@ -32,6 +32,13 @@ class InjectResult {
 	}
 
 	/**
+	 * All content scripts are already injected.
+	 */
+	static get ALREADY_INJECTED() {
+		return 'already-injected';
+	}
+
+	/**
 	 * The connector is not matched.
 	 */
 	static get NO_MATCH() {
