@@ -16,7 +16,7 @@ Connector.getArtistTrack = () => {
 		return Util.splitArtistTrack(artistWithDash + track);
 	}
 
-	return Util.emptyArtistTrack;
+	return Util.makeEmptyArtistTrack();
 };
 
 Connector.getTrackArt = () => {

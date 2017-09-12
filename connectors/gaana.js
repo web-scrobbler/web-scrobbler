@@ -10,7 +10,7 @@ let lastTrackTitle = null;
  * Object that holds information about song.
  * @type {Object}
  */
-let songInfo = Util.emptyArtistTrack;
+let songInfo = Util.makeEmptyArtistTrack();
 
 Connector.playerSelector = '.player';
 
@@ -53,7 +53,7 @@ function requestSongInfo() {
  * Reset current song info.
  */
 function resetSongInfo() {
-	songInfo = Util.emptyArtistTrack;
+	songInfo = Util.makeEmptyArtistTrack();
 }
 
 /**

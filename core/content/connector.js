@@ -268,7 +268,7 @@ var BaseConnector = window.BaseConnector || function() {
 			trackArt: this.getTrackArt()
 		};
 
-		let artistTrack = this.getArtistTrack() || Util.emptyArtistTrack;
+		let artistTrack = this.getArtistTrack() || Util.makeEmptyArtistTrack();
 		if (!newState.artist && artistTrack.artist) {
 			newState.artist = artistTrack.artist;
 		}

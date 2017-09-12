@@ -13,7 +13,7 @@ const Util = {
 	 */
 	processYoutubeVideoTitle(videoTitle) {
 		if (!videoTitle) {
-			return this.emptyArtistTrack;
+			return this.makeEmptyArtistTrack();
 		}
 
 		// Remove [genre] from the beginning of the title
@@ -282,10 +282,12 @@ const Util = {
 	],
 
 	/**
-	 * Object that contains no artist and track info.
-	 * @type {Object}
+	 * Create an object that contains no artist and track info.
+	 * @return {Object} Object contains no artist and track info
 	 */
-	emptyArtistTrack: { artist: null, track: null },
+	makeEmptyArtistTrack() {
+		return { artist: null, track: null };
+	},
 
 	/**
 	 * Regular expression used to get Youtube video ID from URL. It covers

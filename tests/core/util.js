@@ -32,7 +32,7 @@ const SPLIT_ARTIST_TRACK_TEST_DATA = [{
 }, {
 	description: 'should not split malformed string',
 	source: 'Artist & Track',
-	expected: Util.emptyArtistTrack,
+	expected: Util.makeEmptyArtistTrack(),
 }];
 
 /**

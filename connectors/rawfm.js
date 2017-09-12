@@ -7,10 +7,10 @@ Connector.getArtistTrack = () => {
 	let track = $('#song_info h3').text();
 
 	if (artist === 'rawPlayer' || artist === 'loading...') {
-		return Util.emptyArtistTrack;
+		return Util.makeEmptyArtistTrack();
 	}
 	if (track === 'Standard Definition Audio' || track === 'High Definition Audio') {
-		return Util.emptyArtistTrack;
+		return Util.makeEmptyArtistTrack();
 	}
 	return { artist, track };
 };

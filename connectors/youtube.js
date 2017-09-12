@@ -134,7 +134,7 @@ function setupMaterialPlayer() {
 		 * so we should not return track data if no song is playing.
 		 */
 		if (Connector.isPlayerOffscreen()) {
-			return Util.emptyArtistTrack;
+			return Util.makeEmptyArtistTrack();
 		}
 
 		let videoTitle = $('.ytp-title-link').text();
