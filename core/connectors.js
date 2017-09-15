@@ -551,12 +551,6 @@ define(function() {
 	},
 
 	{
-		label: 'Noon Pacific',
-		matches: ['*://noonpacific.com/*', '*://collection.noonpacific.com/*'],
-		js: ['connectors/noonpacific.js'],
-	},
-
-	{
 		label: 'SomaFM',
 		matches: ['*://somafm.com/player/*'],
 		js: ['connectors/somafm.js'],
