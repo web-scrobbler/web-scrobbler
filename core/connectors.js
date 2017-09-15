@@ -426,18 +426,6 @@ define(function() {
 	},
 
 	{
-		label: 'Primary',
-		matches: ['*://primary.fm/*'],
-		js: ['connectors/hydricmedia.js'],
-	},
-
-	{
-		label: 'White Label',
-		matches: ['*://white-label.fm/*'],
-		js: ['connectors/hydricmedia.js'],
-	},
-
-	{
 		label: 'RadioTunes',
 		matches: ['*://www.radiotunes.com/*'],
 		js: ['connectors/radiotunes.js'],
