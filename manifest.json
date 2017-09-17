@@ -2,7 +2,7 @@
   "name": "Last.fm Scrobbler",
   "version": "2.0.0",
 
-  "description": "Scrobble music all around the web!",
+  "description": "__MSG_extDescription__",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",

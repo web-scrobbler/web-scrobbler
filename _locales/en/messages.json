@@ -1,4 +1,9 @@
 {
+  "extDescription": {
+    "message": "Scrobble music all around the web!",
+    "description": "Description of the extension"
+  },
+
   "optionsTitle": {
     "message": "Options for Last.fm Scrobbler",
     "description": "Title of options page"
