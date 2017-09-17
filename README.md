@@ -1,8 +1,10 @@
 # Last.fm Scrobbler
 
-[![Chrome Web Store][0]][1] [![Mozilla Add-on][14]][15]
+[![Chrome Web Store][22]][1] [![Chrome Web Store][0]][1]
 
-[![build status][2]][3] [![Gitter][4]][5] [![devDependencies status][6]][7]
+[![AMO][23]][15] [![AMO][14]][15]
+
+[![Build status][2]][3] [![devDependencies status][6]][7] [![Gitter][4]][5]
 
 Last.fm Scrobbler is created for people who listen to music online through their browser, and would like to keep an updated playback history using [Last.fm][8]'s scrobbling service.
 
@@ -75,6 +77,8 @@ See the [license file](LICENSE.md).
 [14]: https://img.shields.io/amo/users/web-scrobbler.svg
 [15]: https://addons.mozilla.org/en-US/firefox/addon/web-scrobbler/
 [21]: https://www.transifex.com/web-scrobbler/web-scrobbler/dashboard/
+[22]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg
+[23]: https://img.shields.io/amo/v/web-scrobbler.svg
 
 [16]: http://getbootstrap.com/2.3.2/assets/bootstrap.zip
 [17]: http://fontawesome.io/3.2.1/assets/font-awesome.zip
