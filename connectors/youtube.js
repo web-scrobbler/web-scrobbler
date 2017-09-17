@@ -293,7 +293,7 @@ function setupGeneralProperties() {
  * Asynchronously read connector options.
  */
 function readConnectorOptions() {
-	chrome.storage.local.get('Connectors', (data) => {
+	chrome.storage.sync.get('Connectors', (data) => {
 		if (data && data.Connectors && data.Connectors.YouTube) {
 			let options = data.Connectors.YouTube;
 
