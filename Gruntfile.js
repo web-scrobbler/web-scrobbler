@@ -304,7 +304,8 @@ module.exports = function(grunt) {
 		}
 
 		grunt.task.run([
-			`bump:${versionType}`, 'publish:chrome', 'publish:firefox'
+			`bump:${versionType}`, 'publish:chrome', 'publish:firefox',
+			'clean:package'
 		]);
 	});
 
