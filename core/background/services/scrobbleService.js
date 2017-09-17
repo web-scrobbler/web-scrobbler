@@ -109,6 +109,7 @@ define([
 
 			return Promise.all(registeredScrobblers.map((scrobbler) => {
 				return scrobbler.getSongInfo(song).catch(() => {
+					console.warn(`Unable to get song info from ${scrobbler.label}`);
 					return null;
 				});
 			}));

@@ -7,7 +7,7 @@ define([
 	'storage/chromeStorage',
 	'util',
 ], function($, MD5, ServiceCallResult, ChromeStorage, Util) {
-	const GET_AUTH_URL_TIMEOUT = 10000;
+	const REQUEST_TIMEOUT = 15000;
 
 	/**
 	 * List of scrobbler options.
@@ -94,7 +94,7 @@ define([
 			let params = {
 				method: 'auth.gettoken',
 			};
-			let requestPromise = this.doRequest('GET', params, false).then(($doc) => {
+			return this.doRequest('GET', params, false).then(($doc) => {
 				return this.storage.get().then((data) => {
 					// set token and reset session so we will grab a new one
 					delete data.sessionID;
@@ -117,8 +117,6 @@ define([
 					});
 				});
 			});
-
-			return Util.timeoutPromise(GET_AUTH_URL_TIMEOUT, requestPromise);
 		}
 
 		/**
@@ -273,7 +271,7 @@ define([
 			let queryStr = $.param(params);
 			let url = `${this.apiUrl}?${queryStr}`;
 
-			return fetch(url, { method }).then((response) => {
+			let promise = fetch(url, { method }).then((response) => {
 				return response.text().then((text) => {
 					let $doc = $($.parseXML(text));
 					let debugMsg = hideUserData($doc, text);
@@ -287,6 +285,10 @@ define([
 					return $doc;
 				});
 			}).catch(() => {
+				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+			});
+
+			return Util.timeoutPromise(REQUEST_TIMEOUT, promise).catch(() => {
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 			});
 		}
