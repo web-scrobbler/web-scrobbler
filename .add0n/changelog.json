@@ -2,6 +2,17 @@
   "results": [
     {
       "release_notes": {
+        "en-US": "Added support for Libre.fm\nAdded a notification a now playing song is ignored by scrobbling service\nAdded a feature to open the extension page on first installation\nAdded a feature to show changelog for major/notable updates\nAdded Kodi connector\nApplied album info from Last.fm/Libre.fm if album title is empty\nChanged behaviour of scrobbling multiple artists\nImproved (re)authentication process\nImproved feature to save edited song data\nMade reauthentication working on-the-fly\nAdded ability to clear the list of edited songs\nAdded Patari connector\nAdded S2 Music support\nAdded Taazi connector\nImproved Plex connector\nRemoved \"Use autocorrect\" option\nRemoved Chorus connector\nRemoved Hydricmedia connector\nRemoved Noonpacific connector\nRemoved Trntbl connector\nRemoved Wrzuta connector\nFixed Bandcamp connector\nFixed Digitally Imported connector\nFixed Mixcloud connector\nFixed Pinguin Radio connector\nFixed TuneIn connector\nFixed a regression when the extension didn't apply custom URL patterns\nFixed an issue when Opera didn't displayed icons in notifications"
+      },
+      "files": [
+        {
+          "created": "2017-09-17T08:50:08Z"
+        }
+      ],
+      "version": "2.0.0"
+    },
+    {
+      "release_notes": {
         "en-US": "Added TuneIn (Beta) connector\nFixed Retrowave connector"
       },
       "files": [
@@ -21,17 +32,6 @@
         }
       ],
       "version": "1.68.0"
-    },
-    {
-      "release_notes": {
-        "en-US": "Fixed Rainwave connector"
-      },
-      "files": [
-        {
-          "created": "2017-06-25T18:40:10Z"
-        }
-      ],
-      "version": "1.67.1"
     }
   ]
 }
