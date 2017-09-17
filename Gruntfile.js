@@ -6,6 +6,7 @@ module.exports = function(grunt) {
 	let isTravisCi = (process.env.TRAVIS === 'true');
 
 	const chromeExtensionId = 'hhinaapppaileiechjoiifaancjggfjm';
+	const amoExtensionId = '{799c0914-748b-41df-a25c-22d008f9e83f}';
 
 	const jsFiles = [
 		// Connectors
@@ -35,8 +36,11 @@ module.exports = function(grunt) {
 	const packageSrcName = 'web-scrobbler-src.zip';
 
 	const webStoreConfig = loadConfig('./.publish/web-store.json');
+	const amoConfig = loadConfig('./.publish/amo.json');
 
 	grunt.initConfig({
+		manifest: grunt.file.readJSON('manifest.json'),
+
 		/**
 		 * Configs of build tasks.
 		 */
@@ -125,6 +129,27 @@ module.exports = function(grunt) {
 				}
 			},
 		},
+
+		/**
+		 * Publish tasks.
+		 */
+
+		bump: {
+			options: {
+				files: ['manifest.json'],
+				updateConfigs: ['manifest'],
+				commit: true,
+				commitFiles: ['manifest.json'],
+				push: false
+			}
+		},
+		amo_upload: {
+			issuer: amoConfig.issuer,
+			secret: amoConfig.secret,
+			id: amoExtensionId,
+			version: '<%= manifest.version %>',
+			src: packageName,
+		},
 		webstore_upload: {
 			accounts: {
 				default: {
@@ -170,14 +195,6 @@ module.exports = function(grunt) {
 		 * Configs of other tasks.
 		 */
 
-		bump: {
-			options: {
-				files: ['manifest.json'],
-				commit: true,
-				commitFiles: ['manifest.json'],
-				push: false
-			}
-		},
 		exec: {
 			make_add0n_changelog: {
 				cmd: 'node scripts/make-add0n-changelog'
@@ -208,6 +225,7 @@ module.exports = function(grunt) {
 	});
 
 	require('load-grunt-tasks')(grunt);
+	grunt.loadTasks('.grunt');
 
 	/**
 	 * Some tasks take browser name as an argument.
@@ -280,6 +298,9 @@ module.exports = function(grunt) {
 			case 'chrome':
 				grunt.task.run(['build:chrome', 'webstore_upload']);
 				break;
+			case 'firefox':
+				grunt.task.run(['build:firefox', 'amo_upload']);
+				break;
 		}
 	});
 
@@ -293,7 +314,7 @@ module.exports = function(grunt) {
 		}
 
 		grunt.task.run([
-			`bump:${versionType}`, 'publish:chrome'
+			`bump:${versionType}`, 'publish:chrome', 'publish:firefox'
 		]);
 	});
 

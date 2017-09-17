@@ -11,6 +11,7 @@
   "devDependencies": {
     "chai": "^4.0.0",
     "chromedriver": "^2.30.0",
+    "firefox-extension-deploy": "^1.1.0",
     "github": "~9.2.0",
     "grunt": "^1.0.1",
     "grunt-bump": "~0.8.0",
