@@ -342,14 +342,15 @@ require([
 						let item = $(`<li>${artist} — ${track}</li>`);
 						let removeBtn = $('<button type="button" class="close-btn"><i class="fa fa-times fa-fw"></i></button>');
 						removeBtn.click(function() {
-							$(this.parentNode).remove();
-
-							delete data[songId];
-							localCache.set(data);
-
-							if (Object.keys(data).length === 0) {
-								addNoEditedLabel(cacheDom);
-							}
+							localCache.get().then((data) => {
+								delete data[songId];
+								localCache.set(data).then(() => {
+									$(this.parentNode).remove();
+									if (Object.keys(data).length === 0) {
+										addNoEditedLabel(cacheDom);
+									}
+								});
+							});
 						});
 
 						item.append(removeBtn);
