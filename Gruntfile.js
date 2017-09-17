@@ -155,6 +155,7 @@ module.exports = function(grunt) {
 					publish: true,
 					client_id: webStoreConfig.clientId,
 					client_secret: webStoreConfig.clientSecret,
+					refresh_token: webStoreConfig.refreshToken,
 				},
 			},
 			extensions: {
