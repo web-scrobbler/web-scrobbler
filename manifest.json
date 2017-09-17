@@ -26,6 +26,8 @@
     ]
   },
 
+  "homepage_url": "https://add0n.com/lastfm-scrobbler.html",
+
   "options_page": "options/options.html",
   "options_ui": {
     "page": "options/options.html",
