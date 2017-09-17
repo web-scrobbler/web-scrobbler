@@ -289,7 +289,7 @@
     "description": ""
   },
   "customPatternsHint": {
-    "message": "Enter the URL patterns that the connector should match below.",
+    "message": "Add URL patterns that the connector should match below.",
     "description": "Popup hint"
   },
   "customPatternsAdd": {

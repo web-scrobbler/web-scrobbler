@@ -199,22 +199,20 @@ require([
 	}
 
 	function createNewConfigInput(value) {
-		let newElt = $('<li></li>');
-		let input = $('<input type="text">').val(value || '');
+		let inputEl = $('<input type="text">');
+		inputEl.val(value);
 
-		let closeBtn = $(
-			'<a href="#" class="conn-conf-del-input" tabindex="-1">' +
-			'<i class="fa fa-remove fa-fw"></i>' +
-			'</a>'
-		).click(function(ev) {
+		let closeEl = $('<span id="modal-connector-remove" class="add-on"><i class="fa fa-remove fa-fw"></i></span>');
+		closeEl.click(function(ev) {
 			ev.preventDefault();
-			$(this).closest('li').remove();
+			$(this).parent().remove();
 		});
 
-		newElt.append(input);
-		newElt.append(closeBtn);
+		let input = $('<div class="input-append"</div>');
+		input.append(inputEl);
+		input.append(closeEl);
 
-		return newElt;
+		return input;
 	}
 
 	function initConnectorsList() {
