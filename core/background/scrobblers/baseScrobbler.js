@@ -300,10 +300,6 @@ define([
 		 * @return {Promise} Promise that will be resolved with 'isValid' flag
 		 */
 		getSongInfo(song) {
-			if (!this.isSongInfoLoadingSupported()) {
-				return Promise.resolve(true);
-			}
-
 			return this.getSession().then(({ sessionName }) => {
 				return { username: sessionName };
 			}).catch(() => {
@@ -350,7 +346,7 @@ define([
 				userloved = userlovedStatus === '1';
 			}
 
-			if (this.isSongInfoCorrectionSupported()) {
+			if (this.canCorrectSongInfo()) {
 				let artist = $doc.find('artist > name').text();
 				let track = $doc.find('track > name').text();
 				let album = $doc.find('album > title').text();
@@ -401,7 +397,7 @@ define([
 		 * Check if service supports retrieving of song info.
 		 * @return {Boolean} True if service supports that; false otherwise
 		 */
-		isSongInfoLoadingSupported() {
+		canLoadSongInfo() {
 			return false;
 		}
 
@@ -409,7 +405,7 @@ define([
 		 * Check if service supports correction of song info.
 		 * @return {Boolean} True if service supports that; false otherwise
 		 */
-		isSongInfoCorrectionSupported() {
+		canCorrectSongInfo() {
 			return false;
 		}
 
