@@ -4,7 +4,7 @@
  * Node attributes that define how node content will be localized.
  *
  * There're following supported attributes:
- *  - i18n: replace value of `innerHTML` property by localized text;
+ *  - i18n: replace value of `textContent` property by localized text;
  *  - i18n-title: replace value of `title` attribute by localized text;
  *  - i18n-placeholder: replace value of `placeholder` attribute by localized text.
  *
@@ -13,6 +13,8 @@
 const I18N_ATTRS = ['i18n', 'i18n-title', 'i18n-placeholder'];
 
 $(() => {
+	const domParser = new DOMParser();
+
 	localizePage();
 
 	/**
@@ -69,7 +71,19 @@ $(() => {
 
 			switch (attr) {
 				case 'i18n':
-					node.innerHTML = text;
+					if (hasHtmlTags(text)) {
+						let nodes = makeNodes(text);
+						if (nodes) {
+							nodes.forEach((n) => {
+								node.appendChild(n);
+							});
+						} else {
+							// Fallback
+							node.textContent = text;
+						}
+					} else {
+						node.textContent = text;
+					}
 					break;
 
 				case 'i18n-title':
@@ -81,5 +95,28 @@ $(() => {
 					break;
 			}
 		}
+	}
+
+	/**
+	 * Create array of nodes which can be applied to node to be translated.
+	 * @param  {String} rawHtml String contains HTML code
+	 * @return {Array} Array of nodes from given text
+	 */
+	function makeNodes(rawHtml) {
+		let html = `<div>${rawHtml}</div>`;
+
+		let body = domParser.parseFromString(html, 'text/html').body;
+		return [...body.firstChild.childNodes].filter((a) => {
+			return a.nodeType === a.TEXT_NODE || a.tagName === 'A';
+		});
+	}
+
+	/**
+	 * Check if given text contains HTML tags
+	 * @param  {String} text String supposed to have HTML tags
+	 * @return {Boolean} Check result
+	 */
+	function hasHtmlTags(text) {
+		return /<.+?>/.test(text);
 	}
 });
