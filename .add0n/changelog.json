@@ -2,6 +2,17 @@
   "results": [
     {
       "release_notes": {
+        "en-US": "Added TuneIn (Beta) connector\nFixed Retrowave connector"
+      },
+      "files": [
+        {
+          "created": "2017-08-07T17:01:54Z"
+        }
+      ],
+      "version": "1.68.1"
+    },
+    {
+      "release_notes": {
         "en-US": "Added a feature to view edited tracks.\nAdded Fanburst connector\nAdded Feedbands connector\nAdded Radiovolna connector\nAdded SESHstation connector\nAdded Vimeo connector\nImproved RADIO Obozrevatel connector\nImproved Rainwave connector\nRemoved dead or unused websites\nSeparated Hype Machine connector\nFixed an issue when a song contains emoji in artist or track titles wasn't scrobbled\nFixed a regression when the extension was starting to search for a now playing song continuously.\nFixed NoiseTrade connector\nFixed Spotify connector\nFixed VK connector"
       },
       "files": [
@@ -21,17 +32,6 @@
         }
       ],
       "version": "1.67.1"
-    },
-    {
-      "release_notes": {
-        "en-US": "Added Phish.in connector\nAdded Rainwave connector\nUpdated logic of repeat detection.\nImproved Google Play Music connector\nImproved Pandora connector\nFixed configuration popup of custom URL patterns\nFixed loading saved song info\nFixed 181.fm connector\nFixed Pandora connector"
-      },
-      "files": [
-        {
-          "created": "2017-06-25T08:08:11Z"
-        }
-      ],
-      "version": "1.67.0"
     }
   ]
 }
