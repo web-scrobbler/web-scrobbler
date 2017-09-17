@@ -322,6 +322,10 @@ require([
 
 	function initViewEditedDialog() {
 		$('#view-edited').click(() => {
+			function addNoEditedLabel(node) {
+				node.append($('<li>').attr('i18n', 'noItemsInCache'));
+			}
+
 			let modal = $('#edited-track-modal');
 			let cacheDom = $('#edited-track-content');
 
@@ -330,11 +334,26 @@ require([
 				cacheDom.empty();
 
 				if (Object.keys(data).length === 0) {
-					cacheDom.append($('<li>').attr('i18n', 'noItemsInCache'));
+					addNoEditedLabel(cacheDom);
 				} else {
 					for (let songId in data) {
 						let { artist, track } = data[songId];
-						cacheDom.append($('<li>').text(`${artist} — ${track}`));
+
+						let item = $(`<li>${artist} — ${track}</li>`);
+						let removeBtn = $('<button type="button" class="close-btn"><i class="fa fa-times fa-fw"></i></button>');
+						removeBtn.click(function() {
+							$(this.parentNode).remove();
+
+							delete data[songId];
+							localCache.set(data);
+
+							if (Object.keys(data).length === 0) {
+								addNoEditedLabel(cacheDom);
+							}
+						});
+
+						item.append(removeBtn);
+						cacheDom.append(item);
 					}
 				}
 			});

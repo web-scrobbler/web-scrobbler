@@ -74,3 +74,22 @@ input[type=checkbox] {
 .accordion-toggle {
 	text-decoration: none !important;
 }
+
+.close-btn {
+	background: transparent;
+	border: 0;
+	color: #000000;
+	cursor: pointer;
+	filter: alpha(opacity=20);
+	opacity: 0.2;
+	padding: 0;
+	text-shadow: 0 1px 0 #ffffff;
+}
+
+.close-btn:hover, .close-btn:focus {
+	color: #000000;
+	cursor: pointer;
+	filter: alpha(opacity=40);
+	opacity: 0.4;
+	text-decoration: none;
+}
