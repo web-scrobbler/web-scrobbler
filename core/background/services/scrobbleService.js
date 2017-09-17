@@ -105,9 +105,12 @@ define([
 		 * @return {Promise} Promise resolved with array of song info objects
 		 */
 		getSongInfo(song) {
-			console.log(`Send "get info" request: ${registeredScrobblers.length}`);
+			let scrobblers = registeredScrobblers.filter((scrobbler) => {
+				return scrobbler.canLoadSongInfo();
+			});
+			console.log(`Send "get info" request: ${scrobblers.length}`);
 
-			return Promise.all(registeredScrobblers.map((scrobbler) => {
+			return Promise.all(scrobblers.map((scrobbler) => {
 				return scrobbler.getSongInfo(song).catch(() => {
 					console.warn(`Unable to get song info from ${scrobbler.label}`);
 					return null;

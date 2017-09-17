@@ -5,11 +5,11 @@
  */
 define(['scrobblers/baseScrobbler'], (BaseScrobbler) => {
 	class LastFm extends BaseScrobbler {
-		isSongInfoLoadingSupported() {
+		canLoadSongInfo() {
 			return true;
 		}
 
-		isSongInfoCorrectionSupported() {
+		canCorrectSongInfo() {
 			return true;
 		}
 	}
