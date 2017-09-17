@@ -185,7 +185,7 @@ define([
 	 * @param  {Function} onClick Function that will be called on notification click
 	 */
 	function showError(message, onClick = null) {
-		const options = { title: 'Authentication error', message };
+		const options = { title: i18n('notificationAuthError'), message };
 		showNotification(options, onClick);
 	}
 

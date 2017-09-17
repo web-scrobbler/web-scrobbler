@@ -491,6 +491,7 @@
     "description": "Context menu item"
   },
 
+
   "notificationConnectAccounts": {
     "message": "Connect your accounts",
     "description": "Notification title"
@@ -498,6 +499,10 @@
   "notificationConnectAccountsText": {
     "message": "Click the notification to connect your accounts.",
     "description": "Notification text"
+  },
+  "notificationAuthError": {
+    "message": "Authentication error",
+    "description": "Notification title"
   },
   "notificationUnableSignIn": {
     "message": "Unable to sign in to $1. Please try later.",
