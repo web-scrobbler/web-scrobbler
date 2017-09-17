@@ -204,7 +204,7 @@ require([
 
 		let closeBtn = $(
 			'<a href="#" class="conn-conf-del-input" tabindex="-1">' +
-			'<i class="icon-remove icon-fixed-width"></i>' +
+			'<i class="fa fa-remove fa-fw"></i>' +
 			'</a>'
 		).click(function(ev) {
 			ev.preventDefault();
@@ -227,7 +227,7 @@ require([
 			sortedConnetors.forEach((connector, index) => {
 				let newEl = $(`${'<li>\r\n' +
 					'<a href="#" class="conn-config" data-conn="'}${index}">\r\n` +
-					'<i class="icon-gear icon-fixed-width"></i>\r\n' +
+					'<i class="fa fa-gear fa-fw"></i>\r\n' +
 					'</a>\r\n' +
 					`<input type="checkbox" id="conn-${index}">\r\n` +
 					`<label for="conn-${index}">${connector.label}</label>\r\n` +
