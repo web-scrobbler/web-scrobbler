@@ -102,6 +102,14 @@
     "message": "View",
     "description": "Button to view edited tracks"
   },
+  "optionsExportEdited": {
+    "message": "Export",
+    "description": "Button to export edited tracks"
+  },
+  "optionsImportEdited": {
+    "message": "Import",
+    "description": "Button to import edited tracks"
+  },
   "optionsEnableDisableHint": {
     "message": "Click on the checkbox to enable/disable connectors.",
     "description": "Enable/disable hint"

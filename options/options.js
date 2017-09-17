@@ -10,6 +10,8 @@ require([
 	'util',
 	'bootstrap'
 ], function(config, connectors, customPatterns, ChromeStorage, chrome, ScrobbleService, Util) {
+	const EXPORT_FILENAME = 'local-cache.json';
+
 	/**
 	 * Object that maps options to their element IDs.
 	 * @type {Object}
@@ -28,6 +30,7 @@ require([
 	};
 
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
+	const localCache = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
 	const connectorsOptions = ChromeStorage.getStorage(ChromeStorage.CONNECTORS_OPTIONS);
 
 	const sortedConnetors = getConnectors();
@@ -328,7 +331,6 @@ require([
 			let modal = $('#edited-track-modal');
 			let cacheDom = $('#edited-track-content');
 
-			let localCache = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
 			localCache.get().then((data) => {
 				cacheDom.empty();
 
@@ -369,11 +371,70 @@ require([
 
 			modal.modal('show');
 		});
+
+		$('#export-edited').click((e) => {
+			e.preventDefault();
+			exportLocalCache();
+		});
+
+		$('#import-edited').click((e) => {
+			e.preventDefault();
+			importLocalStorage();
+		});
 	}
 
 	function updateReleaseNotesUrl() {
 		let extVersion = chrome.runtime.getManifest().version;
 		let releaseNotesUrl = `https://github.com/david-sabata/web-scrobbler/releases/tag/v${extVersion}`;
 		$('a#latest-release').attr('href', releaseNotesUrl);
+	}
+
+	/**
+	 * Export content of LocalCache storage to a file.
+	 */
+	function exportLocalCache() {
+		localCache.get().then((data) => {
+			let dataStr = JSON.stringify(data, null, 2);
+			let blob = new Blob([dataStr], { 'type': 'application/octet-stream' });
+
+			let a = document.createElement('a');
+			a.href = window.URL.createObjectURL(blob);
+			a.download = EXPORT_FILENAME;
+			a.click();
+			a.remove();
+		});
+	}
+
+	/**
+	 * Import LocalCache storage from a file.
+	 */
+	function importLocalStorage() {
+		let fileInput = document.createElement('input');
+
+		fileInput.style.display = 'none';
+		fileInput.type = 'file';
+		fileInput.accept = '.json';
+		fileInput.acceptCharset = 'utf-8';
+
+		document.body.appendChild(fileInput);
+		fileInput.initialValue = fileInput.value;
+		fileInput.onchange = readFile;
+		fileInput.click();
+
+		function readFile() {
+			if (fileInput.value !== fileInput.initialValue) {
+				let file = fileInput.files[0];
+
+				const reader = new FileReader();
+				reader.onloadend = (event) => {
+					let dataStr = event.target.result;
+					let data = JSON.parse(dataStr);
+
+					localCache.set(data);
+					fileInput.remove();
+				};
+				reader.readAsText(file, 'utf-8');
+			}
+		}
 	}
 });
