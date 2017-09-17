@@ -15,9 +15,13 @@ Connector.isStateChangeAllowed = () => {
 };
 
 Connector.filter = MetadataFilter.getTrimFilter().append({
-	artist: removeByPrefix
+	artist: [removeByPrefix, removeBuySuffix]
 });
 
 function removeByPrefix(text) {
 	return text.replace('by ', '');
+}
+
+function removeBuySuffix(text) {
+	return text.replace('  — Buy', '');
 }
