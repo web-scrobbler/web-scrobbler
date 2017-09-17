@@ -543,6 +543,10 @@ define([
 	 * @return {Boolean} True if at least one good result is found
 	 */
 	function areAllResults(results, type) {
+		if (results.length === 0) {
+			return false;
+		}
+
 		return results.every((result) => result.type === type);
 	}
 
