@@ -202,7 +202,7 @@ require([
 		let inputEl = $('<input type="text">');
 		inputEl.val(value);
 
-		let closeEl = $('<span id="modal-connector-remove" class="add-on"><i class="fa fa-remove fa-fw"></i></span>');
+		let closeEl = $('<span id="modal-connector-remove" class="add-on"><i class="fa fa-remove fa-fw close-btn"></i></span>');
 		closeEl.click(function(ev) {
 			ev.preventDefault();
 			$(this).parent().remove();
