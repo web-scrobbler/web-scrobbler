@@ -1086,5 +1086,9 @@ define(function() {
 		label: 'Patari',
 		matches: ['*://patari.pk/*'],
 		js: ['connectors/patari.js']
+	}, {
+		label: 'JetSetRadio Live',
+		matches: ['*://jetsetradio.live/*', '*://jetsetradio.live'],
+		js: ['connectors/jetsetradio.live.js']
 	}];
 });
