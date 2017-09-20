@@ -287,10 +287,10 @@ module.exports = function(grunt) {
 
 		switch (browser) {
 			case 'chrome':
-				grunt.task.run(['build:chrome', 'webstore_upload']);
+				grunt.task.run(['build:chrome', 'webstore_upload', 'clean:package']);
 				break;
 			case 'firefox':
-				grunt.task.run(['build:firefox', 'amo_upload']);
+				grunt.task.run(['build:firefox', 'amo_upload', 'clean:package']);
 				break;
 		}
 	});
@@ -305,8 +305,7 @@ module.exports = function(grunt) {
 		}
 
 		grunt.task.run([
-			`bump:${versionType}`, 'publish:chrome', 'publish:firefox',
-			'clean:package'
+			`bump:${versionType}`, 'publish:chrome', 'publish:firefox'
 		]);
 	});
 
