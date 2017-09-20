@@ -279,10 +279,25 @@ module.exports = function(grunt) {
 	});
 
 	/**
-	 * Create package and publish it.
-	 * @param  {String} browser Browser name
+	 * Publish data.
+	 * @param  {String} arg Task argument
 	 */
-	grunt.registerTask('publish', (browser) => {
+	grunt.registerTask('publish', (arg) => {
+		/**
+		 * Generate and commit changelog file for add0n.com website.
+		 */
+		if (arg === 'add0n' || arg === 'addon') {
+			grunt.task.run([
+				'exec:make_add0n_changelog', 'gitcommit:add0n_changelog'
+			]);
+			return;
+		}
+
+		/**
+		 * Create package and publish it.
+		 */
+
+		let browser = arg;
 		assertBrowserIsSupported(browser);
 
 		switch (browser) {
@@ -308,13 +323,6 @@ module.exports = function(grunt) {
 			`bump:${versionType}`, 'publish:chrome', 'publish:firefox'
 		]);
 	});
-
-	/**
-	 * Generate and commit changelog file for add0n.com website.
-	 */
-	grunt.registerTask('publish-add0n', [
-		'exec:make_add0n_changelog', 'gitcommit:add0n_changelog'
-	]);
 
 	/**
 	 * Run core or connectors tests.
