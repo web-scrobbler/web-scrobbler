@@ -608,12 +608,6 @@ define(function() {
 	},
 
 	{
-		label: 'Dash Radio',
-		matches: ['*://dashradio.com/*'],
-		js: ['connectors/dashradio.js'],
-	},
-
-	{
 		label: 'post-player',
 		matches: ['*://post-player.org/*'],
 		js: ['connectors/post-player.js'],
