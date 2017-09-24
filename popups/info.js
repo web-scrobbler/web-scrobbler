@@ -176,6 +176,7 @@ $(document).ready(function() {
 		}
 
 		$('#edit-link').off('click');
+		$('#swap-link').off('click');
 		$('#skip-link').off('click');
 
 		if (!song.flags.isSkipped) {
@@ -186,6 +187,9 @@ $(document).ready(function() {
 				} else {
 					setEditMode(true);
 				}
+			});
+			$('#swap-link').on('click', () => {
+				swapTitleAndArtist();
 			});
 			$('#skip-link').on('click', () => {
 				skipSong();
@@ -230,6 +234,11 @@ $(document).ready(function() {
 		$('#edit-link').attr('data-disable', song.flags.isSkipped ||
 			song.flags.isScrobbled);
 
+		$('#swap-link').text(i18n('infoSwap'));
+		$('#swap-link').attr('data-hide', !isEditModeEnabled);
+		$('#swap-link').attr('data-disable', song.flags.isScrobbled ||
+			song.flags.isSkipped);
+
 		$('#revert-link').text(i18n('infoRevert'));
 		$('#revert-link').attr('data-hide', !song.flags.isCorrectedByUser
 			|| isEditModeEnabled);
@@ -243,13 +252,16 @@ $(document).ready(function() {
 
 		if (song.flags.isScrobbled) {
 			$('#edit-link').attr('title', i18n('infoEditUnableTitle'));
+			$('#swap-link').attr('title', i18n('infoSwapUnableTitle'));
 			$('#revert-link').attr('title', i18n('infoRevertUnableTitle'));
 			$('#skip-link').attr('title', i18n('infoSkipUnableTitle'));
 		} else if (song.flags.isSkipped) {
 			$('#edit-link').attr('title', i18n('infoEditSkippedTitle'));
+			$('#swap-link').attr('title', i18n('infoSwapSkippedTitle'));
 			$('#skip-link').attr('title', i18n('infoSkipAlreadyTitle'));
 		} else {
 			$('#edit-link').attr('title', i18n('infoEditTitle'));
+			$('#swap-link').attr('title', i18n('infoSwapTitle'));
 			$('#revert-link').attr('title', i18n('infoRevertTitle'));
 			$('#skip-link').attr('title', i18n('infoSkipTitle'));
 		}
@@ -293,6 +305,22 @@ $(document).ready(function() {
 	function getCoverArt() {
 		return song.parsed.trackArt || song.metadata.artistThumbUrl ||
 			'/icons/default_cover_art.png';
+	}
+
+	function swapTitleAndArtist() {
+		if (song.flags.isSkipped || song.flags.isScrobbled ||
+			!isEditModeEnabled) {
+			return;
+		}
+
+		var title = $('#track-input').val();
+		var artist = $('#artist-input').val();
+
+		$('#track-input').val(artist);
+		$('#artist-input').val(title);
+
+		setEditMode(false);
+		correctSongInfo();
 	}
 
 	function i18n(tag, ...context) {
