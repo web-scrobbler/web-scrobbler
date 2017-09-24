@@ -272,7 +272,7 @@ require([
 			let title = chrome.i18n.getMessage('menuEnableConnector', connector.label);
 			addContextMenuItem(title, () => {
 				controller.setEnabled(true);
-				Config.setConnectorEnabled(connector, true);
+				Config.setConnectorEnabled(connector.label, true);
 				setupContextMenu(tabId);
 			});
 		}
