@@ -1088,5 +1088,9 @@ define(function() {
 		label: 'FIP',
 		matches: ['*://www.fipradio.fr/*'],
 		js: ['connectors/fipradio.js']
+	}, {
+		label: 'RemixRotation',
+		matches: ['*://remixrotation.com/*'],
+		js: ['connectors/remixrotation.js']
 	}];
 });
