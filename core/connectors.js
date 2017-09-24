@@ -1084,5 +1084,9 @@ define(function() {
 		label: 'JetSetRadio Live',
 		matches: ['*://jetsetradio.live/*', '*://jetsetradio.live'],
 		js: ['connectors/jetsetradio.live.js']
+	}, {
+		label: 'FIP',
+		matches: ['*://www.fipradio.fr/*'],
+		js: ['connectors/fipradio.js']
 	}];
 });
