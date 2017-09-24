@@ -383,6 +383,22 @@
     "message": "You cannot edit skipped track",
     "description": "Title of edit button"
   },
+  "infoSwap": {
+    "message": "Swap",
+    "description": "Label of swap button"
+  },
+  "infoSwapTitle": {
+    "message": "Swap title and artist",
+    "description": "Title of swap button"
+  },
+  "infoSwapUnableTitle": {
+    "message": "You cannot swap scrobbled track",
+    "description": "Title of swap button"
+  },
+  "infoSwapSkippedTitle": {
+    "message": "You cannot swap skipped track",
+    "description": "Title of swap button"
+  },
   "infoSubmit": {
     "message": "Submit",
     "description": "Label of submit button"
