@@ -169,7 +169,7 @@
     "description": "Qestion #2"
   },
   "faqAnswer2a": {
-    "message": "You can do that by right-clicking on the extension icon in the extension bar. Using the context menu you can disable the connector for current web service.",
+    "message": "You can do that by right-clicking on the green extension icon in the extension bar (Chrome, Opera) or address bar (Firefox). Using the context menu you can disable the connector for current web service.",
     "description": "Answer #2"
   },
   "faqAnswer2b": {
@@ -181,7 +181,7 @@
     "description": "Qestion #3"
   },
   "faqAnswer3a": {
-    "message": "When a track cannot be recognized, a gray icon with question mark appears in the extension bar. You can click on this icon and input correct data in the opened popup window.",
+    "message": "When a track cannot be recognized, a gray icon with question mark appears in the extension bar (Chrome, Opera) or address bar (Firefox). You can click on this icon and input correct data in the opened popup window.",
     "description": "Answer #3"
   },
   "faqAnswer3b": {
