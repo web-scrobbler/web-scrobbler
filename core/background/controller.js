@@ -420,8 +420,10 @@ define([
 			this.currentSong.parsed.attr({ duration });
 
 			if (this.currentSong.isValid()) {
+				let playbackOffset = Math.floor(Date.now() / 1000) - this.currentSong.metadata.startTimestamp;
+
 				this.playbackTimer.update(this.currentSong.getSecondsToScrobble());
-				this.replayDetectionTimer.update(duration - Math.floor(Date.now() / 1000) - this.currentSong.metadata.startTimestamp);
+				this.replayDetectionTimer.update(duration - playbackOffset);
 
 				let remainedSeconds = this.playbackTimer.getRemainingSeconds();
 				this.debugLog(`Update duration: ${duration}`);
