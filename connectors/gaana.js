@@ -79,23 +79,21 @@ function fetchSongInfo(albumInfoUrl) {
 	let track = lastTrackTitle;
 	let artist = null;
 
-	return new Promise((resolve, reject) => {
-		$.ajax({ url: albumInfoUrl }).done((html) => {
-			let $doc = $(html);
+	return fetch(albumInfoUrl).then((result) => {
+		return result.text();
+	}).then((html) => {
+		let $doc = $(html);
 
-			let songs = $doc.find('.s_l').toArray();
-			for (let song of songs) {
-				let songTitle = $(song).find('.s_title .sng_c').text();
-				if (songTitle === track) {
-					let artists = $(song).find('.s_artist .sng_c').toArray();
-					artist = Util.joinArtists(artists);
-					break;
-				}
+		let songs = $doc.find('.s_l').toArray();
+		for (let song of songs) {
+			let songTitle = $(song).find('.s_title .sng_c').text();
+			if (songTitle === track) {
+				let artists = $(song).find('.s_artist .sng_c').toArray();
+				artist = Util.joinArtists(artists);
+				break;
 			}
+		}
 
-			resolve({ artist, track });
-		}).fail((jqXhr, textStatus, errorThrown) => {
-			reject(errorThrown);
-		});
+		return { artist, track };
 	});
 }
