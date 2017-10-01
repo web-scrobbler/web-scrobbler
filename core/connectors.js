@@ -210,9 +210,9 @@ define(function() {
 	},
 
 	{
-		label: 'Nova Planet',
-		matches: ['*://www.novaplanet.com/radionova/player'],
-		js: ['connectors/novaplanet.js'],
+		label: 'Radio Nova',
+		matches: ['*://www.nova.fr/*'],
+		js: ['connectors/nova.js'],
 	},
 
 	{

@@ -2,7 +2,7 @@
 
 module.exports = function(driver, connectorSpec) {
 	connectorSpec.shouldBehaveLikeMusicSite(driver, {
-		url: 'http://www.novaplanet.com/radionova/player',
-		playButtonSelector: '.play_pause'
+		url: 'http://www.nova.fr/',
+		playButtonSelector: '.play-btn'
 	});
 };
