@@ -41,7 +41,7 @@ We use gitter and you can join us @ [web-scrobbler/web-scrobbler][5].
 * [Bootstrap v2.3.2][16]
 * [Can JS v2.3.27][20]
 * [Font Awesome v4.7.0][17]
-* [jQuery v2.1.0][18]
+* [jQuery v3.2.1][18]
 * [RequireJS v2.3.5][19]
 
 ## Privacy Policy
@@ -75,6 +75,6 @@ See the [license file](LICENSE.md).
 
 [16]: http://getbootstrap.com/2.3.2/assets/bootstrap.zip
 [17]: http://fontawesome.io/assets/font-awesome-4.7.0.zip
-[18]: http://code.jquery.com/jquery-2.1.0.min.js
+[18]: http://code.jquery.com/jquery-3.2.1.min.js
 [19]: http://requirejs.org/docs/release/2.3.5/minified/require.js
 [20]: http://canjs.com/release/2.3.27/can.jquery.min.js
