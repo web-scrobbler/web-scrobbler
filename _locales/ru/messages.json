@@ -1,0 +1,522 @@
+{
+    "notificationConnectAccounts": {
+        "message": "Подключите ваши аккаунты",
+        "description": "Notification title"
+    },
+    "pageActionUnknown": {
+        "message": "Трек не распознан. Кликните, чтобы ввести верные данные.",
+        "description": "`unknown` page action title"
+    },
+    "optionYtMusicOnly": {
+        "message": "Скробблить видео только из категории \"Музыка\"",
+        "description": "Option title"
+    },
+    "faqAnswer4b4": {
+        "message": "Добавьте шаблон URL, который будет соответствовать нестандартному домену Bandcamp и примените изменения.",
+        "description": "Answer #4"
+    },
+    "extDescription": {
+        "message": "Скробблите музыку со всего Интернета!",
+        "description": "Description of the extension"
+    },
+    "faqAnswer4a": {
+        "message": "Похоже, треки расположены на нестандартном домене, и расширение не может определить, что это Bandcamp.",
+        "description": "Answer #4"
+    },
+    "pageActionIgnored": {
+        "message": "Проигнорировано $1",
+        "description": "`ignored` page action title"
+    },
+    "pageActionLoading": {
+        "message": "Поиск $1",
+        "description": "`loading` page action title"
+    },
+    "showSomeLoveText2": {
+        "message": "Я разрабатываю это расширение в свободное время, и я делаю и буду делать это безвозмездно. Однако, вы можете сделать пожертвование, чтобы убедиться, что у меня достаточно кофе и пиццы для ночного кодинга.",
+        "description": ""
+    },
+    "faqQuestion3": {
+        "message": "Трек не распознан. Вы можете исправить это?",
+        "description": "Qestion #3"
+    },
+    "getStartedHeader": {
+        "message": "Включите любой трек для начала",
+        "description": "The header of 'Get started' popup"
+    },
+    "accountsSignedInAs": {
+        "message": "Вы вошли как $1.",
+        "description": "'Signed in' label"
+    },
+    "infoEditTitle": {
+        "message": "Изменить информацию о треке",
+        "description": "Title of edit button"
+    },
+    "contactLinkedInDesc": {
+        "message": "Узнать о моих профессиональных навыках",
+        "description": "Description for LinkedIn section"
+    },
+    "faqAnswer4b1": {
+        "message": "Откройте страницу с настройками и разверните раздел \"Настройки\".",
+        "description": "Answer #4"
+    },
+    "serviceErrorButton": {
+        "message": "Открыть настройки",
+        "description": "Button label"
+    },
+    "contactGitHubDesc": {
+        "message": "Сообщить об ошибке или поучаствовать в проекте",
+        "description": "Description for GitHub section"
+    },
+    "infoLove": {
+        "message": "Нравится",
+        "description": "Label of love/unlove button"
+    },
+    "noItemsInCache": {
+        "message": "Нет сохранённых данных.",
+        "description": "Popup hint"
+    },
+    "getStartedSubheader": {
+        "message": "Уже что-то играет?",
+        "description": "The subheader of 'Get started' popup"
+    },
+    "notificationAuthError": {
+        "message": "Ошибка авторизации",
+        "description": "Notification title"
+    },
+    "pageActionDisabled": {
+        "message": "Расширение поддерживает этот сайт, но вы отключили его",
+        "description": "`disabled` page action title"
+    },
+    "faqAnswer4b": {
+        "message": "Как вариант, настройте расширение для работы с нестандартными доменами следующим образом:",
+        "description": "Answer #4"
+    },
+    "faqAnswer7": {
+        "message": "Меня зовут David Šabata, я окончил Брненский технический университет в Чешской Республике. Я увлечён автоматизацией рутинных задач, и, возможно, это стало причиной создания расширения.",
+        "description": "Answer #7"
+    },
+    "faqAnswer1b": {
+        "message": "Примечание: в некоторых случая уведомление может не показываться, например, на MacOS, если Chrome развёрнут на весь экран. В таком случае, расширение создаст новую вкладку самостоятельно, где вы сможете дать ему доступ к своим аккаунтам.",
+        "description": "Answer #1"
+    },
+    "infoUnlove": {
+        "message": "Не нравится",
+        "description": "Label of love/unlove button"
+    },
+    "infoViewTrackPage": {
+        "message": "Посмотреть страницу трека",
+        "description": "Placeholder of album input"
+    },
+    "infoSwapSkippedTitle": {
+        "message": "Вы не можете изменить пропущенный трек",
+        "description": "Title of swap button"
+    },
+    "aboutText3": {
+        "message": "Так как я не посещаю другие веб-сайты, разработка коннекторов полностью в ваших руках. Не стесняйтесь создать новый пулл-реквест на <a href='http://github.com/david-sabata/web-scrobbler'>GitHub</a>.",
+        "description": "'About' section text"
+    },
+    "infoEdit": {
+        "message": "Изменить",
+        "description": "Label of edit button"
+    },
+    "pageActionBase": {
+        "message": "Этот сайт поддерживается расширением",
+        "description": "`base` page action title"
+    },
+    "aboutText2": {
+        "message": "Last.fm Scrobbler создан для тех, кто слушает музыку, используя онлайн-сервисы, и хотел бы иметь постоянно обновлённую историю прослушивания на Last.fm.",
+        "description": "'About' section text"
+    },
+    "contributorsTitle": {
+        "message": "Участники проекта",
+        "description": "'Contributors' header"
+    },
+    "optionYtEntertainmentOnly": {
+        "message": "Скробблить видео только из категории \"Развлечения\"",
+        "description": "Option label"
+    },
+    "pageActionSkipped": {
+        "message": "Пропущено $1",
+        "description": "`skipped` page action title"
+    },
+    "accountsProfile": {
+        "message": "Профиль",
+        "description": "'Signed in' label"
+    },
+    "faqAnswer5": {
+        "message": "Возможно, но, скорее всего, нет. Я разрабатываю Last.fm Scrobbler в свободное время и поддерживаю только скробблинг с Youtube — я просто не использую другие музыкальные сервисы. Однако, достаточно просто создать коннектор и добавить поддержку нужного вам сервиса. Вы можете форкнуть проект на <a href=\"http://github.com/david-sabata/web-scrobbler\">GitHub</a> и прислать пулл-реквест. Также, у нас есть вики с информацией о разработке расширения. ",
+        "description": "Answer #5"
+    },
+    "pageActionScrobbled": {
+        "message": "Заскробблено $1",
+        "description": "`scrobbled` page action title"
+    },
+    "contributorsText2": {
+        "message": "Вы можете посмотреть список участников проекта на <a href=\"https://github.com/david-sabata/web-scrobbler/graphs/contributors\">странице проекта</a> на GitHub.",
+        "description": "'About' section text"
+    },
+    "aboutText4": {
+        "message": "Не волнуйтесь, если никто не будет участвовать в разработке, я буду поддерживать скробблинг с Youtube для себя.",
+        "description": "'About' section text"
+    },
+    "menuDisableConnector": {
+        "message": "Отключить $1",
+        "description": "Context menu item"
+    },
+    "optionForceRecognize": {
+        "message": "Принудительное распознавание",
+        "description": "Option label"
+    },
+    "getStartedSubmitIssue": {
+        "message": "Расширение должно быть обновлено для поддержки этого сайта. Вы можете открыть список <a href=\"https://github.com/david-sabata/web-scrobbler/issues\" target=\"_blank\">багрепортов</a> и посмотреть, не сообщил кто-либо о данной проблеме. Если нет, то вы можете создать новый багрепорт с подробным описанием проблемы.",
+        "description": "Description of how to submit new issue"
+    },
+    "buttonClear": {
+        "message": "Очистить",
+        "description": "Clear button label"
+    },
+    "faqAnswer2b": {
+        "message": "Используйте галочки ниже, чтобы отключить определённые сайты, или переключатель, чтобы отключить скробблинг глобально.",
+        "description": "Answer #2"
+    },
+    "faqQuestion2": {
+        "message": "Как временно отключить скробблинг?",
+        "description": "Qestion #2"
+    },
+    "faqQuestion6": {
+        "message": "Добавите ли вы ____ функционал?",
+        "description": "Qestion #6"
+    },
+    "contactTitle": {
+        "message": "Контакты",
+        "description": "'Contact' section"
+    },
+    "faqTitle": {
+        "message": "ЧаВо",
+        "description": "'FAQ' section"
+    },
+    "notificationNotRecognized": {
+        "message": "Трек не распознан",
+        "description": "Notification title"
+    },
+    "faqAnswer4b2": {
+        "message": "Найдите Bandcamp в списке поддерживаемых сайтов.",
+        "description": "Answer #4"
+    },
+    "infoSkip": {
+        "message": "Пропустить",
+        "description": "Label of skip button"
+    },
+    "optionYtEntertainmentOnlyTitle": {
+        "message": "Игнорировать треки, которые не в категории \"Развлечения\"",
+        "description": "Option title"
+    },
+    "faqAnswer4c": {
+        "message": "Вы можете узнать больше о пользовательских шаблонах URL <a target='_blank' href='https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns'>здесь</a>.",
+        "description": "Answer #4"
+    },
+    "notificationNotRecognizedText": {
+        "message": "Кликните на иконку справа от адресной строки, чтобы скорректировать информацию о треке.",
+        "description": "Notification text"
+    },
+    "faqAnswer1a": {
+        "message": "Необходимо кликнуть на уведомление, которое показывается после установки расширения. После этого нужно дать расширению доступ к своим аккаунтам.",
+        "description": "Answer #1"
+    },
+    "faqQuestion1": {
+        "message": "Как мне начать использовать расширение?",
+        "description": "Qestion #1"
+    },
+    "infoAlbumPlaceholder": {
+        "message": "Альбом (необязательно)",
+        "description": "Placeholder of album input"
+    },
+    "infoSkipAlreadyTitle": {
+        "message": "Вы уже пропустили этот трек",
+        "description": "Title of skip button"
+    },
+    "contactLastfmDesc": {
+        "message": "Сравнить вкусы или сказать \"Привет!\"",
+        "description": "Description for Twitter section"
+    },
+    "faqAnswer6": {
+        "message": "Возможно, если это будет иметь смысл. Но, если вы хотите предложить какую-то крутую-но-ненужную-фичу, я, вероятно, вас разочарую.",
+        "description": "Answer #6"
+    },
+    "getStartedSiteChanged": {
+        "message": "В большинстве случаев это означает, что на сайте произошли какие-либо изменения. Эти изменения могут быть незаметными для пользователя, но критичными для расширения.",
+        "description": "Description of why track is not recognized"
+    },
+    "buttonReset": {
+        "message": "Сброс",
+        "description": "Reset button label"
+    },
+    "optionsViewEdited": {
+        "message": "Посмотреть",
+        "description": "Button to view edited tracks"
+    },
+    "faqAnswer3b": {
+        "message": "Также, есть опция \"Принудительное распознавание\", включение которой позволяет скробблить треки, которые расширение не смогло распознать.",
+        "description": "Answer #3"
+    },
+    "pageActionRecognized": {
+        "message": "Сейчас играет $1",
+        "description": "`recognized` page action title"
+    },
+    "infoSkipUnableTitle": {
+        "message": "Вы не можете пропустить треки, которые уже заскробблены",
+        "description": "Title of skip button"
+    },
+    "infoRevertUnableTitle": {
+        "message": "Вы не можете сбросить информацию о треке, который был заскробблен",
+        "description": "Title of revert button"
+    },
+    "optionsOptions": {
+        "message": "Настройки",
+        "description": "'Options' section"
+    },
+    "infoSwapTitle": {
+        "message": "Поменять исполнителя и название трека местами",
+        "description": "Title of swap button"
+    },
+    "buttonCancel": {
+        "message": "Отмена",
+        "description": "Cancel button label"
+    },
+    "serviceErrorHeader": {
+        "message": "Служебная ошибка",
+        "description": "The header of 'error' popup"
+    },
+    "showSomeLoveTitle": {
+        "message": "Пожертвования",
+        "description": "'Show some love' section"
+    },
+    "notificationConnectAccountsText": {
+        "message": "Кликните на уведомление, чтобы подключить ваши аккаунты.",
+        "description": "Notification text"
+    },
+    "optionsEnableDisableHint": {
+        "message": "Поставьте или снимите галочку, чтобы включить или выключить коннекторы.",
+        "description": "Enable/disable hint"
+    },
+    "aboutText5": {
+        "message": "И поскольку мы все любим слушать музыку, вы можете зайти на <a href='http://www.last.fm/user/na1k_/'>мою страницу</a> на Last.fm , чтобы сравнить музыкальные вкусы или оставить сообщение. :-)",
+        "description": "'About' section text"
+    },
+    "editedTracksTitle": {
+        "message": "Сохранённая информация о треках",
+        "description": "Popup title"
+    },
+    "infoSubmit": {
+        "message": "Принять",
+        "description": "Label of submit button"
+    },
+    "optionsEditedTracks": {
+        "message": "Сохранённая информация о треках",
+        "description": "'Edited tracks' header"
+    },
+    "optionForceRecognizeTitle": {
+        "message": "Принудительное распознавание треков",
+        "description": "Option title"
+    },
+    "contactPrivacyPolicyDesc": {
+        "message": "Посмотреть политику конфиденциальности",
+        "description": "Description for privacy section"
+    },
+    "infoTrackPlaceholder": {
+        "message": "Название",
+        "description": "Placeholder of track input"
+    },
+    "menuEnableConnector": {
+        "message": "Включить $1",
+        "description": "Context menu item"
+    },
+    "aboutText1": {
+        "message": "Список изменений текущей версии доступен <a id='latest-release' target='_blank' href='#'>здесь</a>. Полный список изменений вы можете посмотреть на <a target='_blank' href='https://github.com/david-sabata/web-scrobbler/releases'>этой странице</a>.",
+        "description": "'About' section text"
+    },
+    "faqQuestion5": {
+        "message": "Добавите ли вы поддержку ____?",
+        "description": "Qestion #5"
+    },
+    "accountsNotSignedIn": {
+        "message": "Вы не вошли.",
+        "description": "'Signed in' label"
+    },
+    "optionUseNotificationsTitle": {
+        "message": "Показывать уведомления о проигрываемом треке для всех поддерживаемых сайтов",
+        "description": "Option title"
+    },
+    "infoRevertTitle": {
+        "message": "Отменить изменения",
+        "description": "Title of revert button"
+    },
+    "menuDisableUntilTabClosed": {
+        "message": "Отключить коннектор, пока открыта вкладка",
+        "description": "Context menu item"
+    },
+    "optionUseNotifications": {
+        "message": "Уведомлять о проигрываемом треке",
+        "description": "Option label"
+    },
+    "infoViewArtistPage": {
+        "message": "Посмотреть страницу исполнителя",
+        "description": "Placeholder of album input"
+    },
+    "customPatternsAdd": {
+        "message": "Добавить шаблон",
+        "description": "Add button"
+    },
+    "customPatternsHint": {
+        "message": "Добавьте необходимые шаблоны URL для коннектора.",
+        "description": "Popup hint"
+    },
+    "notificationUnableSignIn": {
+        "message": "Невозможно войти в $1. Пожалуйста, попробуйте позже.",
+        "description": "Notification text"
+    },
+    "faqQuestion4": {
+        "message": "Некоторые треки на Bandcamp не скробблятся. Это возможно исправить?",
+        "description": "Qestion #4"
+    },
+    "faqAnswer2a": {
+        "message": "Вы можете это сделать, кликнув на значок расширения справа от адресной строки (Chrome) или в адресной строке (Firefox, Opera). Используя контекстное меню, вы можете отключить скробблинг для текущего сайта.",
+        "description": "Answer #2"
+    },
+    "faqQuestion7": {
+        "message": "Кто автор расширения?",
+        "description": "Qestion #7"
+    },
+    "contactTwitterDesc": {
+        "message": "Следить за обновлениями или поболтать",
+        "description": "Description for Twitter section"
+    },
+    "accountsSignIn": {
+        "message": "Войти",
+        "description": "Button label"
+    },
+    "optionDisableGaTitle": {
+        "message": "Отключить отправку анонимной статистики использования расширения",
+        "description": "Option title"
+    },
+    "infoViewAlbumPage": {
+        "message": "Посмотреть страницу альбома",
+        "description": "Placeholder of album input"
+    },
+    "optionsGeneral": {
+        "message": "Общие",
+        "description": "'General' section"
+    },
+    "infoEditSkippedTitle": {
+        "message": "Вы не можете редактировать информацию о треке, который пропустили",
+        "description": "Title of edit button"
+    },
+    "optionsSupportedWebsites": {
+        "message": "Поддерживаемые сайты",
+        "description": "'Supported websites' header"
+    },
+    "infoSwapUnableTitle": {
+        "message": "Вы не можете изменить заскробленный трек",
+        "description": "Title of swap button"
+    },
+    "pageActionError": {
+        "message": "Произошла служебная ошибка. Кликните для подробностей.",
+        "description": "`loading` page action title"
+    },
+    "serviceErrorDesc": {
+        "message": "Похоже, что-то произошло не так во время скробблинга трека. Пожалуйста, откройте страницу с настройками и попробуйте авторизоваться заново. Если это не помогает, пожалуйста, <a href=\"https://github.com/david-sabata/web-scrobbler/issues\" target=\"_blank\">сообщите о проблеме</a> на странице проекта на GitHub.",
+        "description": "The description of service error"
+    },
+    "optionsCustomPatternsHint": {
+        "message": "Кликните на иконку с шестерёнкой, чтобы настроить пользовательские шаблоны URL для коннекторов. <a target='_blank' href='https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns'>Узнать больше</a>",
+        "description": "Description of how to configure custom URL patterns"
+    },
+    "infoArtistPlaceholder": {
+        "message": "Исполнитель",
+        "description": "Placeholder of artist input"
+    },
+    "optionUnrecognizedNotificationsTitle": {
+        "message": "Показывать уведомление, если расширение не смогло распознать трек",
+        "description": "Option title"
+    },
+    "infoEditUnableTitle": {
+        "message": "Вы не можете изменить информацию о треке, который был заскробблен",
+        "description": "Title of edit button"
+    },
+    "optionsEditedTracksDesc": {
+        "message": "Расширение хранит редактированную вами информацию о треках.",
+        "description": "Description of edited tracks"
+    },
+    "infoOpenAlbumArt": {
+        "message": "Открыть обложку альбома в новой вкладке",
+        "description": "Title of album image"
+    },
+    "buttonOk": {
+        "message": "ОК",
+        "description": "OK button label"
+    },
+    "optionsAbout": {
+        "message": "О расширении",
+        "description": "'About' section"
+    },
+    "contributorsText1": {
+        "message": "Я рад сказать, что очень много людей участвует или участвовало в разработке этого расширения! Ранее здесь был список участников проекта, но он очень быстро рос. Также, в нём были перечислены, по большей части, основные участники (авторы коннекторов), но не были упомянуты люди, внёсшие мелкие, но тем не менее, важные изменения (исправления и улучшения).",
+        "description": "'About' section text"
+    },
+    "showSomeLoveText1": {
+        "message": "В отличие от других расширений, это не содержит рекламные баннеры.",
+        "description": ""
+    },
+    "optionDisableGa": {
+        "message": "Отключить Google Analytics",
+        "description": "Option label"
+    },
+    "faqAnswer4b3": {
+        "message": "Кликните на иконку с шестерёнкой возле названия коннектора.",
+        "description": "Answer #4"
+    },
+    "infoSwap": {
+        "message": "Поменять",
+        "description": "Label of swap button"
+    },
+    "infoRevert": {
+        "message": "Отменить",
+        "description": "Label of revert button"
+    },
+    "infoSkipTitle": {
+        "message": "Не скробблить текущий трек",
+        "description": "Title of skip button"
+    },
+    "optionYtMusicOnlyTitle": {
+        "message": "Игнорировать треки, которые не в категории \"Музыка\"",
+        "description": "Option label"
+    },
+    "faqAnswer3a": {
+        "message": "Когда расширение не может распознать трек, справа от адресной строки (Chrome) или в адресной строке (Firefox, Opera) появляется иконка со знаком вопроса. Кликнув на эту иконку, вы можете скорректировать данные о треке в появившемся всплывающем окне.",
+        "description": "Answer #3"
+    },
+    "accountsSignOut": {
+        "message": "Выйти",
+        "description": "Button label"
+    },
+    "optionsTitle": {
+        "message": "Настройки Last.fm Scrobbler",
+        "description": "Title of options page"
+    },
+    "optionsToggle": {
+        "message": "Переключить",
+        "description": "Label of toggle button"
+    },
+    "optionUnrecognizedNotifications": {
+        "message": "Уведомлять, если трек не распознан",
+        "description": "Option label"
+    },
+    "contactMyWebDesc": {
+        "message": "Посмотреть мои другие проекты",
+        "description": "Description for my web section"
+    },
+    "optionsAccounts": {
+        "message": "Аккаунты",
+        "description": "'Accounts' section"
+    }
+}
