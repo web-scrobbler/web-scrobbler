@@ -39,7 +39,7 @@ Connector.isPlaying = () => {
 function requestSongInfo() {
 	if (isNewSongPlaying()) {
 		let relativeUrl = $('#atitle a').attr('href');
-		let albumInfoUrl = `http://gaana.com${relativeUrl}`;
+		let albumInfoUrl = `https://gaana.com${relativeUrl}`;
 
 		fetchSongInfo(albumInfoUrl).then((data) => {
 			songInfo = data;
