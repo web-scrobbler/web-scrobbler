@@ -1,26 +1,16 @@
 'use strict';
 
-$(document).ready(function() {
+require(['util'], (Util) => {
 	let isEditModeEnabled = false;
 	let song = null;
-
-	function getCurrentTab() {
-		return new Promise((resolve) => {
-			chrome.tabs.query({
-				active: true,
-				lastFocusedWindow: true
-			}, function(tabs) {
-				resolve(tabs[0].id);
-			});
-		});
-	}
 
 	function getCurrentSong() {
 		return sendMessageToCurrentTab('v2.getSong');
 	}
 
 	function sendMessageToCurrentTab(type, data) {
-		return getCurrentTab().then((tabId) => {
+		return Util.getCurrentTab().then((tab) => {
+			let tabId = tab.id;
 			return new Promise((resolve) => {
 				chrome.runtime.sendMessage({ type, data, tabId }, resolve);
 			});
@@ -335,5 +325,5 @@ $(document).ready(function() {
 		});
 	}
 
-	main();
+	$(document).ready(main);
 });
