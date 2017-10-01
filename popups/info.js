@@ -153,8 +153,8 @@ $(document).ready(function() {
 	function configControls() {
 		$('#love').off('click');
 		$('#love').on('click', function() {
-			var currentLoveStatus = $('#love').attr('last-fm-loved') === 'true';
-			var desiredLoveStatus = !currentLoveStatus;
+			let currentLoveStatus = $('#love').attr('last-fm-loved') === 'true';
+			let desiredLoveStatus = !currentLoveStatus;
 
 			sendMessageToCurrentTab('v2.toggleLove', {
 				isLoved: desiredLoveStatus
@@ -313,8 +313,8 @@ $(document).ready(function() {
 			return;
 		}
 
-		var title = $('#track-input').val();
-		var artist = $('#artist-input').val();
+		let title = $('#track-input').val();
+		let artist = $('#artist-input').val();
 
 		$('#track-input').val(artist);
 		$('#artist-input').val(title);
