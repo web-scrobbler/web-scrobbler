@@ -1092,5 +1092,9 @@ define(function() {
 		label: 'RemixRotation',
 		matches: ['*://remixrotation.com/*'],
 		js: ['connectors/remixrotation.js']
+	}, {
+		label: 'SiriusXM',
+		matches: ['*://player.siriusxm.com/*'],
+		js: ['connectors/siriusxm-player.js']
 	}];
 });
