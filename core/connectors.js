@@ -1085,6 +1085,14 @@ define(function() {
 		matches: ['*://jetsetradio.live/*', '*://jetsetradio.live'],
 		js: ['connectors/jetsetradio.live.js']
 	}, {
+		label: 'FIP',
+		matches: ['*://www.fipradio.fr/*'],
+		js: ['connectors/fipradio.js']
+	}, {
+		label: 'RemixRotation',
+		matches: ['*://remixrotation.com/*'],
+		js: ['connectors/remixrotation.js']
+	}, {
 		label: 'SiriusXM',
 		matches: ['*://player.siriusxm.com/*'],
 		js: ['connectors/siriusxm-player.js']
