@@ -1092,9 +1092,14 @@ define(function() {
 		label: 'RemixRotation',
 		matches: ['*://remixrotation.com/*'],
 		js: ['connectors/remixrotation.js']
+
 	},	{
 			label: 'WFMU',
 			matches: ['*://wfmu.org/audioplayer/*'],
 			js: ['connectors/wfmu.js'],
+	}, {
+		label: 'SiriusXM',
+		matches: ['*://player.siriusxm.com/*'],
+		js: ['connectors/siriusxm-player.js']
 	}];
 });

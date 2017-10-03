@@ -103,10 +103,8 @@ $(() => {
 	 * @return {Array} Array of nodes from given text
 	 */
 	function makeNodes(rawHtml) {
-		let html = `<div>${rawHtml}</div>`;
-
-		let body = domParser.parseFromString(html, 'text/html').body;
-		return [...body.firstChild.childNodes].filter((a) => {
+		let body = domParser.parseFromString(rawHtml, 'text/html').body;
+		return [...body.childNodes].filter((a) => {
 			return a.nodeType === a.TEXT_NODE || a.tagName === 'A';
 		});
 	}
