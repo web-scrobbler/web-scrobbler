@@ -1093,10 +1093,10 @@ define(function() {
 		matches: ['*://remixrotation.com/*'],
 		js: ['connectors/remixrotation.js']
 
-	},	{
-			label: 'WFMU',
-			matches: ['*://wfmu.org/audioplayer/*'],
-			js: ['connectors/wfmu.js'],
+	}, {
+		label: 'WFMU',
+		matches: ['*://wfmu.org/audioplayer/*'],
+		js: ['connectors/wfmu.js'],
 	}, {
 		label: 'SiriusXM',
 		matches: ['*://player.siriusxm.com/*'],
