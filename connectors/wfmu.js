@@ -16,14 +16,14 @@ Connector.filter = new MetadataFilter({
 
 function cleanupTrack(track) {
 	// extract track from a "track" by artist
-	track = track.replace(/(\")(.*)(\")( by )(.*)/g, '$2');
+	track = track.replace(/(")(.*)(")( by )(.*)/g, '$2');
 
 	return track;
 }
 
 function cleanupArtist(artist) {
 	// extract artist from a "track" by artist
-	artist = artist.replace(/(\")(.*)(\")( by )(.*)/g, '$5');
+	artist = artist.replace(/(")(.*)(")( by )(.*)/g, '$5');
 
 	return artist;
 }
