@@ -40,8 +40,8 @@ define([
 		label: 'Libre.fm',
 		storage: 'LibreFM',
 		apiUrl: 'https://libre.fm/2.0/',
-		apiKey: 'test',
-		apiSecret: 'test',
+		apiKey: 'r8i1y91hz71tcx7vyrp9hk1alhqp1898',
+		apiSecret: '8187db5vg234yq6tm7o62q8mtl1niala',
 		authUrl: 'https://www.libre.fm/api/auth/',
 		profileUrl: 'https://libre.fm/user/',
 	});
