@@ -305,6 +305,10 @@
     "message": "Edited tracks",
     "description": "Popup title"
   },
+  "albumTooltip": {
+    "message": "From \"$1\" album",
+    "description": "Tooltip text"
+  },
   "buttonOk": {
     "message": "OK",
     "description": "OK button label"
