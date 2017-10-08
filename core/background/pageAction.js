@@ -103,7 +103,6 @@ define(() => {
 					let { path, popup, i18n } = state;
 					let title = chrome.i18n.getMessage(i18n, placeholder);
 
-					chrome.pageAction.hide(tabId);
 					chrome.pageAction.setIcon({ tabId, path });
 					chrome.pageAction.setTitle({ tabId, title });
 					chrome.pageAction.setPopup({ tabId, popup });
