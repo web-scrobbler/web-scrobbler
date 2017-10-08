@@ -177,12 +177,6 @@ require([
 				case InjectResult.NO_MATCH: {
 					// Remove controller if any
 					unloadController(tabId);
-
-					try {
-						chrome.pageAction.hide(tabId);
-					} catch (e) {
-						// ignore, the tab may no longer exist
-					}
 					break;
 				}
 
@@ -319,7 +313,7 @@ require([
 			let label = controller.getConnector().label;
 			console.log(`Tab ${tabId}: Remove controller for ${label} connector`);
 
-			controller.resetState();
+			controller.finish();
 			delete tabControllers[tabId];
 		}
 	}

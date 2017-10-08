@@ -179,6 +179,17 @@ define(() => {
 		setError() {
 			this.setPageAction(state.error);
 		}
+
+		/**
+		 * Hide page action icon.
+		 */
+		hide() {
+			try {
+				chrome.pageAction.hide(this.tabId);
+			} catch (e) {
+				// Ignore, the tab may no longer exist
+			}
+		}
 	}
 
 	return PageAction;

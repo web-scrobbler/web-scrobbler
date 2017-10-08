@@ -77,6 +77,14 @@ define([
 		}
 
 		/**
+		 * Do finalization before unloading controller.
+		 */
+		finish() {
+			this.resetState();
+			this.pageAction.hide();
+		}
+
+		/**
 		 * Reset song data and process it again.
 		 */
 		resetSongData() {
