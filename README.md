@@ -60,7 +60,7 @@ See the [privacy policy][11].
 
 See the [license file](LICENSE.md).
 
-[0]: https://img.shields.io/chrome-web-store/d/hhinaapppaileiechjoiifaancjggfjm.svg?style=flat
+[0]: https://img.shields.io/chrome-web-store/d/hhinaapppaileiechjoiifaancjggfjm.svg
 [1]: https://chrome.google.com/webstore/detail/lastfm-scrobbler/hhinaapppaileiechjoiifaancjggfjm
 [2]: https://api.travis-ci.org/david-sabata/web-scrobbler.svg
 [3]: https://travis-ci.org/david-sabata/web-scrobbler
@@ -74,7 +74,7 @@ See the [license file](LICENSE.md).
 [11]: https://github.com/david-sabata/web-scrobbler/wiki/Privacy-policy
 [12]: http://add0n.com/lastfm-scrobbler.html
 [13]: https://addons.opera.com/extensions/details/app_id/kipjbhgniklcnglfaldilecjomjaddfi
-[14]: https://img.shields.io/amo/users/web-scrobbler.svg
+[14]: https://img.shields.io/amo/users/web-scrobbler.svg?label=users
 [15]: https://addons.mozilla.org/en-US/firefox/addon/web-scrobbler/
 [21]: https://www.transifex.com/web-scrobbler/web-scrobbler/dashboard/
 [22]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg
