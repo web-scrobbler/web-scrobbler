@@ -343,7 +343,7 @@ define([
 				this.replayDetectionTimer.update(this.currentSong.getDuration());
 
 				let remainedSeconds = this.playbackTimer.getRemainingSeconds();
-				this.debugLog(`The song will be scrobbled after ${remainedSeconds} more seconds of playback`);
+				this.debugLog(`The song will be scrobbled in ${remainedSeconds} seconds`);
 
 				// If the song is playing, mark it immediately; otherwise will be flagged in isPlaying binding
 				if (this.currentSong.parsed.isPlaying) {
@@ -425,7 +425,7 @@ define([
 
 				let remainedSeconds = this.playbackTimer.getRemainingSeconds();
 				this.debugLog(`Update duration: ${duration}`);
-				this.debugLog(`The song will be scrobbled after ${remainedSeconds} more seconds of playback`);
+				this.debugLog(`The song will be scrobbled in ${remainedSeconds} seconds`);
 			}
 		}
 
