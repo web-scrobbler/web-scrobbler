@@ -313,10 +313,13 @@ require([
 	 * @param  {Number} tabId Tab ID
 	 */
 	function unloadController(tabId) {
-		if (tabControllers[tabId]) {
-			console.log(`Tab ${tabId}: remove controller`);
+		let controller = tabControllers[tabId];
 
-			tabControllers[tabId].resetState();
+		if (controller) {
+			let label = controller.getConnector().label;
+			console.log(`Tab ${tabId}: Remove controller for ${label} connector`);
+
+			controller.resetState();
 			delete tabControllers[tabId];
 		}
 	}
