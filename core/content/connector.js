@@ -185,7 +185,12 @@ var BaseConnector = window.BaseConnector || function() {
 	 * @return {Number} Number of seconds passed from the beginning of the track
 	 */
 	this.getCurrentTime = function() {
-		let text = $(this.currentTimeSelector).text();
+		let text = $(this.currentTimeSelector).text(),
+			isCountDown = text.indexOf('-') + 1;
+		if (isCountDown) {
+			text = text.substr(isCountDown);
+			return (this.getDuration() || 0) - Util.stringToSeconds(text);
+		}
 		return Util.stringToSeconds(text);
 	};
 
