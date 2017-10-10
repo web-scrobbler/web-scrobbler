@@ -995,7 +995,11 @@ define(function() {
 
 	{
 		label: 'Kuwo Music',
-		matches: ['*://kuwo.cn/*', '*://www.kuwo.cn/*'],
+		matches: [
+			'*://kuwo.cn/*',
+			'*://www.kuwo.cn/*',
+			'*://m.kuwo.cn/*'
+		],
 		js: ['connectors/kuwo.js'],
 		version: 2
 	}, {
