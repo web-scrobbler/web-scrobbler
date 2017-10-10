@@ -1101,5 +1101,14 @@ define(function() {
 		label: 'SiriusXM',
 		matches: ['*://player.siriusxm.com/*'],
 		js: ['connectors/siriusxm-player.js']
+	}, {
+		label: '1ting',
+		matches: [
+			'*://www.1ting.com/player/*', '*://www.1ting.com/p_*',
+			'*://www.1ting.com/album*', '*://www.1ting.com/rand.php*',
+			'*://www.1ting.com/day/*',
+			'*://h5.1ting.com/*'
+		],
+		js: ['connectors/1ting.js']
 	}];
 });
