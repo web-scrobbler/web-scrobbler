@@ -1101,5 +1101,9 @@ define(function() {
 		label: 'SiriusXM',
 		matches: ['*://player.siriusxm.com/*'],
 		js: ['connectors/siriusxm-player.js']
+	}, {
+		label: 'Douban Artists',
+		matches: ['*://music.douban.com/artists/player/*'],
+		js: ['connectors/douban-artists.js']
 	}];
 });
