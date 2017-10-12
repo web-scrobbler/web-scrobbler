@@ -1114,5 +1114,9 @@ define(function() {
 			'*://h5.1ting.com/*'
 		],
 		js: ['connectors/1ting.js']
-	}];
+	}, {
+		label: 'Douban Artists',
+		matches: ['*://music.douban.com/artists/player/*'],
+		js: ['connectors/douban-artists.js']
+  }];
 });
