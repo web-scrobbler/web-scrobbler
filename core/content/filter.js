@@ -236,12 +236,12 @@ class MetadataFilter {
 			{ source: /\s+\(\s*(HD|HQ)\s*\)$/, target: '' },
 			// HD (HQ)
 			{ source: /\s+(HD|HQ)\s*$/, target: '' },
-			// video clip officiel (french)
-			{ source: /\s*vid[\u00E9e]o\s*clip officiel/i, target: '' },
+			// video clip officiel
+			{ source: /\s*(vid[\u00E9e]o)?\s*clip officiel/i, target: '' },
+			// offizielles
+			{ source: /\s*of+iziel+es\s*/i, target: '' },
 			// video clip
-			{ source: /\s*vid[\u00E9e]o\s*clip/i, target: '' },
-			// video clip
-			{ source: /\s*video\s*clip/i, target: '' },
+			{ source: /\s*(vid[\u00E9e]o)?\s*clip/i, target: '' },
 			// Full Album
 			{ source: /\s*full\s*album/i, target: '' },
 			// live
