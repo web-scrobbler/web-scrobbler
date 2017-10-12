@@ -58,6 +58,11 @@ const Util = {
 		let s = str.toString().trim();
 		let val, seconds = 0;
 
+		let isNegative = s.startsWith('-');
+		if (isNegative) {
+			s = s.substr(1);
+		}
+
 		for (let i = 0; i < 3; i++) {
 			let idx = s.lastIndexOf(':');
 			if (idx > -1) {
@@ -69,6 +74,10 @@ const Util = {
 				seconds += val * Math.pow(60, i);
 				break;
 			}
+		}
+
+		if (isNegative) {
+			seconds = -seconds;
 		}
 
 		return seconds || 0;

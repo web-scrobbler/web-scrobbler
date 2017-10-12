@@ -56,6 +56,16 @@ var BaseConnector = window.BaseConnector || function() {
 	this.currentTimeSelector = null;
 
 	/**
+	 * Selector of an element containing track remaining time in h:m:s format.
+	 *
+	 * Only applies when default implementation of
+	 * {@link BaseConnector#getRemainingTime} is used.
+	 *
+	 * @type {String}
+	 */
+	this.remainingTimeSelector = null;
+
+	/**
 	 * Selector of an element containing track duration in h:m:s format.
 	 *
 	 * Only applies when default implementation of
@@ -185,12 +195,20 @@ var BaseConnector = window.BaseConnector || function() {
 	 * @return {Number} Number of seconds passed from the beginning of the track
 	 */
 	this.getCurrentTime = function() {
-		let text = $(this.currentTimeSelector).text(),
-			isCountDown = text.indexOf('-') + 1;
-		if (isCountDown) {
-			text = text.substr(isCountDown);
-			return (this.getDuration() || 0) - Util.stringToSeconds(text);
-		}
+		let text = $(this.currentTimeSelector).text();
+		return Util.stringToSeconds(text);
+	};
+
+	/**
+	 * Default implementation of track remaining time lookup by selector with
+	 * some basic parsing.
+	 *
+	 * Override this method for more complex behaviour.
+	 *
+	 * @return {Number} Number of remaining seconds
+	 */
+	this.getRemainingTime = function() {
+		let text = $(this.remainingTimeSelector).text();
 		return Util.stringToSeconds(text);
 	};
 
@@ -279,6 +297,13 @@ var BaseConnector = window.BaseConnector || function() {
 		}
 		if (!newState.track && artistTrack.track) {
 			newState.track = artistTrack.track;
+		}
+
+		if (!newState.currentTime) {
+			let remainingTime = this.getRemainingTime();
+			if (remainingTime) {
+				newState.currentTime = newState.duration - Math.abs(remainingTime);
+			}
 		}
 
 		let timeInfo = this.getTimeInfo();
