@@ -1118,5 +1118,5 @@ define(function() {
 		label: 'Douban Artists',
 		matches: ['*://music.douban.com/artists/player/*'],
 		js: ['connectors/douban-artists.js']
-  }];
+	}];
 });
