@@ -995,7 +995,11 @@ define(function() {
 
 	{
 		label: 'Kuwo Music',
-		matches: ['*://kuwo.cn/*', '*://www.kuwo.cn/*'],
+		matches: [
+			'*://kuwo.cn/*',
+			'*://www.kuwo.cn/*',
+			'*://m.kuwo.cn/*'
+		],
 		js: ['connectors/kuwo.js'],
 		version: 2
 	}, {
@@ -1102,8 +1106,17 @@ define(function() {
 		matches: ['*://player.siriusxm.com/*'],
 		js: ['connectors/siriusxm-player.js']
 	}, {
+		label: '1ting',
+		matches: [
+			'*://www.1ting.com/player/*', '*://www.1ting.com/p_*',
+			'*://www.1ting.com/album*', '*://www.1ting.com/rand.php*',
+			'*://www.1ting.com/day/*',
+			'*://h5.1ting.com/*'
+		],
+		js: ['connectors/1ting.js']
+	}, {
 		label: 'Douban Artists',
 		matches: ['*://music.douban.com/artists/player/*'],
 		js: ['connectors/douban-artists.js']
-	}];
+  }];
 });
