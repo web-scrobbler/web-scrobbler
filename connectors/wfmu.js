@@ -1,6 +1,6 @@
 'use strict';
 
-Connector.playerSelector = '#mep_0';
+Connector.playerSelector = '.audioplayer';
 
 Connector.artistSelector = '#current-title';
 
