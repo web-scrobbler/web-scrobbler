@@ -116,7 +116,7 @@ define(['storage/chromeStorage'], (ChromeStorage) => {
 	 * @return {Boolean} True if GA is allowed; false otherwise
 	 */
 	function isAllowed() {
-		return options.get((data) => {
+		return options.get().then((data) => {
 			return !data.disableGa;
 		});
 	}

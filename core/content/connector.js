@@ -56,6 +56,16 @@ var BaseConnector = window.BaseConnector || function() {
 	this.currentTimeSelector = null;
 
 	/**
+	 * Selector of an element containing track remaining time in h:m:s format.
+	 *
+	 * Only applies when default implementation of
+	 * {@link BaseConnector#getRemainingTime} is used.
+	 *
+	 * @type {String}
+	 */
+	this.remainingTimeSelector = null;
+
+	/**
 	 * Selector of an element containing track duration in h:m:s format.
 	 *
 	 * Only applies when default implementation of
@@ -190,6 +200,19 @@ var BaseConnector = window.BaseConnector || function() {
 	};
 
 	/**
+	 * Default implementation of track remaining time lookup by selector with
+	 * some basic parsing.
+	 *
+	 * Override this method for more complex behaviour.
+	 *
+	 * @return {Number} Number of remaining seconds
+	 */
+	this.getRemainingTime = function() {
+		let text = $(this.remainingTimeSelector).text();
+		return Util.stringToSeconds(text);
+	};
+
+	/**
 	 * Default implementation of current time and duration lookup by selector.
 	 * This method is called only when {@link BaseConnector#getCurrentTime} and
 	 * {@link BaseConnector#getDuration} return an empty result.
@@ -274,6 +297,13 @@ var BaseConnector = window.BaseConnector || function() {
 		}
 		if (!newState.track && artistTrack.track) {
 			newState.track = artistTrack.track;
+		}
+
+		if (!newState.currentTime) {
+			let remainingTime = this.getRemainingTime();
+			if (remainingTime) {
+				newState.currentTime = newState.duration - Math.abs(remainingTime);
+			}
 		}
 
 		let timeInfo = this.getTimeInfo();

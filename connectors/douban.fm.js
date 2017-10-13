@@ -4,19 +4,8 @@ Connector.playerSelector = '.player-wrapper';
 
 Connector.trackArtSelector = '.playing-cover img';
 
-Connector.getTrack = () => {
-	return $('.player-wrapper .middle>div:nth-child(2) a').first().text();
-};
+Connector.trackSelector = '.middle>div:nth-child(2)>a';
 
-Connector.getArtist = () => {
-	return $('.player-wrapper .link.artist-name').first().text();
-};
+Connector.artistSelector = '.middle>div:nth-child(3) a';
 
-Connector.getDuration = () => {
-	let text = $('.time').text();
-	return Util.stringToSeconds(text.substring(1));
-};
-
-Connector.isPlaying = () => {
-	return $('.player-wrapper .buttons .icon-pause').length > 0;
-};
+Connector.playButtonSelector = 'label[title="播放"]';

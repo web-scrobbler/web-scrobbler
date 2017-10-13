@@ -1,8 +1,7 @@
 'use strict';
 
-module.exports = function(driver, connectorSpec) {
-	// Too complex website UI
-	connectorSpec.shouldLoadWebsite(driver, {
+module.exports = (driver, spec) => {
+	spec.shouldBehaveLikeMusicSite(driver, {
 		url: 'https://douban.fm/'
 	});
 };

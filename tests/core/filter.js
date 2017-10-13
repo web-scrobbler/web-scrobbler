@@ -161,6 +161,22 @@ const YOUTUBE_TEST_DATA = [{
 	source: 'Track Title (Oficial)',
 	expected: 'Track Title'
 }, {
+	description: 'should remove "offizielles Video" string',
+	source: 'Track Title offizielles Video',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "video clip officiel" string',
+	source: 'Track Title video clip officiel',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "video clip" string',
+	source: 'Track Title video clip',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "vid\u00E9o clip" string',
+	source: 'Track Title vid\u00E9o clip',
+	expected: 'Track Title'
+}, {
 	description: 'should remove "(YYYY)" string',
 	source: 'Track Title (2348)',
 	expected: 'Track Title'

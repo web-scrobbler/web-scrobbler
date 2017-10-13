@@ -337,10 +337,14 @@ require([
 					addNoEditedLabel(cacheDom);
 				} else {
 					for (let songId in data) {
-						let { artist, track } = data[songId];
+						let { artist, track, album } = data[songId];
 
 						let item = $(`<li>${artist} — ${track}</li>`);
 						let removeBtn = $('<button type="button" class="close-btn"><i class="fa fa-times fa-fw"></i></button>');
+
+						if (album) {
+							item.attr('title', chrome.i18n.getMessage('albumTooltip', album));
+						}
 						removeBtn.click(function() {
 							localCache.get().then((data) => {
 								delete data[songId];

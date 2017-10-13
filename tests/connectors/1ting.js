@@ -3,16 +3,16 @@
 module.exports = (driver, spec) => {
 	// Default player
 	spec.shouldContainPlayerElement(driver, {
-		url: 'http://www.kuwo.cn/'
+		url: 'http://www.1ting.com/player/81/player_959082.html'
 	});
 
-	// Single player
+	// Day player
 	spec.shouldContainPlayerElement(driver, {
-		url: 'http://www.kuwo.cn/yinyue/1224019'
+		url: 'http://www.1ting.com/day/2017-08-03/3499.html'
 	});
 
-	// Mobile player
+	// H5 player
 	spec.shouldContainPlayerElement(driver, {
-		url: 'http://m.kuwo.cn/newh5/singles/content?mid=1224019%2028803014'
+		url: 'http://h5.1ting.com/#/rank/europeamerica'
 	});
 };

@@ -74,6 +74,10 @@ const STRING_TO_SECONDS_DATA = [{
 	source: '01:10:30',
 	expected: 4230
 }, {
+	description: 'should parse negative time',
+	source: '-01:10',
+	expected: -70
+}, {
 	description: 'should parse time in mm:ss format',
 	source: '05:20',
 	expected: 320
