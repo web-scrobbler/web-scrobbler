@@ -2,13 +2,13 @@
 
 Connector.playerSelector = '#player-main';
 
-Connector.trackSelector = '#J_trackInfo a:first';
+Connector.trackSelector = '#J_trackName';
 
-Connector.albumSelector = '.ui-track-current .ui-track-main  .ui-row-item-body .c3 > a';
+Connector.albumSelector = '.ui-track-current .c3>a';
 
-Connector.artistSelector = '#J_trackInfo a:nth-child(2)';
+Connector.artistSelector = '#J_trackInfo>a:nth-child(2)';
 
-Connector.playButtonSelector = '#J_playBtn';
+Connector.playButtonSelector = '.play-btn';
 
 Connector.currentTimeSelector = '#J_positionTime';
 
@@ -16,4 +16,4 @@ Connector.trackArtSelector = '#J_playerCoverImg';
 
 Connector.durationSelector = '#J_durationTime';
 
-Connector.isPlaying = () => $('#J_playBtn').hasClass('pause-btn');
+Connector.getUniqueID = () => $('.ui-track-current .c1').attr('data-id');
