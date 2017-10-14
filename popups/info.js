@@ -163,6 +163,11 @@ $(document).ready(function() {
 			});
 		});
 
+		$('#album-art').off('click');
+		$('#album-art').on('click', () => {
+			chrome.tabs.create({ url: getCoverArt() });
+		});
+
 		if (song.flags.isScrobbled) {
 			return;
 		}
@@ -206,11 +211,6 @@ $(document).ready(function() {
 				setEditMode(false);
 				correctSongInfo();
 			}
-		});
-
-		$('#album-art').off('click');
-		$('#album-art').on('click', () => {
-			chrome.tabs.create({ url: getCoverArt() });
 		});
 	}
 
