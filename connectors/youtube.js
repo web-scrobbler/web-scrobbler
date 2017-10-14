@@ -111,13 +111,14 @@ function getVideoCategory(videoId) {
 	}
 	if (!categoryCache.has(videoId)) {
 		const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${YT_API_KEY}`;
-		$.getJSON(url)
-			.then((data) => {
-				let category = data.items[0].snippet.categoryId;
-				if (typeof category === 'string') {
-					categoryCache.set(videoId, category);
-				}
-			});
+		fetch(url).then((response) => {
+			return response.json();
+		}).then((data) => {
+			let category = data.items[0].snippet.categoryId;
+			if (typeof category === 'string') {
+				categoryCache.set(videoId, category);
+			}
+		});
 		return null;
 	}
 	return categoryCache.get(videoId);
