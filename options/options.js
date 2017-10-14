@@ -139,7 +139,6 @@ require([
 				scrobbler: scrobbler.getLabel()
 			});
 		});
-		console.log($authUrl);
 		let $authStr = $('<span/>').attr('i18n', 'accountsNotSignedIn');
 		let $placeholder = $('<span/>').html('&nbsp;');
 

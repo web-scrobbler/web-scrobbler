@@ -21,8 +21,6 @@ let pageType = (function() {
 	return 'other';
 }());
 
-// console.log('pageType = ' + pageType);
-
 /**
  * Return the result of a regular expression search execution against an html comment.
  * The html comment is present in album & song type pages and contains information
@@ -47,7 +45,6 @@ function searchComment(regEx) {
 }
 
 Connector.isPlaying = () => {
-	// console.log("isPlaying = " + Boolean($('.playbtn-paused')[0]));
 	return Boolean($('.playbtn-paused')[0]);
 };
 
