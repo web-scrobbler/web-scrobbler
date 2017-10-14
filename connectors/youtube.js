@@ -260,20 +260,26 @@ function setupBasePlayer() {
 	function setupMutationObserver() {
 		let isEventListenerSetUp = false;
 
-		let playerObserver = new MutationObserver(function() {
+		function onMutation() {
+			let videoElement = $(videoSelector);
+
 			if (Connector.isPlayerOffscreen()) {
 				Connector.resetState();
-			} else if ($(videoSelector).length > 0) {
+			} else if (videoElement.length > 0) {
 				if (isEventListenerSetUp) {
 					return;
 				}
 
-				$(videoSelector).on('timeupdate', Connector.onStateChanged);
+				videoElement.on('timeupdate', Connector.onStateChanged);
 				isEventListenerSetUp = true;
+			} else {
+				Connector.resetState();
+				isEventListenerSetUp = false;
 			}
-		});
+		}
 
-		playerObserver.observe(document.body, {
+		let observer = new MutationObserver(Util.throttle(onMutation, 500));
+		observer.observe(document.body, {
 			subtree: true,
 			childList: true,
 			attributes: false,
