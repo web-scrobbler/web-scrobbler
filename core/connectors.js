@@ -740,14 +740,13 @@ define(function() {
 		matches: ['*://youtubify.vebto.com/*', '*://bemusic.vebto.com/*'],
 		js: ['connectors/bemusic.js'],
 	},
-	
+
 	{
 		label: 'Ma5onic Music Player',
-		matches: ['*://ma5onic.com/PlayerApp/*', '*://player.ma5onic.com/*',
-				  '*://www.ma5onic.com/PlayerApp/*', '*://www.player.ma5onic.com/*'],
+		matches: ['*://ma5onic.com/PlayerApp/*', '*://player.ma5onic.com/*', '*://www.ma5onic.com/PlayerApp/*', '*://www.player.ma5onic.com/*'],
 		js: ['connectors/bemusic.js'],
 	},
-	
+
 	{
 		label: 'Paste Radio',
 		matches: ['*://www.pastemagazine.com/radio*'],
