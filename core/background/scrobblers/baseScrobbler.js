@@ -167,13 +167,7 @@ define([
 				let token = data.token || null;
 				if (token !== null) {
 					return this.tradeTokenForSession(token).then((session) => {
-						// token is already used, reset it and store
-						// the new session
-						delete data.token;
-						data.sessionID = session.sessionID;
-						data.sessionName = session.sessionName;
-
-						return this.storage.set(data).then(() => {
+						return this.storage.set(session).then(() => {
 							return session;
 						});
 					}).catch(() => {
