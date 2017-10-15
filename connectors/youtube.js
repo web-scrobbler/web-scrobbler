@@ -112,12 +112,17 @@ function getVideoCategory(videoId) {
 	if (!categoryCache.has(videoId)) {
 		const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${YT_API_KEY}`;
 		fetch(url).then((response) => {
+			if (!response.ok) {
+				throw new Error('Invalid response');
+			}
 			return response.json();
 		}).then((data) => {
 			let category = data.items[0].snippet.categoryId;
 			if (typeof category === 'string') {
 				categoryCache.set(videoId, category);
 			}
+		}).catch((err) => {
+			console.log(`Unable to get category for ${videoId}: ${err.message}`);
 		});
 		return null;
 	}
