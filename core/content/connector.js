@@ -301,7 +301,7 @@ var BaseConnector = window.BaseConnector || function() {
 
 		if (!newState.currentTime) {
 			let remainingTime = this.getRemainingTime();
-			if (remainingTime) {
+			if (remainingTime && newState.duration) {
 				newState.currentTime = newState.duration - Math.abs(remainingTime);
 			}
 		}
