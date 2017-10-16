@@ -163,6 +163,10 @@
         "message": "Отключить $1",
         "description": "Context menu item"
     },
+    "albumTooltip": {
+        "message": "Из альбома \"$1\"",
+        "description": "Tooltip text"
+    },
     "optionForceRecognize": {
         "message": "Принудительное распознавание",
         "description": "Option label"
