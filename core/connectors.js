@@ -991,7 +991,6 @@ define(function() {
 		label: 'QQ Music',
 		matches: ['*://y.qq.com/portal/*'],
 		js: ['connectors/qq-music.js'],
-		version: 2
 	},
 	{
 		label: 'QQ Video',
@@ -1007,12 +1006,10 @@ define(function() {
 			'*://m.kuwo.cn/*'
 		],
 		js: ['connectors/kuwo.js'],
-		version: 2
 	}, {
 		label: 'NPR',
 		matches: ['*://www.npr.org/*'],
 		js: ['connectors/npr.js'],
-		version: 2
 	}, {
 		label: 'Torch Music',
 		matches: ['*://music.torchbrowser.com/*'],
@@ -1021,12 +1018,10 @@ define(function() {
 		label: 'LyricsTraining',
 		matches: ['*://lyricstraining.com/*'],
 		js: ['connectors/lyricstraining.js'],
-		version: 2
 	}, {
 		label: 'Music Walker',
 		matches: ['*://arkanath.com/MusicWalker/*'],
 		js: ['connectors/musicwalker.js'],
-		version: 2
 	}, {
 		label: 'radioeins',
 		matches: ['*://www.radioeins.de/livestream/*'],
