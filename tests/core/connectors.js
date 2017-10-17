@@ -9,10 +9,17 @@ const propTypes = {
 	label: 'string',
 	js: 'array',
 };
+const requiredProps = ['label', 'js'];
 
 function runTests() {
 	for (let entry of connectors) {
 		it(`should have valid properties for ${entry.label}`, () => {
+			for (let prop of requiredProps) {
+				if (!entry[prop]) {
+					throw new Error(`Missing property: ${prop}`);
+				}
+			}
+
 			for (let prop in entry) {
 				let type = propTypes[prop];
 				if (!type) {
@@ -21,6 +28,7 @@ function runTests() {
 
 				expect(entry[prop]).to.be.a(type);
 			}
+
 		});
 	}
 }
