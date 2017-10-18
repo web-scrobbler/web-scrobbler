@@ -16,10 +16,8 @@ Connector.getTrack = () => {
 
 Connector.getArtist = () => $('.by span').attr('title');
 
-Connector.playButtonSelector = '.btns .ply';
+Connector.playButtonSelector = '[data-action="play"]';
 
-Connector.timeInfoSelector = '.j-flag.time';
+Connector.timeInfoSelector = '.time';
 
-Connector.isPlaying = () => $('.btns .ply').hasClass('pas');
-
-Connector.getUniqueID = () => $('.fc1').attr('href').substr(9);
+Connector.getUniqueID = () => $('.fc1').attr('href').split('id=').pop();
