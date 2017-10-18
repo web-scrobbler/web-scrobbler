@@ -19,7 +19,7 @@ function setupYoutubePlayer() {
 	Connector.isPlaying = () => $('#mix_youtube').hasClass('playing');
 
 	Connector.getUniqueID = () => {
-		return $('.track_details_container a').attr('data-track_id');
+		return $('.track_details_container a').data('track_id');
 	};
 }
 

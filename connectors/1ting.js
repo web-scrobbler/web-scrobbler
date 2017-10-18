@@ -21,7 +21,7 @@ function isH5Player() {
 function setupDefaultPlayer() {
 	Connector.playerSelector = '.playact';
 
-	Connector.getUniqueID = () => $('.playing').attr('id').substr(3);
+	Connector.getUniqueID = () => $('.playing input').val();
 
 	Connector.trackSelector = '#songinfo .songtitle>a';
 
@@ -59,7 +59,7 @@ function setupDayPlayer() {
 function setupH5Player() {
 	Connector.playerSelector = '#nowplaying';
 
-	Connector.getUniqueID = () => $('a.current').attr('data-id');
+	Connector.getUniqueID = () => $('a.current').data('id');
 
 	Connector.trackSelector = '#song-name';
 
