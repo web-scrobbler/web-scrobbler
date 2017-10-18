@@ -16,4 +16,4 @@ Connector.trackArtSelector = '#J_playerCoverImg';
 
 Connector.durationSelector = '#J_durationTime';
 
-Connector.getUniqueID = () => $('.ui-track-current .c1').attr('data-id');
+Connector.getUniqueID = () => $('.ui-track-current .c1').data('id');
