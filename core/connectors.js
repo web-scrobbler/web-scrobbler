@@ -608,12 +608,6 @@ define(function() {
 	},
 
 	{
-		label: 'post-player',
-		matches: ['*://post-player.org/*'],
-		js: ['connectors/post-player.js'],
-	},
-
-	{
 		label: 'egoFM',
 		matches: ['*://www.egofm.de/*', '*://player.addradio.de/player/2366*'],
 		js: ['connectors/egofm.js'],
