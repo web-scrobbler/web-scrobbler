@@ -15,6 +15,12 @@ Connector.getArtistTrack = () => {
 	return Util.makeEmptyArtistTrack();
 };
 
-Connector.isPlaying = () => {
-	return $('#webplayer-region').attr('data-state') === 'playing';
-};
+Connector.playButtonSelector = '.icon-play';
+
+Connector.currentTimeSelector = '.timeinfo .time';
+
+Connector.durationSelector = '.timeinfo .total';
+
+Connector.trackArtSelector = '#art';
+
+Connector.getUniqueID = () => $('.vote-btn').data('track-id');
