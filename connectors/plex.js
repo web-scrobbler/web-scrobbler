@@ -18,7 +18,7 @@ function setupConnector() {
  * @return {Boolean} Check result
  */
 function isRemoteUI() {
-	return location.hostname === 'app.plex.tv';
+	return $('[class^=AudioVideoPlayerView-container]').length > 0;
 }
 
 /**
@@ -46,13 +46,27 @@ function setupLocalUI() {
  * Setup properties for UI available on https://app.plex.tv/web/app.
  */
 function setupRemoteUI() {
-	Connector.playerSelector = '[class^=MiniPlayerContainer-miniPlayer]';
+	Connector.playerSelector = '[class^=AudioVideoPlayerView-container]';
 
 	Connector.artistSelector = `${Connector.playerSelector} [class*=MetadataPosterTitle-title] > a:nth-child(1)`;
 
 	Connector.trackSelector = `${Connector.playerSelector} [class*=titlesContainer] > a`;
 
+	// for watch-it-later videos
+	Connector.artistTrackSelector = `${Connector.playerSelector} [class*=MetadataPosterTitle-title]`;
+
+	Connector.filter = MetadataFilter.getYoutubeFilter();
+
+	Connector.getTrack = () => {
+		if (Connector.getArtist()) {
+			return $(Connector.trackSelector).text();
+		}
+		return null;
+	};
+
 	Connector.albumSelector = `${Connector.playerSelector} [class*=MetadataPosterTitle-title] > a:nth-child(3)`;
+
+	Connector.trackArtSelector = `${Connector.playerSelector} [class^=PosterCardImg-imageContainer] div`;
 
 	Connector.playButtonSelector = `${Connector.playerSelector} [class^=plex-icon-player-play]`;
 

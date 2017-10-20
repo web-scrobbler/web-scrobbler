@@ -271,7 +271,7 @@ define(function() {
 
 	{
 		label: 'PLEX',
-		matches: ['*://*32400/web/*', '*://plex.tv/web/*', '*://*.plex.tv/web/*'],
+		matches: ['*://*32400/web/*', '*://plex.tv/web/*', '*://*.plex.tv/web/*', '*://*.plex.tv/desktop*'],
 		js: ['connectors/plex.js'],
 	},
 
