@@ -3,21 +3,92 @@
 setupConnector();
 
 function setupConnector() {
-	if (isBetaPlayer()) {
+	if (isCcPlayer()) {
+		setupCcPlayer();
+	} else if (isBetaPlayer()) {
 		setupBetaPlayer();
 	} else if (isTuneTrackPlayer()) {
 		setupTuneTrackPlayer();
-	} else {
-		setupH5Player();
 	}
 }
 
-function isBetaPlayer() {
-	return $('.fa').length > 0;
+function isCcPlayer() {
+	return $('[id^=_ep_], .playerdiv').length > 0;
 }
 
-function isTuneTrackPlayer() {
-	return $('#playback-controls-container').length > 0;
+function setupCcPlayer() {
+	setupCcPlayerCommonProperties();
+
+	if (isFlashPlayer()) {
+		setupFlashPlayer();
+	} else if (isH5Player()) {
+		setupH5Player();
+	}
+
+	function setupCcPlayerCommonProperties() {
+		Connector.playerSelector = '[id$=_player]';
+
+		// Track item containers
+		Connector.getCurrentPlayer = () => {
+			let containers = Array.from($('.upload_info, .box, .trr'));
+			return containers.find((container) => {
+				if (isFlashPlayer()) {
+					return $('.cc_player_play:visible', container).length > 0;
+				} else if (isH5Player()) {
+					let audio = container.querySelector('audio');
+					return !!audio &&
+						!audio.paused;
+				}
+			});
+		};
+
+		Connector.getUniqueID = () => {
+			let text = $('.cc_file_link', Connector.getCurrentPlayer()).attr('href') ||
+				location.pathname;	// Alternative for song pages
+			return text.split('/').pop();
+		};
+
+		Connector.getTrack = () => {
+			return $('.cc_file_link', Connector.getCurrentPlayer()).text() ||
+				$('h1').text();	// Alternative for song pages
+		};
+
+		Connector.getArtist = () => {
+			return $('.cc_user_link', Connector.getCurrentPlayer()).text();
+		};
+	}
+
+	function isFlashPlayer() {
+		return $('.cc_player_button').length > 0;
+	}
+
+	function isH5Player() {
+		return $('audio').length > 0;
+	}
+
+	function setupFlashPlayer() {
+		Connector.isPlaying = () => {
+			let position = $('[id$=_slider]').css('width');
+			return $('.cc_player_play:visible').length > 0 &&
+				!!position &&
+				position.slice(0, -2) < 99;
+		};
+	}
+
+	function setupH5Player() {
+		$('audio').bind('playing pause timeupdate', Connector.onStateChanged);
+
+		Connector.isPlaying = () => !!Connector.getCurrentPlayer();
+
+		Connector.getCurrentTime = () => $('audio', Connector.getCurrentPlayer())[0].currentTime;
+
+		Connector.getDuration = () => $('audio', Connector.getCurrentPlayer())[0].duration;
+	}
+}
+
+
+function isBetaPlayer() {
+	return $('.fa').length > 0;
 }
 
 function setupBetaPlayer() {
@@ -36,6 +107,10 @@ function setupBetaPlayer() {
 	Connector.trackSelector = `${Connector.playerSelector} .upload-link span`;
 
 	Connector.artistSelector = `${Connector.playerSelector} .people-link span`;
+}
+
+function isTuneTrackPlayer() {
+	return $('#playback-controls-container').length > 0;
 }
 
 function setupTuneTrackPlayer() {
@@ -76,36 +151,4 @@ function setupTuneTrackPlayer() {
 
 		}
 	};
-}
-
-function setupH5Player() {
-	$('audio').bind('playing pause timeupdate', Connector.onStateChanged);
-
-	Connector.getCurrentPlayer = () => {
-		let containers = document.querySelectorAll('.upload_info, .box, .trr');
-		return Array.from(containers).find((e) => {
-			let a = e.querySelector('audio');
-			return !!a &&
-				!a.paused;
-		});
-	};
-
-	Connector.isPlaying = () => !!Connector.getCurrentPlayer();
-
-	Connector.getUniqueID = () => {
-		let text = $('.cc_file_link', Connector.getCurrentPlayer()).attr('href') || location.pathname;
-		return text.split('/').pop();
-	};
-
-	Connector.getTrack = () => {
-		return $('.cc_file_link', Connector.getCurrentPlayer()).text() || $('h1').text();
-	};
-
-	Connector.getArtist = () => {
-		return $('.cc_user_link', Connector.getCurrentPlayer()).text();
-	};
-
-	Connector.getCurrentTime = () => $('audio', Connector.getCurrentPlayer())[0].currentTime;
-
-	Connector.getDuration = () => $('audio', Connector.getCurrentPlayer())[0].duration;
 }
