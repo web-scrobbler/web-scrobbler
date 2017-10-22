@@ -3,6 +3,8 @@
 setupConnector();
 
 function setupConnector() {
+	setupCommonProperties();
+
 	if (isCcPlayer()) {
 		setupCcPlayer();
 	} else if (isBetaPlayer()) {
@@ -12,8 +14,20 @@ function setupConnector() {
 	}
 }
 
+function setupCommonProperties() {
+	// Track item containers
+	Connector.getCurrentPlayer = () => {
+		let containers = Array.from($('.upload_info, .box, .trr, .tile, .tracklist-item, .tree-head'));
+		return containers.find((container) =>
+			Connector.testCurrentPlayer(container));
+	};
+
+	// eslint-disable-next-line no-unused-vars
+	Connector.testCurrentPlayer = (container) => false;
+}
+
 function isCcPlayer() {
-	return $('[id^=_ep_], .playerdiv').length > 0;
+	return $('[id^=_ep_], #tabs').length > 0;
 }
 
 function setupCcPlayer() {
@@ -28,24 +42,10 @@ function setupCcPlayer() {
 	function setupCcPlayerCommonProperties() {
 		Connector.playerSelector = '[id$=_player]';
 
-		// Track item containers
-		Connector.getCurrentPlayer = () => {
-			let containers = Array.from($('.upload_info, .box, .trr'));
-			return containers.find((container) => {
-				if (isFlashPlayer()) {
-					return $('.cc_player_play:visible', container).length > 0;
-				} else if (isH5Player()) {
-					let audio = container.querySelector('audio');
-					return !!audio &&
-						!audio.paused;
-				}
-			});
-		};
-
 		Connector.getUniqueID = () => {
 			let text = $('.cc_file_link', Connector.getCurrentPlayer()).attr('href') ||
 				location.pathname;	// Alternative for song pages
-			return text.split('/').pop();
+			return text && text.split('/').pop();
 		};
 
 		Connector.getTrack = () => {
@@ -73,10 +73,20 @@ function setupCcPlayer() {
 				!!position &&
 				position.slice(0, -2) < 99;
 		};
+
+		Connector.testCurrentPlayer = (container) => {
+			return $('.cc_player_play:visible', container).length > 0;
+		};
 	}
 
 	function setupH5Player() {
 		$('audio').bind('playing pause timeupdate', Connector.onStateChanged);
+
+		Connector.testCurrentPlayer = (container) => {
+			let audio = container.querySelector('audio');
+			return audio &&
+				!audio.paused;
+		};
 
 		Connector.isPlaying = () => !!Connector.getCurrentPlayer();
 
@@ -86,7 +96,6 @@ function setupCcPlayer() {
 	}
 }
 
-
 function isBetaPlayer() {
 	return $('.fa').length > 0;
 }
@@ -95,18 +104,33 @@ function setupBetaPlayer() {
 	Connector.playerSelector = '.audio-player';
 
 	Connector.isPlaying = () => {
-		return $('.fa-pause, .fa-stop').length > 0 &&
-			$('.position').css('width').slice(0, -2) > 0;
+		let position = $('.position').css('width');
+		return position ?
+			$('.fa-pause').length > 0 && position.slice(0, -2) > 0 :
+			$('.fa-stop').length > 0;
+	};
+
+	Connector.testCurrentPlayer = (container) => {
+		return $('.fa-stop', container).length > 0;
 	};
 
 	Connector.getUniqueID = () => {
-		let text = $(`${Connector.playerSelector} .upload-link`).attr('href');
-		return text.split('/').pop();
+		let text = $('.upload-link', $('.audio-player')[0] ||
+						Connector.getCurrentPlayer() || {}).attr('href') ||
+				location.pathname;	// Alternative for song pages
+		return text && text.split('/').pop();
 	};
 
-	Connector.trackSelector = `${Connector.playerSelector} .upload-link span`;
+	Connector.getTrack = () => {
+		return $('.upload-link span', $('.audio-player')[0] ||
+						Connector.getCurrentPlayer() || {}).text() ||
+				$('.tree-head h3').text();	// Alternative for song pages
+	};
 
-	Connector.artistSelector = `${Connector.playerSelector} .people-link span`;
+	Connector.getArtist = () => {
+		return $('.people-link span', $('.audio-player')[0] ||
+						Connector.getCurrentPlayer() || {}).text();
+	};
 }
 
 function isTuneTrackPlayer() {
