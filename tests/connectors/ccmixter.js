@@ -5,4 +5,3 @@ module.exports = (driver, spec) => {
 		url: 'http://ccmixter.org/view/media/remix'
 	});
 };
-
