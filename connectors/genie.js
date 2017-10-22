@@ -6,15 +6,17 @@ Connector.artistSelector = '#ArtistNameArea';
 
 Connector.trackSelector = '#SongTitleArea';
 
-Connector.albumSelector = '#AlbumTilteArea';
+Connector.getAlbum = () => {
+	return $("#AlbumImgArea > img").attr('alt')
+}
 
-Connector.currentTimeSelector = '#playTime span';
+Connector.currentTimeSelector = 'span.fp-elapsed';
 
-Connector.durationSelector = '#playTime strong';
+Connector.durationSelector = 'span.fp-remaining';
 
 Connector.isPlaying = () => {
-	let btn = $('#PlayBtnArea');
-	return btn.hasClass('pause'); // if "pause" string in button, it means now playing.
+	let btn = $('.fp-playbtn').first();
+	return btn.html()  == '재생' // if text '재생' in button, it means now playing.
 };
 
 Connector.getTrackArt = () => {
