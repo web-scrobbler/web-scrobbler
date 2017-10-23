@@ -1112,7 +1112,7 @@ define(function() {
 		matches: ['*://www.kugou.com/song/*'],
 		js: ['connectors/kugou.js']
 	}, {
-		label: 'ccmixter',
+		label: 'ccMixter',
 		matches: ['*://ccmixter.org/*', '*://*.ccmixter.org/*', '*://tunetrack.net/*'],
 		js: ['connectors/ccmixter.js']
 	}];
