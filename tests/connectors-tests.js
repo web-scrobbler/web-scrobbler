@@ -8,6 +8,7 @@
 require('node-define');
 
 const RETRIES_COUNT = 4;
+const TEST_TIMEOUT = 60000;
 
 const fs = require('fs');
 const path = require('path');
@@ -111,6 +112,7 @@ function prepareTest(connector, driver, connectorSpec) {
 		if (!options.get('debug')) {
 			this.retries(RETRIES_COUNT);
 		}
+		this.timeout(TEST_TIMEOUT);
 
 		let connectorFilePath = getConnectorTestFilePath(connector);
 		require(connectorFilePath)(driver, connectorSpec, connector);
