@@ -150,9 +150,9 @@ define(function() {
 	},
 
 	{
-		label: 'Spotify (Open)',
+		label: 'Spotify',
 		matches: ['*://open.spotify.com/*'],
-		js: ['connectors/spotify-open.js'],
+		js: ['connectors/spotify.js'],
 	},
 
 	{
