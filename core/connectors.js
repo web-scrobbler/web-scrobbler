@@ -1056,6 +1056,10 @@ define(function() {
 		matches: ['*://fanburst.com/*'],
 		js: ['connectors/fanburst.js']
 	}, {
+		label: 'Retro Synthwave',
+		matches: ['*://www.retro-synthwave.com/*'],
+		js: ['connectors/retro-synthwave.js']
+	}, {
 		label: 'SESHstation',
 		matches: ['*://radio.sesh.team/'],
 		js: ['connectors/sesh.js']
