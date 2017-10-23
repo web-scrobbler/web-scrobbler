@@ -16,19 +16,13 @@ You can install it directly from [Chrome Web Store][1], if you use Chrome.
 
 Opera users can install the extension from Chrome Web Store using the [Download Chrome Extension][13] addon for Opera.
 
-### AMO
+### Add-ons for Firefox
 
 For those who prefer Firefox as a main browser, the extension is available [here][15].
 
-### Unpacked extension
+### Install from source code
 
-If you use Chrome or Chrome-based extension (like Opera) you can install the extension by the following steps:
-
-1. Grab a copy of the source code either by cloning the repository or by downloading and extracting the zipped source.
-
-2. Next, enable "Developer mode" within on your Chrome-based browser.
-
-3. Select "Load unpacked extension" and select the location you have saved the source.
+To install the extension from sources or zip file, read [this page][24] if you're on Chrome, or [this one][25] if you use Firefox.
 
 ## Development
 
@@ -73,6 +67,9 @@ See the [license file](LICENSE.md).
 [21]: https://www.transifex.com/web-scrobbler/web-scrobbler/dashboard/
 [22]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg
 [23]: https://img.shields.io/amo/v/web-scrobbler.svg
+
+[24]: https://github.com/david-sabata/web-scrobbler/wiki/Install-an-unpacked-extension
+[25]: https://github.com/david-sabata/web-scrobbler/wiki/Install-a-temporary-add-on
 
 [16]: http://getbootstrap.com/2.3.2/assets/bootstrap.zip
 [17]: http://fontawesome.io/assets/font-awesome-4.7.0.zip
