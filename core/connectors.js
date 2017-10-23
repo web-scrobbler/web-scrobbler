@@ -150,12 +150,6 @@ define(function() {
 	},
 
 	{
-		label: 'Spotify',
-		matches: ['*://play.spotify.com/*'],
-		js: ['connectors/spotify-play.js'],
-	},
-
-	{
 		label: 'Spotify (Open)',
 		matches: ['*://open.spotify.com/*'],
 		js: ['connectors/spotify-open.js'],
