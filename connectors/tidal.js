@@ -1,13 +1,15 @@
 'use strict';
 
-Connector.playerSelector = '#wimp';
+Connector.playerSelector = '#player';
 
-Connector.trackArtSelector = '.image--player img';
+Connector.trackArtSelector = '.js-footer-player-image';
 
-Connector.trackSelector = 'div.player__text > a';
+Connector.trackSelector = `${Connector.playerSelector} [data-bind="title"]`;
 
-Connector.artistSelector = 'div.player__text > .player__links';
+Connector.artistSelector = `${Connector.playerSelector} [data-bind="artist"] a:first`;
 
-Connector.playButtonSelector = 'button.play-controls__play';
+Connector.playButtonSelector = `${Connector.playerSelector} .play-controls__play`;
 
-Connector.currentTimeSelector = 'span.progress-progress';
+Connector.currentTimeSelector = '.js-progress';
+
+Connector.durationSelector = '.js-duration';
