@@ -163,6 +163,7 @@ function setupTuneTrackPlayer() {
 		if (!Connector.isSingle()) {
 			return $('#current-item-artwork-thumb').attr('src');
 		}
+		return null;
 	};
 
 	Connector.getAlbum = () => {
@@ -174,5 +175,6 @@ function setupTuneTrackPlayer() {
 			Connector.isSingle = () => true;
 
 		}
+		return null;
 	};
 }
