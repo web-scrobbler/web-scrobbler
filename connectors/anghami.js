@@ -6,8 +6,6 @@ Connector.trackSelector = '.track-title';
 
 Connector.currentTimeSelector = '.position';
 
-Connector.durationSelector = '.duration';
-
 Connector.playButtonSelector = '.play-pause-button.paused';
 
 Connector.playerSelector = '#player > ul';
