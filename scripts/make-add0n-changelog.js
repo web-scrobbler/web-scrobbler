@@ -17,7 +17,7 @@ const CHANGELOG_DATA_FILENAME = 'changelog.json';
 const mdUrlRegEx = /\[(.+?)\]\(.+?\)/g; // [desc](URL)
 const mdLiRegEx = /\*\s(.+)/g; // * Text
 
-const RELEASE_COUNT = 3;
+const RELEASE_COUNT = 1;
 
 /**
  * Entry point.
