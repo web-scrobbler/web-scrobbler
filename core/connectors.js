@@ -270,12 +270,6 @@ define(function() {
 	},
 
 	{
-		label: 'Prostopleer',
-		matches: ['*://pleer.net/*'],
-		js: ['connectors/pleer.js'],
-	},
-
-	{
 		label: 'TuneIn',
 		matches: ['*://tunein.com/*'],
 		js: ['connectors/tunein.js'],
