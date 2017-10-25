@@ -1,0 +1,2 @@
+// Allow ESLint to lint hidden files
+!.*
