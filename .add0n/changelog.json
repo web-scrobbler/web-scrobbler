@@ -2,36 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "Added multi-language support\nAdded a feature to remove single entries from local cache\nAdded a tooltip that shows album info in \"Edited tracks\" popup window\nAdded a feature to swap artist and track name before submitting track info\nAdded Chinese translation\nAdded Polish translation\nAdded Russian translation\nAdded 1ting connector\nAdded Douban Artists connector\nAdded FIP Radio connector\nAdded JetSetRadio Live connector\nAdded Kugou connector\nAdded Ma5onic Music suppor.\nAdded RemixRotation connector\nAdded SiriusXM connector\nAdded WFMU connector\nImprove 163 Music connector\nImproved Baidu connector\nImproved BeMusic connector\nImproved Douban connector\nImproved Kuwo connector\nImproved QQ Music connector\nImproved Xiami connector\nImproved Youtube metadata filter\nRemoved DashRadio connector\nRemoved support for old Pandora website\nReplaced Nova Planet with Radio Nova\nUpdated popup and options UI\nUpdated Libre.fm API key and API secret\nFixed an issue when the cover art image wasn't be opened in new tab\nFixed a regression when track duration wasn't updated properly\nFixed a regression when the extension sent data to GA even it was turned off by user\nFixed Gaana connector"
+        "en-US": "Added an ability to export and import saved track data\nAdded ccMixter connector\nAdded Retro Synthwave connector\nImproved PLEX connector\nImproved RadioTunes connector\nRemoved Pleer connector\nRemoved post-player connector\nFixed 163 Music connector\nFixed Anghami connector\nFixed Genie connector\nFixed Tidal connector"
       },
       "files": [
         {
-          "created": "2017-10-17T16:51:11Z"
+          "created": null
         }
       ],
-      "version": "2.1.0"
-    },
-    {
-      "release_notes": {
-        "en-US": "Disabled loading info from Libre.fm\nAdded timeouts for all network requests\nFixed applying wrong page action icon\nFixed Youtube options"
-      },
-      "files": [
-        {
-          "created": "2017-09-18T03:29:12Z"
-        }
-      ],
-      "version": "2.0.1"
-    },
-    {
-      "release_notes": {
-        "en-US": "Added support for Libre.fm\nAdded a notification a now playing song is ignored by scrobbling service\nAdded a feature to open the extension page on first installation\nAdded a feature to show changelog for major/notable updates\nAdded Kodi connector\nApplied album info from Last.fm/Libre.fm if album title is empty\nChanged behaviour of scrobbling multiple artists\nImproved (re)authentication process\nImproved feature to save edited song data\nMade reauthentication working on-the-fly\nAdded ability to clear the list of edited songs\nAdded Patari connector\nAdded S2 Music support\nAdded Taazi connector\nImproved Plex connector\nRemoved \"Use autocorrect\" option\nRemoved Chorus connector\nRemoved Hydricmedia connector\nRemoved Noonpacific connector\nRemoved Trntbl connector\nRemoved Wrzuta connector\nFixed Bandcamp connector\nFixed Digitally Imported connector\nFixed Mixcloud connector\nFixed Pinguin Radio connector\nFixed TuneIn connector\nFixed a regression when the extension didn't apply custom URL patterns\nFixed an issue when Opera didn't displayed icons in notifications"
-      },
-      "files": [
-        {
-          "created": "2017-09-17T08:50:08Z"
-        }
-      ],
-      "version": "2.0.0"
+      "version": "2.2.0"
     }
   ]
 }

@@ -35,6 +35,7 @@ module.exports = function(grunt) {
 	const packageName = 'web-scrobbler.zip';
 
 	const webStoreConfig = loadConfig('./.publish/web-store.json');
+	const githubConfig = loadConfig('./.publish/github.json');
 	const amoConfig = loadConfig('./.publish/amo.json');
 
 	grunt.initConfig({
@@ -141,6 +142,14 @@ module.exports = function(grunt) {
 				commitFiles: ['manifest.json'],
 				push: false
 			}
+		},
+		dump_changelog: {
+			token: githubConfig.token,
+			version: '<%= manifest.version %>',
+		},
+		github_publish: {
+			token: githubConfig.token,
+			version: '<%= manifest.version %>',
 		},
 		amo_upload: {
 			issuer: amoConfig.issuer,
@@ -288,8 +297,13 @@ module.exports = function(grunt) {
 		 */
 		if (arg === 'add0n' || arg === 'addon') {
 			grunt.task.run([
-				'exec:make_add0n_changelog', 'gitcommit:add0n_changelog'
+				'dump_changelog', 'gitcommit:add0n_changelog'
 			]);
+			return;
+		}
+
+		if (arg === 'github') {
+			grunt.task.run('github_publish');
 			return;
 		}
 
@@ -320,7 +334,8 @@ module.exports = function(grunt) {
 		}
 
 		grunt.task.run([
-			`bump:${versionType}`, 'publish:chrome', 'publish:firefox'
+			`bump:${versionType}`, 'publish:chrome', 'publish:firefox',
+			'publish:github', 'publish:add0n'
 		]);
 	});
 
