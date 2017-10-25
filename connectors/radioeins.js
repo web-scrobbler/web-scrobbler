@@ -7,8 +7,14 @@ Connector.artistSelector = 'p.artist';
 Connector.trackSelector = 'p.songtitle';
 
 Connector.isPlaying = () => {
-	let state = retrieveJwplayerState();
-	return (typeof state === 'string') && (state.toUpperCase() === 'PLAYING');
+	let ret = false;
+	if ($('#lsplayer audio') && $('#lsplayer audio').length) {
+		ret = !$('#lsplayer audio')[0].paused;
+	} else {
+		let state = retrieveJwplayerState();
+		ret = (typeof state === 'string') && (state.toUpperCase() === 'PLAYING');
+	}
+	return ret;
 };
 
 function retrieveJwplayerState() {
