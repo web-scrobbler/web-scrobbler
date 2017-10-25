@@ -2,14 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "Added an ability to export and import saved track data\nAdded ccMixter connector\nAdded Retro Synthwave connector\nImproved PLEX connector\nImproved RadioTunes connector\nRemoved Pleer connector\nRemoved post-player connector\nFixed 163 Music connector\nFixed Anghami connector\nFixed Genie connector\nFixed Tidal connector"
+        "en-US": "Added multi-language support\nAdded a feature to remove single entries from local cache\nAdded a tooltip that shows album info in \"Edited tracks\" popup window\nAdded a feature to swap artist and track name before submitting track info\nAdded Chinese translation\nAdded Polish translation\nAdded Russian translation\nAdded 1ting connector\nAdded Douban Artists connector\nAdded FIP Radio connector\nAdded JetSetRadio Live connector\nAdded Kugou connector\nAdded Ma5onic Music support\nAdded RemixRotation connector\nAdded SiriusXM connector\nAdded WFMU connector\nImprove 163 Music connector\nImproved Baidu connector\nImproved BeMusic connector\nImproved Douban connector\nImproved Kuwo connector\nImproved QQ Music connector\nImproved Xiami connector\nImproved Youtube metadata filter\nRemoved DashRadio connector\nRemoved support for old Pandora website\nReplaced Nova Planet with Radio Nova\nUpdated popup and options UI\nUpdated Libre.fm API key and API secret\nFixed an issue when the cover art image wasn't be opened in new tab\nFixed a regression when track duration wasn't updated properly\nFixed a regression when the extension sent data to GA even it was turned off by user\nFixed Gaana connector"
       },
       "files": [
         {
-          "created": null
+          "created": "2017-10-17T16:51:11Z"
         }
       ],
-      "version": "2.2.0"
+      "version": "2.1.0"
     }
   ]
 }
