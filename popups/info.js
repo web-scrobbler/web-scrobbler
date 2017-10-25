@@ -283,12 +283,18 @@ require(['util'], (Util) => {
 
 	function setupMessageListener() {
 		chrome.runtime.onMessage.addListener((request) => {
-			switch (request.type) {
-				case 'v2.songUpdated':
-					song = request.data;
-					updatePopupView();
-					break;
+			if (request.type !== 'v2.songUpdated') {
+				return;
 			}
+
+			Util.getCurrentTab().then((tab) => {
+				if (tab.id !== request.tabId) {
+					return;
+				}
+
+				song = request.data;
+				updatePopupView();
+			});
 		});
 	}
 
