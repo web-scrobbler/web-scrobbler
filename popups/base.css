@@ -1,5 +1,8 @@
-body {
+body, button, input {
 	font-family: "Lucida Grande", "Segoe UI", Arial, Helvetica, Verdana, sans-serif;
+}
+
+body {
 	padding: 10px;
 }
 
