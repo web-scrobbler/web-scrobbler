@@ -215,6 +215,14 @@ define([
 			}
 		}
 
+		/* @ifdef FIREFOX
+		// Part of workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=1406765
+		// FIXME: Remove if this issue is resolved
+		updatePageAction() {
+			this.pageAction.update();
+		}
+		/* @endif */
+
 		/** Internal functions */
 
 		/**

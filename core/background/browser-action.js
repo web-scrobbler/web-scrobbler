@@ -94,6 +94,13 @@ define(() => {
 		 */
 		constructor(tabId) {
 			this.tabId = tabId;
+			/* @ifdef FIREFOX
+			// Part of workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=1406765
+			// FIXME: Remove if this issue is resolved
+			this.path = null;
+			this.title = null;
+			this.popup = null;
+			/* @endif */
 		}
 
 		/**
@@ -108,12 +115,38 @@ define(() => {
 					let { path, popup, i18n } = state;
 					let title = chrome.i18n.getMessage(i18n, placeholder);
 
+					/* @ifdef FIREFOX
+					// Part of workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=1406765
+					// FIXME: Remove if this issue is resolved
+					this.path = path;
+					this.title = title;
+					this.popup = popup;
+					/* @endif */
+
 					chrome.browserAction.setIcon({ tabId, path });
 					chrome.browserAction.setTitle({ tabId, title });
 					chrome.browserAction.setPopup({ tabId, popup });
 				}
 			});
 		}
+
+		/* @ifdef FIREFOX
+		// Part of workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=1406765
+		// FIXME: Remove if this issue is resolved
+		update() {
+			let tabId = this.tabId;
+
+			if (this.path) {
+				chrome.browserAction.setIcon({ tabId, path: this.path });
+			}
+			if (this.title) {
+				chrome.browserAction.setTitle({ tabId, title: this.title });
+			}
+			if (this.popup) {
+				chrome.browserAction.setPopup({ tabId, popup: this.popup });
+			}
+		}
+		/* @endif */
 
 		/**
 		 * Show read Last.fm icon (connector is injected).
