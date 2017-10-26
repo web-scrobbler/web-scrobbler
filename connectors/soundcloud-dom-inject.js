@@ -51,12 +51,14 @@ window.SC_ATTACHED = window.SC_ATTACHED || false;
 
 	eventBus.on('audio:play', function(e) {
 		window.postMessage({
+			sender: 'web-scrobbler',
 			type: 'SC_PLAY',
 			metadata: e.model.attributes
 		}, '*');
 	});
 	eventBus.on('audio:pause', function(e) {
 		window.postMessage({
+			sender: 'web-scrobbler',
 			type: 'SC_PAUSE',
 			metadata: e.model.attributes
 		}, '*');
@@ -67,6 +69,7 @@ window.SC_ATTACHED = window.SC_ATTACHED || false;
 	currentMetaData = playManager.getCurrentMetadata();
 	if (currentMetaData) {
 		window.postMessage({
+			sender: 'web-scrobbler',
 			type: 'SC_PLAY',
 			metadata: currentMetaData.sound._previousAttributes
 		}, '*');

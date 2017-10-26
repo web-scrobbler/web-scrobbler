@@ -73,32 +73,14 @@ function setSongData(metadata) {
 	currentState.trackArt = metadata.artwork_url;
 }
 
-/**
- * Run at initialisation; add dom script and attach events.
- */
-(function() {
-	// Exit if already attached.
-	if (window.SC_ATTACHED) {
-		return;
+Connector.onScriptEvent = (e) => {
+	switch (e.data.type) {
+		case 'SC_PLAY':
+			setSongData(e.data.metadata);
+			break;
+		default:
+			break;
 	}
+};
 
-	// Inject script to extract events from the Soundcloud API event-bus.
-	// FIXME: Replace to `chrome.runtime.getURL`.
-	let scriptUrl = chrome.extension.getURL('connectors/soundcloud-dom-inject.js');
-	Util.injectScriptIntoDocument(scriptUrl);
-
-	// Trigger functions based on message type.
-	function eventHandler(e) {
-		switch (e.data.type) {
-			case 'SC_PLAY':
-				setSongData(e.data.metadata);
-				break;
-			default:
-				break;
-		}
-	}
-
-	// Attach listener for message events.
-	window.addEventListener('message', eventHandler);
-	window.SC_ATTACHED = true;
-}());
+Connector.injectScript('connectors/soundcloud-dom-inject.js');

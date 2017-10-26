@@ -558,6 +558,43 @@ function BaseConnector() {
 
 		isStateReset = true;
 	};
+
+	/**
+	 * Inject custom script into a page.
+	 * @param  {String} scriptFile Path to script file
+	 */
+	this.injectScript = (scriptFile) => {
+		if (!window.webScrobblerScripts) {
+			window.webScrobblerScripts = {};
+		}
+
+		if (window.webScrobblerScripts[scriptFile]) {
+			return;
+		}
+
+		// FIXME: Replace to `chrome.runtime.getURL`.
+		let scriptUrl = chrome.extension.getURL(scriptFile);
+		Util.injectScriptIntoDocument(scriptUrl);
+
+		$(window).on('message', ({ originalEvent: event }) => {
+			if (event.data.sender !== 'web-scrobbler') {
+				return;
+			}
+
+			this.onScriptEvent(event);
+		});
+
+
+		window.webScrobblerScripts[scriptFile] = true;
+	};
+
+	/**
+	 * Called then injected script emits event.
+	 * @param {Object} event Event object
+	 */
+	this.onScriptEvent = (event) => { // eslint-disable-line
+		// Do nothing
+	};
 }
 
 /**
