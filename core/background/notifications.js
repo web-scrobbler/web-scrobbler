@@ -170,7 +170,7 @@ define([
 				// @endif
 				/* @ifdef FIREFOX
 				title: 'Last.fm Scrobbler',
-				message: `${song.getTrack()}\nby ${song.getArtist()}\n${connectorLabel}`
+				message: `${song.getTrack()}\n${song.getArtist()}\n${connectorLabel}`
 				/* @endif */
 			};
 			showNotification(options, null).then((notificationId) => {
