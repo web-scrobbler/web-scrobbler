@@ -96,10 +96,7 @@ define(() => {
 		setPageAction(state, placeholder) {
 			let tabId = this.tabId;
 			chrome.tabs.get(tabId, () => {
-				if (chrome.runtime.lastError) {
-					console.info(`While executing this.setPageAction: ${
-						chrome.runtime.lastError.message}`);
-				} else {
+				if (!chrome.runtime.lastError) {
 					let { path, popup, i18n } = state;
 					let title = chrome.i18n.getMessage(i18n, placeholder);
 
@@ -183,11 +180,11 @@ define(() => {
 		 * Hide page action icon.
 		 */
 		hide() {
-			try {
-				chrome.pageAction.hide(this.tabId);
-			} catch (e) {
-				// Ignore, the tab may no longer exist
-			}
+			chrome.tabs.get(this.tabId, () => {
+				if (!chrome.runtime.lastError) {
+					chrome.pageAction.hide(this.tabId);
+				}
+			});
 		}
 	}
 
