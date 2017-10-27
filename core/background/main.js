@@ -41,7 +41,7 @@ require([
 	'config',
 	'services/scrobbleService',
 	'notifications'
-], (Migrate, GA, inject, InjectResult, Controller, ChromeStorage, Config, ScrobbleService, Notifications) => {
+], (Migrate, GA, Inject, InjectResult, Controller, ChromeStorage, Config, ScrobbleService, Notifications) => {
 
 	/**
 	 * Current version of the extension.
@@ -171,7 +171,7 @@ require([
 			return;
 		}
 
-		inject.onTabsUpdated(tab).then((result) => {
+		Inject.onTabsUpdated(tab).then((result) => {
 			let tabId = result.tabId;
 			switch (result.type) {
 				case InjectResult.NO_MATCH: {
