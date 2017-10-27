@@ -10,8 +10,7 @@
  *
  * @constructor
  */
-var BaseConnector = window.BaseConnector || function() {
-
+function BaseConnector() {
 	/**
 	 * Selector of an element containing artist name. The containing string will
 	 * be filtered in the background script, if needed.
@@ -574,18 +573,10 @@ var BaseConnector = window.BaseConnector || function() {
 
 		isStateReset = true;
 	};
-};
-
-window.BaseConnector = BaseConnector;
+}
 
 /**
  * Create object to be overridden in specific connector implementation
  * @type {Object}
  */
-let Connector;
-if (window.Connector) {
-	Connector = window.Connector;
-} else {
-	Connector = new BaseConnector();
-	window.Connector = Connector;
-}
+window.Connector = new BaseConnector();
