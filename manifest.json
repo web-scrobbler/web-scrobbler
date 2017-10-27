@@ -48,10 +48,8 @@
     "chromeBroken": "remove this line after issue #86449 is resolved"
   },
 
-  "content_scripts": [
-    {
-      "matches": ["<all_urls>"],
-      "js": ["connectors/dummy.js"]
-    }
-  ]
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["connectors/dummy.js"]
+  }]
 }

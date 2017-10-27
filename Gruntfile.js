@@ -123,11 +123,20 @@ module.exports = function(grunt) {
 			}
 		},
 		replace_json: {
+			chrome: {
+				src: `${buildDir}/manifest.json`,
+				changes: {
+					'options_ui': undefined,
+				}
+			},
 			firefox: {
 				src: `${buildDir}/manifest.json`,
 				changes: {
 					'applications.gecko.id': '{799c0914-748b-41df-a25c-22d008f9e83f}',
-					'applications.gecko.strict_min_version': '48.0'
+					'applications.gecko.strict_min_version': '48.0',
+
+					'options_page': undefined,
+					'page_action.chromeBroken': undefined
 				}
 			},
 		},
@@ -268,12 +277,9 @@ module.exports = function(grunt) {
 
 		grunt.task.run([
 			'copy', `preprocess:${browser}`,
-			`icons:${browser}`,	'imagemin'
+			`icons:${browser}`, 'imagemin',
+			`replace_json:${browser}`
 		]);
-
-		if (browser === 'firefox') {
-			grunt.task.run('replace_json:firefox');
-		}
 	});
 
 	/**
