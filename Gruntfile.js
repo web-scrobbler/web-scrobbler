@@ -216,9 +216,6 @@ module.exports = function(grunt) {
 		 */
 
 		exec: {
-			make_add0n_changelog: {
-				cmd: 'node scripts/make-add0n-changelog'
-			},
 			run_tests: {
 				cmd: (...args) => `node tests/runner.js ${args.join(' ')}`
 			}
