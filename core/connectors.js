@@ -1109,5 +1109,11 @@ define(function() {
 		label: 'ccMixter',
 		matches: ['*://ccmixter.org/*', '*://*.ccmixter.org/*', '*://tunetrack.net/*'],
 		js: ['connectors/ccmixter.js']
+	}, {
+		label: 'Rinoceronte.fm',
+		// TODO: Use mediastre.am connector instead
+		matches: ['*://www.rinoceronte.fm/*', '*://nowplaying.mediastre.am/*'],
+		js: ['connectors/rinoceronte.fm.js'],
+		allFrames: true
 	}];
 });
