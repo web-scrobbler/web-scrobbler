@@ -379,10 +379,7 @@ define([
 		 * Clear now playing notification for given song.
 		 */
 		clearNotification() {
-			// Remove notification if song was not scrobbled.
-			if (!this.currentSong.flags.isScrobbled) {
-				Notifications.remove(this.currentSong.metadata.notificationId);
-			}
+			Notifications.remove(this.currentSong.metadata.notificationId);
 		}
 
 		/**
