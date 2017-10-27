@@ -69,6 +69,13 @@ require([
 	let isActiveSession = false;
 
 	/**
+	 * Object contains IDs of tabs being updated.
+	 * Used to prevent multiple injection of content scripts.
+	 * @type {Object}
+	 */
+	const tabUpdateQueue = {};
+
+	/**
 	 * Return controller for given tab. There should always be one.
 	 * @param  {Number} tabId Tab ID
 	 * @return {Object} Controller instance for tab
@@ -171,6 +178,11 @@ require([
 			return;
 		}
 
+		if (tabUpdateQueue[tabId]) {
+			return;
+		}
+		tabUpdateQueue[tabId] = true;
+
 		Inject.onTabsUpdated(tab).then((result) => {
 			let tabId = result.tabId;
 			switch (result.type) {
@@ -211,6 +223,12 @@ require([
 				}
 				/* @endif */
 			}
+
+			delete tabUpdateQueue[tabId];
+		}).catch((err) => {
+			delete tabUpdateQueue[tabId];
+
+			console.error(err);
 		});
 	}
 
