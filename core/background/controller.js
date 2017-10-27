@@ -70,8 +70,8 @@ define([
 			this.replayDetectionTimer.reset();
 
 			if (this.currentSong !== null) {
-				this.unbindSongListeners(this.currentSong);
-				this.clearNotification(this.currentSong);
+				this.unbindSongListeners();
+				this.clearNotification();
 			}
 			this.currentSong = null;
 		}
@@ -111,8 +111,8 @@ define([
 			this.playbackTimer.reset();
 			this.replayDetectionTimer.reset();
 
-			this.unbindSongListeners(this.currentSong);
-			this.clearNotification(this.currentSong);
+			this.unbindSongListeners();
+			this.clearNotification();
 		}
 
 		/**
