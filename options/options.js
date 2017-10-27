@@ -396,12 +396,15 @@ require([
 		localCache.get().then((data) => {
 			let dataStr = JSON.stringify(data, null, 2);
 			let blob = new Blob([dataStr], { 'type': 'application/octet-stream' });
+			let url = URL.createObjectURL(blob);
 
 			let a = document.createElement('a');
-			a.href = window.URL.createObjectURL(blob);
+			a.href = url;
 			a.download = EXPORT_FILENAME;
 			a.click();
 			a.remove();
+
+			URL.revokeObjectURL(url);
 		});
 	}
 
