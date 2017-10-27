@@ -15,7 +15,9 @@ class Reactor { // eslint-disable-line no-unused-vars
 		this.connector = connector;
 
 		// Setup listening for state changes on connector.
-		connector.reactorCallback = this.onStateChanged;
+		connector.reactorCallback = (state) => {
+			this.onStateChanged(state);
+		};
 	}
 
 	/**
@@ -24,6 +26,12 @@ class Reactor { // eslint-disable-line no-unused-vars
 	setupChromeListener() {
 		chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 			this.onRuntimeMessage(message, sender, sendResponse);
+		});
+
+		this.port = chrome.runtime.connect({ name: 'content-script' });
+		this.port.onDisconnect.addListener(() => {
+			console.log('Web Scrobbler: port is closed');
+			this.connector.reactorCallback = null;
 		});
 	}
 
@@ -63,7 +71,6 @@ class Reactor { // eslint-disable-line no-unused-vars
 		 * message type for V2 connectors. Validation, submission and all
 		 * other procedures happen on background.
 		 */
-		let msg = { type: 'v2.stateChanged', state };
-		chrome.runtime.sendMessage(msg);
+		this.port.postMessage({ type: 'v2.stateChanged', data: state });
 	}
 }

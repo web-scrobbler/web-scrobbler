@@ -91,6 +91,12 @@ require([
 				onExtensionInstalled();
 			}
 		});
+
+		chrome.runtime.onConnect.addListener((port) => {
+			port.onMessage.addListener((message) => {
+				onPortMessage(message, port.sender);
+			});
+		});
 	}
 
 	/**
@@ -104,13 +110,6 @@ require([
 		let ctrl;
 
 		switch (request.type) {
-			case 'v2.stateChanged':
-				ctrl = getControllerByTabId(sender.tab.id);
-				if (ctrl) {
-					ctrl.onStateChanged(request.state);
-				}
-				break;
-
 			case 'v2.getSong':
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
@@ -157,6 +156,23 @@ require([
 		}
 
 		return true;
+	}
+
+	/**
+	 * Called when something sent message to background script via port.
+	 * @param  {Object} message Message object
+	 * @param  {Object} sender Message sender
+	 */
+	function onPortMessage(message, sender) {
+		switch (message.type) {
+			case 'v2.stateChanged': {
+				let ctrl = getControllerByTabId(sender.tab.id);
+				if (ctrl) {
+					ctrl.onStateChanged(message.data);
+				}
+				break;
+			}
+		}
 	}
 
 	/**
