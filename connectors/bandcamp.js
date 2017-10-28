@@ -1,8 +1,8 @@
 'use strict';
 
 /** note: the discover page doesn't display the track artist for compilation albums.  This connector
-    currently passes 'letious Artist' (or other letiant) as the artist name so tracks on albums with
-    letious artists played on the discover page will most likely not be recognized.*/
+	currently passes 'letious Artist' (or other letiant) as the artist name so tracks on albums with
+	letious artists played on the discover page will most likely not be recognized.*/
 
 // wire audio element to fire state changes
 $('audio').bind('playing pause timeupdate', Connector.onStateChanged);
@@ -10,7 +10,8 @@ $('audio').bind('playing pause timeupdate', Connector.onStateChanged);
 const separators = [' - ', ' | '];
 
 function getArtist() {
-	let artist = $('.detail_item_link_2').text() ||
+	let artist = $('.bcweekly.playing').next().find('.bcweekly-current .track-artist:first a').text() ||
+				$('.detail_item_link_2').text() ||
 				$('span[itemprop=byArtist]').text() ||
 				$('.detail-artist a').text() ||
 				null;
@@ -21,7 +22,8 @@ function getArtist() {
 }
 
 function getTrack() {
-	let track = $('.track_info .title').first().text() ||
+	let track = $('.bcweekly.playing').next().find('.bcweekly-current .track-title:first').text() ||
+				$('.track_info .title').first().text() ||
 				$('.trackTitle').first().text() ||
 				$('.collection-item-container.playing').find('.fav-track-static').first().text() ||
 				$('.waypoint-item-title').text() ||
@@ -62,29 +64,34 @@ Connector.getArtistTrack = () => {
 };
 
 Connector.getAlbum = () => {
-	let album = $('.detail_item_link').text() ||
+	let album = $('.bcweekly.playing').length && $('.bcweekly-current .track-album:first').text() ||
+				$('.detail_item_link').text() ||
 				$('h2.trackTitle').text() ||
 				$('[itemprop="inAlbum"] [itemprop="name"]').text();
 	return album;
 };
 
-Connector.playButtonSelector = 'div.playbutton:not(.playing)';
+Connector.isPlaying = () => $('.playing').length > 0;
 
 Connector.getTrackArt = () => {
-	return $('#tralbumArt > a > img').attr('src') ||
+	return $('.bcweekly.playing').next().find('.bcweekly-current .ratio-1-1:first img').attr('src') ||
+		$('#tralbumArt > a > img').attr('src') ||
 		$('#detail_gallery_container img').attr('src') ||
 		$('.discover-detail-inner img').attr('src');
 };
 
 Connector.getCurrentTime = () => {
-	return $('audio')[0].currentTime;
+	return $('.bcweekly.playing').length ? null : $('audio')[0].currentTime;
 };
 
 Connector.getDuration = () => {
-	return $('audio')[0].duration;
+	return $('.bcweekly.playing').length ? null : $('audio')[0].duration;
 };
 
 Connector.getUniqueID = () => {
+	if ($('.bcweekly.playing').length) {
+		return +location.search.match(/show=(\d+)?/)[1] === $('#pagedata').data('blob').bcw_show.show_id ? $('#pagedata').data('blob').bcw_show.tracks[$('.bcweekly-current').data('index')].track_id : null;
+	}
 	let match = /&id=(\d+)&/.exec($('audio').first().attr('src'));
 	if (match) {
 		return match[1];
