@@ -86,6 +86,14 @@ const STRING_TO_SECONDS_DATA = [{
 	source: '20',
 	expected: 20
 }, {
+	description: 'should not parse empty string',
+	source: '',
+	expected: 0
+}, {
+	description: 'should not parse null value',
+	source: null,
+	expected: 0
+}, {
 	description: 'should not parse malformed format',
 	source: NaN,
 	expected: 0

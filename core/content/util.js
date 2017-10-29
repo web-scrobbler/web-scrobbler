@@ -55,6 +55,10 @@ const Util = {
 	 * @return {Number} Seconds
 	 */
 	stringToSeconds(str) {
+		if (!str) {
+			return 0;
+		}
+
 		let s = str.toString().trim();
 		let val = 0;
 		let seconds = 0;
