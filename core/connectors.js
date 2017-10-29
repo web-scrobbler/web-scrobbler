@@ -1102,6 +1102,10 @@ define(function() {
 		],
 		js: ['connectors/1ting.js']
 	}, {
+		label: 'Douban Artists',
+		matches: ['*://music.douban.com/artists/player/*'],
+		js: ['connectors/douban-artists.js']
+	}, {
 		label: 'Kugou',
 		matches: ['*://www.kugou.com/song/*'],
 		js: ['connectors/kugou.js']
