@@ -291,7 +291,7 @@ function setupBasePlayer() {
 		}
 
 		let observer = new MutationObserver(Util.throttle(onMutation, 500));
-		observer.observe(document.body, {
+		observer.observe(document, {
 			subtree: true,
 			childList: true,
 			attributes: false,
