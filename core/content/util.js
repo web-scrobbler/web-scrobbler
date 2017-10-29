@@ -56,7 +56,8 @@ const Util = {
 	 */
 	stringToSeconds(str) {
 		let s = str.toString().trim();
-		let val, seconds = 0;
+		let val = 0;
+		let seconds = 0;
 
 		let isNegative = s.startsWith('-');
 		if (isNegative) {
@@ -233,9 +234,12 @@ const Util = {
 	 * @return {Function} Throttled function
 	 */
 	throttle(func, wait, options = {}) {
-		let context, args, result;
+		let context;
+		let args;
+		let result;
 		let timeout = null;
 		let previous = 0;
+
 		function later() {
 			previous = options.leading === false ? 0 : Date.now();
 			timeout = null;

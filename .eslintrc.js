@@ -99,6 +99,8 @@ module.exports = {
 		'no-unneeded-ternary': 'error',
 		// Disallow whitespace before properties
 		'no-whitespace-before-property': 'error',
+
+		'one-var': ['error', 'never'],
 		// Require spaces inside curly braces
 		'object-curly-spacing': ['error', 'always'],
 		// Require single quotes

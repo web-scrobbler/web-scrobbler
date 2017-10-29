@@ -9,7 +9,9 @@
 window.SC_ATTACHED = window.SC_ATTACHED || false;
 
 (function() {
-	let eventBus, playManager, currentMetaData;
+	let eventBus;
+	let playManager;
+	let currentMetaData;
 
 	// Exit if already attached.
 	if (window.SC_ATTACHED) {
@@ -19,11 +21,11 @@ window.SC_ATTACHED = window.SC_ATTACHED || false;
 	window.webpackJsonp([], {
 		// eslint-disable-next-line object-shorthand
 		0: function(e, t, _require) {
-			let modules = _require.c, moduleid, el;
+			let modules = _require.c;
 
-			for (moduleid in modules) {
+			for (let moduleid in modules) {
 				if (modules.hasOwnProperty(moduleid)) {
-					el = _require(moduleid);
+					let el = _require(moduleid);
 					// console.group('moduleid: ' + moduleid);
 					// console.dir(el);
 					// console.groupEnd();

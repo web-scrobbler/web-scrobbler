@@ -30,10 +30,10 @@ let pageType = (function() {
  * @return {String} Found string
 */
 function searchComment(regEx) {
-	let result,
-		pageDataNode = $('div.colr-sml-toppad').contents().filter(function() {
-			return this.nodeType === 8;
-		})[0];
+	let result;
+	let pageDataNode = $('div.colr-sml-toppad').contents().filter(function() {
+		return this.nodeType === 8;
+	})[0];
 	if (pageDataNode) {
 		result = regEx.exec(pageDataNode.textContent);
 		if (result) {
@@ -103,9 +103,9 @@ Connector.getTrack = () => {
 Connector.getDuration = () => {
 	// the duration is in the last textNode
 	let durStr = $('div.gcol-electronic span.playtxt').contents().filter(function() {
-			return this.nodeType === 3;
-		}).last().text().trim(),
-		m = /(\d{2}):(\d{2})/.exec(durStr);
+		return this.nodeType === 3;
+	}).last().text().trim();
+	let m = /(\d{2}):(\d{2})/.exec(durStr);
 	if (m) {
 		return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
 	}
