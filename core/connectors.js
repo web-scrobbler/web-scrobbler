@@ -706,6 +706,12 @@ define(function() {
 	},
 
 	{
+		label: 'Radiojavan',
+		matches: ['*://www.radiojavan.com/mp3s/*'],
+		js: ['connectors/radiojavan.js'],
+	},
+
+	{
 		label: 'Nightwave Plaza',
 		matches: ['*://plaza.one/*'],
 		js: ['connectors/plaza.js'],
