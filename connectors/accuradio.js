@@ -6,7 +6,7 @@ Connector.artistSelector = '#songartist';
 
 Connector.trackSelector = '#songtitle';
 
-Connector.albumSelector = '#albumtitle';
+Connector.albumSelector = '#songalbum';
 
 Connector.getTrackArt = () => {
 	let trackArtUrl = $('#albumArtImg').attr('src');
