@@ -281,12 +281,12 @@ function setupBasePlayer() {
 				videoElement.on('timeupdate', Connector.onStateChanged);
 				isEventListenerSetUp = true;
 
-				console.log('Web Scroobler: Setup "timeupdate" event listener');
+				console.log('Web Scrobbler: Setup "timeupdate" event listener');
 			} else {
 				Connector.resetState();
 				isEventListenerSetUp = false;
 
-				console.warn('Web Scroobler: Video element is missing');
+				console.warn('Web Scrobbler: Video element is missing');
 			}
 		}
 
