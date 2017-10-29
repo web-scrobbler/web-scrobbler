@@ -161,12 +161,12 @@ function setupMaterialPlayer() {
 			return false;
 		}
 
-		let $player = $('#player-container');
-		if ($player.length === 0) {
+		let videoElement = $(videoSelector);
+		if (videoElement.length === 0) {
 			return false;
 		}
 
-		let offset = $player.offset();
+		let offset = videoElement.offset();
 		return offset.left <= 0 && offset.top <= 0;
 	};
 }
