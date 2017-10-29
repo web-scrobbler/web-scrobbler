@@ -268,18 +268,25 @@ function setupBasePlayer() {
 		function onMutation() {
 			let videoElement = $(videoSelector);
 
-			if (Connector.isPlayerOffscreen()) {
-				Connector.resetState();
-			} else if (videoElement.length > 0) {
+			if (videoElement.length > 0) {
+				if (Connector.isPlayerOffscreen()) {
+					Connector.resetState();
+					return;
+				}
+
 				if (isEventListenerSetUp) {
 					return;
 				}
 
 				videoElement.on('timeupdate', Connector.onStateChanged);
 				isEventListenerSetUp = true;
+
+				console.log('Web Scroobler: Setup "timeupdate" event listener');
 			} else {
 				Connector.resetState();
 				isEventListenerSetUp = false;
+
+				console.warn('Web Scroobler: Video element is missing');
 			}
 		}
 
