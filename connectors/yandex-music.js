@@ -4,6 +4,8 @@ Connector.playerSelector = '.player-controls';
 
 Connector.artistSelector = '.track_type_player .track__artists';
 
+Connector.albumSelector = '.album_type_player .track__album';
+
 Connector.trackSelector = '.track_type_player .track__title';
 
 Connector.currentTimeSelector = '.progress__left';
