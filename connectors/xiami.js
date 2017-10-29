@@ -14,6 +14,9 @@ Connector.currentTimeSelector = '#J_positionTime';
 
 Connector.trackArtSelector = '#J_playerCoverImg';
 
-Connector.durationSelector = '#J_durationTime';
+Connector.getDuration = () => {
+	let text = Connector.getCurrentTime() ? $('#J_durationTime').text() : '';
+	return Util.stringToSeconds(text);
+};
 
 Connector.getUniqueID = () => $('.ui-track-current .c1').data('id');
