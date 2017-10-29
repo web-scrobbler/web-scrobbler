@@ -44,6 +44,10 @@
     "message": "Disable sending data to Google Analytics",
     "description": "Option title"
   },
+  "optionYtDesc": {
+    "message": "If you turn off both options, the extension will scrobble Youtube videos from all categories.",
+    "description": "Description of Youtube options"
+  },
   "optionYtMusicOnly": {
     "message": "Scrobble videos from \"Music\" category",
     "description": "Option title"
