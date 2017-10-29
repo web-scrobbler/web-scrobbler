@@ -126,6 +126,8 @@ module.exports = {
 		// Require parentheses around arrow function arguments
 		'arrow-parens': 'error',
 		'arrow-spacing': 'error',
+		// Require let or const instead of var
+		'no-var': 'error',
 		// Require method and property shorthand syntax for object literals
 		'object-shorthand': ['error', 'always'],
 		// Require template literals instead of string concatenation
