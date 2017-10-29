@@ -5,8 +5,6 @@ const escapeHtmlEntityMap = {
 	'&lt;': '<',
 	'&gt;': '>',
 	'&quot;': '"',
-	'&#x27;': '\'',
-	'&#x60;': '`',
 };
 
 /**
@@ -165,9 +163,15 @@ class MetadataFilter {
 			text = text.replace(source, target);
 		}
 
-		return text.replace(/&#(\d+);/g, (match, dec) => {
+		text = text.replace(/&#x([a-fA-f0-9]+);/, (match, hex) => {
+			let dec = parseInt(hex, 16);
 			return String.fromCharCode(dec);
 		});
+		text = text.replace(/&#(\d+);/g, (match, dec) => {
+			return String.fromCharCode(dec);
+		});
+
+		return text;
 	}
 
 	/**

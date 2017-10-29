@@ -293,9 +293,17 @@ const DECODE_HTML_ENTITIES_TEST_DATA = [{
 	source: 'Can&#039;t Kill Us',
 	expected: 'Can\'t Kill Us'
 }, {
+	description: 'should decode HTML entity',
+	source: 'Can&#x60;t Kill Us',
+	expected: 'Can`t Kill Us'
+}, {
 	description: 'should decode ampersand symbol',
 	source: 'Artist 1 &amp; Artist 2',
 	expected: 'Artist 1 & Artist 2'
+}, {
+	description: 'should not decode invalid HTML entity',
+	source: 'Artist 1 &#xzz; Artist 2',
+	expected: 'Artist 1 &#xzz; Artist 2'
 }];
 
 /**
