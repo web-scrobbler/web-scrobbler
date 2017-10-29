@@ -1,5 +1,14 @@
 'use strict';
 
+const escapeHtmlEntityMap = {
+	'&amp;': '&',
+	'&lt;': '<',
+	'&gt;': '>',
+	'&quot;': '"',
+	'&#x27;': '\'',
+	'&#x60;': '`',
+};
+
 /**
  * Base filter object that filters metadata fields by given filter set.
  * A filter set is an object containing 'artist', 'track', 'album' or 'all'
@@ -146,11 +155,16 @@ class MetadataFilter {
 	}
 
 	/**
-	 * Decodes HTML entities in given text string.
+	 * Decode HTML entities in given text string.
 	 * @param  {String} text String with HTML entities
 	 * @return {String} Decoded string
 	 */
 	static decodeHtmlEntities(text) {
+		for (let source in escapeHtmlEntityMap) {
+			let target = escapeHtmlEntityMap[source];
+			text = text.replace(source, target);
+		}
+
 		return text.replace(/&#(\d+);/g, (match, dec) => {
 			return String.fromCharCode(dec);
 		});
