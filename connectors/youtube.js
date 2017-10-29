@@ -323,7 +323,8 @@ function readConnectorOptions() {
 				allowedCategories.push(CATEGORY_ENTERTAINMENT);
 			}
 
-			console.log(`connector options: ${JSON.stringify(options)}`);
+			let optionsStr = JSON.stringify(options, null, 2);
+			console.log(`Web Scrobbler: Connector options: ${optionsStr}`);
 		}
 	});
 }
