@@ -64,8 +64,6 @@ define([
 		 * Reset controller state.
 		 */
 		resetState() {
-			this.pageAction.setSiteSupported();
-
 			this.playbackTimer.reset();
 			this.replayDetectionTimer.reset();
 
@@ -189,6 +187,8 @@ define([
 				// throw away last song and reset state
 				if (this.currentSong) {
 					this.debugLog('Received empty state - resetting');
+
+					this.pageAction.setSiteSupported();
 					this.resetState();
 				}
 
