@@ -4,6 +4,8 @@
 
 Last.fm Scrobbler is created for people who listen to music online through their browser, and would like to keep an updated playback history using [Last.fm][8]'s scrobbling service.
 
+Note that the extension also supports [Libre.fm][26] as a scrobbling service.
+
 For more information and discussion please visit [the extension page][12] on add0n.com website.
 
 ## Usage
@@ -67,9 +69,9 @@ See the [license file](LICENSE.md).
 [21]: https://www.transifex.com/web-scrobbler/web-scrobbler/dashboard/
 [22]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg
 [23]: https://img.shields.io/amo/v/web-scrobbler.svg
-
 [24]: https://github.com/david-sabata/web-scrobbler/wiki/Install-an-unpacked-extension
 [25]: https://github.com/david-sabata/web-scrobbler/wiki/Install-a-temporary-add-on
+[26]: https://libre.fm/
 
 [16]: http://getbootstrap.com/2.3.2/assets/bootstrap.zip
 [17]: http://fontawesome.io/assets/font-awesome-4.7.0.zip
