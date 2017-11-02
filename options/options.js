@@ -167,6 +167,11 @@ require([
 				$('#accounts').addClass('in');
 				$('#contact').removeClass('in');
 				break;
+			case '#options':
+				// Expand 'Accounts' section and collapse 'Contacts' one.
+				$('#options').addClass('in');
+				$('#contact').removeClass('in');
+				break;
 		}
 
 		// preload async values from storage

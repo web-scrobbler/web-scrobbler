@@ -55,7 +55,7 @@ define(() => {
 				'19': '/icons/page_action_disabled.svg',
 				'38': '/icons/page_action_disabled.svg'
 			},
-			popup: '',
+			popup: '/popups/disabled.html',
 			i18n: 'pageActionDisabled',
 		},
 		unknown: {

@@ -374,6 +374,19 @@
     "description": "Button label"
   },
 
+  "disabledSiteHeader": {
+    "message": "This website is turned off",
+    "description": "The header of 'disabled' popup"
+  },
+  "disabledSiteDesc": {
+    "message": "The extension won't scrobble tracks from this website until you turn it on in the options.",
+    "description": "Button label"
+  },
+  "disabledSiteButton": {
+    "message": "Open options page",
+    "description": "Button label"
+  },
+
 
   "infoLove": {
     "message": "Love track",
