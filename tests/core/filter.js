@@ -193,6 +193,14 @@ const YOUTUBE_TEST_DATA = [{
 	source: 'Track Title (Official Lyric Video)',
 	expected: 'Track Title'
 }, {
+	description: 'should remove "(Lyrics Video)" string',
+	source: 'Track Title (Lyrics Video)',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "(Whatever Lyrics Video)" string',
+	source: 'Track Title (OFFICIAL LYRICS VIDEO)',
+	expected: 'Track Title'
+}, {
 	description: 'should remove "(Official Track Stream)" string',
 	source: 'Track Title (Official Track Stream)',
 	expected: 'Track Title'
