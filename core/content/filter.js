@@ -234,8 +234,8 @@ class MetadataFilter {
 			{ source: /\s*\([^)]*version\)$/i, target: '' },
 			// video extensions
 			{ source: /\s*\.(avi|wmv|mpg|mpeg|flv)$/i, target: '' },
-			// (LYRIC VIDEO)
-			{ source: /\s*(LYRIC VIDEO\s*)?(lyric video\s*)/i, target: '' },
+			// (LYRICs VIDEO)
+			{ source: /\s*(lyrics? video\s*)/i, target: '' },
 			// (Official Track Stream)
 			{ source: /\s*(Official Track Stream*)/i, target: '' },
 			// (official)? (music)? video
