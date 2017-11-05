@@ -12,7 +12,7 @@
         "description": "Option title"
     },
     "faqAnswer4b4": {
-        "message": "Добавьте шаблон URL, который будет соответствовать нестандартному домену Bandcamp и примените изменения.",
+        "message": "Добавьте шаблон URL, который будет соответствовать нестандартному домену Bandcamp, и примените изменения.",
         "description": "Answer #4"
     },
     "extDescription": {
@@ -163,9 +163,17 @@
         "message": "Отключить $1",
         "description": "Context menu item"
     },
+    "pageActionUnsupported": {
+        "message": "Last.fm Scrobbler не поддерживает этот сайт.",
+        "description": "`unsupported` page action title"
+    },
     "albumTooltip": {
         "message": "Из альбома \"$1\"",
         "description": "Tooltip text"
+    },
+    "optionsImportEdited": {
+        "message": "Импорт",
+        "description": "Button to import edited tracks"
     },
     "optionForceRecognize": {
         "message": "Принудительное распознавание",
@@ -219,6 +227,10 @@
         "message": "Вы можете узнать больше о пользовательских шаблонах URL <a target='_blank' href='https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns'>здесь</a>.",
         "description": "Answer #4"
     },
+    "disabledSiteButton": {
+        "message": "Открыть настройки",
+        "description": "Button label"
+    },
     "notificationNotRecognizedText": {
         "message": "Кликните на иконку справа от адресной строки, чтобы скорректировать информацию о треке.",
         "description": "Notification text"
@@ -250,6 +262,10 @@
     "getStartedSiteChanged": {
         "message": "В большинстве случаев это означает, что на сайте произошли какие-либо изменения. Эти изменения могут быть незаметными для пользователя, но критичными для расширения.",
         "description": "Description of why track is not recognized"
+    },
+    "optionYtDesc": {
+        "message": "Если вы отключите обе настройки. расширение будет скробблить видео из всех категорий.",
+        "description": "Description of Youtube options"
     },
     "buttonReset": {
         "message": "Сброс",
@@ -302,6 +318,10 @@
     "optionsEnableDisableHint": {
         "message": "Поставьте или снимите галочку, чтобы включить или выключить коннекторы.",
         "description": "Enable/disable hint"
+    },
+    "unsupportedWebsiteDesc": {
+        "message": "Last.fm Scrobbler не поддерживает скробблинг с этого сайта. Вы можете запросить поддержку для этого сайта <a target=\"_blank\" href=\"https://github.com/david-sabata/web-scrobbler/issues/new\">здесь</a>.",
+        "description": "The description of 'unsupported' popup"
     },
     "aboutText5": {
         "message": "И поскольку мы все любим слушать музыку, вы можете зайти на <a href='http://www.last.fm/user/na1k_/'>мою страницу</a> на Last.fm , чтобы сравнить музыкальные вкусы или оставить сообщение. :-)",
@@ -367,6 +387,10 @@
         "message": "Посмотреть страницу исполнителя",
         "description": "Placeholder of album input"
     },
+    "disabledSiteHeader": {
+        "message": "Вы отключили этот сайт",
+        "description": "The header of 'disabled' popup"
+    },
     "customPatternsAdd": {
         "message": "Добавить шаблон",
         "description": "Add button"
@@ -384,7 +408,7 @@
         "description": "Qestion #4"
     },
     "faqAnswer2a": {
-        "message": "Вы можете это сделать, кликнув на значок расширения справа от адресной строки (Chrome) или в адресной строке (Firefox, Opera). Используя контекстное меню, вы можете отключить скробблинг для текущего сайта.",
+        "message": "Вы можете это сделать, кликнув на значок расширения справа от адресной строки. Используя контекстное меню, вы можете отключить скробблинг для текущего сайта.",
         "description": "Answer #2"
     },
     "faqQuestion7": {
@@ -451,6 +475,10 @@
         "message": "Расширение хранит редактированную вами информацию о треках.",
         "description": "Description of edited tracks"
     },
+    "optionsExportEdited": {
+        "message": "Эскпорт",
+        "description": "Button to export edited tracks"
+    },
     "infoOpenAlbumArt": {
         "message": "Открыть обложку альбома в новой вкладке",
         "description": "Title of album image"
@@ -464,7 +492,7 @@
         "description": "'About' section"
     },
     "contributorsText1": {
-        "message": "Я рад сказать, что очень много людей участвует или участвовало в разработке этого расширения! Ранее здесь был список участников проекта, но он очень быстро рос. Также, в нём были перечислены, по большей части, основные участники (авторы коннекторов), но не были упомянуты люди, внёсшие мелкие, но тем не менее, важные изменения (исправления и улучшения).",
+        "message": "Я рад сказать, что очень много людей участвует или участвовало в разработке этого расширения! Ранее здесь был список участников проекта, но он очень быстро рос. Также, в нём были перечислены, по большей части, основные участники (авторы коннекторов), но не были упомянуты люди, внёсшие небольшие, но тем не менее, важные изменения (исправления и улучшения).",
         "description": "'About' section text"
     },
     "showSomeLoveText1": {
@@ -483,6 +511,10 @@
         "message": "Поменять",
         "description": "Label of swap button"
     },
+    "disabledSiteDesc": {
+        "message": "Расширение не будет скробблить музыку с этого сайта, пока вы не включите этот сайт в настройках расширения.",
+        "description": "The description of 'disabled' popup"
+    },
     "infoRevert": {
         "message": "Отменить",
         "description": "Label of revert button"
@@ -491,12 +523,16 @@
         "message": "Не скробблить текущий трек",
         "description": "Title of skip button"
     },
+    "unsupportedWebsiteHeader": {
+        "message": "Этот сайт не поддерживается",
+        "description": "The header of 'unsupported' popup"
+    },
     "optionYtMusicOnlyTitle": {
         "message": "Игнорировать треки, которые не в категории \"Музыка\"",
         "description": "Option label"
     },
     "faqAnswer3a": {
-        "message": "Когда расширение не может распознать трек, справа от адресной строки (Chrome) или в адресной строке (Firefox, Opera) появляется иконка со знаком вопроса. Кликнув на эту иконку, вы можете скорректировать данные о треке в появившемся всплывающем окне.",
+        "message": "Когда расширение не может распознать трек, справа от адресной строки появляется иконка со знаком вопроса. Кликнув на эту иконку, вы можете скорректировать данные о треке в появившемся всплывающем окне.",
         "description": "Answer #3"
     },
     "accountsSignOut": {
