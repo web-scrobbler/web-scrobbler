@@ -19,7 +19,7 @@ const playButtonSelector = '.playControls button.playControl';
  * hyphen (0x2d), en dash (0x2013), em dash (0x2014).
  * @type {RegExp}
  */
-const artistTrackRe = /(.+)\s?[-–—:]\s?(.+)/;
+const artistTrackRe = /(.+)\s[-–—:]\s(.+)/;
 
 Connector.playerSelector = '.playControls';
 
