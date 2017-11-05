@@ -19,7 +19,7 @@ const playButtonSelector = '.playControls button.playControl';
  * Codes are 0x2d and 0x2013.
  * @type {RegExp}
  */
-const artistTrackRe = /(.+)\s?[-–:]\s?(.+)/;
+const artistTrackRe = /(.+)\s?[-–—:]\s?(.+)/;
 
 Connector.playerSelector = '.playControls';
 
