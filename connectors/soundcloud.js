@@ -15,8 +15,8 @@ const playButtonSelector = '.playControls button.playControl';
 
 /**
  * Regular expression used to split artist and track.
- * There're two different hyphen chars in the regexp.
- * Codes are 0x2d and 0x2013.
+ * There're three different '-' chars in the regexp:
+ * hyphen (0x2d), en dash (0x2013), em dash (0x2014).
  * @type {RegExp}
  */
 const artistTrackRe = /(.+)\s?[-–—:]\s?(.+)/;
