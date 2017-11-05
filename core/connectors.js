@@ -474,12 +474,6 @@ define(function() {
 	},
 
 	{
-		label: 'MyMusicCloud',
-		matches: ['*://www.mymusiccloud.com/*'],
-		js: ['connectors/mymusiccloud.js'],
-	},
-
-	{
 		label: 'Bandzone.cz',
 		matches: ['*://bandzone.cz/*'],
 		js: ['connectors/bandzone.cz.js'],
