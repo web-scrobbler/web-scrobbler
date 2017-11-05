@@ -311,7 +311,7 @@ require([
 	 */
 	function addContextMenuItem(title, onclick, type = 'normal') {
 		chrome.contextMenus.create({
-			title, type, onclick, contexts: ['page_action'],
+			title, type, onclick, contexts: ['browser_action'],
 		});
 	}
 
