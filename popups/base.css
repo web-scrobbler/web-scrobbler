@@ -9,3 +9,12 @@ body {
 a, a:hover {
 	color: #d51007;
 }
+
+.content {
+	width: 290px;
+}
+
+.description {
+	font-size: 13px;
+	text-align: left;
+}
