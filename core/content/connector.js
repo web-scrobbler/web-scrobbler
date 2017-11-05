@@ -576,6 +576,8 @@ function BaseConnector() {
 		let scriptUrl = chrome.extension.getURL(scriptFile);
 		Util.injectScriptIntoDocument(scriptUrl);
 
+		console.log(`Web Scrobbler: Injected ${scriptFile}`);
+
 		$(window).on('message', ({ originalEvent: event }) => {
 			if (event.data.sender !== 'web-scrobbler') {
 				return;
