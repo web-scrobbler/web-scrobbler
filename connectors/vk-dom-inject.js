@@ -8,6 +8,8 @@ const INFO_TRACK = 3;
 const INFO_ARTIST = 4;
 const INFO_DURATION = 5;
 
+setupEventListeners();
+
 function sendUpdateEvent(type) {
 	let audioObject = window.ap._currentAudio;
 	if (!audioObject) {
@@ -40,9 +42,11 @@ function sendUpdateEvent(type) {
 	}, '*');
 }
 
-for (let e of ['start', 'progress', 'pause', 'stop']) {
-	window.ap.subscribers.push({
-		et: e,
-		cb: sendUpdateEvent.bind(null, e),
-	});
+function setupEventListeners() {
+	for (let e of ['start', 'progress', 'pause', 'stop']) {
+		window.ap.subscribers.push({
+			et: e,
+			cb: sendUpdateEvent.bind(null, e),
+		});
+	}
 }
