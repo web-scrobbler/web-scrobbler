@@ -136,7 +136,6 @@ module.exports = function(grunt) {
 					'applications.gecko.strict_min_version': '48.0',
 
 					'options_page': undefined,
-					'page_action.chromeBroken': undefined
 				}
 			},
 		},

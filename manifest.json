@@ -44,7 +44,7 @@
     "https://*/"
   ],
 
-  "page_action": {
+  "browser_action": {
     "default_icon": {
       "19": "/icons/page_action_unsupported_19.png",
       "38": "/icons/page_action_unsupported_38.png"

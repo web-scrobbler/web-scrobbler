@@ -73,13 +73,21 @@ define(() => {
 			},
 			popup: '/popups/error.html',
 			i18n: 'pageActionError',
-		}
+		},
+		unsupported: {
+			path: {
+				'19': '/icons/page_action_unsupported.svg',
+				'38': '/icons/page_action_unsupported.svg'
+			},
+			popup: '/popups/unsupported.html',
+			i18n: 'pageActionUnsupported',
+		},
 	};
 
 	/**
-	 * Object for access to page action of a single controller (tab).
+	 * Object for access to browser action of a single controller (tab).
 	 */
-	class PageAction {
+	class BrowserAction {
 		/**
 		 * @constructor
 		 * @param {Number} tabId Tab ID
@@ -90,20 +98,19 @@ define(() => {
 
 		/**
 		 * Set icon, title and popup in single call.
-		 * @param {Object} state Page action state
-		 * @param {String} placeholder String used to format page action title
+		 * @param {Object} state Browser action state
+		 * @param {String} placeholder String used to format title
 		 */
-		setPageAction(state, placeholder) {
+		setBrowserAction(state, placeholder) {
 			let tabId = this.tabId;
 			chrome.tabs.get(tabId, () => {
 				if (!chrome.runtime.lastError) {
 					let { path, popup, i18n } = state;
 					let title = chrome.i18n.getMessage(i18n, placeholder);
 
-					chrome.pageAction.setIcon({ tabId, path });
-					chrome.pageAction.setTitle({ tabId, title });
-					chrome.pageAction.setPopup({ tabId, popup });
-					chrome.pageAction.show(tabId);
+					chrome.browserAction.setIcon({ tabId, path });
+					chrome.browserAction.setTitle({ tabId, title });
+					chrome.browserAction.setPopup({ tabId, popup });
 				}
 			});
 		}
@@ -112,7 +119,7 @@ define(() => {
 		 * Show read Last.fm icon (connector is injected).
 		 */
 		setSiteSupported() {
-			this.setPageAction(state.base);
+			this.setBrowserAction(state.base);
 		}
 
 		/**
@@ -120,7 +127,7 @@ define(() => {
 		 * @param {Object} song Song instance
 		 */
 		setSongLoading(song) {
-			this.setPageAction(state.loading, song.getArtistTrackString());
+			this.setBrowserAction(state.loading, song.getArtistTrackString());
 		}
 
 		/**
@@ -128,7 +135,7 @@ define(() => {
 		 * @param {Object} song Song instance
 		 */
 		setSongRecognized(song) {
-			this.setPageAction(state.recognized, song.getArtistTrackString());
+			this.setBrowserAction(state.recognized, song.getArtistTrackString());
 		}
 
 		/**
@@ -136,7 +143,7 @@ define(() => {
 		 * @param {Object} song Song instance
 		 */
 		setSongSkipped(song) {
-			this.setPageAction(state.skipped, song.getArtistTrackString());
+			this.setBrowserAction(state.skipped, song.getArtistTrackString());
 		}
 
 		/**
@@ -144,14 +151,14 @@ define(() => {
 		 * @param {Object} song Song instance
 		 */
 		setSongIgnored(song) {
-			this.setPageAction(state.ignored, song.getArtistTrackString());
+			this.setBrowserAction(state.ignored, song.getArtistTrackString());
 		}
 
 		/**
 		 * Show gray Last.fm icon (connector is disabled).
 		 */
 		setSiteDisabled() {
-			this.setPageAction(state.disabled);
+			this.setBrowserAction(state.disabled);
 		}
 
 		/**
@@ -159,34 +166,30 @@ define(() => {
 		 * @param {Object} song Song instance
 		 */
 		setSongScrobbled(song) {
-			this.setPageAction(state.scrobbled, song.getArtistTrackString());
+			this.setBrowserAction(state.scrobbled, song.getArtistTrackString());
 		}
 
 		/**
 		 * Show gray question icon (song is not known by scrobbling service).
 		 */
 		setSongNotRecognized() {
-			this.setPageAction(state.unknown);
+			this.setBrowserAction(state.unknown);
 		}
 
 		/**
 		 * Show orange Last.fm icon (auth error is occurred).
 		 */
 		setError() {
-			this.setPageAction(state.error);
+			this.setBrowserAction(state.error);
 		}
 
 		/**
-		 * Hide page action icon.
+		 * Hide browser action icon.
 		 */
-		hide() {
-			chrome.tabs.get(this.tabId, () => {
-				if (!chrome.runtime.lastError) {
-					chrome.pageAction.hide(this.tabId);
-				}
-			});
+		reset() {
+			this.setBrowserAction(state.unsupported);
 		}
 	}
 
-	return PageAction;
+	return BrowserAction;
 });

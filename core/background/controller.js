@@ -3,14 +3,14 @@
 define([
 	'objects/song',
 	'pipeline/pipeline',
-	'pageAction',
+	'browser-action',
 	'timer',
 	'notifications',
 	'services/background-ga',
 	'pipeline/local-cache',
 	'services/scrobbleService',
 	'objects/serviceCallResult',
-], function(Song, Pipeline, PageAction, Timer, Notifications, GA, LocalCache, ScrobbleService, ServiceCallResult) {
+], function(Song, Pipeline, BrowserAction, Timer, Notifications, GA, LocalCache, ScrobbleService, ServiceCallResult) {
 	/**
 	 * Object that handles song playback and scrobbling actions.
 	 */
@@ -25,7 +25,7 @@ define([
 			this.tabId = tabId;
 			this.connector = connector;
 
-			this.pageAction = new PageAction(tabId);
+			this.pageAction = new BrowserAction(tabId);
 			this.playbackTimer = new Timer();
 			this.replayDetectionTimer = new Timer();
 
@@ -79,7 +79,7 @@ define([
 		 */
 		finish() {
 			this.resetState();
-			this.pageAction.hide();
+			this.pageAction.reset();
 		}
 
 		/**
