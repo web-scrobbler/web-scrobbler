@@ -13,6 +13,14 @@ let isPrivate = false;
 const progressSelector = '.playControls div[role=progressbar]';
 const playButtonSelector = '.playControls button.playControl';
 
+/**
+ * Regular expression used to split artist and track.
+ * There're two different hyphen chars in the regexp.
+ * Codes are 0x2d and 0x2013.
+ * @type {RegExp}
+ */
+const artistTrackRe = /(.+)\s?[-–:]\s?(.+)/;
+
 Connector.playerSelector = '.playControls';
 
 Connector.getCurrentState = () => {
@@ -47,8 +55,7 @@ function setSongData(metadata) {
 
 	// Sometimes the artist name is in the track title,
 	// e.g. Tokyo Rose - Zender Overdrive by Aphasia Records.
-	let regex = /(.+)\s?[–:]\s?(.+)/;
-	let match = regex.exec(metadata.title);
+	let match = artistTrackRe.exec(metadata.title);
 
 	// But don't interpret patterns of the form
 	// "[Start of title] #1234 - [End of title]" as Artist - Title
