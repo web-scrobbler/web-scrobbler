@@ -374,17 +374,13 @@
     "description": "Button label"
   },
 
-  "disabledSiteHeader": {
-    "message": "This website is turned off",
-    "description": "The header of 'disabled' popup"
+  "unsupportedWebsiteHeader": {
+    "message": "This website is not supported",
+    "description": "The header of 'unsupported' popup"
   },
-  "disabledSiteDesc": {
-    "message": "The extension won't scrobble tracks from this website until you turn it on in the options.",
-    "description": "Button label"
-  },
-  "disabledSiteButton": {
-    "message": "Open options page",
-    "description": "Button label"
+  "unsupportedWebsiteDesc": {
+    "message": "Last.fm Scrobbler does not support scrobbling from this website. You can request support for the website <a target=\"_blank\" href=\"https://github.com/david-sabata/web-scrobbler/issues/new\">here</a>.",
+    "description": "The description of 'unsupported' popup"
   },
 
 
@@ -525,6 +521,10 @@
   "pageActionError": {
     "message": "A service error occurred. Click for more information.",
     "description": "`loading` page action title"
+  },
+  "pageActionUnsupported": {
+    "message": "Last.fm Scrobbler does not support this website.",
+    "description": "`unsupported` page action title"
   },
 
 

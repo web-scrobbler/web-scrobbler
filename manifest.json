@@ -45,7 +45,12 @@
   ],
 
   "page_action": {
-    "chromeBroken": "remove this line after issue #86449 is resolved"
+    "default_icon": {
+      "19": "/icons/page_action_unsupported_19.png",
+      "38": "/icons/page_action_unsupported_38.png"
+    },
+    "default_title": "__MSG_pageActionUnsupported__",
+    "default_popup": "/popups/unsupported.html"
   },
 
   "content_scripts": [{
