@@ -923,12 +923,6 @@ define(function() {
 	},
 
 	{
-		label: 'radd.it',
-		matches: ['*://radd.it/*'],
-		js: ['connectors/radd.it.js'],
-	},
-
-	{
 		label: 'RadioPlayer',
 		matches: [
 			'*://www.heart.co.uk/*',
