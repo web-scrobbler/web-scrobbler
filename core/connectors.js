@@ -1107,5 +1107,9 @@ define(function() {
 		matches: ['*://www.rinoceronte.fm/*', '*://nowplaying.mediastre.am/*'],
 		js: ['connectors/rinoceronte.fm.js'],
 		allFrames: true
+	}, {
+		label: 'Hitsradio',
+		matches: ['*://hitsradio.com/*'],
+		js: ['connectors/hitsradio.js']
 	}];
 });
