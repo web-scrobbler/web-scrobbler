@@ -17,9 +17,9 @@
 <!--- reproduce this bug. Include code to reproduce, if relevant -->
 <!--- Include browser logs if neccessary. If you don't know how to get -->
 <!--- these logs, please read this page: https://github.com/david-sabata/web-scrobbler/wiki/How-to-debug-the-extension -->
-1.  
-2.  
-3.  
+1.
+2.
+3.
 
 ### Context
 <!--- How has this issue affected you? What are you trying to accomplish? -->
@@ -34,7 +34,8 @@
 - [ ] Reauthenticate on Last.fm
 <!--- The issue can be fixed but new version isn't released yet.
 <!--- If you don't know how to install unpacked extensions, please read this howto: -->
-<!--- https://github.com/david-sabata/web-scrobbler#unpacked-extension -->
+<!--- https://github.com/david-sabata/web-scrobbler/wiki/Install-an-unpacked-extension -->
+<!--- https://github.com/david-sabata/web-scrobbler/wiki/Install-a-temporary-add-on -->
 - [ ] Try to use unpacked extension from latest master
 <!--- The similar issue can be already created by someone else. Please check the issues page -->
 <!--- for possible duplicates: https://github.com/david-sabata/web-scrobbler/issues -->
