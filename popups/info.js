@@ -2,6 +2,11 @@
 
 require(['util'], (Util) => {
 	const EDITED_TRACK_FIELDS = ['artist', 'track', 'album'];
+	const FIELD_URL_MAP = {
+		artist: 'artistUrl',
+		track: 'trackUrl',
+		album: 'albumUrl'
+	};
 
 	let isEditModeEnabled = false;
 	let song = null;
@@ -53,15 +58,15 @@ require(['util'], (Util) => {
 			return true;
 		}
 
-		let fieldValueMap = getSongFieldMap();
-		for (let field in fieldValueMap) {
+		let trackInfo = getTrackInfo();
+		for (let field in trackInfo) {
 			let fieldInputSelector = `#${field}-input`;
 			let inputText = $(fieldInputSelector).val();
 			if (!inputText) {
 				continue;
 			}
 
-			let fieldValue = fieldValueMap[field];
+			let fieldValue = trackInfo[field];
 			if (fieldValue !== inputText) {
 				return true;
 			}
@@ -70,21 +75,12 @@ require(['util'], (Util) => {
 		return false;
 	}
 
-	function fillMetadataLabels() {
-		let isSongValid = song.flags.isValid || song.flags.isCorrectedByUser;
-
-		let fieldUrlMap = {
-			artist: song.metadata.artistUrl,
-			track: song.metadata.trackUrl,
-			album: song.metadata.albumUrl
-		};
-		let fieldValuesMap = getSongFieldMap(song);
-
+	function fillMetadataLabels(trackInfo) {
 		for (let field of EDITED_TRACK_FIELDS) {
-			let fieldValue = fieldValuesMap[field];
+			let fieldValue = trackInfo[field];
 			let fieldLabelSelector = `#${field}`;
 
-			let fieldUrl = fieldUrlMap[field];
+			let fieldUrl = song.metadata[FIELD_URL_MAP[field]];
 			if (fieldUrl) {
 				let fieldTitleTag;
 				switch (field) {
@@ -105,21 +101,15 @@ require(['util'], (Util) => {
 				$(fieldLabelSelector).removeAttr('href');
 			}
 
-			// There's no sense to fill labels if song is not valid.
-			// They will be filled later after submitting changes.
-			if (isSongValid) {
-				$(fieldLabelSelector).text(fieldValue);
-			} else {
-				$(fieldLabelSelector).text(null);
-			}
+			$(fieldLabelSelector).text(fieldValue);
 			$(fieldLabelSelector).attr('data-hide', !fieldValue);
 		}
 	}
 
 	function fillMetadataInputs() {
-		let fieldValuesMap = getSongFieldMap();
+		let trackInfo = getTrackInfo();
 		for (let field of EDITED_TRACK_FIELDS) {
-			let fieldValue = fieldValuesMap[field];
+			let fieldValue = trackInfo[field];
 			let fieldInputSelector = `#${field}-input`;
 
 			$(fieldInputSelector).val(fieldValue);
@@ -130,14 +120,14 @@ require(['util'], (Util) => {
 		$('#album-art').css('background-image', `url("${getCoverArt()}")`);
 	}
 
-	function fillMetadataLabelsFrom(trackInfo) {
-		for (let field in trackInfo) {
-			let fieldLabelSelector = `#${field}`;
-			let fieldValue = trackInfo[field];
+	function getTrackInfo() {
+		let trackInfo = {};
 
-			$(fieldLabelSelector).text(fieldValue);
-			$(fieldLabelSelector).attr('data-hide', !fieldValue);
+		for (let field of EDITED_TRACK_FIELDS) {
+			trackInfo[field] = song.processed[field] || song.parsed[field];
 		}
+
+		return trackInfo;
 	}
 
 	function getEditedTrackInfo() {
@@ -221,7 +211,7 @@ require(['util'], (Util) => {
 	}
 
 	function updatePopupView() {
-		fillMetadataLabels();
+		fillMetadataLabels(getTrackInfo());
 		fillAlbumCover();
 
 		configControls();
@@ -272,7 +262,7 @@ require(['util'], (Util) => {
 		if (isSongMetadataChanged()) {
 			let trackInfo = getEditedTrackInfo();
 
-			fillMetadataLabelsFrom(trackInfo);
+			fillMetadataLabels(trackInfo);
 			sendMessageToCurrentTab('v2.correctSong', trackInfo);
 		}
 	}
@@ -280,14 +270,6 @@ require(['util'], (Util) => {
 	function skipSong() {
 		song.flags.isSkipped = true;
 		sendMessageToCurrentTab('v2.skipSong');
-	}
-
-	function getSongFieldMap() {
-		return {
-			artist: song.processed.artist || song.parsed.artist,
-			track: song.processed.track || song.parsed.track,
-			album: song.processed.album || song.parsed.album
-		};
 	}
 
 	function setupMessageListener() {
