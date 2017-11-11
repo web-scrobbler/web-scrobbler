@@ -163,6 +163,18 @@
         "message": "Wyłącz obsługę $1",
         "description": "Context menu item"
     },
+    "pageActionUnsupported": {
+        "message": "Last.fm Scrobbler nie obsługuje tej strony internetowej.",
+        "description": "`unsupported` page action title"
+    },
+    "albumTooltip": {
+        "message": "Z albumu \"$1\"",
+        "description": "Tooltip text"
+    },
+    "optionsImportEdited": {
+        "message": "Import",
+        "description": "Button to import edited tracks"
+    },
     "optionForceRecognize": {
         "message": "Wymuś rozpoznanie utworu",
         "description": "Option label"
@@ -215,6 +227,10 @@
         "message": "Możesz dowiedzieć się więcej o niestandardowych wzorcach URL <a target='_blank' href='https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns'>tutaj</a>.",
         "description": "Answer #4"
     },
+    "disabledSiteButton": {
+        "message": "Otwórz opcje",
+        "description": "Button label"
+    },
     "notificationNotRecognizedText": {
         "message": "Kliknij ikonę na pasku rozszerzeń, aby poprawić i przesłać informacje o utworze.",
         "description": "Notification text"
@@ -246,6 +262,10 @@
     "getStartedSiteChanged": {
         "message": "W większości przypadków oznacza to, że na stronie zostały wprowadzone jakieś modyfikacje. Czasem nawet niewielkie, niewidoczne zmiany mogą bardzo mocno wpłynąć na rozszerzenie.",
         "description": "Description of why track is not recognized"
+    },
+    "optionYtDesc": {
+        "message": "Jeśli wyłączysz obie opcje, rozszerzenie będzie scrobblować filmy na Youtube niezależnie od kategorii.",
+        "description": "Description of Youtube options"
     },
     "buttonReset": {
         "message": "Resetuj",
@@ -298,6 +318,10 @@
     "optionsEnableDisableHint": {
         "message": "Wybierz usługi do aktywacji/dezaktywacji.",
         "description": "Enable/disable hint"
+    },
+    "unsupportedWebsiteDesc": {
+        "message": "Last.fm Scrobbler nie obsługuje scrobblowania z tej strony internetowej. Możesz zgłosić prośbę o dodanie wsparcia <a target=\"_blank\" href=\"https://github.com/david-sabata/web-scrobbler/issues/new\">tutaj</a>.",
+        "description": "The description of 'unsupported' popup"
     },
     "aboutText5": {
         "message": "A ponieważ wszyscy jesteśmy miłośnikami muzyki i Lasta, możesz również odwiedzić <a href='http://www.last.fm/user/na1k_/'>mój profil Last.fm</a> żeby porównać gusta albo może zamienić parę słów. :-)",
@@ -363,6 +387,10 @@
         "message": "Zobacz stronę wykonawcy",
         "description": "Placeholder of album input"
     },
+    "disabledSiteHeader": {
+        "message": "Ta strona jest wyłączona",
+        "description": "The header of 'disabled' popup"
+    },
     "customPatternsAdd": {
         "message": "Dodaj wzorzec",
         "description": "Add button"
@@ -380,7 +408,7 @@
         "description": "Qestion #4"
     },
     "faqAnswer2a": {
-        "message": "Możesz to zrobić klikając prawym przyciskiem myszy na ikonie na pasku rozszerzeń (Chrome) albo pasku adresu (Firefox, Opera). Z menu kontekstowego możesz wyłączyć obsługę scrobblingu dla obecnej usługi internetowej.",
+        "message": "Możesz to zrobić klikając prawym przyciskiem myszy na ikonie na pasku rozszerzeń. Z menu kontekstowego możesz wyłączyć obsługę scrobblingu dla obecnej usługi internetowej.",
         "description": "Answer #2"
     },
     "faqQuestion7": {
@@ -447,6 +475,10 @@
         "message": "Rozszerzenie zapisuje zmodyfikowane informacje o utworze.",
         "description": "Description of edited tracks"
     },
+    "optionsExportEdited": {
+        "message": "Eksport",
+        "description": "Button to export edited tracks"
+    },
     "infoOpenAlbumArt": {
         "message": "Pokaż okładkę albumu w nowej karcie",
         "description": "Title of album image"
@@ -479,6 +511,10 @@
         "message": "Zamień",
         "description": "Label of swap button"
     },
+    "disabledSiteDesc": {
+        "message": "Rozszerzenie nie będzie scrobblować muzyki z tej strony dopóki nie włączysz jej obsługi w opcjach.",
+        "description": "The description of 'disabled' popup"
+    },
     "infoRevert": {
         "message": "Odrzuć",
         "description": "Label of revert button"
@@ -487,12 +523,16 @@
         "message": "Nie scrobbluj tego utworu",
         "description": "Title of skip button"
     },
+    "unsupportedWebsiteHeader": {
+        "message": "Ta strona nie jest wspierana",
+        "description": "The header of 'unsupported' popup"
+    },
     "optionYtMusicOnlyTitle": {
         "message": "Ignoruj filmy spoza kategorii Muzyka",
         "description": "Option label"
     },
     "faqAnswer3a": {
-        "message": "Kiedy nie można rozpoznać utworu, na pasku rozszerzeń (Chrome) albo pasku adresu (Firefox, Opera) pojawia się szara ikona ze znakiem zapytania. Okienko otwarte po jej kliknięciu umożliwia wprowadzenie poprawnych informacji.",
+        "message": "Kiedy nie można rozpoznać utworu, na pasku rozszerzeń pojawia się szara ikona ze znakiem zapytania. Okienko otwarte po jej kliknięciu umożliwia wprowadzenie poprawnych informacji.",
         "description": "Answer #3"
     },
     "accountsSignOut": {
