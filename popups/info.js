@@ -1,6 +1,8 @@
 'use strict';
 
 require(['util'], (Util) => {
+	const EDITED_TRACK_FIELDS = ['artist', 'track', 'album'];
+
 	let isEditModeEnabled = false;
 	let song = null;
 
@@ -78,7 +80,7 @@ require(['util'], (Util) => {
 		};
 		let fieldValuesMap = getSongFieldMap(song);
 
-		for (let field of ['artist', 'track', 'album']) {
+		for (let field of EDITED_TRACK_FIELDS) {
 			let fieldValue = fieldValuesMap[field];
 			let fieldLabelSelector = `#${field}`;
 
@@ -116,7 +118,7 @@ require(['util'], (Util) => {
 
 	function fillMetadataInputs() {
 		let fieldValuesMap = getSongFieldMap();
-		for (let field of ['artist', 'track', 'album']) {
+		for (let field of EDITED_TRACK_FIELDS) {
 			let fieldValue = fieldValuesMap[field];
 			let fieldInputSelector = `#${field}-input`;
 
@@ -128,16 +130,25 @@ require(['util'], (Util) => {
 		$('#album-art').css('background-image', `url("${getCoverArt()}")`);
 	}
 
-	function copyInputsToLabels() {
-		for (let field of ['artist', 'track', 'album']) {
+	function fillMetadataLabelsFrom(trackInfo) {
+		for (let field in trackInfo) {
 			let fieldLabelSelector = `#${field}`;
-			let fieldInputSelector = `#${field}-input`;
+			let fieldValue = trackInfo[field];
 
-			let fieldInputValue = $(fieldInputSelector).val();
-
-			$(fieldLabelSelector).text(fieldInputValue);
-			$(fieldLabelSelector).attr('data-hide', !fieldInputValue);
+			$(fieldLabelSelector).text(fieldValue);
+			$(fieldLabelSelector).attr('data-hide', !fieldValue);
 		}
+	}
+
+	function getEditedTrackInfo() {
+		let trackInfo = {};
+
+		for (let field of EDITED_TRACK_FIELDS) {
+			let fieldInputSelector = `#${field}-input`;
+			trackInfo[field] = $(fieldInputSelector).val().trim();
+		}
+
+		return trackInfo;
 	}
 
 	function configControls() {
@@ -259,12 +270,10 @@ require(['util'], (Util) => {
 
 	function correctSongInfo() {
 		if (isSongMetadataChanged()) {
-			copyInputsToLabels();
-			sendMessageToCurrentTab('v2.correctSong', {
-				artist: $('#artist-input').val(),
-				track: $('#track-input').val(),
-				album: $('#album-input').val()
-			});
+			let trackInfo = getEditedTrackInfo();
+
+			fillMetadataLabelsFrom(trackInfo);
+			sendMessageToCurrentTab('v2.correctSong', trackInfo);
 		}
 	}
 
