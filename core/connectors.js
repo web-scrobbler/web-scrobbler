@@ -969,6 +969,11 @@ define(function() {
 	},
 
 	{
+		label: 'Discogs',
+		matches: ['*://www.discogs.com/*'],
+		js: ['connectors/youtube-embed.js'],
+		allFrames: true
+	}, {
 		label: 'Kuwo Music',
 		matches: [
 			'*://kuwo.cn/*',
