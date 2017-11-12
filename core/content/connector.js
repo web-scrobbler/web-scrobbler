@@ -339,11 +339,7 @@ function BaseConnector() {
 			}
 		}
 
-		if (trackArtUrl && !this.isTrackArtDefault(trackArtUrl)) {
-			return trackArtUrl;
-		}
-
-		return null;
+		return trackArtUrl;
 	};
 
 	/**
@@ -513,6 +509,10 @@ function BaseConnector() {
 					fieldValue = Util.escapeBadTimeValues(fieldValue) || defaultState[field];
 					break;
 				}
+				case 'trackArt':
+					if (this.isTrackArtDefault(fieldValue)) {
+						fieldValue = null;
+					}
 			}
 
 			filteredState[field] = fieldValue;
