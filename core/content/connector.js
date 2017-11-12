@@ -145,9 +145,7 @@ function BaseConnector() {
 	 *
 	 * @return {String} Song artist
 	 */
-	this.getArtist = function() {
-		return $(this.artistSelector).text();
-	};
+	this.getArtist = () => $(this.artistSelector).text();
 
 	/**
 	 * Default implementation of track name lookup by selector.
@@ -156,9 +154,7 @@ function BaseConnector() {
 	 *
 	 * @return {String} Song title
 	 */
-	this.getTrack = function() {
-		return $(this.trackSelector).text();
-	};
+	this.getTrack = () => $(this.trackSelector).text();
 
 	/**
 	 * Default implementation of album name lookup by selector.
@@ -167,9 +163,7 @@ function BaseConnector() {
 	 *
 	 * @return {String} Song album
 	 */
-	this.getAlbum = function() {
-		return $(this.albumSelector).text();
-	};
+	this.getAlbum = () => $(this.albumSelector).text();
 
 	/**
 	 * Default implementation of track duration lookup. If this method returns
@@ -180,7 +174,7 @@ function BaseConnector() {
 	 *
 	 * @return {Number} Track length in seconds
 	 */
-	this.getDuration = function() {
+	this.getDuration = () => {
 		let text = $(this.durationSelector).text();
 		return Util.stringToSeconds(text);
 	};
@@ -193,7 +187,7 @@ function BaseConnector() {
 	 *
 	 * @return {Number} Number of seconds passed from the beginning of the track
 	 */
-	this.getCurrentTime = function() {
+	this.getCurrentTime = () => {
 		let text = $(this.currentTimeSelector).text();
 		return Util.stringToSeconds(text);
 	};
@@ -206,7 +200,7 @@ function BaseConnector() {
 	 *
 	 * @return {Number} Number of remaining seconds
 	 */
-	this.getRemainingTime = function() {
+	this.getRemainingTime = () => {
 		let text = $(this.remainingTimeSelector).text();
 		return Util.stringToSeconds(text);
 	};
@@ -220,7 +214,7 @@ function BaseConnector() {
 	 *
 	 * @return {Object} Object contains current time and duration info
 	 */
-	this.getTimeInfo = function() {
+	this.getTimeInfo = () => {
 		let text = $(this.timeInfoSelector).text();
 		return Util.splitTimeInfo(text);
 	};
@@ -234,7 +228,7 @@ function BaseConnector() {
 	 *
 	 * @return {Object} Object contain artist and track information
 	 */
-	this.getArtistTrack = function() {
+	this.getArtistTrack = () => {
 		let text = $(this.artistTrackSelector).text();
 		return Util.splitArtistTrack(text);
 	};
@@ -254,9 +248,7 @@ function BaseConnector() {
 	 *
 	 * @return {String} Song unique ID
 	 */
-	this.getUniqueID = function() {
-		return null;
-	};
+	this.getUniqueID = () => null;
 
 	/**
 	 * Default implementation of check for active playback by play button
@@ -269,8 +261,9 @@ function BaseConnector() {
 	 *
 	 * @return {Boolean} True if song is now playing; false otherwise
 	 */
-	this.isPlaying = function() {
-		return this.playButtonSelector === null || !$(this.playButtonSelector).is(':visible');
+	this.isPlaying = () => {
+		return this.playButtonSelector === null ||
+			!$(this.playButtonSelector).is(':visible');
 	};
 
 	/**
@@ -323,7 +316,7 @@ function BaseConnector() {
 	 *
 	 * @return {String} Track art URL
 	 */
-	this.getTrackArt = function() {
+	this.getTrackArt = () => {
 		if (!this.trackArtSelector) {
 			return null;
 		}
@@ -352,9 +345,7 @@ function BaseConnector() {
 	 * @return {Boolean} Check result
 	 */
 	// eslint-disable-next-line no-unused-vars
-	this.isTrackArtDefault = function(trackArtUrl) {
-		return false;
-	};
+	this.isTrackArtDefault = (trackArtUrl) => false;
 
 	/**
 	 * Default implementation of a check to see if a state change is allowed.
@@ -365,9 +356,7 @@ function BaseConnector() {
 	 *
 	 * @return {Boolean} True if state change is allowed; false otherwise
 	 */
-	this.isStateChangeAllowed = function() {
-		return true;
-	};
+	this.isStateChangeAllowed = () => true;
 
 	/**
 	 * Default implementation of a check to see if a scrobbling is allowed.
@@ -377,9 +366,7 @@ function BaseConnector() {
 	 *
 	 * @return {Boolean} True if state change is allowed; false otherwise
 	 */
-	this.isScrobblingAllowed = function() {
-		return true;
-	};
+	this.isScrobblingAllowed = () => true;
 
 	/**
 	 * Filter object used to filter song metadata.
@@ -395,9 +382,7 @@ function BaseConnector() {
 	 *
 	 * Override this method for more complex behaviour.
 	 */
-	this.onReady = function() {
-		// do nothing
-	};
+	this.onReady = () => { /* Do nothing */ };
 
 	/**
 	 * State & API.
@@ -493,7 +478,7 @@ function BaseConnector() {
 	 * Filter changed fields.
 	 * @param  {Array} changedFields List of changed fields
 	 */
-	this.filterState = function(changedFields) {
+	this.filterState = (changedFields) => {
 		for (let field of changedFields) {
 			let fieldValue = currentState[field];
 
