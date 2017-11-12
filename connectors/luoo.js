@@ -84,9 +84,7 @@ function setupSearchPlayer() {
 	Connector.trackSelector = '.title a';
 
 	Connector.getTrackArt = function() {
-		let trackArtUrl = this.getCurrentItem().find('.rs-pic').attr('src');
-		return trackArtUrl && !this.isTrackArtDefault(trackArtUrl) ?
-			trackArtUrl : null;
+		return this.getCurrentItem().find('.rs-pic').attr('src');
 	};
 
 	Connector.getAlbumArtist = function() {
