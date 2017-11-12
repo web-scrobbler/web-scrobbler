@@ -269,7 +269,7 @@ function setupBasePlayer() {
 			let videoElement = $(videoSelector);
 
 			if (videoElement.length > 0) {
-				if (Connector.isPlayerOffscreen()) {
+				if (!videoElement.is(':visible')) {
 					Connector.resetState();
 					return;
 				}
