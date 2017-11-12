@@ -379,7 +379,7 @@
     "description": "The header of 'disabled' popup"
   },
   "disabledSiteDesc": {
-    "message": "The extension won't scrobble music from this website until you turn it on it the extension options.",
+    "message": "The extension won't scrobble music from this website until you turn it on in the extension options.",
     "description": "The description of 'disabled' popup"
   },
   "disabledSiteButton": {

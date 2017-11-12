@@ -1,526 +1,562 @@
 {
-  "extDescription":{
-    "message":"追踪全网音乐播放记录！",
-    "description":"Description of the extension"
-  },
-  "optionsTitle":{
-    "message":"Last.fm Scrobbler 选项",
-    "description":"Title of options page"
-  },
-  "optionsGeneral":{
-    "message":"常规",
-    "description":"'General' section"
-  },
-  "optionUseNotifications":{
-    "message":"提示当前曲目",
-    "description":"Option label"
-  },
-  "optionUseNotificationsTitle":{
-    "message":"为所有支持网站启用正在播放通知",
-    "description":"Option title"
-  },
-  "optionUnrecognizedNotifications":{
-    "message":"提示识别失败",
-    "description":"Option label"
-  },
-  "optionUnrecognizedNotificationsTitle":{
-    "message":"扩展无法识别曲目时显示通知",
-    "description":"Option title"
-  },
-  "optionForceRecognize":{
-    "message":"强制曲目识别",
-    "description":"Option label"
-  },
-  "optionForceRecognizeTitle":{
-    "message":"强制记录未知曲目",
-    "description":"Option title"
-  },
-  "optionDisableGa":{
-    "message":"禁用 Google Analytics",
-    "description":"Option label"
-  },
-  "optionDisableGaTitle":{
-    "message":"禁止向 Google Analytics 发送数据",
-    "description":"Option title"
-  },
-  "optionYtMusicOnly":{
-    "message":"记录“音乐”分类视频",
-    "description":"Option title"
-  },
-  "optionYtMusicOnlyTitle":{
-    "message":"忽略不属于音乐分类的视频",
-    "description":"Option label"
-  },
-  "optionYtEntertainmentOnly":{
-    "message":"记录“娱乐”分类视频",
-    "description":"Option label"
-  },
-  "optionYtEntertainmentOnlyTitle":{
-    "message":"忽略不属于娱乐分类的视频",
-    "description":"Option title"
-  },
-  "optionsAccounts":{
-    "message":"账户",
-    "description":"'Accounts' section"
-  },
-  "accountsSignedInAs":{
-    "message":"已连接账户 $1。",
-    "description":"'Signed in' label"
-  },
-  "accountsNotSignedIn":{
-    "message":"尚未连接。",
-    "description":"'Signed in' label"
-  },
-  "accountsProfile":{
-    "message":"账户专页",
-    "description":"'Signed in' label"
-  },
-  "accountsSignOut":{
-    "message":"解除连接",
-    "description":"Button label"
-  },
-  "accountsSignIn":{
-    "message":"连接用户",
-    "description":"Button label"
-  },
-  "optionsOptions":{
-    "message":"选项",
-    "description":"'Options' section"
-  },
-  "optionsEditedTracks":{
-    "message":"已编辑曲目",
-    "description":"'Edited tracks' header"
-  },
-  "optionsEditedTracksDesc":{
-    "message":"该扩展储存已编辑曲目。",
-    "description":"Description of edited tracks"
-  },
-  "optionsViewEdited":{
-    "message":"查看",
-    "description":"Button to view edited tracks"
-  },
-  "optionsEnableDisableHint":{
-    "message":"单击复选框以启用/禁用接口。",
-    "description":"Enable/disable hint"
-  },
-  "optionsCustomPatternsHint":{
-    "message":"点击复选框前的小齿轮图标以设置各接口的自定义网址匹配模板（<a target='_blank' href='https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns'>了解更多</a>）。",
-    "description":"Description of how to configure custom URL patterns"
-  },
-  "optionsSupportedWebsites":{
-    "message":"支持网站列表",
-    "description":"'Supported websites' header"
-  },
-  "optionsToggle":{
-    "message":"全部启用/全部禁用",
-    "description":"Label of toggle button"
-  },
-  "contactTitle":{
-    "message":"联系",
-    "description":"'Contact' section"
-  },
-  "contactGitHubDesc":{
-    "message":"报告问题并做出贡献",
-    "description":"Description for GitHub section"
-  },
-  "contactTwitterDesc":{
-    "message":"查看近况及简短交流",
-    "description":"Description for Twitter section"
-  },
-  "contactLastfmDesc":{
-    "message":"比较音乐品味或打个招呼！",
-    "description":"Description for Twitter section"
-  },
-  "contactLinkedInDesc":{
-    "message":"查看我的职业生涯",
-    "description":"Description for LinkedIn section"
-  },
-  "contactMyWebDesc":{
-    "message":"查看我的其他作品",
-    "description":"Description for my web section"
-  },
-  "contactPrivacyPolicyDesc":{
-    "message":"查看隐私政策",
-    "description":"Description for privacy section"
-  },
-  "faqTitle":{
-    "message":"常见问题",
-    "description":"'FAQ' section"
-  },
-  "faqQuestion1":{
-    "message":"如何开始使用本扩展？",
-    "description":"Qestion #1"
-  },
-  "faqAnswer1a":{
-    "message":"请点击首次加载扩展时显示的通知，并连接追踪服务账户。",
-    "description":"Answer #1"
-  },
-  "faqAnswer1b":{
-    "message":"注意：某些情况下通知不会显示，例如在 Mac OS 上以全屏模式运行 Chrome ；扩展程序将打开一个标签页，您可以在该标签页开始账户连接。",
-    "description":"Answer #1"
-  },
-  "faqQuestion2":{
-    "message":"如何暂时禁用对曲目记录的追踪？",
-    "description":"Qestion #2"
-  },
-  "faqAnswer2a":{
-    "message":"右键单击扩展栏 (Chrome) 或地址栏 (Firefox, Opera) 中的绿色扩展图标，在上下文菜单中选择禁用当前网站的接口。",
-    "description":"Answer #2"
-  },
-  "faqAnswer2b":{
-    "message":"在选项页面上取消选中复选框可以禁用对应网站接口。取消选中“全部启用/全部禁用”复选框以全局禁用。",
-    "description":"Answer #2"
-  },
-  "faqQuestion3":{
-    "message":"曲目识别失败时可以修复吗？",
-    "description":"Qestion #3"
-  },
-  "faqAnswer3a":{
-    "message":"当无法识别曲目时，扩展栏 (Chrome) 或地址栏 (Firefox, Opera) 中会显示带有问号的灰色图标。您可以点击此图标并在弹出窗口中输入正确的数据。",
-    "description":"Answer #3"
-  },
-  "faqAnswer3b":{
-    "message":"此外，若启用“强制曲目识别”选项，本扩展也将记录未被 Last.fm 验证的曲目。",
-    "description":"Answer #3"
-  },
-  "faqQuestion4":{
-    "message":"Bandcamp 上的一些曲目无法记录。如何解决？",
-    "description":"Qestion #4"
-  },
-  "faqAnswer4a":{
-    "message":"可能是因为曲目被托管在自定义域，导致本扩展无法检测其是否属于 Bandcamp 。",
-    "description":"Answer #4"
-  },
-  "faqAnswer4b":{
-    "message":"对此，可设置扩展如下以识别自定义域：",
-    "description":"Answer #4"
-  },
-  "faqAnswer4b1":{
-    "message":"打开扩展设置页并展开“选项”部分。",
-    "description":"Answer #4"
-  },
-  "faqAnswer4b2":{
-    "message":"在支持网站列表中找到 Bandcamp 接口。",
-    "description":"Answer #4"
-  },
-  "faqAnswer4b3":{
-    "message":"点击接口标签附近的齿轮图标。",
-    "description":"Answer #4"
-  },
-  "faqAnswer4b4":{
-    "message":"添加匹配 Bandcamp 自定义域名的网址匹配模板并应用更改。",
-    "description":"Answer #4"
-  },
-  "faqAnswer4c":{
-    "message":"您可以在<a target='_blank' href='https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns'>这里</a>进一步了解自定义网址匹配模板。",
-    "description":"Answer #4"
-  },
-  "faqQuestion5":{
-    "message":"你会添加对____的追踪支持吗？",
-    "description":"Qestion #5"
-  },
-  "faqAnswer5":{
-    "message":"可能，但很可能不会。本扩展是我的业余作品，因此我仅管理对 Youtube 的支持——我根本不使用任何其他网络音乐服务。然而，创建接口来为新网站添加支持真的很容易。您只需分支 <a href=\"http://github.com/david-sabata/web-scrobbler\">GitHub 仓库</a>，并向我发送一个拉取请求。 GitHub 上还有一个维基页面描述了扩展的内核。",
-    "description":"Answer #5"
-  },
-  "faqQuestion6":{
-    "message":"你会添加____功能吗？",
-    "description":"Qestion #6"
-  },
-  "faqAnswer6":{
-    "message":"可能，如果它是有道理的。但是，如果你想让我添加一些不那么有用但很酷的功能，你可能会失望。",
-    "description":"Answer #6"
-  },
-  "faqQuestion7":{
-    "message":"作者是谁？",
-    "description":"Qestion #7"
-  },
-  "faqAnswer7":{
-    "message":"我叫 David Šabata ，毕业于捷克共和国布尔诺理工大学的信息技术。我痴迷于将繁琐任务自动化，这可能是我创建这整个扩展的原因。",
-    "description":"Answer #7"
-  },
-  "optionsAbout":{
-    "message":"关于",
-    "description":"'About' section"
-  },
-  "aboutText1":{
-    "message":"当前版本的更新日志在<a id='latest-release' target='_blank' href='#'>这里</a>。访问<a target='_blank' href='https://github.com/david-sabata/web-scrobbler/releases'>这个页面</a>以查看完整的更新日志。",
-    "description":"'About' section text"
-  },
-  "aboutText2":{
-    "message":"Last.fm Scrobbler 是为了通过浏览器在线听音乐、并希望使用 Last.fm 来追踪播放历史记录的人而创建的。",
-    "description":"'About' section text"
-  },
-  "aboutText3":{
-    "message":"因为我不会访问许多其他网站的视频内容，其他网站的接口开发将主要取决于你们。欢迎随时在 <a href='http://github.com/david-sabata/web-scrobbler'>GitHub</a> 发送拉取请求。",
-    "description":"'About' section text"
-  },
-  "aboutText4":{
-    "message":"别担心，即使无人贡献，我仍然会继续 YouTube 接口的维护。",
-    "description":"'About' section text"
-  },
-  "aboutText5":{
-    "message":"而且既然我们都喜欢音乐和 Last.fm ，你也可以来我的 Last.fm 专页比较音乐品味，或者进行友好留言:-)",
-    "description":"'About' section text"
-  },
-  "contributorsTitle":{
-    "message":"贡献者",
-    "description":"'Contributors' header"
-  },
-  "contributorsText1":{
-    "message":"我很高兴有不少伟大的人为这个扩展作出贡献！以前在这个页面上有一个列表，但是它的规模迅速增长，且只列出主要贡献者（接口的作者）而未提及次要但也非常重要的贡献者（修复和其他改进）。",
-    "description":"'About' section text"
-  },
-  "contributorsText2":{
-    "message":"为了合宜地认可所有贡献者，并避免重复信息，您现在可以直接在 <a href=\"https://github.com/david-sabata/web-scrobbler/graphs/contributors\">GitHub</a> 上找到贡献者列表。",
-    "description":"'About' section text"
-  },
-  "showSomeLoveTitle":{
-    "message":"捐赠支持",
-    "description":"'Show some love' section"
-  },
-  "showSomeLoveText1":{
-    "message":"与其他扩展程序不同，本扩展不包含任何闪烁的横幅或鬼祟的广告。",
-    "description":""
-  },
-  "showSomeLoveText2":{
-    "message":"我利用空闲时间开发这个扩展，完全开源，并将保持免费。但是，仍请考虑捐赠少许作为激励，以及确保我总有足够的比萨和咖啡来深夜编程。",
-    "description":""
-  },
-  "customPatternsHint":{
-    "message":"在下方为接口添加匹配网址。",
-    "description":"Popup hint"
-  },
-  "customPatternsAdd":{
-    "message":"添加模板",
-    "description":"Add button"
-  },
-  "editedTracksTitle":{
-    "message":"已编辑曲目",
-    "description":"Popup title"
-  },
-  "albumTooltip":{
-    "message":"来自专辑《$1》",
-    "description":"Tooltip text"
-  },
-  "buttonOk":{
-    "message":"确认",
-    "description":"OK button label"
-  },
-  "buttonCancel":{
-    "message":"取消",
-    "description":"Cancel button label"
-  },
-  "buttonReset":{
-    "message":"重置",
-    "description":"Reset button label"
-  },
-  "buttonClear":{
-    "message":"清空",
-    "description":"Clear button label"
-  },
-  "noItemsInCache":{
-    "message":"无记录。",
-    "description":"Popup hint"
-  },
-  "getStartedHeader":{
-    "message":"播放音乐以开始追踪",
-    "description":"The header of 'Get started' popup"
-  },
-  "getStartedSubheader":{
-    "message":"已经开始播放？",
-    "description":"The subheader of 'Get started' popup"
-  },
-  "getStartedSiteChanged":{
-    "message":"多数情况下，这意味着该网站已经有所改动。改动对用户未必可见，但对本扩展来说意义重大。",
-    "description":"Description of why track is not recognized"
-  },
-  "getStartedSubmitIssue":{
-    "message":"需要更新此特定网站的接口代码。您可以访问<a href=\"https://github.com/david-sabata/web-scrobbler/issues\" target=\"_blank\">问题列表</a>查看这个网站是否已被报错。如果没有，您可以提交一个新的问题，描述问题所在、预期行为和实际情形。",
-    "description":"Description of how to submit new issue"
-  },
-  "serviceErrorHeader":{
-    "message":"服务错误",
-    "description":"The header of 'error' popup"
-  },
-  "serviceErrorDesc":{
-    "message":"曲目记录追踪好像出错了。请打开选项页面，尝试重新认证。若重新认证后您仍看到此消息，请在 GitHub 的项目页面创建<a href=\"https://github.com/david-sabata/web-scrobbler/issues\" target=\"_blank\">一个新问题</a>。",
-    "description":"The description of service error"
-  },
-  "serviceErrorButton":{
-    "message":"打开选项页面",
-    "description":"Button label"
-  },
-  "infoLove":{
-    "message":"收藏曲目",
-    "description":"Label of love/unlove button"
-  },
-  "infoUnlove":{
-    "message":"取消收藏",
-    "description":"Label of love/unlove button"
-  },
-  "infoEdit":{
-    "message":"编辑",
-    "description":"Label of edit button"
-  },
-  "infoEditTitle":{
-    "message":"编辑曲目元数据",
-    "description":"Title of edit button"
-  },
-  "infoEditUnableTitle":{
-    "message":"无法编辑已提交曲目",
-    "description":"Title of edit button"
-  },
-  "infoEditSkippedTitle":{
-    "message":"无法编辑已跳过曲目",
-    "description":"Title of edit button"
-  },
-  "infoSwap":{
-    "message":"交换",
-    "description":"Label of swap button"
-  },
-  "infoSwapTitle":{
-    "message":"交换曲目标题和艺术家",
-    "description":"Title of swap button"
-  },
-  "infoSwapUnableTitle":{
-    "message":"无法交换已提交曲目",
-    "description":"Title of swap button"
-  },
-  "infoSwapSkippedTitle":{
-    "message":"无法交换已跳过曲目",
-    "description":"Title of swap button"
-  },
-  "infoSubmit":{
-    "message":"提交",
-    "description":"Label of submit button"
-  },
-  "infoRevert":{
-    "message":"还原",
-    "description":"Label of revert button"
-  },
-  "infoRevertTitle":{
-    "message":"还原变更",
-    "description":"Title of revert button"
-  },
-  "infoRevertUnableTitle":{
-    "message":"无法还原已提交曲目",
-    "description":"Title of revert button"
-  },
-  "infoSkip":{
-    "message":"跳过",
-    "description":"Label of skip button"
-  },
-  "infoSkipTitle":{
-    "message":"不记录当前曲目",
-    "description":"Title of skip button"
-  },
-  "infoSkipUnableTitle":{
-    "message":"无法跳过已提交曲目",
-    "description":"Title of skip button"
-  },
-  "infoSkipAlreadyTitle":{
-    "message":"您已跳过该曲目",
-    "description":"Title of skip button"
-  },
-  "infoOpenAlbumArt":{
-    "message":"在新标签页中打开专辑封面",
-    "description":"Title of album image"
-  },
-  "infoArtistPlaceholder":{
-    "message":"艺术家",
-    "description":"Placeholder of artist input"
-  },
-  "infoTrackPlaceholder":{
-    "message":"曲目",
-    "description":"Placeholder of track input"
-  },
-  "infoAlbumPlaceholder":{
-    "message":"专辑 （可选）",
-    "description":"Placeholder of album input"
-  },
-  "infoViewArtistPage":{
-    "message":"查看艺术家页面",
-    "description":"Placeholder of album input"
-  },
-  "infoViewAlbumPage":{
-    "message":"查看专辑页面",
-    "description":"Placeholder of album input"
-  },
-  "infoViewTrackPage":{
-    "message":"查看曲目页面",
-    "description":"Placeholder of album input"
-  },
-  "pageActionBase":{
-    "message":"已支持追踪本网站的播放记录",
-    "description":"`base` page action title"
-  },
-  "pageActionLoading":{
-    "message":"查找 $1",
-    "description":"`loading` page action title"
-  },
-  "pageActionRecognized":{
-    "message":"正在播放 $1",
-    "description":"`recognized` page action title"
-  },
-  "pageActionScrobbled":{
-    "message":"已提交 $1",
-    "description":"`scrobbled` page action title"
-  },
-  "pageActionSkipped":{
-    "message":"已跳过 $1",
-    "description":"`skipped` page action title"
-  },
-  "pageActionIgnored":{
-    "message":"已忽略 $1",
-    "description":"`ignored` page action title"
-  },
-  "pageActionDisabled":{
-    "message":"已支持追踪本网站的播放记录，但你已将其禁用",
-    "description":"`disabled` page action title"
-  },
-  "pageActionUnknown":{
-    "message":"无法识别该曲目。点击提交正确信息。",
-    "description":"`unknown` page action title"
-  },
-  "pageActionError":{
-    "message":"发生服务错误。点击查看更多信息。",
-    "description":"`loading` page action title"
-  },
-  "menuDisableConnector":{
-    "message":"禁用 $1 接口",
-    "description":"Context menu item"
-  },
-  "menuEnableConnector":{
-    "message":"启用 $1 接口",
-    "description":"Context menu item"
-  },
-  "menuDisableUntilTabClosed":{
-    "message":"禁用接口直至标签关闭",
-    "description":"Context menu item"
-  },
-  "notificationConnectAccounts":{
-    "message":"连接账户",
-    "description":"Notification title"
-  },
-  "notificationConnectAccountsText":{
-    "message":"点击通知以连接账户。",
-    "description":"Notification text"
-  },
-  "notificationAuthError":{
-    "message":"认证错误",
-    "description":"Notification title"
-  },
-  "notificationUnableSignIn":{
-    "message":"无法连接 $1 。请稍后重试。",
-    "description":"Notification text"
-  },
-  "notificationNotRecognized":{
-    "message":"曲目识别失败",
-    "description":"Notification title"
-  },
-  "notificationNotRecognizedText":{
-    "message":"点击扩展列中的图标来更正和提交曲目信息。",
-    "description":"Notification text"
-  }
+    "notificationConnectAccounts": {
+        "message": "连接账户",
+        "description": "Notification title"
+    },
+    "pageActionUnknown": {
+        "message": "无法识别该曲目。点击提交正确信息。",
+        "description": "`unknown` page action title"
+    },
+    "optionYtMusicOnly": {
+        "message": "记录“音乐”分类视频",
+        "description": "Option title"
+    },
+    "faqAnswer4b4": {
+        "message": "添加匹配 Bandcamp 其他域名的网址匹配模板并应用更改。",
+        "description": "Answer #4"
+    },
+    "extDescription": {
+        "message": "追踪全网音乐播放记录！",
+        "description": "Description of the extension"
+    },
+    "faqAnswer4a": {
+        "message": "可能是因为曲目被托管在其他域名，导致本扩展无法检测其是否属于 Bandcamp 。",
+        "description": "Answer #4"
+    },
+    "pageActionIgnored": {
+        "message": "已忽略 $1",
+        "description": "`ignored` page action title"
+    },
+    "pageActionLoading": {
+        "message": "查找 $1",
+        "description": "`loading` page action title"
+    },
+    "showSomeLoveText2": {
+        "message": "我利用空闲时间开发这个扩展，完全开源，并将保持免费。但是，仍请考虑捐赠少许作为激励，以及确保我总有足够的比萨和咖啡来深夜编程。",
+        "description": ""
+    },
+    "faqQuestion3": {
+        "message": "曲目识别失败时可以修复吗？",
+        "description": "Qestion #3"
+    },
+    "getStartedHeader": {
+        "message": "播放音乐以开始追踪",
+        "description": "The header of 'Get started' popup"
+    },
+    "accountsSignedInAs": {
+        "message": "已连接账户 $1。",
+        "description": "'Signed in' label"
+    },
+    "infoEditTitle": {
+        "message": "编辑曲目元数据",
+        "description": "Title of edit button"
+    },
+    "contactLinkedInDesc": {
+        "message": "查看我的职业生涯",
+        "description": "Description for LinkedIn section"
+    },
+    "faqAnswer4b1": {
+        "message": "打开扩展设置页并展开“选项”部分。",
+        "description": "Answer #4"
+    },
+    "serviceErrorButton": {
+        "message": "打开选项页面",
+        "description": "Button label"
+    },
+    "contactGitHubDesc": {
+        "message": "报告问题并做出贡献",
+        "description": "Description for GitHub section"
+    },
+    "infoLove": {
+        "message": "收藏曲目",
+        "description": "Label of love/unlove button"
+    },
+    "noItemsInCache": {
+        "message": "无记录。",
+        "description": "Popup hint"
+    },
+    "getStartedSubheader": {
+        "message": "已经开始播放？",
+        "description": "The subheader of 'Get started' popup"
+    },
+    "notificationAuthError": {
+        "message": "认证错误",
+        "description": "Notification title"
+    },
+    "pageActionDisabled": {
+        "message": "已支持追踪本网站的播放记录，但你已将其禁用",
+        "description": "`disabled` page action title"
+    },
+    "faqAnswer4b": {
+        "message": "对此，可设置扩展如下以识别其他域名：",
+        "description": "Answer #4"
+    },
+    "faqAnswer7": {
+        "message": "我叫 David Šabata ，毕业于捷克共和国布尔诺理工大学的信息技术。我痴迷于将繁琐任务自动化，这可能是我创建这整个扩展的原因。",
+        "description": "Answer #7"
+    },
+    "faqAnswer1b": {
+        "message": "注意：某些情况下通知不会显示，例如在 Mac OS 上以全屏模式运行 Chrome ；扩展程序将打开一个标签页，您可以在该标签页开始账户连接。",
+        "description": "Answer #1"
+    },
+    "infoUnlove": {
+        "message": "取消收藏",
+        "description": "Label of love/unlove button"
+    },
+    "infoViewTrackPage": {
+        "message": "查看曲目页面",
+        "description": "Placeholder of album input"
+    },
+    "infoSwapSkippedTitle": {
+        "message": "无法交换已跳过曲目",
+        "description": "Title of swap button"
+    },
+    "aboutText3": {
+        "message": "因为我不会访问许多其他网站的视频内容，其他网站的接口开发将主要取决于你们。欢迎随时在 <a href='http://github.com/david-sabata/web-scrobbler'>GitHub</a> 发送拉取请求。",
+        "description": "'About' section text"
+    },
+    "infoEdit": {
+        "message": "编辑",
+        "description": "Label of edit button"
+    },
+    "pageActionBase": {
+        "message": "已支持追踪本网站的播放记录",
+        "description": "`base` page action title"
+    },
+    "aboutText2": {
+        "message": "Last.fm Scrobbler 是为了通过浏览器在线听音乐、并希望使用 Last.fm 来追踪播放历史记录的人而创建的。",
+        "description": "'About' section text"
+    },
+    "contributorsTitle": {
+        "message": "贡献者",
+        "description": "'Contributors' header"
+    },
+    "optionYtEntertainmentOnly": {
+        "message": "记录“娱乐”分类视频",
+        "description": "Option label"
+    },
+    "pageActionSkipped": {
+        "message": "已跳过 $1",
+        "description": "`skipped` page action title"
+    },
+    "accountsProfile": {
+        "message": "账户专页",
+        "description": "'Signed in' label"
+    },
+    "faqAnswer5": {
+        "message": "可能，但很可能不会。本扩展是我的业余作品，因此我仅管理对 Youtube 的支持——我根本不使用任何其他网络音乐服务。然而，创建接口来为新网站添加支持真的很容易。您只需分支 <a href=\"http://github.com/david-sabata/web-scrobbler\">GitHub 仓库</a>，并向我发送一个拉取请求。 GitHub 上还有一个维基页面描述了扩展的内核。",
+        "description": "Answer #5"
+    },
+    "pageActionScrobbled": {
+        "message": "已提交 $1",
+        "description": "`scrobbled` page action title"
+    },
+    "contributorsText2": {
+        "message": "为了合宜地认可所有贡献者，并避免重复信息，您现在可以直接在 <a href=\"https://github.com/david-sabata/web-scrobbler/graphs/contributors\">GitHub</a> 上找到贡献者列表。",
+        "description": "'About' section text"
+    },
+    "aboutText4": {
+        "message": "别担心，即使无人贡献，我仍然会继续 YouTube 接口的维护。",
+        "description": "'About' section text"
+    },
+    "menuDisableConnector": {
+        "message": "禁用 $1 接口",
+        "description": "Context menu item"
+    },
+    "pageActionUnsupported": {
+        "message": "Last.fm Scrobbler 未支持本网站",
+        "description": "`unsupported` page action title"
+    },
+    "albumTooltip": {
+        "message": "来自专辑《$1》",
+        "description": "Tooltip text"
+    },
+    "optionsImportEdited": {
+        "message": "导入",
+        "description": "Button to import edited tracks"
+    },
+    "optionForceRecognize": {
+        "message": "强制曲目识别",
+        "description": "Option label"
+    },
+    "getStartedSubmitIssue": {
+        "message": "需要更新此特定网站的接口代码。您可以访问<a href=\"https://github.com/david-sabata/web-scrobbler/issues\" target=\"_blank\">问题列表</a>查看这个网站是否已被报错。如果没有，您可以提交一个新的问题，描述问题所在、预期行为和实际情形。",
+        "description": "Description of how to submit new issue"
+    },
+    "buttonClear": {
+        "message": "清空",
+        "description": "Clear button label"
+    },
+    "faqAnswer2b": {
+        "message": "在选项页面上取消选中复选框可以禁用对应网站接口。取消选中“全部启用/全部禁用”复选框以全局禁用。",
+        "description": "Answer #2"
+    },
+    "faqQuestion2": {
+        "message": "如何暂时禁用对曲目记录的追踪？",
+        "description": "Qestion #2"
+    },
+    "faqQuestion6": {
+        "message": "你会添加____功能吗？",
+        "description": "Qestion #6"
+    },
+    "contactTitle": {
+        "message": "联系",
+        "description": "'Contact' section"
+    },
+    "faqTitle": {
+        "message": "常见问题",
+        "description": "'FAQ' section"
+    },
+    "notificationNotRecognized": {
+        "message": "曲目识别失败",
+        "description": "Notification title"
+    },
+    "faqAnswer4b2": {
+        "message": "在支持网站列表中找到 Bandcamp 接口。",
+        "description": "Answer #4"
+    },
+    "infoSkip": {
+        "message": "跳过",
+        "description": "Label of skip button"
+    },
+    "optionYtEntertainmentOnlyTitle": {
+        "message": "忽略不属于娱乐分类的视频",
+        "description": "Option title"
+    },
+    "faqAnswer4c": {
+        "message": "您可以在<a target='_blank' href='https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns'>这里</a>进一步了解自定义网址匹配模板。",
+        "description": "Answer #4"
+    },
+    "disabledSiteButton": {
+        "message": "打开选项页面",
+        "description": "Button label"
+    },
+    "notificationNotRecognizedText": {
+        "message": "点击扩展列中的图标来更正和提交曲目信息。",
+        "description": "Notification text"
+    },
+    "faqAnswer1a": {
+        "message": "请点击首次加载扩展时显示的通知，并连接追踪服务账户。",
+        "description": "Answer #1"
+    },
+    "faqQuestion1": {
+        "message": "如何开始使用本扩展？",
+        "description": "Qestion #1"
+    },
+    "infoAlbumPlaceholder": {
+        "message": "专辑 （可选）",
+        "description": "Placeholder of album input"
+    },
+    "infoSkipAlreadyTitle": {
+        "message": "您已跳过该曲目",
+        "description": "Title of skip button"
+    },
+    "contactLastfmDesc": {
+        "message": "比较音乐品味或打个招呼！",
+        "description": "Description for Twitter section"
+    },
+    "faqAnswer6": {
+        "message": "可能，如果它是有道理的。但是，如果你想让我添加一些不那么有用但很酷的功能，你可能会失望。",
+        "description": "Answer #6"
+    },
+    "getStartedSiteChanged": {
+        "message": "多数情况下，这意味着该网站已经有所改动。改动对用户未必可见，但对本扩展来说意义重大。",
+        "description": "Description of why track is not recognized"
+    },
+    "optionYtDesc": {
+        "message": "如果您关闭了这两个选项，该扩展程序将会对所有类别的 Youtube 视频追踪播放记录。",
+        "description": "Description of Youtube options"
+    },
+    "buttonReset": {
+        "message": "重置",
+        "description": "Reset button label"
+    },
+    "optionsViewEdited": {
+        "message": "查看",
+        "description": "Button to view edited tracks"
+    },
+    "faqAnswer3b": {
+        "message": "此外，若启用“强制曲目识别”选项，本扩展也将记录未被 Last.fm 验证的曲目。",
+        "description": "Answer #3"
+    },
+    "pageActionRecognized": {
+        "message": "正在播放 $1",
+        "description": "`recognized` page action title"
+    },
+    "infoSkipUnableTitle": {
+        "message": "无法跳过已提交曲目",
+        "description": "Title of skip button"
+    },
+    "infoRevertUnableTitle": {
+        "message": "无法还原已提交曲目",
+        "description": "Title of revert button"
+    },
+    "optionsOptions": {
+        "message": "选项",
+        "description": "'Options' section"
+    },
+    "infoSwapTitle": {
+        "message": "交换曲目标题和艺术家",
+        "description": "Title of swap button"
+    },
+    "buttonCancel": {
+        "message": "取消",
+        "description": "Cancel button label"
+    },
+    "serviceErrorHeader": {
+        "message": "服务错误",
+        "description": "The header of 'error' popup"
+    },
+    "showSomeLoveTitle": {
+        "message": "捐赠支持",
+        "description": "'Show some love' section"
+    },
+    "notificationConnectAccountsText": {
+        "message": "点击通知以连接账户。",
+        "description": "Notification text"
+    },
+    "optionsEnableDisableHint": {
+        "message": "单击复选框以启用/禁用接口。",
+        "description": "Enable/disable hint"
+    },
+    "unsupportedWebsiteDesc": {
+        "message": "Last.fm Scrobbler 暂未支持追踪本网站的播放记录，您可以在<a target=\"_blank\" href=\"https://github.com/david-sabata/web-scrobbler/issues/new\">这里</a> 要求增加对该网站的支持。",
+        "description": "The description of 'unsupported' popup"
+    },
+    "aboutText5": {
+        "message": "而且既然我们都喜欢音乐和 Last.fm ，你也可以来我的 Last.fm 专页比较音乐品味，或者进行友好留言:-)",
+        "description": "'About' section text"
+    },
+    "editedTracksTitle": {
+        "message": "已编辑曲目",
+        "description": "Popup title"
+    },
+    "infoSubmit": {
+        "message": "提交",
+        "description": "Label of submit button"
+    },
+    "optionsEditedTracks": {
+        "message": "已编辑曲目",
+        "description": "'Edited tracks' header"
+    },
+    "optionForceRecognizeTitle": {
+        "message": "强制记录未知曲目",
+        "description": "Option title"
+    },
+    "contactPrivacyPolicyDesc": {
+        "message": "查看隐私政策",
+        "description": "Description for privacy section"
+    },
+    "infoTrackPlaceholder": {
+        "message": "曲目",
+        "description": "Placeholder of track input"
+    },
+    "menuEnableConnector": {
+        "message": "启用 $1 接口",
+        "description": "Context menu item"
+    },
+    "aboutText1": {
+        "message": "当前版本的更新日志在<a id='latest-release' target='_blank' href='#'>这里</a>。访问<a target='_blank' href='https://github.com/david-sabata/web-scrobbler/releases'>这个页面</a>以查看完整的更新日志。",
+        "description": "'About' section text"
+    },
+    "faqQuestion5": {
+        "message": "你会添加对____的追踪支持吗？",
+        "description": "Qestion #5"
+    },
+    "accountsNotSignedIn": {
+        "message": "尚未连接。",
+        "description": "'Signed in' label"
+    },
+    "optionUseNotificationsTitle": {
+        "message": "为所有支持网站启用正在播放通知",
+        "description": "Option title"
+    },
+    "infoRevertTitle": {
+        "message": "还原变更",
+        "description": "Title of revert button"
+    },
+    "menuDisableUntilTabClosed": {
+        "message": "禁用接口直至标签关闭",
+        "description": "Context menu item"
+    },
+    "optionUseNotifications": {
+        "message": "提示当前曲目",
+        "description": "Option label"
+    },
+    "infoViewArtistPage": {
+        "message": "查看艺术家页面",
+        "description": "Placeholder of album input"
+    },
+    "disabledSiteHeader": {
+        "message": "已禁用追踪本网站的播放记录",
+        "description": "The header of 'disabled' popup"
+    },
+    "customPatternsAdd": {
+        "message": "添加模板",
+        "description": "Add button"
+    },
+    "customPatternsHint": {
+        "message": "在下方为接口添加匹配网址。",
+        "description": "Popup hint"
+    },
+    "notificationUnableSignIn": {
+        "message": "无法连接 $1 。请稍后重试。",
+        "description": "Notification text"
+    },
+    "faqQuestion4": {
+        "message": "Bandcamp 上的一些曲目无法记录。如何解决？",
+        "description": "Qestion #4"
+    },
+    "faqAnswer2a": {
+        "message": "您可以通过右键单击扩展栏中的绿色扩展图标来完成此操作。使用上下文菜单可以禁用当前 Web 服务的接口。",
+        "description": "Answer #2"
+    },
+    "faqQuestion7": {
+        "message": "作者是谁？",
+        "description": "Qestion #7"
+    },
+    "contactTwitterDesc": {
+        "message": "查看近况及简短交流",
+        "description": "Description for Twitter section"
+    },
+    "accountsSignIn": {
+        "message": "连接账户",
+        "description": "Button label"
+    },
+    "optionDisableGaTitle": {
+        "message": "禁止向 Google Analytics 发送数据",
+        "description": "Option title"
+    },
+    "infoViewAlbumPage": {
+        "message": "查看专辑页面",
+        "description": "Placeholder of album input"
+    },
+    "optionsGeneral": {
+        "message": "常规",
+        "description": "'General' section"
+    },
+    "infoEditSkippedTitle": {
+        "message": "无法编辑已跳过曲目",
+        "description": "Title of edit button"
+    },
+    "optionsSupportedWebsites": {
+        "message": "支持网站列表",
+        "description": "'Supported websites' header"
+    },
+    "infoSwapUnableTitle": {
+        "message": "无法交换已提交曲目",
+        "description": "Title of swap button"
+    },
+    "pageActionError": {
+        "message": "发生服务错误。点击查看更多信息。",
+        "description": "`loading` page action title"
+    },
+    "serviceErrorDesc": {
+        "message": "曲目记录追踪好像出错了。请打开选项页面，尝试重新认证追踪服务。若重新认证后您仍看到此消息，请在 GitHub 的项目页面创建<a href=\"https://github.com/david-sabata/web-scrobbler/issues\" target=\"_blank\">一个新问题</a>。",
+        "description": "The description of service error"
+    },
+    "optionsCustomPatternsHint": {
+        "message": "点击复选框前的小齿轮图标以设置各接口的自定义网址匹配模板（<a target='_blank' href='https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns'>了解更多</a>）。",
+        "description": "Description of how to configure custom URL patterns"
+    },
+    "infoArtistPlaceholder": {
+        "message": "艺术家",
+        "description": "Placeholder of artist input"
+    },
+    "optionUnrecognizedNotificationsTitle": {
+        "message": "扩展无法识别曲目时显示通知",
+        "description": "Option title"
+    },
+    "infoEditUnableTitle": {
+        "message": "无法编辑已提交曲目",
+        "description": "Title of edit button"
+    },
+    "optionsEditedTracksDesc": {
+        "message": "该扩展储存已编辑曲目。",
+        "description": "Description of edited tracks"
+    },
+    "optionsExportEdited": {
+        "message": "导出",
+        "description": "Button to export edited tracks"
+    },
+    "infoOpenAlbumArt": {
+        "message": "在新标签页中打开专辑封面",
+        "description": "Title of album image"
+    },
+    "buttonOk": {
+        "message": "确认",
+        "description": "OK button label"
+    },
+    "optionsAbout": {
+        "message": "关于",
+        "description": "'About' section"
+    },
+    "contributorsText1": {
+        "message": "我很高兴有不少伟大的人为这个扩展作出贡献！以前在这个页面上有一个列表，但是它的规模迅速增长，且只列出主要贡献者（接口的作者）而未提及次要但也非常重要的贡献者（修复和其他改进）。",
+        "description": "'About' section text"
+    },
+    "showSomeLoveText1": {
+        "message": "与其他扩展程序不同，本扩展不包含任何闪烁的横幅或鬼祟的广告。",
+        "description": ""
+    },
+    "optionDisableGa": {
+        "message": "禁用 Google Analytics",
+        "description": "Option label"
+    },
+    "faqAnswer4b3": {
+        "message": "点击接口选项附近的齿轮图标。",
+        "description": "Answer #4"
+    },
+    "infoSwap": {
+        "message": "交换",
+        "description": "Label of swap button"
+    },
+    "disabledSiteDesc": {
+        "message": "直到您在扩展选项中启用该网站之前，本扩展不会在该网站追踪播放记录。",
+        "description": "The description of 'disabled' popup"
+    },
+    "infoRevert": {
+        "message": "还原",
+        "description": "Label of revert button"
+    },
+    "infoSkipTitle": {
+        "message": "不记录当前曲目",
+        "description": "Title of skip button"
+    },
+    "unsupportedWebsiteHeader": {
+        "message": "未支持追踪本网站的播放记录",
+        "description": "The header of 'unsupported' popup"
+    },
+    "optionYtMusicOnlyTitle": {
+        "message": "忽略不属于音乐分类的视频",
+        "description": "Option label"
+    },
+    "faqAnswer3a": {
+        "message": "当无法识别曲目时，在扩展栏中会出现带有问号的灰色图标。您可以点击这个图标并在打开的弹出窗口中输入正确的数据。",
+        "description": "Answer #3"
+    },
+    "accountsSignOut": {
+        "message": "解除连接",
+        "description": "Button label"
+    },
+    "optionsTitle": {
+        "message": "Last.fm Scrobbler 选项",
+        "description": "Title of options page"
+    },
+    "optionsToggle": {
+        "message": "全部启用/全部禁用",
+        "description": "Label of toggle button"
+    },
+    "optionUnrecognizedNotifications": {
+        "message": "提示识别失败",
+        "description": "Option label"
+    },
+    "contactMyWebDesc": {
+        "message": "查看我的其他作品",
+        "description": "Description for my web section"
+    },
+    "optionsAccounts": {
+        "message": "账户",
+        "description": "'Accounts' section"
+    }
 }
