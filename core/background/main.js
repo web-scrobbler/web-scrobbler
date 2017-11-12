@@ -89,7 +89,7 @@ require([
 	 */
 	function setupChromeEventListeners() {
 		chrome.tabs.onUpdated.addListener(onTabUpdated);
-		chrome.tabs.onRemoved.addListener(unloadController);
+		chrome.tabs.onRemoved.addListener(onTabRemoved);
 		chrome.tabs.onActivated.addListener(onTabChanged);
 
 		chrome.runtime.onMessage.addListener(onMessage);
@@ -238,6 +238,15 @@ require([
 	 */
 	function onTabChanged(activeInfo) {
 		setupContextMenu(activeInfo.tabId);
+	}
+
+	/**
+	 * Called when tab is changed.
+	 * @param  {Number} tabId Tab ID
+	 */
+	function onTabRemoved(tabId) {
+		unloadController(tabId);
+		delete tabUpdateQueue[tabId];
 	}
 
 	/**
