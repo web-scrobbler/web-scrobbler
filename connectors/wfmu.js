@@ -1,18 +1,37 @@
 'use strict';
 
-Connector.playerSelector = '.audioplayer';
+function setupAudioPlayer() {
+	Connector.playerSelector = '.audioplayer';
 
-Connector.artistSelector = '#current-title';
+	Connector.artistSelector = '#current-title';
 
-Connector.trackSelector = '#current-title';
+	Connector.trackSelector = '#current-title';
 
-Connector.isPlaying = () => $('.mejs-playpause-button').hasClass('mejs-pause');
+	Connector.isPlaying = () => $('.mejs-playpause-button').hasClass('mejs-pause');
 
-Connector.filter = new MetadataFilter({
-	track: cleanupTrack,
-	artist: cleanupArtist,
-	all: MetadataFilter.trim
-});
+	Connector.filter = new MetadataFilter({
+		track: cleanupTrack,
+		artist: cleanupArtist,
+		all: MetadataFilter.trim
+	});
+}
+
+function setupArchivePlayer() {
+	Connector.playerSelector = '.archiveplayer';
+
+	Connector.artistSelector = '#np-artist';
+
+	Connector.trackSelector = '#np-song';
+
+	Connector.isPlaying = () => $('.mejs-playpause-button').hasClass('mejs-pause');
+
+	Connector.filter = new MetadataFilter({
+		track: cleanupTrack,
+		all: MetadataFilter.trim
+	});
+}
+
+
 
 function cleanupTrack(track) {
 	// extract track from a "track" by artist
@@ -27,3 +46,25 @@ function cleanupArtist(artist) {
 
 	return artist;
 }
+
+
+
+function isAudioPlayer() {
+	return $('body').hasClass('audioplayer');
+}
+
+function isArchivePlayer() {
+	return $('body').hasClass('archiveplayer');
+}
+
+function setupConnector() {
+	if (isArchivePlayer()) {
+		setupArchivePlayer();
+	} else if (isAudioPlayer()) {
+		setupAudioPlayer();
+	} else {
+		console.warn('WFMU connector: unknown player');
+	}
+}
+
+setupConnector();
