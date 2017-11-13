@@ -1074,7 +1074,7 @@ define(function() {
 
 	}, {
 		label: 'WFMU',
-		matches: ['*://wfmu.org/audioplayer/*'],
+		matches: ['*://wfmu.org/audioplayer/*', '*://wfmu.org/archiveplayer/*'],
 		js: ['connectors/wfmu.js'],
 	}, {
 		label: 'SiriusXM',
