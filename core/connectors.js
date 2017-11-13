@@ -1120,5 +1120,9 @@ define(function() {
 		label: 'Gimme Radio',
 		matches: ['*://gimmeradio.com/*', '*://www.gimmeradio.com/*'],
 		js: ['connectors/gimmeradio.js']
+	}, {
+		label: '9sky',
+		matches: ['*://www.9sky.com/music*', '*://www.9sky.com/mv/detail*'],
+		js: ['connectors/9sky.js']
 	}];
 });
