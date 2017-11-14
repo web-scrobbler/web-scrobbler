@@ -2,14 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "Added multi-language support\nAdded a feature to remove single entries from local cache\nAdded a tooltip that shows album info in \"Edited tracks\" popup window\nAdded a feature to swap artist and track name before submitting track info\nAdded Chinese translation\nAdded Polish translation\nAdded Russian translation\nAdded 1ting connector\nAdded Douban Artists connector\nAdded FIP Radio connector\nAdded JetSetRadio Live connector\nAdded Kugou connector\nAdded Ma5onic Music support\nAdded RemixRotation connector\nAdded SiriusXM connector\nAdded WFMU connector\nImprove 163 Music connector\nImproved Baidu connector\nImproved BeMusic connector\nImproved Douban connector\nImproved Kuwo connector\nImproved QQ Music connector\nImproved Xiami connector\nImproved Youtube metadata filter\nRemoved DashRadio connector\nRemoved support for old Pandora website\nReplaced Nova Planet with Radio Nova\nUpdated popup and options UI\nUpdated Libre.fm API key and API secret\nFixed an issue when the cover art image wasn't be opened in new tab\nFixed a regression when track duration wasn't updated properly\nFixed a regression when the extension sent data to GA even it was turned off by user\nFixed Gaana connector"
+        "en-US": "Added an ability to export and import saved track data\nAdded description of options for Youtube connector\nAdded popup windows for turned off and unsupported websites\nAdded 9sky connector\nAdded ccMixter connector\nAdded Gimme Radio connector\nAdded Hitsradio connector\nAdded Retro Synthwave connector\nAdded Rinoceronte.fm connector\nAdded support for Youtube embedded videos\nImproved Youtube metadata filter\nImproved Bandcamp connector\nImproved Fritz connector\nImproved PLEX connector\nImproved RadioTunes connector\nImproved radioeins connector\nImproved WFMU connector\nImproved Xiami connector\nImproved Youtube connector\nMoved the extension icon to the extension bar\nRemoved MyMusicCloud connector\nRemoved Pleer connector\nRemoved post-player connector\nRemoved radd.it connector\nRemoved old Spotify connector\nUpdated translations\nBypassed an issue when the extension icon in address bar was hidden while AJAX navigation\nFixed several issues related to the info popup\nFixed an issue when time string could not be parsed\nFixed an issue when the extension didn't parse HTML entities\nFixed 163 Music connector\nFixed AccuRadio connector\nFixed Anghami connector\nFixed Genie connector\nFixed SoundCloud connector\nFixed Tidal connector"
       },
       "files": [
         {
-          "created": "2017-10-17T16:51:11Z"
+          "created": null
         }
       ],
-      "version": "2.1.0"
+      "version": "2.2.0"
     }
   ]
 }
