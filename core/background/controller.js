@@ -79,7 +79,6 @@ define([
 		 */
 		finish() {
 			this.resetState();
-			this.pageAction.reset();
 		}
 
 		/**

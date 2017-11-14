@@ -74,14 +74,6 @@ define(() => {
 			popup: '/popups/error.html',
 			i18n: 'pageActionError',
 		},
-		unsupported: {
-			path: {
-				'19': '/icons/page_action_unsupported.svg',
-				'38': '/icons/page_action_unsupported.svg'
-			},
-			popup: '/popups/unsupported.html',
-			i18n: 'pageActionUnsupported',
-		},
 	};
 
 	/**
@@ -214,13 +206,6 @@ define(() => {
 		 */
 		setError() {
 			this.setBrowserAction(state.error);
-		}
-
-		/**
-		 * Hide browser action icon.
-		 */
-		reset() {
-			this.setBrowserAction(state.unsupported);
 		}
 	}
 
