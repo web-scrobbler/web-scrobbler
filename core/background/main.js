@@ -188,7 +188,7 @@ require([
 			switch (result.type) {
 				case InjectResult.NO_MATCH: {
 					// Remove controller if any
-					unloadController(tabId);
+					unloadController(tabId, true);
 					break;
 				}
 
@@ -343,15 +343,16 @@ require([
 	/**
 	 * Stop and remove controller for given tab ID.
 	 * @param  {Number} tabId Tab ID
+	 * @param  {Boolean} hideBrowserAction Should controller reset icon
 	 */
-	function unloadController(tabId) {
+	function unloadController(tabId, hideBrowserAction = false) {
 		let controller = tabControllers[tabId];
 
 		if (controller) {
 			let label = controller.getConnector().label;
 			console.log(`Tab ${tabId}: Remove controller for ${label} connector`);
 
-			controller.finish();
+			controller.finish(hideBrowserAction);
 			delete tabControllers[tabId];
 		}
 	}

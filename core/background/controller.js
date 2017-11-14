@@ -92,9 +92,14 @@ define([
 
 		/**
 		 * Do finalization before unloading controller.
+		 * @param  {Boolean} hideBrowserAction Should controller reset icon
 		 */
-		finish() {
+		finish(hideBrowserAction) {
 			this.resetState();
+			// FIXME: Workaround for Firefox
+			if (hideBrowserAction) {
+				this.pageAction.reset();
+			}
 		}
 
 		/**
