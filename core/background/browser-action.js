@@ -3,74 +3,47 @@
 define(() => {
 	const state = {
 		base: {
-			path: {
-				'19': '/icons/page_action_base.svg',
-				'38': '/icons/page_action_base.svg'
-			},
+			icon: 'base',
 			popup: '/popups/go_play_music.html',
 			i18n: 'pageActionBase',
 		},
 		loading: {
-			path: {
-				'19': '/icons/page_action_loading.png',
-				'38': '/icons/page_action_loading_38.png'
-			},
+			icon: 'loading',
 			popup: '',
 			i18n: 'pageActionLoading',
 		},
 		recognized: {
-			path: {
-				'19': '/icons/page_action_note.svg',
-				'38': '/icons/page_action_note.svg'
-			},
+			icon: 'note',
 			popup: '/popups/info.html',
 			i18n: 'pageActionRecognized',
 		},
 		scrobbled: {
-			path: {
-				'19': '/icons/page_action_tick.svg',
-				'38': '/icons/page_action_tick.svg'
-			},
+			icon: 'tick',
 			popup: '/popups/info.html',
 			i18n: 'pageActionScrobbled',
 		},
 		skipped: {
-			path: {
-				'19': '/icons/page_action_skipped.svg',
-				'38': '/icons/page_action_skipped.svg'
-			},
+			icon: 'skipped',
 			popup: '/popups/info.html',
 			i18n: 'pageActionSkipped',
 		},
 		ignored: {
-			path: {
-				'19': '/icons/page_action_ignored.svg',
-				'38': '/icons/page_action_ignored.svg'
-			},
+			icon: 'ignored',
 			popup: '',
 			i18n: 'pageActionIgnored',
 		},
 		disabled: {
-			path: {
-				'19': '/icons/page_action_disabled.svg',
-				'38': '/icons/page_action_disabled.svg'
-			},
+			icon: 'disabled',
 			popup: '/popups/disabled.html',
 			i18n: 'pageActionDisabled',
 		},
 		unknown: {
-			path: {
-				'19': '/icons/page_action_question.svg',
-				'38': '/icons/page_action_question.svg'
-			},
+			icon: 'unknown',
 			popup: '/popups/info.html',
 			i18n: 'pageActionUnknown',
 		},
 		error: {
-			path: {
-				'19': '/icons/page_action_error.svg',
-				'38': '/icons/page_action_error.svg'
-			},
+			icon: 'error',
 			popup: '/popups/error.html',
 			i18n: 'pageActionError',
 		},
@@ -104,8 +77,12 @@ define(() => {
 			let tabId = this.tabId;
 			chrome.tabs.get(tabId, () => {
 				if (!chrome.runtime.lastError) {
-					let { path, popup, i18n } = state;
+					let { icon, popup, i18n } = state;
 					let title = chrome.i18n.getMessage(i18n, placeholder);
+					let path = {
+						19: `/icons/page_action_${icon}_19.png`,
+						38: `/icons/page_action_${icon}_38.png`
+					};
 
 					/* @ifdef FIREFOX
 					// Part of workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=1406765
