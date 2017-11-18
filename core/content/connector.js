@@ -578,7 +578,7 @@ function BaseConnector() {
 
 		console.log(`Web Scrobbler: Injected ${scriptFile}`);
 
-		$(window).on('message', ({ originalEvent: event }) => {
+		window.addEventListener('message', (event) => {
 			if (event.data.sender !== 'web-scrobbler') {
 				return;
 			}
