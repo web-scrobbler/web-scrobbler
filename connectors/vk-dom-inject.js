@@ -7,6 +7,7 @@ const INFO_ID = 0;
 const INFO_TRACK = 3;
 const INFO_ARTIST = 4;
 const INFO_DURATION = 5;
+const INFO_TRACK_ARTS = 14;
 
 setupEventListeners();
 
@@ -28,12 +29,14 @@ function sendUpdateEvent(type) {
 	if (currentTime === audioObject[INFO_DURATION]) {
 		return;
 	}
+	let trackArt = extractTrackArt(audioObject[INFO_TRACK_ARTS]);
 
 	window.postMessage({
 		sender: 'web-scrobbler',
 		type,
 		trackInfo: {
 			currentTime,
+			trackArt,
 			duration: audioObject[INFO_DURATION],
 			uniqueID: audioObject[INFO_ID],
 			artist: audioObject[INFO_ARTIST],
@@ -49,4 +52,14 @@ function setupEventListeners() {
 			cb: sendUpdateEvent.bind(null, e),
 		});
 	}
+}
+
+/**
+ * Extract largest track art from list of track art URLs.
+ * @param  {String} trackArts String contains list of track art URLs
+ * @return {String} Track art URL
+ */
+function extractTrackArt(trackArts) {
+	let trackArtArr = trackArts.split(',');
+	return trackArtArr.pop();
 }
