@@ -148,9 +148,7 @@ module.exports = function(grunt) {
 			options: {
 				files: ['manifest.json'],
 				updateConfigs: ['manifest'],
-				commit: true,
 				commitFiles: ['manifest.json'],
-				push: false
 			}
 		},
 		dump_changelog: {
