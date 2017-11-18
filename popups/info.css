@@ -20,7 +20,7 @@ input {
 }
 
 #wrapper {
-	height: 100px;
+	min-height: 100px;
 	padding: 5px;
 	width: 350px;
 }
