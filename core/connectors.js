@@ -712,18 +712,6 @@ define(function() {
 	},
 
 	{
-		label: 'Youtubify',
-		matches: ['*://youtubify.vebto.com/*', '*://bemusic.vebto.com/*'],
-		js: ['connectors/bemusic.js'],
-	},
-
-	{
-		label: 'Ma5onic Music Player',
-		matches: ['*://ma5onic.com/PlayerApp/*', '*://player.ma5onic.com/*', '*://www.ma5onic.com/PlayerApp/*', '*://www.player.ma5onic.com/*'],
-		js: ['connectors/bemusic.js'],
-	},
-
-	{
 		label: 'Paste Radio',
 		matches: ['*://www.pastemagazine.com/radio*'],
 		js: ['connectors/pasteradio.js'],
@@ -750,12 +738,6 @@ define(function() {
 		label: 'RBMA Radio',
 		matches: ['*://www.redbullradio.com/*'],
 		js: ['connectors/redbullradio.js'],
-	},
-
-	{
-		label: 'GrooveMP3',
-		matches: ['*://groovemp3.com/*', '*://www.groovemp3.com/*'],
-		js: ['connectors/bemusic.js'],
 	},
 
 	{
@@ -969,6 +951,34 @@ define(function() {
 	},
 
 	{
+		label: 'Youtubify',
+		matches: ['*://youtubify.vebto.com/*', '*://bemusic.vebto.com/*'],
+		js: ['connectors/bemusic.js'],
+	},
+
+	{
+		label: 'Ma5onic Music Player',
+		matches: [
+			'*://ma5onic.com/PlayerApp/*',
+			'*://player.ma5onic.com/*',
+			'*://www.ma5onic.com/PlayerApp/*',
+			'*://www.player.ma5onic.com/*'],
+		js: ['connectors/bemusic.js'],
+	}, {
+		label: 'GrooveMP3',
+		matches: ['*://groovemp3.com/*', '*://www.groovemp3.com/*'],
+		js: ['connectors/bemusic.js'],
+	}, {
+		label: 'S2Music',
+		matches: ['*://s2music.com/*', '*://www.s2music.com/*'],
+		js: ['connectors/bemusic.js'],
+	}, {
+		label: 'Loud.zone',
+		matches: ['*://loud.zone/*'],
+		js: ['connectors/bemusic.js'],
+	},
+
+	{
 		label: 'Discogs',
 		matches: ['*://www.discogs.com/*'],
 		js: ['connectors/youtube-embed.js'],
@@ -1005,10 +1015,6 @@ define(function() {
 		label: 'Fritz',
 		matches: ['*://www.fritz.de/livestream/*'],
 		js: ['connectors/fritz.js'],
-	}, {
-		label: 'S2Music',
-		matches: ['*://s2music.com/*', '*://www.s2music.com/*'],
-		js: ['connectors/bemusic.js'],
 	}, {
 		label: 'Musicoin',
 		matches: ['*://musicoin.org/*'],

@@ -20,4 +20,9 @@ module.exports = function(driver, connectorSpec) {
 		url: 'http://ma5onic.com/PlayerApp/album/3043/Twenty+One+Pilots/Blurryface',
 		playButtonSelector: '.play-button'
 	});
+
+	connectorSpec.shouldBehaveLikeMusicSite(driver, {
+		url: 'https://loud.zone/artist/5095/The+Beatles',
+		playButtonSelector: '.icon-play'
+	});
 };
