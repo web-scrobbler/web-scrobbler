@@ -21,9 +21,9 @@ function sendUpdateEvent(type) {
 
 	/*
 	 * VK player sets current time equal to song duration on startup.
-		 * This makes the extension to think the song is seeking to its
-		 * beginning, and repeat the song. Ignore this stage to avoid
-		 * this behavior.
+	 * This makes the extension to think the song is seeking to its
+	 * beginning, and repeat the song. Ignore this stage to avoid
+	 * this behavior.
 	 */
 	if (currentTime === audioObject[INFO_DURATION]) {
 		return;
