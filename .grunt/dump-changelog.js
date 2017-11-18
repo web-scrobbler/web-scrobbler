@@ -73,7 +73,7 @@ function getRelease(tagName) {
 	}).then((response) => {
 		let releases = response.data;
 		for (let release of releases) {
-			if (release.tag_name === tagName) {
+			if (release.tag_name === tagName || release.name === tagName) {
 				return release;
 			}
 		}
