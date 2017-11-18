@@ -2,14 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "Added multi-language support\nAdded a feature to remove single entries from local cache\nAdded a tooltip that shows album info in \"Edited tracks\" popup window\nAdded a feature to swap artist and track name before submitting track info\nAdded Chinese translation\nAdded Polish translation\nAdded Russian translation\nAdded 1ting connector\nAdded Douban Artists connector\nAdded FIP Radio connector\nAdded JetSetRadio Live connector\nAdded Kugou connector\nAdded Ma5onic Music support\nAdded RemixRotation connector\nAdded SiriusXM connector\nAdded WFMU connector\nImprove 163 Music connector\nImproved Baidu connector\nImproved BeMusic connector\nImproved Douban connector\nImproved Kuwo connector\nImproved QQ Music connector\nImproved Xiami connector\nImproved Youtube metadata filter\nRemoved DashRadio connector\nRemoved support for old Pandora website\nReplaced Nova Planet with Radio Nova\nUpdated popup and options UI\nUpdated Libre.fm API key and API secret\nFixed an issue when the cover art image wasn't be opened in new tab\nFixed a regression when track duration wasn't updated properly\nFixed a regression when the extension sent data to GA even it was turned off by user\nFixed Gaana connector"
+        "en-US": "Fixed an issue when the browser action icon wasn't displayed on Firefox 56\nFixed an issue when the extension didn't reset browser action icon\nFixed an issue when the extension didn't scrobble short tracks\nFixed an issue when the extension didn't show long track names in popup window correctly"
       },
       "files": [
         {
-          "created": "2017-10-17T16:51:11Z"
+          "created": null
         }
       ],
-      "version": "2.1.0"
+      "version": "2.2.1"
     }
   ]
 }
