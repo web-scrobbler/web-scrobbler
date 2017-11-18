@@ -338,8 +338,8 @@ module.exports = function(grunt) {
 		}
 
 		grunt.task.run([
-			`bump:${versionType}`, 'publish:chrome', 'publish:firefox',
-			'publish:github', 'publish:add0n'
+			`bump:${versionType}`, 'publish:chrome',
+			'publish:firefox', 'publish:add0n'
 		]);
 	});
 
