@@ -183,21 +183,6 @@ function testGetArtistTrackString() {
 }
 
 /**
- * Test 'Song.getSecondsToScrobble' function.
- */
-function testGetSecondsToScrobble() {
-	it('should return proper value', () => {
-		let song1 = createSong({ duration: 300 });
-		expect(song1.getSecondsToScrobble()).to.be.equal(150);
-	});
-
-	it('should return proper value for songs longer that 4 minutes', () => {
-		let song1 = createSong({ duration: 600 });
-		expect(song1.getSecondsToScrobble()).to.be.equal(240);
-	});
-}
-
-/**
  * Run all tests.
  */
 function runTests() {
@@ -206,7 +191,6 @@ function runTests() {
 
 	describe('isSongEmpty', testIsEmpty);
 	describe('getUniqueId', testGetUniqueId);
-	describe('secondsToScrobble', testGetSecondsToScrobble);
 	describe('getArtistTrackString', testGetArtistTrackString);
 }
 

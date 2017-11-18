@@ -12,6 +12,22 @@ define([
 	'objects/serviceCallResult',
 ], function(Song, Pipeline, BrowserAction, Timer, Notifications, GA, LocalCache, ScrobbleService, ServiceCallResult) {
 	/**
+	 * Number of seconds of playback before the track is scrobbled.
+	 * This value is used only if no duration was parsed or loaded.
+	 */
+	const DEFAULT_SCROBBLE_TIME = 30;
+
+	/**
+	 * Minimum number of seconds of scrobbleable track.
+	 */
+	const MIN_TRACK_DURATION = 30;
+
+	/**
+	 * Max number of seconds of playback before the track is scrobbled.
+	 */
+	const MAX_SCROBBLE_TIME = 240;
+
+	/**
 	 * Object that handles song playback and scrobbling actions.
 	 */
 	class Controller {
@@ -354,7 +370,7 @@ define([
 				this.currentSong.flags.attr('isMarkedAsPlaying', false);
 
 				// Set time-to-scrobble
-				this.playbackTimer.update(this.currentSong.getSecondsToScrobble());
+				this.playbackTimer.update(this.getSecondsToScrobble());
 				this.replayDetectionTimer.update(this.currentSong.getDuration());
 
 				let remainedSeconds = this.playbackTimer.getRemainingSeconds();
@@ -432,7 +448,7 @@ define([
 			this.currentSong.parsed.attr({ duration });
 
 			if (this.currentSong.isValid()) {
-				this.playbackTimer.update(this.currentSong.getSecondsToScrobble());
+				this.playbackTimer.update(this.getSecondsToScrobble());
 				this.replayDetectionTimer.update(this.currentSong.getDuration());
 
 				let remainedSeconds = this.playbackTimer.getRemainingSeconds();
@@ -496,6 +512,26 @@ define([
 					this.pageAction.setError();
 				}
 			});
+		}
+
+		/**
+		 * Return total number of seconds of playback needed for this track
+		 * to be scrobbled.
+		 * @return {Number} Seconds to scrobble
+		 */
+		getSecondsToScrobble() {
+			let duration = this.currentSong.getDuration();
+			if (duration < MIN_TRACK_DURATION) {
+				return -1;
+			}
+
+			let scrobbleTime;
+			if (duration) {
+				scrobbleTime = Math.max(duration / 2);
+			} else {
+				scrobbleTime = DEFAULT_SCROBBLE_TIME;
+			}
+			return Math.min(scrobbleTime, MAX_SCROBBLE_TIME);
 		}
 
 		/**

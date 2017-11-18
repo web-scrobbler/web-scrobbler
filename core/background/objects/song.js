@@ -31,17 +31,6 @@ define(['vendor/md5', 'wrappers/can'], (MD5, can) => {
 	 */
 	return function(parsedData, connector) {
 		/**
-		 * Number of seconds of playback before the track is scrobbled.
-		 * This value is used only if no duration was parsed or loaded.
-		 */
-		const DEFAULT_SCROBBLE_TIME = 30;
-
-		/**
-		 * Max number of seconds of playback before the track is scrobbled.
-		 */
-		const MAX_SCROBBLE_TIME = 240;
-
-		/**
 		 * Safe copy of initial parsed data.
 		 * Should not be changed during lifetime of this object.
 		 */
@@ -166,16 +155,6 @@ define(['vendor/md5', 'wrappers/can'], (MD5, can) => {
 		 */
 		song.getDuration = function() {
 			return this.parsed.duration || this.processed.duration;
-		};
-
-		/**
-		 * Return total number of seconds of playback needed for this track
-		 * to be scrobbled.
-		 * @return {Number} Seconds to scrobble
-		 */
-		song.getSecondsToScrobble = function() {
-			let val = Math.max(this.getDuration() / 2, DEFAULT_SCROBBLE_TIME);
-			return Math.min(val, MAX_SCROBBLE_TIME);
 		};
 
 		/**
