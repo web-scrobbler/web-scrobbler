@@ -9,7 +9,7 @@ Connector.filter = new MetadataFilter({
 
 Connector.getCurrentState = () => currentState;
 
-Connector.onScriptEvent = (event) => {
+Connector.onScriptEvent = function(event) {
 	switch (event.data.type) {
 		case 'start':
 			isPlaying = true;
@@ -23,7 +23,12 @@ Connector.onScriptEvent = (event) => {
 	currentState = event.data.trackInfo;
 	currentState.isPlaying = isPlaying;
 
-	Connector.onStateChanged();
+	this.onStateChanged();
+// @ifndef FIREFOX
 };
+// @endif
+/* @ifdef FIREFOX
+}.bind(Connector);
+/* @endif */
 
 Connector.injectScript('connectors/vk-dom-inject.js');
