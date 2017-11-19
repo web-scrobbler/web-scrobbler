@@ -1130,5 +1130,9 @@ define(function() {
 		label: '9sky',
 		matches: ['*://www.9sky.com/music*', '*://www.9sky.com/mv/detail*'],
 		js: ['connectors/9sky.js']
+	}, {
+		label: 'Vagalume.FM',
+		matches: ['*://vagalume.fm/*', '*://*.vagalume.com.br/*'],
+		js: ['connectors/vagalume.js']
 	}];
 });
