@@ -336,8 +336,9 @@ module.exports = function(grunt) {
 		}
 
 		grunt.task.run([
-			`bump:${versionType}`, 'publish:chrome',
-			'publish:firefox', 'publish:add0n'
+			`bump-only:${versionType}`,
+			'publish:add0n', 'bump-commit',
+			'publish:chrome', 'publish:firefox'
 		]);
 	});
 
