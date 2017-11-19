@@ -996,6 +996,10 @@ define(function() {
 		matches: ['*://www.npr.org/*'],
 		js: ['connectors/npr.js'],
 	}, {
+		label: 'Streamsquid',
+		matches: ['*://streamsquid.com/*'],
+		js: ['connectors/streamsquid.js'],
+	}, {
 		label: 'Torch Music',
 		matches: ['*://music.torchbrowser.com/*'],
 		js: ['connectors/torchbrowser.js']
