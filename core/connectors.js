@@ -1134,5 +1134,9 @@ define(function() {
 		label: 'Vagalume.FM',
 		matches: ['*://vagalume.fm/*', '*://*.vagalume.com.br/*'],
 		js: ['connectors/vagalume.js']
+	}, {
+		label: 'Radiooooo',
+		matches: ['*://radiooooo.com/*', '*://mobile.radiooooo.com/*'],
+		js: ['connectors/radiooooo.js']
 	}];
 });
