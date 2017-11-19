@@ -1000,6 +1000,10 @@ define(function() {
 		matches: ['*://streamsquid.com/*'],
 		js: ['connectors/streamsquid.js'],
 	}, {
+		label: 'eMusic',
+		matches: ['*://www.emusic.com/*'],
+		js: ['connectors/emusic.js'],
+	}, {
 		label: 'Torch Music',
 		matches: ['*://music.torchbrowser.com/*'],
 		js: ['connectors/torchbrowser.js']
