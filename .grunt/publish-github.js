@@ -17,7 +17,7 @@ module.exports = (grunt) => {
 		github.authenticate({ type: 'token', token: data.token });
 
 		publishRelease(tagName).then(() => {
-			grunt.log.write(`Created release for ${tagName} version`);
+			grunt.log.ok(`Created release for ${tagName} version`);
 			done();
 		}).catch((err) => {
 			grunt.log.error(err);

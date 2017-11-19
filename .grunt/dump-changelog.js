@@ -27,7 +27,7 @@ module.exports = (grunt) => {
 		getChangelog(data.version).then((changelog) => {
 			saveChangelog(changelog);
 
-			grunt.log.write(`Updated changelog for ${data.version} release`);
+			grunt.log.ok(`Updated changelog for ${data.version} release`);
 			done();
 		}).catch((err) => {
 			grunt.log.error(err);
