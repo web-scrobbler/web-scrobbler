@@ -374,12 +374,18 @@ define([
 				// Processing cleans this flag
 				this.currentSong.flags.attr('isMarkedAsPlaying', false);
 
-				// Set time-to-scrobble
-				this.playbackTimer.update(this.getSecondsToScrobble());
-				this.replayDetectionTimer.update(this.currentSong.getDuration());
+				let secondsToScrobble = this.getSecondsToScrobble();
+				let songDuration = this.currentSong.getDuration();
 
-				let remainedSeconds = this.playbackTimer.getRemainingSeconds();
-				this.debugLog(`The song will be scrobbled in ${remainedSeconds} seconds`);
+				if (secondsToScrobble !== -1) {
+					this.playbackTimer.update(secondsToScrobble);
+					this.replayDetectionTimer.update(songDuration);
+
+					let remainedSeconds = this.playbackTimer.getRemainingSeconds();
+					this.debugLog(`The song will be scrobbled in ${remainedSeconds} seconds`);
+				} else {
+					this.debugLog('The song is too short to scrobble');
+				}
 
 				// If the song is playing, mark it immediately; otherwise will be flagged in isPlaying binding
 				if (this.currentSong.parsed.isPlaying) {
@@ -453,6 +459,11 @@ define([
 			this.currentSong.parsed.attr({ duration });
 
 			if (this.currentSong.isValid()) {
+				let secondsToScrobble = this.getSecondsToScrobble();
+				if (secondsToScrobble === -1) {
+					return;
+				}
+
 				this.playbackTimer.update(this.getSecondsToScrobble());
 				this.replayDetectionTimer.update(this.currentSong.getDuration());
 
