@@ -38,5 +38,4 @@ function onMessage(event) {
 	currentState.isPlaying = isPlaying;
 
 	this.onStateChanged();
-	console.log(Connector);
 }
