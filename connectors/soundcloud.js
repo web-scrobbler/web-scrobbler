@@ -24,8 +24,8 @@ const artistTrackRe = /(.+)\s[-–—:]\s(.+)/;
 Connector.playerSelector = '.playControls';
 
 Connector.getCurrentState = () => {
-	currentState.currentTime = getCurrentTime();
-	currentState.isPlaying = isPlaying();
+	currentState.currentTime = Connector.getCurrentTime();
+	currentState.isPlaying = Connector.isPlaying();
 	return currentState;
 };
 
@@ -33,13 +33,13 @@ Connector.isScrobblingAllowed = () => !isPrivate;
 
 Connector.filter = MetadataFilter.getYoutubeFilter();
 
-function getCurrentTime() {
+Connector.getCurrentTime = () => {
 	return parseFloat($(progressSelector).attr('aria-valuenow')) / 1000;
-}
+};
 
-function isPlaying() {
+Connector.isPlaying = () => {
 	return $(playButtonSelector).hasClass('playing');
-}
+};
 
 /**
  * Parse metadata and set local letiables

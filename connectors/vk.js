@@ -9,6 +9,8 @@ Connector.filter = new MetadataFilter({
 	all: [MetadataFilter.decodeHtmlEntities, MetadataFilter.trim]
 });
 
+Connector.isPlaying = () => isPlaying;
+
 Connector.getCurrentState = () => currentState;
 
 function setupMessageListener() {
