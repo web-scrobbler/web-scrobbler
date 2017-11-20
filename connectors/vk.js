@@ -7,6 +7,8 @@ Connector.filter = new MetadataFilter({
 	all: [MetadataFilter.decodeHtmlEntities, MetadataFilter.trim]
 });
 
+Connector.isPlaying = () => isPlaying;
+
 Connector.getCurrentState = () => currentState;
 
 Connector.onScriptEvent = function(event) {
