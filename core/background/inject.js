@@ -30,7 +30,7 @@ define([
 			chrome.tabs.sendMessage(tabId, { type: 'v2.onPing' }, (response) => {
 				if (response) {
 					console.log('Subsequent ajax navigation, the scripts are already injected');
-					resolve(new InjectResult(InjectResult.ALREADY_INJECTED, tabId, connector));
+					resolve(new InjectResult(InjectResult.ALREADY_INJECTED, connector));
 					return;
 				}
 
@@ -66,9 +66,9 @@ define([
 					} else {
 						Config.isConnectorEnabled(connector.label).then((isEnabled) => {
 							if (!isEnabled) {
-								resolve(new InjectResult(InjectResult.MATCHED_BUT_DISABLED, tabId, connector));
+								resolve(new InjectResult(InjectResult.MATCHED_BUT_DISABLED, connector));
 							} else {
-								resolve(new InjectResult(InjectResult.MATCHED_AND_INJECTED, tabId, connector));
+								resolve(new InjectResult(InjectResult.MATCHED_AND_INJECTED, connector));
 							}
 						});
 					}
@@ -110,7 +110,7 @@ define([
 				}
 			}
 
-			return new InjectResult(InjectResult.NO_MATCH, tab.id, null);
+			return new InjectResult(InjectResult.NO_MATCH, null);
 		});
 	}
 

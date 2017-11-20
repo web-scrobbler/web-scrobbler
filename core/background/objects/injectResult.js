@@ -8,12 +8,10 @@ class InjectResult {
 	 * Class constructor.
 	 * @constructor
 	 * @param {String} type Result type
-	 * @param {Number} tabId Tab ID
 	 * @param {Object} connector Connector match object
 	 */
-	constructor(type, tabId, connector) {
+	constructor(type, connector) {
 		this.type = type;
-		this.tabId = tabId;
 		this.connector = connector;
 	}
 
