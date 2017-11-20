@@ -328,18 +328,21 @@ module.exports = function(grunt) {
 
 	/**
 	 * Release new version and publish all packages.
-	 * @param {String} versionType Version type that 'grunt-bump' supports
+	 * @param {String} releaseType Release type that 'grunt-bump' supports
 	 */
-	grunt.registerTask('release', (versionType) => {
-		if (!versionType) {
+	grunt.registerTask('release', (releaseType) => {
+		if (!releaseType) {
 			grunt.fail.fatal('You should specify release type!');
 		}
 
-		grunt.task.run([
-			`bump-only:${versionType}`,
-			'publish:add0n', 'bump-commit',
-			'publish:chrome', 'publish:firefox'
-		]);
+		grunt.task.run(`bump-only:${releaseType}`);
+		// Patch releases are in vX.X.X branch, so there's no reason
+		// to make changelogs for them.
+		if (releaseType !== 'patch') {
+			grunt.task.run('publish:add0n');
+		}
+		grunt.task.run(['bump-commit', 'publish:chrome', 'publish:firefox']);
+
 	});
 
 	/**
