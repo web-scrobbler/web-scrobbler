@@ -184,7 +184,6 @@ require([
 		tabUpdateQueue[tabId] = true;
 
 		Inject.onTabsUpdated(tab).then((result) => {
-			let tabId = result.tabId;
 			switch (result.type) {
 				case InjectResult.NO_MATCH: {
 					// Remove controller if any
@@ -200,8 +199,6 @@ require([
 					let enabled = result.type === InjectResult.MATCHED_AND_INJECTED;
 					tabControllers[tabId] = new Controller(tabId, result.connector, enabled);
 					chrome.tabs.sendMessage(tabId, { type: 'v2.onReady' });
-
-					setupContextMenu(tabId);
 
 					GA.event('core', 'inject', result.connector.label);
 
@@ -224,6 +221,8 @@ require([
 				/* @endif */
 			}
 
+			updateContextMenu(tabId);
+
 			delete tabUpdateQueue[tabId];
 		}).catch((err) => {
 			delete tabUpdateQueue[tabId];
@@ -237,7 +236,7 @@ require([
 	 * @param  {Object} activeInfo Object contains info about current tab
 	 */
 	function onTabChanged(activeInfo) {
-		setupContextMenu(activeInfo.tabId);
+		updateContextMenu(activeInfo.tabId);
 	}
 
 	/**
@@ -277,7 +276,7 @@ require([
 	 * Called when active tab is changed.
 	 * @param  {Number} tabId Tab ID
 	 */
-	function setupContextMenu(tabId) {
+	function updateContextMenu(tabId) {
 		chrome.contextMenus.removeAll();
 
 		let controller = getControllerByTabId(tabId);
@@ -292,20 +291,20 @@ require([
 				controller.setEnabled(false);
 				Config.setConnectorEnabled(connector.label, false);
 
-				setupContextMenu(tabId);
+				updateContextMenu(tabId);
 			});
 
 			let title2 = chrome.i18n.getMessage('menuDisableUntilTabClosed');
 			addContextMenuItem(title2, () => {
 				controller.setEnabled(false);
-				setupContextMenu(tabId);
+				updateContextMenu(tabId);
 			});
 		} else {
 			let title = chrome.i18n.getMessage('menuEnableConnector', connector.label);
 			addContextMenuItem(title, () => {
 				controller.setEnabled(true);
 				Config.setConnectorEnabled(connector.label, true);
-				setupContextMenu(tabId);
+				updateContextMenu(tabId);
 			});
 		}
 
