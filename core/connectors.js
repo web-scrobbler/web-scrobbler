@@ -1146,5 +1146,9 @@ define(function() {
 		label: 'Radiooooo',
 		matches: ['*://radiooooo.com/*', '*://mobile.radiooooo.com/*'],
 		js: ['connectors/radiooooo.js']
+	}, {
+		label: 'LetsLoop',
+		matches: ['*://letsloop.com/*'],
+		js: ['connectors/letsloop.js']
 	}];
 });
