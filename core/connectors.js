@@ -1146,5 +1146,9 @@ define(function() {
 		label: 'Mideast Tunes',
 		matches: ['*://mideastunes.com/*', '*://map.mideastunes.com/*'],
 		js: ['connectors/mideastunes.js']
+	}, {
+		label: 'Sound Session',
+		matches: ['*://*soundsession.com/', '*://soundsession.center/station/*'],
+		js: ['connectors/soundsession.js']
 	}];
 });
