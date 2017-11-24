@@ -4,7 +4,9 @@
  * Module that contains all migrate code.
  */
 
-define(['storage/chromeStorage'], (ChromeStorage) => {
+define((require) => {
+	const ChromeStorage = require('storage/chromeStorage');
+
 	/**
 	 * Migrate from LocalStorage to ChromeStorage.
 	 * @return {Promise} Promise that will be resolved when the task has complete

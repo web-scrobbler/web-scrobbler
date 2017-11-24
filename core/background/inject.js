@@ -2,13 +2,13 @@
 /**
  * Handles matching page URL with defined connectors and injecting scripts into content document
  */
-define([
-	'connectors',
-	'config',
-	'objects/injectResult',
-	'customPatterns',
-	'url-match'
-], function(connectors, Config, InjectResult, customPatterns, UrlMatch) {
+define((require) => {
+	const Config = require('config');
+	const UrlMatch = require('url-match');
+	const connectors = require('connectors');
+	const InjectResult = require('objects/injectResult');
+	const CustomPatterns = require('customPatterns');
+
 	/**
 	 * Ping the loaded page and checks if there is already loaded connector.
 	 * If not injects it.
@@ -89,7 +89,7 @@ define([
 	 */
 	function onTabsUpdated(tab) {
 		// Asynchronously preload all custom patterns and then start matching
-		return customPatterns.getAllPatterns().then((customPatterns) => {
+		return CustomPatterns.getAllPatterns().then((customPatterns) => {
 			for (let connector of connectors) {
 				let matchOk = false;
 				let patterns = connector.matches || [];

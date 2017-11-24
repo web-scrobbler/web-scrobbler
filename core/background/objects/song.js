@@ -3,7 +3,10 @@
 /**
  * Song object.
  */
-define(['vendor/md5', 'wrappers/can'], (MD5, can) => {
+define((require) => {
+	const MD5 = require('vendor/md5');
+	const can = require('wrappers/can');
+
 	/**
 	 * Create unique song ID based on data parsed by connector.
 	 * @param {Object} parsedData Current state received from connector

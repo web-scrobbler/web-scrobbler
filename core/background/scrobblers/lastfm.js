@@ -3,7 +3,9 @@
 /**
  * Module for all communication with L.FM
  */
-define(['scrobblers/baseScrobbler'], (BaseScrobbler) => {
+define((require) => {
+	const BaseScrobbler = require('scrobblers/baseScrobbler');
+
 	class LastFm extends BaseScrobbler {
 		canLoadSongInfo() {
 			return true;

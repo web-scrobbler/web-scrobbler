@@ -1,6 +1,9 @@
 'use strict';
 
-define(['wrappers/chrome', 'util'], (chrome, Util) => {
+define((require) => {
+	const chrome = require('wrappers/chrome');
+	const Util = require('util');
+
 	/**
 	 * Chrome StorageArea wrapper that supports for namespaces.
 	 */

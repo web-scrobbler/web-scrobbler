@@ -8,7 +8,9 @@
  *
  * Does not track anything automatically.
  */
-define(['storage/chromeStorage'], (ChromeStorage) => {
+define((require) => {
+	const ChromeStorage = require('storage/chromeStorage');
+
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 
 	const GA_URL = 'https://www.google-analytics.com/collect';

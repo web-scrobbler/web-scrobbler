@@ -3,10 +3,9 @@
 /**
  * Service to handle all scrobbling behaviour.
  */
-define([
-	'scrobblers/lastfm',
-	'scrobblers/librefm'
-], function(LastFM, LibreFM) {
+define((require) => {
+	const LastFm = require('scrobblers/lastfm');
+	const LibreFm = require('scrobblers/librefm');
 
 	/**
 	 * Scrobblers that are bound, meaning they have valid session IDs.
@@ -20,7 +19,7 @@ define([
 	 *
 	 * @type {Array}
 	 */
-	const registeredScrobblers = [LastFM, LibreFM];
+	const registeredScrobblers = [LastFm, LibreFm];
 
 	/**
 	 * Check if scrobbler is in given array of scrobblers.

@@ -1,16 +1,16 @@
 'use strict';
 
-define([
-	'objects/song',
-	'pipeline/pipeline',
-	'browser-action',
-	'timer',
-	'notifications',
-	'services/background-ga',
-	'pipeline/local-cache',
-	'services/scrobbleService',
-	'objects/serviceCallResult',
-], function(Song, Pipeline, BrowserAction, Timer, Notifications, GA, LocalCache, ScrobbleService, ServiceCallResult) {
+define((require) => {
+	const GA = require('services/background-ga');
+	const Song = require('objects/song');
+	const Timer = require('timer');
+	const Pipeline = require('pipeline/pipeline');
+	const LocalCache = require('pipeline/local-cache');
+	const Notifications = require('notifications');
+	const BrowserAction = require('browser-action');
+	const ScrobbleService = require('services/scrobbleService');
+	const ServiceCallResult = require('objects/serviceCallResult');
+
 	/**
 	 * Number of seconds of playback before the track is scrobbled.
 	 * This value is used only if no duration was parsed or loaded.

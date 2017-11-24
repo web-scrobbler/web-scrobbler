@@ -1,10 +1,10 @@
 'use strict';
 
-define([
-	'util',
-	'wrappers/chrome',
-	'storage/chromeStorage'
-], function(Util, chrome, ChromeStorage) {
+define((require) => {
+	const Util = require('util');
+	const chrome = require('wrappers/chrome');
+	const ChromeStorage = require('storage/chromeStorage');
+
 	// The module uses `chrome.extension.getURL` function.
 	// This funciton is deprecated since Chrome 58.
 	// FIXME: Replace to `chrome.runtime.getURL`.

@@ -1,6 +1,9 @@
 'use strict';
 
-define(['storage/chromeStorage', 'connectors'], (ChromeStorage, connectors) => {
+define((require) => {
+	const connectors = require('connectors');
+	const ChromeStorage = require('storage/chromeStorage');
+
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 
 	/**

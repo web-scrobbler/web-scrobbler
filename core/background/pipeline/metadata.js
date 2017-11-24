@@ -4,11 +4,11 @@
  * This pipeline stage loads song info from external services.
  */
 
-define([
-	'services/scrobbleService',
-	'storage/chromeStorage',
-	'wrappers/can'
-], function(ScrobbleService, ChromeStorage, can) {
+define((require) => {
+	const can = require('wrappers/can');
+	const ChromeStorage = require('storage/chromeStorage');
+	const ScrobbleService = require('services/scrobbleService');
+
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 
 	/**

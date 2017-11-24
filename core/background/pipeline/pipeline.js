@@ -3,13 +3,13 @@
 /**
  * The module applies functions provided by pipeline stages to given song.
  */
-define([
-	'pipeline/user-input',
-	'pipeline/local-cache',
-	'pipeline/metadata',
-	'pipeline/coverartarchive',
-	'util'
-], (UserInput, LocalCache, Metadata, CoverArtArchive, Util) => {
+define((require) => {
+	const Util = require('util');
+	const UserInput = require('pipeline/user-input');
+	const Metadata = require('pipeline/metadata');
+	const LocalCache = require('pipeline/local-cache');
+	const CoverArtArchive = require('pipeline/coverartarchive');
+
 	/**
 	 * List of processors.
 	 * Each procesor is an object contains `process` function takes song object

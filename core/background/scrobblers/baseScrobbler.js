@@ -1,12 +1,12 @@
 'use strict';
 
-define([
-	'jquery',
-	'vendor/md5',
-	'objects/serviceCallResult',
-	'storage/chromeStorage',
-	'util',
-], function($, MD5, ServiceCallResult, ChromeStorage, Util) {
+define((require) => {
+	const $ = require('jquery');
+	const MD5 = require('vendor/md5');
+	const Util = require('util');
+	const ChromeStorage = require('storage/chromeStorage');
+	const ServiceCallResult = require('objects/serviceCallResult');
+
 	const REQUEST_TIMEOUT = 15000;
 
 	/**
