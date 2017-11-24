@@ -296,7 +296,7 @@
         "description": "'Options' section"
     },
     "infoSwapTitle": {
-        "message": "Zamień miejscami tytuł utworu i wykonawcę",
+        "message": "Podmienia wartości pól tytułu i wykonawcy",
         "description": "Title of swap button"
     },
     "buttonCancel": {
@@ -332,7 +332,7 @@
         "description": "Popup title"
     },
     "infoSubmit": {
-        "message": "Wyślij",
+        "message": "Zachowaj",
         "description": "Label of submit button"
     },
     "optionsEditedTracks": {
@@ -508,7 +508,7 @@
         "description": "Answer #4"
     },
     "infoSwap": {
-        "message": "Zamień",
+        "message": "Zamień miejscami",
         "description": "Label of swap button"
     },
     "disabledSiteDesc": {
