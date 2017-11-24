@@ -1150,5 +1150,9 @@ define(function() {
 		label: 'Český Rozhlas',
 		matches: ['*://prehravac.rozhlas.cz/*'],
 		js: ['connectors/rozhlas.js']
+	}, {
+		label: 'Sound Session',
+		matches: ['*://*soundsession.com/', '*://soundsession.center/station/*'],
+		js: ['connectors/soundsession.js']
 	}];
 });
