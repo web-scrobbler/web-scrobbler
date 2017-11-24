@@ -392,7 +392,7 @@
     "description": "The header of 'unsupported' popup"
   },
   "unsupportedWebsiteDesc": {
-    "message": "Last.fm Scrobbler does not support scrobbling from this website. You can request support for the website <a target=\"_blank\" href=\"https://github.com/david-sabata/web-scrobbler/issues/new\">here</a>.",
+    "message": "Last.fm Scrobbler does not support scrobbling from this website.",
     "description": "The description of 'unsupported' popup"
   },
 
