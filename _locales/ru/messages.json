@@ -320,7 +320,7 @@
         "description": "Enable/disable hint"
     },
     "unsupportedWebsiteDesc": {
-        "message": "Last.fm Scrobbler не поддерживает скробблинг с этого сайта. Вы можете запросить поддержку для этого сайта <a target=\"_blank\" href=\"https://github.com/david-sabata/web-scrobbler/issues/new\">здесь</a>.",
+        "message": "Last.fm Scrobbler не поддерживает скробблинг с этого сайта.",
         "description": "The description of 'unsupported' popup"
     },
     "aboutText5": {
