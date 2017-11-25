@@ -1154,5 +1154,9 @@ define(function() {
 		label: 'Sound Session',
 		matches: ['*://*soundsession.com/', '*://soundsession.center/station/*'],
 		js: ['connectors/soundsession.js']
+	}, {
+		label: 'blocSonic',
+		matches: ['*://blocsonic.com/*'],
+		js: ['connectors/blocsonic.js']
 	}];
 });
