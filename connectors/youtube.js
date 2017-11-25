@@ -68,12 +68,30 @@ function isViewTubeInstalled() {
 }
 
 /**
+ * @typedef {Object} ArtistTrack
+ * @property {string} artist The track's artist
+ * @property {string} track The track's title
+ */
+
+/**
+ * Parse webpage and return track Artist and Title
+ * @returns {ArtistTrack} The track's Artist and Title
+ */
+function getArtistTrack() {
+	let videoTitle = $('.ytp-title-link').text(),
+		byLineMatch = $('#owner-name a').text().match(/(.+) - Topic/);
+	if (byLineMatch) {
+		return { artist: byLineMatch[1], track: videoTitle };
+	}
+	return Util.processYoutubeVideoTitle(videoTitle);
+};
+
+/**
  * Setup default Youtube player.
  */
 function setupDefaultPlayer() {
 	Connector.getArtistTrack = () => {
-		let videoTitle = $('.ytp-title-link').text();
-		return Util.processYoutubeVideoTitle(videoTitle);
+		return getArtistTrack();
 	};
 
 	/**
@@ -143,8 +161,7 @@ function setupMaterialPlayer() {
 			return Util.makeEmptyArtistTrack();
 		}
 
-		let videoTitle = $('.ytp-title-link').text();
-		return Util.processYoutubeVideoTitle(videoTitle);
+		return getArtistTrack();
 	};
 
 	/**
