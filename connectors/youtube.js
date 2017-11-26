@@ -75,16 +75,16 @@ function isViewTubeInstalled() {
 
 /**
  * Parse webpage and return track Artist and Title
- * @returns {ArtistTrack} The track's Artist and Title
+ * @return {ArtistTrack} The track's Artist and Title
  */
 function getArtistTrack() {
-	let videoTitle = $('.ytp-title-link').text(),
-		byLineMatch = $('#owner-name a').text().match(/(.+) - Topic/);
+	let videoTitle = $('.ytp-title-link').text();
+	let	byLineMatch = $('#owner-name a').text().match(/(.+) - Topic/);
 	if (byLineMatch) {
 		return { artist: byLineMatch[1], track: videoTitle };
 	}
 	return Util.processYoutubeVideoTitle(videoTitle);
-};
+}
 
 /**
  * Setup default Youtube player.
