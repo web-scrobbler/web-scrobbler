@@ -79,7 +79,7 @@ function isViewTubeInstalled() {
  */
 function getArtistTrack() {
 	let videoTitle = $('.ytp-title-link').text();
-	let byLineMatch = $('#owner-name a').text().match(/(.+) - Topic/);
+	let byLineMatch = $('#meta-contents #owner-name a').text().match(/(.+) - Topic/);
 	if (byLineMatch) {
 		return { artist: byLineMatch[1], track: videoTitle };
 	}
