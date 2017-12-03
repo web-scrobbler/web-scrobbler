@@ -1142,5 +1142,9 @@ define(function() {
 		label: 'LetsLoop',
 		matches: ['*://letsloop.com/*'],
 		js: ['connectors/letsloop.js']
+	}, {
+		label: 'Mideast Tunes',
+		matches: ['*://mideastunes.com/*', '*://map.mideastunes.com/*'],
+		js: ['connectors/mideastunes.js']
 	}];
 });
