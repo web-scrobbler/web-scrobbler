@@ -17,4 +17,4 @@ Connector.trackArtSelector = '.player-cover img';
 
 Connector.filter = MetadataFilter.getRemasteredFilter();
 
-Connector.isPlaying = () => $('.svg-icon-pause').length > 0;
+Connector.isPlaying = () => $('#player .svg-icon-pause').length > 0;
