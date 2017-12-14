@@ -1,10 +1,10 @@
 'use strict';
 
 const escapeHtmlEntityMap = {
-	'&amp;': '&',
-	'&lt;': '<',
-	'&gt;': '>',
-	'&quot;': '"',
+	'&': /&amp;/g,
+	'<': /&lt;/g,
+	'>': /&gt;/g,
+	'"': /&quot;/g,
 };
 
 /**
@@ -158,8 +158,8 @@ class MetadataFilter {
 	 * @return {String} Decoded string
 	 */
 	static decodeHtmlEntities(text) {
-		for (let source in escapeHtmlEntityMap) {
-			let target = escapeHtmlEntityMap[source];
+		for (let target in escapeHtmlEntityMap) {
+			let source = escapeHtmlEntityMap[target];
 			text = text.replace(source, target);
 		}
 
