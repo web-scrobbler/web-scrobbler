@@ -163,7 +163,7 @@ class MetadataFilter {
 			text = text.replace(source, target);
 		}
 
-		text = text.replace(/&#x([a-fA-f0-9]+);/, (match, hex) => {
+		text = text.replace(/&#x([a-fA-f0-9]+);/g, (match, hex) => {
 			let dec = parseInt(hex, 16);
 			return String.fromCharCode(dec);
 		});
