@@ -133,7 +133,7 @@ module.exports = function(grunt) {
 				src: `${buildDir}/manifest.json`,
 				changes: {
 					'applications.gecko.id': amoExtensionId,
-					'applications.gecko.strict_min_version': '48.0',
+					'applications.gecko.strict_min_version': '53.0',
 
 					'options_page': undefined,
 				}
