@@ -262,6 +262,12 @@ define(function() {
 	},
 
 	{
+		label: 'Perisonic',
+		matches: ['*://robinbakker.nl/perisonic/*'],
+		js: ['connectors/perisonic.js'],
+	},
+
+	{
 		label: 'TuneIn',
 		matches: ['*://tunein.com/*'],
 		js: ['connectors/tunein.js'],
