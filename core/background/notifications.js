@@ -152,8 +152,9 @@ define((require) => {
 	/**
 	 * Show 'Now playing' notification.
 	 * @param  {Object} song Copy of song instance
+	 * @param  {Function} onClick Function that will be called on notification click
 	 */
-	function showPlaying(song) {
+	function showNowPlaying(song, onClick) {
 		isAllowed().then((flag) => {
 			if (!flag) {
 				return;
@@ -173,7 +174,7 @@ define((require) => {
 				message: `${song.getTrack()}\n${song.getArtist()}\n${connectorLabel}`
 				/* @endif */
 			};
-			showNotification(options, null).then((notificationId) => {
+			showNotification(options, onClick).then((notificationId) => {
 				song.metadata.attr('notificationId', notificationId);
 			});
 		});
@@ -260,7 +261,7 @@ define((require) => {
 	});
 
 	return {
-		remove, showPlaying, showError, showSignInError,
+		remove, showNowPlaying, showError, showSignInError,
 		showAuthNotification, showSongNotRecognized
 	};
 });

@@ -488,7 +488,9 @@ define((require) => {
 				}
 
 				if (notify) {
-					Notifications.showPlaying(this.currentSong);
+					Notifications.showNowPlaying(this.currentSong, () => {
+						chrome.tabs.update(this.tabId, { active: true });
+					});
 				}
 			});
 
