@@ -971,6 +971,11 @@ define(function() {
 	},
 
 	{
+		label: 'Mixblast',
+		matches: ['*://mixbla.st/*'],
+		js: ['connectors/mixbla.st.js'],
+		allFrames: true
+	}, {
 		label: 'Discogs',
 		matches: ['*://www.discogs.com/*'],
 		js: ['connectors/youtube-embed.js'],
