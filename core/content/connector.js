@@ -599,8 +599,5 @@ function BaseConnector() {
 	};
 }
 
-/**
- * Create object to be overridden in specific connector implementation
- * @type {Object}
- */
-window.Connector = new BaseConnector();
+// eslint-disable-next-line
+const Connector = window.Connector || new BaseConnector();
