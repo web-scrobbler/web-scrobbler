@@ -4,10 +4,9 @@
  * Service to handle all scrobbling behaviour.
  */
 define([
-	'notifications',
 	'scrobblers/lastfm',
 	'scrobblers/librefm'
-], function(Notifications, LastFM, LibreFM) {
+], function(LastFM, LibreFM) {
 
 	/**
 	 * Scrobblers that are bound, meaning they have valid session IDs.
@@ -77,26 +76,6 @@ define([
 			} else {
 				console.error(`${scrobbler.getLabel()} is not bound`);
 			}
-		},
-
-		/**
-		 * Ask user for grant access for service covered by given scrobbler.
-		 * @param  {Object} scrobbler Scrobbler instance
-		 */
-		authenticateScrobbler(scrobbler) {
-			scrobbler.getAuthUrl().then((authUrl) => {
-				this.bindScrobbler(scrobbler);
-				chrome.tabs.create({ url: authUrl });
-			}).catch(() => {
-				console.log(`Unable to get auth URL for ${scrobbler.getLabel()}`);
-
-				Notifications.showSignInError(scrobbler, () => {
-					let statusUrl = scrobbler.getStatusUrl();
-					if (statusUrl) {
-						chrome.tabs.create({ url: statusUrl });
-					}
-				});
-			});
 		},
 
 		/**

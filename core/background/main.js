@@ -157,7 +157,7 @@ require([
 				let scrobblerLabel = request.scrobbler;
 				let scrobbler = ScrobbleService.getScrobblerByLabel(scrobblerLabel);
 				if (scrobbler) {
-					ScrobbleService.authenticateScrobbler(scrobbler);
+					authenticateScrobbler(scrobbler);
 				}
 				break;
 			}
@@ -383,6 +383,26 @@ require([
 
 		storage.debugLog();
 		return Promise.resolve();
+	}
+
+	/**
+	 * Ask user for grant access for service covered by given scrobbler.
+	 * @param  {Object} scrobbler Scrobbler instance
+	 */
+	function authenticateScrobbler(scrobbler) {
+		scrobbler.getAuthUrl().then((authUrl) => {
+			this.bindScrobbler(scrobbler);
+			chrome.tabs.create({ url: authUrl });
+		}).catch(() => {
+			console.log(`Unable to get auth URL for ${scrobbler.getLabel()}`);
+
+			Notifications.showSignInError(scrobbler, () => {
+				let statusUrl = scrobbler.getStatusUrl();
+				if (statusUrl) {
+					chrome.tabs.create({ url: statusUrl });
+				}
+			});
+		});
 	}
 
 	/**
