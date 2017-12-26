@@ -374,7 +374,7 @@ require([
 	 */
 	function authenticateScrobbler(scrobbler) {
 		scrobbler.getAuthUrl().then((authUrl) => {
-			this.bindScrobbler(scrobbler);
+			ScrobbleService.bindScrobbler(scrobbler);
 			chrome.tabs.create({ url: authUrl });
 		}).catch(() => {
 			console.log(`Unable to get auth URL for ${scrobbler.getLabel()}`);
