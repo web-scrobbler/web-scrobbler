@@ -390,7 +390,7 @@ require([
 
 	function updateReleaseNotesUrl() {
 		let extVersion = chrome.runtime.getManifest().version;
-		let releaseNotesUrl = `https://github.com/david-sabata/web-scrobbler/releases/tag/v${extVersion}`;
+		let releaseNotesUrl = `https://github.com/web-scrobbler/web-scrobbler/releases/tag/v${extVersion}`;
 		$('a#latest-release').attr('href', releaseNotesUrl);
 	}
 

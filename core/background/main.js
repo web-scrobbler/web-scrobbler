@@ -268,7 +268,7 @@ require([
 	 * Called after update to version with notable changes.
 	 */
 	function openChangelogSection() {
-		chrome.tabs.create({ url: `https://github.com/david-sabata/web-scrobbler/releases/tag/v${extVersion}` });
+		chrome.tabs.create({ url: `https://github.com/web-scrobbler/web-scrobbler/releases/tag/v${extVersion}` });
 	}
 
 	/**

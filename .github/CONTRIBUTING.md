@@ -7,7 +7,7 @@ First of all, thanks for taking the time to contribute!
 * Ensure the bug was not already reported by searching on GitHub under issues.
 * If you're unable to find an open issue addressing the problem, open a new one. Be sure to include a title and clear description, as much relevant information as possible.
 
-Please read [this page][1] to understand how to get the extension logs.  
+Please read [this page][1] to understand how to get the extension logs.
 If you don't know how to report bugs effectively, please use [this article][2] as a guideline.
 
 ## Did you write a patch that fixes a bug or adds new functionality?
@@ -27,10 +27,10 @@ We also use EditorConfig, which helps to keep code in the same code style in dif
 
 Connectors development is explained in [this][6] and [this][7] articles.
 
-[1]: https://github.com/david-sabata/web-scrobbler/wiki/How-to-debug-the-extension
+[1]: https://github.com/web-scrobbler/web-scrobbler/wiki/How-to-debug-the-extension
 [2]: http://www.chiark.greenend.org.uk/~sgtatham/bugs.html
 [3]: http://chris.beams.io/posts/git-commit/
 [4]: http://gruntjs.com/getting-started
 [5]: http://editorconfig.org/#overview
-[6]: https://github.com/david-sabata/web-scrobbler/wiki/Connectors-development
-[7]: https://github.com/david-sabata/web-scrobbler/wiki/Setup-development-environment
+[6]: https://github.com/web-scrobbler/web-scrobbler/wiki/Connectors-development
+[7]: https://github.com/web-scrobbler/web-scrobbler/wiki/Setup-development-environment

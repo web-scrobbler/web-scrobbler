@@ -40,7 +40,7 @@ function setupEventListeners() {
 	});
 
 	if (!eventBus) {
-		console.log('Cannot scrobble, unable to find event bus. Please report at https://github.com/david-sabata/web-scrobbler/issues');
+		console.log('Cannot scrobble, unable to find event bus. Please report at https://github.com/web-scrobbler/web-scrobbler/issues');
 	} else {
 		eventBus.on('audio:play', function(e) {
 			sendEvent('SC_PLAY', e.model.attributes);

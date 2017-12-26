@@ -53,24 +53,24 @@ See the [privacy policy][11].
 See the [license file](LICENSE.md).
 
 [1]: https://chrome.google.com/webstore/detail/lastfm-scrobbler/hhinaapppaileiechjoiifaancjggfjm
-[2]: https://api.travis-ci.org/david-sabata/web-scrobbler.svg
-[3]: https://travis-ci.org/david-sabata/web-scrobbler
+[2]: https://api.travis-ci.org/web-scrobbler/web-scrobbler.svg
+[3]: https://travis-ci.org/web-scrobbler/web-scrobbler
 [4]: https://badges.gitter.im/Join%20Chat.svg
 [5]: https://gitter.im/david-sabata/web-scrobbler
-[6]: https://david-dm.org/david-sabata/web-scrobbler/dev-status.svg
-[7]: https://david-dm.org/david-sabata/web-scrobbler?type=dev
+[6]: https://david-dm.org/web-scrobbler/web-scrobbler/dev-status.svg
+[7]: https://david-dm.org/web-scrobbler/web-scrobbler?type=dev
 [8]: http://www.last.fm/
 [9]: https://developer.chrome.com/extensions/getstarted#unpacked
-[10]: https://github.com/david-sabata/web-scrobbler/wiki/Connectors-development
-[11]: https://github.com/david-sabata/web-scrobbler/wiki/Privacy-policy
+[10]: https://github.com/web-scrobbler/web-scrobbler/wiki/Connectors-development
+[11]: https://github.com/web-scrobbler/web-scrobbler/wiki/Privacy-policy
 [12]: http://add0n.com/lastfm-scrobbler.html
 [13]: https://addons.opera.com/extensions/details/app_id/kipjbhgniklcnglfaldilecjomjaddfi
 [15]: https://addons.mozilla.org/en-US/firefox/addon/web-scrobbler/
 [21]: https://www.transifex.com/web-scrobbler/web-scrobbler/dashboard/
 [22]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg
 [23]: https://img.shields.io/amo/v/web-scrobbler.svg
-[24]: https://github.com/david-sabata/web-scrobbler/wiki/Install-an-unpacked-extension
-[25]: https://github.com/david-sabata/web-scrobbler/wiki/Install-a-temporary-add-on
+[24]: https://github.com/web-scrobbler/web-scrobbler/wiki/Install-an-unpacked-extension
+[25]: https://github.com/web-scrobbler/web-scrobbler/wiki/Install-a-temporary-add-on
 [26]: https://libre.fm/
 
 [16]: http://getbootstrap.com/2.3.2/assets/bootstrap.zip
