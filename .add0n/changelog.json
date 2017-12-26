@@ -2,14 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "Added an ability to export and import saved track data\nAdded description of options for Youtube connector\nAdded popup windows for turned off and unsupported websites\nAdded 9sky connector\nAdded ccMixter connector\nAdded Gimme Radio connector\nAdded Hitsradio connector\nAdded Retro Synthwave connector\nAdded Rinoceronte.fm connector\nAdded support for Youtube embedded videos\nImproved Youtube metadata filter\nImproved Bandcamp connector\nImproved Fritz connector\nImproved PLEX connector\nImproved RadioTunes connector\nImproved radioeins connector\nImproved WFMU connector\nImproved Xiami connector\nImproved Youtube connector\nMoved the extension icon to the extension bar\nRemoved MyMusicCloud connector\nRemoved Pleer connector\nRemoved post-player connector\nRemoved radd.it connector\nRemoved old Spotify connector\nUpdated translations\nBypassed an issue when the extension icon in address bar was hidden while AJAX navigation\nFixed several issues related to the info popup\nFixed an issue when time string could not be parsed\nFixed an issue when the extension didn't parse HTML entities\nFixed 163 Music connector\nFixed AccuRadio connector\nFixed Anghami connector\nFixed Genie connector\nFixed SoundCloud connector\nFixed Tidal connector"
+        "en-US": "Added blocSonic connector\nAdded eMusic connector\nAdded LetsLoop connector\nAdded Mideast Tunes connector\nAdded Mixblast connector\nAdded Radiooooo.com connector\nAdded Sound Session connector\nAdded Streamsquid connector\nAdded Vagalume.FM connector\nAdded feature to open now playing tab by clicking on now playing notification\nAdded support for Loud.zone\nAdded support for more Amazon websites\nAdded tooltips to input fields of the info popup\nImproved VK connector\nUpdated translations\nFixed Deezer connector\nFixed Focus@Will connector\nFixed metadata filter\nFixed an issue when the extension didn't update browser action context menu"
       },
       "files": [
         {
           "created": null
         }
       ],
-      "version": "2.2.0"
+      "version": "2.3.0"
     }
   ]
 }
