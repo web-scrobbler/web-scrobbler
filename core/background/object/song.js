@@ -5,7 +5,7 @@
  */
 define((require) => {
 	const MD5 = require('vendor/md5');
-	const can = require('wrappers/can');
+	const can = require('wrapper/can');
 
 	/**
 	 * Create unique song ID based on data parsed by connector.

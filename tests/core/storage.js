@@ -5,7 +5,7 @@
  */
 
 const expect = require('chai').expect;
-const ChromeStorage = require('../../core/background/storage/chromeStorage');
+const ChromeStorage = require('../../core/background/storage/chrome-storage');
 
 /**
  * Test storage object.

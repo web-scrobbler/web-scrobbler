@@ -5,7 +5,7 @@
  */
 
 define((require) => {
-	const ChromeStorage = require('storage/chromeStorage');
+	const ChromeStorage = require('storage/chrome-storage');
 
 	/**
 	 * Migrate from LocalStorage to ChromeStorage.

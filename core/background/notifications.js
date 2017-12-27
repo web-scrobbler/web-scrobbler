@@ -2,8 +2,8 @@
 
 define((require) => {
 	const Util = require('util');
-	const chrome = require('wrappers/chrome');
-	const ChromeStorage = require('storage/chromeStorage');
+	const chrome = require('wrapper/chrome');
+	const ChromeStorage = require('storage/chrome-storage');
 
 	// The module uses `chrome.extension.getURL` function.
 	// This funciton is deprecated since Chrome 58.

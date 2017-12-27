@@ -4,8 +4,8 @@
  * Service to handle all scrobbling behaviour.
  */
 define((require) => {
-	const LastFm = require('scrobblers/lastfm');
-	const LibreFm = require('scrobblers/librefm');
+	const LastFm = require('scrobbler/lastfm');
+	const LibreFm = require('scrobbler/librefm');
 
 	/**
 	 * Scrobblers that are bound, meaning they have valid session IDs.

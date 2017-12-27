@@ -1,7 +1,7 @@
 'use strict';
 
 define((require) => {
-	const chrome = require('wrappers/chrome');
+	const chrome = require('wrapper/chrome');
 	const Util = require('util');
 
 	/**

@@ -4,8 +4,8 @@ define((require) => {
 	const $ = require('jquery');
 	const MD5 = require('vendor/md5');
 	const Util = require('util');
-	const ChromeStorage = require('storage/chromeStorage');
-	const ServiceCallResult = require('objects/serviceCallResult');
+	const ChromeStorage = require('storage/chrome-storage');
+	const ServiceCallResult = require('object/service-call-result');
 
 	const REQUEST_TIMEOUT = 15000;
 

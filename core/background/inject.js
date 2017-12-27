@@ -6,8 +6,8 @@ define((require) => {
 	const Config = require('config');
 	const UrlMatch = require('url-match');
 	const connectors = require('connectors');
-	const InjectResult = require('objects/injectResult');
-	const CustomPatterns = require('customPatterns');
+	const InjectResult = require('object/inject-result');
+	const CustomPatterns = require('custom-patterns');
 
 	/**
 	 * Ping the loaded page and checks if there is already loaded connector.
@@ -44,7 +44,7 @@ define((require) => {
 				scripts.unshift('core/content/filter.js');
 				scripts.unshift('core/content/reactor.js');
 				// @ifdef DEBUG
-				scripts.unshift('core/content/testReporter.js');
+				scripts.unshift('core/content/reporter.js');
 				// @endif
 				scripts.unshift('vendor/jquery.min.js');
 

@@ -5,9 +5,9 @@
  */
 
 define((require) => {
-	const can = require('wrappers/can');
-	const ChromeStorage = require('storage/chromeStorage');
-	const ScrobbleService = require('services/scrobbleService');
+	const can = require('wrapper/can');
+	const ChromeStorage = require('storage/chrome-storage');
+	const ScrobbleService = require('service/scrobble-service');
 
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 

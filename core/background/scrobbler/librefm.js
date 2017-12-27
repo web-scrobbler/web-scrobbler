@@ -3,11 +3,11 @@
 /**
  * Module for all communication with libre.fm
  */
-define([
-	'jquery',
-	'scrobblers/baseScrobbler',
-	'objects/serviceCallResult'
-], function($, BaseScrobbler, ServiceCallResult) {
+define((require) => {
+	const $ = require('jquery');
+	const BaseScrobbler = require('scrobbler/base-scrobbler');
+	const ServiceCallResult = require('object/service-call-result');
+
 	class LibreFm extends BaseScrobbler {
 		doRequest(method, params, signed) {
 			if ('post' !== method.toLowerCase()) {

@@ -4,7 +4,7 @@
  * Module that contains some useful helper functions for background scripts.
  */
 
-define(['wrappers/chrome'], (chrome) => {
+define(['wrapper/chrome'], (chrome) => {
 	const STR_REPLACER = 'x';
 	const REPLACER_LEN = 5;
 

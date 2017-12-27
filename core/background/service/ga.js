@@ -9,7 +9,7 @@
  * Does not track anything automatically.
  */
 define((require) => {
-	const ChromeStorage = require('storage/chromeStorage');
+	const ChromeStorage = require('storage/chrome-storage');
 
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 

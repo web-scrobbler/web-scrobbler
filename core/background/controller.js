@@ -1,15 +1,15 @@
 'use strict';
 
 define((require) => {
-	const GA = require('services/background-ga');
-	const Song = require('objects/song');
+	const GA = require('service/ga');
+	const Song = require('object/song');
 	const Timer = require('timer');
 	const Pipeline = require('pipeline/pipeline');
 	const LocalCache = require('pipeline/local-cache');
 	const Notifications = require('notifications');
 	const BrowserAction = require('browser-action');
-	const ScrobbleService = require('services/scrobbleService');
-	const ServiceCallResult = require('objects/serviceCallResult');
+	const ScrobbleService = require('service/scrobble-service');
+	const ServiceCallResult = require('object/service-call-result');
 
 	/**
 	 * Number of seconds of playback before the track is scrobbled.

@@ -33,13 +33,13 @@
  */
 require([
 	'migrate',
-	'services/background-ga',
+	'service/ga',
 	'inject',
-	'objects/injectResult',
+	'object/inject-result',
 	'controller',
-	'storage/chromeStorage',
+	'storage/chrome-storage',
 	'config',
-	'services/scrobbleService',
+	'service/scrobble-service',
 	'notifications'
 ], (Migrate, GA, Inject, InjectResult, Controller, ChromeStorage, Config, ScrobbleService, Notifications) => {
 

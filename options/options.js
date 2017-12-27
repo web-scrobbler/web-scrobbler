@@ -3,10 +3,10 @@
 require([
 	'config',
 	'connectors',
-	'customPatterns',
-	'storage/chromeStorage',
-	'wrappers/chrome',
-	'services/scrobbleService',
+	'custom-patterns',
+	'storage/chrome-storage',
+	'wrapper/chrome',
+	'service/scrobble-service',
 	'util',
 	'bootstrap'
 ], function(config, connectors, customPatterns, ChromeStorage, chrome, ScrobbleService, Util) {

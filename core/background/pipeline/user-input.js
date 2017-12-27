@@ -6,7 +6,7 @@
  */
 
 define((require) => {
-	const ChromeStorage = require('storage/chromeStorage');
+	const ChromeStorage = require('storage/chrome-storage');
 
 	const storage = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
 	const fieldMap = {
