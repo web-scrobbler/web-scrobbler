@@ -43,6 +43,10 @@
         "message": "Включите любой трек для начала",
         "description": "The header of 'Get started' popup"
     },
+    "contributorsText": {
+        "message": "Вы можете посмотреть список участников проекта на <a href=\"https://github.com/david-sabata/web-scrobbler/graphs/contributors\">странице проекта</a> на GitHub.",
+        "description": "'About' section text"
+    },
     "accountsSignedInAs": {
         "message": "Вы вошли как $1.",
         "description": "'Signed in' label"
@@ -50,10 +54,6 @@
     "infoEditTitle": {
         "message": "Изменить информацию о треке",
         "description": "Title of edit button"
-    },
-    "contactLinkedInDesc": {
-        "message": "Узнать о моих профессиональных навыках",
-        "description": "Description for LinkedIn section"
     },
     "faqAnswer4b1": {
         "message": "Откройте страницу с настройками и разверните раздел \"Настройки\".",
@@ -92,7 +92,7 @@
         "description": "Answer #4"
     },
     "faqAnswer7": {
-        "message": "Меня зовут David Šabata, я окончил Брненский технический университет в Чешской Республике. Я увлечён автоматизацией рутинных задач, и, возможно, это стало причиной создания расширения.",
+        "message": "Первоначальный автор этого расширения — David Šabata. На данный момент расширение разрабатывает так называемая команда \"Web Scrobbler\".",
         "description": "Answer #7"
     },
     "faqAnswer1b": {
@@ -111,8 +111,8 @@
         "message": "Вы не можете изменить пропущенный трек",
         "description": "Title of swap button"
     },
-    "aboutText3": {
-        "message": "Так как я не посещаю другие веб-сайты, разработка коннекторов полностью в ваших руках. Не стесняйтесь создать новый пулл-реквест на <a href='http://github.com/david-sabata/web-scrobbler'>GitHub</a>.",
+    "aboutChangelog": {
+        "message": "Список изменений текущей версии доступен <a id='latest-release' target='_blank' href='#'>здесь</a>. Полный список изменений вы можете посмотреть на <a target='_blank' href='https://github.com/david-sabata/web-scrobbler/releases'>этой странице</a>.",
         "description": "'About' section text"
     },
     "infoEdit": {
@@ -122,10 +122,6 @@
     "pageActionBase": {
         "message": "Этот сайт поддерживается расширением",
         "description": "`base` page action title"
-    },
-    "aboutText2": {
-        "message": "Last.fm Scrobbler создан для тех, кто слушает музыку, используя онлайн-сервисы, и хотел бы иметь постоянно обновлённую историю прослушивания на Last.fm.",
-        "description": "'About' section text"
     },
     "contributorsTitle": {
         "message": "Участники проекта",
@@ -150,14 +146,6 @@
     "pageActionScrobbled": {
         "message": "Заскробблено $1",
         "description": "`scrobbled` page action title"
-    },
-    "contributorsText2": {
-        "message": "Вы можете посмотреть список участников проекта на <a href=\"https://github.com/david-sabata/web-scrobbler/graphs/contributors\">странице проекта</a> на GitHub.",
-        "description": "'About' section text"
-    },
-    "aboutText4": {
-        "message": "Не волнуйтесь, если никто не будет участвовать в разработке, я буду поддерживать скробблинг с Youtube для себя.",
-        "description": "'About' section text"
     },
     "menuDisableConnector": {
         "message": "Отключить $1",
@@ -251,10 +239,6 @@
         "message": "Вы уже пропустили этот трек",
         "description": "Title of skip button"
     },
-    "contactLastfmDesc": {
-        "message": "Сравнить вкусы или сказать \"Привет!\"",
-        "description": "Description for Twitter section"
-    },
     "faqAnswer6": {
         "message": "Возможно, если это будет иметь смысл. Но, если вы хотите предложить какую-то крутую-но-ненужную-фичу, я, вероятно, вас разочарую.",
         "description": "Answer #6"
@@ -274,6 +258,10 @@
     "optionsViewEdited": {
         "message": "Посмотреть",
         "description": "Button to view edited tracks"
+    },
+    "aboutExtensionDesc": {
+        "message": "Last.fm Scrobbler создан для тех, кто слушает музыку, используя онлайн-сервисы, и хотел бы иметь постоянно обновлённую историю прослушивания на Last.fm.",
+        "description": "'About' section text"
     },
     "faqAnswer3b": {
         "message": "Также, есть опция \"Принудительное распознавание\", включение которой позволяет скробблить треки, которые расширение не смогло распознать.",
@@ -323,10 +311,6 @@
         "message": "Last.fm Scrobbler не поддерживает скробблинг с этого сайта.",
         "description": "The description of 'unsupported' popup"
     },
-    "aboutText5": {
-        "message": "И поскольку мы все любим слушать музыку, вы можете зайти на <a href='http://www.last.fm/user/na1k_/'>мою страницу</a> на Last.fm , чтобы сравнить музыкальные вкусы или оставить сообщение. :-)",
-        "description": "'About' section text"
-    },
     "editedTracksTitle": {
         "message": "Сохранённая информация о треках",
         "description": "Popup title"
@@ -354,10 +338,6 @@
     "menuEnableConnector": {
         "message": "Включить $1",
         "description": "Context menu item"
-    },
-    "aboutText1": {
-        "message": "Список изменений текущей версии доступен <a id='latest-release' target='_blank' href='#'>здесь</a>. Полный список изменений вы можете посмотреть на <a target='_blank' href='https://github.com/david-sabata/web-scrobbler/releases'>этой странице</a>.",
-        "description": "'About' section text"
     },
     "faqQuestion5": {
         "message": "Добавите ли вы поддержку ____?",
@@ -491,10 +471,6 @@
         "message": "О расширении",
         "description": "'About' section"
     },
-    "contributorsText1": {
-        "message": "Я рад сказать, что очень много людей участвует или участвовало в разработке этого расширения! Ранее здесь был список участников проекта, но он очень быстро рос. Также, в нём были перечислены, по большей части, основные участники (авторы коннекторов), но не были упомянуты люди, внёсшие небольшие, но тем не менее, важные изменения (исправления и улучшения).",
-        "description": "'About' section text"
-    },
     "showSomeLoveText1": {
         "message": "В отличие от других расширений, это не содержит рекламные баннеры.",
         "description": ""
@@ -550,10 +526,6 @@
     "optionUnrecognizedNotifications": {
         "message": "Уведомлять, если трек не распознан",
         "description": "Option label"
-    },
-    "contactMyWebDesc": {
-        "message": "Посмотреть мои другие проекты",
-        "description": "Description for my web section"
     },
     "optionsAccounts": {
         "message": "Аккаунты",
