@@ -406,7 +406,7 @@ require([
 			let a = document.createElement('a');
 			a.href = url;
 			a.download = EXPORT_FILENAME;
-			a.click();
+			a.dispatchEvent(new MouseEvent('click'));
 			a.remove();
 
 			URL.revokeObjectURL(url);
