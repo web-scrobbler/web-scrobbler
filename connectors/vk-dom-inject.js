@@ -39,7 +39,7 @@ function sendUpdateEvent(type) {
 			currentTime,
 			trackArt,
 			duration: audioObject[INFO_DURATION],
-			uniqueID: audioObject[INFO_OWNER_ID] + '_' + audioObject[INFO_ID],
+			uniqueID: `${audioObject[INFO_OWNER_ID]}_${audioObject[INFO_ID]}`,
 			artist: audioObject[INFO_ARTIST],
 			track: audioObject[INFO_TRACK],
 		},
