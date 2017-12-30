@@ -251,6 +251,7 @@ define((require) => {
 			this.currentSong = Song.buildFrom(newState, this.connector, (...args) => {
 				this.onSongDataChanged(...args);
 			});
+			this.currentSong.flags.isReplaying = this.isReplayingSong;
 
 			// this.bindSongListeners({ notify: !this.isReplayingSong });
 			this.debugLog(`New song detected: ${toString(newState)}`);
@@ -479,7 +480,7 @@ define((require) => {
 					this.pageAction.setError();
 				}
 
-				if (!this.isReplayingSong) {
+				if (!this.currentSong.flags.isReplaying) {
 					Notifications.showNowPlaying(this.currentSong, () => {
 						chrome.tabs.update(this.tabId, { active: true });
 					});

@@ -141,7 +141,12 @@ define((require) => {
 				 * Flag means song is ignored by controller.
 				 * @type {Boolean}
 				 */
-				isSkipped: false
+				isSkipped: false,
+				/**
+				 * Flag means song is replaying again.
+				 * @type {Boolean}
+				 */
+				isReplaying: false,
 			};
 		}
 
