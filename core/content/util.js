@@ -5,6 +5,13 @@
  */
 
 const Util = {
+	youtubeTitleRegExps: [
+		// Artist "Track"
+		/(.+?)\s"(.+?)"/,
+		// Artist「Track」 (Japanese tracks)
+		/(.+?)「(.+?)」/,
+	],
+
 	/**
 	 * Extract artist and track from Youtube video title.
 	 * @param  {String} videoTitle Youtube video title
@@ -21,11 +28,13 @@ const Util = {
 
 		let { artist, track } = this.splitArtistTrack(title);
 		if (artist === null && track === null) {
-			// Look for Artist "Track"
-			let artistTrack = title.match(/(.+?)\s"(.+?)"/);
-			if (artistTrack) {
-				artist = artistTrack[1];
-				track = artistTrack[2];
+			for (let regExp of Util.youtubeTitleRegExps) {
+				let artistTrack = title.match(regExp);
+				if (artistTrack) {
+					artist = artistTrack[1];
+					track = artistTrack[2];
+					break;
+				}
 			}
 		}
 		return { artist, track };
