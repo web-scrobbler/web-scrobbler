@@ -41,7 +41,7 @@ const PROCESSED_DATA = {
  */
 function createSong(parsed, processed) {
 	let parsedDataCopy = Object.assign({}, parsed || PARSED_DATA);
-	let song = new Song(parsedDataCopy);
+	let song = Song.buildFrom(parsedDataCopy);
 
 	if (processed) {
 		for (let field in processed) {

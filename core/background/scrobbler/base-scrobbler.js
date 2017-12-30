@@ -380,9 +380,9 @@ define((require) => {
 			// Set song as userloved if it's loved on all services.
 			if (data.userloved !== undefined) {
 				if (data.userloved) {
-					song.metadata.attr({ userloved: true });
+					song.metadata.userloved = true;
 				} else if (song.metadata.userloved) {
-					song.metadata.attr({ userloved: false });
+					song.metadata.userloved = false;
 				}
 			}
 		}

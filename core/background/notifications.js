@@ -175,7 +175,7 @@ define((require) => {
 				/* @endif */
 			};
 			showNotification(options, onClick).then((notificationId) => {
-				song.metadata.attr('notificationId', notificationId);
+				song.metadata.notificationId = notificationId;
 			});
 		});
 	}

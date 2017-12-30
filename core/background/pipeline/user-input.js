@@ -9,11 +9,7 @@ define((require) => {
 	const ChromeStorage = require('storage/chrome-storage');
 
 	const storage = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
-	const fieldMap = {
-		'artist': 'userArtist',
-		'track': 'userTrack',
-		'album': 'userAlbum'
-	};
+	const fieldsToSave = ['artist', 'track', 'album'];
 
 	/**
 	 * Save custom song info to Chrome storage.
@@ -33,10 +29,9 @@ define((require) => {
 				chromeData[songId] = {};
 			}
 
-			for (let field in fieldMap) {
-				let userField = fieldMap[field];
-				if (song.metadata.attr(userField)) {
-					chromeData[songId][field] = song.metadata.attr(userField);
+			for (let field of fieldsToSave) {
+				if (song.userdata[field]) {
+					chromeData[songId][field] = song.userdata[field];
 					isChanged = true;
 				}
 			}
@@ -57,16 +52,15 @@ define((require) => {
 
 		// currently just transforms user data from metadata to processed data,
 		// which makes it source data for next pipeline steps
-		for (let field in fieldMap) {
-			let userField = fieldMap[field];
-			if (song.metadata.attr(userField)) {
-				song.processed.attr(field, song.metadata.attr(userField));
+		for (let field of fieldsToSave) {
+			if (song.userdata[field]) {
+				song.processed[field] = song.userdata[field];
 				isChanged = true;
 			}
 		}
 
 		if (isChanged) {
-			song.flags.attr('isCorrectedByUser', true);
+			song.flags.isCorrectedByUser = true;
 			return saveSongMetadataToStorage(song);
 		}
 

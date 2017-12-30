@@ -31,12 +31,12 @@ define((require) => {
 				for (let field of fieldsToSave) {
 					if (savedMetadata[field]) {
 						isChanged = true;
-						song.processed.attr(field, savedMetadata[field]);
+						song.processed[field] = savedMetadata[field];
 					}
 				}
 
 				if (isChanged) {
-					song.flags.attr('isCorrectedByUser', true);
+					song.flags.isCorrectedByUser = true;
 				}
 			}
 		});
@@ -59,5 +59,5 @@ define((require) => {
 		});
 	}
 
-	return { process, removeSongFromStorage };
+	return { process, removeSongFromStorage, fieldsToSave };
 });

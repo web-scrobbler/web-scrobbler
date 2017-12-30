@@ -45,11 +45,11 @@ define((require) => {
 		processSong(song) {
 			// Reset possible flag, so we can detect changes
 			// on repeated processing of the same song.
-			song.flags.attr('isProcessed', false);
+			song.flags.isProcessed = false;
 
 			let factories = processors.map((processor) => processor.process);
 			return Util.queuePromises(factories, song).then(() => {
-				song.flags.attr('isProcessed', true);
+				song.flags.isProcessed = true;
 			});
 		}
 	};

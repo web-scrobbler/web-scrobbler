@@ -5,11 +5,17 @@
  */
 
 define((require) => {
-	const can = require('wrapper/can');
 	const ChromeStorage = require('storage/chrome-storage');
 	const ScrobbleService = require('service/scrobble-service');
 
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
+
+	const infoToCopy = [
+		'duration', 'artist', 'track'
+	];
+	const metadataToCopy = [
+		'artistThumbUrl', 'artistUrl', 'trackUrl', 'albumUrl'
+	];
 
 	/**
 	 * Load song info using ScrobblerService object.
@@ -25,29 +31,19 @@ define((require) => {
 			let songInfo = getInfo(songInfoArr);
 			let isSongValid = songInfo !== null;
 			if (isSongValid) {
-				can.batch.start();
-
-				song.processed.attr({
-					duration: songInfo.duration,
-					artist: songInfo.artist,
-					track: songInfo.track
-				});
-				if (!song.getAlbum()) {
-					song.processed.attr('album', songInfo.album);
+				for (let field of infoToCopy) {
+					song.processed[field] = songInfo[field];
 				}
-
-				song.metadata.attr({
-					artistThumbUrl: songInfo.artistThumbUrl,
-					artistUrl: songInfo.artistUrl,
-					trackUrl: songInfo.trackUrl,
-					albumUrl: songInfo.albumUrl
-				});
-
-				can.batch.stop();
+				for (let field of metadataToCopy) {
+					song.metadata[field] = songInfo[field];
+				}
+				if (!song.getAlbum()) {
+					song.processed.album = songInfo.album;
+				}
 			}
 
 			return options.get().then((data) => {
-				song.flags.attr('isValid', isSongValid || data.forceRecognize);
+				song.flags.isValid = isSongValid || data.forceRecognize;
 			});
 		});
 	}

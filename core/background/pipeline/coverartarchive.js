@@ -47,7 +47,7 @@ define(() => {
 					return promise.then((coverArtUrl) => {
 						isCoverArtFound = true;
 
-						song.metadata.attr('artistThumbUrl', coverArtUrl);
+						song.metadata.artistThumbUrl = coverArtUrl;
 						console.log('Found album artwork via MusicBrainz');
 					}).catch(() => {
 						// Suppress errors

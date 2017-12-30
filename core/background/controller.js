@@ -71,7 +71,6 @@ define((require) => {
 				this.playbackTimer.reset();
 				this.replayDetectionTimer.reset();
 
-				this.unbindSongListeners();
 				this.clearNotification();
 			}
 		}
@@ -84,7 +83,6 @@ define((require) => {
 			this.replayDetectionTimer.reset();
 
 			if (this.currentSong !== null) {
-				this.unbindSongListeners();
 				this.clearNotification();
 			}
 			this.currentSong = null;
@@ -124,12 +122,11 @@ define((require) => {
 
 			this.pageAction.setSongSkipped(this.currentSong);
 
-			this.currentSong.flags.attr({ isSkipped: true });
+			this.currentSong.flags.isSkipped = true;
 
 			this.playbackTimer.reset();
 			this.replayDetectionTimer.reset();
 
-			this.unbindSongListeners();
 			this.clearNotification();
 		}
 
@@ -146,7 +143,7 @@ define((require) => {
 		 * @return {Object} Song copy
 		 */
 		getCurrentSong() {
-			return this.currentSong === null ? {} : this.currentSong.attr();
+			return this.currentSong === null ? {} : this.currentSong;
 		}
 
 		/**
@@ -161,18 +158,16 @@ define((require) => {
 					return;
 				}
 
-				if (data.artist) {
-					this.currentSong.metadata.attr('userArtist', data.artist);
-				}
-				if (data.track) {
-					this.currentSong.metadata.attr('userTrack', data.track);
-				}
-				if (data.album) {
-					this.currentSong.metadata.attr('userAlbum', data.album);
+				let isChanged = false;
+				for (let field of LocalCache.fieldsToSave) {
+					if (data[field]) {
+						this.currentSong.userdata[field] = data[field];
+						isChanged = true;
+					}
 				}
 
-				// re-send song to pipeline
-				if (data.artist || data.track || data.album) {
+				// Resend song to pipeline
+				if (isChanged) {
 					this.processSong();
 				}
 			}
@@ -186,7 +181,7 @@ define((require) => {
 		toggleLove(isLoved) {
 			if (this.currentSong) {
 				return ScrobbleService.toggleLove(this.currentSong, isLoved).then(() => {
-					this.currentSong.metadata.attr('userloved', isLoved);
+					this.currentSong.metadata.userloved = isLoved;
 				});
 			}
 			return Promise.reject();
@@ -253,9 +248,11 @@ define((require) => {
 			// We've hit a new song (or replaying the previous one)
 			// clear any previous song and its bindings
 			this.resetState();
-			this.currentSong = new Song(newState, this.connector);
+			this.currentSong = Song.buildFrom(newState, this.connector, (...args) => {
+				this.onSongDataChanged(...args);
+			});
 
-			this.bindSongListeners({ notify: !this.isReplayingSong });
+			// this.bindSongListeners({ notify: !this.isReplayingSong });
 			this.debugLog(`New song detected: ${toString(newState)}`);
 
 			// Start the timer, actual time will be set after processing
@@ -292,11 +289,9 @@ define((require) => {
 				return;
 			}
 
-			this.currentSong.parsed.attr({
-				currentTime: newState.currentTime,
-				isPlaying: newState.isPlaying,
-				trackArt: newState.trackArt,
-			});
+			this.currentSong.parsed.currentTime = newState.currentTime;
+			this.currentSong.parsed.isPlaying = newState.isPlaying;
+			this.currentSong.parsed.trackArt = newState.trackArt;
 
 			if (this.isNeedToUpdateDuration(newState)) {
 				this.updateSongDuration(newState.duration);
@@ -304,54 +299,52 @@ define((require) => {
 		}
 
 		/**
-		 * Setup listeners for new song object.
-		 * @param  {Object} options Options
+		 * Process song info change.
+		 * @param {Object} target Target object
+		 * @param {Object} key Property name
+		 * @param {Object} value Property value
 		 */
-		bindSongListeners(options = {}) {
-			/**
-			 * Respond to changes of not/playing and pause timer accordingly to get real elapsed time
-			 */
-			this.currentSong.bind('parsed.isPlaying', (ev, isPlaying) => {
-				this.debugLog(`isPlaying state changed to ${isPlaying}`);
+		onSongDataChanged(target, key, value) {
+			switch (key) {
+				/**
+				 * Respond to changes of not/playing and pause timer
+				 * accordingly to get real elapsed time.
+				 */
+				case 'isPlaying': {
+					this.debugLog(`isPlaying state changed to ${value}`);
 
-				if (isPlaying) {
-					this.playbackTimer.resume();
-					this.replayDetectionTimer.resume();
+					if (value) {
+						this.playbackTimer.resume();
+						this.replayDetectionTimer.resume();
 
-					// Maybe the song was not marked as playing yet
-					if (!this.currentSong.flags.isMarkedAsPlaying && this.currentSong.isValid()) {
-						this.setSongNowPlaying(options);
+						// Maybe the song was not marked as playing yet
+						if (!this.currentSong.flags.isMarkedAsPlaying && this.currentSong.isValid()) {
+							this.setSongNowPlaying();
+						}
+					} else {
+						this.playbackTimer.pause();
+						this.replayDetectionTimer.pause();
 					}
-				} else {
-					this.playbackTimer.pause();
-					this.replayDetectionTimer.pause();
+					break;
 				}
-			});
 
-			/**
-			 * Song has gone through processing pipeline
-			 * This event may occur repeatedly, e.g. when triggered on page load and then corrected by user input
-			 */
-			this.currentSong.bind('flags.isProcessed', (ev, isProcessed) => {
-				if (isProcessed) {
-					this.debugLog(`Song finished processing: ${this.currentSong.toString()}`);
-					this.onProcessed(options);
-					this.notifySongIsUpdated();
-				} else {
-					this.debugLog(`Song unprocessed: ${this.currentSong.toString()}`);
-					this.onUnProcessed();
+				/**
+				 * Song has gone through processing pipeline
+				 * This event may occur repeatedly, e.g. when triggered on
+				 * page load and then corrected by user input.
+				 */
+				case 'isProcessed': {
+					if (value) {
+						this.debugLog(`Song finished processing: ${this.currentSong.toString()}`);
+						this.onProcessed();
+						this.notifySongIsUpdated();
+					} else {
+						this.debugLog(`Song unprocessed: ${this.currentSong.toString()}`);
+						this.onUnProcessed();
+					}
+					break;
 				}
-			});
-		}
-
-		/**
-		 * Unbind all song listener. The song will no longer be used in
-		 * Controller, but may remain in async calls and we don't want it
-		 * to trigger any more listeners.
-		 */
-		unbindSongListeners() {
-			this.currentSong.unbind('parsed.isPlaying');
-			this.currentSong.unbind('flags.isProcessed');
+			}
 		}
 
 		/**
@@ -366,13 +359,12 @@ define((require) => {
 		 * Called when song finishes processing in pipeline. It may not have
 		 * passed the pipeline successfully, so checks for various flags
 		 * are needed.
-		 * @param  {Object} options Options
 		 */
-		onProcessed(options = {}) {
+		onProcessed() {
 			// Song is considered valid if either L.FM or the user validated it
 			if (this.currentSong.isValid()) {
 				// Processing cleans this flag
-				this.currentSong.flags.attr('isMarkedAsPlaying', false);
+				this.currentSong.flags.isMarkedAsPlaying = false;
 
 				let secondsToScrobble = this.getSecondsToScrobble();
 				let songDuration = this.currentSong.getDuration();
@@ -389,7 +381,7 @@ define((require) => {
 
 				// If the song is playing, mark it immediately; otherwise will be flagged in isPlaying binding
 				if (this.currentSong.parsed.isPlaying) {
-					this.setSongNowPlaying(options);
+					this.setSongNowPlaying();
 				} else {
 					this.pageAction.setSiteSupported();
 				}
@@ -422,7 +414,7 @@ define((require) => {
 		notifySongIsUpdated() {
 			chrome.runtime.sendMessage({
 				type: 'v2.songUpdated',
-				data: this.currentSong.attr(),
+				data: this.currentSong,
 				tabId: this.tabId
 			});
 		}
@@ -456,7 +448,7 @@ define((require) => {
 		 * @param  {Number} duration Duration in seconds
 		 */
 		updateSongDuration(duration) {
-			this.currentSong.parsed.attr({ duration });
+			this.currentSong.parsed.duration = duration;
 
 			if (this.currentSong.isValid()) {
 				let secondsToScrobble = this.getSecondsToScrobble();
@@ -477,7 +469,7 @@ define((require) => {
 		 * Contains all actions to be done when song is ready to be marked as
 		 * now playing.
 		 */
-		setSongNowPlaying({ notify = true } = {}) {
+		setSongNowPlaying() {
 			ScrobbleService.sendNowPlaying(this.currentSong).then((results) => {
 				if (isAnyResult(results, ServiceCallResult.OK)) {
 					this.debugLog('Song set as now playing');
@@ -487,14 +479,14 @@ define((require) => {
 					this.pageAction.setError();
 				}
 
-				if (notify) {
+				if (!this.isReplayingSong) {
 					Notifications.showNowPlaying(this.currentSong, () => {
 						chrome.tabs.update(this.tabId, { active: true });
 					});
 				}
 			});
 
-			this.currentSong.flags.attr('isMarkedAsPlaying', true);
+			this.currentSong.flags.isMarkedAsPlaying = true;
 		}
 
 		/**
@@ -515,7 +507,7 @@ define((require) => {
 				if (isAnyResult(results, ServiceCallResult.OK)) {
 					this.debugLog('Scrobbled successfully');
 
-					this.currentSong.flags.attr('isScrobbled', true);
+					this.currentSong.flags.isScrobbled = true;
 					this.pageAction.setSongScrobbled(this.currentSong);
 
 					this.notifySongIsUpdated();
