@@ -124,7 +124,7 @@
         "description": "`base` page action title"
     },
     "aboutText2": {
-        "message": "Last.fm Scrobbler 是为了通过浏览器在线听音乐、并希望使用 Last.fm 来追踪播放历史记录的人而创建的。",
+        "message": "Web Scrobbler 是为了通过浏览器在线听音乐、并希望使用 Last.fm 来追踪播放历史记录的人而创建的。",
         "description": "'About' section text"
     },
     "contributorsTitle": {
@@ -164,7 +164,7 @@
         "description": "Context menu item"
     },
     "pageActionUnsupported": {
-        "message": "Last.fm Scrobbler 未支持本网站",
+        "message": "Web Scrobbler 未支持本网站",
         "description": "`unsupported` page action title"
     },
     "albumTooltip": {
@@ -320,7 +320,7 @@
         "description": "Enable/disable hint"
     },
     "unsupportedWebsiteDesc": {
-        "message": "Last.fm Scrobbler 暂未支持追踪本网站的播放记录，您可以在<a target=\"_blank\" href=\"https://github.com/david-sabata/web-scrobbler/issues/new\">这里</a> 要求增加对该网站的支持。",
+        "message": "Web Scrobbler 暂未支持追踪本网站的播放记录，您可以在<a target=\"_blank\" href=\"https://github.com/david-sabata/web-scrobbler/issues/new\">这里</a> 要求增加对该网站的支持。",
         "description": "The description of 'unsupported' popup"
     },
     "aboutText5": {
@@ -540,7 +540,7 @@
         "description": "Button label"
     },
     "optionsTitle": {
-        "message": "Last.fm Scrobbler 选项",
+        "message": "Web Scrobbler 选项",
         "description": "Title of options page"
     },
     "optionsToggle": {

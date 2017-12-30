@@ -124,7 +124,7 @@
         "description": "`base` page action title"
     },
     "aboutText2": {
-        "message": "Last.fm Scrobbler został stworzony dla ludzi słuchających muzyki online, przez przeglądarkę, którzy chcą zachować aktualną historię odtwarzania w usłudze Last.fm.",
+        "message": "Web Scrobbler został stworzony dla ludzi słuchających muzyki online, przez przeglądarkę, którzy chcą zachować aktualną historię odtwarzania w usłudze Last.fm.",
         "description": "'About' section text"
     },
     "contributorsTitle": {
@@ -164,7 +164,7 @@
         "description": "Context menu item"
     },
     "pageActionUnsupported": {
-        "message": "Last.fm Scrobbler nie obsługuje tej strony internetowej.",
+        "message": "Web Scrobbler nie obsługuje tej strony internetowej.",
         "description": "`unsupported` page action title"
     },
     "albumTooltip": {
@@ -320,7 +320,7 @@
         "description": "Enable/disable hint"
     },
     "unsupportedWebsiteDesc": {
-        "message": "Last.fm Scrobbler nie obsługuje scrobblowania z tej strony internetowej.",
+        "message": "Web Scrobbler nie obsługuje scrobblowania z tej strony internetowej.",
         "description": "The description of 'unsupported' popup"
     },
     "aboutText5": {
@@ -540,7 +540,7 @@
         "description": "Button label"
     },
     "optionsTitle": {
-        "message": "Opcje rozszerzenia Last.fm Scrobbler",
+        "message": "Opcje rozszerzenia Web Scrobbler",
         "description": "Title of options page"
     },
     "optionsToggle": {

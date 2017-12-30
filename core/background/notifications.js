@@ -170,7 +170,7 @@ define((require) => {
 				contextMessage: connectorLabel
 				// @endif
 				/* @ifdef FIREFOX
-				title: 'Last.fm Scrobbler',
+				title: 'Web Scrobbler',
 				message: `${song.getTrack()}\n${song.getArtist()}\n${connectorLabel}`
 				/* @endif */
 			};

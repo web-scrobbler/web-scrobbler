@@ -5,7 +5,7 @@
   },
 
   "optionsTitle": {
-    "message": "Options for Last.fm Scrobbler",
+    "message": "Web Scrobbler options",
     "description": "Title of options page"
   },
   "optionsGeneral": {
@@ -254,7 +254,7 @@
     "description": "'About' section text"
   },
   "aboutExtensionDesc": {
-    "message": "Last.fm Scrobbler is created for people who listen to music online through their browser, and would like to keep an updated playback history using Last.fm's scrobbling service.",
+    "message": "Web Scrobbler is created for people who listen to music online through their browser, and would like to keep an updated playback history using Last.fm's scrobbling service.",
     "description": "'About' section text"
   },
   "contributorsTitle": {
@@ -364,7 +364,7 @@
     "description": "The header of 'unsupported' popup"
   },
   "unsupportedWebsiteDesc": {
-    "message": "Last.fm Scrobbler does not support scrobbling from this website.",
+    "message": "Web Scrobbler does not support scrobbling from this website.",
     "description": "The description of 'unsupported' popup"
   },
 
@@ -508,7 +508,7 @@
     "description": "`loading` page action title"
   },
   "pageActionUnsupported": {
-    "message": "Last.fm Scrobbler does not support this website.",
+    "message": "Web Scrobbler does not support this website.",
     "description": "`unsupported` page action title"
   },
 

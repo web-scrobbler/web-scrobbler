@@ -140,7 +140,7 @@
         "description": "'Signed in' label"
     },
     "faqAnswer5": {
-        "message": "Возможно, но, скорее всего, нет. Я разрабатываю Last.fm Scrobbler в свободное время и поддерживаю только скробблинг с Youtube — я просто не использую другие музыкальные сервисы. Однако, достаточно просто создать коннектор и добавить поддержку нужного вам сервиса. Вы можете форкнуть проект на <a href=\"http://github.com/david-sabata/web-scrobbler\">GitHub</a> и прислать пулл-реквест. Также, у нас есть вики с информацией о разработке расширения. ",
+        "message": "Возможно, но, скорее всего, нет. Я разрабатываю Web Scrobbler в свободное время и поддерживаю только скробблинг с Youtube — я просто не использую другие музыкальные сервисы. Однако, достаточно просто создать коннектор и добавить поддержку нужного вам сервиса. Вы можете форкнуть проект на <a href=\"http://github.com/david-sabata/web-scrobbler\">GitHub</a> и прислать пулл-реквест. Также, у нас есть вики с информацией о разработке расширения. ",
         "description": "Answer #5"
     },
     "pageActionScrobbled": {
@@ -152,7 +152,7 @@
         "description": "Context menu item"
     },
     "pageActionUnsupported": {
-        "message": "Last.fm Scrobbler не поддерживает этот сайт.",
+        "message": "Web Scrobbler не поддерживает этот сайт.",
         "description": "`unsupported` page action title"
     },
     "albumTooltip": {
@@ -260,7 +260,7 @@
         "description": "Button to view edited tracks"
     },
     "aboutExtensionDesc": {
-        "message": "Last.fm Scrobbler создан для тех, кто слушает музыку, используя онлайн-сервисы, и хотел бы иметь постоянно обновлённую историю прослушивания на Last.fm.",
+        "message": "Web Scrobbler создан для тех, кто слушает музыку, используя онлайн-сервисы, и хотел бы иметь постоянно обновлённую историю прослушивания на Last.fm.",
         "description": "'About' section text"
     },
     "faqAnswer3b": {
@@ -308,7 +308,7 @@
         "description": "Enable/disable hint"
     },
     "unsupportedWebsiteDesc": {
-        "message": "Last.fm Scrobbler не поддерживает скробблинг с этого сайта.",
+        "message": "Web Scrobbler не поддерживает скробблинг с этого сайта.",
         "description": "The description of 'unsupported' popup"
     },
     "editedTracksTitle": {
@@ -516,7 +516,7 @@
         "description": "Button label"
     },
     "optionsTitle": {
-        "message": "Настройки Last.fm Scrobbler",
+        "message": "Настройки Web Scrobbler",
         "description": "Title of options page"
     },
     "optionsToggle": {
