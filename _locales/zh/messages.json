@@ -112,7 +112,7 @@
         "description": "Title of swap button"
     },
     "aboutText3": {
-        "message": "因为我不会访问许多其他网站的视频内容，其他网站的接口开发将主要取决于你们。欢迎随时在 <a href='http://github.com/david-sabata/web-scrobbler'>GitHub</a> 发送拉取请求。",
+        "message": "因为我不会访问许多其他网站的视频内容，其他网站的接口开发将主要取决于你们。欢迎随时在 <a href='http://github.com/web-scrobbler/web-scrobbler'>GitHub</a> 发送拉取请求。",
         "description": "'About' section text"
     },
     "infoEdit": {
@@ -144,7 +144,7 @@
         "description": "'Signed in' label"
     },
     "faqAnswer5": {
-        "message": "可能，但很可能不会。本扩展是我的业余作品，因此我仅管理对 Youtube 的支持——我根本不使用任何其他网络音乐服务。然而，创建接口来为新网站添加支持真的很容易。您只需分支 <a href=\"http://github.com/david-sabata/web-scrobbler\">GitHub 仓库</a>，并向我发送一个拉取请求。 GitHub 上还有一个维基页面描述了扩展的内核。",
+        "message": "可能，但很可能不会。本扩展是我的业余作品，因此我仅管理对 Youtube 的支持——我根本不使用任何其他网络音乐服务。然而，创建接口来为新网站添加支持真的很容易。您只需分支 <a href=\"http://github.com/web-scrobbler/web-scrobbler\">GitHub 仓库</a>，并向我发送一个拉取请求。 GitHub 上还有一个维基页面描述了扩展的内核。",
         "description": "Answer #5"
     },
     "pageActionScrobbled": {
@@ -152,7 +152,7 @@
         "description": "`scrobbled` page action title"
     },
     "contributorsText2": {
-        "message": "为了合宜地认可所有贡献者，并避免重复信息，您现在可以直接在 <a href=\"https://github.com/david-sabata/web-scrobbler/graphs/contributors\">GitHub</a> 上找到贡献者列表。",
+        "message": "为了合宜地认可所有贡献者，并避免重复信息，您现在可以直接在 <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">GitHub</a> 上找到贡献者列表。",
         "description": "'About' section text"
     },
     "aboutText4": {
@@ -180,7 +180,7 @@
         "description": "Option label"
     },
     "getStartedSubmitIssue": {
-        "message": "需要更新此特定网站的接口代码。您可以访问<a href=\"https://github.com/david-sabata/web-scrobbler/issues\" target=\"_blank\">问题列表</a>查看这个网站是否已被报错。如果没有，您可以提交一个新的问题，描述问题所在、预期行为和实际情形。",
+        "message": "需要更新此特定网站的接口代码。您可以访问<a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">问题列表</a>查看这个网站是否已被报错。如果没有，您可以提交一个新的问题，描述问题所在、预期行为和实际情形。",
         "description": "Description of how to submit new issue"
     },
     "buttonClear": {
@@ -224,7 +224,7 @@
         "description": "Option title"
     },
     "faqAnswer4c": {
-        "message": "您可以在<a target='_blank' href='https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns'>这里</a>进一步了解自定义网址匹配模板。",
+        "message": "您可以在<a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>这里</a>进一步了解自定义网址匹配模板。",
         "description": "Answer #4"
     },
     "disabledSiteButton": {
@@ -320,7 +320,7 @@
         "description": "Enable/disable hint"
     },
     "unsupportedWebsiteDesc": {
-        "message": "Web Scrobbler 暂未支持追踪本网站的播放记录，您可以在<a target=\"_blank\" href=\"https://github.com/david-sabata/web-scrobbler/issues/new\">这里</a> 要求增加对该网站的支持。",
+        "message": "Web Scrobbler 暂未支持追踪本网站的播放记录，您可以在<a target=\"_blank\" href=\"https://github.com/web-scrobbler/web-scrobbler/issues/new\">这里</a> 要求增加对该网站的支持。",
         "description": "The description of 'unsupported' popup"
     },
     "aboutText5": {
@@ -356,7 +356,7 @@
         "description": "Context menu item"
     },
     "aboutText1": {
-        "message": "当前版本的更新日志在<a id='latest-release' target='_blank' href='#'>这里</a>。访问<a target='_blank' href='https://github.com/david-sabata/web-scrobbler/releases'>这个页面</a>以查看完整的更新日志。",
+        "message": "当前版本的更新日志在<a id='latest-release' target='_blank' href='#'>这里</a>。访问<a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>这个页面</a>以查看完整的更新日志。",
         "description": "'About' section text"
     },
     "faqQuestion5": {
@@ -452,11 +452,11 @@
         "description": "`loading` page action title"
     },
     "serviceErrorDesc": {
-        "message": "曲目记录追踪好像出错了。请打开选项页面，尝试重新认证追踪服务。若重新认证后您仍看到此消息，请在 GitHub 的项目页面创建<a href=\"https://github.com/david-sabata/web-scrobbler/issues\" target=\"_blank\">一个新问题</a>。",
+        "message": "曲目记录追踪好像出错了。请打开选项页面，尝试重新认证追踪服务。若重新认证后您仍看到此消息，请在 GitHub 的项目页面创建<a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">一个新问题</a>。",
         "description": "The description of service error"
     },
     "optionsCustomPatternsHint": {
-        "message": "点击复选框前的小齿轮图标以设置各接口的自定义网址匹配模板（<a target='_blank' href='https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns'>了解更多</a>）。",
+        "message": "点击复选框前的小齿轮图标以设置各接口的自定义网址匹配模板（<a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>了解更多</a>）。",
         "description": "Description of how to configure custom URL patterns"
     },
     "infoArtistPlaceholder": {

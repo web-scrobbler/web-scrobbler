@@ -112,7 +112,7 @@
         "description": "Title of swap button"
     },
     "aboutText3": {
-        "message": "Ponieważ sam nie korzystam z każdego serwisu wideo na rynku możliwe, że dla dodania wsparcia dla twojej ulubionej usługi najlepszą osobą jesteś właśnie ty. Nie krępuj się z wysyłaniem pull requestów na <a href='http://github.com/david-sabata/web-scrobbler'>GitHubie</a>.",
+        "message": "Ponieważ sam nie korzystam z każdego serwisu wideo na rynku możliwe, że dla dodania wsparcia dla twojej ulubionej usługi najlepszą osobą jesteś właśnie ty. Nie krępuj się z wysyłaniem pull requestów na <a href='http://github.com/web-scrobbler/web-scrobbler'>GitHubie</a>.",
         "description": "'About' section text"
     },
     "infoEdit": {
@@ -144,7 +144,7 @@
         "description": "'Signed in' label"
     },
     "faqAnswer5": {
-        "message": "Możliwe, ale mało prawdopodobne. Rozwijam Scrobblera w wolnym czasie i osobiście zapewniam wsparcie tylko dla YouTube'a - po prostu nie korzystam z innych stron z muzyką. Niemniej, dodanie obsługi nowego serwisu jest naprawdę proste. Możesz sforkować repozytorium na <a href=\"http://github.com/david-sabata/web-scrobbler\">GitHubie</a> i wysłać mi pull requesta. Na wiki projektu na GitHubie znajdują się również instrukcje i opis budowy rozszerzenia.",
+        "message": "Możliwe, ale mało prawdopodobne. Rozwijam Scrobblera w wolnym czasie i osobiście zapewniam wsparcie tylko dla YouTube'a - po prostu nie korzystam z innych stron z muzyką. Niemniej, dodanie obsługi nowego serwisu jest naprawdę proste. Możesz sforkować repozytorium na <a href=\"http://github.com/web-scrobbler/web-scrobbler\">GitHubie</a> i wysłać mi pull requesta. Na wiki projektu na GitHubie znajdują się również instrukcje i opis budowy rozszerzenia.",
         "description": "Answer #5"
     },
     "pageActionScrobbled": {
@@ -152,7 +152,7 @@
         "description": "`scrobbled` page action title"
     },
     "contributorsText2": {
-        "message": "Jeśli chcesz zapoznać się z listą każdemu z nich oddającą należne zasługi, możesz skorzystać z tej <a href=\"https://github.com/david-sabata/web-scrobbler/graphs/contributors\">bezpośrednio na GitHubie</a>",
+        "message": "Jeśli chcesz zapoznać się z listą każdemu z nich oddającą należne zasługi, możesz skorzystać z tej <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">bezpośrednio na GitHubie</a>",
         "description": "'About' section text"
     },
     "aboutText4": {
@@ -180,7 +180,7 @@
         "description": "Option label"
     },
     "getStartedSubmitIssue": {
-        "message": "Kod obsługujący tę konkretną witrynę musi zostać zaktualizowany. Możesz przejrzeć <a href=\"https://github.com/david-sabata/web-scrobbler/issues\" target=\"_blank\">listę zgłoszonych problemów</a> i zobaczyć, czy ten jest już znany - jeśli nie, możesz wysłać nowe zgłoszenie opisując (najlepiej po angielsku) co się zepsuło, jakie było oczekiwane zachowanie i co wydarzyło się zamiast tego.",
+        "message": "Kod obsługujący tę konkretną witrynę musi zostać zaktualizowany. Możesz przejrzeć <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">listę zgłoszonych problemów</a> i zobaczyć, czy ten jest już znany - jeśli nie, możesz wysłać nowe zgłoszenie opisując (najlepiej po angielsku) co się zepsuło, jakie było oczekiwane zachowanie i co wydarzyło się zamiast tego.",
         "description": "Description of how to submit new issue"
     },
     "buttonClear": {
@@ -224,7 +224,7 @@
         "description": "Option title"
     },
     "faqAnswer4c": {
-        "message": "Możesz dowiedzieć się więcej o niestandardowych wzorcach URL <a target='_blank' href='https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns'>tutaj</a>.",
+        "message": "Możesz dowiedzieć się więcej o niestandardowych wzorcach URL <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>tutaj</a>.",
         "description": "Answer #4"
     },
     "disabledSiteButton": {
@@ -356,7 +356,7 @@
         "description": "Context menu item"
     },
     "aboutText1": {
-        "message": "Lista nowości w obecnej wersji dostępna jest <a id='latest-release' target='_blank' href='#'>tutaj</a>. Pełny wykaz zmian dostępny jest na <a target='_blank' href='https://github.com/david-sabata/web-scrobbler/releases'>stronie projektu</a>.",
+        "message": "Lista nowości w obecnej wersji dostępna jest <a id='latest-release' target='_blank' href='#'>tutaj</a>. Pełny wykaz zmian dostępny jest na <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>stronie projektu</a>.",
         "description": "'About' section text"
     },
     "faqQuestion5": {
@@ -452,11 +452,11 @@
         "description": "`loading` page action title"
     },
     "serviceErrorDesc": {
-        "message": "Wygląda na to, że podczas scrobblowania coś poszło nie tak. Otwórz stronę opcji i spróbuj uwierzytelnić się ponownie w usługach. Jeśli to nie pomoże i nadal będziesz widzieć ten komunikat, prosimy o <a href=\"https://github.com/david-sabata/web-scrobbler/issues\" target=\"_blank\">wypełnienie zgłoszenia</a> na GitHubie.",
+        "message": "Wygląda na to, że podczas scrobblowania coś poszło nie tak. Otwórz stronę opcji i spróbuj uwierzytelnić się ponownie w usługach. Jeśli to nie pomoże i nadal będziesz widzieć ten komunikat, prosimy o <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">wypełnienie zgłoszenia</a> na GitHubie.",
         "description": "The description of service error"
     },
     "optionsCustomPatternsHint": {
-        "message": "Wybierz ikonę zębatki, aby skonfigurować niestandardowe domeny dla wspieranych usług. <a target='_blank' href='https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns'>Dowiedz się więcej</a>",
+        "message": "Wybierz ikonę zębatki, aby skonfigurować niestandardowe domeny dla wspieranych usług. <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>Dowiedz się więcej</a>",
         "description": "Description of how to configure custom URL patterns"
     },
     "infoArtistPlaceholder": {

@@ -119,7 +119,7 @@
     "description": "Enable/disable hint"
   },
   "optionsCustomPatternsHint": {
-    "message": "Click on the gear icon to configure custom URL patterns for connectors. <a target='_blank' href='https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns'>Learn more</a>",
+    "message": "Click on the gear icon to configure custom URL patterns for connectors. <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>Learn more</a>",
     "description": "Description of how to configure custom URL patterns"
   },
   "optionsSupportedWebsites": {
@@ -217,7 +217,7 @@
     "description": "Answer #4"
   },
   "faqAnswer4c": {
-    "message": "You can learn more about the custom URL patterns <a target='_blank' href='https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns'>here</a>.",
+    "message": "You can learn more about the custom URL patterns <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>here</a>.",
     "description": "Answer #4"
   },
   "faqQuestion5": {
@@ -250,7 +250,7 @@
     "description": "'About' section"
   },
   "aboutChangelog": {
-    "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='#'>here</a>. For the full changelog please visit <a target='_blank' href='https://github.com/david-sabata/web-scrobbler/releases'>this page</a>.",
+    "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='#'>here</a>. For the full changelog please visit <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>this page</a>.",
     "description": "'About' section text"
   },
   "aboutExtensionDesc": {
@@ -262,7 +262,7 @@
     "description": "'Contributors' header"
   },
   "contributorsText": {
-    "message": "You can find the list of contributors <a href=\"https://github.com/david-sabata/web-scrobbler/graphs/contributors\">right on the GitHub</a>",
+    "message": "You can find the list of contributors <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">right on the GitHub</a>",
     "description": "'About' section text"
   },
   "showSomeLoveTitle": {
@@ -328,7 +328,7 @@
     "description": "Description of why track is not recognized"
   },
   "getStartedSubmitIssue": {
-    "message": "The connector code for this specific website needs to be updated. You can navigate to the <a href=\"https://github.com/david-sabata/web-scrobbler/issues\" target=\"_blank\">list of issues</a> and see if this website is already reported. If it is not, you can submit a new issue describing what's wrong, what's expected behaviour and what's happening instead.",
+    "message": "The connector code for this specific website needs to be updated. You can navigate to the <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">list of issues</a> and see if this website is already reported. If it is not, you can submit a new issue describing what's wrong, what's expected behaviour and what's happening instead.",
     "description": "Description of how to submit new issue"
   },
 
@@ -338,7 +338,7 @@
     "description": "The header of 'error' popup"
   },
   "serviceErrorDesc": {
-    "message": "Looks like something went wrong while scrobbling the music. Please open the options page and try to reauthenticate with services. If reauthentication doesn't help, and you still see this message, please create <a href=\"https://github.com/david-sabata/web-scrobbler/issues\" target=\"_blank\">a new issue</a> at the GitHub project page.",
+    "message": "Looks like something went wrong while scrobbling the music. Please open the options page and try to reauthenticate with services. If reauthentication doesn't help, and you still see this message, please create <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">a new issue</a> at the GitHub project page.",
     "description": "The description of service error"
   },
   "serviceErrorButton": {

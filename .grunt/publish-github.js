@@ -40,7 +40,7 @@ function publishRelease(tagName) {
 		}
 
 		return github.repos.editRelease({
-			owner: 'david-sabata',
+			owner: 'web-scrobbler',
 			repo: 'web-scrobbler',
 			id: release.id,
 			tag_name: tagName
@@ -55,7 +55,7 @@ function publishRelease(tagName) {
  */
 function getRelease(tagName) {
 	return github.repos.getReleases({
-		owner: 'david-sabata', repo: 'web-scrobbler'
+		owner: 'web-scrobbler', repo: 'web-scrobbler'
 	}).then((response) => {
 		let releases = response.data;
 		for (let release of releases) {

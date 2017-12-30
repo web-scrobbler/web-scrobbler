@@ -44,7 +44,7 @@
         "description": "The header of 'Get started' popup"
     },
     "contributorsText": {
-        "message": "Вы можете посмотреть список участников проекта на <a href=\"https://github.com/david-sabata/web-scrobbler/graphs/contributors\">странице проекта</a> на GitHub.",
+        "message": "Вы можете посмотреть список участников проекта на <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">странице проекта</a> на GitHub.",
         "description": "'About' section text"
     },
     "accountsSignedInAs": {
@@ -112,7 +112,7 @@
         "description": "Title of swap button"
     },
     "aboutChangelog": {
-        "message": "Список изменений текущей версии доступен <a id='latest-release' target='_blank' href='#'>здесь</a>. Полный список изменений вы можете посмотреть на <a target='_blank' href='https://github.com/david-sabata/web-scrobbler/releases'>этой странице</a>.",
+        "message": "Список изменений текущей версии доступен <a id='latest-release' target='_blank' href='#'>здесь</a>. Полный список изменений вы можете посмотреть на <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>этой странице</a>.",
         "description": "'About' section text"
     },
     "infoEdit": {
@@ -140,7 +140,7 @@
         "description": "'Signed in' label"
     },
     "faqAnswer5": {
-        "message": "Возможно, но, скорее всего, нет. Я разрабатываю Web Scrobbler в свободное время и поддерживаю только скробблинг с Youtube — я просто не использую другие музыкальные сервисы. Однако, достаточно просто создать коннектор и добавить поддержку нужного вам сервиса. Вы можете форкнуть проект на <a href=\"http://github.com/david-sabata/web-scrobbler\">GitHub</a> и прислать пулл-реквест. Также, у нас есть вики с информацией о разработке расширения. ",
+        "message": "Создайте <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">новый багрепорт</a> на GitHub, и мы вам скажем, сможем ли мы добавить поддержку или нет. Также,  вы можете добавить поддержку сайта самостоятельно, форкнув <a href=\"http://github.com/web-scrobbler/web-scrobbler\">проект на GitHub</a> и отправив нам пулл-реквест.",
         "description": "Answer #5"
     },
     "pageActionScrobbled": {
@@ -168,7 +168,7 @@
         "description": "Option label"
     },
     "getStartedSubmitIssue": {
-        "message": "Расширение должно быть обновлено для поддержки этого сайта. Вы можете открыть список <a href=\"https://github.com/david-sabata/web-scrobbler/issues\" target=\"_blank\">багрепортов</a> и посмотреть, не сообщил кто-либо о данной проблеме. Если нет, то вы можете создать новый багрепорт с подробным описанием проблемы.",
+        "message": "Расширение должно быть обновлено для поддержки этого сайта. Вы можете открыть список <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">багрепортов</a> и посмотреть, не сообщил кто-либо о данной проблеме. Если нет, то вы можете создать новый багрепорт с подробным описанием проблемы.",
         "description": "Description of how to submit new issue"
     },
     "buttonClear": {
@@ -212,7 +212,7 @@
         "description": "Option title"
     },
     "faqAnswer4c": {
-        "message": "Вы можете узнать больше о пользовательских шаблонах URL <a target='_blank' href='https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns'>здесь</a>.",
+        "message": "Вы можете узнать больше о пользовательских шаблонах URL <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>здесь</a>.",
         "description": "Answer #4"
     },
     "disabledSiteButton": {
@@ -432,11 +432,11 @@
         "description": "`loading` page action title"
     },
     "serviceErrorDesc": {
-        "message": "Похоже, что-то произошло не так во время скробблинга трека. Пожалуйста, откройте страницу с настройками и попробуйте авторизоваться заново. Если это не помогает, пожалуйста, <a href=\"https://github.com/david-sabata/web-scrobbler/issues\" target=\"_blank\">сообщите о проблеме</a> на странице проекта на GitHub.",
+        "message": "Похоже, что-то произошло не так во время скробблинга трека. Пожалуйста, откройте страницу с настройками и попробуйте авторизоваться заново. Если это не помогает, пожалуйста, <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">сообщите о проблеме</a> на странице проекта на GitHub.",
         "description": "The description of service error"
     },
     "optionsCustomPatternsHint": {
-        "message": "Кликните на иконку с шестерёнкой, чтобы настроить пользовательские шаблоны URL для коннекторов. <a target='_blank' href='https://github.com/david-sabata/web-scrobbler/wiki/Custom-URL-patterns'>Узнать больше</a>",
+        "message": "Кликните на иконку с шестерёнкой, чтобы настроить пользовательские шаблоны URL для коннекторов. <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>Узнать больше</a>",
         "description": "Description of how to configure custom URL patterns"
     },
     "infoArtistPlaceholder": {
