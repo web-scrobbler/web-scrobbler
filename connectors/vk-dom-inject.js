@@ -4,6 +4,7 @@
 // for accessing to `window.ap` which sends player events
 
 const INFO_ID = 0;
+const INFO_OWNER_ID = 1;
 const INFO_TRACK = 3;
 const INFO_ARTIST = 4;
 const INFO_DURATION = 5;
@@ -38,7 +39,7 @@ function sendUpdateEvent(type) {
 			currentTime,
 			trackArt,
 			duration: audioObject[INFO_DURATION],
-			uniqueID: audioObject[INFO_ID],
+			uniqueID: audioObject[INFO_OWNER_ID] + '_' + audioObject[INFO_ID],
 			artist: audioObject[INFO_ARTIST],
 			track: audioObject[INFO_TRACK],
 		},
