@@ -167,6 +167,10 @@ const PROCESS_YOUTUBE_TITLE_DATA = [{
 	description: 'should process text string w/o separators',
 	source: 'Artist "Track"',
 	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should process Japanese tracks',
+	source: 'Artist「Track」',
+	expected: { artist: 'Artist', track: 'Track' },
 }];
 
 /**
