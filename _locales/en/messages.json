@@ -225,7 +225,7 @@
     "description": "Qestion #5"
   },
   "faqAnswer5": {
-    "message": "Possibly, but most likely no. I make the Scrobbler in my free time and that's why I manage only Youtube support - I simply don't use any other web music service. Nevertheless, it is really easy to create a connector and add support for a new website. You can simply fork the <a href=\"http://github.com/david-sabata/web-scrobbler\">GitHub</a> repository and send me a pull request. There is also a wiki page on the GitHub describing the extension core.",
+    "message": "Open a <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">new issue</a> on GitHub with your request, and we'll tell you if we can add support for the website or not. Also, you can add support for the website by forking the <a href=\"http://github.com/web-scrobbler/web-scrobbler\">GitHub repository</a> and sending us a pull request.",
     "description": "Answer #5"
   },
   "faqQuestion6": {
