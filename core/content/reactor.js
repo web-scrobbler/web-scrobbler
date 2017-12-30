@@ -15,18 +15,14 @@ class Reactor { // eslint-disable-line no-unused-vars
 		this.connector = connector;
 
 		// Setup listening for state changes on connector.
-		connector.reactorCallback = (state) => {
-			this.onStateChanged(state);
-		};
+		connector.reactorCallback = this.onStateChanged.bind(this);
 	}
 
 	/**
 	 * Setup Chrome event Listener.
 	 */
 	setupChromeListener() {
-		chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-			this.onRuntimeMessage(message, sender, sendResponse);
-		});
+		chrome.runtime.onMessage.addListener(this.onRuntimeMessage.bind(this));
 
 		this.port = chrome.runtime.connect({ name: 'content-script' });
 		this.port.onDisconnect.addListener(() => {

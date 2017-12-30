@@ -248,12 +248,11 @@ define((require) => {
 			// We've hit a new song (or replaying the previous one)
 			// clear any previous song and its bindings
 			this.resetState();
-			this.currentSong = Song.buildFrom(newState, this.connector, (...args) => {
-				this.onSongDataChanged(...args);
-			});
+			this.currentSong = Song.buildFrom(
+				newState, this.connector, this.onSongDataChanged.bind(this)
+			);
 			this.currentSong.flags.isReplaying = this.isReplayingSong;
 
-			// this.bindSongListeners({ notify: !this.isReplayingSong });
 			this.debugLog(`New song detected: ${toString(newState)}`);
 
 			// Start the timer, actual time will be set after processing
