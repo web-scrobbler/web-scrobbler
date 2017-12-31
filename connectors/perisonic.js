@@ -8,5 +8,4 @@ Connector.trackArtSelector = '#coverart img';
 
 Connector.isPlaying = () => $('#playpause').hasClass('pause');
 
-$('#title').bind("DOMSubtreeModified", Connector.onStateChanged);
-
+$('#title').bind('DOMSubtreeModified', Connector.onStateChanged);
