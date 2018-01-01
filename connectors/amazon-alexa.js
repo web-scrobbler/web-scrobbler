@@ -36,10 +36,10 @@ Connector.isPlaying = () => {
 		return false;
 	}
 
-	return $('#d-primary-control .play').size() === 0;
+	return $('#d-primary-control .play').length === 0;
 };
 
 function isPlayingLiveRadio() {
-	return $('#d-secondary-control-left .disabled').size() === 1 &&
-		$('#d-secondary-control-right .disabled').size() === 1;
+	return $('#d-secondary-control-left .disabled').length === 1 &&
+		$('#d-secondary-control-right .disabled').length === 1;
 }
