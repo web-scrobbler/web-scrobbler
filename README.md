@@ -55,7 +55,7 @@ See the [license file](LICENSE.md).
 [2]: https://api.travis-ci.org/web-scrobbler/web-scrobbler.svg
 [3]: https://travis-ci.org/web-scrobbler/web-scrobbler
 [4]: https://badges.gitter.im/Join%20Chat.svg
-[5]: https://gitter.im/web-scrobbler/web-scrobbler
+[5]: https://gitter.im/david-sabata/web-scrobbler
 [6]: https://david-dm.org/web-scrobbler/web-scrobbler/dev-status.svg
 [7]: https://david-dm.org/web-scrobbler/web-scrobbler?type=dev
 [8]: http://www.last.fm/
