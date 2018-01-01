@@ -21,7 +21,7 @@
     "description": "Option title"
   },
   "optionUnrecognizedNotifications": {
-    "message": "Notify if track is not recongized",
+    "message": "Notify if track is not recognized",
     "description": "Option label"
   },
   "optionUnrecognizedNotificationsTitle": {
