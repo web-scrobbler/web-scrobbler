@@ -1,6 +1,19 @@
 'use strict';
 
 Connector.playerSelector = '#d-content';
+Connector.remainingTimeSelector  = '.d-np-time-display.remaining-time';
+Connector.currentTimeSelector = '.d-np-time-display.elapsed-time';
+
+Connector.getDuration = () => {
+	let elapsed = Util.stringToSeconds($(Connector.currentTimeSelector).text());
+	let remaining = -Util.stringToSeconds($(Connector.remainingTimeSelector).text());
+	return (remaining + elapsed);
+};
+
+Connector.getRemainingTime = () => {
+	let remaining = -Util.stringToSeconds($(Connector.remainingTimeSelector).text());
+	return remaining;
+};
 
 Connector.getArtistTrack = () => {
 	if (isPlayingLiveRadio()) {
@@ -15,7 +28,17 @@ Connector.getArtistTrack = () => {
 
 Connector.albumSelector = '#d-info-text .d-sub-text-2';
 
-Connector.isPlaying = () => $('#d-primary-control .play').size() === 0;
+Connector.isPlaying = () => {
+	let songProgress = $('.d-np-progress-slider .d-slider-container .d-slider-track').attr('aria-valuenow');
+	let duration = Connector.getDuration();
+
+	// The app doesn't update the progress bar or time remaining straight away (and starts counting down from an hour). This is a workaround to avoid detecting an incorrect duration time.
+	if (duration > 3600 || songProgress == 100) {
+		return false;
+	}
+	
+	return $('#d-primary-control .play').size() === 0;
+}
 
 function isPlayingLiveRadio() {
 	return $('#d-secondary-control-left .disabled').size() === 1 &&
