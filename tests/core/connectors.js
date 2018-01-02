@@ -1,7 +1,7 @@
 'use strict';
 
 const expect = require('chai').expect;
-const connectors = require('../../core/connectors');
+const connectors = require('../../src/core/connectors');
 
 const propTypes = {
 	allFrames: 'boolean',

@@ -29,7 +29,7 @@ function getConnectorTestFilePath(connector) {
  * @return {Array} List of connectors
  */
 function getConnectorsList() {
-	let connectors = require('../core/connectors');
+	let connectors = require('../src/core/connectors');
 	let uniqueConnectors = [];
 	return connectors.filter((item) => {
 		let testFilePath = getConnectorTestFilePath(item);

@@ -5,7 +5,7 @@
  */
 
 const expect = require('chai').expect;
-const Util = require('../../core/content/util');
+const Util = require('../../src/core/content/util');
 
 /**
  * Test data is an array of objects. Each object must contain

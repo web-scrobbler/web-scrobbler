@@ -12,9 +12,10 @@ function configureRequireJs() {
 	requirejs.config({
 		paths: {
 			wrapper: 'tests/stubs',
-			storage: 'core/background/storage',
+			storage: 'src/core/background/storage',
+			vendor: 'src/vendor',
 
-			'deep-proxy': 'core/background/deep-proxy'
+			'deep-proxy': 'src/core/background/deep-proxy'
 		},
 		waitSeconds: 0
 	});

@@ -1,7 +1,7 @@
 'use strict';
 
 const expect = require('chai').expect;
-const CustomPatterns = require('../../core/background/custom-patterns');
+const CustomPatterns = require('../../src/core/background/custom-patterns');
 
 /**
  * Run all tests.

@@ -8,40 +8,45 @@ module.exports = function(grunt) {
 	const chromeExtensionId = 'hhinaapppaileiechjoiifaancjggfjm';
 	const amoExtensionId = '{799c0914-748b-41df-a25c-22d008f9e83f}';
 
+	const srcDir = 'src';
+	const buildDir = 'build';
+	const packageName = 'web-scrobbler.zip';
+	const manifestFile = 'src/manifest.json';
+
+	// Files to build package
+	const extensionSources = [
+		'**/*',
+		// Skip files
+		'!content/testReporter.js', '!icons/src/**',
+	];
+	const documentationFiles = [
+		'README.md', 'LICENSE.md'
+	];
+
+	// Files to lint
 	const jsFiles = [
 		// Custom Grunt tasks
 		'.grunt',
 		// Connectors
-		'connectors/**/*.js',
+		`${srcDir}/connectors/**/*.js`,
 		// Core files
-		'*.js', 'core/**/*.js', 'options/*.js', 'popups/*.js',
+		`${srcDir}/core/**/*.js`, `${srcDir}/options/*.js`,
+		`${srcDir}/popups/*.js`,
 		// Scripts
 		'scripts/*.js',
 		// Tests
 		'tests/**/*.js'
 	];
 	const jsonFiles = ['*.json', '.stylelintrc'];
-	const htmlFiles = ['options/*.html', 'popups/*.html', 'dialogs/**/*.html'];
-	const cssFiles = [
-		'options/options.css', 'popups/*.css'
-	];
-
-	const extensionSources = [
-		'_locales/**', 'connectors/**', 'core/**', 'icons/**',
-		'options/**', 'popups/**', 'vendor/**',
-		'manifest.json', 'README.md', 'LICENSE.txt',
-		// Skip files
-		'!core/content/testReporter.js', '!icons/src/**',
-	];
-	const buildDir = 'build';
-	const packageName = 'web-scrobbler.zip';
+	const htmlFiles = [`${srcDir}/options/*.html`, `${srcDir}/popups/*.html`];
+	const cssFiles = [`${srcDir}options/*.css`, `${srcDir}/popups/*.css`];
 
 	const webStoreConfig = loadConfig('./.publish/web-store.json');
 	const githubConfig = loadConfig('./.publish/github.json');
 	const amoConfig = loadConfig('./.publish/amo.json');
 
 	grunt.initConfig({
-		manifest: grunt.file.readJSON('manifest.json'),
+		manifest: grunt.file.readJSON(manifestFile),
 
 		/**
 		 * Configs of build tasks.
@@ -56,11 +61,17 @@ module.exports = function(grunt) {
 			],
 		},
 		copy: {
-			project_files: {
+			source_files: {
 				expand: true,
+				cwd: srcDir,
 				src: extensionSources,
 				dest: buildDir,
 			},
+			documentation: {
+				expand: true,
+				src: documentationFiles,
+				dest: buildDir,
+			}
 		},
 		compress: {
 			main: {
@@ -146,9 +157,9 @@ module.exports = function(grunt) {
 
 		bump: {
 			options: {
-				files: ['manifest.json'],
+				files: [manifestFile],
 				updateConfigs: ['manifest'],
-				commitFiles: ['manifest.json'],
+				commitFiles: [manifestFile],
 			}
 		},
 		dump_changelog: {

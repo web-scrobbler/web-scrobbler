@@ -5,7 +5,7 @@
  */
 
 const expect = require('chai').expect;
-const Song = require('../../core/background/object/song');
+const Song = require('../../src/core/background/object/song');
 
 /**
  * Object that contains source data for Song object.

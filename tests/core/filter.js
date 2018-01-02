@@ -5,7 +5,7 @@
  */
 
 const expect = require('chai').expect;
-const MetadataFilter = require('../../core/content/filter');
+const MetadataFilter = require('../../src/core/content/filter');
 
 /**
  * Test data is an array of objects. Each object must contain
