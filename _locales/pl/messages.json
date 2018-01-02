@@ -43,6 +43,10 @@
         "message": "Odtwórz swoją muzykę, żeby zacząć scrobblować",
         "description": "The header of 'Get started' popup"
     },
+    "contributorsText": {
+        "message": "Możesz znaleźć listę współtwórców <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">bezpośrednio na GitHubie</a>",
+        "description": "'About' section text"
+    },
     "accountsSignedInAs": {
         "message": "Jesteś zalogowany jako $1.",
         "description": "'Signed in' label"
@@ -50,10 +54,6 @@
     "infoEditTitle": {
         "message": "Edytuj informacje o utworze",
         "description": "Title of edit button"
-    },
-    "contactLinkedInDesc": {
-        "message": "Zobacz, czym zajmuję się zawodowo",
-        "description": "Description for LinkedIn section"
     },
     "faqAnswer4b1": {
         "message": "Na stronie ustawień rozszerzenia rozwiń sekcję \"Opcje\".",
@@ -92,7 +92,7 @@
         "description": "Answer #4"
     },
     "faqAnswer7": {
-        "message": "Nazywam się David Šabata i jestem absolwentem Politechniki Brneńskiej w Czechach. Mam obsesję na punkcie automatyzacji nudnych zadań i prawdopodobnie właśnie dlatego stworzyłem to rozszerzenie.",
+        "message": "Rozszerzenie zostało pierwotnie stworzone przez Davida Šabatę. Obecnie jest ono rozwijane i utrzymywane przez Zespół Web Scrobblera.",
         "description": "Answer #7"
     },
     "faqAnswer1b": {
@@ -111,8 +111,8 @@
         "message": "Nie możesz zamienić informacji pominiętego utworu",
         "description": "Title of swap button"
     },
-    "aboutText3": {
-        "message": "Ponieważ sam nie korzystam z każdego serwisu wideo na rynku możliwe, że dla dodania wsparcia dla twojej ulubionej usługi najlepszą osobą jesteś właśnie ty. Nie krępuj się z wysyłaniem pull requestów na <a href='http://github.com/web-scrobbler/web-scrobbler'>GitHubie</a>.",
+    "aboutChangelog": {
+        "message": "Lista nowości w obecnej wersji dostępna jest <a id='latest-release' target='_blank' href='#'>tutaj</a>. Pełny wykaz zmian dostępny jest na <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>stronie projektu</a>.",
         "description": "'About' section text"
     },
     "infoEdit": {
@@ -122,10 +122,6 @@
     "pageActionBase": {
         "message": "Scrobblowanie z tej strony jest możliwe",
         "description": "`base` page action title"
-    },
-    "aboutText2": {
-        "message": "Web Scrobbler został stworzony dla ludzi słuchających muzyki online, przez przeglądarkę, którzy chcą zachować aktualną historię odtwarzania w usłudze Last.fm.",
-        "description": "'About' section text"
     },
     "contributorsTitle": {
         "message": "Współtwórcy",
@@ -144,20 +140,12 @@
         "description": "'Signed in' label"
     },
     "faqAnswer5": {
-        "message": "Możliwe, ale mało prawdopodobne. Rozwijam Scrobblera w wolnym czasie i osobiście zapewniam wsparcie tylko dla YouTube'a - po prostu nie korzystam z innych stron z muzyką. Niemniej, dodanie obsługi nowego serwisu jest naprawdę proste. Możesz sforkować repozytorium na <a href=\"http://github.com/web-scrobbler/web-scrobbler\">GitHubie</a> i wysłać mi pull requesta. Na wiki projektu na GitHubie znajdują się również instrukcje i opis budowy rozszerzenia.",
+        "message": "Otwórz na GitHubie <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">nowy wniosek</a> ze swoją sugestią, a powiemy Ci czy jesteśmy w stanie dodać wsparcie dla danej usługi. Możesz również samodzielnie dodać wsparcie forkując <a href=\"http://github.com/web-scrobbler/web-scrobbler\">repozytorium na GitHubie</a> i wysyłając nam pull requesta.",
         "description": "Answer #5"
     },
     "pageActionScrobbled": {
         "message": "Przescrobblowano $1",
         "description": "`scrobbled` page action title"
-    },
-    "contributorsText2": {
-        "message": "Jeśli chcesz zapoznać się z listą każdemu z nich oddającą należne zasługi, możesz skorzystać z tej <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">bezpośrednio na GitHubie</a>",
-        "description": "'About' section text"
-    },
-    "aboutText4": {
-        "message": "Bez obaw, nawet bez pomocy osób trzecich będę samodzielnie utrzymywał przynajmniej obsługę YouTube'a.",
-        "description": "'About' section text"
     },
     "menuDisableConnector": {
         "message": "Wyłącz obsługę $1",
@@ -251,10 +239,6 @@
         "message": "Już pominąłeś ten utwór",
         "description": "Title of skip button"
     },
-    "contactLastfmDesc": {
-        "message": "Porównaj gust i powiedz siema!",
-        "description": "Description for Twitter section"
-    },
     "faqAnswer6": {
         "message": "Możliwe, jeśli ma to sens. Ale jeśli chcesz, żebym dodał nie-tak-użyteczną-ale-naprawdę-spoko-opcję, prawdopodobnie się zawiedziesz.",
         "description": "Answer #6"
@@ -274,6 +258,10 @@
     "optionsViewEdited": {
         "message": "Zobacz",
         "description": "Button to view edited tracks"
+    },
+    "aboutExtensionDesc": {
+        "message": "Web Scrobbler został stworzony dla ludzi słuchających muzyki online, przez przeglądarkę, którzy chcą zachować aktualną historię odtwarzania w usłudze Last.fm.",
+        "description": "'About' section text"
     },
     "faqAnswer3b": {
         "message": "Możesz również zaznaczyć opcję \"Wymuś rozpoznanie utworu\", która wymusi na rozszerzeniu scrobblowanie utworów nawet kiedy poprawność informacji nie zostanie potwierdzona przez Last.fm.",
@@ -323,10 +311,6 @@
         "message": "Web Scrobbler nie obsługuje scrobblowania z tej strony internetowej.",
         "description": "The description of 'unsupported' popup"
     },
-    "aboutText5": {
-        "message": "A ponieważ wszyscy jesteśmy miłośnikami muzyki i Lasta, możesz również odwiedzić <a href='http://www.last.fm/user/na1k_/'>mój profil Last.fm</a> żeby porównać gusta albo może zamienić parę słów. :-)",
-        "description": "'About' section text"
-    },
     "editedTracksTitle": {
         "message": "Ręcznie dopasowane utwory",
         "description": "Popup title"
@@ -354,10 +338,6 @@
     "menuEnableConnector": {
         "message": "Aktywuj obsługę $1",
         "description": "Context menu item"
-    },
-    "aboutText1": {
-        "message": "Lista nowości w obecnej wersji dostępna jest <a id='latest-release' target='_blank' href='#'>tutaj</a>. Pełny wykaz zmian dostępny jest na <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>stronie projektu</a>.",
-        "description": "'About' section text"
     },
     "faqQuestion5": {
         "message": "Czy dodasz obsługę scrobblowania na stronie ____ ?",
@@ -491,10 +471,6 @@
         "message": "O rozszerzeniu",
         "description": "'About' section"
     },
-    "contributorsText1": {
-        "message": "Cieszę się, że tak wiele świetnych osób wnosi swój wkład do tego rozszerzenia! Kiedyś ich lista znajdowała się na tej stronie, szybko się jednak rozrosła, nawet mimo ograniczania do najważniejszych z nich (autorów integracji z serwisami) pomijając resztę, również istotnych, autorów poprawek i innych ulepszeń.",
-        "description": "'About' section text"
-    },
     "showSomeLoveText1": {
         "message": "W przeciwieństwie do innych rozszerzeń, w tym nie znajdziesz żadnych wyskakujących bannerów ani ukrytych reklam.",
         "description": ""
@@ -550,10 +526,6 @@
     "optionUnrecognizedNotifications": {
         "message": "Powiadom, jeśli utwór nie zostanie rozpoznany",
         "description": "Option label"
-    },
-    "contactMyWebDesc": {
-        "message": "Zobacz co jeszcze robię",
-        "description": "Description for my web section"
     },
     "optionsAccounts": {
         "message": "Konta",
