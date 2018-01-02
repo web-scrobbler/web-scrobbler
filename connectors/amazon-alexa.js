@@ -4,6 +4,7 @@ Connector.playerSelector = '#d-content';
 Connector.albumSelector = '#d-info-text .d-sub-text-2';
 Connector.remainingTimeSelector = '.d-np-time-display.remaining-time';
 Connector.currentTimeSelector = '.d-np-time-display.elapsed-time';
+Connector.trackArtSelector = '#d-album-art > #d-image img';
 
 Connector.getDuration = () => {
 	let elapsed = Util.stringToSeconds($(Connector.currentTimeSelector).text());
