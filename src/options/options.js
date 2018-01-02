@@ -438,8 +438,8 @@ require([
 					let dataStr = event.target.result;
 					let data = JSON.parse(dataStr);
 
-					localCache.set(data);
-					fileInput.remove();
+					localCache.update(data).then(fileInput.remove);
+
 				};
 				reader.readAsText(file, 'utf-8');
 			}

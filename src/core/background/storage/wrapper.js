@@ -63,6 +63,18 @@ define((require) => {
 		}
 
 		/**
+		 * Extend saved data by given one.
+		 * @param  {Object} data Data to add
+		 * @return {Promise} Promise this will resolve when the task will complete
+		 */
+		update(data) {
+			return this.get().then((storageData) => {
+				let dataToSave = Object.assign(data, storageData);
+				return this.set(dataToSave);
+			});
+		}
+
+		/**
 		 * Log storage data to console output.
 		 */
 		debugLog() {
