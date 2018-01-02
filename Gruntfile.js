@@ -32,8 +32,6 @@ module.exports = function(grunt) {
 		// Core files
 		`${srcDir}/core/**/*.js`, `${srcDir}/options/*.js`,
 		`${srcDir}/popups/*.js`,
-		// Scripts
-		'scripts/*.js',
 		// Tests
 		'tests/**/*.js'
 	];
