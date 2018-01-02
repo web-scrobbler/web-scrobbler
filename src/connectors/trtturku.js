@@ -31,6 +31,8 @@ function toTitleCase(str) {
 	return realArray.join(' ');
 }
 
+const filter = new MetadataFilter({ all: toTitleCase });
+
 Connector.playerSelector = '.jwplayer';
 
 Connector.isPlaying = () => $('.jwplay.jwtoggle').length === 1;
@@ -39,9 +41,7 @@ Connector.durationSelector = '.jwduration';
 
 Connector.currentTimeSelector = '.jwelapsed';
 
-Connector.filter = new MetadataFilter({
-	all: [MetadataFilter.trim, toTitleCase]
-});
+Connector.applyFilter(filter);
 
 function setupRadioPlayer() {
 	Connector.artistSelector = '#besa_mp3_play_area tr:nth-child(2) > td:nth-child(2)';

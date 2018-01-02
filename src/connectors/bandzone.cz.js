@@ -26,6 +26,8 @@ function setupMainPagePlayer() {
 }
 
 function setupDefaultPlayer() {
+	const filter = new MetadataFilter({ artist: removeGenre });
+
 	Connector.playerSelector = '#playerWidget';
 
 	Connector.artistSelector = '.profile-name h1';
@@ -36,10 +38,7 @@ function setupDefaultPlayer() {
 
 	Connector.isPlaying = () => $('.ui-audioplayer-button').text() === 'stop';
 
-	Connector.filter = new MetadataFilter({
-		all: MetadataFilter.trim,
-		artist: removeGenre
-	});
+	Connector.applyFilter(filter);
 
 	function removeGenre(text) {
 		let genre = $('.profile-name span').text();

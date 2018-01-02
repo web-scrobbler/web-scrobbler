@@ -1,5 +1,9 @@
 'use strict';
 
+const filter = new MetadataFilter({
+	all: MetadataFilter.removeZeroWidth
+});
+
 /** note: the discover page doesn't display the track artist for compilation albums.  This connector
 	currently passes 'letious Artist' (or other letiant) as the artist name so tracks on albums with
 	letious artists played on the discover page will most likely not be recognized.*/
@@ -99,6 +103,4 @@ Connector.getUniqueID = () => {
 	return null;
 };
 
-Connector.filter = new MetadataFilter({
-	all: [MetadataFilter.removeZeroWidth, MetadataFilter.trim]
-});
+Connector.applyFilter(filter);

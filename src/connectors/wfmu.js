@@ -1,6 +1,11 @@
 'use strict';
 
 function setupAudioPlayer() {
+	const filter = new MetadataFilter({
+		track: cleanupTrack,
+		artist: cleanupArtist
+	});
+
 	Connector.playerSelector = '.audioplayer';
 
 	Connector.artistSelector = '#current-title';
@@ -9,14 +14,14 @@ function setupAudioPlayer() {
 
 	Connector.isPlaying = () => $('.mejs-playpause-button').hasClass('mejs-pause');
 
-	Connector.filter = new MetadataFilter({
-		track: cleanupTrack,
-		artist: cleanupArtist,
-		all: MetadataFilter.trim
-	});
+	Connector.applyFilter(filter);
 }
 
 function setupArchivePlayer() {
+	const filter = new MetadataFilter({
+		track: cleanupTrack
+	});
+
 	Connector.playerSelector = '.archiveplayer';
 
 	Connector.artistSelector = '#np-artist';
@@ -25,10 +30,7 @@ function setupArchivePlayer() {
 
 	Connector.isPlaying = () => $('.mejs-playpause-button').hasClass('mejs-pause');
 
-	Connector.filter = new MetadataFilter({
-		track: cleanupTrack,
-		all: MetadataFilter.trim
-	});
+	Connector.applyFilter(filter);
 }
 
 

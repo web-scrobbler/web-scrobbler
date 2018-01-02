@@ -1,5 +1,9 @@
 'use strict';
 
+const wwozFilter = new MetadataFilter({
+	track: cleanTrack
+});
+
 Connector.playerSelector = '#player';
 
 Connector.artistSelector = '#player .artist';
@@ -8,10 +12,7 @@ Connector.trackSelector = '#player .title';
 
 Connector.isPlaying = () => $('#oz-audio-container').hasClass('jp-state-playing');
 
-Connector.filter = new MetadataFilter({
-	track: cleanTrack,
-	all: MetadataFilter.trim
-});
+Connector.applyFilter(wwozFilter);
 
 function cleanTrack(track) {
 	// stripping WWOZ's double quotes around name

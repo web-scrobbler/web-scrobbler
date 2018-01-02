@@ -1,5 +1,7 @@
 'use strict';
 
+const filter = new MetadataFilter({ album: removeYear });
+
 Connector.playerSelector = '#player-top';
 
 Connector.artistSelector = '.playing-info .infos .author .name';
@@ -14,13 +16,13 @@ Connector.isPlaying = () => {
 	return $('#player-controls .play-stop button').hasClass('stop');
 };
 
-Connector.filter = MetadataFilter.getTrimFilter().append({
-	/**
-	 * Remove year from album title.
-	 * @param  {String} text Album title
-	 * @return {String} Modified album title
-	 */
-	album: (text) => {
-		return text.replace(/\(\d+\)$/g, '');
-	}
-});
+Connector.applyFilter(filter);
+
+/**
+ * Remove year from album title.
+ * @param  {String} text Album title
+ * @return {String} Modified album title
+ */
+function removeYear(text) {
+	return text.replace(/\(\d+\)$/g, '');
+}

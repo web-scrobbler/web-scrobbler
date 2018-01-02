@@ -1,5 +1,7 @@
 'use strict';
 
+const filter = new MetadataFilter({ track: removeOriginalMix });
+
 Connector.playerSelector = '.player-container';
 
 Connector.artistSelector = '.player-track-name-artist-standard .track-artist';
@@ -16,9 +18,7 @@ Connector.isPlaying = () => {
 	return $('.player-controls .play-button').hasClass('pause');
 };
 
-Connector.filter = new MetadataFilter({
-	all: MetadataFilter.trim, track: removeOriginalMix
-});
+Connector.applyFilter(filter);
 
 function removeOriginalMix(track) {
 	let remixedBy = $('.player-track-name-artist-standard .remixed').text();

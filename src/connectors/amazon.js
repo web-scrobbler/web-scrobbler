@@ -1,9 +1,6 @@
 'use strict';
 
-Connector.filter = new MetadataFilter({
-	album: MetadataFilter.decodeHtmlEntities,
-	all: MetadataFilter.trim
-});
+const filter = new MetadataFilter({ album: MetadataFilter.decodeHtmlEntities });
 
 Connector.playerSelector = '#dragonflyTransport .rightSide';
 
@@ -34,3 +31,5 @@ Connector.getUniqueID = () => {
 	}
 	return null;
 };
+
+Connector.applyFilter(filter);

@@ -28,7 +28,7 @@ Connector.getUniqueID = () => {
 		null;
 };
 
-Connector.filter = new MetadataFilter({
+const filter = new MetadataFilter({
 	track: (text) => {
 		// http://www.fileformat.info/info/unicode/category/Ps/list.htm
 		let [rightBrackets, titleBrackets] = [')|༻༽᚜‛‟⁆⁾₎⌉⌋〉❩❫❭❯❱❳❵⟆⟧⟩⟫⟭⟯⦄⦆⦈⦊⦌⦎⦐⦒⦔⦖⦘⧙⧛⧽⸣⸥⸧⸩⹃〉》」』】〕〗〙〛〞﵀︘︶︸︺︼︾﹀﹂﹄﹈﹚﹜﹞）＼｜｠｣', '〉》」』】〕〗〙〛〞﵀︘︶︸︺︼︾﹀﹂﹄﹈'];
@@ -47,6 +47,7 @@ Connector.filter = new MetadataFilter({
 
 			});
 		return text.replace(/[-_－—\s][^-_—－]+(?:版|version|MV)\s*$/i, '');
-	},
-	all: MetadataFilter.trim
+	}
 });
+
+Connector.applyFilter(filter);

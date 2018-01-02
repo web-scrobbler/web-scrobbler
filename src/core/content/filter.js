@@ -77,6 +77,16 @@ class MetadataFilter {
 	}
 
 	/**
+	 * Extend filter set by filter set from given filter.
+	 * @param  {Object} filter Filter object
+	 * @return {MetadataFilter} Current instance
+	 */
+	extend(filter) {
+		this.appendFilters(filter.mergedFilterSet);
+		return this;
+	}
+
+	/**
 	 * Internal.
 	 */
 

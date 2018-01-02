@@ -1,5 +1,9 @@
 'use strict';
 
+const filter = new MetadataFilter({
+	artist: [removeByPrefix, removeBuySuffix]
+});
+
 Connector.playerSelector = '.player-wrapper';
 
 Connector.artistSelector = '.current-artist';
@@ -14,9 +18,7 @@ Connector.isStateChangeAllowed = () => {
 	return Connector.getArtist() || Connector.getTrack();
 };
 
-Connector.filter = MetadataFilter.getTrimFilter().append({
-	artist: [removeByPrefix, removeBuySuffix]
-});
+Connector.applyFilter(filter);
 
 function removeByPrefix(text) {
 	return text.replace('by ', '');

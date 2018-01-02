@@ -377,6 +377,18 @@ function BaseConnector() {
 	this.filter = MetadataFilter.getTrimFilter();
 
 	/**
+	 * Add custom filter to default one. Prefer to use this method to use
+	 * custom metadata filters.
+	 *
+	 * The given filter will be used first.
+	 *
+	 * @param  {Object} filter Filter object
+	 */
+	this.applyFilter = (filter) => {
+		this.filter = filter.extend(MetadataFilter.getTrimFilter());
+	};
+
+	/**
 	 * Function that will be called when the connector is injected and
 	 * the starter is configured to listen to state change.
 	 *

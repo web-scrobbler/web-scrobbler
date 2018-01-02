@@ -3,8 +3,8 @@
 let currentState = {};
 let isPlaying = false;
 
-Connector.filter = new MetadataFilter({
-	all: [MetadataFilter.decodeHtmlEntities, MetadataFilter.trim]
+const vkFilter = new MetadataFilter({
+	all: MetadataFilter.decodeHtmlEntities
 });
 
 Connector.isPlaying = () => isPlaying;
@@ -34,3 +34,5 @@ Connector.onScriptEvent = function(event) {
 /* @endif */
 
 Connector.injectScript('connectors/vk-dom-inject.js');
+
+Connector.applyFilter(vkFilter);
