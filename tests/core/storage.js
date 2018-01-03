@@ -29,6 +29,16 @@ function testStorage(type, storage) {
 			});
 		});
 
+		it('should update storage', () => {
+			let newData = { test: 'ok', key: 'value' };
+			let dataToAdd = { key: 'value' };
+			return storage.update(dataToAdd).then(() => {
+				return storage.get();
+			}).then((data) => {
+				expect(newData).to.be.deep.equal(data);
+			});
+		});
+
 		it('should clear storage', () => {
 			return storage.clear().then(() => {
 				return storage.get();

@@ -14,7 +14,7 @@ class StorageAreaStub {
 	}
 
 	set(data, cb) {
-		this.data = Object.assign(data, this.data);
+		this.data = Object.assign(this.data, data);
 		cb();
 	}
 
