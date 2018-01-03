@@ -319,6 +319,20 @@ const DECODE_HTML_ENTITIES_TEST_DATA = [{
 }];
 
 /**
+ * Test data for testing extended filter.
+ * @type {Array}
+ */
+const EXTENDED_FILTER_TEST_DATA = [{
+	description: 'should do nothing with clean string',
+	source: 'Can\'t Kill Us',
+	expected: 'Can\'t Kill Us'
+}, {
+	description: 'should decode HTML entity and trim string',
+	source: 'Can&#039;t Kill Us ',
+	expected: 'Can\'t Kill Us'
+}];
+
+/**
  * Test data for testing 'MetadataFilter.removeZeroWidth' function.
  * @type {Array}
  */
@@ -379,6 +393,13 @@ const FILTERS_DATA = [{
 	filter: new MetadataFilter({ all: MetadataFilter.decodeHtmlEntities }),
 	fields: ['artist', 'track', 'album'],
 	testData: DECODE_HTML_ENTITIES_TEST_DATA,
+}, {
+	description: 'extended filter',
+	filter: new MetadataFilter({
+		all: MetadataFilter.decodeHtmlEntities
+	}).extend(MetadataFilter.getTrimFilter()),
+	fields: ['artist', 'track', 'album'],
+	testData: EXTENDED_FILTER_TEST_DATA,
 }];
 
 /**
