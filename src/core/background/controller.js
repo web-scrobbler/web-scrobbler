@@ -2,6 +2,7 @@
 
 define((require) => {
 	const GA = require('service/ga');
+	const Util = require('util');
 	const Song = require('object/song');
 	const Timer = require('timer');
 	const Pipeline = require('pipeline/pipeline');
@@ -481,7 +482,7 @@ define((require) => {
 
 				if (!this.currentSong.flags.isReplaying) {
 					Notifications.showNowPlaying(this.currentSong, () => {
-						chrome.tabs.update(this.tabId, { active: true });
+						Util.openTab(this.tabId);
 					});
 				}
 			});
@@ -494,7 +495,9 @@ define((require) => {
 		 */
 		setSongNotRecognized() {
 			this.pageAction.setSongNotRecognized();
-			Notifications.showSongNotRecognized();
+			Notifications.showSongNotRecognized(() => {
+				Util.openTab(this.tabId);
+			});
 		}
 
 		/**

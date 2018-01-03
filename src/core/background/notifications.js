@@ -202,8 +202,9 @@ define((require) => {
 
 	/**
 	 * Show notification if song is not recognized.
+	 * @param  {Function} onClicked Function that will be called on notification click
 	 */
-	function showSongNotRecognized() {
+	function showSongNotRecognized(onClicked) {
 		options.get().then((data) => {
 			if (!data.useUnrecognizedSongNotifications) {
 				return;
@@ -214,7 +215,7 @@ define((require) => {
 				title: i18n('notificationNotRecognized'),
 				message: i18n('notificationNotRecognizedText')
 			};
-			showNotification(options);
+			showNotification(options, onClicked);
 		});
 	}
 

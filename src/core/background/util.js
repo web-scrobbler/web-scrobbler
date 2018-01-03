@@ -62,6 +62,14 @@ define(['wrapper/chrome'], (chrome) => {
 	}
 
 	/**
+	 * Activate tab by given tab ID.
+	 * @param {Number} tabId Tab ID
+	 */
+	function openTab(tabId) {
+		chrome.tabs.update(tabId, { active: true });
+	}
+
+	/**
 	 * Execute promise with specified timeout.
 	 * @param  {Number} timeout Timeout in milliseconds
 	 * @param  {Promise} promise Promise to execute
@@ -103,7 +111,7 @@ define(['wrapper/chrome'], (chrome) => {
 	}
 
 	return {
-		getCurrentTab, timeoutPromise, getPlatformName,
+		getCurrentTab, timeoutPromise, getPlatformName, openTab,
 		hideStringInText, isFullscreenMode, queuePromises
 	};
 });
