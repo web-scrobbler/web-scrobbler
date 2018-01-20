@@ -1,17 +1,37 @@
 'use strict';
 
-Connector.playerSelector = '#player-container';
 
-Connector.artistSelector = '.current-artist-name';
+if (location.host.startsWith('beta3')) {
+	Connector.playerSelector = '#player';
 
-Connector.trackSelector = '.current-song-name';
+	Connector.artistSelector = '#player .metas a';
 
-Connector.durationSelector = '.duration-wrapper';
+	Connector.trackSelector = '#player .name';
 
-Connector.getTrackArt = () => {
-	return `${location.protocol}//${location.host}${$('.current-cover').attr('src')}`;
-};
+	Connector.durationSelector = '.playlist-item--playing .duration';
 
-Connector.trackArtSelector = '.current-cover';
+	Connector.getTrackArt = () => {
+		return $('.player-artwork > div').css('background-image').replace('url(','').replace(')','').replace(/\"/gi, "");
+	};
 
-Connector.isPlaying = () => $('.cover-container').hasClass('amplitude-playing');
+	Connector.trackArtSelector = '.current-cover';
+
+	Connector.isPlaying = () => $('button.play-button').attr('aria-label') !== 'play';
+
+} else {
+	Connector.playerSelector = '#player-container';
+
+	Connector.artistSelector = '.current-artist-name';
+
+	Connector.trackSelector = '.current-song-name';
+
+	Connector.durationSelector = '.duration-wrapper';
+
+	Connector.getTrackArt = () => {
+		return `${location.protocol}//${location.host}${$('.current-cover').attr('src')}`;
+	};
+
+	Connector.trackArtSelector = '.current-cover';
+
+	Connector.isPlaying = () => $('.cover-container').hasClass('amplitude-playing');
+}
