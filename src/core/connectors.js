@@ -1169,5 +1169,9 @@ define(function() {
 		label: 'blocSonic',
 		matches: ['*://blocsonic.com/*'],
 		js: ['connectors/blocsonic.js']
+	}, {
+		label: 'Resonate.is',
+		matches: ['*://resonate.is/album/*', '*://beta.resonate.is/*'],
+		js: ['connectors/resonate.js']
 	}];
 });
