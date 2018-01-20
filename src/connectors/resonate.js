@@ -1,6 +1,5 @@
 'use strict';
 
-
 if (location.host.startsWith('beta3')) {
 	Connector.playerSelector = '#player';
 
@@ -11,7 +10,7 @@ if (location.host.startsWith('beta3')) {
 	Connector.durationSelector = '.playlist-item--playing .duration';
 
 	Connector.getTrackArt = () => {
-		return $('.player-artwork > div').css('background-image').replace('url(','').replace(')','').replace(/\"/gi, "");
+		return $('.player-artwork > div').css('background-image').replace('url(', '').replace(')', '').replace(/"/gi, '');
 	};
 
 	Connector.trackArtSelector = '.current-cover';
