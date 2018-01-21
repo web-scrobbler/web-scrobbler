@@ -43,7 +43,9 @@ Connector.getArtistTrack = () => {
 	return { artist, track };
 };
 Connector.getAlbum = () => {
-	return $('#PlayerFrame iframe').contents().find('#Play').length ? // embed
-	$('#TrackList h1').text() :
-		$('.Release-preview:has(.Hello-Mini-Playing) .Release-select strong').text();
+	if ($('#PlayerFrame iframe').contents().find('#Play').length) {
+		return $('#TrackList h1').text();
+	}
+
+	return $('.Release-preview:has(.Hello-Mini-Playing) .Release-select strong').text();
 };
