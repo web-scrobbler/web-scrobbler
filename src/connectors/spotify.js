@@ -21,7 +21,15 @@ Connector.durationSelector = '.playback-bar__progress-time:last-child';
 Connector.filter = MetadataFilter.getRemasteredFilter();
 
 Connector.isScrobblingAllowed = () => {
+	return isAdPlaying();
+};
+
+function isAdPlaying() {
+	if (Connector.getArtist() === 'Spotify') {
+		return true;
+	}
+
 	// When ad is playing, artist URL is like "https://shrt.spotify.com/XXX"
 	let artistUrl = $('.track-info__artists a').attr('href');
 	return artistUrl && artistUrl.includes('artist');
-};
+}
