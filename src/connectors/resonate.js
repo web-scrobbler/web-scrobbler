@@ -10,13 +10,10 @@ if (location.host.startsWith('beta3')) {
 	Connector.durationSelector = '.playlist-item--playing .duration';
 
 	Connector.getTrackArt = () => {
-		return $('.player-artwork > div').css('background-image').replace('url(', '').replace(')', '').replace(/"/gi, '');
+		return Util.extractUrlFromCssProperty('.player-artwork > div');
 	};
 
-	Connector.trackArtSelector = '.current-cover';
-
 	Connector.isPlaying = () => $('button.play-button').attr('aria-label') !== 'play';
-
 } else {
 	Connector.playerSelector = '#player-container';
 
@@ -29,8 +26,6 @@ if (location.host.startsWith('beta3')) {
 	Connector.getTrackArt = () => {
 		return `${location.protocol}//${location.host}${$('.current-cover').attr('src')}`;
 	};
-
-	Connector.trackArtSelector = '.current-cover';
 
 	Connector.isPlaying = () => $('.cover-container').hasClass('amplitude-playing');
 }
