@@ -1,6 +1,6 @@
 'use strict';
 
-if (location.host.startsWith('beta3')) {
+if (location.host.startsWith('beta')) {
 	Connector.playerSelector = '#player';
 
 	Connector.artistSelector = '#player .metas a';

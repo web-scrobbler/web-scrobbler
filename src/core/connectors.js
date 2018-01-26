@@ -1171,7 +1171,7 @@ define(function() {
 		js: ['connectors/blocsonic.js']
 	}, {
 		label: 'Resonate.is',
-		matches: ['*://resonate.is/album/*', '*://beta.resonate.is/*', '*://beta3.resonate.is/*'],
+		matches: ['*://resonate.is/album/*', '*://beta.resonate.is/*'],
 		js: ['connectors/resonate.js']
 	}];
 });
