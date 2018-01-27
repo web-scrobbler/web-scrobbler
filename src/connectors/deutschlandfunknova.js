@@ -1,18 +1,24 @@
 'use strict';
 
-Connector.playerSelector = '.player__main';
+Connector.playerSelector = '.play-btn';
 
-Connector.artistTrackSelector = 'span.title--title';
+Connector.artistTrackSelector = '.meta-data .playing-title';
 
 Connector.getArtistTrack = () => {
-	let text = $(Connector.artistTrackSelector).text();
-	let m = text.match(/"(.*)" von (.*)/);
-	if (m && (m.length === 3)) {
-		return { artist: m[2], track: m[1] };
+	if ($(Connector.artistTrackSelector).text().length > 7 && $(Connector.artistTrackSelector).text().indexOf('undefined') === -1) {
+		let text = $(Connector.artistTrackSelector).text();
+		let m = text.split(' · ');
+		if (m && (m.length > 0)) {
+			let n = m[0].match(/"(.*)" von (.*)/);
+			if (n && (n.length === 3)) {
+				return { artist: n[2], track: n[1] };
+			}
+		}
 	}
-	return Util.splitArtistTrack(text);
+
+	return Util.makeEmptyArtistTrack();
 };
 
 Connector.isPlaying = () => {
-	return $('.jp-audio').hasClass('jp-state-playing');
+	return $(Connector.playerSelector).hasClass('jp-option-pause');
 };
