@@ -3,9 +3,11 @@
 if (location.host.startsWith('beta')) {
 	Connector.playerSelector = '#player';
 
-	Connector.artistSelector = '#player .metas a';
+	Connector.artistSelector = '#player .track-artist';
 
-	Connector.trackSelector = '#player .name';
+	Connector.trackSelector = '#player .track-name';
+
+	Connector.albumSelector = '#player .track-album';
 
 	Connector.durationSelector = '.playlist-item--playing .duration';
 
