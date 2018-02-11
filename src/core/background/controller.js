@@ -534,7 +534,7 @@ define((require) => {
 		 */
 		getSecondsToScrobble() {
 			let duration = this.currentSong.getDuration();
-			if (duration < MIN_TRACK_DURATION) {
+			if (duration && duration < MIN_TRACK_DURATION) {
 				return -1;
 			}
 
