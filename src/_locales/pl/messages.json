@@ -37,7 +37,7 @@
     },
     "faqQuestion3": {
         "message": "Utwór nie został rozpoznany! Możesz to naprawić?",
-        "description": "Qestion #3"
+        "description": "Question #3"
     },
     "getStartedHeader": {
         "message": "Odtwórz swoją muzykę, żeby zacząć scrobblować",
@@ -181,11 +181,11 @@
     },
     "faqQuestion2": {
         "message": "Jak tymczasowo wyłączyć scrobblowanie?",
-        "description": "Qestion #2"
+        "description": "Question #2"
     },
     "faqQuestion6": {
         "message": "Dodasz funkcję ____ ?",
-        "description": "Qestion #6"
+        "description": "Question #6"
     },
     "contactTitle": {
         "message": "Kontakt",
@@ -229,7 +229,7 @@
     },
     "faqQuestion1": {
         "message": "Jak mam zacząć korzystać z rozszerzenia?",
-        "description": "Qestion #1"
+        "description": "Question #1"
     },
     "infoAlbumPlaceholder": {
         "message": "Album (opcjonalnie)",
@@ -341,7 +341,7 @@
     },
     "faqQuestion5": {
         "message": "Czy dodasz obsługę scrobblowania na stronie ____ ?",
-        "description": "Qestion #5"
+        "description": "Question #5"
     },
     "accountsNotSignedIn": {
         "message": "Nie jesteś zalogowany.",
@@ -385,7 +385,7 @@
     },
     "faqQuestion4": {
         "message": "Część muzyki na Bandcampie nie może być przescrobblowana. Można to naprawić?",
-        "description": "Qestion #4"
+        "description": "Question #4"
     },
     "faqAnswer2a": {
         "message": "Możesz to zrobić klikając prawym przyciskiem myszy na ikonie na pasku rozszerzeń. Z menu kontekstowego możesz wyłączyć obsługę scrobblingu dla obecnej usługi internetowej.",
@@ -393,7 +393,7 @@
     },
     "faqQuestion7": {
         "message": "Kim jest autor?",
-        "description": "Qestion #7"
+        "description": "Question #7"
     },
     "contactTwitterDesc": {
         "message": "Wpadnij po aktualne info albo na szybką rozmowę",
