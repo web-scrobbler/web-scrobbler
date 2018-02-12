@@ -4,12 +4,10 @@ const videoIdRegExp = /v=?([^#&?]*).*/;
 
 Connector.playerSelector = '.player-controls';
 
-Connector.artistTrackSelector = '.player-controls > .video-title:first';
-
 Connector.filter = MetadataFilter.getYoutubeFilter();
 
 Connector.getArtistTrack = () => {
-	let text = $(Connector.artistTrackSelector).text();
+	let text = $('.player-container > div > span:nth-child(2)').text();
 	return Util.processYoutubeVideoTitle(text);
 };
 
