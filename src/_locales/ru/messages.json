@@ -37,7 +37,7 @@
     },
     "faqQuestion3": {
         "message": "Трек не распознан. Вы можете исправить это?",
-        "description": "Qestion #3"
+        "description": "Question #3"
     },
     "getStartedHeader": {
         "message": "Включите любой трек для начала",
@@ -181,11 +181,11 @@
     },
     "faqQuestion2": {
         "message": "Как временно отключить скробблинг?",
-        "description": "Qestion #2"
+        "description": "Question #2"
     },
     "faqQuestion6": {
         "message": "Добавите ли вы ____ функционал?",
-        "description": "Qestion #6"
+        "description": "Question #6"
     },
     "contactTitle": {
         "message": "Контакты",
@@ -229,7 +229,7 @@
     },
     "faqQuestion1": {
         "message": "Как мне начать использовать расширение?",
-        "description": "Qestion #1"
+        "description": "Question #1"
     },
     "infoAlbumPlaceholder": {
         "message": "Альбом (необязательно)",
@@ -341,7 +341,7 @@
     },
     "faqQuestion5": {
         "message": "Добавите ли вы поддержку ____?",
-        "description": "Qestion #5"
+        "description": "Question #5"
     },
     "accountsNotSignedIn": {
         "message": "Вы не вошли.",
@@ -385,7 +385,7 @@
     },
     "faqQuestion4": {
         "message": "Некоторые треки на Bandcamp не скробблятся. Это возможно исправить?",
-        "description": "Qestion #4"
+        "description": "Question #4"
     },
     "faqAnswer2a": {
         "message": "Вы можете это сделать, кликнув на значок расширения справа от адресной строки. Используя контекстное меню, вы можете отключить скробблинг для текущего сайта.",
@@ -393,7 +393,7 @@
     },
     "faqQuestion7": {
         "message": "Кто автор расширения?",
-        "description": "Qestion #7"
+        "description": "Question #7"
     },
     "contactTwitterDesc": {
         "message": "Следить за обновлениями или поболтать",
