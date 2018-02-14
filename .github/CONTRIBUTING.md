@@ -27,7 +27,7 @@ We also use EditorConfig, which helps to keep code in the same code style in dif
 
 Connectors development is explained in [this][6] and [this][7] articles.
 
-[1]: https://github.com/web-scrobbler/web-scrobbler/wiki/How-to-debug-the-extension
+[1]: https://github.com/web-scrobbler/web-scrobbler/wiki/Debug-the-extension
 [2]: http://www.chiark.greenend.org.uk/~sgtatham/bugs.html
 [3]: http://chris.beams.io/posts/git-commit/
 [4]: http://gruntjs.com/getting-started
