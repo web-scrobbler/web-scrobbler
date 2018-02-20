@@ -20,7 +20,9 @@ Connector.getUniqueID = () => {
 
 setInterval(() => {
 	let timeRemaining = Connector.getDuration() - Connector.getCurrentTime();
-	if (!!timeRemaining) Connector.onStateChanged();
+	if (timeRemaining) {
+		Connector.onStateChanged();
+	}
 }, 1000);
 
 Connector.isPlaying = () => {
