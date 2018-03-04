@@ -2,14 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "Added blocSonic connector\nAdded eMusic connector\nAdded LetsLoop connector\nAdded Mideast Tunes connector\nAdded Mixblast connector\nAdded Radiooooo.com connector\nAdded Sound Session connector\nAdded Streamsquid connector\nAdded Vagalume.FM connector\nAdded feature to open now playing tab by clicking on now playing notification\nAdded support for Loud.zone\nAdded support for more Amazon websites\nAdded tooltips to input fields of the info popup\nImproved VK connector\nUpdated translations\nFixed Deezer connector\nFixed Focus@Will connector\nFixed metadata filter\nFixed an issue when the extension didn't update browser action context menu"
+        "en-US": "Added Resonate connector\nAdded HQ Radio connector\nChanged the extension name to \"Web Scrobbler\"\nChanged the way how the extension imports the local cache\nImproved Amazon Alexa connector\nImproved Youtube title filtering\nMade some internal changes in the extension core\nUpdated documentation\nFixed an issue when now playing track data wasn't updated correctly\nFixed an issue when some tracks weren't scrobbled\nFixed translations\nFixed Amazon connector\nFixed Deutschlandfunknova connector\nFixed Listen.moe connector\nFixed ListenOnRepeat connector\nFixed TuneIn connector\nFixed Spotify connector"
       },
       "files": [
         {
           "created": null
         }
       ],
-      "version": "2.3.0"
+      "version": "2.4.0"
     }
   ]
 }
