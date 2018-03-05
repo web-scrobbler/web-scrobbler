@@ -144,7 +144,7 @@ define((require) => {
 		 * @return {Object} Song copy
 		 */
 		getCurrentSong() {
-			return this.currentSong === null ? {} : this.currentSong;
+			return this.currentSong === null ? {} : this.currentSong.getCloneableData();
 		}
 
 		/**
@@ -415,7 +415,7 @@ define((require) => {
 		notifySongIsUpdated() {
 			chrome.runtime.sendMessage({
 				type: 'v2.songUpdated',
-				data: this.currentSong,
+				data: this.currentSong.getCloneableData(),
 				tabId: this.tabId
 			});
 		}

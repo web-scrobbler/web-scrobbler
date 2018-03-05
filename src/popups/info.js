@@ -123,6 +123,8 @@ require(['util'], (Util) => {
 	function getTrackInfo() {
 		let trackInfo = {};
 
+		console.log(song);
+
 		for (let field of EDITED_TRACK_FIELDS) {
 			trackInfo[field] = song.processed[field] || song.parsed[field];
 		}
@@ -318,6 +320,7 @@ require(['util'], (Util) => {
 		setupMessageListener();
 		getCurrentSong().then((result) => {
 			song = result;
+			console.log(song);
 			onSongLoaded();
 		});
 	}
