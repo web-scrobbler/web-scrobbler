@@ -252,6 +252,24 @@ define((require) => {
 		toString() {
 			return JSON.stringify(this, null, 2);
 		}
+
+		/**
+		 * Get song data to send it to different context.
+		 * @return {Object} Object containt song data
+		 */
+		getCloneableData() {
+			let fieldsToCopy = ['parsed', 'processed', 'metadata', 'flags'];
+			let clonedSong = {};
+
+			// Firefox doesn't allow to send proxy objects via `chrome.runtime.sendMessage` API.
+			// Since our song properties are actually proxy objects, they should be converted to
+			// plain objects before.
+			for (let field of fieldsToCopy) {
+				clonedSong[field] = Object.assign({}, this[field]);
+			}
+
+			return clonedSong;
+		}
 	}
 
 	return { buildFrom };
