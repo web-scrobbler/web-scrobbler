@@ -21,15 +21,16 @@ Connector.durationSelector = '.playback-bar__progress-time:last-child';
 Connector.filter = MetadataFilter.getRemasteredFilter();
 
 Connector.isScrobblingAllowed = () => {
-	return isAdPlaying();
+	return isMusicPlaying();
 };
 
-function isAdPlaying() {
-	if (Connector.getArtist() === 'Spotify') {
+function isMusicPlaying() {
+	if (Connector.getArtist() !== 'Spotify') {
 		return true;
 	}
 
-	// When ad is playing, artist URL is like "https://shrt.spotify.com/XXX"
+	// When ad is playing, artist URL is like "https://shrt.spotify.com/XXX",
+	// otherwise URL leads to an artist page "https://open.spotify.com/artist/YYY".
 	let artistUrl = $('.track-info__artists a').attr('href');
 	return artistUrl && artistUrl.includes('artist');
 }
