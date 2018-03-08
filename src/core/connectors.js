@@ -1177,5 +1177,9 @@ define(function() {
 		label: 'HQ Radio',
 		matches: ['*://hqradio.ru/*'],
 		js: ['connectors/hqradio.js'],
+	}, {
+		label: 'KEXP Radio',
+		matches: ['*://kexp.org/*'],
+		js: ['connectors/kexp.js'],
 	}];
 });
