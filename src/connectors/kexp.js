@@ -1,7 +1,7 @@
 'use strict';
 
-Connector.isPlaying = () => $( '.Player--streamPlaying' ).hasClass( 'Player--playing' );
+Connector.isPlaying = () => $('.Player').hasClass('Player--playing');
 
-Connector.playerSelector = '.Player-meta';
+Connector.playerSelector = '.Player';
 Connector.artistTrackSelector = '.Player-title';
 Connector.albumSelector = '.Player-album';
