@@ -7,6 +7,7 @@ define((require) => {
 	const Util = require('util');
 	const UserInput = require('pipeline/user-input');
 	const Metadata = require('pipeline/metadata');
+	const Normalize = require('pipeline/normalize');
 	const LocalCache = require('pipeline/local-cache');
 	const CoverArtArchive = require('pipeline/coverartarchive');
 
@@ -17,6 +18,7 @@ define((require) => {
 	 * @type {Array}
 	 */
 	const processors = [
+		Normalize,
 		/**
 		 * Load data submitted by user.
 		 */
