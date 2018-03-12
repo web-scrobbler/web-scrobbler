@@ -1179,7 +1179,7 @@ define(function() {
 		js: ['connectors/hqradio.js'],
 	}, {
 		label: 'KEXP Radio',
-		matches: ['*://kexp.org/*'],
+		matches: ['*://kexp.org/*', '*://www.kexp.org/*'],
 		js: ['connectors/kexp.js'],
 	}];
 });
