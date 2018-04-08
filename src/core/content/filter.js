@@ -280,6 +280,11 @@ class MetadataFilter {
 			{ source: /^(|.*\s)"(.*)"(\s.*|)$/, target: '$2' },
 			// 'Track title'
 			{ source: /^(|.*\s)'(.*)'(\s.*|)$/, target: '$2' },
+
+
+			// labels
+			{ source: /\|\sNapalm\sRecords$/, target: '' },
+
 			// trim starting white chars and dash
 			{ source: /^[/,:;~-\s"]+/, target: '' },
 			// trim trailing white chars and dash
