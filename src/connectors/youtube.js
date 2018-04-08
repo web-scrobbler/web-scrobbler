@@ -117,6 +117,11 @@ Connector.isScrobblingAllowed = () => {
 		return false;
 	}
 
+	// FIXME: Workaround to prevent scrobbling the vidio opened in a background tab.
+	if (Connector.getCurrentTime() < 1) {
+		return false;
+	}
+
 	if (allowedCategories.length === 0) {
 		return true;
 	}
