@@ -102,13 +102,13 @@ Connector.getUniqueID = () => {
 	 * We don't return video ID until video title is shown.
 	 */
 	if (Connector.isFullscreenMode()) {
-		let videoTitle = $('.ytp-title-link').text();
+		let videoTitle = $('.html5-video-player.playing-mode .ytp-title-link').text();
 		if (!videoTitle) {
 			return null;
 		}
 	}
 
-	let videoUrl = $('.ytp-title-link').attr('href');
+	let videoUrl = $('.html5-video-player.playing-mode .ytp-title-link').attr('href');
 	return Util.getYoutubeVideoIdFromUrl(videoUrl);
 };
 
@@ -151,7 +151,7 @@ Connector.isFullscreenMode = () => {
  * @return {ArtistTrack} The track's Artist and Title
  */
 function getArtistTrack() {
-	let videoTitle = $('.ytp-title-link').text();
+	let videoTitle = $('.html5-video-player.playing-mode .ytp-title-link').text();
 	let byLineMatch = $('#meta-contents #owner-name a').text().match(/(.+) - Topic/);
 	if (byLineMatch) {
 		return { artist: byLineMatch[1], track: videoTitle };
