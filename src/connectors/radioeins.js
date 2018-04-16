@@ -8,7 +8,11 @@ Connector.trackSelector = 'p.songtitle';
 
 Connector.isPlaying = () => {
 	let ret = false;
-	if ($('#lsplayer audio') && $('#lsplayer audio').length) {
+	if ($('.audioplayer-playing') && $('.audioplayer-playing').length) {
+		ret = true;
+	} else if ($('.audioplayer-stopped') && $('.audioplayer-stopped').length) {
+		ret = false;
+	} else if ($('#lsplayer audio') && $('#lsplayer audio').length) {
 		ret = !$('#lsplayer audio')[0].paused;
 	} else {
 		let state = retrieveJwplayerState();
