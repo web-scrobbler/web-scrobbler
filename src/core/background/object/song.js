@@ -11,7 +11,7 @@ define((require) => {
 	 * Create new song object.
 	 * @param  {Object} parsedData Current state received from connector
 	 * @param  {Object} connector Connector match object
-	 * @param  {Function} onChange Fucntion is called on song data change
+	 * @param  {Function} onChange Function is called on song data change
 	 * @return {Object} Song instance
 	 */
 	function buildFrom(parsedData, connector, onChange) {
@@ -221,7 +221,7 @@ define((require) => {
 		}
 
 		/**
-		 * Check if song is vaild. The song means valid if it's known by
+		 * Check if song is valid. The song means valid if it's known by
 		 * scrobbler service or is corrected by the user.
 		 * @return {Boolean} True if song is valid; false otherwise
 		 */
@@ -251,6 +251,24 @@ define((require) => {
 		 */
 		toString() {
 			return JSON.stringify(this, null, 2);
+		}
+
+		/**
+		 * Get song data to send it to different context.
+		 * @return {Object} Object contain song data
+		 */
+		getCloneableData() {
+			let fieldsToCopy = ['parsed', 'processed', 'metadata', 'flags'];
+			let clonedSong = {};
+
+			// Firefox doesn't allow to send proxy objects via `chrome.runtime.sendMessage` API.
+			// Since our song properties are actually proxy objects, they should be converted to
+			// plain objects before.
+			for (let field of fieldsToCopy) {
+				clonedSong[field] = Object.assign({}, this[field]);
+			}
+
+			return clonedSong;
 		}
 	}
 

@@ -11,7 +11,7 @@
  *   depends on the label.
  *   @param {Array} matches Array of positive matches in format described in
  *   Chrome Ext. Dev. guide. Connectors are processed in order and the
- *   first match is used; you can use this behaviour to emulate exclude matches,
+ *   first match is used; you can use this behavior to emulate exclude matches,
  *   @param {Array} js Array of paths of files to be executed. All executions
  *   happen on or after 'document_end'.
  *   @param {Boolean} allFrames Value representing InjectDetails.allFrames.
@@ -1169,5 +1169,17 @@ define(function() {
 		label: 'blocSonic',
 		matches: ['*://blocsonic.com/*'],
 		js: ['connectors/blocsonic.js']
+	}, {
+		label: 'Resonate.is',
+		matches: ['*://resonate.is/album/*', '*://beta.resonate.is/*'],
+		js: ['connectors/resonate.js']
+	}, {
+		label: 'HQ Radio',
+		matches: ['*://hqradio.ru/*'],
+		js: ['connectors/hqradio.js'],
+	}, {
+		label: 'KEXP Radio',
+		matches: ['*://kexp.org', '*://www.kexp.org', '*://kexp.org/*', '*://www.kexp.org/*'],
+		js: ['connectors/kexp.js'],
 	}];
 });

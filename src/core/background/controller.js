@@ -29,6 +29,11 @@ define((require) => {
 	const MAX_SCROBBLE_TIME = 240;
 
 	/**
+	 * Now playing notification delay in milliseconds.
+	 */
+	const NOW_PLAYING_NOTIFICATION_DELAY = 5000;
+
+	/**
 	 * Object that handles song playback and scrobbling actions.
 	 */
 	class Controller {
@@ -51,6 +56,8 @@ define((require) => {
 
 			this.setEnabled(isEnabled);
 			this.debugLog(`Created controller for ${connector.label} connector`);
+
+			this.notificationTimeoutId = null;
 		}
 
 		/** Public functions */
@@ -72,7 +79,7 @@ define((require) => {
 				this.playbackTimer.reset();
 				this.replayDetectionTimer.reset();
 
-				this.clearNotification();
+				this.clearNowPlayingNotification();
 			}
 		}
 
@@ -84,7 +91,7 @@ define((require) => {
 			this.replayDetectionTimer.reset();
 
 			if (this.currentSong !== null) {
-				this.clearNotification();
+				this.clearNowPlayingNotification();
 			}
 			this.currentSong = null;
 		}
@@ -128,7 +135,7 @@ define((require) => {
 			this.playbackTimer.reset();
 			this.replayDetectionTimer.reset();
 
-			this.clearNotification();
+			this.clearNowPlayingNotification();
 		}
 
 		/**
@@ -144,7 +151,7 @@ define((require) => {
 		 * @return {Object} Song copy
 		 */
 		getCurrentSong() {
-			return this.currentSong === null ? {} : this.currentSong;
+			return this.currentSong === null ? {} : this.currentSong.getCloneableData();
 		}
 
 		/**
@@ -403,10 +410,35 @@ define((require) => {
 		}
 
 		/**
-		 * Clear now playing notification for given song.
+		 * Show now playing notification for current song.
 		 */
-		clearNotification() {
+		showNowPlayingNotification() {
+			this.clearNotificationTimeout();
+
+			this.notificationTimeoutId = setTimeout(() => {
+				Notifications.showNowPlaying(this.currentSong, () => {
+					Util.openTab(this.tabId);
+				});
+			}, NOW_PLAYING_NOTIFICATION_DELAY);
+		}
+
+		/**
+		 * Clear now playing notification for current song.
+		 */
+		clearNowPlayingNotification() {
 			Notifications.remove(this.currentSong.metadata.notificationId);
+
+			this.clearNotificationTimeout();
+		}
+
+		/**
+		 * Clear notification timeout.
+		 */
+		clearNotificationTimeout() {
+			if (this.notificationTimeoutId) {
+				clearTimeout(this.notificationTimeoutId);
+				this.notificationTimeoutId = null;
+			}
 		}
 
 		/**
@@ -415,7 +447,7 @@ define((require) => {
 		notifySongIsUpdated() {
 			chrome.runtime.sendMessage({
 				type: 'v2.songUpdated',
-				data: this.currentSong,
+				data: this.currentSong.getCloneableData(),
 				tabId: this.tabId
 			});
 		}
@@ -481,9 +513,7 @@ define((require) => {
 				}
 
 				if (!this.currentSong.flags.isReplaying) {
-					Notifications.showNowPlaying(this.currentSong, () => {
-						Util.openTab(this.tabId);
-					});
+					this.showNowPlayingNotification();
 				}
 			});
 
@@ -534,7 +564,7 @@ define((require) => {
 		 */
 		getSecondsToScrobble() {
 			let duration = this.currentSong.getDuration();
-			if (duration < MIN_TRACK_DURATION) {
+			if (duration && duration < MIN_TRACK_DURATION) {
 				return -1;
 			}
 
@@ -548,7 +578,7 @@ define((require) => {
 		}
 
 		/**
-		 * Pring debug message with prefixed tab ID.
+		 * Print debug message with prefixed tab ID.
 		 * @param  {String} text Debug message
 		 * @param  {String} type Log type
 		 */
