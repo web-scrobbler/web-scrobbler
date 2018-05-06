@@ -2,14 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "Added Resonate connector\nAdded HQ Radio connector\nChanged the extension name to \"Web Scrobbler\"\nChanged the way how the extension imports the local cache\nImproved Amazon Alexa connector\nImproved Youtube title filtering\nMade some internal changes in the extension core\nUpdated documentation\nFixed an issue when now playing track data wasn't updated correctly\nFixed an issue when some tracks weren't scrobbled\nFixed translations\nFixed Amazon connector\nFixed Deutschlandfunknova connector\nFixed Listen.moe connector\nFixed ListenOnRepeat connector\nFixed TuneIn connector\nFixed Spotify connector"
+        "en-US": "Added KEXP connector\nShow now playing notifications with a delay\nFixed track data processing\nFixed focus@will connector\nFixed Freegal connector\nFixed radioeins connector\nFixed Youtube connector"
       },
       "files": [
         {
           "created": null
         }
       ],
-      "version": "2.4.0"
+      "version": "2.5.0"
     }
   ]
 }
