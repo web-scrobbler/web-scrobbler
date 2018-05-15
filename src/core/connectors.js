@@ -1181,5 +1181,9 @@ define(function() {
 		label: 'KEXP Radio',
 		matches: ['*://kexp.org', '*://www.kexp.org', '*://kexp.org/*', '*://www.kexp.org/*'],
 		js: ['connectors/kexp.js'],
+	}, {
+		label: 'Radio Rocks',
+		matches: ['*://*radioroks.ua', '*://*radioroks.ua/player'],
+		js: ['connectors/radio-rocks.js'],
 	}];
 });
