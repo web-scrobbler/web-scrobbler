@@ -6,8 +6,5 @@ Connector.artistSelector = '#singer0';
 
 Connector.trackSelector = '#song0';
 
-Connector.playButtonSelector = '#myPlay';
+Connector.isPlaying = () => $('#jp_container_1').hasClass('jp-state-playing');
 
-Connector.isPlaying = () => {
-	return $('.jp-state-playing').length;
-};
