@@ -1183,7 +1183,15 @@ define(function() {
 		js: ['connectors/kexp.js'],
 	}, {
 		label: 'Radio Rocks',
-		matches: ['*://*radioroks.ua', '*://*radioroks.ua/player'],
+		matches: [
+			'*://*radioroks.ua/player/*',
+			'*://*radioroks.ua/player*',
+			'*://www.radioroks.ua/player/',
+			'*://www.radioroks.ua/player/newrock/',
+			'*://www.radioroks.ua/player/hardnheavy/',
+			'*://www.radioroks.ua/player/ballads/',
+			'*://www.radioroks.ua/player/ukr/',
+		],
 		js: ['connectors/radio-rocks.js'],
 	}];
 });
