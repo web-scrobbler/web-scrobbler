@@ -2,10 +2,12 @@
 
 Connector.playerSelector = '.sxm-player-controls';
 
-Connector.artistSelector = '.artist-name';
+Connector.artistSelector = '.sxm-player-controls .artist-name';
 
-Connector.trackSelector = '.track-name';
+Connector.trackSelector = '.sxm-player-controls .track-name';
 
-Connector.playButtonSelector = '.play-pause-btn';
+Connector.isPlaying = () => {
+	return $('.sxm-player-controls .play-pause-btn').attr('title') === 'Pause';
+};
 
 Connector.trackArtSelector = '.album-image-cell img';
