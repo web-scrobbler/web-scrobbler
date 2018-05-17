@@ -1,9 +1,11 @@
 'use strict';
 
-Connector.playerSelector = '#mainRow';
+Connector.playerSelector = '.sxm-player-controls';
 
-Connector.artistTrackSelector = '.np-track-artist';
+Connector.artistSelector = '.artist-name';
 
-Connector.playButtonSelector = '.play .RegularPlay01';
+Connector.trackSelector = '.track-name';
 
-Connector.trackArtSelector = '.np-track-art img';
+Connector.playButtonSelector = '.play-pause-btn';
+
+Connector.trackArtSelector = '.album-image-cell img';
