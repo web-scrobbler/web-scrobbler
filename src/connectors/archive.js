@@ -47,7 +47,7 @@ function bindNew() {
 	};
 
 	Connector.getAlbum = () => {
-		return $('.thats-left > h1').contents()[2].textContent;
+		return $('.thats-left > h1 [itemprop=name]').text();
 	};
 }
 
