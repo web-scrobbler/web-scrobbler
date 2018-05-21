@@ -255,7 +255,9 @@ define((require) => {
 
 		/**
 		 * Get song data to send it to different context.
+
 		 * @return {Object} Object contain song data
+
 		 */
 		getCloneableData() {
 			let fieldsToCopy = ['parsed', 'processed', 'metadata', 'flags'];

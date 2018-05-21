@@ -1,11 +1,11 @@
 'use strict';
 
-Connector.playerSelector = '#custom-jw-player-wrapper';
+Connector.playerSelector = '#player-section';
 
-Connector.artistTrackSelector = '#jw-player-text';
+Connector.artistTrackSelector = '.fp-title';
 
-Connector.isPlaying = () => $('#jw-play-button').text() === '';
+Connector.isPlaying = () => $('.fp-playbtn').prop('title') === 'Pause';
 
-Connector.currentTimeSelector = '#jw-current-time';
+Connector.currentTimeSelector = '.fp-elapsed';
 
-Connector.durationSelector = '#jw-total-time';
+Connector.durationSelector = '.fp-duration';

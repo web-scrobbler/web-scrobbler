@@ -37,11 +37,15 @@
     },
     "faqQuestion3": {
         "message": "曲目识别失败时可以修复吗？",
-        "description": "Qestion #3"
+        "description": "Question #3"
     },
     "getStartedHeader": {
         "message": "播放音乐以开始追踪",
         "description": "The header of 'Get started' popup"
+    },
+    "contributorsText": {
+        "message": "您可以直接在 <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">GitHub</a> 上找到贡献者列表。",
+        "description": "'About' section text"
     },
     "accountsSignedInAs": {
         "message": "已连接账户 $1。",
@@ -50,10 +54,6 @@
     "infoEditTitle": {
         "message": "编辑曲目元数据",
         "description": "Title of edit button"
-    },
-    "contactLinkedInDesc": {
-        "message": "查看我的职业生涯",
-        "description": "Description for LinkedIn section"
     },
     "faqAnswer4b1": {
         "message": "打开扩展设置页并展开“选项”部分。",
@@ -92,7 +92,7 @@
         "description": "Answer #4"
     },
     "faqAnswer7": {
-        "message": "我叫 David Šabata ，毕业于捷克共和国布尔诺理工大学的信息技术。我痴迷于将繁琐任务自动化，这可能是我创建这整个扩展的原因。",
+        "message": "本扩展的原作者是 David Šabata 。现在该扩展由 Web Scrobbler 团队开发和维护。",
         "description": "Answer #7"
     },
     "faqAnswer1b": {
@@ -111,8 +111,8 @@
         "message": "无法交换已跳过曲目",
         "description": "Title of swap button"
     },
-    "aboutText3": {
-        "message": "因为我不会访问许多其他网站的视频内容，其他网站的接口开发将主要取决于你们。欢迎随时在 <a href='http://github.com/web-scrobbler/web-scrobbler'>GitHub</a> 发送拉取请求。",
+    "aboutChangelog": {
+        "message": "当前版本的更新日志在<a id='latest-release' target='_blank' href='#'>这里</a>。访问<a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>这个页面</a>以查看完整的更新日志。",
         "description": "'About' section text"
     },
     "infoEdit": {
@@ -122,10 +122,6 @@
     "pageActionBase": {
         "message": "已支持追踪本网站的播放记录",
         "description": "`base` page action title"
-    },
-    "aboutText2": {
-        "message": "Web Scrobbler 是为了通过浏览器在线听音乐、并希望使用 Last.fm 来追踪播放历史记录的人而创建的。",
-        "description": "'About' section text"
     },
     "contributorsTitle": {
         "message": "贡献者",
@@ -144,20 +140,12 @@
         "description": "'Signed in' label"
     },
     "faqAnswer5": {
-        "message": "可能，但很可能不会。本扩展是我的业余作品，因此我仅管理对 Youtube 的支持——我根本不使用任何其他网络音乐服务。然而，创建接口来为新网站添加支持真的很容易。您只需分支 <a href=\"http://github.com/web-scrobbler/web-scrobbler\">GitHub 仓库</a>，并向我发送一个拉取请求。 GitHub 上还有一个维基页面描述了扩展的内核。",
+        "message": "在 Github 上根据您的需求发布一个<a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">新问题</a>，我们会告诉您能否添加对网站的支持。您也可以通过建立<a href=\"http://github.com/web-scrobbler/web-scrobbler\">Github 项目</a>的新分支并向我们发送拉取请求来添加对网站的支持。",
         "description": "Answer #5"
     },
     "pageActionScrobbled": {
         "message": "已提交 $1",
         "description": "`scrobbled` page action title"
-    },
-    "contributorsText2": {
-        "message": "为了合宜地认可所有贡献者，并避免重复信息，您现在可以直接在 <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">GitHub</a> 上找到贡献者列表。",
-        "description": "'About' section text"
-    },
-    "aboutText4": {
-        "message": "别担心，即使无人贡献，我仍然会继续 YouTube 接口的维护。",
-        "description": "'About' section text"
     },
     "menuDisableConnector": {
         "message": "禁用 $1 接口",
@@ -193,11 +181,11 @@
     },
     "faqQuestion2": {
         "message": "如何暂时禁用对曲目记录的追踪？",
-        "description": "Qestion #2"
+        "description": "Question #2"
     },
     "faqQuestion6": {
         "message": "你会添加____功能吗？",
-        "description": "Qestion #6"
+        "description": "Question #6"
     },
     "contactTitle": {
         "message": "联系",
@@ -241,7 +229,7 @@
     },
     "faqQuestion1": {
         "message": "如何开始使用本扩展？",
-        "description": "Qestion #1"
+        "description": "Question #1"
     },
     "infoAlbumPlaceholder": {
         "message": "专辑 （可选）",
@@ -250,10 +238,6 @@
     "infoSkipAlreadyTitle": {
         "message": "您已跳过该曲目",
         "description": "Title of skip button"
-    },
-    "contactLastfmDesc": {
-        "message": "比较音乐品味或打个招呼！",
-        "description": "Description for Twitter section"
     },
     "faqAnswer6": {
         "message": "可能，如果它是有道理的。但是，如果你想让我添加一些不那么有用但很酷的功能，你可能会失望。",
@@ -274,6 +258,10 @@
     "optionsViewEdited": {
         "message": "查看",
         "description": "Button to view edited tracks"
+    },
+    "aboutExtensionDesc": {
+        "message": "Web Scrobbler 是为了通过浏览器在线听音乐、并希望使用 Last.fm 来追踪播放历史记录的人而创建的。",
+        "description": "'About' section text"
     },
     "faqAnswer3b": {
         "message": "此外，若启用“强制曲目识别”选项，本扩展也将记录未被 Last.fm 验证的曲目。",
@@ -320,12 +308,8 @@
         "description": "Enable/disable hint"
     },
     "unsupportedWebsiteDesc": {
-        "message": "Web Scrobbler 暂未支持追踪本网站的播放记录，您可以在<a target=\"_blank\" href=\"https://github.com/web-scrobbler/web-scrobbler/issues/new\">这里</a> 要求增加对该网站的支持。",
+        "message": "Web Scrobbler 暂未支持追踪本网站的播放记录。",
         "description": "The description of 'unsupported' popup"
-    },
-    "aboutText5": {
-        "message": "而且既然我们都喜欢音乐和 Last.fm ，你也可以来我的 Last.fm 专页比较音乐品味，或者进行友好留言:-)",
-        "description": "'About' section text"
     },
     "editedTracksTitle": {
         "message": "已编辑曲目",
@@ -355,13 +339,9 @@
         "message": "启用 $1 接口",
         "description": "Context menu item"
     },
-    "aboutText1": {
-        "message": "当前版本的更新日志在<a id='latest-release' target='_blank' href='#'>这里</a>。访问<a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>这个页面</a>以查看完整的更新日志。",
-        "description": "'About' section text"
-    },
     "faqQuestion5": {
         "message": "你会添加对____的追踪支持吗？",
-        "description": "Qestion #5"
+        "description": "Question #5"
     },
     "accountsNotSignedIn": {
         "message": "尚未连接。",
@@ -405,7 +385,7 @@
     },
     "faqQuestion4": {
         "message": "Bandcamp 上的一些曲目无法记录。如何解决？",
-        "description": "Qestion #4"
+        "description": "Question #4"
     },
     "faqAnswer2a": {
         "message": "您可以通过右键单击扩展栏中的绿色扩展图标来完成此操作。使用上下文菜单可以禁用当前 Web 服务的接口。",
@@ -413,7 +393,7 @@
     },
     "faqQuestion7": {
         "message": "作者是谁？",
-        "description": "Qestion #7"
+        "description": "Question #7"
     },
     "contactTwitterDesc": {
         "message": "查看近况及简短交流",
@@ -491,10 +471,6 @@
         "message": "关于",
         "description": "'About' section"
     },
-    "contributorsText1": {
-        "message": "我很高兴有不少伟大的人为这个扩展作出贡献！以前在这个页面上有一个列表，但是它的规模迅速增长，且只列出主要贡献者（接口的作者）而未提及次要但也非常重要的贡献者（修复和其他改进）。",
-        "description": "'About' section text"
-    },
     "showSomeLoveText1": {
         "message": "与其他扩展程序不同，本扩展不包含任何闪烁的横幅或鬼祟的广告。",
         "description": ""
@@ -550,10 +526,6 @@
     "optionUnrecognizedNotifications": {
         "message": "提示识别失败",
         "description": "Option label"
-    },
-    "contactMyWebDesc": {
-        "message": "查看我的其他作品",
-        "description": "Description for my web section"
     },
     "optionsAccounts": {
         "message": "账户",

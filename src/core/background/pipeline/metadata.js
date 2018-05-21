@@ -28,6 +28,10 @@ define((require) => {
 		}
 
 		return ScrobbleService.getSongInfo(song).then((songInfoArr) => {
+			for (let field of metadataToCopy) {
+				delete song.metadata[field];
+			}
+
 			let songInfo = getInfo(songInfoArr);
 			let isSongValid = songInfo !== null;
 			if (isSongValid) {

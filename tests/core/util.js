@@ -164,6 +164,10 @@ const PROCESS_YOUTUBE_TITLE_DATA = [{
 	source: '[Genre] Artist - Track',
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
+	description: 'should remove 【genre】 from the beginning of the title',
+	source: '【Genre】 Artist - Track',
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
 	description: 'should process text string w/o separators',
 	source: 'Artist "Track"',
 	expected: { artist: 'Artist', track: 'Track' },

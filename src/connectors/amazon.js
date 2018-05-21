@@ -5,7 +5,7 @@ const filter = new MetadataFilter({ album: MetadataFilter.decodeHtmlEntities });
 Connector.playerSelector = '#dragonflyTransport .rightSide';
 
 Connector.getArtist = () => {
-	return $('.trackInfoContainer .trackArtist a').attr('title');
+	return $('.trackInfoContainer .trackArtist a, .trackInfoContainer .trackArtist span').attr('title');
 };
 
 Connector.trackSelector = '.trackInfoContainer .trackTitle';

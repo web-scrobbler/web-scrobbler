@@ -23,8 +23,8 @@ const Util = {
 			return this.makeEmptyArtistTrack();
 		}
 
-		// Remove [genre] from the beginning of the title
-		let title = videoTitle.replace(/^\[[^\]]+\]\s*-*\s*/i, '');
+		// Remove [genre] or 【genre】 from the beginning of the title
+		let title = videoTitle.replace(/^((\[[^\]]+\])|(【[^】]+】))\s*-*\s*/i, '');
 
 		let { artist, track } = this.splitArtistTrack(title);
 		if (artist === null && track === null) {

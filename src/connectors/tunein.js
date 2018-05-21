@@ -6,4 +6,4 @@ Connector.artistTrackSelector = '#playerTitle';
 
 Connector.trackArtSelector = '#playerArtwork';
 
-Connector.isPlaying = () => $('#playerActionButton').hasClass('playing');
+Connector.isPlaying = () => $('#Group-6').length > 0;

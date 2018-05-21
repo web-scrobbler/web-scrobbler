@@ -2,14 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "Added blocSonic connector\nAdded eMusic connector\nAdded LetsLoop connector\nAdded Mideast Tunes connector\nAdded Mixblast connector\nAdded Radiooooo.com connector\nAdded Sound Session connector\nAdded Streamsquid connector\nAdded Vagalume.FM connector\nAdded feature to open now playing tab by clicking on now playing notification\nAdded support for Loud.zone\nAdded support for more Amazon websites\nAdded tooltips to input fields of the info popup\nImproved VK connector\nUpdated translations\nFixed Deezer connector\nFixed Focus@Will connector\nFixed metadata filter\nFixed an issue when the extension didn't update browser action context menu"
+        "en-US": "Added KEXP connector\nShow now playing notifications with a delay\nFixed track data processing\nFixed focus@will connector\nFixed Freegal connector\nFixed radioeins connector\nFixed Youtube connector"
       },
       "files": [
         {
           "created": null
         }
       ],
-      "version": "2.3.0"
+      "version": "2.5.0"
     }
   ]
 }

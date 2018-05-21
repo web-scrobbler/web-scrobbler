@@ -1,7 +1,9 @@
 'use strict';
 
-Connector.playerSelector = '.container';
+Connector.playerSelector = '#app';
 
-Connector.artistTrackSelector = '.title:first';
+Connector.artistSelector = '.playerContainer.columns.mini .player .player-song-artist';
 
-Connector.isPlaying = () => $('.player-icon').attr('id') === 'pause';
+Connector.trackSelector = '.playerContainer.columns.mini .player .player-song-title';
+
+Connector.isPlaying = () => $('.icon-music-pause-a') !== null;
