@@ -4,7 +4,7 @@
  * Grunt task to create new release on GitHub.
  */
 
-const GitHubApi = require('github');
+const GitHubApi = require('@octokit/rest');
 
 const github = new GitHubApi();
 

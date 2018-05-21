@@ -7,7 +7,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const GitHubApi = require('github');
+const GitHubApi = require('@octokit/rest');
 
 const CONTENT_DIRECTORY = '.add0n';
 const CHANGELOG_DATA_FILENAME = 'changelog.json';
