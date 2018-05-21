@@ -578,7 +578,7 @@ define((require) => {
 		}
 
 		/**
-		 * Pring debug message with prefixed tab ID.
+		 * Print debug message with prefixed tab ID.
 		 * @param  {String} text Debug message
 		 * @param  {String} type Log type
 		 */

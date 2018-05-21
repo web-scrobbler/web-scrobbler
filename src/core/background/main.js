@@ -59,7 +59,7 @@ require([
 	 * Array of versions have notable changes.
 	 * @type {Array}
 	 */
-	const versionsToNofify = [];
+	const versionsToNotify = [];
 
 	/**
 	 * Flag for "page session" where at least single injection occurred
@@ -363,7 +363,7 @@ require([
 	function notifyOfNotableChanges() {
 		let storage = ChromeStorage.getStorage(ChromeStorage.NOTIFICATIONS);
 
-		if (versionsToNofify.includes(extVersion)) {
+		if (versionsToNotify.includes(extVersion)) {
 			return storage.get().then((data) => {
 				if (!data.changelog) {
 					data.changelog = {};

@@ -15,7 +15,8 @@
 ### Steps to reproduce (for bugs)
 <!--- Provide a link to a live example, or an unambiguous set of steps to -->
 <!--- reproduce this bug. Include code to reproduce, if relevant -->
-<!--- Include browser logs if neccessary. If you don't know how to get -->
+
+<!--- Include browser logs if necessary. If you don't know how to get -->
 <!--- these logs, please read this page: https://github.com/web-scrobbler/web-scrobbler/wiki/Debug-the-extension -->
 1.
 2.

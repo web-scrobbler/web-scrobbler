@@ -66,7 +66,7 @@ define((require) => {
 	 * @return {String} Client ID
 	 */
 	function getClientId() {
-		let clientId = readCliendId();
+		let clientId = readClientId();
 
 		if (clientId === null) {
 			clientId = generateClientId();
@@ -77,11 +77,11 @@ define((require) => {
 	}
 
 	/**
-	 * Read cliend ID from cookie.
+	 * Read client ID from cookie.
 	 * It was previously stored by 'analytics.js'.
 	 * @return {String} Client ID
 	 */
-	function readCliendId() {
+	function readClientId() {
 		let match = document.cookie.match('(?:^|;)\\s*_ga=([^;]*)');
 		if (match) {
 			let gaCookieValue = match[1];
@@ -93,7 +93,7 @@ define((require) => {
 	}
 
 	/**
-	 * Generate new cliend ID. The format of ID is compatible with
+	 * Generate new client ID. The format of ID is compatible with
 	 * 'analytics.js' script.
 	 * @return {String} Client ID
 	 */

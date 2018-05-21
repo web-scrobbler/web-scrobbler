@@ -6,7 +6,7 @@ define((require) => {
 	const ChromeStorage = require('storage/chrome-storage');
 
 	// The module uses `chrome.extension.getURL` function.
-	// This funciton is deprecated since Chrome 58.
+	// This function is deprecated since Chrome 58.
 	// FIXME: Replace to `chrome.runtime.getURL`.
 
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
@@ -181,7 +181,7 @@ define((require) => {
 	}
 
 	/**
-	 * Show error notificiation.
+	 * Show error notification.
 	 * @param  {String} message Notification message
 	 * @param  {Function} onClick Function that will be called on notification click
 	 */

@@ -13,7 +13,7 @@ define((require) => {
 
 	/**
 	 * List of processors.
-	 * Each procesor is an object contains `process` function takes song object
+	 * Each processor is an object contains `process` function takes song object
 	 * and returns Promise.
 	 * @type {Array}
 	 */

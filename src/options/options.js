@@ -33,7 +33,7 @@ require([
 	const localCache = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
 	const connectorsOptions = ChromeStorage.getStorage(ChromeStorage.CONNECTORS_OPTIONS);
 
-	const sortedConnetors = getConnectors();
+	const sortedConnectors = getConnectors();
 
 	$(function() {
 		// preload values and attach listeners
@@ -229,7 +229,7 @@ require([
 			let disabledConnectors = data.disabledConnectors;
 			let toggleCheckboxState = false;
 
-			sortedConnetors.forEach((connector, index) => {
+			sortedConnectors.forEach((connector, index) => {
 				let newEl = $(`${'<li>\r\n' +
 					'<a href="#" class="conn-config" data-conn="'}${index}">\r\n` +
 					'<i class="fa fa-gear fa-fw"></i>\r\n' +
@@ -270,7 +270,7 @@ require([
 
 			let modal = $('#conn-conf-modal');
 			let index = $(e.currentTarget).data('conn');
-			let connector = sortedConnetors[index];
+			let connector = sortedConnectors[index];
 
 			modal.data('conn', index);
 			modal.find('.conn-conf-title').html(connector.label);
@@ -292,7 +292,7 @@ require([
 			let modal = $(this).closest('#conn-conf-modal');
 
 			let index = modal.data('conn');
-			let connector = sortedConnetors[index];
+			let connector = sortedConnectors[index];
 
 			let patterns = [];
 			$('#conn-conf-list').find('input:text').each(function() {
@@ -319,7 +319,7 @@ require([
 			let modal = $(this).closest('#conn-conf-modal');
 
 			let index = modal.data('conn');
-			let connector = sortedConnetors[index];
+			let connector = sortedConnectors[index];
 
 			customPatterns.resetPatterns(connector.label);
 

@@ -11,7 +11,7 @@ define((require) => {
 	 * Create new song object.
 	 * @param  {Object} parsedData Current state received from connector
 	 * @param  {Object} connector Connector match object
-	 * @param  {Function} onChange Fucntion is called on song data change
+	 * @param  {Function} onChange Function is called on song data change
 	 * @return {Object} Song instance
 	 */
 	function buildFrom(parsedData, connector, onChange) {
@@ -221,7 +221,7 @@ define((require) => {
 		}
 
 		/**
-		 * Check if song is vaild. The song means valid if it's known by
+		 * Check if song is valid. The song means valid if it's known by
 		 * scrobbler service or is corrected by the user.
 		 * @return {Boolean} True if song is valid; false otherwise
 		 */
@@ -255,7 +255,9 @@ define((require) => {
 
 		/**
 		 * Get song data to send it to different context.
-		 * @return {Object} Object containt song data
+
+		 * @return {Object} Object contain song data
+
 		 */
 		getCloneableData() {
 			let fieldsToCopy = ['parsed', 'processed', 'metadata', 'flags'];

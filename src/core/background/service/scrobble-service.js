@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Service to handle all scrobbling behaviour.
+ * Service to handle all scrobbling behavior.
  */
 define((require) => {
 	const LastFm = require('scrobbler/lastfm');

@@ -21,7 +21,7 @@ define(['wrapper/chrome'], (chrome) => {
 	}
 
 	/**
-	 * Partiall hide string in given text.
+	 * Partial hide string in given text.
 	 * @param  {String} str String to be hidden
 	 * @param  {String} text Text
 	 * @return {String} Modified text
@@ -49,7 +49,7 @@ define(['wrapper/chrome'], (chrome) => {
 	}
 
 	/**
-	 * Return curent tab.
+	 * Return current tab.
 	 * @return {Promise} Promise that will be resolved with current tab object
 	 */
 	function getCurrentTab() {
