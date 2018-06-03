@@ -356,6 +356,29 @@ class MetadataFilter {
 			album: MetadataFilter.removeRemastered
 		});
 	}
+
+	/**
+	 * "REAL_TITLE : REAL_TILE" -> "REAL_TITLE"
+	 * @param  {String} text String to be filtered
+	 * @return {String} Filtered string
+	 */
+	static removeDoubleTitle(text) {
+		const splitted = text.split(' : ');
+		if (splitted.length !== 2 || splitted[0] !== splitted[1]) {
+			return text;
+		}
+		return splitted[0];
+	}
+
+	/**
+	 * Get predefined filter object that uses 'removeDoubleTitle' function.
+	 * @return {MetadataFilter} Filter object
+	 */
+	static getDoubleTitleFilter() {
+		return new MetadataFilter({
+			track: MetadataFilter.removeDoubleTitle,
+		});
+	}
 }
 
 /**
