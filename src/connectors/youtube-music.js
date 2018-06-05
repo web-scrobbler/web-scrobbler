@@ -22,8 +22,8 @@ Connector.isPlaying = () => {
 	return $('.ytmusic-player-bar.play-pause-button').attr('title') === 'Pause';
 };
 
-let separateArtist = byline => byline.split('•')[0];
-let separateAlbum = byline => byline.split('•')[1];
+let separateArtist = (byline) => byline.split('•')[0];
+let separateAlbum = (byline) => byline.split('•')[1];
 
 const filter = new MetadataFilter({
 	artist: separateArtist,
