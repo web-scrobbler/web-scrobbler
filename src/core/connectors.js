@@ -1203,5 +1203,9 @@ define(function() {
 		label: 'Zachary Seguin Music',
 		matches: ['*://music.zacharyseguin.ca/*'],
 		js: ['connectors/musickit.js'],
+	}, {
+		label: 'YouTube Music',
+		matches: ['*://music.youtube.com/*'],
+		js: ['connectors/youtube-music.js'],
 	}];
 });
