@@ -1181,5 +1181,17 @@ define(function() {
 		label: 'KEXP Radio',
 		matches: ['*://kexp.org', '*://www.kexp.org', '*://kexp.org/*', '*://www.kexp.org/*'],
 		js: ['connectors/kexp.js'],
+	}, {
+		label: 'Radio Rocks',
+		matches: [
+			'*://*radioroks.ua/player/*',
+			'*://*radioroks.ua/player*',
+			'*://www.radioroks.ua/player/',
+			'*://www.radioroks.ua/player/newrock/',
+			'*://www.radioroks.ua/player/hardnheavy/',
+			'*://www.radioroks.ua/player/ballads/',
+			'*://www.radioroks.ua/player/ukr/',
+		],
+		js: ['connectors/radio-rocks.js'],
 	}];
 });
