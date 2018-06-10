@@ -955,6 +955,12 @@ define(function() {
 	},
 
 	{
+		label: 'IDAGIO',
+		matches: ['*://www.idagio.com/*'],
+		js: ['connectors/idagio.js'],
+	},
+
+	{
 		label: 'Ma5onic Music Player',
 		matches: [
 			'*://ma5onic.com/PlayerApp/*',
