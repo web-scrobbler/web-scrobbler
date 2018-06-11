@@ -2,18 +2,18 @@
 
 const filter = new MetadataFilter({ album: removeYear });
 
-Connector.playerSelector = '#player-top';
+Connector.playerSelector = '#player-playing';
 
-Connector.artistSelector = '.playing-info .infos .author .name';
+Connector.artistSelector = '#player-playing .author .name';
 
-Connector.trackSelector = '.playing-info .infos .title';
+Connector.trackSelector = '#player-playing .title';
 
-Connector.albumSelector = '.playing-info .infos .album .name';
+Connector.albumSelector = '#player-playing .album';
 
-Connector.trackArtSelector = '.playing-info .cover .player_img';
+Connector.trackArtSelector = '#player-playing .player_img';
 
 Connector.isPlaying = () => {
-	return $('#player-controls .play-stop button').hasClass('stop');
+	return $('#player-playing .play-stop button').hasClass('stop');
 };
 
 Connector.applyFilter(filter);
