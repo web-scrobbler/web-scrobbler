@@ -354,6 +354,24 @@ const REMOVE_ZERO_WIDTH_TEST_DATA = [{
 	expected: 'String'
 }];
 
+const REMOVE_DOUBLE_TITLE_TEST_DATA = [{
+	description: 'should do nothing when separated strings are different',
+	source: 'Some data : another data',
+	expected: 'Some data : another data'
+}, {
+	description: 'should do nothing when separator was not found',
+	source: 'Some Track title with colon: but without separator',
+	expected: 'Some Track title with colon: but without separator'
+}, {
+	description: 'should remove double title',
+	source: 'Some track name With double title : Some track name With double title',
+	expected: 'Some track name With double title'
+}, {
+	description: 'should do nothing when there are more than one separator',
+	source: 'this is weird : this is weird : this is weird',
+	expected: 'this is weird : this is weird : this is weird'
+}];
+
 /**
  * Filters data is an array of objects. Each object must contain
  * four fields: 'description', 'filter', 'fields' and 'testData'.
@@ -400,6 +418,11 @@ const FILTERS_DATA = [{
 	}).extend(MetadataFilter.getTrimFilter()),
 	fields: ['artist', 'track', 'album'],
 	testData: EXTENDED_FILTER_TEST_DATA,
+}, {
+	description: 'removeDoubleTitle',
+	filter: new MetadataFilter({ track: MetadataFilter.removeDoubleTitle }),
+	fields: ['track'],
+	testData: REMOVE_DOUBLE_TITLE_TEST_DATA,
 }];
 
 /**
