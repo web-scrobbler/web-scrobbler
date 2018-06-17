@@ -15,6 +15,6 @@ Connector.durationSelector = '.player-progress .progress-length';
 
 Connector.trackArtSelector = '.player-cover img';
 
-Connector.filter = MetadataFilter.getRemasteredFilter();
+Connector.filter = MetadataFilter.getRemasteredFilter().extend(MetadataFilter.getDoubleTitleFilter());
 
 Connector.isPlaying = () => $('#player .svg-icon-pause').length > 0;
