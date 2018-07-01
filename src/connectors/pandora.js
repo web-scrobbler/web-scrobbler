@@ -20,8 +20,7 @@ Connector.getTrackArt = () => {
 };
 
 Connector.isPlaying = () => {
-	let playButtonHref = $('.PlayButton use').attr('xlink:href');
-	return playButtonHref.includes('pause');
+	return $('[data-qa="pause_button"]').length === 1;
 };
 
 Connector.isScrobblingAllowed = () => {
