@@ -1181,5 +1181,9 @@ define(function() {
 		label: 'KEXP Radio',
 		matches: ['*://kexp.org', '*://www.kexp.org', '*://kexp.org/*', '*://www.kexp.org/*'],
 		js: ['connectors/kexp.js'],
+	}, {
+		label: 'Hotmixradio.fr',
+		matches: ['*://hotmixradio.fr/*', '*://www.hotmixradio.fr/*'],
+		js: ['connectors/hotmixradio.js'],
 	}];
 });
