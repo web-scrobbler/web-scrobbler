@@ -8,8 +8,6 @@ Connector.getArtist = () => getScrollableText('#hotmixPlayerSongArtist');
 
 Connector.getTrack = () => getScrollableText('#hotmixPlayerSongTitle');
 
-//Connector.getAlbum = () => getScrollableText('#songalbum');
-
 Connector.getTrackArt = () => {
 	let trackArtUrl = $('#hotmixPlayerSongCover').attr('src');
 	return trackArtUrl !== null ? `${trackArtUrl}` : null;
