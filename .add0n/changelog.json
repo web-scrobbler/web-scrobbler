@@ -2,14 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "Added KEXP connector\nShow now playing notifications with a delay\nFixed track data processing\nFixed focus@will connector\nFixed Freegal connector\nFixed radioeins connector\nFixed Youtube connector"
+        "en-US": "Added IDAGIO connector\nAdded Hotmixradio.fr connector\nFixed archive.org connector\nFixed Deezer connector\nFixed fip connector\nFixed Pandora connector\nFixed plug.dj connector\nFixed Soma.fm connector\nFixed SiriusXM connector"
       },
       "files": [
         {
           "created": null
         }
       ],
-      "version": "2.5.0"
+      "version": "2.6.0"
     }
   ]
 }
