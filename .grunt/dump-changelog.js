@@ -13,7 +13,7 @@ const CONTENT_DIRECTORY = '.add0n';
 const CHANGELOG_DATA_FILENAME = 'changelog.json';
 
 const mdUrlRegEx = /\[(.+?)\]\(.+?\)/g; // [desc](URL)
-const mdLiRegEx = /\*\s(.+)/g; // * Text
+const mdLiRegEx = /[*-]\s(.+)/g; // * Text
 
 const github = new GitHubApi();
 
