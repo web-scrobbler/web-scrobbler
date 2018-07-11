@@ -10,3 +10,5 @@ Connector.isPlaying = () => {
 	let $button = $('.controls-container > div > button:nth-child(1)');
 	return $button.attr('ng-click') === 'stop()';
 };
+
+Connector.onReady = Connector.onStateChanged;
