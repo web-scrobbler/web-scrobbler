@@ -1,13 +1,11 @@
 'use strict';
 
-Connector.playerSelector = '#now-playing-bar';
+Connector.playerSelector = '.community__bottom';
 
-Connector.artistTrackSelector = '#now-playing-media .bar-value';
+Connector.artistTrackSelector = '.bottom__playback-meta .community__playback-meta--desktop .community__song-playing';
 
 Connector.filter = MetadataFilter.getYoutubeFilter();
 
 Connector.isPlaying = () => {
-	let timeLeft = $.trim($('#now-playing-time').text());
-	let snoozeControl = $('#playback-controls');
-	return '00:00' !== timeLeft && !snoozeControl.hasClass('snoozed');
+	return $('.community').attr('data-state') === 'playing';
 };
