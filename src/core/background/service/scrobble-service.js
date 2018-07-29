@@ -6,6 +6,7 @@
 define((require) => {
 	const LastFm = require('scrobbler/lastfm');
 	const LibreFm = require('scrobbler/librefm');
+	const ListenBrainz = require('scrobbler/listenbrainz');
 
 	/**
 	 * Scrobblers that are bound, meaning they have valid session IDs.
@@ -19,7 +20,7 @@ define((require) => {
 	 *
 	 * @type {Array}
 	 */
-	const registeredScrobblers = [LastFm, LibreFm];
+	const registeredScrobblers = [LastFm, LibreFm, ListenBrainz];
 
 	/**
 	 * Check if scrobbler is in given array of scrobblers.

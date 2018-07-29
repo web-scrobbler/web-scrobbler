@@ -45,6 +45,11 @@ define((require) => {
 		 */
 		'profileUrl',
 		/**
+		 * URL used to test see if user is signed in already
+		 * @type {string}
+		 */
+		'listenBrainzTokenPage',
+		/**
 		 * Service API key.
 		 * @type {String}
 		 */
