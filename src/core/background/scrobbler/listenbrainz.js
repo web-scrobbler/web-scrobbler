@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Module for all communication with L.FM
+ * Module for all communication with LB
  */
 define((require) => {
 	const $ = require('jquery');
@@ -17,9 +17,25 @@ define((require) => {
 			throw new ServiceCallResult(ServiceCallResult.OK);
 		}
 
-		// Pacify sendNowPlaying requirement
-		sendNowPlaying() {
-			throw new ServiceCallResult(ServiceCallResult.OK);
+		sendNowPlaying(song) {
+			return this.getSession().then(({ sessionID }) => {
+				let track_meta = {
+					'artist_name': song.getArtist(),
+					'track_name': song.getTrack(),
+				};
+				if (song.getAlbum()) {
+					track_meta['release_name'] = song.getAlbum();
+				}
+				let params = {
+					'listen_type': 'playing_now',
+					'payload': [
+						{
+							'track_metadata': track_meta
+						}
+					]
+				};
+				return this.handleListenBrainzResponse(params, sessionID);
+			});
 		}
 
 		scrobble(song) {
@@ -31,7 +47,6 @@ define((require) => {
 				if (song.getAlbum()) {
 					track_meta['release_name'] = song.getAlbum();
 				}
-
 				let params = {
 					'listen_type': 'single',
 					'payload': [
@@ -41,33 +56,34 @@ define((require) => {
 						}
 					]
 				};
+				return this.handleListenBrainzResponse(params, sessionID);
+			});
+		}
 
-				this.debugLog(sessionID, 'log');
-
-				let promise = fetch(this.apiUrl, { method: 'POST',
-					headers: { 'Authorization': `Token ${sessionID}`,
-						'Content-Type': 'application/json; charset=UTF-8' },
-					body: JSON.stringify(params) }).then((response) => {
-					return response.text().then((text) => {
-						if (response.status === 200) {
-							this.debugLog(text, 'log');
-							return new ServiceCallResult(ServiceCallResult.OK);
-						} else if (response.status === 400) {
-							this.debugLog('Invalid JSON sent to ListenBrainz', 'error');
-							throw new ServiceCallResult(ServiceCallResult.IGNORED);
-						} else if (response.status === 401) {
-							this.debugLog('Invalid Authorization sent to ListenBrainz', 'error');
-							throw new ServiceCallResult(ServiceCallResult.IGNORED);
-						}
-					});
-				}).catch((error) => {
-					this.debugLog(error.text(), 'warn');
-					throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+		handleListenBrainzResponse(params, sessionID) {
+			let promise = fetch(this.apiUrl, { method: 'POST',
+				headers: { 'Authorization': `Token ${sessionID}`,
+					'Content-Type': 'application/json; charset=UTF-8' },
+				body: JSON.stringify(params) }).then((response) => {
+				return response.text().then((text) => {
+					if (response.status === 200) {
+						this.debugLog(text, 'log');
+						return new ServiceCallResult(ServiceCallResult.OK);
+					} else if (response.status === 400) {
+						this.debugLog('Invalid JSON sent to ListenBrainz', 'error');
+						throw new ServiceCallResult(ServiceCallResult.IGNORED);
+					} else if (response.status === 401) {
+						this.debugLog('Invalid Authorization sent to ListenBrainz', 'error');
+						throw new ServiceCallResult(ServiceCallResult.IGNORED);
+					}
 				});
-				return Util.timeoutPromise(REQUEST_TIMEOUT, promise).catch(() => {
-					this.debugLog('TIMED OUT', 'warn');
-					throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
-				});
+			}).catch((error) => {
+				this.debugLog(error.text(), 'warn');
+				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+			});
+			return Util.timeoutPromise(REQUEST_TIMEOUT, promise).catch(() => {
+				this.debugLog('TIMED OUT', 'warn');
+				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 			});
 		}
 
