@@ -1191,5 +1191,9 @@ define(function() {
 		label: 'Hotmixradio.fr',
 		matches: ['*://hotmixradio.fr/*', '*://www.hotmixradio.fr/*'],
 		js: ['connectors/hotmixradio.js'],
+	}, {
+		label: 'Zachary Seguin Music',
+		matches: ['*://music.zacharyseguin.ca/*'],
+		js: ['connectors/musickit.js'],
 	}];
 });
