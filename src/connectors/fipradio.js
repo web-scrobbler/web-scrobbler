@@ -6,9 +6,9 @@ Connector.playerSelector = '#player-playing';
 
 Connector.artistSelector = '#player-playing .author .name';
 
-Connector.trackSelector = '#player-playing .title';
+Connector.trackSelector = '#player-playing div.playing-info > div.infos > div.rows-container > div.title';
 
-Connector.albumSelector = '#player-playing .album';
+Connector.albumSelector = '#player-playing div.playing-info > div.infos > div.rows-container > div.album > span.name';
 
 Connector.trackArtSelector = '#player-playing .player_img';
 
