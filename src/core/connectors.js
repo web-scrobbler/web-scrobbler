@@ -980,13 +980,6 @@ define(function() {
 		label: 'Loud.zone',
 		matches: ['*://loud.zone/*'],
 		js: ['connectors/bemusic.js'],
-	},
-
-	{
-		label: 'Mixblast',
-		matches: ['*://mixbla.st/*'],
-		js: ['connectors/mixbla.st.js'],
-		allFrames: true
 	}, {
 		label: 'Discogs',
 		matches: ['*://www.discogs.com/*'],
