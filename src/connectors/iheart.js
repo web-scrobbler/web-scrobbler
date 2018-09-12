@@ -1,17 +1,17 @@
 'use strict';
 
-Connector.playerSelector = '#player';
+Connector.playerSelector = '[data-test="mini-player-container"]';
 
-Connector.playButtonSelector = '.player-center [aria-labelledby="play"]';
+Connector.playButtonSelector = 'button[data-test="play-button"]';
 
-Connector.artistSelector = '.player-artist';
+Connector.artistSelector = '[data-test="mini-player-description-text"] [title]';
 
-Connector.trackSelector = '.player-song-text';
+Connector.trackSelector = '[data-test="mini-player-track-text"] [title]';
 
-Connector.isStateChangeAllowed = () => {
+Connector.isStateChangeAllowed = Connector.isPlaying = () => {
 	let track = Connector.getTrack();
 	if (track) {
-		return !track.startsWith('Thanks for listening to');
+		return !track.startsWith('Thanks for listening');
 	}
 	return false;
 };
