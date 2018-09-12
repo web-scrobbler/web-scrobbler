@@ -262,7 +262,7 @@ function rethrowError(err) {
  * @return {Object} Chrome options
  */
 function getChromeOptions() {
-	let extPath = path.join(__dirname, '../.././');
+	let extPath = path.join(__dirname, '../.././src');
 
 	let chromeOptions = new chromedriver.Options();
 	chromeOptions.addArguments([
