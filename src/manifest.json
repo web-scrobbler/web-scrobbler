@@ -15,6 +15,7 @@
 
   "web_accessible_resources": [
     "icons/icon128.png",
+    "connectors/musickit-dom-inject.js",
     "connectors/soundcloud-dom-inject.js",
     "connectors/vk-dom-inject.js"
   ],
