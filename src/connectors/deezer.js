@@ -24,7 +24,7 @@ function setupNewDeezer() {
 			artists = $('div.track-title a.track-link').toArray();
 			artists.shift();
 		} else { // from open queuelist
-			artists = $('div.queuelist-cover-title a.queuelist-cover-link').toArray();
+			artists = $('div.queuelist-cover-subtitle a.queuelist-cover-link').toArray();
 		}
 		return Util.joinArtists(artists);
 	};
@@ -34,7 +34,7 @@ function setupNewDeezer() {
 		if ($('div.track-title').length > 0) { // from player
 			track = $('div.track-title a.track-link:eq(0)').text();
 		} else { // from open queuelist
-			track = $('div.queuelist-cover-subtitle a.queuelist-cover-link').text();
+			track = $('div.queuelist-cover-title a.queuelist-cover-link').text();
 		}
 		return track;
 	};
