@@ -959,6 +959,12 @@ define(function() {
 		matches: ['*://www.idagio.com/*'],
 		js: ['connectors/idagio.js'],
 	},
+	{
+		label: 'Naver',
+		matches: ['*://playerui.music.naver.com*'],
+		js: ['connectors/naver.js'],
+	},
+
 
 	{
 		label: 'Ma5onic Music Player',
