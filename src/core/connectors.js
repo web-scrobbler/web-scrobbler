@@ -722,6 +722,12 @@ define(function() {
 	},
 
 	{
+		label: 'Bugs',
+		matches: ['*://music.bugs.co.kr/newPlayer*'],
+		js: ['connectors/bugs.js'],
+	},
+
+	{
 		label: 'Playmoss',
 		matches: ['*://playmoss.com/*'],
 		js: ['connectors/playmoss.js'],
