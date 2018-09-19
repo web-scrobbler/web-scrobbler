@@ -967,9 +967,13 @@ define(function() {
 	},
 	{
 		label: 'Naver',
-		matches: ['*://playerui.music.naver.com*'],
+		matches: ['*://playerui.music.naver.com/*'],
 		js: ['connectors/naver.js'],
 	},
+	{
+		label: 'Soribada',
+		matches: ['*://soribada.com/*']
+	}
 
 
 	{
