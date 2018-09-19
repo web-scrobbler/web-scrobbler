@@ -16,7 +16,7 @@ Connector.durationSelector = '.finish';
 
 Connector.isPlaying = () => {
 	let btn = $('.btnPlay').first();
-	return btn.html() === 'ÀÏ½ÃÁ¤Áö'; // if text 'ÀÏ½ÃÁ¤Áö' in button, it means 'pause' because music is playing.
+	return btn.html() === 'ì¼ì‹œì •ì§€';
 };
 
 Connector.getTrackArt = () => {
