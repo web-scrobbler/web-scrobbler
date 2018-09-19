@@ -16,7 +16,7 @@ Connector.durationSelector = '.finish';
 
 Connector.isPlaying = () => {
 	let btn = $('.btnPlay').first();
-	return btn.html() === '일시정지'; // if text '일시정지' in button, it means 'pause' because music is playing.
+	return btn.html() === '일시정지'; // if text 'ÀÏ½ÃÁ¤Áö' in button, it means 'pause' because music is playing.
 };
 
 Connector.getTrackArt = () => {
