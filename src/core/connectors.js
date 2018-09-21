@@ -395,7 +395,7 @@ define(function() {
 
 	{
 		label: 'Earbits',
-		matches: ['*://www.earbits.com/*'],
+		matches: ['*://www.earbits.com/*', '*://earbits.com/*'],
 		js: ['connectors/earbits.js'],
 	},
 
