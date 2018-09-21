@@ -8,4 +8,4 @@ Connector.trackArtSelector = '#nowplaying_title > img';
 
 Connector.isPlaying = () => {
 	return $('#play_button').hasClass('button_active');
-}
+};
