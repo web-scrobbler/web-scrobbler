@@ -16,13 +16,13 @@ Connector.filter = MetadataFilter.getRemasteredFilter().extend(MetadataFilter.ge
 
 Connector.onScriptEvent = (e) => {
 	switch (e.data.type) {
-	case 'DEEZER_STATE':
-		state = e.data.state;
-		Connector.onStateChanged();
-		break;
-	default:
-		break;
+		case 'DEEZER_STATE':
+			state = e.data.state;
+			Connector.onStateChanged();
+			break;
+		default:
+			break;
 	}
-}
+};
 
 Connector.injectScript('connectors/deezer-dom-inject.js');
