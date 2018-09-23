@@ -4,7 +4,7 @@
 
 Web Scrobbler is created for people who listen to music online and would like to scrobble their playback history. 
 
-For more information and discussion please visit [the extension page][12] on add0n.com website.
+For more information and comments visit [the extension page][12] on add0n.com website.
 
 ## Supported Services
 
@@ -13,7 +13,7 @@ For more information and discussion please visit [the extension page][12] on add
 
 ## Usage
 
-You can get the extension either from Chrome Web Store or <abbr title="addons.mozilla.org">AMO</abbr> directly or by installing as an [unpacked extension][9].
+You can get the extension either from the Chrome Web Store, <abbr title="addons.mozilla.org">AMO</abbr>, or by installing as an [unpacked extension][9].
 
 ### Chrome Web Store
 
@@ -23,7 +23,7 @@ Opera users can install the extension from Chrome Web Store using the [Download 
 
 ### Add-ons for Firefox
 
-For those who prefer Firefox as a main browser, the extension is available [here][15].
+For those who prefer Firefox as a main browser, the extension is available on [AMO][15].
 
 ### Install from source code
 
@@ -32,6 +32,8 @@ To install the extension from sources or zip file, read [this page][24] if you'r
 ## Development
 
 Check the [wiki page][10] to understand development of connectors. Please also read [contributions guidelines](.github/CONTRIBUTING.md).
+
+### Translations
 
 Join our [translation team][21] on Transifex.
 
