@@ -2,11 +2,12 @@
 
 [![Chrome Web Store][22]][1] [![AMO][23]][15] [![Build status][2]][3] [![devDependencies status][6]][7] [![Gitter][4]][5]
 
-Web Scrobbler is created for people who listen to music online through their browser, and would like to keep an updated playback history using [Last.fm][8]'s scrobbling service.
+Web Scrobbler is created for people who listen to music online and would like to scrobble their playback history. For more information and discussion please visit [the extension page][12] on add0n.com website.
 
-Note that the extension also supports [Libre.fm][26] as a scrobbling service.
+## Supported Services
 
-For more information and discussion please visit [the extension page][12] on add0n.com website.
+- [Last.fm][8]
+- [Libre.fm][26]
 
 ## Usage
 
