@@ -2,7 +2,9 @@
 
 [![Chrome Web Store][22]][1] [![AMO][23]][15] [![Build status][2]][3] [![devDependencies status][6]][7] [![Gitter][4]][5]
 
-Web Scrobbler is created for people who listen to music online and would like to scrobble their playback history. For more information and discussion please visit [the extension page][12] on add0n.com website.
+Web Scrobbler is created for people who listen to music online and would like to scrobble their playback history. 
+
+For more information and discussion please visit [the extension page][12] on add0n.com website.
 
 ## Supported Services
 
