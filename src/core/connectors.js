@@ -973,7 +973,7 @@ define(function() {
 	{
 		label: 'Soribada',
 		matches: ['*://soribada.com/*']
-	}
+	},
 
 
 	{
