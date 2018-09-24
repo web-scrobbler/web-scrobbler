@@ -967,11 +967,14 @@ define(function() {
 	},
 	{
 		label: 'Naver',
-		matches: ['*://playerui.music.naver.com*'],
+		matches: ['*://playerui.music.naver.com/*'],
 		js: ['connectors/naver.js'],
 	},
-
-
+	{
+		label: 'Soribada',
+		matches: ['*://soribada.com/*'],
+		js: ['connectors/soribada.js'],
+	},
 	{
 		label: 'Ma5onic Music Player',
 		matches: [
