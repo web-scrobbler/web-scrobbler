@@ -11,13 +11,9 @@ Connector.currentTimeSelector = '#progress .now';
 Connector.durationSelector = '#progress .total';
 
 Connector.isPlaying = () => {
-
 	return $('#controller .pause').length !== 0;
-
 };
 
 Connector.getTrackArt = () => {
-
 	return `http:${$('#playerWrap #cover').find('img').attr('src')}`;
-
 };
