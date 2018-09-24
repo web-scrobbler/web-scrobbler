@@ -1,9 +1,11 @@
 'use strict';
 
-Connector.playerSelector = '#header';
+Connector.playerSelector = '#controls';
 
 Connector.artistTrackSelector = '#nowplaying_title > b';
 
 Connector.trackArtSelector = '#nowplaying_title > img';
 
-Connector.isPlaying = () => $('#play_button').hasClass('button_active');
+Connector.isPlaying = () => {
+	return $('#play_button').hasClass('button_active');
+};
