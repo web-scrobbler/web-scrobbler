@@ -1,5 +1,8 @@
 'use strict';
 
+const DEEZER_MAIN_ARTIST = '0';
+const DEEZER_FEATURED_ARTIST = '5';
+
 initConnector();
 
 function initConnector() {
@@ -53,9 +56,8 @@ function getTrackArt(pic) {
 }
 
 function lastfmifyArtists(item) {
-
 	let artists = item.ARTISTS;
-	artists = getArtistsnamesByRole(item, '0'); // main artists only
+	artists = getArtistsnamesByRole(item, DEEZER_MAIN_ARTIST);
 	if (artists.length <= 1) {
 		return item.ART_NAME;
 	}
@@ -75,7 +77,7 @@ function lastfmifyTitle(item) {
 		return title;
 	}
 
-	let artists = getArtistsnamesByRole(item, '5'); // featured artists only
+	let artists = getArtistsnamesByRole(item, DEEZER_FEATURED_ARTIST);
 	if (artists.length === 0) {
 		return title;
 	}
@@ -84,14 +86,13 @@ function lastfmifyTitle(item) {
 }
 
 function getArtistsnamesByRole(item, roleId) {
-
 	return item.ARTISTS.filter((a) => a.ROLE_ID === roleId) // 0: main artist; 5: featured artist
 		.sort((a, b) => a.ARTISTS_SONG_ORDER < b.ARTISTS_SONG_ORDER) // respect ordering
-		.map((a) => a.ART_NAME) // array of artistnames from arry of items
-		.filter(removeDublicateArtists);
+		.map((a) => a.ART_NAME) // array of artistnames from array of items
+		.filter(removeDuplicateArtists);
 }
 
-function removeDublicateArtists(artist, index, artists) {
+function removeDuplicateArtists(artist, index, artists) {
 	// make sure an artistname is not a comma- or ampersand-seperated list
 	// of artistnames which are already included in the artists array
 	let dupes = artist.split(/\s&\s|\sand\s/i);
