@@ -18,9 +18,9 @@ Connector.albumSelector = '.ytmusic-player-bar.byline';
 
 Connector.timeInfoSelector = '.ytmusic-player-bar.time-info';
 
-Connector.isPlaying = () => {
-	return $('.ytmusic-player-bar.play-pause-button').attr('title') === 'Pause';
-};
+Connector.isPlaying = () => $('.ytmusic-player-bar.play-pause-button').attr('title') === 'Pause';
+
+Connector.isScrobblingAllowed = () => $('.ytmusic-player-bar.advertisement').length > 0;
 
 let separateArtist = (byline) => byline.split('•')[0];
 let separateAlbum = (byline) => byline.split('•')[1];
