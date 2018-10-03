@@ -1203,5 +1203,9 @@ define(function() {
 		label: 'Zachary Seguin Music',
 		matches: ['*://music.zacharyseguin.ca/*'],
 		js: ['connectors/musickit.js'],
+	}, {
+		label: 'Joox Myanmar',
+		matches: ['*://www.joox.com/*'],
+		js: ['connectors/joox.js'],
 	}];
 });
