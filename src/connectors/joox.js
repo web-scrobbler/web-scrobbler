@@ -54,7 +54,7 @@ Connector.isPlaying = () => $(playBtnSelector).hasClass('joox-pause');
 Connector.getAlbum = () => {
 	const trackPath = getTrackPath();
 
-	if (isAlbumDataInCache(_albumData, trackPath)) {
+	if (!isAlbumDataInCache(_albumData, trackPath)) {
 		_albumData = initiateAlbumDataCache(trackPath);
 	}
 
