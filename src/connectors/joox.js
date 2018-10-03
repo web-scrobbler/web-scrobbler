@@ -1,73 +1,73 @@
 'use strict';
 
-const playerSelector = '#jooxPlayerBar';
-const artistSelector = `#lblSinger`;
-const trackSelector = `#lblSongName`;
-const playBtnSelector = `#btnPlay`;
 
-var _$player;
-var _trackUrl;
+
 const defaultAlbumData = {
-	url: undefined,
+	path: undefined,
 	loaded: false,
 	name: undefined
 };
+
+const playerSelector = '#jooxPlayerBar';
+const artistSelector = '#lblSinger';
+const trackSelector = '#lblSongName';
+const playBtnSelector = '#btnPlay';
+
+var _$player;
+var _trackUrl;
 var _albumData = $.extend({}, defaultAlbumData);
+
+
 
 function getPlayer(){
 	if(!_$player){
 		_$player = $(playerSelector);
 	}
-
 	return _$player;
 }
 
-const getTrackUrl = () => $(trackSelector).attr('u');
-
-
-const convertZawgyiToUnicode = (text) => zg2uni(text);
+const getTrackPath = () => $(trackSelector).attr('u');
+const getTrackUrl = () => `https://www.joox.com/mm/en/${getTrackPath()}`
+const initiateAlbumDataCache = (trackPath) => $.extend({}, defaultAlbumData, {path: trackPath})
+const isAlbumDataInCache  = (albumData, trackPath) => albumData.path === trackPath
+const isAlbumDataLoaded = (albumData) => albumData.loaded
+const loadAlbumData = (onLoadComplete) => {
+	$.get({
+		url: getTrackUrl(),
+		success: (data) => {
+				const itemIndex = 1; //it's wrongly tagged in the HTML of joox. We may need it changed when they fixed the bug.
+				const element = $(data).find('[itemtype="https://schema.org/MusicRecording"] [itemprop="name"]')[itemIndex]
+        onLoadComplete($(element).text());
+			},
+		});
+	return true;
+}
 
 const filter = new MetadataFilter({
-	track: convertZawgyiToUnicode,
-	album: convertZawgyiToUnicode
+	track: zg2uni,
+	album: zg2uni
 });
-
 
 Connector.playerSelector = playerSelector;
 Connector.trackSelector = trackSelector;
 Connector.currentTimeSelector = "#lblCurrentTime";
 Connector.durationSelector = "#lblTotalTime";
 Connector.trackArtSelector = "#jooxAlbum";
-Connector.getUniqueID = () => `https://www.joox.com/mm/en/${getTrackUrl()}`;
+Connector.getUniqueID = getTrackUrl
 
 Connector.getArtist = () => {
-	var _element = $(artistSelector);
-	var _artist = _element.attr('title') || _element.text();
-	return _artist;
+	const _element = $(artistSelector);
+	return _element.attr('title') || _element.text();
 }
 
-Connector.isPlaying = () => {
-	var _isPlaying = $(playBtnSelector).hasClass('joox-pause');
-	return _isPlaying;
-}
+Connector.isPlaying = () => $(playBtnSelector).hasClass('joox-pause');
 
 Connector.getAlbum = () => {
-	var trackUrl = getTrackUrl();
-	if(_albumData.url != trackUrl){
-		_albumData = $.extend({}, defaultAlbumData, {url: trackUrl});
-	}
+	const trackPath = getTrackPath();
 
-	if(_albumData.loaded == false){
-		$.get({
-			url: `https://www.joox.com/mm/en/${trackUrl}`,
-			success: (data) => {
-				const itemIndex = 1; //it's wrongly tagged in the HTML of joox. We may need it changed when they fixed the bug.
-				const element = $(data).find('[itemtype="https://schema.org/MusicRecording"] [itemprop="name"]')[itemIndex]
-				_albumData.name = $(element).text();
-			},
-		});
-		_albumData.loaded = true;
-	}
+	if(isAlbumDataInCache(_albumData, trackPath)) _albumData = initiateAlbumDataCache(trackPath);
+
+	if(!isAlbumDataLoaded(_albumData)) _albumData.loaded = loadAlbumData((album_name) => _albumData.name = album_name);
 
 	return _albumData.name;
 }
