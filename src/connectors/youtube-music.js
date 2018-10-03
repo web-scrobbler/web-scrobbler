@@ -19,3 +19,5 @@ Connector.timeInfoSelector = '.ytmusic-player-bar.time-info';
 Connector.isPlaying = () => $('.ytmusic-player-bar.play-pause-button').attr('title') === 'Pause';
 
 Connector.isScrobblingAllowed = () => $('.ytmusic-player-bar.advertisement').is(':hidden');
+
+Connector.filter = MetadataFilter.getYoutubeFilter();
