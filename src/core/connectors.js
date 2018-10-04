@@ -971,9 +971,15 @@ define(function() {
 		js: ['connectors/naver.js'],
 	},
 	{
+		label: 'olleh',
+		matches: ['*://www.ollehmusic.com/*'],
+		js: ['connectors/olleh.js'],
+	},
+	{
 		label: 'Soribada',
 		matches: ['*://soribada.com/*'],
 		js: ['connectors/soribada.js'],
+
 	},
 	{
 		label: 'Ma5onic Music Player',
