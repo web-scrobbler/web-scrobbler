@@ -286,6 +286,14 @@ const REMASTERED_TEST_DATA = [{
 	description: 'should remove "- YYYY Remastered Version" string',
 	source: 'Track Title - 2011 Remastered Version',
 	expected: 'Track Title'
+}, {
+	description: 'should remove "(Remastered)" string',
+	source: 'Track Title (Remastered)',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "[Remastered]" string',
+	source: 'Track Title [Remastered]',
+	expected: 'Track Title'
 }];
 
 /**

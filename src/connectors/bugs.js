@@ -7,7 +7,7 @@ Connector.artistSelector = '#newPlayerArtistName';
 Connector.trackSelector = '.tracktitle > a';
 
 Connector.getAlbum = () => {
-	return $('.albumtitle');
+	return $('.albumtitle').attr('title');
 };
 
 Connector.currentTimeSelector = '.start';
@@ -15,8 +15,7 @@ Connector.currentTimeSelector = '.start';
 Connector.durationSelector = '.finish';
 
 Connector.isPlaying = () => {
-	let btn = $('.btnPlay').first();
-	return btn.html() === '일시정지'; // if text '일시정지' in button, it means 'pause' because music is playing.
+	return $('.btnStop').length !== 0;
 };
 
 Connector.getTrackArt = () => {

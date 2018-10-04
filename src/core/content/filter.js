@@ -141,7 +141,7 @@ class MetadataFilter {
 	}
 
 	/**
- 	 * Predefined filter functions.
+	 * Predefined filter functions.
 	 */
 
 	/**
@@ -319,6 +319,9 @@ class MetadataFilter {
 			{ source: /\(Live\s\/\sRemastered\)$/i, target: '' },
 			// Ticket To Ride - Live / Remastered
 			{ source: /-\sLive\s\/\sRemastered$/, target: '' },
+			// Mothership (Remastered)
+			// How The West Was Won [Remastered]
+			{ source: /[([]Remastered[)\]]$/, target: '' },
 		];
 	}
 
