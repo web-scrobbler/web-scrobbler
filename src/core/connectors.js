@@ -971,6 +971,11 @@ define(function() {
 		js: ['connectors/naver.js'],
 	},
 	{
+		label: 'olleh',
+		matches: ['*://www.ollehmusic.com/*'],
+		js: ['connectors/olleh.js'],
+	},
+	{
 		label: 'Soribada',
 		matches: ['*://www.soribada.com/*'],
 		js: ['connectors/soribada.js'],
@@ -1203,5 +1208,9 @@ define(function() {
 		label: 'Zachary Seguin Music',
 		matches: ['*://music.zacharyseguin.ca/*'],
 		js: ['connectors/musickit.js'],
+	}, {
+		label: 'YouTube Music',
+		matches: ['*://music.youtube.com/*'],
+		js: ['connectors/youtube-music.js'],
 	}];
 });
