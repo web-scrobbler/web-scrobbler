@@ -442,9 +442,9 @@ module.exports = function(grunt) {
 	function loadWebStoreConfig() {
 		if (isTravisCi) {
 			let webStoreConfig =  {
-				clientId: process.env.chromeClientId,
-				clientSecret: process.env.chromeClientSecret,
-				refreshToken: process.env.chromeRefreshToken
+				clientId: process.env.CHROME_CLIENT_ID,
+				clientSecret: process.env.CHROME_CLIENT_SECRET,
+				refreshToken: process.env.CHROME_REFRESH_TOKEN
 			};
 
 			return webStoreConfig;
@@ -463,7 +463,7 @@ module.exports = function(grunt) {
 	function loadGithubConfig() {
 		if (isTravisCi) {
 			let githubConfig =  {
-				token: process.env.githubToken,
+				token: process.env.GITHUB_TOKEN,
 			};
 
 			return githubConfig;
@@ -482,8 +482,8 @@ module.exports = function(grunt) {
 	function loadAmoConfig() {
 		if (isTravisCi) {
 			let amoConfig =  {
-				issuer: process.env.amoIssuer,
-				secret: process.env.amoSecret,
+				issuer: process.env.AMO_ISSUER,
+				secret: process.env.AMO_SECRET,
 			};
 
 			return amoConfig;
