@@ -388,12 +388,17 @@ module.exports = function(grunt) {
 			`exec:run_tests:${args.join(':')}`
 		]);
 	});
+
 	/**
 	 * Lint source code using linters specified below.
 	 */
 	grunt.registerTask('lint', [
 		'eslint', 'jsonlint', 'lintspaces', 'stylelint'
 	]);
+
+	/**
+	 * Register default task
+	 */
 	grunt.registerTask('default', ['lint', 'test:core']);
 
 	/**
@@ -417,6 +422,7 @@ module.exports = function(grunt) {
 
 	/**
 	 * Get JSON config.
+	 *
 	 * @param  {String} configPath Path to config file
 	 * @return {Object} Config object
 	 */
@@ -428,6 +434,11 @@ module.exports = function(grunt) {
 		return {};
 	}
 
+	/**
+	 * Get web store config.
+	 *
+	 * @return {Object} Config object
+	 */
 	function loadWebStoreConfig() {
 		if (isTravisCi) {
 			let webStoreConfig =  {
@@ -440,9 +451,15 @@ module.exports = function(grunt) {
 		}
 
 		let webStoreConfig = loadConfig('./.publish/web-store.json');
+
 		return webStoreConfig;
 	}
 
+	/**
+	 * Get github config.
+	 *
+	 * @return {Object} Config object
+	 */
 	function loadGithubConfig() {
 		if (isTravisCi) {
 			let githubConfig =  {
@@ -453,9 +470,15 @@ module.exports = function(grunt) {
 		}
 
 		let githubConfig = loadConfig('./.publish/github.json');
+
 		return githubConfig;
 	}
 
+	/**
+	 * Get Amo config.
+	 *
+	 * @return {Object} Config object
+	 */
 	function loadAmoConfig() {
 		if (isTravisCi) {
 			let amoConfig =  {
@@ -467,6 +490,7 @@ module.exports = function(grunt) {
 		}
 
 		let amoConfig = loadConfig('./.publish/amo.json');
+
 		return amoConfig;
 	}
 };
