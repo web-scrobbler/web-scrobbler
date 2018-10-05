@@ -4,7 +4,7 @@ node_js:
   - "8.11.2"
 
 deploy:
-	skip_cleanup: true
+  skip_cleanup: true
   provider: script
   script: bash deploy.sh
   on:
