@@ -39,9 +39,9 @@ module.exports = function(grunt) {
 	const htmlFiles = [`${srcDir}/options/*.html`, `${srcDir}/popups/*.html`];
 	const cssFiles = [`${srcDir}options/*.css`, `${srcDir}/popups/*.css`];
 
-	const webStoreConfig = loadConfig('./.publish/web-store.json');
-	const githubConfig = loadConfig('./.publish/github.json');
-	const amoConfig = loadConfig('./.publish/amo.json');
+	const webStoreConfig = loadWebStoreConfig();
+	const githubConfig = loadGithubConfig();
+	const amoConfig = loadAmoConfig();
 
 	grunt.initConfig({
 		manifest: grunt.file.readJSON(manifestFile),
@@ -426,5 +426,47 @@ module.exports = function(grunt) {
 		}
 
 		return {};
+	}
+
+	function loadWebStoreConfig() {
+		if (isTravisCi) {
+			let webStoreConfig =  {
+				clientId: process.env.chromeClientId,
+				clientSecret: process.env.chromeClientSecret,
+				refreshToken: process.env.chromeRefreshToken
+			};
+
+			return webStoreConfig;
+		}
+
+		let webStoreConfig = loadConfig('./.publish/web-store.json');
+		return webStoreConfig;
+	}
+
+	function loadGithubConfig() {
+		if (isTravisCi) {
+			let githubConfig =  {
+				token: process.env.githubToken,
+			};
+
+			return githubConfig;
+		}
+
+		let githubConfig = loadConfig('./.publish/github.json');
+		return githubConfig;
+	}
+
+	function loadAmoConfig() {
+		if (isTravisCi) {
+			let amoConfig =  {
+				issuer: process.env.amoIssuer,
+				secret: process.env.amoSecret,
+			};
+
+			return amoConfig;
+		}
+
+		let amoConfig = loadConfig('./.publish/amo.json');
+		return amoConfig;
 	}
 };
