@@ -971,6 +971,11 @@ define(function() {
 		js: ['connectors/naver.js'],
 	},
 	{
+		label: 'olleh',
+		matches: ['*://www.ollehmusic.com/*'],
+		js: ['connectors/olleh.js'],
+	},
+	{
 		label: 'Soribada',
 		matches: ['*://soribada.com/*'],
 		js: ['connectors/soribada.js'],
@@ -1207,5 +1212,9 @@ define(function() {
 		label: '1001tracklists',
 		matches: ['*://www.1001tracklists.com/tracklist/*'],
 		js: ['connectors/1001tracklists.js'],
+	}, {
+		label: 'YouTube Music',
+		matches: ['*://music.youtube.com/*'],
+		js: ['connectors/youtube-music.js'],
 	}];
 });
