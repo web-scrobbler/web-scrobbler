@@ -17,7 +17,7 @@ module.exports = function(driver, connectorSpec) {
 	});
 
 	connectorSpec.shouldBehaveLikeMusicSite(driver, {
-		url: 'http://ma5onic.com/PlayerApp/album/3043/Twenty+One+Pilots/Blurryface',
+		url: 'https://music-hub.ca/Player/album/148/snavs/lonely+street',
 		playButtonSelector: '.play-button'
 	});
 
