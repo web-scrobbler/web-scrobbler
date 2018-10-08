@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 /**
  * All connectors are defined here, instead of manifest.
@@ -1205,6 +1205,10 @@ define(function() {
 		label: 'Hotmixradio.fr',
 		matches: ['*://hotmixradio.fr/*', '*://www.hotmixradio.fr/*'],
 		js: ['connectors/hotmixradio.js'],
+	}, {
+		label: 'Mnet',
+		matches: ['*://www.mnet.com/player/aod/*'],
+		js: ['connectors/mnet.js'],
 	}, {
 		label: 'Zachary Seguin Music',
 		matches: ['*://music.zacharyseguin.ca/*'],
