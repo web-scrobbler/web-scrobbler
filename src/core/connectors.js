@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 /**
  * All connectors are defined here, instead of manifest.
@@ -151,9 +151,11 @@ define(function() {
 		label: 'plug.dj',
 		matches: ['*://plug.dj/*'],
 		js: ['connectors/plug.dj.js'],
-	},
-
-	{
+	}, {
+		label: 'Mnet',
+		matches: ['*://www.mnet.com/player/aod/*'],
+		js: ['connectors/mnet.js'],
+	}, {
 		label: 'Slacker',
 		matches: ['*://www.slacker.com/*'],
 		js: ['connectors/slacker.js'],
