@@ -1,4 +1,4 @@
-'use strict';
+﻿'use strict';
 
 /**
  * All connectors are defined here, instead of manifest.
@@ -969,6 +969,11 @@ define(function() {
 		label: 'Naver',
 		matches: ['*://playerui.music.naver.com/*'],
 		js: ['connectors/naver.js'],
+	},
+	{
+		label: 'Mnet',
+		matches: ['*://www.mnet.com/player/aod/*'],
+		js: ['connectors/mnet.js'],
 	},
 	{
 		label: 'olleh',
