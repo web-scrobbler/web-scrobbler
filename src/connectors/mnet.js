@@ -13,4 +13,3 @@ Connector.durationSelector = '.timeEnd';
 Connector.isPlaying = () => {
 	return $('.btnPlayArea pause').length !== 0;
 };
-
