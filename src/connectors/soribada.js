@@ -2,7 +2,7 @@
 
 Connector.playerSelector = '#footer .player';
 
-Connector.artistSelector = '.info .pado_tit_wrap span:nth-child(2)';
+Connector.artistSelector = '.info .pado_tit_wrap span:first-child';
 
 Connector.trackSelector = '.pado_tit_wrap strong:first';
 
@@ -15,5 +15,5 @@ Connector.isPlaying = () => {
 };
 
 Connector.getTrackArt = () => {
-	return `http:${$('#playerWrap #cover').find('img').attr('src')}`;
+	return `${$('#playerWrap #cover').find('img').attr('src')}`;
 };

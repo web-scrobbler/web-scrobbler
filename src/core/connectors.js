@@ -977,9 +977,8 @@ define(function() {
 	},
 	{
 		label: 'Soribada',
-		matches: ['*://soribada.com/*'],
+		matches: ['*://www.soribada.com/*'],
 		js: ['connectors/soribada.js'],
-
 	},
 	{
 		label: 'Ma5onic Music Player',

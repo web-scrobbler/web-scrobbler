@@ -1,9 +1,13 @@
 'use strict';
 
-Connector.playerSelector = '#header';
+Connector.playerSelector = '.player-controls-wrapper';
 
-Connector.artistTrackSelector = '#nowplaying_title > b';
+Connector.artistSelector = '.song_info_display div:first-child b';
 
-Connector.trackArtSelector = '#nowplaying_title > img';
+Connector.trackSelector = '.song_info_display div:nth-child(2) b';
 
-Connector.isPlaying = () => $('#play_button').hasClass('button_active');
+Connector.isPlaying = () => $('#play-button').hasClass('active');
+
+Connector.getTrackArt = () => {
+	return `${$('#info .cover a').find('img').attr('src')}`;
+};
