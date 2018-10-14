@@ -972,7 +972,7 @@ define(function() {
 	},
 	{
 		label: 'Soribada',
-		matches: ['*://soribada.com/*'],
+		matches: ['*://www.soribada.com/*'],
 		js: ['connectors/soribada.js'],
 	},
 	{
