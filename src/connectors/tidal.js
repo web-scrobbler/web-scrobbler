@@ -12,6 +12,8 @@ Connector.trackSelector = `${Connector.playerSelector} [class^="mediaInformation
 
 Connector.artistSelector = `${Connector.playerSelector} [class^="mediaArtists"]`;
 
+Connector.albumSelector = `${Connector.playerSelector} [class^="infoTable--"] a[href^="/album/"]`;
+
 Connector.trackArtSelector = `${Connector.playerSelector} [class^="mediaImageryTrack"] img`;
 
 Connector.currentTimeSelector = `${Connector.playerSelector} [data-test-id="duration"] [class^="currentTime"]`;
