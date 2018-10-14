@@ -50,7 +50,7 @@ function setupRemoteUI() {
 
 	Connector.artistSelector = `${Connector.playerSelector} [class*=MetadataPosterTitle-title] > a:nth-child(1)`;
 
-	Connector.trackSelector = `${Connector.playerSelector} [class*=titlesContainer] > a`;
+	Connector.trackSelector = `${Connector.playerSelector} [class*=PlayerControlsMetadata-container] > a:nth-child(1)`;
 
 	// for watch-it-later videos
 	Connector.artistTrackSelector = `${Connector.playerSelector} [class*=MetadataPosterTitle-title]`;
