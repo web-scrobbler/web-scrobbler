@@ -981,12 +981,12 @@ define(function() {
 		js: ['connectors/soribada.js'],
 	},
 	{
-		label: 'Ma5onic Music Player',
+		label: 'Music-Hub',
 		matches: [
-			'*://ma5onic.com/PlayerApp/*',
-			'*://player.ma5onic.com/*',
-			'*://www.ma5onic.com/PlayerApp/*',
-			'*://www.player.ma5onic.com/*'],
+			'*://music-hub.ca/Player/*',
+			'*://player.music-hub.ca/*',
+			'*://www.music-hub.ca/Player/*',
+			'*://www.player.music-hub.ca/*'],
 		js: ['connectors/bemusic.js'],
 	}, {
 		label: 'GrooveMP3',
