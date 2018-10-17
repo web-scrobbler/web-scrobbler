@@ -1205,6 +1205,10 @@ define(function() {
 		matches: ['*://hotmixradio.fr/*', '*://www.hotmixradio.fr/*'],
 		js: ['connectors/hotmixradio.js'],
 	}, {
+		label: 'Aphex Twin',
+		matches: ['*://aphextwin.warp.net/*'],
+		js: ['connectors/warp-aphextwin.js'],
+	}, {
 		label: 'Zachary Seguin Music',
 		matches: ['*://music.zacharyseguin.ca/*'],
 		js: ['connectors/musickit.js'],
