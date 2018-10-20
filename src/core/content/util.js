@@ -7,9 +7,20 @@
 const Util = {
 	youtubeTitleRegExps: [
 		// Artist "Track"
-		/(.+?)\s"(.+?)"/,
+		{
+			pattern: /(.+?)\s"(.+?)"/,
+			groups: { artist: 1, track: 2 }
+		},
 		// Artist「Track」 (Japanese tracks)
-		/(.+?)「(.+?)」/,
+		{
+			pattern: /(.+?)「(.+?)」/,
+			groups: { artist: 1, track: 2 }
+		},
+		// Track (... by Artist)
+		{
+			pattern: /([\w\d\s]+?)\s+\([^)]*\s*by\s*([^)]+)+\)/,
+			groups: { artist: 2, track: 1 }
+		}
 	],
 
 	/**
@@ -29,10 +40,10 @@ const Util = {
 		let { artist, track } = this.splitArtistTrack(title);
 		if (artist === null && track === null) {
 			for (let regExp of Util.youtubeTitleRegExps) {
-				let artistTrack = title.match(regExp);
+				let artistTrack = title.match(regExp.pattern);
 				if (artistTrack) {
-					artist = artistTrack[1];
-					track = artistTrack[2];
+					artist = artistTrack[regExp.groups.artist];
+					track  = artistTrack[regExp.groups.track];
 					break;
 				}
 			}
