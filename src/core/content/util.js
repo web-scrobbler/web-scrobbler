@@ -37,7 +37,7 @@ const Util = {
 		// Remove [genre] or 【genre】 from the beginning of the title
 		let title = videoTitle.replace(/^((\[[^\]]+\])|(【[^】]+】))\s*-*\s*/i, '');
 
-		let { artist, track };
+		let [ artist, track ] = [ null, null ];
 		
 		// Try to match one of the regexps
 		for (let regExp of Util.youtubeTitleRegExps) {
