@@ -18,7 +18,7 @@ const Util = {
 		},
 		// Track (... by Artist)
 		{
-			pattern: /([\w\d\s]+?)\s+\([^)]*\s*by\s*([^)]+)+\)/,
+			pattern: /([\w\d][\w\d\s]*?)\s+\([^)]*\s*by\s*([^)]+)+\)/,
 			groups: { artist: 2, track: 1 }
 		}
 	],
