@@ -1,6 +1,6 @@
 'use strict';
 
-Connector.playerSelector = '.plus8 .pr8 .strip ul.list, #tracks';
+Connector.playerSelector = '.content-list';
 
 Connector.playButtonSelector = '.controls .play';
 
@@ -31,7 +31,7 @@ Connector.getTrack = () => {
   if (isTrackInRecommended()) {
     return Util.splitArtistTrack(getTrackContainer().find('div a').text()).track;
   } else {
-    return getTrackContainer().find('li:last-child .pr8 div.f24').first().text();
+    return getTrackContainer().find('li:last-child .pr8 a.f24').text();
   }
 }
 
@@ -39,7 +39,7 @@ Connector.getArtist = () => {
   if (isTrackInRecommended()) {
     return Util.splitArtistTrack(getTrackContainer().find('div a').text()).artist;
   } else {
-    return getTrackContainer().find('li:last-child .pr8 a.f24').text();
+    return getTrackContainer().find('li:last-child .pr8 div.f24').first().text();
   }
 }
 
