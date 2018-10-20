@@ -1,6 +1,6 @@
 'use strict';
 
-Connector.playerSelector = '.plus8 .pr8 .strip ul.list, #tracks-in-archive';
+Connector.playerSelector = '.plus8 .pr8 .strip ul.list, #tracks';
 
 Connector.playButtonSelector = '.controls .play';
 
@@ -48,3 +48,7 @@ Connector.getUniqueId = () => {
 }
 
 Connector.isPlaying = () => $('.play.paused').length > 0;
+
+Connector.isTrackArtDefault = (trackArtUrl) => {
+  return trackArtUrl === 'https://www.residentadvisor.net/images/cover/blank.jpg'
+}
