@@ -43,7 +43,7 @@ const Util = {
 				let artistTrack = title.match(regExp.pattern);
 				if (artistTrack) {
 					artist = artistTrack[regExp.groups.artist];
-					track  = artistTrack[regExp.groups.track];
+					track = artistTrack[regExp.groups.track];
 					break;
 				}
 			}
