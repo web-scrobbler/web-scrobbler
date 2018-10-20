@@ -1209,6 +1209,10 @@ define(function() {
 		matches: ['*://aphextwin.warp.net/*'],
 		js: ['connectors/warp-aphextwin.js'],
 	}, {
+		label: 'Resident Advisor',
+		matches: ['*://www.residentadvisor.net/*'],
+		js: ['connectors/residentadvisor.js'],
+	}, {
 		label: 'Zachary Seguin Music',
 		matches: ['*://music.zacharyseguin.ca/*'],
 		js: ['connectors/musickit.js'],
