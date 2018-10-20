@@ -17,16 +17,29 @@ function isTrackInRecommended() {
   return getTrackContainer().is('article');
 }
 
-Connector.getTrackContainerArt = () => {
-  let artPath = getTrackContainer().find('a img').attr('src'); // /images/cover/tr-929172.jpg
-  return 'https://www.residentadvisor.net' + artPath
+Connector.getTrackArt = () => {
+  let artPath;
+  if (isTrackInRecommended()) {
+    artPath = getTrackContainer().find('a img').attr('src'); // /images/cover/tr-929172.jpg
+  } else {
+    artPath = getTrackContainer().find('li:first-child .pr8 a img').attr('src');
+  }
+  return 'https://www.residentadvisor.net' + artPath;
 }
 
-Connector.getArtistTrack = () => {
+Connector.getTrack = () => {
   if (isTrackInRecommended()) {
-    return Util.splitArtistTrack(getTrackContainer().find('div a').text());
+    return Util.splitArtistTrack(getTrackContainer().find('div a').text()).track;
   } else {
-    return $(getTrackContainer).find('li:last-child .pr8 .f24')
+    return getTrackContainer().find('li:last-child .pr8 div.f24').first().text();
+  }
+}
+
+Connector.getArtist = () => {
+  if (isTrackInRecommended()) {
+    return Util.splitArtistTrack(getTrackContainer().find('div a').text()).artist;
+  } else {
+    return getTrackContainer().find('li:last-child .pr8 a.f24').text();
   }
 }
 
