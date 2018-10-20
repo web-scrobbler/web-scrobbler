@@ -51,7 +51,7 @@ const Util = {
 
 		// No match? Try splitting, then.
 		if (artist === null && track === null) {
-			{ artist, track } = this.splitArtistTrack(title);
+			[artist, track] = this.splitArtistTrack(title);
 		}
 
 		return { artist, track };
