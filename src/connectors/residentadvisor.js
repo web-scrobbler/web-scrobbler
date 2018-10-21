@@ -6,15 +6,16 @@ Connector.playerSelector = '.content-list';
 
 Connector.playButtonSelector = '.controls .play';
 
+// This identifies the track element depending on the context of the play button
 function getTrackContainer() {
-  let track = $('.play.paused').parents().eq(2);
-  if (track.is('article') || track.parent().hasClass('chart')) {
-    return track; // recommended or chart track
-  } else if (track.is('li') && track.parent().is('ul') || track.parent().hasClass('plus8')) {
-    return track.parent(); // archive track or single track
+  let ggParent = $('.play.paused').parents().eq(2);
+  let level;
+  if (ggParent.is('article') || ggParent.parent().hasClass('chart')) {
+    level = 0; // recommended or chart track
   } else {
-    return track.parents().eq(1); // DJ track
+    level = 1 // archive / single  / label / DJ track
   }
+  return ggParent.parents().eq(level);
 }
 
 function isTrackRecommended() {
@@ -29,7 +30,7 @@ function isTrackSingle() {
   return getTrackContainer().is('div');
 }
 
-function isDjTrack() {
+function isDjOrLabelTrack() {
   return getTrackContainer().is('li') && getTrackContainer().parent().hasClass('tracks');
 }
 
@@ -43,7 +44,7 @@ Connector.getTrackArt = () => {
     artSelector = 'a img';
   } else if (isTrackSingle()) {
     artSelector = '.fl .pr16 img';
-  } else if (isDjTrack()) {
+  } else if (isDjOrLabelTrack()) {
     artSelector = '.image a img';
   } else if (isChartTrack()) {
     artSelector = '.cover a img';
@@ -53,24 +54,13 @@ Connector.getTrackArt = () => {
   return domain + getTrackContainer().find(artSelector).attr('src');
 }
 
-function parseTitle(title) {
-  // we can receive either of:
-  //  - TRACK by ARTIST on LABEL
-  //  - TRACK by ARTIST
-  // TRACK and ARTIST are not always links, so we parse the string
-  return {
-    artist: 'tofix',
-    track: 'tofix'
-  }
-}
 Connector.getTrack = () => {
   if (isTrackRecommended()) {
     return Util.splitArtistTrack(getTrackContainer().find('div a').text()).track;
   } else if (isTrackSingle()) {
     return Util.splitArtistTrack($('#sectionHead h1').text()).track;
-  } else if (isDjTrack()) {
-    let title = getTrackContainer().find('.title').text())
-    return parseTitle(title).track;
+  } else if (isDjOrLabelTrack()) {
+    return getTrackContainer().find('.title').contents().first().text();
   } else if (isChartTrack()) {
     return getTrackContainer().find('.track a').text();
   } else if (isArchivedTrack()) {
@@ -83,9 +73,22 @@ Connector.getArtist = () => {
     return Util.splitArtistTrack(getTrackContainer().find('div a').text()).artist;
   } else if (isTrackSingle()) {
     return Util.splitArtistTrack($('#sectionHead h1').text()).artist;
-  } else if (isDjTrack()) {
-    let title = getTrackContainer().find('.title').text())
-    return parseTitle(title).artist;
+  } else if (isDjOrLabelTrack()) {
+    let artistH1 = $('#featureHead h1').text();
+    if (artistH1 === '') {
+      let contents = getTrackContainer().find('.title').contents();
+      if (contents.length === 3) {
+        // no link, so need to remove "by"
+        let byArtist = getTrackContainer().find('.title').contents().eq(2).text();
+        let artist = byArtist.substr(3, byArtist.length);
+        return artist
+      } else {
+        // get the artist link text
+        return getTrackContainer().find('.title').contents().eq(3).text();
+      }
+    } else {
+      return artistH1;
+    }
   } else if (isChartTrack()) {
     return getTrackContainer().find('.artist a').text();
   } else if (isArchivedTrack()) {
