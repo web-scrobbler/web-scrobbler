@@ -13,7 +13,7 @@ function getTrackContainer() {
   if (ggParent.is('article') || ggParent.parent().hasClass('chart')) {
     level = 0; // recommended or chart track
   } else {
-    level = 1 // archive / single  / label / DJ track
+    level = 1 // archive / single / label / DJ track
   }
   return ggParent.parents().eq(level);
 }
@@ -68,27 +68,26 @@ Connector.getTrack = () => {
   }
 }
 
+function betweenOnAndBy(title) {
+  let contents = title.contents();
+  let track = contents.eq(0).text();
+  let titleWithoutTrack = contents.text().replace(track, '');
+  let artist = titleWithoutTrack.substr(3, titleWithoutTrack.length);
+  let indexOn = artist.indexOf(' on '); // label remains i.e. " on Foo Recordings"
+  if (indexOn >= 0) {
+    return artist.substr(0, indexOn);
+  } else {
+    return artist;
+  }
+}
+
 Connector.getArtist = () => {
   if (isTrackRecommended()) {
     return Util.splitArtistTrack(getTrackContainer().find('div a').text()).artist;
   } else if (isTrackSingle()) {
     return Util.splitArtistTrack($('#sectionHead h1').text()).artist;
   } else if (isDjOrLabelTrack()) {
-    let artistH1 = $('#featureHead h1').text();
-    if (artistH1 === '') {
-      let contents = getTrackContainer().find('.title').contents();
-      if (contents.length === 3) {
-        // no link, so need to remove "by"
-        let byArtist = getTrackContainer().find('.title').contents().eq(2).text();
-        let artist = byArtist.substr(3, byArtist.length);
-        return artist
-      } else {
-        // get the artist link text
-        return getTrackContainer().find('.title').contents().eq(3).text();
-      }
-    } else {
-      return artistH1;
-    }
+    return betweenOnAndBy(getTrackContainer().find('.title'));
   } else if (isChartTrack()) {
     return getTrackContainer().find('.artist a').text();
   } else if (isArchivedTrack()) {
