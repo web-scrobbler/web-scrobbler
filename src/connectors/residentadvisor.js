@@ -6,38 +6,6 @@ Connector.playerSelector = '.content-list';
 
 Connector.playButtonSelector = '.controls .play';
 
-// This identifies the track element depending on the context of the play button
-function getTrackContainer() {
-  let ggParent = $('.play.paused').parents().eq(2);
-  let level;
-  if (ggParent.is('article') || ggParent.parent().hasClass('chart')) {
-    level = 0; // recommended or chart track
-  } else {
-    level = 1 // archive / single / label / DJ track
-  }
-  return ggParent.parents().eq(level);
-}
-
-function isTrackRecommended() {
-  return getTrackContainer().is('article');
-}
-
-function isArchivedTrack() {
-  return getTrackContainer().is('ul');
-}
-
-function isTrackSingle() {
-  return getTrackContainer().is('div');
-}
-
-function isDjOrLabelTrack() {
-  return getTrackContainer().is('li') && getTrackContainer().parent().hasClass('tracks');
-}
-
-function isChartTrack() {
-  return getTrackContainer().is('li') && getTrackContainer().parent().hasClass('chart');
-}
-
 Connector.getTrackArt = () => {
   let artSelector;
   if (isTrackRecommended()) {
@@ -68,26 +36,13 @@ Connector.getTrack = () => {
   }
 }
 
-function betweenOnAndBy(title) {
-  let contents = title.contents();
-  let track = contents.eq(0).text();
-  let titleWithoutTrack = contents.text().replace(track, '');
-  let artist = titleWithoutTrack.substr(3, titleWithoutTrack.length);
-  let indexOn = artist.indexOf(' on '); // label remains i.e. " on Foo Recordings"
-  if (indexOn >= 0) {
-    return artist.substr(0, indexOn);
-  } else {
-    return artist;
-  }
-}
-
 Connector.getArtist = () => {
   if (isTrackRecommended()) {
     return Util.splitArtistTrack(getTrackContainer().find('div a').text()).artist;
   } else if (isTrackSingle()) {
     return Util.splitArtistTrack($('#sectionHead h1').text()).artist;
   } else if (isDjOrLabelTrack()) {
-    return betweenOnAndBy(getTrackContainer().find('.title'));
+    return parseTitle(getTrackContainer().find('.title'));
   } else if (isChartTrack()) {
     return getTrackContainer().find('.artist a').text();
   } else if (isArchivedTrack()) {
@@ -103,4 +58,47 @@ Connector.isPlaying = () => $('.play.paused').length > 0;
 
 Connector.isTrackArtDefault = (trackArtUrl) => {
   return trackArtUrl === domain + '/images/cover/blank.jpg'
+}
+
+// This identifies the track element depending on the context of the play button
+function getTrackContainer() {
+  let ggParent = $('.play.paused').parents().eq(2);
+  if (ggParent.is('article') || ggParent.parent().hasClass('chart')) {
+    return ggParent; // recommended or chart track
+  } else {
+    return ggParent.parents().eq(1); // archive / single / label / DJ track
+  }
+}
+
+function isTrackRecommended() {
+  return getTrackContainer().is('li');
+}
+
+function isArchivedTrack() {
+  return getTrackContainer().is('ul');
+}
+
+function isTrackSingle() {
+  return getTrackContainer().is('div');
+}
+
+function isDjOrLabelTrack() {
+  return getTrackContainer().is('li') && getTrackContainer().parent().hasClass('tracks');
+}
+
+function isChartTrack() {
+  return getTrackContainer().is('li') && getTrackContainer().parent().hasClass('chart');
+}
+
+function parseTitle(title) {
+  let contents = title.contents();
+  let track = contents.eq(0).text();
+  let titleWithoutTrack = contents.text().replace(track, '');
+  let artist = titleWithoutTrack.substr(3, titleWithoutTrack.length);
+  let indexOn = artist.indexOf(' on '); // label remains i.e. " on Foo Recordings"
+  if (indexOn >= 0) {
+    return artist.substr(0, indexOn);
+  } else {
+    return artist;
+  }
 }
