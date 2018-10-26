@@ -10,7 +10,7 @@ Connector.getArtistTrack = () => {
 };
 
 Connector.getArtist = () => {
-	return $('.player-song-artist-container')[0].innerText.replace(" ,", ",");
+	return $('.player-song-artist-container')[0].innerText.replace(' ,', ',');
 };
 
 Connector.isPlaying = () => $('.icon-music-pause-a') !== null;
