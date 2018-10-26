@@ -2,6 +2,9 @@
 
 Connector.playerSelector = '#app';
 
+Connector.artistSelector = '.playerContainer.columns.mini .player .player-song-artist';
+Connector.trackSelector = '.playerContainer.columns.mini .player .player-song-title';
+
 Connector.getArtistTrack = () => {
 	//Tag fix, because most of the songs are not recognized because they have a weird naming scheme: title [ANIME-name]
 	return $('.player-song-title')[0].innerText.split(' [')[0];
