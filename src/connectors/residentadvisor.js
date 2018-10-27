@@ -2,7 +2,7 @@
 
 const domain = 'https://www.residentadvisor.net';
 
-let PLAYER_TYPES = {
+const PLAYER_TYPES = {
 	// https://www.residentadvisor.net/tracks ("Popular tracks" at the top)
 	// https://www.residentadvisor.net/tracks/931382 ("Popular tracks" at the bottom)
 	POPULAR: 'Popular tracks',
