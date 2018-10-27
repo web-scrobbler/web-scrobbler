@@ -2,6 +2,23 @@
 
 const domain = 'https://www.residentadvisor.net';
 
+let PLAYER_TYPES = {
+	// https://www.residentadvisor.net/tracks ("Popular tracks" at the top)
+	// https://www.residentadvisor.net/tracks/931382 ("Popular tracks" at the bottom)
+	POPULAR: 'Popular tracks',
+	// https://www.residentadvisor.net/tracks ("Archived tracks" in the middle)
+	ARCHIVED: 'Archived tracks',
+	// https://www.residentadvisor.net/tracks/931382 ("Single track" in the middle)
+	SINGLE: 'Single track',
+	// https://www.residentadvisor.net/record-label.aspx?id=15687&show=tracks (Label tracks)
+	// https://www.residentadvisor.net/dj/hotsince82/tracks (DJ tracks)
+	DJ_OR_LABEL: 'DJ tracks or label tracks',
+	// https://www.residentadvisor.net/dj/secretsundaze/top10?chart=214484 (Chart tracks)
+	CHART: 'Chart track',
+
+	UNKNOWN: 'Player not found'
+};
+
 Connector.playerSelector = '.content-list';
 
 Connector.playButtonSelector = '.controls .play';
@@ -21,41 +38,35 @@ function getTrackContainer() {
 
 function typeOfTrack(trackContainer) {
 	if ($(trackContainer).is('article')) {
-		// https://www.residentadvisor.net/tracks ("Popular tracks" at the top)
-		// https://www.residentadvisor.net/tracks/931382 ("Popular tracks" at the bottom)
-		return 'popular';
+		return PLAYER_TYPES.POPULAR;
 	}
 	if ($(trackContainer).is('ul')) {
-		// https://www.residentadvisor.net/tracks ("Archived tracks" in the middle)
-		return 'archived';
+		return PLAYER_TYPES.ARCHIVED;
 	}
 	if ($(trackContainer).is('div')) {
-		// https://www.residentadvisor.net/tracks/931382 ("Single track" in the middle)
-		return 'single';
+		return PLAYER_TYPES.SINGLE;
 	}
 	if ($(trackContainer).is('li') && $(trackContainer).parent().hasClass('tracks')) {
-		// https://www.residentadvisor.net/record-label.aspx?id=15687&show=tracks (Label tracks)
-		// https://www.residentadvisor.net/dj/hotsince82/tracks (DJ tracks)
-		return 'djOrLabel';
+		return PLAYER_TYPES.DJ_OR_LABEL;
 	}
 	if ($(trackContainer).is('li') && $(trackContainer).parent().hasClass('chart')) {
-		// https://www.residentadvisor.net/dj/secretsundaze/top10?chart=214484 (Chart tracks)
-		return 'chart';
+		return PLAYER_TYPES.CHART;
 	}
+	return PLAYER_TYPES.UNKNOWN;
 }
 
 Connector.getTrack = () => {
 	let track = getTrackContainer();
 	switch (typeOfTrack(track)) {
-		case 'popular':
+		case PLAYER_TYPES.POPULAR:
 			return Util.splitArtistTrack($(track).find('div a').text()).track;
-		case 'single':
+		case PLAYER_TYPES.SINGLE:
 			return Util.splitArtistTrack($('#sectionHead h1').text()).track;
-		case 'djOrLabel':
+		case PLAYER_TYPES.DJ_OR_LABEL:
 			return $(track).find('.title').contents().first().text();
-		case 'chart':
+		case PLAYER_TYPES.CHART:
 			return $(track).find('.track a').text();
-		case 'archived':
+		case PLAYER_TYPES.ARCHIVED:
 			return $(track).find('li:last-child .pr8 a.f24').text();
 	}
 };
@@ -63,15 +74,15 @@ Connector.getTrack = () => {
 Connector.getArtist = () => {
 	let track = getTrackContainer();
 	switch (typeOfTrack(track)) {
-		case 'popular':
+		case PLAYER_TYPES.POPULAR:
 			return Util.splitArtistTrack($(track).find('div a').text()).artist;
-		case 'single':
+		case PLAYER_TYPES.SINGLE:
 			return Util.splitArtistTrack($('#sectionHead h1').text()).artist;
-		case 'djOrLabel':
+		case PLAYER_TYPES.DJ_OR_LABEL:
 			return parseTitle($(track).find('.title'));
-		case 'chart':
+		case PLAYER_TYPES.CHART:
 			return $(track).find('.artist a').text();
-		case 'archived':
+		case PLAYER_TYPES.ARCHIVED:
 			return $(track).find('li:last-child .pr8 div.f24').first().text();
 	}
 };
@@ -96,7 +107,7 @@ function parseTitle(title) {
 	let titleWithoutTrack = contents.text().replace(track, '');
 	let artist = titleWithoutTrack.substr(3, titleWithoutTrack.length);
 	if (artist.indexOf(' on ') >= 0) {
-		// label remains i.e. " on Foo Recordings"
+		// label remains i.e. "Daft Punk on Foo Recordings"
 		artist = artist.substr(0, artist.indexOf(' on '));
 	}
 	return artist;
