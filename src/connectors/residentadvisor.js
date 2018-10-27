@@ -6,47 +6,73 @@ Connector.playerSelector = '.content-list';
 
 Connector.playButtonSelector = '.controls .play';
 
-Connector.getTrackArt = () => {
-  let artSelector;
-  if (isTrackRecommended()) {
-    artSelector = 'a img';
-  } else if (isTrackSingle()) {
-    artSelector = '.fl .pr16 img';
-  } else if (isDjOrLabelTrack()) {
-    artSelector = '.image a img';
-  } else if (isChartTrack()) {
-    artSelector = '.cover a img';
-  } else if (isArchivedTrack()) {
-    artSelector = 'li:first-child .pr8 a img';
+// This identifies the track element depending on the parents of the play button
+function getTrackContainer() {
+  let track;
+  // Iterate through all parents until it also finds a cover art
+  $('.play.paused').parents().each((_i, parent) => {
+    if ($(parent).find('img[src^="/images/cover/"]').length > 0) {
+      track = parent;
+      return false;
+    }
+  });
+  return track;
+}
+
+function typeOfTrack(trackContainer) {
+  if ($(trackContainer).is('article')) {
+    // https://www.residentadvisor.net/tracks ("Popular tracks" at the top)
+    // https://www.residentadvisor.net/tracks/931382 ("Popular tracks" at the bottom)
+    return 'popular';
   }
-  return domain + getTrackContainer().find(artSelector).attr('src');
+  if ($(trackContainer).is('ul')) {
+    // https://www.residentadvisor.net/tracks ("Archived tracks" in the middle)
+    return 'archived';
+  }
+  if ($(trackContainer).is('div')) {
+    // https://www.residentadvisor.net/tracks/931382 ("Single track" in the middle)
+    return 'single';
+  }
+  if ($(trackContainer).is('li') && $(trackContainer).parent().hasClass('tracks')) {
+    // https://www.residentadvisor.net/record-label.aspx?id=15687&show=tracks (Label tracks)
+    // https://www.residentadvisor.net/dj/hotsince82/tracks (DJ tracks)
+    return 'djOrLabel';
+  }
+  if ($(trackContainer).is('li') && $(trackContainer).parent().hasClass('chart')) {
+    // https://www.residentadvisor.net/dj/secretsundaze/top10?chart=214484 (Chart tracks)
+    return 'chart';
+  }
 }
 
 Connector.getTrack = () => {
-  if (isTrackRecommended()) {
-    return Util.splitArtistTrack(getTrackContainer().find('div a').text()).track;
-  } else if (isTrackSingle()) {
-    return Util.splitArtistTrack($('#sectionHead h1').text()).track;
-  } else if (isDjOrLabelTrack()) {
-    return getTrackContainer().find('.title').contents().first().text();
-  } else if (isChartTrack()) {
-    return getTrackContainer().find('.track a').text();
-  } else if (isArchivedTrack()) {
-    return getTrackContainer().find('li:last-child .pr8 a.f24').text();
+  let track = getTrackContainer();
+  switch(typeOfTrack(track)) {
+    case 'popular':
+      return Util.splitArtistTrack($(track).find('div a').text()).track;
+    case 'single':
+      return Util.splitArtistTrack($('#sectionHead h1').text()).track;
+    case 'djOrLabel':
+      return $(track).find('.title').contents().first().text();
+    case 'chart':
+      return $(track).find('.track a').text();
+    case 'archived':
+      return $(track).find('li:last-child .pr8 a.f24').text();
   }
 }
 
 Connector.getArtist = () => {
-  if (isTrackRecommended()) {
-    return Util.splitArtistTrack(getTrackContainer().find('div a').text()).artist;
-  } else if (isTrackSingle()) {
-    return Util.splitArtistTrack($('#sectionHead h1').text()).artist;
-  } else if (isDjOrLabelTrack()) {
-    return parseTitle(getTrackContainer().find('.title'));
-  } else if (isChartTrack()) {
-    return getTrackContainer().find('.artist a').text();
-  } else if (isArchivedTrack()) {
-    return getTrackContainer().find('li:last-child .pr8 div.f24').first().text();
+  let track = getTrackContainer();
+  switch(typeOfTrack(track)) {
+    case 'popular':
+      return Util.splitArtistTrack($(track).find('div a').text()).artist;
+    case 'single':
+      return Util.splitArtistTrack($('#sectionHead h1').text()).artist;
+    case 'djOrLabel':
+      return parseTitle($(track).find('.title'));
+    case 'chart':
+      return $(track).find('.artist a').text();
+    case 'archived':
+      return $(track).find('li:last-child .pr8 div.f24').first().text();
   }
 }
 
@@ -56,38 +82,12 @@ Connector.getUniqueId = () => {
 
 Connector.isPlaying = () => $('.play.paused').length > 0;
 
+Connector.getTrackArt = () => {
+  return 'https://www.residentadvisor.net' + $(getTrackContainer()).find('img[src^="/images/cover/"]').first().attr('src');
+}
+
 Connector.isTrackArtDefault = (trackArtUrl) => {
   return trackArtUrl === domain + '/images/cover/blank.jpg'
-}
-
-// This identifies the track element depending on the context of the play button
-function getTrackContainer() {
-  let ggParent = $('.play.paused').parents().eq(2);
-  if (ggParent.is('article') || ggParent.parent().hasClass('chart')) {
-    return ggParent; // recommended or chart track
-  } else {
-    return ggParent.parents().eq(1); // archive / single / label / DJ track
-  }
-}
-
-function isTrackRecommended() {
-  return getTrackContainer().is('li');
-}
-
-function isArchivedTrack() {
-  return getTrackContainer().is('ul');
-}
-
-function isTrackSingle() {
-  return getTrackContainer().is('div');
-}
-
-function isDjOrLabelTrack() {
-  return getTrackContainer().is('li') && getTrackContainer().parent().hasClass('tracks');
-}
-
-function isChartTrack() {
-  return getTrackContainer().is('li') && getTrackContainer().parent().hasClass('chart');
 }
 
 function parseTitle(title) {
@@ -95,10 +95,9 @@ function parseTitle(title) {
   let track = contents.eq(0).text();
   let titleWithoutTrack = contents.text().replace(track, '');
   let artist = titleWithoutTrack.substr(3, titleWithoutTrack.length);
-  let indexOn = artist.indexOf(' on '); // label remains i.e. " on Foo Recordings"
-  if (indexOn >= 0) {
-    return artist.substr(0, indexOn);
-  } else {
-    return artist;
+  if (artist.indexOf(' on ') >= 0) {
+    // label remains i.e. " on Foo Recordings"
+    artist = artist.substr(0, artist.indexOf(' on '));
   }
+  return artist;
 }
