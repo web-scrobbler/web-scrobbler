@@ -44,6 +44,14 @@
     "message": "Disable sending data to Google Analytics",
     "description": "Option title"
   },
+  "optionGmPodcasts" : {
+    "message": "Scrobble podcasts on Google Music",
+    "description": "Option title"
+  },
+  "optionGmPodcastsTitle" : {
+    "message": "Scrobble podcasts on Google Music",
+    "description": "Option label"
+  },
   "optionYtDesc": {
     "message": "If you turn off both options, the extension will scrobble Youtube videos from all categories.",
     "description": "Description of Youtube options"
