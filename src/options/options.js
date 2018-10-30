@@ -23,6 +23,9 @@ require([
 		useUnrecognizedSongNotifications: '#use-unrecognized-song-notifications'
 	};
 	const connectorsOptionsUiMap = {
+		GoogleMusic: {
+			scrobblePodcasts: '#gm-podcasts'
+		},
 		YouTube: {
 			scrobbleMusicOnly: '#yt-music-only',
 			scrobbleEntertainmentOnly: '#yt-entertainment-only'
