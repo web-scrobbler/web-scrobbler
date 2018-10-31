@@ -993,8 +993,8 @@ define(function() {
 		matches: ['*://groovemp3.com/*', '*://www.groovemp3.com/*'],
 		js: ['connectors/bemusic.js'],
 	}, {
-		label: 'S2Music',
-		matches: ['*://s2music.com/*', '*://www.s2music.com/*'],
+		label: 'ytmp3',
+		matches: ['*://ytmp3.fun/*', '*://www.ytmp3.fun/*'],
 		js: ['connectors/bemusic.js'],
 	}, {
 		label: 'Loud.zone',
