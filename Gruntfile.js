@@ -336,7 +336,8 @@ module.exports = function(grunt) {
 	});
 
 	/**
-	 * Release new version and publish all packages.
+	 * Release new version for CI to pickup.
+	 *
 	 * @param {String} releaseType Release type that 'grunt-bump' supports
 	 */
 	grunt.registerTask('release', (releaseType) => {
@@ -350,8 +351,20 @@ module.exports = function(grunt) {
 		if (releaseType !== 'patch') {
 			grunt.task.run('publish:add0n');
 		}
-		grunt.task.run(['bump-commit', 'publish:chrome', 'publish:firefox']);
 
+		grunt.task.run('bump-commit');
+	});
+
+
+	/**
+	 * Release new version locally and publish all packages.
+	 *
+	 * @param {String} releaseType Release type that 'grunt-bump' supports
+	 */
+	grunt.registerTask('release-local', (releaseType) => {
+		grunt.task.run(`release:${releaseType}`);
+
+		grunt.task.run(['publish:chrome', 'publish:firefox']);
 	});
 
 	/**
