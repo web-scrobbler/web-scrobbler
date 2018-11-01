@@ -2,14 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "Added IDAGIO connector\nAdded Hotmixradio.fr connector\nFixed archive.org connector\nFixed Deezer connector\nFixed fip connector\nFixed Pandora connector\nFixed plug.dj connector\nFixed Soma.fm connector\nFixed SiriusXM connector"
+        "en-US": "Added Apple MusicKit \nAdded Bugs Music \nAdded Naver\nAdded Soribada\nAdded olleh\nAdded YouTube Music\nAdded Warp Aphex Twin\nAdded support for scrobbling podcasts for Google Music\nFixed FIP Radio\nFixed amazon album detection\nFixed iHeart\nFixed Deezer for new layout\nImproved remastered filtering\nFixed TIDAL\nFixed Radioparadise\nChanged from Ma5onic.com to Music-Hub.ca \nFixed Tital album selector \nImproved YouTube detecion\nRemove mixbla.st - dead site"
       },
       "files": [
         {
-          "created": "2018-07-11T08:57:27Z"
+          "created": "2018-11-01T20:25:08Z"
         }
       ],
-      "version": "2.6.0"
+      "version": "2.7.0"
     }
   ]
 }
