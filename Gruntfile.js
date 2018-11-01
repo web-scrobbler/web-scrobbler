@@ -345,13 +345,14 @@ module.exports = function(grunt) {
 			grunt.fail.fatal('You should specify release type!');
 		}
 
+		grunt.task.run(`bump-only:${releaseType}`);
+
 		// Patch releases are in vX.X.X branch, so there's no reason
 		// to make changelogs for them.
 		if (releaseType !== 'patch') {
 			grunt.task.run('publish:add0n');
 		}
 
-		grunt.task.run(`bump-only:${releaseType}`);
 		grunt.task.run('bump-commit');
 	});
 
