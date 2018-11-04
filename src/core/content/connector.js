@@ -450,6 +450,13 @@ function BaseConnector() {
 	 * Function for all the hard work around detecting and updating state.
 	 */
 	this.stateChangedWorker = () => {
+		if (!this.isScrobblingAllowed()) {
+			this.resetState();
+			return;
+		}
+
+		isStateReset = false;
+
 		let changedFields = [];
 		let newState = this.getCurrentState();
 
@@ -484,7 +491,6 @@ function BaseConnector() {
 			}
 			// @endif
 		}
-
 	};
 
 	/**
@@ -528,16 +534,9 @@ function BaseConnector() {
 	 * if needed.
 	 */
 	this.onStateChanged = () => {
-		if (!this.isScrobblingAllowed()) {
-			this.resetState();
-			return;
-		}
-
 		if (!this.isStateChangeAllowed()) {
 			return;
 		}
-
-		isStateReset = false;
 
 		/**
 		 * Because gathering the state from DOM is quite expensive and mutation
