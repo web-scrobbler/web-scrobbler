@@ -361,6 +361,17 @@ class MetadataFilter {
 	}
 
 	/**
+	 * Get filter that replaces NBSP with space.
+	 * TODO: redo to more generic filter which does some other cleaning things.
+	 * @return {MetadataFilter} Filter object
+	 */
+	static getNbspFilter() {
+		return new MetadataFilter({
+			all: (text) => text.replace(' ', ' ')
+		});
+	}
+
+	/**
 	 * "REAL_TITLE : REAL_TILE" -> "REAL_TITLE"
 	 * @param  {String} text String to be filtered
 	 * @return {String} Filtered string
