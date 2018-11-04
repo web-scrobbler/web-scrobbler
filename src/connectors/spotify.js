@@ -8,7 +8,7 @@ Connector.playerSelector = '.now-playing-bar';
 
 Connector.getArtist = () => $('.track-info__artists a').first().text();
 
-Connector.trackSelector = '.track-info__name a';
+Connector.trackSelector = '.Root__now-playing-bar .track-info__name a';
 
 Connector.trackArtSelector = '.now-playing__cover-art .cover-art-image-loaded';
 
