@@ -6,25 +6,24 @@ if ($('body').hasClass('ng-tns-0-0')) {
 	setupMainPlayer();
 }
 
-
 function setupNewPlayer() {
 	Connector.playerSelector = '.content-wrapper';
 
-	Connector.artistSelector = '.song_info_display div:first-child b';
+	Connector.albumSelector = '.now_playing_list.ng-star-inserted:not(.dim) .title .album';
 
-	Connector.trackSelector = '.song_info_display div:nth-child(2) b';
-
-	Connector.albumSelector = '.song_info_display div:nth-child(3) b';
+	Connector.getArtistTrack = () => {
+		let text = document.title;
+		return Util.splitArtistTrack(text);
+	};
 
 	Connector.isPlaying = () => $('#play-button').hasClass('active');
 
 	Connector.getTrackArt = () => {
-		return `${$('#info .cover a').find('img').attr('src')}`;
+		return $('.now_playing_list.ng-star-inserted:not(.dim) img').attr('src');
 	};
 }
 
 function setupMainPlayer() {
-
 	Connector.playerSelector = '#header';
 
 	Connector.artistTrackSelector = '#nowplaying_title > b';
