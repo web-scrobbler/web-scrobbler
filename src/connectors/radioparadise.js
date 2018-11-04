@@ -18,9 +18,7 @@ function setupNewPlayer() {
 
 	Connector.isPlaying = () => $('#play-button').hasClass('active');
 
-	Connector.getTrackArt = () => {
-		return $('.now_playing_list.ng-star-inserted:not(.dim) img').attr('src');
-	};
+	Connector.trackArtSelector = '.now_playing_list.ng-star-inserted:not(.dim) img';
 }
 
 function setupMainPlayer() {
