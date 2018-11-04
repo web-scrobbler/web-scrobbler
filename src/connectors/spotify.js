@@ -4,7 +4,7 @@
  * The connector for new version of Spotify (open.spotify.com).
  */
 
-Connector.playerSelector = '.now-playing-bar';
+Connector.playerSelector = '.Root__now-playing-bar';
 
 Connector.getArtist = () => $('.track-info__artists a').first().text();
 
@@ -14,9 +14,9 @@ Connector.trackArtSelector = '.now-playing__cover-art .cover-art-image-loaded';
 
 Connector.playButtonSelector = '.control-button[class*="spoticon-play-"]';
 
-Connector.currentTimeSelector = '.playback-bar__progress-time:first-child';
+Connector.currentTimeSelector = '.Root__now-playing-bar .playback-bar__progress-time:first-child';
 
-Connector.durationSelector = '.playback-bar__progress-time:last-child';
+Connector.durationSelector = '.Root__now-playing-bar .playback-bar__progress-time:last-child';
 
 Connector.filter = MetadataFilter.getRemasteredFilter();
 
