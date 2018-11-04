@@ -1,6 +1,6 @@
 'use strict';
 
-Connector.playerSelector = '.player-controls-wrapper';
+Connector.playerSelector = '.content-wrapper';
 
 Connector.artistSelector = '.song_info_display div:first-child b';
 
