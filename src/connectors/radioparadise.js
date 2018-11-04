@@ -6,6 +6,8 @@ Connector.artistSelector = '.song_info_display div:first-child b';
 
 Connector.trackSelector = '.song_info_display div:nth-child(2) b';
 
+Connector.albumSelector = '.song_info_display div:nth-child(3) b';
+
 Connector.isPlaying = () => $('#play-button').hasClass('active');
 
 Connector.getTrackArt = () => {
