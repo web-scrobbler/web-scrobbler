@@ -38,12 +38,16 @@ input[type=checkbox] {
 	line-height: 40px;
 }
 
+#contact ul {
+	padding: 0;
+	margin: 0;
+}
+
 #contact a {
 	border-bottom: none;
 	color: #000;
 	display: inline-block;
 	font-size: 1.5em;
-	margin-right: 20px;
 	text-decoration: none;
 	width: 130px;
 }
