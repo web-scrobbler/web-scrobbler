@@ -2,14 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "Added Apple MusicKit \nAdded Bugs Music \nAdded Naver\nAdded Soribada\nAdded olleh\nAdded YouTube Music\nAdded Warp Aphex Twin\nAdded support for scrobbling podcasts for Google Music\nFixed FIP Radio\nFixed amazon album detection\nFixed iHeart\nFixed Deezer for new layout\nImproved remastered filtering\nFixed TIDAL\nFixed Radioparadise\nChanged from Ma5onic.com to Music-Hub.ca \nFixed Tital album selector \nImproved YouTube detecion\nRemove mixbla.st - dead site"
+        "en-US": "German translations \nPortuguese translations \nImprove Plex support\nFixed Radioparadise support\nChange s2music to ytmp3\nFixed Spotify playback\nTrack sanitation \nPolish translations\nRussian translations\nUpdated Options styles"
       },
       "files": [
         {
-          "created": "2018-11-01T20:25:08Z"
+          "created": null
         }
       ],
-      "version": "2.7.0"
+      "version": "2.8.0"
     }
   ]
 }
