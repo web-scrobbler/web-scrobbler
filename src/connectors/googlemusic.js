@@ -1,5 +1,9 @@
 'use strict';
 
+let scrobblePodcasts = true;
+
+readConnectorOptions();
+
 Connector.playerSelector = '#player';
 
 Connector.getTrackArt = () => {
@@ -29,5 +33,22 @@ Connector.isPlaying = () => {
 };
 
 Connector.isScrobblingAllowed = () => {
+	if (!scrobblePodcasts && $('#player .now-playing-actions').hasClass('podcast')) {
+		return false;
+	}
 	return Connector.getArtist() !== 'Subscribe to go ad-free';
 };
+
+/**
+ * Asynchronously read connector options.
+ */
+function readConnectorOptions() {
+	chrome.storage.sync.get('Connectors', (data) => {
+		if (data && data.Connectors && data.Connectors.GoogleMusic) {
+			let options = data.Connectors.GoogleMusic;
+			scrobblePodcasts = options.scrobblePodcasts;
+			let optionsStr = JSON.stringify(options, null, 2);
+			console.log(`Web Scrobbler: Connector options: ${optionsStr}`);
+		}
+	});
+}

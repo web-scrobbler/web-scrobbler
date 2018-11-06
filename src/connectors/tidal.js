@@ -1,15 +1,21 @@
 'use strict';
 
-Connector.playerSelector = '#player';
+Connector.playerSelector = '[class^="nowPlaying"]';
 
-Connector.trackArtSelector = '.js-footer-player-image';
+Connector.playButtonSelector = `${Connector.playerSelector} [class^="playbackToggle"]`;
 
-Connector.trackSelector = `${Connector.playerSelector} [data-bind="title"]`;
+Connector.isScrobblingAllowed = () => !!$(Connector.playButtonSelector);
 
-Connector.artistSelector = `${Connector.playerSelector} [data-bind="artist"] a:first`;
+Connector.isPlaying = () => $(Connector.playButtonSelector).attr('data-test-id') === 'pause';
 
-Connector.playButtonSelector = `${Connector.playerSelector} .play-controls__play`;
+Connector.trackSelector = `${Connector.playerSelector} [class^="mediaInformation"] span:eq(0)`;
 
-Connector.currentTimeSelector = '.js-progress';
+Connector.artistSelector = `${Connector.playerSelector} [class^="mediaArtists"]`;
 
-Connector.durationSelector = '.js-duration';
+Connector.albumSelector = `${Connector.playerSelector} [class^="infoTable--"] a[href^="/album/"]`;
+
+Connector.trackArtSelector = `${Connector.playerSelector} [class^="mediaImageryTrack"] img`;
+
+Connector.currentTimeSelector = `${Connector.playerSelector} [data-test-id="duration"] [class^="currentTime"]`;
+
+Connector.durationSelector = `${Connector.playerSelector} [data-test-id="duration"] [class^="duration"]`;

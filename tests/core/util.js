@@ -126,7 +126,7 @@ const EXRACT_TRACK_ART_FROM_CSS_DATA = [{
 }];
 
 /**
- * Test data for testing 'Util.processYoutubeVideoTitle' function.
+ * Test data for testing 'Util.getYoutubeVideoIdFromUrl' function.
  * @type {Array}
  */
 const GET_YOUTUBE_VIDEO_ID_FROM_URL_DATA = [{
@@ -174,6 +174,18 @@ const PROCESS_YOUTUBE_TITLE_DATA = [{
 }, {
 	description: 'should process Japanese tracks',
 	source: 'Artist「Track」',
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should process inverted tracks with parens',
+	source: 'Track (by Artist)',
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should process inverted tracks with parens and comments',
+	source: 'Track (cover by Artist) Studio',
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should process inverted tracks with parens original artist',
+	source: 'Original Artist - Track (cover by Artist)',
 	expected: { artist: 'Artist', track: 'Track' },
 }];
 

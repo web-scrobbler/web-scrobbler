@@ -971,25 +971,30 @@ define(function() {
 		js: ['connectors/naver.js'],
 	},
 	{
+		label: 'olleh',
+		matches: ['*://www.ollehmusic.com/*'],
+		js: ['connectors/olleh.js'],
+	},
+	{
 		label: 'Soribada',
-		matches: ['*://soribada.com/*'],
+		matches: ['*://www.soribada.com/*'],
 		js: ['connectors/soribada.js'],
 	},
 	{
-		label: 'Ma5onic Music Player',
+		label: 'Music-Hub',
 		matches: [
-			'*://ma5onic.com/PlayerApp/*',
-			'*://player.ma5onic.com/*',
-			'*://www.ma5onic.com/PlayerApp/*',
-			'*://www.player.ma5onic.com/*'],
+			'*://music-hub.ca/Player/*',
+			'*://player.music-hub.ca/*',
+			'*://www.music-hub.ca/Player/*',
+			'*://www.player.music-hub.ca/*'],
 		js: ['connectors/bemusic.js'],
 	}, {
 		label: 'GrooveMP3',
 		matches: ['*://groovemp3.com/*', '*://www.groovemp3.com/*'],
 		js: ['connectors/bemusic.js'],
 	}, {
-		label: 'S2Music',
-		matches: ['*://s2music.com/*', '*://www.s2music.com/*'],
+		label: 'ytmp3',
+		matches: ['*://ytmp3.fun/*', '*://www.ytmp3.fun/*'],
 		js: ['connectors/bemusic.js'],
 	}, {
 		label: 'Loud.zone',
@@ -1200,6 +1205,10 @@ define(function() {
 		matches: ['*://hotmixradio.fr/*', '*://www.hotmixradio.fr/*'],
 		js: ['connectors/hotmixradio.js'],
 	}, {
+		label: 'Aphex Twin',
+		matches: ['*://aphextwin.warp.net/*'],
+		js: ['connectors/warp-aphextwin.js'],
+	}, {
 		label: 'Zachary Seguin Music',
 		matches: ['*://music.zacharyseguin.ca/*'],
 		js: ['connectors/musickit.js'],
@@ -1207,5 +1216,9 @@ define(function() {
 		label: 'Joox Myanmar',
 		matches: ['*://www.joox.com/*'],
 		js: ['connectors/joox.js'],
+	}, {
+		label: 'YouTube Music',
+		matches: ['*://music.youtube.com/*'],
+		js: ['connectors/youtube-music.js'],
 	}];
 });
