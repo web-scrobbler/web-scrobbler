@@ -187,6 +187,10 @@ const PROCESS_YOUTUBE_TITLE_DATA = [{
 	description: 'should process inverted tracks with parens original artist',
 	source: 'Original Artist - Track (cover by Artist)',
 	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should be able to handle quotes in title',
+	source: 'Artist - Rock \'n\' Roll',
+	expected: { artist: 'Artist', track: 'Rock \'n\' Roll' },
 }];
 
 /**
