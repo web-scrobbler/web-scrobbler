@@ -44,7 +44,7 @@ const URL_MATCH_DATA = [{
 	pattern: '*://example.*/*',
 	urls: [
 		'http://example.com/',
-		'https://example.*/',
+		'https://example.com/path',
 		'https://example.co.uk/',
 	]
 }];

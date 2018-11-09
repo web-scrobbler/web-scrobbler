@@ -374,7 +374,8 @@ function BaseConnector() {
 	 * @see {@link MetadataFilter}
 	 * @type {Object}
 	 */
-	this.filter = MetadataFilter.getTrimFilter();
+	this.filter = MetadataFilter.getTrimFilter().extend(
+		MetadataFilter.getNbspFilter());
 
 	/**
 	 * Add custom filter to default one. Prefer to use this method to use
