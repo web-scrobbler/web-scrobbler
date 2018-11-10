@@ -8,9 +8,9 @@ define((require) => {
 	const Util = require('util');
 	const BaseScrobbler = require('scrobbler/base-scrobbler');
 	const ServiceCallResult = require('object/service-call-result');
-    const REQUEST_TIMEOUT = 15000;
-    
-    const listenBrainzTokenPage = 'https://listenbrainz.org/profile/';
+	const REQUEST_TIMEOUT = 15000;
+
+	const listenBrainzTokenPage = 'https://listenbrainz.org/profile/';
 
 	class ListenBrainz extends BaseScrobbler {
 
