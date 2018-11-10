@@ -40,11 +40,11 @@
         "description": "Option title"
     },
     "optionGmPodcasts": {
-        "message": "Scrobble podcasts on Google Music",
+        "message": "Скроблить подкасты Google Play Music",
         "description": "Option title"
     },
     "optionGmPodcastsTitle": {
-        "message": "Scrobble podcasts on Google Music",
+        "message": "Скроблить подкасты Google Play Music",
         "description": "Option label"
     },
     "optionYtDesc": {
