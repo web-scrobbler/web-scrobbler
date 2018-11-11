@@ -10,6 +10,7 @@ For more information and comments visit [the extension page][12] on add0n.com we
 
 - [Last.fm][8]
 - [Libre.fm][26]
+- [ListenBrainz][27]
 
 ## Usage
 
@@ -76,6 +77,7 @@ See the [license file](LICENSE.md).
 [24]: https://github.com/web-scrobbler/web-scrobbler/wiki/Install-an-unpacked-extension
 [25]: https://github.com/web-scrobbler/web-scrobbler/wiki/Install-a-temporary-add-on
 [26]: https://libre.fm/
+[27]: https://listenbrainz.org/
 
 [16]: http://getbootstrap.com/2.3.2/assets/bootstrap.zip
 [17]: http://fontawesome.io/assets/font-awesome-4.7.0.zip
