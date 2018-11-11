@@ -59,6 +59,7 @@ define((require) => {
 				currentTime: parsedData.currentTime,
 				isPlaying: parsedData.isPlaying,
 				trackArt: parsedData.trackArt,
+				sourceUrl: parsedData.sourceUrl
 			};
 
 			/**
@@ -98,7 +99,8 @@ define((require) => {
 				 * Connector match object.
 				 * @type {Object}
 				 */
-				connector
+				connector,
+
 			};
 
 			/**
@@ -152,6 +154,7 @@ define((require) => {
 
 		/**
 		 * Get song artist.
+		 *
 		 * @return {String} Song artist
 		 */
 		getArtist() {
@@ -160,6 +163,7 @@ define((require) => {
 
 		/**
 		 * Get song title.
+		 *
 		 * @return {String} Song title
 		 */
 		getTrack() {
@@ -168,6 +172,7 @@ define((require) => {
 
 		/**
 		 * Get song album.
+		 *
 		 * @return {String} Song album
 		 */
 		getAlbum() {
@@ -177,6 +182,7 @@ define((require) => {
 		/**
 		 * Returns song's processed or parsed duration in seconds.
 		 * Parsed duration (received from connector) is preferred.
+		 *
 		 * @return {Number} Song duration
 		 */
 		getDuration() {
@@ -186,6 +192,7 @@ define((require) => {
 		/**
 		 * Return the track art URL associated with the song.
 		 * Parsed track art (received from connector) is preferred.
+		 *
 		 * @return {String} Track art URL
 		 */
 		getTrackArt() {
@@ -194,6 +201,7 @@ define((require) => {
 
 		/**
 		 * Get formatted "Artist - Track" string. Return null if song is empty.
+		 *
 		 * @return {String} Formatted string
 		 */
 		getArtistTrackString() {
@@ -205,6 +213,7 @@ define((require) => {
 
 		/**
 		 * Get song unique ID.
+		 *
 		 * @return {String} Unique ID
 		 */
 		getUniqueId() {
@@ -212,8 +221,18 @@ define((require) => {
 		}
 
 		/**
+		 * Get song source URL.
+		 *
+		 * @return {String} source URL.
+		 */
+		getSourceUrl() {
+			return this.parsed.sourceUrl;
+		}
+
+		/**
 		 * Check if song is empty. Empty song means it's missing
 		 * either artist or track title.
+		 *
 		 * @return {Boolean} True if song is empty; false otherwise
 		 */
 		isEmpty() {
@@ -223,6 +242,7 @@ define((require) => {
 		/**
 		 * Check if song is valid. The song means valid if it's known by
 		 * scrobbler service or is corrected by the user.
+		 *
 		 * @return {Boolean} True if song is valid; false otherwise
 		 */
 		isValid() {
@@ -247,6 +267,7 @@ define((require) => {
 
 		/**
 		 * Get a string representing the song.
+		 *
 		 * @return {String} String representing the object.
 		 */
 		toString() {
@@ -255,9 +276,8 @@ define((require) => {
 
 		/**
 		 * Get song data to send it to different context.
-
+		 *
 		 * @return {Object} Object contain song data
-
 		 */
 		getCloneableData() {
 			let fieldsToCopy = ['parsed', 'processed', 'metadata', 'flags'];
