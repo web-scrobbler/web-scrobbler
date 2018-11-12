@@ -269,6 +269,8 @@ function BaseConnector() {
 	/**
 	 * Default implementation for getting source URL. This shouldn't need to
 	 * be overriden.
+	 *
+	 * @return {String} The source URL
 	 */
 	this.getSourceUrl = () => {
 		return document.location.href;
