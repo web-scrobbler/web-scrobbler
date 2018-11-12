@@ -225,8 +225,8 @@ define((require) => {
 		 *
 		 * @return {String} source URL.
 		 */
-		getSourceUrl() {
-			return this.parsed.sourceUrl;
+		getOriginUrl() {
+			return this.parsed.originUrl;
 		}
 
 		/**

@@ -267,12 +267,12 @@ function BaseConnector() {
 	};
 
 	/**
-	 * Default implementation for getting source URL. This shouldn't need to
+	 * Default implementation for getting origin URL. This shouldn't need to
 	 * be overriden.
 	 *
 	 * @return {String} The source URL
 	 */
-	this.getSourceUrl = () => {
+	this.getOriginUrl = () => {
 		return document.location.href;
 	};
 
@@ -291,7 +291,7 @@ function BaseConnector() {
 			currentTime: this.getCurrentTime(),
 			isPlaying: this.isPlaying(),
 			trackArt: this.getTrackArt(),
-			sourceUrl: this.getSourceUrl(),
+			originUrl: this.getOriginUrl(),
 		};
 
 		let artistTrack = this.getArtistTrack() || Util.makeEmptyArtistTrack();

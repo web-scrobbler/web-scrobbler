@@ -30,9 +30,9 @@ define((require) => {
 					track_meta['release_name'] = song.getAlbum();
 				}
 
-				if (song.getSourceUrl()) {
+				if (song.getOriginUrl()) {
 					track_meta['additional_info'] = {
-						'origin_url': song.getSourceUrl()
+						'origin_url': song.getOriginUrl()
 					};
 				}
 
