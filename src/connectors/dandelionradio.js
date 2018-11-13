@@ -16,5 +16,5 @@ Connector.isPlaying = () => $('#jp_container_1').hasClass('jp-state-playing');
 Connector.isScrobblingAllowed = () => {
 	let artistTrack = Connector.getArtistTrack();
 
-	return artistTrack !== 'Dandelion Radio - next show on the hour'
+	return artistTrack !== 'Dandelion Radio - next show on the hour';
 };
