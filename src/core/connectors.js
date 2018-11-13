@@ -160,6 +160,12 @@ define(function() {
 	},
 
 	{
+		label: 'Dandelion Radio',
+		matches: ['*://www.dandelionradio.com/player.htm'],
+		js: ['connectors/dandelionradio.js'],
+	},
+
+	{
 		label: 'Daytrotter',
 		matches: ['*://www.daytrotter.com/*'],
 		js: ['connectors/daytrotter.js'],
