@@ -240,8 +240,6 @@ function readConnectorOptions() {
 			if (options.scrobbleEntertainmentOnly) {
 				allowedCategories.push(CATEGORY_ENTERTAINMENT);
 			}
-
-			let optionsStr = JSON.stringify(options, null, 2);
 		}
 	});
 }
