@@ -242,7 +242,6 @@ function readConnectorOptions() {
 			}
 
 			let optionsStr = JSON.stringify(options, null, 2);
-			console.log(`Web Scrobbler: Connector options: ${optionsStr}`);
 		}
 	});
 }
