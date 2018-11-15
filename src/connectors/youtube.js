@@ -108,8 +108,8 @@ Connector.getUniqueID = () => {
 		}
 	}
 
-	let videoUrl = $('.html5-video-player.playing-mode .ytp-title-link').attr('href');
-	return Util.getYoutubeVideoIdFromUrl(videoUrl);
+	let videoId = $('ytd-watch-flexy').attr('video-id');
+	return videoId;
 };
 
 Connector.isScrobblingAllowed = () => {
@@ -169,8 +169,16 @@ function getVideoCategory(videoId) {
 		return null;
 	}
 	if (!categoryCache.has(videoId)) {
+
+		console.log('Getting video ID');
+
+
 		const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${YT_API_KEY}`;
+
+		console.log(url);
 		fetch(url).then((response) => {
+			console.log('RESPONSEeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+			console.log(response);
 			if (!response.ok) {
 				throw new Error('Invalid response');
 			}
