@@ -267,6 +267,16 @@ function BaseConnector() {
 	};
 
 	/**
+	 * Default implementation for getting origin URL. This shouldn't need to
+	 * be overriden.
+	 *
+	 * @return {String} The source URL
+	 */
+	this.getOriginUrl = () => {
+		return document.location.href;
+	};
+
+	/**
 	 * Get current state of connector. Used to get all info per one call.
 	 * See documentation of 'currentState' variable for supported properties.
 	 * @return {Object} Current state
@@ -280,7 +290,8 @@ function BaseConnector() {
 			duration: this.getDuration(),
 			currentTime: this.getCurrentTime(),
 			isPlaying: this.isPlaying(),
-			trackArt: this.getTrackArt()
+			trackArt: this.getTrackArt(),
+			originUrl: this.getOriginUrl(),
 		};
 
 		let artistTrack = this.getArtistTrack() || Util.makeEmptyArtistTrack();

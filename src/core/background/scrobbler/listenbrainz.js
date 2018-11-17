@@ -25,9 +25,17 @@ define((require) => {
 					'artist_name': song.getArtist(),
 					'track_name': song.getTrack(),
 				};
+
 				if (song.getAlbum()) {
 					track_meta['release_name'] = song.getAlbum();
 				}
+
+				if (song.getOriginUrl()) {
+					track_meta['additional_info'] = {
+						'origin_url': song.getOriginUrl()
+					};
+				}
+
 				let params = {
 					'listen_type': 'playing_now',
 					'payload': [
