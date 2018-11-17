@@ -2,14 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "German translations \nPortuguese translations \nImprove Plex support\nFixed Radioparadise support\nChange s2music to ytmp3\nFixed Spotify playback\nTrack sanitation \nPolish translations\nRussian translations\nUpdated Options styles"
+        "en-US": "Added support for scrobbling to ListenBrainz\nAdded support for Dandelion Radio\nImproved Deezer support\nFixed YouTube category matching\nChanged YouTube single quote matching to have a min-length"
       },
       "files": [
         {
           "created": null
         }
       ],
-      "version": "2.8.0"
+      "version": "2.9.0"
     }
   ]
 }
