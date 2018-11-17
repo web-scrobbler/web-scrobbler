@@ -108,8 +108,8 @@ Connector.getUniqueID = () => {
 		}
 	}
 
-	let videoUrl = $('.html5-video-player.playing-mode .ytp-title-link').attr('href');
-	return Util.getYoutubeVideoIdFromUrl(videoUrl);
+	let videoId = $('ytd-watch-flexy').attr('video-id');
+	return videoId;
 };
 
 Connector.isScrobblingAllowed = () => {
@@ -240,9 +240,6 @@ function readConnectorOptions() {
 			if (options.scrobbleEntertainmentOnly) {
 				allowedCategories.push(CATEGORY_ENTERTAINMENT);
 			}
-
-			let optionsStr = JSON.stringify(options, null, 2);
-			console.log(`Web Scrobbler: Connector options: ${optionsStr}`);
 		}
 	});
 }
