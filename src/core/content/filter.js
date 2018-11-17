@@ -277,9 +277,9 @@ class MetadataFilter {
 			// Leftovers after e.g. (official video)
 			{ source: /\(+\s*\)+/, target: '' },
 			// Artist - The new "Track title" featuring someone
-			{ source: /^(|.*\s)"(.*)"(\s.*|)$/, target: '$2' },
+			{ source: /^(|.*\s)"(.{5,})"(\s.*|)$/, target: '$2' },
 			// 'Track title'
-			{ source: /^(|.*\s)'(.*)'(\s.*|)$/, target: '$2' },
+			{ source: /^(|.*\s)'(.{5,})'(\s.*|)$/, target: '$2' },
 
 
 			// labels
