@@ -1219,6 +1219,10 @@ define(function() {
 		matches: ['*://music.zacharyseguin.ca/*'],
 		js: ['connectors/musickit.js'],
 	}, {
+		label: '1001tracklists',
+		matches: ['*://www.1001tracklists.com/tracklist/*'],
+		js: ['connectors/1001tracklists.js'],
+	}, {
 		label: 'YouTube Music',
 		matches: ['*://music.youtube.com/*'],
 		js: ['connectors/youtube-music.js'],
