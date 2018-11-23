@@ -982,6 +982,11 @@ define(function() {
 		js: ['connectors/olleh.js'],
 	},
 	{
+		label: 'mnet',
+		matches: ['*://www.mnet.com/*'],
+		js: ['connectors/mnet.js'],
+	},
+	{
 		label: 'Soribada',
 		matches: ['*://www.soribada.com/*'],
 		js: ['connectors/soribada.js'],
