@@ -2,14 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "Added IDAGIO connector\nAdded Hotmixradio.fr connector\nFixed archive.org connector\nFixed Deezer connector\nFixed fip connector\nFixed Pandora connector\nFixed plug.dj connector\nFixed Soma.fm connector\nFixed SiriusXM connector"
+        "en-US": "Added support for scrobbling to ListenBrainz\nAdded support for Dandelion Radio\nImproved Deezer support\nFixed YouTube category matching\nChanged YouTube single quote matching to have a min-length"
       },
       "files": [
         {
           "created": null
         }
       ],
-      "version": "2.6.0"
+      "version": "2.9.0"
     }
   ]
 }

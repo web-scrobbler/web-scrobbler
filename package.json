@@ -15,7 +15,7 @@
     "firefox-extension-deploy": "^1.1.0",
     "grunt": "^1.0.1",
     "grunt-bump": "~0.8.0",
-    "grunt-cli": "~1.2.0",
+    "grunt-cli": "~1.3.0",
     "grunt-contrib-clean": "~1.1.0",
     "grunt-contrib-compress": "~1.4.1",
     "grunt-contrib-copy": "~1.0.0",

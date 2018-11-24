@@ -5,6 +5,7 @@ define((require) => {
 	const ChromeStorage = require('storage/chrome-storage');
 
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
+	const connectorsOptions = ChromeStorage.getStorage(ChromeStorage.CONNECTORS_OPTIONS);
 
 	/**
 	 * Object that stores default option values.
@@ -39,6 +40,20 @@ define((require) => {
 	};
 
 	/**
+	 * Object that stores default option values for specific connectors.
+	 * @type {Object}
+	 */
+	const defaultConnectorsOptionsMap = {
+		GoogleMusic: {
+			scrobblePodcasts: true
+		},
+		YouTube: {
+			scrobbleMusicOnly: false,
+			scrobbleEntertainmentOnly: false
+		}
+	};
+
+	/**
 	 * Setup default options values.
 	 * This function is called on module init.
 	 */
@@ -50,6 +65,22 @@ define((require) => {
 				}
 			}
 			options.set(data).then(() => {
+				options.debugLog();
+			});
+		});
+		connectorsOptions.get().then((data) => {
+			for (let connectorKey in defaultConnectorsOptionsMap) {
+				if (data[connectorKey] === undefined) {
+					data[connectorKey] = defaultConnectorsOptionsMap[connectorKey];
+				} else {
+					for (let key in defaultConnectorsOptionsMap[connectorKey]) {
+						if (data[connectorKey][key] === undefined) {
+							data[connectorKey][key] = defaultConnectorsOptionsMap[connectorKey][key];
+						}
+					}
+				}
+			}
+			connectorsOptions.set(data).then(() => {
 				options.debugLog();
 			});
 		});

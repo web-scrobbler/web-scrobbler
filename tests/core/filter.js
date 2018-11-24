@@ -236,6 +236,10 @@ const YOUTUBE_TEST_DATA = [{
 	description: 'should remove trailing double quote',
 	source: 'Track Title"',
 	expected: 'Track Title'
+}, {
+	description: 'should leave single quotes around joined',
+	source: 'Track \'n\' Title',
+	expected: 'Track \'n\' Title'
 }];
 
 /**

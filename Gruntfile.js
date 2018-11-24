@@ -39,9 +39,9 @@ module.exports = function(grunt) {
 	const htmlFiles = [`${srcDir}/options/*.html`, `${srcDir}/popups/*.html`];
 	const cssFiles = [`${srcDir}options/*.css`, `${srcDir}/popups/*.css`];
 
-	const webStoreConfig = loadConfig('./.publish/web-store.json');
-	const githubConfig = loadConfig('./.publish/github.json');
-	const amoConfig = loadConfig('./.publish/amo.json');
+	const webStoreConfig = loadWebStoreConfig();
+	const githubConfig = loadGithubConfig();
+	const amoConfig = loadAmoConfig();
 
 	grunt.initConfig({
 		manifest: grunt.file.readJSON(manifestFile),
@@ -336,7 +336,8 @@ module.exports = function(grunt) {
 	});
 
 	/**
-	 * Release new version and publish all packages.
+	 * Release new version for CI to pickup.
+	 *
 	 * @param {String} releaseType Release type that 'grunt-bump' supports
 	 */
 	grunt.registerTask('release', (releaseType) => {
@@ -345,13 +346,30 @@ module.exports = function(grunt) {
 		}
 
 		grunt.task.run(`bump-only:${releaseType}`);
+
 		// Patch releases are in vX.X.X branch, so there's no reason
 		// to make changelogs for them.
 		if (releaseType !== 'patch') {
 			grunt.task.run('publish:add0n');
 		}
-		grunt.task.run(['bump-commit', 'publish:chrome', 'publish:firefox']);
 
+		grunt.task.run('bump-commit');
+	});
+
+
+	/**
+	 * Release new version locally and publish all packages.
+	 *
+	 * @param {String} releaseType Release type that 'grunt-bump' supports
+	 */
+	grunt.registerTask('release-local', (releaseType) => {
+		if (!releaseType) {
+			grunt.fail.fatal('You should specify release type!');
+		}
+
+		grunt.task.run(`release:${releaseType}`);
+
+		grunt.task.run(['publish:chrome', 'publish:firefox']);
 	});
 
 	/**
@@ -388,12 +406,17 @@ module.exports = function(grunt) {
 			`exec:run_tests:${args.join(':')}`
 		]);
 	});
+
 	/**
 	 * Lint source code using linters specified below.
 	 */
 	grunt.registerTask('lint', [
 		'eslint', 'jsonlint', 'lintspaces', 'stylelint'
 	]);
+
+	/**
+	 * Register default task
+	 */
 	grunt.registerTask('default', ['lint', 'test:core']);
 
 	/**
@@ -417,6 +440,7 @@ module.exports = function(grunt) {
 
 	/**
 	 * Get JSON config.
+	 *
 	 * @param  {String} configPath Path to config file
 	 * @return {Object} Config object
 	 */
@@ -426,5 +450,65 @@ module.exports = function(grunt) {
 		}
 
 		return {};
+	}
+
+	/**
+	 * Get web store config.
+	 *
+	 * @return {Object} Config object
+	 */
+	function loadWebStoreConfig() {
+		if (isTravisCi) {
+			let webStoreConfig =  {
+				clientId: process.env.CHROME_CLIENT_ID,
+				clientSecret: process.env.CHROME_CLIENT_SECRET,
+				refreshToken: process.env.CHROME_REFRESH_TOKEN
+			};
+
+			return webStoreConfig;
+		}
+
+		let webStoreConfig = loadConfig('./.publish/web-store.json');
+
+		return webStoreConfig;
+	}
+
+	/**
+	 * Get github config.
+	 *
+	 * @return {Object} Config object
+	 */
+	function loadGithubConfig() {
+		if (isTravisCi) {
+			let githubConfig =  {
+				token: process.env.GITHUB_TOKEN,
+			};
+
+			return githubConfig;
+		}
+
+		let githubConfig = loadConfig('./.publish/github.json');
+
+		return githubConfig;
+	}
+
+	/**
+	 * Get Amo config.
+	 *
+	 * @return {Object} Config object
+	 */
+	function loadAmoConfig() {
+		if (isTravisCi) {
+			let amoConfig =  {
+				issuer: process.env.AMO_ISSUER,
+				secret: process.env.AMO_SECRET,
+			};
+
+			return amoConfig;
+		}
+
+		let amoConfig = loadConfig('./.publish/amo.json');
+
+		return amoConfig;
 	}
 };
