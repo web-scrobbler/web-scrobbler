@@ -10,10 +10,8 @@ Connector.currentTimeSelector = '.hidden-xs > .js-player-position';
 
 Connector.durationSelector = '.hidden-xs > .js-player-duration';
 
+Connector.trackArtSelector = '.hero-cover img';
+
 Connector.isPlaying = () => {
 	return $('.js-player-play-pause > .icon-pause').length !== 0;
-};
-
-Connector.getTrackArt = () => {
-	return `${$('.hero-cover').find('img').attr('src')}`;
 };
