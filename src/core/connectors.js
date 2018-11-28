@@ -734,6 +734,12 @@ define(function() {
 	},
 
 	{
+		label: 'monkey3',
+		matches: ['*://www.monkey3.co.kr/*'],
+		js: ['connectors/monkey3.js'],
+	},
+
+	{
 		label: 'Playmoss',
 		matches: ['*://playmoss.com/*'],
 		js: ['connectors/playmoss.js'],
