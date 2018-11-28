@@ -14,6 +14,4 @@ Connector.isPlaying = () => {
 	return $('#crtl1').attr('class') !== 'resume';
 };
 
-Connector.getTrackArt = () => {
-	return $('.albumview .cover .img').find('img').attr('src');
-};
+Connector.trackArtSelector = ".albumview .cover .img img";

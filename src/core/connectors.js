@@ -735,7 +735,7 @@ define(function() {
 
 	{
 		label: 'monkey3',
-		matches: ['*://www.monkey3.co.kr*'],
+		matches: ['*://www.monkey3.co.kr/*'],
 		js: ['connectors/monkey3.js'],
 	},
 
