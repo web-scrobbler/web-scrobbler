@@ -1,11 +1,27 @@
 'use strict';
 
-const WAIT_UNTIL_TIMEOUT = 30000;
-const DEFAULT_RECOGNIZE_TIMEOUT = 20000;
-const WAIT_FOR_PLAYER_ELEMENT_TIMEOUT = 5000;
+/**
+ * This module contains functions that help how to test connectors.
+ */
 
 const helpers = require('./../helpers/helpers');
 const options = require('./../helpers/options');
+
+/**
+ * How long to wait until user defined contition is true.
+ * @type {Number}
+ */
+const WAIT_UNTIL_TIMEOUT = 30000;
+/**
+ * How long to wait until song is recognized by the extension.
+ * @type {Number}
+ */
+const DEFAULT_RECOGNIZE_TIMEOUT = 20000;
+/**
+ * How long to wait until player element is present on the page.
+ * @type {Number}
+ */
+const WAIT_FOR_PLAYER_ELEMENT_TIMEOUT = 5000;
 
 /**
  * Test if website can be loaded successfully
@@ -13,14 +29,11 @@ const options = require('./../helpers/options');
  * @param  {Array} options Options (see below)
  *
  * Options
- * @param  {String} url Website URL
- * @param  {Number} urlLoadTimeout URL load timeout is milliseconds
+ * @see {@link promiseLoadSite}
  */
-module.exports.shouldLoadWebsite = function(driver, options) {
-	var opts = options || {};
-
-	it('should load website', function() {
-		return driver.load(opts.url, opts.urlLoadTimeout);
+exports.shouldLoadWebsite = function(driver, options = {}) {
+	it('should load website', () => {
+		return driver.load(options.url);
 	});
 };
 
@@ -30,10 +43,10 @@ module.exports.shouldLoadWebsite = function(driver, options) {
  * @param  {Array} options Options (see below)
  *
  * Options
- * @see {@link shouldLoadWebsite}
+ * @see {@link promiseLoadSite}
  */
 exports.shouldContainPlayerElement = function(driver, options) {
-	it('should load website and check player element', function() {
+	it('should load website and check player element', () => {
 		return promiseCheckPlayerElement(driver, options);
 	});
 };
@@ -45,13 +58,13 @@ exports.shouldContainPlayerElement = function(driver, options) {
  * @param  {Array} options Options (see below)
  *
  * Options
- * @see {@link shouldLoadWebsite}
+ * @see {@link promiseLoadSite}
  * @see {@link promiseClickPlayButton}
  * @see {@link promiseRecogniseSong}
  * @param  {Function} waitUntil Function that returns promise resolves with truthy value
  */
-module.exports.shouldBehaveLikeMusicSite = function(driver, options) {
-	it('should load site and recognize a song', function() {
+exports.shouldBehaveLikeMusicSite = function(driver, options) {
+	it('should load website and recognize a song', () => {
 		return promiseBehaveLikeMusicSite(driver, options);
 	});
 };
@@ -65,12 +78,10 @@ module.exports.shouldBehaveLikeMusicSite = function(driver, options) {
  *
  * Options
  * @param  {String} url Website URL
- * @param  {Number} urlLoadTimeout URL load timeout is milliseconds
  * @return {Promise} Promise that will be resolved when the task has completed
  */
-function promiseLoadSite(driver, options) {
-	var opts = options || {};
-	return driver.load(opts.url);
+function promiseLoadSite(driver, options = {}) {
+	return driver.load(options.url);
 }
 
 /**
@@ -84,14 +95,12 @@ function promiseLoadSite(driver, options) {
  *
  * @return {Promise} Promise that will be resolved when the task has completed
  */
-function promiseClickPlayButton(driver, options) {
-	var opts = options || {};
-
-	if (opts.playButtonSelector) {
-		return driver.click(opts.playButtonSelector, opts.forceJsClick);
-	} else {
-		return Promise.resolve();
+function promiseClickPlayButton(driver, options = {}) {
+	if (options.playButtonSelector) {
+		return driver.click(options.playButtonSelector, options.forceJsClick);
 	}
+
+	return Promise.resolve();
 }
 
 /**
@@ -104,12 +113,9 @@ function promiseClickPlayButton(driver, options) {
  *
  * @return {Promise} Promise that will be resolved when the task has completed
  */
-function promiseRecognizeSong(driver, options) {
-	var opts = options || {};
-	var timeout = opts.recognizeTimeout || DEFAULT_RECOGNIZE_TIMEOUT;
-	return driver.waitForSongRecognition(timeout).then(function(song) {
-		printSongInfo(song);
-	}, function() {
+function promiseRecognizeSong(driver, options = {}) {
+	let timeout = options.recognizeTimeout || DEFAULT_RECOGNIZE_TIMEOUT;
+	return driver.waitForSongRecognition(timeout).then(printConnectorState).catch(() => {
 		throw new Error('Connector did not send any track data to core');
 	});
 }
@@ -125,13 +131,11 @@ function promiseRecognizeSong(driver, options) {
  * @return {Promise} Promise that will be resolved when the task has completed
  */
 function promiseCheckPlayerElement(driver, options) {
-	var opts = options || {};
-
-	return promiseLoadSite(driver, opts).then(function() {
-		return promiseClickPlayButton(driver, opts);
-	}).then(function() {
-		var timeout = WAIT_FOR_PLAYER_ELEMENT_TIMEOUT;
-		return driver.waitForPlayerElement(timeout).catch(function() {
+	return promiseLoadSite(driver, options).then(() => {
+		return promiseClickPlayButton(driver, options);
+	}).then(() => {
+		let timeout = WAIT_FOR_PLAYER_ELEMENT_TIMEOUT;
+		return driver.waitForPlayerElement(timeout).catch(() => {
 			throw new Error('Player element is missing');
 		});
 	});
@@ -148,54 +152,69 @@ function promiseCheckPlayerElement(driver, options) {
  *
  * @return {Promise} Promise that will be resolved when the task has completed
  */
-function promiseBehaveLikeMusicSite(driver, options) {
-	var opts = options || {};
-
-	return promiseLoadSite(driver, opts).then(function() {
-		return promiseClickPlayButton(driver, opts);
-	}).then(function() {
-		if (opts.waitUntil) {
-			return driver.wait(opts.waitUntil, WAIT_UNTIL_TIMEOUT);
+function promiseBehaveLikeMusicSite(driver, options = {}) {
+	return promiseLoadSite(driver, options).then(() => {
+		return promiseClickPlayButton(driver, options);
+	}).then(() => {
+		if (options.waitUntil) {
+			let timeout = options.waitUntilTimeout || WAIT_UNTIL_TIMEOUT;
+			return driver.wait(options.waitUntil, timeout);
 		}
-	}).then(function() {
-		return promiseRecognizeSong(driver, opts);
+	}).then(() => {
+		return promiseRecognizeSong(driver, options);
 	});
 }
 
-function printSongField(song, fieldName) {
-	var fieldValue = song[fieldName];
+/**
+ * Print field value of given connector state.
+ * @param  {Object} state Connector state
+ * @param  {String} fieldName Field to print
+ */
+function printStateField(state, fieldName) {
+	let fieldValue = state[fieldName];
 	if (fieldValue) {
-		helpers.pass(fieldName + ': ' + fieldValue);
+		helpers.pass(`${fieldName}: ${fieldValue}`);
 	} else {
-		helpers.fail('No ' + fieldName);
+		helpers.fail(`No ${fieldName}`);
 	}
 }
 
-function checkSongField(song, fieldName, checkFunction) {
-	var fieldValue = song[fieldName];
+/**
+ * Print field value of given connector state. Use given function
+ * to check if field value is valid.
+ * @param  {Object} state Connector state
+ * @param  {String} fieldName Field to print
+ * @param  {Function} checkFunction Function used to check field value
+ */
+function checkStateField(state, fieldName, checkFunction) {
+	let fieldValue = state[fieldName];
 	if (checkFunction(fieldValue)) {
-		helpers.pass(fieldName + ': ' + fieldValue);
+		helpers.pass(`${fieldName}: ${fieldValue}`);
 	} else {
-		helpers.fail('Invalid ' + fieldName + ': ' + fieldValue);
+		helpers.fail(`Invalid ${fieldName}: ${fieldValue}`);
 	}
 }
 
-function printSongInfo(song) {
+/**
+ * Print current connector state. Called if debug mode is on.
+ * @param  {Object} state Connector state
+ */
+function printConnectorState(state) {
 	if (!options.get('debug')) {
 		return;
 	}
 
-	printSongField(song, 'artist');
-	printSongField(song, 'track');
-	printSongField(song, 'album');
+	printStateField(state, 'artist');
+	printStateField(state, 'track');
+	printStateField(state, 'album');
 
-	checkSongField(song, 'currentTime', function(data) {
+	checkStateField(state, 'currentTime', (data) => {
 		return typeof data === 'number';
 	});
-	checkSongField(song, 'duration', function(data) {
+	checkStateField(state, 'duration', (data) => {
 		return typeof data === 'number' && data > 0;
 	});
 
-	printSongField(song, 'trackArt');
-	printSongField(song, 'uniqueID');
+	printStateField(state, 'trackArt');
+	printStateField(state, 'uniqueID');
 }

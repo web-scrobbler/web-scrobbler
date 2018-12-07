@@ -10,7 +10,4 @@ module.exports = function(driver, connectorSpec) {
 	connectorSpec.shouldContainPlayerElement(driver, {
 		url: 'http://www.jazzandrain.com'
 	});
-	connectorSpec.shouldContainPlayerElement(driver, {
-		url: 'http://holidaychristmasmusic.com/'
-	});
 };

@@ -3,12 +3,12 @@
 module.exports = function(driver, connectorSpec) {
 	connectorSpec.shouldBehaveLikeMusicSite(driver, {
 		url: 'http://www.rmfon.pl/play,39',
-		waitUntil: isAdVideoPlayed
+		waitUntil: isAdVideoPlayed,
+		waitUntilTimeout: 40000
 	});
 
 	function isAdVideoPlayed() {
-		return driver.sleep(30000).then(() => {
-			return true;
-		});
+		return driver.findElement('#atds-player')
+			.then(() => false).catch(() => true);
 	}
 };

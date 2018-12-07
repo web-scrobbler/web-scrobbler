@@ -3,6 +3,6 @@
 module.exports = function(driver, connectorSpec) {
 	connectorSpec.shouldBehaveLikeMusicSite(driver, {
 		url: 'http://ambientsleepingpill.com/',
-		playButtonSelector: '#asp-play'
+		playButtonSelector: '#play'
 	});
 };

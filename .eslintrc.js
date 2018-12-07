@@ -7,6 +7,7 @@ module.exports = {
 		'node': true,
 		'mocha': true
 	},
+	'extends': 'eslint:recommended',
 	'globals': {
 		'$': true,
 		'chrome': true,
@@ -17,29 +18,20 @@ module.exports = {
 		/**
 		 * Possible errors
 		 */
-		// Disallow assignment operators in conditional expressions
-		'no-cond-assign': 'error',
-		// Disallow constant expressions in conditions
-		'no-constant-condition': 'error',
-		// Disallow duplicate arguments in function definitions
-		'no-dupe-args': 'error',
-		// Disallow duplicate keys in object literals
-		'no-dupe-keys': 'error',
-		// Disallow duplicate case labels
-		'no-duplicate-case': 'error',
-		// Disallow unnecessary boolean casts
-		'no-extra-boolean-cast': 'error',
-		// Disallow unnecessary semicolons
-		'no-extra-semi': 'error',
+		// Enforce “for” loop update clause moving the counter
+		// in the right direction
+		'for-direction': 'error',
+		// Allow the use of console
+		'no-console': 'off',
 		// Disallow template literal placeholder syntax in regular string
 		'no-template-curly-in-string': 'error',
-		// Disallow unreachable code after return, throw, continue,
-		// and break statements
-		'no-unreachable': 'error',
-		// Require calls to `isNaN()` when checking for `NaN`
-		'use-isnan': 'error',
-		// Enforce comparing `typeof` expressions against valid strings
-		'valid-typeof': 'error',
+		// Enforce valid JSDoc comments
+		'valid-jsdoc': ['error', {
+			'prefer': {
+				'arg': 'param', 'argument': 'param', 'returns': 'return',
+			},
+			'requireReturn': false
+		}],
 
 		/**
 		 * Best practices
@@ -48,12 +40,18 @@ module.exports = {
 		'curly': 'error',
 		// Require the use of === and !==
 		'eqeqeq': 'error',
-		// Disallow assignments to native objects or read-only global variables
-		'no-global-assign': 'error',
+		// Disallow `else` blocks after `return` statements in `if` statements
+		'no-else-return': 'error',
+		// Disallow empty functions
+		'no-empty-function': 'error',
 		// Disallow function declarations and expressions inside loop statements
 		'no-loop-func': 'error',
 		// Disallow new operators with the String, Number, and Boolean objects
 		'no-new-wrappers': 'error',
+		// Disallow unnecessary concatenation of strings
+		'no-useless-concat': 'error',
+		// Disallow redundant return statements
+		'no-useless-return': 'error',
 
 		/**
 		 * Strict mode
@@ -62,22 +60,16 @@ module.exports = {
 		'strict': ['error', 'global'],
 
 		/**
-		 * Variables
-		 */
-		// Disallow the use of undeclared variables
-		'no-undef': 'error',
-		// Disallow unused variables
-		'no-unused-vars': 'error',
-
-		/**
 		 * Stylistic Issues
 		 */
 		// Require 'one true brace style', in which the opening brace
 		// of a block is placed on the same line as its corresponding
 		// statement or declaration
-		// 'brace-style': ['error', '1tbs'],
+		'brace-style': ['error', '1tbs'],
+		// Disallow spaces inside of brackets
+		'array-bracket-spacing': ['error', 'never'],
 		// Require space after comma
-		'comma-spacing': ['error', {'after': true}],
+		'comma-spacing': ['error', { 'after': true }],
 		// Require or Disallow newline at the end of files
 		'eol-last': ['error', 'always'],
 		// Disallow spacing between function identifiers and their invocations
@@ -88,17 +80,15 @@ module.exports = {
 			'SwitchCase': 1,
 		}],
 		// Require space after colon in object literal properties
-		'key-spacing': ['error', {'afterColon': true}],
+		'key-spacing': ['error', { 'afterColon': true }],
 		// Require space before and after keywords
 		'keyword-spacing': ['error'],
 		// Require Unix line endings
 		'linebreak-style': ['error', 'unix'],
 		// Disallow empty block statements
-		'no-empty': ['error', {'allowEmptyCatch': true}],
+		'no-empty': ['error', { 'allowEmptyCatch': true }],
 		// Disallow `if` statements as the only statement in `else` blocks
 		'no-lonely-if': 'error',
-		// Disallow mixed spaces and tabs for indentation
-		'no-mixed-spaces-and-tabs': 'error',
 		// Disallow multiple spaces
 		'no-multi-spaces': 'error',
 		// Disallow nested ternary expressions
@@ -109,31 +99,40 @@ module.exports = {
 		'no-unneeded-ternary': 'error',
 		// Disallow whitespace before properties
 		'no-whitespace-before-property': 'error',
+
+		'one-var': ['error', 'never'],
+		// Require spaces inside curly braces
+		'object-curly-spacing': ['error', 'always'],
 		// Require single quotes
 		'quotes': ['error', 'single'],
 		// Require space before blocks
 		'space-before-blocks': ['error', 'always'],
+		// Disallow a space before function parenthesis
+		'space-before-function-paren': ['error', 'never'],
 		// Disallow spaces inside of parentheses
 		'space-in-parens': 'error',
 		// Require spacing around infix operators
 		'space-infix-ops': 'error',
+		// Enforce consistent spacing after the // or /* in a comment
+		'spaced-comment': 'error',
 		// Require semicolon at the end of statement
 		'semi': ['error', 'always'],
+		// Enforce spacing around colons of switch statements
+		'switch-colon-spacing': ['error', { 'after': true, 'before': false }],
 
 		/**
 		 * ECMAScript 6
 		 */
+		// Require parentheses around arrow function arguments
+		'arrow-parens': 'error',
+		'arrow-spacing': 'error',
+		// Require let or const instead of var
+		'no-var': 'error',
+		// Require method and property shorthand syntax for object literals
+		'object-shorthand': ['error', 'always'],
+		// Require template literals instead of string concatenation
+		'prefer-template': 'error',
 		// Disallow spacing around embedded expressions of template strings
 		'template-curly-spacing': 'error',
-
-		/**
-		 * Warnings
-		 */
-		// Disallow fallthrough of case statements
-		//
-		// This approach could be used as a trick, but we should warn
-		// the developer to make sure they suppress warning in the code
-		// and (possibly) put the explanation of fallthrougt in comments.
-		'no-fallthrough': 'warn',
 	}
 };

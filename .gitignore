@@ -1,8 +1,19 @@
-build
-nbproject
-node_modules
+# Build
+/build/
+/.publish/
+/*.zip
+
+# IDE
+/.idea/
+/nbproject/
+
+# OS
 .DS_Store
-.idea
-*.iml
-*.zip
-*.log
+
+# Vendor
+/node_modules/
+/*.log
+
+# Other
+/.tern-project
+/*.iml

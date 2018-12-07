@@ -5,7 +5,7 @@
  */
 
 const expect = require('chai').expect;
-const Util = require('../../core/content/util');
+const Util = require('../../src/core/content/util');
 
 /**
  * Test data is an array of objects. Each object must contain
@@ -32,7 +32,7 @@ const SPLIT_ARTIST_TRACK_TEST_DATA = [{
 }, {
 	description: 'should not split malformed string',
 	source: 'Artist & Track',
-	expected: Util.emptyArtistTrack,
+	expected: Util.makeEmptyArtistTrack(),
 }];
 
 /**
@@ -74,6 +74,10 @@ const STRING_TO_SECONDS_DATA = [{
 	source: '01:10:30',
 	expected: 4230
 }, {
+	description: 'should parse negative time',
+	source: '-01:10',
+	expected: -70
+}, {
 	description: 'should parse time in mm:ss format',
 	source: '05:20',
 	expected: 320
@@ -81,6 +85,14 @@ const STRING_TO_SECONDS_DATA = [{
 	description: 'should parse time in ss format',
 	source: '20',
 	expected: 20
+}, {
+	description: 'should not parse empty string',
+	source: '',
+	expected: 0
+}, {
+	description: 'should not parse null value',
+	source: null,
+	expected: 0
 }, {
 	description: 'should not parse malformed format',
 	source: NaN,
@@ -114,7 +126,7 @@ const EXRACT_TRACK_ART_FROM_CSS_DATA = [{
 }];
 
 /**
- * Test data for testing 'Util.processYoutubeVideoTitle' function.
+ * Test data for testing 'Util.getYoutubeVideoIdFromUrl' function.
  * @type {Array}
  */
 const GET_YOUTUBE_VIDEO_ID_FROM_URL_DATA = [{
@@ -122,9 +134,21 @@ const GET_YOUTUBE_VIDEO_ID_FROM_URL_DATA = [{
 	source: 'https://www.youtube.com/watch?v=JJYxNSRX6Oc',
 	expected: 'JJYxNSRX6Oc',
 }, {
-	description: 'should return video ID from URL contains seconds',
+	description: 'should return video ID from URL with several params',
 	source: 'https://www.youtube.com/watch?v=JJYxNSRX6Oc&t=92s',
 	expected: 'JJYxNSRX6Oc',
+}, {
+	description: 'should return video ID from URL when "v" param is in the end of query',
+	source: 'https://www.youtube.com/watch?list=PLjTdkvaV6GM-J-6PHx9Cw5Cg2tI5utWe7&v=ALZHF5UqnU4',
+	expected: 'ALZHF5UqnU4',
+}, {
+	description: 'should return video ID from short URL',
+	source: 'https://youtu.be/Mssm8Ml5sOo',
+	expected: 'Mssm8Ml5sOo',
+}, {
+	description: 'should return video ID from embed video URL',
+	source: 'https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com',
+	expected: 'M7lc1UVf-VE',
 }];
 
 /**
@@ -140,8 +164,28 @@ const PROCESS_YOUTUBE_TITLE_DATA = [{
 	source: '[Genre] Artist - Track',
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
+	description: 'should remove 【genre】 from the beginning of the title',
+	source: '【Genre】 Artist - Track',
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
 	description: 'should process text string w/o separators',
 	source: 'Artist "Track"',
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should process Japanese tracks',
+	source: 'Artist「Track」',
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should process inverted tracks with parens',
+	source: 'Track (by Artist)',
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should process inverted tracks with parens and comments',
+	source: 'Track (cover by Artist) Studio',
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should process inverted tracks with parens original artist',
+	source: 'Original Artist - Track (cover by Artist)',
 	expected: { artist: 'Artist', track: 'Track' },
 }];
 
@@ -185,6 +229,16 @@ const FIND_SEPARATOR_DATA = [{
 	description: 'should not find separator if no separator in string',
 	source: 'Key 2 Var',
 	expected: null,
+}];
+
+const IS_ARTIST_TRACK_EMPTY_DATA = [{
+	description: 'should return true for empty Artist-Track pair',
+	source: { artist: null, track: null },
+	expected: true
+}, {
+	description: 'should return false for non-empty Artist-Track pair',
+	source: { artist: 'Artist', track: 'Track' },
+	expected: false
 }];
 
 /**
@@ -273,6 +327,13 @@ function testFindSeparator() {
 }
 
 /**
+ * Test 'Util.findSeparator' function.
+ */
+function testIsArtistTrackEmpty() {
+	testFunction(Util.isArtistTrackEmpty, IS_ARTIST_TRACK_EMPTY_DATA);
+}
+
+/**
  * Test function.
  * @param  {Function} func Function to be tested
  * @param  {Array} testData Array of test data
@@ -296,6 +357,7 @@ function runTests() {
 	describe('splitTimeInfo', testSplitTimeInfo);
 	describe('stringToSeconds', testStringToSeconds);
 	describe('splitArtistTrack', testSplitArtistTrack);
+	describe('isArtistTrackEmpty', testIsArtistTrackEmpty);
 	describe('escapeBadTimeValues', testEscapeBadTimeValues);
 	describe('extractUrlFromCssProperty', testExtractTrackArtFromCss);
 	describe('processYoutubeVideoTitle', testProcessYoutubeVideoTitle);

@@ -5,7 +5,7 @@
  */
 
 const expect = require('chai').expect;
-const MetadataFilter = require('../../core/content/filter');
+const MetadataFilter = require('../../src/core/content/filter');
 
 /**
  * Test data is an array of objects. Each object must contain
@@ -161,6 +161,22 @@ const YOUTUBE_TEST_DATA = [{
 	source: 'Track Title (Oficial)',
 	expected: 'Track Title'
 }, {
+	description: 'should remove "offizielles Video" string',
+	source: 'Track Title offizielles Video',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "video clip officiel" string',
+	source: 'Track Title video clip officiel',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "video clip" string',
+	source: 'Track Title video clip',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "vid\u00E9o clip" string',
+	source: 'Track Title vid\u00E9o clip',
+	expected: 'Track Title'
+}, {
 	description: 'should remove "(YYYY)" string',
 	source: 'Track Title (2348)',
 	expected: 'Track Title'
@@ -175,6 +191,14 @@ const YOUTUBE_TEST_DATA = [{
 }, {
 	description: 'should remove "(Whatever Lyric Video)" string',
 	source: 'Track Title (Official Lyric Video)',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "(Lyrics Video)" string',
+	source: 'Track Title (Lyrics Video)',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "(Whatever Lyrics Video)" string',
+	source: 'Track Title (OFFICIAL LYRICS VIDEO)',
 	expected: 'Track Title'
 }, {
 	description: 'should remove "(Official Track Stream)" string',
@@ -212,6 +236,10 @@ const YOUTUBE_TEST_DATA = [{
 	description: 'should remove trailing double quote',
 	source: 'Track Title"',
 	expected: 'Track Title'
+}, {
+	description: 'should leave single quotes around joined',
+	source: 'Track \'n\' Title',
+	expected: 'Track \'n\' Title'
 }];
 
 /**
@@ -262,6 +290,14 @@ const REMASTERED_TEST_DATA = [{
 	description: 'should remove "- YYYY Remastered Version" string',
 	source: 'Track Title - 2011 Remastered Version',
 	expected: 'Track Title'
+}, {
+	description: 'should remove "(Remastered)" string',
+	source: 'Track Title (Remastered)',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "[Remastered]" string',
+	source: 'Track Title [Remastered]',
+	expected: 'Track Title'
 }];
 
 /**
@@ -275,6 +311,36 @@ const DECODE_HTML_ENTITIES_TEST_DATA = [{
 }, {
 	description: 'should decode HTML entity',
 	source: 'Can&#039;t Kill Us',
+	expected: 'Can\'t Kill Us'
+}, {
+	description: 'should decode HTML entity',
+	source: 'Can&#x60;t Kill Us',
+	expected: 'Can`t Kill Us'
+}, {
+	description: 'should decode ampersand symbol',
+	source: 'Artist 1 &amp; Artist 2',
+	expected: 'Artist 1 & Artist 2'
+}, {
+	description: 'should decode all HTML entities in string',
+	source: 'Artist&#x60;s 1 &amp;&amp; Artist&#x60;s 2',
+	expected: 'Artist`s 1 && Artist`s 2'
+}, {
+	description: 'should not decode invalid HTML entity',
+	source: 'Artist 1 &#xzz; Artist 2',
+	expected: 'Artist 1 &#xzz; Artist 2'
+}];
+
+/**
+ * Test data for testing extended filter.
+ * @type {Array}
+ */
+const EXTENDED_FILTER_TEST_DATA = [{
+	description: 'should do nothing with clean string',
+	source: 'Can\'t Kill Us',
+	expected: 'Can\'t Kill Us'
+}, {
+	description: 'should decode HTML entity and trim string',
+	source: 'Can&#039;t Kill Us ',
 	expected: 'Can\'t Kill Us'
 }];
 
@@ -298,6 +364,24 @@ const REMOVE_ZERO_WIDTH_TEST_DATA = [{
 	description: 'should remove leading zero-width characters',
 	source: '\u200DString',
 	expected: 'String'
+}];
+
+const REMOVE_DOUBLE_TITLE_TEST_DATA = [{
+	description: 'should do nothing when separated strings are different',
+	source: 'Some data : another data',
+	expected: 'Some data : another data'
+}, {
+	description: 'should do nothing when separator was not found',
+	source: 'Some Track title with colon: but without separator',
+	expected: 'Some Track title with colon: but without separator'
+}, {
+	description: 'should remove double title',
+	source: 'Some track name With double title : Some track name With double title',
+	expected: 'Some track name With double title'
+}, {
+	description: 'should do nothing when there are more than one separator',
+	source: 'this is weird : this is weird : this is weird',
+	expected: 'this is weird : this is weird : this is weird'
 }];
 
 /**
@@ -339,6 +423,18 @@ const FILTERS_DATA = [{
 	filter: new MetadataFilter({ all: MetadataFilter.decodeHtmlEntities }),
 	fields: ['artist', 'track', 'album'],
 	testData: DECODE_HTML_ENTITIES_TEST_DATA,
+}, {
+	description: 'extended filter',
+	filter: new MetadataFilter({
+		all: MetadataFilter.decodeHtmlEntities
+	}).extend(MetadataFilter.getTrimFilter()),
+	fields: ['artist', 'track', 'album'],
+	testData: EXTENDED_FILTER_TEST_DATA,
+}, {
+	description: 'removeDoubleTitle',
+	filter: new MetadataFilter({ track: MetadataFilter.removeDoubleTitle }),
+	fields: ['track'],
+	testData: REMOVE_DOUBLE_TITLE_TEST_DATA,
 }];
 
 /**
@@ -349,9 +445,9 @@ const FILTERS_DATA = [{
  */
 function testFilter(filter, fields, testData) {
 	let filterFunctions = {
-		artist: filter.filterArtist,
-		track: filter.filterTrack,
-		album: filter.filterAlbum
+		artist: filter.filterArtist.bind(filter),
+		track: filter.filterTrack.bind(filter),
+		album: filter.filterAlbum.bind(filter)
 	};
 
 	for (let field of fields) {

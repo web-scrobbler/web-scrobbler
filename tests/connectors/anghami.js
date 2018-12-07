@@ -1,7 +1,8 @@
 'use strict';
 
-module.exports = function(driver, connectorSpec) {
-	connectorSpec.shouldBehaveLikeMusicSite(driver, {
-		url: 'https://www.anghami.com/song/18025331',
+module.exports = (driver, spec) => {
+	spec.shouldBehaveLikeMusicSite(driver, {
+		url: 'https://www.anghami.com/playlist/14',
+		playButtonSelector: '.icon-play-circle'
 	});
 };

@@ -1,0 +1,15 @@
+{
+  "results": [
+    {
+      "release_notes": {
+        "en-US": "Added support for scrobbling to ListenBrainz\nAdded support for Dandelion Radio\nImproved Deezer support\nFixed YouTube category matching\nChanged YouTube single quote matching to have a min-length"
+      },
+      "files": [
+        {
+          "created": null
+        }
+      ],
+      "version": "2.9.0"
+    }
+  ]
+}

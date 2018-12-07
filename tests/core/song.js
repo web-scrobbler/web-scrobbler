@@ -5,7 +5,7 @@
  */
 
 const expect = require('chai').expect;
-const Song = require('../../core/background/objects/song');
+const Song = require('../../src/core/background/object/song');
 
 /**
  * Object that contains source data for Song object.
@@ -36,12 +36,12 @@ const PROCESSED_DATA = {
 /**
  * Create song object.
  * @param  {Object} parsed Object contains custom parsed data values
- * @param  {Object} parsed Object contains custom processed data values
+ * @param  {Object} processed Object contains custom processed data values
  * @return {Object} Processed song object
  */
 function createSong(parsed, processed) {
 	let parsedDataCopy = Object.assign({}, parsed || PARSED_DATA);
-	let song = new Song(parsedDataCopy);
+	let song = Song.buildFrom(parsedDataCopy);
 
 	if (processed) {
 		for (let field in processed) {
@@ -131,8 +131,8 @@ function testProcessedMetadataFields() {
 function testIsEmpty() {
 	it('should return true if song has no metadata', () => {
 		let songs = [
-			createSong({ artist: 'Artist', track: null}),
-			createSong({ artist: null, track: 'Track'}),
+			createSong({ artist: 'Artist', track: null }),
+			createSong({ artist: null, track: 'Track' }),
 			createSong({ artist: null, track: null })
 		];
 
@@ -144,6 +144,30 @@ function testIsEmpty() {
 	it('should return false if song has metadata', () => {
 		let song = createSong();
 		expect(song.isEmpty()).to.be.equal(false);
+	});
+}
+
+function testGetUniqueId() {
+	it('should return unique ID if song has parsed unique ID', () => {
+		let uniqueId = 'unique';
+		let song = createSong({
+			artist: 'Artist', track: 'Title', album: 'Album',
+			uniqueID: uniqueId
+		});
+		expect(song.getUniqueId()).to.be.equal(uniqueId);
+	});
+
+	it('should return unique ID if song has no parsed unique ID', () => {
+		let uniqueId = '8021e94350ed56f71a673b08eaea0888';
+		let song = createSong({
+			artist: 'Artist', track: 'Title', album: 'Album'
+		});
+		expect(song.getUniqueId()).to.be.equal(uniqueId);
+	});
+
+	it('should not return unique ID if song is empty', () => {
+		let song = createSong({});
+		expect(song.getUniqueId()).to.be.equal(null);
 	});
 }
 
@@ -159,21 +183,6 @@ function testGetArtistTrackString() {
 }
 
 /**
- * Test 'Song.getSecondsToScrobble' function.
- */
-function testGetSecondsToScrobble() {
-	it('should return proper value', () => {
-		let song1 = createSong({duration: 300});
-		expect(song1.getSecondsToScrobble()).to.be.equal(150);
-	});
-
-	it('should return proper value for songs longer that 4 minutes', () => {
-		let song1 = createSong({duration: 600});
-		expect(song1.getSecondsToScrobble()).to.be.equal(240);
-	});
-}
-
-/**
  * Run all tests.
  */
 function runTests() {
@@ -181,7 +190,7 @@ function runTests() {
 	describe('processedData', testProcessedMetadataFields);
 
 	describe('isSongEmpty', testIsEmpty);
-	describe('secondsToScrobble', testGetSecondsToScrobble);
+	describe('getUniqueId', testGetUniqueId);
 	describe('getArtistTrackString', testGetArtistTrackString);
 }
 
