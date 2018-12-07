@@ -9,6 +9,7 @@ Connector.getTrackArt = () => {
 	}
 	return null;
 };
+Connector.albumSelector = $('.ytmusic-player-bar .yt-formatted-string.style-scope.yt-simple-endpoint[href*="album/"]');
 
 Connector.artistSelector = 'ytmusic-player-queue-item[selected] .byline';
 
