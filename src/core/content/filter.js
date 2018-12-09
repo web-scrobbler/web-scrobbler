@@ -280,6 +280,8 @@ class MetadataFilter {
 			{ source: /^(|.*\s)"(.{5,})"(\s.*|)$/, target: '$2' },
 			// 'Track title'
 			{ source: /^(|.*\s)'(.{5,})'(\s.*|)$/, target: '$2' },
+			// (*01/01/1999*)
+			{ source: /\s*\(.*[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{2,4}.*\)/i, target: '' },
 
 
 			// labels
