@@ -240,6 +240,10 @@ const YOUTUBE_TEST_DATA = [{
 	description: 'should leave single quotes around joined',
 	source: 'Track \'n\' Title',
 	expected: 'Track \'n\' Title'
+}, {
+	description: 'should remove "(whatever 2/12/18)" string',
+	source: 'Track Title (whatever 2/12/18)',
+	expected: 'Track Title'
 }];
 
 /**
