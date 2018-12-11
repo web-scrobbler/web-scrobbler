@@ -1237,5 +1237,9 @@ define(function() {
 		label: 'YouTube Music',
 		matches: ['*://music.youtube.com/*'],
 		js: ['connectors/youtube-music.js'],
+	}, {
+		label: 'Radiozenders.FM',
+		matches: ['*://radiozenders.fm/*', '*://www.radiozenders.fm/*'],
+		js: ['connectors/radiozenders.js'],
 	}];
 });
