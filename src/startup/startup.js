@@ -1,9 +1,19 @@
 'use strict';
 
 require([
+	'config',
 	'wrapper/chrome',
 	'vendor/showdown.min'
-], function(chrome, showdown) {
+], function(config, chrome, showdown, ) {
+
+
+	$('#opt-in').click(function() {
+		window.close();
+	});
+
+	$('#opt-out').click(function() {
+		window.close();
+	});
 
 	let errorHandler = function(ex) {
 		console.log(ex.message);
