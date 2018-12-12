@@ -12,7 +12,7 @@ Connector.trackArtSelector = '.music .cover-link .active img';
 
 Connector.getDuration = () => {
 	let text = $('.audio-progress .range .bar .handle').val();
-	let str = text.split("/");
+	let str = text.split('/');
 	return str[0];
 };
 
