@@ -48,6 +48,7 @@ We use gitter and you can join us @ [web-scrobbler/web-scrobbler][5].
 * [Font Awesome v4.7.0][17]
 * [jQuery v3.2.1][18]
 * [RequireJS v2.3.5][19]
+* [Showdown][28]
 
 ## Privacy Policy
 
@@ -83,3 +84,4 @@ See the [license file](LICENSE.md).
 [17]: http://fontawesome.io/assets/font-awesome-4.7.0.zip
 [18]: http://code.jquery.com/jquery-3.2.1.min.js
 [19]: http://requirejs.org/docs/release/2.3.5/minified/require.js
+[28]: https://github.com/showdownjs/showdown
