@@ -6,7 +6,6 @@ require([
 	'vendor/showdown.min'
 ], function(config, chrome, showdown, ) {
 
-
 	$('#opt-in').click(function() {
 		window.close();
 	});
