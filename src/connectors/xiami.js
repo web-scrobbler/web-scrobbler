@@ -6,8 +6,6 @@ Connector.trackSelector = '.music .info .title';
 
 Connector.artistSelector = '.music .info .singers';
 
-Connector.playButtonSelector = '.main-control .play-btn';
-
 Connector.trackArtSelector = '.music .cover-link .active img';
 
 Connector.getDuration = () => {
