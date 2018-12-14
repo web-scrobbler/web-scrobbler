@@ -734,6 +734,12 @@ define(function() {
 	},
 
 	{
+		label: 'openfm',
+		matches: ['*://open.fm/*'],
+		js: ['connectors/openfm.js'],
+	},
+
+	{
 		label: 'monkey3',
 		matches: ['*://www.monkey3.co.kr/*'],
 		js: ['connectors/monkey3.js'],
