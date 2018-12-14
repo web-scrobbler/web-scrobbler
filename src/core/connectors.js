@@ -735,7 +735,7 @@ define(function() {
 
 	{
 		label: 'openfm',
-		matches: ['*://open.fm*'],
+		matches: ['*://open.fm/*'],
 		js: ['connectors/openfm.js'],
 	},
 
