@@ -19,3 +19,4 @@ Connector.getDuration = () => {
 Connector.isPlaying = () => {
 	return $('.main-control .play-btn').length !== 0;
 };
+
