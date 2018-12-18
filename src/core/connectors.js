@@ -1124,6 +1124,10 @@ define(function() {
 		matches: ['*://patari.pk/*'],
 		js: ['connectors/patari.js']
 	}, {
+		label: 'pCloud',
+		matches: ['*://my.pcloud.com/*'],
+		js: ['connectors/pcloud.js']
+	}, {
 		label: 'JetSetRadio Live',
 		matches: ['*://jetsetradio.live/*', '*://jetsetradio.live'],
 		js: ['connectors/jetsetradio.live.js']
