@@ -29,9 +29,9 @@ require([
 		window.close();
 	}
 
-	chrome.runtime.getPackageDirectoryEntry(function(root) {
-		root.getFile('PRIVACY.md', {}, function(fileEntry) {
-			fileEntry.file(function(file) {
+	chrome.runtime.getPackageDirectoryEntry((root) => {
+		root.getFile('PRIVACY.md', {}, (fileEntry) => {
+			fileEntry.file((file) => {
 				var reader = new FileReader();
 				reader.onloadend = function(e) {
 
