@@ -437,8 +437,6 @@ require([
 				}
 			});
 		});
-
-
 	}
 
 	startup();

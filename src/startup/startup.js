@@ -29,19 +29,12 @@ require([
 		window.close();
 	}
 
-	chrome.runtime.getPackageDirectoryEntry((root) => {
-		root.getFile('PRIVACY.md', {}, (fileEntry) => {
-			fileEntry.file((file) => {
-				var reader = new FileReader();
-				reader.onloadend = function(e) {
-
-					let converter = new showdown.Converter();
-					let content = converter.makeHtml(this.result);
-					$('.privacy-policy').html(content);
-				};
-				reader.readAsText(file);
-			}, errorHandler);
-		}, errorHandler);
+	let privacyUrl = chrome.runtime.getURL('PRIVACY.md');
+	fetch(privacyUrl).then((response) => {
+		response.text().then((text) => {
+			let converter = new showdown.Converter();
+			let content = converter.makeHtml(text);
+			$('.privacy-policy').html(content);
+		})
 	});
-
 });
