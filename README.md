@@ -68,7 +68,7 @@ See the [license file](LICENSE.md).
 [8]: http://www.last.fm/
 [9]: https://developer.chrome.com/extensions/getstarted#unpacked
 [10]: https://github.com/web-scrobbler/web-scrobbler/wiki/Connectors-development
-[11]: src/Privacy.md
+[11]: src/PRIVACY.md
 [12]: http://add0n.com/lastfm-scrobbler.html
 [13]: https://addons.opera.com/extensions/details/app_id/kipjbhgniklcnglfaldilecjomjaddfi
 [15]: https://addons.mozilla.org/en-US/firefox/addon/web-scrobbler/
