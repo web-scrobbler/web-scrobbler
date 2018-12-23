@@ -441,7 +441,7 @@ require([
 	startup();
 
 	chrome.runtime.onInstalled.addListener((object) => {
-		if (chrome.runtime.OnInstalledReason.INSTALL !== object.reason) {
+		if ('install' !== object.reason) {
 			return;
 		}
 
