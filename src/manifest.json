@@ -19,7 +19,6 @@
     "connectors/musickit-dom-inject.js",
     "connectors/soundcloud-dom-inject.js",
     "connectors/vk-dom-inject.js",
-    "startup/startup.html",
     "*.md"
   ],
 

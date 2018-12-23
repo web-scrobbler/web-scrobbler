@@ -408,6 +408,16 @@ require([
 	 * Called on the extension start.
 	 */
 	function startup() {
+		chrome.runtime.onInstalled.addListener((object) => {
+			if ('install' !== object.reason) {
+				return;
+			}
+
+			chrome.tabs.create({
+				url: '/startup/startup.html'
+			});
+		});
+
 		Migrate.migrate().then(() => {
 			updateVersionInStorage().then(notifyOfNotableChanges);
 			setupChromeEventListeners();
@@ -438,15 +448,6 @@ require([
 			});
 		});
 	}
+
 	startup();
-
-	chrome.runtime.onInstalled.addListener((object) => {
-		if ('install' !== object.reason) {
-			return;
-		}
-
-		chrome.tabs.create({
-			url: '/startup/startup.html'
-		});
-	});
 });
