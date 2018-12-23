@@ -438,10 +438,13 @@ require([
 			});
 		});
 	}
-
 	startup();
 
-	chrome.runtime.onInstalled.addListener(function() {
+	chrome.runtime.onInstalled.addListener((object) => {
+		if (chrome.runtime.OnInstalledReason.INSTALL !== object.reason) {
+			return;
+		}
+
 		chrome.tabs.create({
 			url: '/startup/startup.html'
 		});
