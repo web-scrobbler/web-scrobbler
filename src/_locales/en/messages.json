@@ -558,5 +558,25 @@
   "notificationNotRecognizedText": {
     "message": "Click on the icon in the extensions bar to correct and submit track info.",
     "description": "Notification text"
+  },
+  "startupTitle": {
+    "message": "Welcome to web-scrobbler!",
+    "description": "Title for startup page"
+  },
+  "startupIntroTitle": {
+    "message": "Thanks for choosing to install web-scrobbler!",
+    "description": "Startup intro title"
+  },
+  "startupIntroText": {
+    "message": "Before we can begin to scrobble all your music, you must first review and opt in (or out) to our privacy policy.",
+    "description": "Startup intro text"
+  },
+  "optIn": {
+    "message": "Opt In",
+    "description": "Opt in"
+  },
+  "optOut": {
+    "message": "Opt out",
+    "description": "Opt out"
   }
 }

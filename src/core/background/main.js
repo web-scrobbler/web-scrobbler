@@ -437,7 +437,15 @@ require([
 				}
 			});
 		});
+
+
 	}
 
 	startup();
+
+	chrome.runtime.onInstalled.addListener(function() {
+		chrome.tabs.create({
+			url: '/startup/startup.html'
+		});
+	});
 });
