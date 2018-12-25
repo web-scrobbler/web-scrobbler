@@ -1,24 +1,19 @@
 'use strict';
 
 require([
-	'config',
 	'wrapper/chrome',
 	'storage/chrome-storage',
 	'vendor/showdown.min'
-], function(config, chrome, ChromeStorage, showdown) {
-	$('#opt-in').click(function() {
+], function(chrome, ChromeStorage, showdown) {
+	$('#opt-in').click(() => {
 		update(false);
 	});
 
-	$('#opt-out').click(function() {
+	$('#opt-out').click(() => {
 		update(true);
 	});
 
-	let errorHandler = function(ex) {
-		console.log(ex.message);
-	}
-
-	function update(value) {
+	let update = (value)  => {
 		const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS)
 
 		options.get().then((data) => {
@@ -27,21 +22,19 @@ require([
 		});
 
 		window.close();
+		$('.controls').hide();
+		$('.finished').show();
 	}
 
-	chrome.runtime.getPackageDirectoryEntry((root) => {
-		root.getFile('PRIVACY.md', {}, (fileEntry) => {
-			fileEntry.file((file) => {
-				var reader = new FileReader();
-				reader.onloadend = function(e) {
+	let privacyUrl = chrome.runtime.getURL('PRIVACY.md');
 
-					let converter = new showdown.Converter();
-					let content = converter.makeHtml(this.result);
-					$('.privacy-policy').html(content);
-				};
-				reader.readAsText(file);
-			}, errorHandler);
-		}, errorHandler);
-	});
-
+	fetch(privacyUrl)
+		.then((response) => {
+			response.text()
+			.then((text) => {
+				let converter = new showdown.Converter();
+				let content = converter.makeHtml(text);
+				$('.privacy-policy').html(content);
+			})
+		});
 });

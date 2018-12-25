@@ -18,7 +18,8 @@
     "connectors/deezer-dom-inject.js",
     "connectors/musickit-dom-inject.js",
     "connectors/soundcloud-dom-inject.js",
-    "connectors/vk-dom-inject.js"
+    "connectors/vk-dom-inject.js",
+    "*.md"
   ],
 
   "background": {
