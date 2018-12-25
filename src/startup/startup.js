@@ -1,20 +1,19 @@
 'use strict';
 
 require([
-	'config',
 	'wrapper/chrome',
 	'storage/chrome-storage',
 	'vendor/showdown.min'
-], function(config, chrome, ChromeStorage, showdown) {
-	$('#opt-in').click(function() {
+], function(chrome, ChromeStorage, showdown) {
+	$('#opt-in').click(() => {
 		update(false);
 	});
 
-	$('#opt-out').click(function() {
+	$('#opt-out').click(() => {
 		update(true);
 	});
 
-	function update(value) {
+	let update = (value)  => {
 		const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS)
 
 		options.get().then((data) => {
@@ -28,11 +27,14 @@ require([
 	}
 
 	let privacyUrl = chrome.runtime.getURL('PRIVACY.md');
-	fetch(privacyUrl).then((response) => {
-		response.text().then((text) => {
-			let converter = new showdown.Converter();
-			let content = converter.makeHtml(text);
-			$('.privacy-policy').html(content);
-		})
-	});
+
+	fetch(privacyUrl)
+		.then((response) => {
+			response.text()
+			.then((text) => {
+				let converter = new showdown.Converter();
+				let content = converter.makeHtml(text);
+				$('.privacy-policy').html(content);
+			})
+		});
 });
