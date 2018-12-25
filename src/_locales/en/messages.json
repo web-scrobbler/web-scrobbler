@@ -571,6 +571,10 @@
     "message": "Before we can begin to scrobble all your music, you must first review and opt in (or out) to our privacy policy.",
     "description": "Startup intro text"
   },
+  "startupFinished": {
+    "message": "Thanks! If you change your mind you can change this in the options.",
+    "description": "Startup finished text"
+  },
   "optIn": {
     "message": "Opt In",
     "description": "Opt in"

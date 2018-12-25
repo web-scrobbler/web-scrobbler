@@ -14,10 +14,6 @@ require([
 		update(true);
 	});
 
-	let errorHandler = function(ex) {
-		console.log(ex.message);
-	}
-
 	function update(value) {
 		const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS)
 
@@ -27,6 +23,8 @@ require([
 		});
 
 		window.close();
+		$('.controls').hide();
+		$('.finished').show();
 	}
 
 	let privacyUrl = chrome.runtime.getURL('PRIVACY.md');
