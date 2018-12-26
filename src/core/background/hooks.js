@@ -1,4 +1,6 @@
-chrome.runtime.onInstalled.addListener(event => {
+'use strict';
+
+chrome.runtime.onInstalled.addListener((event) => {
 	if ('install' !== event.reason) {
 		return;
 	}
