@@ -415,7 +415,7 @@ require([
 			// track background page loaded - happens once per browser session
 			GA.pageview(`/background-loaded?version=${extVersion}`);
 
-			ScrobbleService.bindAllScrobblers().then((boundScrobblers) => {
+			ScrobbleService.bindAllScrobblers().then(boundScrobblers => {
 				if (boundScrobblers.length === 0) {
 					console.warn('No scrobblers are bound');
 
@@ -430,10 +430,12 @@ require([
 
 						GA.event('core', 'auth', 'fallback');
 					});
-				} else {
-					for (let scrobbler of boundScrobblers) {
-						GA.event('core', 'bind', scrobbler.getLabel());
-					}
+
+					return;
+				}
+
+				for (let scrobbler of boundScrobblers) {
+					GA.event('core', 'bind', scrobbler.getLabel());
 				}
 			});
 		});
