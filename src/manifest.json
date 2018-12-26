@@ -24,9 +24,11 @@
 
   "background": {
     "scripts": [
+      "core/background/hooks.js",
       "vendor/require.min.js", "core/background/requirejs-config.js",
       "core/background/main.js"
-    ]
+    ],
+    "persistent": false
   },
 
   "homepage_url": "https://add0n.com/lastfm-scrobbler.html",
