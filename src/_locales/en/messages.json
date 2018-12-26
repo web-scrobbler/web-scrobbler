@@ -560,11 +560,11 @@
     "description": "Notification text"
   },
   "startupTitle": {
-    "message": "Welcome to web-scrobbler!",
+    "message": "Welcome to Web Scrobbler!",
     "description": "Title for startup page"
   },
   "startupIntroTitle": {
-    "message": "Thanks for choosing to install web-scrobbler!",
+    "message": "Thanks for choosing to install Web Scrobbler!",
     "description": "Startup intro title"
   },
   "startupIntroText": {
