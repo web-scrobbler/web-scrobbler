@@ -2,14 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "1001tracklists support\nmnet support\nMonkey3 support\nFixed Jamendo support\nImproved YT Music support\nImproved Ollehmusic"
+        "en-US": "Added support for open.fm (Thanks @JeonHyungJin)\nAdded pCloud support (Thanks @russ666)\nAdd Radiozenders.FM support (Thanks @calvinturbo)\nAdded privacy consent for new installs\nImproved YT filtering (Thanks @cfare)\nFiltering of with lyrics (Thanks @nemoload)\nUpdated ru translations"
       },
       "files": [
         {
           "created": null
         }
       ],
-      "version": "2.10.0"
+      "version": "2.11.0"
     }
   ]
 }
