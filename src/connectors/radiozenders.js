@@ -7,4 +7,4 @@ Connector.getArtistTrack = function() {
 	return Util.splitArtistTrack(artistTrack, [' - '], true);
 };
 
-Connector.isPlaying = () => $('.player-equalizer').is(':visible');
+Connector.playButtonSelector = '.player-equalizer';
