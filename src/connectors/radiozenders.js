@@ -1,6 +1,6 @@
 'use strict';
 
-var reverse = false;
+let reverse = false;
 if ($('.player-station-title').text().includes('Qmusic')) {
 	reverse = true;
 }
