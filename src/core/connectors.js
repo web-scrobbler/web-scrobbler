@@ -1251,5 +1251,9 @@ define(function() {
 		label: 'Radiozenders.FM',
 		matches: ['*://radiozenders.fm/*', '*://www.radiozenders.fm/*'],
 		js: ['connectors/radiozenders.js'],
+	}, {
+		label: 'Invidious',
+		matches: ['*://invidio.us/*'],
+		js: ['connectors/invidious.js'],
 	}];
 });
