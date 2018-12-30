@@ -12,4 +12,6 @@ Connector.getArtistTrack = function() {
 	return Util.splitArtistTrack(artistTrack, [' - '], reverse);
 };
 
-Connector.playButtonSelector = '.player-equalizer';
+Connector.isPlaying = () => {
+	return $('#jp_container_1').hasClass('jp-state-playing');
+};
