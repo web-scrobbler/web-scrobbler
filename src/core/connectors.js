@@ -1255,5 +1255,9 @@ define(function() {
 		label: 'Invidious',
 		matches: ['*://invidio.us/*'],
 		js: ['connectors/invidious.js'],
+	}, {
+		label: 'That Station',
+		matches: ['*://www.thatstation.net/listen-live/'],
+		js: ['connectors/thatstation.js'],
 	}];
 });
