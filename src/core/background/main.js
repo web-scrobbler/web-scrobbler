@@ -430,10 +430,12 @@ require([
 
 						GA.event('core', 'auth', 'fallback');
 					});
-				} else {
-					for (let scrobbler of boundScrobblers) {
-						GA.event('core', 'bind', scrobbler.getLabel());
-					}
+
+					return;
+				}
+
+				for (let scrobbler of boundScrobblers) {
+					GA.event('core', 'bind', scrobbler.getLabel());
 				}
 			});
 		});

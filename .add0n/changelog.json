@@ -2,14 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "Added support for scrobbling to ListenBrainz\nAdded support for Dandelion Radio\nImproved Deezer support\nFixed YouTube category matching\nChanged YouTube single quote matching to have a min-length"
+        "en-US": "Added support for open.fm (Thanks @JeonHyungJin)\nAdded pCloud support (Thanks @russ666)\nAdd Radiozenders.FM support (Thanks @calvinturbo)\nAdded privacy consent for new installs\nImproved YT filtering (Thanks @cfare)\nFiltering of with lyrics (Thanks @nemoload)\nUpdated ru translations"
       },
       "files": [
         {
           "created": null
         }
       ],
-      "version": "2.9.0"
+      "version": "2.11.0"
     }
   ]
 }
