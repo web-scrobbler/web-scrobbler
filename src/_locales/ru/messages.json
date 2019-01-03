@@ -535,6 +535,30 @@
         "message": "Кликните на иконку справа от адресной строки, чтобы скорректировать информацию о треке.",
         "description": "Notification text"
     },
+    "startupTitle": {
+        "message": "Добро пожаловать в Web Scrobbler!",
+        "description": "Title for startup page"
+    },
+    "startupIntroTitle": {
+        "message": "Благодарим за установку Web Scrobbler!",
+        "description": "Startup intro title"
+    },
+    "startupIntroText": {
+        "message": "Прежде, чем мы начнём скробблить ваши композиции, вам следует ознакомиться с нашей политикой конфиденциальности и принять или отклонить её.",
+        "description": "Startup intro text"
+    },
+    "startupFinished": {
+        "message": "Спасибо! Если вы захотите изменить свой выбор, вы можете сделать это в настройках расширения.",
+        "description": "Startup finished text"
+    },
+    "optIn": {
+        "message": "Принять",
+        "description": "Opt in"
+    },
+    "optOut": {
+        "message": "Отклонить",
+        "description": "Opt out"
+    },
     "extDescription": {
         "message": "Скробблите музыку со всего Интернета!",
         "description": "Description of the extension"

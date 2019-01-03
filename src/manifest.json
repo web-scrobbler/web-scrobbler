@@ -1,6 +1,6 @@
 {
   "name": "Web Scrobbler",
-  "version": "2.9.0",
+  "version": "2.11.0",
 
   "description": "__MSG_extDescription__",
   "icons": {
@@ -18,11 +18,13 @@
     "connectors/deezer-dom-inject.js",
     "connectors/musickit-dom-inject.js",
     "connectors/soundcloud-dom-inject.js",
-    "connectors/vk-dom-inject.js"
+    "connectors/vk-dom-inject.js",
+    "*.md"
   ],
 
   "background": {
     "scripts": [
+      "core/background/hooks.js",
       "vendor/require.min.js", "core/background/requirejs-config.js",
       "core/background/main.js"
     ]

@@ -201,6 +201,10 @@ const YOUTUBE_TEST_DATA = [{
 	source: 'Track Title (OFFICIAL LYRICS VIDEO)',
 	expected: 'Track Title'
 }, {
+	description: 'should remove "(With Lyrics)" string',
+	source: 'Track Title (With Lyrics)',
+	expected: 'Track Title'
+}, {
 	description: 'should remove "(Official Track Stream)" string',
 	source: 'Track Title (Official Track Stream)',
 	expected: 'Track Title'
@@ -240,6 +244,10 @@ const YOUTUBE_TEST_DATA = [{
 	description: 'should leave single quotes around joined',
 	source: 'Track \'n\' Title',
 	expected: 'Track \'n\' Title'
+}, {
+	description: 'should remove "(whatever 2/12/18)" string',
+	source: 'Track Title (whatever 2/12/18)',
+	expected: 'Track Title'
 }];
 
 /**

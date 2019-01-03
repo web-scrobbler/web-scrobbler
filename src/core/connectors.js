@@ -734,6 +734,12 @@ define(function() {
 	},
 
 	{
+		label: 'openfm',
+		matches: ['*://open.fm/*'],
+		js: ['connectors/openfm.js'],
+	},
+
+	{
 		label: 'monkey3',
 		matches: ['*://www.monkey3.co.kr/*'],
 		js: ['connectors/monkey3.js'],
@@ -1118,6 +1124,10 @@ define(function() {
 		matches: ['*://patari.pk/*'],
 		js: ['connectors/patari.js']
 	}, {
+		label: 'pCloud',
+		matches: ['*://my.pcloud.com/*'],
+		js: ['connectors/pcloud.js']
+	}, {
 		label: 'JetSetRadio Live',
 		matches: ['*://jetsetradio.live/*', '*://jetsetradio.live'],
 		js: ['connectors/jetsetradio.live.js']
@@ -1237,5 +1247,17 @@ define(function() {
 		label: 'YouTube Music',
 		matches: ['*://music.youtube.com/*'],
 		js: ['connectors/youtube-music.js'],
+	}, {
+		label: 'Radiozenders.FM',
+		matches: ['*://radiozenders.fm/*', '*://www.radiozenders.fm/*'],
+		js: ['connectors/radiozenders.js'],
+	}, {
+		label: 'Invidious',
+		matches: ['*://invidio.us/*'],
+		js: ['connectors/invidious.js'],
+	}, {
+		label: 'That Station',
+		matches: ['*://www.thatstation.net/listen-live/'],
+		js: ['connectors/thatstation.js'],
 	}];
 });

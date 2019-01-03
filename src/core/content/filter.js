@@ -245,7 +245,7 @@ class MetadataFilter {
 			// video extensions
 			{ source: /\s*\.(avi|wmv|mpg|mpeg|flv)$/i, target: '' },
 			// (LYRICs VIDEO)
-			{ source: /\s*(lyrics? video\s*)/i, target: '' },
+			{ source: /\s*((with)?\s*lyrics?( video)?\s*)/i, target: '' },
 			// (Official Track Stream)
 			{ source: /\s*(Official Track Stream*)/i, target: '' },
 			// (official)? (music)? video
@@ -280,6 +280,8 @@ class MetadataFilter {
 			{ source: /^(|.*\s)"(.{5,})"(\s.*|)$/, target: '$2' },
 			// 'Track title'
 			{ source: /^(|.*\s)'(.{5,})'(\s.*|)$/, target: '$2' },
+			// (*01/01/1999*)
+			{ source: /\s*\(.*[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{2,4}.*\)/i, target: '' },
 
 
 			// labels
