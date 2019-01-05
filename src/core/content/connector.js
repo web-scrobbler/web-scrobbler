@@ -343,7 +343,7 @@ function BaseConnector() {
 			}
 		}
 
-		return trackArtUrl;
+		return Util.normalizeUrl(trackArtUrl);
 	};
 
 	/**
