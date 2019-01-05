@@ -1260,7 +1260,7 @@ define(function() {
 		matches: ['*://www.thatstation.net/listen-live/'],
 		js: ['connectors/thatstation.js'],
 	}, {
-		label: 'Радіо Київстар',
+		label: 'Radio Kyivstar',
 		matches: ['*://radio.kyivstar.ua/*'],
 		js: ['connectors/kyivstar.js'],
 	}];
