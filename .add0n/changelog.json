@@ -2,14 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "Added support for open.fm (Thanks @JeonHyungJin)\nAdded pCloud support (Thanks @russ666)\nAdd Radiozenders.FM support (Thanks @calvinturbo)\nAdded privacy consent for new installs\nImproved YT filtering (Thanks @cfare)\nFiltering of with lyrics (Thanks @nemoload)\nUpdated ru translations"
+        "en-US": "Add support for Invidious (Thanks @chugylo)\nAdd support for thatstation.net (Thanks @Paszt) \nAdd support for  residentadvisor (Thanks @stephanebruckert )\nAdd support for Radio Kyivstar (Thanks @chugylo)\nImproved isScrobblingAllowed detection  (Thanks @SeijiSuenaga)\nFixed YouTube Music album detection (Thanks @reubot)"
       },
       "files": [
         {
           "created": null
         }
       ],
-      "version": "2.11.0"
+      "version": "2.12.0"
     }
   ]
 }
