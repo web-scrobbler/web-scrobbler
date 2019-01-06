@@ -1263,5 +1263,9 @@ define(function() {
 		label: 'That Station',
 		matches: ['*://www.thatstation.net/listen-live/'],
 		js: ['connectors/thatstation.js'],
+	}, {
+		label: 'Radio Kyivstar',
+		matches: ['*://radio.kyivstar.ua/*'],
+		js: ['connectors/kyivstar.js'],
 	}];
 });

@@ -76,6 +76,16 @@ const Util = {
 	},
 
 	/**
+	 * Normalize given URL. Currently it only normalizes
+	 * protocol-relative links.
+	 * @param  {String} url URL, which is possibly protocol-relative
+	 * @return {String} Normalized URL
+	 */
+	normalizeUrl(url) {
+		return url.startsWith('//') ? location.protocol + url : url;
+	},
+
+	/**
 	 * Convert given time-string into seconds.
 	 * @param  {String} str Time-string in h:m:s format
 	 * @return {Number} Seconds
