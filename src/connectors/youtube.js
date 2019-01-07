@@ -109,6 +109,12 @@ Connector.getUniqueID = () => {
 	}
 
 	let videoId = $('ytd-watch-flexy').attr('video-id');
+
+	if (!videoId) {
+		let videoUrl = $('.html5-video-player.playing-mode .ytp-title-link').attr('href');
+		videoId = Util.getYoutubeVideoIdFromUrl(videoUrl);
+	}
+
 	return videoId;
 };
 
