@@ -82,6 +82,10 @@ const Util = {
 	 * @return {String} Normalized URL
 	 */
 	normalizeUrl(url) {
+		if (!url) {
+			return null;
+		}
+
 		return url.startsWith('//') ? location.protocol + url : url;
 	},
 
