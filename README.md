@@ -84,4 +84,4 @@ See the [license file](LICENSE.md).
 [17]: http://fontawesome.io/assets/font-awesome-4.7.0.zip
 [18]: http://code.jquery.com/jquery-3.2.1.min.js
 [19]: http://requirejs.org/docs/release/2.3.5/minified/require.js
-[28]: https://github.com/showdownjs/showdown
+[28]: https://github.com/showdownjs/showdown/archive/1.9.0.zip
