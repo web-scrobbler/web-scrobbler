@@ -8,11 +8,7 @@ Connector.artistSelector = '.music .info .singers';
 
 Connector.trackArtSelector = '.music .cover-link .active img';
 
-Connector.getDuration = () => {
-	let text = $('.audio-progress .range .bar .handle').val();
-	let str = text.split('/');
-	return str[0];
-};
+Connector.timeInfoSelector = '.audio-progress .range .bar .handle';
 
 Connector.isPlaying = () => {
 	return $('.main-control .play-btn').length !== 0;
