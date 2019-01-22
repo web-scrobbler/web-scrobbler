@@ -2,14 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "Add support for Invidious (Thanks @chugylo)\nAdd support for thatstation.net (Thanks @Paszt) \nAdd support for  residentadvisor (Thanks @stephanebruckert )\nAdd support for Radio Kyivstar (Thanks @chugylo)\nImproved isScrobblingAllowed detection  (Thanks @SeijiSuenaga)\nFixed YouTube Music album detection (Thanks @reubot)"
+        "en-US": "Add support for playapplemusic.com (#1866)\nFix URL normalizing (#1865)\nFix Taazi connector (#1864)\nUpdated licence text (#1870)\nUpdated showdown lib (#1871)\nFix xiami (#1848)"
       },
       "files": [
         {
           "created": null
         }
       ],
-      "version": "2.12.0"
+      "version": "2.13.0"
     }
   ]
 }
