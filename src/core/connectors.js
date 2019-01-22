@@ -293,7 +293,7 @@ define(function() {
 
 	{
 		label: 'Xiami',
-		matches: ['*://www.xiami.com/play*'],
+		matches: ['*://www.xiami.com/*'],
 		js: ['connectors/xiami.js'],
 	},
 

@@ -1,22 +1,17 @@
 'use strict';
 
-Connector.playerSelector = '#player-main';
+Connector.playerSelector = '.play-bar';
 
-Connector.trackSelector = '#J_trackName';
+Connector.trackSelector = '.music .info .title';
 
-Connector.albumSelector = '.ui-track-current .c3>a';
+Connector.artistSelector = '.music .info .singers';
 
-Connector.artistSelector = '#J_trackInfo>a:nth-child(2)';
+Connector.trackArtSelector = '.music .cover-link .active img';
 
-Connector.playButtonSelector = '.play-btn';
+Connector.getUniqueID = () => $('.play-bar .content .title').attr('href').split('?')[0].split('/song/')[1];
 
-Connector.currentTimeSelector = '#J_positionTime';
+Connector.timeInfoSelector = '.audio-progress .range .bar .handle';
 
-Connector.trackArtSelector = '#J_playerCoverImg';
-
-Connector.getDuration = () => {
-	let text = Connector.getCurrentTime() ? $('#J_durationTime').text() : '';
-	return Util.stringToSeconds(text);
+Connector.isPlaying = () => {
+	return $('.main-control .play-btn').length !== 0;
 };
-
-Connector.getUniqueID = () => $('.ui-track-current .c1').data('id');
