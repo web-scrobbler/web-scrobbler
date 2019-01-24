@@ -6,7 +6,7 @@ Connector.playButtonSelector = `${Connector.playerSelector} [class^="playbackTog
 
 Connector.isScrobblingAllowed = () => !!$(Connector.playButtonSelector);
 
-Connector.isPlaying = () => $(Connector.playButtonSelector).attr('data-test-id') === 'pause';
+Connector.isPlaying = () => $(Connector.playButtonSelector).attr('data-test') === 'pause';
 
 Connector.trackSelector = `${Connector.playerSelector} [class^="mediaInformation"] span:eq(0)`;
 
