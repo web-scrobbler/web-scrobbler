@@ -16,6 +16,6 @@ Connector.albumSelector = `${Connector.playerSelector} [class^="infoTable--"] a[
 
 Connector.trackArtSelector = `${Connector.playerSelector} [class^="mediaImageryTrack"] img`;
 
-Connector.currentTimeSelector = `${Connector.playerSelector} [data-test-id="duration"] [class^="currentTime"]`;
+Connector.currentTimeSelector = `${Connector.playerSelector} [data-test="duration"] [class^="currentTime"]`;
 
-Connector.durationSelector = `${Connector.playerSelector} [data-test-id="duration"] [class^="duration"]`;
+Connector.durationSelector = `${Connector.playerSelector} [data-test="duration"] [class^="duration"]`;
