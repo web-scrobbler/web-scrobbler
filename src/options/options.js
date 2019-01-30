@@ -369,6 +369,9 @@ require([
 						item.append(removeBtn);
 						cacheDom.append(item);
 					}
+
+					let cacheSize = Object.keys(data).length;
+					$('#edited-track-modal .modal-title').prepend(cacheSize + ' ');
 				}
 			});
 
