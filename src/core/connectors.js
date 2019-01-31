@@ -1275,9 +1275,9 @@ define(function() {
 		label: 'Radio Kyivstar',
 		matches: ['*://radio.kyivstar.ua/*'],
 		js: ['connectors/kyivstar.js'],
-    }, {
-        label: 'Funkwhale',
-        matches: [''],
-        js: ['connectors/funkwhale.js'],
-    }];
+	}, {
+		label: 'Funkwhale',
+		matches: [''],
+		js: ['connectors/funkwhale.js'],
+	}];
 });
