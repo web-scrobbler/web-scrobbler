@@ -371,7 +371,7 @@ require([
 					}
 
 					let cacheSize = Object.keys(data).length;
-					$('#edited-track-modal .modal-title').prepend(cacheSize + ' ');
+					$('#edited-track-modal .modal-title').prepend(`${cacheSize} `);
 				}
 			});
 
