@@ -1,6 +1,6 @@
 # Web Scrobbler
 
-[![Chrome Web Store][22]][1] [![AMO][23]][15] [![Build status][2]][3] [![devDependencies status][6]][7] [![Gitter][4]][5] [![Codacy Badge][29][30]
+[![Chrome Web Store][22]][1] [![AMO][23]][15] [![Build status][2]][3] [![devDependencies status][6]][7] [![Gitter][4]][5] [![![Codacy Badge][29]][30]
 
 Web Scrobbler helps online music listeners to scrobble their playback history. 
 
