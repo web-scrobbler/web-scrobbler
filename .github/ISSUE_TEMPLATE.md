@@ -44,5 +44,5 @@
 
 ### Environment
 <!--- Include as many relevant details about the environment you experienced the bug in -->
-* Version used:
-* Browser name and version:
+- Version used:
+- Browser name and version:
