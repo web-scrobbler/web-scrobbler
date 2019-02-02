@@ -102,10 +102,10 @@ input {
 }
 
 [data-hide="true"] {
-	display: none !important;
+	display: none;
 }
 [data-disable="true"] {
 	color: #999;
-	cursor: default !important;
-	text-decoration: none !important;
+	cursor: default;
+	text-decoration: none;
 }
