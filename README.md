@@ -1,6 +1,6 @@
 # Web Scrobbler
 
-[![Chrome Web Store][22]][1] [![AMO][23]][15] [![Build status][2]][3] [![devDependencies status][6]][7] [![Gitter][4]][5]
+[![Chrome Web Store][22]][1] [![AMO][23]][15] [![Build status][2]][3] [![devDependencies status][6]][7] [![Gitter][4]][5] [![Codacy Badge][29][30]
 
 Web Scrobbler helps online music listeners to scrobble their playback history. 
 
@@ -79,6 +79,8 @@ See the [license file](LICENSE.md).
 [25]: https://github.com/web-scrobbler/web-scrobbler/wiki/Install-a-temporary-add-on
 [26]: https://libre.fm/
 [27]: https://listenbrainz.org/
+[29]: https://api.codacy.com/project/badge/Grade/bb2841f875014aaea6a354da6c96bdee
+[30]: https://www.codacy.com/app/inverse/web-scrobbler?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=web-scrobbler/web-scrobbler&amp;utm_campaign=Badge_Grade
 
 [16]: http://getbootstrap.com/2.3.2/assets/bootstrap.zip
 [17]: http://fontawesome.io/assets/font-awesome-4.7.0.zip
