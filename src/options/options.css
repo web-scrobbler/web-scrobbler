@@ -70,8 +70,8 @@ input[type=checkbox] {
 	text-decoration: none;
 	top: -5px;
 }
-.accordion-toggle {
-	text-decoration: none !important;
+.accordion-group .accordion-toggle {
+	text-decoration: none;
 }
 .close-btn {
 	background: transparent;
