@@ -1279,9 +1279,5 @@ define(function() {
 		label: 'Funkwhale',
 		matches: [''],
 		js: ['connectors/funkwhale.js'],
-	}, {
-			label: 'R-a-dio',
-			matches: ['*://r-a-d.io/*', '*://www.r-a-d.io/*'],
-			js: ['connectors/r-a-d.io.js'],
 	}];
 });
