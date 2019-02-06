@@ -13,9 +13,9 @@ For more information and comments visit [the extension page][12] on add0n.com we
 
 ## Supported Services
 
-- [Last.fm][8]
-- [Libre.fm][26]
-- [ListenBrainz][27]
+-  [Last.fm][8]
+-  [Libre.fm][26]
+-  [ListenBrainz][27]
 
 ## Installation
 
@@ -49,11 +49,11 @@ We use gitter and you can join us @ [web-scrobbler/web-scrobbler][5].
 
 ## Used 3rd-party libraries
 
-- [Bootstrap v2.3.2][16]
-- [Font Awesome v4.7.0][17]
-- [jQuery v3.2.1][18]
-- [RequireJS v2.3.5][19]
-- [Showdown][28]
+-  [Bootstrap v2.3.2][16]
+-  [Font Awesome v4.7.0][17]
+-  [jQuery v3.2.1][18]
+-  [RequireJS v2.3.5][19]
+-  [Showdown][28]
 
 ## Privacy Policy
 
