@@ -13,9 +13,9 @@ For more information and comments visit [the extension page][12] on add0n.com we
 
 ## Supported Services
 
-- [Last.fm][8]
-- [Libre.fm][26]
-- [ListenBrainz][27]
+-   [Last.fm][8]
+-   [Libre.fm][26]
+-   [ListenBrainz][27]
 
 ## Installation
 
@@ -49,11 +49,11 @@ We use gitter and you can join us @ [web-scrobbler/web-scrobbler][5].
 
 ## Used 3rd-party libraries
 
-- [Bootstrap v2.3.2][16]
-- [Font Awesome v4.7.0][17]
-- [jQuery v3.2.1][18]
-- [RequireJS v2.3.5][19]
-- [Showdown][28]
+-   [Bootstrap v2.3.2][16]
+-   [Font Awesome v4.7.0][17]
+-   [jQuery v3.2.1][18]
+-   [RequireJS v2.3.5][19]
+-   [Showdown][28]
 
 ## Privacy Policy
 
@@ -64,31 +64,57 @@ See the [privacy policy][11].
 See the [license file](LICENSE.md).
 
 [1]: https://chrome.google.com/webstore/detail/lastfm-scrobbler/hhinaapppaileiechjoiifaancjggfjm
+
 [2]: https://api.travis-ci.org/web-scrobbler/web-scrobbler.svg
+
 [3]: https://travis-ci.org/web-scrobbler/web-scrobbler
+
 [4]: https://badges.gitter.im/Join%20Chat.svg
+
 [5]: https://gitter.im/david-sabata/web-scrobbler
+
 [6]: https://david-dm.org/web-scrobbler/web-scrobbler/dev-status.svg
+
 [7]: https://david-dm.org/web-scrobbler/web-scrobbler?type=dev
+
 [8]: http://www.last.fm/
+
 [9]: https://developer.chrome.com/extensions/getstarted#unpacked
+
 [10]: https://github.com/web-scrobbler/web-scrobbler/wiki/Connectors-development
+
 [11]: src/PRIVACY.md
+
 [12]: http://add0n.com/lastfm-scrobbler.html
+
 [13]: https://addons.opera.com/extensions/details/app_id/kipjbhgniklcnglfaldilecjomjaddfi
+
 [15]: https://addons.mozilla.org/en-US/firefox/addon/web-scrobbler/
+
 [21]: https://www.transifex.com/web-scrobbler/web-scrobbler/dashboard/
+
 [22]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg
+
 [23]: https://img.shields.io/amo/v/web-scrobbler.svg
+
 [24]: https://github.com/web-scrobbler/web-scrobbler/wiki/Install-an-unpacked-extension
+
 [25]: https://github.com/web-scrobbler/web-scrobbler/wiki/Install-a-temporary-add-on
+
 [26]: https://libre.fm/
+
 [27]: https://listenbrainz.org/
+
 [29]: https://api.codacy.com/project/badge/Grade/bb2841f875014aaea6a354da6c96bdee
+
 [30]: https://www.codacy.com/app/inverse/web-scrobbler
 
 [16]: http://getbootstrap.com/2.3.2/assets/bootstrap.zip
+
 [17]: http://fontawesome.io/assets/font-awesome-4.7.0.zip
+
 [18]: http://code.jquery.com/jquery-3.2.1.min.js
+
 [19]: http://requirejs.org/docs/release/2.3.5/minified/require.js
+
 [28]: https://github.com/showdownjs/showdown/archive/1.9.0.zip
