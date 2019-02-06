@@ -2,14 +2,14 @@
   "results": [
     {
       "release_notes": {
-        "en-US": "Add support for playapplemusic.com (#1866)\nFix URL normalizing (#1865)\nFix Taazi connector (#1864)\nUpdated licence text (#1870)\nUpdated showdown lib (#1871)\nFix xiami (#1848)"
+        "en-US": "Added support for musi.sh (#1877)\nAdd funkwhale support (#1884)\nAdd R-a-d.io support (#1901)\nFix TIDAL (#1875, #1881)\nSilence notifications on chrome (#1879)\nAdd count to local track cache modal (#1886)\nUpdate PL translations (#1889)"
       },
       "files": [
         {
           "created": null
         }
       ],
-      "version": "2.13.0"
+      "version": "2.14.0"
     }
   ]
 }
