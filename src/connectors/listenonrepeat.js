@@ -5,7 +5,7 @@ Connector.playerSelector = '.player-controls';
 Connector.filter = MetadataFilter.getYoutubeFilter();
 
 Connector.getArtistTrack = () => {
-	let text = $('.player-container > div > span:nth-child(2)').text();
+	const text = $('meta[name="twitter:title"]').attr('content');
 	return Util.processYoutubeVideoTitle(text);
 };
 
