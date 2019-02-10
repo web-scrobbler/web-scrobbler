@@ -28,7 +28,10 @@ function setupNewBeMusicPlayer() {
 	};
 
 	Connector.isPlaying = () => {
-		return $('player-controls .icon-pause').is(':visible');
+		if ($('player-controls .icon-pause').length > 0) {
+			return $('player-controls .icon-pause').is(':visible');
+		}
+		return $('player-controls .pause-track').is(':visible');
 	};
 }
 
