@@ -781,9 +781,9 @@ define(function() {
 	},
 
 	{
-		label: 'Saavn',
-		matches: ['*://www.saavn.com/*'],
-		js: ['connectors/saavn.js'],
+		label: 'JioSaavn',
+		matches: ['*://www.jiosaavn.com/*'],
+		js: ['connectors/jiosaavn.js'],
 	},
 
 	{
