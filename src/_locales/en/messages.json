@@ -110,6 +110,10 @@
     "message": "This extension stores edited tracks.",
     "description": "Description of edited tracks"
   },
+  "optionsEditedTracksPopupTitle": {
+    "message": "$1 edited tracks",
+    "description": "'Edited tracks' header"
+  },
   "optionsViewEdited": {
     "message": "View",
     "description": "Button to view edited tracks"

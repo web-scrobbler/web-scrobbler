@@ -370,8 +370,9 @@ require([
 						cacheDom.append(item);
 					}
 
-					let cacheSize = Object.keys(data).length;
-					$('#edited-track-modal .modal-title').prepend(`${cacheSize} `);
+					let cacheSizeStr = Object.keys(data).length.toString();
+					let poputTitle = chrome.i18n.getMessage('optionsEditedTracksPopupTitle', cacheSizeStr);
+					$('#edited-track-modal .modal-title').text(poputTitle);
 				}
 			});
 
