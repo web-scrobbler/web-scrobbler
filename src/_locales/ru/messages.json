@@ -103,6 +103,10 @@
         "message": "Расширение хранит редактированную вами информацию о треках.",
         "description": "Description of edited tracks"
     },
+    "optionsEditedTracksPopupTitle": {
+        "message": "$1 сохранённых треков",
+        "description": "'Edited tracks' header"
+    },
     "optionsViewEdited": {
         "message": "Посмотреть",
         "description": "Button to view edited tracks"
