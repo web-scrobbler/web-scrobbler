@@ -22,10 +22,13 @@ let categoryCache = new Map();
 const videoSelector = '.html5-main-video';
 
 /**
- * Youtube API key used to get video category.
+ * Youtube API key's used to get video category.
  * @type {String}
  */
-const YT_API_KEY = 'AIzaSyA3VNMxXEIr7Ml3_zUuzA7Ilba80A657KE';
+const YT_API_KEYS = [
+	'AIzaSyA3VNMxXEIr7Ml3_zUuzA7Ilba80A657KE',
+	'AIzaSyCZOorF9FeQ8q63zYkoqR_j4nVT85w4EYg',
+];
 
 readConnectorOptions();
 setupMutationObserver();
@@ -175,21 +178,33 @@ function getVideoCategory(videoId) {
 		return null;
 	}
 	if (!categoryCache.has(videoId)) {
-		const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${YT_API_KEY}`;
-		fetch(url).then((response) => {
-			if (!response.ok) {
-				throw new Error('Invalid response');
+		let found = false;
+		for (let i = 0; i < YT_API_KEYS.length; i++) {
+			if (categoryCache.has(videoId)) {
+				found = true;
+				break;
 			}
-			return response.json();
-		}).then((data) => {
-			let category = data.items[0].snippet.categoryId;
-			if (typeof category === 'string') {
-				categoryCache.set(videoId, category);
-			}
-		}).catch((err) => {
-			console.log(`Unable to get category for ${videoId}: ${err.message}`);
-		});
-		return null;
+
+			let key = YT_API_KEYS[i];
+			const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${key}`;
+			fetch(url).then((response) => {
+				if (!response.ok) {
+					throw new Error('Invalid response');
+				}
+				return response.json();
+			}).then((data) => {
+				let category = data.items[0].snippet.categoryId;
+				if (typeof category === 'string') {
+					categoryCache.set(videoId, category);
+				}
+			}).catch((err) => {
+				console.log(`Unable to get category for ${videoId}: ${err.message}`);
+			});
+		}
+
+		if (!found) {
+			return null;
+		}
 	}
 	return categoryCache.get(videoId);
 
