@@ -27,7 +27,7 @@ const videoSelector = '.html5-main-video';
  */
 const YT_API_KEYS = [
 	'AIzaSyA3VNMxXEIr7Ml3_zUuzA7Ilba80A657KE',
-	'AIzaSyCZOorF9FeQ8q63zYkoqR_j4nVT85w4EYg',
+	'AIzaSyBAYYYOe4CIfiMnef6y6dAPR9YxneCB87w',
 ];
 
 readConnectorOptions();
