@@ -256,7 +256,7 @@
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
-        "message": "Web Scrobbler создан для тех, кто слушает музыку, используя онлайн-сервисы, и хотел бы иметь постоянно обновлённую историю прослушивания на Last.fm.",
+        "message": "Web Scrobbler — это расширение для браузера, созданное для тех, кто слушает музыку, используя онлайн-сервисы, и хотел бы иметь постоянно обновлённую историю прослушивания с помощью таких сервисов, как Last.fm, Libre.fm и ListenBrainz.",
         "description": "'About' section text"
     },
     "contributorsTitle": {
