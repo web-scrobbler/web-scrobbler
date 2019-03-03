@@ -6,17 +6,13 @@
 define((require) => {
 	const $ = require('jquery');
 	const Util = require('util');
-	const BaseScrobbler = require('scrobbler/base-scrobbler');
+	const BaseScrobbler = require('scrobbler/base');
 	const ServiceCallResult = require('object/service-call-result');
 	const REQUEST_TIMEOUT = 15000;
 
 	const listenBrainzTokenPage = 'https://listenbrainz.org/profile/';
 
 	class ListenBrainz extends BaseScrobbler {
-		canLoveSong() {
-			return false;
-		}
-
 		sendNowPlaying(song) {
 			return this.getSession().then(({ sessionID }) => {
 				let track_meta = {

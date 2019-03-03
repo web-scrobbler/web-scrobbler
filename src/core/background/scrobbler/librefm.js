@@ -5,10 +5,10 @@
  */
 define((require) => {
 	const $ = require('jquery');
-	const BaseScrobbler = require('scrobbler/base-scrobbler');
+	const AudioScrobbler = require('scrobbler/audioscrobbler');
 	const ServiceCallResult = require('object/service-call-result');
 
-	class LibreFm extends BaseScrobbler {
+	class LibreFm extends AudioScrobbler {
 		doRequest(method, params, signed) {
 			if ('post' !== method.toLowerCase()) {
 				return super.doRequest(method, params, signed);

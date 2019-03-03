@@ -4,57 +4,10 @@ define((require) => {
 	const $ = require('jquery');
 	const MD5 = require('vendor/md5');
 	const Util = require('util');
-	const ChromeStorage = require('storage/chrome-storage');
+	const BaseScrobbler = require('scrobbler/base');
 	const ServiceCallResult = require('object/service-call-result');
 
 	const REQUEST_TIMEOUT = 15000;
-
-	/**
-	 * List of scrobbler options.
-	 * @type {Array}
-	 */
-	const SCROBBLER_OPTIONS = [
-		/**
-		 * Scrobbler label.
-		 * @type {String}
-		 */
-		'label',
-		/**
-		 * Storage namespace in which scrobbler options are stored.
-		 * @type {String}
-		 */
-		'storage',
-		/**
-		 * URL used to execute API methods.
-		 * @type {String}
-		 */
-		'apiUrl',
-		/**
-		 * URL used to authenticate user.
-		 * @type {String}
-		 */
-		'authUrl',
-		/**
-		 * URL used to view service status.
-		 * @type {String}
-		 */
-		'statusUrl',
-		/**
-		 * URL used to view user profile.
-		 * @type {String}
-		 */
-		'profileUrl',
-		/**
-		 * Service API key.
-		 * @type {String}
-		 */
-		'apiKey',
-		/**
-		 * Service API secret.
-		 * @type {String}
-		 */
-		'apiSecret'
-	];
 
 	/**
 	 * Base scrobbler object.
@@ -62,21 +15,7 @@ define((require) => {
 	 * This object and its ancestors MUST return ServiceCallResult instance
 	 * as result or error value in functions that perform API calls.
 	 */
-	class BaseScrobbler {
-		/**
-		 * @param {Object} options Scrobbler options
-		 *
-		 * @see {@link SCROBBLER_OPTIONS}
-		 */
-		constructor(options) {
-			for (let option of SCROBBLER_OPTIONS) {
-				this[option] = options[option];
-			}
-
-			this.storage = ChromeStorage.getScrobblerStorage(options.storage);
-			this.storage.debugLog();
-		}
-
+	class AudioScrobbler extends BaseScrobbler {
 		/**
 		 * Fetch auth URL where user should grant permissions to our token.
 		 *
@@ -116,38 +55,6 @@ define((require) => {
 						throw new Error('Error acquiring a token');
 					});
 				});
-			});
-		}
-
-		/**
-		 * Remove session info.
-	 	 * @return {Promise} Promise that will be resolved when the task has complete
-		 */
-		signOut() {
-			return this.storage.get().then((data) => {
-				// data.token = null;
-				delete data.sessionID;
-				delete data.sessionName;
-
-				return this.storage.set(data);
-			});
-		}
-
-		/**
-		 * Get status page URL.
-		 * @return {String} Status page URL
-		 */
-		getStatusUrl() {
-			return this.statusUrl;
-		}
-
-		/**
-		 * Get URL to profile page.
-		 * @return {Promise} Promise that will be resolved with URL
-		 */
-		getProfileUrl() {
-			return this.getSession().then((session) => {
-				return `${this.profileUrl}${session.sessionName}`;
 			});
 		}
 
@@ -209,17 +116,6 @@ define((require) => {
 				let sessionID = $doc.find('session > key').text();
 
 				return { sessionID, sessionName };
-			});
-		}
-
-		/**
-		 * Check if the scrobbler is waiting until user grant access to
-		 * scrobbler service (means the token is in Chrome storage).
-		 * @return {Promise} Promise that will be resolved with check value
-		 */
-		isReadyForGrantAccess() {
-			return this.storage.get().then((data) => {
-				return data.token;
 			});
 		}
 
@@ -369,30 +265,6 @@ define((require) => {
 		}
 
 		/**
-		 * Check if service supports retrieving of song info.
-		 * @return {Boolean} True if service supports that; false otherwise
-		 */
-		canLoadSongInfo() {
-			return false;
-		}
-
-		/**
-		 * Check if service supports correction of song info.
-		 * @return {Boolean} True if service supports that; false otherwise
-		 */
-		canCorrectSongInfo() {
-			return false;
-		}
-
-		/**
-		 * Check if service supports loving songs.
-		 * @return {Boolean} True if service supports that; false otherwise
-		 */
-		canLoveSong() {
-			return true;
-		}
-
-		/**
 		 * Send current song as 'now playing' to API.
 		 * @param  {Object} song Song instance
 		 * @return {Promise} Promise that will be resolved with ServiceCallResult object
@@ -461,32 +333,11 @@ define((require) => {
 		}
 
 		/**
-		 * Get the scrobbler label.
-		 * @return {String} Scrobbler label
+		 * Check if service supports loving songs.
+		 * @return {Boolean} True if service supports that; false otherwise
 		 */
-		getLabel() {
-			return this.label;
-		}
-
-		/**
-		 * Helper function to show debug output.
-		 * @param  {String} text Debug message
-		 * @param  {String} type Log type
-		 */
-		debugLog(text, type = 'log') {
-			let message = `${this.label}: ${text}`;
-
-			switch (type) {
-				case 'log':
-					console.log(message);
-					break;
-				case 'warn':
-					console.warn(message);
-					break;
-				case 'error':
-					console.error(message);
-					break;
-			}
+		canLoveSong() {
+			return true;
 		}
 	}
 
@@ -527,5 +378,5 @@ define((require) => {
 		return new ServiceCallResult(ServiceCallResult.OK);
 	}
 
-	return BaseScrobbler;
+	return AudioScrobbler;
 });
