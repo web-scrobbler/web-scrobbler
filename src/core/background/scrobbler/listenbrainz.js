@@ -13,10 +13,8 @@ define((require) => {
 	const listenBrainzTokenPage = 'https://listenbrainz.org/profile/';
 
 	class ListenBrainz extends BaseScrobbler {
-
-		// Pacify toggleLove requirement
-		toggleLove() {
-			throw new ServiceCallResult(ServiceCallResult.OK);
+		canLoveSong() {
+			return false;
 		}
 
 		sendNowPlaying(song) {

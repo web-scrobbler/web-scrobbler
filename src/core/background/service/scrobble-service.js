@@ -137,10 +137,13 @@ define((require) => {
 		 */
 		toggleLove(song, flag) {
 			return Promise.all(boundScrobblers.map((scrobbler) => {
-				// Forward result (including errors) to caller
-				return scrobbler.toggleLove(song, flag).catch((result) => {
-					return this.processResult(scrobbler, result);
-				});
+				if (scrobbler.canLoveSong()) {
+					// Forward result (including errors) to caller
+					return scrobbler.toggleLove(song, flag).catch((result) => {
+						return this.processResult(scrobbler, result);
+					});
+				}
+				return Promise.resolve();
 			}));
 		},
 

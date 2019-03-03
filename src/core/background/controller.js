@@ -189,7 +189,8 @@ define((require) => {
 		toggleLove(isLoved) {
 			if (this.currentSong) {
 				return ScrobbleService.toggleLove(this.currentSong, isLoved).then(() => {
-					this.currentSong.metadata.userloved = isLoved;
+					this.currentSong.setLoveStatus(isLoved);
+					return isLoved;
 				});
 			}
 			return Promise.reject();

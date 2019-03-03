@@ -315,8 +315,8 @@ define((require) => {
 
 					return this.parseSongInfo($doc);
 				}).then((data) => {
-					if (data) {
-						this.fillSongInfo(data, song);
+					if (this.canLoveSong() && data) {
+						song.setLoveStatus(data.userloved);
 					}
 
 					return data;
@@ -369,25 +369,6 @@ define((require) => {
 		}
 
 		/**
-		 * Fill song info according to parsed data.
-		 * This function is called if service is supported song info loading
-		 * and if song data is valid.
-		 *
-		 * @param  {Object} data Parsed data
-		 * @param  {Song} song Song instance
-		 */
-		fillSongInfo(data, song) {
-			// Set song as userloved if it's loved on all services.
-			if (data.userloved !== undefined) {
-				if (data.userloved) {
-					song.metadata.userloved = true;
-				} else if (song.metadata.userloved) {
-					song.metadata.userloved = false;
-				}
-			}
-		}
-
-		/**
 		 * Check if service supports retrieving of song info.
 		 * @return {Boolean} True if service supports that; false otherwise
 		 */
@@ -401,6 +382,14 @@ define((require) => {
 		 */
 		canCorrectSongInfo() {
 			return false;
+		}
+
+		/**
+		 * Check if service supports loving songs.
+		 * @return {Boolean} True if service supports that; false otherwise
+		 */
+		canLoveSong() {
+			return true;
 		}
 
 		/**

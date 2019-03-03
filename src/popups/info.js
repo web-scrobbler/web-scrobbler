@@ -149,8 +149,8 @@ require(['util'], (Util) => {
 
 			sendMessageToCurrentTab('v2.toggleLove', {
 				isLoved: desiredLoveStatus
-			}).then(() => {
-				updateLovedIcon(desiredLoveStatus);
+			}).then((isLoved) => {
+				updateLovedIcon(isLoved);
 			});
 		});
 
