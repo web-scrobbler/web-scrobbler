@@ -178,36 +178,37 @@ function getVideoCategory(videoId) {
 		return null;
 	}
 	if (!categoryCache.has(videoId)) {
-		let found = false;
-		for (let i = 0; i < YT_API_KEYS.length; i++) {
-			if (categoryCache.has(videoId)) {
-				found = true;
-				break;
-			}
+		let category = fetchCategoryId(videoId);
 
-			let key = YT_API_KEYS[i];
-			const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${key}`;
-			fetch(url).then((response) => {
-				if (!response.ok) {
-					throw new Error('Invalid response');
-				}
-				return response.json();
-			}).then((data) => {
-				let category = data.items[0].snippet.categoryId;
-				if (typeof category === 'string') {
-					categoryCache.set(videoId, category);
-				}
-			}).catch((err) => {
-				console.log(`Unable to get category for ${videoId}: ${err.message}`);
-			});
-		}
-
-		if (!found) {
-			return null;
+		if (category !== null) {
+			categoryCache.set(videoId, category);
 		}
 	}
 	return categoryCache.get(videoId);
 
+}
+
+async function fetchCategoryId(videoId) {
+	let found = false;
+	for (let i = 0; i < YT_API_KEYS.length; i++) {
+		let key = YT_API_KEYS[i];
+		const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${key}`;
+		const response = await fetch(url);
+		if (!response.ok) {
+			throw Error(response.statusText);
+		}
+
+		const data = await response.json();
+
+		let category = data.items[0].snippet.categoryId;
+		if (typeof category === 'string') {
+			return category;
+		}
+	}
+
+	if (!found) {
+		return null;
+	}
 }
 
 function setupMutationObserver() {
