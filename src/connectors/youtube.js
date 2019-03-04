@@ -178,12 +178,14 @@ function getVideoCategory(videoId) {
 		return null;
 	}
 	if (categoryCache.has(videoId)) {
-		let category = fetchCategoryId(videoId);
-		if (category === null) {
-			throw Error(`Failed to resolve category for ${videoId}`);
-		}
-
-		categoryCache.set(videoId, category);
+		fetchCategoryId(videoId).then((category) => {
+			if (category === null) {
+				throw Error(`Failed to resolve category for ${videoId}`);
+			}
+			categoryCache.set(videoId, category);
+		}).catch((err) => {
+			console.log(err);
+		});
 	}
 
 	return categoryCache.get(videoId);
@@ -194,16 +196,21 @@ async function fetchCategoryId(videoId) {
 	for (let i = 0; i < YT_API_KEYS.length; i++) {
 		let key = YT_API_KEYS[i];
 		const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${key}`;
-		const response = await fetch(url);
-		if (!response.ok) {
-			throw Error(response.statusText);
+		try {
+			const response = await fetch(url);
+			if (!response.ok) {
+				throw Error(response.statusText);
+			}
+
+			const data = await response.json();
+
+			let category = data.items[0].snippet.categoryId;
+			if (typeof category === 'string') {
+				return category;
+			}
 		}
-
-		const data = await response.json();
-
-		let category = data.items[0].snippet.categoryId;
-		if (typeof category === 'string') {
-			return category;
+		catch (err) {
+			console.log(`Failed fetching category for ${videoId} due to ${err}`);
 		}
 	}
 
