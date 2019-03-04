@@ -177,15 +177,16 @@ function getVideoCategory(videoId) {
 	if (videoId === null) {
 		return null;
 	}
-	if (!categoryCache.has(videoId)) {
+	if (categoryCache.has(videoId)) {
 		let category = fetchCategoryId(videoId);
-
-		if (category !== null) {
-			categoryCache.set(videoId, category);
+		if (category === null) {
+			throw Error(`Failed to resolve category for ${videoId}`);
 		}
-	}
-	return categoryCache.get(videoId);
 
+		categoryCache.set(videoId, category);
+	}
+
+	return categoryCache.get(videoId);
 }
 
 async function fetchCategoryId(videoId) {
