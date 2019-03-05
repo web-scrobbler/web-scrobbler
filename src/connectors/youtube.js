@@ -183,8 +183,6 @@ function getVideoCategory(videoId) {
 				console.log(`Failed to resolve category for ${videoId}`);
 			}
 			categoryCache.set(videoId, category);
-		}).catch((error) => {
-			console.log(error.message);
 		});
 	}
 
