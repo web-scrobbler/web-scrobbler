@@ -37,7 +37,7 @@ define((require) => {
 						}
 					]
 				};
-				return this.handleListenBrainzResponse(params, sessionID);
+				return this.sendRequest(params, sessionID);
 			});
 		}
 
@@ -59,11 +59,11 @@ define((require) => {
 						}
 					]
 				};
-				return this.handleListenBrainzResponse(params, sessionID);
+				return this.sendRequest(params, sessionID);
 			});
 		}
 
-		handleListenBrainzResponse(params, sessionID) {
+		sendRequest(params, sessionID) {
 			let requestInfo = {
 				method: 'POST',
 				headers: {

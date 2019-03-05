@@ -52,7 +52,7 @@ define((require) => {
 			let params = {
 				method: 'auth.gettoken',
 			};
-			return this.doRequest('GET', params, false).then(($doc) => {
+			return this.sendRequest('GET', params, false).then(($doc) => {
 				return this.storage.get().then((data) => {
 					// set token and reset session so we will grab a new one
 					delete data.sessionID;
@@ -125,7 +125,7 @@ define((require) => {
 		tradeTokenForSession(token) {
 			let params = { method: 'auth.getsession', token };
 
-			return this.doRequest('GET', params, true).then(($doc) => {
+			return this.sendRequest('GET', params, true).then(($doc) => {
 				let result = processResponse($doc);
 				if (!result.isOk()) {
 					throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
@@ -181,7 +181,7 @@ define((require) => {
 		 * @param  {Boolean} signed Should the request be signed?
 		 * @return {Promise} Promise that will be resolved with parsed response
 		 */
-		doRequest(method, params, signed) {
+		sendRequest(method, params, signed) {
 			params.api_key = this.apiKey;
 
 			if (signed) {
@@ -234,7 +234,7 @@ define((require) => {
 					params.album = song.getAlbum();
 				}
 
-				return this.doRequest('GET', params, false).then(($doc) => {
+				return this.sendRequest('GET', params, false).then(($doc) => {
 					let result = processResponse($doc);
 					if (!result.isOk()) {
 						throw new Error('Unable to load song info');
@@ -317,7 +317,7 @@ define((require) => {
 					params.duration = song.getDuration();
 				}
 
-				return this.doRequest('POST', params, true).then(processResponse);
+				return this.sendRequest('POST', params, true).then(processResponse);
 			});
 		}
 
@@ -340,7 +340,7 @@ define((require) => {
 					params['album[0]'] = song.getAlbum();
 				}
 
-				return this.doRequest('POST', params, true).then(processResponse);
+				return this.sendRequest('POST', params, true).then(processResponse);
 			});
 		}
 
@@ -359,7 +359,7 @@ define((require) => {
 					sk: sessionID
 				};
 
-				return this.doRequest('POST', params, true).then(processResponse);
+				return this.sendRequest('POST', params, true).then(processResponse);
 			});
 		}
 
