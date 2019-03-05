@@ -103,8 +103,8 @@ define((require) => {
 			return this.storage.get().then((data) => {
 				delete data.sessionID;
 				delete data.sessionName;
-				// follow getSession method pattern by using a dummy token
-				data.token = 'proofOfGoodAuthURL';
+
+				data.isAuthStarted = true;
 
 				let url = this.authUrl;
 				return this.storage.set(data).then(() => {
@@ -113,7 +113,7 @@ define((require) => {
 				});
 			}).catch(() => {
 				return this.storage.get().then((data) => {
-					delete data.token;
+					delete data.isAuthStarted;
 					return this.storage.set(data);
 				}).then(() => {
 					throw new Error('Error acquiring a token');
@@ -121,10 +121,20 @@ define((require) => {
 			});
 		}
 
+		/**
+		 * Check if the scrobbler is waiting until user grant access to
+		 * scrobbler service.
+		 * @return {Promise} Promise that will be resolved with check value
+		 */
+		isReadyForGrantAccess() {
+			return this.storage.get().then((data) => {
+				return data.isAuthStarted;
+			});
+		}
+
 		getSession() {
 			return this.storage.get().then((data) => {
-				let token = data.token || null;
-				if (token !== null) {
+				if (data.isAuthStarted) {
 					return this.requestSession().then((session) => {
 						return this.storage.set(session).then(() => {
 							return session;
@@ -132,7 +142,6 @@ define((require) => {
 					}).catch(() => {
 						this.debugLog('Failed to get session', 'warn');
 
-						// both session and token are now invalid
 						return this.signOut().then(() => {
 							throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
 						});

@@ -111,13 +111,11 @@ define((require) => {
 
 		/**
 		 * Check if the scrobbler is waiting until user grant access to
-		 * scrobbler service (means the token is in Chrome storage).
-		 * @return {Promise} Promise that will be resolved with check value
+		 * scrobbler service.
+		 * Implementation must return a promise resolved with a session data.
 		 */
 		isReadyForGrantAccess() {
-			return this.storage.get().then((data) => {
-				return data.token;
-			});
+			throw new Error('No implemented');
 		}
 
 		/** API requests */

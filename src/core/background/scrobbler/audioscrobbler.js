@@ -139,6 +139,17 @@ define((require) => {
 		}
 
 		/**
+		 * Check if the scrobbler is waiting until user grant access to
+		 * scrobbler service (means the token is in Chrome storage).
+		 * @return {Promise} Promise that will be resolved with check value
+		 */
+		isReadyForGrantAccess() {
+			return this.storage.get().then((data) => {
+				return data.token;
+			});
+		}
+
+		/**
 		 * Compute string for signing request.
 		 * See http://www.last.fm/api/authspec#8
 		 * @param  {Object} params Parameters of API method
