@@ -70,9 +70,9 @@ define((require) => {
 
 				return this.storage.get().then((data) => {
 					delete data.token;
-					return this.storage.set(data).then(() => {
-						throw new Error('Error acquiring a token');
-					});
+					return this.storage.set(data);
+				}).then(() => {
+					throw new Error('Error acquiring a token');
 				});
 			});
 		}

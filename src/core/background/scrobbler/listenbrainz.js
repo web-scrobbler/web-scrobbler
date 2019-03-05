@@ -64,22 +64,29 @@ define((require) => {
 		}
 
 		handleListenBrainzResponse(params, sessionID) {
-			let promise = fetch(this.apiUrl, { method: 'POST',
-				headers: { 'Authorization': `Token ${sessionID}`,
-					'Content-Type': 'application/json; charset=UTF-8' },
-				body: JSON.stringify(params) }).then((response) => {
-				return response.text().then((text) => {
-					if (response.status === 200) {
-						this.debugLog(text, 'log');
-						return new ServiceCallResult(ServiceCallResult.OK);
-					} else if (response.status === 400) {
+			let requestInfo = {
+				method: 'POST',
+				headers: {
+					'Authorization': `Token ${sessionID}`,
+					'Content-Type': 'application/json; charset=UTF-8'
+				},
+				body: JSON.stringify(params)
+			};
+
+			let promise = fetch(this.apiUrl, requestInfo).then((response) => {
+				switch (response.status) {
+					case 400:
 						this.debugLog('Invalid JSON sent to ListenBrainz', 'error');
 						throw new ServiceCallResult(ServiceCallResult.IGNORED);
-					} else if (response.status === 401) {
+					case 401:
 						this.debugLog('Invalid Authorization sent to ListenBrainz', 'error');
 						throw new ServiceCallResult(ServiceCallResult.IGNORED);
-					}
-				});
+				}
+
+				return response.text();
+			}).then((text) => {
+				this.debugLog(text, 'log');
+				return new ServiceCallResult(ServiceCallResult.OK);
 			}).catch((error) => {
 				this.debugLog(error.text(), 'warn');
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
@@ -107,9 +114,9 @@ define((require) => {
 			}).catch(() => {
 				return this.storage.get().then((data) => {
 					delete data.token;
-					return this.storage.set(data).then(() => {
-						throw new Error('Error acquiring a token');
-					});
+					return this.storage.set(data);
+				}).then(() => {
+					throw new Error('Error acquiring a token');
 				});
 			});
 		}
@@ -118,8 +125,7 @@ define((require) => {
 			return this.storage.get().then((data) => {
 				let token = data.token || null;
 				if (token !== null) {
-					// jump directly to doRequest as no method is available for ListenBrainz
-					return this.customDoRequest().then((session) => {
+					return this.requestSession().then((session) => {
 						return this.storage.set(session).then(() => {
 							return session;
 						});
@@ -142,43 +148,47 @@ define((require) => {
 			});
 		}
 
-		customDoRequest() {
+		requestSession() {
 			let timeout = BaseScrobbler.REQUEST_TIMEOUT;
 
 			let alreadySignedIn = fetch(listenBrainzTokenPage, {
 				method: 'GET'
 			}).then((response) => {
-				return response.text().then((text) => {
-					let $doc = $(text);
-					let sessionName = $doc.find('.page-title').text();
-					let sessionID = $doc.find('#auth-token').val();
-					this.debugLog(sessionID, 'log');
-					if (sessionID === null || typeof sessionID === 'undefined') {
-						let needSignIn = fetch(this.authUrl, {
-							method: 'GET'
-						}).then((response) => {
-							return response.text().then((text) => {
-								let $doc = $(text);
-								let sessionName = $doc.find('.page-title').text();
-								let sessionID = $doc.find('#auth-token').val();
-								this.debugLog(sessionID, 'log');
-								if (sessionID === null || typeof sessionID === 'undefined') {
-									// session is invalid
-									return this.signOut().then(() => {
-										this.debugLog(`response from: ${this.authUrl}`, 'error');
-										throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
-									});
-								}
-								return { sessionID, sessionName };
-							});
-						});
+				return response.text();
+			}).then((text) => {
+				let $doc = $(text);
+				let sessionName = $doc.find('.page-title').text();
+				let sessionID = $doc.find('#auth-token').val();
 
-						return Util.timeoutPromise(timeout, needSignIn).catch(() => {
-							throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
-						});
-					}
-					return { sessionID, sessionName };
-				});
+				this.debugLog(sessionID, 'log');
+
+				if (sessionID === null || typeof sessionID === 'undefined') {
+					let needSignIn = fetch(this.authUrl, {
+						method: 'GET'
+					}).then((response) => {
+						return response.text();
+					}).then((text) => {
+						let $doc = $(text);
+						let sessionName = $doc.find('.page-title').text();
+						let sessionID = $doc.find('#auth-token').val();
+
+						this.debugLog(sessionID, 'log');
+
+						if (!sessionID === null || typeof sessionID === 'undefined') {
+							// session is invalid
+							return this.signOut().then(() => {
+								this.debugLog(`response from: ${this.authUrl}`, 'error');
+								throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+							});
+						}
+						return { sessionID, sessionName };
+					});
+
+					return Util.timeoutPromise(timeout, needSignIn).catch(() => {
+						throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+					});
+				}
+				return { sessionID, sessionName };
 			});
 
 			return Util.timeoutPromise(timeout, alreadySignedIn).catch(() => {
