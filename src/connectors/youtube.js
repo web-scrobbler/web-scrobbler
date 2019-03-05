@@ -207,7 +207,7 @@ async function fetchCategoryId(videoId) {
 				return category;
 			}
 		} catch (error) {
-			console.log(`Failed fetching category for ${videoId} due to ${error.message}`);
+			console.log(`Failed fetching category with ${key}`);
 		}
 	}
 
