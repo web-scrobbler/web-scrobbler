@@ -37,6 +37,20 @@ define(['wrapper/chrome'], (chrome) => {
 	}
 
 	/**
+	 * Partial hide string in given text.
+	 * @param  {String} str String to be hidden
+	 * @return {String} Modified string
+	 */
+	function hideString(str) {
+		if (str) {
+			let replacer = STR_REPLACER.repeat(Math.min(REPLACER_LEN, str.length));
+			return `${replacer}${str.substr(replacer.length)}`;
+		}
+		return str;
+	}
+
+
+	/**
 	 * Check if browser is in fullscreen mode.
 	 * @return {Promise} Promise that will be resolved with check result
 	 */
@@ -112,6 +126,6 @@ define(['wrapper/chrome'], (chrome) => {
 
 	return {
 		getCurrentTab, timeoutPromise, getPlatformName, openTab,
-		hideStringInText, isFullscreenMode, queuePromises
+		hideString, hideStringInText, isFullscreenMode, queuePromises
 	};
 });

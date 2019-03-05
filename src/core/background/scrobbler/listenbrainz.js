@@ -160,7 +160,8 @@ define((require) => {
 				let sessionName = $doc.find('.page-title').text();
 				let sessionID = $doc.find('#auth-token').val();
 
-				this.debugLog(sessionID, 'log');
+				let safeId = Util.hideString(sessionID);
+				this.debugLog(`Session ID: ${safeId}`, 'log');
 
 				if (sessionID === null || typeof sessionID === 'undefined') {
 					let needSignIn = fetch(this.authUrl, {
@@ -172,7 +173,8 @@ define((require) => {
 						let sessionName = $doc.find('.page-title').text();
 						let sessionID = $doc.find('#auth-token').val();
 
-						this.debugLog(sessionID, 'log');
+						let safeId = Util.hideString(sessionID);
+						this.debugLog(`Session ID: ${safeId}`, 'log');
 
 						if (!sessionID === null || typeof sessionID === 'undefined') {
 							// session is invalid
