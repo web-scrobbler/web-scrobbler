@@ -177,14 +177,14 @@ function getVideoCategory(videoId) {
 	if (videoId === null) {
 		return null;
 	}
-	if (categoryCache.has(videoId)) {
+	if (!categoryCache.has(videoId)) {
 		fetchCategoryId(videoId).then((category) => {
 			if (category === null) {
-				throw Error(`Failed to resolve category for ${videoId}`);
+				console.log(`Failed to resolve category for ${videoId}`);
 			}
 			categoryCache.set(videoId, category);
-		}).catch((err) => {
-			console.log(err);
+		}).catch((error) => {
+			console.log(error.message);
 		});
 	}
 
@@ -199,7 +199,7 @@ async function fetchCategoryId(videoId) {
 		try {
 			const response = await fetch(url);
 			if (!response.ok) {
-				throw Error(response.statusText);
+				throw new Error(response.statusText);
 			}
 
 			const data = await response.json();
@@ -208,9 +208,8 @@ async function fetchCategoryId(videoId) {
 			if (typeof category === 'string') {
 				return category;
 			}
-		}
-		catch (err) {
-			console.log(`Failed fetching category for ${videoId} due to ${err}`);
+		} catch (error) {
+			console.log(`Failed fetching category for ${videoId} due to ${error.message}`);
 		}
 	}
 
