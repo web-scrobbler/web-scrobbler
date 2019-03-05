@@ -39,6 +39,16 @@ define((require) => {
 			});
 		}
 
+		/** @override */
+		canLoadSongInfo() {
+			return true;
+		}
+
+		/** @override */
+		canCorrectSongInfo() {
+			return true;
+		}
+
 		/**
 		 * Parse service response and return parsed data.
 		 * @param  {Object} $doc Response that parsed by jQuery
@@ -81,16 +91,6 @@ define((require) => {
 			}
 
 			return { userloved };
-		}
-
-		/** @override */
-		canLoadSongInfo() {
-			return true;
-		}
-
-		/** @override */
-		canCorrectSongInfo() {
-			return true;
 		}
 	}
 

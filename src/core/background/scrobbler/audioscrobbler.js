@@ -106,6 +106,78 @@ define((require) => {
 			});
 		}
 
+		/** @override */
+		isReadyForGrantAccess() {
+			return this.storage.get().then((data) => {
+				return data.token;
+			});
+		}
+
+		/** @override */
+		sendNowPlaying(song) {
+			return this.getSession().then(({ sessionID }) => {
+				let params = {
+					method: 'track.updatenowplaying',
+					track: song.getTrack(),
+					artist: song.getArtist(),
+					api_key: this.apiKey,
+					sk: sessionID
+				};
+
+				if (song.getAlbum()) {
+					params.album = song.getAlbum();
+				}
+				if (song.getDuration()) {
+					params.duration = song.getDuration();
+				}
+
+				return this.sendRequest('POST', params, true)
+					.then(AudioScrobbler.processResponse);
+			});
+		}
+
+		/** @override */
+		scrobble(song) {
+			return this.getSession().then(({ sessionID }) => {
+				let params = {
+					method: 'track.scrobble',
+					'timestamp[0]': song.metadata.startTimestamp,
+					'track[0]': song.getTrack(),
+					'artist[0]': song.getArtist(),
+					sk: sessionID
+				};
+
+				if (song.getAlbum()) {
+					params['album[0]'] = song.getAlbum();
+				}
+
+				return this.sendRequest('POST', params, true)
+					.then(AudioScrobbler.processResponse);
+			});
+		}
+
+		/** @override */
+		toggleLove(song, isLoved) {
+			return this.getSession().then(({ sessionID }) => {
+				let params = {
+					method: isLoved ? 'track.love' : 'track.unlove',
+					track: song.getTrack(),
+					artist: song.getArtist(),
+					sk: sessionID
+				};
+
+				return this.sendRequest('POST', params, true)
+					.then(AudioScrobbler.processResponse);
+			});
+		}
+
+		/** @override */
+		canLoveSong() {
+			return true;
+		}
+
+		/** Internal functions. */
+
 		/**
 		 * Make a call to API to trade token for session ID.
 		 * Assume the token was authenticated by the user.
@@ -126,13 +198,6 @@ define((require) => {
 				let sessionID = $doc.find('session > key').text();
 
 				return { sessionID, sessionName };
-			});
-		}
-
-		/** @override */
-		isReadyForGrantAccess() {
-			return this.storage.get().then((data) => {
-				return data.token;
 			});
 		}
 
@@ -199,69 +264,6 @@ define((require) => {
 			return Util.timeoutPromise(timeout, promise).catch(() => {
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 			});
-		}
-
-		/** @override */
-		sendNowPlaying(song) {
-			return this.getSession().then(({ sessionID }) => {
-				let params = {
-					method: 'track.updatenowplaying',
-					track: song.getTrack(),
-					artist: song.getArtist(),
-					api_key: this.apiKey,
-					sk: sessionID
-				};
-
-				if (song.getAlbum()) {
-					params.album = song.getAlbum();
-				}
-				if (song.getDuration()) {
-					params.duration = song.getDuration();
-				}
-
-				return this.sendRequest('POST', params, true)
-					.then(AudioScrobbler.processResponse);
-			});
-		}
-
-		/** @override */
-		scrobble(song) {
-			return this.getSession().then(({ sessionID }) => {
-				let params = {
-					method: 'track.scrobble',
-					'timestamp[0]': song.metadata.startTimestamp,
-					'track[0]': song.getTrack(),
-					'artist[0]': song.getArtist(),
-					sk: sessionID
-				};
-
-				if (song.getAlbum()) {
-					params['album[0]'] = song.getAlbum();
-				}
-
-				return this.sendRequest('POST', params, true)
-					.then(AudioScrobbler.processResponse);
-			});
-		}
-
-		/** @override */
-		toggleLove(song, isLoved) {
-			return this.getSession().then(({ sessionID }) => {
-				let params = {
-					method: isLoved ? 'track.love' : 'track.unlove',
-					track: song.getTrack(),
-					artist: song.getArtist(),
-					sk: sessionID
-				};
-
-				return this.sendRequest('POST', params, true)
-					.then(AudioScrobbler.processResponse);
-			});
-		}
-
-		/** @override */
-		canLoveSong() {
-			return true;
 		}
 
 		/**

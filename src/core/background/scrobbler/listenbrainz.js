@@ -13,6 +13,62 @@ define((require) => {
 
 	class ListenBrainz extends BaseScrobbler {
 		/** @override */
+		getAuthUrl() {
+			return this.storage.get().then((data) => {
+				delete data.sessionID;
+				delete data.sessionName;
+
+				data.isAuthStarted = true;
+
+				let url = this.authUrl;
+				return this.storage.set(data).then(() => {
+					this.debugLog(`Auth url: ${url}`);
+					return url;
+				});
+			}).catch(() => {
+				return this.storage.get().then((data) => {
+					delete data.isAuthStarted;
+					return this.storage.set(data);
+				}).then(() => {
+					throw new Error('Error acquiring a token');
+				});
+			});
+		}
+
+		/** @override */
+		getSession() {
+			return this.storage.get().then((data) => {
+				if (data.isAuthStarted) {
+					return this.requestSession().then((session) => {
+						return this.storage.set(session).then(() => {
+							return session;
+						});
+					}).catch(() => {
+						this.debugLog('Failed to get session', 'warn');
+
+						return this.signOut().then(() => {
+							throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+						});
+					});
+				} else if (!data.sessionID) {
+					throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+				} else {
+					return {
+						sessionID: data.sessionID,
+						sessionName: data.sessionName
+					};
+				}
+			});
+		}
+
+		/** @override */
+		isReadyForGrantAccess() {
+			return this.storage.get().then((data) => {
+				return data.isAuthStarted;
+			});
+		}
+
+		/** @override */
 		sendNowPlaying(song) {
 			return this.getSession().then(({ sessionID }) => {
 				let track_meta = {
@@ -98,62 +154,6 @@ define((require) => {
 			return Util.timeoutPromise(timeout, promise).catch(() => {
 				this.debugLog('TIMED OUT', 'warn');
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
-			});
-		}
-
-		/** @override */
-		getAuthUrl() {
-			return this.storage.get().then((data) => {
-				delete data.sessionID;
-				delete data.sessionName;
-
-				data.isAuthStarted = true;
-
-				let url = this.authUrl;
-				return this.storage.set(data).then(() => {
-					this.debugLog(`Auth url: ${url}`);
-					return url;
-				});
-			}).catch(() => {
-				return this.storage.get().then((data) => {
-					delete data.isAuthStarted;
-					return this.storage.set(data);
-				}).then(() => {
-					throw new Error('Error acquiring a token');
-				});
-			});
-		}
-
-		/** @override */
-		isReadyForGrantAccess() {
-			return this.storage.get().then((data) => {
-				return data.isAuthStarted;
-			});
-		}
-
-		/** @override */
-		getSession() {
-			return this.storage.get().then((data) => {
-				if (data.isAuthStarted) {
-					return this.requestSession().then((session) => {
-						return this.storage.set(session).then(() => {
-							return session;
-						});
-					}).catch(() => {
-						this.debugLog('Failed to get session', 'warn');
-
-						return this.signOut().then(() => {
-							throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
-						});
-					});
-				} else if (!data.sessionID) {
-					throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
-				} else {
-					return {
-						sessionID: data.sessionID,
-						sessionName: data.sessionName
-					};
-				}
 			});
 		}
 
