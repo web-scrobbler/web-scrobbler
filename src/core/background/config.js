@@ -81,7 +81,7 @@ define((require) => {
 				}
 			}
 			connectorsOptions.set(data).then(() => {
-				options.debugLog();
+				connectorsOptions.debugLog();
 			});
 		});
 	}
