@@ -38,16 +38,6 @@ define((require) => {
 		 * @type {String}
 		 */
 		'profileUrl',
-		/**
-		 * Service API key.
-		 * @type {String}
-		 */
-		'apiKey',
-		/**
-		 * Service API secret.
-		 * @type {String}
-		 */
-		'apiSecret'
 	];
 
 	/**

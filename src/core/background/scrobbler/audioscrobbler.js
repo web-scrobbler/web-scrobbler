@@ -9,6 +9,19 @@ define((require) => {
 
 	const REQUEST_TIMEOUT = 15000;
 
+	const AUDIOSCROBBLER_OPTIONS = [
+		/**
+		 * Service API key.
+		 * @type {String}
+		 */
+		'apiKey',
+		/**
+		 * Service API secret.
+		 * @type {String}
+		 */
+		'apiSecret'
+	];
+
 	/**
 	 * Base scrobbler object.
 	 *
@@ -16,6 +29,14 @@ define((require) => {
 	 * as result or error value in functions that perform API calls.
 	 */
 	class AudioScrobbler extends BaseScrobbler {
+		constructor(options) {
+			super(options);
+
+			for (let option of AUDIOSCROBBLER_OPTIONS) {
+				this[option] = options[option];
+			}
+		}
+
 		/**
 		 * Fetch auth URL where user should grant permissions to our token.
 		 *
