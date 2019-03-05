@@ -43,7 +43,7 @@ define((require) => {
 	/**
 	 * Base scrobbler object.
 	 *
-	 * Ancestors of this object MUST return ServiceCallResult instance
+	 * Descendants of this object MUST return ServiceCallResult instance
 	 * as result or error value in functions that perform API calls.
 	 *
 	 * Each scrobbler has its storage which can contain session data and/or
@@ -112,7 +112,7 @@ define((require) => {
 		/**
 		 * Check if the scrobbler is waiting until user grant access to
 		 * scrobbler service.
-		 * Implementation must return a promise resolved with a session data.
+		 * Implementation must return a promise resolved with boolean value.
 		 */
 		isReadyForGrantAccess() {
 			throw new Error('No implemented');
@@ -149,7 +149,7 @@ define((require) => {
 		}
 
 		/**
-		 * Asynchronously loads song info into given song object.
+		 * Get song info.
 		 *
 		 * @param  {Song} song Song instance
 		 * Implementation must return promise resolved with ServiceCallResult object
@@ -157,6 +157,8 @@ define((require) => {
 		getSongInfo(song) { // eslint-disable-line no-unused-vars
 			throw new Error('No implemented');
 		}
+
+		/** Getters. */
 
 		/**
 		 * Get status page URL.

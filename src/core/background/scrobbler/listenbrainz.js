@@ -12,6 +12,7 @@ define((require) => {
 	const listenBrainzTokenPage = 'https://listenbrainz.org/profile/';
 
 	class ListenBrainz extends BaseScrobbler {
+		/** @override */
 		sendNowPlaying(song) {
 			return this.getSession().then(({ sessionID }) => {
 				let track_meta = {
@@ -41,6 +42,7 @@ define((require) => {
 			});
 		}
 
+		/** @override */
 		scrobble(song) {
 			return this.getSession().then(({ sessionID }) => {
 				let track_meta = {
@@ -99,6 +101,7 @@ define((require) => {
 			});
 		}
 
+		/** @override */
 		getAuthUrl() {
 			return this.storage.get().then((data) => {
 				delete data.sessionID;
@@ -121,17 +124,14 @@ define((require) => {
 			});
 		}
 
-		/**
-		 * Check if the scrobbler is waiting until user grant access to
-		 * scrobbler service.
-		 * @return {Promise} Promise that will be resolved with check value
-		 */
+		/** @override */
 		isReadyForGrantAccess() {
 			return this.storage.get().then((data) => {
 				return data.isAuthStarted;
 			});
 		}
 
+		/** @override */
 		getSession() {
 			return this.storage.get().then((data) => {
 				if (data.isAuthStarted) {

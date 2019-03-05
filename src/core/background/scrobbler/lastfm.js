@@ -7,12 +7,7 @@ define((require) => {
 	const AudioScrobbler = require('scrobbler/audioscrobbler');
 
 	class LastFm extends AudioScrobbler {
-		/**
-		 * Asynchronously loads song info into given song object.
-		 *
-		 * @param  {Song} song Song instance
-		 * @return {Promise} Promise that will be resolved with 'isValid' flag
-		 */
+		/** @override */
 		getSongInfo(song) {
 			return this.getSession().then(({ sessionName }) => {
 				return { username: sessionName };
@@ -88,10 +83,12 @@ define((require) => {
 			return { userloved };
 		}
 
+		/** @override */
 		canLoadSongInfo() {
 			return true;
 		}
 
+		/** @override */
 		canCorrectSongInfo() {
 			return true;
 		}

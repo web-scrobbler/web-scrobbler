@@ -20,13 +20,8 @@ define((require) => {
 		'apiSecret'
 	];
 
-	/**
-	 * Base scrobbler object.
-	 *
-	 * This object and its ancestors MUST return ServiceCallResult instance
-	 * as result or error value in functions that perform API calls.
-	 */
 	class AudioScrobbler extends BaseScrobbler {
+		/** @override */
 		constructor(options) {
 			super(options);
 
@@ -35,20 +30,17 @@ define((require) => {
 			}
 		}
 
-		/**
-		 * Fetch auth URL where user should grant permissions to our token.
-		 *
-		 * Stores the new obtained token into storage so it will be traded for
-		 * a new session when needed. Because of this it is necessary this method
-		 * is called only when user is really going to approve the token and
-		 * not sooner. Otherwise use of the token would result in an unauthorized
-		 * request.
-		 *
-		 * See http://www.last.fm/api/show/auth.getToken
-		 *
-		 * @return {Promise} Promise that will be resolved with the auth URL
-		 */
+		/** @override */
 		getAuthUrl() {
+			/* Stores the new obtained token into storage so it will be traded for
+			 * a new session when needed. Because of this it is necessary this method
+			 * is called only when user is really going to approve the token and
+			 * not sooner. Otherwise use of the token would result in an unauthorized
+			 * request.
+			 *
+			 * See http://www.last.fm/api/show/auth.getToken
+			 */
+
 			let params = {
 				method: 'auth.gettoken',
 			};
@@ -77,16 +69,15 @@ define((require) => {
 			});
 		}
 
-		/**
-		 * Load session data from storage. Get new session data if previously
-		 * saved session data is missing.
-		 *
-		 * If there is a stored token it is preferably traded for a new session
-		 * which is then returned.
-		 *
-		 * @return {Promise} Promise that will be resolved with the session data
-		 */
+		/** @override */
 		getSession() {
+			/* Load session data from storage. Get new session data if previously
+			 * saved session data is missing.
+			 *
+			 * If there is a stored token it is preferably traded for a new session
+			 * which is then returned.
+			 */
+
 			return this.storage.get().then((data) => {
 				// if we have a token it means it is fresh and we
 				// want to trade it for a new session ID
@@ -138,11 +129,7 @@ define((require) => {
 			});
 		}
 
-		/**
-		 * Check if the scrobbler is waiting until user grant access to
-		 * scrobbler service (means the token is in Chrome storage).
-		 * @return {Promise} Promise that will be resolved with check value
-		 */
+		/** @override */
 		isReadyForGrantAccess() {
 			return this.storage.get().then((data) => {
 				return data.token;
@@ -214,11 +201,7 @@ define((require) => {
 			});
 		}
 
-		/**
-		 * Send current song as 'now playing' to API.
-		 * @param  {Object} song Song instance
-		 * @return {Promise} Promise that will be resolved with ServiceCallResult object
-		 */
+		/** @override */
 		sendNowPlaying(song) {
 			return this.getSession().then(({ sessionID }) => {
 				let params = {
@@ -241,11 +224,7 @@ define((require) => {
 			});
 		}
 
-		/**
-		 * Send song to API to scrobble.
-		 * @param  {Object} song Song instance
-		 * @return {Promise} Promise that will be resolved with ServiceCallResult object
-		 */
+		/** @override */
 		scrobble(song) {
 			return this.getSession().then(({ sessionID }) => {
 				let params = {
@@ -265,12 +244,7 @@ define((require) => {
 			});
 		}
 
-		/**
-		 * Love or unlove given song.
-		 * @param  {Object} song Song instance
-		 * @param  {Boolean} isLoved Flag means song should be loved or not
-		 * @return {Promise} Promise that will be resolved with ServiceCallResult object
-		 */
+		/** @override */
 		toggleLove(song, isLoved) {
 			return this.getSession().then(({ sessionID }) => {
 				let params = {
@@ -285,10 +259,7 @@ define((require) => {
 			});
 		}
 
-		/**
-		 * Check if service supports loving songs.
-		 * @return {Boolean} True if service supports that; false otherwise
-		 */
+		/** @override */
 		canLoveSong() {
 			return true;
 		}

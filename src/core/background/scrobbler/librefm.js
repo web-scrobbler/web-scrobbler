@@ -9,6 +9,7 @@ define((require) => {
 	const ServiceCallResult = require('object/service-call-result');
 
 	class LibreFm extends AudioScrobbler {
+		/** @override */
 		sendRequest(method, params, signed) {
 			if ('post' !== method.toLowerCase()) {
 				return super.sendRequest(method, params, signed);
