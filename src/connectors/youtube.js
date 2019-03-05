@@ -195,11 +195,12 @@ async function fetchCategoryId(videoId) {
 		const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${key}`;
 		try {
 			const response = await fetch(url);
+			const data = await response.json();
+
 			if (!response.ok) {
+				console.log(JSON.stringify(data, null, 2));
 				throw new Error(response.statusText);
 			}
-
-			const data = await response.json();
 
 			let category = data.items[0].snippet.categoryId;
 			if (typeof category === 'string') {
