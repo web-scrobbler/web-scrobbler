@@ -193,8 +193,7 @@ function getVideoCategory(videoId) {
 
 async function fetchCategoryId(videoId) {
 	let found = false;
-	for (let i = 0; i < YT_API_KEYS.length; i++) {
-		let key = YT_API_KEYS[i];
+	for (let key of YT_API_KEYS) {
 		const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${key}`;
 		try {
 			const response = await fetch(url);
