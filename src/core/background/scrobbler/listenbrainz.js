@@ -176,12 +176,9 @@ define((require) => {
 						let safeId = Util.hideString(sessionID);
 						this.debugLog(`Session ID: ${safeId}`, 'log');
 
+						// session is invalid
 						if (!sessionID === null || typeof sessionID === 'undefined') {
-							// session is invalid
-							return this.signOut().then(() => {
-								this.debugLog(`response from: ${this.authUrl}`, 'error');
-								throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
-							});
+							throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
 						}
 						return { sessionID, sessionName };
 					});
