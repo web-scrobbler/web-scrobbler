@@ -149,6 +149,16 @@ define((require) => {
 		}
 
 		/**
+		 * Asynchronously loads song info into given song object.
+		 *
+		 * @param  {Song} song Song instance
+		 * Implementation must return promise resolved with ServiceCallResult object
+		 */
+		getSongInfo(song) { // eslint-disable-line no-unused-vars
+			throw new Error('No implemented');
+		}
+
+		/**
 		 * Get status page URL.
 		 * @return {String} Status page URL
 		 */

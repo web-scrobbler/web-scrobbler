@@ -126,7 +126,7 @@ define((require) => {
 			let params = { method: 'auth.getsession', token };
 
 			return this.sendRequest('GET', params, true).then(($doc) => {
-				let result = processResponse($doc);
+				let result = AudioScrobbler.processResponse($doc);
 				if (!result.isOk()) {
 					throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
 				}
@@ -215,87 +215,6 @@ define((require) => {
 		}
 
 		/**
-		 * Asynchronously loads song info into given song object.
-		 *
-		 * @param  {Song} song Song instance
-		 * @return {Promise} Promise that will be resolved with 'isValid' flag
-		 */
-		getSongInfo(song) {
-			return this.getSession().then(({ sessionName }) => {
-				return { username: sessionName };
-			}).catch(() => {
-				return {};
-			}).then((params) => {
-				params.method = 'track.getinfo';
-				params.artist = song.getArtist();
-				params.track = song.getTrack();
-
-				if (song.getAlbum()) {
-					params.album = song.getAlbum();
-				}
-
-				return this.sendRequest('GET', params, false).then(($doc) => {
-					let result = processResponse($doc);
-					if (!result.isOk()) {
-						throw new Error('Unable to load song info');
-					}
-
-					return this.parseSongInfo($doc);
-				}).then((data) => {
-					if (this.canLoveSong() && data) {
-						song.setLoveStatus(data.userloved);
-					}
-
-					return data;
-				});
-			});
-		}
-
-		/**
-		 * Parse service response and return parsed data.
-		 * @param  {Object} $doc Response that parsed by jQuery
-		 * @return {Promise} Promise that will be resolved with parsed data
-		 */
-		parseSongInfo($doc) {
-			if ($doc.find('lfm').attr('status') !== 'ok') {
-				return null;
-			}
-
-			let userloved = undefined;
-			let userlovedStatus = $doc.find('userloved').text();
-			if (userlovedStatus) {
-				userloved = userlovedStatus === '1';
-			}
-
-			if (this.canCorrectSongInfo()) {
-				let artist = $doc.find('artist > name').text();
-				let track = $doc.find('track > name').text();
-				let album = $doc.find('album > title').text();
-				let duration = (parseInt($doc.find('track > duration').text()) / 1000) || null;
-
-				let artistThumbUrl = null;
-				let imageSizes = ['extralarge', 'large', 'medium'];
-				for (let imageSize of imageSizes) {
-					artistThumbUrl = $doc.find(`album > image[size="${imageSize}"]`).text();
-					if (artistThumbUrl) {
-						break;
-					}
-				}
-
-				let artistUrl = $doc.find('artist > url').text();
-				let trackUrl = $doc.find('track > url').text();
-				let albumUrl = $doc.find('album > url').text();
-
-				return {
-					artist, track, album, duration, userloved,
-					artistThumbUrl, artistUrl, albumUrl, trackUrl
-				};
-			}
-
-			return { userloved };
-		}
-
-		/**
 		 * Send current song as 'now playing' to API.
 		 * @param  {Object} song Song instance
 		 * @return {Promise} Promise that will be resolved with ServiceCallResult object
@@ -317,7 +236,8 @@ define((require) => {
 					params.duration = song.getDuration();
 				}
 
-				return this.sendRequest('POST', params, true).then(processResponse);
+				return this.sendRequest('POST', params, true)
+					.then(AudioScrobbler.processResponse);
 			});
 		}
 
@@ -340,7 +260,8 @@ define((require) => {
 					params['album[0]'] = song.getAlbum();
 				}
 
-				return this.sendRequest('POST', params, true).then(processResponse);
+				return this.sendRequest('POST', params, true)
+					.then(AudioScrobbler.processResponse);
 			});
 		}
 
@@ -359,7 +280,8 @@ define((require) => {
 					sk: sessionID
 				};
 
-				return this.sendRequest('POST', params, true).then(processResponse);
+				return this.sendRequest('POST', params, true)
+					.then(AudioScrobbler.processResponse);
 			});
 		}
 
@@ -369,6 +291,26 @@ define((require) => {
 		 */
 		canLoveSong() {
 			return true;
+		}
+
+		/**
+		 * Process response and return service call result.
+		 * @param  {Object} $doc Response that parsed by jQuery
+		 * @return {ServiceCallResult} Response result
+		 */
+		static processResponse($doc) {
+			if ($doc.find('lfm').attr('status') !== 'ok') {
+				// request passed but returned error
+				return new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+			}
+
+			let acceptedCounter = $doc.find('scrobbles').attr('accepted');
+			if (acceptedCounter && acceptedCounter === '0') {
+				// The song is ignored by service.
+				return new ServiceCallResult(ServiceCallResult.IGNORED);
+			}
+
+			return new ServiceCallResult(ServiceCallResult.OK);
 		}
 	}
 
@@ -387,26 +329,6 @@ define((require) => {
 		debugMsg = Util.hideStringInText(sessionId, debugMsg);
 
 		return debugMsg;
-	}
-
-	/**
-	 * Process response and return service call result.
-	 * @param  {Object} $doc Response that parsed by jQuery
-	 * @return {ServiceCallResult} Response result
-	 */
-	function processResponse($doc) {
-		if ($doc.find('lfm').attr('status') !== 'ok') {
-			// request passed but returned error
-			return new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
-		}
-
-		let acceptedCounter = $doc.find('scrobbles').attr('accepted');
-		if (acceptedCounter && acceptedCounter === '0') {
-			// The song is ignored by service.
-			return new ServiceCallResult(ServiceCallResult.IGNORED);
-		}
-
-		return new ServiceCallResult(ServiceCallResult.OK);
 	}
 
 	return AudioScrobbler;
