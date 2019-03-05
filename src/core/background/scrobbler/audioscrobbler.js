@@ -7,8 +7,6 @@ define((require) => {
 	const BaseScrobbler = require('scrobbler/base');
 	const ServiceCallResult = require('object/service-call-result');
 
-	const REQUEST_TIMEOUT = 15000;
-
 	const AUDIOSCROBBLER_OPTIONS = [
 		/**
 		 * Service API key.
@@ -199,7 +197,8 @@ define((require) => {
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 			});
 
-			return Util.timeoutPromise(REQUEST_TIMEOUT, promise).catch(() => {
+			let timeout = BaseScrobbler.REQUEST_TIMEOUT;
+			return Util.timeoutPromise(timeout, promise).catch(() => {
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 			});
 		}

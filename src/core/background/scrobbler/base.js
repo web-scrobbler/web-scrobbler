@@ -202,6 +202,16 @@ define((require) => {
 			return false;
 		}
 
+		/** Constants */
+
+		/**
+		 * Get timeout of all API requests in milliseconds.
+		 * @type {Number}
+		 */
+		static get REQUEST_TIMEOUT() {
+			return 15000;
+		}
+
 		/** Misc */
 
 		/**

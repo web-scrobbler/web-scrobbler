@@ -8,7 +8,6 @@ define((require) => {
 	const Util = require('util');
 	const BaseScrobbler = require('scrobbler/base');
 	const ServiceCallResult = require('object/service-call-result');
-	const REQUEST_TIMEOUT = 15000;
 
 	const listenBrainzTokenPage = 'https://listenbrainz.org/profile/';
 
@@ -85,7 +84,9 @@ define((require) => {
 				this.debugLog(error.text(), 'warn');
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 			});
-			return Util.timeoutPromise(REQUEST_TIMEOUT, promise).catch(() => {
+
+			let timeout = BaseScrobbler.REQUEST_TIMEOUT;
+			return Util.timeoutPromise(timeout, promise).catch(() => {
 				this.debugLog('TIMED OUT', 'warn');
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 			});
@@ -142,6 +143,8 @@ define((require) => {
 		}
 
 		customDoRequest() {
+			let timeout = BaseScrobbler.REQUEST_TIMEOUT;
+
 			let alreadySignedIn = fetch(listenBrainzTokenPage, {
 				method: 'GET'
 			}).then((response) => {
@@ -170,7 +173,7 @@ define((require) => {
 							});
 						});
 
-						return Util.timeoutPromise(REQUEST_TIMEOUT, needSignIn).catch(() => {
+						return Util.timeoutPromise(timeout, needSignIn).catch(() => {
 							throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 						});
 					}
@@ -178,7 +181,7 @@ define((require) => {
 				});
 			});
 
-			return Util.timeoutPromise(REQUEST_TIMEOUT, alreadySignedIn).catch(() => {
+			return Util.timeoutPromise(timeout, alreadySignedIn).catch(() => {
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 			});
 		}
