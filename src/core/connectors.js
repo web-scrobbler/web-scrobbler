@@ -112,9 +112,9 @@ define(function() {
 	},
 
 	{
-		label: 'Zvooq',
-		matches: ['*://zvooq.com/*'],
-		js: ['connectors/zvooq.js'],
+		label: 'Звук',
+		matches: ['*://zvuk.com/*'],
+		js: ['connectors/zvuk.js'],
 	},
 
 	{
