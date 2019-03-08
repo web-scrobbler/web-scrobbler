@@ -4,48 +4,48 @@
  * Grunt task to create new release on GitHub.
  */
 
-const GitHubApi = require('@octokit/rest');
+const Octokit = require('@octokit/rest');
+const GitHubApi = new Octokit();
 
-const github = new GitHubApi();
+const owner = 'web-scrobbler';
+const repo = 'web-scrobbler';
 
 module.exports = (grunt) => {
-	grunt.registerTask('github_publish', 'Create a release on GitHub', function() {
+	grunt.registerTask('github_publish', 'Create a release on GitHub', async function() {
 		let done = this.async();
 		let data = grunt.config.get(this.name);
 		let tagName = `v${data.version}`;
 
-		github.authenticate({ type: 'token', token: data.token });
+		GitHubApi.authenticate({ type: 'token', token: data.token });
 
-		publishRelease(tagName).then(() => {
+		try {
+			await publishRelease(tagName);
 			grunt.log.ok(`Created release for ${tagName} version`);
+		} catch (err) {
+			grunt.log.error(err.message);
+		} finally {
 			done();
-		}).catch((err) => {
-			grunt.log.error(err);
-			done();
-		});
+		}
 	});
 };
 
 /**
- * Publish release on GitHub. *
+ * Publish release on GitHub.
  * Find previously created draft release and make it as published one.
  *
  * @param  {String} tagName Git tag
- * @return {Promise} Promise resolved then the task has complete
  */
-function publishRelease(tagName) {
-	return getRelease(tagName).then((release) => {
-		if (!release.draft) {
-			throw new Error(`Unable to create release: ${tagName} is not a draft release`);
-		}
+async function publishRelease(tagName) {
+	let release = await getReleaseByName(tagName);
+	if (!release.draft) {
+		throw new Error(`Unable to create release: ${tagName} is not a draft release`);
+	}
 
-		return github.repos.editRelease({
-			owner: 'web-scrobbler',
-			repo: 'web-scrobbler',
-			id: release.id,
-			tag_name: tagName
-		});
-	});
+	let draft = false;
+	let tag_name = tagName;
+	let release_id = release.id;
+
+	await GitHubApi.repos.updateRelease({ owner, repo, release_id, draft, tag_name });
 }
 
 /**
@@ -53,18 +53,19 @@ function publishRelease(tagName) {
  * @param  {String} tagName Git tag
  * @return {Promise} Promise resolved with release object
  */
-function getRelease(tagName) {
-	return github.repos.getReleases({
-		owner: 'web-scrobbler', repo: 'web-scrobbler'
-	}).then((response) => {
-		let releases = response.data;
-		for (let release of releases) {
-			// Drafts have no `tag` property
-			if (release.name === tagName) {
-				return release;
-			}
-		}
+async function getReleaseByName(tagName) {
+	let response = await GitHubApi.repos.listReleases({ owner, repo });
+	if (!response) {
+		throw new Error(`${owner}/${repo} has no releases`);
+	}
 
-		throw new Error(`Unknown release: ${tagName}`);
-	});
+	let releases = response.data;
+	for (let release of releases) {
+		// Drafts have no `tag` property
+		if (release.name === tagName) {
+			return release;
+		}
+	}
+
+	throw new Error(`${owner}/${repo} has no ${tagName} release`);
 }
