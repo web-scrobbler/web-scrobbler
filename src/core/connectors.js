@@ -1074,7 +1074,7 @@ define(function() {
 		js: ['connectors/musicoin.js']
 	}, {
 		label: '181.fm',
-		matches: ['*://181fm.mystreamplayer.com/*'],
+		matches: ['*://player.181fm.com/*'],
 		js: ['connectors/181.fm.js']
 	}, {
 		label: 'Phish.in',
