@@ -410,36 +410,34 @@ require([
 	 * Called on the extension start.
 	 */
 	function startup() {
-		Migrate.migrate().then(() => {
-			updateVersionInStorage().then(notifyOfNotableChanges);
-			setupChromeEventListeners();
+		updateVersionInStorage().then(notifyOfNotableChanges);
+		setupChromeEventListeners();
 
-			// track background page loaded - happens once per browser session
-			GA.pageview(`/background-loaded?version=${extVersion}`);
+		// track background page loaded - happens once per browser session
+		GA.pageview(`/background-loaded?version=${extVersion}`);
 
-			ScrobbleService.bindAllScrobblers().then((boundScrobblers) => {
-				if (boundScrobblers.length === 0) {
-					console.warn('No scrobblers are bound');
+		ScrobbleService.bindAllScrobblers().then((boundScrobblers) => {
+			if (boundScrobblers.length === 0) {
+				console.warn('No scrobblers are bound');
 
-					let authUrl = chrome.extension.getURL('/options/options.html#accounts');
-					Notifications.showAuthNotification(() => {
-						chrome.tabs.create({ url: authUrl });
+				let authUrl = chrome.extension.getURL('/options/options.html#accounts');
+				Notifications.showAuthNotification(() => {
+					chrome.tabs.create({ url: authUrl });
 
-						GA.event('core', 'auth', 'default');
-					}).catch(() => {
-						// Fallback for browsers with no notifications support
-						chrome.tabs.create({ url: authUrl });
+					GA.event('core', 'auth', 'default');
+				}).catch(() => {
+					// Fallback for browsers with no notifications support
+					chrome.tabs.create({ url: authUrl });
 
-						GA.event('core', 'auth', 'fallback');
-					});
+					GA.event('core', 'auth', 'fallback');
+				});
 
-					return;
-				}
+				return;
+			}
 
-				for (let scrobbler of boundScrobblers) {
-					GA.event('core', 'bind', scrobbler.getLabel());
-				}
-			});
+			for (let scrobbler of boundScrobblers) {
+				GA.event('core', 'bind', scrobbler.getLabel());
+			}
 		});
 	}
 
