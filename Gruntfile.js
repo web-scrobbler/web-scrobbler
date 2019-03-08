@@ -313,11 +313,6 @@ module.exports = function(grunt) {
 			return;
 		}
 
-		if (arg === 'github') {
-			grunt.task.run('github_publish');
-			return;
-		}
-
 		/**
 		 * Create package and publish it.
 		 */
@@ -354,6 +349,7 @@ module.exports = function(grunt) {
 		}
 
 		grunt.task.run('bump-commit');
+		grunt.task.run('github_publish');
 	});
 
 
