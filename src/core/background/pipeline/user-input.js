@@ -14,40 +14,37 @@ define((require) => {
 	/**
 	 * Save custom song info to Chrome storage.
 	 * @param  {Object} song Song instance
-	 * @return {Promise} Promise resolved when data is saved
 	 */
-	function saveSongMetadataToStorage(song) {
+	async function saveSongMetadataToStorage(song) {
 		let songId = song.getUniqueId();
 		if (!songId) {
 			return;
 		}
 
-		return storage.get().then((chromeData) => {
-			let isChanged = false;
+		let chromeData = await storage.get();
+		let isChanged = false;
 
-			if (!chromeData[songId]) {
-				chromeData[songId] = {};
-			}
+		if (!chromeData[songId]) {
+			chromeData[songId] = {};
+		}
 
-			for (let field of fieldsToSave) {
-				if (song.userdata[field]) {
-					chromeData[songId][field] = song.userdata[field];
-					isChanged = true;
-				}
+		for (let field of fieldsToSave) {
+			if (song.userdata[field]) {
+				chromeData[songId][field] = song.userdata[field];
+				isChanged = true;
 			}
+		}
 
-			if (isChanged) {
-				return storage.set(chromeData);
-			}
-		});
+		if (isChanged) {
+			await storage.set(chromeData);
+		}
 	}
 
 	/**
 	 * Fill song info by user defined values.
 	 * @param  {Object} song Song instance
-	 * @return {Promise} Promise that will be resolved then the task will complete
 	 */
-	function process(song) {
+	async function process(song) {
 		let isChanged = false;
 
 		// currently just transforms user data from metadata to processed data,
@@ -61,10 +58,8 @@ define((require) => {
 
 		if (isChanged) {
 			song.flags.isCorrectedByUser = true;
-			return saveSongMetadataToStorage(song);
+			await saveSongMetadataToStorage(song);
 		}
-
-		return Promise.resolve();
 	}
 
 	return { process };

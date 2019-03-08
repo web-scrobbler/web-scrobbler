@@ -37,19 +37,19 @@ define((require) => {
 	return {
 		/**
 		 * Bind all registered scrobblers.
-		 * @return {Promise} Promise that will resolve with array of bound scrobblers
+		 * @return {Array} Bound scrobblers
 		 */
-		bindAllScrobblers() {
-			// Convert each `getSession` call into Promise
-			let promises = registeredScrobblers.map((scrobbler) => {
-				return scrobbler.getSession().then(() => {
+		async bindAllScrobblers() {
+			for (let scrobbler of registeredScrobblers) {
+				try {
+					await scrobbler.getSession();
 					this.bindScrobbler(scrobbler);
-				}).catch(() => {
+				} catch (e) {
 					console.warn(`Unable to bind ${scrobbler.getLabel()}`);
-				});
-			});
+				}
+			}
 
-			return Promise.all(promises).then(() => boundScrobblers);
+			return boundScrobblers;
 		},
 
 		/**

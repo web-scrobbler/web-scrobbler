@@ -20,36 +20,34 @@ define((require) => {
 	/**
 	 * Load song info using ScrobblerService object.
 	 * @param  {Object} song Song instance
-	 * @return {Promise} Promise resolved when task has complete
 	 */
-	function process(song) {
+	async function process(song) {
 		if (song.isEmpty()) {
-			return Promise.resolve(false);
+			return;
 		}
 
-		return ScrobbleService.getSongInfo(song).then((songInfoArr) => {
+		let songInfoArr = await ScrobbleService.getSongInfo(song);
+
+		for (let field of metadataToCopy) {
+			delete song.metadata[field];
+		}
+
+		let songInfo = getInfo(songInfoArr);
+		let isSongValid = songInfo !== null;
+		if (isSongValid) {
+			for (let field of infoToCopy) {
+				song.processed[field] = songInfo[field];
+			}
 			for (let field of metadataToCopy) {
-				delete song.metadata[field];
+				song.metadata[field] = songInfo[field];
 			}
-
-			let songInfo = getInfo(songInfoArr);
-			let isSongValid = songInfo !== null;
-			if (isSongValid) {
-				for (let field of infoToCopy) {
-					song.processed[field] = songInfo[field];
-				}
-				for (let field of metadataToCopy) {
-					song.metadata[field] = songInfo[field];
-				}
-				if (!song.getAlbum()) {
-					song.processed.album = songInfo.album;
-				}
+			if (!song.getAlbum()) {
+				song.processed.album = songInfo.album;
 			}
+		}
 
-			return options.get().then((data) => {
-				song.flags.isValid = isSongValid || data.forceRecognize;
-			});
-		});
+		let data = await options.get();
+		song.flags.isValid = isSongValid || data.forceRecognize;
 	}
 
 	/**

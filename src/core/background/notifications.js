@@ -38,39 +38,37 @@ define((require) => {
 	/**
 	 * Check for permissions and existence of Notifications API
 	 * (to be safe to run on minor browsers like Opera).
-	 * @return {Promise} Promise that will be resolved with check result
+	 * @return {Boolean} Check result
 	 */
-	function isAvailable() {
+	async function isAvailable() {
 		if (chrome.notifications !== undefined) {
 			// @ifdef CHROME
 			// Chrome for MacOS doesn't show notifications in
 			// fullscreen mode.
-			return Util.getPlatformName().then((platform) => {
-				if (platform === 'mac') {
-					return Util.isFullscreenMode().then((isFullscreen) => {
-						return !isFullscreen;
-					});
-				}
+			let platform = await Util.getPlatformName();
+			if (platform === 'mac') {
+				let isFullscreen = await Util.isFullscreenMode();
 
-				return true;
-			});
+				return !isFullscreen;
+			}
+
+			return true;
 			// @endif
 			/* @ifdef FIREFOX
-			return Promise.resolve(true);
+			return true;
 			/* @endif */
 		}
 
-		return Promise.resolve(false);
+		return false;
 	}
 
 	/**
 	 * Check if notifications are allowed by user.
-	 * @return {Promise} Promise that will be resolved with check result
+	 * @return {Boolean} Check result
 	 */
-	function isAllowed() {
-		return options.get().then((data) => {
-			return data.useNotifications;
-		});
+	async function isAllowed() {
+		let data = await options.get();
+		return data.useNotifications;
 	}
 
 	/**
@@ -100,52 +98,50 @@ define((require) => {
 	 * Show notification.
 	 * @param  {Object} options Notification options
 	 * @param  {Function} onClicked Function that will be called on notification click
-	 * @return {Promise} Promise that will be resolved with notification ID
+	 * @return {String} Notification ID
 	 */
-	function showNotification(options, onClicked) {
-		return isAvailable().then((isAvailable) => {
-			if (!isAvailable) {
-				throw new Error('Notifications are not available');
+	async function showNotification(options, onClicked) {
+		if (!await isAvailable()) {
+			throw new Error('Notifications are not available');
+		}
+
+		if (typeof onClicked === 'function') {
+			options.isClickable = true;
+		}
+
+		for (let key in DEFAULT_OPTIONS_VALUES) {
+			if (options[key]) {
+				continue;
 			}
 
-			if (typeof onClicked === 'function') {
-				options.isClickable = true;
-			}
+			let defaultValue = DEFAULT_OPTIONS_VALUES[key];
+			options[key] = defaultValue;
+		}
 
-			for (let key in DEFAULT_OPTIONS_VALUES) {
-				if (options[key]) {
-					continue;
+		return new Promise((resolve, reject) => {
+			const notificationCreatedCb = (notificationId) => {
+				if (onClicked) {
+					addOnClickedListener(notificationId, onClicked);
 				}
-
-				let defaultValue = DEFAULT_OPTIONS_VALUES[key];
-				options[key] = defaultValue;
-			}
-
-			return new Promise((resolve, reject) => {
-				const notificationCreatedCb = (notificationId) => {
-					if (onClicked) {
-						addOnClickedListener(notificationId, onClicked);
-					}
-					resolve(notificationId);
-				};
-				// @ifndef FIREFOX
-				function createNotification(permissionLevel) {
-					if (permissionLevel !== 'granted') {
-						reject();
-						return;
-					}
-					// @endif
-					try {
-						chrome.notifications.create('', options, notificationCreatedCb);
-					} catch (e) {
-						reject(e);
-					}
-				// @ifndef FIREFOX
+				resolve(notificationId);
+			};
+			// @ifndef FIREFOX
+			function createNotification(permissionLevel) {
+				if (permissionLevel !== 'granted') {
+					reject();
+					return;
 				}
-
-				chrome.notifications.getPermissionLevel(createNotification);
 				// @endif
-			});
+				try {
+					chrome.notifications.create('', options, notificationCreatedCb);
+				} catch (e) {
+					reject(e);
+				}
+			// @ifndef FIREFOX
+			}
+
+			chrome.notifications.getPermissionLevel(createNotification);
+			// @endif
 		});
 	}
 
@@ -154,31 +150,28 @@ define((require) => {
 	 * @param  {Object} song Copy of song instance
 	 * @param  {Function} onClick Function that will be called on notification click
 	 */
-	function showNowPlaying(song, onClick) {
-		isAllowed().then((flag) => {
-			if (!flag) {
-				return;
-			}
+	async function showNowPlaying(song, onClick) {
+		if (!await isAllowed()) {
+			return;
+		}
 
-			let connectorLabel = song.metadata.connector.label;
+		let connectorLabel = song.metadata.connector.label;
 
-			let options = {
-				iconUrl: song.getTrackArt() || chrome.extension.getURL('/icons/default_cover_art.png'),
-				// @ifdef CHROME
-				title: song.getTrack(),
-				silent: true,
-				message: song.getArtist(),
-				contextMessage: connectorLabel
-				// @endif
-				/* @ifdef FIREFOX
-				title: 'Web Scrobbler',
-				message: `${song.getTrack()}\n${song.getArtist()}\n${connectorLabel}`
-				/* @endif */
-			};
-			showNotification(options, onClick).then((notificationId) => {
-				song.metadata.notificationId = notificationId;
-			});
-		});
+		let options = {
+			iconUrl: song.getTrackArt() || chrome.extension.getURL('/icons/default_cover_art.png'),
+			// @ifdef CHROME
+			title: song.getTrack(),
+			silent: true,
+			message: song.getArtist(),
+			contextMessage: connectorLabel
+			// @endif
+			/* @ifdef FIREFOX
+			title: 'Web Scrobbler',
+			message: `${song.getTrack()}\n${song.getArtist()}\n${connectorLabel}`
+			/* @endif */
+		};
+		let notificationId = await showNotification(options, onClick);
+		song.metadata.notificationId = notificationId;
 	}
 
 	/**
@@ -205,19 +198,18 @@ define((require) => {
 	 * Show notification if song is not recognized.
 	 * @param  {Function} onClicked Function that will be called on notification click
 	 */
-	function showSongNotRecognized(onClicked) {
-		options.get().then((data) => {
-			if (!data.useUnrecognizedSongNotifications) {
-				return;
-			}
+	async function showSongNotRecognized(onClicked) {
+		let data = await options.get();
+		if (!data.useUnrecognizedSongNotifications) {
+			return;
+		}
 
-			let options = {
-				iconUrl: chrome.extension.getURL('icons/question.png'),
-				title: i18n('notificationNotRecognized'),
-				message: i18n('notificationNotRecognizedText')
-			};
-			showNotification(options, onClicked);
-		});
+		let options = {
+			iconUrl: chrome.extension.getURL('icons/question.png'),
+			title: i18n('notificationNotRecognized'),
+			message: i18n('notificationNotRecognizedText')
+		};
+		showNotification(options, onClicked);
 	}
 
 	/**

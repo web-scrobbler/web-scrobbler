@@ -8,35 +8,36 @@ define((require) => {
 
 	class LastFm extends AudioScrobbler {
 		/** @override */
-		getSongInfo(song) {
-			return this.getSession().then(({ sessionName }) => {
-				return { username: sessionName };
-			}).catch(() => {
-				return {};
-			}).then((params) => {
-				params.method = 'track.getinfo';
-				params.artist = song.getArtist();
-				params.track = song.getTrack();
+		async getSongInfo(song) {
+			let params = {
+				track: song.getTrack(),
+				artist: song.getArtist(),
+				method: 'track.getinfo',
+			};
 
-				if (song.getAlbum()) {
-					params.album = song.getAlbum();
-				}
+			try {
+				let { sessionName } = await this.getSession();
+				params.username = sessionName;
+			} catch (e) {
+				// Do nothing
+			}
 
-				return this.sendRequest('GET', params, false).then(($doc) => {
-					let result = AudioScrobbler.processResponse($doc);
-					if (!result.isOk()) {
-						throw new Error('Unable to load song info');
-					}
+			if (song.getAlbum()) {
+				params.album = song.getAlbum();
+			}
 
-					return this.parseSongInfo($doc);
-				}).then((data) => {
-					if (this.canLoveSong() && data) {
-						song.setLoveStatus(data.userloved);
-					}
+			let $doc = await this.sendRequest('GET', params, false);
+			let result = AudioScrobbler.processResponse($doc);
+			if (!result.isOk()) {
+				throw new Error('Unable to load song info');
+			}
 
-					return data;
-				});
-			});
+			let data = this.parseSongInfo($doc);
+			if (this.canLoveSong() && data) {
+				song.setLoveStatus(data.userloved);
+			}
+
+			return data;
 		}
 
 		/** @override */

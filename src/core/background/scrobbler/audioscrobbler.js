@@ -31,7 +31,7 @@ define((require) => {
 		}
 
 		/** @override */
-		getAuthUrl() {
+		async getAuthUrl() {
 			/* Stores the new obtained token into storage so it will be traded for
 			 * a new session when needed. Because of this it is necessary this method
 			 * is called only when user is really going to approve the token and
@@ -44,33 +44,30 @@ define((require) => {
 			let params = {
 				method: 'auth.gettoken',
 			};
-			return this.sendRequest('GET', params, false).then(($doc) => {
-				return this.storage.get().then((data) => {
-					// set token and reset session so we will grab a new one
-					delete data.sessionID;
-					delete data.sessionName;
-					data.token = $doc.find('token').text();
+			let token = null;
+			let data = await this.storage.get();
 
-					let authUrl = `${this.authUrl}?api_key=${this.apiKey}&token=${data.token}`;
-					return this.storage.set(data).then(() => {
-						this.debugLog(`Auth url: ${authUrl}`);
-						return authUrl;
-					});
-				});
-			}).catch(() => {
+			try {
+				let $doc = await this.sendRequest('GET', params, false);
+				token = $doc.find('token').text();
+			} catch (err) {
 				this.debugLog('Error acquiring a token', 'warn');
 
-				return this.storage.get().then((data) => {
-					delete data.token;
-					return this.storage.set(data);
-				}).then(() => {
-					throw new Error('Error acquiring a token');
-				});
-			});
+				throw new Error('Error acquiring a token');
+			}
+
+			data.token = token;
+
+			// set token and reset session so we will grab a new one
+			delete data.sessionID;
+			delete data.sessionName;
+			await this.storage.set(data);
+
+			return `${this.authUrl}?api_key=${this.apiKey}&token=${token}`;
 		}
 
 		/** @override */
-		getSession() {
+		async getSession() {
 			/* Load session data from storage. Get new session data if previously
 			 * saved session data is missing.
 			 *
@@ -78,97 +75,94 @@ define((require) => {
 			 * which is then returned.
 			 */
 
-			return this.storage.get().then((data) => {
-				// if we have a token it means it is fresh and we
-				// want to trade it for a new session ID
-				let token = data.token || null;
-				if (token !== null) {
-					return this.tradeTokenForSession(token).then((session) => {
-						return this.storage.set(session).then(() => {
-							return session;
-						});
-					}).catch(() => {
-						this.debugLog('Failed to trade token for session', 'warn');
+			let data = await this.storage.get();
 
-						// both session and token are now invalid
-						return this.signOut().then(() => {
-							throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
-						});
-					});
-				} else if (!data.sessionID) {
+			// if we have a token it means it is fresh and we
+			// want to trade it for a new session ID
+			let token = data.token || null;
+			if (token !== null) {
+				let session = {};
+
+				try {
+					session = await this.tradeTokenForSession(token);
+				} catch (err) {
+					this.debugLog('Failed to trade token for session', 'warn');
+
+					await this.signOut();
 					throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
-				} else {
-					return {
-						sessionID: data.sessionID,
-						sessionName: data.sessionName
-					};
 				}
-			});
+
+				await this.storage.set(session);
+				return session;
+			} else if (!data.sessionID) {
+				throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+			}
+
+			return {
+				sessionID: data.sessionID,
+				sessionName: data.sessionName
+			};
 		}
 
 		/** @override */
-		isReadyForGrantAccess() {
-			return this.storage.get().then((data) => {
-				return data.token;
-			});
+		async isReadyForGrantAccess() {
+			let data = await this.storage.get();
+			return data.token;
 		}
 
 		/** @override */
-		sendNowPlaying(song) {
-			return this.getSession().then(({ sessionID }) => {
-				let params = {
-					method: 'track.updatenowplaying',
-					track: song.getTrack(),
-					artist: song.getArtist(),
-					api_key: this.apiKey,
-					sk: sessionID
-				};
+		async sendNowPlaying(song) {
+			let { sessionID } = await this.getSession();
+			let params = {
+				method: 'track.updatenowplaying',
+				track: song.getTrack(),
+				artist: song.getArtist(),
+				api_key: this.apiKey,
+				sk: sessionID
+			};
 
-				if (song.getAlbum()) {
-					params.album = song.getAlbum();
-				}
-				if (song.getDuration()) {
-					params.duration = song.getDuration();
-				}
+			if (song.getAlbum()) {
+				params.album = song.getAlbum();
+			}
+			if (song.getDuration()) {
+				params.duration = song.getDuration();
+			}
 
-				return this.sendRequest('POST', params, true)
-					.then(AudioScrobbler.processResponse);
-			});
+			let response = await this.sendRequest('POST', params, true);
+			return AudioScrobbler.processResponse(response);
 		}
 
 		/** @override */
-		scrobble(song) {
-			return this.getSession().then(({ sessionID }) => {
-				let params = {
-					method: 'track.scrobble',
-					'timestamp[0]': song.metadata.startTimestamp,
-					'track[0]': song.getTrack(),
-					'artist[0]': song.getArtist(),
-					sk: sessionID
-				};
+		async scrobble(song) {
+			let { sessionID } = await this.getSession();
+			let params = {
+				method: 'track.scrobble',
+				'timestamp[0]': song.metadata.startTimestamp,
+				'track[0]': song.getTrack(),
+				'artist[0]': song.getArtist(),
+				sk: sessionID
+			};
 
-				if (song.getAlbum()) {
-					params['album[0]'] = song.getAlbum();
-				}
+			if (song.getAlbum()) {
+				params['album[0]'] = song.getAlbum();
+			}
 
-				return this.sendRequest('POST', params, true)
-					.then(AudioScrobbler.processResponse);
-			});
+			let response = await this.sendRequest('POST', params, true);
+			return AudioScrobbler.processResponse(response);
 		}
 
 		/** @override */
-		toggleLove(song, isLoved) {
-			return this.getSession().then(({ sessionID }) => {
-				let params = {
-					method: isLoved ? 'track.love' : 'track.unlove',
-					track: song.getTrack(),
-					artist: song.getArtist(),
-					sk: sessionID
-				};
+		async toggleLove(song, isLoved) {
+			let { sessionID } = await this.getSession();
+			let params = {
+				method: isLoved ? 'track.love' : 'track.unlove',
+				track: song.getTrack(),
+				artist: song.getArtist(),
+				sk: sessionID
+			};
 
-				return this.sendRequest('POST', params, true)
-					.then(AudioScrobbler.processResponse);
-			});
+			let response = await this.sendRequest('POST', params, true);
+			return AudioScrobbler.processResponse(response);
 		}
 
 		/** @override */
@@ -185,20 +179,19 @@ define((require) => {
 		 * @param {String} token Token provided by scrobbler service
 		 * @return {Promise} Promise that will be resolved with the session ID
 		 */
-		tradeTokenForSession(token) {
+		async tradeTokenForSession(token) {
 			let params = { method: 'auth.getsession', token };
 
-			return this.sendRequest('GET', params, true).then(($doc) => {
-				let result = AudioScrobbler.processResponse($doc);
-				if (!result.isOk()) {
-					throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
-				}
+			let $doc = await this.sendRequest('GET', params, true);
+			let result = AudioScrobbler.processResponse($doc);
+			if (!result.isOk()) {
+				throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+			}
 
-				let sessionName = $doc.find('session > name').text();
-				let sessionID = $doc.find('session > key').text();
+			let sessionName = $doc.find('session > name').text();
+			let sessionID = $doc.find('session > key').text();
 
-				return { sessionID, sessionName };
-			});
+			return { sessionID, sessionName };
 		}
 
 		/**

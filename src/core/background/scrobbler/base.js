@@ -80,41 +80,39 @@ define((require) => {
 		/**
 		 * Get auth URL where user should grant permission to the extension.
 		 *
-		 * Implementation must return a promise resolved with an auth URL.
+		 * Implementation must return an auth URL.
 		 */
-		getAuthUrl() {
+		async getAuthUrl() {
 			throw new Error('No implemented');
 		}
 
 		/**
 		 * Get session data.
 		 *
-		 * Implementation must return a promise resolved with a session data.
+		 * Implementation must return a session data.
 		 */
-		getSession() {
+		async getSession() {
 			throw new Error('No implemented');
 		}
 
 		/**
 		 * Remove session info.
-		 * @return {Promise} Promise that will be resolved when the task has complete
 		 */
-		signOut() {
-			return this.storage.get().then((data) => {
-				// data.token = null;
-				delete data.sessionID;
-				delete data.sessionName;
+		async signOut() {
+			let data = await this.storage.get();
 
-				return this.storage.set(data);
-			});
+			delete data.sessionID;
+			delete data.sessionName;
+
+			await this.storage.set(data);
 		}
 
 		/**
 		 * Check if the scrobbler is waiting until user grant access to
 		 * scrobbler service.
-		 * Implementation must return a promise resolved with boolean value.
+		 * Implementation must return a check result as a boolean value.
 		 */
-		isReadyForGrantAccess() {
+		async isReadyForGrantAccess() {
 			throw new Error('No implemented');
 		}
 
@@ -123,18 +121,18 @@ define((require) => {
 		/**
 		 * Send current song as 'now playing' to API.
 		 * @param  {Object} song Song instance
-		 * Implementation must return promise resolved with ServiceCallResult object
+		 * Implementation must return ServiceCallResult object as a result
 		 */
-		sendNowPlaying(song) { // eslint-disable-line no-unused-vars
+		async sendNowPlaying(song) { // eslint-disable-line no-unused-vars
 			throw new Error('No implemented');
 		}
 
 		/**
 		 * Send song to API to scrobble.
 		 * @param  {Object} song Song instance
-		 * Implementation must return promise resolved with ServiceCallResult object
+		 * Implementation must return ServiceCallResult object.
 		 */
-		scrobble(song) { // eslint-disable-line no-unused-vars
+		async scrobble(song) { // eslint-disable-line no-unused-vars
 			throw new Error('No implemented');
 		}
 
@@ -142,9 +140,9 @@ define((require) => {
 		 * Love or unlove given song.
 		 * @param  {Object} song Song instance
 		 * @param  {Boolean} isLoved Flag means song should be loved or not
-		 * Implementation must return promise resolved with ServiceCallResult object
+		 * Implementation must return ServiceCallResult object.
 		 */
-		toggleLove(song, isLoved) { // eslint-disable-line no-unused-vars
+		async toggleLove(song, isLoved) { // eslint-disable-line no-unused-vars
 			throw new Error('No implemented');
 		}
 
@@ -152,9 +150,9 @@ define((require) => {
 		 * Get song info.
 		 *
 		 * @param  {Song} song Song instance
-		 * Implementation must return promise resolved with ServiceCallResult object
+		 * Implementation must return object contains a song data.
 		 */
-		getSongInfo(song) { // eslint-disable-line no-unused-vars
+		async getSongInfo(song) { // eslint-disable-line no-unused-vars
 			throw new Error('No implemented');
 		}
 
@@ -178,12 +176,11 @@ define((require) => {
 
 		/**
 		 * Get URL to profile page.
-		 * @return {Promise} Promise that will be resolved with URL
+		 * @return {String} Profile URL
 		 */
-		getProfileUrl() {
-			return this.getSession().then((session) => {
-				return `${this.profileUrl}${session.sessionName}`;
-			});
+		async getProfileUrl() {
+			let session = await this.getSession();
+			return `${this.profileUrl}${session.sessionName}`;
 		}
 
 		/** Scrobbler features. */

@@ -13,112 +13,103 @@ define((require) => {
 
 	class ListenBrainz extends BaseScrobbler {
 		/** @override */
-		getAuthUrl() {
-			return this.storage.get().then((data) => {
-				delete data.sessionID;
-				delete data.sessionName;
+		async getAuthUrl() {
+			let data = await this.storage.get();
 
-				data.isAuthStarted = true;
+			data.isAuthStarted = true;
+			delete data.sessionID;
+			delete data.sessionName;
+			await this.storage.set(data);
 
-				let url = this.authUrl;
-				return this.storage.set(data).then(() => {
-					this.debugLog(`Auth url: ${url}`);
-					return url;
-				});
-			}).catch(() => {
-				return this.storage.get().then((data) => {
-					delete data.isAuthStarted;
-					return this.storage.set(data);
-				}).then(() => {
-					throw new Error('Error acquiring a token');
-				});
-			});
+			this.debugLog(`Auth url: ${this.authUrl}`);
+
+			return this.authUrl;
 		}
 
 		/** @override */
-		getSession() {
-			return this.storage.get().then((data) => {
-				if (data.isAuthStarted) {
-					return this.requestSession().then((session) => {
-						return this.storage.set(session).then(() => {
-							return session;
-						});
-					}).catch(() => {
-						this.debugLog('Failed to get session', 'warn');
+		async getSession() {
+			let data = await this.storage.get();
+			if (data.isAuthStarted) {
+				let session = {};
 
-						return this.signOut().then(() => {
-							throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
-						});
-					});
-				} else if (!data.sessionID) {
+				try {
+					session = await this.requestSession();
+				} catch (err) {
+					this.debugLog('Failed to get session', 'warn');
+
+					await this.signOut();
 					throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
-				} else {
-					return {
-						sessionID: data.sessionID,
-						sessionName: data.sessionName
-					};
 				}
-			});
+
+				await this.storage.set(session);
+				return session;
+			} else if (!data.sessionID) {
+				throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+			}
+
+			return {
+				sessionID: data.sessionID,
+				sessionName: data.sessionName
+			};
 		}
 
 		/** @override */
-		isReadyForGrantAccess() {
-			return this.storage.get().then((data) => {
-				return data.isAuthStarted;
-			});
+		async isReadyForGrantAccess() {
+			let data = await this.storage.get();
+			return data.isAuthStarted;
 		}
 
 		/** @override */
-		sendNowPlaying(song) {
-			return this.getSession().then(({ sessionID }) => {
-				let track_meta = {
-					'artist_name': song.getArtist(),
-					'track_name': song.getTrack(),
+		async sendNowPlaying(song) {
+			let { sessionID } = await this.getSession();
+			let track_meta = {
+				'artist_name': song.getArtist(),
+				'track_name': song.getTrack(),
+			};
+
+			if (song.getAlbum()) {
+				track_meta['release_name'] = song.getAlbum();
+			}
+
+			if (song.getOriginUrl()) {
+				track_meta['additional_info'] = {
+					'origin_url': song.getOriginUrl()
 				};
+			}
 
-				if (song.getAlbum()) {
-					track_meta['release_name'] = song.getAlbum();
-				}
+			let params = {
+				'listen_type': 'playing_now',
+				'payload': [
+					{
+						'track_metadata': track_meta
+					}
+				]
+			};
 
-				if (song.getOriginUrl()) {
-					track_meta['additional_info'] = {
-						'origin_url': song.getOriginUrl()
-					};
-				}
-
-				let params = {
-					'listen_type': 'playing_now',
-					'payload': [
-						{
-							'track_metadata': track_meta
-						}
-					]
-				};
-				return this.sendRequest(params, sessionID);
-			});
+			return this.sendRequest(params, sessionID);
 		}
 
 		/** @override */
-		scrobble(song) {
-			return this.getSession().then(({ sessionID }) => {
-				let track_meta = {
-					'artist_name': song.getArtist(),
-					'track_name': song.getTrack(),
-				};
-				if (song.getAlbum()) {
-					track_meta['release_name'] = song.getAlbum();
-				}
-				let params = {
-					'listen_type': 'single',
-					'payload': [
-						{
-							'listened_at': song.metadata.startTimestamp,
-							'track_metadata': track_meta
-						}
-					]
-				};
-				return this.sendRequest(params, sessionID);
-			});
+		async scrobble(song) {
+			let { sessionID } = await this.getSession();
+
+			let track_meta = {
+				'artist_name': song.getArtist(),
+				'track_name': song.getTrack(),
+			};
+			if (song.getAlbum()) {
+				track_meta['release_name'] = song.getAlbum();
+			}
+			let params = {
+				'listen_type': 'single',
+				'payload': [
+					{
+						'listened_at': song.metadata.startTimestamp,
+						'track_metadata': track_meta
+					}
+				]
+			};
+			return this.sendRequest(params, sessionID);
 		}
 
 		sendRequest(params, sessionID) {

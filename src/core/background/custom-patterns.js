@@ -21,25 +21,23 @@ define((require) => {
 		 * Update custom patterns and save them to storage.
 		 * @param {String} connector Connector label
 		 * @param {Array} patterns Array of custom URL patterns
-		 * @return {Promise} Promise resolved when patterns are saved
 		 */
-		setPatterns(connector, patterns) {
-			return storage.get().then((data) => {
-				data[connector] = patterns;
-				return storage.set(data);
-			});
+		async setPatterns(connector, patterns) {
+			let data = await storage.get();
+
+			data[connector] = patterns;
+			await storage.set(data);
 		},
 
 		/**
 		 * Remove custom URL patterns for given connector.
 		 * @param {String} connector Connector label
-		 * @return {Promise} Promise resolved when patterns are reset
 		 */
-		resetPatterns(connector) {
-			return storage.get().then((data) => {
-				delete data[connector];
-				return storage.set(data);
-			});
+		async resetPatterns(connector) {
+			let data = await storage.get();
+
+			delete data[connector];
+			await storage.set(data);
 		}
 	};
 });
