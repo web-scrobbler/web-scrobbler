@@ -136,14 +136,17 @@ define((require) => {
 		 * @return {Promise} Promise that will be resolved then the task will complete
 		 */
 		toggleLove(song, flag) {
-			return Promise.all(boundScrobblers.map((scrobbler) => {
-				if (scrobbler.canLoveSong()) {
-					// Forward result (including errors) to caller
-					return scrobbler.toggleLove(song, flag).catch((result) => {
-						return this.processResult(scrobbler, result);
-					});
-				}
-				return Promise.resolve();
+			let scrobblers = registeredScrobblers.filter((scrobbler) => {
+				return scrobbler.canLoveSong();
+			});
+			let requestName = flag ? 'love' : 'unlove';
+			console.log(`Send "${requestName}" request: ${scrobblers.length}`);
+
+			return Promise.all(scrobblers.map((scrobbler) => {
+				// Forward result (including errors) to caller
+				return scrobbler.toggleLove(song, flag).catch((result) => {
+					return this.processResult(scrobbler, result);
+				});
 			}));
 		},
 
