@@ -1,6 +1,6 @@
 'use strict';
 
-Connector.playerSelector = '#skeleton-player';
+Connector.playerSelector = '.player-wrap';
 
 Connector.artistSelector = '.player-mini_track_information_artist';
 
