@@ -10,7 +10,7 @@ define((require) => {
 	const ChromeStorage = require('storage/chrome-storage');
 
 	const storage = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
-	const fieldsToSave = ['artist', 'track', 'album'];
+	const FIELDS_TO_SAVE = ['artist', 'track', 'album'];
 
 	/**
 	 * Load song info from Chrome storage.
@@ -27,7 +27,7 @@ define((require) => {
 			let isChanged = false;
 			let savedMetadata = data[songId];
 
-			for (let field of fieldsToSave) {
+			for (let field of FIELDS_TO_SAVE) {
 				if (savedMetadata[field]) {
 					isChanged = true;
 					song.processed[field] = savedMetadata[field];

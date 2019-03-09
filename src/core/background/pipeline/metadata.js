@@ -10,10 +10,10 @@ define((require) => {
 
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 
-	const infoToCopy = [
+	const INFO_TO_COPY = [
 		'duration', 'artist', 'track'
 	];
-	const metadataToCopy = [
+	const METADATA_TO_COPY = [
 		'artistThumbUrl', 'artistUrl', 'trackUrl', 'albumUrl'
 	];
 
@@ -28,17 +28,17 @@ define((require) => {
 
 		let songInfoArr = await ScrobbleService.getSongInfo(song);
 
-		for (let field of metadataToCopy) {
+		for (let field of METADATA_TO_COPY) {
 			delete song.metadata[field];
 		}
 
 		let songInfo = getInfo(songInfoArr);
 		let isSongValid = songInfo !== null;
 		if (isSongValid) {
-			for (let field of infoToCopy) {
+			for (let field of INFO_TO_COPY) {
 				song.processed[field] = songInfo[field];
 			}
-			for (let field of metadataToCopy) {
+			for (let field of METADATA_TO_COPY) {
 				song.metadata[field] = songInfo[field];
 			}
 			if (!song.getAlbum()) {

@@ -11,7 +11,7 @@ define((require) => {
 	 * Object that stores default option values.
 	 * @type {Object}
 	 */
-	const defaultOptionsMap = {
+	const DEFAULT_OPTIONS_MAP = {
 		/**
 		 * Array of disabled connectors.
 		 * @type {Array}
@@ -43,7 +43,7 @@ define((require) => {
 	 * Object that stores default option values for specific connectors.
 	 * @type {Object}
 	 */
-	const defaultConnectorsOptionsMap = {
+	const DEFAULT_CONNECTOR_OPTIONS_MAP = {
 		GoogleMusic: {
 			scrobblePodcasts: true
 		},
@@ -59,22 +59,22 @@ define((require) => {
 	 */
 	async function setupDefaultConfigValues() {
 		let data = await options.get();
-		for (let key in defaultOptionsMap) {
+		for (let key in DEFAULT_OPTIONS_MAP) {
 			if (data[key] === undefined) {
-				data[key] = defaultOptionsMap[key];
+				data[key] = DEFAULT_OPTIONS_MAP[key];
 			}
 		}
 		await options.set(data);
 		options.debugLog();
 
 		data = await connectorsOptions.get();
-		for (let connectorKey in defaultConnectorsOptionsMap) {
+		for (let connectorKey in DEFAULT_CONNECTOR_OPTIONS_MAP) {
 			if (data[connectorKey] === undefined) {
-				data[connectorKey] = defaultConnectorsOptionsMap[connectorKey];
+				data[connectorKey] = DEFAULT_CONNECTOR_OPTIONS_MAP[connectorKey];
 			} else {
-				for (let key in defaultConnectorsOptionsMap[connectorKey]) {
+				for (let key in DEFAULT_CONNECTOR_OPTIONS_MAP[connectorKey]) {
 					if (data[connectorKey][key] === undefined) {
-						data[connectorKey][key] = defaultConnectorsOptionsMap[connectorKey][key];
+						data[connectorKey][key] = DEFAULT_CONNECTOR_OPTIONS_MAP[connectorKey][key];
 					}
 				}
 			}
