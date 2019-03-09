@@ -152,51 +152,53 @@ define((require) => {
 			});
 		}
 
-		requestSession() {
-			let timeout = BaseScrobbler.REQUEST_TIMEOUT;
+		async requestSession() {
+			let authUrls = [
+				listenBrainzTokenPage,
+				this.authUrl,
+			];
 
-			let alreadySignedIn = fetch(listenBrainzTokenPage, {
-				method: 'GET'
-			}).then((response) => {
-				return response.text();
-			}).then((text) => {
-				let $doc = $(text);
-				let sessionName = $doc.find('.page-title').text();
-				let sessionID = $doc.find('#auth-token').val();
+			let session = null;
 
-				let safeId = Util.hideString(sessionID);
+			for (let url of authUrls) {
+				try {
+					session = await this.fetchSession(url);
+				} catch (e) {
+					this.debugLog('request session timeout', 'warn');
+					continue;
+				}
+
+				if (session) {
+					break;
+				}
+			}
+
+			if (session) {
+				let safeId = Util.hideString(session.sessionID);
 				this.debugLog(`Session ID: ${safeId}`, 'log');
 
-				if (sessionID === null || typeof sessionID === 'undefined') {
-					let needSignIn = fetch(this.authUrl, {
-						method: 'GET'
-					}).then((response) => {
-						return response.text();
-					}).then((text) => {
-						let $doc = $(text);
-						let sessionName = $doc.find('.page-title').text();
-						let sessionID = $doc.find('#auth-token').val();
+				return session;
+			}
 
-						let safeId = Util.hideString(sessionID);
-						this.debugLog(`Session ID: ${safeId}`, 'log');
+			throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+		}
 
-						// session is invalid
-						if (!sessionID === null || typeof sessionID === 'undefined') {
-							throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
-						}
-						return { sessionID, sessionName };
-					});
+		async fetchSession(url) {
+			this.debugLog(`Use ${url}`);
+			let promise = fetch(url, { method: 'GET' });
+			let timeout = BaseScrobbler.REQUEST_TIMEOUT;
 
-					return Util.timeoutPromise(timeout, needSignIn).catch(() => {
-						throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
-					});
-				}
+			let response = await Util.timeoutPromise(timeout, promise);
+			let $doc = $(await response.text());
+
+			let sessionName = $doc.find('.page-title').text();
+			let sessionID = $doc.find('#auth-token').val();
+
+			if (sessionID && sessionName) {
 				return { sessionID, sessionName };
-			});
+			}
 
-			return Util.timeoutPromise(timeout, alreadySignedIn).catch(() => {
-				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
-			});
+			return null;
 		}
 	}
 
