@@ -417,9 +417,10 @@ require([
 
 			let authUrl = chrome.extension.getURL('/options/options.html#accounts');
 			try {
-				await Notifications.showAuthNotification();
+				await Notifications.showAuthNotification(() => {
+					chrome.tabs.create({ url: authUrl });
+				});
 
-				chrome.tabs.create({ url: authUrl });
 				GA.event('core', 'auth', 'default');
 			} catch (e) {
 				// Fallback for browsers with no notifications support
