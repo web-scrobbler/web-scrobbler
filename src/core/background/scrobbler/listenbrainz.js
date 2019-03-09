@@ -41,7 +41,11 @@ define((require) => {
 					throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
 				}
 
-				await this.storage.set(session);
+				data.sessionID = session.sessionID;
+				data.sessionName = session.sessionName;
+				delete data.isAuthStarted;
+				await this.storage.set(data);
+
 				return session;
 			} else if (!data.sessionID) {
 				throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
