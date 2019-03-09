@@ -7,11 +7,69 @@ define((require) => {
 	const LOCAL = 0;
 	const SYNC = 1;
 
+	/**
+	 * This storage contains the options values.
+	 * @see DEFAULT_CONNECTOR_OPTIONS_MAP object in `config` module.
+	 */
 	const CONNECTORS_OPTIONS = 'Connectors';
+
+	/**
+	 * This storage contains custom URL patterns defined by an user.
+	 *
+	 * The format of storage data is following:
+	 * {
+	 *     connector_label: [URL_pattern_1, URL_pattern_2, ...],
+	 *     ...
+	 * }
+	 */
 	const CUSTOM_PATTERNS = 'customPatterns';
+
+	/**
+	 * This storage contains data used to manage notifications.
+	 *
+	 * The `changelog` section contains data is used to check
+	 * if user notified of changelog of certain version.
+	 *
+	 * The format of storage data is following:
+	 * {
+	 *     changelog: {
+	 *     	   // `ver` is the extention version, e.g. 'v2.15.1'
+	 *     	   // `true` means the notification of the version changelog
+	 *     	   // was displayed.
+	 *         ver: true,
+	 *         ...
+	 *     }
+	 * }
+	 */
 	const NOTIFICATIONS = 'Notifications';
+
+	/**
+	 * This storage contains the song data saved by an user.
+	 * The format of storage data is following:
+	 * {
+	 *     song_id: {
+	 *         artist: 'Artist name',
+	 *         track: 'Track name',
+	 *         album: 'Album name', // Optional property
+	 *     },
+	 *     ...
+	 * }
+	 */
 	const LOCAL_CACHE = 'LocalCache';
+
+	/**
+	 * This storage contains the options values.
+	 * @see DEFAULT_OPTIONS_MAP object in `config` module.
+	 */
 	const OPTIONS = 'Options';
+
+	/**
+	 * This storage contains the data saved and used by the extension core.
+	 * The format of storage data is following:
+	 * {
+	 *     appVersion: 'Extension version',
+	 * }
+	 */
 	const CORE = 'Core';
 
 	const storageTypeMap = {};
