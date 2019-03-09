@@ -120,7 +120,7 @@ define((require) => {
 
 		return new Promise((resolve, reject) => {
 			const notificationCreatedCb = (notificationId) => {
-				if (onClicked) {
+				if (typeof onClicked === 'function') {
 					addOnClickedListener(notificationId, onClicked);
 				}
 				resolve(notificationId);
