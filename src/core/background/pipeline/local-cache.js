@@ -56,5 +56,5 @@ define((require) => {
 		await storage.set(data);
 	}
 
-	return { process, removeSongFromStorage, fieldsToSave };
+	return { process, removeSongFromStorage, FIELDS_TO_SAVE };
 });

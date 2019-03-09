@@ -166,7 +166,7 @@ define((require) => {
 				}
 
 				let isChanged = false;
-				for (let field of LocalCache.fieldsToSave) {
+				for (let field of LocalCache.FIELDS_TO_SAVE) {
 					if (data[field]) {
 						this.currentSong.userdata[field] = data[field];
 						isChanged = true;
