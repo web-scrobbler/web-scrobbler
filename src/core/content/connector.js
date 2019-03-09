@@ -595,8 +595,7 @@ function BaseConnector() {
 			return;
 		}
 
-		// FIXME: Replace to `chrome.runtime.getURL`.
-		let scriptUrl = chrome.extension.getURL(scriptFile);
+		let scriptUrl = chrome.runtime.getURL(scriptFile);
 		Util.injectScriptIntoDocument(scriptUrl);
 
 		console.log(`Web Scrobbler: Injected ${scriptFile}`);

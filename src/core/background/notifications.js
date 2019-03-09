@@ -5,15 +5,11 @@ define((require) => {
 	const chrome = require('wrapper/chrome');
 	const ChromeStorage = require('storage/chrome-storage');
 
-	// The module uses `chrome.extension.getURL` function.
-	// This function is deprecated since Chrome 58.
-	// FIXME: Replace to `chrome.runtime.getURL`.
-
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 
 	const DEFAULT_OPTIONS_VALUES = {
 		type: 'basic',
-		iconUrl: chrome.extension.getURL('/icons/icon128.png'),
+		iconUrl: chrome.runtime.getURL('/icons/icon128.png'),
 	};
 
 	// @ifdef DEBUG
@@ -158,7 +154,7 @@ define((require) => {
 		let connectorLabel = song.metadata.connector.label;
 
 		let options = {
-			iconUrl: song.getTrackArt() || chrome.extension.getURL('/icons/default_cover_art.png'),
+			iconUrl: song.getTrackArt() || chrome.runtime.getURL('/icons/default_cover_art.png'),
 			// @ifdef CHROME
 			title: song.getTrack(),
 			silent: true,
@@ -205,7 +201,7 @@ define((require) => {
 		}
 
 		let options = {
-			iconUrl: chrome.extension.getURL('icons/question.png'),
+			iconUrl: chrome.runtime.getURL('icons/question.png'),
 			title: i18n('notificationNotRecognized'),
 			message: i18n('notificationNotRecognizedText')
 		};

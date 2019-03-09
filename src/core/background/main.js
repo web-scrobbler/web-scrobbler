@@ -415,7 +415,7 @@ require([
 		if (boundScrobblers.length === 0) {
 			console.warn('No scrobblers are bound');
 
-			let authUrl = chrome.extension.getURL('/options/options.html#accounts');
+			let authUrl = chrome.runtime.getURL('/options/options.html#accounts');
 			try {
 				await Notifications.showAuthNotification(() => {
 					chrome.tabs.create({ url: authUrl });
