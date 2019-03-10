@@ -26,7 +26,7 @@ require([
 		$('.finished').show();
 	};
 
-	const locale = window.navigator.language.split('-')[0];
+	const locale = 'riu'; // window.navigator.language.split('-')[0];
 	const defaultPrivacyDoc = 'PRIVACY.md';
 
 	let privacyDoc = defaultPrivacyDoc;
@@ -51,11 +51,11 @@ require([
 			fetch(chrome.runtime.getURL(defaultPrivacyDoc))
 				.then((response) => {
 					response.text()
-					.then((text) => {
-						let converter = new showdown.Converter();
-						let content = converter.makeHtml(text);
-						$('.privacy-policy').html(content);
-					});
-			});
+						.then((text) => {
+							let converter = new showdown.Converter();
+							let content = converter.makeHtml(text);
+							$('.privacy-policy').html(content);
+						});
+				});
 		});
 });
