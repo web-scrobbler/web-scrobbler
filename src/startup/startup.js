@@ -26,15 +26,36 @@ require([
 		$('.finished').show();
 	};
 
-	let privacyUrl = chrome.runtime.getURL('PRIVACY.md');
+	const locale = window.navigator.language.split('-')[0];
+	const defaultPrivacyDoc = 'PRIVACY.md';
 
-	fetch(privacyUrl)
+	let privacyDoc = defaultPrivacyDoc;
+	if (locale !== 'en') {
+		privacyDoc = `PRIVACY.${locale}.md`;
+	}
+
+	fetch(chrome.runtime.getURL(privacyDoc))
 		.then((response) => {
+			if (!response.ok) {
+				throw Error(response.statusText);
+			}
 			response.text()
 				.then((text) => {
 					let converter = new showdown.Converter();
 					let content = converter.makeHtml(text);
 					$('.privacy-policy').html(content);
 				});
+		}).catch(() => {
+			console.log(`Failed to load ${privacyDoc}`);
+
+			fetch(chrome.runtime.getURL(defaultPrivacyDoc))
+			.then((response) => {
+				response.text()
+				.then((text) => {
+					let converter = new showdown.Converter();
+					let content = converter.makeHtml(text);
+					$('.privacy-policy').html(content);
+				});
+			})
 		});
 });
