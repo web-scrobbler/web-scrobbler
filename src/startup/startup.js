@@ -37,7 +37,7 @@ require([
 	fetch(chrome.runtime.getURL(privacyDoc))
 		.then((response) => {
 			if (!response.ok) {
-				throw Error(response.statusText);
+				throw new Error(response.statusText);
 			}
 			response.text()
 				.then((text) => {
