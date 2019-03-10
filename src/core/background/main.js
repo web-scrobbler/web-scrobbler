@@ -106,7 +106,7 @@ require([
 	 * @param  {Function} sendResponse Response callback
 	 * @return {Boolean} True value
 	 */
-	function onMessage(request, sender, sendResponse) {
+	async function onMessage(request, sender, sendResponse) {
 		let ctrl;
 
 		switch (request.type) {
@@ -127,7 +127,8 @@ require([
 			case 'v2.toggleLove':
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
-					ctrl.toggleLove(request.data.isLoved).then(sendResponse);
+					await ctrl.toggleLove(request.data.isLoved);
+					sendResponse(request.data.isLoved);
 				}
 				break;
 
@@ -181,54 +182,51 @@ require([
 	 * @param  {Object} changeInfo Object contains changes of updated tab
 	 * @param  {Objeect} tab State of updated tab
 	 */
-	function onTabUpdated(tabId, changeInfo, tab) {
+	async function onTabUpdated(tabId, changeInfo, tab) {
 		// wait for navigation to complete (this does not mean page onLoad)
 		if (changeInfo.status !== 'complete') {
 			return;
 		}
 
-		Inject.onTabsUpdated(tab).then((result) => {
-			switch (result.type) {
-				case InjectResult.NO_MATCH: {
-					// Remove controller if any
-					unloadController(tabId, true);
-					break;
-				}
-
-				case InjectResult.MATCHED_BUT_DISABLED:
-				case InjectResult.MATCHED_AND_INJECTED: {
-					// Remove previous controller if any
-					unloadController(tabId);
-
-					let enabled = result.type === InjectResult.MATCHED_AND_INJECTED;
-					tabControllers[tabId] = new Controller(tabId, result.connector, enabled);
-					chrome.tabs.sendMessage(tabId, { type: 'v2.onReady' });
-
-					GA.event('core', 'inject', result.connector.label);
-
-					if (!isActiveSession) {
-						isActiveSession = true;
-						GA.pageview(`/background-injected?version=${extVersion}`);
-					}
-					break;
-				}
-				/* @ifdef FIREFOX
-				// Part of workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=1406765
-				// FIXME: Remove if this issue is resolved
-				case InjectResult.ALREADY_INJECTED: {
-					let controller = getControllerByTabId(tabId);
-					if (controller) {
-						controller.updatePageAction();
-					}
-					break;
-				}
-				/* @endif */
+		let result = await Inject.onTabsUpdated(tab);
+		switch (result.type) {
+			case InjectResult.NO_MATCH: {
+				// Remove controller if any
+				unloadController(tabId, true);
+				break;
 			}
 
-			updateContextMenu(tabId);
-		}).catch((err) => {
-			console.error(err);
-		});
+			case InjectResult.MATCHED_BUT_DISABLED:
+			case InjectResult.MATCHED_AND_INJECTED: {
+				// Remove previous controller if any
+				unloadController(tabId);
+
+				let enabled = result.type === InjectResult.MATCHED_AND_INJECTED;
+				tabControllers[tabId] = new Controller(tabId, result.connector, enabled);
+				chrome.tabs.sendMessage(tabId, { type: 'v2.onReady' });
+
+				GA.event('core', 'inject', result.connector.label);
+
+				if (!isActiveSession) {
+					isActiveSession = true;
+					GA.pageview(`/background-injected?version=${extVersion}`);
+				}
+				break;
+			}
+			/* @ifdef FIREFOX
+			// Part of workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=1406765
+			// FIXME: Remove if this issue is resolved
+			case InjectResult.ALREADY_INJECTED: {
+				let controller = getControllerByTabId(tabId);
+				if (controller) {
+					controller.updatePageAction();
+				}
+				break;
+			}
+			/* @endif */
+		}
+
+		updateContextMenu(tabId);
 	}
 
 	/**
@@ -325,17 +323,16 @@ require([
 	/**
 	 * Replace the extension version stored in
 	 * local storage by current one.
-	 * @return {Promise} Promise that will be resolved when the task has complete
 	 */
-	function updateVersionInStorage() {
+	async function updateVersionInStorage() {
 		let storage = ChromeStorage.getStorage(ChromeStorage.CORE);
-		return storage.get().then((data) => {
-			data.appVersion = extVersion;
-			return storage.set(data).then(() => {
-				// debug log internal storage state for people who send logs (tokens are anonymized)
-				storage.debugLog();
-			});
-		});
+		let data = await storage.get();
+
+		data.appVersion = extVersion;
+		await storage.set(data);
+
+		// debug log internal storage state for people who send logs (tokens are anonymized)
+		storage.debugLog();
 	}
 
 	/**
@@ -358,41 +355,40 @@ require([
 	/**
 	 * Check if current version has notable changes and show
 	 * the extension page on add0n.com website.
-	 * @return {Promise} Promise that will be resolved when the task has complete
 	 */
-	function notifyOfNotableChanges() {
+	async function notifyOfNotableChanges() {
 		let storage = ChromeStorage.getStorage(ChromeStorage.NOTIFICATIONS);
 
 		if (versionsToNotify.includes(extVersion)) {
-			return storage.get().then((data) => {
-				if (!data.changelog) {
-					data.changelog = {};
-				}
+			let data = await storage.get();
+			if (!data.changelog) {
+				data.changelog = {};
+			}
 
-				if (!data.changelog[extVersion]) {
-					openChangelogSection();
-					data.changelog[extVersion] = true;
+			if (!data.changelog[extVersion]) {
+				openChangelogSection();
+				data.changelog[extVersion] = true;
 
-					return storage.set(data);
-				}
-			}).then(() => {
-				storage.debugLog();
-			});
+				await storage.set(data);
+			}
+
+			await storage.debugLog();
 		}
 
 		storage.debugLog();
-		return Promise.resolve();
 	}
 
 	/**
 	 * Ask user for grant access for service covered by given scrobbler.
 	 * @param  {Object} scrobbler Scrobbler instance
 	 */
-	function authenticateScrobbler(scrobbler) {
-		scrobbler.getAuthUrl().then((authUrl) => {
+	async function authenticateScrobbler(scrobbler) {
+		try {
+			let authUrl = await scrobbler.getAuthUrl();
+
 			ScrobbleService.bindScrobbler(scrobbler);
 			chrome.tabs.create({ url: authUrl });
-		}).catch(() => {
+		} catch (e) {
 			console.log(`Unable to get auth URL for ${scrobbler.getLabel()}`);
 
 			Notifications.showSignInError(scrobbler, () => {
@@ -401,44 +397,44 @@ require([
 					chrome.tabs.create({ url: statusUrl });
 				}
 			});
-		});
+		}
 	}
 
 	/**
 	 * Called on the extension start.
 	 */
-	function startup() {
-		Migrate.migrate().then(() => {
-			updateVersionInStorage().then(notifyOfNotableChanges);
-			setupChromeEventListeners();
+	async function startup() {
+		await updateVersionInStorage();
+		await notifyOfNotableChanges();
+		setupChromeEventListeners();
 
-			// track background page loaded - happens once per browser session
-			GA.pageview(`/background-loaded?version=${extVersion}`);
+		// track background page loaded - happens once per browser session
+		GA.pageview(`/background-loaded?version=${extVersion}`);
 
-			ScrobbleService.bindAllScrobblers().then((boundScrobblers) => {
-				if (boundScrobblers.length === 0) {
-					console.warn('No scrobblers are bound');
+		let boundScrobblers = await ScrobbleService.bindAllScrobblers();
+		if (boundScrobblers.length === 0) {
+			console.warn('No scrobblers are bound');
 
-					let authUrl = chrome.extension.getURL('/options/options.html#accounts');
-					Notifications.showAuthNotification(() => {
-						chrome.tabs.create({ url: authUrl });
+			let authUrl = chrome.runtime.getURL('/options/options.html#accounts');
+			try {
+				await Notifications.showAuthNotification(() => {
+					chrome.tabs.create({ url: authUrl });
+				});
 
-						GA.event('core', 'auth', 'default');
-					}).catch(() => {
-						// Fallback for browsers with no notifications support
-						chrome.tabs.create({ url: authUrl });
+				GA.event('core', 'auth', 'default');
+			} catch (e) {
+				// Fallback for browsers with no notifications support
+				chrome.tabs.create({ url: authUrl });
 
-						GA.event('core', 'auth', 'fallback');
-					});
+				GA.event('core', 'auth', 'fallback');
+			}
 
-					return;
-				}
+			return;
+		}
 
-				for (let scrobbler of boundScrobblers) {
-					GA.event('core', 'bind', scrobbler.getLabel());
-				}
-			});
-		});
+		for (let scrobbler of boundScrobblers) {
+			GA.event('core', 'bind', scrobbler.getLabel());
+		}
 	}
 
 	startup();

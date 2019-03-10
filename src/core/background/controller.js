@@ -111,12 +111,11 @@ define((require) => {
 		/**
 		 * Reset song data and process it again.
 		 */
-		resetSongData() {
+		async resetSongData() {
 			if (this.currentSong) {
 				this.currentSong.resetSongData();
-				LocalCache.removeSongFromStorage(this.currentSong).then(() => {
-					this.processSong();
-				});
+				await LocalCache.removeSongFromStorage(this.currentSong);
+				this.processSong();
 			}
 		}
 
@@ -166,14 +165,7 @@ define((require) => {
 					return;
 				}
 
-				let isChanged = false;
-				for (let field of LocalCache.fieldsToSave) {
-					if (data[field]) {
-						this.currentSong.userdata[field] = data[field];
-						isChanged = true;
-					}
-				}
-
+				let isChanged = LocalCache.setUserData(this.currentSong, data);
 				// Resend song to pipeline
 				if (isChanged) {
 					this.processSong();
@@ -184,15 +176,14 @@ define((require) => {
 		/**
 		 * Send request to love or unlove current song.
 		 * @param  {Boolean} isLoved Flag indicated song is loved
-		 * @return {Promise} Promise that will be resolved when the task has complete
 		 */
-		toggleLove(isLoved) {
+		async toggleLove(isLoved) {
 			if (this.currentSong) {
-				return ScrobbleService.toggleLove(this.currentSong, isLoved).then(() => {
-					this.currentSong.metadata.userloved = isLoved;
-				});
+				await ScrobbleService.toggleLove(this.currentSong, isLoved);
+
+				this.currentSong.setLoveStatus(isLoved);
 			}
-			return Promise.reject();
+			throw new Error('No song is now playing');
 		}
 
 		/**
@@ -502,22 +493,21 @@ define((require) => {
 		 * Contains all actions to be done when song is ready to be marked as
 		 * now playing.
 		 */
-		setSongNowPlaying() {
-			ScrobbleService.sendNowPlaying(this.currentSong).then((results) => {
-				if (isAnyResult(results, ServiceCallResult.OK)) {
-					this.debugLog('Song set as now playing');
-					this.pageAction.setSongRecognized(this.currentSong);
-				} else {
-					this.debugLog('Song isn\'t set as now playing');
-					this.pageAction.setError();
-				}
-
-				if (!this.currentSong.flags.isReplaying) {
-					this.showNowPlayingNotification();
-				}
-			});
-
+		async setSongNowPlaying() {
 			this.currentSong.flags.isMarkedAsPlaying = true;
+
+			let results = await ScrobbleService.sendNowPlaying(this.currentSong);
+			if (isAnyResult(results, ServiceCallResult.OK)) {
+				this.debugLog('Song set as now playing');
+				this.pageAction.setSongRecognized(this.currentSong);
+			} else {
+				this.debugLog('Song isn\'t set as now playing');
+				this.pageAction.setError();
+			}
+
+			if (!this.currentSong.flags.isReplaying) {
+				this.showNowPlayingNotification();
+			}
 		}
 
 		/**
@@ -535,26 +525,25 @@ define((require) => {
 		 * The time should be set only after the song is validated and ready
 		 * to be scrobbled.
 		 */
-		scrobbleSong() {
-			ScrobbleService.scrobble(this.currentSong).then((results) => {
-				if (isAnyResult(results, ServiceCallResult.OK)) {
-					this.debugLog('Scrobbled successfully');
+		async scrobbleSong() {
+			let results = await ScrobbleService.scrobble(this.currentSong);
+			if (isAnyResult(results, ServiceCallResult.OK)) {
+				this.debugLog('Scrobbled successfully');
 
-					this.currentSong.flags.isScrobbled = true;
-					this.pageAction.setSongScrobbled(this.currentSong);
+				this.currentSong.flags.isScrobbled = true;
+				this.pageAction.setSongScrobbled(this.currentSong);
 
-					this.notifySongIsUpdated();
+				this.notifySongIsUpdated();
 
-					GA.event('core', 'scrobble', this.connector.label);
-				} else if (areAllResults(results, ServiceCallResult.IGNORED)) {
-					this.debugLog('Song is ignored by service');
-					this.pageAction.setSongIgnored(this.currentSong);
-				} else {
-					this.debugLog('Scrobbling failed', 'warn');
+				GA.event('core', 'scrobble', this.connector.label);
+			} else if (areAllResults(results, ServiceCallResult.IGNORED)) {
+				this.debugLog('Song is ignored by service');
+				this.pageAction.setSongIgnored(this.currentSong);
+			} else {
+				this.debugLog('Scrobbling failed', 'warn');
 
-					this.pageAction.setError();
-				}
-			});
+				this.pageAction.setError();
+			}
 		}
 
 		/**

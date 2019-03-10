@@ -90,7 +90,7 @@ function fetchSongInfo(trackInfoUrl) {
 }
 
 /**
- * Get URL from Saavn JavaScript script body.
+ * Get URL from JioSaavn JavaScript script body.
  * @param  {String} scriptBody Script body
  * @return {String} URL
  */

@@ -68,7 +68,7 @@ function getChangelog(version) {
  * @return {Promise} Promise resolved with release object
  */
 function getRelease(tagName) {
-	return github.repos.getReleases({
+	return github.repos.listReleases({
 		owner: 'web-scrobbler', repo: 'web-scrobbler'
 	}).then((response) => {
 		let releases = response.data;

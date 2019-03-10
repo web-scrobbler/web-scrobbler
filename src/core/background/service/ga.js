@@ -23,42 +23,37 @@ define((require) => {
 	 * @param  {String} ec Event category
 	 * @param  {String} ea Event action
 	 * @param  {String} el Event label
-	 * @return {Promise} Promise that will resolve when the task has completed
 	 */
 	function event(ec, ea, el) {
-		return sendRequest({ t: 'event', ec, ea, el });
+		sendRequest({ t: 'event', ec, ea, el });
 	}
 
 	/**
 	 * Send 'pageview' hit.
 	 * @param  {String} dp Document path
-	 * @return {Promise} Promise that will resolve when the task has completed
 	 */
 	function pageview(dp) {
-		return sendRequest({ t: 'pageview', dp });
+		sendRequest({ t: 'pageview', dp });
 	}
 
 	/**
 	 * Send request to Google Analytics API.
 	 * @param  {Object} query Payload data
-	 * @return {Promise} Promise that will resolve when the task has completed
 	 */
-	function sendRequest(query) {
-		return isAllowed().then((flag) => {
-			if (!flag) {
-				return Promise.resolve();
-			}
+	async function sendRequest(query) {
+		if (!await isAllowed()) {
+			return;
+		}
 
-			query.v = GA_PROTOCOL_VERSION;
-			query.tid = GA_TRACKING_ID;
-			query.cid = GA_CLIENT_ID;
+		query.v = GA_PROTOCOL_VERSION;
+		query.tid = GA_TRACKING_ID;
+		query.cid = GA_CLIENT_ID;
 
-			return fetch(GA_URL, {
-				method: 'POST', body: $.param(query)
-			}).catch((e) => {
-				console.error(`Error sending report to Google Analytics: ${e}`);
-			});
-		});
+		try {
+			fetch(GA_URL, {	method: 'POST', body: $.param(query) });
+		} catch (e) {
+			console.error(`Error sending report to Google Analytics: ${e}`);
+		}
 	}
 
 	/**
@@ -117,10 +112,9 @@ define((require) => {
 	 * Check if GA tracking is allowed by user.
 	 * @return {Boolean} True if GA is allowed; false otherwise
 	 */
-	function isAllowed() {
-		return options.get().then((data) => {
-			return !data.disableGa;
-		});
+	async function isAllowed() {
+		let data = await options.get();
+		return !data.disableGa;
 	}
 
 	return { event, pageview };

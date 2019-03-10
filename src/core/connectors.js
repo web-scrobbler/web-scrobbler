@@ -112,9 +112,9 @@ define(function() {
 	},
 
 	{
-		label: 'Zvooq',
-		matches: ['*://zvooq.com/*'],
-		js: ['connectors/zvooq.js'],
+		label: 'Звук',
+		matches: ['*://zvuk.com/*'],
+		js: ['connectors/zvuk.js'],
 	},
 
 	{
@@ -293,7 +293,7 @@ define(function() {
 
 	{
 		label: 'Xiami',
-		matches: ['*://www.xiami.com/play*'],
+		matches: ['*://www.xiami.com/*'],
 		js: ['connectors/xiami.js'],
 	},
 
@@ -638,7 +638,7 @@ define(function() {
 
 	{
 		label: 'Noise FM',
-		matches: ['*://noisefm.ru/*'],
+		matches: ['*://noisefm.ru/*', '*://en.noisefm.ru/*'],
 		js: ['connectors/noisefm.js'],
 		allFrames: true,
 	},
@@ -781,9 +781,9 @@ define(function() {
 	},
 
 	{
-		label: 'Saavn',
-		matches: ['*://www.saavn.com/*'],
-		js: ['connectors/saavn.js'],
+		label: 'JioSaavn',
+		matches: ['*://www.jiosaavn.com/*'],
+		js: ['connectors/jiosaavn.js'],
 	},
 
 	{
@@ -1074,7 +1074,7 @@ define(function() {
 		js: ['connectors/musicoin.js']
 	}, {
 		label: '181.fm',
-		matches: ['*://181fm.mystreamplayer.com/*'],
+		matches: ['*://player.181fm.com/*'],
 		js: ['connectors/181.fm.js']
 	}, {
 		label: 'Phish.in',
@@ -1236,8 +1236,20 @@ define(function() {
 		matches: ['*://aphextwin.warp.net/*'],
 		js: ['connectors/warp-aphextwin.js'],
 	}, {
+		label: 'Resident Advisor',
+		matches: ['*://www.residentadvisor.net/*'],
+		js: ['connectors/residentadvisor.js'],
+	}, {
 		label: 'Zachary Seguin Music',
 		matches: ['*://music.zacharyseguin.ca/*'],
+		js: ['connectors/musickit.js'],
+	}, {
+		label: 'PlayAppleMusic.com',
+		matches: ['*://playapplemusic.com/*'],
+		js: ['connectors/musickit.js'],
+	}, {
+		label: 'Musish',
+		matches: ['*://musi.sh/*'],
 		js: ['connectors/musickit.js'],
 	}, {
 		label: '1001tracklists',
@@ -1259,5 +1271,17 @@ define(function() {
 		label: 'That Station',
 		matches: ['*://www.thatstation.net/listen-live/'],
 		js: ['connectors/thatstation.js'],
+	}, {
+		label: 'Radio Kyivstar',
+		matches: ['*://radio.kyivstar.ua/*'],
+		js: ['connectors/kyivstar.js'],
+	}, {
+		label: 'Funkwhale',
+		matches: [''],
+		js: ['connectors/funkwhale.js'],
+	}, {
+		label: 'R-a-dio',
+		matches: ['*://r-a-d.io/*'],
+		js: ['connectors/r-a-d.io.js'],
 	}];
 });

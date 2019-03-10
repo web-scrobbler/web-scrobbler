@@ -1,7 +1,7 @@
 'use strict';
 
 define(() => {
-	const state = {
+	const State = {
 		base: {
 			icon: 'base',
 			popup: '/popups/go_play_music.html',
@@ -126,7 +126,7 @@ define(() => {
 		 * Show read Last.fm icon (connector is injected).
 		 */
 		setSiteSupported() {
-			this.setBrowserAction(state.base);
+			this.setBrowserAction(State.base);
 		}
 
 		/**
@@ -134,7 +134,7 @@ define(() => {
 		 * @param {Object} song Song instance
 		 */
 		setSongLoading(song) {
-			this.setBrowserAction(state.loading, song.getArtistTrackString());
+			this.setBrowserAction(State.loading, song.getArtistTrackString());
 		}
 
 		/**
@@ -142,7 +142,7 @@ define(() => {
 		 * @param {Object} song Song instance
 		 */
 		setSongRecognized(song) {
-			this.setBrowserAction(state.recognized, song.getArtistTrackString());
+			this.setBrowserAction(State.recognized, song.getArtistTrackString());
 		}
 
 		/**
@@ -150,7 +150,7 @@ define(() => {
 		 * @param {Object} song Song instance
 		 */
 		setSongSkipped(song) {
-			this.setBrowserAction(state.skipped, song.getArtistTrackString());
+			this.setBrowserAction(State.skipped, song.getArtistTrackString());
 		}
 
 		/**
@@ -158,14 +158,14 @@ define(() => {
 		 * @param {Object} song Song instance
 		 */
 		setSongIgnored(song) {
-			this.setBrowserAction(state.ignored, song.getArtistTrackString());
+			this.setBrowserAction(State.ignored, song.getArtistTrackString());
 		}
 
 		/**
 		 * Show gray Last.fm icon (connector is disabled).
 		 */
 		setSiteDisabled() {
-			this.setBrowserAction(state.disabled);
+			this.setBrowserAction(State.disabled);
 		}
 
 		/**
@@ -173,28 +173,28 @@ define(() => {
 		 * @param {Object} song Song instance
 		 */
 		setSongScrobbled(song) {
-			this.setBrowserAction(state.scrobbled, song.getArtistTrackString());
+			this.setBrowserAction(State.scrobbled, song.getArtistTrackString());
 		}
 
 		/**
 		 * Show gray question icon (song is not known by scrobbling service).
 		 */
 		setSongNotRecognized() {
-			this.setBrowserAction(state.unknown);
+			this.setBrowserAction(State.unknown);
 		}
 
 		/**
 		 * Show orange Last.fm icon (auth error is occurred).
 		 */
 		setError() {
-			this.setBrowserAction(state.error);
+			this.setBrowserAction(State.error);
 		}
 
 		/**
 		 * Hide browser action icon.
 		 */
 		reset() {
-			this.setBrowserAction(state.unsupported);
+			this.setBrowserAction(State.unsupported);
 		}
 	}
 

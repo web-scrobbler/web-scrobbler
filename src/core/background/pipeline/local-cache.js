@@ -10,54 +10,70 @@ define((require) => {
 	const ChromeStorage = require('storage/chrome-storage');
 
 	const storage = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
-	const fieldsToSave = ['artist', 'track', 'album'];
+	const FIELDS_TO_SAVE = ['artist', 'track', 'album'];
 
 	/**
 	 * Load song info from Chrome storage.
 	 * @param  {Object} song Song object
-	 * @return {Promise} Promise that will be resolved when the task has complete
 	 */
-	function process(song) {
+	async function process(song) {
 		let songId = song.getUniqueId();
 		if (!songId) {
-			return Promise.resolve();
+			return;
 		}
 
-		return storage.get().then((data) => {
-			if (data[songId]) {
-				let isChanged = false;
-				let savedMetadata = data[songId];
+		let data = await storage.get();
+		if (data[songId]) {
+			let isChanged = false;
+			let savedMetadata = data[songId];
 
-				for (let field of fieldsToSave) {
-					if (savedMetadata[field]) {
-						isChanged = true;
-						song.processed[field] = savedMetadata[field];
-					}
-				}
-
-				if (isChanged) {
-					song.flags.isCorrectedByUser = true;
+			for (let field of FIELDS_TO_SAVE) {
+				if (savedMetadata[field]) {
+					isChanged = true;
+					song.processed[field] = savedMetadata[field];
 				}
 			}
-		});
+
+			if (isChanged) {
+				song.flags.isCorrectedByUser = true;
+			}
+		}
 	}
 
 	/**
 	 * Remove song info from Chrome storage.
 	 * @param  {Object} song Song object
-	 * @return {Promise} Promise that will be resolved when the task has complete
 	 */
-	function removeSongFromStorage(song) {
+	async function removeSongFromStorage(song) {
 		let songId = song.getUniqueId();
 		if (!songId) {
-			return Promise.resolve();
+			return;
 		}
 
-		return storage.get().then((data) => {
-			delete data[songId];
-			return storage.set(data);
-		});
+		let data = await storage.get();
+
+		delete data[songId];
+		await storage.set(data);
 	}
 
-	return { process, removeSongFromStorage, fieldsToSave };
+	/**
+	 * Apply user data to given song.
+	 * @param  {Object} song Song object
+	 * @param  {Object} data User data
+	 * @return {Boolean} True if data is applied
+	 */
+	function setUserData(song, data) {
+		let isChanged = false;
+
+		for (let field of FIELDS_TO_SAVE) {
+			if (data[field]) {
+				song.userdata[field] = data[field];
+				isChanged = true;
+			}
+		}
+
+		return isChanged;
+	}
+
+	return { process, removeSongFromStorage, setUserData };
 });

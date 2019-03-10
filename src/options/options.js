@@ -369,6 +369,10 @@ require([
 						item.append(removeBtn);
 						cacheDom.append(item);
 					}
+
+					let cacheSizeStr = Object.keys(data).length.toString();
+					let poputTitle = chrome.i18n.getMessage('optionsEditedTracksPopupTitle', cacheSizeStr);
+					$('#edited-track-modal .modal-title').text(poputTitle);
 				}
 			});
 

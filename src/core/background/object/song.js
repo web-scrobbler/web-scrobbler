@@ -266,6 +266,26 @@ define((require) => {
 		}
 
 		/**
+		 * Set `Love` status of song.
+		 *
+		 * This function is supposed to be used by multiple scrobblers
+		 * (services). Each service can have different value of `Love` flag;
+		 * the behavior of the function is to set `Love` to true, if all
+		 * services have the song with `Love` set to true.
+		 *
+		 * @param  {Boolean} isLoved Flag means song is loved or not
+		 */
+		setLoveStatus(isLoved) {
+			if (isLoved !== undefined) {
+				if (isLoved) {
+					this.metadata.userloved = true;
+				} else if (this.metadata.userloved) {
+					this.metadata.userloved = false;
+				}
+			}
+		}
+
+		/**
 		 * Get a string representing the song.
 		 *
 		 * @return {String} String representing the object.
