@@ -165,14 +165,7 @@ define((require) => {
 					return;
 				}
 
-				let isChanged = false;
-				for (let field of LocalCache.FIELDS_TO_SAVE) {
-					if (data[field]) {
-						this.currentSong.userdata[field] = data[field];
-						isChanged = true;
-					}
-				}
-
+				let isChanged = LocalCache.setUserData(this.currentSong, data);
 				// Resend song to pipeline
 				if (isChanged) {
 					this.processSong();

@@ -56,5 +56,24 @@ define((require) => {
 		await storage.set(data);
 	}
 
-	return { process, removeSongFromStorage, FIELDS_TO_SAVE };
+	/**
+	 * Apply user data to given song.
+	 * @param  {Object} song Song object
+	 * @param  {Object} data User data
+	 * @return {Boolean} True if data is applied
+	 */
+	function setUserData(song, data) {
+		let isChanged = false;
+
+		for (let field of FIELDS_TO_SAVE) {
+			if (data[field]) {
+				song.userdata[field] = data[field];
+				isChanged = true;
+			}
+		}
+
+		return isChanged;
+	}
+
+	return { process, removeSongFromStorage, setUserData };
 });
