@@ -56,6 +56,6 @@ require([
 						let content = converter.makeHtml(text);
 						$('.privacy-policy').html(content);
 					});
-			})
+			});
 		});
 });
