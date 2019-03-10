@@ -111,11 +111,11 @@ const Util = {
 		for (let i = 0; i < 3; i++) {
 			let idx = s.lastIndexOf(':');
 			if (idx > -1) {
-				val = parseInt(s.substr(idx + 1));
+				val = parseInt(s.substr(idx + 1), 10);
 				seconds += val * Math.pow(60, i);
 				s = s.substr(0, idx);
 			} else {
-				val = parseInt(s);
+				val = parseInt(s, 10);
 				seconds += val * Math.pow(60, i);
 				break;
 			}
