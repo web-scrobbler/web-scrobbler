@@ -49,13 +49,13 @@ require([
 			console.log(`Failed to load ${privacyDoc}`);
 
 			fetch(chrome.runtime.getURL(defaultPrivacyDoc))
-			.then((response) => {
-				response.text()
-				.then((text) => {
-					let converter = new showdown.Converter();
-					let content = converter.makeHtml(text);
-					$('.privacy-policy').html(content);
-				});
+				.then((response) => {
+					response.text()
+					.then((text) => {
+						let converter = new showdown.Converter();
+						let content = converter.makeHtml(text);
+						$('.privacy-policy').html(content);
+					});
 			})
 		});
 });
