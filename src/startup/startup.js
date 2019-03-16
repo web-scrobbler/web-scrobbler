@@ -26,7 +26,7 @@ require([
 		$('.finished').show();
 	};
 
-	(async () => {
+	(async() => {
 		const locale = chrome.i18n.getMessage('@@ui_locale');
 		const defaultPrivacyDoc = 'PRIVACY.md';
 		let privacyDocs = [defaultPrivacyDoc];
