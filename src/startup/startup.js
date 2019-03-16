@@ -26,8 +26,8 @@ require([
 		$('.finished').show();
 	};
 
-	const loadPrivacy =  async () => {
-		const locale = 'pl'; // window.navigator.language.split('-')[0];
+	(async () => {
+		const locale = window.navigator.language.split('-')[0];
 		const defaultPrivacyDoc = 'PRIVACY.md';
 
 		let privacyDocs = [defaultPrivacyDoc];
@@ -50,7 +50,5 @@ require([
 				console.log(`Failed to load ${privacyDoc}, reason: ${err.message}`);
 			}
 		}
-	}
-
-	loadPrivacy();
+	})();
 });
