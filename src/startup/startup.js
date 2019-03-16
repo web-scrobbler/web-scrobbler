@@ -26,7 +26,7 @@ require([
 		$('.finished').show();
 	};
 
-	const locale = 'riu'; // window.navigator.language.split('-')[0];
+	const locale = window.navigator.language.split('-')[0];
 	const defaultPrivacyDoc = 'PRIVACY.md';
 
 	let privacyDoc = defaultPrivacyDoc;
