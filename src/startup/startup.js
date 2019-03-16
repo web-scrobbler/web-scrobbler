@@ -26,36 +26,32 @@ require([
 		$('.finished').show();
 	};
 
-	const locale = window.navigator.language.split('-')[0];
-	const defaultPrivacyDoc = 'PRIVACY.md';
+	const loadPrivacy =  async () => {
+		const locale = window.navigator.language.split('-')[0];
+		const defaultPrivacyDoc = 'PRIVACY.md';
 
-	let privacyDoc = defaultPrivacyDoc;
-	if (locale !== 'en') {
-		privacyDoc = `PRIVACY.${locale}.md`;
+		let privacyDocs = [defaultPrivacyDoc];
+
+		if (locale !== 'en') {
+			let privacyDoc = `PRIVACY.${locale}.md`;
+			privacyDocs.unshift(privacyDoc);
+		}
+
+		for (let privacyDoc of privacyDocs) {
+			console.log(`fetching ${privacyDoc}`);
+			try {
+				const response = await fetch(chrome.runtime.getURL(privacyDoc));
+				const markdown = await response.text();
+				let converter = new showdown.Converter();
+				let content = converter.makeHtml(markdown);
+				$('.privacy-policy').html(content);
+				break;
+			} catch (err) {
+				console.log(`Failed to load privacy ${err}`);
+				continue;
+			}
+		}
 	}
 
-	fetch(chrome.runtime.getURL(privacyDoc))
-		.then((response) => {
-			if (!response.ok) {
-				throw new Error(response.statusText);
-			}
-			response.text()
-				.then((text) => {
-					let converter = new showdown.Converter();
-					let content = converter.makeHtml(text);
-					$('.privacy-policy').html(content);
-				});
-		}).catch(() => {
-			console.log(`Failed to load ${privacyDoc}`);
-
-			fetch(chrome.runtime.getURL(defaultPrivacyDoc))
-				.then((response) => {
-					response.text()
-						.then((text) => {
-							let converter = new showdown.Converter();
-							let content = converter.makeHtml(text);
-							$('.privacy-policy').html(content);
-						});
-				});
-		});
+	loadPrivacy();
 });
