@@ -27,14 +27,14 @@ require([
 	};
 
 	(async () => {
-		const locale = window.navigator.language.split('-')[0];
+		const locale = chrome.i18n.getMessage('@@ui_locale');
 		const defaultPrivacyDoc = 'PRIVACY.md';
-
 		let privacyDocs = [defaultPrivacyDoc];
 
-		if (locale !== 'en') {
-			let privacyDoc = `PRIVACY.${locale}.md`;
-			privacyDocs.unshift(privacyDoc);
+		if (!locale.startsWith('en')) {
+			let localeSplit = locale.split('_');
+			privacyDocs.unshift(`PRIVACY.${localeSplit[0]}.md`);
+			privacyDocs.unshift(`PRIVACY.${locale}.md`);
 		}
 
 		for (let privacyDoc of privacyDocs) {
