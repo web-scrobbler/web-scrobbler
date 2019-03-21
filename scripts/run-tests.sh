@@ -8,6 +8,6 @@ if [ -z "$matches" ]
 	exit 0
 fi
 
-./node_modules/.bin/grunt
+# ./node_modules/.bin/grunt
 ./node_modules/.bin/grunt test:$matches;
 
