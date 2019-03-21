@@ -1,10 +1,13 @@
 language: node_js
-sudo: false
+sudo: required
 node_js:
   - '8.9.1'
 apt:
 	packages:
 		- google-chrome-stable
+
+before_script:
+  - sh -e /etc/init.d/xvfb start
 
 script: ./scripts/run-tests.sh
 
