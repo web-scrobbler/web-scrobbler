@@ -1,7 +1,7 @@
 language: node_js
 sudo: false
 node_js:
-  - '10.15.3'
+  - '8.9.1'
 
 script: bash scripts/run-tests.sh
 
