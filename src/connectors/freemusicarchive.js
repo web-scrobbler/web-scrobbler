@@ -55,11 +55,7 @@ Connector.getArtist = () => {
 				return this.nodeType === 3;
 			}).text();
 		case 'album':
-			// if there are two anchors in the .playtxt span then it uses the format "Artist - TrackName" (albums with letious Artists)
-			if ($('div.gcol-electronic .playtxt a').length === 2) {
-				return $('div.gcol-electronic .playtxt a').first().text();
-			}
-			return searchComment(/\[artist_name\] => (.+)/);
+			return $('.subh1 a').text();
 		case 'song':
 			// return $('a[property="cc:attributionName"]').text();  //can't use, attribution isn't always present
 			return searchComment(/\[artist_name\] => (.+)/);
