@@ -269,7 +269,8 @@ function getChromeOptions() {
 		`--load-extension=${extPath}`,
 		'--start-maximized',
 		'--disable-logging',
-		'--lang=en-US'
+		'--lang=en-US',
+		'--no-sandbox'
 	]);
 	chromeOptions.setLoggingPrefs({ browser: 'ALL' });
 
