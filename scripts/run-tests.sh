@@ -1,6 +1,6 @@
 #!/bin/bash
 
-matches=$(git diff --name-only | grep 'src/connectors/' | sed 's/src\/connectors\///' | rev | cut -c 4- | rev | paste -sd ":" -)
+matches=$(git diff --name-only $TRAVIS_COMMIT_RANGE | grep 'src/connectors/' | sed 's/src\/connectors\///' | rev | cut -c 4- | rev | paste -sd ":" -)
 
 if [ -z "$matches" ]
 	then
