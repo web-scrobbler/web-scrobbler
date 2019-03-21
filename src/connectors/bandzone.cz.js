@@ -15,6 +15,8 @@ function isMainPage() {
 		location.href === 'https://bandzone.cz/';
 }
 
+
+
 function setupMainPagePlayer() {
 	Connector.playerSelector = '#stats';
 

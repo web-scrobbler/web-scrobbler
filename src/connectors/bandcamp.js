@@ -92,6 +92,8 @@ Connector.getDuration = () => {
 	return $('.bcweekly.playing').length ? null : $('audio')[0].duration;
 };
 
+
+
 Connector.getUniqueID = () => {
 	if ($('.bcweekly.playing').length) {
 		return +location.search.match(/show=(\d+)?/)[1] === $('#pagedata').data('blob').bcw_show.show_id ? $('#pagedata').data('blob').bcw_show.tracks[$('.bcweekly-current').data('index')].track_id : null;

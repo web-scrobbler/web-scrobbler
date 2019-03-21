@@ -1,12 +1,14 @@
 language: node_js
 sudo: false
 node_js:
-  - "8.11.2"
+  - '10.15.3'
+
+script: bash scripts/run-tests.sh
 
 deploy:
   skip_cleanup: true
   provider: script
-  script: bash deploy.sh
+  script: bash scripts/deploy.sh
   on:
     tags: true
 
