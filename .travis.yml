@@ -3,7 +3,7 @@ sudo: false
 node_js:
   - '8.9.1'
 
-script: bash scripts/run-tests.sh
+script: ./scripts/run-tests.sh
 
 deploy:
   skip_cleanup: true
