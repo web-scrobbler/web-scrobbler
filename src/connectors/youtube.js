@@ -191,7 +191,6 @@ function getVideoCategory(videoId) {
 }
 
 async function fetchCategoryId(videoId) {
-	let found = false;
 	for (let key of YT_API_KEYS) {
 		const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${key}`;
 		try {
@@ -212,9 +211,7 @@ async function fetchCategoryId(videoId) {
 		}
 	}
 
-	if (!found) {
-		return null;
-	}
+	return null;
 }
 
 function setupMutationObserver() {
