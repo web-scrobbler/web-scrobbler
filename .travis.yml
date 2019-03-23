@@ -1,6 +1,6 @@
 dist: trusty
 language: node_js
-sudo: required
+sudo: false
 node_js:
   - '10.15.3'
 addons:
