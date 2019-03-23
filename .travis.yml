@@ -1,13 +1,10 @@
+dist: trusty
 language: node_js
 sudo: required
 node_js:
-  - '8.9.1'
-apt:
-	packages:
-		- google-chrome-stable
-
-before_script:
-  - sh -e /etc/init.d/xvfb start
+  - '10.15.3'
+addons:
+  chrome: stable
 
 script: ./scripts/run-tests.sh
 
