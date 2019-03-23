@@ -4,29 +4,39 @@ require([
 	'wrapper/chrome',
 	'storage/chrome-storage',
 	'vendor/showdown.min'
-], function(chrome, ChromeStorage, showdown) {
-	$('#opt-in').click(() => {
-		update(false);
-	});
+], (chrome, ChromeStorage, showdown) => {
+	/**
+	 * Run initialization
+	 */
+	init();
 
-	$('#opt-out').click(() => {
-		update(true);
-	});
-
-	let update = (value) => {
-		const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
-
-		options.get().then((data) => {
-			data.disableGa = value;
-			options.set(data);
+	function init() {
+		$('#opt-in').click(() => {
+			updateGaState(false).then(closePage);
 		});
 
-		window.close();
-		$('.controls').hide();
-		$('.finished').show();
-	};
+		$('#opt-out').click(() => {
+			updateGaState(true).then(closePage);
+		});
 
-	(async() => {
+		preparePrivacyPolicy();
+	}
+
+	function closePage() {
+		window.close();
+		// $('.controls').hide();
+		// $('.finished').show();
+	}
+
+	async function updateGaState(value) {
+		const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
+
+		let data = await options.get();
+		data.disableGa = value;
+		await options.set(data);
+	}
+
+	async function preparePrivacyPolicy() {
 		const locale = chrome.i18n.getMessage('@@ui_locale');
 		const defaultPrivacyDoc = 'PRIVACY.md';
 		let privacyDocs = [defaultPrivacyDoc];
@@ -50,5 +60,5 @@ require([
 				console.log(`Failed to load ${privacyDoc}, reason: ${err.message}`);
 			}
 		}
-	})();
+	}
 });
