@@ -229,8 +229,6 @@ define((require) => {
 			return this.parsed.originUrl;
 		}
 
-
-
 		/**
 		 * Check if song is empty. Empty song means it's missing
 		 * either artist or track title.
