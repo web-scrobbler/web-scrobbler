@@ -3,6 +3,8 @@
 const CATEGORY_MUSIC = '10';
 const CATEGORY_ENTERTAINMENT = '24';
 
+const CATEGORY_PENDING = 'YT_DUMMY_CATEGORY_PENDING';
+
 /**
  * Array of categories allowed to be scrobbled.
  * @type {Array}
@@ -178,13 +180,24 @@ function getVideoCategory(videoId) {
 	if (videoId === null) {
 		return null;
 	}
+
 	if (!categoryCache.has(videoId)) {
+		// Add dummy category for videoId to prevent
+		// fetching category multiple times.
+		categoryCache.set(videoId, CATEGORY_PENDING);
+
 		fetchCategoryId(videoId).then((category) => {
 			if (category === null) {
 				console.log(`Failed to resolve category for ${videoId}`);
+
+				// Clear previous 'pending' category
+				categoryCache.delete(videoId);
+			} else {
+				categoryCache.set(videoId, category);
 			}
-			categoryCache.set(videoId, category);
 		});
+
+		return null;
 	}
 
 	return categoryCache.get(videoId);
