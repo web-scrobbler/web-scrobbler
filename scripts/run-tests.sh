@@ -18,6 +18,6 @@ if [ -z "$TEST_PATTERN" ]
 	exit 0
 fi
 
-# ./node_modules/.bin/grunt
+./node_modules/.bin/grunt
 ./node_modules/.bin/grunt test$TEST_PATTERN;
 
