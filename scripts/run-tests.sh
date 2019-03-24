@@ -1,8 +1,16 @@
 #!/bin/bash
 
+MATCHER='master'
+
+if [ ! -z "$TRAVIS" ]
+then
+	MATCHER=$TRAVIS_COMMIT_RANGE
+fi
+
 TEST_PATH="$(pwd)/tests/connectors/"
-MATCHES=$(git diff --name-only $TRAVIS_COMMIT_RANGE | grep 'src/connectors/' | sed 's/src\/connectors\///' | rev | cut -c 4- | rev)
+MATCHES=$(git diff --name-only $MATCHER | grep 'src/connectors/' | sed 's/src\/connectors\///' | rev | cut -c 4- | rev)
 TEST_PATTERN=''
+
 
 for CONNECTOR in $MATCHES
 do
