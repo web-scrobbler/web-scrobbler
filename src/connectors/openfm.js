@@ -1,13 +1,13 @@
 'use strict';
 
-Connector.playerSelector = '#control-panel';
+Connector.playerSelector = '#station-view';
 
-Connector.artistSelector = '.station-details > h3';
+Connector.artistSelector = '#station-view .station-details > h3';
 
-Connector.trackSelector = '.station-details > h2';
+Connector.trackSelector = '#station-view .station-details > h2';
 
-Connector.albumSelector = '.station-details > h4';
+Connector.albumSelector = '#station-view .station-details > h4';
 
 Connector.isPlaying = () => {
-	return $('.controls-con > button').attr('class') !== 'play-btn';
+	return $('.controls-con > .stop-btn').length > 0;
 };
