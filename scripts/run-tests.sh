@@ -20,12 +20,13 @@ do
 	fi
 done
 
+./node_modules/.bin/grunt
+
 if [ -z "$TEST_PATTERN" ]
 	then
 
 	exit 0
 fi
 
-./node_modules/.bin/grunt
 ./node_modules/.bin/grunt test$TEST_PATTERN;
 
