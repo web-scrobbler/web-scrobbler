@@ -199,7 +199,7 @@ require([
 		let result = await Inject.onTabsUpdated(tab);
 		switch (result.type) {
 			case InjectResult.NO_MATCH: {
-				unloadController(tabId, true);
+				unloadController(tabId);
 				break;
 			}
 
@@ -219,17 +219,6 @@ require([
 				}
 				break;
 			}
-			/* @ifdef FIREFOX
-			// Part of workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=1406765
-			// FIXME: Remove if this issue is resolved
-			case InjectResult.ALREADY_INJECTED: {
-				let controller = getControllerByTabId(tabId);
-				if (controller) {
-					controller.updatePageAction();
-				}
-				break;
-			}
-			/* @endif */
 		}
 
 		updateContextMenu(tabId);
@@ -343,16 +332,15 @@ require([
 	/**
 	 * Stop and remove controller for given tab ID.
 	 * @param  {Number} tabId Tab ID
-	 * @param  {Boolean} hideBrowserAction Should controller reset icon
 	 */
-	function unloadController(tabId, hideBrowserAction = false) {
+	function unloadController(tabId) {
 		let controller = tabControllers[tabId];
 
 		if (controller) {
 			let label = controller.getConnector().label;
 			console.log(`Tab ${tabId}: Remove controller for ${label} connector`);
 
-			controller.finish(hideBrowserAction);
+			controller.finish();
 			delete tabControllers[tabId];
 		}
 	}

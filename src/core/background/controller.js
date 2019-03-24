@@ -98,14 +98,9 @@ define((require) => {
 
 		/**
 		 * Do finalization before unloading controller.
-		 * @param  {Boolean} hideBrowserAction Should controller reset icon
 		 */
-		finish(hideBrowserAction) {
+		finish() {
 			this.resetState();
-			// FIXME: Workaround for Firefox
-			if (hideBrowserAction) {
-				this.pageAction.reset();
-			}
 		}
 
 		/**
@@ -223,14 +218,6 @@ define((require) => {
 				this.processNewState(newState);
 			}
 		}
-
-		/* @ifdef FIREFOX
-		// Part of workaround for https://bugzilla.mozilla.org/show_bug.cgi?id=1406765
-		// FIXME: Remove if this issue is resolved
-		updatePageAction() {
-			this.pageAction.update();
-		}
-		/* @endif */
 
 		/** Internal functions */
 
