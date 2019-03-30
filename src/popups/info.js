@@ -195,13 +195,20 @@ require(['util'], (Util) => {
 			});
 		}
 
-		$('#edit input').off('keypress');
-		$('#edit input').on('keypress', (e) => {
-			let isEnterKey = e.keyCode === 13;
-			if (isEnterKey) {
+		$('#edit input').off('keyup');
+		$('#edit input').on('keyup', (e) => {
+			let isDataComplete = isSongDataComplete();
+			let isEnterKey = e.which === 13;
+
+			if (isEnterKey && isDataComplete) {
 				setEditMode(false);
 				correctSongInfo();
+
+				return;
 			}
+
+			setControlEnabled('#edit-link', !isDataComplete);
+			setControlEnabled('#swap-link', !isDataComplete);
 		});
 	}
 
@@ -222,23 +229,23 @@ require(['util'], (Util) => {
 
 	function updateControls() {
 		$('#edit-link').text(i18n(isEditModeEnabled ? 'infoSubmit' : 'infoEdit'));
-		$('#edit-link').attr('data-disable', song.flags.isSkipped ||
+		setControlEnabled('#edit-link', song.flags.isSkipped ||
 			song.flags.isScrobbled);
 
 		$('#swap-link').text(i18n('infoSwap'));
 		$('#swap-link').attr('data-hide', !isEditModeEnabled);
-		$('#swap-link').attr('data-disable', song.flags.isScrobbled ||
+		setControlEnabled('#swap-link', song.flags.isScrobbled ||
 			song.flags.isSkipped);
 
 		$('#revert-link').text(i18n('infoRevert'));
 		$('#revert-link').attr('data-hide', !song.flags.isCorrectedByUser
 			|| isEditModeEnabled);
-		$('#revert-link').attr('data-disable', song.flags.isScrobbled ||
+		setControlEnabled('#revert-link', song.flags.isScrobbled ||
 			!song.flags.isCorrectedByUser);
 
 		$('#skip-link').text(i18n('infoSkip'));
 		$('#skip-link').attr('data-hide', isEditModeEnabled);
-		$('#skip-link').attr('data-disable', song.flags.isSkipped ||
+		setControlEnabled('#skip-link', song.flags.isSkipped ||
 			song.flags.isScrobbled);
 
 		if (song.flags.isScrobbled) {
@@ -312,6 +319,18 @@ require(['util'], (Util) => {
 
 	function i18n(tag, ...context) {
 		return chrome.i18n.getMessage(tag, context);
+	}
+
+	function isSongDataComplete() {
+		let title = $('#track-input').val();
+		let artist = $('#artist-input').val();
+
+		return artist && title;
+	}
+
+	function setControlEnabled(selector, state) {
+		$(selector).attr('data-disable', state);
+		$(selector).prop('disabled', state);
 	}
 
 	function main() {

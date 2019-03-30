@@ -65,9 +65,16 @@ input {
 	position: absolute;
 }
 #edit-controls > * + *:before {
-	/* content: '•&nbsp;' */
-	content: '\2022\0000a0';
+	/* content: '&nbsp;•&nbsp;' */
+	content: '\0000a0\2022\0000a0';
 	display: inline-block;
+}
+
+.control-btn {
+	background: none;
+	border: none;
+	outline: none;
+	padding: 0;
 }
 
 .control-btn:hover {
@@ -102,10 +109,10 @@ input {
 }
 
 [data-hide="true"] {
-	display: none;
+	display: none !important;
 }
 [data-disable="true"] {
 	color: #999;
-	cursor: default;
-	text-decoration: none;
+	cursor: default !important;
+	text-decoration: none !important;
 }
