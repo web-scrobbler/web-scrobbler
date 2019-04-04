@@ -262,6 +262,7 @@ function rethrowError(err) {
  * @return {Object} Chrome options
  */
 function getChromeOptions() {
+	let isTravisCi = (process.env.TRAVIS === 'true');
 	let extPath = path.join(__dirname, '../.././src');
 
 	let chromeOptions = new chromedriver.Options();
@@ -271,6 +272,14 @@ function getChromeOptions() {
 		'--disable-logging',
 		'--lang=en-US'
 	]);
+
+	if (isTravisCi) {
+		chromeOptions.addArguments([
+			'--no-sandbox',
+			'--headless'
+		]);
+	}
+
 	chromeOptions.setLoggingPrefs({ browser: 'ALL' });
 
 	let uBlockFilePath = path.join(__dirname, '../ublock.zip');
