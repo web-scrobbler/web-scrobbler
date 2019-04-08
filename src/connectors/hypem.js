@@ -20,3 +20,7 @@ Connector.getUniqueID = () => {
 };
 
 Connector.isPlaying = () => $('#playerPlay').hasClass('pause');
+
+Connector.currentTimeSelector = '#player-time-position';
+
+Connector.durationSelector = '#player-time-total';
