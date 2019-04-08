@@ -11,3 +11,7 @@ Connector.trackSelector = 'li.active .title';
 Connector.trackArtSelector = 'img#album-big';
 
 Connector.isPlaying = () => $('.hype-player').hasClass('playing');
+
+Connector.currentTimeSelector = '.current_pos';
+
+Connector.durationSelector = 'li.active .duration';
