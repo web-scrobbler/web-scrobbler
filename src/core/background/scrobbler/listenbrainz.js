@@ -185,7 +185,7 @@ define((require) => {
 
 		async fetchSession(url) {
 			this.debugLog(`Use ${url}`);
-			let promise = fetch(url, { method: 'GET' });
+			let promise = fetch(url, { method: 'GET', credentials: 'same-origin' });
 			let timeout = BaseScrobbler.REQUEST_TIMEOUT;
 
 			let response = await Util.timeoutPromise(timeout, promise);
