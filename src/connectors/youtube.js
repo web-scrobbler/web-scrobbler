@@ -189,12 +189,9 @@ function getVideoCategory(videoId) {
 		fetchCategoryId(videoId).then((category) => {
 			if (category === null) {
 				console.log(`Failed to resolve category for ${videoId}`);
-
-				// Clear previous 'pending' category
-				categoryCache.delete(videoId);
-			} else {
-				categoryCache.set(videoId, category);
 			}
+
+			categoryCache.set(videoId, category);
 		});
 
 		return null;
