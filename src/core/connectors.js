@@ -1217,7 +1217,7 @@ define(function() {
 		js: ['connectors/blocsonic.js']
 	}, {
 		label: 'Resonate.is',
-		matches: ['*://resonate.is/album/*', '*://beta.resonate.is/*'],
+		matches: ['*://resonate.is/*', '*://*.resonate.is/*'],
 		js: ['connectors/resonate.js']
 	}, {
 		label: 'HQ Radio',
