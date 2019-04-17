@@ -33,6 +33,10 @@ const PROCESSED_DATA = {
 	duration: 321
 };
 
+const DUMMY_CONNECTOR = {
+	label: 'Dummy label'
+};
+
 /**
  * Create song object.
  * @param  {Object} parsed Object contains custom parsed data values
@@ -41,7 +45,7 @@ const PROCESSED_DATA = {
  */
 function createSong(parsed, processed) {
 	let parsedDataCopy = Object.assign({}, parsed || PARSED_DATA);
-	let song = Song.buildFrom(parsedDataCopy);
+	let song = Song.buildFrom(parsedDataCopy, DUMMY_CONNECTOR);
 
 	if (processed) {
 		for (let field in processed) {

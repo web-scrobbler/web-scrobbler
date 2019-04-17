@@ -96,11 +96,10 @@ define((require) => {
 				 */
 				startTimestamp: Math.floor(Date.now() / 1000),
 				/**
-				 * Connector match object.
-				 * @type {Object}
+				 * Connector label.
+				 * @type {String}
 				 */
-				connector,
-
+				label: connector.label,
 			};
 
 			/**

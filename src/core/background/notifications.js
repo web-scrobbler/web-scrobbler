@@ -151,7 +151,7 @@ define((require) => {
 			return;
 		}
 
-		let connectorLabel = song.metadata.connector.label;
+		let connectorLabel = song.metadata.label;
 
 		let options = {
 			iconUrl: song.getTrackArt() || chrome.runtime.getURL('/icons/default_cover_art.png'),
