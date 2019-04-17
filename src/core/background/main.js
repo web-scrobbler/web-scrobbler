@@ -106,7 +106,7 @@ require([
 	 * @param  {Function} sendResponse Response callback
 	 * @return {Boolean} True value
 	 */
-	async function onMessage(request, sender, sendResponse) {
+	function onMessage(request, sender, sendResponse) {
 		let ctrl;
 
 		switch (request.type) {
@@ -127,8 +127,9 @@ require([
 			case 'v2.toggleLove':
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
-					await ctrl.toggleLove(request.data.isLoved);
-					sendResponse(request.data.isLoved);
+					ctrl.toggleLove(request.data.isLoved).then(() => {
+						sendResponse(request.data.isLoved);
+					});
 				}
 				break;
 
