@@ -9,6 +9,7 @@ const INFO_TRACK = 3;
 const INFO_ARTIST = 4;
 const INFO_DURATION = 5;
 const INFO_TRACK_ARTS = 14;
+const INFO_ADDITIONAL = 16;
 
 setupEventListeners();
 
@@ -32,16 +33,22 @@ function sendUpdateEvent(type) {
 	}
 	let trackArt = extractTrackArt(audioObject[INFO_TRACK_ARTS]);
 
+	let track = audioObject[INFO_TRACK];
+	let additionalInfo = audioObject[INFO_ADDITIONAL];
+	if (additionalInfo) {
+		track = `${track} (${additionalInfo})`;
+	}
+
 	window.postMessage({
 		sender: 'web-scrobbler',
 		type,
 		trackInfo: {
 			currentTime,
 			trackArt,
+			track,
 			duration: audioObject[INFO_DURATION],
 			uniqueID: `${audioObject[INFO_OWNER_ID]}_${audioObject[INFO_ID]}`,
 			artist: audioObject[INFO_ARTIST],
-			track: audioObject[INFO_TRACK],
 		},
 	}, '*');
 }
