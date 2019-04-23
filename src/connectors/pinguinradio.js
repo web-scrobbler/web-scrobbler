@@ -6,11 +6,11 @@ Connector.playerSelector = 'body';
 
 Connector.artistSelector = '.artist-name';
 
-Connector.trackSelector = '.artist-track';
-
 Connector.playButtonSelector = '.fa-play';
 
 Connector.trackArtSelector = '.artist-image img';
+
+Connector.getTrack = () => $('.artist-track').first().text();
 
 Connector.applyFilter(filter);
 
