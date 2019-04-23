@@ -121,7 +121,7 @@ class MetadataFilter {
 			return filters;
 		}
 
-		return [];
+		throw new Error(`Invalid filter type: ${typeof filters}`);
 	}
 
 	/**
@@ -134,9 +134,15 @@ class MetadataFilter {
 				this.mergedFilterSet[field] = [];
 			}
 
-			this.mergedFilterSet[field] = this.mergedFilterSet[field]
-				.concat(this.createFilters(filterSet[field]))
-				.concat(this.createFilters(filterSet.all));
+			if (filterSet[field]) {
+				this.mergedFilterSet[field] = this.mergedFilterSet[field]
+					.concat(this.createFilters(filterSet[field]));
+			}
+
+			if (filterSet.all) {
+				this.mergedFilterSet[field] = this.mergedFilterSet[field]
+					.concat(this.createFilters(filterSet.all));
+			}
 		}
 	}
 
