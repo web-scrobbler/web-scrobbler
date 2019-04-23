@@ -117,7 +117,7 @@ class MetadataFilter {
 		if (typeof filters === 'function') {
 			let filterFunction = filters;
 			return [filterFunction];
-		} else if (Object.prototype.toString.call(filters) === '[object Array]') {
+		} else if (Array.isArray(filters)) {
 			return filters;
 		}
 
