@@ -375,7 +375,7 @@ class MetadataFilter {
 	 */
 	static getNbspFilter() {
 		return new MetadataFilter({
-			all: (text) => text.replace(' ', ' ')
+			all: (text) => text.replace('\u00a0', '\u0020')
 		});
 	}
 
