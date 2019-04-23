@@ -113,7 +113,7 @@ require([
 			case 'v2.getSong':
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
-					sendResponse(ctrl.getCurrentSong()); // object or null
+					sendResponse(ctrl.getCurrentSong());
 				}
 				break;
 
