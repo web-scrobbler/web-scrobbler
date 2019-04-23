@@ -601,7 +601,7 @@ define(function() {
 
 	{
 		label: 'Radio Paradise',
-		matches: ['*://*.radioparadise.com/*'],
+		matches: ['*://radioparadise.com/*'],
 		js: ['connectors/radioparadise.js'],
 		allFrames: true,
 	},
