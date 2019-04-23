@@ -49,6 +49,20 @@ const TRIM_TEST_DATA = [{
 }];
 
 /**
+ * Test data for testing NBSP filter.
+ * @type {Array}
+ */
+const NBSP_TEST_DATA = [{
+	description: 'should do nothing with clean string',
+	source: 'Track Title',
+	expected: 'Track Title'
+}, {
+	description: 'should remove NBSPs',
+	source: 'Track\u00a0Metafield',
+	expected: 'Track\u0020Metafield'
+}];
+
+/**
  * Test data for testing Youtube filter.
  * @type {Array}
  */
@@ -411,6 +425,11 @@ const FILTERS_DATA = [{
 	filter: MetadataFilter.getTrimFilter(),
 	fields: ['artist', 'track', 'album'],
 	testData: TRIM_TEST_DATA,
+}, {
+	description: 'NBSP filter',
+	filter: MetadataFilter.getNbspFilter(),
+	fields: ['artist', 'track', 'album'],
+	testData: NBSP_TEST_DATA,
 }, {
 	description: 'Youtube filter',
 	filter: MetadataFilter.getYoutubeFilter(),
