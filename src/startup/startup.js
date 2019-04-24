@@ -23,9 +23,8 @@ require([
 	}
 
 	function closePage() {
-		window.close();
-		// $('.controls').hide();
-		// $('.finished').show();
+		$('.controls').hide();
+		$('.finished').show();
 	}
 
 	async function updateGaState(value) {
