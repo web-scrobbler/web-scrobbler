@@ -280,6 +280,8 @@ class MetadataFilter {
 			{ source: /\s*full\s*album/i, target: '' },
 			// live
 			{ source: /\s+\(?live\)?$/i, target: '' },
+			// | something
+			{ source: /\|.*$/i, target: '' },
 			// Leftovers after e.g. (official video)
 			{ source: /\(+\s*\)+/, target: '' },
 			// Artist - The new "Track title" featuring someone
