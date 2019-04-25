@@ -1213,7 +1213,7 @@ define(function() {
 		js: ['connectors/soundsession.js']
 	}, {
 		label: 'blocSonic',
-		matches: ['*://blocsonic.com/*'],
+		matches: ['*://blocsonic.com/*', '*://www.blocsonic.com/*'],
 		js: ['connectors/blocsonic.js']
 	}, {
 		label: 'Resonate.is',
