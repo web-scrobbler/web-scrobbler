@@ -42,13 +42,6 @@ Connector.isScrobblingAllowed = () => {
 /**
  * Asynchronously read connector options.
  */
-function readConnectorOptions() {
-	chrome.storage.sync.get('Connectors', (data) => {
-		if (data && data.Connectors && data.Connectors.GoogleMusic) {
-			let options = data.Connectors.GoogleMusic;
-			scrobblePodcasts = options.scrobblePodcasts;
-			let optionsStr = JSON.stringify(options, null, 2);
-			console.log(`Web Scrobbler: Connector options: ${optionsStr}`);
-		}
-	});
+async function readConnectorOptions() {
+	scrobblePodcasts = await Util.getOption('GoogleMusic', 'scrobblePodcasts');
 }

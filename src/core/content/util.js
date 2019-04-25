@@ -347,6 +347,22 @@ const Util = {
 	},
 
 	/**
+	 * Read connector option from storage.
+	 * @param  {String} connector Connector name
+	 * @param  {String} key Option key
+	 * @return {Any} Option value
+	 */
+	getOption(connector, key) {
+		return new Promise((resolve) => {
+			chrome.storage.sync.get('Connectors', (data) => {
+				if (data && data.Connectors && data.Connectors[connector]) {
+					resolve(data.Connectors[connector][key]);
+				}
+			});
+		});
+	},
+
+	/**
 	 * Regular expression used to get Youtube video ID from URL. It covers
 	 * default, shortened and embed URLs.
 	 * @type {RegExp}

@@ -264,17 +264,11 @@ function setupMutationObserver() {
 /**
  * Asynchronously read connector options.
  */
-function readConnectorOptions() {
-	chrome.storage.sync.get('Connectors', (data) => {
-		if (data && data.Connectors && data.Connectors.YouTube) {
-			let options = data.Connectors.YouTube;
-
-			if (options.scrobbleMusicOnly) {
-				allowedCategories.push(CATEGORY_MUSIC);
-			}
-			if (options.scrobbleEntertainmentOnly) {
-				allowedCategories.push(CATEGORY_ENTERTAINMENT);
-			}
-		}
-	});
+async function readConnectorOptions() {
+	if (await Util.getOption('YouTube', 'scrobbleMusicOnly')) {
+		allowedCategories.push(CATEGORY_MUSIC);
+	}
+	if (await Util.getOption('YouTube', 'scrobbleEntertainmentOnly')) {
+		allowedCategories.push(CATEGORY_ENTERTAINMENT);
+	}
 }
