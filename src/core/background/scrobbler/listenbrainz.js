@@ -130,10 +130,10 @@ define((require) => {
 				switch (response.status) {
 					case 400:
 						this.debugLog('Invalid JSON sent to ListenBrainz', 'error');
-						throw new ServiceCallResult(ServiceCallResult.IGNORED);
+						throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
 					case 401:
 						this.debugLog('Invalid Authorization sent to ListenBrainz', 'error');
-						throw new ServiceCallResult(ServiceCallResult.IGNORED);
+						throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
 				}
 
 				return response.text();
