@@ -44,6 +44,7 @@ define((require) => {
 		apiKey: 'r8i1y91hz71tcx7vyrp9hk1alhqp1898',
 		apiSecret: '8187db5vg234yq6tm7o62q8mtl1niala',
 		authUrl: 'https://www.libre.fm/api/auth/',
+		statusUrl: null,
 		profileUrl: 'https://libre.fm/user/',
 	});
 });

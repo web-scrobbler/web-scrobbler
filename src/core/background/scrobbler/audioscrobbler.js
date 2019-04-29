@@ -25,9 +25,7 @@ define((require) => {
 		constructor(options) {
 			super(options);
 
-			for (let option of AUDIOSCROBBLER_OPTIONS) {
-				this[option] = options[option];
-			}
+			this.applyOptions(options, AUDIOSCROBBLER_OPTIONS);
 		}
 
 		/** @override */

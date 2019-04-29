@@ -67,12 +67,29 @@ define((require) => {
 		 * @see {@link SCROBBLER_OPTIONS}
 		 */
 		constructor(options) {
-			for (let option of SCROBBLER_OPTIONS) {
-				this[option] = options[option];
-			}
+			this.applyOptions(options, SCROBBLER_OPTIONS);
 
 			this.storage = ChromeStorage.getScrobblerStorage(options.storage);
 			this.storage.debugLog();
+		}
+
+		/**
+		 * Apply scrobbler options.
+		 *
+		 * Each option is a property used internally in scrobbler module.
+		 * Options are available as `this.optionKey`.
+		 *
+		 * @param  {Array}  options    Object contains option values
+		 * @param  {Object} optionsArr Array of allowed options
+		 */
+		applyOptions(options, optionsArr) {
+			for (let option of optionsArr) {
+				if (options[option] === undefined) {
+					throw new Error(`Option ${option} is not set`);
+				}
+
+				this[option] = options[option];
+			}
 		}
 
 		/** Authentication */
