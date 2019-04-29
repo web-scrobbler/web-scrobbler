@@ -42,6 +42,11 @@ require([
 	'service/scrobble-service',
 	'notifications'
 ], (Migrate, GA, Inject, InjectResult, Controller, ChromeStorage, Config, ScrobbleService, Notifications) => {
+	/**
+	 * How many times to show auth notification.
+	 * @type {Number}
+	 */
+	const AUTH_NOTIFICATION_DISPLAY_COUNT = 3;
 
 	/**
 	 * Current version of the extension.
@@ -67,6 +72,8 @@ require([
 	 * @type {Boolean}
 	 */
 	let isActiveSession = false;
+
+	const notificationStorage = ChromeStorage.getStorage(ChromeStorage.NOTIFICATIONS);
 
 	/**
 	 * Return controller for given tab. There should always be one.
@@ -358,10 +365,8 @@ require([
 	 * the extension page on add0n.com website.
 	 */
 	async function notifyOfNotableChanges() {
-		let storage = ChromeStorage.getStorage(ChromeStorage.NOTIFICATIONS);
-
 		if (versionsToNotify.includes(extVersion)) {
-			let data = await storage.get();
+			let data = await notificationStorage.get();
 			if (!data.changelog) {
 				data.changelog = {};
 			}
@@ -370,13 +375,13 @@ require([
 				openChangelogSection();
 				data.changelog[extVersion] = true;
 
-				await storage.set(data);
+				await notificationStorage.set(data);
 			}
 
-			await storage.debugLog();
+			await notificationStorage.debugLog();
 		}
 
-		storage.debugLog();
+		notificationStorage.debugLog();
 	}
 
 	/**
@@ -402,6 +407,28 @@ require([
 	}
 
 	/**
+	 * Check if extension should display auth notification.
+	 * @return {Boolean} Check result
+	 */
+	async function isAuthNotificationAllowed() {
+		const data = await notificationStorage.get();
+
+		const authDisplayCount = data.authDisplayCount || 0;
+		return authDisplayCount < AUTH_NOTIFICATION_DISPLAY_COUNT;
+	}
+
+	/**
+	 * Update internal counter of displayed auth notifications.
+	 */
+	async function updateAuthDisplayCount() {
+		const data = await notificationStorage.get();
+		const authDisplayCount = data.authDisplayCount || 0;
+
+		data.authDisplayCount = authDisplayCount + 1;
+		await notificationStorage.set(data);
+	}
+
+	/**
 	 * Called on the extension start.
 	 */
 	async function startup() {
@@ -413,28 +440,30 @@ require([
 		GA.pageview(`/background-loaded?version=${extVersion}`);
 
 		let boundScrobblers = await ScrobbleService.bindAllScrobblers();
-		if (boundScrobblers.length === 0) {
+		if (boundScrobblers.length > 0) {
+			for (let scrobbler of boundScrobblers) {
+				GA.event('core', 'bind', scrobbler.getLabel());
+			}
+		} else {
 			console.warn('No scrobblers are bound');
 
-			let authUrl = chrome.runtime.getURL('/options/options.html#accounts');
-			try {
-				await Notifications.showAuthNotification(() => {
+			if (await isAuthNotificationAllowed()) {
+				let authUrl = chrome.runtime.getURL('/options/options.html#accounts');
+				try {
+					await Notifications.showAuthNotification(() => {
+						chrome.tabs.create({ url: authUrl });
+					});
+
+					GA.event('core', 'auth', 'default');
+				} catch (e) {
+					// Fallback for browsers with no notifications support
 					chrome.tabs.create({ url: authUrl });
-				});
 
-				GA.event('core', 'auth', 'default');
-			} catch (e) {
-				// Fallback for browsers with no notifications support
-				chrome.tabs.create({ url: authUrl });
+					GA.event('core', 'auth', 'fallback');
+				}
 
-				GA.event('core', 'auth', 'fallback');
+				await updateAuthDisplayCount();
 			}
-
-			return;
-		}
-
-		for (let scrobbler of boundScrobblers) {
-			GA.event('core', 'bind', scrobbler.getLabel());
 		}
 	}
 
