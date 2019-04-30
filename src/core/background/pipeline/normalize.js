@@ -5,14 +5,14 @@
  */
 
 define(() => {
-	const FIELDS_TO_NORMALIZE = ['artist', 'track', 'album'];
+	const Song = require('object/song');
 
 	/**
 	 * Normalize info fields of given track.
 	 * @param  {[type]} song Song object
 	 */
 	function process(song) {
-		for (let field of FIELDS_TO_NORMALIZE) {
+		for (let field of Song.BASE_FIELDS) {
 			let fieldValue = song.processed[field];
 			if (typeof(fieldValue) === 'string' && fieldValue) {
 				song.processed[field] = fieldValue.normalize();

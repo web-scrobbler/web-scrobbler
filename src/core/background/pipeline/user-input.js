@@ -6,10 +6,10 @@
  */
 
 define((require) => {
+	const Song = require('object/song');
 	const ChromeStorage = require('storage/chrome-storage');
 
 	const storage = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
-	const FIELDS_TO_SAVE = ['artist', 'track', 'album'];
 
 	/**
 	 * Save custom song info to Chrome storage.
@@ -28,7 +28,7 @@ define((require) => {
 			chromeData[songId] = {};
 		}
 
-		for (let field of FIELDS_TO_SAVE) {
+		for (let field of Song.USER_FIEDS) {
 			if (song.userdata[field]) {
 				chromeData[songId][field] = song.userdata[field];
 				isChanged = true;
@@ -51,7 +51,7 @@ define((require) => {
 		 * Currently just transforms user data from metadata to processed data,
 		 * which makes it source data for next pipeline steps.
 		 */
-		for (let field of FIELDS_TO_SAVE) {
+		for (let field of Song.USER_FIEDS) {
 			if (song.userdata[field]) {
 				song.processed[field] = song.userdata[field];
 				isChanged = true;

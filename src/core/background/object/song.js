@@ -49,6 +49,18 @@ define((require) => {
 	};
 
 	/**
+	 * Custom fields can be defined by user.
+	 * @type {Array}
+	 */
+	const USER_FIEDS = ['artist', 'track', 'album'];
+
+	/**
+	 * Fields used to identify song.
+	 * @type {Array}
+	 */
+	const BASE_FIELDS = ['artist', 'track', 'album'];
+
+	/**
 	 * Create new song object.
 	 * @param  {Object} parsedData Current state received from connector
 	 * @param  {Object} connector Connector match object
@@ -67,8 +79,8 @@ define((require) => {
 	 */
 	function makeUniqueId(parsedData) {
 		let inputStr = '';
-		let fields = ['artist', 'track', 'album'];
-		for (let field of fields) {
+
+		for (let field of BASE_FIELDS) {
 			if (parsedData[field]) {
 				inputStr += parsedData[field];
 			}
@@ -263,7 +275,10 @@ define((require) => {
 				album: this.parsed.album,
 				duration: this.parsed.duration,
 			};
-			this.userdata = {};
+
+			for (const field of USER_FIEDS) {
+				delete this.userdata[field];
+			}
 
 			for (const flag in DEFAULT_FLAGS) {
 				this.flags[flag] = DEFAULT_FLAGS[flag];
@@ -321,5 +336,5 @@ define((require) => {
 		}
 	}
 
-	return { buildFrom };
+	return { buildFrom, BASE_FIELDS, USER_FIEDS };
 });
