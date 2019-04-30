@@ -8,6 +8,47 @@ define((require) => {
 	const DeepProxy = require('deep-proxy');
 
 	/**
+	 * Default values of song flags.
+	 */
+	const DEFAULT_FLAGS = {
+		/**
+		 * Flag indicates song is processed by pipeline.
+		 * @type {Boolean}
+		 */
+		isProcessed: false,
+		/**
+		 * Flag means song is scrobbled successfully.
+		 * @type {Boolean}
+		 */
+		isScrobbled: false,
+		/**
+		 * Flag indicated song info is changed or approved by user.
+		 * @type {Boolean}
+		 */
+		isCorrectedByUser: false,
+		/**
+		 * Flag indicated song is known by scrobbling service.
+		 * @type {Boolean}
+		 */
+		isValid: false,
+		/**
+		 * Flag indicates song is marked as playing by controller.
+		 * @type {Boolean}
+		 */
+		isMarkedAsPlaying: false,
+		/**
+		 * Flag means song is ignored by controller.
+		 * @type {Boolean}
+		 */
+		isSkipped: false,
+		/**
+		 * Flag means song is replaying again.
+		 * @type {Boolean}
+		 */
+		isReplaying: false,
+	};
+
+	/**
 	 * Create new song object.
 	 * @param  {Object} parsedData Current state received from connector
 	 * @param  {Object} connector Connector match object
@@ -111,43 +152,7 @@ define((require) => {
 			/**
 			 * Various flags. Can be modified.
 			 */
-			this.flags = {
-				/**
-				 * Flag indicates song is processed by pipeline.
-				 * @type {Boolean}
-				 */
-				isProcessed: false,
-				/**
-				 * Flag means song is scrobbled successfully.
-				 * @type {Boolean}
-				 */
-				isScrobbled: false,
-				/**
-				 * Flag indicated song info is changed or approved by user.
-				 * @type {Boolean}
-				 */
-				isCorrectedByUser: false,
-				/**
-				 * Flag indicated song is known by scrobbling service.
-				 * @type {Boolean}
-				 */
-				isValid: false,
-				/**
-				 * Flag indicates song is marked as playing by controller.
-				 * @type {Boolean}
-				 */
-				isMarkedAsPlaying: false,
-				/**
-				 * Flag means song is ignored by controller.
-				 * @type {Boolean}
-				 */
-				isSkipped: false,
-				/**
-				 * Flag means song is replaying again.
-				 * @type {Boolean}
-				 */
-				isReplaying: false,
-			};
+			this.flags = Object.assign({}, DEFAULT_FLAGS);
 		}
 
 		/**
@@ -260,7 +265,9 @@ define((require) => {
 			};
 			this.userdata = {};
 
-			this.flags.isCorrectedByUser = false;
+			for (const flag in DEFAULT_FLAGS) {
+				this.flags[flag] = DEFAULT_FLAGS[flag];
+			}
 		}
 
 		/**
