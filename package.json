@@ -9,7 +9,7 @@
     "url": "https://github.com/web-scrobbler/web-scrobbler.git"
   },
   "devDependencies": {
-    "@octokit/rest": "~16.0.0",
+    "@octokit/rest": "~16.25.0",
     "chai": "^4.0.0",
     "chromedriver": "~74.0.0",
     "firefox-extension-deploy": "^1.1.0",
@@ -19,7 +19,7 @@
     "grunt-contrib-clean": "~2.0.0",
     "grunt-contrib-compress": "~1.5.0",
     "grunt-contrib-copy": "~1.0.0",
-    "grunt-contrib-imagemin": "~3.0.0",
+    "grunt-contrib-imagemin": "~3.1.0",
     "grunt-contrib-uglify": "~4.0.0",
     "grunt-eslint": "~21.0.0",
     "grunt-exec": "^3.0.0",
