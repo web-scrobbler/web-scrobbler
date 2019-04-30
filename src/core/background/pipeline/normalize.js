@@ -9,7 +9,7 @@ define(() => {
 
 	/**
 	 * Normalize info fields of given track.
-	 * @param  {[type]} song Song object
+	 * @param  {Object} song Song object
 	 */
 	function process(song) {
 		for (let field of Song.BASE_FIELDS) {
