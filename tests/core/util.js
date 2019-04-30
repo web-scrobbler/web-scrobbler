@@ -24,15 +24,23 @@ const SPLIT_ARTIST_TRACK_TEST_DATA = [{
 	description: 'should split artist and track',
 	source: 'Artist - Track',
 	expected: { artist: 'Artist', track: 'Track' },
+	swap: false,
 }, {
 	description: 'should split artist and track by custom separator',
 	source: 'Artist * Track',
 	expected: { artist: 'Artist', track: 'Track' },
-	separators: [' * ']
+	separators: [' * '],
+	swap: false,
 }, {
 	description: 'should not split malformed string',
 	source: 'Artist & Track',
 	expected: Util.makeEmptyArtistTrack(),
+	swap: false,
+}, {
+	description: 'should split artist and track, and swap them',
+	source: 'Track - Artist',
+	expected: { artist: 'Artist', track: 'Track' },
+	swap: true,
 }];
 
 /**
@@ -254,8 +262,8 @@ const IS_ARTIST_TRACK_EMPTY_DATA = [{
  */
 function testSplitArtistTrack() {
 	for (let data of SPLIT_ARTIST_TRACK_TEST_DATA) {
-		let { description, source, expected, separators } = data;
-		let actual = Util.splitArtistTrack(source, separators);
+		let { description, source, expected, separators, swap } = data;
+		let actual = Util.splitArtistTrack(source, separators, { swap });
 
 		it(description, function() {
 			expect(actual).to.be.deep.equal(expected);
