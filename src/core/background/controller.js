@@ -160,7 +160,7 @@ define((require) => {
 		setUserSongData(data) {
 			if (this.currentSong) {
 				if (this.currentSong.flags.isScrobbled) {
-					this.debugLog('Attempted to enter user data for already scrobbled song');
+					this.debugLog('Attempted to enter user data for already scrobbled song', 'warn');
 					return;
 				}
 
@@ -207,7 +207,7 @@ define((require) => {
 				}
 
 				if (newState.isPlaying) {
-					this.debugLog(`State from connector doesn't contain enough information about the playing track: ${toString(newState)}`);
+					this.debugLog(`State from connector doesn't contain enough information about the playing track: ${toString(newState)}`, 'warn');
 				}
 
 				return;
