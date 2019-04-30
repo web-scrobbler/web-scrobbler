@@ -21,9 +21,11 @@ function setupEventListeners() {
 			for (let moduleid in modules) {
 				if (modules.hasOwnProperty(moduleid)) {
 					let el = _require(moduleid);
-					// console.group('moduleid: ' + moduleid);
-					// console.dir(el);
-					// console.groupEnd();
+					/*
+					 * console.group('moduleid: ' + moduleid);
+					 * console.dir(el);
+					 * console.groupEnd();
+					 */
 
 					// playManager used to get current playing song when song starts on page load
 					if (typeof el.playCurrent === 'function') {
@@ -49,8 +51,10 @@ function setupEventListeners() {
 			sendEvent('SC_PAUSE', e.model.attributes);
 		});
 
-		// if song starts playing when page is loaded the play event isn't detected
-		// so send play event
+		/*
+		 * If song starts playing when page is loaded the play event
+		 * isn't detected, so send play event.
+		 */
 		currentMetaData = playManager.getCurrentMetadata();
 		if (currentMetaData) {
 			sendEvent('SC_PLAY', currentMetaData.sound._previousAttributes);

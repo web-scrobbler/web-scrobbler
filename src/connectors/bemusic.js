@@ -1,7 +1,7 @@
 'use strict';
 
-/**
- * This connector is for BeMusic music streaming engine.s
+/*
+ * This connector is for BeMusic music streaming engines.
  */
 
 setupConnector();

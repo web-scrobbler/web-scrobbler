@@ -25,8 +25,10 @@ Connector.isScrobblingAllowed = () => {
 };
 
 function isMusicPlaying() {
-	// When ad is playing, artist URL is like "https://shrt.spotify.com/XXX",
-	// otherwise URL leads to an artist page "https://open.spotify.com/artist/YYY".
+	/*
+	 * When ad is playing, artist URL is like "https://shrt.spotify.com/XXX",
+	 * otherwise URL leads to an artist page "https://open.spotify.com/artist/YYY".
+	 */
 	let artistUrl = $('.track-info__artists a').attr('href');
 	return artistUrl && artistUrl.includes('artist');
 }

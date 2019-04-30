@@ -6,7 +6,6 @@ define(() => {
 	 * @param  {Object} song Song instance
 	 */
 	async function process(song) {
-		// Only query APIs if no cover art can be found
 		if (song.parsed.trackArt) {
 			console.log('Using local/parsed artwork');
 			return;

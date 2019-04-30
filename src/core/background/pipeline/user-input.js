@@ -47,8 +47,10 @@ define((require) => {
 	async function process(song) {
 		let isChanged = false;
 
-		// currently just transforms user data from metadata to processed data,
-		// which makes it source data for next pipeline steps
+		/*
+		 * Currently just transforms user data from metadata to processed data,
+		 * which makes it source data for next pipeline steps.
+		 */
 		for (let field of FIELDS_TO_SAVE) {
 			if (song.userdata[field]) {
 				song.processed[field] = song.userdata[field];

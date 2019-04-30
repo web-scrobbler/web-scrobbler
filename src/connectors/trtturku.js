@@ -1,7 +1,9 @@
 'use strict';
 
-// Author: Oğuzhan TÜRK
-// Scrobbling for: http://www.trtturku.net/
+/*
+ * Author: Oğuzhan TÜRK
+ * Scrobbling for: http://www.trtturku.net/
+ */
 
 function toTitleCase(str) {
 	let tempArray = str.toLowerCase().split(' ');

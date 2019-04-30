@@ -1,7 +1,9 @@
 'use strict';
 
-// This script runs in non-isolated environment(vk.com itself)
-// for accessing to `window.ap` which sends player events
+/*
+ * This script runs in non-isolated environment(vk.com itself)
+ * for accessing to `window.ap` which sends player events.
+ */
 
 const INFO_ID = 0;
 const INFO_OWNER_ID = 1;

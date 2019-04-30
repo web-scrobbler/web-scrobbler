@@ -112,7 +112,6 @@ define((require) => {
 			 * Various flags. Can be modified.
 			 */
 			this.flags = {
-				// Has song passed the pipeline
 				/**
 				 * Flag indicates song is processed by pipeline.
 				 * @type {Boolean}
@@ -302,9 +301,11 @@ define((require) => {
 			let fieldsToCopy = ['parsed', 'processed', 'metadata', 'flags'];
 			let clonedSong = {};
 
-			// Firefox doesn't allow to send proxy objects via `chrome.runtime.sendMessage` API.
-			// Since our song properties are actually proxy objects, they should be converted to
-			// plain objects before.
+			/*
+			 * Firefox doesn't allow to send proxy objects via Chrome API.
+			 * Since our song properties are actually proxy objects,
+			 * they should be converted to plain objects before.
+			 */
 			for (let field of fieldsToCopy) {
 				clonedSong[field] = Object.assign({}, this[field]);
 			}

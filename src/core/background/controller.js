@@ -160,7 +160,6 @@ define((require) => {
 		setUserSongData(data) {
 			if (this.currentSong) {
 				if (this.currentSong.flags.isScrobbled) {
-					// should not happen
 					this.debugLog('Attempted to enter user data for already scrobbled song');
 					return;
 				}
@@ -195,10 +194,11 @@ define((require) => {
 				return;
 			}
 
-			// Empty state has same semantics as reset; even if isPlaying,
-			// we don't have enough data to use.
+			/*
+			 * Empty state has same semantics as reset; even if isPlaying,
+			 * we don't have enough data to use.
+			 */
 			if (isStateEmpty(newState)) {
-				// throw away last song and reset state
 				if (this.currentSong) {
 					this.debugLog('Received empty state - resetting');
 
@@ -206,7 +206,6 @@ define((require) => {
 					this.resetState();
 				}
 
-				// warning for connector developer
 				if (newState.isPlaying) {
 					this.debugLog(`State from connector doesn't contain enough information about the playing track: ${toString(newState)}`);
 				}
@@ -214,14 +213,11 @@ define((require) => {
 				return;
 			}
 
-			// From here on there is at least some song data
-
 			let isSongChanged = this.isSongChanged(newState);
 			if (isSongChanged && !newState.isPlaying) {
 				return;
 			}
 
-			// Propagate values that can change without changing the song
 			if (!isSongChanged && !this.isReplayingSong) {
 				this.processCurrentState(newState);
 			} else {
@@ -244,8 +240,10 @@ define((require) => {
 		 * @param {Object} newState Connector state
 		 */
 		processNewState(newState) {
-			// We've hit a new song (or replaying the previous one)
-			// clear any previous song and its bindings
+			/*
+			 * We've hit a new song (or replaying the previous one)
+			 * clear any previous song and its bindings.
+			 */
 			this.resetState();
 			this.currentSong = Song.buildFrom(
 				newState, this.connector, this.onSongDataChanged.bind(this)
@@ -254,9 +252,11 @@ define((require) => {
 
 			this.debugLog(`New song detected: ${toString(newState)}`);
 
-			// Start the timer, actual time will be set after processing
-			// is done; we can call doScrobble directly, because the timer
-			// will be allowed to trigger only after the song is validated
+			/*
+			 * Start the timer, actual time will be set after processing
+			 * is done; we can call doScrobble directly, because the timer
+			 * will be allowed to trigger only after the song is validated.
+			 */
 			this.playbackTimer.start(() => {
 				this.scrobbleSong();
 			});
@@ -265,16 +265,17 @@ define((require) => {
 				this.isReplayingSong = true;
 			});
 
-			// If we just detected the track and it's not playing yet,
-			// pause the timer right away; this is important, because
-			// isPlaying flag binding only calls pause/resume which assumes
-			// the timer is started
+			/*
+			 * If we just detected the track and it's not playing yet,
+			 * pause the timer right away; this is important, because
+			 * isPlaying flag binding only calls pause/resume which assumes
+			 * the timer is started.
+			 */
 			if (!newState.isPlaying) {
 				this.playbackTimer.pause();
 				this.replayDetectionTimer.pause();
 			}
 
-			// Start processing - result will trigger the listener
 			this.processSong();
 			this.isReplayingSong = false;
 		}
@@ -360,7 +361,6 @@ define((require) => {
 		 * are needed.
 		 */
 		onProcessed() {
-			// Song is considered valid if either L.FM or the user validated it
 			if (this.currentSong.isValid()) {
 				// Processing cleans this flag
 				this.currentSong.flags.isMarkedAsPlaying = false;

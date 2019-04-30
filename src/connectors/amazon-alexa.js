@@ -31,8 +31,12 @@ Connector.getArtistTrack = () => {
 Connector.isPlaying = () => {
 	let duration = Connector.getDuration();
 
-	// The app doesn't update the remaining and elapsed times straight away when changing songs. The remaining time rolls over and starts counting down from an hour.
-	// This is a workaround to avoid detecting an incorrect duration time.
+	/*
+	 * The app doesn't update the remaining and elapsed times straight away
+	 * when changing songs. The remaining time rolls over and starts counting
+	 * down from an hour. This is a workaround to avoid detecting an incorrect
+	 * duration time.
+	 */
 	if (duration > 3600) {
 		return false;
 	}

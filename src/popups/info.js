@@ -24,12 +24,7 @@ require(['util'], (Util) => {
 		});
 	}
 
-	/**
-	* Song data from background script are loaded
-	*/
 	function onSongLoaded() {
-		// no current song - should not happen, because page action with popup shows
-		// only when there is a song that can be corrected
 		if (song === null) {
 			return;
 		}

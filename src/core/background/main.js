@@ -199,14 +199,12 @@ require([
 		let result = await Inject.onTabsUpdated(tab);
 		switch (result.type) {
 			case InjectResult.NO_MATCH: {
-				// Remove controller if any
 				unloadController(tabId, true);
 				break;
 			}
 
 			case InjectResult.MATCHED_BUT_DISABLED:
 			case InjectResult.MATCHED_AND_INJECTED: {
-				// Remove previous controller if any
 				unloadController(tabId);
 
 				let enabled = result.type === InjectResult.MATCHED_AND_INJECTED;
@@ -339,7 +337,6 @@ require([
 		data.appVersion = extVersion;
 		await storage.set(data);
 
-		// debug log internal storage state for people who send logs (tokens are anonymized)
 		storage.debugLog();
 	}
 

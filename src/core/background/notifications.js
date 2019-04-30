@@ -238,7 +238,6 @@ define((require) => {
 		return chrome.i18n.getMessage(tag, context);
 	}
 
-	// Set up listening for clicks on all notifications
 	chrome.notifications.onClicked.addListener(function(notificationId) {
 		console.log(`Notification onClicked: ${notificationId}`);
 

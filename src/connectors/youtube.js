@@ -182,8 +182,10 @@ function getVideoCategory(videoId) {
 	}
 
 	if (!categoryCache.has(videoId)) {
-		// Add dummy category for videoId to prevent
-		// fetching category multiple times.
+		/*
+		 * Add dummy category for videoId to prevent
+		 * fetching category multiple times.
+		 */
 		categoryCache.set(videoId, CATEGORY_PENDING);
 
 		fetchCategoryId(videoId).then((category) => {

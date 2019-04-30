@@ -53,8 +53,10 @@ let trackTitlesStartWithTrackNo = (function() {
 Connector.albumSelector = 'h1.artist';
 
 Connector.getArtistTrack = () => {
-	// the position of artist & album were switched but the class names
-	//  weren't updated (artist has class name of "album")
+	/*
+	 * The position of artist & album were switched but the class names
+	 * weren't updated (artist has class name of "album").
+	 */
 	let artist = $('h2.album a').text();
 	let track = $('a.jp-playlist-current').text();
 

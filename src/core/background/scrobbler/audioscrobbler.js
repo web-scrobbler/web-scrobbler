@@ -30,7 +30,8 @@ define((require) => {
 
 		/** @override */
 		async getAuthUrl() {
-			/* Stores the new obtained token into storage so it will be traded for
+			/*
+			 * Stores the new obtained token into storage so it will be traded for
 			 * a new session when needed. Because of this it is necessary this method
 			 * is called only when user is really going to approve the token and
 			 * not sooner. Otherwise use of the token would result in an unauthorized
@@ -66,7 +67,8 @@ define((require) => {
 
 		/** @override */
 		async getSession() {
-			/* Load session data from storage. Get new session data if previously
+			/*
+			 * Load session data from storage. Get new session data if previously
 			 * saved session data is missing.
 			 *
 			 * If there is a stored token it is preferably traded for a new session
@@ -75,8 +77,10 @@ define((require) => {
 
 			let data = await this.storage.get();
 
-			// if we have a token it means it is fresh and we
-			// want to trade it for a new session ID
+			/*
+			 * if we have a token it means it is fresh and we
+			 * want to trade it for a new session ID
+			 */
 			let token = data.token || null;
 			if (token !== null) {
 				let session = {};

@@ -43,8 +43,10 @@ define((require) => {
 		 * @param  {Object} song Song instance
 		 */
 		async processSong(song) {
-			// Reset possible flag, so we can detect changes
-			// on repeated processing of the same song.
+			/*
+			 * Reset possible flag, so we can detect changes
+			 * on repeated processing of the same song.
+			 */
 			song.flags.isProcessed = false;
 
 			console.log(`Execute processors: ${PROCESSORS.length}`);

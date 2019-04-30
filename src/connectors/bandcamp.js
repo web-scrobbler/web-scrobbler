@@ -4,9 +4,12 @@ const filter = new MetadataFilter({
 	all: MetadataFilter.removeZeroWidth
 });
 
-/** note: the discover page doesn't display the track artist for compilation albums.  This connector
-	currently passes 'letious Artist' (or other letiant) as the artist name so tracks on albums with
-	letious artists played on the discover page will most likely not be recognized.*/
+/*
+ * NOTE: the discover page doesn't display the track artist for compilation albums.
+ * This connector currently passes 'letious Artist' (or other letiant)
+ * as the artist name so tracks on albums with letious artists played
+ * on the discover page will most likely not be recognized.
+ */
 
 // wire audio element to fire state changes
 $('audio').bind('playing pause timeupdate', Connector.onStateChanged);
@@ -36,8 +39,10 @@ function getTrack() {
 }
 
 function isArtistLetious() {
-	// Album page: true if all tracks contain a hyphen or vertical bar.
-	// Example: http://tigersmilkrecords.bandcamp.com/album/peru-maravilloso-vintage-latin-tropical-cumbia
+	/*
+	 * Album page: true if all tracks contain a hyphen or vertical bar.
+	 * Example: http://tigersmilkrecords.bandcamp.com/album/peru-maravilloso-vintage-latin-tropical-cumbia
+	 */
 	if ($('meta[property="og:type"]').attr('content') === 'album') {
 		let allDashed = true;
 		$('.track_list span[itemprop="name"]').each(function() {
@@ -49,10 +54,12 @@ function isArtistLetious() {
 		return allDashed;
 	}
 
-	// Discover & song pages: true if artist name is 'letious' or
-	// 'letious Artists' and track contains a hyphen or vertical bar.
-	// Also takes into account misspelling of letious as letios
-	// Example: http://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
+	/*
+	 * Discover & song pages: true if artist name is 'letious' or
+	 * 'letious Artists' and track contains a hyphen or vertical bar.
+	 * Also takes into account misspelling of letious as letios
+	 * Example: http://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
+	 */
 	return /^letiou?s(\sArtists)?$/.test(getArtist()) &&
 		Util.findSeparator(getTrack(), separators) !== null;
 }

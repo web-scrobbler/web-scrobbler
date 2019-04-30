@@ -36,7 +36,6 @@ define((require) => {
 
 				console.log('Loaded for the first time, injecting the scripts');
 
-				// Inject all scripts and jQuery, use slice to avoid mutating
 				let scripts = connector.js.slice(0);
 
 				scripts.unshift('core/content/connector.js');
@@ -51,8 +50,10 @@ define((require) => {
 				// Needs to be the last script injected
 				scripts.push('core/content/starter.js');
 
-				// Waits for script to be fully injected before
-				// injecting another one
+				/*
+				 * Waits for script to be fully injected before
+				 * injecting another one.
+				 */
 				function injectWorker() {
 					if (scripts.length > 0) {
 						let jsFile = scripts.shift();
@@ -103,8 +104,10 @@ define((require) => {
 			}
 
 			if (matchOk) {
-				// Checks if there's already injected connector
-				// and injects it if needed
+				/*
+				 * Checks if there's already injected connector
+				 * and injects it if needed.
+				 */
 				return pingAndInject(tab.id, connector);
 
 			}

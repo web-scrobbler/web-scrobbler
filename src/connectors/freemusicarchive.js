@@ -28,7 +28,7 @@ let pageType = (function() {
  *
  * @param  {Object} regEx Regular expression used to match
  * @return {String} Found string
-*/
+ */
 function searchComment(regEx) {
 	let result;
 	let pageDataNode = $('div.colr-sml-toppad').contents().filter(function() {
@@ -78,8 +78,10 @@ Connector.getAlbum = () => {
 			return albumName;
 		}
 		case 'song':
-			// can't use breadcrumb since album title may be truncated,
-			//  instead use an html comment that contains the album name
+			/*
+			 * Can't use breadcrumb since album title may be truncated,
+			 * instead use an html comment that contains the album name
+			 */
 			return searchComment(/\[album_title\] => (.+)/);
 		default:
 			return null;

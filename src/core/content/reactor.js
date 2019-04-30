@@ -40,8 +40,10 @@ class Reactor { // eslint-disable-line no-unused-vars
 	 */
 	onRuntimeMessage(message, sender, sendResponse) {
 		switch (message.type) {
-			// Background script calls this to see
-			// if the script is already injected.
+			/*
+			 * Background script calls this to see
+			 * if the script is already injected.
+			 */
 			case 'v2.onPing':
 				sendResponse(true);
 				break;
@@ -56,12 +58,7 @@ class Reactor { // eslint-disable-line no-unused-vars
 	 * Listen for state changes on connector and determines further actions.
 	 * @param {Object} state Connector state
 	 */
-	onStateChanged(state/* , changedFields*/) {
-		// ignore changes in current time - it can be used in future
-		// if (changedFields.indexOf('currentTime') > -1 && changedFields.length === 1) {
-		// 	return;
-		// }
-
+	onStateChanged(state) {
 		/**
 		 * Send given state to background script. There is only single
 		 * message type for V2 connectors. Validation, submission and all

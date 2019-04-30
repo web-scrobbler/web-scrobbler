@@ -185,8 +185,7 @@ define((require) => {
 
 		async fetchSession(url) {
 			this.debugLog(`Use ${url}`);
-			// NOTE: Use 'same-origin' credentials
-			// to fix login on Firefox ESR 60.
+			// NOTE: Use 'same-origin' credentials to fix login on Firefox ESR 60.
 			let promise = fetch(url, { method: 'GET', credentials: 'same-origin' });
 			let timeout = BaseScrobbler.REQUEST_TIMEOUT;
 
