@@ -35,7 +35,7 @@ function setupMobilePlayer() {
 
 	Connector.getArtistTrack = () => {
 		let text = $('.song-title>div>div:nth-child(1)').text();
-		return Util.splitArtistTrack(text, '-', true);
+		return Util.splitArtistTrack(text, '-', { swap: true });
 	};
 }
 

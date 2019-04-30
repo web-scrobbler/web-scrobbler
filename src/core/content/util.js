@@ -173,8 +173,8 @@ const Util = {
 	 * @param  {Boolean} swap Swap artist and track values
 	 * @return {Object} Object contains artist and track fields
 	 */
-	splitArtistTrack(str, separators = null, swap = false) {
-		let [artist, track] = this.splitString(str, separators, swap);
+	splitArtistTrack(str, separators = null, { swap = false } = {}) {
+		let [artist, track] = this.splitString(str, separators, { swap });
 		return { artist, track };
 	},
 
@@ -185,8 +185,8 @@ const Util = {
 	 * @param  {Boolean} swap Swap currentTime and duration values
 	 * @return {Object} Array ontains 'currentTime' and 'duration' fields
 	 */
-	splitTimeInfo(str, sep = '/', swap = false) {
-		let [currentTime, duration] = this.splitString(str, [sep], swap);
+	splitTimeInfo(str, sep = '/', { swap = false } = {}) {
+		let [currentTime, duration] = this.splitString(str, [sep], { swap });
 		if (currentTime) {
 			currentTime = this.stringToSeconds(currentTime);
 		}
@@ -204,7 +204,7 @@ const Util = {
 	 * @param  {Boolean} swap Swap values
 	 * @return {Array} Array of strings splitted by separator
 	 */
-	splitString(str, separators = null, swap = false) {
+	splitString(str, separators = null, { swap = false } = {}) {
 		let first = null;
 		let second = null;
 

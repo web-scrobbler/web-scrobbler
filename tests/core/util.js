@@ -312,7 +312,7 @@ function testProcessYoutubeVideoTitle() {
 function testSplitTimeInfo() {
 	for (let data of SPLIT_TIME_INFO_DATA) {
 		let { description, source, expected, swap, separators } = data;
-		let actual = Util.splitTimeInfo(source, separators, swap);
+		let actual = Util.splitTimeInfo(source, separators, { swap });
 
 		it(description, function() {
 			expect(actual).to.be.deep.equal(expected);
