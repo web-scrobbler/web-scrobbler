@@ -6,11 +6,11 @@ define((require) => {
 	const Song = require('object/song');
 	const Timer = require('timer');
 	const Pipeline = require('pipeline/pipeline');
-	const LocalCache = require('pipeline/local-cache');
 	const Notifications = require('notifications');
 	const BrowserAction = require('browser-action');
 	const ScrobbleService = require('service/scrobble-service');
 	const ServiceCallResult = require('object/service-call-result');
+	const LocalCacheStorage = require('storage/local-cache');
 
 	/**
 	 * Number of seconds of playback before the track is scrobbled.
@@ -114,7 +114,7 @@ define((require) => {
 		async resetSongData() {
 			if (this.currentSong) {
 				this.currentSong.resetSongData();
-				await LocalCache.removeSongFromStorage(this.currentSong);
+				await LocalCacheStorage.removeSongData(this.currentSong);
 				this.processSong();
 			}
 		}
@@ -157,17 +157,16 @@ define((require) => {
 		 * Sets data for current song from user input
 		 * @param {Object} data Object contains song data
 		 */
-		setUserSongData(data) {
+		async setUserSongData(data) {
 			if (this.currentSong) {
 				if (this.currentSong.flags.isScrobbled) {
 					this.debugLog('Attempted to enter user data for already scrobbled song', 'warn');
 					return;
 				}
 
-				let isChanged = LocalCache.setUserData(this.currentSong, data);
-				// Resend song to pipeline
-				if (isChanged) {
-					this.processSong();
+				if (isSongDataChanged(this.currentSong, data)) {
+					await LocalCacheStorage.saveSongData(this.currentSong, data);
+					await this.processSong();
 				}
 			}
 		}
@@ -586,6 +585,22 @@ define((require) => {
 					break;
 			}
 		}
+	}
+
+	/**
+	 * Apply user data to given song.
+	 * @param  {Object} song Song object
+	 * @param  {Object} data User data
+	 * @return {Boolean} True if data is applied
+	 */
+	function isSongDataChanged(song, data) {
+		for (let field of Song.USER_FIELDS) {
+			if (data[field]) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

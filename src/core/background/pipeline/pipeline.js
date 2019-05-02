@@ -7,7 +7,6 @@ define((require) => {
 	const UserInput = require('pipeline/user-input');
 	const Metadata = require('pipeline/metadata');
 	const Normalize = require('pipeline/normalize');
-	const LocalCache = require('pipeline/local-cache');
 	const CoverArtArchive = require('pipeline/coverartarchive');
 
 	/**
@@ -22,11 +21,6 @@ define((require) => {
 		 * Load data submitted by user.
 		 */
 		UserInput,
-		//
-		/**
-		 * Load data filled by user from storage.
-		 */
-		LocalCache,
 		/**
 		 * Load song metadata using ScrobbleService.
 		 */

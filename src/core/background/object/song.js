@@ -52,7 +52,7 @@ define((require) => {
 	 * Custom fields can be defined by user.
 	 * @type {Array}
 	 */
-	const USER_FIEDS = ['artist', 'track', 'album'];
+	const USER_FIELDS = ['artist', 'track', 'album'];
 
 	/**
 	 * Fields used to identify song.
@@ -154,12 +154,6 @@ define((require) => {
 				 */
 				label: connector.label,
 			};
-
-			/**
-			 * Various user data. Used to transfer edited track info between
-			 * pipeline stages. Can be modified.
-			 */
-			this.userdata = {};
 
 			/**
 			 * Various flags. Can be modified.
@@ -276,10 +270,6 @@ define((require) => {
 				duration: this.parsed.duration,
 			};
 
-			for (const field of USER_FIEDS) {
-				delete this.userdata[field];
-			}
-
 			for (const flag in DEFAULT_FLAGS) {
 				this.flags[flag] = DEFAULT_FLAGS[flag];
 			}
@@ -336,5 +326,5 @@ define((require) => {
 		}
 	}
 
-	return { buildFrom, BASE_FIELDS, USER_FIEDS };
+	return { buildFrom, BASE_FIELDS, USER_FIELDS };
 });
