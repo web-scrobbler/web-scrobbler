@@ -1,9 +1,9 @@
 'use strict';
 
 require([
-	'config',
+	'storage/config',
 	'connectors',
-	'custom-patterns',
+	'storage/custom-patterns',
 	'storage/chrome-storage',
 	'wrapper/chrome',
 	'service/scrobble-service',

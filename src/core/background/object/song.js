@@ -5,7 +5,7 @@
  */
 define((require) => {
 	const MD5 = require('vendor/md5');
-	const DeepProxy = require('deep-proxy');
+	const DeepProxy = require('object/deep-proxy');
 
 	/**
 	 * Default values of song flags.

@@ -3,11 +3,11 @@
  * Handles matching page URL with defined connectors and injecting scripts into content document
  */
 define((require) => {
-	const Config = require('config');
+	const Config = require('storage/config');
 	const UrlMatch = require('url-match');
 	const connectors = require('connectors');
 	const InjectResult = require('object/inject-result');
-	const CustomPatterns = require('custom-patterns');
+	const CustomPatterns = require('storage/custom-patterns');
 
 	/**
 	 * Ping the loaded page and checks if there is already loaded connector.
