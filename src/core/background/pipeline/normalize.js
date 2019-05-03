@@ -4,7 +4,7 @@
  * This pipeline stage normalizes track info fields.
  */
 
-define(() => {
+define((require) => {
 	const Song = require('object/song');
 
 	/**
