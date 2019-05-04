@@ -2,83 +2,84 @@
 
 const fs = require('fs');
 
-module.exports = function(grunt) {
-	let isTravisCi = (process.env.TRAVIS === 'true');
+const CHROME_EXTENION_ID = 'hhinaapppaileiechjoiifaancjggfjm';
+const FIREFOX_EXTENION_ID = '{799c0914-748b-41df-a25c-22d008f9e83f}';
 
-	const chromeExtensionId = 'hhinaapppaileiechjoiifaancjggfjm';
-	const amoExtensionId = '{799c0914-748b-41df-a25c-22d008f9e83f}';
+const SRC_DIR = 'src';
+const BUILD_DIR = 'build';
 
-	const srcDir = 'src';
-	const buildDir = 'build';
-	const packageName = 'web-scrobbler.zip';
-	const manifestFile = 'src/manifest.json';
+const PACKAGE_FILE = 'web-scrobbler.zip';
+const MANIFEST_FILE = 'src/manifest.json';
 
-	// Files to build package
-	const extensionSources = [
-		'**/*',
-		// Skip files
-		'!content/testReporter.js', '!icons/src/**',
-	];
-	const documentationFiles = [
-		'README.md', 'LICENSE.md'
-	];
+// Files to build package
+const EXTENSION_SRC = [
+	'**/*',
+	// Skip files
+	'!content/testReporter.js', '!icons/src/**',
+];
+const EXTENSION_DOCS = [
+	'README.md', 'LICENSE.md'
+];
 
-	// Files to lint
-	const jsFiles = [
-		// Custom Grunt tasks
-		'.grunt',
-		// Connectors
-		`${srcDir}/connectors/**/*.js`,
-		// Core files
-		`${srcDir}/core/**/*.js`, `${srcDir}/options/*.js`,
-		`${srcDir}/popups/*.js`,
-		// Tests
-		'tests/**/*.js'
-	];
-	const jsonFiles = ['*.json', '.stylelintrc'];
-	const htmlFiles = [`${srcDir}/options/*.html`, `${srcDir}/popups/*.html`];
-	const cssFiles = [`${srcDir}options/*.css`, `${srcDir}/popups/*.css`];
+// Files to lint
+const JS_FILES = [
+	// Custom Grunt tasks
+	'.grunt',
+	// Connectors
+	`${SRC_DIR}/connectors/**/*.js`,
+	// Core files
+	`${SRC_DIR}/core/**/*.js`, `${SRC_DIR}/options/*.js`,
+	`${SRC_DIR}/popups/*.js`,
+	// Tests
+	'tests/**/*.js'
+];
+const JSON_FILES = ['*.json', '.stylelintrc'];
+const HTML_FILES = [`${SRC_DIR}/options/*.html`, `${SRC_DIR}/popups/*.html`];
+const CSS_FILES = [`${SRC_DIR}options/*.css`, `${SRC_DIR}/popups/*.css`];
 
-	const webStoreConfig = loadWebStoreConfig();
-	const githubConfig = loadGithubConfig();
-	const amoConfig = loadAmoConfig();
+const isTravisCi = (process.env.TRAVIS === 'true');
 
+const webStoreConfig = loadWebStoreConfig();
+const githubConfig = loadGithubConfig();
+const amoConfig = loadAmoConfig();
+
+module.exports = (grunt) => {
 	grunt.initConfig({
-		manifest: grunt.file.readJSON(manifestFile),
+		manifest: grunt.file.readJSON(MANIFEST_FILE),
 
 		/**
 		 * Configs of build tasks.
 		 */
 
 		clean: {
-			build: buildDir,
-			package: [packageName],
+			build: BUILD_DIR,
+			package: [PACKAGE_FILE],
 			chrome: [
-				`${buildDir}/icons/icon128_firefox.png`,
-				`${buildDir}/icons/icon48_firefox.png`
+				`${BUILD_DIR}/icons/icon128_firefox.png`,
+				`${BUILD_DIR}/icons/icon48_firefox.png`
 			],
 		},
 		copy: {
 			source_files: {
 				expand: true,
-				cwd: srcDir,
-				src: extensionSources,
-				dest: buildDir,
+				cwd: SRC_DIR,
+				src: EXTENSION_SRC,
+				dest: BUILD_DIR,
 			},
 			documentation: {
 				expand: true,
-				src: documentationFiles,
-				dest: buildDir,
+				src: EXTENSION_DOCS,
+				dest: BUILD_DIR,
 			}
 		},
 		compress: {
 			main: {
 				options: {
-					archive: packageName,
+					archive: PACKAGE_FILE,
 					pretty: true
 				},
 				expand: true,
-				cwd: buildDir,
+				cwd: BUILD_DIR,
 				src: '**/*',
 			}
 		},
@@ -92,15 +93,15 @@ module.exports = function(grunt) {
 				files: [{
 					expand: true,
 					src: [
-						`${buildDir}/icons/*.svg`,
-						`${buildDir}/icons/*.png`
+						`${BUILD_DIR}/icons/*.svg`,
+						`${BUILD_DIR}/icons/*.png`
 					]
 				}]
 			}
 		},
 		preprocess: {
 			firefox: {
-				src: `${buildDir}/**/*.js`,
+				src: `${BUILD_DIR}/**/*.js`,
 				expand: true,
 				options: {
 					inline: true,
@@ -110,7 +111,7 @@ module.exports = function(grunt) {
 				}
 			},
 			chrome: {
-				src: `${buildDir}/**/*.js`,
+				src: `${BUILD_DIR}/**/*.js`,
 				expand: true,
 				options: {
 					inline: true,
@@ -123,25 +124,25 @@ module.exports = function(grunt) {
 		rename: {
 			firefox: {
 				files: [{
-					src: `${buildDir}/icons/icon128_firefox.png`,
-					dest: `${buildDir}/icons/icon128.png`
+					src: `${BUILD_DIR}/icons/icon128_firefox.png`,
+					dest: `${BUILD_DIR}/icons/icon128.png`
 				}, {
-					src: `${buildDir}/icons/icon48_firefox.png`,
-					dest: `${buildDir}/icons/icon48.png`
+					src: `${BUILD_DIR}/icons/icon48_firefox.png`,
+					dest: `${BUILD_DIR}/icons/icon48.png`
 				}]
 			}
 		},
 		replace_json: {
 			chrome: {
-				src: `${buildDir}/manifest.json`,
+				src: `${BUILD_DIR}/manifest.json`,
 				changes: {
 					'options_ui': undefined,
 				}
 			},
 			firefox: {
-				src: `${buildDir}/manifest.json`,
+				src: `${BUILD_DIR}/manifest.json`,
 				changes: {
-					'applications.gecko.id': amoExtensionId,
+					'applications.gecko.id': FIREFOX_EXTENION_ID,
 					'applications.gecko.strict_min_version': '53.0',
 
 					'options_page': undefined,
@@ -155,9 +156,9 @@ module.exports = function(grunt) {
 
 		bump: {
 			options: {
-				files: [manifestFile],
+				files: [MANIFEST_FILE],
 				updateConfigs: ['manifest'],
-				commitFiles: [manifestFile],
+				commitFiles: [MANIFEST_FILE],
 			}
 		},
 		dump_changelog: {
@@ -171,9 +172,9 @@ module.exports = function(grunt) {
 		amo_upload: {
 			issuer: amoConfig.issuer,
 			secret: amoConfig.secret,
-			id: amoExtensionId,
+			id: FIREFOX_EXTENION_ID,
 			version: '<%= manifest.version %>',
-			src: packageName,
+			src: PACKAGE_FILE,
 		},
 		webstore_upload: {
 			accounts: {
@@ -186,8 +187,8 @@ module.exports = function(grunt) {
 			},
 			extensions: {
 				'web-scrobbler': {
-					appID: chromeExtensionId,
-					zip: packageName,
+					appID: CHROME_EXTENION_ID,
+					zip: PACKAGE_FILE,
 				}
 			}
 		},
@@ -197,24 +198,24 @@ module.exports = function(grunt) {
 		 */
 
 		eslint: {
-			target: jsFiles,
+			target: JS_FILES,
 			options: {
 				configFile: '.eslintrc.js',
 				fix: !isTravisCi
 			},
 		},
 		jsonlint: {
-			src: jsonFiles
+			src: JSON_FILES
 		},
 		lintspaces: {
-			src: [jsFiles, jsonFiles, cssFiles, htmlFiles],
+			src: [JS_FILES, JSON_FILES, CSS_FILES, HTML_FILES],
 			options: {
 				editorconfig: '.editorconfig',
 				ignores: ['js-comments']
 			}
 		},
 		stylelint: {
-			all: cssFiles
+			all: CSS_FILES
 		},
 
 		/**
@@ -433,78 +434,66 @@ module.exports = function(grunt) {
 			grunt.fail.fatal(`Unknown browser: ${browser}`);
 		}
 	}
-
-	/**
-	 * Get JSON config.
-	 *
-	 * @param  {String} configPath Path to config file
-	 * @return {Object} Config object
-	 */
-	function loadConfig(configPath) {
-		if (fs.existsSync(configPath)) {
-			return require(configPath);
-		}
-
-		return {};
-	}
-
-	/**
-	 * Get web store config.
-	 *
-	 * @return {Object} Config object
-	 */
-	function loadWebStoreConfig() {
-		if (isTravisCi) {
-			let webStoreConfig = {
-				clientId: process.env.CHROME_CLIENT_ID,
-				clientSecret: process.env.CHROME_CLIENT_SECRET,
-				refreshToken: process.env.CHROME_REFRESH_TOKEN
-			};
-
-			return webStoreConfig;
-		}
-
-		let webStoreConfig = loadConfig('./.publish/web-store.json');
-
-		return webStoreConfig;
-	}
-
-	/**
-	 * Get github config.
-	 *
-	 * @return {Object} Config object
-	 */
-	function loadGithubConfig() {
-		if (isTravisCi) {
-			let githubConfig = {
-				token: process.env.GITHUB_TOKEN,
-			};
-
-			return githubConfig;
-		}
-
-		let githubConfig = loadConfig('./.publish/github.json');
-
-		return githubConfig;
-	}
-
-	/**
-	 * Get Amo config.
-	 *
-	 * @return {Object} Config object
-	 */
-	function loadAmoConfig() {
-		if (isTravisCi) {
-			let amoConfig = {
-				issuer: process.env.AMO_ISSUER,
-				secret: process.env.AMO_SECRET,
-			};
-
-			return amoConfig;
-		}
-
-		let amoConfig = loadConfig('./.publish/amo.json');
-
-		return amoConfig;
-	}
 };
+
+/**
+ * Get JSON config.
+ *
+ * @param  {String} configPath Path to config file
+ * @return {Object} Config object
+ */
+function loadConfig(configPath) {
+	if (fs.existsSync(configPath)) {
+		return require(configPath);
+	}
+
+	return {};
+}
+
+/**
+ * Get web store config.
+ *
+ * @return {Object} Config object
+ */
+function loadWebStoreConfig() {
+	if (isTravisCi) {
+		return {
+			clientId: process.env.CHROME_CLIENT_ID,
+			clientSecret: process.env.CHROME_CLIENT_SECRET,
+			refreshToken: process.env.CHROME_REFRESH_TOKEN
+		};
+	}
+
+	return loadConfig('./.publish/web-store.json');
+}
+
+/**
+ * Get github config.
+ *
+ * @return {Object} Config object
+ */
+function loadGithubConfig() {
+	if (isTravisCi) {
+		return {
+			token: process.env.GITHUB_TOKEN,
+		};
+	}
+
+	return loadConfig('./.publish/github.json');
+}
+
+/**
+ * Get Amo config.
+ *
+ * @return {Object} Config object
+ */
+function loadAmoConfig() {
+	if (isTravisCi) {
+		return {
+			issuer: process.env.AMO_ISSUER,
+			secret: process.env.AMO_SECRET,
+		};
+	}
+
+	return loadConfig('./.publish/amo.json');
+}
