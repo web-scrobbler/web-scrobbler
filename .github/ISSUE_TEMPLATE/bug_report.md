@@ -24,12 +24,12 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Debug logs**
-It's strongly recommended to grab debug logs after reproducing the issue: https://github.com/web-scrobbler/web-scrobbler/wiki/Debug-the-extension.
+It's strongly recommended to grab [debug logs](https://github.com/web-scrobbler/web-scrobbler/wiki/Debug-the-extension) after reproducing the issue.
 
 **Environment (please complete the following information)**
-- OS: (e.g. Windows, Mac)
-- Browser: (e.g. Chrome, Safari)
-- Extension version: (e.g. v2.10.0)
+-   OS: (e.g. Windows, Mac)
+-   Browser: (e.g. Chrome, Safari)
+-   Extension version: (e.g. v2.10.0)
 
 **Additional context**
 Add any other context about the problem here.
