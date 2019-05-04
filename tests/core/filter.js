@@ -213,6 +213,18 @@ const YOUTUBE_TEST_DATA = [{
 	source: 'Track Title (Official Track Stream)',
 	expected: 'Track Title'
 }, {
+	description: 'should remove live suffix',
+	source: 'Track Title Live',
+	expected: 'Track Title'
+}, {
+	description: 'should remove Full Album suffix',
+	source: 'Track Title Full Album',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "| something" suffix',
+	source: 'Track Title | Foo | Bar',
+	expected: 'Track Title'
+}, {
 	description: 'should remove leading colon',
 	source: ':Track Title',
 	expected: 'Track Title'
