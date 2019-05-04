@@ -1092,10 +1092,6 @@ define(function() {
 		],
 		js: ['connectors/rainwave.js']
 	}, {
-		label: 'Fanburst',
-		matches: ['*://fanburst.com/*'],
-		js: ['connectors/fanburst.js']
-	}, {
 		label: 'Retro Synthwave',
 		matches: ['*://www.retro-synthwave.com/*'],
 		js: ['connectors/retro-synthwave.js']
