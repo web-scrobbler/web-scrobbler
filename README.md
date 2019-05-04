@@ -53,7 +53,7 @@ We use gitter and you can join us @ [web-scrobbler/web-scrobbler][5].
 -   [Font Awesome v4.7.0][17]
 -   [jQuery v3.2.1][18]
 -   [RequireJS v2.3.5][19]
--   [Showdown][28]
+-   [Showdown v1.9.0][28]
 
 ## Privacy Policy
 
