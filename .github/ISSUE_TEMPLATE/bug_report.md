@@ -23,6 +23,9 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
+**Debug logs**
+It's strongly recommended to grab debug logs after reproducing the issue: https://github.com/web-scrobbler/web-scrobbler/wiki/Debug-the-extension.
+
 **Environment (please complete the following information)**
 - OS: (e.g. Windows, Mac)
 - Browser: (e.g. Chrome, Safari)
