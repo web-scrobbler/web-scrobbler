@@ -6,4 +6,4 @@ Connector.artistSelector = '.playerContainer.columns.mini .player .player-song-a
 
 Connector.trackSelector = '.playerContainer.columns.mini .player .player-song-title';
 
-Connector.isPlaying = () => $('.icon-music-pause-a') !== null;
+Connector.isPlaying = () => $('.icon-music-pause-a').length > 0;
