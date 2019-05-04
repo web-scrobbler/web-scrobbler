@@ -314,10 +314,6 @@ class MetadataFilter {
 			// (*01/01/1999*)
 			{ source: /\s*\(.*[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{2,4}.*\)/i, target: '' },
 
-
-			// labels
-			{ source: /\|\sNapalm\sRecords$/, target: '' },
-
 			// trim starting white chars and dash
 			{ source: /^[/,:;~-\s"]+/, target: '' },
 			// trim trailing white chars and dash
