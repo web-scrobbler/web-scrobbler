@@ -27,5 +27,5 @@ function removeByPrefix(text) {
 }
 
 function removeBuySuffix(text) {
-	return text.replace('  — Buy', '');
+	return text.replace(/[\u2014\u002d]\sbuy$/gi, '');
 }
