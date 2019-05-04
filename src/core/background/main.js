@@ -5,10 +5,10 @@
  *
  * - sets up injecting mechanism for supported sites
  * - creates controllers for each recognized tab
- * - sets up all chrome.* listeners, which are forwarded controllers if needed
+ * - sets up all browser.* listeners, which are forwarded controllers if needed
  * - checks auth status on run (browser start or extension enabling) and prompts for login if needed
  *
- * The extension uses `chrome.runtime.sendMessage` function for communication
+ * The extension uses `browser.runtime.sendMessage` function for communication
  * between different modules using the following message types:
  *
  * 1) events:
@@ -32,6 +32,7 @@
  *    @param  {String} scrobbler Scrobbler label
  */
 require([
+	'webextension-polyfill',
 	'util/migrate',
 	'service/ga',
 	'browser/inject',
@@ -41,7 +42,7 @@ require([
 	'storage/options',
 	'object/scrobble-service',
 	'browser/notifications'
-], (Migrate, GA, Inject, InjectResult, Controller, ChromeStorage, Options, ScrobbleService, Notifications) => {
+], (browser, Migrate, GA, Inject, InjectResult, Controller, ChromeStorage, Options, ScrobbleService, Notifications) => {
 	/**
 	 * How many times to show auth notification.
 	 * @type {Number}
@@ -52,7 +53,7 @@ require([
 	 * Current version of the extension.
 	 * @type {String}
 	 */
-	const extVersion = chrome.runtime.getManifest().version;
+	const extVersion = browser.runtime.getManifest().version;
 
 	/**
 	 * Single controller instance for each tab with injected script
@@ -79,12 +80,12 @@ require([
 	 * Setup Chrome event listeners. Called on startup.
 	 */
 	function setupChromeEventListeners() {
-		chrome.tabs.onUpdated.addListener(onTabUpdated);
-		chrome.tabs.onRemoved.addListener(onTabRemoved);
-		chrome.tabs.onActivated.addListener(onTabChanged);
+		browser.tabs.onUpdated.addListener(onTabUpdated);
+		browser.tabs.onRemoved.addListener(onTabRemoved);
+		browser.tabs.onActivated.addListener(onTabChanged);
 
-		chrome.runtime.onMessage.addListener(onMessage);
-		chrome.runtime.onConnect.addListener((port) => {
+		browser.runtime.onMessage.addListener(onMessage);
+		browser.runtime.onConnect.addListener((port) => {
 			port.onMessage.addListener((message) => {
 				onPortMessage(message, port.sender);
 			});
@@ -94,10 +95,8 @@ require([
 	/**
 	 * Called when something sent message to background script.
 	 * @param  {Any} request Message sent by the calling script
-	 * @param  {Object} sender Message sender
-	 * @param  {Function} sendResponse Response callback
 	 */
-	function onMessage(request, sender, sendResponse) {
+	function onMessage(request) {
 		if (request.type === 'REQUEST_AUTHENTICATE') {
 			const scrobblerLabel = request.scrobbler;
 			const scrobbler = ScrobbleService.getScrobblerByLabel(scrobblerLabel);
@@ -121,18 +120,15 @@ require([
 
 		switch (request.type) {
 			case 'REQUEST_GET_SONG':
-				sendResponse(ctrl.getCurrentSong());
-				break;
+				return Promise.resolve(ctrl.getCurrentSong());
 
 			case 'REQUEST_CORRECT_SONG':
 				ctrl.setUserSongData(request.data);
 				break;
 
 			case 'REQUEST_TOGGLE_LOVE':
-				ctrl.toggleLove(request.data.isLoved).then(() => {
-					sendResponse(request.data.isLoved);
-				});
-				break;
+				return ctrl.toggleLove(request.data.isLoved)
+					.then(() => request.data.isLoved);
 
 			case 'REQUEST_SKIP_SONG':
 				ctrl.skipCurrentSong();
@@ -186,7 +182,7 @@ require([
 
 				let enabled = result.type === InjectResult.MATCHED_AND_INJECTED;
 				tabControllers[tabId] = new Controller(tabId, result.connector, enabled);
-				chrome.tabs.sendMessage(tabId, { type: 'EVENT_READY' });
+				browser.tabs.sendMessage(tabId, { type: 'EVENT_READY' });
 
 				GA.event('core', 'inject', result.connector.label);
 
@@ -222,7 +218,7 @@ require([
 	 * Called after update to version with notable changes.
 	 */
 	function openChangelogSection() {
-		chrome.tabs.create({ url: `https://github.com/web-scrobbler/web-scrobbler/releases/tag/v${extVersion}` });
+		browser.tabs.create({ url: `https://github.com/web-scrobbler/web-scrobbler/releases/tag/v${extVersion}` });
 	}
 
 	/**
@@ -231,7 +227,7 @@ require([
 	 * @param  {Number} tabId Tab ID
 	 */
 	function updateContextMenu(tabId) {
-		chrome.contextMenus.removeAll();
+		browser.contextMenus.removeAll();
 
 		let controller = tabControllers[tabId];
 		if (!controller) {
@@ -240,7 +236,7 @@ require([
 		let connector = controller.getConnector();
 
 		if (controller.isEnabled) {
-			let title1 = chrome.i18n.getMessage('menuDisableConnector', connector.label);
+			let title1 = browser.i18n.getMessage('menuDisableConnector', connector.label);
 			addContextMenuItem(title1, () => {
 				controller.setEnabled(false);
 				Options.setConnectorEnabled(connector.label, false);
@@ -248,13 +244,13 @@ require([
 				updateContextMenu(tabId);
 			});
 
-			let title2 = chrome.i18n.getMessage('menuDisableUntilTabClosed');
+			let title2 = browser.i18n.getMessage('menuDisableUntilTabClosed');
 			addContextMenuItem(title2, () => {
 				controller.setEnabled(false);
 				updateContextMenu(tabId);
 			});
 		} else {
-			let title = chrome.i18n.getMessage('menuEnableConnector', connector.label);
+			let title = browser.i18n.getMessage('menuEnableConnector', connector.label);
 			addContextMenuItem(title, () => {
 				controller.setEnabled(true);
 				Options.setConnectorEnabled(connector.label, true);
@@ -272,7 +268,7 @@ require([
 	 * @param {String} [type='normal'] Item type
 	 */
 	function addContextMenuItem(title, onclick, type = 'normal') {
-		chrome.contextMenus.create({
+		browser.contextMenus.create({
 			title, type, onclick, contexts: ['browser_action'],
 		});
 	}
@@ -340,14 +336,14 @@ require([
 			let authUrl = await scrobbler.getAuthUrl();
 
 			ScrobbleService.bindScrobbler(scrobbler);
-			chrome.tabs.create({ url: authUrl });
+			browser.tabs.create({ url: authUrl });
 		} catch (e) {
 			console.log(`Unable to get auth URL for ${scrobbler.getLabel()}`);
 
 			Notifications.showSignInError(scrobbler, () => {
 				let statusUrl = scrobbler.getStatusUrl();
 				if (statusUrl) {
-					chrome.tabs.create({ url: statusUrl });
+					browser.tabs.create({ url: statusUrl });
 				}
 			});
 		}
@@ -395,16 +391,16 @@ require([
 			console.warn('No scrobblers are bound');
 
 			if (await isAuthNotificationAllowed()) {
-				let authUrl = chrome.runtime.getURL('/options/index.html#accounts');
+				let authUrl = browser.runtime.getURL('/options/index.html#accounts');
 				try {
 					await Notifications.showAuthNotification(() => {
-						chrome.tabs.create({ url: authUrl });
+						browser.tabs.create({ url: authUrl });
 					});
 
 					GA.event('core', 'auth', 'default');
 				} catch (e) {
 					// Fallback for browsers with no notifications support
-					chrome.tabs.create({ url: authUrl });
+					browser.tabs.create({ url: authUrl });
 
 					GA.event('core', 'auth', 'fallback');
 				}

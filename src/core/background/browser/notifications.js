@@ -1,13 +1,13 @@
 'use strict';
 
 define((require) => {
+	const browser = require('webextension-polyfill');
 	const Util = require('util/util');
-	const chrome = require('wrapper/chrome');
 	const Options = require('storage/options');
 
 	const DEFAULT_OPTIONS_VALUES = {
 		type: 'basic',
-		iconUrl: chrome.runtime.getURL('/icons/icon_chrome_128.png'),
+		iconUrl: browser.runtime.getURL('/icons/icon_chrome_128.png'),
 	};
 
 	/**
@@ -90,14 +90,12 @@ define((require) => {
 			options[key] = defaultValue;
 		}
 
-		return new Promise((resolve) => {
-			chrome.notifications.create('', options, (notificationId) => {
-				if (typeof onClicked === 'function') {
-					addOnClickedListener(notificationId, onClicked);
-				}
-				resolve(notificationId);
-			});
-		});
+		const notificationId = await browser.notifications.create('', options);
+		if (typeof onClicked === 'function') {
+			addOnClickedListener(notificationId, onClicked);
+		}
+
+		return notificationId;
 	}
 
 	/**
@@ -113,7 +111,7 @@ define((require) => {
 		let connectorLabel = song.metadata.label;
 
 		let options = {
-			iconUrl: song.getTrackArt() || chrome.runtime.getURL('/icons/cover_art_default.png'),
+			iconUrl: song.getTrackArt() || browser.runtime.getURL('/icons/cover_art_default.png'),
 			// @ifdef CHROME
 			title: song.getTrack(),
 			silent: true,
@@ -159,7 +157,7 @@ define((require) => {
 		}
 
 		let options = {
-			iconUrl: chrome.runtime.getURL('icons/question.png'),
+			iconUrl: browser.runtime.getURL('icons/question.png'),
 			title: i18n('notificationNotRecognized'),
 			message: i18n('notificationNotRecognizedText')
 		};
@@ -187,22 +185,22 @@ define((require) => {
 	 */
 	function remove(notificationId) {
 		if (notificationId) {
-			chrome.notifications.clear(notificationId);
+			browser.notifications.clear(notificationId);
 		}
 	}
 
 	function i18n(tag, ...context) {
-		return chrome.i18n.getMessage(tag, context);
+		return browser.i18n.getMessage(tag, context);
 	}
 
-	chrome.notifications.onClicked.addListener(function(notificationId) {
+	browser.notifications.onClicked.addListener((notificationId) => {
 		console.log(`Notification onClicked: ${notificationId}`);
 
 		if (clickListeners[notificationId]) {
 			clickListeners[notificationId](notificationId);
 		}
 	});
-	chrome.notifications.onClosed.addListener((notificationId) => {
+	browser.notifications.onClosed.addListener((notificationId) => {
 		removeOnClickedListener(notificationId);
 	});
 

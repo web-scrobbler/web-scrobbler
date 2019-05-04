@@ -2,6 +2,7 @@
 
 define((require) => {
 	const Util = require('util/util');
+	const browser = require('webextension-polyfill');
 	const ScrobbleService = require('object/scrobble-service');
 
 	async function initialize() {
@@ -11,7 +12,7 @@ define((require) => {
 
 	async function setupChromeListeners() {
 		const tab = await Util.getCurrentTab();
-		chrome.tabs.onActivated.addListener((activeInfo) => {
+		browser.tabs.onActivated.addListener((activeInfo) => {
 			if (tab.id === activeInfo.tabId) {
 				createAccountViews();
 			}
@@ -53,13 +54,13 @@ define((require) => {
 		$account.empty();
 
 		const $label = $('<h4/>').text(scrobbler.getLabel());
-		const $authStr = $('<p/>').text(chrome.i18n.getMessage('accountsSignedInAs', session.sessionName));
+		const $authStr = $('<p/>').text(browser.i18n.getMessage('accountsSignedInAs', session.sessionName));
 		const $controls = $('<div/>').addClass('controls');
 
 		const $profileBtn = $('<a href="#"/>').attr('i18n', 'accountsProfile').click(async() => {
 			const profileUrl = await scrobbler.getProfileUrl();
 			if (profileUrl) {
-				chrome.tabs.create({ url: profileUrl });
+				browser.tabs.create({ url: profileUrl });
 			}
 		});
 		const $logoutBtn = $('<a href="#"/>').attr('i18n', 'accountsSignOut').click(async() => {
@@ -77,7 +78,7 @@ define((require) => {
 
 		const $label = $('<h4/>').text(scrobbler.getLabel());
 		const $authUrl = $('<a href="#"/>').attr('i18n', 'accountsSignIn').click(() => {
-			chrome.runtime.sendMessage({
+			browser.runtime.sendMessage({
 				type: 'REQUEST_AUTHENTICATE',
 				scrobbler: scrobbler.getLabel()
 			});

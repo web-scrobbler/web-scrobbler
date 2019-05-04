@@ -1,6 +1,8 @@
 'use strict';
 
-define(() => {
+define((require) => {
+	const browser = require('webextension-polyfill');
+
 	const State = {
 		base: {
 			icon: 'base',
@@ -71,22 +73,24 @@ define(() => {
 		 * @param {Object} state Browser action state
 		 * @param {String} placeholder String used to format title
 		 */
-		setBrowserAction(state, placeholder) {
+		async setBrowserAction(state, placeholder) {
 			let tabId = this.tabId;
-			chrome.tabs.get(tabId, () => {
-				if (!chrome.runtime.lastError) {
-					let { icon, popup, i18n } = state;
-					let title = chrome.i18n.getMessage(i18n, placeholder);
-					let path = {
-						19: `/icons/page_action_${icon}_19.png`,
-						38: `/icons/page_action_${icon}_38.png`
-					};
 
-					chrome.browserAction.setIcon({ tabId, path });
-					chrome.browserAction.setTitle({ tabId, title });
-					chrome.browserAction.setPopup({ tabId, popup });
-				}
-			});
+			let { icon, popup, i18n } = state;
+			let title = browser.i18n.getMessage(i18n, placeholder);
+			let path = {
+				19: `/icons/page_action_${icon}_19.png`,
+				38: `/icons/page_action_${icon}_38.png`
+			};
+
+			try {
+				await browser.browserAction.setIcon({ tabId, path });
+				await browser.browserAction.setTitle({ tabId, title });
+				await browser.browserAction.setPopup({ tabId, popup });
+			} catch (e) {
+				console.warn(
+					`Unable to set browser action icon for tab ${tabId}`);
+			}
 		}
 
 		/**

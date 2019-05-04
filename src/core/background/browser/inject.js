@@ -3,6 +3,7 @@
  * Handles matching page URL with defined connectors and injecting scripts into content document
  */
 define((require) => {
+	const browser = require('webextension-polyfill');
 	const Options = require('storage/options');
 	const UrlMatch = require('util/url-match');
 	const connectors = require('connectors');
@@ -11,73 +12,71 @@ define((require) => {
 
 	/**
 	 * Ping the loaded page and checks if there is already loaded connector.
-	 * If not injects it.
+	 * If no connector is loaded, inject content scripts.
 	 *
 	 * @param {Number} tabId Tab ID
-	 * @param {Object} connector Connector match objects
+	 * @param {Object} connector Connector match object
 	 *
-	 * @return {Promise} Promise that will be resolved with InjectResult value
+	 * @return {Object} InjectResult value
 	 */
-	function pingAndInject(tabId, connector) {
-		/*
-		 * Ping the content page to see if the script is already in place.
-		 *
-		 * Sadly there is no way to silently check if the script has been
-		 * already injected, so we will see an error in the background console
-		 * on load of every supported page.
-		 */
-		return new Promise((resolve) => {
-			chrome.tabs.sendMessage(tabId, { type: 'EVENT_PING' }, (response) => {
-				if (response) {
-					console.log('Subsequent ajax navigation, the scripts are already injected');
-					resolve(new InjectResult(InjectResult.ALREADY_INJECTED, connector));
-					return;
-				}
+	async function pingAndInject(tabId, connector) {
+		// Ping the content page to see if the script is already in place.
+		try {
+			await browser.tabs.sendMessage(tabId, { type: 'EVENT_PING' });
+		} catch (e) {
+			return injectScripts(tabId, connector);
+		}
 
-				console.log('Loaded for the first time, injecting the scripts');
+		console.log(
+			'Subsequent ajax navigation, the scripts are already injected');
 
-				let scripts = connector.js.slice(0);
+		return new InjectResult(InjectResult.ALREADY_INJECTED, connector);
+	}
 
-				scripts.unshift('core/content/connector.js');
-				scripts.unshift('core/content/filter.js');
-				scripts.unshift('core/content/reactor.js');
-				// @ifdef DEBUG
-				scripts.unshift('core/content/reporter.js');
-				// @endif
-				scripts.unshift('core/content/util.js');
-				scripts.unshift('vendor/jquery.min.js');
+	/**
+	 * Inject content scripts into the page.
+	 *
+	 * @param {Number} tabId Tab ID
+	 * @param {Object} connector Connector match object
+	 *
+	 * @return {Object} InjectResult value
+	 */
+	async function injectScripts(tabId, connector) {
+		const scripts = connector.js.slice(0);
+		scripts.unshift('core/content/connector.js');
+		scripts.unshift('core/content/filter.js');
+		scripts.unshift('core/content/reactor.js');
+		// @ifdef DEBUG
+		scripts.unshift('core/content/reporter.js');
+		// @endif
+		scripts.unshift('core/content/util.js');
+		scripts.unshift('vendor/browser-polyfill.min.js');
+		scripts.unshift('vendor/jquery.min.js');
+		// Needs to be the last script injected
+		scripts.push('core/content/starter.js');
 
-				// Needs to be the last script injected
-				scripts.push('core/content/starter.js');
+		for (const script of scripts) {
+			const injectDetails = {
+				file: script,
+				allFrames: connector.allFrames || false
+			};
 
-				/*
-				 * Waits for script to be fully injected before
-				 * injecting another one.
-				 */
-				function injectWorker() {
-					if (scripts.length > 0) {
-						let jsFile = scripts.shift();
-						let injectDetails = {
-							file: jsFile,
-							allFrames: connector.allFrames ? connector.allFrames : false
-						};
+			console.log(`Injecting ${script}`);
+			try {
+				await browser.tabs.executeScript(tabId, injectDetails);
+			} catch (e) {
+				// Firefox throws an error if a content script returns no value.
+				console.error(e);
+			}
+		}
 
-						console.log(`Injecting ${jsFile}`);
-						chrome.tabs.executeScript(tabId, injectDetails, injectWorker);
-					} else {
-						Options.isConnectorEnabled(connector.label).then((isEnabled) => {
-							if (!isEnabled) {
-								resolve(new InjectResult(InjectResult.MATCHED_BUT_DISABLED, connector));
-							} else {
-								resolve(new InjectResult(InjectResult.MATCHED_AND_INJECTED, connector));
-							}
-						});
-					}
-				}
+		const isEnabled = await Options.isConnectorEnabled(connector.label);
+		if (isEnabled) {
+			return new InjectResult(
+				InjectResult.MATCHED_AND_INJECTED, connector);
+		}
 
-				injectWorker();
-			});
-		});
+		return new InjectResult(InjectResult.MATCHED_BUT_DISABLED, connector);
 	}
 
 	/**

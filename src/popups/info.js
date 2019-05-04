@@ -1,6 +1,8 @@
 'use strict';
 
-require(['util/util'], (Util) => {
+require([
+	'webextension-polyfill', 'util/util'
+], (browser, Util) => {
 	const EDITED_TRACK_FIELDS = ['artist', 'track', 'album'];
 	const FIELD_URL_MAP = {
 		artist: 'artistUrl',
@@ -19,16 +21,10 @@ require(['util/util'], (Util) => {
 		const tab = await Util.getCurrentTab();
 		const tabId = tab.id;
 
-		return new Promise((resolve) => {
-			chrome.runtime.sendMessage({ type, data, tabId }, resolve);
-		});
+		return browser.runtime.sendMessage({ type, data, tabId });
 	}
 
 	function onSongLoaded() {
-		if (song === null) {
-			return;
-		}
-
 		updatePopupView();
 
 		let isSongValid = song.flags.isValid || song.flags.isCorrectedByUser;
@@ -150,7 +146,7 @@ require(['util/util'], (Util) => {
 
 		$('#album-art').off('click');
 		$('#album-art').on('click', () => {
-			chrome.tabs.create({ url: getCoverArt() });
+			browser.tabs.create({ url: getCoverArt() });
 		});
 
 		if (song.flags.isScrobbled) {
@@ -284,8 +280,7 @@ require(['util/util'], (Util) => {
 	}
 
 	function setupMessageListener() {
-		chrome.runtime.onMessage.addListener(async(request) => {
-			console.log(request);
+		browser.runtime.onMessage.addListener(async(request) => {
 			if (request.type !== 'EVENT_SONG_UPDATED') {
 				return;
 			}
@@ -322,7 +317,7 @@ require(['util/util'], (Util) => {
 	}
 
 	function i18n(tag, ...context) {
-		return chrome.i18n.getMessage(tag, context);
+		return browser.i18n.getMessage(tag, context);
 	}
 
 	function isSongDataComplete() {
@@ -339,8 +334,11 @@ require(['util/util'], (Util) => {
 
 	async function main() {
 		setupMessageListener();
+
 		song = await getCurrentSong();
-		onSongLoaded();
+		if (song) {
+			onSongLoaded();
+		}
 	}
 
 	$(document).ready(() => {

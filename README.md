@@ -52,6 +52,7 @@ We use gitter and you can join us @ [web-scrobbler/web-scrobbler][5].
 -   [jQuery v3.2.1][18]
 -   [RequireJS v2.3.5][19]
 -   [Showdown v1.9.0][28]
+-   [webextension-polyfill v0.4.0][31]
 
 ## Privacy Policy
 
@@ -114,3 +115,5 @@ See the [license file](LICENSE.md).
 [29]: https://api.codacy.com/project/badge/Grade/bb2841f875014aaea6a354da6c96bdee
 
 [30]: https://app.codacy.com/project/web-scrobbler/web-scrobbler/dashboard
+
+[31]: https://unpkg.com/webextension-polyfill@0.4.0/dist/

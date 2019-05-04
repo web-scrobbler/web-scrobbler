@@ -1,11 +1,11 @@
 'use strict';
 
 require([
-	'wrapper/chrome',
+	'webextension-polyfill',
 	'storage/chrome-storage',
 	'vendor/showdown.min',
 	'storage/options',
-], (chrome, ChromeStorage, showdown, Options) => {
+], (browser, ChromeStorage, showdown, Options) => {
 	const PRIVACY_FILENAME = 'privacy.md';
 	const DEFAULT_PRIVACY_PATH = `_locales/en/${PRIVACY_FILENAME}`;
 
@@ -36,7 +36,7 @@ require([
 	}
 
 	async function preparePrivacyPolicy() {
-		const locale = chrome.i18n.getMessage('@@ui_locale');
+		const locale = browser.i18n.getMessage('@@ui_locale');
 		const privacyDocs = [DEFAULT_PRIVACY_PATH];
 
 		if (!locale.startsWith('en')) {
@@ -49,7 +49,7 @@ require([
 		for (let privacyDoc of privacyDocs) {
 			console.log(`fetching ${privacyDoc}`);
 			try {
-				const response = await fetch(chrome.runtime.getURL(privacyDoc));
+				const response = await fetch(browser.runtime.getURL(privacyDoc));
 				const markdown = await response.text();
 				let converter = new showdown.Converter();
 				let content = converter.makeHtml(markdown);

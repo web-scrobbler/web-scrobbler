@@ -444,7 +444,7 @@ function BaseConnector() {
 			return;
 		}
 
-		let scriptUrl = chrome.runtime.getURL(scriptFile);
+		let scriptUrl = browser.runtime.getURL(scriptFile);
 		Util.injectScriptIntoDocument(scriptUrl);
 
 		console.log(`Web Scrobbler: Injected ${scriptFile}`);

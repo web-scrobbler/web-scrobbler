@@ -5,6 +5,7 @@ define((require) => {
 	const Util = require('util/util');
 	const Song = require('object/song');
 	const Timer = require('object/timer');
+	const browser = require('webextension-polyfill');
 	const Pipeline = require('pipeline/pipeline');
 	const Notifications = require('browser/notifications');
 	const BrowserAction = require('browser/browser-action');
@@ -442,12 +443,16 @@ define((require) => {
 		/**
 		 * Notify other modules song is updated.
 		 */
-		notifySongIsUpdated() {
-			chrome.runtime.sendMessage({
-				type: 'EVENT_SONG_UPDATED',
-				data: this.currentSong.getCloneableData(),
-				tabId: this.tabId
-			});
+		async notifySongIsUpdated() {
+			try {
+				await browser.runtime.sendMessage({
+					type: 'EVENT_SONG_UPDATED',
+					data: this.currentSong.getCloneableData(),
+					tabId: this.tabId
+				});
+			} catch (e) {
+				// Suppress errors
+			}
 		}
 
 		/**

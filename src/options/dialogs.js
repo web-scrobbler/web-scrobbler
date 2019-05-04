@@ -2,6 +2,7 @@
 
 define((require) => {
 	const Util = require('util/util');
+	const browser = require('webextension-polyfill');
 	const CustomPatterns = require('storage/custom-patterns');
 	const ChromeStorage = require('storage/chrome-storage');
 
@@ -103,7 +104,7 @@ define((require) => {
 						</button>`);
 
 					if (album) {
-						item.attr('title', chrome.i18n.getMessage('albumTooltip', album));
+						item.attr('title', browser.i18n.getMessage('albumTooltip', album));
 					}
 					removeBtn.click(async function() {
 						const data = await localCache.get();
@@ -122,7 +123,7 @@ define((require) => {
 				}
 			}
 
-			const poputTitle = chrome.i18n.getMessage(
+			const poputTitle = browser.i18n.getMessage(
 				'optionsEditedTracksPopupTitle', cacheSize.toString());
 			$('#edited-track-modal .modal-title').text(poputTitle);
 

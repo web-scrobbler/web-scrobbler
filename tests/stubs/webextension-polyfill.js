@@ -1,43 +1,36 @@
 'use strict';
 
 /**
- * Chrome StorageArea object stub.
+ * StorageArea object stub.
  */
 class StorageAreaStub {
 	constructor() {
 		this.data = {};
 	}
 
-	get(cb) {
-		cb(this.data);
+	get() {
+		return this.data;
 
 	}
 
-	set(data, cb) {
+	set(data) {
 		this.data = Object.assign(this.data, data);
-		cb();
 	}
 
-	remove(key, cb) {
+	remove(key) {
 		delete this.data[key];
-		cb();
 	}
 }
 
 /**
- * Chrome object stub.
+ * Browser object stub.
  * @type {Object}
  */
-const chrome = {
-	runtime: {
-		lastError: null,
-	},
+const browser = {
 	storage: {
 		local: new StorageAreaStub(),
 		sync: new StorageAreaStub()
 	}
 };
 
-define([], function() {
-	return chrome;
-});
+define([], () => browser);

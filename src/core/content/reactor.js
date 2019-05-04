@@ -11,7 +11,7 @@ class Reactor { // eslint-disable-line no-unused-vars
 	 * @param {Object} connector Connector object
 	 */
 	constructor(connector) {
-		this.setupChromeListener();
+		this.setupEventListener();
 		this.connector = connector;
 
 		// Setup listening for state changes on connector.
@@ -19,12 +19,12 @@ class Reactor { // eslint-disable-line no-unused-vars
 	}
 
 	/**
-	 * Setup Chrome event Listener.
+	 * Setup event listener.
 	 */
-	setupChromeListener() {
-		chrome.runtime.onMessage.addListener(this.onRuntimeMessage.bind(this));
+	setupEventListener() {
+		browser.runtime.onMessage.addListener(this.onRuntimeMessage.bind(this));
 
-		this.port = chrome.runtime.connect({ name: 'content-script' });
+		this.port = browser.runtime.connect({ name: 'content-script' });
 		this.port.onDisconnect.addListener(() => {
 			Util.debugLog('Port is closed', 'warn');
 			this.connector.reactorCallback = null;

@@ -1,7 +1,7 @@
 'use strict';
 
 define((require) => {
-	const chrome = require('wrapper/chrome');
+	const browser = require('webextension-polyfill');
 	const StorageWrapper = require('storage/wrapper');
 
 	const LOCAL = 0;
@@ -115,7 +115,7 @@ define((require) => {
 	 * @return {Object} StorageWrapper instance
 	 */
 	function getLocalStorage(namespace) {
-		let storageArea = chrome.storage.local;
+		let storageArea = browser.storage.local;
 		return new StorageWrapper(storageArea, namespace);
 	}
 
@@ -126,7 +126,7 @@ define((require) => {
 	 * @return {Object} StorageWrapper instance
 	 */
 	function getSyncStorage(namespace) {
-		let storageArea = chrome.storage.sync || chrome.storage.local;
+		let storageArea = browser.storage.sync || browser.storage.local;
 		return new StorageWrapper(storageArea, namespace);
 	}
 

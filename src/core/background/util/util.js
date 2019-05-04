@@ -5,7 +5,7 @@
  */
 
 define((require) => {
-	const chrome = require('wrapper/chrome');
+	const browser = require('webextension-polyfill');
 	const connectors = require('connectors');
 
 	const STR_REPLACER = 'x';
@@ -13,14 +13,11 @@ define((require) => {
 
 	/**
 	 * Return platform name using Chrome API.
-	 * @return {Promise} Promise that will be resolved with platform name
+	 * @return {String} Platform name
 	 */
-	function getPlatformName() {
-		return new Promise((resolve) => {
-			chrome.runtime.getPlatformInfo((info) => {
-				resolve(info.os);
-			});
-		});
+	async function getPlatformName() {
+		const platformInfo = await browser.runtime.getPlatformInfo();
+		return platformInfo.os;
 	}
 
 	/**
@@ -57,25 +54,20 @@ define((require) => {
 	 * Check if browser is in fullscreen mode.
 	 * @return {Promise} Promise that will be resolved with check result
 	 */
-	function isFullscreenMode() {
-		return new Promise((resolve) => {
-			chrome.windows.getCurrent((chromeWindow) => {
-				resolve(chromeWindow.state === 'fullscreen');
-			});
-		});
+	async function isFullscreenMode() {
+		const browserWindow = await browser.windows.getCurrent();
+		return browserWindow.state === 'fullscreen';
 	}
 
 	/**
 	 * Return current tab.
 	 * @return {Promise} Promise that will be resolved with current tab object
 	 */
-	function getCurrentTab() {
-		return new Promise((resolve) => {
-			let query = { active: true, lastFocusedWindow: true };
-			chrome.tabs.query(query, (tabs) => {
-				resolve(tabs[0]);
-			});
-		});
+	async function getCurrentTab() {
+		const query = { active: true, currentWindow: true };
+		const tabs = await browser.tabs.query(query);
+
+		return tabs[0];
 	}
 
 	/**
@@ -83,7 +75,7 @@ define((require) => {
 	 * @param {Number} tabId Tab ID
 	 */
 	function openTab(tabId) {
-		chrome.tabs.update(tabId, { active: true });
+		browser.tabs.update(tabId, { active: true });
 	}
 
 	/**

@@ -1,7 +1,6 @@
 'use strict';
 
 define((require) => {
-	const chrome = require('wrapper/chrome');
 	const Util = require('util/util');
 
 	/**
@@ -19,46 +18,26 @@ define((require) => {
 
 		/**
 		 * Read data from storage.
-		 * @return {Promise} Promise this will resolve when the task will complete
+		 * @return {Object} Storage data
 		 */
-		get() {
-			return new Promise((resolve, reject) => {
-				this.storage.get((data) => {
-					if (chrome.runtime.lastError) {
-						console.error(`StorageWrapper#get: ${chrome.runtime.lastError}`);
-						reject(chrome.runtime.lastError);
-						return;
-					}
+		async get() {
+			const data = await this.storage.get();
+			if (data && data.hasOwnProperty(this.namespace)) {
+				return data[this.namespace];
+			}
 
-					if (data && data.hasOwnProperty(this.namespace)) {
-						resolve(data[this.namespace]);
-					} else {
-						resolve({});
-					}
-				});
-			});
+			return {};
 		}
 
 		/**
 		 * Save data to storage.
 		 * @param  {Object} data Data to save
-		 * @return {Promise} Promise this will resolve when the task will complete
 		 */
-		set(data) {
-			return new Promise((resolve, reject) => {
-				let dataToSave = {};
-				dataToSave[this.namespace] = data;
+		async set(data) {
+			let dataToSave = {};
+			dataToSave[this.namespace] = data;
 
-				this.storage.set(dataToSave, () => {
-					if (chrome.runtime.lastError) {
-						console.error(`StorageWrapper#set: ${chrome.runtime.lastError}`);
-						reject(chrome.runtime.lastError);
-						return;
-					}
-
-					resolve();
-				});
-			});
+			await this.storage.set(dataToSave);
 		}
 
 		/**
@@ -83,24 +62,14 @@ define((require) => {
 			text = Util.hideStringInText(data.token, text);
 			text = Util.hideStringInText(data.sessionID, text);
 
-			console.info(`chrome.storage.${this.namespace} = ${text}`);
+			console.info(`storage.${this.namespace} = ${text}`);
 		}
 
 		/**
 		 * Clear storage.
-		 * @return {Promise} Promise this will resolve when the task will complete
 		 */
-		clear() {
-			return new Promise((resolve, reject) => {
-				this.storage.remove(this.namespace, () => {
-					if (chrome.runtime.lastError) {
-						reject(chrome.runtime.lastError);
-						return;
-					}
-
-					resolve();
-				});
-			});
+		async clear() {
+			await this.storage.remove(this.namespace);
 		}
 	}
 

@@ -1,11 +1,11 @@
 'use strict';
 
 /**
- * Tests for 'ChromeStorage' module.
+ * Tests for 'BrowserStorage' module.
  */
 
 const expect = require('chai').expect;
-const ChromeStorage = require('../../src/core/background/storage/chrome-storage');
+const BrowserStorage = require('../../src/core/background/storage/browser-storage');
 
 /**
  * Test storage object.
@@ -14,19 +14,17 @@ const ChromeStorage = require('../../src/core/background/storage/chrome-storage'
  */
 function testStorage(type, storage) {
 	describe(`${type} storage`, () => {
-		it('should return empty object', () => {
-			return storage.get().then((data) => {
-				expect({}).to.be.deep.equal(data);
-			});
+		it('should return empty object', async() => {
+			const data = await storage.get();
+			expect({}).to.be.deep.equal(data);
 		});
 
-		it('should set key value', () => {
-			let newData = { test: 'ok' };
-			return storage.set(newData).then(() => {
-				return storage.get();
-			}).then((data) => {
-				expect(newData).to.be.deep.equal(data);
-			});
+		it('should set key value', async() => {
+			const newData = { test: 'ok' };
+			await storage.set(newData);
+
+			const data = await storage.get();
+			expect(newData).to.be.deep.equal(data);
 		});
 
 		it('should update storage', () => {
@@ -54,8 +52,8 @@ function testStorage(type, storage) {
  */
 function runTests() {
 	let storages = {
-		local: ChromeStorage.getLocalStorage('Local'),
-		sync: ChromeStorage.getSyncStorage('Sync')
+		local: BrowserStorage.getLocalStorage('Local'),
+		sync: BrowserStorage.getSyncStorage('Sync')
 	};
 
 	for (let type in storages) {

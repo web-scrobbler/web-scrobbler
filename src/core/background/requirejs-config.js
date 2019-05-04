@@ -11,6 +11,8 @@ require.config({
 		options: '/options',
 		bootstrap: '/vendor/bootstrap/bootstrap.min',
 		connectors: '/core/connectors',
+
+		'webextension-polyfill': '/vendor/browser-polyfill.min',
 	},
 	shim: {
 		bootstrap: {

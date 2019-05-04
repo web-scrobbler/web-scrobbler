@@ -13,6 +13,7 @@ module.exports = {
 	'extends': 'eslint:recommended',
 	'globals': {
 		'$': true,
+		'browser': true,
 		'chrome': true,
 		'Require': true,
 		'define': true

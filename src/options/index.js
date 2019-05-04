@@ -1,6 +1,7 @@
 'use strict';
 
 require([
+	'webextension-polyfill',
 	'options/accounts',
 	'options/connectors',
 	'options/dialogs',
@@ -8,7 +9,7 @@ require([
 	'options/options',
 	'bootstrap'
 ],
-(Accounts, Connectors, Dialogs, Export, Options) => {
+(browser, Accounts, Connectors, Dialogs, Export, Options) => {
 	const GITHUB_RELEASES_URL =
 		'https://github.com/web-scrobbler/web-scrobbler/releases/tag';
 
@@ -41,7 +42,7 @@ require([
 	}
 
 	function updateReleaseNotesUrl() {
-		const extVersion = chrome.runtime.getManifest().version;
+		const extVersion = browser.runtime.getManifest().version;
 		const releaseNotesUrl = `${GITHUB_RELEASES_URL}/v${extVersion}`;
 
 		$('a#latest-release').attr('href', releaseNotesUrl);
