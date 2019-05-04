@@ -7,7 +7,7 @@
 [![Gitter][4]][5]
 [![Codacy Badge][29]][30]
 
-Web Scrobbler helps online music listeners to scrobble their playback history. 
+Web Scrobbler helps online music listeners to scrobble their playback history.
 
 For more information and comments visit [the extension page][12] on add0n.com website.
 
