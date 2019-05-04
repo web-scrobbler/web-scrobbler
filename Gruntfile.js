@@ -36,6 +36,9 @@ const JS_FILES = [
 const JSON_FILES = ['*.json', '.stylelintrc'];
 const HTML_FILES = [`${SRC_DIR}/options/*.html`, `${SRC_DIR}/popups/*.html`];
 const CSS_FILES = [`${SRC_DIR}options/*.css`, `${SRC_DIR}/popups/*.css`];
+const DOC_FILES = [
+	'*.md', '.github/**/*.md',
+];
 
 const isTravisCi = (process.env.TRAVIS === 'true');
 
@@ -213,6 +216,9 @@ module.exports = (grunt) => {
 				editorconfig: '.editorconfig',
 				ignores: ['js-comments']
 			}
+		},
+		remark: {
+			src: DOC_FILES
 		},
 		stylelint: {
 			all: CSS_FILES
@@ -408,7 +414,7 @@ module.exports = (grunt) => {
 	 * Lint source code using linters specified below.
 	 */
 	grunt.registerTask('lint', [
-		'eslint', 'jsonlint', 'lintspaces', 'stylelint'
+		'eslint', 'jsonlint', 'lintspaces', 'stylelint', 'remark',
 	]);
 
 	/**
