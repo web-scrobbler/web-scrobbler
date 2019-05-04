@@ -163,7 +163,7 @@ Connector.isFullscreenMode = () => {
  * @return {ArtistTrack} The track's Artist and Title
  */
 function getArtistTrack() {
-	let videoTitle = $('.html5-video-player.playing-mode .ytp-title-link').text();
+	let videoTitle = $('.html5-video-player .ytp-title-link').first().text();
 	let byLineMatch = $('#meta-contents #owner-name a').text().match(/(.+) - Topic/);
 	if (byLineMatch) {
 		return { artist: byLineMatch[1], track: videoTitle };
