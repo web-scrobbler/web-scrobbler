@@ -160,6 +160,15 @@ class MetadataFilter {
 	}
 
 	/**
+	 * Replace non-braking space symbol with space symbol.
+	 * @param  {String} text String to be filtered
+	 * @return {String}	Filtered string
+	 */
+	static replaceNbsp(text) {
+		return text.replace('\u00a0', '\u0020');
+	}
+
+	/**
 	 * Remove zero-width characters from given string.
 	 * @param  {String} text String to be filtered
 	 * @return {String} Filtered string
@@ -339,11 +348,11 @@ class MetadataFilter {
 	 * Get simple trim filter object used by default in a Connector object.
 	 * @return {MetadataFilter} Filter object
 	 */
-	static getTrimFilter() {
+	static getDefaultFilter() {
 		return new MetadataFilter({
-			artist: MetadataFilter.trim,
-			track: MetadataFilter.trim,
-			album: MetadataFilter.trim
+			artist: [MetadataFilter.trim, MetadataFilter.replaceNbsp],
+			track: [MetadataFilter.trim, MetadataFilter.replaceNbsp],
+			album: [MetadataFilter.trim, MetadataFilter.replaceNbsp]
 		});
 	}
 
@@ -365,17 +374,6 @@ class MetadataFilter {
 		return new MetadataFilter({
 			track: MetadataFilter.removeRemastered,
 			album: MetadataFilter.removeRemastered,
-		});
-	}
-
-	/**
-	 * Get filter that replaces NBSP with space.
-	 * TODO: redo to more generic filter which does some other cleaning things.
-	 * @return {MetadataFilter} Filter object
-	 */
-	static getNbspFilter() {
-		return new MetadataFilter({
-			all: (text) => text.replace('\u00a0', '\u0020')
 		});
 	}
 

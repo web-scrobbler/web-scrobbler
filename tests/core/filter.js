@@ -27,10 +27,10 @@ const FILTER_NULL_DATA = [{
 }];
 
 /**
- * Test data for testing Trim filter.
+ * Test data for testing default filter.
  * @type {Array}
  */
-const TRIM_TEST_DATA = [{
+const DEFAULT_TEST_DATA = [{
 	description: 'should do nothing with clean string',
 	source: 'Track Title',
 	expected: 'Track Title'
@@ -46,16 +46,6 @@ const TRIM_TEST_DATA = [{
 	description: 'should trim leading whitespaces',
 	source: '    Track Metafield',
 	expected: 'Track Metafield'
-}];
-
-/**
- * Test data for testing NBSP filter.
- * @type {Array}
- */
-const NBSP_TEST_DATA = [{
-	description: 'should do nothing with clean string',
-	source: 'Track Title',
-	expected: 'Track Title'
 }, {
 	description: 'should remove NBSPs',
 	source: 'Track\u00a0Metafield',
@@ -422,14 +412,9 @@ const FILTERS_DATA = [{
 	testData: FILTER_NULL_DATA,
 }, {
 	description: 'Trim filter',
-	filter: MetadataFilter.getTrimFilter(),
+	filter: MetadataFilter.getDefaultFilter(),
 	fields: ['artist', 'track', 'album'],
-	testData: TRIM_TEST_DATA,
-}, {
-	description: 'NBSP filter',
-	filter: MetadataFilter.getNbspFilter(),
-	fields: ['artist', 'track', 'album'],
-	testData: NBSP_TEST_DATA,
+	testData: DEFAULT_TEST_DATA,
 }, {
 	description: 'Youtube filter',
 	filter: MetadataFilter.getYoutubeFilter(),
@@ -454,7 +439,7 @@ const FILTERS_DATA = [{
 	description: 'extended filter',
 	filter: new MetadataFilter({
 		all: MetadataFilter.decodeHtmlEntities
-	}).extend(MetadataFilter.getTrimFilter()),
+	}).extend(MetadataFilter.getDefaultFilter()),
 	fields: ['artist', 'track', 'album'],
 	testData: EXTENDED_FILTER_TEST_DATA,
 }, {

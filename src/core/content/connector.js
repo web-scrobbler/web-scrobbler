@@ -385,8 +385,7 @@ function BaseConnector() {
 	 * @see {@link MetadataFilter}
 	 * @type {Object}
 	 */
-	this.filter = MetadataFilter.getTrimFilter().extend(
-		MetadataFilter.getNbspFilter());
+	this.filter = MetadataFilter.getDefaultFilter();
 
 	/**
 	 * Add custom filter to default one. Use this method only to apply
@@ -398,7 +397,7 @@ function BaseConnector() {
 	 * @param  {Object} filter Filter object
 	 */
 	this.applyFilter = (filter) => {
-		this.filter = filter.extend(MetadataFilter.getTrimFilter());
+		this.filter = filter.extend(MetadataFilter.getDefaultFilter());
 	};
 
 	/**
