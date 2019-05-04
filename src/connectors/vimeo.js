@@ -20,4 +20,4 @@ Connector.isPlaying = () => {
 	return $('.play').hasClass('state-playing');
 };
 
-Connector.filter = MetadataFilter.getYoutubeFilter();
+Connector.applyFilter(MetadataFilter.getYoutubeFilter());

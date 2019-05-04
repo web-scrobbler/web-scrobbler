@@ -2,7 +2,7 @@
 
 Connector.playerSelector = '.player-controls';
 
-Connector.filter = MetadataFilter.getYoutubeFilter();
+Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 
 Connector.getArtistTrack = () => {
 	let text = $('.player-container > div > span:nth-child(2)').text();

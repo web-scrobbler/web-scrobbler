@@ -20,4 +20,4 @@ Connector.getUniqueID = () => {
 
 Connector.isPlaying = () => $('.vjs-play-control').hasClass('vjs-playing');
 
-Connector.filter = MetadataFilter.getYoutubeFilter();
+Connector.applyFilter(MetadataFilter.getYoutubeFilter());

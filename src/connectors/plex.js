@@ -55,7 +55,7 @@ function setupRemoteUI() {
 	// for watch-it-later videos
 	Connector.artistTrackSelector = `${Connector.playerSelector} [class*=MetadataPosterTitle-title]`;
 
-	Connector.filter = MetadataFilter.getYoutubeFilter();
+	Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 
 	Connector.getTrack = () => {
 		if (Connector.getArtist()) {

@@ -1,5 +1,8 @@
 'use strict';
 
+const deezerFilter = MetadataFilter.getRemasteredFilter().extend(
+	MetadataFilter.getDoubleTitleFilter());
+
 let state = {};
 
 Connector.getArtist = () => state.artist;
@@ -12,7 +15,7 @@ Connector.getUniqueID = () => state.uniqueId;
 Connector.isPlaying = () => state.isPlaying;
 Connector.getTrackArt = () => state.trackArt;
 
-Connector.filter = MetadataFilter.getRemasteredFilter().extend(MetadataFilter.getDoubleTitleFilter());
+Connector.applyFilter(deezerFilter);
 
 Connector.onScriptEvent = (e) => {
 	switch (e.data.type) {

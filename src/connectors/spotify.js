@@ -18,7 +18,7 @@ Connector.currentTimeSelector = '.Root__now-playing-bar .playback-bar__progress-
 
 Connector.durationSelector = '.Root__now-playing-bar .playback-bar__progress-time:last-child';
 
-Connector.filter = MetadataFilter.getRemasteredFilter();
+Connector.applyFilter(MetadataFilter.getRemasteredFilter());
 
 Connector.isScrobblingAllowed = () => {
 	return isMusicPlaying();

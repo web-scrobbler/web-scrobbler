@@ -31,7 +31,7 @@ Connector.getCurrentState = () => {
 
 Connector.isScrobblingAllowed = () => !isPrivate;
 
-Connector.filter = MetadataFilter.getYoutubeFilter();
+Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 
 Connector.getCurrentTime = () => {
 	return parseFloat($(progressSelector).attr('aria-valuenow')) / 1000;

@@ -275,51 +275,51 @@ const REMASTERED_TEST_DATA = [{
 }, {
 	description: 'should remove "- Remastered" string',
 	source: 'Track Title - Remastered',
-	expected: 'Track Title'
+	expected: 'Track Title '
 }, {
 	description: 'should remove "(YYYY - Remaster)" string',
 	source: 'Track Title (2011 - Remaster)',
-	expected: 'Track Title'
+	expected: 'Track Title '
 }, {
 	description: 'should remove "- Remastered YYYY" string',
 	source: 'Track Title - Remastered 2015',
-	expected: 'Track Title'
+	expected: 'Track Title '
 }, {
 	description: 'should remove "(Remastered YYYY)" string',
 	source: 'Track Title (Remastered 2009)',
-	expected: 'Track Title'
+	expected: 'Track Title '
 }, {
 	description: 'should remove "[YYYY - Remaster]" string',
 	source: 'Track Title [2011 - Remaster]',
-	expected: 'Track Title'
+	expected: 'Track Title '
 }, {
 	description: 'should remove "- YYYY - Remaster" string',
 	source: 'Track Title - 2011 - Remaster',
-	expected: 'Track Title'
+	expected: 'Track Title '
 }, {
 	description: 'should remove "(Live / Remastered)" string',
 	source: 'Track Title (Live / Remastered)',
-	expected: 'Track Title'
+	expected: 'Track Title '
 }, {
 	description: 'should remove "- Live / Remastered" string',
 	source: 'Track Title - Live / Remastered',
-	expected: 'Track Title'
+	expected: 'Track Title '
 }, {
 	description: 'should remove "- YYYY Digital Remaster" string',
 	source: 'Track Title - 2001 Digital Remaster',
-	expected: 'Track Title'
+	expected: 'Track Title '
 }, {
 	description: 'should remove "- YYYY Remastered Version" string',
 	source: 'Track Title - 2011 Remastered Version',
-	expected: 'Track Title'
+	expected: 'Track Title '
 }, {
 	description: 'should remove "(Remastered)" string',
 	source: 'Track Title (Remastered)',
-	expected: 'Track Title'
+	expected: 'Track Title '
 }, {
 	description: 'should remove "[Remastered]" string',
 	source: 'Track Title [Remastered]',
-	expected: 'Track Title'
+	expected: 'Track Title '
 }];
 
 /**

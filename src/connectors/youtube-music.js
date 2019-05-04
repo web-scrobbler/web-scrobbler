@@ -24,4 +24,4 @@ Connector.isPlaying = () => {
 
 Connector.isScrobblingAllowed = () => $('.ytmusic-player-bar.advertisement').is(':hidden');
 
-Connector.filter = MetadataFilter.getYoutubeFilter();
+Connector.applyFilter(MetadataFilter.getYoutubeFilter());

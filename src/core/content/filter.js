@@ -353,8 +353,7 @@ class MetadataFilter {
 	 */
 	static getYoutubeFilter() {
 		return new MetadataFilter({
-			track: MetadataFilter.youtube,
-			all: MetadataFilter.trim
+			track: MetadataFilter.youtube
 		});
 	}
 
@@ -364,9 +363,8 @@ class MetadataFilter {
 	 */
 	static getRemasteredFilter() {
 		return new MetadataFilter({
-			all: MetadataFilter.trim,
 			track: MetadataFilter.removeRemastered,
-			album: MetadataFilter.removeRemastered
+			album: MetadataFilter.removeRemastered,
 		});
 	}
 

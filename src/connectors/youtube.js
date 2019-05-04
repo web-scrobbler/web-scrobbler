@@ -146,7 +146,7 @@ Connector.isScrobblingAllowed = () => {
 	return false;
 };
 
-Connector.filter = MetadataFilter.getYoutubeFilter();
+Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 
 Connector.isFullscreenMode = () => {
 	return $('.html5-video-player').hasClass('ytp-fullscreen');

@@ -389,10 +389,11 @@ function BaseConnector() {
 		MetadataFilter.getNbspFilter());
 
 	/**
-	 * Add custom filter to default one. Prefer to use this method to use
+	 * Add custom filter to default one. Use this method only to apply
 	 * custom metadata filters.
 	 *
-	 * The given filter will be used first.
+	 * The given filter will be used first to make sure the default filter
+	 * is executed after all other filters.
 	 *
 	 * @param  {Object} filter Filter object
 	 */

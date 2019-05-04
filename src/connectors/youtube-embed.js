@@ -37,7 +37,7 @@ function setupConnector() {
 		return Util.getYoutubeVideoIdFromUrl(videoUrl);
 	};
 
-	Connector.filter = MetadataFilter.getYoutubeFilter();
+	Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 }
 
 setupConnector();

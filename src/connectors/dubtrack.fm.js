@@ -8,4 +8,4 @@ Connector.artistTrackSelector = '.currentSong';
 
 Connector.isPlaying = () => $('.progressBg').width() > 0;
 
-Connector.filter = MetadataFilter.getYoutubeFilter();
+Connector.applyFilter(MetadataFilter.getYoutubeFilter());

@@ -4,4 +4,4 @@ Connector.playerSelector = '#main_content';
 
 Connector.artistTrackSelector = '#videotitle';
 
-Connector.filter = MetadataFilter.getYoutubeFilter();
+Connector.applyFilter(MetadataFilter.getYoutubeFilter());
