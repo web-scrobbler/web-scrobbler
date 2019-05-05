@@ -41,11 +41,13 @@ async function publishRelease(tagName) {
 		throw new Error(`Unable to create release: ${tagName} is not a draft release`);
 	}
 
-	let draft = false;
-	let tag_name = tagName;
-	let release_id = release.id;
+	await GitHubApi.repos.updateRelease({
+		owner, repo,
 
-	await GitHubApi.repos.updateRelease({ owner, repo, release_id, draft, tag_name });
+		draft: false,
+		tag_name: tagName,
+		release_id: release.id,
+	});
 }
 
 /**

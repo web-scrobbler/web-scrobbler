@@ -19,7 +19,7 @@ function createPattern(input) {
 		return s.replace(/[[^$.|?*+(){}\\]/g, '\\$&');
 	}
 
-	let match_pattern = '^';
+	let matchPattern = '^';
 	let result = /^(\*|https?|file|ftp|chrome-extension):\/\//.exec(input);
 
 	// Parse scheme
@@ -27,7 +27,7 @@ function createPattern(input) {
 		return null;
 	}
 	input = input.substr(result[0].length);
-	match_pattern += result[1] === '*' ? 'https?://' : `${result[1]}://`;
+	matchPattern += result[1] === '*' ? 'https?://' : `${result[1]}://`;
 
 	// Parse host if scheme is not `file`
 	if (result[1] !== 'file') {
@@ -37,21 +37,21 @@ function createPattern(input) {
 		input = input.substr(result[0].length);
 		// Host is '*'
 		if (result[0] === '*') {
-			match_pattern += '[^/]+';
+			matchPattern += '[^/]+';
 		} else {
 			// Subdomain wildcard exists
 			if (result[1]) {
-				match_pattern += '(?:[^/]+\\.)?';
+				matchPattern += '(?:[^/]+\\.)?';
 			}
 			// Append host (escape special regex characters)
-			match_pattern += regEscape(result[2]);// + '/';
+			matchPattern += regEscape(result[2]);// + '/';
 		}
 	}
 	// Add remainder (path)
-	match_pattern += input.split('*').map(regEscape).join('.*');
-	match_pattern += '$';
+	matchPattern += input.split('*').map(regEscape).join('.*');
+	matchPattern += '$';
 
-	return new RegExp(match_pattern);
+	return new RegExp(matchPattern);
 }
 
 /**

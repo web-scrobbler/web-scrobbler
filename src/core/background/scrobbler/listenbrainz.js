@@ -184,16 +184,16 @@ define((require) => {
 		}
 
 		makeTrackMetadata(song) {
-			const track_meta = {
+			const trackMeta = {
 				artist_name: song.getArtist(),
 				track_name: song.getTrack(),
 			};
 
 			if (song.getAlbum()) {
-				track_meta.release_name = song.getAlbum();
+				trackMeta.release_name = song.getAlbum();
 			}
 
-			return track_meta;
+			return trackMeta;
 		}
 	}
 
