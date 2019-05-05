@@ -69,18 +69,17 @@ define((require) => {
 			const trackMeta = this.makeTrackMetadata(song);
 
 			if (song.getOriginUrl()) {
-				trackMeta['additional_info'] = {
-					'origin_url': song.getOriginUrl()
+				trackMeta.additional_info = {
+					origin_url: song.getOriginUrl()
 				};
 			}
 
 			let params = {
-				'listen_type': 'playing_now',
-				'payload': [{
-					'track_metadata': trackMeta
+				listen_type: 'playing_now',
+				payload: [{
+					track_metadata: trackMeta
 				}]
 			};
-
 			return this.sendRequest(params, sessionID);
 		}
 
@@ -89,10 +88,10 @@ define((require) => {
 			let { sessionID } = await this.getSession();
 
 			let params = {
-				'listen_type': 'single',
-				'payload': [{
-					'listened_at': song.metadata.startTimestamp,
-					'track_metadata': this.makeTrackMetadata(song)
+				listen_type: 'single',
+				payload: [{
+					listened_at: song.metadata.startTimestamp,
+					track_metadata: this.makeTrackMetadata(song)
 				}]
 			};
 			return this.sendRequest(params, sessionID);
@@ -186,12 +185,12 @@ define((require) => {
 
 		makeTrackMetadata(song) {
 			const track_meta = {
-				'artist_name': song.getArtist(),
-				'track_name': song.getTrack(),
+				artist_name: song.getArtist(),
+				track_name: song.getTrack(),
 			};
 
 			if (song.getAlbum()) {
-				track_meta['release_name'] = song.getAlbum();
+				track_meta.release_name = song.getAlbum();
 			}
 
 			return track_meta;
