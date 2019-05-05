@@ -6,7 +6,7 @@ node_js:
 addons:
   chrome: stable
 
-script: ./scripts/run-tests.sh
+# script: ./scripts/run-tests.sh
 
 deploy:
   skip_cleanup: true
