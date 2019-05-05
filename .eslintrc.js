@@ -71,6 +71,8 @@ module.exports = {
 		'brace-style': ['error', '1tbs'],
 		// Disallow spaces inside of brackets
 		'array-bracket-spacing': ['error', 'never'],
+		// Require CamelCase
+		'camelcase': ['error', { 'properties': 'never' }],
 		// Require space after comma
 		'comma-spacing': ['error', { 'after': true }],
 		// Require or Disallow newline at the end of files
