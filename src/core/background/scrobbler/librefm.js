@@ -15,14 +15,7 @@ define((require) => {
 				return super.sendRequest(method, params, signed);
 			}
 
-			params.api_key = this.apiKey;
-
-			if (signed) {
-				params.api_sig = this.generateSign(params);
-			}
-
-			let queryStr = $.param(params);
-			let url = `${this.apiUrl}?${queryStr}`;
+			const url = this.makeRequestUrl(params, signed);
 
 			return new Promise((resolve, reject) => {
 				$.post(url, $.param(params)).done((xmlDoc) => {

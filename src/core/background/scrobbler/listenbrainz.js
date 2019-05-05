@@ -65,29 +65,20 @@ define((require) => {
 
 		/** @override */
 		async sendNowPlaying(song) {
-			let { sessionID } = await this.getSession();
-			let track_meta = {
-				'artist_name': song.getArtist(),
-				'track_name': song.getTrack(),
-			};
-
-			if (song.getAlbum()) {
-				track_meta['release_name'] = song.getAlbum();
-			}
+			const { sessionID } = await this.getSession();
+			const trackMeta = this.makeTrackMetadata(song);
 
 			if (song.getOriginUrl()) {
-				track_meta['additional_info'] = {
+				trackMeta['additional_info'] = {
 					'origin_url': song.getOriginUrl()
 				};
 			}
 
 			let params = {
 				'listen_type': 'playing_now',
-				'payload': [
-					{
-						'track_metadata': track_meta
-					}
-				]
+				'payload': [{
+					'track_metadata': trackMeta
+				}]
 			};
 
 			return this.sendRequest(params, sessionID);
@@ -97,21 +88,12 @@ define((require) => {
 		async scrobble(song) {
 			let { sessionID } = await this.getSession();
 
-			let track_meta = {
-				'artist_name': song.getArtist(),
-				'track_name': song.getTrack(),
-			};
-			if (song.getAlbum()) {
-				track_meta['release_name'] = song.getAlbum();
-			}
 			let params = {
 				'listen_type': 'single',
-				'payload': [
-					{
-						'listened_at': song.metadata.startTimestamp,
-						'track_metadata': track_meta
-					}
-				]
+				'payload': [{
+					'listened_at': song.metadata.startTimestamp,
+					'track_metadata': this.makeTrackMetadata(song)
+				}]
 			};
 			return this.sendRequest(params, sessionID);
 		}
@@ -200,6 +182,19 @@ define((require) => {
 			}
 
 			return null;
+		}
+
+		makeTrackMetadata(song) {
+			const track_meta = {
+				'artist_name': song.getArtist(),
+				'track_name': song.getTrack(),
+			};
+
+			if (song.getAlbum()) {
+				track_meta['release_name'] = song.getAlbum();
+			}
+
+			return track_meta;
 		}
 	}
 

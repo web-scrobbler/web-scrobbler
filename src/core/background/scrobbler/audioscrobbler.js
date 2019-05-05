@@ -201,27 +201,6 @@ define((require) => {
 		}
 
 		/**
-		 * Compute string for signing request.
-		 * See http://www.last.fm/api/authspec#8
-		 * @param  {Object} params Parameters of API method
-		 * @return {String} Signed parameters
-		 */
-		generateSign(params) {
-			let keys = Object.keys(params).sort();
-			let o = '';
-
-			for (let key of keys) {
-				if (['format', 'callback'].includes(key)) {
-					continue;
-				}
-
-				o += key + params[key];
-			}
-
-			return MD5(o + this.apiSecret);
-		}
-
-		/**
 		 * Execute asynchronous request.
 		 *
 		 * API key will be added to params by default and all parameters will be
@@ -233,14 +212,7 @@ define((require) => {
 		 * @return {Promise} Promise that will be resolved with parsed response
 		 */
 		sendRequest(method, params, signed) {
-			params.api_key = this.apiKey;
-
-			if (signed) {
-				params.api_sig = this.generateSign(params);
-			}
-
-			let queryStr = $.param(params);
-			let url = `${this.apiUrl}?${queryStr}`;
+			let url = this.makeRequestUrl(params, signed);
 
 			let promise = fetch(url, { method }).then((response) => {
 				return response.text().then((text) => {
@@ -263,6 +235,44 @@ define((require) => {
 			return Util.timeoutPromise(timeout, promise).catch(() => {
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 			});
+		}
+
+		/**
+		 * Create URL of API request based on API params.
+		 * @param  {Object} params Object of key => value url parameters
+		 * @param  {Boolean} signed Should the request be signed?
+		 * @return {String} URL of API request
+		 */
+		makeRequestUrl(params, signed) {
+			params.api_key = this.apiKey;
+
+			if (signed) {
+				params.api_sig = this.generateSign(params);
+			}
+
+			let queryStr = $.param(params);
+			return `${this.apiUrl}?${queryStr}`;
+		}
+
+		/**
+		 * Compute string for signing request.
+		 * See http://www.last.fm/api/authspec#8
+		 * @param  {Object} params Parameters of API method
+		 * @return {String} Signed parameters
+		 */
+		generateSign(params) {
+			let keys = Object.keys(params).sort();
+			let o = '';
+
+			for (let key of keys) {
+				if (['format', 'callback'].includes(key)) {
+					continue;
+				}
+
+				o += key + params[key];
+			}
+
+			return MD5(o + this.apiSecret);
 		}
 
 		/**
