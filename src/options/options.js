@@ -141,7 +141,7 @@ require([
 		let $label = $('<h4/>').text(scrobbler.getLabel());
 		let $authUrl = $('<a href="#"/>').attr('i18n', 'accountsSignIn').click(() => {
 			chrome.runtime.sendMessage({
-				type: 'v2.authenticate',
+				type: 'REQUEST_AUTHENTICATE',
 				scrobbler: scrobbler.getLabel()
 			});
 		});

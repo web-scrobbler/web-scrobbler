@@ -12,23 +12,23 @@
  * between different modules using the following message types:
  *
  * 1) events:
- *  - v2.stateChanged: The connector state is changed
+ *  - EVENT_STATE_CHANGED: The connector state is changed
  *    @param  {Object} state Connector state
- *  - v2.songUpdated: The current song is updated
+ *  - EVENT_SONG_UPDATED: The current song is updated
  *    @param  {Object} data Song instance copy
- *  - v2.onReady: The connector is injected and the controller is created
- *  - v2.onPing: The 'ping' event to check if connector is injected
+ *  - EVENT_READY: The connector is injected and the controller is created
+ *  - EVENT_PING: The 'ping' event to check if connector is injected
  *
  * 2) requests:
- *  - v2.getSong: Get now playing song
+ *  - REQUEST_GET_SONG: Get now playing song
  *    @return {Object} Song instance copy
- *  - v2.correctSong: Correct song info
+ *  - REQUEST_CORRECT_SONG: Correct song info
  *    @param  {Object} data Object contains corrected song info
- *  - v2.toggleLove: Toggle song love status
+ *  - REQUEST_TOGGLE_LOVE: Toggle song love status
  *    @param  {Boolean} isLoved Flag indicates song is loved
- *  - v2.resetSongData: Reset corrected song info
- *  - v2.skipSong: Ignore (don't scrobble) current song
- *  - v2.authenticate: Authenticate scrobbler
+ *  - REQUEST_RESET_SONG: Reset corrected song info
+ *  - REQUEST_SKIP_SONG: Ignore (don't scrobble) current song
+ *  - REQUEST_AUTHENTICATE: Authenticate scrobbler
  *    @param  {String} scrobbler Scrobbler label
  */
 require([
@@ -117,21 +117,21 @@ require([
 		let ctrl;
 
 		switch (request.type) {
-			case 'v2.getSong':
+			case 'REQUEST_GET_SONG':
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
 					sendResponse(ctrl.getCurrentSong());
 				}
 				break;
 
-			case 'v2.correctSong':
+			case 'REQUEST_CORRECT_SONG':
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
 					ctrl.setUserSongData(request.data);
 				}
 				break;
 
-			case 'v2.toggleLove':
+			case 'REQUEST_TOGGLE_LOVE':
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
 					ctrl.toggleLove(request.data.isLoved).then(() => {
@@ -140,21 +140,21 @@ require([
 				}
 				break;
 
-			case 'v2.skipSong':
+			case 'REQUEST_SKIP_SONG':
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
 					ctrl.skipCurrentSong();
 				}
 				break;
 
-			case 'v2.resetSongData':
+			case 'REQUEST_RESET_SONG':
 				ctrl = getControllerByTabId(request.tabId);
 				if (ctrl) {
 					ctrl.resetSongData();
 				}
 				break;
 
-			case 'v2.authenticate': {
+			case 'REQUEST_AUTHENTICATE': {
 				let scrobblerLabel = request.scrobbler;
 				let scrobbler = ScrobbleService.getScrobblerByLabel(scrobblerLabel);
 				if (scrobbler) {
@@ -174,7 +174,7 @@ require([
 	 */
 	function onPortMessage(message, sender) {
 		switch (message.type) {
-			case 'v2.stateChanged': {
+			case 'EVENT_STATE_CHANGED': {
 				let ctrl = getControllerByTabId(sender.tab.id);
 				if (ctrl) {
 					ctrl.onStateChanged(message.data);
@@ -209,7 +209,7 @@ require([
 
 				let enabled = result.type === InjectResult.MATCHED_AND_INJECTED;
 				tabControllers[tabId] = new Controller(tabId, result.connector, enabled);
-				chrome.tabs.sendMessage(tabId, { type: 'v2.onReady' });
+				chrome.tabs.sendMessage(tabId, { type: 'EVENT_READY' });
 
 				GA.event('core', 'inject', result.connector.label);
 

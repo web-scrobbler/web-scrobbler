@@ -44,11 +44,11 @@ class Reactor { // eslint-disable-line no-unused-vars
 			 * Background script calls this to see
 			 * if the script is already injected.
 			 */
-			case 'v2.onPing':
+			case 'EVENT_PING':
 				sendResponse(true);
 				break;
 			// The controller is created and is ready to receive connector state
-			case 'v2.onReady':
+			case 'EVENT_READY':
 				this.connector.onReady();
 				break;
 		}
@@ -64,6 +64,6 @@ class Reactor { // eslint-disable-line no-unused-vars
 		 * message type for V2 connectors. Validation, submission and all
 		 * other procedures happen on background.
 		 */
-		this.port.postMessage({ type: 'v2.stateChanged', data: state });
+		this.port.postMessage({ type: 'EVENT_STATE_CHANGED', data: state });
 	}
 }

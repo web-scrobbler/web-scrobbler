@@ -27,7 +27,7 @@ define((require) => {
 		 * on load of every supported page.
 		 */
 		return new Promise((resolve) => {
-			chrome.tabs.sendMessage(tabId, { type: 'v2.onPing' }, (response) => {
+			chrome.tabs.sendMessage(tabId, { type: 'EVENT_PING' }, (response) => {
 				if (response) {
 					console.log('Subsequent ajax navigation, the scripts are already injected');
 					resolve(new InjectResult(InjectResult.ALREADY_INJECTED, connector));

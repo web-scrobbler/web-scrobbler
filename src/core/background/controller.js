@@ -423,7 +423,7 @@ define((require) => {
 		 */
 		notifySongIsUpdated() {
 			chrome.runtime.sendMessage({
-				type: 'v2.songUpdated',
+				type: 'EVENT_SONG_UPDATED',
 				data: this.currentSong.getCloneableData(),
 				tabId: this.tabId
 			});

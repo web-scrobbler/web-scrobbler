@@ -12,7 +12,7 @@ require(['util'], (Util) => {
 	let song = null;
 
 	function getCurrentSong() {
-		return sendMessageToCurrentTab('v2.getSong');
+		return sendMessageToCurrentTab('REQUEST_GET_SONG');
 	}
 
 	function sendMessageToCurrentTab(type, data) {
@@ -142,7 +142,7 @@ require(['util'], (Util) => {
 			let currentLoveStatus = $('#love').attr('last-fm-loved') === 'true';
 			let desiredLoveStatus = !currentLoveStatus;
 
-			sendMessageToCurrentTab('v2.toggleLove', {
+			sendMessageToCurrentTab('REQUEST_TOGGLE_LOVE', {
 				isLoved: desiredLoveStatus
 			}).then((isLoved) => {
 				updateLovedIcon(isLoved);
@@ -161,7 +161,7 @@ require(['util'], (Util) => {
 		if (song.flags.isCorrectedByUser) {
 			$('#revert-link').off('click');
 			$('#revert-link').on('click', () => {
-				sendMessageToCurrentTab('v2.resetSongData');
+				sendMessageToCurrentTab('REQUEST_RESET_SONG');
 				window.close();
 			});
 		}
@@ -265,18 +265,18 @@ require(['util'], (Util) => {
 			let trackInfo = getEditedTrackInfo();
 
 			fillMetadataLabels(trackInfo);
-			sendMessageToCurrentTab('v2.correctSong', trackInfo);
+			sendMessageToCurrentTab('REQUEST_CORRECT_SONG', trackInfo);
 		}
 	}
 
 	function skipSong() {
 		song.flags.isSkipped = true;
-		sendMessageToCurrentTab('v2.skipSong');
+		sendMessageToCurrentTab('REQUEST_SKIP_SONG');
 	}
 
 	function setupMessageListener() {
 		chrome.runtime.onMessage.addListener((request) => {
-			if (request.type !== 'v2.songUpdated') {
+			if (request.type !== 'EVENT_SONG_UPDATED') {
 				return;
 			}
 
