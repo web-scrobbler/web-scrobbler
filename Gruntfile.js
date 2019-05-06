@@ -90,15 +90,9 @@ module.exports = (grunt) => {
 		},
 		imagemin: {
 			static: {
-				options: {
-					svgoPlugins: [{
-						removeViewBox: false
-					}],
-				},
 				files: [{
 					expand: true,
 					src: [
-						`${BUILD_DIR}/icons/*.svg`,
 						`${BUILD_DIR}/icons/*.png`
 					]
 				}]
