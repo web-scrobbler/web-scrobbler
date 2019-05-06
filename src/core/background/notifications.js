@@ -12,19 +12,6 @@ define((require) => {
 		iconUrl: chrome.runtime.getURL('/icons/icon128.png'),
 	};
 
-	// @ifdef DEBUG
-	/*
-	 * Function stub for Firefox.
-	 * Should be removed when this function will be implemented in Firefox.
-	 * http://arewewebextensionsyet.com/
-	 */
-	if (chrome.notifications.getPermissionLevel === undefined) {
-		chrome.notifications.getPermissionLevel = function(callback) {
-			callback('granted');
-		};
-	}
-	// @endif
-
 	/**
 	 * Map of click listeners indexed by notification IDs.
 	 * @type {Object}
@@ -114,30 +101,13 @@ define((require) => {
 			options[key] = defaultValue;
 		}
 
-		return new Promise((resolve, reject) => {
-			const notificationCreatedCb = (notificationId) => {
+		return new Promise((resolve) => {
+			chrome.notifications.create('', options, (notificationId) => {
 				if (typeof onClicked === 'function') {
 					addOnClickedListener(notificationId, onClicked);
 				}
 				resolve(notificationId);
-			};
-			// @ifndef FIREFOX
-			function createNotification(permissionLevel) {
-				if (permissionLevel !== 'granted') {
-					reject();
-					return;
-				}
-				// @endif
-				try {
-					chrome.notifications.create('', options, notificationCreatedCb);
-				} catch (e) {
-					reject(e);
-				}
-			// @ifndef FIREFOX
-			}
-
-			chrome.notifications.getPermissionLevel(createNotification);
-			// @endif
+			});
 		});
 	}
 
