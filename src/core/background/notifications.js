@@ -19,30 +19,22 @@ define((require) => {
 	const clickListeners = {};
 
 	/**
-	 * Check for permissions and existence of Notifications API
-	 * (to be safe to run on minor browsers like Opera).
+	 * Check if notifications are available.
+	 * Chrome on Mac does not show notification while in fullscreen mode.
 	 * @return {Boolean} Check result
 	 */
 	async function isAvailable() {
-		if (chrome.notifications !== undefined) {
-			// @ifdef CHROME
-			// Chrome for MacOS doesn't show notifications in
-			// fullscreen mode.
-			let platform = await Util.getPlatformName();
-			if (platform === 'mac') {
-				let isFullscreen = await Util.isFullscreenMode();
-
-				return !isFullscreen;
-			}
-
-			return true;
-			// @endif
-			/* @ifdef FIREFOX
-			return true;
-			/* @endif */
+		// @ifdef CHROME
+		let platform = await Util.getPlatformName();
+		if (platform === 'mac') {
+			return !(await Util.isFullscreenMode());
 		}
 
-		return false;
+		return true;
+		// @endif
+		/* @ifdef FIREFOX
+		return true;
+		/* @endif */
 	}
 
 	/**
