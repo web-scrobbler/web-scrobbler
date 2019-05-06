@@ -58,8 +58,10 @@ module.exports = (grunt) => {
 			build: BUILD_DIR,
 			package: [PACKAGE_FILE],
 			chrome: [
-				`${BUILD_DIR}/icons/icon_firefox_128.png`,
-				`${BUILD_DIR}/icons/icon_firefox_48.png`
+				`${BUILD_DIR}/icons/icon_firefox_*.png`,
+			],
+			firefox: [
+				`${BUILD_DIR}/icons/icon_chrome_*.png`,
 			],
 		},
 		copy: {
@@ -124,17 +126,6 @@ module.exports = (grunt) => {
 				}
 			}
 		},
-		rename: {
-			firefox: {
-				files: [{
-					src: `${BUILD_DIR}/icons/icon_firefox_128.png`,
-					dest: `${BUILD_DIR}/icons/icon_chrome_128.png`
-				}, {
-					src: `${BUILD_DIR}/icons/icon_firefox_48.png`,
-					dest: `${BUILD_DIR}/icons/icon_chrome_48.png`
-				}]
-			}
-		},
 		replace_json: {
 			chrome: {
 				src: `${BUILD_DIR}/manifest.json`,
@@ -147,6 +138,12 @@ module.exports = (grunt) => {
 				changes: {
 					'applications.gecko.id': FIREFOX_EXTENION_ID,
 					'applications.gecko.strict_min_version': '53.0',
+
+					'icons': {
+						'16': '<%= manifest.icons.16 %>',
+						'48': 'icons/icon_firefox_48.png',
+						'128': 'icons/icon_firefox_128.png',
+					},
 
 					'options_page': undefined,
 				}
@@ -261,23 +258,6 @@ module.exports = (grunt) => {
 	 */
 
 	/**
-	 * Set the extension icon according to specified browser.
-	 * @param {String} browser Browser name
-	 */
-	grunt.registerTask('icons', (browser) => {
-		assertBrowserIsSupported(browser);
-
-		switch (browser) {
-			case 'chrome':
-				grunt.task.run('clean:chrome');
-				break;
-			case 'firefox':
-				grunt.task.run('rename:firefox');
-				break;
-		}
-	});
-
-	/**
 	 * Copy source filed to build directory, preprocess them and
 	 * set the extension icon according to specified browser.
 	 * @param {String} browser Browser name
@@ -287,7 +267,7 @@ module.exports = (grunt) => {
 
 		grunt.task.run([
 			'copy', `preprocess:${browser}`,
-			`icons:${browser}`, 'imagemin',
+			`clean:${browser}`, 'imagemin',
 			`replace_json:${browser}`
 		]);
 	});
