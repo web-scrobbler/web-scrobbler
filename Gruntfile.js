@@ -58,8 +58,8 @@ module.exports = (grunt) => {
 			build: BUILD_DIR,
 			package: [PACKAGE_FILE],
 			chrome: [
-				`${BUILD_DIR}/icons/icon128_firefox.png`,
-				`${BUILD_DIR}/icons/icon48_firefox.png`
+				`${BUILD_DIR}/icons/icon_firefox_128.png`,
+				`${BUILD_DIR}/icons/icon_firefox_48.png`
 			],
 		},
 		copy: {
@@ -127,11 +127,11 @@ module.exports = (grunt) => {
 		rename: {
 			firefox: {
 				files: [{
-					src: `${BUILD_DIR}/icons/icon128_firefox.png`,
-					dest: `${BUILD_DIR}/icons/icon128.png`
+					src: `${BUILD_DIR}/icons/icon_firefox_128.png`,
+					dest: `${BUILD_DIR}/icons/icon_chrome_128.png`
 				}, {
-					src: `${BUILD_DIR}/icons/icon48_firefox.png`,
-					dest: `${BUILD_DIR}/icons/icon48.png`
+					src: `${BUILD_DIR}/icons/icon_firefox_48.png`,
+					dest: `${BUILD_DIR}/icons/icon_chrome_48.png`
 				}]
 			}
 		},

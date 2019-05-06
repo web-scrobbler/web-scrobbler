@@ -9,7 +9,7 @@ define((require) => {
 
 	const DEFAULT_OPTIONS_VALUES = {
 		type: 'basic',
-		iconUrl: chrome.runtime.getURL('/icons/icon128.png'),
+		iconUrl: chrome.runtime.getURL('/icons/icon_chrome_128.png'),
 	};
 
 	/**

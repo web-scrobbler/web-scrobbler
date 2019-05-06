@@ -4,9 +4,9 @@
 
   "description": "__MSG_extDescription__",
   "icons": {
-    "16": "icons/icon16.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
+    "16": "icons/icon_generic_16.png",
+    "48": "icons/icon_chrome_48.png",
+    "128": "icons/icon_chrome_128.png"
   },
 
   "manifest_version": 2,
@@ -14,7 +14,7 @@
   "default_locale": "en",
 
   "web_accessible_resources": [
-    "icons/icon128.png",
+    "icons/icon_chrome_128.png",
     "connectors/deezer-dom-inject.js",
     "connectors/musickit-dom-inject.js",
     "connectors/soundcloud-dom-inject.js",
