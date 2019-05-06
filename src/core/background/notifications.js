@@ -116,7 +116,7 @@ define((require) => {
 		let connectorLabel = song.metadata.label;
 
 		let options = {
-			iconUrl: song.getTrackArt() || chrome.runtime.getURL('/icons/default_cover_art.png'),
+			iconUrl: song.getTrackArt() || chrome.runtime.getURL('/icons/cover_art_default.png'),
 			// @ifdef CHROME
 			title: song.getTrack(),
 			silent: true,

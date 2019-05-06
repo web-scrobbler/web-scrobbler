@@ -26,7 +26,7 @@ input {
 }
 
 #album-art {
-	background-image: url('/icons/default_cover_art.png');
+	background-image: url('/icons/cover_art_default.png');
 	background-position: center;
 	background-size: cover;
 	float: left;

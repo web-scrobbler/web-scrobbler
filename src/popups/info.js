@@ -293,7 +293,7 @@ require(['util'], (Util) => {
 
 	function getCoverArt() {
 		return song.parsed.trackArt || song.metadata.artistThumbUrl ||
-			'/icons/default_cover_art.png';
+			'/icons/cover_art_default.png';
 	}
 
 	function swapTitleAndArtist() {
