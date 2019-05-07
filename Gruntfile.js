@@ -301,14 +301,8 @@ module.exports = (grunt) => {
 		let browser = arg;
 		assertBrowserIsSupported(browser);
 
-		switch (browser) {
-			case 'chrome':
-				grunt.task.run(['build:chrome', 'webstore_upload', 'clean:package']);
-				break;
-			case 'firefox':
-				grunt.task.run(['build:firefox', 'amo_upload', 'clean:package']);
-				break;
-		}
+		grunt.task.run(
+			[`build:${browser}`, `upload:${browser}`, 'clean:package']);
 	});
 
 	/**
@@ -347,6 +341,22 @@ module.exports = (grunt) => {
 		grunt.task.run(`release:${releaseType}`);
 
 		grunt.task.run(['publish:chrome', 'publish:firefox']);
+	});
+
+	/**
+	 * Upload new version.
+	 *
+	 * @param  {String} browser Browser name
+	 */
+	grunt.registerTask('upload', (browser) => {
+		switch (browser) {
+			case 'chrome':
+				grunt.task.run('webstore_upload');
+				break;
+			case 'firefox':
+				grunt.task.run('amo_upload');
+				break;
+		}
 	});
 
 	/**
