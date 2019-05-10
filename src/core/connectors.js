@@ -1091,10 +1091,6 @@ define(function() {
 		matches: ['*://ccmixter.org/*', '*://*.ccmixter.org/*', '*://tunetrack.net/*'],
 		js: ['connectors/ccmixter.js']
 	}, {
-		label: 'Hitsradio',
-		matches: ['*://hitsradio.com/*'],
-		js: ['connectors/hitsradio.js']
-	}, {
 		label: 'Gimme Radio',
 		matches: ['*://gimmeradio.com/*', '*://www.gimmeradio.com/*'],
 		js: ['connectors/gimmeradio.js']
