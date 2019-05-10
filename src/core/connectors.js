@@ -112,12 +112,6 @@ define(function() {
 	},
 
 	{
-		label: 'Звук',
-		matches: ['*://zvuk.com/*'],
-		js: ['connectors/zvuk.js'],
-	},
-
-	{
 		label: 'Megalyrics',
 		matches: ['*://megalyrics.ru/*'],
 		js: ['connectors/megalyrics.js']
