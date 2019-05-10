@@ -37,38 +37,12 @@ readConnectorOptions();
 setupMutationObserver();
 
 Connector.getArtistTrack = () => {
-	/*
-	 * Youtube doesn't remove DOM object on AJAX navigation,
-	 * so we should not return track data if no song is playing.
-	 */
-	if (Connector.isPlayerOffscreen()) {
-		return Util.makeEmptyArtistTrack();
+	const videoTitle = $('.html5-video-player .ytp-title-link').first().text();
+	const byLineMatch = $('#meta-contents #owner-name a').text().match(/(.+) - Topic/);
+	if (byLineMatch) {
+		return { artist: byLineMatch[1], track: videoTitle };
 	}
-
-	return getArtistTrack();
-};
-
-/**
- * Check if player is off screen.
- *
- * YouTube doesn't really unload the player. It simply moves it outside
- * viewport. That has to be checked, because our selectors are still able
- * to detect it.
- *
- * @return {Boolean} True if player is off screen; false otherwise
- */
-Connector.isPlayerOffscreen = () => {
-	if (Connector.isFullscreenMode()) {
-		return false;
-	}
-
-	let videoElement = $(videoSelector);
-	if (videoElement.length === 0) {
-		return false;
-	}
-
-	let offset = videoElement.offset();
-	return offset.left <= 0 && offset.top <= 0;
+	return Util.processYoutubeVideoTitle(videoTitle);
 };
 
 /*
@@ -77,16 +51,10 @@ Connector.isPlayerOffscreen = () => {
  * state may not be considered empty.
  */
 Connector.getCurrentTime = () => {
-	if (Connector.isPlayerOffscreen()) {
-		return null;
-	}
 	return $(videoSelector).prop('currentTime');
 };
 
 Connector.getDuration = () => {
-	if (Connector.isPlayerOffscreen()) {
-		return null;
-	}
 	return $(videoSelector).prop('duration');
 };
 
@@ -95,14 +63,6 @@ Connector.isPlaying = () => {
 };
 
 Connector.getUniqueID = () => {
-	/*
-	 * Youtube doesn't remove DOM object on AJAX navigation,
-	 * so we should not return track data if no song is playing.
-	 */
-	if (Connector.isPlayerOffscreen()) {
-		return null;
-	}
-
 	/*
 	 * Youtube doesn't update video title immediately in fullscreen mode.
 	 * We don't return video ID until video title is shown.
@@ -157,19 +117,6 @@ Connector.isFullscreenMode = () => {
  * @property {string} artist The track's artist
  * @property {string} track The track's title
  */
-
-/**
- * Parse webpage and return track Artist and Title
- * @return {ArtistTrack} The track's Artist and Title
- */
-function getArtistTrack() {
-	let videoTitle = $('.html5-video-player .ytp-title-link').first().text();
-	let byLineMatch = $('#meta-contents #owner-name a').text().match(/(.+) - Topic/);
-	if (byLineMatch) {
-		return { artist: byLineMatch[1], track: videoTitle };
-	}
-	return Util.processYoutubeVideoTitle(videoTitle);
-}
 
 /**
  * Get video category using Youtube API.
