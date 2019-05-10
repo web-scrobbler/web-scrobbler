@@ -612,13 +612,6 @@ define(function() {
 		matches: ['*://onair.evropa2.cz*'],
 		js: ['connectors/evropa2.js'],
 	},
-
-	{
-		label: 'Europa 2',
-		matches: ['*://onair.europa2.sk*'],
-		js: ['connectors/evropa2.js'],
-	},
-
 	{
 		label: 'Frekvence 1',
 		matches: ['*://vysilani.frekvence1.cz/*'],
