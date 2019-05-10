@@ -925,11 +925,6 @@ define(function() {
 	},
 
 	{
-		label: 'IDAGIO',
-		matches: ['*://www.idagio.com/*'],
-		js: ['connectors/idagio.js'],
-	},
-	{
 		label: 'Naver',
 		matches: ['*://playerui.music.naver.com/*'],
 		js: ['connectors/naver.js'],
