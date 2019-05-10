@@ -38,33 +38,41 @@ require([
 
 	const sortedConnectors = getConnectors();
 
-	$(function() {
+	$(() => {
 		initConnectorsList();
 		initOptions();
 
 		initAddPatternDialog();
 		initViewEditedDialog();
 
-		toggleInitState();
+		updateReleaseNotesUrl();
+
+		updateSections();
 		createAccountViews();
 		setupChromeListeners();
 	});
 
-	function initOptions() {
-		// preload values and attach listeners
-		for (let option in optionsUiMap) {
-			let optionId = optionsUiMap[option];
+	async function initOptions() {
+		const optionsData = await options.get();
+		const connectorsData = await connectorsOptions.get();
+
+		for (const option in optionsUiMap) {
+			const optionId = optionsUiMap[option];
+
 			$(optionId).click(async function() {
 				const data = await options.get();
 				data[option] = this.checked;
 
 				await options.set(data);
 			});
+
+			$(optionId).attr('checked', optionsData[option]);
 		}
 
-		for (let connector in connectorsOptionsUiMap) {
-			for (let option in connectorsOptionsUiMap[connector]) {
-				let optionId = connectorsOptionsUiMap[connector][option];
+		for (const connector in connectorsOptionsUiMap) {
+			for (const option in connectorsOptionsUiMap[connector]) {
+				const optionId = connectorsOptionsUiMap[connector][option];
+
 				$(optionId).click(async function() {
 					const data = await connectorsOptions.get();
 					if (!data[connector]) {
@@ -74,6 +82,8 @@ require([
 					data[connector][option] = this.checked;
 					await connectorsOptions.set(data);
 				});
+
+				$(optionId).attr('checked', connectorsData[connector][option]);
 			}
 		}
 	}
@@ -157,7 +167,7 @@ require([
 		return scrobbler.getLabel().replace('.', '');
 	}
 
-	async function toggleInitState() {
+	async function updateSections() {
 		switch (location.hash) {
 			case '#accounts':
 				// Expand 'Accounts' section and collapse 'Contacts' one.
@@ -170,25 +180,6 @@ require([
 				$('#contact').removeClass('in');
 				break;
 		}
-
-		// preload async values from storage
-		const data1 = await options.get();
-		for (let option in optionsUiMap) {
-			let optionId = optionsUiMap[option];
-			$(optionId).attr('checked', data1[option]);
-		}
-
-		const data2 = await connectorsOptions.get();
-		for (let connector in connectorsOptionsUiMap) {
-			for (let option in connectorsOptionsUiMap[connector]) {
-				if (data2[connector]) {
-					let optionId = connectorsOptionsUiMap[connector][option];
-					$(optionId).attr('checked', data2[connector][option]);
-				}
-			}
-		}
-
-		updateReleaseNotesUrl();
 	}
 
 	/**
