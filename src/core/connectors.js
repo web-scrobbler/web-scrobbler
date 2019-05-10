@@ -495,12 +495,6 @@ define(function() {
 	},
 
 	{
-		label: 'Solayo',
-		matches: ['*://www.solayo.com/*', '*://solayo.com/*'],
-		js: ['connectors/solayo.js'],
-	},
-
-	{
 		label: 'JazzRadio',
 		matches: ['*://www.jazzradio.com/*'],
 		js: ['connectors/radiotunes.js'],
