@@ -814,12 +814,6 @@ define(function() {
 	},
 
 	{
-		label: 'Best FM',
-		matches: ['*://player.bestfm.ru/*'],
-		js: ['connectors/radioultra.js'],
-	},
-
-	{
 		label: 'Jazz24',
 		matches: [
 			// Website
