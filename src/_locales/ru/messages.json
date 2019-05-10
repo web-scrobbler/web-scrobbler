@@ -48,7 +48,7 @@
         "description": "Option label"
     },
     "optionYtDesc": {
-        "message": "Если вы отключите обе настройки. расширение будет скробблить видео из всех категорий.",
+        "message": "Если вы отключите обе настройки, расширение будет скробблить видео из всех категорий.",
         "description": "Description of Youtube options"
     },
     "optionYtMusicOnly": {
@@ -140,7 +140,7 @@
         "description": "'Contact' section"
     },
     "contactGitHubDesc": {
-        "message": "Сообщить об ошибке или поучаствовать в проекте",
+        "message": "Поучаствовать в развитии проекта",
         "description": "Description for GitHub section"
     },
     "contactTwitterDesc": {
