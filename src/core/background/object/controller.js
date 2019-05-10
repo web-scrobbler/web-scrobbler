@@ -304,8 +304,10 @@ define((require) => {
 						this.replayDetectionTimer.resume();
 
 						// Maybe the song was not marked as playing yet
-						if (!this.currentSong.flags.isMarkedAsPlaying && this.currentSong.isValid()) {
+						if (!this.currentSong.flags.isMarkedAsPlaying
+							&& this.currentSong.isValid()) {
 							this.setSongNowPlaying();
+							this.showNowPlayingNotification();
 						}
 					} else {
 						this.playbackTimer.pause();
@@ -358,15 +360,28 @@ define((require) => {
 					this.playbackTimer.update(secondsToScrobble);
 					this.replayDetectionTimer.update(songDuration);
 
-					let remainedSeconds = this.playbackTimer.getRemainingSeconds();
+					const remainedSeconds = this.playbackTimer.getRemainingSeconds();
 					this.debugLog(`The song will be scrobbled in ${remainedSeconds} seconds`);
 				} else {
 					this.debugLog('The song is too short to scrobble');
 				}
 
-				// If the song is playing, mark it immediately; otherwise will be flagged in isPlaying binding
+				/*
+				 * If the song is playing, mark it immediately;
+				 * otherwise will be flagged in isPlaying binding.
+				 */
 				if (this.currentSong.parsed.isPlaying) {
-					this.setSongNowPlaying();
+					/*
+					 * If remainedSeconds < 0, then the extension
+					 * will scrobble song immediately, and there's no need
+					 * to set song as now playing.
+					 */
+					const remainedSeconds = this.playbackTimer.getRemainingSeconds();
+					if (remainedSeconds > 0) {
+						this.setSongNowPlaying();
+					}
+
+					this.showNowPlayingNotification();
 				} else {
 					this.pageAction.setSiteSupported();
 				}
@@ -390,6 +405,10 @@ define((require) => {
 		 * Show now playing notification for current song.
 		 */
 		showNowPlayingNotification() {
+			if (this.currentSong.flags.isReplaying) {
+				return;
+			}
+
 			this.clearNotificationTimeout();
 
 			this.notificationTimeoutId = setTimeout(() => {
@@ -491,9 +510,7 @@ define((require) => {
 				this.pageAction.setError();
 			}
 
-			if (!this.currentSong.flags.isReplaying) {
-				this.showNowPlayingNotification();
-			}
+			this.showNowPlayingNotification();
 		}
 
 		/**
