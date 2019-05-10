@@ -14,6 +14,4 @@ Connector.isPlaying = () => {
 	return $('#controller .pause').length !== 0;
 };
 
-Connector.getTrackArt = () => {
-	return `${$('#playerWrap #cover').find('img').attr('src')}`;
-};
+Connector.trackArtSelector = '#playerWrap #cover img';

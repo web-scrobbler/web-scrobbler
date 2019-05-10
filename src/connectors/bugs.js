@@ -18,6 +18,4 @@ Connector.isPlaying = () => {
 	return $('.btnStop').length !== 0;
 };
 
-Connector.getTrackArt = () => {
-	return `http:${$('.thumbnail').find('img').attr('src')}`;
-};
+Connector.trackArtSelector = '.thumbnail img';

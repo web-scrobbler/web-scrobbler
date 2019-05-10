@@ -18,6 +18,4 @@ Connector.isPlaying = () => {
 	return $('.client_player .pbtn_pause').length !== 0;
 };
 
-Connector.getTrackArt = () => {
-	return `${$('.album_view').find('img').attr('src')}`;
-};
+Connector.trackArtSelector = '.album_view img';

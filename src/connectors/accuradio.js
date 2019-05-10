@@ -10,10 +10,7 @@ Connector.getTrack = () => getScrollableText('#songtitle');
 
 Connector.getAlbum = () => getScrollableText('#songalbum');
 
-Connector.getTrackArt = () => {
-	let trackArtUrl = $('#albumArtImg').attr('src');
-	return trackArtUrl !== null ? `http:${trackArtUrl}` : null;
-};
+Connector.trackArtSelector = '#albumArtImg';
 
 Connector.isPlaying = () => $('#playerPauseButton').length > 0;
 
