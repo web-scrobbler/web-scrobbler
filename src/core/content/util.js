@@ -50,8 +50,12 @@ const Util = {
 		}
 
 		// No match? Try splitting, then.
-		if (artist === null && track === null) {
+		if (Util.isArtistTrackEmpty({ artist, track })) {
 			({ artist, track } = this.splitArtistTrack(title));
+		}
+
+		if (Util.isArtistTrackEmpty({ artist, track })) {
+			track = title;
 		}
 
 		return { artist, track };
