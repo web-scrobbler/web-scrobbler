@@ -179,16 +179,13 @@ define((require) => {
 		 * @param  {Object} result API call result
 		 * @return {Promise} Promise resolved with result object
 		 */
-		processResult(scrobbler, result) {
+		async processResult(scrobbler, result) {
 			if (result.isAuthError()) {
 				// Don't unbind scrobblers which have tokens
-				return scrobbler.isReadyForGrantAccess().then((flag) => {
-					if (!flag) {
-						this.unbindScrobbler(scrobbler);
-					}
-					// Forward result
-					return result;
-				});
+				const isReady = await scrobbler.isReadyForGrantAccess();
+				if (!isReady) {
+					this.unbindScrobbler(scrobbler);
+				}
 			}
 			// Forward result
 			return result;

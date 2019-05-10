@@ -15,12 +15,12 @@ require(['util/util'], (Util) => {
 		return sendMessageToCurrentTab('REQUEST_GET_SONG');
 	}
 
-	function sendMessageToCurrentTab(type, data) {
-		return Util.getCurrentTab().then((tab) => {
-			let tabId = tab.id;
-			return new Promise((resolve) => {
-				chrome.runtime.sendMessage({ type, data, tabId }, resolve);
-			});
+	async function sendMessageToCurrentTab(type, data) {
+		const tab = await Util.getCurrentTab();
+		const tabId = tab.id;
+
+		return new Promise((resolve) => {
+			chrome.runtime.sendMessage({ type, data, tabId }, resolve);
 		});
 	}
 
@@ -138,15 +138,14 @@ require(['util/util'], (Util) => {
 
 	function configControls() {
 		$('#love').off('click');
-		$('#love').on('click', function() {
+		$('#love').on('click', async function() {
 			let currentLoveStatus = $('#love').attr('last-fm-loved') === 'true';
 			let desiredLoveStatus = !currentLoveStatus;
 
-			sendMessageToCurrentTab('REQUEST_TOGGLE_LOVE', {
+			const isLoved = await sendMessageToCurrentTab('REQUEST_TOGGLE_LOVE', {
 				isLoved: desiredLoveStatus
-			}).then((isLoved) => {
-				updateLovedIcon(isLoved);
 			});
+			updateLovedIcon(isLoved);
 		});
 
 		$('#album-art').off('click');
@@ -275,19 +274,19 @@ require(['util/util'], (Util) => {
 	}
 
 	function setupMessageListener() {
-		chrome.runtime.onMessage.addListener((request) => {
+		chrome.runtime.onMessage.addListener(async(request) => {
+			console.log(request);
 			if (request.type !== 'EVENT_SONG_UPDATED') {
 				return;
 			}
 
-			Util.getCurrentTab().then((tab) => {
-				if (tab.id !== request.tabId) {
-					return;
-				}
+			const tab = await Util.getCurrentTab();
+			if (tab.id !== request.tabId) {
+				return;
+			}
 
-				song = request.data;
-				updatePopupView();
-			});
+			song = request.data;
+			updatePopupView();
 		});
 	}
 
@@ -328,13 +327,13 @@ require(['util/util'], (Util) => {
 		$(selector).prop('disabled', state);
 	}
 
-	function main() {
+	async function main() {
 		setupMessageListener();
-		getCurrentSong().then((result) => {
-			song = result;
-			onSongLoaded();
-		});
+		song = await getCurrentSong();
+		onSongLoaded();
 	}
 
-	$(document).ready(main);
+	$(document).ready(() => {
+		main();
+	});
 });

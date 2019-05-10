@@ -39,74 +39,70 @@ require([
 	const sortedConnectors = getConnectors();
 
 	$(function() {
+		initConnectorsList();
+		initOptions();
+
+		initAddPatternDialog();
+		initViewEditedDialog();
+
+		toggleInitState();
+		createAccountViews();
+		setupChromeListeners();
+	});
+
+	function initOptions() {
 		// preload values and attach listeners
 		for (let option in optionsUiMap) {
 			let optionId = optionsUiMap[option];
-			$(optionId).click(function() {
-				options.get().then((data) => {
-					data[option] = this.checked;
-					options.set(data);
-				});
+			$(optionId).click(async function() {
+				const data = await options.get();
+				data[option] = this.checked;
+
+				await options.set(data);
 			});
 		}
 
 		for (let connector in connectorsOptionsUiMap) {
 			for (let option in connectorsOptionsUiMap[connector]) {
 				let optionId = connectorsOptionsUiMap[connector][option];
-				$(optionId).click(function() {
-					connectorsOptions.get().then((data) => {
-						if (!data[connector]) {
-							data[connector] = {};
-						}
+				$(optionId).click(async function() {
+					const data = await connectorsOptions.get();
+					if (!data[connector]) {
+						data[connector] = {};
+					}
 
-						data[connector][option] = this.checked;
-						connectorsOptions.set(data);
-					});
+					data[connector][option] = this.checked;
+					await connectorsOptions.set(data);
 				});
 			}
 		}
+	}
 
-		// Generate connectors and their checkboxes
-		initConnectorsList();
-
-		initAddPatternDialog();
-		initViewEditedDialog();
-
-		// Set the toggle init state
-		toggleInitState();
-		createAccountViews();
-		setupChromeListeners();
-	});
-
-	function setupChromeListeners() {
-		Util.getCurrentTab().then((tab) => {
-			chrome.tabs.onActivated.addListener((activeInfo) => {
-				if (tab.id === activeInfo.tabId) {
-					createAccountViews();
-				}
-			});
+	async function setupChromeListeners() {
+		const tab = await Util.getCurrentTab();
+		chrome.tabs.onActivated.addListener((activeInfo) => {
+			if (tab.id === activeInfo.tabId) {
+				createAccountViews();
+			}
 		});
 	}
 
-	function createAccountViews() {
-		let scrobblers = ScrobbleService.getRegisteredScrobblers();
-		let factoryFunctions = scrobblers.map((scrobbler) => {
-			return () => {
-				return createAccountView(scrobbler);
-			};
-		});
-
-		return Util.queuePromises(factoryFunctions);
+	async function createAccountViews() {
+		const scrobblers = ScrobbleService.getRegisteredScrobblers();
+		for (const scrobbler of scrobblers) {
+			await createAccountView(scrobbler);
+		}
 	}
 
-	function createAccountView(scrobbler) {
+	async function createAccountView(scrobbler) {
 		createEmptyView(scrobbler);
 
-		return scrobbler.getSession().then((session) => {
-			createAuthorizedAccountView(scrobbler, session);
-		}).catch(() => {
+		try {
+			const session = await scrobbler.getSession();
+			await createAuthorizedAccountView(scrobbler, session);
+		} catch (e) {
 			createUnauthorizedAccountView(scrobbler);
-		});
+		}
 	}
 
 	function createAuthorizedAccountView(scrobbler, session) {
@@ -117,17 +113,15 @@ require([
 		let $authStr = $('<p/>').text(chrome.i18n.getMessage('accountsSignedInAs', session.sessionName));
 		let $controls = $('<div/>').addClass('controls');
 
-		let $profileBtn = $('<a href="#"/>').attr('i18n', 'accountsProfile').click(() => {
-			scrobbler.getProfileUrl().then((profileUrl) => {
-				if (profileUrl) {
-					chrome.tabs.create({ url: profileUrl });
-				}
-			});
+		let $profileBtn = $('<a href="#"/>').attr('i18n', 'accountsProfile').click(async() => {
+			const profileUrl = await scrobbler.getProfileUrl();
+			if (profileUrl) {
+				chrome.tabs.create({ url: profileUrl });
+			}
 		});
-		let $logoutBtn = $('<a href="#"/>').attr('i18n', 'accountsSignOut').click(() => {
-			scrobbler.signOut().then(() => {
-				createUnauthorizedAccountView(scrobbler);
-			});
+		let $logoutBtn = $('<a href="#"/>').attr('i18n', 'accountsSignOut').click(async() => {
+			await scrobbler.signOut();
+			createUnauthorizedAccountView(scrobbler);
 		});
 
 		$controls.append($profileBtn, ' • ', $logoutBtn);
@@ -163,7 +157,7 @@ require([
 		return scrobbler.getLabel().replace('.', '');
 	}
 
-	function toggleInitState() {
+	async function toggleInitState() {
 		switch (location.hash) {
 			case '#accounts':
 				// Expand 'Accounts' section and collapse 'Contacts' one.
@@ -178,22 +172,21 @@ require([
 		}
 
 		// preload async values from storage
-		options.get().then((data) => {
-			for (let option in optionsUiMap) {
-				let optionId = optionsUiMap[option];
-				$(optionId).attr('checked', data[option]);
-			}
-		});
-		connectorsOptions.get().then((data) => {
-			for (let connector in connectorsOptionsUiMap) {
-				for (let option in connectorsOptionsUiMap[connector]) {
-					if (data[connector]) {
-						let optionId = connectorsOptionsUiMap[connector][option];
-						$(optionId).attr('checked', data[connector][option]);
-					}
+		const data1 = await options.get();
+		for (let option in optionsUiMap) {
+			let optionId = optionsUiMap[option];
+			$(optionId).attr('checked', data1[option]);
+		}
+
+		const data2 = await connectorsOptions.get();
+		for (let connector in connectorsOptionsUiMap) {
+			for (let option in connectorsOptionsUiMap[connector]) {
+				if (data2[connector]) {
+					let optionId = connectorsOptionsUiMap[connector][option];
+					$(optionId).attr('checked', data2[connector][option]);
 				}
 			}
-		});
+		}
 
 		updateReleaseNotesUrl();
 	}
@@ -225,50 +218,49 @@ require([
 		return input;
 	}
 
-	function initConnectorsList() {
+	async function initConnectorsList() {
 		let parent = $('ul#connectors');
 
-		options.get().then((data) => {
-			let disabledConnectors = data.disabledConnectors;
-			let toggleCheckboxState = false;
+		const data = await options.get();
+		let disabledConnectors = data.disabledConnectors;
+		let toggleCheckboxState = false;
 
-			sortedConnectors.forEach((connector, index) => {
-				let newEl = $(`${'<li>\r\n' +
-					'<a href="#" class="conn-config" data-conn="'}${index}">\r\n` +
-					'<i class="fa fa-gear fa-fw"></i>\r\n' +
-					'</a>\r\n' +
-					`<input type="checkbox" id="conn-${index}">\r\n` +
-					`<label for="conn-${index}">${connector.label}</label>\r\n` +
-					'</li>'
-				);
+		sortedConnectors.forEach((connector, index) => {
+			let newEl = $(`${'<li>\r\n' +
+				'<a href="#" class="conn-config" data-conn="'}${index}">\r\n` +
+				'<i class="fa fa-gear fa-fw"></i>\r\n' +
+				'</a>\r\n' +
+				`<input type="checkbox" id="conn-${index}">\r\n` +
+				`<label for="conn-${index}">${connector.label}</label>\r\n` +
+				'</li>'
+			);
 
-				let domEl = newEl.appendTo(parent);
-				let checkbox = domEl.find('input');
+			let domEl = newEl.appendTo(parent);
+			let checkbox = domEl.find('input');
 
-				checkbox.click(function() {
-					config.setConnectorEnabled(connector.label, this.checked);
-				});
-				let isConnectorEnabled = !disabledConnectors.includes(connector.label);
-				checkbox.attr('checked', isConnectorEnabled);
-
-				if (isConnectorEnabled) {
-					toggleCheckboxState = true;
-				}
+			checkbox.click(function() {
+				config.setConnectorEnabled(connector.label, this.checked);
 			});
+			let isConnectorEnabled = !disabledConnectors.includes(connector.label);
+			checkbox.attr('checked', isConnectorEnabled);
 
-			$('input#toggle').attr('checked', toggleCheckboxState);
-			$('input#toggle').click(function() {
-				// First set each to the negated value and then trigger click
-				$('input[id^="conn"]').each((index, connector) => {
-					$(connector).prop('checked', this.checked);
-				});
-				config.setAllConnectorsEnabled(this.checked);
+			if (isConnectorEnabled) {
+				toggleCheckboxState = true;
+			}
+		});
+
+		$('input#toggle').attr('checked', toggleCheckboxState);
+		$('input#toggle').click(function() {
+			// First set each to the negated value and then trigger click
+			$('input[id^="conn"]').each((index, connector) => {
+				$(connector).prop('checked', this.checked);
 			});
+			config.setAllConnectorsEnabled(this.checked);
 		});
 	}
 
 	function initAddPatternDialog() {
-		$('body').on('click', 'a.conn-config', (e) => {
+		$('body').on('click', 'a.conn-config', async(e) => {
 			e.preventDefault();
 
 			let modal = $('#conn-conf-modal');
@@ -278,17 +270,16 @@ require([
 			modal.data('conn', index);
 			modal.find('.conn-conf-title').html(connector.label);
 
-			customPatterns.getAllPatterns().then((allPatterns) => {
-				let patterns = allPatterns[connector.label] || [];
+			const allPatterns = await customPatterns.getAllPatterns();
+			let patterns = allPatterns[connector.label] || [];
 
-				let inputs = $('<ul class="list-unstyled" id="conn-conf-list"></ul>');
-				for (let value of patterns) {
-					inputs.append(createNewConfigInput(value));
-				}
+			let inputs = $('<ul class="list-unstyled" id="conn-conf-list"></ul>');
+			for (let value of patterns) {
+				inputs.append(createNewConfigInput(value));
+			}
 
-				modal.find('.conn-conf-patterns').html(inputs);
-				modal.modal('show');
-			});
+			modal.find('.conn-conf-patterns').html(inputs);
+			modal.modal('show');
 		});
 
 		$('button#conn-conf-ok').click(function() {
@@ -331,50 +322,48 @@ require([
 	}
 
 	function initViewEditedDialog() {
-		$('#view-edited').click(() => {
+		$('#view-edited').click(async() => {
 			function addNoEditedLabel(node) {
 				node.append($('<li>').attr('i18n', 'noItemsInCache'));
 			}
 
 			let modal = $('#edited-track-modal');
 			let cacheDom = $('#edited-track-content');
+			cacheDom.empty();
 
-			localCache.get().then((data) => {
-				cacheDom.empty();
+			const data = await localCache.get();
+			if (Object.keys(data).length === 0) {
+				addNoEditedLabel(cacheDom);
+			} else {
+				for (let songId in data) {
+					let { artist, track, album } = data[songId];
 
-				if (Object.keys(data).length === 0) {
-					addNoEditedLabel(cacheDom);
-				} else {
-					for (let songId in data) {
-						let { artist, track, album } = data[songId];
+					let item = $(`<li>${artist} — ${track}</li>`);
+					let removeBtn = $('<button type="button" class="close-btn"><i class="fa fa-times fa-fw"></i></button>');
 
-						let item = $(`<li>${artist} — ${track}</li>`);
-						let removeBtn = $('<button type="button" class="close-btn"><i class="fa fa-times fa-fw"></i></button>');
-
-						if (album) {
-							item.attr('title', chrome.i18n.getMessage('albumTooltip', album));
-						}
-						removeBtn.click(function() {
-							localCache.get().then((data) => {
-								delete data[songId];
-								localCache.set(data).then(() => {
-									$(this.parentNode).remove();
-									if (Object.keys(data).length === 0) {
-										addNoEditedLabel(cacheDom);
-									}
-								});
-							});
-						});
-
-						item.append(removeBtn);
-						cacheDom.append(item);
+					if (album) {
+						item.attr('title', chrome.i18n.getMessage('albumTooltip', album));
 					}
+					removeBtn.click(async() => {
+						const data = await localCache.get();
+						delete data[songId];
 
-					let cacheSizeStr = Object.keys(data).length.toString();
-					let poputTitle = chrome.i18n.getMessage('optionsEditedTracksPopupTitle', cacheSizeStr);
-					$('#edited-track-modal .modal-title').text(poputTitle);
+						await localCache.set(data);
+						$(this.parentNode).remove();
+
+						if (Object.keys(data).length === 0) {
+							addNoEditedLabel(cacheDom);
+						}
+					});
+
+					item.append(removeBtn);
+					cacheDom.append(item);
 				}
-			});
+
+				let cacheSizeStr = Object.keys(data).length.toString();
+				let poputTitle = chrome.i18n.getMessage('optionsEditedTracksPopupTitle', cacheSizeStr);
+				$('#edited-track-modal .modal-title').text(poputTitle);
+			}
 
 			$('#clear-cache').click(() => {
 				localCache.clear();
@@ -404,20 +393,20 @@ require([
 	/**
 	 * Export content of LocalCache storage to a file.
 	 */
-	function exportLocalCache() {
-		localCache.get().then((data) => {
-			let dataStr = JSON.stringify(data, null, 2);
-			let blob = new Blob([dataStr], { 'type': 'application/octet-stream' });
-			let url = URL.createObjectURL(blob);
+	async function exportLocalCache() {
+		const data = await localCache.get();
+		let dataStr = JSON.stringify(data, null, 2);
+		let blob = new Blob([dataStr], { 'type': 'application/octet-stream' });
+		let url = URL.createObjectURL(blob);
 
-			let a = document.createElement('a');
-			a.href = url;
-			a.download = EXPORT_FILENAME;
-			a.dispatchEvent(new MouseEvent('click'));
-			a.remove();
+		let a = document.createElement('a');
+		a.href = url;
+		a.download = EXPORT_FILENAME;
+		a.dispatchEvent(new MouseEvent('click'));
+		a.remove();
 
-			URL.revokeObjectURL(url);
-		});
+		URL.revokeObjectURL(url);
+		URL.revokeObjectURL(url);
 	}
 
 	/**

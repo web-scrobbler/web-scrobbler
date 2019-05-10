@@ -67,25 +67,25 @@ define((require) => {
 		 * @param  {Object} data Data to add
 		 * @return {Promise} Promise this will resolve when the task will complete
 		 */
-		update(data) {
-			return this.get().then((storageData) => {
-				let dataToSave = Object.assign(data, storageData);
-				return this.set(dataToSave);
-			});
+		async update(data) {
+			const storageData = await this.get();
+			const dataToSave = Object.assign(data, storageData);
+
+			await this.set(dataToSave);
 		}
 
 		/**
 		 * Log storage data to console output.
 		 */
-		debugLog() {
-			this.get().then((data) => {
-				let text = JSON.stringify(data, null, 2);
-				// Hide 'token' and 'sessionID' values if available
-				text = Util.hideStringInText(data.token, text);
-				text = Util.hideStringInText(data.sessionID, text);
+		async debugLog() {
+			const data = this.get();
 
-				console.info(`chrome.storage.${this.namespace} = ${text}`);
-			});
+			let text = JSON.stringify(data, null, 2);
+			// Hide 'token' and 'sessionID' values if available
+			text = Util.hideStringInText(data.token, text);
+			text = Util.hideStringInText(data.sessionID, text);
+
+			console.info(`chrome.storage.${this.namespace} = ${text}`);
 		}
 
 		/**
