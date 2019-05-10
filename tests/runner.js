@@ -15,7 +15,8 @@ function configureRequireJs() {
 			storage: 'src/core/background/storage',
 			vendor: 'src/vendor',
 
-			'object/deep-proxy': 'src/core/background/object/deep-proxy'
+			'object/deep-proxy': 'src/core/background/object/deep-proxy',
+			'util/util': 'src/core/background/util/util'
 		},
 		waitSeconds: 0
 	});

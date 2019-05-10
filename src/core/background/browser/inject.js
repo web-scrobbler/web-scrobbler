@@ -4,7 +4,7 @@
  */
 define((require) => {
 	const Config = require('storage/config');
-	const UrlMatch = require('url-match');
+	const UrlMatch = require('util/url-match');
 	const connectors = require('connectors');
 	const InjectResult = require('object/inject-result');
 	const CustomPatterns = require('storage/custom-patterns');

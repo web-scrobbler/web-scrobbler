@@ -5,7 +5,7 @@
  */
 
 const expect = require('chai').expect;
-const Util = require('../../src/core/background/util');
+const Util = require('../../src/core/background/util/util');
 
 const HIDE_STRING_IN_TEXT_DATA = [{
 	description: 'should hide string in text',

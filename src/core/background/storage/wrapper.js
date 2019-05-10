@@ -2,7 +2,7 @@
 
 define((require) => {
 	const chrome = require('wrapper/chrome');
-	const Util = require('util');
+	const Util = require('util/util');
 
 	/**
 	 * Chrome StorageArea wrapper that supports for namespaces.

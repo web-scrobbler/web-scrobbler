@@ -2,12 +2,12 @@
 
 define((require) => {
 	const GA = require('service/ga');
-	const Util = require('util');
+	const Util = require('util/util');
 	const Song = require('object/song');
 	const Timer = require('object/timer');
 	const Pipeline = require('pipeline/pipeline');
-	const Notifications = require('notifications');
-	const BrowserAction = require('browser-action');
+	const Notifications = require('browser/notifications');
+	const BrowserAction = require('browser/browser-action');
 	const ScrobbleService = require('service/scrobble-service');
 	const ServiceCallResult = require('object/service-call-result');
 	const LocalCacheStorage = require('storage/local-cache');

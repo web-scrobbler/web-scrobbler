@@ -1,6 +1,6 @@
 'use strict';
 
-require(['util'], (Util) => {
+require(['util/util'], (Util) => {
 	const EDITED_TRACK_FIELDS = ['artist', 'track', 'album'];
 	const FIELD_URL_MAP = {
 		artist: 'artistUrl',

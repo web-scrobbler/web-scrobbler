@@ -5,7 +5,7 @@
  */
 
 const expect = require('chai').expect;
-const UrlMatch = require('../../src/core/background/url-match');
+const UrlMatch = require('../../src/core/background/util/url-match');
 
 const URL_MATCH_DATA = [{
 	description: 'should match exact pattern',

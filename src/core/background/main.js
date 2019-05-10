@@ -32,15 +32,15 @@
  *    @param  {String} scrobbler Scrobbler label
  */
 require([
-	'migrate',
+	'util/migrate',
 	'service/ga',
-	'inject',
+	'browser/inject',
 	'object/inject-result',
-	'controller',
+	'object/controller',
 	'storage/chrome-storage',
 	'storage/config',
 	'service/scrobble-service',
-	'notifications'
+	'browser/notifications'
 ], (Migrate, GA, Inject, InjectResult, Controller, ChromeStorage, Config, ScrobbleService, Notifications) => {
 	/**
 	 * How many times to show auth notification.

@@ -1,7 +1,7 @@
 'use strict';
 
 define((require) => {
-	const Util = require('util');
+	const Util = require('util/util');
 	const chrome = require('wrapper/chrome');
 	const ChromeStorage = require('storage/chrome-storage');
 

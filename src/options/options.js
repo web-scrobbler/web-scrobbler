@@ -7,7 +7,7 @@ require([
 	'storage/chrome-storage',
 	'wrapper/chrome',
 	'service/scrobble-service',
-	'util',
+	'util/util',
 	'bootstrap'
 ], function(config, connectors, customPatterns, ChromeStorage, chrome, ScrobbleService, Util) {
 	const EXPORT_FILENAME = 'local-cache.json';
