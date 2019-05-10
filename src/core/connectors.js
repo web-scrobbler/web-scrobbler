@@ -567,12 +567,6 @@ define(function() {
 	},
 
 	{
-		label: 'Tradiio',
-		matches: ['*://tradiio.com/*', '*://*.tradiio.com/*'],
-		js: ['connectors/tradiio.js'],
-	},
-
-	{
 		label: 'Яндекс.Радио',
 		matches: [
 			'*://radio.yandex.ru/*', '*://radio.yandex.by/*',
