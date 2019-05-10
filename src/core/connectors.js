@@ -1066,10 +1066,6 @@ define(function() {
 		matches: ['*://www.retro-synthwave.com/*'],
 		js: ['connectors/retro-synthwave.js']
 	}, {
-		label: 'SESHstation',
-		matches: ['*://radio.sesh.team/'],
-		js: ['connectors/sesh.js']
-	}, {
 		label: 'Радиоволна.нет',
 		matches: ['*://radiovolna.net/*'],
 		js: ['connectors/radiovolna.js']
