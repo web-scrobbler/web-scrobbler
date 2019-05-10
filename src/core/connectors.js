@@ -680,12 +680,6 @@ define(function() {
 	},
 
 	{
-		label: 'Paste Radio',
-		matches: ['*://www.pastemagazine.com/radio*'],
-		js: ['connectors/pasteradio.js'],
-	},
-
-	{
 		label: 'Genie',
 		matches: ['*://www.genie.co.kr/player/fPlayer*'],
 		js: ['connectors/genie.js'],
