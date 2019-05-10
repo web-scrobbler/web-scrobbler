@@ -166,12 +166,6 @@ define(function() {
 	},
 
 	{
-		label: 'Daytrotter',
-		matches: ['*://www.daytrotter.com/*'],
-		js: ['connectors/daytrotter.js'],
-	},
-
-	{
 		label: 'AOL Radio',
 		matches: ['*://aolradio.slacker.com/*'],
 		js: ['connectors/slacker.js'],
