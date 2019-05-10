@@ -222,14 +222,22 @@ require(['util/util'], (Util) => {
 	}
 
 	function updateControls() {
-		$('#edit-link').text(i18n(isEditModeEnabled ? 'infoSubmit' : 'infoEdit'));
-		setControlEnabled('#edit-link', song.flags.isSkipped ||
-			song.flags.isScrobbled);
+		const isDataComplete = isSongDataComplete();
+
+		if (isEditModeEnabled) {
+			$('#edit-link').text(i18n('infoSubmit'));
+			setControlEnabled('#edit-link', !isDataComplete);
+		} else {
+			$('#edit-link').text(i18n('infoEdit'));
+			setControlEnabled('#edit-link', song.flags.isSkipped ||
+				song.flags.isScrobbled);
+		}
 
 		$('#swap-link').text(i18n('infoSwap'));
 		$('#swap-link').attr('data-hide', !isEditModeEnabled);
-		setControlEnabled('#swap-link', song.flags.isScrobbled ||
-			song.flags.isSkipped);
+		if (isEditModeEnabled) {
+			setControlEnabled('#edit-link', !isDataComplete);
+		}
 
 		$('#revert-link').text(i18n('infoRevert'));
 		$('#revert-link').attr('data-hide', !song.flags.isCorrectedByUser
@@ -257,6 +265,8 @@ require(['util/util'], (Util) => {
 			$('#revert-link').attr('title', i18n('infoRevertTitle'));
 			$('#skip-link').attr('title', i18n('infoSkipTitle'));
 		}
+
+
 	}
 
 	function correctSongInfo() {
