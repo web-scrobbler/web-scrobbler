@@ -224,16 +224,6 @@ module.exports = (grunt) => {
 				cmd: (...args) => `node tests/runner.js ${args.join(' ')}`
 			}
 		},
-		gitcommit: {
-			add0n_changelog: {
-				options: {
-					message: 'Update changelog on add0n.com'
-				},
-				files: {
-					src: ['.add0n/changelog.json']
-				}
-			}
-		}
 	});
 
 	require('load-grunt-tasks')(grunt);
@@ -281,24 +271,9 @@ module.exports = (grunt) => {
 
 	/**
 	 * Publish data.
-	 * @param  {String} arg Task argument
+	 * @param  {String} browser Browser name
 	 */
-	grunt.registerTask('publish', (arg) => {
-		/**
-		 * Generate and commit changelog file for add0n.com website.
-		 */
-		if (arg === 'add0n' || arg === 'addon') {
-			grunt.task.run([
-				'dump_changelog', 'gitcommit:add0n_changelog'
-			]);
-			return;
-		}
-
-		/**
-		 * Create package and publish it.
-		 */
-
-		let browser = arg;
+	grunt.registerTask('publish', (browser) => {
 		assertBrowserIsSupported(browser);
 
 		grunt.task.run(
@@ -315,16 +290,7 @@ module.exports = (grunt) => {
 			grunt.fail.fatal('You should specify release type!');
 		}
 
-		grunt.task.run(`bump-only:${releaseType}`);
-
-		// Patch releases are in vX.X.X branch, so there's no reason
-		// to make changelogs for them.
-		if (releaseType !== 'patch') {
-			grunt.task.run('publish:add0n');
-		}
-
-		grunt.task.run('bump-commit');
-		grunt.task.run('github_publish');
+		grunt.task.run([`bump:${releaseType}`, 'github_publish']);
 	});
 
 
