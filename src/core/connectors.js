@@ -775,12 +775,6 @@ define(function() {
 	},
 
 	{
-		label: 'Style Jukebox',
-		matches: ['*://play.stylejukebox.com/*'],
-		js: ['connectors/stylejukebox.js'],
-	},
-
-	{
 		label: 'Mail.ru Music',
 		matches: [
 			'*://my.mail.ru/music',
