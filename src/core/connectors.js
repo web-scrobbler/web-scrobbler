@@ -757,12 +757,6 @@ define(function() {
 	},
 
 	{
-		label: 'TRT Türkü',
-		matches: ['*://*trtturku.net/*'],
-		js: ['connectors/trtturku.js'],
-	},
-
-	{
 		label: 'Vevo',
 		matches: ['*://www.vevo.com/*'],
 		js: ['connectors/vevo.js'],
