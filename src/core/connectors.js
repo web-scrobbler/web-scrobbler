@@ -519,12 +519,6 @@ define(function() {
 	},
 
 	{
-		label: 'Musicload',
-		matches: ['*://www.musicload.de/*'],
-		js: ['connectors/musicload.js'],
-	},
-
-	{
 		label: 'SomaFM',
 		matches: ['*://somafm.com/player/*'],
 		js: ['connectors/somafm.js'],
@@ -540,12 +534,6 @@ define(function() {
 		label: 'Free Music Archive',
 		matches: ['*://www.freemusicarchive.org/*', '*://freemusicarchive.org/*', '*://www.freemusicarchive.com/*', '*://freemusicarchive.com/*'],
 		js: ['connectors/freemusicarchive.js'],
-	},
-
-	{
-		label: 'musicase',
-		matches: ['*://musicase.me/*'],
-		js: ['connectors/musicase.js'],
 	},
 
 	{
