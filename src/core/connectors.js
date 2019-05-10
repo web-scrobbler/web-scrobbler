@@ -1147,10 +1147,6 @@ define(function() {
 		matches: ['*://resonate.is/*', '*://*.resonate.is/*'],
 		js: ['connectors/resonate.js']
 	}, {
-		label: 'HQ Radio',
-		matches: ['*://hqradio.ru/*'],
-		js: ['connectors/hqradio.js'],
-	}, {
 		label: 'KEXP Radio',
 		matches: ['*://kexp.org', '*://www.kexp.org', '*://kexp.org/*', '*://www.kexp.org/*'],
 		js: ['connectors/kexp.js'],
