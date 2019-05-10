@@ -430,12 +430,6 @@ define(function() {
 	},
 
 	{
-		label: 'M2 RADIO',
-		matches: ['*://www.m2radio.fr/*'],
-		js: ['connectors/m2radio.js'],
-	},
-
-	{
 		label: 'GetWorkDoneMusic',
 		matches: ['*://www.getworkdonemusic.com/*', '*://getworkdonemusic.com/*'],
 		js: ['connectors/getworkdonemusic.js'],
