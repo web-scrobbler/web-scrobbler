@@ -222,6 +222,18 @@ class MetadataFilter {
 	}
 
 	/**
+	 * Remove "Live..."-like strings from the text.
+	 * @param  {String} text String to be filtered
+	 * @return {String} Filtered string
+	 */
+	static removeLive(text) {
+		return MetadataFilter.filterWithFilterSet(
+			text, MetadataFilter.LIVE_FILTERS
+		);
+	}
+
+
+	/**
 	 * "REAL_TITLE : REAL_TILE" -> "REAL_TITLE"
 	 * @param  {String} text String to be filtered
 	 * @return {String} Filtered string
@@ -354,6 +366,16 @@ class MetadataFilter {
 		];
 	}
 
+	static get LIVE_FILTERS() {
+
+		return [
+			// Track - Live
+			{ source: /-\sLive?$/, target: '' },
+			// Track - Live at
+			{ source: /-\sLive\s.+?$/, target: '' },
+		];
+	}
+
 	/**
 	 * Get simple trim filter object used by default in a Connector object.
 	 * @return {MetadataFilter} Filter object
@@ -384,6 +406,21 @@ class MetadataFilter {
 		return new MetadataFilter({
 			track: MetadataFilter.removeRemastered,
 			album: MetadataFilter.removeRemastered,
+		});
+	}
+
+	/**
+	 * Get predefined filter object that uses 'removeRemastered' function.
+	 * @return {MetadataFilter} Filter object
+	 */
+	static getSpotifyFilter() {
+		return new MetadataFilter({
+			track: [
+				MetadataFilter.removeRemastered, MetadataFilter.removeLive
+			],
+			album: [
+				MetadataFilter.removeRemastered, MetadataFilter.removeLive
+			],
 		});
 	}
 
