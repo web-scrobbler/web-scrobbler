@@ -93,12 +93,6 @@ require([
 		chrome.tabs.onActivated.addListener(onTabChanged);
 
 		chrome.runtime.onMessage.addListener(onMessage);
-		chrome.runtime.onInstalled.addListener((details) => {
-			if (details.reason === 'install') {
-				onExtensionInstalled();
-			}
-		});
-
 		chrome.runtime.onConnect.addListener((port) => {
 			port.onMessage.addListener((message) => {
 				onPortMessage(message, port.sender);
@@ -241,21 +235,6 @@ require([
 	}
 
 	/**
-	 * Called when extension is installed first time.
-	 */
-	function onExtensionInstalled() {
-		openAdd0nComWebsite();
-	}
-
-	/**
-	 * Create new tab with opened project homepage.
-	 * Called on first install.
-	 */
-	function openAdd0nComWebsite() {
-		chrome.tabs.create({ url: 'http://add0n.com/lastfm-scrobbler.html' });
-	}
-
-	/**
 	 * Create new tab with release notes of current version.
 	 * Called after update to version with notable changes.
 	 */
@@ -346,8 +325,8 @@ require([
 	}
 
 	/**
-	 * Check if current version has notable changes and show
-	 * the extension page on add0n.com website.
+	 * Check if current version has notable changes
+	 * and show changelog on GitHub.
 	 */
 	async function notifyOfNotableChanges() {
 		if (versionsToNotify.includes(extVersion)) {

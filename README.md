@@ -9,8 +9,6 @@
 
 Web Scrobbler helps online music listeners to scrobble their playback history.
 
-For more information and comments visit [the extension page][12] on add0n.com website.
-
 ## Supported Services
 
 -   [Last.fm][8]
@@ -84,8 +82,6 @@ See the [license file](LICENSE.md).
 [10]: https://github.com/web-scrobbler/web-scrobbler/wiki/Connectors-development
 
 [11]: src/PRIVACY.md
-
-[12]: http://add0n.com/lastfm-scrobbler.html
 
 [13]: https://addons.opera.com/extensions/details/app_id/kipjbhgniklcnglfaldilecjomjaddfi
 
