@@ -267,16 +267,6 @@ function BaseConnector() {
 	};
 
 	/**
-	 * Default implementation for getting origin URL. This shouldn't need to
-	 * be overriden.
-	 *
-	 * @return {String} The source URL
-	 */
-	this.getOriginUrl = () => {
-		return document.location.href;
-	};
-
-	/**
 	 * Get current state of connector. Used to get all info per one call.
 	 * See documentation of 'defaultState' variable for supported properties.
 	 * @return {Object} Current state
@@ -380,12 +370,26 @@ function BaseConnector() {
 	this.isScrobblingAllowed = () => true;
 
 	/**
-	 * Filter object used to filter song metadata.
+	 * Function that will be called when the connector is injected and
+	 * the starter is configured to listen to state change.
 	 *
-	 * @see {@link MetadataFilter}
-	 * @type {Object}
+	 * Override this method for more complex behaviour.
 	 */
-	this.filter = MetadataFilter.getDefaultFilter();
+	this.onReady = () => { /* Do nothing */ };
+
+	/**
+	 * Called then injected script emits event.
+	 * See `Connector.injectScript` for details.
+	 *
+	 * @param {Object} event Event object
+	 */
+	this.onScriptEvent = (event) => { // eslint-disable-line
+		// Do nothing
+	};
+
+	/**
+	 * Connectors must not override functions and properties defined below.
+	 */
 
 	/**
 	 * Add custom filter to default one. Use this method only to apply
@@ -397,23 +401,118 @@ function BaseConnector() {
 	 * @param  {Object} filter Filter object
 	 */
 	this.applyFilter = (filter) => {
-		this.filter = filter.extend(MetadataFilter.getDefaultFilter());
+		metadataFilter = filter.extend(MetadataFilter.getDefaultFilter());
 	};
 
 	/**
-	 * Function that will be called when the connector is injected and
-	 * the starter is configured to listen to state change.
-	 *
-	 * Override this method for more complex behaviour.
-	 */
-	this.onReady = () => { /* Do nothing */ };
+ 	 * Send request to core to reset current state. Should be used if connector
+ 	 * has custom state change listener.
+ 	 */
+	this.resetState = () => {
+		if (isStateReset) {
+			return;
+		}
+
+		if (this.reactorCallback !== null) {
+			this.reactorCallback({}, Object.keys(defaultState));
+		}
+
+		isStateReset = true;
+	};
 
 	/**
-	 * State & API.
+	 * Inject custom script into a page.
 	 *
-	 * Connectors are NOT supposed to override functions and properties
-	 * defined below.
+	 * Injected scripts communicate with content scripts
+	 * using `window.postMessage` function.
+	 *
+	 * The format of message is following:
+	 * {
+	 * 	   // required fields
+	 *	   sender: 'web-scrobbler',
+	 *	   // optional fields used to exchange data
+	 *	   foo: bar,
+	 * 	   bar: baz,
+	 * }
+	 *
+	 * @param  {String} scriptFile Path to script file
 	 */
+	this.injectScript = (scriptFile) => {
+		if (!window.webScrobblerScripts) {
+			window.webScrobblerScripts = {};
+		}
+
+		if (window.webScrobblerScripts[scriptFile]) {
+			return;
+		}
+
+		let scriptUrl = chrome.runtime.getURL(scriptFile);
+		Util.injectScriptIntoDocument(scriptUrl);
+
+		console.log(`Web Scrobbler: Injected ${scriptFile}`);
+
+		window.addEventListener('message', (event) => {
+			if (event.data.sender !== 'web-scrobbler') {
+				return;
+			}
+
+			this.onScriptEvent(event);
+		});
+
+
+		window.webScrobblerScripts[scriptFile] = true;
+	};
+
+	/**
+	 * Listener for the player state changes. Automatically detects the state,
+	 * collects the track metadata and communicates with the background script
+	 * if needed.
+	 */
+	this.onStateChanged = () => {
+		if (!this.isStateChangeAllowed()) {
+			return;
+		}
+
+		/**
+		 * Because gathering the state from DOM is quite expensive and mutation
+		 * events can be emitted REALLY often, we use throttle to set a minimum
+		 * delay between two calls of the state change listener.
+		 *
+		 * Only exception is change in pause/play state which we detect
+		 * immediately so we don't miss a quick play/pause/play or
+		 * pause/play/pause sequence.
+		 */
+		let isPlaying = this.isPlaying();
+		if (isPlaying !== currentState.isPlaying) {
+			this.stateChangedWorker();
+		} else {
+			this.stateChangedWorkerThrottled();
+		}
+	};
+
+	/**
+	 * Internal functions, state & API.
+	 *
+	 * Connectors must not call functions defined below.
+	 * Connectors must not override functions and properties defined below.
+	 */
+
+	/**
+	 * Default implementation for getting origin URL.
+	 *
+	 * @return {String} The source URL
+	 */
+	this.getOriginUrl = () => {
+		return document.location.href;
+	};
+
+	/**
+	 * Filter object used to filter song metadata.
+	 *
+	 * @see {@link MetadataFilter}
+	 * @type {Object}
+	 */
+	let metadataFilter = MetadataFilter.getDefaultFilter();
 
 	/**
 	 * Default values of state properties.
@@ -521,7 +620,6 @@ function BaseConnector() {
 			}
 		}
 
-		// take action if needed
 		if (changedFields.length > 0) {
 			this.filterState(changedFields);
 
@@ -551,7 +649,7 @@ function BaseConnector() {
 				case 'artist':
 				case 'track':
 				case 'album': {
-					fieldValue = this.filter.filterField(field, fieldValue) || defaultState[field];
+					fieldValue = metadataFilter.filterField(field, fieldValue) || defaultState[field];
 					break;
 				}
 				case 'currentTime':
@@ -573,87 +671,6 @@ function BaseConnector() {
 	 * Throttled call for state changed worker.
 	 */
 	this.stateChangedWorkerThrottled = Util.throttle(this.stateChangedWorker, 500);
-
-	/**
-	 * Listener for the player state changes. Automatically detects the state,
-	 * collects the track metadata and communicates with the background script
-	 * if needed.
-	 */
-	this.onStateChanged = () => {
-		if (!this.isStateChangeAllowed()) {
-			return;
-		}
-
-		/**
-		 * Because gathering the state from DOM is quite expensive and mutation
-		 * events can be emitted REALLY often, we use throttle to set a minimum
-		 * delay between two calls of the state change listener.
-		 *
-		 * Only exception is change in pause/play state which we detect
-		 * immediately so we don't miss a quick play/pause/play or
-		 * pause/play/pause sequence.
-		 */
-		let isPlaying = this.isPlaying();
-		if (isPlaying !== currentState.isPlaying) {
-			this.stateChangedWorker();
-		} else {
-			this.stateChangedWorkerThrottled();
-		}
-	};
-
-	/**
-	 * Send request to core to reset current state. Should be used if connector
-	 * has custom state change listener.
-	 */
-	this.resetState = () => {
-		if (isStateReset) {
-			return;
-		}
-
-		if (this.reactorCallback !== null) {
-			this.reactorCallback({}, Object.keys(defaultState));
-		}
-
-		isStateReset = true;
-	};
-
-	/**
-	 * Inject custom script into a page.
-	 * @param  {String} scriptFile Path to script file
-	 */
-	this.injectScript = (scriptFile) => {
-		if (!window.webScrobblerScripts) {
-			window.webScrobblerScripts = {};
-		}
-
-		if (window.webScrobblerScripts[scriptFile]) {
-			return;
-		}
-
-		let scriptUrl = chrome.runtime.getURL(scriptFile);
-		Util.injectScriptIntoDocument(scriptUrl);
-
-		console.log(`Web Scrobbler: Injected ${scriptFile}`);
-
-		window.addEventListener('message', (event) => {
-			if (event.data.sender !== 'web-scrobbler') {
-				return;
-			}
-
-			this.onScriptEvent(event);
-		});
-
-
-		window.webScrobblerScripts[scriptFile] = true;
-	};
-
-	/**
-	 * Called then injected script emits event.
-	 * @param {Object} event Event object
-	 */
-	this.onScriptEvent = (event) => { // eslint-disable-line
-		// Do nothing
-	};
 }
 
 // eslint-disable-next-line
