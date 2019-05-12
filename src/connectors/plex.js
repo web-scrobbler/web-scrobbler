@@ -1,13 +1,15 @@
 'use strict';
 
-Connector.playerSelector = '[class^=ControlsContainer-controlsContainer]';
+const playerBarSelector = '[class^=ControlsContainer-controlsContainer]';
 
-Connector.artistSelector = `${Connector.playerSelector} [class*=MetadataPosterTitle-title] > a:nth-child(1)`;
+Connector.playerSelector = '[class^=AudioVideoPlayerView-container]';
 
-Connector.trackSelector = `${Connector.playerSelector} a[class*=MetadataPosterTitle-singleLineTitle]`;
+Connector.artistSelector = `${playerBarSelector} [class*=MetadataPosterTitle-title] > a:nth-child(1)`;
+
+Connector.trackSelector = `${playerBarSelector} a[class*=MetadataPosterTitle-singleLineTitle]`;
 
 // for watch-it-later videos
-Connector.artistTrackSelector = `${Connector.playerSelector} [class*=MetadataPosterTitle-title]`;
+Connector.artistTrackSelector = `${playerBarSelector} [class*=MetadataPosterTitle-title]`;
 
 Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 
@@ -18,14 +20,12 @@ Connector.getTrack = () => {
 	return null;
 };
 
-Connector.albumSelector = `${Connector.playerSelector} [class*=MetadataPosterTitle-title] > a:nth-child(3)`;
+Connector.albumSelector = `${playerBarSelector} [class*=MetadataPosterTitle-title] > a:nth-child(3)`;
 
-Connector.trackArtSelector = `${Connector.playerSelector} [class^=PosterCardImg-imageContainer] div`;
+Connector.trackArtSelector = `${playerBarSelector} [class^=PosterCardImg-imageContainer] div`;
 
-Connector.playButtonSelector = `${Connector.playerSelector} [class^=plex-icon-player-play]`;
-
-Connector.timeInfoSelector = `${Connector.playerSelector} [class^=DurationRemaining-container]`;
+Connector.timeInfoSelector = `${playerBarSelector} [class*=DurationRemaining-container]`;
 
 Connector.isPlaying = () => {
-	return $(`${Connector.playerSelector} [data-qa-id="pauseButton"]`).length > 0;
+	return $(`${playerBarSelector} [data-qa-id="pauseButton"]`).length > 0;
 };
