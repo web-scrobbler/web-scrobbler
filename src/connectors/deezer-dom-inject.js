@@ -37,11 +37,11 @@ function getState() {
 
 	return {
 		artist: item.ART_NAME,
-		title: item.SNG_TITLE,
+		track: item.SNG_TITLE,
 		album: item.ALB_TITLE,
 		duration: player.getDuration(),
 		currentTime: player.getPosition(),
-		uniqueId: item.SNG_ID,
+		uniqueID: item.SNG_ID,
 		isPlaying: player.isPlaying(),
 		trackArt: getTrackArt(item.ALB_PICTURE)
 	};
