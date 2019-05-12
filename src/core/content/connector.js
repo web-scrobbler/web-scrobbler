@@ -278,7 +278,7 @@ function BaseConnector() {
 
 	/**
 	 * Get current state of connector. Used to get all info per one call.
-	 * See documentation of 'currentState' variable for supported properties.
+	 * See documentation of 'defaultState' variable for supported properties.
 	 * @return {Object} Current state
 	 */
 	this.getCurrentState = () => {
@@ -420,13 +420,48 @@ function BaseConnector() {
 	 * @type {Object}
 	 */
 	const defaultState = {
+		// Required fields.
+		/**
+		 * Track name.
+		 * @type {String}
+		 */
 		track: null,
+		/**
+		 * Artist name.
+		 * @type {String}
+		 */
 		artist: null,
+
+		// Optional fields.
+		/**
+ 		 * Album name.
+ 		 * @type {String}
+ 		 */
 		album: null,
+		/**
+		 * Track unique ID.
+		 * @type {String}
+		 */
 		uniqueID: null,
+		/**
+		 * Track duration.
+		 * @type {Number}
+		 */
 		duration: null,
+		/**
+		 * Current time.
+		 * @type {Number}
+		 */
 		currentTime: null,
+		/**
+		 * Playing/pause state.
+		 * @type {Boolean}
+		 */
 		isPlaying: true,
+		/**
+		 * URL to track art image.
+		 * @type {String}
+		 */
 		trackArt: null
 	};
 
