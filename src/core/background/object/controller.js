@@ -171,12 +171,12 @@ define((require) => {
 		 * @param  {Boolean} isLoved Flag indicated song is loved
 		 */
 		async toggleLove(isLoved) {
-			if (this.currentSong) {
-				await ScrobbleService.toggleLove(this.currentSong, isLoved);
-
-				this.currentSong.setLoveStatus(isLoved);
+			if (!this.currentSong) {
+				throw new Error('No song is now playing');
 			}
-			throw new Error('No song is now playing');
+
+			await ScrobbleService.toggleLove(this.currentSong, isLoved);
+			this.currentSong.setLoveStatus(isLoved);
 		}
 
 		/**
