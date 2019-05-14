@@ -39,7 +39,7 @@ require([
 	'object/controller',
 	'storage/chrome-storage',
 	'storage/config',
-	'service/scrobble-service',
+	'object/scrobble-service',
 	'browser/notifications'
 ], (Migrate, GA, Inject, InjectResult, Controller, ChromeStorage, Config, ScrobbleService, Notifications) => {
 	/**

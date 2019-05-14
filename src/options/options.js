@@ -6,7 +6,7 @@ require([
 	'storage/custom-patterns',
 	'storage/chrome-storage',
 	'wrapper/chrome',
-	'service/scrobble-service',
+	'object/scrobble-service',
 	'util/util',
 	'bootstrap'
 ], function(config, connectors, customPatterns, ChromeStorage, chrome, ScrobbleService, Util) {

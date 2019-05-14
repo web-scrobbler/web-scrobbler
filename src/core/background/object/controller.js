@@ -8,7 +8,7 @@ define((require) => {
 	const Pipeline = require('pipeline/pipeline');
 	const Notifications = require('browser/notifications');
 	const BrowserAction = require('browser/browser-action');
-	const ScrobbleService = require('service/scrobble-service');
+	const ScrobbleService = require('object/scrobble-service');
 	const ServiceCallResult = require('object/service-call-result');
 	const LocalCacheStorage = require('storage/local-cache');
 

@@ -6,7 +6,7 @@
 
 define((require) => {
 	const ChromeStorage = require('storage/chrome-storage');
-	const ScrobbleService = require('service/scrobble-service');
+	const ScrobbleService = require('object/scrobble-service');
 
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 
