@@ -209,6 +209,8 @@ define((require) => {
 
 			let isSongChanged = this.isSongChanged(newState);
 			if (isSongChanged && !newState.isPlaying) {
+				this.debugLog(
+					`Paused song detected: ${toString(newState)}`, 'warn');
 				return;
 			}
 
