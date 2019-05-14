@@ -8,7 +8,7 @@ source_lang = en
 type = CHROME
 
 [web-scrobbler.privacymd]
-file_filter = src/PRIVACY.<lang>.md
-source_file = src/PRIVACY.md
+file_filter = src/_locales/<lang>/privacy.md
+source_file = src/_locales/en/privacy.md
 source_lang = en
 type = GITHUBMARKDOWN

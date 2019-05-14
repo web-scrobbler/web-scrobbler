@@ -81,7 +81,7 @@ See the [license file](LICENSE.md).
 
 [10]: https://github.com/web-scrobbler/web-scrobbler/wiki/Connectors-development
 
-[11]: src/PRIVACY.md
+[11]: src/_locales/en/privacy.md
 
 [13]: https://addons.opera.com/extensions/details/app_id/kipjbhgniklcnglfaldilecjomjaddfi
 

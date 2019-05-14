@@ -5,6 +5,9 @@ require([
 	'storage/chrome-storage',
 	'vendor/showdown.min'
 ], (chrome, ChromeStorage, showdown) => {
+	const PRIVACY_FILENAME = 'privacy.md';
+	const DEFAULT_PRIVACY_PATH = `_locales/en/${PRIVACY_FILENAME}`;
+
 	/**
 	 * Run initialization
 	 */
@@ -37,13 +40,13 @@ require([
 
 	async function preparePrivacyPolicy() {
 		const locale = chrome.i18n.getMessage('@@ui_locale');
-		const defaultPrivacyDoc = 'PRIVACY.md';
-		let privacyDocs = [defaultPrivacyDoc];
+		const privacyDocs = [DEFAULT_PRIVACY_PATH];
 
 		if (!locale.startsWith('en')) {
-			let localeSplit = locale.split('_');
-			privacyDocs.unshift(`PRIVACY.${localeSplit[0]}.md`);
-			privacyDocs.unshift(`PRIVACY.${locale}.md`);
+			const language = locale.split('_')[0];
+
+			privacyDocs.unshift(`_locales/${language}/${PRIVACY_FILENAME}`);
+			privacyDocs.unshift(`_locales/${locale}/${PRIVACY_FILENAME}`);
 		}
 
 		for (let privacyDoc of privacyDocs) {
