@@ -119,7 +119,7 @@ define((require) => {
 
 				return response.text();
 			}).then((text) => {
-				this.debugLog(text, 'log');
+				this.debugLog(text);
 				return new ServiceCallResult(ServiceCallResult.OK);
 			}).catch((error) => {
 				this.debugLog(error.text(), 'warn');
@@ -156,7 +156,7 @@ define((require) => {
 
 			if (session) {
 				let safeId = Util.hideString(session.sessionID);
-				this.debugLog(`Session ID: ${safeId}`, 'log');
+				this.debugLog(`Session ID: ${safeId}`);
 
 				return session;
 			}
