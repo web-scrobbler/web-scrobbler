@@ -78,7 +78,7 @@ define((require) => {
 		 * Log storage data to console output.
 		 */
 		async debugLog() {
-			const data = this.get();
+			const data = await this.get();
 
 			let text = JSON.stringify(data, null, 2);
 			// Hide 'token' and 'sessionID' values if available
