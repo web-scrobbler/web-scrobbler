@@ -3,7 +3,7 @@
  * Handles matching page URL with defined connectors and injecting scripts into content document
  */
 define((require) => {
-	const Config = require('storage/config');
+	const Options = require('storage/options');
 	const UrlMatch = require('util/url-match');
 	const connectors = require('connectors');
 	const InjectResult = require('object/inject-result');
@@ -65,7 +65,7 @@ define((require) => {
 						console.log(`Injecting ${jsFile}`);
 						chrome.tabs.executeScript(tabId, injectDetails, injectWorker);
 					} else {
-						Config.isConnectorEnabled(connector.label).then((isEnabled) => {
+						Options.isConnectorEnabled(connector.label).then((isEnabled) => {
 							if (!isEnabled) {
 								resolve(new InjectResult(InjectResult.MATCHED_BUT_DISABLED, connector));
 							} else {

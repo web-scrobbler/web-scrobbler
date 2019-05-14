@@ -38,10 +38,10 @@ require([
 	'object/inject-result',
 	'object/controller',
 	'storage/chrome-storage',
-	'storage/config',
+	'storage/options',
 	'object/scrobble-service',
 	'browser/notifications'
-], (Migrate, GA, Inject, InjectResult, Controller, ChromeStorage, Config, ScrobbleService, Notifications) => {
+], (Migrate, GA, Inject, InjectResult, Controller, ChromeStorage, Options, ScrobbleService, Notifications) => {
 	/**
 	 * How many times to show auth notification.
 	 * @type {Number}
@@ -260,7 +260,7 @@ require([
 			let title1 = chrome.i18n.getMessage('menuDisableConnector', connector.label);
 			addContextMenuItem(title1, () => {
 				controller.setEnabled(false);
-				Config.setConnectorEnabled(connector.label, false);
+				Options.setConnectorEnabled(connector.label, false);
 
 				updateContextMenu(tabId);
 			});
@@ -274,7 +274,7 @@ require([
 			let title = chrome.i18n.getMessage('menuEnableConnector', connector.label);
 			addContextMenuItem(title, () => {
 				controller.setEnabled(true);
-				Config.setConnectorEnabled(connector.label, true);
+				Options.setConnectorEnabled(connector.label, true);
 				updateContextMenu(tabId);
 			});
 		}

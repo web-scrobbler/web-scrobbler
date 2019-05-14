@@ -2,7 +2,7 @@
 
 define((require) => {
 	const Util = require('util/util');
-	const Config = require('storage/config');
+	const Options = require('storage/options');
 	const ChromeStorage = require('storage/chrome-storage');
 
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
@@ -35,7 +35,7 @@ define((require) => {
 			const checkbox = domEl.find('input');
 
 			checkbox.click(function() {
-				Config.setConnectorEnabled(connector.label, this.checked);
+				Options.setConnectorEnabled(connector.label, this.checked);
 			});
 			const isConnectorEnabled = !disabledConnectors.includes(connector.label);
 			checkbox.attr('checked', isConnectorEnabled);
@@ -47,7 +47,7 @@ define((require) => {
 			$('input[id^="conn"]').each((index, connector) => {
 				$(connector).prop('checked', this.checked);
 			});
-			Config.setAllConnectorsEnabled(this.checked);
+			Options.setAllConnectorsEnabled(this.checked);
 		});
 	}
 
