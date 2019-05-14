@@ -103,17 +103,7 @@ define((require) => {
 			 * Safe copy of initial parsed data.
 			 * Must not be modified.
 			 */
-			this.parsed = {
-				artist: parsedData.artist,
-				track: parsedData.track,
-				album: parsedData.album,
-				uniqueID: parsedData.uniqueID,
-				duration: parsedData.duration,
-				currentTime: parsedData.currentTime,
-				isPlaying: parsedData.isPlaying,
-				trackArt: parsedData.trackArt,
-				sourceUrl: parsedData.sourceUrl
-			};
+			this.parsed = Object.assign({}, parsedData);
 
 			/**
 			 * Post-processed song data, for example auto-corrected.
@@ -121,10 +111,7 @@ define((require) => {
 			 * as the object is processed in pipeline. Can be modified.
 			 */
 			this.processed = {
-				artist: parsedData.artist,
-				track: parsedData.track,
-				album: parsedData.album,
-				duration: parsedData.duration,
+				// Filled by invoking Song.setDefaults function
 			};
 
 			/**
@@ -158,6 +145,24 @@ define((require) => {
 			/**
 			 * Various flags. Can be modified.
 			 */
+			this.flags = {
+				// Filled by invoking Song.setDefaults function
+			};
+
+			this.setDefaults();
+		}
+
+		/**
+		 * Apply default song state (processed song info and song flags).
+		 */
+		setDefaults() {
+			this.processed = {
+				track: this.parsed.track,
+				album: this.parsed.album,
+				artist: this.parsed.artist,
+				duration: this.parsed.duration,
+			};
+
 			this.flags = Object.assign({}, DEFAULT_FLAGS);
 		}
 
@@ -263,16 +268,7 @@ define((require) => {
 		 * Set default song data.
 		 */
 		resetSongData() {
-			this.processed = {
-				artist: this.parsed.artist,
-				track: this.parsed.track,
-				album: this.parsed.album,
-				duration: this.parsed.duration,
-			};
-
-			for (const flag in DEFAULT_FLAGS) {
-				this.flags[flag] = DEFAULT_FLAGS[flag];
-			}
+			this.setDefaults();
 		}
 
 		/**
