@@ -2293,10 +2293,6 @@ grunt-remark@~7.0.0:
     remark "^10.0.0"
     unified-engine "^6.0.0"
 
-grunt-rename-util@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/grunt-rename-util/-/grunt-rename-util-1.0.0.tgz#c489e183f9357b87569554407be06e1858a4a790"
-
 grunt-replace-json@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/grunt-replace-json/-/grunt-replace-json-0.1.0.tgz#2e58602249181718f744147a9365e4d383ca15af"
