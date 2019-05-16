@@ -124,22 +124,25 @@ module.exports = (grunt) => {
 			chrome: {
 				src: `${BUILD_DIR}/manifest.json`,
 				changes: {
-					'options_ui': undefined,
+					options_ui: undefined,
 				}
 			},
 			firefox: {
 				src: `${BUILD_DIR}/manifest.json`,
 				changes: {
-					'applications.gecko.id': FIREFOX_EXTENION_ID,
-					'applications.gecko.strict_min_version': '53.0',
-
-					'icons': {
-						'16': '<%= manifest.icons.16 %>',
-						'48': 'icons/icon_firefox_48.png',
-						'128': 'icons/icon_firefox_128.png',
+					applications: {
+						gecko: {
+							id: FIREFOX_EXTENION_ID,
+							strict_min_version: '53.0',
+						}
+					},
+					icons: {
+						16: '<%= manifest.icons.16 %>',
+						48: 'icons/icon_firefox_48.png',
+						128: 'icons/icon_firefox_128.png',
 					},
 
-					'options_page': undefined,
+					options_page: undefined,
 				}
 			},
 		},
