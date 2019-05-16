@@ -2,7 +2,7 @@
 
 Connector.playerSelector = '[class^="nowPlaying"]';
 
-Connector.playButtonSelector = `${Connector.playerSelector} [class^="playbackToggle"]`;
+Connector.playButtonSelector = `${Connector.playerSelector} [class*="playbackToggle"]`;
 
 Connector.isScrobblingAllowed = () => !!$(Connector.playButtonSelector);
 
