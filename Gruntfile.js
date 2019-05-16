@@ -2,8 +2,8 @@
 
 const fs = require('fs');
 
-const CHROME_EXTENION_ID = 'hhinaapppaileiechjoiifaancjggfjm';
-const FIREFOX_EXTENION_ID = '{799c0914-748b-41df-a25c-22d008f9e83f}';
+const CHROME_EXTENSION_ID = 'hhinaapppaileiechjoiifaancjggfjm';
+const FIREFOX_EXTENSION_ID = '{799c0914-748b-41df-a25c-22d008f9e83f}';
 
 const SRC_DIR = 'src';
 const BUILD_DIR = 'build';
@@ -132,7 +132,7 @@ module.exports = (grunt) => {
 				changes: {
 					applications: {
 						gecko: {
-							id: FIREFOX_EXTENION_ID,
+							id: FIREFOX_EXTENSION_ID,
 							strict_min_version: '53.0',
 						}
 					},
@@ -165,7 +165,7 @@ module.exports = (grunt) => {
 		amo_upload: {
 			issuer: amoConfig.issuer,
 			secret: amoConfig.secret,
-			id: FIREFOX_EXTENION_ID,
+			id: FIREFOX_EXTENSION_ID,
 			version: '<%= manifest.version %>',
 			src: PACKAGE_FILE,
 		},
@@ -180,7 +180,7 @@ module.exports = (grunt) => {
 			},
 			extensions: {
 				'web-scrobbler': {
-					appID: CHROME_EXTENION_ID,
+					appID: CHROME_EXTENSION_ID,
 					zip: PACKAGE_FILE,
 				}
 			}
