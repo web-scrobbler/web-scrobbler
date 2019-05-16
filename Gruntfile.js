@@ -155,10 +155,6 @@ module.exports = (grunt) => {
 				commitFiles: [MANIFEST_FILE],
 			}
 		},
-		dump_changelog: {
-			token: githubConfig.token,
-			version: '<%= manifest.version %>',
-		},
 		github_publish: {
 			token: githubConfig.token,
 			version: '<%= manifest.version %>',
