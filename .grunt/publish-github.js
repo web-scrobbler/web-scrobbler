@@ -5,10 +5,11 @@
  */
 
 const Octokit = require('@octokit/rest');
-const GitHubApi = new Octokit();
 
 const owner = 'web-scrobbler';
 const repo = 'web-scrobbler';
+
+let githubClient = {};
 
 module.exports = (grunt) => {
 	grunt.registerTask('github_publish', 'Create a release on GitHub', async function() {
@@ -16,7 +17,11 @@ module.exports = (grunt) => {
 		let data = grunt.config.get(this.name);
 		let tagName = `v${data.version}`;
 
-		GitHubApi.authenticate({ type: 'token', token: data.token });
+		githubClient = new Octokit({
+			auth() {
+				return `token ${data.token}`;
+			}
+		});
 
 		try {
 			await publishRelease(tagName);
@@ -41,7 +46,7 @@ async function publishRelease(tagName) {
 		throw new Error(`Unable to create release: ${tagName} is not a draft release`);
 	}
 
-	await GitHubApi.repos.updateRelease({
+	await githubClient.repos.updateRelease({
 		owner, repo,
 
 		draft: false,
@@ -56,7 +61,7 @@ async function publishRelease(tagName) {
  * @return {Promise} Promise resolved with release object
  */
 async function getReleaseByName(tagName) {
-	let response = await GitHubApi.repos.listReleases({ owner, repo });
+	let response = await githubClient.repos.listReleases({ owner, repo });
 	if (!response) {
 		throw new Error(`${owner}/${repo} has no releases`);
 	}
