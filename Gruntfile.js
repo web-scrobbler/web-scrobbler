@@ -158,7 +158,7 @@ module.exports = (grunt) => {
 				commitFiles: [MANIFEST_FILE],
 			}
 		},
-		github_publish: {
+		github_release: {
 			token: githubConfig.token,
 			version: '<%= manifest.version %>',
 		},
@@ -289,7 +289,7 @@ module.exports = (grunt) => {
 			grunt.fail.fatal('You should specify release type!');
 		}
 
-		grunt.task.run([`bump:${releaseType}`, 'github_publish']);
+		grunt.task.run([`bump:${releaseType}`, 'github_release']);
 	});
 
 

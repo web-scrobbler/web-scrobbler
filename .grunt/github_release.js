@@ -12,7 +12,7 @@ const repo = 'web-scrobbler';
 let githubClient = {};
 
 module.exports = (grunt) => {
-	grunt.registerTask('github_publish', 'Create a release on GitHub', async function() {
+	grunt.registerTask('github_release', 'Create a release on GitHub', async function() {
 		let done = this.async();
 		let data = grunt.config.get(this.name);
 		let tagName = `v${data.version}`;
