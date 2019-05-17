@@ -1,7 +1,7 @@
 'use strict';
 
-const CATEGORY_MUSIC = '10';
-const CATEGORY_ENTERTAINMENT = '24';
+const CATEGORY_MUSIC = '/channel/UC-9-kyTW8ZkZNDHQJ6FgpwQ';
+const CATEGORY_ENTERTAINMENT = '/channel/UCi-g4cjqGV7jvU8aeSuj0jQ';
 
 const CATEGORY_PENDING = 'YT_DUMMY_CATEGORY_PENDING';
 
@@ -22,16 +22,6 @@ let categoryCache = new Map();
  * @type {String}
  */
 const videoSelector = '.html5-main-video';
-
-/**
- * Youtube API key's used to get video category.
- * @type {String}
- */
-const YT_API_KEYS = [
-	'AIzaSyA3VNMxXEIr7Ml3_zUuzA7Ilba80A657KE',
-	'AIzaSyAUtMnIXmhoGDZw1xSNfIb-aGehbrbdD-0',
-	'AIzaSyCKvCjUgu4jJizhXd7Cxb1rU2cem83v4Uc',
-];
 
 readConnectorOptions();
 setupMutationObserver();
@@ -172,7 +162,7 @@ function getArtistTrack() {
 }
 
 /**
- * Get video category using Youtube API.
+ * Get video category.
  * @param  {String} videoId Video ID
  * @return {String} Video category
  */
@@ -202,28 +192,50 @@ function getVideoCategory(videoId) {
 	return categoryCache.get(videoId);
 }
 
-async function fetchCategoryId(videoId) {
-	for (let key of YT_API_KEYS) {
-		const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${key}`;
-		try {
-			const response = await fetch(url);
-			const data = await response.json();
+async function fetchCategoryId() {
+	await fillMoreSection();
+	return $('.ytd-metadata-row-renderer .yt-formatted-string[href^="/channel/"]').attr('href');
+}
 
-			if (!response.ok) {
-				console.log(JSON.stringify(data, null, 2));
-				throw new Error(response.statusText);
-			}
-
-			let category = data.items[0].snippet.categoryId;
-			if (typeof category === 'string') {
-				return category;
-			}
-		} catch (error) {
-			console.log(`Failed fetching category with ${key}`);
-		}
+async function fillMoreSection() {
+	function waitForClick(ms = 0) {
+		return new Promise((resolve) => setTimeout(resolve, ms));
 	}
 
-	return null;
+	const ytShowLessText = $('yt-formatted-string.less-button').text();
+	const ytShowMoreText = $('yt-formatted-string.more-button').text();
+
+	// Apply global style to prevent "More/Less" button flickering.
+	$('yt-formatted-string.less-button').text(ytShowMoreText);
+	let styleTag = $(`
+		<style id="tmp-style">
+			ytd-metadata-row-container-renderer {
+				visibility: hidden;
+			}
+			ytd-metadata-row-container-renderer #collapsible {
+				height: 0;
+			}
+			ytd-expander > #content.ytd-expander {
+				overflow: hidden;
+				max-height: var(--ytd-expander-collapsed-height);
+			}
+			yt-formatted-string.less-button {
+				margin-top: 0 !important;
+			}
+		</style>
+	`);
+	$('html > head').append(styleTag);
+
+	// Open "More" section.
+	$('yt-formatted-string.more-button').click();
+	await waitForClick();
+
+	// Close "More" section.
+	$('yt-formatted-string.less-button').click();
+
+	// Remove global style.
+	$('yt-formatted-string.less-button').text(ytShowLessText);
+	$('#tmp-style').remove();
 }
 
 function setupMutationObserver() {
