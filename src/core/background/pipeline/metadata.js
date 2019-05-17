@@ -33,14 +33,18 @@ define((require) => {
 		let songInfo = getInfo(songInfoArr);
 		let isSongValid = songInfo !== null;
 		if (isSongValid) {
-			for (let field of INFO_TO_COPY) {
-				song.processed[field] = songInfo[field];
+			if (!song.flags.isCorrectedByUser) {
+				for (let field of INFO_TO_COPY) {
+					song.processed[field] = songInfo[field];
+				}
+
+				if (!song.getAlbum()) {
+					song.processed.album = songInfo.album;
+				}
 			}
+
 			for (let field of METADATA_TO_COPY) {
 				song.metadata[field] = songInfo[field];
-			}
-			if (!song.getAlbum()) {
-				song.processed.album = songInfo.album;
 			}
 		}
 
