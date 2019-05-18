@@ -103,6 +103,10 @@
         "message": "Rozszerzenie zapisuje zmodyfikowane informacje o utworze.",
         "description": "Description of edited tracks"
     },
+    "optionsEditedTracksPopupTitle": {
+        "message": "Ręcznie dopasowane utwory: $1",
+        "description": "'Edited tracks' header"
+    },
     "optionsViewEdited": {
         "message": "Zobacz",
         "description": "Button to view edited tracks"
@@ -252,7 +256,7 @@
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
-        "message": "Web Scrobbler został stworzony dla ludzi słuchających muzyki online, przez przeglądarkę, którzy chcą zachować aktualną historię odtwarzania w usłudze Last.fm.",
+        "message": "Web Scrobbler to rozszerzenie do przeglądarki stworzone dla ludzi słuchających muzyki online, przez przeglądarkę, którzy chcą zachować aktualną historię odtwarzania w takich usługach jak Last.fm, Libre.fm i ListenBrainz.",
         "description": "'About' section text"
     },
     "contributorsTitle": {
