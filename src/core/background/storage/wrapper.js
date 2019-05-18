@@ -69,7 +69,7 @@ define((require) => {
 		 */
 		async update(data) {
 			const storageData = await this.get();
-			const dataToSave = Object.assign(data, storageData);
+			const dataToSave = Object.assign(storageData, data);
 
 			await this.set(dataToSave);
 		}
