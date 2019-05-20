@@ -397,7 +397,6 @@ require([
 		a.remove();
 
 		URL.revokeObjectURL(url);
-		URL.revokeObjectURL(url);
 	}
 
 	/**
