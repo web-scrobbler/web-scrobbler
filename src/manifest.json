@@ -31,9 +31,9 @@
 
   "homepage_url": "https://web-scrobbler.github.io/",
 
-  "options_page": "options/options.html",
+  "options_page": "options/index.html",
   "options_ui": {
-    "page": "options/options.html",
+    "page": "options/index.html",
     "open_in_tab": true
   },
 
