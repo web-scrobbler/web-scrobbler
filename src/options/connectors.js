@@ -20,14 +20,15 @@ define((require) => {
 		const disabledConnectors = data.disabledConnectors;
 
 		sortedConnectors.forEach((connector, index) => {
-			const newEl = $(`${'<li>\r\n' +
-				'<a href="#" class="conn-config" data-conn="'}${index}">\r\n` +
-				'<i class="fa fa-gear fa-fw"></i>\r\n' +
-				'</a>\r\n' +
-				`<input type="checkbox" id="conn-${index}">\r\n` +
-				`<label for="conn-${index}">${connector.label}</label>\r\n` +
-				'</li>'
-			);
+			const newEl = $(`
+				<li>
+					<a href="#" class="conn-config" data-conn="${index}">
+						<i class="fa fa-gear fa-fw"></i>
+					</a>
+					<input type="checkbox" id="conn-${index}">
+					<label for="conn-${index}">${connector.label}</label>
+				</li>
+			`);
 
 			const domEl = newEl.appendTo(parent);
 			const checkbox = domEl.find('input');

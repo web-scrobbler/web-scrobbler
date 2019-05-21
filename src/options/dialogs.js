@@ -95,7 +95,10 @@ define((require) => {
 					const { artist, track, album } = data[songId];
 
 					const item = $(`<li>${artist} — ${track}</li>`);
-					const removeBtn = $('<button type="button" class="close-btn"><i class="fa fa-times fa-fw"></i></button>');
+					const removeBtn = $(
+						`<button type="button" class="close-btn">
+							<i class="fa fa-times fa-fw"></i>
+						</button>`);
 
 					if (album) {
 						item.attr('title', chrome.i18n.getMessage('albumTooltip', album));
@@ -134,7 +137,11 @@ define((require) => {
 		const inputEl = $('<input type="text">');
 		inputEl.val(value);
 
-		const closeEl = $('<span id="modal-connector-remove" class="add-on"><i class="fa fa-remove fa-fw close-btn"></i></span>');
+		const closeEl = $(`
+			<span id="modal-connector-remove" class="add-on">
+				<i class="fa fa-remove fa-fw close-btn"></i>
+			</span>
+		`);
 		closeEl.click(function(ev) {
 			ev.preventDefault();
 			$(this).parent().remove();
