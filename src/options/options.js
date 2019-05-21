@@ -335,7 +335,7 @@ require([
 					if (album) {
 						item.attr('title', chrome.i18n.getMessage('albumTooltip', album));
 					}
-					removeBtn.click(async() => {
+					removeBtn.click(async function() {
 						const data = await localCache.get();
 						delete data[songId];
 
