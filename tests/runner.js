@@ -11,6 +11,7 @@ const requirejs = require('node-define');
 function configureRequireJs() {
 	requirejs.config({
 		paths: {
+			connectors: 'src/core/connectors',
 			wrapper: 'tests/stubs',
 			storage: 'src/core/background/storage',
 			vendor: 'src/vendor',

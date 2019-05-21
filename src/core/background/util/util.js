@@ -4,7 +4,10 @@
  * Module that contains some useful helper functions for background scripts.
  */
 
-define(['wrapper/chrome'], (chrome) => {
+define((require) => {
+	const chrome = require('wrapper/chrome');
+	const connectors = require('connectors');
+
 	const STR_REPLACER = 'x';
 	const REPLACER_LEN = 5;
 
@@ -107,8 +110,18 @@ define(['wrapper/chrome'], (chrome) => {
 		});
 	}
 
+	/**
+	 * Return a sorted array of connectors.
+	 * @return {Array} Array of connectors
+	 */
+	function getSortedConnectors() {
+		return connectors.slice(0).sort((a, b) => {
+			return a.label.localeCompare(b.label);
+		});
+	}
+
 	return {
 		getCurrentTab, timeoutPromise, getPlatformName, openTab,
-		hideString, hideStringInText, isFullscreenMode
+		hideString, hideStringInText, isFullscreenMode, getSortedConnectors,
 	};
 });
