@@ -256,7 +256,7 @@
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
-        "message": "Web Scrobbler es una extensión de navegador creado para las personas que escuchan música en línea a través de su navegador y les gustaría mantener un historial de reproducción actualizado usando el servicio de scrobbling de Last.fm.",
+        "message": "Web Scrobbler es una extensión de navegador creado para las personas que escuchan música en línea a través de su navegador y les gustaría mantener un historial de reproducción actualizado usando el servicio de scrobbling de Last.fm, Libre.fm y ListenBrainz.",
         "description": "'About' section text"
     },
     "contributorsTitle": {
