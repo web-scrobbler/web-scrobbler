@@ -22,7 +22,11 @@ Connector.getTrack = () => {
 
 Connector.albumSelector = `${playerBarSelector} [class*=MetadataPosterTitle-title] > a:nth-child(3)`;
 
-Connector.trackArtSelector = `${playerBarSelector} [class^=PosterCardImg-imageContainer] div`;
+/*
+ * Don't use `playerBarSelector` to get track art
+ * in both normal and expanded players.
+ */
+Connector.trackArtSelector = '[class^=PosterCardImg-imageContainer] div';
 
 Connector.timeInfoSelector = `${playerBarSelector} [class*=DurationRemaining-container]`;
 
