@@ -76,7 +76,9 @@ define((require) => {
 	}
 
 	function initViewEditedDialog() {
-		$('#view-edited').click(async() => {
+		$('#view-edited').click(async(e) => {
+			e.preventDefault();
+
 			function addNoEditedLabel(node) {
 				node.append($('<li>').attr('i18n', 'noItemsInCache'));
 			}
