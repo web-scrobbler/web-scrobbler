@@ -15,9 +15,10 @@ define((require) => {
 	async function initConnectorsList() {
 		const parent = $('ul#connectors');
 
-		let toggleCheckboxState = false;
 		const data = await options.get();
 		const disabledConnectors = data.disabledConnectors;
+		const toggleCheckboxState =
+			disabledConnectors.length !== sortedConnectors.length;
 
 		sortedConnectors.forEach((connector, index) => {
 			const newEl = $(`
@@ -38,10 +39,6 @@ define((require) => {
 			});
 			const isConnectorEnabled = !disabledConnectors.includes(connector.label);
 			checkbox.attr('checked', isConnectorEnabled);
-
-			if (isConnectorEnabled) {
-				toggleCheckboxState = true;
-			}
 		});
 
 		$('input#toggle').attr('checked', toggleCheckboxState);
