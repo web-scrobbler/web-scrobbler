@@ -3,8 +3,9 @@
 require([
 	'wrapper/chrome',
 	'storage/chrome-storage',
-	'vendor/showdown.min'
-], (chrome, ChromeStorage, showdown) => {
+	'vendor/showdown.min',
+	'storage/options',
+], (chrome, ChromeStorage, showdown, Options) => {
 	const PRIVACY_FILENAME = 'privacy.md';
 	const DEFAULT_PRIVACY_PATH = `_locales/en/${PRIVACY_FILENAME}`;
 
@@ -31,11 +32,7 @@ require([
 	}
 
 	async function updateGaState(value) {
-		const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
-
-		let data = await options.get();
-		data.disableGa = value;
-		await options.set(data);
+		Options.setOption(Options.DISABLE_GA, value);
 	}
 
 	async function preparePrivacyPolicy() {

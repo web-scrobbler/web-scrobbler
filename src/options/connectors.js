@@ -3,9 +3,7 @@
 define((require) => {
 	const Util = require('util/util');
 	const Options = require('storage/options');
-	const ChromeStorage = require('storage/chrome-storage');
 
-	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 	const sortedConnectors = Util.getSortedConnectors();
 
 	async function initialize() {
@@ -15,8 +13,8 @@ define((require) => {
 	async function initConnectorsList() {
 		const parent = $('ul#connectors');
 
-		const data = await options.get();
-		const disabledConnectors = data.disabledConnectors;
+		const disabledConnectors =
+			await Options.getOption(Options.DISABLED_CONNECTORS);
 		const toggleCheckboxState =
 			disabledConnectors.length !== sortedConnectors.length;
 

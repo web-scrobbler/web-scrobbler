@@ -9,9 +9,7 @@
  * Does not track anything automatically.
  */
 define((require) => {
-	const ChromeStorage = require('storage/chrome-storage');
-
-	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
+	const Options = require('storage/options');
 
 	const GA_URL = 'https://www.google-analytics.com/collect';
 	const GA_TRACKING_ID = 'UA-16968457-1';
@@ -113,8 +111,7 @@ define((require) => {
 	 * @return {Boolean} True if GA is allowed; false otherwise
 	 */
 	async function isAllowed() {
-		let data = await options.get();
-		return !data.disableGa;
+		return !(await Options.getOption(Options.DISABLE_GA));
 	}
 
 	return { event, pageview };

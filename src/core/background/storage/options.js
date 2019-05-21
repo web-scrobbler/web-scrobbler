@@ -7,43 +7,49 @@ define((require) => {
 	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 	const connectorsOptions = ChromeStorage.getStorage(ChromeStorage.CONNECTORS_OPTIONS);
 
+	const DISABLE_GA = 'disableGa';
+	const FORCE_RECOGNIZE = 'forceRecognize';
+	const USE_NOTIFICATIONS = 'useNotifications';
+	const DISABLED_CONNECTORS = 'disabledConnectors';
+	const USE_UNRECOGNIZED_SONG_NOTIFICATIONS = 'useUnrecognizedSongNotifications';
+
 	/**
 	 * Object that stores default option values.
 	 * @type {Object}
 	 */
-	const DEFAULT_OPTIONS_MAP = {
-		/**
-		 * Array of disabled connectors.
-		 * @type {Array}
-		 */
-		disabledConnectors: [],
-		/**
-		 * Disable Google Analytics.
-		 * @type {Boolean}
-		 */
-		disableGa: false,
-		/**
-		 * Force song recognition.
-		 * @type {Boolean}
-		 */
-		forceRecognize: false,
-		/**
-		 * Use now playing notifications.
-		 * @type {Boolean}
-		 */
-		useNotifications: true,
-		/**
-		 * Notify if song is not recognized.
-		 * @type {Boolean}
-		 */
-		useUnrecognizedSongNotifications: false,
-	};
+	const DEFAULT_OPTIONS = {};
+
+	/**
+	 * Disable Google Analytics.
+	 * @type {Boolean}
+	 */
+	DEFAULT_OPTIONS[DISABLE_GA] = false;
+	/**
+	 * Force song recognition.
+	 * @type {Boolean}
+	 */
+	DEFAULT_OPTIONS[FORCE_RECOGNIZE] = false;
+	/**
+	 * Array of disabled connectors.
+	 * @type {Array}
+	 */
+	DEFAULT_OPTIONS[DISABLED_CONNECTORS] = [];
+	/**
+	 * Use now playing notifications.
+	 * @type {Boolean}
+	 */
+	DEFAULT_OPTIONS[USE_NOTIFICATIONS] = true;
+	/**
+	 * Notify if song is not recognized.
+	 * @type {Boolean}
+	 */
+	DEFAULT_OPTIONS[USE_UNRECOGNIZED_SONG_NOTIFICATIONS] = false;
 
 	/**
 	 * Object that stores default option values for specific connectors.
 	 * @type {Object}
 	 */
-	const DEFAULT_CONNECTOR_OPTIONS_MAP = {
+	const DEFAULT_CONNECTOR_OPTIONS = {
 		GoogleMusic: {
 			scrobblePodcasts: true
 		},
@@ -59,28 +65,49 @@ define((require) => {
 	 */
 	async function setupDefaultConfigValues() {
 		let data = await options.get();
-		for (let key in DEFAULT_OPTIONS_MAP) {
+		for (let key in DEFAULT_OPTIONS) {
 			if (data[key] === undefined) {
-				data[key] = DEFAULT_OPTIONS_MAP[key];
+				data[key] = DEFAULT_OPTIONS[key];
 			}
 		}
 		await options.set(data);
 		options.debugLog();
 
 		data = await connectorsOptions.get();
-		for (let connectorKey in DEFAULT_CONNECTOR_OPTIONS_MAP) {
+		for (let connectorKey in DEFAULT_CONNECTOR_OPTIONS) {
 			if (data[connectorKey] === undefined) {
-				data[connectorKey] = DEFAULT_CONNECTOR_OPTIONS_MAP[connectorKey];
+				data[connectorKey] = DEFAULT_CONNECTOR_OPTIONS[connectorKey];
 			} else {
-				for (let key in DEFAULT_CONNECTOR_OPTIONS_MAP[connectorKey]) {
+				for (let key in DEFAULT_CONNECTOR_OPTIONS[connectorKey]) {
 					if (data[connectorKey][key] === undefined) {
-						data[connectorKey][key] = DEFAULT_CONNECTOR_OPTIONS_MAP[connectorKey][key];
+						data[connectorKey][key] = DEFAULT_CONNECTOR_OPTIONS[connectorKey][key];
 					}
 				}
 			}
 		}
 		await connectorsOptions.set(data);
 		connectorsOptions.debugLog();
+	}
+
+	async function getOption(key) {
+		const data = await options.get();
+		return data[key];
+	}
+
+	async function setOption(key, value) {
+		await options.update({ [key]: value });
+	}
+
+	async function getConnectorOption(connector, key) {
+		const data = await connectorsOptions.get();
+		return data[connector][key];
+	}
+
+	async function setConnectorOption(connector, key, value) {
+		const data = await connectorsOptions.get();
+		data[connector][key] = value;
+
+		await connectorsOptions.set(data);
 	}
 
 	/**
@@ -132,5 +159,10 @@ define((require) => {
 
 	return {
 		isConnectorEnabled, setConnectorEnabled, setAllConnectorsEnabled,
+
+		getOption, setOption, getConnectorOption, setConnectorOption,
+
+		DISABLE_GA, FORCE_RECOGNIZE, USE_NOTIFICATIONS,
+		USE_UNRECOGNIZED_SONG_NOTIFICATIONS, DISABLED_CONNECTORS,
 	};
 });

@@ -5,10 +5,8 @@
  */
 
 define((require) => {
-	const ChromeStorage = require('storage/chrome-storage');
+	const Options = require('storage/options');
 	const ScrobbleService = require('object/scrobble-service');
-
-	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
 
 	const INFO_TO_COPY = [
 		'duration', 'artist', 'track'
@@ -46,8 +44,8 @@ define((require) => {
 			}
 		}
 
-		let data = await options.get();
-		song.flags.isValid = isSongValid || data.forceRecognize;
+		const forceRecognize = await Options.getOption(Options.FORCE_RECOGNIZE);
+		song.flags.isValid = isSongValid || forceRecognize;
 	}
 
 	/**

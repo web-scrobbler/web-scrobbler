@@ -3,9 +3,7 @@
 define((require) => {
 	const Util = require('util/util');
 	const chrome = require('wrapper/chrome');
-	const ChromeStorage = require('storage/chrome-storage');
-
-	const extOptions = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
+	const Options = require('storage/options');
 
 	const DEFAULT_OPTIONS_VALUES = {
 		type: 'basic',
@@ -42,8 +40,7 @@ define((require) => {
 	 * @return {Boolean} Check result
 	 */
 	async function isAllowed() {
-		let data = await extOptions.get();
-		return data.useNotifications;
+		return await Options.getOption(Options.USE_NOTIFICATIONS);
 	}
 
 	/**
@@ -157,8 +154,7 @@ define((require) => {
 	 * @param  {Function} onClicked Function that will be called on notification click
 	 */
 	async function showSongNotRecognized(onClicked) {
-		let data = await extOptions.get();
-		if (!data.useUnrecognizedSongNotifications) {
+		if (!(await Options.getOption(Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS))) {
 			return;
 		}
 

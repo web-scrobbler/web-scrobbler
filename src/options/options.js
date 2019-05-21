@@ -1,28 +1,25 @@
 'use strict';
 
 define((require) => {
-	const ChromeStorage = require('storage/chrome-storage');
-
-	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
-	const connectorsOptions = ChromeStorage.getStorage(ChromeStorage.CONNECTORS_OPTIONS);
+	const Options = require('storage/options');
 
 	/**
 	 * Object that maps options to their element IDs.
 	 * @type {Object}
 	 */
-	const optionsUiMap = {
-		disableGa: '#disable-ga',
-		forceRecognize: '#force-recognize',
-		useNotifications: '#use-notifications',
-		useUnrecognizedSongNotifications: '#use-unrecognized-song-notifications'
+	const OPTIONS_UI_MAP = {
+		'#disable-ga': Options.DISABLE_GA,
+		'#force-recognize': Options.FORCE_RECOGNIZE,
+		'#use-notifications': Options.USE_NOTIFICATIONS,
+		'#use-unrecognized-song-notifications': Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
 	};
-	const connectorsOptionsUiMap = {
+	const CONNECTORS_OPTIONS_UI_MAP = {
 		GoogleMusic: {
-			scrobblePodcasts: '#gm-podcasts'
+			'#gm-podcasts': 'scrobblePodcasts'
 		},
 		YouTube: {
-			scrobbleMusicOnly: '#yt-music-only',
-			scrobbleEntertainmentOnly: '#yt-entertainment-only'
+			'#yt-music-only': 'scrobbleMusicOnly',
+			'#yt-entertainment-only': 'scrobbleEntertainmentOnly',
 		}
 	};
 
@@ -32,40 +29,30 @@ define((require) => {
 	}
 
 	async function initializeOptions() {
-		const optionsData = await options.get();
-
-		for (const option in optionsUiMap) {
-			const optionId = optionsUiMap[option];
+		for (const optionId in OPTIONS_UI_MAP) {
+			const option = OPTIONS_UI_MAP[optionId];
 
 			$(optionId).click(async function() {
-				const data = await options.get();
-				data[option] = this.checked;
-
-				await options.set(data);
+				Options.setOption(option, this.checked);
 			});
 
-			$(optionId).attr('checked', optionsData[option]);
+			const optionValue = await Options.getOption(option);
+			$(optionId).attr('checked', optionValue);
 		}
 	}
 
 	async function initializeConnectorsOptions() {
-		const connectorsData = await connectorsOptions.get();
-
-		for (const connector in connectorsOptionsUiMap) {
-			for (const option in connectorsOptionsUiMap[connector]) {
-				const optionId = connectorsOptionsUiMap[connector][option];
+		for (const connector in CONNECTORS_OPTIONS_UI_MAP) {
+			for (const optionId in CONNECTORS_OPTIONS_UI_MAP[connector]) {
+				const option = CONNECTORS_OPTIONS_UI_MAP[connector][optionId];
 
 				$(optionId).click(async function() {
-					const data = await connectorsOptions.get();
-					if (!data[connector]) {
-						data[connector] = {};
-					}
-
-					data[connector][option] = this.checked;
-					await connectorsOptions.set(data);
+					Options.setConnectorOption(connector, option, this.checked);
 				});
 
-				$(optionId).attr('checked', connectorsData[connector][option]);
+				const optionValue =
+					await Options.getConnectorOption(connector, option);
+				$(optionId).attr('checked', optionValue);
 			}
 		}
 	}
