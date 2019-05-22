@@ -112,7 +112,7 @@
         "description": "Button to view edited tracks"
     },
     "optionsExportEdited": {
-        "message": "Эскпорт",
+        "message": "Экспорт",
         "description": "Button to export edited tracks"
     },
     "optionsImportEdited": {
