@@ -359,11 +359,7 @@ const Util = {
 	getOption(connector, key) {
 		return new Promise((resolve) => {
 			chrome.storage.sync.get('Connectors', (data) => {
-				if (data && data.Connectors && data.Connectors[connector]) {
-					resolve(data.Connectors[connector][key]);
-				} else {
-					resolve(undefined);
-				}
+				resolve(data.Connectors[connector][key]);
 			});
 		});
 	},
