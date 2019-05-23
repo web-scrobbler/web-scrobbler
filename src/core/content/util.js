@@ -350,6 +350,63 @@ const Util = {
 	},
 
 	/**
+	 * Return text of first available element. If `selectors` is a string,
+	 * return text of element with given selector. If `selectors` is
+	 * an array, return text of first available element.
+	 * @param  {Any} selectors Single selector or array of selectors
+	 * @param  {Any} defaultValue Fallback value
+	 * @return {Any} Text of element, if available, or default value
+	 */
+	getTextFromSelectors(selectors, defaultValue = null) {
+		const elements = this.queryElements(selectors);
+
+		if (elements) {
+			if (elements.length === 1) {
+				return elements.text();
+			}
+
+			for (const element of elements) {
+				const text = $(element).text();
+				if (text) {
+					return text;
+				}
+			}
+		}
+
+		return defaultValue;
+	},
+
+	/**
+	 * Return jQuery object with given selector. If `selectors` is a string,
+	 * return text of element with given selector. If `selectors` is
+	 * an array, return text of first available element.
+	 * @param  {Any} selectors Single selector or array of selectors
+	 * @return {Any} jQuery object
+	 */
+	queryElements(selectors) {
+		if (!selectors) {
+			return null;
+		}
+
+		if (typeof selectors === 'string') {
+			return $(selectors);
+		}
+
+		if (!Array.isArray(selectors)) {
+			throw new Error(`Unknown type of selector: ${typeof selectors}`);
+		}
+
+		for (const selector of selectors) {
+			const element = $(selector);
+			if (element.length > 0) {
+				return element;
+			}
+		}
+
+		return null;
+	},
+
+	/**
 	 * Read connector option from storage.
 	 * @param  {String} connector Connector name
 	 * @param  {String} key Option key
