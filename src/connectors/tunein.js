@@ -20,7 +20,7 @@ Connector.getArtistTrack = () => {
 
 Connector.trackArtSelector = '#playerArtwork';
 
-Connector.isPlaying = () => $('#Group-6').length > 0;
+Connector.pauseButtonSelector = '#Group-6';
 
 function shouldSwapArtistTrack() {
 	const stationUrl = $('.nowPlaying__link___2FTVw').attr('href');

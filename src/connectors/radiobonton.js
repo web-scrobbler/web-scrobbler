@@ -8,4 +8,4 @@ Connector.trackSelector = '#title';
 
 Connector.trackArtSelector = 'div#cover>img';
 
-Connector.isPlaying = () => $('#playtoggle').hasClass('stop');
+Connector.pauseButtonSelector = '#playtoggle.stop';

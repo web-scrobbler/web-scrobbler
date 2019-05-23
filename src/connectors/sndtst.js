@@ -6,4 +6,4 @@ Connector.artistSelector = 'h1';
 
 Connector.trackSelector = '.jp-title';
 
-Connector.isPlaying = () => $('.jp-pause').is(':visible');
+Connector.pauseButtonSelector = '.jp-pause';

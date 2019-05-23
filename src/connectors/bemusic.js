@@ -27,12 +27,10 @@ function setupNewBeMusicPlayer() {
 		return artist.get(0).firstChild.textContent;
 	};
 
-	Connector.isPlaying = () => {
-		if ($('player-controls .icon-pause').length > 0) {
-			return $('player-controls .icon-pause').is(':visible');
-		}
-		return $('player-controls .pause-track').is(':visible');
-	};
+	Connector.pauseButtonSelector = [
+		'player-controls .icon-pause',
+		'player-controls .pause-track'
+	];
 }
 
 function setupOldBeMusicPlayer() {
@@ -43,9 +41,7 @@ function setupOldBeMusicPlayer() {
 		return artist.get(0).firstChild.textContent;
 	};
 
-	Connector.isPlaying = () => {
-		return $('#player-controls .icon-pause').is(':visible');
-	};
+	Connector.pauseButtonSelector = '#player-controls .icon-pause';
 
 	Connector.getUniqueID = () => {
 		try {

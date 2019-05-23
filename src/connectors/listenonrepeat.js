@@ -9,6 +9,4 @@ Connector.getArtistTrack = () => {
 	return Util.processYoutubeVideoTitle(text);
 };
 
-Connector.isPlaying = () => {
-	return $('button:contains(Pause Video)').length > 0;
-};
+Connector.pauseButtonSelector = 'button:contains(Pause Video)';

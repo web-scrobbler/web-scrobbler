@@ -2,10 +2,7 @@
 
 Connector.playerSelector = '.ludo-controller';
 
-Connector.getArtistTrack = () => {
-	const artistTrackWithTimecode = $('.pi-infobox__list-item.current').first();
-	return Util.splitArtistTrack(artistTrackWithTimecode.text());
-};
+Connector.artistTrackSelector = '.pi-infobox__list-item.current';
 
 Connector.isPlaying = () => {
 	return $('.ludo-bar__button--pause').length > 0;

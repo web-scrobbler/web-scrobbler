@@ -6,7 +6,7 @@
 
 Connector.playerSelector = '.Root__now-playing-bar';
 
-Connector.getArtist = () => $('.track-info__artists a').first().text();
+Connector.artistSelector = '.track-info__artists a';
 
 Connector.trackSelector = '.Root__now-playing-bar .track-info__name a';
 

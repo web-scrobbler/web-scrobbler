@@ -4,6 +4,6 @@ Connector.playerSelector = '.e2-player';
 
 Connector.artistTrackSelector = '.e2-player-meta-song';
 
-Connector.isPlaying = () => $('.e2-player-control-stop').is(':visible');
+Connector.pauseButtonSelector = '.e2-player-control-stop';
 
 Util.separators = ['·'];

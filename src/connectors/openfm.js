@@ -8,6 +8,4 @@ Connector.trackSelector = '#station-view .station-details > h2';
 
 Connector.albumSelector = '#station-view .station-details > h4';
 
-Connector.isPlaying = () => {
-	return $('.controls-con > .stop-btn').length > 0;
-};
+Connector.pauseButtonSelector = '.controls-con > .stop-btn';

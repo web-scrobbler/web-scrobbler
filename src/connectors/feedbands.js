@@ -10,4 +10,4 @@ Connector.trackArtSelector = '#footer_widget_song_thumb';
 
 Connector.timeInfoSelector = '#player-time';
 
-Connector.isPlaying = () => $('#playbar-option-playpause').hasClass('icon-pause');
+Connector.playButtonSelector = '.icon-play';

@@ -14,21 +14,16 @@ Connector.timeInfoSelector = `${Connector.playerSelector} [class*=DurationRemain
 
 // @ifndef FIREFOX
 // NOTE: Blob URLs used in Plex aren't supported by Firefox 67 and older.
-Connector.getTrackArt = () => {
-	let trackArtEl = $(`${Connector.playerSelector} [class^=PosterCardImg-imageContainer] div`);
-	if (trackArtEl.length === 0) {
-		trackArtEl = $('[class^=AudioVideoFullPlayer] [class^=PosterCardImg-imageContainer] div');
-	}
-
-	const elStyle = trackArtEl.css('background-image');
-	return Util.extractUrlFromCssProperty(elStyle);
-};
+Connector.trackArtSelector = [
+	`${Connector.playerSelector} [class^=PosterCardImg-imageContainer] div`,
+	'[class^=AudioVideoFullPlayer] [class^=PosterCardImg-imageContainer] div',
+];
 // @endif
 
-Connector.isPlaying = () => {
-	return $(`${Connector.playerSelector} [data-qa-id="pauseButton"]`).length > 0
-		|| $(`${Connector.playerSelector} [class^=plex-icon-player-pause]`).length > 0;
-};
+Connector.pauseButtonSelector = [
+	`${Connector.playerSelector} [data-qa-id="pauseButton"]`,
+	`${Connector.playerSelector} [class^=plex-icon-player-pause]`,
+];
 
 // For watch-it-later videos
 Connector.artistTrackSelector = `${Connector.playerSelector} [class*=MetadataPosterTitle-title]`;

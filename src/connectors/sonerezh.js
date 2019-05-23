@@ -11,4 +11,4 @@ Connector.currentTimeSelector = '.currentTime';
 
 Connector.durationSelector = '.on-air .song-playtime';
 
-Connector.isPlaying = () => $('#play').hasClass('glyphicon-pause');
+Connector.pauseButtonSelector = '#play.glyphicon-pause';

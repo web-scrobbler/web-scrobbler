@@ -14,8 +14,6 @@ Connector.currentTimeSelector = '.start';
 
 Connector.durationSelector = '.finish';
 
-Connector.isPlaying = () => {
-	return $('.btnStop').length !== 0;
-};
+Connector.pauseButtonSelector = '.btnStop';
 
 Connector.trackArtSelector = '.thumbnail img';

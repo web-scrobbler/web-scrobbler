@@ -10,7 +10,7 @@ Connector.playButtonSelector = '.fa-play';
 
 Connector.trackArtSelector = '.artist-image img';
 
-Connector.getTrack = () => $('.artist-track').first().text();
+Connector.trackSelector = '.artist-track';
 
 Connector.applyFilter(filter);
 

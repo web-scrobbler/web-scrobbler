@@ -12,7 +12,7 @@ Connector.getAlbum = () => getScrollableText('#songalbum');
 
 Connector.trackArtSelector = '#albumArtImg';
 
-Connector.isPlaying = () => $('#playerPauseButton').length > 0;
+Connector.pauseButtonSelector = '#playerPauseButton';
 
 function getScrollableText(selector) {
 	return $(`${selector} div`).first().text() || $(selector).text();

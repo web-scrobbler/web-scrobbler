@@ -8,7 +8,7 @@ Connector.getTrack = () => getScrollableText('#hotmixPlayerSongTitle');
 
 Connector.trackArtSelector = '#hotmixPlayerSongCover';
 
-Connector.isPlaying = () => $('#play-pause .fa-pause').length > 0;
+Connector.pauseButtonSelector = '#play-pause .fa-pause';
 
 function getScrollableText(selector) {
 	return $(`${selector} a`).first().text() || $(selector).text();

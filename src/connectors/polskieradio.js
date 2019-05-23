@@ -2,8 +2,8 @@
 
 Connector.playerSelector = '#cM';
 
-Connector.getArtist = () => $('.present .artist').first().text();
+Connector.artistSelector = '.present .artist';
 
-Connector.getTrack = () => $('.present .title').first().text();
+Connector.trackSelector = '.present .title';
 
 Connector.isPlaying = () => $('#jwPlay').hasClass('pause');
