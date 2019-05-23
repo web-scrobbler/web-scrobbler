@@ -20,35 +20,52 @@ input {
 }
 
 #wrapper {
+	display: grid;
+	grid-gap: 5px;
+	grid-template-columns: 100px 250px;
 	min-height: 100px;
 	padding: 5px;
-	width: 350px;
 }
 
 #album-art {
 	background-image: url('/icons/cover_art_default.png');
 	background-position: center;
 	background-size: cover;
-	float: left;
-	height: 100px;
-	overflow: hidden;
-	position: relative;
-	width: 100px;
+	grid-column: 1;
+	grid-row: 1 / 3;
 }
 #album-art:hover {
 	cursor: pointer;
 }
 
 #info, #edit {
+	grid-column: 2;
+	grid-row: 1;
 	line-height: 1.5em;
-	margin-bottom: 25px;
-	margin-left: 110px;
-	padding-right: 10px;
+	padding-left: 5px;
+	padding-right: 5px;
 }
 
-.metadata {
-	display: block;
+#edit-controls {
+	align-self: end;
+	grid-column: 2;
+	grid-row: 2;
+	justify-self: start;
+	padding-left: 5px;
 }
+#edit-controls > * + *:before {
+	/* content: '&nbsp;•&nbsp;' */
+	content: '\2022\0000a0';
+	display: inline-block;
+}
+#scrobble-controls {
+	align-self: end;
+	grid-column: 2;
+	grid-row: 2;
+	justify-self: end;
+	padding-right: 5px;
+}
+
 .track {
 	font-size: 1.2em;
 	font-weight: bold;
@@ -57,17 +74,6 @@ input {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
-
-#edit-controls {
-	bottom: 5px;
-	margin-left: 110px;
-	position: absolute;
-}
-#edit-controls > * + *:before {
-	/* content: '&nbsp;•&nbsp;' */
-	content: '\0000a0\2022\0000a0';
-	display: inline-block;
 }
 
 .control-btn {
@@ -82,16 +88,9 @@ input {
 	text-decoration: underline;
 }
 
-#scrobble-controls {
-	bottom: 5px;
-	position: absolute;
-	right: 10px;
-}
-
 #love {
 	background: url("/icons/love16.png") 0 0 no-repeat;
 	cursor: pointer;
-	display: inline-block;
 	height: 16px;
 	width: 16px;
 }
