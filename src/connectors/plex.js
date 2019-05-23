@@ -30,6 +30,16 @@ Connector.trackArtSelector = '[class^=PosterCardImg-imageContainer] div';
 
 Connector.timeInfoSelector = `${playerBarSelector} [class*=DurationRemaining-container]`;
 
+Connector.getTrackArt = () => {
+	let trackArtEl = $(`${playerBarSelector} [class^=PosterCardImg-imageContainer] div`);
+	if (trackArtEl.length === 0) {
+		trackArtEl = $('[class^=AudioVideoFullPlayer] [class^=PosterCardImg-imageContainer] div');
+	}
+
+	const elStyle = trackArtEl.css('background-image');
+	return Util.extractUrlFromCssProperty(elStyle);
+};
+
 Connector.isPlaying = () => {
 	return $(`${playerBarSelector} [data-qa-id="pauseButton"]`).length > 0;
 };
