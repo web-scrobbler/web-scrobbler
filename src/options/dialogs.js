@@ -88,7 +88,9 @@ define((require) => {
 			cacheDom.empty();
 
 			const data = await localCache.get();
-			if (Object.keys(data).length === 0) {
+			const cacheSize = Object.keys(data).length;
+
+			if (cacheSize === 0) {
 				addNoEditedLabel(cacheDom);
 			} else {
 				for (const songId in data) {
@@ -118,11 +120,11 @@ define((require) => {
 					item.append(removeBtn);
 					cacheDom.append(item);
 				}
-
-				const cacheSizeStr = Object.keys(data).length.toString();
-				const poputTitle = chrome.i18n.getMessage('optionsEditedTracksPopupTitle', cacheSizeStr);
-				$('#edited-track-modal .modal-title').text(poputTitle);
 			}
+
+			const poputTitle = chrome.i18n.getMessage(
+				'optionsEditedTracksPopupTitle', cacheSize.toString());
+			$('#edited-track-modal .modal-title').text(poputTitle);
 
 			$('#clear-cache').click(() => {
 				localCache.clear();
