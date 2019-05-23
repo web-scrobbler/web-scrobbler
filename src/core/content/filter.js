@@ -232,6 +232,16 @@ class MetadataFilter {
 		);
 	}
 
+	/**
+	 * Replace "Title - X Remix" suffix with "Title (X Remix)".
+	 * @param  {String} text String to be filtered
+	 * @return {String} Filtered string
+	 */
+	static fixRemixSuffix(text) {
+		return MetadataFilter.filterWithFilterSet(
+			text, MetadataFilter.REMIX_FILTERS
+		);
+	}
 
 	/**
 	 * "REAL_TITLE : REAL_TILE" -> "REAL_TITLE"
@@ -376,6 +386,15 @@ class MetadataFilter {
 		];
 	}
 
+	static get REMIX_FILTERS() {
+		return [
+			// "- X Remix" -> "(X Remix)"
+			{ source: /-\s(.+?)\sRemix$/, target: '($1 Remix)' },
+			{ source: /-\sRemix$/, target: '(Remix)' },
+		];
+	}
+
+
 	/**
 	 * Get simple trim filter object used by default in a Connector object.
 	 * @return {MetadataFilter} Filter object
@@ -416,10 +435,14 @@ class MetadataFilter {
 	static getSpotifyFilter() {
 		return new MetadataFilter({
 			track: [
-				MetadataFilter.removeRemastered, MetadataFilter.removeLive
+				MetadataFilter.removeRemastered,
+				MetadataFilter.fixRemixSuffix,
+				MetadataFilter.removeLive,
 			],
 			album: [
-				MetadataFilter.removeRemastered, MetadataFilter.removeLive
+				MetadataFilter.removeRemastered,
+				MetadataFilter.fixRemixSuffix,
+				MetadataFilter.removeLive,
 			],
 		});
 	}

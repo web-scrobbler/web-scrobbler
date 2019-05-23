@@ -408,6 +408,24 @@ const REMOVE_DOUBLE_TITLE_TEST_DATA = [{
 	expected: 'this is weird : this is weird : this is weird'
 }];
 
+const FIX_REMIX_SUFFIX_TEST_DATA = [{
+	description: 'should do nothing with correct suffix',
+	source: 'Track Title (Artist Remix)',
+	expected: 'Track Title (Artist Remix)'
+}, {
+	description: 'should do nothing with correct suffix',
+	source: 'Track Title (Remix)',
+	expected: 'Track Title (Remix)'
+}, {
+	description: 'should replace invalid suffix',
+	source: 'Track Title - Artist Remix',
+	expected: 'Track Title (Artist Remix)'
+}, {
+	description: 'should replace invalid suffix',
+	source: 'Track Title - Remix',
+	expected: 'Track Title (Remix)'
+}];
+
 /**
  * Filters data is an array of objects. Each object must contain
  * four fields: 'description', 'filter', 'fields' and 'testData'.
@@ -459,6 +477,11 @@ const FILTERS_DATA = [{
 	filter: new MetadataFilter({ track: MetadataFilter.removeDoubleTitle }),
 	fields: ['track'],
 	testData: REMOVE_DOUBLE_TITLE_TEST_DATA,
+}, {
+	description: 'fixRemixSuffix',
+	filter: new MetadataFilter({ track: MetadataFilter.fixRemixSuffix }),
+	fields: ['track'],
+	testData: FIX_REMIX_SUFFIX_TEST_DATA,
 }];
 
 /**
