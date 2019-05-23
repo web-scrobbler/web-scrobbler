@@ -90,24 +90,48 @@ define((require) => {
 	}
 
 	async function getOption(key) {
+		assertValidOptionKey(key);
+
 		const data = await options.get();
 		return data[key];
 	}
 
 	async function setOption(key, value) {
+		assertValidOptionKey(key);
+
 		await options.update({ [key]: value });
 	}
 
 	async function getConnectorOption(connector, key) {
+		assertValidConnectorOptionKey(connector, key);
+
 		const data = await connectorsOptions.get();
 		return data[connector][key];
 	}
 
 	async function setConnectorOption(connector, key, value) {
+		assertValidConnectorOptionKey(connector, key);
+
 		const data = await connectorsOptions.get();
 		data[connector][key] = value;
 
 		await connectorsOptions.set(data);
+	}
+
+	function assertValidOptionKey(key) {
+		if (!(key in DEFAULT_OPTIONS)) {
+			throw new Error(`Unknown option key: ${key}`);
+		}
+	}
+
+	function assertValidConnectorOptionKey(connector, key) {
+		if (!(connector in DEFAULT_CONNECTOR_OPTIONS)) {
+			throw new Error(`Unknown connector: ${connector}`);
+		}
+
+		if (!(key in DEFAULT_CONNECTOR_OPTIONS[connector])) {
+			throw new Error(`Unknown connector option key: ${key}`);
+		}
 	}
 
 	/**
