@@ -1,23 +1,19 @@
 'use strict';
 
-/** Connector for Apple's MusicKit JS. */
-let state = {};
+/*
+ * Connector for Apple's MusicKit JS.
+ */
 
-Connector.getArtist = () => state.artistName;
-Connector.getTrack = () => state.title;
-Connector.getAlbum = () => state.albumName;
-Connector.getDuration = () => state.duration;
-Connector.getCurrentTime = () => state.currentTime;
-Connector.getRemainingTime =
-		() => Connector.getDuration() - Connector.getCurrentTime();
-Connector.getUniqueID = () => state.id;
-Connector.isPlaying = () => state.isPlaying;
-Connector.getTrackArt = () => state.artworkURL;
+let currentState = {};
+
+Connector.isPlaying = () => currentState.isPlaying;
+
+Connector.getCurrentState = () => currentState;
 
 Connector.onScriptEvent = (e) => {
 	switch (e.data.type) {
 		case 'MUSICKIT_STATE':
-			state = e.data.state;
+			currentState = e.data.state;
 			Connector.onStateChanged();
 			break;
 		default:
