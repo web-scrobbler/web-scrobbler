@@ -39,7 +39,7 @@ define(function() {
 	{
 		label: 'Google Play Music',
 		matches: ['*://play.google.com/music/*'],
-		js: ['connectors/googlemusic.js'],
+		js: ['connectors/google-play.js'],
 	},
 
 	{

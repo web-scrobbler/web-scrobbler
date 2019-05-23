@@ -17,10 +17,7 @@ Connector.getTrackArt = () => {
 
 Connector.artistSelector = '#player-artist';
 
-Connector.getTrack = () => {
-	return $('#currently-playing-title').text() ||
-		$('#player-song-title').text();
-};
+Connector.trackSelector = '#currently-playing-title';
 
 Connector.albumSelector = '.player-album';
 
