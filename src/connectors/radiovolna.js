@@ -2,7 +2,8 @@
 
 Connector.playerSelector = '#player_container';
 
-Connector.artistSelector = '[data-name="artist-name"], [data-name="song-artist"]';
+// FIXME: Convert selectors after multiselector is merged
+Connector.artistSelector = '.player-title [data-name="artist-name"], [data-name="song-artist"]';
 
 Connector.trackSelector = '[data-name="song-name"]';
 
