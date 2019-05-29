@@ -720,12 +720,6 @@ define(function() {
 	},
 
 	{
-		label: 'Dewtone',
-		matches: ['*://dewtone.com/*'],
-		js: ['connectors/dewtone.js'],
-	},
-
-	{
 		label: 'Mail.ru Music',
 		matches: [
 			'*://my.mail.ru/music',
