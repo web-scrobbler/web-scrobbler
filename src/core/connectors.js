@@ -934,8 +934,6 @@ define(function() {
 	}, {
 		label: 'KEXP Radio',
 		matches: [
-			'*://kexp.org',
-			'*://www.kexp.org',
 			'*://kexp.org/*',
 			'*://www.kexp.org/*'
 		],
