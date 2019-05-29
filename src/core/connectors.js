@@ -900,15 +900,6 @@ define(function() {
 		label: 'Soribada',
 		matches: ['*://www.soribada.com/*'],
 		js: ['connectors/soribada.js'],
-	},
-	{
-		label: 'Music-Hub',
-		matches: [
-			'*://music-hub.ca/Player/*',
-			'*://player.music-hub.ca/*',
-			'*://www.music-hub.ca/Player/*',
-			'*://www.player.music-hub.ca/*'],
-		js: ['connectors/bemusic.js'],
 	}, {
 		label: 'GrooveMP3',
 		matches: ['*://groovemp3.com/*', '*://www.groovemp3.com/*'],

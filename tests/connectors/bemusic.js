@@ -17,11 +17,6 @@ module.exports = function(driver, connectorSpec) {
 	});
 
 	connectorSpec.shouldBehaveLikeMusicSite(driver, {
-		url: 'https://music-hub.ca/Player/album/148/snavs/lonely+street',
-		playButtonSelector: '.play-button'
-	});
-
-	connectorSpec.shouldBehaveLikeMusicSite(driver, {
 		url: 'https://loud.zone/artist/5095/The+Beatles',
 		playButtonSelector: '.icon-play'
 	});
