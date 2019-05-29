@@ -208,12 +208,6 @@ define(function() {
 	},
 
 	{
-		label: 'Focus@Will',
-		matches: ['*://www.focusatwill.com/*'],
-		js: ['connectors/focusatwill.js'],
-	},
-
-	{
 		label: 'Subphonic (owncloud plugin)',
 		matches: ['*://*/*/apps/subphonic/minisub/*'],
 		js: ['connectors/subphonic.js'],
