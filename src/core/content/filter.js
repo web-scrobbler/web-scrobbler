@@ -233,13 +233,13 @@ class MetadataFilter {
 	}
 
 	/**
-	 * Replace "Title - X Remix" suffix with "Title (X Remix)".
+	 * Replace "Title - X Remix" suffix with "Title (X Remix) and similar".
 	 * @param  {String} text String to be filtered
 	 * @return {String} Filtered string
 	 */
-	static fixRemixSuffix(text) {
+	static fixTrackSuffix(text) {
 		return MetadataFilter.filterWithFilterSet(
-			text, MetadataFilter.REMIX_FILTERS
+			text, MetadataFilter.SUFFIX_FILTERS
 		);
 	}
 
@@ -386,7 +386,7 @@ class MetadataFilter {
 		];
 	}
 
-	static get REMIX_FILTERS() {
+	static get SUFFIX_FILTERS() {
 		return [
 			// "- X Remix" -> "(X Remix)" and similar
 			{ source: /-\s(.+?)\s((Re)?mix|edit|dub|mix|vip|version)$/i, target: '($1 $2)' },
@@ -436,12 +436,12 @@ class MetadataFilter {
 		return new MetadataFilter({
 			track: [
 				MetadataFilter.removeRemastered,
-				MetadataFilter.fixRemixSuffix,
+				MetadataFilter.fixTrackSuffix,
 				MetadataFilter.removeLive,
 			],
 			album: [
 				MetadataFilter.removeRemastered,
-				MetadataFilter.fixRemixSuffix,
+				MetadataFilter.fixTrackSuffix,
 				MetadataFilter.removeLive,
 			],
 		});
