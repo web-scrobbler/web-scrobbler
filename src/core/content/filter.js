@@ -389,7 +389,7 @@ class MetadataFilter {
 	static get REMIX_FILTERS() {
 		return [
 			// "- X Remix" -> "(X Remix)" and similar
-			{ source: /-\s(.+?)\s((Re)?mix|edit|dub|mix|vip|version)$/($1 $2)/i, target: '($1 $2)' },
+			{ source: /-\s(.+?)\s((Re)?mix|edit|dub|mix|vip|version)$/i, target: '($1 $2)' },
 			{ source: /-\s(Remix|VIP)$/i, target: '($1)' },
 		];
 	}
