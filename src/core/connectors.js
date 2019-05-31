@@ -155,6 +155,10 @@ define(function() {
 		matches: ['*://douban.fm/*'],
 		js: ['connectors/douban.fm.js'],
 	}, {
+		label: 'Focus@Will',
+		matches: ['*://www.focusatwill.com/*'],
+		js: ['connectors/focusatwill.js'],
+	}, {
 		label: 'Subphonic (owncloud plugin)',
 		matches: ['*://*/*/apps/subphonic/minisub/*'],
 		js: ['connectors/subphonic.js'],
