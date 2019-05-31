@@ -45,11 +45,6 @@ define((require) => {
 			return true;
 		}
 
-		/** @override */
-		canCorrectSongInfo() {
-			return true;
-		}
-
 		/**
 		 * Parse service response and return parsed data.
 		 * @param  {Object} $doc Response that parsed by jQuery
@@ -66,32 +61,28 @@ define((require) => {
 				userloved = userlovedStatus === '1';
 			}
 
-			if (this.canCorrectSongInfo()) {
-				let artist = $doc.find('artist > name').text();
-				let track = $doc.find('track > name').text();
-				let album = $doc.find('album > title').text();
-				let duration = (parseInt($doc.find('track > duration').text()) / 1000) || null;
+			let artist = $doc.find('artist > name').text();
+			let track = $doc.find('track > name').text();
+			let album = $doc.find('album > title').text();
+			let duration = (parseInt($doc.find('track > duration').text()) / 1000) || null;
 
-				let artistThumbUrl = null;
-				let imageSizes = ['extralarge', 'large', 'medium'];
-				for (let imageSize of imageSizes) {
-					artistThumbUrl = $doc.find(`album > image[size="${imageSize}"]`).text();
-					if (artistThumbUrl) {
-						break;
-					}
+			let artistThumbUrl = null;
+			let imageSizes = ['extralarge', 'large', 'medium'];
+			for (let imageSize of imageSizes) {
+				artistThumbUrl = $doc.find(`album > image[size="${imageSize}"]`).text();
+				if (artistThumbUrl) {
+					break;
 				}
-
-				let artistUrl = $doc.find('artist > url').text();
-				let trackUrl = $doc.find('track > url').text();
-				let albumUrl = $doc.find('album > url').text();
-
-				return {
-					artist, track, album, duration, userloved,
-					artistThumbUrl, artistUrl, albumUrl, trackUrl
-				};
 			}
 
-			return { userloved };
+			let artistUrl = $doc.find('artist > url').text();
+			let trackUrl = $doc.find('track > url').text();
+			let albumUrl = $doc.find('album > url').text();
+
+			return {
+				artist, track, album, duration, userloved,
+				artistThumbUrl, artistUrl, albumUrl, trackUrl
+			};
 		}
 	}
 

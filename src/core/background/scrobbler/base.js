@@ -218,14 +218,6 @@ define((require) => {
 			return false;
 		}
 
-		/**
-		 * Check if service supports correction of song info.
-		 * @return {Boolean} True if service supports that; false otherwise
-		 */
-		canCorrectSongInfo() {
-			return false;
-		}
-
 		/** Constants */
 
 		/**
