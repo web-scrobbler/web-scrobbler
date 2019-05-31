@@ -53,7 +53,7 @@ define((require) => {
 		/**
 		 * Parse service response and return parsed data.
 		 * @param  {Object} $doc Response that parsed by jQuery
-		 * @return {Promise} Promise that will be resolved with parsed data
+		 * @return {Object} Parsed song info
 		 */
 		parseSongInfo($doc) {
 			if ($doc.find('lfm').attr('status') !== 'ok') {

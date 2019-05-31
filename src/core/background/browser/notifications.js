@@ -169,15 +169,14 @@ define((require) => {
 	/**
 	 * Show auth notification.
 	 * @param  {Function} onClicked Function that will be called on notification click
-	 * @return {Promise} Promise resolved when the task has complete
 	 */
-	function showAuthNotification(onClicked) {
+	async function showAuthNotification(onClicked) {
 		const options = {
 			title: i18n('notificationConnectAccounts'),
 			message: i18n('notificationConnectAccountsText'),
 		};
 
-		return showNotification(options, onClicked);
+		await showNotification(options, onClicked);
 	}
 
 	/**

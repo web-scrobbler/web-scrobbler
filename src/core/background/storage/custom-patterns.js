@@ -11,7 +11,7 @@ define((require) => {
 	return {
 		/**
 		 * Get custom patterns for all connectors.
-		 * @return {Promise} Promise resolved with custom URL patterns
+		 * @return {Object} Custom URL patterns
 		 */
 		getAllPatterns() {
 			return storage.get();

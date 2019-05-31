@@ -183,7 +183,7 @@ define((require) => {
 		 * Assume the token was authenticated by the user.
 		 *
 		 * @param {String} token Token provided by scrobbler service
-		 * @return {Promise} Promise that will be resolved with the session ID
+		 * @return {Object} Session data
 		 */
 		async tradeTokenForSession(token) {
 			let params = { method: 'auth.getsession', token };
@@ -209,7 +209,7 @@ define((require) => {
 		 * @param  {String} method Used method (GET or POST)
 		 * @param  {Object} params Object of key => value url parameters
 		 * @param  {Boolean} signed Should the request be signed?
-		 * @return {Promise} Promise that will be resolved with parsed response
+		 * @return {Object} Parsed response
 		 */
 		sendRequest(method, params, signed) {
 			let url = this.makeRequestUrl(params, signed);
