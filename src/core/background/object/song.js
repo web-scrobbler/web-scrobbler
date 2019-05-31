@@ -310,9 +310,10 @@ define((require) => {
 			let clonedSong = {};
 
 			/*
-			 * Firefox doesn't allow to send proxy objects via Chrome API.
-			 * Since our song properties are actually proxy objects,
-			 * they should be converted to plain objects before.
+			 * Firefox doesn't allow to send proxy objects via
+			 * `browser.tabs.sendMessage` function. Since song properties
+			 * are actually proxy objects, they should be converted
+			 * to plain objects before sending.
 			 */
 			for (let field of fieldsToCopy) {
 				clonedSong[field] = Object.assign({}, this[field]);

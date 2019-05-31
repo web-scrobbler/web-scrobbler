@@ -2,10 +2,10 @@
 
 define((require) => {
 	const connectors = require('connectors');
-	const ChromeStorage = require('storage/chrome-storage');
+	const BrowserStorage = require('storage/browser-storage');
 
-	const options = ChromeStorage.getStorage(ChromeStorage.OPTIONS);
-	const connectorsOptions = ChromeStorage.getStorage(ChromeStorage.CONNECTORS_OPTIONS);
+	const options = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
+	const connectorsOptions = BrowserStorage.getStorage(BrowserStorage.CONNECTORS_OPTIONS);
 
 	const DISABLE_GA = 'disableGa';
 	const FORCE_RECOGNIZE = 'forceRecognize';

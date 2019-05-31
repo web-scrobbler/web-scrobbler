@@ -4,10 +4,10 @@ define((require) => {
 	const Util = require('util/util');
 	const browser = require('webextension-polyfill');
 	const CustomPatterns = require('storage/custom-patterns');
-	const ChromeStorage = require('storage/chrome-storage');
+	const BrowserStorage = require('storage/browser-storage');
 
 	const sortedConnectors = Util.getSortedConnectors();
-	const localCache = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
+	const localCache = BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);
 
 	function initialize() {
 		initAddPatternDialog();

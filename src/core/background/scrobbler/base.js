@@ -2,7 +2,7 @@
 
 define((require) => {
 	const Util = require('util/util');
-	const ChromeStorage = require('storage/chrome-storage');
+	const BrowserStorage = require('storage/browser-storage');
 
 	/**
 	 * List of scrobbler options.
@@ -70,7 +70,7 @@ define((require) => {
 		constructor(options) {
 			this.applyOptions(options, SCROBBLER_OPTIONS);
 
-			this.storage = ChromeStorage.getScrobblerStorage(options.storage);
+			this.storage = BrowserStorage.getScrobblerStorage(options.storage);
 			this.storage.debugLog();
 		}
 

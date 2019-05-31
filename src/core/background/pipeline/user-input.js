@@ -2,7 +2,7 @@
 
 /**
  * The pipeline stage applies custom song info data to given song info.
- * Plus, it saves the song info to Chrome storage.
+ * Plus, it saves the song info to browser storage.
  */
 
 define((require) => {

@@ -1,11 +1,11 @@
 'use strict';
 
 define((require) => {
-	const ChromeStorage = require('storage/chrome-storage');
+	const BrowserStorage = require('storage/browser-storage');
 
 	const EXPORT_FILENAME = 'local-cache.json';
 
-	const localCache = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
+	const localCache = BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);
 
 	async function initialize() {
 		$('#export-edited').click((e) => {

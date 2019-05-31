@@ -4,9 +4,9 @@
  * The module manages URL patterns can be defined by users.
  */
 define((require) => {
-	const ChromeStorage = require('storage/chrome-storage');
+	const BrowserStorage = require('storage/browser-storage');
 
-	const storage = ChromeStorage.getStorage(ChromeStorage.CUSTOM_PATTERNS);
+	const storage = BrowserStorage.getStorage(BrowserStorage.CUSTOM_PATTERNS);
 
 	return {
 		/**

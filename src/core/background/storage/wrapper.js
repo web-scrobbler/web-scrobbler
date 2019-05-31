@@ -4,7 +4,7 @@ define((require) => {
 	const Util = require('util/util');
 
 	/**
-	 * Chrome StorageArea wrapper that supports for namespaces.
+	 * StorageArea wrapper that supports for namespaces.
 	 */
 	class StorageWrapper {
 		/**

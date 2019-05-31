@@ -7,10 +7,10 @@ define((require) => {
 
 	async function initialize() {
 		await createAccountViews();
-		setupChromeListeners();
+		setupEventListeners();
 	}
 
-	async function setupChromeListeners() {
+	async function setupEventListeners() {
 		const tab = await Util.getCurrentTab();
 		browser.tabs.onActivated.addListener((activeInfo) => {
 			if (tab.id === activeInfo.tabId) {

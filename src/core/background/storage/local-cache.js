@@ -2,9 +2,9 @@
 
 define((require) => {
 	const Song = require('object/song');
-	const ChromeStorage = require('storage/chrome-storage');
+	const BrowserStorage = require('storage/browser-storage');
 
-	const storage = ChromeStorage.getStorage(ChromeStorage.LOCAL_CACHE);
+	const storage = BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);
 
 	async function fillSongData(song) {
 		let songId = song.getUniqueId();
@@ -31,7 +31,7 @@ define((require) => {
 	}
 
 	/**
-	 * Save custom song info to Chrome storage.
+	 * Save custom song info to browser storage.
 	 * @param  {Object} song Song instance
 	 * @param  {Object} data User data
 	 */
@@ -41,27 +41,27 @@ define((require) => {
 			return;
 		}
 
-		let chromeData = await storage.get();
+		let storageData = await storage.get();
 		let isChanged = false;
 
-		if (!chromeData[songId]) {
-			chromeData[songId] = {};
+		if (!storageData[songId]) {
+			storageData[songId] = {};
 		}
 
 		for (let field of Song.USER_FIELDS) {
 			if (data[field]) {
-				chromeData[songId][field] = data[field];
+				storageData[songId][field] = data[field];
 				isChanged = true;
 			}
 		}
 
 		if (isChanged) {
-			await storage.set(chromeData);
+			await storage.set(storageData);
 		}
 	}
 
 	/**
-	 * Remove song info from Chrome storage.
+	 * Remove song info from browser storage.
 	 * @param  {Object} song Song object
 	 */
 	async function removeSongData(song) {

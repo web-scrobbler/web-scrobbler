@@ -2,10 +2,10 @@
 
 require([
 	'webextension-polyfill',
-	'storage/chrome-storage',
+	'storage/browser-storage',
 	'vendor/showdown.min',
 	'storage/options',
-], (browser, ChromeStorage, showdown, Options) => {
+], (browser, BrowserStorage, showdown, Options) => {
 	const PRIVACY_FILENAME = 'privacy.md';
 	const DEFAULT_PRIVACY_PATH = `_locales/en/${PRIVACY_FILENAME}`;
 

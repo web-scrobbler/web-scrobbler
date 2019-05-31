@@ -12,7 +12,7 @@ define((require) => {
 	const REPLACER_LEN = 5;
 
 	/**
-	 * Return platform name using Chrome API.
+	 * Return platform name.
 	 * @return {String} Platform name
 	 */
 	async function getPlatformName() {

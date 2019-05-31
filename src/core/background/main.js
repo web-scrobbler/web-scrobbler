@@ -38,11 +38,11 @@ require([
 	'browser/inject',
 	'object/inject-result',
 	'object/controller',
-	'storage/chrome-storage',
+	'storage/browser-storage',
 	'storage/options',
 	'object/scrobble-service',
 	'browser/notifications'
-], (browser, Migrate, GA, Inject, InjectResult, Controller, ChromeStorage, Options, ScrobbleService, Notifications) => {
+], (browser, Migrate, GA, Inject, InjectResult, Controller, BrowserStorage, Options, ScrobbleService, Notifications) => {
 	/**
 	 * How many times to show auth notification.
 	 * @type {Number}
@@ -74,12 +74,12 @@ require([
 	 */
 	let isActiveSession = false;
 
-	const notificationStorage = ChromeStorage.getStorage(ChromeStorage.NOTIFICATIONS);
+	const notificationStorage = BrowserStorage.getStorage(BrowserStorage.NOTIFICATIONS);
 
 	/**
-	 * Setup Chrome event listeners. Called on startup.
+	 * Setup browser event listeners. Called on startup.
 	 */
-	function setupChromeEventListeners() {
+	function setupEventListeners() {
 		browser.tabs.onUpdated.addListener(onTabUpdated);
 		browser.tabs.onRemoved.addListener(onTabRemoved);
 		browser.tabs.onActivated.addListener(onTabChanged);
@@ -278,7 +278,7 @@ require([
 	 * local storage by current one.
 	 */
 	async function updateVersionInStorage() {
-		let storage = ChromeStorage.getStorage(ChromeStorage.CORE);
+		let storage = BrowserStorage.getStorage(BrowserStorage.CORE);
 		let data = await storage.get();
 
 		data.appVersion = extVersion;
@@ -377,7 +377,7 @@ require([
 	async function startup() {
 		await updateVersionInStorage();
 		await notifyOfNotableChanges();
-		setupChromeEventListeners();
+		setupEventListeners();
 
 		// track background page loaded - happens once per browser session
 		GA.pageview(`/background-loaded?version=${extVersion}`);

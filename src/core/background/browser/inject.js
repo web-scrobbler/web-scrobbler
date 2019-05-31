@@ -80,7 +80,7 @@ define((require) => {
 	}
 
 	/**
-	 * Is triggered by chrome.tabs.onUpdated event
+	 * Is triggered by browser.tabs.onUpdated event
 	 * Check for available connectors and injects matching connector into
 	 * loaded page while returning info about the connector.
 	 *
