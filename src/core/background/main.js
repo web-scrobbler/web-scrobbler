@@ -76,15 +76,6 @@ require([
 	const notificationStorage = ChromeStorage.getStorage(ChromeStorage.NOTIFICATIONS);
 
 	/**
-	 * Return controller for given tab. There should always be one.
-	 * @param  {Number} tabId Tab ID
-	 * @return {Object} Controller instance for tab
-	 */
-	function getControllerByTabId(tabId) {
-		return tabControllers[tabId];
-	}
-
-	/**
 	 * Setup Chrome event listeners. Called on startup.
 	 */
 	function setupChromeEventListeners() {
@@ -105,60 +96,52 @@ require([
 	 * @param  {Any} request Message sent by the calling script
 	 * @param  {Object} sender Message sender
 	 * @param  {Function} sendResponse Response callback
-	 * @return {Boolean} True value
 	 */
 	function onMessage(request, sender, sendResponse) {
-		let ctrl;
+		if (request.type === 'REQUEST_AUTHENTICATE') {
+			const scrobblerLabel = request.scrobbler;
+			const scrobbler = ScrobbleService.getScrobblerByLabel(scrobblerLabel);
+
+			if (scrobbler) {
+				authenticateScrobbler(scrobbler);
+			}
+
+			return;
+		}
+
+
+		const tabId = request.tabId;
+		const ctrl = tabControllers[tabId];
+
+		if (!ctrl) {
+			console.warn(
+				`Attempted to send event to controller for tab ${tabId}`);
+			return;
+		}
 
 		switch (request.type) {
 			case 'REQUEST_GET_SONG':
-				ctrl = getControllerByTabId(request.tabId);
-				if (ctrl) {
-					sendResponse(ctrl.getCurrentSong());
-				}
+				sendResponse(ctrl.getCurrentSong());
 				break;
 
 			case 'REQUEST_CORRECT_SONG':
-				ctrl = getControllerByTabId(request.tabId);
-				if (ctrl) {
-					ctrl.setUserSongData(request.data);
-				}
+				ctrl.setUserSongData(request.data);
 				break;
 
 			case 'REQUEST_TOGGLE_LOVE':
-				ctrl = getControllerByTabId(request.tabId);
-				if (ctrl) {
-					ctrl.toggleLove(request.data.isLoved).then(() => {
-						sendResponse(request.data.isLoved);
-					});
-				}
+				ctrl.toggleLove(request.data.isLoved).then(() => {
+					sendResponse(request.data.isLoved);
+				});
 				break;
 
 			case 'REQUEST_SKIP_SONG':
-				ctrl = getControllerByTabId(request.tabId);
-				if (ctrl) {
-					ctrl.skipCurrentSong();
-				}
+				ctrl.skipCurrentSong();
 				break;
 
 			case 'REQUEST_RESET_SONG':
-				ctrl = getControllerByTabId(request.tabId);
-				if (ctrl) {
-					ctrl.resetSongData();
-				}
+				ctrl.resetSongData();
 				break;
-
-			case 'REQUEST_AUTHENTICATE': {
-				let scrobblerLabel = request.scrobbler;
-				let scrobbler = ScrobbleService.getScrobblerByLabel(scrobblerLabel);
-				if (scrobbler) {
-					authenticateScrobbler(scrobbler);
-				}
-				break;
-			}
 		}
-
-		return true;
 	}
 
 	/**
@@ -169,7 +152,7 @@ require([
 	function onPortMessage(message, sender) {
 		switch (message.type) {
 			case 'EVENT_STATE_CHANGED': {
-				let ctrl = getControllerByTabId(sender.tab.id);
+				let ctrl = tabControllers[sender.tab.id];
 				if (ctrl) {
 					ctrl.onStateChanged(message.data);
 				}
@@ -250,7 +233,7 @@ require([
 	function updateContextMenu(tabId) {
 		chrome.contextMenus.removeAll();
 
-		let controller = getControllerByTabId(tabId);
+		let controller = tabControllers[tabId];
 		if (!controller) {
 			return;
 		}
