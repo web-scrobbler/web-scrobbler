@@ -17,6 +17,9 @@ module.exports = {
 		'Require': true,
 		'define': true
 	},
+	'plugins': [
+		'jsdoc',
+	],
 	'rules': {
 		/**
 		 * Possible errors
@@ -28,13 +31,6 @@ module.exports = {
 		'no-console': 'off',
 		// Disallow template literal placeholder syntax in regular string
 		'no-template-curly-in-string': 'error',
-		// Enforce valid JSDoc comments
-		'valid-jsdoc': ['error', {
-			'prefer': {
-				'arg': 'param', 'argument': 'param', 'returns': 'return',
-			},
-			'requireReturn': false
-		}],
 
 		/**
 		 * Best practices
@@ -139,5 +135,25 @@ module.exports = {
 		'prefer-template': 'error',
 		// Disallow spacing around embedded expressions of template strings
 		'template-curly-spacing': 'error',
-	}
+
+		'jsdoc/check-syntax': 1,
+		'jsdoc/check-tag-names': 1,
+		'jsdoc/check-types': [1, { 'noDefaults': true, }],
+		'jsdoc/require-param': 1,
+		'jsdoc/require-param-description': 1,
+		'jsdoc/require-param-name': 1,
+		'jsdoc/require-param-type': 1,
+		'jsdoc/require-returns-check': 1,
+		'jsdoc/require-returns-description': 1,
+		'jsdoc/require-returns-type': 1,
+		'jsdoc/valid-types': 1,
+	},
+	'settings': {
+		'jsdoc': {
+			'tagNamePreference': {
+				'class': 'constructor',
+				'returns': 'return',
+			},
+		}
+	},
 };

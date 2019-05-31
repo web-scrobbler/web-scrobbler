@@ -12,6 +12,7 @@
     "@octokit/rest": "~16.25.0",
     "chai": "^4.0.0",
     "chromedriver": "~74.0.0",
+    "eslint-plugin-jsdoc": "^7.2.3",
     "firefox-extension-deploy": "^1.1.0",
     "grunt": "^1.0.1",
     "grunt-bump": "~0.8.0",
