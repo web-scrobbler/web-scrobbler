@@ -37,14 +37,10 @@ function initPropsForNewUI() {
 
 	Connector.albumSelector = `${playerBarSelector} [class*=MetadataPosterTitle-title] > a:nth-child(3)`;
 
-	/*
-	 * Don't use `playerBarSelector` to get track art
-	 * in both normal and expanded players.
-	 */
-	Connector.trackArtSelector = '[class^=PosterCardImg-imageContainer] div';
-
 	Connector.timeInfoSelector = `${playerBarSelector} [class*=DurationRemaining-container]`;
 
+	// @ifndef FIREFOX
+	// NOTE: Blob URLs used in Plex aren't supported by Firefox 67 and older.
 	Connector.getTrackArt = () => {
 		let trackArtEl = $(`${playerBarSelector} [class^=PosterCardImg-imageContainer] div`);
 		if (trackArtEl.length === 0) {
@@ -54,6 +50,7 @@ function initPropsForNewUI() {
 		const elStyle = trackArtEl.css('background-image');
 		return Util.extractUrlFromCssProperty(elStyle);
 	};
+	// @endif
 
 	Connector.isPlaying = () => {
 		return $(`${playerBarSelector} [data-qa-id="pauseButton"]`).length > 0;
