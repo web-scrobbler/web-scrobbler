@@ -395,7 +395,7 @@ require([
 			console.warn('No scrobblers are bound');
 
 			if (await isAuthNotificationAllowed()) {
-				let authUrl = chrome.runtime.getURL('/options/options.html#accounts');
+				let authUrl = chrome.runtime.getURL('/options/index.html#accounts');
 				try {
 					await Notifications.showAuthNotification(() => {
 						chrome.tabs.create({ url: authUrl });
