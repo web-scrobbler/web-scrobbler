@@ -11,7 +11,7 @@ Connector.isPlaying = () => isPlaying;
 
 Connector.getCurrentState = () => currentState;
 
-Connector.onScriptEvent = function(event) {
+Connector.onScriptEvent = (event) => {
 	switch (event.data.type) {
 		case 'start':
 			isPlaying = true;
@@ -25,13 +25,8 @@ Connector.onScriptEvent = function(event) {
 	currentState = event.data.trackInfo;
 	currentState.isPlaying = isPlaying;
 
-	this.onStateChanged();
-// @ifndef FIREFOX
+	Connector.onStateChanged();
 };
-// @endif
-/* @ifdef FIREFOX
-}.bind(Connector);
-/* @endif */
 
 Connector.injectScript('connectors/vk-dom-inject.js');
 
