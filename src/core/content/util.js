@@ -26,7 +26,6 @@ const Util = {
 	/**
 	 * Extract artist and track from Youtube video title.
 	 * @param  {String} videoTitle Youtube video title
-	 * @param  {Array} separators Array of separators
 	 * @return {Object} Object contains artist and track fields
 	 */
 	processYoutubeVideoTitle(videoTitle) {

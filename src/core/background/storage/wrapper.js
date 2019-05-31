@@ -19,7 +19,6 @@ define((require) => {
 
 		/**
 		 * Read data from storage.
-		 * @param  {String} key Key to get
 		 * @return {Promise} Promise this will resolve when the task will complete
 		 */
 		get() {
@@ -65,7 +64,6 @@ define((require) => {
 		/**
 		 * Extend saved data by given one.
 		 * @param  {Object} data Data to add
-		 * @return {Promise} Promise this will resolve when the task will complete
 		 */
 		async update(data) {
 			const storageData = await this.get();
