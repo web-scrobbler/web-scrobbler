@@ -87,6 +87,14 @@ See the [license file](LICENSE.md).
 
 [15]: https://addons.mozilla.org/en-US/firefox/addon/web-scrobbler/
 
+[16]: http://getbootstrap.com/2.3.2/assets/bootstrap.zip
+
+[17]: https://fontawesome.com/v4.7.0/assets/font-awesome-4.7.0.zip
+
+[18]: http://code.jquery.com/jquery-3.2.1.min.js
+
+[19]: http://requirejs.org/docs/release/2.3.5/minified/require.js
+
 [21]: https://www.transifex.com/web-scrobbler/web-scrobbler/dashboard/
 
 [22]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg
@@ -101,16 +109,8 @@ See the [license file](LICENSE.md).
 
 [27]: https://listenbrainz.org/
 
+[28]: https://github.com/showdownjs/showdown/archive/1.9.0.zip
+
 [29]: https://api.codacy.com/project/badge/Grade/bb2841f875014aaea6a354da6c96bdee
 
-[30]: https://www.codacy.com/app/inverse/web-scrobbler
-
-[16]: http://getbootstrap.com/2.3.2/assets/bootstrap.zip
-
-[17]: http://fontawesome.io/assets/font-awesome-4.7.0.zip
-
-[18]: http://code.jquery.com/jquery-3.2.1.min.js
-
-[19]: http://requirejs.org/docs/release/2.3.5/minified/require.js
-
-[28]: https://github.com/showdownjs/showdown/archive/1.9.0.zip
+[30]: https://app.codacy.com/project/web-scrobbler/web-scrobbler/dashboard
