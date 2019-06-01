@@ -29,7 +29,7 @@ function configureRequireJs() {
  */
 function getTestReporter() {
 	if (options.getTestMode() === 'core') {
-		return 'spec';
+		return 'progress';
 	}
 
 	return options.get('debug') ? 'spec' : 'tap';
