@@ -211,30 +211,31 @@ define((require) => {
 		 * @param  {Boolean} signed Should the request be signed?
 		 * @return {Object} Parsed response
 		 */
-		sendRequest(method, params, signed) {
-			let url = this.makeRequestUrl(params, signed);
+		async sendRequest(method, params, signed) {
+			const url = this.makeRequestUrl(params, signed);
 
-			let promise = fetch(url, { method }).then((response) => {
-				return response.text().then((text) => {
-					let $doc = $($.parseXML(text));
-					let debugMsg = hideUserData($doc, text);
+			const promise = fetch(url, { method });
+			const timeout = BaseScrobbler.REQUEST_TIMEOUT;
 
-					if (!response.ok) {
-						this.debugLog(`${params.method} response:\n${debugMsg}`, 'error');
-						throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
-					}
-
-					this.debugLog(`${params.method} response:\n${debugMsg}`);
-					return $doc;
-				});
-			}).catch(() => {
+			let text = null;
+			let response = null;
+			try {
+				response = await Util.timeoutPromise(timeout, promise);
+				text = await response.text();
+			} catch (e) {
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
-			});
+			}
 
-			let timeout = BaseScrobbler.REQUEST_TIMEOUT;
-			return Util.timeoutPromise(timeout, promise).catch(() => {
+			let $doc = $($.parseXML(text));
+			let debugMsg = hideUserData($doc, text);
+
+			if (!response.ok) {
+				this.debugLog(`${params.method} response:\n${debugMsg}`, 'error');
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
-			});
+			}
+
+			this.debugLog(`${params.method} response:\n${debugMsg}`);
+			return $doc;
 		}
 
 		/**

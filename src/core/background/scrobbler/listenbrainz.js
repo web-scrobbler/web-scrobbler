@@ -97,7 +97,7 @@ define((require) => {
 			return this.sendRequest(params, sessionID);
 		}
 
-		sendRequest(params, sessionID) {
+		async sendRequest(params, sessionID) {
 			let requestInfo = {
 				method: 'POST',
 				headers: {
@@ -107,30 +107,32 @@ define((require) => {
 				body: JSON.stringify(params)
 			};
 
-			let promise = fetch(this.apiUrl, requestInfo).then((response) => {
-				switch (response.status) {
-					case 400:
-						this.debugLog('Invalid JSON sent to ListenBrainz', 'error');
-						throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
-					case 401:
-						this.debugLog('Invalid Authorization sent to ListenBrainz', 'error');
-						throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
-				}
+			const promise = fetch(this.apiUrl, requestInfo);
+			const timeout = BaseScrobbler.REQUEST_TIMEOUT;
 
-				return response.text();
-			}).then((text) => {
-				this.debugLog(text);
-				return new ServiceCallResult(ServiceCallResult.OK);
-			}).catch((error) => {
-				this.debugLog(error.text(), 'warn');
-				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
-			});
+			let text = null;
+			let response = null;
 
-			let timeout = BaseScrobbler.REQUEST_TIMEOUT;
-			return Util.timeoutPromise(timeout, promise).catch(() => {
-				this.debugLog('TIMED OUT', 'warn');
+			try {
+				response = await Util.timeoutPromise(timeout, promise);
+				text = await response.text();
+			} catch (e) {
+				this.debugLog('Error while sending request', 'error');
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
-			});
+			}
+
+			switch (response.status) {
+				case 400:
+					this.debugLog('Invalid JSON sent', 'error');
+					throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+				case 401:
+					this.debugLog('Invalid Authorization sent', 'error');
+					throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+			}
+
+			this.debugLog(text);
+
+			return text;
 		}
 
 		async requestSession() {
