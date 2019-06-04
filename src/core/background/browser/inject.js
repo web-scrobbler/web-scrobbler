@@ -39,12 +39,12 @@ define((require) => {
 				let scripts = connector.js.slice(0);
 
 				scripts.unshift('core/content/connector.js');
-				scripts.unshift('core/content/util.js');
 				scripts.unshift('core/content/filter.js');
 				scripts.unshift('core/content/reactor.js');
 				// @ifdef DEBUG
 				scripts.unshift('core/content/reporter.js');
 				// @endif
+				scripts.unshift('core/content/util.js');
 				scripts.unshift('vendor/jquery.min.js');
 
 				// Needs to be the last script injected

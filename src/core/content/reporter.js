@@ -49,12 +49,12 @@ const TestReporter = { // eslint-disable-line no-unused-vars
 	 *    data: Connector state
 	 */
 	sendEventToTest(detail, data) {
-		let logMessage = `Web Scrobbler: Send "${detail}" event`;
+		let logMessage = `Send "${detail}" event`;
 		if (data) {
 			let dataStr = JSON.stringify(data, null, 2);
 			logMessage = `${logMessage}: ${dataStr}`;
 		}
-		console.log(logMessage);
+		Util.debugLog(logMessage);
 
 		document.dispatchEvent(new CustomEvent('web-scrobbler-test-response', {
 			detail: { detail, data }

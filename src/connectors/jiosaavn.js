@@ -56,7 +56,7 @@ function requestSongInfo() {
 		fetchSongInfo(trackInfoUrl).then((data) => {
 			songInfo = data;
 		}).catch((err) => {
-			console.error(`Error: ${err}`);
+			Util.debugLog(`Error: ${err}`, 'error');
 		});
 
 		lastTrackInfoUrl = trackInfoUrl;

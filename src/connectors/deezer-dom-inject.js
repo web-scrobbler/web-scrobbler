@@ -12,7 +12,7 @@ function initConnector() {
 			retries++;
 		}, 1007);
 	} else {
-		console.log('web-scrobbler: Failed to initialize deezer connector!');
+		Util.debugLog('Failed to initialize deezer connector!', 'warn');
 	}
 }
 

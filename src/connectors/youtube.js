@@ -121,7 +121,7 @@ function getVideoCategory(videoId) {
 
 		fetchCategoryId(videoId).then((category) => {
 			if (category === null) {
-				console.log(`Failed to resolve category for ${videoId}`);
+				Util.debugLog(`Failed to resolve category for ${videoId}`, 'warn');
 			}
 
 			categoryCache.set(videoId, category);
@@ -198,12 +198,12 @@ function setupMutationObserver() {
 			videoElement.on('timeupdate', Connector.onStateChanged);
 			isEventListenerSetUp = true;
 
-			console.log('Web Scrobbler: Setup "timeupdate" event listener');
+			Util.debugLog('Setup "timeupdate" event listener');
 		} else {
 			Connector.resetState();
 			isEventListenerSetUp = false;
 
-			console.warn('Web Scrobbler: Video element is missing');
+			Util.debugLog('Video element is missing', 'warn');
 		}
 	}
 

@@ -74,7 +74,7 @@ function setupConnector() {
 	} else if (isBandPage()) {
 		setupBandPagePlayer();
 	} else {
-		console.log('FairPriceMusic connector: unknown player');
+		Util.debugLog('Unknown player', 'warn');
 	}
 }
 

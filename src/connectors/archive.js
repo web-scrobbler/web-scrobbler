@@ -11,7 +11,7 @@ switch (version) {
 		break;
 
 	default:
-		console.log('Unable to match version. Please report at https://github.com/web-scrobbler/web-scrobbler/issues');
+		Util.debugLog('Unable to match version. Please report at https://github.com/web-scrobbler/web-scrobbler/issues', 'warn');
 		break;
 }
 

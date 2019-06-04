@@ -1,7 +1,5 @@
 'use strict';
 
-/* globals MetadataFilter, TestReporter, Util */
-
 /**
  * Connector base object.
  *

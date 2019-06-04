@@ -52,6 +52,8 @@ function typeOfTrack(trackContainer) {
 	if ($(trackContainer).is('li') && $(trackContainer).parent().hasClass('chart')) {
 		return PLAYER_TYPES.CHART;
 	}
+
+	Util.debugLog('Player not found', 'warn');
 	return PLAYER_TYPES.UNKNOWN;
 }
 
@@ -68,9 +70,6 @@ Connector.getTrack = () => {
 			return $(track).find('.track a').text();
 		case PLAYER_TYPES.ARCHIVED:
 			return $(track).find('li:last-child .pr8 a.f24').text();
-		case PLAYER_TYPES.UNKNOWN:
-		default:
-			console.log('ResidentAdvisor connector: player not found');
 	}
 };
 
@@ -87,9 +86,6 @@ Connector.getArtist = () => {
 			return $(track).find('.artist a').text();
 		case PLAYER_TYPES.ARCHIVED:
 			return $(track).find('li:last-child .pr8 div.f24').first().text();
-		case PLAYER_TYPES.UNKNOWN:
-		default:
-			console.log('ResidentAdvisor connector: player not found');
 	}
 };
 

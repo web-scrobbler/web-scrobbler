@@ -21,12 +21,6 @@ function setupEventListeners() {
 			for (let moduleid in modules) {
 				if (modules.hasOwnProperty(moduleid)) {
 					let el = _require(moduleid);
-					/*
-					 * console.group('moduleid: ' + moduleid);
-					 * console.dir(el);
-					 * console.groupEnd();
-					 */
-
 					// playManager used to get current playing song when song starts on page load
 					if (typeof el.playCurrent === 'function') {
 						playManager = el;

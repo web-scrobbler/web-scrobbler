@@ -364,6 +364,22 @@ const Util = {
 	},
 
 	/**
+	 * Print debug message with prefixed "Web Scrobbler" string.
+	 * @param  {String} text Debug message
+	 * @param  {String} logType Log type
+	 */
+	debugLog(text, logType = 'log') {
+		const logFunc = console[logType];
+
+		if (typeof(logFunc) !== 'function') {
+			throw new Error(`Unknown log type: ${logType}`);
+		}
+
+		const message = `Web Scrobbler: ${text}`;
+		logFunc(message);
+	},
+
+	/**
 	 * Regular expression used to get Youtube video ID from URL. It covers
 	 * default, shortened and embed URLs.
 	 * @type {RegExp}

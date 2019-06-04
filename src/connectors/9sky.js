@@ -20,7 +20,6 @@ Connector.artistSelector = '.musicright_box3 a, #name_h3 a:last-child';
 Connector.trackArtSelector = '#playimg';
 
 Connector.getUniqueID = () => {
-	// console.log($('audio').prop('currentTime'));
 	let text = $('.li1 img').parents('ul').attr('id');
 	let match = /id=(\d+)/g.exec(location.search);
 	return text && `a${text.slice(4)}` ||

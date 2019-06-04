@@ -26,7 +26,7 @@ class Reactor { // eslint-disable-line no-unused-vars
 
 		this.port = chrome.runtime.connect({ name: 'content-script' });
 		this.port.onDisconnect.addListener(() => {
-			console.log('Web Scrobbler: port is closed');
+			Util.debugLog('Port is closed', 'warn');
 			this.connector.reactorCallback = null;
 		});
 	}
