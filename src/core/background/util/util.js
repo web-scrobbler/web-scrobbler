@@ -120,8 +120,23 @@ define((require) => {
 		});
 	}
 
+	/**
+	 * Print debug message.
+	 * @param  {String} text Debug message
+	 * @param  {String} logType Log type
+	 */
+	function debugLog(text, logType = 'log') {
+		const logFunc = console[logType];
+
+		if (typeof(logFunc) !== 'function') {
+			throw new Error(`Unknown log type: ${logType}`);
+		}
+
+		logFunc(text);
+	}
+
 	return {
-		getCurrentTab, timeoutPromise, getPlatformName, openTab,
+		debugLog, getCurrentTab, timeoutPromise, getPlatformName, openTab,
 		hideString, hideStringInText, isFullscreenMode, getSortedConnectors,
 	};
 });

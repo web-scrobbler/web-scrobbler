@@ -1,6 +1,7 @@
 'use strict';
 
 define((require) => {
+	const Util = require('util/util');
 	const ChromeStorage = require('storage/chrome-storage');
 
 	/**
@@ -233,22 +234,11 @@ define((require) => {
 		/**
 		 * Helper function to show debug output.
 		 * @param  {String} text Debug message
-		 * @param  {String} type Log type
+		 * @param  {String} logType Log type
 		 */
-		debugLog(text, type = 'log') {
-			let message = `${this.label}: ${text}`;
-
-			switch (type) {
-				case 'log':
-					console.log(message);
-					break;
-				case 'warn':
-					console.warn(message);
-					break;
-				case 'error':
-					console.error(message);
-					break;
-			}
+		debugLog(text, logType = 'log') {
+			const message = `${this.label}: ${text}`;
+			Util.debugLog(message, logType);
 		}
 	}
 

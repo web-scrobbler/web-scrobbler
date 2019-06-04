@@ -574,22 +574,11 @@ define((require) => {
 		/**
 		 * Print debug message with prefixed tab ID.
 		 * @param  {String} text Debug message
-		 * @param  {String} type Log type
+		 * @param  {String} logType Log type
 		 */
-		debugLog(text, type = 'log') {
-			let message = `Tab ${this.tabId}: ${text}`;
-
-			switch (type) {
-				case 'log':
-					console.log(message);
-					break;
-				case 'warn':
-					console.warn(message);
-					break;
-				case 'error':
-					console.error(message);
-					break;
-			}
+		debugLog(text, logType = 'log') {
+			const message = `Tab ${this.tabId}: ${text}`;
+			Util.debugLog(message, logType);
 		}
 	}
 
