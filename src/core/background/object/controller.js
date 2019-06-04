@@ -5,7 +5,6 @@ define((require) => {
 	const Util = require('util/util');
 	const Song = require('object/song');
 	const Timer = require('object/timer');
-	const browser = require('webextension-polyfill');
 	const Pipeline = require('pipeline/pipeline');
 	const Notifications = require('browser/notifications');
 	const BrowserAction = require('browser/browser-action');
@@ -181,6 +180,15 @@ define((require) => {
 		}
 
 		/**
+		 * Called if current song is updated.
+		 * @param  {Object} song Updated song
+		 */
+		// eslint-disable-next-line no-unused-vars
+		onSongUpdated(song) {
+			throw new Error('This function must be overriden!');
+		}
+
+		/**
 		 * React on state change.
 		 * @param {Object} newState State of connector
 		 */
@@ -328,7 +336,7 @@ define((require) => {
 					if (value) {
 						this.debugLog(`Song finished processing: ${this.currentSong.toString()}`);
 						this.onProcessed();
-						this.notifySongIsUpdated();
+						this.onSongUpdated(this.currentSong);
 					} else {
 						this.debugLog(`Song unprocessed: ${this.currentSong.toString()}`);
 						this.onUnProcessed();
@@ -441,21 +449,6 @@ define((require) => {
 		}
 
 		/**
-		 * Notify other modules song is updated.
-		 */
-		async notifySongIsUpdated() {
-			try {
-				await browser.runtime.sendMessage({
-					type: 'EVENT_SONG_UPDATED',
-					data: this.currentSong.getCloneableData(),
-					tabId: this.tabId
-				});
-			} catch (e) {
-				// Suppress errors
-			}
-		}
-
-		/**
 		 * Check if song is changed by given connector state.
 		 * @param  {Object} newState Connector state
 		 * @return {Boolean} Check result
@@ -543,7 +536,7 @@ define((require) => {
 				this.currentSong.flags.isScrobbled = true;
 				this.pageAction.setSongScrobbled(this.currentSong);
 
-				this.notifySongIsUpdated();
+				this.onSongUpdated(this.currentSong);
 
 				GA.event('core', 'scrobble', this.connector.label);
 			} else if (areAllResults(results, ServiceCallResult.IGNORED)) {

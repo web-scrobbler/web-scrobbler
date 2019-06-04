@@ -181,7 +181,20 @@ require([
 				unloadController(tabId);
 
 				let enabled = result.type === InjectResult.MATCHED_AND_INJECTED;
-				tabControllers[tabId] = new Controller(tabId, result.connector, enabled);
+				const ctrl = new Controller(tabId, result.connector, enabled);
+				ctrl.onSongUpdated = async(song) => {
+					try {
+						await browser.runtime.sendMessage({
+							tabId,
+							type: 'EVENT_SONG_UPDATED',
+							data: song.getCloneableData(),
+						});
+					} catch (e) {
+						// Suppress errors
+					}
+				};
+				tabControllers[tabId] = ctrl;
+
 				browser.tabs.sendMessage(tabId, { type: 'EVENT_READY' });
 
 				GA.event('core', 'inject', result.connector.label);
