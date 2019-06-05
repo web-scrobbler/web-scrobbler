@@ -72,15 +72,15 @@ define((require) => {
 	 */
 	const CORE = 'Core';
 
-	const storageTypeMap = {};
+	const storageTypeMap = {
+		[CONNECTORS_OPTIONS]: SYNC,
+		[CUSTOM_PATTERNS]: SYNC,
+		[NOTIFICATIONS]: SYNC,
+		[LOCAL_CACHE]: SYNC,
 
-	storageTypeMap[CONNECTORS_OPTIONS] = SYNC;
-	storageTypeMap[CUSTOM_PATTERNS] = SYNC;
-	storageTypeMap[NOTIFICATIONS] = SYNC;
-	storageTypeMap[OPTIONS] = SYNC;
-
-	storageTypeMap[LOCAL_CACHE] = LOCAL;
-	storageTypeMap[CORE] = LOCAL;
+		[LOCAL_CACHE]: SYNC,
+		[CORE]: SYNC,
+	};
 
 	/**
 	 * Return storage by given namespace according storage type map.
