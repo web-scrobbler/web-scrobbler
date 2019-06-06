@@ -119,7 +119,7 @@ define((require) => {
 		 */
 		skipCurrentSong() {
 			if (!this.currentSong) {
-				return;
+				throw new Error('No song is now playing');
 			}
 
 			this.pageAction.setSongSkipped(this.currentSong);
@@ -153,16 +153,18 @@ define((require) => {
 		 * @param {Object} data Object contains song data
 		 */
 		async setUserSongData(data) {
-			if (this.currentSong) {
-				if (this.currentSong.flags.isScrobbled) {
-					this.debugLog('Attempted to enter user data for already scrobbled song', 'warn');
-					return;
-				}
+			if (!this.currentSong) {
+				throw new Error('No song is now playing');
+			}
 
-				if (isSongDataChanged(this.currentSong, data)) {
-					await LocalCacheStorage.saveSongData(this.currentSong, data);
-					await this.processSong();
-				}
+			if (this.currentSong.flags.isScrobbled) {
+				this.debugLog('Attempted to enter user data for already scrobbled song', 'warn');
+				return;
+			}
+
+			if (isSongDataChanged(this.currentSong, data)) {
+				await LocalCacheStorage.saveSongData(this.currentSong, data);
+				await this.processSong();
 			}
 		}
 
