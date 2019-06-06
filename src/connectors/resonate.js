@@ -1,4 +1,4 @@
-'use strict';
+	'use strict';
 
 Connector.playerSelector = '.player-component';
 
@@ -11,5 +11,5 @@ Connector.currentTimeSelector = `${Connector.playerSelector} .currentTime`;
 Connector.durationSelector = `${Connector.playerSelector} .duration`;
 
 Connector.isPlaying = () => {
-	return $('.play-button use').attr('xlink:href') === '#icon-pause';
+	return !$('.play-button svg').hasClass('icon-play');
 };
