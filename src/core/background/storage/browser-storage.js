@@ -78,7 +78,7 @@ define((require) => {
 		[NOTIFICATIONS]: SYNC,
 		[LOCAL_CACHE]: SYNC,
 
-		[LOCAL_CACHE]: SYNC,
+		[OPTIONS]: SYNC,
 		[CORE]: SYNC,
 	};
 
