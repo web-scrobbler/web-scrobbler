@@ -15,29 +15,44 @@
 	}
 	window.STARTER_LOADED = true;
 
-	// Warnings to help developers with their custom connectors
-	if (typeof(Connector) === 'undefined' || !(Connector instanceof BaseConnector)) {
+	if (isConnectorInvalid()) {
+		// Warnings to help developers with their custom connectors
 		Util.debugLog(
 			'You have overwritten or unset the Connector object', 'warn');
 		return;
 	}
 
-	// Observe state and communicates with background script.
-	new Reactor(Connector);
+	setupStateListening();
+	// @ifdef DEBUG
+	setupTestEventListener();
+	// @endif
 
-	// Set up Mutation observing as a default state change detection
-	if (Connector.playerSelector !== null) {
+	/* Internal functions. */
+
+	function isConnectorInvalid() {
+		return typeof(Connector) === 'undefined' || !(Connector instanceof BaseConnector);
+	}
+
+	function setupStateListening() {
+		// Observe state and communicates with background script.
+		new Reactor(Connector);
+
+		// Set up Mutation observing as a default state change detection
+		if (Connector.playerSelector === null) {
+			/**
+			 * Player selector is not provided, current connector needs
+			 * to detect state changes on its own.
+			 */
+			Util.debugLog(
+				'Connector.playerSelector is empty. The current connector is expected to manually detect state changes', 'info');
+			return;
+		}
+
 		Util.debugLog('Setting up observer');
 
 		let observeTarget = document.querySelector(Connector.playerSelector);
-		let observer = new MutationObserver(Connector.onStateChanged);
-		let observerConfig = {
-			childList: true, subtree: true,
-			attributes: true, characterData: true
-		};
-
 		if (observeTarget !== null) {
-			observer.observe(observeTarget, observerConfig);
+			setupObserver(observeTarget);
 		} else {
 			// Unable to get player element; wait until it is on the page.
 			Util.debugLog(
@@ -49,8 +64,7 @@
 					Util.debugLog(`Found ${Connector.playerSelector} using second MutationObserver.`);
 
 					playerObserver.disconnect();
-
-					observer.observe(observeTarget, observerConfig);
+					setupObserver(observeTarget);
 					// @ifdef DEBUG
 					TestReporter.reportPlayerElementExists();
 					// @endif
@@ -63,30 +77,35 @@
 			};
 			playerObserver.observe(document, playerObserverConfig);
 		}
-	} else {
-		/**
-		 * Player selector is not provided, current connector needs
-		 * to detect state changes on its own.
-		 */
-		Util.debugLog(
-			'Connector.playerSelector is empty. The current connector is expected to manually detect state changes', 'info');
+	}
+
+	function setupObserver(observeTarget) {
+		const observer = new MutationObserver(Connector.onStateChanged);
+		const observerConfig = {
+			childList: true, subtree: true,
+			attributes: true, characterData: true
+		};
+
+		observer.observe(observeTarget, observerConfig);
 	}
 
 	// @ifdef DEBUG
-	/**
-	 * Setup event listener to wait an event from the test suite. The test suite will send
-	 * this event after configuring the test capture. That means we can start to send events
-	 * to the test suite.
-	 */
-	Util.debugLog(
-		'Web Scrobbler: waiting for test capture to be configured', 'info');
-	document.addEventListener('web-scrobbler-test-capture-setup', () => {
-		TestReporter.reportInjection(Connector);
-	});
+	function setupTestEventListener() {
+		/**
+		 * Setup event listener to wait an event from the test suite. The test suite will send
+		 * this event after configuring the test capture. That means we can start to send events
+		 * to the test suite.
+		 */
+		Util.debugLog(
+			'Web Scrobbler: waiting for test capture to be configured', 'info');
+		document.addEventListener('web-scrobbler-test-capture-setup', () => {
+			TestReporter.reportInjection(Connector);
+		});
 
-	/**
-	 * In addition, send events w/o waiting for the extension event.
-	 */
-	TestReporter.reportInjection(Connector);
+		/**
+		 * In addition, send events w/o waiting for the extension event.
+		 */
+		TestReporter.reportInjection(Connector);
+	}
 	// @endif
 })();
