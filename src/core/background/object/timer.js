@@ -20,7 +20,7 @@ define(() => {
 			 * Target seconds.
 			 * @type {Number}
 			 */
-			this.target = null;
+			this.targetSeconds = null;
 			/**
 			 * Start time in seconds.
 			 * @type {Number}
@@ -48,28 +48,6 @@ define(() => {
 			this.hasTriggered = false;
 
 			this.clearTrigger();
-		}
-
-		/**
-		 * Trigger timer in given seconds.
-		 * @param {Number} seconds Seconds
-		 */
-		setTrigger(seconds) {
-			this.clearTrigger();
-			this.timeoutId = setTimeout(() => {
-				this.callback();
-				this.hasTriggered = true;
-			}, seconds * 1000);
-		}
-
-		/**
-		 * Clear internal timeout.
-		 */
-		clearTrigger() {
-			if (this.timeoutId) {
-				clearTimeout(this.timeoutId);
-			}
-			this.timeoutId = null;
 		}
 
 		/**
@@ -103,8 +81,8 @@ define(() => {
 				this.spentPaused += now() - this.pausedOn;
 				this.pausedOn = null;
 
-				if (!this.hasTriggered && this.target !== null) {
-					this.setTrigger(this.target - this.getElapsed());
+				if (!this.hasTriggered && this.targetSeconds !== null) {
+					this.setTrigger(this.targetSeconds - this.getElapsed());
 				}
 			}
 		}
@@ -126,16 +104,61 @@ define(() => {
 		update(seconds) {
 			// only if timer was started
 			if (this.startedOn !== null) {
-				this.target = seconds;
+				this.targetSeconds = seconds;
 
 				if (seconds !== null) {
 					if (this.pausedOn === null) {
-						this.setTrigger(this.target - this.getElapsed());
+						this.setTrigger(this.targetSeconds - this.getElapsed());
 					}
 				} else {
 					this.clearTrigger();
 				}
 			}
+		}
+
+		/**
+		 * Return remaining seconds or null if no destination time is set.
+		 * @return {Number} Remaining seconds
+		 */
+		getRemainingSeconds() {
+			if (this.targetSeconds === null) {
+				return null;
+			}
+
+			return this.targetSeconds - this.getElapsed();
+		}
+
+		/**
+		 * Check if timer is expired. Expired timer has negative remaining time.
+		 * @return {Boolean} Check result
+		 */
+		isExpired() {
+			const remainingSeconds = this.getRemainingSeconds();
+			return remainingSeconds !== null && remainingSeconds < 0;
+		}
+
+		/* Internal functions. */
+
+		/**
+		 * Trigger timer in given seconds.
+		 * @param {Number} seconds Seconds
+		 */
+		setTrigger(seconds) {
+			this.clearTrigger();
+			this.timeoutId = setTimeout(() => {
+				this.callback();
+				this.hasTriggered = true;
+			}, seconds * 1000);
+		}
+
+		/**
+		 * Clear internal timeout.
+		 */
+		clearTrigger() {
+			if (this.timeoutId) {
+				clearTimeout(this.timeoutId);
+			}
+			this.timeoutId = null;
 		}
 
 		/**
@@ -151,26 +174,6 @@ define(() => {
 			}
 
 			return val;
-		}
-
-		/**
-		 * Check if current timer has already triggered its callback.
-		 * @return {Boolean} True is timer is triggered
-		 */
-		hasTriggered() {
-			return this.hasTriggered;
-		}
-
-		/**
-		 * Return remaining (unpaused) seconds or null if no destination time is set.
-		 * @return {Number} Remaining seconds
-		 */
-		getRemainingSeconds() {
-			if (this.target === null) {
-				return null;
-			}
-
-			return this.target - this.getElapsed();
 		}
 	}
 

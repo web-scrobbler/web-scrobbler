@@ -366,12 +366,11 @@ define((require) => {
 				 */
 				if (this.currentSong.parsed.isPlaying) {
 					/*
-					 * If remainedSeconds < 0, then the extension
+					 * If playback timer is expired, then the extension
 					 * will scrobble song immediately, and there's no need
 					 * to set song as now playing.
 					 */
-					const remainedSeconds = this.playbackTimer.getRemainingSeconds();
-					if (remainedSeconds > 0) {
+					if (!this.playbackTimer.isExpired()) {
 						this.setSongNowPlaying();
 					}
 
