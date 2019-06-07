@@ -10,6 +10,19 @@ define((require) => {
 	const InjectResult = require('object/inject-result');
 	const CustomPatterns = require('storage/custom-patterns');
 
+	const CONTENT_SCRIPTS = [
+		'vendor/jquery.min.js',
+		'vendor/browser-polyfill.min.js',
+		'core/content/util.js',
+		// @ifdef DEBUG
+		'core/content/reporter.js',
+		// @endif
+		'core/content/reactor.js',
+		'core/content/filter.js',
+		'core/content/connector.js',
+	];
+	const STARTER_SCRIPT = 'core/content/starter.js';
+
 	/**
 	 * Ping the loaded page and checks if there is already loaded connector.
 	 * If no connector is loaded, inject content scripts.
@@ -42,18 +55,10 @@ define((require) => {
 	 * @return {Object} InjectResult value
 	 */
 	async function injectScripts(tabId, connector) {
-		const scripts = connector.js.slice(0);
-		scripts.unshift('core/content/connector.js');
-		scripts.unshift('core/content/filter.js');
-		scripts.unshift('core/content/reactor.js');
-		// @ifdef DEBUG
-		scripts.unshift('core/content/reporter.js');
-		// @endif
-		scripts.unshift('core/content/util.js');
-		scripts.unshift('vendor/browser-polyfill.min.js');
-		scripts.unshift('vendor/jquery.min.js');
-		// Needs to be the last script injected
-		scripts.push('core/content/starter.js');
+		const scripts = [
+			...CONTENT_SCRIPTS, ...connector.js, STARTER_SCRIPT
+		];
+		console.log(scripts);
 
 		for (const script of scripts) {
 			const injectDetails = {
