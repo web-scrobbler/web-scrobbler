@@ -747,10 +747,6 @@ define(function() {
 		matches: ['*://www.emusic.com/*'],
 		js: ['connectors/emusic.js'],
 	}, {
-		label: 'Torch Music',
-		matches: ['*://music.torchbrowser.com/*'],
-		js: ['connectors/torchbrowser.js']
-	}, {
 		label: 'LyricsTraining',
 		matches: ['*://lyricstraining.com/*'],
 		js: ['connectors/lyricstraining.js'],
