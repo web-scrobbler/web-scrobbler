@@ -76,10 +76,10 @@ define((require) => {
 		[CONNECTORS_OPTIONS]: SYNC,
 		[CUSTOM_PATTERNS]: SYNC,
 		[NOTIFICATIONS]: SYNC,
-		[LOCAL_CACHE]: SYNC,
-
 		[OPTIONS]: SYNC,
-		[CORE]: SYNC,
+
+		[LOCAL_CACHE]: LOCAL,
+		[CORE]: LOCAL,
 	};
 
 	/**
