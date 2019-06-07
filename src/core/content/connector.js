@@ -482,6 +482,9 @@ function BaseConnector() {
 		 */
 		let isPlaying = this.isPlaying();
 		if (isPlaying !== currentState.isPlaying) {
+			// @ifdef DEBUG
+			Util.debugLog(`isPlaying state changed to ${isPlaying}`);
+			// @endif
 			this.stateChangedWorker();
 		} else {
 			this.stateChangedWorkerThrottled();
@@ -626,10 +629,12 @@ function BaseConnector() {
 			}
 
 			// @ifdef DEBUG
-			let isNewSongPlaying = !(changedFields.length === 1 &&
-				changedFields.includes('currentTime'));
-			if (isNewSongPlaying) {
-				TestReporter.reportSongRecognition(filteredState);
+			const fields = ['artist', 'track', 'album', 'uniqueID'];
+			for (const field of fields) {
+				if (changedFields.includes(field)) {
+					TestReporter.reportSongRecognition(filteredState);
+					continue;
+				}
 			}
 			// @endif
 		}
