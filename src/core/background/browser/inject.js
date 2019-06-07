@@ -58,7 +58,6 @@ define((require) => {
 		const scripts = [
 			...CONTENT_SCRIPTS, ...connector.js, STARTER_SCRIPT
 		];
-		console.log(scripts);
 
 		for (const script of scripts) {
 			const injectDetails = {
