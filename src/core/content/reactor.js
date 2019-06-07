@@ -35,8 +35,6 @@ class Reactor { // eslint-disable-line no-unused-vars
 	 * Listener for runtime messages from the background script.
 	 *
 	 * @param {String} message Custom message
-	 * @param {Object} sender Message sender object
-	 * @param {Function} sendResponse Callback function
 	 */
 	onRuntimeMessage(message) {
 		switch (message.type) {
