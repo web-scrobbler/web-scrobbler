@@ -9,6 +9,7 @@
  * Does not track anything automatically.
  */
 define((require) => {
+	// eslint-disable-next-line no-unused-vars
 	const Options = require('storage/options');
 
 	const GA_URL = 'https://www.google-analytics.com/collect';
@@ -111,7 +112,12 @@ define((require) => {
 	 * @return {Boolean} True if GA is allowed; false otherwise
 	 */
 	async function isAllowed() {
+		/* @ifndef DEBUG
 		return !(await Options.getOption(Options.DISABLE_GA));
+		/* @endif */
+		/* @ifdef DEBUG */
+		return false;
+		/* @endif */
 	}
 
 	return { event, pageview };
