@@ -265,6 +265,19 @@ define((require) => {
 		}
 
 		/**
+		 * Check if song equals another song.
+		 * @param  {Object} song Song instance to compare
+		 * @return {Boolean} Check result
+		 */
+		equals(song) {
+			if (!song) {
+				return false;
+			}
+
+			return this.getUniqueId() === song.getUniqueId();
+		}
+
+		/**
 		 * Set default song data.
 		 */
 		resetSongData() {

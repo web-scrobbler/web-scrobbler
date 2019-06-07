@@ -280,11 +280,18 @@ define((require) => {
 
 		/**
 		 * Process song info change.
+		 * @param {Object} song Song instance
 		 * @param {Object} target Target object
 		 * @param {Object} key Property name
 		 * @param {Object} value Property value
 		 */
-		onSongDataChanged(target, key, value) {
+		onSongDataChanged(song, target, key, value) {
+			if (!song.equals(this.currentSong)) {
+				this.debugLog(
+					`Ignore change of ${key} prop of previous song`, 'warn');
+				return;
+			}
+
 			switch (key) {
 				/**
 				 * Respond to changes of not/playing and pause timer

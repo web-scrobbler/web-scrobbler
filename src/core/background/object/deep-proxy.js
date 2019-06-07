@@ -3,10 +3,11 @@
 define(() => {
 	/**
 	 * Create proxy handler which calls callback function on property change.
+	 * @param  {Object} obj Object to wrap
 	 * @param  {Function} cb Function is called on property change
 	 * @return {Object} Proxy handler object
 	 */
-	function makeHandler(cb) {
+	function makeHandler(obj, cb) {
 		return {
 			get(target, key) {
 				if (typeof target[key] === 'object' && target[key] !== null) {
@@ -20,7 +21,7 @@ define(() => {
 				if (prevValue !== value) {
 					Reflect.set(target, key, value);
 					if (typeof cb === 'function') {
-						cb(target, key, value);
+						cb(obj, target, key, value);
 					}
 				}
 
@@ -36,7 +37,7 @@ define(() => {
 	 * @return {Proxy} Proxy object
 	 */
 	function wrap(obj, cb) {
-		return new Proxy(obj, makeHandler(cb));
+		return new Proxy(obj, makeHandler(obj, cb));
 	}
 
 	return { wrap };
