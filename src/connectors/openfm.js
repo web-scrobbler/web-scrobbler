@@ -1,6 +1,6 @@
 'use strict';
 
-Connector.playerSelector = '#station-view';
+Connector.playerSelector = '#openfm-player';
 
 Connector.artistSelector = '#station-view .station-details > h3';
 
