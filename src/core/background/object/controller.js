@@ -310,22 +310,7 @@ define((require) => {
 				 * accordingly to get real elapsed time.
 				 */
 				case 'isPlaying': {
-					this.debugLog(`isPlaying state changed to ${value}`);
-
-					if (value) {
-						this.playbackTimer.resume();
-						this.replayDetectionTimer.resume();
-
-						// Maybe the song was not marked as playing yet
-						if (!this.currentSong.flags.isMarkedAsPlaying
-							&& this.currentSong.isValid()) {
-							this.setSongNowPlaying();
-							this.showNowPlayingNotification();
-						}
-					} else {
-						this.playbackTimer.pause();
-						this.replayDetectionTimer.pause();
-					}
+					this.onPlayingStateChanged();
 					break;
 				}
 
@@ -335,14 +320,7 @@ define((require) => {
 				 * page load and then corrected by user input.
 				 */
 				case 'isProcessed': {
-					if (value) {
-						this.debugLog(`Song finished processing: ${this.currentSong.toString()}`);
-						this.onProcessed();
-						this.onSongUpdated(this.currentSong);
-					} else {
-						this.debugLog(`Song unprocessed: ${this.currentSong.toString()}`);
-						this.onUnProcessed();
-					}
+					value ? this.onProcessed() : this.onUnprocessed();
 					break;
 				}
 			}
@@ -362,6 +340,9 @@ define((require) => {
 		 * are needed.
 		 */
 		onProcessed() {
+			this.debugLog(
+				`Song finished processing: ${this.currentSong.toString()}`);
+
 			if (this.currentSong.isValid()) {
 				// Processing cleans this flag
 				this.currentSong.flags.isMarkedAsPlaying = false;
@@ -401,17 +382,43 @@ define((require) => {
 			} else {
 				this.setSongNotRecognized();
 			}
+
+			this.onSongUpdated(this.currentSong);
 		}
 
 		/**
 		 * Called when song was already flagged as processed, but now is
 		 * entering the pipeline again.
 		 */
-		onUnProcessed() {
+		onUnprocessed() {
+			this.debugLog(`Song unprocessed: ${this.currentSong.toString()}`);
 			this.debugLog('Clearing playback timer destination time');
 
 			this.playbackTimer.update(null);
 			this.replayDetectionTimer.update(null);
+		}
+
+		/**
+		 * Called when playing state is changed.
+		 * @param {Object} value New playing state
+		 */
+		onPlayingStateChanged(value) {
+			this.debugLog(`isPlaying state changed to ${value}`);
+
+			if (value) {
+				this.playbackTimer.resume();
+				this.replayDetectionTimer.resume();
+
+				// Maybe the song was not marked as playing yet
+				if (!this.currentSong.flags.isMarkedAsPlaying
+					&& this.currentSong.isValid()) {
+					this.setSongNowPlaying();
+					this.showNowPlayingNotification();
+				}
+			} else {
+				this.playbackTimer.pause();
+				this.replayDetectionTimer.pause();
+			}
 		}
 
 		/**
