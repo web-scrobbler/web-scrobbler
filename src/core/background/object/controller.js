@@ -310,7 +310,7 @@ define((require) => {
 				 * accordingly to get real elapsed time.
 				 */
 				case 'isPlaying': {
-					this.onPlayingStateChanged();
+					this.onPlayingStateChanged(value);
 					break;
 				}
 
