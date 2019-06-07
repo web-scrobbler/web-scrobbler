@@ -38,15 +38,14 @@ class Reactor { // eslint-disable-line no-unused-vars
 	 * @param {Object} sender Message sender object
 	 * @param {Function} sendResponse Callback function
 	 */
-	onRuntimeMessage(message, sender, sendResponse) {
+	onRuntimeMessage(message) {
 		switch (message.type) {
 			/*
 			 * Background script calls this to see
 			 * if the script is already injected.
 			 */
 			case 'EVENT_PING':
-				sendResponse(true);
-				break;
+				return Promise.resolve(true);
 			// The controller is created and is ready to receive connector state
 			case 'EVENT_READY':
 				this.connector.onReady();
