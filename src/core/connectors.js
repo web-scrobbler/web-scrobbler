@@ -53,10 +53,6 @@ define(function() {
 		],
 		js: ['connectors/bandcamp.js'],
 	}, {
-		label: 'Jango',
-		matches: ['*://www.jango.com/*'],
-		js: ['connectors/jango.js']
-	}, {
 		label: 'Pandora',
 		matches: ['*://www.pandora.com/*'],
 		js: ['connectors/pandora.js'],
