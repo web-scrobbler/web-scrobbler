@@ -217,6 +217,14 @@ const YOUTUBE_TEST_DATA = [{
 	source: 'Track Title Live',
 	expected: 'Track Title'
 }, {
+	description: 'should remove (live) suffix',
+	source: 'Track Title (Live)',
+	expected: 'Track Title'
+}, {
+	description: 'should remove (live ...) suffix',
+	source: 'Track Title (Live at somewhere)',
+	expected: 'Track Title'
+}, {
 	description: 'should remove Full Album suffix',
 	source: 'Track Title Full Album',
 	expected: 'Track Title'
