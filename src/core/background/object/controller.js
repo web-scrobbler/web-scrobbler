@@ -518,8 +518,6 @@ define((require) => {
 				this.debugLog('Song isn\'t set as now playing');
 				this.pageAction.setError();
 			}
-
-			this.showNowPlayingNotification();
 		}
 
 		/**
