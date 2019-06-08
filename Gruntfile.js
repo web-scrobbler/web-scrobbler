@@ -218,10 +218,15 @@ module.exports = (grunt) => {
 		 * Configs of other tasks.
 		 */
 
-		exec: {
-			run_tests: {
-				cmd: (...args) => `node tests/runner.js ${args.join(' ')}`
-			}
+		mochacli: {
+			options: {
+				require: ['tests/requirejs-config'],
+				reporter: 'progress',
+			},
+			all: [
+				'tests/background/*.js',
+				'tests/content/*.js'
+			]
 		},
 	});
 
@@ -325,39 +330,9 @@ module.exports = (grunt) => {
 	});
 
 	/**
-	 * Run core or connectors tests.
-	 *
-	 * You can easily run all test by the following command:
-	 *   > grunt test
-	 *
-	 * To run core tests use 'core' as an argument:
-	 *   > grunt test:core
-	 *
-	 * Note: running core and connectors tests at the same time is not supported.
-	 *
-	 * You can specify tests you want to run as arguments:
-	 *   > grunt test:8tracks
-	 *   Run single test for 8tracks connector
-	 *
-	 *   > grunt test:hypem:dashradio
-	 *   Run tests for Hype Machine and Dash Radio connectors
-	 *
-	 * Also, you can use following options:
-	 *   - debug: enable debug mode. Disabled by default.
-	 *     Use true|on|1 value to enable and false|off|0 to disable debug mode.
-	 *   - quitOnEnd: close browser when all tests are completed. Enabled by default.
-	 *     Use true|on|1 value to enable and false|off|0 to disable this feature.
-	 *   - skip: skip given tests.
-	 *     Tests can be specified as string of tests filenames joined by comma.
-	 *
-	 * Of course, you can mix both options and tests in arguments:
-	 *   > grunt test:8tracks:debug=1
+	 * Run tests.
 	 */
-	grunt.registerTask('test', 'Run tests.', function(...args) {
-		grunt.task.run([
-			`exec:run_tests:${args.join(':')}`
-		]);
-	});
+	grunt.registerTask('test', ['mochacli']);
 
 	/**
 	 * Lint source code using linters specified below.
@@ -369,7 +344,7 @@ module.exports = (grunt) => {
 	/**
 	 * Register default task
 	 */
-	grunt.registerTask('default', ['lint', 'test:core']);
+	grunt.registerTask('default', ['lint', 'test']);
 
 	/**
 	 * Throw an error if the extension doesn't support given browser.

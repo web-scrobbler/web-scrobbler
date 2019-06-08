@@ -3,10 +3,6 @@ language: node_js
 sudo: false
 node_js:
   - '10.15.3'
-addons:
-  chrome: stable
-
-# script: ./scripts/run-tests.sh
 
 deploy:
   skip_cleanup: true
