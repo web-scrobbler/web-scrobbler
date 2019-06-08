@@ -10,6 +10,4 @@ Connector.currentTimeSelector = `${Connector.playerSelector} .currentTime`;
 
 Connector.durationSelector = `${Connector.playerSelector} .duration`;
 
-Connector.isPlaying = () => {
-	return !$('.play-button svg').hasClass('icon-play');
-};
+Connector.playButtonSelector = '.play-button svg.icon-play';
