@@ -633,7 +633,7 @@ function BaseConnector() {
 			for (const field of fields) {
 				if (changedFields.includes(field)) {
 					Util.debugLog(JSON.stringify(filteredState, null, 2));
-					continue;
+					break;
 				}
 			}
 			// @endif
