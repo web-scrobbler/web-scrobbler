@@ -374,10 +374,6 @@ define(function() {
 		matches: ['*://www.jazzradio.com/*'],
 		js: ['connectors/radiotunes.js'],
 	}, {
-		label: 'Far from Moscow',
-		matches: ['*://www.farfrommoscow.com/*'],
-		js: ['connectors/farfrommoscow.js'],
-	}, {
 		label: 'SomaFM',
 		matches: ['*://somafm.com/player/*'],
 		js: ['connectors/somafm.js'],
