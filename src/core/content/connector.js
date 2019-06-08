@@ -565,6 +565,15 @@ function BaseConnector() {
 		trackArt: null
 	};
 
+	// @ifdef DEBUG
+	/**
+	 * List of song fields used to check if song is changed. If any of
+	 * these fields are changed, the new song is playing.
+	 * @type {Array}
+	 */
+	const fieldsToCheckSongChange = ['artist', 'track', 'album', 'uniqueID'];
+	// @endif
+
 	/**
 	 * Gathered info about the current track for internal use.
 	 * @type {Object}
@@ -629,8 +638,7 @@ function BaseConnector() {
 			}
 
 			// @ifdef DEBUG
-			const fields = ['artist', 'track', 'album', 'uniqueID'];
-			for (const field of fields) {
+			for (const field of fieldsToCheckSongChange) {
 				if (changedFields.includes(field)) {
 					Util.debugLog(JSON.stringify(filteredState, null, 2));
 					break;
