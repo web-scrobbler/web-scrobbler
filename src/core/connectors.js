@@ -328,14 +328,6 @@ define(function() {
 		],
 		js: ['connectors/getworkdonemusic.js'],
 	}, {
-		label: 'Москва ФМ',
-		matches: ['*://moskva.fm/*'],
-		js: ['connectors/moskva.fm.js'],
-	}, {
-		label: 'Питер ФМ',
-		matches: ['*://piter.fm/*'],
-		js: ['connectors/moskva.fm.js'],
-	}, {
 		label: 'Jamendo',
 		matches: ['*://www.jamendo.com/*'],
 		js: ['connectors/jamendo.js'],
