@@ -15,7 +15,7 @@ const MANIFEST_FILE = 'src/manifest.json';
 const EXTENSION_SRC = [
 	'**/*',
 	// Skip files
-	'!content/testReporter.js', '!icons/*.svg',
+	'!icons/*.svg',
 ];
 const EXTENSION_DOCS = [
 	'README.md', 'LICENSE.md'

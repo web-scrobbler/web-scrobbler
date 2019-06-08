@@ -23,9 +23,6 @@
 	}
 
 	setupStateListening();
-	// @ifdef DEBUG
-	setupTestEventListener();
-	// @endif
 
 	/* Internal functions. */
 
@@ -65,9 +62,6 @@
 
 					playerObserver.disconnect();
 					setupObserver(observeTarget);
-					// @ifdef DEBUG
-					TestReporter.reportPlayerElementExists();
-					// @endif
 				}
 			});
 
@@ -88,24 +82,4 @@
 
 		observer.observe(observeTarget, observerConfig);
 	}
-
-	// @ifdef DEBUG
-	function setupTestEventListener() {
-		/**
-		 * Setup event listener to wait an event from the test suite. The test suite will send
-		 * this event after configuring the test capture. That means we can start to send events
-		 * to the test suite.
-		 */
-		Util.debugLog(
-			'Web Scrobbler: waiting for test capture to be configured', 'info');
-		document.addEventListener('web-scrobbler-test-capture-setup', () => {
-			TestReporter.reportInjection(Connector);
-		});
-
-		/**
-		 * In addition, send events w/o waiting for the extension event.
-		 */
-		TestReporter.reportInjection(Connector);
-	}
-	// @endif
 })();

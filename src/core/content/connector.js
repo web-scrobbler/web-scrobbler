@@ -632,7 +632,7 @@ function BaseConnector() {
 			const fields = ['artist', 'track', 'album', 'uniqueID'];
 			for (const field of fields) {
 				if (changedFields.includes(field)) {
-					TestReporter.reportSongRecognition(filteredState);
+					Util.debugLog(JSON.stringify(filteredState, null, 2));
 					continue;
 				}
 			}

@@ -14,9 +14,6 @@ define((require) => {
 		'vendor/jquery.min.js',
 		'vendor/browser-polyfill.min.js',
 		'core/content/util.js',
-		// @ifdef DEBUG
-		'core/content/reporter.js',
-		// @endif
 		'core/content/reactor.js',
 		'core/content/filter.js',
 		'core/content/connector.js',
