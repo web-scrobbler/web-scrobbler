@@ -13,6 +13,13 @@ define((require) => {
 	const LocalCacheStorage = require('storage/local-cache');
 
 	/**
+	 * List of song fields used to check if song is changed. If any of
+	 * these fields are changed, the new song is playing.
+	 * @type {Array}
+	 */
+	const fieldsToCheckSongChange = ['artist', 'track', 'album', 'uniqueID'];
+
+	/**
 	 * Number of seconds of playback before the track is scrobbled.
 	 * This value is used only if no duration was parsed or loaded.
 	 */
@@ -192,9 +199,10 @@ define((require) => {
 
 		/**
 		 * React on state change.
-		 * @param {Object} newState State of connector
+		 * @param {Object} currentState Connector state
+		 * @param {Array} changedFields List of changed fields
 		 */
-		onStateChanged(newState) {
+		onStateChanged(currentState, changedFields) {
 			if (!this.isEnabled) {
 				return;
 			}
@@ -203,7 +211,7 @@ define((require) => {
 			 * Empty state has same semantics as reset; even if isPlaying,
 			 * we don't have enough data to use.
 			 */
-			if (isStateEmpty(newState)) {
+			if (isStateEmpty(currentState)) {
 				if (this.currentSong) {
 					this.debugLog('Received empty state - resetting');
 
@@ -211,24 +219,24 @@ define((require) => {
 					this.resetState();
 				}
 
-				if (newState.isPlaying) {
-					this.debugLog(`State from connector doesn't contain enough information about the playing track: ${toString(newState)}`, 'warn');
+				if (currentState.isPlaying) {
+					this.debugLog(`State from connector doesn't contain enough information about the playing track: ${toString(currentState)}`, 'warn');
 				}
 
 				return;
 			}
 
-			let isSongChanged = this.isSongChanged(newState);
-			if (isSongChanged && !newState.isPlaying) {
+			let isSongChanged = this.isSongChanged(changedFields);
+			if (isSongChanged && !currentState.isPlaying) {
 				this.debugLog(
-					`Paused song detected: ${toString(newState)}`, 'warn');
+					`Paused state detected: ${toString(currentState)}`, 'warn');
 				return;
 			}
 
 			if (!isSongChanged && !this.isReplayingSong) {
-				this.processCurrentState(newState);
+				this.processCurrentState(currentState);
 			} else {
-				this.processNewState(newState);
+				this.processNewState(currentState);
 			}
 		}
 
@@ -458,17 +466,21 @@ define((require) => {
 
 		/**
 		 * Check if song is changed by given connector state.
-		 * @param  {Object} newState Connector state
+		 * @param {Array} changedFields List of changed fields
 		 * @return {Boolean} Check result
 		 */
-		isSongChanged(newState) {
+		isSongChanged(changedFields) {
 			if (!this.currentSong) {
 				return true;
 			}
-			return newState.artist !== this.currentSong.parsed.artist ||
-				newState.uniqueID !== this.currentSong.parsed.uniqueID ||
-				newState.track !== this.currentSong.parsed.track ||
-				newState.album !== this.currentSong.parsed.album;
+
+			for (const field of fieldsToCheckSongChange) {
+				if (changedFields.includes(field)) {
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		/**

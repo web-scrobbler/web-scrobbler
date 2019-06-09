@@ -150,7 +150,8 @@ require([
 			case 'EVENT_STATE_CHANGED': {
 				let ctrl = tabControllers[sender.tab.id];
 				if (ctrl) {
-					ctrl.onStateChanged(message.data);
+					ctrl.onStateChanged(
+						message.currentState, message.changedFields);
 				}
 				break;
 			}
