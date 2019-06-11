@@ -4,8 +4,12 @@
  * Tests for 'filter' module.
  */
 
-const expect = require('chai').expect;
+const chai = require('chai');
+const spies = require('chai-spies');
+const expect = chai.expect;
 const MetadataFilter = require('../../src/core/content/filter');
+
+chai.use(spies);
 
 /**
  * Test data is an array of objects. Each object must contain
@@ -363,20 +367,6 @@ const DECODE_HTML_ENTITIES_TEST_DATA = [{
 }];
 
 /**
- * Test data for testing extended filter.
- * @type {Array}
- */
-const EXTENDED_FILTER_TEST_DATA = [{
-	description: 'should do nothing with clean string',
-	source: 'Can\'t Kill Us',
-	expected: 'Can\'t Kill Us'
-}, {
-	description: 'should decode HTML entity and trim string',
-	source: 'Can&#039;t Kill Us ',
-	expected: 'Can\'t Kill Us'
-}];
-
-/**
  * Test data for testing 'MetadataFilter.removeZeroWidth' function.
  * @type {Array}
  */
@@ -530,13 +520,6 @@ const FILTERS_DATA = [{
 	fields: ['artist', 'track', 'album'],
 	testData: DECODE_HTML_ENTITIES_TEST_DATA,
 }, {
-	description: 'extended filter',
-	filter: new MetadataFilter({
-		all: MetadataFilter.decodeHtmlEntities
-	}).extend(MetadataFilter.getDefaultFilter()),
-	fields: ['artist', 'track', 'album'],
-	testData: EXTENDED_FILTER_TEST_DATA,
-}, {
 	description: 'removeDoubleTitle',
 	filter: new MetadataFilter({ track: MetadataFilter.removeDoubleTitle }),
 	fields: ['track'],
@@ -569,6 +552,33 @@ function testFilter(filter, fields, testData) {
 }
 
 /**
+ * Test extended filter.
+ */
+function testExtendedFilter() {
+	const func1 = chai.spy();
+	const func2 = chai.spy();
+
+	const filter1 = new MetadataFilter({ all: func1 });
+	const filter2 = new MetadataFilter({ all: func2 });
+
+	const filter = filter1.extend(filter2);
+
+	for (const field of ['artist', 'track', 'album']) {
+		describe(`${field} field`, () => {
+			filter.filterField(field, 'Test');
+
+			it('should call filter function of filter 1', () => {
+				expect(func1).to.have.been.called();
+			});
+
+			it('should call filter function of filter 2', () => {
+				expect(func2).to.have.been.called();
+			});
+		});
+	}
+}
+
+/**
  * Function that should not be called.
  * @throws {Error} if is called
  */
@@ -586,6 +596,10 @@ function runTests() {
 			testFilter(filter, fields, testData);
 		});
 	}
+
+	describe('Extended filter', () => {
+		testExtendedFilter();
+	});
 }
 
 runTests();

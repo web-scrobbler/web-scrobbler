@@ -11,6 +11,7 @@
   "devDependencies": {
     "@octokit/rest": "^16.0.0",
     "chai": "^4.0.0",
+    "chai-spies": "^1.0.0",
     "eslint-plugin-jsdoc": "^7.2.0",
     "firefox-extension-deploy": "^1.1.0",
     "grunt": "^1.0.0",
