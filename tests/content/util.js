@@ -203,6 +203,10 @@ const PROCESS_YOUTUBE_TITLE_DATA = [{
 	description: 'should process tracks with seperators without leading whitespace and quotes',
 	source: 'Artist: "Track Name"',
 	expected: { artist: 'Artist', track: 'Track Name' }
+}, {
+	description: 'should use title as track title',
+	source: 'Track Name',
+	expected: { artist: null, track: 'Track Name' }
 }];
 
 /**
@@ -355,9 +359,11 @@ function testIsArtistTrackEmpty() {
  * @param  {Array} testData Array of test data
  */
 function testFunction(func, testData) {
+	const boundFunc = func.bind(Util);
+
 	for (let data of testData) {
 		let { description, source, expected } = data;
-		let actual = func(source);
+		let actual = boundFunc(source);
 
 		it(description, function() {
 			expect(actual).to.be.equal(expected);

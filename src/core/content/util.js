@@ -39,7 +39,7 @@ const Util = {
 		let [artist, track] = [null, null];
 
 		// Try to match one of the regexps
-		for (let regExp of Util.youtubeTitleRegExps) {
+		for (let regExp of this.youtubeTitleRegExps) {
 			let artistTrack = title.match(regExp.pattern);
 			if (artistTrack) {
 				artist = artistTrack[regExp.groups.artist];
@@ -49,11 +49,11 @@ const Util = {
 		}
 
 		// No match? Try splitting, then.
-		if (Util.isArtistTrackEmpty({ artist, track })) {
+		if (this.isArtistTrackEmpty({ artist, track })) {
 			({ artist, track } = this.splitArtistTrack(title));
 		}
 
-		if (Util.isArtistTrackEmpty({ artist, track })) {
+		if (this.isArtistTrackEmpty({ artist, track })) {
 			track = title;
 		}
 
@@ -70,7 +70,7 @@ const Util = {
 			return null;
 		}
 
-		let match = videoUrl.match(Util.videoIdRegExp);
+		let match = videoUrl.match(this.videoIdRegExp);
 		if (match) {
 			return match[7];
 		}
