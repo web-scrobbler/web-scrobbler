@@ -39,6 +39,10 @@ const HIDE_STRING_DATA = [{
 	source: 'Sensitive Data',
 	expected: 'xxxxxtive Data'
 }, {
+	description: 'should hide short string',
+	source: 'Test',
+	expected: 'xxxx'
+}, {
 	description: 'should not fall on null value',
 	source: null,
 	expected: null
