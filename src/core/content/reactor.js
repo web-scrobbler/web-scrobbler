@@ -53,16 +53,14 @@ class Reactor { // eslint-disable-line no-unused-vars
 
 	/**
 	 * Listen for state changes on connector and determines further actions.
-	 * @param {Object} currentState Connector state
-	 * @param {Array} changedFields List of changed fields
+	 * @param {Object} state Connector state
 	 */
-	onStateChanged(currentState, changedFields) {
+	onStateChanged(state) {
 		/**
 		 * Send given state to background script. There is only single
 		 * message type for V2 connectors. Validation, submission and all
 		 * other procedures happen on background.
 		 */
-		const type = 'EVENT_STATE_CHANGED';
-		this.port.postMessage({ type, currentState, changedFields });
+		this.port.postMessage({ type: 'EVENT_STATE_CHANGED', data: state });
 	}
 }

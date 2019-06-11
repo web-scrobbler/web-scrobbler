@@ -199,10 +199,9 @@ define((require) => {
 
 		/**
 		 * React on state change.
-		 * @param {Object} currentState Connector state
-		 * @param {Array} changedFields List of changed fields
+		 * @param {Object} newState State of connector
 		 */
-		onStateChanged(currentState, changedFields) {
+		onStateChanged(newState) {
 			if (!this.isEnabled) {
 				return;
 			}
@@ -211,7 +210,7 @@ define((require) => {
 			 * Empty state has same semantics as reset; even if isPlaying,
 			 * we don't have enough data to use.
 			 */
-			if (isStateEmpty(currentState)) {
+			if (isStateEmpty(newState)) {
 				if (this.currentSong) {
 					this.debugLog('Received empty state - resetting');
 
@@ -219,24 +218,19 @@ define((require) => {
 					this.resetState();
 				}
 
-				if (currentState.isPlaying) {
-					this.debugLog(`State from connector doesn't contain enough information about the playing track: ${toString(currentState)}`, 'warn');
+				if (newState.isPlaying) {
+					this.debugLog(`State from connector doesn't contain enough information about the playing track: ${toString(newState)}`, 'warn');
 				}
 
 				return;
 			}
 
-			let isSongChanged = this.isSongChanged(changedFields);
-			if (isSongChanged && !currentState.isPlaying) {
-				this.debugLog(
-					`Paused state detected: ${toString(currentState)}`, 'warn');
-				return;
-			}
+			let isSongChanged = this.isSongChanged(newState);
 
 			if (!isSongChanged && !this.isReplayingSong) {
-				this.processCurrentState(currentState);
-			} else {
-				this.processNewState(currentState);
+				this.processCurrentState(newState);
+			} else if (newState.isPlaying) {
+				this.processNewState(newState);
 			}
 		}
 
@@ -466,16 +460,16 @@ define((require) => {
 
 		/**
 		 * Check if song is changed by given connector state.
-		 * @param {Array} changedFields List of changed fields
+		 * @param  {Object} newState Connector state
 		 * @return {Boolean} Check result
 		 */
-		isSongChanged(changedFields) {
+		isSongChanged(newState) {
 			if (!this.currentSong) {
 				return true;
 			}
 
 			for (const field of fieldsToCheckSongChange) {
-				if (changedFields.includes(field)) {
+				if (newState[field] !== this.currentSong.parsed[field]) {
 					return true;
 				}
 			}
