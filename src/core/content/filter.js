@@ -30,33 +30,6 @@ class MetadataFilter {
 	}
 
 	/**
-	 * Filter text using filters for artist metadata field.
-	 * @param  {String} text String to be filtered
-	 * @return {String} Filtered string
-	 */
-	filterArtist(text) {
-		return this.filterText(text, this.mergedFilterSet.artist);
-	}
-
-	/**
-	 * Filter text using filters for track metadata field.
-	 * @param  {String} text String to be filtered
-	 * @return {String} Filtered string
-	 */
-	filterTrack(text) {
-		return this.filterText(text, this.mergedFilterSet.track);
-	}
-
-	/**
-	 * Filter text using filters for album metadata field.
-	 * @param  {String} text String to be filtered
-	 * @return {String} Filtered string
-	 */
-	filterAlbum(text) {
-		return this.filterText(text, this.mergedFilterSet.album);
-	}
-
-	/**
 	 * Filter field using filters for given field.
 	 * @param  {String} field Metadata field
 	 * @param  {String} text String to be filtered

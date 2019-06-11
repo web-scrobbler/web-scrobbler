@@ -555,20 +555,13 @@ const FILTERS_DATA = [{
  * @param  {Array} testData Array of test data
  */
 function testFilter(filter, fields, testData) {
-	let filterFunctions = {
-		artist: filter.filterArtist.bind(filter),
-		track: filter.filterTrack.bind(filter),
-		album: filter.filterAlbum.bind(filter)
-	};
-
 	for (let field of fields) {
-		let filterFunction = filterFunctions[field];
-
 		describe(`${field} field`, function() {
 			for (let data of testData) {
 				let { description, source, expected } = data;
+				let actual = filter.filterField(field, source);
 				it(description, function() {
-					expect(expected).to.be.equal(filterFunction(source));
+					expect(expected).to.be.equal(actual);
 				});
 			}
 		});
