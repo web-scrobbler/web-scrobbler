@@ -116,7 +116,7 @@ define((require) => {
 	 * Called when something sent message to background script.
 	 * @param  {Any} request Message sent by the calling script
 	 */
-	function onMessage(request) {
+	async function onMessage(request) {
 		if (request.type === 'REQUEST_AUTHENTICATE') {
 			const scrobblerLabel = request.scrobbler;
 			const scrobbler = ScrobbleService.getScrobblerByLabel(scrobblerLabel);
@@ -140,15 +140,15 @@ define((require) => {
 
 		switch (request.type) {
 			case 'REQUEST_GET_SONG':
-				return Promise.resolve(ctrl.getCurrentSong());
+				return ctrl.getCurrentSong();
 
 			case 'REQUEST_CORRECT_SONG':
 				ctrl.setUserSongData(request.data);
 				break;
 
 			case 'REQUEST_TOGGLE_LOVE':
-				return ctrl.toggleLove(request.data.isLoved)
-					.then(() => request.data.isLoved);
+				await ctrl.toggleLove(request.data.isLoved);
+				return request.data.isLoved;
 
 			case 'REQUEST_SKIP_SONG':
 				ctrl.skipCurrentSong();
