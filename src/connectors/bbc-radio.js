@@ -1,5 +1,7 @@
 'use strict';
 
+// TODO: Remove this connector
+
 const nowPlayingSelector = '#now-playing .playlister';
 
 Connector.playerSelector = '.programme-details-wrapper';

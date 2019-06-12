@@ -165,7 +165,7 @@ define(function() {
 	}, {
 		label: 'BBC RadioPlayer',
 		matches: ['*://www.bbc.co.uk/radio/player/*'],
-		js: ['connectors/bbcradioplayer.js'],
+		js: ['connectors/bbc-radio.js'],
 	}, {
 		label: 'BBC Sounds',
 		matches: ['*://www.bbc.co.uk/sounds/play/*'],
