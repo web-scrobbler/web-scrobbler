@@ -6,10 +6,10 @@ Connector.artistSelector = '#player-nowplaying [href^="/artist/"]';
 
 Connector.trackSelector = '#player-nowplaying [href^="/track/"]';
 
-Connector.getTrackArt = () => {
-	let styleProperty = $('.thumb').attr('style');
-	return Util.extractUrlFromCssProperty(styleProperty);
-};
+// TODO: use '.haarp-active .thumb' as a second selector
+Connector.trackArtSelector = '.thumb';
+
+Connector.isTrackArtDefault = (url) => url.includes('solid_color');
 
 Connector.getUniqueID = () => {
 	let trackUrl = $('#player-nowplaying [href^="/track/"]').attr('href');
