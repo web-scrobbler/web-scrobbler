@@ -468,8 +468,7 @@ define(function() {
 		label: 'Evropa 2',
 		matches: ['*://onair.evropa2.cz/*'],
 		js: ['connectors/evropa2.js'],
-	},
-	{
+	}, {
 		label: 'Frekvence 1',
 		matches: ['*://vysilani.frekvence1.cz/*'],
 		js: ['connectors/frekvence1.js'],
@@ -525,8 +524,7 @@ define(function() {
 		label: 'Apidog',
 		matches: ['*://apidog.ru/*'],
 		js: ['connectors/apidog.js'],
-	},
-	{
+	}, {
 		label: 'RBMA Radio',
 		matches: ['*://www.redbullradio.com/*'],
 		js: ['connectors/redbullradio.js'],
@@ -660,8 +658,7 @@ define(function() {
 		label: 'QQ Music',
 		matches: ['*://y.qq.com/portal/*'],
 		js: ['connectors/qq-music.js'],
-	},
-	{
+	}, {
 		label: 'QQ Video',
 		matches: ['*://v.qq.com/x/*'],
 		js: ['connectors/qq-video.js']
@@ -676,18 +673,15 @@ define(function() {
 		label: 'Naver',
 		matches: ['*://playerui.music.naver.com/*'],
 		js: ['connectors/naver.js'],
-	},
-	{
+	}, {
 		label: 'olleh',
 		matches: ['*://www.ollehmusic.com/*'],
 		js: ['connectors/olleh.js'],
-	},
-	{
+	}, {
 		label: 'mnet',
 		matches: ['*://www.mnet.com/*'],
 		js: ['connectors/mnet.js'],
-	},
-	{
+	}, {
 		label: 'Soribada',
 		matches: ['*://www.soribada.com/*'],
 		js: ['connectors/soribada.js'],
