@@ -672,6 +672,7 @@ function BaseConnector() {
 					if (this.isTrackArtDefault(fieldValue)) {
 						fieldValue = null;
 					}
+					break;
 			}
 
 			filteredState[field] = fieldValue;
