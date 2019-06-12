@@ -586,5 +586,10 @@
   "optOut": {
     "message": "Opt out",
     "description": "Opt out"
+  },
+
+  "hotkeyToggleConnector": {
+    "message": "Toggle connector state",
+    "description": "Hotkey label"
   }
 }

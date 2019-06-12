@@ -33,6 +33,7 @@
  */
 require([
 	'webextension-polyfill',
+	'util/util',
 	'util/migrate',
 	'service/ga',
 	'browser/inject',
@@ -42,7 +43,7 @@ require([
 	'storage/options',
 	'object/scrobble-service',
 	'browser/notifications'
-], (browser, Migrate, GA, Inject, InjectResult, Controller, BrowserStorage, Options, ScrobbleService, Notifications) => {
+], (browser, Util, Migrate, GA, Inject, InjectResult, Controller, BrowserStorage, Options, ScrobbleService, Notifications) => {
 	/**
 	 * How many times to show auth notification.
 	 * @type {Number}
@@ -80,6 +81,8 @@ require([
 	 * Setup browser event listeners. Called on startup.
 	 */
 	function setupEventListeners() {
+		browser.commands.onCommand.addListener(onCommand);
+
 		browser.tabs.onUpdated.addListener(onTabUpdated);
 		browser.tabs.onRemoved.addListener(onTabRemoved);
 		browser.tabs.onActivated.addListener(onTabChanged);
@@ -90,6 +93,25 @@ require([
 				onPortMessage(message, port.sender);
 			});
 		});
+	}
+
+	async function onCommand(command) {
+		const tab = await Util.getCurrentTab();
+		const tabId = tab.id;
+
+		const ctrl = tabControllers[tabId];
+		if (!ctrl) {
+			return;
+		}
+
+		switch (command) {
+			case 'toggle-connector':
+				setConnectorState(ctrl, !ctrl.isEnabled);
+				break;
+			case 'disable-connector':
+				ctrl.setEnabled(false);
+				break;
+		}
 	}
 
 	/**
@@ -251,9 +273,7 @@ require([
 		if (controller.isEnabled) {
 			let title1 = browser.i18n.getMessage('menuDisableConnector', connector.label);
 			addContextMenuItem(title1, () => {
-				controller.setEnabled(false);
-				Options.setConnectorEnabled(connector.label, false);
-
+				setConnectorState(controller, false);
 				updateContextMenu(tabId);
 			});
 
@@ -265,8 +285,7 @@ require([
 		} else {
 			let title = browser.i18n.getMessage('menuEnableConnector', connector.label);
 			addContextMenuItem(title, () => {
-				controller.setEnabled(true);
-				Options.setConnectorEnabled(connector.label, true);
+				setConnectorState(controller, true);
 				updateContextMenu(tabId);
 			});
 		}
@@ -314,6 +333,13 @@ require([
 			controller.finish();
 			delete tabControllers[tabId];
 		}
+	}
+
+	function setConnectorState(ctrl, isEnabled) {
+		const connector = ctrl.getConnector();
+
+		ctrl.setEnabled(isEnabled);
+		Options.setConnectorEnabled(connector, isEnabled);
 	}
 
 	/**
