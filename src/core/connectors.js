@@ -322,7 +322,7 @@ define(function() {
 		js: ['connectors/radiotunes.js'],
 	}, {
 		label: 'Radio.com',
-		matches: ['*://player.radio.com*'],
+		matches: ['*://player.radio.com/*'],
 		js: ['connectors/radio.com.js'],
 	}, {
 		label: 'GetWorkDoneMusic',
@@ -466,7 +466,7 @@ define(function() {
 		js: ['connectors/sonerezh.js'],
 	}, {
 		label: 'Evropa 2',
-		matches: ['*://onair.evropa2.cz*'],
+		matches: ['*://onair.evropa2.cz/*'],
 		js: ['connectors/evropa2.js'],
 	},
 	{
