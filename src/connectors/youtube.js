@@ -32,7 +32,13 @@ Connector.getArtistTrack = () => {
 	if (byLineMatch) {
 		return { artist: byLineMatch[1], track: videoTitle };
 	}
-	return Util.processYoutubeVideoTitle(videoTitle);
+
+	let { artist, track } = Util.processYoutubeVideoTitle(videoTitle);
+	if (!artist) {
+		artist = $('#meta-contents #owner-name').text();
+	}
+
+	return { artist, track };
 };
 
 /*
