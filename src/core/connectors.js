@@ -209,7 +209,7 @@ define(function() {
 		js: ['connectors/reverbnation.js'],
 	}, {
 		label: 'Xiami',
-		matches: ['*://www.xiami.com/*'],
+		matches: ['*://*.xiami.com/*'],
 		js: ['connectors/xiami.js'],
 	}, {
 		label: 'NRK Radio',
