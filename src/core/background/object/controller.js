@@ -79,14 +79,9 @@ define((require) => {
 			if (flag) {
 				this.pageAction.setSiteSupported();
 			} else {
+				this.resetState();
+
 				this.pageAction.setSiteDisabled();
-			}
-
-			if (!flag && this.currentSong) {
-				this.playbackTimer.reset();
-				this.replayDetectionTimer.reset();
-
-				this.clearNowPlayingNotification();
 			}
 		}
 
