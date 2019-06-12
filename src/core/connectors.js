@@ -167,6 +167,10 @@ define(function() {
 		matches: ['*://www.bbc.co.uk/radio/player/*'],
 		js: ['connectors/bbcradioplayer.js'],
 	}, {
+		label: 'BBC Sounds',
+		matches: ['*://www.bbc.co.uk/sounds/play/*'],
+		js: ['connectors/bbc-sounds.js'],
+	}, {
 		label: 'Gaana',
 		matches: ['*://gaana.com/*'],
 		js: ['connectors/gaana.js'],
