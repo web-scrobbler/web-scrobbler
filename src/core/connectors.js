@@ -240,6 +240,10 @@ define(function() {
 		matches: ['*://ambientsleepingpill.com/'],
 		js: ['connectors/ambientsleepingpill.js'],
 	}, {
+		label: 'a.m. ambient',
+		matches: ['*://amambient.com/'],
+		js: ['connectors/ambientsleepingpill.js'],
+	}, {
 		label: 'Tidal',
 		matches: [
 			'*://listen.tidalhifi.com/*',
