@@ -285,32 +285,34 @@ module.exports = (grunt) => {
 	});
 
 	/**
-	 * Release new version for CI to pickup.
+	 * Release new version.
 	 *
-	 * @param {String} releaseType Release type that 'grunt-bump' supports
+	 * For this project Travis CI is configured to publish the extension
+	 * if new tag is pushed to the project repository.
+	 *
+	 * As a fallback, the extension can be released locally:
+	 * > grunt release:%type%:local
+	 *
+	 * @param {String} releaseType Release type supported by grunt-bump
+	 * @param {String} releaseType2 Release type (local or empty)
 	 */
-	grunt.registerTask('release', (releaseType) => {
+	grunt.registerTask('release', (releaseType, releaseType2) => {
 		if (!releaseType) {
 			grunt.fail.fatal('You should specify release type!');
 		}
 
-		grunt.task.run([`bump:${releaseType}`, 'github_release']);
-	});
+		let releaseTasks = [`bump:${releaseType}`, 'github_release'];
 
+		if (releaseType2) {
+			if (releaseType2 !== 'local') {
+				grunt.fail.fatal(`Unknown release type: ${releaseType2}`);
+			}
 
-	/**
-	 * Release new version locally and publish all packages.
-	 *
-	 * @param {String} releaseType Release type that 'grunt-bump' supports
-	 */
-	grunt.registerTask('release-local', (releaseType) => {
-		if (!releaseType) {
-			grunt.fail.fatal('You should specify release type!');
+			const publishTasks = ['publish:chrome', 'publish:firefox'];
+			releaseTasks = releaseTasks.concat(publishTasks);
 		}
 
-		grunt.task.run(`release:${releaseType}`);
-
-		grunt.task.run(['publish:chrome', 'publish:firefox']);
+		grunt.task.run(releaseTasks);
 	});
 
 	/**
