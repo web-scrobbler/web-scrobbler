@@ -22,25 +22,19 @@ define((require) => {
 
 	/**
 	 * Ping the loaded page and checks if there is already loaded connector.
-	 * If no connector is loaded, inject content scripts.
 	 *
 	 * @param {Number} tabId Tab ID
-	 * @param {Object} connector Connector match object
 	 *
-	 * @return {Object} InjectResult value
+	 * @return {Boolean} Check result
 	 */
-	async function pingAndInject(tabId, connector) {
+	async function isConnectorInjected(tabId) {
 		// Ping the content page to see if the script is already in place.
 		try {
 			await browser.tabs.sendMessage(tabId, { type: 'EVENT_PING' });
+			return true;
 		} catch (e) {
-			return injectScripts(tabId, connector);
+			return false;
 		}
-
-		console.log(
-			'Subsequent ajax navigation, the scripts are already injected');
-
-		return new InjectResult(InjectResult.ALREADY_INJECTED, connector);
 	}
 
 	/**
@@ -92,7 +86,6 @@ define((require) => {
 		// Asynchronously preload all custom patterns and then start matching
 		let customPatterns = await CustomPatterns.getAllPatterns();
 		for (let connector of connectors) {
-			let matchOk = false;
 			let patterns = connector.matches || [];
 
 			if (customPatterns[connector.label]) {
@@ -100,16 +93,13 @@ define((require) => {
 			}
 
 			for (let pattern of patterns) {
-				matchOk = matchOk || UrlMatch.test(tab.url, pattern);
-			}
+				if (UrlMatch.test(tab.url, pattern)) {
+					if (await isConnectorInjected(tab.id)) {
+						return new InjectResult(InjectResult.ALREADY_INJECTED, connector);
+					}
 
-			if (matchOk) {
-				/*
-				 * Checks if there's already injected connector
-				 * and injects it if needed.
-				 */
-				return pingAndInject(tab.id, connector);
-
+					return injectScripts(tab.id, connector);
+				}
 			}
 		}
 
