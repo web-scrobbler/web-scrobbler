@@ -111,6 +111,11 @@ require([
 			case 'disable-connector':
 				ctrl.setEnabled(false);
 				break;
+			case 'toggle-love': {
+				const song = ctrl.getCurrentSong();
+				ctrl.toggleLove(!song.metadata.userloved);
+				break;
+			}
 		}
 	}
 

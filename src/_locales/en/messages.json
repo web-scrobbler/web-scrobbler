@@ -591,5 +591,9 @@
   "hotkeyToggleConnector": {
     "message": "Toggle connector state",
     "description": "Hotkey label"
+  },
+  "hotkeyToggleLove": {
+    "message": "Love/unlove current song",
+    "description": "Hotkey label"
   }
 }

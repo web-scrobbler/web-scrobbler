@@ -41,6 +41,12 @@
         "default": "Alt+Shift+R"
       },
       "description": "__MSG_menuDisableUntilTabClosed__"
+    },
+    "toggle-love": {
+      "suggested_key": {
+        "default": "Alt+L"
+      },
+      "description": "__MSG_hotkeyToggleLove__"
     }
   },
 
