@@ -50,15 +50,12 @@ define((require) => {
 			...CONTENT_SCRIPTS, ...connector.js, STARTER_SCRIPT
 		];
 
-		for (const script of scripts) {
-			const injectDetails = {
-				file: script,
-				allFrames: connector.allFrames || false
-			};
+		for (const file of scripts) {
+			const allFrames = connector.allFrames || false;
 
-			console.log(`Injecting ${script}`);
+			console.log(`Injecting ${file}`);
 			try {
-				await browser.tabs.executeScript(tabId, injectDetails);
+				await browser.tabs.executeScript(tabId, { file, allFrames });
 			} catch (e) {
 				// Firefox throws an error if a content script returns no value.
 				console.error(e);
