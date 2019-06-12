@@ -447,5 +447,5 @@ define((require) => {
 		}
 	}
 
-    return { start };
+	return { start };
 });
