@@ -150,16 +150,15 @@ define((require) => {
 	 * @return {Number} Seconds to scrobble
 	 */
 	function getSecondsToScrobble(duration) {
-		if (duration && duration < MIN_TRACK_DURATION) {
+		if (!duration) {
+			return DEFAULT_SCROBBLE_TIME;
+		}
+
+		if (duration < MIN_TRACK_DURATION) {
 			return -1;
 		}
 
-		let scrobbleTime;
-		if (duration) {
-			scrobbleTime = Math.max(duration / 2);
-		} else {
-			scrobbleTime = DEFAULT_SCROBBLE_TIME;
-		}
+		const scrobbleTime = duration / 2;
 		return Math.min(scrobbleTime, MAX_SCROBBLE_TIME);
 	}
 
