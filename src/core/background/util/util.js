@@ -28,6 +28,11 @@ define((require) => {
 	const MAX_SCROBBLE_TIME = 240;
 
 	/**
+	 * Percentage of song duration to scrobble.
+	 */
+	const SCROBBLE_PERCENTAGE = 50;
+
+	/**
 	 * Return platform name.
 	 * @return {String} Platform name
 	 */
@@ -158,7 +163,7 @@ define((require) => {
 			return -1;
 		}
 
-		const scrobbleTime = duration / 2;
+		const scrobbleTime = Math.round(duration * SCROBBLE_PERCENTAGE / 100);
 		return Math.min(scrobbleTime, MAX_SCROBBLE_TIME);
 	}
 
