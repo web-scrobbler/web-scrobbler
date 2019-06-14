@@ -328,18 +328,8 @@ define((require) => {
 				// Processing cleans this flag
 				this.currentSong.flags.isMarkedAsPlaying = false;
 
-				let songDuration = this.currentSong.getDuration();
-				let secondsToScrobble = Util.getSecondsToScrobble(songDuration);
-
-				if (secondsToScrobble !== -1) {
-					this.playbackTimer.update(secondsToScrobble);
-					this.replayDetectionTimer.update(songDuration);
-
-					const remainedSeconds = this.playbackTimer.getRemainingSeconds();
-					this.debugLog(`The song will be scrobbled in ${remainedSeconds} seconds`);
-				} else {
-					this.debugLog('The song is too short to scrobble');
-				}
+				const duration = this.currentSong.getDuration();
+				this.onSongDurationChanged(duration);
 
 				/*
 				 * If the song is playing, mark it immediately;
@@ -473,17 +463,26 @@ define((require) => {
 			this.currentSong.parsed.duration = duration;
 
 			if (this.currentSong.isValid()) {
-				let secondsToScrobble = Util.getSecondsToScrobble(duration);
-				if (secondsToScrobble === -1) {
-					return;
-				}
+				this.debugLog(`Update duration: ${duration}`);
+				this.onSongDurationChanged(duration);
+			}
+		}
 
+		/**
+		 * Called when song duration is changed.
+		 * @param  {Number} duration Song duration in seconds
+		 */
+		onSongDurationChanged(duration) {
+			let secondsToScrobble = Util.getSecondsToScrobble(duration);
+
+			if (secondsToScrobble !== -1) {
 				this.playbackTimer.update(secondsToScrobble);
 				this.replayDetectionTimer.update(duration);
 
-				let remainedSeconds = this.playbackTimer.getRemainingSeconds();
-				this.debugLog(`Update duration: ${duration}`);
+				const remainedSeconds = this.playbackTimer.getRemainingSeconds();
 				this.debugLog(`The song will be scrobbled in ${remainedSeconds} seconds`);
+			} else {
+				this.debugLog('The song is too short to scrobble');
 			}
 		}
 
