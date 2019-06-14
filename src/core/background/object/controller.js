@@ -281,7 +281,7 @@ define((require) => {
 		 * @param {Object} newState Connector state
 		 */
 		processCurrentState(newState) {
-			if (this.currentSong && this.currentSong.flags.isSkipped) {
+			if (this.currentSong.flags.isSkipped) {
 				return;
 			}
 
