@@ -12,6 +12,22 @@ define((require) => {
 	const REPLACER_LEN = 5;
 
 	/**
+	 * Number of seconds of playback before the track is scrobbled.
+	 * This value is used only if no duration was parsed or loaded.
+	 */
+	const DEFAULT_SCROBBLE_TIME = 30;
+
+	/**
+	 * Minimum number of seconds of scrobbleable track.
+	 */
+	const MIN_TRACK_DURATION = 30;
+
+	/**
+	 * Max number of seconds of playback before the track is scrobbled.
+	 */
+	const MAX_SCROBBLE_TIME = 240;
+
+	/**
 	 * Return platform name.
 	 * @return {String} Platform name
 	 */
@@ -127,8 +143,29 @@ define((require) => {
 		logFunc(text);
 	}
 
+	/**
+	 * Return total number of seconds of playback needed for this track
+	 * to be scrobbled.
+	 * @param  {Number} duration Song duration
+	 * @return {Number} Seconds to scrobble
+	 */
+	function getSecondsToScrobble(duration) {
+		if (duration && duration < MIN_TRACK_DURATION) {
+			return -1;
+		}
+
+		let scrobbleTime;
+		if (duration) {
+			scrobbleTime = Math.max(duration / 2);
+		} else {
+			scrobbleTime = DEFAULT_SCROBBLE_TIME;
+		}
+		return Math.min(scrobbleTime, MAX_SCROBBLE_TIME);
+	}
+
 	return {
 		debugLog, getCurrentTab, timeoutPromise, getPlatformName, openTab,
 		hideString, hideStringInText, isFullscreenMode, getSortedConnectors,
+		getSecondsToScrobble,
 	};
 });

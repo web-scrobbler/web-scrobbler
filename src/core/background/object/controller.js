@@ -20,22 +20,6 @@ define((require) => {
 	const fieldsToCheckSongChange = ['artist', 'track', 'album', 'uniqueID'];
 
 	/**
-	 * Number of seconds of playback before the track is scrobbled.
-	 * This value is used only if no duration was parsed or loaded.
-	 */
-	const DEFAULT_SCROBBLE_TIME = 30;
-
-	/**
-	 * Minimum number of seconds of scrobbleable track.
-	 */
-	const MIN_TRACK_DURATION = 30;
-
-	/**
-	 * Max number of seconds of playback before the track is scrobbled.
-	 */
-	const MAX_SCROBBLE_TIME = 240;
-
-	/**
 	 * Now playing notification delay in milliseconds.
 	 */
 	const NOW_PLAYING_NOTIFICATION_DELAY = 5000;
@@ -344,8 +328,8 @@ define((require) => {
 				// Processing cleans this flag
 				this.currentSong.flags.isMarkedAsPlaying = false;
 
-				let secondsToScrobble = this.getSecondsToScrobble();
 				let songDuration = this.currentSong.getDuration();
+				let secondsToScrobble = Util.getSecondsToScrobble(songDuration);
 
 				if (secondsToScrobble !== -1) {
 					this.playbackTimer.update(secondsToScrobble);
@@ -489,13 +473,13 @@ define((require) => {
 			this.currentSong.parsed.duration = duration;
 
 			if (this.currentSong.isValid()) {
-				let secondsToScrobble = this.getSecondsToScrobble();
+				let secondsToScrobble = Util.getSecondsToScrobble(duration);
 				if (secondsToScrobble === -1) {
 					return;
 				}
 
-				this.playbackTimer.update(this.getSecondsToScrobble());
-				this.replayDetectionTimer.update(this.currentSong.getDuration());
+				this.playbackTimer.update(secondsToScrobble);
+				this.replayDetectionTimer.update(duration);
 
 				let remainedSeconds = this.playbackTimer.getRemainingSeconds();
 				this.debugLog(`Update duration: ${duration}`);
@@ -554,26 +538,6 @@ define((require) => {
 
 				this.pageAction.setError();
 			}
-		}
-
-		/**
-		 * Return total number of seconds of playback needed for this track
-		 * to be scrobbled.
-		 * @return {Number} Seconds to scrobble
-		 */
-		getSecondsToScrobble() {
-			let duration = this.currentSong.getDuration();
-			if (duration && duration < MIN_TRACK_DURATION) {
-				return -1;
-			}
-
-			let scrobbleTime;
-			if (duration) {
-				scrobbleTime = Math.max(duration / 2);
-			} else {
-				scrobbleTime = DEFAULT_SCROBBLE_TIME;
-			}
-			return Math.min(scrobbleTime, MAX_SCROBBLE_TIME);
 		}
 
 		/**
