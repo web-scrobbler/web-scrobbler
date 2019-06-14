@@ -155,7 +155,7 @@ define((require) => {
 	 * @return {Number} Seconds to scrobble
 	 */
 	function getSecondsToScrobble(duration) {
-		if (!duration) {
+		if (isDurationInvalid(duration)) {
 			return DEFAULT_SCROBBLE_TIME;
 		}
 
@@ -167,9 +167,21 @@ define((require) => {
 		return Math.min(scrobbleTime, MAX_SCROBBLE_TIME);
 	}
 
+	/**
+	 * Check if duration is not a valid number.
+	 * @param  {Any}  duration Duration in seconds
+	 * @return {Boolean} Check result
+	 */
+	function isDurationInvalid(duration) {
+		return !duration || typeof duration !== 'number' ||
+			isNaN(duration) || !isFinite(duration);
+	}
+
 	return {
 		debugLog, getCurrentTab, timeoutPromise, getPlatformName, openTab,
 		hideString, hideStringInText, isFullscreenMode, getSortedConnectors,
 		getSecondsToScrobble,
+
+		MIN_TRACK_DURATION, DEFAULT_SCROBBLE_TIME, MAX_SCROBBLE_TIME
 	};
 });

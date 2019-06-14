@@ -52,12 +52,67 @@ const HIDE_STRING_DATA = [{
 	expected: ''
 }];
 
+const GET_SECONDS_TO_SCROBBLE_DATA = [{
+	description: 'should return min time if duration is zero',
+	source: 0,
+	expected: Util.DEFAULT_SCROBBLE_TIME
+}, {
+	description: 'should return min time if duration is null',
+	source: null,
+	expected: Util.DEFAULT_SCROBBLE_TIME
+}, {
+	description: 'should return min time if duration type is not number',
+	source: 'duration',
+	expected: Util.DEFAULT_SCROBBLE_TIME
+}, {
+	description: 'should return min time if duration is NaN',
+	source: NaN,
+	expected: Util.DEFAULT_SCROBBLE_TIME
+}, {
+	description: 'should return min time if duration is +Infinity',
+	source: Infinity,
+	expected: Util.DEFAULT_SCROBBLE_TIME
+}, {
+	description: 'should return min time if duration is -Infinity',
+	source: -Infinity,
+	expected: Util.DEFAULT_SCROBBLE_TIME
+}, {
+	description: 'should return -1 for short songs',
+	source: Util.MIN_TRACK_DURATION - 1,
+	expected: -1
+}, {
+	description: 'should return half of song duration',
+	source: 190,
+	expected: 95
+}, {
+	description: 'should return max time for long songs',
+	source: Util.MAX_SCROBBLE_TIME * 2 + 1,
+	expected: Util.MAX_SCROBBLE_TIME
+}];
+
 /**
  * Run all tests.
  */
 function runTests() {
 	describe('hideString', testHideString);
 	describe('hideStringInText', testHideStringInText);
+	describe('getSecondsToScrobble', testGetSecondsToScrobble);
+}
+
+/**
+ * Test generic function.
+ * @param  {Function} func Function to test
+ * @param  {Object} testData Test data
+ */
+function testFunction(func, testData) {
+	for (let data of testData) {
+		let { description, source, expected } = data;
+		let actual = func(source);
+
+		it(description, () => {
+			expect(actual).to.be.equal(expected);
+		});
+	}
 }
 
 /**
@@ -78,14 +133,14 @@ function testHideStringInText() {
  * Test 'Util.hideString' function.
  */
 function testHideString() {
-	for (let data of HIDE_STRING_DATA) {
-		let { description, source, expected } = data;
-		let actual = Util.hideString(source);
+	testFunction(Util.hideString, HIDE_STRING_DATA);
+}
 
-		it(description, () => {
-			expect(actual).to.be.equal(expected);
-		});
-	}
+/**
+ * Test 'Util.getSecondsToScrobble' function.
+ */
+function testGetSecondsToScrobble() {
+	testFunction(Util.getSecondsToScrobble, GET_SECONDS_TO_SCROBBLE_DATA);
 }
 
 runTests();
