@@ -813,8 +813,11 @@ define(function() {
 		js: ['connectors/jetsetradio.live.js']
 	}, {
 		label: 'FIP',
-		matches: ['*://www.fipradio.fr/*'],
-		js: ['connectors/fipradio.js']
+		matches: [
+			'*://fip.fr/*',
+			'*://www.fipradio.fr/*' // TODO: remove this
+		],
+		js: ['connectors/fip.js']
 	}, {
 		label: 'RemixRotation',
 		matches: ['*://remixrotation.com/*'],
