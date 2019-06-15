@@ -19,10 +19,6 @@
  */
 define(function() {
 	return [{
-		label: 'Baidu Music',
-		matches: ['*://play.baidu.com/*'],
-		js: ['connectors/baidu.js'],
-	}, {
 		label: 'YouTube',
 		matches: ['*://www.youtube.com/*'],
 		js: ['connectors/youtube.js'],
