@@ -33,12 +33,11 @@ function getTrack() {
 				$('.track_info .title').first().text() ||
 				$('.trackTitle').first().text() ||
 				$('.collection-item-container.playing').find('.fav-track-static').first().text() ||
-				$('.waypoint-item-title').text() ||
-				$('.track_info .title');
+				$('.waypoint-item-title').text();
 	return track;
 }
 
-function isArtistLetious() {
+function isArtistLetious(artist, track) {
 	/*
 	 * Album page: true if all tracks contain a hyphen or vertical bar.
 	 * Example: http://tigersmilkrecords.bandcamp.com/album/peru-maravilloso-vintage-latin-tropical-cumbia
@@ -60,15 +59,15 @@ function isArtistLetious() {
 	 * Also takes into account misspelling of letious as letios
 	 * Example: http://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
 	 */
-	return /^letiou?s(\sArtists)?$/.test(getArtist()) &&
-		Util.findSeparator(getTrack(), separators) !== null;
+	return /^letiou?s(\sArtists)?$/.test(artist) &&
+		Util.findSeparator(track, separators) !== null;
 }
 
 Connector.getArtistTrack = () => {
 	let artist = getArtist();
 	let track = getTrack();
 
-	if (isArtistLetious()) {
+	if (isArtistLetious(artist, track)) {
 		return Util.splitArtistTrack(track, separators);
 	}
 	return { artist, track };
