@@ -709,10 +709,6 @@ define(function() {
 		],
 		js: ['connectors/bemusic.js'],
 	}, {
-		label: 'Loud.zone',
-		matches: ['*://loud.zone/*'],
-		js: ['connectors/bemusic.js'],
-	}, {
 		label: 'Discogs',
 		matches: ['*://www.discogs.com/*'],
 		js: ['connectors/youtube-embed.js'],
@@ -814,7 +810,7 @@ define(function() {
 	}, {
 		label: 'FIP',
 		matches: [
-			'*://fip.fr/*',
+			'*://www.fip.fr/*',
 			'*://www.fipradio.fr/*' // TODO: remove this
 		],
 		js: ['connectors/fip.js']
