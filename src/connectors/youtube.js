@@ -28,14 +28,16 @@ setupMutationObserver();
 
 Connector.getArtistTrack = () => {
 	const videoTitle = $('.html5-video-player .ytp-title-link').first().text();
-	const byLineMatch = $('#meta-contents #owner-name a').text().match(/(.+) - Topic/);
+	const ownerName = $('#meta-contents #owner-name a').text();
+
+	const byLineMatch = ownerName.match(/(.+) - Topic/);
 	if (byLineMatch) {
 		return { artist: byLineMatch[1], track: videoTitle };
 	}
 
 	let { artist, track } = Util.processYoutubeVideoTitle(videoTitle);
 	if (!artist) {
-		artist = $('#meta-contents #owner-name').text();
+		artist = ownerName;
 	}
 
 	return { artist, track };
