@@ -129,6 +129,34 @@ function testProcessedMetadataFields() {
 	}
 }
 
+function testEquals() {
+	const song1 = createSong({
+		artist: 'Artist', track: 'Title', album: 'Album',
+		uniqueID: 'uniqueId1'
+	});
+	const song2 = createSong({
+		artist: 'Artist', track: 'Title', album: 'Album',
+		uniqueID: 'uniqueId1'
+	});
+	const song3 = createSong({
+		artist: 'Artist', track: 'Title', album: 'Album',
+		uniqueID: 'uniqueId3'
+	});
+
+	it('should equal itself', () => {
+		expect(song1.equals(song1)).to.be.true;
+	});
+	it('should equal another song with the same uniqueId', () => {
+		expect(song1.equals(song2)).to.be.true;
+	});
+	it('should not equal song with the different uniqueId', () => {
+		expect(song1.equals(song3)).to.be.false;
+	});
+	it('should not equal non-song object', () => {
+		expect(song1.equals(null)).to.be.false;
+	});
+}
+
 /**
  * Test 'Song.isEmpty' function.
  */
@@ -193,6 +221,7 @@ function runTests() {
 	describe('parsedData', testParsedMetadataFields);
 	describe('processedData', testProcessedMetadataFields);
 
+	describe('testEquals', testEquals);
 	describe('isSongEmpty', testIsEmpty);
 	describe('getUniqueId', testGetUniqueId);
 	describe('getArtistTrackString', testGetArtistTrackString);
