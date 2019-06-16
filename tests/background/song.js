@@ -169,13 +169,13 @@ function testIsEmpty() {
 		];
 
 		for (let song of songs) {
-			expect(song.isEmpty()).to.be.equal(true);
+			expect(song.isEmpty()).to.be.true;
 		}
 	});
 
 	it('should return false if song has metadata', () => {
 		let song = createSong();
-		expect(song.isEmpty()).to.be.equal(false);
+		expect(song.isEmpty()).to.be.false;
 	});
 }
 
@@ -199,7 +199,7 @@ function testGetUniqueId() {
 
 	it('should not return unique ID if song is empty', () => {
 		let song = createSong({});
-		expect(song.getUniqueId()).to.be.equal(null);
+		expect(song.getUniqueId()).to.be.null;
 	});
 }
 
@@ -210,7 +210,7 @@ function testGetArtistTrackString() {
 	});
 	it('should return null value if song is empty', () => {
 		let song = createSong({ artist: null, track: null });
-		expect(song.getArtistTrackString()).to.be.equal(null);
+		expect(song.getArtistTrackString()).to.be.null;
 	});
 }
 
