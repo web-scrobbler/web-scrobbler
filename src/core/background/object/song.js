@@ -274,6 +274,10 @@ define((require) => {
 				return false;
 			}
 
+			if (typeof(song.getUniqueId) !== 'function') {
+				return false;
+			}
+
 			return this.getUniqueId() === song.getUniqueId();
 		}
 
