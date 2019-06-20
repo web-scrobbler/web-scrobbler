@@ -110,12 +110,12 @@ define((require) => {
 			const promise = fetch(this.apiUrl, requestInfo);
 			const timeout = BaseScrobbler.REQUEST_TIMEOUT;
 
-			let text = null;
+			let result = null;
 			let response = null;
 
 			try {
 				response = await Util.timeoutPromise(timeout, promise);
-				text = await response.text();
+				result = await response.json();
 			} catch (e) {
 				this.debugLog('Error while sending request', 'error');
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
@@ -130,9 +130,9 @@ define((require) => {
 					throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
 			}
 
-			this.debugLog(text);
+			this.debugLog(JSON.stringify(result, null, 2));
 
-			return text;
+			return this.processResult(result);
 		}
 
 		async requestSession() {
@@ -183,6 +183,15 @@ define((require) => {
 			}
 
 			return null;
+		}
+
+		processResult(result) {
+			if (result.status !== 'ok') {
+				return new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+
+			}
+
+			return new ServiceCallResult(ServiceCallResult.OK);
 		}
 
 		makeTrackMetadata(song) {
