@@ -58,7 +58,7 @@ define((require) => {
 	 * Base scrobbler does not define how and when to write in the storage;
 	 * it depends on module implementation or/and service features.
 	 *
-	 * Basic implementation relies on session data stored in the storage os it
+	 * Basic implementation relies on session data stored in the storage as it
 	 * described above.
 	 */
 	class BaseScrobbler {
@@ -101,7 +101,7 @@ define((require) => {
 		 * Implementation must return an auth URL.
 		 */
 		async getAuthUrl() {
-			throw new Error('No implemented');
+			throw new Error('Not implemented');
 		}
 
 		/**
@@ -110,7 +110,7 @@ define((require) => {
 		 * Implementation must return a session data.
 		 */
 		async getSession() {
-			throw new Error('No implemented');
+			throw new Error('Not implemented');
 		}
 
 		/**
@@ -131,7 +131,7 @@ define((require) => {
 		 * Implementation must return a check result as a boolean value.
 		 */
 		async isReadyForGrantAccess() {
-			throw new Error('No implemented');
+			throw new Error('Not implemented');
 		}
 
 		/** API requests */
@@ -142,7 +142,7 @@ define((require) => {
 		 * Implementation must return ServiceCallResult object as a result
 		 */
 		async sendNowPlaying(song) { // eslint-disable-line no-unused-vars
-			throw new Error('No implemented');
+			throw new Error('Not implemented');
 		}
 
 		/**
@@ -151,7 +151,7 @@ define((require) => {
 		 * Implementation must return ServiceCallResult object.
 		 */
 		async scrobble(song) { // eslint-disable-line no-unused-vars
-			throw new Error('No implemented');
+			throw new Error('Not implemented');
 		}
 
 		/**
@@ -161,7 +161,7 @@ define((require) => {
 		 * Implementation must return ServiceCallResult object.
 		 */
 		async toggleLove(song, isLoved) { // eslint-disable-line no-unused-vars
-			throw new Error('No implemented');
+			throw new Error('Not implemented');
 		}
 
 		/**
@@ -171,7 +171,7 @@ define((require) => {
 		 * Implementation must return object contains a song data.
 		 */
 		async getSongInfo(song) { // eslint-disable-line no-unused-vars
-			throw new Error('No implemented');
+			throw new Error('Not implemented');
 		}
 
 		/** Getters. */
