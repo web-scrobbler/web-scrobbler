@@ -31,21 +31,12 @@
 
   "commands": {
     "toggle-connector": {
-      "suggested_key": {
-        "default": "Alt+R"
-      },
       "description": "__MSG_hotkeyToggleConnector__"
     },
     "disable-connector": {
-      "suggested_key": {
-        "default": "Alt+Shift+R"
-      },
       "description": "__MSG_menuDisableUntilTabClosed__"
     },
     "toggle-love": {
-      "suggested_key": {
-        "default": "Alt+L"
-      },
       "description": "__MSG_hotkeyToggleLove__"
     }
   },
