@@ -589,7 +589,11 @@
   },
 
   "hotkeyToggleConnector": {
-    "message": "Toggle connector state",
+    "message": "Toggle scrobbling for current website",
+    "description": "Hotkey label"
+  },
+  "hotkeyDisableConnectorUntilClosed": {
+    "message": "Disable scrobbling for current website until tab is closed",
     "description": "Hotkey label"
   },
   "hotkeyToggleLove": {

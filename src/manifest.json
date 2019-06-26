@@ -34,7 +34,7 @@
       "description": "__MSG_hotkeyToggleConnector__"
     },
     "disable-connector": {
-      "description": "__MSG_menuDisableUntilTabClosed__"
+      "description": "__MSG_hotkeyDisableConnectorUntilClosed__"
     },
     "toggle-love": {
       "description": "__MSG_hotkeyToggleLove__"
