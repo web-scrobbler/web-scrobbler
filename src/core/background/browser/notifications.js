@@ -5,9 +5,10 @@ define((require) => {
 	const Util = require('util/util');
 	const Options = require('storage/options');
 
+	const manifest = chrome.runtime.getManifest();
 	const DEFAULT_OPTIONS_VALUES = {
 		type: 'basic',
-		iconUrl: browser.runtime.getURL('/icons/icon_chrome_128.png'),
+		iconUrl: browser.runtime.getURL(manifest.icons['128']),
 	};
 
 	/**
