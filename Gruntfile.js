@@ -1,6 +1,6 @@
 'use strict';
 
-const fs = require('fs');
+require('dotenv').config();
 
 const CHROME_EXTENSION_ID = 'hhinaapppaileiechjoiifaancjggfjm';
 const FIREFOX_EXTENSION_ID = '{799c0914-748b-41df-a25c-22d008f9e83f}';
@@ -41,10 +41,6 @@ const DOC_FILES = [
 ];
 
 const isTravisCi = (process.env.TRAVIS === 'true');
-
-const webStoreConfig = loadWebStoreConfig();
-const githubConfig = loadGithubConfig();
-const amoConfig = loadAmoConfig();
 
 module.exports = (grunt) => {
 	grunt.initConfig({
@@ -159,12 +155,12 @@ module.exports = (grunt) => {
 			}
 		},
 		github_release: {
-			token: githubConfig.token,
+			token: process.env.GITHUB_TOKEN,
 			version: '<%= manifest.version %>',
 		},
 		amo_upload: {
-			issuer: amoConfig.issuer,
-			secret: amoConfig.secret,
+			issuer: process.env.AMO_ISSUER,
+			secret: process.env.AMO_SECRET,
 			id: FIREFOX_EXTENSION_ID,
 			version: '<%= manifest.version %>',
 			src: PACKAGE_FILE,
@@ -173,9 +169,9 @@ module.exports = (grunt) => {
 			accounts: {
 				default: {
 					publish: true,
-					client_id: webStoreConfig.clientId,
-					client_secret: webStoreConfig.clientSecret,
-					refresh_token: webStoreConfig.refreshToken,
+					client_id: process.env.CHROME_CLIENT_ID,
+					client_secret: process.env.CHROME_CLIENT_SECRET,
+					refresh_token: process.env.CHROME_REFRESH_TOKEN,
 				},
 			},
 			extensions: {
@@ -367,65 +363,3 @@ module.exports = (grunt) => {
 		}
 	}
 };
-
-/**
- * Get JSON config.
- *
- * @param  {String} configPath Path to config file
- * @return {Object} Config object
- */
-function loadConfig(configPath) {
-	if (fs.existsSync(configPath)) {
-		return require(configPath);
-	}
-
-	return {};
-}
-
-/**
- * Get web store config.
- *
- * @return {Object} Config object
- */
-function loadWebStoreConfig() {
-	if (isTravisCi) {
-		return {
-			clientId: process.env.CHROME_CLIENT_ID,
-			clientSecret: process.env.CHROME_CLIENT_SECRET,
-			refreshToken: process.env.CHROME_REFRESH_TOKEN
-		};
-	}
-
-	return loadConfig('./.publish/web-store.json');
-}
-
-/**
- * Get github config.
- *
- * @return {Object} Config object
- */
-function loadGithubConfig() {
-	if (isTravisCi) {
-		return {
-			token: process.env.GITHUB_TOKEN,
-		};
-	}
-
-	return loadConfig('./.publish/github.json');
-}
-
-/**
- * Get Amo config.
- *
- * @return {Object} Config object
- */
-function loadAmoConfig() {
-	if (isTravisCi) {
-		return {
-			issuer: process.env.AMO_ISSUER,
-			secret: process.env.AMO_SECRET,
-		};
-	}
-
-	return loadConfig('./.publish/amo.json');
-}
