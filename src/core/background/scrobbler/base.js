@@ -167,7 +167,7 @@ define((require) => {
 		/**
 		 * Get song info.
 		 *
-		 * @param  {Song} song Song instance
+		 * @param  {Object} song Song instance
 		 * Implementation must return object contains a song data.
 		 */
 		async getSongInfo(song) { // eslint-disable-line no-unused-vars

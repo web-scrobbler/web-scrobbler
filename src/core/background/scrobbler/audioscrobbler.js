@@ -279,7 +279,7 @@ define((require) => {
 		/**
 		 * Process response and return service call result.
 		 * @param  {Object} $doc Response that parsed by jQuery
-		 * @return {ServiceCallResult} Response result
+		 * @return {Object} Response result
 		 */
 		static processResponse($doc) {
 			if ($doc.find('lfm').attr('status') !== 'ok') {

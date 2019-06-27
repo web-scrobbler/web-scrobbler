@@ -230,7 +230,7 @@ const Util = {
 	/**
 	 * Verify time value and return time as a Number object.
 	 * Return null value if time value is not a number.
-	 * @param  {Any} time Time value
+	 * @param  {Object} time Time value
 	 * @return {Number} time value as a Number object
 	 */
 	escapeBadTimeValues(time) {
@@ -353,7 +353,7 @@ const Util = {
 	 * Read connector option from storage.
 	 * @param  {String} connector Connector name
 	 * @param  {String} key Option key
-	 * @return {Any} Option value
+	 * @return {Object} Option value
 	 */
 	async getOption(connector, key) {
 		const data = await browser.storage.sync.get('Connectors');

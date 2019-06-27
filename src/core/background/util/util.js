@@ -169,7 +169,7 @@ define((require) => {
 
 	/**
 	 * Check if duration is not a valid number.
-	 * @param  {Any}  duration Duration in seconds
+	 * @param  {Object}  duration Duration in seconds
 	 * @return {Boolean} Check result
 	 */
 	function isDurationInvalid(duration) {

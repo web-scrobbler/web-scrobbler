@@ -83,7 +83,7 @@ class MetadataFilter {
 
 	/**
 	 * Convert given filters into array of filters.
-	 * @param  {Any} filters Array of filter functions or filter function
+	 * @param  {Object} filters Array of filter functions or filter function
 	 * @return {Array} Array of filter funcions
 	 */
 	createFilters(filters) {

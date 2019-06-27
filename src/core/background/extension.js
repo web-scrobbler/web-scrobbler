@@ -114,7 +114,7 @@ define((require) => {
 
 	/**
 	 * Called when something sent message to background script.
-	 * @param  {Any} request Message sent by the calling script
+	 * @param  {Object} request Message sent by the calling script
 	 */
 	async function onMessage(request) {
 		if (request.type === 'REQUEST_AUTHENTICATE') {
@@ -181,7 +181,7 @@ define((require) => {
 	 * Called when tab is updated.
 	 * @param  {Number} tabId Tab ID
 	 * @param  {Object} changeInfo Object contains changes of updated tab
-	 * @param  {Objeect} tab State of updated tab
+	 * @param  {Object} tab State of updated tab
 	 */
 	async function onTabUpdated(tabId, changeInfo, tab) {
 		// wait for navigation to complete (this does not mean page onLoad)

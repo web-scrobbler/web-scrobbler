@@ -8,7 +8,7 @@ define((require) => {
 	 */
 	class StorageWrapper {
 		/**
-		 * @param  {StorageArea} storage StorageArea object
+		 * @param  {Object} storage StorageArea object
 		 * @param  {String} namespace Storage namespace
 		 */
 		constructor(storage, namespace) {
