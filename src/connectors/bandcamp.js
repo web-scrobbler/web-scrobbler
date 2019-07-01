@@ -11,31 +11,114 @@ const filter = new MetadataFilter({
  * on the discover page will most likely not be recognized.
  */
 
-// wire audio element to fire state changes
-$('audio').bind('playing pause timeupdate', Connector.onStateChanged);
-
 const separators = [' - ', ' | '];
 
-function getArtist() {
-	let artist = $('.bcweekly.playing').next().find('.bcweekly-current .track-artist:first a').text() ||
-				$('.detail_item_link_2').text() ||
-				$('span[itemprop=byArtist]').text() ||
-				$('.detail-artist a').text() ||
-				null;
-	if (artist === null) {
-		artist = $('.waypoint-artist-title').text().substr(3);
+(() => {
+	if ($('.tralbum-page').length !== 0) {
+		console.log('Setting up album/track player');
+		albumTrackSetup();
+
+		return;
 	}
-	return artist;
+
+	if ($('#collection-player').length !== 0) {
+		console.log('Setting up collection player');
+		collectionSetup();
+
+		return;
+	}
+
+	if ($('.corp-home').length !== 0) {
+		console.log('Init for homepage');
+		homepageSetup();
+
+		return;
+	}
+
+	console.log('No player identified');
+})();
+
+
+function albumTrackSetup() {
+	// wire audio element to fire state changes
+	$('audio').bind('playing pause timeupdate', Connector.onStateChanged);
+
+	Connector.getAlbum = () => $('.fromAlbum').text() || $('.trackTitle').text();
+	Connector.getCurrentTime = () => $('audio')[0].currentTime;
+	Connector.getDuration = () => $('audio')[0].duration;
+	Connector.isPlaying = () => $('.playing').length > 0;
+	Connector.getTrackArt = () => $('#tralbumArt > a > img').attr('src');
+
+	Connector.getUniqueID = () => {
+		let match = /&id=(\d+)&/.exec($('audio').first().attr('src'));
+
+		return match[1] || null;
+	};
+
+	Connector.getArtistTrack = () => {
+		let artist = $('span[itemprop=byArtist]').text().trim();
+		let track = $('.track_info .title').first().text() || $('h2.trackTitle').text();
+
+		if (isArtistLetious(artist, track)) {
+			return Util.splitArtistTrack(track, separators);
+		}
+
+		return { artist, track };
+	};
 }
 
-function getTrack() {
-	let track = $('.bcweekly.playing').next().find('.bcweekly-current .track-title:first').text() ||
-				$('.track_info .title').first().text() ||
-				$('.trackTitle').first().text() ||
-				$('.collection-item-container.playing').find('.fav-track-static').first().text() ||
-				$('.waypoint-item-title').text();
-	return track;
+function collectionSetup() {
+	Connector.playerSelector = '#carousel-player';
+	Connector.getAlbum = () => $('#carousel-player .title').first().text();
+	Connector.getCurrentTime = () => $('audio')[0].currentTime;
+	Connector.getDuration = () => $('audio')[0].duration;
+	Connector.playButtonSelector = '.playpause > .play';
+	Connector.getTrackArt = () => $('.now-playing img').attr('src');
+
+	Connector.getUniqueID = () => {
+		let match = /&id=(\d+)&/.exec($('audio').first().attr('src'));
+		if (match) {
+			return match[1];
+		}
+
+		return null;
+	};
+
+	Connector.getArtistTrack = () => {
+		let artist = $('#carousel-player .artist').text().trim().substring(3);
+		let track = $('#carousel-player .title:eq(1) span:eq(1)').text().trim();
+
+		if (isArtistLetious(artist, track)) {
+			return Util.splitArtistTrack(track, separators);
+		}
+		return { artist, track };
+	};
 }
+
+function homepageSetup() {
+	console.log('todo');
+}
+
+// function getArtist() {
+// 	let artist = $('.bcweekly.playing').next().find('.bcweekly-current .track-artist:first a').text() ||
+// 				$('.detail_item_link_2').text() ||
+// 				$('span[itemprop=byArtist]').text() ||
+// 				$('.detail-artist a').text() ||
+// 				null;
+// 	if (artist === null) {
+// 		artist = $('.waypoint-artist-title').text().substr(3);
+// 	}
+// 	return artist;
+// }
+
+// function getTrack() {
+// 	let track = $('.bcweekly.playing').next().find('.bcweekly-current .track-title:first').text() ||
+// 				$('.track_info .title').first().text() ||
+// 				$('.trackTitle').first().text() ||
+// 				$('.collection-item-container.playing').find('.fav-track-static').first().text() ||
+// 				$('.waypoint-item-title').text();
+// 	return track;
+// }
 
 function isArtistLetious(artist, track) {
 	/*
@@ -50,6 +133,7 @@ function isArtistLetious(artist, track) {
 				return false;
 			}
 		});
+
 		return allDashed;
 	}
 
@@ -63,50 +147,49 @@ function isArtistLetious(artist, track) {
 		Util.findSeparator(track, separators) !== null;
 }
 
-Connector.getArtistTrack = () => {
-	let artist = getArtist();
-	let track = getTrack();
+// Connector.getArtistTrack = () => {
+// 	let artist = getArtist();
+// 	let track = getTrack();
 
-	if (isArtistLetious(artist, track)) {
-		return Util.splitArtistTrack(track, separators);
-	}
-	return { artist, track };
-};
+// 	if (isArtistLetious(artist, track)) {
+// 		return Util.splitArtistTrack(track, separators);
+// 	}
+// 	return { artist, track };
+// };
 
-Connector.getAlbum = () => {
-	let album = $('.bcweekly.playing').length && $('.bcweekly-current .track-album:first').text() ||
-				$('.detail_item_link').text() ||
-				$('h2.trackTitle').text() ||
-				$('[itemprop="inAlbum"] [itemprop="name"]').text();
-	return album;
-};
+// Connector.getAlbum = () => {
+// 	let album = $('.bcweekly.playing').length && $('.bcweekly-current .track-album:first').text() ||
+// 				$('.detail_item_link').text() ||
+// 				$('h2.trackTitle').text() ||
+// 				$('[itemprop="inAlbum"] [itemprop="name"]').text();
+// 	return album;
+// };
 
-Connector.isPlaying = () => $('.playing').length > 0;
 
-Connector.getTrackArt = () => {
-	return $('.bcweekly.playing').next().find('.bcweekly-current .ratio-1-1:first img').attr('src') ||
-		$('#tralbumArt > a > img').attr('src') ||
-		$('#detail_gallery_container img').attr('src') ||
-		$('.discover-detail-inner img').attr('src');
-};
+// Connector.getTrackArt = () => {
+// 	return $('.bcweekly.playing').next().find('.bcweekly-current .ratio-1-1:first img').attr('src') ||
+// 		$('#tralbumArt > a > img').attr('src') ||
+// 		$('#detail_gallery_container img').attr('src') ||
+// 		$('.discover-detail-inner img').attr('src');
+// };
 
-Connector.getCurrentTime = () => {
-	return $('.bcweekly.playing').length ? null : $('audio')[0].currentTime;
-};
+// Connector.getCurrentTime = () => {
+// 	return $('.bcweekly.playing').length ? null : $('audio')[0].currentTime;
+// };
 
-Connector.getDuration = () => {
-	return $('.bcweekly.playing').length ? null : $('audio')[0].duration;
-};
+// Connector.getDuration = () => {
+// 	return $('.bcweekly.playing').length ? null : $('audio')[0].duration;
+// };
 
-Connector.getUniqueID = () => {
-	if ($('.bcweekly.playing').length) {
-		return +location.search.match(/show=(\d+)?/)[1] === $('#pagedata').data('blob').bcw_show.show_id ? $('#pagedata').data('blob').bcw_show.tracks[$('.bcweekly-current').data('index')].track_id : null;
-	}
-	let match = /&id=(\d+)&/.exec($('audio').first().attr('src'));
-	if (match) {
-		return match[1];
-	}
-	return null;
-};
+// Connector.getUniqueID = () => {
+// 	if ($('.bcweekly.playing').length) {
+// 		return +location.search.match(/show=(\d+)?/)[1] === $('#pagedata').data('blob').bcw_show.show_id ? $('#pagedata').data('blob').bcw_show.tracks[$('.bcweekly-current').data('index')].track_id : null;
+// 	}
+// 	let match = /&id=(\d+)&/.exec($('audio').first().attr('src'));
+// 	if (match) {
+// 		return match[1];
+// 	}
+// 	return null;
+// };
 
 Connector.applyFilter(filter);
