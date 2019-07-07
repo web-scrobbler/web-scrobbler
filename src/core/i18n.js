@@ -85,9 +85,14 @@ function localizeElement(element) {
  * @param  {Object} element Element to localize
  */
 function localizeElementChilds(element) {
-	for (const attr of I18N_ATTRS) {
-		const nodes = element.querySelectorAll(`[${attr}]`);
-		nodes.forEach(localizeElement);
+	switch (element.nodeType) {
+		case Node.ELEMENT_NODE:
+		case Node.DOCUMENT_NODE:
+			for (const attr of I18N_ATTRS) {
+				const nodes = element.querySelectorAll(`[${attr}]`);
+				nodes.forEach(localizeElement);
+			}
+			break;
 	}
 }
 
