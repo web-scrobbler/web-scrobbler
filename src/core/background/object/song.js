@@ -58,7 +58,7 @@ define((require) => {
 	 * Fields used to identify song.
 	 * @type {Array}
 	 */
-	const BASE_FIELDS = ['artist', 'track', 'album'];
+	const BASE_FIELDS = ['artist', 'track', 'album', 'albumArtist'];
 
 	/**
 	 * Create new song object.
