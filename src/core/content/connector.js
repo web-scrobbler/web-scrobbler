@@ -45,7 +45,7 @@ function BaseConnector() {
 	/**
 	 * Selector of an element containing the album artist. The containing string will
 	 * be filtered in the background script if needed.
-	 * 
+	 *
 	 * Only applies when default implementation of
 	 * {@link BaseConnector#getAlbumArtist} is used.
 	 *
@@ -611,7 +611,7 @@ function BaseConnector() {
 
 		/**
 		 * Album artist.
-		 * 
+		 *
 		 * @type {String}
 		 */
 		albumArtist: null,
@@ -654,7 +654,7 @@ function BaseConnector() {
 	 * these fields are changed, the new song is playing.
 	 * @type {Array}
 	 */
-	const fieldsToCheckSongChange = ['artist', 'track', 'album', 'uniqueID'];
+	const fieldsToCheckSongChange = ['artist', 'track', 'album', 'albumArtist', 'uniqueID'];
 	// @endif
 
 	/**
