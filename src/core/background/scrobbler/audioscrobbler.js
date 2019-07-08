@@ -130,6 +130,11 @@ define((require) => {
 			if (song.getAlbum()) {
 				params.album = song.getAlbum();
 			}
+
+			if (song.getAlbumArtist()) {
+				params.albumArtist = song.getAlbumArtist();
+			}
+
 			if (song.getDuration()) {
 				params.duration = song.getDuration();
 			}
@@ -151,6 +156,10 @@ define((require) => {
 
 			if (song.getAlbum()) {
 				params['album[0]'] = song.getAlbum();
+			}
+
+			if (song.getAlbumArtist()) {
+				params['albumArtist[0]'] = song.getAlbumArtist();
 			}
 
 			let response = await this.sendRequest('POST', params, true);

@@ -43,6 +43,17 @@ function BaseConnector() {
 	this.albumSelector = null;
 
 	/**
+	 * Selector of an element containing the album artist. The containing string will
+	 * be filtered in the background script if needed.
+	 * 
+	 * Only applies when default implementation of
+	 * {@link BaseConnector#getAlbumArtist} is used.
+	 *
+	 * @type {String}
+	 */
+	this.albumArtistSelector = null;
+
+	/**
 	 * Selector of an element containing track current time in h:m:s format.
 	 *
 	 * Only applies when default implementation of
@@ -184,6 +195,15 @@ function BaseConnector() {
 	this.getAlbum = () => Util.getTextFromSelectors(this.albumSelector);
 
 	/**
+	 * Default implementation of album artist name lookup by selector.
+	 *
+	 * Override this method for more complex behaviour.
+	 *
+	 * @return {String} Song album artist
+	 */
+	this.getAlbumArtist = () => $(this.albumArtistSelector).text();
+
+	/**
 	 * Default implementation of track duration lookup. If this method returns
 	 * an empty result, the track duration loaded from L.FM will be used.
 	 *
@@ -318,6 +338,7 @@ function BaseConnector() {
 			track: this.getTrack(),
 			artist: this.getArtist(),
 			album: this.getAlbum(),
+			albumArtist: this.getAlbumArtist(),
 			uniqueID: this.getUniqueID(),
 			duration: this.getDuration(),
 			currentTime: this.getCurrentTime(),
@@ -565,12 +586,15 @@ function BaseConnector() {
 	 * @type {Object}
 	 */
 	const defaultState = {
+
 		// Required fields.
+
 		/**
 		 * Track name.
 		 * @type {String}
 		 */
 		track: null,
+
 		/**
 		 * Artist name.
 		 * @type {String}
@@ -578,36 +602,50 @@ function BaseConnector() {
 		artist: null,
 
 		// Optional fields.
+
 		/**
  		 * Album name.
  		 * @type {String}
  		 */
 		album: null,
+
+		/**
+		 * Album artist.
+		 * 
+		 * @type {String}
+		 */
+		albumArtist: null,
+
 		/**
 		 * Track unique ID.
 		 * @type {String}
 		 */
 		uniqueID: null,
+
 		/**
 		 * Track duration.
 		 * @type {Number}
 		 */
 		duration: null,
+
 		/**
 		 * Current time.
 		 * @type {Number}
 		 */
 		currentTime: null,
+
 		/**
 		 * Playing/pause state.
 		 * @type {Boolean}
 		 */
 		isPlaying: true,
+
 		/**
 		 * URL to track art image.
 		 * @type {String}
 		 */
 		trackArt: null
+
 	};
 
 	// @ifdef DEBUG
@@ -704,7 +742,8 @@ function BaseConnector() {
 			switch (field) {
 				case 'artist':
 				case 'track':
-				case 'album': {
+				case 'album':
+				case 'albumArtist': {
 					fieldValue = metadataFilter.filterField(field, fieldValue) || defaultState[field];
 					break;
 				}

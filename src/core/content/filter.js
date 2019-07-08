@@ -102,7 +102,7 @@ class MetadataFilter {
      * @param {Object} filterSet Set of filters
 	 */
 	appendFilters(filterSet) {
-		for (let field of ['artist', 'track', 'album']) {
+		for (let field of ['artist', 'track', 'album', 'albumArtist']) {
 			if (this.mergedFilterSet[field] === undefined) {
 				this.mergedFilterSet[field] = [];
 			}

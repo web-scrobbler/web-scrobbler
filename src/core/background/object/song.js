@@ -52,7 +52,7 @@ define((require) => {
 	 * Custom fields can be defined by user.
 	 * @type {Array}
 	 */
-	const USER_FIELDS = ['artist', 'track', 'album'];
+	const USER_FIELDS = ['artist', 'track', 'album', 'albumArtist'];
 
 	/**
 	 * Fields used to identify song.
@@ -160,6 +160,7 @@ define((require) => {
 				track: this.parsed.track,
 				album: this.parsed.album,
 				artist: this.parsed.artist,
+				albumArtist: this.parsed.albumArtist,
 				duration: this.parsed.duration,
 			};
 
@@ -191,6 +192,14 @@ define((require) => {
 		 */
 		getAlbum() {
 			return this.processed.album || this.parsed.album;
+		}
+
+		/**
+		 * Return song's album artist (Optional)
+		 * @return {String} Album artist
+		 */
+		getAlbumArtist() {
+			return this.processed.albumArtist || this.parsed.albumArtist;
 		}
 
 		/**
