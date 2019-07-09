@@ -355,10 +355,6 @@ function BaseConnector() {
 			newState.track = artistTrack.track;
 		}
 
-		if (newState.artist === newState.albumArtist) {
-			newState.albumArtist = null;
-		}
-
 		if (!newState.currentTime) {
 			let remainingTime = this.getRemainingTime();
 			if (remainingTime && newState.duration) {
@@ -719,6 +715,7 @@ function BaseConnector() {
 
 		if (changedFields.length > 0) {
 			this.filterState(changedFields);
+			this.preProcess(filteredState);
 
 			if (this.reactorCallback !== null) {
 				this.reactorCallback(filteredState, changedFields);
@@ -766,6 +763,17 @@ function BaseConnector() {
 			filteredState[field] = fieldValue;
 		}
 	};
+
+	/**
+	 * Pre-process filtered state before dispatching to the controller.
+	 * 
+	 * @param {Array} filteredState the filtered state
+	 */
+	this.preProcess = (filteredState) => {
+		if (filteredState.albumArtist === filteredState.artist) {
+			delete filteredState.albumArtist;
+		}
+	}
 
 	/**
 	 * Throttled call for state changed worker.

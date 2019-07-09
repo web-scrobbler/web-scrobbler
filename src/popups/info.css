@@ -115,3 +115,9 @@ input {
 	cursor: default !important;
 	text-decoration: none !important;
 }
+
+.artist, .album, .track {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
