@@ -1,28 +1,15 @@
 'use strict';
 
-const filter = new MetadataFilter({ album: removeYear });
+Connector.playerSelector = '.player';
 
-Connector.playerSelector = '#player-playing';
+Connector.artistSelector = '.playing-now .now-info-subtitle';
 
-Connector.artistSelector = '#player-playing .author .name';
+Connector.trackSelector = '.playing-now .now-info-title';
 
-Connector.trackSelector = '#player-playing div.playing-info > div.infos > div.rows-container > div.title';
+Connector.albumSelector = '.playing-now .now-info-details-value';
 
-Connector.albumSelector = '#player-playing div.playing-info > div.infos > div.rows-container > div.album > span.name';
-
-Connector.trackArtSelector = '#player-playing .player_img';
+Connector.trackArtSelector = '.playing-now .playing-now-cover img';
 
 Connector.isPlaying = () => {
-	return $('#player-playing .play-stop button').hasClass('stop');
+	return $('.playing-now button.live-button').hasClass('pause');
 };
-
-Connector.applyFilter(filter);
-
-/**
- * Remove year from album title.
- * @param  {String} text Album title
- * @return {String} Modified album title
- */
-function removeYear(text) {
-	return text.replace(/\(\d+\)$/g, '');
-}
