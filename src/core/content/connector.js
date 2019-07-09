@@ -766,14 +766,14 @@ function BaseConnector() {
 
 	/**
 	 * Pre-process filtered state before dispatching to the controller.
-	 * 
+	 *
 	 * @param {Array} filteredState the filtered state
 	 */
 	this.preProcess = (filteredState) => {
 		if (filteredState.albumArtist === filteredState.artist) {
 			delete filteredState.albumArtist;
 		}
-	}
+	};
 
 	/**
 	 * Throttled call for state changed worker.
