@@ -70,7 +70,7 @@ input {
 	font-size: 1.2em;
 	font-weight: bold;
 }
-.artist, .album {
+.artist, .album, .track {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -114,10 +114,4 @@ input {
 	color: #999;
 	cursor: default !important;
 	text-decoration: none !important;
-}
-
-.artist, .album, .track {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
 }
