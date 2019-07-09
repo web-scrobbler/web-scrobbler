@@ -201,7 +201,7 @@ function BaseConnector() {
 	 *
 	 * @return {String} Song album artist
 	 */
-	this.getAlbumArtist = () => $(this.albumArtistSelector).text();
+	this.getAlbumArtist = () => Util.getTextFromSelectors(this.albumArtistSelector);
 
 	/**
 	 * Default implementation of track duration lookup. If this method returns
