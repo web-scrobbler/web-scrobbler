@@ -1,7 +1,8 @@
 'use strict';
 
 const filter = new MetadataFilter({
-	all: MetadataFilter.removeZeroWidth
+	all: MetadataFilter.removeZeroWidth,
+	all: MetadataFilter.trim,
 });
 
 /*
@@ -109,6 +110,6 @@ Connector.getUniqueID = () => {
 	return null;
 };
 
-Connector.getAlbumArtist = () => $('span[itemprop="byArtist"]').text().trim() || null;
+Connector.albumArtistSelector = 'span[itemprop="byArtist"]';
 
 Connector.applyFilter(filter);
