@@ -3,11 +3,12 @@
 require([
 	'webextension-polyfill', 'util/util'
 ], (browser, Util) => {
-	const EDITED_TRACK_FIELDS = ['artist', 'track', 'album'];
+	const EDITED_TRACK_FIELDS = ['artist', 'track', 'album', 'albumArtist'];
 	const FIELD_URL_MAP = {
 		artist: 'artistUrl',
 		track: 'trackUrl',
-		album: 'albumUrl'
+		album: 'albumUrl',
+		albumArtist: 'albumArtistUrl',
 	};
 
 	let isEditModeEnabled = false;
@@ -84,6 +85,9 @@ require([
 					case 'album':
 						fieldTitleTag = 'infoViewAlbumPage';
 						break;
+					case 'albumArtist':
+						fieldTitleTag = 'infoViewAlbumArtistPage';
+						break;
 				}
 
 				$(fieldLabelSelector).attr('href', fieldUrl);
@@ -113,7 +117,6 @@ require([
 
 	function getTrackInfo() {
 		let trackInfo = {};
-
 		for (let field of EDITED_TRACK_FIELDS) {
 			trackInfo[field] = song.processed[field] || song.parsed[field];
 		}
