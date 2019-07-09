@@ -355,6 +355,10 @@ function BaseConnector() {
 			newState.track = artistTrack.track;
 		}
 
+		if (newState.artist === newState.albumArtist) {
+			newState.albumArtist = null;
+		}
+
 		if (!newState.currentTime) {
 			let remainingTime = this.getRemainingTime();
 			if (remainingTime && newState.duration) {

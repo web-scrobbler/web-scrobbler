@@ -25,7 +25,7 @@ function getArtist() {
 	if (artist === null) {
 		artist = $('.waypoint-artist-title').text().substr(3);
 	}
-	return artist;
+	return $.trim(artist);
 }
 
 function getTrack() {
@@ -108,5 +108,7 @@ Connector.getUniqueID = () => {
 	}
 	return null;
 };
+
+Connector.getAlbumArtist = () => $('span[itemprop="byArtist"]').text().trim() || null;
 
 Connector.applyFilter(filter);
