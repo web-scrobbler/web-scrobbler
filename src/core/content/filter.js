@@ -9,10 +9,10 @@ const escapeHtmlEntityMap = {
 
 /**
  * Base filter object that filters metadata fields by given filter set.
- * A filter set is an object containing 'artist', 'track', 'album' or 'all'
+ * A filter set is an object containing 'artist', 'track', 'album', 'albumArtist', or 'all'
  * properties. Each property can be defined either as a filter function or as
- * an array of filter functions. The 'artist', 'track' and 'album' properties
- * are used to define functions to filter artist, track and album metadata
+ * an array of filter functions. The 'artist', 'track', 'album', and 'albumArtist' properties
+ * are used to define functions to filter artist, track, album, and album artist metadata
  * fields respectively. The 'all' property can be used to define common filter
  * functions for all metadata fields.
  *
@@ -376,7 +376,8 @@ class MetadataFilter {
 		return new MetadataFilter({
 			artist: [MetadataFilter.trim, MetadataFilter.replaceNbsp],
 			track: [MetadataFilter.trim, MetadataFilter.replaceNbsp],
-			album: [MetadataFilter.trim, MetadataFilter.replaceNbsp]
+			album: [MetadataFilter.trim, MetadataFilter.replaceNbsp],
+			albumArtist: [MetadataFilter.trim, MetadataFilter.replaceNbsp],
 		});
 	}
 

@@ -2,7 +2,6 @@
 
 const filter = new MetadataFilter({
 	all: MetadataFilter.removeZeroWidth,
-	all: MetadataFilter.trim,
 });
 
 /*
