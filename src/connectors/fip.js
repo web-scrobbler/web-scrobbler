@@ -11,5 +11,5 @@ Connector.albumSelector = '.playing-now .now-info-details-value';
 Connector.trackArtSelector = '.playing-now .playing-now-cover img';
 
 Connector.isPlaying = () => {
-    return $('.playing-now button.live-button').hasClass('pause');
+  return $('.playing-now button.live-button').hasClass('pause');
 };
