@@ -8,7 +8,7 @@ require([
 		artist: 'artistUrl',
 		track: 'trackUrl',
 		album: 'albumUrl',
-		albumArtist: 'albumArtistUrl',
+		albumArtist: 'artistUrl',
 	};
 
 	let isEditModeEnabled = false;
@@ -77,6 +77,7 @@ require([
 				let fieldTitleTag;
 				switch (field) {
 					case 'artist':
+					case 'albumArtist':
 						fieldTitleTag = 'infoViewArtistPage';
 						break;
 					case 'track':
@@ -84,9 +85,6 @@ require([
 						break;
 					case 'album':
 						fieldTitleTag = 'infoViewAlbumPage';
-						break;
-					case 'albumArtist':
-						fieldTitleTag = 'infoViewAlbumArtistPage';
 						break;
 				}
 
