@@ -68,10 +68,7 @@ Connector.getArtistTrack = () => {
 	let track = getTrack();
 
 	if (isArtistLetious(artist, track)) {
-		let artistTrack = Util.splitArtistTrack(track, separators);
-		artistTrack.artist = $('span[itemprop=byArtist]').text();
-
-		return artistTrack;
+		return Util.splitArtistTrack(track, separators);
 	}
 	return { artist, track };
 };
@@ -112,17 +109,6 @@ Connector.getUniqueID = () => {
 	return null;
 };
 
-Connector.getAlbumArtist = () => {
-	let artist = getArtist();
-	let track = getTrack();
-
-	let albumArtist = null;
-	if (isArtistLetious(artist, track)) {
-		let artistTrack = Util.splitArtistTrack(track, separators);
-		albumArtist = artistTrack.artist;
-	}
-
-	return albumArtist;
-};
+Connector.albumArtistSelector = 'span[itemprop="byArtist"]';
 
 Connector.applyFilter(filter);
