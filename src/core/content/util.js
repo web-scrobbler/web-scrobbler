@@ -377,9 +377,9 @@ const Util = {
 	},
 
 	/**
-	 * Return jQuery object with given selector. If `selectors` is a string,
-	 * return text of element with given selector. If `selectors` is
-	 * an array, return text of first available element.
+	 * Return jQuery object of first available element. If `selectors`
+	 * is a string, return jQuery object with the selector. If `selectors` is
+	 * an array, return jQuery object matched by first valid selector.
 	 * @param  {Object} selectors Single selector or array of selectors
 	 * @return {Object} jQuery object
 	 */
