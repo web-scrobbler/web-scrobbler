@@ -353,9 +353,9 @@ const Util = {
 	 * Return text of first available element. If `selectors` is a string,
 	 * return text of element with given selector. If `selectors` is
 	 * an array, return text of first available element.
-	 * @param  {Any} selectors Single selector or array of selectors
-	 * @param  {Any} defaultValue Fallback value
-	 * @return {Any} Text of element, if available, or default value
+	 * @param  {Object} selectors Single selector or array of selectors
+	 * @param  {Object} defaultValue Fallback value
+	 * @return {Object} Text of element, if available, or default value
 	 */
 	getTextFromSelectors(selectors, defaultValue = null) {
 		const elements = this.queryElements(selectors);
@@ -380,8 +380,8 @@ const Util = {
 	 * Return jQuery object with given selector. If `selectors` is a string,
 	 * return text of element with given selector. If `selectors` is
 	 * an array, return text of first available element.
-	 * @param  {Any} selectors Single selector or array of selectors
-	 * @return {Any} jQuery object
+	 * @param  {Object} selectors Single selector or array of selectors
+	 * @return {Object} jQuery object
 	 */
 	queryElements(selectors) {
 		if (!selectors) {
