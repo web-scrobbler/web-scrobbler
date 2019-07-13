@@ -200,11 +200,11 @@ define((require) => {
 			}
 
 			if (song.getOriginUrl()) {
-				trackMeta.additional_info.origin_url = song.getOriginUrl()
+				trackMeta.additional_info.origin_url = song.getOriginUrl();
 			}
 
 			if (song.getAlbumArtist()) {
-				trackMeta.additional_info.release_artist_name = song.getAlbumArtist()
+				trackMeta.additional_info.release_artist_name = song.getAlbumArtist();
 			}
 
 			return trackMeta;
