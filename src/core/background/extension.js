@@ -74,7 +74,11 @@ define((require) => {
 	 * Setup browser event listeners. Called on startup.
 	 */
 	function setupEventListeners() {
-		browser.commands.onCommand.addListener(onCommand);
+		try {
+			browser.commands.onCommand.addListener(onCommand);
+		} catch (e) {
+			// Don't let the extension fail on Firefox for Android.
+		}
 
 		browser.tabs.onUpdated.addListener(onTabUpdated);
 		browser.tabs.onRemoved.addListener(onTabRemoved);
