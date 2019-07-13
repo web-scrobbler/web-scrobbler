@@ -806,8 +806,7 @@ define(function() {
 	}, {
 		label: 'FIP',
 		matches: [
-			'*://www.fip.fr/*',
-			'*://www.fipradio.fr/*' // TODO: remove this
+			'*://www.fip.fr/*'
 		],
 		js: ['connectors/fip.js']
 	}, {
