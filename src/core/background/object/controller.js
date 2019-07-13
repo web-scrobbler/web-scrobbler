@@ -131,7 +131,7 @@ define((require) => {
 		 * @return {Object} Song copy
 		 */
 		getCurrentSong() {
-			return this.currentSong === null ? {} : this.currentSong.getCloneableData();
+			return this.currentSong;
 		}
 
 		/**
@@ -163,7 +163,12 @@ define((require) => {
 				throw new Error('No song is now playing');
 			}
 
+			if (!this.currentSong.isValid()) {
+				throw new Error('No valid song is now playing');
+			}
+
 			await ScrobbleService.toggleLove(this.currentSong, isLoved);
+
 			this.currentSong.setLoveStatus(isLoved);
 		}
 

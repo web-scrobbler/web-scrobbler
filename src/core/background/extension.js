@@ -108,9 +108,12 @@ define((require) => {
 			case 'disable-connector':
 				ctrl.setEnabled(false);
 				break;
-			case 'toggle-love': {
-				const song = ctrl.getCurrentSong();
-				ctrl.toggleLove(!song.metadata.userloved);
+			case 'love-song':
+			case 'unlove-song': {
+				const isLoved = command === 'love-song';
+
+				await ctrl.toggleLove(isLoved);
+				ctrl.pageAction.setSongLoved(isLoved, ctrl.getCurrentSong());
 				break;
 			}
 		}
