@@ -68,12 +68,6 @@ define((require) => {
 			const { sessionID } = await this.getSession();
 			const trackMeta = this.makeTrackMetadata(song);
 
-			if (song.getOriginUrl()) {
-				trackMeta.additional_info = {
-					origin_url: song.getOriginUrl()
-				};
-			}
-
 			let params = {
 				listen_type: 'playing_now',
 				payload: [{
@@ -198,10 +192,19 @@ define((require) => {
 			const trackMeta = {
 				artist_name: song.getArtist(),
 				track_name: song.getTrack(),
+				additional_info: {},
 			};
 
 			if (song.getAlbum()) {
 				trackMeta.release_name = song.getAlbum();
+			}
+
+			if (song.getOriginUrl()) {
+				trackMeta.additional_info.origin_url = song.getOriginUrl();
+			}
+
+			if (song.getAlbumArtist()) {
+				trackMeta.additional_info.release_artist_name = song.getAlbumArtist();
 			}
 
 			return trackMeta;

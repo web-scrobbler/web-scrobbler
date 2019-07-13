@@ -1,7 +1,7 @@
 'use strict';
 
 const filter = new MetadataFilter({
-	all: MetadataFilter.removeZeroWidth
+	all: MetadataFilter.removeZeroWidth,
 });
 
 /*
@@ -108,5 +108,7 @@ Connector.getUniqueID = () => {
 	}
 	return null;
 };
+
+Connector.albumArtistSelector = 'span[itemprop="byArtist"]';
 
 Connector.applyFilter(filter);
