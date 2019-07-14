@@ -30,15 +30,16 @@ Connector.isPlaying = () => {
 };
 
 Connector.isScrobblingAllowed = () => {
-	if (!scrobblePodcasts && $('#player .now-playing-actions').hasClass('podcast')) {
+	if (!scrobblePodcasts && isPodcastPlaying()) {
 		return false;
 	}
 	return Connector.getArtist() !== 'Subscribe to go ad-free';
 };
 
-/**
- * Asynchronously read connector options.
- */
+function isPodcastPlaying() {
+	return $('#player .now-playing-actions').hasClass('podcast');
+}
+
 async function readConnectorOptions() {
 	scrobblePodcasts = await Util.getOption('GoogleMusic', 'scrobblePodcasts');
 }
