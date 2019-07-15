@@ -5,10 +5,8 @@ require([
 	'storage/browser-storage',
 	'vendor/showdown.min',
 	'storage/options',
-], (browser, BrowserStorage, showdown, Options) => {
-	const PRIVACY_FILENAME = 'privacy.md';
-	const DEFAULT_PRIVACY_PATH = `_locales/en/${PRIVACY_FILENAME}`;
-
+	'util/util',
+], (browser, BrowserStorage, showdown, Options, Util) => {
 	/**
 	 * Run initialization
 	 */
@@ -36,28 +34,20 @@ require([
 	}
 
 	async function preparePrivacyPolicy() {
-		const locale = browser.i18n.getMessage('@@ui_locale');
-		const privacyDocs = [DEFAULT_PRIVACY_PATH];
+		const privacyDocFile = await Util.getPrivacyPolicyFilename();
 
-		if (!locale.startsWith('en')) {
-			const language = locale.split('_')[0];
+		console.log(`fetching ${privacyDocFile}`);
+		try {
+			const privacyDocUrl = browser.runtime.getURL(privacyDocFile);
+			const response = await fetch(privacyDocUrl);
+			const markdown = await response.text();
 
-			privacyDocs.unshift(`_locales/${language}/${PRIVACY_FILENAME}`);
-			privacyDocs.unshift(`_locales/${locale}/${PRIVACY_FILENAME}`);
-		}
+			const converter = new showdown.Converter();
+			const content = converter.makeHtml(markdown);
 
-		for (let privacyDoc of privacyDocs) {
-			console.log(`fetching ${privacyDoc}`);
-			try {
-				const response = await fetch(browser.runtime.getURL(privacyDoc));
-				const markdown = await response.text();
-				let converter = new showdown.Converter();
-				let content = converter.makeHtml(markdown);
-				$('.privacy-policy').html(content);
-				break;
-			} catch (err) {
-				console.log(`Failed to load ${privacyDoc}, reason: ${err.message}`);
-			}
+			$('.privacy-policy').html(content);
+		} catch (err) {
+			console.log(`Failed to load ${privacyDocFile}, reason: ${err.message}`);
 		}
 	}
 });

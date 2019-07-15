@@ -33,6 +33,18 @@ define((require) => {
 	const SCROBBLE_PERCENTAGE = 50;
 
 	/**
+	 * Filename of privacy policy document.
+	 * @type {String}
+	 */
+	const PRIVACY_FILENAME = 'privacy.md';
+
+	/**
+	 * Location of default privacy policy document.
+	 * @type {[type]}
+	 */
+	const DEFAULT_PRIVACY_PATH = `_locales/en/${PRIVACY_FILENAME}`;
+
+	/**
 	 * Return platform name.
 	 * @return {String} Platform name
 	 */
@@ -177,10 +189,46 @@ define((require) => {
 			isNaN(duration) || !isFinite(duration);
 	}
 
+	/**
+	 * Check if an extension resource file exists.
+	 * @param  {String} fileName Filename to check
+	 * @return {Boolean} Check result
+	 */
+	async function isFileExists(fileName) {
+		const fileUrl = browser.runtime.getURL(fileName);
+		const response = await fetch(fileUrl);
+
+		return response.status === 200;
+	}
+
+	/**
+	 * Get URL of privacy policy document.
+	 * @return {String} privacy policy URL
+	 */
+	async function getPrivacyPolicyFilename() {
+		const locale = browser.i18n.getMessage('@@ui_locale');
+		const privacyFilenames = [DEFAULT_PRIVACY_PATH];
+
+		if (!locale.startsWith('en')) {
+			const language = locale.split('_')[0];
+
+			privacyFilenames.unshift(`_locales/${language}/${PRIVACY_FILENAME}`);
+			privacyFilenames.unshift(`_locales/${locale}/${PRIVACY_FILENAME}`);
+		}
+
+		for (let privacyFilename of privacyFilenames) {
+			if (await isFileExists(privacyFilename)) {
+				return privacyFilename;
+			}
+		}
+
+		throw new Error('Found no privacy policy documents!');
+	}
+
 	return {
 		debugLog, getCurrentTab, timeoutPromise, getPlatformName, openTab,
 		hideString, hideStringInText, isFullscreenMode, getSortedConnectors,
-		getSecondsToScrobble,
+		getSecondsToScrobble, getPrivacyPolicyFilename,
 
 		MIN_TRACK_DURATION, DEFAULT_SCROBBLE_TIME, MAX_SCROBBLE_TIME
 	};

@@ -7,11 +7,14 @@ require([
 	'options/dialogs',
 	'options/export',
 	'options/options',
+	'util/util',
 	'bootstrap'
 ],
-(browser, Accounts, Connectors, Dialogs, Export, Options) => {
+(browser, Accounts, Connectors, Dialogs, Export, Options, Util) => {
 	const GITHUB_RELEASES_URL =
 		'https://github.com/web-scrobbler/web-scrobbler/releases/tag';
+	const GITHUB_RAW_SRC =
+		'https://github.com/web-scrobbler/web-scrobbler/blob/master/src/';
 
 	async function initialize() {
 		await Promise.all([
@@ -23,7 +26,7 @@ require([
 		]);
 
 		updateSections();
-		updateReleaseNotesUrl();
+		updateUrls();
 	}
 
 	async function updateSections() {
@@ -41,11 +44,20 @@ require([
 		}
 	}
 
-	function updateReleaseNotesUrl() {
+	async function updateUrls() {
+		/* GitHub releases URL */
+
 		const extVersion = browser.runtime.getManifest().version;
 		const releaseNotesUrl = `${GITHUB_RELEASES_URL}/v${extVersion}`;
 
 		$('a#latest-release').attr('href', releaseNotesUrl);
+
+		/* Privacy policy URL */
+
+		const privacyPolicyFile = await Util.getPrivacyPolicyFilename();
+		const privacyPolicyUrl = `${GITHUB_RAW_SRC}/${privacyPolicyFile}`;
+
+		$('a#privacy-url').attr('href', privacyPolicyUrl);
 	}
 
 	$(document).ready(() => {
