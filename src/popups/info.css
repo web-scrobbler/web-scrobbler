@@ -22,8 +22,8 @@ input {
 #wrapper {
 	display: grid;
 	grid-gap: 5px;
-	grid-template-columns: 100px 250px;
-	min-height: 100px;
+	grid-template-columns: 120px 250px;
+	min-height: 120px;
 	padding: 5px;
 }
 
