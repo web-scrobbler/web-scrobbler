@@ -348,7 +348,7 @@
         "description": "The header of 'disabled' popup"
     },
     "disabledSiteDesc": {
-        "message": "Rozszerzenie nie będzie scrobblować muzyki z tej strony dopóki nie włączysz jej obsługi w opcjach.",
+        "message": "Rozszerzenie nie będzie scrobblować muzyki z tej witryny dopóki nie włączysz jej obsługi w opcjach.",
         "description": "The description of 'disabled' popup"
     },
     "disabledSiteButton": {
@@ -356,7 +356,7 @@
         "description": "Button label"
     },
     "unsupportedWebsiteHeader": {
-        "message": "Ta strona nie jest wspierana",
+        "message": "Ta witryna nie jest wspierana",
         "description": "The header of 'unsupported' popup"
     },
     "unsupportedWebsiteDesc": {
@@ -450,6 +450,10 @@
     "infoAlbumPlaceholder": {
         "message": "Album (opcjonalnie)",
         "description": "Placeholder of album input"
+    },
+    "infoAlbumArtistPlaceholder": {
+        "message": "Wykonawca albumu (opcjonalnie)",
+        "description": "Placeholder of album artist input"
     },
     "infoViewArtistPage": {
         "message": "Zobacz stronę wykonawcy",
@@ -562,6 +566,18 @@
     "optOut": {
         "message": "Nie zgadzam się",
         "description": "Opt out"
+    },
+    "hotkeyToggleConnector": {
+        "message": "Przełącz scrobblowanie dla obecnej witryny",
+        "description": "Hotkey label"
+    },
+    "hotkeyDisableConnectorUntilClosed": {
+        "message": "Wyłącz scrobblowanie na obecnej witrynie do zamknięcia karty",
+        "description": "Hotkey label"
+    },
+    "hotkeyToggleLove": {
+        "message": "Ukochaj/odkochaj ten utwór",
+        "description": "Hotkey label"
     },
     "extDescription": {
         "message": "Scrobbluj muzykę z dowolnego miejsca w sieci!",

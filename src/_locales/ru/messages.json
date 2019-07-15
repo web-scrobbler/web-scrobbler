@@ -451,6 +451,10 @@
         "message": "Альбом (необязательно)",
         "description": "Placeholder of album input"
     },
+    "infoAlbumArtistPlaceholder": {
+        "message": "Исполнитель альбома (необязательно)",
+        "description": "Placeholder of album artist input"
+    },
     "infoViewArtistPage": {
         "message": "Посмотреть страницу исполнителя",
         "description": "Placeholder of album input"
@@ -562,6 +566,18 @@
     "optOut": {
         "message": "Отклонить",
         "description": "Opt out"
+    },
+    "hotkeyToggleConnector": {
+        "message": "Включить/выключить скробблинг для текущего сайта",
+        "description": "Hotkey label"
+    },
+    "hotkeyDisableConnectorUntilClosed": {
+        "message": "Отключить скробблинг для текущего сайта, пока не будет закрыта вкладка",
+        "description": "Hotkey label"
+    },
+    "hotkeyToggleLove": {
+        "message": "Переключить отметку \"Нравится\" проигрываемого трека",
+        "description": "Hotkey label"
     },
     "extDescription": {
         "message": "Скробблите музыку со всего Интернета!",
