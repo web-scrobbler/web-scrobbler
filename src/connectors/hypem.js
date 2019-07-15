@@ -6,8 +6,9 @@ Connector.artistSelector = '#player-nowplaying [href^="/artist/"]';
 
 Connector.trackSelector = '#player-nowplaying [href^="/track/"]';
 
-// TODO: use '.haarp-active .thumb' as a second selector
-Connector.trackArtSelector = '.thumb';
+Connector.trackArtSelector = [
+	'.haarp-active .thumb', '.thumb'
+];
 
 Connector.isTrackArtDefault = (url) => url.includes('solid_color');
 
