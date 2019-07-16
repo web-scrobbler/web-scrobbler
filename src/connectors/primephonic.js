@@ -10,16 +10,18 @@ Connector.trackSelector = '.currently-playing .movement';
 
 Connector.albumSelector = '#currently-playing-work';
 
-Connector.currentTimeSelector = '#time_container_current';
+Connector.currentTimeSelector = '.progress span[title="Current Time"]';
 
-Connector.getRemainingTime = () => {
-	let time = Util.getTextFromSelectors('#toggle-remainging span');
+Connector.getTimeInfo = () => {
+	let currentTime = Connector.getCurrentTime();
+	let duration = Util.stringToSeconds(Util.getTextFromSelectors('#toggle-remainging span'));
 
-	if (0 === time.indexOf('- ')) {
-		return time.substr(2);
+	// check if it's actually remaining time
+	if (duration < 0) {
+		duration = currentTime - duration;
 	}
 
-	return time;
+	return { currentTime, duration };
 };
 
 Connector.playButtonSelector = '#player-play-pause img[title="Play"]';
