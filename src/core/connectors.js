@@ -985,5 +985,9 @@ define(function() {
 		label: 'R-a-dio',
 		matches: ['*://r-a-d.io/*'],
 		js: ['connectors/r-a-d.io.js'],
+	}, {
+		label: 'Primephonic',
+		matches: ['*://play.primephonic.com/*'],
+		js: ['connectors/primephonic.js'],
 	}];
 });
