@@ -261,43 +261,45 @@ class MetadataFilter {
 			// Trim whitespaces
 			{ source: /^\s+|\s+$/g, target: '' },
 			// **NEW**
-			{ source: /\s*\*+\s?\S+\s?\*+$/, target: '' },
+			{ source: /\*+\s?\S+\s?\*+$/, target: '' },
 			// [whatever]
-			{ source: /\s*\[[^\]]+\]$/, target: '' },
+			{ source: /\[[^\]]+\]$/, target: '' },
 			// (whatever version)
-			{ source: /\s*\([^)]*version\)$/i, target: '' },
+			{ source: /\([^)]*version\)$/i, target: '' },
 			// video extensions
-			{ source: /\s*\.(avi|wmv|mpg|mpeg|flv)$/i, target: '' },
+			{ source: /\.(avi|wmv|mpg|mpeg|flv)$/i, target: '' },
 			// (LYRICs VIDEO)
-			{ source: /\s*((with)?\s*lyrics?( video)?\s*)/i, target: '' },
+			{ source: /((with)?\s*lyrics?( video)?\s*)/i, target: '' },
 			// (Official Track Stream)
-			{ source: /\s*(Official Track Stream*)/i, target: '' },
+			{ source: /(Official Track Stream*)/i, target: '' },
 			// (official)? (music)? video
-			{ source: /\s*(of+icial\s*)?(music\s*)?video/i, target: '' },
+			{ source: /(of+icial\s*)?(music\s*)?video/i, target: '' },
 			// (official)? (music)? audio
-			{ source: /\s*(of+icial\s*)?(music\s*)?audio/i, target: '' },
+			{ source: /(of+icial\s*)?(music\s*)?audio/i, target: '' },
 			// (ALBUM TRACK)
-			{ source: /\s*(ALBUM TRACK\s*)?(album track\s*)/i, target: '' },
+			{ source: /(ALBUM TRACK\s*)?(album track\s*)/i, target: '' },
 			// (Cover Art)
-			{ source: /\s*(COVER ART\s*)?(Cover Art\s*)/i, target: '' },
+			{ source: /(COVER ART\s*)?(Cover Art\s*)/i, target: '' },
 			// (official)
-			{ source: /\s*\(\s*of+icial\s*\)/i, target: '' },
+			{ source: /\(\s*of+icial\s*\)/i, target: '' },
 			// (1999)
-			{ source: /\s*\(\s*[0-9]{4}\s*\)/i, target: '' },
+			{ source: /\(\s*[0-9]{4}\s*\)/i, target: '' },
 			// HD (HQ)
-			{ source: /\s+\(\s*(HD|HQ)\s*\)$/, target: '' },
+			{ source: /\(\s*(HD|HQ)\s*\)$/, target: '' },
 			// HD (HQ)
-			{ source: /\s+(HD|HQ)\s*$/, target: '' },
+			{ source: /(HD|HQ)\s*$/, target: '' },
 			// video clip officiel
-			{ source: /\s*(vid[\u00E9e]o)?\s*clip officiel/i, target: '' },
+			{ source: /(vid[\u00E9e]o)?\s?clip\sofficiel/i, target: '' },
 			// offizielles
-			{ source: /\s*of+iziel+es\s*/i, target: '' },
+			{ source: /of+iziel+es\s*/i, target: '' },
 			// video clip
-			{ source: /\s*(vid[\u00E9e]o)?\s*clip/i, target: '' },
+			{ source: /vid[\u00E9e]o\s?clip/i, target: '' },
+			// clip
+			{ source: /\sclip/i, target: '' },
 			// Full Album
-			{ source: /\s*full\s*album/i, target: '' },
+			{ source: /full\s*album/i, target: '' },
 			// live
-			{ source: /\s+\(?live.*?\)?$/i, target: '' },
+			{ source: /\(?live.*?\)?$/i, target: '' },
 			// | something
 			{ source: /\|.*$/i, target: '' },
 			// Leftovers after e.g. (official video)
@@ -307,7 +309,7 @@ class MetadataFilter {
 			// 'Track title'
 			{ source: /^(|.*\s)'(.{5,})'(\s.*|)$/, target: '$2' },
 			// (*01/01/1999*)
-			{ source: /\s*\(.*[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{2,4}.*\)/i, target: '' },
+			{ source: /\(.*[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{2,4}.*\)/i, target: '' },
 
 			// trim starting white chars and dash
 			{ source: /^[/,:;~-\s"]+/, target: '' },
