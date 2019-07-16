@@ -156,15 +156,19 @@ define((require) => {
 		 * Apply default song state (processed song info and song flags).
 		 */
 		setDefaults() {
-			this.processed = {
-				track: this.parsed.track,
-				album: this.parsed.album,
-				artist: this.parsed.artist,
-				albumArtist: this.parsed.albumArtist,
-				duration: this.parsed.duration,
-			};
+			/*
+			 * We don't want to override properties, as they will be
+			 * wrapped by DeepProxy.
+			 */
+			const fields = [
+				'track', 'album', 'artist', 'albumArtist', 'duration'];
+			for (const field of fields) {
+				this.processed[field] = this.parsed[fields];
+			}
 
-			this.flags = Object.assign({}, DEFAULT_FLAGS);
+			for (const flag in DEFAULT_FLAGS) {
+				this.flags[flag] = DEFAULT_FLAGS[flag];
+			}
 		}
 
 		/**
