@@ -479,6 +479,11 @@ define((require) => {
 		 * @param  {Number} duration Song duration in seconds
 		 */
 		updateTimers(duration) {
+			if (this.playbackTimer.isExpired()) {
+				this.debugLog('Attempt to update expired timers', 'warn');
+				return;
+			}
+
 			let secondsToScrobble = Util.getSecondsToScrobble(duration);
 
 			if (secondsToScrobble !== -1) {
