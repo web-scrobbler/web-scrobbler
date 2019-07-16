@@ -335,8 +335,7 @@ define((require) => {
 				// Processing cleans this flag
 				this.currentSong.flags.isMarkedAsPlaying = false;
 
-				const duration = this.currentSong.getDuration();
-				this.onSongDurationChanged(duration);
+				this.updateTimers(this.currentSong.getDuration());
 
 				/*
 				 * If the song is playing, mark it immediately;
@@ -471,15 +470,15 @@ define((require) => {
 
 			if (this.currentSong.isValid()) {
 				this.debugLog(`Update duration: ${duration}`);
-				this.onSongDurationChanged(duration);
+				this.updateTimers(duration);
 			}
 		}
 
 		/**
-		 * Called when song duration is changed.
+		 * Update internal timers.
 		 * @param  {Number} duration Song duration in seconds
 		 */
-		onSongDurationChanged(duration) {
+		updateTimers(duration) {
 			let secondsToScrobble = Util.getSecondsToScrobble(duration);
 
 			if (secondsToScrobble !== -1) {
