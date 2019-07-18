@@ -11,3 +11,8 @@ Connector.isPlaying = () => {
 };
 
 Connector.trackArtSelector = '.album-image-cell img';
+
+Connector.isScrobblingAllowed = () => {
+	const artist = Connector.getArtist().toLowerCase();
+	return !artist.includes('siriusxmu');
+};

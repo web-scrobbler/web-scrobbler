@@ -11,7 +11,7 @@ class Reactor { // eslint-disable-line no-unused-vars
 	 * @param {Object} connector Connector object
 	 */
 	constructor(connector) {
-		this.setupChromeListener();
+		this.setupEventListener();
 		this.connector = connector;
 
 		// Setup listening for state changes on connector.
@@ -19,14 +19,14 @@ class Reactor { // eslint-disable-line no-unused-vars
 	}
 
 	/**
-	 * Setup Chrome event Listener.
+	 * Setup event listener.
 	 */
-	setupChromeListener() {
-		chrome.runtime.onMessage.addListener(this.onRuntimeMessage.bind(this));
+	setupEventListener() {
+		browser.runtime.onMessage.addListener(this.onRuntimeMessage.bind(this));
 
-		this.port = chrome.runtime.connect({ name: 'content-script' });
+		this.port = browser.runtime.connect({ name: 'content-script' });
 		this.port.onDisconnect.addListener(() => {
-			console.log('Web Scrobbler: port is closed');
+			Util.debugLog('Port is closed', 'warn');
 			this.connector.reactorCallback = null;
 		});
 	}
@@ -35,18 +35,17 @@ class Reactor { // eslint-disable-line no-unused-vars
 	 * Listener for runtime messages from the background script.
 	 *
 	 * @param {String} message Custom message
-	 * @param {Object} sender Message sender object
-	 * @param {Function} sendResponse Callback function
 	 */
-	onRuntimeMessage(message, sender, sendResponse) {
+	onRuntimeMessage(message) {
 		switch (message.type) {
-			// Background script calls this to see
-			// if the script is already injected.
-			case 'v2.onPing':
-				sendResponse(true);
-				break;
+			/*
+			 * Background script calls this to see
+			 * if the script is already injected.
+			 */
+			case 'EVENT_PING':
+				return Promise.resolve(true);
 			// The controller is created and is ready to receive connector state
-			case 'v2.onReady':
+			case 'EVENT_READY':
 				this.connector.onReady();
 				break;
 		}
@@ -56,17 +55,12 @@ class Reactor { // eslint-disable-line no-unused-vars
 	 * Listen for state changes on connector and determines further actions.
 	 * @param {Object} state Connector state
 	 */
-	onStateChanged(state/* , changedFields*/) {
-		// ignore changes in current time - it can be used in future
-		// if (changedFields.indexOf('currentTime') > -1 && changedFields.length === 1) {
-		// 	return;
-		// }
-
+	onStateChanged(state) {
 		/**
 		 * Send given state to background script. There is only single
 		 * message type for V2 connectors. Validation, submission and all
 		 * other procedures happen on background.
 		 */
-		this.port.postMessage({ type: 'v2.stateChanged', data: state });
+		this.port.postMessage({ type: 'EVENT_STATE_CHANGED', data: state });
 	}
 }

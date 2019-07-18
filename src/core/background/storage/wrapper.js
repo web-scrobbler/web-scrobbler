@@ -1,15 +1,14 @@
 'use strict';
 
 define((require) => {
-	const chrome = require('wrapper/chrome');
-	const Util = require('util');
+	const Util = require('util/util');
 
 	/**
-	 * Chrome StorageArea wrapper that supports for namespaces.
+	 * StorageArea wrapper that supports for namespaces.
 	 */
 	class StorageWrapper {
 		/**
-		 * @param  {StorageArea} storage StorageArea object
+		 * @param  {Object} storage StorageArea object
 		 * @param  {String} namespace Storage namespace
 		 */
 		constructor(storage, namespace) {
@@ -19,90 +18,58 @@ define((require) => {
 
 		/**
 		 * Read data from storage.
-		 * @param  {String} key Key to get
-		 * @return {Promise} Promise this will resolve when the task will complete
+		 * @return {Object} Storage data
 		 */
-		get() {
-			return new Promise((resolve, reject) => {
-				this.storage.get((data) => {
-					if (chrome.runtime.lastError) {
-						console.error(`StorageWrapper#get: ${chrome.runtime.lastError}`);
-						reject(chrome.runtime.lastError);
-						return;
-					}
+		async get() {
+			const data = await this.storage.get();
+			if (data && data.hasOwnProperty(this.namespace)) {
+				return data[this.namespace];
+			}
 
-					if (data && data.hasOwnProperty(this.namespace)) {
-						resolve(data[this.namespace]);
-					} else {
-						resolve({});
-					}
-				});
-			});
+			return {};
 		}
 
 		/**
 		 * Save data to storage.
 		 * @param  {Object} data Data to save
-		 * @return {Promise} Promise this will resolve when the task will complete
 		 */
-		set(data) {
-			return new Promise((resolve, reject) => {
-				let dataToSave = {};
-				dataToSave[this.namespace] = data;
+		async set(data) {
+			let dataToSave = {};
+			dataToSave[this.namespace] = data;
 
-				this.storage.set(dataToSave, () => {
-					if (chrome.runtime.lastError) {
-						console.error(`StorageWrapper#set: ${chrome.runtime.lastError}`);
-						reject(chrome.runtime.lastError);
-						return;
-					}
-
-					resolve();
-				});
-			});
+			await this.storage.set(dataToSave);
 		}
 
 		/**
 		 * Extend saved data by given one.
 		 * @param  {Object} data Data to add
-		 * @return {Promise} Promise this will resolve when the task will complete
 		 */
-		update(data) {
-			return this.get().then((storageData) => {
-				let dataToSave = Object.assign(data, storageData);
-				return this.set(dataToSave);
-			});
+		async update(data) {
+			const storageData = await this.get();
+			const dataToSave = Object.assign(storageData, data);
+
+			await this.set(dataToSave);
 		}
 
 		/**
 		 * Log storage data to console output.
 		 */
-		debugLog() {
-			this.get().then((data) => {
-				let text = JSON.stringify(data, null, 2);
-				// Hide 'token' and 'sessionID' values if available
-				text = Util.hideStringInText(data.token, text);
-				text = Util.hideStringInText(data.sessionID, text);
+		async debugLog() {
+			const data = await this.get();
 
-				console.info(`chrome.storage.${this.namespace} = ${text}`);
-			});
+			let text = JSON.stringify(data, null, 2);
+			// Hide 'token' and 'sessionID' values if available
+			text = Util.hideStringInText(data.token, text);
+			text = Util.hideStringInText(data.sessionID, text);
+
+			console.info(`storage.${this.namespace} = ${text}`);
 		}
 
 		/**
 		 * Clear storage.
-		 * @return {Promise} Promise this will resolve when the task will complete
 		 */
-		clear() {
-			return new Promise((resolve, reject) => {
-				this.storage.remove(this.namespace, () => {
-					if (chrome.runtime.lastError) {
-						reject(chrome.runtime.lastError);
-						return;
-					}
-
-					resolve();
-				});
-			});
+		async clear() {
+			await this.storage.remove(this.namespace);
 		}
 	}
 

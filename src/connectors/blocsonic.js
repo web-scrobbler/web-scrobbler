@@ -2,7 +2,7 @@
 
 Connector.playerSelector = '#sp-container';
 
-Connector.isPlaying = () => 0 < $('.spi-pause-alt').length;
+Connector.pauseButtonSelector = '.spi-pause-alt';
 
 Connector.artistTrackSelector = '.sp-title';
 

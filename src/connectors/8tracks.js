@@ -14,7 +14,7 @@ function isYoutubePlayer() {
 }
 
 function setupYoutubePlayer() {
-	Connector.playerSelector = '#main';
+	Connector.playerSelector = '#youtube_player';
 
 	Connector.isPlaying = () => $('#mix_youtube').hasClass('playing');
 

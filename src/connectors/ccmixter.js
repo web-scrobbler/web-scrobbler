@@ -154,9 +154,11 @@ function setupTuneTrackPlayer() {
 
 	Connector.artistSelector = '#track-artist';
 
-	// if the track is uploaded by a ccMixter user, the album will be
-	// shown as 'ccMixter' and the track art as the user's avatar, this
-	// function helps to filter them
+	/*
+	 * If the track is uploaded by a ccMixter user, the album will be
+	 * shown as 'ccMixter' and the track art as the user's avatar, this
+	 * function helps to filter them.
+	 */
 	Connector.isSingle = () => null;
 
 	Connector.getTrackArt = () => {

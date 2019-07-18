@@ -19,9 +19,7 @@ Connector.getTrackArt = () => {
 	return null;
 };
 
-Connector.isPlaying = () => {
-	return $('[data-qa="pause_button"]').length === 1;
-};
+Connector.pauseButtonSelector = '[data-qa="pause_button"]';
 
 Connector.isScrobblingAllowed = () => {
 	return $('.Tuner__Audio__TrackDetail__title--ad').length === 0;

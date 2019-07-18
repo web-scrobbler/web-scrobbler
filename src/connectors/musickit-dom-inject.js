@@ -32,13 +32,13 @@ function sendEvent() {
 function getState() {
 	const item = player().nowPlayingItem;
 	return {
-		albumName: item.albumName,
-		artistName: item.artistName,
-		artworkURL: item.artworkURL,
-		title: item.title,
+		album: item.albumName,
+		track: item.title,
+		artist: item.artistName,
+		trackArt: item.artworkURL,
 		duration: player().currentPlaybackDuration,
-		currentTime: player().currentPlaybackTime,
+		uniqueID: item.id,
 		isPlaying: player().isPlaying,
-		id: item.id,
+		currentTime: player().currentPlaybackTime,
 	};
 }

@@ -19,6 +19,4 @@ Connector.isPlaying = () => {
 	return btn.html() === '일시정지'; // if text '일시정지' in button, it means 'pause' because music is playing.
 };
 
-Connector.getTrackArt = () => {
-	return `http:${$('#AlbumImgArea').find('img').attr('src')}`;
-};
+Connector.trackArtSelector = '#AlbumImgArea img';

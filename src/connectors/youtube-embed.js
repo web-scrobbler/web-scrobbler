@@ -17,6 +17,8 @@ function setupConnector() {
 		return;
 	}
 
+	videoElement.on('timeupdate', Connector.onStateChanged);
+
 	Connector.getArtistTrack = () => {
 		let videoTitle = $('.ytp-title-link').text();
 		return Util.processYoutubeVideoTitle(videoTitle);
@@ -35,28 +37,7 @@ function setupConnector() {
 		return Util.getYoutubeVideoIdFromUrl(videoUrl);
 	};
 
-	Connector.filter = MetadataFilter.getYoutubeFilter();
-
-	setupMutationObserver();
-}
-
-function setupMutationObserver() {
-	let observer = new MutationObserver(() => {
-		let videoElement = $(VIDEO_SELECTOR);
-
-		if (videoElement.length > 0) {
-			videoElement.on('timeupdate', Connector.onStateChanged);
-			observer.disconnect();
-
-			console.log('Web Scrobbler: Setup "timeupdate" event listener');
-		}
-	});
-	observer.observe(document, {
-		subtree: true,
-		childList: true,
-		attributes: false,
-		characterData: false
-	});
+	Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 }
 
 setupConnector();

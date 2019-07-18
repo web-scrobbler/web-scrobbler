@@ -4,15 +4,15 @@
  * This pipeline stage normalizes track info fields.
  */
 
-define(() => {
-	const fieldsToNormalize = ['artist', 'track', 'album'];
+define((require) => {
+	const Song = require('object/song');
 
 	/**
 	 * Normalize info fields of given track.
-	 * @param  {[type]} song Song object
+	 * @param  {Object} song Song object
 	 */
 	function process(song) {
-		for (let field of fieldsToNormalize) {
+		for (let field of Song.BASE_FIELDS) {
 			let fieldValue = song.processed[field];
 			if (typeof(fieldValue) === 'string' && fieldValue) {
 				song.processed[field] = fieldValue.normalize();

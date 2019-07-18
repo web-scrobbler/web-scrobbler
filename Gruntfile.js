@@ -1,106 +1,102 @@
 'use strict';
 
-const fs = require('fs');
+require('dotenv').config();
 
-module.exports = function(grunt) {
-	let isTravisCi = (process.env.TRAVIS === 'true');
+const CHROME_EXTENSION_ID = 'hhinaapppaileiechjoiifaancjggfjm';
+const FIREFOX_EXTENSION_ID = '{799c0914-748b-41df-a25c-22d008f9e83f}';
 
-	const chromeExtensionId = 'hhinaapppaileiechjoiifaancjggfjm';
-	const amoExtensionId = '{799c0914-748b-41df-a25c-22d008f9e83f}';
+const SRC_DIR = 'src';
+const BUILD_DIR = 'build';
 
-	const srcDir = 'src';
-	const buildDir = 'build';
-	const packageName = 'web-scrobbler.zip';
-	const manifestFile = 'src/manifest.json';
+const PACKAGE_FILE = 'web-scrobbler.zip';
+const MANIFEST_FILE = 'src/manifest.json';
 
-	// Files to build package
-	const extensionSources = [
-		'**/*',
-		// Skip files
-		'!content/testReporter.js', '!icons/src/**',
-	];
-	const documentationFiles = [
-		'README.md', 'LICENSE.md'
-	];
+// Files to build package
+const EXTENSION_SRC = [
+	'**/*',
+	// Skip files
+	'!icons/*.svg',
+];
+const EXTENSION_DOCS = [
+	'README.md', 'LICENSE.md'
+];
 
-	// Files to lint
-	const jsFiles = [
-		// Custom Grunt tasks
-		'.grunt',
-		// Connectors
-		`${srcDir}/connectors/**/*.js`,
-		// Core files
-		`${srcDir}/core/**/*.js`, `${srcDir}/options/*.js`,
-		`${srcDir}/popups/*.js`,
-		// Tests
-		'tests/**/*.js'
-	];
-	const jsonFiles = ['*.json', '.stylelintrc'];
-	const htmlFiles = [`${srcDir}/options/*.html`, `${srcDir}/popups/*.html`];
-	const cssFiles = [`${srcDir}options/*.css`, `${srcDir}/popups/*.css`];
+// Files to lint
+const JS_FILES = [
+	// Custom Grunt tasks
+	'.grunt',
+	// Connectors
+	`${SRC_DIR}/connectors/**/*.js`,
+	// Core files
+	`${SRC_DIR}/core/**/*.js`, `${SRC_DIR}/options/*.js`,
+	`${SRC_DIR}/popups/*.js`,
+	// Tests
+	'tests/**/*.js'
+];
+const JSON_FILES = ['*.json', '.stylelintrc'];
+const HTML_FILES = [`${SRC_DIR}/options/*.html`, `${SRC_DIR}/popups/*.html`];
+const CSS_FILES = [`${SRC_DIR}options/*.css`, `${SRC_DIR}/popups/*.css`];
+const DOC_FILES = [
+	'*.md', '.github/**/*.md',
+];
 
-	const webStoreConfig = loadWebStoreConfig();
-	const githubConfig = loadGithubConfig();
-	const amoConfig = loadAmoConfig();
+const isTravisCi = (process.env.TRAVIS === 'true');
 
+module.exports = (grunt) => {
 	grunt.initConfig({
-		manifest: grunt.file.readJSON(manifestFile),
+		manifest: grunt.file.readJSON(MANIFEST_FILE),
 
 		/**
 		 * Configs of build tasks.
 		 */
 
 		clean: {
-			build: buildDir,
-			package: [packageName],
+			build: BUILD_DIR,
+			package: [PACKAGE_FILE],
 			chrome: [
-				`${buildDir}/icons/icon128_firefox.png`,
-				`${buildDir}/icons/icon48_firefox.png`
+				`${BUILD_DIR}/icons/icon_firefox_*.png`,
+			],
+			firefox: [
+				`${BUILD_DIR}/icons/icon_chrome_*.png`,
 			],
 		},
 		copy: {
 			source_files: {
 				expand: true,
-				cwd: srcDir,
-				src: extensionSources,
-				dest: buildDir,
+				cwd: SRC_DIR,
+				src: EXTENSION_SRC,
+				dest: BUILD_DIR,
 			},
 			documentation: {
 				expand: true,
-				src: documentationFiles,
-				dest: buildDir,
+				src: EXTENSION_DOCS,
+				dest: BUILD_DIR,
 			}
 		},
 		compress: {
 			main: {
 				options: {
-					archive: packageName,
+					archive: PACKAGE_FILE,
 					pretty: true
 				},
 				expand: true,
-				cwd: buildDir,
+				cwd: BUILD_DIR,
 				src: '**/*',
 			}
 		},
 		imagemin: {
 			static: {
-				options: {
-					svgoPlugins: [{
-						removeViewBox: false
-					}],
-				},
 				files: [{
 					expand: true,
 					src: [
-						`${buildDir}/icons/*.svg`,
-						`${buildDir}/icons/*.png`
+						`${BUILD_DIR}/icons/*.png`
 					]
 				}]
 			}
 		},
 		preprocess: {
 			firefox: {
-				src: `${buildDir}/**/*.js`,
+				src: `${BUILD_DIR}/**/*.js`,
 				expand: true,
 				options: {
 					inline: true,
@@ -110,7 +106,7 @@ module.exports = function(grunt) {
 				}
 			},
 			chrome: {
-				src: `${buildDir}/**/*.js`,
+				src: `${BUILD_DIR}/**/*.js`,
 				expand: true,
 				options: {
 					inline: true,
@@ -120,31 +116,29 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-		rename: {
-			firefox: {
-				files: [{
-					src: `${buildDir}/icons/icon128_firefox.png`,
-					dest: `${buildDir}/icons/icon128.png`
-				}, {
-					src: `${buildDir}/icons/icon48_firefox.png`,
-					dest: `${buildDir}/icons/icon48.png`
-				}]
-			}
-		},
 		replace_json: {
 			chrome: {
-				src: `${buildDir}/manifest.json`,
+				src: `${BUILD_DIR}/manifest.json`,
 				changes: {
-					'options_ui': undefined,
+					options_ui: undefined,
 				}
 			},
 			firefox: {
-				src: `${buildDir}/manifest.json`,
+				src: `${BUILD_DIR}/manifest.json`,
 				changes: {
-					'applications.gecko.id': amoExtensionId,
-					'applications.gecko.strict_min_version': '53.0',
+					applications: {
+						gecko: {
+							id: FIREFOX_EXTENSION_ID,
+							strict_min_version: '53.0',
+						}
+					},
+					icons: {
+						16: '<%= manifest.icons.16 %>',
+						48: 'icons/icon_firefox_48.png',
+						128: 'icons/icon_firefox_128.png',
+					},
 
-					'options_page': undefined,
+					options_page: undefined,
 				}
 			},
 		},
@@ -155,39 +149,35 @@ module.exports = function(grunt) {
 
 		bump: {
 			options: {
-				files: [manifestFile],
+				files: [MANIFEST_FILE],
 				updateConfigs: ['manifest'],
-				commitFiles: [manifestFile],
+				commitFiles: [MANIFEST_FILE],
 			}
 		},
-		dump_changelog: {
-			token: githubConfig.token,
-			version: '<%= manifest.version %>',
-		},
-		github_publish: {
-			token: githubConfig.token,
+		github_release: {
+			token: process.env.GITHUB_TOKEN,
 			version: '<%= manifest.version %>',
 		},
 		amo_upload: {
-			issuer: amoConfig.issuer,
-			secret: amoConfig.secret,
-			id: amoExtensionId,
+			issuer: process.env.AMO_ISSUER,
+			secret: process.env.AMO_SECRET,
+			id: FIREFOX_EXTENSION_ID,
 			version: '<%= manifest.version %>',
-			src: packageName,
+			src: PACKAGE_FILE,
 		},
 		webstore_upload: {
 			accounts: {
 				default: {
 					publish: true,
-					client_id: webStoreConfig.clientId,
-					client_secret: webStoreConfig.clientSecret,
-					refresh_token: webStoreConfig.refreshToken,
+					client_id: process.env.CHROME_CLIENT_ID,
+					client_secret: process.env.CHROME_CLIENT_SECRET,
+					refresh_token: process.env.CHROME_REFRESH_TOKEN,
 				},
 			},
 			extensions: {
 				'web-scrobbler': {
-					appID: chromeExtensionId,
-					zip: packageName,
+					appID: CHROME_EXTENSION_ID,
+					zip: PACKAGE_FILE,
 				}
 			}
 		},
@@ -197,45 +187,43 @@ module.exports = function(grunt) {
 		 */
 
 		eslint: {
-			target: jsFiles,
+			target: JS_FILES,
 			options: {
 				configFile: '.eslintrc.js',
 				fix: !isTravisCi
 			},
 		},
 		jsonlint: {
-			src: jsonFiles
+			src: JSON_FILES
 		},
 		lintspaces: {
-			src: [jsFiles, jsonFiles, cssFiles, htmlFiles],
+			src: [JS_FILES, JSON_FILES, CSS_FILES, HTML_FILES],
 			options: {
 				editorconfig: '.editorconfig',
 				ignores: ['js-comments']
 			}
 		},
+		remark: {
+			src: DOC_FILES
+		},
 		stylelint: {
-			all: cssFiles
+			all: CSS_FILES
 		},
 
 		/**
 		 * Configs of other tasks.
 		 */
 
-		exec: {
-			run_tests: {
-				cmd: (...args) => `node tests/runner.js ${args.join(' ')}`
-			}
+		mochacli: {
+			options: {
+				require: ['tests/requirejs-config'],
+				reporter: 'progress',
+			},
+			all: [
+				'tests/background/*.js',
+				'tests/content/*.js'
+			]
 		},
-		gitcommit: {
-			add0n_changelog: {
-				options: {
-					message: 'Update changelog on add0n.com'
-				},
-				files: {
-					src: ['.add0n/changelog.json']
-				}
-			}
-		}
 	});
 
 	require('load-grunt-tasks')(grunt);
@@ -254,23 +242,6 @@ module.exports = function(grunt) {
 	 */
 
 	/**
-	 * Set the extension icon according to specified browser.
-	 * @param {String} browser Browser name
-	 */
-	grunt.registerTask('icons', (browser) => {
-		assertBrowserIsSupported(browser);
-
-		switch (browser) {
-			case 'chrome':
-				grunt.task.run('clean:chrome');
-				break;
-			case 'firefox':
-				grunt.task.run('rename:firefox');
-				break;
-		}
-	});
-
-	/**
 	 * Copy source filed to build directory, preprocess them and
 	 * set the extension icon according to specified browser.
 	 * @param {String} browser Browser name
@@ -280,7 +251,7 @@ module.exports = function(grunt) {
 
 		grunt.task.run([
 			'copy', `preprocess:${browser}`,
-			`icons:${browser}`, 'imagemin',
+			`clean:${browser}`, 'imagemin',
 			`replace_json:${browser}`
 		]);
 	});
@@ -300,124 +271,78 @@ module.exports = function(grunt) {
 
 	/**
 	 * Publish data.
-	 * @param  {String} arg Task argument
+	 * @param  {String} browser Browser name
 	 */
-	grunt.registerTask('publish', (arg) => {
-		/**
-		 * Generate and commit changelog file for add0n.com website.
-		 */
-		if (arg === 'add0n' || arg === 'addon') {
-			grunt.task.run([
-				'dump_changelog', 'gitcommit:add0n_changelog'
-			]);
-			return;
-		}
-
-		if (arg === 'github') {
-			grunt.task.run('github_publish');
-			return;
-		}
-
-		/**
-		 * Create package and publish it.
-		 */
-
-		let browser = arg;
+	grunt.registerTask('publish', (browser) => {
 		assertBrowserIsSupported(browser);
 
+		grunt.task.run(
+			[`build:${browser}`, `upload:${browser}`, 'clean:package']);
+	});
+
+	/**
+	 * Release new version.
+	 *
+	 * For this project Travis CI is configured to publish the extension
+	 * if new tag is pushed to the project repository.
+	 *
+	 * As a fallback, the extension can be released locally:
+	 * > grunt release:%type%:local
+	 *
+	 * @param {String} releaseType Release type supported by grunt-bump
+	 * @param {String} releaseType2 Release type (local or empty)
+	 */
+	grunt.registerTask('release', (releaseType, releaseType2) => {
+		if (!releaseType) {
+			grunt.fail.fatal('You should specify release type!');
+		}
+
+		let releaseTasks = [`bump:${releaseType}`, 'github_release'];
+
+		if (releaseType2) {
+			if (releaseType2 !== 'local') {
+				grunt.fail.fatal(`Unknown release type: ${releaseType2}`);
+			}
+
+			const publishTasks = ['publish:chrome', 'publish:firefox'];
+			releaseTasks = releaseTasks.concat(publishTasks);
+		}
+
+		grunt.task.run(releaseTasks);
+	});
+
+	/**
+	 * Upload new version.
+	 *
+	 * @param  {String} browser Browser name
+	 */
+	grunt.registerTask('upload', (browser) => {
 		switch (browser) {
 			case 'chrome':
-				grunt.task.run(['build:chrome', 'webstore_upload', 'clean:package']);
+				grunt.task.run('webstore_upload');
 				break;
 			case 'firefox':
-				grunt.task.run(['build:firefox', 'amo_upload', 'clean:package']);
+				grunt.task.run('amo_upload');
 				break;
 		}
 	});
 
 	/**
-	 * Release new version for CI to pickup.
-	 *
-	 * @param {String} releaseType Release type that 'grunt-bump' supports
+	 * Run tests.
 	 */
-	grunt.registerTask('release', (releaseType) => {
-		if (!releaseType) {
-			grunt.fail.fatal('You should specify release type!');
-		}
-
-		grunt.task.run(`bump-only:${releaseType}`);
-
-		// Patch releases are in vX.X.X branch, so there's no reason
-		// to make changelogs for them.
-		if (releaseType !== 'patch') {
-			grunt.task.run('publish:add0n');
-		}
-
-		grunt.task.run('bump-commit');
-	});
-
-
-	/**
-	 * Release new version locally and publish all packages.
-	 *
-	 * @param {String} releaseType Release type that 'grunt-bump' supports
-	 */
-	grunt.registerTask('release-local', (releaseType) => {
-		if (!releaseType) {
-			grunt.fail.fatal('You should specify release type!');
-		}
-
-		grunt.task.run(`release:${releaseType}`);
-
-		grunt.task.run(['publish:chrome', 'publish:firefox']);
-	});
-
-	/**
-	 * Run core or connectors tests.
-	 *
-	 * You can easily run all test by the following command:
-	 *   > grunt test
-	 *
-	 * To run core tests use 'core' as an argument:
-	 *   > grunt test:core
-	 *
-	 * Note: running core and connectors tests at the same time is not supported.
-	 *
-	 * You can specify tests you want to run as arguments:
-	 *   > grunt test:8tracks
-	 *   Run single test for 8tracks connector
-	 *
-	 *   > grunt test:hypem:dashradio
-	 *   Run tests for Hype Machine and Dash Radio connectors
-	 *
-	 * Also, you can use following options:
-	 *   - debug: enable debug mode. Disabled by default.
-	 *     Use true|on|1 value to enable and false|off|0 to disable debug mode.
-	 *   - quitOnEnd: close browser when all tests are completed. Enabled by default.
-	 *     Use true|on|1 value to enable and false|off|0 to disable this feature.
-	 *   - skip: skip given tests.
-	 *     Tests can be specified as string of tests filenames joined by comma.
-	 *
-	 * Of course, you can mix both options and tests in arguments:
-	 *   > grunt test:8tracks:debug=1
-	 */
-	grunt.registerTask('test', 'Run tests.', function(...args) {
-		grunt.task.run([
-			`exec:run_tests:${args.join(':')}`
-		]);
-	});
+	grunt.registerTask('test', ['mochacli']);
 
 	/**
 	 * Lint source code using linters specified below.
 	 */
 	grunt.registerTask('lint', [
-		'eslint', 'jsonlint', 'lintspaces', 'stylelint'
+		'eslint', 'jsonlint', 'lintspaces', 'stylelint', 'remark',
 	]);
 
 	/**
 	 * Register default task
 	 */
-	grunt.registerTask('default', ['lint', 'test:core']);
+	grunt.registerTask('default', ['lint', 'test']);
 
 	/**
 	 * Throw an error if the extension doesn't support given browser.
@@ -436,79 +361,5 @@ module.exports = function(grunt) {
 		if (supportedBrowsers.indexOf(browser) === -1) {
 			grunt.fail.fatal(`Unknown browser: ${browser}`);
 		}
-	}
-
-	/**
-	 * Get JSON config.
-	 *
-	 * @param  {String} configPath Path to config file
-	 * @return {Object} Config object
-	 */
-	function loadConfig(configPath) {
-		if (fs.existsSync(configPath)) {
-			return require(configPath);
-		}
-
-		return {};
-	}
-
-	/**
-	 * Get web store config.
-	 *
-	 * @return {Object} Config object
-	 */
-	function loadWebStoreConfig() {
-		if (isTravisCi) {
-			let webStoreConfig =  {
-				clientId: process.env.CHROME_CLIENT_ID,
-				clientSecret: process.env.CHROME_CLIENT_SECRET,
-				refreshToken: process.env.CHROME_REFRESH_TOKEN
-			};
-
-			return webStoreConfig;
-		}
-
-		let webStoreConfig = loadConfig('./.publish/web-store.json');
-
-		return webStoreConfig;
-	}
-
-	/**
-	 * Get github config.
-	 *
-	 * @return {Object} Config object
-	 */
-	function loadGithubConfig() {
-		if (isTravisCi) {
-			let githubConfig =  {
-				token: process.env.GITHUB_TOKEN,
-			};
-
-			return githubConfig;
-		}
-
-		let githubConfig = loadConfig('./.publish/github.json');
-
-		return githubConfig;
-	}
-
-	/**
-	 * Get Amo config.
-	 *
-	 * @return {Object} Config object
-	 */
-	function loadAmoConfig() {
-		if (isTravisCi) {
-			let amoConfig =  {
-				issuer: process.env.AMO_ISSUER,
-				secret: process.env.AMO_SECRET,
-			};
-
-			return amoConfig;
-		}
-
-		let amoConfig = loadConfig('./.publish/amo.json');
-
-		return amoConfig;
 	}
 };

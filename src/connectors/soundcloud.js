@@ -31,7 +31,7 @@ Connector.getCurrentState = () => {
 
 Connector.isScrobblingAllowed = () => !isPrivate;
 
-Connector.filter = MetadataFilter.getYoutubeFilter();
+Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 
 Connector.getCurrentTime = () => {
 	return parseFloat($(progressSelector).attr('aria-valuenow')) / 1000;
@@ -53,12 +53,16 @@ function setSongData(metadata) {
 		return;
 	}
 
-	// Sometimes the artist name is in the track title,
-	// e.g. Tokyo Rose - Zender Overdrive by Aphasia Records.
+	/*
+	 * Sometimes the artist name is in the track title,
+	 * e.g. Tokyo Rose - Zender Overdrive by Aphasia Records.
+	 */
 	let match = artistTrackRe.exec(metadata.title);
 
-	// But don't interpret patterns of the form
-	// "[Start of title] #1234 - [End of title]" as Artist - Title
+	/*
+	 * But don't interpret patterns of the form
+	 * "[Start of title] #1234 - [End of title]" as Artist - Title
+	 */
 	if (match && ! /.*#\d+.*/.test(match[1])) {
 		currentState.artist = match[1];
 		currentState.track = match[2];

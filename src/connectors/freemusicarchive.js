@@ -28,7 +28,7 @@ let pageType = (function() {
  *
  * @param  {Object} regEx Regular expression used to match
  * @return {String} Found string
-*/
+ */
 function searchComment(regEx) {
 	let result;
 	let pageDataNode = $('div.colr-sml-toppad').contents().filter(function() {
@@ -55,11 +55,7 @@ Connector.getArtist = () => {
 				return this.nodeType === 3;
 			}).text();
 		case 'album':
-			// if there are two anchors in the .playtxt span then it uses the format "Artist - TrackName" (albums with letious Artists)
-			if ($('div.gcol-electronic .playtxt a').length === 2) {
-				return $('div.gcol-electronic .playtxt a').first().text();
-			}
-			return searchComment(/\[artist_name\] => (.+)/);
+			return $('.subh1 a').text();
 		case 'song':
 			// return $('a[property="cc:attributionName"]').text();  //can't use, attribution isn't always present
 			return searchComment(/\[artist_name\] => (.+)/);
@@ -82,8 +78,10 @@ Connector.getAlbum = () => {
 			return albumName;
 		}
 		case 'song':
-			// can't use breadcrumb since album title may be truncated,
-			//  instead use an html comment that contains the album name
+			/*
+			 * Can't use breadcrumb since album title may be truncated,
+			 * instead use an html comment that contains the album name
+			 */
 			return searchComment(/\[album_title\] => (.+)/);
 		default:
 			return null;

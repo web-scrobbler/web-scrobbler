@@ -2,11 +2,11 @@
 
 Connector.playerSelector = '[class^="nowPlaying"]';
 
-Connector.playButtonSelector = `${Connector.playerSelector} [class^="playbackToggle"]`;
+Connector.playButtonSelector = `${Connector.playerSelector} [class*="playbackToggle"]`;
 
 Connector.isScrobblingAllowed = () => !!$(Connector.playButtonSelector);
 
-Connector.isPlaying = () => $(Connector.playButtonSelector).attr('data-test-id') === 'pause';
+Connector.isPlaying = () => $(Connector.playButtonSelector).attr('data-test') === 'pause';
 
 Connector.trackSelector = `${Connector.playerSelector} [class^="mediaInformation"] span:eq(0)`;
 
@@ -16,6 +16,6 @@ Connector.albumSelector = `${Connector.playerSelector} [class^="infoTable--"] a[
 
 Connector.trackArtSelector = `${Connector.playerSelector} [class^="mediaImageryTrack"] img`;
 
-Connector.currentTimeSelector = `${Connector.playerSelector} [data-test-id="duration"] [class^="currentTime"]`;
+Connector.currentTimeSelector = `${Connector.playerSelector} [data-test="duration"] [class^="currentTime"]`;
 
-Connector.durationSelector = `${Connector.playerSelector} [data-test-id="duration"] [class^="duration"]`;
+Connector.durationSelector = `${Connector.playerSelector} [data-test="duration"] [class^="duration"]`;

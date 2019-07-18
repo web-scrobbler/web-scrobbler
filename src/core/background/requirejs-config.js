@@ -8,13 +8,16 @@ require.config({
 	paths: {
 		vendor: '/vendor',
 		jquery: '/vendor/jquery.min',
+		options: '/options',
 		bootstrap: '/vendor/bootstrap/bootstrap.min',
-		connectors: '/core/connectors'
+		connectors: '/core/connectors',
+
+		'webextension-polyfill': '/vendor/browser-polyfill.min',
 	},
 	shim: {
 		bootstrap: {
-			deps: ['jquery']
+			deps: ['jquery'],
 		},
 	},
-	waitSeconds: 0
+	waitSeconds: 0,
 });

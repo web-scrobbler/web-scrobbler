@@ -8,7 +8,7 @@ Connector.currentTimeSelector = '.progress-texts span:nth-child(1)';
 
 Connector.durationSelector = '.progress-texts span:nth-child(3)';
 
-Connector.filter = MetadataFilter.getYoutubeFilter();
+Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 
 Connector.getArtist = () => {
 	let artists = $('.watch-info .artist a').toArray();

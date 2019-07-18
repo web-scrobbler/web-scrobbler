@@ -103,6 +103,10 @@
         "message": "Esta extensão armazena dados de faixas editadas.",
         "description": "Description of edited tracks"
     },
+    "optionsEditedTracksPopupTitle": {
+        "message": "$1faixa(s) editada(s)",
+        "description": "'Edited tracks' header"
+    },
     "optionsViewEdited": {
         "message": "Ver",
         "description": "Button to view edited tracks"
@@ -252,7 +256,7 @@
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
-        "message": "O Web Scrobbler foi criado para pessoas que ouvem música online no navegador e desejam manter um histórico de reprodução atualizado usando o serviço de scrobble da Last.fm.",
+        "message": "O Web Scrobbler é uma extensão de navegador criada para quem ouve música online direto do navegador e gostaria de manter um histórico de reprodução sempre atualizado usando serviços de rastreamento de músicas, como a Last.fm, Libre.fm e ListenBrainz.",
         "description": "'About' section text"
     },
     "contributorsTitle": {
@@ -534,6 +538,30 @@
     "notificationNotRecognizedText": {
         "message": "Clique no ícone na barra de extensões para corrigir e enviar dados da faixa.",
         "description": "Notification text"
+    },
+    "startupTitle": {
+        "message": "Bem-vindo ao Web Scrobbler!",
+        "description": "Title for startup page"
+    },
+    "startupIntroTitle": {
+        "message": "Obrigado por instalar o Web Scrobbler!",
+        "description": "Startup intro title"
+    },
+    "startupIntroText": {
+        "message": "Antes de começarmos a fazer scrobble das suas músicas favoritas, primeiro você deve revisar e aceitar (ou recusar) a nossa política de privacidade.",
+        "description": "Startup intro text"
+    },
+    "startupFinished": {
+        "message": "Obrigado! Caso mude de ideia, você pode alterar a sua resposta nas opções.",
+        "description": "Startup finished text"
+    },
+    "optIn": {
+        "message": "Aceitar",
+        "description": "Opt in"
+    },
+    "optOut": {
+        "message": "Recusar",
+        "description": "Opt out"
     },
     "extDescription": {
         "message": "Faça scrobble de músicas por toda a internet!",

@@ -14,8 +14,6 @@ Connector.getArtistTrack = () => {
 	return Util.splitArtistTrack(text);
 };
 
-Connector.isPlaying = () => {
-	return $('.player-pause').is(':visible');
-};
+Connector.pauseButtonSelector = '.player-pause';
 
 Connector.onReady = Connector.onStateChanged;

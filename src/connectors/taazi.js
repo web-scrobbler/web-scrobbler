@@ -2,14 +2,14 @@
 
 Connector.playerSelector = '.app-player';
 
-Connector.artistSelector = '.mejs-track-author a';
+Connector.artistSelector = '.mejs__track-author a';
 
-Connector.trackSelector = '.mejs-track-title a';
+Connector.trackSelector = '.mejs__track-title a';
 
-Connector.currentTimeSelector = '.mejs-currenttime';
+Connector.currentTimeSelector = '.mejs__currenttime';
 
-Connector.durationSelector = '.mejs-duration';
+Connector.durationSelector = '.mejs__duration';
 
-Connector.playButtonSelector = '.mejs-play';
+Connector.playButtonSelector = '.mejs__play';
 
-Connector.trackArtSelector = '.mejs-track-artwork';
+Connector.trackArtSelector = '.mejs__track-artwork';

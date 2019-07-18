@@ -2,13 +2,13 @@
 
 Connector.playerSelector = '[data-test="mini-player-container"]';
 
-Connector.playButtonSelector = 'button[data-test="play-button"]';
+Connector.pauseButtonSelector = 'button[data-test-state="playing"]';
 
 Connector.artistSelector = '[data-test="mini-player-description-text"] [title]';
 
 Connector.trackSelector = '[data-test="mini-player-track-text"] [title]';
 
-Connector.isStateChangeAllowed = Connector.isPlaying = () => {
+Connector.isScrobblingAllowed = () => {
 	let track = Connector.getTrack();
 	if (track) {
 		return !track.startsWith('Thanks for listening');

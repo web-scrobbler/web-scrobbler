@@ -9,10 +9,10 @@ const escapeHtmlEntityMap = {
 
 /**
  * Base filter object that filters metadata fields by given filter set.
- * A filter set is an object containing 'artist', 'track', 'album' or 'all'
+ * A filter set is an object containing 'artist', 'track', 'album', 'albumArtist', or 'all'
  * properties. Each property can be defined either as a filter function or as
- * an array of filter functions. The 'artist', 'track' and 'album' properties
- * are used to define functions to filter artist, track and album metadata
+ * an array of filter functions. The 'artist', 'track', 'album', and 'albumArtist' properties
+ * are used to define functions to filter artist, track, album, and album artist metadata
  * fields respectively. The 'all' property can be used to define common filter
  * functions for all metadata fields.
  *
@@ -27,33 +27,6 @@ class MetadataFilter {
 	constructor(filterSet) {
 		this.mergedFilterSet = {};
 		this.appendFilters(filterSet);
-	}
-
-	/**
-	 * Filter text using filters for artist metadata field.
-	 * @param  {String} text String to be filtered
-	 * @return {String} Filtered string
-	 */
-	filterArtist(text) {
-		return this.filterText(text, this.mergedFilterSet.artist);
-	}
-
-	/**
-	 * Filter text using filters for track metadata field.
-	 * @param  {String} text String to be filtered
-	 * @return {String} Filtered string
-	 */
-	filterTrack(text) {
-		return this.filterText(text, this.mergedFilterSet.track);
-	}
-
-	/**
-	 * Filter text using filters for album metadata field.
-	 * @param  {String} text String to be filtered
-	 * @return {String} Filtered string
-	 */
-	filterAlbum(text) {
-		return this.filterText(text, this.mergedFilterSet.album);
 	}
 
 	/**
@@ -110,18 +83,18 @@ class MetadataFilter {
 
 	/**
 	 * Convert given filters into array of filters.
-	 * @param  {Any} filters Array of filter functions or filter function
+	 * @param  {Object} filters Array of filter functions or filter function
 	 * @return {Array} Array of filter funcions
 	 */
 	createFilters(filters) {
 		if (typeof filters === 'function') {
 			let filterFunction = filters;
 			return [filterFunction];
-		} else if (Object.prototype.toString.call(filters) === '[object Array]') {
+		} else if (Array.isArray(filters)) {
 			return filters;
 		}
 
-		return [];
+		throw new Error(`Invalid filter type: ${typeof filters}`);
 	}
 
 	/**
@@ -129,14 +102,20 @@ class MetadataFilter {
      * @param {Object} filterSet Set of filters
 	 */
 	appendFilters(filterSet) {
-		for (let field of ['artist', 'track', 'album']) {
+		for (let field of ['artist', 'track', 'album', 'albumArtist']) {
 			if (this.mergedFilterSet[field] === undefined) {
 				this.mergedFilterSet[field] = [];
 			}
 
-			this.mergedFilterSet[field] = this.mergedFilterSet[field]
-				.concat(this.createFilters(filterSet[field]))
-				.concat(this.createFilters(filterSet.all));
+			if (filterSet[field]) {
+				this.mergedFilterSet[field] = this.mergedFilterSet[field]
+					.concat(this.createFilters(filterSet[field]));
+			}
+
+			if (filterSet.all) {
+				this.mergedFilterSet[field] = this.mergedFilterSet[field]
+					.concat(this.createFilters(filterSet.all));
+			}
 		}
 	}
 
@@ -151,6 +130,15 @@ class MetadataFilter {
 	 */
 	static trim(text) {
 		return text.trim();
+	}
+
+	/**
+	 * Replace non-braking space symbol with space symbol.
+	 * @param  {String} text String to be filtered
+	 * @return {String}	Filtered string
+	 */
+	static replaceNbsp(text) {
+		return text.replace('\u00a0', '\u0020');
 	}
 
 	/**
@@ -207,6 +195,42 @@ class MetadataFilter {
 	}
 
 	/**
+	 * Remove "Live..."-like strings from the text.
+	 * @param  {String} text String to be filtered
+	 * @return {String} Filtered string
+	 */
+	static removeLive(text) {
+		return MetadataFilter.filterWithFilterSet(
+			text, MetadataFilter.LIVE_FILTERS
+		);
+	}
+
+	/**
+	 * Replace "Title - X Remix" suffix with "Title (X Remix) and similar".
+	 * @param  {String} text String to be filtered
+	 * @return {String} Filtered string
+	 */
+	static fixTrackSuffix(text) {
+		return MetadataFilter.filterWithFilterSet(
+			text, MetadataFilter.SUFFIX_FILTERS
+		);
+	}
+
+	/**
+	 * "REAL_TITLE : REAL_TILE" -> "REAL_TITLE"
+	 * @param  {String} text String to be filtered
+	 * @return {String} Filtered string
+	 */
+	static removeDoubleTitle(text) {
+		const splitted = text.split(' : ');
+		if (splitted.length !== 2 || splitted[0] !== splitted[1]) {
+			return text;
+		}
+		return splitted[0];
+	}
+
+
+	/**
 	 * Replace text according to given filter set rules.
 	 * @param  {String} text String to be filtered
 	 * @param  {Object} set  Array of replace rules
@@ -237,53 +261,55 @@ class MetadataFilter {
 			// Trim whitespaces
 			{ source: /^\s+|\s+$/g, target: '' },
 			// **NEW**
-			{ source: /\s*\*+\s?\S+\s?\*+$/, target: '' },
+			{ source: /\*+\s?\S+\s?\*+$/, target: '' },
 			// [whatever]
-			{ source: /\s*\[[^\]]+\]$/, target: '' },
+			{ source: /\[[^\]]+\]$/, target: '' },
 			// (whatever version)
-			{ source: /\s*\([^)]*version\)$/i, target: '' },
+			{ source: /\([^)]*version\)$/i, target: '' },
 			// video extensions
-			{ source: /\s*\.(avi|wmv|mpg|mpeg|flv)$/i, target: '' },
+			{ source: /\.(avi|wmv|mpg|mpeg|flv)$/i, target: '' },
 			// (LYRICs VIDEO)
-			{ source: /\s*(lyrics? video\s*)/i, target: '' },
+			{ source: /((with)?\s*lyrics?( video)?\s*)/i, target: '' },
 			// (Official Track Stream)
-			{ source: /\s*(Official Track Stream*)/i, target: '' },
+			{ source: /(Official Track Stream*)/i, target: '' },
 			// (official)? (music)? video
-			{ source: /\s*(of+icial\s*)?(music\s*)?video/i, target: '' },
+			{ source: /(of+icial\s*)?(music\s*)?video/i, target: '' },
 			// (official)? (music)? audio
-			{ source: /\s*(of+icial\s*)?(music\s*)?audio/i, target: '' },
+			{ source: /(of+icial\s*)?(music\s*)?audio/i, target: '' },
 			// (ALBUM TRACK)
-			{ source: /\s*(ALBUM TRACK\s*)?(album track\s*)/i, target: '' },
+			{ source: /(ALBUM TRACK\s*)?(album track\s*)/i, target: '' },
 			// (Cover Art)
-			{ source: /\s*(COVER ART\s*)?(Cover Art\s*)/i, target: '' },
+			{ source: /(COVER ART\s*)?(Cover Art\s*)/i, target: '' },
 			// (official)
-			{ source: /\s*\(\s*of+icial\s*\)/i, target: '' },
+			{ source: /\(\s*of+icial\s*\)/i, target: '' },
 			// (1999)
-			{ source: /\s*\(\s*[0-9]{4}\s*\)/i, target: '' },
+			{ source: /\(\s*[0-9]{4}\s*\)/i, target: '' },
 			// HD (HQ)
-			{ source: /\s+\(\s*(HD|HQ)\s*\)$/, target: '' },
+			{ source: /\(\s*(HD|HQ)\s*\)$/, target: '' },
 			// HD (HQ)
-			{ source: /\s+(HD|HQ)\s*$/, target: '' },
+			{ source: /(HD|HQ)\s*$/, target: '' },
 			// video clip officiel
-			{ source: /\s*(vid[\u00E9e]o)?\s*clip officiel/i, target: '' },
+			{ source: /(vid[\u00E9e]o)?\s?clip\sofficiel/i, target: '' },
 			// offizielles
-			{ source: /\s*of+iziel+es\s*/i, target: '' },
+			{ source: /of+iziel+es\s*/i, target: '' },
 			// video clip
-			{ source: /\s*(vid[\u00E9e]o)?\s*clip/i, target: '' },
+			{ source: /vid[\u00E9e]o\s?clip/i, target: '' },
+			// clip
+			{ source: /\sclip/i, target: '' },
 			// Full Album
-			{ source: /\s*full\s*album/i, target: '' },
+			{ source: /full\s*album/i, target: '' },
 			// live
-			{ source: /\s+\(?live\)?$/i, target: '' },
+			{ source: /\(?live.*?\)?$/i, target: '' },
+			// | something
+			{ source: /\|.*$/i, target: '' },
 			// Leftovers after e.g. (official video)
 			{ source: /\(+\s*\)+/, target: '' },
 			// Artist - The new "Track title" featuring someone
-			{ source: /^(|.*\s)"(.*)"(\s.*|)$/, target: '$2' },
+			{ source: /^(|.*\s)"(.{5,})"(\s.*|)$/, target: '$2' },
 			// 'Track title'
-			{ source: /^(|.*\s)'(.*)'(\s.*|)$/, target: '$2' },
-
-
-			// labels
-			{ source: /\|\sNapalm\sRecords$/, target: '' },
+			{ source: /^(|.*\s)'(.{5,})'(\s.*|)$/, target: '$2' },
+			// (*01/01/1999*)
+			{ source: /\(.*[0-9]{1,2}\/[0-9]{1,2}\/[0-9]{2,4}.*\)/i, target: '' },
 
 			// trim starting white chars and dash
 			{ source: /^[/,:;~-\s"]+/, target: '' },
@@ -325,15 +351,35 @@ class MetadataFilter {
 		];
 	}
 
+	static get LIVE_FILTERS() {
+
+		return [
+			// Track - Live
+			{ source: /-\sLive?$/, target: '' },
+			// Track - Live at
+			{ source: /-\sLive\s.+?$/, target: '' },
+		];
+	}
+
+	static get SUFFIX_FILTERS() {
+		return [
+			// "- X Remix" -> "(X Remix)" and similar
+			{ source: /-\s(.+?)\s((Re)?mix|edit|dub|mix|vip|version)$/i, target: '($1 $2)' },
+			{ source: /-\s(Remix|VIP)$/i, target: '($1)' },
+		];
+	}
+
+
 	/**
 	 * Get simple trim filter object used by default in a Connector object.
 	 * @return {MetadataFilter} Filter object
 	 */
-	static getTrimFilter() {
+	static getDefaultFilter() {
 		return new MetadataFilter({
-			artist: MetadataFilter.trim,
-			track: MetadataFilter.trim,
-			album: MetadataFilter.trim
+			artist: [MetadataFilter.trim, MetadataFilter.replaceNbsp],
+			track: [MetadataFilter.trim, MetadataFilter.replaceNbsp],
+			album: [MetadataFilter.trim, MetadataFilter.replaceNbsp],
+			albumArtist: [MetadataFilter.trim, MetadataFilter.replaceNbsp],
 		});
 	}
 
@@ -343,8 +389,7 @@ class MetadataFilter {
 	 */
 	static getYoutubeFilter() {
 		return new MetadataFilter({
-			track: MetadataFilter.youtube,
-			all: MetadataFilter.trim
+			track: MetadataFilter.youtube
 		});
 	}
 
@@ -354,34 +399,28 @@ class MetadataFilter {
 	 */
 	static getRemasteredFilter() {
 		return new MetadataFilter({
-			all: MetadataFilter.trim,
 			track: MetadataFilter.removeRemastered,
-			album: MetadataFilter.removeRemastered
+			album: MetadataFilter.removeRemastered,
 		});
 	}
 
 	/**
-	 * Get filter that replaces NBSP with space.
-	 * TODO: redo to more generic filter which does some other cleaning things.
+	 * Get predefined filter object that uses 'removeRemastered' function.
 	 * @return {MetadataFilter} Filter object
 	 */
-	static getNbspFilter() {
+	static getSpotifyFilter() {
 		return new MetadataFilter({
-			all: (text) => text.replace(' ', ' ')
+			track: [
+				MetadataFilter.removeRemastered,
+				MetadataFilter.fixTrackSuffix,
+				MetadataFilter.removeLive,
+			],
+			album: [
+				MetadataFilter.removeRemastered,
+				MetadataFilter.fixTrackSuffix,
+				MetadataFilter.removeLive,
+			],
 		});
-	}
-
-	/**
-	 * "REAL_TITLE : REAL_TILE" -> "REAL_TITLE"
-	 * @param  {String} text String to be filtered
-	 * @return {String} Filtered string
-	 */
-	static removeDoubleTitle(text) {
-		const splitted = text.split(' : ');
-		if (splitted.length !== 2 || splitted[0] !== splitted[1]) {
-			return text;
-		}
-		return splitted[0];
 	}
 
 	/**

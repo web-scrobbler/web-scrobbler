@@ -7,3 +7,5 @@ Connector.artistSelector = '#artist';
 Connector.trackSelector = '#title';
 
 Connector.getTrackArt = () => $('#player-current-song').attr('rel');
+
+Connector.pauseButtonSelector = '#playtoggle.stop';

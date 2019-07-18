@@ -65,7 +65,7 @@ function setupConnector() {
 	} else if (isAudioPlayer()) {
 		setupAudioPlayer();
 	} else {
-		console.warn('WFMU connector: unknown player');
+		Util.debugLog('WFMU connector: unknown player', 'warn');
 	}
 }
 

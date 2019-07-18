@@ -1,7 +1,9 @@
 'use strict';
 
-const CATEGORY_MUSIC = '10';
-const CATEGORY_ENTERTAINMENT = '24';
+const CATEGORY_MUSIC = '/channel/UC-9-kyTW8ZkZNDHQJ6FgpwQ';
+const CATEGORY_ENTERTAINMENT = '/channel/UCi-g4cjqGV7jvU8aeSuj0jQ';
+
+const CATEGORY_PENDING = 'YT_DUMMY_CATEGORY_PENDING';
 
 /**
  * Array of categories allowed to be scrobbled.
@@ -21,48 +23,24 @@ let categoryCache = new Map();
  */
 const videoSelector = '.html5-main-video';
 
-/**
- * Youtube API key used to get video category.
- * @type {String}
- */
-const YT_API_KEY = 'AIzaSyA3VNMxXEIr7Ml3_zUuzA7Ilba80A657KE';
-
 readConnectorOptions();
 setupMutationObserver();
 
 Connector.getArtistTrack = () => {
-	/*
-	 * Youtube doesn't remove DOM object on AJAX navigation,
-	 * so we should not return track data if no song is playing.
-	 */
-	if (Connector.isPlayerOffscreen()) {
-		return Util.makeEmptyArtistTrack();
+	const videoTitle = $('.html5-video-player .ytp-title-link').first().text();
+	const ownerName = $('#meta-contents #owner-name a').text();
+
+	const byLineMatch = ownerName.match(/(.+) - Topic/);
+	if (byLineMatch) {
+		return { artist: byLineMatch[1], track: videoTitle };
 	}
 
-	return getArtistTrack();
-};
-
-/**
- * Check if player is off screen.
- *
- * YouTube doesn't really unload the player. It simply moves it outside
- * viewport. That has to be checked, because our selectors are still able
- * to detect it.
- *
- * @return {Boolean} True if player is off screen; false otherwise
- */
-Connector.isPlayerOffscreen = () => {
-	if (Connector.isFullscreenMode()) {
-		return false;
+	let { artist, track } = Util.processYoutubeVideoTitle(videoTitle);
+	if (!artist) {
+		artist = ownerName;
 	}
 
-	let videoElement = $(videoSelector);
-	if (videoElement.length === 0) {
-		return false;
-	}
-
-	let offset = videoElement.offset();
-	return offset.left <= 0 && offset.top <= 0;
+	return { artist, track };
 };
 
 /*
@@ -71,16 +49,10 @@ Connector.isPlayerOffscreen = () => {
  * state may not be considered empty.
  */
 Connector.getCurrentTime = () => {
-	if (Connector.isPlayerOffscreen()) {
-		return null;
-	}
 	return $(videoSelector).prop('currentTime');
 };
 
 Connector.getDuration = () => {
-	if (Connector.isPlayerOffscreen()) {
-		return null;
-	}
 	return $(videoSelector).prop('duration');
 };
 
@@ -89,14 +61,6 @@ Connector.isPlaying = () => {
 };
 
 Connector.getUniqueID = () => {
-	/*
-	 * Youtube doesn't remove DOM object on AJAX navigation,
-	 * so we should not return track data if no song is playing.
-	 */
-	if (Connector.isPlayerOffscreen()) {
-		return null;
-	}
-
 	/*
 	 * Youtube doesn't update video title immediately in fullscreen mode.
 	 * We don't return video ID until video title is shown.
@@ -108,8 +72,14 @@ Connector.getUniqueID = () => {
 		}
 	}
 
-	let videoUrl = $('.html5-video-player.playing-mode .ytp-title-link').attr('href');
-	return Util.getYoutubeVideoIdFromUrl(videoUrl);
+	let videoId = $('ytd-watch-flexy').attr('video-id');
+
+	if (!videoId) {
+		let videoUrl = $('.html5-video-player.playing-mode .ytp-title-link').attr('href');
+		videoId = Util.getYoutubeVideoIdFromUrl(videoUrl);
+	}
+
+	return videoId;
 };
 
 Connector.isScrobblingAllowed = () => {
@@ -134,33 +104,14 @@ Connector.isScrobblingAllowed = () => {
 	return false;
 };
 
-Connector.filter = MetadataFilter.getYoutubeFilter();
+Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 
 Connector.isFullscreenMode = () => {
 	return $('.html5-video-player').hasClass('ytp-fullscreen');
 };
 
 /**
- * @typedef {Object} ArtistTrack
- * @property {string} artist The track's artist
- * @property {string} track The track's title
- */
-
-/**
- * Parse webpage and return track Artist and Title
- * @return {ArtistTrack} The track's Artist and Title
- */
-function getArtistTrack() {
-	let videoTitle = $('.html5-video-player.playing-mode .ytp-title-link').text();
-	let byLineMatch = $('#meta-contents #owner-name a').text().match(/(.+) - Topic/);
-	if (byLineMatch) {
-		return { artist: byLineMatch[1], track: videoTitle };
-	}
-	return Util.processYoutubeVideoTitle(videoTitle);
-}
-
-/**
- * Get video category using Youtube API.
+ * Get video category.
  * @param  {String} videoId Video ID
  * @return {String} Video category
  */
@@ -168,25 +119,72 @@ function getVideoCategory(videoId) {
 	if (videoId === null) {
 		return null;
 	}
+
 	if (!categoryCache.has(videoId)) {
-		const url = `https://www.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${YT_API_KEY}`;
-		fetch(url).then((response) => {
-			if (!response.ok) {
-				throw new Error('Invalid response');
+		/*
+		 * Add dummy category for videoId to prevent
+		 * fetching category multiple times.
+		 */
+		categoryCache.set(videoId, CATEGORY_PENDING);
+
+		fetchCategoryId(videoId).then((category) => {
+			if (category === null) {
+				Util.debugLog(`Failed to resolve category for ${videoId}`, 'warn');
 			}
-			return response.json();
-		}).then((data) => {
-			let category = data.items[0].snippet.categoryId;
-			if (typeof category === 'string') {
-				categoryCache.set(videoId, category);
-			}
-		}).catch((err) => {
-			console.log(`Unable to get category for ${videoId}: ${err.message}`);
+
+			categoryCache.set(videoId, category);
 		});
+
 		return null;
 	}
-	return categoryCache.get(videoId);
 
+	return categoryCache.get(videoId);
+}
+
+async function fetchCategoryId() {
+	await fillMoreSection();
+	return $('.ytd-metadata-row-renderer .yt-formatted-string[href^="/channel/"]').attr('href');
+}
+
+async function fillMoreSection() {
+	function waitForClick(ms = 0) {
+		return new Promise((resolve) => setTimeout(resolve, ms));
+	}
+
+	const ytShowLessText = $('yt-formatted-string.less-button').text();
+	const ytShowMoreText = $('yt-formatted-string.more-button').text();
+
+	// Apply global style to prevent "More/Less" button flickering.
+	$('yt-formatted-string.less-button').text(ytShowMoreText);
+	let styleTag = $(`
+		<style id="tmp-style">
+			ytd-metadata-row-container-renderer {
+				visibility: hidden;
+			}
+			ytd-metadata-row-container-renderer #collapsible {
+				height: 0;
+			}
+			ytd-expander > #content.ytd-expander {
+				overflow: hidden;
+				max-height: var(--ytd-expander-collapsed-height);
+			}
+			yt-formatted-string.less-button {
+				margin-top: 0 !important;
+			}
+		</style>
+	`);
+	$('html > head').append(styleTag);
+
+	// Open "More" section.
+	$('yt-formatted-string.more-button').click();
+	await waitForClick();
+
+	// Close "More" section.
+	$('yt-formatted-string.less-button').click();
+
+	// Remove global style.
+	$('yt-formatted-string.less-button').text(ytShowLessText);
+	$('#tmp-style').remove();
 }
 
 function setupMutationObserver() {
@@ -208,12 +206,12 @@ function setupMutationObserver() {
 			videoElement.on('timeupdate', Connector.onStateChanged);
 			isEventListenerSetUp = true;
 
-			console.log('Web Scrobbler: Setup "timeupdate" event listener');
+			Util.debugLog('Setup "timeupdate" event listener');
 		} else {
 			Connector.resetState();
 			isEventListenerSetUp = false;
 
-			console.warn('Web Scrobbler: Video element is missing');
+			Util.debugLog('Video element is missing', 'warn');
 		}
 	}
 
@@ -229,20 +227,11 @@ function setupMutationObserver() {
 /**
  * Asynchronously read connector options.
  */
-function readConnectorOptions() {
-	chrome.storage.sync.get('Connectors', (data) => {
-		if (data && data.Connectors && data.Connectors.YouTube) {
-			let options = data.Connectors.YouTube;
-
-			if (options.scrobbleMusicOnly) {
-				allowedCategories.push(CATEGORY_MUSIC);
-			}
-			if (options.scrobbleEntertainmentOnly) {
-				allowedCategories.push(CATEGORY_ENTERTAINMENT);
-			}
-
-			let optionsStr = JSON.stringify(options, null, 2);
-			console.log(`Web Scrobbler: Connector options: ${optionsStr}`);
-		}
-	});
+async function readConnectorOptions() {
+	if (await Util.getOption('YouTube', 'scrobbleMusicOnly')) {
+		allowedCategories.push(CATEGORY_MUSIC);
+	}
+	if (await Util.getOption('YouTube', 'scrobbleEntertainmentOnly')) {
+		allowedCategories.push(CATEGORY_ENTERTAINMENT);
+	}
 }

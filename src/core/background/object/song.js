@@ -5,7 +5,60 @@
  */
 define((require) => {
 	const MD5 = require('vendor/md5');
-	const DeepProxy = require('deep-proxy');
+	const DeepProxy = require('object/deep-proxy');
+
+	/**
+	 * Default values of song flags.
+	 */
+	const DEFAULT_FLAGS = {
+		/**
+		 * Flag indicates song is processed by pipeline.
+		 * @type {Boolean}
+		 */
+		isProcessed: false,
+		/**
+		 * Flag means song is scrobbled successfully.
+		 * @type {Boolean}
+		 */
+		isScrobbled: false,
+		/**
+		 * Flag indicated song info is changed or approved by user.
+		 * @type {Boolean}
+		 */
+		isCorrectedByUser: false,
+		/**
+		 * Flag indicated song is known by scrobbling service.
+		 * @type {Boolean}
+		 */
+		isValid: false,
+		/**
+		 * Flag indicates song is marked as playing by controller.
+		 * @type {Boolean}
+		 */
+		isMarkedAsPlaying: false,
+		/**
+		 * Flag means song is ignored by controller.
+		 * @type {Boolean}
+		 */
+		isSkipped: false,
+		/**
+		 * Flag means song is replaying again.
+		 * @type {Boolean}
+		 */
+		isReplaying: false,
+	};
+
+	/**
+	 * Custom fields can be defined by user.
+	 * @type {Array}
+	 */
+	const USER_FIELDS = ['artist', 'track', 'album', 'albumArtist'];
+
+	/**
+	 * Fields used to identify song.
+	 * @type {Array}
+	 */
+	const BASE_FIELDS = ['artist', 'track', 'album', 'albumArtist'];
 
 	/**
 	 * Create new song object.
@@ -26,8 +79,8 @@ define((require) => {
 	 */
 	function makeUniqueId(parsedData) {
 		let inputStr = '';
-		let fields = ['artist', 'track', 'album'];
-		for (let field of fields) {
+
+		for (let field of BASE_FIELDS) {
 			if (parsedData[field]) {
 				inputStr += parsedData[field];
 			}
@@ -50,16 +103,7 @@ define((require) => {
 			 * Safe copy of initial parsed data.
 			 * Must not be modified.
 			 */
-			this.parsed = {
-				artist: parsedData.artist,
-				track: parsedData.track,
-				album: parsedData.album,
-				uniqueID: parsedData.uniqueID,
-				duration: parsedData.duration,
-				currentTime: parsedData.currentTime,
-				isPlaying: parsedData.isPlaying,
-				trackArt: parsedData.trackArt,
-			};
+			this.parsed = Object.assign({}, parsedData);
 
 			/**
 			 * Post-processed song data, for example auto-corrected.
@@ -67,10 +111,7 @@ define((require) => {
 			 * as the object is processed in pipeline. Can be modified.
 			 */
 			this.processed = {
-				artist: parsedData.artist,
-				track: parsedData.track,
-				album: parsedData.album,
-				duration: parsedData.duration,
+				// Filled by invoking Song.setDefaults function
 			};
 
 			/**
@@ -95,63 +136,44 @@ define((require) => {
 				 */
 				startTimestamp: Math.floor(Date.now() / 1000),
 				/**
-				 * Connector match object.
-				 * @type {Object}
+				 * Connector label.
+				 * @type {String}
 				 */
-				connector
+				label: connector.label,
 			};
-
-			/**
-			 * Various user data. Used to transfer edited track info between
-			 * pipeline stages. Can be modified.
-			 */
-			this.userdata = {};
 
 			/**
 			 * Various flags. Can be modified.
 			 */
 			this.flags = {
-				// Has song passed the pipeline
-				/**
-				 * Flag indicates song is processed by pipeline.
-				 * @type {Boolean}
-				 */
-				isProcessed: false,
-				/**
-				 * Flag means song is scrobbled successfully.
-				 * @type {Boolean}
-				 */
-				isScrobbled: false,
-				/**
-				 * Flag indicated song info is changed or approved by user.
-				 * @type {Boolean}
-				 */
-				isCorrectedByUser: false,
-				/**
-				 * Flag indicated song is known by scrobbling service.
-				 * @type {Boolean}
-				 */
-				isValid: false,
-				/**
-				 * Flag indicates song is marked as playing by controller.
-				 * @type {Boolean}
-				 */
-				isMarkedAsPlaying: false,
-				/**
-				 * Flag means song is ignored by controller.
-				 * @type {Boolean}
-				 */
-				isSkipped: false,
-				/**
-				 * Flag means song is replaying again.
-				 * @type {Boolean}
-				 */
-				isReplaying: false,
+				// Filled by invoking Song.setDefaults function
 			};
+
+			this.setDefaults();
+		}
+
+		/**
+		 * Apply default song state (processed song info and song flags).
+		 */
+		setDefaults() {
+			/*
+			 * We don't want to override properties, as they will be
+			 * wrapped by DeepProxy.
+			 */
+			const fields = [
+				'track', 'album', 'artist', 'albumArtist', 'duration'];
+			for (const field of fields) {
+				this.processed[field] = this.parsed[fields];
+			}
+
+			for (const flag in DEFAULT_FLAGS) {
+				this.flags[flag] = DEFAULT_FLAGS[flag];
+			}
 		}
 
 		/**
 		 * Get song artist.
+		 *
 		 * @return {String} Song artist
 		 */
 		getArtist() {
@@ -160,6 +182,7 @@ define((require) => {
 
 		/**
 		 * Get song title.
+		 *
 		 * @return {String} Song title
 		 */
 		getTrack() {
@@ -168,6 +191,7 @@ define((require) => {
 
 		/**
 		 * Get song album.
+		 *
 		 * @return {String} Song album
 		 */
 		getAlbum() {
@@ -175,8 +199,17 @@ define((require) => {
 		}
 
 		/**
+		 * Return song's album artist (Optional)
+		 * @return {String} Album artist
+		 */
+		getAlbumArtist() {
+			return this.processed.albumArtist || this.parsed.albumArtist;
+		}
+
+		/**
 		 * Returns song's processed or parsed duration in seconds.
 		 * Parsed duration (received from connector) is preferred.
+		 *
 		 * @return {Number} Song duration
 		 */
 		getDuration() {
@@ -186,6 +219,7 @@ define((require) => {
 		/**
 		 * Return the track art URL associated with the song.
 		 * Parsed track art (received from connector) is preferred.
+		 *
 		 * @return {String} Track art URL
 		 */
 		getTrackArt() {
@@ -194,6 +228,7 @@ define((require) => {
 
 		/**
 		 * Get formatted "Artist - Track" string. Return null if song is empty.
+		 *
 		 * @return {String} Formatted string
 		 */
 		getArtistTrackString() {
@@ -205,6 +240,7 @@ define((require) => {
 
 		/**
 		 * Get song unique ID.
+		 *
 		 * @return {String} Unique ID
 		 */
 		getUniqueId() {
@@ -212,8 +248,18 @@ define((require) => {
 		}
 
 		/**
+		 * Get song source URL.
+		 *
+		 * @return {String} source URL.
+		 */
+		getOriginUrl() {
+			return this.parsed.originUrl;
+		}
+
+		/**
 		 * Check if song is empty. Empty song means it's missing
 		 * either artist or track title.
+		 *
 		 * @return {Boolean} True if song is empty; false otherwise
 		 */
 		isEmpty() {
@@ -223,6 +269,7 @@ define((require) => {
 		/**
 		 * Check if song is valid. The song means valid if it's known by
 		 * scrobbler service or is corrected by the user.
+		 *
 		 * @return {Boolean} True if song is valid; false otherwise
 		 */
 		isValid() {
@@ -231,22 +278,52 @@ define((require) => {
 		}
 
 		/**
+		 * Check if song equals another song.
+		 * @param  {Object} song Song instance to compare
+		 * @return {Boolean} Check result
+		 */
+		equals(song) {
+			if (!song) {
+				return false;
+			}
+
+			if (typeof(song.getUniqueId) !== 'function') {
+				return false;
+			}
+
+			return this.getUniqueId() === song.getUniqueId();
+		}
+
+		/**
 		 * Set default song data.
 		 */
 		resetSongData() {
-			this.processed = {
-				artist: this.parsed.artist,
-				track: this.parsed.track,
-				album: this.parsed.album,
-				duration: this.parsed.duration,
-			};
-			this.userdata = {};
+			this.setDefaults();
+		}
 
-			this.flags.isCorrectedByUser = false;
+		/**
+		 * Set `Love` status of song.
+		 *
+		 * This function is supposed to be used by multiple scrobblers
+		 * (services). Each service can have different value of `Love` flag;
+		 * the behavior of the function is to set `Love` to true, if all
+		 * services have the song with `Love` set to true.
+		 *
+		 * @param  {Boolean} isLoved Flag means song is loved or not
+		 */
+		setLoveStatus(isLoved) {
+			if (isLoved !== undefined) {
+				if (isLoved) {
+					this.metadata.userloved = true;
+				} else if (this.metadata.userloved) {
+					this.metadata.userloved = false;
+				}
+			}
 		}
 
 		/**
 		 * Get a string representing the song.
+		 *
 		 * @return {String} String representing the object.
 		 */
 		toString() {
@@ -255,17 +332,19 @@ define((require) => {
 
 		/**
 		 * Get song data to send it to different context.
-
+		 *
 		 * @return {Object} Object contain song data
-
 		 */
 		getCloneableData() {
 			let fieldsToCopy = ['parsed', 'processed', 'metadata', 'flags'];
 			let clonedSong = {};
 
-			// Firefox doesn't allow to send proxy objects via `chrome.runtime.sendMessage` API.
-			// Since our song properties are actually proxy objects, they should be converted to
-			// plain objects before.
+			/*
+			 * Firefox doesn't allow to send proxy objects via
+			 * `browser.tabs.sendMessage` function. Since song properties
+			 * are actually proxy objects, they should be converted
+			 * to plain objects before sending.
+			 */
 			for (let field of fieldsToCopy) {
 				clonedSong[field] = Object.assign({}, this[field]);
 			}
@@ -274,5 +353,5 @@ define((require) => {
 		}
 	}
 
-	return { buildFrom };
+	return { buildFrom, BASE_FIELDS, USER_FIELDS };
 });

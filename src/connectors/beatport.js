@@ -1,27 +1,31 @@
 'use strict';
 
 const filter = new MetadataFilter({ track: removeOriginalMix });
+const playerBar = '.Player__container';
 
-Connector.playerSelector = '.player-container';
+Connector.playerSelector = playerBar;
 
-Connector.artistSelector = '.player-track-name-artist-standard .track-artist';
+Connector.artistSelector = `${playerBar} .track-artists`;
 
-Connector.trackSelector = '.player-track-name-artist-standard .primary-title';
+Connector.trackSelector = `${playerBar} .track-title__primary`;
+
+Connector.playButtonSelector = `${playerBar} #Player__play-button`;
+
+Connector.currentTimeSelector = '.Clock__played';
+
+Connector.durationSelector = '.Clock__total';
+
+Connector.trackArtSelector = '.Player__artwork-2';
 
 Connector.getUniqueID = () => {
-	let trackUrl = $('.player-current-track-container a').attr('href');
-	let index = trackUrl.lastIndexOf('/');
-	return trackUrl.substring(index + 1);
-};
-
-Connector.isPlaying = () => {
-	return $('.player-controls .play-button').hasClass('pause');
+	const trackUrl = $(`${playerBar} .track-title a`).attr('href');
+	return trackUrl.split('/').pop();
 };
 
 Connector.applyFilter(filter);
 
 function removeOriginalMix(track) {
-	let remixedBy = $('.player-track-name-artist-standard .remixed').text();
+	const remixedBy = $(`${playerBar} .track-title__remixed`).text();
 	if (remixedBy === 'Original Mix') {
 		return track;
 	}

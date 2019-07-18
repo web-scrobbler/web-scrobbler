@@ -1,12 +1,12 @@
 {
   "name": "Web Scrobbler",
-  "version": "2.8.0",
+  "version": "2.20.0",
 
   "description": "__MSG_extDescription__",
   "icons": {
-    "16": "icons/icon16.png",
-    "48": "icons/icon48.png",
-    "128": "icons/icon128.png"
+    "16": "icons/icon_generic_16.png",
+    "48": "icons/icon_chrome_48.png",
+    "128": "icons/icon_chrome_128.png"
   },
 
   "manifest_version": 2,
@@ -14,10 +14,11 @@
   "default_locale": "en",
 
   "web_accessible_resources": [
-    "icons/icon128.png",
+    "connectors/deezer-dom-inject.js",
     "connectors/musickit-dom-inject.js",
     "connectors/soundcloud-dom-inject.js",
-    "connectors/vk-dom-inject.js"
+    "connectors/vk-dom-inject.js",
+    "*.md"
   ],
 
   "background": {
@@ -27,11 +28,23 @@
     ]
   },
 
-  "homepage_url": "https://add0n.com/lastfm-scrobbler.html",
+  "commands": {
+    "toggle-connector": {
+      "description": "__MSG_hotkeyToggleConnector__"
+    },
+    "disable-connector": {
+      "description": "__MSG_hotkeyDisableConnectorUntilClosed__"
+    },
+    "toggle-love": {
+      "description": "__MSG_hotkeyToggleLove__"
+    }
+  },
 
-  "options_page": "options/options.html",
+  "homepage_url": "https://web-scrobbler.github.io/",
+
+  "options_page": "options/index.html",
   "options_ui": {
-    "page": "options/options.html",
+    "page": "options/index.html",
     "open_in_tab": true
   },
 

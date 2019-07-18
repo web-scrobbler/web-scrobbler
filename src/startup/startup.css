@@ -1,0 +1,21 @@
+body, button, input {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+h2, h4, h5 {
+	color: #d51007;
+}
+.container {
+	margin: auto;
+	max-width: 768px;
+	padding: 10px;
+}
+.container h1 {
+	font-size: 2em;
+}
+.container h2 {
+	font-size: 1.5em;
+}
+.finished {
+	display: none;
+	font-weight: bold;
+}

@@ -31,4 +31,4 @@ Connector.isTrackArtDefault = (trackArtUrl) => {
 	return trackArtUrl.endsWith(DEFAULT_TRACK_ART);
 };
 
-Connector.isPlaying = () => $('#playbtn').hasClass('jp-stopx');
+Connector.pauseButtonSelector = '#playbtn.jp-stopx';

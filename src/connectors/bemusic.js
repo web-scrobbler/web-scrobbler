@@ -1,7 +1,7 @@
 'use strict';
 
-/**
- * This connector is for BeMusic music streaming engine.s
+/*
+ * This connector is for BeMusic music streaming engines.
  */
 
 setupConnector();
@@ -27,9 +27,10 @@ function setupNewBeMusicPlayer() {
 		return artist.get(0).firstChild.textContent;
 	};
 
-	Connector.isPlaying = () => {
-		return $('player-controls .icon-pause').is(':visible');
-	};
+	Connector.pauseButtonSelector = [
+		'player-controls .icon-pause',
+		'player-controls .pause-track'
+	];
 }
 
 function setupOldBeMusicPlayer() {
@@ -40,9 +41,7 @@ function setupOldBeMusicPlayer() {
 		return artist.get(0).firstChild.textContent;
 	};
 
-	Connector.isPlaying = () => {
-		return $('#player-controls .icon-pause').is(':visible');
-	};
+	Connector.pauseButtonSelector = '#player-controls .icon-pause';
 
 	Connector.getUniqueID = () => {
 		try {

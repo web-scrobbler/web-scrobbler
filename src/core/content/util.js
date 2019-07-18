@@ -6,10 +6,10 @@
 
 const Util = {
 	youtubeTitleRegExps: [
-		// Artist "Track"
+		// Artist "Track", Artist: "Track", Artist - "Track", etc.
 		{
-			pattern: /(.+?)\s"(.+?)"/,
-			groups: { artist: 1, track: 2 }
+			pattern: /(.+?)(\s|-|—|:)+\s*"(.+?)"/,
+			groups: { artist: 1, track: 3 }
 		},
 		// Artist「Track」 (Japanese tracks)
 		{
@@ -26,7 +26,6 @@ const Util = {
 	/**
 	 * Extract artist and track from Youtube video title.
 	 * @param  {String} videoTitle Youtube video title
-	 * @param  {Array} separators Array of separators
 	 * @return {Object} Object contains artist and track fields
 	 */
 	processYoutubeVideoTitle(videoTitle) {
@@ -40,7 +39,7 @@ const Util = {
 		let [artist, track] = [null, null];
 
 		// Try to match one of the regexps
-		for (let regExp of Util.youtubeTitleRegExps) {
+		for (let regExp of this.youtubeTitleRegExps) {
 			let artistTrack = title.match(regExp.pattern);
 			if (artistTrack) {
 				artist = artistTrack[regExp.groups.artist];
@@ -50,8 +49,12 @@ const Util = {
 		}
 
 		// No match? Try splitting, then.
-		if (artist === null && track === null) {
+		if (this.isArtistTrackEmpty({ artist, track })) {
 			({ artist, track } = this.splitArtistTrack(title));
+		}
+
+		if (this.isArtistTrackEmpty({ artist, track })) {
+			track = title;
 		}
 
 		return { artist, track };
@@ -67,12 +70,26 @@ const Util = {
 			return null;
 		}
 
-		let match = videoUrl.match(Util.videoIdRegExp);
+		let match = videoUrl.match(this.videoIdRegExp);
 		if (match) {
 			return match[7];
 		}
 
 		return null;
+	},
+
+	/**
+	 * Normalize given URL. Currently it only normalizes
+	 * protocol-relative links.
+	 * @param  {String} url URL, which is possibly protocol-relative
+	 * @return {String} Normalized URL
+	 */
+	normalizeUrl(url) {
+		if (!url) {
+			return null;
+		}
+
+		return url.startsWith('//') ? location.protocol + url : url;
 	},
 
 	/**
@@ -97,11 +114,11 @@ const Util = {
 		for (let i = 0; i < 3; i++) {
 			let idx = s.lastIndexOf(':');
 			if (idx > -1) {
-				val = parseInt(s.substr(idx + 1));
+				val = parseInt(s.substr(idx + 1), 10);
 				seconds += val * Math.pow(60, i);
 				s = s.substr(0, idx);
 			} else {
-				val = parseInt(s);
+				val = parseInt(s, 10);
 				seconds += val * Math.pow(60, i);
 				break;
 			}
@@ -159,8 +176,8 @@ const Util = {
 	 * @param  {Boolean} swap Swap artist and track values
 	 * @return {Object} Object contains artist and track fields
 	 */
-	splitArtistTrack(str, separators = null, swap = false) {
-		let [artist, track] = this.splitString(str, separators, swap);
+	splitArtistTrack(str, separators = null, { swap = false } = {}) {
+		let [artist, track] = this.splitString(str, separators, { swap });
 		return { artist, track };
 	},
 
@@ -171,8 +188,8 @@ const Util = {
 	 * @param  {Boolean} swap Swap currentTime and duration values
 	 * @return {Object} Array ontains 'currentTime' and 'duration' fields
 	 */
-	splitTimeInfo(str, sep = '/', swap = false) {
-		let [currentTime, duration] = this.splitString(str, [sep], swap);
+	splitTimeInfo(str, sep = '/', { swap = false } = {}) {
+		let [currentTime, duration] = this.splitString(str, [sep], { swap });
 		if (currentTime) {
 			currentTime = this.stringToSeconds(currentTime);
 		}
@@ -190,7 +207,7 @@ const Util = {
 	 * @param  {Boolean} swap Swap values
 	 * @return {Array} Array of strings splitted by separator
 	 */
-	splitString(str, separators = null, swap = false) {
+	splitString(str, separators = null, { swap = false } = {}) {
 		let first = null;
 		let second = null;
 
@@ -213,7 +230,7 @@ const Util = {
 	/**
 	 * Verify time value and return time as a Number object.
 	 * Return null value if time value is not a number.
-	 * @param  {Any} time Time value
+	 * @param  {Object} time Time value
 	 * @return {Number} time value as a Number object
 	 */
 	escapeBadTimeValues(time) {
@@ -320,7 +337,7 @@ const Util = {
 	 * @type {Array}
 	 */
 	separators: [
-		' -- ', '--', ' - ', ' – ', ' — ',
+		' -- ', '--', ' ~ ', ' - ', ' – ', ' — ',
 		' // ', '-', '–', '—', ':', '|', '///', '/'
 	],
 
@@ -330,6 +347,90 @@ const Util = {
 	 */
 	makeEmptyArtistTrack() {
 		return { artist: null, track: null };
+	},
+
+	/**
+	 * Return text of first available element. If `selectors` is a string,
+	 * return text of element with given selector. If `selectors` is
+	 * an array, return text of first available element.
+	 * @param  {Object} selectors Single selector or array of selectors
+	 * @param  {Object} defaultValue Fallback value
+	 * @return {Object} Text of element, if available, or default value
+	 */
+	getTextFromSelectors(selectors, defaultValue = null) {
+		const elements = this.queryElements(selectors);
+
+		if (elements) {
+			if (elements.length === 1) {
+				return elements.text();
+			}
+
+			for (const element of elements) {
+				const text = $(element).text();
+				if (text) {
+					return text;
+				}
+			}
+		}
+
+		return defaultValue;
+	},
+
+	/**
+	 * Return jQuery object of first available element. If `selectors`
+	 * is a string, return jQuery object with the selector. If `selectors` is
+	 * an array, return jQuery object matched by first valid selector.
+	 * @param  {Object} selectors Single selector or array of selectors
+	 * @return {Object} jQuery object
+	 */
+	queryElements(selectors) {
+		if (!selectors) {
+			return null;
+		}
+
+		if (typeof selectors === 'string') {
+			return $(selectors);
+		}
+
+		if (!Array.isArray(selectors)) {
+			throw new Error(`Unknown type of selector: ${typeof selectors}`);
+		}
+
+		for (const selector of selectors) {
+			const element = $(selector);
+			if (element.length > 0) {
+				return element;
+			}
+		}
+
+		return null;
+	},
+
+	/**
+	 * Read connector option from storage.
+	 * @param  {String} connector Connector name
+	 * @param  {String} key Option key
+	 * @return {Object} Option value
+	 */
+	async getOption(connector, key) {
+		const data = await browser.storage.sync.get('Connectors');
+		return data.Connectors[connector][key];
+	},
+
+	/**
+	 * Print debug message with prefixed "Web Scrobbler" string.
+	 * @param  {String} text Debug message
+	 * @param  {String} logType Log type
+	 */
+	debugLog(text, logType = 'log') {
+		const logFunc = console[logType];
+
+		if (typeof(logFunc) !== 'function') {
+			throw new Error(`Unknown log type: ${logType}`);
+		}
+
+		const message = `Web Scrobbler: ${text}`;
+		logFunc(message);
 	},
 
 	/**

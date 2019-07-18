@@ -4,11 +4,9 @@
  * The module applies functions provided by pipeline stages to given song.
  */
 define((require) => {
-	const Util = require('util');
 	const UserInput = require('pipeline/user-input');
 	const Metadata = require('pipeline/metadata');
 	const Normalize = require('pipeline/normalize');
-	const LocalCache = require('pipeline/local-cache');
 	const CoverArtArchive = require('pipeline/coverartarchive');
 
 	/**
@@ -17,17 +15,12 @@ define((require) => {
 	 * and returns Promise.
 	 * @type {Array}
 	 */
-	const processors = [
+	const PROCESSORS = [
 		Normalize,
 		/**
 		 * Load data submitted by user.
 		 */
 		UserInput,
-		//
-		/**
-		 * Load data filled by user from storage.
-		 */
-		LocalCache,
 		/**
 		 * Load song metadata using ScrobbleService.
 		 */
@@ -42,17 +35,21 @@ define((require) => {
 		/**
 		 * Process song using pipeline processors.
 		 * @param  {Object} song Song instance
-		 * @return {Promise} Promise that will be resolved when all processors process song
 		 */
-		processSong(song) {
-			// Reset possible flag, so we can detect changes
-			// on repeated processing of the same song.
+		async processSong(song) {
+			/*
+			 * Reset possible flag, so we can detect changes
+			 * on repeated processing of the same song.
+			 */
 			song.flags.isProcessed = false;
 
-			let factories = processors.map((processor) => processor.process);
-			return Util.queuePromises(factories, song).then(() => {
-				song.flags.isProcessed = true;
-			});
+			console.log(`Execute processors: ${PROCESSORS.length}`);
+
+			for (let processor of PROCESSORS) {
+				await processor.process(song);
+			}
+
+			song.flags.isProcessed = true;
 		}
 	};
 });

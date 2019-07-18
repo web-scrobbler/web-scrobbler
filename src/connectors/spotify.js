@@ -6,7 +6,7 @@
 
 Connector.playerSelector = '.Root__now-playing-bar';
 
-Connector.getArtist = () => $('.track-info__artists a').first().text();
+Connector.artistSelector = '.track-info__artists a';
 
 Connector.trackSelector = '.Root__now-playing-bar .track-info__name a';
 
@@ -18,19 +18,17 @@ Connector.currentTimeSelector = '.Root__now-playing-bar .playback-bar__progress-
 
 Connector.durationSelector = '.Root__now-playing-bar .playback-bar__progress-time:last-child';
 
-Connector.filter = MetadataFilter.getRemasteredFilter();
+Connector.applyFilter(MetadataFilter.getSpotifyFilter());
 
 Connector.isScrobblingAllowed = () => {
 	return isMusicPlaying();
 };
 
 function isMusicPlaying() {
-	if (Connector.getArtist() !== 'Spotify') {
-		return true;
-	}
-
-	// When ad is playing, artist URL is like "https://shrt.spotify.com/XXX",
-	// otherwise URL leads to an artist page "https://open.spotify.com/artist/YYY".
+	/*
+	 * When ad is playing, artist URL is like "https://shrt.spotify.com/XXX",
+	 * otherwise URL leads to an artist page "https://open.spotify.com/artist/YYY".
+	 */
 	let artistUrl = $('.track-info__artists a').attr('href');
 	return artistUrl && artistUrl.includes('artist');
 }

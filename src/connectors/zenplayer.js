@@ -20,4 +20,4 @@ Connector.getUniqueID = () => {
 
 Connector.isPlaying = () => $('.plyr').hasClass('plyr--playing');
 
-Connector.filter = MetadataFilter.getYoutubeFilter();
+Connector.applyFilter(MetadataFilter.getYoutubeFilter());

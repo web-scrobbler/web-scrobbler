@@ -5,23 +5,17 @@
  */
 define((require) => {
 	const $ = require('jquery');
-	const BaseScrobbler = require('scrobbler/base-scrobbler');
+	const AudioScrobbler = require('scrobbler/audioscrobbler');
 	const ServiceCallResult = require('object/service-call-result');
 
-	class LibreFm extends BaseScrobbler {
-		doRequest(method, params, signed) {
+	class LibreFm extends AudioScrobbler {
+		/** @override */
+		sendRequest(method, params, signed) {
 			if ('post' !== method.toLowerCase()) {
-				return super.doRequest(method, params, signed);
+				return super.sendRequest(method, params, signed);
 			}
 
-			params.api_key = this.apiKey;
-
-			if (signed) {
-				params.api_sig = this.generateSign(params);
-			}
-
-			let queryStr = $.param(params);
-			let url = `${this.apiUrl}?${queryStr}`;
+			const url = this.makeRequestUrl(params, signed);
 
 			return new Promise((resolve, reject) => {
 				$.post(url, $.param(params)).done((xmlDoc) => {
@@ -43,6 +37,7 @@ define((require) => {
 		apiKey: 'r8i1y91hz71tcx7vyrp9hk1alhqp1898',
 		apiSecret: '8187db5vg234yq6tm7o62q8mtl1niala',
 		authUrl: 'https://www.libre.fm/api/auth/',
+		statusUrl: null,
 		profileUrl: 'https://libre.fm/user/',
 	});
 });

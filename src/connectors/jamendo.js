@@ -1,6 +1,6 @@
 'use strict';
 
-Connector.playerSelector = '#skeleton-player';
+Connector.playerSelector = '.player-wrap';
 
 Connector.artistSelector = '.player-mini_track_information_artist';
 
@@ -10,6 +10,6 @@ Connector.currentTimeSelector = '.hidden-xs > .js-player-position';
 
 Connector.durationSelector = '.hidden-xs > .js-player-duration';
 
-Connector.playButtonSelector = '.js-player-play-pause > .icon-play';
+Connector.trackArtSelector = '.hero-cover img';
 
-Connector.trackArtSelector = '.js-full-player-cover-img';
+Connector.pauseButtonSelector = '.js-player-play-pause > .icon-pause';

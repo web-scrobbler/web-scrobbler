@@ -8,18 +8,10 @@ Connector.trackSelector = '.nowPlayingBarText .textActionButton[data-type="Music
 
 Connector.trackArtSelector = '.nowPlayingBarInfoContainer .nowPlayingImage';
 
+Connector.timeInfoSelector = '.nowPlayingBarCenter .nowPlayingBarCurrentTime';
+
 Connector.isPlaying = () => {
 	return $('.nowPlayingBarCenter .playPauseButton .md-icon').text() === 'pause';
-};
-
-Connector.getCurrentTime = () => {
-	let text = $('.nowPlayingBarCenter .nowPlayingBarCurrentTime').text().split('/')[0];
-	return Util.stringToSeconds(text);
-};
-
-Connector.getDuration = () => {
-	let text = $('.nowPlayingBarCenter .nowPlayingBarCurrentTime').text().split('/')[1];
-	return Util.stringToSeconds(text);
 };
 
 Connector.getAlbum = () => {

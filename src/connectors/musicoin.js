@@ -37,7 +37,7 @@ Connector.getUniqueID = () => {
 	return null;
 };
 
-Connector.filter = MetadataFilter.getRemasteredFilter();
+Connector.applyFilter(MetadataFilter.getRemasteredFilter());
 
 /**
  * Find element in player iframe content.
@@ -52,7 +52,8 @@ function getIframeElement(selector) {
  * Manually set up observer on player markup inside iframe
  */
 function onPlayerLoaded() {
-	console.log('Web Scrobbler: player loaded, setting up observer');
+	Util.debugLog('Player loaded, setting up observer');
+
 	const observer = new MutationObserver(Connector.onStateChanged);
 	const observeTarget = $('#playerFrame').get(0).contentDocument.getElementById('player-section');
 	const config = {

@@ -46,7 +46,7 @@ function setupConnector() {
 	}	else if (isPagePlayer()) {
 		setupPagePlayer();
 	}	else {
-		console.warn('QQ Video connector: unknown player');
+		Util.debugLog('Unknown player', 'warn');
 	}
 }
 

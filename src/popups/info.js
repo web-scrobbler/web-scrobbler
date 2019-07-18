@@ -1,39 +1,31 @@
 'use strict';
 
-require(['util'], (Util) => {
-	const EDITED_TRACK_FIELDS = ['artist', 'track', 'album'];
+require([
+	'webextension-polyfill', 'util/util'
+], (browser, Util) => {
+	const EDITED_TRACK_FIELDS = ['artist', 'track', 'album', 'albumArtist'];
 	const FIELD_URL_MAP = {
 		artist: 'artistUrl',
 		track: 'trackUrl',
-		album: 'albumUrl'
+		album: 'albumUrl',
+		albumArtist: 'artistUrl',
 	};
 
 	let isEditModeEnabled = false;
 	let song = null;
 
 	function getCurrentSong() {
-		return sendMessageToCurrentTab('v2.getSong');
+		return sendMessageToCurrentTab('REQUEST_GET_SONG');
 	}
 
-	function sendMessageToCurrentTab(type, data) {
-		return Util.getCurrentTab().then((tab) => {
-			let tabId = tab.id;
-			return new Promise((resolve) => {
-				chrome.runtime.sendMessage({ type, data, tabId }, resolve);
-			});
-		});
+	async function sendMessageToCurrentTab(type, data) {
+		const tab = await Util.getCurrentTab();
+		const tabId = tab.id;
+
+		return browser.runtime.sendMessage({ type, data, tabId });
 	}
 
-	/**
-	* Song data from background script are loaded
-	*/
 	function onSongLoaded() {
-		// no current song - should not happen, because page action with popup shows
-		// only when there is a song that can be corrected
-		if (song === null) {
-			return;
-		}
-
 		updatePopupView();
 
 		let isSongValid = song.flags.isValid || song.flags.isCorrectedByUser;
@@ -85,6 +77,7 @@ require(['util'], (Util) => {
 				let fieldTitleTag;
 				switch (field) {
 					case 'artist':
+					case 'albumArtist':
 						fieldTitleTag = 'infoViewArtistPage';
 						break;
 					case 'track':
@@ -122,7 +115,6 @@ require(['util'], (Util) => {
 
 	function getTrackInfo() {
 		let trackInfo = {};
-
 		for (let field of EDITED_TRACK_FIELDS) {
 			trackInfo[field] = song.processed[field] || song.parsed[field];
 		}
@@ -143,20 +135,19 @@ require(['util'], (Util) => {
 
 	function configControls() {
 		$('#love').off('click');
-		$('#love').on('click', function() {
+		$('#love').on('click', async function() {
 			let currentLoveStatus = $('#love').attr('last-fm-loved') === 'true';
 			let desiredLoveStatus = !currentLoveStatus;
 
-			sendMessageToCurrentTab('v2.toggleLove', {
+			const isLoved = await sendMessageToCurrentTab('REQUEST_TOGGLE_LOVE', {
 				isLoved: desiredLoveStatus
-			}).then(() => {
-				updateLovedIcon(desiredLoveStatus);
 			});
+			updateLovedIcon(isLoved);
 		});
 
 		$('#album-art').off('click');
 		$('#album-art').on('click', () => {
-			chrome.tabs.create({ url: getCoverArt() });
+			browser.tabs.create({ url: getCoverArt() });
 		});
 
 		if (song.flags.isScrobbled) {
@@ -166,7 +157,7 @@ require(['util'], (Util) => {
 		if (song.flags.isCorrectedByUser) {
 			$('#revert-link').off('click');
 			$('#revert-link').on('click', () => {
-				sendMessageToCurrentTab('v2.resetSongData');
+				sendMessageToCurrentTab('REQUEST_RESET_SONG');
 				window.close();
 			});
 		}
@@ -195,13 +186,20 @@ require(['util'], (Util) => {
 			});
 		}
 
-		$('#edit input').off('keypress');
-		$('#edit input').on('keypress', (e) => {
-			let isEnterKey = e.keyCode === 13;
-			if (isEnterKey) {
+		$('#edit input').off('keyup');
+		$('#edit input').on('keyup', (e) => {
+			let isDataComplete = isSongDataComplete();
+			let isEnterKey = e.which === 13;
+
+			if (isEnterKey && isDataComplete) {
 				setEditMode(false);
 				correctSongInfo();
+
+				return;
 			}
+
+			setControlEnabled('#edit-link', !isDataComplete);
+			setControlEnabled('#swap-link', !isDataComplete);
 		});
 	}
 
@@ -221,24 +219,32 @@ require(['util'], (Util) => {
 	}
 
 	function updateControls() {
-		$('#edit-link').text(i18n(isEditModeEnabled ? 'infoSubmit' : 'infoEdit'));
-		$('#edit-link').attr('data-disable', song.flags.isSkipped ||
-			song.flags.isScrobbled);
+		const isDataComplete = isSongDataComplete();
+
+		if (isEditModeEnabled) {
+			$('#edit-link').text(i18n('infoSubmit'));
+			setControlEnabled('#edit-link', !isDataComplete);
+		} else {
+			$('#edit-link').text(i18n('infoEdit'));
+			setControlEnabled('#edit-link', song.flags.isSkipped ||
+				song.flags.isScrobbled);
+		}
 
 		$('#swap-link').text(i18n('infoSwap'));
 		$('#swap-link').attr('data-hide', !isEditModeEnabled);
-		$('#swap-link').attr('data-disable', song.flags.isScrobbled ||
-			song.flags.isSkipped);
+		if (isEditModeEnabled) {
+			setControlEnabled('#edit-link', !isDataComplete);
+		}
 
 		$('#revert-link').text(i18n('infoRevert'));
 		$('#revert-link').attr('data-hide', !song.flags.isCorrectedByUser
 			|| isEditModeEnabled);
-		$('#revert-link').attr('data-disable', song.flags.isScrobbled ||
+		setControlEnabled('#revert-link', song.flags.isScrobbled ||
 			!song.flags.isCorrectedByUser);
 
 		$('#skip-link').text(i18n('infoSkip'));
 		$('#skip-link').attr('data-hide', isEditModeEnabled);
-		$('#skip-link').attr('data-disable', song.flags.isSkipped ||
+		setControlEnabled('#skip-link', song.flags.isSkipped ||
 			song.flags.isScrobbled);
 
 		if (song.flags.isScrobbled) {
@@ -256,6 +262,8 @@ require(['util'], (Util) => {
 			$('#revert-link').attr('title', i18n('infoRevertTitle'));
 			$('#skip-link').attr('title', i18n('infoSkipTitle'));
 		}
+
+
 	}
 
 	function correctSongInfo() {
@@ -263,35 +271,34 @@ require(['util'], (Util) => {
 			let trackInfo = getEditedTrackInfo();
 
 			fillMetadataLabels(trackInfo);
-			sendMessageToCurrentTab('v2.correctSong', trackInfo);
+			sendMessageToCurrentTab('REQUEST_CORRECT_SONG', trackInfo);
 		}
 	}
 
 	function skipSong() {
 		song.flags.isSkipped = true;
-		sendMessageToCurrentTab('v2.skipSong');
+		sendMessageToCurrentTab('REQUEST_SKIP_SONG');
 	}
 
 	function setupMessageListener() {
-		chrome.runtime.onMessage.addListener((request) => {
-			if (request.type !== 'v2.songUpdated') {
+		browser.runtime.onMessage.addListener(async(request) => {
+			if (request.type !== 'EVENT_SONG_UPDATED') {
 				return;
 			}
 
-			Util.getCurrentTab().then((tab) => {
-				if (tab.id !== request.tabId) {
-					return;
-				}
+			const tab = await Util.getCurrentTab();
+			if (tab.id !== request.tabId) {
+				return;
+			}
 
-				song = request.data;
-				updatePopupView();
-			});
+			song = request.data;
+			updatePopupView();
 		});
 	}
 
 	function getCoverArt() {
 		return song.parsed.trackArt || song.metadata.artistThumbUrl ||
-			'/icons/default_cover_art.png';
+			'/icons/cover_art_default.png';
 	}
 
 	function swapTitleAndArtist() {
@@ -311,16 +318,31 @@ require(['util'], (Util) => {
 	}
 
 	function i18n(tag, ...context) {
-		return chrome.i18n.getMessage(tag, context);
+		return browser.i18n.getMessage(tag, context);
 	}
 
-	function main() {
+	function isSongDataComplete() {
+		let title = $('#track-input').val();
+		let artist = $('#artist-input').val();
+
+		return artist && title;
+	}
+
+	function setControlEnabled(selector, state) {
+		$(selector).attr('data-disable', state);
+		$(selector).prop('disabled', state);
+	}
+
+	async function main() {
 		setupMessageListener();
-		getCurrentSong().then((result) => {
-			song = result;
+
+		song = await getCurrentSong();
+		if (song) {
 			onSongLoaded();
-		});
+		}
 	}
 
-	$(document).ready(main);
+	$(document).ready(() => {
+		main();
+	});
 });

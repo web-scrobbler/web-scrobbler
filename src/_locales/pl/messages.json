@@ -103,6 +103,10 @@
         "message": "Rozszerzenie zapisuje zmodyfikowane informacje o utworze.",
         "description": "Description of edited tracks"
     },
+    "optionsEditedTracksPopupTitle": {
+        "message": "Ręcznie dopasowane utwory: $1",
+        "description": "'Edited tracks' header"
+    },
     "optionsViewEdited": {
         "message": "Zobacz",
         "description": "Button to view edited tracks"
@@ -252,7 +256,7 @@
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
-        "message": "Web Scrobbler został stworzony dla ludzi słuchających muzyki online, przez przeglądarkę, którzy chcą zachować aktualną historię odtwarzania w usłudze Last.fm.",
+        "message": "Web Scrobbler to rozszerzenie do przeglądarki stworzone dla ludzi słuchających muzyki online, przez przeglądarkę, którzy chcą zachować aktualną historię odtwarzania w takich usługach jak Last.fm, Libre.fm i ListenBrainz.",
         "description": "'About' section text"
     },
     "contributorsTitle": {
@@ -344,7 +348,7 @@
         "description": "The header of 'disabled' popup"
     },
     "disabledSiteDesc": {
-        "message": "Rozszerzenie nie będzie scrobblować muzyki z tej strony dopóki nie włączysz jej obsługi w opcjach.",
+        "message": "Rozszerzenie nie będzie scrobblować muzyki z tej witryny dopóki nie włączysz jej obsługi w opcjach.",
         "description": "The description of 'disabled' popup"
     },
     "disabledSiteButton": {
@@ -352,7 +356,7 @@
         "description": "Button label"
     },
     "unsupportedWebsiteHeader": {
-        "message": "Ta strona nie jest wspierana",
+        "message": "Ta witryna nie jest wspierana",
         "description": "The header of 'unsupported' popup"
     },
     "unsupportedWebsiteDesc": {
@@ -447,6 +451,10 @@
         "message": "Album (opcjonalnie)",
         "description": "Placeholder of album input"
     },
+    "infoAlbumArtistPlaceholder": {
+        "message": "Wykonawca albumu (opcjonalnie)",
+        "description": "Placeholder of album artist input"
+    },
     "infoViewArtistPage": {
         "message": "Zobacz stronę wykonawcy",
         "description": "Placeholder of album input"
@@ -534,6 +542,42 @@
     "notificationNotRecognizedText": {
         "message": "Kliknij ikonę na pasku rozszerzeń, aby poprawić i przesłać informacje o utworze.",
         "description": "Notification text"
+    },
+    "startupTitle": {
+        "message": "Witamy w Web Scrobblerze!",
+        "description": "Title for startup page"
+    },
+    "startupIntroTitle": {
+        "message": "Dzięki, że wybrałeś Web Scrobblera!",
+        "description": "Startup intro title"
+    },
+    "startupIntroText": {
+        "message": "Zanim będziemy mogli zacząć scrobblować całą twoją muzykę, musisz najpierw zapoznać się i wyrazić (albo i nie) zgodę na naszą politykę prywatności.",
+        "description": "Startup intro text"
+    },
+    "startupFinished": {
+        "message": "Dzięki! Jeśli zmienisz zdanie, zawsze możesz zmienić wybór w opcjach rozszerzenia.",
+        "description": "Startup finished text"
+    },
+    "optIn": {
+        "message": "Zgadzam się",
+        "description": "Opt in"
+    },
+    "optOut": {
+        "message": "Nie zgadzam się",
+        "description": "Opt out"
+    },
+    "hotkeyToggleConnector": {
+        "message": "Przełącz scrobblowanie dla obecnej witryny",
+        "description": "Hotkey label"
+    },
+    "hotkeyDisableConnectorUntilClosed": {
+        "message": "Wyłącz scrobblowanie na obecnej witrynie do zamknięcia karty",
+        "description": "Hotkey label"
+    },
+    "hotkeyToggleLove": {
+        "message": "Ukochaj/odkochaj ten utwór",
+        "description": "Hotkey label"
     },
     "extDescription": {
         "message": "Scrobbluj muzykę z dowolnego miejsca w sieci!",

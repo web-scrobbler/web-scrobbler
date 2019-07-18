@@ -10,10 +10,6 @@ Connector.currentTimeSelector = '#progress .now';
 
 Connector.durationSelector = '#progress .total';
 
-Connector.isPlaying = () => {
-	return $('#controller .pause').length !== 0;
-};
+Connector.pauseButtonSelector = '#controller .pause';
 
-Connector.getTrackArt = () => {
-	return `${$('#playerWrap #cover').find('img').attr('src')}`;
-};
+Connector.trackArtSelector = '#playerWrap #cover img';
