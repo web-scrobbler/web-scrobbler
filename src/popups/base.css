@@ -1,7 +1,3 @@
-body, button, input {
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
-
 body {
 	padding: 10px;
 }
@@ -17,4 +13,13 @@ a, a:hover {
 .description {
 	font-size: 13px;
 	text-align: left;
+}
+
+.btn-primary {
+	background-color: #d51007;
+	border-color: #d51007;
+}
+.btn-primary:hover {
+	background-color: #b50d07;
+	border-color: #b50d07;
 }

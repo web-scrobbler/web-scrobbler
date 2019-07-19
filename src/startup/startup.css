@@ -1,7 +1,4 @@
-body, button, input {
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-}
-h2, h4, h5 {
+h1, h2, h3, h4, h5 {
 	color: #d51007;
 }
 .container {
@@ -18,4 +15,13 @@ h2, h4, h5 {
 .finished {
 	display: none;
 	font-weight: bold;
+}
+
+.btn-primary {
+	background-color: #d51007;
+	border-color: #d51007;
+}
+.btn-primary:hover {
+	background-color: #b50d07;
+	border-color: #b50d07;
 }

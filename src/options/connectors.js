@@ -11,7 +11,7 @@ define((require) => {
 	}
 
 	async function initConnectorsList() {
-		const parent = $('ul#connectors');
+		const parent = $('#connectors');
 
 		const disabledConnectors =
 			await Options.getOption(Options.DISABLED_CONNECTORS);
@@ -20,13 +20,13 @@ define((require) => {
 
 		sortedConnectors.forEach((connector, index) => {
 			const newEl = $(`
-				<li>
+				<div>
 					<a href="#" class="conn-config" data-conn="${index}">
-						<i class="fa fa-gear fa-fw"></i>
+						<i class="fa fa-gear"></i>
 					</a>
 					<input type="checkbox" id="conn-${index}">
-					<label for="conn-${index}">${connector.label}</label>
-				</li>
+					<label class="form-check-label" for="conn-${index}">${connector.label}</label>
+				</div>
 			`);
 
 			const domEl = newEl.appendTo(parent);

@@ -9,7 +9,7 @@ require.config({
 		vendor: '/vendor',
 		jquery: '/vendor/jquery.min',
 		options: '/options',
-		bootstrap: '/vendor/bootstrap/bootstrap.min',
+		bootstrap: '/vendor/bootstrap/js/bootstrap.bundle.min',
 		connectors: '/core/connectors',
 
 		'webextension-polyfill': '/vendor/browser-polyfill.min',

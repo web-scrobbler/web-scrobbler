@@ -32,14 +32,12 @@ require([
 	async function updateSections() {
 		switch (location.hash) {
 			case '#accounts':
-				// Expand 'Accounts' section and collapse 'Contacts' one.
-				$('#accounts').addClass('in');
-				$('#contact').removeClass('in');
+				$('#collapseAccounts').collapse('show');
+				$('#collapseContacts').collapse('hide');
 				break;
 			case '#options':
-				// Expand 'Accounts' section and collapse 'Contacts' one.
-				$('#options').addClass('in');
-				$('#contact').removeClass('in');
+				$('#collapseOptions').collapse('show');
+				$('#collapseContacts').collapse('hide');
 				break;
 		}
 	}

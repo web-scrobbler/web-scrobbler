@@ -48,7 +48,7 @@ We use gitter and you can join us @ [web-scrobbler/web-scrobbler][5].
 
 ## Used 3rd-party libraries
 
--   [Bootstrap v2.3.2][16]
+-   [Bootstrap v4.3.1][16]
 -   [Font Awesome v4.7.0][17]
 -   [jQuery v3.2.1][18]
 -   [RequireJS v2.3.5][19]
@@ -89,7 +89,7 @@ See the [license file](LICENSE.md).
 
 [15]: https://addons.mozilla.org/en-US/firefox/addon/web-scrobbler/
 
-[16]: http://getbootstrap.com/2.3.2/assets/bootstrap.zip
+[16]: https://github.com/twbs/bootstrap/releases/download/v4.3.1/bootstrap-4.3.1-dist.zip
 
 [17]: https://fontawesome.com/v4.7.0/assets/font-awesome-4.7.0.zip
 

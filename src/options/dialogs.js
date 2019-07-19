@@ -23,7 +23,7 @@ define((require) => {
 			const connector = sortedConnectors[index];
 
 			modal.data('conn', index);
-			modal.find('.conn-conf-title').html(connector.label);
+			modal.find('.modal-title').html(connector.label);
 
 			const allPatterns = await CustomPatterns.getAllPatterns();
 			const patterns = allPatterns[connector.label] || [];
@@ -99,8 +99,8 @@ define((require) => {
 
 					const item = $(`<li>${artist} — ${track}</li>`);
 					const removeBtn = $(
-						`<button type="button" class="close-btn">
-							<i class="fa fa-times fa-fw"></i>
+						`<button type="button" class="close close-btn">
+							&times;
 						</button>`);
 
 					if (album) {
@@ -137,24 +137,26 @@ define((require) => {
 	}
 
 	function createNewConfigInput(value) {
-		const inputEl = $('<input type="text">');
+		const containerEl = $('<div class="input-group"/>');
+		const appendEl = $('<div class="input-group-append"/>');
+
+		const inputEl = $('<input type="text" class="form-control">');
 		inputEl.val(value);
 
 		const closeEl = $(`
-			<span id="modal-connector-remove" class="add-on">
-				<i class="fa fa-remove fa-fw close-btn"></i>
-			</span>
+			<button class="btn btn-outline-secondary" type="button">
+				&times;
+			</button>
 		`);
 		closeEl.click(function(ev) {
 			ev.preventDefault();
-			$(this).parent().remove();
+			$(this).parent().parent().remove();
 		});
 
-		const input = $('<div class="input-append"</div>');
-		input.append(inputEl);
-		input.append(closeEl);
+		appendEl.append(closeEl);
+		containerEl.append(inputEl, appendEl);
 
-		return input;
+		return containerEl;
 	}
 
 	return { initialize };
