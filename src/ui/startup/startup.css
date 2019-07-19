@@ -1,6 +1,3 @@
-h1, h2, h3, h4, h5 {
-	color: #d51007;
-}
 .container {
 	margin: auto;
 	max-width: 768px;
@@ -15,13 +12,4 @@ h1, h2, h3, h4, h5 {
 .finished {
 	display: none;
 	font-weight: bold;
-}
-
-.btn-primary {
-	background-color: #d51007;
-	border-color: #d51007;
-}
-.btn-primary:hover {
-	background-color: #b50d07;
-	border-color: #b50d07;
 }

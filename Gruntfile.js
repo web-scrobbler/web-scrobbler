@@ -28,14 +28,13 @@ const JS_FILES = [
 	// Connectors
 	`${SRC_DIR}/connectors/**/*.js`,
 	// Core files
-	`${SRC_DIR}/core/**/*.js`, `${SRC_DIR}/options/*.js`,
-	`${SRC_DIR}/popups/*.js`,
+	`${SRC_DIR}/core/**/*.js`, `${SRC_DIR}/ui/**/*.js`,
 	// Tests
 	'tests/**/*.js'
 ];
 const JSON_FILES = ['*.json', '.stylelintrc'];
-const HTML_FILES = [`${SRC_DIR}/options/*.html`, `${SRC_DIR}/popups/*.html`];
-const CSS_FILES = [`${SRC_DIR}options/*.css`, `${SRC_DIR}/popups/*.css`];
+const HTML_FILES = [`${SRC_DIR}/ui/**/*.html`];
+const CSS_FILES = [`${SRC_DIR}/ui/**/*.css`];
 const DOC_FILES = [
 	'*.md', '.github/**/*.md',
 ];

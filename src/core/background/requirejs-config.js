@@ -8,7 +8,7 @@ require.config({
 	paths: {
 		vendor: '/vendor',
 		jquery: '/vendor/jquery.min',
-		options: '/options',
+		options: '/ui/options',
 		bootstrap: '/vendor/bootstrap/js/bootstrap.bundle.min',
 		connectors: '/core/connectors',
 

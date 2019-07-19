@@ -1,0 +1,16 @@
+body {
+	padding: 10px;
+}
+
+h5 {
+	color: #000;
+}
+
+.content {
+	width: 290px;
+}
+
+.description {
+	font-size: 13px;
+	text-align: left;
+}

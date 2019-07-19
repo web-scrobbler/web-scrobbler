@@ -1,0 +1,35 @@
+/**
+ * Base styles.
+ */
+
+a {
+	color: #d51007;
+}
+a:hover {
+	color: #b50d07;
+}
+
+h1, h2, h3, h4, h5 {
+	color: #d51007;
+}
+
+/**
+ * Bootstrap buttons.
+ */
+
+.btn-link {
+	color: #d51007;
+	text-decoration: none !important;
+}
+.btn-link:hover {
+	color: #b50d07;
+}
+
+.btn-primary {
+	background-color: #d51007;
+	border-color: #d51007;
+}
+.btn-primary:hover {
+	background-color: #b50d07;
+	border-color: #b50d07;
+}

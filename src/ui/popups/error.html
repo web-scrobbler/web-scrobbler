@@ -7,7 +7,9 @@
 
 	<link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="/popups/base.css">
+
+	<link rel="stylesheet" href="/ui/base.css">
+	<link rel="stylesheet" href="/ui/popups/base-popup.css">
 
 	<script type="text/javascript" src="/vendor/jquery.min.js"></script>
 	<script type="text/javascript" src="/core/i18n.js"></script>
@@ -16,11 +18,11 @@
 <body>
 	<div class="content text-center">
 		<div>
-			<i class="fa fa-toggle-off fa-3x"></i>
-			<h5 i18n="disabledSiteHeader"></h5>
+			<i class="fa fa-exclamation-circle text-error fa-3x"></i>
+			<h5 class="text-error" i18n="serviceErrorHeader"></h5>
 		</div>
-		<p class="description" i18n="disabledSiteDesc"></p>
-		<a class="btn btn-primary" role="button" id="options" i18n="disabledSiteButton" href="/options/index.html#options" target="_blank"></a>
+		<p class="description" i18n="serviceErrorDesc"></p>
+		<a class="btn btn-primary" role="button" id="options" i18n="disabledSiteButton" href="/ui/options/index.html#accounts" target="_blank"></a>
 	</div>
 </body>
 

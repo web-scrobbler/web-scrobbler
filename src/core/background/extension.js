@@ -435,7 +435,7 @@ define((require) => {
 			console.warn('No scrobblers are bound');
 
 			if (await isAuthNotificationAllowed()) {
-				let authUrl = browser.runtime.getURL('/options/index.html#accounts');
+				let authUrl = browser.runtime.getURL('/ui/options/index.html#accounts');
 				try {
 					await Notifications.showAuthNotification(() => {
 						browser.tabs.create({ url: authUrl });

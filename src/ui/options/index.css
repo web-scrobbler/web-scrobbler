@@ -2,17 +2,6 @@ body {
 	margin: 30px 0 0;
 }
 
-h2, h3, h4, h5 {
-	color: #d51007;
-}
-
-a {
-	color: #d51007;
-}
-a:hover {
-	color: #b50d07;
-}
-
 .contacts li {
 	line-height: 40px;
 }
@@ -41,25 +30,8 @@ a:hover {
 	padding-left: 15px;
 }
 
-.btn-link {
-	color: #d51007;
-	text-decoration: none !important;
-}
-.btn-link:hover {
-	color: #b50d07;
-}
-
 .card-body {
 	padding-bottom: 0px !important;
-}
-
-.btn-primary {
-	background-color: #d51007;
-	border-color: #d51007;
-}
-.btn-primary:hover {
-	background-color: #b50d07;
-	border-color: #b50d07;
 }
 
 .close-btn {

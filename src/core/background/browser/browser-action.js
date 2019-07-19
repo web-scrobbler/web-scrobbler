@@ -8,7 +8,7 @@ define((require) => {
 	const State = {
 		base: {
 			icon: 'base',
-			popup: '/popups/go_play_music.html',
+			popup: '/ui/popups/go_play_music.html',
 			i18n: 'pageActionBase',
 		},
 		loading: {
@@ -18,17 +18,17 @@ define((require) => {
 		},
 		recognized: {
 			icon: 'note',
-			popup: '/popups/info.html',
+			popup: '/ui/popups/info.html',
 			i18n: 'pageActionRecognized',
 		},
 		scrobbled: {
 			icon: 'tick',
-			popup: '/popups/info.html',
+			popup: '/ui/popups/info.html',
 			i18n: 'pageActionScrobbled',
 		},
 		skipped: {
 			icon: 'skipped',
-			popup: '/popups/info.html',
+			popup: '/ui/popups/info.html',
 			i18n: 'pageActionSkipped',
 		},
 		ignored: {
@@ -38,32 +38,32 @@ define((require) => {
 		},
 		disabled: {
 			icon: 'disabled',
-			popup: '/popups/disabled.html',
+			popup: '/ui/popups/disabled.html',
 			i18n: 'pageActionDisabled',
 		},
 		unknown: {
 			icon: 'unknown',
-			popup: '/popups/info.html',
+			popup: '/ui/popups/info.html',
 			i18n: 'pageActionUnknown',
 		},
 		error: {
 			icon: 'error',
-			popup: '/popups/error.html',
+			popup: '/ui/popups/error.html',
 			i18n: 'pageActionError',
 		},
 		unsupported: {
 			icon: 'unsupported',
-			popup: '/popups/unsupported.html',
+			popup: '/ui/popups/unsupported.html',
 			i18n: 'pageActionUnsupported',
 		},
 		loved: {
 			icon: 'loved',
-			popup: '/popups/info.html',
+			popup: '/ui/popups/info.html',
 			i18n: 'pageActionLoved',
 		},
 		unloved: {
 			icon: 'unloved',
-			popup: '/popups/info.html',
+			popup: '/ui/popups/info.html',
 			i18n: 'pageActionUnloved',
 		},
 	};
