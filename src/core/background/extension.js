@@ -147,7 +147,7 @@ define((require) => {
 
 		switch (request.type) {
 			case 'REQUEST_GET_SONG':
-				return ctrl.getCurrentSong();
+				return ctrl.getCurrentSong().getCloneableData();
 
 			case 'REQUEST_CORRECT_SONG':
 				ctrl.setUserSongData(request.data);
