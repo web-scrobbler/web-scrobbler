@@ -24,7 +24,8 @@ let categoryCache = new Map();
 const videoSelector = '.html5-main-video';
 
 readConnectorOptions();
-setupMutationObserver();
+
+Connector.playerSelector = '#content';
 
 Connector.getArtistTrack = () => {
 	const videoTitle = $('.html5-video-player .ytp-title-link').first().text();
@@ -185,43 +186,6 @@ async function fillMoreSection() {
 	// Remove global style.
 	$('yt-formatted-string.less-button').text(ytShowLessText);
 	$('#tmp-style').remove();
-}
-
-function setupMutationObserver() {
-	let isEventListenerSetUp = false;
-
-	function onMutation() {
-		let videoElement = $(videoSelector);
-
-		if (videoElement.length > 0) {
-			if (!videoElement.is(':visible')) {
-				Connector.resetState();
-				return;
-			}
-
-			if (isEventListenerSetUp) {
-				return;
-			}
-
-			videoElement.on('timeupdate', Connector.onStateChanged);
-			isEventListenerSetUp = true;
-
-			Util.debugLog('Setup "timeupdate" event listener');
-		} else {
-			Connector.resetState();
-			isEventListenerSetUp = false;
-
-			Util.debugLog('Video element is missing', 'warn');
-		}
-	}
-
-	let observer = new MutationObserver(Util.throttle(onMutation, 500));
-	observer.observe(document, {
-		subtree: true,
-		childList: true,
-		attributes: false,
-		characterData: false
-	});
 }
 
 /**
