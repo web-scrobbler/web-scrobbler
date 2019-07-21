@@ -451,6 +451,10 @@
         "message": "Álbum (opcional)",
         "description": "Placeholder of album input"
     },
+    "infoAlbumArtistPlaceholder": {
+        "message": "Artista do álbum (opcional)",
+        "description": "Placeholder of album artist input"
+    },
     "infoViewArtistPage": {
         "message": "Ver página do artista",
         "description": "Placeholder of album input"
@@ -501,6 +505,14 @@
     },
     "pageActionUnsupported": {
         "message": "O Web Scrobbler não é compatível com este site.",
+        "description": "`unsupported` page action title"
+    },
+    "pageActionLoved": {
+        "message": "A faixa \"$1\" foi marcada como preferida",
+        "description": "`unsupported` page action title"
+    },
+    "pageActionUnloved": {
+        "message": "A faixa \"$1\" foi removida das faixas preferidas",
         "description": "`unsupported` page action title"
     },
     "menuDisableConnector": {
@@ -562,6 +574,22 @@
     "optOut": {
         "message": "Recusar",
         "description": "Opt out"
+    },
+    "hotkeyToggleConnector": {
+        "message": "Alternar scrobble para o site atual",
+        "description": "Hotkey label"
+    },
+    "hotkeyDisableConnectorUntilClosed": {
+        "message": "Desativar scrobbles para o site atual até a aba ser fechada",
+        "description": "Hotkey label"
+    },
+    "hotkeyLoveSong": {
+        "message": "Marcar faixa como preferida",
+        "description": "Hotkey label"
+    },
+    "hotkeyUnloveSong": {
+        "message": "Remover das faixas preferidas",
+        "description": "Hotkey label"
     },
     "extDescription": {
         "message": "Faça scrobble de músicas por toda a internet!",

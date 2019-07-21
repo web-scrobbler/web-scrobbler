@@ -451,6 +451,10 @@
         "message": "Album (opcional)",
         "description": "Placeholder of album input"
     },
+    "infoAlbumArtistPlaceholder": {
+        "message": "Album del artista (opcional)",
+        "description": "Placeholder of album artist input"
+    },
     "infoViewArtistPage": {
         "message": "Ver página del artista",
         "description": "Placeholder of album input"
@@ -501,6 +505,14 @@
     },
     "pageActionUnsupported": {
         "message": "Web Scrobbler no da soporte a este sitio web.",
+        "description": "`unsupported` page action title"
+    },
+    "pageActionLoved": {
+        "message": "Amaste $1",
+        "description": "`unsupported` page action title"
+    },
+    "pageActionUnloved": {
+        "message": "Dejaste de amar $1",
         "description": "`unsupported` page action title"
     },
     "menuDisableConnector": {
@@ -562,6 +574,22 @@
     "optOut": {
         "message": "Optar por no",
         "description": "Opt out"
+    },
+    "hotkeyToggleConnector": {
+        "message": "Cambiar la modalidad de scrobbling para el actual sitio web",
+        "description": "Hotkey label"
+    },
+    "hotkeyDisableConnectorUntilClosed": {
+        "message": "Deshabilitar el scrobbling desde el actual sitio web hasta que la pestaña esté cerrada",
+        "description": "Hotkey label"
+    },
+    "hotkeyLoveSong": {
+        "message": "Canción amada sonando",
+        "description": "Hotkey label"
+    },
+    "hotkeyUnloveSong": {
+        "message": "Canción desamada, sonando",
+        "description": "Hotkey label"
     },
     "extDescription": {
         "message": "Scrobble música desde toda la web!",

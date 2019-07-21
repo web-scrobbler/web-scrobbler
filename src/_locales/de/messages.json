@@ -451,6 +451,10 @@
         "message": "Album (optional)",
         "description": "Placeholder of album input"
     },
+    "infoAlbumArtistPlaceholder": {
+        "message": "Albumkünstler (optional)",
+        "description": "Placeholder of album artist input"
+    },
     "infoViewArtistPage": {
         "message": "Künstlerseite ansehen",
         "description": "Placeholder of album input"
@@ -501,6 +505,14 @@
     },
     "pageActionUnsupported": {
         "message": "Web Scrobbler unterstützt diese Webseite nicht.",
+        "description": "`unsupported` page action title"
+    },
+    "pageActionLoved": {
+        "message": "Du liebtest $1",
+        "description": "`unsupported` page action title"
+    },
+    "pageActionUnloved": {
+        "message": "Du mochtest nicht  mehr $1",
         "description": "`unsupported` page action title"
     },
     "menuDisableConnector": {
@@ -562,6 +574,22 @@
     "optOut": {
         "message": "Opt out",
         "description": "Opt out"
+    },
+    "hotkeyToggleConnector": {
+        "message": "Toggle scrobbling für die Webseite",
+        "description": "Hotkey label"
+    },
+    "hotkeyDisableConnectorUntilClosed": {
+        "message": "für die Webseite Scrobbling deaktivieren bis der tab geschlossen",
+        "description": "Hotkey label"
+    },
+    "hotkeyLoveSong": {
+        "message": "Drücke mir gefällt der Song ",
+        "description": "Hotkey label"
+    },
+    "hotkeyUnloveSong": {
+        "message": "Drücke mir gefällt der Song nicht",
+        "description": "Hotkey label"
     },
     "extDescription": {
         "message": "Scrobble Musik überall im Netz!",
