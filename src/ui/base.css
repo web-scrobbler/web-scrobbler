@@ -44,3 +44,7 @@ h1, h2, h3, h4, h5 {
 	background-color: #b20c07;
 	border-color: #b20c07;
 }
+
+.hidden {
+	display: none;
+}

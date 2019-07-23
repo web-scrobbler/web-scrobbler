@@ -2,6 +2,6 @@
 
 $(function() {
 	$('a.help').click(() => {
-		$('#description').attr('data-hide', false);
+		$('#description').show();
 	});
 });
