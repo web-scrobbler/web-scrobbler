@@ -2,10 +2,11 @@
 
 [![Chrome Web Store][22]][1]
 [![AMO][23]][15]
-[![Build status][2]][3]
-[![devDependencies status][6]][7]
 [![Gitter][4]][5]
+[![devDependencies status][6]][7]
+[![Build status][2]][3]
 [![Codacy Badge][29]][30]
+[![Maintainability][32]][33]
 
 Web Scrobbler helps online music listeners to scrobble their playback history.
 
@@ -117,3 +118,7 @@ See the [license file](LICENSE.md).
 [30]: https://app.codacy.com/project/web-scrobbler/web-scrobbler/dashboard
 
 [31]: https://unpkg.com/webextension-polyfill@0.4.0/dist/
+
+[32]: https://api.codeclimate.com/v1/badges/be3a9f3b266d8a68e1d9/maintainability
+
+[33]: https://codeclimate.com/github/web-scrobbler/web-scrobbler/maintainability
