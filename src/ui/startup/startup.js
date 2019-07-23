@@ -26,7 +26,7 @@ require([
 
 	function closePage() {
 		$('.controls').hide();
-		$('.finished').show();
+		$('.alert-finished').show();
 	}
 
 	async function updateGaState(value) {

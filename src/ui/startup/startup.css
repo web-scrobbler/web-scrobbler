@@ -9,7 +9,6 @@
 .container h2 {
 	font-size: 1.5em;
 }
-.finished {
+.alert-finished {
 	display: none;
-	font-weight: bold;
 }
