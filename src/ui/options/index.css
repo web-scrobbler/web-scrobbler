@@ -17,6 +17,11 @@
 .contacts a i {
 	margin-right: 10px;
 }
+.contact-link {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
 
 .toggle {
 	font-weight: bold;
