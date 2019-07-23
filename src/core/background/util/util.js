@@ -8,8 +8,8 @@ define((require) => {
 	const browser = require('webextension-polyfill');
 	const connectors = require('connectors');
 
-	const STR_REPLACER = 'x';
-	const REPLACER_LEN = 5;
+	const STR_REPLACER = '*';
+	const HIDDEN_PLACEHOLDER = '[hidden]';
 
 	/**
 	 * Number of seconds of playback before the track is scrobbled.
@@ -61,27 +61,30 @@ define((require) => {
 	 */
 	function hideStringInText(str, text) {
 		if (str && text) {
-			let replacer = STR_REPLACER.repeat(Math.min(REPLACER_LEN, text.length));
-			return text.replace(str,
-				`${replacer}${str.substr(replacer.length)}`
-			);
+			const replacer = STR_REPLACER.repeat(str.length);
+			return text.replace(str, replacer);
 		}
 		return text;
 	}
 
 	/**
-	 * Partial hide string in given text.
-	 * @param  {String} str String to be hidden
+	 * Get hidden string representation of given object.
+	 * @param  {String} keyValue Value to be hidden
 	 * @return {String} Modified string
 	 */
-	function hideString(str) {
-		if (str) {
-			let replacer = STR_REPLACER.repeat(Math.min(REPLACER_LEN, str.length));
-			return `${replacer}${str.substr(replacer.length)}`;
+	function hideObjectValue(keyValue) {
+		if (!keyValue) {
+			return keyValue;
 		}
-		return str;
-	}
 
+		if (typeof(keyValue) === 'string') {
+			return STR_REPLACER.repeat(keyValue.length);
+		} else if (Array.isArray(keyValue)) {
+			return `[Array(${keyValue.length})]`;
+		}
+
+		return HIDDEN_PLACEHOLDER;
+	}
 
 	/**
 	 * Check if browser is in fullscreen mode.
@@ -227,9 +230,11 @@ define((require) => {
 
 	return {
 		debugLog, getCurrentTab, timeoutPromise, getPlatformName, openTab,
-		hideString, hideStringInText, isFullscreenMode, getSortedConnectors,
+		hideObjectValue, hideStringInText, isFullscreenMode, getSortedConnectors,
 		getSecondsToScrobble, getPrivacyPolicyFilename,
 
-		MIN_TRACK_DURATION, DEFAULT_SCROBBLE_TIME, MAX_SCROBBLE_TIME
+		MIN_TRACK_DURATION, DEFAULT_SCROBBLE_TIME, MAX_SCROBBLE_TIME,
+
+		HIDDEN_PLACEHOLDER
 	};
 });

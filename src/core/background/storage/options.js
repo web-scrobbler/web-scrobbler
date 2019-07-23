@@ -71,7 +71,7 @@ define((require) => {
 			}
 		}
 		await options.set(data);
-		options.debugLog();
+		options.debugLog([DISABLED_CONNECTORS]);
 
 		data = await connectorsOptions.get();
 		for (let connectorKey in DEFAULT_CONNECTOR_OPTIONS) {

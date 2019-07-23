@@ -11,7 +11,7 @@ const HIDE_STRING_IN_TEXT_DATA = [{
 	description: 'should hide string in text',
 	source: 'This is a SAMPLE string',
 	string: 'SAMPLE',
-	expected: 'This is a xxxxxE string'
+	expected: 'This is a ****** string'
 }, {
 	description: 'should do nothing if string is null',
 	source: 'This is a SAMPLE string',
@@ -34,20 +34,28 @@ const HIDE_STRING_IN_TEXT_DATA = [{
 	expected: ''
 }];
 
-const HIDE_STRING_DATA = [{
+const HIDE_OBJECT_VALUE_DATA = [{
 	description: 'should hide string',
-	source: 'Sensitive Data',
-	expected: 'xxxxxtive Data'
+	source: 'Sensitive',
+	expected: '*********'
 }, {
-	description: 'should hide short string',
-	source: 'Test',
-	expected: 'xxxx'
+	description: 'should hide array, but display array length',
+	source: [1, 2, 3],
+	expected: '[Array(3)]'
 }, {
-	description: 'should not fall on null value',
+	description: 'should hide object with generic placeholder',
+	source: { 1: 1, 2: 2 },
+	expected: Util.HIDDEN_PLACEHOLDER
+}, {
+	description: 'should display null as is',
+	source: undefined,
+	expected: undefined
+}, {
+	description: 'should display null as is',
 	source: null,
 	expected: null
 }, {
-	description: 'should not fall on empty value',
+	description: 'should display empty string as is',
 	source: '',
 	expected: ''
 }];
@@ -94,7 +102,7 @@ const GET_SECONDS_TO_SCROBBLE_DATA = [{
  * Run all tests.
  */
 function runTests() {
-	describe('hideString', testHideString);
+	describe('hideObjectValue', testHideObjectValue);
 	describe('hideStringInText', testHideStringInText);
 	describe('getSecondsToScrobble', testGetSecondsToScrobble);
 }
@@ -132,8 +140,8 @@ function testHideStringInText() {
 /**
  * Test 'Util.hideString' function.
  */
-function testHideString() {
-	testFunction(Util.hideString, HIDE_STRING_DATA);
+function testHideObjectValue() {
+	testFunction(Util.hideObjectValue, HIDE_OBJECT_VALUE_DATA);
 }
 
 /**

@@ -313,12 +313,15 @@ define((require) => {
 	 * @return {String} Text with hidden data
 	 */
 	function hideUserData($doc, text) {
-		let sessionId = $doc.find('session > key').text();
-		let token = $doc.find('token').text();
-
 		let debugMsg = text;
-		debugMsg = Util.hideStringInText(token, debugMsg);
-		debugMsg = Util.hideStringInText(sessionId, debugMsg);
+		const dataSelectors = [
+			'session > name', 'session > key', 'token'
+		];
+
+		for (const selector of dataSelectors) {
+			const value = $doc.find(selector).text();
+			debugMsg = Util.hideStringInText(value, debugMsg);
+		}
 
 		return debugMsg;
 	}
