@@ -1,13 +1,10 @@
-body {
-	padding: 10px;
-}
-
 h5 {
 	color: #000;
 }
 
 .content {
-	width: 290px;
+	padding: 15px;
+	width: 300px;
 }
 
 .description {
