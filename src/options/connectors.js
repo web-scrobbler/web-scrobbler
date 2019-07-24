@@ -33,7 +33,7 @@ define((require) => {
 			const checkbox = domEl.find('input');
 
 			checkbox.click(function() {
-				Options.setConnectorEnabled(connector.label, this.checked);
+				Options.setConnectorEnabled(connector, this.checked);
 			});
 			const isConnectorEnabled = !disabledConnectors.includes(connector.label);
 			checkbox.attr('checked', isConnectorEnabled);
