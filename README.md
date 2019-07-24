@@ -83,7 +83,7 @@ See the [license file][License].
 <!-- Docs -->
 [Contributing]: https://github.com/web-scrobbler/web-scrobbler/blob/master/.github/CONTRIBUTING.md
 [DocsUnpacked]: https://developer.chrome.com/extensions/getstarted#unpacked
-[Licensse]: https://github.com/web-scrobbler/web-scrobbler/blob/master/LICENSE.md
+[License]: https://github.com/web-scrobbler/web-scrobbler/blob/master/LICENSE.md
 [Privacy]: https://github.com/web-scrobbler/web-scrobbler/blob/master/src/_locales/en/privacy.md
 
 <!-- Download -->
