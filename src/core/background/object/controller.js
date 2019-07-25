@@ -20,11 +20,6 @@ define((require) => {
 	const fieldsToCheckSongChange = ['artist', 'track', 'album', 'uniqueID'];
 
 	/**
-	 * Now playing notification delay in milliseconds.
-	 */
-	const NOW_PLAYING_NOTIFICATION_DELAY = 5000;
-
-	/**
 	 * Object that handles song playback and scrobbling actions.
 	 */
 	class Controller {
@@ -77,7 +72,7 @@ define((require) => {
 			this.replayDetectionTimer.reset();
 
 			if (this.currentSong !== null) {
-				this.clearNowPlayingNotification();
+				Notifications.clearNowPlaying(this.currentSong);
 			}
 			this.currentSong = null;
 		}
@@ -115,7 +110,7 @@ define((require) => {
 			this.playbackTimer.reset();
 			this.replayDetectionTimer.reset();
 
-			this.clearNowPlayingNotification();
+			Notifications.clearNowPlaying(this.currentSong);
 		}
 
 		/**
@@ -410,32 +405,9 @@ define((require) => {
 				return;
 			}
 
-			this.clearNotificationTimeout();
-
-			this.notificationTimeoutId = setTimeout(() => {
-				Notifications.showNowPlaying(this.currentSong, () => {
-					Util.openTab(this.tabId);
-				});
-			}, NOW_PLAYING_NOTIFICATION_DELAY);
-		}
-
-		/**
-		 * Clear now playing notification for current song.
-		 */
-		clearNowPlayingNotification() {
-			Notifications.remove(this.currentSong.metadata.notificationId);
-
-			this.clearNotificationTimeout();
-		}
-
-		/**
-		 * Clear notification timeout.
-		 */
-		clearNotificationTimeout() {
-			if (this.notificationTimeoutId) {
-				clearTimeout(this.notificationTimeoutId);
-				this.notificationTimeoutId = null;
-			}
+			Notifications.showNowPlaying(this.currentSong, () => {
+				Util.openTab(this.tabId);
+			});
 		}
 
 		/**

@@ -12,10 +12,17 @@ define((require) => {
 	};
 
 	/**
+	 * Now playing notification delay in milliseconds.
+	 */
+	const NOW_PLAYING_NOTIFICATION_DELAY = 5000;
+
+	/**
 	 * Map of click listeners indexed by notification IDs.
 	 * @type {Object}
 	 */
 	const clickListeners = {};
+
+	let notificationTimeoutId = null;
 
 	/**
 	 * Check if notifications are available.
@@ -124,8 +131,22 @@ define((require) => {
 			message: `${song.getTrack()}\n${song.getArtist()}\n${connectorLabel}`
 			/* @endif */
 		};
-		let notificationId = await showNotification(options, onClick);
-		song.metadata.notificationId = notificationId;
+
+		clearNotificationTimeout();
+
+		notificationTimeoutId = setTimeout(async() => {
+			const notificationId = await showNotification(options, onClick);
+			song.metadata.notificationId = notificationId;
+		}, NOW_PLAYING_NOTIFICATION_DELAY);
+	}
+
+	/**
+	 * Remove now playing notification for given song.
+	 * @param  {Object} song Song instance
+	 */
+	function clearNowPlaying(song) {
+		clearNotificationTimeout();
+		remove(song.metadata.notificationId);
 	}
 
 	/**
@@ -194,6 +215,14 @@ define((require) => {
 		return browser.i18n.getMessage(tag, context);
 	}
 
+
+	function clearNotificationTimeout() {
+		if (notificationTimeoutId) {
+			clearTimeout(notificationTimeoutId);
+			notificationTimeoutId = null;
+		}
+	}
+
 	browser.notifications.onClicked.addListener((notificationId) => {
 		console.log(`Notification onClicked: ${notificationId}`);
 
@@ -206,7 +235,7 @@ define((require) => {
 	});
 
 	return {
-		remove, showNowPlaying, showError, showSignInError,
+		clearNowPlaying, showNowPlaying, showError, showSignInError,
 		showAuthNotification, showSongNotRecognized
 	};
 });
