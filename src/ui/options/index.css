@@ -1,21 +1,20 @@
 .container {
-	margin: auto;
-	padding: 30px;
+	padding-top: 3rem;
 }
 
 .contacts li {
-	line-height: 40px;
+	line-height: 2rem;
 }
 .contacts a {
 	border-bottom: none;
 	color: #000;
 	display: inline-block;
-	font-size: 1.5em;
+	font-size: 1.5rem;
 	text-decoration: none;
-	width: 130px;
+	width: 7.5rem;
 }
 .contacts a i {
-	margin-right: 10px;
+	margin-right: 0.5rem;
 }
 .contact-link {
 	overflow: hidden;
@@ -32,8 +31,8 @@
 }
 
 .options-block {
-	padding-bottom: 10px;
-	padding-left: 15px;
+	padding-bottom: 1rem;
+	padding-left: 1rem;
 }
 
 /*
@@ -41,18 +40,18 @@
  * if we use a list group inside of a card body.
  */
 .card-list-group {
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 }
 .card-list-group .list-group-item {
-	padding-left: 0px;
-	padding-right: 0px;
+	padding-left: 0;
+	padding-right: 0;
 }
 .card-list-group .list-group-item:first-child {
-	padding-top: 0px;
+	padding-top: 0;
 }
 .card-list-group .list-group-item:last-child {
-	padding-bottom: 0px;
+	padding-bottom: 0;
 }
 
 .close-btn {
