@@ -49,7 +49,7 @@ We use gitter and you can join us @ [web-scrobbler/web-scrobbler][Gitter].
 ## Used 3rd-party libraries
 
 -   [Bootstrap v4.3.1][Bootstrap]
--   [Font Awesome v4.7.0][FontAwesome]
+-   [Font Awesome v5.9.0][FontAwesome]
 -   [jQuery v3.2.1][jQuery]
 -   [RequireJS v2.3.5][RequireJs]
 -   [Showdown v1.9.0][Showdown]
@@ -74,7 +74,7 @@ See the [license file][License].
 
 <!-- Dependencies -->
 [Bootstrap]: https://github.com/twbs/bootstrap/releases/download/v4.3.1/bootstrap-4.3.1-dist.zip
-[FontAwesome]: https://fontawesome.com/v4.7.0/assets/font-awesome-4.7.0.zip
+[FontAwesome]: https://use.fontawesome.com/releases/v5.9.0/fontawesome-free-5.9.0-web.zip
 [jQuery]: http://code.jquery.com/jquery-3.2.1.min.js
 [RequireJs]: http://requirejs.org/docs/release/2.3.5/minified/require.js
 [Showdown]: https://github.com/showdownjs/showdown/archive/1.9.0.zip

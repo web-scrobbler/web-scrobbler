@@ -22,7 +22,7 @@ define((require) => {
 			const newEl = $(`
 				<div>
 					<a href="#" class="conn-config" data-conn="${index}">
-						<i class="fa fa-gear"></i>
+						<i class="fa fa-cog"></i>
 					</a>
 					<input type="checkbox" id="conn-${index}">
 					<label class="form-check-label" for="conn-${index}">${connector.label}</label>
