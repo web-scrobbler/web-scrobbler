@@ -4,7 +4,7 @@
  * Song object.
  */
 define((require) => {
-	const MD5 = require('vendor/md5');
+	const MD5 = require('md5');
 	const DeepProxy = require('object/deep-proxy');
 
 	/**

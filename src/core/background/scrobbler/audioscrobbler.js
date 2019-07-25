@@ -2,7 +2,7 @@
 
 define((require) => {
 	const $ = require('jquery');
-	const MD5 = require('vendor/md5');
+	const MD5 = require('md5');
 	const Util = require('util/util');
 	const BaseScrobbler = require('scrobbler/base');
 	const ServiceCallResult = require('object/service-call-result');
