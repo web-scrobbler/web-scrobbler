@@ -203,6 +203,10 @@ module.exports = (grunt) => {
 			}
 		},
 		remark: {
+			options: {
+				quiet: true,
+				frail: true,
+			},
 			src: DOC_FILES
 		},
 		stylelint: {
