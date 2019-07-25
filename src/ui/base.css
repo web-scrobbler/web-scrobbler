@@ -6,7 +6,7 @@ a {
 	color: #d51007;
 }
 a:hover {
-	color: #b50d07;
+	color: #ba0d07;
 }
 
 h1, h2, h3, h4, h5 {
@@ -22,7 +22,7 @@ h1, h2, h3, h4, h5 {
 	text-decoration: none !important;
 }
 .btn-link:hover {
-	color: #b50d07;
+	color: #ba0d07;
 }
 
 .btn-primary {
