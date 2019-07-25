@@ -16,8 +16,7 @@
          rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
      id="defs4144" /><path
-     style="fill:#b90000;fill-opacity:1"
-     fill="#7F7F7F"
+     fill="#d51007"
      id="path4138"
      d="M34 38H4c-2.2 0-4-1.8-4-4V4c0-2.2 1.8-4 4-4h30c2.2 0 4 1.8 4 4v30C38 36.2 36.2 38 34 38z" /><rect
      transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,0,0)"
