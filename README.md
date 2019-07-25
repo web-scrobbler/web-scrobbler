@@ -78,7 +78,7 @@ See the [license file][License].
 [FontAwesome]: https://use.fontawesome.com/releases/v5.9.0/fontawesome-free-5.9.0-web.zip
 [JavaScriptMd5]: https://github.com/blueimp/JavaScript-MD5/archive/v2.11.0.zip
 [jQuery]: http://code.jquery.com/jquery-3.2.1.min.js
-[RequireJs]: http://requirejs.org/docs/release/2.3.5/minified/require.js
+[RequireJs]: http://requirejs.org/docs/release/2.3.6/minified/require.js
 [Showdown]: https://github.com/showdownjs/showdown/archive/1.9.0.zip
 [WebextPolyfill]: https://unpkg.com/webextension-polyfill@0.4.0/dist/
 
