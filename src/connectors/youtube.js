@@ -54,6 +54,7 @@ const videoSelector = '.html5-main-video';
 const videoTitleSelector = '.html5-video-player .ytp-title-link';
 const channelNameSelector = '#top-row .ytd-channel-name a';
 
+let currentVideoPlaylist = [];
 let currentVideoDescription = null;
 let artistTrackFromDescription = null;
 
@@ -83,11 +84,19 @@ Connector.getArtistTrack = () => {
  * state may not be considered empty.
  */
 Connector.getCurrentTime = () => {
-	return $(videoSelector).prop('currentTime');
+	if (currentVideoPlaylist.length > 0) {
+		return getCurrentTimeFromPlaylist();
+	}
+
+	return getVideoCurrentTime();
 };
 
 Connector.getDuration = () => {
-	return $(videoSelector).prop('duration');
+	if (currentVideoPlaylist.length > 0) {
+		return getTrackDurationFromPlaylist();
+	}
+
+	return getVideoDuration();
 };
 
 Connector.isPlaying = () => {
@@ -261,12 +270,29 @@ function getVideoDescription() {
 
 function getArtistTrackFromDescription() {
 	const description = getVideoDescription();
+
 	if (currentVideoDescription === description) {
+		if (currentVideoPlaylist.length > 0) {
+			artistTrackFromDescription = getArtistTrackFromPlaylist(currentVideoPlaylist);
+		}
+
 		return artistTrackFromDescription;
 	}
 
+	Util.debugLog('Update description');
 	currentVideoDescription = description;
-	artistTrackFromDescription = getArtistTrackFromYouTubeDescription(description);
+
+	const playlist = getPlaylistFromDescription(description);
+	if (playlist.length) {
+		currentVideoPlaylist = playlist;
+		artistTrackFromDescription = getArtistTrackFromPlaylist(playlist);
+	} else if (isValidYouTubeDescription(description)) {
+		currentVideoPlaylist = [];
+		artistTrackFromDescription = getArtistTrackFromYouTubeDescription(description);
+	} else {
+		currentVideoPlaylist = [];
+		artistTrackFromDescription = Util.makeEmptyArtistTrack();
+	}
 
 	return artistTrackFromDescription;
 }
@@ -306,4 +332,105 @@ function getArtistTrackFromYouTubeDescription(desc) {
 	const album = lines[LINE_ALBUM + indexOffset];
 
 	return { artist, track, album };
+}
+
+const regex1 = /[[(]*(\d{0,2}:*\d{2}:\d{2})[\])]*\s+(.+)/i;
+const regex2 = /\s*(.+)\s+[[(]*(\d{0,2}:*\d{2}:\d{2})[\])]*/i;
+
+const noPrefix = /^\d+\./;
+
+const regexes = [{
+	regex: regex1, timestampIndex: 1, trackIndex: 2
+}, {
+	regex: regex2, timestampIndex: 2, trackIndex: 1
+}];
+
+function getArtistTrackFromPlaylist() {
+	const track = getCurrentTrackFromPlaylist();
+
+	return { track };
+}
+
+function getPlaylistFromDescription(description) {
+	let playlist = [];
+
+	const lines = description.split('\n');
+	for (const line of lines) {
+		for (const regexData of regexes) {
+			const { regex, timestampIndex, trackIndex } = regexData;
+
+			const matchResult = line.match(regex);
+
+			if (matchResult) {
+				const rawTimestamp = matchResult[timestampIndex];
+				const timestamp = Util.stringToSeconds(rawTimestamp);
+				const track = matchResult[trackIndex].replace(noPrefix, '');
+
+				playlist.push({ timestamp, track });
+				break;
+			}
+		}
+	}
+
+	playlist = playlist.sort(compareTimestamps);
+
+	for (let i = 0; i < playlist.length; ++i) {
+		let duration = 0;
+		const entry = playlist[i];
+
+		if (i === 0) {
+			duration = getVideoDuration() - entry.timestamp;
+		} else {
+			const prevEntry = playlist[i - 1];
+			duration = prevEntry.timestamp - entry.timestamp;
+		}
+
+		entry.duration = duration;
+	}
+
+	return playlist.sort(compareTimestamps);
+}
+
+function compareTimestamps(a, b) {
+	return b.timestamp - a.timestamp;
+}
+
+function getCurrentEntryFromPlaylist() {
+	const currentTime = getVideoCurrentTime();
+
+	for (const entry of currentVideoPlaylist) {
+		if (currentTime >= entry.timestamp) {
+			return entry;
+		}
+	}
+
+	return null;
+}
+
+function getCurrentTrackFromPlaylist() {
+	const entry = getCurrentEntryFromPlaylist();
+	return entry ? entry.track : null;
+}
+
+function getTrackDurationFromPlaylist() {
+	const entry = getCurrentEntryFromPlaylist();
+	return entry ? entry.duration : null;
+}
+
+function getCurrentTimeFromPlaylist() {
+	const entry = getCurrentEntryFromPlaylist();
+	if (!entry) {
+		return null;
+	}
+
+	const currentTime = getVideoCurrentTime();
+	return currentTime - entry.timestamp;
+}
+
+function getVideoDuration() {
+	return $(videoSelector).prop('duration');
+}
+
+function getVideoCurrentTime() {
+	return $(videoSelector).prop('currentTime');
 }
