@@ -42,8 +42,8 @@ define(function() {
 		],
 		js: ['connectors/pitchfork.js'],
 	}, {
-		label: 'Bandcamp Daily',
-		matches: ['*://daily.bandcamp.com/*'],
+		label: 'Bandcamp embeds',
+		matches: ['*://*/*'],
 		js: ['connectors/bandcamp-embed.js'],
 		allFrames: true,
 	}, {
