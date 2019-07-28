@@ -242,6 +242,7 @@ define((require) => {
 			});
 
 			this.replayDetectionTimer.start(() => {
+				this.debugLog('Replaying song...');
 				this.isReplayingSong = true;
 			});
 
@@ -469,6 +470,7 @@ define((require) => {
 
 				const remainedSeconds = this.playbackTimer.getRemainingSeconds();
 				this.debugLog(`The song will be scrobbled in ${remainedSeconds} seconds`);
+				this.debugLog(`The song will be repeated in ${duration} seconds`);
 			} else {
 				this.debugLog('The song is too short to scrobble');
 			}
