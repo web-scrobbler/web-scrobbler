@@ -114,12 +114,17 @@ Connector.isScrobblingAllowed = () => {
 		return true;
 	}
 
-	let videoCategory = getVideoCategory(Connector.getUniqueID());
-	if (videoCategory !== null) {
-		return allowedCategories.includes(videoCategory);
+	const videoId = Connector.getUniqueID();
+	if (videoId) {
+		const videoCategory = getVideoCategory(videoId);
+		if (videoCategory !== null) {
+			return allowedCategories.includes(videoCategory);
+		}
+
+		return false;
 	}
 
-	return false;
+	return true;
 };
 
 Connector.applyFilter(MetadataFilter.getYoutubeFilter());
