@@ -1,7 +1,7 @@
 'use strict';
 
 const CATEGORY_MUSIC = '/channel/UC-9-kyTW8ZkZNDHQJ6FgpwQ';
-const CATEGORY_SPORTS = '/channel/UCDbM8yVukVKPWUQSODaw_Mw'
+const CATEGORY_SPORTS = '/channel/UCDbM8yVukVKPWUQSODaw_Mw';
 const CATEGORY_COMEDY = '/channel/UCEgdi0XIXXZ-qJOFPf4JSKw';
 const CATEGORY_ENTERTAINMENT = '/channel/UCi-g4cjqGV7jvU8aeSuj0jQ';
 const CATEGORY_HOWTO_AND_STYLE = '/channel/UC1vGae2Q3oT5MkhhfW8lwjg';
