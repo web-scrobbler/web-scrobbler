@@ -4,6 +4,8 @@ Connector.playerSelector = 'div.webPlayer';
 
 Connector.artistSelector = '.mainPanel .artist';
 
+Connector.albumSelector = '.mainPanel .album';
+
 Connector.trackSelector = '.mainPanel .song';
 
 Connector.playButtonSelector = '.playIcon';
