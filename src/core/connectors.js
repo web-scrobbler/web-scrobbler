@@ -989,5 +989,9 @@ define(function() {
 		label: 'Primephonic',
 		matches: ['*://play.primephonic.com/*'],
 		js: ['connectors/primephonic.js'],
+	}, {
+		label: 'Radiojavan',
+		matches: ['*://www.radiojavan.com/*'],
+		js: ['connectors/radiojavan.js'],
 	}];
 });
