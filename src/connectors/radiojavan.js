@@ -3,20 +3,18 @@
 Connector.playerSelector = '.webPlayer';
 
 Connector.artistSelector = () => {
-	let artist = $('.mainPanel .artist').attr('data');
+	var artist = $('.mainPanel .artist').attr('data');
 	return artist;
 };
 
 Connector.trackSelector = () => {
-	let track = $('.mainPanel .song').attr('data');
-	console.log('track is ' + track);
+	var track = $('.mainPanel .song').attr('data');
 	return track;
 };
 
 Connector.artistTrackSelector = () => {
-	let track = $('.mainPanel .song').attr('data');
-	let artist = $('.mainPanel .artist').attr('data');
-	console.log('track is ' + track);
+	var track = $('.mainPanel .song').attr('data');
+	var artist = $('.mainPanel .artist').attr('data');
 	return { artist, track };
 };
 
@@ -26,8 +24,7 @@ Connector.currentTimeSelector = '#mp3_position';
 
 Connector.durationSelector = '#mp3_duration';
 
-//
-/*Connector.trackArtSelector = () => {
-	let trackArt = (($('.webPlayer').find('.mainPanel')[0]).find('.artwork')[0]).find('img')[0];
+Connector.trackArtSelector = () => {
+	var trackArt = $('.mainPanel .artwork > img')[0];
 	return trackArt;
-};*/
+};
