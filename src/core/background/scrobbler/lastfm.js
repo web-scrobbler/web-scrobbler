@@ -26,7 +26,7 @@ define((require) => {
 				params.album = song.getAlbum();
 			}
 
-			let $doc = await this.sendRequest('GET', params, false);
+			let $doc = await this.sendRequest({ method: 'GET' }, params, false);
 			let result = AudioScrobbler.processResponse($doc);
 			if (!result.isOk()) {
 				throw new Error('Unable to load song info');

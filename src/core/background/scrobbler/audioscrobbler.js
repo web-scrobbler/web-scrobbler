@@ -47,7 +47,7 @@ define((require) => {
 			let data = await this.storage.get();
 
 			try {
-				let $doc = await this.sendRequest('GET', params, false);
+				let $doc = await this.sendRequest({ method: 'GET' }, params, false);
 				token = $doc.find('token').text();
 			} catch (err) {
 				this.debugLog('Error acquiring a token', 'warn');
@@ -139,7 +139,7 @@ define((require) => {
 				params.duration = song.getDuration();
 			}
 
-			let response = await this.sendRequest('POST', params, true);
+			let response = await this.sendRequest({ method: 'POST' }, params, true);
 			return AudioScrobbler.processResponse(response);
 		}
 
@@ -162,7 +162,7 @@ define((require) => {
 				params['albumArtist[0]'] = song.getAlbumArtist();
 			}
 
-			let response = await this.sendRequest('POST', params, true);
+			let response = await this.sendRequest({ method: 'POST' }, params, true);
 			return AudioScrobbler.processResponse(response);
 		}
 
@@ -176,7 +176,7 @@ define((require) => {
 				sk: sessionID
 			};
 
-			let response = await this.sendRequest('POST', params, true);
+			let response = await this.sendRequest({ method: 'POST' }, params, true);
 			return AudioScrobbler.processResponse(response);
 		}
 
@@ -197,7 +197,7 @@ define((require) => {
 		async tradeTokenForSession(token) {
 			let params = { method: 'auth.getsession', token };
 
-			let $doc = await this.sendRequest('GET', params, true);
+			let $doc = await this.sendRequest({ method: 'GET' }, params, true);
 			let result = AudioScrobbler.processResponse($doc);
 			if (!result.isOk()) {
 				throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
@@ -215,15 +215,15 @@ define((require) => {
 		 * API key will be added to params by default and all parameters will be
 		 * encoded for use in query string internally.
 		 *
-		 * @param  {String} method Used method (GET or POST)
+		 * @param  {String} options Fetch options
 		 * @param  {Object} params Object of key => value url parameters
 		 * @param  {Boolean} signed Should the request be signed?
 		 * @return {Object} Parsed response
 		 */
-		async sendRequest(method, params, signed) {
+		async sendRequest(options, params, signed) {
 			const url = this.makeRequestUrl(params, signed);
 
-			const promise = fetch(url, { method });
+			const promise = fetch(url, options);
 			const timeout = BaseScrobbler.REQUEST_TIMEOUT;
 
 			let text = null;
