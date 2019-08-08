@@ -346,13 +346,14 @@ define((require) => {
 					/*
 					 * If playback timer is expired, then the extension
 					 * will scrobble song immediately, and there's no need
-					 * to set song as now playing.
+					 * to set song as now playing. We should display
+					 * now playing notification, though.
 					 */
 					if (!this.playbackTimer.isExpired()) {
 						this.setSongNowPlaying();
+					} else {
+						this.showNowPlayingNotification();
 					}
-
-					this.showNowPlayingNotification();
 				} else {
 					this.pageAction.setSiteSupported();
 				}
@@ -390,7 +391,6 @@ define((require) => {
 				if (!this.currentSong.flags.isMarkedAsPlaying
 					&& this.currentSong.isValid()) {
 					this.setSongNowPlaying();
-					this.showNowPlayingNotification();
 				}
 			} else {
 				this.playbackTimer.pause();
@@ -491,6 +491,8 @@ define((require) => {
 				this.debugLog('Song isn\'t set as now playing');
 				this.pageAction.setError();
 			}
+
+			this.showNowPlayingNotification();
 		}
 
 		/**
