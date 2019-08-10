@@ -89,7 +89,7 @@ input {
 }
 
 #love {
-	background: url("/icons/love_16.png") 0 0 no-repeat;
+	background: url("/icons/love_controls.svg") 0 0 no-repeat;
 	cursor: pointer;
 	height: 16px;
 	width: 16px;

@@ -14,8 +14,8 @@ const MANIFEST_FILE = 'src/manifest.json';
 // Files to build package
 const EXTENSION_SRC = [
 	'**/*',
-	// Skip files
-	'!icons/*.svg',
+	// Skip SVG except love-controls iconset
+	'!icons/*.svg', 'icons/love_controls.svg'
 ];
 const EXTENSION_DOCS = [
 	'README.md', 'LICENSE.md'
