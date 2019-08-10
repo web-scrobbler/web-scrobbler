@@ -1,7 +1,5 @@
 'use strict';
 
-window.SC_ATTACHED = window.SC_ATTACHED || false;
-
 let currentState = {};
 /**
  * Flag indicates now playing track is private.
