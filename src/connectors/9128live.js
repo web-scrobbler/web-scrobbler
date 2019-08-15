@@ -1,3 +1,5 @@
+'use strict';
+
 Connector.playerSelector = '.radioco-player';
 
 Connector.trackSelector = '.track-name';
