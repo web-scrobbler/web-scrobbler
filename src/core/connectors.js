@@ -982,6 +982,11 @@ define(function() {
 		matches: [''],
 		js: ['connectors/funkwhale.js'],
 	}, {
+		label: '9128 live',
+		matches: ['*://9128.live/*', '*://embed.radio.co/player/*'],
+		js: ['connectors/9128live.js'],
+		allFrames: true,
+	}, {
 		label: 'R-a-dio',
 		matches: ['*://r-a-d.io/*'],
 		js: ['connectors/r-a-d.io.js'],
