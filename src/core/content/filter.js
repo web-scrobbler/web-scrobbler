@@ -195,6 +195,17 @@ class MetadataFilter {
 	}
 
 	/**
+	 * Remove "(Single|Album|Mono version}"-like strings from the text.
+	 * @param  {String} text String to be filtered
+	 * @return {String} Filtered string
+	 */
+	static removeVersion(text) {
+		return MetadataFilter.filterWithFilterSet(
+			text, MetadataFilter.VERSION_FILTERS
+		);
+	}
+
+	/**
 	 * Remove "Live..."-like strings from the text.
 	 * @param  {String} text String to be filtered
 	 * @return {String} Filtered string
@@ -330,11 +341,13 @@ class MetadataFilter {
 			// Hey Jude - Remastered 2015
 			{ source: /-\sRemastered\s\d+$/, target: '' },
 			// Let It Be (Remastered 2009)
-			{ source: /\(Remastered\s\d+\)$/, target: '' },
+			// Red Rain (Remaster 2012)
+			{ source: /\(Remaster(ed)?\s\d+\)$/, target: '' },
 			// Pigs On The Wing (Part One) [2011 - Remaster]
 			{ source: /\[\d+\s-\sRemaster\]$/, target: '' },
 			// Comfortably Numb (2011 - Remaster)
-			{ source: /\(\d+\s-\sRemaster\)$/, target: '' },
+			// Dancing Days (2012 Remaster)
+			{ source: /\(\d+(\s-)?\sRemaster\)$/, target: '' },
 			// Outside The Wall - 2011 - Remaster
 			{ source: /-\s\d+\s-\sRemaster$/, target: '' },
 			// Learning To Fly - 2001 Digital Remaster
@@ -348,16 +361,38 @@ class MetadataFilter {
 			// Mothership (Remastered)
 			// How The West Was Won [Remastered]
 			{ source: /[([]Remastered[)\]]$/, target: '' },
+			// A Well Respected Man (2014 Remastered Version)
+			// A Well Respected Man [2014 Remastered Version]
+			{ source: /[([]\d{4} Remastered Version[)\]]$/, target: '' },
+			// She Was Hot (2009 Re-Mastered Digital Version)
+			{ source: /[([]\d{4} Re-?mastered Digital Version[)\]]$/, target: '' },
 		];
 	}
 
 	static get LIVE_FILTERS() {
-
 		return [
 			// Track - Live
 			{ source: /-\sLive?$/, target: '' },
 			// Track - Live at
 			{ source: /-\sLive\s.+?$/, target: '' },
+		];
+	}
+
+	static get VERSION_FILTERS() {
+		return [
+			// Love Will Come To You (Album Version)
+			{ source: /[([]Album\sVersion[)\]]$/, target: '' },
+			// I Melt With You (Rerecorded)
+			// When I Need You [Re-Recorded]
+			{ source: /[([]Re-?recorded[)\]]$/, target: '' },
+			// Your Cheatin' Heart (Single Version)
+			{ source: /[([]Single\sVersion[)\]]$/, target: '' },
+			// All Over Now (Edit)
+			{ source: /[([]Edit[)\]]$/, target: '' },
+			// (I Can't Get No) Satisfaction - Mono Version
+			{ source: /-\sMono\sVersion$/, target: '' },
+			// Ruby Tuesday - Stereo Version
+			{ source: /-\sStereo\sVersion$/, target: '' },
 		];
 	}
 
@@ -418,6 +453,27 @@ class MetadataFilter {
 			album: [
 				MetadataFilter.removeRemastered,
 				MetadataFilter.fixTrackSuffix,
+				MetadataFilter.removeLive,
+			],
+		});
+	}
+
+	/**
+	 * Get predefined filter object that uses 'removeRemastered' function.
+	 * @return {MetadataFilter} Filter object
+	 */
+	static getTidalFilter() {
+		return new MetadataFilter({
+			track: [
+				MetadataFilter.removeRemastered,
+				MetadataFilter.fixTrackSuffix,
+				MetadataFilter.removeVersion,
+				MetadataFilter.removeLive,
+			],
+			album: [
+				MetadataFilter.removeRemastered,
+				MetadataFilter.fixTrackSuffix,
+				MetadataFilter.removeVersion,
 				MetadataFilter.removeLive,
 			],
 		});

@@ -19,3 +19,5 @@ Connector.trackArtSelector = `${Connector.playerSelector} [class^="mediaImageryT
 Connector.currentTimeSelector = `${Connector.playerSelector} [data-test="duration"] [class^="currentTime"]`;
 
 Connector.durationSelector = `${Connector.playerSelector} [data-test="duration"] [class^="duration"]`;
+
+Connector.applyFilter(MetadataFilter.getTidalFilter());
