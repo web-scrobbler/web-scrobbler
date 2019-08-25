@@ -133,7 +133,7 @@ class MetadataFilter {
 	}
 
 	/**
-	 * Replace non-braking space symbol with space symbol.
+	 * Replace non-breaking space symbol with space symbol.
 	 * @param  {String} text String to be filtered
 	 * @return {String}	Filtered string
 	 */
@@ -331,7 +331,7 @@ class MetadataFilter {
 
 	/**
 	 * A regex-based filter set that contains removal rules of "Remastered..."-like
-	 * strings from a text. Used by Spotify and Deezer connectors.
+	 * strings from a text. Used by Spotify, Deezer and Tidal connectors.
 	 * @type {Array}
 	 */
 	static get REMASTERED_FILTERS() {
@@ -365,6 +365,7 @@ class MetadataFilter {
 			// A Well Respected Man [2014 Remastered Version]
 			{ source: /[([]\d{4} Remastered Version[)\]]$/, target: '' },
 			// She Was Hot (2009 Re-Mastered Digital Version)
+			// She Was Hot (2009 Remastered Digital Version)
 			{ source: /[([]\d{4} Re-?mastered Digital Version[)\]]$/, target: '' },
 		];
 	}
@@ -378,21 +379,28 @@ class MetadataFilter {
 		];
 	}
 
+	/**
+	 * A regex-based filter set that contains removal rules of "(Album|Stereo|Mono Version)"-like
+	 * strings from a text. Used by Tidal connectors.
+	 * @type {Array}
+	 */
 	static get VERSION_FILTERS() {
 		return [
 			// Love Will Come To You (Album Version)
-			{ source: /[([]Album\sVersion[)\]]$/, target: '' },
+			{ source: /[([]Album Version[)\]]$/, target: '' },
 			// I Melt With You (Rerecorded)
 			// When I Need You [Re-Recorded]
 			{ source: /[([]Re-?recorded[)\]]$/, target: '' },
 			// Your Cheatin' Heart (Single Version)
-			{ source: /[([]Single\sVersion[)\]]$/, target: '' },
+			{ source: /[([]Single Version[)\]]$/, target: '' },
 			// All Over Now (Edit)
 			{ source: /[([]Edit[)\]]$/, target: '' },
 			// (I Can't Get No) Satisfaction - Mono Version
-			{ source: /-\sMono\sVersion$/, target: '' },
+			{ source: /-\sMono Version$/, target: '' },
 			// Ruby Tuesday - Stereo Version
-			{ source: /-\sStereo\sVersion$/, target: '' },
+			{ source: /-\sStereo Version$/, target: '' },
+			// Pure McCartney (Deluxe Edition)
+			{ source: /\(Deluxe Edition\)$/, target: '' },
 		];
 	}
 
@@ -403,7 +411,6 @@ class MetadataFilter {
 			{ source: /-\s(Remix|VIP)$/i, target: '($1)' },
 		];
 	}
-
 
 	/**
 	 * Get simple trim filter object used by default in a Connector object.
@@ -436,6 +443,17 @@ class MetadataFilter {
 		return new MetadataFilter({
 			track: MetadataFilter.removeRemastered,
 			album: MetadataFilter.removeRemastered,
+		});
+	}
+
+	/**
+	 * Get predefined filter object that uses 'removeVersion' function.
+	 * @return {MetadataFilter} Filter object
+	 */
+	static getVersionFilter() {
+		return new MetadataFilter({
+			track: MetadataFilter.removeVersion,
+			album: MetadataFilter.removeVersion,
 		});
 	}
 
