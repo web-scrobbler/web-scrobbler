@@ -53,6 +53,9 @@ define((require) => {
 		GoogleMusic: {
 			scrobblePodcasts: true
 		},
+		Tidal: {
+			useShortTrackNames: false
+		},
 		YouTube: {
 			scrobbleMusicOnly: false,
 			scrobbleEntertainmentOnly: false
