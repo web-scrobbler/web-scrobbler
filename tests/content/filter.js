@@ -599,7 +599,7 @@ const FILTERS_DATA = [{
 	filter: MetadataFilter.getRemasteredFilter(),
 	fields: ['track', 'album'],
 	testData: REMASTERED_TEST_DATA,
-	}, {
+}, {
 	description: 'Version filter',
 	filter: MetadataFilter.getVersionFilter(),
 	fields: ['track', 'album'],
