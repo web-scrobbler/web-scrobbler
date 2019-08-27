@@ -5,9 +5,8 @@ Everybody is invited and welcome to contribute to Web Scrobbler!
 ## Did you find a bug?
 
 Ensure the bug was not already reported by searching on GitHub under issues.
+
 If you're unable to find an open issue addressing the problem, open a new one. Be sure to include a title and clear description, as much relevant information as possible.
-Please read this page to understand how to get the extension logs.
-If you don't know how to report bugs effectively, please use this article as a guideline.
 
 ## Did you write a patch that fixes a bug or adds new functionality?
 
