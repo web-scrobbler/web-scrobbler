@@ -12,10 +12,10 @@ If you're unable to find an open issue addressing the problem, open a new one. B
 
 The process is straight-forward.
 
- - Read [Our Wiki](https://github.com/web-scrobbler/web-scrobbler/wiki)
- - Fork the Web Scrobbler [git repository](https://github.com/web-scrobbler/web-scrobbler)
- - Create a Pull Request against the [**master**](https://github.com/web-scrobblert/web-scrobbler/tree/master) branch
- - Ensure CI passes tests
+-   Read [Our Wiki](https://github.com/web-scrobbler/web-scrobbler/wiki)
+-   Fork the Web Scrobbler [git repository](https://github.com/web-scrobbler/web-scrobbler)
+-   Create a Pull Request against the [**master**](https://github.com/web-scrobblert/web-scrobbler/tree/master) branch
+-   Ensure CI passes tests
 
 ### Coding conventions
 We use a number of linters to verify the source code. Please ensure before committing the changes they meet our requirements by running grunt lint. If you're not familiar with Grunt, please read this article.
