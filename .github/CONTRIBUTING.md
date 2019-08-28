@@ -47,4 +47,4 @@ Connectors development is explained in [this][6] and [this][7] articles.
 
 [9]: https://github.com/web-scrobbler/web-scrobbler
 
-[10]: https://github.com/web-scrobblert/web-scrobbler/tree/master
+[10]: https://github.com/web-scrobbler/web-scrobbler/tree/master
