@@ -974,6 +974,10 @@ define(function() {
 		matches: ['*://www.thatstation.net/listen-live/'],
 		js: ['connectors/thatstation.js'],
 	}, {
+		label: 'Pretzel',
+		matches: ['*://*.pretzel.rocks/*'],
+		js: ['connectors/pretzel.js'],
+	}, {
 		label: 'Radio Kyivstar',
 		matches: ['*://radio.kyivstar.ua/*'],
 		js: ['connectors/kyivstar.js'],
