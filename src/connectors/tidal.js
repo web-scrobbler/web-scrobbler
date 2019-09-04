@@ -35,6 +35,8 @@ Connector.currentTimeSelector = `${Connector.playerSelector} [data-test="duratio
 
 Connector.durationSelector = `${Connector.playerSelector} [data-test="duration"] [class^="duration"]`;
 
+Connector.applyFilter(MetadataFilter.getTidalFilter());
+
 async function readConnectorOptions() {
 	useShortTrackNames = await Util.getOption('Tidal', 'useShortTrackNames');
 }
