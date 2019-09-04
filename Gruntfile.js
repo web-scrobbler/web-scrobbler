@@ -180,6 +180,16 @@ module.exports = (grunt) => {
 				}
 			}
 		},
+		gitcommit: {
+			connectors: {
+				options: {
+					message: 'Update connectors.json'
+				},
+				files: {
+					src: ['media/connectors.json'],
+				}
+			}
+		},
 
 		/**
 		 * Linter configs.
@@ -300,7 +310,7 @@ module.exports = (grunt) => {
 			grunt.fail.fatal('You should specify release type!');
 		}
 
-		let releaseTasks = [`bump:${releaseType}`, 'github_release'];
+		let releaseTasks = ['dump', `bump:${releaseType}`, 'github_release'];
 
 		if (releaseType2) {
 			if (releaseType2 !== 'local') {
@@ -328,6 +338,13 @@ module.exports = (grunt) => {
 				grunt.task.run('amo_upload');
 				break;
 		}
+	});
+
+	/**
+	 * Dump list of connectors.
+	 */
+	grunt.registerTask('dump', () => {
+		grunt.task.run(['dump_connectors', 'gitcommit:connectors']);
 	});
 
 	/**
