@@ -39,7 +39,7 @@ const DOC_FILES = [
 	'*.md', '.github/**/*.md',
 ];
 
-const isTravisCi = (process.env.TRAVIS === 'true');
+const isCi = (process.env.CI === 'true');
 
 module.exports = (grunt) => {
 	grunt.initConfig({
@@ -199,7 +199,7 @@ module.exports = (grunt) => {
 			target: JS_FILES,
 			options: {
 				configFile: '.eslintrc.js',
-				fix: !isTravisCi
+				fix: !isCi
 			},
 		},
 		jsonlint: {
