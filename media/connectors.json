@@ -1893,6 +1893,15 @@
     ]
   },
   {
+    "label": "Apple Music",
+    "matches": [
+      "*://beta.music.apple.com/*"
+    ],
+    "js": [
+      "connectors/apple-music.js"
+    ]
+  },
+  {
     "label": "Primephonic",
     "matches": [
       "*://play.primephonic.com/*"
