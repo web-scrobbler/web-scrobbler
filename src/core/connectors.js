@@ -999,6 +999,10 @@ define(function() {
 		matches: ['*://r-a-d.io/*'],
 		js: ['connectors/r-a-d.io.js'],
 	}, {
+		label: 'Apple Music',
+		matches: ['*://beta.music.apple.com/*'],
+		js: ['connectors/apple-music.js'],
+	}, {
 		label: 'Primephonic',
 		matches: ['*://play.primephonic.com/*'],
 		js: ['connectors/primephonic.js'],
