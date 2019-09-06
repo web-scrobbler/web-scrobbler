@@ -310,7 +310,10 @@ module.exports = (grunt) => {
 			grunt.fail.fatal('You should specify release type!');
 		}
 
-		let releaseTasks = ['dump', `bump:${releaseType}`, 'github_release'];
+		let releaseTasks = [`bump:${releaseType}`, 'github_release'];
+		if (releaseType !== 'patch') {
+			releaseTasks.unshift('dump');
+		}
 
 		if (releaseType2) {
 			if (releaseType2 !== 'local') {
