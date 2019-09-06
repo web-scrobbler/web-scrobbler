@@ -355,10 +355,14 @@ function BaseConnector() {
 			newState.track = artistTrack.track;
 		}
 
-		if (!newState.currentTime) {
-			let remainingTime = this.getRemainingTime();
-			if (remainingTime && newState.duration) {
-				newState.currentTime = newState.duration - Math.abs(remainingTime);
+		const remainingTime = Math.abs(this.getRemainingTime());
+		if (remainingTime) {
+			if (!newState.currentTime && newState.duration) {
+				newState.currentTime = newState.duration - remainingTime;
+			}
+
+			if (!newState.duration && newState.currentTime) {
+				newState.duration = newState.currentTime + remainingTime;
 			}
 		}
 
