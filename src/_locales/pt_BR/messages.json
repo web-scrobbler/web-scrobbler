@@ -47,6 +47,14 @@
         "message": "Efetuar scrobble de podcasts no Google Music",
         "description": "Option label"
     },
+    "optionTdlShortTrackNames": {
+        "message": "Use short track names",
+        "description": "Option title"
+    },
+    "optionTdlShortTrackNamesTitle": {
+        "message": "Tidal provides shortened track names for certain tracks (without \"Remastered\", etc.)",
+        "description": ""
+    },
     "optionYtDesc": {
         "message": "Caso desative ambas as opções, a extensão efetuará scrobble de vídeos do Youtube de todas as categorias.",
         "description": "Description of Youtube options"

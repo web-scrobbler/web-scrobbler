@@ -47,6 +47,14 @@
         "message": "Скроблить подкасты Google Play Music",
         "description": "Option label"
     },
+    "optionTdlShortTrackNames": {
+        "message": "Использовать короткие имена треков",
+        "description": "Option title"
+    },
+    "optionTdlShortTrackNamesTitle": {
+        "message": "Tidal предоставляет короткие имена треков для некоторых композиций (например, без суффикса \"Remastered\", и т.п.)",
+        "description": ""
+    },
     "optionYtDesc": {
         "message": "Если вы отключите обе настройки, расширение будет скробблить видео из всех категорий.",
         "description": "Description of Youtube options"
@@ -507,6 +515,14 @@
         "message": "Web Scrobbler не поддерживает этот сайт.",
         "description": "`unsupported` page action title"
     },
+    "pageActionLoved": {
+        "message": "Вы отметили композицию $1 как любимую",
+        "description": "`unsupported` page action title"
+    },
+    "pageActionUnloved": {
+        "message": "Вы удалили композицию $1 из списка любимых",
+        "description": "`unsupported` page action title"
+    },
     "menuDisableConnector": {
         "message": "Отключить $1",
         "description": "Context menu item"
@@ -575,8 +591,12 @@
         "message": "Отключить скробблинг для текущего сайта, пока не будет закрыта вкладка",
         "description": "Hotkey label"
     },
-    "hotkeyToggleLove": {
-        "message": "Переключить отметку \"Нравится\" проигрываемого трека",
+    "hotkeyLoveSong": {
+        "message": "Добавить композицию в список любимых",
+        "description": "Hotkey label"
+    },
+    "hotkeyUnloveSong": {
+        "message": "Удалить композицию из списка любимых",
         "description": "Hotkey label"
     },
     "extDescription": {
