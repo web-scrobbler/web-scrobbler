@@ -67,6 +67,14 @@ function BaseConnector() {
 	/**
 	 * Selector of an element containing track remaining time in h:m:s format.
 	 *
+	 * Note that the remaining time is not used directly, but is used for
+	 * calculating current time or duration (it depends on what is missing
+	 * on a website).
+	 *
+	 * Use this property if the website has either current time or duration.
+	 * Do not override this property if the website contains both current time
+	 * and duration.
+	 *
 	 * Only applies when default implementation of
 	 * {@link BaseConnector#getRemainingTime} is used.
 	 *
@@ -235,6 +243,14 @@ function BaseConnector() {
 	/**
 	 * Default implementation of track remaining time lookup by selector with
 	 * some basic parsing.
+	 *
+	 * Note that the remaining time is not used directly, but is used for
+	 * calculating current time or duration (it depends on what is missing
+	 * on a website).
+	 *
+	 * Use this property if the website has either current time or duration.
+	 * Do not override this property if the website contains both current time
+	 * and duration.
 	 *
 	 * Override this method for more complex behaviour.
 	 *
