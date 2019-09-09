@@ -88,4 +88,3 @@ Connector.getAlbum = () => {
 };
 
 Connector.applyFilter(filter);
-
