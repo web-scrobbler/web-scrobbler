@@ -978,6 +978,10 @@ define(function() {
 		matches: ['*://www.thatstation.net/listen-live/'],
 		js: ['connectors/thatstation.js'],
 	}, {
+		label: 'Pretzel',
+		matches: ['*://*.pretzel.rocks/*'],
+		js: ['connectors/pretzel.js'],
+	}, {
 		label: 'Radio Kyivstar',
 		matches: ['*://radio.kyivstar.ua/*'],
 		js: ['connectors/kyivstar.js'],
@@ -986,9 +990,22 @@ define(function() {
 		matches: [''],
 		js: ['connectors/funkwhale.js'],
 	}, {
+		label: '9128 live',
+		matches: ['*://9128.live/*'],
+		js: ['connectors/radioco.js'],
+		allFrames: true,
+	}, {
+		label: 'Radio.co',
+		matches: ['*://embed.radio.co/player/*'],
+		js: ['connectors/radioco.js'],
+	}, {
 		label: 'R-a-dio',
 		matches: ['*://r-a-d.io/*'],
 		js: ['connectors/r-a-d.io.js'],
+	}, {
+		label: 'Apple Music',
+		matches: ['*://beta.music.apple.com/*'],
+		js: ['connectors/apple-music.js'],
 	}, {
 		label: 'Primephonic',
 		matches: ['*://play.primephonic.com/*'],

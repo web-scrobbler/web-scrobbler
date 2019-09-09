@@ -108,9 +108,12 @@ define((require) => {
 			case 'disable-connector':
 				ctrl.setEnabled(false);
 				break;
-			case 'toggle-love': {
-				const song = ctrl.getCurrentSong();
-				ctrl.toggleLove(!song.metadata.userloved);
+			case 'love-song':
+			case 'unlove-song': {
+				const isLoved = command === 'love-song';
+
+				await ctrl.toggleLove(isLoved);
+				ctrl.pageAction.setSongLoved(isLoved, ctrl.getCurrentSong());
 				break;
 			}
 		}
@@ -144,7 +147,7 @@ define((require) => {
 
 		switch (request.type) {
 			case 'REQUEST_GET_SONG':
-				return ctrl.getCurrentSong();
+				return ctrl.getCurrentSong().getCloneableData();
 
 			case 'REQUEST_CORRECT_SONG':
 				ctrl.setUserSongData(request.data);
@@ -432,7 +435,7 @@ define((require) => {
 			console.warn('No scrobblers are bound');
 
 			if (await isAuthNotificationAllowed()) {
-				let authUrl = browser.runtime.getURL('/options/index.html#accounts');
+				let authUrl = browser.runtime.getURL('/ui/options/index.html#accounts');
 				try {
 					await Notifications.showAuthNotification(() => {
 						browser.tabs.create({ url: authUrl });

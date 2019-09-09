@@ -14,8 +14,8 @@ const MANIFEST_FILE = 'src/manifest.json';
 // Files to build package
 const EXTENSION_SRC = [
 	'**/*',
-	// Skip files
-	'!icons/*.svg',
+	// Skip SVG except love-controls iconset
+	'!icons/*.svg', 'icons/love_controls.svg'
 ];
 const EXTENSION_DOCS = [
 	'README.md', 'LICENSE.md'
@@ -28,14 +28,13 @@ const JS_FILES = [
 	// Connectors
 	`${SRC_DIR}/connectors/**/*.js`,
 	// Core files
-	`${SRC_DIR}/core/**/*.js`, `${SRC_DIR}/options/*.js`,
-	`${SRC_DIR}/popups/*.js`,
+	`${SRC_DIR}/core/**/*.js`, `${SRC_DIR}/ui/**/*.js`,
 	// Tests
 	'tests/**/*.js'
 ];
 const JSON_FILES = ['*.json', '.stylelintrc'];
-const HTML_FILES = [`${SRC_DIR}/options/*.html`, `${SRC_DIR}/popups/*.html`];
-const CSS_FILES = [`${SRC_DIR}options/*.css`, `${SRC_DIR}/popups/*.css`];
+const HTML_FILES = [`${SRC_DIR}/ui/**/*.html`];
+const CSS_FILES = [`${SRC_DIR}/ui/**/*.css`];
 const DOC_FILES = [
 	'*.md', '.github/**/*.md',
 ];
@@ -181,6 +180,16 @@ module.exports = (grunt) => {
 				}
 			}
 		},
+		gitcommit: {
+			connectors: {
+				options: {
+					message: 'Update connectors.json'
+				},
+				files: {
+					src: ['media/connectors.json'],
+				}
+			}
+		},
 
 		/**
 		 * Linter configs.
@@ -204,6 +213,10 @@ module.exports = (grunt) => {
 			}
 		},
 		remark: {
+			options: {
+				quiet: true,
+				frail: true,
+			},
 			src: DOC_FILES
 		},
 		stylelint: {
@@ -298,6 +311,9 @@ module.exports = (grunt) => {
 		}
 
 		let releaseTasks = [`bump:${releaseType}`, 'github_release'];
+		if (releaseType !== 'patch') {
+			releaseTasks.unshift('dump');
+		}
 
 		if (releaseType2) {
 			if (releaseType2 !== 'local') {
@@ -325,6 +341,13 @@ module.exports = (grunt) => {
 				grunt.task.run('amo_upload');
 				break;
 		}
+	});
+
+	/**
+	 * Dump list of connectors.
+	 */
+	grunt.registerTask('dump', () => {
+		grunt.task.run(['dump_connectors', 'gitcommit:connectors']);
 	});
 
 	/**

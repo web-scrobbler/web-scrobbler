@@ -69,9 +69,7 @@ define((require) => {
 		 */
 		constructor(options) {
 			this.applyOptions(options, SCROBBLER_OPTIONS);
-
-			this.storage = BrowserStorage.getScrobblerStorage(options.storage);
-			this.storage.debugLog();
+			this.initStorage(options.storage);
 		}
 
 		/**
@@ -239,6 +237,15 @@ define((require) => {
 		debugLog(text, logType = 'log') {
 			const message = `${this.label}: ${text}`;
 			Util.debugLog(message, logType);
+		}
+
+		/** Internal functions */
+
+		async initStorage(storageName) {
+			const sensitiveProps = ['token', 'sessionID', 'sessionName'];
+
+			this.storage = BrowserStorage.getScrobblerStorage(storageName);
+			this.storage.debugLog(sensitiveProps);
 		}
 	}
 

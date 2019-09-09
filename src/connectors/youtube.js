@@ -1,9 +1,26 @@
 'use strict';
 
 const CATEGORY_MUSIC = '/channel/UC-9-kyTW8ZkZNDHQJ6FgpwQ';
+const CATEGORY_SPORTS = '/channel/UCDbM8yVukVKPWUQSODaw_Mw';
+const CATEGORY_COMEDY = '/channel/UCEgdi0XIXXZ-qJOFPf4JSKw';
 const CATEGORY_ENTERTAINMENT = '/channel/UCi-g4cjqGV7jvU8aeSuj0jQ';
+const CATEGORY_HOWTO_AND_STYLE = '/channel/UC1vGae2Q3oT5MkhhfW8lwjg';
+const CATEGORY_NEWS_AND_POLITICS = '/channel/UCYfdidRxbB8Qhf0Nx7ioOYw';
+const CATEGORY_FILM_AND_ANIMATION = '/channel/UCxAgnFbkxldX6YUEvdcNjnA';
+const CATEGORY_SCIENCE_AND_TECHNOLOGY = '/channel/UCiDF_uaU1V00dAc8ddKvNxA';
 
 const CATEGORY_PENDING = 'YT_DUMMY_CATEGORY_PENDING';
+
+const CATEGORIES = [
+	CATEGORY_MUSIC,
+	CATEGORY_SPORTS,
+	CATEGORY_COMEDY,
+	CATEGORY_ENTERTAINMENT,
+	CATEGORY_HOWTO_AND_STYLE,
+	CATEGORY_NEWS_AND_POLITICS,
+	CATEGORY_FILM_AND_ANIMATION,
+	CATEGORY_SCIENCE_AND_TECHNOLOGY
+];
 
 /**
  * Array of categories allowed to be scrobbled.
@@ -24,7 +41,8 @@ let categoryCache = new Map();
 const videoSelector = '.html5-main-video';
 
 readConnectorOptions();
-setupMutationObserver();
+
+Connector.playerSelector = '#content';
 
 Connector.getArtistTrack = () => {
 	const videoTitle = $('.html5-video-player .ytp-title-link').first().text();
@@ -96,12 +114,17 @@ Connector.isScrobblingAllowed = () => {
 		return true;
 	}
 
-	let videoCategory = getVideoCategory(Connector.getUniqueID());
-	if (videoCategory !== null) {
-		return allowedCategories.includes(videoCategory);
+	const videoId = Connector.getUniqueID();
+	if (videoId) {
+		const videoCategory = getVideoCategory(videoId);
+		if (videoCategory !== null) {
+			return allowedCategories.includes(videoCategory);
+		}
+
+		return false;
 	}
 
-	return false;
+	return true;
 };
 
 Connector.applyFilter(MetadataFilter.getYoutubeFilter());
@@ -143,7 +166,21 @@ function getVideoCategory(videoId) {
 
 async function fetchCategoryId() {
 	await fillMoreSection();
-	return $('.ytd-metadata-row-renderer .yt-formatted-string[href^="/channel/"]').attr('href');
+
+	const ytChannelUrls =
+		$('.ytd-metadata-row-renderer .yt-formatted-string[href^="/channel/"]');
+	if (ytChannelUrls.length === 1) {
+		return ytChannelUrls.attr('href');
+	}
+
+	for (const data of ytChannelUrls) {
+		const ytChannelUrl = $(data).attr('href');
+		if (CATEGORIES.includes(ytChannelUrl)) {
+			return ytChannelUrl;
+		}
+	}
+
+	throw new Error('The video has no category URL!');
 }
 
 async function fillMoreSection() {
@@ -185,43 +222,6 @@ async function fillMoreSection() {
 	// Remove global style.
 	$('yt-formatted-string.less-button').text(ytShowLessText);
 	$('#tmp-style').remove();
-}
-
-function setupMutationObserver() {
-	let isEventListenerSetUp = false;
-
-	function onMutation() {
-		let videoElement = $(videoSelector);
-
-		if (videoElement.length > 0) {
-			if (!videoElement.is(':visible')) {
-				Connector.resetState();
-				return;
-			}
-
-			if (isEventListenerSetUp) {
-				return;
-			}
-
-			videoElement.on('timeupdate', Connector.onStateChanged);
-			isEventListenerSetUp = true;
-
-			Util.debugLog('Setup "timeupdate" event listener');
-		} else {
-			Connector.resetState();
-			isEventListenerSetUp = false;
-
-			Util.debugLog('Video element is missing', 'warn');
-		}
-	}
-
-	let observer = new MutationObserver(Util.throttle(onMutation, 500));
-	observer.observe(document, {
-		subtree: true,
-		childList: true,
-		attributes: false,
-		characterData: false
-	});
 }
 
 /**

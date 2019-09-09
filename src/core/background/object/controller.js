@@ -20,11 +20,6 @@ define((require) => {
 	const fieldsToCheckSongChange = ['artist', 'track', 'album', 'uniqueID'];
 
 	/**
-	 * Now playing notification delay in milliseconds.
-	 */
-	const NOW_PLAYING_NOTIFICATION_DELAY = 5000;
-
-	/**
 	 * Object that handles song playback and scrobbling actions.
 	 */
 	class Controller {
@@ -77,7 +72,7 @@ define((require) => {
 			this.replayDetectionTimer.reset();
 
 			if (this.currentSong !== null) {
-				this.clearNowPlayingNotification();
+				Notifications.clearNowPlaying(this.currentSong);
 			}
 			this.currentSong = null;
 		}
@@ -115,7 +110,7 @@ define((require) => {
 			this.playbackTimer.reset();
 			this.replayDetectionTimer.reset();
 
-			this.clearNowPlayingNotification();
+			Notifications.clearNowPlaying(this.currentSong);
 		}
 
 		/**
@@ -131,7 +126,7 @@ define((require) => {
 		 * @return {Object} Song copy
 		 */
 		getCurrentSong() {
-			return this.currentSong === null ? {} : this.currentSong.getCloneableData();
+			return this.currentSong;
 		}
 
 		/**
@@ -163,7 +158,12 @@ define((require) => {
 				throw new Error('No song is now playing');
 			}
 
+			if (!this.currentSong.isValid()) {
+				throw new Error('No valid song is now playing');
+			}
+
 			await ScrobbleService.toggleLove(this.currentSong, isLoved);
+
 			this.currentSong.setLoveStatus(isLoved);
 		}
 
@@ -242,6 +242,7 @@ define((require) => {
 			});
 
 			this.replayDetectionTimer.start(() => {
+				this.debugLog('Replaying song...');
 				this.isReplayingSong = true;
 			});
 
@@ -345,13 +346,14 @@ define((require) => {
 					/*
 					 * If playback timer is expired, then the extension
 					 * will scrobble song immediately, and there's no need
-					 * to set song as now playing.
+					 * to set song as now playing. We should display
+					 * now playing notification, though.
 					 */
 					if (!this.playbackTimer.isExpired()) {
 						this.setSongNowPlaying();
+					} else {
+						this.showNowPlayingNotification();
 					}
-
-					this.showNowPlayingNotification();
 				} else {
 					this.pageAction.setSiteSupported();
 				}
@@ -389,7 +391,6 @@ define((require) => {
 				if (!this.currentSong.flags.isMarkedAsPlaying
 					&& this.currentSong.isValid()) {
 					this.setSongNowPlaying();
-					this.showNowPlayingNotification();
 				}
 			} else {
 				this.playbackTimer.pause();
@@ -405,32 +406,9 @@ define((require) => {
 				return;
 			}
 
-			this.clearNotificationTimeout();
-
-			this.notificationTimeoutId = setTimeout(() => {
-				Notifications.showNowPlaying(this.currentSong, () => {
-					Util.openTab(this.tabId);
-				});
-			}, NOW_PLAYING_NOTIFICATION_DELAY);
-		}
-
-		/**
-		 * Clear now playing notification for current song.
-		 */
-		clearNowPlayingNotification() {
-			Notifications.remove(this.currentSong.metadata.notificationId);
-
-			this.clearNotificationTimeout();
-		}
-
-		/**
-		 * Clear notification timeout.
-		 */
-		clearNotificationTimeout() {
-			if (this.notificationTimeoutId) {
-				clearTimeout(this.notificationTimeoutId);
-				this.notificationTimeoutId = null;
-			}
+			Notifications.showNowPlaying(this.currentSong, () => {
+				Util.openTab(this.tabId);
+			});
 		}
 
 		/**
@@ -492,6 +470,7 @@ define((require) => {
 
 				const remainedSeconds = this.playbackTimer.getRemainingSeconds();
 				this.debugLog(`The song will be scrobbled in ${remainedSeconds} seconds`);
+				this.debugLog(`The song will be repeated in ${duration} seconds`);
 			} else {
 				this.debugLog('The song is too short to scrobble');
 			}
@@ -512,6 +491,8 @@ define((require) => {
 				this.debugLog('Song isn\'t set as now playing');
 				this.pageAction.setError();
 			}
+
+			this.showNowPlayingNotification();
 		}
 
 		/**

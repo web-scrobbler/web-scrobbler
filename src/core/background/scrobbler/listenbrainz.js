@@ -151,7 +151,7 @@ define((require) => {
 			}
 
 			if (session) {
-				let safeId = Util.hideString(session.sessionID);
+				let safeId = Util.hideObjectValue(session.sessionID);
 				this.debugLog(`Session ID: ${safeId}`);
 
 				return session;

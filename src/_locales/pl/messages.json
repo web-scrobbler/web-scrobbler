@@ -47,6 +47,14 @@
         "message": "Scrobbluj podcasty z Google Music",
         "description": "Option label"
     },
+    "optionTdlShortTrackNames": {
+        "message": "Używaj krótszych nazw utworów",
+        "description": "Option title"
+    },
+    "optionTdlShortTrackNamesTitle": {
+        "message": "Tidal dla niektórych utworów udostępnia skrócone wersje ich nazw (bez \"Remastered\", etc.)",
+        "description": ""
+    },
     "optionYtDesc": {
         "message": "Jeśli wyłączysz obie opcje, rozszerzenie będzie scrobblować filmy na Youtube niezależnie od kategorii.",
         "description": "Description of Youtube options"
@@ -507,6 +515,14 @@
         "message": "Web Scrobbler nie obsługuje tej strony internetowej.",
         "description": "`unsupported` page action title"
     },
+    "pageActionLoved": {
+        "message": "Ukochałeś $1",
+        "description": "`unsupported` page action title"
+    },
+    "pageActionUnloved": {
+        "message": "Odkochałeś $1",
+        "description": "`unsupported` page action title"
+    },
     "menuDisableConnector": {
         "message": "Wyłącz obsługę $1",
         "description": "Context menu item"
@@ -575,8 +591,12 @@
         "message": "Wyłącz scrobblowanie na obecnej witrynie do zamknięcia karty",
         "description": "Hotkey label"
     },
-    "hotkeyToggleLove": {
-        "message": "Ukochaj/odkochaj ten utwór",
+    "hotkeyLoveSong": {
+        "message": "Ukochaj aktualnie odtwarzany utwór",
+        "description": "Hotkey label"
+    },
+    "hotkeyUnloveSong": {
+        "message": "Odkochaj aktualnie odtwarzany utwór",
         "description": "Hotkey label"
     },
     "extDescription": {

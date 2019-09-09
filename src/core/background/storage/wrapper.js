@@ -53,15 +53,18 @@ define((require) => {
 
 		/**
 		 * Log storage data to console output.
+		 * @param  {Object} hiddenKeys Array of keys should be hidden
 		 */
-		async debugLog() {
+		async debugLog(hiddenKeys = []) {
 			const data = await this.get();
 
-			let text = JSON.stringify(data, null, 2);
-			// Hide 'token' and 'sessionID' values if available
-			text = Util.hideStringInText(data.token, text);
-			text = Util.hideStringInText(data.sessionID, text);
+			for (let key of hiddenKeys) {
+				if (key in data) {
+					data[key] = Util.hideObjectValue(data[key]);
+				}
+			}
 
+			const text = JSON.stringify(data, null, 2);
 			console.info(`storage.${this.namespace} = ${text}`);
 		}
 

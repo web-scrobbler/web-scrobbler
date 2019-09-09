@@ -1,12 +1,14 @@
 'use strict';
 
 define((require) => {
+	const TEMP_ICON_DISPLAY_DURATION = 5000;
+
 	const browser = require('webextension-polyfill');
 
 	const State = {
 		base: {
 			icon: 'base',
-			popup: '/popups/go_play_music.html',
+			popup: '/ui/popups/go_play_music.html',
 			i18n: 'pageActionBase',
 		},
 		loading: {
@@ -16,17 +18,17 @@ define((require) => {
 		},
 		recognized: {
 			icon: 'note',
-			popup: '/popups/info.html',
+			popup: '/ui/popups/info.html',
 			i18n: 'pageActionRecognized',
 		},
 		scrobbled: {
 			icon: 'tick',
-			popup: '/popups/info.html',
+			popup: '/ui/popups/info.html',
 			i18n: 'pageActionScrobbled',
 		},
 		skipped: {
 			icon: 'skipped',
-			popup: '/popups/info.html',
+			popup: '/ui/popups/info.html',
 			i18n: 'pageActionSkipped',
 		},
 		ignored: {
@@ -36,23 +38,33 @@ define((require) => {
 		},
 		disabled: {
 			icon: 'disabled',
-			popup: '/popups/disabled.html',
+			popup: '/ui/popups/disabled.html',
 			i18n: 'pageActionDisabled',
 		},
 		unknown: {
 			icon: 'unknown',
-			popup: '/popups/info.html',
+			popup: '/ui/popups/info.html',
 			i18n: 'pageActionUnknown',
 		},
 		error: {
 			icon: 'error',
-			popup: '/popups/error.html',
+			popup: '/ui/popups/error.html',
 			i18n: 'pageActionError',
 		},
 		unsupported: {
 			icon: 'unsupported',
-			popup: '/popups/unsupported.html',
+			popup: '/ui/popups/unsupported.html',
 			i18n: 'pageActionUnsupported',
+		},
+		loved: {
+			icon: 'loved',
+			popup: '/ui/popups/info.html',
+			i18n: 'pageActionLoved',
+		},
+		unloved: {
+			icon: 'unloved',
+			popup: '/ui/popups/info.html',
+			i18n: 'pageActionUnloved',
 		},
 	};
 
@@ -66,22 +78,145 @@ define((require) => {
 		 */
 		constructor(tabId) {
 			this.tabId = tabId;
+
+			this.currBrowserAction = {};
+			this.lastBrowserAction = {};
+			this.timeoutId = null;
 		}
 
 		/**
-		 * Set icon, title and popup in single call.
+		 * Show read Last.fm icon (connector is injected).
+		 */
+		setSiteSupported() {
+			this.setPermBrowserAction(State.base);
+		}
+
+		/**
+		 * Show search icon (song is processing by pipeline).
+		 * @param {Object} song Song instance
+		 */
+		setSongLoading(song) {
+			this.setPermBrowserAction(State.loading, song.getArtistTrackString());
+		}
+
+		/**
+		 * Show now playing icon.
+		 * @param {Object} song Song instance
+		 */
+		setSongRecognized(song) {
+			this.setPermBrowserAction(State.recognized, song.getArtistTrackString());
+		}
+
+		/**
+		 * Show gray now playing icon (song is skipped by user).
+		 * @param {Object} song Song instance
+		 */
+		setSongSkipped(song) {
+			this.setPermBrowserAction(State.skipped, song.getArtistTrackString());
+		}
+
+		/**
+		 * Show red cross icon (song is ignored by scrobbling service).
+		 * @param {Object} song Song instance
+		 */
+		setSongIgnored(song) {
+			this.setPermBrowserAction(State.ignored, song.getArtistTrackString());
+		}
+
+		/**
+		 * Show gray Last.fm icon (connector is disabled).
+		 */
+		setSiteDisabled() {
+			this.setPermBrowserAction(State.disabled);
+		}
+
+		/**
+		 * Show green tick icon (song is scrobbled).
+		 * @param {Object} song Song instance
+		 */
+		setSongScrobbled(song) {
+			this.setPermBrowserAction(State.scrobbled, song.getArtistTrackString());
+		}
+
+		/**
+		 * Show gray question icon (song is not known by scrobbling service).
+		 */
+		setSongNotRecognized() {
+			this.setPermBrowserAction(State.unknown);
+		}
+
+		/**
+		 * Show orange Last.fm icon (auth error is occurred).
+		 */
+		setError() {
+			this.setPermBrowserAction(State.error);
+		}
+
+		setSongLoved(isLoved, song) {
+			const state = isLoved ? State.loved : State.unloved;
+			this.setTempBrowserAction(state, song.getArtistTrackString());
+		}
+
+		/**
+		 * Hide browser action icon.
+		 */
+		reset() {
+			this.setPermBrowserAction(State.unsupported);
+		}
+
+		/* Internal functions */
+
+		async setPermBrowserAction(state, placeholder) {
+			const browserAction = this.getBrowserAction(state, placeholder);
+
+			if (this.isTempIconVisible()) {
+				// Override last state, but don't change the browser action
+				this.lastBrowserAction = browserAction;
+			} else {
+				this.setRawBrowserAction(browserAction);
+				this.currBrowserAction = browserAction;
+			}
+		}
+
+		/**
+		 * Set browser action icon temporarily. After
+		 * TEMP_ICON_DISPLAY_DURATION ms restore previous
+		 * non-temporary browser action icon.
+		 *
 		 * @param {Object} state Browser action state
 		 * @param {String} placeholder String used to format title
 		 */
-		async setBrowserAction(state, placeholder) {
-			let tabId = this.tabId;
+		async setTempBrowserAction(state, placeholder) {
+			if (this.isTempIconVisible()) {
+				clearTimeout(this.timeoutId);
+				this.timeoutId = null;
+			} else {
+				this.lastBrowserAction = this.currBrowserAction;
+			}
 
-			let { icon, popup, i18n } = state;
-			let title = browser.i18n.getMessage(i18n, placeholder);
-			let path = {
+			const browserAction = this.getBrowserAction(state, placeholder);
+			this.setRawBrowserAction(browserAction);
+			this.timeoutId = setTimeout(() => {
+				this.timeoutId = null;
+
+				this.setRawBrowserAction(this.lastBrowserAction);
+			}, TEMP_ICON_DISPLAY_DURATION);
+		}
+
+		getBrowserAction(state, placeholder) {
+			const { icon, popup, i18n } = state;
+			const title = browser.i18n.getMessage(i18n, placeholder);
+			const path = {
 				19: `/icons/page_action_${icon}_19.png`,
 				38: `/icons/page_action_${icon}_38.png`
 			};
+
+			return { path, title, popup };
+		}
+
+		async setRawBrowserAction(browserAction) {
+			const tabId = this.tabId;
+			const { path, title, popup } = browserAction;
 
 			try {
 				await browser.browserAction.setIcon({ tabId, path });
@@ -93,79 +228,8 @@ define((require) => {
 			}
 		}
 
-		/**
-		 * Show read Last.fm icon (connector is injected).
-		 */
-		setSiteSupported() {
-			this.setBrowserAction(State.base);
-		}
-
-		/**
-		 * Show search icon (song is processing by pipeline).
-		 * @param {Object} song Song instance
-		 */
-		setSongLoading(song) {
-			this.setBrowserAction(State.loading, song.getArtistTrackString());
-		}
-
-		/**
-		 * Show now playing icon.
-		 * @param {Object} song Song instance
-		 */
-		setSongRecognized(song) {
-			this.setBrowserAction(State.recognized, song.getArtistTrackString());
-		}
-
-		/**
-		 * Show gray now playing icon (song is skipped by user).
-		 * @param {Object} song Song instance
-		 */
-		setSongSkipped(song) {
-			this.setBrowserAction(State.skipped, song.getArtistTrackString());
-		}
-
-		/**
-		 * Show red cross icon (song is ignored by scrobbling service).
-		 * @param {Object} song Song instance
-		 */
-		setSongIgnored(song) {
-			this.setBrowserAction(State.ignored, song.getArtistTrackString());
-		}
-
-		/**
-		 * Show gray Last.fm icon (connector is disabled).
-		 */
-		setSiteDisabled() {
-			this.setBrowserAction(State.disabled);
-		}
-
-		/**
-		 * Show green tick icon (song is scrobbled).
-		 * @param {Object} song Song instance
-		 */
-		setSongScrobbled(song) {
-			this.setBrowserAction(State.scrobbled, song.getArtistTrackString());
-		}
-
-		/**
-		 * Show gray question icon (song is not known by scrobbling service).
-		 */
-		setSongNotRecognized() {
-			this.setBrowserAction(State.unknown);
-		}
-
-		/**
-		 * Show orange Last.fm icon (auth error is occurred).
-		 */
-		setError() {
-			this.setBrowserAction(State.error);
-		}
-
-		/**
-		 * Hide browser action icon.
-		 */
-		reset() {
-			this.setBrowserAction(State.unsupported);
+		isTempIconVisible() {
+			return this.timeoutId !== null;
 		}
 	}
 

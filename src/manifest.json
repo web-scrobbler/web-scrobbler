@@ -1,6 +1,6 @@
 {
   "name": "Web Scrobbler",
-  "version": "2.20.0",
+  "version": "2.22.0",
 
   "description": "__MSG_extDescription__",
   "icons": {
@@ -35,16 +35,19 @@
     "disable-connector": {
       "description": "__MSG_hotkeyDisableConnectorUntilClosed__"
     },
-    "toggle-love": {
-      "description": "__MSG_hotkeyToggleLove__"
+    "love-song": {
+      "description": "__MSG_hotkeyLoveSong__"
+    },
+    "unlove-song": {
+      "description": "__MSG_hotkeyUnloveSong__"
     }
   },
 
   "homepage_url": "https://web-scrobbler.github.io/",
 
-  "options_page": "options/index.html",
+  "options_page": "ui/options/index.html",
   "options_ui": {
-    "page": "options/index.html",
+    "page": "ui/options/index.html",
     "open_in_tab": true
   },
 
@@ -64,7 +67,7 @@
       "38": "/icons/page_action_unsupported_38.png"
     },
     "default_title": "__MSG_pageActionUnsupported__",
-    "default_popup": "/popups/unsupported.html"
+    "default_popup": "/ui/popups/unsupported.html"
   },
 
   "content_scripts": [{

@@ -7,7 +7,7 @@ chrome.runtime.onInstalled.addListener((event) => {
 	}
 
 	chrome.tabs.create({
-		url: '/startup/startup.html'
+		url: '/ui/startup/startup.html'
 	});
 });
 /* @endif */
