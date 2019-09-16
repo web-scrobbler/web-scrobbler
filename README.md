@@ -26,7 +26,7 @@ It can be installed directly from [Chrome Web Store][WebStore] with Chrome used.
 
 Opera users can install the extension from Chrome Web Store using the [Download Chrome Extension][DownloadChromeExt] addon for Opera.
 
-### Add-ons for Firefox
+### Addons.mozilla.org
 
 For those who prefer Firefox as a main browser, the extension is available on [AMO][Amo].
 
