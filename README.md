@@ -44,7 +44,7 @@ Join our [translation team][Transifex] on Transifex.
 
 ### Gitter
 
-We use gitter and you can join us @ [web-scrobbler/web-scrobbler][Gitter].
+We use Gitter and you can join us @ [web-scrobbler/web-scrobbler][Gitter].
 
 ## Used 3rd-party libraries
 
@@ -55,6 +55,10 @@ We use gitter and you can join us @ [web-scrobbler/web-scrobbler][Gitter].
 -   [RequireJS v2.3.5][RequireJs]
 -   [Showdown v1.9.0][Showdown]
 -   [webextension-polyfill v0.4.0][WebextPolyfill]
+
+## Media
+
+Follow [@web-scrobbler][Twitter] on Twitter to receive the latest news and updates.
 
 ## Privacy Policy
 
@@ -102,6 +106,7 @@ See the [license file][License].
 [Gitter]: https://gitter.im/david-sabata/web-scrobbler
 [Transifex]: https://www.transifex.com/web-scrobbler/web-scrobbler/dashboard/
 [Travis]: https://travis-ci.org/web-scrobbler/web-scrobbler
+[Twitter]: https://twitter.com/web_scrobbler
 
 <!-- Services -->
 [LastFm]: http://www.last.fm/
