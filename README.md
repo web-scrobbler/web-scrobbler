@@ -4,7 +4,7 @@
 [![AMO][AmoBadge]][Amo]
 [![Gitter][GitterBadge]][Gitter]
 [![devDependencies status][DavidDmBadge]][DavidDm]
-[![Build status][TravisBadge]][Travis]
+[![Test status][GitHubActionsBadge]][GitHubActions]
 [![Codacy Badge][CodacyBadge]][Codacy]
 [![Maintainability][CodeClimateBadge]][CodeClimate]
 
@@ -73,8 +73,8 @@ See the [license file][License].
 [CodacyBadge]: https://api.codacy.com/project/badge/Grade/bb2841f875014aaea6a354da6c96bdee
 [CodeClimateBadge]: https://api.codeclimate.com/v1/badges/be3a9f3b266d8a68e1d9/maintainability
 [DavidDmBadge]: https://david-dm.org/web-scrobbler/web-scrobbler/dev-status.svg
+[GitHubActionsBadge]: https://github.com/web-scrobbler/web-scrobbler/workflows/test/badge.svg
 [GitterBadge]: https://badges.gitter.im/Join%20Chat.svg
-[TravisBadge]: https://api.travis-ci.org/web-scrobbler/web-scrobbler.svg
 [WebStoreBadge]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg
 
 <!-- Dependencies -->
@@ -103,9 +103,9 @@ See the [license file][License].
 [Codacy]: https://app.codacy.com/project/web-scrobbler/web-scrobbler/dashboard
 [CodeClimate]: https://codeclimate.com/github/web-scrobbler/web-scrobbler/maintainability
 [DavidDm]: https://david-dm.org/web-scrobbler/web-scrobbler?type=dev
+[GitHubActions]: https://github.com/web-scrobbler/web-scrobbler/actions
 [Gitter]: https://gitter.im/david-sabata/web-scrobbler
 [Transifex]: https://www.transifex.com/web-scrobbler/web-scrobbler/dashboard/
-[Travis]: https://travis-ci.org/web-scrobbler/web-scrobbler
 [Twitter]: https://twitter.com/web_scrobbler
 
 <!-- Services -->
