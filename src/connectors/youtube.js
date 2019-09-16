@@ -46,7 +46,7 @@ Connector.playerSelector = '#content';
 
 Connector.getArtistTrack = () => {
 	const videoTitle = $('.html5-video-player .ytp-title-link').first().text();
-	const ownerName = $('#meta-contents #owner-name a').text();
+	const ownerName = $('#container #channel-name').text();
 
 	const byLineMatch = ownerName.match(/(.+) - Topic/);
 	if (byLineMatch) {
