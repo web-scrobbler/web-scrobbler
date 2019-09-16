@@ -310,7 +310,7 @@ module.exports = (grunt) => {
 			grunt.fail.fatal('You should specify release type!');
 		}
 
-		let releaseTasks = [`bump:${releaseType}`, 'github_release'];
+		let releaseTasks = [`bump:${releaseType}`];
 		if (releaseType !== 'patch') {
 			releaseTasks.unshift('dump');
 		}
@@ -320,7 +320,9 @@ module.exports = (grunt) => {
 				grunt.fail.fatal(`Unknown release type: ${releaseType2}`);
 			}
 
-			const publishTasks = ['publish:chrome', 'publish:firefox'];
+			const publishTasks = [
+				'publish:chrome', 'publish:firefox', 'github_release'
+			];
 			releaseTasks = releaseTasks.concat(publishTasks);
 		}
 
