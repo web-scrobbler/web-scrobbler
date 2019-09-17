@@ -40,7 +40,7 @@ Check the [wiki page][WikiDev] to understand development of connectors. Please a
 
 ### Translations
 
-Join our [translation team][Transifex] on Transifex.
+We use Transifex to maintain translations. If you want to translate the extension, follow [this][Translations] wiki page for details.
 
 ### Gitter
 
@@ -91,6 +91,7 @@ See the [license file][License].
 [DocsUnpacked]: https://developer.chrome.com/extensions/getstarted#unpacked
 [License]: https://github.com/web-scrobbler/web-scrobbler/blob/master/LICENSE.md
 [Privacy]: https://github.com/web-scrobbler/web-scrobbler/blob/master/src/_locales/en/privacy.md
+[Translations]: https://github.com/web-scrobbler/web-scrobbler/wiki/Translate-the-extension
 
 <!-- Download -->
 [WebStore]: https://chrome.google.com/webstore/detail/lastfm-scrobbler/hhinaapppaileiechjoiifaancjggfjm
@@ -105,7 +106,6 @@ See the [license file][License].
 [DavidDm]: https://david-dm.org/web-scrobbler/web-scrobbler?type=dev
 [GitHubActions]: https://github.com/web-scrobbler/web-scrobbler/actions
 [Gitter]: https://gitter.im/david-sabata/web-scrobbler
-[Transifex]: https://www.transifex.com/web-scrobbler/web-scrobbler/dashboard/
 [Twitter]: https://twitter.com/web_scrobbler
 
 <!-- Services -->
