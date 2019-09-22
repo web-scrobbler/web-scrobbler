@@ -139,11 +139,6 @@ define(function() {
 		js: ['connectors/dandelionradio.js'],
 		id: 'dandelionradio',
 	}, {
-		label: 'AOL Radio',
-		matches: ['*://aolradio.slacker.com/*'],
-		js: ['connectors/slacker.js'],
-		id: 'aolradio',
-	}, {
 		label: 'HillyDilly',
 		matches: ['*://www.hillydilly.com/*'],
 		js: ['connectors/hillydilly.js'],
