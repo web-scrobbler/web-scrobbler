@@ -4,6 +4,8 @@ const fs = require('fs');
 const path = require('path');
 
 const expect = require('chai').expect;
+const assert = require('chai').assert;
+
 const connectors = require('../../src/core/connectors');
 
 const PROP_TYPES = {
@@ -11,6 +13,7 @@ const PROP_TYPES = {
 	matches: 'array',
 	label: 'string',
 	js: 'array',
+	id: 'string',
 };
 const REQUIRED_PROPS = ['label', 'js'];
 
@@ -50,6 +53,16 @@ function testPaths(entry) {
 	}
 }
 
+function testUniqueness(entry) {
+	for (const connector of connectors) {
+		if (connector.label === entry.label) {
+			continue;
+		}
+
+		assert(entry.id !== connector.id, `Id is not unique: ${entry.label}`);
+	}
+}
+
 function runTests() {
 	for (const entry of connectors) {
 		it(`should have valid properties for ${entry.label}`, () => {
@@ -58,6 +71,10 @@ function runTests() {
 
 		it(`should have js files for ${entry.label}`, () => {
 			testPaths(entry);
+		});
+
+		it(`should have unique id ${entry.label}`, () => {
+			testUniqueness(entry);
 		});
 	}
 }
