@@ -139,26 +139,25 @@ define((require) => {
 
 	/**
 	 * Check if connector is enabled.
-	 * @param  {String}  label Connector label
+	 * @param  {Object} connector Connector
 	 * @return {Boolean} Check result
 	 */
-	async function isConnectorEnabled(label) {
+	async function isConnectorEnabled(connector) {
 		let data = await options.get();
-		return !data[DISABLED_CONNECTORS].includes(label);
+		return !data[DISABLED_CONNECTORS].includes(connector.id);
 	}
 
 	/**
 	 * Enable or disable connector.
-	 * @param  {String}  connector Connector
+	 * @param  {Object}  connector Connector
 	 * @param  {Boolean} state True if connector is enabled; false otherwise
 	 */
 	async function setConnectorEnabled(connector, state) {
 		const data = await options.get();
-		const label = connector.label;
 
-		const index = data[DISABLED_CONNECTORS].indexOf(label);
+		const index = data[DISABLED_CONNECTORS].indexOf(connector.id);
 		if (index === -1 && !state) {
-			data[DISABLED_CONNECTORS].push(label);
+			data[DISABLED_CONNECTORS].push(connector.id);
 		} else if (state) {
 			data[DISABLED_CONNECTORS].splice(index, 1);
 		}
@@ -176,7 +175,7 @@ define((require) => {
 		data[DISABLED_CONNECTORS] = [];
 		if (!state) {
 			for (let connector of connectors) {
-				data[DISABLED_CONNECTORS].push(connector.label);
+				data[DISABLED_CONNECTORS].push(connector.id);
 			}
 		}
 

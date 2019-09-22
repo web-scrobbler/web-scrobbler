@@ -62,7 +62,7 @@ define((require) => {
 			}
 		}
 
-		const isEnabled = await Options.isConnectorEnabled(connector.label);
+		const isEnabled = await Options.isConnectorEnabled(connector);
 		if (isEnabled) {
 			return new InjectResult(
 				InjectResult.MATCHED_AND_INJECTED, connector);
@@ -85,8 +85,8 @@ define((require) => {
 		for (let connector of connectors) {
 			let patterns = connector.matches || [];
 
-			if (customPatterns[connector.label]) {
-				patterns = patterns.concat(customPatterns[connector.label]);
+			if (customPatterns[connector.id]) {
+				patterns = patterns.concat(customPatterns[connector.id]);
 			}
 
 			for (let pattern of patterns) {

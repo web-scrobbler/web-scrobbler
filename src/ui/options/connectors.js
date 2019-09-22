@@ -35,7 +35,7 @@ define((require) => {
 			checkbox.click(function() {
 				Options.setConnectorEnabled(connector, this.checked);
 			});
-			const isConnectorEnabled = !disabledConnectors.includes(connector.label);
+			const isConnectorEnabled = !disabledConnectors.includes(connector.id);
 			checkbox.attr('checked', isConnectorEnabled);
 		});
 

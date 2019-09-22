@@ -520,7 +520,7 @@ define((require) => {
 
 				this.onSongUpdated(this.currentSong);
 
-				GA.event('core', 'scrobble', this.connector.label);
+				GA.event('core', 'scrobble', this.connector.id);
 			} else if (areAllResults(results, ServiceCallResult.IGNORED)) {
 				this.debugLog('Song is ignored by service');
 				this.pageAction.setSongIgnored(this.currentSong);
