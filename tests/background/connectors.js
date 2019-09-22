@@ -12,7 +12,7 @@ const PROP_TYPES = {
 	allFrames: 'boolean',
 	matches: 'array',
 	label: 'string',
-	js: 'array',
+	js: 'string',
 	id: 'string',
 };
 const REQUIRED_PROPS = ['label', 'js'];
@@ -36,20 +36,14 @@ function testProps(entry) {
 
 function testPaths(entry) {
 	if (!entry.js) {
-		throw new Error('Missing property: js');
+		return;
 	}
 
-	if (!Array.isArray(entry.js)) {
-		throw new Error('Invalid property type: js');
-	}
-
-	for (const f of entry.js) {
-		const jsPath = path.join(__dirname, '../../src', f);
-		try {
-			fs.statSync(jsPath);
-		} catch (e) {
-			throw new Error(`File is missing: ${f}`);
-		}
+	const jsPath = path.join(__dirname, '../../src', entry.js);
+	try {
+		fs.statSync(jsPath);
+	} catch (e) {
+		throw new Error(`File is missing: ${entry.js}`);
 	}
 }
 

@@ -47,7 +47,7 @@ define((require) => {
 	 */
 	async function injectScripts(tabId, connector) {
 		const scripts = [
-			...CONTENT_SCRIPTS, ...connector.js, STARTER_SCRIPT
+			...CONTENT_SCRIPTS, connector.js, STARTER_SCRIPT
 		];
 
 		for (const file of scripts) {
