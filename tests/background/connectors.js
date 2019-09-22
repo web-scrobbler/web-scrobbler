@@ -19,17 +19,13 @@ const REQUIRED_PROPS = ['label', 'js'];
 
 function testProps(entry) {
 	for (const prop of REQUIRED_PROPS) {
-		if (!entry[prop]) {
-			throw new Error(`Missing property: ${prop}`);
-		}
+		assert(entry[prop], `Missing property: ${prop}`);
 	}
 
 	for (const prop in entry) {
 		const type = PROP_TYPES[prop];
-		if (!type) {
-			throw new Error(`Unknown property: ${prop}`);
-		}
 
+		assert(type, `Missing property: ${prop}`);
 		expect(entry[prop]).to.be.a(type);
 	}
 }
