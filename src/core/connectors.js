@@ -1,19 +1,18 @@
 'use strict';
 
 /**
- * All connectors are defined here, instead of manifest.
+ * All match entries are defined here, instead of manifest.
  *
  * Matching connector is injected to the page after document_end event.
  *
  * Supported fields:
- *   @param {String} label Label to be shown in options to enable/disable
- *   the connector. Be careful with renaming, as connector disable state
- *   depends on the label.
+ *   @param {String} label Label
  *   @param {Array} matches Array of match patterns.
  *   Connectors are processed in order and the first match is used;
  *   you can use this behavior to emulate exclude matches,
- *   @param {Array} js Array of paths of files to be executed. All executions
- *   happen on or after 'document_end'.
+ *   @param {Array} js Array of paths to connector files.
+ *   @param {String} id Entry ID. This value must be unique.
+ *   Do not change this property w/o any serious reason.
  *   @param {Boolean} allFrames Value representing InjectDetails.allFrames.
  *   False by default.
  */
