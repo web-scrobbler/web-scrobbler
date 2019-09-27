@@ -1006,5 +1006,10 @@ define(function() {
 		label: 'Primephonic',
 		matches: ['*://play.primephonic.com/*'],
 		js: ['connectors/primephonic.js'],
+	}, {
+		label: 'Watch2Gether',
+		matches: ['*://www.watch2gether.com/*'],
+		js: ['connectors/youtube-embed.js'],
+		allFrames: true,
 	}];
 });
