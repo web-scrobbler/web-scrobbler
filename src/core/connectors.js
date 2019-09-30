@@ -1007,6 +1007,10 @@ define(function() {
 		matches: ['*://play.primephonic.com/*'],
 		js: ['connectors/primephonic.js'],
 	}, {
+		label: 'GDS.FM',
+		matches: ['*://play.gds.fm/*'],
+		js: ['connectors/gds-play.fm.js'],
+	}, {
 		label: 'Wynk Music',
 		matches: ['*://wynk.in/music*'],
 		js: ['connectors/wynk.js'],
