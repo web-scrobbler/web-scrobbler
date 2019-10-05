@@ -417,7 +417,7 @@ define(function() {
 			'*://radio.yandex.kz/*',
 			'*://radio.yandex.ua/*'
 		],
-		js: ['connectors/yandex-radio.js'],
+		js: ['connectors/yandex-music.js'],
 	}, {
 		label: 'egoFM',
 		matches: [
