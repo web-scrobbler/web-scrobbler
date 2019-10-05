@@ -1006,5 +1006,9 @@ define(function() {
 		label: 'Primephonic',
 		matches: ['*://play.primephonic.com/*'],
 		js: ['connectors/primephonic.js'],
+	}, {
+		label: 'Wynk Music',
+		matches: ['*://wynk.in/music*'],
+		js: ['connectors/wynk.js'],
 	}];
 });
