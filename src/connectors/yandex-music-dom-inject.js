@@ -25,14 +25,17 @@ function getState() {
 	if (version) {
 		track = `${track} (${version})`;
 	}
+	let album = null;
+	if (trackInfo.album) {
+		album = trackInfo.album.title;
+	}
 
 	const trackArt = `https://${trackInfo.cover.replace('%%', '400x400')}`;
 
 	return {
-		track, trackArt,
+		track, album, trackArt,
 
 		artist: trackInfo.artists[0].title,
-		album: trackInfo.album.title,
 		duration: trackInfo.duration,
 		currentTime: YandexAPI.getProgress().position,
 		uniqueID: trackInfo.link,
