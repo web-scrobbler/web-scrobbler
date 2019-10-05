@@ -113,6 +113,11 @@ require([
 		$('#album-art').css('background-image', `url("${getCoverArt()}")`);
 	}
 
+	function fillUserPlayCount() {
+		$('#userPlayCountLabel').text(`${i18n('infoYourScrobbles')}:`);
+		$('#userPlayCount').text(getUserPlayCount());
+	}
+
 	function getTrackInfo() {
 		let trackInfo = {};
 		for (let field of EDITED_TRACK_FIELDS) {
@@ -211,6 +216,7 @@ require([
 	function updatePopupView() {
 		fillMetadataLabels(getTrackInfo());
 		fillAlbumCover();
+		fillUserPlayCount();
 
 		configControls();
 		updateControls();
@@ -299,6 +305,10 @@ require([
 	function getCoverArt() {
 		return song.parsed.trackArt || song.metadata.artistThumbUrl ||
 			'/icons/cover_art_default.png';
+	}
+
+	function getUserPlayCount() {
+		return song.metadata.userPlayCount || '0';
 	}
 
 	function swapTitleAndArtist() {
