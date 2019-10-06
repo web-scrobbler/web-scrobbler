@@ -114,8 +114,14 @@ require([
 	}
 
 	function fillUserPlayCount() {
+		const playCount = getUserPlayCount();
+		if (playCount === '0') {
+			$('.user-play-count').hide();
+			return;
+		}
+		$('.user-play-count').show();
 		$('#userPlayCountLabel').text(`${i18n('infoYourScrobbles')}:`);
-		$('#userPlayCount').text(getUserPlayCount());
+		$('#userPlayCount').text(playCount);
 	}
 
 	function getTrackInfo() {
