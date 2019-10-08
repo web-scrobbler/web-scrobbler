@@ -1392,10 +1392,10 @@ escape-string-regexp@1.0.5, escape-string-regexp@^1.0.2, escape-string-regexp@^1
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
 
-eslint-plugin-jsdoc@9.0.1:
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-9.0.1.tgz#9fb1fc09a623a0990369e406eb897a89c6bfa5c0"
-  integrity sha512-4Sd6rjpMJ5YOd2WnCcgWW7K/EIawKKYgn4ObtDG0pyDP+QpN9EyRoPvY62IQtUOz5KkAS/EpFvEIMUo3qUyeyQ==
+eslint-plugin-jsdoc@9.1.0:
+  version "9.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-9.1.0.tgz#979cbb7e6a85edd920c27ec57e4e6f971df80f3d"
+  integrity sha512-etQf1bs2KSUVt/89SvaLBXbMNCrBjq4pzXuyJO1qbzp08tKsuasYVSuHrGsWgXlNoG9tSEzZmBrWU8LLZrkFQg==
   dependencies:
     comment-parser "^0.5.5"
     debug "^4.1.1"

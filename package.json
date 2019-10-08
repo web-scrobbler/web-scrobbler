@@ -13,7 +13,7 @@
     "chai": "4.2.0",
     "chai-spies": "1.0.0",
     "dotenv": "8.1.0",
-    "eslint-plugin-jsdoc": "9.0.1",
+    "eslint-plugin-jsdoc": "9.1.0",
     "firefox-extension-deploy": "1.1.1",
     "grunt": "1.0.4",
     "grunt-bump": "0.8.0",
