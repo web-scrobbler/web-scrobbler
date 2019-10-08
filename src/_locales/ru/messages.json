@@ -475,6 +475,10 @@
         "message": "Посмотреть страницу трека",
         "description": "Placeholder of album input"
     },
+    "infoYourScrobbles": {
+        "message": "Прослушиваний: $1",
+        "description": "Label for user play count"
+    },
     "pageActionBase": {
         "message": "Этот сайт поддерживается расширением",
         "description": "`base` page action title"
