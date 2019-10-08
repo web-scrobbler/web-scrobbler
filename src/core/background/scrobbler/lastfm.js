@@ -79,7 +79,7 @@ define((require) => {
 			let trackUrl = $doc.find('track > url').text();
 			let albumUrl = $doc.find('album > url').text();
 
-			let userPlayCount = $doc.find('userplaycount').text();
+			let userPlayCount = parseInt($doc.find('userplaycount').text());
 
 			return {
 				artist, track, album, duration, userloved,

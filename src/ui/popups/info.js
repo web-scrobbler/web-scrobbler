@@ -115,7 +115,7 @@ require([
 
 	function fillUserPlayCount() {
 		const playCount = getUserPlayCount();
-		if (playCount === '0') {
+		if (playCount === 0) {
 			$('.user-play-count').hide();
 			return;
 		}
@@ -314,7 +314,7 @@ require([
 	}
 
 	function getUserPlayCount() {
-		return song.metadata.userPlayCount || '0';
+		return song.metadata.userPlayCount || 0;
 	}
 
 	function swapTitleAndArtist() {
