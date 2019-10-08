@@ -117,11 +117,10 @@ require([
 		const playCount = getUserPlayCount();
 		if (playCount === 0) {
 			$('.user-play-count').hide();
-			return;
+		} else {
+			$('.user-play-count').show();
+			$('#userPlayCountLabel').text(i18n('infoYourScrobbles', playCount));
 		}
-		$('.user-play-count').show();
-		$('#userPlayCountLabel').text(`${i18n('infoYourScrobbles')}:`);
-		$('#userPlayCount').text(playCount);
 	}
 
 	function getTrackInfo() {
