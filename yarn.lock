@@ -2340,10 +2340,10 @@ grunt-replace-json@0.1.0:
   dependencies:
     lodash.set "^4.3.2"
 
-grunt-stylelint@0.11.0:
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/grunt-stylelint/-/grunt-stylelint-0.11.0.tgz#6f1eb442c04acc1ffe1d6d2859328c7c39e60492"
-  integrity sha512-/6LOPh8ftRS70tKa676ZrGG+eNCQQHJPH5QWe4gmzdW+K3Ud0YwbmUe1Bly3x9ymfllNTCALRmMJoV9xEh9RFA==
+grunt-stylelint@0.11.1:
+  version "0.11.1"
+  resolved "https://registry.yarnpkg.com/grunt-stylelint/-/grunt-stylelint-0.11.1.tgz#9e8e39a2a48700c2d41350c1baec5dac632702c2"
+  integrity sha512-DYq74oCsk6Q/fmUarv4CGrt6M/61yrtHRSM5FfrJy8uLFo+WQ/tiMWmROk+53Vvq3GWz8+m/Rz/Ne+Ag0QZvjw==
   dependencies:
     chalk "2.4.2"
 
