@@ -1,13 +1,13 @@
-"use strict";
+'use strict';
 
 new (class {
 	constructor() {
 		this.playButton = document.querySelectorAll(
-			`[data-w2g="['video.playing', ['css', ['pause icon','play icon']]]"]`
+			'[data-w2g="[\'video.playing\', [\'css\', [\'pause icon\',\'play icon\']]]"]'
 		)[0];
-		this.currentTimeSelector = `[data-w2g="['video.timeString', 'text']"]`;
-		this.timeTarget = document.querySelector("#player-time");
-		this.durationSelector = `[data-w2g="['video.duration', 'text']"]`;
+		this.currentTimeSelector = '[data-w2g="[\'video.timeString\', \'text\']"]';
+		this.timeTarget = document.querySelector('#player-time');
+		this.durationSelector = '[data-w2g="[\'video.duration\', \'text\']"]';
 		this._track = {};
 
 		Connector.isPlaying = () => this.isPlaying;
@@ -44,14 +44,14 @@ new (class {
 	}
 
 	get isPlaying() {
-		return this.playButton && !this.playButton.classList.contains("play");
+		return this.playButton && !this.playButton.classList.contains('play');
 	}
 
 	getVideoId(link, type) {
 		let id = `${type}:${link}`;
 
 		switch (type) {
-			case "youtube":
+			case 'youtube':
 				id = Util.getYoutubeVideoIdFromUrl(link);
 		}
 
@@ -59,18 +59,18 @@ new (class {
 	}
 
 	updateState() {
-		let elements = document.querySelectorAll(".w2g-chat-provider");
+		let elements = document.querySelectorAll('.w2g-chat-provider');
 		let element = [...elements]
 			.reverse()
-			.filter(e => e.classList.length > 1)[0];
+			.filter((e) => e.classList.length > 1)[0];
 
 		if (!element) {
 			return;
 		}
 
-		let type = element.classList[1] || "unknown";
+		let type = element.classList[1] || 'unknown';
 		let infoElement = element.nextElementSibling;
-		let title = $("<div></div>").html(infoElement.innerText)[0].textContent;
+		let title = $('<div></div>').html(infoElement.innerText)[0].textContent;
 
 		this.track = {
 			url: infoElement.href,
