@@ -35,7 +35,7 @@
     "load-grunt-tasks": "5.0.0",
     "mocha": "6.1.4",
     "node-define": "0.1.1",
-    "remark-preset-lint-recommended": "3.0.2",
+    "remark-preset-lint-recommended": "3.0.3",
     "requirejs": "2.3.6",
     "stylelint": "10.1.0",
     "stylelint-order": "3.0.0"
