@@ -1,0 +1,9 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "labels": [
+    "dependencies", "maintenance"
+  ],
+  "schedule": ["after 7pm on Saturday"]
+}

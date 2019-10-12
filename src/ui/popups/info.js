@@ -113,6 +113,16 @@ require([
 		$('#album-art').css('background-image', `url("${getCoverArt()}")`);
 	}
 
+	function fillUserPlayCount() {
+		const playCount = getUserPlayCount();
+		if (playCount === 0) {
+			$('.user-play-count').hide();
+		} else {
+			$('.user-play-count').show();
+			$('#userPlayCountLabel').text(i18n('infoYourScrobbles', playCount));
+		}
+	}
+
 	function getTrackInfo() {
 		let trackInfo = {};
 		for (let field of EDITED_TRACK_FIELDS) {
@@ -211,6 +221,7 @@ require([
 	function updatePopupView() {
 		fillMetadataLabels(getTrackInfo());
 		fillAlbumCover();
+		fillUserPlayCount();
 
 		configControls();
 		updateControls();
@@ -299,6 +310,10 @@ require([
 	function getCoverArt() {
 		return song.parsed.trackArt || song.metadata.artistThumbUrl ||
 			'/icons/cover_art_default.png';
+	}
+
+	function getUserPlayCount() {
+		return song.metadata.userPlayCount || 0;
 	}
 
 	function swapTitleAndArtist() {

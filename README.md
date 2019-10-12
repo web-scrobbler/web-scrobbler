@@ -58,7 +58,7 @@ We use Gitter and you can join us @ [web-scrobbler/web-scrobbler][Gitter].
 
 ## Media
 
-Follow [@web-scrobbler][Twitter] on Twitter to receive the latest news and updates.
+Follow [@web_scrobbler][Twitter] on Twitter to receive the latest news and updates.
 
 ## Privacy Policy
 

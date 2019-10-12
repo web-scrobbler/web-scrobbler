@@ -417,7 +417,7 @@ define(function() {
 			'*://radio.yandex.kz/*',
 			'*://radio.yandex.ua/*'
 		],
-		js: ['connectors/yandex-radio.js'],
+		js: ['connectors/yandex-music.js'],
 	}, {
 		label: 'egoFM',
 		matches: [
@@ -1011,5 +1011,13 @@ define(function() {
 		matches: ['*://www.watch2gether.com/*'],
 		js: ['connectors/watch2gether.js'],
 		allFrames: true,
+	}, {
+		label: 'GDS.FM',
+		matches: ['*://play.gds.fm/*'],
+		js: ['connectors/gds-play.fm.js'],
+	}, {
+		label: 'Wynk Music',
+		matches: ['*://wynk.in/music*'],
+		js: ['connectors/wynk.js'],
 	}];
 });
