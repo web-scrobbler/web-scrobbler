@@ -1009,7 +1009,7 @@ define(function() {
 	}, {
 		label: 'Watch2Gether',
 		matches: ['*://www.watch2gether.com/*'],
-		js: ['connectors/youtube-embed.js'],
+		js: ['connectors/watch2gether.js'],
 		allFrames: true,
 	}];
 });
