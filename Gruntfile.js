@@ -361,7 +361,8 @@ module.exports = (grunt) => {
 	 * Lint source code using linters specified below.
 	 */
 	grunt.registerTask('lint', [
-		'eslint', 'jsonlint', 'lintspaces', 'stylelint', 'remark',
+		'eslint', 'jsonlint', 'lintspaces',
+		'stylelint', 'remark', 'unused_files',
 	]);
 
 	/**

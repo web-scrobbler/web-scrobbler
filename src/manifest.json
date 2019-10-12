@@ -1,6 +1,6 @@
 {
   "name": "Web Scrobbler",
-  "version": "2.22.0",
+  "version": "2.23.0",
 
   "description": "__MSG_extDescription__",
   "icons": {
@@ -18,6 +18,7 @@
     "connectors/musickit-dom-inject.js",
     "connectors/soundcloud-dom-inject.js",
     "connectors/vk-dom-inject.js",
+    "connectors/yandex-music-dom-inject.js",
     "*.md"
   ],
 

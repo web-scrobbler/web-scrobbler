@@ -9,7 +9,9 @@ const CONNECTORS_LIST_FILE = 'media/connectors.json';
 
 module.exports = (grunt) => {
 	grunt.registerTask('dump_connectors', 'Dump a list of connectors', function() {
-		const contents = JSON.stringify(connectors, null, 2);
+		const labelArray = connectors.map((entry) => entry.label);
+		const contents = JSON.stringify(labelArray, null, 2);
+
 		grunt.file.write(CONNECTORS_LIST_FILE, contents);
 
 		grunt.log.ok(`Dumped connectors: ${connectors.length} items`);
