@@ -1,15 +1,15 @@
 "use strict";
 
 new (class {
-	playButton = document.querySelectorAll(
-		`[data-w2g="['video.playing', ['css', ['pause icon','play icon']]]"]`
-	)[0];
-	currentTimeSelector = `[data-w2g="['video.timeString', 'text']"]`;
-	timeTarget = document.querySelector("#player-time");
-	durationSelector = `[data-w2g="['video.duration', 'text']"]`;
-	_track = {};
-
 	constructor() {
+		this.playButton = document.querySelectorAll(
+			`[data-w2g="['video.playing', ['css', ['pause icon','play icon']]]"]`
+		)[0];
+		this.currentTimeSelector = `[data-w2g="['video.timeString', 'text']"]`;
+		this.timeTarget = document.querySelector("#player-time");
+		this.durationSelector = `[data-w2g="['video.duration', 'text']"]`;
+		this._track = {};
+
 		Connector.isPlaying = () => this.isPlaying;
 		Connector.getArtistTrack = () => this.track.info;
 		Connector.getUniqueID = () => this.track.id;
