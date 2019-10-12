@@ -2325,10 +2325,10 @@ grunt-preprocess@5.1.0:
     lodash "^4.5.0"
     preprocess "^3.0.2"
 
-grunt-remark@7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/grunt-remark/-/grunt-remark-7.0.0.tgz#f2934b85a4d046777d89c3a4f6c70a9051adc8fc"
-  integrity sha512-tJuI3jBCK2jWK4r6Gxd8TTHSn9+D7pD8W5ZT72ZDW1NcaJaj8BQoaNcQoxx9kGTRaECHGgrVXcPfIqX+VzJ3FA==
+grunt-remark@7.0.1:
+  version "7.0.1"
+  resolved "https://registry.yarnpkg.com/grunt-remark/-/grunt-remark-7.0.1.tgz#3307abc226ecccc16a75fa6496759487496e485c"
+  integrity sha512-KWRW5YdOzMElFDZMRHZRmD85PXUNX7RKfj4aViL7q1vsNkBRFyoqYTFNhu5DurPPS8dt9AqZrO2e1IKLK/GpWw==
   dependencies:
     remark "^10.0.0"
     unified-engine "^6.0.0"
