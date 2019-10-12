@@ -32,7 +32,7 @@
     "grunt-replace-json": "0.1.0",
     "grunt-stylelint": "0.11.0",
     "grunt-webstore-upload": "0.9.24",
-    "load-grunt-tasks": "5.0.0",
+    "load-grunt-tasks": "5.1.0",
     "mocha": "6.1.4",
     "node-define": "0.1.1",
     "remark-preset-lint-recommended": "3.0.2",
