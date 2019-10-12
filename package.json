@@ -9,7 +9,7 @@
     "url": "https://github.com/web-scrobbler/web-scrobbler.git"
   },
   "devDependencies": {
-    "@octokit/rest": "16.32.0",
+    "@octokit/rest": "16.33.1",
     "chai": "4.2.0",
     "chai-spies": "1.0.0",
     "dotenv": "8.1.0",
