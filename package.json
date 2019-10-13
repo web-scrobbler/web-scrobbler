@@ -30,7 +30,7 @@
     "grunt-preprocess": "5.1.0",
     "grunt-remark": "7.0.1",
     "grunt-replace-json": "0.1.0",
-    "grunt-stylelint": "0.11.0",
+    "grunt-stylelint": "0.11.1",
     "grunt-webstore-upload": "0.9.24",
     "load-grunt-tasks": "5.0.0",
     "mocha": "6.1.4",
