@@ -38,7 +38,7 @@
     "remark-preset-lint-recommended": "3.0.2",
     "requirejs": "2.3.6",
     "stylelint": "10.1.0",
-    "stylelint-order": "3.0.0"
+    "stylelint-order": "3.1.1"
   },
   "engines": {
     "node": ">=6.0.0"
