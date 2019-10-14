@@ -1,81 +1,62 @@
 'use strict';
 
-new (class {
-	constructor() {
-		this.playButton = document.querySelectorAll(
-			'[data-w2g="[\'video.playing\', [\'css\', [\'pause icon\',\'play icon\']]]"]'
-		)[0];
-		this.currentTimeSelector = '[data-w2g="[\'video.timeString\', \'text\']"]';
-		this.timeTarget = document.querySelector('#player-time');
-		this.durationSelector = '[data-w2g="[\'video.duration\', \'text\']"]';
-		this._track = {};
+const trackInfo = {};
 
-		Connector.isPlaying = () => this.isPlaying;
-		Connector.getArtistTrack = () => this.track.info;
-		Connector.getUniqueID = () => this.track.id;
-		Connector.currentTimeSelector = this.currentTimeSelector;
-		Connector.durationSelector = this.durationSelector;
+Connector.playButtonSelector = '.w2g-player .play';
 
-		let observer = new MutationObserver(() => this.updateState());
+Connector.getArtistTrack = () => trackInfo.artistTrack;
 
-		observer.observe(this.playButton, {
-			attributes: true
-		});
+Connector.getUniqueID = () => trackInfo.uniqueId;
 
-		observer.observe(this.timeTarget, {
-			childList: true,
-			subtree: true,
-			attributes: true
-		});
+Connector.timeInfoSelector = '.player-time';
+
+Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+
+function setupObserver() {
+	const playerContainer = document.querySelector('.w2g-player');
+	const observer = new MutationObserver(updateState);
+
+	observer.observe(playerContainer, {
+		childList: true,
+		subtree: true,
+		attributes: true
+	});
+}
+
+function updateState() {
+	const chatProviderItems = document.querySelectorAll('.w2g-chat-provider');
+	const chatProviderItem = [...chatProviderItems].filter((chatItem) => {
+		// Skip items w/o additional classes
+		return chatItem.classList.length > 1;
+	}).pop();
+
+	if (!chatProviderItem) {
+		return;
 	}
 
-	get track() {
-		return this._track;
+	const chatTextItem = chatProviderItem.nextElementSibling;
+
+	const type = chatProviderItem.classList[1] || 'unknown';
+	/*
+		I've added this because Watch2Gether doesn't decode html entities resulting in names such as:
+		Mandroid Echostar - &quot;Ancient Arrows&quot; Guitar Playthrough
+	*/
+	const title = $("<div></div>").html(chatTextItem.innerText)[0].textContent;
+	const url = chatTextItem.href;
+
+	trackInfo.artistTrack = Util.processYoutubeVideoTitle(title);
+	trackInfo.uniqueId = getVideoId(type, url);
+
+	Connector.onStateChanged();
+}
+
+function getVideoId(type, url) {
+	switch (type) {
+		case 'youtube':
+			return Util.getYoutubeVideoIdFromUrl(url);
 	}
 
-	set track(track) {
-		this._track = {
-			url: track.url,
-			info: track.info,
-			id: track.id
-		};
+	return `${type}:${url}`;
+}
 
-		Connector.onStateChanged();
-	}
-
-	get isPlaying() {
-		return this.playButton && !this.playButton.classList.contains('play');
-	}
-
-	getVideoId(link, type) {
-		let id = `${type}:${link}`;
-
-		switch (type) {
-			case 'youtube':
-				id = Util.getYoutubeVideoIdFromUrl(link);
-		}
-
-		return id;
-	}
-
-	updateState() {
-		let elements = document.querySelectorAll('.w2g-chat-provider');
-		let element = [...elements]
-			.reverse()
-			.filter((e) => e.classList.length > 1)[0];
-
-		if (!element) {
-			return;
-		}
-
-		let type = element.classList[1] || 'unknown';
-		let infoElement = element.nextElementSibling;
-		let title = $('<div></div>').html(infoElement.innerText)[0].textContent;
-
-		this.track = {
-			url: infoElement.href,
-			info: Util.processYoutubeVideoTitle(title),
-			id: this.getVideoId(infoElement.href, type)
-		};
-	}
-})();
+setupObserver();
