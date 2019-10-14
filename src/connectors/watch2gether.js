@@ -37,11 +37,7 @@ function updateState() {
 	const chatTextItem = chatProviderItem.nextElementSibling;
 
 	const type = chatProviderItem.classList[1] || 'unknown';
-	/*
-		I've added this because Watch2Gether doesn't decode html entities resulting in names such as:
-		Mandroid Echostar - &quot;Ancient Arrows&quot; Guitar Playthrough
-	*/
-	const title = $('<div></div>').html(chatTextItem.innerText)[0].textContent;
+	const title = chatTextItem.textContent;
 	const url = chatTextItem.href;
 
 	trackInfo.artistTrack = Util.processYoutubeVideoTitle(title);
