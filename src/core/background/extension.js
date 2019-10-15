@@ -225,7 +225,7 @@ define((require) => {
 
 				browser.tabs.sendMessage(tabId, { type: 'EVENT_READY' });
 
-				GA.event('core', 'inject', result.connector.id);
+				GA.event('core', 'inject', result.connector.label);
 
 				if (!isActiveSession) {
 					isActiveSession = true;
