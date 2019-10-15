@@ -25,7 +25,7 @@ module.exports = (grunt) => {
 		const unusedCount = unusedFiles.length;
 		if (unusedCount > 0) {
 			const unusedFilesStr = unusedFiles.join(', ');
-			grunt.log.error(`Found ${unusedCount} unused files: ${unusedFilesStr}`);
+			grunt.fail.fatal(`Found ${unusedCount} unused files: ${unusedFilesStr}`);
 		} else {
 			grunt.log.ok('No unused files are found');
 		}
