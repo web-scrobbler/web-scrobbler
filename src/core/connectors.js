@@ -6,11 +6,11 @@
  * Matching connector is injected to the page after document_end event.
  *
  * Supported fields:
- *   @param {String} label Label
+ *   @param {String} label Website label
  *   @param {Array} matches Array of match patterns.
  *   Connectors are processed in order and the first match is used;
  *   you can use this behavior to emulate exclude matches,
- *   @param {Array} js Array of paths to connector files.
+ *   @param {String} js Path to connector file.
  *   @param {String} id Entry ID. This value must be unique.
  *   Do not change this property w/o any serious reason.
  *   @param {Boolean} allFrames Value representing InjectDetails.allFrames.
