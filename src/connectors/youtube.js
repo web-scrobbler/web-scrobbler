@@ -22,6 +22,17 @@ const CATEGORIES = [
 	CATEGORY_SCIENCE_AND_TECHNOLOGY
 ];
 
+// Basic support for languages the extension is traslated to.
+// TODO: Remove if description parsing is implemented.
+const TOPIC_SUFFIXES = [
+	/(.+) - Topic/, // EN
+	/(.+) – Thema/, // DE
+	/(.+) – тема/, // RU
+	/(.+) - Tema/, // ES
+	/(.+) – temat/, // PL
+	/(.+) – Tópico/, // PT
+];
+
 /**
  * Array of categories allowed to be scrobbled.
  * @type {Array}
@@ -47,11 +58,6 @@ Connector.playerSelector = '#content';
 Connector.getArtistTrack = () => {
 	const videoTitle = $('.html5-video-player .ytp-title-link').first().text();
 	const ownerName = $('#container #channel-name').text();
-
-	const byLineMatch = ownerName.match(/(.+) - Topic/);
-	if (byLineMatch) {
-		return { artist: byLineMatch[1], track: videoTitle };
-	}
 
 	let { artist, track } = Util.processYoutubeVideoTitle(videoTitle);
 	if (!artist) {
@@ -83,7 +89,7 @@ Connector.getUniqueID = () => {
 	 * Youtube doesn't update video title immediately in fullscreen mode.
 	 * We don't return video ID until video title is shown.
 	 */
-	if (Connector.isFullscreenMode()) {
+	if (isFullscreenMode()) {
 		let videoTitle = $('.html5-video-player.playing-mode .ytp-title-link').text();
 		if (!videoTitle) {
 			return null;
@@ -127,11 +133,15 @@ Connector.isScrobblingAllowed = () => {
 	return true;
 };
 
-Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+Connector.applyFilter(
+	MetadataFilter.getYoutubeFilter().append({
+		artist: removeTopicSuffix,
+	})
+);
 
-Connector.isFullscreenMode = () => {
+function isFullscreenMode() {
 	return $('.html5-video-player').hasClass('ytp-fullscreen');
-};
+}
 
 /**
  * Get video category.
@@ -162,6 +172,17 @@ function getVideoCategory(videoId) {
 	}
 
 	return categoryCache.get(videoId);
+}
+
+function removeTopicSuffix(text) {
+	for (const regex of TOPIC_SUFFIXES) {
+		const topicMatch = text.match(regex);
+		if (topicMatch) {
+			return topicMatch[1];
+		}
+	}
+
+	return text;
 }
 
 async function fetchCategoryId() {

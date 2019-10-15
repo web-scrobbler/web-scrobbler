@@ -154,7 +154,7 @@ module.exports = (grunt) => {
 			}
 		},
 		github_release: {
-			token: process.env.GITHUB_TOKEN,
+			token: process.env.GH_TOKEN,
 			version: '<%= manifest.version %>',
 		},
 		amo_upload: {
@@ -361,7 +361,8 @@ module.exports = (grunt) => {
 	 * Lint source code using linters specified below.
 	 */
 	grunt.registerTask('lint', [
-		'eslint', 'jsonlint', 'lintspaces', 'stylelint', 'remark',
+		'eslint', 'jsonlint', 'lintspaces',
+		'stylelint', 'remark', 'unused_files',
 	]);
 
 	/**

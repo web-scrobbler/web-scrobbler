@@ -26,7 +26,7 @@ define((require) => {
 			modal.find('.modal-title').html(connector.label);
 
 			const allPatterns = await CustomPatterns.getAllPatterns();
-			const patterns = allPatterns[connector.label] || [];
+			const patterns = allPatterns[connector.id] || [];
 
 			const inputs = $('<ul class="list-unstyled" id="conn-conf-list"></ul>');
 			for (const value of patterns) {
@@ -52,9 +52,9 @@ define((require) => {
 			});
 
 			if (patterns.length > 0) {
-				CustomPatterns.setPatterns(connector.label, patterns);
+				CustomPatterns.setPatterns(connector.id, patterns);
 			} else {
-				CustomPatterns.resetPatterns(connector.label);
+				CustomPatterns.resetPatterns(connector.id);
 			}
 
 			modal.modal('hide');
@@ -70,7 +70,7 @@ define((require) => {
 			const index = modal.data('conn');
 			const connector = sortedConnectors[index];
 
-			CustomPatterns.resetPatterns(connector.label);
+			CustomPatterns.resetPatterns(connector.id);
 
 			modal.modal('hide');
 		});

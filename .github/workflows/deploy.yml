@@ -11,9 +11,17 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 12.x
-    - name: Run npm install; run deploy script
+    - name: Run npm install
+      run: npm install
+    - name: Deploy the extension
       run: |
-        npm install
         grunt publish:chrome
         grunt publish:firefox
         grunt github_release
+      env:
+        AMO_ISSUER: ${{ secrets.AMO_ISSUER }}
+        AMO_SECRET: ${{ secrets.AMO_SECRET }}
+        CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+        CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+        CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

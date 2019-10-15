@@ -115,3 +115,17 @@ input {
 	cursor: default !important;
 	text-decoration: none !important;
 }
+
+.user-play-count {
+	background-color: #247ba0;
+	border-radius: 3px;
+	color: white;
+	display: inline-block;
+	font-size: 0.75rem;
+	margin-top: 4px;
+	padding: 0 5px;
+}
+.user-play-count::before {
+	content: '\f202';
+	font-family: 'Font Awesome 5 Brands';
+}
