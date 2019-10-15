@@ -19,22 +19,29 @@ define((require) => {
 	async function migrateConnectorOptions() {
 		const disabledConnectors =
 			await Options.getOption(Options.DISABLED_CONNECTORS);
-		const disabledConnectorsNew = [];
+
+		if (!Array.isArray(disabledConnectors)) {
+			return;
+		}
+
+		if (disabledConnectors.length === 0) {
+			return;
+		}
+
+		const disabledConnectorsNew = {};
 
 		for (const label of disabledConnectors) {
 			for (const connector of connectors) {
 				if (connector.label === label) {
-					disabledConnectorsNew.push(connector.id);
+					disabledConnectorsNew[connector.id] = true;
 				}
 			}
 		}
 
-		if (disabledConnectorsNew.length > 0) {
-			Util.debugLog('Update disabled connectors');
+		await Options.setOption(
+			Options.DISABLED_CONNECTORS, disabledConnectorsNew);
 
-			await Options.setOption(
-				Options.DISABLED_CONNECTORS, disabledConnectorsNew);
-		}
+		Util.debugLog('Updated disabled connectors');
 	}
 
 	return { migrate };
