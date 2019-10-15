@@ -377,6 +377,31 @@ const Util = {
 	},
 
 	/**
+	 * Extract image URL from first available element defined by CSS selector.
+	 * @param  {Object} selectors Single selector or array of selectors
+	 * @return {String} Track art URL
+	 */
+	extractImageUrlFromSelectors(selectors) {
+		const element = Util.queryElements(selectors);
+		if (!element) {
+			return null;
+		}
+
+		let trackArtUrl = element.attr('src');
+		if (!trackArtUrl) {
+			const cssProperties = ['background-image', 'background'];
+			for (const property of cssProperties) {
+				const propertyValue = element.css(property);
+				if (propertyValue) {
+					trackArtUrl = this.extractUrlFromCssProperty(propertyValue);
+				}
+			}
+		}
+
+		return this.normalizeUrl(trackArtUrl);
+	},
+
+	/**
 	 * Return jQuery object of first available element. If `selectors`
 	 * is a string, return jQuery object with the selector. If `selectors` is
 	 * an array, return jQuery object matched by first valid selector.
