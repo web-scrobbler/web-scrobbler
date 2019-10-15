@@ -401,23 +401,7 @@ function BaseConnector() {
 	 * @return {String} Track art URL
 	 */
 	this.getTrackArt = () => {
-		const element = Util.queryElements(this.trackArtSelector);
-		if (!element) {
-			return null;
-		}
-
-		let trackArtUrl = element.attr('src');
-		if (!trackArtUrl) {
-			let cssProperties = ['background-image', 'background'];
-			for (let property of cssProperties) {
-				let propertyValue = element.css(property);
-				if (propertyValue) {
-					trackArtUrl = Util.extractUrlFromCssProperty(propertyValue);
-				}
-			}
-		}
-
-		return Util.normalizeUrl(trackArtUrl);
+		return Util.extractImageUrlFromSelectors(this.trackArtSelector);
 	};
 
 	/**
