@@ -39,7 +39,7 @@ function findUnusedConnectors() {
 	for (const file of files) {
 		let found = false;
 		for (const entry of connectors) {
-			if (entry.js[0] === file) {
+			if (entry.js === file) {
 				found = true;
 			}
 		}
