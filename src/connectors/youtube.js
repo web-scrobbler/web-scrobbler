@@ -89,7 +89,7 @@ Connector.getUniqueID = () => {
 	 * Youtube doesn't update video title immediately in fullscreen mode.
 	 * We don't return video ID until video title is shown.
 	 */
-	if (Connector.isFullscreenMode()) {
+	if (isFullscreenMode()) {
 		let videoTitle = $('.html5-video-player.playing-mode .ytp-title-link').text();
 		if (!videoTitle) {
 			return null;
@@ -139,9 +139,9 @@ Connector.applyFilter(
 	})
 );
 
-Connector.isFullscreenMode = () => {
+function isFullscreenMode() {
 	return $('.html5-video-player').hasClass('ytp-fullscreen');
-};
+}
 
 /**
  * Get video category.
