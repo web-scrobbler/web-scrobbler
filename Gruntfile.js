@@ -154,7 +154,7 @@ module.exports = (grunt) => {
 			}
 		},
 		github_release: {
-			token: process.env.GITHUB_TOKEN,
+			token: process.env.GH_TOKEN,
 			version: '<%= manifest.version %>',
 		},
 		amo_upload: {
