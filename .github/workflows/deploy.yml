@@ -24,3 +24,4 @@ jobs:
         CHROME_CLIENT_ID: $${ secrets.CHROME_CLIENT_ID }
         CHROME_CLIENT_SECRET: $${ secrets.CHROME_CLIENT_SECRET }
         CHROME_REFRESH_TOKEN: $${ secrets.CHROME_REFRESH_TOKEN }
+        GH_TOKEN: $${ secrets.GITHUB_TOKEN }
