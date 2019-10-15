@@ -44,7 +44,11 @@ Connector.getArtistTrack = () => {
 
 Connector.getTrackArt = () => {
 	const trackArtUrl = Util.extractImageUrlFromSelectors(trackArtSelector);
-	return trackArtUrl.replace('-t50x50.', '-t200x200.');
+	if (trackArtUrl) {
+		return trackArtUrl.replace('-t50x50.', '-t200x200.');
+	}
+
+	return null;
 };
 
 Connector.isPlaying = () => $('.playControl').hasClass('playing');
