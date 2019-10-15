@@ -1007,6 +1007,11 @@ define(function() {
 		matches: ['*://play.primephonic.com/*'],
 		js: ['connectors/primephonic.js'],
 	}, {
+		label: 'Watch2Gether',
+		matches: ['*://www.watch2gether.com/*'],
+		js: ['connectors/watch2gether.js'],
+		allFrames: true,
+	}, {
 		label: 'GDS.FM',
 		matches: ['*://play.gds.fm/*'],
 		js: ['connectors/gds-play.fm.js'],
