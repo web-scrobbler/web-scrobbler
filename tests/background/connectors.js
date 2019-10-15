@@ -15,7 +15,7 @@ const PROP_TYPES = {
 	js: 'string',
 	id: 'string',
 };
-const REQUIRED_PROPS = ['label', 'js'];
+const REQUIRED_PROPS = ['label', 'js', 'id'];
 
 function testProps(entry) {
 	for (const prop of REQUIRED_PROPS) {
