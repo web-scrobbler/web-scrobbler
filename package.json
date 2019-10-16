@@ -49,7 +49,7 @@
   },
   "scripts": {
     "test": "grunt",
-    "test-with-coverage": "nyc --reporter lcovonly  mocha tests/**/*.js -r tests/requirejs-config.js && cat ./coverage/lcov.info | codacy-coverage && rm -rf ./coverage"
+    "test-with-coverage": "nyc --reporter lcovonly -x 'tests/**  mocha tests/**/*.js -r tests/requirejs-config.js && cat ./coverage/lcov.info | codacy-coverage && rm -rf ./coverage"
   },
   "license": "MIT"
 }
