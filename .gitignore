@@ -19,3 +19,7 @@
 
 # Other
 /*.log
+
+# Coverage
+.nyc_output/
+coverage/
