@@ -22,3 +22,4 @@
 
 # Coverage
 .nyc_output/
+coverage/
