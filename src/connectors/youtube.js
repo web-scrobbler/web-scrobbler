@@ -57,11 +57,11 @@ Connector.playerSelector = '#content';
 
 Connector.getArtistTrack = () => {
 	const videoTitle = $('.html5-video-player .ytp-title-link').first().text();
-	const ownerName = $('#container #channel-name').text();
+	const channelName = $('#container .ytd-channel-name a').text();
 
 	let { artist, track } = Util.processYoutubeVideoTitle(videoTitle);
 	if (!artist) {
-		artist = ownerName;
+		artist = channelName;
 	}
 
 	return { artist, track };
