@@ -5,6 +5,14 @@
  */
 
 const Util = {
+	/**
+	 * Regular expression used to split artist and track.
+	 * There're three different '-' chars in the regexp:
+	 * hyphen (0x2d), en dash (0x2013), em dash (0x2014).
+	 * @type {Object}
+	 */
+	soundCloudArtistTrackRe: /(.+)\s[-–—―:]\s(.+)/,
+
 	youtubeTitleRegExps: [
 		// Artist "Track", Artist: "Track", Artist - "Track", etc.
 		{
@@ -58,6 +66,26 @@ const Util = {
 		}
 
 		return { artist, track };
+	},
+
+	processSoundCloudTrack(track) {
+		/*
+		 * Sometimes the artist name is in the track title,
+		 * e.g. Tokyo Rose - Zender Overdrive by Aphasia Records.
+		 */
+		const match = this.soundCloudArtistTrackRe.exec(track);
+
+		/*
+		 * But don't interpret patterns of the form
+		 * "[Start of title] #1234 - [End of title]" as Artist - Title
+		 */
+		if (match && ! /.*#\d+.*/.test(match[1])) {
+			return {
+				artist: match[1], track: match[2]
+			};
+		}
+
+		return this.makeEmptyArtistTrack();
 	},
 
 	/**
