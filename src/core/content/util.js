@@ -7,11 +7,9 @@
 const Util = {
 	/**
 	 * Regular expression used to split artist and track.
-	 * There're three different '-' chars in the regexp:
-	 * hyphen (0x2d), en dash (0x2013), em dash (0x2014).
 	 * @type {Object}
 	 */
-	soundCloudArtistTrackRe: /(.+)\s[-–—―:]\s(.+)/,
+	soundCloudArtistTrackRe: /(.+)\s[-:\u2013\u2014\u2015]\s(.+)/,
 
 	youtubeTitleRegExps: [
 		// Artist "Track", Artist: "Track", Artist - "Track", etc.
