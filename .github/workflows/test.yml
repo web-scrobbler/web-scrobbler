@@ -8,9 +8,9 @@ jobs:
     - uses: borales/actions-yarn@v2.0.0
       with:
         cmd: install
-    - name: Run yarn run test-with-coverage
+    - name: Run yarn run test-with-coverage-codacy
       run: |
-        yarn run test-with-coverage
+        yarn run test-with-coverage-codacy
       env:
-        CI: true
-        CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        ci: true
+        codacy_project_token: ${{ secrets.CODACY_PROJECT_TOKEN }}
