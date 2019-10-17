@@ -210,6 +210,32 @@ const PROCESS_YOUTUBE_TITLE_DATA = [{
 }];
 
 /**
+ * Test data for testing 'Util.processSoundCloudTrack' function.
+ * @type {Array}
+ */
+const PROCESS_SOUNDCLOUD_TRACK_DATA = [{
+	description: 'should process SoundCloud title (hyphen)',
+	source: 'Artist - Track',
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should process SoundCloud title (en dash)',
+	source: 'Artist \u2013 Track',
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should process SoundCloud title (em dash)',
+	source: 'Artist \u2014 Track',
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should process SoundCloud title (horizontal bar)',
+	source: 'Artist \u2015 Track',
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should use title as track title',
+	source: 'Track Name',
+	expected: { artist: null, track: 'Track Name' }
+}];
+
+/**
  * Test data for testing 'Util.splitTimeInfo' function.
  *
  * This test data contains additions properties: 'swap' and 'separators'.
@@ -319,6 +345,20 @@ function testProcessYoutubeVideoTitle() {
 }
 
 /**
+ * Test 'Util.processYoutubeVideoTitle' function.
+ */
+function testProcessSoundCloudTrack() {
+	for (let data of PROCESS_SOUNDCLOUD_TRACK_DATA) {
+		let { description, source, expected } = data;
+		let actual = Util.processSoundCloudTrack(source);
+
+		it(description, function() {
+			expect(actual).to.be.deep.equal(expected);
+		});
+	}
+}
+
+/**
  * Test 'Util.splitTimeInfo' function.
  */
 function testSplitTimeInfo() {
@@ -384,6 +424,7 @@ function runTests() {
 	describe('extractUrlFromCssProperty', testExtractTrackArtFromCss);
 	describe('processYoutubeVideoTitle', testProcessYoutubeVideoTitle);
 	describe('getYoutubeVideoIdFromUrl', testGetYoutubeVideoIdFromUrl);
+	describe('testProcessSoundCloudTrack', testProcessSoundCloudTrack);
 }
 
 runTests();
