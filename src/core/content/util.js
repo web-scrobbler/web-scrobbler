@@ -68,6 +68,11 @@ const Util = {
 		return { artist, track };
 	},
 
+	/**
+	 * Extract artist and track from SoundCloud track title.
+	 * @param  {String} track SoundCloud track title
+	 * @return {Object} Object contains artist and track fields
+	 */
 	processSoundCloudTrack(track) {
 		/*
 		 * Sometimes the artist name is in the track title,
