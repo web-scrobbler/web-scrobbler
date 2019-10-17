@@ -51,17 +51,19 @@ let categoryCache = new Map();
  */
 const videoSelector = '.html5-main-video';
 
+const videoTitleSelector = '.html5-video-player .ytp-title-link';
+const channelNameSelector = '#container .ytd-channel-name a';
+
 readConnectorOptions();
 
 Connector.playerSelector = '#content';
 
 Connector.getArtistTrack = () => {
-	const videoTitle = $('.html5-video-player .ytp-title-link').first().text();
-	const channelName = $('#container .ytd-channel-name a').text();
-
-	let { artist, track } = Util.processYoutubeVideoTitle(videoTitle);
+	let { artist, track } = Util.processYoutubeVideoTitle(
+		Util.getTextFromSelectors(videoTitleSelector)
+	);
 	if (!artist) {
-		artist = channelName;
+		artist = Util.getTextFromSelectors(channelNameSelector);
 	}
 
 	return { artist, track };
