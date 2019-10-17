@@ -13,3 +13,4 @@ jobs:
         yarn run test-with-coverage
       env:
         CI: true
+        CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
