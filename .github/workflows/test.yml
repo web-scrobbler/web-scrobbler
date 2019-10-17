@@ -10,7 +10,6 @@ jobs:
         cmd: install
     - name: Run yarn run test-with-coverage-codacy
       run: |
-        yarn run test-with-coverage-codacy
+        yarn run test-with-coverage-codacy --token ${{ secrets.CODACY_PROJECT_TOKEN }}
       env:
-        ci: true
-        codacy_project_token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+        CI: true
