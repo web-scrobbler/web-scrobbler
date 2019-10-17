@@ -48,8 +48,8 @@
   },
   "scripts": {
     "test": "grunt",
-    "test-with-coverage": "nyc -x 'tests/**'  mocha tests/**/*.js -r tests/requirejs-config.js",
-    "test-with-coverage-codacy": "nyc --reporter lcovonly --cache-dir .nyc_cache -x 'tests/**'  mocha tests/**/*.js -r tests/requirejs-config.js && cat ./coverage/lcov.info | codacy-coverage --debug && rm -rf ./coverage"
+    "test-with-coverage": "nyc -x 'tests/**' grunt",
+    "test-with-coverage-codacy": "nyc --reporter lcovonly --cache-dir .nyc_cache -x 'tests/**' grunt && cat ./coverage/lcov.info | codacy-coverage --debug && rm -rf ./coverage"
   },
   "license": "MIT"
 }
