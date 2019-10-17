@@ -1,5 +1,8 @@
 'use strict';
 
+const channelNameSelector = 'ytmusic-player-queue-item[selected] .byline';
+const trackSelector = 'ytmusic-player-queue-item[selected] .song-title';
+
 Connector.playerSelector = 'ytmusic-player-bar';
 
 Connector.getTrackArt = () => {
@@ -9,11 +12,19 @@ Connector.getTrackArt = () => {
 	}
 	return null;
 };
+
+Connector.getArtistTrack = () => {
+	let { artist, track } = Util.processYoutubeVideoTitle(
+		Util.getTextFromSelectors(trackSelector)
+	);
+	if (!artist) {
+		artist = Util.getTextFromSelectors(channelNameSelector);
+	}
+
+	return { artist, track };
+};
+
 Connector.albumSelector = '.ytmusic-player-bar .yt-formatted-string.style-scope.yt-simple-endpoint[href*="browse/MPREb_"]';
-
-Connector.artistSelector = 'ytmusic-player-queue-item[selected] .byline';
-
-Connector.trackSelector = 'ytmusic-player-queue-item[selected] .song-title';
 
 Connector.timeInfoSelector = '.ytmusic-player-bar.time-info';
 
