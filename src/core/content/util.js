@@ -85,7 +85,7 @@ const Util = {
 			};
 		}
 
-		return this.makeEmptyArtistTrack();
+		return { artist: null, track };
 	},
 
 	/**
