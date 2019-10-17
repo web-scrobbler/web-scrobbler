@@ -164,7 +164,7 @@ const GET_YOUTUBE_VIDEO_ID_FROM_URL_DATA = [{
  * @type {Array}
  */
 const PROCESS_YOUTUBE_TITLE_DATA = [{
-	description: 'should process youtube tilte',
+	description: 'should process YouTube title',
 	source: 'Artist - Track',
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
