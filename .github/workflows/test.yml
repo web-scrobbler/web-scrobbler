@@ -10,7 +10,7 @@ jobs:
         cmd: install
     - name: Run yarn run test-with-coverage-codacy
       run: |
-        ./node_modules/.bin/nyc --reporter lcovonly --cache-dir .nyc_cache -x 'tests/**' ./node_modules/.bin/grunt && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage --token ${{ secrets.CODACY_PROJECT_TOKEN }} && rm -rf ./coverage
+        ./node_modules/.bin/nyc --reporter lcovonly --cache-dir .nyc_cache -x 'tests/**' ./node_modules/.bin/grunt && cat ./coverage/lcov.info | ./node_modules/.bin/codacy-coverage && rm -rf ./coverage
       env:
         CI: true
         CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
