@@ -27,7 +27,7 @@
     "grunt-git": "1.0.14",
     "grunt-jsonlint": "2.0.0",
     "grunt-lintspaces": "0.8.6",
-    "grunt-mocha-cli": "4.0.0",
+    "grunt-mocha-cli": "5.0.0",
     "grunt-preprocess": "5.1.0",
     "grunt-remark": "7.0.1",
     "grunt-replace-json": "0.1.0",
