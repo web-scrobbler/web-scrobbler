@@ -92,7 +92,7 @@ Connector.getUniqueID = () => {
 	 * if the miniplayer is visible, so we should check
 	 * if URL of a current video in miniplayer is accessible.
 	 */
-	const miniPlayerVideoUrl = $('ytd-miniplayer [selected] a').attr('href');
+	const miniPlayerVideoUrl = $('ytd-miniplayer[active] [selected] a').attr('href');
 	if (miniPlayerVideoUrl) {
 		return Util.getYoutubeVideoIdFromUrl(miniPlayerVideoUrl);
 	}
