@@ -52,7 +52,7 @@ let categoryCache = new Map();
 const videoSelector = '.html5-main-video';
 
 const videoTitleSelector = '.html5-video-player .ytp-title-link';
-const channelNameSelector = '#container .ytd-channel-name a';
+const channelNameSelector = '#top-row .ytd-channel-name a';
 
 readConnectorOptions();
 
