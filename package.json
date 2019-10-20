@@ -40,7 +40,7 @@
     "nyc": "^14.1.1",
     "remark-preset-lint-recommended": "3.0.3",
     "requirejs": "2.3.6",
-    "stylelint": "10.1.0",
+    "stylelint": "11.1.1",
     "stylelint-order": "3.1.1"
   },
   "engines": {
