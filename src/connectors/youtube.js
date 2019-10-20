@@ -359,7 +359,7 @@ function countOccurrence(char, str) {
 
 	return count;
 }
-const regex1 = /[[(]*(\d{0,2}:*\d{2}:\d{2})[\])]*\s+(.+)/i;
+const regex1 = /[[(]*(\d{0,2}:*\d{1,2}:\d{2})[\])]*\s+(.+)/i;
 const regex2 = /\s*(.+)\s+[[(]*(\d{0,2}:*\d{2}:\d{2})[\])]*/i;
 
 const noPrefix = /^\d+\./;
