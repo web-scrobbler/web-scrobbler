@@ -88,24 +88,16 @@ Connector.isPlaying = () => {
 
 Connector.getUniqueID = () => {
 	/*
-	 * Youtube doesn't update video title immediately in fullscreen mode.
-	 * We don't return video ID until video title is shown.
+	 * ytd-watch-flexy element contains ID of a first played video
+	 * if the miniplayer is visible, so we should check
+	 * if URL of a current video in miniplayer is accessible.
 	 */
-	if (isFullscreenMode()) {
-		let videoTitle = $('.html5-video-player.playing-mode .ytp-title-link').text();
-		if (!videoTitle) {
-			return null;
-		}
+	const miniPlayerVideoUrl = $('ytd-miniplayer [selected] a').attr('href');
+	if (miniPlayerVideoUrl) {
+		return Util.getYoutubeVideoIdFromUrl(miniPlayerVideoUrl);
 	}
 
-	let videoId = $('ytd-watch-flexy').attr('video-id');
-
-	if (!videoId) {
-		let videoUrl = $('.html5-video-player.playing-mode .ytp-title-link').attr('href');
-		videoId = Util.getYoutubeVideoIdFromUrl(videoUrl);
-	}
-
-	return videoId;
+	return $('ytd-watch-flexy').attr('video-id');
 };
 
 Connector.isScrobblingAllowed = () => {
@@ -140,10 +132,6 @@ Connector.applyFilter(
 		artist: removeTopicSuffix,
 	})
 );
-
-function isFullscreenMode() {
-	return $('.html5-video-player').hasClass('ytp-fullscreen');
-}
 
 /**
  * Get video category.
