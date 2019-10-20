@@ -213,6 +213,21 @@ require([
 		});
 	}
 
+	// @ifdef DEBUG
+	function fillDebugInfo() {
+		const songStr = JSON.stringify(song, null, 2);
+		$('#debug').text(songStr);
+	}
+
+	function configDebugControls() {
+		$('body').click((e) => {
+			if (e.shiftKey) {
+				$('#debug-container').show();
+			}
+		});
+	}
+	// @endif
+
 	function updateLovedIcon(isLoved) {
 		$('#love').attr('last-fm-loved', isLoved);
 		$('#love').attr('title', i18n(isLoved ? 'infoUnlove' : 'infoLove'));
@@ -227,6 +242,11 @@ require([
 		updateControls();
 
 		updateLovedIcon(song.metadata.userloved);
+
+		// @ifdef DEBUG
+		fillDebugInfo();
+		configDebugControls();
+		// @endif
 	}
 
 	function updateControls() {
