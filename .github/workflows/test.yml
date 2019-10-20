@@ -5,12 +5,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
+    - uses: borales/actions-yarn@v2.0.0
       with:
-        node-version: 12.x
-    - name: Run npm install, npm test
+        cmd: install
+    - name: Run linters
       run: |
-        npm install
-        npm test
+        yarn run lint
       env:
-        CI: true
+        CI: true 
+    - name: Run tests
+      if: github.ref != 'refs/heads/master'
+      run: |
+        yarn run test
+    - name: Run tests with coverage
+      if: github.ref == 'refs/heads/master'
+      run: |
+        yarn run test-with-coverage
+        yarn run upload-coverage
+      env:
+        CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}

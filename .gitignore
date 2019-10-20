@@ -22,4 +22,5 @@
 
 # Coverage
 .nyc_output/
+.nyc_cache/
 coverage/
