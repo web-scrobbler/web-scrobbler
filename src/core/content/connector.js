@@ -370,6 +370,10 @@ function BaseConnector() {
 		if (!newState.track && artistTrack.track) {
 			newState.track = artistTrack.track;
 		}
+		// TODO: change this
+		if (!newState.album && artistTrack.album) {
+			newState.album = artistTrack.album;
+		}
 
 		const remainingTime = Math.abs(this.getRemainingTime());
 		if (remainingTime) {
