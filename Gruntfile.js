@@ -11,6 +11,10 @@ const BUILD_DIR = 'build';
 const PACKAGE_FILE = 'web-scrobbler.zip';
 const MANIFEST_FILE = 'src/manifest.json';
 
+const FILES_TO_PREPROCESS = [
+	`${BUILD_DIR}/**/*.js`, `${BUILD_DIR}/**/*.css`, `${BUILD_DIR}/**/*.html`
+];
+
 // Files to build package
 const EXTENSION_SRC = [
 	'**/*',
@@ -95,7 +99,7 @@ module.exports = (grunt) => {
 		},
 		preprocess: {
 			firefox: {
-				src: `${BUILD_DIR}/**/*.js`,
+				src: FILES_TO_PREPROCESS,
 				expand: true,
 				options: {
 					inline: true,
@@ -105,7 +109,7 @@ module.exports = (grunt) => {
 				}
 			},
 			chrome: {
-				src: `${BUILD_DIR}/**/*.js`,
+				src: FILES_TO_PREPROCESS,
 				expand: true,
 				options: {
 					inline: true,
