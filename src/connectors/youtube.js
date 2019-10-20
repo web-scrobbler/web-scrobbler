@@ -68,14 +68,7 @@ Connector.getArtistTrack = () => {
 		return artistTrack;
 	}
 
-	let { artist, track } = Util.processYoutubeVideoTitle(
-		Util.getTextFromSelectors(videoTitleSelector)
-	);
-	if (!artist) {
-		artist = Util.getTextFromSelectors(channelNameSelector);
-	}
-
-	return { artist, track };
+	return getArtistTrackFromVideoTitle();
 };
 
 /*
@@ -268,6 +261,17 @@ function getVideoDescription() {
 	return $('#description').text();
 }
 
+function getArtistTrackFromVideoTitle() {
+	let { artist, track } = Util.processYoutubeVideoTitle(
+		Util.getTextFromSelectors(videoTitleSelector)
+	);
+	if (!artist) {
+		artist = Util.getTextFromSelectors(channelNameSelector);
+	}
+
+	return { artist, track };
+}
+
 function getArtistTrackFromDescription() {
 	const description = getVideoDescription();
 
@@ -367,9 +371,10 @@ const regexes = [{
 }];
 
 function getArtistTrackFromPlaylist() {
+	const { artist } = getArtistTrackFromVideoTitle();
 	const track = getCurrentTrackFromPlaylist();
 
-	return { track };
+	return { artist, track };
 }
 
 function getPlaylistFromDescription(description) {
