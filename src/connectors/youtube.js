@@ -325,15 +325,36 @@ function getArtistTrackFromYouTubeDescription(desc) {
 		indexOffset = 1;
 	}
 
-	const { artist, track } = Util.splitArtistTrack(
-		lines[LINE_ARTIST_TRACK + indexOffset],
-		descArtistTrackSeparator, { swap: true }
-	);
-	const album = lines[LINE_ALBUM + indexOffset];
+	const numberOfSeparators = countOccurrence(descArtistTrackSeparator, desc);
+	if (numberOfSeparators === 1) {
+		const { artist, track } = Util.splitArtistTrack(
+			lines[LINE_ARTIST_TRACK + indexOffset],
+			descArtistTrackSeparator, { swap: true }
+		);
+		const album = lines[LINE_ALBUM + indexOffset];
 
-	return { artist, track, album };
+		return { artist, track, album };
+	} else if (numberOfSeparators === 2) {
+		const trackArtistAlbumStr = lines[LINE_ARTIST_TRACK + indexOffset];
+		const [track, artist, album] = trackArtistAlbumStr.split(descArtistTrackSeparator);
+
+		return { artist, track, album };
+	}
+
+	return Util.makeEmptyArtistTrack();
 }
 
+function countOccurrence(char, str) {
+	let count = 0;
+
+	for (const c of str) {
+		if (c === char) {
+			count++;
+		}
+	}
+
+	return count;
+}
 const regex1 = /[[(]*(\d{0,2}:*\d{2}:\d{2})[\])]*\s+(.+)/i;
 const regex2 = /\s*(.+)\s+[[(]*(\d{0,2}:*\d{2}:\d{2})[\])]*/i;
 
