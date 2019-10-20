@@ -8,8 +8,17 @@ jobs:
     - uses: borales/actions-yarn@v2.0.0
       with:
         cmd: install
-    - name: Run yarn run test
+    - name: Run linters
+      run: |
+        yarn run lint
+    - name: Run tests
+      if: github.ref != 'refs/heads/master'
       run: |
         yarn run test
+    - name: Run tests with coverage
+      if: github.ref == 'refs/heads/master'
+      run: |
+        yarn run test-with-coverage
+        yarn run upload-coverage
       env:
         CI: true
