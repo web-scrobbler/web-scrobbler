@@ -414,7 +414,7 @@ function getPlaylistFromDescription(description) {
 		entry.duration = duration;
 	}
 
-	return playlist.sort(compareTimestamps);
+	return playlist;
 }
 
 function compareTimestamps(a, b) {
