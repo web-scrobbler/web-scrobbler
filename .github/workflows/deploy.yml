@@ -8,16 +8,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
+    - uses: borales/actions-yarn@v2.0.0
       with:
-        node-version: 12.x
-    - name: Run npm install
-      run: npm install
+        cmd: install
     - name: Deploy the extension
       run: |
-        grunt publish:chrome
-        grunt publish:firefox
-        grunt github_release
+        yarn run grunt publish:chrome
+        yarn run grunt publish:firefox
+        yarn run grunt github_release
       env:
         AMO_ISSUER: ${{ secrets.AMO_ISSUER }}
         AMO_SECRET: ${{ secrets.AMO_SECRET }}
