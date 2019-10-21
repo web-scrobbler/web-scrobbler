@@ -178,8 +178,8 @@ class MetadataFilter {
 	 * @return {String} Filtered string
 	 */
 	static youtube(text) {
-		return MetadataFilter.filterWithFilterSet(
-			text, MetadataFilter.YOUTUBE_TRACK_FILTERS
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.YOUTUBE_TRACK_FILTER_RULES
 		);
 	}
 
@@ -189,8 +189,8 @@ class MetadataFilter {
 	 * @return {String} Filtered string
 	 */
 	static removeRemastered(text) {
-		return MetadataFilter.filterWithFilterSet(
-			text, MetadataFilter.REMASTERED_FILTERS
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.REMASTERED_FILTER_RULES
 		);
 	}
 
@@ -200,8 +200,8 @@ class MetadataFilter {
 	 * @return {String} Filtered string
 	 */
 	static removeVersion(text) {
-		return MetadataFilter.filterWithFilterSet(
-			text, MetadataFilter.VERSION_FILTERS
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.VERSION_FILTER_RULES
 		);
 	}
 
@@ -211,8 +211,8 @@ class MetadataFilter {
 	 * @return {String} Filtered string
 	 */
 	static removeLive(text) {
-		return MetadataFilter.filterWithFilterSet(
-			text, MetadataFilter.LIVE_FILTERS
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.LIVE_FILTER_RULES
 		);
 	}
 
@@ -222,8 +222,8 @@ class MetadataFilter {
 	 * @return {String} Filtered string
 	 */
 	static fixTrackSuffix(text) {
-		return MetadataFilter.filterWithFilterSet(
-			text, MetadataFilter.SUFFIX_FILTERS
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.SUFFIX_FILTER_RULES
 		);
 	}
 
@@ -247,7 +247,7 @@ class MetadataFilter {
 	 * @param  {Object} set  Array of replace rules
 	 * @return {String} Filtered string
 	 */
-	static filterWithFilterSet(text, set) {
+	static filterWithFilterRules(text, set) {
 		for (let data of set) {
 			text = text.replace(data.source, data.target);
 		}
@@ -256,18 +256,18 @@ class MetadataFilter {
 	}
 
 	/**
-	 * The filter set is an array that contains replace rules.
+	 * Filter rules are an array that contains replace rules.
 	 *
 	 * Each rule is an object that contains 'source' and 'target' properties.
-	 * 'Source' property is a string or RegEx object which is replaced by
+	 * 'source' property is a string or RegEx object which is replaced by
 	 * 'target' property value.
 	 */
 
 	/**
-	 * Predefined regex-based filter set for Youtube-based connectors.
+	 * Predefined regex-based filter rules for Youtube-based connectors.
 	 * @type {Array}
 	 */
-	static get YOUTUBE_TRACK_FILTERS() {
+	static get YOUTUBE_TRACK_FILTER_RULES() {
 		return [
 			// Trim whitespaces
 			{ source: /^\s+|\s+$/g, target: '' },
@@ -330,11 +330,11 @@ class MetadataFilter {
 	}
 
 	/**
-	 * A regex-based filter set that contains removal rules of "Remastered..."-like
-	 * strings from a text. Used by Spotify, Deezer and Tidal connectors.
+	 * Filter rules to remove "Remastered..."-like strings from a text.
+	 *
 	 * @type {Array}
 	 */
-	static get REMASTERED_FILTERS() {
+	static get REMASTERED_FILTER_RULES() {
 		return [
 			// Here Comes The Sun - Remastered
 			{ source: /-\sRemastered$/, target: '' },
@@ -370,7 +370,7 @@ class MetadataFilter {
 		];
 	}
 
-	static get LIVE_FILTERS() {
+	static get LIVE_FILTER_RULES() {
 		return [
 			// Track - Live
 			{ source: /-\sLive?$/, target: '' },
@@ -380,11 +380,12 @@ class MetadataFilter {
 	}
 
 	/**
-	 * A regex-based filter set that contains removal rules of "(Album|Stereo|Mono Version)"-like
-	 * strings from a text. Used by Tidal connectors.
+	 * Filter rules to remove "(Album|Stereo|Mono Version)"-like strings
+	 * from a text.
+	 *
 	 * @type {Array}
 	 */
-	static get VERSION_FILTERS() {
+	static get VERSION_FILTER_RULES() {
 		return [
 			// Love Will Come To You (Album Version)
 			{ source: /[([]Album Version[)\]]$/, target: '' },
@@ -404,7 +405,7 @@ class MetadataFilter {
 		];
 	}
 
-	static get SUFFIX_FILTERS() {
+	static get SUFFIX_FILTER_RULES() {
 		return [
 			// "- X Remix" -> "(X Remix)" and similar
 			{ source: /-\s(.+?)\s((Re)?mix|edit|dub|mix|vip|version)$/i, target: '($1 $2)' },
