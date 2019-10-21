@@ -28,10 +28,16 @@ module.exports = {
 		// Enforce “for” loop update clause moving the counter
 		// in the right direction
 		'for-direction': 'error',
-		// Allow the use of console
-		'no-console': 'off',
 		// Disallow template literal placeholder syntax in regular string
 		'no-template-curly-in-string': 'error',
+		/*
+		 * Disallow assignments that can lead to race conditions due to
+		 * usage of await or yield
+		 *
+		 * NOTE: This rule produces false positive results
+		 * for the extension code, so it's turned off.
+		 */
+		'require-atomic-updates': 'off',
 
 		/**
 		 * Best practices
