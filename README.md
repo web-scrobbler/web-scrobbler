@@ -7,7 +7,7 @@
 [![devDependencies status][DavidDmBadge]][DavidDm]
 [![Test status][GitHubActionsBadge]][GitHubActions]
 [![Codacy Badge][CodacyBadge]][Codacy]
-[![Codacy Badge][CodacyCoverageBadge]][Codacy]
+[![Codacy Coverage Badge][CodacyCoverageBadge]][Codacy]
 
 [![Gitter][GitterBadge]][Gitter]
 
