@@ -1,8 +1,16 @@
 'use strict';
 
 const wwozFilter = new MetadataFilter({
-	track: cleanTrack
+	track: (text) => MetadataFilter.filterWithFilterRules(
+		text, wwozFilterRules
+	)
 });
+
+const wwozFilterRules = [
+	{ source: /"(.+?)"/g, target: '$1' },
+	{ source: /\s*\[[^\]]+\]$/, target: '' },
+	{ source: /\s*\([^)]*version\)$/i, target: '1' },
+];
 
 Connector.playerSelector = '#player';
 
@@ -13,14 +21,3 @@ Connector.trackSelector = '#player .title';
 Connector.isPlaying = () => $('#oz-audio-container').hasClass('jp-state-playing');
 
 Connector.applyFilter(wwozFilter);
-
-function cleanTrack(track) {
-	// stripping WWOZ's double quotes around name
-	track = track.replace(/"(.+?)"/g, '$1');
-	// [whatever]
-	track = track.replace(/\s*\[[^\]]+\]$/, '');
-	// (whatever version)
-	track = track.replace(/\s*\([^)]*version\)$/i, '');
-
-	return track;
-}
