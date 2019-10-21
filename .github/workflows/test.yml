@@ -3,6 +3,9 @@ on: [push, pull_request]
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      IS_COVERAGE_ALLOWED: ${{ secrets.CODACY_PROJECT_TOKEN != '' }}
+      IS_MASTER_BRANCH: ${{ github.ref == 'refs/heads/master' }}
     steps:
     - uses: actions/checkout@v1
     - uses: borales/actions-yarn@v2.0.0
@@ -12,15 +15,14 @@ jobs:
       run: |
         yarn run lint
       env:
-        CI: true 
+        CI: true
     - name: Run tests
-      if: github.ref != 'refs/heads/master'
       run: |
-        yarn run test
-    - name: Run tests with coverage
-      if: github.ref == 'refs/heads/master'
-      run: |
-        yarn run test-with-coverage
-        yarn run upload-coverage
+        if $IS_COVERAGE_ALLOWED && $IS_MASTER_BRANCH; then
+            yarn run test-with-coverage
+            yarn run upload-coverage
+        else
+            yarn run test
+        fi
       env:
         CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
