@@ -6,6 +6,7 @@
 [![devDependencies status][DavidDmBadge]][DavidDm]
 [![Test status][GitHubActionsBadge]][GitHubActions]
 [![Codacy Badge][CodacyBadge]][Codacy]
+[![Codacy Badge][CodacyCoverageBadge]][Codacy]
 [![Maintainability][CodeClimateBadge]][CodeClimate]
 
 Web Scrobbler helps online music listeners to scrobble their playback history.
@@ -71,6 +72,7 @@ See the [license file][License].
 <!-- Badges -->
 [AmoBadge]: https://img.shields.io/amo/v/web-scrobbler.svg
 [CodacyBadge]: https://api.codacy.com/project/badge/Grade/bb2841f875014aaea6a354da6c96bdee
+[CodacyCoverageBadge]: https://api.codacy.com/project/badge/Coverage/bb2841f875014aaea6a354da6c96bdee
 [CodeClimateBadge]: https://api.codeclimate.com/v1/badges/be3a9f3b266d8a68e1d9/maintainability
 [DavidDmBadge]: https://david-dm.org/web-scrobbler/web-scrobbler/dev-status.svg
 [GitHubActionsBadge]: https://github.com/web-scrobbler/web-scrobbler/workflows/test/badge.svg
