@@ -29,7 +29,7 @@
     "grunt-lintspaces": "0.8.6",
     "grunt-mocha-cli": "5.0.0",
     "grunt-preprocess": "5.1.0",
-    "grunt-remark": "7.0.1",
+    "grunt-remark": "8.0.0",
     "grunt-replace-json": "0.1.0",
     "grunt-stylelint": "0.11.1",
     "grunt-webstore-upload": "0.9.24",
