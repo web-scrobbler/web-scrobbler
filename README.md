@@ -2,6 +2,7 @@
 
 [![Chrome Web Store][WebStoreBadge]][WebStore]
 [![AMO][AmoBadge]][Amo]
+[![Gitter][GitterBadge]][Gitter]
 
 
 [![devDependencies status][DavidDmBadge]][DavidDm]
@@ -9,7 +10,6 @@
 [![Codacy Badge][CodacyBadge]][Codacy]
 [![Codacy Coverage Badge][CodacyCoverageBadge]][Codacy]
 
-[![Gitter][GitterBadge]][Gitter]
 
 
 Web Scrobbler helps online music listeners to scrobble their playback history.
