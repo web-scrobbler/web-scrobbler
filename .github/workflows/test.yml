@@ -8,9 +8,10 @@ jobs:
       IS_MASTER_BRANCH: ${{ github.ref == 'refs/heads/master' }}
     steps:
     - uses: actions/checkout@v1
-    - uses: borales/actions-yarn@v2.0.0
+    - uses: actions/setup-node@v1
       with:
-        cmd: install
+        node-version: '12.x'
+      run: yarn install
     - name: Run linters
       run: |
         yarn run lint

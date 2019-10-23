@@ -8,9 +8,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - uses: borales/actions-yarn@v2.0.0
+    - uses: actions/setup-node@v1
       with:
-        cmd: install
+        node-version: '12.x'
+      run: yarn install
     - name: Deploy the extension
       run: |
         yarn run grunt publish:chrome
