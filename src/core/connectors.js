@@ -1224,5 +1224,10 @@ define(function() {
 		matches: ['*://audiomack.com/*'],
 		js: 'connectors/audiomack.js',
 		id: 'audiomack',
+	}, {
+		label: 'Global Player',
+		matches: ['*://www.globalplayer.com/*'],
+		js: 'connectors/globalplayer.js',
+		id: 'globalplayer',
 	}];
 });
