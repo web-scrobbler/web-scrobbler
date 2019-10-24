@@ -489,6 +489,18 @@ const Util = {
 		logFunc(message);
 	},
 
+	fillEmptyKeys(target, source, keys) {
+		if (!source) {
+			return;
+		}
+
+		for (const field of keys) {
+			if (!target[field] && source[field]) {
+				target[field] = source[field];
+			}
+		}
+	},
+
 	/**
 	 * Regular expression used to get Youtube video ID from URL. It covers
 	 * default, shortened and embed URLs.

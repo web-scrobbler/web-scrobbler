@@ -293,6 +293,16 @@ function BaseConnector() {
 	};
 
 	/**
+	 * Get object contains track info.
+	 * See documentation of 'defaultState' variable for supported properties.
+	 *
+	 * Use this function to get several properties per one call.
+	 *
+	 * @return {Object} Track info
+	 */
+	this.getTrackInfo = () => null;
+
+	/**
 	 * Returns a unique identifier of current track. The identifier does not
 	 * have to be in any specific format. The uniqueness is only needed within
 	 * the scope of the connector (values are internally namespaced by connector
@@ -342,55 +352,6 @@ function BaseConnector() {
 		 */
 
 		return true;
-	};
-
-	/**
-	 * Get current state of connector. Used to get all info per one call.
-	 * See documentation of 'defaultState' variable for supported properties.
-	 * @return {Object} Current state
-	 */
-	this.getCurrentState = () => {
-		let newState = {
-			track: this.getTrack(),
-			artist: this.getArtist(),
-			album: this.getAlbum(),
-			albumArtist: this.getAlbumArtist(),
-			uniqueID: this.getUniqueID(),
-			duration: this.getDuration(),
-			currentTime: this.getCurrentTime(),
-			isPlaying: this.isPlaying(),
-			trackArt: this.getTrackArt(),
-			originUrl: this.getOriginUrl(),
-		};
-
-		let artistTrack = this.getArtistTrack() || Util.makeEmptyArtistTrack();
-		if (!newState.artist && artistTrack.artist) {
-			newState.artist = artistTrack.artist;
-		}
-		if (!newState.track && artistTrack.track) {
-			newState.track = artistTrack.track;
-		}
-
-		const remainingTime = Math.abs(this.getRemainingTime());
-		if (remainingTime) {
-			if (!newState.currentTime && newState.duration) {
-				newState.currentTime = newState.duration - remainingTime;
-			}
-
-			if (!newState.duration && newState.currentTime) {
-				newState.duration = newState.currentTime + remainingTime;
-			}
-		}
-
-		let timeInfo = this.getTimeInfo();
-		if (!newState.duration && timeInfo.duration) {
-			newState.duration = timeInfo.duration;
-		}
-		if (!newState.currentTime && timeInfo.currentTime) {
-			newState.currentTime = timeInfo.currentTime;
-		}
-
-		return newState;
 	};
 
 	/**
@@ -734,6 +695,47 @@ function BaseConnector() {
 			}
 			// @endif
 		}
+	};
+
+	/**
+	 * Get current state of connector.
+	 * @return {Object} Current state
+	 */
+	this.getCurrentState = () => {
+		let newState = {
+			track: this.getTrack(),
+			artist: this.getArtist(),
+			album: this.getAlbum(),
+			albumArtist: this.getAlbumArtist(),
+			uniqueID: this.getUniqueID(),
+			duration: this.getDuration(),
+			currentTime: this.getCurrentTime(),
+			isPlaying: this.isPlaying(),
+			trackArt: this.getTrackArt(),
+			originUrl: this.getOriginUrl(),
+		};
+
+		const remainingTime = Math.abs(this.getRemainingTime());
+		if (remainingTime) {
+			if (!newState.currentTime && newState.duration) {
+				newState.currentTime = newState.duration - remainingTime;
+			}
+
+			if (!newState.duration && newState.currentTime) {
+				newState.duration = newState.currentTime + remainingTime;
+			}
+		}
+
+		const timeInfo = this.getTimeInfo();
+		Util.fillEmptyKeys(newState, timeInfo, ['duration', 'currentTime']);
+
+		const artistTrack = this.getArtistTrack();
+		Util.fillEmptyKeys(newState, artistTrack, ['artist', 'track']);
+
+		const trackInfo = this.getTrackInfo();
+		Util.fillEmptyKeys(newState, trackInfo, Object.keys(defaultState));
+
+		return newState;
 	};
 
 	/**
