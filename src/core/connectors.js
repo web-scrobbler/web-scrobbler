@@ -1214,5 +1214,10 @@ define(function() {
 		matches: ['*://wynk.in/music*'],
 		js: 'connectors/wynk.js',
 		id: 'wynk',
+	}, {
+		label: 'Radiojavan',
+		matches: ['*://www.radioJavan.com/*'],
+		js: 'connectors/radiojavan.js',
+		id: 'radiojavan',
 	}];
 });
