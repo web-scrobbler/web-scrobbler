@@ -3,10 +3,14 @@
 [![Chrome Web Store][WebStoreBadge]][WebStore]
 [![AMO][AmoBadge]][Amo]
 [![Gitter][GitterBadge]][Gitter]
+
+
 [![devDependencies status][DavidDmBadge]][DavidDm]
-[![Build status][TravisBadge]][Travis]
+[![Test status][GitHubActionsBadge]][GitHubActions]
 [![Codacy Badge][CodacyBadge]][Codacy]
-[![Maintainability][CodeClimateBadge]][CodeClimate]
+[![Codacy Coverage Badge][CodacyCoverageBadge]][Codacy]
+
+
 
 Web Scrobbler helps online music listeners to scrobble their playback history.
 
@@ -26,7 +30,7 @@ It can be installed directly from [Chrome Web Store][WebStore] with Chrome used.
 
 Opera users can install the extension from Chrome Web Store using the [Download Chrome Extension][DownloadChromeExt] addon for Opera.
 
-### Add-ons for Firefox
+### Addons.mozilla.org
 
 For those who prefer Firefox as a main browser, the extension is available on [AMO][Amo].
 
@@ -40,11 +44,11 @@ Check the [wiki page][WikiDev] to understand development of connectors. Please a
 
 ### Translations
 
-Join our [translation team][Transifex] on Transifex.
+We use Transifex to maintain translations. If you want to translate the extension, follow [this][Translations] wiki page for details.
 
 ### Gitter
 
-We use gitter and you can join us @ [web-scrobbler/web-scrobbler][Gitter].
+We use Gitter and you can join us @ [web-scrobbler/web-scrobbler][Gitter].
 
 ## Used 3rd-party libraries
 
@@ -55,6 +59,10 @@ We use gitter and you can join us @ [web-scrobbler/web-scrobbler][Gitter].
 -   [RequireJS v2.3.5][RequireJs]
 -   [Showdown v1.9.0][Showdown]
 -   [webextension-polyfill v0.4.0][WebextPolyfill]
+
+## Media
+
+Follow [@web_scrobbler][Twitter] on Twitter to receive the latest news and updates.
 
 ## Privacy Policy
 
@@ -67,10 +75,10 @@ See the [license file][License].
 <!-- Badges -->
 [AmoBadge]: https://img.shields.io/amo/v/web-scrobbler.svg
 [CodacyBadge]: https://api.codacy.com/project/badge/Grade/bb2841f875014aaea6a354da6c96bdee
-[CodeClimateBadge]: https://api.codeclimate.com/v1/badges/be3a9f3b266d8a68e1d9/maintainability
+[CodacyCoverageBadge]: https://api.codacy.com/project/badge/Coverage/bb2841f875014aaea6a354da6c96bdee
 [DavidDmBadge]: https://david-dm.org/web-scrobbler/web-scrobbler/dev-status.svg
+[GitHubActionsBadge]: https://github.com/web-scrobbler/web-scrobbler/workflows/test/badge.svg
 [GitterBadge]: https://badges.gitter.im/Join%20Chat.svg
-[TravisBadge]: https://api.travis-ci.org/web-scrobbler/web-scrobbler.svg
 [WebStoreBadge]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg
 
 <!-- Dependencies -->
@@ -87,6 +95,7 @@ See the [license file][License].
 [DocsUnpacked]: https://developer.chrome.com/extensions/getstarted#unpacked
 [License]: https://github.com/web-scrobbler/web-scrobbler/blob/master/LICENSE.md
 [Privacy]: https://github.com/web-scrobbler/web-scrobbler/blob/master/src/_locales/en/privacy.md
+[Translations]: https://github.com/web-scrobbler/web-scrobbler/wiki/Translate-the-extension
 
 <!-- Download -->
 [WebStore]: https://chrome.google.com/webstore/detail/lastfm-scrobbler/hhinaapppaileiechjoiifaancjggfjm
@@ -97,11 +106,10 @@ See the [license file][License].
 
 <!-- Related pages -->
 [Codacy]: https://app.codacy.com/project/web-scrobbler/web-scrobbler/dashboard
-[CodeClimate]: https://codeclimate.com/github/web-scrobbler/web-scrobbler/maintainability
 [DavidDm]: https://david-dm.org/web-scrobbler/web-scrobbler?type=dev
+[GitHubActions]: https://github.com/web-scrobbler/web-scrobbler/actions
 [Gitter]: https://gitter.im/david-sabata/web-scrobbler
-[Transifex]: https://www.transifex.com/web-scrobbler/web-scrobbler/dashboard/
-[Travis]: https://travis-ci.org/web-scrobbler/web-scrobbler
+[Twitter]: https://twitter.com/web_scrobbler
 
 <!-- Services -->
 [LastFm]: http://www.last.fm/

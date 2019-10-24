@@ -30,6 +30,7 @@ define((require) => {
 	const Util = require('util/util');
 	const Inject = require('browser/inject');
 	const Options = require('storage/options');
+	const Migrate = require('util/migrate');
 	const browser = require('webextension-polyfill');
 	const Controller = require('object/controller');
 	const InjectResult = require('object/inject-result');
@@ -419,6 +420,8 @@ define((require) => {
 	 * Called on the extension start.
 	 */
 	async function start() {
+		await Migrate.migrate();
+
 		await updateVersionInStorage();
 		await notifyOfNotableChanges();
 		setupEventListeners();

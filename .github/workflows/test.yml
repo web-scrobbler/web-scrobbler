@@ -1,0 +1,29 @@
+name: test
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      IS_COVERAGE_ALLOWED: ${{ secrets.CODACY_PROJECT_TOKEN != '' }}
+      IS_MASTER_BRANCH: ${{ github.ref == 'refs/heads/master' }}
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - run: yarn install
+    - name: Run linters
+      run: |
+        yarn run lint
+      env:
+        CI: true
+    - name: Run tests
+      run: |
+        if $IS_COVERAGE_ALLOWED && $IS_MASTER_BRANCH; then
+            yarn run test-with-coverage
+            yarn run upload-coverage
+        else
+            yarn run test
+        fi
+      env:
+        CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}

@@ -133,7 +133,7 @@ class MetadataFilter {
 	}
 
 	/**
-	 * Replace non-braking space symbol with space symbol.
+	 * Replace non-breaking space symbol with space symbol.
 	 * @param  {String} text String to be filtered
 	 * @return {String}	Filtered string
 	 */
@@ -178,8 +178,8 @@ class MetadataFilter {
 	 * @return {String} Filtered string
 	 */
 	static youtube(text) {
-		return MetadataFilter.filterWithFilterSet(
-			text, MetadataFilter.YOUTUBE_TRACK_FILTERS
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.YOUTUBE_TRACK_FILTER_RULES
 		);
 	}
 
@@ -189,8 +189,19 @@ class MetadataFilter {
 	 * @return {String} Filtered string
 	 */
 	static removeRemastered(text) {
-		return MetadataFilter.filterWithFilterSet(
-			text, MetadataFilter.REMASTERED_FILTERS
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.REMASTERED_FILTER_RULES
+		);
+	}
+
+	/**
+	 * Remove "(Single|Album|Mono version}"-like strings from the text.
+	 * @param  {String} text String to be filtered
+	 * @return {String} Filtered string
+	 */
+	static removeVersion(text) {
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.VERSION_FILTER_RULES
 		);
 	}
 
@@ -200,8 +211,8 @@ class MetadataFilter {
 	 * @return {String} Filtered string
 	 */
 	static removeLive(text) {
-		return MetadataFilter.filterWithFilterSet(
-			text, MetadataFilter.LIVE_FILTERS
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.LIVE_FILTER_RULES
 		);
 	}
 
@@ -211,8 +222,8 @@ class MetadataFilter {
 	 * @return {String} Filtered string
 	 */
 	static fixTrackSuffix(text) {
-		return MetadataFilter.filterWithFilterSet(
-			text, MetadataFilter.SUFFIX_FILTERS
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.SUFFIX_FILTER_RULES
 		);
 	}
 
@@ -236,7 +247,7 @@ class MetadataFilter {
 	 * @param  {Object} set  Array of replace rules
 	 * @return {String} Filtered string
 	 */
-	static filterWithFilterSet(text, set) {
+	static filterWithFilterRules(text, set) {
 		for (let data of set) {
 			text = text.replace(data.source, data.target);
 		}
@@ -245,18 +256,18 @@ class MetadataFilter {
 	}
 
 	/**
-	 * The filter set is an array that contains replace rules.
+	 * Filter rules are an array that contains replace rules.
 	 *
 	 * Each rule is an object that contains 'source' and 'target' properties.
-	 * 'Source' property is a string or RegEx object which is replaced by
+	 * 'source' property is a string or RegEx object which is replaced by
 	 * 'target' property value.
 	 */
 
 	/**
-	 * Predefined regex-based filter set for Youtube-based connectors.
+	 * Predefined regex-based filter rules for Youtube-based connectors.
 	 * @type {Array}
 	 */
-	static get YOUTUBE_TRACK_FILTERS() {
+	static get YOUTUBE_TRACK_FILTER_RULES() {
 		return [
 			// Trim whitespaces
 			{ source: /^\s+|\s+$/g, target: '' },
@@ -319,22 +330,24 @@ class MetadataFilter {
 	}
 
 	/**
-	 * A regex-based filter set that contains removal rules of "Remastered..."-like
-	 * strings from a text. Used by Spotify and Deezer connectors.
+	 * Filter rules to remove "Remastered..."-like strings from a text.
+	 *
 	 * @type {Array}
 	 */
-	static get REMASTERED_FILTERS() {
+	static get REMASTERED_FILTER_RULES() {
 		return [
 			// Here Comes The Sun - Remastered
 			{ source: /-\sRemastered$/, target: '' },
 			// Hey Jude - Remastered 2015
 			{ source: /-\sRemastered\s\d+$/, target: '' },
 			// Let It Be (Remastered 2009)
-			{ source: /\(Remastered\s\d+\)$/, target: '' },
+			// Red Rain (Remaster 2012)
+			{ source: /\(Remaster(ed)?\s\d+\)$/, target: '' },
 			// Pigs On The Wing (Part One) [2011 - Remaster]
 			{ source: /\[\d+\s-\sRemaster\]$/, target: '' },
 			// Comfortably Numb (2011 - Remaster)
-			{ source: /\(\d+\s-\sRemaster\)$/, target: '' },
+			// Dancing Days (2012 Remaster)
+			{ source: /\(\d+(\s-)?\sRemaster\)$/, target: '' },
 			// Outside The Wall - 2011 - Remaster
 			{ source: /-\s\d+\s-\sRemaster$/, target: '' },
 			// Learning To Fly - 2001 Digital Remaster
@@ -348,11 +361,16 @@ class MetadataFilter {
 			// Mothership (Remastered)
 			// How The West Was Won [Remastered]
 			{ source: /[([]Remastered[)\]]$/, target: '' },
+			// A Well Respected Man (2014 Remastered Version)
+			// A Well Respected Man [2014 Remastered Version]
+			{ source: /[([]\d{4} Re[Mm]astered Version[)\]]$/, target: '' },
+			// She Was Hot (2009 Re-Mastered Digital Version)
+			// She Was Hot (2009 Remastered Digital Version)
+			{ source: /[([]\d{4} Re-?[Mm]astered Digital Version[)\]]$/, target: '' },
 		];
 	}
 
-	static get LIVE_FILTERS() {
-
+	static get LIVE_FILTER_RULES() {
 		return [
 			// Track - Live
 			{ source: /-\sLive?$/, target: '' },
@@ -361,14 +379,39 @@ class MetadataFilter {
 		];
 	}
 
-	static get SUFFIX_FILTERS() {
+	/**
+	 * Filter rules to remove "(Album|Stereo|Mono Version)"-like strings
+	 * from a text.
+	 *
+	 * @type {Array}
+	 */
+	static get VERSION_FILTER_RULES() {
+		return [
+			// Love Will Come To You (Album Version)
+			{ source: /[([]Album Version[)\]]$/, target: '' },
+			// I Melt With You (Rerecorded)
+			// When I Need You [Re-Recorded]
+			{ source: /[([]Re-?recorded[)\]]$/, target: '' },
+			// Your Cheatin' Heart (Single Version)
+			{ source: /[([]Single Version[)\]]$/, target: '' },
+			// All Over Now (Edit)
+			{ source: /[([]Edit[)\]]$/, target: '' },
+			// (I Can't Get No) Satisfaction - Mono Version
+			{ source: /-\sMono Version$/, target: '' },
+			// Ruby Tuesday - Stereo Version
+			{ source: /-\sStereo Version$/, target: '' },
+			// Pure McCartney (Deluxe Edition)
+			{ source: /\(Deluxe Edition\)$/, target: '' },
+		];
+	}
+
+	static get SUFFIX_FILTER_RULES() {
 		return [
 			// "- X Remix" -> "(X Remix)" and similar
 			{ source: /-\s(.+?)\s((Re)?mix|edit|dub|mix|vip|version)$/i, target: '($1 $2)' },
 			{ source: /-\s(Remix|VIP)$/i, target: '($1)' },
 		];
 	}
-
 
 	/**
 	 * Get simple trim filter object used by default in a Connector object.
@@ -405,6 +448,17 @@ class MetadataFilter {
 	}
 
 	/**
+	 * Get predefined filter object that uses 'removeVersion' function.
+	 * @return {MetadataFilter} Filter object
+	 */
+	static getVersionFilter() {
+		return new MetadataFilter({
+			track: MetadataFilter.removeVersion,
+			album: MetadataFilter.removeVersion,
+		});
+	}
+
+	/**
 	 * Get predefined filter object that uses 'removeRemastered' function.
 	 * @return {MetadataFilter} Filter object
 	 */
@@ -418,6 +472,27 @@ class MetadataFilter {
 			album: [
 				MetadataFilter.removeRemastered,
 				MetadataFilter.fixTrackSuffix,
+				MetadataFilter.removeLive,
+			],
+		});
+	}
+
+	/**
+	 * Get predefined filter object that uses 'removeRemastered' function.
+	 * @return {MetadataFilter} Filter object
+	 */
+	static getTidalFilter() {
+		return new MetadataFilter({
+			track: [
+				MetadataFilter.removeRemastered,
+				MetadataFilter.fixTrackSuffix,
+				MetadataFilter.removeVersion,
+				MetadataFilter.removeLive,
+			],
+			album: [
+				MetadataFilter.removeRemastered,
+				MetadataFilter.fixTrackSuffix,
+				MetadataFilter.removeVersion,
 				MetadataFilter.removeLive,
 			],
 		});

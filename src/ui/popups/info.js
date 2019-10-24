@@ -113,6 +113,16 @@ require([
 		$('#album-art').css('background-image', `url("${getCoverArt()}")`);
 	}
 
+	function fillUserPlayCount() {
+		const playCount = getUserPlayCount();
+		if (playCount === 0) {
+			$('.user-play-count').hide();
+		} else {
+			$('.user-play-count').show();
+			$('#userPlayCountLabel').text(i18n('infoYourScrobbles', playCount));
+		}
+	}
+
 	function getTrackInfo() {
 		let trackInfo = {};
 		for (let field of EDITED_TRACK_FIELDS) {
@@ -203,6 +213,21 @@ require([
 		});
 	}
 
+	// @ifdef DEBUG
+	function fillDebugInfo() {
+		const songStr = JSON.stringify(song, null, 2);
+		$('#debug').text(songStr);
+	}
+
+	function configDebugControls() {
+		$('body').click((e) => {
+			if (e.shiftKey) {
+				$('#debug-container').show();
+			}
+		});
+	}
+	// @endif
+
 	function updateLovedIcon(isLoved) {
 		$('#love').attr('last-fm-loved', isLoved);
 		$('#love').attr('title', i18n(isLoved ? 'infoUnlove' : 'infoLove'));
@@ -211,11 +236,17 @@ require([
 	function updatePopupView() {
 		fillMetadataLabels(getTrackInfo());
 		fillAlbumCover();
+		fillUserPlayCount();
 
 		configControls();
 		updateControls();
 
 		updateLovedIcon(song.metadata.userloved);
+
+		// @ifdef DEBUG
+		fillDebugInfo();
+		configDebugControls();
+		// @endif
 	}
 
 	function updateControls() {
@@ -299,6 +330,10 @@ require([
 	function getCoverArt() {
 		return song.parsed.trackArt || song.metadata.artistThumbUrl ||
 			'/icons/cover_art_default.png';
+	}
+
+	function getUserPlayCount() {
+		return song.metadata.userPlayCount || 0;
 	}
 
 	function swapTitleAndArtist() {

@@ -47,6 +47,14 @@
         "message": "Scrobble podcasts on Google Music",
         "description": "Option label"
     },
+    "optionTdlShortTrackNames": {
+        "message": "Use short track names",
+        "description": "Option title"
+    },
+    "optionTdlShortTrackNamesTitle": {
+        "message": "Tidal provides shortened track names for certain tracks (without \"Remastered\", etc.)",
+        "description": ""
+    },
     "optionYtDesc": {
         "message": "如果您关闭了这两个选项，该扩展程序将会对所有类别的 Youtube 视频追踪播放记录。",
         "description": "Description of Youtube options"
@@ -102,6 +110,10 @@
     "optionsEditedTracksDesc": {
         "message": "该扩展储存已编辑曲目。",
         "description": "Description of edited tracks"
+    },
+    "optionsEditedTracksPopupTitle": {
+        "message": "$1 edited tracks",
+        "description": "'Edited tracks' header"
     },
     "optionsViewEdited": {
         "message": "查看",
@@ -252,7 +264,7 @@
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
-        "message": "Web Scrobbler 是为了通过浏览器在线听音乐、并希望使用 Last.fm 来追踪播放历史记录的人而创建的。",
+        "message": "Web Scrobbler is a browser extension created for people who listen to music online through their browser, and would like to keep an updated playback history using scrobbling services, such as Last.fm, Libre.fm and ListenBrainz.",
         "description": "'About' section text"
     },
     "contributorsTitle": {
@@ -447,6 +459,10 @@
         "message": "专辑 （可选）",
         "description": "Placeholder of album input"
     },
+    "infoAlbumArtistPlaceholder": {
+        "message": "Album artist (optional)",
+        "description": "Placeholder of album artist input"
+    },
     "infoViewArtistPage": {
         "message": "查看艺术家页面",
         "description": "Placeholder of album input"
@@ -499,6 +515,14 @@
         "message": "Web Scrobbler 未支持本网站",
         "description": "`unsupported` page action title"
     },
+    "pageActionLoved": {
+        "message": "You loved $1",
+        "description": "`unsupported` page action title"
+    },
+    "pageActionUnloved": {
+        "message": "You unloved $1",
+        "description": "`unsupported` page action title"
+    },
     "menuDisableConnector": {
         "message": "禁用 $1 接口",
         "description": "Context menu item"
@@ -534,6 +558,46 @@
     "notificationNotRecognizedText": {
         "message": "点击扩展列中的图标来更正和提交曲目信息。",
         "description": "Notification text"
+    },
+    "startupTitle": {
+        "message": "Welcome to Web Scrobbler!",
+        "description": "Title for startup page"
+    },
+    "startupIntroTitle": {
+        "message": "Thanks for choosing to install Web Scrobbler!",
+        "description": "Startup intro title"
+    },
+    "startupIntroText": {
+        "message": "Before we can begin to scrobble all your music, you must first review and opt in (or out) to our privacy policy.",
+        "description": "Startup intro text"
+    },
+    "startupFinished": {
+        "message": "Thanks! If you change your mind you can change this in the options.",
+        "description": "Startup finished text"
+    },
+    "optIn": {
+        "message": "Opt In",
+        "description": "Opt in"
+    },
+    "optOut": {
+        "message": "Opt out",
+        "description": "Opt out"
+    },
+    "hotkeyToggleConnector": {
+        "message": "Toggle scrobbling for current website",
+        "description": "Hotkey label"
+    },
+    "hotkeyDisableConnectorUntilClosed": {
+        "message": "Disable scrobbling for current website until tab is closed",
+        "description": "Hotkey label"
+    },
+    "hotkeyLoveSong": {
+        "message": "Love now playing song",
+        "description": "Hotkey label"
+    },
+    "hotkeyUnloveSong": {
+        "message": "Unlove now playing song",
+        "description": "Hotkey label"
     },
     "extDescription": {
         "message": "追踪全网音乐播放记录！",

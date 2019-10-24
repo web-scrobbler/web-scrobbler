@@ -11,41 +11,52 @@
 	<script type="text/javascript" src="/ui/popups/info.js"></script>
 	<script type="text/javascript" src="/core/i18n.js"></script>
 
+	<link rel="stylesheet" href="/vendor/fontawesome/css/brands.min.css">
 	<link rel="stylesheet" href="/ui/popups/info.css" />
 </head>
 
 <body>
-	<div id="wrapper">
-		<div id="album-art" i18n-title="infoOpenAlbumArt">&nbsp;</div>
-		<div id="info">
-			<div class="track" >
-				<a id="track" href="#" target="_blank"></a>
+	<div class="container">
+		<div class="info">
+			<div id="album-art" i18n-title="infoOpenAlbumArt">&nbsp;</div>
+			<div id="info">
+				<div class="track" >
+					<a id="track" href="#" target="_blank"></a>
+				</div>
+				<div class="artist">
+					<a id="artist" href="#" target="_blank"></a>
+				</div>
+				<div class="album">
+					<a id="album" href="#" target="_blank"></a>
+				</div>
+				<div class="albumArtist">
+					<a id="albumArtist" href="#" target="_blank"></a>
+				</div>
+				<div class="user-play-count">
+					<span id="userPlayCountLabel"></span>
+				</div>
 			</div>
-			<div class="artist">
-				<a id="artist" href="#" target="_blank"></a>
+			<div id="edit" data-hide="true">
+				<input type="text" id="track-input" i18n-placeholder="infoTrackPlaceholder" i18n-title="infoTrackPlaceholder" tabindex="1" />
+				<input type="text" id="artist-input" i18n-placeholder="infoArtistPlaceholder" i18n-title="infoArtistPlaceholder" tabindex="2" />
+				<input type="text" id="album-input" i18n-placeholder="infoAlbumPlaceholder" i18n-title="infoAlbumPlaceholder" tabindex="3" />
+				<input type="text" id="albumArtist-input" i18n-placeholder="infoAlbumArtistPlaceholder" i18n-title="infoAlbumArtistPlaceholder" tabindex="4" />
 			</div>
-			<div class="album">
-				<a id="album" href="#" target="_blank"></a>
+			<div id="edit-controls">
+				<button id="edit-link" class="control-btn"></button>
+				<button id="swap-link" class="control-btn"></button>
+				<button id="revert-link" class="control-btn"></button>
+				<button id="skip-link" class="control-btn"></button>
 			</div>
-			<div class="albumArtist">
-				<a id="albumArtist" href="#" target="_blank"></a>
+			<div id="scrobble-controls">
+				<div id="love"></div>
 			</div>
 		</div>
-		<div id="edit" data-hide="true">
-			<input type="text" id="track-input" i18n-placeholder="infoTrackPlaceholder" i18n-title="infoTrackPlaceholder" tabindex="1" />
-			<input type="text" id="artist-input" i18n-placeholder="infoArtistPlaceholder" i18n-title="infoArtistPlaceholder" tabindex="2" />
-			<input type="text" id="album-input" i18n-placeholder="infoAlbumPlaceholder" i18n-title="infoAlbumPlaceholder" tabindex="3" />
-			<input type="text" id="albumArtist-input" i18n-placeholder="infoAlbumArtistPlaceholder" i18n-title="infoAlbumArtistPlaceholder" tabindex="4" />
+		<!-- @ifdef DEBUG -->
+		<div id="debug-container">
+			<pre id="debug"></pre>
 		</div>
-		<div id="edit-controls">
-			<button id="edit-link" class="control-btn"></button>
-			<button id="swap-link" class="control-btn"></button>
-			<button id="revert-link" class="control-btn"></button>
-			<button id="skip-link" class="control-btn"></button>
-		</div>
-		<div id="scrobble-controls">
-			<div id="love"></div>
-		</div>
+		<!-- @endif -->
 	</div>
 </body>
 

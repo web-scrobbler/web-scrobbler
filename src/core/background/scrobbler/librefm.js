@@ -6,27 +6,18 @@
 define((require) => {
 	const $ = require('jquery');
 	const AudioScrobbler = require('scrobbler/audioscrobbler');
-	const ServiceCallResult = require('object/service-call-result');
 
 	class LibreFm extends AudioScrobbler {
 		/** @override */
-		sendRequest(method, params, signed) {
-			if ('post' !== method.toLowerCase()) {
-				return super.sendRequest(method, params, signed);
+		async sendRequest(options, params, signed) {
+			if ('post' === options.method.toLowerCase()) {
+				options.headers = {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				};
+				options.body = $.param(params);
 			}
 
-			const url = this.makeRequestUrl(params, signed);
-
-			return new Promise((resolve, reject) => {
-				$.post(url, $.param(params)).done((xmlDoc) => {
-					let text = new XMLSerializer().serializeToString(xmlDoc);
-					this.debugLog(`${params.method} response:\n${text}`);
-					resolve($(xmlDoc));
-				}).fail((jqXHR, status, text) => {
-					this.debugLog(`${params.method} response:\n${text}`, 'error');
-					reject(new ServiceCallResult(ServiceCallResult.ERROR_OTHER));
-				});
-			});
+			return super.sendRequest(options, params, signed);
 		}
 	}
 

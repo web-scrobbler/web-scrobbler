@@ -179,7 +179,7 @@ define((require) => {
 		}
 
 		let options = {
-			iconUrl: browser.runtime.getURL('icons/question.png'),
+			iconUrl: browser.runtime.getURL('icons/cover_art_unknown.png'),
 			title: i18n('notificationNotRecognized'),
 			message: i18n('notificationNotRecognizedText')
 		};

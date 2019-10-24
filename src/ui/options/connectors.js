@@ -16,7 +16,7 @@ define((require) => {
 		const disabledConnectors =
 			await Options.getOption(Options.DISABLED_CONNECTORS);
 		const toggleCheckboxState =
-			disabledConnectors.length !== sortedConnectors.length;
+			Object.keys(disabledConnectors).length !== sortedConnectors.length;
 
 		sortedConnectors.forEach((connector, index) => {
 			const newEl = $(`
@@ -35,7 +35,7 @@ define((require) => {
 			checkbox.click(function() {
 				Options.setConnectorEnabled(connector, this.checked);
 			});
-			const isConnectorEnabled = !disabledConnectors.includes(connector.label);
+			const isConnectorEnabled = !(connector.id in disabledConnectors);
 			checkbox.attr('checked', isConnectorEnabled);
 		});
 

@@ -3,7 +3,7 @@
 /**
  * Artist, "Title"
  * Land of Talk, "What Was I Thinking?"
- * @type {RegEx}
+ * @type {Object}
  */
 const titleRegEx = /(.+?),\s["'](.+)["']/;
 

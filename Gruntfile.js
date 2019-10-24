@@ -11,11 +11,15 @@ const BUILD_DIR = 'build';
 const PACKAGE_FILE = 'web-scrobbler.zip';
 const MANIFEST_FILE = 'src/manifest.json';
 
+const FILES_TO_PREPROCESS = [
+	`${BUILD_DIR}/**/*.js`, `${BUILD_DIR}/**/*.css`, `${BUILD_DIR}/**/*.html`
+];
+
 // Files to build package
 const EXTENSION_SRC = [
 	'**/*',
-	// Skip files
-	'!icons/*.svg',
+	// Skip SVG except love-controls iconset
+	'!icons/*.svg', 'icons/love_controls.svg'
 ];
 const EXTENSION_DOCS = [
 	'README.md', 'LICENSE.md'
@@ -39,7 +43,7 @@ const DOC_FILES = [
 	'*.md', '.github/**/*.md',
 ];
 
-const isTravisCi = (process.env.TRAVIS === 'true');
+const isCi = (process.env.CI === 'true');
 
 module.exports = (grunt) => {
 	grunt.initConfig({
@@ -95,7 +99,7 @@ module.exports = (grunt) => {
 		},
 		preprocess: {
 			firefox: {
-				src: `${BUILD_DIR}/**/*.js`,
+				src: FILES_TO_PREPROCESS,
 				expand: true,
 				options: {
 					inline: true,
@@ -105,7 +109,7 @@ module.exports = (grunt) => {
 				}
 			},
 			chrome: {
-				src: `${BUILD_DIR}/**/*.js`,
+				src: FILES_TO_PREPROCESS,
 				expand: true,
 				options: {
 					inline: true,
@@ -154,7 +158,7 @@ module.exports = (grunt) => {
 			}
 		},
 		github_release: {
-			token: process.env.GITHUB_TOKEN,
+			token: process.env.GH_TOKEN,
 			version: '<%= manifest.version %>',
 		},
 		amo_upload: {
@@ -189,7 +193,7 @@ module.exports = (grunt) => {
 			target: JS_FILES,
 			options: {
 				configFile: '.eslintrc.js',
-				fix: !isTravisCi
+				fix: !isCi
 			},
 		},
 		jsonlint: {
@@ -300,14 +304,16 @@ module.exports = (grunt) => {
 			grunt.fail.fatal('You should specify release type!');
 		}
 
-		let releaseTasks = [`bump:${releaseType}`, 'github_release'];
+		let releaseTasks = [`bump:${releaseType}`];
 
 		if (releaseType2) {
 			if (releaseType2 !== 'local') {
 				grunt.fail.fatal(`Unknown release type: ${releaseType2}`);
 			}
 
-			const publishTasks = ['publish:chrome', 'publish:firefox'];
+			const publishTasks = [
+				'publish:chrome', 'publish:firefox', 'github_release'
+			];
 			releaseTasks = releaseTasks.concat(publishTasks);
 		}
 
@@ -339,7 +345,8 @@ module.exports = (grunt) => {
 	 * Lint source code using linters specified below.
 	 */
 	grunt.registerTask('lint', [
-		'eslint', 'jsonlint', 'lintspaces', 'stylelint', 'remark',
+		'eslint', 'jsonlint', 'lintspaces',
+		'stylelint', 'remark', 'unused_files',
 	]);
 
 	/**

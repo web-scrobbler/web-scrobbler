@@ -5,6 +5,12 @@
  */
 
 const Util = {
+	/**
+	 * Regular expression used to split artist and track.
+	 * @type {Object}
+	 */
+	soundCloudArtistTrackRe: /(.+)\s[-:\u2013\u2014\u2015]\s(.+)/,
+
 	youtubeTitleRegExps: [
 		// Artist "Track", Artist: "Track", Artist - "Track", etc.
 		{
@@ -58,6 +64,31 @@ const Util = {
 		}
 
 		return { artist, track };
+	},
+
+	/**
+	 * Extract artist and track from SoundCloud track title.
+	 * @param  {String} track SoundCloud track title
+	 * @return {Object} Object contains artist and track fields
+	 */
+	processSoundCloudTrack(track) {
+		/*
+		 * Sometimes the artist name is in the track title,
+		 * e.g. Tokyo Rose - Zender Overdrive by Aphasia Records.
+		 */
+		const match = this.soundCloudArtistTrackRe.exec(track);
+
+		/*
+		 * But don't interpret patterns of the form
+		 * "[Start of title] #1234 - [End of title]" as Artist - Title
+		 */
+		if (match && ! /.*#\d+.*/.test(match[1])) {
+			return {
+				artist: match[1], track: match[2]
+			};
+		}
+
+		return { artist: null, track };
 	},
 
 	/**
@@ -374,6 +405,31 @@ const Util = {
 		}
 
 		return defaultValue;
+	},
+
+	/**
+	 * Extract image URL from first available element defined by CSS selector.
+	 * @param  {Object} selectors Single selector or array of selectors
+	 * @return {String} Track art URL
+	 */
+	extractImageUrlFromSelectors(selectors) {
+		const element = Util.queryElements(selectors);
+		if (!element) {
+			return null;
+		}
+
+		let trackArtUrl = element.attr('src');
+		if (!trackArtUrl) {
+			const cssProperties = ['background-image', 'background'];
+			for (const property of cssProperties) {
+				const propertyValue = element.css(property);
+				if (propertyValue) {
+					trackArtUrl = this.extractUrlFromCssProperty(propertyValue);
+				}
+			}
+		}
+
+		return this.normalizeUrl(trackArtUrl);
 	},
 
 	/**

@@ -17,6 +17,9 @@ define((require) => {
 		GoogleMusic: {
 			'#gm-podcasts': 'scrobblePodcasts'
 		},
+		Tidal: {
+			'#tdl-short-track-names': 'useShortTrackNames'
+		},
 		YouTube: {
 			'#yt-music-only': 'scrobbleMusicOnly',
 			'#yt-entertainment-only': 'scrobbleEntertainmentOnly',

@@ -1,0 +1,41 @@
+name: deploy
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '12.x'
+    - run: yarn install
+    - name: Deploy the extension
+      run: |
+        yarn run grunt publish:chrome
+        yarn run grunt publish:firefox
+        yarn run grunt github_release
+      env:
+        AMO_ISSUER: ${{ secrets.AMO_ISSUER }}
+        AMO_SECRET: ${{ secrets.AMO_SECRET }}
+        CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
+        CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
+        CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
+    - name: Publish release on GitHub
+      run: |
+        yarn run grunt github_release
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Request website update
+      run: |
+        TAG=echo $GITHUB_REF | cut -f 3 -d "/"
+        curl -X POST \
+            -H "Authorization: token ${GH_FA_TOKEN}" \
+            -H 'Accept: application/vnd.github.everest-preview+json' \
+            -d '{"event_type":"$TAG"}' \
+            https://api.github.com/repos/${WEBSITE_REPO}/dispatches
+      env:
+        GH_FA_TOKEN: ${{ secrets.GH_FA_TOKEN }}
+        WEBSITE_REPO: web-scrobbler/web-scrobbler.github.io
