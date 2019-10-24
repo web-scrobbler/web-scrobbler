@@ -1215,8 +1215,8 @@ define(function() {
 		js: 'connectors/wynk.js',
 		id: 'wynk',
 	}, {
-		label: 'Radiojavan',
-		matches: ['*://www.radioJavan.com/*'],
+		label: 'RadioJavan',
+		matches: ['*://www.radiojavan.com/*'],
 		js: 'connectors/radiojavan.js',
 		id: 'radiojavan',
 	}];
