@@ -16,15 +16,11 @@ Connector.remainingTimeSelector = '#apple-music-current-playback-time-remaining'
 
 Connector.trackSelector = '.web-chrome-playback-lcd__song-name-scroll-inner-text-wrapper';
 
-Connector.getArtist = () => getArtistAlbum().artist;
-
-Connector.getAlbum = () => getArtistAlbum().album;
-
-function getArtistAlbum() {
+Connector.getTrackInfo = () => {
 	const artistAlbum = Util.getTextFromSelectors(artistAlbumSelector);
 	const [artist, album] = Util.splitString(
 		artistAlbum, [ARTISTALBUM_SEPARATOR]
 	);
 
 	return { artist, album };
-}
+};

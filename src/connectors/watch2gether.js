@@ -1,29 +1,10 @@
 'use strict';
 
-const trackInfo = {};
+Connector.playerSelector = '.w2g-player';
 
 Connector.playButtonSelector = '.w2g-player .play';
 
-Connector.getArtistTrack = () => trackInfo.artistTrack;
-
-Connector.getUniqueID = () => trackInfo.uniqueId;
-
-Connector.timeInfoSelector = '.player-time';
-
-Connector.applyFilter(MetadataFilter.getYoutubeFilter());
-
-function setupObserver() {
-	const playerContainer = document.querySelector('.w2g-player');
-	const observer = new MutationObserver(updateState);
-
-	observer.observe(playerContainer, {
-		childList: true,
-		subtree: true,
-		attributes: true
-	});
-}
-
-function updateState() {
+Connector.getTrackInfo = () => {
 	const chatProviderItems = document.querySelectorAll('.w2g-chat-provider');
 	const chatProviderItem = [...chatProviderItems].filter((chatItem) => {
 		// Skip items w/o additional classes
@@ -31,7 +12,7 @@ function updateState() {
 	}).pop();
 
 	if (!chatProviderItem) {
-		return;
+		return {};
 	}
 
 	const chatTextItem = chatProviderItem.nextElementSibling;
@@ -40,11 +21,16 @@ function updateState() {
 	const title = chatTextItem.textContent;
 	const url = chatTextItem.href;
 
-	trackInfo.artistTrack = Util.processYoutubeVideoTitle(title);
-	trackInfo.uniqueId = getVideoId(type, url);
+	const { artist, track } = Util.processYoutubeVideoTitle(title);
+	const uniqueID = getVideoId(type, url);
 
-	Connector.onStateChanged();
-}
+	return { artist, track, uniqueID };
+
+};
+
+Connector.timeInfoSelector = '.player-time';
+
+Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 
 function getVideoId(type, url) {
 	switch (type) {
@@ -54,5 +40,3 @@ function getVideoId(type, url) {
 
 	return `${type}:${url}`;
 }
-
-setupObserver();

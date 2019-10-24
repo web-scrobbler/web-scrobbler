@@ -3,18 +3,21 @@
 const deezerFilter = MetadataFilter.getRemasteredFilter().extend(
 	MetadataFilter.getDoubleTitleFilter());
 
-let state = {};
+let trackInfo = {};
+let isPlaying = false;
 
-Connector.isPlaying = () => state.isPlaying;
+Connector.isPlaying = () => isPlaying;
 
-Connector.getCurrentState = () => state;
+Connector.getTrackInfo = () => trackInfo;
 
 Connector.applyFilter(deezerFilter);
 
 Connector.onScriptEvent = (e) => {
 	switch (e.data.type) {
 		case 'DEEZER_STATE':
-			state = e.data.state;
+			trackInfo = e.data.trackInfo;
+			isPlaying = e.data.isPlaying;
+
 			Connector.onStateChanged();
 			break;
 		default:

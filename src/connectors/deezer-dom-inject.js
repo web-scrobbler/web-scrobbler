@@ -27,11 +27,12 @@ function sendEvent() {
 	window.postMessage({
 		sender: 'web-scrobbler',
 		type: 'DEEZER_STATE',
-		state: getState()
+		trackInfo: getTrackInfo(),
+		isPlaying: isPlaying(),
 	}, '*');
 }
 
-function getState() {
+function getTrackInfo() {
 	const player = window.dzPlayer;
 	const item = player.getCurrentSong();
 
@@ -42,9 +43,12 @@ function getState() {
 		duration: player.getDuration(),
 		currentTime: player.getPosition(),
 		uniqueID: item.SNG_ID,
-		isPlaying: player.isPlaying(),
 		trackArt: getTrackArt(item.ALB_PICTURE)
 	};
+}
+
+function isPlaying() {
+	return window.dzPlayer.isPlaying();
 }
 
 function getTrackArt(pic) {

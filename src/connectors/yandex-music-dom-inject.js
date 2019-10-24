@@ -13,11 +13,12 @@ function onEvent() {
 	window.postMessage({
 		sender: 'web-scrobbler',
 		type: 'YANDEX_MUSIC_STATE',
-		state: getState()
+		trackInfo: getTrackInfo(),
+		isPlaying: YandexAPI.isPlaying(),
 	}, '*');
 }
 
-function getState() {
+function getTrackInfo() {
 	const trackInfo = YandexAPI.getCurrentTrack();
 
 	let track = trackInfo.title;
@@ -39,6 +40,5 @@ function getState() {
 		duration: trackInfo.duration,
 		currentTime: YandexAPI.getProgress().position,
 		uniqueID: trackInfo.link,
-		isPlaying: YandexAPI.isPlaying(),
 	};
 }

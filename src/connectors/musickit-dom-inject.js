@@ -25,11 +25,12 @@ function sendEvent() {
 	window.postMessage({
 		sender: 'web-scrobbler',
 		type: 'MUSICKIT_STATE',
-		state: getState(),
+		trackInfo: getTrackInfo(),
+		isPlaying: isPlaying()
 	}, '*');
 }
 
-function getState() {
+function getTrackInfo() {
 	const item = player().nowPlayingItem;
 	return {
 		album: item.albumName,
@@ -38,7 +39,10 @@ function getState() {
 		trackArt: item.artworkURL,
 		duration: player().currentPlaybackDuration,
 		uniqueID: item.id,
-		isPlaying: player().isPlaying,
 		currentTime: player().currentPlaybackTime,
 	};
+}
+
+function isPlaying() {
+	return player().isPlaying;
 }

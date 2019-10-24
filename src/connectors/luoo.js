@@ -87,15 +87,11 @@ function setupSearchPlayer() {
 		return this.getCurrentItem().find('.rs-pic').attr('src');
 	};
 
-	Connector.getAlbumArtist = function() {
+	Connector.getTrackInfo = () => {
 		let text = this.getCurrentItem().find('.content').text();
 		let [album, artist] = text.trim().split(', ').map((text) => text.replace(/^\S+\s/g, '')) || Array(2).fill(null);
 		return { album, artist };
 	};
-
-	Connector.getAlbum = () => Connector.getAlbumArtist().album;
-
-	Connector.getArtist = () => Connector.getAlbumArtist().artist;
 
 	Connector.getUniqueID = () => Connector.getCurrentItem().data('id');
 }

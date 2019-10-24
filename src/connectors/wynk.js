@@ -14,15 +14,11 @@ Connector.durationSelector = '.timeUpdate .timeEnd';
 
 Connector.trackSelector = '.playerinfo-lhs .dark-text-color';
 
-Connector.getArtist = () => getArtistAlbum().artist;
-
-Connector.getAlbum = () => getArtistAlbum().album;
-
-function getArtistAlbum() {
+Connector.getTrackInfo = () => {
 	const artistAlbum = Util.getTextFromSelectors(artistAlbumSelector);
 	const [artist, album] = Util.splitString(
 		artistAlbum, [ARTISTALBUM_SEPARATOR]
 	);
 
 	return { artist, album };
-}
+};
