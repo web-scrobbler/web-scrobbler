@@ -1219,5 +1219,10 @@ define(function() {
 		matches: ['*://www.radiojavan.com/*'],
 		js: 'connectors/radiojavan.js',
 		id: 'radiojavan',
+	}, {
+		label: 'Audiomack',
+		matches: ['*://audiomack.com/*'],
+		js: 'connectors/audiomack.js',
+		id: 'audiomack',
 	}];
 });
