@@ -419,10 +419,7 @@ class MetadataFilter {
 	 */
 	static getDefaultFilter() {
 		return new MetadataFilter({
-			artist: [MetadataFilter.trim, MetadataFilter.replaceNbsp],
-			track: [MetadataFilter.trim, MetadataFilter.replaceNbsp],
-			album: [MetadataFilter.trim, MetadataFilter.replaceNbsp],
-			albumArtist: [MetadataFilter.trim, MetadataFilter.replaceNbsp],
+			all: [MetadataFilter.trim, MetadataFilter.replaceNbsp],
 		});
 	}
 
