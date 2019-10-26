@@ -49,7 +49,7 @@
   "scripts": {
     "lint": "grunt lint",
     "test": "grunt test",
-    "test-with-coverage": "nyc --reporter lcovonly --cache-dir .nyc_cache -x 'tests/**' grunt test",
+    "test-with-coverage": "nyc --reporter lcovonly --cache-dir .nyc_cache grunt test",
     "upload-coverage": "cat ./coverage/lcov.info | codacy-coverage && rm -rf ./coverage"
   },
   "license": "MIT"

@@ -1,0 +1,6 @@
+ coverage:
+   exclude_paths:
+     - tests/**
+ duplication:
+   exclude_paths:
+     - tests/**
