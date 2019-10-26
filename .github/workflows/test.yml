@@ -1,7 +1,8 @@
-name: test
+name: Test
 on: [push, pull_request]
 jobs:
   test:
+    name: Run linters and tests
     runs-on: ubuntu-latest
     env:
       IS_COVERAGE_ALLOWED: ${{ secrets.CODACY_PROJECT_TOKEN != '' }}

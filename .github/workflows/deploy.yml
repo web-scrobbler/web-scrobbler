@@ -1,10 +1,11 @@
-name: deploy
+name: Deploy
 on:
   push:
     tags:
       - 'v*.*.*'
 jobs:
   deploy:
+    name: Deploy the extension
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
