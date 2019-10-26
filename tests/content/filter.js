@@ -674,6 +674,33 @@ function testExtendedFilter() {
 }
 
 /**
+ * Test extended filter.
+ */
+function testAppendFilterSet() {
+	const func1 = chai.spy();
+	const func2 = chai.spy();
+
+	const filter1 = new MetadataFilter({ all: func1 });
+	const filterSet2 = { all: func2 };
+
+	const filter = filter1.append(filterSet2);
+
+	for (const field of ['artist', 'track', 'album']) {
+		describe(`${field} field`, () => {
+			filter.filterField(field, 'Test');
+
+			it('should call filter function of filter 1', () => {
+				expect(func1).to.have.been.called();
+			});
+
+			it('should call filter function of filter 2', () => {
+				expect(func2).to.have.been.called();
+			});
+		});
+	}
+}
+
+/**
  * Function that should not be called.
  * @throws {Error} if is called
  */
@@ -694,6 +721,10 @@ function runTests() {
 
 	describe('Extended filter', () => {
 		testExtendedFilter();
+	});
+
+	describe('Append filter set', () => {
+		testAppendFilterSet();
 	});
 }
 
