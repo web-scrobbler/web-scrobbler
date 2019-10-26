@@ -1,0 +1,6 @@
+exclude:
+  - '.grunt/**'
+  - 'tests/**'
+  - '*.js'
+reporter: lcovonly
+cache-dir: .nyc_cache
