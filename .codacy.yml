@@ -1,10 +1,12 @@
- coverage:
-   enabled: true
-   exclude_paths:
-     - 'tests/**'
-     - 'src/vendor/**'
- duplication:
-   enabled: true
-   exclude_paths:
-     - 'tests/**'
-     - 'src/vendor/**'
+engines:
+   coverage:
+      enabled: true
+      exclude_paths:
+        - 'tests/**'
+   duplication:
+      enabled: true
+      exclude_paths:
+        - 'tests/**'
+
+exclude_paths:
+  - 'src/vendor/**'
