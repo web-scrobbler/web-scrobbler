@@ -48,3 +48,12 @@ function isAlbum() {
 
 	return false;
 }
+
+Connector.getTrackArt = () => {
+	const trackArt = $('.avatar-container img').attr('src');
+	if (!trackArt) {
+		return null;
+	}
+	const endIdx = trackArt.includes('?') ? trackArt.indexOf('?') : trackArt.length;
+	return trackArt.substr(0, endIdx);
+};
