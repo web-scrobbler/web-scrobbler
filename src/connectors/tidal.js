@@ -4,7 +4,7 @@ let useShortTrackNames = false;
 
 readConnectorOptions();
 
-Connector.playerSelector = '[class^="nowPlaying"]';
+Connector.playerSelector = '#nowPlaying';
 
 Connector.playButtonSelector = `${Connector.playerSelector} [class*="playbackToggle"]`;
 
