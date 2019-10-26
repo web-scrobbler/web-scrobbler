@@ -36,8 +36,8 @@ const FILTER_NULL_DATA = [{
  */
 const DEFAULT_TEST_DATA = [{
 	description: 'should do nothing with clean string',
-	source: 'Track Title',
-	expected: 'Track Title'
+	source: 'Track Metafield',
+	expected: 'Track Metafield'
 }, {
 	description: 'should trim whitespaces',
 	source: '  Track Metafield  ',
