@@ -102,7 +102,7 @@ class MetadataFilter {
      * @param {Object} filterSet Set of filters
 	 */
 	appendFilters(filterSet) {
-		for (let field of ['artist', 'track', 'album', 'albumArtist']) {
+		for (let field of MetadataFilter.ALL_FIELDS) {
 			if (this.mergedFilterSet[field] === undefined) {
 				this.mergedFilterSet[field] = [];
 			}
@@ -117,6 +117,10 @@ class MetadataFilter {
 					.concat(this.createFilters(filterSet.all));
 			}
 		}
+	}
+
+	static get ALL_FIELDS() {
+		return ['artist', 'track', 'album', 'albumArtist'];
 	}
 
 	/**

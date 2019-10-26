@@ -582,12 +582,12 @@ const FIX_REMIX_SUFFIX_TEST_DATA = [{
 const FILTERS_DATA = [{
 	description: 'Base filter',
 	filter: new MetadataFilter({ all: shouldNotBeCalled }),
-	fields: ['artist', 'track', 'album'],
+	fields: MetadataFilter.ALL_FIELDS,
 	testData: FILTER_NULL_DATA,
 }, {
 	description: 'Trim filter',
 	filter: MetadataFilter.getDefaultFilter(),
-	fields: ['artist', 'track', 'album'],
+	fields: MetadataFilter.ALL_FIELDS,
 	testData: DEFAULT_TEST_DATA,
 }, {
 	description: 'Youtube filter',
@@ -607,12 +607,12 @@ const FILTERS_DATA = [{
 }, {
 	description: 'removeZeroWidth',
 	filter: new MetadataFilter({ all: MetadataFilter.removeZeroWidth }),
-	fields: ['artist', 'track', 'album'],
+	fields: MetadataFilter.ALL_FIELDS,
 	testData: REMOVE_ZERO_WIDTH_TEST_DATA,
 }, {
 	description: 'decodeHtmlEntities',
 	filter: new MetadataFilter({ all: MetadataFilter.decodeHtmlEntities }),
-	fields: ['artist', 'track', 'album'],
+	fields: MetadataFilter.ALL_FIELDS,
 	testData: DECODE_HTML_ENTITIES_TEST_DATA,
 }, {
 	description: 'removeDoubleTitle',
@@ -658,7 +658,7 @@ function testExtendedFilter() {
 
 	const filter = filter1.extend(filter2);
 
-	for (const field of ['artist', 'track', 'album']) {
+	for (const field of MetadataFilter.ALL_FIELDS) {
 		describe(`${field} field`, () => {
 			filter.filterField(field, 'Test');
 
@@ -685,7 +685,7 @@ function testAppendFilterSet() {
 
 	const filter = filter1.append(filterSet2);
 
-	for (const field of ['artist', 'track', 'album']) {
+	for (const field of MetadataFilter.ALL_FIELDS) {
 		describe(`${field} field`, () => {
 			filter.filterField(field, 'Test');
 
