@@ -101,7 +101,7 @@ Connector.getUniqueID = () => {
 };
 
 Connector.isScrobblingAllowed = () => {
-	if ($('.videoAdUi').length > 0) {
+	if ($('.ad-showing').length > 0) {
 		return false;
 	}
 
