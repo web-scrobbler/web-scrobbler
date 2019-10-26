@@ -414,7 +414,7 @@ class MetadataFilter {
 	}
 
 	/**
-	 * Get simple trim filter object used by default in a Connector object.
+	 * Get filter object used by default in a Connector object.
 	 * @return {MetadataFilter} Filter object
 	 */
 	static getDefaultFilter() {
