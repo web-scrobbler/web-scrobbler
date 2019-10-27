@@ -221,7 +221,7 @@ require([
 
 	function configDebugControls() {
 		$('body').click((e) => {
-			if (e.shiftKey) {
+			if (e.altKey) {
 				$('#debug-container').show();
 			}
 		});
