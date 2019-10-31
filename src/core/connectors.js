@@ -1224,5 +1224,10 @@ define(function() {
 		matches: ['*://www.globalplayer.com/*'],
 		js: 'connectors/globalplayer.js',
 		id: 'globalplayer',
+	}, {
+		label: 'newgrounds',
+		matches: ['*://www.newgrounds.com/audio*'],
+		js: 'connectors/newsgrounds.js',
+		id: 'newgrounds',
 	}];
 });
