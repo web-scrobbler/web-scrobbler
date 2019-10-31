@@ -1227,7 +1227,7 @@ define(function() {
 	}, {
 		label: 'newgrounds',
 		matches: ['*://www.newgrounds.com/audio*'],
-		js: 'connectors/newsgrounds.js',
+		js: 'connectors/newgrounds.js',
 		id: 'newgrounds',
 	}];
 });
