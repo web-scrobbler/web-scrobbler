@@ -493,6 +493,10 @@
     "message": "View track page",
     "description": "Placeholder of album input"
   },
+  "infoYourScrobbles": {
+    "message": "Your scrobbles: $1",
+    "description": "Label for user play count"
+  },
 
 
   "pageActionBase": {

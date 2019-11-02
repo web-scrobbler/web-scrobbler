@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1280"
+   height="640"
+   viewBox="0 0 1280 640.00001"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90"
+   sodipodi:docname="social-media-logo.svg">
+  <defs
+     id="defs4" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="1"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.37150728"
+     inkscape:cx="364.44848"
+     inkscape:cy="22.211768"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     units="px"
+     showguides="false"
+     inkscape:snap-bbox="true"
+     objecttolerance="10"
+     guidetolerance="10000"
+     inkscape:snap-perpendicular="true"
+     inkscape:snap-tangential="true"
+     inkscape:bbox-paths="true"
+     inkscape:bbox-nodes="true"
+     inkscape:window-width="1855"
+     inkscape:window-height="1057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3378"
+       dotted="true"
+       enabled="false" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-412.36216)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:29.76937294px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="331.02756"
+       y="828.60632"
+       id="text3374"
+       sodipodi:linespacing="125%"
+       transform="scale(0.98179139,1.0185463)"><tspan
+         sodipodi:role="line"
+         id="tspan3376"
+         x="331.02756"
+         y="828.60632"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:89.30813599px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Bold'">Web Scrobbler</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:29.34682083px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="288.86395"
+       y="900.32471"
+       id="text3382"
+       sodipodi:linespacing="125%"
+       transform="scale(0.98748951,1.012669)"><tspan
+         sodipodi:role="line"
+         id="tspan3384"
+         x="288.86395"
+         y="900.32471"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:44.02022934px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans'">Scrobble music all around the web!</tspan></text>
+    <g
+       transform="matrix(1.5,0,0,1.4999998,543.5,-841.68093)"
+       id="layer1-0"
+       inkscape:label="Layer 1">
+      <circle
+         r="59"
+         cy="988.36218"
+         cx="64"
+         id="path4214"
+         style="fill:#e03131;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         id="path4737-7"
+         transform="translate(0,924.36216)"
+         d="M 76.427734,27.642578 83.332031,98.386719 68.914062,122.76172 A 59,59 0 0 0 123,64 59,59 0 0 0 111.36914,28.935547 L 76.427734,27.642578 Z"
+         style="fill:#fcd11c;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path4214-3"
+         d="M 8.38477,968.87576 A 59,59 0 0 0 5,988.36216 a 59,59 0 0 0 59.000002,59.00004 59,59 0 0 0 17.226562,-2.6309 L 92.14258,1024.1473 32.857424,1016.2899 8.38477,968.87576 Z"
+         style="fill:#49ac4b;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <circle
+         r="47"
+         cy="988.36218"
+         cx="64"
+         id="path4198"
+         style="fill:#ffffff;fill-opacity:0.94117647;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <g
+         transform="matrix(2.3157895,0,0,2.3157895,20,944.36216)"
+         id="g5836-3">
+        <circle
+           r="19"
+           cy="19"
+           cx="19"
+           id="path3342"
+           style="fill:#178dce;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+        <path
+           style="fill:#ffffff"
+           inkscape:connector-curvature="0"
+           d="m 26.5,26.7 c -5.8,0 -7.5,-2.8 -8.4,-5.5 l -1,-3.3 c -0.8,-2.4 -1.7,-4.5 -4.9,-4.5 -2.1,0 -4.3,1.5 -4.3,5.8 0,3.2 1.7,5.4 4.2,5.4 2,0 3.5,-1.1 4.1,-1.7 l 0.8,2.3 c -0.5,0.4 -2.2,1.5 -5.1,1.5 -4.5,0 -6.9,-2.6 -6.9,-7.4 0,-5.1 2.5,-7.9 7.1,-7.9 4.3,0 6.3,1.5 7.7,5.6 l 1.1,3.3 c 0.7,2 1.9,4.3 5.7,4.3 1.6,0 3.7,-0.2 3.7,-2 0,-1.2 -0.8,-1.9 -2.4,-2.3 l -2.2,-0.5 c -2.5,-0.6 -3.6,-1.8 -3.6,-4 0,-3.8 3.5,-4.4 5.5,-4.4 3.3,0 5,1.2 5.3,3.6 l -2.7,0.3 c -0.2,-1.3 -1.1,-2 -2.8,-2 -1.6,0 -2.6,0.8 -2.6,2.1 0,1.2 0.6,1.8 2.1,2.2 l 2.1,0.5 c 2.8,0.7 4.1,2 4.1,4.4 -0.1,2.7 -2.3,4.2 -6.6,4.2 z"
+           id="path4140-5" />
+      </g>
+    </g>
+  </g>
+</svg>

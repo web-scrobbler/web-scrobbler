@@ -19,13 +19,23 @@ input {
 	width: 100%;
 }
 
-#wrapper {
+.info {
 	display: grid;
 	grid-gap: 5px;
 	grid-template-columns: 120px 250px;
 	min-height: 120px;
+}
+
+.container {
+	max-width: 370px;
 	padding: 5px;
 }
+
+/* @ifdef DEBUG */
+#debug-container {
+	display: none;
+}
+/* @endif */
 
 #album-art {
 	background-image: url('/icons/cover_art_default.png');
@@ -114,4 +124,18 @@ input {
 	color: #999;
 	cursor: default !important;
 	text-decoration: none !important;
+}
+
+.user-play-count {
+	background-color: #247ba0;
+	border-radius: 3px;
+	color: white;
+	display: inline-block;
+	font-size: 0.75rem;
+	margin-top: 4px;
+	padding: 0 5px;
+}
+.user-play-count::before {
+	content: '\f202';
+	font-family: 'Font Awesome 5 Brands';
 }

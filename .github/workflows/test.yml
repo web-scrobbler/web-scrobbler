@@ -1,16 +1,30 @@
-name: test
+name: Test
 on: [push, pull_request]
 jobs:
   test:
+    name: Run linters and tests
     runs-on: ubuntu-latest
+    env:
+      IS_COVERAGE_ALLOWED: ${{ secrets.CODACY_PROJECT_TOKEN != '' }}
+      IS_MASTER_BRANCH: ${{ github.ref == 'refs/heads/master' }}
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-node@v1
       with:
-        node-version: 12.x
-    - name: Run npm install, npm test
+        node-version: '12.x'
+    - run: yarn install
+    - name: Run linters
       run: |
-        npm install
-        npm test
+        yarn run lint
       env:
         CI: true
+    - name: Run tests
+      run: |
+        if $IS_COVERAGE_ALLOWED && $IS_MASTER_BRANCH; then
+            yarn run test-with-coverage
+            yarn run upload-coverage
+        else
+            yarn run test
+        fi
+      env:
+        CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}

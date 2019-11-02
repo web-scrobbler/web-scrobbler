@@ -36,8 +36,8 @@ const FILTER_NULL_DATA = [{
  */
 const DEFAULT_TEST_DATA = [{
 	description: 'should do nothing with clean string',
-	source: 'Track Title',
-	expected: 'Track Title'
+	source: 'Track Metafield',
+	expected: 'Track Metafield'
 }, {
 	description: 'should trim whitespaces',
 	source: '  Track Metafield  ',
@@ -582,12 +582,12 @@ const FIX_REMIX_SUFFIX_TEST_DATA = [{
 const FILTERS_DATA = [{
 	description: 'Base filter',
 	filter: new MetadataFilter({ all: shouldNotBeCalled }),
-	fields: ['artist', 'track', 'album'],
+	fields: MetadataFilter.ALL_FIELDS,
 	testData: FILTER_NULL_DATA,
 }, {
 	description: 'Trim filter',
 	filter: MetadataFilter.getDefaultFilter(),
-	fields: ['artist', 'track', 'album'],
+	fields: MetadataFilter.ALL_FIELDS,
 	testData: DEFAULT_TEST_DATA,
 }, {
 	description: 'Youtube filter',
@@ -607,12 +607,12 @@ const FILTERS_DATA = [{
 }, {
 	description: 'removeZeroWidth',
 	filter: new MetadataFilter({ all: MetadataFilter.removeZeroWidth }),
-	fields: ['artist', 'track', 'album'],
+	fields: MetadataFilter.ALL_FIELDS,
 	testData: REMOVE_ZERO_WIDTH_TEST_DATA,
 }, {
 	description: 'decodeHtmlEntities',
 	filter: new MetadataFilter({ all: MetadataFilter.decodeHtmlEntities }),
-	fields: ['artist', 'track', 'album'],
+	fields: MetadataFilter.ALL_FIELDS,
 	testData: DECODE_HTML_ENTITIES_TEST_DATA,
 }, {
 	description: 'removeDoubleTitle',
@@ -658,7 +658,34 @@ function testExtendedFilter() {
 
 	const filter = filter1.extend(filter2);
 
-	for (const field of ['artist', 'track', 'album']) {
+	for (const field of MetadataFilter.ALL_FIELDS) {
+		describe(`${field} field`, () => {
+			filter.filterField(field, 'Test');
+
+			it('should call filter function of filter 1', () => {
+				expect(func1).to.have.been.called();
+			});
+
+			it('should call filter function of filter 2', () => {
+				expect(func2).to.have.been.called();
+			});
+		});
+	}
+}
+
+/**
+ * Test extended filter.
+ */
+function testAppendFilterSet() {
+	const func1 = chai.spy();
+	const func2 = chai.spy();
+
+	const filter1 = new MetadataFilter({ all: func1 });
+	const filterSet2 = { all: func2 };
+
+	const filter = filter1.append(filterSet2);
+
+	for (const field of MetadataFilter.ALL_FIELDS) {
 		describe(`${field} field`, () => {
 			filter.filterField(field, 'Test');
 
@@ -694,6 +721,10 @@ function runTests() {
 
 	describe('Extended filter', () => {
 		testExtendedFilter();
+	});
+
+	describe('Append filter set', () => {
+		testAppendFilterSet();
 	});
 }
 

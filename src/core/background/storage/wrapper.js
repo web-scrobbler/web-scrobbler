@@ -22,7 +22,7 @@ define((require) => {
 		 */
 		async get() {
 			const data = await this.storage.get();
-			if (data && data.hasOwnProperty(this.namespace)) {
+			if (data && this.namespace in data) {
 				return data[this.namespace];
 			}
 

@@ -22,6 +22,17 @@ const CATEGORIES = [
 	CATEGORY_SCIENCE_AND_TECHNOLOGY
 ];
 
+// Basic support for languages the extension is traslated to.
+// TODO: Remove if description parsing is implemented.
+const TOPIC_SUFFIXES = [
+	/(.+) - Topic/, // EN
+	/(.+) – Thema/, // DE
+	/(.+) – тема/, // RU
+	/(.+) - Tema/, // ES
+	/(.+) – temat/, // PL
+	/(.+) – Tópico/, // PT
+];
+
 /**
  * Array of categories allowed to be scrobbled.
  * @type {Array}
@@ -40,22 +51,19 @@ let categoryCache = new Map();
  */
 const videoSelector = '.html5-main-video';
 
+const videoTitleSelector = '.html5-video-player .ytp-title-link';
+const channelNameSelector = '#top-row .ytd-channel-name a';
+
 readConnectorOptions();
 
 Connector.playerSelector = '#content';
 
 Connector.getArtistTrack = () => {
-	const videoTitle = $('.html5-video-player .ytp-title-link').first().text();
-	const ownerName = $('#container #channel-name').text();
-
-	const byLineMatch = ownerName.match(/(.+) - Topic/);
-	if (byLineMatch) {
-		return { artist: byLineMatch[1], track: videoTitle };
-	}
-
-	let { artist, track } = Util.processYoutubeVideoTitle(videoTitle);
+	let { artist, track } = Util.processYoutubeVideoTitle(
+		Util.getTextFromSelectors(videoTitleSelector)
+	);
 	if (!artist) {
-		artist = ownerName;
+		artist = Util.getTextFromSelectors(channelNameSelector);
 	}
 
 	return { artist, track };
@@ -80,28 +88,20 @@ Connector.isPlaying = () => {
 
 Connector.getUniqueID = () => {
 	/*
-	 * Youtube doesn't update video title immediately in fullscreen mode.
-	 * We don't return video ID until video title is shown.
+	 * ytd-watch-flexy element contains ID of a first played video
+	 * if the miniplayer is visible, so we should check
+	 * if URL of a current video in miniplayer is accessible.
 	 */
-	if (Connector.isFullscreenMode()) {
-		let videoTitle = $('.html5-video-player.playing-mode .ytp-title-link').text();
-		if (!videoTitle) {
-			return null;
-		}
+	const miniPlayerVideoUrl = $('ytd-miniplayer[active] [selected] a').attr('href');
+	if (miniPlayerVideoUrl) {
+		return Util.getYoutubeVideoIdFromUrl(miniPlayerVideoUrl);
 	}
 
-	let videoId = $('ytd-watch-flexy').attr('video-id');
-
-	if (!videoId) {
-		let videoUrl = $('.html5-video-player.playing-mode .ytp-title-link').attr('href');
-		videoId = Util.getYoutubeVideoIdFromUrl(videoUrl);
-	}
-
-	return videoId;
+	return $('ytd-watch-flexy').attr('video-id');
 };
 
 Connector.isScrobblingAllowed = () => {
-	if ($('.videoAdUi').length > 0) {
+	if ($('.ad-showing').length > 0) {
 		return false;
 	}
 
@@ -127,11 +127,11 @@ Connector.isScrobblingAllowed = () => {
 	return true;
 };
 
-Connector.applyFilter(MetadataFilter.getYoutubeFilter());
-
-Connector.isFullscreenMode = () => {
-	return $('.html5-video-player').hasClass('ytp-fullscreen');
-};
+Connector.applyFilter(
+	MetadataFilter.getYoutubeFilter().append({
+		artist: removeTopicSuffix,
+	})
+);
 
 /**
  * Get video category.
@@ -162,6 +162,17 @@ function getVideoCategory(videoId) {
 	}
 
 	return categoryCache.get(videoId);
+}
+
+function removeTopicSuffix(text) {
+	for (const regex of TOPIC_SUFFIXES) {
+		const topicMatch = text.match(regex);
+		if (topicMatch) {
+			return topicMatch[1];
+		}
+	}
+
+	return text;
 }
 
 async function fetchCategoryId() {

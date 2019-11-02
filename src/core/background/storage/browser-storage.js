@@ -18,7 +18,7 @@ define((require) => {
 	 *
 	 * The format of storage data is following:
 	 * {
-	 *     connector_label: [URL_pattern_1, URL_pattern_2, ...],
+	 *     connector_id: [URL_pattern_1, URL_pattern_2, ...],
 	 *     ...
 	 * }
 	 */

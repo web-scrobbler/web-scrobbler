@@ -8,10 +8,14 @@ const FIREFOX_EXTENSION_ID = '{799c0914-748b-41df-a25c-22d008f9e83f}';
 const SRC_DIR = 'src';
 const BUILD_DIR = 'build';
 
-const PACKAGE_FILE = 'web-scrobbler.zip';
+const DIST_FILE = 'web-scrobbler.zip';
 const MANIFEST_FILE = 'src/manifest.json';
 
-// Files to build package
+const FILES_TO_PREPROCESS = [
+	`${BUILD_DIR}/**/*.js`, `${BUILD_DIR}/**/*.css`, `${BUILD_DIR}/**/*.html`
+];
+
+// Files to build zipball
 const EXTENSION_SRC = [
 	'**/*',
 	// Skip SVG except love-controls iconset
@@ -51,7 +55,7 @@ module.exports = (grunt) => {
 
 		clean: {
 			build: BUILD_DIR,
-			package: [PACKAGE_FILE],
+			dist: [DIST_FILE],
 			chrome: [
 				`${BUILD_DIR}/icons/icon_firefox_*.png`,
 			],
@@ -75,7 +79,7 @@ module.exports = (grunt) => {
 		compress: {
 			main: {
 				options: {
-					archive: PACKAGE_FILE,
+					archive: DIST_FILE,
 					pretty: true
 				},
 				expand: true,
@@ -95,7 +99,7 @@ module.exports = (grunt) => {
 		},
 		preprocess: {
 			firefox: {
-				src: `${BUILD_DIR}/**/*.js`,
+				src: FILES_TO_PREPROCESS,
 				expand: true,
 				options: {
 					inline: true,
@@ -105,7 +109,7 @@ module.exports = (grunt) => {
 				}
 			},
 			chrome: {
-				src: `${BUILD_DIR}/**/*.js`,
+				src: FILES_TO_PREPROCESS,
 				expand: true,
 				options: {
 					inline: true,
@@ -154,7 +158,7 @@ module.exports = (grunt) => {
 			}
 		},
 		github_release: {
-			token: process.env.GITHUB_TOKEN,
+			token: process.env.GH_TOKEN,
 			version: '<%= manifest.version %>',
 		},
 		amo_upload: {
@@ -162,7 +166,7 @@ module.exports = (grunt) => {
 			secret: process.env.AMO_SECRET,
 			id: FIREFOX_EXTENSION_ID,
 			version: '<%= manifest.version %>',
-			src: PACKAGE_FILE,
+			src: DIST_FILE,
 		},
 		webstore_upload: {
 			accounts: {
@@ -176,17 +180,7 @@ module.exports = (grunt) => {
 			extensions: {
 				'web-scrobbler': {
 					appID: CHROME_EXTENSION_ID,
-					zip: PACKAGE_FILE,
-				}
-			}
-		},
-		gitcommit: {
-			connectors: {
-				options: {
-					message: 'Update connectors.json'
-				},
-				files: {
-					src: ['media/connectors.json'],
+					zip: DIST_FILE,
 				}
 			}
 		},
@@ -247,11 +241,11 @@ module.exports = (grunt) => {
 	 * We support only Chrome and Firefox, which can be specified
 	 * as 'chrome' and 'firefox' respectively:
 	 *
-	 *   Build a package for Chrome browser
-	 *   > grunt build:chrome
+	 *   Create a zipball for Chrome browser
+	 *   > grunt dist:chrome
 	 *
-	 *   Compile sources for Firefox browser
-	 *   > grunt compile:firefox
+	 *   Build the extension for Firefox browser
+	 *   > grunt build:firefox
 	 */
 
 	/**
@@ -259,7 +253,7 @@ module.exports = (grunt) => {
 	 * set the extension icon according to specified browser.
 	 * @param {String} browser Browser name
 	 */
-	grunt.registerTask('compile', (browser) => {
+	grunt.registerTask('build', (browser) => {
 		assertBrowserIsSupported(browser);
 
 		grunt.task.run([
@@ -270,14 +264,14 @@ module.exports = (grunt) => {
 	});
 
 	/**
-	 * Compile source files and package them.
+	 * Build the extension and pack source files in a zipball.
 	 * @param  {String} browser Browser name
 	 */
-	grunt.registerTask('build', (browser) => {
+	grunt.registerTask('dist', (browser) => {
 		assertBrowserIsSupported(browser);
 
 		grunt.task.run([
-			'clean:build', `compile:${browser}`, 'clean:package',
+			'clean:build', `build:${browser}`, 'clean:dist',
 			'compress', 'clean:build',
 		]);
 	});
@@ -290,7 +284,7 @@ module.exports = (grunt) => {
 		assertBrowserIsSupported(browser);
 
 		grunt.task.run(
-			[`build:${browser}`, `upload:${browser}`, 'clean:package']);
+			[`dist:${browser}`, `upload:${browser}`, 'clean:dist']);
 	});
 
 	/**
@@ -311,9 +305,6 @@ module.exports = (grunt) => {
 		}
 
 		let releaseTasks = [`bump:${releaseType}`];
-		if (releaseType !== 'patch') {
-			releaseTasks.unshift('dump');
-		}
 
 		if (releaseType2) {
 			if (releaseType2 !== 'local') {
@@ -346,13 +337,6 @@ module.exports = (grunt) => {
 	});
 
 	/**
-	 * Dump list of connectors.
-	 */
-	grunt.registerTask('dump', () => {
-		grunt.task.run(['dump_connectors', 'gitcommit:connectors']);
-	});
-
-	/**
 	 * Run tests.
 	 */
 	grunt.registerTask('test', ['mochacli']);
@@ -361,7 +345,8 @@ module.exports = (grunt) => {
 	 * Lint source code using linters specified below.
 	 */
 	grunt.registerTask('lint', [
-		'eslint', 'jsonlint', 'lintspaces', 'stylelint', 'remark',
+		'eslint', 'jsonlint', 'lintspaces',
+		'stylelint', 'remark', 'unused_files',
 	]);
 
 	/**

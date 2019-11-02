@@ -40,7 +40,7 @@ define((require) => {
 
 	/**
 	 * Location of default privacy policy document.
-	 * @type {[type]}
+	 * @type {String}
 	 */
 	const DEFAULT_PRIVACY_PATH = `_locales/en/${PRIVACY_FILENAME}`;
 
