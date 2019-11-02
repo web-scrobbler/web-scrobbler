@@ -1119,6 +1119,7 @@ define(function() {
 		label: 'Joox Myanmar',
 		matches: ['*://www.joox.com/*'],
 		js: ['connectors/joox.js'],
+		id: 'joox'
 	}, {
 		label: 'PlayAppleMusic.com',
 		matches: ['*://playapplemusic.com/*'],
