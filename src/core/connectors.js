@@ -1116,10 +1116,10 @@ define(function() {
 		js: 'connectors/musickit.js',
 		id: 'zacharyseguin',
 	}, {
-		label: 'Joox Myanmar',
+		label: 'Joox',
 		matches: ['*://www.joox.com/*'],
-		js: ['connectors/joox.js'],
-		id: 'joox'
+		js: 'connectors/joox.js',
+		id: 'joox',
 	}, {
 		label: 'PlayAppleMusic.com',
 		matches: ['*://playapplemusic.com/*'],
