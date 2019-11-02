@@ -33,8 +33,8 @@ jobs:
         VERSION=$(echo $GITHUB_REF | cut -d / -f 3)
         curl -X POST \
             -H "Authorization: token ${GH_FA_TOKEN}" \
-            -H 'Accept: application/vnd.github.everest-preview+json' \
-            -d '{"event_type":"$VERSION"}' \
+            -H "Accept: application/vnd.github.everest-preview+json" \
+            -d "{\"event_type\":\"${VERSION}\"}" \
             https://api.github.com/repos/${WEBSITE_REPO}/dispatches
       env:
         GH_FA_TOKEN: ${{ secrets.GH_FA_TOKEN }}
