@@ -1909,5 +1909,14 @@
     "js": [
       "connectors/primephonic.js"
     ]
+  },
+  {
+    "label": "Joox",
+    "matches": [
+      "*://www.joox.com/*"
+    ],
+    "js": [
+      "connectors/joox.js"
+    ]
   }
 ]
