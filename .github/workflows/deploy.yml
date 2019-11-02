@@ -30,11 +30,11 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Request website update
       run: |
-        TAG=echo $GITHUB_REF | cut -f 3 -d "/"
+        VERSION=$(echo $GITHUB_REF | cut -d / -f 3)
         curl -X POST \
             -H "Authorization: token ${GH_FA_TOKEN}" \
             -H 'Accept: application/vnd.github.everest-preview+json' \
-            -d '{"event_type":"$TAG"}' \
+            -d '{"event_type":"$VERSION"}' \
             https://api.github.com/repos/${WEBSITE_REPO}/dispatches
       env:
         GH_FA_TOKEN: ${{ secrets.GH_FA_TOKEN }}
