@@ -11,9 +11,9 @@ const concatArtistNames = function() {
 		.get()
 		.join(', ');
 };
-const isPlaying = function(){
+const isPlaying = function() {
 	return $(playBtnSelector).find('i:first').hasClass('playerIcon--pause');
-}
+};
 
 // Connector methods
 
