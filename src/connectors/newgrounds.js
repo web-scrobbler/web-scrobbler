@@ -1,17 +1,25 @@
 'use strict';
 
-Connector.playerSelector = '#_ngHiddenAudioPlayer';
+const artistSelector = '.ng-apg-media-artist';
+const trackSelector = '.ng-apg-media-title';
 
-Connector.playButtonSelector = '#global-audio-player-play';
+Connector.playerSelector = ['#_ngHiddenAudioPlayer', '#audio-listen-player'];
 
-Connector.pauseButtonSelector = '#global-audio-player-pause';
+Connector.playButtonSelector = ['#global-audio-player-play', '#audio-listen-play'];
+
+Connector.pauseButtonSelector = ['#global-audio-player-pause', '#audio-listen-pause'];
 
 Connector.trackArtSelector = '.ng-apg-media-icon';
 
-Connector.artistSelector = '.ng-apg-media-artist';
+Connector.currentTimeSelector = ['#global-audio-player-progress', 'audio-listen-progress'];
 
-Connector.trackSelector = '.ng-apg-media-title';
+Connector.durationSelector = ['#global-audio-player-duration', 'audio-listen-duration'];
 
-Connector.currentTimeSelector = '#global-audio-player-progress';
+/*Connector.getArtistTrack = () => {
+	let { artist, track } = Util.getTextFromSelectors(artistSelector);
 
-Connector.durationSelector = '#global-audio-player-duration';
+}*/
+
+Connector.artistSelector = ['.ng-apg-media-artist', '.smaller'];
+
+Connector.trackSelector = ['.ng-apg-media-title', 'name'];
