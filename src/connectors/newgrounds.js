@@ -15,11 +15,16 @@ Connector.currentTimeSelector = ['#global-audio-player-progress', 'audio-listen-
 
 Connector.durationSelector = ['#global-audio-player-duration', 'audio-listen-duration'];
 
-/*Connector.getArtistTrack = () => {
-	let { artist, track } = Util.getTextFromSelectors(artistSelector);
+Connector.getArtistTrack = () => {
+	let { artist, track } = Util.splitArtistTrack(Util.getTextFromSelectors(trackSelector), '-');
+	if (!artist) {
+		artist = Util.getTextFromSelectors(artistSelector);
+		track = Util.getTextFromSelectors(trackSelector);
+	}
 
-}*/
+	return { artist, track };
+};
 
-Connector.artistSelector = ['.ng-apg-media-artist', '.smaller'];
+/*Connector.artistSelector = ['.ng-apg-media-artist', '.smaller'];
 
-Connector.trackSelector = ['.ng-apg-media-title', 'name'];
+Connector.trackSelector = ['.ng-apg-media-title', 'name'];*/
