@@ -350,11 +350,6 @@ module.exports = (grunt) => {
 	]);
 
 	/**
-	 * Register default task
-	 */
-	grunt.registerTask('default', ['lint', 'test']);
-
-	/**
 	 * Throw an error if the extension doesn't support given browser.
 	 * @param  {String}  browser Browser name
 	 */
