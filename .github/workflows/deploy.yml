@@ -15,8 +15,8 @@ jobs:
     - run: npm install
     - name: Deploy the extension
       run: |
-        npm run grunt publish:chrome
-        npm run grunt publish:firefox
+        npx run grunt publish:chrome
+        npx run grunt publish:firefox
       env:
         AMO_ISSUER: ${{ secrets.AMO_ISSUER }}
         AMO_SECRET: ${{ secrets.AMO_SECRET }}
@@ -25,7 +25,7 @@ jobs:
         CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
     - name: Publish release on GitHub
       run: |
-        npm run grunt github_release
+        npx run grunt github_release
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Request website update
