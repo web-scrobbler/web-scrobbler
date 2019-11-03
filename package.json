@@ -50,7 +50,8 @@
     "lint": "grunt lint",
     "test": "grunt test",
     "test-with-coverage": "nyc grunt test",
-    "upload-coverage": "cat ./coverage/lcov.info | codacy-coverage && rm -rf ./coverage"
+    "upload-coverage": "cat ./coverage/lcov.info | codacy-coverage",
+    "clean-coverage": "rm -rf ./coverage .nyc_cache .nyc_output"
   },
   "license": "MIT"
 }
