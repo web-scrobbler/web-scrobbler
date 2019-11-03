@@ -9,22 +9,26 @@ jobs:
       IS_MASTER_BRANCH: ${{ github.ref == 'refs/heads/master' }}
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-node@v1
+    - name: Read .nvmrc
+      run: echo ::set-output name=NVMRC::$(cat .nvmrc)
+      id: nvm
+    - name: Setup node
+      uses: actions/setup-node@v1
       with:
-        node-version: '12.x'
-    - run: yarn install
+        node-version: '${{ steps.nvm.outputs.NVMRC }}'
+    - run: npm install
     - name: Run linters
       run: |
-        yarn run lint
+        npm run lint
       env:
         CI: true
     - name: Run tests
       run: |
         if $IS_COVERAGE_ALLOWED && $IS_MASTER_BRANCH; then
-            yarn run test-with-coverage
-            yarn run upload-coverage
+            npm run test-with-coverage
+            npm run upload-coverage
         else
-            yarn run test
+            npm run test
         fi
       env:
         CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_PROJECT_TOKEN }}
