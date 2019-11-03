@@ -192,7 +192,6 @@ module.exports = (grunt) => {
 		eslint: {
 			target: JS_FILES,
 			options: {
-				configFile: '.eslintrc.js',
 				fix: !isCi
 			},
 		},
