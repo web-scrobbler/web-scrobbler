@@ -21,7 +21,7 @@ Connector.getTrackInfo = () => {
 	const title = chatTextItem.textContent;
 	const url = chatTextItem.href;
 
-	const { artist, track } = Util.processYoutubeVideoTitle(title);
+	const { artist, track } = Util.processYtVideoTitle(title);
 	const uniqueID = getVideoId(type, url);
 
 	return { artist, track, uniqueID };
@@ -35,7 +35,7 @@ Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 function getVideoId(type, url) {
 	switch (type) {
 		case 'youtube':
-			return Util.getYoutubeVideoIdFromUrl(url);
+			return Util.getYtVideoIdFromUrl(url);
 	}
 
 	return `${type}:${url}`;

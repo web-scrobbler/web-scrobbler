@@ -56,7 +56,7 @@ Connector.getTrackInfo = () => {
 		return trackInfo;
 	}
 
-	let { artist, track } = Util.processYoutubeVideoTitle(
+	let { artist, track } = Util.processYtVideoTitle(
 		Util.getTextFromSelectors(videoTitleSelector)
 	);
 	if (!artist) {
@@ -91,7 +91,7 @@ Connector.getUniqueID = () => {
 	 */
 	const miniPlayerVideoUrl = $('ytd-miniplayer[active] [selected] a').attr('href');
 	if (miniPlayerVideoUrl) {
-		return Util.getYoutubeVideoIdFromUrl(miniPlayerVideoUrl);
+		return Util.getYtVideoIdFromUrl(miniPlayerVideoUrl);
 	}
 
 	return $('ytd-watch-flexy').attr('video-id');

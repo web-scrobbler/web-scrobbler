@@ -10,12 +10,12 @@ Connector.durationSelector = '.plyr__time--duration';
 
 Connector.getArtistTrack = () => {
 	let text = $(Connector.artistTrackSelector).text();
-	return Util.processYoutubeVideoTitle(text);
+	return Util.processYtVideoTitle(text);
 };
 
 Connector.getUniqueID = () => {
 	let videoUrl = $('#zen-video-title').attr('href');
-	return Util.getYoutubeVideoIdFromUrl(videoUrl);
+	return Util.getYtVideoIdFromUrl(videoUrl);
 };
 
 Connector.isPlaying = () => $('.plyr').hasClass('plyr--playing');

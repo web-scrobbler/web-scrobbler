@@ -6,7 +6,7 @@ Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 
 Connector.getArtistTrack = () => {
 	const text = $('meta[name="twitter:title"]').attr('content');
-	return Util.processYoutubeVideoTitle(text);
+	return Util.processYtVideoTitle(text);
 };
 
 Connector.pauseButtonSelector = 'button:contains(Pause Video)';

@@ -14,7 +14,7 @@ Connector.getTrackArt = () => {
 };
 
 Connector.getArtistTrack = () => {
-	let { artist, track } = Util.processYoutubeVideoTitle(
+	let { artist, track } = Util.processYtVideoTitle(
 		Util.getTextFromSelectors(trackSelector)
 	);
 	if (!artist) {

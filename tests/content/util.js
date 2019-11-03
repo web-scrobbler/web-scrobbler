@@ -134,7 +134,7 @@ const EXRACT_TRACK_ART_FROM_CSS_DATA = [{
 }];
 
 /**
- * Test data for testing 'Util.getYoutubeVideoIdFromUrl' function.
+ * Test data for testing 'Util.getYtVideoIdFromUrl' function.
  * @type {Array}
  */
 const GET_YOUTUBE_VIDEO_ID_FROM_URL_DATA = [{
@@ -160,7 +160,7 @@ const GET_YOUTUBE_VIDEO_ID_FROM_URL_DATA = [{
 }];
 
 /**
- * Test data for testing 'Util.processYoutubeVideoTitle' function.
+ * Test data for testing 'Util.processYtVideoTitle' function.
  * @type {Array}
  */
 const PROCESS_YOUTUBE_TITLE_DATA = [{
@@ -387,7 +387,7 @@ function testSplitArtistTrack() {
  * Test 'Util.escapeBadTimeValues' function.
  */
 function testGetYoutubeVideoIdFromUrl() {
-	testFunction(Util.getYoutubeVideoIdFromUrl, GET_YOUTUBE_VIDEO_ID_FROM_URL_DATA);
+	testFunction(Util.getYtVideoIdFromUrl, GET_YOUTUBE_VIDEO_ID_FROM_URL_DATA);
 }
 
 
@@ -413,12 +413,12 @@ function testExtractTrackArtFromCss() {
 }
 
 /**
- * Test 'Util.processYoutubeVideoTitle' function.
+ * Test 'Util.processYtVideoTitle' function.
  */
 function testProcessYoutubeVideoTitle() {
 	for (let data of PROCESS_YOUTUBE_TITLE_DATA) {
 		let { description, source, expected } = data;
-		let actual = Util.processYoutubeVideoTitle(source);
+		let actual = Util.processYtVideoTitle(source);
 
 		it(description, function() {
 			expect(actual).to.be.deep.equal(expected);
@@ -427,7 +427,7 @@ function testProcessYoutubeVideoTitle() {
 }
 
 /**
- * Test 'Util.processYoutubeVideoTitle' function.
+ * Test 'Util.processYtVideoTitle' function.
  */
 function testProcessSoundCloudTrack() {
 	for (let data of PROCESS_SOUNDCLOUD_TRACK_DATA) {
@@ -521,8 +521,8 @@ function runTests() {
 	describe('escapeBadTimeValues', testEscapeBadTimeValues);
 	describe('parseYtVideoDescription', testParseYtVideoDescription);
 	describe('extractUrlFromCssProperty', testExtractTrackArtFromCss);
-	describe('processYoutubeVideoTitle', testProcessYoutubeVideoTitle);
-	describe('getYoutubeVideoIdFromUrl', testGetYoutubeVideoIdFromUrl);
+	describe('processYtVideoTitle', testProcessYoutubeVideoTitle);
+	describe('getYtVideoIdFromUrl', testGetYoutubeVideoIdFromUrl);
 	describe('testProcessSoundCloudTrack', testProcessSoundCloudTrack);
 }
 
