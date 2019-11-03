@@ -15,5 +15,5 @@ Connector.getArtistTrack = () => {
 		}
 	}
 
-	return Util.makeEmptyArtistTrack();
+	return null;
 };

@@ -12,7 +12,7 @@ Connector.getArtistTrack = () => {
 		return Util.splitArtistTrack(artistTrack);
 	}
 
-	return Util.makeEmptyArtistTrack();
+	return null;
 };
 
 Connector.playButtonSelector = '.icon-play';

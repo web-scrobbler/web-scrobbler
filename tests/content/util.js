@@ -34,7 +34,7 @@ const SPLIT_ARTIST_TRACK_TEST_DATA = [{
 }, {
 	description: 'should not split malformed string',
 	source: 'Artist & Track',
-	expected: Util.makeEmptyArtistTrack(),
+	expected: { artist: null, track: null },
 	swap: false,
 }, {
 	description: 'should split artist and track, and swap them',
@@ -278,8 +278,16 @@ const FIND_SEPARATOR_DATA = [{
 }];
 
 const IS_ARTIST_TRACK_EMPTY_DATA = [{
+	description: 'should return true for null result',
+	source: null,
+	expected: true
+}, {
 	description: 'should return true for empty Artist-Track pair',
 	source: { artist: null, track: null },
+	expected: true
+}, {
+	description: 'should return false if field is missing',
+	source: { artist: 'Artist', track: null },
 	expected: true
 }, {
 	description: 'should return false for non-empty Artist-Track pair',

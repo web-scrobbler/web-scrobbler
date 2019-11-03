@@ -36,7 +36,7 @@ const Util = {
 	 */
 	processYoutubeVideoTitle(videoTitle) {
 		if (!videoTitle) {
-			return this.makeEmptyArtistTrack();
+			return null;
 		}
 
 		// Remove [genre] or 【genre】 from the beginning of the title
@@ -358,7 +358,7 @@ const Util = {
 	 * @return {Boolean} True if object is empty; false otherwise
 	 */
 	isArtistTrackEmpty(artistTrack) {
-		return !(artistTrack.artist && artistTrack.track);
+		return !(artistTrack && artistTrack.artist && artistTrack.track);
 	},
 
 	/**
@@ -371,14 +371,6 @@ const Util = {
 		' -- ', '--', ' ~ ', ' - ', ' – ', ' — ',
 		' // ', '-', '–', '—', ':', '|', '///', '/'
 	],
-
-	/**
-	 * Create an object that contains no artist and track info.
-	 * @return {Object} Object contains no artist and track info
-	 */
-	makeEmptyArtistTrack() {
-		return { artist: null, track: null };
-	},
 
 	/**
 	 * Return text of first available element. If `selectors` is a string,

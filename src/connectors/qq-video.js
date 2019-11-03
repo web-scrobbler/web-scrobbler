@@ -33,7 +33,7 @@ function extractArtistTrack(artistTrackStr) {
 		return { artist: match[1], track: match[2] };
 	}
 
-	return Util.makeEmptyArtistTrack();
+	return null;
 }
 
 function setupConnector() {
