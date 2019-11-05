@@ -1,6 +1,6 @@
 'use strict';
 
-let currentState = {};
+let trackInfo = {};
 let isPlaying = false;
 
 const vkFilter = new MetadataFilter({
@@ -9,7 +9,7 @@ const vkFilter = new MetadataFilter({
 
 Connector.isPlaying = () => isPlaying;
 
-Connector.getCurrentState = () => currentState;
+Connector.getTrackInfo = () => trackInfo;
 
 Connector.onScriptEvent = (event) => {
 	switch (event.data.type) {
@@ -22,8 +22,7 @@ Connector.onScriptEvent = (event) => {
 			break;
 	}
 
-	currentState = event.data.trackInfo;
-	currentState.isPlaying = isPlaying;
+	trackInfo = event.data.trackInfo;
 
 	Connector.onStateChanged();
 };

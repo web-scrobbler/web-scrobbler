@@ -13,7 +13,7 @@ function BaseConnector() {
 	 * Selector of an element containing artist name.
 	 *
 	 * Only applies when default implementation of
-	 * {@link BaseConnector#getArtist} is used.
+	 * `BaseConnector.getArtist` is used.
 	 *
 	 * @type {String}
 	 * @type {Array}
@@ -24,7 +24,7 @@ function BaseConnector() {
 	 * Selector of an element containing track name.
 	 *
 	 * Only applies when default implementation of
-	 * {@link BaseConnector#getTrack} is used.
+	 * `BaseConnector.getTrack` is used.
 	 *
 	 * @type {String}
 	 * @type {Array}
@@ -35,7 +35,7 @@ function BaseConnector() {
 	 * Selector of an element containing album name.
 	 *
 	 * Only applies when default implementation of
-	 * {@link BaseConnector#getAlbum} is used.
+	 * `BaseConnector.getAlbum` is used.
 	 *
 	 * @type {String}
 	 * @type {Array}
@@ -43,11 +43,10 @@ function BaseConnector() {
 	this.albumSelector = null;
 
 	/**
-	 * Selector of an element containing the album artist. The containing string will
-	 * be filtered in the background script if needed.
+	 * Selector of an element containing the album artist.
 	 *
 	 * Only applies when default implementation of
-	 * {@link BaseConnector#getAlbumArtist} is used.
+	 * `BaseConnector.getAlbumArtist` is used.
 	 *
 	 * @type {String}
 	 */
@@ -57,7 +56,7 @@ function BaseConnector() {
 	 * Selector of an element containing track current time in h:m:s format.
 	 *
 	 * Only applies when default implementation of
-	 * {@link BaseConnector#getCurrentTime} is used.
+	 * `BaseConnector.getCurrentTime` is used.
 	 *
 	 * @type {String}
 	 * @type {Array}
@@ -76,7 +75,7 @@ function BaseConnector() {
 	 * and duration.
 	 *
 	 * Only applies when default implementation of
-	 * {@link BaseConnector#getRemainingTime} is used.
+	 * `BaseConnector.getRemainingTime` is used.
 	 *
 	 * @type {String}
 	 * @type {Array}
@@ -87,7 +86,7 @@ function BaseConnector() {
 	 * Selector of an element containing track duration in h:m:s format.
 	 *
 	 * Only applies when default implementation of
-	 * {@link BaseConnector#getDuration} is used.
+	 * `BaseConnector.getDuration` is used.
 	 *
 	 * @type {String}
 	 * @type {Array}
@@ -96,11 +95,12 @@ function BaseConnector() {
 
 	/**
 	 * Selector of an element containing both current time and duration.
-	 * {@link BaseConnector#currentTimeSelector} and {@link BaseConnector#durationSelector}
-	 * properties have priority over this, and {@link BaseConnector#timeInfoSelector}
+	 * `BaseConnector.currentTimeSelector` and `BaseConnector.durationSelector`
+	 * properties have priority over this, and `BaseConnector.timeInfoSelector`
 	 * is used only if any of the previous returns empty result.
 	 *
-	 * Only applies when default implementation of {@link BaseConnector#getTimeInfo} is used.
+	 * Only applies when default implementation of
+	 * `BaseConnector.getTimeInfo` is used.
 	 *
 	 * @type {String}
 	 * @type {Array}
@@ -109,13 +109,14 @@ function BaseConnector() {
 
 	/**
 	 * Selector of an element containing both artist and track name.
-	 * {@link BaseConnector#artistSelector} and
-	 * {@link BaseConnector#trackSelector} properties have priority over this,
-	 * and {@link BaseConnector#artistTrackSelector} is used only if any of
+	 *
+	 * `BaseConnector.artistSelector` and `BaseConnector.trackSelector`
+	 * properties have priority over this,
+	 * and `BaseConnector.artistTrackSelector` is used only if any of
 	 * the previous returns empty result.
 	 *
 	 * Only applies when default implementation of
-	 * {@link BaseConnector#getArtistTrack} is used.
+	 * `BaseConnector.getArtistTrack` is used.
 	 *
 	 * @type {String}
 	 * @type {Array}
@@ -129,7 +130,7 @@ function BaseConnector() {
 	 * Should not be used if Connector#pauseButtonSelector is defined.
 	 *
 	 * Only applies when default implementation of
-	 * {@link BaseConnector#isPlaying} is used.
+	 * `BaseConnector.isPlaying` is used.
 	 *
 	 * @type {String}
 	 * @type {Array}
@@ -140,10 +141,10 @@ function BaseConnector() {
 	 * Selector of a pause button element. If the element is visible,
 	 * the playback is considered to be playing.
 	 *
-	 * Should not be used if Connector#playButtonSelector is defined.
+	 * Should not be used if `Connector.playButtonSelector` is defined.
 	 *
 	 * Only applies when default implementation of
-	 * {@link BaseConnector#isPlaying} is used.
+	 * `BaseConnector.isPlaying` is used.
 	 *
 	 * @type {String}
 	 * @type {Array}
@@ -152,9 +153,9 @@ function BaseConnector() {
 
 	/**
 	 * Selector of a container closest to the player. Changes on this element
-	 * will be observed and dispatched to {@link BaseConnector#onStateChanged}.
+	 * will be observed and dispatched to `BaseConnector.onStateChanged`.
 	 *
-	 * Set this selector to use with default {@link MutationEvent} observing or
+	 * Set this selector to use with default observing or
 	 * set up some custom detection of player state changing.
 	 *
 	 * @type {String}
@@ -163,8 +164,8 @@ function BaseConnector() {
 
 	/**
 	 * Selector of element contains a track art of now playing song.
-	 * Default implmentation looks for track art URL in 'src' attribute or
-	 * 'background-image' ('background') CSS property of given element.
+	 * Default implmentation looks for track art URL in `src` attribute or
+	 * `background-image` (`background`) CSS property of given element.
 	 *
 	 * Used for the notification service and "Now playing" popup.
 	 *
@@ -174,6 +175,13 @@ function BaseConnector() {
 	 * @type {Array}
 	 */
 	this.trackArtSelector = null;
+
+	/**
+	 * Priority of getters:
+	 * 1) getters (`Connector.getArtist` etc.);
+	 * 2) `Connector.getArtistTrack` and `Connector.getTimeInfo`;
+	 * 3) `Connector.getTrackInfo`.
+	 */
 
 	/**
 	 * Default implementation of artist name lookup by selector.
@@ -264,8 +272,8 @@ function BaseConnector() {
 
 	/**
 	 * Default implementation of current time and duration lookup by selector.
-	 * This method is called only when {@link BaseConnector#getCurrentTime} and
-	 * {@link BaseConnector#getDuration} return an empty result.
+	 * This method is called only when `BaseConnector.getCurrentTime` and
+	 * `BaseConnector.getDuration` return an empty result.
 	 *
 	 * Override this method for more complex behaviour.
 	 *
@@ -279,8 +287,8 @@ function BaseConnector() {
 
 	/**
 	 * Default implementation of artist and track name lookup by selector.
-	 * This method is called only when either {@link BaseConnector#getArtist} or
-	 * {@link BaseConnector#getTrack} returns an empty result.
+	 * This method is called only when either `BaseConnector.getArtist` or
+	 * `BaseConnector.getTrack` returns an empty result.
 	 *
 	 * Override this method for more complex behaviour.
 	 *
@@ -291,6 +299,17 @@ function BaseConnector() {
 			Util.getTextFromSelectors(this.artistTrackSelector)
 		);
 	};
+
+	/**
+	 * Get object contains track info.
+	 * See documentation of `defaultState` variable for supported properties.
+	 *
+	 * Use this function to get several properties
+	 * from a single source per one call.
+	 *
+	 * @return {Object} Track info
+	 */
+	this.getTrackInfo = () => null;
 
 	/**
 	 * Returns a unique identifier of current track. The identifier does not
@@ -310,7 +329,7 @@ function BaseConnector() {
 	this.getUniqueID = () => null;
 
 	/**
-	 * Default implementation of check for active playback by play button
+	 * Default implementation of check for active playback by play/pause button
 	 * selector. The state of playback allows the core to detect pauses.
 	 *
 	 * Override this method for custom behaviour.
@@ -345,55 +364,6 @@ function BaseConnector() {
 	};
 
 	/**
-	 * Get current state of connector. Used to get all info per one call.
-	 * See documentation of 'defaultState' variable for supported properties.
-	 * @return {Object} Current state
-	 */
-	this.getCurrentState = () => {
-		let newState = {
-			track: this.getTrack(),
-			artist: this.getArtist(),
-			album: this.getAlbum(),
-			albumArtist: this.getAlbumArtist(),
-			uniqueID: this.getUniqueID(),
-			duration: this.getDuration(),
-			currentTime: this.getCurrentTime(),
-			isPlaying: this.isPlaying(),
-			trackArt: this.getTrackArt(),
-			originUrl: this.getOriginUrl(),
-		};
-
-		let artistTrack = this.getArtistTrack() || Util.makeEmptyArtistTrack();
-		if (!newState.artist && artistTrack.artist) {
-			newState.artist = artistTrack.artist;
-		}
-		if (!newState.track && artistTrack.track) {
-			newState.track = artistTrack.track;
-		}
-
-		const remainingTime = Math.abs(this.getRemainingTime());
-		if (remainingTime) {
-			if (!newState.currentTime && newState.duration) {
-				newState.currentTime = newState.duration - remainingTime;
-			}
-
-			if (!newState.duration && newState.currentTime) {
-				newState.duration = newState.currentTime + remainingTime;
-			}
-		}
-
-		let timeInfo = this.getTimeInfo();
-		if (!newState.duration && timeInfo.duration) {
-			newState.duration = timeInfo.duration;
-		}
-		if (!newState.currentTime && timeInfo.currentTime) {
-			newState.currentTime = timeInfo.currentTime;
-		}
-
-		return newState;
-	};
-
-	/**
 	 * Default implementation used to get the track art URL from the selector.
 	 *
 	 * Override this method for more complex behaviour.
@@ -405,10 +375,10 @@ function BaseConnector() {
 	};
 
 	/**
-	 * Check if given track art URL equals default one.
-	 * Default track arts are not used by the extension.
+	 * Default implementation of a check if given track art URL
+	 * equals default one. Default track arts are not used by the extension.
 	 *
-	 * Override this method for more complex behaviour.
+	 * Override this method to exclude default track arts.
 	 *
 	 * @param  {String} trackArtUrl Track art URL
 	 * @return {Boolean} Check result
@@ -449,6 +419,8 @@ function BaseConnector() {
 	 * Called then injected script emits event.
 	 * See `Connector.injectScript` for details.
 	 *
+	 * Override this method to get data from injected scripts.
+	 *
 	 * @param {Object} event Event object
 	 */
 	this.onScriptEvent = (event) => { // eslint-disable-line
@@ -456,7 +428,8 @@ function BaseConnector() {
 	};
 
 	/**
-	 * Connectors must not override functions and properties defined below.
+	 * Connectors can use, but must not override functions
+	 * and properties defined below.
 	 */
 
 	/**
@@ -734,6 +707,47 @@ function BaseConnector() {
 			}
 			// @endif
 		}
+	};
+
+	/**
+	 * Get current state of connector.
+	 * @return {Object} Current state
+	 */
+	this.getCurrentState = () => {
+		let newState = {
+			track: this.getTrack(),
+			artist: this.getArtist(),
+			album: this.getAlbum(),
+			albumArtist: this.getAlbumArtist(),
+			uniqueID: this.getUniqueID(),
+			duration: this.getDuration(),
+			currentTime: this.getCurrentTime(),
+			isPlaying: this.isPlaying(),
+			trackArt: this.getTrackArt(),
+			originUrl: this.getOriginUrl(),
+		};
+
+		const remainingTime = Math.abs(this.getRemainingTime());
+		if (remainingTime) {
+			if (!newState.currentTime && newState.duration) {
+				newState.currentTime = newState.duration - remainingTime;
+			}
+
+			if (!newState.duration && newState.currentTime) {
+				newState.duration = newState.currentTime + remainingTime;
+			}
+		}
+
+		const timeInfo = this.getTimeInfo();
+		Util.fillEmptyKeys(newState, timeInfo, ['duration', 'currentTime']);
+
+		const artistTrack = this.getArtistTrack();
+		Util.fillEmptyKeys(newState, artistTrack, ['artist', 'track']);
+
+		const trackInfo = this.getTrackInfo();
+		Util.fillEmptyKeys(newState, trackInfo, Object.keys(defaultState));
+
+		return newState;
 	};
 
 	/**

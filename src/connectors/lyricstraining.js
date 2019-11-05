@@ -10,5 +10,5 @@ Connector.playButtonSelector = '#pause-menu';
 
 Connector.getUniqueID = () => {
 	let videoUrl = $('#video-player').attr('src');
-	return Util.getYoutubeVideoIdFromUrl(videoUrl);
+	return Util.getYtVideoIdFromUrl(videoUrl);
 };

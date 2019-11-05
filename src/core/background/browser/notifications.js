@@ -116,20 +116,36 @@ define((require) => {
 			return;
 		}
 
-		let connectorLabel = song.metadata.label;
+		const connectorLabel = song.metadata.label;
+		const iconUrl = song.getTrackArt() ||
+			browser.runtime.getURL('/icons/cover_art_default.png');
+		// @ifdef CHROME
+		let message = song.getArtist();
+		let title = song.getTrack();
+		// @endif
+		/* @ifdef FIREFOX
+		let message = `${song.getTrack()}\n${song.getArtist()}`;
+		let title = `Web Scrobbler \u2022 ${connectorLabel}`;
+		/* @endif */
+
+		const albumName = song.getAlbum();
+		if (albumName) {
+			message = `${message}\n${albumName}`;
+		}
+
+		const userPlayCount = song.metadata.userPlayCount;
+		if (userPlayCount) {
+			const userPlayCountStr = i18n('infoYourScrobbles', userPlayCount);
+			message = `${message}\n${userPlayCountStr}`;
+		}
 
 		let options = {
-			iconUrl: song.getTrackArt() || browser.runtime.getURL('/icons/cover_art_default.png'),
+			iconUrl, title, message,
+
 			// @ifdef CHROME
-			title: song.getTrack(),
 			silent: true,
-			message: song.getArtist(),
 			contextMessage: connectorLabel
 			// @endif
-			/* @ifdef FIREFOX
-			title: 'Web Scrobbler',
-			message: `${song.getTrack()}\n${song.getArtist()}\n${connectorLabel}`
-			/* @endif */
 		};
 
 		clearNotificationTimeout();

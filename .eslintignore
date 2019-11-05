@@ -1,4 +1,6 @@
 // Allow ESLint to lint hidden files
 !.*
-node_modules
-vendor
+
+build/**
+node_modules/**
+src/vendor/**

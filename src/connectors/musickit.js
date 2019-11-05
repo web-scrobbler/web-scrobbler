@@ -4,16 +4,19 @@
  * Connector for Apple's MusicKit JS.
  */
 
-let currentState = {};
+let trackInfo = {};
+let isPlaying = false;
 
-Connector.isPlaying = () => currentState.isPlaying;
+Connector.isPlaying = () => isPlaying;
 
-Connector.getCurrentState = () => currentState;
+Connector.getTrackInfo = () => trackInfo;
 
 Connector.onScriptEvent = (e) => {
 	switch (e.data.type) {
 		case 'MUSICKIT_STATE':
-			currentState = e.data.state;
+			trackInfo = e.data.trackInfo;
+			isPlaying = e.data.isPlaying;
+
 			Connector.onStateChanged();
 			break;
 		default:

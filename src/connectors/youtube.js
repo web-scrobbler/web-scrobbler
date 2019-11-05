@@ -22,17 +22,6 @@ const CATEGORIES = [
 	CATEGORY_SCIENCE_AND_TECHNOLOGY
 ];
 
-// Basic support for languages the extension is traslated to.
-// TODO: Remove if description parsing is implemented.
-const TOPIC_SUFFIXES = [
-	/(.+) - Topic/, // EN
-	/(.+) – Thema/, // DE
-	/(.+) – тема/, // RU
-	/(.+) - Tema/, // ES
-	/(.+) – temat/, // PL
-	/(.+) – Tópico/, // PT
-];
-
 /**
  * Array of categories allowed to be scrobbled.
  * @type {Array}
@@ -54,12 +43,20 @@ const videoSelector = '.html5-main-video';
 const videoTitleSelector = '.html5-video-player .ytp-title-link';
 const channelNameSelector = '#top-row .ytd-channel-name a';
 
+let currentVideoDescription = null;
+let artistTrackFromDescription = null;
+
 readConnectorOptions();
 
 Connector.playerSelector = '#content';
 
-Connector.getArtistTrack = () => {
-	let { artist, track } = Util.processYoutubeVideoTitle(
+Connector.getTrackInfo = () => {
+	const trackInfo = getTrackInfoFromDescription();
+	if (!Util.isArtistTrackEmpty(trackInfo)) {
+		return trackInfo;
+	}
+
+	let { artist, track } = Util.processYtVideoTitle(
 		Util.getTextFromSelectors(videoTitleSelector)
 	);
 	if (!artist) {
@@ -94,7 +91,7 @@ Connector.getUniqueID = () => {
 	 */
 	const miniPlayerVideoUrl = $('ytd-miniplayer[active] [selected] a').attr('href');
 	if (miniPlayerVideoUrl) {
-		return Util.getYoutubeVideoIdFromUrl(miniPlayerVideoUrl);
+		return Util.getYtVideoIdFromUrl(miniPlayerVideoUrl);
 	}
 
 	return $('ytd-watch-flexy').attr('video-id');
@@ -127,11 +124,7 @@ Connector.isScrobblingAllowed = () => {
 	return true;
 };
 
-Connector.applyFilter(
-	MetadataFilter.getYoutubeFilter().append({
-		artist: removeTopicSuffix,
-	})
-);
+Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 
 /**
  * Get video category.
@@ -162,17 +155,6 @@ function getVideoCategory(videoId) {
 	}
 
 	return categoryCache.get(videoId);
-}
-
-function removeTopicSuffix(text) {
-	for (const regex of TOPIC_SUFFIXES) {
-		const topicMatch = text.match(regex);
-		if (topicMatch) {
-			return topicMatch[1];
-		}
-	}
-
-	return text;
 }
 
 async function fetchCategoryId() {
@@ -245,4 +227,20 @@ async function readConnectorOptions() {
 	if (await Util.getOption('YouTube', 'scrobbleEntertainmentOnly')) {
 		allowedCategories.push(CATEGORY_ENTERTAINMENT);
 	}
+}
+
+function getVideoDescription() {
+	return $('#description').text();
+}
+
+function getTrackInfoFromDescription() {
+	const description = getVideoDescription();
+	if (currentVideoDescription === description) {
+		return artistTrackFromDescription;
+	}
+
+	currentVideoDescription = description;
+	artistTrackFromDescription = Util.parseYtVideoDescription(description);
+
+	return artistTrackFromDescription;
 }

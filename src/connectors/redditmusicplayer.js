@@ -15,7 +15,7 @@ Connector.isPlaying = () => $('.item.play.button').hasClass('active');
 
 Connector.getUniqueID = () => {
 	let videoUrl = $('#player').attr('src');
-	return Util.getYoutubeVideoIdFromUrl(videoUrl);
+	return Util.getYtVideoIdFromUrl(videoUrl);
 };
 
 Connector.applyFilter(MetadataFilter.getYoutubeFilter());

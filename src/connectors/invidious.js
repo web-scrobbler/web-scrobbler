@@ -10,12 +10,12 @@ Connector.durationSelector = '.vjs-duration-display';
 
 Connector.getArtistTrack = () => {
 	let text = $(Connector.artistTrackSelector).text();
-	return Util.processYoutubeVideoTitle(text);
+	return Util.processYtVideoTitle(text);
 };
 
 Connector.getUniqueID = () => {
 	let videoUrl = $('h1 a').attr('href');
-	return Util.getYoutubeVideoIdFromUrl(videoUrl);
+	return Util.getYtVideoIdFromUrl(videoUrl);
 };
 
 Connector.isPlaying = () => $('.vjs-play-control').hasClass('vjs-playing');

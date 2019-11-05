@@ -192,7 +192,6 @@ module.exports = (grunt) => {
 		eslint: {
 			target: JS_FILES,
 			options: {
-				configFile: '.eslintrc.js',
 				fix: !isCi
 			},
 		},
@@ -348,11 +347,6 @@ module.exports = (grunt) => {
 		'eslint', 'jsonlint', 'lintspaces',
 		'stylelint', 'remark', 'unused_files',
 	]);
-
-	/**
-	 * Register default task
-	 */
-	grunt.registerTask('default', ['lint', 'test']);
 
 	/**
 	 * Throw an error if the extension doesn't support given browser.

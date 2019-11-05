@@ -21,7 +21,7 @@ function setupConnector() {
 
 	Connector.getArtistTrack = () => {
 		let videoTitle = $('.ytp-title-link').text();
-		return Util.processYoutubeVideoTitle(videoTitle);
+		return Util.processYtVideoTitle(videoTitle);
 	};
 
 	Connector.getCurrentTime = () => videoElement.prop('currentTime');
@@ -34,7 +34,7 @@ function setupConnector() {
 
 	Connector.getUniqueID = () => {
 		let videoUrl = $('.ytp-title-link').attr('href');
-		return Util.getYoutubeVideoIdFromUrl(videoUrl);
+		return Util.getYtVideoIdFromUrl(videoUrl);
 	};
 
 	Connector.applyFilter(MetadataFilter.getYoutubeFilter());
