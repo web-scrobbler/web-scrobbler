@@ -1229,5 +1229,10 @@ define(function() {
 		matches: ['*://www.globalplayer.com/*'],
 		js: 'connectors/globalplayer.js',
 		id: 'globalplayer',
+	}, {
+		label: 'The Current',
+		matches: ['*://www.thecurrent.org/*'],
+		js: 'connectors/thecurrent.js',
+		id: 'thecurrent',
 	}];
 });
