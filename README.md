@@ -56,7 +56,7 @@ We use Gitter and you can join us @ [web-scrobbler/web-scrobbler][Gitter].
 -   [Font Awesome v5.9.0][FontAwesome]
 -   [JavaScript MD5 v2.11.0][JavaScriptMd5]
 -   [jQuery v3.2.1][jQuery]
--   [RequireJS v2.3.5][RequireJs]
+-   [RequireJS v2.3.6][RequireJs]
 -   [Showdown v1.9.0][Showdown]
 -   [webextension-polyfill v0.4.0][WebextPolyfill]
 
