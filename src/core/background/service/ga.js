@@ -9,8 +9,10 @@
  * Does not track anything automatically.
  */
 define((require) => {
-	// eslint-disable-next-line no-unused-vars
+	/* @ifndef DEBUG
 	const Options = require('storage/options');
+	/* @endif */
+	const Util = require('util/util');
 
 	const GA_URL = 'https://www.google-analytics.com/collect';
 	const GA_TRACKING_ID = 'UA-16968457-1';
@@ -48,8 +50,10 @@ define((require) => {
 		query.tid = GA_TRACKING_ID;
 		query.cid = GA_CLIENT_ID;
 
+		const body = Util.createQueryString(query);
+
 		try {
-			fetch(GA_URL, {	method: 'POST', body: $.param(query) });
+			fetch(GA_URL, {	method: 'POST', body });
 		} catch (e) {
 			console.error(`Error sending report to Google Analytics: ${e}`);
 		}

@@ -4,8 +4,8 @@
  * Module for all communication with libre.fm
  */
 define((require) => {
-	const $ = require('jquery');
 	const AudioScrobbler = require('scrobbler/audioscrobbler');
+	const Util = require('util/util');
 
 	class LibreFm extends AudioScrobbler {
 		/** @override */
@@ -14,7 +14,7 @@ define((require) => {
 				options.headers = {
 					'Content-Type': 'application/x-www-form-urlencoded'
 				};
-				options.body = $.param(params);
+				options.body = Util.createQueryString(params);
 			}
 
 			return super.sendRequest(options, params, signed);

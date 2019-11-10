@@ -4,7 +4,6 @@
  * Module for all communication with LB
  */
 define((require) => {
-	const $ = require('jquery');
 	const Util = require('util/util');
 	const BaseScrobbler = require('scrobbler/base');
 	const ServiceCallResult = require('object/service-call-result');
@@ -167,13 +166,27 @@ define((require) => {
 			let timeout = BaseScrobbler.REQUEST_TIMEOUT;
 
 			let response = await Util.timeoutPromise(timeout, promise);
-			let $doc = $(await response.text());
+			if (response.ok) {
+				const parser = new DOMParser();
 
-			let sessionName = $doc.find('.page-title').text();
-			let sessionID = $doc.find('#auth-token').val();
+				const rawHtml = await response.text();
+				const doc = parser.parseFromString(rawHtml, 'text/html');
 
-			if (sessionID && sessionName) {
-				return { sessionID, sessionName };
+				let sessionName = null;
+				let sessionID = null;
+				const sessionNameEl = doc.querySelector('.page-title');
+				const sessionIdEl = doc.querySelector('#auth-token');
+
+				if (sessionNameEl) {
+					sessionName = sessionNameEl.textContent;
+				}
+				if (sessionIdEl) {
+					sessionID = sessionIdEl.getAttribute('value');
+				}
+
+				if (sessionID && sessionName) {
+					return { sessionID, sessionName };
+				}
 			}
 
 			return null;

@@ -26,13 +26,13 @@ define((require) => {
 				params.album = song.getAlbum();
 			}
 
-			let $doc = await this.sendRequest({ method: 'GET' }, params, false);
-			let result = AudioScrobbler.processResponse($doc);
+			let responseData = await this.sendRequest({ method: 'GET' }, params, false);
+			let result = AudioScrobbler.processResponse(responseData);
 			if (!result.isOk()) {
 				throw new Error('Unable to load song info');
 			}
 
-			let data = this.parseSongInfo($doc);
+			let data = this.parseSongInfo(responseData);
 			if (this.canLoveSong() && data) {
 				song.setLoveStatus(data.userloved);
 			}
@@ -47,44 +47,61 @@ define((require) => {
 
 		/**
 		 * Parse service response and return parsed data.
-		 * @param  {Object} $doc Response that parsed by jQuery
+		 * @param  {Object} responseData Last.fm response data
 		 * @return {Object} Parsed song info
 		 */
-		parseSongInfo($doc) {
-			if ($doc.find('lfm').attr('status') !== 'ok') {
-				return null;
-			}
+		parseSongInfo(responseData) {
+			const songInfo = {};
 
-			let userloved = undefined;
-			let userlovedStatus = $doc.find('userloved').text();
+			const trackInfo = responseData.track;
+			const albumInfo = responseData.track.album;
+			const artistInfo = responseData.track.artist;
+
+			const userlovedStatus = trackInfo.userloved;
 			if (userlovedStatus) {
-				userloved = userlovedStatus === '1';
+				songInfo.userloved = userlovedStatus === '1';
+			} else {
+				songInfo.userloved = undefined;
 			}
 
-			let artist = $doc.find('artist > name').text();
-			let track = $doc.find('track > name').text();
-			let album = $doc.find('album > title').text();
-			let duration = (parseInt($doc.find('track > duration').text()) / 1000) || null;
+			songInfo.artist = artistInfo.name;
+			songInfo.artistUrl = artistInfo.url;
 
-			let artistThumbUrl = null;
-			let imageSizes = ['extralarge', 'large', 'medium'];
-			for (let imageSize of imageSizes) {
-				artistThumbUrl = $doc.find(`album > image[size="${imageSize}"]`).text();
-				if (artistThumbUrl) {
-					break;
+			songInfo.track = trackInfo.name;
+			songInfo.trackUrl = trackInfo.url;
+
+			songInfo.duration = (parseInt(trackInfo.duration) / 1000) || null;
+
+			if (albumInfo) {
+				songInfo.album = albumInfo.name;
+				songInfo.albumUrl = albumInfo.url;
+				songInfo.albumMbId = albumInfo.mbid;
+
+				if (Array.isArray(albumInfo.image)) {
+					/*
+					 * Convert an array from response to an object.
+					 * Format is the following: { size: "url", ... }.
+					 */
+					const images = albumInfo.image.reduce((result, image) => {
+						result[image.size] = image['#text'];
+						return result;
+					}, {});
+
+					const imageSizes = ['extralarge', 'large', 'medium'];
+					for (const imageSize of imageSizes) {
+						const artistThumbUrl = images[imageSize];
+
+						if (artistThumbUrl) {
+							songInfo.artistThumbUrl = artistThumbUrl;
+							break;
+						}
+					}
 				}
 			}
 
-			let artistUrl = $doc.find('artist > url').text();
-			let trackUrl = $doc.find('track > url').text();
-			let albumUrl = $doc.find('album > url').text();
+			songInfo.userPlayCount = parseInt(trackInfo.userplaycount) || 0;
 
-			let userPlayCount = parseInt($doc.find('userplaycount').text()) || 0;
-
-			return {
-				artist, track, album, duration, userloved,
-				artistThumbUrl, artistUrl, albumUrl, trackUrl, userPlayCount
-			};
+			return songInfo;
 		}
 	}
 

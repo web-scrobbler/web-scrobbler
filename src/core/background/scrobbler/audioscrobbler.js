@@ -1,7 +1,6 @@
 'use strict';
 
 define((require) => {
-	const $ = require('jquery');
 	const MD5 = require('md5');
 	const Util = require('util/util');
 	const BaseScrobbler = require('scrobbler/base');
@@ -47,8 +46,8 @@ define((require) => {
 			let data = await this.storage.get();
 
 			try {
-				let $doc = await this.sendRequest({ method: 'GET' }, params, false);
-				token = $doc.find('token').text();
+				let responseData = await this.sendRequest({ method: 'GET' }, params, false);
+				token = responseData.token;
 			} catch (err) {
 				this.debugLog('Error acquiring a token', 'warn');
 
@@ -163,7 +162,22 @@ define((require) => {
 			}
 
 			let response = await this.sendRequest({ method: 'POST' }, params, true);
-			return AudioScrobbler.processResponse(response);
+
+			let result = AudioScrobbler.processResponse(response);
+			if (result.isOk()) {
+				const scrobbles = response.scrobbles;
+
+				if (scrobbles) {
+					let acceptedCount = scrobbles['@attr'].accepted;
+					if (acceptedCount === '0') {
+						return new ServiceCallResult(ServiceCallResult.IGNORED);
+					}
+				} else {
+					return new ServiceCallResult(ServiceCallResult.ERROR);
+				}
+			}
+
+			return result;
 		}
 
 		/** @override */
@@ -197,14 +211,14 @@ define((require) => {
 		async tradeTokenForSession(token) {
 			let params = { method: 'auth.getsession', token };
 
-			let $doc = await this.sendRequest({ method: 'GET' }, params, true);
-			let result = AudioScrobbler.processResponse($doc);
+			let response = await this.sendRequest({ method: 'GET' }, params, true);
+			let result = AudioScrobbler.processResponse(response);
 			if (!result.isOk()) {
 				throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
 			}
 
-			let sessionName = $doc.find('session > name').text();
-			let sessionID = $doc.find('session > key').text();
+			let sessionName = response.session.name;
+			let sessionID = response.session.key;
 
 			return { sessionID, sessionName };
 		}
@@ -226,17 +240,17 @@ define((require) => {
 			const promise = fetch(url, options);
 			const timeout = BaseScrobbler.REQUEST_TIMEOUT;
 
-			let text = null;
 			let response = null;
+			let responseData = null;
 			try {
 				response = await Util.timeoutPromise(timeout, promise);
-				text = await response.text();
+				responseData = await response.json();
 			} catch (e) {
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 			}
 
-			let $doc = $($.parseXML(text));
-			let debugMsg = hideUserData($doc, text);
+			let responseStr = JSON.stringify(responseData, null, 2);
+			let debugMsg = hideUserData(responseData, responseStr);
 
 			if (!response.ok) {
 				this.debugLog(`${params.method} response:\n${debugMsg}`, 'error');
@@ -244,7 +258,7 @@ define((require) => {
 			}
 
 			this.debugLog(`${params.method} response:\n${debugMsg}`);
-			return $doc;
+			return responseData;
 		}
 
 		/**
@@ -255,12 +269,13 @@ define((require) => {
 		 */
 		makeRequestUrl(params, signed) {
 			params.api_key = this.apiKey;
+			params.format = 'json';
 
 			if (signed) {
 				params.api_sig = this.generateSign(params);
 			}
 
-			let queryStr = $.param(params);
+			const queryStr = Util.createQueryString(params);
 			return `${this.apiUrl}?${queryStr}`;
 		}
 
@@ -287,19 +302,12 @@ define((require) => {
 
 		/**
 		 * Process response and return service call result.
-		 * @param  {Object} $doc Response that parsed by jQuery
+		 * @param  {Object} responseData Response data
 		 * @return {Object} Response result
 		 */
-		static processResponse($doc) {
-			if ($doc.find('lfm').attr('status') !== 'ok') {
-				// request passed but returned error
+		static processResponse(responseData) {
+			if (responseData.error) {
 				return new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
-			}
-
-			let acceptedCounter = $doc.find('scrobbles').attr('accepted');
-			if (acceptedCounter && acceptedCounter === '0') {
-				// The song is ignored by service.
-				return new ServiceCallResult(ServiceCallResult.IGNORED);
 			}
 
 			return new ServiceCallResult(ServiceCallResult.OK);
@@ -308,19 +316,24 @@ define((require) => {
 
 	/**
 	 * Hide sensitive user data from debug output.
-	 * @param  {Object} $doc Response that parsed by jQuery
+	 * @param  {Object} response Response data
 	 * @param  {String} text Debug message
 	 * @return {String} Text with hidden data
 	 */
-	function hideUserData($doc, text) {
+	function hideUserData(response, text) {
 		let debugMsg = text;
-		const dataSelectors = [
-			'session > name', 'session > key', 'token'
-		];
 
-		for (const selector of dataSelectors) {
-			const value = $doc.find(selector).text();
-			debugMsg = Util.hideStringInText(value, debugMsg);
+		const sensitiveValues = [response.token];
+		const session = response.session;
+		if (session) {
+			sensitiveValues.push(session.name);
+			sensitiveValues.push(session.key);
+		}
+
+		for (const value of sensitiveValues) {
+			if (value) {
+				debugMsg = Util.hideStringInText(value, debugMsg);
+			}
 		}
 
 		return debugMsg;

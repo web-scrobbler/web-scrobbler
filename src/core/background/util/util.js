@@ -228,10 +228,24 @@ define((require) => {
 		throw new Error('Found no privacy policy documents!');
 	}
 
+	/**
+	 * Create query string from object properties.
+	 * @param {Array} params Object contains query parameters
+	 */
+	function createQueryString(params) {
+		const parts = [];
+
+		for (const x in params) {
+			parts.push(`${x}=${encodeURIComponent(params[x])}`);
+		}
+
+		return parts.join('&');
+	}
+
 	return {
 		debugLog, getCurrentTab, timeoutPromise, getPlatformName, openTab,
 		hideObjectValue, hideStringInText, isFullscreenMode, getSortedConnectors,
-		getSecondsToScrobble, getPrivacyPolicyFilename,
+		getSecondsToScrobble, getPrivacyPolicyFilename, createQueryString,
 
 		MIN_TRACK_DURATION, DEFAULT_SCROBBLE_TIME, MAX_SCROBBLE_TIME,
 
