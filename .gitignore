@@ -13,6 +13,7 @@
 
 # Vendor
 /node_modules/
+/src/vendor/
 
 # Private
 .env

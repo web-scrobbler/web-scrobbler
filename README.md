@@ -50,16 +50,6 @@ We use Transifex to maintain translations. If you want to translate the extensio
 
 We use Gitter and you can join us @ [web-scrobbler/web-scrobbler][Gitter].
 
-## Used 3rd-party libraries
-
--   [Bootstrap v4.3.1][Bootstrap]
--   [Font Awesome v5.9.0][FontAwesome]
--   [JavaScript MD5 v2.11.0][JavaScriptMd5]
--   [jQuery v3.2.1][jQuery]
--   [RequireJS v2.3.6][RequireJs]
--   [Showdown v1.9.0][Showdown]
--   [webextension-polyfill v0.4.0][WebextPolyfill]
-
 ## Media
 
 Follow [@web_scrobbler][Twitter] on Twitter to receive the latest news and updates.
@@ -80,15 +70,6 @@ See the [license file][License].
 [GitHubActionsBadge]: https://github.com/web-scrobbler/web-scrobbler/workflows/test/badge.svg
 [GitterBadge]: https://badges.gitter.im/Join%20Chat.svg
 [WebStoreBadge]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg
-
-<!-- Dependencies -->
-[Bootstrap]: https://github.com/twbs/bootstrap/releases/download/v4.3.1/bootstrap-4.3.1-dist.zip
-[FontAwesome]: https://use.fontawesome.com/releases/v5.9.0/fontawesome-free-5.9.0-web.zip
-[JavaScriptMd5]: https://github.com/blueimp/JavaScript-MD5/archive/v2.11.0.zip
-[jQuery]: http://code.jquery.com/jquery-3.2.1.min.js
-[RequireJs]: http://requirejs.org/docs/release/2.3.6/minified/require.js
-[Showdown]: https://github.com/showdownjs/showdown/archive/1.9.0.zip
-[WebextPolyfill]: https://unpkg.com/webextension-polyfill@0.4.0/dist/
 
 <!-- Docs -->
 [Contributing]: https://github.com/web-scrobbler/web-scrobbler/blob/master/.github/CONTRIBUTING.md

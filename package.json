@@ -8,6 +8,15 @@
     "type": "git",
     "url": "https://github.com/web-scrobbler/web-scrobbler.git"
   },
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.11.2",
+    "blueimp-md5": "^2.12.0",
+    "bootstrap": "^4.3.1",
+    "jquery": "^3.4.1",
+    "requirejs": "2.3.6",
+    "showdown": "^1.9.1",
+    "webextension-polyfill": "^0.5.0"
+  },
   "devDependencies": {
     "@octokit/rest": "16.35.0",
     "chai": "4.2.0",
@@ -39,7 +48,6 @@
     "node-define": "0.1.1",
     "nyc": "14.1.1",
     "remark-preset-lint-recommended": "3.0.3",
-    "requirejs": "2.3.6",
     "stylelint": "12.0.0",
     "stylelint-order": "3.1.1"
   },
@@ -51,7 +59,8 @@
     "test": "grunt test",
     "test-with-coverage": "nyc grunt test",
     "upload-coverage": "cat ./coverage/lcov.info | codacy-coverage",
-    "clean-coverage": "rm -rf ./coverage .nyc_cache .nyc_output"
+    "clean-coverage": "rm -rf ./coverage .nyc_cache .nyc_output",
+    "postinstall": "bash copy-vendor.sh"
   },
   "license": "MIT"
 }
