@@ -6,4 +6,4 @@ Connector.trackSelector = '.pg-title';
 
 Connector.artistSelector = '.pg-artiste';
 
-Connector.playButtonSelector = '.kast-play';
+Connector.isPlaying = () => $('#kast-play').hasClass('kast-playing');

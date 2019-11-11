@@ -1236,7 +1236,10 @@ define(function() {
 		id: 'thecurrent',
 	}, {
 		label: 'GRRIF',
-		matches: ['*://www.grrif.ch/*'],
+		matches: [
+      '*://grrif.ch/*',
+      '*://www.grrif.ch/*'
+    ],
 		js: 'connectors/grrif.js',
 		id: 'grrif',
 	}];
