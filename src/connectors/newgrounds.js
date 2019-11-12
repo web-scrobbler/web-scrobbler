@@ -24,7 +24,3 @@ Connector.getArtistTrack = () => {
 
 	return { artist, track };
 };
-
-/*Connector.artistSelector = ['.ng-apg-media-artist', '.smaller'];
-
-Connector.trackSelector = ['.ng-apg-media-title', 'name'];*/
