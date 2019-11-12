@@ -1226,7 +1226,7 @@ define(function() {
 		id: 'globalplayer',
 	}, {
 		label: 'newgrounds',
-		matches: ['*://www.newgrounds.com/audio*', '*://www.newgrounds.com/audio/listen/*'],
+		matches: ['*://www.newgrounds.com/audio*'],
 		js: 'connectors/newgrounds.js',
 		id: 'newgrounds',
 	}];
