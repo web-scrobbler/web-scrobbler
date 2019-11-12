@@ -17,7 +17,7 @@ Connector.getTrackInfo = () => {
 	};
 };
 
-Connector.trackArtSelector = '.entry-content > p > a > img';
+Connector.trackArtSelector = '.entry-content img:eq(0)';
 
 Connector.currentTimeSelector = '#P-Time-MI_0';
 
