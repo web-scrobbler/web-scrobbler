@@ -7,11 +7,10 @@ parserOptions:
   ecmaVersion: 8
 extends: 'eslint:recommended'
 globals:
-  $: true
-  browser: true
-  chrome: true
-  Require: true
-  define: true
+  $: readonly
+  browser: readonly
+  chrome: readonly
+  define: readonly
 plugins: [jsdoc]
 rules:
   # Possible errors
