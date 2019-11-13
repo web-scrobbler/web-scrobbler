@@ -1235,6 +1235,11 @@ define(function() {
 		js: 'connectors/thecurrent.js',
 		id: 'thecurrent',
 	}, {
+		label: 'pan y rosas discos',
+		matches: ['*://www.panyrosasdiscos.net/*'],
+		js: 'connectors/panyrosasdiscos.js',
+		id: 'panyrosasdiscos',
+	}, {
 		label: 'GRRIF',
 		matches: [
 			'*://grrif.ch/*',
