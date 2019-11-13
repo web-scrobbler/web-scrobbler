@@ -22,6 +22,7 @@ function setupConnector() {
 
 		Connector.getArtistTrack = () => {
 			var { artist, track } = Util.splitArtistTrack(Util.getTextFromSelectors(trackSelector), '-');
+
 			if (!artist) {
 				artist = Util.getTextFromSelectors(artistSelector);
 				track = Util.getTextFromSelectors(trackSelector);
