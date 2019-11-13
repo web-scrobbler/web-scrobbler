@@ -1234,5 +1234,13 @@ define(function() {
 		matches: ['*://www.thecurrent.org/*'],
 		js: 'connectors/thecurrent.js',
 		id: 'thecurrent',
+	}, {
+		label: 'GRRIF',
+		matches: [
+			'*://grrif.ch/*',
+			'*://www.grrif.ch/*'
+		],
+		js: 'connectors/grrif.js',
+		id: 'grrif',
 	}];
 });
