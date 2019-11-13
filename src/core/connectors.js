@@ -1239,5 +1239,13 @@ define(function() {
 		matches: ['*://www.panyrosasdiscos.net/*'],
 		js: 'connectors/panyrosasdiscos.js',
 		id: 'panyrosasdiscos',
+	}, {
+		label: 'GRRIF',
+		matches: [
+			'*://grrif.ch/*',
+			'*://www.grrif.ch/*'
+		],
+		js: 'connectors/grrif.js',
+		id: 'grrif',
 	}];
 });
