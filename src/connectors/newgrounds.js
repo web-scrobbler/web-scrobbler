@@ -1,17 +1,66 @@
 'use strict';
 
-Connector.playerSelector = '#_ngHiddenAudioPlayer';
+const artistSelector = '.ng-apg-media-artist';
+const trackSelector = '.ng-apg-media-title';
 
-Connector.playButtonSelector = '#global-audio-player-play';
+function setupConnector() {
+	if (isEmbeddedPlayer()) {
+		setupEmbeddedPlayer();
 
-Connector.pauseButtonSelector = '#global-audio-player-pause';
+		Connector.getArtistTrack = () => {
+			var { artist, track } = Util.splitArtistTrack(document.getElementsByTagName('h2')[0].innerText, '-');
 
-Connector.trackArtSelector = '.ng-apg-media-icon';
+			if (!artist) {
+				artist = document.getElementsByTagName('h4')[0].innerText;
+				track = document.getElementsByTagName('h2')[0].innerText;
+			}
 
-Connector.artistSelector = '.ng-apg-media-artist';
+			return { artist, track };
+		};
+	} else {
+		setupGlobalPlayer();
 
-Connector.trackSelector = '.ng-apg-media-title';
+		Connector.getArtistTrack = () => {
+			var { artist, track } = Util.splitArtistTrack(Util.getTextFromSelectors(trackSelector), '-');
 
-Connector.currentTimeSelector = '#global-audio-player-progress';
+			if (!artist) {
+				artist = Util.getTextFromSelectors(artistSelector);
+				track = Util.getTextFromSelectors(trackSelector);
+			}
 
-Connector.durationSelector = '#global-audio-player-duration';
+			return { artist, track };
+		};
+	}
+}
+
+function isEmbeddedPlayer() {
+	return $('#audio-listen-player').length > 0;
+}
+
+function setupGlobalPlayer() {
+	Connector.playerSelector = '#_ngHiddenAudioPlayer';
+
+	Connector.playButtonSelector = '#global-audio-player-play';
+
+	Connector.pauseButtonSelector = '#global-audio-player-pause';
+
+	Connector.trackArtSelector = '.ng-apg-media-icon';
+
+	Connector.currentTimeSelector = '#global-audio-player-progress';
+
+	Connector.durationSelector = '#global-audio-player-duration';
+}
+
+function setupEmbeddedPlayer() {
+	Connector.playerSelector = '#audio-listen-player';
+
+	Connector.playButtonSelector = '#audio-listen-play';
+
+	Connector.pauseButtonSelector = '#audio-listen-pause';
+
+	Connector.currentTimeSelector = '#audio-listen-progress';
+
+	Connector.durationSelector = '#audio-listen-duration';
+}
+
+setupConnector()
