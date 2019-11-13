@@ -13,24 +13,13 @@ Connector.albumSelector = '#currently-playing-work';
 Connector.currentTimeSelector = '.progress span[title="Current Time"]';
 
 /*
- * The connector has toggleable remaining time/duration.
+ * The website has toggleable remaining time/duration.
  * Either duration or remaining time is visible at the moment.
- * If duration is hidden, we calculate it ising remaining time.
+ * We keep both selectors and use a value of an active element.
  */
-Connector.getTimeInfo = () => {
-	let duration = Util.stringToSeconds(
-		Util.getTextFromSelectors('.progress span[title="Total Time"]')
-	);
-	const currentTime = Connector.getCurrentTime();
 
-	if (!duration) {
-		const remainingTime = Math.abs(Util.stringToSeconds(
-			Util.getTextFromSelectors('.progress span[title="Remaining Time"]')
-		));
-		duration = remainingTime + currentTime;
-	}
+Connector.durationSelector = '.progress span[title="Total Time"]';
 
-	return { currentTime, duration };
-};
+Connector.remainingTimeSelector = '.progress span[title="Remaining Time"]';
 
 Connector.playButtonSelector = '#player-play-pause img[title="Play"]';
