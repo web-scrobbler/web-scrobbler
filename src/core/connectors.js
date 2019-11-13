@@ -211,7 +211,7 @@ define(function() {
 		js: 'connectors/yandex-music.js',
 		id: 'yandex-music',
 	}, {
-		label: 'PLEX',
+		label: 'Plex',
 		matches: [
 			'*://*32400/web/*',
 			'*://plex.tv/web/*',
