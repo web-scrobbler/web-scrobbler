@@ -6,14 +6,11 @@ Connector.artistSelector = '.metadata span:nth-child(1)';
 
 Connector.trackSelector = '.metadata span:nth-child(3)';
 
-Connector.currentTimeSelector = '#progressContainer span:first';
+Connector.currentTimeSelector = '#progressContainer span:first-child';
 
 Connector.playButtonSelector = '#transport li.pause';
 
-Connector.getDuration = () => {
-	return Util.stringToSeconds($(Connector.currentTimeSelector).text()) +
-		Util.stringToSeconds($('#progressContainer span:last').text());
-};
+Connector.remainingTimeSelector = '#progressContainer span:last-child';
 
 Connector.trackArtSelector = 'td.art img';
 
