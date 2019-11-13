@@ -1,35 +1,31 @@
 'use strict';
 
-const globalArtistSelector = '.ng-apg-media-artist';
-const globalTrackSelector = '.ng-apg-media-title';
-const embeddedTrackSelector = "name";
-const embeddedArtistSelector = '.smaller';
+const artistSelector = '.ng-apg-media-artist';
+const trackSelector = '.ng-apg-media-title';
 
 function setupConnector() {
-	var artistSelector, trackSelector;
-
+	var artist, track;
 	if (isEmbeddedPlayer()) {
-		artistSelector = embeddedArtistSelector;
+		var {artist, track} = Util.splitArtistTrack(document.getElementsByTagName('h2')[0].innerText;, '-');
 
-		trackSelector = embeddedTrackSelector;
+		if (!artist) {
+			artist = document.getElementsByTagName('h4')[0].innerText;
+			track = document.getElementsByTagName('h2')[0].innerText;
+		}
 
 		setupEmbeddedPlayer();
 	} else {
-		artistSelector = globalArtistSelector;
-
-		trackSelector = globalTrackSelector;
-
-		setupGlobalPlayer();
-	}
-
-	Connector.getArtistTrack = () => {
-		let {artist, track} = Util.splitArtistTrack(Util.getTextFromSelectors(trackSelector), '-');
+		var {artist, track} = Util.splitArtistTrack(Util.getTextFromSelectors(trackSelector), '-');
 
 		if (!artist) {
 			artist = Util.getTextFromSelectors(artistSelector);
 			track = Util.getTextFromSelectors(trackSelector);
 		}
 
+		setupGlobalPlayer();
+	}
+
+	Connector.getArtistTrack = () => {
 		return { artist, track };
 	};
 }
