@@ -8,7 +8,7 @@ function setupConnector() {
 		setupEmbeddedPlayer();
 
 		Connector.getArtistTrack = () => {
-			var { artist, track } = Util.splitArtistTrack(document.getElementsByTagName('h2')[0].innerText, '-');
+			let { artist, track } = Util.splitArtistTrack(document.getElementsByTagName('h2')[0].innerText, '-');
 
 			if (!artist) {
 				artist = document.getElementsByTagName('h4')[0].innerText;
@@ -21,7 +21,7 @@ function setupConnector() {
 		setupGlobalPlayer();
 
 		Connector.getArtistTrack = () => {
-			var { artist, track } = Util.splitArtistTrack(Util.getTextFromSelectors(trackSelector), '-');
+			let { artist, track } = Util.splitArtistTrack(Util.getTextFromSelectors(trackSelector), '-');
 
 			if (!artist) {
 				artist = Util.getTextFromSelectors(artistSelector);
@@ -63,4 +63,4 @@ function setupEmbeddedPlayer() {
 	Connector.durationSelector = '#audio-listen-duration';
 }
 
-setupConnector()
+setupConnector();
