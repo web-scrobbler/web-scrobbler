@@ -3,12 +3,11 @@
 const artistSelector = '.playbackSoundBadge__titleContextContainer > a';
 const trackSelector = '.playbackSoundBadge__titleLink > span:nth-child(2)';
 const trackArtSelector = '.playControls span.sc-artwork';
+const durationSelector = '.playbackTimeline__duration > span:nth-child(2)';
 
 Connector.playerSelector = '.playControls';
 
 Connector.currentTimeSelector = '.playbackTimeline__timePassed > span:nth-child(2)';
-
-Connector.durationSelector = '.playbackTimeline__duration > span:nth-child(2)';
 
 Connector.getArtistTrack = () => {
 	let { artist, track } = Util.processSoundCloudTrack(
@@ -30,6 +29,20 @@ Connector.getTrackArt = () => {
 	return null;
 };
 
+Connector.getDuration = () => {
+	const time = getDurationOrRemainingTime();
+	return time > 0 ? time : null;
+};
+
+Connector.getRemainingTime = () => {
+	const time = getDurationOrRemainingTime();
+	return time < 0 ? time : null;
+};
+
 Connector.isPlaying = () => $('.playControl').hasClass('playing');
 
 Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+
+function getDurationOrRemainingTime() {
+	return Util.stringToSeconds(Util.getTextFromSelectors(durationSelector));
+}
