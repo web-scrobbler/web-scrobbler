@@ -4,34 +4,36 @@ const artistSelector = '.ng-apg-media-artist';
 const trackSelector = '.ng-apg-media-title';
 
 function setupConnector() {
-	var artist, track;
 	if (isEmbeddedPlayer()) {
-		var {artist, track} = Util.splitArtistTrack(document.getElementsByTagName('h2')[0].innerText;, '-');
-
-		if (!artist) {
-			artist = document.getElementsByTagName('h4')[0].innerText;
-			track = document.getElementsByTagName('h2')[0].innerText;
-		}
-
 		setupEmbeddedPlayer();
+
+		Connector.getArtistTrack = () => {
+			var { artist, track } = Util.splitArtistTrack(document.getElementsByTagName('h2')[0].innerText, '-');
+
+			if (!artist) {
+				artist = document.getElementsByTagName('h4')[0].innerText;
+				track = document.getElementsByTagName('h2')[0].innerText;
+			}
+
+			return { artist, track };
+		};
 	} else {
-		var {artist, track} = Util.splitArtistTrack(Util.getTextFromSelectors(trackSelector), '-');
-
-		if (!artist) {
-			artist = Util.getTextFromSelectors(artistSelector);
-			track = Util.getTextFromSelectors(trackSelector);
-		}
-
 		setupGlobalPlayer();
-	}
 
-	Connector.getArtistTrack = () => {
-		return { artist, track };
-	};
+		Connector.getArtistTrack = () => {
+			var { artist, track } = Util.splitArtistTrack(Util.getTextFromSelectors(trackSelector), '-');
+			if (!artist) {
+				artist = Util.getTextFromSelectors(artistSelector);
+				track = Util.getTextFromSelectors(trackSelector);
+			}
+
+			return { artist, track };
+		};
+	}
 }
 
 function isEmbeddedPlayer() {
-	return $('audio-listen-player').length > 0;
+	return $('#audio-listen-player').length > 0;
 }
 
 function setupGlobalPlayer() {
