@@ -6,17 +6,6 @@ Connector.remainingTimeSelector = '.d-np-time-display.remaining-time';
 Connector.currentTimeSelector = '.d-np-time-display.elapsed-time';
 Connector.trackArtSelector = '#d-album-art > #d-image img';
 
-Connector.getDuration = () => {
-	let elapsed = Util.stringToSeconds($(Connector.currentTimeSelector).text());
-	let remaining = -Util.stringToSeconds($(Connector.remainingTimeSelector).text());
-	return (remaining + elapsed);
-};
-
-Connector.getRemainingTime = () => {
-	let remaining = -Util.stringToSeconds($(Connector.remainingTimeSelector).text());
-	return remaining;
-};
-
 Connector.getArtistTrack = () => {
 	if (isPlayingLiveRadio()) {
 		let songTitle = $('.d-queue-info .song-title').text();
