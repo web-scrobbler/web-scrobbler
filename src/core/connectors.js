@@ -1230,6 +1230,7 @@ define(function() {
 		js: 'connectors/globalplayer.js',
 		id: 'globalplayer',
 	}, {
+<<<<<<< HEAD
 		label: 'The Current',
 		matches: ['*://www.thecurrent.org/*'],
 		js: 'connectors/thecurrent.js',
@@ -1247,5 +1248,11 @@ define(function() {
 		],
 		js: 'connectors/grrif.js',
 		id: 'grrif',
+=======
+		label: 'newgrounds',
+		matches: ['*://www.newgrounds.com/audio*'],
+		js: 'connectors/newgrounds.js',
+		id: 'newgrounds',
+>>>>>>> b0753fef9c67e70cfc1229d8a197545c21d7e66f
 	}];
 });
