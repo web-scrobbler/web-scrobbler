@@ -8,8 +8,6 @@ const artistAlbumSelector = '.web-chrome-playback-lcd__sub-copy-scroll-inner-tex
 
 Connector.playerSelector = '.web-chrome';
 
-Connector.pauseButtonSelector = '[data-test-playback-control-pause]';
-
 Connector.currentTimeSelector = '#apple-music-current-playback-time';
 
 Connector.remainingTimeSelector = '#apple-music-current-playback-time-remaining';
@@ -23,4 +21,8 @@ Connector.getTrackInfo = () => {
 	);
 
 	return { artist, album };
+};
+
+Connector.isPlaying = () => {
+	return $(Connector.playerSelector).hasClass('is-playing');
 };
