@@ -2,5 +2,5 @@ exclude:
   - '.grunt/**'
   - 'tests/**'
   - '*.js'
-reporter: lcovonly
+reporter: [lcovonly, text]
 cache-dir: .nyc_cache
