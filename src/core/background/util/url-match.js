@@ -72,3 +72,12 @@ function test(string, pattern) {
 define(() => {
 	return { test };
 });
+
+// @ifdef DEBUG
+/**
+ * Export function if script is executed in Node.js context.
+ */
+if (typeof module !== 'undefined') {
+	module.exports = { test };
+}
+// @endif
