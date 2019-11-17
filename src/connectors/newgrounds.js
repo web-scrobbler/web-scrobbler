@@ -1,35 +1,15 @@
 'use strict';
 
-const artistSelector = '.ng-apg-media-artist';
-const trackSelector = '.ng-apg-media-title';
+const globalArtistSelector = '.ng-apg-media-artist';
+const globalTrackSelector = '.ng-apg-media-title';
+const embeddedArtistSelector = '.item-user h4';
+const embeddedTrackSelector = '.pod-head h2';
 
 function setupConnector() {
 	if (isEmbeddedPlayer()) {
 		setupEmbeddedPlayer();
-
-		Connector.getArtistTrack = () => {
-			let { artist, track } = Util.splitArtistTrack(document.getElementsByTagName('h2')[0].innerText, '-');
-
-			if (!artist) {
-				artist = document.getElementsByTagName('h4')[0].innerText;
-				track = document.getElementsByTagName('h2')[0].innerText;
-			}
-
-			return { artist, track };
-		};
 	} else {
 		setupGlobalPlayer();
-
-		Connector.getArtistTrack = () => {
-			let { artist, track } = Util.splitArtistTrack(Util.getTextFromSelectors(trackSelector), '-');
-
-			if (!artist) {
-				artist = Util.getTextFromSelectors(artistSelector);
-				track = Util.getTextFromSelectors(trackSelector);
-			}
-
-			return { artist, track };
-		};
 	}
 }
 
@@ -38,11 +18,19 @@ function isEmbeddedPlayer() {
 }
 
 function setupGlobalPlayer() {
+	Connector.getArtistTrack = () => {
+		let { artist, track } = Util.splitArtistTrack(Util.getTextFromSelectors(globalTrackSelector), '-');
+
+		if (!artist) {
+			artist = Util.getTextFromSelectors(globalArtistSelector);
+			track = Util.getTextFromSelectors(globalTrackSelector);
+		}
+
+		return { artist, track };
+	};
 	Connector.playerSelector = '#_ngHiddenAudioPlayer';
 
 	Connector.playButtonSelector = '#global-audio-player-play';
-
-	Connector.pauseButtonSelector = '#global-audio-player-pause';
 
 	Connector.trackArtSelector = '.ng-apg-media-icon';
 
@@ -52,11 +40,19 @@ function setupGlobalPlayer() {
 }
 
 function setupEmbeddedPlayer() {
+	Connector.getArtistTrack = () => {
+		let { artist, track } = Util.splitArtistTrack(Util.getTextFromSelectors(embeddedTrackSelector), '-');
+
+		if (!artist) {
+			artist = Util.getTextFromSelectors(embeddedArtistSelector);
+			track = Util.getTextFromSelectors(embeddedTrackSelector);
+		}
+
+		return { artist, track };
+	};
 	Connector.playerSelector = '#audio-listen-player';
 
 	Connector.playButtonSelector = '#audio-listen-play';
-
-	Connector.pauseButtonSelector = '#audio-listen-pause';
 
 	Connector.currentTimeSelector = '#audio-listen-progress';
 
