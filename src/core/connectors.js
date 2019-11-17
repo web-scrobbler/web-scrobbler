@@ -1205,6 +1205,11 @@ define(function() {
 		js: 'connectors/watch2gether.js',
 		id: 'watch2gether',
 	}, {
+		label: 'Poolside FM',
+		matches: ['*://poolside.fm/*'],
+		js: 'connectors/poolside.js',
+		id: 'poolside',
+	}, {
 		label: 'GDS.FM',
 		matches: ['*://play.gds.fm/*'],
 		js: 'connectors/gds-play.fm.js',
