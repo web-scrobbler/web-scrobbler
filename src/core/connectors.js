@@ -1247,5 +1247,10 @@ define(function() {
 		],
 		js: 'connectors/grrif.js',
 		id: 'grrif',
+	}, {
+		label: 'newgrounds',
+		matches: ['*://www.newgrounds.com/audio*'],
+		js: 'connectors/newgrounds.js',
+		id: 'newgrounds',
 	}];
 });
