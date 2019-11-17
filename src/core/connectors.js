@@ -383,7 +383,7 @@ define(function() {
 		id: 'classicalradio',
 	}, {
 		label: 'Radio.com',
-		matches: ['*://player.radio.com/*'],
+		matches: ['*://www.radio.com/*'],
 		js: 'connectors/radio.com.js',
 		id: 'radio.com',
 	}, {
