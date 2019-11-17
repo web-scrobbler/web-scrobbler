@@ -13,6 +13,16 @@ const URL_MATCH_DATA = [{
 	urls: ['http://example.com/'],
 	expected: false,
 }, {
+	description: 'should return false for malformed pattern',
+	pattern: 'aaa://test.com/',
+	urls: ['http://example.com/'],
+	expected: false,
+}, {
+	description: 'should return false for malformed pattern',
+	pattern: '*://',
+	urls: ['http://example.com/'],
+	expected: false,
+}, {
 	description: 'should return false for non-matched pattern',
 	pattern: '*://test.com/*',
 	urls: ['http://example.com/', 'http://www.test.com/page'],
