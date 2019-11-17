@@ -211,7 +211,7 @@ define(function() {
 		js: 'connectors/yandex-music.js',
 		id: 'yandex-music',
 	}, {
-		label: 'PLEX',
+		label: 'Plex',
 		matches: [
 			'*://*32400/web/*',
 			'*://plex.tv/web/*',
@@ -383,7 +383,7 @@ define(function() {
 		id: 'classicalradio',
 	}, {
 		label: 'Radio.com',
-		matches: ['*://player.radio.com/*'],
+		matches: ['*://www.radio.com/*'],
 		js: 'connectors/radio.com.js',
 		id: 'radio.com',
 	}, {

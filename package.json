@@ -9,12 +9,12 @@
     "url": "https://github.com/web-scrobbler/web-scrobbler.git"
   },
   "devDependencies": {
-    "@octokit/rest": "16.34.1",
+    "@octokit/rest": "16.35.0",
     "chai": "4.2.0",
     "chai-spies": "1.0.0",
     "codacy-coverage": "3.4.0",
     "dotenv": "8.2.0",
-    "eslint-plugin-jsdoc": "17.1.1",
+    "eslint-plugin-jsdoc": "18.0.1",
     "firefox-extension-deploy": "1.1.2",
     "grunt": "1.0.4",
     "grunt-bump": "0.8.0",
@@ -40,7 +40,7 @@
     "nyc": "14.1.1",
     "remark-preset-lint-recommended": "3.0.3",
     "requirejs": "2.3.6",
-    "stylelint": "11.1.1",
+    "stylelint": "12.0.0",
     "stylelint-order": "3.1.1"
   },
   "engines": {

@@ -8,7 +8,7 @@ const ROOT_DIR = '..';
 const CONNECTORS_DIR = 'src/connectors/';
 
 const SERVICE_FILES = [
-	'dummy.js', '.eslintrc.js'
+	'dummy.js', '.eslintrc.yml'
 ];
 const DOM_INJECT_SUFFIX = 'dom-inject.js';
 

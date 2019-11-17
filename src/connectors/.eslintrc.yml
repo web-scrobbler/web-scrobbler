@@ -1,0 +1,4 @@
+globals:
+  Util: readonly
+  Connector: readonly
+  MetadataFilter: readonly

@@ -1,0 +1,6 @@
+globals:
+  Util: readonly
+  Reactor: readonly
+  Connector: readonly
+  BaseConnector: readonly
+  MetadataFilter: readonly
