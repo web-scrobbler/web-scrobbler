@@ -564,9 +564,11 @@ const Util = {
 	},
 };
 
+// @ifdef DEBUG
 /**
  * Export Util object if script is executed in Node.js context.
  */
 if (typeof module !== 'undefined') {
 	module.exports = Util;
 }
+// @endif
