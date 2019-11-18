@@ -40,6 +40,8 @@ To install the extension from sources or zip file, read [this page][WikiUnpacked
 
 ## Development
 
+Build instructions are available [here][BuildInstructions].
+
 Check the [wiki page][WikiDev] to understand development of connectors. Please also read [contributions guidelines][Contributing].
 
 ### Translations
@@ -72,6 +74,7 @@ See the [license file][License].
 [WebStoreBadge]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg
 
 <!-- Docs -->
+[BuildInstructions]: https://github.com/web-scrobbler/web-scrobbler/wiki/Setup-development-environment
 [Contributing]: https://github.com/web-scrobbler/web-scrobbler/blob/master/.github/CONTRIBUTING.md
 [DocsUnpacked]: https://developer.chrome.com/extensions/getstarted#unpacked
 [License]: https://github.com/web-scrobbler/web-scrobbler/blob/master/LICENSE.md
