@@ -12,7 +12,8 @@ define((require) => {
 		'duration', 'artist', 'track'
 	];
 	const METADATA_TO_COPY = [
-		'artistThumbUrl', 'artistUrl', 'trackUrl', 'albumUrl', 'userPlayCount'
+		'trackArtUrl', 'artistUrl', 'trackUrl',
+		'albumUrl', 'userPlayCount', 'albumMbId'
 	];
 
 	/**

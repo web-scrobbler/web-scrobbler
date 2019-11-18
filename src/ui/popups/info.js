@@ -328,7 +328,7 @@ require([
 	}
 
 	function getCoverArt() {
-		return song.parsed.trackArt || song.metadata.artistThumbUrl ||
+		return song.parsed.trackArt || song.metadata.trackArtUrl ||
 			'/icons/cover_art_default.png';
 	}
 

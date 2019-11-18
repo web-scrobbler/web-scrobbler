@@ -89,10 +89,9 @@ define((require) => {
 
 					const imageSizes = ['extralarge', 'large', 'medium'];
 					for (const imageSize of imageSizes) {
-						const artistThumbUrl = images[imageSize];
-
-						if (artistThumbUrl) {
-							songInfo.artistThumbUrl = artistThumbUrl;
+						const url = images[imageSize];
+						if (url) {
+							songInfo.trackArtUrl = url;
 							break;
 						}
 					}

@@ -9,7 +9,7 @@ define(() => {
 		if (song.parsed.trackArt) {
 			console.log('Using local/parsed artwork');
 			return;
-		} else if (song.metadata.artistThumbUrl) {
+		} else if (song.metadata.trackArtUrl) {
 			console.log('Found album artwork via LastFM');
 			return;
 		} else if (song.isEmpty()) {
@@ -18,17 +18,24 @@ define(() => {
 
 		let endpoints = ['release', 'release-group'];
 		for (let endpoint of endpoints) {
+			let mbId = song.metadata.albumMbId;
+			let coverArtUrl = null;
+
 			try {
-				let mbId = await getMusicBrainzId(endpoint, song);
-				let coverArtUrl = await checkCoverArt(mbId);
-				if (coverArtUrl) {
-					console.log('Found album artwork via MusicBrainz');
-
-					song.metadata.artistThumbUrl = coverArtUrl;
-					return;
+				if (!mbId) {
+					mbId = await getMusicBrainzId(endpoint, song);
 				}
-			} catch (e) {
 
+				coverArtUrl = await checkCoverArt(mbId);
+			} catch (e) {
+				return;
+			}
+
+			if (coverArtUrl) {
+				console.log('Found album artwork via MusicBrainz');
+
+				song.metadata.trackArtUrl = coverArtUrl;
+				return;
 			}
 		}
 	}
@@ -61,10 +68,7 @@ define(() => {
 		}
 
 		let results = musicbrainz[`${endpoint}s`];
-		let mbid = results[0].id;
-		song.metadata.musicBrainzId = mbid;
-
-		return mbid;
+		return results[0].id;
 	}
 
 	/**

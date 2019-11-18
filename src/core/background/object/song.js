@@ -223,7 +223,7 @@ define((require) => {
 		 * @return {String} Track art URL
 		 */
 		getTrackArt() {
-			return this.parsed.trackArt || this.metadata.artistThumbUrl || null;
+			return this.parsed.trackArt || this.metadata.trackArtUrl || null;
 		}
 
 		/**
