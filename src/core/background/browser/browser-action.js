@@ -4,67 +4,69 @@ define((require) => {
 	const TEMP_ICON_DISPLAY_DURATION = 5000;
 
 	const browser = require('webextension-polyfill');
+	const ControllerMode = require('object/controller-mode');
 
-	const State = {
-		base: {
+	const Mode = {
+		[ControllerMode.Base]: {
 			icon: 'base',
 			popup: '/ui/popups/go_play_music.html',
 			i18n: 'pageActionBase',
 		},
-		loading: {
+		[ControllerMode.Loading]: {
 			icon: 'loading',
 			popup: '',
 			i18n: 'pageActionLoading',
 		},
-		recognized: {
+		[ControllerMode.Playing]: {
 			icon: 'note',
 			popup: '/ui/popups/info.html',
 			i18n: 'pageActionRecognized',
 		},
-		scrobbled: {
+		[ControllerMode.Scrobbled]: {
 			icon: 'tick',
 			popup: '/ui/popups/info.html',
 			i18n: 'pageActionScrobbled',
 		},
-		skipped: {
+		[ControllerMode.Skipped]: {
 			icon: 'skipped',
 			popup: '/ui/popups/info.html',
 			i18n: 'pageActionSkipped',
 		},
-		ignored: {
+		[ControllerMode.Ignored]: {
 			icon: 'ignored',
 			popup: '',
 			i18n: 'pageActionIgnored',
 		},
-		disabled: {
+		[ControllerMode.Disabled]: {
 			icon: 'disabled',
 			popup: '/ui/popups/disabled.html',
 			i18n: 'pageActionDisabled',
 		},
-		unknown: {
+		[ControllerMode.Unknown]: {
 			icon: 'unknown',
 			popup: '/ui/popups/info.html',
 			i18n: 'pageActionUnknown',
 		},
-		error: {
+		[ControllerMode.Error]: {
 			icon: 'error',
 			popup: '/ui/popups/error.html',
 			i18n: 'pageActionError',
 		},
-		unsupported: {
-			icon: 'unsupported',
-			popup: '/ui/popups/unsupported.html',
-			i18n: 'pageActionUnsupported',
-		},
-		loved: {
+
+		Loved: {
 			icon: 'loved',
 			popup: '/ui/popups/info.html',
 			i18n: 'pageActionLoved',
 		},
-		unloved: {
+		Unloved: {
 			icon: 'unloved',
 			popup: '/ui/popups/info.html',
 			i18n: 'pageActionUnloved',
+		},
+		Unsupported: {
+			icon: 'unsupported',
+			popup: '/ui/popups/unsupported.html',
+			i18n: 'pageActionUnsupported',
 		},
 	};
 
@@ -74,103 +76,44 @@ define((require) => {
 	class BrowserAction {
 		/**
 		 * @constructor
-		 * @param {Number} tabId Tab ID
 		 */
-		constructor(tabId) {
-			this.tabId = tabId;
-
+		constructor() {
 			this.currBrowserAction = {};
 			this.lastBrowserAction = {};
 			this.timeoutId = null;
 		}
 
-		/**
-		 * Show read Last.fm icon (connector is injected).
-		 */
-		setSiteSupported() {
-			this.setPermBrowserAction(State.base);
-		}
+		update(ctrl) {
+			const baMode = Mode[ctrl.mode];
+			let placeholder = null;
 
-		/**
-		 * Show search icon (song is processing by pipeline).
-		 * @param {Object} song Song instance
-		 */
-		setSongLoading(song) {
-			this.setPermBrowserAction(State.loading, song.getArtistTrackString());
-		}
+			const currentSong = ctrl.getCurrentSong();
+			if (currentSong) {
+				placeholder = currentSong.getArtistTrackString();
+			}
 
-		/**
-		 * Show now playing icon.
-		 * @param {Object} song Song instance
-		 */
-		setSongRecognized(song) {
-			this.setPermBrowserAction(State.recognized, song.getArtistTrackString());
-		}
-
-		/**
-		 * Show gray now playing icon (song is skipped by user).
-		 * @param {Object} song Song instance
-		 */
-		setSongSkipped(song) {
-			this.setPermBrowserAction(State.skipped, song.getArtistTrackString());
-		}
-
-		/**
-		 * Show red cross icon (song is ignored by scrobbling service).
-		 * @param {Object} song Song instance
-		 */
-		setSongIgnored(song) {
-			this.setPermBrowserAction(State.ignored, song.getArtistTrackString());
-		}
-
-		/**
-		 * Show gray Last.fm icon (connector is disabled).
-		 */
-		setSiteDisabled() {
-			this.setPermBrowserAction(State.disabled);
-		}
-
-		/**
-		 * Show green tick icon (song is scrobbled).
-		 * @param {Object} song Song instance
-		 */
-		setSongScrobbled(song) {
-			this.setPermBrowserAction(State.scrobbled, song.getArtistTrackString());
-		}
-
-		/**
-		 * Show gray question icon (song is not known by scrobbling service).
-		 */
-		setSongNotRecognized() {
-			this.setPermBrowserAction(State.unknown);
-		}
-
-		/**
-		 * Show orange Last.fm icon (auth error is occurred).
-		 */
-		setError() {
-			this.setPermBrowserAction(State.error);
+			this.setPermBrowserAction(baMode, placeholder);
 		}
 
 		setSongLoved(isLoved, song) {
-			const state = isLoved ? State.loved : State.unloved;
-			this.setTempBrowserAction(state, song.getArtistTrackString());
+			const mode = isLoved ? Mode.Loved : Mode.Unloved;
+			this.setTempBrowserAction(mode, song.getArtistTrackString());
 		}
 
 		/**
-		 * Hide browser action icon.
+		 * Reset browser action icon.
 		 */
 		reset() {
-			this.setPermBrowserAction(State.unsupported);
+			this.setPermBrowserAction(Mode.Unsupported);
 		}
 
 		/* Internal functions */
 
-		setPermBrowserAction(state, placeholder) {
-			const browserAction = this.getBrowserAction(state, placeholder);
+		setPermBrowserAction(mode, placeholder) {
+			const browserAction = this.getBrowserAction(mode, placeholder);
 
 			if (this.isTempIconVisible()) {
-				// Override last state, but don't change the browser action
+				// Override last mode, but don't change the browser action
 				this.lastBrowserAction = browserAction;
 			} else {
 				this.setRawBrowserAction(browserAction);
@@ -183,10 +126,10 @@ define((require) => {
 		 * TEMP_ICON_DISPLAY_DURATION ms restore previous
 		 * non-temporary browser action icon.
 		 *
-		 * @param {Object} state Browser action state
+		 * @param {Object} mode Browser action mode
 		 * @param {String} placeholder String used to format title
 		 */
-		setTempBrowserAction(state, placeholder) {
+		setTempBrowserAction(mode, placeholder) {
 			if (this.isTempIconVisible()) {
 				clearTimeout(this.timeoutId);
 				this.timeoutId = null;
@@ -194,7 +137,7 @@ define((require) => {
 				this.lastBrowserAction = this.currBrowserAction;
 			}
 
-			const browserAction = this.getBrowserAction(state, placeholder);
+			const browserAction = this.getBrowserAction(mode, placeholder);
 			this.setRawBrowserAction(browserAction);
 			this.timeoutId = setTimeout(() => {
 				this.timeoutId = null;
@@ -203,8 +146,8 @@ define((require) => {
 			}, TEMP_ICON_DISPLAY_DURATION);
 		}
 
-		getBrowserAction(state, placeholder) {
-			const { icon, popup, i18n } = state;
+		getBrowserAction(mode, placeholder) {
+			const { icon, popup, i18n } = mode;
 			const title = browser.i18n.getMessage(i18n, placeholder);
 			const path = {
 				19: `/icons/page_action_${icon}_19.png`,
@@ -215,16 +158,16 @@ define((require) => {
 		}
 
 		async setRawBrowserAction(browserAction) {
-			const tabId = this.tabId;
+			// const tabId = this.tabId;
 			const { path, title, popup } = browserAction;
 
 			try {
-				await browser.browserAction.setIcon({ tabId, path });
-				await browser.browserAction.setTitle({ tabId, title });
-				await browser.browserAction.setPopup({ tabId, popup });
+				await browser.browserAction.setIcon({ /* tabId,*/ path });
+				await browser.browserAction.setTitle({ /* tabId,*/ title });
+				await browser.browserAction.setPopup({ /* tabId,*/ popup });
 			} catch (e) {
 				console.warn(
-					`Unable to set browser action icon for tab ${tabId}`);
+					'Unable to set browser action icon');
 			}
 		}
 

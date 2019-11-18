@@ -32,9 +32,6 @@
     "toggle-connector": {
       "description": "__MSG_hotkeyToggleConnector__"
     },
-    "disable-connector": {
-      "description": "__MSG_hotkeyDisableConnectorUntilClosed__"
-    },
     "love-song": {
       "description": "__MSG_hotkeyLoveSong__"
     },

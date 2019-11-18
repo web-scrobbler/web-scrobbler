@@ -527,10 +527,6 @@
         "message": "Verbinder $1 aktivieren",
         "description": "Context menu item"
     },
-    "menuDisableUntilTabClosed": {
-        "message": "Verbinder deaktivieren bis Tab geschlossen ist",
-        "description": "Context menu item"
-    },
     "notificationConnectAccounts": {
         "message": "Verbinde deine Accounts",
         "description": "Notification title"
@@ -581,10 +577,6 @@
     },
     "hotkeyToggleConnector": {
         "message": "Toggle scrobbling für die Webseite",
-        "description": "Hotkey label"
-    },
-    "hotkeyDisableConnectorUntilClosed": {
-        "message": "für die Webseite Scrobbling deaktivieren bis der tab geschlossen",
         "description": "Hotkey label"
     },
     "hotkeyLoveSong": {

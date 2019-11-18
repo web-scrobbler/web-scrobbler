@@ -527,10 +527,6 @@
         "message": "启用 $1 接口",
         "description": "Context menu item"
     },
-    "menuDisableUntilTabClosed": {
-        "message": "禁用接口直至标签关闭",
-        "description": "Context menu item"
-    },
     "notificationConnectAccounts": {
         "message": "连接账户",
         "description": "Notification title"
@@ -581,10 +577,6 @@
     },
     "hotkeyToggleConnector": {
         "message": "Toggle scrobbling for current website",
-        "description": "Hotkey label"
-    },
-    "hotkeyDisableConnectorUntilClosed": {
-        "message": "Disable scrobbling for current website until tab is closed",
         "description": "Hotkey label"
     },
     "hotkeyLoveSong": {

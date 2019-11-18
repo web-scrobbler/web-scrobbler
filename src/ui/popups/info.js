@@ -1,8 +1,8 @@
 'use strict';
 
 require([
-	'webextension-polyfill', 'util/util'
-], (browser, Util) => {
+	'webextension-polyfill'
+], (browser) => {
 	const EDITED_TRACK_FIELDS = ['artist', 'track', 'album', 'albumArtist'];
 	const FIELD_URL_MAP = {
 		artist: 'artistUrl',
@@ -19,10 +19,13 @@ require([
 	}
 
 	async function sendMessageToCurrentTab(type, data) {
-		const tab = await Util.getCurrentTab();
-		const tabId = tab.id;
+		const tabId = await sendMessage('REQUEST_ACTIVE_TABID');
 
 		return browser.runtime.sendMessage({ type, data, tabId });
+	}
+
+	async function sendMessage(type, data) {
+		return browser.runtime.sendMessage({ type, data });
 	}
 
 	function onSongLoaded() {
@@ -309,11 +312,6 @@ require([
 	function setupMessageListener() {
 		browser.runtime.onMessage.addListener(async(request) => {
 			if (request.type !== 'EVENT_SONG_UPDATED') {
-				return;
-			}
-
-			const tab = await Util.getCurrentTab();
-			if (tab.id !== request.tabId) {
 				return;
 			}
 

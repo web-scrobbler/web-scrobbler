@@ -581,10 +581,6 @@
     "message": "Enable $1 connector",
     "description": "Context menu item"
   },
-  "menuDisableUntilTabClosed": {
-    "message": "Disable connector until tab is closed",
-    "description": "Context menu item"
-  },
 
 
   "notificationConnectAccounts": {
@@ -638,10 +634,6 @@
 
   "hotkeyToggleConnector": {
     "message": "Toggle scrobbling for current website",
-    "description": "Hotkey label"
-  },
-  "hotkeyDisableConnectorUntilClosed": {
-    "message": "Disable scrobbling for current website until tab is closed",
     "description": "Hotkey label"
   },
   "hotkeyLoveSong": {

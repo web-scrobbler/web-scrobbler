@@ -527,10 +527,6 @@
         "message": "Aktywuj obsługę $1",
         "description": "Context menu item"
     },
-    "menuDisableUntilTabClosed": {
-        "message": "Wyłącz scrobblowanie do zamknięcia karty",
-        "description": "Context menu item"
-    },
     "notificationConnectAccounts": {
         "message": "Połącz swoje konta",
         "description": "Notification title"
@@ -581,10 +577,6 @@
     },
     "hotkeyToggleConnector": {
         "message": "Przełącz scrobblowanie dla obecnej witryny",
-        "description": "Hotkey label"
-    },
-    "hotkeyDisableConnectorUntilClosed": {
-        "message": "Wyłącz scrobblowanie na obecnej witrynie do zamknięcia karty",
         "description": "Hotkey label"
     },
     "hotkeyLoveSong": {

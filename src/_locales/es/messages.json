@@ -559,10 +559,6 @@
         "message": "Activar conector $1",
         "description": "Context menu item"
     },
-    "menuDisableUntilTabClosed": {
-        "message": "Desactivar el conector hasta que la pestaña esté cerrada",
-        "description": "Context menu item"
-    },
     "notificationConnectAccounts": {
         "message": "Conectar sus cuentas",
         "description": "Notification title"
@@ -613,10 +609,6 @@
     },
     "hotkeyToggleConnector": {
         "message": "Cambiar la modalidad de scrobbling para el actual sitio web",
-        "description": "Hotkey label"
-    },
-    "hotkeyDisableConnectorUntilClosed": {
-        "message": "Deshabilitar el scrobbling desde el actual sitio web hasta que la pestaña esté cerrada",
         "description": "Hotkey label"
     },
     "hotkeyLoveSong": {

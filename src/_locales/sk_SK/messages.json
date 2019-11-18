@@ -535,10 +535,6 @@
         "message": "Povoliť $1 konektor",
         "description": "Context menu item"
     },
-    "menuDisableUntilTabClosed": {
-        "message": "Zakázať konektor pokým karta nie je zatvorená",
-        "description": "Context menu item"
-    },
     "notificationConnectAccounts": {
         "message": "Prihlásiť účty",
         "description": "Notification title"
@@ -589,10 +585,6 @@
     },
     "hotkeyToggleConnector": {
         "message": "Prepnúť zaznamenávanie pre aktuálnu stránku",
-        "description": "Hotkey label"
-    },
-    "hotkeyDisableConnectorUntilClosed": {
-        "message": "Zakázať činnosť na aktuálnej stránke pokým karta nie je zatvorená",
         "description": "Hotkey label"
     },
     "hotkeyLoveSong": {
