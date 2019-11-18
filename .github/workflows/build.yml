@@ -1,0 +1,32 @@
+name: Build
+on:
+  push:
+    branches: '*'
+  pull_request:
+    types: [opened, synchronize]
+jobs:
+  test:
+    name: Build the extension
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Read .nvmrc
+      run: echo ::set-output name=nvmrc::$(cat .nvmrc)
+      id: nvm
+    - name: Setup node
+      uses: actions/setup-node@v1
+      with:
+        node-version: '${{ steps.nvm.outputs.nvmrc }}'
+    - run: npm install
+    - name: Build the extension (Chrome)
+      run: npx grunt dist:chrome
+    - uses: actions/upload-artifact@master
+      with:
+        name: web-scrobbler-chrome
+        path: web-scrobbler.zip
+    - name: Build the extension (Firefox)
+      run: npx grunt dist:firefox
+    - uses: actions/upload-artifact@master
+      with:
+        name: web-scrobbler-firefox
+        path: web-scrobbler.zip
