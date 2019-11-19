@@ -52,7 +52,7 @@ define((require) => {
 	 * Scrobble podcast episodes. Inherits the GoogleMusic setting.
 	 * @type {Boolean}
 	 */
-	DEFAULT_OPTIONS[SCROBBLE_PODCASTS] = undefined;
+	DEFAULT_OPTIONS[SCROBBLE_PODCASTS] = true;
 
 	/**
 	 * Object that stores default option values for specific connectors.
@@ -60,7 +60,7 @@ define((require) => {
 	 */
 	const DEFAULT_CONNECTOR_OPTIONS = {
 		GoogleMusic: {
-			scrobblePodcasts: true
+			scrobblePodcasts: undefined
 		},
 		Tidal: {
 			useShortTrackNames: false

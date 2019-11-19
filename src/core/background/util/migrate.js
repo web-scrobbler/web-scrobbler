@@ -46,13 +46,13 @@ define((require) => {
 	}
 
 	async function migrateGooglePlayPodcastOption() {
-		const scrobblePodcasts = await Options.getOption(Options.SCROBBLE_PODCASTS);
-		if (scrobblePodcasts !== undefined) {
+		const scrobbleGooglePodcasts = await Options.getConnectorOption('GoogleMusic', 'scrobblePodcasts');
+		if (scrobbleGooglePodcasts === undefined) {
 			return;
 		}
 
-		const scrobbleGooglePodcasts = await Options.getConnectorOption('GoogleMusic', 'scrobblePodcasts');
 		await Options.setOption(Options.SCROBBLE_PODCASTS, scrobbleGooglePodcasts);
+		await Options.setConnectorOption('GoogleMusic', 'scrobblePodcasts', undefined);
 
 		Util.debugLog('Migrated Google Play Music podcast scrobbling setting to global context');
 	}
