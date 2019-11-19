@@ -676,26 +676,10 @@ function BaseConnector() {
 	this.reactorCallback = null;
 
 	/**
-	 * Used to determine whether or not podcasts should be scrobbled in onStateChanged()
-	 * @type {Boolean}
-	 */
-	let shouldScrobblePodcasts = true;
-	Util.getOption(Options.SCROBBLE_PODCASTS).then((sp) => shouldScrobblePodcasts = sp);
-
-	/**
 	 * Function for all the hard work around detecting and updating state.
 	 */
 	this.stateChangedWorker = () => {
-		/**
-		 * Override isScrobblingAllowed if the user has specified that they don't
-		 * want to scrobble podcasts and a podcast is currently playing. If the
-		 * user doesn't disable podcast scrobbling, don't bother with the check.
-		 */
-		let isScrobblingAllowed = this.isScrobblingAllowed();
-		if (!shouldScrobblePodcasts && this.isPodcast()) {
-			isScrobblingAllowed = false;
-		}
-		if (!isScrobblingAllowed) {
+		if (!this.isScrobblingAllowed()) {
 			this.resetState();
 			return;
 		}
