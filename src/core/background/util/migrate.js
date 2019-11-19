@@ -14,6 +14,7 @@ define((require) => {
 	 */
 	async function migrate() {
 		await migrateConnectorOptions();
+		await migrateGooglePlayPodcastOption();
 	}
 
 	async function migrateConnectorOptions() {
@@ -42,6 +43,12 @@ define((require) => {
 			Options.DISABLED_CONNECTORS, disabledConnectorsNew);
 
 		Util.debugLog('Updated disabled connectors');
+	}
+
+	async function migrateGooglePlayPodcastOption() {
+		const scrobbleGooglePodcasts = await Options.getConnectorOption('GoogleMusic', 'scrobblePodcasts');
+		const scrobblePodcasts = scrobbleGooglePodcasts || true;
+		await Options.setOption(Options.SCROBBLE_PODCASTS, scrobblePodcasts);
 	}
 
 	return { migrate };
