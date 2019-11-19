@@ -364,6 +364,14 @@ function BaseConnector() {
 	};
 
 	/**
+	 * Default implementation to check whether a podcast is playing. Only has an
+	 * effect if the user has opted to disable podcast scrobbling.
+	 *
+	 * @return {Boolean} True if the current track is a podcast; false otherwise
+	 */
+	this.isPodcast = () => false;
+
+	/**
 	 * Default implementation used to get the track art URL from the selector.
 	 *
 	 * Override this method for more complex behaviour.
@@ -662,10 +670,26 @@ function BaseConnector() {
 	this.reactorCallback = null;
 
 	/**
+	 * Used to determine whether or not podcasts should be scrobbled in onStateChanged()
+	 * @type {Boolean}
+	 */
+	let shouldScrobblePodcasts = true;
+	Util.getOption(Options.SCROBBLE_PODCASTS).then((sp) => shouldScrobblePodcasts = sp);
+
+	/**
 	 * Function for all the hard work around detecting and updating state.
 	 */
 	this.stateChangedWorker = () => {
-		if (!this.isScrobblingAllowed()) {
+		/**
+		 * Override isScrobblingAllowed if the user has specified that they don't
+		 * want to scrobble podcasts and a podcast is currently playing. If the
+		 * user doesn't disable podcast scrobbling, don't bother with the check.
+		 */
+		let isScrobblingAllowed = this.isScrobblingAllowed();
+		if (!shouldScrobblePodcasts && this.isPodcast()) {
+			isScrobblingAllowed = false;
+		}
+		if (!isScrobblingAllowed) {
 			this.resetState();
 			return;
 		}

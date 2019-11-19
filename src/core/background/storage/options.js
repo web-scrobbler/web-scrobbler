@@ -12,6 +12,7 @@ define((require) => {
 	const USE_NOTIFICATIONS = 'useNotifications';
 	const DISABLED_CONNECTORS = 'disabledConnectors';
 	const USE_UNRECOGNIZED_SONG_NOTIFICATIONS = 'useUnrecognizedSongNotifications';
+	const SCROBBLE_PODCASTS = 'scrobblePodcasts';
 
 	/**
 	 * Object that stores default option values.
@@ -48,13 +49,16 @@ define((require) => {
 	DEFAULT_OPTIONS[USE_UNRECOGNIZED_SONG_NOTIFICATIONS] = false;
 
 	/**
+	 * Scrobble podcast episodes.
+	 * @type {Boolean}
+	 */
+	DEFAULT_OPTIONS[SCROBBLE_PODCASTS] = true;
+
+	/**
 	 * Object that stores default option values for specific connectors.
 	 * @type {Object}
 	 */
 	const DEFAULT_CONNECTOR_OPTIONS = {
-		GoogleMusic: {
-			scrobblePodcasts: true
-		},
 		Tidal: {
 			useShortTrackNames: false
 		},

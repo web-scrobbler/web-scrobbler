@@ -39,11 +39,11 @@
         "message": "禁止向 Google Analytics 发送数据",
         "description": "Option title"
     },
-    "optionGmPodcasts": {
+    "optionScrobblePodcasts": {
         "message": "Scrobble podcasts on Google Music",
         "description": "Option title"
     },
-    "optionGmPodcastsTitle": {
+    "optionScrobblePodcastsTitle": {
         "message": "Scrobble podcasts on Google Music",
         "description": "Option label"
     },

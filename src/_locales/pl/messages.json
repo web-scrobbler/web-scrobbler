@@ -39,11 +39,11 @@
         "message": "Wyłącz zbieranie statystyk użytkowania przez Google Analytics",
         "description": "Option title"
     },
-    "optionGmPodcasts": {
+    "optionScrobblePodcasts": {
         "message": "Scrobbluj podcasty z Google Music",
         "description": "Option title"
     },
-    "optionGmPodcastsTitle": {
+    "optionScrobblePodcastsTitle": {
         "message": "Scrobbluj podcasty z Google Music",
         "description": "Option label"
     },

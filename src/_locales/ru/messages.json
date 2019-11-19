@@ -39,11 +39,11 @@
         "message": "Отключить отправку анонимной статистики использования расширения",
         "description": "Option title"
     },
-    "optionGmPodcasts": {
+    "optionScrobblePodcasts": {
         "message": "Скроблить подкасты Google Play Music",
         "description": "Option title"
     },
-    "optionGmPodcastsTitle": {
+    "optionScrobblePodcastsTitle": {
         "message": "Скроблить подкасты Google Play Music",
         "description": "Option label"
     },

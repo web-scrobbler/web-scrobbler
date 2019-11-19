@@ -12,11 +12,9 @@ define((require) => {
 		'#force-recognize': Options.FORCE_RECOGNIZE,
 		'#use-notifications': Options.USE_NOTIFICATIONS,
 		'#use-unrecognized-song-notifications': Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
+		'#scrobble-podcasts': Options.SCROBBLE_PODCASTS,
 	};
 	const CONNECTORS_OPTIONS_UI_MAP = {
-		GoogleMusic: {
-			'#gm-podcasts': 'scrobblePodcasts'
-		},
 		Tidal: {
 			'#tdl-short-track-names': 'useShortTrackNames'
 		},
