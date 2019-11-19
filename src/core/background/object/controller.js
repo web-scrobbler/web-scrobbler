@@ -238,6 +238,11 @@ define((require) => {
 
 			this.debugLog(`New song detected: ${toString(newState)}`);
 
+			if (!this.shouldScrobblePodcasts && newState.isPodcast) {
+				this.skipCurrentSong();
+				return;
+			}
+
 			/*
 			 * Start the timer, actual time will be set after processing
 			 * is done; we can call doScrobble directly, because the timer
