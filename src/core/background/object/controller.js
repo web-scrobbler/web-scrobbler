@@ -212,8 +212,6 @@ define((require) => {
 
 			if (!isSongChanged && !this.isReplayingSong) {
 				this.processCurrentState(newState);
-			} else if (!this.shouldScrobblePodcasts && newState.isPodcast) {
-				this.skipCurrentSong();
 			} else if (newState.isPlaying) {
 				this.processNewState(newState);
 			}

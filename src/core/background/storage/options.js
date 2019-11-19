@@ -49,7 +49,7 @@ define((require) => {
 	DEFAULT_OPTIONS[USE_UNRECOGNIZED_SONG_NOTIFICATIONS] = false;
 
 	/**
-	 * Scrobble podcast episodes. Inherits the GoogleMusic setting.
+	 * Scrobble podcast episodes.
 	 * @type {Boolean}
 	 */
 	DEFAULT_OPTIONS[SCROBBLE_PODCASTS] = true;
