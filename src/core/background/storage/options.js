@@ -49,10 +49,10 @@ define((require) => {
 	DEFAULT_OPTIONS[USE_UNRECOGNIZED_SONG_NOTIFICATIONS] = false;
 
 	/**
-	 * Scrobble podcast episodes.
+	 * Scrobble podcast episodes. Inherits the GoogleMusic setting.
 	 * @type {Boolean}
 	 */
-	DEFAULT_OPTIONS[SCROBBLE_PODCASTS] = true;
+	DEFAULT_OPTIONS[SCROBBLE_PODCASTS] = undefined;
 
 	/**
 	 * Object that stores default option values for specific connectors.
