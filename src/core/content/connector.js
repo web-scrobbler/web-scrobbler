@@ -629,7 +629,13 @@ function BaseConnector() {
 		 * URL to track art image.
 		 * @type {String}
 		 */
-		trackArt: null
+		trackArt: null,
+
+		/**
+		 * Whether the current track is a podcast episode.
+		 * @type {String}
+		 */
+		isPodcast: false,
 
 	};
 
@@ -748,6 +754,7 @@ function BaseConnector() {
 			currentTime: this.getCurrentTime(),
 			isPlaying: this.isPlaying(),
 			trackArt: this.getTrackArt(),
+			isPodcast: this.isPodcast(),
 			originUrl: this.getOriginUrl(),
 		};
 

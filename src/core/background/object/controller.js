@@ -1,6 +1,7 @@
 'use strict';
 
 define((require) => {
+	const Options = require('storage/options');
 	const GA = require('service/ga');
 	const Util = require('util/util');
 	const Song = require('object/song');
@@ -39,6 +40,9 @@ define((require) => {
 
 			this.currentSong = null;
 			this.isReplayingSong = false;
+
+			this.shouldScrobblePodcasts = true;
+			(async () => this.shouldScrobblePodcasts = await Util.getOption(Options.SCROBBLE_PODCASTS))();
 
 			this.setEnabled(isEnabled);
 			this.debugLog(`Created controller for ${connector.label} connector`);
@@ -208,6 +212,8 @@ define((require) => {
 
 			if (!isSongChanged && !this.isReplayingSong) {
 				this.processCurrentState(newState);
+			} else if (!this.shouldScrobblePodcasts && newState.isPodcast) {
+				this.skipCurrentSong();
 			} else if (newState.isPlaying) {
 				this.processNewState(newState);
 			}
