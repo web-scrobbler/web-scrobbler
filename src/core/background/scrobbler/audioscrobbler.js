@@ -331,9 +331,7 @@ define((require) => {
 		}
 
 		for (const value of sensitiveValues) {
-			if (value) {
-				debugMsg = Util.hideStringInText(value, debugMsg);
-			}
+			debugMsg = Util.hideStringInText(value, debugMsg);
 		}
 
 		return debugMsg;
