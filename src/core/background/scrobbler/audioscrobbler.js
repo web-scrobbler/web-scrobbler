@@ -122,7 +122,6 @@ define((require) => {
 				method: 'track.updatenowplaying',
 				track: song.getTrack(),
 				artist: song.getArtist(),
-				api_key: this.apiKey,
 				sk: sessionID
 			};
 
