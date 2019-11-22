@@ -40,11 +40,11 @@
         "description": "Option title"
     },
     "optionScrobblePodcasts": {
-        "message": "Podcasts auf Google Music scrobblen",
+        "message": "Scrobble podcasts",
         "description": "Option title"
     },
     "optionScrobblePodcastsTitle": {
-        "message": "Podcasts auf Google Music scrobblen",
+        "message": "Scrobble podcast episodes",
         "description": "Option label"
     },
     "optionTdlShortTrackNames": {
