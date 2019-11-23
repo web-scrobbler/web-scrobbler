@@ -1,5 +1,5 @@
 body, button, input {
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 }
 
 body {
@@ -99,7 +99,7 @@ input {
 }
 
 #love {
-	background: url("/icons/love_controls.svg") 0 0 no-repeat;
+	background: url('/icons/love_controls.svg') 0 0 no-repeat;
 	cursor: pointer;
 	height: 16px;
 	width: 16px;
@@ -109,18 +109,18 @@ input {
 	background-position-y: -16px;
 }
 
-#love[last-fm-loved="true"] {
+#love[last-fm-loved='true'] {
 	background-position-y: -32px;
 }
 
-#love[last-fm-loved="true"]:hover {
+#love[last-fm-loved='true']:hover {
 	background-position-y: -48px;
 }
 
-[data-hide="true"] {
+[data-hide='true'] {
 	display: none !important;
 }
-[data-disable="true"] {
+[data-disable='true'] {
 	color: #999;
 	cursor: default !important;
 	text-decoration: none !important;
@@ -137,5 +137,5 @@ input {
 }
 .user-play-count::before {
 	content: '\f202';
-	font-family: 'Font Awesome 5 Brands';
+	font-family: 'Font Awesome 5 Brands', serif;
 }
