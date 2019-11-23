@@ -19,14 +19,20 @@ jobs:
         node-version: '${{ steps.nvm.outputs.nvmrc }}'
     - run: npm install
     - name: Build the extension (Chrome)
-      run: npx grunt dist:chrome
+      run: |
+        npx grunt clean:build
+        npx grunt build:chrome
+        cp -r build web-scrobbler-chrome
     - uses: actions/upload-artifact@master
       with:
         name: web-scrobbler-chrome
-        path: web-scrobbler.zip
+        path: web-scrobbler-chrome
     - name: Build the extension (Firefox)
-      run: npx grunt dist:firefox
+      run: |
+        npx grunt clean:build
+        npx grunt build:firefox
+        cp -r build web-scrobbler-firefox
     - uses: actions/upload-artifact@master
       with:
         name: web-scrobbler-firefox
-        path: web-scrobbler.zip
+        path: web-scrobbler-firefox
