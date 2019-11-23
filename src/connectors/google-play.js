@@ -1,9 +1,5 @@
 'use strict';
 
-let scrobblePodcasts = true;
-
-readConnectorOptions();
-
 Connector.playerSelector = '#player';
 
 Connector.getTrackArt = () => {
@@ -29,17 +25,6 @@ Connector.isPlaying = () => {
 	return $('#player *[data-id="play-pause"]').hasClass('playing');
 };
 
-Connector.isScrobblingAllowed = () => {
-	if (!scrobblePodcasts && isPodcastPlaying()) {
-		return false;
-	}
-	return Connector.getArtist() !== 'Subscribe to go ad-free';
-};
+Connector.isPodcast = () => $('#player .now-playing-actions').hasClass('podcast');
 
-function isPodcastPlaying() {
-	return $('#player .now-playing-actions').hasClass('podcast');
-}
-
-async function readConnectorOptions() {
-	scrobblePodcasts = await Util.getOption('GoogleMusic', 'scrobblePodcasts');
-}
+Connector.isScrobblingAllowed = () => Connector.getArtist() !== 'Subscribe to go ad-free';

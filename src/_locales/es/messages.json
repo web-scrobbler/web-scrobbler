@@ -39,12 +39,12 @@
         "message": "Desactivar envío de datos a Google Analytics",
         "description": "Option title"
     },
-    "optionGmPodcasts": {
-        "message": "Scrobble podcasts en Google Music",
+    "optionScrobblePodcasts": {
+        "message": "Scrobble podcasts",
         "description": "Option title"
     },
-    "optionGmPodcastsTitle": {
-        "message": "Scrobble podcasts en Google Music",
+    "optionScrobblePodcastsTitle": {
+        "message": "Scrobble podcast episodes",
         "description": "Option label"
     },
     "optionTdlShortTrackNames": {

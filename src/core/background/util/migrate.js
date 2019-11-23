@@ -14,6 +14,7 @@ define((require) => {
 	 */
 	async function migrate() {
 		await migrateConnectorOptions();
+		await migrateGooglePlayPodcastOption();
 	}
 
 	async function migrateConnectorOptions() {
@@ -42,6 +43,18 @@ define((require) => {
 			Options.DISABLED_CONNECTORS, disabledConnectorsNew);
 
 		Util.debugLog('Updated disabled connectors');
+	}
+
+	async function migrateGooglePlayPodcastOption() {
+		const scrobbleGooglePodcasts = await Options.getConnectorOption('GoogleMusic', 'scrobblePodcasts');
+		if (scrobbleGooglePodcasts === undefined) {
+			return;
+		}
+
+		await Options.setOption(Options.SCROBBLE_PODCASTS, scrobbleGooglePodcasts);
+		await Options.setConnectorOption('GoogleMusic', 'scrobblePodcasts', undefined);
+
+		Util.debugLog('Migrated Google Play Music podcast scrobbling setting to global context');
 	}
 
 	return { migrate };

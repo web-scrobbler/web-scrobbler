@@ -39,12 +39,12 @@
         "message": "禁止向 Google Analytics 发送数据",
         "description": "Option title"
     },
-    "optionGmPodcasts": {
-        "message": "Scrobble podcasts on Google Music",
+    "optionScrobblePodcasts": {
+        "message": "Scrobble podcasts",
         "description": "Option title"
     },
-    "optionGmPodcastsTitle": {
-        "message": "Scrobble podcasts on Google Music",
+    "optionScrobblePodcastsTitle": {
+        "message": "Scrobble podcast episodes",
         "description": "Option label"
     },
     "optionTdlShortTrackNames": {

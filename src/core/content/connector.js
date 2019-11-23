@@ -364,6 +364,14 @@ function BaseConnector() {
 	};
 
 	/**
+	 * Default implementation to check whether a podcast is playing. Only has an
+	 * effect if the user has opted to disable podcast scrobbling.
+	 *
+	 * @return {Boolean} True if the current track is a podcast; false otherwise
+	 */
+	this.isPodcast = () => false;
+
+	/**
 	 * Default implementation used to get the track art URL from the selector.
 	 *
 	 * Override this method for more complex behaviour.
@@ -621,7 +629,13 @@ function BaseConnector() {
 		 * URL to track art image.
 		 * @type {String}
 		 */
-		trackArt: null
+		trackArt: null,
+
+		/**
+		 * Whether the current track is a podcast episode.
+		 * @type {String}
+		 */
+		isPodcast: false,
 
 	};
 
@@ -724,6 +738,7 @@ function BaseConnector() {
 			currentTime: this.getCurrentTime(),
 			isPlaying: this.isPlaying(),
 			trackArt: this.getTrackArt(),
+			isPodcast: this.isPodcast(),
 			originUrl: this.getOriginUrl(),
 		};
 
