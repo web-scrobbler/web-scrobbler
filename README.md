@@ -40,7 +40,25 @@ To install the extension from sources or zip file, read [this page][WikiUnpacked
 
 ## Development
 
-Build instructions are available [here][BuildInstructions].
+### Build the extension
+
+Before building the extension you should install dependencies:
+
+```sh
+# Install dependencies
+> npm install
+
+# Build the extension
+> npx grunt build:firefox
+# or
+> npx grunt build:chrome
+```
+
+The built extension is available in `build` directory. You can install it as an unpacked extension from this directory.
+
+The detailed build instruction is available [here][BuildInstructions].
+
+### Develop connectors
 
 Check the [wiki page][WikiDev] to understand development of connectors. Please also read [contributions guidelines][Contributing].
 
