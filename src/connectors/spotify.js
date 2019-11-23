@@ -1,9 +1,5 @@
 'use strict';
 
-/**
- * The connector for new version of Spotify (open.spotify.com).
- */
-
 Connector.playerSelector = '.Root__now-playing-bar';
 
 Connector.artistSelector = '.track-info__artists a';
@@ -20,15 +16,22 @@ Connector.durationSelector = '.Root__now-playing-bar .playback-bar__progress-tim
 
 Connector.applyFilter(MetadataFilter.getSpotifyFilter());
 
-Connector.isScrobblingAllowed = () => {
-	return isMusicPlaying();
-};
+Connector.isScrobblingAllowed = () => !isAdPlaying();
 
-function isMusicPlaying() {
-	/*
-	 * When ad is playing, artist URL is like "https://shrt.spotify.com/XXX",
-	 * otherwise URL leads to an artist page "https://open.spotify.com/artist/YYY".
-	 */
-	let artistUrl = $('.track-info__artists a').attr('href');
-	return artistUrl && artistUrl.includes('artist');
+Connector.isPodcast = () => artistUrlIncludes('/show/');
+
+/*
+ * When ad is playing, artist URL is like "https://shrt.spotify.com/XXX",
+ * otherwise URL leads to:
+ * a) an artist page https://open.spotify.com/artist/YYY;
+ * b) a podcast page https://open.spotify.com/show/ZZZ.
+ */
+
+function isAdPlaying() {
+	return artistUrlIncludes('shrt.spotify.com');
+}
+
+function artistUrlIncludes(str) {
+	const artistUrl = $(Connector.artistSelector).attr('href');
+	return artistUrl && artistUrl.includes(str);
 }
