@@ -40,11 +40,11 @@
         "description": "Option title"
     },
     "optionScrobblePodcasts": {
-        "message": "Scrobble podcasts",
+        "message": "Скробблить подкасты",
         "description": "Option title"
     },
     "optionScrobblePodcastsTitle": {
-        "message": "Scrobble podcast episodes",
+        "message": "Разрешить приложению скробблить подкасты",
         "description": "Option label"
     },
     "optionTdlShortTrackNames": {
