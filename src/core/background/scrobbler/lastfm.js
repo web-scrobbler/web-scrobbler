@@ -73,7 +73,7 @@ define((require) => {
 			songInfo.duration = (parseInt(trackInfo.duration) / 1000) || null;
 
 			if (albumInfo) {
-				songInfo.album = albumInfo.name;
+				songInfo.album = albumInfo.title;
 				songInfo.albumUrl = albumInfo.url;
 				songInfo.albumMbId = albumInfo.mbid;
 
