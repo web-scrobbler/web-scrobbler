@@ -29,7 +29,7 @@ require([
 		updatePopupView();
 
 		let isSongValid = song.flags.isValid || song.flags.isCorrectedByUser;
-		setEditMode(!isSongValid);
+		setEditMode(!(isSongValid || song.flags.isSkipped));
 	}
 
 	function setEditMode(flag) {
