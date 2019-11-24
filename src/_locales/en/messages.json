@@ -139,7 +139,7 @@
     "description": "Enable/disable hint"
   },
   "optionsCustomPatternsHint": {
-    "message": "Click on the gear icon to configure custom URL patterns for connectors. <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>Learn more</a>",
+    "message": "Click on the gear icon to configure custom URL patterns for connectors.",
     "description": "Description of how to configure custom URL patterns"
   },
   "optionsSupportedWebsites": {
@@ -149,6 +149,11 @@
   "optionsToggle": {
     "message": "Toggle",
     "description": "Label of toggle button"
+  },
+
+  "learnMoreLabel": {
+    "message": "Learn more",
+    "description": "Learn more label"
   },
 
   "contactTitle": {
