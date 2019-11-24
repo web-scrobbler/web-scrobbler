@@ -40,8 +40,7 @@ const connectors = [{
 }, {
 	label: 'Pitchfork',
 	matches: [
-		'*://pitchfork.com/*',
-		'*://www.pitchfork.com/*'
+		'*://pitchfork.com/*'
 	],
 	js: 'connectors/pitchfork.js',
 	id: 'pitchfork',
@@ -262,8 +261,7 @@ const connectors = [{
 	label: 'Odnoklassniki',
 	matches: [
 		'*://odnoklassniki.ru/*',
-		'*://ok.ru/*',
-		'*://www.ok.ru/*'
+		'*://ok.ru/*'
 	],
 	js: 'connectors/odnoklassniki.js',
 	id: 'odnoklassniki',
@@ -360,10 +358,7 @@ const connectors = [{
 	id: 'player.fm',
 }, {
 	label: 'SNDTST',
-	matches: [
-		'*://www.sndtst.com/*',
-		'*://sndtst.com/*'
-	],
+	matches: ['*:///sndtst.com/*'],
 	js: 'connectors/sndtst.js',
 	id: 'sndtst',
 }, {
@@ -388,10 +383,7 @@ const connectors = [{
 	id: 'radio.com',
 }, {
 	label: 'GetWorkDoneMusic',
-	matches: [
-		'*://www.getworkdonemusic.com/*',
-		'*://getworkdonemusic.com/*'
-	],
+	matches: ['*://*.getworkdonemusic.com/*'],
 	js: 'connectors/getworkdonemusic.js',
 	id: 'getworkdonemusic',
 }, {
@@ -425,10 +417,7 @@ const connectors = [{
 	id: 'superplayer',
 }, {
 	label: 'RMFON',
-	matches: [
-		'*://www.rmfon.pl/*',
-		'*://rmfon.pl/*'
-	],
+	matches: ['*://www.rmfon.pl/*'],
 	js: 'connectors/rmfon.js',
 	id: 'rmfon',
 }, {
@@ -456,12 +445,7 @@ const connectors = [{
 	id: 'noisetrade',
 }, {
 	label: 'Free Music Archive',
-	matches: [
-		'*://www.freemusicarchive.org/*',
-		'*://freemusicarchive.org/*',
-		'*://www.freemusicarchive.com/*',
-		'*://freemusicarchive.com/*'
-	],
+	matches: ['*://*.freemusicarchive.org/*'],
 	js: 'connectors/freemusicarchive.js',
 	id: 'freemusicarchive',
 }, {
@@ -650,10 +634,7 @@ const connectors = [{
 	id: 'jiosaavn',
 }, {
 	label: 'Anghami',
-	matches: [
-		'*://www.anghami.com/*',
-		'*://play.anghami.com/*'
-	],
+	matches: ['*://*.anghami.com/*'],
 	js: 'connectors/anghami.js',
 	id: 'anghami',
 }, {
@@ -822,18 +803,12 @@ const connectors = [{
 	id: 'soribada',
 }, {
 	label: 'GrooveMP3',
-	matches: [
-		'*://groovemp3.com/*',
-		'*://www.groovemp3.com/*'
-	],
+	matches: ['*://*.groovemp3.com/*'],
 	js: 'connectors/bemusic.js',
 	id: 'groovemp3',
 }, {
 	label: 'ytmp3',
-	matches: [
-		'*://ytmp3.fun/*',
-		'*://www.ytmp3.fun/*'
-	],
+	matches: ['*://www.ytmp3.fun/*'],
 	js: 'connectors/bemusic.js',
 	id: 'ytmp3',
 }, {
@@ -844,11 +819,7 @@ const connectors = [{
 	allFrames: true,
 }, {
 	label: 'Kuwo Music',
-	matches: [
-		'*://kuwo.cn/*',
-		'*://www.kuwo.cn/*',
-		'*://m.kuwo.cn/*'
-	],
+	matches: ['*://*.kuwo.cn/*'],
 	js: 'connectors/kuwo.js',
 	id: 'kuwo',
 }, {
@@ -1070,10 +1041,7 @@ const connectors = [{
 	id: 'soundsession',
 }, {
 	label: 'blocSonic',
-	matches: [
-		'*://blocsonic.com/*',
-		'*://www.blocsonic.com/*'
-	],
+	matches: ['*://*.blocsonic.com/*'],
 	js: 'connectors/blocsonic.js',
 	id: 'blocsonic',
 }, {
@@ -1086,18 +1054,12 @@ const connectors = [{
 	id: 'resonate',
 }, {
 	label: 'KEXP Radio',
-	matches: [
-		'*://kexp.org/*',
-		'*://www.kexp.org/*'
-	],
+	matches: ['*://*.kexp.org/*'],
 	js: 'connectors/kexp.js',
 	id: 'kexp',
 }, {
 	label: 'Hotmixradio.fr',
-	matches: [
-		'*://hotmixradio.fr/*',
-		'*://www.hotmixradio.fr/*'
-	],
+	matches: ['*://www.hotmixradio.fr/*'],
 	js: 'connectors/hotmixradio.js',
 	id: 'hotmixradio',
 }, {
@@ -1142,10 +1104,7 @@ const connectors = [{
 	id: 'youtube-music',
 }, {
 	label: 'Radiozenders.FM',
-	matches: [
-		'*://radiozenders.fm/*',
-		'*://www.radiozenders.fm/*'
-	],
+	matches: ['*://www.radiozenders.fm/*'],
 	js: 'connectors/radiozenders.js',
 	id: 'radiozenders',
 }, {
@@ -1246,10 +1205,7 @@ const connectors = [{
 	id: 'panyrosasdiscos',
 }, {
 	label: 'GRRIF',
-	matches: [
-		'*://grrif.ch/*',
-		'*://www.grrif.ch/*'
-	],
+	matches: ['*://*.grrif.ch/*'],
 	js: 'connectors/grrif.js',
 	id: 'grrif',
 }, {
