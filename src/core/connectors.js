@@ -436,14 +436,6 @@ const connectors = [{
 	js: 'connectors/somafm.js',
 	id: 'somafm',
 }, {
-	label: 'Noisetrade',
-	matches: [
-		'*://www.noisetrade.com/*',
-		'*://noisetrade.com/*'
-	],
-	js: 'connectors/noisetrade.js',
-	id: 'noisetrade',
-}, {
 	label: 'Free Music Archive',
 	matches: ['*://*.freemusicarchive.org/*'],
 	js: 'connectors/freemusicarchive.js',
