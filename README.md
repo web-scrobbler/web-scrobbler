@@ -1,16 +1,15 @@
-# Web Scrobbler
-
 [![Chrome Web Store][WebStoreBadge]][WebStore]
 [![AMO][AmoBadge]][Amo]
 [![Gitter][GitterBadge]][Gitter]
 
+[![dependencies status][DavidDmBadge]][DavidDm]
+[![devDependencies status][DavidDmBadgeDev]][DavidDmDev]
 
-[![devDependencies status][DavidDmBadge]][DavidDm]
 [![Test status][GitHubActionsBadge]][GitHubActions]
 [![Codacy Badge][CodacyBadge]][Codacy]
 [![Codacy Coverage Badge][CodacyCoverageBadge]][Codacy]
 
-
+# Web Scrobbler
 
 Web Scrobbler helps online music listeners to scrobble their playback history.
 
@@ -86,7 +85,8 @@ See the [license file][License].
 [AmoBadge]: https://img.shields.io/amo/v/web-scrobbler.svg
 [CodacyBadge]: https://api.codacy.com/project/badge/Grade/bb2841f875014aaea6a354da6c96bdee
 [CodacyCoverageBadge]: https://api.codacy.com/project/badge/Coverage/bb2841f875014aaea6a354da6c96bdee
-[DavidDmBadge]: https://david-dm.org/web-scrobbler/web-scrobbler/dev-status.svg
+[DavidDmBadge]: https://img.shields.io/david/web-scrobbler/web-scrobbler
+[DavidDmBadgeDev]: https://img.shields.io/david/dev/web-scrobbler/web-scrobbler?label=devDependencies
 [GitHubActionsBadge]: https://github.com/web-scrobbler/web-scrobbler/workflows/test/badge.svg
 [GitterBadge]: https://badges.gitter.im/Join%20Chat.svg
 [WebStoreBadge]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg
@@ -108,7 +108,8 @@ See the [license file][License].
 
 <!-- Related pages -->
 [Codacy]: https://app.codacy.com/project/web-scrobbler/web-scrobbler/dashboard
-[DavidDm]: https://david-dm.org/web-scrobbler/web-scrobbler?type=dev
+[DavidDm]: https://david-dm.org/web-scrobbler/web-scrobbler
+[DavidDmDev]: https://david-dm.org/web-scrobbler/web-scrobbler?type=dev
 [GitHubActions]: https://github.com/web-scrobbler/web-scrobbler/actions
 [Gitter]: https://gitter.im/david-sabata/web-scrobbler
 [Twitter]: https://twitter.com/web_scrobbler
