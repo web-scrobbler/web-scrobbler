@@ -43,9 +43,9 @@ const URL_MATCH_DATA = [{
 	urls: ['http://example.com/', 'https://example.com/'],
 	expected: true,
 }, {
-	description: 'should match for all subdomains',
+	description: 'should match for domain and all subdomains',
 	pattern: '*://*.example.com/',
-	urls: ['http://www.example.com/', 'https://just.example.com/'],
+	urls: ['http://example.com/', 'https://www.example.com/'],
 	expected: true,
 }, {
 	description: 'should match for all hosts',

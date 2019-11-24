@@ -1,57 +1,55 @@
 'use strict';
 
-/**
- * Module to test if URL patterns match strings.
- * @author lacivert
- */
+function escapeRegExp(string) {
+	return string.replace(/[[^$.|?*+(){}\\]/g, '\\$&');
+	// return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+function replaceAsterisks(string) {
+	return string.split('*').map(escapeRegExp).join('.*');
+}
 
 /**
  * Create regex from single match pattern.
- * @param  {String} input URL pattern as string
+ * @param  {String} pattern URL pattern as string
  * @return {Object} RegExp based on pattern string
  */
-function createPattern(input) {
-	if (typeof input !== 'string') {
+function createPattern(pattern) {
+	if (typeof pattern !== 'string') {
 		return null;
 	}
 
-	function regEscape(s) {
-		return s.replace(/[[^$.|?*+(){}\\]/g, '\\$&');
-	}
-
-	let matchPattern = '^';
-	let result = /^(\*|https?|file|ftp|chrome-extension):\/\//.exec(input);
-
-	// Parse scheme
-	if (!result) {
+	const urlPartsMatch = /^(\*|https?):\/\/([^/]*)(\/.*)/.exec(pattern);
+	if (!urlPartsMatch) {
 		return null;
 	}
-	input = input.substr(result[0].length);
-	matchPattern += result[1] === '*' ? 'https?://' : `${result[1]}://`;
+	const scheme = urlPartsMatch[1];
+	const host = urlPartsMatch[2];
+	const file = urlPartsMatch[3];
 
-	// Parse host if scheme is not `file`
-	if (result[1] !== 'file') {
-		if (!(result = /^(?:\*|(\*\.)?([^/*]+))/.exec(input))) {
-			return null;
-		}
-		input = input.substr(result[0].length);
-		// Host is '*'
-		if (result[0] === '*') {
-			matchPattern += '[^/]+';
-		} else {
-			// Subdomain wildcard exists
-			if (result[1]) {
-				matchPattern += '(?:[^/]+\\.)?';
-			}
-			// Append host (escape special regex characters)
-			matchPattern += regEscape(result[2]);// + '/';
-		}
+	let result = '^';
+
+	if (scheme === '*') {
+		result += 'https?';
+	} else {
+		result += `${scheme}`;
 	}
-	// Add remainder (path)
-	matchPattern += input.split('*').map(regEscape).join('.*');
-	matchPattern += '$';
+	result += escapeRegExp('://');
 
-	return new RegExp(matchPattern);
+	if (host === '*') {
+		result += '[^\\/]+';
+	} else if (host[0] === '*') {
+		result += `([^\\/]+\\.|)${escapeRegExp(host.substr(2))}`;
+	} else if (host) {
+		result += replaceAsterisks(host);
+	} else {
+		return null;
+	}
+
+	result += replaceAsterisks(file);
+	result += '$';
+
+	return new RegExp(result);
 }
 
 /**
