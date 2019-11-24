@@ -10,6 +10,7 @@ const BUILD_DIR = 'build';
 
 const DIST_FILE = 'web-scrobbler.zip';
 const MANIFEST_FILE = 'src/manifest.json';
+const PACKAGE_JSON_FILE = 'package.json';
 
 const FILES_TO_PREPROCESS = [
 	`${BUILD_DIR}/**/*.js`, `${BUILD_DIR}/**/*.css`, `${BUILD_DIR}/**/*.html`
@@ -152,9 +153,9 @@ module.exports = (grunt) => {
 
 		bump: {
 			options: {
-				files: [MANIFEST_FILE],
+				files: [MANIFEST_FILE, PACKAGE_JSON_FILE],
 				updateConfigs: ['manifest'],
-				commitFiles: [MANIFEST_FILE],
+				commitFiles: [MANIFEST_FILE, PACKAGE_JSON_FILE],
 			}
 		},
 		github_release: {
