@@ -1,5 +1,9 @@
 'use strict';
 
+// http://www.fileformat.info/info/unicode/category/Ps/list.htm
+const rightBrackets = ')|༻༽᚜‛‟⁆⁾₎⌉⌋〉❩❫❭❯❱❳❵⟆⟧⟩⟫⟭⟯⦄⦆⦈⦊⦌⦎⦐⦒⦔⦖⦘⧙⧛⧽⸣⸥⸧⸩⹃〉》」』】〕〗〙〛〞﵀︘︶︸︺︼︾﹀﹂﹄﹈﹚﹜﹞）＼｜｠｣';
+const titleBrackets = '〉》」』】〕〗〙〛〞﵀︘︶︸︺︼︾﹀﹂﹄﹈';
+
 $('audio, video').bind('playing pause timeupdate', Connector.onStateChanged);
 
 Connector.getDuration = () => $('audio, video').prop('duration');
@@ -27,26 +31,27 @@ Connector.getUniqueID = () => {
 		null;
 };
 
-const filter = new MetadataFilter({
-	track: (text) => {
-		// http://www.fileformat.info/info/unicode/category/Ps/list.htm
-		let [rightBrackets, titleBrackets] = [')|༻༽᚜‛‟⁆⁾₎⌉⌋〉❩❫❭❯❱❳❵⟆⟧⟩⟫⟭⟯⦄⦆⦈⦊⦌⦎⦐⦒⦔⦖⦘⧙⧛⧽⸣⸥⸧⸩⹃〉》」』】〕〗〙〛〞﵀︘︶︸︺︼︾﹀﹂﹄﹈﹚﹜﹞）＼｜｠｣', '〉》」』】〕〗〙〛〞﵀︘︶︸︺︼︾﹀﹂﹄﹈'];
+const filter = new MetadataFilter({	track: filterTrack });
 
-		text = text.replace(new RegExp(`^.*([${rightBrackets}]).*$`),
-			(text, bracket) => {
-				let i = text.lastIndexOf(bracket);
-				let j = text.indexOf(String.fromCharCode(bracket.charCodeAt() - 1));
-				let b = text.slice(j + 1, i);
-				if (!/(?:版|version|MV)\s*$/i.test(b)) {
-					return titleBrackets.includes(bracket) ? b : text;
-				}
-				text = Array.from(text);
-				text.splice(j, i - j + 1);
-				return text.join('');
+function filterTrack(text) {
+	const regex = new RegExp(`^.*([${rightBrackets}]).*$`);
 
-			});
-		return text.replace(/[-_－—\s][^-_—－]+(?:版|version|MV)\s*$/i, '');
+	let filteredText = text.replace(regex, filterBrackets);
+	return filteredText.replace(/[-_－—\s][^-_—－]+(?:版|version|MV)\s*$/i, '');
+}
+
+function filterBrackets(text, bracket) {
+	let i = text.lastIndexOf(bracket);
+	let j = text.indexOf(String.fromCharCode(bracket.charCodeAt() - 1));
+	let b = text.slice(j + 1, i);
+	if (!/(?:版|version|MV)\s*$/i.test(b)) {
+		return titleBrackets.includes(bracket) ? b : text;
 	}
-});
+
+	const filteredText = Array.from(text);
+	filteredText.splice(j, i - j + 1);
+
+	return filteredText.join('');
+}
 
 Connector.applyFilter(filter);

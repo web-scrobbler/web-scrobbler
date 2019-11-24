@@ -33,23 +33,15 @@ function setupArchivePlayer() {
 	Connector.applyFilter(filter);
 }
 
-
-
 function cleanupTrack(track) {
 	// extract track from a "track" by artist
-	track = track.replace(/(")(.*)(")( by )(.*)/g, '$2');
-
-	return track;
+	return track.replace(/(")(.*)(")( by )(.*)/g, '$2');
 }
 
 function cleanupArtist(artist) {
 	// extract artist from a "track" by artist
-	artist = artist.replace(/(")(.*)(")( by )(.*)/g, '$5');
-
-	return artist;
+	return artist.replace(/(")(.*)(")( by )(.*)/g, '$5');
 }
-
-
 
 function isAudioPlayer() {
 	return $('body').hasClass('audioplayer');

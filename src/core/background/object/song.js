@@ -287,7 +287,7 @@ define((require) => {
 				return false;
 			}
 
-			if (typeof(song.getUniqueId) !== 'function') {
+			if (typeof song.getUniqueId !== 'function') {
 				return false;
 			}
 

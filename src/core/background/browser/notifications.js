@@ -33,7 +33,7 @@ define((require) => {
 		// @ifdef CHROME
 		let platform = await Util.getPlatformName();
 		if (platform === 'mac') {
-			return !(await Util.isFullscreenMode());
+			return !await Util.isFullscreenMode();
 		}
 
 		return true;
@@ -190,7 +190,7 @@ define((require) => {
 	 * @param  {Function} onClicked Function that will be called on notification click
 	 */
 	async function showSongNotRecognized(onClicked) {
-		if (!(await Options.getOption(Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS))) {
+		if (!await Options.getOption(Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS)) {
 			return;
 		}
 

@@ -166,7 +166,7 @@ define((require) => {
 
 		/* Internal functions */
 
-		async setPermBrowserAction(state, placeholder) {
+		setPermBrowserAction(state, placeholder) {
 			const browserAction = this.getBrowserAction(state, placeholder);
 
 			if (this.isTempIconVisible()) {
@@ -186,7 +186,7 @@ define((require) => {
 		 * @param {Object} state Browser action state
 		 * @param {String} placeholder String used to format title
 		 */
-		async setTempBrowserAction(state, placeholder) {
+		setTempBrowserAction(state, placeholder) {
 			if (this.isTempIconVisible()) {
 				clearTimeout(this.timeoutId);
 				this.timeoutId = null;

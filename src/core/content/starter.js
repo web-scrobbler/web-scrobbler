@@ -27,7 +27,7 @@
 	/* Internal functions. */
 
 	function isConnectorInvalid() {
-		return typeof(Connector) === 'undefined' || !(Connector instanceof BaseConnector);
+		return typeof Connector === 'undefined' || !(Connector instanceof BaseConnector);
 	}
 
 	function setupStateListening() {

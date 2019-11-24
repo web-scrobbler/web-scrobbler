@@ -77,7 +77,7 @@ define((require) => {
 			return keyValue;
 		}
 
-		if (typeof(keyValue) === 'string') {
+		if (typeof keyValue === 'string') {
 			return STR_REPLACER.repeat(keyValue.length);
 		} else if (Array.isArray(keyValue)) {
 			return `[Array(${keyValue.length})]`;
@@ -156,7 +156,7 @@ define((require) => {
 	function debugLog(text, logType = 'log') {
 		const logFunc = console[logType];
 
-		if (typeof(logFunc) !== 'function') {
+		if (typeof logFunc !== 'function') {
 			throw new Error(`Unknown log type: ${logType}`);
 		}
 

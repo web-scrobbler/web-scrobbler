@@ -16,7 +16,7 @@ Connector.isPlaying = () => {
 		ret = !$('#lsplayer audio')[0].paused;
 	} else {
 		let state = retrieveJwplayerState();
-		ret = (typeof state === 'string') && (state.toUpperCase() === 'PLAYING');
+		ret = typeof state === 'string' && state.toUpperCase() === 'PLAYING';
 	}
 	return ret;
 };

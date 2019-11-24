@@ -14,7 +14,7 @@ define((require) => {
 	function process(song) {
 		for (let field of Song.BASE_FIELDS) {
 			let fieldValue = song.processed[field];
-			if (typeof(fieldValue) === 'string' && fieldValue) {
+			if (typeof fieldValue === 'string' && fieldValue) {
 				song.processed[field] = fieldValue.normalize();
 			}
 		}

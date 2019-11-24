@@ -50,7 +50,7 @@ function requestSongInfo() {
 	let scriptBody = $('#player-track-name a').attr('onclick');
 	let trackInfoUrl = getUrlFromScript(scriptBody);
 
-	let isNewSong = (trackInfoUrl && trackInfoUrl !== lastTrackInfoUrl);
+	let isNewSong = trackInfoUrl && trackInfoUrl !== lastTrackInfoUrl;
 	if (isNewSong) {
 		resetSongInfo();
 		fetchSongInfo(trackInfoUrl).then((data) => {

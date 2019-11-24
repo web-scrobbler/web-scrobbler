@@ -78,7 +78,7 @@ Connector.isPlaying = () => {
 };
 
 Connector.getDuration = () => {
-	return ($('audio')[0] && $('audio')[0].duration);
+	return $('audio')[0] && $('audio')[0].duration;
 };
 
 Connector.getUniqueID = () => {

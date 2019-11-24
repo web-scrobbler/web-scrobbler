@@ -70,7 +70,7 @@ define((require) => {
 			songInfo.track = trackInfo.name;
 			songInfo.trackUrl = trackInfo.url;
 
-			songInfo.duration = (parseInt(trackInfo.duration) / 1000) || null;
+			songInfo.duration = parseInt(trackInfo.duration) / 1000 || null;
 
 			if (albumInfo) {
 				songInfo.album = albumInfo.title;

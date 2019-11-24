@@ -170,7 +170,7 @@ define(() => {
 			let val = now() - this.startedOn - this.spentPaused;
 
 			if (this.pausedOn !== null) {
-				val -= (now() - this.pausedOn);
+				val -= now() - this.pausedOn;
 			}
 
 			return val;
@@ -182,7 +182,7 @@ define(() => {
 	 * @return {Number} Current time in seconds
 	 */
 	function now() {
-		return Math.round((new Date()).valueOf() / 1000);
+		return Math.round(new Date().valueOf() / 1000);
 	}
 
 	/**

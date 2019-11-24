@@ -74,11 +74,12 @@ class MetadataFilter {
 			return text;
 		}
 
+		let filteredText = text;
 		for (let filter of filters) {
-			text = filter(text);
+			filteredText = filter(filteredText);
 		}
 
-		return text;
+		return filteredText;
 	}
 
 	/**
@@ -160,20 +161,22 @@ class MetadataFilter {
 	 * @return {String} Decoded string
 	 */
 	static decodeHtmlEntities(text) {
+		let filteredText = text;
+
 		for (let target in escapeHtmlEntityMap) {
 			let source = escapeHtmlEntityMap[target];
-			text = text.replace(source, target);
+			filteredText = filteredText.replace(source, target);
 		}
 
-		text = text.replace(/&#x([a-fA-f0-9]+);/g, (match, hex) => {
+		filteredText = filteredText.replace(/&#x([a-fA-f0-9]+);/g, (_, hex) => {
 			let dec = parseInt(hex, 16);
 			return String.fromCharCode(dec);
 		});
-		text = text.replace(/&#(\d+);/g, (match, dec) => {
+		filteredText = filteredText.replace(/&#(\d+);/g, (_, dec) => {
 			return String.fromCharCode(dec);
 		});
 
-		return text;
+		return filteredText;
 	}
 
 	/**
@@ -252,11 +255,13 @@ class MetadataFilter {
 	 * @return {String} Filtered string
 	 */
 	static filterWithFilterRules(text, set) {
+		let filteredText = text;
+
 		for (let data of set) {
-			text = text.replace(data.source, data.target);
+			filteredText = filteredText.replace(data.source, data.target);
 		}
 
-		return text;
+		return filteredText;
 	}
 
 	/**

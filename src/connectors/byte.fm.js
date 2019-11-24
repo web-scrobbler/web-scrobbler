@@ -7,7 +7,7 @@ Connector.artistTrackSelector = '.player-current-title';
 Connector.getArtistTrack = () => {
 	let text = $(Connector.artistTrackSelector).text();
 	let m = text.match(/ - /g);
-	if (m && (m.length === 2)) {
+	if (m && m.length === 2) {
 		let arr = text.split(' - ');
 		return { artist: arr[1], track: arr[2] };
 	}

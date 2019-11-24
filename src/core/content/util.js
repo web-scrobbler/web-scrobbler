@@ -87,11 +87,7 @@ const Util = {
 			return null;
 		}
 
-		if (!separators) {
-			separators = this.separators;
-		}
-
-		for (let sep of separators) {
+		for (let sep of separators || this.separators) {
 			let index = str.indexOf(sep);
 			if (index > -1) {
 				return { index, length: sep.length };
@@ -375,7 +371,7 @@ const Util = {
 	debugLog(text, logType = 'log') {
 		const logFunc = console[logType];
 
-		if (typeof (logFunc) !== 'function') {
+		if (typeof logFunc !== 'function') {
 			throw new Error(`Unknown log type: ${logType}`);
 		}
 
