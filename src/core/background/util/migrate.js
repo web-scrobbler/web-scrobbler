@@ -5,6 +5,7 @@
  */
 
 define((require) => {
+	const BrowserStorage = require('storage/browser-storage');
 	const Options = require('storage/options');
 	const Util = require('util/util');
 	const connectors = require('connectors');
@@ -46,15 +47,18 @@ define((require) => {
 	}
 
 	async function migrateGooglePlayPodcastOption() {
-		const scrobbleGooglePodcasts = await Options.getConnectorOption('GoogleMusic', 'scrobblePodcasts');
-		if (scrobbleGooglePodcasts === undefined) {
-			return;
+		const optionsStorage = BrowserStorage.getStorage(BrowserStorage.CONNECTORS_OPTIONS);
+		const optionsData = await optionsStorage.get();
+
+		if (optionsData.GoogleMusic !== undefined) {
+			const scrobblePodcasts = optionsData.GoogleMusic.scrobblePodcasts;
+			await Options.setOption(Options.SCROBBLE_PODCASTS, scrobblePodcasts);
+
+			delete optionsData['GoogleMusic'];
+			await optionsStorage.set(optionsData);
+
+			Util.debugLog('Migrated Google Play Music podcast scrobbling setting to global context');
 		}
-
-		await Options.setOption(Options.SCROBBLE_PODCASTS, scrobbleGooglePodcasts);
-		await Options.setConnectorOption('GoogleMusic', 'scrobblePodcasts', undefined);
-
-		Util.debugLog('Migrated Google Play Music podcast scrobbling setting to global context');
 	}
 
 	return { migrate };

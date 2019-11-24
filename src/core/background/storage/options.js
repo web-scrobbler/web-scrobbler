@@ -59,9 +59,6 @@ define((require) => {
 	 * @type {Object}
 	 */
 	const DEFAULT_CONNECTOR_OPTIONS = {
-		GoogleMusic: {
-			scrobblePodcasts: undefined
-		},
 		Tidal: {
 			useShortTrackNames: false
 		},
