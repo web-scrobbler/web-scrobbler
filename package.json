@@ -2,7 +2,7 @@
   "name": "web-scrobbler",
   "version": "1.0.0",
   "author": "David Šabata <posta@davidsabata.cz>",
-  "description": "Dummy package for maintaining dev dependencies of Web Scrobbler browser extension. The package is not published anywhere",
+  "description": "Scrobble music all around the web!",
   "private": true,
   "repository": {
     "type": "git",
