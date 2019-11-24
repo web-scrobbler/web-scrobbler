@@ -19,6 +19,9 @@ rules:
   # in the right direction
   for-direction: error
 
+  # Disallow unnecessary parentheses
+  no-extra-parens: error
+
   # Disallow template literal placeholder syntax in regular string
   no-template-curly-in-string: error
 
@@ -47,6 +50,9 @@ rules:
 
   # Disallow new operators with the String, Number, and Boolean objects
   no-new-wrappers: error
+
+  # Disallow reassigning function parameters
+  no-param-reassign: error
 
   # Disallow unnecessary concatenation of strings
   no-useless-concat: error
