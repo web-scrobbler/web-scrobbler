@@ -38,10 +38,14 @@ function createPattern(pattern) {
 
 	if (host === '*') {
 		result += '[^\\/]+';
-	} else if (host[0] === '*') {
-		result += `([^\\/]+\\.|)${escapeRegExp(host.substr(2))}`;
 	} else if (host) {
-		result += replaceAsterisks(host);
+		let modifiedHost = host;
+
+		if (host.startsWith('*.')) {
+			result += '([^\\/]+\\.|)';
+			modifiedHost = modifiedHost.substr(2);
+		}
+		result += replaceAsterisks(modifiedHost);
 	} else {
 		return null;
 	}
