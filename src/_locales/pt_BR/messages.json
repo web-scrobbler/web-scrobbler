@@ -40,19 +40,19 @@
         "description": "Option title"
     },
     "optionScrobblePodcasts": {
-        "message": "Scrobble podcasts",
+        "message": "Efetuar scrobble de podcasts",
         "description": "Option title"
     },
     "optionScrobblePodcastsTitle": {
-        "message": "Scrobble podcast episodes",
+        "message": "Efetuar scrobble de episódios de podcasts",
         "description": "Option label"
     },
     "optionTdlShortTrackNames": {
-        "message": "Use short track names",
+        "message": "Usar nomes curtos de faixas",
         "description": "Option title"
     },
     "optionTdlShortTrackNamesTitle": {
-        "message": "Tidal provides shortened track names for certain tracks (without \"Remastered\", etc.)",
+        "message": "O Tidal fornece nomes mais curtos para certas faixas (sem \"Remastered\", etc.)",
         "description": ""
     },
     "optionYtDesc": {
@@ -132,7 +132,7 @@
         "description": "Enable/disable hint"
     },
     "optionsCustomPatternsHint": {
-        "message": "Clique no ícone de engrenagem para configurar padrões personalizados de URL para conectores. <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>Saiba mais</a>",
+        "message": "Clique no ícone de engrenagem para configurar padrões personalizados de URL para conectores.",
         "description": "Description of how to configure custom URL patterns"
     },
     "optionsSupportedWebsites": {
@@ -142,6 +142,10 @@
     "optionsToggle": {
         "message": "Alternar",
         "description": "Label of toggle button"
+    },
+    "learnMoreLabel": {
+        "message": "Saiba mais",
+        "description": "Learn more label"
     },
     "contactTitle": {
         "message": "Contatos",
@@ -474,6 +478,10 @@
     "infoViewTrackPage": {
         "message": "Ver página da faixa",
         "description": "Placeholder of album input"
+    },
+    "infoYourScrobbles": {
+        "message": "Total de scrobbles: $1",
+        "description": "Label for user play count"
     },
     "pageActionBase": {
         "message": "Este site é compatível com scrobbles",
