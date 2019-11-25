@@ -132,7 +132,7 @@
         "description": "Enable/disable hint"
     },
     "optionsCustomPatternsHint": {
-        "message": "Кликните на иконку с шестерёнкой, чтобы настроить пользовательские шаблоны URL для коннекторов. <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>Узнать больше</a>",
+        "message": "Кликните на иконку с шестерёнкой, чтобы настроить пользовательские шаблоны URL для коннекторов.",
         "description": "Description of how to configure custom URL patterns"
     },
     "optionsSupportedWebsites": {
@@ -142,6 +142,10 @@
     "optionsToggle": {
         "message": "Переключить",
         "description": "Label of toggle button"
+    },
+    "learnMoreLabel": {
+        "message": "Узнать больше",
+        "description": "Learn more label"
     },
     "contactTitle": {
         "message": "Контакты",
