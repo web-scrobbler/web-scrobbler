@@ -21,83 +21,81 @@ const PLAYER_TYPES = {
 
 Connector.playerSelector = '.content-list';
 
-Connector.playButtonSelector = '.controls .play';
-
 // This identifies the track element depending on the parents of the play button
 function getTrackContainer() {
-	let track;
+	let trackContainer;
 	// Iterate through all parents until it also finds a cover art
-	$('.play.paused').parents().each((_i, parent) => {
+	$('.play.paused').parents().each((_, parent) => {
 		if ($(parent).find('img[src^="/images/cover/"]').length > 0) {
-			track = parent;
+			trackContainer = parent;
 			return false;
 		}
 	});
-	return track;
+	return $(trackContainer);
 }
 
 function typeOfTrack(trackContainer) {
-	if ($(trackContainer).is('article')) {
+	if (trackContainer.is('article')) {
 		return PLAYER_TYPES.POPULAR;
-	}
-	if ($(trackContainer).is('ul')) {
+	} else if (trackContainer.is('ul')) {
 		return PLAYER_TYPES.ARCHIVED;
-	}
-	if ($(trackContainer).is('div')) {
+	} else if (trackContainer.is('div')) {
 		return PLAYER_TYPES.SINGLE;
 	}
-	if ($(trackContainer).is('li') && $(trackContainer).parent().hasClass('tracks')) {
-		return PLAYER_TYPES.DJ_OR_LABEL;
-	}
-	if ($(trackContainer).is('li') && $(trackContainer).parent().hasClass('chart')) {
-		return PLAYER_TYPES.CHART;
+
+	const parentContainer = trackContainer.parent();
+	if (trackContainer.is('li')) {
+		if (parentContainer.hasClass('tracks')) {
+			return PLAYER_TYPES.DJ_OR_LABEL;
+		} else if (parentContainer.hasClass('chart')) {
+			return PLAYER_TYPES.CHART;
+		}
 	}
 
 	Util.debugLog('Player not found', 'warn');
 	return PLAYER_TYPES.UNKNOWN;
 }
 
-Connector.getTrack = () => {
-	let track = getTrackContainer();
-	switch (typeOfTrack(track)) {
-		case PLAYER_TYPES.POPULAR:
-			return Util.splitArtistTrack($(track).find('div a').text()).track;
-		case PLAYER_TYPES.SINGLE:
-			return Util.splitArtistTrack($('#sectionHead h1').text()).track;
-		case PLAYER_TYPES.DJ_OR_LABEL:
-			return $(track).find('.title').contents().first().text();
-		case PLAYER_TYPES.CHART:
-			return $(track).find('.track a').text();
-		case PLAYER_TYPES.ARCHIVED:
-			return $(track).find('li:last-child .pr8 a.f24').text();
-	}
-};
+Connector.getTrackInfo = () => {
+	let artist = null;
+	let track = null;
 
-Connector.getArtist = () => {
-	let track = getTrackContainer();
-	switch (typeOfTrack(track)) {
-		case PLAYER_TYPES.POPULAR:
-			return Util.splitArtistTrack($(track).find('div a').text()).artist;
-		case PLAYER_TYPES.SINGLE:
-			return Util.splitArtistTrack($('#sectionHead h1').text()).artist;
+	const trackContainer = getTrackContainer();
+	switch (typeOfTrack(trackContainer)) {
+		case PLAYER_TYPES.POPULAR: {
+			const artistTrackStr = trackContainer.find('div a').text();
+			({ artist, track } = Util.splitArtistTrack(artistTrackStr));
+			break;
+		}
+		case PLAYER_TYPES.SINGLE: {
+			const artistTrackStr = $('#sectionHead h1').text();
+			({ artist, track } = Util.splitArtistTrack(artistTrackStr));
+			break;
+		}
 		case PLAYER_TYPES.DJ_OR_LABEL:
-			return parseTitle($(track).find('.title'));
+			artist = parseTitle(trackContainer.find('.title'));
+			track = trackContainer.find('.title').contents().first().text();
+			break;
 		case PLAYER_TYPES.CHART:
-			return $(track).find('.artist a').text();
+			artist = trackContainer.find('.artist a').text();
+			track = trackContainer.find('.track a').text();
+			break;
 		case PLAYER_TYPES.ARCHIVED:
-			return $(track).find('li:last-child .pr8 div.f24').first().text();
+			artist = trackContainer.find('li:last-child .pr8 div.f24').first().text();
+			track = trackContainer.find('li:last-child .pr8 a.f24').text();
+			break;
+		case PLAYER_TYPES.UNKNOWN:
+			return null;
 	}
-};
 
-Connector.getUniqueId = () => {
-	return getTrackContainer().find('.play.player').attr('data-trackid');
+	const uniqueID = trackContainer.find('.play.player').attr('data-trackid');
+	const relTrackArt = trackContainer.find('img[src^="/images/cover/"]').first().attr('src');
+	const trackArt = `https://www.residentadvisor.net${relTrackArt}`;
+
+	return { artist, track, uniqueID, trackArt };
 };
 
 Connector.isPlaying = () => $('.play.paused').length > 0;
-
-Connector.getTrackArt = () => {
-	return `https://www.residentadvisor.net${$(getTrackContainer()).find('img[src^="/images/cover/"]').first().attr('src')}`;
-};
 
 Connector.isTrackArtDefault = (trackArtUrl) => {
 	return trackArtUrl === `${domain}/images/cover/blank.jpg`;
