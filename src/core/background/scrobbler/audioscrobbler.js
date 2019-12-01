@@ -46,7 +46,9 @@ define((require) => {
 			let data = await this.storage.get();
 
 			try {
-				let responseData = await this.sendRequest({ method: 'GET' }, params, false);
+				let responseData = await this.sendRequest(
+					{ method: 'GET' }, params, { signed: false }
+				);
 				token = responseData.token;
 			} catch (err) {
 				this.debugLog('Error acquiring a token', 'warn');
@@ -137,7 +139,7 @@ define((require) => {
 				params.duration = song.getDuration();
 			}
 
-			let response = await this.sendRequest({ method: 'POST' }, params, true);
+			let response = await this.sendRequest({ method: 'POST' }, params);
 			return AudioScrobbler.processResponse(response);
 		}
 
@@ -160,7 +162,7 @@ define((require) => {
 				params['albumArtist[0]'] = song.getAlbumArtist();
 			}
 
-			let response = await this.sendRequest({ method: 'POST' }, params, true);
+			let response = await this.sendRequest({ method: 'POST' }, params);
 
 			let result = AudioScrobbler.processResponse(response);
 			if (result.isOk()) {
@@ -189,7 +191,7 @@ define((require) => {
 				sk: sessionID
 			};
 
-			let response = await this.sendRequest({ method: 'POST' }, params, true);
+			let response = await this.sendRequest({ method: 'POST' }, params);
 			return AudioScrobbler.processResponse(response);
 		}
 
@@ -210,7 +212,7 @@ define((require) => {
 		async tradeTokenForSession(token) {
 			let params = { method: 'auth.getsession', token };
 
-			let response = await this.sendRequest({ method: 'GET' }, params, true);
+			let response = await this.sendRequest({ method: 'GET' }, params);
 			let result = AudioScrobbler.processResponse(response);
 			if (!result.isOk()) {
 				throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
@@ -233,7 +235,7 @@ define((require) => {
 		 * @param  {Boolean} signed Should the request be signed?
 		 * @return {Object} Parsed response
 		 */
-		async sendRequest(options, params, signed) {
+		async sendRequest(options, params, { signed = true } = {}) {
 			const url = this.makeRequestUrl(params, signed);
 
 			const promise = fetch(url, options);
