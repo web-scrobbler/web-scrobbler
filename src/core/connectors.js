@@ -1205,6 +1205,11 @@ const connectors = [{
 	matches: ['*://www.newgrounds.com/audio*'],
 	js: 'connectors/newgrounds.js',
 	id: 'newgrounds',
+}, {
+	label: 'Jango',
+	matches: ['*://www.jango.com/*'],
+	js: 'connectors/jango.js',
+	id: 'jango',
 }];
 
 define(() => connectors);
