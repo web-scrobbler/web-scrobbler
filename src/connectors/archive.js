@@ -16,9 +16,9 @@ switch (version) {
 }
 
 function bindCommon() {
-	Connector.currentTimeSelector = '#jw6_controlbar_elapsed';
+	Connector.currentTimeSelector = '.jw-text-elapsed';
 
-	Connector.durationSelector = '#jw6_controlbar_duration';
+	Connector.durationSelector = '.jw-text-duration';
 
 	Connector.isPlaying = () => {
 		return !$('video')[0].paused;
@@ -34,7 +34,7 @@ function bindNew() {
 
 	Connector.getArtistTrack = () => {
 		let track = $('.jwrowV2.playing .ttl').text();
-		let artist = $('.key-val-big a').first().text();
+		let artist = $('.info-top .metadata-definition > dd').first().text();
 
 		let trackParts = track.split('-').map((item) => {
 			return item.trim();
