@@ -1231,6 +1231,11 @@ const connectors = [{
 	js: 'connectors/provoda.ch.js',
 	id: 'provoda.ch',
 }, {
+	label: 'Atomic Music Space',
+	matches: ['*://stream.atomicmusic.space/*'],
+	js: 'connectors/atomicmusic.space.js',
+	id: 'atomicmusic.space',
+}, {
 	label: 'The-radio.ru',
 	matches: ['*://the-radio.ru/*'],
 	js: 'connectors/the-radio.ru.js',
