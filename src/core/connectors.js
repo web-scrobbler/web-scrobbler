@@ -1216,6 +1216,11 @@ const connectors = [{
 	js: 'connectors/playirish.js',
 	id: 'playirish',
 }, {
+	label: 'Radio Record',
+	matches: ['*://www.radiorecord.ru/*'],
+	js: 'connectors/radiorecord.js',
+	id: 'radiorecord',
+}, {
 	label: 'Imago Radio',
 	matches: ['*://*.imago.fm/*'],
 	js: 'connectors/imago.js',
@@ -1230,6 +1235,11 @@ const connectors = [{
 	matches: ['*://stream.atomicmusic.space/*'],
 	js: 'connectors/atomicmusic.space.js',
 	id: 'atomicmusic.space',
+}, {
+	label: 'The-radio.ru',
+	matches: ['*://the-radio.ru/*'],
+	js: 'connectors/the-radio.ru.js',
+	id: 'the-radio.ru',
 }];
 
 define(() => connectors);
