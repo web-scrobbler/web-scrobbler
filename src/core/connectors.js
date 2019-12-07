@@ -1220,6 +1220,11 @@ const connectors = [{
 	matches: ['*://*.imago.fm/*'],
 	js: 'connectors/imago.js',
 	id: 'imago',
+}, {
+	label: 'Provoda',
+	matches: ['*://*.provoda.ch/*'],
+	js: 'connectors/provoda.js',
+	id: 'provoda',
 }];
 
 define(() => connectors);
