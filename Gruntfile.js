@@ -29,6 +29,7 @@ const EXTENSION_DOCS = [
 
 // Files to lint
 const JS_FILES = [
+	'*.js',
 	// Custom Grunt tasks
 	'.grunt',
 	// Connectors
@@ -45,7 +46,7 @@ const DOC_FILES = [
 	'*.md', '.github/**/*.md',
 ];
 
-const isCi = (process.env.CI === 'true');
+const isCi = process.env.CI === 'true';
 
 module.exports = (grunt) => {
 	grunt.initConfig({
