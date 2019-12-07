@@ -1,6 +1,6 @@
 'use strict';
 
-Connector.playerSelector = '#player';
+Connector.playerSelector = '#player-logo';
 
 Connector.artistTrackSelector = '#track';
 
