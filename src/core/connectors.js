@@ -1240,6 +1240,11 @@ const connectors = [{
 	matches: ['*://the-radio.ru/*'],
 	js: 'connectors/the-radio.ru.js',
 	id: 'the-radio.ru',
+}, {
+	label: 'HQ Radio',
+	matches: ['*://hqradio.ru/*'],
+	js: 'connectors/hqradio.js',
+	id: 'hqradio',
 }];
 
 define(() => connectors);
