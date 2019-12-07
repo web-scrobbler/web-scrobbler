@@ -1210,6 +1210,21 @@ const connectors = [{
 	matches: ['*://www.jango.com/*'],
 	js: 'connectors/jango.js',
 	id: 'jango',
+}, {
+	label: 'PlayIrish',
+	matches: ['*://*.playirish.ie/*'],
+	js: 'connectors/playirish.js',
+	id: 'playirish',
+}, {
+	label: 'Imago Radio',
+	matches: ['*://*.imago.fm/*'],
+	js: 'connectors/imago.js',
+	id: 'imago',
+}, {
+	label: 'Provoda.ch',
+	matches: ['*://*.provoda.ch/*'],
+	js: 'connectors/provoda.ch.js',
+	id: 'provoda.ch',
 }];
 
 define(() => connectors);
