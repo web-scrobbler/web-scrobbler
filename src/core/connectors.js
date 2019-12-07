@@ -1216,6 +1216,11 @@ const connectors = [{
 	js: 'connectors/playirish.js',
 	id: 'playirish',
 }, {
+	label: 'Radio Record',
+	matches: ['*://www.radiorecord.ru/*'],
+	js: 'connectors/radiorecord.js',
+	id: 'radiorecord',
+}, {
 	label: 'Imago Radio',
 	matches: ['*://*.imago.fm/*'],
 	js: 'connectors/imago.js',
