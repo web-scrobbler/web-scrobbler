@@ -9,5 +9,4 @@ Connector.getArtistTrack = () => {
 	return Util.splitArtistTrack(text);
 };
 
-Connector.isPlaying = () => $('.sm2_playing').length > 0;
 Connector.playButtonSelector = '.sm2_playing';
