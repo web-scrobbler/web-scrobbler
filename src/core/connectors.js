@@ -1225,6 +1225,11 @@ const connectors = [{
 	matches: ['*://*.provoda.ch/*'],
 	js: 'connectors/provoda.ch.js',
 	id: 'provoda.ch',
+}, {
+	label: 'Atomic Music Space',
+	matches: ['*://stream.atomicmusic.space/*'],
+	js: 'connectors/atomicmusic.space.js',
+	id: 'atomicmusic.space',
 }];
 
 define(() => connectors);
