@@ -10,11 +10,12 @@ const BUILD_DIR = 'build';
 
 const DIST_FILE = 'web-scrobbler.zip';
 const MANIFEST_FILE = 'src/manifest.json';
-const PACKAGE_JSON_FILE = 'package.json';
 
 const FILES_TO_PREPROCESS = [
 	`${BUILD_DIR}/**/*.js`, `${BUILD_DIR}/**/*.css`, `${BUILD_DIR}/**/*.html`
 ];
+
+const FILES_TO_BUMP = [MANIFEST_FILE, 'package.json', 'package-lock.json'];
 
 // Files to build zipball
 const EXTENSION_SRC = [
@@ -153,9 +154,9 @@ module.exports = (grunt) => {
 
 		bump: {
 			options: {
-				files: [MANIFEST_FILE, PACKAGE_JSON_FILE],
+				files: FILES_TO_BUMP,
 				updateConfigs: ['manifest'],
-				commitFiles: [MANIFEST_FILE, PACKAGE_JSON_FILE],
+				commitFiles: FILES_TO_BUMP,
 			}
 		},
 		github_release: {
