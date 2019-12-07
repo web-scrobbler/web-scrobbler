@@ -1215,6 +1215,11 @@ const connectors = [{
 	matches: ['*://*.playirish.ie/*'],
 	js: 'connectors/playirish.js',
 	id: 'playirish',
+}, {
+	label: 'Imago Radio',
+	matches: ['*://*.imago.fm/*'],
+	js: 'connectors/imago.js',
+	id: 'imago',
 }];
 
 define(() => connectors);
