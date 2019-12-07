@@ -8,4 +8,8 @@ Connector.trackSelector = '#title-link';
 
 Connector.trackArtSelector = '.player-img-link > .img';
 
+Connector.currentTimeSelector = '.jp-current-time';
+
+Connector.durationSelector = '.jp-duration';
+
 Connector.isPlaying = () => $('.jp-pause').css('display') === 'block';
