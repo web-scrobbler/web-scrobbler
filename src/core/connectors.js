@@ -1225,6 +1225,11 @@ const connectors = [{
 	matches: ['*://*.provoda.ch/*'],
 	js: 'connectors/provoda.ch.js',
 	id: 'provoda.ch',
+}, {
+	label: 'The-radio.ru',
+	matches: ['*://the-radio.ru/*'],
+	js: 'connectors/the-radio.ru.js',
+	id: 'the-radio.ru',
 }];
 
 define(() => connectors);
