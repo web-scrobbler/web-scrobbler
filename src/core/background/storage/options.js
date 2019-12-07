@@ -10,6 +10,7 @@ define((require) => {
 	const DISABLE_GA = 'disableGa';
 	const FORCE_RECOGNIZE = 'forceRecognize';
 	const USE_NOTIFICATIONS = 'useNotifications';
+	const SCROBBLE_PERCENT = 'scrobblePercent';
 	const DISABLED_CONNECTORS = 'disabledConnectors';
 	const USE_UNRECOGNIZED_SONG_NOTIFICATIONS = 'useUnrecognizedSongNotifications';
 	const SCROBBLE_PODCASTS = 'scrobblePodcasts';
@@ -42,6 +43,12 @@ define((require) => {
 		 * @type {Boolean}
 		 */
 		[USE_NOTIFICATIONS]: true,
+
+		/**
+		 * Scrobble percent.
+		 * @type {Number}
+		 */
+		[SCROBBLE_PERCENT]: 50,
 
 		/**
 		 * Object contains info of disabled connectors.
@@ -218,7 +225,8 @@ define((require) => {
 
 		getOption, setOption, getConnectorOption, setConnectorOption,
 
-		DISABLE_GA, FORCE_RECOGNIZE, USE_NOTIFICATIONS, SCROBBLE_PODCASTS,
-		USE_UNRECOGNIZED_SONG_NOTIFICATIONS, DISABLED_CONNECTORS,
+		DISABLE_GA, FORCE_RECOGNIZE, USE_NOTIFICATIONS,
+		SCROBBLE_PODCASTS, USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
+		DISABLED_CONNECTORS, SCROBBLE_PERCENT
 	};
 });

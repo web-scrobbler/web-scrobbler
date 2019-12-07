@@ -57,3 +57,7 @@
 .close-btn {
 	float: none;
 }
+
+.hidden-options {
+	display: none;
+}

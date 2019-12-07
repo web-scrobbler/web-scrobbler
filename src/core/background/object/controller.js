@@ -340,7 +340,7 @@ define((require) => {
 		 * passed the pipeline successfully, so checks for various flags
 		 * are needed.
 		 */
-		onProcessed() {
+		async onProcessed() {
 			this.debugLog(
 				`Song finished processing: ${this.currentSong.toString()}`);
 
@@ -348,7 +348,7 @@ define((require) => {
 				// Processing cleans this flag
 				this.currentSong.flags.isMarkedAsPlaying = false;
 
-				this.updateTimers(this.currentSong.getDuration());
+				await this.updateTimers(this.currentSong.getDuration());
 
 				/*
 				 * If the song is playing, mark it immediately;
@@ -468,13 +468,14 @@ define((require) => {
 		 * Update internal timers.
 		 * @param  {Number} duration Song duration in seconds
 		 */
-		updateTimers(duration) {
+		async updateTimers(duration) {
 			if (this.playbackTimer.isExpired()) {
 				this.debugLog('Attempt to update expired timers', 'warn');
 				return;
 			}
 
-			const secondsToScrobble = Util.getSecondsToScrobble(duration);
+			const percent = await Options.getOption(Options.SCROBBLE_PERCENT);
+			const secondsToScrobble = Util.getSecondsToScrobble(duration, percent);
 
 			if (secondsToScrobble !== -1) {
 				this.playbackTimer.update(secondsToScrobble);

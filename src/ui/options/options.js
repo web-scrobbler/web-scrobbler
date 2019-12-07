@@ -3,6 +3,13 @@
 define((require) => {
 	const Options = require('storage/options');
 
+	const hiddenOptionsClass = 'hidden-options';
+	const optionsContainerId = '#collapseOptions';
+
+	const percentValues = [
+		10, 20, 30, 40, 50, 60, 70, 80, 90, 100
+	];
+
 	/**
 	 * Object that maps options to their element IDs.
 	 * @type {Object}
@@ -40,6 +47,25 @@ define((require) => {
 			const optionValue = await Options.getOption(option);
 			$(optionId).attr('checked', optionValue);
 		}
+
+		const scrobblePercentEl = $('#scrobblePercent');
+
+		for (const val of percentValues) {
+			scrobblePercentEl.append($(`<option>${val}%</option>`));
+		}
+		scrobblePercentEl[0].selectedIndex = percentValues.indexOf(
+			await Options.getOption(Options.SCROBBLE_PERCENT)
+		);
+		scrobblePercentEl.on('change', function() {
+			const percent = percentValues[this.selectedIndex];
+			Options.setOption(Options.SCROBBLE_PERCENT, percent);
+		});
+
+		$(optionsContainerId).bind('click', function(event) {
+			if (event.altKey) {
+				showHiddenOptions();
+			}
+		});
 	}
 
 	async function initializeConnectorsOptions() {
@@ -56,6 +82,11 @@ define((require) => {
 				$(optionId).attr('checked', optionValue);
 			}
 		}
+	}
+
+	function showHiddenOptions() {
+		$(optionsContainerId)
+			.find(`.${hiddenOptionsClass}`).removeClass(hiddenOptionsClass);
 	}
 
 	return { initialize };

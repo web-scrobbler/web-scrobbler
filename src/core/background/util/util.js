@@ -28,11 +28,6 @@ define((require) => {
 	const MAX_SCROBBLE_TIME = 240;
 
 	/**
-	 * Percentage of song duration to scrobble.
-	 */
-	const SCROBBLE_PERCENTAGE = 50;
-
-	/**
 	 * Filename of privacy policy document.
 	 * @type {String}
 	 */
@@ -167,9 +162,10 @@ define((require) => {
 	 * Return total number of seconds of playback needed for this track
 	 * to be scrobbled.
 	 * @param  {Number} duration Song duration
+	 * @param  {Number} percent Percent of song duration to scrobble
 	 * @return {Number} Seconds to scrobble
 	 */
-	function getSecondsToScrobble(duration) {
+	function getSecondsToScrobble(duration, percent) {
 		if (isDurationInvalid(duration)) {
 			return DEFAULT_SCROBBLE_TIME;
 		}
@@ -178,7 +174,7 @@ define((require) => {
 			return -1;
 		}
 
-		const scrobbleTime = Math.round(duration * SCROBBLE_PERCENTAGE / 100);
+		const scrobbleTime = Math.round(duration * percent / 100);
 		return Math.min(scrobbleTime, MAX_SCROBBLE_TIME);
 	}
 

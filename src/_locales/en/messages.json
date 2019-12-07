@@ -48,6 +48,18 @@
     "message": "Scrobble podcasts",
     "description": "Option title"
   },
+  "optionsHidden": {
+    "message": "Hidden",
+    "description": "'Hidden' section"
+  },
+  "optionScrobblePercent" : {
+    "message": "Scrobble at",
+    "description": "Option title"
+  },
+  "optionScrobblePercentSuffix" : {
+    "message": "of song duration",
+    "description": "Option title"
+  },
   "optionScrobblePodcastsTitle" : {
     "message": "Scrobble podcast episodes",
     "description": "Option label"
@@ -63,6 +75,10 @@
   "optionYtDesc": {
     "message": "If you turn off both options, the extension will scrobble Youtube videos from all categories.",
     "description": "Description of Youtube options"
+  },
+  "optionPercentDesc": {
+    "message": "Note that a track will be scrobbled anyway, if it has been played for 4 minutes, regardless of the option value.",
+    "description": "Description of scrobble percent option"
   },
   "optionYtMusicOnly": {
     "message": "Scrobble videos from \"Music\" category",
