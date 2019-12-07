@@ -1221,10 +1221,10 @@ const connectors = [{
 	js: 'connectors/imago.js',
 	id: 'imago',
 }, {
-	label: 'Provoda',
+	label: 'Provoda.ch',
 	matches: ['*://*.provoda.ch/*'],
-	js: 'connectors/provoda.js',
-	id: 'provoda',
+	js: 'connectors/provoda.ch.js',
+	id: 'provoda.ch',
 }];
 
 define(() => connectors);

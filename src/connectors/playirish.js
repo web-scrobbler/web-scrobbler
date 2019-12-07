@@ -9,4 +9,4 @@ Connector.getArtistTrack = () => {
 	return Util.splitArtistTrack(text);
 };
 
-Connector.playButtonSelector = '.sm2_playing';
+Connector.pauseButtonSelector = '.sm2_playing';
