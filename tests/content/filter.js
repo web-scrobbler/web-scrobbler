@@ -601,7 +601,7 @@ const EXPLICIT_FILTER_RULES_TEST_DATA = [{
  */
 const FILTERS_TEST_DATA = [{
 	description: 'Base filter',
-	filter: new MetadataFilter({ all: shouldNotBeCalled }),
+	filterFunc: shouldNotBeCalled,
 	fields: MetadataFilter.ALL_FIELDS,
 	testData: FILTER_NULL_DATA,
 }, {
@@ -611,49 +611,47 @@ const FILTERS_TEST_DATA = [{
 	testData: DEFAULT_TEST_DATA,
 }, {
 	description: 'removeZeroWidth',
-	filter: new MetadataFilter({ all: MetadataFilter.removeZeroWidth }),
+	filterFunc: MetadataFilter.removeZeroWidth,
 	fields: MetadataFilter.ALL_FIELDS,
 	testData: REMOVE_ZERO_WIDTH_TEST_DATA,
 }, {
 	description: 'decodeHtmlEntities',
-	filter: new MetadataFilter({ all: MetadataFilter.decodeHtmlEntities }),
+	filterFunc: MetadataFilter.decodeHtmlEntities,
 	fields: MetadataFilter.ALL_FIELDS,
 	testData: DECODE_HTML_ENTITIES_TEST_DATA,
 }, {
 	description: 'removeDoubleTitle',
-	filter: new MetadataFilter({ track: MetadataFilter.removeDoubleTitle }),
+	filterFunc: MetadataFilter.removeDoubleTitle,
 	fields: ['track'],
 	testData: REMOVE_DOUBLE_TITLE_TEST_DATA,
-}];
-
-const FILTER_RULES_TEST_DATA = [{
-	description: 'Youtube filter rules',
-	filterRules: MetadataFilter.YOUTUBE_TRACK_FILTER_RULES,
+}, {
+	description: 'Youtube filter function',
+	filterFunc: MetadataFilter.youtube,
 	fields: ['track'],
 	testData: YOUTUBE_FILTER_RULES_TEST_DATA,
 }, {
-	description: 'Remastered filter rules',
-	filterRules: MetadataFilter.REMASTERED_FILTER_RULES,
+	description: 'Remastered filter function',
+	filterFunc: MetadataFilter.removeRemastered,
 	fields: ['track', 'album'],
 	testData: REMASTERED_FILTER_RULES_TEST_DATA,
 }, {
-	description: 'Version filter rules',
-	filterRules: MetadataFilter.VERSION_FILTER_RULES,
+	description: 'Version filter function',
+	filterFunc: MetadataFilter.removeVersion,
 	fields: ['track', 'album'],
 	testData: VERSION_FILTER_RULES_TEST_DATA,
 }, {
-	description: 'Suffix filter rules',
-	filterRules: MetadataFilter.SUFFIX_FILTER_RULES,
+	description: 'Suffix filter function',
+	filterFunc: MetadataFilter.fixTrackSuffix,
 	fields: ['track'],
 	testData: SUFFIX_FILTER_RULES_TEST_DATA,
 }, {
-	description: 'Live filter fules',
-	filterRules: MetadataFilter.LIVE_FILTER_RULES,
+	description: 'Live filter function',
+	filterFunc: MetadataFilter.removeLive,
 	fields: ['track'],
 	testData: LIVE_FILTER_RULES_TEST_DATA,
 }, {
-	description: 'Explicit filter fules',
-	filterRules: MetadataFilter.EXPLICIT_FILTER_RULES,
+	description: 'Explicit filter function',
+	filterFunc: MetadataFilter.removeExplicit,
 	fields: ['track'],
 	testData: EXPLICIT_FILTER_RULES_TEST_DATA,
 }];
@@ -745,20 +743,11 @@ function shouldNotBeCalled() {
  */
 function testFilters() {
 	for (let data of FILTERS_TEST_DATA) {
-		let { description, filter, fields, testData } = data;
-		describe(description, () => {
-			testFilter(filter, fields, testData);
-		});
-	}
-}
+		let { description, filter, filterFunc, fields, testData } = data;
 
-/**
- * Test filter rules defined in `FILTER_RULES_TEST_DATA`.
- */
-function testFilterRules() {
-	for (let data of FILTER_RULES_TEST_DATA) {
-		const { description, filterRules, fields, testData } = data;
-		const filter = createFilter(fields, filterRules);
+		if (!filter && filterFunc) {
+			filter = createFilterFromFunc(fields, filterFunc);
+		}
 
 		describe(description, () => {
 			testFilter(filter, fields, testData);
@@ -782,8 +771,6 @@ function testInvalidFilter() {
 function runTests() {
 	testFilters();
 
-	testFilterRules();
-
 	describe('Extended filter', () => {
 		testExtendedFilter();
 	});
@@ -797,12 +784,10 @@ function runTests() {
 	});
 }
 
-function createFilter(fields, filterRules) {
+function createFilterFromFunc(fields, filterFunc) {
 	const filterSet = {};
 	for (const field of fields) {
-		filterSet[field] = (str) => {
-			return MetadataFilter.filterWithFilterRules(str, filterRules);
-		};
+		filterSet[field] = filterFunc;
 	}
 
 	return new MetadataFilter(filterSet);
