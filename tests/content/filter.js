@@ -598,6 +598,30 @@ const CLEAN_EXPLICIT_FILTER_RULES_TEST_DATA = [{
 	expected: 'Track'
 }];
 
+const ALBUM_ARTIST_FROM_ARTIST_FILTER_RULES_TEST_DATA = [{
+	description: 'should remove featured artist from suffix',
+	source: 'Artist A feat. Artist B',
+	expected: 'Artist A'
+}, {
+	description: 'should remove featured artist from suffix',
+	source: 'Artist A feat. Artist B, Artist C',
+	expected: 'Artist A'
+}, {
+	description: 'should remove featured artist from suffix',
+	source: 'Artist A feat. Artist B, Artist C & Artist D',
+	expected: 'Artist A'
+}];
+
+const FEATURE_FILTER_RULES_TEST_DATA = [{
+	description: 'should remove featured artist from suffix',
+	source: 'Artist A [feat. Artist B]',
+	expected: 'Artist A'
+}, {
+	description: 'should remove featured artist from suffix',
+	source: 'Artist A (feat. Artist B)',
+	expected: 'Artist A'
+}];
+
 /**
  * Filters data is an array of objects. Each object must contain
  * four fields: 'description', 'filter', 'fields' and 'testData'.
@@ -662,6 +686,16 @@ const FILTERS_TEST_DATA = [{
 	filterFunc: MetadataFilter.removeCleanExplicit,
 	fields: ['track'],
 	testData: CLEAN_EXPLICIT_FILTER_RULES_TEST_DATA,
+}, {
+	description: 'Album Artist from Artist filter function',
+	filterFunc: MetadataFilter.albumArtistFromArtist,
+	fields: ['albumArtist'],
+	testData: ALBUM_ARTIST_FROM_ARTIST_FILTER_RULES_TEST_DATA,
+}, {
+	description: 'Feature filter function',
+	filterFunc: MetadataFilter.removeFeature,
+	fields: ['track'],
+	testData: FEATURE_FILTER_RULES_TEST_DATA,
 }];
 
 /**
