@@ -533,9 +533,6 @@ function BaseConnector() {
 		 */
 		let isPlaying = this.isPlaying();
 		if (isPlaying !== currentState.isPlaying) {
-			// @ifdef DEBUG
-			Util.debugLog(`isPlaying state changed to ${isPlaying}`);
-			// @endif
 			this.stateChangedWorker();
 		} else {
 			this.stateChangedWorkerThrottled();
@@ -713,6 +710,10 @@ function BaseConnector() {
 			}
 
 			// @ifdef DEBUG
+			if (changedFields.includes('isPlaying')) {
+				Util.debugLog(`isPlaying state changed to ${newState.isPlaying}`);
+			}
+
 			for (const field of fieldsToCheckSongChange) {
 				if (changedFields.includes(field)) {
 					Util.debugLog(JSON.stringify(filteredState, null, 2));
