@@ -6,6 +6,8 @@ Connector.getArtist = () => {
 	return $('.trackInfoContainer .trackArtist a, .trackInfoContainer .trackArtist span').attr('title');
 };
 
+Connector.getAlbumArtist = Connector.getArtist;
+
 Connector.trackSelector = '.trackInfoContainer .trackTitle';
 
 Connector.albumSelector = '.trackSourceLink a';
