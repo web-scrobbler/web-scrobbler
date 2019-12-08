@@ -599,7 +599,7 @@ const EXPLICIT_FILTER_RULES_TEST_DATA = [{
  * 'fields' is an array of song fields to be filtered.
  * 'testData' contains test data used to test filter.
  */
-const FILTERS_DATA = [{
+const FILTERS_TEST_DATA = [{
 	description: 'Base filter',
 	filter: new MetadataFilter({ all: shouldNotBeCalled }),
 	fields: MetadataFilter.ALL_FIELDS,
@@ -741,16 +741,21 @@ function shouldNotBeCalled() {
 }
 
 /**
- * Run all tests.
+ * Test filters defined in `FILTERS_TEST_DATA`.
  */
-function runTests() {
-	for (let data of FILTERS_DATA) {
+function testFilters() {
+	for (let data of FILTERS_TEST_DATA) {
 		let { description, filter, fields, testData } = data;
 		describe(description, () => {
 			testFilter(filter, fields, testData);
 		});
 	}
+}
 
+/**
+ * Test filter rules defined in `FILTER_RULES_TEST_DATA`.
+ */
+function testFilterRules() {
 	for (let data of FILTER_RULES_TEST_DATA) {
 		const { description, filterRules, fields, testData } = data;
 		const filter = createFilter(fields, filterRules);
@@ -759,6 +764,15 @@ function runTests() {
 			testFilter(filter, fields, testData);
 		});
 	}
+}
+
+/**
+ * Run all tests.
+ */
+function runTests() {
+	testFilters();
+
+	testFilterRules();
 
 	describe('Extended filter', () => {
 		testExtendedFilter();
