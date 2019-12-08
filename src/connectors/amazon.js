@@ -19,15 +19,6 @@ Connector.getAlbum = () => {
 		return $('tr.selectable.currentlyPlaying td.albumCell').attr('title');
 	}
 
-Connector.getAlbum = () => {
-	if ($('.trackSourceLink a').attr('href').includes('albums')) {
-		return $('.trackSourceLink a').text();
-	}
-
-	if ($('tr.selectable.currentlyPlaying td.albumCell')) {
-		return $('tr.selectable.currentlyPlaying td.albumCell').attr('title');
-	}
-
 	if ($('.nowPlayingDetail img.albumImage')) {
 		return $('.nowPlayingDetail img.albumImage').att('title');
 	}
