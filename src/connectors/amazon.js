@@ -8,19 +8,7 @@ Connector.getArtist = () => {
 
 Connector.trackSelector = '.trackInfoContainer .trackTitle';
 
-Connector.getAlbum = () => {
-	if ($('tr.selectable.currentlyPlaying td.albumCell')) {
-		return $('tr.selectable.currentlyPlaying td.albumCell').attr('title');
-	}
-
-	if ($('.nowPlayingDetail img.albumImage')) {
-		return $('.nowPlayingDetail img.albumImage').att('title');
-	}
-
-	if ($('.trackSourceLink a').data('ui-click-action') === 'selectAlbum') {
-		return $('.trackSourceLink a').attr('title');
-	}
-};
+Connector.albumSelector = '.trackSourceLink a';
 
 Connector.currentTimeSelector = '.songDuration.timeElapsed';
 
