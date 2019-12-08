@@ -1,7 +1,5 @@
 'use strict';
 
-const filter = new MetadataFilter({ album: MetadataFilter.decodeHtmlEntities });
-
 Connector.playerSelector = '#dragonflyTransport .rightSide';
 
 Connector.getArtist = () => {
@@ -40,4 +38,4 @@ Connector.getUniqueID = () => {
 	return null;
 };
 
-Connector.applyFilter(filter);
+Connector.applyFilter(MetadataFilter.getAmazonFilter());

@@ -224,6 +224,17 @@ class MetadataFilter {
 	}
 
 	/**
+	 * Remove "Explicit"-like strings from the text.
+	 * @param  {String} text String to be filtered
+	 * @return {String} Filtered string
+	 */
+	static removeExplicit(text) {
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.EXPLICIT_FILTER_RULES
+		);
+	}
+
+	/**
 	 * Replace "Title - X Remix" suffix with "Title (X Remix) and similar".
 	 * @param  {String} text String to be filtered
 	 * @return {String} Filtered string
@@ -388,6 +399,13 @@ class MetadataFilter {
 		];
 	}
 
+	static get EXPLICIT_FILTER_RULES() {
+		return [
+			// Explicit
+			{ source: /\s(\(|\[)Explicit(\)|\])/i, target: '' },
+		];
+	}
+
 	/**
 	 * Filter rules to remove "(Album|Stereo|Mono Version)"-like strings
 	 * from a text.
@@ -478,6 +496,30 @@ class MetadataFilter {
 			album: [
 				MetadataFilter.removeRemastered,
 				MetadataFilter.fixTrackSuffix,
+				MetadataFilter.removeLive,
+			],
+		});
+	}
+
+	/**
+	 * Get predefined filter object
+	 * @return {MetadataFilter} Filter object
+	 */
+	static getAmazonFilter() {
+		return new MetadataFilter({
+			track: [
+				MetadataFilter.removeExplicit,
+				MetadataFilter.removeRemastered,
+				MetadataFilter.fixTrackSuffix,
+				MetadataFilter.removeVersion,
+				MetadataFilter.removeLive,
+			],
+			album: [
+				MetadataFilter.decodeHtmlEntities,
+				MetadataFilter.removeExplicit,
+				MetadataFilter.removeRemastered,
+				MetadataFilter.fixTrackSuffix,
+				MetadataFilter.removeVersion,
 				MetadataFilter.removeLive,
 			],
 		});
