@@ -19,15 +19,6 @@ Connector.getAlbum = () => {
 		return $('tr.selectable.currentlyPlaying td.albumCell').attr('title');
 	}
 
-	if ($('.nowPlayingDetail img.albumImage')) {
-		return $('.nowPlayingDetail img.albumImage').att('title');
-	}
-
-	if ($('.trackSourceLink a').data('ui-click-action') === 'selectAlbum') {
-		return $('.trackSourceLink a').attr('title');
-	}
-};
-
 Connector.currentTimeSelector = '.songDuration.timeElapsed';
 
 Connector.playButtonSelector = '.rightSide .playbackControls .playerIconPlay';
