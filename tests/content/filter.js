@@ -580,13 +580,21 @@ const SUFFIX_FILTER_RULES_TEST_DATA = [{
 	expected: 'Track A (Factoria Vocal Mix)'
 }];
 
-const EXPLICIT_FILTER_RULES_TEST_DATA = [{
+const CLEAN_EXPLICIT_FILTER_RULES_TEST_DATA = [{
 	description: 'should remove [Explicit] suffix',
 	source: 'Track [Explicit]',
 	expected: 'Track'
 }, {
 	description: 'should remove (Explicit) suffix',
 	source: 'Track (Explicit)',
+	expected: 'Track'
+}, {
+	description: 'should remove [Clean] suffix',
+	source: 'Track [Clean]',
+	expected: 'Track'
+}, {
+	description: 'should remove (Clean) suffix',
+	source: 'Track (Clean)',
 	expected: 'Track'
 }];
 
@@ -650,10 +658,10 @@ const FILTERS_TEST_DATA = [{
 	fields: ['track'],
 	testData: LIVE_FILTER_RULES_TEST_DATA,
 }, {
-	description: 'Explicit filter function',
-	filterFunc: MetadataFilter.removeExplicit,
+	description: 'Clean/Explicit filter function',
+	filterFunc: MetadataFilter.removeCleanExplicit,
 	fields: ['track'],
-	testData: EXPLICIT_FILTER_RULES_TEST_DATA,
+	testData: CLEAN_EXPLICIT_FILTER_RULES_TEST_DATA,
 }];
 
 /**
