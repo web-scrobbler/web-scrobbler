@@ -1,91 +1,78 @@
 'use strict';
 
 const fs = require('fs');
+const fsPromises = require('fs').promises;
 const path = require('path');
 
-const vendor = "src/vendor";
+const vendor = 'src/vendor';
 
-const bootstrap_js = vendor + "/bootstrap/js";
-const bootstrap_css = vendor + "/bootstrap/css";
+const bootstrapJS = vendor + '/bootstrap/js';
+const bootstrapCSS = vendor + '/bootstrap/css';
 
-const fontawesome_css = vendor + "/fontawesome/css";
-const fontawesome_webfonts = vendor + "/fontawesome/webfonts";
+const fonawesomeCSS = vendor + '/fontawesome/css';
+const fontawesomeWebfonts = vendor + '/fontawesome/webfonts';
 
-const bootstrap_dist = "node_modules/bootstrap/dist";
-const fontawesome_dist = "node_modules/@fortawesome/fontawesome-free";
+const bootstrapDist = 'node_modules/bootstrap/dist';
+const fontawesomeDist = 'node_modules/@fortawesome/fontawesome-free';
 
-var mkdir_count;
-var wait_counts;
-
-function mkDirCatch(new_path) {
-    fs.mkdir(new_path, {
-        recursive: true
-    }, (err) => {
-        if (err) {
-            if (err.code === 'EEXIST') {
-                --mkdir_count;
-                console.log("Path Exists " + new_path);
-                return;
-            } else {
-                console.warn("Path Create Failed " + err.code + " https://nodejs.org/api/errors.html#errors_error_code_1");
-            }
-        } else {
-            --mkdir_count;
-            console.log("Path Created " + new_path);
-        }
-    });
+async function mkDirCatch(newPath, callBack) {
+	await fsPromises.mkdir(newPath, {
+		recursive: true
+	}).then(() => {
+		console.log(`Path Created ${newPath}`);
+		callBack();
+	}).catch((err) => {
+		if (err) {
+			if (err.code === 'EEXIST') {
+				console.log(`Path Exists ${newPath}`);
+			} else {
+				console.warn(`Path Create Failed ${err.code} https://nodejs.org/api/errors.html#errors_error_code_1`);
+			}
+		}
+	});
 }
 
-function copyDep(src, in_dest) {
+function copyDep(src, inDest) {
 
-    const dest = (typeof in_dest === "undefined") ? vendor : in_dest;
-    const dep = path.basename(src);
+	const dest = (typeof inDest === 'undefined') ? vendor : inDest;
+	const dep = path.basename(src);
 
-    fs.copyFile(src, dest + path.sep + dep, (err) => {
-        if (err) {
-            if (err.code === 'EEXIST') {
-                console.log("Exists " + new_path);
-                return;
-            } else {
-                console.warn("File Create Failed " + err.code + " https://nodejs.org/api/errors.html#errors_error_code_1");
-            }
-        } else {
-            console.log("Copy " + dep);
-        }
-    });
+	fs.copyFile(src, dest + path.sep + dep, (err) => {
+		if (err) {
+			if (err.code === 'EEXIST') {
+				console.log(`Exists ${newPath}`);
+			} else {
+				console.warn(`File Create Failed ${err.code} https://nodejs.org/api/errors.html#errors_error_code_1`);
+			}
+		} else {
+			console.log(`Copy ${dep}`);
+		}
+	});
 }
 
-wait_counts = 5;
-mkdir_count = 5;
+mkDirCatch(vendor, function(){
+	copyDep('node_modules/requirejs/require.js');
+	copyDep('node_modules/blueimp-md5/js/md5.min.js');
+	copyDep('node_modules/jquery/dist/jquery.min.js');
+	copyDep('node_modules/showdown/dist/showdown.min.js');
+	copyDep('node_modules/webextension-polyfill/dist/browser-polyfill.min.js');
+});
 
-mkDirCatch(vendor);
+mkDirCatch(bootstrapJS, function(){
+	copyDep(`${bootstrapDist}/js/bootstrap.bundle.min.js`, bootstrapJS);
+});
 
-mkDirCatch(bootstrap_js);
-mkDirCatch(bootstrap_css);
+mkDirCatch(bootstrapCSS, function(){
+	copyDep(`${bootstrapDist}/css/bootstrap.min.css`, bootstrapCSS);
+});
+	
+mkDirCatch(fonawesomeCSS, function(){
+	copyDep(`${fontawesomeDist}/css/solid.min.css`, fonawesomeCSS);
+	copyDep(`${fontawesomeDist}/css/brands.min.css`, fonawesomeCSS);
+	copyDep(`${fontawesomeDist}/css/fontawesome.min.css`, fonawesomeCSS);
+});
 
-mkDirCatch(fontawesome_css);
-mkDirCatch(fontawesome_webfonts);
-
-var interval = setInterval(function() {
-    if (mkdir_count == 0) {
-        copyDep("node_modules/requirejs/require.js");
-        copyDep("node_modules/blueimp-md5/js/md5.min.js");
-        copyDep("node_modules/jquery/dist/jquery.min.js");
-        copyDep("node_modules/showdown/dist/showdown.min.js");
-        copyDep("node_modules/webextension-polyfill/dist/browser-polyfill.min.js");
-
-        copyDep(bootstrap_dist + "/css/bootstrap.min.css", bootstrap_css);
-        copyDep(bootstrap_dist + "/js/bootstrap.bundle.min.js", bootstrap_js);
-
-        copyDep(fontawesome_dist + "/css/solid.min.css", fontawesome_css);
-        copyDep(fontawesome_dist + "/css/brands.min.css", fontawesome_css);
-        copyDep(fontawesome_dist + "/css/fontawesome.min.css", fontawesome_css);
-
-        copyDep(fontawesome_dist + "/webfonts/fa-solid-900.woff2", fontawesome_webfonts);
-        copyDep(fontawesome_dist + "/webfonts/fa-brands-400.woff2", fontawesome_webfonts);
-    }
-    if (wait_counts < 1 || mkdir_count == 0) {
-        clearInterval(interval);
-    }
-    --wait_counts;
-}, 50);
+mkDirCatch(fontawesomeWebfonts, function(){
+	copyDep(`${fontawesomeDist}/webfonts/fa-solid-900.woff2`, fontawesomeWebfonts);
+	copyDep(`${fontawesomeDist}/webfonts/fa-brands-400.woff2`, fontawesomeWebfonts);
+});
