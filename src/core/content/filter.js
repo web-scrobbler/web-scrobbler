@@ -262,6 +262,15 @@ class MetadataFilter {
 	}
 
 	/**
+	 * Generates Album Artist from Artist when "feat. Artist B" is present
+	 * @param  {String} text String to be filtered
+	 * @return {String} Transformed string
+	 */
+	static albumArtistFromArtist(text) {
+		return text.split(' feat. ')[0];
+	}
+
+	/**
 	 * Remove "feat"-like strings from the text.
 	 * @param  {String} text String to be filtered
 	 * @return {String} Filtered string
@@ -600,6 +609,9 @@ class MetadataFilter {
 				MetadataFilter.fixTrackSuffix,
 				MetadataFilter.removeVersion,
 				MetadataFilter.removeLive,
+			],
+			albumArtist: [
+				MetadataFilter.albumArtistFromArtist,
 			],
 		});
 	}
