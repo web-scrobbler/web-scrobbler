@@ -71,6 +71,7 @@ function test(string, pattern) {
 	return regex.test(string);
 }
 
+/* istanbul ignore next */
 define(() => {
 	return { test };
 });
