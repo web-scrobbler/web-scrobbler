@@ -25,6 +25,10 @@ class MetadataFilter {
      * @param {Object} filterSet Set of filters
      */
 	constructor(filterSet) {
+		if (!filterSet) {
+			throw new Error('No filter set is specified!');
+		}
+
 		this.mergedFilterSet = {};
 		this.appendFilters(filterSet);
 	}

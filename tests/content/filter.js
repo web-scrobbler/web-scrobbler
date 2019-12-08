@@ -766,6 +766,16 @@ function testFilterRules() {
 	}
 }
 
+function testInvalidFilter() {
+	it('should throw error if filter set is not specified', () => {
+		expect(() => new MetadataFilter(null)).to.throw();
+	});
+
+	it('should throw error if filter set is invalid', () => {
+		expect(() => new MetadataFilter({ all: 1 })).to.throw();
+	});
+}
+
 /**
  * Run all tests.
  */
@@ -780,6 +790,10 @@ function runTests() {
 
 	describe('Append filter set', () => {
 		testAppendFilterSet();
+	});
+
+	describe('Invalid filter', () => {
+		testInvalidFilter();
 	});
 }
 
