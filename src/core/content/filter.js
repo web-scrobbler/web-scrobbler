@@ -235,6 +235,17 @@ class MetadataFilter {
 	}
 
 	/**
+	 * Remove "feat"-like strings from the text.
+	 * @param  {String} text String to be filtered
+	 * @return {String} Filtered string
+	 */
+	static removeFeature(text) {
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.FEATURE_FILTER_RULES
+		);
+	}
+
+	/**
 	 * Replace "Title - X Remix" suffix with "Title (X Remix) and similar".
 	 * @param  {String} text String to be filtered
 	 * @return {String} Filtered string
@@ -406,6 +417,13 @@ class MetadataFilter {
 		];
 	}
 
+	static get FEATURE_FILTER_RULES() {
+		return [
+			// [Feat. Artist] or (Feat. Artist)
+			{ source: /\s[([]feat. .+[)\]]/i, target: '' },
+		];
+	}
+
 	/**
 	 * Filter rules to remove "(Album|Stereo|Mono Version)"-like strings
 	 * from a text.
@@ -511,6 +529,7 @@ class MetadataFilter {
 		return new MetadataFilter({
 			track: [
 				MetadataFilter.removeExplicit,
+				MetadataFilter.removeFeature,
 				MetadataFilter.removeRemastered,
 				MetadataFilter.fixTrackSuffix,
 				MetadataFilter.removeVersion,
