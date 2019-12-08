@@ -429,6 +429,8 @@ class MetadataFilter {
 			{ source: /-\sStereo Version$/, target: '' },
 			// Pure McCartney (Deluxe Edition)
 			{ source: /\(Deluxe Edition\)$/, target: '' },
+			// 6 Foot 7 Foot (Explicit Version)
+			{ source: /[([]Explicit Version[)\]]/i, target: '' },
 		];
 	}
 
