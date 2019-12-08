@@ -33,6 +33,13 @@ const URL_MATCH_DATA = [{
 	urls: ['wtf://example.com/'],
 	expected: false,
 }, {
+	description: 'should return false for input with no host',
+	pattern: '*:///*',
+	urls: [
+		'http://example.com/'
+	],
+	expected: false,
+}, {
 	description: 'should match exact pattern',
 	pattern: 'http://example.com/',
 	urls: ['http://example.com/'],
@@ -91,7 +98,6 @@ function runTests() {
 					const actual = UrlMatch.test(url, pattern);
 					expect(expected).to.be.equal(actual);
 				});
-
 			}
 		});
 

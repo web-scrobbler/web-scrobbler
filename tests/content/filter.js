@@ -60,7 +60,7 @@ const DEFAULT_TEST_DATA = [{
  * Test data for testing Youtube filter.
  * @type {Array}
  */
-const YOUTUBE_TEST_DATA = [{
+const YOUTUBE_FILTER_RULES_TEST_DATA = [{
 	description: 'should do nothing with clean string',
 	source: 'Track Title',
 	expected: 'Track Title'
@@ -294,7 +294,7 @@ const YOUTUBE_TEST_DATA = [{
  * Test data for testing Remastered filter.
  * @type {Array}
  */
-const REMASTERED_TEST_DATA = [{
+const REMASTERED_FILTER_RULES_TEST_DATA = [{
 	description: 'should do nothing with clean string',
 	source: 'Track Title',
 	expected: 'Track Title'
@@ -372,11 +372,21 @@ const REMASTERED_TEST_DATA = [{
 	expected: 'Track Title '
 }];
 
+const LIVE_FILTER_RULES_TEST_DATA = [{
+	description: 'should remove "Live" suffix',
+	source: 'Track Title - Live',
+	expected: 'Track Title '
+}, {
+	description: 'should remove "Live ..." suffix',
+	source: 'Track Title - Live @ Moon',
+	expected: 'Track Title '
+}];
+
 /**
  * Test data for testing Version filter.
  * @type {Array}
  */
-const VERSION_TEST_DATA = [{
+const VERSION_FILTER_RULES_TEST_DATA = [{
 	description: 'should do nothing with clean string',
 	source: 'Track Title',
 	expected: 'Track Title'
@@ -496,7 +506,7 @@ const REMOVE_DOUBLE_TITLE_TEST_DATA = [{
 	expected: 'this is weird : this is weird : this is weird'
 }];
 
-const FIX_REMIX_SUFFIX_TEST_DATA = [{
+const SUFFIX_FILTER_RULES_TEST_DATA = [{
 	description: 'should do nothing with correct suffix',
 	source: 'Track Title (Artist Remix)',
 	expected: 'Track Title (Artist Remix)'
@@ -570,6 +580,16 @@ const FIX_REMIX_SUFFIX_TEST_DATA = [{
 	expected: 'Track A (Factoria Vocal Mix)'
 }];
 
+const EXPLICIT_FILTER_RULES_TEST_DATA = [{
+	description: 'should remove [Explicit] suffix',
+	source: 'Track [Explicit]',
+	expected: 'Track'
+}, {
+	description: 'should remove (Explicit) suffix',
+	source: 'Track (Explicit)',
+	expected: 'Track'
+}];
+
 /**
  * Filters data is an array of objects. Each object must contain
  * four fields: 'description', 'filter', 'fields' and 'testData'.
@@ -579,51 +599,61 @@ const FIX_REMIX_SUFFIX_TEST_DATA = [{
  * 'fields' is an array of song fields to be filtered.
  * 'testData' contains test data used to test filter.
  */
-const FILTERS_DATA = [{
+const FILTERS_TEST_DATA = [{
 	description: 'Base filter',
-	filter: new MetadataFilter({ all: shouldNotBeCalled }),
+	filterFunc: shouldNotBeCalled,
 	fields: MetadataFilter.ALL_FIELDS,
 	testData: FILTER_NULL_DATA,
 }, {
-	description: 'Trim filter',
+	description: 'Default filter',
 	filter: MetadataFilter.getDefaultFilter(),
 	fields: MetadataFilter.ALL_FIELDS,
 	testData: DEFAULT_TEST_DATA,
 }, {
-	description: 'Youtube filter',
-	filter: MetadataFilter.getYoutubeFilter(),
-	fields: ['track'],
-	testData: YOUTUBE_TEST_DATA,
-}, {
-	description: 'Remastered filter',
-	filter: MetadataFilter.getRemasteredFilter(),
-	fields: ['track', 'album'],
-	testData: REMASTERED_TEST_DATA,
-}, {
-	description: 'Version filter',
-	filter: MetadataFilter.getVersionFilter(),
-	fields: ['track', 'album'],
-	testData: VERSION_TEST_DATA,
-}, {
 	description: 'removeZeroWidth',
-	filter: new MetadataFilter({ all: MetadataFilter.removeZeroWidth }),
+	filterFunc: MetadataFilter.removeZeroWidth,
 	fields: MetadataFilter.ALL_FIELDS,
 	testData: REMOVE_ZERO_WIDTH_TEST_DATA,
 }, {
 	description: 'decodeHtmlEntities',
-	filter: new MetadataFilter({ all: MetadataFilter.decodeHtmlEntities }),
+	filterFunc: MetadataFilter.decodeHtmlEntities,
 	fields: MetadataFilter.ALL_FIELDS,
 	testData: DECODE_HTML_ENTITIES_TEST_DATA,
 }, {
 	description: 'removeDoubleTitle',
-	filter: new MetadataFilter({ track: MetadataFilter.removeDoubleTitle }),
+	filterFunc: MetadataFilter.removeDoubleTitle,
 	fields: ['track'],
 	testData: REMOVE_DOUBLE_TITLE_TEST_DATA,
 }, {
-	description: 'fixTrackSuffix',
-	filter: new MetadataFilter({ track: MetadataFilter.fixTrackSuffix }),
+	description: 'Youtube filter function',
+	filterFunc: MetadataFilter.youtube,
 	fields: ['track'],
-	testData: FIX_REMIX_SUFFIX_TEST_DATA,
+	testData: YOUTUBE_FILTER_RULES_TEST_DATA,
+}, {
+	description: 'Remastered filter function',
+	filterFunc: MetadataFilter.removeRemastered,
+	fields: ['track', 'album'],
+	testData: REMASTERED_FILTER_RULES_TEST_DATA,
+}, {
+	description: 'Version filter function',
+	filterFunc: MetadataFilter.removeVersion,
+	fields: ['track', 'album'],
+	testData: VERSION_FILTER_RULES_TEST_DATA,
+}, {
+	description: 'Suffix filter function',
+	filterFunc: MetadataFilter.fixTrackSuffix,
+	fields: ['track'],
+	testData: SUFFIX_FILTER_RULES_TEST_DATA,
+}, {
+	description: 'Live filter function',
+	filterFunc: MetadataFilter.removeLive,
+	fields: ['track'],
+	testData: LIVE_FILTER_RULES_TEST_DATA,
+}, {
+	description: 'Explicit filter function',
+	filterFunc: MetadataFilter.removeExplicit,
+	fields: ['track'],
+	testData: EXPLICIT_FILTER_RULES_TEST_DATA,
 }];
 
 /**
@@ -634,11 +664,11 @@ const FILTERS_DATA = [{
  */
 function testFilter(filter, fields, testData) {
 	for (let field of fields) {
-		describe(`${field} field`, function() {
+		describe(`${field} field`, () => {
 			for (let data of testData) {
 				let { description, source, expected } = data;
 				let actual = filter.filterField(field, source);
-				it(description, function() {
+				it(description, () => {
 					expect(expected).to.be.equal(actual);
 				});
 			}
@@ -709,15 +739,37 @@ function shouldNotBeCalled() {
 }
 
 /**
- * Run all tests.
+ * Test filters defined in `FILTERS_TEST_DATA`.
  */
-function runTests() {
-	for (let data of FILTERS_DATA) {
-		let { description, filter, fields, testData } = data;
-		describe(description, function() {
+function testFilters() {
+	for (let data of FILTERS_TEST_DATA) {
+		let { description, filter, filterFunc, fields, testData } = data;
+
+		if (!filter && filterFunc) {
+			filter = createFilterFromFunc(fields, filterFunc);
+		}
+
+		describe(description, () => {
 			testFilter(filter, fields, testData);
 		});
 	}
+}
+
+function testInvalidFilter() {
+	it('should throw error if filter set is not specified', () => {
+		expect(() => new MetadataFilter(null)).to.throw();
+	});
+
+	it('should throw error if filter set is invalid', () => {
+		expect(() => new MetadataFilter({ all: 1 })).to.throw();
+	});
+}
+
+/**
+ * Run all tests.
+ */
+function runTests() {
+	testFilters();
 
 	describe('Extended filter', () => {
 		testExtendedFilter();
@@ -726,6 +778,19 @@ function runTests() {
 	describe('Append filter set', () => {
 		testAppendFilterSet();
 	});
+
+	describe('Invalid filter', () => {
+		testInvalidFilter();
+	});
+}
+
+function createFilterFromFunc(fields, filterFunc) {
+	const filterSet = {};
+	for (const field of fields) {
+		filterSet[field] = filterFunc;
+	}
+
+	return new MetadataFilter(filterSet);
 }
 
 runTests();

@@ -25,6 +25,10 @@ class MetadataFilter {
      * @param {Object} filterSet Set of filters
      */
 	constructor(filterSet) {
+		if (!filterSet) {
+			throw new Error('No filter set is specified!');
+		}
+
 		this.mergedFilterSet = {};
 		this.appendFilters(filterSet);
 	}
@@ -278,7 +282,6 @@ class MetadataFilter {
 		return splitted[0];
 	}
 
-
 	/**
 	 * Replace text according to given filter set rules.
 	 * @param  {String} text String to be filtered
@@ -475,6 +478,7 @@ class MetadataFilter {
 	 * Get filter object used by default in a Connector object.
 	 * @return {MetadataFilter} Filter object
 	 */
+	/* istanbul ignore next */
 	static getDefaultFilter() {
 		return new MetadataFilter({
 			all: [MetadataFilter.trim, MetadataFilter.replaceNbsp],
@@ -485,6 +489,7 @@ class MetadataFilter {
 	 * Get predefined filter object for Youtube-based connectors.
 	 * @return {MetadataFilter} Filter object
 	 */
+	/* istanbul ignore next */
 	static getYoutubeFilter() {
 		return new MetadataFilter({
 			track: MetadataFilter.youtube
@@ -495,6 +500,7 @@ class MetadataFilter {
 	 * Get predefined filter object that uses 'removeRemastered' function.
 	 * @return {MetadataFilter} Filter object
 	 */
+	/* istanbul ignore next */
 	static getRemasteredFilter() {
 		return new MetadataFilter({
 			track: MetadataFilter.removeRemastered,
@@ -503,20 +509,10 @@ class MetadataFilter {
 	}
 
 	/**
-	 * Get predefined filter object that uses 'removeVersion' function.
+	 * Get predefined filter for Spotify-related connectors.
 	 * @return {MetadataFilter} Filter object
 	 */
-	static getVersionFilter() {
-		return new MetadataFilter({
-			track: MetadataFilter.removeVersion,
-			album: MetadataFilter.removeVersion,
-		});
-	}
-
-	/**
-	 * Get predefined filter object that uses 'removeRemastered' function.
-	 * @return {MetadataFilter} Filter object
-	 */
+	/* istanbul ignore next */
 	static getSpotifyFilter() {
 		return new MetadataFilter({
 			track: [
@@ -533,9 +529,10 @@ class MetadataFilter {
 	}
 
 	/**
-	 * Get predefined filter object
+	 * Get predefined filter for Amazon-related connectors.
 	 * @return {MetadataFilter} Filter object
 	 */
+	/* istanbul ignore next */
 	static getAmazonFilter() {
 		return new MetadataFilter({
 			track: [
@@ -561,9 +558,10 @@ class MetadataFilter {
 	}
 
 	/**
-	 * Get predefined filter object that uses 'removeRemastered' function.
+	 * Get predefined filter for Tidal-related connectors.
 	 * @return {MetadataFilter} Filter object
 	 */
+	/* istanbul ignore next */
 	static getTidalFilter() {
 		return new MetadataFilter({
 			track: [
@@ -585,6 +583,7 @@ class MetadataFilter {
 	 * Get predefined filter object that uses 'removeDoubleTitle' function.
 	 * @return {MetadataFilter} Filter object
 	 */
+	/* istanbul ignore next */
 	static getDoubleTitleFilter() {
 		return new MetadataFilter({
 			track: MetadataFilter.removeDoubleTitle,

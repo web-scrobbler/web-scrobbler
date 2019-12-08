@@ -432,14 +432,15 @@ const Util = {
 	 * @return {Object} Object contains artist and track fields
 	 */
 	processYtVideoTitle(videoTitle) {
+		let artist = null;
+		let track = null;
+
 		if (!videoTitle) {
-			return null;
+			return { artist, track };
 		}
 
 		// Remove [genre] or 【genre】 from the beginning of the title
 		let title = videoTitle.replace(/^((\[[^\]]+\])|(【[^】]+】))\s*-*\s*/i, '');
-
-		let [artist, track] = [null, null];
 
 		// Try to match one of the regexps
 		for (let regExp of this.ytTitleRegExps) {
