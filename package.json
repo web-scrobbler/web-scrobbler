@@ -60,7 +60,7 @@
     "test-with-coverage": "nyc grunt test",
     "upload-coverage": "cat ./coverage/lcov.info | codacy-coverage",
     "clean-coverage": "rm -rf ./coverage .nyc_cache .nyc_output",
-    "postinstall": "bash copy-vendor.sh"
+    "postinstall": "node scripts/copy-vendor.js"
   },
   "license": "MIT"
 }

@@ -36,6 +36,8 @@ const JS_FILES = [
 	`${SRC_DIR}/connectors/**/*.js`,
 	// Core files
 	`${SRC_DIR}/core/**/*.js`, `${SRC_DIR}/ui/**/*.js`,
+	// Shell Scripts
+	'scripts/*.js',
 	// Tests
 	'tests/**/*.js'
 ];
