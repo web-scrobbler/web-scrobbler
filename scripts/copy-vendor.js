@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-const shell = require("shelljs");
+const fs = require('fs');
 const path = require('path');
 
 const vendor = "src/vendor";
@@ -14,22 +14,46 @@ const fontawesome_webfonts = vendor + "/fontawesome/webfonts";
 const bootstrap_dist = "node_modules/bootstrap/dist";
 const fontawesome_dist = "node_modules/@fortawesome/fontawesome-free";
 
+function mkDirCatch(new_path){
+    try {
+        fs.mkdirSync(new_path);
+        console.log("Path Created " + new_path)
+    } catch (err) {
+        if (err.code === 'EEXIST') {
+            console.log("Path Exists " + new_path);
+            return;
+        } else {
+            console.warn(err.code + " https://nodejs.org/api/errors.html#errors_error_code_1");
+        }
+    }
+}
+
 function copyDep(src, in_dest) {
     
     const dest = (in_dest === undefined) ? vendor : in_dest;
-
     const dep = path.basename(src);
-    console.log("Copy " + dep);
-    shell.cp(src, dest);
+
+    fs.writeFile(src, dest, (err) => {
+        if (err) {
+            if (err.code === 'EEXIST') {
+                console.log("Exists " + new_path);
+                return;
+            } else {
+            console.warn(err.code + " https://nodejs.org/api/errors.html#errors_error_code_1");
+            }
+        } else {
+            console.log("Copy " + dep);
+        }
+    });
 }
 
-shell.mkdir('-p', vendor);
+mkDirCatch(vendor);
 
-shell.mkdir('-p', bootstrap_js);
-shell.mkdir('-p', bootstrap_css);
+mkDirCatch(bootstrap_js);
+mkDirCatch(bootstrap_css);
 
-shell.mkdir('-p', fontawesome_css);
-shell.mkdir('-p', fontawesome_webfonts);
+mkDirCatch(fontawesome_css);
+mkDirCatch(fontawesome_webfonts);
 
 
 copyDep("node_modules/requirejs/require.js");
