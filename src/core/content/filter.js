@@ -401,8 +401,8 @@ class MetadataFilter {
 
 	static get EXPLICIT_FILTER_RULES() {
 		return [
-			// Explicit
-			{ source: /\s(\(|\[)Explicit(\)|\])/i, target: '' },
+			// (Explicit) or [Explicit]
+			{ source: /\s[([]Explicit[)\]]/i, target: '' },
 		];
 	}
 
