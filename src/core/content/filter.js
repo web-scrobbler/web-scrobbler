@@ -224,13 +224,13 @@ class MetadataFilter {
 	}
 
 	/**
-	 * Remove "Explicit"-like strings from the text.
+	 * Remove "Explicit" and "Clean"-like strings from the text.
 	 * @param  {String} text String to be filtered
 	 * @return {String} Filtered string
 	 */
-	static removeExplicit(text) {
+	static removeCleanExplicit(text) {
 		return MetadataFilter.filterWithFilterRules(
-			text, MetadataFilter.EXPLICIT_FILTER_RULES
+			text, MetadataFilter.CLEAN_EXPLICIT_FILTER_RULES
 		);
 	}
 
@@ -410,10 +410,12 @@ class MetadataFilter {
 		];
 	}
 
-	static get EXPLICIT_FILTER_RULES() {
+	static get CLEAN_EXPLICIT_FILTER_RULES() {
 		return [
 			// (Explicit) or [Explicit]
 			{ source: /\s[([]Explicit[)\]]/i, target: '' },
+			// (Clean) or [Clean]
+			{ source: /\s[([]Clean[)\]]/i, target: '' },
 		];
 	}
 
@@ -528,7 +530,7 @@ class MetadataFilter {
 	static getAmazonFilter() {
 		return new MetadataFilter({
 			track: [
-				MetadataFilter.removeExplicit,
+				MetadataFilter.removeCleanExplicit,
 				MetadataFilter.removeFeature,
 				MetadataFilter.removeRemastered,
 				MetadataFilter.fixTrackSuffix,
@@ -537,7 +539,7 @@ class MetadataFilter {
 			],
 			album: [
 				MetadataFilter.decodeHtmlEntities,
-				MetadataFilter.removeExplicit,
+				MetadataFilter.removeCleanExplicit,
 				MetadataFilter.removeRemastered,
 				MetadataFilter.fixTrackSuffix,
 				MetadataFilter.removeVersion,
