@@ -1,78 +1,67 @@
 'use strict';
 
 const fs = require('fs');
-const fsPromises = require('fs').promises;
+const fsPromises = fs.promises;
 const path = require('path');
 
-const vendor = 'src/vendor';
+const vendorDir = 'src/vendor';
 
-const bootstrapJS = `${vendor}/bootstrap/js`;
-const bootstrapCSS = `${vendor}/bootstrap/css`;
+const bootstrapJsDir = `${vendorDir}/bootstrap/js`;
+const bootstrapCssDir = `${vendorDir}/bootstrap/css`;
 
-const fonawesomeCSS = `${vendor}/fontawesome/css`;
-const fontawesomeWebfonts = `${vendor}/fontawesome/webfonts`;
+const fonawesomeCssDir = `${vendorDir}/fontawesome/css`;
+const fontawesomeWebfontsDir = `${vendorDir}/fontawesome/webfonts`;
 
-const bootstrapDist = 'node_modules/bootstrap/dist';
-const fontawesomeDist = 'node_modules/@fortawesome/fontawesome-free';
+const bootstrapDir = 'node_modules/bootstrap/dist';
+const fontawesomeDir = 'node_modules/@fortawesome/fontawesome-free';
 
-async function mkDirCatch(newPath, callBack) {
-	await fsPromises.mkdir(newPath, {
+function mkdir(newPath) {
+	return fsPromises.mkdir(newPath, {
 		recursive: true
-	}).then(() => {
-		console.log(`Path Created ${newPath}`);
-		callBack();
 	}).catch((err) => {
-		if (err) {
-			if (err.code === 'EEXIST') {
-				console.log(`Path Exists ${newPath}`);
-			} else {
-				console.warn(`Path Create Failed ${err.code} https://nodejs.org/api/errors.html#errors_error_code_1`);
-			}
-		}
+		throw new Error(`Unable to make ${newPath}: ${err.code}`);
+	}).then(() => {
+		console.log(`Created ${newPath}`);
 	});
 }
 
-function copyDep(src, inDest) {
+function copyDep(srcPath, destDir = null) {
+	const depName = path.basename(srcPath);
+	const destPath = `${destDir || vendorDir}/${depName}`;
 
-	const dest = typeof inDest === 'undefined' ? vendor : inDest;
-	const dep = path.basename(src);
-
-	fs.copyFile(src, dest + path.sep + dep, (err) => {
+	fs.copyFile(srcPath, destPath, (err) => {
 		if (err) {
-			if (err.code === 'EEXIST') {
-				console.log(`Exists ${dep}`);
-			} else {
-				console.warn(`File Create Failed ${err.code} https://nodejs.org/api/errors.html#errors_error_code_1`);
-			}
+			console.warn(`Unable to copy ${depName}: ${err.code}`);
+			throw new Error(err);
 		} else {
-			console.log(`Copy ${dep}`);
+			console.log(`Copy ${depName}`);
 		}
 	});
 }
 
-mkDirCatch(vendor, function() {
+mkdir(vendorDir).then(() => {
 	copyDep('node_modules/requirejs/require.js');
 	copyDep('node_modules/blueimp-md5/js/md5.min.js');
 	copyDep('node_modules/jquery/dist/jquery.min.js');
 	copyDep('node_modules/showdown/dist/showdown.min.js');
 	copyDep('node_modules/webextension-polyfill/dist/browser-polyfill.min.js');
-});
+}).catch(console.error);
 
-mkDirCatch(bootstrapJS, function() {
-	copyDep(`${bootstrapDist}/js/bootstrap.bundle.min.js`, bootstrapJS);
-});
+mkdir(bootstrapJsDir).then(() => {
+	copyDep(`${bootstrapDir}/js/bootstrap.bundle.min.js`, bootstrapJsDir);
+}).catch(console.error);
 
-mkDirCatch(bootstrapCSS, function() {
-	copyDep(`${bootstrapDist}/css/bootstrap.min.css`, bootstrapCSS);
-});
+mkdir(bootstrapCssDir).then(() => {
+	copyDep(`${bootstrapDir}/css/bootstrap.min.css`, bootstrapCssDir);
+}).catch(console.error);
 
-mkDirCatch(fonawesomeCSS, function() {
-	copyDep(`${fontawesomeDist}/css/solid.min.css`, fonawesomeCSS);
-	copyDep(`${fontawesomeDist}/css/brands.min.css`, fonawesomeCSS);
-	copyDep(`${fontawesomeDist}/css/fontawesome.min.css`, fonawesomeCSS);
-});
+mkdir(fonawesomeCssDir).then(() => {
+	copyDep(`${fontawesomeDir}/css/solid.min.css`, fonawesomeCssDir);
+	copyDep(`${fontawesomeDir}/css/brands.min.css`, fonawesomeCssDir);
+	copyDep(`${fontawesomeDir}/css/fontawesome.min.css`, fonawesomeCssDir);
+}).catch(console.error);
 
-mkDirCatch(fontawesomeWebfonts, function() {
-	copyDep(`${fontawesomeDist}/webfonts/fa-solid-900.woff2`, fontawesomeWebfonts);
-	copyDep(`${fontawesomeDist}/webfonts/fa-brands-400.woff2`, fontawesomeWebfonts);
-});
+mkdir(fontawesomeWebfontsDir).then(() => {
+	copyDep(`${fontawesomeDir}/webfonts/fa-solid-900.woff2`, fontawesomeWebfontsDir);
+	copyDep(`${fontawesomeDir}/webfonts/fa-brands-400.woff2`, fontawesomeWebfontsDir);
+}).catch(console.error);

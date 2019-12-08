@@ -224,6 +224,17 @@ class MetadataFilter {
 	}
 
 	/**
+	 * Remove "Explicit"-like strings from the text.
+	 * @param  {String} text String to be filtered
+	 * @return {String} Filtered string
+	 */
+	static removeExplicit(text) {
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.EXPLICIT_FILTER_RULES
+		);
+	}
+
+	/**
 	 * Replace "Title - X Remix" suffix with "Title (X Remix) and similar".
 	 * @param  {String} text String to be filtered
 	 * @return {String} Filtered string
@@ -246,7 +257,6 @@ class MetadataFilter {
 		}
 		return splitted[0];
 	}
-
 
 	/**
 	 * Replace text according to given filter set rules.
@@ -388,6 +398,13 @@ class MetadataFilter {
 		];
 	}
 
+	static get EXPLICIT_FILTER_RULES() {
+		return [
+			// Explicit
+			{ source: /\s(\(|\[)Explicit(\)|\])/i, target: '' },
+		];
+	}
+
 	/**
 	 * Filter rules to remove "(Album|Stereo|Mono Version)"-like strings
 	 * from a text.
@@ -454,18 +471,7 @@ class MetadataFilter {
 	}
 
 	/**
-	 * Get predefined filter object that uses 'removeVersion' function.
-	 * @return {MetadataFilter} Filter object
-	 */
-	static getVersionFilter() {
-		return new MetadataFilter({
-			track: MetadataFilter.removeVersion,
-			album: MetadataFilter.removeVersion,
-		});
-	}
-
-	/**
-	 * Get predefined filter object that uses 'removeRemastered' function.
+	 * Get predefined filter for Spotify-related connectors.
 	 * @return {MetadataFilter} Filter object
 	 */
 	static getSpotifyFilter() {
@@ -484,7 +490,31 @@ class MetadataFilter {
 	}
 
 	/**
-	 * Get predefined filter object that uses 'removeRemastered' function.
+	 * Get predefined filter for Amazon-related connectors.
+	 * @return {MetadataFilter} Filter object
+	 */
+	static getAmazonFilter() {
+		return new MetadataFilter({
+			track: [
+				MetadataFilter.removeExplicit,
+				MetadataFilter.removeRemastered,
+				MetadataFilter.fixTrackSuffix,
+				MetadataFilter.removeVersion,
+				MetadataFilter.removeLive,
+			],
+			album: [
+				MetadataFilter.decodeHtmlEntities,
+				MetadataFilter.removeExplicit,
+				MetadataFilter.removeRemastered,
+				MetadataFilter.fixTrackSuffix,
+				MetadataFilter.removeVersion,
+				MetadataFilter.removeLive,
+			],
+		});
+	}
+
+	/**
+	 * Get predefined filter for Tidal-related connectors.
 	 * @return {MetadataFilter} Filter object
 	 */
 	static getTidalFilter() {
