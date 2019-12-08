@@ -15,17 +15,18 @@ const bootstrap_dist = "node_modules/bootstrap/dist";
 const fontawesome_dist = "node_modules/@fortawesome/fontawesome-free";
 
 function mkDirCatch(new_path){
-    try {
-        fs.mkdirSync(new_path);
-        console.log("Path Created " + new_path)
-    } catch (err) {
-        if (err.code === 'EEXIST') {
-            console.log("Path Exists " + new_path);
-            return;
+    fs.mkdir(new_path, {recursive: true}, (err) => {
+        if (err){
+            if (err.code === 'EEXIST') {
+                console.log("Path Exists " + new_path);
+                return;
+            } else {
+                console.warn("Path Create Failed " + err.code + " https://nodejs.org/api/errors.html#errors_error_code_1");
+            }
         } else {
-            console.warn(err.code + " https://nodejs.org/api/errors.html#errors_error_code_1");
+            console.log("Path Created " + new_path);
         }
-    }
+    });
 }
 
 function copyDep(src, in_dest) {
@@ -39,7 +40,7 @@ function copyDep(src, in_dest) {
                 console.log("Exists " + new_path);
                 return;
             } else {
-            console.warn(err.code + " https://nodejs.org/api/errors.html#errors_error_code_1");
+            console.warn("File Create Failed " + err.code + " https://nodejs.org/api/errors.html#errors_error_code_1");
             }
         } else {
             console.log("Copy " + dep);
