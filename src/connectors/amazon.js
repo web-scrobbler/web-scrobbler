@@ -10,8 +10,6 @@ Connector.getAlbumArtist = Connector.getArtist;
 
 Connector.trackSelector = '.trackInfoContainer .trackTitle';
 
-Connector.albumSelector = '.trackSourceLink a';
-
 Connector.getAlbum = () => {
 	if ($('.trackSourceLink a').attr('href').includes('albums')) {
 		return $('.trackSourceLink a').text();
