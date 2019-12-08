@@ -23,7 +23,7 @@
     "chai-spies": "1.0.0",
     "codacy-coverage": "3.4.0",
     "dotenv": "8.2.0",
-    "eslint-plugin-jsdoc": "18.3.0",
+    "eslint-plugin-jsdoc": "18.4.3",
     "firefox-extension-deploy": "1.1.2",
     "grunt": "1.0.4",
     "grunt-bump": "0.8.0",
@@ -60,7 +60,7 @@
     "test-with-coverage": "nyc grunt test",
     "upload-coverage": "cat ./coverage/lcov.info | codacy-coverage",
     "clean-coverage": "rm -rf ./coverage .nyc_cache .nyc_output",
-    "postinstall": "bash copy-vendor.sh"
+    "postinstall": "node scripts/copy-vendor.js"
   },
   "license": "MIT"
 }
