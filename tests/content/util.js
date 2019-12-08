@@ -160,6 +160,10 @@ const GET_YOUTUBE_VIDEO_ID_FROM_URL_DATA = [{
 	source: '',
 	expected: null,
 }, {
+	description: 'should return null for invalid input',
+	source: 'Invalid input',
+	expected: null,
+}, {
 	description: 'should return video ID from URL',
 	source: 'https://www.youtube.com/watch?v=JJYxNSRX6Oc',
 	expected: 'JJYxNSRX6Oc',
@@ -293,6 +297,14 @@ const SPLIT_TIME_INFO_DATA = [{
 }];
 
 const FIND_SEPARATOR_DATA = [{
+	description: 'should return null for null input',
+	source: null,
+	expected: null,
+}, {
+	description: 'should return null for empty input',
+	source: '',
+	expected: null,
+}, {
 	description: 'should find separator',
 	source: 'Key : Var',
 	expected: { index: 4, length: 1 },
