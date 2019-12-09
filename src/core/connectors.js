@@ -1245,6 +1245,11 @@ const connectors = [{
 	matches: ['*://hqradio.ru/*'],
 	js: 'connectors/hqradio.js',
 	id: 'hqradio',
+}, {
+	label: 'Smooth FM',
+	matches: ['*://smoothfm.iol.pt/*'],
+	js: 'connectors/smoothfm.js',
+	id: 'smoothfm',
 }];
 
 define(() => connectors);
