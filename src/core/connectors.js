@@ -1247,7 +1247,7 @@ const connectors = [{
 	id: 'hqradio',
 }, {
 	label: 'Smooth FM',
-	matches: ['*://smoothfm.iol.pt/player/*'],
+	matches: ['*://smoothfm.iol.pt/*'],
 	js: 'connectors/smoothfm.js',
 	id: 'smoothfm',
 }];
