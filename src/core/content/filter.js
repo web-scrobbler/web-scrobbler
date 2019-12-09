@@ -228,13 +228,33 @@ class MetadataFilter {
 	}
 
 	/**
-	 * Remove "Explicit"-like strings from the text.
+	 * Remove "Explicit" and "Clean"-like strings from the text.
 	 * @param  {String} text String to be filtered
 	 * @return {String} Filtered string
 	 */
-	static removeExplicit(text) {
+	static removeCleanExplicit(text) {
 		return MetadataFilter.filterWithFilterRules(
-			text, MetadataFilter.EXPLICIT_FILTER_RULES
+			text, MetadataFilter.CLEAN_EXPLICIT_FILTER_RULES
+		);
+	}
+
+	/**
+	 * Generates Album Artist from Artist when "feat. Artist B" is present
+	 * @param  {String} text String to be filtered
+	 * @return {String} Transformed string
+	 */
+	static albumArtistFromArtist(text) {
+		return text.split(' feat. ')[0];
+	}
+
+	/**
+	 * Remove "feat"-like strings from the text.
+	 * @param  {String} text String to be filtered
+	 * @return {String} Filtered string
+	 */
+	static removeFeature(text) {
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.FEATURE_FILTER_RULES
 		);
 	}
 
@@ -402,10 +422,19 @@ class MetadataFilter {
 		];
 	}
 
-	static get EXPLICIT_FILTER_RULES() {
+	static get CLEAN_EXPLICIT_FILTER_RULES() {
 		return [
-			// Explicit
-			{ source: /\s(\(|\[)Explicit(\)|\])/i, target: '' },
+			// (Explicit) or [Explicit]
+			{ source: /\s[([]Explicit[)\]]/i, target: '' },
+			// (Clean) or [Clean]
+			{ source: /\s[([]Clean[)\]]/i, target: '' },
+		];
+	}
+
+	static get FEATURE_FILTER_RULES() {
+		return [
+			// [Feat. Artist] or (Feat. Artist)
+			{ source: /\s[([]feat. .+[)\]]/i, target: '' },
 		];
 	}
 
@@ -432,6 +461,8 @@ class MetadataFilter {
 			{ source: /-\sStereo Version$/, target: '' },
 			// Pure McCartney (Deluxe Edition)
 			{ source: /\(Deluxe Edition\)$/, target: '' },
+			// 6 Foot 7 Foot (Explicit Version)
+			{ source: /[([]Explicit Version[)\]]/i, target: '' },
 		];
 	}
 
@@ -505,7 +536,8 @@ class MetadataFilter {
 	static getAmazonFilter() {
 		return new MetadataFilter({
 			track: [
-				MetadataFilter.removeExplicit,
+				MetadataFilter.removeCleanExplicit,
+				MetadataFilter.removeFeature,
 				MetadataFilter.removeRemastered,
 				MetadataFilter.fixTrackSuffix,
 				MetadataFilter.removeVersion,
@@ -513,11 +545,14 @@ class MetadataFilter {
 			],
 			album: [
 				MetadataFilter.decodeHtmlEntities,
-				MetadataFilter.removeExplicit,
+				MetadataFilter.removeCleanExplicit,
 				MetadataFilter.removeRemastered,
 				MetadataFilter.fixTrackSuffix,
 				MetadataFilter.removeVersion,
 				MetadataFilter.removeLive,
+			],
+			albumArtist: [
+				MetadataFilter.albumArtistFromArtist,
 			],
 		});
 	}

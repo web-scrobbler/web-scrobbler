@@ -6,9 +6,15 @@ Connector.getArtist = () => {
 	return $('.trackInfoContainer .trackArtist a, .trackInfoContainer .trackArtist span').attr('title');
 };
 
+Connector.getAlbumArtist = Connector.getArtist;
+
 Connector.trackSelector = '.trackInfoContainer .trackTitle';
 
 Connector.getAlbum = () => {
+	if ($('.trackSourceLink a').attr('href').includes('albums')) {
+		return $('.trackSourceLink a').text();
+	}
+
 	if ($('tr.selectable.currentlyPlaying td.albumCell')) {
 		return $('tr.selectable.currentlyPlaying td.albumCell').attr('title');
 	}

@@ -580,7 +580,7 @@ const SUFFIX_FILTER_RULES_TEST_DATA = [{
 	expected: 'Track A (Factoria Vocal Mix)'
 }];
 
-const EXPLICIT_FILTER_RULES_TEST_DATA = [{
+const CLEAN_EXPLICIT_FILTER_RULES_TEST_DATA = [{
 	description: 'should remove [Explicit] suffix',
 	source: 'Track [Explicit]',
 	expected: 'Track'
@@ -588,6 +588,38 @@ const EXPLICIT_FILTER_RULES_TEST_DATA = [{
 	description: 'should remove (Explicit) suffix',
 	source: 'Track (Explicit)',
 	expected: 'Track'
+}, {
+	description: 'should remove [Clean] suffix',
+	source: 'Track [Clean]',
+	expected: 'Track'
+}, {
+	description: 'should remove (Clean) suffix',
+	source: 'Track (Clean)',
+	expected: 'Track'
+}];
+
+const ALBUM_ARTIST_FROM_ARTIST_FILTER_RULES_TEST_DATA = [{
+	description: 'should remove featured artist from suffix',
+	source: 'Artist A feat. Artist B',
+	expected: 'Artist A'
+}, {
+	description: 'should remove featured artist from suffix',
+	source: 'Artist A feat. Artist B, Artist C',
+	expected: 'Artist A'
+}, {
+	description: 'should remove featured artist from suffix',
+	source: 'Artist A feat. Artist B, Artist C & Artist D',
+	expected: 'Artist A'
+}];
+
+const FEATURE_FILTER_RULES_TEST_DATA = [{
+	description: 'should remove featured artist from suffix',
+	source: 'Artist A [feat. Artist B]',
+	expected: 'Artist A'
+}, {
+	description: 'should remove featured artist from suffix',
+	source: 'Artist A (feat. Artist B)',
+	expected: 'Artist A'
 }];
 
 /**
@@ -650,10 +682,20 @@ const FILTERS_TEST_DATA = [{
 	fields: ['track'],
 	testData: LIVE_FILTER_RULES_TEST_DATA,
 }, {
-	description: 'Explicit filter function',
-	filterFunc: MetadataFilter.removeExplicit,
+	description: 'Clean/Explicit filter function',
+	filterFunc: MetadataFilter.removeCleanExplicit,
 	fields: ['track'],
-	testData: EXPLICIT_FILTER_RULES_TEST_DATA,
+	testData: CLEAN_EXPLICIT_FILTER_RULES_TEST_DATA,
+}, {
+	description: 'Album Artist from Artist filter function',
+	filterFunc: MetadataFilter.albumArtistFromArtist,
+	fields: ['albumArtist'],
+	testData: ALBUM_ARTIST_FROM_ARTIST_FILTER_RULES_TEST_DATA,
+}, {
+	description: 'Feature filter function',
+	filterFunc: MetadataFilter.removeFeature,
+	fields: ['track'],
+	testData: FEATURE_FILTER_RULES_TEST_DATA,
 }];
 
 /**
