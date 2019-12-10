@@ -251,6 +251,17 @@ class MetadataFilter {
 	}
 
 	/**
+	 * Generates normalized "feat. Artist B" text from [feat. Artist B] style
+	 * @param  {String} text String to be filtered
+	 * @return {String} Transformed string
+	 */
+	static normalizeFeature(text) {
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.NORMALIZE_FEATURE_FILTER_RULES
+		);
+	}
+
+	/**
 	 * Remove "feat"-like strings from the text.
 	 * @param  {String} text String to be filtered
 	 * @return {String} Filtered string
@@ -441,6 +452,13 @@ class MetadataFilter {
 		];
 	}
 
+	static get NORMALIZE_FEATURE_FILTER_RULES() {
+		return [
+			// [Feat. Artist] or (Feat. Artist) -> Feat. Artist
+			{ source: /\s[([](feat. .+)[)\]]/i, target: ' $1' },
+		];
+	}
+
 	/**
 	 * Filter rules to remove "(Album|Stereo|Mono Version)"-like strings
 	 * from a text.
@@ -538,6 +556,9 @@ class MetadataFilter {
 	/* istanbul ignore next */
 	static getAmazonFilter() {
 		return new MetadataFilter({
+			artist: [
+				MetadataFilter.normalizeFeature,
+			],
 			track: [
 				MetadataFilter.removeCleanExplicit,
 				MetadataFilter.removeFeature,
@@ -555,6 +576,7 @@ class MetadataFilter {
 				MetadataFilter.removeLive,
 			],
 			albumArtist: [
+				MetadataFilter.normalizeFeature,
 				MetadataFilter.albumArtistFromArtist,
 			],
 		});
