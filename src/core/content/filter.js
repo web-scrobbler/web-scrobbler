@@ -244,7 +244,10 @@ class MetadataFilter {
 	 * @return {String} Transformed string
 	 */
 	static albumArtistFromArtist(text) {
-		return text.split(' feat. ')[0];
+		if (text.includes(' feat. ')) {
+			return text.split(' feat. ')[0];
+		}
+		return text;
 	}
 
 	/**
