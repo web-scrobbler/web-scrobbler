@@ -610,6 +610,10 @@ const ALBUM_ARTIST_FROM_ARTIST_FILTER_RULES_TEST_DATA = [{
 	description: 'should remove featured artist from suffix',
 	source: 'Artist A feat. Artist B, Artist C & Artist D',
 	expected: 'Artist A'
+}, {
+	description: 'should return original text if feat. not present',
+	source: 'Artist A',
+	expected: 'Artist A'
 }];
 
 const NORMALIZE_FEATURE_TEXT_FILTER_RULES_TEST_DATA = [{
