@@ -1,5 +1,12 @@
 'use strict';
 
+const adUrls = [
+	'utm_source=display',
+	'ad.doubleclick.net',
+	'spotify:playlist',
+	'shrt.spotify.com'
+];
+
 Connector.playerSelector = '.Root__now-playing-bar';
 
 Connector.artistSelector = '.track-info__artists a';
@@ -20,15 +27,14 @@ Connector.isScrobblingAllowed = () => !isAdPlaying();
 
 Connector.isPodcast = () => artistUrlIncludes('/show/');
 
-/*
- * When ad is playing, artist URL is like "https://shrt.spotify.com/XXX",
- * otherwise URL leads to:
- * a) an artist page https://open.spotify.com/artist/YYY;
- * b) a podcast page https://open.spotify.com/show/ZZZ.
- */
-
 function isAdPlaying() {
-	return artistUrlIncludes('shrt.spotify.com');
+	for (const adUrl of adUrls) {
+		if (artistUrlIncludes(adUrl)) {
+			return true;
+		}
+	}
+
+	return false;
 }
 
 function artistUrlIncludes(str) {
