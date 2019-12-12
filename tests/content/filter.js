@@ -715,7 +715,7 @@ const FILTERS_TEST_DATA = [{
 	fields: ['track'],
 	testData: FEATURE_FILTER_RULES_TEST_DATA,
 }, {
-	description: 'Noralize feature text filter function',
+	description: 'Normalize feature text filter function',
 	filterFunc: MetadataFilter.normalizeFeature,
 	fields: ['albumArtist'],
 	testData: NORMALIZE_FEATURE_TEXT_FILTER_RULES_TEST_DATA,
