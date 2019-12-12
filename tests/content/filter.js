@@ -624,6 +624,10 @@ const NORMALIZE_FEATURE_TEXT_FILTER_RULES_TEST_DATA = [{
 	description: 'should not transform if no match for [feat. Artist B]',
 	source: 'Artist A',
 	expected: 'Artist A'
+}, {
+	description: 'should not transform if no match for [feat. Artist B]',
+	source: 'Artist A feat. Artist B',
+	expected: 'Artist A feat. Artist B'
 }];
 
 const FEATURE_FILTER_RULES_TEST_DATA = [{
