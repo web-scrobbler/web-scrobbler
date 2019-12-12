@@ -1,12 +1,5 @@
 'use strict';
 
-const adUrls = [
-	'utm_source=display',
-	'ad.doubleclick.net',
-	'spotify:playlist',
-	'shrt.spotify.com'
-];
-
 Connector.playerSelector = '.Root__now-playing-bar';
 
 Connector.artistSelector = '.track-info__artists a';
@@ -28,16 +21,19 @@ Connector.isScrobblingAllowed = () => !isAdPlaying();
 Connector.isPodcast = () => artistUrlIncludes('/show/');
 
 function isAdPlaying() {
-	for (const adUrl of adUrls) {
-		if (artistUrlIncludes(adUrl)) {
-			return true;
+	return !artistUrlIncludes('/artist/', '/show/');
+}
+
+function artistUrlIncludes(...strings) {
+	const artistUrl = $(Connector.artistSelector).attr('href');
+
+	if (artistUrl) {
+		for (const str of strings) {
+			if (artistUrl.includes(str)) {
+				return true;
+			}
 		}
 	}
 
 	return false;
-}
-
-function artistUrlIncludes(str) {
-	const artistUrl = $(Connector.artistSelector).attr('href');
-	return artistUrl && artistUrl.includes(str);
 }
