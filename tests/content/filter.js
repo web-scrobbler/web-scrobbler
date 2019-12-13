@@ -612,6 +612,20 @@ const ALBUM_ARTIST_FROM_ARTIST_FILTER_RULES_TEST_DATA = [{
 	expected: 'Artist A'
 }];
 
+const NORMALIZE_FEATURE_TEXT_FILTER_RULES_TEST_DATA = [{
+	description: 'should transform [feat. Artist B] to feat. Artist B',
+	source: 'Artist A [feat. Artist B]',
+	expected: 'Artist A feat. Artist B'
+}, {
+	description: 'should not transform if no match for [feat. Artist B]',
+	source: 'Artist A',
+	expected: 'Artist A'
+}, {
+	description: 'should not transform if no match for [feat. Artist B]',
+	source: 'Artist A feat. Artist B',
+	expected: 'Artist A feat. Artist B'
+}];
+
 const FEATURE_FILTER_RULES_TEST_DATA = [{
 	description: 'should remove featured artist from suffix',
 	source: 'Artist A [feat. Artist B]',
