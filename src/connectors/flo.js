@@ -1,5 +1,5 @@
 'use strict';
-//# id 접근 . 클래스접근
+
 Connector.playerSelector = '#app .player_ct mini';
 
 Connector.artistSelector = '.track_info .artist';

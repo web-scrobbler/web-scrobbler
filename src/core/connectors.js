@@ -798,7 +798,7 @@ const connectors = [{
 	matches: ['*://www.music-flo.com/*'],
 	js: 'connectors/flo.js',
 	id: 'flo',
-},{
+}, {
 	label: 'GrooveMP3',
 	matches: ['*://*.groovemp3.com/*'],
 	js: 'connectors/bemusic.js',
