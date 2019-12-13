@@ -25,6 +25,10 @@ class MetadataFilter {
      * @param {Object} filterSet Set of filters
      */
 	constructor(filterSet) {
+		if (!filterSet) {
+			throw new Error('No filter set is specified!');
+		}
+
 		this.mergedFilterSet = {};
 		this.appendFilters(filterSet);
 	}
@@ -224,6 +228,37 @@ class MetadataFilter {
 	}
 
 	/**
+	 * Remove "Explicit" and "Clean"-like strings from the text.
+	 * @param  {String} text String to be filtered
+	 * @return {String} Filtered string
+	 */
+	static removeCleanExplicit(text) {
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.CLEAN_EXPLICIT_FILTER_RULES
+		);
+	}
+
+	/**
+	 * Generates Album Artist from Artist when "feat. Artist B" is present
+	 * @param  {String} text String to be filtered
+	 * @return {String} Transformed string
+	 */
+	static albumArtistFromArtist(text) {
+		return text.split(' feat. ')[0];
+	}
+
+	/**
+	 * Remove "feat"-like strings from the text.
+	 * @param  {String} text String to be filtered
+	 * @return {String} Filtered string
+	 */
+	static removeFeature(text) {
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.FEATURE_FILTER_RULES
+		);
+	}
+
+	/**
 	 * Replace "Title - X Remix" suffix with "Title (X Remix) and similar".
 	 * @param  {String} text String to be filtered
 	 * @return {String} Filtered string
@@ -246,7 +281,6 @@ class MetadataFilter {
 		}
 		return splitted[0];
 	}
-
 
 	/**
 	 * Replace text according to given filter set rules.
@@ -388,6 +422,22 @@ class MetadataFilter {
 		];
 	}
 
+	static get CLEAN_EXPLICIT_FILTER_RULES() {
+		return [
+			// (Explicit) or [Explicit]
+			{ source: /\s[([]Explicit[)\]]/i, target: '' },
+			// (Clean) or [Clean]
+			{ source: /\s[([]Clean[)\]]/i, target: '' },
+		];
+	}
+
+	static get FEATURE_FILTER_RULES() {
+		return [
+			// [Feat. Artist] or (Feat. Artist)
+			{ source: /\s[([]feat. .+[)\]]/i, target: '' },
+		];
+	}
+
 	/**
 	 * Filter rules to remove "(Album|Stereo|Mono Version)"-like strings
 	 * from a text.
@@ -411,6 +461,8 @@ class MetadataFilter {
 			{ source: /-\sStereo Version$/, target: '' },
 			// Pure McCartney (Deluxe Edition)
 			{ source: /\(Deluxe Edition\)$/, target: '' },
+			// 6 Foot 7 Foot (Explicit Version)
+			{ source: /[([]Explicit Version[)\]]/i, target: '' },
 		];
 	}
 
@@ -426,6 +478,7 @@ class MetadataFilter {
 	 * Get filter object used by default in a Connector object.
 	 * @return {MetadataFilter} Filter object
 	 */
+	/* istanbul ignore next */
 	static getDefaultFilter() {
 		return new MetadataFilter({
 			all: [MetadataFilter.trim, MetadataFilter.replaceNbsp],
@@ -436,6 +489,7 @@ class MetadataFilter {
 	 * Get predefined filter object for Youtube-based connectors.
 	 * @return {MetadataFilter} Filter object
 	 */
+	/* istanbul ignore next */
 	static getYoutubeFilter() {
 		return new MetadataFilter({
 			track: MetadataFilter.youtube
@@ -446,6 +500,7 @@ class MetadataFilter {
 	 * Get predefined filter object that uses 'removeRemastered' function.
 	 * @return {MetadataFilter} Filter object
 	 */
+	/* istanbul ignore next */
 	static getRemasteredFilter() {
 		return new MetadataFilter({
 			track: MetadataFilter.removeRemastered,
@@ -454,20 +509,10 @@ class MetadataFilter {
 	}
 
 	/**
-	 * Get predefined filter object that uses 'removeVersion' function.
+	 * Get predefined filter for Spotify-related connectors.
 	 * @return {MetadataFilter} Filter object
 	 */
-	static getVersionFilter() {
-		return new MetadataFilter({
-			track: MetadataFilter.removeVersion,
-			album: MetadataFilter.removeVersion,
-		});
-	}
-
-	/**
-	 * Get predefined filter object that uses 'removeRemastered' function.
-	 * @return {MetadataFilter} Filter object
-	 */
+	/* istanbul ignore next */
 	static getSpotifyFilter() {
 		return new MetadataFilter({
 			track: [
@@ -484,9 +529,39 @@ class MetadataFilter {
 	}
 
 	/**
-	 * Get predefined filter object that uses 'removeRemastered' function.
+	 * Get predefined filter for Amazon-related connectors.
 	 * @return {MetadataFilter} Filter object
 	 */
+	/* istanbul ignore next */
+	static getAmazonFilter() {
+		return new MetadataFilter({
+			track: [
+				MetadataFilter.removeCleanExplicit,
+				MetadataFilter.removeFeature,
+				MetadataFilter.removeRemastered,
+				MetadataFilter.fixTrackSuffix,
+				MetadataFilter.removeVersion,
+				MetadataFilter.removeLive,
+			],
+			album: [
+				MetadataFilter.decodeHtmlEntities,
+				MetadataFilter.removeCleanExplicit,
+				MetadataFilter.removeRemastered,
+				MetadataFilter.fixTrackSuffix,
+				MetadataFilter.removeVersion,
+				MetadataFilter.removeLive,
+			],
+			albumArtist: [
+				MetadataFilter.albumArtistFromArtist,
+			],
+		});
+	}
+
+	/**
+	 * Get predefined filter for Tidal-related connectors.
+	 * @return {MetadataFilter} Filter object
+	 */
+	/* istanbul ignore next */
 	static getTidalFilter() {
 		return new MetadataFilter({
 			track: [
@@ -508,6 +583,7 @@ class MetadataFilter {
 	 * Get predefined filter object that uses 'removeDoubleTitle' function.
 	 * @return {MetadataFilter} Filter object
 	 */
+	/* istanbul ignore next */
 	static getDoubleTitleFilter() {
 		return new MetadataFilter({
 			track: MetadataFilter.removeDoubleTitle,

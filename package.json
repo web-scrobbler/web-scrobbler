@@ -1,6 +1,6 @@
 {
   "name": "web-scrobbler",
-  "version": "1.0.0",
+  "version": "2.26.0",
   "author": "David Šabata <posta@davidsabata.cz>",
   "description": "Scrobble music all around the web!",
   "private": true,
@@ -11,7 +11,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.11.2",
     "blueimp-md5": "2.12.0",
-    "bootstrap": "4.3.1",
+    "bootstrap": "4.4.1",
     "jquery": "3.4.1",
     "requirejs": "2.3.6",
     "showdown": "1.9.1",
@@ -23,7 +23,7 @@
     "chai-spies": "1.0.0",
     "codacy-coverage": "3.4.0",
     "dotenv": "8.2.0",
-    "eslint-plugin-jsdoc": "18.1.4",
+    "eslint-plugin-jsdoc": "18.4.3",
     "firefox-extension-deploy": "1.1.2",
     "grunt": "1.0.4",
     "grunt-bump": "0.8.0",
@@ -59,8 +59,8 @@
     "test": "grunt test",
     "test-with-coverage": "nyc grunt test",
     "upload-coverage": "cat ./coverage/lcov.info | codacy-coverage",
-    "clean-coverage": "rm -rf ./coverage .nyc_cache .nyc_output",
-    "postinstall": "bash copy-vendor.sh"
+    "clean-coverage": "rm -rf ./coverage",
+    "postinstall": "node scripts/copy-vendor.js"
   },
   "license": "MIT"
 }

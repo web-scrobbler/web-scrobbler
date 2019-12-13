@@ -21,6 +21,16 @@ const Util = require('../../src/core/content/util');
  * @type {Array}
  */
 const SPLIT_ARTIST_TRACK_TEST_DATA = [{
+	description: 'should return empty result for empty input',
+	source: '',
+	expected: { artist: null, track: null },
+	swap: false,
+}, {
+	description: 'should return empty result for null input',
+	source: null,
+	expected: { artist: null, track: null },
+	swap: false,
+}, {
 	description: 'should split artist and track',
 	source: 'Artist - Track',
 	expected: { artist: 'Artist', track: 'Track' },
@@ -67,6 +77,10 @@ const ESCAPE_BAD_TIME_VALUES_DATA = [{
 	description: 'should return integer number as is',
 	source: 3,
 	expected: 3
+}, {
+	description: 'should return null for other input',
+	source: [],
+	expected: null
 }];
 
 /**
@@ -138,6 +152,18 @@ const EXRACT_TRACK_ART_FROM_CSS_DATA = [{
  * @type {Array}
  */
 const GET_YOUTUBE_VIDEO_ID_FROM_URL_DATA = [{
+	description: 'should return null for null input',
+	source: null,
+	expected: null,
+}, {
+	description: 'should return null for empty input',
+	source: '',
+	expected: null,
+}, {
+	description: 'should return null for invalid input',
+	source: 'Invalid input',
+	expected: null,
+}, {
 	description: 'should return video ID from URL',
 	source: 'https://www.youtube.com/watch?v=JJYxNSRX6Oc',
 	expected: 'JJYxNSRX6Oc',
@@ -164,6 +190,14 @@ const GET_YOUTUBE_VIDEO_ID_FROM_URL_DATA = [{
  * @type {Array}
  */
 const PROCESS_YOUTUBE_TITLE_DATA = [{
+	description: 'should return null for empty input',
+	source: '',
+	expected: { artist: null, track: null },
+}, {
+	description: 'should return null for null input',
+	source: null,
+	expected: { artist: null, track: null },
+}, {
 	description: 'should process YouTube title',
 	source: 'Artist - Track',
 	expected: { artist: 'Artist', track: 'Track' },
@@ -263,6 +297,14 @@ const SPLIT_TIME_INFO_DATA = [{
 }];
 
 const FIND_SEPARATOR_DATA = [{
+	description: 'should return null for null input',
+	source: null,
+	expected: null,
+}, {
+	description: 'should return null for empty input',
+	source: '',
+	expected: null,
+}, {
 	description: 'should find separator',
 	source: 'Key : Var',
 	expected: { index: 4, length: 1 },

@@ -3,4 +3,5 @@ exclude:
   - 'tests/**'
   - '*.js'
 reporter: [lcovonly, text]
-cache-dir: .nyc_cache
+cache-dir: coverage/cache
+temp-dir: coverage/temp
