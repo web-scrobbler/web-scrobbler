@@ -271,6 +271,17 @@ class MetadataFilter {
 	}
 
 	/**
+	 * Generates normalized "feat. Artist B" text from [feat. Artist B] style
+	 * @param  {String} text String to be filtered
+	 * @return {String} Transformed string
+	 */
+	static normalizeFeature(text) {
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.NORMALIZE_FEATURE_FILTER_RULES
+		);
+	}
+
+	/**
 	 * Remove "feat"-like strings from the text.
 	 * @param  {String} text String to be filtered
 	 * @return {String} Filtered string
