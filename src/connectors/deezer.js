@@ -1,7 +1,6 @@
 'use strict';
 
-const deezerFilter = MetadataFilter.getRemasteredFilter().extend(
-	MetadataFilter.getDoubleTitleFilter());
+const deezerFilter = MetadataFilter.getRemasteredFilter();
 
 let trackInfo = {};
 let isPlaying = false;

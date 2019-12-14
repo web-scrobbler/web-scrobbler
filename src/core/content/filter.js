@@ -284,19 +284,6 @@ class MetadataFilter {
 	}
 
 	/**
-	 * "REAL_TITLE : REAL_TILE" -> "REAL_TITLE"
-	 * @param  {String} text String to be filtered
-	 * @return {String} Filtered string
-	 */
-	static removeDoubleTitle(text) {
-		const splitted = text.split(' : ');
-		if (splitted.length !== 2 || splitted[0] !== splitted[1]) {
-			return text;
-		}
-		return splitted[0];
-	}
-
-	/**
 	 * Replace text according to given filter set rules.
 	 * @param  {String} text String to be filtered
 	 * @param  {Object} set  Array of replace rules
@@ -601,17 +588,6 @@ class MetadataFilter {
 				MetadataFilter.removeVersion,
 				MetadataFilter.removeLive,
 			],
-		});
-	}
-
-	/**
-	 * Get predefined filter object that uses 'removeDoubleTitle' function.
-	 * @return {MetadataFilter} Filter object
-	 */
-	/* istanbul ignore next */
-	static getDoubleTitleFilter() {
-		return new MetadataFilter({
-			track: MetadataFilter.removeDoubleTitle,
 		});
 	}
 }
