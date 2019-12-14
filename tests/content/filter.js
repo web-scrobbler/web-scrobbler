@@ -610,6 +610,24 @@ const ALBUM_ARTIST_FROM_ARTIST_FILTER_RULES_TEST_DATA = [{
 	description: 'should remove featured artist from suffix',
 	source: 'Artist A feat. Artist B, Artist C & Artist D',
 	expected: 'Artist A'
+}, {
+	description: 'should return original text if feat. not present',
+	source: 'Artist A',
+	expected: 'Artist A'
+}];
+
+const NORMALIZE_FEATURE_TEXT_FILTER_RULES_TEST_DATA = [{
+	description: 'should transform [feat. Artist B] to feat. Artist B',
+	source: 'Artist A [feat. Artist B]',
+	expected: 'Artist A feat. Artist B'
+}, {
+	description: 'should not transform if no match for [feat. Artist B]',
+	source: 'Artist A',
+	expected: 'Artist A'
+}, {
+	description: 'should not transform if no match for [feat. Artist B]',
+	source: 'Artist A feat. Artist B',
+	expected: 'Artist A feat. Artist B'
 }];
 
 const FEATURE_FILTER_RULES_TEST_DATA = [{
@@ -696,6 +714,11 @@ const FILTERS_TEST_DATA = [{
 	filterFunc: MetadataFilter.removeFeature,
 	fields: ['track'],
 	testData: FEATURE_FILTER_RULES_TEST_DATA,
+}, {
+	description: 'Normalize feature text filter function',
+	filterFunc: MetadataFilter.normalizeFeature,
+	fields: ['albumArtist'],
+	testData: NORMALIZE_FEATURE_TEXT_FILTER_RULES_TEST_DATA,
 }];
 
 /**
