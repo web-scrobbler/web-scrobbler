@@ -298,6 +298,19 @@ const Util = {
 	},
 
 	/**
+	 * Extract time in seconds from first available element
+	 * defined by CSS selector.
+	 *
+	 * @param  {Object} selectors Single selector or array of selectors
+	 * @return {String} Track art URL
+	 */
+	getSecondsFromSelectors(selectors) {
+		return Util.stringToSeconds(
+			Util.getTextFromSelectors(selectors)
+		);
+	},
+
+	/**
 	 * Extract image URL from first available element defined by CSS selector.
 	 * @param  {Object} selectors Single selector or array of selectors
 	 * @return {String} Track art URL

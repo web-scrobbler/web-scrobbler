@@ -229,9 +229,7 @@ function BaseConnector() {
 	 * @return {Number} Track length in seconds
 	 */
 	this.getDuration = () => {
-		return Util.stringToSeconds(
-			Util.getTextFromSelectors(this.durationSelector)
-		);
+		return Util.getSecondsFromSelectors(this.durationSelector);
 	};
 
 	/**
@@ -243,9 +241,7 @@ function BaseConnector() {
 	 * @return {Number} Number of seconds passed from the beginning of the track
 	 */
 	this.getCurrentTime = () => {
-		return Util.stringToSeconds(
-			Util.getTextFromSelectors(this.currentTimeSelector)
-		);
+		return Util.getSecondsFromSelectors(this.currentTimeSelector);
 	};
 
 	/**
@@ -265,9 +261,7 @@ function BaseConnector() {
 	 * @return {Number} Number of remaining seconds
 	 */
 	this.getRemainingTime = () => {
-		return Util.stringToSeconds(
-			Util.getTextFromSelectors(this.remainingTimeSelector)
-		);
+		return Util.getSecondsFromSelectors(this.remainingTimeSelector);
 	};
 
 	/**
