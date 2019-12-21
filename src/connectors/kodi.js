@@ -1,12 +1,26 @@
 'use strict';
 
-const trackArtSelector = '.playing-thumb';
-
-const fieldSelectors = {
-	artist: '.playing-subtitle',
-	track: '.playing-title',
-	currentTime: 'currentTimeSelector',
-	duration: '.playing-time-duration'
+const fields = {
+	artist: {
+		selector: '.playing-subtitle',
+		func: Util.getTextFromSelectors.bind(Util)
+	},
+	track: {
+		selector: '.playing-title',
+		func: Util.getTextFromSelectors.bind(Util)
+	},
+	currentTime: {
+		selector: '.playing-time-current',
+		func: Util.getSecondsFromSelectors.bind(Util)
+	},
+	duration: {
+		selector: '.playing-time-duration',
+		func: Util.getSecondsFromSelectors.bind(Util)
+	},
+	trackArt: {
+		selector: '.playing-thumb',
+		func: getTrackArtUrl
+	}
 };
 
 const kodiPlayerSelector = '#player-kodi';
@@ -18,15 +32,12 @@ Connector.getTrackInfo = () => {
 	const context = getCurrentContext();
 	const trackInfo = {};
 
-	for (const field in fieldSelectors) {
-		const selector = fieldSelectors[field];
+	for (const field in fields) {
+		const { selector, func } = fields[field];
 		const fullSelector = `${context} ${selector}`;
 
-		trackInfo[field] = Util.getTextFromSelectors(fullSelector);
+		trackInfo[field] = func(fullSelector);
 	}
-
-	const trackArtFullSelector = `${context} ${trackArtSelector}`;
-	trackInfo.trackArt = getTrackArtUrl(trackArtFullSelector);
 
 	return trackInfo;
 };
