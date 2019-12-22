@@ -488,24 +488,6 @@ const REMOVE_ZERO_WIDTH_TEST_DATA = [{
 	expected: 'String'
 }];
 
-const REMOVE_DOUBLE_TITLE_TEST_DATA = [{
-	description: 'should do nothing when separated strings are different',
-	source: 'Some data : another data',
-	expected: 'Some data : another data'
-}, {
-	description: 'should do nothing when separator was not found',
-	source: 'Some Track title with colon: but without separator',
-	expected: 'Some Track title with colon: but without separator'
-}, {
-	description: 'should remove double title',
-	source: 'Some track name With double title : Some track name With double title',
-	expected: 'Some track name With double title'
-}, {
-	description: 'should do nothing when there are more than one separator',
-	source: 'this is weird : this is weird : this is weird',
-	expected: 'this is weird : this is weird : this is weird'
-}];
-
 const SUFFIX_FILTER_RULES_TEST_DATA = [{
 	description: 'should do nothing with correct suffix',
 	source: 'Track Title (Artist Remix)',
@@ -610,6 +592,24 @@ const ALBUM_ARTIST_FROM_ARTIST_FILTER_RULES_TEST_DATA = [{
 	description: 'should remove featured artist from suffix',
 	source: 'Artist A feat. Artist B, Artist C & Artist D',
 	expected: 'Artist A'
+}, {
+	description: 'should return original text if feat. not present',
+	source: 'Artist A',
+	expected: 'Artist A'
+}];
+
+const NORMALIZE_FEATURE_TEXT_FILTER_RULES_TEST_DATA = [{
+	description: 'should transform [feat. Artist B] to feat. Artist B',
+	source: 'Artist A [feat. Artist B]',
+	expected: 'Artist A feat. Artist B'
+}, {
+	description: 'should not transform if no match for [feat. Artist B]',
+	source: 'Artist A',
+	expected: 'Artist A'
+}, {
+	description: 'should not transform if no match for [feat. Artist B]',
+	source: 'Artist A feat. Artist B',
+	expected: 'Artist A feat. Artist B'
 }];
 
 const FEATURE_FILTER_RULES_TEST_DATA = [{
@@ -652,11 +652,6 @@ const FILTERS_TEST_DATA = [{
 	fields: MetadataFilter.ALL_FIELDS,
 	testData: DECODE_HTML_ENTITIES_TEST_DATA,
 }, {
-	description: 'removeDoubleTitle',
-	filterFunc: MetadataFilter.removeDoubleTitle,
-	fields: ['track'],
-	testData: REMOVE_DOUBLE_TITLE_TEST_DATA,
-}, {
 	description: 'Youtube filter function',
 	filterFunc: MetadataFilter.youtube,
 	fields: ['track'],
@@ -696,6 +691,11 @@ const FILTERS_TEST_DATA = [{
 	filterFunc: MetadataFilter.removeFeature,
 	fields: ['track'],
 	testData: FEATURE_FILTER_RULES_TEST_DATA,
+}, {
+	description: 'Normalize feature text filter function',
+	filterFunc: MetadataFilter.normalizeFeature,
+	fields: ['albumArtist'],
+	testData: NORMALIZE_FEATURE_TEXT_FILTER_RULES_TEST_DATA,
 }];
 
 /**

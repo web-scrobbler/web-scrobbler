@@ -102,6 +102,11 @@ const connectors = [{
 	js: 'connectors/megalyrics.js',
 	id: 'megalyrics',
 }, {
+	label: 'iHeartRadio',
+	matches: ['*://*.iheart.com/*'],
+	js: 'connectors/iheart.js',
+	id: 'iheart',
+}, {
 	label: 'Indie Shuffle',
 	matches: ['*://www.indieshuffle.com/*'],
 	js: 'connectors/indieshuffle.js',

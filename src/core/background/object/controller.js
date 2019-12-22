@@ -197,8 +197,7 @@ define((require) => {
 				if (this.currentSong) {
 					this.debugLog('Received empty state - resetting');
 
-					this.pageAction.setSiteSupported();
-					this.resetState();
+					this.reset();
 				}
 
 				if (newState.isPlaying) {
@@ -210,10 +209,14 @@ define((require) => {
 
 			let isSongChanged = this.isSongChanged(newState);
 
-			if (!isSongChanged && !this.isReplayingSong) {
+			if (isSongChanged || this.isReplayingSong) {
+				if (newState.isPlaying) {
+					this.processNewState(newState);
+				} else {
+					this.reset();
+				}
+			} else {
 				this.processCurrentState(newState);
-			} else if (newState.isPlaying) {
-				this.processNewState(newState);
 			}
 		}
 
@@ -538,6 +541,12 @@ define((require) => {
 
 				this.pageAction.setError();
 			}
+		}
+
+		reset() {
+			this.resetState();
+
+			this.pageAction.setSiteSupported();
 		}
 
 		/**

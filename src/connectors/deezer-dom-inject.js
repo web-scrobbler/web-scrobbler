@@ -36,9 +36,15 @@ function getTrackInfo() {
 	const player = window.dzPlayer;
 	const item = player.getCurrentSong();
 
+	let trackTitle = item.SNG_TITLE;
+	const trackVersion = item.VERSION;
+	if (trackVersion) {
+		trackTitle = `${trackTitle} ${trackVersion}`;
+	}
+
 	return {
 		artist: item.ART_NAME,
-		track: item.SNG_TITLE,
+		track: trackTitle,
 		album: item.ALB_TITLE,
 		duration: player.getDuration(),
 		currentTime: player.getPosition(),

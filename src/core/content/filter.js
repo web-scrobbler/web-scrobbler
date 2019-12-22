@@ -244,7 +244,21 @@ class MetadataFilter {
 	 * @return {String} Transformed string
 	 */
 	static albumArtistFromArtist(text) {
-		return text.split(' feat. ')[0];
+		if (text.includes(' feat. ')) {
+			return text.split(' feat. ')[0];
+		}
+		return text;
+	}
+
+	/**
+	 * Generates normalized "feat. Artist B" text from [feat. Artist B] style
+	 * @param  {String} text String to be filtered
+	 * @return {String} Transformed string
+	 */
+	static normalizeFeature(text) {
+		return MetadataFilter.filterWithFilterRules(
+			text, MetadataFilter.NORMALIZE_FEATURE_FILTER_RULES
+		);
 	}
 
 	/**
@@ -267,19 +281,6 @@ class MetadataFilter {
 		return MetadataFilter.filterWithFilterRules(
 			text, MetadataFilter.SUFFIX_FILTER_RULES
 		);
-	}
-
-	/**
-	 * "REAL_TITLE : REAL_TILE" -> "REAL_TITLE"
-	 * @param  {String} text String to be filtered
-	 * @return {String} Filtered string
-	 */
-	static removeDoubleTitle(text) {
-		const splitted = text.split(' : ');
-		if (splitted.length !== 2 || splitted[0] !== splitted[1]) {
-			return text;
-		}
-		return splitted[0];
 	}
 
 	/**
@@ -438,6 +439,13 @@ class MetadataFilter {
 		];
 	}
 
+	static get NORMALIZE_FEATURE_FILTER_RULES() {
+		return [
+			// [Feat. Artist] or (Feat. Artist) -> Feat. Artist
+			{ source: /\s[([](feat. .+)[)\]]/i, target: ' $1' },
+		];
+	}
+
 	/**
 	 * Filter rules to remove "(Album|Stereo|Mono Version)"-like strings
 	 * from a text.
@@ -535,6 +543,9 @@ class MetadataFilter {
 	/* istanbul ignore next */
 	static getAmazonFilter() {
 		return new MetadataFilter({
+			artist: [
+				MetadataFilter.normalizeFeature,
+			],
 			track: [
 				MetadataFilter.removeCleanExplicit,
 				MetadataFilter.removeFeature,
@@ -552,6 +563,7 @@ class MetadataFilter {
 				MetadataFilter.removeLive,
 			],
 			albumArtist: [
+				MetadataFilter.normalizeFeature,
 				MetadataFilter.albumArtistFromArtist,
 			],
 		});
@@ -576,17 +588,6 @@ class MetadataFilter {
 				MetadataFilter.removeVersion,
 				MetadataFilter.removeLive,
 			],
-		});
-	}
-
-	/**
-	 * Get predefined filter object that uses 'removeDoubleTitle' function.
-	 * @return {MetadataFilter} Filter object
-	 */
-	/* istanbul ignore next */
-	static getDoubleTitleFilter() {
-		return new MetadataFilter({
-			track: MetadataFilter.removeDoubleTitle,
 		});
 	}
 }
