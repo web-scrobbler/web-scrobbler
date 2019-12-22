@@ -801,8 +801,8 @@ const connectors = [{
 }, {
 	label: 'Flo',
 	matches: ['*://www.music-flo.com/*'],
-	js: 'connectors/flo.js',
-	id: 'flo',
+	js: 'connectors/music-flo.js',
+	id: 'music-flo',
 }, {
 	label: 'GrooveMP3',
 	matches: ['*://*.groovemp3.com/*'],
