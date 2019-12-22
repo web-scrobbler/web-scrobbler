@@ -298,6 +298,19 @@ const Util = {
 	},
 
 	/**
+	 * Extract time in seconds from first available element
+	 * defined by CSS selector.
+	 *
+	 * @param  {Object} selectors Single selector or array of selectors
+	 * @return {String} Track art URL
+	 */
+	getSecondsFromSelectors(selectors) {
+		return Util.stringToSeconds(
+			Util.getTextFromSelectors(selectors)
+		);
+	},
+
+	/**
 	 * Extract image URL from first available element defined by CSS selector.
 	 * @param  {Object} selectors Single selector or array of selectors
 	 * @return {String} Track art URL
@@ -432,14 +445,15 @@ const Util = {
 	 * @return {Object} Object contains artist and track fields
 	 */
 	processYtVideoTitle(videoTitle) {
+		let artist = null;
+		let track = null;
+
 		if (!videoTitle) {
-			return null;
+			return { artist, track };
 		}
 
 		// Remove [genre] or 【genre】 from the beginning of the title
 		let title = videoTitle.replace(/^((\[[^\]]+\])|(【[^】]+】))\s*-*\s*/i, '');
-
-		let [artist, track] = [null, null];
 
 		// Try to match one of the regexps
 		for (let regExp of this.ytTitleRegExps) {

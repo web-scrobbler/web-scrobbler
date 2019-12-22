@@ -229,9 +229,7 @@ function BaseConnector() {
 	 * @return {Number} Track length in seconds
 	 */
 	this.getDuration = () => {
-		return Util.stringToSeconds(
-			Util.getTextFromSelectors(this.durationSelector)
-		);
+		return Util.getSecondsFromSelectors(this.durationSelector);
 	};
 
 	/**
@@ -243,9 +241,7 @@ function BaseConnector() {
 	 * @return {Number} Number of seconds passed from the beginning of the track
 	 */
 	this.getCurrentTime = () => {
-		return Util.stringToSeconds(
-			Util.getTextFromSelectors(this.currentTimeSelector)
-		);
+		return Util.getSecondsFromSelectors(this.currentTimeSelector);
 	};
 
 	/**
@@ -265,9 +261,7 @@ function BaseConnector() {
 	 * @return {Number} Number of remaining seconds
 	 */
 	this.getRemainingTime = () => {
-		return Util.stringToSeconds(
-			Util.getTextFromSelectors(this.remainingTimeSelector)
-		);
+		return Util.getSecondsFromSelectors(this.remainingTimeSelector);
 	};
 
 	/**
@@ -533,9 +527,6 @@ function BaseConnector() {
 		 */
 		let isPlaying = this.isPlaying();
 		if (isPlaying !== currentState.isPlaying) {
-			// @ifdef DEBUG
-			Util.debugLog(`isPlaying state changed to ${isPlaying}`);
-			// @endif
 			this.stateChangedWorker();
 		} else {
 			this.stateChangedWorkerThrottled();
@@ -713,6 +704,10 @@ function BaseConnector() {
 			}
 
 			// @ifdef DEBUG
+			if (changedFields.includes('isPlaying')) {
+				Util.debugLog(`isPlaying state changed to ${newState.isPlaying}`);
+			}
+
 			for (const field of fieldsToCheckSongChange) {
 				if (changedFields.includes(field)) {
 					Util.debugLog(JSON.stringify(filteredState, null, 2));

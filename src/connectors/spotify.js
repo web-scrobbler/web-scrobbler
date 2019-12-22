@@ -20,18 +20,20 @@ Connector.isScrobblingAllowed = () => !isAdPlaying();
 
 Connector.isPodcast = () => artistUrlIncludes('/show/');
 
-/*
- * When ad is playing, artist URL is like "https://shrt.spotify.com/XXX",
- * otherwise URL leads to:
- * a) an artist page https://open.spotify.com/artist/YYY;
- * b) a podcast page https://open.spotify.com/show/ZZZ.
- */
-
 function isAdPlaying() {
-	return artistUrlIncludes('shrt.spotify.com');
+	return !artistUrlIncludes('/artist/', '/show/');
 }
 
-function artistUrlIncludes(str) {
+function artistUrlIncludes(...strings) {
 	const artistUrl = $(Connector.artistSelector).attr('href');
-	return artistUrl && artistUrl.includes(str);
+
+	if (artistUrl) {
+		for (const str of strings) {
+			if (artistUrl.includes(str)) {
+				return true;
+			}
+		}
+	}
+
+	return false;
 }

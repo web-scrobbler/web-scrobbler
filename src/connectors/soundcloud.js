@@ -44,5 +44,5 @@ Connector.isPlaying = () => $('.playControl').hasClass('playing');
 Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 
 function getDurationOrRemainingTime() {
-	return Util.stringToSeconds(Util.getTextFromSelectors(durationSelector));
+	return Util.getSecondsFromSelectors(durationSelector);
 }

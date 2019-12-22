@@ -47,6 +47,7 @@ let currentVideoDescription = null;
 let artistTrackFromDescription = null;
 
 readConnectorOptions();
+setupEventListener();
 
 Connector.playerSelector = '#content';
 
@@ -125,6 +126,10 @@ Connector.isScrobblingAllowed = () => {
 };
 
 Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+
+function setupEventListener() {
+	$(videoSelector).on('timeupdate', Connector.onStateChanged);
+}
 
 /**
  * Get video category.

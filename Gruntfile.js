@@ -10,11 +10,12 @@ const BUILD_DIR = 'build';
 
 const DIST_FILE = 'web-scrobbler.zip';
 const MANIFEST_FILE = 'src/manifest.json';
-const PACKAGE_JSON_FILE = 'package.json';
 
 const FILES_TO_PREPROCESS = [
 	`${BUILD_DIR}/**/*.js`, `${BUILD_DIR}/**/*.css`, `${BUILD_DIR}/**/*.html`
 ];
+
+const FILES_TO_BUMP = [MANIFEST_FILE, 'package.json', 'package-lock.json'];
 
 // Files to build zipball
 const EXTENSION_SRC = [
@@ -28,12 +29,15 @@ const EXTENSION_DOCS = [
 
 // Files to lint
 const JS_FILES = [
+	'*.js',
 	// Custom Grunt tasks
 	'.grunt',
 	// Connectors
 	`${SRC_DIR}/connectors/**/*.js`,
 	// Core files
 	`${SRC_DIR}/core/**/*.js`, `${SRC_DIR}/ui/**/*.js`,
+	// Shell Scripts
+	'scripts/*.js',
 	// Tests
 	'tests/**/*.js'
 ];
@@ -44,7 +48,7 @@ const DOC_FILES = [
 	'*.md', '.github/**/*.md',
 ];
 
-const isCi = (process.env.CI === 'true');
+const isCi = process.env.CI === 'true';
 
 module.exports = (grunt) => {
 	grunt.initConfig({
@@ -99,24 +103,12 @@ module.exports = (grunt) => {
 			}
 		},
 		preprocess: {
-			firefox: {
+			main: {
 				src: FILES_TO_PREPROCESS,
 				expand: true,
 				options: {
 					inline: true,
-					context: {
-						FIREFOX: true,
-					}
-				}
-			},
-			chrome: {
-				src: FILES_TO_PREPROCESS,
-				expand: true,
-				options: {
-					inline: true,
-					context: {
-						CHROME: true,
-					}
+					context: { /* generated */ }
 				}
 			}
 		},
@@ -153,9 +145,9 @@ module.exports = (grunt) => {
 
 		bump: {
 			options: {
-				files: [MANIFEST_FILE, PACKAGE_JSON_FILE],
+				files: FILES_TO_BUMP,
 				updateConfigs: ['manifest'],
-				commitFiles: [MANIFEST_FILE, PACKAGE_JSON_FILE],
+				commitFiles: FILES_TO_BUMP,
 			}
 		},
 		github_release: {
@@ -252,12 +244,25 @@ module.exports = (grunt) => {
 	 * Copy source filed to build directory, preprocess them and
 	 * set the extension icon according to specified browser.
 	 * @param {String} browser Browser name
+	 * @param {String} mode Development mode (debug or release)
 	 */
-	grunt.registerTask('build', (browser) => {
+	grunt.registerTask('build', (browser, mode = 'debug') => {
 		assertBrowserIsSupported(browser);
+		assertDevelopmentModeIsValid(mode);
+
+		const flags = {
+			chrome: 'CHROME', firefox: 'FIREFOX',
+			debug: 'DEBUG', release: 'RELEASE'
+		};
+
+		const config = grunt.config.get('preprocess');
+		config.main.options.context = {
+			[flags[browser]]: true, [flags[mode]]: true
+		};
+		grunt.config.set('preprocess', config);
 
 		grunt.task.run([
-			'copy', `preprocess:${browser}`,
+			'copy', 'preprocess',
 			`clean:${browser}`, 'imagemin',
 			`replace_json:${browser}`
 		]);
@@ -266,13 +271,15 @@ module.exports = (grunt) => {
 	/**
 	 * Build the extension and pack source files in a zipball.
 	 * @param  {String} browser Browser name
+	 * @param  {String} mode Development mode (debug or release)
 	 */
-	grunt.registerTask('dist', (browser) => {
+	grunt.registerTask('dist', (browser, mode = 'debug') => {
 		assertBrowserIsSupported(browser);
+		assertDevelopmentModeIsValid(mode);
 
 		grunt.task.run([
-			'clean:build', `build:${browser}`, 'clean:dist',
-			'compress', 'clean:build',
+			'clean:build', `build:${browser}:${mode}`,
+			'clean:dist', 'compress', 'clean:build',
 		]);
 	});
 
@@ -284,7 +291,7 @@ module.exports = (grunt) => {
 		assertBrowserIsSupported(browser);
 
 		grunt.task.run(
-			[`dist:${browser}`, `upload:${browser}`, 'clean:dist']);
+			[`dist:${browser}:release`, `upload:${browser}`, 'clean:dist']);
 	});
 
 	/**
@@ -365,6 +372,25 @@ module.exports = (grunt) => {
 
 		if (supportedBrowsers.indexOf(browser) === -1) {
 			grunt.fail.fatal(`Unknown browser: ${browser}`);
+		}
+	}
+
+	/**
+	 * Throw an error if the extension doesn't support given browser.
+	 * @param  {String}  mode Mode
+	 */
+	function assertDevelopmentModeIsValid(mode) {
+		const supportedModes = ['debug', 'release'];
+
+		if (!mode) {
+			grunt.fail.fatal(
+				'You have not specified mode.\n' +
+				`Currently supported modes: ${supportedModes.join(', ')}.`
+			);
+		}
+
+		if (supportedModes.indexOf(mode) === -1) {
+			grunt.fail.fatal(`Unknown mode: ${mode}`);
 		}
 	}
 };
