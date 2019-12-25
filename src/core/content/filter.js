@@ -324,13 +324,13 @@ class MetadataFilter {
 			// video extensions
 			{ source: /\.(avi|wmv|mpg|mpeg|flv)$/i, target: '' },
 			// (LYRICs VIDEO)
-			{ source: /((with)?\s*lyrics?( video)?\s*)/i, target: '' },
+			{ source: /\(.*lyrics?\s*(video)?\)/i, target: '' },
 			// (Official Track Stream)
-			{ source: /(Official Track Stream*)/i, target: '' },
+			{ source: /\((of+icial\s*)?(track\s*)?stream\)/i, target: '' },
 			// (official)? (music)? video
-			{ source: /(of+icial\s*)?(music\s*)?video/i, target: '' },
+			{ source: /\((of+icial\s*)?(music\s*)?video\)/i, target: '' },
 			// (official)? (music)? audio
-			{ source: /(of+icial\s*)?(music\s*)?audio/i, target: '' },
+			{ source: /\((of+icial\s*)?(music\s*)?audio\)/i, target: '' },
 			// (ALBUM TRACK)
 			{ source: /(ALBUM TRACK\s*)?(album track\s*)/i, target: '' },
 			// (Cover Art)
@@ -340,13 +340,11 @@ class MetadataFilter {
 			// (1999)
 			{ source: /\(\s*[0-9]{4}\s*\)/i, target: '' },
 			// HD (HQ)
-			{ source: /\(\s*(HD|HQ)\s*\)$/, target: '' },
-			// HD (HQ)
 			{ source: /(HD|HQ)\s*$/, target: '' },
-			// video clip officiel
-			{ source: /(vid[\u00E9e]o)?\s?clip\sofficiel/i, target: '' },
+			// video clip officiel or video clip official
+			{ source: /(vid[\u00E9e]o)?\s?clip\sof+ici[ae]l/i, target: '' },
 			// offizielles
-			{ source: /of+iziel+es\s*/i, target: '' },
+			{ source: /of+iziel+es\s*video/i, target: '' },
 			// video clip
 			{ source: /vid[\u00E9e]o\s?clip/i, target: '' },
 			// clip
