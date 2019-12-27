@@ -42,4 +42,4 @@ jobs:
             https://api.github.com/repos/${WEBSITE_REPO}/dispatches
       env:
         GH_FA_TOKEN: ${{ secrets.GH_FA_TOKEN }}
-        WEBSITE_REPO: web-scrobbler/web-scrobbler.github.io
+        WEBSITE_REPO: web-scrobbler/websites
