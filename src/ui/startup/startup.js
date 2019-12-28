@@ -2,11 +2,10 @@
 
 require([
 	'webextension-polyfill',
-	'storage/browser-storage',
 	'vendor/showdown.min',
 	'storage/options',
 	'util/util',
-], (browser, BrowserStorage, showdown, Options, Util) => {
+], (browser, showdown, Options, Util) => {
 	/**
 	 * Run initialization
 	 */

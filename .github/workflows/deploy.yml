@@ -8,7 +8,7 @@ jobs:
     name: Deploy the extension
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Read .nvmrc
       run: echo ::set-output name=NVMRC::$(cat .nvmrc)
       id: nvm
@@ -42,4 +42,4 @@ jobs:
             https://api.github.com/repos/${WEBSITE_REPO}/dispatches
       env:
         GH_FA_TOKEN: ${{ secrets.GH_FA_TOKEN }}
-        WEBSITE_REPO: web-scrobbler/web-scrobbler.github.io
+        WEBSITE_REPO: web-scrobbler/websites

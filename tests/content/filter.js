@@ -130,36 +130,40 @@ const YOUTUBE_FILTER_RULES_TEST_DATA = [{
 	expected: 'Track Title'
 }, {
 	description: 'should remove "Video" string',
-	source: 'Track Title Video',
+	source: 'Track Title (Video)',
 	expected: 'Track Title'
 }, {
 	description: 'should remove "Music Video" string',
-	source: 'Track Title Music Video',
+	source: 'Track Title (Music Video)',
 	expected: 'Track Title'
 }, {
 	description: 'should remove "Official Video" string',
-	source: 'Track Title Official Video',
+	source: 'Track Title (Official Video)',
 	expected: 'Track Title'
 }, {
 	description: 'should remove "Official Music Video" string',
-	source: 'Track Title Official Music Video',
+	source: 'Track Title (Official Music Video)',
 	expected: 'Track Title'
 }, {
 	description: 'should remove "Audio" string',
-	source: 'Track Title Audio',
+	source: 'Track Title (Audio)',
 	expected: 'Track Title'
 }, {
 	description: 'should remove "Music Audio" string',
-	source: 'Track Title Music Audio',
+	source: 'Track Title (Music Audio)',
 	expected: 'Track Title'
 }, {
 	description: 'should remove "Official Audio" string',
-	source: 'Track Title Official Audio',
+	source: 'Track Title (Official Audio)',
 	expected: 'Track Title'
 }, {
 	description: 'should remove "Official Music Audio" string',
-	source: 'Track Title Official Music Audio',
+	source: 'Track Title (Official Music Audio)',
 	expected: 'Track Title'
+}, {
+	description: 'should not remove Video from track name',
+	source: 'Video Killed the Radio Star',
+	expected: 'Video Killed the Radio Star'
 }, {
 	description: 'should remove "(official)" string',
 	source: 'Track Title (Official)',
@@ -175,6 +179,18 @@ const YOUTUBE_FILTER_RULES_TEST_DATA = [{
 }, {
 	description: 'should remove "video clip officiel" string',
 	source: 'Track Title video clip officiel',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "video clip official" string',
+	source: 'Track Title video clip official',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "videoclip oficiel" string',
+	source: 'Track Title videoclip oficiel',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "videoclip oficial" string',
+	source: 'Track Title videoclip oficial',
 	expected: 'Track Title'
 }, {
 	description: 'should remove "video clip" string',
@@ -227,6 +243,18 @@ const YOUTUBE_FILTER_RULES_TEST_DATA = [{
 }, {
 	description: 'should remove "(Official Track Stream)" string',
 	source: 'Track Title (Official Track Stream)',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "(Track Stream)" string',
+	source: 'Track Title (Track Stream)',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "(Official Stream)" string',
+	source: 'Track Title (Official Stream)',
+	expected: 'Track Title'
+}, {
+	description: 'should remove "(Stream)" string',
+	source: 'Track Title (Stream)',
 	expected: 'Track Title'
 }, {
 	description: 'should remove live suffix',
