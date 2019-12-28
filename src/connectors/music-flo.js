@@ -1,15 +1,24 @@
 'use strict';
 
-Connector.playerSelector = '#app .player_ct mini';
+const playerBar = '.player_ct.mini';
+const durationSelector = `${playerBar} .time_all`;
+const currentTimeSelector = `${playerBar} .time_current`;
 
-Connector.artistSelector = '.track_info .artist';
+Connector.playerSelector = `#app ${playerBar}`;
 
-Connector.trackSelector = '.track_info .title';
+Connector.artistSelector = `${playerBar} .track_info .artist`;
 
-Connector.currentTimeSelector = '.time_current';
+Connector.trackSelector = `${playerBar} .track_info .title`;
 
-Connector.durationSelector = '.time_all';
+Connector.pauseButtonSelector = '.control_area .icon-player.btn-player-pause';
 
-Connector.pauseButtonSelector = '.control_area .icon-player btn-player-play';
+Connector.trackArtSelector = `${playerBar} .playbar_ct .thumb`;
 
-Connector.trackArtSelector = '.playbar_ct .thumb';
+Connector.getCurrentTime = () => getSeconds(currentTimeSelector);
+
+Connector.getDuration = () => getSeconds(durationSelector);
+
+function getSeconds(selector) {
+	const timeStr = $(selector)[0].innerText;
+	return Util.stringToSeconds(timeStr);
+}
