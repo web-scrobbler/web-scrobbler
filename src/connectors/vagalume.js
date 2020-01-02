@@ -25,12 +25,12 @@ function setupConnector() {
 		Connector.isPlaying = () => 0 < $('.controls .ion-pause').length;
 
 		Connector.getCurrentTime = () => {
-			let text = $('.progress-bar').attr('current');
+			const text = $('.progress-bar').attr('current');
 			return Util.stringToSeconds(text);
 		};
 
 		Connector.getDuration = () => {
-			let text = $('.progress-bar').attr('duration');
+			const text = $('.progress-bar').attr('duration');
 			return Util.stringToSeconds(text);
 		};
 	}
@@ -59,7 +59,7 @@ function setupConnector() {
 
 		if (isListSongsFM()) {
 			Connector.getArtistTrack = () => {
-				let text = $('.songList li:first-child').find('a, span').text();
+				const text = $('.songList li:first-child').find('a, span').text();
 				return Util.splitArtistTrack(text);
 			};
 		}

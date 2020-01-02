@@ -22,7 +22,7 @@ function getTrackInfo() {
 	const trackInfo = YandexAPI.getCurrentTrack();
 
 	let track = trackInfo.title;
-	let version = trackInfo.version;
+	const version = trackInfo.version;
 	if (version) {
 		track = `${track} (${version})`;
 	}

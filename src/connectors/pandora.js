@@ -11,7 +11,7 @@ Connector.durationSelector = 'span[data-qa="remaining_time"]';
 Connector.trackArtSelector = '.Tuner__Audio__TrackDetail__img img';
 
 Connector.getTrackArt = () => {
-	let trackArtUrl = $('.Tuner__Audio__TrackDetail__img img').attr('src');
+	const trackArtUrl = $('.Tuner__Audio__TrackDetail__img img').attr('src');
 	if (trackArtUrl) {
 		return trackArtUrl.replace('90W_90H', '500W_500H');
 	}

@@ -25,17 +25,17 @@ define((require) => {
 			return;
 		}
 
-		let songInfoArr = await ScrobbleService.getSongInfo(song);
+		const songInfoArr = await ScrobbleService.getSongInfo(song);
 
-		for (let field of METADATA_TO_COPY) {
+		for (const field of METADATA_TO_COPY) {
 			delete song.metadata[field];
 		}
 
-		let songInfo = getInfo(songInfoArr);
-		let isSongValid = songInfo !== null;
+		const songInfo = getInfo(songInfoArr);
+		const isSongValid = songInfo !== null;
 		if (isSongValid) {
 			if (!song.flags.isCorrectedByUser) {
-				for (let field of INFO_TO_COPY) {
+				for (const field of INFO_TO_COPY) {
 					song.processed[field] = songInfo[field];
 				}
 
@@ -44,7 +44,7 @@ define((require) => {
 				}
 			}
 
-			for (let field of METADATA_TO_COPY) {
+			for (const field of METADATA_TO_COPY) {
 				song.metadata[field] = songInfo[field];
 			}
 		}
@@ -81,7 +81,7 @@ define((require) => {
 	 */
 	function getNonEmptyKeyCount(obj) {
 		let keyCount = 0;
-		for (let key in obj) {
+		for (const key in obj) {
 			if (obj[key]) {
 				++keyCount;
 			}

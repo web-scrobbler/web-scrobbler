@@ -15,6 +15,6 @@ Connector.getArtist = () => {
 };
 
 Connector.getAlbum = () => {
-	let releasePath = $(Connector.trackSelector).attr('href');
+	const releasePath = $(Connector.trackSelector).attr('href');
 	return $(`.track-list .track-release a[href="${releasePath}"]`).attr('title');
 };

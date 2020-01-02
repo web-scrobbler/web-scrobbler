@@ -11,11 +11,11 @@ Connector.playButtonSelector = '.play';
 Connector.trackArtSelector = '#song_image';
 
 Connector.isTrackArtDefault = (trackArtUrl) => {
-	let defaultFiles = [
+	const defaultFiles = [
 		'business.jpg', 'top_hits.jpg', 'ksrock.png', 'KSlounge.png'
 	];
 
-	for (let file of defaultFiles) {
+	for (const file of defaultFiles) {
 		if (`${location.origin}/img/appimg/${file}` === trackArtUrl) {
 			return true;
 		}

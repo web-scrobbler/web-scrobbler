@@ -17,7 +17,7 @@ define(() => {
 				return target[key];
 			},
 			set(target, key, value) {
-				let prevValue = Reflect.get(target, key);
+				const prevValue = Reflect.get(target, key);
 				if (prevValue !== value) {
 					Reflect.set(target, key, value);
 					if (typeof cb === 'function') {

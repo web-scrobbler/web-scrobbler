@@ -14,7 +14,7 @@ Connector.albumSelector = '#pageTitle';
 Connector.getUniqueID = () => $('.cPlay:first').attr('id');
 
 Connector.getArtistTrack = () => {
-	let text = $('.cPlay:first meta[itemprop="name"]').attr('content');
+	const text = $('.cPlay:first meta[itemprop="name"]').attr('content');
 	return Util.splitArtistTrack(text);
 };
 
@@ -42,7 +42,7 @@ Connector.isScrobblingAllowed = () => {
 	nextCue = Util.stringToSeconds($('.cPlay:first').nextAll('.topBorder').find('.cueValueField:contains(":")').eq(0).text());
 	cue = Util.stringToSeconds($('.cPlay:first').find('.cueValueField').text());
 	currentTime = Util.stringToSeconds($('#playerWidgetCurrentTime').text());
-	let noIDs = $('.cPlay:first').find('.trackFormat .redTxt').length;
+	const noIDs = $('.cPlay:first').find('.trackFormat .redTxt').length;
 
 	return noIDs <= 0 && (cue > 0 || nextCue > 0);
 };

@@ -17,7 +17,7 @@ function setupConnector() {
 function setupCommonProperties() {
 	// Track item containers
 	Connector.getCurrentPlayer = () => {
-		let containers = Array.from($('.upload_info, .box, .trr, .tile, .tracklist-item, .tree-head'));
+		const containers = Array.from($('.upload_info, .box, .trr, .tile, .tracklist-item, .tree-head'));
 		return containers.find((container) =>
 			Connector.testCurrentPlayer(container));
 	};
@@ -43,7 +43,7 @@ function setupCcPlayer() {
 		Connector.playerSelector = '[id$=_player]';
 
 		Connector.getUniqueID = () => {
-			let text = $('.cc_file_link', Connector.getCurrentPlayer()).attr('href') ||
+			const text = $('.cc_file_link', Connector.getCurrentPlayer()).attr('href') ||
 				location.pathname;	// Alternative for song pages
 			return text && text.split('/').pop();
 		};
@@ -68,7 +68,7 @@ function setupCcPlayer() {
 
 	function setupFlashPlayer() {
 		Connector.isPlaying = () => {
-			let position = $('[id$=_slider]').css('width');
+			const position = $('[id$=_slider]').css('width');
 			return $('.cc_player_play:visible').length > 0 &&
 				!!position &&
 				position.slice(0, -2) < 99;
@@ -83,7 +83,7 @@ function setupCcPlayer() {
 		$('audio').bind('playing pause timeupdate', Connector.onStateChanged);
 
 		Connector.testCurrentPlayer = (container) => {
-			let audio = container.querySelector('audio');
+			const audio = container.querySelector('audio');
 			return audio &&
 				!audio.paused;
 		};
@@ -104,7 +104,7 @@ function setupBetaPlayer() {
 	Connector.playerSelector = '.audio-player';
 
 	Connector.isPlaying = () => {
-		let position = $('.position').css('width');
+		const position = $('.position').css('width');
 		return position ?
 			$('.fa-pause').length > 0 && position.slice(0, -2) > 0 :
 			$('.fa-stop').length > 0;
@@ -115,7 +115,7 @@ function setupBetaPlayer() {
 	};
 
 	Connector.getUniqueID = () => {
-		let text = $('.upload-link', $('.audio-player')[0] ||
+		const text = $('.upload-link', $('.audio-player')[0] ||
 						Connector.getCurrentPlayer() || {}).attr('href') ||
 				location.pathname;	// Alternative for song pages
 		return text && text.split('/').pop();
@@ -146,7 +146,7 @@ function setupTuneTrackPlayer() {
 	};
 
 	Connector.getUniqueID = () => {
-		let text = $(`${Connector.trackSelector} a`).attr('href');
+		const text = $(`${Connector.trackSelector} a`).attr('href');
 		return text && /\/(\d+)-?/g.exec(text).pop();
 	};
 
@@ -169,7 +169,7 @@ function setupTuneTrackPlayer() {
 	};
 
 	Connector.getAlbum = () => {
-		let album = $('#track-album a').text();
+		const album = $('#track-album a').text();
 		if (album) {
 			if (album !== 'ccMixter') {
 				return album;

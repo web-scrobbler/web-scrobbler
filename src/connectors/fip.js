@@ -21,6 +21,6 @@ Connector.isPlaying = () => {
 Connector.applyFilter(filter);
 
 function removeYearFromArtist(text) {
-	let regexp = new RegExp(/\s+\(\d{4}\)(?=[^\s+(\d{4})]*$)/gm);
+	const regexp = new RegExp(/\s+\(\d{4}\)(?=[^\s+(\d{4})]*$)/gm);
 	return text.replace(regexp, '');
 }

@@ -26,13 +26,13 @@ const CATEGORIES = [
  * Array of categories allowed to be scrobbled.
  * @type {Array}
  */
-let allowedCategories = [];
+const allowedCategories = [];
 
 /**
  * "Video Id=Category" map.
  * @type {Map}
  */
-let categoryCache = new Map();
+const categoryCache = new Map();
 
 /**
  * CSS selector of video element. It's common for both players.
@@ -191,7 +191,7 @@ async function fillMoreSection() {
 
 	// Apply global style to prevent "More/Less" button flickering.
 	$('yt-formatted-string.less-button').text(ytShowMoreText);
-	let styleTag = $(`
+	const styleTag = $(`
 		<style id="tmp-style">
 			ytd-metadata-row-container-renderer {
 				visibility: hidden;

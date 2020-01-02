@@ -9,7 +9,7 @@ Connector.playerSelector = '.radioplayer-head';
 Connector.playButtonSelector = '#play';
 
 Connector.getArtistTrack = () => {
-	for (let selector of artistTrackSelectors) {
+	for (const selector of artistTrackSelectors) {
 		if ($(selector).length > 0) {
 			return Util.splitArtistTrack($(selector).text());
 		}

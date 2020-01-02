@@ -162,6 +162,10 @@ rules:
   # Require method and property shorthand syntax for object literals
   object-shorthand: [error, always]
 
+  # Require `const` declarations for variables
+  # that are never reassigned after declared
+  prefer-const: [error, { destructuring: all }]
+
   # Require template literals instead of string concatenation
   prefer-template: error
 

@@ -89,11 +89,11 @@ const URL_MATCH_DATA = [{
 }];
 
 function runTests() {
-	for (let data of URL_MATCH_DATA) {
-		let { description, pattern, urls, expected } = data;
+	for (const data of URL_MATCH_DATA) {
+		const { description, pattern, urls, expected } = data;
 
 		describe(`Pattern: ${pattern}`, () => {
-			for (let url of urls) {
+			for (const url of urls) {
 				it(`${description}: ${url}`, () => {
 					const actual = UrlMatch.test(url, pattern);
 					expect(expected).to.be.equal(actual);

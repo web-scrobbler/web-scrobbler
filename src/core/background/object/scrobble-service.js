@@ -40,7 +40,7 @@ define((require) => {
 		 * @return {Array} Bound scrobblers
 		 */
 		async bindAllScrobblers() {
-			for (let scrobbler of registeredScrobblers) {
+			for (const scrobbler of registeredScrobblers) {
 				try {
 					await scrobbler.getSession();
 					this.bindScrobbler(scrobbler);
@@ -69,7 +69,7 @@ define((require) => {
 		 */
 		unbindScrobbler(scrobbler) {
 			if (isScrobblerInArray(scrobbler, boundScrobblers)) {
-				let index = boundScrobblers.indexOf(scrobbler);
+				const index = boundScrobblers.indexOf(scrobbler);
 				boundScrobblers.splice(index, 1);
 
 				console.log(`Unbind ${scrobbler.getLabel()} scrobbler`);
@@ -84,7 +84,7 @@ define((require) => {
 		 * @return {Promise} Promise resolved with array of song info objects
 		 */
 		getSongInfo(song) {
-			let scrobblers = registeredScrobblers.filter((scrobbler) => {
+			const scrobblers = registeredScrobblers.filter((scrobbler) => {
 				return scrobbler.canLoadSongInfo();
 			});
 			console.log(`Send "get info" request: ${scrobblers.length}`);
@@ -136,10 +136,10 @@ define((require) => {
 		 * @return {Promise} Promise that will be resolved then the task will complete
 		 */
 		toggleLove(song, flag) {
-			let scrobblers = registeredScrobblers.filter((scrobbler) => {
+			const scrobblers = registeredScrobblers.filter((scrobbler) => {
 				return scrobbler.canLoveSong();
 			});
-			let requestName = flag ? 'love' : 'unlove';
+			const requestName = flag ? 'love' : 'unlove';
 			console.log(`Send "${requestName}" request: ${scrobblers.length}`);
 
 			return Promise.all(scrobblers.map((scrobbler) => {
@@ -164,7 +164,7 @@ define((require) => {
 		 * @return {Object} Found scrobbler object
 		 */
 		getScrobblerByLabel(label) {
-			for (let scrobbler of registeredScrobblers) {
+			for (const scrobbler of registeredScrobblers) {
 				if (scrobbler.getLabel() === label) {
 					return scrobbler;
 				}

@@ -733,11 +733,11 @@ const FILTERS_TEST_DATA = [{
  * @param  {Array} testData Array of test data
  */
 function testFilter(filter, fields, testData) {
-	for (let field of fields) {
+	for (const field of fields) {
 		describe(`${field} field`, () => {
-			for (let data of testData) {
-				let { description, source, expected } = data;
-				let actual = filter.filterField(field, source);
+			for (const data of testData) {
+				const { description, source, expected } = data;
+				const actual = filter.filterField(field, source);
 				it(description, () => {
 					expect(expected).to.be.equal(actual);
 				});
@@ -812,8 +812,9 @@ function shouldNotBeCalled() {
  * Test filters defined in `FILTERS_TEST_DATA`.
  */
 function testFilters() {
-	for (let data of FILTERS_TEST_DATA) {
-		let { description, filter, filterFunc, fields, testData } = data;
+	for (const data of FILTERS_TEST_DATA) {
+		let { filter } = data;
+		const { description, filterFunc, fields, testData } = data;
 
 		if (!filter && filterFunc) {
 			filter = createFilterFromFunc(fields, filterFunc);

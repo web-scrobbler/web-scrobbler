@@ -4,7 +4,7 @@
 Connector.playerSelector = '#content';
 
 // store the type of page
-let pageType = (function() {
+const pageType = (function() {
 	if ($('div.bcrumb h1 span.minitag-artist')[0]) {
 		return 'artist';
 	}
@@ -31,7 +31,7 @@ let pageType = (function() {
  */
 function searchComment(regEx) {
 	let result;
-	let pageDataNode = $('div.colr-sml-toppad').contents().filter(function() {
+	const pageDataNode = $('div.colr-sml-toppad').contents().filter(function() {
 		return this.nodeType === 8;
 	})[0];
 	if (pageDataNode) {
@@ -70,7 +70,7 @@ Connector.getAlbum = () => {
 		case 'album':
 			return $('div.gcol-electronic').closest('.colr-lrg-10pad').find('h5.txthd2').text();
 		case 'searchOrGenre': {
-			let albumName = $('div.gcol-electronic span.ptxt-album').text().trim().replace(/^"|"$/g, '');
+			const albumName = $('div.gcol-electronic span.ptxt-album').text().trim().replace(/^"|"$/g, '');
 			// Em-dash is used to show "no album" - Em-dash character code is 8212
 			if (albumName.charCodeAt(0) === 8212) {
 				return null;
@@ -100,10 +100,10 @@ Connector.getTrack = () => {
 
 Connector.getDuration = () => {
 	// the duration is in the last textNode
-	let durStr = $('div.gcol-electronic span.playtxt').contents().filter(function() {
+	const durStr = $('div.gcol-electronic span.playtxt').contents().filter(function() {
 		return this.nodeType === 3;
 	}).last().text().trim();
-	let m = /(\d{2}):(\d{2})/.exec(durStr);
+	const m = /(\d{2}):(\d{2})/.exec(durStr);
 	if (m) {
 		return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
 	}
@@ -111,7 +111,7 @@ Connector.getDuration = () => {
 };
 
 Connector.getUniqueID = () => {
-	let match = /(tid-\d+)/.exec($('div.play-item.gcol-electronic').attr('class'));
+	const match = /(tid-\d+)/.exec($('div.play-item.gcol-electronic').attr('class'));
 	if (match) {
 		return match[0];
 	}

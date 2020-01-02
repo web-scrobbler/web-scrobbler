@@ -63,7 +63,7 @@ function createPattern(pattern) {
  * @return {Boolean} Result
  */
 function test(string, pattern) {
-	let regex = createPattern(pattern);
+	const regex = createPattern(pattern);
 	if (!regex) {
 		return false;
 	}

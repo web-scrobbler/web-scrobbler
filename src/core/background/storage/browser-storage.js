@@ -89,7 +89,7 @@ define((require) => {
 	 * @throws {Error} if unknown namespace is specified
 	 */
 	function getStorage(namespace) {
-		let storageType = storageTypeMap[namespace];
+		const storageType = storageTypeMap[namespace];
 		switch (storageType) {
 			case SYNC:
 				return getSyncStorage(namespace);
@@ -115,7 +115,7 @@ define((require) => {
 	 * @return {Object} StorageWrapper instance
 	 */
 	function getLocalStorage(namespace) {
-		let storageArea = browser.storage.local;
+		const storageArea = browser.storage.local;
 		return new StorageWrapper(storageArea, namespace);
 	}
 
@@ -126,7 +126,7 @@ define((require) => {
 	 * @return {Object} StorageWrapper instance
 	 */
 	function getSyncStorage(namespace) {
-		let storageArea = browser.storage.sync || browser.storage.local;
+		const storageArea = browser.storage.sync || browser.storage.local;
 		return new StorageWrapper(storageArea, namespace);
 	}
 

@@ -3,8 +3,8 @@
 Connector.playerSelector = '.holder';
 
 Connector.getArtistTrack = () => {
-	let artist = $('#song_info h2').text();
-	let track = $('#song_info h3').text();
+	const artist = $('#song_info h2').text();
+	const track = $('#song_info h3').text();
 
 	if (artist === 'rawPlayer' || artist === 'loading...') {
 		return null;

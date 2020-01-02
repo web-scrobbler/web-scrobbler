@@ -13,7 +13,7 @@ Connector.trackArtSelector = [
 Connector.isTrackArtDefault = (url) => url.includes('solid_color');
 
 Connector.getUniqueID = () => {
-	let trackUrl = $('#player-nowplaying [href^="/track/"]').attr('href');
+	const trackUrl = $('#player-nowplaying [href^="/track/"]').attr('href');
 	if (trackUrl) {
 		return trackUrl.split('/').pop();
 	}

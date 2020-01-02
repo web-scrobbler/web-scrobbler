@@ -9,14 +9,14 @@ define((require) => {
 	class LastFm extends AudioScrobbler {
 		/** @override */
 		async getSongInfo(song) {
-			let params = {
+			const params = {
 				track: song.getTrack(),
 				artist: song.getArtist(),
 				method: 'track.getinfo',
 			};
 
 			try {
-				let { sessionName } = await this.getSession();
+				const { sessionName } = await this.getSession();
 				params.username = sessionName;
 			} catch (e) {
 				// Do nothing
@@ -26,13 +26,13 @@ define((require) => {
 				params.album = song.getAlbum();
 			}
 
-			let responseData = await this.sendRequest({ method: 'GET' }, params, false);
-			let result = AudioScrobbler.processResponse(responseData);
+			const responseData = await this.sendRequest({ method: 'GET' }, params, false);
+			const result = AudioScrobbler.processResponse(responseData);
 			if (!result.isOk()) {
 				throw new Error('Unable to load song info');
 			}
 
-			let data = this.parseSongInfo(responseData);
+			const data = this.parseSongInfo(responseData);
 			if (this.canLoveSong() && data) {
 				song.setLoveStatus(data.userloved);
 			}

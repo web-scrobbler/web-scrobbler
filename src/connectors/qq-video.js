@@ -4,14 +4,14 @@ const artistTrackRe = /(.+?)《(.+?)》/;
 
 function setupCoverPlayer() {
 	Connector.getArtistTrack = () => {
-		let text = $('.video_title ._base_title').attr('title');
+		const text = $('.video_title ._base_title').attr('title');
 		return extractArtistTrack(text);
 	};
 }
 
 function setupPagePlayer() {
 	Connector.getArtistTrack = () => {
-		let text = $('.video_title').attr('title');
+		const text = $('.video_title').attr('title');
 		return extractArtistTrack(text);
 	};
 }
@@ -28,7 +28,7 @@ function isPagePlayer() {
 
 // Example: 周华健《朋友》(KTV版)
 function extractArtistTrack(artistTrackStr) {
-	let match = artistTrackStr.match(artistTrackRe);
+	const match = artistTrackStr.match(artistTrackRe);
 	if (match) {
 		return { artist: match[1], track: match[2] };
 	}

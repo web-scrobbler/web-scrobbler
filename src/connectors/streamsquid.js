@@ -3,9 +3,9 @@
 Connector.playerSelector = '#player-bar';
 
 Connector.getArtistTrack = () => {
-	let trackElem = $('.queue-item-selected');
-	let artist = trackElem.data('artist-name');
-	let track = trackElem.data('track-name');
+	const trackElem = $('.queue-item-selected');
+	const artist = trackElem.data('artist-name');
+	const track = trackElem.data('track-name');
 
 	return { artist, track };
 };

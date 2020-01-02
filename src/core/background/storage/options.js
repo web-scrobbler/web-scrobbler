@@ -74,7 +74,7 @@ define((require) => {
 	 */
 	async function setupDefaultConfigValues() {
 		let data = await options.get();
-		for (let key in DEFAULT_OPTIONS) {
+		for (const key in DEFAULT_OPTIONS) {
 			if (data[key] === undefined) {
 				data[key] = DEFAULT_OPTIONS[key];
 			}
@@ -83,11 +83,11 @@ define((require) => {
 		options.debugLog([DISABLED_CONNECTORS]);
 
 		data = await connectorsOptions.get();
-		for (let connectorKey in DEFAULT_CONNECTOR_OPTIONS) {
+		for (const connectorKey in DEFAULT_CONNECTOR_OPTIONS) {
 			if (data[connectorKey] === undefined) {
 				data[connectorKey] = DEFAULT_CONNECTOR_OPTIONS[connectorKey];
 			} else {
-				for (let key in DEFAULT_CONNECTOR_OPTIONS[connectorKey]) {
+				for (const key in DEFAULT_CONNECTOR_OPTIONS[connectorKey]) {
 					if (data[connectorKey][key] === undefined) {
 						data[connectorKey][key] = DEFAULT_CONNECTOR_OPTIONS[connectorKey][key];
 					}
@@ -169,7 +169,7 @@ define((require) => {
 	 * @return {Boolean} Check result
 	 */
 	async function isConnectorEnabled(connector) {
-		let data = await options.get();
+		const data = await options.get();
 		return !data[DISABLED_CONNECTORS][connector.id] === true;
 	}
 

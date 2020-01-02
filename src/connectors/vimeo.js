@@ -5,12 +5,12 @@ Connector.playerSelector = '.player';
 Connector.artistTrackSelector = '.clip_main-content h1';
 
 Connector.getCurrentTime = () => {
-	let currentTimeStr = $('div.played').attr('aria-valuenow');
+	const currentTimeStr = $('div.played').attr('aria-valuenow');
 	return parseFloat(currentTimeStr);
 };
 
 Connector.getDuration = () => {
-	let durationStr = $('div.played').attr('aria-valuemax');
+	const durationStr = $('div.played').attr('aria-valuemax');
 	return parseFloat(durationStr);
 };
 

@@ -28,7 +28,7 @@ require([
 	function onSongLoaded() {
 		updatePopupView();
 
-		let isSongValid = song.flags.isValid || song.flags.isCorrectedByUser;
+		const isSongValid = song.flags.isValid || song.flags.isCorrectedByUser;
 		setEditMode(!(isSongValid || song.flags.isSkipped));
 	}
 
@@ -50,15 +50,15 @@ require([
 			return true;
 		}
 
-		let trackInfo = getTrackInfo();
-		for (let field in trackInfo) {
-			let fieldInputSelector = `#${field}-input`;
-			let inputText = $(fieldInputSelector).val();
+		const trackInfo = getTrackInfo();
+		for (const field in trackInfo) {
+			const fieldInputSelector = `#${field}-input`;
+			const inputText = $(fieldInputSelector).val();
 			if (!inputText) {
 				continue;
 			}
 
-			let fieldValue = trackInfo[field];
+			const fieldValue = trackInfo[field];
 			if (fieldValue !== inputText) {
 				return true;
 			}
@@ -68,11 +68,11 @@ require([
 	}
 
 	function fillMetadataLabels(trackInfo) {
-		for (let field of EDITED_TRACK_FIELDS) {
-			let fieldValue = trackInfo[field];
-			let fieldLabelSelector = `#${field}`;
+		for (const field of EDITED_TRACK_FIELDS) {
+			const fieldValue = trackInfo[field];
+			const fieldLabelSelector = `#${field}`;
 
-			let fieldUrl = song.metadata[FIELD_URL_MAP[field]];
+			const fieldUrl = song.metadata[FIELD_URL_MAP[field]];
 			if (fieldUrl) {
 				let fieldTitleTag;
 				switch (field) {
@@ -100,10 +100,10 @@ require([
 	}
 
 	function fillMetadataInputs() {
-		let trackInfo = getTrackInfo();
-		for (let field of EDITED_TRACK_FIELDS) {
-			let fieldValue = trackInfo[field];
-			let fieldInputSelector = `#${field}-input`;
+		const trackInfo = getTrackInfo();
+		for (const field of EDITED_TRACK_FIELDS) {
+			const fieldValue = trackInfo[field];
+			const fieldInputSelector = `#${field}-input`;
 
 			$(fieldInputSelector).val(fieldValue);
 		}
@@ -124,8 +124,8 @@ require([
 	}
 
 	function getTrackInfo() {
-		let trackInfo = {};
-		for (let field of EDITED_TRACK_FIELDS) {
+		const trackInfo = {};
+		for (const field of EDITED_TRACK_FIELDS) {
 			trackInfo[field] = song.processed[field] || song.parsed[field];
 		}
 
@@ -133,10 +133,10 @@ require([
 	}
 
 	function getEditedTrackInfo() {
-		let trackInfo = {};
+		const trackInfo = {};
 
-		for (let field of EDITED_TRACK_FIELDS) {
-			let fieldInputSelector = `#${field}-input`;
+		for (const field of EDITED_TRACK_FIELDS) {
+			const fieldInputSelector = `#${field}-input`;
 			trackInfo[field] = $(fieldInputSelector).val().trim();
 		}
 
@@ -146,8 +146,8 @@ require([
 	function configControls() {
 		$('#love').off('click');
 		$('#love').on('click', async function() {
-			let currentLoveStatus = $('#love').attr('last-fm-loved') === 'true';
-			let desiredLoveStatus = !currentLoveStatus;
+			const currentLoveStatus = $('#love').attr('last-fm-loved') === 'true';
+			const desiredLoveStatus = !currentLoveStatus;
 
 			const isLoved = await sendMessageToCurrentTab('REQUEST_TOGGLE_LOVE', {
 				isLoved: desiredLoveStatus
@@ -198,8 +198,8 @@ require([
 
 		$('#edit input').off('keyup');
 		$('#edit input').on('keyup', (e) => {
-			let isDataComplete = isSongDataComplete();
-			let isEnterKey = e.which === 13;
+			const isDataComplete = isSongDataComplete();
+			const isEnterKey = e.which === 13;
 
 			if (isEnterKey && isDataComplete) {
 				setEditMode(false);
@@ -299,7 +299,7 @@ require([
 
 	function correctSongInfo() {
 		if (isSongMetadataChanged()) {
-			let trackInfo = getEditedTrackInfo();
+			const trackInfo = getEditedTrackInfo();
 
 			fillMetadataLabels(trackInfo);
 			sendMessageToCurrentTab('REQUEST_CORRECT_SONG', trackInfo);
@@ -342,8 +342,8 @@ require([
 			return;
 		}
 
-		let title = $('#track-input').val();
-		let artist = $('#artist-input').val();
+		const title = $('#track-input').val();
+		const artist = $('#artist-input').val();
 
 		$('#track-input').val(artist);
 		$('#artist-input').val(title);
@@ -357,8 +357,8 @@ require([
 	}
 
 	function isSongDataComplete() {
-		let title = $('#track-input').val();
-		let artist = $('#artist-input').val();
+		const title = $('#track-input').val();
+		const artist = $('#artist-input').val();
 
 		return artist && title;
 	}

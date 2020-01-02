@@ -44,11 +44,11 @@ const DUMMY_CONNECTOR = {
  * @return {Object} Processed song object
  */
 function createSong(parsed, processed) {
-	let parsedDataCopy = Object.assign({}, parsed || PARSED_DATA);
-	let song = Song.buildFrom(parsedDataCopy, DUMMY_CONNECTOR);
+	const parsedDataCopy = Object.assign({}, parsed || PARSED_DATA);
+	const song = Song.buildFrom(parsedDataCopy, DUMMY_CONNECTOR);
 
 	if (processed) {
-		for (let field in processed) {
+		for (const field in processed) {
 			song.processed[field] = PROCESSED_DATA[field];
 		}
 	}
@@ -60,8 +60,8 @@ function createSong(parsed, processed) {
  * Test if song getters return parsed values.
  */
 function testParsedMetadataFields() {
-	let song = createSong();
-	let valuesMap = {
+	const song = createSong();
+	const valuesMap = {
 		artist: {
 			expected: PARSED_DATA.artist,
 			actual: song.getArtist()
@@ -84,9 +84,9 @@ function testParsedMetadataFields() {
 		}
 	};
 
-	for (let key in valuesMap) {
-		let expectedValue = valuesMap[key].expected;
-		let actualValue = valuesMap[key].actual;
+	for (const key in valuesMap) {
+		const expectedValue = valuesMap[key].expected;
+		const actualValue = valuesMap[key].actual;
 
 		it(`should return parsed ${key} value`, () => {
 			expect(expectedValue).to.be.equal(actualValue);
@@ -98,8 +98,8 @@ function testParsedMetadataFields() {
  * Test if song getters return processed values, except duration.
  */
 function testProcessedMetadataFields() {
-	let song = createSong(null, PROCESSED_DATA);
-	let valuesMap = {
+	const song = createSong(null, PROCESSED_DATA);
+	const valuesMap = {
 		artist: {
 			expected: PROCESSED_DATA.artist,
 			actual: song.getArtist()
@@ -119,9 +119,9 @@ function testProcessedMetadataFields() {
 		}
 	};
 
-	for (let key in valuesMap) {
-		let expectedValue = valuesMap[key].expected;
-		let actualValue = valuesMap[key].actual;
+	for (const key in valuesMap) {
+		const expectedValue = valuesMap[key].expected;
+		const actualValue = valuesMap[key].actual;
 
 		it(`should return processed ${key} value`, () => {
 			expect(expectedValue).to.be.equal(actualValue);
@@ -162,27 +162,27 @@ function testEquals() {
  */
 function testIsEmpty() {
 	it('should return true if song has no metadata', () => {
-		let songs = [
+		const songs = [
 			createSong({ artist: 'Artist', track: null }),
 			createSong({ artist: null, track: 'Track' }),
 			createSong({ artist: null, track: null })
 		];
 
-		for (let song of songs) {
+		for (const song of songs) {
 			expect(song.isEmpty()).to.be.true;
 		}
 	});
 
 	it('should return false if song has metadata', () => {
-		let song = createSong();
+		const song = createSong();
 		expect(song.isEmpty()).to.be.false;
 	});
 }
 
 function testGetUniqueId() {
 	it('should return unique ID if song has parsed unique ID', () => {
-		let uniqueId = 'unique';
-		let song = createSong({
+		const uniqueId = 'unique';
+		const song = createSong({
 			artist: 'Artist', track: 'Title', album: 'Album',
 			uniqueID: uniqueId
 		});
@@ -190,26 +190,26 @@ function testGetUniqueId() {
 	});
 
 	it('should return unique ID if song has no parsed unique ID', () => {
-		let uniqueId = '8021e94350ed56f71a673b08eaea0888';
-		let song = createSong({
+		const uniqueId = '8021e94350ed56f71a673b08eaea0888';
+		const song = createSong({
 			artist: 'Artist', track: 'Title', album: 'Album'
 		});
 		expect(song.getUniqueId()).to.be.equal(uniqueId);
 	});
 
 	it('should not return unique ID if song is empty', () => {
-		let song = createSong({});
+		const song = createSong({});
 		expect(song.getUniqueId()).to.be.null;
 	});
 }
 
 function testGetArtistTrackString() {
 	it('should return `Artist - Track` string if song has metadata', () => {
-		let song = createSong({ artist: 'Artist', track: 'Track' });
+		const song = createSong({ artist: 'Artist', track: 'Track' });
 		expect(song.getArtistTrackString()).to.be.equal('Artist — Track');
 	});
 	it('should return null value if song is empty', () => {
-		let song = createSong({ artist: null, track: null });
+		const song = createSong({ artist: null, track: null });
 		expect(song.getArtistTrackString()).to.be.null;
 	});
 }

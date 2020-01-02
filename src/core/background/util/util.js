@@ -219,7 +219,7 @@ define((require) => {
 			privacyFilenames.unshift(`_locales/${locale}/${PRIVACY_FILENAME}`);
 		}
 
-		for (let privacyFilename of privacyFilenames) {
+		for (const privacyFilename of privacyFilenames) {
 			if (await isFileExists(privacyFilename)) {
 				return privacyFilename;
 			}

@@ -113,9 +113,9 @@ function runTests() {
  * @param  {Object} testData Test data
  */
 function testFunction(func, testData) {
-	for (let data of testData) {
-		let { description, source, expected } = data;
-		let actual = func(source);
+	for (const data of testData) {
+		const { description, source, expected } = data;
+		const actual = func(source);
 
 		it(description, () => {
 			expect(actual).to.be.equal(expected);
@@ -127,9 +127,9 @@ function testFunction(func, testData) {
  * Test 'Util.hideStringInText' function.
  */
 function testHideStringInText() {
-	for (let data of HIDE_STRING_IN_TEXT_DATA) {
-		let { description, source, expected, string } = data;
-		let actual = Util.hideStringInText(string, source);
+	for (const data of HIDE_STRING_IN_TEXT_DATA) {
+		const { description, source, expected, string } = data;
+		const actual = Util.hideStringInText(string, source);
 
 		it(description, () => {
 			expect(actual).to.be.equal(expected);

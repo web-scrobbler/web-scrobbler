@@ -7,8 +7,8 @@ Connector.currentTimeSelector = '.timecode .time';
 Connector.durationSelector = '.timecode .total';
 
 Connector.getArtistTrack = () => {
-	let artistWithDash = $('.artist-name').text();
-	let track = $('.track-name').text();
+	const artistWithDash = $('.artist-name').text();
+	const track = $('.track-name').text();
 
 	if (artistWithDash && track) {
 		return Util.splitArtistTrack(artistWithDash + track);

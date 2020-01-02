@@ -38,8 +38,8 @@ Connector.isPlaying = () => {
  */
 function requestSongInfo() {
 	if (isNewSongPlaying()) {
-		let relativeUrl = $('#atitle a').attr('href');
-		let albumInfoUrl = `https://gaana.com${relativeUrl}`;
+		const relativeUrl = $('#atitle a').attr('href');
+		const albumInfoUrl = `https://gaana.com${relativeUrl}`;
 
 		fetchSongInfo(albumInfoUrl).then((data) => {
 			songInfo = data;
@@ -61,7 +61,7 @@ function resetSongInfo() {
  * @return {Boolean} True if new song is playing; false otherwise
  */
 function isNewSongPlaying() {
-	let track = $('#stitle').text();
+	const track = $('#stitle').text();
 	if (lastTrackTitle !== track) {
 		lastTrackTitle = track;
 		return true;
@@ -76,19 +76,19 @@ function isNewSongPlaying() {
  * @return {Promise} Promise that will be resolved with the song info
  */
 function fetchSongInfo(albumInfoUrl) {
-	let track = lastTrackTitle;
+	const track = lastTrackTitle;
 	let artist = null;
 
 	return fetch(albumInfoUrl).then((result) => {
 		return result.text();
 	}).then((html) => {
-		let $doc = $(html);
+		const $doc = $(html);
 
-		let songs = $doc.find('.s_l').toArray();
-		for (let song of songs) {
-			let songTitle = $(song).find('.s_title .sng_c').text();
+		const songs = $doc.find('.s_l').toArray();
+		for (const song of songs) {
+			const songTitle = $(song).find('.s_title .sng_c').text();
 			if (songTitle === track) {
-				let artists = $(song).find('.s_artist .sng_c').toArray();
+				const artists = $(song).find('.s_artist .sng_c').toArray();
 				artist = Util.joinArtists(artists);
 				break;
 			}

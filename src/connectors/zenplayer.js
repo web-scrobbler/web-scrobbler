@@ -9,12 +9,12 @@ Connector.currentTimeSelector = '.plyr__time--current';
 Connector.durationSelector = '.plyr__time--duration';
 
 Connector.getArtistTrack = () => {
-	let text = $(Connector.artistTrackSelector).text();
+	const text = $(Connector.artistTrackSelector).text();
 	return Util.processYtVideoTitle(text);
 };
 
 Connector.getUniqueID = () => {
-	let videoUrl = $('#zen-video-title').attr('href');
+	const videoUrl = $('#zen-video-title').attr('href');
 	return Util.getYtVideoIdFromUrl(videoUrl);
 };
 

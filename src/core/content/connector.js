@@ -489,7 +489,7 @@ function BaseConnector() {
 			return;
 		}
 
-		let scriptUrl = browser.runtime.getURL(scriptFile);
+		const scriptUrl = browser.runtime.getURL(scriptFile);
 		Util.injectScriptIntoDocument(scriptUrl);
 
 		console.log(`Web Scrobbler: Injected ${scriptFile}`);
@@ -525,7 +525,7 @@ function BaseConnector() {
 		 * immediately so we don't miss a quick play/pause/play or
 		 * pause/play/pause sequence.
 		 */
-		let isPlaying = this.isPlaying();
+		const isPlaying = this.isPlaying();
 		if (isPlaying !== currentState.isPlaying) {
 			this.stateChangedWorker();
 		} else {
@@ -677,17 +677,17 @@ function BaseConnector() {
 
 		isStateReset = false;
 
-		let changedFields = [];
-		let newState = this.getCurrentState();
+		const changedFields = [];
+		const newState = this.getCurrentState();
 
-		for (let key in currentState) {
+		for (const key in currentState) {
 			let newValue;
 			if (newState[key] || newState[key] === false) {
 				newValue = newState[key];
 			} else {
 				newValue = defaultState[key];
 			}
-			let oldValue = currentState[key];
+			const oldValue = currentState[key];
 
 			if (newValue !== oldValue) {
 				currentState[key] = newValue;
@@ -723,7 +723,7 @@ function BaseConnector() {
 	 * @return {Object} Current state
 	 */
 	this.getCurrentState = () => {
-		let newState = {
+		const newState = {
 			track: this.getTrack(),
 			artist: this.getArtist(),
 			album: this.getAlbum(),
@@ -765,7 +765,7 @@ function BaseConnector() {
 	 * @param  {Array} changedFields List of changed fields
 	 */
 	this.filterState = (changedFields) => {
-		for (let field of changedFields) {
+		for (const field of changedFields) {
 			let fieldValue = currentState[field];
 
 			switch (field) {

@@ -9,7 +9,7 @@ Connector.artistSelector = '#player .secondaryMetadata a:first';
 Connector.trackSelector = '#player .primaryMetadata a:first';
 
 Connector.getAlbum = () => {
-	let album = $('#player .imgWrapper .img').attr('alt');
+	const album = $('#player .imgWrapper .img').attr('alt');
 	return album.substr(album.indexOf('-') + 1);
 };
 

@@ -46,7 +46,7 @@ function setupSinglePlayer() {
 	Connector.artistSelector = '.artist a';
 
 	Connector.getUniqueID = () => {
-		let params = JSON.parse($('#PLOAD_PARAM').val());
+		const params = JSON.parse($('#PLOAD_PARAM').val());
 		return params.mid;
 	};
 }
@@ -58,7 +58,7 @@ function setupMobilePlayer() {
 	Connector.playButtonSelector = '#single_playbtn';
 
 	Connector.isPlaying = () => {
-		let text = $('#single_playbtn').css('background-image');
+		const text = $('#single_playbtn').css('background-image');
 		return text.includes('pause');
 	};
 
@@ -73,7 +73,7 @@ function setupMobilePlayer() {
 	Connector.durationSelector = '#totaltime';
 
 	Connector.getUniqueID = () => {
-		let params = JSON.parse($('.playing').attr('jsontext').replace(/'/g, '"'));
+		const params = JSON.parse($('.playing').attr('jsontext').replace(/'/g, '"'));
 		return params.mid;
 	};
 }

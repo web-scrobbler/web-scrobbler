@@ -207,7 +207,7 @@ define((require) => {
 				return;
 			}
 
-			let isSongChanged = this.isSongChanged(newState);
+			const isSongChanged = this.isSongChanged(newState);
 
 			if (isSongChanged || this.isReplayingSong) {
 				if (newState.isPlaying) {
@@ -474,7 +474,7 @@ define((require) => {
 				return;
 			}
 
-			let secondsToScrobble = Util.getSecondsToScrobble(duration);
+			const secondsToScrobble = Util.getSecondsToScrobble(duration);
 
 			if (secondsToScrobble !== -1) {
 				this.playbackTimer.update(secondsToScrobble);
@@ -495,7 +495,7 @@ define((require) => {
 		async setSongNowPlaying() {
 			this.currentSong.flags.isMarkedAsPlaying = true;
 
-			let results = await ScrobbleService.sendNowPlaying(this.currentSong);
+			const results = await ScrobbleService.sendNowPlaying(this.currentSong);
 			if (isAnyResult(results, ServiceCallResult.OK)) {
 				this.debugLog('Song set as now playing');
 				this.pageAction.setSongRecognized(this.currentSong);
@@ -523,7 +523,7 @@ define((require) => {
 		 * to be scrobbled.
 		 */
 		async scrobbleSong() {
-			let results = await ScrobbleService.scrobble(this.currentSong);
+			const results = await ScrobbleService.scrobble(this.currentSong);
 			if (isAnyResult(results, ServiceCallResult.OK)) {
 				this.debugLog('Scrobbled successfully');
 
@@ -567,7 +567,7 @@ define((require) => {
 	 * @return {Boolean} True if data is applied
 	 */
 	function isSongDataChanged(song, data) {
-		for (let field of Song.USER_FIELDS) {
+		for (const field of Song.USER_FIELDS) {
 			if (data[field]) {
 				return true;
 			}

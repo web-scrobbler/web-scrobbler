@@ -21,7 +21,7 @@ function setupArtistPlayer() {
 	Connector.durationSelector = 'span > .total';
 
 	Connector.isPlaying = () => {
-		let text = $('.playback-play-icon').css('backgroundPosition');
+		const text = $('.playback-play-icon').css('backgroundPosition');
 		return text.includes('-40');
 	};
 }

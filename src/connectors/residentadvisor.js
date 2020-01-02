@@ -102,9 +102,9 @@ Connector.isTrackArtDefault = (trackArtUrl) => {
 };
 
 function parseTitle(title) {
-	let contents = title.contents();
-	let track = contents.eq(0).text();
-	let titleWithoutTrack = contents.text().replace(track, '');
+	const contents = title.contents();
+	const track = contents.eq(0).text();
+	const titleWithoutTrack = contents.text().replace(track, '');
 	let artist = titleWithoutTrack.substr(3, titleWithoutTrack.length);
 	if (artist.indexOf(' on ') >= 0) {
 		// label remains i.e. "Daft Punk on Foo Recordings"

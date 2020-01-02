@@ -55,7 +55,7 @@
 			Util.debugLog(
 				`Player element (${Connector.playerSelector}) was not found in the page`, 'warn');
 
-			let playerObserver = new MutationObserver(() => {
+			const playerObserver = new MutationObserver(() => {
 				observeTarget = document.querySelector(Connector.playerSelector);
 				if (observeTarget) {
 					Util.debugLog(`Found ${Connector.playerSelector} using second MutationObserver.`);
@@ -65,7 +65,7 @@
 				}
 			});
 
-			let playerObserverConfig = {
+			const playerObserverConfig = {
 				childList: true, subtree: true,
 				attributes: false, characterData: false
 			};

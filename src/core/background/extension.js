@@ -176,7 +176,7 @@ define((require) => {
 	function onPortMessage(message, sender) {
 		switch (message.type) {
 			case 'EVENT_STATE_CHANGED': {
-				let ctrl = tabControllers[sender.tab.id];
+				const ctrl = tabControllers[sender.tab.id];
 				if (ctrl) {
 					ctrl.onStateChanged(message.data);
 				}
@@ -197,7 +197,7 @@ define((require) => {
 			return;
 		}
 
-		let result = await Inject.onTabsUpdated(tab);
+		const result = await Inject.onTabsUpdated(tab);
 		switch (result.type) {
 			case InjectResult.NO_MATCH: {
 				unloadController(tabId);
@@ -208,7 +208,7 @@ define((require) => {
 			case InjectResult.MATCHED_AND_INJECTED: {
 				unloadController(tabId);
 
-				let enabled = result.type === InjectResult.MATCHED_AND_INJECTED;
+				const enabled = result.type === InjectResult.MATCHED_AND_INJECTED;
 				const ctrl = new Controller(tabId, result.connector, enabled);
 				ctrl.onSongUpdated = async(song) => {
 					try {
@@ -270,26 +270,26 @@ define((require) => {
 	function updateContextMenu(tabId) {
 		browser.contextMenus.removeAll();
 
-		let controller = tabControllers[tabId];
+		const controller = tabControllers[tabId];
 		if (!controller) {
 			return;
 		}
-		let connector = controller.getConnector();
+		const connector = controller.getConnector();
 
 		if (controller.isEnabled) {
-			let title1 = browser.i18n.getMessage('menuDisableConnector', connector.label);
+			const title1 = browser.i18n.getMessage('menuDisableConnector', connector.label);
 			addContextMenuItem(title1, () => {
 				setConnectorState(controller, false);
 				updateContextMenu(tabId);
 			});
 
-			let title2 = browser.i18n.getMessage('menuDisableUntilTabClosed');
+			const title2 = browser.i18n.getMessage('menuDisableUntilTabClosed');
 			addContextMenuItem(title2, () => {
 				controller.setEnabled(false);
 				updateContextMenu(tabId);
 			});
 		} else {
-			let title = browser.i18n.getMessage('menuEnableConnector', connector.label);
+			const title = browser.i18n.getMessage('menuEnableConnector', connector.label);
 			addContextMenuItem(title, () => {
 				setConnectorState(controller, true);
 				updateContextMenu(tabId);
@@ -316,8 +316,8 @@ define((require) => {
 	 * local storage by current one.
 	 */
 	async function updateVersionInStorage() {
-		let storage = BrowserStorage.getStorage(BrowserStorage.CORE);
-		let data = await storage.get();
+		const storage = BrowserStorage.getStorage(BrowserStorage.CORE);
+		const data = await storage.get();
 
 		data.appVersion = extVersion;
 		await storage.set(data);
@@ -330,10 +330,10 @@ define((require) => {
 	 * @param  {Number} tabId Tab ID
 	 */
 	function unloadController(tabId) {
-		let controller = tabControllers[tabId];
+		const controller = tabControllers[tabId];
 
 		if (controller) {
-			let label = controller.getConnector().label;
+			const label = controller.getConnector().label;
 			console.log(`Tab ${tabId}: Remove controller for ${label} connector`);
 
 			controller.finish();
@@ -354,7 +354,7 @@ define((require) => {
 	 */
 	async function notifyOfNotableChanges() {
 		if (versionsToNotify.includes(extVersion)) {
-			let data = await notificationStorage.get();
+			const data = await notificationStorage.get();
 			if (!data.changelog) {
 				data.changelog = {};
 			}
@@ -378,7 +378,7 @@ define((require) => {
 	 */
 	async function authenticateScrobbler(scrobbler) {
 		try {
-			let authUrl = await scrobbler.getAuthUrl();
+			const authUrl = await scrobbler.getAuthUrl();
 
 			ScrobbleService.bindScrobbler(scrobbler);
 			browser.tabs.create({ url: authUrl });
@@ -386,7 +386,7 @@ define((require) => {
 			console.log(`Unable to get auth URL for ${scrobbler.getLabel()}`);
 
 			Notifications.showSignInError(scrobbler, () => {
-				let statusUrl = scrobbler.getStatusUrl();
+				const statusUrl = scrobbler.getStatusUrl();
 				if (statusUrl) {
 					browser.tabs.create({ url: statusUrl });
 				}
@@ -429,16 +429,16 @@ define((require) => {
 		// track background page loaded - happens once per browser session
 		GA.pageview(`/background-loaded?version=${extVersion}`);
 
-		let boundScrobblers = await ScrobbleService.bindAllScrobblers();
+		const boundScrobblers = await ScrobbleService.bindAllScrobblers();
 		if (boundScrobblers.length > 0) {
-			for (let scrobbler of boundScrobblers) {
+			for (const scrobbler of boundScrobblers) {
 				GA.event('core', 'bind', scrobbler.getLabel());
 			}
 		} else {
 			console.warn('No scrobblers are bound');
 
 			if (await isAuthNotificationAllowed()) {
-				let authUrl = browser.runtime.getURL('/ui/options/index.html#accounts');
+				const authUrl = browser.runtime.getURL('/ui/options/index.html#accounts');
 				try {
 					await Notifications.showAuthNotification(() => {
 						browser.tabs.create({ url: authUrl });

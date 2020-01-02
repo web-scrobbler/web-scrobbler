@@ -12,8 +12,8 @@ define((require) => {
 	 * @param  {Object} song Song object
 	 */
 	function process(song) {
-		for (let field of Song.BASE_FIELDS) {
-			let fieldValue = song.processed[field];
+		for (const field of Song.BASE_FIELDS) {
+			const fieldValue = song.processed[field];
 			if (typeof fieldValue === 'string' && fieldValue) {
 				song.processed[field] = fieldValue.normalize();
 			}

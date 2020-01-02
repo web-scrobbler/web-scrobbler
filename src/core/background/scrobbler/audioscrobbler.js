@@ -39,14 +39,14 @@ define((require) => {
 			 * See http://www.last.fm/api/show/auth.getToken
 			 */
 
-			let params = {
+			const params = {
 				method: 'auth.gettoken',
 			};
 			let token = null;
-			let data = await this.storage.get();
+			const data = await this.storage.get();
 
 			try {
-				let responseData = await this.sendRequest(
+				const responseData = await this.sendRequest(
 					{ method: 'GET' }, params, { signed: false }
 				);
 				token = responseData.token;
@@ -76,13 +76,13 @@ define((require) => {
 			 * which is then returned.
 			 */
 
-			let data = await this.storage.get();
+			const data = await this.storage.get();
 
 			/*
 			 * if we have a token it means it is fresh and we
 			 * want to trade it for a new session ID
 			 */
-			let token = data.token || null;
+			const token = data.token || null;
 			if (token !== null) {
 				let session = {};
 
@@ -113,14 +113,14 @@ define((require) => {
 
 		/** @override */
 		async isReadyForGrantAccess() {
-			let data = await this.storage.get();
+			const data = await this.storage.get();
 			return data.token;
 		}
 
 		/** @override */
 		async sendNowPlaying(song) {
-			let { sessionID } = await this.getSession();
-			let params = {
+			const { sessionID } = await this.getSession();
+			const params = {
 				method: 'track.updatenowplaying',
 				track: song.getTrack(),
 				artist: song.getArtist(),
@@ -139,14 +139,14 @@ define((require) => {
 				params.duration = song.getDuration();
 			}
 
-			let response = await this.sendRequest({ method: 'POST' }, params);
+			const response = await this.sendRequest({ method: 'POST' }, params);
 			return AudioScrobbler.processResponse(response);
 		}
 
 		/** @override */
 		async scrobble(song) {
-			let { sessionID } = await this.getSession();
-			let params = {
+			const { sessionID } = await this.getSession();
+			const params = {
 				method: 'track.scrobble',
 				'timestamp[0]': song.metadata.startTimestamp,
 				'track[0]': song.getTrack(),
@@ -162,14 +162,14 @@ define((require) => {
 				params['albumArtist[0]'] = song.getAlbumArtist();
 			}
 
-			let response = await this.sendRequest({ method: 'POST' }, params);
+			const response = await this.sendRequest({ method: 'POST' }, params);
 
-			let result = AudioScrobbler.processResponse(response);
+			const result = AudioScrobbler.processResponse(response);
 			if (result.isOk()) {
 				const scrobbles = response.scrobbles;
 
 				if (scrobbles) {
-					let acceptedCount = scrobbles['@attr'].accepted;
+					const acceptedCount = scrobbles['@attr'].accepted;
 					if (acceptedCount === '0') {
 						return new ServiceCallResult(ServiceCallResult.IGNORED);
 					}
@@ -183,15 +183,15 @@ define((require) => {
 
 		/** @override */
 		async toggleLove(song, isLoved) {
-			let { sessionID } = await this.getSession();
-			let params = {
+			const { sessionID } = await this.getSession();
+			const params = {
 				method: isLoved ? 'track.love' : 'track.unlove',
 				track: song.getTrack(),
 				artist: song.getArtist(),
 				sk: sessionID
 			};
 
-			let response = await this.sendRequest({ method: 'POST' }, params);
+			const response = await this.sendRequest({ method: 'POST' }, params);
 			return AudioScrobbler.processResponse(response);
 		}
 
@@ -210,16 +210,16 @@ define((require) => {
 		 * @return {Object} Session data
 		 */
 		async tradeTokenForSession(token) {
-			let params = { method: 'auth.getsession', token };
+			const params = { method: 'auth.getsession', token };
 
-			let response = await this.sendRequest({ method: 'GET' }, params);
-			let result = AudioScrobbler.processResponse(response);
+			const response = await this.sendRequest({ method: 'GET' }, params);
+			const result = AudioScrobbler.processResponse(response);
 			if (!result.isOk()) {
 				throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
 			}
 
-			let sessionName = response.session.name;
-			let sessionID = response.session.key;
+			const sessionName = response.session.name;
+			const sessionID = response.session.key;
 
 			return { sessionID, sessionName };
 		}
@@ -250,8 +250,8 @@ define((require) => {
 				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
 			}
 
-			let responseStr = JSON.stringify(responseData, null, 2);
-			let debugMsg = hideUserData(responseData, responseStr);
+			const responseStr = JSON.stringify(responseData, null, 2);
+			const debugMsg = hideUserData(responseData, responseStr);
 
 			if (!response.ok) {
 				this.debugLog(`${params.method} response:\n${debugMsg}`, 'error');
@@ -287,10 +287,10 @@ define((require) => {
 		 * @return {String} Signed parameters
 		 */
 		generateSign(params) {
-			let keys = Object.keys(params).sort();
+			const keys = Object.keys(params).sort();
 			let o = '';
 
-			for (let key of keys) {
+			for (const key of keys) {
 				if (['format', 'callback'].includes(key)) {
 					continue;
 				}

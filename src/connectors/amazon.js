@@ -37,7 +37,7 @@ Connector.durationSelector = '#currentDuration';
 Connector.trackArtSelector = '.rightSide .albumArtWrapper img';
 
 Connector.getUniqueID = () => {
-	let optionsHref = $('.buttonOption.main[title=Options]').attr('href');
+	const optionsHref = $('.buttonOption.main[title=Options]').attr('href');
 	if (optionsHref) {
 		return optionsHref.replace(/[\w|\W]+adriveId=/, '');
 	}

@@ -13,7 +13,7 @@ define((require) => {
 	class ListenBrainz extends BaseScrobbler {
 		/** @override */
 		async getAuthUrl() {
-			let data = await this.storage.get();
+			const data = await this.storage.get();
 
 			data.isAuthStarted = true;
 			delete data.sessionID;
@@ -27,7 +27,7 @@ define((require) => {
 
 		/** @override */
 		async getSession() {
-			let data = await this.storage.get();
+			const data = await this.storage.get();
 			if (data.isAuthStarted) {
 				let session = {};
 
@@ -58,7 +58,7 @@ define((require) => {
 
 		/** @override */
 		async isReadyForGrantAccess() {
-			let data = await this.storage.get();
+			const data = await this.storage.get();
 			return data.isAuthStarted;
 		}
 
@@ -67,7 +67,7 @@ define((require) => {
 			const { sessionID } = await this.getSession();
 			const trackMeta = this.makeTrackMetadata(song);
 
-			let params = {
+			const params = {
 				listen_type: 'playing_now',
 				payload: [{
 					track_metadata: trackMeta
@@ -78,9 +78,9 @@ define((require) => {
 
 		/** @override */
 		async scrobble(song) {
-			let { sessionID } = await this.getSession();
+			const { sessionID } = await this.getSession();
 
-			let params = {
+			const params = {
 				listen_type: 'single',
 				payload: [{
 					listened_at: song.metadata.startTimestamp,
@@ -91,7 +91,7 @@ define((require) => {
 		}
 
 		async sendRequest(params, sessionID) {
-			let requestInfo = {
+			const requestInfo = {
 				method: 'POST',
 				headers: {
 					'Authorization': `Token ${sessionID}`,
@@ -129,14 +129,14 @@ define((require) => {
 		}
 
 		async requestSession() {
-			let authUrls = [
+			const authUrls = [
 				listenBrainzTokenPage,
 				this.authUrl,
 			];
 
 			let session = null;
 
-			for (let url of authUrls) {
+			for (const url of authUrls) {
 				try {
 					session = await this.fetchSession(url);
 				} catch (e) {
@@ -150,7 +150,7 @@ define((require) => {
 			}
 
 			if (session) {
-				let safeId = Util.hideObjectValue(session.sessionID);
+				const safeId = Util.hideObjectValue(session.sessionID);
 				this.debugLog(`Session ID: ${safeId}`);
 
 				return session;
@@ -162,10 +162,10 @@ define((require) => {
 		async fetchSession(url) {
 			this.debugLog(`Use ${url}`);
 			// NOTE: Use 'same-origin' credentials to fix login on Firefox ESR 60.
-			let promise = fetch(url, { method: 'GET', credentials: 'same-origin' });
-			let timeout = BaseScrobbler.REQUEST_TIMEOUT;
+			const promise = fetch(url, { method: 'GET', credentials: 'same-origin' });
+			const timeout = BaseScrobbler.REQUEST_TIMEOUT;
 
-			let response = await Util.timeoutPromise(timeout, promise);
+			const response = await Util.timeoutPromise(timeout, promise);
 			if (response.ok) {
 				const parser = new DOMParser();
 

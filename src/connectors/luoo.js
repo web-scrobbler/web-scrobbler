@@ -3,12 +3,12 @@
 setupConnector();
 
 function setupConnector() {
-	let playerSelectors = [
+	const playerSelectors = [
 		'#luooPlayerPlaylist.vol-tracklist',
 		'.musician-banner, .musician-wrapper',
 		'.item [id^=player]'
 	];
-	let index = playerSelectors.findIndex((playerSelector) => !!$(playerSelector).length);
+	const index = playerSelectors.findIndex((playerSelector) => !!$(playerSelector).length);
 	if (index > -1) {
 		setupCommonProperties();
 
@@ -52,7 +52,7 @@ function setupCommonProperties() {
 
 function setupVolEssayPlayer() {
 	Connector.getArtistTrack = () => {
-		let [track, artist] = $('a.jp-playlist-current').contents().map((i, e) => $(e).text().slice(i ? 3 : 0)).get() ||
+		const [track, artist] = $('a.jp-playlist-current').contents().map((i, e) => $(e).text().slice(i ? 3 : 0)).get() ||
 			Array(2).fill(null);
 		return { artist, track };
 	};
@@ -88,8 +88,8 @@ function setupSearchPlayer() {
 	};
 
 	Connector.getTrackInfo = () => {
-		let text = this.getCurrentItem().find('.content').text();
-		let [album, artist] = text.trim().split(', ').map((text) => text.replace(/^\S+\s/g, '')) || Array(2).fill(null);
+		const text = this.getCurrentItem().find('.content').text();
+		const [album, artist] = text.trim().split(', ').map((text) => text.replace(/^\S+\s/g, '')) || Array(2).fill(null);
 		return { album, artist };
 	};
 

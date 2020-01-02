@@ -17,6 +17,6 @@ Connector.currentTimeSelector = '.change-time';
 Connector.durationSelector = '.all-time';
 
 Connector.getUniqueID = () => {
-	let text = document.location.hash.substr(1);
+	const text = document.location.hash.substr(1);
 	return text.split('&').shift().split('=').pop();
 };

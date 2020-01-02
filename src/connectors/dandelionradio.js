@@ -14,7 +14,7 @@ Connector.trackArtSelector = '#bio img';
 Connector.isPlaying = () => $('#jp_container_1').hasClass('jp-state-playing');
 
 Connector.isScrobblingAllowed = () => {
-	let artistTrack = Connector.getArtistTrack();
+	const artistTrack = Connector.getArtistTrack();
 
 	return artistTrack !== 'Dandelion Radio - next show on the hour';
 };

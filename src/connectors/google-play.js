@@ -3,7 +3,7 @@
 Connector.playerSelector = '#player';
 
 Connector.getTrackArt = () => {
-	let trackArtUrl = $('#playerBarArt').attr('src');
+	const trackArtUrl = $('#playerBarArt').attr('src');
 	if (trackArtUrl) {
 		return trackArtUrl.replace('=s90-c-e100', '');
 	}

@@ -11,7 +11,7 @@
 const VIDEO_SELECTOR = '.html5-main-video';
 
 function setupConnector() {
-	let videoElement = $(VIDEO_SELECTOR);
+	const videoElement = $(VIDEO_SELECTOR);
 	// Skip frames with no video element
 	if (videoElement.length === 0) {
 		return;
@@ -20,7 +20,7 @@ function setupConnector() {
 	videoElement.on('timeupdate', Connector.onStateChanged);
 
 	Connector.getArtistTrack = () => {
-		let videoTitle = $('.ytp-title-link').text();
+		const videoTitle = $('.ytp-title-link').text();
 		return Util.processYtVideoTitle(videoTitle);
 	};
 
@@ -33,7 +33,7 @@ function setupConnector() {
 	};
 
 	Connector.getUniqueID = () => {
-		let videoUrl = $('.ytp-title-link').attr('href');
+		const videoUrl = $('.ytp-title-link').attr('href');
 		return Util.getYtVideoIdFromUrl(videoUrl);
 	};
 

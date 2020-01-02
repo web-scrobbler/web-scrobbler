@@ -34,7 +34,7 @@ define((require) => {
 		 * @param  {Object} data Data to save
 		 */
 		async set(data) {
-			let dataToSave = {};
+			const dataToSave = {};
 			dataToSave[this.namespace] = data;
 
 			await this.storage.set(dataToSave);
@@ -58,7 +58,7 @@ define((require) => {
 		async debugLog(hiddenKeys = []) {
 			const data = await this.get();
 
-			for (let key of hiddenKeys) {
+			for (const key of hiddenKeys) {
 				if (key in data) {
 					data[key] = Util.hideObjectValue(data[key]);
 				}

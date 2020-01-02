@@ -16,13 +16,13 @@ const INFO_ADDITIONAL = 16;
 setupEventListeners();
 
 function sendUpdateEvent(type) {
-	let audioObject = window.ap._currentAudio;
+	const audioObject = window.ap._currentAudio;
 	if (!audioObject) {
 		return;
 	}
 
-	let audioElImpl = window.ap._impl._currentAudioEl || {};
-	let { currentTime } = audioElImpl;
+	const audioElImpl = window.ap._impl._currentAudioEl || {};
+	const { currentTime } = audioElImpl;
 
 	/*
 	 * VK player sets current time equal to song duration on startup.
@@ -33,10 +33,10 @@ function sendUpdateEvent(type) {
 	if (currentTime === audioObject[INFO_DURATION]) {
 		return;
 	}
-	let trackArt = extractTrackArt(audioObject[INFO_TRACK_ARTS]);
+	const trackArt = extractTrackArt(audioObject[INFO_TRACK_ARTS]);
 
 	let track = audioObject[INFO_TRACK];
-	let additionalInfo = audioObject[INFO_ADDITIONAL];
+	const additionalInfo = audioObject[INFO_ADDITIONAL];
 	if (additionalInfo) {
 		track = `${track} (${additionalInfo})`;
 	}
@@ -56,7 +56,7 @@ function sendUpdateEvent(type) {
 }
 
 function setupEventListeners() {
-	for (let e of ['start', 'progress', 'pause', 'stop']) {
+	for (const e of ['start', 'progress', 'pause', 'stop']) {
 		window.ap.subscribers.push({
 			et: e,
 			cb: sendUpdateEvent.bind(null, e),
@@ -70,6 +70,6 @@ function setupEventListeners() {
  * @return {String} Track art URL
  */
 function extractTrackArt(trackArts) {
-	let trackArtArr = trackArts.split(',');
+	const trackArtArr = trackArts.split(',');
 	return trackArtArr.pop();
 }

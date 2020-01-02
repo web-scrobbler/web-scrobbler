@@ -31,7 +31,7 @@ define((require) => {
 	 */
 	async function isAvailable() {
 		// @ifdef CHROME
-		let platform = await Util.getPlatformName();
+		const platform = await Util.getPlatformName();
 		if (platform === 'mac') {
 			return !await Util.isFullscreenMode();
 		}
@@ -89,12 +89,12 @@ define((require) => {
 			options.isClickable = true;
 		}
 
-		for (let key in DEFAULT_OPTIONS_VALUES) {
+		for (const key in DEFAULT_OPTIONS_VALUES) {
 			if (options[key]) {
 				continue;
 			}
 
-			let defaultValue = DEFAULT_OPTIONS_VALUES[key];
+			const defaultValue = DEFAULT_OPTIONS_VALUES[key];
 			options[key] = defaultValue;
 		}
 
@@ -121,7 +121,7 @@ define((require) => {
 			browser.runtime.getURL('/icons/cover_art_default.png');
 		// @ifdef CHROME
 		let message = song.getArtist();
-		let title = song.getTrack();
+		const title = song.getTrack();
 		// @endif
 		/* @ifdef FIREFOX
 		let message = `${song.getTrack()}\n${song.getArtist()}`;
@@ -139,7 +139,7 @@ define((require) => {
 			message = `${message}\n${userPlayCountStr}`;
 		}
 
-		let options = {
+		const options = {
 			iconUrl, title, message,
 
 			// @ifdef CHROME
@@ -181,7 +181,7 @@ define((require) => {
 	 * @param  {Function} onClicked Function that will be called on notification click
 	 */
 	function showSignInError(scrobbler, onClicked) {
-		let errorMessage = i18n('notificationUnableSignIn', scrobbler.label);
+		const errorMessage = i18n('notificationUnableSignIn', scrobbler.label);
 		showError(errorMessage, onClicked);
 	}
 
@@ -194,7 +194,7 @@ define((require) => {
 			return;
 		}
 
-		let options = {
+		const options = {
 			iconUrl: browser.runtime.getURL('icons/cover_art_unknown.png'),
 			title: i18n('notificationNotRecognized'),
 			message: i18n('notificationNotRecognizedText')

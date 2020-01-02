@@ -50,13 +50,13 @@ const Util = {
 		let val = 0;
 		let seconds = 0;
 
-		let isNegative = s.startsWith('-');
+		const isNegative = s.startsWith('-');
 		if (isNegative) {
 			s = s.substr(1);
 		}
 
 		for (let i = 0; i < 3; i++) {
-			let idx = s.lastIndexOf(':');
+			const idx = s.lastIndexOf(':');
 			if (idx > -1) {
 				val = parseInt(s.substr(idx + 1), 10);
 				seconds += val * Math.pow(60, i);
@@ -87,8 +87,8 @@ const Util = {
 			return null;
 		}
 
-		for (let sep of separators || this.separators) {
-			let index = str.indexOf(sep);
+		for (const sep of separators || this.separators) {
+			const index = str.indexOf(sep);
 			if (index > -1) {
 				return { index, length: sep.length };
 			}
@@ -117,7 +117,7 @@ const Util = {
 	 * @return {Object} Object contains artist and track fields
 	 */
 	splitArtistTrack(str, separators = null, { swap = false } = {}) {
-		let [artist, track] = this.splitString(str, separators, { swap });
+		const [artist, track] = this.splitString(str, separators, { swap });
 		return { artist, track };
 	},
 
@@ -152,7 +152,7 @@ const Util = {
 		let second = null;
 
 		if (str) {
-			let separator = this.findSeparator(str, separators);
+			const separator = this.findSeparator(str, separators);
 
 			if (separator !== null) {
 				first = str.substr(0, separator.index);
@@ -189,7 +189,7 @@ const Util = {
 	 * @return {String} Track art URL
 	 */
 	extractUrlFromCssProperty(cssProperty) {
-		let match = /url\((['"]?)(.*)\1\)/.exec(cssProperty);
+		const match = /url\((['"]?)(.*)\1\)/.exec(cssProperty);
 		if (match) {
 			return match[2].trim();
 		}
@@ -201,7 +201,7 @@ const Util = {
 	 * @param {String} scriptUrl script URL
 	 */
 	injectScriptIntoDocument(scriptUrl) {
-		let script = document.createElement('script');
+		const script = document.createElement('script');
 		script.src = scriptUrl;
 		script.onload = function() {
 			this.parentNode.removeChild(this);
@@ -236,11 +236,11 @@ const Util = {
 			}
 		}
 		return function() {
-			let now = Date.now();
+			const now = Date.now();
 			if (!previous && options.leading === false) {
 				previous = now;
 			}
-			let remaining = wait - (now - previous);
+			const remaining = wait - (now - previous);
 			context = this;
 			args = arguments;
 			if (remaining <= 0 || remaining > wait) {
@@ -453,11 +453,11 @@ const Util = {
 		}
 
 		// Remove [genre] or 【genre】 from the beginning of the title
-		let title = videoTitle.replace(/^((\[[^\]]+\])|(【[^】]+】))\s*-*\s*/i, '');
+		const title = videoTitle.replace(/^((\[[^\]]+\])|(【[^】]+】))\s*-*\s*/i, '');
 
 		// Try to match one of the regexps
-		for (let regExp of this.ytTitleRegExps) {
-			let artistTrack = title.match(regExp.pattern);
+		for (const regExp of this.ytTitleRegExps) {
+			const artistTrack = title.match(regExp.pattern);
 			if (artistTrack) {
 				artist = artistTrack[regExp.groups.artist];
 				track = artistTrack[regExp.groups.track];
@@ -529,7 +529,7 @@ const Util = {
 			return null;
 		}
 
-		let match = videoUrl.match(this.ytVideoIdRegExp);
+		const match = videoUrl.match(this.ytVideoIdRegExp);
 		if (match) {
 			return match[7];
 		}

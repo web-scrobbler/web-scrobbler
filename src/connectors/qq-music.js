@@ -7,7 +7,7 @@ Connector.artistSelector = '#singer_name a';
 Connector.trackSelector = '#song_name a';
 
 Connector.getUniqueID = () => {
-	let text = $('#song_name a').attr('href');
+	const text = $('#song_name a').attr('href');
 	return text.split('/').pop().split('.html').shift();
 };
 

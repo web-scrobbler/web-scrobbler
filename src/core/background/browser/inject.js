@@ -81,15 +81,15 @@ define((require) => {
 	 */
 	async function onTabsUpdated(tab) {
 		// Asynchronously preload all custom patterns and then start matching
-		let customPatterns = await CustomPatterns.getAllPatterns();
-		for (let connector of connectors) {
+		const customPatterns = await CustomPatterns.getAllPatterns();
+		for (const connector of connectors) {
 			let patterns = connector.matches || [];
 
 			if (customPatterns[connector.id]) {
 				patterns = patterns.concat(customPatterns[connector.id]);
 			}
 
-			for (let pattern of patterns) {
+			for (const pattern of patterns) {
 				if (UrlMatch.test(tab.url, pattern)) {
 					if (await isConnectorInjected(tab.id)) {
 						return new InjectResult(InjectResult.ALREADY_INJECTED, connector);

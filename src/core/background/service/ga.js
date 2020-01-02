@@ -80,10 +80,10 @@ define((require) => {
 	 * @return {String} Client ID
 	 */
 	function readClientId() {
-		let match = document.cookie.match('(?:^|;)\\s*_ga=([^;]*)');
+		const match = document.cookie.match('(?:^|;)\\s*_ga=([^;]*)');
 		if (match) {
-			let gaCookieValue = match[1];
-			let rawGaCid = decodeURIComponent(gaCookieValue);
+			const gaCookieValue = match[1];
+			const rawGaCid = decodeURIComponent(gaCookieValue);
 			return rawGaCid.match(/(\d+\.\d+)$/)[1];
 		}
 
@@ -96,9 +96,9 @@ define((require) => {
 	 * @return {String} Client ID
 	 */
 	function generateClientId() {
-		let random1 = Math.round(2147483647 * Math.random());
-		let random2 = Math.round(2147483647 * Math.random());
-		let clientId = `${random1}.${random2}`;
+		const random1 = Math.round(2147483647 * Math.random());
+		const random2 = Math.round(2147483647 * Math.random());
+		const clientId = `${random1}.${random2}`;
 
 		return clientId;
 	}

@@ -8,17 +8,17 @@ Connector.trackArtSelector = '#d-album-art > #d-image img';
 
 Connector.getArtistTrack = () => {
 	if (isPlayingLiveRadio()) {
-		let songTitle = $('.d-queue-info .song-title').text();
+		const songTitle = $('.d-queue-info .song-title').text();
 		return Util.splitArtistTrack(songTitle);
 	}
 
-	let artist = $('#d-info-text .d-sub-text-1').text();
-	let track = $('#d-info-text .d-main-text').text();
+	const artist = $('#d-info-text .d-sub-text-1').text();
+	const track = $('#d-info-text .d-main-text').text();
 	return { artist, track };
 };
 
 Connector.isPlaying = () => {
-	let duration = Connector.getDuration();
+	const duration = Connector.getDuration();
 
 	/*
 	 * The app doesn't update the remaining and elapsed times straight away

@@ -28,8 +28,8 @@ function testStorage(type, storage) {
 		});
 
 		it('should update storage', () => {
-			let newData = { test: 'ok', key: 'value' };
-			let dataToAdd = { key: 'value' };
+			const newData = { test: 'ok', key: 'value' };
+			const dataToAdd = { key: 'value' };
 			return storage.update(dataToAdd).then(() => {
 				return storage.get();
 			}).then((data) => {
@@ -51,13 +51,13 @@ function testStorage(type, storage) {
  * Run all tests.
  */
 function runTests() {
-	let storages = {
+	const storages = {
 		local: BrowserStorage.getLocalStorage('Local'),
 		sync: BrowserStorage.getSyncStorage('Sync')
 	};
 
-	for (let type in storages) {
-		let storage = storages[type];
+	for (const type in storages) {
+		const storage = storages[type];
 		testStorage(type, storage);
 	}
 }

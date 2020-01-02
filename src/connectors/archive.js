@@ -1,6 +1,6 @@
 'use strict';
 
-let version = $('body').hasClass('navia') ? 'new' : 'legacy';
+const version = $('body').hasClass('navia') ? 'new' : 'legacy';
 switch (version) {
 	case 'new':
 		bindNew();
@@ -34,9 +34,9 @@ function bindNew() {
 
 	Connector.getArtistTrack = () => {
 		let track = $('.jwrowV2.playing .ttl').text();
-		let artist = $('.info-top .metadata-definition > dd').first().text();
+		const artist = $('.info-top .metadata-definition > dd').first().text();
 
-		let trackParts = track.split('-').map((item) => {
+		const trackParts = track.split('-').map((item) => {
 			return item.trim();
 		});
 		if (trackParts.length === 3 && trackParts[0] === artist) {
@@ -62,7 +62,7 @@ function bindLegacy() {
 		let album = $('.x-archive-meta-title').text();
 
 		// Remove artist from album
-		let parts = album.split('-');
+		const parts = album.split('-');
 		if (parts.length > 0 && parts[0].trim() === Connector.getArtist()) {
 			album = album.substr(album.indexOf('-') + 1);
 		}
@@ -79,7 +79,7 @@ function bindLegacy() {
 		let title = $('.playing > .ttl').text();
 
 		// Some titles are stored as artist - track # - title so strip out non-title elements
-		let parts = title.split('-');
+		const parts = title.split('-');
 		if (parts.length === 3 && parts[0].trim() === Connector.getArtist()) {
 			title = parts[2];
 		}

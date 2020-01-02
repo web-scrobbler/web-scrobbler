@@ -23,7 +23,7 @@ define((require) => {
 		 * @param {Array} patterns Array of custom URL patterns
 		 */
 		async setPatterns(connectorId, patterns) {
-			let data = await storage.get();
+			const data = await storage.get();
 
 			data[connectorId] = patterns;
 			await storage.set(data);
@@ -34,7 +34,7 @@ define((require) => {
 		 * @param {String} connectorId Connector ID
 		 */
 		async resetPatterns(connectorId) {
-			let data = await storage.get();
+			const data = await storage.get();
 
 			delete data[connectorId];
 			await storage.set(data);

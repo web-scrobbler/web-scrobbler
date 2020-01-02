@@ -14,7 +14,7 @@ Connector.trackArtSelector = '.b-player__img img';
 Connector.isTrackArtDefault = (url) => url !== DEFAULT_TRACK_ART;
 
 Connector.isPlaying = () => {
-	let playButtonEl = $('.b-player__toggle');
+	const playButtonEl = $('.b-player__toggle');
 	return !(playButtonEl.hasClass('is-paused') ||
 		playButtonEl.hasClass('is-loading'));
 };

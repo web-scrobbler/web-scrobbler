@@ -45,7 +45,7 @@ define((require) => {
 
 			console.log(`Execute processors: ${PROCESSORS.length}`);
 
-			for (let processor of PROCESSORS) {
+			for (const processor of PROCESSORS) {
 				await processor.process(song);
 			}
 

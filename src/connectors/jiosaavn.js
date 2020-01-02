@@ -47,10 +47,10 @@ Connector.isPlaying = () => {
  * Update current song info asynchronously.
  */
 function requestSongInfo() {
-	let scriptBody = $('#player-track-name a').attr('onclick');
-	let trackInfoUrl = getUrlFromScript(scriptBody);
+	const scriptBody = $('#player-track-name a').attr('onclick');
+	const trackInfoUrl = getUrlFromScript(scriptBody);
 
-	let isNewSong = trackInfoUrl && trackInfoUrl !== lastTrackInfoUrl;
+	const isNewSong = trackInfoUrl && trackInfoUrl !== lastTrackInfoUrl;
 	if (isNewSong) {
 		resetSongInfo();
 		fetchSongInfo(trackInfoUrl).then((data) => {
@@ -78,10 +78,10 @@ function resetSongInfo() {
 function fetchSongInfo(trackInfoUrl) {
 	return new Promise((resolve, reject) => {
 		$.ajax({ url: trackInfoUrl }).done((html) => {
-			let $doc = $(html);
-			let artist = $doc.find('.page-meta-group > .meta-list')
+			const $doc = $(html);
+			const artist = $doc.find('.page-meta-group > .meta-list')
 				.first().text() || null;
-			let track = $('#player-track-name').text() || null;
+			const track = $('#player-track-name').text() || null;
 			resolve({ artist, track });
 		}).fail((jqXhr, textStatus, errorThrown) => {
 			reject(errorThrown);
@@ -96,8 +96,8 @@ function fetchSongInfo(trackInfoUrl) {
  */
 function getUrlFromScript(scriptBody) {
 	// Script format: Util.logAndGoToUrl('whatever', 'URL');
-	let pattern = /.+?\('.+?',\s'(.+?)'\)/;
-	let match = pattern.exec(scriptBody);
+	const pattern = /.+?\('.+?',\s'(.+?)'\)/;
+	const match = pattern.exec(scriptBody);
 	if (match) {
 		return match[1];
 	}

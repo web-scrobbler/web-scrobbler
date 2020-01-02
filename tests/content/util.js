@@ -415,9 +415,9 @@ const PARSE_YT_VIDEO_DESCRIPTION_DATA = [{
  * Test 'Util.splitArtistTrack' function.
  */
 function testSplitArtistTrack() {
-	for (let data of SPLIT_ARTIST_TRACK_TEST_DATA) {
-		let { description, source, expected, separators, swap } = data;
-		let actual = Util.splitArtistTrack(source, separators, { swap });
+	for (const data of SPLIT_ARTIST_TRACK_TEST_DATA) {
+		const { description, source, expected, separators, swap } = data;
+		const actual = Util.splitArtistTrack(source, separators, { swap });
 
 		it(description, function() {
 			expect(actual).to.be.deep.equal(expected);
@@ -458,9 +458,9 @@ function testExtractTrackArtFromCss() {
  * Test 'Util.processYtVideoTitle' function.
  */
 function testProcessYoutubeVideoTitle() {
-	for (let data of PROCESS_YOUTUBE_TITLE_DATA) {
-		let { description, source, expected } = data;
-		let actual = Util.processYtVideoTitle(source);
+	for (const data of PROCESS_YOUTUBE_TITLE_DATA) {
+		const { description, source, expected } = data;
+		const actual = Util.processYtVideoTitle(source);
 
 		it(description, function() {
 			expect(actual).to.be.deep.equal(expected);
@@ -472,9 +472,9 @@ function testProcessYoutubeVideoTitle() {
  * Test 'Util.processYtVideoTitle' function.
  */
 function testProcessSoundCloudTrack() {
-	for (let data of PROCESS_SOUNDCLOUD_TRACK_DATA) {
-		let { description, source, expected } = data;
-		let actual = Util.processSoundCloudTrack(source);
+	for (const data of PROCESS_SOUNDCLOUD_TRACK_DATA) {
+		const { description, source, expected } = data;
+		const actual = Util.processSoundCloudTrack(source);
 
 		it(description, function() {
 			expect(actual).to.be.deep.equal(expected);
@@ -486,9 +486,9 @@ function testProcessSoundCloudTrack() {
  * Test 'Util.splitTimeInfo' function.
  */
 function testSplitTimeInfo() {
-	for (let data of SPLIT_TIME_INFO_DATA) {
-		let { description, source, expected, swap, separators } = data;
-		let actual = Util.splitTimeInfo(source, separators, { swap });
+	for (const data of SPLIT_TIME_INFO_DATA) {
+		const { description, source, expected, swap, separators } = data;
+		const actual = Util.splitTimeInfo(source, separators, { swap });
 
 		it(description, function() {
 			expect(actual).to.be.deep.equal(expected);
@@ -500,9 +500,9 @@ function testSplitTimeInfo() {
  * Test 'Util.findSeparator' function.
  */
 function testFindSeparator() {
-	for (let data of FIND_SEPARATOR_DATA) {
-		let { description, source, expected, separators } = data;
-		let actual = Util.findSeparator(source, separators);
+	for (const data of FIND_SEPARATOR_DATA) {
+		const { description, source, expected, separators } = data;
+		const actual = Util.findSeparator(source, separators);
 
 		it(description, function() {
 			expect(actual).to.be.deep.equal(expected);
@@ -537,9 +537,9 @@ function testParseYtVideoDescription() {
 function testFunction(func, testData, { isDeepEqual = false } = {}) {
 	const boundFunc = func.bind(Util);
 
-	for (let data of testData) {
-		let { description, source, expected } = data;
-		let actual = boundFunc(source);
+	for (const data of testData) {
+		const { description, source, expected } = data;
+		const actual = boundFunc(source);
 
 		it(description, function() {
 			if (isDeepEqual) {

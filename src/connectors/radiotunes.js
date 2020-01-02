@@ -3,12 +3,12 @@
 Connector.playerSelector = '#row-player-controls';
 
 Connector.getArtistTrack = () => {
-	let artist = $('.artist-name').text();
-	let track = $('.track-name').text();
+	const artist = $('.artist-name').text();
+	const track = $('.track-name').text();
 
 	if (artist && track) {
 		// The 'artist' element contains dash at the end of string.
-		let artistTrack = artist + track;
+		const artistTrack = artist + track;
 		return Util.splitArtistTrack(artistTrack);
 	}
 

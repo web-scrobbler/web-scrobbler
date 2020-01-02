@@ -68,7 +68,7 @@ define((require) => {
 	 * @return {Object} Song instance
 	 */
 	function buildFrom(parsedData, connector, onChange) {
-		let song = new Song(parsedData, connector);
+		const song = new Song(parsedData, connector);
 		return DeepProxy.wrap(song, onChange);
 	}
 
@@ -80,7 +80,7 @@ define((require) => {
 	function makeUniqueId(parsedData) {
 		let inputStr = '';
 
-		for (let field of BASE_FIELDS) {
+		for (const field of BASE_FIELDS) {
 			if (parsedData[field]) {
 				inputStr += parsedData[field];
 			}
@@ -336,8 +336,8 @@ define((require) => {
 		 * @return {Object} Object contain song data
 		 */
 		getCloneableData() {
-			let fieldsToCopy = ['parsed', 'processed', 'metadata', 'flags'];
-			let clonedSong = {};
+			const fieldsToCopy = ['parsed', 'processed', 'metadata', 'flags'];
+			const clonedSong = {};
 
 			/*
 			 * Firefox doesn't allow to send proxy objects via
@@ -345,7 +345,7 @@ define((require) => {
 			 * are actually proxy objects, they should be converted
 			 * to plain objects before sending.
 			 */
-			for (let field of fieldsToCopy) {
+			for (const field of fieldsToCopy) {
 				clonedSong[field] = Object.assign({}, this[field]);
 			}
 

@@ -3,7 +3,7 @@
 Connector.playerSelector = 'body';
 
 Connector.getArtist = () => {
-	let artists = $('.now_playing .artist a').toArray();
+	const artists = $('.now_playing .artist a').toArray();
 	return Util.joinArtists(artists);
 };
 

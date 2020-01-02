@@ -79,7 +79,7 @@ class MetadataFilter {
 		}
 
 		let filteredText = text;
-		for (let filter of filters) {
+		for (const filter of filters) {
 			filteredText = filter(filteredText);
 		}
 
@@ -93,7 +93,7 @@ class MetadataFilter {
 	 */
 	createFilters(filters) {
 		if (typeof filters === 'function') {
-			let filterFunction = filters;
+			const filterFunction = filters;
 			return [filterFunction];
 		} else if (Array.isArray(filters)) {
 			return filters;
@@ -107,7 +107,7 @@ class MetadataFilter {
      * @param {Object} filterSet Set of filters
 	 */
 	appendFilters(filterSet) {
-		for (let field of MetadataFilter.ALL_FIELDS) {
+		for (const field of MetadataFilter.ALL_FIELDS) {
 			if (this.mergedFilterSet[field] === undefined) {
 				this.mergedFilterSet[field] = [];
 			}
@@ -167,13 +167,13 @@ class MetadataFilter {
 	static decodeHtmlEntities(text) {
 		let filteredText = text;
 
-		for (let target in escapeHtmlEntityMap) {
-			let source = escapeHtmlEntityMap[target];
+		for (const target in escapeHtmlEntityMap) {
+			const source = escapeHtmlEntityMap[target];
 			filteredText = filteredText.replace(source, target);
 		}
 
 		filteredText = filteredText.replace(/&#x([a-fA-f0-9]+);/g, (_, hex) => {
-			let dec = parseInt(hex, 16);
+			const dec = parseInt(hex, 16);
 			return String.fromCharCode(dec);
 		});
 		filteredText = filteredText.replace(/&#(\d+);/g, (_, dec) => {
@@ -292,7 +292,7 @@ class MetadataFilter {
 	static filterWithFilterRules(text, set) {
 		let filteredText = text;
 
-		for (let data of set) {
+		for (const data of set) {
 			filteredText = filteredText.replace(data.source, data.target);
 		}
 

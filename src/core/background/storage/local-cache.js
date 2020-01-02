@@ -7,17 +7,17 @@ define((require) => {
 	const storage = BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);
 
 	async function fillSongData(song) {
-		let songId = song.getUniqueId();
+		const songId = song.getUniqueId();
 		if (!songId) {
 			return false;
 		}
 
-		let data = await storage.get();
+		const data = await storage.get();
 		if (data[songId]) {
 			let isChanged = false;
-			let savedMetadata = data[songId];
+			const savedMetadata = data[songId];
 
-			for (let field of Song.USER_FIELDS) {
+			for (const field of Song.USER_FIELDS) {
 				if (savedMetadata[field]) {
 					isChanged = true;
 					song.processed[field] = savedMetadata[field];
@@ -36,19 +36,19 @@ define((require) => {
 	 * @param  {Object} data User data
 	 */
 	async function saveSongData(song, data) {
-		let songId = song.getUniqueId();
+		const songId = song.getUniqueId();
 		if (!songId) {
 			return;
 		}
 
-		let storageData = await storage.get();
+		const storageData = await storage.get();
 		let isChanged = false;
 
 		if (!storageData[songId]) {
 			storageData[songId] = {};
 		}
 
-		for (let field of Song.USER_FIELDS) {
+		for (const field of Song.USER_FIELDS) {
 			if (data[field]) {
 				storageData[songId][field] = data[field];
 				isChanged = true;
@@ -65,12 +65,12 @@ define((require) => {
 	 * @param  {Object} song Song object
 	 */
 	async function removeSongData(song) {
-		let songId = song.getUniqueId();
+		const songId = song.getUniqueId();
 		if (!songId) {
 			return;
 		}
 
-		let data = await storage.get();
+		const data = await storage.get();
 
 		delete data[songId];
 		await storage.set(data);

@@ -19,7 +19,7 @@ Connector.getAlbum = () => {
 };
 
 Connector.getUniqueID = () => {
-	let url = $('.nowPlayingBarInfoContainer .nowPlayingImage').css('background-image');
+	const url = $('.nowPlayingBarInfoContainer .nowPlayingImage').css('background-image');
 	return /Items\/(\w+)/g.exec(url)[1];
 };
 

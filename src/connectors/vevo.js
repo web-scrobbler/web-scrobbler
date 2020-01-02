@@ -11,7 +11,7 @@ Connector.durationSelector = '.progress-texts span:nth-child(3)';
 Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 
 Connector.getArtist = () => {
-	let artists = $('.watch-info .artist a').toArray();
+	const artists = $('.watch-info .artist a').toArray();
 	return Util.joinArtists(artists);
 };
 

@@ -17,6 +17,6 @@ Connector.isScrobblingAllowed = () => {
 Connector.isTrackArtDefault = (url) => url.includes('default-cover-art') || url.includes('957ThatStation');
 
 Connector.getUniqueID = () => {
-	let match = /\?i=(\d+)/gi.exec($('.td-player-bar__buy a').attr('href'));
+	const match = /\?i=(\d+)/gi.exec($('.td-player-bar__buy a').attr('href'));
 	return match && match[1] || null;
 };

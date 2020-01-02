@@ -41,7 +41,7 @@ function setupDefaultPlayer() {
 	Connector.applyFilter(filter);
 
 	function removeGenre(text) {
-		let genre = $('.profile-name span').text();
+		const genre = $('.profile-name span').text();
 		return text.replace(genre, '');
 	}
 }

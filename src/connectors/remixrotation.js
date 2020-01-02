@@ -5,10 +5,10 @@ Connector.playerSelector = '#player';
 Connector.playButtonSelector = '#playMediaMaster';
 
 Connector.getArtistTrack = () => {
-	let artistTrackStr = $('#song-name-info').text();
-	let artistTrack = artistTrackStr.split('•');
+	const artistTrackStr = $('#song-name-info').text();
+	const artistTrack = artistTrackStr.split('•');
 
-	let artist = artistTrack[0];
-	let track = artistTrack[artistTrack.length - 1];
+	const artist = artistTrack[0];
+	const track = artistTrack[artistTrack.length - 1];
 	return { artist, track };
 };

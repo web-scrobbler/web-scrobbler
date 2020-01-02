@@ -16,8 +16,8 @@ define(() => {
 			return;
 		}
 
-		let endpoints = ['release', 'release-group'];
-		for (let endpoint of endpoints) {
+		const endpoints = ['release', 'release-group'];
+		for (const endpoint of endpoints) {
 			let mbId = song.metadata.albumMbId;
 			let coverArtUrl = null;
 
@@ -52,22 +52,22 @@ define(() => {
 	 * @return {String} MusicBrainz ID
 	 */
 	async function getMusicBrainzId(endpoint, song) {
-		let artist = song.getArtist();
-		let track = song.getTrack();
+		const artist = song.getArtist();
+		const track = song.getTrack();
 
-		let url = `http://musicbrainz.org/ws/2/${endpoint}?fmt=json&query=` +
+		const url = `http://musicbrainz.org/ws/2/${endpoint}?fmt=json&query=` +
 			`title:+"${track}"^3 ${track} artistname:+"${artist}"^4${artist}`;
-		let response = await fetch(url);
+		const response = await fetch(url);
 		if (!response.ok) {
 			throw new Error('Unable to fetch MusicBrainz ID');
 		}
-		let musicbrainz = await response.json();
+		const musicbrainz = await response.json();
 
 		if (musicbrainz.count === 0) {
 			throw new Error('Unable to fetch MusicBrainz ID');
 		}
 
-		let results = musicbrainz[`${endpoint}s`];
+		const results = musicbrainz[`${endpoint}s`];
 		return results[0].id;
 	}
 
@@ -77,8 +77,8 @@ define(() => {
 	 * @return {String} Cover art URL
 	 */
 	async function checkCoverArt(mbid) {
-		let coverArtUrl = `http://coverartarchive.org/release/${mbid}/front`;
-		let response = await fetch(coverArtUrl, { 'method': 'HEAD' });
+		const coverArtUrl = `http://coverartarchive.org/release/${mbid}/front`;
+		const response = await fetch(coverArtUrl, { 'method': 'HEAD' });
 		if (response.ok) {
 			return coverArtUrl;
 		}

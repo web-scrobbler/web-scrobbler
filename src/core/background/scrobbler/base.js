@@ -82,7 +82,7 @@ define((require) => {
 		 * @param  {Object} optionsArr Array of allowed options
 		 */
 		applyOptions(options, optionsArr) {
-			for (let option of optionsArr) {
+			for (const option of optionsArr) {
 				if (options[option] === undefined) {
 					throw new Error(`Option ${option} is not set`);
 				}
@@ -115,7 +115,7 @@ define((require) => {
 		 * Remove session info.
 		 */
 		async signOut() {
-			let data = await this.storage.get();
+			const data = await this.storage.get();
 
 			delete data.sessionID;
 			delete data.sessionName;
@@ -195,7 +195,7 @@ define((require) => {
 		 * @return {String} Profile URL
 		 */
 		async getProfileUrl() {
-			let session = await this.getSession();
+			const session = await this.getSession();
 			return `${this.profileUrl}${session.sessionName}`;
 		}
 
