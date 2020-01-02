@@ -949,7 +949,10 @@ const connectors = [{
 	id: 'wfmu',
 }, {
 	label: 'SiriusXM',
-	matches: ['*://player.siriusxm.com/*'],
+	matches: [
+		'*://player.siriusxm.com/*',
+		'*://player.siriusxm.ca/*'
+	],
 	js: 'connectors/siriusxm-player.js',
 	id: 'siriusxm-player',
 }, {
