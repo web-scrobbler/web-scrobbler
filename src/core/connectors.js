@@ -799,6 +799,11 @@ const connectors = [{
 	js: 'connectors/soribada.js',
 	id: 'soribada',
 }, {
+	label: 'Flo',
+	matches: ['*://www.music-flo.com/*'],
+	js: 'connectors/music-flo.js',
+	id: 'music-flo',
+}, {
 	label: 'GrooveMP3',
 	matches: ['*://*.groovemp3.com/*'],
 	js: 'connectors/bemusic.js',
