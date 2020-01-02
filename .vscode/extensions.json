@@ -1,0 +1,8 @@
+{
+	"recommendations": [
+		"dbaeumer.vscode-eslint",
+    "drewbourne.vscode-remark-lint",
+    "thibaudcolas.stylelint",
+    "editorconfig.editorconfig"
+	]
+}
