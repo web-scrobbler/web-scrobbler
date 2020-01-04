@@ -34,7 +34,7 @@
     "grunt-contrib-imagemin": "3.1.0",
     "grunt-eslint": "22.0.0",
     "grunt-git": "1.0.14",
-    "grunt-jsonlint": "2.0.0",
+    "grunt-jsonlint": "2.1.1",
     "grunt-lintspaces": "0.8.6",
     "grunt-mocha-cli": "5.0.0",
     "grunt-preprocess": "5.1.0",
