@@ -44,15 +44,15 @@
         "description": "Option title"
     },
     "optionScrobblePodcastsTitle": {
-        "message": "Scrobble podcast episodes",
+        "message": "Scrobble episodios del podcast",
         "description": "Option label"
     },
     "optionTdlShortTrackNames": {
-        "message": "Use short track names",
+        "message": "Usar nombres cortos de la canción",
         "description": "Option title"
     },
     "optionTdlShortTrackNamesTitle": {
-        "message": "Tidal provides shortened track names for certain tracks (without \"Remastered\", etc.)",
+        "message": "Tidal proporciona nombres de pistas abreviados para ciertas canciones (sin \"Remasterizado\", etc.)",
         "description": ""
     },
     "optionYtDesc": {
@@ -132,7 +132,7 @@
         "description": "Enable/disable hint"
     },
     "optionsCustomPatternsHint": {
-        "message": "Clic en el ícono del engranaje para configurar los patrones de direcciones URL personalizadas para los conectores. <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>Más información</a>",
+        "message": "Clic en el ícono del engranaje para configurar los patrones de direcciones URL personalizadas para los conectores.",
         "description": "Description of how to configure custom URL patterns"
     },
     "optionsSupportedWebsites": {
@@ -142,6 +142,10 @@
     "optionsToggle": {
         "message": "Alternar",
         "description": "Label of toggle button"
+    },
+    "learnMoreLabel": {
+        "message": "Más información",
+        "description": "Learn more label"
     },
     "contactTitle": {
         "message": "Contacto",
@@ -474,6 +478,10 @@
     "infoViewTrackPage": {
         "message": "Ver página de la canción",
         "description": "Placeholder of album input"
+    },
+    "infoYourScrobbles": {
+        "message": "Tus scrobbles: $1",
+        "description": "Label for user play count"
     },
     "pageActionBase": {
         "message": "Este sitio es apto para scrobbling",
