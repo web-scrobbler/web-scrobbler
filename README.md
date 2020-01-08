@@ -84,7 +84,7 @@ See the [license file][License].
 <!-- Badges -->
 [AmoBadge]: https://img.shields.io/amo/v/web-scrobbler.svg
 [CodacyBadge]: https://api.codacy.com/project/badge/Grade/32658c34c5c542d9a315ead8d5eadd0e
-[CodacyCoverageBadge]: https://api.codacy.com/project/badge/Coverage/bb2841f875014aaea6a354da6c96bdee
+[CodacyCoverageBadge]: https://api.codacy.com/project/badge/Coverage/32658c34c5c542d9a315ead8d5eadd0e
 [DavidDmBadge]: https://img.shields.io/david/web-scrobbler/web-scrobbler
 [DavidDmBadgeDev]: https://img.shields.io/david/dev/web-scrobbler/web-scrobbler?label=devDependencies
 [GitHubActionsBadge]: https://github.com/web-scrobbler/web-scrobbler/workflows/test/badge.svg
