@@ -16,12 +16,12 @@ Connector.durationSelector = '.Root__now-playing-bar .playback-bar__progress-tim
 
 Connector.applyFilter(MetadataFilter.getSpotifyFilter());
 
-Connector.isScrobblingAllowed = () => !isAdPlaying();
+Connector.isScrobblingAllowed = () => isMusicPlaying() && isSingleSourceIsPlaying();
 
 Connector.isPodcast = () => artistUrlIncludes('/show/');
 
-function isAdPlaying() {
-	return !artistUrlIncludes('/artist/', '/show/');
+function isMusicPlaying() {
+	return artistUrlIncludes('/artist/', '/show/');
 }
 
 function artistUrlIncludes(...strings) {
@@ -36,4 +36,8 @@ function artistUrlIncludes(...strings) {
 	}
 
 	return false;
+}
+
+function isSingleSourceIsPlaying() {
+	return $('.ConnectBar').length === 0;
 }
