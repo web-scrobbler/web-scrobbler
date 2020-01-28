@@ -34,7 +34,7 @@ function bindNew() {
 
 	Connector.getArtistTrack = () => {
 		let track = $('.jwrowV2.playing .ttl').text();
-		const artist = $('.info-top .metadata-definition > dd').first().text();
+		const artist = $('.key-val-big a span').first().text();
 
 		const trackParts = track.split('-').map((item) => {
 			return item.trim();
