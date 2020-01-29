@@ -5,18 +5,18 @@
  * Currently used for Bandcamp Daily.
  */
 
-Connector.playerSelector = '#player';
+Connector.playerSelector = '#p-daily-article';
 
-Connector.artistSelector = '#artist';
+Connector.artistSelector = '.player.playing .mpartist';
 
-Connector.trackSelector = '.currenttrack .tracktitle';
+Connector.trackSelector = '.player.playing .mptracktitle';
 
-Connector.albumSelector = '#album';
+Connector.albumSelector = '.player.playing .mptralbum';
 
-Connector.currentTimeSelector = '.currenttrack .currenttime';
+Connector.currentTimeSelector = '.player.playing .mptime > span:first-child';
 
-Connector.durationSelector = '.currenttrack .tracktime';
+Connector.durationSelector = '.player.playing .mptime > span:last-child';
 
-Connector.trackArtSelector = '.art';
+Connector.trackArtSelector = '.player.playing .mpaa img';
 
-Connector.isPlaying = () => $('#player').hasClass('playing');
+Connector.isPlaying = () => $('.player.playing').length > 0;
