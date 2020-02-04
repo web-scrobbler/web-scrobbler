@@ -17,7 +17,7 @@ Connector.getArtistTrack = () => {
 	let artist = null;
 	let track = null;
 
-	const rawText = $('.item-current').text();
+	const rawText = $('.audio-title').text();
 	const result = rawText.match(titleRegEx);
 	if (result) {
 		artist = result[1];
