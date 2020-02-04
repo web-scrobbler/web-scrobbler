@@ -26,6 +26,4 @@ function setupConnector() {
 		return $('.playpause .fas.fa-pause').length;
 	};
 }
-
 setupConnector();
-
