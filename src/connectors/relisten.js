@@ -22,5 +22,5 @@ Connector.getTrackInfo = () => {
 };
 
 Connector.isPlaying = () => {
-	return $('.playpause .fas.fa-pause').length ? true : false;
+	return $('.playpause .fas.fa-pause').length > 0;
 };
