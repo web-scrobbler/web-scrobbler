@@ -436,6 +436,11 @@ const connectors = [{
 	js: 'connectors/radiotunes.js',
 	id: 'jazzradio',
 }, {
+	label: 'Zen Radio',
+	matches: ['*://www.zenradio.com/*'],
+	js: 'connectors/radiotunes.js',
+	id: 'zenradio',
+}, {
 	label: 'SomaFM',
 	matches: ['*://somafm.com/player/*'],
 	js: 'connectors/somafm.js',
