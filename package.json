@@ -9,7 +9,7 @@
     "url": "https://github.com/web-scrobbler/web-scrobbler.git"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "5.12.0",
+    "@fortawesome/fontawesome-free": "5.12.1",
     "blueimp-md5": "2.12.0",
     "bootstrap": "4.4.1",
     "jquery": "3.4.1",
@@ -18,7 +18,7 @@
     "webextension-polyfill": "0.6.0"
   },
   "devDependencies": {
-    "@octokit/rest": "16.41.1",
+    "@octokit/rest": "16.43.1",
     "chai": "4.2.0",
     "chai-spies": "1.0.0",
     "codacy-coverage": "3.4.0",
@@ -48,7 +48,7 @@
     "node-define": "0.1.1",
     "nyc": "15.0.0",
     "remark-preset-lint-recommended": "3.0.3",
-    "stylelint": "13.0.0",
+    "stylelint": "13.1.0",
     "stylelint-order": "4.0.0"
   },
   "engines": {
