@@ -2,6 +2,8 @@
   "extends": [
     "config:base"
   ],
+  "commitMessage": "{{{commitMessageAction}}} {{{commitMessageTopic}}} {{{commitMessageExtra}}}",
+  "commitMessageTopic": "{{depName}}",
   "labels": [
     "dependencies", "maintenance"
   ],
