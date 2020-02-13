@@ -1268,6 +1268,11 @@ const connectors = [{
 	matches: ['*://smoothfm.iol.pt/*'],
 	js: 'connectors/smoothfm.js',
 	id: 'smoothfm',
+}, {
+	label: 'Relisten.net',
+	matches: ['*://relisten.net/*'],
+	js: 'connectors/relisten.js',
+	id: 'relisten',
 }];
 
 define(() => connectors);
