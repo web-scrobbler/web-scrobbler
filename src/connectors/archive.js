@@ -33,7 +33,7 @@ function bindNew() {
 	Connector.trackArtSelector = '#theatre-ia center > img';
 
 	Connector.getArtistTrack = () => {
-		let track = $('.jwrowV2.playing .ttl').text();
+		let track = $('.jwrowV2.playing .ttl, .audio-track-list .selected .track-title').text();
 		const artist = $('.key-val-big a span, .metadata-definition > dd').first().text();
 
 		const trackParts = track.split('-').map((item) => {
