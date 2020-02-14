@@ -362,16 +362,14 @@ module.exports = (grunt) => {
 	 */
 	function assertBrowserIsSupported(browser) {
 		const supportedBrowsers = ['chrome', 'firefox'];
+		const browsersLabel = `Currently supported browsers: ${supportedBrowsers.join(', ')}`;
 
 		if (!browser) {
-			grunt.fail.fatal(
-				'You have not specified browser.\n' +
-				`Currently supported browsers: ${supportedBrowsers.join(', ')}.`
-			);
+			grunt.fail.fatal(`You have not specified browser.\n${browsersLabel}.`);
 		}
 
 		if (supportedBrowsers.indexOf(browser) === -1) {
-			grunt.fail.fatal(`Unknown browser: ${browser}`);
+			grunt.fail.fatal(`Unknown browser: ${browser}.\n${browsersLabel}.`);
 		}
 	}
 
@@ -381,16 +379,14 @@ module.exports = (grunt) => {
 	 */
 	function assertDevelopmentModeIsValid(mode) {
 		const supportedModes = ['debug', 'release'];
+		const modesLabel = `Currently supported modes: ${supportedModes.join(', ')}`;
 
 		if (!mode) {
-			grunt.fail.fatal(
-				'You have not specified mode.\n' +
-				`Currently supported modes: ${supportedModes.join(', ')}.`
-			);
+			grunt.fail.fatal(`You have not specified mode.\n${modesLabel}.`);
 		}
 
 		if (supportedModes.indexOf(mode) === -1) {
-			grunt.fail.fatal(`Unknown mode: ${mode}`);
+			grunt.fail.fatal(`Unknown mode: ${mode}.\n${modesLabel}.`);
 		}
 	}
 };
