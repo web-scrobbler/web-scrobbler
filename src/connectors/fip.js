@@ -1,26 +1,22 @@
 'use strict';
 
-const filter = new MetadataFilter({
-	artist: removeYearFromArtist
-});
+const playerBar = '.player';
 
-Connector.playerSelector = '.player';
+Connector.playerSelector = playerBar;
 
-Connector.artistSelector = '.playing-now .now-info-subtitle';
+Connector.artistSelector = `${playerBar} .title-field`;
 
-Connector.trackSelector = '.playing-now .now-info-title';
+Connector.trackSelector = `${playerBar} .description-field`;
 
-Connector.albumSelector = '.playing-now .now-info-details-value';
+Connector.currentTimeSelector = `${playerBar} .start-time`;
 
-Connector.trackArtSelector = '.playing-now .playing-now-cover img';
+Connector.durationSelector = `${playerBar} .end-time`;
 
-Connector.isPlaying = () => {
-	return $('.playing-now button.live-button').hasClass('pause');
-};
+Connector.trackArtSelector = `${playerBar} .cover img`;
 
-Connector.applyFilter(filter);
+Connector.pauseButtonSelector = `${playerBar} .ico-stop`;
 
-function removeYearFromArtist(text) {
-	const regexp = new RegExp(/\s+\(\d{4}\)(?=[^\s+(\d{4})]*$)/gm);
-	return text.replace(regexp, '');
-}
+// function removeYearFromArtist(text) {
+// 	const regexp = new RegExp(/\s+\(\d{4}\)(?=[^\s+(\d{4})]*$)/gm);
+// 	return text.replace(regexp, '');
+// }
