@@ -5,7 +5,7 @@ let isPlaying = false;
 
 const vkFilter = new MetadataFilter({
 	all: MetadataFilter.decodeHtmlEntities
-});
+}).extend(MetadataFilter.getRemasteredFilter());
 
 Connector.isPlaying = () => isPlaying;
 
