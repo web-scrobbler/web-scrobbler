@@ -1,16 +1,22 @@
 'use strict';
 
 const filter = new MetadataFilter({
-	artist: [removeByPrefix, removeBuySuffix]
+	artist: [removeByPrefix]
 });
 
-Connector.playerSelector = '.player-wrapper';
+const trackIconSelector = '[class*=RebrandPlayerSliderComponent__TrackIcon]';
+const trackIconPausedClass = 'dvjoTG';
 
-Connector.artistSelector = '.current-artist';
+Connector.playerSelector = '[class*=RebrandPlayerControls]';
 
-Connector.trackSelector = '.current-track';
+Connector.artistSelector = '[class*=RebrandPlayerSliderComponent__Artist]';
 
-Connector.isPlaying = () => $('.player-control').hasClass('pause-state');
+Connector.trackSelector = '[class*=RebrandPlayerSliderComponent__Track]';
+
+Connector.isPlaying = () => {
+	const trackIcon = $(trackIconSelector);
+	return !trackIcon.hasClass(trackIconPausedClass);
+};
 
 Connector.isStateChangeAllowed = () => {
 	/*
@@ -26,6 +32,6 @@ function removeByPrefix(text) {
 	return text.replace('by ', '');
 }
 
-function removeBuySuffix(text) {
-	return text.replace(/[\u2014\u002d]\sbuy$/gi, '');
-}
+// function removeBuySuffix(text) {
+// 	return text.replace(/[\u2014\u002d]\sbuy$/gi, '');
+// }
