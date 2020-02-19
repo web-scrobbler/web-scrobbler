@@ -24,7 +24,7 @@ const EXTENSION_SRC = [
 	'!icons/*.svg', 'icons/love_controls.svg'
 ];
 const EXTENSION_DOCS = [
-	'README.md', 'LICENSE.md'
+	'README.md', 'LICENSE.md', '3RD-PARTY.md'
 ];
 
 // Files to lint
