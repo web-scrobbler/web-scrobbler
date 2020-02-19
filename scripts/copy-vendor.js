@@ -1,67 +1,54 @@
 'use strict';
 
-const fs = require('fs');
-const fsPromises = fs.promises;
-const path = require('path');
+/* eslint-disable no-template-curly-in-string */
 
-const vendorDir = 'src/vendor';
+const { mkdirSync, copyFileSync } = require('fs');
+const { basename } = require('path') ;
 
-const bootstrapJsDir = `${vendorDir}/bootstrap/js`;
-const bootstrapCssDir = `${vendorDir}/bootstrap/css`;
+const {
+	dependenciesInfo, getDependencies,
+	rootDir, vendorDir, packageJsonPath
+} = require('./dep-data');
 
-const fonawesomeCssDir = `${vendorDir}/fontawesome/css`;
-const fontawesomeWebfontsDir = `${vendorDir}/fontawesome/webfonts`;
+function main() {
+	const packageJson = require(packageJsonPath);
+	const dependencies = getDependencies(packageJson);
 
-const bootstrapDir = 'node_modules/bootstrap/dist';
-const fontawesomeDir = 'node_modules/@fortawesome/fontawesome-free';
-
-function mkdir(newPath) {
-	return fsPromises.mkdir(newPath, {
-		recursive: true
-	}).catch((err) => {
-		throw new Error(`Unable to make ${newPath}: ${err.code}`);
-	}).then(() => {
-		console.log(`Created ${newPath}`);
-	});
+	copyDependencies(dependencies);
 }
 
-function copyDep(srcPath, destDir = null) {
-	const depName = path.basename(srcPath);
-	const destPath = `${destDir || vendorDir}/${depName}`;
-
-	fs.copyFile(srcPath, destPath, (err) => {
-		if (err) {
-			console.warn(`Unable to copy ${depName}: ${err.code}`);
-			throw new Error(err);
-		} else {
-			console.log(`Copy ${depName}`);
+function copyDependencies(dependencies) {
+	for (const dep of dependencies) {
+		if (!(dep.id in dependenciesInfo)) {
+			console.log(`Skip ${dep.id}`);
+			continue;
 		}
-	});
+
+		const { paths } = dependenciesInfo[dep.id];
+		for (const entry of paths) {
+			copyDependency(entry);
+		}
+	}
 }
 
-mkdir(vendorDir).then(() => {
-	copyDep('node_modules/requirejs/require.js');
-	copyDep('node_modules/blueimp-md5/js/md5.min.js');
-	copyDep('node_modules/jquery/dist/jquery.min.js');
-	copyDep('node_modules/showdown/dist/showdown.min.js');
-	copyDep('node_modules/webextension-polyfill/dist/browser-polyfill.min.js');
-}).catch(console.error);
+function copyDependency(dependencyInfo) {
+	let { srcPaths, destDir } = dependencyInfo;
+	if (!destDir) {
+		destDir = vendorDir;
+	}
 
-mkdir(bootstrapJsDir).then(() => {
-	copyDep(`${bootstrapDir}/js/bootstrap.bundle.min.js`, bootstrapJsDir);
-}).catch(console.error);
+	mkdirSync(destDir, { recursive: true });
+	console.log(`Created ${destDir}`);
 
-mkdir(bootstrapCssDir).then(() => {
-	copyDep(`${bootstrapDir}/css/bootstrap.min.css`, bootstrapCssDir);
-}).catch(console.error);
+	for (const srcPath of srcPaths) {
+		const depFileName = basename(srcPath);
+		const destPath = `${destDir}/${depFileName}`;
+		const fullSrcPath = `${rootDir}/node_modules/${srcPath}`;
 
-mkdir(fonawesomeCssDir).then(() => {
-	copyDep(`${fontawesomeDir}/css/solid.min.css`, fonawesomeCssDir);
-	copyDep(`${fontawesomeDir}/css/brands.min.css`, fonawesomeCssDir);
-	copyDep(`${fontawesomeDir}/css/fontawesome.min.css`, fonawesomeCssDir);
-}).catch(console.error);
+		copyFileSync(fullSrcPath, destPath);
+		console.log(`Copied ${fullSrcPath} -> ${destPath}`);
+	}
+}
 
-mkdir(fontawesomeWebfontsDir).then(() => {
-	copyDep(`${fontawesomeDir}/webfonts/fa-solid-900.woff2`, fontawesomeWebfontsDir);
-	copyDep(`${fontawesomeDir}/webfonts/fa-brands-400.woff2`, fontawesomeWebfontsDir);
-}).catch(console.error);
+
+main();
