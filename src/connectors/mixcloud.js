@@ -1,7 +1,7 @@
 'use strict';
 
 const filter = new MetadataFilter({
-	artist: [removeByPrefix]
+	artist: [removeByPrefix, removeBuySuffix]
 });
 
 const trackIconSelector = '[class*=RebrandPlayerSliderComponent__TrackIcon]';
@@ -32,6 +32,6 @@ function removeByPrefix(text) {
 	return text.replace('by ', '');
 }
 
-// function removeBuySuffix(text) {
-// 	return text.replace(/[\u2014\u002d]\sbuy$/gi, '');
-// }
+function removeBuySuffix(text) {
+	return text.replace(/[\u2014\u002d]\sbuy$/gi, '');
+}
