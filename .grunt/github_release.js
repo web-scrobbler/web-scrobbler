@@ -4,7 +4,7 @@
  * Grunt task to create new release on GitHub.
  */
 
-const Octokit = require('@octokit/rest');
+const { Octokit } = require('@octokit/rest');
 
 const owner = 'web-scrobbler';
 const repo = 'web-scrobbler';
@@ -17,11 +17,7 @@ module.exports = (grunt) => {
 		const data = grunt.config.get(this.name);
 		const tagName = `v${data.version}`;
 
-		githubClient = new Octokit({
-			auth() {
-				return `token ${data.token}`;
-			}
-		});
+		githubClient = new Octokit({ auth: data.token });
 
 		try {
 			await publishRelease(tagName);
