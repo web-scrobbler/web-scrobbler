@@ -7,7 +7,7 @@ const filter = new MetadataFilter({
 const trackIconSelector = '[class*=RebrandPlayerSliderComponent__TrackIcon]';
 const trackIconPausedClass = 'dvjoTG';
 
-Connector.playerSelector = '[class*=RebrandPlayerControls]';
+Connector.playerSelector = '[class*=playerQueue__PlayerWrapper]';
 
 Connector.artistSelector = '[class*=RebrandPlayerSliderComponent__Artist]';
 
