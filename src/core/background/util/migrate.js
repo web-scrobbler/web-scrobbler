@@ -26,10 +26,6 @@ define((require) => {
 			return;
 		}
 
-		if (disabledConnectors.length === 0) {
-			return;
-		}
-
 		const disabledConnectorsNew = {};
 
 		for (const label of disabledConnectors) {
