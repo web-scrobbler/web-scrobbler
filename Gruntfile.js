@@ -26,6 +26,9 @@ const EXTENSION_SRC = [
 const EXTENSION_DOCS = [
 	'README.md', 'LICENSE.md', '3RD-PARTY.md'
 ];
+const EXTENSION_EXTRA = [
+	'package.json', 'package-lock.json'
+];
 
 // Files to lint
 const JS_FILES = [
@@ -78,6 +81,11 @@ module.exports = (grunt) => {
 			documentation: {
 				expand: true,
 				src: EXTENSION_DOCS,
+				dest: BUILD_DIR,
+			},
+			extra_files: {
+				expand: true,
+				src: EXTENSION_EXTRA,
 				dest: BUILD_DIR,
 			}
 		},
