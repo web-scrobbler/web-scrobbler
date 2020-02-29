@@ -65,7 +65,10 @@ define((require) => {
 		YouTube: {
 			scrobbleMusicOnly: false,
 			scrobbleEntertainmentOnly: false
-		}
+		},
+		Spotify: {
+			skipIfOtherSources: false
+		},
 	};
 
 	/**

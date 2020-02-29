@@ -1,5 +1,9 @@
 'use strict';
 
+let skipIfOtherSources = false;
+
+readConnectorOptions();
+
 Connector.playerSelector = '.Root__now-playing-bar';
 
 Connector.artistSelector = '.track-info__artists a';
@@ -16,7 +20,9 @@ Connector.durationSelector = '.Root__now-playing-bar .playback-bar__progress-tim
 
 Connector.applyFilter(MetadataFilter.getSpotifyFilter());
 
-Connector.isScrobblingAllowed = () => isMusicPlaying() && isSingleSourceIsPlaying();
+Connector.isScrobblingAllowed = () => {
+	return isMusicPlaying() && !shouldSkipTrack();
+};
 
 Connector.isPodcast = () => artistUrlIncludes('/show/');
 
@@ -38,6 +44,11 @@ function artistUrlIncludes(...strings) {
 	return false;
 }
 
-function isSingleSourceIsPlaying() {
-	return $('.ConnectBar').length === 0;
+function shouldSkipTrack() {
+	const isMultipleSources = $('.ConnectBar').length > 0;
+	return isMultipleSources && skipIfOtherSources;
+}
+
+async function readConnectorOptions() {
+	skipIfOtherSources = await Util.getOption('Spotify', 'skipIfOtherSources');
 }

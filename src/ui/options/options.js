@@ -16,12 +16,15 @@ define((require) => {
 	};
 	const CONNECTORS_OPTIONS_UI_MAP = {
 		Tidal: {
-			'#tdl-short-track-names': 'useShortTrackNames'
+			'#tdl-short-track-names': 'useShortTrackNames',
 		},
 		YouTube: {
 			'#yt-music-only': 'scrobbleMusicOnly',
 			'#yt-entertainment-only': 'scrobbleEntertainmentOnly',
-		}
+		},
+		Spotify: {
+			'#spotify-skip-if-other': 'skipIfOtherSources',
+		},
 	};
 
 	async function initialize() {

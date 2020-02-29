@@ -80,6 +80,14 @@
     "message": "Ignore videos that are not in Entertainment category",
     "description": "Option title"
   },
+  "optionSpotifySkipIfOtherSources": {
+    "message": "Skip tracks if other sources are playing",
+    "description": "Option title"
+  },
+  "optionSpotifySkipIfOtherSourcesTitle": {
+    "message": "Don't scrobble tracks if other sources (e.g. another tab, a desktop/Android client) are playing music",
+    "description": "Option title"
+  },
 
   "optionsAccounts": {
     "message": "Accounts",
