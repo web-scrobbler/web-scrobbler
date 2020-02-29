@@ -1273,6 +1273,10 @@ const connectors = [{
 	matches: ['*://relisten.net/*'],
 	js: 'connectors/relisten.js',
 	id: 'relisten',
+}, {
+	label: 'UpBeatRadio',
+	matches: ['*://upbeatradio.net/*'],
+	js: 'connectors/upbeatradio.js',
+	id: 'upbeatradio',
 }];
-
 define(() => connectors);
