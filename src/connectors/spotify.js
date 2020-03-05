@@ -1,18 +1,20 @@
 'use strict';
 
-Connector.playerSelector = '.Root__now-playing-bar';
+const playerBar = '.Root__now-playing-bar';
 
-Connector.artistSelector = '.track-info__artists a';
+Connector.playerSelector = playerBar;
 
-Connector.trackSelector = '.Root__now-playing-bar .track-info__name a';
+Connector.artistSelector = `${playerBar} [dir="auto"]:last-child a`;
 
-Connector.trackArtSelector = '.now-playing__cover-art .cover-art-image-loaded';
+Connector.trackSelector = `${playerBar} [dir="auto"]:first-child a`;
 
-Connector.playButtonSelector = '.control-button[class*="spoticon-play-"]';
+Connector.trackArtSelector = '.NavBarFooter .cover-art-image';
 
-Connector.currentTimeSelector = '.Root__now-playing-bar .playback-bar__progress-time:first-child';
+Connector.playButtonSelector = `${playerBar} .control-button[class*="spoticon-play-"]`;
 
-Connector.durationSelector = '.Root__now-playing-bar .playback-bar__progress-time:last-child';
+Connector.currentTimeSelector = `${playerBar} .playback-bar__progress-time:first-child`;
+
+Connector.durationSelector = `${playerBar} .playback-bar__progress-time:last-child`;
 
 Connector.applyFilter(MetadataFilter.getSpotifyFilter());
 
