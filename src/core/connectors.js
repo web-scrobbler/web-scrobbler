@@ -1278,5 +1278,10 @@ const connectors = [{
 	matches: ['*://upbeatradio.net/*'],
 	js: 'connectors/upbeatradio.js',
 	id: 'upbeatradio',
+}, {
+	label: 'Chillhop',
+	matches: ['*://chillhop.com/*'],
+	js: 'connectors/chillhop.js',
+	id: 'chillhop',
 }];
 define(() => connectors);
