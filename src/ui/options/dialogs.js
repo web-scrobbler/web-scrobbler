@@ -3,12 +3,10 @@
 define((require) => {
 	const browser = require('webextension-polyfill');
 	const CustomPatterns = require('storage/custom-patterns');
-	const BrowserStorage = require('storage/browser-storage');
+	const SavedEdits = require('storage/saved-edits');
 
 	const { getSortedConnectors } = require('util/util-connector');
-
 	const sortedConnectors = getSortedConnectors();
-	const localCache = BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);
 
 	function initialize() {
 		initAddPatternDialog();
@@ -81,57 +79,21 @@ define((require) => {
 		$('#view-edited').click(async(e) => {
 			e.preventDefault();
 
-			function addNoEditedLabel(node) {
-				node.append($('<li>').attr('i18n', 'noItemsInCache'));
-			}
-
 			const modal = $('#edited-track-modal');
-			const cacheDom = $('#edited-track-content');
-			cacheDom.empty();
 
-			const data = await localCache.get();
-			const cacheSize = Object.keys(data).length;
+			initEditedTracks();
+			initEditedArtistAlbums();
 
-			if (cacheSize === 0) {
-				addNoEditedLabel(cacheDom);
-			} else {
-				for (const songId in data) {
-					const { artist, track, album } = data[songId];
+			// const cacheSize = Object.keys(data).length;
 
-					const item = $(`<li>${artist} — ${track}</li>`);
-					const removeBtn = $(
-						`<button type="button" class="close close-btn">
-							&times;
-						</button>`);
+			// const poputTitle = browser.i18n.getMessage(
+			// 	'optionsEditedTracksPopupTitle', cacheSize.toString());
+			// $('#edited-track-modal .modal-title').text(poputTitle);
 
-					if (album) {
-						item.attr('title', browser.i18n.getMessage('albumTooltip', album));
-					}
-					removeBtn.click(async function() {
-						const data = await localCache.get();
-						delete data[songId];
-
-						await localCache.set(data);
-						$(this.parentNode).remove();
-
-						if (Object.keys(data).length === 0) {
-							addNoEditedLabel(cacheDom);
-						}
-					});
-
-					item.append(removeBtn);
-					cacheDom.append(item);
-				}
-			}
-
-			const poputTitle = browser.i18n.getMessage(
-				'optionsEditedTracksPopupTitle', cacheSize.toString());
-			$('#edited-track-modal .modal-title').text(poputTitle);
-
-			$('#clear-cache').click(() => {
-				localCache.clear();
-				modal.modal('hide');
-			});
+			// $('#clear-cache').click(() => {
+			// 	// localCache.clear();
+			// 	modal.modal('hide');
+			// });
 
 			modal.modal('show');
 		});
@@ -158,6 +120,85 @@ define((require) => {
 		containerEl.append(inputEl, appendEl);
 
 		return containerEl;
+	}
+
+	async function initEditedTracks() {
+		const cacheDom = $('#edited-track-content');
+		cacheDom.empty();
+
+		const storageData = await SavedEdits.getSongInfoStorage();
+		const editedSongsCount = Object.keys(storageData).length;
+
+		if (editedSongsCount === 0) {
+			addNoEditedLabel(cacheDom);
+		} else {
+			for (const songId in storageData) {
+				const { artist, track, album } = storageData[songId];
+
+				const item = $(`<li>${artist} — ${track}</li>`);
+				const removeBtn = makeRemoveBtn(async(node) => {
+					await SavedEdits.removeSongInfoById(songId);
+					$(node).remove();
+
+					// if (Object.keys(data).length === 0) {
+					// 	addNoEditedLabel(cacheDom);
+					// }
+				});
+
+				if (album) {
+					item.attr('title', browser.i18n.getMessage('albumTooltip', album));
+				}
+
+				item.append(removeBtn);
+				cacheDom.append(item);
+			}
+		}
+	}
+
+	async function initEditedArtistAlbums() {
+		const cacheDom = $('#edited-artists-content');
+		cacheDom.empty();
+
+		const storageData = await SavedEdits.getArtistAlbumStorage();
+		const editedArtistsCount = Object.keys(storageData).length;
+
+		if (editedArtistsCount === 0) {
+			addNoEditedLabel(cacheDom);
+		} else {
+			for (const entry in storageData) {
+				const { name, albums } = storageData[entry];
+
+				const artistItem = $(`<li>${name}</li>`);
+				const albumList = $('<ul/>');
+
+				const removeBtn = makeRemoveBtn((node) => {
+					console.log(node);
+				});
+
+				for (const entry in albums) {
+					const album = albums[entry];
+					const albumItem = $(`<li>${album}</li>`);
+					albumList.append(albumItem);
+				}
+
+				artistItem.append(removeBtn);
+				artistItem.append(albumList);
+
+				cacheDom.append(artistItem);
+			}
+		}
+	}
+
+	function addNoEditedLabel(node) {
+		node.append($('<li>').attr('i18n', 'noItemsInCache'));
+	}
+
+	function makeRemoveBtn(onClick) {
+		return $(
+			'<button type="button" class="close close-btn">&times;</button>'
+		).click(function() {
+			onClick(this.parentNode);
+		});
 	}
 
 	return { initialize };

@@ -57,6 +57,8 @@ define((require) => {
 	 */
 	const LOCAL_CACHE = 'LocalCache';
 
+	const EDITED_ARTIST_ALBUMS = 'EditedArtistAlbums';
+
 	/**
 	 * This storage contains the options values.
 	 * @see DEFAULT_OPTIONS_MAP object in `config` module.
@@ -73,6 +75,7 @@ define((require) => {
 	const CORE = 'Core';
 
 	const storageTypeMap = {
+		[EDITED_ARTIST_ALBUMS]: SYNC,
 		[CONNECTORS_OPTIONS]: SYNC,
 		[CUSTOM_PATTERNS]: SYNC,
 		[NOTIFICATIONS]: SYNC,
@@ -139,6 +142,6 @@ define((require) => {
 		getLocalStorage, getSyncStorage,
 
 		CONNECTORS_OPTIONS, CUSTOM_PATTERNS,
-		NOTIFICATIONS, LOCAL_CACHE, OPTIONS, CORE
+		NOTIFICATIONS, LOCAL_CACHE, OPTIONS, CORE, EDITED_ARTIST_ALBUMS
 	};
 });

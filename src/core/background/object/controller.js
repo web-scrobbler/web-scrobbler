@@ -10,7 +10,8 @@ define((require) => {
 	const ControllerEvent = require('object/controller-event');
 	const ScrobbleService = require('object/scrobble-service');
 	const ServiceCallResult = require('object/service-call-result');
-	const LocalCacheStorage = require('storage/local-cache');
+	// const LocalCacheStorage = require('storage/local-cache');
+	const SavedEdits = require('storage/saved-edits');
 
 	/**
 	 * List of song fields used to check if song is changed. If any of
@@ -104,7 +105,7 @@ define((require) => {
 			this.assertSongIsPlaying();
 
 			this.currentSong.resetInfo();
-			await LocalCacheStorage.removeSongData(this.currentSong);
+			await SavedEdits.removeSongInfo(this.currentSong);
 
 			this.unprocessSong();
 			this.processSong();
@@ -161,7 +162,7 @@ define((require) => {
 				throw new Error('Unable to set user data for scrobbled song');
 			}
 
-			await LocalCacheStorage.saveSongData(this.currentSong, data);
+			await SavedEdits.saveSongInfo(this.currentSong, data);
 
 			this.unprocessSong();
 			this.processSong();
