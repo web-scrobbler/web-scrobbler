@@ -648,7 +648,7 @@ const connectors = [{
 	js: 'connectors/mail.ru.js',
 	id: 'mail.ru',
 }, {
-	label: 'Emby',
+	label: 'Emby/Jellyfin',
 	matches: [
 		'*://*8096/web/*',
 		'*://*8920/web/*',
