@@ -392,7 +392,10 @@
     "message": "Web Scrobbler does not support scrobbling from this website.",
     "description": "The description of 'unsupported' popup"
   },
-
+  "unsupportedWebsiteDesc2": {
+    "message": "Some Google websites supported by the extension (e.g. Google Play Music, YouTube) can be blocked due to an ExtensionSettings policy.",
+    "description": "The description of 'unsupported' popup"
+  },
 
   "infoLove": {
     "message": "Love track",
