@@ -18,41 +18,45 @@ define((require) => {
 	 * Object that stores default option values.
 	 * @type {Object}
 	 */
-	const DEFAULT_OPTIONS = {};
+	const DEFAULT_OPTIONS = {
+		/**
+		 * Disable Google Analytics.
+		 * @type {Boolean}
+		 */
+		[DISABLE_GA]: false,
 
-	/**
-	 * Disable Google Analytics.
-	 * @type {Boolean}
-	 */
-	DEFAULT_OPTIONS[DISABLE_GA] = false;
-	/**
-	 * Force song recognition.
-	 * @type {Boolean}
-	 */
-	DEFAULT_OPTIONS[FORCE_RECOGNIZE] = false;
-	/**
-	 * Object contains info of disabled connectors.
-	 * Each key is a connector ID. If the connector is disabled,
-	 * key value should be true. If connector is enabled, key should not exist.
-	 * @type {Object}
-	 */
-	DEFAULT_OPTIONS[DISABLED_CONNECTORS] = {};
-	/**
-	 * Use now playing notifications.
-	 * @type {Boolean}
-	 */
-	DEFAULT_OPTIONS[USE_NOTIFICATIONS] = true;
-	/**
-	 * Notify if song is not recognized.
-	 * @type {Boolean}
-	 */
-	DEFAULT_OPTIONS[USE_UNRECOGNIZED_SONG_NOTIFICATIONS] = false;
+		/**
+		 * Force song recognition.
+		 * @type {Boolean}
+		 */
+		[FORCE_RECOGNIZE]: false,
 
-	/**
-	 * Scrobble podcast episodes.
-	 * @type {Boolean}
-	 */
-	DEFAULT_OPTIONS[SCROBBLE_PODCASTS] = true;
+		/**
+		 * Scrobble podcast episodes.
+		 * @type {Boolean}
+		 */
+		[SCROBBLE_PODCASTS]: true,
+
+		/**
+		 * Use now playing notifications.
+		 * @type {Boolean}
+		 */
+		[USE_NOTIFICATIONS]: true,
+
+		/**
+		 * Object contains info of disabled connectors.
+		 * Each key is a connector ID. If the connector is disabled,
+		 * key value should be true. If connector is enabled, key should not exist.
+		 * @type {Object}
+		 */
+		[DISABLED_CONNECTORS]: {},
+
+		/**
+		 * Notify if song is not recognized.
+		 * @type {Boolean}
+		 */
+		[USE_UNRECOGNIZED_SONG_NOTIFICATIONS]: false,
+	};
 
 	/**
 	 * Object that stores default option values for specific connectors.
