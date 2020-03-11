@@ -283,10 +283,6 @@
         "message": "Anders als andere Erweiterungen enthält diese keine blinkenden Banner oder hinterhältige Werbung.",
         "description": ""
     },
-    "showSomeLoveText2": {
-        "message": "Ich entwickle diese Erweiterung in meiner Freizeit, mit dem Quellcode sperrangelweit offen und ich tue das umsonst und werde das auch in Zukunft tun. Aber bitte überlege ob du ein bisschen was spendieren kannst um mich motiviert zu halten und mir immer genug Pizza und Kaffee zum spätnächtlichen Programmieren zu garantieren.",
-        "description": ""
-    },
     "customPatternsHint": {
         "message": "Füge URL-Muster, für die der Verbinder gelten soll unten ein.",
         "description": "Popup hint"

@@ -283,10 +283,6 @@
         "message": "与其他扩展程序不同，本扩展不包含任何闪烁的横幅或鬼祟的广告。",
         "description": ""
     },
-    "showSomeLoveText2": {
-        "message": "我利用空闲时间开发这个扩展，完全开源，并将保持免费。但是，仍请考虑捐赠少许作为激励，以及确保我总有足够的比萨和咖啡来深夜编程。",
-        "description": ""
-    },
     "customPatternsHint": {
         "message": "在下方为接口添加匹配网址。",
         "description": "Popup hint"

@@ -287,10 +287,6 @@
         "message": "Narozdiel od iných doplnkov, tento neobsahuje žiadne blikajúce alebo skryté reklamy.",
         "description": ""
     },
-    "showSomeLoveText2": {
-        "message": "Vyvíjam tento doplnok vo svojom voľnom čase, zdrojové súbory sú dostupné verejnosti a robím to a aj budem zadarmo. Avšak, prosím zvážte tých pár drobných, ako motiváciu robiť to ďalej a zároveň nech mám aspoň na tú pizzu a kávu popri programovaní v neskorých nočných hodinách. ",
-        "description": ""
-    },
     "customPatternsHint": {
         "message": "URL vzory ktoré má konektor brať pridajte dolu.",
         "description": "Popup hint"

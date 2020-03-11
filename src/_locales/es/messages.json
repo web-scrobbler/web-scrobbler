@@ -287,10 +287,6 @@
         "message": "A diferencia de otras extensiones, ésta no contiene ningún banner parpadeante ni anuncios furtivos.",
         "description": ""
     },
-    "showSomeLoveText2": {
-        "message": "Desarrollé esta extensión en mi tiempo libre, con el código fuente abierto y lo estoy haciendo y lo haré de forma gratuita. Pero aún así, por favor considerá donar unos cuantos dólares para mantenerme motivado y para asegurarme de que siempre tenga suficiente pizza y café durante mis sesiones de programación nocturna.",
-        "description": ""
-    },
     "customPatternsHint": {
         "message": "Agrega patrones de direcciones URL que a continuación el conector debe hacer coincidir.",
         "description": "Popup hint"

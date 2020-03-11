@@ -283,10 +283,6 @@
         "message": "W przeciwieństwie do innych rozszerzeń, w tym nie znajdziesz żadnych wyskakujących bannerów ani ukrytych reklam.",
         "description": ""
     },
-    "showSomeLoveText2": {
-        "message": "Tworzę to rozszerzenie w wolnym czasie, całość kodu udostępniając jako otwarty, robię to i będę robić za darmo. Jeśli mimo tego podarujesz mi parę złotych żeby podczas nocnych maratonów programowania nigdy nie zabrakło mi kawy i pizzy, będzie to dla mnie miła motywacja.",
-        "description": ""
-    },
     "customPatternsHint": {
         "message": "Wprowadź poniżej wzorce adresów, dla których aktywowana ma być obsługa serwisu.",
         "description": "Popup hint"

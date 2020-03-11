@@ -287,10 +287,6 @@
         "message": "Diferentemente de outras extensões, esta não contém banners piscando ou anúncios sorrateiros.",
         "description": ""
     },
-    "showSomeLoveText2": {
-        "message": "Eu desenvolvo essa extensão no meu tempo livre, com código aberto e tudo, e eu estou e vou continuar fazendo isso de graça. Mas ainda assim, considere doar um dinheirinho para me manter motivado e para eu ter certeza de que sempre vou ter pizza e café suficientes para programar tarde da noite.",
-        "description": ""
-    },
     "customPatternsHint": {
         "message": "Adicione padrões de URL que o conector deva corresponder abaixo.",
         "description": "Popup hint"
