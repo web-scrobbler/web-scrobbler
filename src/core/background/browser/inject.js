@@ -54,12 +54,16 @@ define((require) => {
 			const allFrames = connector.allFrames || false;
 
 			console.log(`Injecting ${file}`);
+			/* @ifdef FIREFOX
 			try {
-				await browser.tabs.executeScript(tabId, { file, allFrames });
+			/* @endif */
+			await browser.tabs.executeScript(tabId, { file, allFrames });
+			/* @ifdef FIREFOX
 			} catch (e) {
 				// Firefox throws an error if a content script returns no value.
 				console.error(e);
 			}
+			/* @endif */
 		}
 
 		const isEnabled = await Options.isConnectorEnabled(connector);

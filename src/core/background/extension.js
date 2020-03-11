@@ -197,7 +197,14 @@ define((require) => {
 			return;
 		}
 
-		const result = await Inject.onTabsUpdated(tab);
+		let result;
+		try {
+			result = await Inject.onTabsUpdated(tab);
+		} catch (err) {
+			console.warn(err.message);
+			return;
+		}
+
 		switch (result.type) {
 			case InjectResult.NO_MATCH: {
 				unloadController(tabId);
