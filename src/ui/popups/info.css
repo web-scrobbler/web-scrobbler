@@ -27,7 +27,7 @@ input {
 }
 
 .container {
-	max-width: 370px;
+	max-width: 380px;
 	padding: 5px;
 }
 
@@ -53,7 +53,7 @@ input {
 	grid-row: 1;
 	line-height: 1.5em;
 	padding-left: 5px;
-	padding-right: 5px;
+	padding-right: 10px;
 }
 
 #edit-controls {
