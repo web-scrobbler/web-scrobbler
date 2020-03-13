@@ -375,6 +375,10 @@
         "message": "Web Scrobbler не поддерживает скробблинг с этого сайта.",
         "description": "The description of 'unsupported' popup"
     },
+    "unsupportedWebsiteDesc2": {
+        "message": "Некоторые сайты Google, поддерживаемые расширением (например, Google Play Music, YouTube), могут быть заблокированы политикой ExtensionSettings. ",
+        "description": "The description of 'unsupported' popup"
+    },
     "infoLove": {
         "message": "Нравится",
         "description": "Label of love/unlove button"
