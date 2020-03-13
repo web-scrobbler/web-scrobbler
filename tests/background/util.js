@@ -7,94 +7,91 @@
 const expect = require('chai').expect;
 const Util = require('../../src/core/background/util/util');
 
+const scrobblePercent = 50;
+
 const HIDE_STRING_IN_TEXT_DATA = [{
 	description: 'should hide string in text',
-	source: 'This is a SAMPLE string',
-	string: 'SAMPLE',
+	args: ['SAMPLE', 'This is a SAMPLE string'],
 	expected: 'This is a ****** string'
 }, {
 	description: 'should do nothing if string is null',
-	source: 'This is a SAMPLE string',
-	string: null,
+	args: [null, 'This is a SAMPLE string'],
 	expected: 'This is a SAMPLE string'
 }, {
 	description: 'should do nothing if string is empty',
-	source: 'This is a SAMPLE string',
-	string: '',
+	args: ['', 'This is a SAMPLE string'],
 	expected: 'This is a SAMPLE string'
 }, {
 	description: 'should not fall on null source string',
-	source: null,
-	string: null,
+	args: [null, null],
 	expected: null
 }, {
 	description: 'should not fall on empty source string',
-	source: '',
-	string: '',
-	expected: ''
+	args: ['', ''],
+	expected: '',
 }];
 
 const HIDE_OBJECT_VALUE_DATA = [{
 	description: 'should hide string',
-	source: 'Sensitive',
+	args: ['Sensitive'],
 	expected: '*********'
 }, {
 	description: 'should hide array, but display array length',
-	source: [1, 2, 3],
+	args: [[1, 2, 3]],
 	expected: '[Array(3)]'
 }, {
 	description: 'should hide object with generic placeholder',
-	source: { 1: 1, 2: 2 },
+	args: [{ 1: 1, 2: 2 }],
 	expected: Util.HIDDEN_PLACEHOLDER
 }, {
 	description: 'should display null as is',
-	source: undefined,
+	args: [undefined],
 	expected: undefined
 }, {
 	description: 'should display null as is',
-	source: null,
+	args: [null],
 	expected: null
 }, {
 	description: 'should display empty string as is',
-	source: '',
+	args: [''],
 	expected: ''
 }];
 
 const GET_SECONDS_TO_SCROBBLE_DATA = [{
 	description: 'should return min time if duration is zero',
-	source: 0,
+	args: [0, scrobblePercent],
 	expected: Util.DEFAULT_SCROBBLE_TIME
 }, {
 	description: 'should return min time if duration is null',
-	source: null,
+	args: [null, scrobblePercent],
 	expected: Util.DEFAULT_SCROBBLE_TIME
 }, {
 	description: 'should return min time if duration type is not number',
-	source: 'duration',
+	args: ['duration', scrobblePercent],
 	expected: Util.DEFAULT_SCROBBLE_TIME
 }, {
 	description: 'should return min time if duration is NaN',
-	source: NaN,
+	args: [NaN, scrobblePercent],
 	expected: Util.DEFAULT_SCROBBLE_TIME
 }, {
 	description: 'should return min time if duration is +Infinity',
-	source: Infinity,
+	args: [Infinity, scrobblePercent],
 	expected: Util.DEFAULT_SCROBBLE_TIME
 }, {
 	description: 'should return min time if duration is -Infinity',
-	source: -Infinity,
+	args: [-Infinity, scrobblePercent],
 	expected: Util.DEFAULT_SCROBBLE_TIME
 }, {
 	description: 'should return -1 for short songs',
-	source: Util.MIN_TRACK_DURATION - 1,
+	args: [Util.MIN_TRACK_DURATION - 1, scrobblePercent],
 	expected: -1
 }, {
 	description: 'should return half of song duration',
-	source: 190,
+	args: [190, scrobblePercent],
 	expected: 95
 }, {
 	description: 'should return max time for long songs',
-	source: Util.MAX_SCROBBLE_TIME * 2 + 1,
+	args: [Util.MAX_SCROBBLE_TIME * 2 + 1, scrobblePercent],
 	expected: Util.MAX_SCROBBLE_TIME
 }];
 
@@ -114,8 +111,8 @@ function runTests() {
  */
 function testFunction(func, testData) {
 	for (const data of testData) {
-		const { description, source, expected } = data;
-		const actual = func(source);
+		const { description, args, expected } = data;
+		const actual = func(...args);
 
 		it(description, () => {
 			expect(actual).to.be.equal(expected);
@@ -127,14 +124,7 @@ function testFunction(func, testData) {
  * Test 'Util.hideStringInText' function.
  */
 function testHideStringInText() {
-	for (const data of HIDE_STRING_IN_TEXT_DATA) {
-		const { description, source, expected, string } = data;
-		const actual = Util.hideStringInText(string, source);
-
-		it(description, () => {
-			expect(actual).to.be.equal(expected);
-		});
-	}
+	testFunction(Util.hideStringInText, HIDE_STRING_IN_TEXT_DATA);
 }
 
 /**
