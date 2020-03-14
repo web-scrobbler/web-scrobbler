@@ -18,7 +18,7 @@
     "webextension-polyfill": "0.6.0"
   },
   "devDependencies": {
-    "@octokit/rest": "17.0.0",
+    "@octokit/rest": "17.1.0",
     "chai": "4.2.0",
     "chai-spies": "1.0.0",
     "codacy-coverage": "3.4.0",
