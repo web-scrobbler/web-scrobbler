@@ -40,31 +40,37 @@ define((require) => {
 
 	/**
 	 * How many times to show auth notification.
+	 *
 	 * @type {Number}
 	 */
 	const AUTH_NOTIFICATION_DISPLAY_COUNT = 3;
 
 	/**
 	 * Current version of the extension.
+	 *
 	 * @type {String}
 	 */
 	const extVersion = browser.runtime.getManifest().version;
 
 	/**
-	 * Single controller instance for each tab with injected script
-	 * This allows us to work with tabs independently
+	 * Single controller instance for each tab with injected script.
+	 * This allows us to work with tabs independently.
+	 *
+	 * @type {Object}
 	 */
 	const tabControllers = {};
 
 	/**
 	 * Array of versions have notable changes.
+	 *
 	 * @type {Array}
 	 */
 	const versionsToNotify = [];
 
 	/**
-	 * Flag for "page session" where at least single injection occurred
-	 * Used for tracking number of actually active users
+	 * Flag for "page session" where at least single injection occurred.
+	 * Used for tracking number of actually active users.
+	 *
 	 * @type {Boolean}
 	 */
 	let isActiveSession = false;
@@ -93,6 +99,11 @@ define((require) => {
 		});
 	}
 
+	/**
+	 * Called when a command is executed.
+	 *
+	 * @param  {String} command Command ID
+	 */
 	async function onCommand(command) {
 		const tab = await Util.getCurrentTab();
 		const tabId = tab.id;
@@ -122,6 +133,7 @@ define((require) => {
 
 	/**
 	 * Called when something sent message to background script.
+	 *
 	 * @param  {Object} request Message sent by the calling script
 	 */
 	async function onMessage(request) {
@@ -170,6 +182,7 @@ define((require) => {
 
 	/**
 	 * Called when something sent message to background script via port.
+	 *
 	 * @param  {Object} message Message object
 	 * @param  {Object} sender Message sender
 	 */
@@ -186,7 +199,8 @@ define((require) => {
 	}
 
 	/**
-	 * Called when tab is updated.
+	 * Called when a tab is updated.
+	 *
 	 * @param  {Number} tabId Tab ID
 	 * @param  {Object} changeInfo Object contains changes of updated tab
 	 * @param  {Object} tab State of updated tab
@@ -246,7 +260,8 @@ define((require) => {
 	}
 
 	/**
-	 * Called when current tab is changed.
+	 * Called when a current tab is changed.
+	 *
 	 * @param  {Object} activeInfo Object contains info about current tab
 	 */
 	function onTabChanged(activeInfo) {
@@ -254,7 +269,8 @@ define((require) => {
 	}
 
 	/**
-	 * Called when tab is changed.
+	 * Called when a tab is removed.
+	 *
 	 * @param  {Number} tabId Tab ID
 	 */
 	function onTabRemoved(tabId) {
@@ -270,8 +286,8 @@ define((require) => {
 	}
 
 	/**
-	 * Setup context menu of page action icon.
-	 * Called when active tab is changed.
+	 * Setup context menu of the browser action for a tab with given tab ID.
+	 *
 	 * @param  {Number} tabId Tab ID
 	 */
 	function updateContextMenu(tabId) {
@@ -308,6 +324,7 @@ define((require) => {
 
 	/**
 	 * Helper function to add item to page action context menu.
+	 *
 	 * @param {String} title Item title
 	 * @param {Function} onclick Function that will be called on item click
 	 * @param {String} [type='normal'] Item type
@@ -319,8 +336,7 @@ define((require) => {
 	}
 
 	/**
-	 * Replace the extension version stored in
-	 * local storage by current one.
+	 * Replace the extension version stored in local storage by current one.
 	 */
 	async function updateVersionInStorage() {
 		const storage = BrowserStorage.getStorage(BrowserStorage.CORE);
@@ -333,7 +349,8 @@ define((require) => {
 	}
 
 	/**
-	 * Stop and remove controller for given tab ID.
+	 * Stop and remove controller for a tab with a given tab ID.
+	 *
 	 * @param  {Number} tabId Tab ID
 	 */
 	function unloadController(tabId) {
@@ -348,6 +365,12 @@ define((require) => {
 		}
 	}
 
+	/**
+	 * Enable or disable a connector attached to a given controller.
+	 *
+	 * @param  {Object} ctrl Controller instance
+	 * @param  {Boolean} isEnabled Flag value
+	 */
 	function setConnectorState(ctrl, isEnabled) {
 		const connector = ctrl.getConnector();
 
@@ -381,6 +404,7 @@ define((require) => {
 
 	/**
 	 * Ask user for grant access for service covered by given scrobbler.
+	 *
 	 * @param  {Object} scrobbler Scrobbler instance
 	 */
 	async function authenticateScrobbler(scrobbler) {
@@ -403,6 +427,7 @@ define((require) => {
 
 	/**
 	 * Check if extension should display auth notification.
+	 *
 	 * @return {Boolean} Check result
 	 */
 	async function isAuthNotificationAllowed() {
