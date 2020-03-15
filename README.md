@@ -87,7 +87,7 @@ See the [license file][License].
 [CodacyCoverageBadge]: https://api.codacy.com/project/badge/Coverage/32658c34c5c542d9a315ead8d5eadd0e
 [DavidDmBadge]: https://img.shields.io/david/web-scrobbler/web-scrobbler
 [DavidDmBadgeDev]: https://img.shields.io/david/dev/web-scrobbler/web-scrobbler?label=devDependencies
-[GitHubActionsBadge]: https://github.com/web-scrobbler/web-scrobbler/workflows/test/badge.svg
+[GitHubActionsBadge]: https://github.com/web-scrobbler/web-scrobbler/workflows/Test/badge.svg
 [GitterBadge]: https://badges.gitter.im/Join%20Chat.svg
 [WebStoreBadge]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg
 
