@@ -65,7 +65,7 @@ require([
 		return false;
 	}
 
-	function fillMetadataLabels(trackInfo) {
+	function fillTrackInfo(trackInfo) {
 		for (const field of EDITED_TRACK_FIELDS) {
 			const fieldValue = trackInfo[field];
 			const fieldLabelSelector = `#${field}`;
@@ -95,6 +95,19 @@ require([
 			$(fieldLabelSelector).text(fieldValue);
 			$(fieldLabelSelector).attr('data-hide', !fieldValue);
 		}
+
+		const playCount = getUserPlayCount();
+		if (playCount === 0) {
+			$('#userPlayCount').hide();
+		} else {
+			$('#userPlayCount').show();
+			$('#userPlayCount').attr('title', i18n('infoYourScrobbles', playCount));
+			$('#userPlayCountLabel').text(playCount);
+		}
+
+		$('#album-art').css('background-image', `url("${getCoverArt()}")`);
+
+		$('#label').text(song.metadata.label);
 	}
 
 	function fillMetadataInputs() {
@@ -104,20 +117,6 @@ require([
 			const fieldInputSelector = `#${field}-input`;
 
 			$(fieldInputSelector).val(fieldValue);
-		}
-	}
-
-	function fillAlbumCover() {
-		$('#album-art').css('background-image', `url("${getCoverArt()}")`);
-	}
-
-	function fillUserPlayCount() {
-		const playCount = getUserPlayCount();
-		if (playCount === 0) {
-			$('.user-play-count').hide();
-		} else {
-			$('.user-play-count').show();
-			$('#userPlayCountLabel').text(i18n('infoYourScrobbles', playCount));
 		}
 	}
 
@@ -232,14 +231,10 @@ require([
 	}
 
 	function updatePopupView() {
-		fillMetadataLabels(getTrackInfo());
-		fillAlbumCover();
-		fillUserPlayCount();
+		fillTrackInfo(getTrackInfo());
 
 		configControls();
 		updateControls();
-
-		updateLovedIcon(song.metadata.userloved);
 
 		// @ifdef DEBUG
 		fillDebugInfo();
@@ -292,14 +287,14 @@ require([
 			$('#skip-link').attr('title', i18n('infoSkipTitle'));
 		}
 
-
+		updateLovedIcon(song.metadata.userloved);
 	}
 
 	function correctSongInfo() {
 		if (isSongMetadataChanged()) {
 			const trackInfo = getEditedTrackInfo();
 
-			fillMetadataLabels(trackInfo);
+			fillTrackInfo(trackInfo);
 			sendMessageToCurrentTab('REQUEST_CORRECT_SONG', trackInfo);
 		}
 	}

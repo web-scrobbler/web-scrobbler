@@ -130,7 +130,11 @@ input {
 	text-decoration: none !important;
 }
 
-.user-play-count {
+.tags {
+	white-space: nowrap;
+}
+
+.tag {
 	background-color: #247ba0;
 	border-radius: 3px;
 	color: white;
@@ -139,7 +143,8 @@ input {
 	margin-top: 4px;
 	padding: 0 5px;
 }
-.user-play-count::before {
+
+#userPlayCount::before {
 	content: '\f202';
 	font-family: 'Font Awesome 5 Brands', serif;
 }
