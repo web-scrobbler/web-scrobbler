@@ -20,8 +20,8 @@ const FILES_TO_BUMP = [MANIFEST_FILE, 'package.json', 'package-lock.json'];
 // Files to build zipball
 const EXTENSION_SRC = [
 	'**/*',
-	// Skip SVG except love-controls iconset
-	'!icons/*.svg', 'icons/love_controls.svg'
+	// Skip SVG
+	'!icons/*.svg'
 ];
 const EXTENSION_DOCS = [
 	'README.md', 'LICENSE.md', '3RD-PARTY.md'

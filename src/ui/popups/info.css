@@ -98,23 +98,27 @@ input {
 	text-decoration: underline;
 }
 
-#love {
-	background: url('/icons/love_controls.svg') 0 0 no-repeat;
+#love::before {
+	color: #7f7f7f;
+	content: '\f004';
 	cursor: pointer;
-	height: 16px;
-	width: 16px;
+	font-family: 'Font Awesome 5 Free', serif;
+	font-size: 1rem;
 }
 
-#love:hover {
-	background-position-y: -16px;
+#love:hover::before {
+	color: #d510077f;
+	content: '\f004';
 }
 
-#love[last-fm-loved='true'] {
-	background-position-y: -32px;
+#love[last-fm-loved='true']::before {
+	color: #d51007;
+	content: '\f004';
 }
 
-#love[last-fm-loved='true']:hover {
-	background-position-y: -48px;
+#love[last-fm-loved='true']:hover::before {
+	color: #d51007;
+	content: '\f7a9';
 }
 
 [data-hide='true'] {
