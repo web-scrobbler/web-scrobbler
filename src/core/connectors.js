@@ -1284,10 +1284,10 @@ const connectors = [{
 	js: 'connectors/chillhop.js',
 	id: 'chillhop',
 }, {
-	label: 'datpiff',
+	label: 'DatPiff',
 	matches: ['*://www.datpiff.com/player/*'],
 	js: 'connectors/datpiff.js',
-	id: 'datpiffs',
+	id: 'datpiff',
 	allFrames: true,
 }];
 define(() => connectors);
