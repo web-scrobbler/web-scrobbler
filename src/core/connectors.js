@@ -1283,5 +1283,11 @@ const connectors = [{
 	matches: ['*://chillhop.com/*'],
 	js: 'connectors/chillhop.js',
 	id: 'chillhop',
+}, {
+	label: 'DatPiff',
+	matches: ['*://www.datpiff.com/player/*'],
+	js: 'connectors/datpiff.js',
+	id: 'datpiff',
+	allFrames: true,
 }];
 define(() => connectors);
