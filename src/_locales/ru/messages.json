@@ -43,6 +43,18 @@
         "message": "Скробблить подкасты",
         "description": "Option title"
     },
+    "optionsHidden": {
+        "message": "Скрытые",
+        "description": "'Hidden' section"
+    },
+    "optionScrobblePercent": {
+        "message": "Скробблить на",
+        "description": "Option title"
+    },
+    "optionScrobblePercentSuffix": {
+        "message": "композиции",
+        "description": "Option title"
+    },
     "optionScrobblePodcastsTitle": {
         "message": "Разрешить приложению скробблить подкасты",
         "description": "Option label"
@@ -58,6 +70,10 @@
     "optionYtDesc": {
         "message": "Если вы отключите обе настройки, расширение будет скробблить видео из всех категорий.",
         "description": "Description of Youtube options"
+    },
+    "optionPercentDesc": {
+        "message": "Примечание: композиция будет заскробблена, если она играет более 4 минут, независимо от значения данной настройки.",
+        "description": "Description of scrobble percent option"
     },
     "optionYtMusicOnly": {
         "message": "Скробблить видео только из категории \"Музыка\"",
@@ -285,6 +301,10 @@
     },
     "showSomeLoveText1": {
         "message": "В отличие от других расширений, это не содержит рекламные баннеры.",
+        "description": ""
+    },
+    "showSomeLoveText2": {
+        "message": "Расширение бесплатно, и всегда будет бесплатным. Если вы хотите поддержать разработку расширения, вы можете воспользоваться кнопкой ниже.",
         "description": ""
     },
     "customPatternsHint": {
