@@ -1289,5 +1289,10 @@ const connectors = [{
 	js: 'connectors/datpiff.js',
 	id: 'datpiff',
 	allFrames: true,
+}, {
+	label: 'Shuffle',
+	matches: ['*://shuffle.one/play*'],
+	js: 'connectors/shuffleone.js',
+	id: 'shuffleone',
 }];
 define(() => connectors);
