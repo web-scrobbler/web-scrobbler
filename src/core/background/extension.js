@@ -575,11 +575,17 @@ define((require) => {
 	async function start() {
 		await Migrate.migrate();
 
+		currentTabId = (await Util.getCurrentTab()).id;
+
 		await updateVersionInStorage();
 		await notifyOfNotableChanges();
 		setupEventListeners();
 
-		currentTabId = (await Util.getCurrentTab()).id;
+		/**
+		 * Prevent restoring the browser action icon
+		 * from the previous session.
+		 */
+		browserAction.reset();
 
 		// track background page loaded - happens once per browser session
 		GA.pageview(`/background-loaded?version=${extVersion}`);
