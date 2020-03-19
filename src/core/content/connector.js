@@ -697,7 +697,6 @@ function BaseConnector() {
 
 		if (changedFields.length > 0) {
 			this.filterState(changedFields);
-			this.preProcess(filteredState);
 
 			if (this.reactorCallback !== null) {
 				this.reactorCallback(filteredState, changedFields);
@@ -769,10 +768,16 @@ function BaseConnector() {
 			let fieldValue = currentState[field];
 
 			switch (field) {
+				case 'albumArtist': {
+					if (fieldValue === currentState.artist) {
+						fieldValue = defaultState[field];
+					}
+				}
+				// eslint-disable-next-line no-fallthrough
 				case 'artist':
 				case 'track':
-				case 'album':
-				case 'albumArtist': {
+				case 'album': {
+					console.log(`filter ${field}`);
 					fieldValue = metadataFilter.filterField(field, fieldValue) || defaultState[field];
 					break;
 				}
@@ -789,17 +794,6 @@ function BaseConnector() {
 			}
 
 			filteredState[field] = fieldValue;
-		}
-	};
-
-	/**
-	 * Pre-process filtered state before dispatching to the controller.
-	 *
-	 * @param {Array} filteredState the filtered state
-	 */
-	this.preProcess = (filteredState) => {
-		if (filteredState.albumArtist === filteredState.artist) {
-			delete filteredState.albumArtist;
 		}
 	};
 
