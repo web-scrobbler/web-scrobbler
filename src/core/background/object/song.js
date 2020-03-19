@@ -121,35 +121,19 @@ define((require) => {
 			 */
 			this.internalId = parsedData.uniqueID || makeUniqueId(parsedData);
 
-			/**
-			 * Various optional data. Can be modified.
-			 */
-			this.metadata = {
-				/**
-				 * Flag indicates song is loved by used on service.
-				 * @type {Boolean}
-				 */
-				userloved: false,
-				/**
-				 * Time when song is started playing in UNIX timestamp format.
-				 * @type {Number}
-				 */
-				startTimestamp: Math.floor(Date.now() / 1000),
-				/**
-				 * Connector label.
-				 * @type {String}
-				 */
-				label: connector.label,
-			};
+			this.connectorLabel = connector.label;
 
 			/**
 			 * Various flags. Can be modified.
 			 */
-			this.flags = {
-				// Filled by invoking Song.setDefaults function
-			};
+			this.flags = { /* Filled by `resetFlags` function */ };
 
-			this.setDefaults();
+			/**
+			 * Various optional data. Can be modified.
+			 */
+			this.metadata = { /* Filled by `resetMetadata` function */ };
+
+			this.resetSongData();
 		}
 
 		/**
@@ -165,10 +149,38 @@ define((require) => {
 			for (const field of fields) {
 				this.processed[field] = this.parsed[fields];
 			}
+		}
 
+		/**
+		 * Set default flag values.
+		 */
+		resetFlags() {
 			for (const flag in DEFAULT_FLAGS) {
 				this.flags[flag] = DEFAULT_FLAGS[flag];
 			}
+		}
+
+		/**
+		 * Set default metadata properties.
+		 */
+		resetMetadata() {
+			/**
+			 * Flag indicates song is loved by used on service.
+			 * @type {Boolean}
+			 */
+			this.metadata.userloved = false;
+
+			/**
+			 * Time when song is started playing in UNIX timestamp format.
+			 * @type {Number}
+			 */
+			this.metadata.startTimestamp = Math.floor(Date.now() / 1000);
+
+			/**
+			 * Connector label.
+			 * @type {String}
+			 */
+			this.metadata.label = this.connectorLabel;
 		}
 
 		/**
@@ -299,6 +311,8 @@ define((require) => {
 		 */
 		resetSongData() {
 			this.setDefaults();
+			this.resetMetadata();
+			this.resetFlags();
 		}
 
 		/**

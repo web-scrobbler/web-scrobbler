@@ -143,12 +143,15 @@ define((require) => {
 			}
 
 			if (this.currentSong.flags.isScrobbled) {
-				this.debugLog('Attempted to enter user data for already scrobbled song', 'warn');
-				return;
+				throw new Error('Unable to set user data for scrobbled song');
 			}
 
 			if (isSongDataChanged(this.currentSong, data)) {
 				await LocalCacheStorage.saveSongData(this.currentSong, data);
+
+				this.currentSong.resetFlags();
+				this.currentSong.resetMetadata();
+
 				await this.processSong();
 			}
 		}
