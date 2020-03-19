@@ -146,14 +146,12 @@ define((require) => {
 				throw new Error('Unable to set user data for scrobbled song');
 			}
 
-			if (isSongDataChanged(this.currentSong, data)) {
-				await LocalCacheStorage.saveSongData(this.currentSong, data);
+			await LocalCacheStorage.saveSongData(this.currentSong, data);
 
-				this.currentSong.resetFlags();
-				this.currentSong.resetMetadata();
+			this.currentSong.resetFlags();
+			this.currentSong.resetMetadata();
 
-				await this.processSong();
-			}
+			await this.processSong();
 		}
 
 		/**
@@ -562,22 +560,6 @@ define((require) => {
 			const message = `Tab ${this.tabId}: ${text}`;
 			Util.debugLog(message, logType);
 		}
-	}
-
-	/**
-	 * Apply user data to given song.
-	 * @param  {Object} song Song object
-	 * @param  {Object} data User data
-	 * @return {Boolean} True if data is applied
-	 */
-	function isSongDataChanged(song, data) {
-		for (const field of Song.USER_FIELDS) {
-			if (data[field]) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	/**

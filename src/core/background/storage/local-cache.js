@@ -14,17 +14,13 @@ define((require) => {
 
 		const data = await storage.get();
 		if (data[songId]) {
-			let isChanged = false;
 			const savedMetadata = data[songId];
 
 			for (const field of Song.USER_FIELDS) {
-				if (savedMetadata[field]) {
-					isChanged = true;
-					song.processed[field] = savedMetadata[field];
-				}
+				song.processed[field] = savedMetadata[field];
 			}
 
-			return isChanged;
+			return true;
 		}
 
 		return false;
@@ -42,22 +38,16 @@ define((require) => {
 		}
 
 		const storageData = await storage.get();
-		let isChanged = false;
 
 		if (!storageData[songId]) {
 			storageData[songId] = {};
 		}
 
 		for (const field of Song.USER_FIELDS) {
-			if (data[field]) {
-				storageData[songId][field] = data[field];
-				isChanged = true;
-			}
+			storageData[songId][field] = data[field];
 		}
 
-		if (isChanged) {
-			await storage.set(storageData);
-		}
+		await storage.set(storageData);
 	}
 
 	/**

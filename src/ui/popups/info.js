@@ -51,15 +51,10 @@ require([
 		}
 
 		const trackInfo = getTrackInfo();
-		for (const field in trackInfo) {
-			const fieldInputSelector = `#${field}-input`;
-			const inputText = $(fieldInputSelector).val();
-			if (!inputText) {
-				continue;
-			}
+		const editedTrackInfo = getEditedTrackInfo();
 
-			const fieldValue = trackInfo[field];
-			if (fieldValue !== inputText) {
+		for (const field in trackInfo) {
+			if (trackInfo[field] !== editedTrackInfo[field]) {
 				return true;
 			}
 		}
@@ -137,7 +132,7 @@ require([
 
 		for (const field of EDITED_TRACK_FIELDS) {
 			const fieldInputSelector = `#${field}-input`;
-			trackInfo[field] = $(fieldInputSelector).val().trim();
+			trackInfo[field] = $(fieldInputSelector).val().trim() || null;
 		}
 
 		return trackInfo;
