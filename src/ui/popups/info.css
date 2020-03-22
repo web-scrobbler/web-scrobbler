@@ -171,6 +171,7 @@ input {
 }
 
 [disabled] {
+	color: #999;
 	cursor: default !important;
 	text-decoration: none !important;
 }
