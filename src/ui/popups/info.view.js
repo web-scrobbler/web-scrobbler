@@ -74,6 +74,10 @@ class InfoPopupView {
 		$(inputGenericId).first().focus();
 	}
 
+	isDebugInfoVisible() {
+		return $('#debug').prop('hidden') === false;
+	}
+
 	setConnectorLabel(label) {
 		$('#label').text(label);
 	}

@@ -106,6 +106,11 @@ class InfoPopup {
 		}
 	}
 
+	updateDebugInfo() {
+		const data = JSON.stringify(this.song, null, 2);
+		this.view.showDebugInfo(data);
+	}
+
 	/** Song manipulation */
 
 	setSong(song) {
@@ -132,6 +137,10 @@ class InfoPopup {
 		}
 
 		this.updateControls();
+
+		if (this.view.isDebugInfoVisible()) {
+			this.updateDebugInfo();
+		}
 	}
 
 	/** Control listeners */
@@ -188,8 +197,7 @@ class InfoPopup {
 	}
 
 	onAltClick() {
-		const data = JSON.stringify(this.song, null, 2);
-		this.view.showDebugInfo(data);
+		this.updateDebugInfo();
 	}
 
 	/** Helpers */
