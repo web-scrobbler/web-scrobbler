@@ -21,7 +21,7 @@ a {
 }
 
 input {
-	width: 219px;
+	width: 199px;
 }
 
 /**
@@ -30,14 +30,13 @@ input {
 
 .main-container {
 	display: grid;
-	grid-template-columns: 136px 244px;
+	grid-template-columns: 136px 224px;
 	min-height: 136px;
 }
 
 .popup-container {
 	display: grid;
-	grid-gap: 5px;
-	grid-template-columns: 244px;
+	grid-template-columns: 209px;
 	grid-template-rows: auto auto;
 	margin: 5px;
 	margin-left: 10px;
@@ -45,7 +44,7 @@ input {
 
 .debug-container {
 	margin-left: 10px;
-	max-width: 380px;
+	max-width: 360px;
 }
 
 /**
@@ -68,8 +67,6 @@ input {
 	grid-column: 1;
 	grid-row: 1;
 	line-height: 1.5em;
-	margin-right: 10px;
-	padding-right: 5px;
 }
 
 .edit-controls {
@@ -90,7 +87,7 @@ input {
 	grid-column: 1;
 	grid-row: 2;
 	justify-self: end;
-	margin-right: 18px;
+	margin-right: 5px;
 }
 
 .artist, .album, .track {
