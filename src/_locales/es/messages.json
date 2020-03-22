@@ -43,6 +43,18 @@
         "message": "Scrobble podcasts",
         "description": "Option title"
     },
+    "optionsHidden": {
+        "message": "Oculto",
+        "description": "'Hidden' section"
+    },
+    "optionScrobblePercent": {
+        "message": "Scrobble en",
+        "description": "Option title"
+    },
+    "optionScrobblePercentSuffix": {
+        "message": "de duración de la canción",
+        "description": "Option title"
+    },
     "optionScrobblePodcastsTitle": {
         "message": "Scrobble episodios del podcast",
         "description": "Option label"
@@ -58,6 +70,10 @@
     "optionYtDesc": {
         "message": "Si desactiva ambas opciones, la extensión hará scrobbles de los videos de Youtube en todas las categorías.",
         "description": "Description of Youtube options"
+    },
+    "optionPercentDesc": {
+        "message": "Tenga en cuenta que una pista será scrobbled de todos modos, si se ha ejecutado durante 4 minutos, independientemente del valor de la opción.",
+        "description": "Description of scrobble percent option"
     },
     "optionYtMusicOnly": {
         "message": "Scrobble videos de la categoría \"Música\"",
@@ -287,6 +303,10 @@
         "message": "A diferencia de otras extensiones, ésta no contiene ningún banner parpadeante ni anuncios furtivos.",
         "description": ""
     },
+    "showSomeLoveText2": {
+        "message": "La extensión es gratuita y siempre lo será. Pero si desea apoyar el desarrollo de la extensión, puede usar el botón a continuación.",
+        "description": ""
+    },
     "customPatternsHint": {
         "message": "Agrega patrones de direcciones URL que a continuación el conector debe hacer coincidir.",
         "description": "Popup hint"
@@ -369,6 +389,10 @@
     },
     "unsupportedWebsiteDesc": {
         "message": "Web Scrobbler no da soporte al scrobbling desde este sitio web.",
+        "description": "The description of 'unsupported' popup"
+    },
+    "unsupportedWebsiteDesc2": {
+        "message": "Algunos sitios web de Google compatibles con la extensión (por ejemplo, Google Play Music, YouTube) pueden bloquearse debido a una política de ExtensionSettings.",
         "description": "The description of 'unsupported' popup"
     },
     "infoLove": {
