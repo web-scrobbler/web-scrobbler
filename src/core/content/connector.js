@@ -777,7 +777,6 @@ function BaseConnector() {
 				case 'artist':
 				case 'track':
 				case 'album': {
-					console.log(`filter ${field}`);
 					fieldValue = metadataFilter.filterField(field, fieldValue) || defaultState[field];
 					break;
 				}
