@@ -79,13 +79,13 @@ class InfoPopupView {
 	}
 
 	setEditBlockVisible() {
-		$(infoBlockId).attr('data-hide', true);
-		$(editBlockId).attr('data-hide', false);
+		$(infoBlockId).prop('hidden', true);
+		$(editBlockId).prop('hidden', false);
 	}
 
 	setInfoBlockVisible() {
-		$(infoBlockId).attr('data-hide', false);
-		$(editBlockId).attr('data-hide', true);
+		$(infoBlockId).prop('hidden', false);
+		$(editBlockId).prop('hidden', true);
 	}
 
 	setTrackArt(url) {
@@ -106,16 +106,16 @@ class InfoPopupView {
 
 	setUserPlayCount(playCount) {
 		if (playCount === 0) {
-			$('#userPlayCount').hide();
+			$('#userPlayCount').prop('hidden', true);
 		} else {
-			$('#userPlayCount').show();
+			$('#userPlayCount').prop('hidden', false);
 			$('#userPlayCount').attr('title', this.i18n('infoYourScrobbles', playCount));
 			$('#userPlayCountLabel').text(playCount);
 		}
 	}
 
 	showDebugInfo(data) {
-		$('#debug').show();
+		$('#debug').prop('hidden', false);
 		$('#debug pre').text(data);
 	}
 
@@ -156,7 +156,7 @@ class InfoPopupView {
 	}
 
 	setRevertButtonVisible(flag) {
-		$(revertBtnId).attr('data-hide', !flag);
+		$(revertBtnId).prop('hidden', !flag);
 	}
 
 	setSubmitButtonState(flag) {
@@ -182,7 +182,7 @@ class InfoPopupView {
 		const selector = InfoPopupView.getFieldSelector(field);
 
 		$(selector).text(value);
-		$(selector).attr('data-hide', !value);
+		$(selector).prop('hidden', !value);
 	}
 
 	setFieldInput(field, value) {
@@ -246,7 +246,6 @@ class InfoPopupView {
 	}
 
 	setControlEnabled(selector, state) {
-		$(selector).attr('data-disable', !state);
 		$(selector).prop('disabled', !state);
 	}
 

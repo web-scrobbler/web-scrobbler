@@ -169,11 +169,11 @@ input {
  * Helpers.
  */
 
-[data-hide='true'] {
+[hidden] {
 	display: none !important;
 }
-[data-disable='true'] {
-	color: #999;
+
+[disabled] {
 	cursor: default !important;
 	text-decoration: none !important;
 }
