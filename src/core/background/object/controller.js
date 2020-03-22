@@ -411,14 +411,14 @@ define((require) => {
 				this.playbackTimer.resume();
 				this.replayDetectionTimer.resume();
 
+				const {	isMarkedAsPlaying } = this.currentSong.flags;
+
 				// Maybe the song was not marked as playing yet
-				if (!this.currentSong.flags.isMarkedAsPlaying
-					&& this.currentSong.isValid()) {
+				if (!isMarkedAsPlaying && this.currentSong.isValid()) {
 					this.setSongNowPlaying();
-				} else if (this.currentSong.flags.isScrobbled) {
-					this.setMode(ControllerMode.Scrobbled);
 				} else {
-					this.setMode(ControllerMode.Playing);
+					// Resend current mode
+					this.setMode(this.mode);
 				}
 			} else {
 				this.playbackTimer.pause();
