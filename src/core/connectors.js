@@ -1294,5 +1294,10 @@ const connectors = [{
 	matches: ['*://shuffle.one/play*'],
 	js: 'connectors/shuffleone.js',
 	id: 'shuffleone',
+}, {
+	label: 'Sector Radio',
+	matches: ['*://sectorradio.ru/*'],
+	js: 'connectors/sectorradio.js',
+	id: 'sectorradio',
 }];
 define(() => connectors);
