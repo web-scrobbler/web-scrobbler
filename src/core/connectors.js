@@ -1295,7 +1295,7 @@ const connectors = [{
 	js: 'connectors/shuffleone.js',
 	id: 'shuffleone',
 }, {
-	label: 'Sector Radio',
+	label: 'SECTOR Radio',
 	matches: ['*://sectorradio.ru/*'],
 	js: 'connectors/sectorradio.js',
 	id: 'sectorradio',
