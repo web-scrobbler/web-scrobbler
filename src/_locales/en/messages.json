@@ -449,10 +449,6 @@
     "message": "You cannot swap scrobbled track",
     "description": "Title of swap button"
   },
-  "infoSwapSkippedTitle": {
-    "message": "You cannot swap skipped track",
-    "description": "Title of swap button"
-  },
   "infoSubmit": {
     "message": "Submit",
     "description": "Label of submit button"

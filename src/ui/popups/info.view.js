@@ -1,0 +1,277 @@
+'use strict';
+
+const editBlockId = '#edit';
+const infoBlockId = '#info';
+
+const trackArtLinkId = '#album-art-link';
+const trackArtImgId = '#album-art-img';
+
+const editBtnId = '#edit-link';
+const loveBtnId = '#love-link';
+const skipBtnId = '#skip-link';
+const submitBtnId = '#submit-link';
+const swapBtnId = '#swap-link';
+const revertBtnId = '#revert-link';
+
+const inputGenericId = '#edit input';
+
+const fieldTitleMap = {
+	album: 'infoViewAlbumPage',
+	track: 'infoViewTrackPage',
+	artist: 'infoViewArtistPage',
+	albumArtist: 'infoViewArtistPage',
+};
+
+const btnTitleMap = {
+	[editBtnId]: 'infoEdit',
+	[revertBtnId]: 'infoRevert',
+	[skipBtnId]: 'infoSkip',
+	[swapBtnId]: 'infoSwap',
+	[submitBtnId]: 'infoSubmit',
+};
+
+const defaultTrackArtUrl = '/icons/cover_art_default.png';
+
+class InfoPopupView {
+	constructor() {
+		this.infoPopup = this.makeInfoPopup();
+
+		this.clickListeners = {
+			[loveBtnId]: this.infoPopup.onLoveBtnClick,
+
+			[editBtnId]: this.infoPopup.onEditBtnClick,
+			[revertBtnId]: this.infoPopup.onRevertBtnClick,
+			[skipBtnId]: this.infoPopup.onSkipBtnClick,
+			[submitBtnId]: this.infoPopup.onSubmitBtnClick,
+			[swapBtnId]: this.infoPopup.onSwapBtnClick,
+		};
+
+		this.initControls();
+		this.setupControlListeners();
+	}
+
+	/**
+	 * Functions must be implemented.
+	 */
+
+	makeInfoPopup() {
+		throw new Error('No implementation!');
+	}
+
+	i18n(/* messageId, ...placeholders */) {
+		throw new Error('No implementation!');
+	}
+
+	/** Basic functions */
+
+	getInfoPopup() {
+		return this.infoPopup;
+	}
+
+	/** Controls */
+
+	focusOnInput() {
+		$(inputGenericId).first().focus();
+	}
+
+	setConnectorLabel(label) {
+		$('#label').text(label);
+	}
+
+	setEditBlockVisible() {
+		$(infoBlockId).attr('data-hide', true);
+		$(editBlockId).attr('data-hide', false);
+	}
+
+	setInfoBlockVisible() {
+		$(infoBlockId).attr('data-hide', false);
+		$(editBlockId).attr('data-hide', true);
+	}
+
+	setTrackArt(url) {
+		$(trackArtImgId).attr('src', url || defaultTrackArtUrl);
+		$(trackArtLinkId).attr('href', url || defaultTrackArtUrl);
+	}
+
+	setUserLovedIcon(isLoved) {
+		if (isLoved) {
+			$(loveBtnId).addClass('loved');
+			$(loveBtnId).removeClass('unloved');
+		} else {
+			$(loveBtnId).addClass('unloved');
+			$(loveBtnId).removeClass('loved');
+		}
+		$(loveBtnId).attr('title', this.i18n(isLoved ? 'infoUnlove' : 'infoLove'));
+	}
+
+	setUserPlayCount(playCount) {
+		if (playCount === 0) {
+			$('#userPlayCount').hide();
+		} else {
+			$('#userPlayCount').show();
+			$('#userPlayCount').attr('title', this.i18n('infoYourScrobbles', playCount));
+			$('#userPlayCountLabel').text(playCount);
+		}
+	}
+
+	showDebugInfo(data) {
+		$('#debug').show();
+		$('#debug pre').text(data);
+	}
+
+	/** Buttons */
+
+	setEditButtonState(flag) {
+		this.setButtonState(
+			editBtnId, flag, 'infoEditTitle', 'infoEditUnableTitle'
+		);
+	}
+
+	setEditButtonSkipped() {
+		this.setControlEnabled(editBtnId, false);
+		this.setButtonTitle(editBtnId, 'infoEditSkippedTitle');
+	}
+
+	setSkipButtonState(flag) {
+		this.setButtonState(
+			skipBtnId, flag, 'infoSkipTitle', 'infoSkipUnableTitle'
+		);
+	}
+
+	setSkipButtonSkipped() {
+		this.setControlEnabled(skipBtnId, false);
+		this.setButtonTitle(skipBtnId, 'infoSkipAlreadyTitle');
+	}
+
+	setSwapButtonState(flag) {
+		this.setButtonState(
+			swapBtnId, flag, 'infoSwapTitle', 'infoSwapUnableTitle'
+		);
+	}
+
+	setRevertButtonState(flag) {
+		this.setButtonState(
+			revertBtnId, flag, 'infoRevertTitle', 'infoRevertUnableTitle'
+		);
+	}
+
+	setRevertButtonVisible(flag) {
+		$(revertBtnId).attr('data-hide', !flag);
+	}
+
+	setSubmitButtonState(flag) {
+		this.setButtonState(
+			submitBtnId, flag, 'infoEditTitle', 'infoEditTitle'
+		);
+	}
+
+	/** Fields */
+
+	getEditedTrackFields() {
+		const trackInfo = {};
+
+		for (const field of ['artist', 'track', 'album', 'albumArtist']) {
+			const selector = InfoPopupView.getInputSelector(field);
+			trackInfo[field] = $(selector).val().trim() || null;
+		}
+
+		return trackInfo;
+	}
+
+	setFieldValue(field, value) {
+		const selector = InfoPopupView.getFieldSelector(field);
+
+		$(selector).text(value);
+		$(selector).attr('data-hide', !value);
+	}
+
+	setFieldInput(field, value) {
+		const selector = InfoPopupView.getInputSelector(field);
+
+		$(selector).val(value);
+	}
+
+	setFieldUrl(field, url) {
+		const selector = InfoPopupView.getFieldSelector(field);
+		const fieldTitleId = fieldTitleMap[field];
+
+		$(selector).attr('href', url);
+		$(selector).attr('title', this.i18n(fieldTitleId));
+	}
+
+	removeFieldUrl(field) {
+		const selector = InfoPopupView.getFieldSelector(field);
+
+		$(selector).removeAttr('href');
+		$(selector).removeAttr('title');
+	}
+
+	/** Internal functions */
+
+	initControls() {
+		for (const btnId in btnTitleMap) {
+			const titleId = btnTitleMap[btnId];
+			$(btnId).text(this.i18n(titleId));
+		}
+
+		this.setButtonTitle(swapBtnId, 'infoSwapTitle');
+	}
+
+	setupControlListeners() {
+		for (const controlId in this.clickListeners) {
+			const onClick = this.clickListeners[controlId].bind(this.infoPopup);
+
+			$(controlId).off('click');
+			$(controlId).on('click', () => {
+				onClick();
+			});
+		}
+
+		$(inputGenericId).off('keyup');
+		$(inputGenericId).on('keyup', (e) => {
+			const isSubmitAction = e.which === 13;
+
+			if (isSubmitAction) {
+				this.infoPopup.onEnterPressed();
+			} else {
+				this.infoPopup.onInputsChanged();
+			}
+		});
+
+		$('body').click((e) => {
+			if (e.altKey) {
+				this.infoPopup.onAltClick();
+			}
+		});
+	}
+
+	setControlEnabled(selector, state) {
+		$(selector).attr('data-disable', !state);
+		$(selector).prop('disabled', !state);
+	}
+
+	setButtonTitle(selector, titleId) {
+		$(selector).attr('title', this.i18n(titleId));
+	}
+
+	setButtonState(selector, state, enabledTitleId, disabledTitleId) {
+		this.setControlEnabled(selector, state);
+		if (state) {
+			this.setButtonTitle(selector, enabledTitleId);
+		} else {
+			this.setButtonTitle(selector, disabledTitleId);
+		}
+	}
+
+	/** Helpers */
+
+	static getFieldSelector(field) {
+		return `#${field}`;
+	}
+
+	static getInputSelector(field) {
+		return `#${field}-input`;
+	}
+}
+
+define(() => InfoPopupView);

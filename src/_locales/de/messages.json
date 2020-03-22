@@ -403,10 +403,6 @@
         "message": "Du kannst einen bereits gescrobbleten Titel nicht austauschen",
         "description": "Title of swap button"
     },
-    "infoSwapSkippedTitle": {
-        "message": "Du kannst einen übersprungenen Titel nicht austauschen",
-        "description": "Title of swap button"
-    },
     "infoSubmit": {
         "message": "Senden",
         "description": "Label of submit button"

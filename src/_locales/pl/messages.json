@@ -403,10 +403,6 @@
         "message": "Nie możesz zamienić już przescrobblowanych informacji o utworze",
         "description": "Title of swap button"
     },
-    "infoSwapSkippedTitle": {
-        "message": "Nie możesz zamienić informacji pominiętego utworu",
-        "description": "Title of swap button"
-    },
     "infoSubmit": {
         "message": "Zachowaj",
         "description": "Label of submit button"

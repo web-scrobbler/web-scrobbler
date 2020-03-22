@@ -9,6 +9,7 @@ require.config({
 		md5: '/vendor/md5.min',
 		vendor: '/vendor',
 		jquery: '/vendor/jquery.min',
+		popups: '/ui/popups',
 		options: '/ui/options',
 		bootstrap: '/vendor/bootstrap/js/bootstrap.bundle.min',
 		connectors: '/core/connectors',

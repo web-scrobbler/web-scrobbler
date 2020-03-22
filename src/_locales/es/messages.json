@@ -431,10 +431,6 @@
         "message": "No puede intercambiar canciones scrobbled",
         "description": "Title of swap button"
     },
-    "infoSwapSkippedTitle": {
-        "message": "No puede intercambiar canciones omitidas",
-        "description": "Title of swap button"
-    },
     "infoSubmit": {
         "message": "Enviar",
         "description": "Label of submit button"

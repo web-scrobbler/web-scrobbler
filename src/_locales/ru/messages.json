@@ -431,10 +431,6 @@
         "message": "Вы не можете изменить заскробленный трек",
         "description": "Title of swap button"
     },
-    "infoSwapSkippedTitle": {
-        "message": "Вы не можете изменить пропущенный трек",
-        "description": "Title of swap button"
-    },
     "infoSubmit": {
         "message": "Принять",
         "description": "Label of submit button"

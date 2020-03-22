@@ -407,10 +407,6 @@
         "message": "Nie je možné vymeniť údaje zaznamenanej skladby",
         "description": "Title of swap button"
     },
-    "infoSwapSkippedTitle": {
-        "message": "Nie je možné vymeniť údaje vynechanej skladby",
-        "description": "Title of swap button"
-    },
     "infoSubmit": {
         "message": "Uložiť",
         "description": "Label of submit button"

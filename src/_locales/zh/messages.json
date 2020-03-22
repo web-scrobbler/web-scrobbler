@@ -403,10 +403,6 @@
         "message": "无法交换已提交曲目",
         "description": "Title of swap button"
     },
-    "infoSwapSkippedTitle": {
-        "message": "无法交换已跳过曲目",
-        "description": "Title of swap button"
-    },
     "infoSubmit": {
         "message": "提交",
         "description": "Label of submit button"
