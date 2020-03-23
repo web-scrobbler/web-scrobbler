@@ -20,7 +20,7 @@ Connector.getAlbum = () => {
 	}
 
 	if ($('.nowPlayingDetail img.albumImage')) {
-		return $('.nowPlayingDetail img.albumImage').att('title');
+		return $('.nowPlayingDetail img.albumImage').attr('title');
 	}
 
 	if ($('.trackSourceLink a').data('ui-click-action') === 'selectAlbum') {
