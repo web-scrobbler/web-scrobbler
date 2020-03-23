@@ -166,9 +166,7 @@ class InfoPopup {
 	}
 
 	onRevertBtnClick() {
-		this.sendMessage('REQUEST_RESET_SONG').then(() => {
-			window.close();
-		});
+		this.sendMessage('REQUEST_RESET_SONG');
 	}
 
 	onLoveBtnClick() {
