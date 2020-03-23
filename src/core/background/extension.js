@@ -256,7 +256,9 @@ define((require) => {
 						// Suppress errors
 					}
 				};
-				ctrl.onModeChanged = (mode) => {
+				ctrl.onModeChanged = () => {
+					const mode = ctrl.getMode();
+
 					if (ControllerMode.isActive(mode)) {
 						activeTabId = tabId;
 					}

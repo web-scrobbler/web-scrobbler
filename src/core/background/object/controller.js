@@ -118,6 +118,14 @@ define((require) => {
 		}
 
 		/**
+		 * Get current controller mode.
+		 * @return {Object} Controller mode
+		 */
+		getMode() {
+			return this.mode;
+		}
+
+		/**
 		 * Sets data for current song from user input
 		 * @param {Object} data Object contains song data
 		 */
@@ -167,10 +175,8 @@ define((require) => {
 
 		/**
 		 * Called if a controller mode is changed.
-		 *
-		 * @param  {Object} mode Controller mode
 		 */
-		onModeChanged(mode) { // eslint-disable-line no-unused-vars
+		onModeChanged() {
 			throw new Error('This function must be overriden!');
 		}
 
