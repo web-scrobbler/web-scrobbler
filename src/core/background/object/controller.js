@@ -99,6 +99,8 @@ define((require) => {
 			this.replayDetectionTimer.reset();
 
 			Notifications.clearNowPlaying(this.currentSong);
+
+			this.onSongUpdated();
 		}
 
 		/**
@@ -166,10 +168,8 @@ define((require) => {
 
 		/**
 		 * Called if current song is updated.
-		 *
-		 * @param  {Object} song Updated song
 		 */
-		onSongUpdated(song) { // eslint-disable-line no-unused-vars
+		onSongUpdated() { // eslint-disable-line no-unused-vars
 			throw new Error('This function must be overriden!');
 		}
 
@@ -391,7 +391,7 @@ define((require) => {
 				this.setSongNotRecognized();
 			}
 
-			this.onSongUpdated(this.currentSong);
+			this.onSongUpdated();
 		}
 
 		/**
@@ -553,7 +553,7 @@ define((require) => {
 				this.currentSong.flags.isScrobbled = true;
 				this.setMode(ControllerMode.Scrobbled);
 
-				this.onSongUpdated(this.currentSong);
+				this.onSongUpdated();
 
 				GA.event('core', 'scrobble', this.connector.label);
 			} else if (areAllResults(results, ServiceCallResult.IGNORED)) {

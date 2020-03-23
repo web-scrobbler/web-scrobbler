@@ -155,10 +155,7 @@ class InfoPopup {
 	}
 
 	onSkipBtnClick() {
-		this.song.flags.isSkipped = true;
-
 		this.sendMessage('REQUEST_SKIP_SONG');
-		this.updateControls();
 	}
 
 	onSwapBtnClick() {

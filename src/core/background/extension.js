@@ -245,13 +245,12 @@ define((require) => {
 
 				const enabled = result.type === InjectResult.MATCHED_AND_INJECTED;
 				const ctrl = new Controller(tabId, result.connector, enabled);
-				ctrl.onSongUpdated = async(song) => {
+				ctrl.onSongUpdated = async() => {
+					const data = ctrl.getCurrentSong().getCloneableData();
+					const type = 'EVENT_SONG_UPDATED';
+
 					try {
-						await browser.runtime.sendMessage({
-							tabId,
-							type: 'EVENT_SONG_UPDATED',
-							data: song.getCloneableData(),
-						});
+						await browser.runtime.sendMessage({ type, data, tabId });
 					} catch (e) {
 						// Suppress errors
 					}
