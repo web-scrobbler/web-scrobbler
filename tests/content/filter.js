@@ -261,6 +261,10 @@ const YOUTUBE_FILTER_RULES_TEST_DATA = [{
 	source: 'Track Title Live',
 	expected: 'Track Title'
 }, {
+	description: 'should not remove "live" from string',
+	source: 'Fully Alive',
+	expected: 'Fully Alive'
+}, {
 	description: 'should remove (live) suffix',
 	source: 'Track Title (Live)',
 	expected: 'Track Title'

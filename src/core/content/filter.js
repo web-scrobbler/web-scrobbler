@@ -352,7 +352,9 @@ class MetadataFilter {
 			// Full Album
 			{ source: /full\s*album/i, target: '' },
 			// live
-			{ source: /\(?live.*?\)?$/i, target: '' },
+			{ source: /\s+live.*?$/i, target: '' },
+			// (live)
+			{ source: /\(live.*?\)$/i, target: '' },
 			// | something
 			{ source: /\|.*$/i, target: '' },
 			// Leftovers after e.g. (official video)
