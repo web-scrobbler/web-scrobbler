@@ -207,8 +207,6 @@ class InfoPopupView {
 			const titleId = btnTitleMap[btnId];
 			$(btnId).text(this.i18n(titleId));
 		}
-
-		this.setButtonTitle(swapBtnId, 'infoSwapTitle');
 	}
 
 	setupControlListeners() {

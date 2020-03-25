@@ -44,6 +44,8 @@ class InfoPopup {
 				break;
 			}
 		}
+
+		this.updateControls();
 	}
 
 	updateTrackFields() {
@@ -129,8 +131,6 @@ class InfoPopup {
 			this.updateTrackInputs();
 			this.setInfoPopupMode(modeEdit);
 		}
-
-		this.updateControls();
 
 		if (this.view.isDebugInfoVisible()) {
 			this.updateDebugInfo();
