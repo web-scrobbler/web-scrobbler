@@ -41,6 +41,7 @@ rules:
   selector-combinator-space-before: always
   selector-descendant-combinator-no-non-space: true
   selector-max-empty-lines: 0
+  selector-max-id: 0
   selector-list-comma-newline-after: always-multi-line
   selector-list-comma-newline-before: never-multi-line
   selector-list-comma-space-after: always-single-line
