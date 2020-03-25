@@ -14,3 +14,6 @@ trim_trailing_whitespace = false
 [{*.json,*.yml,*.yaml}]
 indent_size = 2
 indent_style = space
+
+[messages.json]
+insert_final_newline = false
