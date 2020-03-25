@@ -131,20 +131,10 @@ class InfoPopupView {
 		);
 	}
 
-	setEditButtonSkipped() {
-		this.setControlEnabled(editBtnId, false);
-		this.setButtonTitle(editBtnId, 'infoEditSkippedTitle');
-	}
-
 	setSkipButtonState(flag) {
 		this.setButtonState(
 			skipBtnId, flag, 'infoSkipTitle', 'infoSkipUnableTitle'
 		);
-	}
-
-	setSkipButtonSkipped() {
-		this.setControlEnabled(skipBtnId, false);
-		this.setButtonTitle(skipBtnId, 'infoSkipAlreadyTitle');
 	}
 
 	setSwapButtonState(flag) {
@@ -165,7 +155,7 @@ class InfoPopupView {
 
 	setSubmitButtonState(flag) {
 		this.setButtonState(
-			submitBtnId, flag, 'infoEditTitle', 'infoEditTitle'
+			submitBtnId, flag, 'infoSubmitTitle', 'infoSubmitUnableTitle'
 		);
 	}
 

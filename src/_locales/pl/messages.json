@@ -387,10 +387,6 @@
         "message": "Nie możesz edytować już przescrobblowanych informacji o utworze",
         "description": "Title of edit button"
     },
-    "infoEditSkippedTitle": {
-        "message": "Nie możesz edytować informacji pominiętego utworu",
-        "description": "Title of edit button"
-    },
     "infoSwap": {
         "message": "Zamień miejscami",
         "description": "Label of swap button"
@@ -429,10 +425,6 @@
     },
     "infoSkipUnableTitle": {
         "message": "Nie możesz pominąć już przescrobblowanego utworu",
-        "description": "Title of skip button"
-    },
-    "infoSkipAlreadyTitle": {
-        "message": "Już pominąłeś ten utwór",
         "description": "Title of skip button"
     },
     "infoOpenAlbumArt": {

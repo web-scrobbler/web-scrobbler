@@ -387,10 +387,6 @@
         "message": "Du kannst bereits gescrobblete Titel nicht bearbeiten",
         "description": "Title of edit button"
     },
-    "infoEditSkippedTitle": {
-        "message": "Du kannst übersprungene Titel nicht bearbeiten",
-        "description": "Title of edit button"
-    },
     "infoSwap": {
         "message": "Austauschen",
         "description": "Label of swap button"
@@ -429,10 +425,6 @@
     },
     "infoSkipUnableTitle": {
         "message": "Du kannst bereits gescrobblete Titel nicht überspringen",
-        "description": "Title of skip button"
-    },
-    "infoSkipAlreadyTitle": {
-        "message": "Du hast diesen Titel bereits übersprungen",
         "description": "Title of skip button"
     },
     "infoOpenAlbumArt": {

@@ -391,10 +391,6 @@
         "message": "Você não pode editar uma faixa com scrobble efetuado",
         "description": "Title of edit button"
     },
-    "infoEditSkippedTitle": {
-        "message": "Você não pode editar uma faixa pulada",
-        "description": "Title of edit button"
-    },
     "infoSwap": {
         "message": "Trocar",
         "description": "Label of swap button"
@@ -433,10 +429,6 @@
     },
     "infoSkipUnableTitle": {
         "message": "Você não pode pular uma faixa com scrobble efetuado",
-        "description": "Title of skip button"
-    },
-    "infoSkipAlreadyTitle": {
-        "message": "Você já pulou essa faixa",
         "description": "Title of skip button"
     },
     "infoOpenAlbumArt": {

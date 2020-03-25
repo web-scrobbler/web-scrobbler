@@ -387,10 +387,6 @@
         "message": "无法编辑已提交曲目",
         "description": "Title of edit button"
     },
-    "infoEditSkippedTitle": {
-        "message": "无法编辑已跳过曲目",
-        "description": "Title of edit button"
-    },
     "infoSwap": {
         "message": "交换",
         "description": "Label of swap button"
@@ -429,10 +425,6 @@
     },
     "infoSkipUnableTitle": {
         "message": "无法跳过已提交曲目",
-        "description": "Title of skip button"
-    },
-    "infoSkipAlreadyTitle": {
-        "message": "您已跳过该曲目",
         "description": "Title of skip button"
     },
     "infoOpenAlbumArt": {

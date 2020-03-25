@@ -85,19 +85,13 @@ class InfoPopup {
 	updateControls() {
 		if (this.mode === modeInfo) {
 			const { isCorrectedByUser, isScrobbled, isSkipped } = this.song.flags;
+			const isEnabled = !(isScrobbled || isSkipped);
 
 			this.view.setRevertButtonVisible(isCorrectedByUser);
 
-			if (isSkipped) {
-				this.view.setEditButtonSkipped();
-				this.view.setSkipButtonSkipped();
-			} else {
-				const isEnabled = !isScrobbled;
-
-				this.view.setEditButtonState(isEnabled);
-				this.view.setRevertButtonState(isEnabled);
-				this.view.setSkipButtonState(isEnabled);
-			}
+			this.view.setEditButtonState(isEnabled);
+			this.view.setRevertButtonState(isEnabled);
+			this.view.setSkipButtonState(isEnabled);
 		} else if (this.mode === modeEdit) {
 			const isEnabled = InfoPopup.areTrackFieldsComplete(this.trackFields);
 

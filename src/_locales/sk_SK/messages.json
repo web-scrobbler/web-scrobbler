@@ -391,10 +391,6 @@
         "message": "Nie je možné upraviť už zaznamenanú skladbu",
         "description": "Title of edit button"
     },
-    "infoEditSkippedTitle": {
-        "message": "Nie je možné upraviť vynechanú skladbu",
-        "description": "Title of edit button"
-    },
     "infoSwap": {
         "message": "Vymeniť",
         "description": "Label of swap button"
@@ -433,10 +429,6 @@
     },
     "infoSkipUnableTitle": {
         "message": "Nie je možné vynechať už zaznamenanú skladbu",
-        "description": "Title of skip button"
-    },
-    "infoSkipAlreadyTitle": {
-        "message": "Túto skladbu ste už vynechali",
         "description": "Title of skip button"
     },
     "infoOpenAlbumArt": {

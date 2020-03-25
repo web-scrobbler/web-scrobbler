@@ -415,10 +415,6 @@
         "message": "Вы не можете изменить информацию о треке, который был заскробблен",
         "description": "Title of edit button"
     },
-    "infoEditSkippedTitle": {
-        "message": "Вы не можете редактировать информацию о треке, который пропустили",
-        "description": "Title of edit button"
-    },
     "infoSwap": {
         "message": "Поменять",
         "description": "Label of swap button"
@@ -457,10 +453,6 @@
     },
     "infoSkipUnableTitle": {
         "message": "Вы не можете пропустить треки, которые уже заскробблены",
-        "description": "Title of skip button"
-    },
-    "infoSkipAlreadyTitle": {
-        "message": "Вы уже пропустили этот трек",
         "description": "Title of skip button"
     },
     "infoOpenAlbumArt": {

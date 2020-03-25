@@ -415,10 +415,6 @@
         "message": "No puede modificar canciones scrobbled",
         "description": "Title of edit button"
     },
-    "infoEditSkippedTitle": {
-        "message": "No puedes editar canciones omitidas",
-        "description": "Title of edit button"
-    },
     "infoSwap": {
         "message": "Intercambiar",
         "description": "Label of swap button"
@@ -457,10 +453,6 @@
     },
     "infoSkipUnableTitle": {
         "message": "No puede omitir canciones scrobbled",
-        "description": "Title of skip button"
-    },
-    "infoSkipAlreadyTitle": {
-        "message": "Ya omitió esta canción",
         "description": "Title of skip button"
     },
     "infoOpenAlbumArt": {

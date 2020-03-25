@@ -430,11 +430,7 @@
     "description": "Title of edit button"
   },
   "infoEditUnableTitle": {
-    "message": "You cannot edit scrobbled track",
-    "description": "Title of edit button"
-  },
-  "infoEditSkippedTitle": {
-    "message": "You cannot edit skipped track",
+    "message": "You cannot edit this track",
     "description": "Title of edit button"
   },
   "infoSwap": {
@@ -446,12 +442,20 @@
     "description": "Title of swap button"
   },
   "infoSwapUnableTitle": {
-    "message": "You cannot swap scrobbled track",
+    "message": "You cannot swap empty track info",
     "description": "Title of swap button"
   },
   "infoSubmit": {
     "message": "Submit",
     "description": "Label of submit button"
+  },
+  "infoSubmitTitle": {
+    "message": "Submit changes",
+    "description": "Title of submit button"
+  },
+  "infoSubmitUnableTitle": {
+    "message": "You cannot submit empty track info",
+    "description": "Title of submit button"
   },
   "infoRevert": {
     "message": "Revert",
@@ -462,7 +466,7 @@
     "description": "Title of revert button"
   },
   "infoRevertUnableTitle": {
-    "message": "You cannot revert scrobbled track",
+    "message": "You cannot revert this track",
     "description": "Title of revert button"
   },
   "infoSkip": {
@@ -474,11 +478,7 @@
     "description": "Title of skip button"
   },
   "infoSkipUnableTitle": {
-    "message": "You cannot skip scrobbled tracks",
-    "description": "Title of skip button"
-  },
-  "infoSkipAlreadyTitle": {
-    "message": "You already skipped this track",
+    "message": "You cannot skip this track",
     "description": "Title of skip button"
   },
   "infoOpenAlbumArt": {
