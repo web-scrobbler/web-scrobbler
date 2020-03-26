@@ -41,7 +41,7 @@ require([
 
 		/** @override */
 		i18n(messageId, ...placeholders) {
-			return browser.i18n.getMessage(messageId, placeholders);
+			return browser.i18n.getMessage(messageId, placeholders) || messageId;
 		}
 	}
 
