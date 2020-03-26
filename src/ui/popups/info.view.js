@@ -9,6 +9,7 @@ const trackArtImgId = '#album-art-img';
 const editBtnId = '#edit-link';
 const loveBtnId = '#love-link';
 const skipBtnId = '#skip-link';
+const unskipBtnId = '#unskip-link';
 const submitBtnId = '#submit-link';
 const swapBtnId = '#swap-link';
 const revertBtnId = '#revert-link';
@@ -20,14 +21,6 @@ const fieldTitleMap = {
 	track: 'infoViewTrackPage',
 	artist: 'infoViewArtistPage',
 	albumArtist: 'infoViewArtistPage',
-};
-
-const btnTitleMap = {
-	[editBtnId]: 'infoEdit',
-	[revertBtnId]: 'infoRevert',
-	[skipBtnId]: 'infoSkip',
-	[swapBtnId]: 'infoSwap',
-	[submitBtnId]: 'infoSubmit',
 };
 
 const defaultTrackArtUrl = '/icons/cover_art_default.png';
@@ -46,7 +39,6 @@ class InfoPopupView {
 			[swapBtnId]: this.infoPopup.onSwapBtnClick,
 		};
 
-		this.initControls();
 		this.setupControlListeners();
 	}
 
@@ -131,18 +123,6 @@ class InfoPopupView {
 		);
 	}
 
-	setSkipButtonState(flag) {
-		this.setButtonState(
-			skipBtnId, flag, 'infoSkipTitle', 'infoSkipUnableTitle'
-		);
-	}
-
-	setSwapButtonState(flag) {
-		this.setButtonState(
-			swapBtnId, flag, 'infoSwapTitle', 'infoSwapUnableTitle'
-		);
-	}
-
 	setRevertButtonState(flag) {
 		this.setButtonState(
 			revertBtnId, flag, 'infoRevertTitle', 'infoRevertUnableTitle'
@@ -153,10 +133,36 @@ class InfoPopupView {
 		$(revertBtnId).prop('hidden', !flag);
 	}
 
+	setSkipButtonState(flag) {
+		this.setButtonState(
+			skipBtnId, flag, 'infoSkipTitle', 'infoSkipUnableTitle'
+		);
+	}
+
+	setSkipButtonVisible(flag) {
+		$(skipBtnId).prop('hidden', !flag);
+	}
+
 	setSubmitButtonState(flag) {
 		this.setButtonState(
 			submitBtnId, flag, 'infoSubmitTitle', 'infoSubmitUnableTitle'
 		);
+	}
+
+	setSwapButtonState(flag) {
+		this.setButtonState(
+			swapBtnId, flag, 'infoSwapTitle', 'infoSwapUnableTitle'
+		);
+	}
+
+	setUnskipButtonState(flag) {
+		this.setButtonState(
+			unskipBtnId, flag, 'infoSkippedTitle', 'infoSkippedTitle'
+		);
+	}
+
+	setUnskipButtonVisible(flag) {
+		$(unskipBtnId).prop('hidden', !flag);
 	}
 
 	/** Fields */
@@ -201,13 +207,6 @@ class InfoPopupView {
 	}
 
 	/** Internal functions */
-
-	initControls() {
-		for (const btnId in btnTitleMap) {
-			const titleId = btnTitleMap[btnId];
-			$(btnId).text(this.i18n(titleId));
-		}
-	}
 
 	setupControlListeners() {
 		for (const controlId in this.clickListeners) {

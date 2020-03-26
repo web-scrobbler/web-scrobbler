@@ -375,10 +375,6 @@
         "message": "Odkochaj utwór",
         "description": "Label of love/unlove button"
     },
-    "infoEdit": {
-        "message": "Edytuj",
-        "description": "Label of edit button"
-    },
     "infoEditTitle": {
         "message": "Edytuj informacje o utworze",
         "description": "Title of edit button"
@@ -386,10 +382,6 @@
     "infoEditUnableTitle": {
         "message": "Nie możesz edytować już przescrobblowanych informacji o utworze",
         "description": "Title of edit button"
-    },
-    "infoSwap": {
-        "message": "Zamień miejscami",
-        "description": "Label of swap button"
     },
     "infoSwapTitle": {
         "message": "Podmienia wartości pól tytułu i wykonawcy",
@@ -399,14 +391,6 @@
         "message": "Nie możesz zamienić już przescrobblowanych informacji o utworze",
         "description": "Title of swap button"
     },
-    "infoSubmit": {
-        "message": "Zachowaj",
-        "description": "Label of submit button"
-    },
-    "infoRevert": {
-        "message": "Odrzuć",
-        "description": "Label of revert button"
-    },
     "infoRevertTitle": {
         "message": "Odrzuć zmiany",
         "description": "Title of revert button"
@@ -414,10 +398,6 @@
     "infoRevertUnableTitle": {
         "message": "Nie możesz odrzucić zmian w przescrobblowanym utworze",
         "description": "Title of revert button"
-    },
-    "infoSkip": {
-        "message": "Pomiń",
-        "description": "Label of skip button"
     },
     "infoSkipTitle": {
         "message": "Nie scrobbluj tego utworu",

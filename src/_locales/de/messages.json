@@ -375,10 +375,6 @@
         "message": "Kein Lieblingslied",
         "description": "Label of love/unlove button"
     },
-    "infoEdit": {
-        "message": "Bearbeiten",
-        "description": "Label of edit button"
-    },
     "infoEditTitle": {
         "message": "Titel-Metadaten bearbeiten",
         "description": "Title of edit button"
@@ -386,10 +382,6 @@
     "infoEditUnableTitle": {
         "message": "Du kannst bereits gescrobblete Titel nicht bearbeiten",
         "description": "Title of edit button"
-    },
-    "infoSwap": {
-        "message": "Austauschen",
-        "description": "Label of swap button"
     },
     "infoSwapTitle": {
         "message": "Tausche Titelname und Künstler aus",
@@ -399,14 +391,6 @@
         "message": "Du kannst einen bereits gescrobbleten Titel nicht austauschen",
         "description": "Title of swap button"
     },
-    "infoSubmit": {
-        "message": "Senden",
-        "description": "Label of submit button"
-    },
-    "infoRevert": {
-        "message": "Zurücksetzen",
-        "description": "Label of revert button"
-    },
     "infoRevertTitle": {
         "message": "Änderungen zurücksetzen",
         "description": "Title of revert button"
@@ -414,10 +398,6 @@
     "infoRevertUnableTitle": {
         "message": "Du kannst einen bereits gescrobbleten Titel nicht zurücksetzen",
         "description": "Title of revert button"
-    },
-    "infoSkip": {
-        "message": "Überspringen",
-        "description": "Label of skip button"
     },
     "infoSkipTitle": {
         "message": "Den aktuellen Titel nicht scrobblen",

@@ -421,10 +421,6 @@
     "message": "Unlove track",
     "description": "Label of love/unlove button"
   },
-  "infoEdit": {
-    "message": "Edit",
-    "description": "Label of edit button"
-  },
   "infoEditTitle": {
     "message": "Edit track metadata",
     "description": "Title of edit button"
@@ -432,10 +428,6 @@
   "infoEditUnableTitle": {
     "message": "You cannot edit this track",
     "description": "Title of edit button"
-  },
-  "infoSwap": {
-    "message": "Swap",
-    "description": "Label of swap button"
   },
   "infoSwapTitle": {
     "message": "Swap title and artist",
@@ -445,10 +437,6 @@
     "message": "You cannot swap empty track info",
     "description": "Title of swap button"
   },
-  "infoSubmit": {
-    "message": "Submit",
-    "description": "Label of submit button"
-  },
   "infoSubmitTitle": {
     "message": "Submit changes",
     "description": "Title of submit button"
@@ -456,10 +444,6 @@
   "infoSubmitUnableTitle": {
     "message": "You cannot submit empty track info",
     "description": "Title of submit button"
-  },
-  "infoRevert": {
-    "message": "Revert",
-    "description": "Label of revert button"
   },
   "infoRevertTitle": {
     "message": "Revert changes",
@@ -469,10 +453,6 @@
     "message": "You cannot revert this track",
     "description": "Title of revert button"
   },
-  "infoSkip": {
-    "message": "Skip",
-    "description": "Label of skip button"
-  },
   "infoSkipTitle": {
     "message": "Don't scrobble current track",
     "description": "Title of skip button"
@@ -480,6 +460,10 @@
   "infoSkipUnableTitle": {
     "message": "You cannot skip this track",
     "description": "Title of skip button"
+  },
+  "infoSkippedTitle": {
+    "message": "You skipped this track",
+    "description": "Title of unskip button"
   },
   "infoOpenAlbumArt": {
     "message": "Open album art in new tab",

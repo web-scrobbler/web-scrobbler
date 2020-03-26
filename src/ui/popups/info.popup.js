@@ -90,10 +90,14 @@ class InfoPopup {
 			const isEnabled = !(isScrobbled || isSkipped);
 
 			this.view.setRevertButtonVisible(isCorrectedByUser);
+			this.view.setSkipButtonVisible(!isSkipped);
+			this.view.setUnskipButtonVisible(isSkipped);
 
 			this.view.setEditButtonState(isEnabled);
 			this.view.setRevertButtonState(isEnabled);
-			this.view.setSkipButtonState(isEnabled);
+
+			this.view.setSkipButtonState(!isScrobbled);
+			this.view.setUnskipButtonState(false);
 		} else if (this.mode === modeEdit) {
 			const isEnabled = InfoPopup.areTrackFieldsComplete(this.trackFields);
 
@@ -169,16 +173,18 @@ class InfoPopup {
 	}
 
 	onInputsChanged() {
-		const editedTrackFields = this.view.getEditedTrackFields();
-		const isInfoComplete = InfoPopup.isTrackInfoComplete(editedTrackFields);
+		const isInfoComplete = InfoPopup.areTrackFieldsComplete(
+			this.view.getEditedTrackFields()
+		);
 
 		this.view.setSubmitButtonState(isInfoComplete);
 		this.view.setSwapButtonState(isInfoComplete);
 	}
 
 	onEnterPressed() {
-		const editedTrackFields = this.view.getEditedTrackFields();
-		const isInfoComplete = InfoPopup.isTrackInfoComplete(editedTrackFields);
+		const isInfoComplete = InfoPopup.areTrackFieldsComplete(
+			this.view.getEditedTrackFields()
+		);
 
 		if (isInfoComplete) {
 			this.submitSong();
