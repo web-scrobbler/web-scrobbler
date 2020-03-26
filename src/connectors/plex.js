@@ -2,6 +2,10 @@
 
 const titleContainer = '[class*=PlayerControlsMetadata]';
 
+const plexFilter = new MetadataFilter({
+	album: removeUnknownAlbum
+});
+
 Connector.playerSelector = '[class^=AudioVideoPlayerView-container]';
 
 Connector.trackSelector = `${titleContainer} a[class*=MetadataPosterTitle]`;
@@ -28,7 +32,7 @@ Connector.pauseButtonSelector = [
 // For watch-it-later videos
 Connector.artistTrackSelector = `${Connector.playerSelector} [class*=MetadataPosterTitle-title]`;
 
-Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+Connector.applyFilter(MetadataFilter.getYoutubeFilter().extend(plexFilter));
 
 Connector.getTrack = () => {
 	if (Connector.getArtist()) {
@@ -36,3 +40,7 @@ Connector.getTrack = () => {
 	}
 	return null;
 };
+
+function removeUnknownAlbum(text) {
+	return text.replace('[Unknown Album]', '');
+}
