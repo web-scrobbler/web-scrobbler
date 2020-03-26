@@ -11,6 +11,8 @@ define((require) => {
 		iconUrl: browser.runtime.getURL(manifest.icons['128']),
 	};
 
+	const defaultTrackArtUrl = browser.runtime.getURL('/icons/cover_art_default.png');
+
 	/**
 	 * Now playing notification delay in milliseconds.
 	 */
@@ -98,7 +100,11 @@ define((require) => {
 			options[key] = defaultValue;
 		}
 
-		const notificationId = await browser.notifications.create('', options);
+		const notificationId = await browser.notifications.create('', options).catch(() => {
+			// Use default track art and try again
+			options.iconUrl = defaultTrackArtUrl;
+			return browser.notifications.create('', options);
+		});
 		if (typeof onClicked === 'function') {
 			addOnClickedListener(notificationId, onClicked);
 		}
@@ -151,8 +157,12 @@ define((require) => {
 		clearNotificationTimeout();
 
 		notificationTimeoutId = setTimeout(async() => {
-			const notificationId = await showNotification(options, onClick);
-			song.metadata.notificationId = notificationId;
+			try {
+				const notificationId = await showNotification(options, onClick);
+				song.metadata.notificationId = notificationId;
+			} catch (err) {
+				console.warn(`Unable to show now playing notification: ${err.message}`);
+			}
 		}, NOW_PLAYING_NOTIFICATION_DELAY);
 	}
 
