@@ -50,8 +50,7 @@
     "nyc": "15.0.0",
     "remark-preset-lint-recommended": "3.0.4",
     "stylelint": "13.2.1",
-    "stylelint-order": "4.0.0",
-    "minimist": ">=1.2.2"
+    "stylelint-order": "4.0.0"
   },
   "engines": {
     "node": ">=12.13.0"
