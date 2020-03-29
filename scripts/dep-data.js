@@ -20,6 +20,15 @@ const dependenciesInfo = {
 			],
 		}]
 	},
+	'metadata-filter': {
+		name: 'MetadataFilter',
+		urlTemplate: 'https://github.com/web-scrobbler/metadata-filter/releases/download/v${ver}/metadata-filter-${ver}.tgz',
+		paths: [{
+			srcPaths: [
+				'metadata-filter/dist/filter.js',
+			],
+		}]
+	},
 	'webextension-polyfill': {
 		name: 'WebextPolyfill',
 		urlTemplate: 'https://unpkg.com/browse/webextension-polyfill@${ver}/dist/',

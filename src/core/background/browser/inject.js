@@ -11,11 +11,11 @@ define((require) => {
 	const CustomPatterns = require('storage/custom-patterns');
 
 	const CONTENT_SCRIPTS = [
+		'vendor/filter.js',
 		'vendor/jquery.min.js',
 		'vendor/browser-polyfill.min.js',
 		'core/content/util.js',
 		'core/content/reactor.js',
-		'core/content/filter.js',
 		'core/content/connector.js',
 	];
 	const STARTER_SCRIPT = 'core/content/starter.js';
