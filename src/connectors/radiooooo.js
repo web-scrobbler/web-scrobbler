@@ -1,37 +1,19 @@
 'use strict';
 
-setupConnector();
+const playerBar = '.audio-player';
 
-function setupConnector() {
-	if (location.hostname.startsWith('mobile')) {
-		setupMobilePlayer();
-	} else {
-		setupPCPlayer();
-	}
-}
+Connector.playerSelector = playerBar;
 
-function setupMobilePlayer() {
-	Connector.playerSelector = '.view--container--main';
+Connector.trackSelector = `${playerBar} .title .text:last-child`;
 
-	Connector.playButtonSelector = '.icon-play';
+Connector.artistSelector = `${playerBar} .artist .text:last-child`;
 
-	Connector.trackSelector = '.song--title';
+Connector.albumSelector = `${playerBar} .album .text:last-child`;
 
-	Connector.artistSelector = '.song--artist';
+Connector.trackArtSelector = `${playerBar} .cover .image`;
 
-	Connector.trackArtSelector = '.song--image img';
-}
+Connector.playButtonSelector = `${playerBar} .play-control .play`;
 
-function setupPCPlayer() {
-	Connector.playerSelector = '.bottomleft--corner, .modal--container';
+Connector.currentTimeSelector = `${playerBar} .time .current`;
 
-	Connector.isPlaying = () => 0 < $('.play-icon').length;
-
-	Connector.trackSelector = '.song__title';
-
-	Connector.artistSelector = '.song__artist';
-
-	Connector.trackArtSelector = '.song__thumbnail';
-
-	Connector.getUniqueID = () => $('button').data('track-id');
-}
+Connector.durationSelector = `${playerBar} .time .duration`;
