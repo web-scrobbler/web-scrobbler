@@ -107,7 +107,7 @@ See the [license file][License].
 [DownloadChromeExt]: https://addons.opera.com/extensions/details/app_id/kipjbhgniklcnglfaldilecjomjaddfi
 
 <!-- Related pages -->
-[Codacy]: https://app.codacy.com/project/web-scrobbler/web-scrobbler/dashboard
+[Codacy]: https://app.codacy.com/gh/web-scrobbler/web-scrobbler/dashboard
 [DavidDm]: https://david-dm.org/web-scrobbler/web-scrobbler
 [DavidDmDev]: https://david-dm.org/web-scrobbler/web-scrobbler?type=dev
 [GitHubActions]: https://github.com/web-scrobbler/web-scrobbler/actions
