@@ -149,7 +149,9 @@ define((require) => {
 	 * @param  {Object} request Message sent by the calling script
 	 */
 	async function onMessage(request) {
-		switch (request.type) {
+		const { data, tabId, type } = request;
+
+		switch (type) {
 			case 'REQUEST_AUTHENTICATE': {
 				const scrobblerLabel = request.scrobbler;
 				const scrobbler = ScrobbleService.getScrobblerByLabel(scrobblerLabel);
@@ -165,12 +167,11 @@ define((require) => {
 				return activeTabId;
 		}
 
-		const tabId = request.tabId;
 		const ctrl = tabControllers[tabId];
 
 		if (!ctrl) {
 			console.warn(
-				`Attempted to send event to controller for tab ${tabId}`);
+				`Attempted to send ${type} event to controller for tab ${tabId}`);
 			return;
 		}
 
@@ -179,12 +180,12 @@ define((require) => {
 				return ctrl.getCurrentSong().getCloneableData();
 
 			case 'REQUEST_CORRECT_SONG':
-				ctrl.setUserSongData(request.data);
+				ctrl.setUserSongData(data);
 				break;
 
 			case 'REQUEST_TOGGLE_LOVE':
-				await ctrl.toggleLove(request.data.isLoved);
-				return request.data.isLoved;
+				await ctrl.toggleLove(data.isLoved);
+				return data.isLoved;
 
 			case 'REQUEST_SKIP_SONG':
 				ctrl.skipCurrentSong();
