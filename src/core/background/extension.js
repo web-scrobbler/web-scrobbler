@@ -63,13 +63,6 @@ define((require) => {
 	const tabControllers = {};
 
 	/**
-	 * Array of versions have notable changes.
-	 *
-	 * @type {Array}
-	 */
-	const versionsToNotify = [];
-
-	/**
 	 * Flag for "page session" where at least single injection occurred.
 	 * Used for tracking number of actually active users.
 	 *
@@ -336,14 +329,6 @@ define((require) => {
 	}
 
 	/**
-	 * Create new tab with release notes of current version.
-	 * Called after update to version with notable changes.
-	 */
-	function openChangelogSection() {
-		browser.tabs.create({ url: `https://github.com/web-scrobbler/web-scrobbler/releases/tag/v${extVersion}` });
-	}
-
-	/**
 	 * Setup context menu of the browser action for a tab with given tab ID.
 	 *
 	 * @param  {Number} tabId Tab ID
@@ -531,30 +516,6 @@ define((require) => {
 	}
 
 	/**
-	 * Check if current version has notable changes
-	 * and show changelog on GitHub.
-	 */
-	async function notifyOfNotableChanges() {
-		if (versionsToNotify.includes(extVersion)) {
-			const data = await notificationStorage.get();
-			if (!data.changelog) {
-				data.changelog = {};
-			}
-
-			if (!data.changelog[extVersion]) {
-				openChangelogSection();
-				data.changelog[extVersion] = true;
-
-				await notificationStorage.set(data);
-			}
-
-			await notificationStorage.debugLog();
-		}
-
-		notificationStorage.debugLog();
-	}
-
-	/**
 	 * Ask user for grant access for service covered by given scrobbler.
 	 *
 	 * @param  {Object} scrobbler Scrobbler instance
@@ -609,7 +570,6 @@ define((require) => {
 		currentTabId = (await Util.getCurrentTab()).id;
 
 		await updateVersionInStorage();
-		await notifyOfNotableChanges();
 		setupEventListeners();
 
 		/**
