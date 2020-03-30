@@ -105,7 +105,9 @@ define((require) => {
 
 		browser.tabs.onUpdated.addListener(onTabUpdated);
 		browser.tabs.onRemoved.addListener(onTabRemoved);
-		browser.tabs.onActivated.addListener(onTabChanged);
+		browser.tabs.onActivated.addListener((activeInfo) => {
+			onTabChanged(activeInfo.tabId);
+		});
 
 		browser.runtime.onMessage.addListener(onMessage);
 		browser.runtime.onConnect.addListener((port) => {
@@ -294,10 +296,9 @@ define((require) => {
 	/**
 	 * Called when a current tab is changed.
 	 *
-	 * @param  {Object} activeInfo Object contains info about current tab
+	 * @param  {Object} tabId Tab ID
 	 */
-	function onTabChanged(activeInfo) {
-		const { tabId } = activeInfo;
+	function onTabChanged(tabId) {
 		currentTabId = tabId;
 
 		updateContextMenu(tabId);
@@ -310,23 +311,20 @@ define((require) => {
 	/**
 	 * Called when a tab is removed.
 	 *
-	 * @param  {Number} tabId Tab ID
+	 * @param  {Number} removedTabId Tab ID
 	 */
-	function onTabRemoved(tabId) {
-		unloadController(tabId);
-
-		if (tabId === currentTabId) {
-			return;
-		}
+	async function onTabRemoved(removedTabId) {
+		unloadController(removedTabId);
 
 		const lastActiveTabId = findActiveTabId();
 		if (lastActiveTabId !== -1) {
-			const ctrl = tabControllers[lastActiveTabId];
-
-			browserAction.update(ctrl);
 			activeTabId = lastActiveTabId;
+
+			updateBrowserAction(activeTabId);
+			updateContextMenu(activeTabId);
 		} else {
 			browserAction.reset();
+			resetContextMenu();
 		}
 	}
 
@@ -369,7 +367,7 @@ define((require) => {
 	 * @param  {Number} tabId Tab ID
 	 */
 	function updateContextMenu(tabId) {
-		browser.contextMenus.removeAll();
+		resetContextMenu();
 
 		if (activeTabId !== tabId) {
 			addContextMenuFor(tabId, tabControllers[activeTabId]);
@@ -377,6 +375,13 @@ define((require) => {
 		addContextMenuFor(tabId, tabControllers[tabId]);
 
 		addContextMenuItem(null, null, 'separator');
+	}
+
+	/**
+	 * Remove all items from the context menu.
+	 */
+	function resetContextMenu() {
+		browser.contextMenus.removeAll();
 	}
 
 	/**
