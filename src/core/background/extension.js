@@ -248,31 +248,12 @@ define((require) => {
 				const enabled = result.type === InjectResult.MATCHED_AND_INJECTED;
 				const ctrl = new Controller(tabId, result.connector, enabled);
 				ctrl.onSongUpdated = async() => {
-					const data = ctrl.getCurrentSong().getCloneableData();
-					const type = 'EVENT_SONG_UPDATED';
-
-					try {
-						await browser.runtime.sendMessage({ type, data, tabId });
-					} catch (e) {
-						// Suppress errors
-					}
+					onSongUpdated(ctrl, tabId);
 				};
 				ctrl.onModeChanged = () => {
-					const mode = ctrl.getMode();
-
-					if (ControllerMode.isActive(mode)) {
-						activeTabId = tabId;
-					}
-
-					if (tabId === activeTabId) {
-						if (currentTabId !== tabId && ControllerMode.isInactive(mode)) {
-							updateBrowserAction(currentTabId);
-							return;
-						}
-
-						updateBrowserAction(tabId);
-					}
+					onControllerModeChanged(ctrl, tabId);
 				};
+
 				tabControllers[tabId] = ctrl;
 				if (shouldUpdateBrowserAction(tabId)) {
 					updateBrowserAction(tabId);
@@ -459,6 +440,49 @@ define((require) => {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Called when a controller changes its mode.
+	 *
+	 * @param  {Object} ctrl  Controller instance
+	 * @param  {Number} tabId ID of a tab attached to the controller
+	 */
+	function onControllerModeChanged(ctrl, tabId) {
+		const mode = ctrl.getMode();
+
+		if (ControllerMode.isActive(mode)) {
+			activeTabId = tabId;
+		}
+
+		if (tabId === activeTabId) {
+			// The controller becomes inactive, but it's not in current tab
+			if (currentTabId !== tabId && ControllerMode.isInactive(mode)) {
+				updateBrowserAction(currentTabId);
+				updateContextMenu(currentTabId);
+				return;
+			}
+
+			updateBrowserAction(tabId);
+			updateContextMenu(tabId);
+		}
+	}
+
+	/**
+	 * Called when a controller updates a current song.
+	 *
+	 * @param  {Object} ctrl  Controller instance
+	 * @param  {Number} tabId ID of a tab attached to the controller
+	 */
+	async function onSongUpdated(ctrl, tabId) {
+		const data = ctrl.getCurrentSong().getCloneableData();
+		const type = 'EVENT_SONG_UPDATED';
+
+		try {
+			await browser.runtime.sendMessage({ type, data, tabId });
+		} catch (e) {
+			// Suppress errors
+		}
 	}
 
 	/**
