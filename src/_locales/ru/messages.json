@@ -408,7 +408,7 @@
         "description": "Title of edit button"
     },
     "infoEditUnableTitle": {
-        "message": "Вы не можете изменить информацию о треке, который был заскробблен",
+        "message": "Вы не можете изменить информацию о треке",
         "description": "Title of edit button"
     },
     "infoSwapTitle": {
@@ -416,15 +416,23 @@
         "description": "Title of swap button"
     },
     "infoSwapUnableTitle": {
-        "message": "Вы не можете изменить заскробленный трек",
+        "message": "Вы не можете изменить неполную информацию о композиции",
         "description": "Title of swap button"
+    },
+    "infoSubmitTitle": {
+        "message": "Принять изменения",
+        "description": "Title of submit button"
+    },
+    "infoSubmitUnableTitle": {
+        "message": "Вы не можете применить неполную информацию о композиции",
+        "description": "Title of submit button"
     },
     "infoRevertTitle": {
         "message": "Отменить изменения",
         "description": "Title of revert button"
     },
     "infoRevertUnableTitle": {
-        "message": "Вы не можете сбросить информацию о треке, который был заскробблен",
+        "message": "Вы не можете сбросить информацию о данном треке",
         "description": "Title of revert button"
     },
     "infoSkipTitle": {
@@ -432,8 +440,12 @@
         "description": "Title of skip button"
     },
     "infoSkipUnableTitle": {
-        "message": "Вы не можете пропустить треки, которые уже заскробблены",
+        "message": "Вы не можете пропустить этот трек",
         "description": "Title of skip button"
+    },
+    "infoSkippedTitle": {
+        "message": "Вы пропустили этот трек",
+        "description": "Title of unskip button"
     },
     "infoOpenAlbumArt": {
         "message": "Открыть обложку альбома в новой вкладке",
