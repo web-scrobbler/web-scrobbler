@@ -8,7 +8,7 @@ body, button, input {
 
 body {
 	background-color: #fff;
-	color: #000;
+	color: #212529;
 	font-size: 13px;
 	margin: 0px;
 	overflow: hidden;
@@ -16,7 +16,7 @@ body {
 }
 
 a {
-	color: #000;
+	color: #212529;
 	text-decoration: none;
 }
 
@@ -58,15 +58,11 @@ input {
 	width: 136px;
 }
 
-.album-art:hover {
-	cursor: pointer;
-}
-
 .edit-fields,
 .info-fields {
 	grid-column: 1;
 	grid-row: 1;
-	line-height: 1.5em;
+	line-height: 1.4em;
 }
 
 .edit-controls {
@@ -74,20 +70,6 @@ input {
 	grid-column: 1;
 	grid-row: 2;
 	justify-self: start;
-}
-
-.edit-controls > * + *:before {
-	/* content: '&nbsp;•&nbsp;' */
-	content: '\2022\0000a0';
-	display: inline-block;
-}
-
-.scrobble-controls {
-	align-self: end;
-	grid-column: 1;
-	grid-row: 2;
-	justify-self: end;
-	margin-right: 5px;
 }
 
 .artist, .album, .track {
@@ -103,37 +85,72 @@ input {
 .control-btn {
 	background: none;
 	border: none;
-	outline: none;
-	padding: 0;
-}
-
-.control-btn:hover {
-	cursor: pointer;
-	text-decoration: underline;
-}
-
-.love-btn {
+	color: #495053;
 	cursor: pointer;
 	font-family: 'Font Awesome 5 Free', serif;
-	font-size: 1rem;
+	font-size: 1.1rem;
+	outline: none;
+	padding: 0;
+	text-align: center;
+	width: 1.3rem;
+}
+
+.control-btn[disabled] {
+	cursor: default;
+}
+
+.control-btn:not([disabled]):hover::before {
+	color: #247ba0;
+}
+
+.edit-btn::before {
+	content: '\f044';
+}
+
+.revert-btn::before {
+	content: '\f0e2';
+}
+
+.skip-btn::before,
+.unskip-btn::before {
+	content: '\f05e';
+}
+
+.skip-btn:hover:not([disabled])::before {
+	color: #d51007;
+}
+
+.swap-btn::before {
+	content: '\f2f1';
+}
+
+.submit-btn::before {
+	content: '\f058';
+}
+
+.submit-btn:not([disabled]):hover::before {
+	color: #65a858;
+}
+
+.unskip-btn::before {
+	color: #d51007;
 }
 
 .unloved::before {
-	color: #999;
 	content: '\f004';
 }
 
-.unloved:hover::before {
-	color: #d510077f;
-	content: '\f004';
-}
-
-.loved::before {
+.control-btn.unloved:hover::before {
 	color: #d51007;
 	content: '\f004';
 }
 
-.loved:hover::before {
+.control-btn.loved::before {
+	color: #d51007;
+	content: '\f004';
+}
+
+.control-btn.loved:hover::before {
 	color: #d51007;
 	content: '\f7a9';
 }
@@ -143,7 +160,7 @@ input {
  */
 
 .tags {
-	margin-top: 4px;
+	margin-top: 5px;
 	white-space: nowrap;
 }
 
@@ -152,7 +169,7 @@ input {
 	border-radius: 3px;
 	color: white;
 	display: inline-block;
-	font-size: 0.75rem;
+	font-size: 12px;
 	height: 20px;
 	padding: 0 5px;
 }
@@ -171,7 +188,5 @@ input {
 }
 
 [disabled] {
-	color: #999;
-	cursor: default !important;
-	text-decoration: none !important;
+	color: #aaa;
 }

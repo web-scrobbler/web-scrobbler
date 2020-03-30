@@ -403,10 +403,6 @@
         "message": "Desamar esta canción",
         "description": "Label of love/unlove button"
     },
-    "infoEdit": {
-        "message": "Modificar",
-        "description": "Label of edit button"
-    },
     "infoEditTitle": {
         "message": "Modificar los metadatos de esta canción",
         "description": "Title of edit button"
@@ -414,10 +410,6 @@
     "infoEditUnableTitle": {
         "message": "No puede modificar canciones scrobbled",
         "description": "Title of edit button"
-    },
-    "infoSwap": {
-        "message": "Intercambiar",
-        "description": "Label of swap button"
     },
     "infoSwapTitle": {
         "message": "Intercambiar título y artista",
@@ -427,14 +419,6 @@
         "message": "No puede intercambiar canciones scrobbled",
         "description": "Title of swap button"
     },
-    "infoSubmit": {
-        "message": "Enviar",
-        "description": "Label of submit button"
-    },
-    "infoRevert": {
-        "message": "Revertir",
-        "description": "Label of revert button"
-    },
     "infoRevertTitle": {
         "message": "Revertir cambios",
         "description": "Title of revert button"
@@ -442,10 +426,6 @@
     "infoRevertUnableTitle": {
         "message": "No puede revertir canciones scrobbled",
         "description": "Title of revert button"
-    },
-    "infoSkip": {
-        "message": "Omitir",
-        "description": "Label of skip button"
     },
     "infoSkipTitle": {
         "message": "No scrobble la actual canción",

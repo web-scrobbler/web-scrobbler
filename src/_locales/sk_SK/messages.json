@@ -379,10 +379,6 @@
         "message": "Odstrániť z obľúbených",
         "description": "Label of love/unlove button"
     },
-    "infoEdit": {
-        "message": "Upraviť",
-        "description": "Label of edit button"
-    },
     "infoEditTitle": {
         "message": "Upraviť metadáta skladby",
         "description": "Title of edit button"
@@ -390,10 +386,6 @@
     "infoEditUnableTitle": {
         "message": "Nie je možné upraviť už zaznamenanú skladbu",
         "description": "Title of edit button"
-    },
-    "infoSwap": {
-        "message": "Vymeniť",
-        "description": "Label of swap button"
     },
     "infoSwapTitle": {
         "message": "Vymeniť názov skladby s interpretom",
@@ -403,14 +395,6 @@
         "message": "Nie je možné vymeniť údaje zaznamenanej skladby",
         "description": "Title of swap button"
     },
-    "infoSubmit": {
-        "message": "Uložiť",
-        "description": "Label of submit button"
-    },
-    "infoRevert": {
-        "message": "Vrátiť",
-        "description": "Label of revert button"
-    },
     "infoRevertTitle": {
         "message": "Vrátiť zmeny",
         "description": "Title of revert button"
@@ -418,10 +402,6 @@
     "infoRevertUnableTitle": {
         "message": "Nie je možné vrátiť zmeny už zaznamenanej skladby",
         "description": "Title of revert button"
-    },
-    "infoSkip": {
-        "message": "Vynechať",
-        "description": "Label of skip button"
     },
     "infoSkipTitle": {
         "message": "Ignorovať práve hranú skladbu",

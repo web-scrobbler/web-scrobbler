@@ -375,10 +375,6 @@
         "message": "取消收藏",
         "description": "Label of love/unlove button"
     },
-    "infoEdit": {
-        "message": "编辑",
-        "description": "Label of edit button"
-    },
     "infoEditTitle": {
         "message": "编辑曲目元数据",
         "description": "Title of edit button"
@@ -386,10 +382,6 @@
     "infoEditUnableTitle": {
         "message": "无法编辑已提交曲目",
         "description": "Title of edit button"
-    },
-    "infoSwap": {
-        "message": "交换",
-        "description": "Label of swap button"
     },
     "infoSwapTitle": {
         "message": "交换曲目标题和艺术家",
@@ -399,14 +391,6 @@
         "message": "无法交换已提交曲目",
         "description": "Title of swap button"
     },
-    "infoSubmit": {
-        "message": "提交",
-        "description": "Label of submit button"
-    },
-    "infoRevert": {
-        "message": "还原",
-        "description": "Label of revert button"
-    },
     "infoRevertTitle": {
         "message": "还原变更",
         "description": "Title of revert button"
@@ -414,10 +398,6 @@
     "infoRevertUnableTitle": {
         "message": "无法还原已提交曲目",
         "description": "Title of revert button"
-    },
-    "infoSkip": {
-        "message": "跳过",
-        "description": "Label of skip button"
     },
     "infoSkipTitle": {
         "message": "不记录当前曲目",

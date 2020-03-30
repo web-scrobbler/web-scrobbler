@@ -403,10 +403,6 @@
         "message": "Не нравится",
         "description": "Label of love/unlove button"
     },
-    "infoEdit": {
-        "message": "Изменить",
-        "description": "Label of edit button"
-    },
     "infoEditTitle": {
         "message": "Изменить информацию о треке",
         "description": "Title of edit button"
@@ -414,10 +410,6 @@
     "infoEditUnableTitle": {
         "message": "Вы не можете изменить информацию о треке, который был заскробблен",
         "description": "Title of edit button"
-    },
-    "infoSwap": {
-        "message": "Поменять",
-        "description": "Label of swap button"
     },
     "infoSwapTitle": {
         "message": "Поменять исполнителя и название трека местами",
@@ -427,14 +419,6 @@
         "message": "Вы не можете изменить заскробленный трек",
         "description": "Title of swap button"
     },
-    "infoSubmit": {
-        "message": "Принять",
-        "description": "Label of submit button"
-    },
-    "infoRevert": {
-        "message": "Отменить",
-        "description": "Label of revert button"
-    },
     "infoRevertTitle": {
         "message": "Отменить изменения",
         "description": "Title of revert button"
@@ -442,10 +426,6 @@
     "infoRevertUnableTitle": {
         "message": "Вы не можете сбросить информацию о треке, который был заскробблен",
         "description": "Title of revert button"
-    },
-    "infoSkip": {
-        "message": "Пропустить",
-        "description": "Label of skip button"
     },
     "infoSkipTitle": {
         "message": "Не скробблить текущий трек",

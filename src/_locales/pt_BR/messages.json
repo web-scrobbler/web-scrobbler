@@ -379,10 +379,6 @@
         "message": "Desmarcar como preferida",
         "description": "Label of love/unlove button"
     },
-    "infoEdit": {
-        "message": "Editar",
-        "description": "Label of edit button"
-    },
     "infoEditTitle": {
         "message": "Editar metadados da faixa",
         "description": "Title of edit button"
@@ -390,10 +386,6 @@
     "infoEditUnableTitle": {
         "message": "Você não pode editar uma faixa com scrobble efetuado",
         "description": "Title of edit button"
-    },
-    "infoSwap": {
-        "message": "Trocar",
-        "description": "Label of swap button"
     },
     "infoSwapTitle": {
         "message": "Trocar título e artista",
@@ -403,14 +395,6 @@
         "message": "Você não pode trocar uma faixa com scrobble efetuado",
         "description": "Title of swap button"
     },
-    "infoSubmit": {
-        "message": "Enviar",
-        "description": "Label of submit button"
-    },
-    "infoRevert": {
-        "message": "Reverter",
-        "description": "Label of revert button"
-    },
     "infoRevertTitle": {
         "message": "Reverter alterações",
         "description": "Title of revert button"
@@ -418,10 +402,6 @@
     "infoRevertUnableTitle": {
         "message": "Você não pode reverter uma faixa com scrobble efetuado",
         "description": "Title of revert button"
-    },
-    "infoSkip": {
-        "message": "Pular",
-        "description": "Label of skip button"
     },
     "infoSkipTitle": {
         "message": "Não fazer scrobble da faixa atual",
