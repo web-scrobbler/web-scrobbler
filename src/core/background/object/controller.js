@@ -164,6 +164,7 @@ define((require) => {
 			await ScrobbleService.toggleLove(this.currentSong, isLoved);
 
 			this.currentSong.setLoveStatus(isLoved);
+			this.onSongUpdated();
 		}
 
 		/**

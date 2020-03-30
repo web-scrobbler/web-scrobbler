@@ -165,11 +165,8 @@ class InfoPopup {
 	}
 
 	onLoveBtnClick() {
-		this.sendMessage('REQUEST_TOGGLE_LOVE', {
-			isLoved: !this.song.metadata.userloved
-		}).then((isLoved) => {
-			this.view.setUserLovedIcon(isLoved);
-		});
+		const isLoved = !this.song.metadata.userloved;
+		this.sendMessage('REQUEST_TOGGLE_LOVE', { isLoved });
 	}
 
 	onInputsChanged() {
