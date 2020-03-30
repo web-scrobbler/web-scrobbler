@@ -276,11 +276,12 @@ define((require) => {
 	function onTabChanged(tabId) {
 		currentTabId = tabId;
 
-		updateContextMenu(tabId);
 		if (shouldUpdateBrowserAction(tabId)) {
 			updateBrowserAction(tabId);
 			activeTabId = tabId;
 		}
+
+		updateContextMenu(tabId);
 	}
 
 	/**
