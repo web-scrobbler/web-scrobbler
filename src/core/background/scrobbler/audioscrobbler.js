@@ -6,7 +6,7 @@ define((require) => {
 	const BaseScrobbler = require('scrobbler/base');
 	const ServiceCallResult = require('object/service-call-result');
 
-	const AUDIOSCROBBLER_OPTIONS = [
+	const requiredPropList = [
 		/**
 		 * Service API key.
 		 * @type {String}
@@ -21,10 +21,10 @@ define((require) => {
 
 	class AudioScrobbler extends BaseScrobbler {
 		/** @override */
-		constructor(options) {
-			super(options);
+		constructor(properties) {
+			super(properties);
 
-			this.applyOptions(options, AUDIOSCROBBLER_OPTIONS);
+			this.applyProperties(properties, requiredPropList);
 		}
 
 		/** @override */

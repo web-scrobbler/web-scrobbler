@@ -5,10 +5,10 @@ define((require) => {
 	const BrowserStorage = require('storage/browser-storage');
 
 	/**
-	 * List of scrobbler options.
+	 * List of scrobbler properties.
 	 * @type {Array}
 	 */
-	const SCROBBLER_OPTIONS = [
+	const requiredPropList = [
 		/**
 		 * Scrobbler label.
 		 * @type {String}
@@ -63,31 +63,31 @@ define((require) => {
 	 */
 	class BaseScrobbler {
 		/**
-		 * @param {Object} options Scrobbler options
+		 * @param {Object} properties Scrobbler properties
 		 *
-		 * @see {@link SCROBBLER_OPTIONS}
+		 * @see {@link propList}
 		 */
-		constructor(options) {
-			this.applyOptions(options, SCROBBLER_OPTIONS);
-			this.initStorage(options.storage);
+		constructor(properties) {
+			this.applyProperties(properties, requiredPropList);
+			this.initStorage(properties.storage);
 		}
 
 		/**
-		 * Apply scrobbler options.
+		 * Apply scrobbler properties.
 		 *
-		 * Each option is a property used internally in scrobbler module.
-		 * Options are available as `this.optionKey`.
+		 * Each property is a property used internally in scrobbler module.
+		 * Properties are available as `this.propKey`.
 		 *
-		 * @param  {Array}  options    Object contains option values
-		 * @param  {Object} optionsArr Array of allowed options
+		 * @param  {Array}  props Object contains scrobbler properties
+		 * @param  {Object} requiredProps Array of required properties
 		 */
-		applyOptions(options, optionsArr) {
-			for (const option of optionsArr) {
-				if (options[option] === undefined) {
+		applyProperties(props, requiredProps) {
+			for (const option of requiredProps) {
+				if (props[option] === undefined) {
 					throw new Error(`Option ${option} is not set`);
 				}
 
-				this[option] = options[option];
+				this[option] = props[option];
 			}
 		}
 
