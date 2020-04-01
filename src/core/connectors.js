@@ -436,9 +436,6 @@ const connectors = [{
 	id: 'funkwhale',
 	js: 'connectors/funkwhale.js',
 	label: 'Funkwhale',
-	matches: [
-		'',
-	],
 }, {
 	id: 'gaana',
 	js: 'connectors/gaana.js',
