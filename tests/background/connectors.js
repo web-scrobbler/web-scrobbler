@@ -7,6 +7,7 @@ const expect = require('chai').expect;
 const assert = require('chai').assert;
 
 const connectors = require('../../src/core/connectors');
+const UrlMatch = require('../../src/core/background/util/url-match');
 
 const PROP_TYPES = {
 	allFrames: 'boolean',
@@ -27,6 +28,18 @@ function testProps(entry) {
 
 		assert(type, `Missing property: ${prop}`);
 		expect(entry[prop]).to.be.a(type);
+	}
+}
+
+function testMatches(entry) {
+	if (!entry.matches) {
+		return;
+	}
+
+	assert(entry.matches !== 0, 'Property is empty: matches');
+
+	for (const m of entry.matches) {
+		assert(UrlMatch.createPattern(m), `URL pattern is invalid: ${m}`);
 	}
 }
 
@@ -55,8 +68,12 @@ function testUniqueness(entry) {
 
 function runTests() {
 	for (const entry of connectors) {
-		it(`should have valid properties for ${entry.label}`, () => {
+		it(`should have valid prop types for ${entry.label}`, () => {
 			testProps(entry);
+		});
+
+		it(`should have valid URL matches ${entry.label}`, () => {
+			testMatches(entry);
 		});
 
 		it(`should have js files for ${entry.label}`, () => {
