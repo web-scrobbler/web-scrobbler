@@ -40,6 +40,10 @@ define((require) => {
 	const BrowserStorage = require('storage/browser-storage');
 	const ScrobbleService = require('object/scrobble-service');
 
+	const {
+		getConnectorByUrl
+	} = require('util/util-connector');
+
 	/**
 	 * How many times to show auth notification.
 	 *
@@ -221,51 +225,10 @@ define((require) => {
 			return;
 		}
 
-		let result;
-		try {
-			result = await Inject.onTabsUpdated(tab);
-		} catch (err) {
-			console.warn(err.message);
-			return;
-		}
+		const { id, url } = tab;
+		const connector = await getConnectorByUrl(url);
 
-		switch (result.type) {
-			case InjectResult.NO_MATCH: {
-				unloadController(tabId);
-				break;
-			}
-
-			case InjectResult.MATCHED_BUT_DISABLED:
-			case InjectResult.MATCHED_AND_INJECTED: {
-				unloadController(tabId);
-
-				const enabled = result.type === InjectResult.MATCHED_AND_INJECTED;
-				const ctrl = new Controller(tabId, result.connector, enabled);
-				ctrl.onSongUpdated = async() => {
-					onSongUpdated(ctrl, tabId);
-				};
-				ctrl.onModeChanged = () => {
-					onControllerModeChanged(ctrl, tabId);
-				};
-
-				tabControllers[tabId] = ctrl;
-				if (shouldUpdateBrowserAction(tabId)) {
-					updateBrowserAction(tabId);
-				}
-
-				browser.tabs.sendMessage(tabId, { type: 'EVENT_READY' });
-
-				GA.event('core', 'inject', result.connector.label);
-
-				if (!isActiveSession) {
-					isActiveSession = true;
-					GA.pageview(`/background-injected?version=${extVersion}`);
-				}
-				break;
-			}
-		}
-
-		updateContextMenu(tabId);
+		tryToInjectConnector(id, connector);
 	}
 
 	/**
@@ -473,16 +436,72 @@ define((require) => {
 	}
 
 	/**
-	 * Replace the extension version stored in local storage by current one.
+	 * Make an attempt to inject a connector into a page.
+	 *
+	 * @param  {Number} tabId An ID of a tab where the connector will be injected
+	 * @param  {String} connector Connector match object
+	 *
+	 * @return {Object} InjectResult value
 	 */
-	async function updateVersionInStorage() {
-		const storage = BrowserStorage.getStorage(BrowserStorage.CORE);
-		const data = await storage.get();
+	async function tryToInjectConnector(tabId, connector) {
+		let result;
+		try {
+			result = await Inject.injectConnector(tabId, connector);
+		} catch (err) {
+			console.warn(err.message);
+			return;
+		}
 
-		data.appVersion = extVersion;
-		await storage.set(data);
+		const { type } = result;
 
-		storage.debugLog();
+		switch (type) {
+			case InjectResult.NO_MATCH: {
+				unloadController(tabId);
+				break;
+			}
+
+			case InjectResult.MATCHED: {
+				unloadController(tabId);
+				createController(tabId, connector);
+
+				updateGaSession();
+			}
+		}
+
+		updateContextMenu(tabId);
+	}
+
+	/**
+	 * Create a controller for a tab.
+	 *
+	 * @param  {Number} tabId An ID of a tab bound to the controller
+	 * @param  {Object} connector A connector match object
+	 */
+	async function createController(tabId, connector) {
+		const isEnabled = await Options.isConnectorEnabled(connector);
+		const ctrl = new Controller(tabId, connector, isEnabled);
+		ctrl.onSongUpdated = async() => {
+			onSongUpdated(ctrl, tabId);
+		};
+		ctrl.onModeChanged = () => {
+			onControllerModeChanged(ctrl, tabId);
+		};
+
+		tabControllers[tabId] = ctrl;
+		if (shouldUpdateBrowserAction(tabId)) {
+			updateBrowserAction(tabId);
+		}
+
+		browser.tabs.sendMessage(tabId, { type: 'EVENT_READY' });
+
+		GA.event('core', 'inject', connector.label);
+	}
+
+	function updateGaSession() {
+		if (!isActiveSession) {
+			isActiveSession = true;
+			GA.pageview(`/background-injected?version=${extVersion}`);
+		}
 	}
 
 	/**
@@ -498,6 +517,19 @@ define((require) => {
 
 		controller.finish();
 		delete tabControllers[tabId];
+	}
+
+	/**
+	 * Replace the extension version stored in local storage by current one.
+	 */
+	async function updateVersionInStorage() {
+		const storage = BrowserStorage.getStorage(BrowserStorage.CORE);
+		const data = await storage.get();
+
+		data.appVersion = extVersion;
+		await storage.set(data);
+
+		storage.debugLog();
 	}
 
 	/**

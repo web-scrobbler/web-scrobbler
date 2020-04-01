@@ -6,7 +6,6 @@
 
 define((require) => {
 	const browser = require('webextension-polyfill');
-	const connectors = require('connectors');
 
 	const STR_REPLACER = '*';
 	const HIDDEN_PLACEHOLDER = '[hidden]';
@@ -134,16 +133,6 @@ define((require) => {
 	}
 
 	/**
-	 * Return a sorted array of connectors.
-	 * @return {Array} Array of connectors
-	 */
-	function getSortedConnectors() {
-		return connectors.slice(0).sort((a, b) => {
-			return a.label.localeCompare(b.label);
-		});
-	}
-
-	/**
 	 * Print debug message.
 	 * @param  {String} text Debug message
 	 * @param  {String} logType Log type
@@ -240,7 +229,7 @@ define((require) => {
 
 	return {
 		debugLog, getCurrentTab, timeoutPromise, getPlatformName, openTab,
-		hideObjectValue, hideStringInText, isFullscreenMode, getSortedConnectors,
+		hideObjectValue, hideStringInText, isFullscreenMode,
 		getSecondsToScrobble, getPrivacyPolicyFilename, createQueryString,
 
 		MIN_TRACK_DURATION, DEFAULT_SCROBBLE_TIME, MAX_SCROBBLE_TIME,

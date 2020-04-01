@@ -4,11 +4,7 @@
  */
 define((require) => {
 	const browser = require('webextension-polyfill');
-	const Options = require('storage/options');
-	const UrlMatch = require('util/url-match');
-	const connectors = require('connectors');
 	const InjectResult = require('object/inject-result');
-	const CustomPatterns = require('storage/custom-patterns');
 
 	const CONTENT_SCRIPTS = [
 		'vendor/filter.js',
@@ -66,46 +62,28 @@ define((require) => {
 			/* @endif */
 		}
 
-		const isEnabled = await Options.isConnectorEnabled(connector);
-		if (isEnabled) {
-			return new InjectResult(
-				InjectResult.MATCHED_AND_INJECTED, connector);
-		}
-
-		return new InjectResult(InjectResult.MATCHED_BUT_DISABLED, connector);
+		return new InjectResult(InjectResult.MATCHED, connector);
 	}
 
 	/**
-	 * Is triggered by browser.tabs.onUpdated event
-	 * Check for available connectors and injects matching connector into
-	 * loaded page while returning info about the connector.
+	 * Inject a matching connector into a page.
 	 *
-	 * @param  {Object} tab Tab object
+	 * @param  {Number} tabId An ID of a tab where the connector will be injected
+	 * @param  {String} connector Connector match object
+	 *
 	 * @return {Object} InjectResult value
 	 */
-	async function onTabsUpdated(tab) {
-		// Asynchronously preload all custom patterns and then start matching
-		const customPatterns = await CustomPatterns.getAllPatterns();
-		for (const connector of connectors) {
-			let patterns = connector.matches || [];
-
-			if (customPatterns[connector.id]) {
-				patterns = patterns.concat(customPatterns[connector.id]);
-			}
-
-			for (const pattern of patterns) {
-				if (UrlMatch.test(tab.url, pattern)) {
-					if (await isConnectorInjected(tab.id)) {
-						return new InjectResult(InjectResult.ALREADY_INJECTED, connector);
-					}
-
-					return injectScripts(tab.id, connector);
-				}
-			}
+	async function injectConnector(tabId, connector) {
+		if (!connector) {
+			return new InjectResult(InjectResult.NO_MATCH, null);
 		}
 
-		return new InjectResult(InjectResult.NO_MATCH, null);
+		if (await isConnectorInjected(tabId)) {
+			return new InjectResult(InjectResult.ALREADY_INJECTED, connector);
+		}
+
+		return injectScripts(tabId, connector);
 	}
 
-	return { onTabsUpdated };
+	return { injectConnector };
 });

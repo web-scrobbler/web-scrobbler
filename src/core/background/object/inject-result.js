@@ -18,15 +18,8 @@ class InjectResult {
 	/**
 	 * The connector is matched and all content scripts are injected.
 	 */
-	static get MATCHED_AND_INJECTED() {
-		return 'matched-and-injected';
-	}
-
-	/**
-	 * The connector is matched but is disabled by user.
-	 */
-	static get MATCHED_BUT_DISABLED() {
-		return 'matched-but-disabled';
+	static get MATCHED() {
+		return 'matched';
 	}
 
 	/**
