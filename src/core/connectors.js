@@ -64,7 +64,7 @@ const connectors = [{
 	matches: [
 		'*://9128.live/*',
 	],
-	allFrames: 'true',
+	allFrames: true,
 }, {
 	id: '9sky',
 	js: 'connectors/9sky.js',
@@ -173,7 +173,7 @@ const connectors = [{
 	matches: [
 		'*://daily.bandcamp.com/*',
 	],
-	allFrames: 'true',
+	allFrames: true,
 }, {
 	id: 'bandzone.cz',
 	js: 'connectors/bandzone.cz.js',
@@ -267,7 +267,7 @@ const connectors = [{
 	matches: [
 		'*://www.datpiff.com/player/*',
 	],
-	allFrames: 'true',
+	allFrames: true,
 }, {
 	id: 'deezer',
 	js: 'connectors/deezer.js',
@@ -626,7 +626,6 @@ const connectors = [{
 	label: 'JetSetRadio Live',
 	matches: [
 		'*://jetsetradio.live/*',
-		'*://jetsetradio.live',
 	],
 }, {
 	id: 'jiosaavn',
@@ -840,7 +839,7 @@ const connectors = [{
 		'*://noisefm.ru/*',
 		'*://en.noisefm.ru/*',
 	],
-	allFrames: 'true',
+	allFrames: true,
 }, {
 	id: 'nova',
 	js: 'connectors/nova.js',
@@ -1147,7 +1146,7 @@ const connectors = [{
 	matches: [
 		'*://radioparadise.com/*',
 	],
-	allFrames: 'true',
+	allFrames: true,
 }, {
 	id: 'radioplayer',
 	js: 'connectors/radioplayer.js',
@@ -1156,8 +1155,8 @@ const connectors = [{
 		'*://www.heart.co.uk/*',
 		'*://player.absoluteradio.co.uk/*',
 		'*://www.thebreeze.com/*radioplayer/*',
-		'*://ukradioplayer.*',
-		'*://radioplayer.*',
+		'*://ukradioplayer.*/*',
+		'*://radioplayer.*/*',
 		'*://www.2br.co.uk/*',
 		'*://*/radioplayer/*',
 		'*://*/radioplayer/',
@@ -1381,7 +1380,7 @@ const connectors = [{
 	js: 'connectors/sndtst.js',
 	label: 'SNDTST',
 	matches: [
-		'*:///sndtst.com/*',
+		'*://sndtst.com/*',
 	],
 }, {
 	id: 'somafm',
@@ -1639,7 +1638,7 @@ const connectors = [{
 	matches: [
 		'*://www.discogs.com/*',
 	],
-	allFrames: 'true',
+	allFrames: true,
 }, {
 	id: 'youtube-music',
 	js: 'connectors/youtube-music.js',
