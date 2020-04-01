@@ -270,8 +270,8 @@ module.exports = (grunt) => {
 		grunt.config.set('preprocess', config);
 
 		grunt.task.run([
-			'copy', 'preprocess',
-			`clean:${browser}`, 'imagemin',
+			'copy',
+			'preprocess',
 			`replace_json:${browser}`
 		]);
 	});
@@ -286,8 +286,13 @@ module.exports = (grunt) => {
 		assertDevelopmentModeIsValid(mode);
 
 		grunt.task.run([
-			'clean:build', `build:${browser}:${mode}`,
-			'clean:dist', 'compress', 'clean:build',
+			'clean:build',
+			`build:${browser}:${mode}`,
+			`clean:${browser}`,
+			'imagemin',
+			'clean:dist',
+			'compress',
+			'clean:build',
 		]);
 	});
 
