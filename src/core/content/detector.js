@@ -14,6 +14,10 @@ function main() {
 }
 
 const metaPropertiesRules = {
+	bandcamp({ name, content }) {
+		return name === 'generator' && content === 'Bandcamp';
+	},
+
 	funkwhale({ content, name, property }) {
 		if (name === 'generator') {
 			return content === 'Funkwhale';
