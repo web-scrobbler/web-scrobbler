@@ -1,4 +1,3 @@
 globals:
-  browser: readonly
   chrome: readonly
   define: readonly
