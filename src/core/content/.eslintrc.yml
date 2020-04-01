@@ -1,4 +1,5 @@
 globals:
+  $: readonly
   Util: readonly
   Reactor: readonly
   Connector: readonly
