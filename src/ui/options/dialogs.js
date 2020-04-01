@@ -1,12 +1,13 @@
 'use strict';
 
 define((require) => {
-	const Util = require('util/util');
 	const browser = require('webextension-polyfill');
 	const CustomPatterns = require('storage/custom-patterns');
 	const BrowserStorage = require('storage/browser-storage');
 
-	const sortedConnectors = Util.getSortedConnectors();
+	const { getSortedConnectors } = require('util/util-connector');
+
+	const sortedConnectors = getSortedConnectors();
 	const localCache = BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);
 
 	function initialize() {

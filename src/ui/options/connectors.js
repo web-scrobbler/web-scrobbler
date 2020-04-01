@@ -1,10 +1,11 @@
 'use strict';
 
 define((require) => {
-	const Util = require('util/util');
 	const Options = require('storage/options');
 
-	const sortedConnectors = Util.getSortedConnectors();
+	const { getSortedConnectors } = require('util/util-connector');
+
+	const sortedConnectors = getSortedConnectors();
 
 	async function initialize() {
 		await initConnectorsList();
