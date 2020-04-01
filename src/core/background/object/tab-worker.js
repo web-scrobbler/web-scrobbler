@@ -11,7 +11,7 @@ define((require) => {
 
 	const { INJECTED, MATCHED, NO_MATCH } = require('object/inject-result');
 	const { getCurrentTab } = require('util/util-browser');
-	const { getConnectorByUrl } = require('util/util-connector');
+	const { getConnectorById, getConnectorByUrl } = require('util/util-connector');
 	const {
 		contextMenus, i18n, runtime, tabs
 	} = require('webextension-polyfill');
@@ -84,6 +84,19 @@ define((require) => {
 			switch (type) {
 				case 'REQUEST_ACTIVE_TABID':
 					return this.activeTabId;
+
+				case 'REQUEST_CONNECTOR_INJECT': {
+					const { connectorId } = data;
+					const { id, url } = await getCurrentTab();
+					if (await getConnectorByUrl(url)) {
+						console.warn(`Skipped '${connectorId}' injecting request`);
+						return;
+					}
+
+					const connector = getConnectorById(connectorId);
+					this.tryToInjectConnector(id, connector);
+					return;
+				}
 			}
 
 			const ctrl = this.tabControllers[tabId];
