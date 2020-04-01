@@ -32,6 +32,12 @@ const metaPropertiesRules = {
 	},
 };
 
+const genericRules = {
+	kodi() {
+		return document.querySelector('body[class*=kodi-]') !== null;
+	}
+};
+
 function getConnectorId() {
 	const props = getMetaProperties();
 
@@ -42,6 +48,14 @@ function getConnectorId() {
 			if (checkFn(prop)) {
 				return connectorId;
 			}
+		}
+	}
+
+	for (const connectorId in genericRules) {
+		const checkFn = genericRules[connectorId];
+
+		if (checkFn()) {
+			return connectorId;
 		}
 	}
 
