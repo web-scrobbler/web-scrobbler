@@ -496,9 +496,6 @@ define((require) => {
 			return;
 		}
 
-		const label = controller.getConnector().label;
-		console.log(`Tab ${tabId}: Remove controller for ${label} connector`);
-
 		controller.finish();
 		delete tabControllers[tabId];
 	}

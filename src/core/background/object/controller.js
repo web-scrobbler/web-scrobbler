@@ -69,6 +69,7 @@ define((require) => {
 		 * Do finalization before unloading controller.
 		 */
 		finish() {
+			this.debugLog(`Remove controller for ${this.connector.label} connector`);
 			this.resetState();
 		}
 
