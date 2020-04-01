@@ -73,7 +73,7 @@ function test(string, pattern) {
 
 /* istanbul ignore next */
 define(() => {
-	return { test };
+	return { test, createPattern };
 });
 
 // @ifdef DEBUG
@@ -81,6 +81,6 @@ define(() => {
  * Export function if script is executed in Node.js context.
  */
 if (typeof module !== 'undefined') {
-	module.exports = { test };
+	module.exports = { test, createPattern };
 }
 // @endif
