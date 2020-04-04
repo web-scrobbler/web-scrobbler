@@ -305,7 +305,9 @@ define((require) => {
 		}
 		addContextMenuFor(tabId, tabControllers[tabId]);
 
+		// @ifdef CHROME
 		addContextMenuItem(null, null, 'separator');
+		// @endif
 	}
 
 	/**
