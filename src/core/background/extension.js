@@ -457,6 +457,10 @@ define((require) => {
 		const { type } = result;
 
 		switch (type) {
+			case InjectResult.ALREADY_INJECTED: {
+				return;
+			}
+
 			case InjectResult.NO_MATCH: {
 				unloadController(tabId);
 				break;
