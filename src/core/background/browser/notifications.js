@@ -123,8 +123,7 @@ define((require) => {
 		}
 
 		const connectorLabel = song.metadata.label;
-		const iconUrl = song.getTrackArt() ||
-			browser.runtime.getURL('/icons/cover_art_default.png');
+		const iconUrl = song.getTrackArt() || defaultTrackArtUrl;
 		// @ifdef CHROME
 		let message = song.getArtist();
 		const title = song.getTrack();
