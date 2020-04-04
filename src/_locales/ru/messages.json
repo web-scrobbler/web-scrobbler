@@ -8,19 +8,19 @@
         "description": "'General' section"
     },
     "optionUseNotifications": {
-        "message": "Уведомлять о проигрываемом треке",
+        "message": "Уведомлять о проигрываемой композиции",
         "description": "Option label"
     },
     "optionUseNotificationsTitle": {
-        "message": "Показывать уведомления о проигрываемом треке для всех поддерживаемых сайтов",
+        "message": "Показывать уведомления о проигрываемой композиции для всех поддерживаемых сайтов",
         "description": "Option title"
     },
     "optionUnrecognizedNotifications": {
-        "message": "Уведомлять, если трек не распознан",
+        "message": "Уведомлять, если композиция не распознана",
         "description": "Option label"
     },
     "optionUnrecognizedNotificationsTitle": {
-        "message": "Показывать уведомление, если расширение не смогло распознать трек",
+        "message": "Показывать уведомление, если расширение не смогло распознать композицию",
         "description": "Option title"
     },
     "optionForceRecognize": {
@@ -28,7 +28,7 @@
         "description": "Option label"
     },
     "optionForceRecognizeTitle": {
-        "message": "Принудительное распознавание треков",
+        "message": "Принудительное распознавание композиций",
         "description": "Option title"
     },
     "optionDisableGa": {
@@ -60,11 +60,11 @@
         "description": "Option label"
     },
     "optionTdlShortTrackNames": {
-        "message": "Использовать короткие имена треков",
+        "message": "Использовать короткие имена композиций",
         "description": "Option title"
     },
     "optionTdlShortTrackNamesTitle": {
-        "message": "Tidal предоставляет короткие имена треков для некоторых композиций (например, без суффикса \"Remastered\", и т.п.)",
+        "message": "Tidal предоставляет короткие имена некоторых композиций (например, без суффикса \"Remastered\", и т.п.)",
         "description": ""
     },
     "optionYtDesc": {
@@ -80,7 +80,7 @@
         "description": "Option title"
     },
     "optionYtMusicOnlyTitle": {
-        "message": "Игнорировать треки, которые не в категории \"Музыка\"",
+        "message": "Игнорировать видео, которые не в категории \"Музыка\"",
         "description": "Option label"
     },
     "optionYtEntertainmentOnly": {
@@ -88,7 +88,7 @@
         "description": "Option label"
     },
     "optionYtEntertainmentOnlyTitle": {
-        "message": "Игнорировать треки, которые не в категории \"Развлечения\"",
+        "message": "Игнорировать видео, которые не в категории \"Развлечения\"",
         "description": "Option title"
     },
     "optionsAccounts": {
@@ -120,15 +120,15 @@
         "description": "'Options' section"
     },
     "optionsEditedTracks": {
-        "message": "Сохранённая информация о треках",
+        "message": "Сохранённая информация о композициях",
         "description": "'Edited tracks' header"
     },
     "optionsEditedTracksDesc": {
-        "message": "Расширение хранит редактированную вами информацию о треках.",
+        "message": "Расширение хранит редактированную вами информацию о композициях.",
         "description": "Description of edited tracks"
     },
     "optionsEditedTracksPopupTitle": {
-        "message": "$1 сохранённых треков",
+        "message": "Сохранённых композиций: $1 ",
         "description": "'Edited tracks' header"
     },
     "optionsViewEdited": {
@@ -208,23 +208,23 @@
         "description": "Answer #2"
     },
     "faqQuestion3": {
-        "message": "Трек не распознан. Вы можете исправить это?",
+        "message": "Композиция не распознана. Вы можете исправить это?",
         "description": "Question #3"
     },
     "faqAnswer3a": {
-        "message": "Когда расширение не может распознать трек, справа от адресной строки появляется иконка со знаком вопроса. Кликнув на эту иконку, вы можете скорректировать данные о треке в появившемся всплывающем окне.",
+        "message": "Когда расширение не может распознать композицию, справа от адресной строки появляется иконка со знаком вопроса. Кликнув на эту иконку, вы можете скорректировать данные о композиции в появившемся всплывающем окне.",
         "description": "Answer #3"
     },
     "faqAnswer3b": {
-        "message": "Также, есть опция \"Принудительное распознавание\", включение которой позволяет скробблить треки, которые расширение не смогло распознать.",
+        "message": "Также, есть опция \"Принудительное распознавание\", включение которой позволяет скробблить композиции, которые расширение не смогло распознать.",
         "description": "Answer #3"
     },
     "faqQuestion4": {
-        "message": "Некоторые треки на Bandcamp не скробблятся. Это возможно исправить?",
+        "message": "Некоторые композиции на Bandcamp не скробблятся. Это возможно исправить?",
         "description": "Question #4"
     },
     "faqAnswer4a": {
-        "message": "Похоже, треки расположены на нестандартном домене, и расширение не может определить, что это Bandcamp.",
+        "message": "Похоже, композиции расположены на нестандартном домене, и расширение не может определить, что это Bandcamp.",
         "description": "Answer #4"
     },
     "faqAnswer4b": {
@@ -316,7 +316,7 @@
         "description": "Add button"
     },
     "editedTracksTitle": {
-        "message": "Сохранённая информация о треках",
+        "message": "Сохранённая информация о композициях",
         "description": "Popup title"
     },
     "albumTooltip": {
@@ -344,7 +344,7 @@
         "description": "Popup hint"
     },
     "getStartedHeader": {
-        "message": "Включите любой трек для начала",
+        "message": "Для начала включите любую композицию",
         "description": "The header of 'Get started' popup"
     },
     "getStartedSubheader": {
@@ -364,7 +364,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Похоже, что-то произошло не так во время скробблинга трека. Пожалуйста, откройте страницу с настройками и попробуйте авторизоваться заново. Если это не помогает, пожалуйста, <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">сообщите о проблеме</a> на странице проекта на GitHub.",
+        "message": "Похоже, что-то произошло не так во время скробблинга. Пожалуйста, откройте страницу с настройками и попробуйте авторизоваться заново. Если это не помогает, пожалуйста, <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">сообщите о проблеме</a> на странице проекта на GitHub.",
         "description": "The description of service error"
     },
     "serviceErrorButton": {
@@ -404,36 +404,48 @@
         "description": "Label of love/unlove button"
     },
     "infoEditTitle": {
-        "message": "Изменить информацию о треке",
+        "message": "Изменить информацию о композиции",
         "description": "Title of edit button"
     },
     "infoEditUnableTitle": {
-        "message": "Вы не можете изменить информацию о треке, который был заскробблен",
+        "message": "Вы не можете изменить информацию об этой композиции",
         "description": "Title of edit button"
     },
     "infoSwapTitle": {
-        "message": "Поменять исполнителя и название трека местами",
+        "message": "Поменять исполнителя и название композиции местами",
         "description": "Title of swap button"
     },
     "infoSwapUnableTitle": {
-        "message": "Вы не можете изменить заскробленный трек",
+        "message": "Вы не можете изменить неполную информацию о композиции",
         "description": "Title of swap button"
+    },
+    "infoSubmitTitle": {
+        "message": "Принять изменения",
+        "description": "Title of submit button"
+    },
+    "infoSubmitUnableTitle": {
+        "message": "Вы не можете применить неполную информацию о композиции",
+        "description": "Title of submit button"
     },
     "infoRevertTitle": {
         "message": "Отменить изменения",
         "description": "Title of revert button"
     },
     "infoRevertUnableTitle": {
-        "message": "Вы не можете сбросить информацию о треке, который был заскробблен",
+        "message": "Вы не можете сбросить информацию об этой композиции",
         "description": "Title of revert button"
     },
     "infoSkipTitle": {
-        "message": "Не скробблить текущий трек",
+        "message": "Не скробблить текущую композицию",
         "description": "Title of skip button"
     },
     "infoSkipUnableTitle": {
-        "message": "Вы не можете пропустить треки, которые уже заскробблены",
+        "message": "Вы не можете пропустить эту композицию",
         "description": "Title of skip button"
+    },
+    "infoSkippedTitle": {
+        "message": "Вы пропустили эту композицию",
+        "description": "Title of unskip button"
     },
     "infoOpenAlbumArt": {
         "message": "Открыть обложку альбома в новой вкладке",
@@ -464,7 +476,7 @@
         "description": "Placeholder of album input"
     },
     "infoViewTrackPage": {
-        "message": "Посмотреть страницу трека",
+        "message": "Посмотреть страницу композиции",
         "description": "Placeholder of album input"
     },
     "infoYourScrobbles": {
@@ -500,7 +512,7 @@
         "description": "`disabled` page action title"
     },
     "pageActionUnknown": {
-        "message": "Трек не распознан. Кликните, чтобы ввести верные данные.",
+        "message": "Композиция не распознана. Кликните, чтобы ввести верные данные.",
         "description": "`unknown` page action title"
     },
     "pageActionError": {
@@ -544,11 +556,11 @@
         "description": "Notification text"
     },
     "notificationNotRecognized": {
-        "message": "Трек не распознан",
+        "message": "Композиция не распознана",
         "description": "Notification title"
     },
     "notificationNotRecognizedText": {
-        "message": "Кликните на иконку справа от адресной строки, чтобы скорректировать информацию о треке.",
+        "message": "Кликните на иконку справа от адресной строки, чтобы скорректировать информацию о композиции.",
         "description": "Notification text"
     },
     "startupTitle": {
