@@ -464,7 +464,7 @@ define((require) => {
 
 			case InjectResult.MATCHED: {
 				unloadController(tabId);
-				createController(tabId, connector);
+				await createController(tabId, connector);
 
 				updateGaSession();
 			}
