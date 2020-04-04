@@ -100,11 +100,19 @@ define((require) => {
 			options[key] = defaultValue;
 		}
 
-		const notificationId = await browser.notifications.create('', options).catch(() => {
+		let notificationId;
+		try {
+			notificationId = await browser.notifications.create('', options);
+		} catch (err) {
 			// Use default track art and try again
+			if (options.iconUrl === defaultTrackArtUrl) {
+				throw err;
+			}
+
 			options.iconUrl = defaultTrackArtUrl;
-			return browser.notifications.create('', options);
-		});
+			notificationId = await browser.notifications.create('', options);
+		}
+
 		if (typeof onClicked === 'function') {
 			addOnClickedListener(notificationId, onClicked);
 		}
