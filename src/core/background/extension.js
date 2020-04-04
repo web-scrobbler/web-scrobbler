@@ -466,7 +466,18 @@ define((require) => {
 				unloadController(tabId);
 				await createController(tabId, connector);
 
-				updateGaSession();
+				if (shouldUpdateBrowserAction(tabId)) {
+					updateBrowserAction(tabId);
+				}
+
+				browser.tabs.sendMessage(tabId, { type: 'EVENT_READY' });
+
+				GA.event('core', 'inject', connector.label);
+
+				if (!isActiveSession) {
+					isActiveSession = true;
+					GA.pageview(`/background-injected?version=${extVersion}`);
+				}
 			}
 		}
 
@@ -490,20 +501,6 @@ define((require) => {
 		};
 
 		tabControllers[tabId] = ctrl;
-		if (shouldUpdateBrowserAction(tabId)) {
-			updateBrowserAction(tabId);
-		}
-
-		browser.tabs.sendMessage(tabId, { type: 'EVENT_READY' });
-
-		GA.event('core', 'inject', connector.label);
-	}
-
-	function updateGaSession() {
-		if (!isActiveSession) {
-			isActiveSession = true;
-			GA.pageview(`/background-injected?version=${extVersion}`);
-		}
 	}
 
 	/**
