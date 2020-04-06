@@ -466,7 +466,7 @@ const connectors = [{
 	js: 'connectors/player.fm.js',
 	id: 'player.fm',
 }, {
-	label: 'SNDTST',
+	label: 'Sound Test',
 	matches: [
 		'*://sndtst.com/*'
 	],
