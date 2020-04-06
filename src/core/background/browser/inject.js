@@ -62,7 +62,7 @@ define((require) => {
 			/* @endif */
 		}
 
-		return new InjectResult(InjectResult.MATCHED, connector);
+		return new InjectResult(InjectResult.MATCHED);
 	}
 
 	/**
@@ -75,11 +75,11 @@ define((require) => {
 	 */
 	async function injectConnector(tabId, connector) {
 		if (!connector) {
-			return new InjectResult(InjectResult.NO_MATCH, null);
+			return new InjectResult(InjectResult.NO_MATCH);
 		}
 
 		if (await isConnectorInjected(tabId)) {
-			return new InjectResult(InjectResult.ALREADY_INJECTED, connector);
+			return new InjectResult(InjectResult.ALREADY_INJECTED);
 		}
 
 		try {
