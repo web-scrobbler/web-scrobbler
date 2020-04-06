@@ -188,6 +188,11 @@ define((require) => {
 					this.unbindScrobbler(scrobbler);
 				}
 			}
+
+			if (!(result in ServiceCallResult)) {
+				throw new Error(`Invalid result: ${result}`);
+			}
+
 			// Forward result
 			return result;
 		}
