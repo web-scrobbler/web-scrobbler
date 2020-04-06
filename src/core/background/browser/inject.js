@@ -82,7 +82,12 @@ define((require) => {
 			return new InjectResult(InjectResult.ALREADY_INJECTED, connector);
 		}
 
-		return injectScripts(tabId, connector);
+		try {
+			return injectScripts(tabId, connector);
+		} catch (err) {
+			console.warn(err.message);
+			return new InjectResult(InjectResult.NO_MATCH);
+		}
 	}
 
 	return { injectConnector };

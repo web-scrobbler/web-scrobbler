@@ -436,15 +436,7 @@ define((require) => {
 	 * @return {Object} InjectResult value
 	 */
 	async function tryToInjectConnector(tabId, connector) {
-		let result;
-		try {
-			result = await Inject.injectConnector(tabId, connector);
-		} catch (err) {
-			console.warn(err.message);
-			return;
-		}
-
-		const { type } = result;
+		const { type } = await Inject.injectConnector(tabId, connector);
 
 		switch (type) {
 			case InjectResult.ALREADY_INJECTED: {
