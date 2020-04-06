@@ -521,7 +521,7 @@ define((require) => {
 			this.currentSong.flags.isMarkedAsPlaying = true;
 
 			const results = await ScrobbleService.sendNowPlaying(this.currentSong);
-			if (isAnyResult(results, ServiceCallResult.OK)) {
+			if (isAnyResult(results, ServiceCallResult.RESULT_OK)) {
 				this.debugLog('Song set as now playing');
 				this.setMode(ControllerMode.Playing);
 			} else {
@@ -549,7 +549,7 @@ define((require) => {
 		 */
 		async scrobbleSong() {
 			const results = await ScrobbleService.scrobble(this.currentSong);
-			if (isAnyResult(results, ServiceCallResult.OK)) {
+			if (isAnyResult(results, ServiceCallResult.RESULT_OK)) {
 				this.debugLog('Scrobbled successfully');
 
 				this.currentSong.flags.isScrobbled = true;
@@ -558,7 +558,7 @@ define((require) => {
 				this.onSongUpdated();
 
 				GA.event('core', 'scrobble', this.connector.label);
-			} else if (areAllResults(results, ServiceCallResult.IGNORED)) {
+			} else if (areAllResults(results, ServiceCallResult.RESULT_IGNORE)) {
 				this.debugLog('Song is ignored by service');
 				this.setMode(ControllerMode.Ignored);
 			} else {
@@ -604,25 +604,25 @@ define((require) => {
 	/**
 	 * Check if array of results contains at least one result with given type.
 	 * @param  {Array} results Array of results
-	 * @param  {String} type Result type
+	 * @param  {String} result Result to check
 	 * @return {Boolean} True if at least one good result is found
 	 */
-	function isAnyResult(results, type) {
-		return results.some((result) => result.type === type);
+	function isAnyResult(results, result) {
+		return results.some((r) => r === result);
 	}
 
 	/**
 	 * Check if array of results contains all results with given type.
 	 * @param  {Array} results Array of results
-	 * @param  {String} type Result type
+	 * @param  {String} result Result to check
 	 * @return {Boolean} True if at least one good result is found
 	 */
-	function areAllResults(results, type) {
+	function areAllResults(results, result) {
 		if (results.length === 0) {
 			return false;
 		}
 
-		return results.every((result) => result.type === type);
+		return results.every((r) => r === result);
 	}
 
 	return Controller;

@@ -7,6 +7,7 @@ define((require) => {
 	const LastFm = require('scrobbler/lastfm');
 	const LibreFm = require('scrobbler/librefm');
 	const ListenBrainz = require('scrobbler/listenbrainz');
+	const ServiceCallResult = require('object/service-call-result');
 
 	/**
 	 * Scrobblers that are bound, meaning they have valid session IDs.
@@ -180,7 +181,7 @@ define((require) => {
 		 * @return {Promise} Promise resolved with result object
 		 */
 		async processResult(scrobbler, result) {
-			if (result.isAuthError()) {
+			if (result === ServiceCallResult.AUTH_ERROR) {
 				// Don't unbind scrobblers which have tokens
 				const isReady = await scrobbler.isReadyForGrantAccess();
 				if (!isReady) {

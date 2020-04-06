@@ -37,7 +37,7 @@ define((require) => {
 					this.debugLog('Failed to get session', 'warn');
 
 					await this.signOut();
-					throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+					throw ServiceCallResult.ERROR_AUTH;
 				}
 
 				data.sessionID = session.sessionID;
@@ -47,7 +47,7 @@ define((require) => {
 
 				return session;
 			} else if (!data.sessionID) {
-				throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+				throw ServiceCallResult.ERROR_AUTH;
 			}
 
 			return {
@@ -111,16 +111,16 @@ define((require) => {
 				result = await response.json();
 			} catch (e) {
 				this.debugLog('Error while sending request', 'error');
-				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+				throw ServiceCallResult.ERROR_OTHER;
 			}
 
 			switch (response.status) {
 				case 400:
 					this.debugLog('Invalid JSON sent', 'error');
-					throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+					throw ServiceCallResult.ERROR_AUTH;
 				case 401:
 					this.debugLog('Invalid Authorization sent', 'error');
-					throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+					throw ServiceCallResult.ERROR_AUTH;
 			}
 
 			this.debugLog(JSON.stringify(result, null, 2));
@@ -156,7 +156,7 @@ define((require) => {
 				return session;
 			}
 
-			throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+			throw ServiceCallResult.ERROR_AUTH;
 		}
 
 		async fetchSession(url) {
@@ -194,11 +194,11 @@ define((require) => {
 
 		processResult(result) {
 			if (result.status !== 'ok') {
-				return new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+				return ServiceCallResult.ERROR_OTHER;
 
 			}
 
-			return new ServiceCallResult(ServiceCallResult.OK);
+			return ServiceCallResult.RESULT_OK;
 		}
 
 		makeTrackMetadata(song) {

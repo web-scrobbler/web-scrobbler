@@ -33,12 +33,13 @@ define((require) => {
 	const Migrate = require('util/migrate');
 	const browser = require('webextension-polyfill');
 	const Controller = require('object/controller');
-	const InjectResult = require('object/inject-result');
 	const BrowserAction = require('browser/browser-action');
 	const Notifications = require('browser/notifications');
 	const ControllerMode = require('object/controller-mode');
 	const BrowserStorage = require('storage/browser-storage');
 	const ScrobbleService = require('object/scrobble-service');
+
+	const { INJECTED, MATCHED, NO_MATCH } = require('object/inject-result');
 
 	const {
 		getConnectorByUrl
@@ -436,20 +437,20 @@ define((require) => {
 	 * @return {Object} InjectResult value
 	 */
 	async function tryToInjectConnector(tabId, connector) {
-		const { type } = await Inject.injectConnector(tabId, connector);
+		const result = await Inject.injectConnector(tabId, connector);
 
-		switch (type) {
-			case InjectResult.ALREADY_INJECTED: {
+		switch (result) {
+			case INJECTED: {
 				return;
 			}
 
-			case InjectResult.NO_MATCH: {
+			case NO_MATCH: {
 				unloadController(tabId);
 				updateLastActiveTab();
 				break;
 			}
 
-			case InjectResult.MATCHED: {
+			case MATCHED: {
 				unloadController(tabId);
 				await createController(tabId, connector);
 

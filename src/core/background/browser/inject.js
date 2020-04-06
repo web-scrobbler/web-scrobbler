@@ -4,7 +4,7 @@
  */
 define((require) => {
 	const browser = require('webextension-polyfill');
-	const InjectResult = require('object/inject-result');
+	const { INJECTED, MATCHED, NO_MATCH } = require('object/inject-result');
 
 	const CONTENT_SCRIPTS = [
 		'vendor/filter.js',
@@ -62,7 +62,7 @@ define((require) => {
 			/* @endif */
 		}
 
-		return new InjectResult(InjectResult.MATCHED);
+		return MATCHED;
 	}
 
 	/**
@@ -75,18 +75,18 @@ define((require) => {
 	 */
 	async function injectConnector(tabId, connector) {
 		if (!connector) {
-			return new InjectResult(InjectResult.NO_MATCH);
+			return NO_MATCH;
 		}
 
 		if (await isConnectorInjected(tabId)) {
-			return new InjectResult(InjectResult.ALREADY_INJECTED);
+			return INJECTED;
 		}
 
 		try {
 			return injectScripts(tabId, connector);
 		} catch (err) {
 			console.warn(err.message);
-			return new InjectResult(InjectResult.NO_MATCH);
+			return NO_MATCH;
 		}
 	}
 

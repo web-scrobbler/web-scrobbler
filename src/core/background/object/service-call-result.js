@@ -1,61 +1,33 @@
 'use strict';
 
 /**
- * Object that represents result of service call.
+ * Successfull result.
+ *
+ * @type {String}
  */
-class ServiceCallResult {
-	/**
-	 * Class constructor.
-	 * @constructor
-	 * @param {String} type Result type
-	 */
-	constructor(type) {
-		this.type = type;
-	}
+const RESULT_OK = 'ok';
 
-	/**
-	 * Check if result is w/o errors.
-	 * @return {Boolean} Check result
-	 */
-	isOk() {
-		return this.type === ServiceCallResult.OK;
-	}
+/**
+ * Song is ignored by scrobbling service.
+ */
+const RESULT_IGNORE = 'ignored';
 
-	/**
-	 * Check if result is error.
-	 * @return {Boolean} Check result
-	 */
-	isAuthError() {
-		return this.type === ServiceCallResult.ERROR_AUTH;
-	}
+/**
+ * Authorization error.
+ *
+ * @type {String}
+ */
+const ERROR_AUTH = 'error-auth';
 
-	/**
-	 * No errors.
-	 */
-	static get OK() {
-		return 'ok';
-	}
+/**
+ * Another error.
+ *
+ * @type {String}
+ */
+const ERROR_OTHER = 'error-other';
 
-	/**
-	 * Song is ignored by scrobbling service.
-	 */
-	static get IGNORED() {
-		return 'ignored';
-	}
-
-	/**
-	 * Authorization error.
-	 */
-	static get ERROR_AUTH() {
-		return 'error-auth';
-	}
-
-	/**
-	 * Other error.
-	 */
-	static get ERROR_OTHER() {
-		return 'error-other';
-	}
-}
-
-define(() => ServiceCallResult);
+define(() => {
+	return {
+		RESULT_OK, RESULT_IGNORE, ERROR_AUTH, ERROR_OTHER
+	};
+});

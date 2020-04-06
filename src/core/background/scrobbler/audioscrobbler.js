@@ -92,7 +92,7 @@ define((require) => {
 					this.debugLog('Failed to trade token for session', 'warn');
 
 					await this.signOut();
-					throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+					throw ServiceCallResult.ERROR_AUTH;
 				}
 
 				data.sessionID = session.sessionID;
@@ -102,7 +102,7 @@ define((require) => {
 
 				return session;
 			} else if (!data.sessionID) {
-				throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+				throw ServiceCallResult.ERROR_AUTH;
 			}
 
 			return {
@@ -165,16 +165,16 @@ define((require) => {
 			const response = await this.sendRequest({ method: 'POST' }, params);
 
 			const result = AudioScrobbler.processResponse(response);
-			if (result.isOk()) {
+			if (result === ServiceCallResult.RESULT_OK) {
 				const scrobbles = response.scrobbles;
 
 				if (scrobbles) {
 					const acceptedCount = scrobbles['@attr'].accepted;
 					if (acceptedCount === '0') {
-						return new ServiceCallResult(ServiceCallResult.IGNORED);
+						return ServiceCallResult.RESULT_IGNORE;
 					}
 				} else {
-					return new ServiceCallResult(ServiceCallResult.ERROR);
+					return ServiceCallResult.ERROR_OTHER;
 				}
 			}
 
@@ -214,8 +214,8 @@ define((require) => {
 
 			const response = await this.sendRequest({ method: 'GET' }, params);
 			const result = AudioScrobbler.processResponse(response);
-			if (!result.isOk()) {
-				throw new ServiceCallResult(ServiceCallResult.ERROR_AUTH);
+			if (result !== ServiceCallResult.RESULT_OK) {
+				throw ServiceCallResult.ERROR_AUTH;
 			}
 
 			const sessionName = response.session.name;
@@ -247,7 +247,7 @@ define((require) => {
 				response = await Util.timeoutPromise(timeout, promise);
 				responseData = await response.json();
 			} catch (e) {
-				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+				throw ServiceCallResult.ERROR_OTHER;
 			}
 
 			const responseStr = JSON.stringify(responseData, null, 2);
@@ -255,7 +255,7 @@ define((require) => {
 
 			if (!response.ok) {
 				this.debugLog(`${params.method} response:\n${debugMsg}`, 'error');
-				throw new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+				throw ServiceCallResult.ERROR_OTHER;
 			}
 
 			this.debugLog(`${params.method} response:\n${debugMsg}`);
@@ -308,10 +308,10 @@ define((require) => {
 		 */
 		static processResponse(responseData) {
 			if (responseData.error) {
-				return new ServiceCallResult(ServiceCallResult.ERROR_OTHER);
+				return ServiceCallResult.ERROR_OTHER;
 			}
 
-			return new ServiceCallResult(ServiceCallResult.OK);
+			return ServiceCallResult.RESULT_OK;
 		}
 	}
 

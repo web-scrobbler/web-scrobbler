@@ -44,7 +44,7 @@ define((require) => {
 	/**
 	 * Base scrobbler object.
 	 *
-	 * Descendants of this object MUST return ServiceCallResult instance
+	 * Descendants of this object MUST return ServiceCallResult constants
 	 * as result or error value in functions that perform API calls.
 	 *
 	 * Each scrobbler has its storage which can contain session data and/or
@@ -95,7 +95,6 @@ define((require) => {
 
 		/**
 		 * Get auth URL where user should grant permission to the extension.
-		 *
 		 * Implementation must return an auth URL.
 		 */
 		async getAuthUrl() {
@@ -104,7 +103,6 @@ define((require) => {
 
 		/**
 		 * Get session data.
-		 *
 		 * Implementation must return a session data.
 		 */
 		async getSession() {
@@ -136,8 +134,9 @@ define((require) => {
 
 		/**
 		 * Send current song as 'now playing' to API.
+		 * Implementation must return ServiceCallResult constant.
+		 *
 		 * @param  {Object} song Song instance
-		 * Implementation must return ServiceCallResult object as a result
 		 */
 		async sendNowPlaying(song) { // eslint-disable-line no-unused-vars
 			throw new Error('Not implemented');
@@ -145,8 +144,9 @@ define((require) => {
 
 		/**
 		 * Send song to API to scrobble.
+		 * Implementation must return ServiceCallResult constant.
+		 *
 		 * @param  {Object} song Song instance
-		 * Implementation must return ServiceCallResult object.
 		 */
 		async scrobble(song) { // eslint-disable-line no-unused-vars
 			throw new Error('Not implemented');
@@ -154,9 +154,10 @@ define((require) => {
 
 		/**
 		 * Love or unlove given song.
+		 * Implementation must return ServiceCallResult constant.
+		 *
 		 * @param  {Object} song Song instance
 		 * @param  {Boolean} isLoved Flag means song should be loved or not
-		 * Implementation must return ServiceCallResult object.
 		 */
 		async toggleLove(song, isLoved) { // eslint-disable-line no-unused-vars
 			throw new Error('Not implemented');
@@ -164,9 +165,9 @@ define((require) => {
 
 		/**
 		 * Get song info.
+		 * Implementation must return object contains a song data.
 		 *
 		 * @param  {Object} song Song instance
-		 * Implementation must return object contains a song data.
 		 */
 		async getSongInfo(song) { // eslint-disable-line no-unused-vars
 			throw new Error('Not implemented');
