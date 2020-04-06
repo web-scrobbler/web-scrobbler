@@ -254,17 +254,7 @@ define((require) => {
 	 */
 	async function onTabRemoved(removedTabId) {
 		unloadController(removedTabId);
-
-		const lastActiveTabId = findActiveTabId();
-		if (lastActiveTabId !== -1) {
-			activeTabId = lastActiveTabId;
-
-			updateBrowserAction(activeTabId);
-			updateContextMenu(activeTabId);
-		} else {
-			browserAction.reset();
-			resetContextMenu();
-		}
+		updateLastActiveTab();
 	}
 
 	/**
@@ -463,6 +453,7 @@ define((require) => {
 
 			case InjectResult.NO_MATCH: {
 				unloadController(tabId);
+				updateLastActiveTab();
 				break;
 			}
 
@@ -473,6 +464,7 @@ define((require) => {
 				if (shouldUpdateBrowserAction(tabId)) {
 					updateBrowserAction(tabId);
 				}
+				updateContextMenu(tabId);
 
 				browser.tabs.sendMessage(tabId, { type: 'EVENT_READY' });
 
@@ -482,10 +474,9 @@ define((require) => {
 					isActiveSession = true;
 					GA.pageview(`/background-injected?version=${extVersion}`);
 				}
+				break;
 			}
 		}
-
-		updateContextMenu(tabId);
 	}
 
 	/**
@@ -520,6 +511,24 @@ define((require) => {
 
 		controller.finish();
 		delete tabControllers[tabId];
+	}
+
+	/**
+	 * Update the browser action and the context menu in context of a last
+	 * active tab. If no active tab is found, reset the browser action icon
+	 * and the context menu.
+	 */
+	function updateLastActiveTab() {
+		const lastActiveTabId = findActiveTabId();
+		if (lastActiveTabId !== -1) {
+			activeTabId = lastActiveTabId;
+
+			updateBrowserAction(activeTabId);
+			updateContextMenu(activeTabId);
+		} else {
+			browserAction.reset();
+			resetContextMenu();
+		}
 	}
 
 	/**
