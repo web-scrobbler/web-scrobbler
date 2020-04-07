@@ -225,6 +225,10 @@ define((require) => {
 		/** Internal functions */
 
 		setMode(mode) {
+			if (!(mode in ControllerMode)) {
+				throw new Error(`Unknown mode: ${mode}`);
+			}
+
 			this.mode = mode;
 			this.onModeChanged(mode);
 		}
