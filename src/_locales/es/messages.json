@@ -408,7 +408,7 @@
         "description": "Title of edit button"
     },
     "infoEditUnableTitle": {
-        "message": "No puede modificar canciones scrobbled",
+        "message": "No puedes editar esta canción",
         "description": "Title of edit button"
     },
     "infoSwapTitle": {
@@ -416,15 +416,23 @@
         "description": "Title of swap button"
     },
     "infoSwapUnableTitle": {
-        "message": "No puede intercambiar canciones scrobbled",
+        "message": "No puede intercambiar información de canción vacía",
         "description": "Title of swap button"
+    },
+    "infoSubmitTitle": {
+        "message": "Enviar cambios",
+        "description": "Title of submit button"
+    },
+    "infoSubmitUnableTitle": {
+        "message": "No puedes enviar información de canción vacía",
+        "description": "Title of submit button"
     },
     "infoRevertTitle": {
         "message": "Revertir cambios",
         "description": "Title of revert button"
     },
     "infoRevertUnableTitle": {
-        "message": "No puede revertir canciones scrobbled",
+        "message": "No puedes revertir esta canción",
         "description": "Title of revert button"
     },
     "infoSkipTitle": {
@@ -432,8 +440,12 @@
         "description": "Title of skip button"
     },
     "infoSkipUnableTitle": {
-        "message": "No puede omitir canciones scrobbled",
+        "message": "No puedes saltarte esta canción",
         "description": "Title of skip button"
+    },
+    "infoSkippedTitle": {
+        "message": "Te saltaste esta canción",
+        "description": "Title of unskip button"
     },
     "infoOpenAlbumArt": {
         "message": "Abrir la carátula del álbum en una nueva pestaña",
