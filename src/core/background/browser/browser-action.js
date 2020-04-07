@@ -47,7 +47,7 @@ define((require) => {
 			popup: '/ui/popups/info.html',
 			i18n: 'pageActionUnknown',
 		},
-		[ControllerMode.Error]: {
+		[ControllerMode.Err]: {
 			icon: 'error',
 			popup: '/ui/popups/error.html',
 			i18n: 'pageActionError',

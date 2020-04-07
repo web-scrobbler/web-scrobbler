@@ -526,7 +526,7 @@ define((require) => {
 				this.setMode(ControllerMode.Playing);
 			} else {
 				this.debugLog('Song isn\'t set as now playing');
-				this.setMode(ControllerMode.Error);
+				this.setMode(ControllerMode.Err);
 			}
 
 			this.showNowPlayingNotification();
@@ -563,7 +563,7 @@ define((require) => {
 				this.setMode(ControllerMode.Ignored);
 			} else {
 				this.debugLog('Scrobbling failed', 'warn');
-				this.setMode(ControllerMode.Error);
+				this.setMode(ControllerMode.Err);
 			}
 		}
 
