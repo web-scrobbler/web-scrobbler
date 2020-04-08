@@ -961,14 +961,12 @@ const connectors = [{
 }, {
 	label: 'RadioPlayer',
 	matches: [
-		'*://www.heart.co.uk/*',
-		'*://player.absoluteradio.co.uk/*',
-		'*://www.thebreeze.com/*radioplayer/*',
+		'*://www.webradio.de/*',
+		'*://www.thebreeze.com/*/radioplayer/*',
 		'*://ukradioplayer.*/*',
 		'*://radioplayer.*/*',
-		'*://www.2br.co.uk/*',
+		// Generic patterns
 		'*://*/radioplayer/*',
-		'*://*/radioplayer/',
 		'*://*/radio/player/',
 		'*://*/*/radio/player/',
 	],
