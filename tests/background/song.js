@@ -45,7 +45,7 @@ const DUMMY_CONNECTOR = {
  */
 function createSong(parsed, processed) {
 	const parsedDataCopy = Object.assign({}, parsed || PARSED_DATA);
-	const song = Song.buildFrom(parsedDataCopy, DUMMY_CONNECTOR);
+	const song = new Song(parsedDataCopy, DUMMY_CONNECTOR);
 
 	if (processed) {
 		for (const field in processed) {

@@ -80,6 +80,8 @@ define((require) => {
 			if (this.currentSong) {
 				this.currentSong.resetSongData();
 				await LocalCacheStorage.removeSongData(this.currentSong);
+
+				this.unprocessSong();
 				this.processSong();
 			}
 		}
@@ -146,6 +148,7 @@ define((require) => {
 			this.currentSong.resetFlags();
 			this.currentSong.resetMetadata();
 
+			this.unprocessSong();
 			await this.processSong();
 		}
 
@@ -243,9 +246,7 @@ define((require) => {
 			 * clear any previous song and its bindings.
 			 */
 			this.resetState();
-			this.currentSong = Song.buildFrom(
-				newState, this.connector, this.onSongDataChanged.bind(this)
-			);
+			this.currentSong = new Song(newState, this.connector);
 			this.currentSong.flags.isReplaying = this.isReplayingSong;
 
 			this.debugLog(`New song detected: ${toString(newState)}`);
@@ -293,12 +294,19 @@ define((require) => {
 				return;
 			}
 
-			this.currentSong.parsed.currentTime = newState.currentTime;
-			this.currentSong.parsed.isPlaying = newState.isPlaying;
-			this.currentSong.parsed.trackArt = newState.trackArt;
+			const { currentTime, isPlaying, trackArt, duration } = newState;
+			const isPlayingStateChanged = this.currentSong.parsed.isPlaying !== isPlaying;
+
+			this.currentSong.parsed.currentTime = currentTime;
+			this.currentSong.parsed.isPlaying = isPlaying;
+			this.currentSong.parsed.trackArt = trackArt;
 
 			if (this.isNeedToUpdateDuration(newState)) {
-				this.updateSongDuration(newState.duration);
+				this.updateSongDuration(duration);
+			}
+
+			if (isPlayingStateChanged) {
+				this.onPlayingStateChanged(isPlaying);
 			}
 		}
 
@@ -316,55 +324,13 @@ define((require) => {
 		}
 
 		/**
-		 * Process song info change.
-		 * @param {Object} song Song instance
-		 * @param {Object} target Target object
-		 * @param {Object} key Property name
-		 * @param {Object} value Property value
-		 */
-		onSongDataChanged(song, target, key, value) {
-			if (!song.equals(this.currentSong)) {
-				this.debugLog(
-					`Ignore change of ${key} prop of previous song`, 'warn');
-				return;
-			}
-
-			switch (key) {
-				/**
-				 * Respond to changes of not/playing and pause timer
-				 * accordingly to get real elapsed time.
-				 */
-				case 'isPlaying': {
-					this.onPlayingStateChanged(value);
-					break;
-				}
-
-				/**
-				 * Song has gone through processing pipeline
-				 * This event may occur repeatedly, e.g. when triggered on
-				 * page load and then corrected by user input.
-				 */
-				case 'isProcessed': {
-					value ? this.onProcessed() : this.onUnprocessed();
-					break;
-				}
-			}
-		}
-
-		/**
 		 * Process song using pipeline module.
 		 */
-		processSong() {
+		async processSong() {
 			this.setMode(ControllerMode.Loading);
-			Pipeline.processSong(this.currentSong);
-		}
 
-		/**
-		 * Called when song finishes processing in pipeline. It may not have
-		 * passed the pipeline successfully, so checks for various flags
-		 * are needed.
-		 */
-		async onProcessed() {
+			await Pipeline.processSong(this.currentSong);
+
 			this.debugLog(
 				`Song finished processing: ${this.currentSong.toString()}`);
 
@@ -404,7 +370,7 @@ define((require) => {
 		 * Called when song was already flagged as processed, but now is
 		 * entering the pipeline again.
 		 */
-		onUnprocessed() {
+		unprocessSong() {
 			this.debugLog(`Song unprocessed: ${this.currentSong.toString()}`);
 			this.debugLog('Clearing playback timer destination time');
 

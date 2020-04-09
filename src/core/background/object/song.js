@@ -5,7 +5,6 @@
  */
 define((require) => {
 	const MD5 = require('md5');
-	const DeepProxy = require('object/deep-proxy');
 
 	/**
 	 * Default values of song flags.
@@ -49,30 +48,6 @@ define((require) => {
 	};
 
 	/**
-	 * Custom fields can be defined by user.
-	 * @type {Array}
-	 */
-	const USER_FIELDS = ['artist', 'track', 'album', 'albumArtist'];
-
-	/**
-	 * Fields used to identify song.
-	 * @type {Array}
-	 */
-	const BASE_FIELDS = ['artist', 'track', 'album', 'albumArtist'];
-
-	/**
-	 * Create new song object.
-	 * @param  {Object} parsedData Current state received from connector
-	 * @param  {Object} connector Connector match object
-	 * @param  {Function} onChange Function is called on song data change
-	 * @return {Object} Song instance
-	 */
-	function buildFrom(parsedData, connector, onChange) {
-		const song = new Song(parsedData, connector);
-		return DeepProxy.wrap(song, onChange);
-	}
-
-	/**
 	 * Create unique song ID based on data parsed by connector.
 	 * @param {Object} parsedData Current state received from connector
 	 * @return {String} Unique ID
@@ -80,7 +55,7 @@ define((require) => {
 	function makeUniqueId(parsedData) {
 		let inputStr = '';
 
-		for (const field of BASE_FIELDS) {
+		for (const field of Song.BASE_FIELDS) {
 			if (parsedData[field]) {
 				inputStr += parsedData[field];
 			}
@@ -365,7 +340,23 @@ define((require) => {
 
 			return clonedSong;
 		}
+
+		/**
+		 * Custom fields can be defined by user.
+		 * @type {Array}
+		 */
+		static get USER_FIELDS() {
+			return ['artist', 'track', 'album', 'albumArtist'];
+		}
+
+		/**
+		 * Fields used to identify song.
+		 * @type {Array}
+		 */
+		static get BASE_FIELDS() {
+			return ['artist', 'track', 'album', 'albumArtist'];
+		}
 	}
 
-	return { buildFrom, BASE_FIELDS, USER_FIELDS };
+	return Song;
 });
