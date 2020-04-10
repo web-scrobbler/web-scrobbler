@@ -40,11 +40,23 @@
         "description": "Option title"
     },
     "optionScrobblePodcasts": {
-        "message": "Scrobble podcasts",
+        "message": "Scrobbluj podcasty",
+        "description": "Option title"
+    },
+    "optionsHidden": {
+        "message": "Ukryte",
+        "description": "'Hidden' section"
+    },
+    "optionScrobblePercent": {
+        "message": "Scrobbluj po",
+        "description": "Option title"
+    },
+    "optionScrobblePercentSuffix": {
+        "message": "czasu trwania utworu",
         "description": "Option title"
     },
     "optionScrobblePodcastsTitle": {
-        "message": "Scrobble podcast episodes",
+        "message": "Scrobbluj odcinki podcastów",
         "description": "Option label"
     },
     "optionTdlShortTrackNames": {
@@ -58,6 +70,10 @@
     "optionYtDesc": {
         "message": "Jeśli wyłączysz obie opcje, rozszerzenie będzie scrobblować filmy na Youtube niezależnie od kategorii.",
         "description": "Description of Youtube options"
+    },
+    "optionPercentDesc": {
+        "message": "Niezależnie od ustawionej wartości, utwór zostanie przescrobblowany jeśli będzie odtwarzany dłużej niż 4 minuty.",
+        "description": "Description of scrobble percent option"
     },
     "optionYtMusicOnly": {
         "message": "Scrobbluj filmy z kategorii \"Muzyka\"",
@@ -132,7 +148,7 @@
         "description": "Enable/disable hint"
     },
     "optionsCustomPatternsHint": {
-        "message": "Wybierz ikonę zębatki, aby skonfigurować niestandardowe domeny dla wspieranych usług. <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>Dowiedz się więcej</a>",
+        "message": "Wybierz ikonę zębatki, aby skonfigurować niestandardowe domeny dla wspieranych usług.",
         "description": "Description of how to configure custom URL patterns"
     },
     "optionsSupportedWebsites": {
@@ -142,6 +158,10 @@
     "optionsToggle": {
         "message": "Przełącz",
         "description": "Label of toggle button"
+    },
+    "learnMoreLabel": {
+        "message": "Dowiedz się więcej",
+        "description": "Learn more label"
     },
     "contactTitle": {
         "message": "Kontakt",
@@ -283,6 +303,10 @@
         "message": "W przeciwieństwie do innych rozszerzeń, w tym nie znajdziesz żadnych wyskakujących bannerów ani ukrytych reklam.",
         "description": ""
     },
+    "showSomeLoveText2": {
+        "message": "Rozszerzenie jest i pozostanie bezpłatne. Jeśli jednak chcesz wesprzeć jego dalszy rozwój, możesz skorzystać z poniższej opcji.",
+        "description": ""
+    },
     "customPatternsHint": {
         "message": "Wprowadź poniżej wzorce adresów, dla których aktywowana ma być obsługa serwisu.",
         "description": "Popup hint"
@@ -367,6 +391,10 @@
         "message": "Web Scrobbler nie obsługuje scrobblowania z tej strony internetowej.",
         "description": "The description of 'unsupported' popup"
     },
+    "unsupportedWebsiteDesc2": {
+        "message": "Niektóre ze wspieranych przez rozszerzenie witryn należących do Google (np. Google Play Music, YouTube) mogą być blokowane z powodu polityki zasad rozszerzeń.",
+        "description": "The description of 'unsupported' popup"
+    },
     "infoLove": {
         "message": "Ukochaj utwór",
         "description": "Label of love/unlove button"
@@ -380,7 +408,7 @@
         "description": "Title of edit button"
     },
     "infoEditUnableTitle": {
-        "message": "Nie możesz edytować już przescrobblowanych informacji o utworze",
+        "message": "Nie możesz edytować tego utworu",
         "description": "Title of edit button"
     },
     "infoSwapTitle": {
@@ -388,15 +416,23 @@
         "description": "Title of swap button"
     },
     "infoSwapUnableTitle": {
-        "message": "Nie możesz zamienić już przescrobblowanych informacji o utworze",
+        "message": "Nie możesz zamienić pustych informacji o utworze.",
         "description": "Title of swap button"
+    },
+    "infoSubmitTitle": {
+        "message": "Prześlij zmiany",
+        "description": "Title of submit button"
+    },
+    "infoSubmitUnableTitle": {
+        "message": "Nie możesz przesłać pustych informacji o utworze.",
+        "description": "Title of submit button"
     },
     "infoRevertTitle": {
         "message": "Odrzuć zmiany",
         "description": "Title of revert button"
     },
     "infoRevertUnableTitle": {
-        "message": "Nie możesz odrzucić zmian w przescrobblowanym utworze",
+        "message": "Nie możesz wycofać tego uworu",
         "description": "Title of revert button"
     },
     "infoSkipTitle": {
@@ -404,8 +440,12 @@
         "description": "Title of skip button"
     },
     "infoSkipUnableTitle": {
-        "message": "Nie możesz pominąć już przescrobblowanego utworu",
+        "message": "Nie możesz pominąć tego utworu",
         "description": "Title of skip button"
+    },
+    "infoSkippedTitle": {
+        "message": "Pominąłeś ten utwór",
+        "description": "Title of unskip button"
     },
     "infoOpenAlbumArt": {
         "message": "Pokaż okładkę albumu w nowej karcie",
@@ -438,6 +478,10 @@
     "infoViewTrackPage": {
         "message": "Zobacz stronę utworu",
         "description": "Placeholder of album input"
+    },
+    "infoYourScrobbles": {
+        "message": "Twoje scrobble: $1",
+        "description": "Label for user play count"
     },
     "pageActionBase": {
         "message": "Scrobblowanie z tej strony jest możliwe",
