@@ -161,13 +161,6 @@ const connectors = [{
 	js: 'connectors/plug.dj.js',
 	id: 'plug.dj',
 }, {
-	label: 'Slacker',
-	matches: [
-		'*://www.slacker.com/*'
-	],
-	js: 'connectors/slacker.js',
-	id: 'slacker',
-}, {
 	label: 'Dandelion Radio',
 	matches: [
 		'*://www.dandelionradio.com/player.htm'
