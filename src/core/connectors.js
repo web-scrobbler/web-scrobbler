@@ -1680,6 +1680,13 @@ const connectors = [{
 	],
 	js: 'connectors/sectorradio.js',
 	id: 'sectorradio',
+}, {
+	label: 'LiveXLive',
+	matches: [
+		'*://*.livexlive.com/*'
+	],
+	js: 'connectors/livexlive.js',
+	id: 'livexlive',
 }];
 
 define(() => connectors);
