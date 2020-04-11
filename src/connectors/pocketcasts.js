@@ -8,8 +8,8 @@ Connector.currentTimeSelector = '.current-time';
 Connector.remainingTimeSelector = '.time-remaining';
 Connector.trackArtSelector = '.player-image img';
 
-const origRemainingSelector = Connector.getRemainingTime;
+const origGetRemainingTime = Connector.getRemainingTime;
 
 // PocketCasts displays time as -MM:SS, so we return the negative
-Connector.getRemainingTime = () => -origRemainingSelector();
+Connector.getRemainingTime = () => -origGetRemainingTime();
 Connector.isPodcast = () => true;
