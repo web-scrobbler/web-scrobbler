@@ -35,7 +35,7 @@
     "grunt-contrib-imagemin": "4.0.0",
     "grunt-eslint": "22.0.0",
     "grunt-jsonlint": "2.1.2",
-    "grunt-lintspaces": "0.8.6",
+    "grunt-lintspaces": "0.9.0",
     "grunt-mocha-cli": "6.0.0",
     "grunt-preprocess": "5.1.0",
     "grunt-remark": "9.0.0",
