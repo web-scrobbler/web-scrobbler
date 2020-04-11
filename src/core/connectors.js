@@ -1687,6 +1687,13 @@ const connectors = [{
 	],
 	js: 'connectors/livexlive.js',
 	id: 'livexlive',
+}, {
+	label: 'PocketCasts',
+	matches: [
+		'*://play.pocketcasts.com/*'
+	],
+	js: 'connectors/pocketcasts.js',
+	id: 'pocketcasts',
 }];
 
 define(() => connectors);
