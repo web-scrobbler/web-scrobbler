@@ -225,7 +225,7 @@ define((require) => {
 		/** Internal functions */
 
 		setMode(mode) {
-			if (!(mode in ControllerMode)) {
+			if (!mode) {
 				throw new Error(`Unknown mode: ${mode}`);
 			}
 
