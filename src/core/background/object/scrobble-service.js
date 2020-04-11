@@ -109,7 +109,7 @@ define((require) => {
 			return Promise.all(boundScrobblers.map((scrobbler) => {
 				// Forward result (including errors) to caller
 				return scrobbler.sendNowPlaying(song).catch((result) => {
-					return this.processResult(scrobbler, result);
+					return this.processErrorResult(scrobbler, result);
 				});
 			}));
 		},
@@ -125,7 +125,7 @@ define((require) => {
 			return Promise.all(boundScrobblers.map((scrobbler) => {
 				// Forward result (including errors) to caller
 				return scrobbler.scrobble(song).catch((result) => {
-					return this.processResult(scrobbler, result);
+					return this.processErrorResult(scrobbler, result);
 				});
 			}));
 		},
@@ -146,7 +146,7 @@ define((require) => {
 			return Promise.all(scrobblers.map((scrobbler) => {
 				// Forward result (including errors) to caller
 				return scrobbler.toggleLove(song, flag).catch((result) => {
-					return this.processResult(scrobbler, result);
+					return this.processErrorResult(scrobbler, result);
 				});
 			}));
 		},
@@ -180,7 +180,7 @@ define((require) => {
 		 * @param  {Object} result API call result
 		 * @return {Promise} Promise resolved with result object
 		 */
-		async processResult(scrobbler, result) {
+		async processErrorResult(scrobbler, result) {
 			if (result === ServiceCallResult.AUTH_ERROR) {
 				// Don't unbind scrobblers which have tokens
 				const isReady = await scrobbler.isReadyForGrantAccess();
@@ -189,7 +189,9 @@ define((require) => {
 				}
 			}
 
-			if (!(result in ServiceCallResult)) {
+			const isError = result === ServiceCallResult.AUTH_ERROR ||
+				result === ServiceCallResult.ERROR_OTHER;
+			if (!isError) {
 				throw new Error(`Invalid result: ${result}`);
 			}
 
