@@ -181,18 +181,19 @@ define((require) => {
 		 * @return {Promise} Promise resolved with result object
 		 */
 		async processErrorResult(scrobbler, result) {
-			if (result === ServiceCallResult.AUTH_ERROR) {
+			const isOtherError = result === ServiceCallResult.ERROR_OTHER;
+			const isAuthError = result === ServiceCallResult.ERROR_AUTH;
+
+			if (!(isOtherError || isAuthError)) {
+				throw new Error(`Invalid result: ${result}`);
+			}
+
+			if (isAuthError) {
 				// Don't unbind scrobblers which have tokens
 				const isReady = await scrobbler.isReadyForGrantAccess();
 				if (!isReady) {
 					this.unbindScrobbler(scrobbler);
 				}
-			}
-
-			const isError = result === ServiceCallResult.AUTH_ERROR ||
-				result === ServiceCallResult.ERROR_OTHER;
-			if (!isError) {
-				throw new Error(`Invalid result: ${result}`);
 			}
 
 			// Forward result
