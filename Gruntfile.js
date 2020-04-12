@@ -151,6 +151,13 @@ module.exports = (grunt) => {
 		 * Publish tasks.
 		 */
 
+		amo_upload: {
+			issuer: process.env.AMO_ISSUER,
+			secret: process.env.AMO_SECRET,
+			id: FIREFOX_EXTENSION_ID,
+			version: '<%= manifest.version %>',
+			src: DIST_FILE,
+		},
 		bump: {
 			options: {
 				files: FILES_TO_BUMP,
@@ -163,13 +170,6 @@ module.exports = (grunt) => {
 			repo: 'web-scrobbler',
 			token: process.env.GH_TOKEN,
 			tag: 'v<%= manifest.version %>', // Add `v` prefix for tags
-		},
-		amo_upload: {
-			issuer: process.env.AMO_ISSUER,
-			secret: process.env.AMO_SECRET,
-			id: FIREFOX_EXTENSION_ID,
-			version: '<%= manifest.version %>',
-			src: DIST_FILE,
 		},
 		webstore_upload: {
 			accounts: {
