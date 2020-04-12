@@ -19,7 +19,6 @@
     "webextension-polyfill": "0.6.0"
   },
   "devDependencies": {
-    "@octokit/rest": "17.2.0",
     "chai": "4.2.0",
     "chai-spies": "1.0.0",
     "codacy-coverage": "3.4.0",
@@ -38,6 +37,7 @@
     "grunt-lintspaces": "0.9.0",
     "grunt-mocha-cli": "6.0.0",
     "grunt-preprocess": "5.1.0",
+    "grunt-publish-github-drafts": "0.1.0",
     "grunt-remark": "9.0.0",
     "grunt-replace-json": "0.1.0",
     "grunt-stylelint": "0.14.0",

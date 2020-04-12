@@ -158,9 +158,11 @@ module.exports = (grunt) => {
 				commitFiles: FILES_TO_BUMP,
 			}
 		},
-		github_release: {
+		publish_github_drafts: {
+			owner: 'web-scrobbler',
+			repo: 'web-scrobbler',
 			token: process.env.GH_TOKEN,
-			version: '<%= manifest.version %>',
+			tag: 'v<%= manifest.version %>', // Add `v` prefix for tags
 		},
 		amo_upload: {
 			issuer: process.env.AMO_ISSUER,
