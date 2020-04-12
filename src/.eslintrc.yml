@@ -1,3 +1,5 @@
+env:
+  browser: true
 globals:
   chrome: readonly
   define: readonly
