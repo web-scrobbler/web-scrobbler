@@ -43,6 +43,18 @@
         "message": "Zaznamenávať podcasty",
         "description": "Option title"
     },
+    "optionsHidden": {
+        "message": "Skryté",
+        "description": "'Hidden' section"
+    },
+    "optionScrobblePercent": {
+        "message": "Zaznamenaj od",
+        "description": "Option title"
+    },
+    "optionScrobblePercentSuffix": {
+        "message": "dĺžky skladby",
+        "description": "Option title"
+    },
     "optionScrobblePodcastsTitle": {
         "message": "Zaznamenáva diely podcastov",
         "description": "Option label"
@@ -58,6 +70,10 @@
     "optionYtDesc": {
         "message": "Ak vypnete obe možnosti, doplnok bude zaznamenávať youtube videá zo všetkých kategórii.",
         "description": "Description of Youtube options"
+    },
+    "optionPercentDesc": {
+        "message": "Ak skladba hrala aspoň 4 minúty, tak bude zaznamenaná bezohľadu na nastavenú hodnotu.",
+        "description": "Description of scrobble percent option"
     },
     "optionYtMusicOnly": {
         "message": "Zaznamenávať videá z kategórie \"Hudba\"",
@@ -287,6 +303,10 @@
         "message": "Narozdiel od iných doplnkov, tento neobsahuje žiadne blikajúce alebo skryté reklamy.",
         "description": ""
     },
+    "showSomeLoveText2": {
+        "message": "Používanie doplnku je zadarmo, a vždy aj bude. Avšak, ak chcete podporiť vývoj doplnku, môžete použiť tlačidlo nižšie.",
+        "description": ""
+    },
     "customPatternsHint": {
         "message": "URL vzory ktoré má konektor brať pridajte dolu.",
         "description": "Popup hint"
@@ -371,6 +391,10 @@
         "message": "Web Scrobbler nepodporuje zaznamenávanie z tejto stránky.",
         "description": "The description of 'unsupported' popup"
     },
+    "unsupportedWebsiteDesc2": {
+        "message": "Niektoré Google stránky podporované doplnkom (napr. Google Play Hudba, Youtube) môžu byť zablokované kvôli politike nastavení doplnku.",
+        "description": "The description of 'unsupported' popup"
+    },
     "infoLove": {
         "message": "Pridať do obľúbených",
         "description": "Label of love/unlove button"
@@ -384,7 +408,7 @@
         "description": "Title of edit button"
     },
     "infoEditUnableTitle": {
-        "message": "Nie je možné upraviť už zaznamenanú skladbu",
+        "message": "Túto skladbu nemôžete upraviť",
         "description": "Title of edit button"
     },
     "infoSwapTitle": {
@@ -392,15 +416,23 @@
         "description": "Title of swap button"
     },
     "infoSwapUnableTitle": {
-        "message": "Nie je možné vymeniť údaje zaznamenanej skladby",
+        "message": "Nemôžete vymeniť prázdne údaje o skladbe",
         "description": "Title of swap button"
+    },
+    "infoSubmitTitle": {
+        "message": "Nahrať zmeny",
+        "description": "Title of submit button"
+    },
+    "infoSubmitUnableTitle": {
+        "message": "Nemôžete nahrať prázdne údaje o skladbe",
+        "description": "Title of submit button"
     },
     "infoRevertTitle": {
         "message": "Vrátiť zmeny",
         "description": "Title of revert button"
     },
     "infoRevertUnableTitle": {
-        "message": "Nie je možné vrátiť zmeny už zaznamenanej skladby",
+        "message": "Túto skladbu nemôžete vrátiť späť",
         "description": "Title of revert button"
     },
     "infoSkipTitle": {
@@ -408,8 +440,12 @@
         "description": "Title of skip button"
     },
     "infoSkipUnableTitle": {
-        "message": "Nie je možné vynechať už zaznamenanú skladbu",
+        "message": "Túto skladbu nemôžete vynechať",
         "description": "Title of skip button"
+    },
+    "infoSkippedTitle": {
+        "message": "Túto skladbu ste vynechali",
+        "description": "Title of unskip button"
     },
     "infoOpenAlbumArt": {
         "message": "Otvoriť obal albumu na novej karte",
