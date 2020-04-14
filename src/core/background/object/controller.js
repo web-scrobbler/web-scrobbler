@@ -77,22 +77,20 @@ define((require) => {
 		 * Reset song data and process it again.
 		 */
 		async resetSongData() {
-			if (this.currentSong) {
-				this.currentSong.resetSongData();
-				await LocalCacheStorage.removeSongData(this.currentSong);
+			this.assertSongIsPlaying();
 
-				this.unprocessSong();
-				this.processSong();
-			}
+			this.currentSong.resetSongData();
+			await LocalCacheStorage.removeSongData(this.currentSong);
+
+			this.unprocessSong();
+			this.processSong();
 		}
 
 		/**
 		 * Make the controller to ignore current song.
 		 */
 		skipCurrentSong() {
-			if (!this.currentSong) {
-				throw new Error('No song is now playing');
-			}
+			this.assertSongIsPlaying();
 
 			this.setMode(ControllerMode.Skipped);
 
@@ -135,9 +133,7 @@ define((require) => {
 		 * @param {Object} data Object contains song data
 		 */
 		async setUserSongData(data) {
-			if (!this.currentSong) {
-				throw new Error('No song is now playing');
-			}
+			this.assertSongIsPlaying();
 
 			if (this.currentSong.flags.isScrobbled) {
 				throw new Error('Unable to set user data for scrobbled song');
@@ -154,9 +150,7 @@ define((require) => {
 		 * @param  {Boolean} isLoved Flag indicated song is loved
 		 */
 		async toggleLove(isLoved) {
-			if (!this.currentSong) {
-				throw new Error('No song is now playing');
-			}
+			this.assertSongIsPlaying();
 
 			if (!this.currentSong.isValid()) {
 				throw new Error('No valid song is now playing');
@@ -540,6 +534,12 @@ define((require) => {
 		reset() {
 			this.resetState();
 			this.setMode(ControllerMode.Base);
+		}
+
+		assertSongIsPlaying() {
+			if (!this.currentSong) {
+				throw new Error('No song is now playing');
+			}
 		}
 
 		/**
