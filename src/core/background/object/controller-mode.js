@@ -78,7 +78,7 @@ const inactiveModes = [Base, Disabled];
  * @param  {String} mode Mode instance
  * @return {Boolean} True if the mode is active; false otherwise
  */
-function isActive(mode) {
+function isActiveMode(mode) {
 	return !inactiveModes.includes(mode);
 }
 
@@ -88,7 +88,7 @@ function isActive(mode) {
  * @param  {String} mode Mode instance
  * @return {Boolean} True if the mode is inactive; false otherwise
  */
-function isInactive(mode) {
+function isInactiveMode(mode) {
 	return inactiveModes.includes(mode);
 }
 
@@ -97,6 +97,6 @@ define(() => {
 		Base, Disabled, Err, Ignored, Loading,
 		Playing, Scrobbled, Skipped, Unknown,
 
-		isActive, isInactive,
+		isActiveMode, isInactiveMode,
 	};
 });

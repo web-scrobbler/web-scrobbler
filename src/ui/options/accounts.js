@@ -78,7 +78,7 @@ define((require) => {
 		const $authUrl = $('<a class="card-link" href="#"/>').attr('i18n', 'accountsSignIn').click(() => {
 			browser.runtime.sendMessage({
 				type: 'REQUEST_AUTHENTICATE',
-				scrobbler: scrobbler.getLabel()
+				data: { label: scrobbler.getLabel() }
 			});
 		});
 		const $authStr = $('<span class="card-text"/>').attr('i18n', 'accountsNotSignedIn');

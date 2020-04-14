@@ -1,720 +1,158 @@
 'use strict';
 
-/*
- * The extension uses `browser.runtime.sendMessage` function for communication
- * between different modules using the following message types:
- *
- * 1) events:
- *  - EVENT_STATE_CHANGED: The connector state is changed
- *    @param  {Object} state Connector state
- *  - EVENT_SONG_UPDATED: The current song is updated
- *    @param  {Object} data Song instance copy
- *  - EVENT_READY: The connector is injected and the controller is created
- *  - EVENT_PING: The 'ping' event to check if connector is injected
- *
- * 2) requests:
- *  - REQUEST_GET_SONG: Get now playing song
- *    @return {Object} Song instance copy
- *  - REQUEST_CORRECT_SONG: Correct song info
- *    @param  {Object} data Object contains corrected song info
- *  - REQUEST_TOGGLE_LOVE: Toggle song love status
- *    @param  {Boolean} isLoved Flag indicates song is loved
- *  - REQUEST_RESET_SONG: Reset corrected song info
- *  - REQUEST_SKIP_SONG: Ignore (don't scrobble) current song
- *  - REQUEST_AUTHENTICATE: Authenticate scrobbler
- *    @param  {String} scrobbler Scrobbler label
- */
-
 define((require) => {
 	const GA = require('service/ga');
 	const Util = require('util/util');
-	const Inject = require('browser/inject');
-	const Options = require('storage/options');
-	const Migrate = require('util/migrate');
 	const browser = require('webextension-polyfill');
-	const BrowserAction = require('browser/browser-action');
+	const TabWorker = require('object/tab-worker');
 	const Notifications = require('browser/notifications');
 	const BrowserStorage = require('storage/browser-storage');
 	const ScrobbleService = require('object/scrobble-service');
 
-	const Controller = require('object/controller');
-	const ControllerMode = require('object/controller-mode');
-	const ControllerEvent = require('object/controller-event');
-
-	const { INJECTED, MATCHED, NO_MATCH } = require('object/inject-result');
-
 	const {
-		getConnectorByUrl
-	} = require('util/util-connector');
+		ControllerReset, SongNowPlaying, SongScrobbled, SongUnrecognized
+	} = require('object/controller-event');
 
 	/**
 	 * How many times to show auth notification.
 	 *
 	 * @type {Number}
 	 */
-	const AUTH_NOTIFICATION_DISPLAY_COUNT = 3;
+	const authNotificationDisplayCount = 3;
 
-	/**
-	 * Current version of the extension.
-	 *
-	 * @type {String}
-	 */
-	const extVersion = browser.runtime.getManifest().version;
+	class Extension {
+		constructor() {
+			this.isSessionActive = false;
+			this.extVersion = browser.runtime.getManifest().version;
+			this.notificationStorage = BrowserStorage.getStorage(
+				BrowserStorage.NOTIFICATIONS
+			);
+			this.tabWorker = new TabWorker(this);
+			this.tabWorker.onConnectorActivated = ({ label }) => {
+				GA.event('core', 'inject', label);
+				this.setSessionActive();
+			};
+			this.tabWorker.onControllerEvent = (ctrl, event) => {
+				this.processControllerEvent(ctrl, event);
+			};
 
-	/**
-	 * Single controller instance for each tab with injected script.
-	 * This allows us to work with tabs independently.
-	 *
-	 * @type {Object}
-	 */
-	const tabControllers = {};
-
-	/**
-	 * Flag for "page session" where at least single injection occurred.
-	 * Used for tracking number of actually active users.
-	 *
-	 * @type {Boolean}
-	 */
-	let isActiveSession = false;
-
-	const notificationStorage = BrowserStorage.getStorage(BrowserStorage.NOTIFICATIONS);
-
-	const browserAction = new BrowserAction();
-
-	/**
-	 * ID of a recent active tab.
-	 * @type {Number}
-	 */
-	let activeTabId = -1;
-
-	/**
-	 * ID of a current tab.
-	 * @type {Number}
-	 */
-	let currentTabId = -1;
-
-	/**
-	 * Setup browser event listeners. Called on startup.
-	 */
-	function setupEventListeners() {
-		try {
-			browser.commands.onCommand.addListener(onCommand);
-		} catch (e) {
-			// Don't let the extension fail on Firefox for Android.
+			this.initializeListeners();
 		}
 
-		browser.tabs.onUpdated.addListener(onTabUpdated);
-		browser.tabs.onRemoved.addListener(onTabRemoved);
-		browser.tabs.onActivated.addListener((activeInfo) => {
-			onTabChanged(activeInfo.tabId);
-		});
+		/**
+		 * Entry point.
+		 */
+		async start() {
+			await this.updateVersionInStorage();
 
-		browser.runtime.onMessage.addListener(onMessage);
-		browser.runtime.onConnect.addListener((port) => {
-			port.onMessage.addListener((message) => {
-				onPortMessage(message, port.sender);
+			this.bindScrobblers();
+
+			if (!await this.bindScrobblers()) {
+				console.warn('No scrobblers are bound');
+
+				this.showAuthNotification();
+			}
+
+			GA.pageview(`/background-loaded?version=${this.extVersion}`);
+		}
+
+		/** Private functions. */
+
+		initializeListeners() {
+			browser.runtime.onMessage.addListener((request) => {
+				const { tabId, type, data } = request;
+
+				return this.processMessage(tabId, type, data);
 			});
-		});
-	}
 
-	/**
-	 * Called when a command is executed.
-	 *
-	 * @param  {String} command Command ID
-	 */
-	async function onCommand(command) {
-		const ctrl = tabControllers[activeTabId] || tabControllers[currentTabId];
-		if (!ctrl) {
-			return;
-		}
-
-		switch (command) {
-			case 'toggle-connector':
-				setConnectorState(ctrl, !ctrl.isEnabled);
-				break;
-			case 'love-song':
-			case 'unlove-song': {
-				const isLoved = command === 'love-song';
-
-				await ctrl.toggleLove(isLoved);
-				browserAction.setSongLoved(isLoved, ctrl.getCurrentSong());
-				break;
-			}
-		}
-	}
-
-	/**
-	 * Called when something sent message to background script.
-	 *
-	 * @param  {Object} request Message sent by the calling script
-	 */
-	async function onMessage(request) {
-		const { data, tabId, type } = request;
-
-		switch (type) {
-			case 'REQUEST_AUTHENTICATE': {
-				const scrobblerLabel = request.scrobbler;
-				const scrobbler = ScrobbleService.getScrobblerByLabel(scrobblerLabel);
-
-				if (scrobbler) {
-					authenticateScrobbler(scrobbler);
-				}
-
-				return;
+			try {
+				browser.commands.onCommand.addListener((command) => {
+					return this.tabWorker.processCommand(command);
+				});
+			} catch (e) {
+				// Don't let the extension fail on Firefox for Android.
 			}
 
-			case 'REQUEST_ACTIVE_TABID':
-				return activeTabId;
-		}
-
-		const ctrl = tabControllers[tabId];
-
-		if (!ctrl) {
-			console.warn(
-				`Attempted to send ${type} event to controller for tab ${tabId}`);
-			return;
-		}
-
-		switch (request.type) {
-			case 'REQUEST_GET_SONG':
-				return ctrl.getCurrentSong().getCloneableData();
-
-			case 'REQUEST_CORRECT_SONG':
-				ctrl.setUserSongData(data);
-				break;
-
-			case 'REQUEST_TOGGLE_LOVE':
-				await ctrl.toggleLove(data.isLoved);
-				return data.isLoved;
-
-			case 'REQUEST_SKIP_SONG':
-				ctrl.skipCurrentSong();
-				break;
-
-			case 'REQUEST_RESET_SONG':
-				ctrl.resetSongData();
-				break;
-		}
-	}
-
-	/**
-	 * Called when something sent message to background script via port.
-	 *
-	 * @param  {Object} message Message object
-	 * @param  {Object} sender Message sender
-	 */
-	function onPortMessage(message, sender) {
-		switch (message.type) {
-			case 'EVENT_STATE_CHANGED': {
-				const ctrl = tabControllers[sender.tab.id];
-				if (ctrl) {
-					ctrl.onStateChanged(message.data);
-				}
-				break;
-			}
-		}
-	}
-
-	/**
-	 * Called when a tab is updated.
-	 *
-	 * @param  {Number} tabId Tab ID
-	 * @param  {Object} changeInfo Object contains changes of updated tab
-	 * @param  {Object} tab State of updated tab
-	 */
-	async function onTabUpdated(tabId, changeInfo, tab) {
-		// wait for navigation to complete (this does not mean page onLoad)
-		if (changeInfo.status !== 'complete') {
-			return;
-		}
-
-		const { id, url } = tab;
-		const connector = await getConnectorByUrl(url);
-
-		tryToInjectConnector(id, connector);
-	}
-
-	/**
-	 * Called when a current tab is changed.
-	 *
-	 * @param  {Object} tabId Tab ID
-	 */
-	function onTabChanged(tabId) {
-		currentTabId = tabId;
-
-		if (shouldUpdateBrowserAction(tabId)) {
-			updateBrowserAction(tabId);
-			activeTabId = tabId;
-		}
-
-		updateContextMenu(tabId);
-	}
-
-	/**
-	 * Called when a tab is removed.
-	 *
-	 * @param  {Number} removedTabId Tab ID
-	 */
-	async function onTabRemoved(removedTabId) {
-		unloadController(removedTabId);
-
-		if (removedTabId === activeTabId) {
-			activeTabId = -1;
-			updateLastActiveTab();
-		}
-	}
-
-	/**
-	 * Get ID of a tab with recent active controller.
-	 *
-	 * @return {Number} Tab ID
-	 */
-	function findActiveTabId() {
-		const ctrl = tabControllers[currentTabId];
-		if (ctrl && ControllerMode.isActive(ctrl.mode)) {
-			return currentTabId;
-		}
-
-		for (const tabId in tabControllers) {
-			const ctrl = tabControllers[tabId];
-			const mode = ctrl.getMode();
-			if (ControllerMode.isActive(mode)) {
-				return ctrl.tabId;
-			}
-		}
-
-		if (ctrl) {
-			return currentTabId;
-		}
-
-		return -1;
-	}
-
-	/**
-	 * Setup context menu of the browser action for a tab with given tab ID.
-	 *
-	 * @param  {Number} tabId Tab ID
-	 */
-	function updateContextMenu(tabId) {
-		resetContextMenu();
-
-		const ctrl = tabControllers[tabId];
-		const activeCtrl = tabControllers[activeTabId];
-
-		// Always display context menu for current tab
-		if (ctrl) {
-			addToggleConnectorMenu(tabId, ctrl);
-			if (ctrl.isEnabled) {
-				addDisableUntilTabClosedItem(tabId, ctrl);
-			}
-		}
-
-		// Add additional menu items for active tab (if it's not current)...
-		if (activeTabId !== tabId) {
-			if (ctrl && activeCtrl && activeCtrl.getConnector().id === ctrl.getConnector().id) {
-				return;
-			}
-
-			// ...but only if it has a different connector injected.
-			addToggleConnectorMenu(tabId, activeCtrl);
-		}
-	}
-
-	/**
-	 * Remove all items from the context menu.
-	 */
-	function resetContextMenu() {
-		browser.contextMenus.removeAll();
-	}
-
-	/**
-	 * Add a "Enable/Disable X" menu item for a given controller.
-	 *
-	 * @param  {Number} tabId Tab ID
-	 * @param  {Object} ctrl Controller instance
-	 */
-	function addToggleConnectorMenu(tabId, ctrl) {
-		const { label } = ctrl.getConnector();
-		const titleId = ctrl.isEnabled ? 'menuDisableConnector' : 'menuEnableConnector';
-		const itemTitle = browser.i18n.getMessage(titleId, label);
-		const newState = !ctrl.isEnabled;
-
-		addContextMenuItem(tabId, itemTitle, () => {
-			setConnectorState(ctrl, newState);
-		});
-	}
-
-	/**
-	 * Add a "Disable X until tab is closed" menu item for a given controller.
-	 *
-	 * @param  {Number} tabId Tab ID
-	 * @param  {Object} ctrl Controller instance
-	 */
-	function addDisableUntilTabClosedItem(tabId, ctrl) {
-		const { label } = ctrl.getConnector();
-		const itemTitle2 = browser.i18n.getMessage(
-			'menuDisableUntilTabClosed', label);
-		addContextMenuItem(tabId, itemTitle2, () => {
-			ctrl.setEnabled(false);
-		});
-	}
-
-	/**
-	 * Helper function to add item to page action context menu.
-	 *
-	 * @param  {Number} tabId Tab ID
-	 * @param {String} title Item title
-	 * @param {Function} onClicked Function that will be called on item click
-	 */
-	function addContextMenuItem(tabId, title, onClicked) {
-		function onclick() {
-			onClicked();
-
-			updateContextMenu(tabId);
-			if (shouldUpdateBrowserAction(tabId)) {
-				updateBrowserAction(tabId);
-			}
-		}
-
-		const type = 'normal';
-		browser.contextMenus.create({
-			title, type, onclick, contexts: ['browser_action']
-		});
-	}
-
-	/**
-	 * Update the browser action in context of a given tab ID.
-	 *
-	 * @param  {Number} tabId Tab ID
-	 */
-	function updateBrowserAction(tabId) {
-		const ctrl = tabControllers[tabId];
-		if (ctrl) {
-			browserAction.update(ctrl);
-		} else {
-			browserAction.reset();
-		}
-	}
-
-	/**
-	 * Check if the browser action should be updated
-	 * in context of a given tab ID.
-	 *
-	 * @param  {Number} tabId Tab ID
-	 *
-	 * @return {Boolean} Check result
-	 */
-	function shouldUpdateBrowserAction(tabId) {
-		const activeCtrl = tabControllers[activeTabId];
-		if (activeCtrl && ControllerMode.isActive(activeCtrl.mode)) {
-			return false;
-		}
-
-		const ctrl = tabControllers[tabId];
-		if (ctrl) {
-			if (tabId !== currentTabId && ControllerMode.isInactive(ctrl.mode)) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	/**
-	 * Called when a controller changes its mode.
-	 *
-	 * @param  {Object} ctrl  Controller instance
-	 * @param  {Number} tabId ID of a tab attached to the controller
-	 */
-	function onControllerModeChanged(ctrl, tabId) {
-		const mode = ctrl.getMode();
-
-		if (ControllerMode.isActive(mode)) {
-			activeTabId = tabId;
-		}
-
-		if (tabId !== activeTabId) {
-			return;
-		}
-
-		if (tabId === currentTabId) {
-			updateBrowserAction(tabId);
-
-			// Active controller is changed, so we need to update context menu
-			if (ControllerMode.isActive(mode)) {
-				updateContextMenu(tabId);
-			}
-		} else {
-			updateContextMenu(currentTabId);
-
-			// The controller becomes inactive, but it's not in current tab
-			if (ControllerMode.isInactive(mode)) {
-				// Use current tab as a context
-				updateBrowserAction(currentTabId);
-			} else {
-				// Use tab to which the given controller attached as a context
-				updateBrowserAction(tabId);
-			}
-		}
-	}
-
-	/**
-	 * Called when a controller generates a new event.
-	 *
-	 * @param  {Object} ctrl  Controller instance
-	 * @param  {Number} event Event generated by the controller
-	 */
-	function onControllerEvent(ctrl, event) {
-		switch (event) {
-			case ControllerEvent.SongNowPlaying: {
-				const song = ctrl.getCurrentSong();
-				if (song.flags.isReplaying) {
+			browser.tabs.onUpdated.addListener((_, changeInfo, tab) => {
+				if (changeInfo.status !== 'complete') {
 					return;
 				}
 
-				Notifications.showNowPlaying(song, () => {
-					Util.openTab(ctrl.tabId);
+				return this.tabWorker.processTabUpdate(tab.id, tab.url);
+			});
+
+			browser.tabs.onRemoved.addListener((tabId) => {
+				return this.tabWorker.processTabRemove(tabId);
+			});
+
+			browser.tabs.onActivated.addListener((activeInfo) => {
+				return this.tabWorker.processTabChange(activeInfo.tabId);
+			});
+
+			browser.runtime.onConnect.addListener((port) => {
+				port.onMessage.addListener((message) => {
+					const { type, data } = message;
+					const tabId = port.sender.tab.id;
+
+					return this.tabWorker.processPortMessage(tabId, type, data);
 				});
-				break;
-			}
-
-			case Controller.SongScrobbled: {
-				const { label } = ctrl.getConnector();
-				GA.event('core', 'scrobble', label);
-				break;
-			}
-
-			case ControllerEvent.SongUnrecognized:
-				Notifications.showSongNotRecognized(() => {
-					Util.openTab(ctrl.tabId);
-				});
-				break;
+			});
 		}
-	}
 
-	/**
-	 * Called when a controller updates a current song.
-	 *
-	 * @param  {Object} ctrl  Controller instance
-	 * @param  {Number} tabId ID of a tab attached to the controller
-	 */
-	async function onSongUpdated(ctrl, tabId) {
-		const data = ctrl.getCurrentSong().getCloneableData();
-		const type = 'EVENT_SONG_UPDATED';
+		/**
+		 * Called when something sent message to the background script
+		 * via `browser.runtime.sendMessage` function.
+		 *
+		 * @param  {Number} tabId ID of a tab to which the message is addressed
+		 * @param  {String} type Message type
+		 * @param  {Object} data Object contains data sent in the message
+		 */
+		async processMessage(tabId, type, data) {
+			if (type === 'REQUEST_AUTHENTICATE') {
+				const scrobbler = ScrobbleService.getScrobblerByLabel(data.label);
+				if (scrobbler) {
+					this.authenticateScrobbler(scrobbler);
+				}
 
-		try {
-			await browser.runtime.sendMessage({ type, data, tabId });
-		} catch (e) {
-			// Suppress errors
-		}
-	}
-
-	/**
-	 * Make an attempt to inject a connector into a page.
-	 *
-	 * @param  {Number} tabId An ID of a tab where the connector will be injected
-	 * @param  {String} connector Connector match object
-	 *
-	 * @return {Object} InjectResult value
-	 */
-	async function tryToInjectConnector(tabId, connector) {
-		const result = await Inject.injectConnector(tabId, connector);
-
-		switch (result) {
-			case INJECTED: {
 				return;
 			}
 
-			case NO_MATCH: {
-				if (tabControllers[tabId]) {
-					unloadController(tabId);
-					updateLastActiveTab();
-				}
-				break;
-			}
-
-			case MATCHED: {
-				unloadController(tabId);
-				await createController(tabId, connector);
-
-				if (shouldUpdateBrowserAction(tabId)) {
-					updateBrowserAction(tabId);
-				}
-				updateContextMenu(tabId);
-
-				browser.tabs.sendMessage(tabId, { type: 'EVENT_READY' });
-
-				GA.event('core', 'inject', connector.label);
-
-				if (!isActiveSession) {
-					isActiveSession = true;
-					GA.pageview(`/background-injected?version=${extVersion}`);
-				}
-				break;
-			}
+			return this.tabWorker.processMessage(tabId, type, data);
 		}
-	}
-
-	/**
-	 * Create a controller for a tab.
-	 *
-	 * @param  {Number} tabId An ID of a tab bound to the controller
-	 * @param  {Object} connector A connector match object
-	 */
-	async function createController(tabId, connector) {
-		const isEnabled = await Options.isConnectorEnabled(connector);
-		const ctrl = new Controller(tabId, connector, isEnabled);
-		ctrl.onSongUpdated = async() => {
-			onSongUpdated(ctrl, tabId);
-		};
-		ctrl.onModeChanged = () => {
-			onControllerModeChanged(ctrl, tabId);
-		};
-		ctrl.onControllerEvent = (event) => {
-			onControllerEvent(ctrl, event);
-		};
-
-		tabControllers[tabId] = ctrl;
-	}
-
-	/**
-	 * Stop and remove controller for a tab with a given tab ID.
-	 *
-	 * @param  {Number} tabId Tab ID
-	 */
-	async function unloadController(tabId) {
-		const controller = tabControllers[tabId];
-		if (!controller) {
-			return;
-		}
-
-		controller.finish();
-		delete tabControllers[tabId];
-	}
-
-	/**
-	 * Update the browser action and the context menu in context of a last
-	 * active tab. If no active tab is found, reset the browser action icon
-	 * and the context menu.
-	 */
-	function updateLastActiveTab() {
-		const lastActiveTabId = findActiveTabId();
-		if (lastActiveTabId !== -1) {
-			activeTabId = lastActiveTabId;
-
-			updateBrowserAction(activeTabId);
-			updateContextMenu(activeTabId);
-		} else {
-			browserAction.reset();
-			resetContextMenu();
-		}
-	}
-
-	/**
-	 * Replace the extension version stored in local storage by current one.
-	 */
-	async function updateVersionInStorage() {
-		const storage = BrowserStorage.getStorage(BrowserStorage.CORE);
-		const data = await storage.get();
-
-		data.appVersion = extVersion;
-		await storage.set(data);
-
-		storage.debugLog();
-	}
-
-	/**
-	 * Enable or disable a connector attached to a given controller.
-	 *
-	 * @param  {Object} ctrl Controller instance
-	 * @param  {Boolean} isEnabled Flag value
-	 */
-	function setConnectorState(ctrl, isEnabled) {
-		const connector = ctrl.getConnector();
-
-		ctrl.setEnabled(isEnabled);
-		Options.setConnectorEnabled(connector, isEnabled);
-	}
-
-	/**
-	 * Ask user for grant access for service covered by given scrobbler.
-	 *
-	 * @param  {Object} scrobbler Scrobbler instance
-	 */
-	async function authenticateScrobbler(scrobbler) {
-		try {
-			const authUrl = await scrobbler.getAuthUrl();
-
-			ScrobbleService.bindScrobbler(scrobbler);
-			browser.tabs.create({ url: authUrl });
-		} catch (e) {
-			console.log(`Unable to get auth URL for ${scrobbler.getLabel()}`);
-
-			Notifications.showSignInError(scrobbler, () => {
-				const statusUrl = scrobbler.getStatusUrl();
-				if (statusUrl) {
-					browser.tabs.create({ url: statusUrl });
-				}
-			});
-		}
-	}
-
-	/**
-	 * Check if extension should display auth notification.
-	 *
-	 * @return {Boolean} Check result
-	 */
-	async function isAuthNotificationAllowed() {
-		const data = await notificationStorage.get();
-
-		const authDisplayCount = data.authDisplayCount || 0;
-		return authDisplayCount < AUTH_NOTIFICATION_DISPLAY_COUNT;
-	}
-
-	/**
-	 * Update internal counter of displayed auth notifications.
-	 */
-	async function updateAuthDisplayCount() {
-		const data = await notificationStorage.get();
-		const authDisplayCount = data.authDisplayCount || 0;
-
-		data.authDisplayCount = authDisplayCount + 1;
-		await notificationStorage.set(data);
-	}
-
-	/**
-	 * Called on the extension start.
-	 */
-	async function start() {
-		await Migrate.migrate();
-
-		// We cannot get a current tab in some cases on startup
-		const currentTab = await Util.getCurrentTab();
-		if (currentTab) {
-			currentTabId = currentTab.id;
-		}
-
-		await updateVersionInStorage();
-		setupEventListeners();
 
 		/**
-		 * Prevent restoring the browser action icon
-		 * from the previous session.
+		 * Replace the extension version stored in local storage by current one.
 		 */
-		browserAction.reset();
+		async updateVersionInStorage() {
+			const storage = BrowserStorage.getStorage(BrowserStorage.CORE);
+			const data = await storage.get();
 
-		// track background page loaded - happens once per browser session
-		GA.pageview(`/background-loaded?version=${extVersion}`);
+			data.appVersion = this.extVersion;
+			await storage.set(data);
 
-		const boundScrobblers = await ScrobbleService.bindAllScrobblers();
-		if (boundScrobblers.length > 0) {
-			for (const scrobbler of boundScrobblers) {
-				GA.event('core', 'bind', scrobbler.getLabel());
+			storage.debugLog();
+		}
+
+		/**
+		 * Ask a scrobble service to bind scrobblers.
+		 *
+		 * @return {Boolean} True if at least one scrobbler is registered;
+		 *                   false if no scrobblers are registered
+		 */
+		async bindScrobblers() {
+			const boundScrobblers = await ScrobbleService.bindAllScrobblers();
+			if (boundScrobblers.length > 0) {
+				for (const scrobbler of boundScrobblers) {
+					GA.event('core', 'bind', scrobbler.getLabel());
+				}
+				return true;
 			}
-		} else {
-			console.warn('No scrobblers are bound');
 
-			if (await isAuthNotificationAllowed()) {
+			return false;
+		}
+
+		async showAuthNotification() {
+			if (await this.isAuthNotificationAllowed()) {
 				const authUrl = browser.runtime.getURL('/ui/options/index.html#accounts');
 				try {
 					await Notifications.showAuthNotification(() => {
@@ -723,16 +161,117 @@ define((require) => {
 
 					GA.event('core', 'auth', 'default');
 				} catch (e) {
-					// Fallback for browsers with no notifications support
+					// Fallback for browsers with no notifications support.
 					browser.tabs.create({ url: authUrl });
 
 					GA.event('core', 'auth', 'fallback');
 				}
 
-				await updateAuthDisplayCount();
+				await this.updateAuthDisplayCount();
+			}
+		}
+
+		/**
+		 * Ask user for grant access for service covered by given scrobbler.
+		 *
+		 * @param  {Object} scrobbler Scrobbler instance
+		 */
+		async authenticateScrobbler(scrobbler) {
+			try {
+				const authUrl = await scrobbler.getAuthUrl();
+
+				ScrobbleService.bindScrobbler(scrobbler);
+				browser.tabs.create({ url: authUrl });
+			} catch (e) {
+				console.log(`Unable to get auth URL for ${scrobbler.getLabel()}`);
+
+				Notifications.showSignInError(scrobbler, () => {
+					const statusUrl = scrobbler.getStatusUrl();
+					if (statusUrl) {
+						browser.tabs.create({ url: statusUrl });
+					}
+				});
+			}
+		}
+
+		/**
+		 * Check if extension should display auth notification.
+		 *
+		 * @return {Boolean} Check result
+		 */
+		async isAuthNotificationAllowed() {
+			const data = await this.notificationStorage.get();
+
+			const authDisplayCount = data.authDisplayCount || 0;
+			return authDisplayCount < authNotificationDisplayCount;
+		}
+
+		/**
+		 * Update internal counter of displayed auth notifications.
+		 */
+		async updateAuthDisplayCount() {
+			const data = await this.notificationStorage.get();
+			const authDisplayCount = data.authDisplayCount || 0;
+
+			data.authDisplayCount = authDisplayCount + 1;
+			await this.notificationStorage.set(data);
+		}
+
+		/**
+		 * Send a `pageview` event to GA to indicate this session is active.
+		 * Do nothing if it's already marked as an active.
+		 */
+		setSessionActive() {
+			if (this.isSessionActive) {
+				return;
+			}
+
+			this.isSessionActive = true;
+			GA.pageview(`/background-injected?version=${this.extVersion}`);
+		}
+
+		/**
+		 * Called when a controller generates a new event.
+		 *
+		 * @param  {Object} ctrl  Controller instance
+		 * @param  {Number} event Event generated by the controller
+		 */
+		processControllerEvent(ctrl, event) {
+			switch (event) {
+				case ControllerReset: {
+					const song = ctrl.getCurrentSong();
+					if (song) {
+						Notifications.clearNowPlaying(song);
+					}
+					break;
+				}
+
+				case SongNowPlaying: {
+					const song = ctrl.getCurrentSong();
+					if (song.flags.isReplaying) {
+						return;
+					}
+
+					Notifications.showNowPlaying(song, () => {
+						Util.openTab(ctrl.tabId);
+					});
+					break;
+				}
+
+				case SongScrobbled: {
+					const { label } = ctrl.getConnector();
+					GA.event('core', 'scrobble', label);
+					break;
+				}
+
+				case SongUnrecognized:
+					Notifications.showSongNotRecognized(() => {
+						Util.openTab(ctrl.tabId);
+					});
+					break;
 			}
 		}
 	}
 
-	return { start };
+	return Extension;
 });

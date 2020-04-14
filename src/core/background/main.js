@@ -15,6 +15,10 @@ chrome.runtime.onInstalled.addListener((event) => {
 /**
  * Background script entry point.
  */
-require(['extension'], (Extension) => {
-	Extension.start();
+require(['extension', 'util/migrate'], (...modules) => {
+	const [Extension, Migrate] = modules;
+
+	Migrate.migrate().then(() => {
+		new Extension().start();
+	});
 });
