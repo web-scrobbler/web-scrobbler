@@ -1,15 +1,18 @@
+<div align="center">
+
+<p>
+	<img src="./media/icon_chrome_circle.svg"/>
+</p>
+<h1>Web Scrobbler</h1>
+
 [![Chrome Web Store][WebStoreBadge]][WebStore]
 [![AMO][AmoBadge]][Amo]
 [![Gitter][GitterBadge]][Gitter]
-
-[![dependencies status][DavidDmBadge]][DavidDm]
-[![devDependencies status][DavidDmBadgeDev]][DavidDmDev]
-
 [![Test status][GitHubActionsBadge]][GitHubActions]
 [![Codacy Badge][CodacyBadge]][Codacy]
 [![Codacy Coverage Badge][CodacyCoverageBadge]][Codacy]
 
-# Web Scrobbler
+</div>
 
 Web Scrobbler helps online music listeners to scrobble their playback history.
 
@@ -21,21 +24,27 @@ Web Scrobbler helps online music listeners to scrobble their playback history.
 
 ## Installation
 
-The extension can be either downloaded from the Chrome Web Store, <abbr title="addons.mozilla.org">AMO</abbr>, or installed as an [unpacked extension][DocsUnpacked].
+The extension can be either downloaded from the Chrome Web Store,
+<abbr title="addons.mozilla.org">AMO</abbr>, or installed as
+an [unpacked extension][DocsUnpacked].
 
 ### Chrome Web Store
 
 It can be installed directly from [Chrome Web Store][WebStore] with Chrome used.
 
-Opera users can install the extension from Chrome Web Store using the [Download Chrome Extension][DownloadChromeExt] addon for Opera.
+Opera users can install the extension from Chrome Web Store using the
+[Download Chrome Extension][DownloadChromeExt] addon for Opera.
 
 ### Addons.mozilla.org
 
-For those who prefer Firefox as a main browser, the extension is available on [AMO][Amo].
+For those who prefer Firefox as a main browser, the extension is
+available on [AMO][Amo].
 
 ### Install from source code
 
-To install the extension from sources or zip file, read [this page][WikiUnpacked] if you're on Chrome, or [this one][WikiTempAddon] if you use Firefox.
+To install the extension from sources or zip file, read
+[this page][WikiUnpacked] if you're on Chrome, or [this one][WikiTempAddon]
+if you use Firefox.
 
 ## Development
 
@@ -53,17 +62,20 @@ Before building the extension you should install dependencies:
 > npx grunt build:chrome
 ```
 
-The built extension is available in `build` directory. You can install it as an unpacked extension from this directory.
+The built extension is available in `build` directory. You can install it as an
+unpacked extension from this directory.
 
 The detailed build instruction is available [here][BuildInstructions].
 
 ### Develop connectors
 
-Check the [wiki page][WikiDev] to understand development of connectors. Please also read [contributions guidelines][Contributing].
+Check the [wiki page][WikiDev] to understand development of connectors. Please
+also read [contributions guidelines][Contributing].
 
 ### Translations
 
-We use Transifex to maintain translations. If you want to translate the extension, follow [this][Translations] wiki page for details.
+We use Transifex to maintain translations. If you want to translate
+the extension, follow [this][Translations] wiki page for details.
 
 ### Gitter
 
@@ -82,14 +94,12 @@ See the [privacy policy][Privacy].
 See the [license file][License].
 
 <!-- Badges -->
-[AmoBadge]: https://img.shields.io/amo/v/web-scrobbler.svg
+[AmoBadge]: https://img.shields.io/amo/v/web-scrobbler.svg?label=firefox
 [CodacyBadge]: https://api.codacy.com/project/badge/Grade/32658c34c5c542d9a315ead8d5eadd0e
 [CodacyCoverageBadge]: https://api.codacy.com/project/badge/Coverage/32658c34c5c542d9a315ead8d5eadd0e
-[DavidDmBadge]: https://img.shields.io/david/web-scrobbler/web-scrobbler
-[DavidDmBadgeDev]: https://img.shields.io/david/dev/web-scrobbler/web-scrobbler?label=devDependencies
 [GitHubActionsBadge]: https://github.com/web-scrobbler/web-scrobbler/workflows/Test/badge.svg
 [GitterBadge]: https://badges.gitter.im/Join%20Chat.svg
-[WebStoreBadge]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg
+[WebStoreBadge]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg?label=chrome
 
 <!-- Docs -->
 [BuildInstructions]: https://github.com/web-scrobbler/web-scrobbler/wiki/Setup-development-environment
@@ -108,8 +118,6 @@ See the [license file][License].
 
 <!-- Related pages -->
 [Codacy]: https://app.codacy.com/gh/web-scrobbler/web-scrobbler/dashboard
-[DavidDm]: https://david-dm.org/web-scrobbler/web-scrobbler
-[DavidDmDev]: https://david-dm.org/web-scrobbler/web-scrobbler?type=dev
 [GitHubActions]: https://github.com/web-scrobbler/web-scrobbler/actions
 [Gitter]: https://gitter.im/david-sabata/web-scrobbler
 [Twitter]: https://twitter.com/web_scrobbler
