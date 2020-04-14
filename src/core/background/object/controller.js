@@ -44,8 +44,6 @@ define((require) => {
 			(async() => this.shouldScrobblePodcasts = await Options.getOption(Options.SCROBBLE_PODCASTS))();
 
 			this.debugLog(`Created controller for ${connector.label} connector`);
-
-			this.notificationTimeoutId = null;
 		}
 
 		/** Public functions */
