@@ -43,6 +43,18 @@
         "message": "Efetuar scrobble de podcasts",
         "description": "Option title"
     },
+    "optionsHidden": {
+        "message": "Oculto",
+        "description": "'Hidden' section"
+    },
+    "optionScrobblePercent": {
+        "message": "Fazer scrobble após",
+        "description": "Option title"
+    },
+    "optionScrobblePercentSuffix": {
+        "message": "da duração total da música",
+        "description": "Option title"
+    },
     "optionScrobblePodcastsTitle": {
         "message": "Efetuar scrobble de episódios de podcasts",
         "description": "Option label"
@@ -58,6 +70,10 @@
     "optionYtDesc": {
         "message": "Caso desative ambas as opções, a extensão efetuará scrobble de vídeos do Youtube de todas as categorias.",
         "description": "Description of Youtube options"
+    },
+    "optionPercentDesc": {
+        "message": "Observe que o scrobble será feito em faixas que estejam em reprodução por mais de 4 minutos independentemente do valor informado.",
+        "description": "Description of scrobble percent option"
     },
     "optionYtMusicOnly": {
         "message": "Efetuar scrobble de vídeos da categoria \"Música\"",
@@ -287,6 +303,10 @@
         "message": "Diferentemente de outras extensões, esta não contém banners piscando ou anúncios sorrateiros.",
         "description": ""
     },
+    "showSomeLoveText2": {
+        "message": "A extensão é gratuita, e sempre será. Mas, caso queira apoiar o desenvolvimento, sinta-se à vontade para usar o botão abaixo.",
+        "description": ""
+    },
     "customPatternsHint": {
         "message": "Adicione padrões de URL que o conector deva corresponder abaixo.",
         "description": "Popup hint"
@@ -371,6 +391,10 @@
         "message": "O Web Scrobbler não é compatível com scrobbles deste site.",
         "description": "The description of 'unsupported' popup"
     },
+    "unsupportedWebsiteDesc2": {
+        "message": "Alguns sites do Google com suporte (como o Google Play Music e YouTube) podem estar bloqueados por causa da política ExtensionSettings.",
+        "description": "The description of 'unsupported' popup"
+    },
     "infoLove": {
         "message": "Marcar como preferida",
         "description": "Label of love/unlove button"
@@ -384,7 +408,7 @@
         "description": "Title of edit button"
     },
     "infoEditUnableTitle": {
-        "message": "Você não pode editar uma faixa com scrobble efetuado",
+        "message": "Você não pode editar esta faixa",
         "description": "Title of edit button"
     },
     "infoSwapTitle": {
@@ -392,15 +416,23 @@
         "description": "Title of swap button"
     },
     "infoSwapUnableTitle": {
-        "message": "Você não pode trocar uma faixa com scrobble efetuado",
+        "message": "Você não pode trocar dados em branco",
         "description": "Title of swap button"
+    },
+    "infoSubmitTitle": {
+        "message": "Salvar alterações",
+        "description": "Title of submit button"
+    },
+    "infoSubmitUnableTitle": {
+        "message": "Você não pode enviar dados em branco",
+        "description": "Title of submit button"
     },
     "infoRevertTitle": {
         "message": "Reverter alterações",
         "description": "Title of revert button"
     },
     "infoRevertUnableTitle": {
-        "message": "Você não pode reverter uma faixa com scrobble efetuado",
+        "message": "Você não pode reverter as alterações desta faixa",
         "description": "Title of revert button"
     },
     "infoSkipTitle": {
@@ -408,8 +440,12 @@
         "description": "Title of skip button"
     },
     "infoSkipUnableTitle": {
-        "message": "Você não pode pular uma faixa com scrobble efetuado",
+        "message": "Você não pode pular esta faixa",
         "description": "Title of skip button"
+    },
+    "infoSkippedTitle": {
+        "message": "Você pulou esta faixa",
+        "description": "Title of unskip button"
     },
     "infoOpenAlbumArt": {
         "message": "Abrir capa do álbum em uma nova aba",
