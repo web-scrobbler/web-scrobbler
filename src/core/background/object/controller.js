@@ -145,11 +145,8 @@ define((require) => {
 
 			await LocalCacheStorage.saveSongData(this.currentSong, data);
 
-			this.currentSong.resetFlags();
-			this.currentSong.resetMetadata();
-
 			this.unprocessSong();
-			await this.processSong();
+			this.processSong();
 		}
 
 		/**
@@ -373,6 +370,9 @@ define((require) => {
 		unprocessSong() {
 			this.debugLog(`Song unprocessed: ${this.currentSong.toString()}`);
 			this.debugLog('Clearing playback timer destination time');
+
+			this.currentSong.resetFlags();
+			this.currentSong.resetMetadata();
 
 			this.playbackTimer.update(null);
 			this.replayDetectionTimer.update(null);
