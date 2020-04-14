@@ -12,7 +12,7 @@
     "@fortawesome/fontawesome-free": "5.13.0",
     "blueimp-md5": "2.13.0",
     "bootstrap": "4.4.1",
-    "jquery": "3.5.0",
+    "jquery": "3.4.1",
     "metadata-filter": "0.3.0",
     "requirejs": "2.3.6",
     "showdown": "1.9.1",
