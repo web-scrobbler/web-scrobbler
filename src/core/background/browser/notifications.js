@@ -1,17 +1,18 @@
 'use strict';
 
 define((require) => {
-	const browser = require('webextension-polyfill');
+	const { i18n, notifications, runtime } = require('webextension-polyfill');
 	const Util = require('util/util');
 	const Options = require('storage/options');
 
-	const manifest = browser.runtime.getManifest();
+	const manifest = runtime.getManifest();
 	const DEFAULT_OPTIONS_VALUES = {
 		type: 'basic',
-		iconUrl: browser.runtime.getURL(manifest.icons['128']),
+		iconUrl: runtime.getURL(manifest.icons['128']),
 	};
 
-	const defaultTrackArtUrl = browser.runtime.getURL('/icons/cover_art_default.png');
+	const defaultTrackArtUrl = runtime.getURL('/icons/cover_art_default.png');
+	const unknownTrackArtUrl = runtime.getURL('icons/cover_art_unknown.png');
 
 	/**
 	 * Now playing notification delay in milliseconds.
@@ -102,7 +103,7 @@ define((require) => {
 
 		let notificationId;
 		try {
-			notificationId = await browser.notifications.create('', options);
+			notificationId = await notifications.create('', options);
 		} catch (err) {
 			// Use default track art and try again
 			if (options.iconUrl === defaultTrackArtUrl) {
@@ -110,7 +111,7 @@ define((require) => {
 			}
 
 			options.iconUrl = defaultTrackArtUrl;
-			notificationId = await browser.notifications.create('', options);
+			notificationId = await notifications.create('', options);
 		}
 
 		if (typeof onClicked === 'function') {
@@ -148,7 +149,7 @@ define((require) => {
 
 		const userPlayCount = song.metadata.userPlayCount;
 		if (userPlayCount) {
-			const userPlayCountStr = i18n('infoYourScrobbles', userPlayCount);
+			const userPlayCountStr = i18n.getMessage('infoYourScrobbles', userPlayCount);
 			message = `${message}\n${userPlayCountStr}`;
 		}
 
@@ -188,7 +189,8 @@ define((require) => {
 	 * @param  {Function} onClick Function that will be called on notification click
 	 */
 	function showError(message, onClick = null) {
-		const options = { title: i18n('notificationAuthError'), message };
+		const title = i18n.getMessage('notificationAuthError');
+		const options = { title, message };
 		showNotification(options, onClick);
 	}
 
@@ -212,9 +214,9 @@ define((require) => {
 		}
 
 		const options = {
-			iconUrl: browser.runtime.getURL('icons/cover_art_unknown.png'),
-			title: i18n('notificationNotRecognized'),
-			message: i18n('notificationNotRecognizedText')
+			iconUrl: unknownTrackArtUrl,
+			title: i18n.getMessage('notificationNotRecognized'),
+			message: i18n.getMessage('notificationNotRecognizedText')
 		};
 		showNotification(options, onClicked);
 	}
@@ -225,8 +227,8 @@ define((require) => {
 	 */
 	async function showAuthNotification(onClicked) {
 		const options = {
-			title: i18n('notificationConnectAccounts'),
-			message: i18n('notificationConnectAccountsText'),
+			title: i18n.getMessage('notificationConnectAccounts'),
+			message: i18n.getMessage('notificationConnectAccountsText'),
 		};
 
 		await showNotification(options, onClicked);
@@ -240,14 +242,9 @@ define((require) => {
 	 */
 	function remove(notificationId) {
 		if (notificationId) {
-			browser.notifications.clear(notificationId);
+			notifications.clear(notificationId);
 		}
 	}
-
-	function i18n(tag, ...context) {
-		return browser.i18n.getMessage(tag, context);
-	}
-
 
 	function clearNotificationTimeout() {
 		if (notificationTimeoutId) {
@@ -256,19 +253,23 @@ define((require) => {
 		}
 	}
 
-	browser.notifications.onClicked.addListener((notificationId) => {
+	notifications.onClicked.addListener((notificationId) => {
 		console.log(`Notification onClicked: ${notificationId}`);
 
 		if (clickListeners[notificationId]) {
 			clickListeners[notificationId](notificationId);
 		}
 	});
-	browser.notifications.onClosed.addListener((notificationId) => {
+	notifications.onClosed.addListener((notificationId) => {
 		removeOnClickedListener(notificationId);
 	});
 
 	return {
-		clearNowPlaying, showNowPlaying, showError, showSignInError,
-		showAuthNotification, showSongNotRecognized
+		clearNowPlaying,
+		showAuthNotification,
+		showError,
+		showNowPlaying,
+		showSignInError,
+		showSongNotRecognized
 	};
 });
