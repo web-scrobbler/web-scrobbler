@@ -270,9 +270,10 @@ define((require) => {
 		}
 
 		for (const tabId in tabControllers) {
-			const mode = tabControllers[tabId].mode;
+			const ctrl = tabControllers[tabId];
+			const mode = ctrl.getMode();
 			if (ControllerMode.isActive(mode)) {
-				return tabId;
+				return ctrl.tabId;
 			}
 		}
 
