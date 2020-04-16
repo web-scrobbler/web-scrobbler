@@ -83,13 +83,13 @@ define((require) => {
 	 * ID of a recent active tab.
 	 * @type {Number}
 	 */
-	let activeTabId = null;
+	let activeTabId = -1;
 
 	/**
 	 * ID of a current tab.
 	 * @type {Number}
 	 */
-	let currentTabId = null;
+	let currentTabId = -1;
 
 	/**
 	 * Setup browser event listeners. Called on startup.
@@ -603,7 +603,11 @@ define((require) => {
 	async function start() {
 		await Migrate.migrate();
 
-		currentTabId = (await Util.getCurrentTab()).id;
+		// We cannot get a current tab in some cases on startup
+		const currentTab = await Util.getCurrentTab();
+		if (currentTab) {
+			currentTabId = currentTab.id;
+		}
 
 		await updateVersionInStorage();
 		setupEventListeners();
