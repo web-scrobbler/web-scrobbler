@@ -1486,7 +1486,7 @@ const connectors = [{
 }, {
 	label: 'Apple Music',
 	matches: [
-		'*://beta.music.apple.com/*'
+		'*://music.apple.com/*'
 	],
 	js: 'connectors/apple-music.js',
 	id: 'apple-music',
