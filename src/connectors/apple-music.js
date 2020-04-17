@@ -1,7 +1,5 @@
 'use strict';
 
-// NOTE: The connector supports beta version only,
-
 const ARTISTALBUM_SEPARATOR = '—';
 
 const artistAlbumSelector = '.web-chrome-playback-lcd__sub-copy-scroll-inner-text-wrapper';
