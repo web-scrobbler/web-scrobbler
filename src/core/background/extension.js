@@ -255,7 +255,11 @@ define((require) => {
 	 */
 	async function onTabRemoved(removedTabId) {
 		unloadController(removedTabId);
-		updateLastActiveTab();
+
+		if (removedTabId === activeTabId) {
+			activeTabId = -1;
+			updateLastActiveTab();
+		}
 	}
 
 	/**
