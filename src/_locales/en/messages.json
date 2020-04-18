@@ -561,6 +561,10 @@
     "message": "Enable $1 connector",
     "description": "Context menu item"
   },
+  "menuDisableUntilTabClosed": {
+    "message": "Disable $1 connector until tab is closed",
+    "description": "Context menu item"
+  },
 
 
   "notificationConnectAccounts": {

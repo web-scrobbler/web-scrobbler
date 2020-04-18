@@ -296,14 +296,26 @@ define((require) => {
 	function updateContextMenu(tabId) {
 		resetContextMenu();
 
-		if (activeTabId !== tabId) {
-			addContextMenuFor(tabId, tabControllers[activeTabId]);
-		}
-		addContextMenuFor(tabId, tabControllers[tabId]);
+		const ctrl = tabControllers[tabId];
+		const activeCtrl = tabControllers[activeTabId];
 
-		// @ifdef CHROME
-		addContextMenuItem(null, null, 'separator');
-		// @endif
+		// Always display context menu for current tab
+		if (ctrl) {
+			addToggleConnectorMenu(tabId, ctrl);
+			if (ctrl.isEnabled) {
+				addDisableUntilTabClosedItem(tabId, ctrl);
+			}
+		}
+
+		// Add additional menu items for active tab (if it's not current)...
+		if (activeTabId !== tabId) {
+			if (ctrl && activeCtrl && activeCtrl.getConnector().id === ctrl.getConnector().id) {
+				return;
+			}
+
+			// ...but only if it has a different connector injected.
+			addToggleConnectorMenu(tabId, activeCtrl);
+		}
 	}
 
 	/**
@@ -314,41 +326,57 @@ define((require) => {
 	}
 
 	/**
-	 * Add context menu for a given controller.
+	 * Add a "Enable/Disable X" menu item for a given controller.
 	 *
 	 * @param  {Number} tabId Tab ID
 	 * @param  {Object} ctrl Controller instance
 	 */
-	function addContextMenuFor(tabId, ctrl) {
-		if (!ctrl) {
-			return;
-		}
+	function addToggleConnectorMenu(tabId, ctrl) {
+		const { label } = ctrl.getConnector();
+		const titleId = ctrl.isEnabled ? 'menuDisableConnector' : 'menuEnableConnector';
+		const itemTitle = browser.i18n.getMessage(titleId, label);
+		const newState = !ctrl.isEnabled;
 
-		const connector = ctrl.getConnector();
-		const labelId = ctrl.isEnabled ? 'menuDisableConnector' : 'menuEnableConnector';
-		const newValue = !ctrl.isEnabled;
-		const itemTitle = browser.i18n.getMessage(labelId, connector.label);
+		addContextMenuItem(tabId, itemTitle, () => {
+			setConnectorState(ctrl, newState);
+		});
+	}
 
-		addContextMenuItem(itemTitle, () => {
-			setConnectorState(ctrl, newValue);
-			updateContextMenu(tabId);
-
-			if (shouldUpdateBrowserAction(tabId)) {
-				updateBrowserAction(tabId);
-			}
+	/**
+	 * Add a "Disable X until tab is closed" menu item for a given controller.
+	 *
+	 * @param  {Number} tabId Tab ID
+	 * @param  {Object} ctrl Controller instance
+	 */
+	function addDisableUntilTabClosedItem(tabId, ctrl) {
+		const { label } = ctrl.getConnector();
+		const itemTitle2 = browser.i18n.getMessage(
+			'menuDisableUntilTabClosed', label);
+		addContextMenuItem(tabId, itemTitle2, () => {
+			ctrl.setEnabled(false);
 		});
 	}
 
 	/**
 	 * Helper function to add item to page action context menu.
 	 *
+	 * @param  {Number} tabId Tab ID
 	 * @param {String} title Item title
-	 * @param {Function} onclick Function that will be called on item click
-	 * @param {String} [type='normal'] Item type
+	 * @param {Function} onClicked Function that will be called on item click
 	 */
-	function addContextMenuItem(title, onclick, type = 'normal') {
+	function addContextMenuItem(tabId, title, onClicked) {
+		function onclick() {
+			onClicked();
+
+			updateContextMenu(tabId);
+			if (shouldUpdateBrowserAction(tabId)) {
+				updateBrowserAction(tabId);
+			}
+		}
+
+		const type = 'normal';
 		browser.contextMenus.create({
-			title, type, onclick, contexts: ['browser_action'],
+			title, type, onclick, contexts: ['browser_action']
 		});
 	}
 
