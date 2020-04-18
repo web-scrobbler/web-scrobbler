@@ -403,16 +403,28 @@ define((require) => {
 			activeTabId = tabId;
 		}
 
-		if (tabId === activeTabId) {
-			// The controller becomes inactive, but it's not in current tab
-			if (currentTabId !== tabId && ControllerMode.isInactive(mode)) {
-				updateBrowserAction(currentTabId);
-				updateContextMenu(currentTabId);
-				return;
-			}
+		if (tabId !== activeTabId) {
+			return;
+		}
 
+		if (tabId === currentTabId) {
 			updateBrowserAction(tabId);
-			updateContextMenu(tabId);
+
+			// Active controller is changed, so we need to update context menu
+			if (ControllerMode.isActive(mode)) {
+				updateContextMenu(tabId);
+			}
+		} else {
+			updateContextMenu(currentTabId);
+
+			// The controller becomes inactive, but it's not in current tab
+			if (ControllerMode.isInactive(mode)) {
+				// Use current tab as a context
+				updateBrowserAction(currentTabId);
+			} else {
+				// Use tab to which the given controller attached as a context
+				updateBrowserAction(tabId);
+			}
 		}
 	}
 
