@@ -94,12 +94,12 @@ See the [privacy policy][Privacy].
 See the [license file][License].
 
 <!-- Badges -->
-[AmoBadge]: https://img.shields.io/amo/v/web-scrobbler.svg?label=firefox
-[CodacyBadge]: https://api.codacy.com/project/badge/Grade/32658c34c5c542d9a315ead8d5eadd0e
-[CodacyCoverageBadge]: https://api.codacy.com/project/badge/Coverage/32658c34c5c542d9a315ead8d5eadd0e
-[GitHubActionsBadge]: https://github.com/web-scrobbler/web-scrobbler/workflows/Test/badge.svg
-[GitterBadge]: https://badges.gitter.im/Join%20Chat.svg
-[WebStoreBadge]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg?label=chrome
+[AmoBadge]: https://img.shields.io/amo/v/web-scrobbler.svg?label=firefox&logo=mozilla-firefox&logoColor=white
+[CodacyBadge]: https://img.shields.io/codacy/grade/32658c34c5c542d9a315ead8d5eadd0e?logo=codacy&logoColor=white
+[CodacyCoverageBadge]: https://img.shields.io/codacy/coverage/32658c34c5c542d9a315ead8d5eadd0e?logo=codacy&logoColor=white
+[GitHubActionsBadge]: https://img.shields.io/github/workflow/status/web-scrobbler/web-scrobbler/Test?label=test&logo=github&logoColor=white
+[GitterBadge]: https://img.shields.io/gitter/room/web-scrobbler/web-scrobbler?logo=gitter&logoColor=white&color=49b393
+[WebStoreBadge]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg?label=chrome&logo=google-chrome&logoColor=white
 
 <!-- Docs -->
 [BuildInstructions]: https://github.com/web-scrobbler/web-scrobbler/wiki/Setup-development-environment
