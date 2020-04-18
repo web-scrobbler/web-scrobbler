@@ -539,6 +539,10 @@
         "message": "Activar conector $1",
         "description": "Context menu item"
     },
+    "menuDisableUntilTabClosed": {
+      "message": "Desactivar conector $1 hasta que la pestaña esté cerrada",
+      "description": "Context menu item"
+  },
     "notificationConnectAccounts": {
         "message": "Conectar sus cuentas",
         "description": "Notification title"

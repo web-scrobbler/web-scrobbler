@@ -539,6 +539,10 @@
         "message": "Включить $1",
         "description": "Context menu item"
     },
+    "menuDisableUntilTabClosed": {
+      "message": "Отключить $1, пока открыта вкладка",
+      "description": "Context menu item"
+  },
     "notificationConnectAccounts": {
         "message": "Подключите ваши аккаунты",
         "description": "Notification title"
