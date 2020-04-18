@@ -446,8 +446,10 @@ define((require) => {
 			}
 
 			case NO_MATCH: {
-				unloadController(tabId);
-				updateLastActiveTab();
+				if (tabControllers[tabId]) {
+					unloadController(tabId);
+					updateLastActiveTab();
+				}
 				break;
 			}
 
