@@ -10,6 +10,8 @@ const CATEGORY_FILM_AND_ANIMATION = '/channel/UCxAgnFbkxldX6YUEvdcNjnA';
 const CATEGORY_SCIENCE_AND_TECHNOLOGY = '/channel/UCiDF_uaU1V00dAc8ddKvNxA';
 
 const CATEGORY_PENDING = 'YT_DUMMY_CATEGORY_PENDING';
+// Fallback value in case when we cannot fetch a category.
+const CATEGORY_UNKNOWN = 'YT_DUMMY_CATEGORY_UNKNOWN';
 
 const CATEGORIES = [
 	CATEGORY_MUSIC,
@@ -112,17 +114,16 @@ Connector.isScrobblingAllowed = () => {
 		return true;
 	}
 
-	const videoId = Connector.getUniqueID();
-	if (videoId) {
-		const videoCategory = getVideoCategory(videoId);
-		if (videoCategory !== null) {
-			return allowedCategories.includes(videoCategory);
-		}
-
+	const videoCategory = getVideoCategory(Connector.getUniqueID());
+	if (!videoCategory) {
 		return false;
 	}
 
-	return true;
+	if (videoCategory === CATEGORY_UNKNOWN) {
+		return true;
+	}
+
+	return allowedCategories.includes(videoCategory);
 };
 
 Connector.applyFilter(MetadataFilter.getYoutubeFilter());
@@ -137,8 +138,8 @@ function setupEventListener() {
  * @return {String} Video category
  */
 function getVideoCategory(videoId) {
-	if (videoId === null) {
-		return null;
+	if (!videoId) {
+		return CATEGORY_UNKNOWN;
 	}
 
 	if (!categoryCache.has(videoId)) {
@@ -178,7 +179,7 @@ async function fetchCategoryId() {
 		}
 	}
 
-	throw new Error('The video has no category URL!');
+	return CATEGORY_UNKNOWN;
 }
 
 async function fillMoreSection() {
