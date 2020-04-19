@@ -2,6 +2,8 @@
 
 const playerBar = '.Root__now-playing-bar';
 
+Connector.useMediaSessionApi();
+
 Connector.playerSelector = playerBar;
 
 Connector.artistSelector = `${playerBar} [dir="auto"]:last-child a`;

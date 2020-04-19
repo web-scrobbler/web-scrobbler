@@ -534,6 +534,16 @@ function BaseConnector() {
 	};
 
 	/**
+	 * Enable support for MediaSession API.
+	 *
+	 * The connector will use MediaMetadata to get track info,
+	 * if Media Session API is available, and MediaMetadata is filled.
+	 */
+	this.useMediaSessionApi = () => {
+		isMediaSessionAllowed = 'mediaSession' in navigator;
+	};
+
+	/**
 	 * Internal functions, state & API.
 	 *
 	 * Connectors must not call functions defined below.
@@ -639,6 +649,12 @@ function BaseConnector() {
 	const fieldsToCheckSongChange = ['artist', 'track', 'album', 'albumArtist', 'uniqueID'];
 	// @endif
 
+	const mediaSessionFields = ['artist', 'track', 'album', 'trackArt'];
+	const artistTrackFields = ['artist', 'track'];
+	const timeInfoFields = ['duration', 'currentTime'];
+
+	let isMediaSessionAllowed = false;
+
 	/**
 	 * Gathered info about the current track for internal use.
 	 * @type {Object}
@@ -723,18 +739,30 @@ function BaseConnector() {
 	 */
 	this.getCurrentState = () => {
 		const newState = {
-			track: this.getTrack(),
-			artist: this.getArtist(),
-			album: this.getAlbum(),
 			albumArtist: this.getAlbumArtist(),
 			uniqueID: this.getUniqueID(),
 			duration: this.getDuration(),
 			currentTime: this.getCurrentTime(),
 			isPlaying: this.isPlaying(),
-			trackArt: this.getTrackArt(),
 			isPodcast: this.isPodcast(),
 			originUrl: this.getOriginUrl(),
 		};
+
+		let mediaSessionInfo = null;
+		if (isMediaSessionAllowed) {
+			const { mediaSession } = navigator;
+			mediaSessionInfo = Util.getMediaSessionInfo(mediaSession);
+		}
+
+		if (!mediaSessionInfo) {
+			mediaSessionInfo = {
+				trackArt: this.getTrackArt(),
+				artist: this.getArtist(),
+				track: this.getTrack(),
+				album: this.getAlbum(),
+			};
+		}
+		Util.fillEmptyFields(newState, mediaSessionInfo, mediaSessionFields);
 
 		const remainingTime = Math.abs(this.getRemainingTime());
 		if (remainingTime) {
@@ -748,13 +776,13 @@ function BaseConnector() {
 		}
 
 		const timeInfo = this.getTimeInfo();
-		Util.fillEmptyKeys(newState, timeInfo, ['duration', 'currentTime']);
+		Util.fillEmptyFields(newState, timeInfo, timeInfoFields);
 
 		const artistTrack = this.getArtistTrack();
-		Util.fillEmptyKeys(newState, artistTrack, ['artist', 'track']);
+		Util.fillEmptyFields(newState, artistTrack, artistTrackFields);
 
 		const trackInfo = this.getTrackInfo();
-		Util.fillEmptyKeys(newState, trackInfo, Object.keys(defaultState));
+		Util.fillEmptyFields(newState, trackInfo, Object.keys(defaultState));
 
 		return newState;
 	};

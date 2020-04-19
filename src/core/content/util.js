@@ -392,7 +392,7 @@ const Util = {
 		logFunc(message);
 	},
 
-	fillEmptyKeys(target, source, keys) {
+	fillEmptyFields(target, source, keys) {
 		if (!source) {
 			return;
 		}
@@ -402,6 +402,29 @@ const Util = {
 				target[field] = source[field];
 			}
 		}
+	},
+
+	/**
+	 * Get track info from MediaSession object.
+	 *
+	 * @param  {Object} mediaSession MediaSession instance
+	 * @return {Object} Object contains track info
+	 */
+	getMediaSessionInfo(mediaSession) {
+		if (!mediaSession) {
+			return null;
+		}
+
+		const { artist, album, title, artwork } = mediaSession.metadata;
+
+		const track = title;
+		let trackArt = null;
+		if (Array.isArray(artwork)) {
+			const { src } = artwork[artwork.length - 1];
+			trackArt = src;
+		}
+
+		return { artist, track, album, trackArt };
 	},
 
 	/*
