@@ -540,9 +540,9 @@
         "description": "Context menu item"
     },
     "menuDisableUntilTabClosed": {
-      "message": "Desativar conector para $1 até a guia ser fechada",
-      "description": "Context menu item"
-  },
+        "message": "Desativar conector para $1 até a guia ser fechada",
+        "description": "Context menu item"
+    },
     "notificationConnectAccounts": {
         "message": "Conecte as suas contas",
         "description": "Notification title"

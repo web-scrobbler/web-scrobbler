@@ -540,9 +540,9 @@
         "description": "Context menu item"
     },
     "menuDisableUntilTabClosed": {
-      "message": "Wyłącz obsługę $1 do zamknięcia karty",
-      "description": "Context menu item"
-  },
+        "message": "Wyłącz obsługę $1 do zamknięcia karty",
+        "description": "Context menu item"
+    },
     "notificationConnectAccounts": {
         "message": "Połącz swoje konta",
         "description": "Notification title"
