@@ -506,7 +506,7 @@ define((require) => {
 		 * @param  {Object} ctrl Controller instance
 		 * @param  {Boolean} isEnabled Flag value
 		 */
-		setControllerState(ctrl, isEnabled) {
+		setConnectorState(ctrl, isEnabled) {
 			const connector = ctrl.getConnector();
 
 			ctrl.setEnabled(isEnabled);
