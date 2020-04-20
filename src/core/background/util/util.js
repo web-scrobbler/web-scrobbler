@@ -219,8 +219,19 @@ define((require) => {
 	 * Create query string from object properties.
 	 * @param {Array} params Object contains query parameters
 	 */
-	function createQueryString(params) {
-		const parts = [];
+	function isHighContrast(document) {
+		let testElement = document.createElement('div');
+		testElement.style.color = 'rgb(31, 41, 59)';
+		document.body.appendChild(testElement);
+
+		let strColor = document.defaultView ? document.defaultView.getComputedStyle(testElement, null).color : testElement.currentStyle.color;
+		strColor = strColor.replace(/ /g, '');
+		document.body.removeChild(testElement);
+
+		const isHighContrast = strColor !== 'rgb(31,41,59)';
+
+		return !isHighContrast;
+	}
 
 		for (const x in params) {
 			parts.push(`${x}=${encodeURIComponent(params[x])}`);

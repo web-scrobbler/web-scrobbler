@@ -1694,6 +1694,13 @@ const connectors = [{
 	],
 	js: 'connectors/pocketcasts.js',
 	id: 'pocketcasts',
+}, {
+	label: 'Clyp',
+	matches: [
+		'*://clyp.it/*'
+	],
+	js: 'connectors/clyp.js',
+	id: 'clyp',
 }];
 
 define(() => connectors);
