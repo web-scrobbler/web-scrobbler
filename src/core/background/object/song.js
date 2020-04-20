@@ -143,7 +143,7 @@ define((require) => {
 			 * Flag indicates song is loved by used on service.
 			 * @type {Boolean}
 			 */
-			this.metadata.userloved = false;
+			this.metadata.userloved = undefined;
 
 			/**
 			 * Time when song is started playing in UNIX timestamp format.
@@ -301,12 +301,12 @@ define((require) => {
 		 * @param  {Boolean} isLoved Flag means song is loved or not
 		 */
 		setLoveStatus(isLoved) {
-			if (isLoved !== undefined) {
-				if (isLoved) {
+			if (isLoved) {
+				if (this.metadata.userloved === undefined) {
 					this.metadata.userloved = true;
-				} else if (this.metadata.userloved) {
-					this.metadata.userloved = false;
 				}
+			} else {
+				this.metadata.userloved = false;
 			}
 		}
 

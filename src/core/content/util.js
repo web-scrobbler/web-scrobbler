@@ -90,6 +90,10 @@ const Util = {
 	 * @return {String} String joined by separator
 	 */
 	joinArtists(artists) {
+		if (!artists || artists.length === 0) {
+			return null;
+		}
+
 		return artists.map((artist) => {
 			return artist.textContent;
 		}).join(this.ARTIST_SEPARATOR);
@@ -133,7 +137,7 @@ const Util = {
 	 * @param  {Boolean} swap Swap values
 	 * @return {Array} Array of strings splitted by separator
 	 */
-	splitString(str, separators = null, { swap = false } = {}) {
+	splitString(str, separators, { swap = false } = {}) {
 		let first = null;
 		let second = null;
 
@@ -253,7 +257,7 @@ const Util = {
 	 * @param  {Array} fields List of fields to fill
 	 */
 	fillEmptyFields(target, source, fields) {
-		if (!source) {
+		if (!(source && Array.isArray(fields))) {
 			return target;
 		}
 
@@ -273,7 +277,7 @@ const Util = {
 	 * @return {Object} Object contains track info
 	 */
 	getMediaSessionInfo(mediaSession) {
-		if (!mediaSession) {
+		if (!(mediaSession && mediaSession.metadata)) {
 			return null;
 		}
 
@@ -548,9 +552,11 @@ const Util = {
 		let track = null;
 		let featArtists = null;
 
-		if (numberOfFields === 2) {
+		if (numberOfFields < 2) {
+			[track] = trackInfo;
+		} else if (numberOfFields === 2) {
 			[track, artist] = trackInfo;
-		} else if (numberOfFields > 2) {
+		} else {
 			[track, artist, featArtists] = trackInfo;
 
 			const featArtistsStr = featArtists.split(this.ytDescSeparator)

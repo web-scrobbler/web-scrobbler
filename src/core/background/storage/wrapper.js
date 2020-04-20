@@ -55,6 +55,7 @@ define((require) => {
 		 * Log storage data to console output.
 		 * @param  {Object} hiddenKeys Array of keys should be hidden
 		 */
+		/* istanbul ignore next */
 		async debugLog(hiddenKeys = []) {
 			const data = await this.get();
 
