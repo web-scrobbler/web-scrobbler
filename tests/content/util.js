@@ -9,10 +9,10 @@ const Util = require('../../src/core/content/util');
 
 /**
  * Test data is an array of objects. Each object must contain
- * three fields: 'description', 'source' and 'expected'.
+ * three fields: 'description', 'args' and 'expected'.
  *
  * 'description' is a test description used by 'it' function.
- * 'source' is an function argument that used to test function.
+ * 'args' is an function arguments that used to test function.
  * 'expected' is an expected value of function result.
  */
 
@@ -20,37 +20,30 @@ const Util = require('../../src/core/content/util');
  * Test data for testing 'Util.splitArtistTrack' function.
  * @type {Array}
  */
-const SPLIT_ARTIST_TRACK_TEST_DATA = [{
+const SPLIT_ARTIST_TRACK_DATA = [{
 	description: 'should return empty result for empty input',
-	source: '',
+	args: ['', null, { swap: false }],
 	expected: { artist: null, track: null },
-	swap: false,
 }, {
 	description: 'should return empty result for null input',
-	source: null,
+	args: [null, null, { swap: false }],
 	expected: { artist: null, track: null },
-	swap: false,
 }, {
 	description: 'should split artist and track',
-	source: 'Artist - Track',
+	args: ['Artist - Track', null, { swap: false }],
 	expected: { artist: 'Artist', track: 'Track' },
-	swap: false,
 }, {
 	description: 'should split artist and track by custom separator',
-	source: 'Artist * Track',
+	args: ['Artist * Track', [' * '], { swap: false }],
 	expected: { artist: 'Artist', track: 'Track' },
-	separators: [' * '],
-	swap: false,
 }, {
 	description: 'should not split malformed string',
-	source: 'Artist & Track',
+	args: ['Artist & Track', null, { swap: false }],
 	expected: { artist: null, track: null },
-	swap: false,
 }, {
 	description: 'should split artist and track, and swap them',
-	source: 'Track - Artist',
+	args: ['Track - Artist', null, { swap: true }],
 	expected: { artist: 'Artist', track: 'Track' },
-	swap: true,
 }];
 
 /**
@@ -59,27 +52,27 @@ const SPLIT_ARTIST_TRACK_TEST_DATA = [{
  */
 const ESCAPE_BAD_TIME_VALUES_DATA = [{
 	description: 'should round float number',
-	source: 3.25,
+	args: [3.25],
 	expected: 3
 }, {
 	description: 'should return null for NaN',
-	source: NaN,
+	args: [NaN],
 	expected: null
 }, {
 	description: 'should return null for Infinity',
-	source: Infinity,
+	args: [Infinity],
 	expected: null
 }, {
 	description: 'should return null for -Infinity',
-	source: -Infinity,
+	args: [-Infinity],
 	expected: null
 }, {
 	description: 'should return integer number as is',
-	source: 3,
+	args: [3],
 	expected: 3
 }, {
 	description: 'should return null for other input',
-	source: [],
+	args: [[]],
 	expected: null
 }];
 
@@ -89,35 +82,35 @@ const ESCAPE_BAD_TIME_VALUES_DATA = [{
  */
 const STRING_TO_SECONDS_DATA = [{
 	description: 'should trim string and parse time',
-	source: '01:10:30 ',
+	args: ['01:10:30 '],
 	expected: 4230
 }, {
 	description: 'should parse time in hh:mm:ss format',
-	source: '01:10:30',
+	args: ['01:10:30'],
 	expected: 4230
 }, {
 	description: 'should parse negative time',
-	source: '-01:10',
+	args: ['-01:10'],
 	expected: -70
 }, {
 	description: 'should parse time in mm:ss format',
-	source: '05:20',
+	args: ['05:20'],
 	expected: 320
 }, {
 	description: 'should parse time in ss format',
-	source: '20',
+	args: ['20'],
 	expected: 20
 }, {
 	description: 'should not parse empty string',
-	source: '',
+	args: [''],
 	expected: 0
 }, {
 	description: 'should not parse null value',
-	source: null,
+	args: [null],
 	expected: 0
 }, {
 	description: 'should not parse malformed format',
-	source: NaN,
+	args: [NaN],
 	expected: 0
 }];
 
@@ -125,25 +118,29 @@ const STRING_TO_SECONDS_DATA = [{
  * Test data for testing 'Util.extractUrlFromCssProperty' function.
  * @type {Array}
  */
-const EXRACT_TRACK_ART_FROM_CSS_DATA = [{
+const EXRACT_URL_FROM_CSS_PROPERTY_DATA = [{
 	description: 'should extract URL from CSS property (double quotes)',
-	source: 'url("http://example.com/image.png")',
+	args: ['url("http://example.com/image.png")'],
 	expected: 'http://example.com/image.png'
 }, {
 	description: 'should extract URL from CSS property (single quotes)',
-	source: 'url(\'http://example.com/image.png\')',
+	args: ['url(\'http://example.com/image.png\')'],
 	expected: 'http://example.com/image.png'
 }, {
 	description: 'should extract URL from CSS property (no quotes)',
-	source: 'url(http://example.com/image.png)',
+	args: ['url(http://example.com/image.png)'],
 	expected: 'http://example.com/image.png'
 }, {
 	description: 'should extract URL from shorthand CSS property',
-	source: '#ffffff url("http://example.com/image.png") no-repeat right top;',
+	args: ['#ffffff url("http://example.com/image.png") no-repeat right top;'],
 	expected: 'http://example.com/image.png'
 }, {
 	description: 'should return null for malformed CSS property',
-	source: 'whatever',
+	args: ['whatever'],
+	expected: null
+}, {
+	description: 'should return null for null',
+	args: [null],
 	expected: null
 }];
 
@@ -151,37 +148,37 @@ const EXRACT_TRACK_ART_FROM_CSS_DATA = [{
  * Test data for testing 'Util.getYtVideoIdFromUrl' function.
  * @type {Array}
  */
-const GET_YOUTUBE_VIDEO_ID_FROM_URL_DATA = [{
+const GET_YT_VIDEO_ID_FROM_URL_DATA = [{
 	description: 'should return null for null input',
-	source: null,
+	args: [null],
 	expected: null,
 }, {
 	description: 'should return null for empty input',
-	source: '',
+	args: [''],
 	expected: null,
 }, {
 	description: 'should return null for invalid input',
-	source: 'Invalid input',
+	args: ['Invalid input'],
 	expected: null,
 }, {
 	description: 'should return video ID from URL',
-	source: 'https://www.youtube.com/watch?v=JJYxNSRX6Oc',
+	args: ['https://www.youtube.com/watch?v=JJYxNSRX6Oc'],
 	expected: 'JJYxNSRX6Oc',
 }, {
 	description: 'should return video ID from URL with several params',
-	source: 'https://www.youtube.com/watch?v=JJYxNSRX6Oc&t=92s',
+	args: ['https://www.youtube.com/watch?v=JJYxNSRX6Oc&t=92s'],
 	expected: 'JJYxNSRX6Oc',
 }, {
 	description: 'should return video ID from URL when "v" param is in the end of query',
-	source: 'https://www.youtube.com/watch?list=PLjTdkvaV6GM-J-6PHx9Cw5Cg2tI5utWe7&v=ALZHF5UqnU4',
+	args: ['https://www.youtube.com/watch?list=PLjTdkvaV6GM-J-6PHx9Cw5Cg2tI5utWe7&v=ALZHF5UqnU4'],
 	expected: 'ALZHF5UqnU4',
 }, {
 	description: 'should return video ID from short URL',
-	source: 'https://youtu.be/Mssm8Ml5sOo',
+	args: ['https://youtu.be/Mssm8Ml5sOo'],
 	expected: 'Mssm8Ml5sOo',
 }, {
 	description: 'should return video ID from embed video URL',
-	source: 'https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com',
+	args: ['https://www.youtube.com/embed/M7lc1UVf-VE?autoplay=1&origin=http://example.com'],
 	expected: 'M7lc1UVf-VE',
 }];
 
@@ -189,57 +186,57 @@ const GET_YOUTUBE_VIDEO_ID_FROM_URL_DATA = [{
  * Test data for testing 'Util.processYtVideoTitle' function.
  * @type {Array}
  */
-const PROCESS_YOUTUBE_TITLE_DATA = [{
+const PROCESS_YT_VIDEO_TITLE_DATA = [{
 	description: 'should return null for empty input',
-	source: '',
+	args: [''],
 	expected: { artist: null, track: null },
 }, {
 	description: 'should return null for null input',
-	source: null,
+	args: [null],
 	expected: { artist: null, track: null },
 }, {
 	description: 'should process YouTube title',
-	source: 'Artist - Track',
+	args: ['Artist - Track'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
 	description: 'should remove [genre] from the beginning of the title',
-	source: '[Genre] Artist - Track',
+	args: ['[Genre] Artist - Track'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
 	description: 'should remove 【genre】 from the beginning of the title',
-	source: '【Genre】 Artist - Track',
+	args: ['【Genre】 Artist - Track'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
 	description: 'should process text string w/o separators',
-	source: 'Artist "Track"',
+	args: ['Artist "Track"'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
 	description: 'should process Japanese tracks',
-	source: 'Artist「Track」',
+	args: ['Artist「Track」'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
 	description: 'should process inverted tracks with parens',
-	source: 'Track (by Artist)',
+	args: ['Track (by Artist)'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
 	description: 'should process inverted tracks with parens and comments',
-	source: 'Track (cover by Artist) Studio',
+	args: ['Track (cover by Artist) Studio'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
 	description: 'should process inverted tracks with parens original artist',
-	source: 'Original Artist - Track (cover by Artist)',
+	args: ['Original Artist - Track (cover by Artist)'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
 	description: 'should process tracks with seperators and quotes',
-	source: 'Artist - "Track Name"',
+	args: ['Artist - "Track Name"'],
 	expected: { artist: 'Artist', track: 'Track Name' }
 }, {
 	description: 'should process tracks with seperators without leading whitespace and quotes',
-	source: 'Artist: "Track Name"',
+	args: ['Artist: "Track Name"'],
 	expected: { artist: 'Artist', track: 'Track Name' }
 }, {
 	description: 'should use title as track title',
-	source: 'Track Name',
+	args: ['Track Name'],
 	expected: { artist: null, track: 'Track Name' }
 }];
 
@@ -249,23 +246,23 @@ const PROCESS_YOUTUBE_TITLE_DATA = [{
  */
 const PROCESS_SOUNDCLOUD_TRACK_DATA = [{
 	description: 'should process SoundCloud title (hyphen)',
-	source: 'Artist - Track',
+	args: ['Artist - Track'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
 	description: 'should process SoundCloud title (en dash)',
-	source: 'Artist \u2013 Track',
+	args: ['Artist \u2013 Track'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
 	description: 'should process SoundCloud title (em dash)',
-	source: 'Artist \u2014 Track',
+	args: ['Artist \u2014 Track'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
 	description: 'should process SoundCloud title (horizontal bar)',
-	source: 'Artist \u2015 Track',
+	args: ['Artist \u2015 Track'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
 	description: 'should use title as track title',
-	source: 'Track Name',
+	args: ['Track Name'],
 	expected: { artist: null, track: 'Track Name' }
 }];
 
@@ -278,62 +275,55 @@ const PROCESS_SOUNDCLOUD_TRACK_DATA = [{
  */
 const SPLIT_TIME_INFO_DATA = [{
 	description: 'should split time info',
-	source: '01:00 / 03:00',
+	args: ['01:00 / 03:00', ['/'], { swap: false }],
 	expected: { currentTime: 60, duration: 180 },
-	swap: false,
-	separators: ['/']
 }, {
 	description: 'should split time info and swap values',
-	source: '03:00 / 01:00',
+	args: ['03:00 / 01:00', ['/'], { swap: true }],
 	expected: { currentTime: 60, duration: 180 },
-	swap: true,
-	separators: ['/']
 }, {
 	description: 'should not split malformed time info text',
-	source: '01:10:30',
+	args: ['01:10:30', ['/'], { swap: false }],
 	expected: { currentTime: null, duration: null },
-	swap: false,
-	separators: ['/']
 }];
 
 const FIND_SEPARATOR_DATA = [{
 	description: 'should return null for null input',
-	source: null,
+	args: [null],
 	expected: null,
 }, {
 	description: 'should return null for empty input',
-	source: '',
+	args: [''],
 	expected: null,
 }, {
 	description: 'should find separator',
-	source: 'Key : Var',
+	args: ['Key : Var'],
 	expected: { index: 4, length: 1 },
 }, {
 	description: 'should find custom separator',
-	source: 'Key * Var',
+	args: ['Key * Var', [' * ']],
 	expected: { index: 3, length: 3 },
-	separators: [' * ']
 }, {
 	description: 'should not find separator if no separator in string',
-	source: 'Key 2 Var',
+	args: ['Key 2 Var'],
 	expected: null,
 }];
 
 const IS_ARTIST_TRACK_EMPTY_DATA = [{
 	description: 'should return true for null result',
-	source: null,
+	args: [null],
 	expected: true
 }, {
 	description: 'should return true for empty Artist-Track pair',
-	source: { artist: null, track: null },
+	args: [{ artist: null, track: null }],
 	expected: true
 }, {
 	description: 'should return false if field is missing',
-	source: { artist: 'Artist', track: null },
+	args: [{ artist: 'Artist', track: null }],
 	expected: true
 }, {
 	description: 'should return false for non-empty Artist-Track pair',
-	source: { artist: 'Artist', track: 'Track' },
+	args: [{ artist: 'Artist', track: 'Track' }],
 	expected: false
 }];
 
@@ -382,11 +372,11 @@ Auto-generated by YouTube.`;
 
 const PARSE_YT_VIDEO_DESCRIPTION_DATA = [{
 	description: 'should not parse null description',
-	source: null,
+	args: [null],
 	expected: null
 }, {
 	description: 'should parse normal description',
-	source: YT_DESCRIPTION_EXAMPLE_1,
+	args: [YT_DESCRIPTION_EXAMPLE_1],
 	expected: {
 		album: 'Shadow Era, Pt. 2',
 		track: 'Tranquility (Forces of Nature Remix)',
@@ -394,7 +384,7 @@ const PARSE_YT_VIDEO_DESCRIPTION_DATA = [{
 	}
 }, {
 	description: 'should parse description w/o "Autogenerated" header',
-	source: YT_DESCRIPTION_EXAMPLE_2,
+	args: [YT_DESCRIPTION_EXAMPLE_2],
 	expected: {
 		album: 'Capoeira',
 		track: 'Capoeira (Airbase pres. Scarab Remix)',
@@ -402,7 +392,7 @@ const PARSE_YT_VIDEO_DESCRIPTION_DATA = [{
 	}
 }, {
 	description: 'should parse description w/ featuring artists',
-	source: YT_DESCRIPTION_EXAMPLE_3,
+	args: [YT_DESCRIPTION_EXAMPLE_3],
 	expected: {
 		album: 'How Fleeting, How Fragile',
 		track: 'Fugitive (feat. Mattéo Gelsomino)',
@@ -410,143 +400,58 @@ const PARSE_YT_VIDEO_DESCRIPTION_DATA = [{
 	}
 }];
 
-
-/**
- * Test 'Util.splitArtistTrack' function.
- */
-function testSplitArtistTrack() {
-	for (const data of SPLIT_ARTIST_TRACK_TEST_DATA) {
-		const { description, source, expected, separators, swap } = data;
-		const actual = Util.splitArtistTrack(source, separators, { swap });
-
-		it(description, function() {
-			expect(actual).to.be.deep.equal(expected);
-		});
-	}
-}
-
-/**
- * Test 'Util.escapeBadTimeValues' function.
- */
-function testGetYoutubeVideoIdFromUrl() {
-	testFunction(Util.getYtVideoIdFromUrl, GET_YOUTUBE_VIDEO_ID_FROM_URL_DATA);
-}
-
-
-/**
- * Test 'Util.escapeBadTimeValues' function.
- */
-function testEscapeBadTimeValues() {
-	testFunction(Util.escapeBadTimeValues, ESCAPE_BAD_TIME_VALUES_DATA);
-}
-
-/**
- * Test 'Util.stringToSeconds' function.
- */
-function testStringToSeconds() {
-	testFunction(Util.stringToSeconds, STRING_TO_SECONDS_DATA);
-}
-
-/**
- * Test 'Util.stringToSeconds' function.
- */
-function testExtractTrackArtFromCss() {
-	testFunction(Util.extractUrlFromCssProperty, EXRACT_TRACK_ART_FROM_CSS_DATA);
-}
-
-/**
- * Test 'Util.processYtVideoTitle' function.
- */
-function testProcessYoutubeVideoTitle() {
-	for (const data of PROCESS_YOUTUBE_TITLE_DATA) {
-		const { description, source, expected } = data;
-		const actual = Util.processYtVideoTitle(source);
-
-		it(description, function() {
-			expect(actual).to.be.deep.equal(expected);
-		});
-	}
-}
-
-/**
- * Test 'Util.processYtVideoTitle' function.
- */
-function testProcessSoundCloudTrack() {
-	for (const data of PROCESS_SOUNDCLOUD_TRACK_DATA) {
-		const { description, source, expected } = data;
-		const actual = Util.processSoundCloudTrack(source);
-
-		it(description, function() {
-			expect(actual).to.be.deep.equal(expected);
-		});
-	}
-}
-
-/**
- * Test 'Util.splitTimeInfo' function.
- */
-function testSplitTimeInfo() {
-	for (const data of SPLIT_TIME_INFO_DATA) {
-		const { description, source, expected, swap, separators } = data;
-		const actual = Util.splitTimeInfo(source, separators, { swap });
-
-		it(description, function() {
-			expect(actual).to.be.deep.equal(expected);
-		});
-	}
-}
-
-/**
- * Test 'Util.findSeparator' function.
- */
-function testFindSeparator() {
-	for (const data of FIND_SEPARATOR_DATA) {
-		const { description, source, expected, separators } = data;
-		const actual = Util.findSeparator(source, separators);
-
-		it(description, function() {
-			expect(actual).to.be.deep.equal(expected);
-		});
-	}
-}
-
-/**
- * Test 'Util.findSeparator' function.
- */
-function testIsArtistTrackEmpty() {
-	testFunction(Util.isArtistTrackEmpty, IS_ARTIST_TRACK_EMPTY_DATA);
-}
-
-/**
- * Test 'Util.parseYtVideoDescription' function.
- */
-function testParseYtVideoDescription() {
-	testFunction(
-		Util.parseYtVideoDescription,
-		PARSE_YT_VIDEO_DESCRIPTION_DATA,
-		{ isDeepEqual: true }
-	);
-}
+const testData = [{
+	func: Util.splitTimeInfo,
+	data: SPLIT_TIME_INFO_DATA,
+}, {
+	func: Util.findSeparator,
+	data: FIND_SEPARATOR_DATA,
+}, {
+	func: Util.stringToSeconds,
+	data: STRING_TO_SECONDS_DATA
+}, {
+	func: Util.splitArtistTrack,
+	data: SPLIT_ARTIST_TRACK_DATA,
+}, {
+	func: Util.isArtistTrackEmpty,
+	data: IS_ARTIST_TRACK_EMPTY_DATA,
+}, {
+	func: Util.getYtVideoIdFromUrl,
+	data: GET_YT_VIDEO_ID_FROM_URL_DATA
+}, {
+	func: Util.escapeBadTimeValues,
+	data: ESCAPE_BAD_TIME_VALUES_DATA,
+}, {
+	func: Util.processYtVideoTitle,
+	data: PROCESS_YT_VIDEO_TITLE_DATA,
+}, {
+	func: Util.processSoundCloudTrack,
+	data: PROCESS_SOUNDCLOUD_TRACK_DATA,
+}, {
+	func: Util.parseYtVideoDescription,
+	data: PARSE_YT_VIDEO_DESCRIPTION_DATA,
+}, {
+	func: Util.extractUrlFromCssProperty,
+	data: EXRACT_URL_FROM_CSS_PROPERTY_DATA,
+}];
 
 /**
  * Test function.
  * @param  {Function} func Function to be tested
  * @param  {Array} testData Array of test data
- * @param  {Boolean} isDeepEqual Should use deep equal
  */
-function testFunction(func, testData, { isDeepEqual = false } = {}) {
+function testFunction(func, testData) {
 	const boundFunc = func.bind(Util);
 
 	for (const data of testData) {
-		const { description, source, expected } = data;
-		const actual = boundFunc(source);
+		const { description, args, expected } = data;
+		if (args === undefined) {
+			throw new Error(`${description}: function arguments are missing`);
+		}
 
-		it(description, function() {
-			if (isDeepEqual) {
-				expect(actual).to.be.deep.equal(expected);
-			} else {
-				expect(actual).to.be.equal(expected);
-			}
+		const actual = boundFunc(...args);
+		it(description, () => {
+			expect(actual).to.be.deep.equal(expected);
 		});
 	}
 }
@@ -555,17 +460,14 @@ function testFunction(func, testData, { isDeepEqual = false } = {}) {
  * Run all tests.
  */
 function runTests() {
-	describe('findSeparator', testFindSeparator);
-	describe('splitTimeInfo', testSplitTimeInfo);
-	describe('stringToSeconds', testStringToSeconds);
-	describe('splitArtistTrack', testSplitArtistTrack);
-	describe('isArtistTrackEmpty', testIsArtistTrackEmpty);
-	describe('escapeBadTimeValues', testEscapeBadTimeValues);
-	describe('parseYtVideoDescription', testParseYtVideoDescription);
-	describe('extractUrlFromCssProperty', testExtractTrackArtFromCss);
-	describe('processYtVideoTitle', testProcessYoutubeVideoTitle);
-	describe('getYtVideoIdFromUrl', testGetYoutubeVideoIdFromUrl);
-	describe('testProcessSoundCloudTrack', testProcessSoundCloudTrack);
+	for (const entry of testData) {
+		const { func, data, isDeepEqual } = entry;
+		const description = func.name;
+
+		describe(description, () => {
+			testFunction(func, data, { isDeepEqual });
+		});
+	}
 }
 
 runTests();

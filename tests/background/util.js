@@ -95,50 +95,50 @@ const GET_SECONDS_TO_SCROBBLE_DATA = [{
 	expected: Util.MAX_SCROBBLE_TIME
 }];
 
+const testData = [{
+	func: Util.hideObjectValue,
+	data: HIDE_OBJECT_VALUE_DATA,
+}, {
+	func: Util.hideStringInText,
+	data: HIDE_STRING_IN_TEXT_DATA,
+}, {
+	func: Util.getSecondsToScrobble,
+	data: GET_SECONDS_TO_SCROBBLE_DATA,
+}];
+
 /**
  * Run all tests.
  */
 function runTests() {
-	describe('hideObjectValue', testHideObjectValue);
-	describe('hideStringInText', testHideStringInText);
-	describe('getSecondsToScrobble', testGetSecondsToScrobble);
-}
+	for (const entry of testData) {
+		const { func, data } = entry;
+		const description = func.name;
 
-/**
- * Test generic function.
- * @param  {Function} func Function to test
- * @param  {Object} testData Test data
- */
-function testFunction(func, testData) {
-	for (const data of testData) {
-		const { description, args, expected } = data;
-		const actual = func(...args);
-
-		it(description, () => {
-			expect(actual).to.be.equal(expected);
+		describe(description, () => {
+			testFunction(func, data);
 		});
 	}
 }
 
 /**
- * Test 'Util.hideStringInText' function.
+ * Test function.
+ * @param  {Function} func Function to be tested
+ * @param  {Array} testData Array of test data
  */
-function testHideStringInText() {
-	testFunction(Util.hideStringInText, HIDE_STRING_IN_TEXT_DATA);
-}
+function testFunction(func, testData) {
+	const boundFunc = func.bind(Util);
 
-/**
- * Test 'Util.hideString' function.
- */
-function testHideObjectValue() {
-	testFunction(Util.hideObjectValue, HIDE_OBJECT_VALUE_DATA);
-}
+	for (const data of testData) {
+		const { description, args, expected } = data;
+		if (args === undefined) {
+			throw new Error(`${description}: function arguments are missing`);
+		}
 
-/**
- * Test 'Util.getSecondsToScrobble' function.
- */
-function testGetSecondsToScrobble() {
-	testFunction(Util.getSecondsToScrobble, GET_SECONDS_TO_SCROBBLE_DATA);
+		const actual = boundFunc(...args);
+		it(description, () => {
+			expect(actual).to.be.equal(expected);
+		});
+	}
 }
 
 runTests();
