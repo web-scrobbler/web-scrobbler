@@ -11,11 +11,6 @@ define((require) => {
 	 */
 	const DEFAULT_FLAGS = {
 		/**
-		 * Flag indicates song is processed by pipeline.
-		 * @type {Boolean}
-		 */
-		isProcessed: false,
-		/**
 		 * Flag means song is scrobbled successfully.
 		 * @type {Boolean}
 		 */
@@ -260,8 +255,7 @@ define((require) => {
 		 * @return {Boolean} True if song is valid; false otherwise
 		 */
 		isValid() {
-			return this.flags.isProcessed && this.flags.isValid ||
-				this.flags.isCorrectedByUser;
+			return this.flags.isValid || this.flags.isCorrectedByUser;
 		}
 
 		/**

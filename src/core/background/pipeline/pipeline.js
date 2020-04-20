@@ -9,47 +9,27 @@ define((require) => {
 	const Normalize = require('pipeline/normalize');
 	const CoverArtArchive = require('pipeline/coverartarchive');
 
-	/**
-	 * List of processors.
-	 * Each processor is an object contains `process` function takes song object
-	 * and returns Promise.
-	 * @type {Array}
-	 */
-	const PROCESSORS = [
-		Normalize,
-		/**
-		 * Load data submitted by user.
-		 */
-		UserInput,
-		/**
-		 * Load song metadata using ScrobbleService.
-		 */
-		Metadata,
-		/**
-		 * Looks for fallback cover art using Cover Art Archive service.
-		 */
-		CoverArtArchive,
-	];
+	class Pipeline {
+		constructor() {
+			this.song = null;
+			this.processors = [
+				Normalize, UserInput, Metadata, CoverArtArchive
+			];
+		}
 
-	return {
-		/**
-		 * Process song using pipeline processors.
-		 * @param  {Object} song Song instance
-		 */
-		async processSong(song) {
-			/*
-			 * Reset possible flag, so we can detect changes
-			 * on repeated processing of the same song.
-			 */
-			song.flags.isProcessed = false;
+		async process(song) {
+			// FIXME: Use another lock way
+			this.song = song;
 
-			console.log(`Execute processors: ${PROCESSORS.length}`);
-
-			for (const processor of PROCESSORS) {
+			for (const processor of this.processors) {
 				await processor.process(song);
 			}
 
-			song.flags.isProcessed = true;
+			// Return false if this call is not relevant, e.g. when
+			// the controller calls `process` with another song.
+			return song.equals(this.song);
 		}
-	};
+	}
+
+	return Pipeline;
 });

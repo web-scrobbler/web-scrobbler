@@ -34,6 +34,8 @@ define((require) => {
 			this.connector = connector;
 			this.isEnabled = isEnabled;
 			this.mode = isEnabled ? ControllerMode.Base : ControllerMode.Disabled;
+
+			this.pipeline = new Pipeline();
 			this.playbackTimer = new Timer();
 			this.replayDetectionTimer = new Timer();
 
@@ -333,7 +335,9 @@ define((require) => {
 		async processSong() {
 			this.setMode(ControllerMode.Loading);
 
-			await Pipeline.processSong(this.currentSong);
+			if (!await this.pipeline.process(this.currentSong)) {
+				return;
+			}
 
 			this.debugLog(
 				`Song finished processing: ${this.currentSong.toString()}`);
