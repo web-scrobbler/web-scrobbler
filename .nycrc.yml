@@ -2,6 +2,7 @@ exclude:
   - '.grunt/**'
   - 'tests/**'
   - '*.js'
+hook-run-in-this-context: true
 reporter: [lcovonly, text]
 cache-dir: coverage/cache
 temp-dir: coverage/temp

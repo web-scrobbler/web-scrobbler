@@ -71,16 +71,6 @@ function test(string, pattern) {
 	return regex.test(string);
 }
 
-/* istanbul ignore next */
 define(() => {
 	return { test, createPattern };
 });
-
-// @ifdef DEBUG
-/**
- * Export function if script is executed in Node.js context.
- */
-if (typeof module !== 'undefined') {
-	module.exports = { test, createPattern };
-}
-// @endif
