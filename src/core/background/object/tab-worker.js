@@ -149,7 +149,7 @@ define((require) => {
 		/**
 		 * Called when a current tab is changed.
 		 *
-		 * @param  {Object} tabId Tab ID
+		 * @param  {Number} tabId Tab ID
 		 */
 		processTabChange(tabId) {
 			this.currentTabId = tabId;
