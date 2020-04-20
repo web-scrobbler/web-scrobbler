@@ -496,9 +496,9 @@
         "description": "Context menu item"
     },
     "menuDisableUntilTabClosed": {
-      "message": "Verbinder $1 deaktivieren bis Tab geschlossen ist",
-      "description": "Context menu item"
-  },
+        "message": "Verbinder $1 deaktivieren bis Tab geschlossen ist",
+        "description": "Context menu item"
+    },
     "notificationConnectAccounts": {
         "message": "Verbinde deine Accounts",
         "description": "Notification title"

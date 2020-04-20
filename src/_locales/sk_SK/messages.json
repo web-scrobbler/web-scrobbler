@@ -540,9 +540,9 @@
         "description": "Context menu item"
     },
     "menuDisableUntilTabClosed": {
-      "message": "Zakázať $1 konektor pokým karta nie je zatvorená",
-      "description": "Context menu item"
-  },
+        "message": "Zakázať $1 konektor pokým karta nie je zatvorená",
+        "description": "Context menu item"
+    },
     "notificationConnectAccounts": {
         "message": "Prihlásiť účty",
         "description": "Notification title"
