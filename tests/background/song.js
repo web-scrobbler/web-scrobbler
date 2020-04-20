@@ -15,12 +15,13 @@ const PARSED_DATA = {
 	artist: 'Artist',
 	track: 'Track',
 	album: 'Album',
+	albumArtist: 'AlbumArtist',
 	uniqueID: '{4AC45782-0990-4DCC-9FD0-925EC688FF3C}',
 	duration: 320,
 	currentTime: 5,
 	isPlaying: true,
+	originUrl: 'https://example.com/play',
 	trackArt: 'https://example.com/image.png',
-	url: 'https://example.com/play'
 };
 /**
  * Object that contains processed song data.
@@ -30,6 +31,7 @@ const PROCESSED_DATA = {
 	artist: 'Processed Artist',
 	track: 'Processed Track',
 	album: 'Processed duration',
+	albumArtist: 'Processed AlbumArtist',
 	duration: 321
 };
 
@@ -49,7 +51,7 @@ function createSong(parsed, processed) {
 
 	if (processed) {
 		for (const field in processed) {
-			song.processed[field] = PROCESSED_DATA[field];
+			song.processed[field] = processed[field];
 		}
 	}
 
@@ -59,34 +61,19 @@ function createSong(parsed, processed) {
 /**
  * Test if song getters return parsed values.
  */
-function testParsedMetadataFields() {
-	const song = createSong();
+function testParsedFields() {
+	const song = createSong(PARSED_DATA);
 	const valuesMap = {
-		artist: {
-			expected: PARSED_DATA.artist,
-			actual: song.getArtist()
-		},
-		track: {
-			expected: PARSED_DATA.track,
-			actual: song.getTrack()
-		},
-		album: {
-			expected: PARSED_DATA.album,
-			actual: song.getAlbum()
-		},
-		duration: {
-			expected: PARSED_DATA.duration,
-			actual: song.getDuration()
-		},
-		trackArt: {
-			expected: PARSED_DATA.trackArt,
-			actual: song.getTrackArt()
-		}
+		artist: song.getArtist(),
+		track: song.getTrack(),
+		album: song.getAlbum(),
+		originUrl: song.getOriginUrl(),
+		albumArtist: song.getAlbumArtist(),
 	};
 
 	for (const key in valuesMap) {
-		const expectedValue = valuesMap[key].expected;
-		const actualValue = valuesMap[key].actual;
+		const expectedValue = PARSED_DATA[key];
+		const actualValue = valuesMap[key];
 
 		it(`should return parsed ${key} value`, () => {
 			expect(expectedValue).to.be.equal(actualValue);
@@ -95,38 +82,148 @@ function testParsedMetadataFields() {
 }
 
 /**
- * Test if song getters return processed values, except duration.
+ * Test if song getters return processed values.
  */
-function testProcessedMetadataFields() {
+function testProcessedFields() {
 	const song = createSong(null, PROCESSED_DATA);
 	const valuesMap = {
-		artist: {
-			expected: PROCESSED_DATA.artist,
-			actual: song.getArtist()
-		},
-		track: {
-			expected: PROCESSED_DATA.track,
-			actual: song.getTrack()
-		},
-		album: {
-			expected: PROCESSED_DATA.album,
-			actual: song.getAlbum()
-		},
-		duration: {
-			// Parsed data has a higher priority
-			expected: PARSED_DATA.duration,
-			actual: song.getDuration()
-		}
+		albumArtist: song.getAlbumArtist(),
+		artist: song.getArtist(),
+		track: song.getTrack(),
+		album: song.getAlbum(),
 	};
 
 	for (const key in valuesMap) {
-		const expectedValue = valuesMap[key].expected;
-		const actualValue = valuesMap[key].actual;
+		const expectedValue = PROCESSED_DATA[key];
+		const actualValue = valuesMap[key];
 
 		it(`should return processed ${key} value`, () => {
 			expect(expectedValue).to.be.equal(actualValue);
 		});
 	}
+}
+
+function testGetDuration() {
+	const parsedDuration = 100;
+	const processedDuration = 200;
+
+	it('should return processed duration if no parsed duration', () => {
+		const song = createSong({}, { duration: processedDuration });
+		expect(song.getDuration()).equals(processedDuration);
+	});
+
+	it('should return parsed duration if no processed duration', () => {
+		const song = createSong({ duration: parsedDuration }, { duration: processedDuration });
+		expect(song.getDuration()).equals(parsedDuration);
+	});
+
+	it('should return parsed duration if processed duration available', () => {
+		const song = createSong({ duration: parsedDuration }, {});
+		expect(song.getDuration()).equals(parsedDuration);
+	});
+}
+
+function testGetTrackArt() {
+	const parsedTrackArt = 'parsed';
+	const processedTrackArt = 'processed';
+
+	const song1 = createSong({ trackArt: parsedTrackArt });
+	const song2 = createSong({});
+
+	it('should return parsed track art', () => {
+		expect(song1.getTrackArt()).equals(parsedTrackArt);
+	});
+
+	it('should return null if track art is missing', () => {
+		expect(song2.getTrackArt()).to.be.null;
+	});
+
+	it('should return parsed track art if processed track art exists', () => {
+		const song = createSong({ trackArt: parsedTrackArt });
+		song.metadata.trackArtUrl = processedTrackArt;
+		expect(song.getTrackArt()).equals(parsedTrackArt);
+	});
+
+	it('should return processed track art if parsed track art is missing', () => {
+		const song = createSong({});
+		song.metadata.trackArtUrl = processedTrackArt;
+		expect(song.getTrackArt()).equals(processedTrackArt);
+	});
+}
+
+function testStaticFields() {
+	it('should be an array', () => {
+		expect(Song.BASE_FIELDS).to.be.an('array').that.is.not.empty;
+	});
+
+	it('should be an array', () => {
+		expect(Song.USER_FIELDS).to.be.an('array').that.is.not.empty;
+	});
+}
+
+function testIsValid() {
+	it('should be not valid by default', () => {
+		const song = createSong({});
+		expect(song.isValid()).to.be.false;
+	});
+
+	// it('should be valid if it is corrected', () => {
+	// 	const song = createSong({});
+	// 	song.flags.isCorrectedByUser = true;
+	// 	expect(song.isValid()).to.be.true;
+	// });
+
+	// it('should be valid if it is marked as valid', () => {
+	// 	const song = createSong({});
+	// 	song.flags.isValid = true;
+	// 	expect(song.isValid()).to.be.true;
+	// });
+}
+
+function testToString() {
+	it('should be not valid by default', () => {
+		const song = createSong({});
+		expect(song.toString()).to.be.a('string');
+	});
+}
+
+function testSetLoveStatus() {
+	it('should return true if `setLoveStatus` called with true', () => {
+		const song = createSong({});
+		song.setLoveStatus(true);
+
+		expect(song.metadata.userloved).to.be.true;
+	});
+
+	it('should return false if one of services set it to false', () => {
+		const song = createSong({});
+		song.setLoveStatus(true);
+		song.setLoveStatus(false);
+
+		expect(song.metadata.userloved).to.be.false;
+	});
+
+	it('should return false if one of services set it to false', () => {
+		const song = createSong({});
+		song.setLoveStatus(false);
+		song.setLoveStatus(true);
+
+		expect(song.metadata.userloved).to.be.false;
+	});
+}
+
+function testGetCloneableData() {
+	it('should return a copy of song', () => {
+		const song = createSong(PARSED_DATA, PROCESSED_DATA);
+
+		song.setLoveStatus(true);
+		song.flags.isCorrectedByUser = true;
+
+		const copy = song.getCloneableData();
+		for (const field of ['parsed', 'processed', 'flags', 'metadata']) {
+			expect(copy[field]).to.be.deep.equal(song[field]);
+		}
+	});
 }
 
 function testEquals() {
@@ -152,8 +249,11 @@ function testEquals() {
 	it('should not equal song with the different uniqueId', () => {
 		expect(song1.equals(song3)).to.be.false;
 	});
-	it('should not equal non-song object', () => {
+	it('should not equal null value', () => {
 		expect(song1.equals(null)).to.be.false;
+	});
+	it('should not equal non-song object', () => {
+		expect(song1.equals(23)).to.be.false;
 	});
 }
 
@@ -218,12 +318,19 @@ function testGetArtistTrackString() {
  * Run all tests.
  */
 function runTests() {
-	describe('parsedData', testParsedMetadataFields);
-	describe('processedData', testProcessedMetadataFields);
+	describe('parsedData', testParsedFields);
+	describe('processedData', testProcessedFields);
+	describe('static fields', testStaticFields);
 
-	describe('testEquals', testEquals);
+	describe('equals', testEquals);
+	describe('isValid', testIsValid);
+	describe('toString', testToString);
 	describe('isSongEmpty', testIsEmpty);
 	describe('getUniqueId', testGetUniqueId);
+	describe('getTrackArt', testGetTrackArt);
+	describe('getDuration', testGetDuration);
+	describe('setLoveStatus', testSetLoveStatus);
+	describe('getCloneableData', testGetCloneableData);
 	describe('getArtistTrackString', testGetArtistTrackString);
 }
 

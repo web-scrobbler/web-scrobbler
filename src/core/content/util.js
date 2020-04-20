@@ -23,20 +23,6 @@ const Util = {
 	],
 
 	/**
-	 * Normalize given URL. Currently it only normalizes
-	 * protocol-relative links.
-	 * @param  {String} url URL, which is possibly protocol-relative
-	 * @return {String} Normalized URL
-	 */
-	normalizeUrl(url) {
-		if (!url) {
-			return null;
-		}
-
-		return url.startsWith('//') ? location.protocol + url : url;
-	},
-
-	/**
 	 * Convert given time-string into seconds.
 	 * @param  {String} str Time-string in h:m:s format
 	 * @return {Number} Seconds
@@ -72,7 +58,7 @@ const Util = {
 			seconds = -seconds;
 		}
 
-		return seconds || 0;
+		return seconds;
 	},
 
 	/**
@@ -197,19 +183,6 @@ const Util = {
 	},
 
 	/**
-	 * Inject script into document.
-	 * @param {String} scriptUrl script URL
-	 */
-	injectScriptIntoDocument(scriptUrl) {
-		const script = document.createElement('script');
-		script.src = scriptUrl;
-		script.onload = function() {
-			this.parentNode.removeChild(this);
-		};
-		(document.head || document.documentElement).appendChild(script);
-	},
-
-	/**
 	 * Returns a function, that, when invoked, will only be triggered
 	 * at most once during a given window of time.
 	 *
@@ -220,6 +193,7 @@ const Util = {
 	 * @param  {Object} options Options
 	 * @return {Function} Throttled function
 	 */
+	/* istanbul ignore next */
 	throttle(func, wait, options = {}) {
 		let context;
 		let args;
@@ -271,6 +245,53 @@ const Util = {
 	},
 
 	/**
+	 * Fill fields of a target object with non-empty field values
+	 * of a source object.
+	 *
+	 * @param  {Object} target Target object
+	 * @param  {Object} source Source object
+	 * @param  {Array} fields List of fields to fill
+	 */
+	fillEmptyFields(target, source, fields) {
+		if (!source) {
+			return target;
+		}
+
+		for (const field of fields) {
+			if (!target[field] && source[field]) {
+				target[field] = source[field];
+			}
+		}
+
+		return target;
+	},
+
+	/**
+	 * Get track info from MediaSession object.
+	 *
+	 * @param  {Object} mediaSession MediaSession instance
+	 * @return {Object} Object contains track info
+	 */
+	getMediaSessionInfo(mediaSession) {
+		if (!mediaSession) {
+			return null;
+		}
+
+		const { artist, album, title, artwork } = mediaSession.metadata;
+
+		const track = title;
+		let trackArt = null;
+		if (Array.isArray(artwork)) {
+			const { src } = artwork[artwork.length - 1];
+			trackArt = src;
+		}
+
+		return { artist, track, album, trackArt };
+	},
+
+	/** Browser-related helper functions. */
+
+	/**
 	 * Return text of first available element. If `selectors` is a string,
 	 * return text of element with given selector. If `selectors` is
 	 * an array, return text of first available element.
@@ -278,6 +299,7 @@ const Util = {
 	 * @param  {Object} defaultValue Fallback value
 	 * @return {Object} Text of element, if available, or default value
 	 */
+	/* istanbul ignore next */
 	getTextFromSelectors(selectors, defaultValue = null) {
 		const elements = this.queryElements(selectors);
 
@@ -304,6 +326,7 @@ const Util = {
 	 * @param  {Object} selectors Single selector or array of selectors
 	 * @return {String} Track art URL
 	 */
+	/* istanbul ignore next */
 	getSecondsFromSelectors(selectors) {
 		return Util.stringToSeconds(
 			Util.getTextFromSelectors(selectors)
@@ -315,6 +338,7 @@ const Util = {
 	 * @param  {Object} selectors Single selector or array of selectors
 	 * @return {String} Track art URL
 	 */
+	/* istanbul ignore next */
 	extractImageUrlFromSelectors(selectors) {
 		const element = Util.queryElements(selectors);
 		if (!element) {
@@ -342,6 +366,7 @@ const Util = {
 	 * @param  {Object} selectors Single selector or array of selectors
 	 * @return {Object} jQuery object
 	 */
+	/* istanbul ignore next */
 	queryElements(selectors) {
 		if (!selectors) {
 			return null;
@@ -371,9 +396,39 @@ const Util = {
 	 * @param  {String} key Option key
 	 * @return {Object} Option value
 	 */
+	/* istanbul ignore next */
 	async getOption(connector, key) {
 		const data = await browser.storage.sync.get('Connectors');
 		return data.Connectors[connector][key];
+	},
+
+	/**
+	 * Normalize given URL. Currently it only normalizes
+	 * protocol-relative links.
+	 * @param  {String} url URL, which is possibly protocol-relative
+	 * @return {String} Normalized URL
+	 */
+	/* istanbul ignore next */
+	normalizeUrl(url) {
+		if (!url) {
+			return null;
+		}
+
+		return url.startsWith('//') ? location.protocol + url : url;
+	},
+
+	/**
+	 * Inject script into document.
+	 * @param {String} scriptUrl script URL
+	 */
+	/* istanbul ignore next */
+	injectScriptIntoDocument(scriptUrl) {
+		const script = document.createElement('script');
+		script.src = scriptUrl;
+		script.onload = function() {
+			this.parentNode.removeChild(this);
+		};
+		(document.head || document.documentElement).appendChild(script);
 	},
 
 	/**
@@ -381,6 +436,7 @@ const Util = {
 	 * @param  {String} text Debug message
 	 * @param  {String} logType Log type
 	 */
+	/* istanbul ignore next */
 	debugLog(text, logType = 'log') {
 		const logFunc = console[logType];
 
@@ -392,44 +448,7 @@ const Util = {
 		logFunc(message);
 	},
 
-	fillEmptyFields(target, source, keys) {
-		if (!source) {
-			return;
-		}
-
-		for (const field of keys) {
-			if (!target[field] && source[field]) {
-				target[field] = source[field];
-			}
-		}
-	},
-
-	/**
-	 * Get track info from MediaSession object.
-	 *
-	 * @param  {Object} mediaSession MediaSession instance
-	 * @return {Object} Object contains track info
-	 */
-	getMediaSessionInfo(mediaSession) {
-		if (!mediaSession) {
-			return null;
-		}
-
-		const { artist, album, title, artwork } = mediaSession.metadata;
-
-		const track = title;
-		let trackArt = null;
-		if (Array.isArray(artwork)) {
-			const { src } = artwork[artwork.length - 1];
-			trackArt = src;
-		}
-
-		return { artist, track, album, trackArt };
-	},
-
-	/*
-	 * YouTube section.
-	 */
+	/** YouTube section. */
 
 	/**
 	 * Regular expression used to get Youtube video ID from URL. It covers
@@ -560,9 +579,7 @@ const Util = {
 		return null;
 	},
 
-	/*
-	 * SoundCloud section.
-	 */
+	/** SoundCloud section. */
 
 	/**
 	 * Regular expression used to split artist and track.
@@ -601,6 +618,7 @@ const Util = {
 /**
  * Export Util object if script is executed in Node.js context.
  */
+/* istanbul ignore next */
 if (typeof module !== 'undefined') {
 	module.exports = Util;
 }
