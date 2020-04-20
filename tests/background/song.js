@@ -167,17 +167,17 @@ function testIsValid() {
 		expect(song.isValid()).to.be.false;
 	});
 
-	// it('should be valid if it is corrected', () => {
-	// 	const song = createSong({});
-	// 	song.flags.isCorrectedByUser = true;
-	// 	expect(song.isValid()).to.be.true;
-	// });
+	it('should be valid if it is corrected', () => {
+		const song = createSong({});
+		song.flags.isCorrectedByUser = true;
+		expect(song.isValid()).to.be.true;
+	});
 
-	// it('should be valid if it is marked as valid', () => {
-	// 	const song = createSong({});
-	// 	song.flags.isValid = true;
-	// 	expect(song.isValid()).to.be.true;
-	// });
+	it('should be valid if it is marked as valid', () => {
+		const song = createSong({});
+		song.flags.isValid = true;
+		expect(song.isValid()).to.be.true;
+	});
 }
 
 function testToString() {
