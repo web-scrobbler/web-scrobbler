@@ -380,33 +380,28 @@ define((require) => {
 		 */
 		processControlleModeChange(ctrl, tabId) {
 			const mode = ctrl.getMode();
+			const isCtrlModeInactive = isInactiveMode(mode);
+			let isActiveCtrlChanged = false;
 
-			if (isActiveMode(mode)) {
+			if (this.activeTabId !== tabId) {
+				if (isCtrlModeInactive) {
+					return;
+				}
+
 				this.activeTabId = tabId;
+				isActiveCtrlChanged = true;
 			}
 
-			if (tabId !== this.activeTabId) {
-				return;
-			}
-
-			if (tabId === this.currentTabId) {
-				this.updateBrowserAction(tabId);
-
-				// Active controller is changed, so we need to update context menu
-				if (isActiveMode(mode)) {
-					this.updateContextMenu(tabId);
-				}
-			} else {
+			if (isActiveCtrlChanged) {
 				this.updateContextMenu(this.currentTabId);
+			}
 
-				// The controller becomes inactive, but it's not in current tab
-				if (isInactiveMode(mode)) {
-					// Use current tab as a context
-					this.updateBrowserAction(this.currentTabId);
-				} else {
-					// Use tab to which the given controller attached as a context
-					this.updateBrowserAction(tabId);
-				}
+			if (isCtrlModeInactive) {
+				// Use the current tab as a context
+				this.updateBrowserAction(this.currentTabId);
+			} else {
+				// Use a tab to which the given controller attached as a context
+				this.updateBrowserAction(tabId);
 			}
 		}
 
