@@ -6,9 +6,7 @@
  * Module that contains some useful helper functions for background scripts.
  */
 
-define((require) => {
-	const browser = require('webextension-polyfill');
-
+define(() => {
 	const STR_REPLACER = '*';
 	const HIDDEN_PLACEHOLDER = '[hidden]';
 
@@ -29,24 +27,39 @@ define((require) => {
 	const MAX_SCROBBLE_TIME = 240;
 
 	/**
-	 * Filename of privacy policy document.
-	 * @type {String}
+	 * Print debug message.
+	 * @param  {String} text Debug message
+	 * @param  {String} logType Log type
 	 */
-	const PRIVACY_FILENAME = 'privacy.md';
+	function debugLog(text, logType = 'log') {
+		const logFunc = console[logType];
+
+		if (typeof logFunc !== 'function') {
+			throw new Error(`Unknown log type: ${logType}`);
+		}
+
+		/* istanbul ignore next */
+		logFunc(text);
+	}
 
 	/**
-	 * Location of default privacy policy document.
-	 * @type {String}
+	 * Return total number of seconds of playback needed for this track
+	 * to be scrobbled.
+	 * @param  {Number} duration Song duration
+	 * @param  {Number} percent Percent of song duration to scrobble
+	 * @return {Number} Seconds to scrobble
 	 */
-	const DEFAULT_PRIVACY_PATH = `_locales/en/${PRIVACY_FILENAME}`;
+	function getSecondsToScrobble(duration, percent) {
+		if (isDurationInvalid(duration)) {
+			return DEFAULT_SCROBBLE_TIME;
+		}
 
-	/**
-	 * Return platform name.
-	 * @return {String} Platform name
-	 */
-	async function getPlatformName() {
-		const platformInfo = await browser.runtime.getPlatformInfo();
-		return platformInfo.os;
+		if (duration < MIN_TRACK_DURATION) {
+			return -1;
+		}
+
+		const scrobbleTime = Math.round(duration * percent / 100);
+		return Math.min(scrobbleTime, MAX_SCROBBLE_TIME);
 	}
 
 	/**
@@ -83,31 +96,13 @@ define((require) => {
 	}
 
 	/**
-	 * Check if browser is in fullscreen mode.
-	 * @return {Promise} Promise that will be resolved with check result
+	 * Check if duration is not a valid number.
+	 * @param  {Object}  duration Duration in seconds
+	 * @return {Boolean} Check result
 	 */
-	async function isFullscreenMode() {
-		const browserWindow = await browser.windows.getCurrent();
-		return browserWindow.state === 'fullscreen';
-	}
-
-	/**
-	 * Return current tab.
-	 * @return {Promise} Promise that will be resolved with current tab object
-	 */
-	async function getCurrentTab() {
-		const query = { active: true, currentWindow: true };
-		const tabs = await browser.tabs.query(query);
-
-		return tabs[0];
-	}
-
-	/**
-	 * Activate tab by given tab ID.
-	 * @param {Number} tabId Tab ID
-	 */
-	function openTab(tabId) {
-		browser.tabs.update(tabId, { active: true });
+	function isDurationInvalid(duration) {
+		return !duration || typeof duration !== 'number' ||
+			isNaN(duration) || !isFinite(duration);
 	}
 
 	/**
@@ -134,108 +129,16 @@ define((require) => {
 		});
 	}
 
-	/**
-	 * Print debug message.
-	 * @param  {String} text Debug message
-	 * @param  {String} logType Log type
-	 */
-	function debugLog(text, logType = 'log') {
-		const logFunc = console[logType];
-
-		if (typeof logFunc !== 'function') {
-			throw new Error(`Unknown log type: ${logType}`);
-		}
-
-		logFunc(text);
-	}
-
-	/**
-	 * Return total number of seconds of playback needed for this track
-	 * to be scrobbled.
-	 * @param  {Number} duration Song duration
-	 * @param  {Number} percent Percent of song duration to scrobble
-	 * @return {Number} Seconds to scrobble
-	 */
-	function getSecondsToScrobble(duration, percent) {
-		if (isDurationInvalid(duration)) {
-			return DEFAULT_SCROBBLE_TIME;
-		}
-
-		if (duration < MIN_TRACK_DURATION) {
-			return -1;
-		}
-
-		const scrobbleTime = Math.round(duration * percent / 100);
-		return Math.min(scrobbleTime, MAX_SCROBBLE_TIME);
-	}
-
-	/**
-	 * Check if duration is not a valid number.
-	 * @param  {Object}  duration Duration in seconds
-	 * @return {Boolean} Check result
-	 */
-	function isDurationInvalid(duration) {
-		return !duration || typeof duration !== 'number' ||
-			isNaN(duration) || !isFinite(duration);
-	}
-
-	/**
-	 * Check if an extension resource file exists.
-	 * @param  {String} fileName Filename to check
-	 * @return {Boolean} Check result
-	 */
-	async function isFileExists(fileName) {
-		const fileUrl = browser.runtime.getURL(fileName);
-		const response = await fetch(fileUrl);
-
-		return response.status === 200;
-	}
-
-	/**
-	 * Get URL of privacy policy document.
-	 * @return {String} privacy policy URL
-	 */
-	async function getPrivacyPolicyFilename() {
-		const locale = browser.i18n.getMessage('@@ui_locale');
-		const privacyFilenames = [DEFAULT_PRIVACY_PATH];
-
-		if (!locale.startsWith('en')) {
-			const language = locale.split('_')[0];
-
-			privacyFilenames.unshift(`_locales/${language}/${PRIVACY_FILENAME}`);
-			privacyFilenames.unshift(`_locales/${locale}/${PRIVACY_FILENAME}`);
-		}
-
-		for (const privacyFilename of privacyFilenames) {
-			if (await isFileExists(privacyFilename)) {
-				return privacyFilename;
-			}
-		}
-
-		throw new Error('Found no privacy policy documents!');
-	}
-
-	/**
-	 * Create query string from object properties.
-	 * @param {Array} params Object contains query parameters
-	 */
-	function createQueryString(params) {
-		const parts = [];
-
-		for (const x in params) {
-			parts.push(`${x}=${encodeURIComponent(params[x])}`);
-		}
-
-		return parts.join('&');
-	}
-
 	return {
-		debugLog, getCurrentTab, timeoutPromise, getPlatformName, openTab,
-		hideObjectValue, hideStringInText, isFullscreenMode,
-		getSecondsToScrobble, getPrivacyPolicyFilename, createQueryString,
+		debugLog,
+		getSecondsToScrobble,
+		hideObjectValue,
+		hideStringInText,
+		timeoutPromise,
 
-		MIN_TRACK_DURATION, DEFAULT_SCROBBLE_TIME, MAX_SCROBBLE_TIME,
-
-		HIDDEN_PLACEHOLDER
+		DEFAULT_SCROBBLE_TIME,
+		HIDDEN_PLACEHOLDER,
+		MAX_SCROBBLE_TIME,
+		MIN_TRACK_DURATION,
 	};
 });

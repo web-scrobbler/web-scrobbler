@@ -7,7 +7,7 @@ require([
 	'options/dialogs',
 	'options/export',
 	'options/options',
-	'util/util',
+	'util/util-browser',
 	'bootstrap'
 ],
 (browser, Accounts, Connectors, Dialogs, Export, Options, Util) => {

@@ -1,7 +1,7 @@
 'use strict';
 
 define((require) => {
-	const Util = require('util/util');
+	const { getCurrentTab } = require('util/util-browser');
 	const browser = require('webextension-polyfill');
 	const ScrobbleService = require('object/scrobble-service');
 
@@ -11,7 +11,7 @@ define((require) => {
 	}
 
 	async function setupEventListeners() {
-		const tab = await Util.getCurrentTab();
+		const tab = await getCurrentTab();
 		browser.tabs.onActivated.addListener((activeInfo) => {
 			if (tab.id === activeInfo.tabId) {
 				createAccountViews();

@@ -5,7 +5,7 @@
  */
 define((require) => {
 	const AudioScrobbler = require('scrobbler/audioscrobbler');
-	const Util = require('util/util');
+	const { createQueryString } = require('util/util-browser');
 
 	class LibreFm extends AudioScrobbler {
 		/** @override */
@@ -14,7 +14,7 @@ define((require) => {
 				options.headers = {
 					'Content-Type': 'application/x-www-form-urlencoded'
 				};
-				options.body = Util.createQueryString(params);
+				options.body = createQueryString(params);
 			}
 
 			return super.sendRequest(options, params, signed);

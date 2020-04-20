@@ -2,12 +2,13 @@
 
 define((require) => {
 	const GA = require('service/ga');
-	const Util = require('util/util');
 	const browser = require('webextension-polyfill');
 	const TabWorker = require('object/tab-worker');
 	const Notifications = require('browser/notifications');
 	const BrowserStorage = require('storage/browser-storage');
 	const ScrobbleService = require('object/scrobble-service');
+
+	const { openTab } = require('util/util-browser');
 
 	const {
 		ControllerReset, SongNowPlaying, SongScrobbled, SongUnrecognized
@@ -253,7 +254,7 @@ define((require) => {
 					}
 
 					Notifications.showNowPlaying(song, () => {
-						Util.openTab(ctrl.tabId);
+						openTab(ctrl.tabId);
 					});
 					break;
 				}
@@ -266,7 +267,7 @@ define((require) => {
 
 				case SongUnrecognized:
 					Notifications.showSongNotRecognized(() => {
-						Util.openTab(ctrl.tabId);
+						openTab(ctrl.tabId);
 					});
 					break;
 			}

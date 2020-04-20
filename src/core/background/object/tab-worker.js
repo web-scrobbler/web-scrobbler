@@ -10,7 +10,7 @@ define((require) => {
 	const { isActiveMode, isInactiveMode } = require('object/controller-mode');
 
 	const { INJECTED, MATCHED, NO_MATCH } = require('object/inject-result');
-	const { getCurrentTab } = require('util/util');
+	const { getCurrentTab } = require('util/util-browser');
 	const { getConnectorByUrl } = require('util/util-connector');
 	const {
 		contextMenus, i18n, runtime, tabs

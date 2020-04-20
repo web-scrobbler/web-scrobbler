@@ -2,7 +2,7 @@
 
 define((require) => {
 	const { i18n, notifications, runtime } = require('webextension-polyfill');
-	const Util = require('util/util');
+	const { getPlatformName, isFullscreenMode } = require('util/util-browser');
 	const Options = require('storage/options');
 
 	const manifest = runtime.getManifest();
@@ -34,9 +34,9 @@ define((require) => {
 	 */
 	async function isAvailable() {
 		// @ifdef CHROME
-		const platform = await Util.getPlatformName();
+		const platform = await getPlatformName();
 		if (platform === 'mac') {
-			return !await Util.isFullscreenMode();
+			return !await isFullscreenMode();
 		}
 
 		return true;

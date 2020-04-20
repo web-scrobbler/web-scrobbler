@@ -2,9 +2,11 @@
 
 define((require) => {
 	const MD5 = require('md5');
-	const Util = require('util/util');
 	const BaseScrobbler = require('scrobbler/base');
 	const ServiceCallResult = require('object/service-call-result');
+
+	const { hideStringInText, timeoutPromise } = require('util/util');
+	const { createQueryString } = require('util/util-browser');
 
 	const requiredPropList = [
 		/**
@@ -244,7 +246,7 @@ define((require) => {
 			let response = null;
 			let responseData = null;
 			try {
-				response = await Util.timeoutPromise(timeout, promise);
+				response = await timeoutPromise(timeout, promise);
 				responseData = await response.json();
 			} catch (e) {
 				throw ServiceCallResult.ERROR_OTHER;
@@ -276,7 +278,7 @@ define((require) => {
 				params.api_sig = this.generateSign(params);
 			}
 
-			const queryStr = Util.createQueryString(params);
+			const queryStr = createQueryString(params);
 			return `${this.apiUrl}?${queryStr}`;
 		}
 
@@ -332,7 +334,7 @@ define((require) => {
 		}
 
 		for (const value of sensitiveValues) {
-			debugMsg = Util.hideStringInText(value, debugMsg);
+			debugMsg = hideStringInText(value, debugMsg);
 		}
 
 		return debugMsg;
