@@ -171,7 +171,7 @@ define((require) => {
 			this.unloadController(removedTabId);
 
 			if (removedTabId === this.activeTabId) {
-				this.activeTabId = -1;
+				this.activeTabId = tabs.TAB_ID_NONE;
 				this.updateLastActiveTab();
 			}
 		}
@@ -184,9 +184,9 @@ define((require) => {
 			if (currentTab) {
 				this.currentTabId = currentTab.id;
 			} else {
-				this.currentTabId = -1;
+				this.currentTabId = tabs.TAB_ID_NONE;
 			}
-			this.activeTabId = -1;
+			this.activeTabId = tabs.TAB_ID_NONE;
 			this.tabControllers = [];
 
 			this.browserAction = new BrowserAction();
@@ -259,7 +259,7 @@ define((require) => {
 				return this.currentTabId;
 			}
 
-			return -1;
+			return tabs.TAB_ID_NONE;
 		}
 
 		/**
@@ -269,7 +269,7 @@ define((require) => {
 		 */
 		updateLastActiveTab() {
 			const lastActiveTabId = this.findActiveTabId();
-			if (lastActiveTabId !== -1) {
+			if (lastActiveTabId !== tabs.TAB_ID_NONE) {
 				this.activeTabId = lastActiveTabId;
 
 				this.updateBrowserAction(this.activeTabId);
