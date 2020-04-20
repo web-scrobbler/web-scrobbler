@@ -1,7 +1,5 @@
 'use strict';
 
-/* istanbul ignore file */
-
 /**
  * Module that contains some useful helper functions for background scripts.
  */

@@ -118,6 +118,52 @@ function runTests() {
 			testFunction(func, data);
 		});
 	}
+
+	describe('debugLog', testDebugLog);
+	describe('timeoutPromise', testTimeoutPromise);
+}
+
+function testDebugLog() {
+	it('should throw an error if type is invalid', () => {
+		function callInvalidDebugLog() {
+			Util.debugLog('Test', 'invalid_type123');
+		}
+
+		expect(callInvalidDebugLog).to.throw();
+	});
+}
+
+function testTimeoutPromise() {
+	const testTimeout = 100;
+
+	it('should throw an error if promise is not resolved earlier', async() => {
+		const slowPromise = new Promise((resolve) => {
+			setTimeout(resolve, testTimeout * 2);
+		});
+		try {
+			await Util.timeoutPromise(testTimeout, slowPromise);
+		} catch (err) {
+			/* Do nothing, it's expected */
+			return;
+		}
+
+		throw new Error('The promise should be failed');
+	});
+
+	it('should not throw an error if promise is resolved earlier', async() => {
+		await Util.timeoutPromise(testTimeout, Promise.resolve());
+	});
+
+	it('should not throw an error if promise is rejected earlier', async() => {
+		const testErr = new Error('Test');
+		try {
+			await Util.timeoutPromise(testTimeout, Promise.reject(testErr));
+		} catch (err) {
+			if (err !== testErr) {
+				throw err;
+			}
+		}
+	});
 }
 
 /**
