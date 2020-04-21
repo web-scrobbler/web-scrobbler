@@ -149,7 +149,7 @@ define((require) => {
 
 		const userPlayCount = song.metadata.userPlayCount;
 		if (userPlayCount) {
-			const userPlayCountStr = i18n.getMessage('infoYourScrobbles', userPlayCount);
+			const userPlayCountStr = i18n.getMessage('infoYourScrobbles', [userPlayCount]);
 			message = `${message}\n${userPlayCountStr}`;
 		}
 
