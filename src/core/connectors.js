@@ -1701,6 +1701,13 @@ const connectors = [{
 	],
 	js: 'connectors/clyp.js',
 	id: 'clyp',
+}, {
+	label: 'RTBF Radio',
+	matches: [
+		'*://www.rtbf.be/radio/*'
+	],
+	js: 'connectors/rtbf.js',
+	id: 'rtbf',
 }];
 
 define(() => connectors);
