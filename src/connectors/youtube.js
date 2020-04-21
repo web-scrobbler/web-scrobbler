@@ -56,7 +56,7 @@ const learningSelector = `${ytFormattedString}[href^="/learning"]`;
 const genericCatSelector = `${ytFormattedString}[href^="/channel/"]`;
 
 const categorySelectors = [
-	genericCatSelector, gamingSelector, learningSelector
+	gamingSelector, learningSelector, genericCatSelector
 ];
 
 let currentVideoDescription = null;
