@@ -614,14 +614,6 @@ const connectors = [{
 	js: 'connectors/yandex-music.js',
 	id: 'yandex-radio',
 }, {
-	label: 'egoFM',
-	matches: [
-		'*://www.egofm.de/*',
-		'*://player.addradio.de/player/2366*'
-	],
-	js: 'connectors/egofm.js',
-	id: 'egofm',
-}, {
 	label: 'Radio Paradise',
 	matches: [
 		'*://radioparadise.com/*'
