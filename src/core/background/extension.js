@@ -1,5 +1,30 @@
 'use strict';
 
+/**
+ * The extension uses `browser.runtime.sendMessage` function for communication
+ * between different modules using the following message types:
+ *
+ * 1) events:
+ *  - EVENT_STATE_CHANGED: The connector state is changed
+ *    @param  {Object} state Connector state
+ *  - EVENT_SONG_UPDATED: The current song is updated
+ *    @param  {Object} data Song instance copy
+ *  - EVENT_READY: The connector is injected and the controller is created
+ *  - EVENT_PING: The 'ping' event to check if connector is injected
+ *
+ * 2) requests:
+ *  - REQUEST_GET_SONG: Get now playing song
+ *    @return {Object} Song instance copy
+ *  - REQUEST_CORRECT_SONG: Correct song info
+ *    @param  {Object} data Object contains corrected song info
+ *  - REQUEST_TOGGLE_LOVE: Toggle song love status
+ *    @param  {Boolean} isLoved Flag indicates song is loved
+ *  - REQUEST_RESET_SONG: Reset corrected song info
+ *  - REQUEST_SKIP_SONG: Ignore (don't scrobble) current song
+ *  - REQUEST_AUTHENTICATE: Authenticate scrobbler
+ *    @param  {String} scrobbler Scrobbler label
+ */
+
 define((require) => {
 	const GA = require('service/ga');
 	const browser = require('webextension-polyfill');
