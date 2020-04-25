@@ -48,7 +48,7 @@
     "node-define": "0.1.1",
     "nyc": "15.0.1",
     "remark-preset-lint-recommended": "4.0.0",
-    "stylelint": "13.3.2",
+    "stylelint": "13.3.3",
     "stylelint-config-web-scrobbler": "0.1.0"
   },
   "engines": {
