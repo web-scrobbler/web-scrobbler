@@ -46,7 +46,7 @@ const DUMMY_CONNECTOR = {
  * @return {Object} Processed song object
  */
 function createSong(parsed, processed) {
-	const parsedDataCopy = Object.assign({}, parsed || PARSED_DATA);
+	const parsedDataCopy = Object.assign({}, parsed);
 	const song = new Song(parsedDataCopy, DUMMY_CONNECTOR);
 
 	if (processed) {
@@ -85,7 +85,7 @@ function testParsedFields() {
  * Test if song getters return processed values.
  */
 function testProcessedFields() {
-	const song = createSong(null, PROCESSED_DATA);
+	const song = createSong(PARSED_DATA, PROCESSED_DATA);
 	const valuesMap = {
 		albumArtist: song.getAlbumArtist(),
 		artist: song.getArtist(),
@@ -274,7 +274,7 @@ function testIsEmpty() {
 	});
 
 	it('should return false if song has metadata', () => {
-		const song = createSong();
+		const song = createSong(PARSED_DATA);
 		expect(song.isEmpty()).to.be.false;
 	});
 }
@@ -324,8 +324,8 @@ function runTests() {
 
 	describe('equals', testEquals);
 	describe('isValid', testIsValid);
+	describe('isEmpty', testIsEmpty);
 	describe('toString', testToString);
-	describe('isSongEmpty', testIsEmpty);
 	describe('getUniqueId', testGetUniqueId);
 	describe('getTrackArt', testGetTrackArt);
 	describe('getDuration', testGetDuration);
