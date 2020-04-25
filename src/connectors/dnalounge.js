@@ -7,12 +7,12 @@ Connector.playerSelector = '#metadata';
 Connector.artistTrack = '#metadata';
 
 Connector.getArtistTrack = () => {
-  let [artist, track] = $('#metadata').text().replace(DNA_PREFIX, '').split(' -- ');
-  // dnalounge has optional (uncensored) text and the year in the track name.
-  track = track.replace(' (uncensored)', '').replace(/ \([0-9]{4}\)[ ]*$/, '');
-  return { artist, track };
+	let [artist, track] = $('#metadata').text().replace(DNA_PREFIX, '').split(' -- ');
+	// dnalounge has optional (uncensored) text and the year in the track name.
+	track = track.replace(' (uncensored)', '').replace(/ \([0-9]{4}\)[ ]*$/, '');
+	return { artist, track };
 };
 
 Connector.isPlaying = () => {
-  return ! $('.video_embed').hasClass('vjs-pause');
+	return ! $('.video_embed').hasClass('vjs-pause');
 };
