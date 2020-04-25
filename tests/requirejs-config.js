@@ -5,6 +5,7 @@ require('node-define').config({
 		connectors: 'src/core/connectors',
 		wrapper: 'tests/stubs',
 		storage: 'src/core/background/storage',
+		object: 'src/core/background/object',
 		vendor: 'src/vendor',
 		md5: 'src/vendor/md5.min',
 

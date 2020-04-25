@@ -73,15 +73,15 @@ class InfoPopup {
 
 	updateTrackInfo() {
 		const {
-			label, userloved, userPlayCount
+			userloved, userPlayCount
 		} = this.song.metadata;
 		const trackArtUrl =
 			this.song.parsed.trackArt || this.song.metadata.trackArtUrl;
 
 		this.view.setTrackArt(trackArtUrl);
 		this.view.setUserLovedIcon(userloved);
-		this.view.setConnectorLabel(label);
 		this.view.setUserPlayCount(userPlayCount);
+		this.view.setConnectorLabel(this.song.connectorLabel);
 	}
 
 	updateControls() {

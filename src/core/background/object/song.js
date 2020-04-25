@@ -5,42 +5,8 @@
  */
 define((require) => {
 	const MD5 = require('md5');
-
-	/**
-	 * Default values of song flags.
-	 */
-	const DEFAULT_FLAGS = {
-		/**
-		 * Flag means song is scrobbled successfully.
-		 * @type {Boolean}
-		 */
-		isScrobbled: false,
-		/**
-		 * Flag indicated song info is changed or approved by user.
-		 * @type {Boolean}
-		 */
-		isCorrectedByUser: false,
-		/**
-		 * Flag indicated song is known by scrobbling service.
-		 * @type {Boolean}
-		 */
-		isValid: false,
-		/**
-		 * Flag indicates song is marked as playing by controller.
-		 * @type {Boolean}
-		 */
-		isMarkedAsPlaying: false,
-		/**
-		 * Flag means song is ignored by controller.
-		 * @type {Boolean}
-		 */
-		isSkipped: false,
-		/**
-		 * Flag means song is replaying again.
-		 * @type {Boolean}
-		 */
-		isReplaying: false,
-	};
+	const SongFlags = require('object/song-flags');
+	const SongMetadata = require('object/song-metadata');
 
 	/**
 	 * Create unique song ID based on data parsed by connector.
@@ -96,61 +62,14 @@ define((require) => {
 			/**
 			 * Various flags. Can be modified.
 			 */
-			this.flags = { /* Filled by `resetFlags` function */ };
+			this.flags = new SongFlags();
 
 			/**
 			 * Various optional data. Can be modified.
 			 */
-			this.metadata = { /* Filled by `resetMetadata` function */ };
+			this.metadata = new SongMetadata();
 
 			this.resetSongData();
-		}
-
-		/**
-		 * Apply default song state (processed song info and song flags).
-		 */
-		setDefaults() {
-			/*
-			 * We don't want to override properties, as they will be
-			 * wrapped by DeepProxy.
-			 */
-			const fields = [
-				'track', 'album', 'artist', 'albumArtist', 'duration'];
-			for (const field of fields) {
-				this.processed[field] = this.parsed[fields];
-			}
-		}
-
-		/**
-		 * Set default flag values.
-		 */
-		resetFlags() {
-			for (const flag in DEFAULT_FLAGS) {
-				this.flags[flag] = DEFAULT_FLAGS[flag];
-			}
-		}
-
-		/**
-		 * Set default metadata properties.
-		 */
-		resetMetadata() {
-			/**
-			 * Flag indicates song is loved by used on service.
-			 * @type {Boolean}
-			 */
-			this.metadata.userloved = undefined;
-
-			/**
-			 * Time when song is started playing in UNIX timestamp format.
-			 * @type {Number}
-			 */
-			this.metadata.startTimestamp = Math.floor(Date.now() / 1000);
-
-			/**
-			 * Connector label.
-			 * @type {String}
-			 */
-			this.metadata.label = this.connectorLabel;
 		}
 
 		/**
@@ -280,8 +199,9 @@ define((require) => {
 		 */
 		resetSongData() {
 			this.setDefaults();
-			this.resetMetadata();
-			this.resetFlags();
+
+			this.flags.reset();
+			this.metadata.reset();
 		}
 
 		/**
@@ -319,7 +239,9 @@ define((require) => {
 		 * @return {Object} Object contain song data
 		 */
 		getCloneableData() {
-			const fieldsToCopy = ['parsed', 'processed', 'metadata', 'flags'];
+			const fieldsToCopy = [
+				'parsed', 'processed', 'metadata', 'flags', 'connectorLabel'
+			];
 			const clonedSong = {};
 
 			for (const field of fieldsToCopy) {
@@ -343,6 +265,23 @@ define((require) => {
 		 */
 		static get BASE_FIELDS() {
 			return ['artist', 'track', 'album', 'albumArtist'];
+		}
+
+		/** Private methods. */
+
+		/**
+		 * Apply default song state (processed song info and song flags).
+		 */
+		setDefaults() {
+			/*
+			 * We don't want to override properties, as they will be
+			 * wrapped by DeepProxy.
+			 */
+			const fields = [
+				'track', 'album', 'artist', 'albumArtist', 'duration'];
+			for (const field of fields) {
+				this.processed[field] = this.parsed[fields];
+			}
 		}
 	}
 
