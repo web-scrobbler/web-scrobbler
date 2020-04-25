@@ -198,7 +198,12 @@ define((require) => {
 		 * Set default song data.
 		 */
 		resetSongData() {
-			this.setDefaults();
+			const fields = [
+				'track', 'album', 'artist', 'albumArtist', 'duration'
+			];
+			for (const field of fields) {
+				this.processed[field] = this.parsed[field];
+			}
 
 			this.flags.reset();
 			this.metadata.reset();
@@ -268,18 +273,6 @@ define((require) => {
 		}
 
 		/** Private methods. */
-
-		/**
-		 * Apply default song state (processed song info and song flags).
-		 */
-		setDefaults() {
-			const fields = [
-				'track', 'album', 'artist', 'albumArtist', 'duration'
-			];
-			for (const field of fields) {
-				this.processed[field] = this.parsed[fields];
-			}
-		}
 	}
 
 	return Song;
