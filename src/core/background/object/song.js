@@ -322,14 +322,8 @@ define((require) => {
 			const fieldsToCopy = ['parsed', 'processed', 'metadata', 'flags'];
 			const clonedSong = {};
 
-			/*
-			 * Firefox doesn't allow to send proxy objects via
-			 * `browser.tabs.sendMessage` function. Since song properties
-			 * are actually proxy objects, they should be converted
-			 * to plain objects before sending.
-			 */
 			for (const field of fieldsToCopy) {
-				clonedSong[field] = Object.assign({}, this[field]);
+				clonedSong[field] = this[field];
 			}
 
 			return clonedSong;
