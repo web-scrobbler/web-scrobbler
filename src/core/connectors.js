@@ -1700,6 +1700,13 @@ const connectors = [{
 	],
 	js: 'connectors/rtbf.js',
 	id: 'rtbf',
+}, {
+	label: 'DNA Lounge',
+	matches: [
+		'*://www.dnalounge.com/webcast/video.html'
+	],
+	js: 'connectors/dnalounge.js',
+	id: 'dnalounge',
 }];
 
 define(() => connectors);
