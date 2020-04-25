@@ -202,7 +202,7 @@ define((require) => {
 				'track', 'album', 'artist', 'albumArtist', 'duration'
 			];
 			for (const field of fields) {
-				this.processed[field] = this.parsed[field];
+				this.processed[field] = null;
 			}
 
 			this.flags.reset();
