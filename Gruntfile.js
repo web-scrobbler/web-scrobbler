@@ -8,7 +8,8 @@ const FIREFOX_EXTENSION_ID = '{799c0914-748b-41df-a25c-22d008f9e83f}';
 const SRC_DIR = 'src';
 const BUILD_DIR = 'build';
 
-const DIST_FILE = 'web-scrobbler.zip';
+const DIST_FILE_CHROME = 'web-scrobbler-chrome.zip';
+const DIST_FILE_FIREFOX = 'web-scrobbler-firefox.zip';
 const MANIFEST_FILE = 'src/manifest.json';
 
 const FILES_TO_PREPROCESS = [
@@ -63,7 +64,7 @@ module.exports = (grunt) => {
 
 		clean: {
 			build: BUILD_DIR,
-			dist: [DIST_FILE],
+			dist: [DIST_FILE_CHROME, DIST_FILE_FIREFOX],
 			chrome: [
 				`${BUILD_DIR}/icons/icon_firefox_*.png`,
 			],
@@ -90,15 +91,24 @@ module.exports = (grunt) => {
 			}
 		},
 		compress: {
-			main: {
+			chrome: {
 				options: {
-					archive: DIST_FILE,
+					archive: DIST_FILE_CHROME,
 					pretty: true
 				},
 				expand: true,
 				cwd: BUILD_DIR,
 				src: '**/*',
-			}
+			},
+			firefox: {
+				options: {
+					archive: DIST_FILE_FIREFOX,
+					pretty: true
+				},
+				expand: true,
+				cwd: BUILD_DIR,
+				src: '**/*',
+			},
 		},
 		imagemin: {
 			static: {
@@ -156,7 +166,7 @@ module.exports = (grunt) => {
 			secret: process.env.AMO_SECRET,
 			id: FIREFOX_EXTENSION_ID,
 			version: '<%= manifest.version %>',
-			src: DIST_FILE,
+			src: DIST_FILE_FIREFOX,
 		},
 		bump: {
 			options: {
@@ -183,7 +193,7 @@ module.exports = (grunt) => {
 			extensions: {
 				'web-scrobbler': {
 					appID: CHROME_EXTENSION_ID,
-					zip: DIST_FILE,
+					zip: DIST_FILE_CHROME,
 				}
 			}
 		},
@@ -292,8 +302,7 @@ module.exports = (grunt) => {
 			`build:${browser}:${mode}`,
 			`clean:${browser}`,
 			'imagemin',
-			'clean:dist',
-			'compress',
+			`compress:${browser}`,
 			'clean:build',
 		]);
 	});
