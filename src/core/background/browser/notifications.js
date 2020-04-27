@@ -206,9 +206,10 @@ define((require) => {
 
 	/**
 	 * Show notification if song is not recognized.
+	 * @param  {Object} song Song instance
 	 * @param  {Function} onClicked Function that will be called on notification click
 	 */
-	async function showSongNotRecognized(onClicked) {
+	async function showSongNotRecognized(song, onClicked) {
 		if (!await Options.getOption(Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS)) {
 			return;
 		}
@@ -219,6 +220,9 @@ define((require) => {
 			message: i18n.getMessage('notificationNotRecognizedText')
 		};
 		showNotification(options, onClicked);
+
+		const notificationId = await showNotification(options, onClicked);
+		song.metadata.notificationId = notificationId;
 	}
 
 	/**
