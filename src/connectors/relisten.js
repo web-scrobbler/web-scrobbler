@@ -17,6 +17,4 @@ Connector.getTrackInfo = () => {
 	return Util.splitArtistAlbum(artistAlbum, [ARTISTALBUM_SEPARATOR]);
 };
 
-Connector.isPlaying = () => {
-	return $('.playpause .fas.fa-pause').length > 0;
-};
+Connector.pauseButtonSelector = '.playpause .fas.fa-pause';

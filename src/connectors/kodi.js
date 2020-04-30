@@ -43,25 +43,25 @@ Connector.getTrackInfo = () => {
 };
 
 Connector.isPlaying = () => {
-	const body = $('body');
+	const classes = document.body.classList;
 
-	if (body.hasClass('active-player-local')) {
-		return body.hasClass('local-playing');
+	if (classes.contains('active-player-local')) {
+		return classes.contains('local-playing');
 	}
-	if (body.hasClass('active-player-kodi')) {
-		return body.hasClass('kodi-playing');
+	if (classes.contains('active-player-kodi')) {
+		return classes.contains('kodi-playing');
 	}
 
 	throw new Error('Unknown context');
 };
 
 function getCurrentContext() {
-	const body = $('body');
+	const classes = document.body.classList;
 
-	if (body.hasClass('active-player-local')) {
+	if (classes.contains('active-player-local')) {
 		return localPlayerSelector;
 	}
-	if (body.hasClass('active-player-kodi')) {
+	if (classes.contains('active-player-kodi')) {
 		return kodiPlayerSelector;
 	}
 
@@ -73,9 +73,9 @@ function getCurrentContext() {
  * Use a custom function to extract URL from CSS property only.
  */
 function getTrackArtUrl(selector) {
-	const element = Util.queryElements(selector);
+	const element = document.querySelector(selector);
 	if (element) {
-		const propertyValue = element.css('background-image');
+		const propertyValue = getComputedStyle(element)['background-image'];
 		return Util.extractUrlFromCssProperty(propertyValue);
 	}
 

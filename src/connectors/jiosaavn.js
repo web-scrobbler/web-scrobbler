@@ -1,25 +1,16 @@
 'use strict';
 
 /**
- * An example of connector that loads information about song asynchronously.
- * Note that current time and duration are still synchronous.
- */
-
-/**
  * The latest track info URL.
  * @type {String}
  */
-let lastTrackInfoUrl = null;
+let currentTrackInfoUrl = null;
 
 /**
  * Object that holds information about song.
  * @type {Object}
  */
 let songInfo = null;
-
-/**
- * Connector object setup.
- */
 
 Connector.playerSelector = '#now-playing';
 
@@ -36,7 +27,8 @@ Connector.isPlaying = () => {
 	if (Util.isArtistTrackEmpty(songInfo)) {
 		return false;
 	}
-	return $('#controls #play').hasClass('hide');
+
+	return Util.hasElementClass('#controls #play', 'hide');
 };
 
 /**
@@ -46,20 +38,15 @@ Connector.isPlaying = () => {
 /**
  * Update current song info asynchronously.
  */
-function requestSongInfo() {
-	const scriptBody = $('#player-track-name a').attr('onclick');
-	const trackInfoUrl = getUrlFromScript(scriptBody);
-
-	const isNewSong = trackInfoUrl && trackInfoUrl !== lastTrackInfoUrl;
-	if (isNewSong) {
-		resetSongInfo();
-		fetchSongInfo(trackInfoUrl).then((data) => {
-			songInfo = data;
-		}).catch((err) => {
+async function requestSongInfo() {
+	if (isNewSongPlaying()) {
+		try {
+			songInfo = await fetchSongInfo(currentTrackInfoUrl);
+		} catch (err) {
 			Util.debugLog(`Error: ${err}`, 'error');
-		});
 
-		lastTrackInfoUrl = trackInfoUrl;
+			resetSongInfo();
+		}
 	}
 }
 
@@ -71,22 +58,38 @@ function resetSongInfo() {
 }
 
 /**
+ * Check if song is changed.
+ * @return {Boolean} True if new song is playing; false otherwise
+ */
+function isNewSongPlaying() {
+	const scriptBody = Util.getAttrFromSelectors('#player-track-name a', 'onclick');
+	const trackInfoUrl = getUrlFromScript(scriptBody);
+
+	if (trackInfoUrl !== null && trackInfoUrl !== currentTrackInfoUrl) {
+		currentTrackInfoUrl = trackInfoUrl;
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Load artist page asynchronously and fetch artist name.
  * @param  {String} trackInfoUrl Track info URL
  * @return {Promise} Promise that will be resolved with the song info
  */
-function fetchSongInfo(trackInfoUrl) {
-	return new Promise((resolve, reject) => {
-		$.ajax({ url: trackInfoUrl }).done((html) => {
-			const $doc = $(html);
-			const artist = $doc.find('.page-meta-group > .meta-list')
-				.first().text() || null;
-			const track = $('#player-track-name').text() || null;
-			resolve({ artist, track });
-		}).fail((jqXhr, textStatus, errorThrown) => {
-			reject(errorThrown);
-		});
-	});
+async function fetchSongInfo(trackInfoUrl) {
+	const response = await fetch(trackInfoUrl);
+	const result = await response.text();
+
+	const doc = new DOMParser().parseFromString(result, 'text/html');
+
+	const artistNode = doc.querySelector('.page-meta-group > .meta-list');
+	const artist = artistNode && artistNode.textContent;
+	const track = Util.getTextFromSelectors('#player-track-name');
+	const album = Util.getTextFromSelectors('#player-album-name');
+
+	return { artist, track, album };
 }
 
 /**

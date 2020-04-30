@@ -4,7 +4,9 @@ Connector.playerSelector = '#player-section';
 
 Connector.artistTrackSelector = '.fp-title';
 
-Connector.isPlaying = () => $('.fp-playbtn').prop('title') === 'Pause';
+Connector.isPlaying = () => {
+	return Util.getAttrFromSelectors('.fp-playbtn', 'title') === 'Pause';
+};
 
 Connector.currentTimeSelector = '.fp-elapsed';
 

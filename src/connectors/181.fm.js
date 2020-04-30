@@ -16,7 +16,7 @@ Connector.trackSelector = '.heading-group .fill_song';
 
 Connector.getAlbum = () => {
 	// Artist / Album
-	const artistAlbumStr = $('#artist').text();
+	const artistAlbumStr = Util.getTextFromSelectors('#artist');
 	const artistSlash = `${Connector.getArtist()} / `;
 	if (artistAlbumStr && artistAlbumStr.includes(artistSlash)) {
 		return artistAlbumStr.replace(artistSlash, '');

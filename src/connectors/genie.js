@@ -7,7 +7,7 @@ Connector.artistSelector = '#ArtistNameArea';
 Connector.trackSelector = '#SongTitleArea';
 
 Connector.getAlbum = () => {
-	return $('#AlbumImgArea > img').attr('alt');
+	return Util.getAttrFromSelectors('#AlbumImgArea > img', 'alt');
 };
 
 Connector.currentTimeSelector = 'span.fp-elapsed';
@@ -15,8 +15,8 @@ Connector.currentTimeSelector = 'span.fp-elapsed';
 Connector.durationSelector = 'span.fp-remaining';
 
 Connector.isPlaying = () => {
-	const btn = $('.fp-playbtn').first();
-	return btn.html() === '일시정지'; // if text '일시정지' in button, it means 'pause' because music is playing.
+	// if text '일시정지' in button, it means 'pause' because music is playing.
+	return Util.getTextFromSelectors('.fp-playbtn') === '일시정지';
 };
 
 Connector.trackArtSelector = '#AlbumImgArea img';

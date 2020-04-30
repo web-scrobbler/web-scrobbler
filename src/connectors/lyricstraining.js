@@ -9,6 +9,6 @@ Connector.trackSelector = '#lyrics-info h1';
 Connector.playButtonSelector = '#pause-menu';
 
 Connector.getUniqueID = () => {
-	const videoUrl = $('#video-player').attr('src');
+	const videoUrl = Util.getAttrFromSelectors('#video-player', 'src');
 	return Util.getYtVideoIdFromUrl(videoUrl);
 };

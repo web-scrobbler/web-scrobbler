@@ -8,4 +8,7 @@ Connector.trackSelector = `${Connector.playerSelector} .songName`;
 
 Connector.timeInfoSelector = '.rightWrapper';
 
-Connector.isPlaying = () => $('.playerPlay').attr('src').includes('pause');
+Connector.isPlaying = () => {
+	const playButtonImg = Util.getAttrFromSelectors('.playerPlay', 'src');
+	return playButtonImg && playButtonImg.includes('pause');
+};

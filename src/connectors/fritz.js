@@ -6,4 +6,6 @@ Connector.artistSelector = 'div.teasertext > h3 > a > span.manualteasertitle';
 
 Connector.trackSelector = 'div.teasertext > h3 > h3 > span.manualteasertitle';
 
-Connector.isPlaying = () => $('.player').hasClass('player_playing');
+Connector.isPlaying = () => {
+	return Util.hasElementClass('.player', 'player_playing');
+};

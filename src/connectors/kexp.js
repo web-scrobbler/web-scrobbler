@@ -1,6 +1,6 @@
 'use strict';
 
-Connector.isPlaying = () => $('.Player').hasClass('Player--playing');
+Connector.isPlaying = () => Util.hasElementClass('.Player', 'Player--playing');
 
 Connector.playerSelector = '.Player';
 Connector.artistTrackSelector = '.Player-title';

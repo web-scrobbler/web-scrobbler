@@ -28,9 +28,7 @@ Connector.getTrack = () => {
 
 Connector.playerSelector = '.player';
 
-Connector.isPlaying = () => {
-	return $('.play-button--playing').length > 0;
-};
+Connector.pauseButtonSelector = '.play-button--playing';
 
 Connector.currentTimeSelector = '.waveform__elapsed';
 
@@ -50,10 +48,11 @@ function isAlbum() {
 }
 
 Connector.getTrackArt = () => {
-	const trackArt = $('.avatar-container img').attr('src');
-	if (!trackArt) {
-		return null;
+	const trackArt = Util.extractImageUrlFromSelectors('.avatar-container img');
+	if (trackArt && trackArt.includes('?')) {
+		const endIdx = trackArt.indexOf('?');
+		return trackArt.substr(0, endIdx);
 	}
-	const endIdx = trackArt.includes('?') ? trackArt.indexOf('?') : trackArt.length;
-	return trackArt.substr(0, endIdx);
+
+	return trackArt;
 };

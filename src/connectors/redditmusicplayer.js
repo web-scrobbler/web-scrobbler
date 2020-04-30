@@ -1,21 +1,25 @@
 'use strict';
 
+// FIXME Remove this filter once metadata-filter@0.4.0 is published
+const filter = new MetadataFilter({ track: removeSuffix });
+
 Connector.playerSelector = '.ui.controls';
 
 Connector.currentTimeSelector = '.item.start.time';
 
 Connector.trackArtSelector = '.ui.item.active img';
 
-Connector.getArtistTrack = () => {
-	const text = $('.current .title').text().replace(/ \[.*/, '');
-	return Util.splitArtistTrack(text);
-};
+Connector.artistTrackSelector = '.current .title';
 
-Connector.isPlaying = () => $('.item.play.button').hasClass('active');
+Connector.isPlaying = () => Util.hasElementClass('.item.play.button', 'active');
 
 Connector.getUniqueID = () => {
-	const videoUrl = $('#player').attr('src');
+	const videoUrl = Util.getAttrFromSelectors('#player', 'src');
 	return Util.getYtVideoIdFromUrl(videoUrl);
 };
 
-Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+Connector.applyFilter(MetadataFilter.getYoutubeFilter().extend(filter));
+
+function removeSuffix(text) {
+	return text.replace(/ \[.*/, '');
+}

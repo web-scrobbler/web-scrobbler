@@ -4,4 +4,7 @@ Connector.playerSelector = '#player-logo';
 
 Connector.artistTrackSelector = '#track';
 
-Connector.isPlaying = () => $('#player-control-playing').css('display') === 'inline';
+Connector.isPlaying = () => {
+	const pauseButton = document.querySelector('#player-control-playing');
+	return getComputedStyle(pauseButton).display === 'inline';
+};

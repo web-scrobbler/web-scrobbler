@@ -4,14 +4,14 @@
 const rightBrackets = ')|༻༽᚜‛‟⁆⁾₎⌉⌋〉❩❫❭❯❱❳❵⟆⟧⟩⟫⟭⟯⦄⦆⦈⦊⦌⦎⦐⦒⦔⦖⦘⧙⧛⧽⸣⸥⸧⸩⹃〉》」』】〕〗〙〛〞﵀︘︶︸︺︼︾﹀﹂﹄﹈﹚﹜﹞）＼｜｠｣';
 const titleBrackets = '〉》」』】〕〗〙〛〞﵀︘︶︸︺︼︾﹀﹂﹄﹈';
 
-$('audio, video').bind('playing pause timeupdate', Connector.onStateChanged);
+const sourceSelectors = ['audio', 'video'];
 
-Connector.getDuration = () => $('audio, video').prop('duration');
+Connector.getDuration = () => getAudioVideoProp('duration');
 
-Connector.getCurrentTime = () => $('audio, video').prop('currentTime');
+Connector.getCurrentTime = () => getAudioVideoProp('currentTime');
 
 Connector.isPlaying = () => {
-	const media = $('audio, video').get(0);
+	const media = getSourceElement();
 	return media.currentTime && !media.paused && !media.ended;
 };
 
@@ -24,11 +24,10 @@ Connector.artistSelector = '.musicright_box3 a, #name_h3 a:last-child';
 Connector.trackArtSelector = '#playimg';
 
 Connector.getUniqueID = () => {
-	const text = $('.li1 img').parents('ul').attr('id');
+	const ulElement = document.querySelector('.li1 img').parentNode.parentNode;
+	const text = ulElement.id;
 	const match = /id=(\d+)/g.exec(location.search);
-	return text && `a${text.slice(4)}` ||
-		match && `v${match[1]}` ||
-		null;
+	return text && `a${text.slice(4)}` || match && `v${match[1]}` || null;
 };
 
 const filter = new MetadataFilter({	track: filterTrack });
@@ -55,3 +54,30 @@ function filterBrackets(text, bracket) {
 }
 
 Connector.applyFilter(filter);
+
+setupEventListeners();
+
+function setupEventListeners() {
+	const events = ['playing', 'pause', 'timeupdate'];
+
+	for (const selector of sourceSelectors) {
+		const elements = document.getElementsByTagName(selector);
+		if (elements.length === 0) {
+			continue;
+		}
+
+		const element = elements[0];
+		for (const event of events) {
+			element.addEventListener(event, Connector.onStateChanged);
+		}
+	}
+}
+
+function getSourceElement() {
+	return Util.queryElement(sourceSelectors);
+}
+
+function getAudioVideoProp(prop) {
+	const mediaElement = getSourceElement();
+	return mediaElement[prop];
+}

@@ -39,7 +39,7 @@ Connector.getRemainingTime = () => {
 	return time < 0 ? time : null;
 };
 
-Connector.isPlaying = () => $('.playControl').hasClass('playing');
+Connector.isPlaying = () => Util.hasElementClass('.playControl', 'playing');
 
 Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 

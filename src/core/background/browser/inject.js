@@ -8,7 +8,6 @@ define((require) => {
 
 	const CONTENT_SCRIPTS = [
 		'vendor/filter.js',
-		'vendor/jquery.min.js',
 		'vendor/browser-polyfill.min.js',
 		'core/content/util.js',
 		'core/content/reactor.js',

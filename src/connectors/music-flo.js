@@ -19,6 +19,10 @@ Connector.getCurrentTime = () => getSeconds(currentTimeSelector);
 Connector.getDuration = () => getSeconds(durationSelector);
 
 function getSeconds(selector) {
-	const timeStr = $(selector)[0].innerText;
-	return Util.stringToSeconds(timeStr);
+	const element = document.querySelector(selector);
+	if (!element) {
+		return 0;
+	}
+
+	return Util.stringToSeconds(element.innerText);
 }

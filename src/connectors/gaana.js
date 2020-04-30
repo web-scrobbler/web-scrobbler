@@ -26,7 +26,7 @@ Connector.isPlaying = () => {
 		return false;
 	}
 
-	return $('.playPause ').hasClass('pause');
+	return Util.hasElementClass('.playPause ', 'pause');
 };
 
 /**
@@ -36,16 +36,18 @@ Connector.isPlaying = () => {
 /**
  * Update current song info asynchronously.
  */
-function requestSongInfo() {
+async function requestSongInfo() {
 	if (isNewSongPlaying()) {
-		const relativeUrl = $('#atitle a').attr('href');
+		const relativeUrl = Util.getAttrFromSelectors('#atitle a', 'href');
 		const albumInfoUrl = `https://gaana.com${relativeUrl}`;
 
-		fetchSongInfo(albumInfoUrl).then((data) => {
-			songInfo = data;
-		}).catch(() => {
+		try {
+			songInfo = await fetchSongInfo(albumInfoUrl);
+		} catch (err) {
+			Util.debugLog(`Error: ${err}`, 'error');
+
 			resetSongInfo();
-		});
+		}
 	}
 }
 
@@ -61,7 +63,8 @@ function resetSongInfo() {
  * @return {Boolean} True if new song is playing; false otherwise
  */
 function isNewSongPlaying() {
-	const track = $('#stitle').text();
+	const track = Util.getTextFromSelectors('#stitle');
+
 	if (lastTrackTitle !== track) {
 		lastTrackTitle = track;
 		return true;
@@ -75,25 +78,29 @@ function isNewSongPlaying() {
  * @param  {String} albumInfoUrl Album info URL
  * @return {Promise} Promise that will be resolved with the song info
  */
-function fetchSongInfo(albumInfoUrl) {
+async function fetchSongInfo(albumInfoUrl) {
 	const track = lastTrackTitle;
 	let artist = null;
 
-	return fetch(albumInfoUrl).then((result) => {
-		return result.text();
-	}).then((html) => {
-		const $doc = $(html);
+	const response = await fetch(albumInfoUrl);
+	const result = await response.text();
 
-		const songs = $doc.find('.s_l').toArray();
-		for (const song of songs) {
-			const songTitle = $(song).find('.s_title .sng_c').text();
+	const doc = new DOMParser().parseFromString(result, 'text/html');
+	const songs = doc.querySelectorAll('.s_l');
+
+	for (const song of songs) {
+		const songTitleElement = song.querySelector('.s_title .sng_c');
+
+		if (songTitleElement) {
+			const songTitle = songTitleElement.textContent;
+
 			if (songTitle === track) {
-				const artists = $(song).find('.s_artist .sng_c').toArray();
-				artist = Util.joinArtists(artists);
+				const artists = song.querySelectorAll('.s_artist .sng_c');
+				artist = Util.joinArtists(Array.from(artists));
 				break;
 			}
 		}
+	}
 
-		return { artist, track };
-	});
+	return { artist, track };
 }

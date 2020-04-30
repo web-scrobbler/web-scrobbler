@@ -4,7 +4,7 @@ Connector.playerSelector = '#player_container';
 
 Connector.playButtonSelector = '#control_playpause';
 
-Connector.isPlaying = () => $('#control_playpause').hasClass('playing');
+Connector.isPlaying = () => Util.hasElementClass('#control_playpause', 'playing');
 
 Connector.getArtist = () => 'Phish';
 

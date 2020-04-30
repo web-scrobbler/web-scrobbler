@@ -12,8 +12,8 @@ const STATIONS_SWAP = [
 Connector.playerSelector = '.player__playerContainer___JEJ2U';
 
 Connector.getArtistTrack = () => {
-	const artistTrackText = $('#playerTitle').text();
 	const swap = shouldSwapArtistTrack();
+	const artistTrackText = Util.getTextFromSelectors('#playerTitle');
 
 	return Util.splitArtistTrack(artistTrackText, null, { swap });
 };
@@ -23,7 +23,7 @@ Connector.trackArtSelector = '#playerArtwork';
 Connector.pauseButtonSelector = '#Group-6';
 
 function shouldSwapArtistTrack() {
-	const stationUrl = $('.nowPlaying__link___2FTVw').attr('href');
+	const stationUrl = Util.getAttrFromSelectors('.nowPlaying__link___2FTVw', 'href');
 
 	for (const station of STATIONS_SWAP) {
 		if (stationUrl.includes(station)) {

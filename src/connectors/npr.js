@@ -17,7 +17,7 @@ Connector.getArtistTrack = () => {
 	let artist = null;
 	let track = null;
 
-	const rawText = $('.audio-title').text();
+	const rawText = Util.getTextFromSelectors('.audio-title');
 	const result = rawText.match(titleRegEx);
 	if (result) {
 		artist = result[1];
@@ -27,4 +27,4 @@ Connector.getArtistTrack = () => {
 	return { artist, track };
 };
 
-Connector.isPlaying = () => $('.player-basic').hasClass('is-playing');
+Connector.isPlaying = () => Util.hasElementClass('.player-basic', 'is-playing');

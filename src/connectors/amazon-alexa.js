@@ -8,12 +8,12 @@ Connector.trackArtSelector = '#d-album-art > #d-image img';
 
 Connector.getArtistTrack = () => {
 	if (isPlayingLiveRadio()) {
-		const songTitle = $('.d-queue-info .song-title').text();
+		const songTitle = Util.getTextFromSelectors('.d-queue-info .song-title');
 		return Util.splitArtistTrack(songTitle);
 	}
 
-	const artist = $('#d-info-text .d-sub-text-1').text();
-	const track = $('#d-info-text .d-main-text').text();
+	const artist = Util.getTextFromSelectors('#d-info-text .d-sub-text-1');
+	const track = Util.getTextFromSelectors('#d-info-text .d-main-text');
 	return { artist, track };
 };
 
@@ -30,10 +30,10 @@ Connector.isPlaying = () => {
 		return false;
 	}
 
-	return $('#d-primary-control .play').length === 0;
+	return document.querySelector('#d-primary-control .play') !== null;
 };
 
 function isPlayingLiveRadio() {
-	return $('#d-secondary-control-left .disabled').length === 1 &&
-		$('#d-secondary-control-right .disabled').length === 1;
+	return !!(document.querySelector('#d-secondary-control-left .disabled') &&
+		document.querySelector('#d-secondary-control-right .disabled'));
 }

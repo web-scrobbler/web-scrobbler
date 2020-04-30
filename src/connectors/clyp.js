@@ -1,38 +1,48 @@
 'use strict';
 
-
 function setup() {
 	if (isPlayerPage()) {
+		Util.debugLog('Setup default player');
+
 		setupPlayerPage();
 	} else if (isCardsPlayerPage()) {
+		Util.debugLog('Setup cards player');
+
 		setupCardsPlayer();
 	} else {
-		console.warn('Unmapped page found');
+		Util.debugLog('Unmapped page found', 'warn');
 	}
 }
 
 function isPlayerPage() {
-	return $('#player-page').length !== 0;
+	return document.querySelector('#player-page') !== null;
 }
 
 function isCardsPlayerPage() {
-	return $('.cards-wrapper, .audio-cards').length !== 0;
+	return document.querySelector('.cards-wrapper, .audio-cards') !== null;
 }
 
 function setupCardsPlayer() {
 	Connector.playerSelector = '.cards-wrapper, .audio-cards';
 
-	Connector.getArtist = () => {
-		const container = $('.audio-card').has('.pause-button');
-		return container.find('span.name').text();
+	Connector.getTrackInfo = () => {
+		const cards = document.querySelectorAll('.audio-card');
+		for (const card of cards) {
+			if (card.querySelector('.pause-button') !== null) {
+				const artistNode = card.querySelector('.name');
+				const trackNode = card.querySelector('.card-title-text');
+
+				const artist = artistNode && artistNode.textContent;
+				const track = trackNode && trackNode.textContent;
+
+				return { artist, track };
+			}
+		}
+
+		return null;
 	};
 
-	Connector.getTrack = () => {
-		const container = $('.audio-card').has('.pause-button');
-		return container.find('.card-title-text').text();
-	};
-
-	Connector.isPlaying = () => $('.pause-button.small').length !== 0;
+	Connector.pauseButtonSelector = '.pause-button';
 }
 
 
@@ -43,7 +53,7 @@ function setupPlayerPage() {
 
 	Connector.trackSelector = '.audio-file-title';
 
-	Connector.isPlaying = () => $('.soundwave-container > .pause-button').length !== 0;
+	Connector.pauseButtonSelector = '.soundwave-container > .pause-button';
 }
 
 setup();

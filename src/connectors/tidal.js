@@ -1,39 +1,38 @@
 'use strict';
 
+const playerBar = '#nowPlaying';
+const playButtonSelector = `${playerBar} [class*="playbackToggle"]`;
+const fullTrackSelector = `${playerBar} [class^="mediaInformation"] span:nth-child(1) a`;
+const shortTrackSelector = `${playerBar} [class^="infoTableWrapper"] > table:nth-child(1) > tbody > tr:nth-child(1) > td:nth-child(2)`;
+
 let useShortTrackNames = false;
 
 readConnectorOptions();
 
-Connector.playerSelector = '#nowPlaying';
+Connector.playerSelector = playerBar;
 
-Connector.playButtonSelector = `${Connector.playerSelector} [class*="playbackToggle"]`;
+Connector.playButtonSelector = `${playerBar} [class*="playbackToggle"]`;
 
-Connector.isScrobblingAllowed = () => !!$(Connector.playButtonSelector);
-
-Connector.isPlaying = () => $(Connector.playButtonSelector).attr('data-test') === 'pause';
-
-const fullTrackSelector = `${Connector.playerSelector} [class^="mediaInformation"] span:nth-child(1) a`;
-const shortTrackSelector = `${Connector.playerSelector} [class^="infoTableWrapper"] > table:nth-child(1) > tbody > tr:nth-child(1) > td:nth-child(2)`;
+Connector.isPlaying = () => {
+	return Util.getAttrFromSelectors(playButtonSelector, 'data-test') === 'pause';
+};
 
 Connector.getTrack = () => Util.getTextFromSelectors(useShortTrackNames ? shortTrackSelector : fullTrackSelector);
 
 Connector.getUniqueID = () => {
-	const trackUrl = $(fullTrackSelector).attr('href');
-	if (trackUrl) {
-		return trackUrl.split('/').pop();
-	}
-	return null;
+	const trackUrl = Util.getAttrFromSelectors(fullTrackSelector, 'href');
+	return trackUrl && trackUrl.split('/').pop();
 };
 
-Connector.artistSelector = `${Connector.playerSelector} [class^="mediaArtists"]`;
+Connector.artistSelector = `${playerBar} [class^="mediaArtists"]`;
 
-Connector.albumSelector = `${Connector.playerSelector} [class^="infoTable--"] a[href^="/album/"]`;
+Connector.albumSelector = `${playerBar} [class^="infoTable--"] a[href^="/album/"]`;
 
-Connector.trackArtSelector = `${Connector.playerSelector} [class^="mediaImageryTrack"] img`;
+Connector.trackArtSelector = `${playerBar} [class^="mediaImageryTrack"] img`;
 
-Connector.currentTimeSelector = `${Connector.playerSelector} [data-test="duration"] [class^="currentTime"]`;
+Connector.currentTimeSelector = `${playerBar} [data-test="duration"] [class^="currentTime"]`;
 
-Connector.durationSelector = `${Connector.playerSelector} [data-test="duration"] [class^="duration"]`;
+Connector.durationSelector = `${playerBar} [data-test="duration"] [class^="duration"]`;
 
 Connector.applyFilter(MetadataFilter.getTidalFilter());
 

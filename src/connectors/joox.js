@@ -1,13 +1,11 @@
 'use strict';
 
 const playerSelector = '.kIpMXu';
-const artistSelector = `${playerSelector} .kOwKMw a`;
-
-Connector.useMediaSessionApi();
+const artistSelector = `${playerSelector} .fSOgMq a`;
 
 Connector.playerSelector = playerSelector;
 
-Connector.trackSelector = '.xXMwE';
+Connector.trackSelector = '.jlfeQT';
 
 Connector.trackArtSelector = `${playerSelector} .XVHIE img`;
 
@@ -16,8 +14,4 @@ Connector.getArtist = () => {
 	return Util.joinArtists(Array.from(artistNodes));
 };
 
-Connector.currentTimeSelector = '#currentTime';
-
-Connector.durationSelector = '.GeFxq';
-
-Connector.playButtonSelector = '.playerIcon--play';
+Connector.playButtonSelector = '.jEJMuB';

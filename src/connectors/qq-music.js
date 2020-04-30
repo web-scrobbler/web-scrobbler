@@ -7,13 +7,13 @@ Connector.artistSelector = '#singer_name a';
 Connector.trackSelector = '#song_name a';
 
 Connector.getUniqueID = () => {
-	const text = $('#song_name a').attr('href');
-	return text.split('/').pop().split('.html').shift();
+	const trackUrl = Util.getAttrFromSelectors('#song_name a', 'href');
+	return trackUrl && trackUrl.split('/').pop().split('.html').shift();
 };
 
 Connector.albumSelector = '#album_name a';
 
-Connector.isPlaying = () => $('#btnplay').hasClass('btn_big_play--pause');
+Connector.isPlaying = () => Util.hasElementClass('#btnplay', 'btn_big_play--pause');
 
 Connector.timeInfoSelector = '#time_show';
 

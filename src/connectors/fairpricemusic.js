@@ -19,7 +19,7 @@ function setupPlaylistPlayer() {
 }
 
 function isPlaylist() {
-	return $('#audio_player_section audio').attr('id') === 'hpPlayer-player';
+	return getPlayerId() === 'hpPlayer-player';
 }
 
 function setupAlbumPlayer() {
@@ -41,7 +41,7 @@ function setupAlbumPlayer() {
 }
 
 function isAlbum() {
-	return $('#audio_player_section audio').attr('id') === 'albumPlayer-player';
+	return getPlayerId() === 'albumPlayer-player';
 }
 
 function setupBandPagePlayer() {
@@ -63,7 +63,11 @@ function setupBandPagePlayer() {
 }
 
 function isBandPage() {
-	return $('#audio_player_section audio').attr('id') === 'bandPlayer-player';
+	return getPlayerId() === 'bandPlayer-player';
+}
+
+function getPlayerId() {
+	return Util.getAttrFromSelectors('#audio_player_section audio', 'id');
 }
 
 function setupConnector() {

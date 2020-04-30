@@ -10,14 +10,16 @@ Connector.getTrackInfo = () => {
 	const text = Util.getTextFromSelectors('.entry-title');
 	const pattern = /(pyr\d+) (.+) – (.+)/g;
 	const matches = [...text.matchAll(pattern)][0];
+	const mp3Id = Util.getAttrFromSelectors('.mp3j_A_current', 'id');
+
 	return {
-		uniqueID: `${matches[1]}#${$('.mp3j_A_current').attr('id')}`,
+		uniqueID: `${matches[1]}#${mp3Id}`,
 		artist: matches[2],
 		album: matches[3],
 	};
 };
 
-Connector.trackArtSelector = '.entry-content img:eq(0)';
+Connector.trackArtSelector = '.entry-content img';
 
 Connector.currentTimeSelector = '#P-Time-MI_0';
 

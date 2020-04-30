@@ -1,23 +1,23 @@
 'use strict';
 
-const trackRegEx = new RegExp(String.fromCharCode(160), 'g');
+const trackSelector = '.fc1';
 
 Connector.playerSelector = '.m-playbar';
 
 Connector.getTrackArt = () => {
-	const src = $('.head.j-flag img').attr('src');
-	return src.split('?').shift();
+	const src = Util.extractImageUrlFromSelectors('.head.j-flag img');
+	return src && src.split('?').shift();
 };
 
-Connector.getTrack = () => {
-	const track = $('.fc1').text();
-	return track.replace(trackRegEx, ' ');
-};
+Connector.trackSelector = trackSelector;
 
-Connector.getArtist = () => $('.by span').attr('title');
+Connector.getArtist = () => Util.getAttrFromSelectors('.by span', 'title');
 
 Connector.playButtonSelector = '[data-action="play"]';
 
 Connector.timeInfoSelector = '.time';
 
-Connector.getUniqueID = () => $('.fc1').attr('href').split('id=').pop();
+Connector.getUniqueID = () => {
+	const trackUrl = Util.getAttrFromSelectors(trackSelector, 'href');
+	return trackUrl && trackUrl.split('id=').pop();
+};

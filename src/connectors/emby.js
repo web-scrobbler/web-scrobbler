@@ -13,7 +13,8 @@ Connector.trackArtSelector = trackArtSelector;
 Connector.timeInfoSelector = '.nowPlayingBarCenter .nowPlayingBarCurrentTime';
 
 Connector.isPlaying = () => {
-	return $('.nowPlayingBarCenter .playPauseButton i').text() === 'pause';
+	const buttonText = Util.getTextFromSelectors('.nowPlayingBarCenter .playPauseButton i');
+	return buttonText === 'pause';
 };
 
 Connector.getTrackArt = () => {

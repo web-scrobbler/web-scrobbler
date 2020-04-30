@@ -9,5 +9,5 @@ Connector.trackSelector = '.mus_player_song';
 Connector.timeInfoSelector = '.mus_player_time';
 
 Connector.isPlaying = () => {
-	return $('#topPanelMusicPlayerControl').hasClass('toolbar_music-play__active');
+	return Util.hasElementClass('#topPanelMusicPlayerControl', 'toolbar_music-play__active');
 };

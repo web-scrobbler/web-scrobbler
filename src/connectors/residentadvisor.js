@@ -1,114 +1,142 @@
 'use strict';
 
-const domain = 'https://www.residentadvisor.net';
+// https://www.residentadvisor.net/tracks ("Popular tracks" at the top)
+// https://www.residentadvisor.net/tracks/931382 ("Popular tracks" at the bottom)
+const TYPE_POPULAR = 'Popular tracks';
 
-const PLAYER_TYPES = {
-	// https://www.residentadvisor.net/tracks ("Popular tracks" at the top)
-	// https://www.residentadvisor.net/tracks/931382 ("Popular tracks" at the bottom)
-	POPULAR: 'Popular tracks',
-	// https://www.residentadvisor.net/tracks ("Archived tracks" in the middle)
-	ARCHIVED: 'Archived tracks',
-	// https://www.residentadvisor.net/tracks/931382 ("Single track" in the middle)
-	SINGLE: 'Single track',
-	// https://www.residentadvisor.net/record-label.aspx?id=15687&show=tracks (Label tracks)
-	// https://www.residentadvisor.net/dj/hotsince82/tracks (DJ tracks)
-	DJ_OR_LABEL: 'DJ tracks or label tracks',
-	// https://www.residentadvisor.net/dj/secretsundaze/top10?chart=214484 (Chart tracks)
-	CHART: 'Chart track',
+// https://www.residentadvisor.net/tracks ("Archived tracks" in the middle)
+const TYPE_ARCHIVED = 'Archived tracks';
 
-	UNKNOWN: 'Player not found',
-};
+// https://www.residentadvisor.net/tracks/931382 ("Single track" in the middle)
+const TYPE_SINGLE = 'Single track';
+
+// https://www.residentadvisor.net/record-label.aspx?id=15687&show=tracks (Label tracks)
+// https://www.residentadvisor.net/dj/hotsince82/tracks (DJ tracks)
+const TYPE_DJ_OR_LABEL = 'DJ tracks or label tracks';
+
+// https://www.residentadvisor.net/dj/secretsundaze/top10?chart=214484 (Chart tracks)
+const TYPE_CHART = 'Chart track';
+
+const TYPE_UNKNOWN = 'Unknown player';
 
 Connector.playerSelector = '.content-list';
 
 // This identifies the track element depending on the parents of the play button
 function getTrackContainer() {
-	let trackContainer;
 	// Iterate through all parents until it also finds a cover art
-	$('.play.paused').parents().each((_, parent) => {
-		if ($(parent).find('img[src^="/images/cover/"]').length > 0) {
-			trackContainer = parent;
-			return false;
+	const playButtons = document.querySelectorAll('.play.paused');
+	for (const button of playButtons) {
+		let currentNode = button;
+
+		// eslint-disable-next-line no-cond-assign
+		while (currentNode = currentNode.parentElement) {
+			if (currentNode.querySelector('img[src^="/images/cover/"]') !== null) {
+				return currentNode;
+			}
 		}
-	});
-	return $(trackContainer);
+	}
+
+	return null;
 }
 
-function typeOfTrack(trackContainer) {
-	if (trackContainer.is('article')) {
-		return PLAYER_TYPES.POPULAR;
-	} else if (trackContainer.is('ul')) {
-		return PLAYER_TYPES.ARCHIVED;
-	} else if (trackContainer.is('div')) {
-		return PLAYER_TYPES.SINGLE;
+function getTrackType(trackContainer) {
+	const containerTagName = trackContainer.tagName.toLowerCase();
+
+	if (containerTagName === 'article') {
+		return TYPE_POPULAR;
+	} else if (containerTagName === 'ul') {
+		return TYPE_ARCHIVED;
+	} else if (containerTagName === 'div') {
+		return TYPE_SINGLE;
 	}
 
-	const parentContainer = trackContainer.parent();
-	if (trackContainer.is('li')) {
-		if (parentContainer.hasClass('tracks')) {
-			return PLAYER_TYPES.DJ_OR_LABEL;
-		} else if (parentContainer.hasClass('chart')) {
-			return PLAYER_TYPES.CHART;
+	const parentContainer = trackContainer.parentNode;
+	if (containerTagName === 'li') {
+		if (parentContainer.classList.contains('tracks')) {
+			return TYPE_DJ_OR_LABEL;
+		} else if (parentContainer.classList.contains('chart')) {
+			return TYPE_CHART;
 		}
 	}
 
-	Util.debugLog('Player not found', 'warn');
-	return PLAYER_TYPES.UNKNOWN;
+	return TYPE_UNKNOWN;
 }
 
 Connector.getTrackInfo = () => {
-	let artist = null;
-	let track = null;
-
 	const trackContainer = getTrackContainer();
-	switch (typeOfTrack(trackContainer)) {
-		case PLAYER_TYPES.POPULAR: {
-			const artistTrackStr = trackContainer.find('div a').text();
+	if (!trackContainer) {
+		return null;
+	}
+
+	let track = null;
+	let artist = null;
+	let trackArt = null;
+	let uniqueID = null;
+
+	switch (getTrackType(trackContainer)) {
+		case TYPE_POPULAR: {
+			const artistTrack = trackContainer.querySelector('div a');
+			if (artistTrack !== null) {
+				const artistTrackStr = artistTrack.textContent;
+				({ artist, track } = Util.splitArtistTrack(artistTrackStr));
+			}
+			break;
+		}
+
+		case TYPE_SINGLE: {
+			const artistTrackStr = Util.getTextFromSelectors('#sectionHead h1');
 			({ artist, track } = Util.splitArtistTrack(artistTrackStr));
 			break;
 		}
-		case PLAYER_TYPES.SINGLE: {
-			const artistTrackStr = $('#sectionHead h1').text();
-			({ artist, track } = Util.splitArtistTrack(artistTrackStr));
+
+		case TYPE_DJ_OR_LABEL: {
+			const titleElement = trackContainer.querySelector('.title');
+			if (titleElement) {
+				const linkElements = titleElement.querySelectorAll('a');
+				if (linkElements.length > 1) {
+					artist = linkElements[1].textContent;
+					track = linkElements[0].textContent;
+				}
+			}
 			break;
 		}
-		case PLAYER_TYPES.DJ_OR_LABEL:
-			artist = parseTitle(trackContainer.find('.title'));
-			track = trackContainer.find('.title').contents().first().text();
+
+		case TYPE_CHART: {
+			const artistNode = trackContainer.querySelector('.artist a');
+			const trackNode = trackContainer.querySelector('.track a');
+
+			artist = artistNode && artistNode.textContent;
+			track = trackNode && trackNode.textContent;
 			break;
-		case PLAYER_TYPES.CHART:
-			artist = trackContainer.find('.artist a').text();
-			track = trackContainer.find('.track a').text();
+		}
+
+		case TYPE_ARCHIVED: {
+			const artistNode = trackContainer.querySelector('li:last-child .pr8 div.f24');
+			const trackNode = trackContainer.querySelector('li:last-child .pr8 a.f24');
+
+			artist = artistNode && artistNode.textContent;
+			track = trackNode && trackNode.textContent;
 			break;
-		case PLAYER_TYPES.ARCHIVED:
-			artist = trackContainer.find('li:last-child .pr8 div.f24').first().text();
-			track = trackContainer.find('li:last-child .pr8 a.f24').text();
-			break;
-		case PLAYER_TYPES.UNKNOWN:
+		}
+
+		case TYPE_UNKNOWN:
 			return null;
 	}
 
-	const uniqueID = trackContainer.find('.play.player').attr('data-trackid');
-	const relTrackArt = trackContainer.find('img[src^="/images/cover/"]').first().attr('src');
-	const trackArt = `https://www.residentadvisor.net${relTrackArt}`;
+	const trackArtElement = trackContainer.querySelector('img[src^="/images/cover/"]');
+	if (trackArtElement) {
+		trackArt = trackArtElement.src;
+	}
+	const uniqueIdElement = trackContainer.querySelector('.play.player');
+	if (uniqueIdElement) {
+		uniqueID = uniqueIdElement.getAttribute('data-trackid');
+	}
 
 	return { artist, track, uniqueID, trackArt };
 };
 
-Connector.isPlaying = () => $('.play.paused').length > 0;
+Connector.pauseButtonSelector = '.play.paused';
 
 Connector.isTrackArtDefault = (trackArtUrl) => {
-	return trackArtUrl === `${domain}/images/cover/blank.jpg`;
+	return trackArtUrl.endsWith('images/cover/blank.jpg');
 };
-
-function parseTitle(title) {
-	const contents = title.contents();
-	const track = contents.eq(0).text();
-	const titleWithoutTrack = contents.text().replace(track, '');
-	let artist = titleWithoutTrack.substr(3, titleWithoutTrack.length);
-	if (artist.indexOf(' on ') >= 0) {
-		// label remains i.e. "Daft Punk on Foo Recordings"
-		artist = artist.substr(0, artist.indexOf(' on '));
-	}
-	return artist;
-}

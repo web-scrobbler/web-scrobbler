@@ -15,7 +15,7 @@ Connector.artistSelector = `${trackInfoSelector} > div:nth-child(2)`;
 Connector.trackSelector = `${trackInfoSelector} > div:nth-child(1)`;
 
 Connector.isPlaying = () => {
-	return !$('[data-test-id="playButton"]').hasClass('undefined');
+	return !Util.hasElementClass('[data-test-id="playButton"]', 'undefined');
 };
 
 Connector.isStateChangeAllowed = () => {
@@ -42,10 +42,14 @@ function setupObserver() {
 	 */
 	new MutationObserver(Util.throttle(() => {
 		// Click on "Track Info" button to display track info.
-		const trackInfoButton = $(trackInfoBtnSelector);
-		const isButtonActive = trackInfoButton.css('opacity') === '1';
+		const infoButton = document.querySelector(trackInfoBtnSelector);
+		if (!infoButton) {
+			return;
+		}
+
+		const isButtonActive = getComputedStyle(infoButton).opacity === '1';
 		if (isButtonActive) {
-			trackInfoButton.click();
+			infoButton.click();
 		}
 	}, OBSERVER_THROTTLE_INTERVAL)).observe(document, {
 		subtree: true,

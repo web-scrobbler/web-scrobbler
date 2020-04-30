@@ -1,11 +1,11 @@
 'use strict';
 
+const artistTrackSelector = '.player-current-title';
+
 Connector.playerSelector = '#player';
 
-Connector.artistTrackSelector = '.player-current-title';
-
 Connector.getArtistTrack = () => {
-	const text = $(Connector.artistTrackSelector).text();
+	const text = Util.getTextFromSelectors(artistTrackSelector);
 	const m = text.match(/ - /g);
 	if (m && m.length === 2) {
 		const arr = text.split(' - ');

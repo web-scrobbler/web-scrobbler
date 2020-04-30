@@ -1,5 +1,7 @@
 'use strict';
 
+const statusLabelSelector = '#statusLabel';
+
 Connector.playerSelector = '#div_player_wrapper';
 
 Connector.artistSelector = '#span_information_artist';
@@ -12,4 +14,6 @@ Connector.durationSelector = '#durationLabel';
 
 Connector.trackArtSelector = '#img_cover_1';
 
-Connector.isPlaying = () => $('#statusLabel').text() === 'Playing';
+Connector.isPlaying = () => {
+	return Util.getTextFromSelectors(statusLabelSelector) === 'Playing';
+};

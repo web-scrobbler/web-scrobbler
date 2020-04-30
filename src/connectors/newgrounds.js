@@ -14,12 +14,13 @@ function setupConnector() {
 }
 
 function isEmbeddedPlayer() {
-	return $('#audio-listen-player').length > 0;
+	return document.getElementById('audio-listen-player') !== null;
 }
 
 function setupGlobalPlayer() {
 	Connector.getArtistTrack = () => {
-		let { artist, track } = Util.splitArtistTrack(Util.getTextFromSelectors(globalTrackSelector), '-');
+		let { artist, track } = Util.splitArtistTrack(
+			Util.getTextFromSelectors(globalTrackSelector), '-');
 
 		if (!artist) {
 			artist = Util.getTextFromSelectors(globalArtistSelector);
@@ -41,7 +42,8 @@ function setupGlobalPlayer() {
 
 function setupEmbeddedPlayer() {
 	Connector.getArtistTrack = () => {
-		let { artist, track } = Util.splitArtistTrack(Util.getTextFromSelectors(embeddedTrackSelector), '-');
+		let { artist, track } = Util.splitArtistTrack(
+			Util.getTextFromSelectors(embeddedTrackSelector), '-');
 
 		if (!artist) {
 			artist = Util.getTextFromSelectors(embeddedArtistSelector);

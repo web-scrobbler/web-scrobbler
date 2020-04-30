@@ -11,5 +11,6 @@ Connector.trackArtSelector = '#hotmixPlayerSongCover';
 Connector.pauseButtonSelector = '#play-pause .fa-pause';
 
 function getScrollableText(selector) {
-	return $(`${selector} a`).first().text() || $(selector).text();
+	const scrollableSelector = `${selector} a`;
+	return Util.getTextFromSelectors([scrollableSelector, selector]);
 }

@@ -7,5 +7,5 @@ Connector.artistTrackSelector = '.bottom__playback-meta .community__playback-met
 Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 
 Connector.isPlaying = () => {
-	return $('.community').attr('data-state') === 'playing';
+	return Util.getAttrFromSelectors('.community', 'data-state') === 'playing';
 };

@@ -6,47 +6,66 @@ require([
 	'storage/options',
 	'util/util-browser',
 ], (browser, showdown, Options, Util) => {
+	const optInBtnId = 'opt-in';
+	const optOutBtnId = 'opt-out';
+
+	const privacyContainerId = 'privacy-text';
+	const controlsContainerId = 'controls';
+	const finishedTooltipId = 'finished';
+
 	/**
 	 * Run initialization
 	 */
 	init();
 
 	function init() {
-		$('#opt-in').click(() => {
-			updateGaState(false).then(closePage);
-		});
+		const optInBtn = document.getElementById(optInBtnId);
+		const optOutBtn = document.getElementById(optOutBtnId);
 
-		$('#opt-out').click(() => {
-			updateGaState(true).then(closePage);
+		optInBtn.addEventListener('click', () => {
+			processClick({ disableGa: false });
+		});
+		optOutBtn.addEventListener('click', () => {
+			processClick({ disableGa: true });
 		});
 
 		preparePrivacyPolicy();
 	}
 
-	function closePage() {
-		$('#controls').hide();
-		$('#finished').show();
+	async function processClick({ disableGa = false } = {}) {
+		Options.setOption(Options.DISABLE_GA, disableGa);
+		updateControlsAfterClick();
 	}
 
-	async function updateGaState(value) {
-		Options.setOption(Options.DISABLE_GA, value);
+	function updateControlsAfterClick() {
+		const controlsContainer = document.getElementById(controlsContainerId);
+		const finishedToolip = document.getElementById(finishedTooltipId);
+
+		controlsContainer.setAttribute('hidden', true);
+		finishedToolip.removeAttribute('hidden');
 	}
 
 	async function preparePrivacyPolicy() {
+		const htmlContents = await getPrivacyHtmlContents();
+		const privacyContainer = document.getElementById(privacyContainerId);
+		privacyContainer.innerHTML = htmlContents;
+	}
+
+	async function getPrivacyHtmlContents() {
 		const privacyDocFile = await Util.getPrivacyPolicyFilename();
 
-		console.log(`fetching ${privacyDocFile}`);
+		console.log(`Fetching ${privacyDocFile}`);
 		try {
 			const privacyDocUrl = browser.runtime.getURL(privacyDocFile);
 			const response = await fetch(privacyDocUrl);
 			const markdown = await response.text();
 
 			const converter = new showdown.Converter();
-			const content = converter.makeHtml(markdown);
-
-			$('.privacy-policy').html(content);
+			return converter.makeHtml(markdown);
 		} catch (err) {
 			console.log(`Failed to load ${privacyDocFile}, reason: ${err.message}`);
 		}
+
+		return null;
 	}
 });

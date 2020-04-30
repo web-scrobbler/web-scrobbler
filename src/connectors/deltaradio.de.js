@@ -8,4 +8,4 @@ Connector.trackSelector = '.recaster-currentSong';
 
 Connector.trackArtSelector = '.recaster-coverLink img';
 
-Connector.isPlaying = () => $('.recaster-mainBt').hasClass('rc-active');
+Connector.pauseButtonSelector = '.recaster-mainBt.rc-active';

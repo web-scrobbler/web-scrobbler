@@ -7,9 +7,9 @@ Connector.currentTimeSelector = '#player-playedtime';
 Connector.artistTrackSelector = '.headplayer-titleReal';
 
 Connector.getDuration = () => {
-	return $('audio')[0].duration;
+	return document.getElementsByTagName('audio')[0].duration;
 };
 
 Connector.isPlaying = () => {
-	return $('#headplayer-play').hasClass('hidden');
+	return Util.hasElementClass('#headplayer-play', 'hidden');
 };

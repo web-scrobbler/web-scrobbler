@@ -15,5 +15,6 @@ Connector.trackArtSelector = '#albumArtImg';
 Connector.pauseButtonSelector = '#playerPauseButton';
 
 function getScrollableText(selector) {
-	return $(`${selector} div`).first().text() || $(selector).text();
+	const scrollableSelector = `${selector} div`;
+	return Util.getTextFromSelectors([scrollableSelector, selector]);
 }

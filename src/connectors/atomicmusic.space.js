@@ -12,4 +12,4 @@ Connector.currentTimeSelector = '.jp-current-time';
 
 Connector.durationSelector = '.jp-duration';
 
-Connector.isPlaying = () => $('.jp-pause').css('display') === 'block';
+Connector.pauseButtonSelector = '.jp-pause';

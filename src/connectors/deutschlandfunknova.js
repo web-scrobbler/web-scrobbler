@@ -1,11 +1,15 @@
 'use strict';
 
+const artistTrackSelector = '.playing-title';
+
 Connector.playerSelector = 'div.player.desktop';
 
-Connector.artistTrackSelector = '.playing-title';
-
 Connector.getArtistTrack = () => {
-	const text = $(Connector.artistTrackSelector).text();
+	const text = Util.getTextFromSelectors(artistTrackSelector);
+	if (!text) {
+		return null;
+	}
+
 	const m = text.match(/"(.*?)" von (.*?)\u2003\u00B7\u2003/);
 	if (m && m.length === 3) {
 		// Sometimes the title box displays something like '"undefined" von undefined'
@@ -18,5 +22,5 @@ Connector.getArtistTrack = () => {
 };
 
 Connector.isPlaying = () => {
-	return $('.plyr--playing').length > 0;
+	return document.querySelector('.plyr--playing') !== null;
 };

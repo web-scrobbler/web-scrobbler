@@ -1,48 +1,97 @@
 'use strict';
 
-let nextCue;
-let cue;
-let currentTime;
-const mixDuration = Util.stringToSeconds($('.mediaTabItem span').text().split('[')[1].split(']')[0]);
+const artistTrackSelector = '.cPlay meta[itemprop="name"]';
 
-Connector.playerSelector = '#playerWidgetFields';
+const mixDuration = getMixDuration();
+
+Connector.playerSelector = '#playerWidget';
 
 Connector.trackArtSelector = '#artworkLeft';
 
 Connector.albumSelector = '#pageTitle';
 
-Connector.getUniqueID = () => $('.cPlay:first').attr('id');
+Connector.getUniqueID = () => {
+	return Util.getAttrFromSelectors('.cPlay', 'id');
+};
 
 Connector.getArtistTrack = () => {
-	const text = $('.cPlay:first meta[itemprop="name"]').attr('content');
+	const text = Util.getAttrFromSelectors(artistTrackSelector, 'content');
 	return Util.splitArtistTrack(text);
 };
 
-Connector.getCurrentTime = () => {
-	return currentTime - cue;
+Connector.getTimeInfo = () => {
+	const trackEndTime = getTrackEndTime();
+	const trackStartTime = getTrackStartTime();
+	const globalCurrentTime = getGlobalCurrentTime();
+
+	const currentTime = globalCurrentTime - trackStartTime;
+	const duration = trackEndTime - trackStartTime;
+
+	return { currentTime, duration };
 };
 
-Connector.getDuration = () => {
-	switch (true) {
-		case cue && nextCue > 0:
-			0 > currentTime - cue && (nextCue += Math.abs(currentTime - cue));
-			return nextCue - cue;
-		case nextCue > 0:
-			return nextCue;
-		case cue > 0:
-			return mixDuration - cue;
-	}
-};
-
-Connector.isPlaying = () => {
-	return $('#playerWidgetPause').hasClass('fa-pause');
-};
+Connector.playButtonSelector = '#playerWidgetPause.fa-play';
 
 Connector.isScrobblingAllowed = () => {
-	nextCue = +$('.cPlay:first').nextAll('.topBorder').find('input').eq(0).val();
-	cue = +$('.cPlay:first input').val();
-	currentTime = Util.stringToSeconds($('#playerWidgetCurrentTime').text());
-	const noIDs = $('.cPlay:first').find('.trackFormat .redTxt').length;
-
-	return noIDs <= 0 && (cue > 0 || nextCue > 0);
+	return !isNoIdTrack();
 };
+
+function getGlobalCurrentTime() {
+	return Util.getSecondsFromSelectors('#playerWidgetCurrentTime');
+}
+
+function getTrackStartTime() {
+	const trackContainer = document.querySelector('.cPlay');
+	if (trackContainer !== null) {
+		return getSecondsFromInput(trackContainer);
+	}
+
+	return 0;
+}
+
+function getTrackEndTime() {
+	let trackContainer = document.querySelector('.cPlay');
+	if (!trackContainer) {
+		return 0;
+	}
+
+	// eslint-disable-next-line no-cond-assign
+	while (trackContainer = trackContainer.nextElementSibling) {
+		if (!trackContainer.classList.contains('topBorder')) {
+			continue;
+		}
+
+		const startTime = getSecondsFromInput(trackContainer);
+		if (startTime > 0) {
+			return startTime;
+		}
+	}
+
+	return mixDuration;
+}
+
+function getMixDuration() {
+	const mediaInfo = Util.getTextFromSelectors('.mediaTabItem span');
+	if (mediaInfo) {
+		const timeInfoMatch = mediaInfo.match(/\[(.+?)]/);
+		if (timeInfoMatch) {
+			return Util.stringToSeconds(timeInfoMatch[1]);
+		}
+	}
+
+	return 0;
+}
+
+function isNoIdTrack() {
+	const container = document.querySelector('.cPlay');
+	return container && container.querySelector('.trackFormat .redTxt') !== null;
+}
+
+function getSecondsFromInput(container) {
+	const element = container.querySelector('input');
+	if (element !== null && element.value) {
+		return parseInt(element.value, 10);
+	}
+
+	return 0;
+}

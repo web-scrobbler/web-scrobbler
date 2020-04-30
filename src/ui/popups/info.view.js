@@ -1,20 +1,27 @@
 'use strict';
 
-const editBlockId = '#edit';
-const infoBlockId = '#info';
+const editBlockId = 'edit';
+const infoBlockId = 'info';
 
-const trackArtLinkId = '#album-art-link';
-const trackArtImgId = '#album-art-img';
+const trackArtLinkId = 'album-art-link';
+const trackArtImgId = 'album-art-img';
 
-const editBtnId = '#edit-link';
-const loveBtnId = '#love-link';
-const skipBtnId = '#skip-link';
-const unskipBtnId = '#unskip-link';
-const submitBtnId = '#submit-link';
-const swapBtnId = '#swap-link';
-const revertBtnId = '#revert-link';
+const editBtnId = 'edit-link';
+const loveBtnId = 'love-link';
+const skipBtnId = 'skip-link';
+const unskipBtnId = 'unskip-link';
+const submitBtnId = 'submit-link';
+const swapBtnId = 'swap-link';
+const revertBtnId = 'revert-link';
 
-const inputGenericId = '#edit input';
+const labelId = 'label';
+const playCountContainerId = 'userPlayCount';
+const playCountLabelId = 'userPlayCountLabel';
+
+const debugTextId = 'debug-text';
+const debugContainerId = 'debug';
+
+const inputGenericId = 'input';
 
 const fieldTitleMap = {
 	album: 'infoViewAlbumPage',
@@ -63,56 +70,70 @@ class InfoPopupView {
 	/** Controls */
 
 	focusOnInput() {
-		$(inputGenericId).first().focus();
+		const firstInput = document.getElementsByTagName(inputGenericId)[0];
+		return firstInput.focus();
 	}
 
 	isDebugInfoVisible() {
-		return $('#debug').prop('hidden') === false;
+		const debugContainer = document.getElementById(debugContainerId);
+		return !debugContainer.hidden;
 	}
 
 	setConnectorLabel(label) {
-		$('#label').text(label);
+		const labelElement = document.getElementById(labelId);
+		labelElement.textContent = label;
 	}
 
 	setEditBlockVisible() {
-		$(infoBlockId).prop('hidden', true);
-		$(editBlockId).prop('hidden', false);
+		document.getElementById(infoBlockId).hidden = true;
+		document.getElementById(editBlockId).hidden = false;
 	}
 
 	setInfoBlockVisible() {
-		$(infoBlockId).prop('hidden', false);
-		$(editBlockId).prop('hidden', true);
+		document.getElementById(infoBlockId).hidden = false;
+		document.getElementById(editBlockId).hidden = true;
 	}
 
-	setTrackArt(url) {
-		$(trackArtImgId).attr('src', url || defaultTrackArtUrl);
-		$(trackArtLinkId).attr('href', url || defaultTrackArtUrl);
+	setTrackArt(trackArtUrl) {
+		const url = trackArtUrl || defaultTrackArtUrl;
+		document.getElementById(trackArtImgId).setAttribute('src', url);
+		document.getElementById(trackArtLinkId).setAttribute('href', url);
 	}
 
 	setUserLovedIcon(isLoved) {
+		const loveButon = document.getElementById(loveBtnId);
+
 		if (isLoved) {
-			$(loveBtnId).addClass('loved');
-			$(loveBtnId).removeClass('unloved');
+			loveButon.classList.add('loved');
+			loveButon.classList.remove('unloved');
 		} else {
-			$(loveBtnId).addClass('unloved');
-			$(loveBtnId).removeClass('loved');
+			loveButon.classList.remove('loved');
+			loveButon.classList.add('unloved');
 		}
-		$(loveBtnId).attr('title', this.i18n(isLoved ? 'infoUnlove' : 'infoLove'));
+
+		loveButon.setAttribute('title', this.i18n(isLoved ? 'infoUnlove' : 'infoLove'));
 	}
 
 	setUserPlayCount(playCount) {
-		if (playCount === 0) {
-			$('#userPlayCount').prop('hidden', true);
+		const playCountContainer = document.getElementById(playCountContainerId);
+		const playCountLabel = document.getElementById(playCountLabelId);
+
+		if (playCount) {
+			playCountContainer.hidden = false;
+			playCountContainer.setAttribute('title', this.i18n('infoYourScrobbles', playCount));
+
+			playCountLabel.textContent = playCount.toString();
 		} else {
-			$('#userPlayCount').prop('hidden', false);
-			$('#userPlayCount').attr('title', this.i18n('infoYourScrobbles', playCount));
-			$('#userPlayCountLabel').text(playCount);
+			playCountContainer.hidden = true;
 		}
 	}
 
 	showDebugInfo(data) {
-		$('#debug').prop('hidden', false);
-		$('#debug pre').text(data);
+		const debugContainer = document.getElementById(debugContainerId);
+		const debugText = document.getElementById(debugTextId);
+
+		debugContainer.hidden = false;
+		debugText.textContent = data;
 	}
 
 	/** Buttons */
@@ -129,8 +150,8 @@ class InfoPopupView {
 		);
 	}
 
-	setRevertButtonVisible(flag) {
-		$(revertBtnId).prop('hidden', !flag);
+	setRevertButtonVisible(isVisible) {
+		this.setControlVisible(revertBtnId, isVisible);
 	}
 
 	setSkipButtonState(flag) {
@@ -139,8 +160,8 @@ class InfoPopupView {
 		);
 	}
 
-	setSkipButtonVisible(flag) {
-		$(skipBtnId).prop('hidden', !flag);
+	setSkipButtonVisible(isVisible) {
+		this.setControlVisible(skipBtnId, isVisible);
 	}
 
 	setSubmitButtonState(flag) {
@@ -161,8 +182,8 @@ class InfoPopupView {
 		);
 	}
 
-	setUnskipButtonVisible(flag) {
-		$(unskipBtnId).prop('hidden', !flag);
+	setUnskipButtonVisible(isVisible) {
+		this.setControlVisible(unskipBtnId, isVisible);
 	}
 
 	/** Fields */
@@ -171,77 +192,95 @@ class InfoPopupView {
 		const trackInfo = {};
 
 		for (const field of ['artist', 'track', 'album', 'albumArtist']) {
-			const selector = InfoPopupView.getInputSelector(field);
-			trackInfo[field] = $(selector).val().trim() || null;
+			const inputId = InfoPopupView.getInputId(field);
+			const input = document.getElementById(inputId);
+			trackInfo[field] = input.value.trim() || null;
 		}
 
 		return trackInfo;
 	}
 
 	setFieldValue(field, value) {
-		const selector = InfoPopupView.getFieldSelector(field);
+		const fieldId = InfoPopupView.getFieldId(field);
 
-		$(selector).text(value);
-		$(selector).prop('hidden', !value);
+		const fieldElement = document.getElementById(fieldId);
+		fieldElement.textContent = value;
+		fieldElement.hidden = !value;
 	}
 
 	setFieldInput(field, value) {
-		const selector = InfoPopupView.getInputSelector(field);
+		const inputId = InfoPopupView.getInputId(field);
 
-		$(selector).val(value);
+		const input = document.getElementById(inputId);
+		input.value = value;
 	}
 
 	setFieldUrl(field, url) {
-		const selector = InfoPopupView.getFieldSelector(field);
+		const fieldId = InfoPopupView.getFieldId(field);
 		const fieldTitleId = fieldTitleMap[field];
 
-		$(selector).attr('href', url);
-		$(selector).attr('title', this.i18n(fieldTitleId));
+		const fieldElement = document.getElementById(fieldId);
+		fieldElement.setAttribute('href', url);
+		fieldElement.setAttribute('title', this.i18n(fieldTitleId));
 	}
 
 	removeFieldUrl(field) {
-		const selector = InfoPopupView.getFieldSelector(field);
+		const fieldId = InfoPopupView.getFieldId(field);
 
-		$(selector).removeAttr('href');
-		$(selector).removeAttr('title');
+		const fieldElement = document.getElementById(fieldId);
+		fieldElement.removeAttribute('href');
+		fieldElement.removeAttribute('title');
 	}
 
 	/** Internal functions */
 
 	setupControlListeners() {
-		for (const controlId in this.clickListeners) {
-			const onClick = this.clickListeners[controlId].bind(this.infoPopup);
+		for (const elementId in this.clickListeners) {
+			const onClick = this.clickListeners[elementId].bind(this.infoPopup);
 
-			$(controlId).off('click');
-			$(controlId).on('click', () => {
+			const element = document.getElementById(elementId);
+			element.addEventListener('click', () => {
 				onClick();
 			});
 		}
 
-		$(inputGenericId).off('keyup');
-		$(inputGenericId).on('keyup', (e) => {
-			const isSubmitAction = e.which === 13;
+		const inputs = document.getElementsByTagName(inputGenericId);
+		for (const input of inputs) {
+			input.addEventListener('keyup', (e) => {
+				const isSubmitAction = e.key === 'Enter';
 
-			if (isSubmitAction) {
-				this.infoPopup.onEnterPressed();
-			} else {
-				this.infoPopup.onInputsChanged();
-			}
-		});
+				if (isSubmitAction) {
+					this.infoPopup.onEnterPressed();
+				} else {
+					this.infoPopup.onInputsChanged();
+				}
+			});
+		}
 
-		$('body').click((e) => {
+		document.body.addEventListener('click', (e) => {
 			if (e.altKey) {
 				this.infoPopup.onAltClick();
 			}
 		});
 	}
 
-	setControlEnabled(selector, state) {
-		$(selector).prop('disabled', !state);
+	setControlEnabled(controlId, state) {
+		const control = document.getElementById(controlId);
+		if (state) {
+			control.removeAttribute('disabled');
+		} else {
+			control.setAttribute('disabled', true);
+		}
 	}
 
-	setButtonTitle(selector, titleId) {
-		$(selector).attr('title', this.i18n(titleId));
+	setControlVisible(controlId, isVisible) {
+		const control = document.getElementById(controlId);
+		control.hidden = !isVisible;
+	}
+
+	setButtonTitle(buttonId, titleId) {
+		const title = this.i18n(titleId);
+		document.getElementById(buttonId).setAttribute('title', title);
 	}
 
 	setButtonState(selector, state, enabledTitleId, disabledTitleId) {
@@ -255,12 +294,12 @@ class InfoPopupView {
 
 	/** Helpers */
 
-	static getFieldSelector(field) {
-		return `#${field}`;
+	static getFieldId(field) {
+		return field;
 	}
 
-	static getInputSelector(field) {
-		return `#${field}-input`;
+	static getInputId(field) {
+		return `${field}-input`;
 	}
 }
 

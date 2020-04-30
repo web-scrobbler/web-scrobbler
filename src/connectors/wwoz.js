@@ -18,6 +18,6 @@ Connector.artistSelector = '#player .artist';
 
 Connector.trackSelector = '#player .title';
 
-Connector.isPlaying = () => $('#oz-audio-container').hasClass('jp-state-playing');
+Connector.isPlaying = () => Util.hasElementClass('#oz-audio-container', 'jp-state-playing');
 
 Connector.applyFilter(wwozFilter);

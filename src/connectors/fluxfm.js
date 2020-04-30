@@ -10,8 +10,6 @@ Connector.albumSelector = '#track-album';
 
 Connector.trackArtSelector = '#covercontainer img';
 
-Connector.isPlaying = () => {
-	return $('#controls-play').hasClass('play');
-};
+Connector.playButtonSelector = '#controls-play.stop';
 
 Connector.onReady = Connector.onStateChanged;

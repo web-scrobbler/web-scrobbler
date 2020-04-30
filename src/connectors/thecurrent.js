@@ -1,6 +1,7 @@
 'use strict';
 
 const playerBar = '.player';
+const trackArtSelector = '.listen-album img';
 const artistAlbumSep = '-';
 
 Connector.playerSelector = '.listen-body';
@@ -10,14 +11,14 @@ Connector.trackSelector = '.player-title';
 Connector.artistSelector = '.player-artist';
 
 Connector.getAlbum = () => {
-	const artistAlbumStr = $(Connector.trackArtSelector).attr('title');
+	const artistAlbumStr = Util.getAttrFromSelectors(trackArtSelector, 'title');
 	const [, album] = Util.splitString(artistAlbumStr, artistAlbumSep);
 
 	return album;
 };
 
-Connector.trackArtSelector = '.listen-album img';
+Connector.trackArtSelector = trackArtSelector;
 
 Connector.isTrackArtDefault = (url) => url.includes('default');
 
-Connector.isPlaying = () => $(playerBar).hasClass('is-playing');
+Connector.isPlaying = () => Util.hasElementClass(playerBar, 'is-playing');

@@ -18,11 +18,22 @@ function isMainPage() {
 function setupMainPagePlayer() {
 	Connector.playerSelector = '#stats';
 
-	Connector.artistSelector = '.stat:has(.ui-miniaudioplayer-state-playing) h4';
+	Connector.getTrackInfo = () => {
+		const container = getTrackContainer();
+		if (container === null) {
+			return null;
+		}
 
-	Connector.trackSelector = '.stat:has(.ui-miniaudioplayer-state-playing) .songTitle';
+		const artistNode = container.querySelector('h4');
+		const trackNode = container.querySelector('.songTitle');
 
-	Connector.isPlaying = () => $('.ui-miniaudioplayer-state-playing').length > 0;
+		const artist = artistNode && artistNode.textContent;
+		const track = trackNode && trackNode.textContent;
+
+		return { artist, track };
+	};
+
+	Connector.pauseButtonSelector = '.ui-miniaudioplayer-state-playing';
 }
 
 function setupDefaultPlayer() {
@@ -36,12 +47,31 @@ function setupDefaultPlayer() {
 
 	Connector.timeInfoSelector = '.ui-audioplayer-time';
 
-	Connector.isPlaying = () => $('.ui-audioplayer-button').text() === 'stop';
+	Connector.isPlaying = () => {
+		return Util.getTextFromSelectors('.ui-audioplayer-button') === 'stop';
+	};
 
 	Connector.applyFilter(filter);
 
 	function removeGenre(text) {
-		const genre = $('.profile-name span').text();
+		const genre = Util.getTextFromSelectors('.profile-name span');
 		return text.replace(genre, '');
 	}
+}
+
+function getTrackContainer() {
+	// Iterate through all parents until it also finds a cover art
+	const playButtons = document.querySelectorAll('.ui-miniaudioplayer-state-playing');
+	for (const button of playButtons) {
+		let parent = button.parentElement;
+		while (parent) {
+			if (parent.querySelector('.textLenght') !== null) {
+				return parent;
+			}
+
+			parent = parent.parentElement;
+		}
+	}
+
+	return null;
 }

@@ -332,21 +332,11 @@ function BaseConnector() {
 	 */
 	this.isPlaying = () => {
 		if (this.playButtonSelector) {
-			const playButton = Util.queryElements(this.playButtonSelector);
-			if (playButton) {
-				return !playButton.is(':visible');
-			}
-
-			return false;
+			return !Util.isElementVisible(this.playButtonSelector);
 		}
 
 		if (this.pauseButtonSelector) {
-			const pauseButton = Util.queryElements(this.pauseButtonSelector);
-			if (pauseButton) {
-				return pauseButton.is(':visible');
-			}
-
-			return false;
+			return Util.isElementVisible(this.pauseButtonSelector);
 		}
 
 		/*

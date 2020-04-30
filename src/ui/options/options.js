@@ -3,8 +3,9 @@
 define((require) => {
 	const Options = require('storage/options');
 
-	const hiddenOptionsClass = 'hidden-options';
-	const optionsContainerId = '#collapseOptions';
+	const hiddenOptionsId = 'hidden-options';
+	const optionsContainerId = 'collapseOptions';
+	const scrobblePercentId = 'scrobblePercent';
 
 	const percentValues = [
 		10, 20, 30, 40, 50, 60, 70, 80, 90, 100,
@@ -15,19 +16,19 @@ define((require) => {
 	 * @type {Object}
 	 */
 	const OPTIONS_UI_MAP = {
-		'#disable-ga': Options.DISABLE_GA,
-		'#force-recognize': Options.FORCE_RECOGNIZE,
-		'#use-notifications': Options.USE_NOTIFICATIONS,
-		'#use-unrecognized-song-notifications': Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
-		'#scrobble-podcasts': Options.SCROBBLE_PODCASTS,
+		'disable-ga': Options.DISABLE_GA,
+		'force-recognize': Options.FORCE_RECOGNIZE,
+		'use-notifications': Options.USE_NOTIFICATIONS,
+		'use-unrecognized-song-notifications': Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
+		'scrobble-podcasts': Options.SCROBBLE_PODCASTS,
 	};
 	const CONNECTORS_OPTIONS_UI_MAP = {
 		Tidal: {
-			'#tdl-short-track-names': 'useShortTrackNames',
+			'tdl-short-track-names': 'useShortTrackNames',
 		},
 		YouTube: {
-			'#yt-music-only': 'scrobbleMusicOnly',
-			'#yt-entertainment-only': 'scrobbleEntertainmentOnly',
+			'yt-music-only': 'scrobbleMusicOnly',
+			'yt-entertainment-only': 'scrobbleEntertainmentOnly',
 		},
 	};
 
@@ -39,29 +40,33 @@ define((require) => {
 	async function initializeOptions() {
 		for (const optionId in OPTIONS_UI_MAP) {
 			const option = OPTIONS_UI_MAP[optionId];
+			const optionCheckBox = document.getElementById(optionId);
 
-			$(optionId).click(async function() {
+			optionCheckBox.addEventListener('click', async function() {
 				Options.setOption(option, this.checked);
 			});
 
 			const optionValue = await Options.getOption(option);
-			$(optionId).attr('checked', optionValue);
+			optionCheckBox.checked = optionValue;
 		}
 
-		const scrobblePercentEl = $('#scrobblePercent');
-
+		const scrobblePercentElem = document.getElementById(scrobblePercentId);
 		for (const val of percentValues) {
-			scrobblePercentEl.append($(`<option>${val}%</option>`));
+			const percentOption = document.createElement('option');
+			percentOption.textContent = `${val}%`;
+
+			scrobblePercentElem.appendChild(percentOption);
 		}
-		scrobblePercentEl[0].selectedIndex = percentValues.indexOf(
+		scrobblePercentElem.selectedIndex = percentValues.indexOf(
 			await Options.getOption(Options.SCROBBLE_PERCENT)
 		);
-		scrobblePercentEl.on('change', function() {
+		scrobblePercentElem.addEventListener('change', function() {
 			const percent = percentValues[this.selectedIndex];
 			Options.setOption(Options.SCROBBLE_PERCENT, percent);
 		});
 
-		$(optionsContainerId).bind('click', function(event) {
+		const optionsContainer = document.getElementById(optionsContainerId);
+		optionsContainer.addEventListener('click', (event) => {
 			if (event.altKey) {
 				showHiddenOptions();
 			}
@@ -72,21 +77,21 @@ define((require) => {
 		for (const connector in CONNECTORS_OPTIONS_UI_MAP) {
 			for (const optionId in CONNECTORS_OPTIONS_UI_MAP[connector]) {
 				const option = CONNECTORS_OPTIONS_UI_MAP[connector][optionId];
+				const optionCheckBox = document.getElementById(optionId);
 
-				$(optionId).click(async function() {
+				optionCheckBox.addEventListener('click', async function() {
 					Options.setConnectorOption(connector, option, this.checked);
 				});
 
 				const optionValue =
 					await Options.getConnectorOption(connector, option);
-				$(optionId).attr('checked', optionValue);
+				optionCheckBox.checked = optionValue;
 			}
 		}
 	}
 
 	function showHiddenOptions() {
-		$(optionsContainerId)
-			.find(`.${hiddenOptionsClass}`).removeClass(hiddenOptionsClass);
+		document.getElementById(hiddenOptionsId).hidden = false;
 	}
 
 	return { initialize };

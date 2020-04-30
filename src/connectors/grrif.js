@@ -6,7 +6,7 @@ Connector.trackSelector = '.pg-title';
 
 Connector.artistSelector = '.pg-artiste';
 
-Connector.isPlaying = () => $('#kast-play').hasClass('kast-playing');
+Connector.isPlaying = () => Util.hasElementClass('#kast-play', 'kast-playing');
 
 Connector.trackArtSelector = '.pg-history .onair img';
 

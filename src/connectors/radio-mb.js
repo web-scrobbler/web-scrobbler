@@ -8,4 +8,4 @@ Connector.trackSelector = '#radiomb-np-title';
 
 Connector.trackArtSelector = '#radiomb-top';
 
-Connector.isPlaying = () => $('#radiomb-play').hasClass('radiomb-playing');
+Connector.isPlaying = () => Util.hasElementClass('#radiomb-play', 'radiomb-playing');

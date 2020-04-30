@@ -5,5 +5,6 @@ Connector.playerSelector = '#componentWrapper';
 Connector.artistTrackSelector = '.fontMeasure';
 
 Connector.isPlaying = () => {
-	return $('.controls_toggle img').attr('src').includes('pause');
+	const playButtonImg = Util.getAttrFromSelectors('.controls_toggle img', 'src');
+	return playButtonImg && playButtonImg.includes('pause');
 };
