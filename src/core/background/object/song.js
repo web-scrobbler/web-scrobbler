@@ -5,8 +5,6 @@
  */
 define((require) => {
 	const MD5 = require('md5');
-	const SongFlags = require('object/song-flags');
-	const SongMetadata = require('object/song-metadata');
 
 	/**
 	 * Create unique song ID based on data parsed by connector.
@@ -46,9 +44,17 @@ define((require) => {
 			 * Initially filled with parsed data and optionally changed
 			 * as the object is processed in pipeline. Can be modified.
 			 */
-			this.processed = {
-				// Filled by invoking Song.setDefaults function
-			};
+			this.processed = { /* Filled in `initProcessedData` method */ };
+
+			/**
+			 * Song flags. Can be modified.
+			 */
+			this.flags = { /* Filled in `initFlags` method */ };
+
+			/**
+			 * Optional data. Can be modified.
+			 */
+			this.metadata = { /* Filled in `initMetadata` method */ };
 
 			/**
 			 * Internal song ID based on data from connector. Used if
@@ -56,18 +62,7 @@ define((require) => {
 			 * @type {String}
 			 */
 			this.internalId = parsedData.uniqueID || makeUniqueId(parsedData);
-
 			this.connectorLabel = connector.label;
-
-			/**
-			 * Various flags. Can be modified.
-			 */
-			this.flags = new SongFlags();
-
-			/**
-			 * Various optional data. Can be modified.
-			 */
-			this.metadata = new SongMetadata();
 
 			this.resetSongData();
 		}
@@ -198,15 +193,9 @@ define((require) => {
 		 * Set default song data.
 		 */
 		resetSongData() {
-			const fields = [
-				'track', 'album', 'artist', 'albumArtist', 'duration'
-			];
-			for (const field of fields) {
-				this.processed[field] = null;
-			}
-
-			this.flags.reset();
-			this.metadata.reset();
+			this.initFlags();
+			this.initMetadata();
+			this.initProcessedData();
 		}
 
 		/**
@@ -273,6 +262,73 @@ define((require) => {
 		}
 
 		/** Private methods. */
+
+		initFlags() {
+			this.flags = {
+				/**
+				* Flag means song is scrobbled successfully.
+				* @type {Boolean}
+				*/
+				isScrobbled: false,
+
+				/**
+				* Flag indicated song info is changed or approved by user.
+				* @type {Boolean}
+				*/
+				isCorrectedByUser: false,
+
+				/**
+				* Flag indicated song is known by scrobbling service.
+				* @type {Boolean}
+				*/
+				isValid: false,
+
+				/**
+				* Flag indicates song is marked as playing by controller.
+				* @type {Boolean}
+				*/
+				isMarkedAsPlaying: false,
+
+				/**
+				* Flag means song is ignored by controller.
+				* @type {Boolean}
+				*/
+				isSkipped: false,
+
+				/**
+				* Flag means song is replaying again.
+				* @type {Boolean}
+				*/
+				isReplaying: false,
+			};
+		}
+
+		initMetadata() {
+			this.metadata = {
+				/**
+				 * Flag indicates song is loved by used on service.
+				 * @type {Boolean}
+				 */
+				userloved: undefined,
+
+				/**
+				 * Time when song is started playing in UNIX timestamp format.
+				 * @type {Number}
+				 */
+				startTimestamp: Math.floor(Date.now() / 1000),
+
+				label: this.connectorLabel,
+			};
+		}
+
+		initProcessedData() {
+			const fields = [
+				'track', 'album', 'artist', 'albumArtist', 'duration'
+			];
+			for (const field of fields) {
+				this.processed[field] = null;
+			}
+		}
 	}
 
 	return Song;
