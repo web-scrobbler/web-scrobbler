@@ -103,7 +103,7 @@ define((require) => {
 		async resetSongData() {
 			this.assertSongIsPlaying();
 
-			this.currentSong.resetSongData();
+			this.currentSong.resetInfo();
 			await LocalCacheStorage.removeSongData(this.currentSong);
 
 			this.unprocessSong();
@@ -382,8 +382,7 @@ define((require) => {
 			this.debugLog(`Song unprocessed: ${this.currentSong.toString()}`);
 			this.debugLog('Clearing playback timer destination time');
 
-			this.currentSong.resetFlags();
-			this.currentSong.resetMetadata();
+			this.currentSong.resetData();
 
 			this.playbackTimer.update(null);
 			this.replayDetectionTimer.update(null);

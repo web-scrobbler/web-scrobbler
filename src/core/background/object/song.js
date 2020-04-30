@@ -64,7 +64,7 @@ define((require) => {
 			this.internalId = parsedData.uniqueID || makeUniqueId(parsedData);
 			this.connectorLabel = connector.label;
 
-			this.resetSongData();
+			this.initSongData();
 		}
 
 		/**
@@ -190,15 +190,6 @@ define((require) => {
 		}
 
 		/**
-		 * Set default song data.
-		 */
-		resetSongData() {
-			this.initFlags();
-			this.initMetadata();
-			this.initProcessedData();
-		}
-
-		/**
 		 * Set `Love` status of song.
 		 *
 		 * This function is supposed to be used by multiple scrobblers
@@ -246,6 +237,21 @@ define((require) => {
 		}
 
 		/**
+		 * Set default song info (artist, track, etc).
+		 */
+		resetInfo() {
+			this.initProcessedData();
+		}
+
+		/**
+		 * Set default song data (flags and metadata only).
+		 */
+		resetData() {
+			this.initFlags();
+			this.initMetadata();
+		}
+
+		/**
 		 * Custom fields can be defined by user.
 		 * @type {Array}
 		 */
@@ -262,6 +268,12 @@ define((require) => {
 		}
 
 		/** Private methods. */
+
+		initSongData() {
+			this.initFlags();
+			this.initMetadata();
+			this.initProcessedData();
+		}
 
 		initFlags() {
 			this.flags = {
