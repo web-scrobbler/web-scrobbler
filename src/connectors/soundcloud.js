@@ -39,7 +39,7 @@ Connector.getRemainingTime = () => {
 	return time < 0 ? time : null;
 };
 
-Connector.isPlaying = () => $('.playControl').hasClass('playing');
+Connector.isPlaying = () => Util.hasElementClass('.playControl', 'playing');
 
 const filterArtistPremiereRules = [
 	{ source: /^\s*Premiere.*:\s*/i, target: '' },

@@ -10,4 +10,6 @@ Connector.trackArtSelector = '.cover img';
 
 Connector.timeInfoSelector = '.player-time';
 
-Connector.isPlaying = () => $('.player-play').text() === 'Stop';
+Connector.isPlaying = () => {
+	return Util.getTextFromSelectors('.player-play') === 'Stop';
+};

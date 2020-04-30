@@ -2,10 +2,15 @@
 
 Connector.playerSelector = '#player-bar';
 
+// `#player-track-name` and `#player-track-artist` can contain truncated strings
 Connector.getArtistTrack = () => {
-	const trackElem = $('.queue-item-selected');
-	const artist = trackElem.data('artist-name');
-	const track = trackElem.data('track-name');
+	const trackElem = document.querySelector('.queue-item-selected');
+	if (!trackElem) {
+		return null;
+	}
+
+	const artist = trackElem.getAttribute('data-artist-name');
+	const track = trackElem.getAttribute('data-track-name');
 
 	return { artist, track };
 };

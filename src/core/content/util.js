@@ -69,7 +69,7 @@ const Util = {
 	/**
 	 * Join array of artist name into a string. The array must contain objects
 	 * that have 'textContent' property (DOM node).
-	 * @param  {Array} artists Array of DOM nodes
+	 * @param  {Array} artists List of DOM nodes
 	 * @return {String} String joined by separator
 	 */
 	joinArtists(artists) {
@@ -304,16 +304,14 @@ const Util = {
 	getTextFromSelectors(selectors, defaultValue = null) {
 		const elements = this.queryElements(selectors);
 
-		if (elements) {
-			if (elements.length === 1) {
-				return elements.text();
-			}
+		if (elements.length === 1) {
+			return elements[0].textContent;
+		}
 
-			for (const element of elements) {
-				const text = $(element).text();
-				if (text) {
-					return text;
-				}
+		for (const element of elements) {
+			const text = element.textContent;
+			if (text) {
+				return text;
 			}
 		}
 
@@ -370,16 +368,16 @@ const Util = {
 	 */
 	/* istanbul ignore next */
 	extractImageUrlFromSelectors(selectors) {
-		const element = Util.queryElements(selectors);
+		const element = Util.queryElement(selectors);
 		if (!element) {
 			return null;
 		}
 
-		let trackArtUrl = element.attr('src');
+		let trackArtUrl = element.src;
 		if (!trackArtUrl) {
 			const cssProperties = ['background-image', 'background'];
 			for (const property of cssProperties) {
-				const propertyValue = element.css(property);
+				const propertyValue = getComputedStyle(element)[property];
 				if (propertyValue) {
 					trackArtUrl = this.extractUrlFromCssProperty(propertyValue);
 				}
@@ -398,8 +396,8 @@ const Util = {
 	 */
 	/* istanbul ignore next */
 	hasElementClass(selectors, cls) {
-		const element = Util.queryElements(selectors);
-		return element && element.hasClass(cls);
+		const element = Util.queryElement(selectors);
+		return element && element.classList.contains(cls);
 	},
 
 	/**
@@ -410,25 +408,32 @@ const Util = {
 	 */
 	/* istanbul ignore next */
 	isElementVisible(selectors) {
-		const element = this.queryElements(selectors);
-		return element && element.is(':visible');
+		const element = this.queryElement(selectors);
+		if (!element) {
+			return false;
+		}
+
+		// jQuery's :visible / :hidden pseudoselectors
+		return !!(element.offsetWidth || element.offsetHeight || element.getClientRects().length);
 	},
 
 	/**
-	 * Return jQuery object of first available element. If `selectors`
-	 * is a string, return jQuery object with the selector. If `selectors` is
-	 * an array, return jQuery object matched by first valid selector.
+	 * Return an array of elements matching by a given selectors. The `selectors`
+	 * argument can be either a string, or an array of strings. If an array of
+	 * strings is passed, the function will return an array of elements queried
+	 * using a first valid selector.
+	 *
 	 * @param  {String|Array} selectors Single selector or array of selectors
-	 * @return {Object} jQuery object
+	 * @return {Array} Array of elements
 	 */
 	/* istanbul ignore next */
 	queryElements(selectors) {
 		if (!selectors) {
-			return null;
+			return [];
 		}
 
 		if (typeof selectors === 'string') {
-			return $(selectors);
+			return document.querySelectorAll(selectors);
 		}
 
 		if (!Array.isArray(selectors)) {
@@ -436,8 +441,41 @@ const Util = {
 		}
 
 		for (const selector of selectors) {
-			const element = $(selector);
-			if (element.length > 0) {
+			const elements = document.querySelectorAll(selector);
+			if (elements.length > 0) {
+				return elements;
+			}
+		}
+
+		return [];
+	},
+
+	/**
+	 * Return an element matching by a given selectors. The `selectors` argument
+	 * can be either a string, or an array of strings. If an array of strings
+	 * is passed, the function will return a nods queried using a first
+	 * valid selector.
+	 *
+	 * @param  {String|Array} selectors Single selector or array of selectors
+	 * @return {Element} Element instance
+	 */
+	/* istanbul ignore next */
+	queryElement(selectors) {
+		if (!selectors) {
+			return null;
+		}
+
+		if (typeof selectors === 'string') {
+			return document.querySelector(selectors);
+		}
+
+		if (!Array.isArray(selectors)) {
+			throw new TypeError(`Unknown type of selector: ${typeof selectors}`);
+		}
+
+		for (const selector of selectors) {
+			const element = document.querySelector(selector);
+			if (element) {
 				return element;
 			}
 		}

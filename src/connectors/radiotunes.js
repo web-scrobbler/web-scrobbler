@@ -32,7 +32,7 @@ Connector.getTrackArt = () => {
 };
 
 Connector.isPlaying = () => {
-	return $('#webplayer-region').attr('data-state') === 'playing';
+	return Util.getAttrFromSelectors(playerBar, 'data-state') === 'playing';
 };
 
 Connector.applyFilter(filter);

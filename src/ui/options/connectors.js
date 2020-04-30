@@ -12,42 +12,72 @@ define((require) => {
 	}
 
 	async function initConnectorsList() {
-		const parent = $('#connectors');
+		const container = document.getElementById('connectors');
 
+		const connectorsCount = sortedConnectors.length;
 		const disabledConnectors =
 			await Options.getOption(Options.DISABLED_CONNECTORS);
 		const toggleCheckboxState =
-			Object.keys(disabledConnectors).length !== sortedConnectors.length;
+			Object.keys(disabledConnectors).length !== connectorsCount;
 
 		sortedConnectors.forEach((connector, index) => {
-			const newEl = $(`
-				<div>
-					<a href="#" class="conn-config" data-conn="${index}">
-						<i class="fa fa-cog"></i>
-					</a>
-					<input type="checkbox" id="conn-${index}">
-					<label class="form-check-label" for="conn-${index}">${connector.label}</label>
-				</div>
-			`);
+			const { id, label } = connector;
+			const entry = createConnectorEntry(index, label);
 
-			const domEl = newEl.appendTo(parent);
-			const checkbox = domEl.find('input');
-
-			checkbox.click(function() {
+			const checkbox = entry.getElementsByTagName('input')[0];
+			checkbox.addEventListener('click', function() {
 				Options.setConnectorEnabled(connector, this.checked);
 			});
-			const isConnectorEnabled = !(connector.id in disabledConnectors);
-			checkbox.attr('checked', isConnectorEnabled);
+			const isConnectorEnabled = !(id in disabledConnectors);
+			checkbox.checked = isConnectorEnabled;
+
+			container.appendChild(entry);
 		});
 
-		$('input#toggle').attr('checked', toggleCheckboxState);
-		$('input#toggle').click(function() {
-			// First set each to the negated value and then trigger click
-			$('input[id^="conn"]').each((index, connector) => {
-				$(connector).prop('checked', this.checked);
-			});
+		const toggleCheckBox = document.getElementById('toggle');
+		toggleCheckBox.checked = toggleCheckboxState;
+		toggleCheckBox.addEventListener('click', function() {
+			for (let i = 0; i < connectorsCount; ++i) {
+				const configId = getConnectorConfigId(i);
+				const checkbox = document.getElementById(configId);
+				checkbox.checked = this.checked;
+			}
 			Options.setAllConnectorsEnabled(this.checked);
 		});
+	}
+
+	function createConnectorEntry(index, label) {
+		const configId = getConnectorConfigId(index);
+
+		const icon = document.createElement('i');
+		icon.classList.add('fa', 'fa-cog');
+
+		const configLink = document.createElement('a');
+		configLink.setAttribute('href', '#conn-conf-modal');
+		configLink.setAttribute('data-conn', index);
+		configLink.setAttribute('data-toggle', 'modal');
+		configLink.appendChild(icon);
+
+		const configCheckBox = document.createElement('input');
+		configCheckBox.setAttribute('type', 'checkbox');
+		configCheckBox.id = configId;
+
+		const configLabel = document.createElement('label');
+		configLabel.setAttribute('for', configId);
+		configLabel.classList.add('form-check-label');
+		configLabel.textContent = label;
+
+		const container = document.createElement('div');
+		container.classList.add('connector-config');
+		container.appendChild(configLink);
+		container.appendChild(configCheckBox);
+		container.appendChild(configLabel);
+
+		return container;
+	}
+
+	function getConnectorConfigId(index) {
+		return `conn-${index}`;
 	}
 
 	return { initialize };

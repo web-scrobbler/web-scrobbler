@@ -9,5 +9,5 @@ Connector.artistSelector = '.track-artist';
 Connector.trackArtSelector = '.current-artwork';
 
 Connector.isPlaying = () => {
-	return $('.radioco-player').hasClass('playing');
+	return Util.hasElementClass('.radioco-player', 'playing');
 };

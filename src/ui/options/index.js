@@ -16,6 +16,13 @@ require([
 	const GITHUB_RAW_SRC =
 		'https://github.com/web-scrobbler/web-scrobbler/blob/master/src/';
 
+	const accountsSectionId = 'collapseAccounts';
+	const contactsSectionId = 'collapseContacts';
+	const optionsSectionId = 'collapseOptions';
+
+	const latestReleaseLinkId = 'latest-release';
+	const privacyLinkId = 'privacy-url';
+
 	async function initialize() {
 		await Promise.all([
 			Connectors.initialize(),
@@ -32,12 +39,10 @@ require([
 	async function updateSections() {
 		switch (location.hash) {
 			case '#accounts':
-				$('#collapseAccounts').collapse('show');
-				$('#collapseContacts').collapse('hide');
+				expandAccountsSection();
 				break;
 			case '#options':
-				$('#collapseOptions').collapse('show');
-				$('#collapseContacts').collapse('hide');
+				expandOptionsSection();
 				break;
 		}
 	}
@@ -48,17 +53,35 @@ require([
 		const extVersion = browser.runtime.getManifest().version;
 		const releaseNotesUrl = `${GITHUB_RELEASES_URL}/v${extVersion}`;
 
-		$('a#latest-release').attr('href', releaseNotesUrl);
+		const latestReleaseLink = document.getElementById(latestReleaseLinkId);
+		latestReleaseLink.setAttribute('href', releaseNotesUrl);
 
 		/* Privacy policy URL */
 
 		const privacyPolicyFile = await Util.getPrivacyPolicyFilename();
 		const privacyPolicyUrl = `${GITHUB_RAW_SRC}/${privacyPolicyFile}`;
 
-		$('a#privacy-url').attr('href', privacyPolicyUrl);
+		const privacyLink = document.getElementById(privacyLinkId);
+		privacyLink.setAttribute('href', privacyPolicyUrl);
 	}
 
-	$(document).ready(() => {
-		initialize();
-	});
+	function expandAccountsSection() {
+		expandSection(accountsSectionId);
+		collapseSection(contactsSectionId);
+	}
+
+	function expandOptionsSection() {
+		expandSection(optionsSectionId);
+		collapseSection(contactsSectionId);
+	}
+
+	function collapseSection(sectionId) {
+		document.getElementById(sectionId).classList.remove('show');
+	}
+
+	function expandSection(sectionId) {
+		document.getElementById(sectionId).classList.add('show');
+	}
+
+	initialize();
 });

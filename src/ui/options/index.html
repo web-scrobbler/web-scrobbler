@@ -104,7 +104,7 @@
 									</p>
 								</div>
 
-								<div class="hidden-options">
+								<div id="hidden-options" hidden>
 									<h5 i18n="optionsHidden"></h5>
 									<div class="options-block">
 										<div class="form-inline">
@@ -126,7 +126,7 @@
 									<p i18n="optionsEditedTracksDesc"></p>
 
 									<p>
-										<a href="#" class="card-link" id="view-edited" i18n="optionsViewEdited"></a>
+										<a href="#edited-track-modal" class="card-link" id="view-edited" i18n="optionsViewEdited" data-toggle="modal"></a>
 										<a href="#" class="card-link" id="export-edited" i18n="optionsExportEdited"></a>
 										<a href="#" class="card-link" id="import-edited" i18n="optionsImportEdited"></a>
 									</p>
@@ -310,22 +310,30 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title"></h5>
+						<h5 id="url-patterns-title" class="modal-title"></h5>
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
 					<div class="modal-body">
 						<p i18n="customPatternsHint"></p>
+<<<<<<< HEAD
 						<div class="conn-conf-patterns">
 							<ul class="list-unstyled patterns-list" id="conn-conf-list"></ul>
 						</div>
+||||||| parent of c1e1ee31d (Remove jQuery dependency)
+						<div class="conn-conf-patterns"></div>
+=======
+						<div class="conn-conf-patterns">
+							<ul class="patterns-list list-unstyled" id="conn-conf-list"></ul>
+						</div>
+>>>>>>> c1e1ee31d (Remove jQuery dependency)
 						<button type="button" id="add-pattern" class="btn btn-primary" i18n="customPatternsAdd"></button>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal" i18n="buttonCancel"></button>
-						<button type="button" class="btn btn-secondary" id="conn-conf-reset" i18n="buttonReset"></button>
-						<button type="button" class="btn btn-primary" id="conn-conf-ok" i18n="buttonOk"></button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal" id="conn-conf-reset" i18n="buttonReset"></button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal" id="conn-conf-ok" i18n="buttonOk"></button>
 					</div>
 				</div>
 			</div>
@@ -344,7 +352,7 @@
 						<ul id="edited-track-content" class="list-unstyled mb-0"></ul>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" id="clear-cache" i18n="buttonClear"></button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal" id="clear-cache" i18n="buttonClear"></button>
 						<button type="button" class="btn btn-primary" data-dismiss="modal" i18n="buttonCancel"></button>
 					</div>
 				</div>
@@ -364,7 +372,7 @@
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-dismiss="modal" i18n="buttonCancel"></button>
-						<button type="button" class="btn btn-primary" id="scrobbler-ok" i18n="buttonOk"></button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal" id="scrobbler-ok" i18n="buttonOk"></button>
 					</div>
 				</div>
 			</div>

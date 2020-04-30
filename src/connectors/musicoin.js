@@ -1,51 +1,56 @@
 'use strict';
 
-Connector.getArtist = () => {
-	return getIframeElement('#player-artist').first().text();
-};
+const iframeId = 'playerFrame';
 
-Connector.getTrack = () => {
-	return getIframeElement('#player-title').first().text();
-};
+Connector.getArtist = () => getIframeElementText('#player-artist');
+
+Connector.getTrack = () => getIframeElementText('#player-title');
 
 Connector.getDuration = () => {
-	const duration = getIframeElement('#player-time-left').text();
+	const duration = getIframeElementText('#player-time-left');
 	return Util.stringToSeconds(duration);
 };
 
 Connector.getCurrentTime = () => {
-	const currentTime = getIframeElement('#player-time-played').text();
+	const currentTime = getIframeElementText('#player-time-played');
 	return Util.stringToSeconds(currentTime);
 };
 
 Connector.isPlaying = () => {
 	const playButton = getIframeElement('#player-play-button');
-	return playButton.css('display') === 'none';
+	return getComputedStyle(playButton).display === 'none';
 };
 
 Connector.getTrackArt = () => {
-	const imageSrc = getIframeElement('#player-badge-image').attr('src');
-	const url = `${window.location.protocol}//${window.location.host}${imageSrc}`;
-	return url;
+	const imageElement = getIframeElement('#player-badge-image');
+	return imageElement && imageElement.src;
 };
 
 Connector.getUniqueID = () => {
-	const trackUrl = getIframeElement('#player').attr('src');
-	if (trackUrl) {
-		return trackUrl.split('/').pop();
+	const trackUrlElement = getIframeElement('#player');
+	if (trackUrlElement) {
+		const trackUrl = trackUrlElement.getAttribute('href');
+		return trackUrl && trackUrl.split('/').pop();
 	}
+
 	return null;
 };
 
 Connector.applyFilter(MetadataFilter.getRemasteredFilter());
 
-/**
- * Find element in player iframe content.
- * @param  {String} selector CSS selector
- * @return {Object} Found element
- */
 function getIframeElement(selector) {
-	return $('#playerFrame').contents().find(selector);
+	const doc = getIframeDocument();
+	return doc && doc.querySelector(selector);
+}
+
+function getIframeElementText(selector) {
+	const element = getIframeElement(selector);
+	return element && element.textContent;
+}
+
+function getIframeDocument() {
+	const iframe = document.getElementById(iframeId);
+	return iframe && (iframe.contentDocument || iframe.contentWindow.document);
 }
 
 /**
@@ -55,7 +60,7 @@ function onPlayerLoaded() {
 	Util.debugLog('Player loaded, setting up observer');
 
 	const observer = new MutationObserver(Connector.onStateChanged);
-	const observeTarget = $('#playerFrame').get(0).contentDocument.getElementById('player-section');
+	const observeTarget = getIframeElement('#player-section');
 	const config = {
 		childList: true,
 		subtree: true,
@@ -70,9 +75,9 @@ function onPlayerLoaded() {
  * due to no onload event firing on iframe
  */
 const timer = setInterval(() => {
-	const iframe = document.getElementById('playerFrame');
-	const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-	if (iframeDoc.readyState === 'complete' || iframeDoc.readyState === 'interactive') {
+	const doc = getIframeDocument();
+
+	if (doc.readyState === 'complete' || doc.readyState === 'interactive') {
 		onPlayerLoaded();
 		clearInterval(timer);
 	}

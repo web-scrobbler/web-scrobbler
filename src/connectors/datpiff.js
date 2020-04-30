@@ -6,4 +6,4 @@ Connector.artistSelector = '.track.active > .title > span:nth-child(2)';
 
 Connector.trackSelector = '.track.active > .title > span:nth-child(1)';
 
-Connector.isPlaying = () => $('#btnPlay > svg').hasClass('fa-pause');
+Connector.isPlaying = () => Util.hasElementClass('#btnPlay > svg', 'fa-pause');

@@ -5,15 +5,21 @@ define((require) => {
 
 	const EXPORT_FILENAME = 'local-cache.json';
 
+	const exportBtnId = 'export-edited';
+	const importBtnId = 'import-edited';
+
 	const localCache = BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);
 
 	async function initialize() {
-		$('#export-edited').click((e) => {
+		const exportButton = document.getElementById(exportBtnId);
+		const importButton = document.getElementById(importBtnId);
+
+		exportButton.addEventListener('click', (e) => {
 			e.preventDefault();
 			exportLocalCache();
 		});
 
-		$('#import-edited').click((e) => {
+		importButton.addEventListener('click', (e) => {
 			e.preventDefault();
 			importLocalStorage();
 		});
@@ -62,7 +68,9 @@ define((require) => {
 					const dataStr = event.target.result;
 					const data = JSON.parse(dataStr);
 
-					localCache.update(data).then(fileInput.remove);
+					localCache.update(data).then(() => {
+						fileInput.remove();
+					});
 
 				};
 				reader.readAsText(file, 'utf-8');

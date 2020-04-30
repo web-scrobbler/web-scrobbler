@@ -1,8 +1,10 @@
 'use strict';
 
+const filter = new MetadataFilter({ artist: removeTrailingDash });
+
 Connector.playerSelector = '#indieshuffle_player';
 
-Connector.getArtist = () => $('#player-current .artist').text().slice(0, -3);
+Connector.artistSelector = '#player-current .artist';
 
 Connector.trackSelector = '#player-current .title';
 
@@ -12,4 +14,10 @@ Connector.currentTimeSelector = '#player-current > .progress > .seek';
 
 Connector.durationSelector = '#player-current > .progress > .duration';
 
-Connector.isPlaying = () => $('#playerPlaying').hasClass('active');
+Connector.isPlaying = () => Util.hasElementClass('#playerPlaying', 'active');
+
+Connector.applyFilter(filter);
+
+function removeTrailingDash(text) {
+	return text.replace(/\s-\s$/, '');
+}

@@ -6,4 +6,4 @@ Connector.trackArtSelector = '.playing .active img';
 
 Connector.artistTrackSelector = '.playing .sc-title';
 
-Connector.isPlaying = () => $('.sc-remote-link').hasClass('playing');
+Connector.isPlaying = () => Util.hasElementClass('.sc-remote-link', 'playing');

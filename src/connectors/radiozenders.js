@@ -1,19 +1,17 @@
 'use strict';
 
-let swapArtistTrack = false;
-if ($('.player-station-title').text().includes('Qmusic')) {
-	swapArtistTrack = true;
-}
+const stationTitle = Util.getTextFromSelectors('.player-station-title');
+const swapArtistTrack = stationTitle && stationTitle.includes('Qmusic');
 
 Connector.playerSelector = '#jp_container_1';
 
-Connector.getArtistTrack = function() {
-	const artistTrack = $('#player-station-info').text();
+Connector.getArtistTrack = () => {
+	const artistTrack = Util.getTextFromSelectors('#player-station-info');
 	return Util.splitArtistTrack(artistTrack, [' - '], {
 		swap: swapArtistTrack,
 	});
 };
 
 Connector.isPlaying = () => {
-	return $('#jp_container_1').hasClass('jp-state-playing');
+	return Util.hasElementClass('#jp_container_1', 'jp-state-playing');
 };

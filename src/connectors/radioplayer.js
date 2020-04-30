@@ -14,13 +14,18 @@ Connector.artistTrackSelector = [
 
 // Priority: 2.
 Connector.getTrackInfo = () => {
-	const radioFeedFrame = $('#radiofeed_iframe').contents();
-	if (radioFeedFrame.length === 0) {
+	const iframe = document.getElementById('radiofeed_iframe');
+	if (!iframe) {
 		return null;
 	}
 
-	const artist = radioFeedFrame.find(artistSelector).text();
-	const track = radioFeedFrame.find(trackSelector).text();
+	const radioFeedFrame = iframe.contentDocument || iframe.contentWindow.document;
+
+	const artistItem = radioFeedFrame.querySelector(artistSelector);
+	const trackItem = radioFeedFrame.querySelector(trackSelector);
+
+	const artist = artistItem && artistItem.textContent || null;
+	const track = trackItem && trackItem.textContent || null;
 
 	return { artist, track };
 };

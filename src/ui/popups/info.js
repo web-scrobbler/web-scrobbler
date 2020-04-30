@@ -82,7 +82,5 @@ require([
 		return browser.runtime.sendMessage({ type, data });
 	}
 
-	$(document).ready(() => {
-		main();
-	});
+	main();
 });

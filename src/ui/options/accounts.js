@@ -1,8 +1,13 @@
 'use strict';
 
+const propsModalId = 'scrobbler-props';
+const propsModalBodyId = 'scrobbler-props-body';
+const propsModalTitleId = 'scrobbler-props-title';
+const propsModalOkBtnId = 'scrobbler-ok';
+
 define((require) => {
 	const { getCurrentTab } = require('util/util-browser');
-	const browser = require('webextension-polyfill');
+	const { i18n, runtime, tabs } = require('webextension-polyfill');
 	const ScrobbleService = require('object/scrobble-service');
 
 	const scrobblerPropertiesMap = {
@@ -38,7 +43,7 @@ define((require) => {
 
 	async function setupEventListeners() {
 		const tab = await getCurrentTab();
-		browser.tabs.onActivated.addListener((activeInfo) => {
+		tabs.onActivated.addListener((activeInfo) => {
 			if (tab.id === activeInfo.tabId) {
 				createAccountViews();
 			}
@@ -48,25 +53,27 @@ define((require) => {
 	async function createAccountViews() {
 		const scrobblers = ScrobbleService.getRegisteredScrobblers();
 		for (const scrobbler of scrobblers) {
-			createEmptyAccountView(scrobbler);
-			createAccountView(scrobbler);
+			createAccountContainer(scrobbler);
+			fillAccountContainer(scrobbler);
 		}
 	}
 
-	function createEmptyAccountView(scrobbler) {
-		const elementId = getAccountViewId(scrobbler);
-		if ($(`#${elementId}`).length === 0) {
-			const $account = $('<li class="list-group-item"/>').attr('id', elementId);
-			$('#accounts-wrapper').append($account);
+	function createAccountContainer(scrobbler) {
+		const containerId = scrobbler.getId();
+		if (document.getElementById(containerId) !== null) {
+			return;
 		}
+
+		const accountContainer = document.createElement('li');
+		accountContainer.id = containerId;
+		accountContainer.classList.add('list-group-item');
+
+		const accountsList = document.getElementById('accounts-wrapper');
+		accountsList.appendChild(accountContainer);
 	}
 
-	function getAccountViewId(scrobbler) {
-		return scrobbler.getLabel().replace('.', '');
-	}
-
-	async function createAccountView(scrobbler) {
-		const accountBody = $(`#${getAccountViewId(scrobbler)}`);
+	async function fillAccountContainer(scrobbler) {
+		const accountBody = document.getElementById(scrobbler.getId());
 
 		let session = null;
 		try {
@@ -75,111 +82,156 @@ define((require) => {
 			// Do nothing
 		}
 
-		const label = $('<h4 class="card-title"/>').text(scrobbler.getLabel());
-		const buttons = $('<div/>');
+		const label = document.createElement('h4');
+		label.classList.add('cart-title');
+		label.textContent = scrobbler.getLabel();
 
-		let authStr = null;
+		const buttons = document.createElement('div');
+
+		const authStr = document.createElement('span');
+		authStr.classList.add('card-text');
+
 		if (session) {
 			const userName = session.sessionName || 'anonimous';
-			const authText = browser.i18n.getMessage('accountsSignedInAs', userName);
-			authStr = $('<span class="card-text"/>').text(authText);
+			const authText = i18n.getMessage('accountsSignedInAs', userName);
+
+			authStr.textContent = authText;
 		} else {
-			authStr = $('<span class="card-text"/>').attr('i18n', 'accountsNotSignedIn');
+			authStr.textContent = i18n.getMessage('accountsNotSignedIn');
 		}
 
 		if (!session) {
-			const signInBtn = $('<a class="card-link" href="#"/>')
-				.attr('i18n', 'accountsSignIn').click(() => {
-					requestAuthenticate(scrobbler);
-				});
+			const signInBtn = createButton('accountsSignIn');
+			signInBtn.addEventListener('click', () => {
+				requestAuthenticate(scrobbler);
+			});
+
 			buttons.append(signInBtn);
 		}
 
 		if (scrobbler.getUsedDefinedProperties().length > 0) {
-			const propsBtn = $('<a class="card-link" href="#"/>')
-				.attr('i18n', 'accountsScrobblerProps')
-				.click(() => {
-					initDialog(scrobbler);
-				});
+			const propsBtn = createButton('accountsScrobblerProps');
+			propsBtn.setAttribute('data-toggle', 'modal');
+			propsBtn.setAttribute('data-label', scrobbler.getLabel());
+			propsBtn.setAttribute('href', '#scrobbler-props');
+
 			buttons.append(propsBtn);
 		}
 
 		if (session) {
 			const profileUrl = await scrobbler.getProfileUrl();
 			if (profileUrl) {
-				const profileBtn = $('<a class="card-link" href="#"/>')
-					.attr('i18n', 'accountsProfile')
-					.click(() => {
-						browser.tabs.create({ url: profileUrl });
-					});
+				const profileBtn = createButton('accountsProfile');
+				profileBtn.addEventListener('click', () => {
+					tabs.create({ url: profileUrl });
+				});
+
 				buttons.append(profileBtn);
 			}
-			const logoutBtn = $('<a class="card-link" href="#"/>')
-				.attr('i18n', 'accountsSignOut')
-				.click(async () => {
-					await requestSignOut(scrobbler);
-					createAccountView(scrobbler);
-				});
+
+			const logoutBtn = createButton('accountsSignOut');
+			logoutBtn.addEventListener('click', async () => {
+				await requestSignOut(scrobbler);
+				fillAccountContainer(scrobbler);
+			});
+
 			buttons.append(logoutBtn);
 		}
 
-		accountBody.empty().append(label, authStr, buttons);
+		accountBody.innerHTML = '';
+		accountBody.appendChild(label);
+		accountBody.appendChild(authStr);
+		accountBody.appendChild(buttons);
 	}
 
-	function initDialog(scrobbler) {
-		const modal = $('#scrobbler-props');
-		const title = $('#scrobbler-props-title');
+	function fillPropsDialog(scrobbler) {
+		const scrobblerLabel = scrobbler.getLabel();
 
-		const body = $('#scrobbler-props-body').empty();
-		const props = scrobblerPropertiesMap[scrobbler.getLabel()];
+		const modal = document.getElementById(propsModalId);
+		const title = document.getElementById(propsModalTitleId);
 
-		for (const prop in props) {
-			const { placeholder, title, type } = props[prop];
+		const body = document.getElementById(propsModalBodyId);
+		body.innerHTML = '';
 
-			const formGroup = $('<div class="form-group"/>');
-			const label = $('<label/>').attr('i18n', title);
-			const input = $('<input class="form-control">')
-				.attr('id', prop)
-				.attr('i18n-placeholder', placeholder)
-				.val(scrobbler[prop]);
-			if (type) {
-				input.attr('type', type);
-			}
+		const props = scrobblerPropertiesMap[scrobblerLabel];
+		for (const propId in props) {
+			const { placeholder, title, type } = props[propId];
+			const value = scrobbler[propId];
 
-			formGroup.append(label, input);
-			body.append(formGroup);
+			body.append(createPropConainer({
+				propId, placeholder, title, type, value,
+			}));
 		}
 
-		title.text(browser.i18n.getMessage(
-			'accountsScrobblerPropsTitle', scrobbler.getLabel()));
-		modal.data('label', scrobbler.getLabel());
-		modal.modal('show');
+		title.textContent = i18n.getMessage(
+			'accountsScrobblerPropsTitle', scrobblerLabel);
+		modal.setAttribute('data-label', scrobblerLabel);
 	}
 
 	function setupDialog() {
-		$('#scrobbler-ok').click(async () => {
-			const modal = $('#scrobbler-props');
-			const label = modal.data('label');
-			const scrobbler = ScrobbleService.getScrobblerByLabel(label);
+		// const modalDialog = document.getElementById(propsModalId);
+		$('#scrobbler-props').on('show.bs.modal', (event) => {
+			const button = event.relatedTarget;
+			const label = button.getAttribute('data-label');
 
-			const userProps = {};
-			const scrobblerProps = scrobblerPropertiesMap[label];
-
-			for (const prop in scrobblerProps) {
-				const input = $(`#${prop}`);
-				const value = input.val() || null;
-
-				userProps[prop] = value;
-			}
-			await requestApplyUserProps(scrobbler, userProps);
-			createAccountView(scrobbler);
-
-			modal.modal('hide');
+			fillPropsDialog(ScrobbleService.getScrobblerByLabel(label));
 		});
+
+		const okButton = document.getElementById(propsModalOkBtnId);
+		okButton.addEventListener('click', onOkButtonClick);
+	}
+
+	async function onOkButtonClick() {
+		const modal = document.getElementById(propsModalId);
+		const label = modal.getAttribute('data-label');
+		const scrobbler = ScrobbleService.getScrobblerByLabel(label);
+
+		const userProps = {};
+		const scrobblerProps = scrobblerPropertiesMap[label];
+
+		for (const propId in scrobblerProps) {
+			const input = document.getElementById(propId);
+			const value = input.value || null;
+
+			userProps[propId] = value;
+		}
+		await requestApplyUserProps(scrobbler, userProps);
+		fillAccountContainer(scrobbler);
+	}
+
+	function createButton(labelId) {
+		const button = document.createElement('a');
+		button.classList.add('card-link');
+		button.setAttribute('href', '#');
+		button.setAttribute('i18n', labelId);
+		return button;
+	}
+
+	function createPropConainer(prop) {
+		const { propId, placeholder, title, type, value } = prop;
+
+		const formGroup = document.createElement('div');
+		formGroup.className = 'form-group';
+
+		const label = document.createElement('label');
+		label.setAttribute('i18n', title);
+
+		const input = document.createElement('input');
+		input.setAttribute('i18n-placeholder', placeholder);
+		input.className = 'form-control';
+		input.value = value || null;
+		input.id = propId;
+		if (type) {
+			input.type = type;
+		}
+
+		formGroup.appendChild(label);
+		formGroup.appendChild(input);
+		return formGroup;
 	}
 
 	function requestAuthenticate(scrobbler) {
-		browser.runtime.sendMessage({
+		runtime.sendMessage({
 			type: 'REQUEST_AUTHENTICATE',
 			data: { label: scrobbler.getLabel() },
 		});
@@ -190,7 +242,7 @@ define((require) => {
 		scrobbler.applyUserProperties(userProps);
 
 		const label = scrobbler.getLabel();
-		return browser.runtime.sendMessage({
+		return runtime.sendMessage({
 			type: 'REQUEST_APPLY_USER_OPTIONS', data: { label, userProps },
 		});
 	}
@@ -200,7 +252,7 @@ define((require) => {
 		scrobbler.signOut();
 
 		const label = scrobbler.getLabel();
-		return browser.runtime.sendMessage({
+		return runtime.sendMessage({
 			type: 'REQUEST_SIGN_OUT', data: { label },
 		});
 	}

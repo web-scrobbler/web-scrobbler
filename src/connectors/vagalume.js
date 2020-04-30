@@ -36,7 +36,7 @@ function setupConnector() {
 	}
 	function setupVideoPlayer() {
 		function isSingle() { /* lyric page */
-			return $('html').hasClass('page-letra');
+			return Util.hasElementClass('html', 'page-letra');
 		}
 		function isListSongsFM() {
 			return 0 < $('.listSongsFM').length;

@@ -13,14 +13,14 @@ Connector.trackArtSelector = [
 Connector.isTrackArtDefault = (url) => url.includes('solid_color');
 
 Connector.getUniqueID = () => {
-	const trackUrl = $('#player-nowplaying [href^="/track/"]').attr('href');
+	const trackUrl = Util.getAttrFromSelectors('#player-nowplaying [href^="/track/"]', 'href');
 	if (trackUrl) {
 		return trackUrl.split('/').pop();
 	}
 	return null;
 };
 
-Connector.isPlaying = () => $('#playerPlay').hasClass('pause');
+Connector.isPlaying = () => Util.hasElementClass('#playerPlay', 'pause');
 
 Connector.currentTimeSelector = '#player-time-position';
 

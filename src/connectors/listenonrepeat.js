@@ -1,12 +1,16 @@
 'use strict';
 
+const playButtonSelector = '.controls button:nth-child(3)';
+
 Connector.playerSelector = '#app-root';
 
 Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 
 Connector.getArtistTrack = () => {
-	const text = $('meta[name="twitter:title"]').attr('content');
+	const text = Util.getAttrFromSelectors('meta[name="twitter:title"]', 'content');
 	return Util.processYtVideoTitle(text);
 };
 
-Connector.pauseButtonSelector = 'button:contains(Pause Video)';
+Connector.isPlaying = () => {
+	return Util.getTextFromSelectors(playButtonSelector) === 'Pause Video';
+};

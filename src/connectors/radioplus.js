@@ -6,6 +6,4 @@ Connector.artistSelector = '.info .artist';
 
 Connector.trackSelector = '.info .song';
 
-Connector.isPlaying = () => {
-	return $('.audio-controller .any-surfer').text() === 'Stop de radiospeler';
-};
+Connector.pauseButtonSelector = '.audio-controller .active';

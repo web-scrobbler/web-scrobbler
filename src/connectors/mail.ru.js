@@ -16,4 +16,4 @@ Connector.trackArtSelector = '.l-music__player__song__cover';
 
 Connector.isTrackArtDefault = (url) => url.endsWith(DEFAULT_TRACK_ART);
 
-Connector.isPlaying = () => $('.l-music__player').hasClass('playing');
+Connector.isPlaying = () => Util.hasElementClass('.l-music__player', 'playing');

@@ -20,7 +20,7 @@ Connector.artistSelector = '.player-song-artist';
 Connector.trackSelector = '.player-song-title';
 
 Connector.isPlaying = () => {
-	return $('#audio-player').attr('src') !== undefined;
+	return !!Util.getAttrFromSelectors('#audio-player', 'src');
 };
 
 Connector.applyFilter(filter);

@@ -8,4 +8,4 @@ Connector.durationSelector = '#display-time-total';
 
 Connector.trackArtSelector = '#player-cover';
 
-Connector.isPlaying = () => !$('#player').hasClass('player_paused');
+Connector.pauseButtonSelector = '.player__controls__button_pause';

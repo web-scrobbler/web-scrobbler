@@ -11,4 +11,4 @@ Connector.artistSelector = [
 
 Connector.trackSelector = '[data-name="song-name"]';
 
-Connector.isPlaying = () => $('#player_container').hasClass('jp-state-playing');
+Connector.isPlaying = () => Util.hasElementClass('#player_container', 'jp-state-playing');

@@ -9,7 +9,7 @@ function setupConnector() {
 }
 
 function isMobilePlayer() {
-	return $('#appbar').length > 0;
+	return document.querySelector('#appbar') !== null;
 }
 
 function setupDesktopPlayer() {
@@ -32,14 +32,14 @@ function setupMobilePlayer() {
 	Connector.trackSelector = 'h1 a';
 
 	Connector.getArtist = () => {
-		const text = $('h3>span').text();
+		const text = Util.getTextFromSelectors('h3>span');
 		return text.split('Icon Angle right').shift();
 	};
 
 	Connector.trackArtSelector = '#app > div > div:nth-child(2) > div:nth-child(3)';
 
 	Connector.getUniqueID = () => {
-		const text = $('h1 > a').attr('href');
+		const text = Util.getAttrFromSelectors('h1 > a', 'href');
 		return text.split('/').slice(-2).shift();
 	};
 }

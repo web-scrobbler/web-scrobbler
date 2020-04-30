@@ -6,4 +6,4 @@ Connector.artistSelector = '#playerArtistName';
 
 Connector.trackSelector = '#playerSongName';
 
-Connector.isPlaying = () => $('.player-play').hasClass('hidden');
+Connector.isPlaying = () => Util.hasElementClass('.player-play', 'hidden');

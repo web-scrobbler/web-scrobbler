@@ -2,6 +2,7 @@
 
 const filter = MetadataFilter.createFilter({ track: removeOriginalMix });
 const playerBar = '.Player__container';
+const remixedBySelector = `${playerBar} .track-title__remixed`;
 
 Connector.playerSelector = playerBar;
 
@@ -18,14 +19,14 @@ Connector.durationSelector = '.Clock__total';
 Connector.trackArtSelector = '.Player__artwork-2';
 
 Connector.getUniqueID = () => {
-	const trackUrl = $(`${playerBar} .track-title a`).attr('href');
+	const trackUrl = Util.getAttrFromSelectors(`${playerBar} .track-title a`, 'href');
 	return trackUrl.split('/').pop();
 };
 
 Connector.applyFilter(filter);
 
 function removeOriginalMix(track) {
-	const remixedBy = $(`${playerBar} .track-title__remixed`).text();
+	const remixedBy = Util.getTextFromSelectors(remixedBySelector);
 	if (remixedBy === 'Original Mix') {
 		return track;
 	}

@@ -6,4 +6,4 @@ Connector.artistSelector = '.pla-artist';
 
 Connector.trackSelector = '.pla-song';
 
-Connector.isPlaying = () => $('.pla-ava').hasClass('pla-ava--vinyl');
+Connector.isPlaying = () => Util.hasElementClass('.pla-control .pla-ava', 'pla-ava--vinyl');

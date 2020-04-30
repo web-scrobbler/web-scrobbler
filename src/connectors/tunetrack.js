@@ -8,7 +8,7 @@ Connector.playerSelector = '#playback-controls-container';
 Connector.pauseButtonSelector = '.pause-btn';
 
 Connector.getUniqueID = () => {
-	const text = $(`${trackSelector} a`).attr('href');
+	const text = Util.getAttrFromSelectors(`${trackSelector} a`, 'href');
 	return text && /\/(\d+)-?/g.exec(text).pop();
 };
 

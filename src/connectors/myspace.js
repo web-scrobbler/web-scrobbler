@@ -6,4 +6,4 @@ Connector.artistSelector = '.track .artist';
 
 Connector.trackSelector = '.track .title';
 
-Connector.isPlaying = () => !$('#footer').hasClass('paused');
+Connector.isPlaying = () => !Util.hasElementClass('#footer', 'paused');

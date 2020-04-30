@@ -26,11 +26,11 @@ function initConnectorProps() {
 }
 
 function getPlayerType() {
-	if ($(mainPlayerSelector).length > 0) {
+	if (document.querySelector(mainPlayerSelector) !== null) {
 		return PLAYER_MAIN;
 	}
 
-	if ($(playPlayerSelector).length > 0) {
+	if (document.querySelector(playPlayerSelector) !== null) {
 		return PLAYER_PLAY;
 	}
 
@@ -38,7 +38,8 @@ function getPlayerType() {
 }
 
 function initPropsForMainPlayer() {
-	const PAUSE_SYMBOL = '\ue619';
+	const pauseSymbol = '\ue619';
+	const trackSelector = '.music .info .title';
 
 	Connector.playerSelector = mainPlayerSelector;
 
@@ -48,12 +49,15 @@ function initPropsForMainPlayer() {
 
 	Connector.trackArtSelector = '.music .cover-link .active img';
 
-	Connector.getUniqueID = () => $('.play-bar .content .title').attr('href').split('?')[0].split('/song/')[1];
+	Connector.getUniqueID = () => {
+		const trackUrl = Util.getAttrFromSelectors(trackSelector, 'href');
+		return trackUrl && trackUrl.split('/song/')[1];
+	};
 
 	Connector.timeInfoSelector = '.audio-progress .range .bar .handle';
 
 	Connector.isPlaying = () => {
-		return $('.main-control .play-btn').text() === PAUSE_SYMBOL;
+		return Util.getTextFromSelectors('.main-control .play-btn') === pauseSymbol;
 	};
 }
 
@@ -61,8 +65,8 @@ function initPropsForPlayPlayer() {
 	Connector.playerSelector = playPlayerSelector;
 
 	Connector.getArtist = () => {
-		const artists = $('#J_trackInfo a').toArray().slice(1);
-		return Util.joinArtists(artists);
+		const artistsNodes = document.querySelectorAll('#J_trackInfo a');
+		return Util.joinArtists(Array.from(artistsNodes).slice(1));
 	};
 
 	Connector.trackSelector = '#J_trackName';

@@ -10,6 +10,8 @@
 const filter = MetadataFilter.createFilter({ track: removeYear });
 const removeYearRe = /\s\(\d{2}\)\s?$/g;
 
+const playButtonSelector = '.sxm-player-controls .play-pause-btn';
+
 Connector.playerSelector = '.sxm-player-controls';
 
 Connector.artistSelector = '.sxm-player-controls .artist-name';
@@ -17,7 +19,7 @@ Connector.artistSelector = '.sxm-player-controls .artist-name';
 Connector.trackSelector = '.sxm-player-controls .track-name';
 
 Connector.isPlaying = () => {
-	return $('.sxm-player-controls .play-pause-btn').attr('title') === 'Pause';
+	return Util.getAttrFromSelectors(playButtonSelector, 'title') === 'Pause';
 };
 
 Connector.trackArtSelector = '.album-image-cell img';

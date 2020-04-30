@@ -9,6 +9,6 @@ Connector.getArtistTrack = () => {
 	return Util.splitArtistTrack(text);
 };
 
-Connector.isPlaying = () => $('#play-button').hasClass('active');
+Connector.isPlaying = () => Util.hasElementClass('#play-button', 'active');
 
 Connector.trackArtSelector = '.now_playing_list.ng-star-inserted:not(.dim) img';

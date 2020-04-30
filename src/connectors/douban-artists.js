@@ -11,17 +11,17 @@ function setupConnector() {
 }
 
 function setupCommonProperties() {
-	Connector.playButtonSelector = '.icon-play';
+	Connector.playButtonSelector = '.pl-controls .icon-play';
 
 	Connector.currentTimeSelector = '.time';
 }
 
 function isDesktopPlayer() {
-	return $('#app-container').length > 0;
+	return document.querySelector('#app-container') !== null;
 }
 
 function setupDesktopPlayer() {
-	Connector.getUniqueID = () => $('.current .fav').attr('id');
+	Connector.getUniqueID = () => Util.getAttrFromSelectors('.current .fav', 'id');
 
 	Connector.playerSelector = '.pl-controls .container';
 
@@ -34,7 +34,7 @@ function setupMobilePlayer() {
 	Connector.playerSelector = '.pla-wrapper';
 
 	Connector.getArtistTrack = () => {
-		const text = $('.song-title>div>div:nth-child(1)').text();
+		const text = Util.getTextFromSelectors('.song-title>div>div:nth-child(1)');
 		return Util.splitArtistTrack(text, ['-'], { swap: true });
 	};
 }

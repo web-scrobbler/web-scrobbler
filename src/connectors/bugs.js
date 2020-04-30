@@ -7,7 +7,7 @@ Connector.artistSelector = '#newPlayerArtistName';
 Connector.trackSelector = '.tracktitle > a';
 
 Connector.getAlbum = () => {
-	return $('.albumtitle').attr('title');
+	return Util.getAttrFromSelectors('.albumtitle', 'title');
 };
 
 Connector.currentTimeSelector = '.start';

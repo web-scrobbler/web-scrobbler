@@ -1,14 +1,13 @@
 'use strict';
 
 const titleContainer = '[class*=PlayerControlsMetadata]';
+const trackSelector = `${titleContainer} a[class*=MetadataPosterTitle]`;
 
 const plexFilter = MetadataFilter.createFilter({
 	album: removeUnknownAlbum,
 });
 
 Connector.playerSelector = '[class^=AudioVideoPlayerView-container]';
-
-Connector.trackSelector = `${titleContainer} a[class*=MetadataPosterTitle]`;
 
 Connector.albumSelector = `${titleContainer} [class*=MetadataPosterTitle-title] > a:nth-child(3)`;
 
@@ -36,7 +35,7 @@ Connector.applyFilter(MetadataFilter.getYoutubeFilter().extend(plexFilter));
 
 Connector.getTrack = () => {
 	if (Connector.getArtist()) {
-		return $(Connector.trackSelector).text();
+		return Util.getTextFromSelectors(trackSelector);
 	}
 	return null;
 };

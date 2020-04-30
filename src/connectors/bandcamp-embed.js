@@ -19,4 +19,4 @@ Connector.durationSelector = '.player.playing .mptime > span:last-child';
 
 Connector.trackArtSelector = '.player.playing .mpaa img';
 
-Connector.isPlaying = () => $('.player.playing').length > 0;
+Connector.pauseButtonSelector = '.player.playing';

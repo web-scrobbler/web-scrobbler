@@ -1,39 +1,35 @@
 'use strict';
 
 /**
- * Generic connector for Youtube embed videos.
+ * Generic connector for YouTube embed videos.
  */
 
-/**
- * CSS selector of video element.
- * @type {String}
- */
-const VIDEO_SELECTOR = '.html5-main-video';
+const videoSelector = '.html5-main-video';
 
 function setupConnector() {
-	const videoElement = $(VIDEO_SELECTOR);
+	const videoElement = document.querySelector(videoSelector);
 	// Skip frames with no video element
-	if (videoElement.length === 0) {
+	if (videoElement === null) {
 		return;
 	}
 
-	videoElement.on('timeupdate', Connector.onStateChanged);
+	videoElement.addEventListener('timeupdate', Connector.onStateChanged);
 
 	Connector.getArtistTrack = () => {
-		const videoTitle = $('.ytp-title-link').text();
+		const videoTitle = Util.getTextFromSelectors('.ytp-title-link');
 		return Util.processYtVideoTitle(videoTitle);
 	};
 
-	Connector.getCurrentTime = () => videoElement.prop('currentTime');
+	Connector.getCurrentTime = () => videoElement.currentTime;
 
-	Connector.getDuration = () => videoElement.prop('duration');
+	Connector.getDuration = () => videoElement.duration;
 
 	Connector.isPlaying = () => {
-		return $('.html5-video-player').hasClass('playing-mode');
+		return Util.hasElementClass('.html5-video-player', 'playing-mode');
 	};
 
 	Connector.getUniqueID = () => {
-		const videoUrl = $('.ytp-title-link').attr('href');
+		const videoUrl = Util.getAttrFromSelectors('.ytp-title-link', 'href');
 		return Util.getYtVideoIdFromUrl(videoUrl);
 	};
 
