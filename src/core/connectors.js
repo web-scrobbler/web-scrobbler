@@ -236,7 +236,7 @@ const connectors = [{
 	matches: [
 		'*://www.di.fm/*'
 	],
-	js: 'connectors/di.js',
+	js: 'connectors/radiotunes.js',
 	id: 'di',
 }, {
 	label: 'BBC RadioPlayer',

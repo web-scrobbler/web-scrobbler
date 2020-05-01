@@ -1,19 +1,20 @@
 'use strict';
 
-Connector.playerSelector = '#row-player-controls';
+const playerBar = '#webplayer-region';
+const trackArtSelectors = [
+	// Radiotunes
+	'#art',
+	// DI
+	'.track-region .artwork img',
+];
 
-Connector.getArtistTrack = () => {
-	const artist = $('.artist-name').text();
-	const track = $('.track-name').text();
+const filter = new MetadataFilter({ artist: removeTrailingDash });
 
-	if (artist && track) {
-		// The 'artist' element contains dash at the end of string.
-		const artistTrack = artist + track;
-		return Util.splitArtistTrack(artistTrack);
-	}
+Connector.playerSelector = playerBar;
 
-	return null;
-};
+Connector.artistSelector = '.artist-name';
+
+Connector.trackSelector = '.track-name';
 
 Connector.playButtonSelector = '.icon-play';
 
@@ -21,6 +22,21 @@ Connector.currentTimeSelector = '.timeinfo .time';
 
 Connector.durationSelector = '.timeinfo .total';
 
-Connector.trackArtSelector = '#art';
+Connector.getTrackArt = () => {
+	const trackArtUrl = Util.extractImageUrlFromSelectors(trackArtSelectors);
+	if (trackArtUrl) {
+		// Remove 'size' param
+		return trackArtUrl.split('?')[0];
+	}
+	return null;
+};
 
-Connector.getUniqueID = () => $('.vote-btn').data('track-id');
+Connector.isPlaying = () => {
+	return $('#webplayer-region').attr('data-state') === 'playing';
+};
+
+Connector.applyFilter(filter);
+
+function removeTrailingDash(text) {
+	return text.replace(/\s-\s$/, '');
+}
