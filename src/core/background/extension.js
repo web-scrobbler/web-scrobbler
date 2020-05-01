@@ -290,11 +290,14 @@ define((require) => {
 					break;
 				}
 
-				case SongUnrecognized:
-					Notifications.showSongNotRecognized(() => {
+				case SongUnrecognized: {
+					console.log(2222);
+					const song = ctrl.getCurrentSong();
+					Notifications.showSongNotRecognized(song, () => {
 						openTab(ctrl.tabId);
 					});
 					break;
+				}
 			}
 		}
 	}

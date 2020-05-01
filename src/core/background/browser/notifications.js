@@ -219,7 +219,6 @@ define((require) => {
 			title: i18n.getMessage('notificationNotRecognized'),
 			message: i18n.getMessage('notificationNotRecognizedText')
 		};
-		showNotification(options, onClicked);
 
 		const notificationId = await showNotification(options, onClicked);
 		song.metadata.notificationId = notificationId;
