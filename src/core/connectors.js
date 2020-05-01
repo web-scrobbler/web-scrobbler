@@ -25,13 +25,6 @@ const connectors = [{
 	js: 'connectors/youtube.js',
 	id: 'youtube',
 }, {
-	label: 'Zen Audio Player',
-	matches: [
-		'*://zenplayer.audio/*'
-	],
-	js: 'connectors/zenplayer.js',
-	id: 'zenplayer',
-}, {
 	label: 'Google Play Music',
 	matches: [
 		'*://play.google.com/music/*'
@@ -189,13 +182,6 @@ const connectors = [{
 	js: 'connectors/8tracks.js',
 	id: '8tracks',
 }, {
-	label: 'Moje Polskie Radio',
-	matches: [
-		'*://moje.polskieradio.pl/station/*'
-	],
-	js: 'connectors/polskieradio.js',
-	id: 'polskieradio',
-}, {
 	label: 'Radio Nova',
 	matches: [
 		'*://www.nova.fr/*'
@@ -238,13 +224,6 @@ const connectors = [{
 	],
 	js: 'connectors/radiotunes.js',
 	id: 'di',
-}, {
-	label: 'BBC RadioPlayer',
-	matches: [
-		'*://www.bbc.co.uk/radio/player/*'
-	],
-	js: 'connectors/bbc-radio.js',
-	id: 'bbc-radio',
 }, {
 	label: 'BBC Sounds',
 	matches: [
@@ -429,14 +408,6 @@ const connectors = [{
 	],
 	js: 'connectors/accuradio.js',
 	id: 'accuradio',
-}, {
-	label: 'RAW.FM',
-	matches: [
-		'*://www.rawfm.com.au/stream/player*/',
-		'*://rawfm.com.au/stream/player*/'
-	],
-	js: 'connectors/rawfm.js',
-	id: 'rawfm',
 }, {
 	label: 'Imusic.am',
 	matches: [
@@ -765,13 +736,6 @@ const connectors = [{
 	js: 'connectors/openfm.js',
 	id: 'openfm',
 }, {
-	label: 'monkey3',
-	matches: [
-		'*://www.monkey3.co.kr/*'
-	],
-	js: 'connectors/monkey3.js',
-	id: 'monkey3',
-}, {
 	label: 'Playmoss',
 	matches: [
 		'*://playmoss.com/*'
@@ -785,13 +749,6 @@ const connectors = [{
 	],
 	js: 'connectors/apidog.js',
 	id: 'apidog',
-}, {
-	label: 'RBMA Radio',
-	matches: [
-		'*://www.redbullradio.com/*'
-	],
-	js: 'connectors/redbullradio.js',
-	id: 'redbullradio',
 }, {
 	label: 'Pinguin Radio',
 	matches: [
@@ -1014,13 +971,6 @@ const connectors = [{
 	],
 	js: 'connectors/olleh.js',
 	id: 'olleh',
-}, {
-	label: 'mnet',
-	matches: [
-		'*://www.mnet.com/*'
-	],
-	js: 'connectors/mnet.js',
-	id: 'mnet',
 }, {
 	label: 'Soribada',
 	matches: [
@@ -1428,13 +1378,6 @@ const connectors = [{
 	],
 	js: 'connectors/invidious.js',
 	id: 'invidious',
-}, {
-	label: 'That Station',
-	matches: [
-		'*://www.thatstation.net/listen-live/'
-	],
-	js: 'connectors/thatstation.js',
-	id: 'thatstation',
 }, {
 	label: 'Pretzel',
 	matches: [
