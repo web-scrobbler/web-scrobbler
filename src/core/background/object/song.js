@@ -200,7 +200,7 @@ define((require) => {
 		 * @param  {Boolean} isLoved Flag means song is loved or not
 		 * @param  {Boolean} force Force status assignment
 		 */
-		setLoveStatus(isLoved, { force = true } = {}) {
+		setLoveStatus(isLoved, { force = false } = {}) {
 			if (force) {
 				this.metadata.userloved = isLoved;
 				return;

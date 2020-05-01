@@ -214,10 +214,48 @@ function testSetLoveStatus() {
 	it('should return proper value if `force` param is used', () => {
 		const song = createSong({});
 		song.setLoveStatus(false);
-		song.setLoveStatus(true);
+		song.setLoveStatus(true, { force: true });
 
 		expect(song.metadata.userloved).to.be.true;
 	});
+}
+
+function testResetData() {
+	it('should reset flags and metadata', () => {
+		const song = createSong({});
+
+		song.flags.isCorrectedByUser = true;
+		song.metadata.notificationId = 123;
+
+		expect(song.flags.isCorrectedByUser).to.be.true;
+		expect(song.metadata.notificationId).equals(123);
+
+		song.resetData();
+
+		expect(song.flags.isCorrectedByUser).to.be.false;
+		expect(song.metadata.notificationId).to.be.undefined;
+	});
+}
+
+function testResetInfo() {
+	const song = createSong(PARSED_DATA, PROCESSED_DATA);
+	song.resetInfo();
+
+	const valuesMap = {
+		albumArtist: song.getAlbumArtist(),
+		artist: song.getArtist(),
+		track: song.getTrack(),
+		album: song.getAlbum(),
+	};
+
+	for (const key in valuesMap) {
+		const expectedValue = PARSED_DATA[key];
+		const actualValue = valuesMap[key];
+
+		it(`should return processed ${key} value`, () => {
+			expect(expectedValue).to.be.equal(actualValue);
+		});
+	}
 }
 
 function testGetCloneableData() {
@@ -334,6 +372,8 @@ function runTests() {
 	describe('isValid', testIsValid);
 	describe('isEmpty', testIsEmpty);
 	describe('toString', testToString);
+	describe('resetData', testResetData);
+	describe('resetInfo', testResetInfo);
 	describe('getUniqueId', testGetUniqueId);
 	describe('getTrackArt', testGetTrackArt);
 	describe('getDuration', testGetDuration);
