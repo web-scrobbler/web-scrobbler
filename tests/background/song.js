@@ -210,6 +210,14 @@ function testSetLoveStatus() {
 
 		expect(song.metadata.userloved).to.be.false;
 	});
+
+	it('should return proper value if `force` param is used', () => {
+		const song = createSong({});
+		song.setLoveStatus(false);
+		song.setLoveStatus(true);
+
+		expect(song.metadata.userloved).to.be.true;
+	});
 }
 
 function testGetCloneableData() {

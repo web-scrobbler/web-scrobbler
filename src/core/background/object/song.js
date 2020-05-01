@@ -198,8 +198,14 @@ define((require) => {
 		 * services have the song with `Love` set to true.
 		 *
 		 * @param  {Boolean} isLoved Flag means song is loved or not
+		 * @param  {Boolean} force Force status assignment
 		 */
-		setLoveStatus(isLoved) {
+		setLoveStatus(isLoved, { force = true } = {}) {
+			if (force) {
+				this.metadata.userloved = isLoved;
+				return;
+			}
+
 			if (isLoved) {
 				if (this.metadata.userloved === undefined) {
 					this.metadata.userloved = true;
