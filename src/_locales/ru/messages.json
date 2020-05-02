@@ -115,6 +115,26 @@
         "message": "Войти",
         "description": "Button label"
     },
+    "accountsScrobblerProps": {
+        "message": "Свойства",
+        "description": "Button label"
+    },
+    "accountsUserApiUrl": {
+        "message": "API URL",
+        "description": "Input label"
+    },
+    "accountsUserApiUrlPlaceholder": {
+        "message": "Пользовательский API URL",
+        "description": "Input label"
+    },
+    "accountsUserToken": {
+        "message": "Токен",
+        "description": "Input label"
+    },
+    "accountsUserTokenPlaceholder": {
+        "message": "Пользовательский токен",
+        "description": "Input label"
+    },
     "optionsOptions": {
         "message": "Настройки",
         "description": "'Options' section"
