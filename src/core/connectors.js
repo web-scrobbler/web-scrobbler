@@ -39,13 +39,6 @@ const connectors = [{
 	js: 'connectors/myspace.js',
 	id: 'myspace',
 }, {
-	label: 'Pitchfork',
-	matches: [
-		'*://pitchfork.com/*'
-	],
-	js: 'connectors/pitchfork.js',
-	id: 'pitchfork',
-}, {
 	label: 'Bandcamp Daily',
 	matches: [
 		'*://daily.bandcamp.com/*'
@@ -168,13 +161,6 @@ const connectors = [{
 	js: 'connectors/hillydilly.js',
 	id: 'hillydilly',
 }, {
-	label: 'Groove Music',
-	matches: [
-		'*://music.microsoft.com/*'
-	],
-	js: 'connectors/groovemusic.js',
-	id: 'groovemusic',
-}, {
 	label: '8tracks',
 	matches: [
 		'*://8tracks.com/*'
@@ -259,13 +245,6 @@ const connectors = [{
 	js: 'connectors/plex.js',
 	id: 'plex',
 }, {
-	label: 'Perisonic',
-	matches: [
-		'*://robinbakker.nl/perisonic/*'
-	],
-	js: 'connectors/perisonic.js',
-	id: 'perisonic',
-}, {
 	label: 'TuneIn',
 	matches: [
 		'*://tunein.com/*'
@@ -323,13 +302,6 @@ const connectors = [{
 	],
 	js: 'connectors/163-music.js',
 	id: '163-music',
-}, {
-	label: 'luooMusic',
-	matches: [
-		'*://www.luoo.net/*'
-	],
-	js: 'connectors/luoo.js',
-	id: 'luoo',
 }, {
 	label: 'Ambient Sleeping Pill',
 	matches: [
@@ -480,13 +452,6 @@ const connectors = [{
 	js: 'connectors/jamendo.js',
 	id: 'jamendo',
 }, {
-	label: 'Whyd',
-	matches: [
-		'*://whyd.com/*'
-	],
-	js: 'connectors/whyd.js',
-	id: 'whyd',
-}, {
 	label: 'Bandzone.cz',
 	matches: [
 		'*://bandzone.cz/*'
@@ -518,13 +483,6 @@ const connectors = [{
 	],
 	js: 'connectors/rmfon.js',
 	id: 'rmfon',
-}, {
-	label: 'RADIO Обозреватель',
-	matches: [
-		'*://radio.obozrevatel.com/*'
-	],
-	js: 'connectors/obozrevatel.js',
-	id: 'obozrevatel',
 }, {
 	label: 'JazzRadio',
 	matches: [
@@ -561,14 +519,6 @@ const connectors = [{
 	js: 'connectors/redditmusicplayer.js',
 	id: 'redditmusicplayer',
 }, {
-	label: 'KOLLEKT.FM',
-	matches: [
-		'*://kollekt.fm/*',
-		'*://*.kollekt.fm/*'
-	],
-	js: 'connectors/kollekt.fm.js',
-	id: 'kollekt.fm',
-}, {
 	label: 'Новое Радио',
 	matches: [
 		'*://www.novoeradio.by/*'
@@ -601,26 +551,12 @@ const connectors = [{
 	js: 'connectors/beatport.js',
 	id: 'beatport',
 }, {
-	label: 'The Music Ninja',
-	matches: [
-		'*://www.themusicninja.com/*'
-	],
-	js: 'connectors/themusicninja.js',
-	id: 'themusicninja',
-}, {
 	label: 'wavo',
 	matches: [
 		'*://wavo.me/*'
 	],
 	js: 'connectors/wavo.js',
 	id: 'wavo',
-}, {
-	label: 'Dubtrack.fm',
-	matches: [
-		'*://www.dubtrack.fm/*'
-	],
-	js: 'connectors/dubtrack.fm.js',
-	id: 'dubtrack.fm',
 }, {
 	label: 'FluxFM Berlin',
 	matches: [
@@ -653,20 +589,6 @@ const connectors = [{
 	js: 'connectors/sonerezh.js',
 	id: 'sonerezh',
 }, {
-	label: 'Evropa 2',
-	matches: [
-		'*://onair.evropa2.cz/*'
-	],
-	js: 'connectors/evropa2.js',
-	id: 'evropa2',
-}, {
-	label: 'Frekvence 1',
-	matches: [
-		'*://vysilani.frekvence1.cz/*'
-	],
-	js: 'connectors/frekvence1.js',
-	id: 'frekvence1',
-}, {
 	label: 'Youradio',
 	matches: [
 		'*://www.youradio.cz/*'
@@ -674,33 +596,12 @@ const connectors = [{
 	js: 'connectors/youradio.js',
 	id: 'youradio',
 }, {
-	label: 'Dance radio',
-	matches: [
-		'*://www.danceradio.cz/*'
-	],
-	js: 'connectors/danceradio.js',
-	id: 'danceradio',
-}, {
-	label: 'Rádio Bonton',
-	matches: [
-		'*://www.radiobonton.cz/*'
-	],
-	js: 'connectors/radiobonton.js',
-	id: 'radiobonton',
-}, {
 	label: 'GPMusic',
 	matches: [
 		'*://player.gpmusic.co/*'
 	],
 	js: 'connectors/gpmusic.js',
 	id: 'gpmusic',
-}, {
-	label: 'Youtube Jukebox',
-	matches: [
-		'*://youtube.nestharion.de/*'
-	],
-	js: 'connectors/yt-jukebox.js',
-	id: 'yt-jukebox',
 }, {
 	label: 'Nightwave Plaza',
 	matches: [
@@ -757,13 +658,6 @@ const connectors = [{
 	],
 	js: 'connectors/pinguinradio.js',
 	id: 'pinguinradio',
-}, {
-	label: 'Vevo',
-	matches: [
-		'*://www.vevo.com/*'
-	],
-	js: 'connectors/vevo.js',
-	id: 'vevo',
 }, {
 	label: 'JioSaavn',
 	matches: [
@@ -830,13 +724,6 @@ const connectors = [{
 	],
 	js: 'connectors/fairpricemusic.js',
 	id: 'fairpricemusic',
-}, {
-	label: 'My Cloud Player',
-	matches: [
-		'*://mycloudplayers.com/*'
-	],
-	js: 'connectors/mycloudplayer.js',
-	id: 'mycloudplayer',
 }, {
 	label: 'Radio ULTRA',
 	matches: [
@@ -951,27 +838,12 @@ const connectors = [{
 	js: 'connectors/qq-video.js',
 	id: 'qq-video',
 }, {
-	label: 'Youtubify',
-	matches: [
-		'*://youtubify.vebto.com/*',
-		'*://bemusic.vebto.com/*'
-	],
-	js: 'connectors/bemusic.js',
-	id: 'youtubify',
-}, {
 	label: 'Naver',
 	matches: [
 		'*://playerui.music.naver.com/*'
 	],
 	js: 'connectors/naver.js',
 	id: 'naver',
-}, {
-	label: 'olleh',
-	matches: [
-		'*://www.ollehmusic.com/*'
-	],
-	js: 'connectors/olleh.js',
-	id: 'olleh',
 }, {
 	label: 'Soribada',
 	matches: [
@@ -987,20 +859,6 @@ const connectors = [{
 	js: 'connectors/music-flo.js',
 	id: 'music-flo',
 }, {
-	label: 'GrooveMP3',
-	matches: [
-		'*://*.groovemp3.com/*'
-	],
-	js: 'connectors/bemusic.js',
-	id: 'groovemp3',
-}, {
-	label: 'ytmp3',
-	matches: [
-		'*://www.ytmp3.fun/*'
-	],
-	js: 'connectors/bemusic.js',
-	id: 'ytmp3',
-}, {
 	label: 'Discogs',
 	matches: [
 		'*://www.discogs.com/*'
@@ -1008,13 +866,6 @@ const connectors = [{
 	js: 'connectors/youtube-embed.js',
 	id: 'youtube-embed',
 	allFrames: true,
-}, {
-	label: 'Kuwo Music',
-	matches: [
-		'*://*.kuwo.cn/*'
-	],
-	js: 'connectors/kuwo.js',
-	id: 'kuwo',
 }, {
 	label: 'NPR',
 	matches: [
@@ -1119,13 +970,6 @@ const connectors = [{
 	js: 'connectors/feedbands.js',
 	id: 'feedbands',
 }, {
-	label: 'Vimeo',
-	matches: [
-		'*://vimeo.com/*'
-	],
-	js: 'connectors/vimeo.js',
-	id: 'vimeo',
-}, {
 	label: 'Taazi',
 	matches: [
 		'*://taazi.com/*'
@@ -1210,14 +1054,6 @@ const connectors = [{
 	js: 'connectors/kugou.js',
 	id: 'kugou',
 }, {
-	label: 'ccMixter',
-	matches: [
-		'*://ccmixter.org/*',
-		'*://*.ccmixter.org/*',
-	],
-	js: 'connectors/ccmixter.js',
-	id: 'ccmixter',
-}, {
 	label: 'Gimme Radio',
 	matches: [
 		'*://gimmeradio.com/*',
@@ -1271,14 +1107,6 @@ const connectors = [{
 	],
 	js: 'connectors/rozhlas.js',
 	id: 'rozhlas',
-}, {
-	label: 'Sound Session',
-	matches: [
-		'*://*soundsession.com/',
-		'*://soundsession.center/station/*'
-	],
-	js: 'connectors/soundsession.js',
-	id: 'soundsession',
 }, {
 	label: 'blocSonic',
 	matches: [
