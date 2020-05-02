@@ -8,25 +8,10 @@ define((require) => {
 	const { hideStringInText, timeoutPromise } = require('util/util');
 	const { createQueryString } = require('util/util-browser');
 
-	const requiredPropList = [
-		/**
-		 * Service API key.
-		 * @type {String}
-		 */
-		'apiKey',
-		/**
-		 * Service API secret.
-		 * @type {String}
-		 */
-		'apiSecret'
-	];
-
 	class AudioScrobbler extends BaseScrobbler {
 		/** @override */
 		constructor(properties) {
 			super(properties);
-
-			this.applyProperties(properties, requiredPropList);
 		}
 
 		/** @override */
@@ -66,6 +51,22 @@ define((require) => {
 			await this.storage.set(data);
 
 			return `${this.authUrl}?api_key=${this.apiKey}&token=${token}`;
+		}
+
+		/** @override */
+		getRequiredProperties() {
+			return [
+				/**
+				 * Service API key.
+				 * @type {String}
+				 */
+				'apiKey',
+				/**
+				 * Service API secret.
+				 * @type {String}
+				 */
+				'apiSecret'
+			].concat(super.getRequiredProperties());
 		}
 
 		/** @override */

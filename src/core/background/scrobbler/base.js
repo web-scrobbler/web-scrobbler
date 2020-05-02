@@ -5,43 +5,6 @@ define((require) => {
 	const BrowserStorage = require('storage/browser-storage');
 
 	/**
-	 * List of scrobbler properties.
-	 * @type {Array}
-	 */
-	const requiredPropList = [
-		/**
-		 * Scrobbler label.
-		 * @type {String}
-		 */
-		'label',
-		/**
-		 * Storage namespace in which scrobbler options are stored.
-		 * @type {String}
-		 */
-		'storage',
-		/**
-		 * URL used to execute API methods.
-		 * @type {String}
-		 */
-		'apiUrl',
-		/**
-		 * URL used to authenticate user.
-		 * @type {String}
-		 */
-		'authUrl',
-		/**
-		 * URL used to view service status.
-		 * @type {String}
-		 */
-		'statusUrl',
-		/**
-		 * URL used to view user profile.
-		 * @type {String}
-		 */
-		'profileUrl',
-	];
-
-	/**
 	 * Base scrobbler object.
 	 *
 	 * Descendants of this object MUST return ServiceCallResult constants
@@ -68,8 +31,9 @@ define((require) => {
 		 * @see {@link propList}
 		 */
 		constructor(properties) {
-			this.applyProperties(properties, requiredPropList);
+			this.applyProperties(properties);
 			this.initStorage(properties.storage);
+			this.initUserProps();
 		}
 
 		/**
@@ -79,16 +43,86 @@ define((require) => {
 		 * Properties are available as `this.propKey`.
 		 *
 		 * @param  {Array}  props Object contains scrobbler properties
-		 * @param  {Object} requiredProps Array of required properties
 		 */
-		applyProperties(props, requiredProps) {
-			for (const option of requiredProps) {
-				if (props[option] === undefined) {
-					throw new Error(`Option ${option} is not set`);
-				}
+		applyProperties(props) {
+			this.applyProps(props, this.getRequiredProperties());
+		}
 
-				this[option] = props[option];
+		/**
+		 * Apply user properties.
+		 *
+		 * Each property is a property used internally in scrobblers.
+		 * Users can edit custom properties in the extension settings.
+		 *
+		 * @param  {Array}  props Object contains user properties
+		 */
+		async applyUserProperties(props) {
+			this.applyProps(props, this.getUsedDefinedProperties());
+
+			const data = await this.storage.get();
+			if (!data.properties) {
+				data.properties = {};
 			}
+
+			for (const prop in props) {
+				const propValue = props[prop];
+				if (propValue) {
+					data.properties[prop] = propValue;
+				} else {
+					delete data.properties[prop];
+				}
+			}
+
+			await this.storage.set(data);
+		}
+
+		/**
+		 * Return a list of required scrobbler properties.
+		 *
+		 * @return {Array} A list of required scrobbler properties.
+		 */
+		getRequiredProperties() {
+			return [
+				/**
+				 * Scrobbler label.
+				 * @type {String}
+				 */
+				'label',
+				/**
+				 * Storage namespace in which scrobbler options are stored.
+				 * @type {String}
+				 */
+				'storage',
+				/**
+				 * URL used to execute API methods.
+				 * @type {String}
+				 */
+				'apiUrl',
+				/**
+				 * URL used to authenticate user.
+				 * @type {String}
+				 */
+				'authUrl',
+				/**
+				 * URL used to view service status.
+				 * @type {String}
+				 */
+				'statusUrl',
+				/**
+				 * URL used to view user profile.
+				 * @type {String}
+				 */
+				'profileUrl',
+			];
+		}
+
+		/**
+		 * Return a list of user-defined scrobbler properties.
+		 *
+		 * @return {Array} a list of user-defined scrobbler properties.
+		 */
+		getUsedDefinedProperties() {
+			return [];
 		}
 
 		/** Authentication */
@@ -247,6 +281,33 @@ define((require) => {
 
 			this.storage = BrowserStorage.getScrobblerStorage(storageName);
 			this.storage.debugLog(sensitiveProps);
+		}
+
+		async initUserProps() {
+			const { properties } = await this.storage.get();
+			for (const prop in properties) {
+				this[prop] = properties[prop];
+			}
+		}
+
+		applyProps(props, allowedProps) {
+			for (const prop in props) {
+				if (!allowedProps.includes(prop)) {
+					throw new Error(`Unknown property: ${prop}`);
+				}
+
+				const propValue = props[prop];
+
+				if (propValue === undefined) {
+					throw new Error(`Property is not set: ${prop}`);
+				}
+
+				if (propValue) {
+					this[prop] = props[prop];
+				} else {
+					delete this[prop];
+				}
+			}
 		}
 	}
 
