@@ -12,6 +12,11 @@ define((require) => {
 
 	class ListenBrainz extends BaseScrobbler {
 		/** @override */
+		getUsedDefinedProperties() {
+			return ['userApiUrl', 'userToken'];
+		}
+
+		/** @override */
 		async getAuthUrl() {
 			const data = await this.storage.get();
 
@@ -26,7 +31,38 @@ define((require) => {
 		}
 
 		/** @override */
+		getStatusUrl() {
+			if (this.userToken) {
+				return null;
+			}
+			return super.getStatusUrl();
+		}
+
+		/** @override */
+		async getProfileUrl() {
+			if (this.userToken) {
+				return null;
+			}
+			return super.getProfileUrl();
+		}
+
+		/** @override */
+		async signOut() {
+			if (this.userApiUrl || this.userToken) {
+				await this.applyUserProperties({
+					userApiUrl: null,
+					userToken: null,
+				});
+			}
+			await super.signOut();
+		}
+
+		/** @override */
 		async getSession() {
+			if (this.userToken) {
+				return { sessionID: this.userToken };
+			}
+
 			const data = await this.storage.get();
 			if (data.isAuthStarted) {
 				let session = {};
@@ -58,6 +94,10 @@ define((require) => {
 
 		/** @override */
 		async isReadyForGrantAccess() {
+			if (this.userToken) {
+				return false;
+			}
+
 			const data = await this.storage.get();
 			return data.isAuthStarted;
 		}
@@ -90,6 +130,8 @@ define((require) => {
 			return this.sendRequest(params, sessionID);
 		}
 
+		/** Private methods. */
+
 		async sendRequest(params, sessionID) {
 			const requestInfo = {
 				method: 'POST',
@@ -99,8 +141,7 @@ define((require) => {
 				},
 				body: JSON.stringify(params)
 			};
-
-			const promise = fetch(this.apiUrl, requestInfo);
+			const promise = fetch(this.userApiUrl || this.apiUrl, requestInfo);
 			const timeout = BaseScrobbler.REQUEST_TIMEOUT;
 
 			let result = null;

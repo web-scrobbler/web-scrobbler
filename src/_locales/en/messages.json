@@ -121,6 +121,26 @@
     "message": "Sign in",
     "description": "Button label"
   },
+  "accountsScrobblerProps": {
+    "message": "Properties",
+    "description": "Button label"
+  },
+  "accountsUserApiUrl": {
+    "message": "API URL",
+    "description": "Input label"
+  },
+  "accountsUserApiUrlPlaceholder": {
+    "message": "Custom API URL",
+    "description": "Input label"
+  },
+  "accountsUserToken": {
+    "message": "Token",
+    "description": "Input label"
+  },
+  "accountsUserTokenPlaceholder": {
+    "message": "Custom token",
+    "description": "Input label"
+  },
 
   "optionsOptions": {
     "message": "Options",
