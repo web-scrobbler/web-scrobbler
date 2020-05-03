@@ -376,21 +376,22 @@ const connectors = [{
 }, {
 	label: 'JazzAndRain',
 	matches: [
-		'*://www.jazzandrain.com/*'
+		'*://*.jazzandrain.com/*',
+		'*://www.jazzandrain.com/*',
 	],
 	js: 'connectors/jazzandrain.js',
 	id: 'jazzandrain',
 }, {
 	label: 'RelaxingBeats',
 	matches: [
-		'*://relaxingbeats.com/*'
+		'*://*.relaxingbeats.com/*'
 	],
 	js: 'connectors/jazzandrain.js',
 	id: 'relaxingbeats',
 }, {
 	label: 'EpicMusicTime',
 	matches: [
-		'*://epicmusictime.com/*'
+		'*://*.epicmusictime.com/*'
 	],
 	js: 'connectors/jazzandrain.js',
 	id: 'epicmusictime',
