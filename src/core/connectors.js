@@ -668,7 +668,7 @@ const connectors = [{
 }, {
 	label: 'Youradio',
 	matches: [
-		'*://*youradio.cz/*'
+		'*://www.youradio.cz/*'
 	],
 	js: 'connectors/youradio.js',
 	id: 'youradio',
