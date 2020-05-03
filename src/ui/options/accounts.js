@@ -139,7 +139,8 @@ define((require) => {
 			body.append(formGroup);
 		}
 
-		title.text(scrobbler.getLabel());
+		title.text(browser.i18n.getMessage(
+			'accountsScrobblerPropsTitle', scrobbler.getLabel()));
 		modal.data('label', scrobbler.getLabel());
 		modal.modal('show');
 	}
