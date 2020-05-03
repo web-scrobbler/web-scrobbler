@@ -35,6 +35,10 @@
 	padding-left: 1rem;
 }
 
+.patterns-list li {
+	margin-bottom: 0.5rem;
+}
+
 /*
  * Cards have own padding, so we don't need additional padding,
  * if we use a list group inside of a card body.
