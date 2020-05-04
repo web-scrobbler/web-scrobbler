@@ -1,119 +1,163 @@
 'use strict';
 
-// Some pages have multiple playlists so the entire content section is observed for changes
-Connector.playerSelector = '#content';
+const filter = new MetadataFilter({ track: removeQuotes });
 
-// store the type of page
-const pageType = (function() {
-	if ($('div.bcrumb h1 span.minitag-artist')[0]) {
-		return 'artist';
-	}
-	if ($('div.bcrumb h1 span.minitag-album')[0]) {
-		return 'album';
-	}
-	if ($('div.bcrumb h1 span.minitag-song')[0]) {
-		return 'song';
-	}
-	if (location.href.split('/')[3] === 'search' || location.href.split('/')[3] === 'genre') {
-		return 'searchOrGenre';
-	}
-	// the main page or blog pages, for example
-	return 'other';
-}());
+const trackSelectorCommon = '.gcol-electronic .playtxt a';
 
-/**
- * Return the result of a regular expression search execution against an html comment.
- * The html comment is present in album & song type pages and contains information
- * about the artist and/or album.
- *
- * @param  {Object} regEx Regular expression used to match
- * @return {String} Found string
- */
-function searchComment(regEx) {
-	let result;
-	const pageDataNode = $('div.colr-sml-toppad').contents().filter(function() {
-		return this.nodeType === 8;
-	})[0];
-	if (pageDataNode) {
-		result = regEx.exec(pageDataNode.textContent);
-		if (result) {
-			return result[1];
+const pageSelectors = {
+	artist: '.bcrumb h1 .minitag-artist',
+	charts: '.page-charts',
+	genres: '.subgenres',
+	album: '.bcrumb h1 .minitag-album',
+	song: '.bcrumb h1 .minitag-song',
+};
+
+const pageInitFunctions = {
+	default: setupDefaultPlayer,
+	artist: setupArtistPlayer,
+	charts: setupChartsPlayer,
+	genres: setupGenresPlayer,
+	album: setupAlbumPlayer,
+	song: setupSongPlayer,
+};
+
+function setupConnector() {
+	setupCommonProps();
+	setupPage(getPageType());
+}
+
+function setupPage(pageType) {
+	const initFn = pageInitFunctions[pageType];
+	if (typeof initFn !== 'function') {
+		Util.debugLog(`Unknown page type: ${pageType}`, 'warn');
+		return;
+	}
+
+	Util.debugLog(`Setup ${pageType} page`);
+	initFn();
+}
+
+function getPageType() {
+	for (const pageType in pageSelectors) {
+		const selector = pageSelectors[pageType];
+		if (document.querySelector(selector) !== null) {
+			return pageType;
+		}
+	}
+
+	return 'default';
+}
+
+function setupCommonProps() {
+	Connector.playerSelector = '#content';
+
+	Connector.pauseButtonSelector = '.playbtn-paused';
+
+	Connector.getUniqueID = () => {
+		const playingItem = document.querySelector('.gcol-electronic');
+		if (!playingItem) {
+			return null;
+		}
+
+		const match = /(tid-\d+)/.exec(playingItem.className);
+		if (match) {
+			return match[0];
 		}
 		return null;
+	};
+}
+
+// https://freemusicarchive.org/music/KieLoKaz
+function setupArtistPlayer() {
+	Connector.artistSelector = '.bcrumb .txt-drk';
+
+	Connector.trackSelector = trackSelectorCommon;
+
+	Connector.getAlbum = getAlbumCommon;
+
+	Connector.getDuration = getDurationCommon;
+}
+
+// https://freemusicarchive.org/music/KieLoKaz/Jazzy_Lazy
+function setupAlbumPlayer() {
+	Connector.artistSelector = '.subh1 a';
+
+	Connector.trackSelector = trackSelectorCommon;
+
+	Connector.getAlbum = getAlbumCommon;
+
+	Connector.getDuration = getDurationCommon;
+}
+
+// https://freemusicarchive.org/music/Monplaisir/Lack_of_Feedback/Monplaisir_-_Lack_of_Feedback_-_01_Bonsoir
+function setupSongPlayer() {
+	Connector.artistSelector = '.subh1 a';
+
+	Connector.trackSelector = trackSelectorCommon;
+
+	Connector.albumSelector = '.bcrumb .txt-drk';
+}
+
+// https://freemusicarchive.org/music/charts/this-week
+function setupChartsPlayer() {
+	Connector.artistSelector = '.gcol-electronic .chartcol-artist a';
+
+	Connector.trackSelector = '.gcol-electronic .chartcol-track a';
+
+	Connector.albumSelector = '.gcol-electronic .chartcol-album a';
+}
+
+// https://freemusicarchive.org/genre/Blues
+function setupGenresPlayer() {
+	Connector.artistSelector = '.gcol-electronic .ptxt-artist a';
+
+	Connector.trackSelector = '.gcol-electronic .ptxt-track a';
+
+	Connector.albumSelector = '.gcol-electronic .ptxt-album a';
+}
+
+// https://freemusicarchive.org/static
+function setupDefaultPlayer() {
+	Connector.artistSelector = `${trackSelectorCommon}:nth-child(1)`;
+
+	Connector.trackSelector = `${trackSelectorCommon}:nth-child(2)`;
+
+	Connector.getDuration = getDurationCommon;
+
+	Connector.applyFilter(filter);
+}
+
+function getAlbumCommon() {
+	const playingItem = document.querySelector('.gcol-electronic');
+	if (playingItem) {
+		const albumItem = playingItem.closest('.colr-lrg-10pad');
+		if (albumItem) {
+			return albumItem.querySelector('.txthd2').textContent;
+		}
 	}
+
 	return null;
 }
 
-Connector.isPlaying = () => {
-	return Boolean($('.playbtn-paused')[0]);
-};
+function getDurationCommon() {
+	const playingItemName = document.querySelector('.gcol-electronic .playtxt');
+	if (playingItemName) {
+		const lastNode = playingItemName.childNodes[
+			playingItemName.childNodes.length - 1
+		];
 
-Connector.getArtist = () => {
-	switch (pageType) {
-		case 'artist':
-			return $('div.bcrumb h1').contents().filter(function() {
-				return this.nodeType === 3;
-			}).text();
-		case 'album':
-			return $('.subh1 a').text();
-		case 'song':
-			// return $('a[property="cc:attributionName"]').text();  //can't use, attribution isn't always present
-			return searchComment(/\[artist_name\] => (.+)/);
-		default:
-			return $('div.gcol-electronic .playtxt a').first().text();
-	}
-};
-
-Connector.getAlbum = () => {
-	switch (pageType) {
-		case 'artist':
-		case 'album':
-			return $('div.gcol-electronic').closest('.colr-lrg-10pad').find('h5.txthd2').text();
-		case 'searchOrGenre': {
-			const albumName = $('div.gcol-electronic span.ptxt-album').text().trim().replace(/^"|"$/g, '');
-			// Em-dash is used to show "no album" - Em-dash character code is 8212
-			if (albumName.charCodeAt(0) === 8212) {
-				return null;
-			}
-			return albumName;
+		const durationStr = lastNode.textContent;
+		const match = /\((.+?)\)/.exec(durationStr);
+		if (match) {
+			return Util.stringToSeconds(match[1]);
 		}
-		case 'song':
-			/*
-			 * Can't use breadcrumb since album title may be truncated,
-			 * instead use an html comment that contains the album name
-			 */
-			return searchComment(/\[album_title\] => (.+)/);
-		default:
-			return null;
 	}
-};
 
-Connector.getTrack = () => {
-	switch (pageType) {
-		case 'searchOrGenre':
-			return $('div.gcol-electronic span.ptxt-track').text().replace(/^"|"$/g, '');
-		default:
-			// last anchor is used for 'other' page types where the Artist and song title are shown in the playlist
-			return $('div.gcol-electronic span.playtxt a').last().text().trim().replace(/^"|"$/g, '');
-	}
-};
-
-Connector.getDuration = () => {
-	// the duration is in the last textNode
-	const durStr = $('div.gcol-electronic span.playtxt').contents().filter(function() {
-		return this.nodeType === 3;
-	}).last().text().trim();
-	const m = /(\d{2}):(\d{2})/.exec(durStr);
-	if (m) {
-		return parseInt(m[1], 10) * 60 + parseInt(m[2], 10);
-	}
 	return null;
-};
+}
 
-Connector.getUniqueID = () => {
-	const match = /(tid-\d+)/.exec($('div.play-item.gcol-electronic').attr('class'));
-	if (match) {
-		return match[0];
-	}
-	return null;
-};
+function removeQuotes(text) {
+	return text.replace(/^"|"$/g, '');
+}
+
+setupConnector();

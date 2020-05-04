@@ -29,7 +29,7 @@ define((require) => {
 			const allPatterns = await CustomPatterns.getAllPatterns();
 			const patterns = allPatterns[connector.id] || [];
 
-			const inputs = $('<ul class="list-unstyled" id="conn-conf-list"></ul>');
+			const inputs = $('<ul class="list-unstyled patterns-list" id="conn-conf-list"></ul>');
 			for (const value of patterns) {
 				inputs.append(createNewConfigInput(value));
 			}
@@ -138,7 +138,7 @@ define((require) => {
 	}
 
 	function createNewConfigInput(value) {
-		const containerEl = $('<div class="input-group"/>');
+		const containerEl = $('<li class="input-group"/>');
 		const appendEl = $('<div class="input-group-append"/>');
 
 		const inputEl = $('<input type="text" class="form-control">');

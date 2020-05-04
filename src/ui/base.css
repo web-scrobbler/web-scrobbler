@@ -39,6 +39,8 @@ h1, h2, h3, h4, h5 {
 .btn-primary:not(:disabled):not(.disabled):active:focus {
 	box-shadow: 0 0 0 0.2rem rgba(178,12,7, 0.5);
 }
+.btn-primary.focus,
+.btn-primary:focus,
 .btn-primary:not(:disabled):not(.disabled):active,
 .btn-primary:not(:disabled):not(.disabled).active {
 	background-color: #b20c07;

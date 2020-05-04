@@ -186,7 +186,7 @@
 									</li>
 									<li class="list-group-item">
 										<div class="contact-link">
-											<a href=" https://github.com/web-scrobbler/web-scrobbler/blob/master/src/_locales/en/privacy.md"><i class="fas fa-lock fa-fw"></i>Privacy</a>
+											<a id="privacy-url" href=" https://github.com/web-scrobbler/web-scrobbler/blob/master/src/_locales/en/privacy.md"><i class="fas fa-lock fa-fw"></i>Privacy</a>
 											<span i18n="contactPrivacyPolicyDesc" i18n-title="contactPrivacyPolicyDesc"></span>
 										</div>
 									</li>
@@ -350,6 +350,25 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" id="clear-cache" i18n="buttonClear"></button>
 						<button type="button" class="btn btn-primary" data-dismiss="modal" i18n="buttonCancel"></button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="scrobbler-props" tabindex="-1" role="dialog" aria-labelledby="scrobbler-props" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 id="scrobbler-props-title" class="modal-title"></h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div id="scrobbler-props-body" class="modal-body">
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal" i18n="buttonCancel"></button>
+						<button type="button" class="btn btn-primary" id="scrobbler-ok" i18n="buttonOk"></button>
 					</div>
 				</div>
 			</div>

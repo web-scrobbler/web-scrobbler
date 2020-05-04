@@ -814,7 +814,7 @@ function BaseConnector() {
 					break;
 				}
 				case 'trackArt':
-					if (this.isTrackArtDefault(fieldValue)) {
+					if (fieldValue && this.isTrackArtDefault(fieldValue)) {
 						fieldValue = null;
 					}
 					break;

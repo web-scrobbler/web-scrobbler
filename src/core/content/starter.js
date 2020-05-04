@@ -8,7 +8,6 @@
  * on pageload, this starter is needed for connectors to start running
  */
 (() => {
-	// Intentionally global lock to avoid multiple execution of this function.
 	if (window.STARTER_LOADED !== undefined) {
 		Util.debugLog('Starter is already loaded', 'warn');
 		return;
@@ -16,9 +15,7 @@
 	window.STARTER_LOADED = true;
 
 	if (isConnectorInvalid()) {
-		// Warnings to help developers with their custom connectors
-		Util.debugLog(
-			'You have overwritten or unset the Connector object', 'warn');
+		Util.debugLog('You have overwritten or unset the Connector object', 'warn');
 		return;
 	}
 
@@ -31,45 +28,21 @@
 	}
 
 	function setupStateListening() {
-		// Observe state and communicates with background script.
 		new Reactor(Connector);
 
-		// Set up Mutation observing as a default state change detection
 		if (Connector.playerSelector === null) {
-			/**
-			 * Player selector is not provided, current connector needs
-			 * to detect state changes on its own.
-			 */
-			Util.debugLog(
-				'Connector.playerSelector is empty. The current connector is expected to manually detect state changes', 'info');
+			Util.debugLog('`Connector.playerSelector` is empty. The current connector is expected to manually detect state changes', 'info');
 			return;
 		}
 
 		Util.debugLog('Setting up observer');
 
-		let observeTarget = document.querySelector(Connector.playerSelector);
+		const observeTarget = document.querySelector(Connector.playerSelector);
 		if (observeTarget !== null) {
 			setupObserver(observeTarget);
 		} else {
-			// Unable to get player element; wait until it is on the page.
-			Util.debugLog(
-				`Player element (${Connector.playerSelector}) was not found in the page`, 'warn');
-
-			const playerObserver = new MutationObserver(() => {
-				observeTarget = document.querySelector(Connector.playerSelector);
-				if (observeTarget) {
-					Util.debugLog(`Found ${Connector.playerSelector} using second MutationObserver.`);
-
-					playerObserver.disconnect();
-					setupObserver(observeTarget);
-				}
-			});
-
-			const playerObserverConfig = {
-				childList: true, subtree: true,
-				attributes: false, characterData: false
-			};
-			playerObserver.observe(document, playerObserverConfig);
+			Util.debugLog(`Element '${Connector.playerSelector}' is missing`, 'warn');
+			setupSecondObserver();
 		}
 	}
 
@@ -81,5 +54,23 @@
 		};
 
 		observer.observe(observeTarget, observerConfig);
+
+		Util.debugLog(`Used '${Connector.playerSelector}' to watch changes.`);
+	}
+
+	function setupSecondObserver() {
+		const playerObserver = new MutationObserver(() => {
+			const observeTarget = document.querySelector(Connector.playerSelector);
+			if (observeTarget !== null) {
+				playerObserver.disconnect();
+				setupObserver(observeTarget);
+			}
+		});
+
+		const playerObserverConfig = {
+			childList: true, subtree: true,
+			attributes: false, characterData: false
+		};
+		playerObserver.observe(document, playerObserverConfig);
 	}
 })();

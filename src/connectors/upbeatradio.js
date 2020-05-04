@@ -8,4 +8,6 @@ Connector.artistSelector = '.stats-artist';
 
 Connector.trackSelector = '.stats-song';
 
+Connector.playButtonSelector = '#radioPlayer .fa-play';
+
 Connector.onReady = Connector.onStateChanged;

@@ -134,16 +134,28 @@ define((require) => {
 		 * @param  {Object} data Object contains data sent in the message
 		 */
 		async processMessage(tabId, type, data) {
-			if (type === 'REQUEST_AUTHENTICATE') {
-				const scrobbler = ScrobbleService.getScrobblerByLabel(data.label);
-				if (scrobbler) {
-					this.authenticateScrobbler(scrobbler);
-				}
+			const requestTypes = [
+				'REQUEST_AUTHENTICATE',
+				'REQUEST_APPLY_USER_OPTIONS',
+				'REQUEST_SIGN_OUT'
+			];
+			if (!requestTypes.includes(type)) {
+				return this.tabWorker.processMessage(tabId, type, data);
+			}
 
+			const scrobbler = ScrobbleService.getScrobblerByLabel(data.label);
+			if (!scrobbler) {
+				console.log(`Unknown scrobbler: ${data.label}`);
 				return;
 			}
 
-			return this.tabWorker.processMessage(tabId, type, data);
+			if (type === 'REQUEST_AUTHENTICATE') {
+				this.authenticateScrobbler(scrobbler);
+			} else if (type === 'REQUEST_APPLY_USER_OPTIONS') {
+				await this.applyUserProperties(scrobbler, data.userProps);
+			} else if (type === 'REQUEST_SIGN_OUT') {
+				await scrobbler.signOut();
+			}
 		}
 
 		/**
@@ -218,6 +230,11 @@ define((require) => {
 					}
 				});
 			}
+		}
+
+		async applyUserProperties(scrobbler, userProps) {
+			await scrobbler.applyUserProperties(userProps);
+			ScrobbleService.bindScrobbler(scrobbler);
 		}
 
 		/**
