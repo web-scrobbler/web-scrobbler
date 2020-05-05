@@ -8,7 +8,8 @@ Connector.playerSelector = '.player-wrapper';
 
 Connector.trackArtSelector = '.track-coverart';
 
-Connector.isPlaying = () => {
-	const buttonHref = $('.play-pause-cont .show use').attr('xlink:href');
-	return buttonHref && buttonHref.includes('pause');
-};
+Connector.currentTimeSelector = '.main-player .duration-text:first-child';
+
+Connector.durationSelector = '.main-player .duration-text:last-child';
+
+Connector.playButtonSelector = '.player-controls .icon.play';
