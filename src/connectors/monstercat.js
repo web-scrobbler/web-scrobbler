@@ -1,7 +1,11 @@
 'use strict';
 
-Connector.playerSelector = '.controls';
+const playerBar = '.controls';
 
-Connector.artistTrackSelector = '.controls .scroll-title';
+Connector.playerSelector = playerBar;
 
-Connector.isPlaying = () => $('.controls .fa-pause').length > 0;
+Connector.artistTrackSelector = `${playerBar} .scroll-title`;
+
+Connector.pauseButtonSelector = `${playerBar} .fa-pause`;
+
+Connector.useMediaSessionApi();
