@@ -285,7 +285,7 @@ const Util = {
 
 		const track = title;
 		let trackArt = null;
-		if (Array.isArray(artwork)) {
+		if (Array.isArray(artwork) && artwork.length > 0) {
 			const { src } = artwork[artwork.length - 1];
 			trackArt = src;
 		}

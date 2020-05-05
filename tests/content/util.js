@@ -368,6 +368,16 @@ const GET_MEDIASESSION_INFO_DATA = [{
 	expected: {
 		artist: 'Artist', track: 'Track', album: 'Album', trackArt: null,
 	}
+}, {
+	description: 'should return track info if artwork is an empty array',
+	args: [{
+		metadata: {
+			artist: 'Artist', title: 'Track', album: 'Album', artwork: [],
+		}
+	}],
+	expected: {
+		artist: 'Artist', track: 'Track', album: 'Album', trackArt: null,
+	}
 }];
 
 const JOIN_ARTISTS_DATA = [{
