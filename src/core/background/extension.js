@@ -179,14 +179,7 @@ define((require) => {
 		 */
 		async bindScrobblers() {
 			const boundScrobblers = await ScrobbleService.bindAllScrobblers();
-			if (boundScrobblers.length > 0) {
-				for (const scrobbler of boundScrobblers) {
-					GA.event('core', 'bind', scrobbler.getLabel());
-				}
-				return true;
-			}
-
-			return false;
+			return boundScrobblers.length > 0;
 		}
 
 		async showAuthNotification() {
@@ -196,13 +189,9 @@ define((require) => {
 					await Notifications.showAuthNotification(() => {
 						browser.tabs.create({ url: authUrl });
 					});
-
-					GA.event('core', 'auth', 'default');
 				} catch (e) {
 					// Fallback for browsers with no notifications support.
 					browser.tabs.create({ url: authUrl });
-
-					GA.event('core', 'auth', 'fallback');
 				}
 
 				await this.updateAuthDisplayCount();
