@@ -68,20 +68,22 @@ function testUniqueness(entry) {
 
 function runTests() {
 	for (const entry of connectors) {
-		it(`should have valid prop types for ${entry.label}`, () => {
-			testProps(entry);
-		});
+		describe(entry.label, () => {
+			it('should have valid prop types', () => {
+				testProps(entry);
+			});
 
-		it(`should have valid URL matches ${entry.label}`, () => {
-			testMatches(entry);
-		});
+			it('should have valid URL matches', () => {
+				testMatches(entry);
+			});
 
-		it(`should have js files for ${entry.label}`, () => {
-			testPaths(entry);
-		});
+			it('should have js files for', () => {
+				testPaths(entry);
+			});
 
-		it(`should have unique id ${entry.label}`, () => {
-			testUniqueness(entry);
+			it('should have unique id', () => {
+				testUniqueness(entry);
+			});
 		});
 	}
 }
