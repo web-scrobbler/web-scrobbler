@@ -1,5 +1,7 @@
 'use strict';
 
+Connector.useMediaSessionApi();
+
 Connector.playerSelector = 'body';
 
 Connector.getArtist = () => {
