@@ -1214,7 +1214,6 @@ const connectors = [{
 	matches: [
 		'*://ccmixter.org/*',
 		'*://*.ccmixter.org/*',
-		'*://tunetrack.net/*'
 	],
 	js: 'connectors/ccmixter.js',
 	id: 'ccmixter',
@@ -1644,6 +1643,13 @@ const connectors = [{
 	],
 	js: 'connectors/rtbf.js',
 	id: 'rtbf',
+}, {
+	label: 'TuneTrack',
+	matches: [
+		'*://tunetrack.net/*',
+	],
+	js: 'connectors/tunetrack.js',
+	id: 'tunetrack',
 }];
 
 define(() => connectors);

@@ -9,8 +9,6 @@ function setupConnector() {
 		setupCcPlayer();
 	} else if (isBetaPlayer()) {
 		setupBetaPlayer();
-	} else if (isTuneTrackPlayer()) {
-		setupTuneTrackPlayer();
 	}
 }
 
@@ -130,53 +128,5 @@ function setupBetaPlayer() {
 	Connector.getArtist = () => {
 		return $('.people-link span', $('.audio-player')[0] ||
 						Connector.getCurrentPlayer() || {}).text();
-	};
-}
-
-function isTuneTrackPlayer() {
-	return $('#playback-controls-container').length > 0;
-}
-
-function setupTuneTrackPlayer() {
-	Connector.playerSelector = '#playback-controls-container';
-
-	Connector.isPlaying = () => {
-		return $('.pause-btn').length > 0 &&
-			$('.position').css('width').slice(0, -2) > 0;
-	};
-
-	Connector.getUniqueID = () => {
-		const text = $(`${Connector.trackSelector} a`).attr('href');
-		return text && /\/(\d+)-?/g.exec(text).pop();
-	};
-
-	Connector.trackSelector = '#track-title';
-
-	Connector.artistSelector = '#track-artist';
-
-	/*
-	 * If the track is uploaded by a ccMixter user, the album will be
-	 * shown as 'ccMixter' and the track art as the user's avatar, this
-	 * function helps to filter them.
-	 */
-	Connector.isSingle = () => null;
-
-	Connector.getTrackArt = () => {
-		if (!Connector.isSingle()) {
-			return $('#current-item-artwork-thumb').attr('src');
-		}
-		return null;
-	};
-
-	Connector.getAlbum = () => {
-		const album = $('#track-album a').text();
-		if (album) {
-			if (album !== 'ccMixter') {
-				return album;
-			}
-			Connector.isSingle = () => true;
-
-		}
-		return null;
 	};
 }
