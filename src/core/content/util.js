@@ -324,6 +324,35 @@ const Util = {
 	},
 
 	/**
+	 * Return a text value of a first available element. If `selectors` is
+	 * a string, return the attribute value of an element matching by
+	 * the selector. If `selectors` is an array, return the attribute value of
+	 * a first element with the attribute available.
+	 *
+	 * @param  {Object} selectors Single selector or array of selectors
+	 * @param  {String} attr Attrubute to get
+	 * @param  {Object} defaultValue Fallback value
+	 * @return {Object} Text of element, if available, or default value
+	 */
+	/* istanbul ignore next */
+	getAttrFromSelectors(selectors, attr, defaultValue = null) {
+		const elements = this.queryElements(selectors);
+
+		if (elements.length === 1) {
+			return elements[0].getAttribute(attr);
+		}
+
+		for (const element of elements) {
+			const attrValue = element.getAttribute(attr);
+			if (attrValue) {
+				return attrValue;
+			}
+		}
+
+		return defaultValue;
+	},
+
+	/**
 	 * Extract time in seconds from first available element
 	 * defined by CSS selector.
 	 *
@@ -361,6 +390,19 @@ const Util = {
 		}
 
 		return this.normalizeUrl(trackArtUrl);
+	},
+
+	/**
+	 * Check if an element matching a given selector has a class.
+	 *
+	 * @param  {Object} selectors Single selector or array of selectors
+	 * @param  {String} cls Class name to check
+	 * @return {Boolean} Check result
+	 */
+	/* istanbul ignore next */
+	hasElementClass(selectors, cls) {
+		const element = Util.queryElements(selectors);
+		return element && element.hasClass(cls);
 	},
 
 	/**
