@@ -77,7 +77,7 @@ define(() => {
 	 * @return {String} Cover art URL
 	 */
 	async function checkCoverArt(mbid) {
-		const coverArtUrl = `http://coverartarchive.org/release/${mbid}/front`;
+		const coverArtUrl = `http://coverartarchive.org/release/${mbid}/front-500`;
 		const response = await fetch(coverArtUrl, { 'method': 'HEAD' });
 		if (response.ok) {
 			return coverArtUrl;
