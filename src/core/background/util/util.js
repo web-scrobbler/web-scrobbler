@@ -27,7 +27,7 @@ define(() => {
 	/**
 	 * Print debug message.
 	 * @param  {String} text Debug message
-	 * @param  {String} logType Log type
+	 * @param  {String} [logType=log] Log type
 	 */
 	function debugLog(text, logType = 'log') {
 		const logFunc = console[logType];

@@ -27,8 +27,6 @@ define((require) => {
 	class BaseScrobbler {
 		/**
 		 * @param {Object} properties Scrobbler properties
-		 *
-		 * @see {@link propList}
 		 */
 		constructor(properties) {
 			this.applyProperties(properties);
@@ -267,7 +265,7 @@ define((require) => {
 		/**
 		 * Helper function to show debug output.
 		 * @param  {String} text Debug message
-		 * @param  {String} logType Log type
+		 * @param  {String} [logType=log] Log type
 		 */
 		debugLog(text, logType = 'log') {
 			const message = `${this.label}: ${text}`;

@@ -264,7 +264,7 @@ module.exports = (grunt) => {
 	 * Copy source filed to build directory, preprocess them and
 	 * set the extension icon according to specified browser.
 	 * @param {String} browser Browser name
-	 * @param {String} mode Development mode (debug or release)
+	 * @param {String} [mode=debug] Development mode (debug or release)
 	 */
 	grunt.registerTask('build', (browser, mode = 'debug') => {
 		assertBrowserIsSupported(browser);
@@ -290,8 +290,8 @@ module.exports = (grunt) => {
 
 	/**
 	 * Build the extension and pack source files in a zipball.
-	 * @param  {String} browser Browser name
-	 * @param  {String} mode Development mode (debug or release)
+	 * @param {String} browser Browser name
+	 * @param {String} [mode=debug] Development mode (debug or release)
 	 */
 	grunt.registerTask('dist', (browser, mode = 'debug') => {
 		assertBrowserIsSupported(browser);

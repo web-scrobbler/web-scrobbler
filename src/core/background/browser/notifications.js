@@ -80,10 +80,10 @@ define((require) => {
 	/**
 	 * Show notification.
 	 * @param  {Object} options Notification options
-	 * @param  {Function} onClicked Function that will be called on notification click
+	 * @param  {Function} [onClick] Function that will be called on notification click
 	 * @return {String} Notification ID
 	 */
-	async function showNotification(options, onClicked) {
+	async function showNotification(options, onClick) {
 		if (!await isAvailable()) {
 			throw new Error('Notifications are not available');
 		}
@@ -114,8 +114,8 @@ define((require) => {
 			notificationId = await notifications.create('', options);
 		}
 
-		if (typeof onClicked === 'function') {
-			addOnClickedListener(notificationId, onClicked);
+		if (typeof onClick === 'function') {
+			addOnClickedListener(notificationId, onClick);
 		}
 
 		return notificationId;
@@ -124,7 +124,7 @@ define((require) => {
 	/**
 	 * Show 'Now playing' notification.
 	 * @param  {Object} song Copy of song instance
-	 * @param  {Function} onClick Function that will be called on notification click
+	 * @param  {Function} [onClick] Function that will be called on notification click
 	 */
 	async function showNowPlaying(song, onClick) {
 		if (!await isAllowed()) {
@@ -186,7 +186,7 @@ define((require) => {
 	/**
 	 * Show error notification.
 	 * @param  {String} message Notification message
-	 * @param  {Function} onClick Function that will be called on notification click
+	 * @param  {Function} [onClick] Function that will be called on notification click
 	 */
 	function showError(message, onClick = null) {
 		const title = i18n.getMessage('notificationAuthError');
@@ -197,19 +197,19 @@ define((require) => {
 	/**
 	 * Show error notification if user is unable to sign in to service.
 	 * @param  {Object} scrobbler Scrobbler instance
-	 * @param  {Function} onClicked Function that will be called on notification click
+	 * @param  {Function} [onClick] Function that will be called on notification click
 	 */
-	function showSignInError(scrobbler, onClicked) {
+	function showSignInError(scrobbler, onClick) {
 		const errorMessage = i18n('notificationUnableSignIn', scrobbler.label);
-		showError(errorMessage, onClicked);
+		showError(errorMessage, onClick);
 	}
 
 	/**
 	 * Show notification if song is not recognized.
 	 * @param  {Object} song Song instance
-	 * @param  {Function} onClicked Function that will be called on notification click
+	 * @param  {Function} [onClick] Function that will be called on notification click
 	 */
-	async function showSongNotRecognized(song, onClicked) {
+	async function showSongNotRecognized(song, onClick) {
 		if (!await Options.getOption(Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS)) {
 			return;
 		}
@@ -220,7 +220,7 @@ define((require) => {
 			message: i18n.getMessage('notificationNotRecognizedText')
 		};
 
-		const notificationId = await showNotification(options, onClicked);
+		const notificationId = await showNotification(options, onClick);
 		song.metadata.notificationId = notificationId;
 	}
 

@@ -65,7 +65,7 @@ const Util = {
 	 * Find first occurence of possible separator in given string
 	 * and return separator's position and size in chars or null.
 	 * @param  {String} str String contains separator
-	 * @param  {Array} separators Array of separators
+	 * @param  {Array} [separators] Array of separators
 	 * @return {Object} Object contains position and width of separator
 	 */
 	findSeparator(str, separators = null) {
@@ -102,8 +102,8 @@ const Util = {
 	/**
 	 * Split string to artist and track.
 	 * @param  {String} str String contains artist and track
-	 * @param  {Array} separators Array of separators
-	 * @param  {Boolean} swap Swap artist and track values
+	 * @param  {Array} [separators] Array of separators
+	 * @param  {Boolean} [swap=false] Swap artist and track values
 	 * @return {Object} Object contains artist and track fields
 	 */
 	splitArtistTrack(str, separators = null, { swap = false } = {}) {
@@ -114,12 +114,12 @@ const Util = {
 	/**
 	 * Split string to current time and duration.
 	 * @param  {String} str String contains current time and duration
-	 * @param  {String} sep Separator
-	 * @param  {Boolean} swap Swap currentTime and duration values
+	 * @param  {String} [separator] Separator
+	 * @param  {Boolean} [swap=false] Swap currentTime and duration values
 	 * @return {Object} Array ontains 'currentTime' and 'duration' fields
 	 */
-	splitTimeInfo(str, sep = '/', { swap = false } = {}) {
-		let [currentTime, duration] = this.splitString(str, [sep], { swap });
+	splitTimeInfo(str, separator = '/', { swap = false } = {}) {
+		let [currentTime, duration] = this.splitString(str, [separator], { swap });
 		if (currentTime) {
 			currentTime = this.stringToSeconds(currentTime);
 		}
@@ -133,8 +133,8 @@ const Util = {
 	/**
 	 * Split string to two ones using array of separators.
 	 * @param  {String} str Any string
-	 * @param  {Array} separators Array of separators
-	 * @param  {Boolean} swap Swap values
+	 * @param  {Array} [separators] Array of separators
+	 * @param  {Boolean} [swap=false] Swap values
 	 * @return {Array} Array of strings splitted by separator
 	 */
 	splitString(str, separators, { swap = false } = {}) {
@@ -194,7 +194,9 @@ const Util = {
 	 *
 	 * @param  {Function} func Function to be throttled
 	 * @param  {Number} wait Time before function calls
-	 * @param  {Object} options Options
+	 * @param  {Object} [options] Throttle options
+	 * @param  {Boolean} [options.leading] Enable leading-edge call
+	 * @param  {Boolean} [options.trailing] Enable trailing-edge call
 	 * @return {Function} Throttled function
 	 */
 	/* istanbul ignore next */
@@ -299,8 +301,8 @@ const Util = {
 	 * Return text of first available element. If `selectors` is a string,
 	 * return text of element with given selector. If `selectors` is
 	 * an array, return text of first available element.
-	 * @param  {Object} selectors Single selector or array of selectors
-	 * @param  {Object} defaultValue Fallback value
+	 * @param  {String|Array} selectors Single selector or array of selectors
+	 * @param  {Object} [defaultValue=null] Fallback value
 	 * @return {Object} Text of element, if available, or default value
 	 */
 	/* istanbul ignore next */
@@ -329,9 +331,9 @@ const Util = {
 	 * the selector. If `selectors` is an array, return the attribute value of
 	 * a first element with the attribute available.
 	 *
-	 * @param  {Object} selectors Single selector or array of selectors
+	 * @param  {String|Array} selectors Single selector or array of selectors
 	 * @param  {String} attr Attrubute to get
-	 * @param  {Object} defaultValue Fallback value
+	 * @param  {Object} [defaultValue=null] Fallback value
 	 * @return {Object} Text of element, if available, or default value
 	 */
 	/* istanbul ignore next */
@@ -356,7 +358,7 @@ const Util = {
 	 * Extract time in seconds from first available element
 	 * defined by CSS selector.
 	 *
-	 * @param  {Object} selectors Single selector or array of selectors
+	 * @param  {String|Array} selectors Single selector or array of selectors
 	 * @return {String} Track art URL
 	 */
 	/* istanbul ignore next */
@@ -368,7 +370,7 @@ const Util = {
 
 	/**
 	 * Extract image URL from first available element defined by CSS selector.
-	 * @param  {Object} selectors Single selector or array of selectors
+	 * @param  {String|Array} selectors Single selector or array of selectors
 	 * @return {String} Track art URL
 	 */
 	/* istanbul ignore next */
@@ -395,7 +397,7 @@ const Util = {
 	/**
 	 * Check if an element matching a given selector has a class.
 	 *
-	 * @param  {Object} selectors Single selector or array of selectors
+	 * @param  {String|Array} selectors Single selector or array of selectors
 	 * @param  {String} cls Class name to check
 	 * @return {Boolean} Check result
 	 */
@@ -409,7 +411,7 @@ const Util = {
 	 * Return jQuery object of first available element. If `selectors`
 	 * is a string, return jQuery object with the selector. If `selectors` is
 	 * an array, return jQuery object matched by first valid selector.
-	 * @param  {Object} selectors Single selector or array of selectors
+	 * @param  {String|Array} selectors Single selector or array of selectors
 	 * @return {Object} jQuery object
 	 */
 	/* istanbul ignore next */
@@ -480,7 +482,7 @@ const Util = {
 	/**
 	 * Print debug message with prefixed "Web Scrobbler" string.
 	 * @param  {String} text Debug message
-	 * @param  {String} logType Log type
+	 * @param  {String} [logType=log] Log type
 	 */
 	/* istanbul ignore next */
 	debugLog(text, logType = 'log') {

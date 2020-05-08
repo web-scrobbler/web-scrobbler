@@ -198,7 +198,7 @@ define((require) => {
 		 * services have the song with `Love` set to true.
 		 *
 		 * @param  {Boolean} isLoved Flag means song is loved or not
-		 * @param  {Boolean} force Force status assignment
+		 * @param  {Boolean} [force=false] Force status assignment
 		 */
 		setLoveStatus(isLoved, { force = false } = {}) {
 			if (force) {

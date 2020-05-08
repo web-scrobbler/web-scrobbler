@@ -546,7 +546,7 @@ define((require) => {
 		/**
 		 * Print debug message with prefixed tab ID.
 		 * @param  {String} text Debug message
-		 * @param  {String} logType Log type
+		 * @param  {String} [logType=log] Log type
 		 */
 		debugLog(text, logType = 'log') {
 			const message = `Tab ${this.tabId}: ${text}`;
