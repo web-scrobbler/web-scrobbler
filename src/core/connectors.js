@@ -1484,6 +1484,13 @@ const connectors = [{
 	],
 	js: 'connectors/myzcloud.js',
 	id: 'myzcloud',
+}, {
+	label: 'Radio Rethink',
+	matches: [
+		'*://www.radiorethink.com/*',
+	],
+	js: 'connectors/radiorethink.js',
+	id: 'radiorethink',
 }];
 
 define(() => connectors);
