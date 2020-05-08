@@ -3,23 +3,22 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title></title>
+	<title>Info popup</title>
 
-	<script type="text/javascript" src="/vendor/require.js"></script>
-	<script type="text/javascript" src="/core/background/requirejs-config.js"></script>
-	<script type="text/javascript" src="/ui/popups/info.js"></script>
-	<script type="text/javascript" src="/core/i18n.js"></script>
+	<script src="/vendor/require.js"></script>
+	<script src="/core/background/requirejs-config.js"></script>
+	<script src="/ui/popups/info.js"></script>
+	<script src="/core/i18n.js"></script>
 
 	<link rel="stylesheet" href="/vendor/fontawesome/css/brands.min.css">
 	<link rel="stylesheet" href="/vendor/fontawesome/css/solid.min.css">
-	<link rel="stylesheet" href="/ui/popups/info.css" />
+	<link rel="stylesheet" href="/ui/popups/info.css">
 </head>
 
 <body>
 	<div class="main-container">
 		<a id="album-art-link" class="album-art" href="#" target="_blank">
-			<img id="album-art-img" class="album-art" i18n-title="infoOpenAlbumArt">
-		</img>
+			<img id="album-art-img" class="album-art" data-i18n-title="infoOpenAlbumArt" src="/icons/cover_art_default.png" alt="Cover art">
 		</a>
 		<div id="info" class="popup-container">
 			<div class="info-fields">
@@ -43,27 +42,27 @@
 				</div>
 			</div>
 			<div class="edit-controls">
-				<button id="edit-link" class="edit-btn control-btn"></button>
-				<button id="revert-link" class="revert-btn control-btn"></button>
-				<button id="skip-link" class="skip-btn control-btn"></button>
-				<button id="unskip-link" class="unskip-btn control-btn"></button>
-				<button id="love-link" class="love-btn control-btn"></button>
+				<button type="button" id="edit-link" class="edit-btn control-btn"></button>
+				<button type="button" id="revert-link" class="revert-btn control-btn"></button>
+				<button type="button" id="skip-link" class="skip-btn control-btn"></button>
+				<button type="button" id="unskip-link" class="unskip-btn control-btn"></button>
+				<button type="button" id="love-link" class="love-btn control-btn"></button>
 			</div>
 		</div>
 		<div id="edit" class="popup-container" hidden>
 			<div>
-				<input type="text" id="track-input" i18n-placeholder="infoTrackPlaceholder"
-				i18n-title="infoTrackPlaceholder" tabindex="1" />
-				<input type="text" id="artist-input" i18n-placeholder="infoArtistPlaceholder"
-					i18n-title="infoArtistPlaceholder" tabindex="2" />
-				<input type="text" id="album-input" i18n-placeholder="infoAlbumPlaceholder"
-					i18n-title="infoAlbumPlaceholder" tabindex="3" />
-				<input type="text" id="albumArtist-input" i18n-placeholder="infoAlbumArtistPlaceholder"
-					i18n-title="infoAlbumArtistPlaceholder" tabindex="4" />
+				<input type="text" id="track-input" data-i18n-placeholder="infoTrackPlaceholder"
+				data-i18n-title="infoTrackPlaceholder" tabindex="1">
+				<input type="text" id="artist-input" data-i18n-placeholder="infoArtistPlaceholder"
+					data-i18n-title="infoArtistPlaceholder" tabindex="2">
+				<input type="text" id="album-input" data-i18n-placeholder="infoAlbumPlaceholder"
+					data-i18n-title="infoAlbumPlaceholder" tabindex="3">
+				<input type="text" id="albumArtist-input" data-i18n-placeholder="infoAlbumArtistPlaceholder"
+					data-i18n-title="infoAlbumArtistPlaceholder" tabindex="4">
 			</div>
 			<div class="edit-controls">
-				<button id="submit-link" class="submit-btn control-btn"></button>
-				<button id="swap-link" class="swap-btn control-btn"></button>
+				<button type="button" id="submit-link" class="submit-btn control-btn"></button>
+				<button type="button" id="swap-link" class="swap-btn control-btn"></button>
 			</div>
 		</div>
 		<div class="debug-container" id="debug" hidden>

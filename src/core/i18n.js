@@ -4,13 +4,13 @@
  * Node attributes that define how node content will be localized.
  *
  * There're following supported attributes:
- *  - i18n: replace value of `textContent` property by localized text;
- *  - i18n-title: replace value of `title` attribute by localized text;
- *  - i18n-placeholder: replace value of `placeholder` attribute by localized text.
+ *  - data-i18n: replace value of `textContent` property by localized text;
+ *  - data-i18n-title: replace value of `title` attribute by localized text;
+ *  - data-i18n-placeholder: replace value of `placeholder` attribute by localized text.
  *
  * @type {Array}
  */
-const I18N_ATTRS = ['i18n', 'i18n-title', 'i18n-placeholder'];
+const I18N_ATTRS = ['data-i18n', 'data-i18n-title', 'data-i18n-placeholder'];
 
 const domParser = new DOMParser();
 
@@ -53,7 +53,7 @@ function localizeElement(element) {
 		const text = chrome.i18n.getMessage(tag) || tag;
 
 		switch (attr) {
-			case 'i18n':
+			case 'data-i18n':
 				if (hasHtmlTags(text)) {
 					const nodes = makeNodes(text);
 					if (nodes) {
@@ -69,11 +69,11 @@ function localizeElement(element) {
 				}
 				break;
 
-			case 'i18n-title':
+			case 'data-i18n-title':
 				element.setAttribute('title', text);
 				break;
 
-			case 'i18n-placeholder':
+			case 'data-i18n-placeholder':
 				element.setAttribute('placeholder', text);
 				break;
 		}
