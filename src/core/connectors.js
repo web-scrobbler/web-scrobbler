@@ -1014,8 +1014,7 @@ const connectors = [{
 }, {
 	label: 'WFMU',
 	matches: [
-		'*://wfmu.org/audioplayer/*',
-		'*://wfmu.org/archiveplayer/*'
+		'*://wfmu.org/*'
 	],
 	js: 'connectors/wfmu.js',
 	id: 'wfmu',
