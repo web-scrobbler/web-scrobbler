@@ -1,0 +1,11 @@
+{
+  "root": true,
+  "extends": [
+    "htmlvalidate:recommended"
+  ],
+  "rules": {
+    "prefer-native-element": "off",
+    "empty-heading": "off",
+    "wcag/h30": "off"
+  }
+}
