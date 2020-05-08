@@ -1478,6 +1478,13 @@ const connectors = [{
 	],
 	js: 'connectors/tunetrack.js',
 	id: 'tunetrack',
+}, {
+	label: 'Myzcloud',
+	matches: [
+		'*://myzcloud.me/*',
+	],
+	js: 'connectors/myzcloud.js',
+	id: 'myzcloud',
 }];
 
 define(() => connectors);
