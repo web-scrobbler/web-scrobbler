@@ -207,7 +207,7 @@ define((require) => {
 
 	function createNoEditedLabel() {
 		const label = document.createElement('li');
-		label.setAttribute('i18n', 'noItemsInCache');
+		label.setAttribute('data-i18n', 'noItemsInCache');
 
 		return label;
 	}

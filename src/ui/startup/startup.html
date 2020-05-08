@@ -1,39 +1,39 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title i18n="startupTitle"></title>
+	<title data-i18n="startupTitle">Welcome to Web Scrobbler!</title>
 
 	<link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
 	<link rel="stylesheet" type="text/css" href="/ui/base.css">
 	<link href="startup.css" rel="stylesheet">
 
-	<script type="text/javascript" src="/vendor/require.js"></script>
-	<script type="text/javascript" src="/core/background/requirejs-config.js"></script>
-	<script type="text/javascript" src="startup.js"></script>
-	<script type="text/javascript" src="/core/i18n.js"></script>
+	<script src="/vendor/require.js"></script>
+	<script src="/core/background/requirejs-config.js"></script>
+	<script src="startup.js"></script>
+	<script src="/core/i18n.js"></script>
 </head>
 
 <body>
 	<div class="container">
 		<div class="intro">
-			<h1 i18n="startupIntroTitle"></h1>
-			<p i18n="startupIntroText"></p>
+			<h1 data-i18n="startupIntroTitle"></h1>
+			<p data-i18n="startupIntroText"></p>
 		</div>
 		<div class="privacy-policy" id="privacy-text">
 		</div>
 
-		<hr />
+		<hr>
 
 		<div id="controls">
-			<button class="btn btn-primary" id="opt-in" i18n="optIn"></button>
-			<button class="btn btn-secondary" id="opt-out" i18n="optOut"></button>
+			<button type="button" class="btn btn-primary" id="opt-in" data-i18n="optIn"></button>
+			<button type="button" class="btn btn-secondary" id="opt-out" data-i18n="optOut"></button>
 		</div>
-		<div id="finished" class="alert alert-info" i18n="startupFinished" hidden></div>
+		<div id="finished" class="alert alert-info" data-i18n="startupFinished" hidden></div>
 	</div>
 </body>
 

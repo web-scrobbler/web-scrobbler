@@ -192,7 +192,7 @@ define((require) => {
 		const button = document.createElement('a');
 		button.classList.add('card-link');
 		button.setAttribute('href', '#');
-		button.setAttribute('i18n', labelId);
+		button.setAttribute('data-i18n', labelId);
 		return button;
 	}
 
@@ -203,10 +203,10 @@ define((require) => {
 		formGroup.className = 'form-group';
 
 		const label = document.createElement('label');
-		label.setAttribute('i18n', title);
+		label.setAttribute('data-i18n', title);
 
 		const input = document.createElement('input');
-		input.setAttribute('i18n-placeholder', placeholder);
+		input.setAttribute('data-i18n-placeholder', placeholder);
 		input.className = 'form-control';
 		input.value = value || null;
 		input.id = propId;

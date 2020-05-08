@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title i18n="optionsTitle"></title>
+	<title data-i18n="optionsTitle">Web Scrobbler options</title>
 
 	<link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
 	<link rel="stylesheet" href="/vendor/fontawesome/css/fontawesome.min.css">
@@ -15,12 +15,12 @@
 	<link rel="stylesheet" type="text/css" href="/ui/base.css">
 	<link rel="stylesheet" type="text/css" href="index.css">
 
-	<script type="text/javascript" src="/vendor/jquery.min.js"></script>
-	<script type="text/javascript" src="/vendor/require.js"></script>
+	<script src="/vendor/jquery.min.js"></script>
+	<script src="/vendor/require.js"></script>
 
-	<script type="text/javascript" src="/core/background/requirejs-config.js"></script>
-	<script type="text/javascript" src="/ui/options/index.js"></script>
-	<script type="text/javascript" src="/core/i18n.js"></script>
+	<script src="/core/background/requirejs-config.js"></script>
+	<script src="/ui/options/index.js"></script>
+	<script src="/core/i18n.js"></script>
 </head>
 
 <body>
@@ -35,7 +35,7 @@
 							<h2 class="mb-1">
 								<a class="collapsed" href="#collapseAccounts" data-toggle="collapse" aria-expanded="true" aria-controls="collapseAccounts" role="button">
 									<i class="fas fa-users fa-fw"></i>
-									<span i18n="optionsAccounts"></span>
+									<span data-i18n="optionsAccounts"></span>
 								</a>
 							</h2>
 						</div>
@@ -54,33 +54,33 @@
 							<h2 class="mb-1">
 								<a class="collapsed" href="#collapseOptions" data-toggle="collapse" aria-expanded="false" aria-controls="collapseOptions" role="button">
 									<i class="fas fa-cogs fa-fw"></i>
-									<span i18n="optionsOptions"></span>
+									<span data-i18n="optionsOptions"></span>
 								</a>
 							</h2>
 						</div>
 						<div id="collapseOptions" class="collapse" aria-labelledby="headingOptions" data-parent="#accordionLeft">
 							<div class="card-body">
-								<h5 i18n="optionsGeneral"></h5>
+								<h5 data-i18n="optionsGeneral"></h5>
 								<div class="options-block">
 									<div class="form-check">
 										<input class="form-check-input" type="checkbox" id="use-notifications">
-										<label class="form-check-label" for="use-notifications" i18n="optionUseNotifications" i18n-title="optionUseNotificationsTitle"></label>
+										<label class="form-check-label" for="use-notifications" data-i18n="optionUseNotifications" data-i18n-title="optionUseNotificationsTitle"></label>
 									</div>
 									<div class="form-check">
 										<input class="form-check-input" type="checkbox" id="use-unrecognized-song-notifications">
-										<label class="form-check-label" for="use-unrecognized-song-notifications" i18n="optionUnrecognizedNotifications" i18n-title="optionUnrecognizedNotificationsTitle"></label>
+										<label class="form-check-label" for="use-unrecognized-song-notifications" data-i18n="optionUnrecognizedNotifications" data-i18n-title="optionUnrecognizedNotificationsTitle"></label>
 									</div>
 									<div class="form-check">
 										<input class="form-check-input" type="checkbox" id="force-recognize">
-										<label class="form-check-label" for="force-recognize" i18n="optionForceRecognize" i18n-title="optionForceRecognizeTitle"></label>
+										<label class="form-check-label" for="force-recognize" data-i18n="optionForceRecognize" data-i18n-title="optionForceRecognizeTitle"></label>
 									</div>
 									<div class="form-check">
 										<input class="form-check-input" type="checkbox" id="disable-ga">
-										<label class="form-check-label" for="disable-ga" i18n="optionDisableGa" i18n-title="optionDisableGaTitle"></label>
+										<label class="form-check-label" for="disable-ga" data-i18n="optionDisableGa" data-i18n-title="optionDisableGaTitle"></label>
 									</div>
 									<div class="form-check">
 										<input class="form-check-input" type="checkbox" id="scrobble-podcasts">
-										<label class="form-check-label" for="scrobble-podcasts" i18n="optionScrobblePodcasts" i18n-title="optionScrobblePodcastsTitle"></label>
+										<label class="form-check-label" for="scrobble-podcasts" data-i18n="optionScrobblePodcasts" data-i18n-title="optionScrobblePodcastsTitle"></label>
 									</div>
 								</div>
 
@@ -88,7 +88,7 @@
 								<div class="options-block">
 									<div class="form-check">
 										<input class="form-check-input" type="checkbox" id="tdl-short-track-names">
-										<label class="form-check-label" for="tdl-short-track-names" i18n="optionTdlShortTrackNames" i18n-title="optionTdlShortTrackNamesTitle"></label>
+										<label class="form-check-label" for="tdl-short-track-names" data-i18n="optionTdlShortTrackNames" data-i18n-title="optionTdlShortTrackNamesTitle"></label>
 									</div>
 								</div>
 
@@ -96,59 +96,59 @@
 								<div class="options-block">
 									<div class="form-check">
 										<input class="form-check-input" type="checkbox" id="yt-music-only">
-										<label class="form-check-label" for="yt-music-only" i18n="optionYtMusicOnly" i18n-title="optionYtMusicOnlyTitle"></label>
+										<label class="form-check-label" for="yt-music-only" data-i18n="optionYtMusicOnly" data-i18n-title="optionYtMusicOnlyTitle"></label>
 									</div>
 									<div class="form-check">
 										<input class="form-check-input" type="checkbox" id="yt-entertainment-only">
-										<label class="form-check-label" for="yt-entertainment-only" i18n="optionYtEntertainmentOnly" i18n-title="optionYtEntertainmentOnlyTitle"></label>
+										<label class="form-check-label" for="yt-entertainment-only" data-i18n="optionYtEntertainmentOnly" data-i18n-title="optionYtEntertainmentOnlyTitle"></label>
 									</div>
 
 									<p class="mb-0">
-										<small class="text-muted" i18n="optionYtDesc"></small>
+										<small class="text-muted" data-i18n="optionYtDesc"></small>
 									</p>
 								</div>
 
 								<div id="hidden-options" hidden>
-									<h5 i18n="optionsHidden"></h5>
+									<h5 data-i18n="optionsHidden"></h5>
 									<div class="options-block">
 										<div class="form-inline">
 											<div class="form-group">
-												<label for="scrobblePercent" i18n="optionScrobblePercent"></label>
+												<label for="scrobblePercent" data-i18n="optionScrobblePercent"></label>
 												<select class="custom-select custom-select-sm mx-sm-3" id="scrobblePercent">
 												</select>
-												<label for="scrobblePercent" i18n="optionScrobblePercentSuffix"></label>
+												<label for="scrobblePercent" data-i18n="optionScrobblePercentSuffix"></label>
 											</div>
 										</div>
 										<p class="mb-0">
-											<small class="text-muted" i18n="optionPercentDesc"></small>
+											<small class="text-muted" data-i18n="optionPercentDesc"></small>
 										</p>
 									</div>
 								</div>
 
-								<h5 i18n="optionsEditedTracks"></h5>
+								<h5 data-i18n="optionsEditedTracks"></h5>
 								<div>
-									<p i18n="optionsEditedTracksDesc"></p>
+									<p data-i18n="optionsEditedTracksDesc"></p>
 
 									<p>
-										<a href="#edited-track-modal" class="card-link" id="view-edited" i18n="optionsViewEdited" data-toggle="modal"></a>
-										<a href="#" class="card-link" id="export-edited" i18n="optionsExportEdited"></a>
-										<a href="#" class="card-link" id="import-edited" i18n="optionsImportEdited"></a>
+										<a href="#edited-track-modal" class="card-link" id="view-edited" data-i18n="optionsViewEdited" data-toggle="modal"></a>
+										<a href="#" class="card-link" id="export-edited" data-i18n="optionsExportEdited"></a>
+										<a href="#" class="card-link" id="import-edited" data-i18n="optionsImportEdited"></a>
 									</p>
 								</div>
 
-								<h5 i18n="optionsSupportedWebsites"></h5>
+								<h5 data-i18n="optionsSupportedWebsites"></h5>
 								<div>
-									<p i18n="optionsEnableDisableHint"></p>
+									<p data-i18n="optionsEnableDisableHint"></p>
 									<p>
-										<span i18n="optionsCustomPatternsHint"></span>
-										<a target='_blank' i18n="learnMoreLabel" href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'></a>
+										<span data-i18n="optionsCustomPatternsHint"></span>
+										<a target="_blank" data-i18n="learnMoreLabel" href="https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns"></a>
 									</p>
 								</div>
 								<div class="options-block" id="connectors">
 									<div>
 										<i class="fas fa-cog"></i>
-										<input id="toggle" type="checkbox" />
-										<label class="form-check-label toggle" for="toggle" i18n="optionsToggle"></label>
+										<input id="toggle" type="checkbox">
+										<label class="form-check-label toggle" for="toggle" data-i18n="optionsToggle"></label>
 									</div>
 									<!-- Generated by JS -->
 								</div>
@@ -162,7 +162,7 @@
 							<h2 class="mb-1">
 								<a href="#collapseContacts" data-toggle="collapse" aria-expanded="false" aria-controls="collapseContacts" role="button">
 									<i class="fas fa-address-book fa-fw"></i>
-									<span i18n="contactTitle"></span>
+									<span data-i18n="contactTitle"></span>
 								</a>
 							</h2>
 						</div>
@@ -172,20 +172,19 @@
 									<li class="list-group-item">
 										<div class="contact-link">
 											<a href="https://github.com/web-scrobbler/web-scrobbler/issues"><i class="fab fa-github-alt fa-fw"></i>GitHub</a>
-											<span i18n="contactGitHubDesc" i18n-title="contactGitHubDesc"></span>
+											<span data-i18n="contactGitHubDesc" data-i18n-title="contactGitHubDesc"></span>
 										</div>
 									</li>
 									<li class="list-group-item">
 										<div class="contact-link">
 											<a href="https://twitter.com/web_scrobbler"><i class="fab fa-twitter fa-fw"></i>Twitter</a>
-											<span i18n="contactTwitterDesc" i18n-title="contactTwitterDesc"></span>
+											<span data-i18n="contactTwitterDesc" data-i18n-title="contactTwitterDesc"></span>
 										</div>
-									</li>
 									</li>
 									<li class="list-group-item">
 										<div class="contact-link">
 											<a id="privacy-url" href=" https://github.com/web-scrobbler/web-scrobbler/blob/master/src/_locales/en/privacy.md"><i class="fas fa-lock fa-fw"></i>Privacy</a>
-											<span i18n="contactPrivacyPolicyDesc" i18n-title="contactPrivacyPolicyDesc"></span>
+											<span data-i18n="contactPrivacyPolicyDesc" data-i18n-title="contactPrivacyPolicyDesc"></span>
 										</div>
 									</li>
 								</ul>
@@ -204,7 +203,7 @@
 							<h2 class="mb-1">
 								<a class="collapsed" href="#collapseFaq" data-toggle="collapse" aria-expanded="false" aria-controls="collapseFaq" role="button">
 									<i class="fas fa-question-circle fa-fw"></i>
-									<span i18n="faqTitle"></span>
+									<span data-i18n="faqTitle"></span>
 								</a>
 							</h2>
 						</div>
@@ -212,49 +211,49 @@
 							<div class="card-body">
 								<ul class="card-list-group list-group-flush">
 									<li class="list-group-item">
-										<h5 i18n="faqQuestion1"></h5>
-										<p i18n="faqAnswer1a"></p>
-										<p class="mb-0" i18n="faqAnswer1b"></p>
+										<h5 data-i18n="faqQuestion1"></h5>
+										<p data-i18n="faqAnswer1a"></p>
+										<p class="mb-0" data-i18n="faqAnswer1b"></p>
 									</li>
 
 									<li class="list-group-item">
-										<h5 i18n="faqQuestion2"></h5>
-										<p i18n="faqAnswer2a"></p>
-										<p class="mb-0" i18n="faqAnswer2b"></p>
+										<h5 data-i18n="faqQuestion2"></h5>
+										<p data-i18n="faqAnswer2a"></p>
+										<p class="mb-0" data-i18n="faqAnswer2b"></p>
 									</li>
 
 									<li class="list-group-item">
-										<h5 i18n="faqQuestion3"></h5>
-										<p i18n="faqAnswer3a"></p>
-										<p class="mb-0" i18n="faqAnswer3b"></p>
+										<h5 data-i18n="faqQuestion3"></h5>
+										<p data-i18n="faqAnswer3a"></p>
+										<p class="mb-0" data-i18n="faqAnswer3b"></p>
 									</li>
 
 									<li class="list-group-item">
-										<h5 i18n="faqQuestion4"></h5>
-										<p i18n="faqAnswer4a"></p>
-										<p i18n="faqAnswer4b" class="mb-0"></p>
+										<h5 data-i18n="faqQuestion4"></h5>
+										<p data-i18n="faqAnswer4a"></p>
+										<p data-i18n="faqAnswer4b" class="mb-0"></p>
 										<ol class="mb-3">
-											<li i18n="faqAnswer4b1"></li>
-											<li i18n="faqAnswer4b2"></li>
-											<li i18n="faqAnswer4b3"></li>
-											<li i18n="faqAnswer4b4"></li>
+											<li data-i18n="faqAnswer4b1"></li>
+											<li data-i18n="faqAnswer4b2"></li>
+											<li data-i18n="faqAnswer4b3"></li>
+											<li data-i18n="faqAnswer4b4"></li>
 										</ol>
-										<p class="mb-0" i18n="faqAnswer4c"></p>
+										<p class="mb-0" data-i18n="faqAnswer4c"></p>
 									</li>
 
 									<li class="list-group-item">
-										<h5 i18n="faqQuestion5"></h5>
-										<p class="mb-0" i18n="faqAnswer5"></p>
+										<h5 data-i18n="faqQuestion5"></h5>
+										<p class="mb-0" data-i18n="faqAnswer5"></p>
 									</li>
 
 									<li class="list-group-item">
-										<h5 i18n="faqQuestion6"></h5>
-										<p class="mb-0" i18n="faqAnswer6"></p>
+										<h5 data-i18n="faqQuestion6"></h5>
+										<p class="mb-0" data-i18n="faqAnswer6"></p>
 									</li>
 
 									<li class="list-group-item">
-										<h5 i18n="faqQuestion7"></h5>
-										<p class="mb-0" i18n="faqAnswer7"></p>
+										<h5 data-i18n="faqQuestion7"></h5>
+										<p class="mb-0" data-i18n="faqAnswer7"></p>
 									</li>
 								</ul>
 							</div>
@@ -268,17 +267,17 @@
 							<h2 class="mb-1">
 								<a class="collapsed"  href="#collapseAbout" data-toggle="collapse" aria-expanded="false" aria-controls="collapseAbout" role="button">
 									<i class="fas fa-info-circle fa-fw"></i>
-									<span i18n="optionsAbout"></span>
+									<span data-i18n="optionsAbout"></span>
 								</a>
 							</h2>
 						</div>
 						<div id="collapseAbout" class="collapse" aria-labelledby="headingAbout" data-parent="#accordionRight">
 							<div class="card-body">
-								<p i18n="aboutExtensionDesc"></p>
-								<p i18n="aboutChangelog"></p>
+								<p data-i18n="aboutExtensionDesc"></p>
+								<p data-i18n="aboutChangelog"></p>
 
-								<h4 i18n="contributorsTitle"></h4>
-								<p class="mb-0" i18n="contributorsText"></p>
+								<h4 data-i18n="contributorsTitle"></h4>
+								<p class="mb-0" data-i18n="contributorsText"></p>
 							</div>
 						</div>
 					</div>
@@ -289,18 +288,18 @@
 							<h2 class="mb-1">
 								<a href="#collapseDonate" data-toggle="collapse" aria-expanded="false" aria-controls="collapseDonate">
 									<i class="fas fa-heart fa-fw"></i>
-									<span i18n="showSomeLoveTitle"></span>
+									<span data-i18n="showSomeLoveTitle"></span>
 								</a>
 							</h2>
 						</div>
 						<div id="collapseDonate" class="collapse show" aria-labelledby="headingDonate" data-parent="#accordionRight">
 							<div class="card-body">
-								<p i18n="showSomeLoveText1"></p>
-								<p i18n="showSomeLoveText2"></p>
+								<p data-i18n="showSomeLoveText1"></p>
+								<p data-i18n="showSomeLoveText2"></p>
 
 								<div class="text-center">
 									<a href="https://ko-fi.com/R6R21HYBD" target="_blank">
-										<img src="https://www.ko-fi.com/img/githubbutton_sm.svg" alt="Support me on Ko-fi"/>
+										<img src="https://www.ko-fi.com/img/githubbutton_sm.svg" alt="Support me on Ko-fi">
 									</a>
 								</div>
 							</div>
@@ -320,16 +319,16 @@
 						</button>
 					</div>
 					<div class="modal-body">
-						<p i18n="customPatternsHint"></p>
+						<p data-i18n="customPatternsHint"></p>
 						<div class="conn-conf-patterns">
 							<ul class="patterns-list list-unstyled" id="conn-conf-list"></ul>
 						</div>
-						<button type="button" id="add-pattern" class="btn btn-primary" i18n="customPatternsAdd"></button>
+						<button type="button" id="add-pattern" class="btn btn-primary" data-i18n="customPatternsAdd"></button>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal" i18n="buttonCancel"></button>
-						<button type="button" class="btn btn-secondary" data-dismiss="modal" id="conn-conf-reset" i18n="buttonReset"></button>
-						<button type="button" class="btn btn-primary" data-dismiss="modal" id="conn-conf-ok" i18n="buttonOk"></button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal" data-i18n="buttonCancel"></button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal" id="conn-conf-reset" data-i18n="buttonReset"></button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal" id="conn-conf-ok" data-i18n="buttonOk"></button>
 					</div>
 				</div>
 			</div>
@@ -348,8 +347,8 @@
 						<ul id="edited-track-content" class="list-unstyled mb-0"></ul>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal" id="clear-cache" i18n="buttonClear"></button>
-						<button type="button" class="btn btn-primary" data-dismiss="modal" i18n="buttonCancel"></button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal" id="clear-cache" data-i18n="buttonClear"></button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal" data-i18n="buttonCancel"></button>
 					</div>
 				</div>
 			</div>
@@ -367,12 +366,13 @@
 					<div id="scrobbler-props-body" class="modal-body">
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-dismiss="modal" i18n="buttonCancel"></button>
-						<button type="button" class="btn btn-primary" data-dismiss="modal" id="scrobbler-ok" i18n="buttonOk"></button>
+						<button type="button" class="btn btn-secondary" data-dismiss="modal" data-i18n="buttonCancel"></button>
+						<button type="button" class="btn btn-primary" data-dismiss="modal" id="scrobbler-ok" data-i18n="buttonOk"></button>
 					</div>
 				</div>
 			</div>
 		</div>
+	</div>
 </body>
 
 </html>
