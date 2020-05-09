@@ -26,19 +26,20 @@ function copyDependencies(dependencies) {
 
 		const { paths } = dependenciesInfo[dep.id];
 		for (const entry of paths) {
-			copyDependency(entry);
+			copyDependencyFiles(entry);
 		}
+
+		console.log(`Copied ${dep.id}`);
 	}
 }
 
-function copyDependency(dependencyInfo) {
+function copyDependencyFiles(dependencyInfo) {
 	let { srcPaths, destDir } = dependencyInfo;
 	if (!destDir) {
 		destDir = vendorDir;
 	}
 
 	mkdirSync(destDir, { recursive: true });
-	console.log(`Created ${destDir}`);
 
 	for (const srcPath of srcPaths) {
 		const depFileName = basename(srcPath);
@@ -46,7 +47,6 @@ function copyDependency(dependencyInfo) {
 		const fullSrcPath = `${rootDir}/node_modules/${srcPath}`;
 
 		copyFileSync(fullSrcPath, destPath);
-		console.log(`Copied ${fullSrcPath} -> ${destPath}`);
 	}
 }
 
