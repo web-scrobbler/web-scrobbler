@@ -25,7 +25,7 @@ const EXTENSION_SRC = [
 	'!icons/*.svg'
 ];
 const EXTENSION_DOCS = [
-	'README.md', 'LICENSE.md', '3RD-PARTY.md'
+	'README.md', 'LICENSE.md'
 ];
 const EXTENSION_EXTRA = [
 	'package.json', 'package-lock.json'
