@@ -1164,13 +1164,6 @@ const connectors = [{
 	js: 'connectors/joox.js',
 	id: 'joox',
 }, {
-	label: 'PlayAppleMusic.com',
-	matches: [
-		'*://playapplemusic.com/*'
-	],
-	js: 'connectors/musickit.js',
-	id: 'playapplemusic',
-}, {
 	label: 'Musish',
 	matches: [
 		'*://musi.sh/*'
