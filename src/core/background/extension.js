@@ -71,8 +71,6 @@ define((require) => {
 		async start() {
 			await this.updateVersionInStorage();
 
-			this.bindScrobblers();
-
 			if (!await this.bindScrobblers()) {
 				console.warn('No scrobblers are bound');
 
