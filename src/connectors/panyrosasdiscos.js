@@ -8,7 +8,7 @@ Connector.trackSelector = '#T_mp3j_0';
 
 Connector.getTrackInfo = () => {
 	const text = Util.getTextFromSelectors('.entry-title');
-	const pattern = /(pyr[0-9]+) (.+) – (.+)/g;
+	const pattern = /(pyr\d+) (.+) – (.+)/g;
 	const matches = [...text.matchAll(pattern)][0];
 	return {
 		uniqueID: `${matches[1]}#${$('.mp3j_A_current').attr('id')}`,

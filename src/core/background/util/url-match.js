@@ -1,7 +1,7 @@
 'use strict';
 
 function escapeRegExp(string) {
-	return string.replace(/[[^$.|?*+(){}\\]/g, '\\$&');
+	return string.replace(/[$()*+.?[\\^{|}]/g, '\\$&');
 	// return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 

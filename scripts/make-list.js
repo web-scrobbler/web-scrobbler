@@ -14,7 +14,7 @@ const {
 
 const emptyLine = '';
 
-const versionPlaceholderRe = /\$\{ver\}/g;
+const versionPlaceholderRe = /\${ver}/g;
 
 const options = { method: 'HEAD' };
 const okStatusCodes = [200, 301, 302];

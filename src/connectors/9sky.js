@@ -37,14 +37,14 @@ function filterTrack(text) {
 	const regex = new RegExp(`^.*([${rightBrackets}]).*$`);
 
 	const filteredText = text.replace(regex, filterBrackets);
-	return filteredText.replace(/[-_－—\s][^-_—－]+(?:版|version|MV)\s*$/i, '');
+	return filteredText.replace(/[\s_—－-][^_—－-]+(?:版|version|mv)\s*$/i, '');
 }
 
 function filterBrackets(text, bracket) {
 	const i = text.lastIndexOf(bracket);
 	const j = text.indexOf(String.fromCharCode(bracket.charCodeAt() - 1));
 	const b = text.slice(j + 1, i);
-	if (!/(?:版|version|MV)\s*$/i.test(b)) {
+	if (!/(?:版|version|mv)\s*$/i.test(b)) {
 		return titleBrackets.includes(bracket) ? b : text;
 	}
 

@@ -39,7 +39,7 @@ Connector.trackArtSelector = '.rightSide .albumArtWrapper img';
 Connector.getUniqueID = () => {
 	const optionsHref = $('.buttonOption.main[title=Options]').attr('href');
 	if (optionsHref) {
-		return optionsHref.replace(/[\w|\W]+adriveId=/, '');
+		return optionsHref.replace(/[\W\w]+adriveId=/, '');
 	}
 	return null;
 };

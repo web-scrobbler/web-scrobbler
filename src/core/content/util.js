@@ -179,7 +179,7 @@ const Util = {
 	 * @return {String} Track art URL
 	 */
 	extractUrlFromCssProperty(cssProperty) {
-		const match = /url\((['"]?)(.*)\1\)/.exec(cssProperty);
+		const match = /url\((["']?)(.*)\1\)/.exec(cssProperty);
 		if (match) {
 			return match[2].trim();
 		}
@@ -514,7 +514,7 @@ const Util = {
 	ytTitleRegExps: [
 		// Artist "Track", Artist: "Track", Artist - "Track", etc.
 		{
-			pattern: /(.+?)(\s|-|—|:)+\s*"(.+?)"/,
+			pattern: /(.+?)([\s:—-])+\s*"(.+?)"/,
 			groups: { artist: 1, track: 3 }
 		},
 		// Artist「Track」 (Japanese tracks)
@@ -524,7 +524,7 @@ const Util = {
 		},
 		// Track (... by Artist)
 		{
-			pattern: /([\w\d][\w\d\s]*?)\s+\([^)]*\s*by\s*([^)]+)+\)/,
+			pattern: /(\w[\s\w]*?)\s+\([^)]*\s*by\s*([^)]+)+\)/,
 			groups: { artist: 2, track: 1 }
 		}
 	],
@@ -543,7 +543,7 @@ const Util = {
 		}
 
 		// Remove [genre] or 【genre】 from the beginning of the title
-		const title = videoTitle.replace(/^((\[[^\]]+\])|(【[^】]+】))\s*-*\s*/i, '');
+		const title = videoTitle.replace(/^((\[[^\]]+])|(【[^】]+】))\s*-*\s*/i, '');
 
 		// Try to match one of the regexps
 		for (const regExp of this.ytTitleRegExps) {
@@ -635,7 +635,7 @@ const Util = {
 	 * Regular expression used to split artist and track.
 	 * @type {Object}
 	 */
-	scArtistTrackRe: /(.+)\s[-:\u2013\u2014\u2015]\s(.+)/,
+	scArtistTrackRe: /(.+)\s[:\u2013-\u2015-]\s(.+)/,
 
 	/**
 	 * Extract artist and track from SoundCloud track title.
