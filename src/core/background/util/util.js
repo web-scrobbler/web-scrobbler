@@ -33,7 +33,7 @@ define(() => {
 		const logFunc = console[logType];
 
 		if (typeof logFunc !== 'function') {
-			throw new Error(`Unknown log type: ${logType}`);
+			throw new TypeError(`Unknown log type: ${logType}`);
 		}
 
 		/* istanbul ignore next */

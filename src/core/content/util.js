@@ -425,7 +425,7 @@ const Util = {
 		}
 
 		if (!Array.isArray(selectors)) {
-			throw new Error(`Unknown type of selector: ${typeof selectors}`);
+			throw new TypeError(`Unknown type of selector: ${typeof selectors}`);
 		}
 
 		for (const selector of selectors) {
@@ -489,7 +489,7 @@ const Util = {
 		const logFunc = console[logType];
 
 		if (typeof logFunc !== 'function') {
-			throw new Error(`Unknown log type: ${logType}`);
+			throw new TypeError(`Unknown log type: ${logType}`);
 		}
 
 		const message = `Web Scrobbler: ${text}`;
