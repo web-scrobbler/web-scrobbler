@@ -142,11 +142,7 @@ function getAlbumCommon() {
 function getDurationCommon() {
 	const playingItemName = document.querySelector('.gcol-electronic .playtxt');
 	if (playingItemName) {
-		const lastNode = playingItemName.childNodes[
-			playingItemName.childNodes.length - 1
-		];
-
-		const durationStr = lastNode.textContent;
+		const durationStr = playingItemName.lastChild.textContent;
 		const match = /\((.+?)\)/.exec(durationStr);
 		if (match) {
 			return Util.stringToSeconds(match[1]);
