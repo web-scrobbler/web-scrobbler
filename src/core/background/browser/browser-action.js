@@ -9,7 +9,7 @@ define((require) => {
 	const Mode = {
 		[ControllerMode.Base]: {
 			icon: 'base',
-			popup: '/ui/popups/go_play_music.html',
+			popup: '/ui/popups/go-play-music.html',
 			i18n: 'pageActionBase',
 		},
 		[ControllerMode.Loading]: {
