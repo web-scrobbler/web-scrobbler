@@ -637,6 +637,11 @@ function BaseConnector() {
 		 */
 		isPodcast: false,
 
+		/**
+		 * Origin URL.
+		 * @type {String}
+		 */
+		originUrl: null,
 	};
 
 	// @ifdef DEBUG
