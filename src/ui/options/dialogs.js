@@ -2,13 +2,12 @@
 
 define((require) => {
 	const browser = require('webextension-polyfill');
+	const SavedEdits = require('storage/saved-edits');
 	const CustomPatterns = require('storage/custom-patterns');
-	const BrowserStorage = require('storage/browser-storage');
 
 	const { getSortedConnectors } = require('util/util-connector');
 
 	const sortedConnectors = getSortedConnectors();
-	const localCache = BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);
 
 	function initialize() {
 		initAddPatternDialog();
@@ -89,7 +88,7 @@ define((require) => {
 			const cacheDom = $('#edited-track-content');
 			cacheDom.empty();
 
-			const data = await localCache.get();
+			const data = await SavedEdits.getSongInfoStorage();
 			const cacheSize = Object.keys(data).length;
 
 			if (cacheSize === 0) {
@@ -108,10 +107,8 @@ define((require) => {
 						item.attr('title', browser.i18n.getMessage('albumTooltip', album));
 					}
 					removeBtn.click(async function() {
-						const data = await localCache.get();
-						delete data[songId];
+						await SavedEdits.removeSongInfoById(songId);
 
-						await localCache.set(data);
 						$(this.parentNode).remove();
 
 						if (Object.keys(data).length === 0) {
@@ -129,8 +126,8 @@ define((require) => {
 			$('#edited-track-modal .modal-title').text(poputTitle);
 
 			$('#clear-cache').click(() => {
-				localCache.clear();
 				modal.modal('hide');
+				SavedEdits.clear();
 			});
 
 			modal.modal('show');

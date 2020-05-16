@@ -6,16 +6,14 @@
  */
 
 define((require) => {
-	const LocalCacheStorage = require('storage/local-cache');
+	const SavedEdits = require('storage/saved-edits');
 
 	/**
 	 * Fill song info by user defined values.
 	 * @param  {Object} song Song instance
 	 */
 	async function process(song) {
-		if (await LocalCacheStorage.fillSongData(song)) {
-			song.flags.isCorrectedByUser = true;
-		}
+		song.flags.isCorrectedByUser = await SavedEdits.loadSongInfo(song);
 	}
 
 	return { process };
