@@ -406,6 +406,18 @@ const Util = {
 	},
 
 	/**
+	 * Check if an element matching a given selector is visible.
+	 *
+	 * @param  {String|Array} selectors Single selector or array of selectors
+	 * @return {Boolean} Check result
+	 */
+	/* istanbul ignore next */
+	isElementVisible(selectors) {
+		const element = this.queryElements(selectors);
+		return element && element.is(':visible');
+	},
+
+	/**
 	 * Return jQuery object of first available element. If `selectors`
 	 * is a string, return jQuery object with the selector. If `selectors` is
 	 * an array, return jQuery object matched by first valid selector.
