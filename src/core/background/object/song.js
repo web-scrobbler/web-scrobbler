@@ -1,19 +1,5 @@
 'use strict';
 
-// FIXME Remove duplication (BaseConnector has the same properties)
-const defaultParsedData = {
-	track: null,
-	artist: null,
-	album: null,
-	albumArtist: null,
-	uniqueID: null,
-	duration: null,
-	currentTime: null,
-	isPlaying: true,
-	trackArt: null,
-	isPodcast: false,
-};
-
 /**
  * Song object.
  */
@@ -29,10 +15,7 @@ define(() => {
 			 * Safe copy of initial parsed data.
 			 * Must not be modified.
 			 */
-			this.parsed = Object.assign({}, defaultParsedData);
-			for (const key in parsedData) {
-				this.parsed[key] = parsedData[key] || null;
-			}
+			this.parsed = Object.assign({}, parsedData);
 
 			/**
 			 * Post-processed song data, for example auto-corrected.

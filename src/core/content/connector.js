@@ -572,8 +572,7 @@ function BaseConnector() {
 	 * @type {Object}
 	 */
 	const defaultState = {
-
-		// Required fields.
+		/* Required fields */
 
 		/**
 		 * Track name.
@@ -587,7 +586,7 @@ function BaseConnector() {
 		 */
 		artist: null,
 
-		// Optional fields.
+		/* Optional fields */
 
 		/**
  		 * Album name.

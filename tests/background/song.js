@@ -7,6 +7,20 @@
 const expect = require('chai').expect;
 const Song = require('../../src/core/background/object/song');
 
+const defaultParsedData = {
+	album: null,
+	albumArtist: null,
+	artist: null,
+	currentTime: null,
+	duration: null,
+	isPlaying: true,
+	isPodcast: false,
+	originUrl: null,
+	track: null,
+	trackArt: null,
+	uniqueID: null,
+};
+
 /**
  * Object that contains source data for Song object.
  * @type {Object}
@@ -41,17 +55,21 @@ const DUMMY_CONNECTOR = {
 
 /**
  * Create song object.
- * @param  {Object} parsed Object contains custom parsed data values
- * @param  {Object} processed Object contains custom processed data values
+ * @param  {Object} parsedData Object contains custom parsed data values
+ * @param  {Object} processedData Object contains custom processed data values
  * @return {Object} Processed song object
  */
-function createSong(parsed, processed) {
-	const parsedDataCopy = Object.assign({}, parsed);
+function createSong(parsedData, processedData) {
+	const parsedDataCopy = {};
+	for (const prop in defaultParsedData) {
+		parsedDataCopy[prop] = parsedData[prop] || defaultParsedData[prop];
+	}
+
 	const song = new Song(parsedDataCopy, DUMMY_CONNECTOR);
 
-	if (processed) {
-		for (const field in processed) {
-			song.processed[field] = processed[field];
+	if (processedData) {
+		for (const field in processedData) {
+			song.processed[field] = processedData[field];
 		}
 	}
 
