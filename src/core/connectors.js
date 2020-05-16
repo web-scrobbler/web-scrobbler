@@ -349,7 +349,6 @@ const connectors = [{
 	label: 'JazzAndRain',
 	matches: [
 		'*://*.jazzandrain.com/*',
-		'*://www.jazzandrain.com/*',
 	],
 	js: 'connectors/jazzandrain.js',
 	id: 'jazzandrain',
