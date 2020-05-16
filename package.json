@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.13.0",
-    "blueimp-md5": "2.15.0",
+    "blueimp-md5": "2.16.0",
     "bootstrap": "4.4.1",
     "jquery": "3.5.1",
     "metadata-filter": "0.4.1",
