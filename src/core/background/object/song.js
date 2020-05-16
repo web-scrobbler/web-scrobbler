@@ -1,31 +1,23 @@
 'use strict';
 
+// FIXME Remove duplication (BaseConnector has the same properties)
+const defaultParsedData = {
+	track: null,
+	artist: null,
+	album: null,
+	albumArtist: null,
+	uniqueID: null,
+	duration: null,
+	currentTime: null,
+	isPlaying: true,
+	trackArt: null,
+	isPodcast: false,
+};
+
 /**
  * Song object.
  */
-define((require) => {
-	const MD5 = require('md5');
-
-	/**
-	 * Create unique song ID based on data parsed by connector.
-	 * @param {Object} parsedData Current state received from connector
-	 * @return {String} Unique ID
-	 */
-	function makeUniqueId(parsedData) {
-		let inputStr = '';
-
-		for (const field of Song.BASE_FIELDS) {
-			if (parsedData[field]) {
-				inputStr += parsedData[field];
-			}
-		}
-		if (inputStr) {
-			return MD5(inputStr);
-		}
-
-		return null;
-	}
-
+define(() => {
 	class Song {
 		/**
 		 * @constructor
@@ -37,7 +29,10 @@ define((require) => {
 			 * Safe copy of initial parsed data.
 			 * Must not be modified.
 			 */
-			this.parsed = Object.assign({}, parsedData);
+			this.parsed = Object.assign({}, defaultParsedData);
+			for (const key in parsedData) {
+				this.parsed[key] = parsedData[key] || null;
+			}
 
 			/**
 			 * Post-processed song data, for example auto-corrected.
@@ -56,12 +51,6 @@ define((require) => {
 			 */
 			this.metadata = { /* Filled in `initMetadata` method */ };
 
-			/**
-			 * Internal song ID based on data from connector. Used if
-			 * `uniqueID` property is empty.
-			 * @type {String}
-			 */
-			this.internalId = parsedData.uniqueID || makeUniqueId(parsedData);
 			this.connectorLabel = connector.label;
 
 			this.initSongData();
@@ -140,7 +129,7 @@ define((require) => {
 		 * @return {String} Unique ID
 		 */
 		getUniqueId() {
-			return this.internalId;
+			return this.parsed.uniqueID;
 		}
 
 		/**
@@ -182,11 +171,19 @@ define((require) => {
 				return false;
 			}
 
-			if (typeof song.getUniqueId !== 'function') {
+			if (!(song instanceof Song)) {
 				return false;
 			}
 
-			return this.getUniqueId() === song.getUniqueId();
+			const thisUniqueId = this.getUniqueId();
+			const otherUniqueId = song.getUniqueId();
+			if (thisUniqueId || otherUniqueId) {
+				return thisUniqueId === otherUniqueId;
+			}
+
+			return this.getArtist() === song.getArtist() &&
+				this.getTrack() === song.getTrack() &&
+				this.getAlbum() === song.getAlbum();
 		}
 
 		/**

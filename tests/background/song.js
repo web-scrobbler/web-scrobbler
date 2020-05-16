@@ -273,33 +273,65 @@ function testGetCloneableData() {
 }
 
 function testEquals() {
-	const song1 = createSong({
+	const songWithUniqueId = createSong({
 		artist: 'Artist', track: 'Title', album: 'Album',
 		uniqueID: 'uniqueId1'
 	});
-	const song2 = createSong({
+	const songWithNoUniqueId = createSong({
 		artist: 'Artist', track: 'Title', album: 'Album',
-		uniqueID: 'uniqueId1'
-	});
-	const song3 = createSong({
-		artist: 'Artist', track: 'Title', album: 'Album',
-		uniqueID: 'uniqueId3'
 	});
 
-	it('should equal itself', () => {
-		expect(song1.equals(song1)).to.be.true;
+	it('should equal itself if unique ID is available', () => {
+		expect(songWithUniqueId.equals(songWithUniqueId)).to.be.true;
 	});
+
+	it('should equal itself if unique ID is not available', () => {
+		expect(songWithNoUniqueId.equals(songWithNoUniqueId)).to.be.true;
+	});
+
 	it('should equal another song with the same uniqueId', () => {
-		expect(song1.equals(song2)).to.be.true;
+		const sameSong = createSong({
+			artist: 'Artist', track: 'Title', album: 'Album',
+			uniqueID: 'uniqueId1'
+		});
+		expect(songWithUniqueId.equals(sameSong)).to.be.true;
 	});
+
+	it('should equal another song with the same info', () => {
+		const sameSong = createSong({
+			artist: 'Artist', track: 'Title', album: 'Album',
+		});
+		expect(songWithNoUniqueId.equals(sameSong)).to.be.true;
+	});
+
+	it('should not equal song with no unique ID', () => {
+		const differentSong = createSong({
+			artist: 'Artist', track: 'Title', album: 'Album',
+		});
+		expect(songWithUniqueId.equals(differentSong)).to.be.false;
+	});
+
 	it('should not equal song with the different uniqueId', () => {
-		expect(song1.equals(song3)).to.be.false;
+		const differentSong = createSong({
+			artist: 'Artist', track: 'Title', album: 'Album',
+			uniqueID: 'uniqueId2'
+		});
+		expect(songWithUniqueId.equals(differentSong)).to.be.false;
 	});
+
+	it('should equal another song with the different info', () => {
+		const differentSong = createSong({
+			artist: 'Artist 2', track: 'Title 2', album: 'Album 2',
+		});
+		expect(songWithNoUniqueId.equals(differentSong)).to.be.false;
+	});
+
 	it('should not equal null value', () => {
-		expect(song1.equals(null)).to.be.false;
+		expect(songWithUniqueId.equals(null)).to.be.false;
 	});
+
 	it('should not equal non-song object', () => {
-		expect(song1.equals(23)).to.be.false;
+		expect(songWithUniqueId.equals(23)).to.be.false;
 	});
 }
 
@@ -335,12 +367,11 @@ function testGetUniqueId() {
 		expect(song.getUniqueId()).to.be.equal(uniqueId);
 	});
 
-	it('should return unique ID if song has no parsed unique ID', () => {
-		const uniqueId = '8021e94350ed56f71a673b08eaea0888';
+	it('should not return unique ID if song has no parsed unique ID', () => {
 		const song = createSong({
 			artist: 'Artist', track: 'Title', album: 'Album'
 		});
-		expect(song.getUniqueId()).to.be.equal(uniqueId);
+		expect(song.getUniqueId()).to.be.null;
 	});
 
 	it('should not return unique ID if song is empty', () => {
