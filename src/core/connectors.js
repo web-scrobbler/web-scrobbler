@@ -1470,12 +1470,12 @@ const connectors = [{
 	js: 'connectors/tunetrack.js',
 	id: 'tunetrack',
 }, {
-	label: 'Myzcloud',
+	label: 'Musify',
 	matches: [
-		'*://myzcloud.me/*',
+		'*://*.musify.club/*',
 	],
-	js: 'connectors/myzcloud.js',
-	id: 'myzcloud',
+	js: 'connectors/musify.js',
+	id: 'musify',
 }, {
 	label: 'Radio Rethink',
 	matches: [
