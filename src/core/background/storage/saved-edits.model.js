@@ -24,6 +24,10 @@ define((require) => {
 			const storageData = await this.getSongInfoStorage();
 
 			if (!(songId in storageData)) {
+				songId = SavedEditsModel.makeSongId(song, ['artist', 'track', 'album']);
+			}
+
+			if (!(songId in storageData)) {
 				songId = SavedEditsModel.makeSongId(song, ['artist', 'track']);
 			}
 
