@@ -65,3 +65,8 @@
 .hidden-options {
 	display: none;
 }
+
+.card-header a:hover {
+	color: #d51007;
+	text-decoration: none;
+}
