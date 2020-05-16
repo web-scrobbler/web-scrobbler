@@ -1202,7 +1202,7 @@ const connectors = [{
 }, {
 	label: 'Invidious',
 	matches: [
-		'*://invidio.us/*'
+		'*://*.invidio.us/*'
 	],
 	js: 'connectors/invidious.js',
 	id: 'invidious',
