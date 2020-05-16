@@ -12,7 +12,6 @@
     "@fortawesome/fontawesome-free": "5.13.0",
     "blueimp-md5": "2.15.0",
     "bootstrap": "4.4.1",
-    "chai-as-promised": "^7.1.1",
     "jquery": "3.5.1",
     "metadata-filter": "0.4.0",
     "requirejs": "2.3.6",
@@ -21,6 +20,7 @@
   },
   "devDependencies": {
     "chai": "4.2.0",
+    "chai-as-promised": "7.1.1",
     "chai-spies": "1.0.0",
     "codacy-coverage": "3.4.0",
     "dotenv": "8.2.0",
