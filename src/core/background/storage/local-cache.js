@@ -1,19 +1,31 @@
 'use strict';
 
 define((require) => {
+	const MD5 = require('md5');
 	const Song = require('object/song');
 	const BrowserStorage = require('storage/browser-storage');
 
 	const storage = BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);
 
 	async function fillSongData(song) {
-		const songId = song.getUniqueId();
+		let songId = song.getUniqueId();
 		if (!songId) {
 			return false;
 		}
 
 		const data = await storage.get();
-		if (data[songId]) {
+
+		// Handle cases where `albumArtist` support was added
+		if (!(songId in data)) {
+			songId = makeFallbackId(song, ['artist', 'track', 'album']);
+		}
+
+		// Handle cases where `album` support was added
+		if (!(songId in data)) {
+			songId = makeFallbackId(song, ['artist', 'track']);
+		}
+
+		if (songId in data) {
 			const savedMetadata = data[songId];
 
 			for (const field of Song.USER_FIELDS) {
@@ -64,6 +76,18 @@ define((require) => {
 
 		delete data[songId];
 		await storage.set(data);
+	}
+
+	function makeFallbackId(song, properties) {
+		let inputStr = '';
+
+		for (const field of properties) {
+			if (song.parsed[field]) {
+				inputStr += song.parsed[field];
+			}
+		}
+
+		return MD5(inputStr);
 	}
 
 	return {
