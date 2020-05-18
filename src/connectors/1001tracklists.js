@@ -3,9 +3,9 @@
 let nextCue;
 let cue;
 let currentTime;
-const mixDuration = Util.stringToSeconds($('.mediaTabItem:first span').text().split('[')[1].trim().slice(0, -1));
+const mixDuration = Util.stringToSeconds($('.mediaTabItem span').text().split('[')[1].split(']')[0]);
 
-Connector.playerSelector = '.playerWidgetMessage';
+Connector.playerSelector = '#playerWidgetFields';
 
 Connector.trackArtSelector = '#artworkLeft';
 
@@ -39,8 +39,8 @@ Connector.isPlaying = () => {
 };
 
 Connector.isScrobblingAllowed = () => {
-	nextCue = Util.stringToSeconds($('.cPlay:first').nextAll('.topBorder').find('.cueValueField:contains(":")').eq(0).text());
-	cue = Util.stringToSeconds($('.cPlay:first').find('.cueValueField').text());
+	nextCue = +$('.cPlay:first').nextAll('.topBorder').find('input').eq(0).val();
+	cue = +$('.cPlay:first input').val();
 	currentTime = Util.stringToSeconds($('#playerWidgetCurrentTime').text());
 	const noIDs = $('.cPlay:first').find('.trackFormat .redTxt').length;
 
