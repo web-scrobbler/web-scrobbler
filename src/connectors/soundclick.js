@@ -8,17 +8,17 @@ Connector.playerSelector = '#playerWrap';
 
 Connector.artistSelector = '#playerSCLK_artistName';
 
-// use playlist to get track title
-// to avoid missing content when quotation marks present
-Connector.getTrack = () => {
-	const text = Util.getTextFromSelectors('.songActive .playlist-songtitle');
-	const artist = Connector.getArtist();
-	return text.substr(text.match(artist).index + artist.length + 3);
-};
+Connector.trackSelector = '.songActive .playlist-songtitle';
 Connector.applyFilter(filter);
 
 function cleanupTrack(text) {
-	return text.replace(/^\*[^*]+\*/, '').replace(/([(*]|- )?buy \d+ get \d+ .*$/i, '').trim();
+// use playlist to get track title removing artist name
+// to avoid missing content when quotation marks present
+	const artist = Connector.getArtist();
+	return text.substr(text.match(artist).index + artist.length + 3)
+		.replace(/^\*[^*]+\*/, '')
+		.replace(/([(*]|- )?buy \d+ get \d+ .*$/i, '')
+		.trim();
 }
 
 Connector.playButtonSelector = '#btnPlay';
