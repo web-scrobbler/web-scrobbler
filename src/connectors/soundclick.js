@@ -17,8 +17,7 @@ function cleanupTrack(text) {
 	const artist = Connector.getArtist();
 	return text.substr(text.match(artist).index + artist.length + 3)
 		.replace(/^\*[^*]+\*/, '')
-		.replace(/([(*]|- )?buy \d+ get \d+ .*$/i, '')
-		.trim();
+		.replace(/([(*]|- )?buy \d+ get \d+ .*$/i, '');
 }
 
 Connector.playButtonSelector = '#btnPlay';
