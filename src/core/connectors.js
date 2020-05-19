@@ -1483,6 +1483,13 @@ const connectors = [{
 	],
 	js: 'connectors/radiorethink.js',
 	id: 'radiorethink',
+}, {
+	label: 'SoundClick',
+	matches: [
+		'*://www.soundclick.com/*',
+	],
+	js: 'connectors/soundclick.js',
+	id: 'soundclick',
 }];
 
 define(() => connectors);
