@@ -119,6 +119,10 @@
         "message": "Свойства",
         "description": "Button label"
     },
+    "accountsScrobblerPropsTitle": {
+        "message": "Свойства $1",
+        "description": "Button label"
+    },
     "accountsUserApiUrl": {
         "message": "API URL",
         "description": "Input label"
