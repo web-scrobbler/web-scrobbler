@@ -1,6 +1,6 @@
 'use strict';
 
-const playerBar = '.bar';
+const playerBar = '#radio';
 
 Connector.playerSelector = playerBar;
 
