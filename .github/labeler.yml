@@ -1,3 +1,0 @@
-core: src/core/**/*.js
-connector: src/connectors/*.js
-translation: src/_locales/*
