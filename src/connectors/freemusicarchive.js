@@ -94,8 +94,6 @@ function setupSongPlayer() {
 	Connector.artistSelector = '.subh1 a';
 
 	Connector.trackSelector = trackSelectorCommon;
-
-	Connector.albumSelector = '.bcrumb .txt-drk';
 }
 
 // https://freemusicarchive.org/music/charts/this-week
