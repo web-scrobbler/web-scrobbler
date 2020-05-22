@@ -2,7 +2,7 @@
 
 const filter = new MetadataFilter({ track: removeQuotes });
 
-const trackSelectorCommon = '.gcol-electronic .playtxt a';
+const trackSelectorCommon = '.play-item.gcol-electronic .playtxt a';
 
 const pageSelectors = {
 	artist: '.bcrumb h1 .minitag-artist',
@@ -54,7 +54,7 @@ function setupCommonProps() {
 	Connector.pauseButtonSelector = '.playbtn-paused';
 
 	Connector.getUniqueID = () => {
-		const playingItem = document.querySelector('.gcol-electronic');
+		const playingItem = document.querySelector('.play-item.gcol-electronic');
 		if (!playingItem) {
 			return null;
 		}
@@ -100,20 +100,20 @@ function setupSongPlayer() {
 
 // https://freemusicarchive.org/music/charts/this-week
 function setupChartsPlayer() {
-	Connector.artistSelector = '.gcol-electronic .chartcol-artist a';
+	Connector.artistSelector = '.play-item.gcol-electronic .chartcol-artist a';
 
-	Connector.trackSelector = '.gcol-electronic .chartcol-track a';
+	Connector.trackSelector = '.play-item.gcol-electronic .chartcol-track a';
 
-	Connector.albumSelector = '.gcol-electronic .chartcol-album a';
+	Connector.albumSelector = '.play-item.gcol-electronic .chartcol-album a';
 }
 
 // https://freemusicarchive.org/genre/Blues
 function setupGenresPlayer() {
-	Connector.artistSelector = '.gcol-electronic .ptxt-artist a';
+	Connector.artistSelector = '.play-item.gcol-electronic .ptxt-artist a';
 
-	Connector.trackSelector = '.gcol-electronic .ptxt-track a';
+	Connector.trackSelector = '.play-item.gcol-electronic .ptxt-track a';
 
-	Connector.albumSelector = '.gcol-electronic .ptxt-album a';
+	Connector.albumSelector = '.play-item.gcol-electronic .ptxt-album a';
 }
 
 // https://freemusicarchive.org/static
@@ -128,7 +128,7 @@ function setupDefaultPlayer() {
 }
 
 function getAlbumCommon() {
-	const playingItem = document.querySelector('.gcol-electronic');
+	const playingItem = document.querySelector('.play-item.gcol-electronic');
 	if (playingItem) {
 		const albumItem = playingItem.closest('.colr-lrg-10pad');
 		if (albumItem) {
@@ -140,7 +140,7 @@ function getAlbumCommon() {
 }
 
 function getDurationCommon() {
-	const playingItemName = document.querySelector('.gcol-electronic .playtxt');
+	const playingItemName = document.querySelector('.play-item.gcol-electronic .playtxt');
 	if (playingItemName) {
 		const durationStr = playingItemName.lastChild.textContent;
 		const match = /\((.+?)\)/.exec(durationStr);
