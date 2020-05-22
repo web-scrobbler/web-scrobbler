@@ -7,7 +7,7 @@ const trackSelectorCommon = '.play-item.gcol-electronic .playtxt a';
 const pageSelectors = {
 	artist: '.bcrumb h1 .minitag-artist',
 	charts: '.page-charts',
-	genres: '.subgenres',
+	genres: '#bcrumb a[href^="/genre"]',
 	album: '.bcrumb h1 .minitag-album',
 	song: '.bcrumb h1 .minitag-song',
 };
