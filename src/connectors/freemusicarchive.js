@@ -59,10 +59,9 @@ function setupCommonProps() {
 			return null;
 		}
 
-		const match = /(tid-\d+)/.exec(playingItem.className);
+		const match = /tid-(\d+)/.exec(playingItem.className);
 		if (match) {
-			const idString = match[0].split('-');
-			return idString[1];
+			return match[1];
 		}
 		return null;
 	};
