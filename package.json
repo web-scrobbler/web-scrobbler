@@ -33,7 +33,7 @@
     "grunt-contrib-compress": "1.6.0",
     "grunt-contrib-copy": "1.0.0",
     "grunt-contrib-imagemin": "4.0.0",
-    "grunt-eslint": "22.0.0",
+    "grunt-eslint": "23.0.0",
     "grunt-jsonlint": "2.1.2",
     "grunt-lintspaces": "0.9.0",
     "grunt-mocha-cli": "6.0.0",
