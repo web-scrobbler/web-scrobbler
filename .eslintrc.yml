@@ -1,5 +1,0 @@
-extends: 'web-scrobbler'
-globals:
-  define: readonly
-parserOptions:
-  ecmaVersion: 8

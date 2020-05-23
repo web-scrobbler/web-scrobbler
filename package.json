@@ -63,5 +63,11 @@
     "clean-coverage": "rm -rf ./coverage",
     "postinstall": "node scripts/copy-vendor.js"
   },
+  "eslintConfig": {
+    "extends": "web-scrobbler"
+  },
+  "stylelint": {
+    "extends": "stylelint-config-web-scrobbler"
+  },
   "license": "MIT"
 }
