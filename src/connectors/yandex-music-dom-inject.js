@@ -21,11 +21,7 @@ function onEvent() {
 function getTrackInfo() {
 	const trackInfo = YandexAPI.getCurrentTrack();
 
-	let track = trackInfo.title;
-	const version = trackInfo.version;
-	if (version) {
-		track = `${track} (${version})`;
-	}
+	const track = trackInfo.title;
 	let album = null;
 	if (trackInfo.album) {
 		album = trackInfo.album.title;
