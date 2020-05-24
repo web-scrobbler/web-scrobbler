@@ -58,7 +58,7 @@
     "lint": "grunt lint",
     "test": "grunt test",
     "test-with-coverage": "nyc grunt test",
-    "upload-coverage": "curl -Ls https://coverage.codacy.com/get.sh | sh -s report -r ./coverage/lcov.info",
+    "upload-coverage": "curl -Ls https://coverage.codacy.com/get.sh | bash -s report -r ./coverage/lcov.info",
     "clean-coverage": "rm -rf ./coverage",
     "postinstall": "node scripts/copy-vendor.js"
   },
