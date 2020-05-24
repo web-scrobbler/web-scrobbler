@@ -164,13 +164,7 @@ function testSaveLoadSongFallback() {
 	});
 
 	it('should load edited info of song with no album', () => {
-		return savedEdits.loadSongInfo(songWithNoAlbum).then((isLoaded) => {
-			const { artist, album, track } = songWithNoAlbum.processed;
-			const loadedInfo = { artist, album, track };
-
-			expect(isLoaded).to.be.true;
-			expect(loadedInfo).to.be.deep.equal(editedInfo);
-		});
+		return expectSongInfoLoaded(savedEdits, songWithNoAlbum, editedInfo);
 	});
 
 	it('should load edited info of song with album', () => {
