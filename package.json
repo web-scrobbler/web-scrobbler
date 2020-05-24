@@ -67,6 +67,9 @@
     "extends": "web-scrobbler"
   },
   "prettier": "prettier-config-web-scrobbler",
+  "remark": {
+    "plugins": ["remark-preset-lint-recommended"]
+  },
   "stylelint": {
     "extends": "stylelint-config-web-scrobbler"
   },
