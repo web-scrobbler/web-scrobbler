@@ -112,6 +112,18 @@ const Util = {
 	},
 
 	/**
+	 * Split string to artist and album.
+	 * @param  {String} str String contains artist and track
+	 * @param  {Array} [separators] Array of separators
+	 * @param  {Boolean} [swap=false] Swap artist and track values
+	 * @return {Object} Object contains artist and track fields
+	 */
+	splitArtistAlbum(str, separators = null, { swap = false } = {}) {
+		const [artist, album] = this.splitString(str, separators, { swap });
+		return { artist, album };
+	},
+
+	/**
 	 * Split string to current time and duration.
 	 * @param  {String} str String contains current time and duration
 	 * @param  {String} [separator] Separator
