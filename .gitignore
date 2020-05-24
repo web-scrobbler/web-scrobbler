@@ -22,6 +22,7 @@
 /*.log
 
 # Coverage
+.codacy-coverage/
 .nyc_output/
 .nyc_cache/
 coverage/

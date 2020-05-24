@@ -22,7 +22,6 @@
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
     "chai-spies": "1.0.0",
-    "codacy-coverage": "3.4.0",
     "dotenv": "8.2.0",
     "eslint-config-web-scrobbler": "0.3.0",
     "grunt": "1.1.0",
@@ -59,7 +58,7 @@
     "lint": "grunt lint",
     "test": "grunt test",
     "test-with-coverage": "nyc grunt test",
-    "upload-coverage": "cat ./coverage/lcov.info | codacy-coverage",
+    "upload-coverage": "curl -Ls https://coverage.codacy.com/get.sh | sh -s report -r ./coverage/lcov.info",
     "clean-coverage": "rm -rf ./coverage",
     "postinstall": "node scripts/copy-vendor.js"
   },
