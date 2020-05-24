@@ -51,6 +51,40 @@ const SPLIT_ARTIST_TRACK_DATA = [{
 }];
 
 /**
+ * Test data for testing 'Util.splitArtistAlbum' function.
+ * @type {Array}
+ */
+const SPLIT_ARTIST_ALBUM_DATA = [{
+	description: 'should return empty result for empty input',
+	args: ['', null, { swap: false }],
+	expected: { artist: null, album: null },
+}, {
+	description: 'should return empty result for null input',
+	args: [null, null, { swap: false }],
+	expected: { artist: null, album: null },
+}, {
+	description: 'should split artist and album w/o swap and separators',
+	args: ['Artist - Album'],
+	expected: { artist: 'Artist', album: 'Album' },
+}, {
+	description: 'should split artist and album',
+	args: ['Artist - Album', null, { swap: false }],
+	expected: { artist: 'Artist', album: 'Album' },
+}, {
+	description: 'should split artist and album by custom separator',
+	args: ['Artist * Album', [' * '], { swap: false }],
+	expected: { artist: 'Artist', album: 'Album' },
+}, {
+	description: 'should not split malformed string',
+	args: ['Artist & Album', null, { swap: false }],
+	expected: { artist: null, album: null },
+}, {
+	description: 'should split artist and album, and swap them',
+	args: ['Album - Artist', null, { swap: true }],
+	expected: { artist: 'Artist', album: 'Album' },
+}];
+
+/**
  * Test data for testing 'Util.escapeBadTimeValues' function.
  * @type {Array}
  */
@@ -543,6 +577,9 @@ const testData = [{
 }, {
 	func: Util.splitArtistTrack,
 	data: SPLIT_ARTIST_TRACK_DATA,
+}, {
+	func: Util.splitArtistAlbum,
+	data: SPLIT_ARTIST_ALBUM_DATA,
 }, {
 	func: Util.isArtistTrackEmpty,
 	data: IS_ARTIST_TRACK_EMPTY_DATA,
