@@ -14,11 +14,7 @@ Connector.trackSelector = '.player .content .info .song-title';
 
 Connector.getTrackInfo = () => {
 	const artistAlbum = Util.getTextFromSelectors(artistAlbumSelector);
-	const [artist, album] = Util.splitString(
-		artistAlbum, [ARTISTALBUM_SEPARATOR]
-	);
-
-	return { artist, album };
+	return Util.splitArtistAlbum(artistAlbum, [ARTISTALBUM_SEPARATOR]);
 };
 
 Connector.isPlaying = () => {
