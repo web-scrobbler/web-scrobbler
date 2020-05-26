@@ -9,10 +9,10 @@ define((require) => {
 	async function getConnectorByUrl(url) {
 		const customPatterns = await getAllPatterns();
 		for (const connector of connectors) {
-			let patterns = connector.matches || [];
+			const patterns = connector.matches || [];
 
 			if (customPatterns[connector.id]) {
-				patterns = patterns.concat(customPatterns[connector.id]);
+				patterns.push(...customPatterns[connector.id]);
 			}
 
 			for (const pattern of patterns) {

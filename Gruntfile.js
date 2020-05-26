@@ -345,7 +345,7 @@ module.exports = (grunt) => {
 			const publishTasks = [
 				'publish:chrome', 'publish:firefox', 'github_release'
 			];
-			releaseTasks = releaseTasks.concat(publishTasks);
+			releaseTasks.push(...publishTasks);
 		}
 
 		grunt.task.run(releaseTasks);
