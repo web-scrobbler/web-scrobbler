@@ -447,10 +447,11 @@ define((require) => {
 		 * @param  {Number} duration Duration in seconds
 		 */
 		updateSongDuration(duration) {
+			this.debugLog(`Update duration: ${duration}`);
+
 			this.currentSong.parsed.duration = duration;
 
 			if (this.currentSong.isValid()) {
-				this.debugLog(`Update duration: ${duration}`);
 				this.updateTimers(duration);
 			}
 		}
