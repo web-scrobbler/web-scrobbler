@@ -327,19 +327,19 @@ module.exports = (grunt) => {
 	 * As a fallback, the extension can be released locally:
 	 * > grunt release:%type%:local
 	 *
-	 * @param {String} releaseType Release type supported by grunt-bump
-	 * @param {String} releaseType2 Release type (local or empty)
+	 * @param {String} versionType Release type supported by grunt-bump
+	 * @param {String} releaseMode Release mode (local or empty)
 	 */
-	grunt.registerTask('release', (releaseType, releaseType2) => {
-		if (!releaseType) {
+	grunt.registerTask('release', (versionType, releaseMode) => {
+		if (!versionType) {
 			grunt.fail.fatal('You should specify release type!');
 		}
 
-		const releaseTasks = [`bump:${releaseType}`];
+		const releaseTasks = [`bump:${versionType}`];
 
-		if (releaseType2) {
-			if (releaseType2 !== 'local') {
-				grunt.fail.fatal(`Unknown release type: ${releaseType2}`);
+		if (releaseMode) {
+			if (releaseMode !== 'local') {
+				grunt.fail.fatal(`Unknown release type: ${releaseMode}`);
 			}
 
 			const publishTasks = [
