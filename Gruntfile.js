@@ -335,7 +335,7 @@ module.exports = (grunt) => {
 			grunt.fail.fatal('You should specify release type!');
 		}
 
-		let releaseTasks = [`bump:${releaseType}`];
+		const releaseTasks = [`bump:${releaseType}`];
 
 		if (releaseType2) {
 			if (releaseType2 !== 'local') {
