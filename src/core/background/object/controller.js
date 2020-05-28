@@ -439,7 +439,7 @@ define((require) => {
 		 * @return {Boolean} Check result
 		 */
 		isNeedToUpdateDuration(newState) {
-			return newState.duration && !this.currentSong.parsed.duration;
+			return newState.duration && this.currentSong.parsed.duration !== newState.duration;
 		}
 
 		/**
