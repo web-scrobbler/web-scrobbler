@@ -44,19 +44,6 @@
 			<div class="form-check">
 				<label
 					class="form-check-label"
-					:title="L('optionDisableGaTitle')"
-				>
-					<input
-						class="form-check-input"
-						type="checkbox"
-						v-model="DISABLE_GA"
-					/>
-					{{ L('optionDisableGa') }}
-				</label>
-			</div>
-			<div class="form-check">
-				<label
-					class="form-check-label"
 					:title="L('optionScrobblePodcastsTitle')"
 				>
 					<input
@@ -156,7 +143,6 @@ const {
 } = Options;
 
 const {
-	DISABLE_GA,
 	FORCE_RECOGNIZE,
 	SCROBBLE_PERCENT,
 	SCROBBLE_PODCASTS,
@@ -167,7 +153,6 @@ const {
 function makeComputedProperties() {
 	const properties = {};
 	const optionsList = {
-		DISABLE_GA,
 		FORCE_RECOGNIZE,
 		SCROBBLE_PERCENT,
 		SCROBBLE_PODCASTS,

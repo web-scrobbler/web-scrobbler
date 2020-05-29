@@ -36,14 +36,6 @@
     "message": "Force recognition of unknown tracks",
     "description": "Option title"
   },
-  "optionDisableGa": {
-    "message": "Disable Google Analytics",
-    "description": "Option label"
-  },
-  "optionDisableGaTitle": {
-    "message": "Disable sending data to Google Analytics",
-    "description": "Option title"
-  },
   "optionScrobblePodcasts" : {
     "message": "Scrobble podcasts",
     "description": "Option title"
@@ -541,32 +533,6 @@
   "notificationNotRecognizedText": {
     "message": "Click on the icon in the extensions bar to correct and submit track info.",
     "description": "Notification text"
-  },
-
-
-  "startupTitle": {
-    "message": "Welcome to Web Scrobbler!",
-    "description": "Title for startup page"
-  },
-  "startupIntroTitle": {
-    "message": "Thanks for choosing to install Web Scrobbler!",
-    "description": "Startup intro title"
-  },
-  "startupIntroText": {
-    "message": "Before we can begin to scrobble all your music, you must first review and opt in (or out) to our privacy policy.",
-    "description": "Startup intro text"
-  },
-  "startupFinished": {
-    "message": "Thanks! If you change your mind you can change this in the options.",
-    "description": "Startup finished text"
-  },
-  "optIn": {
-    "message": "Opt In",
-    "description": "Opt in"
-  },
-  "optOut": {
-    "message": "Opt out",
-    "description": "Opt out"
   },
 
 

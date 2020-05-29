@@ -13,7 +13,6 @@
     "bootstrap": "5.0.0-alpha1",
     "bootstrap-icons": "1.0.0-alpha5",
     "metadata-filter": "0.4.1",
-    "showdown": "1.9.1",
     "simple-icons": "2.18.0",
     "vue": "2.6.11",
     "webextension-polyfill": "0.6.0"

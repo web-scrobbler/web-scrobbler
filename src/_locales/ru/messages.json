@@ -31,14 +31,6 @@
         "message": "Принудительное распознавание композиций",
         "description": "Option title"
     },
-    "optionDisableGa": {
-        "message": "Отключить Google Analytics",
-        "description": "Option label"
-    },
-    "optionDisableGaTitle": {
-        "message": "Отключить отправку анонимной статистики использования расширения",
-        "description": "Option title"
-    },
     "optionScrobblePodcasts": {
         "message": "Скробблить подкасты",
         "description": "Option title"

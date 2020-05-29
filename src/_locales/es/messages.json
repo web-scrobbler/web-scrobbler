@@ -31,14 +31,6 @@
         "message": "Forzar reconocimiento de canciones desconocidas",
         "description": "Option title"
     },
-    "optionDisableGa": {
-        "message": "Desactivar Google Analytics",
-        "description": "Option label"
-    },
-    "optionDisableGaTitle": {
-        "message": "Desactivar envío de datos a Google Analytics",
-        "description": "Option title"
-    },
     "optionScrobblePodcasts": {
         "message": "Scrobble podcasts",
         "description": "Option title"

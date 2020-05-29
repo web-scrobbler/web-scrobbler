@@ -31,14 +31,6 @@
         "message": "Vynúti rozpoznávanie neznámych skladieb",
         "description": "Option title"
     },
-    "optionDisableGa": {
-        "message": "Zakázať Google Analytics",
-        "description": "Option label"
-    },
-    "optionDisableGaTitle": {
-        "message": "Zakázať odosielanie dát službe Google Analytics",
-        "description": "Option title"
-    },
     "optionScrobblePodcasts": {
         "message": "Zaznamenávať podcasty",
         "description": "Option title"

@@ -10,7 +10,6 @@ define((require) => {
 	let options = {};
 	let connectorsOptions = {};
 
-	const DISABLE_GA = 'disableGa';
 	const FORCE_RECOGNIZE = 'forceRecognize';
 	const USE_NOTIFICATIONS = 'useNotifications';
 	const SCROBBLE_PERCENT = 'scrobblePercent';
@@ -23,12 +22,6 @@ define((require) => {
 	 * @type {Object}
 	 */
 	const DEFAULT_OPTIONS = {
-		/**
-		 * Disable Google Analytics.
-		 * @type {Boolean}
-		 */
-		[DISABLE_GA]: false,
-
 		/**
 		 * Force song recognition.
 		 * @type {Boolean}
@@ -249,7 +242,7 @@ define((require) => {
 
 		getConnectorsList, getConnectorOptions,
 
-		DISABLE_GA, FORCE_RECOGNIZE, USE_NOTIFICATIONS,
+		FORCE_RECOGNIZE, USE_NOTIFICATIONS,
 		SCROBBLE_PODCASTS, USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
 		DISABLED_CONNECTORS, SCROBBLE_PERCENT,
 	};

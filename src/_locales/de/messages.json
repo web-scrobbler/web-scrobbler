@@ -31,14 +31,6 @@
         "message": "Erkennen von unbekannten Titeln erzwingen",
         "description": "Option title"
     },
-    "optionDisableGa": {
-        "message": "Google Analytics deaktivieren",
-        "description": "Option label"
-    },
-    "optionDisableGaTitle": {
-        "message": "Deaktiviere das Senden von Daten an Google Analytics",
-        "description": "Option title"
-    },
     "optionScrobblePodcasts": {
         "message": "Scrobble podcasts",
         "description": "Option title"
