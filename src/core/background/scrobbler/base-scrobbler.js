@@ -26,24 +26,11 @@ define((require) => {
 	 */
 	class BaseScrobbler {
 		/**
-		 * @param {Object} properties Scrobbler properties
+		 * @constructor
 		 */
-		constructor(properties) {
-			this.applyProperties(properties);
-			this.initStorage(properties.storage);
+		constructor() {
+			this.initStorage();
 			this.initUserProps();
-		}
-
-		/**
-		 * Apply scrobbler properties.
-		 *
-		 * Each property is a property used internally in scrobbler module.
-		 * Properties are available as `this.propKey`.
-		 *
-		 * @param  {Array}  props Object contains scrobbler properties
-		 */
-		applyProperties(props) {
-			this.applyProps(props, this.getRequiredProperties());
 		}
 
 		/**
@@ -72,46 +59,6 @@ define((require) => {
 			}
 
 			await this.storage.set(data);
-		}
-
-		/**
-		 * Return a list of required scrobbler properties.
-		 *
-		 * @return {Array} A list of required scrobbler properties.
-		 */
-		getRequiredProperties() {
-			return [
-				/**
-				 * Scrobbler label.
-				 * @type {String}
-				 */
-				'label',
-				/**
-				 * Storage namespace in which scrobbler options are stored.
-				 * @type {String}
-				 */
-				'storage',
-				/**
-				 * URL used to execute API methods.
-				 * @type {String}
-				 */
-				'apiUrl',
-				/**
-				 * URL used to authenticate user.
-				 * @type {String}
-				 */
-				'authUrl',
-				/**
-				 * URL used to view service status.
-				 * @type {String}
-				 */
-				'statusUrl',
-				/**
-				 * URL used to view user profile.
-				 * @type {String}
-				 */
-				'profileUrl',
-			];
 		}
 
 		/**
@@ -170,7 +117,8 @@ define((require) => {
 		 *
 		 * @param  {Object} song Song instance
 		 */
-		async sendNowPlaying(song) { // eslint-disable-line no-unused-vars
+		// eslint-disable-next-line no-unused-vars
+		async sendNowPlaying(song) {
 			throw new Error('Not implemented');
 		}
 
@@ -180,7 +128,8 @@ define((require) => {
 		 *
 		 * @param  {Object} song Song instance
 		 */
-		async scrobble(song) { // eslint-disable-line no-unused-vars
+		// eslint-disable-next-line no-unused-vars
+		async scrobble(song) {
 			throw new Error('Not implemented');
 		}
 
@@ -191,7 +140,8 @@ define((require) => {
 		 * @param  {Object} song Song instance
 		 * @param  {Boolean} isLoved Flag means song should be loved or not
 		 */
-		async toggleLove(song, isLoved) { // eslint-disable-line no-unused-vars
+		// eslint-disable-next-line no-unused-vars
+		async toggleLove(song, isLoved) {
 			throw new Error('Not implemented');
 		}
 
@@ -201,26 +151,32 @@ define((require) => {
 		 *
 		 * @param  {Object} song Song instance
 		 */
-		async getSongInfo(song) { // eslint-disable-line no-unused-vars
+		// eslint-disable-next-line no-unused-vars
+		async getSongInfo(song) {
 			throw new Error('Not implemented');
 		}
 
-		/** Getters. */
+		/* Getters. */
+
+		/**
+		 * Get base profile URL.
+		 */
+		getBaseProfileUrl() {
+			throw new Error('Not implemented');
+		}
 
 		/**
 		 * Get status page URL.
-		 * @return {String} Status page URL
 		 */
 		getStatusUrl() {
-			return this.statusUrl;
+			throw new Error('Not implemented');
 		}
 
 		/**
 		 * Get the scrobbler label.
-		 * @return {String} Scrobbler label
 		 */
 		getLabel() {
-			return this.label;
+			throw new Error('Not implemented');
 		}
 
 		/**
@@ -228,8 +184,15 @@ define((require) => {
 		 * @return {String} Profile URL
 		 */
 		async getProfileUrl() {
-			const session = await this.getSession();
-			return `${this.profileUrl}${session.sessionName}`;
+			const { sessionName } = await this.getSession();
+			return `${this.getBaseProfileUrl()}${sessionName}`;
+		}
+
+		/**
+		 * Get a storage namespace where the scrobbler data will be stored.
+		 */
+		getStorageName() {
+			throw new Error('Not implemented');
 		}
 
 		/** Scrobbler features. */
@@ -268,16 +231,18 @@ define((require) => {
 		 * @param  {String} [logType=log] Log type
 		 */
 		debugLog(text, logType = 'log') {
-			const message = `${this.label}: ${text}`;
+			const message = `${this.getLabel()}: ${text}`;
 			Util.debugLog(message, logType);
 		}
 
 		/** Internal functions */
 
-		async initStorage(storageName) {
+		async initStorage() {
 			const sensitiveProps = ['token', 'sessionID', 'sessionName'];
 
-			this.storage = BrowserStorage.getScrobblerStorage(storageName);
+			this.storage = BrowserStorage.getScrobblerStorage(
+				this.getStorageName()
+			);
 			this.storage.debugLog(sensitiveProps);
 		}
 

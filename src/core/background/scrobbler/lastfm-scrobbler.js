@@ -4,10 +4,50 @@
  * Module for all communication with L.FM
  */
 define((require) => {
-	const AudioScrobbler = require('scrobbler/audioscrobbler');
+	const AudioScrobbler = require('scrobbler/audio-scrobbler');
 	const ServiceCallResult = require('object/service-call-result');
 
-	class LastFm extends AudioScrobbler {
+	class LastFmScrobbler extends AudioScrobbler {
+		/** @override */
+		getApiUrl() {
+			return 'https://ws.audioscrobbler.com/2.0/';
+		}
+
+		/** @override */
+		getApiKey() {
+			return 'd9bb1870d3269646f740544d9def2c95';
+		}
+
+		/** @override */
+		getApiSecret() {
+			return '2160733a567d4a1a69a73fad54c564b2';
+		}
+
+		/** @override */
+		getBaseAuthUrl() {
+			return 'https://www.last.fm/api/auth/';
+		}
+
+		/** @override */
+		getBaseProfileUrl() {
+			return 'https://last.fm/user/';
+		}
+
+		/** @override */
+		getLabel() {
+			return 'Last.fm';
+		}
+
+		/** @override */
+		getStatusUrl() {
+			return 'http://status.last.fm/';
+		}
+
+		/** @override */
+		getStorageName() {
+			return 'LastFM';
+		}
+
 		/** @override */
 		async getSongInfo(song) {
 			const params = {
@@ -27,7 +67,11 @@ define((require) => {
 				params.album = song.getAlbum();
 			}
 
-			const responseData = await this.sendRequest({ method: 'GET' }, params, false);
+			const responseData = await this.sendRequest(
+				{ method: 'GET' },
+				params,
+				false
+			);
 			const result = AudioScrobbler.processResponse(responseData);
 			if (result !== ServiceCallResult.RESULT_OK) {
 				throw new Error('Unable to load song info');
@@ -105,14 +149,5 @@ define((require) => {
 		}
 	}
 
-	return new LastFm({
-		label: 'Last.fm',
-		storage: 'LastFM',
-		apiUrl: 'https://ws.audioscrobbler.com/2.0/',
-		apiKey: 'd9bb1870d3269646f740544d9def2c95',
-		apiSecret: '2160733a567d4a1a69a73fad54c564b2',
-		authUrl: 'https://www.last.fm/api/auth/',
-		statusUrl: 'http://status.last.fm/',
-		profileUrl: 'https://last.fm/user/',
-	});
+	return LastFmScrobbler;
 });

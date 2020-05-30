@@ -5,17 +5,13 @@
  */
 define((require) => {
 	const Util = require('util/util');
-	const BaseScrobbler = require('scrobbler/base');
+	const BaseScrobbler = require('scrobbler/base-scrobbler');
 	const ServiceCallResult = require('object/service-call-result');
 
 	const listenBrainzTokenPage = 'https://listenbrainz.org/profile/';
+	const apiUrl = 'https://api.listenbrainz.org/1/submit-listens';
 
 	class ListenBrainz extends BaseScrobbler {
-		/** @override */
-		getUsedDefinedProperties() {
-			return ['userApiUrl', 'userToken'];
-		}
-
 		/** @override */
 		async getAuthUrl() {
 			const data = await this.storage.get();
@@ -25,17 +21,17 @@ define((require) => {
 			delete data.sessionName;
 			await this.storage.set(data);
 
-			this.debugLog(`Auth url: ${this.authUrl}`);
-
-			return this.authUrl;
+			return 'https://listenbrainz.org/login/musicbrainz?next=%2Fprofile%2F';
 		}
 
 		/** @override */
-		getStatusUrl() {
-			if (this.userToken) {
-				return null;
-			}
-			return super.getStatusUrl();
+		getBaseProfileUrl() {
+			return 'https://listenbrainz.org/user/';
+		}
+
+		/** @override */
+		getLabel() {
+			return 'ListenBrainz';
 		}
 
 		/** @override */
@@ -44,6 +40,25 @@ define((require) => {
 				return null;
 			}
 			return super.getProfileUrl();
+		}
+
+		/** @override */
+		getStatusUrl() {
+			if (this.userToken) {
+				return null;
+			}
+
+			return 'https://listenbrainz.org/current-status';
+		}
+
+		/** @override */
+		getStorageName() {
+			return 'ListenBrainz';
+		}
+
+		/** @override */
+		getUsedDefinedProperties() {
+			return ['userApiUrl', 'userToken'];
 		}
 
 		/** @override */
@@ -88,7 +103,7 @@ define((require) => {
 
 			return {
 				sessionID: data.sessionID,
-				sessionName: data.sessionName
+				sessionName: data.sessionName,
 			};
 		}
 
@@ -109,9 +124,11 @@ define((require) => {
 
 			const params = {
 				listen_type: 'playing_now',
-				payload: [{
-					track_metadata: trackMeta
-				}]
+				payload: [
+					{
+						track_metadata: trackMeta,
+					},
+				],
 			};
 			return this.sendRequest(params, sessionID);
 		}
@@ -122,10 +139,12 @@ define((require) => {
 
 			const params = {
 				listen_type: 'single',
-				payload: [{
-					listened_at: song.metadata.startTimestamp,
-					track_metadata: this.makeTrackMetadata(song)
-				}]
+				payload: [
+					{
+						listened_at: song.metadata.startTimestamp,
+						track_metadata: this.makeTrackMetadata(song),
+					},
+				],
 			};
 			return this.sendRequest(params, sessionID);
 		}
@@ -136,12 +155,12 @@ define((require) => {
 			const requestInfo = {
 				method: 'POST',
 				headers: {
-					'Authorization': `Token ${sessionID}`,
-					'Content-Type': 'application/json; charset=UTF-8'
+					Authorization: `Token ${sessionID}`,
+					'Content-Type': 'application/json; charset=UTF-8',
 				},
-				body: JSON.stringify(params)
+				body: JSON.stringify(params),
 			};
-			const promise = fetch(this.userApiUrl || this.apiUrl, requestInfo);
+			const promise = fetch(this.userApiUrl || apiUrl, requestInfo);
 			const timeout = BaseScrobbler.REQUEST_TIMEOUT;
 
 			let result = null;
@@ -170,10 +189,7 @@ define((require) => {
 		}
 
 		async requestSession() {
-			const authUrls = [
-				listenBrainzTokenPage,
-				this.authUrl,
-			];
+			const authUrls = [listenBrainzTokenPage, this.authUrl];
 
 			let session = null;
 
@@ -203,7 +219,10 @@ define((require) => {
 		async fetchSession(url) {
 			this.debugLog(`Use ${url}`);
 			// NOTE: Use 'same-origin' credentials to fix login on Firefox ESR 60.
-			const promise = fetch(url, { method: 'GET', credentials: 'same-origin' });
+			const promise = fetch(url, {
+				method: 'GET',
+				credentials: 'same-origin',
+			});
 			const timeout = BaseScrobbler.REQUEST_TIMEOUT;
 
 			const response = await Util.timeoutPromise(timeout, promise);
@@ -236,7 +255,6 @@ define((require) => {
 		processResult(result) {
 			if (result.status !== 'ok') {
 				return ServiceCallResult.ERROR_OTHER;
-
 			}
 
 			return ServiceCallResult.RESULT_OK;
@@ -265,12 +283,5 @@ define((require) => {
 		}
 	}
 
-	return new ListenBrainz({
-		label: 'ListenBrainz',
-		storage: 'ListenBrainz',
-		apiUrl: 'https://api.listenbrainz.org/1/submit-listens',
-		authUrl: 'https://listenbrainz.org/login/musicbrainz?next=%2Fprofile%2F',
-		statusUrl: 'https://listenbrainz.org/current-status',
-		profileUrl: 'https://listenbrainz.org/user/',
-	});
+	return ListenBrainz;
 });

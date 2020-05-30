@@ -2,16 +2,27 @@
 
 define((require) => {
 	const MD5 = require('md5');
-	const BaseScrobbler = require('scrobbler/base');
+	const BaseScrobbler = require('scrobbler/base-scrobbler');
 	const ServiceCallResult = require('object/service-call-result');
 
 	const { hideStringInText, timeoutPromise } = require('util/util');
 	const { createQueryString } = require('util/util-browser');
 
 	class AudioScrobbler extends BaseScrobbler {
-		/** @override */
-		constructor(properties) {
-			super(properties);
+		getApiKey() {
+			throw new Error('Not implemented');
+		}
+
+		getApiSecret() {
+			throw new Error('Not implemented');
+		}
+
+		getApiUrl() {
+			throw new Error('Not implemented');
+		}
+
+		getBaseAuthUrl() {
+			throw new Error('Not implemented');
 		}
 
 		/** @override */
@@ -50,23 +61,7 @@ define((require) => {
 			delete data.sessionName;
 			await this.storage.set(data);
 
-			return `${this.authUrl}?api_key=${this.apiKey}&token=${token}`;
-		}
-
-		/** @override */
-		getRequiredProperties() {
-			return [
-				/**
-				 * Service API key.
-				 * @type {String}
-				 */
-				'apiKey',
-				/**
-				 * Service API secret.
-				 * @type {String}
-				 */
-				'apiSecret'
-			].concat(super.getRequiredProperties());
+			return `${this.getBaseAuthUrl()}?api_key=${this.getApiKey()}&token=${token}`;
 		}
 
 		/** @override */
@@ -272,7 +267,7 @@ define((require) => {
 		 * @return {String} URL of API request
 		 */
 		makeRequestUrl(params, signed) {
-			params.api_key = this.apiKey;
+			params.api_key = this.getApiKey();
 			params.format = 'json';
 
 			if (signed) {
@@ -280,7 +275,7 @@ define((require) => {
 			}
 
 			const queryStr = createQueryString(params);
-			return `${this.apiUrl}?${queryStr}`;
+			return `${this.getApiUrl()}?${queryStr}`;
 		}
 
 		/**
@@ -301,7 +296,7 @@ define((require) => {
 				o += key + params[key];
 			}
 
-			return MD5(o + this.apiSecret);
+			return MD5(o + this.getApiSecret());
 		}
 
 		/**

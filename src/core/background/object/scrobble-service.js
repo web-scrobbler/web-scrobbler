@@ -4,9 +4,9 @@
  * Service to handle all scrobbling behavior.
  */
 define((require) => {
-	const LastFm = require('scrobbler/lastfm');
-	const LibreFm = require('scrobbler/librefm');
-	const ListenBrainz = require('scrobbler/listenbrainz');
+	const LastFmScrobbler = require('scrobbler/lastfm-scrobbler');
+	const LibreFmScrobbler = require('scrobbler/librefm-scrobbler');
+	const ListenBrainzScrobbler = require('scrobbler/listenbrainz-scrobbler');
 	const ServiceCallResult = require('object/service-call-result');
 
 	/**
@@ -21,7 +21,11 @@ define((require) => {
 	 *
 	 * @type {Array}
 	 */
-	const registeredScrobblers = [LastFm, LibreFm, ListenBrainz];
+	const registeredScrobblers = [
+		new LastFmScrobbler(),
+		new LibreFmScrobbler(),
+		new ListenBrainzScrobbler()
+	];
 
 	/**
 	 * Check if scrobbler is in given array of scrobblers.
