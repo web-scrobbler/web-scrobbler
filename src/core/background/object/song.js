@@ -211,7 +211,7 @@ define(() => {
 		 */
 		getCloneableData() {
 			const fieldsToCopy = [
-				'parsed', 'processed', 'metadata', 'flags', 'connectorLabel'
+				'parsed', 'processed', 'metadata', 'flags', 'connectorLabel',
 			];
 			const clonedSong = {};
 
@@ -321,7 +321,7 @@ define(() => {
 
 		initProcessedData() {
 			const fields = [
-				'track', 'album', 'artist', 'albumArtist', 'duration'
+				'track', 'album', 'artist', 'albumArtist', 'duration',
 			];
 			for (const field of fields) {
 				this.processed[field] = null;

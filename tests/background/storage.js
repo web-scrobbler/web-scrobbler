@@ -14,12 +14,12 @@ const BrowserStorage = require('../../src/core/background/storage/browser-storag
  */
 function testStorage(type, storage) {
 	describe(`${type} storage`, () => {
-		it('should return empty object', async() => {
+		it('should return empty object', async () => {
 			const data = await storage.get();
 			expect({}).to.be.deep.equal(data);
 		});
 
-		it('should set key value', async() => {
+		it('should set key value', async () => {
 			const newData = { test: 'ok' };
 			await storage.set(newData);
 
@@ -53,7 +53,7 @@ function testStorage(type, storage) {
 function runTests() {
 	const storages = {
 		local: BrowserStorage.getLocalStorage('Local'),
-		sync: BrowserStorage.getSyncStorage('Sync')
+		sync: BrowserStorage.getSyncStorage('Sync'),
 	};
 
 	for (const type in storages) {

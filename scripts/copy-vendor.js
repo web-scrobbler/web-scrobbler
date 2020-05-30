@@ -7,7 +7,7 @@ const { basename } = require('path') ;
 
 const {
 	dependenciesInfo, getDependencies,
-	rootDir, vendorDir, packageJsonPath
+	rootDir, vendorDir, packageJsonPath,
 } = require('./dep-data');
 
 function main() {

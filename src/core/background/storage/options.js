@@ -71,12 +71,12 @@ define((require) => {
 	 */
 	const DEFAULT_CONNECTOR_OPTIONS = {
 		Tidal: {
-			useShortTrackNames: false
+			useShortTrackNames: false,
 		},
 		YouTube: {
 			scrobbleMusicOnly: false,
-			scrobbleEntertainmentOnly: false
-		}
+			scrobbleEntertainmentOnly: false,
+		},
 	};
 
 	/**
@@ -227,6 +227,6 @@ define((require) => {
 
 		DISABLE_GA, FORCE_RECOGNIZE, USE_NOTIFICATIONS,
 		SCROBBLE_PODCASTS, USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
-		DISABLED_CONNECTORS, SCROBBLE_PERCENT
+		DISABLED_CONNECTORS, SCROBBLE_PERCENT,
 	};
 });

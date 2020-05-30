@@ -9,7 +9,7 @@ Connector.playButtonSelector = '#play';
 
 // Priority: 1.
 Connector.artistTrackSelector = [
-	'.song-text', '.scrolling-text'
+	'.song-text', '.scrolling-text',
 ];
 
 // Priority: 2.

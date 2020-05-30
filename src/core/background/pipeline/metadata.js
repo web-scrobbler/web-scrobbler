@@ -9,11 +9,11 @@ define((require) => {
 	const ScrobbleService = require('object/scrobble-service');
 
 	const INFO_TO_COPY = [
-		'duration', 'artist', 'track'
+		'duration', 'artist', 'track',
 	];
 	const METADATA_TO_COPY = [
 		'trackArtUrl', 'artistUrl', 'trackUrl',
-		'albumUrl', 'userPlayCount', 'albumMbId'
+		'albumUrl', 'userPlayCount', 'albumMbId',
 	];
 
 	/**

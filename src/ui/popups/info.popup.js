@@ -73,7 +73,7 @@ class InfoPopup {
 
 	updateTrackInfo() {
 		const {
-			userloved, userPlayCount
+			userloved, userPlayCount,
 		} = this.song.metadata;
 		const trackArtUrl =
 			this.song.parsed.trackArt || this.song.metadata.trackArtUrl;
@@ -122,7 +122,7 @@ class InfoPopup {
 		this.trackFields = InfoPopup.getTrackFields(song);
 
 		const {
-			isValid, isCorrectedByUser, isSkipped
+			isValid, isCorrectedByUser, isSkipped,
 		} = this.song.flags;
 		const isSongValid = isValid || isCorrectedByUser;
 

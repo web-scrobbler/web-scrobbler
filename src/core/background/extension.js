@@ -36,7 +36,7 @@ define((require) => {
 	const { openTab } = require('util/util-browser');
 
 	const {
-		ControllerReset, SongNowPlaying, SongScrobbled, SongUnrecognized
+		ControllerReset, SongNowPlaying, SongScrobbled, SongUnrecognized,
 	} = require('object/controller-event');
 
 	/**
@@ -135,7 +135,7 @@ define((require) => {
 			const requestTypes = [
 				'REQUEST_AUTHENTICATE',
 				'REQUEST_APPLY_USER_OPTIONS',
-				'REQUEST_SIGN_OUT'
+				'REQUEST_SIGN_OUT',
 			];
 			if (!requestTypes.includes(type)) {
 				return this.tabWorker.processMessage(tabId, type, data);

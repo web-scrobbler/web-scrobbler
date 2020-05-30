@@ -13,7 +13,7 @@ define((require) => {
 		constructor() {
 			this.song = null;
 			this.processors = [
-				Normalize, UserInput, Metadata, CoverArtArchive
+				Normalize, UserInput, Metadata, CoverArtArchive,
 			];
 		}
 

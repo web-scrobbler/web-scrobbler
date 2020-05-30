@@ -105,7 +105,7 @@ define((require) => {
 
 			return {
 				sessionID: data.sessionID,
-				sessionName: data.sessionName
+				sessionName: data.sessionName,
 			};
 		}
 
@@ -122,7 +122,7 @@ define((require) => {
 				method: 'track.updatenowplaying',
 				track: song.getTrack(),
 				artist: song.getArtist(),
-				sk: sessionID
+				sk: sessionID,
 			};
 
 			if (song.getAlbum()) {
@@ -149,7 +149,7 @@ define((require) => {
 				'timestamp[0]': song.metadata.startTimestamp,
 				'track[0]': song.getTrack(),
 				'artist[0]': song.getArtist(),
-				sk: sessionID
+				sk: sessionID,
 			};
 
 			if (song.getAlbum()) {
@@ -186,7 +186,7 @@ define((require) => {
 				method: isLoved ? 'track.love' : 'track.unlove',
 				track: song.getTrack(),
 				artist: song.getArtist(),
-				sk: sessionID
+				sk: sessionID,
 			};
 
 			const response = await this.sendRequest({ method: 'POST' }, params);

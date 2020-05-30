@@ -15,7 +15,7 @@ define((require) => {
 	}
 
 	function initAddPatternDialog() {
-		$('body').on('click', 'a.conn-config', async(e) => {
+		$('body').on('click', 'a.conn-config', async (e) => {
 			e.preventDefault();
 
 			const modal = $('#conn-conf-modal');
@@ -77,7 +77,7 @@ define((require) => {
 	}
 
 	function initViewEditedDialog() {
-		$('#view-edited').click(async(e) => {
+		$('#view-edited').click(async (e) => {
 			e.preventDefault();
 
 			function addNoEditedLabel(node) {

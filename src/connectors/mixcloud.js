@@ -1,7 +1,7 @@
 'use strict';
 
 const filter = new MetadataFilter({
-	artist: [removeByPrefix, removeBuySuffix]
+	artist: [removeByPrefix, removeBuySuffix],
 });
 
 const trackIconSelector = '[class*=RebrandPlayerSliderComponent__TrackIcon]';

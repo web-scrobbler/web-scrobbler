@@ -12,19 +12,19 @@ const scrobblePercent = 50;
 const HIDE_STRING_IN_TEXT_DATA = [{
 	description: 'should hide string in text',
 	args: ['SAMPLE', 'This is a SAMPLE string'],
-	expected: 'This is a ****** string'
+	expected: 'This is a ****** string',
 }, {
 	description: 'should do nothing if string is null',
 	args: [null, 'This is a SAMPLE string'],
-	expected: 'This is a SAMPLE string'
+	expected: 'This is a SAMPLE string',
 }, {
 	description: 'should do nothing if string is empty',
 	args: ['', 'This is a SAMPLE string'],
-	expected: 'This is a SAMPLE string'
+	expected: 'This is a SAMPLE string',
 }, {
 	description: 'should not fall on null source string',
 	args: [null, null],
-	expected: null
+	expected: null,
 }, {
 	description: 'should not fall on empty source string',
 	args: ['', ''],
@@ -34,65 +34,65 @@ const HIDE_STRING_IN_TEXT_DATA = [{
 const HIDE_OBJECT_VALUE_DATA = [{
 	description: 'should hide string',
 	args: ['Sensitive'],
-	expected: '*********'
+	expected: '*********',
 }, {
 	description: 'should hide array, but display array length',
 	args: [[1, 2, 3]],
-	expected: '[Array(3)]'
+	expected: '[Array(3)]',
 }, {
 	description: 'should hide object with generic placeholder',
 	args: [{ 1: 1, 2: 2 }],
-	expected: Util.HIDDEN_PLACEHOLDER
+	expected: Util.HIDDEN_PLACEHOLDER,
 }, {
 	description: 'should display null as is',
 	args: [undefined],
-	expected: undefined
+	expected: undefined,
 }, {
 	description: 'should display null as is',
 	args: [null],
-	expected: null
+	expected: null,
 }, {
 	description: 'should display empty string as is',
 	args: [''],
-	expected: ''
+	expected: '',
 }];
 
 const GET_SECONDS_TO_SCROBBLE_DATA = [{
 	description: 'should return min time if duration is zero',
 	args: [0, scrobblePercent],
-	expected: Util.DEFAULT_SCROBBLE_TIME
+	expected: Util.DEFAULT_SCROBBLE_TIME,
 }, {
 	description: 'should return min time if duration is null',
 	args: [null, scrobblePercent],
-	expected: Util.DEFAULT_SCROBBLE_TIME
+	expected: Util.DEFAULT_SCROBBLE_TIME,
 }, {
 	description: 'should return min time if duration type is not number',
 	args: ['duration', scrobblePercent],
-	expected: Util.DEFAULT_SCROBBLE_TIME
+	expected: Util.DEFAULT_SCROBBLE_TIME,
 }, {
 	description: 'should return min time if duration is NaN',
 	args: [NaN, scrobblePercent],
-	expected: Util.DEFAULT_SCROBBLE_TIME
+	expected: Util.DEFAULT_SCROBBLE_TIME,
 }, {
 	description: 'should return min time if duration is +Infinity',
 	args: [Infinity, scrobblePercent],
-	expected: Util.DEFAULT_SCROBBLE_TIME
+	expected: Util.DEFAULT_SCROBBLE_TIME,
 }, {
 	description: 'should return min time if duration is -Infinity',
 	args: [-Infinity, scrobblePercent],
-	expected: Util.DEFAULT_SCROBBLE_TIME
+	expected: Util.DEFAULT_SCROBBLE_TIME,
 }, {
 	description: 'should return -1 for short songs',
 	args: [Util.MIN_TRACK_DURATION - 1, scrobblePercent],
-	expected: -1
+	expected: -1,
 }, {
 	description: 'should return half of song duration',
 	args: [190, scrobblePercent],
-	expected: 95
+	expected: 95,
 }, {
 	description: 'should return max time for long songs',
 	args: [Util.MAX_SCROBBLE_TIME * 2 + 1, scrobblePercent],
-	expected: Util.MAX_SCROBBLE_TIME
+	expected: Util.MAX_SCROBBLE_TIME,
 }];
 
 const testData = [{
@@ -136,7 +136,7 @@ function testDebugLog() {
 function testTimeoutPromise() {
 	const testTimeout = 100;
 
-	it('should throw an error if promise is not resolved earlier', async() => {
+	it('should throw an error if promise is not resolved earlier', async () => {
 		const slowPromise = new Promise((resolve) => {
 			setTimeout(resolve, testTimeout * 2);
 		});
@@ -150,11 +150,11 @@ function testTimeoutPromise() {
 		throw new Error('The promise should be failed');
 	});
 
-	it('should not throw an error if promise is resolved earlier', async() => {
+	it('should not throw an error if promise is resolved earlier', async () => {
 		await Util.timeoutPromise(testTimeout, Promise.resolve());
 	});
 
-	it('should not throw an error if promise is rejected earlier', async() => {
+	it('should not throw an error if promise is rejected earlier', async () => {
 		const testErr = new Error('Test');
 		try {
 			await Util.timeoutPromise(testTimeout, Promise.reject(testErr));

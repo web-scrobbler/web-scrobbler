@@ -13,6 +13,6 @@ define(() => {
 		ControllerReset,
 		SongNowPlaying,
 		SongScrobbled,
-		SongUnrecognized
+		SongUnrecognized,
 	};
 });

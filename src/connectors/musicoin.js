@@ -60,7 +60,7 @@ function onPlayerLoaded() {
 		childList: true,
 		subtree: true,
 		attributes: true,
-		characterData: true
+		characterData: true,
 	};
 	observer.observe(observeTarget, config);
 }

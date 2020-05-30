@@ -13,7 +13,7 @@ const DIST_FILE_FIREFOX = 'web-scrobbler-firefox.zip';
 const MANIFEST_FILE = 'src/manifest.json';
 
 const FILES_TO_PREPROCESS = [
-	`${BUILD_DIR}/**/*.js`, `${BUILD_DIR}/**/*.css`, `${BUILD_DIR}/**/*.html`
+	`${BUILD_DIR}/**/*.js`, `${BUILD_DIR}/**/*.css`, `${BUILD_DIR}/**/*.html`,
 ];
 
 const FILES_TO_BUMP = [MANIFEST_FILE, 'package.json', 'package-lock.json'];
@@ -22,13 +22,13 @@ const FILES_TO_BUMP = [MANIFEST_FILE, 'package.json', 'package-lock.json'];
 const EXTENSION_SRC = [
 	'**/*',
 	// Skip SVG
-	'!icons/*.svg'
+	'!icons/*.svg',
 ];
 const EXTENSION_DOCS = [
-	'README.md', 'LICENSE.md'
+	'README.md', 'LICENSE.md',
 ];
 const EXTENSION_EXTRA = [
-	'package.json', 'package-lock.json'
+	'package.json', 'package-lock.json',
 ];
 
 // Files to lint
@@ -43,7 +43,7 @@ const JS_FILES = [
 	// Shell Scripts
 	'scripts/*.js',
 	// Tests
-	'tests/**/*.js'
+	'tests/**/*.js',
 ];
 const JSON_FILES = ['*.json', '.stylelintrc'];
 const HTML_FILES = [`${SRC_DIR}/ui/**/*.html`];
@@ -88,13 +88,13 @@ module.exports = (grunt) => {
 				expand: true,
 				src: EXTENSION_EXTRA,
 				dest: BUILD_DIR,
-			}
+			},
 		},
 		compress: {
 			chrome: {
 				options: {
 					archive: DIST_FILE_CHROME,
-					pretty: true
+					pretty: true,
 				},
 				expand: true,
 				cwd: BUILD_DIR,
@@ -103,7 +103,7 @@ module.exports = (grunt) => {
 			firefox: {
 				options: {
 					archive: DIST_FILE_FIREFOX,
-					pretty: true
+					pretty: true,
 				},
 				expand: true,
 				cwd: BUILD_DIR,
@@ -115,10 +115,10 @@ module.exports = (grunt) => {
 				files: [{
 					expand: true,
 					src: [
-						`${BUILD_DIR}/icons/*.png`
-					]
-				}]
-			}
+						`${BUILD_DIR}/icons/*.png`,
+					],
+				}],
+			},
 		},
 		preprocess: {
 			main: {
@@ -126,16 +126,16 @@ module.exports = (grunt) => {
 				expand: true,
 				options: {
 					inline: true,
-					context: { /* generated */ }
-				}
-			}
+					context: { /* generated */ },
+				},
+			},
 		},
 		replace_json: {
 			chrome: {
 				src: `${BUILD_DIR}/manifest.json`,
 				changes: {
 					options_ui: undefined,
-				}
+				},
 			},
 			firefox: {
 				src: `${BUILD_DIR}/manifest.json`,
@@ -144,7 +144,7 @@ module.exports = (grunt) => {
 						gecko: {
 							id: FIREFOX_EXTENSION_ID,
 							strict_min_version: '53.0',
-						}
+						},
 					},
 					icons: {
 						16: '<%= manifest.icons.16 %>',
@@ -153,7 +153,7 @@ module.exports = (grunt) => {
 					},
 
 					options_page: undefined,
-				}
+				},
 			},
 		},
 
@@ -173,7 +173,7 @@ module.exports = (grunt) => {
 				files: FILES_TO_BUMP,
 				updateConfigs: ['manifest'],
 				commitFiles: FILES_TO_BUMP,
-			}
+			},
 		},
 		publish_github_drafts: {
 			owner: 'web-scrobbler',
@@ -194,8 +194,8 @@ module.exports = (grunt) => {
 				'web-scrobbler': {
 					appID: CHROME_EXTENSION_ID,
 					zip: DIST_FILE_CHROME,
-				}
-			}
+				},
+			},
 		},
 
 		/**
@@ -205,28 +205,28 @@ module.exports = (grunt) => {
 		eslint: {
 			target: JS_FILES,
 			options: {
-				fix: !isCi
+				fix: !isCi,
 			},
 		},
 		jsonlint: {
-			src: JSON_FILES
+			src: JSON_FILES,
 		},
 		lintspaces: {
 			src: [JS_FILES, JSON_FILES, CSS_FILES, HTML_FILES],
 			options: {
 				editorconfig: '.editorconfig',
-				ignores: ['js-comments']
-			}
+				ignores: ['js-comments'],
+			},
 		},
 		remark: {
 			options: {
 				quiet: true,
 				frail: true,
 			},
-			src: DOC_FILES
+			src: DOC_FILES,
 		},
 		stylelint: {
-			all: CSS_FILES
+			all: CSS_FILES,
 		},
 
 		/**
@@ -240,8 +240,8 @@ module.exports = (grunt) => {
 			},
 			all: [
 				'tests/background/*.js',
-				'tests/content/*.js'
-			]
+				'tests/content/*.js',
+			],
 		},
 	});
 
@@ -272,19 +272,19 @@ module.exports = (grunt) => {
 
 		const flags = {
 			chrome: 'CHROME', firefox: 'FIREFOX',
-			debug: 'DEBUG', release: 'RELEASE'
+			debug: 'DEBUG', release: 'RELEASE',
 		};
 
 		const config = grunt.config.get('preprocess');
 		config.main.options.context = {
-			[flags[browser]]: true, [flags[mode]]: true
+			[flags[browser]]: true, [flags[mode]]: true,
 		};
 		grunt.config.set('preprocess', config);
 
 		grunt.task.run([
 			'copy',
 			'preprocess',
-			`replace_json:${browser}`
+			`replace_json:${browser}`,
 		]);
 	});
 
@@ -343,7 +343,7 @@ module.exports = (grunt) => {
 			}
 
 			const publishTasks = [
-				'publish:chrome', 'publish:firefox', 'github_release'
+				'publish:chrome', 'publish:firefox', 'github_release',
 			];
 			releaseTasks.push(...publishTasks);
 		}

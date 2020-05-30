@@ -26,7 +26,7 @@ function sendEvent() {
 		sender: 'web-scrobbler',
 		type: 'MUSICKIT_STATE',
 		trackInfo: getTrackInfo(),
-		isPlaying: isPlaying()
+		isPlaying: isPlaying(),
 	}, '*');
 }
 

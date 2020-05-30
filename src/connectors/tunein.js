@@ -6,7 +6,7 @@
  * @type {Array}
  */
 const STATIONS_SWAP = [
-	'Cat-Country-987', '885-FM-So-Cal'
+	'Cat-Country-987', '885-FM-So-Cal',
 ];
 
 Connector.playerSelector = '.player__playerContainer___JEJ2U';

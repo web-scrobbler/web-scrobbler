@@ -51,6 +51,6 @@ function setupObserver() {
 		subtree: true,
 		childList: true,
 		attributes: true,
-		characterData: true
+		characterData: true,
 	});
 }

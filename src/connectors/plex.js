@@ -3,7 +3,7 @@
 const titleContainer = '[class*=PlayerControlsMetadata]';
 
 const plexFilter = new MetadataFilter({
-	album: removeUnknownAlbum
+	album: removeUnknownAlbum,
 });
 
 Connector.playerSelector = '[class^=AudioVideoPlayerView-container]';

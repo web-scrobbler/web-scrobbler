@@ -13,7 +13,7 @@ define((require) => {
 	const { getCurrentTab } = require('util/util-browser');
 	const { getConnectorByUrl } = require('util/util-connector');
 	const {
-		contextMenus, i18n, runtime, tabs
+		contextMenus, i18n, runtime, tabs,
 	} = require('webextension-polyfill');
 
 	class TabWorker {
@@ -368,7 +368,7 @@ define((require) => {
 
 			const type = 'normal';
 			contextMenus.create({
-				title, type, onclick, contexts: ['browser_action']
+				title, type, onclick, contexts: ['browser_action'],
 			});
 		}
 
@@ -472,7 +472,7 @@ define((require) => {
 		async createController(tabId, connector) {
 			const isEnabled = await Options.isConnectorEnabled(connector);
 			const ctrl = new Controller(tabId, connector, isEnabled);
-			ctrl.onSongUpdated = async() => {
+			ctrl.onSongUpdated = async () => {
 				this.notifySongIsUpdated(ctrl, tabId);
 			};
 			ctrl.onModeChanged = () => {

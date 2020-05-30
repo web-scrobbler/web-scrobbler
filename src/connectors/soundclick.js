@@ -1,7 +1,7 @@
 'use strict';
 
 const filter = new MetadataFilter({
-	track: cleanupTrack
+	track: cleanupTrack,
 });
 
 Connector.playerSelector = '#playerWrap';

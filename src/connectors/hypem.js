@@ -7,7 +7,7 @@ Connector.artistSelector = '#player-nowplaying [href^="/artist/"]';
 Connector.trackSelector = '#player-nowplaying [href^="/track/"]';
 
 Connector.trackArtSelector = [
-	'.haarp-active .thumb', '.thumb'
+	'.haarp-active .thumb', '.thumb',
 ];
 
 Connector.isTrackArtDefault = (url) => url.includes('solid_color');

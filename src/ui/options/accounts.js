@@ -16,7 +16,7 @@ define((require) => {
 				title: 'accountsUserToken',
 				placeholder: 'accountsUserTokenPlaceholder',
 			},
-		}
+		},
 	};
 
 	async function initialize() {
@@ -105,7 +105,7 @@ define((require) => {
 			}
 			const logoutBtn = $('<a class="card-link" href="#"/>')
 				.attr('i18n', 'accountsSignOut')
-				.click(async() => {
+				.click(async () => {
 					await requestSignOut(scrobbler);
 					createAccountView(scrobbler);
 				});
@@ -146,7 +146,7 @@ define((require) => {
 	}
 
 	function setupDialog() {
-		$('#scrobbler-ok').click(async() => {
+		$('#scrobbler-ok').click(async () => {
 			const modal = $('#scrobbler-props');
 			const label = modal.data('label');
 			const scrobbler = ScrobbleService.getScrobblerByLabel(label);
@@ -170,7 +170,7 @@ define((require) => {
 	function requestAuthenticate(scrobbler) {
 		browser.runtime.sendMessage({
 			type: 'REQUEST_AUTHENTICATE',
-			data: { label: scrobbler.getLabel() }
+			data: { label: scrobbler.getLabel() },
 		});
 	}
 
@@ -180,7 +180,7 @@ define((require) => {
 
 		const label = scrobbler.getLabel();
 		return browser.runtime.sendMessage({
-			type: 'REQUEST_APPLY_USER_OPTIONS', data: { label, userProps }
+			type: 'REQUEST_APPLY_USER_OPTIONS', data: { label, userProps },
 		});
 	}
 
@@ -190,7 +190,7 @@ define((require) => {
 
 		const label = scrobbler.getLabel();
 		return browser.runtime.sendMessage({
-			type: 'REQUEST_SIGN_OUT', data: { label }
+			type: 'REQUEST_SIGN_OUT', data: { label },
 		});
 	}
 

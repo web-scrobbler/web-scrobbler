@@ -91,27 +91,27 @@ const SPLIT_ARTIST_ALBUM_DATA = [{
 const ESCAPE_BAD_TIME_VALUES_DATA = [{
 	description: 'should round float number',
 	args: [3.25],
-	expected: 3
+	expected: 3,
 }, {
 	description: 'should return null for NaN',
 	args: [NaN],
-	expected: null
+	expected: null,
 }, {
 	description: 'should return null for Infinity',
 	args: [Infinity],
-	expected: null
+	expected: null,
 }, {
 	description: 'should return null for -Infinity',
 	args: [-Infinity],
-	expected: null
+	expected: null,
 }, {
 	description: 'should return integer number as is',
 	args: [3],
-	expected: 3
+	expected: 3,
 }, {
 	description: 'should return null for other input',
 	args: [[]],
-	expected: null
+	expected: null,
 }];
 
 /**
@@ -121,35 +121,35 @@ const ESCAPE_BAD_TIME_VALUES_DATA = [{
 const STRING_TO_SECONDS_DATA = [{
 	description: 'should trim string and parse time',
 	args: ['01:10:30 '],
-	expected: 4230
+	expected: 4230,
 }, {
 	description: 'should parse time in hh:mm:ss format',
 	args: ['01:10:30'],
-	expected: 4230
+	expected: 4230,
 }, {
 	description: 'should parse negative time',
 	args: ['-01:10'],
-	expected: -70
+	expected: -70,
 }, {
 	description: 'should parse time in mm:ss format',
 	args: ['05:20'],
-	expected: 320
+	expected: 320,
 }, {
 	description: 'should parse time in ss format',
 	args: ['20'],
-	expected: 20
+	expected: 20,
 }, {
 	description: 'should not parse empty string',
 	args: [''],
-	expected: 0
+	expected: 0,
 }, {
 	description: 'should not parse null value',
 	args: [null],
-	expected: 0
+	expected: 0,
 }, {
 	description: 'should not parse malformed format',
 	args: [NaN],
-	expected: 0
+	expected: 0,
 }];
 
 /**
@@ -159,27 +159,27 @@ const STRING_TO_SECONDS_DATA = [{
 const EXRACT_URL_FROM_CSS_PROPERTY_DATA = [{
 	description: 'should extract URL from CSS property (double quotes)',
 	args: ['url("http://example.com/image.png")'],
-	expected: 'http://example.com/image.png'
+	expected: 'http://example.com/image.png',
 }, {
 	description: 'should extract URL from CSS property (single quotes)',
 	args: ['url(\'http://example.com/image.png\')'],
-	expected: 'http://example.com/image.png'
+	expected: 'http://example.com/image.png',
 }, {
 	description: 'should extract URL from CSS property (no quotes)',
 	args: ['url(http://example.com/image.png)'],
-	expected: 'http://example.com/image.png'
+	expected: 'http://example.com/image.png',
 }, {
 	description: 'should extract URL from shorthand CSS property',
 	args: ['#ffffff url("http://example.com/image.png") no-repeat right top;'],
-	expected: 'http://example.com/image.png'
+	expected: 'http://example.com/image.png',
 }, {
 	description: 'should return null for malformed CSS property',
 	args: ['whatever'],
-	expected: null
+	expected: null,
 }, {
 	description: 'should return null for null',
 	args: [null],
-	expected: null
+	expected: null,
 }];
 
 /**
@@ -267,15 +267,15 @@ const PROCESS_YT_VIDEO_TITLE_DATA = [{
 }, {
 	description: 'should process tracks with seperators and quotes',
 	args: ['Artist - "Track Name"'],
-	expected: { artist: 'Artist', track: 'Track Name' }
+	expected: { artist: 'Artist', track: 'Track Name' },
 }, {
 	description: 'should process tracks with seperators without leading whitespace and quotes',
 	args: ['Artist: "Track Name"'],
-	expected: { artist: 'Artist', track: 'Track Name' }
+	expected: { artist: 'Artist', track: 'Track Name' },
 }, {
 	description: 'should use title as track title',
 	args: ['Track Name'],
-	expected: { artist: null, track: 'Track Name' }
+	expected: { artist: null, track: 'Track Name' },
 }];
 
 /**
@@ -301,7 +301,7 @@ const PROCESS_SOUNDCLOUD_TRACK_DATA = [{
 }, {
 	description: 'should use title as track title',
 	args: ['Track Name'],
-	expected: { artist: null, track: 'Track Name' }
+	expected: { artist: null, track: 'Track Name' },
 }];
 
 /**
@@ -354,64 +354,64 @@ const FIND_SEPARATOR_DATA = [{
 const IS_ARTIST_TRACK_EMPTY_DATA = [{
 	description: 'should return true for null result',
 	args: [null],
-	expected: true
+	expected: true,
 }, {
 	description: 'should return true for empty Artist-Track pair',
 	args: [{ artist: null, track: null }],
-	expected: true
+	expected: true,
 }, {
 	description: 'should return false if field is missing',
 	args: [{ artist: 'Artist', track: null }],
-	expected: true
+	expected: true,
 }, {
 	description: 'should return false for non-empty Artist-Track pair',
 	args: [{ artist: 'Artist', track: 'Track' }],
-	expected: false
+	expected: false,
 }];
 
 const GET_MEDIASESSION_INFO_DATA = [{
 	description: 'should return null for null input',
 	args: [null],
-	expected: null
+	expected: null,
 }, {
 	description: 'should return null if MediaMetadata is missing',
 	args: [{ mediaMetadata: null }],
-	expected: null
+	expected: null,
 }, {
 	description: 'should return track info if MediaMetadata available',
 	args: [{
 		metadata: {
 			artist: 'Artist', title: 'Track', album: 'Album',
 			artwork: [{
-				sizes: '32x32', type: 'image/png', src: 'url1'
+				sizes: '32x32', type: 'image/png', src: 'url1',
 			}, {
-				sizes: '64x64', type: 'image/png', src: 'url2'
-			}]
-		}
+				sizes: '64x64', type: 'image/png', src: 'url2',
+			}],
+		},
 	}],
 	expected: {
 		artist: 'Artist', track: 'Track', album: 'Album', trackArt: 'url2',
-	}
+	},
 }, {
 	description: 'should return track info if artwork is missing',
 	args: [{
 		metadata: {
 			artist: 'Artist', title: 'Track', album: 'Album',
-		}
+		},
 	}],
 	expected: {
 		artist: 'Artist', track: 'Track', album: 'Album', trackArt: null,
-	}
+	},
 }, {
 	description: 'should return track info if artwork is an empty array',
 	args: [{
 		metadata: {
 			artist: 'Artist', title: 'Track', album: 'Album', artwork: [],
-		}
+		},
 	}],
 	expected: {
 		artist: 'Artist', track: 'Track', album: 'Album', trackArt: null,
-	}
+	},
 }];
 
 const JOIN_ARTISTS_DATA = [{
@@ -425,11 +425,11 @@ const JOIN_ARTISTS_DATA = [{
 }, {
 	description: 'should return list of artist for valid input',
 	args: [[{ textContent: 'Artist 1' }]],
-	expected: 'Artist 1'
+	expected: 'Artist 1',
 }, {
 	description: 'should return list of artist for valid input',
 	args: [[{ textContent: 'Artist 1' }, { textContent: 'Artist 2' }]],
-	expected: 'Artist 1, Artist 2'
+	expected: 'Artist 1, Artist 2',
 }];
 
 const FILL_EMPTY_FIELDS = [{
@@ -437,37 +437,37 @@ const FILL_EMPTY_FIELDS = [{
 	args: [
 		{ artist: 'Artist', track: 'Track' }, null, [],
 	],
-	expected: { artist: 'Artist', track: 'Track' }
+	expected: { artist: 'Artist', track: 'Track' },
 }, {
 	description: 'should return target if fields arg is null',
 	args: [
 		{ artist: 'Artist', track: 'Track' }, { artist: 'New Artist' }, null,
 	],
-	expected: { artist: 'Artist', track: 'Track' }
+	expected: { artist: 'Artist', track: 'Track' },
 }, {
 	description: 'should not modify target if fields arg is empty',
 	args: [
 		{ artist: 'Artist', track: 'Track' }, { artist: 'New Artist' }, [],
 	],
-	expected: { artist: 'Artist', track: 'Track' }
+	expected: { artist: 'Artist', track: 'Track' },
 }, {
 	description: 'should not modify target if source field is missing',
 	args: [
 		{ track: 'Track' }, {}, ['artist'],
 	],
-	expected: { track: 'Track' }
+	expected: { track: 'Track' },
 }, {
 	description: 'should not modify target if field exists',
 	args: [
 		{ artist: 'Artist', track: 'Track' }, { artist: 'New Artist' }, ['artist'],
 	],
-	expected: { artist: 'Artist', track: 'Track' }
+	expected: { artist: 'Artist', track: 'Track' },
 }, {
 	description: 'should modify target if field is missing',
 	args: [
 		{ track: 'Track' }, { artist: 'New Artist' }, ['artist'],
 	],
-	expected: { artist: 'New Artist', track: 'Track' }
+	expected: { artist: 'New Artist', track: 'Track' },
 }];
 
 const YT_DESCRIPTION_EXAMPLE_1 = `Provided to YouTube by IDOL
@@ -524,7 +524,7 @@ Auto-generated by YouTube.`;
 const PARSE_YT_VIDEO_DESCRIPTION_DATA = [{
 	description: 'should not parse null description',
 	args: [null],
-	expected: null
+	expected: null,
 }, {
 	description: 'should parse normal description',
 	args: [YT_DESCRIPTION_EXAMPLE_1],
@@ -532,7 +532,7 @@ const PARSE_YT_VIDEO_DESCRIPTION_DATA = [{
 		album: 'Shadow Era, Pt. 2',
 		track: 'Tranquility (Forces of Nature Remix)',
 		artist: 'Aquasky',
-	}
+	},
 }, {
 	description: 'should parse description w/o "Autogenerated" header',
 	args: [YT_DESCRIPTION_EXAMPLE_2],
@@ -540,7 +540,7 @@ const PARSE_YT_VIDEO_DESCRIPTION_DATA = [{
 		album: 'Capoeira',
 		track: 'Capoeira (Airbase pres. Scarab Remix)',
 		artist: 'Under Sun',
-	}
+	},
 }, {
 	description: 'should parse description w/ featuring artists',
 	args: [YT_DESCRIPTION_EXAMPLE_3],
@@ -548,7 +548,7 @@ const PARSE_YT_VIDEO_DESCRIPTION_DATA = [{
 		album: 'How Fleeting, How Fragile',
 		track: 'Fugitive (feat. Mattéo Gelsomino)',
 		artist: 'Time, The Valuator',
-	}
+	},
 }, {
 	description: 'should parse description w/o artist',
 	args: [YT_DESCRIPTION_EXAMPLE_4],
@@ -556,7 +556,7 @@ const PARSE_YT_VIDEO_DESCRIPTION_DATA = [{
 		album: 'How Fleeting, How Fragile',
 		track: 'Fugitive',
 		artist: null,
-	}
+	},
 }];
 
 const testData = [{
@@ -570,7 +570,7 @@ const testData = [{
 	data: FIND_SEPARATOR_DATA,
 }, {
 	func: Util.stringToSeconds,
-	data: STRING_TO_SECONDS_DATA
+	data: STRING_TO_SECONDS_DATA,
 }, {
 	func: Util.fillEmptyFields,
 	data: FILL_EMPTY_FIELDS,
@@ -585,7 +585,7 @@ const testData = [{
 	data: IS_ARTIST_TRACK_EMPTY_DATA,
 }, {
 	func: Util.getYtVideoIdFromUrl,
-	data: GET_YT_VIDEO_ID_FROM_URL_DATA
+	data: GET_YT_VIDEO_ID_FROM_URL_DATA,
 }, {
 	func: Util.escapeBadTimeValues,
 	data: ESCAPE_BAD_TIME_VALUES_DATA,

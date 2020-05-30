@@ -38,6 +38,6 @@ define((require) => {
 
 			delete data[connectorId];
 			await storage.set(data);
-		}
+		},
 	};
 });

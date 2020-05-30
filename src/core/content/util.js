@@ -19,7 +19,7 @@ const Util = {
 	 */
 	separators: [
 		' -- ', '--', ' ~ ', ' - ', ' – ', ' — ',
-		' // ', '-', ':', '|', '///', '/'
+		' // ', '-', ':', '|', '///', '/',
 	],
 
 	/**
@@ -539,18 +539,18 @@ const Util = {
 		// Artist "Track", Artist: "Track", Artist - "Track", etc.
 		{
 			pattern: /(.+?)([\s:—-])+\s*"(.+?)"/,
-			groups: { artist: 1, track: 3 }
+			groups: { artist: 1, track: 3 },
 		},
 		// Artist「Track」 (Japanese tracks)
 		{
 			pattern: /(.+?)「(.+?)」/,
-			groups: { artist: 1, track: 2 }
+			groups: { artist: 1, track: 2 },
 		},
 		// Track (... by Artist)
 		{
 			pattern: /(\w[\s\w]*?)\s+\([^)]*\s*by\s*([^)]+)+\)/,
-			groups: { artist: 2, track: 1 }
-		}
+			groups: { artist: 2, track: 1 },
+		},
 	],
 
 	/**
@@ -680,7 +680,7 @@ const Util = {
 		if (match && !/.*#\d+.*/.test(match[1])) {
 			return {
 				artist: match[1],
-				track: match[2]
+				track: match[2],
 			};
 		}
 

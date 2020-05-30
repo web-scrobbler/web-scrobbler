@@ -42,7 +42,7 @@ define((require) => {
 			this.currentSong = null;
 			this.isReplayingSong = false;
 			this.shouldScrobblePodcasts = true;
-			(async() => this.shouldScrobblePodcasts = await Options.getOption(Options.SCROBBLE_PODCASTS))();
+			(async () => this.shouldScrobblePodcasts = await Options.getOption(Options.SCROBBLE_PODCASTS))();
 
 			this.debugLog(`Created controller for ${connector.label} connector`);
 		}

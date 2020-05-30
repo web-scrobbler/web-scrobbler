@@ -17,7 +17,7 @@ function runTests() {
 	it('should set patterns for connector', (done) => {
 		const patterns = ['1', '2'];
 		const expectedData = {
-			connector: patterns
+			connector: patterns,
 		};
 		CustomPatterns.setPatterns('connector', patterns).then(() => {
 			CustomPatterns.getAllPatterns().then((data) => {

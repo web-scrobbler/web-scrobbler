@@ -151,7 +151,7 @@ define((require) => {
 			const title = browser.i18n.getMessage(i18n, placeholder);
 			const path = {
 				19: `/icons/page_action_${icon}_19.png`,
-				38: `/icons/page_action_${icon}_38.png`
+				38: `/icons/page_action_${icon}_38.png`,
 			};
 
 			return { path, title, popup };

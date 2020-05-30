@@ -10,7 +10,7 @@ Connector.playerSelector = '#jp_container_1';
 Connector.getArtistTrack = function() {
 	const artistTrack = $('#player-station-info').text();
 	return Util.splitArtistTrack(artistTrack, [' - '], {
-		swap: swapArtistTrack
+		swap: swapArtistTrack,
 	});
 };
 

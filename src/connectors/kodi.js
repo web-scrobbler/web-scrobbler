@@ -3,24 +3,24 @@
 const fields = {
 	artist: {
 		selector: '.playing-subtitle',
-		func: Util.getTextFromSelectors.bind(Util)
+		func: Util.getTextFromSelectors.bind(Util),
 	},
 	track: {
 		selector: '.playing-title',
-		func: Util.getTextFromSelectors.bind(Util)
+		func: Util.getTextFromSelectors.bind(Util),
 	},
 	currentTime: {
 		selector: '.playing-time-current',
-		func: Util.getSecondsFromSelectors.bind(Util)
+		func: Util.getSecondsFromSelectors.bind(Util),
 	},
 	duration: {
 		selector: '.playing-time-duration',
-		func: Util.getSecondsFromSelectors.bind(Util)
+		func: Util.getSecondsFromSelectors.bind(Util),
 	},
 	trackArt: {
 		selector: '.playing-thumb',
-		func: getTrackArtUrl
-	}
+		func: getTrackArtUrl,
+	},
 };
 
 const kodiPlayerSelector = '#player-kodi';

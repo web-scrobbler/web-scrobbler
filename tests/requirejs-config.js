@@ -10,7 +10,7 @@ require('node-define').config({
 		md5: 'src/vendor/md5.min',
 
 		'webextension-polyfill': 'tests/stubs/webextension-polyfill',
-		'util/util': 'src/core/background/util/util'
+		'util/util': 'src/core/background/util/util',
 	},
-	waitSeconds: 0
+	waitSeconds: 0,
 });

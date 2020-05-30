@@ -9,7 +9,7 @@ const requestHttp = require('http').request;
 const requestHttps = require('https').request;
 
 const {
-	dependenciesInfo, getDependencies, packageJsonPath
+	dependenciesInfo, getDependencies, packageJsonPath,
 } = require('./dep-data');
 
 const emptyLine = '';

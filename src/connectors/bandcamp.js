@@ -2,7 +2,7 @@
 
 const VARIOUS_ARTISTS_REGEXPS = [
 	/variou?s(\sartists)?/i,
-	/letiou?s(\sartists)?/i
+	/letiou?s(\sartists)?/i,
 ];
 
 /**
@@ -123,7 +123,7 @@ function initPropertiesForHomePage() {
 
 	Connector.trackSelector = [
 		`${weeklyPlayerContext} .bcweekly-current .track-title`,
-		'.track_info .title'
+		'.track_info .title',
 	];
 
 	Connector.albumSelector = [

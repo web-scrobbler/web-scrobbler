@@ -18,7 +18,7 @@ const dependenciesInfo = {
 			srcPaths: [
 				'blueimp-md5/js/md5.min.js',
 			],
-		}]
+		}],
 	},
 	'metadata-filter': {
 		name: 'MetadataFilter',
@@ -27,25 +27,25 @@ const dependenciesInfo = {
 			srcPaths: [
 				'metadata-filter/dist/filter.js',
 			],
-		}]
+		}],
 	},
 	'webextension-polyfill': {
 		name: 'WebextPolyfill',
 		urlTemplate: 'https://unpkg.com/browse/webextension-polyfill@${ver}/dist/',
 		paths: [{
 			srcPaths: [
-				'webextension-polyfill/dist/browser-polyfill.min.js'
-			]
-		}]
+				'webextension-polyfill/dist/browser-polyfill.min.js',
+			],
+		}],
 	},
 	jquery: {
 		name: 'jQuery',
 		urlTemplate: 'https://code.jquery.com/jquery-${ver}.min.js',
 		paths: [{
 			srcPaths: [
-				'jquery/dist/jquery.min.js'
+				'jquery/dist/jquery.min.js',
 			],
-		}]
+		}],
 	},
 	requirejs: {
 		name: 'RequireJS',
@@ -54,16 +54,16 @@ const dependenciesInfo = {
 			srcPaths: [
 				'requirejs/require.js',
 			],
-		}]
+		}],
 	},
 	showdown: {
 		name: 'Showdown',
 		urlTemplate: 'https://github.com/showdownjs/showdown/archive/${ver}.zip',
 		paths: [{
 			srcPaths: [
-				'showdown/dist/showdown.min.js'
+				'showdown/dist/showdown.min.js',
 			],
-		}]
+		}],
 	},
 
 	'@fortawesome/fontawesome-free': {
@@ -73,15 +73,15 @@ const dependenciesInfo = {
 			srcPaths: [
 				`${fontawesomeDir}/css/solid.min.css`,
 				`${fontawesomeDir}/css/brands.min.css`,
-				`${fontawesomeDir}/css/fontawesome.min.css`
+				`${fontawesomeDir}/css/fontawesome.min.css`,
 			],
-			destDir: `${vendorDir}/fontawesome/css`
+			destDir: `${vendorDir}/fontawesome/css`,
 		}, {
 			srcPaths: [
 				`${fontawesomeDir}/webfonts/fa-solid-900.woff2`,
-				`${fontawesomeDir}/webfonts/fa-brands-400.woff2`
+				`${fontawesomeDir}/webfonts/fa-brands-400.woff2`,
 			],
-			destDir: `${vendorDir}/fontawesome/webfonts`
+			destDir: `${vendorDir}/fontawesome/webfonts`,
 		}],
 	},
 	bootstrap: {
@@ -89,16 +89,16 @@ const dependenciesInfo = {
 		urlTemplate: 'https://github.com/twbs/bootstrap/releases/download/v${ver}/bootstrap-${ver}-dist.zip',
 		paths: [{
 			srcPaths: [
-				`${bootstrapDir}/js/bootstrap.bundle.min.js`
+				`${bootstrapDir}/js/bootstrap.bundle.min.js`,
 			],
-			destDir: `${vendorDir}/bootstrap/js`
+			destDir: `${vendorDir}/bootstrap/js`,
 		}, {
 			srcPaths: [
-				`${bootstrapDir}/css/bootstrap.min.css`
+				`${bootstrapDir}/css/bootstrap.min.css`,
 			],
-			destDir: `${vendorDir}/bootstrap/css`
+			destDir: `${vendorDir}/bootstrap/css`,
 		}],
-	}
+	},
 };
 
 function getDependencies(packageJson) {
@@ -115,5 +115,5 @@ function getDependencies(packageJson) {
 }
 
 module.exports = {
-	dependenciesInfo, getDependencies, rootDir, vendorDir, packageJsonPath
+	dependenciesInfo, getDependencies, rootDir, vendorDir, packageJsonPath,
 };

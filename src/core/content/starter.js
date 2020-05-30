@@ -50,7 +50,7 @@
 		const observer = new MutationObserver(Connector.onStateChanged);
 		const observerConfig = {
 			childList: true, subtree: true,
-			attributes: true, characterData: true
+			attributes: true, characterData: true,
 		};
 
 		observer.observe(observeTarget, observerConfig);
@@ -69,7 +69,7 @@
 
 		const playerObserverConfig = {
 			childList: true, subtree: true,
-			attributes: false, characterData: false
+			attributes: false, characterData: false,
 		};
 		playerObserver.observe(document, playerObserverConfig);
 	}

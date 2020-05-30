@@ -24,7 +24,7 @@ define((require) => {
 	const registeredScrobblers = [
 		new LastFmScrobbler(),
 		new LibreFmScrobbler(),
-		new ListenBrainzScrobbler()
+		new ListenBrainzScrobbler(),
 	];
 
 	/**
@@ -202,6 +202,6 @@ define((require) => {
 
 			// Forward result
 			return result;
-		}
+		},
 	};
 });

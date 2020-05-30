@@ -158,13 +158,13 @@ define((require) => {
 
 			// @ifdef CHROME
 			silent: true,
-			contextMessage: connectorLabel
+			contextMessage: connectorLabel,
 			// @endif
 		};
 
 		clearNotificationTimeout();
 
-		notificationTimeoutId = setTimeout(async() => {
+		notificationTimeoutId = setTimeout(async () => {
 			try {
 				const notificationId = await showNotification(options, onClick);
 				song.metadata.notificationId = notificationId;
@@ -217,7 +217,7 @@ define((require) => {
 		const options = {
 			iconUrl: unknownTrackArtUrl,
 			title: i18n.getMessage('notificationNotRecognized'),
-			message: i18n.getMessage('notificationNotRecognizedText')
+			message: i18n.getMessage('notificationNotRecognizedText'),
 		};
 
 		const notificationId = await showNotification(options, onClick);
@@ -273,6 +273,6 @@ define((require) => {
 		showError,
 		showNowPlaying,
 		showSignInError,
-		showSongNotRecognized
+		showSongNotRecognized,
 	};
 });

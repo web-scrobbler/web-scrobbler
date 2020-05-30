@@ -49,7 +49,7 @@ function getTrackInfo() {
 		duration: player.getDuration(),
 		currentTime: player.getPosition(),
 		uniqueID: item.SNG_ID,
-		trackArt: getTrackArt(item.ALB_PICTURE)
+		trackArt: getTrackArt(item.ALB_PICTURE),
 	};
 }
 

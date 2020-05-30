@@ -3,7 +3,7 @@
 const wwozFilter = new MetadataFilter({
 	track: (text) => MetadataFilter.filterWithFilterRules(
 		text, wwozFilterRules
-	)
+	),
 });
 
 const wwozFilterRules = [

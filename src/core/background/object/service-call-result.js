@@ -28,6 +28,6 @@ const ERROR_OTHER = 'error-other';
 
 define(() => {
 	return {
-		RESULT_OK, RESULT_IGNORE, ERROR_AUTH, ERROR_OTHER
+		RESULT_OK, RESULT_IGNORE, ERROR_AUTH, ERROR_OTHER,
 	};
 });

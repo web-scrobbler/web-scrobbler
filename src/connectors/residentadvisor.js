@@ -16,7 +16,7 @@ const PLAYER_TYPES = {
 	// https://www.residentadvisor.net/dj/secretsundaze/top10?chart=214484 (Chart tracks)
 	CHART: 'Chart track',
 
-	UNKNOWN: 'Player not found'
+	UNKNOWN: 'Player not found',
 };
 
 Connector.playerSelector = '.content-list';

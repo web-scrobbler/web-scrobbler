@@ -8,7 +8,7 @@ require([
 	'options/export',
 	'options/options',
 	'util/util-browser',
-	'bootstrap'
+	'bootstrap',
 ],
 (browser, Accounts, Connectors, Dialogs, Export, Options, Util) => {
 	const GITHUB_RELEASES_URL =

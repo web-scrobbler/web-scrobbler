@@ -7,7 +7,7 @@ define((require) => {
 	const optionsContainerId = '#collapseOptions';
 
 	const percentValues = [
-		10, 20, 30, 40, 50, 60, 70, 80, 90, 100
+		10, 20, 30, 40, 50, 60, 70, 80, 90, 100,
 	];
 
 	/**
@@ -23,12 +23,12 @@ define((require) => {
 	};
 	const CONNECTORS_OPTIONS_UI_MAP = {
 		Tidal: {
-			'#tdl-short-track-names': 'useShortTrackNames'
+			'#tdl-short-track-names': 'useShortTrackNames',
 		},
 		YouTube: {
 			'#yt-music-only': 'scrobbleMusicOnly',
 			'#yt-entertainment-only': 'scrobbleEntertainmentOnly',
-		}
+		},
 	};
 
 	async function initialize() {

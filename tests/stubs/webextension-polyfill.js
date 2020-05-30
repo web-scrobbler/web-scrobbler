@@ -29,8 +29,8 @@ class StorageAreaStub {
 const browser = {
 	storage: {
 		local: new StorageAreaStub(),
-		sync: new StorageAreaStub()
-	}
+		sync: new StorageAreaStub(),
+	},
 };
 
 define([], () => browser);

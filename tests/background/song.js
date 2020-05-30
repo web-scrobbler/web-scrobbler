@@ -46,11 +46,11 @@ const PROCESSED_DATA = {
 	track: 'Processed Track',
 	album: 'Processed duration',
 	albumArtist: 'Processed AlbumArtist',
-	duration: 321
+	duration: 321,
 };
 
 const DUMMY_CONNECTOR = {
-	label: 'Dummy label'
+	label: 'Dummy label',
 };
 
 /**
@@ -293,7 +293,7 @@ function testGetCloneableData() {
 function testEquals() {
 	const songWithUniqueId = createSong({
 		artist: 'Artist', track: 'Title', album: 'Album',
-		uniqueID: 'uniqueId1'
+		uniqueID: 'uniqueId1',
 	});
 	const songWithNoUniqueId = createSong({
 		artist: 'Artist', track: 'Title', album: 'Album',
@@ -310,7 +310,7 @@ function testEquals() {
 	it('should equal another song with the same uniqueId', () => {
 		const sameSong = createSong({
 			artist: 'Artist', track: 'Title', album: 'Album',
-			uniqueID: 'uniqueId1'
+			uniqueID: 'uniqueId1',
 		});
 		expect(songWithUniqueId.equals(sameSong)).to.be.true;
 	});
@@ -332,7 +332,7 @@ function testEquals() {
 	it('should not equal song with the different uniqueId', () => {
 		const differentSong = createSong({
 			artist: 'Artist', track: 'Title', album: 'Album',
-			uniqueID: 'uniqueId2'
+			uniqueID: 'uniqueId2',
 		});
 		expect(songWithUniqueId.equals(differentSong)).to.be.false;
 	});
@@ -361,7 +361,7 @@ function testIsEmpty() {
 		const songs = [
 			createSong({ artist: 'Artist', track: null }),
 			createSong({ artist: null, track: 'Track' }),
-			createSong({ artist: null, track: null })
+			createSong({ artist: null, track: null }),
 		];
 
 		for (const song of songs) {
@@ -380,14 +380,14 @@ function testGetUniqueId() {
 		const uniqueId = 'unique';
 		const song = createSong({
 			artist: 'Artist', track: 'Title', album: 'Album',
-			uniqueID: uniqueId
+			uniqueID: uniqueId,
 		});
 		expect(song.getUniqueId()).to.be.equal(uniqueId);
 	});
 
 	it('should not return unique ID if song has no parsed unique ID', () => {
 		const song = createSong({
-			artist: 'Artist', track: 'Title', album: 'Album'
+			artist: 'Artist', track: 'Title', album: 'Album',
 		});
 		expect(song.getUniqueId()).to.be.null;
 	});

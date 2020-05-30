@@ -36,7 +36,7 @@ const URL_MATCH_DATA = [{
 	description: 'should return false for input with no host',
 	pattern: '*:///*',
 	urls: [
-		'http://example.com/'
+		'http://example.com/',
 	],
 	expected: false,
 }, {
@@ -65,7 +65,7 @@ const URL_MATCH_DATA = [{
 	urls: [
 		'http://example.com/path1',
 		'https://example.com/path2',
-		'http://example.com/'
+		'http://example.com/',
 	],
 	expected: true,
 }, {
