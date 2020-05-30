@@ -1,47 +1,129 @@
 'use strict';
 
-Connector.playerSelector = '#dragonflyTransport .rightSide';
+const oldUiPlayerBarSelector = '#dragonflyTransport .rightSide';
 
-Connector.getArtist = () => {
-	return $('.trackInfoContainer .trackArtist a, .trackInfoContainer .trackArtist span').attr('title');
-};
+function setupConnector() {
+	if (isNewPlayer()) {
+		Util.debugLog('Setup connector for the new player');
 
-Connector.getAlbumArtist = Connector.getArtist;
+		setupPropertiesForNewPlayer();
+	} else {
+		Util.debugLog('Setup connector for the old player');
 
-Connector.trackSelector = '.trackInfoContainer .trackTitle';
-
-Connector.getAlbum = () => {
-	if ($('.trackSourceLink a').attr('href').includes('albums')) {
-		return $('.trackSourceLink a').text();
+		setupPropertiesForOldPlayer();
 	}
 
-	if ($('tr.selectable.currentlyPlaying td.albumCell')) {
-		return $('tr.selectable.currentlyPlaying td.albumCell').attr('title');
-	}
+	Connector.applyFilter(MetadataFilter.getAmazonFilter());
+}
 
-	if ($('.nowPlayingDetail img.albumImage')) {
-		return $('.nowPlayingDetail img.albumImage').attr('title');
-	}
+function isNewPlayer() {
+	return document.querySelector(oldUiPlayerBarSelector) === null;
+}
 
-	if ($('.trackSourceLink a').data('ui-click-action') === 'selectAlbum') {
-		return $('.trackSourceLink a').attr('title');
-	}
-};
+function setupPropertiesForNewPlayer() {
+	const playerBarSelector = '#transport';
+	const trackContainerSelector = `${playerBarSelector} music-horizontal-item`;
 
-Connector.currentTimeSelector = '.songDuration.timeElapsed';
+	Connector.playerSelector = playerBarSelector;
 
-Connector.playButtonSelector = '.rightSide .playbackControls .playerIconPlay';
+	Connector.getTrackInfo = () => {
+		const trackContainer = document.querySelector(trackContainerSelector);
+		if (trackContainer === null) {
+			return null;
+		}
 
-Connector.durationSelector = '#currentDuration';
+		const artist = trackContainer.getAttribute('secondary-text');
+		const track = trackContainer.getAttribute('primary-text');
+		const trackArt = trackContainer.getAttribute('image-src');
 
-Connector.trackArtSelector = '.rightSide .albumArtWrapper img';
+		return { artist, track, trackArt };
+	};
 
-Connector.getUniqueID = () => {
-	const optionsHref = $('.buttonOption.main[title=Options]').attr('href');
-	if (optionsHref) {
-		return optionsHref.replace(/[\W\w]+adriveId=/, '');
-	}
-	return null;
-};
+	Connector.isScrobblingAllowed = () => {
+		const trackLink = Util.getAttrFromSelectors(
+			trackContainerSelector,
+			'primary-href'
+		);
 
-Connector.applyFilter(MetadataFilter.getAmazonFilter());
+		// NOTE Regular tracks have no link
+		// Check this condition first if the connector does not work
+		return trackLink === '#';
+	};
+
+	Connector.playButtonSelector = 'music-button[icon-name=play]';
+}
+
+function setupPropertiesForOldPlayer() {
+	const optionBtnSelector = '.buttonOption.main[title=Options]';
+
+	Connector.playerSelector = oldUiPlayerBarSelector;
+
+	Connector.getArtist = () => {
+		// FIXME Use unified selector
+		return Util.getAttrFromSelectors(
+			[
+				'.trackInfoContainer .trackArtist a',
+				'.trackInfoContainer .trackArtist span',
+			],
+			'title'
+		);
+	};
+
+	Connector.getAlbumArtist = Connector.getArtist;
+
+	Connector.trackSelector = '.trackInfoContainer .trackTitle';
+
+	Connector.getAlbum = () => {
+		const sourceLink = document.querySelector('.trackSourceLink a');
+		if (sourceLink) {
+			const sourceLinkUrl = sourceLink.getAttribute('href');
+			if (sourceLinkUrl && sourceLinkUrl.includes('albums')) {
+				return sourceLink.textContent;
+			}
+		}
+
+		const albumCellTitle = Util.getAttrFromSelectors(
+			'tr.selectable.currentlyPlaying td.albumCell',
+			'title'
+		);
+		if (albumCellTitle) {
+			return albumCellTitle;
+		}
+
+		const albumImageTitle = Util.getAttrFromSelectors(
+			'.nowPlayingDetail img.albumImage',
+			'title'
+		);
+		if (albumImageTitle) {
+			return albumImageTitle;
+		}
+
+		if (sourceLink) {
+			const clickAction = sourceLink.getAttribute('data-ui-click-action');
+			if (clickAction === 'selectAlbum') {
+				return sourceLink.getAttribute('title');
+			}
+		}
+
+		return null;
+	};
+
+	Connector.currentTimeSelector = '.songDuration.timeElapsed';
+
+	Connector.playButtonSelector =
+		'.rightSide .playbackControls .playerIconPlay';
+
+	Connector.durationSelector = '#currentDuration';
+
+	Connector.trackArtSelector = '.rightSide .albumArtWrapper img';
+
+	Connector.getUniqueID = () => {
+		const optionsHref = Util.getAttrFromSelectors(
+			optionBtnSelector,
+			'href'
+		);
+		return optionsHref && optionsHref.replace(/[\W\w]+adriveId=/, '');
+	};
+}
+
+setupConnector();
