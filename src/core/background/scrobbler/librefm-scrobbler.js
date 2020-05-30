@@ -34,6 +34,11 @@ define((require) => {
 		}
 
 		/** @override */
+		getId() {
+			return 'librefm';
+		}
+
+		/** @override */
 		getLabel() {
 			return 'Libre.fm';
 		}

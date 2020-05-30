@@ -34,6 +34,11 @@ define((require) => {
 		}
 
 		/** @override */
+		getId() {
+			return 'lastfm';
+		}
+
+		/** @override */
 		getLabel() {
 			return 'Last.fm';
 		}

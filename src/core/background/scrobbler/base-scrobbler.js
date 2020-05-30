@@ -173,6 +173,13 @@ define((require) => {
 		}
 
 		/**
+		 * Get the scrobbler ID. The ID must be unique.
+		 */
+		getId() {
+			throw new Error('Not implemented');
+		}
+
+		/**
 		 * Get the scrobbler label.
 		 */
 		getLabel() {

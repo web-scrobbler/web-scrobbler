@@ -30,6 +30,11 @@ define((require) => {
 		}
 
 		/** @override */
+		getId() {
+			return 'listenbrainz';
+		}
+
+		/** @override */
 		getLabel() {
 			return 'ListenBrainz';
 		}
