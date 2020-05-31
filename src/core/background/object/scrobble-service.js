@@ -4,10 +4,10 @@
  * Service to handle all scrobbling behavior.
  */
 define((require) => {
+	const ApiCallResult = require('object/api-call-result');
 	const LastFmScrobbler = require('scrobbler/lastfm-scrobbler');
 	const LibreFmScrobbler = require('scrobbler/librefm-scrobbler');
 	const ListenBrainzScrobbler = require('scrobbler/listenbrainz-scrobbler');
-	const ServiceCallResult = require('object/service-call-result');
 
 	/**
 	 * Scrobblers that are bound, meaning they have valid session IDs.
@@ -85,17 +85,17 @@ define((require) => {
 
 		/**
 		 * Retrieve song info using scrobbler APIs.
-		 * @param  {Object} song Song instance
+		 * @param  {Object} songInfo Object containing song info
 		 * @return {Promise} Promise resolved with array of song info objects
 		 */
-		getSongInfo(song) {
+		getSongInfo(songInfo) {
 			const scrobblers = registeredScrobblers.filter((scrobbler) => {
 				return scrobbler.canLoadSongInfo();
 			});
 			console.log(`Send "get info" request: ${scrobblers.length}`);
 
 			return Promise.all(scrobblers.map((scrobbler) => {
-				return scrobbler.getSongInfo(song).catch(() => {
+				return scrobbler.getSongInfo(songInfo).catch(() => {
 					console.warn(`Unable to get song info from ${scrobbler.getLabel()}`);
 					return null;
 				});
@@ -104,15 +104,15 @@ define((require) => {
 
 		/**
 		 * Send now playing notification to each bound scrobbler.
-		 * @param  {Object} song Song instance
+		 * @param  {Object} songInfo Object containing song info
 		 * @return {Promise} Promise that will be resolved then the task will complete
 		 */
-		sendNowPlaying(song) {
+		sendNowPlaying(songInfo) {
 			console.log(`Send "now playing" request: ${boundScrobblers.length}`);
 
 			return Promise.all(boundScrobblers.map((scrobbler) => {
 				// Forward result (including errors) to caller
-				return scrobbler.sendNowPlaying(song).catch((result) => {
+				return scrobbler.sendNowPlaying(songInfo).catch((result) => {
 					return this.processErrorResult(scrobbler, result);
 				});
 			}));
@@ -120,15 +120,15 @@ define((require) => {
 
 		/**
 		 * Scrobble song to each bound scrobbler.
-		 * @param  {Object} song Song instance
+		 * @param  {Object} songInfo Object containing song info
 		 * @return {Promise} Promise that will be resolved then the task will complete
 		 */
-		scrobble(song) {
+		scrobble(songInfo) {
 			console.log(`Send "scrobble" request: ${boundScrobblers.length}`);
 
 			return Promise.all(boundScrobblers.map((scrobbler) => {
 				// Forward result (including errors) to caller
-				return scrobbler.scrobble(song).catch((result) => {
+				return scrobbler.scrobble(songInfo).catch((result) => {
 					return this.processErrorResult(scrobbler, result);
 				});
 			}));
@@ -136,11 +136,11 @@ define((require) => {
 
 		/**
 		 * Toggle song love status.
-		 * @param  {Object} song Song instance
+		 * @param  {Object} songInfo Object containing song info
 		 * @param  {Boolean} flag Flag indicates song is loved
 		 * @return {Promise} Promise that will be resolved then the task will complete
 		 */
-		toggleLove(song, flag) {
+		toggleLove(songInfo, flag) {
 			const scrobblers = registeredScrobblers.filter((scrobbler) => {
 				return scrobbler.canLoveSong();
 			});
@@ -149,7 +149,7 @@ define((require) => {
 
 			return Promise.all(scrobblers.map((scrobbler) => {
 				// Forward result (including errors) to caller
-				return scrobbler.toggleLove(song, flag).catch((result) => {
+				return scrobbler.toggleLove(songInfo, flag).catch((result) => {
 					return this.processErrorResult(scrobbler, result);
 				});
 			}));
@@ -187,8 +187,8 @@ define((require) => {
 		 * @return {Promise} Promise resolved with result object
 		 */
 		async processErrorResult(scrobbler, result) {
-			const isOtherError = result === ServiceCallResult.ERROR_OTHER;
-			const isAuthError = result === ServiceCallResult.ERROR_AUTH;
+			const isOtherError = result.is(ApiCallResult.ERROR_OTHER);
+			const isAuthError = result.is(ApiCallResult.ERROR_AUTH);
 
 			if (!(isOtherError || isAuthError)) {
 				throw new Error(`Invalid result: ${result}`);

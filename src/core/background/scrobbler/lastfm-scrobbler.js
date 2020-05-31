@@ -5,7 +5,6 @@
  */
 define((require) => {
 	const AudioScrobbler = require('scrobbler/audio-scrobbler');
-	const ServiceCallResult = require('object/service-call-result');
 
 	class LastFmScrobbler extends AudioScrobbler {
 		/** @override */
@@ -54,10 +53,12 @@ define((require) => {
 		}
 
 		/** @override */
-		async getSongInfo(song) {
+		async getSongInfo(songInfo) {
+			const { artist, track, album } = songInfo;
+
 			const params = {
-				track: song.getTrack(),
-				artist: song.getArtist(),
+				track,
+				artist,
 				method: 'track.getinfo',
 			};
 
@@ -68,8 +69,8 @@ define((require) => {
 				// Do nothing
 			}
 
-			if (song.getAlbum()) {
-				params.album = song.getAlbum();
+			if (album) {
+				params.album = album;
 			}
 
 			const responseData = await this.sendRequest(
@@ -77,17 +78,8 @@ define((require) => {
 				params,
 				false
 			);
-			const result = AudioScrobbler.processResponse(responseData);
-			if (result !== ServiceCallResult.RESULT_OK) {
-				throw new Error('Unable to load song info');
-			}
-
-			const data = this.parseSongInfo(responseData);
-			if (this.canLoveSong() && data) {
-				song.setLoveStatus(data.userloved);
-			}
-
-			return data;
+			this.processResponse(responseData);
+			return this.parseSongInfo(responseData);
 		}
 
 		/** @override */

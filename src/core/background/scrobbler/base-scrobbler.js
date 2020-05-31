@@ -3,12 +3,13 @@
 define((require) => {
 	const Util = require('util/util');
 	const BrowserStorage = require('storage/browser-storage');
+	const ApiCallResult = require('object/api-call-result');
 
 	/**
 	 * Base scrobbler object.
 	 *
-	 * Descendants of this object MUST return ServiceCallResult constants
-	 * as result or error value in functions that perform API calls.
+	 * Descendants of this object MUST return ApiCallResult object
+	 * as a result or as an error in functions that perform API calls.
 	 *
 	 * Each scrobbler has its storage which can contain session data and/or
 	 * other user data.
@@ -112,47 +113,47 @@ define((require) => {
 		/** API requests */
 
 		/**
-		 * Send current song as 'now playing' to API.
-		 * Implementation must return ServiceCallResult constant.
+		 * Send a now playing request.
+		 * Implementation must return an ApiCallResult object.
 		 *
-		 * @param  {Object} song Song instance
+		 * @param  {Object} songInfo Object containing song info
 		 */
 		// eslint-disable-next-line no-unused-vars
-		async sendNowPlaying(song) {
+		async sendNowPlaying(songInfo) {
 			throw new Error('This function must be overridden!');
 		}
 
 		/**
-		 * Send song to API to scrobble.
-		 * Implementation must return ServiceCallResult constant.
+		 * Send a scrobble request.
+		 * Implementation must return an ApiCallResult object.
 		 *
-		 * @param  {Object} song Song instance
+		 * @param  {Object} songInfo Object containing song info
 		 */
 		// eslint-disable-next-line no-unused-vars
-		async scrobble(song) {
+		async scrobble(songInfo) {
 			throw new Error('This function must be overridden!');
 		}
 
 		/**
-		 * Love or unlove given song.
-		 * Implementation must return ServiceCallResult constant.
+		 * Send an (un)love request.
+		 * Implementation must return an ApiCallResult object.
 		 *
-		 * @param  {Object} song Song instance
+		 * @param  {Object} songInfo Object containing song info
 		 * @param  {Boolean} isLoved Flag means song should be loved or not
 		 */
 		// eslint-disable-next-line no-unused-vars
-		async toggleLove(song, isLoved) {
+		async toggleLove(songInfo, isLoved) {
 			throw new Error('This function must be overridden!');
 		}
 
 		/**
-		 * Get song info.
+		 * Get information about song.
 		 * Implementation must return object contains a song data.
 		 *
-		 * @param  {Object} song Song instance
+		 * @param  {Object} songInfo Object containing song info
 		 */
 		// eslint-disable-next-line no-unused-vars
-		async getSongInfo(song) {
+		async getSongInfo(songInfo) {
 			throw new Error('This function must be overridden!');
 		}
 
@@ -231,6 +232,16 @@ define((require) => {
 		}
 
 		/** Misc */
+
+		/**
+		 * Return a new ApiCallResult object with the scrobbler ID attached.
+		 *
+		 * @param {String} resultType ApiCallResult type
+		 * @return {Object} ApiCallResult object
+		 */
+		makeApiCallResult(resultType) {
+			return new ApiCallResult(resultType, this.getId());
+		}
 
 		/**
 		 * Helper function to show debug output.
