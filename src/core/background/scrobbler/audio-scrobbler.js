@@ -10,19 +10,19 @@ define((require) => {
 
 	class AudioScrobbler extends BaseScrobbler {
 		getApiKey() {
-			throw new Error('Not implemented');
+			throw new Error('This function must be overridden!');
 		}
 
 		getApiSecret() {
-			throw new Error('Not implemented');
+			throw new Error('This function must be overridden!');
 		}
 
 		getApiUrl() {
-			throw new Error('Not implemented');
+			throw new Error('This function must be overridden!');
 		}
 
 		getBaseAuthUrl() {
-			throw new Error('Not implemented');
+			throw new Error('This function must be overridden!');
 		}
 
 		/** @override */
