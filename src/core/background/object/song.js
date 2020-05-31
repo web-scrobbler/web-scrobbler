@@ -226,6 +226,34 @@ define(() => {
 		}
 
 		/**
+		 * Return an object containing song info. The object should contain
+		 * all information required to send now playing and scrobble requests.
+		 *
+		 * @return {Object} Song info
+		 */
+		getInfo() {
+			const fullSongInfo = {
+				track: this.getTrack(),
+				album: this.getAlbum(),
+				artist: this.getArtist(),
+				duration: this.getDuration(),
+				originUrl: this.getOriginUrl(),
+				albumArtist: this.getAlbumArtist(),
+				timestamp: this.metadata.startTimestamp,
+			};
+			const compactSongInfo = {};
+
+			for (const field in fullSongInfo) {
+				const fieldValue = fullSongInfo[field];
+				if (fieldValue) {
+					compactSongInfo[field] = fieldValue;
+				}
+			}
+
+			return compactSongInfo;
+		}
+
+		/**
 		 * Set default song info (artist, track, etc).
 		 */
 		resetInfo() {
@@ -296,6 +324,14 @@ define(() => {
 			song.flags = flags;
 
 			return song;
+		}
+
+		/**
+		 * Fields used to export song info to an object.
+		 * @type {Array}
+		 */
+		static get INFO_FIELDS() {
+			return ['artist', 'track', 'album', 'duration', 'originUrl', 'timestamp'];
 		}
 
 		/** Private methods. */

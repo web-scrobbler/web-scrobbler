@@ -7,9 +7,13 @@
 const expect = require('chai').expect;
 const Util = require('../../src/core/background/util/util');
 
-const { RESULT_OK, ERROR_OTHER } = require('../../src/core/background/object/service-call-result');
+const ApiCallResult = require('../../src/core/background/object/api-call-result');
+const { RESULT_OK, ERROR_OTHER } = ApiCallResult;
 
 const scrobblePercent = 50;
+
+const resultOk = new ApiCallResult(RESULT_OK, 'stub-id');
+const resultError = new ApiCallResult(ERROR_OTHER, 'stub-id');
 
 const HIDE_STRING_IN_TEXT_DATA = [{
 	description: 'should hide string in text',
@@ -99,15 +103,15 @@ const GET_SECONDS_TO_SCROBBLE_DATA = [{
 
 const IS_ANY_RESULT_DATA = [{
 	description: 'should return false for empty result list',
-	args: [[], RESULT_OK],
+	args: [[], resultOk],
 	expected: false,
 }, {
 	description: 'should return false for non-matching result',
-	args: [[ERROR_OTHER, ERROR_OTHER, ERROR_OTHER], RESULT_OK],
+	args: [[resultError, resultError, resultError], RESULT_OK],
 	expected: false,
 }, {
 	description: 'should return true for matching result',
-	args: [[ERROR_OTHER, RESULT_OK, ERROR_OTHER], RESULT_OK],
+	args: [[resultError, resultError, resultOk], RESULT_OK],
 	expected: true,
 }];
 
@@ -117,11 +121,11 @@ const ARE_ALL_RESULTS_DATA = [{
 	expected: false,
 }, {
 	description: 'should return false for non-matching result',
-	args: [[ERROR_OTHER, ERROR_OTHER, ERROR_OTHER], RESULT_OK],
+	args: [[resultError, resultError, resultError], RESULT_OK],
 	expected: false,
 }, {
 	description: 'should return true for matching result',
-	args: [[ERROR_OTHER, ERROR_OTHER, ERROR_OTHER], ERROR_OTHER],
+	args: [[resultError, resultError, resultError], ERROR_OTHER],
 	expected: true,
 }];
 

@@ -129,27 +129,27 @@ define(() => {
 
 
 	/**
-	 * Check if an array of scrobbler results contains at least one result
+	 * Check if an array of ApiCallResult contains at least one result
 	 * with a given result type.
 	 *
-	 * @param  {Array} results Array of scrobbler results
-	 * @param  {String} result Scrobbler result to check
+	 * @param  {Array} results Array of ApiCallResult objects
+	 * @param  {String} resultType ApiCallResult result type to check
 	 * @return {Boolean} True if one or more results matching the given result type is found
 	 */
-	function isAnyResult(results, result) {
-		return results.some((r) => r === result);
+	function isAnyResult(results, resultType) {
+		return results.some((r) => r.is(resultType));
 	}
 
 	/**
-	 * Check if an array of scrobbler results contains all results with a
+	 * Check if an array of ApiCallResult contains all results with a
 	 * given result type.
 	 *
-	 * @param  {Array} results Array of scrobbler results
-	 * @param  {String} result Scrobbler result to check
+	 * @param  {Array} results Array of ApiCallResult objects
+	 * @param  {String} resultType ApiCallResult result type to check
 	 * @return {Boolean} True if all results matching the given result type
 	 */
-	function areAllResults(results, result) {
-		return results.length > 0 && results.every((r) => r === result);
+	function areAllResults(results, resultType) {
+		return results.length > 0 && results.every((r) => r.is(resultType));
 	}
 
 	return {

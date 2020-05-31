@@ -25,7 +25,7 @@ define((require) => {
 			return;
 		}
 
-		const songInfoArr = await ScrobbleService.getSongInfo(song);
+		const songInfoArr = await ScrobbleService.getSongInfo(song.getInfo());
 		const songInfo = getInfo(songInfoArr);
 		const isSongValid = songInfo !== null;
 		if (isSongValid) {
@@ -41,6 +41,10 @@ define((require) => {
 
 			for (const field of METADATA_TO_COPY) {
 				song.metadata[field] = songInfo[field];
+			}
+
+			for (const info of songInfoArr) {
+				song.setLoveStatus(info.userloved);
 			}
 		}
 

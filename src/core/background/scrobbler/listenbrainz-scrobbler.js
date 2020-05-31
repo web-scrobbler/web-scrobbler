@@ -6,7 +6,7 @@
 define((require) => {
 	const Util = require('util/util');
 	const BaseScrobbler = require('scrobbler/base-scrobbler');
-	const ServiceCallResult = require('object/service-call-result');
+	const ApiCallResult = require('object/api-call-result');
 
 	const listenBrainzTokenPage = 'https://listenbrainz.org/profile/';
 	const apiUrl = 'https://api.listenbrainz.org/1/submit-listens';
@@ -93,7 +93,7 @@ define((require) => {
 					this.debugLog('Failed to get session', 'warn');
 
 					await this.signOut();
-					throw ServiceCallResult.ERROR_AUTH;
+					throw err;
 				}
 
 				data.sessionID = session.sessionID;
@@ -103,7 +103,7 @@ define((require) => {
 
 				return session;
 			} else if (!data.sessionID) {
-				throw ServiceCallResult.ERROR_AUTH;
+				throw this.makeApiCallResult(ApiCallResult.ERROR_AUTH);
 			}
 
 			return {
@@ -123,9 +123,9 @@ define((require) => {
 		}
 
 		/** @override */
-		async sendNowPlaying(song) {
+		async sendNowPlaying(songInfo) {
 			const { sessionID } = await this.getSession();
-			const trackMeta = this.makeTrackMetadata(song);
+			const trackMeta = this.makeTrackMetadata(songInfo);
 
 			const params = {
 				listen_type: 'playing_now',
@@ -139,15 +139,15 @@ define((require) => {
 		}
 
 		/** @override */
-		async scrobble(song) {
+		async scrobble(songInfo) {
 			const { sessionID } = await this.getSession();
 
 			const params = {
 				listen_type: 'single',
 				payload: [
 					{
-						listened_at: song.metadata.startTimestamp,
-						track_metadata: this.makeTrackMetadata(song),
+						listened_at: songInfo.timestamp,
+						track_metadata: this.makeTrackMetadata(songInfo),
 					},
 				],
 			};
@@ -176,16 +176,16 @@ define((require) => {
 				result = await response.json();
 			} catch (e) {
 				this.debugLog('Error while sending request', 'error');
-				throw ServiceCallResult.ERROR_OTHER;
+				throw this.makeApiCallResult(ApiCallResult.ERROR_OTHER);
 			}
 
 			switch (response.status) {
 				case 400:
 					this.debugLog('Invalid JSON sent', 'error');
-					throw ServiceCallResult.ERROR_AUTH;
+					throw this.makeApiCallResult(ApiCallResult.ERROR_AUTH);
 				case 401:
 					this.debugLog('Invalid Authorization sent', 'error');
-					throw ServiceCallResult.ERROR_AUTH;
+					throw this.makeApiCallResult(ApiCallResult.ERROR_AUTH);
 			}
 
 			this.debugLog(JSON.stringify(result, null, 2));
@@ -218,7 +218,7 @@ define((require) => {
 				return session;
 			}
 
-			throw ServiceCallResult.ERROR_AUTH;
+			throw this.makeApiCallResult(ApiCallResult.ERROR_AUTH);
 		}
 
 		async fetchSession(url) {
@@ -259,29 +259,31 @@ define((require) => {
 
 		processResult(result) {
 			if (result.status !== 'ok') {
-				return ServiceCallResult.ERROR_OTHER;
+				throw this.makeApiCallResult(ApiCallResult.ERROR_OTHER);
 			}
 
-			return ServiceCallResult.RESULT_OK;
+			return this.makeApiCallResult(ApiCallResult.RESULT_OK);
 		}
 
-		makeTrackMetadata(song) {
+		makeTrackMetadata(songInfo) {
+			const { artist, track, album, albumArtist, originUrl } = songInfo;
+
 			const trackMeta = {
-				artist_name: song.getArtist(),
-				track_name: song.getTrack(),
+				artist_name: artist,
+				track_name: track,
 				additional_info: {},
 			};
 
-			if (song.getAlbum()) {
-				trackMeta.release_name = song.getAlbum();
+			if (album) {
+				trackMeta.release_name = album;
 			}
 
-			if (song.getOriginUrl()) {
-				trackMeta.additional_info.origin_url = song.getOriginUrl();
+			if (originUrl) {
+				trackMeta.additional_info.origin_url = originUrl;
 			}
 
-			if (song.getAlbumArtist()) {
-				trackMeta.additional_info.release_artist_name = song.getAlbumArtist();
+			if (albumArtist) {
+				trackMeta.additional_info.release_artist_name = albumArtist;
 			}
 
 			return trackMeta;

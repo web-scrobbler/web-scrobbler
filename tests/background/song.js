@@ -367,6 +367,49 @@ function testIsEmpty() {
 	});
 }
 
+function testGetInfo() {
+	const songInfoTypes = {
+		track: 'string',
+		album: 'string',
+		artist: 'string',
+		duration: 'number',
+		originUrl: 'string',
+		timestamp: 'number',
+		albumArtist: 'string',
+	};
+
+	it('should return proper info', () => {
+		const song = createSong(PARSED_DATA);
+		const songInfo = song.getInfo();
+
+		for (const field of Song.INFO_FIELDS) {
+			const fieldValue = songInfo[field];
+			const fieldType = songInfoTypes[field];
+
+			expect(fieldValue).to.be.a(fieldType);
+		}
+	});
+
+	it('should not include missing info', () => {
+		const song = createSong({
+			artist: 'Artist', track: 'Track',
+		});
+		const songInfo = song.getInfo();
+
+		const definedFields = ['artist', 'track', 'timestamp'];
+		for (const field of Song.INFO_FIELDS) {
+			if (definedFields.includes(field)) {
+				const fieldValue = songInfo[field];
+				const fieldType = songInfoTypes[field];
+
+				expect(fieldValue).to.be.a(fieldType);
+			} else {
+				expect(songInfo[field]).to.be.undefined;
+			}
+		}
+	});
+}
+
 function testGetUniqueId() {
 	it('should return unique ID if song has parsed unique ID', () => {
 		const uniqueId = 'unique';
@@ -412,6 +455,7 @@ function runTests() {
 	describe('equals', testEquals);
 	describe('isValid', testIsValid);
 	describe('isEmpty', testIsEmpty);
+	describe('getInfo', testGetInfo);
 	describe('toString', testToString);
 	describe('resetData', testResetData);
 	describe('resetInfo', testResetInfo);
