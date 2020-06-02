@@ -1490,6 +1490,13 @@ const connectors = [{
 	],
 	js: 'connectors/soundclick.js',
 	id: 'soundclick',
+}, {
+	label: 'Napster',
+	matches: [
+		'*://app.napster.com/*',
+	],
+	js: 'connectors/napster.js',
+	id: 'napster',
 }];
 
 define(() => connectors);
