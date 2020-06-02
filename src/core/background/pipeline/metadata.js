@@ -26,11 +26,6 @@ define((require) => {
 		}
 
 		const songInfoArr = await ScrobbleService.getSongInfo(song);
-
-		for (const field of METADATA_TO_COPY) {
-			delete song.metadata[field];
-		}
-
 		const songInfo = getInfo(songInfoArr);
 		const isSongValid = songInfo !== null;
 		if (isSongValid) {

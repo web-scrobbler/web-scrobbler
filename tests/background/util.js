@@ -7,6 +7,8 @@
 const expect = require('chai').expect;
 const Util = require('../../src/core/background/util/util');
 
+const { RESULT_OK, ERROR_OTHER } = require('../../src/core/background/object/service-call-result');
+
 const scrobblePercent = 50;
 
 const HIDE_STRING_IN_TEXT_DATA = [{
@@ -95,7 +97,41 @@ const GET_SECONDS_TO_SCROBBLE_DATA = [{
 	expected: Util.MAX_SCROBBLE_TIME,
 }];
 
+const IS_ANY_RESULT_DATA = [{
+	description: 'should return false for empty result list',
+	args: [[], RESULT_OK],
+	expected: false,
+}, {
+	description: 'should return false for non-matching result',
+	args: [[ERROR_OTHER, ERROR_OTHER, ERROR_OTHER], RESULT_OK],
+	expected: false,
+}, {
+	description: 'should return true for matching result',
+	args: [[ERROR_OTHER, RESULT_OK, ERROR_OTHER], RESULT_OK],
+	expected: true,
+}];
+
+const ARE_ALL_RESULTS_DATA = [{
+	description: 'should return false for empty result list',
+	args: [[], RESULT_OK],
+	expected: false,
+}, {
+	description: 'should return false for non-matching result',
+	args: [[ERROR_OTHER, ERROR_OTHER, ERROR_OTHER], RESULT_OK],
+	expected: false,
+}, {
+	description: 'should return true for matching result',
+	args: [[ERROR_OTHER, ERROR_OTHER, ERROR_OTHER], ERROR_OTHER],
+	expected: true,
+}];
+
 const testData = [{
+	func: Util.isAnyResult,
+	data: IS_ANY_RESULT_DATA,
+}, {
+	func: Util.areAllResults,
+	data: ARE_ALL_RESULTS_DATA,
+}, {
 	func: Util.hideObjectValue,
 	data: HIDE_OBJECT_VALUE_DATA,
 }, {

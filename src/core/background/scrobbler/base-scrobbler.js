@@ -77,7 +77,7 @@ define((require) => {
 		 * Implementation must return an auth URL.
 		 */
 		async getAuthUrl() {
-			throw new Error('Not implemented');
+			throw new Error('This function must be overridden!');
 		}
 
 		/**
@@ -85,7 +85,7 @@ define((require) => {
 		 * Implementation must return a session data.
 		 */
 		async getSession() {
-			throw new Error('Not implemented');
+			throw new Error('This function must be overridden!');
 		}
 
 		/**
@@ -106,7 +106,7 @@ define((require) => {
 		 * Implementation must return a check result as a boolean value.
 		 */
 		async isReadyForGrantAccess() {
-			throw new Error('Not implemented');
+			throw new Error('This function must be overridden!');
 		}
 
 		/** API requests */
@@ -119,7 +119,7 @@ define((require) => {
 		 */
 		// eslint-disable-next-line no-unused-vars
 		async sendNowPlaying(song) {
-			throw new Error('Not implemented');
+			throw new Error('This function must be overridden!');
 		}
 
 		/**
@@ -130,7 +130,7 @@ define((require) => {
 		 */
 		// eslint-disable-next-line no-unused-vars
 		async scrobble(song) {
-			throw new Error('Not implemented');
+			throw new Error('This function must be overridden!');
 		}
 
 		/**
@@ -142,7 +142,7 @@ define((require) => {
 		 */
 		// eslint-disable-next-line no-unused-vars
 		async toggleLove(song, isLoved) {
-			throw new Error('Not implemented');
+			throw new Error('This function must be overridden!');
 		}
 
 		/**
@@ -153,7 +153,7 @@ define((require) => {
 		 */
 		// eslint-disable-next-line no-unused-vars
 		async getSongInfo(song) {
-			throw new Error('Not implemented');
+			throw new Error('This function must be overridden!');
 		}
 
 		/* Getters. */
@@ -162,28 +162,28 @@ define((require) => {
 		 * Get base profile URL.
 		 */
 		getBaseProfileUrl() {
-			throw new Error('Not implemented');
+			throw new Error('This function must be overridden!');
 		}
 
 		/**
 		 * Get status page URL.
 		 */
 		getStatusUrl() {
-			throw new Error('Not implemented');
+			throw new Error('This function must be overridden!');
 		}
 
 		/**
 		 * Get the scrobbler ID. The ID must be unique.
 		 */
 		getId() {
-			throw new Error('Not implemented');
+			throw new Error('This function must be overridden!');
 		}
 
 		/**
 		 * Get the scrobbler label.
 		 */
 		getLabel() {
-			throw new Error('Not implemented');
+			throw new Error('This function must be overridden!');
 		}
 
 		/**
@@ -199,7 +199,7 @@ define((require) => {
 		 * Get a storage namespace where the scrobbler data will be stored.
 		 */
 		getStorageName() {
-			throw new Error('Not implemented');
+			throw new Error('This function must be overridden!');
 		}
 
 		/** Scrobbler features. */

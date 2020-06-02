@@ -85,14 +85,14 @@ define((require) => {
 		}
 
 		/**
-		 * Functions must be implemented (overriden).
+		 * Functions must be implemented (overridden).
 		 */
 
 		/**
 		 * Remove all song info from storage.
 		 */
 		async clear() {
-			throw new Error('This function should be overridden!');
+			throw new Error('This function must be overridden!');
 		}
 
 		/**
@@ -101,7 +101,7 @@ define((require) => {
 		 * @return {Object} Storage data
 		 */
 		async getSongInfoStorage() {
-			throw new Error('This function should be overridden!');
+			throw new Error('This function must be overridden!');
 		}
 
 		/**
@@ -110,7 +110,7 @@ define((require) => {
 		 * @return {Object} Storage data
 		 */
 		async saveSongInfoToStorage(/* data */) {
-			throw new Error('This function should be overridden!');
+			throw new Error('This function must be overridden!');
 		}
 
 		/**

@@ -127,8 +127,35 @@ define(() => {
 		});
 	}
 
+
+	/**
+	 * Check if an array of scrobbler results contains at least one result
+	 * with a given result type.
+	 *
+	 * @param  {Array} results Array of scrobbler results
+	 * @param  {String} result Scrobbler result to check
+	 * @return {Boolean} True if one or more results matching the given result type is found
+	 */
+	function isAnyResult(results, result) {
+		return results.some((r) => r === result);
+	}
+
+	/**
+	 * Check if an array of scrobbler results contains all results with a
+	 * given result type.
+	 *
+	 * @param  {Array} results Array of scrobbler results
+	 * @param  {String} result Scrobbler result to check
+	 * @return {Boolean} True if all results matching the given result type
+	 */
+	function areAllResults(results, result) {
+		return results.length > 0 && results.every((r) => r === result);
+	}
+
 	return {
 		debugLog,
+		isAnyResult,
+		areAllResults,
 		getSecondsToScrobble,
 		hideObjectValue,
 		hideStringInText,
