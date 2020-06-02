@@ -8,6 +8,10 @@ filter track info in this extension, follow [this link][MfRepository].
 If you find an issue on the extension website, please, submit it
 to a [relevant repository][WebsiteRepository].
 
+## Translating the extension
+
+Follow this [wiki page][TranslateHowto] for details.
+
 ## Submitting issues
 
 -   Ensure the bug was not already reported by searching on GitHub under issues.
@@ -52,6 +56,7 @@ Connectors development is explained in [this][ConnectorsDev] and
 [Grunt]: http://gruntjs.com/getting-started
 [ReportBugs]: http://www.chiark.greenend.org.uk/~sgtatham/bugs.html
 [SetupDevEnv]: https://github.com/web-scrobbler/web-scrobbler/wiki/Setup-development-environment
+[TranslateHowto]: https://github.com/web-scrobbler/web-scrobbler/wiki/Translate-the-extension
 [Wiki]: https://github.com/web-scrobbler/web-scrobbler/wiki
 
 [MfRepository]: https://github.com/web-scrobbler/metadata-filter
