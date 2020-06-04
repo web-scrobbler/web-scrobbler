@@ -115,6 +115,30 @@
         "message": "Zaloguj się",
         "description": "Button label"
     },
+    "accountsScrobblerProps": {
+        "message": "Właściwości",
+        "description": "Button label"
+    },
+    "accountsScrobblerPropsTitle": {
+        "message": "Właściwości $1",
+        "description": "Button label"
+    },
+    "accountsUserApiUrl": {
+        "message": "Adres URL API",
+        "description": "Input label"
+    },
+    "accountsUserApiUrlPlaceholder": {
+        "message": "Własny adres URL API.",
+        "description": "Input label"
+    },
+    "accountsUserToken": {
+        "message": "Token",
+        "description": "Input label"
+    },
+    "accountsUserTokenPlaceholder": {
+        "message": "Własny token",
+        "description": "Input label"
+    },
     "optionsOptions": {
         "message": "Opcje",
         "description": "'Options' section"
