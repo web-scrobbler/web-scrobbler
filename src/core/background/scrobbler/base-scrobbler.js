@@ -245,7 +245,12 @@ define((require) => {
 		/** Internal functions */
 
 		async initStorage() {
-			const sensitiveProps = ['token', 'sessionID', 'sessionName'];
+			const sensitiveProps = [
+				'token',
+				'sessionID',
+				'sessionName',
+				'properties',
+			];
 
 			this.storage = BrowserStorage.getScrobblerStorage(
 				this.getStorageName()
