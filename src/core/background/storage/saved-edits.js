@@ -8,8 +8,12 @@ define((require) => {
 		constructor() {
 			super();
 
-			this.songInfoStorage = BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);
+			this.songInfoStorage = BrowserStorage.getStorage(
+				BrowserStorage.LOCAL_CACHE
+			);
+			/* @ifdef DEBUG */
 			this.songInfoStorage.debugLog();
+			/* @endif */
 		}
 
 		/** @override */
