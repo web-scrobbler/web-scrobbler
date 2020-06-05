@@ -59,13 +59,18 @@ define((require) => {
 		async debugLog(hiddenKeys = []) {
 			const data = await this.get();
 
-			for (const key of hiddenKeys) {
-				if (key in data) {
-					data[key] = Util.hideObjectValue(data[key]);
-				}
+			let hideSensitiveDataFn = null;
+			if (hiddenKeys.length > 0) {
+				hideSensitiveDataFn = (key, value) => {
+					if (hiddenKeys.includes(key)) {
+						return Util.hideObjectValue(value);
+					}
+
+					return value;
+				};
 			}
 
-			const text = JSON.stringify(data, null, 2);
+			const text = JSON.stringify(data, hideSensitiveDataFn, 2);
 			console.info(`storage.${this.namespace} = ${text}`);
 		}
 
