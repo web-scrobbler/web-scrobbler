@@ -1,11 +1,17 @@
 'use strict';
 
-Connector.playerSelector = '#app-container';
+Connector.playerSelector = '#main-content';
 
-Connector.artistSelector = '.playingNow h3';
+Connector.getArtist = () => {
+	return $('').text() || $('.view-liveMusicNow .artist').text();
+};
 
-Connector.trackSelector = '.playingNow div[class*="songArtist"]';
+Connector.getTrack = () => {
+	return $('.playingNow div[class*="songArtist"]').text() || $('.view-liveMusicNow .title').text();
+};
 
-Connector.albumSelector = '.playingNow div[class*="songRelease"]';
+Connector.getAlbum = () => {
+	return $('.playingNow div[class*="songRelease"]').text() || $('.view-liveMusicNow .release').text();
+};
 
-Connector.isPlaying = () => $('#jwplayerDiv').hasClass('jw-state-playing');
+Connector.isPlaying = () => $('#jwplayerDiv, #radio-player4-player').hasClass('jw-state-playing');
