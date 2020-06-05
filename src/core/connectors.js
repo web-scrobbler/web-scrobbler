@@ -1497,6 +1497,13 @@ const connectors = [{
 	],
 	js: 'connectors/napster.js',
 	id: 'napster',
+}, {
+	label: 'triplej',
+	matches: [
+		'*://www.abc.net.au/triplej/listen-live/*',
+	],
+	js: 'connectors/triplej.js',
+	id: 'triplej',
 }];
 
 define(() => connectors);
