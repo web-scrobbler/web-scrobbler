@@ -3,11 +3,11 @@
 Connector.playerSelector = '#main-content';
 
 Connector.getArtist = () => {
-	return $('').text() || $('.view-liveMusicNow .artist').text();
+	return $('.playingNow div[class*="songArtist"]').text() || $('.view-liveMusicNow .artist').text();
 };
 
 Connector.getTrack = () => {
-	return $('.playingNow div[class*="songArtist"]').text() || $('.view-liveMusicNow .title').text();
+	return $('.playingNow h3').text() || $('.view-liveMusicNow .title').text();
 };
 
 Connector.getAlbum = () => {
