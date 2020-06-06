@@ -1498,12 +1498,12 @@ const connectors = [{
 	js: 'connectors/napster.js',
 	id: 'napster',
 }, {
-	label: 'triplej',
+	label: 'abc.net.au',
 	matches: [
-		'*://www.abc.net.au/triplej/listen-live/*',
+		'*://www.abc.net.au/*/listen-live/*',
 	],
-	js: 'connectors/triplej.js',
-	id: 'triplej',
+	js: 'connectors/abcnetau.js',
+	id: 'abcnetau',
 }];
 
 define(() => connectors);
