@@ -8,12 +8,4 @@ Connector.trackSelector = '.playingNow h3, .view-liveMusicNow .title';
 
 Connector.albumSelector = '.playingNow div[class*="songRelease"], .view-liveMusicNow .release';
 
-Connector.isPlaying = () => {
-	const $playerElement = document.querySelector('#jwplayerDiv, #radio-player4-player');
-
-	if (!$playerElement) {
-		return false;
-	}
-
-	return $playerElement.classList.contains('jw-state-playing');
-};
+Connector.isPlaying = () => Util.hasElementClass('#jwplayerDiv, #radio-player4-player', 'jw-state-playing');
