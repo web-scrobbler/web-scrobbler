@@ -1502,7 +1502,7 @@ const connectors = [{
 	matches: [
 		'*://app.jqbx.fm/*',
 	],
-	js: 'connectors/jqbx-app.js',
+	js: 'connectors/jqbx.js',
 	id: 'jqbx',
 }];
 
