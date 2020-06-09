@@ -1498,6 +1498,13 @@ const connectors = [{
 	js: 'connectors/napster.js',
 	id: 'napster',
 }, {
+	label: 'abc.net.au',
+	matches: [
+		'*://www.abc.net.au/*/listen-live/*',
+	],
+	js: 'connectors/abcnetau.js',
+	id: 'abcnetau',
+}, {
 	label: 'JQBX',
 	matches: [
 		'*://app.jqbx.fm/*',
