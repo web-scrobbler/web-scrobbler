@@ -1504,6 +1504,13 @@ const connectors = [{
 	],
 	js: 'connectors/abcnetau.js',
 	id: 'abcnetau',
+}, {
+	label: 'JQBX',
+	matches: [
+		'*://app.jqbx.fm/*',
+	],
+	js: 'connectors/jqbx.js',
+	id: 'jqbx',
 }];
 
 define(() => connectors);
