@@ -1497,6 +1497,13 @@ const connectors = [{
 	],
 	js: 'connectors/napster.js',
 	id: 'napster',
+}, {
+	label: 'JQBX',
+	matches: [
+		'*://app.jqbx.fm/*',
+	],
+	js: 'connectors/jqbx.js',
+	id: 'jqbx',
 }];
 
 define(() => connectors);
