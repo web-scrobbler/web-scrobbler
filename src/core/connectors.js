@@ -1502,7 +1502,7 @@ const connectors = [{
 	matches: [
 		'*://www.abc.net.au/*/listen-live/*',
 	],
-	js: 'connectors/abcnetau.js',
+	js: 'connectors/abc.net.au.js',
 	id: 'abcnetau',
 }, {
 	label: 'JQBX',
