@@ -12,13 +12,7 @@ require([
 	init();
 
 	function init() {
-		$('#opt-in').click(() => {
-			updateGaState(false).then(closePage);
-		});
-
-		$('#opt-out').click(() => {
-			updateGaState(true).then(closePage);
-		});
+		$('#opt-out').click(closePage);
 
 		preparePrivacyPolicy();
 	}
@@ -26,10 +20,6 @@ require([
 	function closePage() {
 		$('#controls').hide();
 		$('#finished').show();
-	}
-
-	async function updateGaState(value) {
-		Options.setOption(Options.DISABLE_GA, value);
 	}
 
 	async function preparePrivacyPolicy() {

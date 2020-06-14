@@ -31,14 +31,6 @@
         "message": "强制记录未知曲目",
         "description": "Option title"
     },
-    "optionDisableGa": {
-        "message": "禁用 Google Analytics",
-        "description": "Option label"
-    },
-    "optionDisableGaTitle": {
-        "message": "禁止向 Google Analytics 发送数据",
-        "description": "Option title"
-    },
     "optionScrobblePodcasts": {
         "message": "记录播客",
         "description": "Option title"

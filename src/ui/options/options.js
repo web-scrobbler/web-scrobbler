@@ -15,7 +15,6 @@ define((require) => {
 	 * @type {Object}
 	 */
 	const OPTIONS_UI_MAP = {
-		'#disable-ga': Options.DISABLE_GA,
 		'#force-recognize': Options.FORCE_RECOGNIZE,
 		'#use-notifications': Options.USE_NOTIFICATIONS,
 		'#use-unrecognized-song-notifications': Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
