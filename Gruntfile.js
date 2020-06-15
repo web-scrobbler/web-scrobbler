@@ -2,34 +2,30 @@
 
 require('dotenv').config();
 
-const CHROME_EXTENSION_ID = 'hhinaapppaileiechjoiifaancjggfjm';
-const FIREFOX_EXTENSION_ID = '{799c0914-748b-41df-a25c-22d008f9e83f}';
+const getWebpackConfig = require('./webpack.config.js');
+const {
+	srcDir,
+	buildDir,
 
-const SRC_DIR = 'src';
-const BUILD_DIR = 'build';
+	browserChrome,
+	browserFirefox,
+
+	modeDevelopment,
+	modeProduction,
+
+	manifestFile,
+
+	assertBrowserIsSupported,
+	assertBuildModeIsValid,
+	getExtensionId,
+} = require('./shared.config.js');
 
 const DIST_FILE_CHROME = 'web-scrobbler-chrome.zip';
 const DIST_FILE_FIREFOX = 'web-scrobbler-firefox.zip';
-const MANIFEST_FILE = 'src/manifest.json';
 
-const FILES_TO_PREPROCESS = [
-	`${BUILD_DIR}/**/*.js`, `${BUILD_DIR}/**/*.css`, `${BUILD_DIR}/**/*.html`,
-];
+const manifestPath = `${srcDir}/${manifestFile}`;
 
-const FILES_TO_BUMP = [MANIFEST_FILE, 'package.json', 'package-lock.json'];
-
-// Files to build zipball
-const EXTENSION_SRC = [
-	'**/*',
-	// Skip SVG
-	'!icons/*.svg',
-];
-const EXTENSION_DOCS = [
-	'README.md', 'LICENSE.md',
-];
-const EXTENSION_EXTRA = [
-	'package.json', 'package-lock.json',
-];
+const FILES_TO_BUMP = [manifestPath, 'package.json', 'package-lock.json'];
 
 // Files to lint
 const JS_FILES = [
@@ -37,58 +33,33 @@ const JS_FILES = [
 	// Custom Grunt tasks
 	'.grunt',
 	// Connectors
-	`${SRC_DIR}/connectors/**/*.js`,
+	`${srcDir}/connectors/**/*.js`,
 	// Core files
-	`${SRC_DIR}/core/**/*.js`, `${SRC_DIR}/ui/**/*.js`,
+	`${srcDir}/core/**/*.js`,
+	`${srcDir}/ui/**/*.js`,
 	// Shell Scripts
 	'scripts/*.js',
 	// Tests
 	'tests/**/*.js',
 ];
-const JSON_FILES = ['*.json', `${SRC_DIR}/**/*.json`];
-const HTML_FILES = [`${SRC_DIR}/ui/**/*.html`];
-const CSS_FILES = [`${SRC_DIR}/ui/**/*.css`];
-const DOC_FILES = [
-	'*.md', '.github/**/*.md',
-];
+const JSON_FILES = [`${srcDir}/**/*.json`, '*.json'];
+const HTML_FILES = [`${srcDir}/ui/**/*.html`];
+const CSS_FILES = [`${srcDir}/ui/**/*.css`];
+const DOC_FILES = ['*.md', '.github/**/*.md'];
 
 const isCi = process.env.CI === 'true';
 
 module.exports = (grunt) => {
 	grunt.initConfig({
-		manifest: grunt.file.readJSON(MANIFEST_FILE),
+		manifest: grunt.file.readJSON(manifestPath),
 
 		/**
 		 * Configs of build tasks.
 		 */
 
 		clean: {
-			build: BUILD_DIR,
+			build: buildDir,
 			dist: [DIST_FILE_CHROME, DIST_FILE_FIREFOX],
-			chrome: [
-				`${BUILD_DIR}/icons/icon_firefox_*.png`,
-			],
-			firefox: [
-				`${BUILD_DIR}/icons/icon_chrome_*.png`,
-			],
-		},
-		copy: {
-			source_files: {
-				expand: true,
-				cwd: SRC_DIR,
-				src: EXTENSION_SRC,
-				dest: BUILD_DIR,
-			},
-			documentation: {
-				expand: true,
-				src: EXTENSION_DOCS,
-				dest: BUILD_DIR,
-			},
-			extra_files: {
-				expand: true,
-				src: EXTENSION_EXTRA,
-				dest: BUILD_DIR,
-			},
 		},
 		compress: {
 			chrome: {
@@ -97,7 +68,7 @@ module.exports = (grunt) => {
 					pretty: true,
 				},
 				expand: true,
-				cwd: BUILD_DIR,
+				cwd: buildDir,
 				src: '**/*',
 			},
 			firefox: {
@@ -106,55 +77,13 @@ module.exports = (grunt) => {
 					pretty: true,
 				},
 				expand: true,
-				cwd: BUILD_DIR,
+				cwd: buildDir,
 				src: '**/*',
 			},
 		},
-		imagemin: {
-			static: {
-				files: [{
-					expand: true,
-					src: [
-						`${BUILD_DIR}/icons/*.png`,
-					],
-				}],
-			},
-		},
-		preprocess: {
-			main: {
-				src: FILES_TO_PREPROCESS,
-				expand: true,
-				options: {
-					inline: true,
-					context: { /* generated */ },
-				},
-			},
-		},
-		replace_json: {
-			chrome: {
-				src: `${BUILD_DIR}/manifest.json`,
-				changes: {
-					options_ui: undefined,
-				},
-			},
-			firefox: {
-				src: `${BUILD_DIR}/manifest.json`,
-				changes: {
-					applications: {
-						gecko: {
-							id: FIREFOX_EXTENSION_ID,
-							strict_min_version: '53.0',
-						},
-					},
-					icons: {
-						16: '<%= manifest.icons.16 %>',
-						48: 'icons/icon_firefox_48.png',
-						128: 'icons/icon_firefox_128.png',
-					},
-
-					options_page: undefined,
-				},
-			},
+		webpack: {
+			chrome: () => getWebpackConfig(browserChrome),
+			firefox: () => getWebpackConfig(browserFirefox),
 		},
 
 		/**
@@ -164,7 +93,7 @@ module.exports = (grunt) => {
 		amo_upload: {
 			issuer: process.env.AMO_ISSUER,
 			secret: process.env.AMO_SECRET,
-			id: FIREFOX_EXTENSION_ID,
+			id: getExtensionId(browserFirefox),
 			version: '<%= manifest.version %>',
 			src: DIST_FILE_FIREFOX,
 		},
@@ -192,7 +121,7 @@ module.exports = (grunt) => {
 			},
 			extensions: {
 				'web-scrobbler': {
-					appID: CHROME_EXTENSION_ID,
+					appID: getExtensionId(browserChrome),
 					zip: DIST_FILE_CHROME,
 				},
 			},
@@ -241,10 +170,7 @@ module.exports = (grunt) => {
 				require: ['tests/requirejs-config'],
 				reporter: 'progress',
 			},
-			all: [
-				'tests/background/*.js',
-				'tests/content/*.js',
-			],
+			all: ['tests/background/*.js', 'tests/content/*.js'],
 		},
 	});
 
@@ -270,46 +196,30 @@ module.exports = (grunt) => {
 	 * Copy source filed to build directory, preprocess them and
 	 * set the extension icon according to specified browser.
 	 * @param {String} browser Browser name
-	 * @param {String} [mode=debug] Development mode (debug or release)
+	 * @param {String} [mode=modeDevelopment] Build mode
 	 */
-	grunt.registerTask('build', (browser, mode = 'debug') => {
-		assertBrowserIsSupported(browser);
-		assertDevelopmentModeIsValid(mode);
+	grunt.registerTask('build', (browser, mode = modeDevelopment) => {
+		gruntAssertBrowserIsSupported(browser);
+		gruntAssertBuildModeIsValid(mode);
 
-		const flags = {
-			chrome: 'CHROME', firefox: 'FIREFOX',
-			debug: 'DEBUG', release: 'RELEASE',
-		};
+		setBuildMode(mode);
 
-		const config = grunt.config.get('preprocess');
-		config.main.options.context = {
-			[flags[browser]]: true, [flags[mode]]: true,
-		};
-		grunt.config.set('preprocess', config);
-
-		grunt.task.run([
-			'copy',
-			'preprocess',
-			`replace_json:${browser}`,
-		]);
+		grunt.task.run(`webpack:${browser}`);
 	});
 
 	/**
 	 * Build the extension and pack source files in a zipball.
 	 * @param {String} browser Browser name
-	 * @param {String} [mode=debug] Development mode (debug or release)
+	 * @param {String} [mode=modeDevelopment] Build mode
 	 */
-	grunt.registerTask('dist', (browser, mode = 'debug') => {
-		assertBrowserIsSupported(browser);
-		assertDevelopmentModeIsValid(mode);
+	grunt.registerTask('dist', (browser, mode = modeDevelopment) => {
+		gruntAssertBrowserIsSupported(browser);
+		gruntAssertBuildModeIsValid(mode);
 
 		grunt.task.run([
 			'clean:build',
 			`build:${browser}:${mode}`,
-			`clean:${browser}`,
-			'imagemin',
 			`compress:${browser}`,
-			'clean:build',
 		]);
 	});
 
@@ -318,10 +228,13 @@ module.exports = (grunt) => {
 	 * @param  {String} browser Browser name
 	 */
 	grunt.registerTask('publish', (browser) => {
-		assertBrowserIsSupported(browser);
+		gruntAssertBrowserIsSupported(browser);
 
-		grunt.task.run(
-			[`dist:${browser}:release`, `upload:${browser}`, 'clean:dist']);
+		grunt.task.run([
+			`dist:${browser}:${modeProduction}`,
+			`upload:${browser}`,
+			'clean:dist',
+		]);
 	});
 
 	/**
@@ -349,7 +262,9 @@ module.exports = (grunt) => {
 			}
 
 			const publishTasks = [
-				'publish:chrome', 'publish:firefox', 'github_release',
+				'publish:chrome',
+				'publish:firefox',
+				'github_release',
 			];
 			releaseTasks.push(...publishTasks);
 		}
@@ -364,10 +279,10 @@ module.exports = (grunt) => {
 	 */
 	grunt.registerTask('upload', (browser) => {
 		switch (browser) {
-			case 'chrome':
+			case browserChrome:
 				grunt.task.run('webstore_upload');
 				break;
-			case 'firefox':
+			case browserFirefox:
 				grunt.task.run('amo_upload');
 				break;
 		}
@@ -382,24 +297,24 @@ module.exports = (grunt) => {
 	 * Lint source code using linters specified below.
 	 */
 	grunt.registerTask('lint', [
-		'eslint', 'jsonlint', 'lintspaces', 'htmlvalidate',
-		'stylelint', 'remark', 'unused_files',
+		'eslint',
+		'jsonlint',
+		'lintspaces',
+		'htmlvalidate',
+		'stylelint',
+		'remark',
+		'unused_files',
 	]);
 
 	/**
 	 * Throw an error if the extension doesn't support given browser.
 	 * @param  {String}  browser Browser name
 	 */
-	function assertBrowserIsSupported(browser) {
-		const supportedBrowsers = ['chrome', 'firefox'];
-		const browsersLabel = `Currently supported browsers: ${supportedBrowsers.join(', ')}`;
-
-		if (!browser) {
-			grunt.fail.fatal(`You have not specified browser.\n${browsersLabel}.`);
-		}
-
-		if (!supportedBrowsers.includes(browser)) {
-			grunt.fail.fatal(`Unknown browser: ${browser}.\n${browsersLabel}.`);
+	function gruntAssertBrowserIsSupported(browser) {
+		try {
+			assertBrowserIsSupported(browser);
+		} catch (err) {
+			grunt.fail.fatal(err.message);
 		}
 	}
 
@@ -407,16 +322,15 @@ module.exports = (grunt) => {
 	 * Throw an error if the extension doesn't support given browser.
 	 * @param  {String}  mode Mode
 	 */
-	function assertDevelopmentModeIsValid(mode) {
-		const supportedModes = ['debug', 'release'];
-		const modesLabel = `Currently supported modes: ${supportedModes.join(', ')}`;
-
-		if (!mode) {
-			grunt.fail.fatal(`You have not specified mode.\n${modesLabel}.`);
+	function gruntAssertBuildModeIsValid(mode) {
+		try {
+			assertBuildModeIsValid(mode);
+		} catch (err) {
+			grunt.fail.fatal(err.message);
 		}
+	}
 
-		if (!supportedModes.includes(mode)) {
-			grunt.fail.fatal(`Unknown mode: ${mode}.\n${modesLabel}.`);
-		}
+	function setBuildMode(mode) {
+		process.env.NODE_ENV = mode;
 	}
 };

@@ -1,8 +1,15 @@
 'use strict';
 
+import 'bootstrap/dist/css/bootstrap.css';
+
+import 'ui/base.css';
+import 'ui/startup/index.css';
+
+import 'ui/i18n';
+
 require([
 	'webextension-polyfill',
-	'vendor/showdown.min',
+	'showdown',
 	'storage/options',
 	'util/util-browser',
 ], (browser, showdown, Options, Util) => {

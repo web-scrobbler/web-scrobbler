@@ -1,12 +1,20 @@
 'use strict';
 
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap/dist/js/bootstrap.bundle.js';
+
+import 'ui/base.css';
+import 'ui/options/index.css';
+
+import 'ui/i18n';
+
 require([
 	'webextension-polyfill',
-	'options/accounts',
-	'options/connectors',
-	'options/dialogs',
-	'options/export',
-	'options/options',
+	'ui/options/accounts',
+	'ui/options/connectors',
+	'ui/options/dialogs',
+	'ui/options/export',
+	'ui/options/options',
 	'util/util-browser',
 	'bootstrap',
 ],

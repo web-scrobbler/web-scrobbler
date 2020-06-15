@@ -1,5 +1,7 @@
 'use strict';
 
+import './base-popup.js';
+
 const helpBtnId = 'help-btn';
 const descContainerId = 'description';
 
