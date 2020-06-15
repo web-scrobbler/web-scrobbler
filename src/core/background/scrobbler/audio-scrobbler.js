@@ -1,7 +1,7 @@
 'use strict';
 
 define((require) => {
-	const MD5 = require('md5');
+	const MD5 = require('blueimp-md5');
 	const BaseScrobbler = require('scrobbler/base-scrobbler');
 	const ServiceCallResult = require('object/service-call-result');
 

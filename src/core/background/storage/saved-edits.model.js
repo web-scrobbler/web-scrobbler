@@ -5,7 +5,7 @@
  */
 
 define((require) => {
-	const MD5 = require('md5');
+	const MD5 = require('blueimp-md5');
 	const Song = require('object/song');
 	const CustomStorage = require('storage/custom-storage');
 

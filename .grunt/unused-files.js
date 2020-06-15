@@ -1,5 +1,3 @@
-'use strict';
-
 require('node-define');
 
 const fs = require('fs');
