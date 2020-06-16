@@ -1,6 +1,6 @@
 globals:
   $: readonly
-  browser: readonly
+  chrome: readonly
 
   Util: readonly
   Reactor: readonly

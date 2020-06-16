@@ -491,8 +491,11 @@ const Util = {
 	 */
 	/* istanbul ignore next */
 	async getOption(connector, key) {
-		const data = await browser.storage.sync.get('Connectors');
-		return data.Connectors[connector][key];
+		return new Promise((resolve) => {
+			chrome.storage.sync.get('Connectors', (data) => {
+				resolve(data.Connectors[connector][key]);
+			});
+		});
 	},
 
 	/**

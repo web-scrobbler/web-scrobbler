@@ -22,9 +22,9 @@ class Reactor { // eslint-disable-line no-unused-vars
 	 * Setup event listener.
 	 */
 	setupEventListener() {
-		browser.runtime.onMessage.addListener(this.onRuntimeMessage.bind(this));
+		chrome.runtime.onMessage.addListener(this.onRuntimeMessage.bind(this));
 
-		this.port = browser.runtime.connect({ name: 'content-script' });
+		this.port = chrome.runtime.connect({ name: 'content-script' });
 		this.port.onDisconnect.addListener(() => {
 			Util.debugLog('Port is closed', 'warn');
 			this.connector.reactorCallback = null;

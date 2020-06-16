@@ -479,7 +479,7 @@ function BaseConnector() {
 			return;
 		}
 
-		const scriptUrl = browser.runtime.getURL(scriptFile);
+		const scriptUrl = chrome.runtime.getURL(scriptFile);
 		Util.injectScriptIntoDocument(scriptUrl);
 
 		console.log(`Web Scrobbler: Injected ${scriptFile}`);
