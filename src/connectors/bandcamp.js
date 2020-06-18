@@ -11,62 +11,85 @@ const VARIOUS_ARTISTS_REGEXPS = [
  */
 const SEPARATORS = [' - ', ' | '];
 
-const filter = new MetadataFilter({
+/**
+ * This filter is applied after all page properties are inititialized.
+ */
+let bandcampFilter = new MetadataFilter({
 	all: MetadataFilter.removeZeroWidth,
 });
 
-$('audio').bind('playing pause timeupdate', Connector.onStateChanged);
+const audioElement = document.getElementsByTagName('audio')[0];
 
-if (isAlbumPage()) {
-	Util.debugLog('Init props for album player');
+setupConnector();
 
-	initPropertiesForAlbumPlayer();
-} else if (isSongPage()) {
+/**
+ * Entry point.
+ */
+function setupConnector() {
+	initEventListeners();
+
 	/*
-	 * The song page has almost the same selectors
-	 * as the album page, but we override some of them.
+	 * Default implementation for all pages except home page.
 	 */
-	Util.debugLog('Init props for song player');
+	Connector.getUniqueID = () => {
+		const audioSrc = audioElement.getAttribute('src');
+		const audioIdMatch = /&id=(\d+)&/.exec(audioSrc);
 
-	initPropertiesForAlbumPlayer();
-	initPropertiesForSongPlayer();
-} else if (isCollectionsPage()) {
-	Util.debugLog('Init props for collections player');
+		return audioIdMatch ? audioIdMatch[1] : null;
+	};
 
-	initPropertiesForCollectionsPlayer();
-} else {
-	Util.debugLog('Init props for home page');
+	if (isAlbumPage()) {
+		Util.debugLog('Init props for album player');
 
-	initPropertiesForHomePage();
+		initPropertiesForAlbumPlayer();
+	} else if (isSongPage()) {
+		/*
+		 * The song page has almost the same selectors
+		 * as the album page, but we override some of them.
+		 */
+		Util.debugLog('Init props for song player');
+
+		initPropertiesForAlbumPlayer();
+		initPropertiesForSongPlayer();
+	} else if (isCollectionsPage()) {
+		Util.debugLog('Init props for collections player');
+
+		initPropertiesForCollectionsPlayer();
+	} else if (isFeedPage()) {
+		Util.debugLog('Init props for feed player');
+
+		initPropertiesForFeedPlayer();
+	} else {
+		Util.debugLog('Init props for home page');
+
+		initPropertiesForHomePage();
+	}
+
+	initGenericProperties();
 }
 
-// Override getters to get high priority for `Connector.getArtistTrack`;
-Connector.getArtist = () => null;
-Connector.getTrack = () => null;
-
-Connector.getArtistTrack = () => {
-	const artist = Util.getTextFromSelectors(Connector.artistSelector);
-	const track = Util.getTextFromSelectors(Connector.trackSelector);
-
-	if (isArtistVarious(artist, track)) {
-		return Util.splitArtistTrack(track, SEPARATORS);
-	}
-	return { artist, track };
-};
-
-Connector.isPlaying = () => $('.playing').length > 0;
-
-/*
- * Default implementation for all pages except home page.
+/**
+ * Initialize properties for all connectors.
  */
-Connector.getUniqueID = () => {
-	const audioSrc = $('audio').first().attr('src');
-	const audioIdMatch = /&id=(\d+)&/.exec(audioSrc);
+function initGenericProperties() {
+	// Override getters to get high priority for `Connector.getArtistTrack`;
+	Connector.getArtist = () => null;
+	Connector.getTrack = () => null;
 
-	return audioIdMatch ? audioIdMatch[1] : null;
-};
+	Connector.getArtistTrack = () => {
+		const artist = Util.getTextFromSelectors(Connector.artistSelector);
+		const track = Util.getTextFromSelectors(Connector.trackSelector);
 
-Connector.applyFilter(filter);
+		if (isArtistVarious(artist, track)) {
+			return Util.splitArtistTrack(track, SEPARATORS);
+		}
+		return { artist, track };
+	};
+
+	Connector.isPlaying = () => document.querySelector('.playing') !== null;
+
+	Connector.applyFilter(bandcampFilter);
+}
 
 // Example: https://northlane.bandcamp.com/album/mesmer
 function initPropertiesForAlbumPlayer() {
@@ -107,6 +130,25 @@ function initPropertiesForCollectionsPlayer() {
 	Connector.trackArtSelector = '.now-playing img';
 }
 
+// https://bandcamp.com/%YOURNAME%/feed
+function initPropertiesForFeedPlayer() {
+	bandcampFilter = bandcampFilter.extend(new MetadataFilter({
+		artist: [removeByPrefix],
+	}));
+
+	Connector.artistSelector = '.waypoint-artist-title';
+
+	Connector.trackSelector = '.waypoint-item-title';
+
+	Connector.trackArtSelector = '#track_play_waypoint img';
+
+	Connector.playButtonSelector = '#track_play_waypoint.playing';
+
+	function removeByPrefix(text) {
+		return text.replace('by ', '');
+	}
+}
+
 // Example: https://bandcamp.com/?show=47
 function initPropertiesForHomePage() {
 	/*
@@ -137,14 +179,14 @@ function initPropertiesForHomePage() {
 	];
 
 	Connector.getUniqueID = () => {
-		if ($('.bcweekly.playing').length) {
-			const pageData = $('#pagedata').data('blob');
+		if (document.querySelector('.bcweekly.playing') !== null) {
+			const pageData = getData('#pagedata', 'data-blob');
 
 			const showId = pageData.bcw_show.show_id;
 			const currentShowId = +location.search.match(/show=(\d+)?/)[1];
 
 			if (currentShowId === showId) {
-				const currentTrackIndex = $('.bcweekly-current').data('index');
+				const currentTrackIndex = Util.getAttrFromSelectors('.bcweekly-current', 'data-index');
 				return pageData.bcw_show.tracks[currentTrackIndex].track_id;
 			}
 		}
@@ -161,8 +203,12 @@ function isSongPage() {
 	return getPageType() === 'song';
 }
 
+function isFeedPage() {
+	return getPageType() === 'profile';
+}
+
 function isCollectionsPage() {
-	return $('#carousel-player').length > 0;
+	return document.querySelector('#carousel-player') !== null;
 }
 
 function isArtistVarious(artist, track) {
@@ -171,7 +217,7 @@ function isArtistVarious(artist, track) {
 	 * Example: https://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
 	 */
 	if (isAlbumPage()) {
-		const trackNodes = $('.track_list span[itemprop="name"]').toArray();
+		const trackNodes = document.querySelectorAll('.track_list span[itemprop="name"]');
 		for (const trackNode of trackNodes) {
 			const trackName = trackNode.textContent;
 			if (!Util.findSeparator(trackName, SEPARATORS)) {
@@ -198,17 +244,22 @@ function isArtistVarious(artist, track) {
 }
 
 function getPageType() {
-	return $('meta[property="og:type"]').attr('content');
+	return Util.getAttrFromSelectors('meta[property="og:type"]', 'content');
 }
 
-/*
- * Legacy selectors:
- *  a) artistSelector:
- *   - .detail_item_link_2
- *   - .waypoint-artist-title (substr(3))
- *  b) trackSelector:
- *   - .collection-item-container.playing .fav-track-static
- *   - .waypoint-item-title
- *  c) albumSelector:
- *   - .detail_item_link
- */
+function initEventListeners() {
+	const events = ['playing', 'pause', 'timeupdate'];
+	for (const event of events) {
+		audioElement.addEventListener(event, Connector.onStateChanged);
+	}
+}
+
+function getData(selector, attr) {
+	const element = document.querySelector(selector);
+	if (element) {
+		const rawData = element.getAttribute(attr);
+		return JSON.parse(rawData);
+	}
+
+	return {};
+}
