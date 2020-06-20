@@ -315,10 +315,6 @@
         "message": "Pridať vzor",
         "description": "Add button"
     },
-    "editedTracksTitle": {
-        "message": "Upravené skladby",
-        "description": "Popup title"
-    },
     "albumTooltip": {
         "message": "Z albumu \"$1\"",
         "description": "Tooltip text"
@@ -366,10 +362,6 @@
     "serviceErrorDesc": {
         "message": "Zdá sa že niekde nastala chyba počas zaznamenávania hudby. Otvorte prosím stránku nastavení doplnku a pokúste sa znovu pripojiť k službám. Ak to nepomohlo a stále vidíte túto správu, prosím vytvorte <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">nový problém</a> na GitHub stránke projektu.",
         "description": "The description of service error"
-    },
-    "serviceErrorButton": {
-        "message": "Otvoriť stránku nastavení",
-        "description": "Button label"
     },
     "disabledSiteHeader": {
         "message": "Táto stránka je vypnutá",

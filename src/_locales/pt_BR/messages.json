@@ -315,10 +315,6 @@
         "message": "Adicionar padrão",
         "description": "Add button"
     },
-    "editedTracksTitle": {
-        "message": "Faixas editadas",
-        "description": "Popup title"
-    },
     "albumTooltip": {
         "message": "Do álbum \"$1\"",
         "description": "Tooltip text"
@@ -366,10 +362,6 @@
     "serviceErrorDesc": {
         "message": "Parece que algo deu errado ao efetuar o scrobble da música. Por favor, abra a página de opções e tente autenticar novamente com os serviços. Caso o problema persista, crie um <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">novo issue</a> na página do projeto no GitHub.",
         "description": "The description of service error"
-    },
-    "serviceErrorButton": {
-        "message": "Abrir página de opções",
-        "description": "Button label"
     },
     "disabledSiteHeader": {
         "message": "Este site foi desativado.",

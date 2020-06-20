@@ -350,10 +350,6 @@
     "message": "Add pattern",
     "description": "Add button"
   },
-  "editedTracksTitle": {
-    "message": "Edited tracks",
-    "description": "Popup title"
-  },
   "albumTooltip": {
     "message": "From \"$1\" album",
     "description": "Tooltip text"
@@ -405,10 +401,6 @@
   "serviceErrorDesc": {
     "message": "Looks like something went wrong while scrobbling the music. Please open the options page and try to reauthenticate with services. If reauthentication doesn't help, and you still see this message, please create <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">a new issue</a> at the GitHub project page.",
     "description": "The description of service error"
-  },
-  "serviceErrorButton": {
-    "message": "Open options page",
-    "description": "Button label"
   },
 
   "disabledSiteHeader": {

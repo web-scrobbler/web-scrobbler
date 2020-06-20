@@ -315,10 +315,6 @@
         "message": "Agregar patrón",
         "description": "Add button"
     },
-    "editedTracksTitle": {
-        "message": "Editar canciones",
-        "description": "Popup title"
-    },
     "albumTooltip": {
         "message": "Del álbum \"$1\"",
         "description": "Tooltip text"
@@ -366,10 +362,6 @@
     "serviceErrorDesc": {
         "message": "Parece que algo salió mal mientras se hacía scrobbling de la canción. Abra la página de opciones e intente volver a autenticarse con los servicios. Si la reautenticación no ayuda, y aún ve este mensaje, cree <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\"> un nuevo problema</a> en la página del proyecto en GitHub.",
         "description": "The description of service error"
-    },
-    "serviceErrorButton": {
-        "message": "Abrir página de opciones",
-        "description": "Button label"
     },
     "disabledSiteHeader": {
         "message": "Este sitio web está apagado",

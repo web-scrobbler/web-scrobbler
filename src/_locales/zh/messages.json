@@ -339,10 +339,6 @@
         "message": "添加模板",
         "description": "Add button"
     },
-    "editedTracksTitle": {
-        "message": "已编辑曲目",
-        "description": "Popup title"
-    },
     "albumTooltip": {
         "message": "来自专辑《$1》",
         "description": "Tooltip text"
@@ -390,10 +386,6 @@
     "serviceErrorDesc": {
         "message": "曲目记录追踪好像出错了。请打开选项页面，尝试重新认证追踪服务。若重新认证后您仍看到此消息，请在 GitHub 的项目页面创建<a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">一个新问题</a>。",
         "description": "The description of service error"
-    },
-    "serviceErrorButton": {
-        "message": "打开选项页面",
-        "description": "Button label"
     },
     "disabledSiteHeader": {
         "message": "已禁用追踪本网站的播放记录",

@@ -339,10 +339,6 @@
         "message": "Dodaj wzorzec",
         "description": "Add button"
     },
-    "editedTracksTitle": {
-        "message": "Ręcznie dopasowane utwory",
-        "description": "Popup title"
-    },
     "albumTooltip": {
         "message": "Z albumu \"$1\"",
         "description": "Tooltip text"
@@ -390,10 +386,6 @@
     "serviceErrorDesc": {
         "message": "Wygląda na to, że podczas scrobblowania coś poszło nie tak. Otwórz stronę opcji i spróbuj uwierzytelnić się ponownie w usługach. Jeśli to nie pomoże i nadal będziesz widzieć ten komunikat, prosimy o <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">wypełnienie zgłoszenia</a> na GitHubie.",
         "description": "The description of service error"
-    },
-    "serviceErrorButton": {
-        "message": "Otwórz opcje",
-        "description": "Button label"
     },
     "disabledSiteHeader": {
         "message": "Ta strona jest wyłączona",
