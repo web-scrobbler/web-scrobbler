@@ -245,7 +245,9 @@ module.exports = (grunt) => {
 		},
 	});
 
-	require('load-grunt-tasks')(grunt);
+	require('jit-grunt')(grunt, {
+		mochacli: 'grunt-mocha-cli',
+	});
 	grunt.loadTasks('.grunt');
 
 	/**
