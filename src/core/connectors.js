@@ -1511,6 +1511,14 @@ const connectors = [{
 	],
 	js: 'connectors/jqbx.js',
 	id: 'jqbx',
+}, {
+	label: 'music.jsososo.com',
+	matches: [
+		'*://y.jsososo.com/*',
+		'*://music.jsososo.com/*',
+	],
+	js: 'connectors/jsososo.js',
+	id: 'jsososo',
 }];
 
 define(() => connectors);
