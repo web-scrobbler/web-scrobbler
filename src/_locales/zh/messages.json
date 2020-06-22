@@ -163,19 +163,15 @@
         "message": "导入",
         "description": "Button to import edited tracks"
     },
-    "optionsEnableDisableHint": {
+    "connectorsEnableDisableHint": {
         "message": "单击复选框以启用/禁用接口。",
         "description": "Enable/disable hint"
     },
-    "optionsCustomPatternsHint": {
+    "connectorsCustomPatternsHint": {
         "message": "点击复选框前的小齿轮图标以设置各接口的自定义网址匹配模板。",
         "description": "Description of how to configure custom URL patterns"
     },
-    "optionsSupportedWebsites": {
-        "message": "支持网站列表",
-        "description": "'Supported websites' header"
-    },
-    "optionsToggle": {
+    "connectorsToggleConnectors": {
         "message": "全部启用/全部禁用",
         "description": "Label of toggle button"
     },

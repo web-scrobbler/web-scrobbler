@@ -123,19 +123,15 @@
         "message": "Importieren",
         "description": "Button to import edited tracks"
     },
-    "optionsEnableDisableHint": {
+    "connectorsEnableDisableHint": {
         "message": "Klick auf den Kontrollkasten um Verbinder zu aktivieren/deaktivieren.",
         "description": "Enable/disable hint"
     },
-    "optionsCustomPatternsHint": {
+    "connectorsCustomPatternsHint": {
         "message": "Klick auf das Zahnradsymbol um benutzerdefinierte URL-Muster für die Verbinder zu konfigurieren. <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>Mehr erfahren</a>",
         "description": "Description of how to configure custom URL patterns"
     },
-    "optionsSupportedWebsites": {
-        "message": "Unterstützte Webseiten",
-        "description": "'Supported websites' header"
-    },
-    "optionsToggle": {
+    "connectorsToggleConnectors": {
         "message": "An/Ausschalten",
         "description": "Label of toggle button"
     },

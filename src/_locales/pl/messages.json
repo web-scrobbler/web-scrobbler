@@ -163,19 +163,15 @@
         "message": "Import",
         "description": "Button to import edited tracks"
     },
-    "optionsEnableDisableHint": {
+    "connectorsEnableDisableHint": {
         "message": "Wybierz usługi do aktywacji/dezaktywacji.",
         "description": "Enable/disable hint"
     },
-    "optionsCustomPatternsHint": {
+    "connectorsCustomPatternsHint": {
         "message": "Wybierz ikonę zębatki, aby skonfigurować niestandardowe domeny dla wspieranych usług.",
         "description": "Description of how to configure custom URL patterns"
     },
-    "optionsSupportedWebsites": {
-        "message": "Wspierane strony",
-        "description": "'Supported websites' header"
-    },
-    "optionsToggle": {
+    "connectorsToggleConnectors": {
         "message": "Przełącz",
         "description": "Label of toggle button"
     },

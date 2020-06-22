@@ -11,8 +11,11 @@
   "dependencies": {
     "blueimp-md5": "2.16.0",
     "bootstrap": "5.0.0-alpha1",
+    "bootstrap-icons": "1.0.0-alpha5",
     "metadata-filter": "0.4.1",
     "showdown": "1.9.1",
+    "simple-icons": "2.18.0",
+    "vue": "2.6.11",
     "webextension-polyfill": "0.6.0"
   },
   "devDependencies": {
@@ -57,6 +60,9 @@
     "style-loader": "1.2.1",
     "stylelint": "13.6.1",
     "stylelint-config-web-scrobbler": "0.2.0",
+    "svg-sprite-loader": "5.0.0",
+    "vue-loader": "15.9.2",
+    "vue-template-compiler": "2.6.11",
     "webpack": "4.43.0",
     "webpack-cli": "3.3.11",
     "webpack-dev-server": "3.11.0",

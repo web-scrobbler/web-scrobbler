@@ -139,19 +139,15 @@
         "message": "Importovať",
         "description": "Button to import edited tracks"
     },
-    "optionsEnableDisableHint": {
+    "connectorsEnableDisableHint": {
         "message": "Konektor povolíte/zakážete kliknutím na zaškrtávacie políčko.",
         "description": "Enable/disable hint"
     },
-    "optionsCustomPatternsHint": {
+    "connectorsCustomPatternsHint": {
         "message": "Vlastné URL vzory pre konektor si môžete nastaviť kliknutím na ikonku ozubeného kolieska.",
         "description": "Description of how to configure custom URL patterns"
     },
-    "optionsSupportedWebsites": {
-        "message": "Podporované stránky",
-        "description": "'Supported websites' header"
-    },
-    "optionsToggle": {
+    "connectorsToggleConnectors": {
         "message": "Prepnúť",
         "description": "Label of toggle button"
     },

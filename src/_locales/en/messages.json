@@ -4,11 +4,6 @@
     "description": "Description of the extension"
   },
 
-  "optionsTitle": {
-    "message": "Web Scrobbler options",
-    "description": "Title of options page"
-  },
-
   "optionsSidebarTitle": {
     "message": "Options",
     "description": "Sidebar title"
@@ -101,19 +96,24 @@
     "message": "Ignore videos that are not in Entertainment category",
     "description": "Option title"
   },
-  "optionsEnableDisableHint": {
-    "message": "Click on the checkbox to enable/disable connectors.",
+
+  "connectorsSidebarTitle": {
+    "message": "Connectors",
+    "description": "Sidebar title"
+  },
+  "connectorsDescription": {
+    "message": "A connector is a part of the extension that transforms information of a now playing track on a website to an extension-friendly format. Each connector covers one or more websites.",
+    "description": "Connector definition"
+  },
+  "connectorsEnableDisableHint": {
+    "message": "Click on the switches to enable/disable connectors.",
     "description": "Enable/disable hint"
   },
-  "optionsCustomPatternsHint": {
+  "connectorsCustomPatternsHint": {
     "message": "Click on the gear icon to configure custom URL patterns for connectors.",
     "description": "Description of how to configure custom URL patterns"
   },
-  "optionsSupportedWebsites": {
-    "message": "Supported websites",
-    "description": "Section name"
-  },
-  "optionsToggle": {
+  "connectorsToggleConnectors": {
     "message": "Toggle",
     "description": "Label of toggle button"
   },
@@ -615,10 +615,6 @@
   "buttonCancel": {
     "message": "Cancel",
     "description": "Cancel button label"
-  },
-  "buttonReset": {
-    "message": "Reset",
-    "description": "Reset button label"
   },
   "buttonClear": {
     "message": "Clear",

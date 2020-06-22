@@ -139,19 +139,15 @@
         "message": "Importar",
         "description": "Button to import edited tracks"
     },
-    "optionsEnableDisableHint": {
+    "connectorsEnableDisableHint": {
         "message": "Clique nas caixas para ativar/desativar conectores.",
         "description": "Enable/disable hint"
     },
-    "optionsCustomPatternsHint": {
+    "connectorsCustomPatternsHint": {
         "message": "Clique no ícone de engrenagem para configurar padrões personalizados de URL para conectores.",
         "description": "Description of how to configure custom URL patterns"
     },
-    "optionsSupportedWebsites": {
-        "message": "Sites compatíveis",
-        "description": "'Supported websites' header"
-    },
-    "optionsToggle": {
+    "connectorsToggleConnectors": {
         "message": "Alternar",
         "description": "Label of toggle button"
     },
