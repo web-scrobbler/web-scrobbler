@@ -1,27 +1,11 @@
 'use strict';
 
-const trackInfoSelector = '#album_info .m:first-child';
+Connector.playerSelector = '#player_main_row';
 
-Connector.playerSelector = '#player-outer-box';
+Connector.trackSelector = '#player_info :nth-child(2)';
 
-Connector.trackSelector = '#song_info span';
+Connector.artistSelector = '#player_info :nth-child(3)';
 
-Connector.trackArtSelector = '#player_pics a';
+Connector.trackArtSelector = '#player_album_art';
 
-Connector.getTrackInfo = () => {
-	let artist = null;
-	let album = null;
-
-	const trackInfoEl = document.querySelector(trackInfoSelector);
-	if (trackInfoEl) {
-		const trackInfo = trackInfoEl.childNodes || [];
-		if (trackInfo.length === 4) {
-			album = trackInfo[3].textContent;
-		}
-		artist = trackInfo[1].textContent;
-	}
-
-	return { artist, album };
-};
-
-Connector.pauseButtonSelector = '.player_pause';
+Connector.pauseButtonSelector = '#big_pp.pause';
