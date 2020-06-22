@@ -1,6 +1,6 @@
 {
   "name": "web-scrobbler",
-  "version": "2.32.3",
+  "version": "2.32.4",
   "author": "David Šabata <posta@davidsabata.cz>",
   "description": "Scrobble music all around the web!",
   "private": true,
