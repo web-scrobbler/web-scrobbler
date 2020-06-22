@@ -7,7 +7,7 @@
 
 [![Chrome Web Store][WebStoreBadge]][WebStore]
 [![AMO][AmoBadge]][Amo]
-[![Gitter][GitterBadge]][Gitter]
+[![Discord][DiscordBadge]][Discord]
 [![Test status][GitHubActionsBadge]][GitHubActions]
 [![Codacy Badge][CodacyBadge]][Codacy]
 [![Codacy Coverage Badge][CodacyCoverageBadge]][Codacy]
@@ -77,13 +77,11 @@ also read [contributions guidelines][Contributing].
 We use Transifex to maintain translations. If you want to translate
 the extension, follow [this][Translations] wiki page for details.
 
-### Gitter
-
-We use Gitter and you can join us @ [web-scrobbler/web-scrobbler][Gitter].
-
 ## Media
 
 Follow [@web_scrobbler][Twitter] on Twitter to receive the latest news and updates.
+
+Join the experimental [Discord channel][Discord] to discuss the extension.
 
 ## Privacy Policy
 
@@ -97,8 +95,8 @@ See the [license file][License].
 [AmoBadge]: https://img.shields.io/amo/v/web-scrobbler.svg?label=firefox&logo=mozilla-firefox&logoColor=white
 [CodacyBadge]: https://img.shields.io/codacy/grade/32658c34c5c542d9a315ead8d5eadd0e?logo=codacy&logoColor=white
 [CodacyCoverageBadge]: https://img.shields.io/codacy/coverage/32658c34c5c542d9a315ead8d5eadd0e?logo=codacy&logoColor=white
+[DiscordBadge]: https://img.shields.io/discord/716363971070001202?logo=discord&logoColor=white&color=49b393
 [GitHubActionsBadge]: https://img.shields.io/github/workflow/status/web-scrobbler/web-scrobbler/Test?label=test&logo=github&logoColor=white
-[GitterBadge]: https://img.shields.io/gitter/room/web-scrobbler/web-scrobbler?logo=gitter&logoColor=white&color=49b393
 [WebStoreBadge]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg?label=chrome&logo=google-chrome&logoColor=white
 
 <!-- Docs -->
@@ -118,8 +116,8 @@ See the [license file][License].
 
 <!-- Related pages -->
 [Codacy]: https://app.codacy.com/gh/web-scrobbler/web-scrobbler/dashboard
+[Discord]: https://discord.com/invite/YPhC2vs
 [GitHubActions]: https://github.com/web-scrobbler/web-scrobbler/actions
-[Gitter]: https://gitter.im/david-sabata/web-scrobbler
 [Twitter]: https://twitter.com/web_scrobbler
 
 <!-- Services -->
