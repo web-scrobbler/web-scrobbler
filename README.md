@@ -116,7 +116,7 @@ See the [license file][License].
 
 <!-- Related pages -->
 [Codacy]: https://app.codacy.com/gh/web-scrobbler/web-scrobbler/dashboard
-[Discord]: https://discord.com/invite/YPhC2vs
+[Discord]: https://discord.com/invite/u99wNWw
 [GitHubActions]: https://github.com/web-scrobbler/web-scrobbler/actions
 [Twitter]: https://twitter.com/web_scrobbler
 
