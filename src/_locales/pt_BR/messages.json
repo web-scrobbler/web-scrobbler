@@ -283,11 +283,11 @@
         "message": "A extensão é gratuita, e sempre será. Mas, caso queira apoiar o desenvolvimento, sinta-se à vontade para usar o botão abaixo.",
         "description": ""
     },
-    "customPatternsHint": {
+    "patternsCustomPatternsHint": {
         "message": "Adicione padrões de URL que o conector deva corresponder abaixo.",
         "description": "Popup hint"
     },
-    "customPatternsAdd": {
+    "buttonAdd": {
         "message": "Adicionar padrão",
         "description": "Add button"
     },

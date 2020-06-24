@@ -283,11 +283,11 @@
         "message": "Používanie doplnku je zadarmo, a vždy aj bude. Avšak, ak chcete podporiť vývoj doplnku, môžete použiť tlačidlo nižšie.",
         "description": ""
     },
-    "customPatternsHint": {
+    "patternsCustomPatternsHint": {
         "message": "URL vzory ktoré má konektor brať pridajte dolu.",
         "description": "Popup hint"
     },
-    "customPatternsAdd": {
+    "buttonAdd": {
         "message": "Pridať vzor",
         "description": "Add button"
     },

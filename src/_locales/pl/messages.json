@@ -307,11 +307,11 @@
         "message": "Rozszerzenie jest i pozostanie bezpłatne. Jeśli jednak chcesz wesprzeć jego dalszy rozwój, możesz skorzystać z poniższej opcji.",
         "description": ""
     },
-    "customPatternsHint": {
+    "patternsCustomPatternsHint": {
         "message": "Wprowadź poniżej wzorce adresów, dla których aktywowana ma być obsługa serwisu.",
         "description": "Popup hint"
     },
-    "customPatternsAdd": {
+    "buttonAdd": {
         "message": "Dodaj wzorzec",
         "description": "Add button"
     },

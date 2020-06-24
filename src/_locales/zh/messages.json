@@ -307,11 +307,11 @@
         "message": "该扩展免费并将永久免费。但是如果你想支持扩展的开发，可以使用下方按钮。",
         "description": ""
     },
-    "customPatternsHint": {
+    "patternsCustomPatternsHint": {
         "message": "在下方为接口添加匹配网址。",
         "description": "Popup hint"
     },
-    "customPatternsAdd": {
+    "buttonAdd": {
         "message": "添加模板",
         "description": "Add button"
     },

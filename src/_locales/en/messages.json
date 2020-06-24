@@ -172,6 +172,10 @@
     "message": "Learn more",
     "description": "Learn more label"
   },
+  "loadingLabel": {
+    "message": "Loading…",
+    "description": "Loading label"
+  },
 
   "faqSidebarTitle": {
     "message": "FAQ",
@@ -289,6 +293,22 @@
   "aboutContributorsText": {
     "message": "You can find the list of contributors <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">right on the GitHub</a>",
     "description": "Section name text"
+  },
+  "aboutLinksTitle": {
+    "message": "Links",
+    "description": "Section name"
+  },
+  "aboutReleaseNotesTitle": {
+    "message": "Release notes",
+    "description": "Section name"
+  },
+  "aboutFullChangelogTitle": {
+    "message": "Full changelog",
+    "description": "Section name"
+  },
+  "aboutPrivacyPolicyTitle": {
+    "message": "Privacy policy",
+    "description": "Section name"
   },
   "aboutShowSomeLoveTitle": {
     "message": "Show some love",
@@ -562,13 +582,22 @@
     "description": "Input placeholder"
   },
 
-  "customPatternsHint": {
+
+  "patternsCustomPatternsHint": {
     "message": "Add URL patterns that the connector should match below.",
-    "description": "Popup hint"
+    "description": "Modal dialog hint"
   },
-  "customPatternsAdd": {
-    "message": "Add pattern",
-    "description": "Button name"
+  "patternsBuiltinPatterns": {
+    "message": "Built-in URL patterns",
+    "description": "Header name"
+  },
+  "patternsCustomPatterns": {
+    "message": "Custom URL patterns",
+    "description": "Header name"
+  },
+  "patternsCustomPatternPlaceholder": {
+    "message": "URL pattern",
+    "description": "Header name"
   },
 
 
@@ -608,6 +637,10 @@
   },
 
 
+  "buttonAdd": {
+    "message": "Add",
+    "description": "Button name"
+  },
   "buttonOk": {
     "message": "OK",
     "description": "OK button label"
@@ -615,6 +648,10 @@
   "buttonCancel": {
     "message": "Cancel",
     "description": "Cancel button label"
+  },
+  "buttonRemove": {
+    "message": "Remove",
+    "description": "Button name"
   },
   "buttonClear": {
     "message": "Clear",
