@@ -45,7 +45,10 @@ const JS_FILES = [
 const JSON_FILES = [`${srcDir}/**/*.json`, '*.json'];
 const HTML_FILES = [`${srcDir}/ui/**/*.html`];
 const CSS_FILES = [`${srcDir}/ui/**/*.css`];
-const DOC_FILES = ['*.md', '.github/**/*.md'];
+const VUE_FILES = [`${srcDir}/ui/**/*.vue`];
+const DOC_FILES = [
+	'*.md', '.github/**/*.md',
+];
 
 const isCi = process.env.CI === 'true';
 
@@ -132,19 +135,19 @@ module.exports = (grunt) => {
 		 */
 
 		eslint: {
-			target: JS_FILES,
+			target: [JS_FILES, VUE_FILES],
 			options: {
 				fix: !isCi,
 			},
 		},
 		htmlvalidate: {
-			src: HTML_FILES,
+			src: [HTML_FILES, VUE_FILES],
 		},
 		jsonlint: {
 			src: JSON_FILES,
 		},
 		lintspaces: {
-			src: [JS_FILES, JSON_FILES, CSS_FILES, HTML_FILES],
+			src: [JS_FILES, JSON_FILES, CSS_FILES, HTML_FILES, VUE_FILES],
 			options: {
 				editorconfig: '.editorconfig',
 				ignores: ['js-comments'],
@@ -158,7 +161,7 @@ module.exports = (grunt) => {
 			src: DOC_FILES,
 		},
 		stylelint: {
-			all: CSS_FILES,
+			all: [CSS_FILES, VUE_FILES],
 		},
 
 		/**

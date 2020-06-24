@@ -26,6 +26,7 @@
     "css-loader": "3.6.0",
     "dotenv": "8.2.0",
     "eslint-config-web-scrobbler": "0.6.1",
+    "eslint-plugin-vue": "7.0.0-alpha.6",
     "grunt": "1.2.1",
     "grunt-amo-upload": "0.3.0",
     "grunt-bump": "0.8.0",
@@ -44,6 +45,7 @@
     "grunt-webstore-upload": "0.9.24",
     "html-loader": "1.1.0",
     "html-validate": "2.21.0",
+    "html-validate-vue": "3.1.0",
     "html-webpack-plugin": "4.3.0",
     "imagemin-webpack-plugin": "2.4.2",
     "jit-grunt": "0.10.0",
@@ -80,13 +82,19 @@
     "clean-coverage": "rm -rf ./coverage"
   },
   "eslintConfig": {
-    "extends": "web-scrobbler",
+    "extends": [
+      "plugin:vue/base",
+      "web-scrobbler"
+    ],
     "parserOptions": {
       "sourceType": "module"
     },
     "rules": {
       "strict": "off"
-    }
+    },
+    "plugins": [
+      "vue"
+    ]
   },
   "prettier": "prettier-config-web-scrobbler",
   "remark": {

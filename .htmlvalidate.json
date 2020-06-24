@@ -1,12 +1,16 @@
 {
   "root": true,
-  "extends": [
-    "htmlvalidate:recommended"
-  ],
+  "elements": ["html5"],
+  "extends": ["htmlvalidate:recommended", "html-validate-vue:recommended"],
+  "plugins": ["html-validate-vue"],
   "rules": {
     "empty-heading": "off",
+    "no-self-closing": "off",
     "prefer-native-element": "off",
     "void-style": "off",
     "wcag/h30": "off"
+  },
+  "transform": {
+    "^.*\\.vue$": "html-validate-vue"
   }
 }
