@@ -289,7 +289,6 @@ define((require) => {
 			this.resetContextMenu();
 
 			const ctrl = this.tabControllers[tabId];
-			const activeCtrl = this.tabControllers[this.activeTabId];
 
 			// Always display context menu for current tab
 			if (ctrl) {
@@ -301,12 +300,16 @@ define((require) => {
 
 			// Add additional menu items for active tab (if it's not current)...
 			if (this.activeTabId !== tabId) {
-				if (ctrl && activeCtrl && activeCtrl.getConnector().id === ctrl.getConnector().id) {
-					return;
-				}
+				const activeCtrl = this.tabControllers[this.activeTabId];
 
-				// ...but only if it has a different connector injected.
-				this.addToggleConnectorMenu(tabId, activeCtrl);
+				if (activeCtrl) {
+					if (ctrl && activeCtrl.getConnector().id === ctrl.getConnector().id) {
+						return;
+					}
+
+					// ...but only if it has a different connector injected.
+					this.addToggleConnectorMenu(tabId, activeCtrl);
+				}
 			}
 		}
 
