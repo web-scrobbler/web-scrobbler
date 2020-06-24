@@ -5,30 +5,9 @@ define((require) => {
 	const SavedEditsModel = require('storage/saved-edits.model');
 
 	class SavedEditsImpl extends SavedEditsModel {
-		constructor() {
-			super();
-
-			this.songInfoStorage = BrowserStorage.getStorage(
-				BrowserStorage.LOCAL_CACHE
-			);
-			/* @ifdef DEBUG */
-			this.songInfoStorage.debugLog();
-			/* @endif */
-		}
-
 		/** @override */
-		async clear() {
-			return await this.songInfoStorage.clear();
-		}
-
-		/** @override */
-		async getSongInfoStorage() {
-			return await this.songInfoStorage.get();
-		}
-
-		/** @override */
-		async saveSongInfoToStorage(data) {
-			return await this.songInfoStorage.set(data);
+		getStorage() {
+			return BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);
 		}
 	}
 

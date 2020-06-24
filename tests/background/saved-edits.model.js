@@ -10,6 +10,8 @@ const rootSrc = '../../src/';
 const Song = require(`${rootSrc}/core/background/object/song`);
 const SavedEditsModel = require(`${rootSrc}/core/background/storage/saved-edits.model`);
 
+const { makeStorageWrapperStub } = require('../helpers');
+
 const connectorStub = {
 	label: 'Dummy label',
 };
@@ -18,32 +20,24 @@ const connectorStub = {
  * Run all tests.
  */
 function runTests() {
-	describe('should throw an error for non implemented methods', testNotImplementedMethods);
 	describe('should throw an error for empty songs', testSaveEmptySong);
 
 	describe('clear storage', testClearStorage);
 	describe('should not load not a song', testLoadNoSavedSong);
 	describe('should remove song from storage', testRemoveSongInfo);
 	describe('should overwrite edited song info', testSaveOverwriteSong);
-	describe('should save and load a song with unique ID', testSaveLoadSongWithId);
-	describe('should save and load a song with no unique ID', testSaveLoadSongWithNoId);
-	describe('should save and load a song (with fallback)', testSaveLoadSongFallback);
-}
-
-function testNotImplementedMethods() {
-	const savedEdits = new SavedEditsModel();
-
-	it('should throw an error for `clear` method', () => {
-		return expect(savedEdits.clear()).to.eventually.be.rejected;
-	});
-
-	it('should throw an error for `getSongInfoStorage` method', () => {
-		return expect(savedEdits.getSongInfoStorage()).to.eventually.be.rejected;
-	});
-
-	it('should throw an error for `saveSongInfoToStorage` method', async () => {
-		return expect(savedEdits.saveSongInfoToStorage()).to.eventually.be.rejected;
-	});
+	describe(
+		'should save and load a song with unique ID',
+		testSaveLoadSongWithId
+	);
+	describe(
+		'should save and load a song with no unique ID',
+		testSaveLoadSongWithNoId
+	);
+	describe(
+		'should save and load a song (with fallback)',
+		testSaveLoadSongFallback
+	);
 }
 
 function testSaveEmptySong() {
@@ -57,7 +51,9 @@ function testSaveEmptySong() {
 
 	it('should throw an error while saving an empty song', () => {
 		const editedInfo = {
-			artist: 'ArtistEdited', album: 'AlbumEdited', track: 'TrackEdited',
+			artist: 'ArtistEdited',
+			album: 'AlbumEdited',
+			track: 'TrackEdited',
 		};
 
 		const promise = savedEdits.saveSongInfo(emptySong, editedInfo);
@@ -94,7 +90,9 @@ function testSaveLoadSongWithNoId() {
 	const savedEdits = makeEmptySavedEdits();
 
 	const editedInfo = {
-		artist: 'ArtistEdited', album: 'AlbumEdited', track: 'TrackEdited',
+		artist: 'ArtistEdited',
+		album: 'AlbumEdited',
+		track: 'TrackEdited',
 	};
 	const songWithNoId = makeNonProcessedSong('Artist', 'Track', 'Album');
 
@@ -114,9 +112,16 @@ function testSaveLoadSongWithNoId() {
 function testSaveLoadSongWithId() {
 	const savedEdits = makeEmptySavedEdits();
 	const editedInfo = {
-		artist: 'ArtistEdited', album: 'AlbumEdited', track: 'TrackEdited',
+		artist: 'ArtistEdited',
+		album: 'AlbumEdited',
+		track: 'TrackEdited',
 	};
-	const songWitId = makeNonProcessedSong('Artist', 'Track', 'Album', 'uniqueId');
+	const songWitId = makeNonProcessedSong(
+		'Artist',
+		'Track',
+		'Album',
+		'uniqueId'
+	);
 
 	it('should return false for song with unique ID', () => {
 		return expectSongInfoNotLoaded(savedEdits, songWitId);
@@ -135,10 +140,14 @@ function testSaveOverwriteSong() {
 	const savedEdits = makeEmptySavedEdits();
 
 	const editedInfo1 = {
-		artist: 'ArtistEdited1', album: 'AlbumEdited1', track: 'TrackEdited1',
+		artist: 'ArtistEdited1',
+		album: 'AlbumEdited1',
+		track: 'TrackEdited1',
 	};
 	const editedInfo2 = {
-		artist: 'ArtistEdited2', album: 'AlbumEdited2', track: 'TrackEdited2',
+		artist: 'ArtistEdited2',
+		album: 'AlbumEdited2',
+		track: 'TrackEdited2',
 	};
 	const song = makeNonProcessedSong('Artist', 'Track', 'Album');
 
@@ -154,7 +163,9 @@ function testSaveLoadSongFallback() {
 	const savedEdits = makeEmptySavedEdits();
 
 	const editedInfo = {
-		artist: 'ArtistEdited', album: 'AlbumEdited', track: 'TrackEdited',
+		artist: 'ArtistEdited',
+		album: 'AlbumEdited',
+		track: 'TrackEdited',
 	};
 	const songWithNoAlbum = makeNonProcessedSong('Artist', 'Track');
 	const songWithAlbum = makeNonProcessedSong('Artist', 'Track', 'Album');
@@ -210,31 +221,20 @@ function makeEmptySavedEdits() {
 function makeSavedEdits(...songs) {
 	const savedEdits = new SavedEditsMockImpl();
 	for (const song of songs) {
-		savedEdits.saveSongInfoToStorage(song);
+		savedEdits.saveData(song);
 	}
 	return savedEdits;
 }
 
 class SavedEditsMockImpl extends SavedEditsModel {
-	constructor() {
-		super();
-
-		this.songInfoStorage = {};
-		this.artistAlbumStorage = {};
-	}
-
-	async clear() {
-		this.songInfoStorage = {};
+	/** @override */
+	getStorage() {
+		return makeStorageWrapperStub();
 	}
 
 	/** @override */
-	async getSongInfoStorage() {
-		return this.songInfoStorage;
-	}
-
-	/** @override */
-	async saveSongInfoToStorage(data) {
-		this.songInfoStorage = data;
+	showDebugLog() {
+		// Do nothing
 	}
 }
 
