@@ -4,8 +4,11 @@ define((require) => {
 	const connectors = require('connectors');
 	const BrowserStorage = require('storage/browser-storage');
 
-	const options = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
-	const connectorsOptions = BrowserStorage.getStorage(BrowserStorage.CONNECTORS_OPTIONS);
+	const optionsStorage = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
+	const connectorsOptionsStorage = BrowserStorage.getStorage(BrowserStorage.CONNECTORS_OPTIONS);
+
+	let options = {};
+	let connectorsOptions = {};
 
 	const DISABLE_GA = 'disableGa';
 	const FORCE_RECOGNIZE = 'forceRecognize';
@@ -80,37 +83,45 @@ define((require) => {
 	};
 
 	/**
+	 * Initialize module.
+	 */
+	async function initialize() {
+		await setupDefaultConfigValues();
+		await cleanupConfigValues();
+	}
+
+	/**
 	 * Setup default options values.
 	 * This function is called on module init.
 	 */
 	async function setupDefaultConfigValues() {
-		let data = await options.get();
+		options = await optionsStorage.get();
 		for (const key in DEFAULT_OPTIONS) {
-			if (data[key] === undefined) {
-				data[key] = DEFAULT_OPTIONS[key];
+			if (options[key] === undefined) {
+				options[key] = DEFAULT_OPTIONS[key];
 			}
 		}
-		await options.set(data);
-		options.debugLog([DISABLED_CONNECTORS]);
+		await optionsStorage.set(options);
+		optionsStorage.debugLog([DISABLED_CONNECTORS]);
 
-		data = await connectorsOptions.get();
+		connectorsOptions = await connectorsOptionsStorage.get();
 		for (const connectorKey in DEFAULT_CONNECTOR_OPTIONS) {
-			if (data[connectorKey] === undefined) {
-				data[connectorKey] = DEFAULT_CONNECTOR_OPTIONS[connectorKey];
+			if (connectorsOptions[connectorKey] === undefined) {
+				connectorsOptions[connectorKey] = DEFAULT_CONNECTOR_OPTIONS[connectorKey];
 			} else {
 				for (const key in DEFAULT_CONNECTOR_OPTIONS[connectorKey]) {
-					if (data[connectorKey][key] === undefined) {
-						data[connectorKey][key] = DEFAULT_CONNECTOR_OPTIONS[connectorKey][key];
+					if (connectorsOptions[connectorKey][key] === undefined) {
+						connectorsOptions[connectorKey][key] = DEFAULT_CONNECTOR_OPTIONS[connectorKey][key];
 					}
 				}
 			}
 		}
-		await connectorsOptions.set(data);
-		connectorsOptions.debugLog();
+		await connectorsOptionsStorage.set(connectorsOptions);
+		connectorsOptionsStorage.debugLog();
 	}
 
 	async function cleanupConfigValues() {
-		const data = await options.get();
+		const data = await optionsStorage.get();
 
 		for (const connectorId of Object.keys(data[DISABLED_CONNECTORS])) {
 			let isFound = false;
@@ -129,33 +140,88 @@ define((require) => {
 		}
 	}
 
-	async function getOption(key) {
+	function getOption(key) {
 		assertValidOptionKey(key);
 
-		const data = await options.get();
-		return data[key];
+		return options[key];
 	}
 
-	async function setOption(key, value) {
+	function setOption(key, value) {
 		assertValidOptionKey(key);
 
-		await options.update({ [key]: value });
+		options[key] = value;
+		optionsStorage.set(options);
 	}
 
-	async function getConnectorOption(connector, key) {
+	function getConnectorOption(connector, key) {
 		assertValidConnectorOptionKey(connector, key);
 
-		const data = await connectorsOptions.get();
-		return data[connector][key];
+		return connectorsOptions[connector][key];
 	}
 
 	async function setConnectorOption(connector, key, value) {
 		assertValidConnectorOptionKey(connector, key);
 
-		const data = await connectorsOptions.get();
-		data[connector][key] = value;
+		connectorsOptions[connector][key] = value;
+		await connectorsOptionsStorage.set(connectorsOptions);
+	}
 
-		await connectorsOptions.set(data);
+	/**
+	 * Check if connector is enabled.
+	 * @param  {Object} connector Connector
+	 * @return {Boolean} Check result
+	 */
+	function isConnectorEnabled(connector) {
+		return !options[DISABLED_CONNECTORS][connector.id] === true;
+	}
+
+	/**
+	 * Enable or disable connector.
+	 * @param  {Object}  connector Connector
+	 * @param  {Boolean} state True if connector is enabled; false otherwise
+	 */
+	function setConnectorEnabled(connector, state) {
+		if (state) {
+			delete options[DISABLED_CONNECTORS][connector.id];
+		} else {
+			options[DISABLED_CONNECTORS][connector.id] = true;
+		}
+
+		optionsStorage.set(options);
+	}
+
+	/**
+	 * Enable or disable all connectors.
+	 * @param  {Boolean} state True if connector is enabled; false otherwise
+	 */
+	function setAllConnectorsEnabled(state) {
+		options[DISABLED_CONNECTORS] = {};
+		if (!state) {
+			for (const connector of connectors) {
+				options[DISABLED_CONNECTORS][connector.id] = true;
+			}
+		}
+
+		optionsStorage.set(options);
+	}
+
+	/**
+	 * Return a list of connectors IDs have custom settings.
+	 *
+	 * @return {Array} List of connectors labels
+	 */
+	function getConnectorsList() {
+		return Object.keys(DEFAULT_CONNECTOR_OPTIONS);
+	}
+
+	/**
+	 * Return a list of options for a given connector label.
+	 *
+	 * @param {String} connectorLabel Connector label
+	 * @return {Array} List of option keys
+	 */
+	function getConnectorOptions(connectorLabel) {
+		return Object.keys(DEFAULT_CONNECTOR_OPTIONS[connectorLabel]);
 	}
 
 	function assertValidOptionKey(key) {
@@ -174,56 +240,14 @@ define((require) => {
 		}
 	}
 
-	/**
-	 * Check if connector is enabled.
-	 * @param  {Object} connector Connector
-	 * @return {Boolean} Check result
-	 */
-	async function isConnectorEnabled(connector) {
-		const data = await options.get();
-		return !data[DISABLED_CONNECTORS][connector.id] === true;
-	}
-
-	/**
-	 * Enable or disable connector.
-	 * @param  {Object}  connector Connector
-	 * @param  {Boolean} state True if connector is enabled; false otherwise
-	 */
-	async function setConnectorEnabled(connector, state) {
-		const data = await options.get();
-
-		if (state) {
-			delete data[DISABLED_CONNECTORS][connector.id];
-		} else {
-			data[DISABLED_CONNECTORS][connector.id] = true;
-		}
-
-		await options.set(data);
-	}
-
-	/**
-	 * Enable or disable all connectors.
-	 * @param  {Boolean} state True if connector is enabled; false otherwise
-	 */
-	async function setAllConnectorsEnabled(state) {
-		const data = await options.get();
-
-		data[DISABLED_CONNECTORS] = {};
-		if (!state) {
-			for (const connector of connectors) {
-				data[DISABLED_CONNECTORS][connector.id] = true;
-			}
-		}
-
-		await options.set(data);
-	}
-
-	setupDefaultConfigValues().then(cleanupConfigValues);
+	initialize();
 
 	return {
 		isConnectorEnabled, setConnectorEnabled, setAllConnectorsEnabled,
 
 		getOption, setOption, getConnectorOption, setConnectorOption,
+
+		getConnectorsList, getConnectorOptions,
 
 		DISABLE_GA, FORCE_RECOGNIZE, USE_NOTIFICATIONS,
 		SCROBBLE_PODCASTS, USE_UNRECOGNIZED_SONG_NOTIFICATIONS,

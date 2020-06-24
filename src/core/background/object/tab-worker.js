@@ -451,7 +451,7 @@ define((require) => {
 
 				case MATCHED: {
 					this.unloadController(tabId);
-					await this.createController(tabId, connector);
+					this.createController(tabId, connector);
 
 					if (this.shouldUpdateBrowserAction(tabId)) {
 						this.updateBrowserAction(tabId);
@@ -472,8 +472,8 @@ define((require) => {
 		 * @param  {Number} tabId An ID of a tab bound to the controller
 		 * @param  {Object} connector A connector match object
 		 */
-		async createController(tabId, connector) {
-			const isEnabled = await Options.isConnectorEnabled(connector);
+		createController(tabId, connector) {
+			const isEnabled = Options.isConnectorEnabled(connector);
 			const ctrl = new Controller(tabId, connector, isEnabled);
 			ctrl.onSongUpdated = async () => {
 				this.notifySongIsUpdated(ctrl, tabId);

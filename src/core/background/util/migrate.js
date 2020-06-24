@@ -14,13 +14,12 @@ define((require) => {
 	 * Perform a migration.
 	 */
 	async function migrate() {
-		await migrateConnectorOptions();
+		migrateConnectorOptions();
 		await migrateGooglePlayPodcastOption();
 	}
 
-	async function migrateConnectorOptions() {
-		const disabledConnectors =
-			await Options.getOption(Options.DISABLED_CONNECTORS);
+	function migrateConnectorOptions() {
+		const disabledConnectors = Options.getOption(Options.DISABLED_CONNECTORS);
 
 		if (!Array.isArray(disabledConnectors)) {
 			return;
@@ -36,8 +35,7 @@ define((require) => {
 			}
 		}
 
-		await Options.setOption(
-			Options.DISABLED_CONNECTORS, disabledConnectorsNew);
+		Options.setOption(Options.DISABLED_CONNECTORS, disabledConnectorsNew);
 
 		Util.debugLog('Updated disabled connectors');
 	}
@@ -48,7 +46,7 @@ define((require) => {
 
 		if (optionsData.GoogleMusic !== undefined) {
 			const scrobblePodcasts = optionsData.GoogleMusic.scrobblePodcasts;
-			await Options.setOption(Options.SCROBBLE_PODCASTS, scrobblePodcasts);
+			Options.setOption(Options.SCROBBLE_PODCASTS, scrobblePodcasts);
 
 			delete optionsData['GoogleMusic'];
 			await optionsStorage.set(optionsData);

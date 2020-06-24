@@ -50,8 +50,8 @@ define((require) => {
 	 * Check if notifications are allowed by user.
 	 * @return {Boolean} Check result
 	 */
-	async function isAllowed() {
-		return await Options.getOption(Options.USE_NOTIFICATIONS);
+	function isAllowed() {
+		return Options.getOption(Options.USE_NOTIFICATIONS);
 	}
 
 	/**
@@ -126,8 +126,8 @@ define((require) => {
 	 * @param  {Object} song Copy of song instance
 	 * @param  {Function} [onClick] Function that will be called on notification click
 	 */
-	async function showNowPlaying(song, onClick) {
-		if (!await isAllowed()) {
+	function showNowPlaying(song, onClick) {
+		if (!isAllowed()) {
 			return;
 		}
 
@@ -210,7 +210,7 @@ define((require) => {
 	 * @param  {Function} [onClick] Function that will be called on notification click
 	 */
 	async function showSongNotRecognized(song, onClick) {
-		if (!await Options.getOption(Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS)) {
+		if (!Options.getOption(Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS)) {
 			return;
 		}
 
