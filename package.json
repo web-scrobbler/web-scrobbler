@@ -57,6 +57,7 @@
     "nyc": "15.1.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "preprocess-loader": "0.3.0",
+    "prettier": "2.0.5",
     "prettier-config-web-scrobbler": "0.1.0",
     "remark-preset-lint-recommended": "4.0.1",
     "style-loader": "1.2.1",
