@@ -42,7 +42,7 @@ define((require) => {
 			this.currentSong = null;
 			this.isReplayingSong = false;
 			this.shouldScrobblePodcasts = true;
-			(async () => this.shouldScrobblePodcasts = await Options.getOption(Options.SCROBBLE_PODCASTS))();
+			this.shouldScrobblePodcasts = Options.getOption(Options.SCROBBLE_PODCASTS);
 
 			this.debugLog(`Created controller for ${connector.label} connector`);
 		}
@@ -346,7 +346,7 @@ define((require) => {
 				// Processing cleans this flag
 				this.currentSong.flags.isMarkedAsPlaying = false;
 
-				await this.updateTimers(this.currentSong.getDuration());
+				this.updateTimers(this.currentSong.getDuration());
 
 				/*
 				 * If the song is playing, mark it immediately;
@@ -460,13 +460,13 @@ define((require) => {
 		 * Update internal timers.
 		 * @param  {Number} duration Song duration in seconds
 		 */
-		async updateTimers(duration) {
+		updateTimers(duration) {
 			if (this.playbackTimer.isExpired()) {
 				this.debugLog('Attempt to update expired timers', 'warn');
 				return;
 			}
 
-			const percent = await Options.getOption(Options.SCROBBLE_PERCENT);
+			const percent = Options.getOption(Options.SCROBBLE_PERCENT);
 			const secondsToScrobble = Util.getSecondsToScrobble(duration, percent);
 
 			if (secondsToScrobble !== -1) {

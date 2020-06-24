@@ -44,7 +44,7 @@ define((require) => {
 			}
 		}
 
-		const forceRecognize = await Options.getOption(Options.FORCE_RECOGNIZE);
+		const forceRecognize = Options.getOption(Options.FORCE_RECOGNIZE);
 		song.flags.isValid = isSongValid || forceRecognize;
 	}
 
