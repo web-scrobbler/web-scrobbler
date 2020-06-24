@@ -7,8 +7,9 @@
 define((require) => {
 	const MD5 = require('md5');
 	const Song = require('object/song');
+	const CustomStorage = require('storage/custom-storage');
 
-	class SavedEditsModel {
+	class SavedEditsModel extends CustomStorage {
 		/**
 		 * Public functions.
 		 */
@@ -21,7 +22,7 @@ define((require) => {
 		 */
 		async loadSongInfo(song) {
 			let songId = SavedEditsModel.getSongId(song);
-			const storageData = await this.getSongInfoStorage();
+			const storageData = await this.getData();
 
 			if (!(songId in storageData)) {
 				songId = SavedEditsModel.makeSongId(song, ['artist', 'track', 'album']);
@@ -49,7 +50,7 @@ define((require) => {
 		 */
 		async saveSongInfo(song, dataToSave) {
 			const songId = SavedEditsModel.getSongId(song);
-			const storageData = await this.getSongInfoStorage();
+			const storageData = await this.getData();
 
 			if (!storageData[songId]) {
 				storageData[songId] = {};
@@ -59,7 +60,7 @@ define((require) => {
 				storageData[songId][field] = dataToSave[field];
 			}
 
-			await this.saveSongInfoToStorage(storageData);
+			await this.saveData(storageData);
 		}
 
 		/**
@@ -69,48 +70,10 @@ define((require) => {
 		 */
 		async removeSongInfo(song) {
 			const songId = SavedEditsModel.getSongId(song);
-			await this.removeSongInfoById(songId);
-		}
-
-		/**
-		 * Remove song info from the storage.
-		 *
-		 * @param {Object} songId Song ID
-		 */
-		async removeSongInfoById(songId) {
-			const storageData = await this.getSongInfoStorage();
+			const storageData = await this.getData();
 
 			delete storageData[songId];
-			await this.saveSongInfoToStorage(storageData);
-		}
-
-		/**
-		 * Functions must be implemented (overridden).
-		 */
-
-		/**
-		 * Remove all song info from storage.
-		 */
-		async clear() {
-			throw new Error('This function must be overridden!');
-		}
-
-		/**
-		 * Return data of the song info storage.
-		 *
-		 * @return {Object} Storage data
-		 */
-		async getSongInfoStorage() {
-			throw new Error('This function must be overridden!');
-		}
-
-		/**
-		 * Save data to the song info storage.
-		 *
-		 * @return {Object} Storage data
-		 */
-		async saveSongInfoToStorage(/* data */) {
-			throw new Error('This function must be overridden!');
+			await this.saveData(storageData);
 		}
 
 		/**
