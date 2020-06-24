@@ -91,7 +91,7 @@
         "message": "Игнорировать видео, которые не в категории \"Развлечения\"",
         "description": "Option title"
     },
-    "optionsAccounts": {
+    "accountsSidebarTitle": {
         "message": "Аккаунты",
         "description": "'Accounts' section"
     },
@@ -139,31 +139,27 @@
         "message": "Пользовательский токен",
         "description": "Input label"
     },
-    "optionsOptions": {
+    "optionsSidebarTitle": {
         "message": "Настройки",
         "description": "'Options' section"
     },
-    "optionsEditedTracks": {
+    "tracksEditedTracks": {
         "message": "Сохранённая информация о композициях",
         "description": "'Edited tracks' header"
     },
-    "optionsEditedTracksDesc": {
+    "tracksEditedTracksDesc": {
         "message": "Расширение хранит редактированную вами информацию о композициях.",
         "description": "Description of edited tracks"
     },
-    "optionsEditedTracksPopupTitle": {
+    "tracksEditedTracksCount": {
         "message": "Сохранённых композиций: $1 ",
         "description": "'Edited tracks' header"
     },
-    "optionsViewEdited": {
-        "message": "Посмотреть",
-        "description": "Button to view edited tracks"
-    },
-    "optionsExportEdited": {
+    "buttonExport": {
         "message": "Экспорт",
         "description": "Button to export edited tracks"
     },
-    "optionsImportEdited": {
+    "buttonImport": {
         "message": "Импорт",
         "description": "Button to import edited tracks"
     },
@@ -187,23 +183,7 @@
         "message": "Узнать больше",
         "description": "Learn more label"
     },
-    "contactTitle": {
-        "message": "Контакты",
-        "description": "'Contact' section"
-    },
-    "contactGitHubDesc": {
-        "message": "Поучаствовать в развитии проекта",
-        "description": "Description for GitHub section"
-    },
-    "contactTwitterDesc": {
-        "message": "Следить за обновлениями или поболтать",
-        "description": "Description for Twitter section"
-    },
-    "contactPrivacyPolicyDesc": {
-        "message": "Посмотреть политику конфиденциальности",
-        "description": "Description for privacy section"
-    },
-    "faqTitle": {
+    "faqSidebarTitle": {
         "message": "ЧаВо",
         "description": "'FAQ' section"
     },
@@ -299,7 +279,7 @@
         "message": "Первоначальный автор этого расширения — David Šabata. На данный момент расширение разрабатывает так называемая команда \"Web Scrobbler\".",
         "description": "Answer #7"
     },
-    "optionsAbout": {
+    "aboutSidebarTitle": {
         "message": "О расширении",
         "description": "'About' section"
     },
@@ -311,23 +291,23 @@
         "message": "Web Scrobbler — это расширение для браузера, созданное для тех, кто слушает музыку, используя онлайн-сервисы, и хотел бы иметь постоянно обновлённую историю прослушивания с помощью таких сервисов, как Last.fm, Libre.fm и ListenBrainz.",
         "description": "'About' section text"
     },
-    "contributorsTitle": {
+    "aboutContributorsTitle": {
         "message": "Участники проекта",
         "description": "'Contributors' header"
     },
-    "contributorsText": {
+    "aboutContributorsText": {
         "message": "Вы можете посмотреть список участников проекта на <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">странице проекта</a> на GitHub.",
         "description": "'About' section text"
     },
-    "showSomeLoveTitle": {
+    "aboutShowSomeLoveTitle": {
         "message": "Пожертвования",
         "description": "'Show some love' section"
     },
-    "showSomeLoveText1": {
+    "aboutShowSomeLoveText1": {
         "message": "В отличие от других расширений, это не содержит рекламные баннеры.",
         "description": ""
     },
-    "showSomeLoveText2": {
+    "aboutShowSomeLoveText2": {
         "message": "Расширение бесплатно, и всегда будет бесплатным. Если вы хотите поддержать разработку расширения, вы можете воспользоваться кнопкой ниже.",
         "description": ""
     },
@@ -359,7 +339,7 @@
         "message": "Очистить",
         "description": "Clear button label"
     },
-    "noItemsInCache": {
+    "tracksNoEditedTracks": {
         "message": "Нет сохранённых данных.",
         "description": "Popup hint"
     },
@@ -395,7 +375,7 @@
         "message": "Расширение не будет скробблить музыку с этого сайта, пока вы не включите этот сайт в настройках расширения.",
         "description": "The description of 'disabled' popup"
     },
-    "disabledSiteButton": {
+    "buttonOpenOptions": {
         "message": "Открыть настройки",
         "description": "Button label"
     },
@@ -467,19 +447,19 @@
         "message": "Открыть обложку альбома в новой вкладке",
         "description": "Title of album image"
     },
-    "infoArtistPlaceholder": {
+    "artistPlaceholder": {
         "message": "Исполнитель",
         "description": "Placeholder of artist input"
     },
-    "infoTrackPlaceholder": {
+    "trackPlaceholder": {
         "message": "Название",
         "description": "Placeholder of track input"
     },
-    "infoAlbumPlaceholder": {
+    "albumPlaceholder": {
         "message": "Альбом (необязательно)",
         "description": "Placeholder of album input"
     },
-    "infoAlbumArtistPlaceholder": {
+    "albumArtistPlaceholder": {
         "message": "Исполнитель альбома (необязательно)",
         "description": "Placeholder of album artist input"
     },

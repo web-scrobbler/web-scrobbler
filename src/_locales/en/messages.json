@@ -8,9 +8,14 @@
     "message": "Web Scrobbler options",
     "description": "Title of options page"
   },
+
+  "optionsSidebarTitle": {
+    "message": "Options",
+    "description": "Sidebar title"
+  },
   "optionsGeneral": {
     "message": "General",
-    "description": "'General' section"
+    "description": "Section name"
   },
   "optionUseNotifications": {
     "message": "Use now playing notifications",
@@ -50,7 +55,7 @@
   },
   "optionsHidden": {
     "message": "Hidden",
-    "description": "'Hidden' section"
+    "description": "Section name"
   },
   "optionScrobblePercent" : {
     "message": "Scrobble at",
@@ -96,10 +101,26 @@
     "message": "Ignore videos that are not in Entertainment category",
     "description": "Option title"
   },
+  "optionsEnableDisableHint": {
+    "message": "Click on the checkbox to enable/disable connectors.",
+    "description": "Enable/disable hint"
+  },
+  "optionsCustomPatternsHint": {
+    "message": "Click on the gear icon to configure custom URL patterns for connectors.",
+    "description": "Description of how to configure custom URL patterns"
+  },
+  "optionsSupportedWebsites": {
+    "message": "Supported websites",
+    "description": "Section name"
+  },
+  "optionsToggle": {
+    "message": "Toggle",
+    "description": "Label of toggle button"
+  },
 
-  "optionsAccounts": {
+  "accountsSidebarTitle": {
     "message": "Accounts",
-    "description": "'Accounts' section"
+    "description": "Sidebar title"
   },
   "accountsSignedInAs": {
     "message": "You are signed in as $1.",
@@ -111,7 +132,7 @@
   },
   "accountsProfile": {
     "message": "Profile",
-    "description": "'Signed in' label"
+    "description": "Button label"
   },
   "accountsSignOut": {
     "message": "Sign out",
@@ -125,74 +146,26 @@
     "message": "Properties",
     "description": "Button label"
   },
-  "accountsScrobblerPropsTitle": {
-    "message": "$1 properties",
-    "description": "Button label"
-  },
-  "accountsUserApiUrl": {
-    "message": "API URL",
-    "description": "Input label"
-  },
-  "accountsUserApiUrlPlaceholder": {
-    "message": "Custom API URL",
-    "description": "Input label"
-  },
-  "accountsUserToken": {
-    "message": "Token",
-    "description": "Input label"
-  },
-  "accountsUserTokenPlaceholder": {
-    "message": "Custom token",
-    "description": "Input label"
-  },
 
-  "optionsOptions": {
-    "message": "Options",
-    "description": "'Options' section"
-  },
-  "optionsTracks": {
+  "tracksSidebarTitle": {
     "message": "Tracks",
     "description": "Sidebar section name"
   },
-  "optionsEditedTracks": {
+  "tracksEditedTracks": {
     "message": "Edited tracks",
-    "description": "'Edited tracks' header"
+    "description": "Section name"
   },
-  "optionsEditedTracksDesc": {
+  "tracksEditedTracksDesc": {
     "message": "This extension stores edited tracks.",
     "description": "Description of edited tracks"
   },
-  "optionsEditedTracksPopupTitle": {
+  "tracksEditedTracksCount": {
     "message": "$1 edited tracks",
-    "description": "'Edited tracks' header"
+    "description": "Section name"
   },
-  "optionsViewEdited": {
-    "message": "View",
-    "description": "Button to view edited tracks"
-  },
-  "optionsExportEdited": {
-    "message": "Export",
-    "description": "Button to export edited tracks"
-  },
-  "optionsImportEdited": {
-    "message": "Import",
-    "description": "Button to import edited tracks"
-  },
-  "optionsEnableDisableHint": {
-    "message": "Click on the checkbox to enable/disable connectors.",
-    "description": "Enable/disable hint"
-  },
-  "optionsCustomPatternsHint": {
-    "message": "Click on the gear icon to configure custom URL patterns for connectors.",
-    "description": "Description of how to configure custom URL patterns"
-  },
-  "optionsSupportedWebsites": {
-    "message": "Supported websites",
-    "description": "'Supported websites' header"
-  },
-  "optionsToggle": {
-    "message": "Toggle",
-    "description": "Label of toggle button"
+  "tracksNoEditedTracks": {
+    "message": "No items in cache.",
+    "description": "Popup hint"
   },
 
   "learnMoreLabel": {
@@ -200,26 +173,9 @@
     "description": "Learn more label"
   },
 
-  "contactTitle": {
-    "message": "Contact",
-    "description": "'Contact' section"
-  },
-  "contactGitHubDesc": {
-    "message": "Report an issue and contribute",
-    "description": "Description for GitHub section"
-  },
-  "contactTwitterDesc": {
-    "message": "Keep up with the updates and for quick chat",
-    "description": "Description for Twitter section"
-  },
-  "contactPrivacyPolicyDesc": {
-    "message": "View the privacy policy",
-    "description": "Description for privacy section"
-  },
-
-  "faqTitle": {
+  "faqSidebarTitle": {
     "message": "FAQ",
-    "description": "'FAQ' section"
+    "description": "Section name"
   },
   "faqQuestion1": {
     "message": "How can I start using the extension?",
@@ -314,71 +270,38 @@
     "description": "Answer #7"
   },
 
-  "optionsAbout": {
+  "aboutSidebarTitle": {
     "message": "About",
-    "description": "'About' section"
+    "description": "Section name"
   },
   "aboutChangelog": {
     "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='#'>here</a>. For the full changelog please visit <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>this page</a>.",
-    "description": "'About' section text"
+    "description": "Section name text"
   },
   "aboutExtensionDesc": {
     "message": "Web Scrobbler is a browser extension created for people who listen to music online through their browser, and would like to keep an updated playback history using scrobbling services, such as Last.fm, Libre.fm and ListenBrainz.",
-    "description": "'About' section text"
+    "description": "Section name text"
   },
-  "contributorsTitle": {
+  "aboutContributorsTitle": {
     "message": "Contributors",
     "description": "'Contributors' header"
   },
-  "contributorsText": {
+  "aboutContributorsText": {
     "message": "You can find the list of contributors <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">right on the GitHub</a>",
-    "description": "'About' section text"
+    "description": "Section name text"
   },
-  "showSomeLoveTitle": {
+  "aboutShowSomeLoveTitle": {
     "message": "Show some love",
-    "description": "'Show some love' section"
+    "description": "Section name"
   },
-  "showSomeLoveText1": {
+  "aboutShowSomeLoveText1": {
     "message": "Unlike other extensions, this one does not contain any flashing banners or sneaky ads.",
     "description": ""
   },
-  "showSomeLoveText2": {
+  "aboutShowSomeLoveText2": {
     "message": "The extension is free, and will always be free. But if you want to support development of the extension, you can use the button below.",
     "description": ""
   },
-  "customPatternsHint": {
-    "message": "Add URL patterns that the connector should match below.",
-    "description": "Popup hint"
-  },
-  "customPatternsAdd": {
-    "message": "Add pattern",
-    "description": "Add button"
-  },
-  "albumTooltip": {
-    "message": "From \"$1\" album",
-    "description": "Tooltip text"
-  },
-  "buttonOk": {
-    "message": "OK",
-    "description": "OK button label"
-  },
-  "buttonCancel": {
-    "message": "Cancel",
-    "description": "Cancel button label"
-  },
-  "buttonReset": {
-    "message": "Reset",
-    "description": "Reset button label"
-  },
-  "buttonClear": {
-    "message": "Clear",
-    "description": "Clear button label"
-  },
-  "noItemsInCache": {
-    "message": "No items in cache.",
-    "description": "Popup hint"
-  },
-
 
   "getStartedHeader": {
     "message": "Play some music to get started",
@@ -397,7 +320,6 @@
     "description": "Description of how to submit new issue"
   },
 
-
   "serviceErrorHeader": {
     "message": "Service error",
     "description": "The header of 'error' popup"
@@ -414,10 +336,6 @@
   "disabledSiteDesc": {
     "message": "The extension won't scrobble music from this website until you turn it on in the extension options.",
     "description": "The description of 'disabled' popup"
-  },
-  "disabledSiteButton": {
-    "message": "Open options page",
-    "description": "Button label"
   },
 
   "unsupportedWebsiteHeader": {
@@ -488,22 +406,6 @@
   "infoOpenAlbumArt": {
     "message": "Open album art in new tab",
     "description": "Title of album image"
-  },
-  "infoArtistPlaceholder": {
-    "message": "Artist",
-    "description": "Placeholder of artist input"
-  },
-  "infoTrackPlaceholder": {
-    "message": "Track",
-    "description": "Placeholder of track input"
-  },
-  "infoAlbumPlaceholder": {
-    "message": "Album (optional)",
-    "description": "Placeholder of album input"
-  },
-  "infoAlbumArtistPlaceholder": {
-    "message": "Album artist (optional)",
-    "description": "Placeholder of album artist input"
   },
   "infoViewArtistPage": {
     "message": "View artist page",
@@ -611,6 +513,8 @@
     "message": "Click on the icon in the extensions bar to correct and submit track info.",
     "description": "Notification text"
   },
+
+
   "startupTitle": {
     "message": "Welcome to Web Scrobbler!",
     "description": "Title for startup page"
@@ -636,6 +540,38 @@
     "description": "Opt out"
   },
 
+
+  "accountsScrobblerPropsTitle": {
+    "message": "$1 properties",
+    "description": "Modal title"
+  },
+  "accountsUserApiUrl": {
+    "message": "API URL",
+    "description": "Input label"
+  },
+  "accountsUserApiUrlPlaceholder": {
+    "message": "Custom API URL",
+    "description": "Input placeholder"
+  },
+  "accountsUserToken": {
+    "message": "Token",
+    "description": "Input label"
+  },
+  "accountsUserTokenPlaceholder": {
+    "message": "Custom token",
+    "description": "Input placeholder"
+  },
+
+  "customPatternsHint": {
+    "message": "Add URL patterns that the connector should match below.",
+    "description": "Popup hint"
+  },
+  "customPatternsAdd": {
+    "message": "Add pattern",
+    "description": "Button name"
+  },
+
+
   "hotkeyToggleConnector": {
     "message": "Toggle scrobbling for current website",
     "description": "Hotkey label"
@@ -647,5 +583,57 @@
   "hotkeyUnloveSong": {
     "message": "Unlove now playing song",
     "description": "Hotkey label"
+  },
+
+
+  "albumTooltip": {
+    "message": "From \"$1\" album",
+    "description": "Tooltip text"
+  },
+  "artistPlaceholder": {
+    "message": "Artist",
+    "description": "Placeholder of artist input"
+  },
+  "trackPlaceholder": {
+    "message": "Track",
+    "description": "Placeholder of track input"
+  },
+  "albumPlaceholder": {
+    "message": "Album (optional)",
+    "description": "Placeholder of album input"
+  },
+  "albumArtistPlaceholder": {
+    "message": "Album artist (optional)",
+    "description": "Placeholder of album artist input"
+  },
+
+
+  "buttonOk": {
+    "message": "OK",
+    "description": "OK button label"
+  },
+  "buttonCancel": {
+    "message": "Cancel",
+    "description": "Cancel button label"
+  },
+  "buttonReset": {
+    "message": "Reset",
+    "description": "Reset button label"
+  },
+  "buttonClear": {
+    "message": "Clear",
+    "description": "Clear button label"
+  },
+  "buttonExport": {
+    "message": "Export",
+    "description": "Button name"
+  },
+  "buttonImport": {
+    "message": "Import",
+    "description": "Button name"
+  },
+  "buttonOpenOptions": {
+    "message": "Open options page",
+    "description": "Button label"
   }
 }

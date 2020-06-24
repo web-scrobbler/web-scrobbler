@@ -91,7 +91,7 @@
         "message": "Ignoruje videá, ktoré nie sú z kategórie \"Zábava\"",
         "description": "Option title"
     },
-    "optionsAccounts": {
+    "accountsSidebarTitle": {
         "message": "Účty",
         "description": "'Accounts' section"
     },
@@ -115,31 +115,27 @@
         "message": "Prihlásiť",
         "description": "Button label"
     },
-    "optionsOptions": {
+    "optionsSidebarTitle": {
         "message": "Nastavenia",
         "description": "'Options' section"
     },
-    "optionsEditedTracks": {
+    "tracksEditedTracks": {
         "message": "Upravené skladby",
         "description": "'Edited tracks' header"
     },
-    "optionsEditedTracksDesc": {
+    "tracksEditedTracksDesc": {
         "message": "Doplnok udržiava históriu upravených skladieb.",
         "description": "Description of edited tracks"
     },
-    "optionsEditedTracksPopupTitle": {
+    "tracksEditedTracksCount": {
         "message": "$1upravené skladby",
         "description": "'Edited tracks' header"
     },
-    "optionsViewEdited": {
-        "message": "Zobraziť",
-        "description": "Button to view edited tracks"
-    },
-    "optionsExportEdited": {
+    "buttonExport": {
         "message": "Exportovať",
         "description": "Button to export edited tracks"
     },
-    "optionsImportEdited": {
+    "buttonImport": {
         "message": "Importovať",
         "description": "Button to import edited tracks"
     },
@@ -163,23 +159,7 @@
         "message": "Dozvedieť sa viac",
         "description": "Learn more label"
     },
-    "contactTitle": {
-        "message": "Kontakt",
-        "description": "'Contact' section"
-    },
-    "contactGitHubDesc": {
-        "message": "Nahlásiť problém a prispieť",
-        "description": "Description for GitHub section"
-    },
-    "contactTwitterDesc": {
-        "message": "Zostaňte v obraze, prípadne nám napíšte",
-        "description": "Description for Twitter section"
-    },
-    "contactPrivacyPolicyDesc": {
-        "message": "Zobraziť zásady ochrany osobných údajov",
-        "description": "Description for privacy section"
-    },
-    "faqTitle": {
+    "faqSidebarTitle": {
         "message": "Často kladené otázky",
         "description": "'FAQ' section"
     },
@@ -275,7 +255,7 @@
         "message": "Pôvodným autorom doplnku je David Šabata. Momentálne je doplnok vyvíjaný a udržiavaný Web Scrobbler tímom.",
         "description": "Answer #7"
     },
-    "optionsAbout": {
+    "aboutSidebarTitle": {
         "message": "O doplnku",
         "description": "'About' section"
     },
@@ -287,23 +267,23 @@
         "message": "Web Scrobbler je doplnok do prehliadača vytvorený pre ľudí, ktorí počúvajú hudbu online v prehliadači, a chceli by si udržiavať históriu prehrávania pomocou hudobných služieb, ako napríklad Last.fm, Libre.fm a ListenBrainz.",
         "description": "'About' section text"
     },
-    "contributorsTitle": {
+    "aboutContributorsTitle": {
         "message": "Vývojári",
         "description": "'Contributors' header"
     },
-    "contributorsText": {
+    "aboutContributorsText": {
         "message": "Úplný zoznam vývojárov môžete nájsť <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">priamo na Githube</a>",
         "description": "'About' section text"
     },
-    "showSomeLoveTitle": {
+    "aboutShowSomeLoveTitle": {
         "message": "Podporte ma",
         "description": "'Show some love' section"
     },
-    "showSomeLoveText1": {
+    "aboutShowSomeLoveText1": {
         "message": "Narozdiel od iných doplnkov, tento neobsahuje žiadne blikajúce alebo skryté reklamy.",
         "description": ""
     },
-    "showSomeLoveText2": {
+    "aboutShowSomeLoveText2": {
         "message": "Používanie doplnku je zadarmo, a vždy aj bude. Avšak, ak chcete podporiť vývoj doplnku, môžete použiť tlačidlo nižšie.",
         "description": ""
     },
@@ -335,7 +315,7 @@
         "message": "Vyčistiť",
         "description": "Clear button label"
     },
-    "noItemsInCache": {
+    "tracksNoEditedTracks": {
         "message": "Žiadne položky v pamäti.",
         "description": "Popup hint"
     },
@@ -371,7 +351,7 @@
         "message": "Doplnok nebude zaznamenávať hudbu z tejto stránky pokým ju nezapnete v nastaveniach doplnku.",
         "description": "The description of 'disabled' popup"
     },
-    "disabledSiteButton": {
+    "buttonOpenOptions": {
         "message": "Otvoriť stránku nastavení",
         "description": "Button label"
     },
@@ -443,19 +423,19 @@
         "message": "Otvoriť obal albumu na novej karte",
         "description": "Title of album image"
     },
-    "infoArtistPlaceholder": {
+    "artistPlaceholder": {
         "message": "Interpret",
         "description": "Placeholder of artist input"
     },
-    "infoTrackPlaceholder": {
+    "trackPlaceholder": {
         "message": "Skladba",
         "description": "Placeholder of track input"
     },
-    "infoAlbumPlaceholder": {
+    "albumPlaceholder": {
         "message": "Album (nepovinné)",
         "description": "Placeholder of album input"
     },
-    "infoAlbumArtistPlaceholder": {
+    "albumArtistPlaceholder": {
         "message": "Autor obalu albumu (nepovinné)",
         "description": "Placeholder of album artist input"
     },

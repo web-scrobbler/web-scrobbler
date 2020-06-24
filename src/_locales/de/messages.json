@@ -75,7 +75,7 @@
         "message": "Ignoriere Videos die nicht in Kategorie Unterhaltung sind",
         "description": "Option title"
     },
-    "optionsAccounts": {
+    "accountsSidebarTitle": {
         "message": "Accounts",
         "description": "'Accounts' section"
     },
@@ -99,31 +99,27 @@
         "message": "Anmelden",
         "description": "Button label"
     },
-    "optionsOptions": {
+    "optionsSidebarTitle": {
         "message": "Einstellungen",
         "description": "'Options' section"
     },
-    "optionsEditedTracks": {
+    "tracksEditedTracks": {
         "message": "Bearbeitete Title",
         "description": "'Edited tracks' header"
     },
-    "optionsEditedTracksDesc": {
+    "tracksEditedTracksDesc": {
         "message": "Diese Erweiterung speichert bearbeitete Titel.",
         "description": "Description of edited tracks"
     },
-    "optionsEditedTracksPopupTitle": {
+    "tracksEditedTracksCount": {
         "message": "$1 bearbeitete Titel",
         "description": "'Edited tracks' header"
     },
-    "optionsViewEdited": {
-        "message": "Ansehen",
-        "description": "Button to view edited tracks"
-    },
-    "optionsExportEdited": {
+    "buttonExport": {
         "message": "Exportieren",
         "description": "Button to export edited tracks"
     },
-    "optionsImportEdited": {
+    "buttonImport": {
         "message": "Importieren",
         "description": "Button to import edited tracks"
     },
@@ -143,23 +139,7 @@
         "message": "An/Ausschalten",
         "description": "Label of toggle button"
     },
-    "contactTitle": {
-        "message": "Kontakt",
-        "description": "'Contact' section"
-    },
-    "contactGitHubDesc": {
-        "message": "Erstelle einen Problembericht und hilf mit",
-        "description": "Description for GitHub section"
-    },
-    "contactTwitterDesc": {
-        "message": "Mit Updates auf dem Laufenden bleiben und für eine schnelle Nachricht",
-        "description": "Description for Twitter section"
-    },
-    "contactPrivacyPolicyDesc": {
-        "message": "Die Datenschutzrichtlinien ansehen",
-        "description": "Description for privacy section"
-    },
-    "faqTitle": {
+    "faqSidebarTitle": {
         "message": "FAQ",
         "description": "'FAQ' section"
     },
@@ -255,7 +235,7 @@
         "message": "Der ursprüngliche Autor dieser Erweiterung ist David Šabata. Jetzt wird diese Erweiterung vom sogenannten Web-Scrobbler-Team verwaltet.",
         "description": "Answer #7"
     },
-    "optionsAbout": {
+    "aboutSidebarTitle": {
         "message": "Über",
         "description": "'About' section"
     },
@@ -267,19 +247,19 @@
         "message": "Web Scrobbler ist gemacht für Leute, die Musik online im Browser hören und ein vollständiges Wiedergabegearchiv über Last.fms Scrobbling-Dienst haben möchten.",
         "description": "'About' section text"
     },
-    "contributorsTitle": {
+    "aboutContributorsTitle": {
         "message": "Mitwirkende",
         "description": "'Contributors' header"
     },
-    "contributorsText": {
+    "aboutContributorsText": {
         "message": "Du kannst die Liste der Mitwirkenden <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">direkt auf Github</a> sehen",
         "description": "'About' section text"
     },
-    "showSomeLoveTitle": {
+    "aboutShowSomeLoveTitle": {
         "message": "Zeig deine Unterstützung",
         "description": "'Show some love' section"
     },
-    "showSomeLoveText1": {
+    "aboutShowSomeLoveText1": {
         "message": "Anders als andere Erweiterungen enthält diese keine blinkenden Banner oder hinterhältige Werbung.",
         "description": ""
     },
@@ -311,7 +291,7 @@
         "message": "Löschen",
         "description": "Clear button label"
     },
-    "noItemsInCache": {
+    "tracksNoEditedTracks": {
         "message": "Nichts im Cache.",
         "description": "Popup hint"
     },
@@ -347,7 +327,7 @@
         "message": "Die Erweiterung wird keine Musik von dieser Webseite scrobblen bis du sie in den Erweiterungseinstellungen aktivierst.",
         "description": "The description of 'disabled' popup"
     },
-    "disabledSiteButton": {
+    "buttonOpenOptions": {
         "message": "Öffne Einstellungsseite",
         "description": "Button label"
     },
@@ -403,19 +383,19 @@
         "message": "Albumcover in neuem Tab öffnen",
         "description": "Title of album image"
     },
-    "infoArtistPlaceholder": {
+    "artistPlaceholder": {
         "message": "Künstler",
         "description": "Placeholder of artist input"
     },
-    "infoTrackPlaceholder": {
+    "trackPlaceholder": {
         "message": "Titel",
         "description": "Placeholder of track input"
     },
-    "infoAlbumPlaceholder": {
+    "albumPlaceholder": {
         "message": "Album (optional)",
         "description": "Placeholder of album input"
     },
-    "infoAlbumArtistPlaceholder": {
+    "albumArtistPlaceholder": {
         "message": "Albumkünstler (optional)",
         "description": "Placeholder of album artist input"
     },

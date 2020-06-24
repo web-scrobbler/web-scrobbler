@@ -91,7 +91,7 @@
         "message": "Ignorar videos que no están en la categoría Entretenimiento",
         "description": "Option title"
     },
-    "optionsAccounts": {
+    "accountsSidebarTitle": {
         "message": "Cuentas",
         "description": "'Accounts' section"
     },
@@ -115,31 +115,27 @@
         "message": "Iniciar sesión",
         "description": "Button label"
     },
-    "optionsOptions": {
+    "optionsSidebarTitle": {
         "message": "Opciones",
         "description": "'Options' section"
     },
-    "optionsEditedTracks": {
+    "tracksEditedTracks": {
         "message": "Editar canciones",
         "description": "'Edited tracks' header"
     },
-    "optionsEditedTracksDesc": {
+    "tracksEditedTracksDesc": {
         "message": "Esta extensión guarda las canciones editadas.",
         "description": "Description of edited tracks"
     },
-    "optionsEditedTracksPopupTitle": {
+    "tracksEditedTracksCount": {
         "message": "$1 canciones editadas",
         "description": "'Edited tracks' header"
     },
-    "optionsViewEdited": {
-        "message": "Ver",
-        "description": "Button to view edited tracks"
-    },
-    "optionsExportEdited": {
+    "buttonExport": {
         "message": "Exportar",
         "description": "Button to export edited tracks"
     },
-    "optionsImportEdited": {
+    "buttonImport": {
         "message": "Importar",
         "description": "Button to import edited tracks"
     },
@@ -163,23 +159,7 @@
         "message": "Más información",
         "description": "Learn more label"
     },
-    "contactTitle": {
-        "message": "Contacto",
-        "description": "'Contact' section"
-    },
-    "contactGitHubDesc": {
-        "message": "Informar un problema y contribuir",
-        "description": "Description for GitHub section"
-    },
-    "contactTwitterDesc": {
-        "message": "Manténgase al día con las actualizaciones y chat rápido",
-        "description": "Description for Twitter section"
-    },
-    "contactPrivacyPolicyDesc": {
-        "message": "Ver política de privacidad",
-        "description": "Description for privacy section"
-    },
-    "faqTitle": {
+    "faqSidebarTitle": {
         "message": "FAQ",
         "description": "'FAQ' section"
     },
@@ -275,7 +255,7 @@
         "message": "El autor original de esta extensión es David Šabata. Ahora la misma es desarrollada y mantenido por el equipo dado en llamar Web Scrobbler Team.",
         "description": "Answer #7"
     },
-    "optionsAbout": {
+    "aboutSidebarTitle": {
         "message": "Acerca",
         "description": "'About' section"
     },
@@ -287,23 +267,23 @@
         "message": "Web Scrobbler es una extensión de navegador creado para las personas que escuchan música en línea a través de su navegador y les gustaría mantener un historial de reproducción actualizado usando el servicio de scrobbling de Last.fm, Libre.fm y ListenBrainz.",
         "description": "'About' section text"
     },
-    "contributorsTitle": {
+    "aboutContributorsTitle": {
         "message": "Colaboradores",
         "description": "'Contributors' header"
     },
-    "contributorsText": {
+    "aboutContributorsText": {
         "message": "Puedes encontrar una lista de los colaboradores <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">en GitHub</a>",
         "description": "'About' section text"
     },
-    "showSomeLoveTitle": {
+    "aboutShowSomeLoveTitle": {
         "message": "Muestra algo de cariño",
         "description": "'Show some love' section"
     },
-    "showSomeLoveText1": {
+    "aboutShowSomeLoveText1": {
         "message": "A diferencia de otras extensiones, ésta no contiene ningún banner parpadeante ni anuncios furtivos.",
         "description": ""
     },
-    "showSomeLoveText2": {
+    "aboutShowSomeLoveText2": {
         "message": "La extensión es gratuita y siempre lo será. Pero si desea apoyar el desarrollo de la extensión, puede usar el botón a continuación.",
         "description": ""
     },
@@ -335,7 +315,7 @@
         "message": "Limpiar",
         "description": "Clear button label"
     },
-    "noItemsInCache": {
+    "tracksNoEditedTracks": {
         "message": "No hay ítems en caché.",
         "description": "Popup hint"
     },
@@ -371,7 +351,7 @@
         "message": "La extensión no hará scrobble de las canciones de este sitio web hasta que lo habilite desde las opciones de la extensión.",
         "description": "The description of 'disabled' popup"
     },
-    "disabledSiteButton": {
+    "buttonOpenOptions": {
         "message": "Abrir página de opciones",
         "description": "Button label"
     },
@@ -443,19 +423,19 @@
         "message": "Abrir la carátula del álbum en una nueva pestaña",
         "description": "Title of album image"
     },
-    "infoArtistPlaceholder": {
+    "artistPlaceholder": {
         "message": "Artista",
         "description": "Placeholder of artist input"
     },
-    "infoTrackPlaceholder": {
+    "trackPlaceholder": {
         "message": "Canción",
         "description": "Placeholder of track input"
     },
-    "infoAlbumPlaceholder": {
+    "albumPlaceholder": {
         "message": "Album (opcional)",
         "description": "Placeholder of album input"
     },
-    "infoAlbumArtistPlaceholder": {
+    "albumArtistPlaceholder": {
         "message": "Album del artista (opcional)",
         "description": "Placeholder of album artist input"
     },

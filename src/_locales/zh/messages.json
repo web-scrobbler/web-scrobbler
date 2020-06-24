@@ -91,7 +91,7 @@
         "message": "忽略不属于娱乐分类的视频",
         "description": "Option title"
     },
-    "optionsAccounts": {
+    "accountsSidebarTitle": {
         "message": "账户",
         "description": "'Accounts' section"
     },
@@ -139,31 +139,27 @@
         "message": "自定义 token",
         "description": "Input label"
     },
-    "optionsOptions": {
+    "optionsSidebarTitle": {
         "message": "选项",
         "description": "'Options' section"
     },
-    "optionsEditedTracks": {
+    "tracksEditedTracks": {
         "message": "已编辑曲目",
         "description": "'Edited tracks' header"
     },
-    "optionsEditedTracksDesc": {
+    "tracksEditedTracksDesc": {
         "message": "该扩展储存已编辑曲目。",
         "description": "Description of edited tracks"
     },
-    "optionsEditedTracksPopupTitle": {
+    "tracksEditedTracksCount": {
         "message": "$1已编辑曲目",
         "description": "'Edited tracks' header"
     },
-    "optionsViewEdited": {
-        "message": "查看",
-        "description": "Button to view edited tracks"
-    },
-    "optionsExportEdited": {
+    "buttonExport": {
         "message": "导出",
         "description": "Button to export edited tracks"
     },
-    "optionsImportEdited": {
+    "buttonImport": {
         "message": "导入",
         "description": "Button to import edited tracks"
     },
@@ -187,23 +183,7 @@
         "message": "了解更多",
         "description": "Learn more label"
     },
-    "contactTitle": {
-        "message": "联系",
-        "description": "'Contact' section"
-    },
-    "contactGitHubDesc": {
-        "message": "报告问题并做出贡献",
-        "description": "Description for GitHub section"
-    },
-    "contactTwitterDesc": {
-        "message": "查看近况及简短交流",
-        "description": "Description for Twitter section"
-    },
-    "contactPrivacyPolicyDesc": {
-        "message": "查看隐私政策",
-        "description": "Description for privacy section"
-    },
-    "faqTitle": {
+    "faqSidebarTitle": {
         "message": "常见问题",
         "description": "'FAQ' section"
     },
@@ -299,7 +279,7 @@
         "message": "本扩展的原作者是 David Šabata 。现在该扩展由 Web Scrobbler 团队开发和维护。",
         "description": "Answer #7"
     },
-    "optionsAbout": {
+    "aboutSidebarTitle": {
         "message": "关于",
         "description": "'About' section"
     },
@@ -311,23 +291,23 @@
         "message": "Web Scrobbler 是为了通过浏览器在线听音乐并希望使用记录服务（如 Last.fm 、Libre.fm 和 ListenBrainz）保持播放历史记录更新的人而创建的一个浏览器扩展。 ",
         "description": "'About' section text"
     },
-    "contributorsTitle": {
+    "aboutContributorsTitle": {
         "message": "贡献者",
         "description": "'Contributors' header"
     },
-    "contributorsText": {
+    "aboutContributorsText": {
         "message": "您可以直接在 <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">GitHub</a> 上找到贡献者列表。",
         "description": "'About' section text"
     },
-    "showSomeLoveTitle": {
+    "aboutShowSomeLoveTitle": {
         "message": "捐赠支持",
         "description": "'Show some love' section"
     },
-    "showSomeLoveText1": {
+    "aboutShowSomeLoveText1": {
         "message": "与其他扩展程序不同，本扩展不包含任何闪烁的横幅或鬼祟的广告。",
         "description": ""
     },
-    "showSomeLoveText2": {
+    "aboutShowSomeLoveText2": {
         "message": "该扩展免费并将永久免费。但是如果你想支持扩展的开发，可以使用下方按钮。",
         "description": ""
     },
@@ -359,7 +339,7 @@
         "message": "清空",
         "description": "Clear button label"
     },
-    "noItemsInCache": {
+    "tracksNoEditedTracks": {
         "message": "无记录。",
         "description": "Popup hint"
     },
@@ -395,7 +375,7 @@
         "message": "直到您在扩展选项中启用该网站之前，本扩展不会在该网站追踪播放记录。",
         "description": "The description of 'disabled' popup"
     },
-    "disabledSiteButton": {
+    "buttonOpenOptions": {
         "message": "打开选项页面",
         "description": "Button label"
     },
@@ -467,19 +447,19 @@
         "message": "在新标签页中打开专辑封面",
         "description": "Title of album image"
     },
-    "infoArtistPlaceholder": {
+    "artistPlaceholder": {
         "message": "艺术家",
         "description": "Placeholder of artist input"
     },
-    "infoTrackPlaceholder": {
+    "trackPlaceholder": {
         "message": "曲目",
         "description": "Placeholder of track input"
     },
-    "infoAlbumPlaceholder": {
+    "albumPlaceholder": {
         "message": "专辑 （可选）",
         "description": "Placeholder of album input"
     },
-    "infoAlbumArtistPlaceholder": {
+    "albumArtistPlaceholder": {
         "message": "专辑艺人（可选）",
         "description": "Placeholder of album artist input"
     },
