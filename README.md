@@ -95,7 +95,7 @@ See the [license file][License].
 [AmoBadge]: https://img.shields.io/amo/v/web-scrobbler.svg?label=firefox&logo=mozilla-firefox&logoColor=white
 [CodacyBadge]: https://img.shields.io/codacy/grade/32658c34c5c542d9a315ead8d5eadd0e?logo=codacy&logoColor=white
 [CodacyCoverageBadge]: https://img.shields.io/codacy/coverage/32658c34c5c542d9a315ead8d5eadd0e?logo=codacy&logoColor=white
-[DiscordBadge]: https://img.shields.io/discord/716363971070001202?logo=discord&logoColor=white&color=49b393
+[DiscordBadge]: https://img.shields.io/discord/716363971070001202?logo=discord&logoColor=white&color=7289dA
 [GitHubActionsBadge]: https://img.shields.io/github/workflow/status/web-scrobbler/web-scrobbler/Test?label=test&logo=github&logoColor=white
 [WebStoreBadge]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg?label=chrome&logo=google-chrome&logoColor=white
 
