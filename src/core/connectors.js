@@ -788,10 +788,22 @@ const connectors = [{
 	js: 'connectors/radio-mb.js',
 	id: 'radio-mb',
 }, {
-	label: 'RadioPlayer',
+	label: 'Webradio.de',
 	matches: [
 		'*://www.webradio.de/*',
+	],
+	js: 'connectors/radioplayer.js',
+	id: 'webradio.de',
+}, {
+	label: 'The Breeze',
+	matches: [
 		'*://www.thebreeze.com/*/radioplayer/*',
+	],
+	js: 'connectors/radioplayer.js',
+	id: 'thebreeze',
+}, {
+	label: 'RadioPlayer',
+	matches: [
 		'*://ukradioplayer.*/*',
 		'*://radioplayer.*/*',
 		// Generic patterns
