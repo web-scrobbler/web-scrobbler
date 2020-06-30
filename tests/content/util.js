@@ -245,17 +245,49 @@ const PROCESS_YT_VIDEO_TITLE_DATA = [{
 	args: ['【Genre】 Artist - Track'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
-	description: 'should remove CD track number from the beginning of the title',
-	args: [' 01. Artist - Track'],
+	description: 'should remove single-digit CD track number from the beginning of the title',
+	args: ['1. Artist - Track'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
-	description: 'should remove vinyl track number from the beginning of the title',
-	args: [' A1. Artist - Track'],
+	description: 'should remove zero-padded CD track number from the beginning of the title',
+	args: ['01. Artist - Track'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
-	description: 'should remove complex vinyl track number from the beginning of the title',
-	args: [' AA1. Artist - Track'],
+	description: 'should remove CD track number up to 99 from the beginning of the title',
+	args: ['99. Artist - Track'],
 	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should not remove CD track number higher than 100 from the beginning of the title',
+	args: ['100. Artist - Track'],
+	expected: { artist: '100. Artist', track: 'Track' },
+}, {
+	description: 'should not remove CD track number if not suffixed by a dot and a space from the beginning of the title',
+	args: ['01- Artist - Track'],
+	expected: { artist: '01- Artist', track: 'Track' },
+}, {
+	description: 'should remove CD track number following space from the beginning of the title',
+	args: [' 1. Artist - Track'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove multiple-vinyl track number from the beginning of the title',
+	args: ['C1. Artist - Track'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove single-track vinyl track number from the beginning of the title',
+	args: ['A. Artist - Track'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove parallel groove vinyl track number from the beginning of the title',
+	args: ['AB2. Artist - Track'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should not remove mistyped vinyl track number from the beginning of the title',
+	args: ['1A. Artist - Track'],
+	expected: { artist: '1A. Artist', track: 'Track' },
+}, {
+	description: 'should not remove mistyped parallel groove vinyl track number from the beginning of the title',
+	args: ['A11. Artist - Track'],
+	expected: { artist: 'A11. Artist', track: 'Track' },
 }, {
 	description: 'should process text string w/o separators',
 	args: ['Artist "Track"'],
