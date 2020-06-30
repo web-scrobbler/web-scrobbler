@@ -245,6 +245,18 @@ const PROCESS_YT_VIDEO_TITLE_DATA = [{
 	args: ['【Genre】 Artist - Track'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
+	description: 'should remove CD track number from the beginning of the title',
+	args: [' 01. Artist - Track'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove vinyl track number from the beginning of the title',
+	args: [' A1. Artist - Track'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove complex vinyl track number from the beginning of the title',
+	args: [' AA1. Artist - Track'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
 	description: 'should process text string w/o separators',
 	args: ['Artist "Track"'],
 	expected: { artist: 'Artist', track: 'Track' },
