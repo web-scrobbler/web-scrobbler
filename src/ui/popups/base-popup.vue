@@ -1,0 +1,27 @@
+<template>
+	<div class="content text-center">
+		<slot name="icon"></slot>
+		<h5>
+			<slot name="title"></slot>
+		</h5>
+		<slot name="body"></slot>
+	</div>
+</template>
+
+<style>
+.content {
+	padding: 1rem;
+	width: 300px;
+}
+
+.description {
+	font-size: 85%;
+	text-align: left;
+}
+
+.popup-icon {
+	height: 4rem;
+	margin-bottom: 1rem;
+	width: 4rem;
+}
+</style>

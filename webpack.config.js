@@ -37,10 +37,8 @@ const mainEntryPath = getEntryJsPath(mainEntry);
 
 /**
  * A list of UI popup names. Each name is a name of HTML file of the popup.
- *
- * @type {Array<String>}
  */
-const uiPopups = getUiPopupNames();
+const uiPopups = ['disabled', 'error', 'go-play-music', 'info', 'unsupported'];
 
 /**
  * A list of UI page names. Each name is a directory where all files related
@@ -48,10 +46,7 @@ const uiPopups = getUiPopupNames();
  */
 const uiPages = ['options'];
 
-/**
- * A default chunk for UI popups with no chunk.
- */
-const defaultPopupChunk = 'ui/popups/base-popup';
+const defaultPopupTemplate = 'ui/popups/base-popup';
 
 const chunkDir = 'shared';
 const iconsDir = 'icons';
@@ -79,7 +74,7 @@ const defaultBrowser = browserChrome;
  * A list of CSS styles shared across UI modules. These styles will be extracted
  * as separate chunks.
  */
-const sharedStyles = ['bootstrap', 'base-popup', 'base'];
+const sharedStyles = ['bootstrap', 'base'];
 
 class WatchExtensionFilesPlugin {
 	apply(compiler) {
@@ -221,20 +216,6 @@ function getMode() {
 	return process.env.NODE_ENV || modeDevelopment;
 }
 
-function getUiPopupNames() {
-	return ['disabled', 'go-play-music', 'error', 'unsupported'];
-	// const popupsDir = resolve('src/ui/popups/');
-
-	// return fs
-	// 	.readdirSync(popupsDir)
-	// 	.filter((file) => {
-	// 		return file.endsWith('.html');
-	// 	})
-	// 	.map((file) => {
-	// 		return path.basename(file, '.html');
-	// 	});
-}
-
 /**
  * Return a new entry object for a given UI page.
  *
@@ -245,8 +226,9 @@ function getUiPopupNames() {
 function getUiPageJsEntry(page) {
 	const entryName = `ui/${page}/index`;
 	const entryPath = getEntryJsPath(entryName);
+	const templateName = entryName;
 
-	return { entryName, entryPath };
+	return { entryName, entryPath, templateName };
 }
 
 /**
@@ -259,8 +241,9 @@ function getUiPageJsEntry(page) {
 function getUiPopupJsEntry(popup) {
 	const entryName = `ui/popups/${popup}`;
 	const entryPath = getEntryJsPath(entryName);
+	const templateName = defaultPopupTemplate;
 
-	return { entryName, entryPath };
+	return { entryName, entryPath, templateName };
 }
 
 /**
@@ -291,16 +274,9 @@ function createEntries() {
 		[mainEntry]: resolve(mainEntryPath),
 	};
 
-	const uiEntries = [
-		...getUiPagesEntries(),
-		...getUiPopupsEntries(),
-
-		getUiPopupJsEntry('base-popup'),
-	];
+	const uiEntries = [...getUiPagesEntries(), ...getUiPopupsEntries()];
 	for (const { entryName, entryPath } of uiEntries) {
-		if (entryPath !== null) {
-			entries[entryName] = entryPath;
-		}
+		entries[entryName] = entryPath;
 	}
 
 	return entries;
@@ -308,33 +284,20 @@ function createEntries() {
 
 /**
  * Create an array of HtmlWebpackPlugin for a given list of entries.
- *
- * Each entry can represent either an UI page, or an UI popup. If an entry has
- * no chunk (i.e. no custom JS file), a default chunk will be used instead.
+ * Each entry can represent either an UI page, or an UI popup.
  *
  * @param {Array} entries Array of entries
- * @param {String} defaultChunk Default chunk used as a fallback value
  *
  * @return {Array} Array of webpack plugins
  */
-function createHtmlPluginsFromEntries(entries, defaultChunk = null) {
+function createHtmlPluginsFromEntries(entries) {
 	const plugins = [];
 
-	for (const { entryName, entryPath } of entries) {
-		let chunk = entryName;
-
-		if (entryPath === null) {
-			if (defaultChunk === null) {
-				throw new Error(`No chunk for ${entryName} is specified`);
-			}
-
-			chunk = defaultChunk;
-		}
-
+	for (const { entryName, templateName } of entries) {
 		plugins.push(
 			new HtmlWebpackPlugin({
-				chunks: [chunk],
-				template: resolve(srcDir, `${entryName}.html`),
+				chunks: [entryName],
+				template: resolve(srcDir, `${templateName}.html`),
 				filename: `${entryName}.html`,
 			})
 		);
@@ -432,7 +395,7 @@ function createPlugins(browser) {
 		}),
 		new CopyPlugin({ patterns }),
 		...createHtmlPluginsFromEntries(getUiPagesEntries()),
-		...createHtmlPluginsFromEntries(getUiPopupsEntries(), defaultPopupChunk),
+		...createHtmlPluginsFromEntries(getUiPopupsEntries()),
 		new ImageminPlugin({
 			disable: getMode() !== modeProduction,
 		}),
