@@ -3,7 +3,6 @@
 /* eslint-disable no-template-curly-in-string */
 
 const bootstrapDir = 'bootstrap/dist';
-const fontawesomeDir = '@fortawesome/fontawesome-free';
 
 const rootDir = '.';
 
@@ -66,24 +65,6 @@ const dependenciesInfo = {
 		}],
 	},
 
-	'@fortawesome/fontawesome-free': {
-		name: 'FontAwesome',
-		urlTemplate: 'https://use.fontawesome.com/releases/v${ver}/fontawesome-free-${ver}-web.zip',
-		paths: [{
-			srcPaths: [
-				`${fontawesomeDir}/css/solid.min.css`,
-				`${fontawesomeDir}/css/brands.min.css`,
-				`${fontawesomeDir}/css/fontawesome.min.css`,
-			],
-			destDir: `${vendorDir}/fontawesome/css`,
-		}, {
-			srcPaths: [
-				`${fontawesomeDir}/webfonts/fa-solid-900.woff2`,
-				`${fontawesomeDir}/webfonts/fa-brands-400.woff2`,
-			],
-			destDir: `${vendorDir}/fontawesome/webfonts`,
-		}],
-	},
 	bootstrap: {
 		name: 'Bootstrap',
 		urlTemplate: 'https://github.com/twbs/bootstrap/releases/download/v${ver}/bootstrap-${ver}-dist.zip',

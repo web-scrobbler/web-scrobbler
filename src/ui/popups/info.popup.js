@@ -72,32 +72,35 @@ class InfoPopup {
 	}
 
 	updateTrackInfo() {
-		const {
-			userloved, userPlayCount,
-		} = this.song.metadata;
+		const { userPlayCount } = this.song.metadata;
 		const trackArtUrl =
 			this.song.parsed.trackArt || this.song.metadata.trackArtUrl;
 
 		this.view.setTrackArt(trackArtUrl);
-		this.view.setUserLovedIcon(userloved);
 		this.view.setUserPlayCount(userPlayCount);
 		this.view.setConnectorLabel(this.song.connectorLabel);
 	}
 
 	updateControls() {
 		if (this.mode === modeInfo) {
+			const { userloved } = this.song.metadata;
 			const { isCorrectedByUser, isScrobbled, isSkipped } = this.song.flags;
 			const isEnabled = !(isScrobbled || isSkipped);
 
 			this.view.setRevertButtonVisible(isCorrectedByUser);
+			this.view.setLoveButtonVisible(!userloved);
 			this.view.setSkipButtonVisible(!isSkipped);
 			this.view.setUnskipButtonVisible(isSkipped);
+			this.view.setUnloveButtonVisible(userloved);
 
 			this.view.setEditButtonState(isEnabled);
 			this.view.setRevertButtonState(isEnabled);
 
 			this.view.setSkipButtonState(!isScrobbled);
 			this.view.setUnskipButtonState(false);
+
+			this.view.setLoveButtonState(true);
+			this.view.setUnloveButtonState(true);
 		} else if (this.mode === modeEdit) {
 			const isEnabled = InfoPopup.areTrackFieldsComplete(this.trackFields);
 

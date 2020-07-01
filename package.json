@@ -9,10 +9,8 @@
     "url": "https://github.com/web-scrobbler/web-scrobbler.git"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "5.14.0",
     "blueimp-md5": "2.16.0",
-    "bootstrap": "4.5.0",
-    "jquery": "3.5.1",
+    "bootstrap": "5.0.0-alpha1",
     "metadata-filter": "0.4.1",
     "requirejs": "2.3.6",
     "showdown": "1.9.1",

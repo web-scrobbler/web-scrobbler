@@ -6,8 +6,6 @@
 	<title>Service error</title>
 
 	<link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/vendor/fontawesome/css/fontawesome.min.css">
-	<link rel="stylesheet" href="/vendor/fontawesome/css/solid.min.css">
 
 	<link rel="stylesheet" href="/ui/base.css">
 	<link rel="stylesheet" href="/ui/popups/base-popup.css">
@@ -17,11 +15,14 @@
 
 <body>
 	<div class="content text-center">
-		<i class="fas fa-exclamation-circle fa-3x mb-2"></i>
+		<svg class="popup-icon" viewBox="0 0 16 16" fill="currentColor" focusable="false"  xmlns="http://www.w3.org/2000/svg">
+			<path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+			<path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
+		</svg>
 		<h5 data-i18n="serviceErrorHeader"></h5>
 
 		<p class="description" data-i18n="serviceErrorDesc"></p>
-		<a class="btn btn-primary" role="button" id="options" data-i18n="disabledSiteButton" href="/ui/options/index.html#accounts" target="_blank"></a>
+		<a class="btn btn-primary btn-sm" role="button" id="options" data-i18n="disabledSiteButton" href="/ui/options/index.html#accounts" target="_blank"></a>
 	</div>
 </body>
 

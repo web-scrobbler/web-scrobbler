@@ -8,6 +8,7 @@ const trackArtImgId = 'album-art-img';
 
 const editBtnId = 'edit-link';
 const loveBtnId = 'love-link';
+const unloveBtnId = 'unlove-link';
 const skipBtnId = 'skip-link';
 const unskipBtnId = 'unskip-link';
 const submitBtnId = 'submit-link';
@@ -100,20 +101,6 @@ class InfoPopupView {
 		document.getElementById(trackArtLinkId).setAttribute('href', url);
 	}
 
-	setUserLovedIcon(isLoved) {
-		const loveButon = document.getElementById(loveBtnId);
-
-		if (isLoved) {
-			loveButon.classList.add('loved');
-			loveButon.classList.remove('unloved');
-		} else {
-			loveButon.classList.remove('loved');
-			loveButon.classList.add('unloved');
-		}
-
-		loveButon.setAttribute('title', this.i18n(isLoved ? 'infoUnlove' : 'infoLove'));
-	}
-
 	setUserPlayCount(playCount) {
 		const playCountContainer = document.getElementById(playCountContainerId);
 		const playCountLabel = document.getElementById(playCountLabelId);
@@ -142,6 +129,14 @@ class InfoPopupView {
 		this.setButtonState(
 			editBtnId, flag, 'infoEditTitle', 'infoEditUnableTitle'
 		);
+	}
+
+	setLoveButtonState(flag) {
+		this.setButtonState(loveBtnId, flag, 'infoLove');
+	}
+
+	setLoveButtonVisible(isVisible) {
+		this.setControlVisible(loveBtnId, isVisible);
 	}
 
 	setRevertButtonState(flag) {
@@ -174,6 +169,14 @@ class InfoPopupView {
 		this.setButtonState(
 			swapBtnId, flag, 'infoSwapTitle', 'infoSwapUnableTitle'
 		);
+	}
+
+	setUnloveButtonState(flag) {
+		this.setButtonState(unloveBtnId, flag, 'infoUnlove');
+	}
+
+	setUnloveButtonVisible(isVisible) {
+		this.setControlVisible(unloveBtnId, isVisible);
 	}
 
 	setUnskipButtonState(flag) {
@@ -283,12 +286,12 @@ class InfoPopupView {
 		document.getElementById(buttonId).setAttribute('title', title);
 	}
 
-	setButtonState(selector, state, enabledTitleId, disabledTitleId) {
+	setButtonState(selector, state, enabledTitleId, disabledTitleId = null) {
 		this.setControlEnabled(selector, state);
 		if (state) {
 			this.setButtonTitle(selector, enabledTitleId);
 		} else {
-			this.setButtonTitle(selector, disabledTitleId);
+			this.setButtonTitle(selector, disabledTitleId || enabledTitleId);
 		}
 	}
 

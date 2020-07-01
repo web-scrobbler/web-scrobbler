@@ -150,6 +150,10 @@
     "message": "Options",
     "description": "'Options' section"
   },
+  "optionsTracks": {
+    "message": "Tracks",
+    "description": "Sidebar section name"
+  },
   "optionsEditedTracks": {
     "message": "Edited tracks",
     "description": "'Edited tracks' header"
