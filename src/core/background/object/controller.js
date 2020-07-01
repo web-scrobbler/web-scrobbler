@@ -11,6 +11,7 @@ define((require) => {
 	const ScrobbleService = require('object/scrobble-service');
 	const ApiCallResult = require('object/api-call-result');
 	const SavedEdits = require('storage/saved-edits');
+	const ScrobbleStorage = require('storage/scrobble-storage');
 
 	/**
 	 * List of song fields used to check if song is changed. If any of
@@ -188,7 +189,7 @@ define((require) => {
 		 * React on state change.
 		 * @param {Object} newState State of connector
 		 */
-		onStateChanged(newState) {
+		async onStateChanged(newState) {
 			if (!this.isEnabled) {
 				return;
 			}
@@ -201,6 +202,7 @@ define((require) => {
 				if (this.currentSong) {
 					this.debugLog('Received empty state - resetting');
 
+					await this.addUnknownSongToStorage();
 					this.reset();
 				}
 
@@ -247,7 +249,9 @@ define((require) => {
 		 * Process connector state as new one.
 		 * @param {Object} newState Connector state
 		 */
-		processNewState(newState) {
+		async processNewState(newState) {
+			await this.addUnknownSongToStorage();
+
 			/*
 			 * We've hit a new song (or replaying the previous one)
 			 * clear any previous song and its bindings.
@@ -443,6 +447,46 @@ define((require) => {
 		}
 
 		/**
+		 * Add current song to scrobble storage if it's needed.
+		 */
+		async addUnknownSongToStorage() {
+			if (this.isNeedToAddSongToScrobbleStorage()) {
+				const boundScrobblerIds = ScrobbleService.getBoundScrobblers().map(
+					(scrobbler) => scrobbler.getId()
+				);
+
+				await this.addSongToScrobbleStorage(boundScrobblerIds);
+			}
+		}
+
+		/**
+		 * Add current song to scrobble storage.
+		 *
+		 * @param {Array} scrobblerIds Array of scrobbler IDs
+		 */
+		async addSongToScrobbleStorage(scrobblerIds) {
+			await ScrobbleStorage.addSong(this.currentSong.getInfo(), scrobblerIds);
+		}
+
+		/**
+		 * Check if the current song should be saved to the scrobble storage.
+		 *
+		 * @return {Boolean} Check result
+		 */
+		isNeedToAddSongToScrobbleStorage() {
+			if (this.currentSong && !this.currentSong.isValid()) {
+				const secondsToScrobble = this.getSecondsToScrobble(
+					this.currentSong.getDuration()
+				);
+				if (secondsToScrobble !== -1) {
+					return this.playbackTimer.getElapsed() >= secondsToScrobble;
+				}
+			}
+
+			return false;
+		}
+
+		/**
 		 * Update song duration value.
 		 * @param  {Number} duration Duration in seconds
 		 */
@@ -466,9 +510,7 @@ define((require) => {
 				return;
 			}
 
-			const percent = Options.getOption(Options.SCROBBLE_PERCENT);
-			const secondsToScrobble = Util.getSecondsToScrobble(duration, percent);
-
+			const secondsToScrobble = this.getSecondsToScrobble(duration);
 			if (secondsToScrobble !== -1) {
 				this.playbackTimer.update(secondsToScrobble);
 				this.replayDetectionTimer.update(duration);
@@ -515,7 +557,12 @@ define((require) => {
 		 */
 		async scrobbleSong() {
 			const results = await ScrobbleService.scrobble(this.currentSong.getInfo());
-			if (Util.isAnyResult(results, ApiCallResult.RESULT_OK)) {
+			const failedScrobblerIds = results
+				.filter((result) => !result.is(ApiCallResult.RESULT_OK))
+				.map((result) => result.getScrobblerId());
+
+			const isAnyOkResult = results.length > failedScrobblerIds.length;
+			if (isAnyOkResult) {
 				this.debugLog('Scrobbled successfully');
 
 				this.currentSong.flags.isScrobbled = true;
@@ -531,6 +578,15 @@ define((require) => {
 				this.debugLog('Scrobbling failed', 'warn');
 				this.setMode(ControllerMode.Err);
 			}
+
+			if (failedScrobblerIds > 0) {
+				this.addSongToScrobbleStorage(failedScrobblerIds);
+			}
+		}
+
+		getSecondsToScrobble(duration) {
+			const percent = Options.getOption(Options.SCROBBLE_PERCENT);
+			return Util.getSecondsToScrobble(duration, percent);
 		}
 
 		reset() {
