@@ -3,6 +3,6 @@ import '@/ui/base.css';
 
 import { createApp } from '@/ui/vue-helper';
 
-import GoPlayMusic from '@/ui/popups/go-play-music.vue';
+import _Error from '@/ui/popups/error.vue';
 
-createApp(GoPlayMusic);
+createApp(_Error);
