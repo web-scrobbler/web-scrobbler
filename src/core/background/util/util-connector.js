@@ -4,10 +4,10 @@ define((require) => {
 	const connectors = require('connectors');
 	const UrlMatch = require('util/url-match');
 
-	const { getAllPatterns } = require('storage/custom-patterns');
+	const CustomPatterns = require('storage/custom-patterns');
 
 	async function getConnectorByUrl(url) {
-		const customPatterns = await getAllPatterns();
+		const customPatterns = await CustomPatterns.getData();
 		for (const connector of connectors) {
 			const patterns = connector.matches || [];
 
