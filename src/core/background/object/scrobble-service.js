@@ -126,12 +126,21 @@ define((require) => {
 		scrobble(songInfo) {
 			console.log(`Send "scrobble" request: ${boundScrobblers.length}`);
 
-			return Promise.all(boundScrobblers.map((scrobbler) => {
-				// Forward result (including errors) to caller
-				return scrobbler.scrobble(songInfo).catch((result) => {
-					return this.processErrorResult(scrobbler, result);
-				});
-			}));
+			return this.sendScrobbleRequest(boundScrobblers, songInfo);
+		},
+
+		/**
+		 * Scrobble song using given scrobblers.
+		 * @param {Object} songInfo Object containing song info
+		 * @param {Array} scrobblerIds Array of scrobbler IDs.
+		 *
+		 * @return {Promise} Promise that will be resolved then the task will complete
+		 */
+		scrobbleWithScrobblers(songInfo, scrobblerIds) {
+			console.log(`Send "scrobble" request: ${scrobblerIds.length}`);
+
+			const scrobblers = scrobblerIds.map((id) => this.getScrobblerById(id));
+			return this.sendScrobbleRequest(scrobblers, songInfo);
 		},
 
 		/**
@@ -157,15 +166,24 @@ define((require) => {
 
 		/**
 		 * Get all registered scrobblers.
-		 * @return {Array} Array of bound scrobblers
+		 *
+		 * @return {Array} Array of registered scrobblers
 		 */
 		getRegisteredScrobblers() {
 			return registeredScrobblers;
 		},
 
 		/**
-		 * Get scrobbler by a given ID.
+		 * Get all bound scrobblers.
 		 *
+		 * @return {Array} Array of bound scrobblers
+		 */
+		getBoundScrobblers() {
+			return boundScrobblers;
+		},
+
+		/**
+		 * Get a scrobbler by a given ID.
 		 * @param {String} scrobblerId Scrobbler ID
 		 *
 		 * @return {Object} Found scrobbler object
@@ -178,6 +196,15 @@ define((require) => {
 			}
 
 			return null;
+		},
+
+		sendScrobbleRequest(scrobblers, songInfo) {
+			return Promise.all(scrobblers.map((scrobbler) => {
+				// Forward result (including errors) to caller
+				return scrobbler.scrobble(songInfo).catch((result) => {
+					return this.processErrorResult(scrobbler, result);
+				});
+			}));
 		},
 
 		/**

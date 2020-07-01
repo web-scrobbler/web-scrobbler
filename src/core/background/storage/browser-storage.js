@@ -72,12 +72,15 @@ define((require) => {
 	 */
 	const CORE = 'Core';
 
+	const SCROBBLE_STORAGE = 'ScrobbleStorage';
+
 	const storageTypeMap = {
 		[CONNECTORS_OPTIONS]: SYNC,
 		[CUSTOM_PATTERNS]: SYNC,
 		[NOTIFICATIONS]: SYNC,
 		[OPTIONS]: SYNC,
 
+		[SCROBBLE_STORAGE]: LOCAL,
 		[LOCAL_CACHE]: LOCAL,
 		[CORE]: LOCAL,
 	};
@@ -134,11 +137,17 @@ define((require) => {
 	 * Object that helps to get wrapped storage.
 	 */
 	return {
-		getStorage, getScrobblerStorage,
+		getStorage,
+		getScrobblerStorage,
+		getLocalStorage,
+		getSyncStorage,
 
-		getLocalStorage, getSyncStorage,
-
-		CONNECTORS_OPTIONS, CUSTOM_PATTERNS,
-		NOTIFICATIONS, LOCAL_CACHE, OPTIONS, CORE,
+		CONNECTORS_OPTIONS,
+		SCROBBLE_STORAGE,
+		CUSTOM_PATTERNS,
+		NOTIFICATIONS,
+		LOCAL_CACHE,
+		OPTIONS,
+		CORE,
 	};
 });
