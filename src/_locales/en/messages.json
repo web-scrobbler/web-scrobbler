@@ -168,6 +168,27 @@
     "description": "Popup hint"
   },
 
+  "storageSidebarTitle": {
+    "message": "Storage",
+    "description": "Section name"
+  },
+  "storageScrobbleStorageTitle": {
+    "message": "Scrobble storage",
+    "description": "Scrobble storage header"
+  },
+  "storageScrobbleStorageCount": {
+    "message": "$1 unscrobbled tracks",
+    "description": "Section name"
+  },
+  "storageScrobbleStorageDescDefault": {
+    "message": "Here you can view, edit, scrobble or remove all of tracks were not scrobbled.",
+    "description": "Scrobble storage description when at least one song is saved"
+  },
+  "storageScrobbleStorageDescNoSongs": {
+    "message": "You have no unscrobbled tracks.",
+    "description": "Scrobble storage description when no songs are saved"
+  },
+
   "learnMoreLabel": {
     "message": "Learn more",
     "description": "Learn more label"
@@ -607,17 +628,33 @@
     "message": "From \"$1\" album",
     "description": "Tooltip text"
   },
+  "artistTitle": {
+    "message": "Artist",
+    "description": "Title of artist input"
+  },
   "artistPlaceholder": {
     "message": "Artist",
     "description": "Placeholder of artist input"
+  },
+  "trackTitle": {
+    "message": "Track",
+    "description": "Title of track input"
   },
   "trackPlaceholder": {
     "message": "Track",
     "description": "Placeholder of track input"
   },
+  "albumTitle": {
+    "message": "Album",
+    "description": "Title of album input"
+  },
   "albumPlaceholder": {
     "message": "Album (optional)",
     "description": "Placeholder of album input"
+  },
+  "albumArtistTitle": {
+    "message": "Album artist",
+    "description": "Title of album artist input"
   },
   "albumArtistPlaceholder": {
     "message": "Album artist (optional)",
@@ -639,6 +676,14 @@
   },
   "buttonRemove": {
     "message": "Remove",
+    "description": "Button name"
+  },
+  "buttonEdit": {
+    "message": "Edit",
+    "description": "Button name"
+  },
+  "buttonScrobble": {
+    "message": "Scrobble",
     "description": "Button name"
   },
   "buttonClear": {
