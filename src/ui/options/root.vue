@@ -40,9 +40,11 @@ import ConnectorsTab from '@/ui/options/tabs/connectors-tab.vue';
 import FaqTab from '@/ui/options/tabs/faq-tab.vue';
 import OptionsTab from '@/ui/options/tabs/options-tab.vue';
 import TracksTab from '@/ui/options/tabs/tracks-tab.vue';
+import StorageTab from '@/ui/options/tabs/storage-tab.vue';
 
 import SpriteIcon from '@/ui/shared/sprite-icon.vue';
 
+import hddIcon from 'bootstrap-icons/icons/hdd.svg';
 import gearIcon from 'bootstrap-icons/icons/gear.svg';
 import peopleIcon from 'bootstrap-icons/icons/people.svg';
 import globe2Icon from 'bootstrap-icons/icons/globe2.svg';
@@ -60,6 +62,7 @@ export default {
 		ConnectorsTab,
 		FaqTab,
 		OptionsTab,
+		StorageTab,
 		TracksTab,
 	},
 	mounted() {
@@ -96,6 +99,11 @@ export default {
 					component: TracksTab,
 					icon: musicNoteListIcon,
 					titleId: 'tracksSidebarTitle',
+				},
+				storage: {
+					component: StorageTab,
+					icon: hddIcon,
+					titleId: 'storageSidebarTitle',
 				},
 				faq: {
 					component: FaqTab,
