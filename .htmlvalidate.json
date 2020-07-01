@@ -4,8 +4,9 @@
     "htmlvalidate:recommended"
   ],
   "rules": {
-    "prefer-native-element": "off",
     "empty-heading": "off",
+    "prefer-native-element": "off",
+    "void-style": "off",
     "wcag/h30": "off"
   }
 }

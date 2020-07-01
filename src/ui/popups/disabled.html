@@ -6,8 +6,6 @@
 	<title>Service error</title>
 
 	<link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="/vendor/fontawesome/css/fontawesome.min.css">
-	<link rel="stylesheet" href="/vendor/fontawesome/css/solid.min.css">
 
 	<link rel="stylesheet" href="/ui/base.css">
 	<link rel="stylesheet" href="/ui/popups/base-popup.css">
@@ -17,11 +15,13 @@
 
 <body>
 	<div class="content text-center">
-		<i class="fas fa-toggle-off fa-3x mb-2"></i>
+		<svg class="popup-icon" viewBox="0 0 16 16" fill="currentColor" focusable="false" xmlns="http://www.w3.org/2000/svg">
+			<path fill-rule="evenodd" d="M11 4a4 4 0 0 1 0 8H8a4.992 4.992 0 0 0 2-4 4.992 4.992 0 0 0-2-4h3zm-6 8a4 4 0 1 1 0-8 4 4 0 0 1 0 8zM0 8a5 5 0 0 0 5 5h6a5 5 0 0 0 0-10H5a5 5 0 0 0-5 5z"/>
+		</svg>
 		<h5 data-i18n="disabledSiteHeader"></h5>
 
 		<p class="description" data-i18n="disabledSiteDesc"></p>
-		<a class="btn btn-primary" role="button" id="options" data-i18n="disabledSiteButton" href="/ui/options/index.html#options" target="_blank"></a>
+		<a class="btn btn-primary btn-sm" role="button" id="options" data-i18n="disabledSiteButton" href="/ui/options/index.html#options" target="_blank"></a>
 	</div>
 </body>
 
