@@ -14,6 +14,14 @@
 			<div class="mt-2" v-if="isDescriptionVisible">
 				<p class="description">{{ L('getStartedSiteChanged') }}</p>
 				<p class="description">{{ L('getStartedSubmitIssue') }}</p>
+				<a
+					class="card-link"
+					role="button"
+					href="https://github.com/web-scrobbler/web-scrobbler/issues"
+					target="_blank"
+				>
+					{{ L('buttonOpenIssues') }}
+				</a>
 			</div>
 		</template>
 	</base-popup>

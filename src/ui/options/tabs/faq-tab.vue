@@ -23,13 +23,34 @@
 				<li>{{ L('faqAnswer4b1') }}</li>
 				<li>{{ L('faqAnswer4b2') }}</li>
 				<li>{{ L('faqAnswer4b3') }}</li>
-				<li>{{ L('faqAnswer4b4') }}</li>
+				<li>
+					{{ L('faqAnswer4b4') }}
+					<a
+						target="_blank"
+						href="https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns"
+					>
+						{{ L('learnMoreLabel') }}
+					</a>
+				</li>
 			</ol>
-			<p>{{ L('faqAnswer4c') }}</p>
 		</div>
 		<div class="options-section">
 			<h5>{{ L('faqQuestion5') }}</h5>
 			<p>{{ L('faqAnswer5') }}</p>
+			<a
+				class="card-link"
+				href="https://github.com/web-scrobbler/web-scrobbler/issues"
+				target="_blank"
+			>
+				{{ L('buttonOpenIssues') }}
+			</a>
+			<a
+				class="card-link"
+				href="https://github.com/web-scrobbler/web-scrobbler"
+				target="_blank"
+			>
+				{{ L('buttonForkProject') }}
+			</a>
 		</div>
 		<div class="options-section">
 			<h5>{{ L('faqQuestion6') }}</h5>

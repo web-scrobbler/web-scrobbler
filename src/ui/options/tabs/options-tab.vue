@@ -194,9 +194,6 @@ function makeComputedProperties() {
 }
 
 export default {
-	created() {
-		this.loadCustomPatterns();
-	},
 	data() {
 		return {
 			areHiddenOptionVisible: false,

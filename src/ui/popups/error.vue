@@ -6,14 +6,26 @@
 		<template v-slot:title>{{ L('serviceErrorHeader') }}</template>
 		<template v-slot:body>
 			<p class="description">{{ L('serviceErrorDesc') }}</p>
-			<a
-				class="btn btn-primary btn-sm"
-				role="button"
-				href="/ui/options/index.html#accounts"
-				target="_blank"
-			>
-				{{ L('buttonOpenOptions') }}
-			</a>
+			<div class="mb-2">
+				<a
+					class="card-link"
+					role="button"
+					href="/ui/options/index.html#accounts"
+					target="_blank"
+				>
+					{{ L('buttonOpenOptions') }}
+				</a>
+			</div>
+			<div>
+				<a
+					class="card-link"
+					role="button"
+					href="https://github.com/web-scrobbler/web-scrobbler/issues"
+					target="_blank"
+				>
+					{{ L('buttonOpenIssues') }}
+				</a>
+			</div>
 		</template>
 	</base-popup>
 </template>
