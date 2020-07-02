@@ -247,16 +247,12 @@
         "message": "Добавьте шаблон URL, который будет соответствовать нестандартному домену Bandcamp, и примените изменения.",
         "description": "Answer #4"
     },
-    "faqAnswer4c": {
-        "message": "Вы можете узнать больше о пользовательских шаблонах URL <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>здесь</a>.",
-        "description": "Answer #4"
-    },
     "faqQuestion5": {
         "message": "Добавите ли вы поддержку ____?",
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Создайте <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">новый багрепорт</a> на GitHub, и мы вам скажем, сможем ли мы добавить поддержку или нет. Также,  вы можете добавить поддержку сайта самостоятельно, форкнув <a href=\"http://github.com/web-scrobbler/web-scrobbler\">проект на GitHub</a> и отправив нам пулл-реквест.",
+        "message": "Создайте новый багрепорт на GitHub, и мы вам скажем, сможем ли мы добавить поддержку или нет. Также,  вы можете добавить поддержку сайта самостоятельно, форкнув проект на GitHub и отправив нам пулл-реквест.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -279,10 +275,6 @@
         "message": "О расширении",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "Список изменений текущей версии доступен <a id='latest-release' target='_blank' href='#'>здесь</a>. Полный список изменений вы можете посмотреть на <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>этой странице</a>.",
-        "description": "'About' section text"
-    },
     "aboutExtensionDesc": {
         "message": "Web Scrobbler — это расширение для браузера, созданное для тех, кто слушает музыку, используя онлайн-сервисы, и хотел бы иметь постоянно обновлённую историю прослушивания с помощью таких сервисов, как Last.fm, Libre.fm и ListenBrainz.",
         "description": "'About' section text"
@@ -290,10 +282,6 @@
     "aboutContributorsTitle": {
         "message": "Участники проекта",
         "description": "'Contributors' header"
-    },
-    "aboutContributorsText": {
-        "message": "Вы можете посмотреть список участников проекта на <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">странице проекта</a> на GitHub.",
-        "description": "'About' section text"
     },
     "aboutShowSomeLoveTitle": {
         "message": "Пожертвования",
@@ -352,7 +340,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "Расширение должно быть обновлено для поддержки этого сайта. Вы можете открыть список <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">багрепортов</a> и посмотреть, не сообщил кто-либо о данной проблеме. Если нет, то вы можете создать новый багрепорт с подробным описанием проблемы.",
+        "message": "Расширение должно быть обновлено для поддержки этого сайта. Вы можете открыть список багрепортов и посмотреть, не сообщил кто-либо о данной проблеме. Если нет, то вы можете создать новый багрепорт с подробным описанием проблемы.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -360,7 +348,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Похоже, что-то произошло не так во время скробблинга. Пожалуйста, откройте страницу с настройками и попробуйте авторизоваться заново. Если это не помогает, пожалуйста, <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">сообщите о проблеме</a> на странице проекта на GitHub.",
+        "message": "Похоже, что-то произошло не так во время скробблинга. Пожалуйста, откройте страницу с настройками и попробуйте авторизоваться заново. Если это не помогает, пожалуйста, сообщите о проблеме на странице проекта на GitHub.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {

@@ -247,16 +247,12 @@
         "message": "Dodaj wzorzec URL który odpowiada niestandardowej domenie Bandcampa i zatwierdź zmiany.",
         "description": "Answer #4"
     },
-    "faqAnswer4c": {
-        "message": "Możesz dowiedzieć się więcej o niestandardowych wzorcach URL <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>tutaj</a>.",
-        "description": "Answer #4"
-    },
     "faqQuestion5": {
         "message": "Czy dodasz obsługę scrobblowania na stronie ____ ?",
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Otwórz na GitHubie <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">nowy wniosek</a> ze swoją sugestią, a powiemy Ci czy jesteśmy w stanie dodać wsparcie dla danej usługi. Możesz również samodzielnie dodać wsparcie forkując <a href=\"http://github.com/web-scrobbler/web-scrobbler\">repozytorium na GitHubie</a> i wysyłając nam pull requesta.",
+        "message": "Otwórz na GitHubie nowy wniosek ze swoją sugestią, a powiemy Ci czy jesteśmy w stanie dodać wsparcie dla danej usługi. Możesz również samodzielnie dodać wsparcie forkując repozytorium na GitHubie i wysyłając nam pull requesta.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -279,10 +275,6 @@
         "message": "O rozszerzeniu",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "Lista nowości w obecnej wersji dostępna jest <a id='latest-release' target='_blank' href='#'>tutaj</a>. Pełny wykaz zmian dostępny jest na <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>stronie projektu</a>.",
-        "description": "'About' section text"
-    },
     "aboutExtensionDesc": {
         "message": "Web Scrobbler to rozszerzenie do przeglądarki stworzone dla ludzi słuchających muzyki online, przez przeglądarkę, którzy chcą zachować aktualną historię odtwarzania w takich usługach jak Last.fm, Libre.fm i ListenBrainz.",
         "description": "'About' section text"
@@ -290,10 +282,6 @@
     "aboutContributorsTitle": {
         "message": "Współtwórcy",
         "description": "'Contributors' header"
-    },
-    "aboutContributorsText": {
-        "message": "Możesz znaleźć listę współtwórców <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">bezpośrednio na GitHubie</a>",
-        "description": "'About' section text"
     },
     "aboutShowSomeLoveTitle": {
         "message": "Okaż trochę miłości",
@@ -352,7 +340,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "Kod obsługujący tę konkretną witrynę musi zostać zaktualizowany. Możesz przejrzeć <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">listę zgłoszonych problemów</a> i zobaczyć, czy ten jest już znany - jeśli nie, możesz wysłać nowe zgłoszenie opisując (najlepiej po angielsku) co się zepsuło, jakie było oczekiwane zachowanie i co wydarzyło się zamiast tego.",
+        "message": "Kod obsługujący tę konkretną witrynę musi zostać zaktualizowany. Możesz przejrzeć listę zgłoszonych problemów i zobaczyć, czy ten jest już znany - jeśli nie, możesz wysłać nowe zgłoszenie opisując (najlepiej po angielsku) co się zepsuło, jakie było oczekiwane zachowanie i co wydarzyło się zamiast tego.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -360,7 +348,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Wygląda na to, że podczas scrobblowania coś poszło nie tak. Otwórz stronę opcji i spróbuj uwierzytelnić się ponownie w usługach. Jeśli to nie pomoże i nadal będziesz widzieć ten komunikat, prosimy o <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">wypełnienie zgłoszenia</a> na GitHubie.",
+        "message": "Wygląda na to, że podczas scrobblowania coś poszło nie tak. Otwórz stronę opcji i spróbuj uwierzytelnić się ponownie w usługach. Jeśli to nie pomoże i nadal będziesz widzieć ten komunikat, prosimy o wypełnienie zgłoszenia na GitHubie.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {

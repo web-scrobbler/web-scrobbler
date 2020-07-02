@@ -223,16 +223,12 @@
         "message": "Agregue un patrón de direcciones URL que coincida con la URL del dominio personalizado de Bandcamp y aplique los cambios.",
         "description": "Answer #4"
     },
-    "faqAnswer4c": {
-        "message": "Puede saber más acerca de los patrones de direcciones URL personalizados <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'> aquí </a>.",
-        "description": "Answer #4"
-    },
     "faqQuestion5": {
         "message": "¿Dará soporte al scrobbling en _____ ?",
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Abra un <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">nuevo problema</a> en GitHub con su solicitud, y le informaremos si podemos agregar soporte para un determinado sitio web o no. Además, puede dar asistencia al sitio web simplemente bifurcando el <a href=\"http://github.com/web-scrobbler/web-scrobbler\">repositorio GitHub</a> y enviándonos una solicitud de integración.",
+        "message": "Abra un nuevo problema</a> en GitHub con su solicitud, y le informaremos si podemos agregar soporte para un determinado sitio web o no. Además, puede dar asistencia al sitio web simplemente bifurcando el repositorio GitHub y enviándonos una solicitud de integración.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -255,10 +251,6 @@
         "message": "Acerca",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "El registro de cambios de la actual versión está disponible <a id='latest-release' target='_blank' href='#'>aquí</a>. Para el registro completo de cambios visite <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>esta página.</a>",
-        "description": "'About' section text"
-    },
     "aboutExtensionDesc": {
         "message": "Web Scrobbler es una extensión de navegador creado para las personas que escuchan música en línea a través de su navegador y les gustaría mantener un historial de reproducción actualizado usando el servicio de scrobbling de Last.fm, Libre.fm y ListenBrainz.",
         "description": "'About' section text"
@@ -266,10 +258,6 @@
     "aboutContributorsTitle": {
         "message": "Colaboradores",
         "description": "'Contributors' header"
-    },
-    "aboutContributorsText": {
-        "message": "Puedes encontrar una lista de los colaboradores <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">en GitHub</a>",
-        "description": "'About' section text"
     },
     "aboutShowSomeLoveTitle": {
         "message": "Muestra algo de cariño",
@@ -328,7 +316,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "El código del conector para este sitio web específico necesita ser actualizado. Puede dirigirse a la <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">lista de problemas</a> y ver si este sitio web ya fue reportado. Si no lo está, puede informar de este nuevo problema que describa qué está mal, qué comportamiento se espera y qué está sucediendo.",
+        "message": "El código del conector para este sitio web específico necesita ser actualizado. Puede dirigirse a la lista de problemas y ver si este sitio web ya fue reportado. Si no lo está, puede informar de este nuevo problema que describa qué está mal, qué comportamiento se espera y qué está sucediendo.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -336,7 +324,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Parece que algo salió mal mientras se hacía scrobbling de la canción. Abra la página de opciones e intente volver a autenticarse con los servicios. Si la reautenticación no ayuda, y aún ve este mensaje, cree <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\"> un nuevo problema</a> en la página del proyecto en GitHub.",
+        "message": "Parece que algo salió mal mientras se hacía scrobbling de la canción. Abra la página de opciones e intente volver a autenticarse con los servicios. Si la reautenticación no ayuda, y aún ve este mensaje, cree un nuevo problema en la página del proyecto en GitHub.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {

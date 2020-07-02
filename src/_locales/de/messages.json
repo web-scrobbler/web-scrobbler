@@ -203,16 +203,12 @@
         "message": "Erstelle ein URL-Muster, das auf die spezielle Bandcamp-Domain-URL zeigt und übernimm die Änderungen.",
         "description": "Answer #4"
     },
-    "faqAnswer4c": {
-        "message": "<a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>Hier</a> kannst mehr über benutzerdefinierte URL-Muster erfahren.",
-        "description": "Answer #4"
-    },
     "faqQuestion5": {
         "message": "Werdet ihr Unterstützung für das Scrobblen auf ____ hinzufügen?",
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Eröffne ein <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">neues Issue</a> auf Github mit deiner Anfrage und wir werden dir sagen ob wir Unterstützung für die Seite hinzufügen können oder nicht. Außerdem kannst du die Unterstützung für die Webseite selbst hinzufügen indem du das <a href=\"http://github.com/web-scrobbler/web-scrobbler\">Github-Repository</a> forkst und uns einen Pull-Request schickst.",
+        "message": "Eröffne ein neues Issue auf Github mit deiner Anfrage und wir werden dir sagen ob wir Unterstützung für die Seite hinzufügen können oder nicht. Außerdem kannst du die Unterstützung für die Webseite selbst hinzufügen indem du das Github-Repository forkst und uns einen Pull-Request schickst.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -235,10 +231,6 @@
         "message": "Über",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "Der Liste der Änderungen in der aktuellen Version ist <a id='latest-release' target='_blank' href='#'>hier</a> verfügbar. Für die komplette Liste aller Änderungen schau auf <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>dieser Seite</a>.",
-        "description": "'About' section text"
-    },
     "aboutExtensionDesc": {
         "message": "Web Scrobbler ist gemacht für Leute, die Musik online im Browser hören und ein vollständiges Wiedergabegearchiv über Last.fms Scrobbling-Dienst haben möchten.",
         "description": "'About' section text"
@@ -246,10 +238,6 @@
     "aboutContributorsTitle": {
         "message": "Mitwirkende",
         "description": "'Contributors' header"
-    },
-    "aboutContributorsText": {
-        "message": "Du kannst die Liste der Mitwirkenden <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">direkt auf Github</a> sehen",
-        "description": "'About' section text"
     },
     "aboutShowSomeLoveTitle": {
         "message": "Zeig deine Unterstützung",
@@ -304,7 +292,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "Der Verbinder für diese spezielle Webseite muss upgedatet werden. Du kannst auf die <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">Liste der Issues</a> gehen und schauen ob diese Webseite schon gemeldet wurde. Falls das nicht der Fall ist, kannst du ein neues Issue anlegen, das den Fehler, sowie erwartetes und tatsächliches Verhalten beschreibt.",
+        "message": "Der Verbinder für diese spezielle Webseite muss upgedatet werden. Du kannst auf die Liste der Issues gehen und schauen ob diese Webseite schon gemeldet wurde. Falls das nicht der Fall ist, kannst du ein neues Issue anlegen, das den Fehler, sowie erwartetes und tatsächliches Verhalten beschreibt.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -312,7 +300,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Es scheint etwas ist schiefgelaufen beim scrobblen der Musik. Bitte geh auf die Einstellungen-Seite und versuch dich neu bei den Diensten anzumelden. Falls eine erneute Anmeldung nicht helfen sollte und diese Meldung wieder auftritt, mach bitte <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">ein neues Issue</a> auf der Github-Projektseite auf.",
+        "message": "Es scheint etwas ist schiefgelaufen beim scrobblen der Musik. Bitte geh auf die Einstellungen-Seite und versuch dich neu bei den Diensten anzumelden. Falls eine erneute Anmeldung nicht helfen sollte und diese Meldung wieder auftritt, mach bitte ein neues Issue auf der Github-Projektseite auf.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {

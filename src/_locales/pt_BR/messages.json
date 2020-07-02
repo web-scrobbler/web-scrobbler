@@ -223,16 +223,12 @@
         "message": "Adicione um padrão de URL que corresponda ao URL do domínio personalizado do Bandcamp e aplique as alterações.",
         "description": "Answer #4"
     },
-    "faqAnswer4c": {
-        "message": "Clique <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>aqui</a> para saber mais sobre padrões personalizados de URL.",
-        "description": "Answer #4"
-    },
     "faqQuestion5": {
         "message": "Você pode adicionar suporte ao site ____?",
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Crie um <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">novo issue</a> no GitHub com o seu pedido e informaremos se podemos ou não adicionar suporte ao site em questão. Além disso, você mesmo pode adicionar suporte ao site criando uma bifurcação do <a href=\"http://github.com/web-scrobbler/web-scrobbler\">repositório no GitHub</a> e enviando um pull request.",
+        "message": "Crie um novo issue no GitHub com o seu pedido e informaremos se podemos ou não adicionar suporte ao site em questão. Além disso, você mesmo pode adicionar suporte ao site criando uma bifurcação do repositório no GitHub e enviando um pull request.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -255,10 +251,6 @@
         "message": "Sobre",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "As notas de atualização da versão atual estão disponíveis <a id='latest-release' target='_blank' href='#'>aqui</a>. Para uma lista completa das atualizações, acesse <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>esta página</a>.",
-        "description": "'About' section text"
-    },
     "aboutExtensionDesc": {
         "message": "O Web Scrobbler é uma extensão de navegador criada para quem ouve música online direto do navegador e gostaria de manter um histórico de reprodução sempre atualizado usando serviços de rastreamento de músicas, como a Last.fm, Libre.fm e ListenBrainz.",
         "description": "'About' section text"
@@ -266,10 +258,6 @@
     "aboutContributorsTitle": {
         "message": "Colaboradores",
         "description": "'Contributors' header"
-    },
-    "aboutContributorsText": {
-        "message": "Você pode encontrar a lista de colaboradores <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">diretamente no GitHub</a>",
-        "description": "'About' section text"
     },
     "aboutShowSomeLoveTitle": {
         "message": "Demonstre a sua gratidão",
@@ -328,7 +316,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "O código do conector para este site específico precisa ser atualizado. Você pode acessar a <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">lista de issues no GitHub</a> e ver se o problema já foi relatado. Caso contrário, você pode criar um novo issue descrevendo o problema, o comportamento esperado e o que está acontecendo.",
+        "message": "O código do conector para este site específico precisa ser atualizado. Você pode acessar a lista de issues no GitHub e ver se o problema já foi relatado. Caso contrário, você pode criar um novo issue descrevendo o problema, o comportamento esperado e o que está acontecendo.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -336,7 +324,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Parece que algo deu errado ao efetuar o scrobble da música. Por favor, abra a página de opções e tente autenticar novamente com os serviços. Caso o problema persista, crie um <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">novo issue</a> na página do projeto no GitHub.",
+        "message": "Parece que algo deu errado ao efetuar o scrobble da música. Por favor, abra a página de opções e tente autenticar novamente com os serviços. Caso o problema persista, crie um novo issue na página do projeto no GitHub.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {

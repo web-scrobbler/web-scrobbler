@@ -223,16 +223,12 @@
         "message": "Pridajte URL vzor, ktorý vyhovuje neštandartnej adrese na Bandcamp a uložte zmeny.",
         "description": "Answer #4"
     },
-    "faqAnswer4c": {
-        "message": "O URL vzoroch sa môžte dozvedieť viacej <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>tu</a>.",
-        "description": "Answer #4"
-    },
     "faqQuestion5": {
         "message": "Pridáte podporu pre stránku ____?",
         "description": "Question #5"
     },
     "faqAnswer5": {
-        "message": "Nahláste <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">nový problém</a> na GitHube s vašimi požiadavkami a my Vám povieme, či vieme pridať podporu pre stránku. Prípadne môžete prispieť do projektu pridaním podpory pre stránku vytvorením forku <a href=\"http://github.com/web-scrobbler/web-scrobbler\">GitHub repozitára</a> a zaslaním pull requestu.",
+        "message": "Nahláste nový problém na GitHube s vašimi požiadavkami a my Vám povieme, či vieme pridať podporu pre stránku. Prípadne môžete prispieť do projektu pridaním podpory pre stránku vytvorením forku GitHub repozitára a zaslaním pull requestu.",
         "description": "Answer #5"
     },
     "faqQuestion6": {
@@ -255,10 +251,6 @@
         "message": "O doplnku",
         "description": "'About' section"
     },
-    "aboutChangelog": {
-        "message": "Popis zmien v aktuálnej verzii je dostupný <a id='latest-release' target='_blank' href='#'>tu</a>. Detailnejší popis zmien nájdete na <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>tejto stránke</a>.",
-        "description": "'About' section text"
-    },
     "aboutExtensionDesc": {
         "message": "Web Scrobbler je doplnok do prehliadača vytvorený pre ľudí, ktorí počúvajú hudbu online v prehliadači, a chceli by si udržiavať históriu prehrávania pomocou hudobných služieb, ako napríklad Last.fm, Libre.fm a ListenBrainz.",
         "description": "'About' section text"
@@ -266,10 +258,6 @@
     "aboutContributorsTitle": {
         "message": "Vývojári",
         "description": "'Contributors' header"
-    },
-    "aboutContributorsText": {
-        "message": "Úplný zoznam vývojárov môžete nájsť <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">priamo na Githube</a>",
-        "description": "'About' section text"
     },
     "aboutShowSomeLoveTitle": {
         "message": "Podporte ma",
@@ -328,7 +316,7 @@
         "description": "Description of why track is not recognized"
     },
     "getStartedSubmitIssue": {
-        "message": "Kód konektoru pre danú stránku je potrebné aktualizovať. Navštívte <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">zoznam problémov</a> a vyhľadajte, či nefunkčnosť konektoru už nie je nahlásená. Ak nie, tak môžete nahlásiť nový problém aj s popisom chyby, očakávaného správania a aktuálneho správania.",
+        "message": "Kód konektoru pre danú stránku je potrebné aktualizovať. Navštívte zoznam problémov a vyhľadajte, či nefunkčnosť konektoru už nie je nahlásená. Ak nie, tak môžete nahlásiť nový problém aj s popisom chyby, očakávaného správania a aktuálneho správania.",
         "description": "Description of how to submit new issue"
     },
     "serviceErrorHeader": {
@@ -336,7 +324,7 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Zdá sa že niekde nastala chyba počas zaznamenávania hudby. Otvorte prosím stránku nastavení doplnku a pokúste sa znovu pripojiť k službám. Ak to nepomohlo a stále vidíte túto správu, prosím vytvorte <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">nový problém</a> na GitHub stránke projektu.",
+        "message": "Zdá sa že niekde nastala chyba počas zaznamenávania hudby. Otvorte prosím stránku nastavení doplnku a pokúste sa znovu pripojiť k službám. Ak to nepomohlo a stále vidíte túto správu, prosím vytvorte nový problém na GitHub stránke projektu.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {

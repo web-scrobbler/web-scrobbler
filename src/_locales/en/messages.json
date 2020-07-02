@@ -245,16 +245,12 @@
     "message": "Add URL pattern that matches the Bandcamp custom domain URL and apply the changes.",
     "description": "Answer #4"
   },
-  "faqAnswer4c": {
-    "message": "You can learn more about the custom URL patterns <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>here</a>.",
-    "description": "Answer #4"
-  },
   "faqQuestion5": {
     "message": "Will you add support for scrobbling at ____ ?",
     "description": "Question #5"
   },
   "faqAnswer5": {
-    "message": "Open a <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">new issue</a> on GitHub with your request, and we'll tell you if we can add support for the website or not. Also, you can add support for the website by forking the <a href=\"http://github.com/web-scrobbler/web-scrobbler\">GitHub repository</a> and sending us a pull request.",
+    "message": "Open a new issue on GitHub with your request, and we'll tell you if we can add support for the website or not. Also, you can add support for the website by forking the GitHub repository and sending us a pull request.",
     "description": "Answer #5"
   },
   "faqQuestion6": {
@@ -278,10 +274,6 @@
     "message": "About",
     "description": "Section name"
   },
-  "aboutChangelog": {
-    "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='#'>here</a>. For the full changelog please visit <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>this page</a>.",
-    "description": "Section name text"
-  },
   "aboutExtensionDesc": {
     "message": "Web Scrobbler is a browser extension created for people who listen to music online through their browser, and would like to keep an updated playback history using scrobbling services, such as Last.fm, Libre.fm and ListenBrainz.",
     "description": "Section name text"
@@ -289,10 +281,6 @@
   "aboutContributorsTitle": {
     "message": "Contributors",
     "description": "'Contributors' header"
-  },
-  "aboutContributorsText": {
-    "message": "You can find the list of contributors <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">right on the GitHub</a>",
-    "description": "Section name text"
   },
   "aboutLinksTitle": {
     "message": "Links",
@@ -336,7 +324,7 @@
     "description": "Description of why track is not recognized"
   },
   "getStartedSubmitIssue": {
-    "message": "The connector code for this specific website needs to be updated. You can navigate to the <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">list of issues</a> and see if this website is already reported. If it is not, you can submit a new issue describing what's wrong, what's expected behavior and what's happening instead.",
+    "message": "The connector code for this specific website needs to be updated. You can navigate to the list of issues and see if this website is already reported. If it is not, you can submit a new issue describing what's wrong, what's expected behavior and what's happening instead.",
     "description": "Description of how to submit new issue"
   },
 
@@ -345,7 +333,7 @@
     "description": "The header of 'error' popup"
   },
   "serviceErrorDesc": {
-    "message": "Looks like something went wrong while scrobbling the music. Please open the options page and try to reauthenticate with services. If reauthentication doesn't help, and you still see this message, please create <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">a new issue</a> at the GitHub project page.",
+    "message": "Looks like something went wrong while scrobbling the music. Please open the options page and try to reauthenticate with services. If reauthentication doesn't help, and you still see this message, please create a new issue at the GitHub project page.",
     "description": "The description of service error"
   },
 
@@ -666,7 +654,15 @@
     "description": "Button name"
   },
   "buttonOpenOptions": {
-    "message": "Open options page",
+    "message": "Open options",
+    "description": "Button label"
+  },
+  "buttonOpenIssues": {
+    "message": "View issues",
+    "description": "Button label"
+  },
+  "buttonForkProject": {
+    "message": "Fork the project",
     "description": "Button label"
   }
 }
