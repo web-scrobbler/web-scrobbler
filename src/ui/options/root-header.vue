@@ -1,6 +1,7 @@
 <template>
 	<header class="navbar navbar-expand navbar-dark bg-dark sticky-top">
 		<nav class="container" aria-label="Main navigation">
+			<sprite-icon class="logo mr-3" :icon="webScrobblerIcon" />
 			<span class="navbar-brand">Web Scrobbler</span>
 			<ul class="navbar-nav ml-sm-auto">
 				<li class="nav-item" v-for="item in contactItems" :key="item.title">
@@ -41,6 +42,8 @@ import discordIcon from 'simple-icons/icons/discord.svg';
 import githubIcon from 'simple-icons/icons/github.svg';
 import twitterIcon from 'simple-icons/icons/twitter.svg';
 
+import webScrobblerIcon from '@/icons/icon_chrome_circle.svg';
+
 const contactItems = [
 	{
 		icon: discordIcon,
@@ -64,6 +67,7 @@ export default {
 	data() {
 		return {
 			listIcon,
+			webScrobblerIcon,
 
 			contactItems,
 
@@ -93,5 +97,10 @@ export default {
 .contact-link svg {
 	height: 1.5rem;
 	width: 1.5rem;
+}
+
+.logo {
+	height: 2rem;
+	width: 2rem;
 }
 </style>
