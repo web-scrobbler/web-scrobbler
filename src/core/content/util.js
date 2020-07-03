@@ -567,7 +567,10 @@ const Util = {
 		}
 
 		// Remove [genre] or 【genre】 from the beginning of the title
-		const title = videoTitle.replace(/^((\[[^\]]+])|(【[^】]+】))\s*-*\s*/i, '');
+		let title = videoTitle.replace(/^((\[[^\]]+])|(【[^】]+】))\s*-*\s*/i, '');
+
+		// Remove track (CD and vinyl) numbers from the beginning of the title
+		title = title.replace(/^\s*([a-zA-Z]{1,2}|[0-9]{1,2})[1-9]?\.\s+/i, '');
 
 		// Try to match one of the regexps
 		for (const regExp of this.ytTitleRegExps) {
