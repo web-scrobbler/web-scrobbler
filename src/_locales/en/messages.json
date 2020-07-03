@@ -57,7 +57,7 @@
     "description": "Option title"
   },
   "optionScrobblePercentSuffix" : {
-    "message": "of song duration",
+    "message": "of track duration",
     "description": "Option title"
   },
   "optionScrobblePodcastsTitle" : {
@@ -164,7 +164,7 @@
     "description": "Section name"
   },
   "tracksNoEditedTracks": {
-    "message": "No items in cache.",
+    "message": "You have no edited tracks.",
     "description": "Popup hint"
   },
 
@@ -181,92 +181,92 @@
     "message": "FAQ",
     "description": "Section name"
   },
-  "faqQuestion1": {
+  "faqGetStartedQuestion": {
     "message": "How can I start using the extension?",
     "description": "Question #1"
   },
-  "faqAnswer1a": {
-    "message": "You should click on a notification that is shown when the extension is loaded first time. Then, you should grant access to your accounts.",
+  "faqGetStartedAnswerA": {
+    "message": "Just click on a notification displayed when the extension is started, then grant access to your accounts.",
     "description": "Answer #1"
   },
-  "faqAnswer1b": {
+  "faqGetStartedAnswerB": {
     "message": "Note: In some cases, the notification won't be shown, e.g. on Mac OS if Chrome is running in full-screen mode; the extension will open a tab where you can grant access to your accounts.",
     "description": "Answer #1"
   },
-  "faqQuestion2": {
+  "faqGetStartedAnswerC": {
+    "message": "The notification is displayed up to 3 times after the extension is installed, but you can open the options page at any time, where you can manage your accounts.",
+    "description": "Answer #1"
+  },
+  "faqGetStartedAnswerD": {
+    "message": "After you granted access to your accounts you can open any of websites supported by the extension and start listening to music.",
+    "description": "Answer #1"
+  },
+  "faqDisableScrobblingQuestion": {
     "message": "How do I temporarily disable scrobbling?",
     "description": "Question #2"
   },
-  "faqAnswer2a": {
-    "message": "You can do that by right-clicking on the green extension icon in the extension bar. Using the context menu you can disable the connector for current web service.",
+  "faqDisableScrobblingAnswerA": {
+    "message": "Right-click on the extension icon in the extension bar to open a context menu, then disable scrobbling for a current website via this context menu.",
     "description": "Answer #2"
   },
-  "faqAnswer2b": {
-    "message": "Use the checkboxes on the options page to disable certain connector, or the \"Toggle\" checkbox to disable scrobbling globally.",
+  "faqDisableScrobblingAnswerB": {
+    "message": "Use switches in the \"Connectors\" tab to disable a certain connector, or the \"Toggle\" switch to disable scrobbling globally.",
     "description": "Answer #2"
   },
-  "faqQuestion3": {
+  "faqTrackNotRecognizedQuestion": {
     "message": "The track was not recognized! Can you fix it?",
     "description": "Question #3"
   },
-  "faqAnswer3a": {
-    "message": "When a track cannot be recognized, a gray icon with question mark appears in the extension bar. You can click on this icon and input correct data in the opened popup window.",
+  "faqTrackNotRecognizedAnswerA": {
+    "message": "When a track cannot be recognized, the extension displays a gray icon with question mark in the extension bar. Clicking on this icon will open a popup window, where you can submit the correct information.",
     "description": "Answer #3"
   },
-  "faqAnswer3b": {
-    "message": "Also, there's an option called \"Force track recognition\" that makes the extension to force scrobbling the track even if track is not validated by Last.fm.",
+  "faqTrackNotRecognizedAnswerB": {
+    "message": "Also, there's a \"Force track recognition\" option that makes the extension to force scrobbling a track even if it's is not recognized by Last.fm.",
     "description": "Answer #3"
   },
-  "faqQuestion4": {
+  "faqBandcampDomainsQuestion": {
     "message": "Some music on Bandcamp cannot be scrobbled. Is it possible to fix this?",
     "description": "Question #4"
   },
-  "faqAnswer4a": {
+  "faqBandcampDomainsAnswerA": {
     "message": "Looks like the music is hosted on a custom domain and the extension cannot detect whether it’s Bandcamp or not.",
     "description": "Answer #4"
   },
-  "faqAnswer4b": {
+  "faqBandcampDomainsAnswerB": {
     "message": "As a workaround, configure the extension to work with custom domains as follows:",
     "description": "Answer #4"
   },
-  "faqAnswer4b1": {
-    "message": "Open the extension setting page and expand the “Options” section.",
+  "faqBandcampDomainsAnswerB1": {
+    "message": "Open the extension options page and select the \"Connectors\" tab.",
     "description": "Answer #4"
   },
-  "faqAnswer4b2": {
-    "message": "Find the Bandcamp connector in the list of supported services.",
+  "faqBandcampDomainsAnswerB2": {
+    "message": "Find the Bandcamp connector in the list of supported websites.",
     "description": "Answer #4"
   },
-  "faqAnswer4b3": {
+  "faqBandcampDomainsAnswerB3": {
     "message": "Click on the gear icon near the connector label.",
     "description": "Answer #4"
   },
-  "faqAnswer4b4": {
-    "message": "Add URL pattern that matches the Bandcamp custom domain URL and apply the changes.",
+  "faqBandcampDomainsAnswerB4": {
+    "message": "Add a URL pattern that matches the Bandcamp custom domain URL and apply the changes.",
     "description": "Answer #4"
   },
-  "faqQuestion5": {
+  "faqAddScrobblingQuestion": {
     "message": "Will you add support for scrobbling at ____ ?",
     "description": "Question #5"
   },
-  "faqAnswer5": {
+  "faqAddScrobblingAnswerA": {
     "message": "Open a new issue on GitHub with your request, and we'll tell you if we can add support for the website or not. Also, you can add support for the website by forking the GitHub repository and sending us a pull request.",
     "description": "Answer #5"
   },
-  "faqQuestion6": {
-    "message": "Will you add ____ functionality?",
-    "description": "Question #6"
-  },
-  "faqAnswer6": {
-    "message": "Possibly, if it makes sense. But if you want me to add some not-that-useful-but-really-cool functions, you'll probably get disappointed.",
-    "description": "Answer #6"
-  },
-  "faqQuestion7": {
+  "faqWhoIsAuthorQuestion": {
     "message": "Who is the author?",
     "description": "Question #7"
   },
-  "faqAnswer7": {
-    "message": "The original author of this extension is David Šabata. Now this extension is developed and maintained by so-called Web Scrobbler Team.",
+  "faqWhoIsAuthorAnwserA": {
+    "message": "The original author of this extension is David Šabata. Now this extension is developed and maintained by Web Scrobbler Team.",
     "description": "Answer #7"
   },
 
@@ -275,7 +275,7 @@
     "description": "Section name"
   },
   "aboutExtensionDesc": {
-    "message": "Web Scrobbler is a browser extension created for people who listen to music online through their browser, and would like to keep an updated playback history using scrobbling services, such as Last.fm, Libre.fm and ListenBrainz.",
+    "message": "Web Scrobbler helps online music listeners to scrobble their playback history.",
     "description": "Section name text"
   },
   "aboutContributorsTitle": {
@@ -368,7 +368,7 @@
     "description": "Label of love/unlove button"
   },
   "infoEditTitle": {
-    "message": "Edit track metadata",
+    "message": "Edit track info",
     "description": "Title of edit button"
   },
   "infoEditUnableTitle": {
@@ -572,7 +572,7 @@
 
 
   "patternsCustomPatternsHint": {
-    "message": "Add URL patterns that the connector should match below.",
+    "message": "Add URL patterns that the connector should match.",
     "description": "Modal dialog hint"
   },
   "patternsBuiltinPatterns": {
@@ -593,12 +593,12 @@
     "message": "Toggle scrobbling for current website",
     "description": "Hotkey label"
   },
-  "hotkeyLoveSong": {
-    "message": "Love now playing song",
+  "hotkeyLoveTrack": {
+    "message": "Love now playing track",
     "description": "Hotkey label"
   },
-  "hotkeyUnloveSong": {
-    "message": "Unlove now playing song",
+  "hotkeyUnloveTrack": {
+    "message": "Unlove now playing track",
     "description": "Hotkey label"
   },
 

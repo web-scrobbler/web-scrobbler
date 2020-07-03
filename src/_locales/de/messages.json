@@ -139,91 +139,83 @@
         "message": "FAQ",
         "description": "'FAQ' section"
     },
-    "faqQuestion1": {
+    "faqGetStartedQuestion": {
         "message": "Wie kann ich anfangen die Erweiterung zu benutzen?",
         "description": "Question #1"
     },
-    "faqAnswer1a": {
+    "faqGetStartedAnswerA": {
         "message": "Du musst auf die Benachrichtigung klicken, die erscheint sobald die Erweiterung zum ersten Mal geladen wird. Danach musst du den Zugriff auf deine Accounts zulassen.",
         "description": "Answer #1"
     },
-    "faqAnswer1b": {
+    "faqGetStartedAnswerB": {
         "message": "Hinweis: In einigen Fällen wird die Benachrichtigung nicht angezeigt, z.B. falls Chrome unter Mac OS im Vollbildmodus läuft, wird die Erweiterung einen neuen Tab öffnen über den du dann den Zugriff auf deine Accounts erlauben kannst.",
         "description": "Answer #1"
     },
-    "faqQuestion2": {
+    "faqDisableScrobblingQuestion": {
         "message": "Wie kann ich das Scrobblen zeitweilig ausstellen?",
         "description": "Question #2"
     },
-    "faqAnswer2a": {
+    "faqDisableScrobblingAnswerA": {
         "message": "Das kannst du mit einem Rechtsklick auf das grüne Erweiterungssymbol in der Erweiterungsleiste machen. Über das Kontextmenü kannst du den Verbinder für den aktuellen Webdienst deaktivieren.",
         "description": "Answer #2"
     },
-    "faqAnswer2b": {
+    "faqDisableScrobblingAnswerB": {
         "message": "Benutze die Kontrollkästen auf der Einstellungsseite um bestimmte Verbinder zu deaktivieren, oder den \"An/Ausschalten\" Kontrollkasten um Scrobblen global zu deaktivieren.",
         "description": "Answer #2"
     },
-    "faqQuestion3": {
+    "faqTrackNotRecognizedQuestion": {
         "message": "Der Titel wurde nicht erkannt! Könnt ihr das beheben?",
         "description": "Question #3"
     },
-    "faqAnswer3a": {
+    "faqTrackNotRecognizedAnswerA": {
         "message": "Wenn ein Titel nicht erkannt werden kann, erscheint ein graues Symbol in der Erweiterungsleiste. Du kannst dieses Symbol anklicken und die korrekten Informationen in dem Popup-Fenster eintragen.",
         "description": "Answer #3"
     },
-    "faqAnswer3b": {
+    "faqTrackNotRecognizedAnswerB": {
         "message": "Außerdem gibt es die Einstellung \"Titelerkennung erzwingen\", die das Scrobblen des Titels durch die Erweiterung erzwingt, sogar wenn Last.fm den Titel nicht validiert hat.",
         "description": "Answer #3"
     },
-    "faqQuestion4": {
+    "faqBandcampDomainsQuestion": {
         "message": "Einige Musik auf Bandcamp kann nicht gescrobbelt werden. Ist es möglich, das zu beheben?",
         "description": "Question #4"
     },
-    "faqAnswer4a": {
+    "faqBandcampDomainsAnswerA": {
         "message": "Es scheint als kommt die Musik von einer eigenen Domain und die Erweiterung kann nicht sehen ob es Bandcamp ist oder nicht.",
         "description": "Answer #4"
     },
-    "faqAnswer4b": {
+    "faqBandcampDomainsAnswerB": {
         "message": "Um das Problem zu umgehen, konfiguriere die Erweiterung so, dass sie die folgenden benutzerdefinierten Domains benutzt:",
         "description": "Answer #4"
     },
-    "faqAnswer4b1": {
+    "faqBandcampDomainsAnswerB1": {
         "message": "Öffne die Einstellungsseite der Erweiterung und klapp die Sektion \"Einstellungen\" aus.",
         "description": "Answer #4"
     },
-    "faqAnswer4b2": {
+    "faqBandcampDomainsAnswerB2": {
         "message": "Finde den Bandcamp-Verbinder in der Liste der unterstützten Dienste.",
         "description": "Answer #4"
     },
-    "faqAnswer4b3": {
+    "faqBandcampDomainsAnswerB3": {
         "message": "Klick auf das Zahnradsymbol neben dem Verbinderlabel.",
         "description": "Answer #4"
     },
-    "faqAnswer4b4": {
+    "faqBandcampDomainsAnswerB4": {
         "message": "Erstelle ein URL-Muster, das auf die spezielle Bandcamp-Domain-URL zeigt und übernimm die Änderungen.",
         "description": "Answer #4"
     },
-    "faqQuestion5": {
+    "faqAddScrobblingQuestion": {
         "message": "Werdet ihr Unterstützung für das Scrobblen auf ____ hinzufügen?",
         "description": "Question #5"
     },
-    "faqAnswer5": {
+    "faqAddScrobblingAnswerA": {
         "message": "Eröffne ein neues Issue auf Github mit deiner Anfrage und wir werden dir sagen ob wir Unterstützung für die Seite hinzufügen können oder nicht. Außerdem kannst du die Unterstützung für die Webseite selbst hinzufügen indem du das Github-Repository forkst und uns einen Pull-Request schickst.",
         "description": "Answer #5"
     },
-    "faqQuestion6": {
-        "message": "Werdet ihr die Funktion ____ hinzufügen?",
-        "description": "Question #6"
-    },
-    "faqAnswer6": {
-        "message": "Möglicherweise, wenn es Sinn ergibt. Aber wenn du willst, dass ich eine nicht-so-nützliche-aber-wirklich-coole Funktion hinzufüge, dann wirst du vermutlich enttäuscht werden.",
-        "description": "Answer #6"
-    },
-    "faqQuestion7": {
+    "faqWhoIsAuthorQuestion": {
         "message": "Wer ist der Autor?",
         "description": "Question #7"
     },
-    "faqAnswer7": {
+    "faqWhoIsAuthorAnwserA": {
         "message": "Der ursprüngliche Autor dieser Erweiterung ist David Šabata. Jetzt wird diese Erweiterung vom sogenannten Web-Scrobbler-Team verwaltet.",
         "description": "Answer #7"
     },
@@ -507,11 +499,11 @@
         "message": "Toggle scrobbling für die Webseite",
         "description": "Hotkey label"
     },
-    "hotkeyLoveSong": {
+    "hotkeyLoveTrack": {
         "message": "Drücke mir gefällt der Song ",
         "description": "Hotkey label"
     },
-    "hotkeyUnloveSong": {
+    "hotkeyUnloveTrack": {
         "message": "Drücke mir gefällt der Song nicht",
         "description": "Hotkey label"
     },

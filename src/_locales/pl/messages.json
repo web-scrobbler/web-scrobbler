@@ -183,91 +183,83 @@
         "message": "Najczęstsze pytania",
         "description": "'FAQ' section"
     },
-    "faqQuestion1": {
+    "faqGetStartedQuestion": {
         "message": "Jak mam zacząć korzystać z rozszerzenia?",
         "description": "Question #1"
     },
-    "faqAnswer1a": {
+    "faqGetStartedAnswerA": {
         "message": "Kliknij na powiadomienie wyświetlone po załadowaniu rozszerzenia, a następnie autoryzuj dostęp do swojego konta.",
         "description": "Answer #1"
     },
-    "faqAnswer1b": {
+    "faqGetStartedAnswerB": {
         "message": "Uwaga: w niektórych przypadkach, w których powiadomienie nie może być wyświetlone, jak pod Chrome w trybie pełnoekranowym na Mac OS, rozszerzenie otworzy w zamian kartę, z poziomu której będziesz mógł aktywować swoje konta.",
         "description": "Answer #1"
     },
-    "faqQuestion2": {
+    "faqDisableScrobblingQuestion": {
         "message": "Jak tymczasowo wyłączyć scrobblowanie?",
         "description": "Question #2"
     },
-    "faqAnswer2a": {
+    "faqDisableScrobblingAnswerA": {
         "message": "Możesz to zrobić klikając prawym przyciskiem myszy na ikonie na pasku rozszerzeń. Z menu kontekstowego możesz wyłączyć obsługę scrobblingu dla obecnej usługi internetowej.",
         "description": "Answer #2"
     },
-    "faqAnswer2b": {
+    "faqDisableScrobblingAnswerB": {
         "message": "Użyj przełączników na stronie opcji żeby wyłączyć obsługę konkretnego serwisu, albo wybierz \"Przełącz\", żeby dezaktywować je wszystkie.",
         "description": "Answer #2"
     },
-    "faqQuestion3": {
+    "faqTrackNotRecognizedQuestion": {
         "message": "Utwór nie został rozpoznany! Możesz to naprawić?",
         "description": "Question #3"
     },
-    "faqAnswer3a": {
+    "faqTrackNotRecognizedAnswerA": {
         "message": "Kiedy nie można rozpoznać utworu, na pasku rozszerzeń pojawia się szara ikona ze znakiem zapytania. Okienko otwarte po jej kliknięciu umożliwia wprowadzenie poprawnych informacji.",
         "description": "Answer #3"
     },
-    "faqAnswer3b": {
+    "faqTrackNotRecognizedAnswerB": {
         "message": "Możesz również zaznaczyć opcję \"Wymuś rozpoznanie utworu\", która wymusi na rozszerzeniu scrobblowanie utworów nawet kiedy poprawność informacji nie zostanie potwierdzona przez Last.fm.",
         "description": "Answer #3"
     },
-    "faqQuestion4": {
+    "faqBandcampDomainsQuestion": {
         "message": "Część muzyki na Bandcampie nie może być przescrobblowana. Można to naprawić?",
         "description": "Question #4"
     },
-    "faqAnswer4a": {
+    "faqBandcampDomainsAnswerA": {
         "message": "Wygląda na to, że muzyka jest hostowana w niestandardowej domenie i rozszerzenie nie jest w stanie rozpoznać, czy to Bandcamp czy nie.",
         "description": "Answer #4"
     },
-    "faqAnswer4b": {
+    "faqBandcampDomainsAnswerB": {
         "message": "Możesz to obejść konfigurując rozszerzenie do pracy z niestandardowymi domenami:",
         "description": "Answer #4"
     },
-    "faqAnswer4b1": {
+    "faqBandcampDomainsAnswerB1": {
         "message": "Na stronie ustawień rozszerzenia rozwiń sekcję \"Opcje\".",
         "description": "Answer #4"
     },
-    "faqAnswer4b2": {
+    "faqBandcampDomainsAnswerB2": {
         "message": "Znajdź Bandcampa na liście wspieranych usług.",
         "description": "Answer #4"
     },
-    "faqAnswer4b3": {
+    "faqBandcampDomainsAnswerB3": {
         "message": "Kliknij na ikonę zębatki obok etykiety serwisu.",
         "description": "Answer #4"
     },
-    "faqAnswer4b4": {
+    "faqBandcampDomainsAnswerB4": {
         "message": "Dodaj wzorzec URL który odpowiada niestandardowej domenie Bandcampa i zatwierdź zmiany.",
         "description": "Answer #4"
     },
-    "faqQuestion5": {
+    "faqAddScrobblingQuestion": {
         "message": "Czy dodasz obsługę scrobblowania na stronie ____ ?",
         "description": "Question #5"
     },
-    "faqAnswer5": {
+    "faqAddScrobblingAnswerA": {
         "message": "Otwórz na GitHubie nowy wniosek ze swoją sugestią, a powiemy Ci czy jesteśmy w stanie dodać wsparcie dla danej usługi. Możesz również samodzielnie dodać wsparcie forkując repozytorium na GitHubie i wysyłając nam pull requesta.",
         "description": "Answer #5"
     },
-    "faqQuestion6": {
-        "message": "Dodasz funkcję ____ ?",
-        "description": "Question #6"
-    },
-    "faqAnswer6": {
-        "message": "Możliwe, jeśli ma to sens. Ale jeśli chcesz, żebym dodał nie-tak-użyteczną-ale-naprawdę-spoko-opcję, prawdopodobnie się zawiedziesz.",
-        "description": "Answer #6"
-    },
-    "faqQuestion7": {
+    "faqWhoIsAuthorQuestion": {
         "message": "Kim jest autor?",
         "description": "Question #7"
     },
-    "faqAnswer7": {
+    "faqWhoIsAuthorAnwserA": {
         "message": "Rozszerzenie zostało pierwotnie stworzone przez Davida Šabatę. Obecnie jest ono rozwijane i utrzymywane przez Zespół Web Scrobblera.",
         "description": "Answer #7"
     },
@@ -575,11 +567,11 @@
         "message": "Przełącz scrobblowanie dla obecnej witryny",
         "description": "Hotkey label"
     },
-    "hotkeyLoveSong": {
+    "hotkeyLoveTrack": {
         "message": "Ukochaj aktualnie odtwarzany utwór",
         "description": "Hotkey label"
     },
-    "hotkeyUnloveSong": {
+    "hotkeyUnloveTrack": {
         "message": "Odkochaj aktualnie odtwarzany utwór",
         "description": "Hotkey label"
     },

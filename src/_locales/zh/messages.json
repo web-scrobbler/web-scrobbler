@@ -183,91 +183,83 @@
         "message": "常见问题",
         "description": "'FAQ' section"
     },
-    "faqQuestion1": {
+    "faqGetStartedQuestion": {
         "message": "如何开始使用本扩展？",
         "description": "Question #1"
     },
-    "faqAnswer1a": {
+    "faqGetStartedAnswerA": {
         "message": "请点击首次加载扩展时显示的通知，并连接追踪服务账户。",
         "description": "Answer #1"
     },
-    "faqAnswer1b": {
+    "faqGetStartedAnswerB": {
         "message": "注意：某些情况下通知不会显示，例如在 Mac OS 上以全屏模式运行 Chrome ；扩展程序将打开一个标签页，您可以在该标签页开始账户连接。",
         "description": "Answer #1"
     },
-    "faqQuestion2": {
+    "faqDisableScrobblingQuestion": {
         "message": "如何暂时禁用对曲目记录的追踪？",
         "description": "Question #2"
     },
-    "faqAnswer2a": {
+    "faqDisableScrobblingAnswerA": {
         "message": "您可以通过右键单击扩展栏中的绿色扩展图标来完成此操作。使用上下文菜单可以禁用当前 Web 服务的接口。",
         "description": "Answer #2"
     },
-    "faqAnswer2b": {
+    "faqDisableScrobblingAnswerB": {
         "message": "在选项页面上取消选中复选框可以禁用对应网站接口。取消选中“全部启用/全部禁用”复选框以全局禁用。",
         "description": "Answer #2"
     },
-    "faqQuestion3": {
+    "faqTrackNotRecognizedQuestion": {
         "message": "曲目识别失败时可以修复吗？",
         "description": "Question #3"
     },
-    "faqAnswer3a": {
+    "faqTrackNotRecognizedAnswerA": {
         "message": "当无法识别曲目时，在扩展栏中会出现带有问号的灰色图标。您可以点击这个图标并在打开的弹出窗口中输入正确的数据。",
         "description": "Answer #3"
     },
-    "faqAnswer3b": {
+    "faqTrackNotRecognizedAnswerB": {
         "message": "此外，若启用“强制曲目识别”选项，本扩展也将记录未被 Last.fm 验证的曲目。",
         "description": "Answer #3"
     },
-    "faqQuestion4": {
+    "faqBandcampDomainsQuestion": {
         "message": "Bandcamp 上的一些曲目无法记录。如何解决？",
         "description": "Question #4"
     },
-    "faqAnswer4a": {
+    "faqBandcampDomainsAnswerA": {
         "message": "可能是因为曲目被托管在其他域名，导致本扩展无法检测其是否属于 Bandcamp 。",
         "description": "Answer #4"
     },
-    "faqAnswer4b": {
+    "faqBandcampDomainsAnswerB": {
         "message": "对此，可设置扩展如下以识别其他域名：",
         "description": "Answer #4"
     },
-    "faqAnswer4b1": {
+    "faqBandcampDomainsAnswerB1": {
         "message": "打开扩展设置页并展开“选项”部分。",
         "description": "Answer #4"
     },
-    "faqAnswer4b2": {
+    "faqBandcampDomainsAnswerB2": {
         "message": "在支持网站列表中找到 Bandcamp 接口。",
         "description": "Answer #4"
     },
-    "faqAnswer4b3": {
+    "faqBandcampDomainsAnswerB3": {
         "message": "点击接口选项附近的齿轮图标。",
         "description": "Answer #4"
     },
-    "faqAnswer4b4": {
+    "faqBandcampDomainsAnswerB4": {
         "message": "添加匹配 Bandcamp 其他域名的网址匹配模板并应用更改。",
         "description": "Answer #4"
     },
-     "faqQuestion5": {
+    "faqAddScrobblingQuestion": {
         "message": "你会添加对____的追踪支持吗？",
         "description": "Question #5"
     },
-    "faqAnswer5": {
+    "faqAddScrobblingAnswerA": {
         "message": "在 Github 上根据您的需求发布一个新问题，我们会告诉您能否添加对网站的支持。您也可以通过派生Github 项目并向我们发送拉取请求来添加对网站的支持。",
         "description": "Answer #5"
     },
-    "faqQuestion6": {
-        "message": "你会添加____功能吗？",
-        "description": "Question #6"
-    },
-    "faqAnswer6": {
-        "message": "可能，如果它是有道理的。但是，如果你想让我添加一些不那么有用但很酷的功能，你可能会失望。",
-        "description": "Answer #6"
-    },
-    "faqQuestion7": {
+    "faqWhoIsAuthorQuestion": {
         "message": "作者是谁？",
         "description": "Question #7"
     },
-    "faqAnswer7": {
+    "faqWhoIsAuthorAnwserA": {
         "message": "本扩展的原作者是 David Šabata 。现在该扩展由 Web Scrobbler 团队开发和维护。",
         "description": "Answer #7"
     },
@@ -575,11 +567,11 @@
         "message": "切换对当前网站的跟踪",
         "description": "Hotkey label"
     },
-    "hotkeyLoveSong": {
+    "hotkeyLoveTrack": {
         "message": "标记喜欢正在播放的曲目",
         "description": "Hotkey label"
     },
-    "hotkeyUnloveSong": {
+    "hotkeyUnloveTrack": {
         "message": "取消标记喜欢正在播放的曲目",
         "description": "Hotkey label"
     },

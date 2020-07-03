@@ -183,91 +183,83 @@
         "message": "ЧаВо",
         "description": "'FAQ' section"
     },
-    "faqQuestion1": {
+    "faqGetStartedQuestion": {
         "message": "Как мне начать использовать расширение?",
         "description": "Question #1"
     },
-    "faqAnswer1a": {
+    "faqGetStartedAnswerA": {
         "message": "Необходимо кликнуть на уведомление, которое показывается после установки расширения. После этого нужно дать расширению доступ к своим аккаунтам.",
         "description": "Answer #1"
     },
-    "faqAnswer1b": {
+    "faqGetStartedAnswerB": {
         "message": "Примечание: в некоторых случая уведомление может не показываться, например, на MacOS, если Chrome развёрнут на весь экран. В таком случае, расширение создаст новую вкладку самостоятельно, где вы сможете дать ему доступ к своим аккаунтам.",
         "description": "Answer #1"
     },
-    "faqQuestion2": {
+    "faqDisableScrobblingQuestion": {
         "message": "Как временно отключить скробблинг?",
         "description": "Question #2"
     },
-    "faqAnswer2a": {
+    "faqDisableScrobblingAnswerA": {
         "message": "Вы можете это сделать, кликнув на значок расширения справа от адресной строки. Используя контекстное меню, вы можете отключить скробблинг для текущего сайта.",
         "description": "Answer #2"
     },
-    "faqAnswer2b": {
+    "faqDisableScrobblingAnswerB": {
         "message": "Используйте галочки ниже, чтобы отключить определённые сайты, или переключатель, чтобы отключить скробблинг глобально.",
         "description": "Answer #2"
     },
-    "faqQuestion3": {
+    "faqTrackNotRecognizedQuestion": {
         "message": "Композиция не распознана. Вы можете исправить это?",
         "description": "Question #3"
     },
-    "faqAnswer3a": {
+    "faqTrackNotRecognizedAnswerA": {
         "message": "Когда расширение не может распознать композицию, справа от адресной строки появляется иконка со знаком вопроса. Кликнув на эту иконку, вы можете скорректировать данные о композиции в появившемся всплывающем окне.",
         "description": "Answer #3"
     },
-    "faqAnswer3b": {
+    "faqTrackNotRecognizedAnswerB": {
         "message": "Также, есть опция \"Принудительное распознавание\", включение которой позволяет скробблить композиции, которые расширение не смогло распознать.",
         "description": "Answer #3"
     },
-    "faqQuestion4": {
+    "faqBandcampDomainsQuestion": {
         "message": "Некоторые композиции на Bandcamp не скробблятся. Это возможно исправить?",
         "description": "Question #4"
     },
-    "faqAnswer4a": {
+    "faqBandcampDomainsAnswerA": {
         "message": "Похоже, композиции расположены на нестандартном домене, и расширение не может определить, что это Bandcamp.",
         "description": "Answer #4"
     },
-    "faqAnswer4b": {
+    "faqBandcampDomainsAnswerB": {
         "message": "Как вариант, настройте расширение для работы с нестандартными доменами следующим образом:",
         "description": "Answer #4"
     },
-    "faqAnswer4b1": {
+    "faqBandcampDomainsAnswerB1": {
         "message": "Откройте страницу с настройками и разверните раздел \"Настройки\".",
         "description": "Answer #4"
     },
-    "faqAnswer4b2": {
+    "faqBandcampDomainsAnswerB2": {
         "message": "Найдите Bandcamp в списке поддерживаемых сайтов.",
         "description": "Answer #4"
     },
-    "faqAnswer4b3": {
+    "faqBandcampDomainsAnswerB3": {
         "message": "Кликните на иконку с шестерёнкой возле названия коннектора.",
         "description": "Answer #4"
     },
-    "faqAnswer4b4": {
+    "faqBandcampDomainsAnswerB4": {
         "message": "Добавьте шаблон URL, который будет соответствовать нестандартному домену Bandcamp, и примените изменения.",
         "description": "Answer #4"
     },
-    "faqQuestion5": {
+    "faqAddScrobblingQuestion": {
         "message": "Добавите ли вы поддержку ____?",
         "description": "Question #5"
     },
-    "faqAnswer5": {
+    "faqAddScrobblingAnswerA": {
         "message": "Создайте новый багрепорт на GitHub, и мы вам скажем, сможем ли мы добавить поддержку или нет. Также,  вы можете добавить поддержку сайта самостоятельно, форкнув проект на GitHub и отправив нам пулл-реквест.",
         "description": "Answer #5"
     },
-    "faqQuestion6": {
-        "message": "Добавите ли вы ____ функционал?",
-        "description": "Question #6"
-    },
-    "faqAnswer6": {
-        "message": "Возможно, если это будет иметь смысл. Но, если вы хотите предложить какую-то крутую-но-ненужную-фичу, я, вероятно, вас разочарую.",
-        "description": "Answer #6"
-    },
-    "faqQuestion7": {
+    "faqWhoIsAuthorQuestion": {
         "message": "Кто автор расширения?",
         "description": "Question #7"
     },
-    "faqAnswer7": {
+    "faqWhoIsAuthorAnwserA": {
         "message": "Первоначальный автор этого расширения — David Šabata. На данный момент расширение разрабатывает так называемая команда \"Web Scrobbler\".",
         "description": "Answer #7"
     },
@@ -575,11 +567,11 @@
         "message": "Включить/выключить скробблинг для текущего сайта",
         "description": "Hotkey label"
     },
-    "hotkeyLoveSong": {
+    "hotkeyLoveTrack": {
         "message": "Добавить композицию в список любимых",
         "description": "Hotkey label"
     },
-    "hotkeyUnloveSong": {
+    "hotkeyUnloveTrack": {
         "message": "Удалить композицию из списка любимых",
         "description": "Hotkey label"
     },

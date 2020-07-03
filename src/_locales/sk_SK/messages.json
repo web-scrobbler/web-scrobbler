@@ -159,91 +159,83 @@
         "message": "Často kladené otázky",
         "description": "'FAQ' section"
     },
-    "faqQuestion1": {
+    "faqGetStartedQuestion": {
         "message": "Ako začať používať doplnok?",
         "description": "Question #1"
     },
-    "faqAnswer1a": {
+    "faqGetStartedAnswerA": {
         "message": "Kliknite na notifikáciu, ktorá sa ukáže pri prvom spustení doplnku. Následne musíte povoliť prístup k vašim účtom na podporovaných službách.",
         "description": "Answer #1"
     },
-    "faqAnswer1b": {
+    "faqGetStartedAnswerB": {
         "message": "Poznámka: V niektorých prípadoch sa notifikácia neukáže, napr. na Mac OS v prípade, že Chrome je zapnutý v režime celej obrazovky, potom doplnok otvorí novú kartu kde môžete nastaviť prístup ku vašim účtom.",
         "description": "Answer #1"
     },
-    "faqQuestion2": {
+    "faqDisableScrobblingQuestion": {
         "message": "Ako dočasne vypnúť činnosť doplnku?",
         "description": "Question #2"
     },
-    "faqAnswer2a": {
+    "faqDisableScrobblingAnswerA": {
         "message": "Kliknite pravým tlačidlom myši na zelenú ikonku doplnku v lište doplnkov. V zobrazenej ponuke môžete vypnúť konektor na aktuálnej stránke.",
         "description": "Answer #2"
     },
-    "faqAnswer2b": {
+    "faqDisableScrobblingAnswerB": {
         "message": "V nastaveniach doplnku môžete pomocou zaškrtávacích políčok vypnúť daný konektor, prípadne pomocou políčka \"Prepnúť\" vypnúť činnosť doplnku úplne.",
         "description": "Answer #2"
     },
-    "faqQuestion3": {
+    "faqTrackNotRecognizedQuestion": {
         "message": "Skladba nebola rozpoznaná! Viete to opraviť?",
         "description": "Question #3"
     },
-    "faqAnswer3a": {
+    "faqTrackNotRecognizedAnswerA": {
         "message": "Ak skladba nie je rozoznaná, objaví sa šedá ikonka s otáznikom v lište doplnkov. Kliknutím na túto ikonku sa zobrazí vyskakovacie okno, kde môžete vložiť správne údaje o skladbe.",
         "description": "Answer #3"
     },
-    "faqAnswer3b": {
+    "faqTrackNotRecognizedAnswerB": {
         "message": "Takisto môžete v nastaveniach povoliť možnosť \"Vynútiť rozpoznanie skladby\" na zaznamenanie skladby napriek tomu, že skladba nebola overená službou Last.fm.",
         "description": "Answer #3"
     },
-    "faqQuestion4": {
+    "faqBandcampDomainsQuestion": {
         "message": "Niektoré skladby na Bandcamp nie je možné zaznamenať. Dá sa to opraviť?",
         "description": "Question #4"
     },
-    "faqAnswer4a": {
+    "faqBandcampDomainsAnswerA": {
         "message": "Zdá sa, že hudba je umiestnená na neštandartnej adrese a doplnok nedokáže rozlíšiť, či sa jedná o Bandcamp.",
         "description": "Answer #4"
     },
-    "faqAnswer4b": {
+    "faqBandcampDomainsAnswerB": {
         "message": "Problém sa dá vyriešiť nastavením neštandartných adries nasledovne:",
         "description": "Answer #4"
     },
-    "faqAnswer4b1": {
+    "faqBandcampDomainsAnswerB1": {
         "message": "Otvorte stránku nastavení doplnku a následne kliknite na zložku \"Nastavenia\".",
         "description": "Answer #4"
     },
-    "faqAnswer4b2": {
+    "faqBandcampDomainsAnswerB2": {
         "message": "Nájdite konektor Bandcamp v zozname podporovaných stránok.",
         "description": "Answer #4"
     },
-    "faqAnswer4b3": {
+    "faqBandcampDomainsAnswerB3": {
         "message": "Kliknite na ikonku ozubeného kolieska vedľa názvu konektora.",
         "description": "Answer #4"
     },
-    "faqAnswer4b4": {
+    "faqBandcampDomainsAnswerB4": {
         "message": "Pridajte URL vzor, ktorý vyhovuje neštandartnej adrese na Bandcamp a uložte zmeny.",
         "description": "Answer #4"
     },
-    "faqQuestion5": {
+    "faqAddScrobblingQuestion": {
         "message": "Pridáte podporu pre stránku ____?",
         "description": "Question #5"
     },
-    "faqAnswer5": {
+    "faqAddScrobblingAnswerA": {
         "message": "Nahláste nový problém na GitHube s vašimi požiadavkami a my Vám povieme, či vieme pridať podporu pre stránku. Prípadne môžete prispieť do projektu pridaním podpory pre stránku vytvorením forku GitHub repozitára a zaslaním pull requestu.",
         "description": "Answer #5"
     },
-    "faqQuestion6": {
-        "message": "Pridáte funkciu ____?",
-        "description": "Question #6"
-    },
-    "faqAnswer6": {
-        "message": "Snáď, ak to dáva zmysel. Avšak, ak chcete aby sme pridali funkciu, ktorá je síce štýlová, ale zbytočná, tak budete pravdepodobne sklamaný.",
-        "description": "Answer #6"
-    },
-    "faqQuestion7": {
+    "faqWhoIsAuthorQuestion": {
         "message": "Kto je autorom doplnku?",
         "description": "Question #7"
     },
-    "faqAnswer7": {
+    "faqWhoIsAuthorAnwserA": {
         "message": "Pôvodným autorom doplnku je David Šabata. Momentálne je doplnok vyvíjaný a udržiavaný Web Scrobbler tímom.",
         "description": "Answer #7"
     },
@@ -551,11 +543,11 @@
         "message": "Prepnúť zaznamenávanie pre aktuálnu stránku",
         "description": "Hotkey label"
     },
-    "hotkeyLoveSong": {
+    "hotkeyLoveTrack": {
         "message": "Pridať práve prehrávanú skladbu do obľúbených",
         "description": "Hotkey label"
     },
-    "hotkeyUnloveSong": {
+    "hotkeyUnloveTrack": {
         "message": "Odstrániť práve prehrávanú skladbu z obľúbených",
         "description": "Hotkey label"
     },

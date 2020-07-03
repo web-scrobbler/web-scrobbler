@@ -32,10 +32,10 @@
       "description": "__MSG_hotkeyToggleConnector__"
     },
     "love-song": {
-      "description": "__MSG_hotkeyLoveSong__"
+      "description": "__MSG_hotkeyLoveTrack__"
     },
     "unlove-song": {
-      "description": "__MSG_hotkeyUnloveSong__"
+      "description": "__MSG_hotkeyUnloveTrack__"
     }
   },
 

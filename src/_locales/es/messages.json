@@ -159,91 +159,83 @@
         "message": "FAQ",
         "description": "'FAQ' section"
     },
-    "faqQuestion1": {
+    "faqGetStartedQuestion": {
         "message": "¿Cómo empiezo a usar la extensión?",
         "description": "Question #1"
     },
-    "faqAnswer1a": {
+    "faqGetStartedAnswerA": {
         "message": "Debe hacer clic en una notificación que se muestra cuando la extensión se carga por primera vez. Entonces, debe otorgar acceso a sus cuentas.",
         "description": "Answer #1"
     },
-    "faqAnswer1b": {
+    "faqGetStartedAnswerB": {
         "message": "Nota: en algunos casos, la notificación no se mostrará, por ejemplo, en Mac OS si Chrome se ejecuta en modo de pantalla completa; la extensión abrirá una pestaña donde puede otorgarle acceso a sus cuentas.",
         "description": "Answer #1"
     },
-    "faqQuestion2": {
+    "faqDisableScrobblingQuestion": {
         "message": "¿Cómo puede desactivar temporariamente el scrobbling?",
         "description": "Question #2"
     },
-    "faqAnswer2a": {
+    "faqDisableScrobblingAnswerA": {
         "message": "Puede hacerlo haciendo clic derecho en el icono de la extensión verde en la barra de extensión. Usando el menú contextual puede deshabilitar el conector para el actual servicio web.",
         "description": "Answer #2"
     },
-    "faqAnswer2b": {
+    "faqDisableScrobblingAnswerB": {
         "message": "Use las casillas de verificación en la página de opciones para deshabilitar un conector determinado, o la casilla \"Alternar\" para deshabilitar el scrobbling global.",
         "description": "Answer #2"
     },
-    "faqQuestion3": {
+    "faqTrackNotRecognizedQuestion": {
         "message": "¡La canción no fue reconocida! ¿Puedes arreglarla?",
         "description": "Question #3"
     },
-    "faqAnswer3a": {
+    "faqTrackNotRecognizedAnswerA": {
         "message": "Cuando no se puede reconocer una canción, aparece un icono gris con un signo de interrogación en la barra de extensión. Puede hacer clic en este icono e ingresar los datos correctos en la ventana emergente abierta.",
         "description": "Answer #3"
     },
-    "faqAnswer3b": {
+    "faqTrackNotRecognizedAnswerB": {
         "message": "Además, hay una opción llamada \"Forzar reconocimiento de canción\" que hace que la extensión esté obligada a scrobble la canción incluso si la misma no está validada por Last.fm.",
         "description": "Answer #3"
     },
-    "faqQuestion4": {
+    "faqBandcampDomainsQuestion": {
         "message": "Algo de música en Bandcamp no puede ser scrobbled. ¿Es posible arreglar eso?",
         "description": "Question #4"
     },
-    "faqAnswer4a": {
+    "faqBandcampDomainsAnswerA": {
         "message": "Parece que la música está alojada en un dominio personalizado y la extensión no puede detectar si está en Bandcamp o no.",
         "description": "Answer #4"
     },
-    "faqAnswer4b": {
+    "faqBandcampDomainsAnswerB": {
         "message": "Como una solución alternativa, configure la extensión para que funcione con dominios personalizados de la siguiente manera:",
         "description": "Answer #4"
     },
-    "faqAnswer4b1": {
+    "faqBandcampDomainsAnswerB1": {
         "message": "Abra la página de configuración de la extensión y expanda la sección \"Opciones\".",
         "description": "Answer #4"
     },
-    "faqAnswer4b2": {
+    "faqBandcampDomainsAnswerB2": {
         "message": "Encuentre el conector Bandcamp en la lista de los servicios soportados.",
         "description": "Answer #4"
     },
-    "faqAnswer4b3": {
+    "faqBandcampDomainsAnswerB3": {
         "message": "Haga clic en el icono del engranaje cerca de la etiqueta conector.",
         "description": "Answer #4"
     },
-    "faqAnswer4b4": {
+    "faqBandcampDomainsAnswerB4": {
         "message": "Agregue un patrón de direcciones URL que coincida con la URL del dominio personalizado de Bandcamp y aplique los cambios.",
         "description": "Answer #4"
     },
-    "faqQuestion5": {
+    "faqAddScrobblingQuestion": {
         "message": "¿Dará soporte al scrobbling en _____ ?",
         "description": "Question #5"
     },
-    "faqAnswer5": {
+    "faqAddScrobblingAnswerA": {
         "message": "Abra un nuevo problema</a> en GitHub con su solicitud, y le informaremos si podemos agregar soporte para un determinado sitio web o no. Además, puede dar asistencia al sitio web simplemente bifurcando el repositorio GitHub y enviándonos una solicitud de integración.",
         "description": "Answer #5"
     },
-    "faqQuestion6": {
-        "message": "Agregará ______ funcionalidad?",
-        "description": "Question #6"
-    },
-    "faqAnswer6": {
-        "message": "Posiblemente, si tiene sentido. Pero si quieres que agregue algunas funciones no tan útiles pero realmente geniales, probablemente te decepcionará.",
-        "description": "Answer #6"
-    },
-    "faqQuestion7": {
+    "faqWhoIsAuthorQuestion": {
         "message": "¿Quién es el autor?",
         "description": "Question #7"
     },
-    "faqAnswer7": {
+    "faqWhoIsAuthorAnwserA": {
         "message": "El autor original de esta extensión es David Šabata. Ahora la misma es desarrollada y mantenido por el equipo dado en llamar Web Scrobbler Team.",
         "description": "Answer #7"
     },
@@ -551,11 +543,11 @@
         "message": "Cambiar la modalidad de scrobbling para el actual sitio web",
         "description": "Hotkey label"
     },
-    "hotkeyLoveSong": {
+    "hotkeyLoveTrack": {
         "message": "Canción amada sonando",
         "description": "Hotkey label"
     },
-    "hotkeyUnloveSong": {
+    "hotkeyUnloveTrack": {
         "message": "Canción desamada, sonando",
         "description": "Hotkey label"
     },
