@@ -270,8 +270,9 @@ define((require) => {
 					if (song.flags.isReplaying) {
 						return;
 					}
+					const { label } = ctrl.getConnector();
 
-					Notifications.showNowPlaying(song, () => {
+					Notifications.showNowPlaying(song, label, () => {
 						openTab(ctrl.tabId);
 					});
 					break;
