@@ -1,30 +1,5 @@
 'use strict';
 
-/**
- * The extension uses `browser.runtime.sendMessage` function for communication
- * between different modules using the following message types:
- *
- * 1) events:
- *  - EVENT_STATE_CHANGED: The connector state is changed
- *    @param  {Object} state Connector state
- *  - EVENT_SONG_UPDATED: The current song is updated
- *    @param  {Object} data Song instance copy
- *  - EVENT_READY: The connector is injected and the controller is created
- *  - EVENT_PING: The 'ping' event to check if connector is injected
- *
- * 2) requests:
- *  - REQUEST_GET_SONG: Get now playing song
- *    @return {Object} Song instance copy
- *  - REQUEST_CORRECT_SONG: Correct song info
- *    @param  {Object} data Object contains corrected song info
- *  - REQUEST_TOGGLE_LOVE: Toggle song love status
- *    @param  {Boolean} isLoved Flag indicates song is loved
- *  - REQUEST_RESET_SONG: Reset corrected song info
- *  - REQUEST_SKIP_SONG: Ignore (don't scrobble) current song
- *  - REQUEST_AUTHENTICATE: Authenticate scrobbler
- *    @param  {String} scrobbler Scrobbler label
- */
-
 define((require) => {
 	const GA = require('service/ga');
 	const browser = require('webextension-polyfill');
@@ -33,6 +8,12 @@ define((require) => {
 	const BrowserStorage = require('storage/browser-storage');
 	const ScrobbleService = require('object/scrobble-service');
 
+	const {
+		REQUEST_GET_ACTIVE_TAB_ID,
+		REQUEST_SIGN_IN,
+		REQUEST_SIGN_OUT,
+		REQUEST_APPLY_USER_PROPERTIES,
+	} = require('@/common/messages');
 	const { openTab } = require('util/util-browser');
 
 	const {
@@ -132,27 +113,35 @@ define((require) => {
 		 * @param  {Object} data Object contains data sent in the message
 		 */
 		async processMessage(tabId, type, data) {
-			const requestTypes = [
-				'REQUEST_AUTHENTICATE',
-				'REQUEST_APPLY_USER_OPTIONS',
-				'REQUEST_SIGN_OUT',
-			];
-			if (!requestTypes.includes(type)) {
+			if (tabId) {
 				return this.tabWorker.processMessage(tabId, type, data);
 			}
 
-			const scrobbler = ScrobbleService.getScrobblerByLabel(data.label);
+			switch (type) {
+				case REQUEST_GET_ACTIVE_TAB_ID:
+					return this.tabWorker.getActiveTabId();
+			}
+
+			const scrobbler = ScrobbleService.getScrobblerById(
+				data.scrobblerId
+			);
 			if (!scrobbler) {
-				console.log(`Unknown scrobbler: ${data.label}`);
+				console.log(`Unknown scrobbler ID: ${data.scrobblerId}`);
 				return;
 			}
 
-			if (type === 'REQUEST_AUTHENTICATE') {
-				this.authenticateScrobbler(scrobbler);
-			} else if (type === 'REQUEST_APPLY_USER_OPTIONS') {
-				await this.applyUserProperties(scrobbler, data.userProps);
-			} else if (type === 'REQUEST_SIGN_OUT') {
-				await scrobbler.signOut();
+			switch (type) {
+				case REQUEST_SIGN_IN:
+					this.authenticateScrobbler(scrobbler);
+					break;
+
+				case REQUEST_SIGN_OUT:
+					await scrobbler.signOut();
+					break;
+
+				case REQUEST_APPLY_USER_PROPERTIES:
+					await this.applyUserProperties(scrobbler, data.userProps);
+					break;
 			}
 		}
 

@@ -164,13 +164,15 @@ define((require) => {
 		},
 
 		/**
-		 * Get scrobbler by label.
-		 * @param  {String} label Scrobbler label
+		 * Get scrobbler by a given ID.
+		 *
+		 * @param {String} scrobblerId Scrobbler ID
+		 *
 		 * @return {Object} Found scrobbler object
 		 */
-		getScrobblerByLabel(label) {
+		getScrobblerById(scrobblerId) {
 			for (const scrobbler of registeredScrobblers) {
-				if (scrobbler.getLabel() === label) {
+				if (scrobbler.getId() === scrobblerId) {
 					return scrobbler;
 				}
 			}

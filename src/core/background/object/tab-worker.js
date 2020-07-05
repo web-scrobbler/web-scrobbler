@@ -12,9 +12,20 @@ define((require) => {
 	const { INJECTED, MATCHED, NO_MATCH } = require('object/inject-result');
 	const { getCurrentTab } = require('util/util-browser');
 	const { getConnectorByUrl } = require('util/util-connector');
+	const {	contextMenus, i18n, tabs } = require('webextension-polyfill');
 	const {
-		contextMenus, i18n, runtime, tabs,
-	} = require('webextension-polyfill');
+		EVENT_READY,
+		EVENT_STATE_CHANGED,
+		EVENT_TRACK_UPDATED,
+		REQUEST_CORRECT_TRACK,
+		REQUEST_GET_CONNECTOR_LABEL,
+		REQUEST_GET_TRACK,
+		REQUEST_RESET_TRACK,
+		REQUEST_SKIP_TRACK,
+		REQUEST_TOGGLE_LOVE,
+		sendMessageToAll,
+		sendMessageToContentScripts,
+	} = require('common/messages');
 
 	class TabWorker {
 		constructor() {
@@ -43,6 +54,15 @@ define((require) => {
 		}
 
 		/** Public methods. */
+
+		/**
+		 * Returna an ID of the current tab.
+		 *
+		 * @return {Number} Tab ID
+		 */
+		getActiveTabId() {
+			return this.activeTabId;
+		}
 
 		/**
 		 * Called when a command is executed.
@@ -81,11 +101,6 @@ define((require) => {
 		 * @param  {Object} data Object contains data sent in the message
 		 */
 		async processMessage(tabId, type, data) {
-			switch (type) {
-				case 'REQUEST_ACTIVE_TABID':
-					return this.activeTabId;
-			}
-
 			const ctrl = this.tabControllers[tabId];
 
 			if (!ctrl) {
@@ -95,22 +110,25 @@ define((require) => {
 			}
 
 			switch (type) {
-				case 'REQUEST_GET_SONG':
+				case REQUEST_GET_TRACK:
 					return ctrl.getCurrentSong().getCloneableData();
 
-				case 'REQUEST_CORRECT_SONG':
-					ctrl.setUserSongData(data);
+				case REQUEST_GET_CONNECTOR_LABEL:
+					return ctrl.getConnector().label;
+
+				case REQUEST_CORRECT_TRACK:
+					ctrl.setUserSongData(data.track);
 					break;
 
-				case 'REQUEST_TOGGLE_LOVE':
+				case REQUEST_TOGGLE_LOVE:
 					await ctrl.toggleLove(data.isLoved);
-					return data.isLoved;
+					break;
 
-				case 'REQUEST_SKIP_SONG':
+				case REQUEST_SKIP_TRACK:
 					ctrl.skipCurrentSong();
 					break;
 
-				case 'REQUEST_RESET_SONG':
+				case REQUEST_RESET_TRACK:
 					ctrl.resetSongData();
 					break;
 			}
@@ -125,7 +143,7 @@ define((require) => {
 		 */
 		processPortMessage(tabId, type, data) {
 			switch (type) {
-				case 'EVENT_STATE_CHANGED': {
+				case EVENT_STATE_CHANGED: {
 					const ctrl = this.tabControllers[tabId];
 					if (ctrl) {
 						ctrl.onStateChanged(data);
@@ -412,14 +430,12 @@ define((require) => {
 		 * Notify other modules if a controller updated the song.
 		 *
 		 * @param  {Object} ctrl  Controller instance
-		 * @param  {Number} tabId ID of a tab attached to the controller
 		 */
-		async notifySongIsUpdated(ctrl, tabId) {
-			const data = ctrl.getCurrentSong().getCloneableData();
-			const type = 'EVENT_SONG_UPDATED';
+		async notifySongIsUpdated(ctrl) {
+			const track = ctrl.getCurrentSong().getCloneableData();
 
 			try {
-				await runtime.sendMessage({ type, data, tabId });
+				await sendMessageToAll(EVENT_TRACK_UPDATED, { track });
 			} catch (e) {
 				// Suppress errors
 			}
@@ -458,7 +474,7 @@ define((require) => {
 					}
 					this.updateContextMenu(tabId);
 
-					tabs.sendMessage(tabId, { type: 'EVENT_READY' });
+					sendMessageToContentScripts(tabId, EVENT_READY);
 
 					this.onConnectorActivated(connector);
 					break;
@@ -476,7 +492,7 @@ define((require) => {
 			const isEnabled = Options.isConnectorEnabled(connector);
 			const ctrl = new Controller(tabId, connector, isEnabled);
 			ctrl.onSongUpdated = async () => {
-				this.notifySongIsUpdated(ctrl, tabId);
+				this.notifySongIsUpdated(ctrl);
 			};
 			ctrl.onModeChanged = () => {
 				this.processControlleModeChange(ctrl, tabId);
