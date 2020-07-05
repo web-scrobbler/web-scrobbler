@@ -6,6 +6,8 @@ define((require) => {
 	const browser = require('webextension-polyfill');
 	const { INJECTED, MATCHED, NO_MATCH } = require('object/inject-result');
 
+	const { REQUEST_PING, sendMessageToContentScripts } = require('@/common/messages');
+
 	const CONTENT_SCRIPTS = [
 		'vendor/filter.js',
 		'core/content/util.js',
@@ -24,7 +26,7 @@ define((require) => {
 	async function isConnectorInjected(tabId) {
 		// Ping the content page to see if the script is already in place.
 		try {
-			await browser.tabs.sendMessage(tabId, { type: 'EVENT_PING' });
+			await sendMessageToContentScripts(tabId, REQUEST_PING);
 			return true;
 		} catch (e) {
 			return false;

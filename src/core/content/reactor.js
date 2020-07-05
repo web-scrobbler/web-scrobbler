@@ -42,7 +42,7 @@ class Reactor { // eslint-disable-line no-unused-vars
 			 * Background script calls this to see
 			 * if the script is already injected.
 			 */
-			case 'EVENT_PING':
+			case 'REQUEST_PING':
 				return Promise.resolve(true);
 			// The controller is created and is ready to receive connector state
 			case 'EVENT_READY':
