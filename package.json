@@ -1,6 +1,6 @@
 {
   "name": "web-scrobbler",
-  "version": "2.32.0",
+  "version": "2.33.0",
   "author": "David Šabata <posta@davidsabata.cz>",
   "description": "Scrobble music all around the web!",
   "private": true,
@@ -68,7 +68,9 @@
   },
   "prettier": "prettier-config-web-scrobbler",
   "remark": {
-    "plugins": ["remark-preset-lint-recommended"]
+    "plugins": [
+      "remark-preset-lint-recommended"
+    ]
   },
   "stylelint": {
     "extends": "stylelint-config-web-scrobbler"
