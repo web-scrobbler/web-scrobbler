@@ -213,7 +213,7 @@ const connectors = [{
 }, {
 	label: 'BBC Sounds',
 	matches: [
-		'*://www.bbc.co.uk/sounds/play/*',
+		'*://*.bbc.co.uk/*',
 	],
 	js: 'connectors/bbc-sounds.js',
 	id: 'bbc-sounds',
