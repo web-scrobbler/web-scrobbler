@@ -1,5 +1,3 @@
-require('node-define');
-
 const fs = require('fs');
 
 const ROOT_DIR = '..';
@@ -10,7 +8,7 @@ const SERVICE_FILES = [
 ];
 const DOM_INJECT_SUFFIX = 'dom-inject.js';
 
-const connectors = require(`${ROOT_DIR}/src/core/connectors.js`);
+const connectors = require(`${ROOT_DIR}/src/connectors.json`);
 const manifest = require(`${ROOT_DIR}/src/manifest.json`);
 
 module.exports = (grunt) => {

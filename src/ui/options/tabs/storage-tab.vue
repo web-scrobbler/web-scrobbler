@@ -122,11 +122,11 @@
 import EditTrackModal from '@/ui/options/modals/edit-track-modal.vue';
 import TrackInfo from '@/ui/options/components/track-info.vue';
 
-import ScrobbleStorage from 'storage/scrobble-storage';
-import ScrobbleService from 'object/scrobble-service';
+import ScrobbleStorage from '@/background/storage/scrobble-storage';
+import ScrobbleService from '@/background/object/scrobble-service';
 
 import { exportData, importData } from '@/ui/util';
-import { RESULT_OK } from 'object/api-call-result';
+import ApiCallResult from '@/background/object/api-call-result';
 
 const exportFileName = 'scrobble-storage.json';
 
@@ -218,7 +218,7 @@ export default {
 			for (const result of results) {
 				const scrobblerId = result.getScrobblerId();
 
-				if (result.is(RESULT_OK)) {
+				if (result.is(ApiCallResult.RESULT_OK)) {
 					okScrobblersIds.push(scrobblerId);
 				} else {
 					failedScrobblerIds.push(scrobblerId);

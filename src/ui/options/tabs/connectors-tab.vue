@@ -68,9 +68,9 @@
 import AddPatternsModal from '@/ui/options/modals/add-patterns-modal.vue';
 import SpriteIcon from '@/ui/shared/sprite-icon.vue';
 
-import { getSortedConnectors } from 'util/util-connector';
-import CustomPatterns from 'storage/custom-patterns';
-import Options from 'storage/options';
+import { getSortedConnectors } from '@/common/util-connector';
+import CustomPatterns from '@/background/storage/custom-patterns';
+import Options from '@/background/storage/options';
 
 import gearIcon from 'bootstrap-icons/icons/gear.svg';
 

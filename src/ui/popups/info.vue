@@ -182,7 +182,7 @@
 <script>
 import { runtime } from 'webextension-polyfill';
 
-import Song from '@/core/background/object/song';
+import Song from '@/background/object/song';
 import {
 	EVENT_TRACK_UPDATED,
 	REQUEST_CORRECT_TRACK,

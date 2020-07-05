@@ -139,7 +139,7 @@ module.exports = (grunt) => {
 
 		mochacli: {
 			options: {
-				require: ['tests/requirejs-config'],
+				require: ['esm', 'tests/set-alias.js', 'tests/set-stubs.js'],
 				reporter: 'progress',
 			},
 			all: ['tests/background/*.js', 'tests/content/*.js'],

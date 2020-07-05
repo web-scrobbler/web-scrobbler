@@ -1,11 +1,9 @@
-'use strict';
-
-const StorageWrapper = require('../src/core/background/storage/wrapper');
-const StorageAreaStub = require('./stubs/storage-area');
+import StorageWrapper from '../src/background/storage/storage-wrapper';
+import StorageAreaStub from './stubs/storage-area';
 
 const storageTestNamespace = 'TestNamespace';
 
-function makeStorageWrapperStub() {
+export function makeStorageWrapperStub() {
 	const storageWrapper = new StorageWrapper(
 		new StorageAreaStub(),
 		storageTestNamespace
@@ -16,5 +14,3 @@ function makeStorageWrapperStub() {
 
 	return storageWrapper;
 }
-
-module.exports = { makeStorageWrapperStub };

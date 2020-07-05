@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
@@ -28,32 +29,32 @@ const {
 /**
  * A main entry point.
  */
-const mainEntry = 'core/background/main';
-
-/**
- * A path to the main entry point.
- */
-const mainEntryPath = getEntryJsPath(mainEntry);
+const backgroundPageEntry = 'background/index';
 
 /**
  * A list of UI popup names. Each name is a name of HTML file of the popup.
  */
-const uiPopups = ['disabled', 'error', 'go-play-music', 'info', 'unsupported'];
+const uiPopups = [
+	'ui/popups/disabled',
+	'ui/popups/error',
+	'ui/popups/go-play-music',
+	'ui/popups/info',
+	'ui/popups/unsupported',
+];
 
 /**
  * A list of UI page names. Each name is a directory where all files related
  * to the page are stored.
  */
-const uiPages = ['options'];
+const uiPages = ['ui/options'];
 
 const defaultPopupTemplate = 'ui/popups/base-popup';
 
-const chunkDir = 'shared';
 const iconsDir = 'icons';
 const vendorDir = 'vendor';
 
 const vendorFiles = ['metadata-filter/dist/filter.js'];
-const extensionFiles = ['_locales/', 'connectors/', 'core/content/'];
+const extensionFiles = ['_locales/', 'connectors/', 'content/'];
 const projectFiles = [
 	'LICENSE.md',
 	'README.md',
@@ -69,6 +70,8 @@ const preprocessorFlagNames = {
 };
 
 const defaultBrowser = browserChrome;
+
+const isDevServer = !!process.env.WEBPACK_DEV_SERVER;
 
 /**
  * A list of CSS styles shared across UI modules. These styles will be extracted
@@ -138,7 +141,7 @@ module.exports = (functionArg) => {
 		},
 		optimization: createOptimization(),
 		output: {
-			chunkFilename: `${chunkDir}/[name].js`,
+			chunkFilename: `${vendorDir}/[id].js`,
 			filename: '[name].js',
 			path: resolve(buildDir),
 			publicPath: '/',
@@ -147,14 +150,9 @@ module.exports = (functionArg) => {
 		plugins: createPlugins(browser),
 		resolve: {
 			alias: {
-				connectors: resolve(srcDir, 'core', 'connectors'),
 				'@': resolve(srcDir),
 			},
-			modules: [
-				resolve(srcDir, 'core', 'background'),
-				resolve(srcDir),
-				'node_modules',
-			],
+			modules: ['node_modules'],
 		},
 		stats: 'minimal',
 	};
@@ -183,7 +181,7 @@ function getBrowserFromArgs(functionArg) {
  */
 function getDevtool() {
 	if (getMode() === modeProduction) {
-		return 'source-map';
+		return 'inline-source-map';
 	}
 
 	return 'eval-cheap-source-map';
@@ -217,6 +215,20 @@ function getMode() {
 }
 
 /**
+ * Return a new entry object for a HTML page. This object is used to create
+ * entrypoints and HtmlWebpackPlugin instances.
+ *
+ * @param {String} entryName Entry name
+ * @param {String} [templateName] Template name used to create HTML file
+ *
+ * @return {Object} Entry object
+ */
+function getHtmlEntry(entryName, templateName = null) {
+	const entryPath = getEntryJsPath(entryName);
+	return { entryName, entryPath, templateName: templateName || entryName };
+}
+
+/**
  * Return a new entry object for a given UI page.
  *
  * @param {String} page UI page name (the name of directory)
@@ -224,11 +236,8 @@ function getMode() {
  * @return {Object} Entry object
  */
 function getUiPageJsEntry(page) {
-	const entryName = `ui/${page}/index`;
-	const entryPath = getEntryJsPath(entryName);
-	const templateName = entryName;
-
-	return { entryName, entryPath, templateName };
+	const entryName = `${page}/index`;
+	return getHtmlEntry(entryName);
 }
 
 /**
@@ -239,11 +248,8 @@ function getUiPageJsEntry(page) {
  * @return {Object} Entry object
  */
 function getUiPopupJsEntry(popup) {
-	const entryName = `ui/popups/${popup}`;
-	const entryPath = getEntryJsPath(entryName);
-	const templateName = defaultPopupTemplate;
-
-	return { entryName, entryPath, templateName };
+	const entryName = popup;
+	return getHtmlEntry(entryName, defaultPopupTemplate);
 }
 
 /**
@@ -270,12 +276,14 @@ function getUiPopupsEntries() {
  * @return {Object} Object containting entry points
  */
 function createEntries() {
-	const entries = {
-		[mainEntry]: resolve(mainEntryPath),
-	};
+	const entries = {};
 
-	const uiEntries = [...getUiPagesEntries(), ...getUiPopupsEntries()];
-	for (const { entryName, entryPath } of uiEntries) {
+	const allEntries = [
+		getHtmlEntry(backgroundPageEntry),
+		...getUiPagesEntries(),
+		...getUiPopupsEntries(),
+	];
+	for (const { entryName, entryPath } of allEntries) {
 		entries[entryName] = entryPath;
 	}
 
@@ -316,32 +324,39 @@ function createOptimization() {
 		return undefined;
 	}
 
-	const optimization = {};
-	const cacheGroups = {};
+	const optimization = {
+		runtimeChunk: 'multiple',
+		minimizer: [
+			new TerserJSPlugin({ sourceMap: true }),
+			new OptimizeCSSAssetsPlugin({}),
+		],
+		splitChunks: {
+			chunks: 'all',
+			cacheGroups: {
+				vendor: {
+					test: /[\\/]node_modules[\\/]/,
+					name(module) {
+						const packageName = module.context.match(
+							/[\\/]node_modules[\\/](.*?)([\\/]|$)/
+						)[1];
 
-	optimization.minimizer = [
-		new TerserJSPlugin({
-			sourceMap: true,
-		}),
-		new OptimizeCSSAssetsPlugin({}),
-	];
-
-	cacheGroups.vendors = {
-		name: 'vendors',
-		test: /[\\/]node_modules[\\/]/,
-		chunks: 'all',
-		enforce: true,
+						return `npm.${packageName.replace('@', '')}`;
+					},
+				},
+			},
+			minSize: 0,
+			maxInitialRequests: Infinity,
+		},
 	};
 
 	for (const style of sharedStyles) {
-		cacheGroups[style] = {
+		optimization.splitChunks.cacheGroups[style] = {
 			name: style,
 			test: new RegExp(`${style}\\.css$`),
 			chunks: 'all',
 			enforce: true,
 		};
 	}
-	optimization.splitChunks = { cacheGroups };
 
 	return optimization;
 }
@@ -389,11 +404,13 @@ function createPlugins(browser) {
 
 	return [
 		new VueLoaderPlugin(),
+		new CleanWebpackPlugin({ cleanStaleWebpackAssets: !isDevServer }),
 		new MiniCssExtractPlugin({
-			chunkFilename: `${chunkDir}/[name].css`,
+			chunkFilename: `${vendorDir}/[id].css`,
 			filename: '[name].css',
 		}),
 		new CopyPlugin({ patterns }),
+		...createHtmlPluginsFromEntries([getHtmlEntry(backgroundPageEntry)]),
 		...createHtmlPluginsFromEntries(getUiPagesEntries()),
 		...createHtmlPluginsFromEntries(getUiPopupsEntries()),
 		new ImageminPlugin({
