@@ -33,9 +33,15 @@ define(() => {
 			 */
 			this.metadata = { /* Filled in `initMetadata` method */ };
 
-			this.connectorLabel = connector.label;
-
 			this.initSongData();
+		}
+
+		getField(field) {
+			if (!Song.BASE_FIELDS.includes(field)) {
+				return TypeError(`Invalid field: ${field}`);
+			}
+
+			return this.processed[field] || this.parsed[field];
 		}
 
 		/**
@@ -44,7 +50,7 @@ define(() => {
 		 * @return {String} Song artist
 		 */
 		getArtist() {
-			return this.processed.artist || this.parsed.artist;
+			return this.getField(Song.FIELD_ARTIST);
 		}
 
 		/**
@@ -53,7 +59,7 @@ define(() => {
 		 * @return {String} Song title
 		 */
 		getTrack() {
-			return this.processed.track || this.parsed.track;
+			return this.getField(Song.FIELD_TRACK);
 		}
 
 		/**
@@ -62,15 +68,15 @@ define(() => {
 		 * @return {String} Song album
 		 */
 		getAlbum() {
-			return this.processed.album || this.parsed.album;
+			return this.getField(Song.FIELD_ALBUM);
 		}
 
 		/**
-		 * Return song's album artist (Optional)
-		 * @return {String} Album artist
+		 * Get song album artist.
+		 * @return {String} Song album artist
 		 */
 		getAlbumArtist() {
-			return this.processed.albumArtist || this.parsed.albumArtist;
+			return this.getField(Song.FIELD_ALBUM_ARTIST);
 		}
 
 		/**
@@ -235,19 +241,61 @@ define(() => {
 		}
 
 		/**
-		 * Custom fields can be defined by user.
-		 * @type {Array}
+		 * Fields used to identify song.
 		 */
-		static get USER_FIELDS() {
-			return ['artist', 'track', 'album', 'albumArtist'];
+		static get BASE_FIELDS() {
+			return [
+				Song.FIELD_ARTIST,
+				Song.FIELD_TRACK,
+				Song.FIELD_ALBUM,
+				Song.FIELD_ALBUM_ARTIST,
+			];
 		}
 
 		/**
-		 * Fields used to identify song.
-		 * @type {Array}
+		 * Artist field.
 		 */
-		static get BASE_FIELDS() {
-			return ['artist', 'track', 'album', 'albumArtist'];
+		static get FIELD_ARTIST() {
+			return 'artist';
+		}
+
+		/**
+		 * Track field.
+		 */
+		static get FIELD_TRACK() {
+			return 'track';
+		}
+
+		/**
+		 * Album field.
+		 */
+		static get FIELD_ALBUM() {
+			return 'album';
+		}
+
+		/**
+		 * Album artist field.
+		 */
+		static get FIELD_ALBUM_ARTIST() {
+			return 'albumArtist';
+		}
+
+		/**
+		 * Wrap a given cloned data into a new Song object.
+		 *
+		 * @param {Object} clonedData Copy of song instance
+		 *
+		 * @return {Object} Song instance
+		 */
+		static wrap(clonedData) {
+			const { parsed, processed, metadata, flags } = clonedData;
+
+			const song = new Song(parsed);
+			song.processed = processed;
+			song.metadata = metadata;
+			song.flags = flags;
+
+			return song;
 		}
 
 		/** Private methods. */

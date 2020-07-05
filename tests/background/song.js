@@ -169,10 +169,6 @@ function testStaticFields() {
 	it('should be an array', () => {
 		expect(Song.BASE_FIELDS).to.be.an('array').that.is.not.empty;
 	});
-
-	it('should be an array', () => {
-		expect(Song.USER_FIELDS).to.be.an('array').that.is.not.empty;
-	});
 }
 
 function testIsValid() {
