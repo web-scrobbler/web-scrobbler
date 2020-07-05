@@ -75,7 +75,7 @@ function isNewSongPlaying() {
 
 /**
  * Load artist page asynchronously and fetch artist name.
- * @param  {String} albumInfoUrl Album info URL
+ * @param {String} albumInfoUrl Album info URL
  * @return {Promise} Promise that will be resolved with the song info
  */
 async function fetchSongInfo(albumInfoUrl) {

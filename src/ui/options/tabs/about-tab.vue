@@ -37,7 +37,7 @@
 
 <script>
 import { runtime } from 'webextension-polyfill';
-import { getPrivacyPolicyFilename } from 'util/util-browser';
+import { getPrivacyPolicyFilename } from '@/common/util-browser';
 
 import SpriteIcon from '@/ui/shared/sprite-icon.vue';
 

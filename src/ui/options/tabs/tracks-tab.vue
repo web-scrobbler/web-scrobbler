@@ -68,7 +68,7 @@
 <script>
 import TrackInfo from '@/ui/options/components/track-info.vue';
 
-import SavedEdits from 'storage/saved-edits';
+import SavedEdits from '@/background/storage/saved-edits';
 import { exportData, importData } from '@/ui/util';
 
 const exportFileName = 'edited-tracks.json';

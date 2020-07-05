@@ -129,7 +129,7 @@
 </template>
 
 <script>
-import Options from 'storage/options';
+import Options from '@/background/storage/options';
 
 const {
 	getConnectorOption,

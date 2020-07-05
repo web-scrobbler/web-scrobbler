@@ -66,7 +66,7 @@ function setupEventListeners() {
 
 /**
  * Extract largest track art from list of track art URLs.
- * @param  {String} trackArts String contains list of track art URLs
+ * @param {String} trackArts String contains list of track art URLs
  * @return {String} Track art URL
  */
 function extractTrackArt(trackArts) {

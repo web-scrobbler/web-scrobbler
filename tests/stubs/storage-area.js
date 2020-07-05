@@ -1,16 +1,10 @@
-'use strict';
-
-/**
- * StorageArea object stub.
- */
-class StorageAreaStub {
+export default class {
 	constructor() {
 		this.data = {};
 	}
 
 	async get() {
 		return this.data;
-
 	}
 
 	async set(data) {
@@ -21,5 +15,3 @@ class StorageAreaStub {
 		delete this.data[key];
 	}
 }
-
-module.exports = StorageAreaStub;

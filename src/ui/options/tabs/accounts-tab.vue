@@ -66,14 +66,14 @@
 <script>
 import { tabs } from 'webextension-polyfill';
 
-import { getCurrentTab } from 'util/util-browser';
+import { getCurrentTab } from '@/common/util-browser';
 import {
 	REQUEST_SIGN_IN,
 	REQUEST_SIGN_OUT,
 	REQUEST_APPLY_USER_PROPERTIES,
 	sendMessageToAll,
 } from '@/common/messages';
-import ScrobbleService from 'object/scrobble-service';
+import ScrobbleService from '@/background/object/scrobble-service';
 
 import UserPropertiesModal from '@/ui/options/modals/user-properties-modal.vue';
 

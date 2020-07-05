@@ -22,9 +22,7 @@
   ],
 
   "background": {
-    "scripts": [
-      "core/background/main.js"
-    ]
+    "page": "background/index.html"
   },
 
   "commands": {

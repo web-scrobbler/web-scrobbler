@@ -127,7 +127,7 @@ function getVideoProp(prop) {
 
 /**
  * Get video category.
- * @param  {String} videoId Video ID
+ * @param {String} videoId Video ID
  * @return {String} Video category
  */
 function getVideoCategory(videoId) {

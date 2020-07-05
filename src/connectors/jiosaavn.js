@@ -75,7 +75,7 @@ function isNewSongPlaying() {
 
 /**
  * Load artist page asynchronously and fetch artist name.
- * @param  {String} trackInfoUrl Track info URL
+ * @param {String} trackInfoUrl Track info URL
  * @return {Promise} Promise that will be resolved with the song info
  */
 async function fetchSongInfo(trackInfoUrl) {
@@ -94,7 +94,7 @@ async function fetchSongInfo(trackInfoUrl) {
 
 /**
  * Get URL from JioSaavn JavaScript script body.
- * @param  {String} scriptBody Script body
+ * @param {String} scriptBody Script body
  * @return {String} URL
  */
 function getUrlFromScript(scriptBody) {
