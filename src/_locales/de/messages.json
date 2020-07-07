@@ -227,10 +227,6 @@
         "message": "Zeig deine Unterstützung",
         "description": "'Show some love' section"
     },
-    "aboutShowSomeLoveText1": {
-        "message": "Anders als andere Erweiterungen enthält diese keine blinkenden Banner oder hinterhältige Werbung.",
-        "description": ""
-    },
     "patternsCustomPatternsHint": {
         "message": "Füge URL-Muster, für die der Verbinder gelten soll unten ein.",
         "description": "Popup hint"

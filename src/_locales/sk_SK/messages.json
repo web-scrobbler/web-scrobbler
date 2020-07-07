@@ -247,11 +247,7 @@
         "message": "Podporte ma",
         "description": "'Show some love' section"
     },
-    "aboutShowSomeLoveText1": {
-        "message": "Narozdiel od iných doplnkov, tento neobsahuje žiadne blikajúce alebo skryté reklamy.",
-        "description": ""
-    },
-    "aboutShowSomeLoveText2": {
+    "aboutShowSomeLoveText": {
         "message": "Používanie doplnku je zadarmo, a vždy aj bude. Avšak, ak chcete podporiť vývoj doplnku, môžete použiť tlačidlo nižšie.",
         "description": ""
     },

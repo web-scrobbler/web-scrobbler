@@ -271,11 +271,7 @@
         "message": "Пожертвования",
         "description": "'Show some love' section"
     },
-    "aboutShowSomeLoveText1": {
-        "message": "В отличие от других расширений, это не содержит рекламные баннеры.",
-        "description": ""
-    },
-    "aboutShowSomeLoveText2": {
+    "aboutShowSomeLoveText": {
         "message": "Расширение бесплатно, и всегда будет бесплатным. Если вы хотите поддержать разработку расширения, вы можете воспользоваться кнопкой ниже.",
         "description": ""
     },

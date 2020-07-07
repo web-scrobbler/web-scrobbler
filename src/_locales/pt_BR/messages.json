@@ -247,11 +247,7 @@
         "message": "Demonstre a sua gratidão",
         "description": "'Show some love' section"
     },
-    "aboutShowSomeLoveText1": {
-        "message": "Diferentemente de outras extensões, esta não contém banners piscando ou anúncios sorrateiros.",
-        "description": ""
-    },
-    "aboutShowSomeLoveText2": {
+    "aboutShowSomeLoveText": {
         "message": "A extensão é gratuita, e sempre será. Mas, caso queira apoiar o desenvolvimento, sinta-se à vontade para usar o botão abaixo.",
         "description": ""
     },
