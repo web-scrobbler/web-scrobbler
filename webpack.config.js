@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
+const { preprocess } = require('preprocess');
+
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -53,8 +55,9 @@ const defaultPopupTemplate = 'ui/popups/base-popup';
 const iconsDir = 'icons';
 const vendorDir = 'vendor';
 
+const locales = '_locales/';
 const vendorFiles = ['metadata-filter/dist/filter.js'];
-const extensionFiles = ['_locales/', 'connectors/', 'content/'];
+const contentFiles = ['connectors/', 'content/'];
 const projectFiles = [
 	'LICENSE.md',
 	'README.md',
@@ -62,7 +65,7 @@ const projectFiles = [
 	'package.json',
 ];
 
-const preprocessorFlagNames = {
+const preprocessFlagNames = {
 	chrome: 'CHROME',
 	development: 'DEBUG',
 	firefox: 'FIREFOX',
@@ -84,6 +87,8 @@ class WatchExtensionFilesPlugin {
 		compiler.hooks.beforeCompile.tap(
 			'WatchExtensionFilesPlugin',
 			(params) => {
+				const extensionFiles = [locales, ...contentFiles];
+
 				for (const path of extensionFiles) {
 					params.compilationDependencies.add(resolve(srcDir, path));
 				}
@@ -95,11 +100,6 @@ class WatchExtensionFilesPlugin {
 module.exports = (functionArg) => {
 	const browser = getBrowserFromArgs(functionArg);
 	assertBrowserIsSupported(browser);
-
-	const preprocessorFlags = {
-		[preprocessorFlagNames[browser]]: true,
-		[preprocessorFlagNames[getMode()]]: true,
-	};
 
 	return {
 		devtool: getDevtool(),
@@ -126,7 +126,7 @@ module.exports = (functionArg) => {
 					test: /\.js$/,
 					use: {
 						loader: 'preprocess-loader',
-						options: preprocessorFlags,
+						options: getPreprocessFlags(browser),
 					},
 				},
 				{
@@ -226,6 +226,20 @@ function getMode() {
 function getHtmlEntry(entryName, templateName = null) {
 	const entryPath = getEntryJsPath(entryName);
 	return { entryName, entryPath, templateName: templateName || entryName };
+}
+
+/**
+ * Return an object containing flags for `preprocess` module.
+ *
+ * @param {String} browser Browser name
+ *
+ * @return {Object} Flags
+ */
+function getPreprocessFlags(browser) {
+	return {
+		[preprocessFlagNames[browser]]: true,
+		[preprocessFlagNames[getMode()]]: true,
+	};
 }
 
 /**
@@ -376,22 +390,32 @@ function createPlugins(browser) {
 				to: resolve(buildDir, vendorDir),
 			};
 		}),
-		...extensionFiles.map((path) => {
-			return {
-				from: resolve(srcDir, path),
-				to: resolve(buildDir, path),
-			};
-		}),
 		...projectFiles.map((path) => {
 			return {
 				from: resolve(path),
 				to: resolve(buildDir, path),
 			};
 		}),
+		...contentFiles.map((path) => {
+			return {
+				from: `${srcDir}/${path}/*.js`,
+				to: resolve(buildDir, path),
+				transform(contents) {
+					return preprocess(contents, getPreprocessFlags(browser), {
+						type: 'js',
+					});
+				},
+				flatten: true,
+			};
+		}),
 		{
 			from: `${srcDir}/${iconsDir}/*.png`,
 			to: resolve(buildDir, iconsDir),
 			flatten: true,
+		},
+		{
+			from: resolve(srcDir, locales),
+			to: resolve(buildDir, locales),
 		},
 		{
 			from: resolve(srcDir, manifestFile),
