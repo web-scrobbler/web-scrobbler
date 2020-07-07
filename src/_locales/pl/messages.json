@@ -271,11 +271,7 @@
         "message": "Okaż trochę miłości",
         "description": "'Show some love' section"
     },
-    "aboutShowSomeLoveText1": {
-        "message": "W przeciwieństwie do innych rozszerzeń, w tym nie znajdziesz żadnych wyskakujących bannerów ani ukrytych reklam.",
-        "description": ""
-    },
-    "aboutShowSomeLoveText2": {
+    "aboutShowSomeLoveText": {
         "message": "Rozszerzenie jest i pozostanie bezpłatne. Jeśli jednak chcesz wesprzeć jego dalszy rozwój, możesz skorzystać z poniższej opcji.",
         "description": ""
     },

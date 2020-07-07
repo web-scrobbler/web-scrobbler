@@ -18,8 +18,7 @@
 
 		<div class="options-section">
 			<h5>{{ L('aboutShowSomeLoveTitle') }}</h5>
-			<p>{{ L('aboutShowSomeLoveText1') }}</p>
-			<p>{{ L('aboutShowSomeLoveText2') }}</p>
+			<p>{{ L('aboutShowSomeLoveText') }}</p>
 
 			<div class="text-center">
 				<a

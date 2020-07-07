@@ -315,13 +315,9 @@
     "message": "Show some love",
     "description": "Section name"
   },
-  "aboutShowSomeLoveText1": {
-    "message": "Unlike other extensions, this one does not contain any flashing banners or sneaky ads.",
-    "description": ""
-  },
-  "aboutShowSomeLoveText2": {
+  "aboutShowSomeLoveText": {
     "message": "The extension is free, and will always be free. But if you want to support development of the extension, you can use the button below.",
-    "description": ""
+    "description": "Section text"
   },
 
   "getStartedHeader": {

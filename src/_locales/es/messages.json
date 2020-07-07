@@ -247,11 +247,7 @@
         "message": "Muestra algo de cariño",
         "description": "'Show some love' section"
     },
-    "aboutShowSomeLoveText1": {
-        "message": "A diferencia de otras extensiones, ésta no contiene ningún banner parpadeante ni anuncios furtivos.",
-        "description": ""
-    },
-    "aboutShowSomeLoveText2": {
+    "aboutShowSomeLoveText": {
         "message": "La extensión es gratuita y siempre lo será. Pero si desea apoyar el desarrollo de la extensión, puede usar el botón a continuación.",
         "description": ""
     },
