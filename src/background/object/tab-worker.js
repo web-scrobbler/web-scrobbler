@@ -90,6 +90,29 @@ export default class TabWorker {
 	}
 
 	/**
+	 * Called when a message from another extension is received.
+	 *
+	 * @param {Object} type Message type
+	 *
+	 * @return {Object} Request response
+	 */
+	processExternalPortMessage(type) {
+		if (type === REQUEST_GET_TRACK) {
+			let trackInfo = null;
+			const activeCtrl = this.tabControllers[this.activeTabId];
+
+			if (activeCtrl) {
+				const song = activeCtrl.getCurrentSong();
+				trackInfo = song && song.getInfo();
+			}
+
+			return { trackInfo };
+		}
+
+		return null;
+	}
+
+	/**
 	 * Called when something sent message to the background script
 	 * via `browser.runtime.sendMessage` function.
 	 *

@@ -45,7 +45,7 @@ export default class Extension {
 	async start() {
 		await this.updateVersionInStorage();
 
-		if (!await this.bindScrobblers()) {
+		if (!(await this.bindScrobblers())) {
 			console.warn('No scrobblers are bound');
 
 			this.showAuthNotification();
@@ -91,6 +91,17 @@ export default class Extension {
 				const tabId = port.sender.tab.id;
 
 				return this.tabWorker.processPortMessage(tabId, type, data);
+			});
+		});
+
+		runtime.onConnectExternal.addListener((port) => {
+			port.onMessage.addListener((message) => {
+				const { type, data } = message;
+
+				port.postMessage({
+					type,
+					data: this.tabWorker.processExternalPortMessage(type, data),
+				});
 			});
 		});
 	}
@@ -160,9 +171,7 @@ export default class Extension {
 
 	async showAuthNotification() {
 		if (await this.isAuthNotificationAllowed()) {
-			const authUrl = runtime.getURL(
-				'/ui/options/index.html#accounts'
-			);
+			const authUrl = runtime.getURL('/ui/options/index.html#accounts');
 			try {
 				await Notifications.showAuthNotification(() => {
 					tabs.create({ url: authUrl });
