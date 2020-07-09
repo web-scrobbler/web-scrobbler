@@ -1,6 +1,6 @@
 'use strict';
 
-Connector.playerSelector = '.music';
+Connector.playerSelector = 'body';
 
 Connector.trackSelector = '.name > a';
 
