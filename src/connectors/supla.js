@@ -1,7 +1,17 @@
 'use strict';
 
-Connector.playerSelector = '.RadioHeader__Container-sc-17ofob1-0 iLWJvB';
+const filter = new MetadataFilter({
+    artist: cleanUpArtist
+});
 
-Connector.artistTrackSelector = '.RadioHeader__WidgetContent-sc-17ofob1-4 irUZCR';
+Connector.playerSelector = '.Main__MainElement-sc-1f3ou2j-0.dwVNSG';
 
-Connector.playButtonSelector = '.RadioHeader__WidgetContentAction-sc-17ofob1-9 kKpbyx';
+Connector.artistTrackSelector = '.RadioHeader__WidgetContent-sc-17ofob1-4.irUZCR';
+
+Connector.playButtonSelector = '.r-play-button.r-toggle-playstate-button.r-touch-button';
+
+
+function cleanUpArtist(artist) {
+    // Extract an artist title from a `music_note"Artist"` string.
+    return artist.replace('music_note','');
+}
