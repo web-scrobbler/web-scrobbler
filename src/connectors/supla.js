@@ -1,7 +1,7 @@
 'use strict';
 
 const filter = new MetadataFilter({
-    artist: cleanUpArtist
+	artist: cleanUpArtist,
 });
 
 Connector.playerSelector = '.Main__MainElement-sc-1f3ou2j-0.dwVNSG';
@@ -13,6 +13,6 @@ Connector.playButtonSelector = '.r-play-button.r-toggle-playstate-button.r-touch
 Connector.applyFilter(filter);
 
 function cleanUpArtist(artist) {
-    // Extract an artist title from a `music_note"Artist"` string.
-    return artist.replace('music_note','');
+	// Extract an artist title from a `music_note"Artist"` string.
+	return artist.replace('music_note', '');
 }
