@@ -1,7 +1,7 @@
 'use strict';
 
-Connector.playerSelector = '.mini-player';
+Connector.playerSelector = '.app';
 
-Connector.artistTrackSelector = '.currently-playing .episode-title';
+Connector.artistTrackSelector = '.css-6752n5.e79qwfn0';
 
-Connector.pauseButtonSelector = '.paused';
+Connector.pauseButtonSelector = '.css-1o5s8kn.e79qwfn0';
