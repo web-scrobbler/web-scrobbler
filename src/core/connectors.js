@@ -1537,9 +1537,9 @@ const connectors = [{
 		'*://www.swr3.de/*',
 	],
 	js: 'connectors/swr3.js',
-	id: 'swr3',  
+	id: 'swr3',
 }, {
-  label: 'Supla',
+	label: 'Supla',
 	matches: [
 		'*://*.supla.fi/*',
 	],
