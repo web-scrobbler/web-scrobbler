@@ -1538,6 +1538,13 @@ const connectors = [{
 	],
 	js: 'connectors/supla.js',
 	id: 'supla',
+}, {
+	label: 'swr3',
+	matches: [
+		'*://www.swr3.de/*',
+	],
+	js: 'connectors/swr3.js',
+	id: 'swr3',
 }];
 
 define(() => connectors);
