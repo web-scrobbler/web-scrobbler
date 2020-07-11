@@ -4,7 +4,7 @@ const filter = new MetadataFilter({
 	artist: cleanUpArtist,
 });
 
-Connector.playerSelector = '.Main__MainElement-sc-1f3ou2j-0.dwVNSG';
+Connector.playerSelector = 'main';
 
 Connector.artistTrackSelector = '.RadioHeader__WidgetContent-sc-17ofob1-4.irUZCR';
 
