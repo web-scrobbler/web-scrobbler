@@ -1,7 +1,7 @@
 'use strict';
 
 const filter = new MetadataFilter({
-    artist: cleanUpArtist,
+	artist: cleanUpArtist,
 });
 
 Connector.playerSelector = '.app';
@@ -13,5 +13,5 @@ Connector.pauseButtonSelector = '[data-test="playPauseMiniplayer"][aria-label="P
 Connector.applyFilter(filter);
 
 function cleanUpArtist(artist) {
-    return artist.replace('+', '&');
+	return artist.replace('+', '&');
 }
