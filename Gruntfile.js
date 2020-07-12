@@ -45,7 +45,7 @@ const JS_FILES = [
 	// Tests
 	'tests/**/*.js',
 ];
-const JSON_FILES = ['*.json', '.stylelintrc'];
+const JSON_FILES = ['*.json', `${SRC_DIR}/**/*.json`];
 const HTML_FILES = [`${SRC_DIR}/ui/**/*.html`];
 const CSS_FILES = [`${SRC_DIR}/ui/**/*.css`];
 const DOC_FILES = [
