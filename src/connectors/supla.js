@@ -6,7 +6,9 @@ const filter = new MetadataFilter({
 
 Connector.playerSelector = 'main';
 
-Connector.artistTrackSelector = '.RadioHeader__WidgetContent-sc-17ofob1-4.irUZCR';
+//Connector.artistTrackSelector = '[class^=RadioHeader__WidgetContent]'; // works with radio channels without the program title ('Groove FM' & 'Anna sen soida')
+Connector.artistTrackSelector = 'main > div > div > section > div > div:nth-child(2) > div:nth-child(2) > div'; // works with radio channels with the program title (all the rest except the earlier ones)
+
 
 Connector.playButtonSelector = '.r-play-button';
 
