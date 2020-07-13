@@ -1,7 +1,17 @@
 'use strict';
 
-Connector.playerSelector = '.mini-player';
+const filter = new MetadataFilter({
+	artist: cleanUpArtist,
+});
 
-Connector.artistTrackSelector = '.currently-playing .episode-title';
+Connector.playerSelector = '.app';
 
-Connector.pauseButtonSelector = '.paused';
+Connector.artistTrackSelector = '[data-test="playingEpisodeDesc"]';
+
+Connector.pauseButtonSelector = '[data-test="playPauseMiniplayer"][aria-label="Pause"]';
+
+Connector.applyFilter(filter);
+
+function cleanUpArtist(artist) {
+	return artist.replace(/\s\+\s/g, ' & ');
+}
