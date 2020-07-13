@@ -13,5 +13,5 @@ Connector.pauseButtonSelector = '[data-test="playPauseMiniplayer"][aria-label="P
 Connector.applyFilter(filter);
 
 function cleanUpArtist(artist) {
-	return artist.replace('+', '&');
+	return artist.replace(/\s\+\s/g, ' & ');
 }
