@@ -32,7 +32,20 @@ please use [this article][ReportBugs] as a guideline.
 Include the relevant issue number(s) if applicable.
 -   Ensure CI tests pass.
 
+Please open a separate PR for each *logical* addition, change, or deletion.
+For example, if you added a new connector, and fixed an existing one, open
+two separate PRs for each change; if you added a new feature and updated
+connectors to use this feature, you can open a single PR containing all changes.
+
 It's also worth reading [how to write][CommitMessages] good commit messages.
+
+### Setup environment
+
+Follow [this][SetupDevEnv] wiki page for details.
+
+### Connectors development
+
+Connectors development is explained in [this][ConnectorsDev].
 
 ### Coding conventions
 
@@ -43,11 +56,6 @@ If you're not familiar with Grunt, please read [this article][Grunt].
 We also use EditorConfig, which helps to keep code in the same code style
 in different code editors and IDE's. If you haven't use EditorConfig before,
 you can visit [EditorConfig website][EditorConfig] for further information.
-
-### Connectors development
-
-Connectors development is explained in [this][ConnectorsDev] and
-[this][SetupDevEnv] articles.
 
 [CommitMessages]: http://chris.beams.io/posts/git-commit/
 [ConnectorsDev]: https://github.com/web-scrobbler/web-scrobbler/wiki/Connectors-development
