@@ -2,11 +2,14 @@
 
 const playerBar = '.Root__now-playing-bar';
 
+const artistSelector = `${playerBar} [dir="auto"]:last-child a`;
+const spotifyConnectSelector = '[class*=spoticon-spotify-connect]';
+
 Connector.useMediaSessionApi();
 
 Connector.playerSelector = playerBar;
 
-Connector.artistSelector = `${playerBar} [dir="auto"]:last-child a`;
+Connector.artistSelector = artistSelector;
 
 Connector.trackSelector = `${playerBar} [dir="auto"]:first-child a`;
 
@@ -29,7 +32,7 @@ function isMusicPlaying() {
 }
 
 function artistUrlIncludes(...strings) {
-	const artistUrl = $(Connector.artistSelector).attr('href');
+	const artistUrl = Util.getAttrFromSelectors(artistSelector, 'href');
 
 	if (artistUrl) {
 		for (const str of strings) {
@@ -43,11 +46,21 @@ function artistUrlIncludes(...strings) {
 }
 
 function isMainTab() {
-	const multipleSources = $('.ConnectBar').length > 0;
-	if (multipleSources) {
-		const deviceName = $('.ConnectBar__device-name').text();
-		return !deviceName.includes('Web Player');
+	if (hasMultipleSources()) {
+		const spotifyConnectIconEl = document.querySelector(
+			spotifyConnectSelector
+		);
+		if (spotifyConnectIconEl !== null) {
+			const spotifyConnectEl = spotifyConnectIconEl.parentNode;
+			const deviceName = spotifyConnectEl.textContent;
+
+			return !deviceName.includes('Web Player');
+		}
 	}
 
 	return true;
+}
+
+function hasMultipleSources() {
+	return document.body.classList.contains('qualaroo--connect-bar-visible');
 }
