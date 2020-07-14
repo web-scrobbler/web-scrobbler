@@ -1,20 +1,37 @@
 'use strict';
 
-const filter = new MetadataFilter({
-	artist: cleanUpArtist,
-});
-
 Connector.playerSelector = 'main';
-
-// Connector.artistTrackSelector = '[class^=RadioHeader__WidgetContent]'; // works with radio channels without the program title ('Groove FM' & 'Anna sen soida')
-Connector.artistTrackSelector = 'main > div > div > section > div > div:nth-child(2) > div:nth-child(2) > div'; // works with radio channels with the program title (all the rest except the earlier ones)
-
 
 Connector.playButtonSelector = '.r-play-button';
 
-Connector.applyFilter(filter);
+Connector.getArtistTrack = () => {
+	const artistTrackContainer = getArtistTrackContainer();
+	if (artistTrackContainer) {
+		return Util.splitArtistTrack(artistTrackContainer.textContent);
+	}
 
-function cleanUpArtist(artist) {
-	// Extract an artist title from a `music_note"Artist"` string.
-	return artist.replace('music_note', '');
+	return null;
+};
+
+function getArtistTrackContainer() {
+	/*
+	 * <div class="RadioHeader__WidgetContent-sc-17ofob1-4 irUZCR">
+	 *   <i class="MaterialIcon__Icon-sc-1m3ozx6-0 kLFDRs">music_note</i>
+	 *   Artist - Track
+	 * </div>
+	 */
+
+	const containers = document.querySelectorAll(
+		'[class^=RadioHeader__WidgetContent]'
+	);
+
+	for (const container of containers) {
+		for (const child of container.childNodes) {
+			if (child.textContent === 'music_note') {
+				return container.lastChild;
+			}
+		}
+	}
+
+	return null;
 }
