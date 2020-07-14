@@ -1545,6 +1545,13 @@ const connectors = [{
 	],
 	js: 'connectors/swr3.js',
 	id: 'swr3',
+}, {
+	label: 'Epidemic Sound',
+	matches: [
+		'*://*.epidemicsound.com/*',
+	],
+	js: 'connectors/epidemicsound.js',
+	id: 'epidemicsound',
 }];
 
 define(() => connectors);
