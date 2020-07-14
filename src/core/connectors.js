@@ -1532,6 +1532,13 @@ const connectors = [{
 	js: 'connectors/jsososo.js',
 	id: 'jsososo',
 }, {
+	label: 'Supla',
+	matches: [
+		'*://*.supla.fi/*',
+	],
+	js: 'connectors/supla.js',
+	id: 'supla',
+}, {
 	label: 'swr3',
 	matches: [
 		'*://www.swr3.de/*',
