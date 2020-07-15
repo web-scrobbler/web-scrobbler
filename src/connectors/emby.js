@@ -4,9 +4,9 @@ const trackArtSelector = '.nowPlayingBarInfoContainer .nowPlayingImage';
 
 Connector.playerSelector = '.nowPlayingBar';
 
-Connector.artistSelector = '.nowPlayingBarText .textActionButton[data-type="MusicArtist"]';
+Connector.artistSelector = '.nowPlayingBarText .nowPlayingBarSecondaryText';
 
-Connector.trackSelector = '.nowPlayingBarText .textActionButton[data-type="MusicAlbum"]';
+Connector.trackSelector = '.nowPlayingBarText .textActionButton';
 
 Connector.trackArtSelector = trackArtSelector;
 
