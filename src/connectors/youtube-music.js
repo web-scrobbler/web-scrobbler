@@ -30,5 +30,3 @@ Connector.isPlaying = () => {
 };
 
 Connector.isScrobblingAllowed = () => !Util.isElementVisible(adSelector);
-
-Connector.applyFilter(MetadataFilter.getYoutubeFilter());
