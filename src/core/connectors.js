@@ -1280,10 +1280,11 @@ const connectors = [{
 }, {
 	label: 'GDS.FM',
 	matches: [
-		'*://play.gds.fm/*',
+		'*://www.gds.fm/*',
+		'*://gds.fm/*',
 	],
-	js: 'connectors/gds-play.fm.js',
-	id: 'gds-play',
+	js: 'connectors/gds.fm.js',
+	id: 'gds',
 }, {
 	label: 'Wynk Music',
 	matches: [
