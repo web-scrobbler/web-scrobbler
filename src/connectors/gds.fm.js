@@ -1,6 +1,6 @@
 'use strict';
 
-Connector.playerSelector = '.player-meta'
+Connector.playerSelector = '.player-meta';
 
 Connector.artistSelector = '.player-meta__artist';
 
