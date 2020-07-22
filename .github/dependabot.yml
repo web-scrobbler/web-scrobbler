@@ -1,0 +1,16 @@
+version: 2
+updates:
+- package-ecosystem: npm
+  directory: "/"
+  schedule:
+    interval: weekly
+    day: saturday
+    time: "19:00"
+    timezone: Europe/Moscow
+  open-pull-requests-limit: 10
+  reviewers:
+  - alexesprit
+  labels:
+  - dependencies
+  - maintenance
+  versioning-strategy: increase
