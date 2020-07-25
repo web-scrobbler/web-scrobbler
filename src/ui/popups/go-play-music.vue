@@ -5,7 +5,7 @@
 		</template>
 		<template v-slot:title>{{ L('getStartedHeader') }}</template>
 		<template v-slot:body>
-			<p class="mb-0">
+			<p class="mb-0" v-if="!isDescriptionVisible">
 				<a href="#" class="card-link" @click="showDescription">{{
 					L('getStartedSubheader')
 				}}</a>
