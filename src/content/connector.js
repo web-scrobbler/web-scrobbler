@@ -15,8 +15,7 @@ function BaseConnector() {
 	 * Only applies when default implementation of
 	 * `BaseConnector.getArtist` is used.
 	 *
-	 * @type {String}
-	 * @type {Array}
+	 * @type {String|String[]}
 	 */
 	this.artistSelector = null;
 
@@ -26,8 +25,7 @@ function BaseConnector() {
 	 * Only applies when default implementation of
 	 * `BaseConnector.getTrack` is used.
 	 *
-	 * @type {String}
-	 * @type {Array}
+	 * @type {String|String[]}
 	 */
 	this.trackSelector = null;
 
@@ -37,8 +35,7 @@ function BaseConnector() {
 	 * Only applies when default implementation of
 	 * `BaseConnector.getAlbum` is used.
 	 *
-	 * @type {String}
-	 * @type {Array}
+	 * @type {String|String[]}
 	 */
 	this.albumSelector = null;
 
@@ -58,8 +55,7 @@ function BaseConnector() {
 	 * Only applies when default implementation of
 	 * `BaseConnector.getCurrentTime` is used.
 	 *
-	 * @type {String}
-	 * @type {Array}
+	 * @type {String|String[]}
 	 */
 	this.currentTimeSelector = null;
 
@@ -77,8 +73,7 @@ function BaseConnector() {
 	 * Only applies when default implementation of
 	 * `BaseConnector.getRemainingTime` is used.
 	 *
-	 * @type {String}
-	 * @type {Array}
+	 * @type {String|String[]}
 	 */
 	this.remainingTimeSelector = null;
 
@@ -88,8 +83,7 @@ function BaseConnector() {
 	 * Only applies when default implementation of
 	 * `BaseConnector.getDuration` is used.
 	 *
-	 * @type {String}
-	 * @type {Array}
+	 * @type {String|String[]}
 	 */
 	this.durationSelector = null;
 
@@ -102,8 +96,7 @@ function BaseConnector() {
 	 * Only applies when default implementation of
 	 * `BaseConnector.getTimeInfo` is used.
 	 *
-	 * @type {String}
-	 * @type {Array}
+	 * @type {String|String[]}
 	 */
 	this.timeInfoSelector = null;
 
@@ -118,8 +111,7 @@ function BaseConnector() {
 	 * Only applies when default implementation of
 	 * `BaseConnector.getArtistTrack` is used.
 	 *
-	 * @type {String}
-	 * @type {Array}
+	 * @type {String|String[]}
 	 */
 	this.artistTrackSelector = null;
 
@@ -132,8 +124,7 @@ function BaseConnector() {
 	 * Only applies when default implementation of
 	 * `BaseConnector.isPlaying` is used.
 	 *
-	 * @type {String}
-	 * @type {Array}
+	 * @type {String|String[]}
 	 */
 	this.playButtonSelector = null;
 
@@ -146,8 +137,7 @@ function BaseConnector() {
 	 * Only applies when default implementation of
 	 * `BaseConnector.isPlaying` is used.
 	 *
-	 * @type {String}
-	 * @type {Array}
+	 * @type {String|String[]}
 	 */
 	this.pauseButtonSelector = null;
 
@@ -171,8 +161,7 @@ function BaseConnector() {
 	 *
 	 * If not specified will fall back to Last.fm API.
 	 *
-	 * @type {String}
-	 * @type {Array}
+	 * @type {String|String[]}
 	 */
 	this.trackArtSelector = null;
 

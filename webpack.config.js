@@ -252,7 +252,7 @@ function getUiPopupJsEntry(popup) {
 /**
  * Get an array of UI pages entries.
  *
- * @return {Array} Array of UI pages entries
+ * @return {Object[]} Array of UI pages entries
  */
 function getUiPagesEntries() {
 	return uiPages.map((page) => getUiPageJsEntry(page));
@@ -261,7 +261,7 @@ function getUiPagesEntries() {
 /**
  * Get an array of UI popups entries.
  *
- * @return {Array} Array of UI popups entries
+ * @return {Object[]} Array of UI popups entries
  */
 function getUiPopupsEntries() {
 	return uiPopups.map((popup) => getUiPopupJsEntry(popup));
@@ -291,9 +291,9 @@ function createEntries() {
  * Create an array of HtmlWebpackPlugin for a given list of entries.
  * Each entry can represent either an UI page, or an UI popup.
  *
- * @param {Array} entries Array of entries
+ * @param {Object} entries Array of entries
  *
- * @return {Array} Array of webpack plugins
+ * @return {HtmlWebpackPlugin[]} Array of webpack plugins
  */
 function createHtmlPluginsFromEntries(entries) {
 	const plugins = [];
@@ -363,7 +363,7 @@ function createOptimization() {
  *
  * @param {String} browser Browser name
  *
- * @return {Array} Array of webpack plugins
+ * @return {Object[]} Array of webpack plugins
  */
 function createPlugins(browser) {
 	const patterns = [
@@ -431,7 +431,7 @@ function resolve(...p) {
 /**
  * Preprocess and optimize content script code.
  *
- * @param {Object} contents Content script code
+ * @param {Buffer} contents Content script code
  * @param {String} browser Browser name
  *
  * @return {String} Transfrormed content script code
@@ -451,7 +451,7 @@ function transformContentScript(contents, browser) {
 /**
  * Update manifest object for a given browser.
  *
- * @param {Object} contents Manifest contents
+ * @param {Buffer} contents Manifest contents
  * @param {String} browser Browser name
  *
  * @return {String} Transfrormed manifest contents

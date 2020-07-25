@@ -48,7 +48,7 @@ const Util = {
 	 * and return separator's position and size in chars or null.
 	 *
 	 * @param {String} str String contains separator
-	 * @param {Array} [separators] Array of separators
+	 * @param {String[]} [separators] Array of separators
 	 *
 	 * @return {Object} Object contains position and width of separator
 	 */
@@ -71,7 +71,7 @@ const Util = {
 	 * Join array of artist name into a string. The array must contain objects
 	 * that have 'textContent' property (DOM node).
 	 *
-	 * @param {Array} artists List of DOM nodes
+	 * @param {NodeList} artists List of DOM nodes
 	 *
 	 * @return {String} String joined by separator
 	 */
@@ -89,7 +89,7 @@ const Util = {
 	 * Split string to artist and track.
 	 *
 	 * @param {String} str String contains artist and track
-	 * @param {Array} [separators] Array of separators
+	 * @param {String[]} [separators] Array of separators
 	 * @param {Boolean} [swap=false] Swap artist and track values
 	 *
 	 * @return {Object} Object contains artist and track fields
@@ -103,7 +103,7 @@ const Util = {
 	 * Split string to artist and album.
 	 *
 	 * @param {String} str String contains artist and track
-	 * @param {Array} [separators] Array of separators
+	 * @param {String[]} [separators] Array of separators
 	 * @param {Boolean} [swap=false] Swap artist and track values
 	 *
 	 * @return {Object} Object contains artist and track fields
@@ -138,10 +138,10 @@ const Util = {
 	 * Split string to two ones using array of separators.
 	 *
 	 * @param {String} str Any string
-	 * @param {Array} [separators] Array of separators
+	 * @param {String[]} [separators] Array of separators
 	 * @param {Boolean} [swap=false] Swap values
 	 *
-	 * @return {Array} Array of strings splitted by separator
+	 * @return {String[]} Array of strings splitted by separator
 	 */
 	splitString(str, separators, { swap = false } = {}) {
 		let first = null;
@@ -270,7 +270,7 @@ const Util = {
 	 * @param {Object} target Target object
 	 * @param {Object} source Source object
 	 *
-	 * @param {Array} fields List of fields to fill
+	 * @param {String[]} fields List of fields to fill
 	 */
 	fillEmptyFields(target, source, fields) {
 		if (!(source && Array.isArray(fields))) {
@@ -317,10 +317,10 @@ const Util = {
 	 * return text of element with given selector. If `selectors` is
 	 * an array, return text of first available element.
 	 *
-	 * @param {String|Array} selectors Single selector or array of selectors
-	 * @param {Object} [defaultValue=null] Fallback value
+	 * @param {String|String[]} selectors Single selector or array of selectors
+	 * @param {String} [defaultValue=null] Fallback value
 	 *
-	 * @return {Object} Text of element, if available, or default value
+	 * @return {String} Text of element, if available, or default value
 	 */
 	/* istanbul ignore next */
 	getTextFromSelectors(selectors, defaultValue = null) {
@@ -346,11 +346,11 @@ const Util = {
 	 * the selector. If `selectors` is an array, return the attribute value of
 	 * a first element with the attribute available.
 	 *
-	 * @param {String|Array} selectors Single selector or array of selectors
+	 * @param {String|String[]} selectors Single selector or array of selectors
 	 * @param {String} attr Attrubute to get
-	 * @param {Object} [defaultValue=null] Fallback value
+	 * @param {String} [defaultValue=null] Fallback value
 	 *
-	 * @return {Object} Text of element, if available, or default value
+	 * @return {String} Text of element, if available, or default value
 	 */
 	/* istanbul ignore next */
 	getAttrFromSelectors(selectors, attr, defaultValue = null) {
@@ -374,7 +374,7 @@ const Util = {
 	 * Extract time in seconds from first available element
 	 * defined by CSS selector.
 	 *
-	 * @param {String|Array} selectors Single selector or array of selectors
+	 * @param {String|String[]} selectors Single selector or array of selectors
 	 *
 	 * @return {String} Track art URL
 	 */
@@ -388,7 +388,7 @@ const Util = {
 	/**
 	 * Extract image URL from first available element defined by CSS selector.
 	 *
-	 * @param {String|Array} selectors Single selector or array of selectors
+	 * @param {String|String[]} selectors Single selector or array of selectors
 	 *
 	 * @return {String} Track art URL
 	 */
@@ -416,7 +416,7 @@ const Util = {
 	/**
 	 * Check if an element matching a given selector has a class.
 	 *
-	 * @param {String|Array} selectors Single selector or array of selectors
+	 * @param {String|String[]} selectors Single selector or array of selectors
 	 * @param {String} cls Class name to check
 	 *
 	 * @return {Boolean} Check result
@@ -430,7 +430,7 @@ const Util = {
 	/**
 	 * Check if an element matching a given selector is visible.
 	 *
-	 * @param {String|Array} selectors Single selector or array of selectors
+	 * @param {String|String[]} selectors Single selector or array of selectors
 	 *
 	 * @return {Boolean} Check result
 	 */
@@ -451,9 +451,9 @@ const Util = {
 	 * strings is passed, the function will return an array of elements queried
 	 * using a first valid selector.
 	 *
-	 * @param {String|Array} selectors Single selector or array of selectors
+	 * @param {String|String[]} selectors Single selector or array of selectors
 	 *
-	 * @return {Array} Array of elements
+	 * @return {Element[]} Array of elements
 	 */
 	/* istanbul ignore next */
 	queryElements(selectors) {
@@ -485,7 +485,7 @@ const Util = {
 	 * is passed, the function will return a nods queried using a first
 	 * valid selector.
 	 *
-	 * @param {String|Array} selectors Single selector or array of selectors
+	 * @param {String|String[]} selectors Single selector or array of selectors
 	 *
 	 * @return {Element} Element instance
 	 */
