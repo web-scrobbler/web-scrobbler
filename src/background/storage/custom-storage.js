@@ -4,9 +4,8 @@
 export default class CustomStorage {
 	constructor() {
 		this.storageRef = this.getStorage();
-
 		/* @ifdef DEVELOPMENT */
-		this.showDebugLog();
+		this.storageRef.debugLog();
 		/* @endif */
 	}
 
@@ -54,13 +53,4 @@ export default class CustomStorage {
 	async updateData(data) {
 		return await this.storageRef.update(data);
 	}
-
-	/* @ifdef DEVELOPMENT */
-	/**
-	 * Print storage contents.
-	 */
-	showDebugLog() {
-		this.storageRef.debugLog();
-	}
-	/* @endif */
 }
