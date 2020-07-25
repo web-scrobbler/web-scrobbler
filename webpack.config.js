@@ -86,6 +86,10 @@ module.exports = (functionArg) => {
 	const browser = getBrowserFromArgs(functionArg);
 	assertBrowserIsSupported(browser);
 
+	if (isDevServer) {
+		process.env.NODE_ENV = modeDevelopment;
+	}
+
 	return {
 		devtool: getDevtool(),
 		devServer: {
