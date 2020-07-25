@@ -136,8 +136,6 @@ const {
 	getConnectorOptions,
 	getConnectorsList,
 	getOption,
-	isConnectorEnabled,
-	setConnectorEnabled,
 	setConnectorOption,
 	setOption,
 } = Options;
@@ -202,9 +200,6 @@ export default {
 	},
 	computed: makeComputedProperties(),
 	methods: {
-		isConnectorEnabled,
-		setConnectorEnabled,
-
 		showHiddenOptions() {
 			this.areHiddenOptionVisible = true;
 		},
