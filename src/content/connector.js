@@ -639,7 +639,7 @@ function BaseConnector() {
 		originUrl: null,
 	};
 
-	/* @ifdef DEBUG */
+	/* @ifdef DEVELOPMENT */
 	/**
 	 * List of song fields used to check if song is changed. If any of
 	 * these fields are changed, the new song is playing.
@@ -717,7 +717,7 @@ function BaseConnector() {
 				this.reactorCallback(filteredState, changedFields);
 			}
 
-			// @ifdef DEBUG
+			// @ifdef DEVELOPMENT
 			if (changedFields.includes('isPlaying')) {
 				Util.debugLog(`isPlaying state changed to ${newState.isPlaying}`);
 			}
