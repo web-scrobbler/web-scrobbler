@@ -1,10 +1,11 @@
 'use strict';
 
 const playerBar = '[data-test=player-container]';
+const controlBar = '[data-test=controls-container]';
 
 Connector.playerSelector = playerBar;
 
-Connector.pauseButtonSelector = `${playerBar} button[data-test-state=PLAYING]`;
+Connector.pauseButtonSelector = `${controlBar} button[data-test-state=PLAYING]`;
 
 Connector.artistSelector = `${playerBar} [data-test=line-text]:nth-child(3)`;
 
