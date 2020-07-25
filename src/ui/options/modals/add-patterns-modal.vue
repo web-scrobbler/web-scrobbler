@@ -5,15 +5,18 @@
 	>
 		<template v-slot:header> {{ connector.label }} </template>
 		<template v-slot:body>
-			<div class="options-section" v-if="hasBuiltinPatterns()">
+			<div class="options-section" v-if="hasBuiltinPatterns">
 				<h6>{{ L('patternsBuiltinPatterns') }}</h6>
 				<ul class="list-unstyled">
-					<li v-for="(pattern, index) in getBuiltinPatterns()" :key="index">
+					<li
+						v-for="(pattern, index) in builtInPatterns"
+						:key="index"
+					>
 						<span class="pattern">{{ pattern }}</span>
 					</li>
 				</ul>
 			</div>
-			<div class="options-section" v-if="hasCustomPatterns()">
+			<div class="options-section" v-if="hasCustomPatterns">
 				<h6>{{ L('patternsCustomPatterns') }}</h6>
 				<ul class="list-unstyled">
 					<li v-for="(pattern, index) in editedPatterns" :key="index">
@@ -66,16 +69,8 @@ export default {
 	},
 	components: { BaseModal },
 	props: ['connector', 'patterns'],
-	methods: {
-		addPattern() {
-			if (this.editedPattern) {
-				this.editedPatterns.push(this.editedPattern);
-
-				this.editedPattern = null;
-			}
-		},
-
-		getBuiltinPatterns() {
+	computed: {
+		builtInPatterns() {
 			return this.connector.matches;
 		},
 
@@ -85,6 +80,15 @@ export default {
 
 		hasCustomPatterns() {
 			return this.editedPatterns.length > 0;
+		},
+	},
+	methods: {
+		addPattern() {
+			if (this.editedPattern) {
+				this.editedPatterns.push(this.editedPattern);
+
+				this.editedPattern = null;
+			}
 		},
 
 		savePatterns() {

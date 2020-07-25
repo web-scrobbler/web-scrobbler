@@ -4,7 +4,7 @@
 			<h5>{{ L('storageScrobbleStorageTitle') }}</h5>
 
 			<template v-if="areTracksLoaded">
-				<p v-if="hasTracks()">
+				<p v-if="hasTracks">
 					{{ L('storageScrobbleStorageDescDefault') }}
 				</p>
 				<p v-else>{{ L('storageScrobbleStorageDescNoSongs') }}</p>
@@ -17,7 +17,7 @@
 				<a href="#" class="card-link" @click.prevent="importTracks()">
 					{{ L('buttonImport') }}
 				</a>
-				<template v-if="hasTracks()">
+				<template v-if="hasTracks">
 					<a
 						href="#"
 						class="card-link"
@@ -52,8 +52,8 @@
 			</button>
 		</div>
 
-		<div class="options-section" v-if="hasTracks()">
-			<h5>{{ L('storageScrobbleStorageCount', getTracksCount()) }}</h5>
+		<div class="options-section" v-if="hasTracks">
+			<h5>{{ L('storageScrobbleStorageCount', tracksCount) }}</h5>
 			<div class="mb-4">
 				<div
 					class="mb-4"
@@ -151,6 +151,15 @@ export default {
 		EditTrackModal,
 		TrackInfo,
 	},
+	computed: {
+		tracksCount() {
+			return Object.keys(this.tracks).length;
+		},
+
+		hasTracks() {
+			return this.tracksCount > 0;
+		},
+	},
 	watch: {
 		tracks: {
 			handler(data) {
@@ -190,14 +199,6 @@ export default {
 
 		getScrobblerLabel(scrobblerId) {
 			return ScrobbleService.getScrobblerById(scrobblerId).getLabel();
-		},
-
-		getTracksCount() {
-			return Object.keys(this.tracks).length;
-		},
-
-		hasTracks() {
-			return this.getTracksCount() > 0;
 		},
 
 		async clearTracks() {

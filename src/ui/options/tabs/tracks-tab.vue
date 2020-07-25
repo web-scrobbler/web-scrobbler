@@ -4,7 +4,7 @@
 			<h5>{{ L('tracksEditedTracks') }}</h5>
 
 			<template v-if="areTracksLoaded">
-				<p v-if="hasEditedTracks()">
+				<p v-if="hasEditedTracks">
 					{{ L('tracksEditedTracksDesc') }}
 				</p>
 				<p v-else>{{ L('tracksNoEditedTracks') }}</p>
@@ -23,7 +23,7 @@
 				<a
 					href="#"
 					class="card-link"
-					v-if="hasEditedTracks()"
+					v-if="hasEditedTracks"
 					@click.prevent="exportEditedTracks()"
 				>
 					{{ L('buttonExport') }}
@@ -31,15 +31,15 @@
 				<a
 					href="#"
 					class="card-link"
-					v-if="hasEditedTracks()"
+					v-if="hasEditedTracks"
 					@click.prevent="clearEditedTracks()"
 				>
 					{{ L('buttonClear') }}
 				</a>
 			</div>
 		</div>
-		<div class="options-section" v-if="hasEditedTracks()">
-			<h5>{{ L('tracksEditedTracksCount', getEditedTracksCount()) }}</h5>
+		<div class="options-section" v-if="hasEditedTracks">
+			<h5>{{ L('tracksEditedTracksCount', editedTracksCount) }}</h5>
 
 			<div
 				class="mb-4"
@@ -84,6 +84,15 @@ export default {
 		this.loadEditedTracks();
 	},
 	components: { TrackInfo },
+	computed: {
+		editedTracksCount() {
+			return Object.keys(this.editedTracks).length;
+		},
+
+		hasEditedTracks() {
+			return this.editedTracksCount > 0;
+		},
+	},
 	methods: {
 		async loadEditedTracks() {
 			this.editedTracks = await SavedEdits.getData();
@@ -98,14 +107,6 @@ export default {
 
 			this.editedTracks = Object.assign({}, this.editedTracks, data);
 			await SavedEdits.updateData(this.editedTracks);
-		},
-
-		getEditedTracksCount() {
-			return Object.keys(this.editedTracks).length;
-		},
-
-		hasEditedTracks() {
-			return this.getEditedTracksCount() > 0;
 		},
 
 		async clearEditedTracks() {
