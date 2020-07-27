@@ -2,6 +2,7 @@ exclude:
   - '.grunt/**'
   - 'tests/**'
   - '*.js'
+extends: '@istanbuljs/nyc-config-typescript'
 reporter: [lcovonly, text]
 cache-dir: coverage/cache
 temp-dir: coverage/temp

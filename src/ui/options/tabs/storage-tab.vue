@@ -122,11 +122,11 @@
 import EditTrackModal from '@/ui/options/modals/edit-track-modal.vue';
 import TrackInfo from '@/ui/options/components/track-info.vue';
 
+import ApiCallResult from '@/background/scrobbler/api-call-result';
+import ScrobbleManager from '@/background/scrobbler/scrobble-manager';
 import ScrobbleStorage from '@/background/storage/scrobble-storage';
-import ScrobbleService from '@/background/object/scrobble-service';
 
 import { exportData, importData } from '@/ui/util';
-import ApiCallResult from '@/background/object/api-call-result';
 
 const exportFileName = 'scrobble-storage.json';
 
@@ -198,7 +198,7 @@ export default {
 		},
 
 		getScrobblerLabel(scrobblerId) {
-			return ScrobbleService.getScrobblerById(scrobblerId).getLabel();
+			return ScrobbleManager.getScrobblerById(scrobblerId).getLabel();
 		},
 
 		async clearTracks() {
@@ -208,7 +208,7 @@ export default {
 
 		async scrobbleTrack(trackId) {
 			const { songInfo, scrobblerIds } = this.tracks[trackId];
-			const results = await ScrobbleService.scrobbleWithScrobblers(
+			const results = await ScrobbleManager.scrobbleWithScrobblers(
 				songInfo,
 				scrobblerIds
 			);

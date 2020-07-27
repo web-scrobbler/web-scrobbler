@@ -58,6 +58,24 @@ function assertBuildModeIsValid(mode) {
 }
 
 /**
+ * Configure TypeScipt compiler to run tests written in TypeScript.
+ *
+ * This configuration allows to use Mocha as a test framework, and Istanbul as
+ * a coverage tool.
+ */
+function configureTsCompilerForTests() {
+	const tsconfigForTests = {
+		// Set the module type to "CommonJS" to allow run compiled TS files
+		module: 'CommonJS',
+		// Enable this option to allow to import JSON files when the module type
+		// is "CommonJS"
+		esModuleInterop: true,
+	};
+
+	process.env.TS_NODE_COMPILER_OPTIONS = JSON.stringify(tsconfigForTests);
+}
+
+/**
  * Return an extension ID for a given browser.
  *
  * @param {String} browser Browser name
@@ -73,6 +91,7 @@ function getExtensionId(browser) {
 module.exports = {
 	assertBrowserIsSupported,
 	assertBuildModeIsValid,
+	configureTsCompilerForTests,
 	getExtensionId,
 
 	buildDir,

@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": ".",
+    "module": "ES2020",
+    "moduleResolution": "Node",
+    "outDir": "build",
+    "paths": {
+      "@/*": ["src/*"],
+      "#/*": ["tests/*"]
+    },
+    "resolveJsonModule": true,
+    "sourceMap": true,
+    "target": "ES2017"
+  },
+  "include": ["src/**/*", "tests/**/*"],
+  "exclude": ["src/connectors/*", "src/content/*"]
+}

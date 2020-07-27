@@ -64,18 +64,15 @@
 </template>
 
 <script>
-import { tabs } from 'webextension-polyfill';
-
-import { getCurrentTab } from '@/common/util-browser';
-import {
-	REQUEST_SIGN_IN,
-	REQUEST_SIGN_OUT,
-	REQUEST_APPLY_USER_PROPERTIES,
-	sendMessageToAll,
-} from '@/common/messages';
-import ScrobbleService from '@/background/object/scrobble-service';
+import { browser } from 'webextension-polyfill-ts';
 
 import UserPropertiesModal from '@/ui/options/modals/user-properties-modal.vue';
+
+import ScrobbleManager from '@/background/scrobbler/scrobble-manager';
+
+import { getCurrentTab } from '@/common/util-browser';
+import { Request, sendMessageToAll } from '@/common/messages';
+
 
 const anonimousName = 'anonimous';
 
@@ -151,7 +148,7 @@ export default {
 	methods: {
 		async loadAccounts() {
 			const accountsData = {};
-			const scrobblers = ScrobbleService.getRegisteredScrobblers();
+			const scrobblers = ScrobbleManager.getRegisteredScrobblers();
 
 			for (const scrobbler of scrobblers) {
 				accountsData[
@@ -164,7 +161,7 @@ export default {
 
 		async setupEventListeners() {
 			const tab = await getCurrentTab();
-			tabs.onActivated.addListener((activeInfo) => {
+			browser.tabs.onActivated.addListener((activeInfo) => {
 				if (tab.id === activeInfo.tabId) {
 					this.loadAccounts();
 				}
@@ -192,7 +189,7 @@ export default {
 		async saveUserProperties(properties) {
 			const scrobblerId = this.editedAccount.getId();
 
-			await sendMessageToAll(REQUEST_APPLY_USER_PROPERTIES, {
+			await sendMessageToAll(Request.ApplyUserProperties, {
 				scrobblerId,
 				properties,
 			});
@@ -202,13 +199,13 @@ export default {
 		},
 
 		signIn(scrobbler) {
-			sendMessageToAll(REQUEST_SIGN_IN, {
+			sendMessageToAll(Request.SignIn, {
 				scrobblerId: scrobbler.getId(),
 			});
 		},
 
 		async signOut(scrobbler) {
-			await sendMessageToAll(REQUEST_SIGN_OUT, {
+			await sendMessageToAll(Request.SignOut, {
 				scrobblerId: scrobbler.getId(),
 			});
 			await this.refreshAccount(scrobbler);

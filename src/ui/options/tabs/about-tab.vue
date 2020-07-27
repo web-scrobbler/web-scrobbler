@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { runtime } from 'webextension-polyfill';
+import { browser } from 'webextension-polyfill-ts';
 import { getPrivacyPolicyFilename } from '@/common/util-browser';
 
 import SpriteIcon from '@/ui/shared/sprite-icon.vue';
@@ -47,7 +47,7 @@ const GITHUB_RELEASES_URL =
 const GITHUB_RAW_SRC =
 	'https://github.com/web-scrobbler/web-scrobbler/blob/master/src';
 
-const extVersion = runtime.getManifest().version;
+const extVersion = browser.runtime.getManifest().version;
 
 const links = {
 	aboutReleaseNotesTitle: `${GITHUB_RELEASES_URL}/v${extVersion}`,
