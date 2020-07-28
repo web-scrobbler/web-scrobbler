@@ -54,7 +54,7 @@ committing the changes they meet our requirements by running `grunt lint`.
 If you're not familiar with Grunt, please read [this article][Grunt].
 
 We also use EditorConfig, which helps to keep code in the same code style
-in different code editors and IDE's. If you haven't use EditorConfig before,
+in different code editors and IDE's. If you haven't used EditorConfig before,
 you can visit [EditorConfig website][EditorConfig] for further information.
 
 [CommitMessages]: http://chris.beams.io/posts/git-commit/
