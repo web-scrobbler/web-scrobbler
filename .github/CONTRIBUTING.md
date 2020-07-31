@@ -32,12 +32,18 @@ please use [this article][ReportBugs] as a guideline.
 Include the relevant issue number(s) if applicable.
 -   Ensure CI tests pass.
 
+It's also worth reading [how to write][CommitMessages] good commit messages.
+
+### Submitting rules
+
 Please open a separate PR for each *logical* addition, change, or deletion.
 For example, if you added a new connector, and fixed an existing one, open
 two separate PRs for each change; if you added a new feature and updated
 connectors to use this feature, you can open a single PR containing all changes.
 
-It's also worth reading [how to write][CommitMessages] good commit messages.
+If you plan on contributing a something that require significant changes, please
+contact us first. You can find us in [Discord][Discord-Server]; alternatively,
+feel free to open a new issue and tell us about your plans.
 
 ### Setup environment
 
@@ -59,6 +65,7 @@ you can visit [EditorConfig website][EditorConfig] for further information.
 
 [CommitMessages]: http://chris.beams.io/posts/git-commit/
 [ConnectorsDev]: https://github.com/web-scrobbler/web-scrobbler/wiki/Connectors-development
+[Discord-Server]: https://discord.com/invite/u99wNWw
 [DebugExtension]: https://github.com/web-scrobbler/web-scrobbler/wiki/Debug-the-extension
 [EditorConfig]: http://editorconfig.org/#overview
 [Grunt]: http://gruntjs.com/getting-started
