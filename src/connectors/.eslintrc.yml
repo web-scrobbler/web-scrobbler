@@ -1,5 +1,4 @@
 globals:
-  $: readonly
   Util: readonly
   Connector: readonly
   MetadataFilter: readonly

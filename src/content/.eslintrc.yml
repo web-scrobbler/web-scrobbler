@@ -1,5 +1,4 @@
 globals:
-  $: readonly
   chrome: readonly
 
   Util: readonly
