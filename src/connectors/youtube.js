@@ -18,6 +18,7 @@ const categoryCache = new Map();
  */
 const videoSelector = '.html5-main-video';
 
+const chapterNameSelector = '.html5-video-player .ytp-chapter-title-content';
 const videoTitleSelector = '.html5-video-player .ytp-title-link';
 const channelNameSelector = '#top-row .ytd-channel-name a';
 
@@ -32,38 +33,41 @@ const categoryEntertainment = 'Entertainment';
 let currentVideoDescription = null;
 let artistTrackFromDescription = null;
 
+const trackInfoGetters = [
+	getTrackInfoFromDescription,
+	getTrackInfoFromChapters,
+	getTrackInfoFromTitle,
+];
+
 readConnectorOptions();
 setupEventListener();
 
 Connector.playerSelector = '#content';
 
 Connector.getTrackInfo = () => {
-	const trackInfo = getTrackInfoFromDescription();
-	if (!Util.isArtistTrackEmpty(trackInfo)) {
+	let trackInfo = null;
+
+	for (const getter of trackInfoGetters) {
+		trackInfo = getter();
+		if (Util.isArtistTrackEmpty(trackInfo)) {
+			continue;
+		}
+
 		return trackInfo;
 	}
 
-	let { artist, track } = Util.processYtVideoTitle(
-		Util.getTextFromSelectors(videoTitleSelector)
-	);
-	if (!artist) {
-		artist = Util.getTextFromSelectors(channelNameSelector);
+	return trackInfo;
+};
+
+Connector.getTimeInfo = () => {
+	const videoElement = document.querySelector(videoSelector);
+	if (videoElement && areChaptersMissing()) {
+		const { currentTime, duration } = videoElement;
+
+		return { currentTime, duration };
 	}
 
-	return { artist, track };
-};
-
-/*
- * Because player can be still present in the page, we need to detect
- * that it's invisible and don't return current time. Otherwise resulting
- * state may not be considered empty.
- */
-Connector.getCurrentTime = () => {
-	return $(videoSelector).prop('currentTime');
-};
-
-Connector.getDuration = () => {
-	return $(videoSelector).prop('duration');
+	return null;
 };
 
 Connector.isPlaying = () => {
@@ -92,9 +96,9 @@ Connector.isScrobblingAllowed = () => {
 	}
 
 	// FIXME: Workaround to prevent scrobbling the vidio opened in a background tab.
-	if (Connector.getCurrentTime() < 1) {
-		return false;
-	}
+	// if (Connector.getCurrentTime() < 1) {
+	// 	return false;
+	// }
 
 	if (allowedCategories.length === 0) {
 		return true;
@@ -116,6 +120,10 @@ Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 
 function setupEventListener() {
 	$(videoSelector).on('timeupdate', Connector.onStateChanged);
+}
+
+function areChaptersMissing() {
+	return !Util.getTextFromSelectors(chapterNameSelector);
 }
 
 /**
@@ -206,4 +214,21 @@ function getTrackInfoFromDescription() {
 	artistTrackFromDescription = Util.parseYtVideoDescription(description);
 
 	return artistTrackFromDescription;
+}
+
+function getTrackInfoFromChapters() {
+	return Util.splitArtistTrack(
+		Util.getTextFromSelectors(chapterNameSelector)
+	);
+}
+
+function getTrackInfoFromTitle() {
+	let { artist, track } = Util.processYtVideoTitle(
+		Util.getTextFromSelectors(videoTitleSelector)
+	);
+	if (!artist) {
+		artist = Util.getTextFromSelectors(channelNameSelector);
+	}
+
+	return { artist, track };
 }
