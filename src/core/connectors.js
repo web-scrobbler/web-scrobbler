@@ -1553,6 +1553,20 @@ const connectors = [{
 	],
 	js: 'connectors/epidemicsound.js',
 	id: 'epidemicsound',
+}, {
+	label: 'Nightride FM',
+	matches: [
+		'*://nightride.fm/*',
+	],
+	js: 'connectors/nightride.fm.js',
+	id: 'nightridefm',
+}, {
+	label: 'REKT.NETWORK',
+	matches: [
+		'*://rekt.network/*',
+	],
+	js: 'connectors/rekt.network.js',
+	id: 'rektnetwork',
 }];
 
 define(() => connectors);
