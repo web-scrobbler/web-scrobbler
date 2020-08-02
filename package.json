@@ -64,7 +64,10 @@
     "postinstall": "node scripts/copy-vendor.js"
   },
   "eslintConfig": {
-    "extends": "web-scrobbler"
+    "extends": "web-scrobbler",
+    "parserOptions": {
+      "sourceType": "script"
+    }
   },
   "prettier": "prettier-config-web-scrobbler",
   "remark": {
