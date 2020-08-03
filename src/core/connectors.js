@@ -1560,6 +1560,13 @@ const connectors = [{
 	],
 	js: 'connectors/rekt.network.js',
 	id: 'rektnetwork',
+}, {
+	label: 'Nightride FM',
+	matches: [
+		'*://nightride.fm/*',
+	],
+	js: 'connectors/nightride.fm.js',
+	id: 'nightridefm',
 }];
 
 define(() => connectors);
