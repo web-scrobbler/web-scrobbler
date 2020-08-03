@@ -760,5 +760,5 @@ const Util = {
  * Export Util object if script is executed in Node.js context.
  */
 /* istanbul ignore next */
-module.exports = Util;
+export default Util;
 /* @endexclude */

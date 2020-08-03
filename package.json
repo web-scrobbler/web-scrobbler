@@ -81,6 +81,7 @@
     "start": "webpack-dev-server",
     "lint": "grunt lint",
     "test": "grunt test",
+    "types": "npx tsc -p tsconfig.content.json && sh src/types/fix-declaration.sh",
     "test-with-coverage": "nyc grunt test",
     "upload-coverage": "curl -Ls https://coverage.codacy.com/get.sh | bash -s report -r ./coverage/lcov.info",
     "clean-coverage": "rm -rf ./coverage"

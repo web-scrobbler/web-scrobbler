@@ -3,6 +3,7 @@ coverage/**
 node_modules/**
 src/_locales/**
 src/vendor/**
+src/types/**
 
 package.json
 package-lock.json

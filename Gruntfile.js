@@ -27,7 +27,13 @@ const docFilesToLint = ['*.md', '.github/**/*.md'];
 const htmlFilesToLint = [`${srcDir}/ui/**/*.html`];
 const jsFilesToLint = ['*.js', '.grunt', `${srcDir}/**/*.js`, 'tests/**/*.js'];
 const jsonFilesToLint = [`${srcDir}/**/*.json`, '*.json'];
-const tsFilesToLint = [`${srcDir}/**/*.ts`, 'tests/**/*.ts'];
+const tsFilesToLint = [
+	`${srcDir}/**/*.ts`,
+	'tests/**/*.ts',
+
+	// Ignore declaration files
+	`!${srcDir}/types/*.d.ts`,
+];
 const vueFilesToLint = [`${srcDir}/ui/**/*.vue`];
 
 const isCi = process.env.CI === 'true';

@@ -6,5 +6,5 @@ globals:
   Connector: readonly
   BaseConnector: readonly
   MetadataFilter: readonly
-parserOptions:
-  sourceType: script
+rules:
+  strict: off

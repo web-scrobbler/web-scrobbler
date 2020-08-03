@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "newLine": "lf",
+    "outDir": "src/types/"
+  },
+  "include": ["src/content/connector.js", "src/content/util.js"]
+}
