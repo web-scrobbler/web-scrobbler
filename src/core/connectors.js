@@ -1553,6 +1553,13 @@ const connectors = [{
 	],
 	js: 'connectors/epidemicsound.js',
 	id: 'epidemicsound',
+}, {
+	label: 'REKT.NETWORK',
+	matches: [
+		'*://rekt.network/*',
+	],
+	js: 'connectors/rekt.network.js',
+	id: 'rektnetwork',
 }];
 
 define(() => connectors);
