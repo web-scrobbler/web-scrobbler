@@ -1554,7 +1554,7 @@ const connectors = [{
 	js: 'connectors/epidemicsound.js',
 	id: 'epidemicsound',
 }, {
-	label: 'REKT.NETWORK',
+	label: 'Rekt Network',
 	matches: [
 		'*://rekt.network/*',
 	],
