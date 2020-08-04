@@ -73,7 +73,6 @@ import ScrobbleManager from '@/background/scrobbler/scrobble-manager';
 import { getCurrentTab } from '@/common/util-browser';
 import { Request, sendMessageToAll } from '@/common/messages';
 
-
 const anonimousName = 'anonimous';
 
 async function makeAccountsDataFromScrobbler(scrobbler) {
@@ -135,14 +134,18 @@ export default {
 	data() {
 		return {
 			accountsData: {},
+			optionsTab: null,
 
 			isModalActive: false,
 			editedAccount: null,
 		};
 	},
 	created() {
-		this.setupEventListeners();
+		this.addTabListener();
 		this.loadAccounts();
+	},
+	beforeDestroy() {
+		this.removeTabListener();
 	},
 	components: { UserPropertiesModal },
 	methods: {
@@ -159,13 +162,20 @@ export default {
 			this.accountsData = accountsData;
 		},
 
-		async setupEventListeners() {
-			const tab = await getCurrentTab();
-			browser.tabs.onActivated.addListener((activeInfo) => {
-				if (tab.id === activeInfo.tabId) {
-					this.loadAccounts();
-				}
-			});
+		async addTabListener() {
+			this.optionsTab = await getCurrentTab();
+
+			browser.tabs.onActivated.addListener(this.onTabChanged);
+		},
+
+		removeTabListener() {
+			browser.tabs.onActivated.removeListener(this.onTabChanged);
+		},
+
+		onTabChanged(activeInfo) {
+			if (this.optionsTab.id === activeInfo.tabId) {
+				this.loadAccounts();
+			}
 		},
 
 		createUserProperties(scrobbler) {

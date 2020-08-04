@@ -230,16 +230,14 @@ export default {
 		};
 	},
 	created() {
-		browser.runtime.onMessage.addListener((message) => {
-			if (message.type !== Event.TrackUpdated) {
-				return;
-			}
-			this.updateCurrentTrack(message.data.track);
-		});
+		browser.runtime.onMessage.addListener(this.onCoreMessage);
 
 		sendMessageToActiveTab(Request.GetTrack).then((track) => {
 			this.updateCurrentTrack(track);
 		});
+	},
+	beforeDestroy() {
+		browser.runtime.onMessage.removeListener(this.onCoreMessage);
 	},
 	components: { SpriteIcon },
 	methods: {
@@ -360,6 +358,13 @@ export default {
 			}
 
 			return false;
+		},
+
+		onCoreMessage(message) {
+			if (message.type !== Event.TrackUpdated) {
+				return;
+			}
+			this.updateCurrentTrack(message.data.track);
 		},
 
 		showDebugInfo() {
