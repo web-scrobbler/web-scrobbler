@@ -57,7 +57,11 @@
 						>
 					</span>
 					<span class="tag tag-label-overflow">
-						{{ label }}
+						<span
+							:title="L('infoYouListeningVia', label)"
+						>
+							{{ label }}
+						</span>
 					</span>
 				</div>
 			</div>

@@ -440,6 +440,10 @@
     "message": "Your scrobbles: $1",
     "description": "Label for user play count"
   },
+  "infoYouListeningVia": {
+    "message": "You're listening to this track via $1",
+    "description": "Tooltip for the connector label"
+  },
 
 
   "pageActionBase": {
