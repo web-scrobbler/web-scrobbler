@@ -124,7 +124,7 @@
 			</div>
 		</div>
 		<div class="popup-container" v-if="isEditMode()">
-			<div>
+			<div class="edit-fields">
 				<input
 					type="text"
 					tabindex="1"
@@ -394,32 +394,42 @@ export default {
 </script>
 
 <style>
+:root {
+	--cover-art-size: 136px;
+	--info-width: 224px;
+}
+
 /**
  * Generic.
  */
-
-html,
-input {
-	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-		'Helvetica Neue', Arial, sans-serif;
-}
-
-body {
-	background-color: #fff;
-	color: #212529;
-	font-size: 13px;
-	margin: 0px;
-	overflow: hidden;
-	padding: 0px;
-}
 
 a {
 	color: #212529;
 	text-decoration: none;
 }
 
+body {
+	background-color: #fff;
+	color: #212529;
+	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+		'Helvetica Neue', Arial, sans-serif;
+	font-size: 13px;
+	margin: 0;
+	overflow: hidden;
+	padding: 0;
+}
+
+html {
+	box-sizing: border-box;
+}
+
 input {
-	width: 199px;
+	font-family: inherit;
+	width: 100%;
+}
+
+*, *:before, *:after {
+	box-sizing: inherit;
 }
 
 /**
@@ -428,21 +438,19 @@ input {
 
 .main-container {
 	display: grid;
-	grid-template-columns: 136px 224px;
-	min-height: 136px;
+	grid-template-columns: var(--cover-art-size) var(--info-width);
+	min-height: var(--cover-art-size);
 }
 
 .popup-container {
 	display: grid;
-	grid-template-columns: 209px;
+	grid-template-columns: var(--info-width);
 	grid-template-rows: auto auto;
-	margin: 5px;
-	margin-left: 10px;
 }
 
 .debug-container {
-	margin-left: 10px;
-	max-width: 360px;
+	margin-left: 0.5rem;
+	max-width: calc(var(--cover-art-size) + var(--info-width));
 }
 
 /**
@@ -452,8 +460,8 @@ input {
 .album-art {
 	grid-column: 1;
 	grid-row: 1;
-	height: 136px;
-	width: 136px;
+	height: var(--cover-art-size);
+	width: var(--cover-art-size);
 }
 
 .edit-fields,
@@ -461,6 +469,7 @@ input {
 	grid-column: 1;
 	grid-row: 1;
 	line-height: 1.4em;
+	margin: 0.25rem 0.5rem;
 }
 
 .edit-controls {
@@ -468,6 +477,7 @@ input {
 	grid-column: 1;
 	grid-row: 2;
 	justify-self: start;
+	margin: 0 0.5rem 0.25rem;
 }
 
 .song-field {
@@ -536,7 +546,7 @@ input {
 .tags {
 	display: flex;
 	margin: 0 -0.1rem;
-	margin-top: 5px;
+	margin-top: 0.25rem;
 	white-space: nowrap;
 }
 
@@ -544,17 +554,17 @@ input {
 	background-color: #247ba0;
 	border-radius: 0.2rem;
 	color: white;
-	font-size: 12px;
-	height: 20px;
-	margin: 0 0.1rem;
-	padding: 0px 5px;
+	font-size: 0.75rem;
+	height: 1.25rem;
+	margin: 0 0.15rem;
+	padding: 0 0.25rem;
 }
 
 .tag-icon {
 	color: white;
-	height: 16px;
+	height: 1rem;
 	vertical-align: bottom;
-	width: 16px;
+	width: 1rem;
 }
 
 .tag-label-overflow {
