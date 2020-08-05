@@ -1,4 +1,4 @@
-import browserStub from '#/stubs/browser';
+import { browserStub } from '#/stubs/browser';
 import * as webExt from 'webextension-polyfill-ts';
 
 // @ts-ignore

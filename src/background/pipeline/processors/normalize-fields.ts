@@ -1,4 +1,4 @@
-import Song from '@/background/object/song';
+import { Song } from '@/background/object/song';
 
 import { SongDiff } from '@/background/pipeline/pipeline';
 import { ProcessedSongInfo } from '@/background/object/song';

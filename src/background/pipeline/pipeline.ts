@@ -1,4 +1,4 @@
-import Song from '@/background/object/song';
+import { Song } from '@/background/object/song';
 
 import { loadEditedSongInfo } from '@/background/pipeline/processors/load-edited-song-info';
 import { loadSongInfoFromScrobblers } from '@/background/pipeline/processors/load-song-info-from-scrobblers';
@@ -32,7 +32,7 @@ export type ProcessSongFunction = (song: Song) => Promise<SongDiff>;
 /**
  * An object that processes song instances using various processors (functions).
  */
-export default class Pipeline {
+export class Pipeline {
 	song: Song = null;
 
 	/**

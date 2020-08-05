@@ -188,7 +188,7 @@
 <script>
 import { browser } from 'webextension-polyfill-ts';
 
-import Song from '@/background/object/song';
+import { Song } from '@/background/object/song';
 import {
 	Event,
 	Request,

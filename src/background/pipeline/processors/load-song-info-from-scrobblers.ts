@@ -1,9 +1,9 @@
-import Options from '@/background/storage/options';
-import ScrobbleManager from '@/background/scrobbler/scrobble-manager';
-import Song from '@/background/object/song';
-
+import { ScrobbleManager } from '@/background/scrobbler/scrobble-manager';
 import { ScrobblerSongInfo } from '@/background/scrobbler/base-scrobbler';
+import { Song } from '@/background/object/song';
 import { SongDiff } from '@/background/pipeline/pipeline';
+
+import { getOption, FORCE_RECOGNIZE } from '@/background/storage/options';
 
 /**
  * Load song info using ScrobblerService object.
@@ -23,7 +23,7 @@ export async function loadSongInfoFromScrobblers(
 	const scrobblerSongInfo = getInfo(songInfoArr);
 	const isValid = scrobblerSongInfo !== null;
 
-	const forceRecognize = Options.getOption<boolean>(Options.FORCE_RECOGNIZE);
+	const forceRecognize = getOption<boolean>(FORCE_RECOGNIZE);
 
 	const result: SongDiff = {
 		processed: {},

@@ -1,11 +1,12 @@
-import AudioScrobbler, {
+import {
+	AudioScrobbler,
 	AudioScrobblerResponse,
 	AudioScrobblerApiParams,
 } from '@/background/scrobbler/audio-scrobbler';
 
 import { createQueryString } from '@/common/util-browser';
 
-export default class LibreFmScrobbler extends AudioScrobbler {
+export class LibreFmScrobbler extends AudioScrobbler {
 	/** @override */
 	getApiUrl(): string {
 		return 'https://libre.fm/2.0/';

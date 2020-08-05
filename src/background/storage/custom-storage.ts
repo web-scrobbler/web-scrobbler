@@ -1,9 +1,9 @@
-import StorageWrapper from '@/background/storage/storage-wrapper';
+import { StorageWrapper } from '@/background/storage/storage-wrapper';
 
 /**
  * This class provides a base interface for custom storage wrappers.
  */
-export default abstract class CustomStorage {
+export abstract class CustomStorage {
 	storageRef: StorageWrapper;
 
 	constructor() {

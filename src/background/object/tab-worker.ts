@@ -1,8 +1,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import BrowserAction from '@/background/browser/browser-action';
-import Controller, { ControllerEvent } from '@/background/object/controller';
-import Options from '@/background/storage/options';
+import { BrowserAction } from '@/background/browser/browser-action';
+import { Controller, ControllerEvent } from '@/background/object/controller';
 
 import {
 	isActiveMode,
@@ -15,6 +14,10 @@ import {
 	InjectResult,
 	injectConnector,
 } from '@/background/browser/inject-connector';
+import {
+	isConnectorEnabled,
+	setConnectorEnabled,
+} from '@/background/storage/options';
 import { L } from '@/common/i18n';
 import {
 	Event,
@@ -27,7 +30,7 @@ import {
 } from '@/common/messages';
 import { ParsedSongInfo } from '@/background/object/song';
 
-export default abstract class TabWorker {
+export abstract class TabWorker {
 	private activeTabId: number = browser.tabs.TAB_ID_NONE;
 	private currentTabId: number = browser.tabs.TAB_ID_NONE;
 
@@ -496,7 +499,7 @@ export default abstract class TabWorker {
 	 * @param connector A connector match object
 	 */
 	private createController(tabId: number, connector: ConnectorEntry): void {
-		const isEnabled = Options.isConnectorEnabled(connector);
+		const isEnabled = isConnectorEnabled(connector);
 		const ctrl = new Controller(tabId, connector, isEnabled);
 		ctrl.onSongUpdated = () => {
 			this.notifySongIsUpdated(ctrl);
@@ -536,6 +539,6 @@ export default abstract class TabWorker {
 		const connector = ctrl.getConnector();
 
 		ctrl.setEnabled(isEnabled);
-		Options.setConnectorEnabled(connector, isEnabled);
+		setConnectorEnabled(connector, isEnabled);
 	}
 }

@@ -1,9 +1,13 @@
 import { browser, Manifest, Notifications } from 'webextension-polyfill-ts';
 
-import BaseScrobbler from '@/background/scrobbler/base-scrobbler';
-import Options from '@/background/storage/options';
-import Song from '@/background/object/song';
+import { BaseScrobbler } from '@/background/scrobbler/base-scrobbler';
+import { Song } from '@/background/object/song';
 
+import {
+	getOption,
+	USE_NOTIFICATIONS,
+	USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
+} from '@/background/storage/options';
 import { getPlatformName, isFullscreenMode } from '@/common/util-browser';
 import { L } from '@/common/i18n';
 
@@ -32,13 +36,143 @@ const clickListeners: Record<string, OnClickedListener> = {};
 
 let notificationTimeoutId: NodeJS.Timeout = null;
 
-export default {
-	showNowPlaying,
-	showAuthNotification,
-	showSignInError,
-	showSongNotRecognized,
-	clearNowPlaying,
-};
+/**
+ * Show 'Now playing' notification.
+ *
+ * @param song Copy of song instance
+ * @param contextMessage Context message
+ * @param [onClick] Function that will be called on notification click
+ */
+export function showNowPlaying(
+	song: Song,
+	contextMessage: string,
+	onClick: OnClickedListener
+): void {
+	if (!isAllowed()) {
+		return;
+	}
+
+	const iconUrl = song.getTrackArt() || defaultTrackArtUrl;
+	/* @ifdef CHROME */
+	let message = song.getArtist();
+	const title = song.getTrack();
+	/* @endif */
+	/* @ifdef FIREFOX **
+	let message = `${song.getTrack()}\n${song.getArtist()}`;
+	let title = `Web Scrobbler \u2022 ${contextMessage}`;
+	/* @endif */
+
+	const albumName = song.getAlbum();
+	if (albumName) {
+		message = `${message}\n${albumName}`;
+	}
+
+	const userPlayCount = song.metadata.userPlayCount;
+	if (userPlayCount) {
+		const userPlayCountStr = L(
+			'infoYourScrobbles',
+			userPlayCount.toString()
+		);
+		message = `${message}\n${userPlayCountStr}`;
+	}
+
+	const options: Notifications.CreateNotificationOptions = {
+		type: defaultNotificationType,
+		iconUrl,
+		title,
+		message,
+	};
+
+	/* @ifdef CHROME */
+	// Setup Chrome-related properties separately
+	// (Workaround for bypass `preprocess` module error)
+
+	// @ts-ignore It's not available in WebExtension API
+	options.silent = true;
+	options.contextMessage = contextMessage;
+	/* @endif */
+
+	clearNotificationTimeout();
+
+	notificationTimeoutId = setTimeout(() => {
+		showNotification(options, onClick)
+			.then((notificationId) => {
+				song.metadata.notificationId = notificationId;
+			})
+			.catch((err: Error) => {
+				console.warn(
+					`Unable to show now playing notification: ${err.message}`
+				);
+			});
+	}, NOW_PLAYING_NOTIFICATION_DELAY);
+}
+
+/**
+ * Remove now playing notification for given song.
+ *
+ * @param song Song instance
+ */
+export function clearNowPlaying(song: Song): void {
+	clearNotificationTimeout();
+	remove(song.metadata.notificationId);
+}
+
+/**
+ * Show an error notification if a user is unable to sign in to service.
+ *
+ * @param scrobbler Scrobbler instance
+ * @param [onClick] Function that will be called on notification click
+ */
+export function showSignInError(
+	scrobbler: BaseScrobbler,
+	onClick: OnClickedListener
+): void {
+	const errorMessage = L('notificationUnableSignIn', scrobbler.getLabel());
+
+	showErrorNotification(errorMessage, onClick);
+}
+
+/**
+ * Show a notification if a given song is not recognized.
+ *
+ * @param song Song instance
+ * @param [onClick] Function that will be called on notification click
+ */
+export async function showSongNotRecognized(
+	song: Song,
+	onClick: OnClickedListener
+): Promise<void> {
+	if (!getOption(USE_UNRECOGNIZED_SONG_NOTIFICATIONS)) {
+		return;
+	}
+
+	const options = {
+		type: defaultNotificationType,
+		iconUrl: unknownTrackArtUrl,
+		title: L('notificationNotRecognized'),
+		message: L('notificationNotRecognizedText'),
+	};
+
+	const notificationId = await showNotification(options, onClick);
+	song.metadata.notificationId = notificationId;
+}
+
+/**
+ * Show an auth notification.
+ *
+ * @param onClicked Function that will be called on notification click
+ */
+export async function showAuthNotification(
+	onClicked: OnClickedListener
+): Promise<void> {
+	const options = {
+		type: defaultNotificationType,
+		title: L('notificationConnectAccounts'),
+		message: L('notificationConnectAccountsText'),
+	};
+
+	await showNotification(options, onClicked);
+}
 
 /**
  * Check if browser notifications are available.
@@ -67,7 +201,7 @@ async function isAvailable(): Promise<boolean> {
  * @return Check result
  */
 function isAllowed(): boolean {
-	return Options.getOption(Options.USE_NOTIFICATIONS);
+	return getOption(USE_NOTIFICATIONS);
 }
 
 /**
@@ -149,87 +283,6 @@ async function showNotification(
 }
 
 /**
- * Show 'Now playing' notification.
- *
- * @param song Copy of song instance
- * @param contextMessage Context message
- * @param [onClick] Function that will be called on notification click
- */
-function showNowPlaying(
-	song: Song,
-	contextMessage: string,
-	onClick: OnClickedListener
-): void {
-	if (!isAllowed()) {
-		return;
-	}
-
-	const iconUrl = song.getTrackArt() || defaultTrackArtUrl;
-	/* @ifdef CHROME */
-	let message = song.getArtist();
-	const title = song.getTrack();
-	/* @endif */
-	/* @ifdef FIREFOX **
-	let message = `${song.getTrack()}\n${song.getArtist()}`;
-	let title = `Web Scrobbler \u2022 ${contextMessage}`;
-	/* @endif */
-
-	const albumName = song.getAlbum();
-	if (albumName) {
-		message = `${message}\n${albumName}`;
-	}
-
-	const userPlayCount = song.metadata.userPlayCount;
-	if (userPlayCount) {
-		const userPlayCountStr = L(
-			'infoYourScrobbles',
-			userPlayCount.toString()
-		);
-		message = `${message}\n${userPlayCountStr}`;
-	}
-
-	const options: Notifications.CreateNotificationOptions = {
-		type: defaultNotificationType,
-		iconUrl,
-		title,
-		message,
-	};
-
-	/* @ifdef CHROME */
-	// Setup Chrome-related properties separately
-	// (Workaround for bypass `preprocess` module error)
-
-	// @ts-ignore It's not available in WebExtension API
-	options.silent = true;
-	options.contextMessage = contextMessage;
-	/* @endif */
-
-	clearNotificationTimeout();
-
-	notificationTimeoutId = setTimeout(() => {
-		showNotification(options, onClick)
-			.then((notificationId) => {
-				song.metadata.notificationId = notificationId;
-			})
-			.catch((err: Error) => {
-				console.warn(
-					`Unable to show now playing notification: ${err.message}`
-				);
-			});
-	}, NOW_PLAYING_NOTIFICATION_DELAY);
-}
-
-/**
- * Remove now playing notification for given song.
- *
- * @param song Song instance
- */
-function clearNowPlaying(song: Song): void {
-	clearNotificationTimeout();
-	remove(song.metadata.notificationId);
-}
-
-/**
  * Show error notification.
  *
  * @param message Notification message
@@ -248,63 +301,6 @@ function showErrorNotification(
 	};
 
 	showNotification(options, onClick);
-}
-
-/**
- * Show an error notification if a user is unable to sign in to service.
- *
- * @param scrobbler Scrobbler instance
- * @param [onClick] Function that will be called on notification click
- */
-function showSignInError(
-	scrobbler: BaseScrobbler,
-	onClick: OnClickedListener
-): void {
-	const errorMessage = L('notificationUnableSignIn', scrobbler.getLabel());
-
-	showErrorNotification(errorMessage, onClick);
-}
-
-/**
- * Show a notification if a given song is not recognized.
- *
- * @param song Song instance
- * @param [onClick] Function that will be called on notification click
- */
-async function showSongNotRecognized(
-	song: Song,
-	onClick: OnClickedListener
-): Promise<void> {
-	if (!Options.getOption(Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS)) {
-		return;
-	}
-
-	const options = {
-		type: defaultNotificationType,
-		iconUrl: unknownTrackArtUrl,
-		title: L('notificationNotRecognized'),
-		message: L('notificationNotRecognizedText'),
-	};
-
-	const notificationId = await showNotification(options, onClick);
-	song.metadata.notificationId = notificationId;
-}
-
-/**
- * Show an auth notification.
- *
- * @param onClicked Function that will be called on notification click
- */
-async function showAuthNotification(
-	onClicked: OnClickedListener
-): Promise<void> {
-	const options = {
-		type: defaultNotificationType,
-		title: L('notificationConnectAccounts'),
-		message: L('notificationConnectAccountsText'),
-	};
-
-	await showNotification(options, onClicked);
 }
 
 /**

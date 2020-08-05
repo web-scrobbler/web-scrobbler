@@ -5,8 +5,8 @@ import { expect } from 'chai';
 import { makeStorageWrapperStub } from '#/helpers/create-stubs';
 import { getTestName } from '#/helpers/util';
 
-import Song, { EditedSongInfo } from '@/background/object/song';
-import SavedEditsModel from '@/background/storage/saved-edits.model';
+import { Song, EditedSongInfo } from '@/background/object/song';
+import { SavedEditsModel } from '@/background/storage/saved-edits.model';
 
 chai.use(chaiAsPromised);
 

@@ -5,7 +5,7 @@ import { Storage } from 'webextension-polyfill-ts';
 /**
  * StorageArea wrapper that supports for namespaces.
  */
-export default class StorageWrapper {
+export class StorageWrapper {
 	private storage: Storage.StorageArea;
 	private namespace: string;
 

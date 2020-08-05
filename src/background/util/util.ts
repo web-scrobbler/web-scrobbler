@@ -1,4 +1,5 @@
-import ApiCallResult, {
+import {
+	ApiCallResult,
 	ApiCallResultType,
 } from '@/background/scrobbler/api-call-result';
 

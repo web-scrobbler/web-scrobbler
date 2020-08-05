@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import ApiCallResult, {
+import {
+	ApiCallResult,
 	ApiCallResultType,
 } from '@/background/scrobbler/api-call-result';
-import BrowserStorage from '@/background/storage/browser-storage';
-import StorageWrapper from '@/background/storage/storage-wrapper';
+import { BrowserStorage } from '@/background/storage/browser-storage';
+import { StorageWrapper } from '@/background/storage/storage-wrapper';
 
 import { debugLog, LogType } from '@/background/util/util';
 import { SongInfo, SongMetadata } from '@/background/object/song';
@@ -49,7 +50,7 @@ export interface ScrobblerStorage {
  * Basic implementation relies on session data stored in the storage as it
  * described above.
  */
-export default abstract class BaseScrobbler {
+export abstract class BaseScrobbler {
 	protected storage: StorageWrapper;
 
 	/**

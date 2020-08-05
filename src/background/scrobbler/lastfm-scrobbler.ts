@@ -1,4 +1,5 @@
-import AudioScrobbler, {
+import {
+	AudioScrobbler,
 	AudioScrobblerApiParams,
 	AudioScrobblerImage,
 	AudioScrobblerResponse,
@@ -7,7 +8,7 @@ import AudioScrobbler, {
 import { ScrobblerSongInfo } from '@/background/scrobbler/base-scrobbler';
 import { SongInfo } from '@/background/object/song';
 
-export default class LastFmScrobbler extends AudioScrobbler {
+export class LastFmScrobbler extends AudioScrobbler {
 	/** @override */
 	getApiUrl(): string {
 		return 'https://ws.audioscrobbler.com/2.0/';

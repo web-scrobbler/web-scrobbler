@@ -1,4 +1,4 @@
-import Extension from '@/background/extension';
+import { Extension } from '@/background/extension';
 import { migrate } from '@/background/util/migrate';
 
 migrate().then(() => {

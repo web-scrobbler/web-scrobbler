@@ -1,6 +1,6 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import StorageWrapper from '@/background/storage/storage-wrapper';
+import { StorageWrapper } from '@/background/storage/storage-wrapper';
 
 type StorageType = 'local' | 'sync';
 
@@ -139,7 +139,7 @@ function getSyncStorage(namespace: string): StorageWrapper {
 	return new StorageWrapper(storageArea, namespace);
 }
 
-export default {
+export const BrowserStorage = {
 	getLocalStorage,
 	getScrobblerStorage,
 	getStorage,

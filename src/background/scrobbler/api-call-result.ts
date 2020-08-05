@@ -1,6 +1,6 @@
 export type ApiCallResultType = 'ok' | 'ignored' | 'error-auth' | 'error-other';
 
-export default class ApiCallResult {
+export class ApiCallResult {
 	private type: ApiCallResultType;
 	private scrobblerId: string;
 	private contextInfo: unknown;

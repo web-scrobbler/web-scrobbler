@@ -129,24 +129,19 @@
 </template>
 
 <script>
-import Options from '@/background/storage/options';
-
-const {
+import {
 	getConnectorOption,
 	getConnectorOptions,
 	getConnectorsList,
 	getOption,
 	setConnectorOption,
 	setOption,
-} = Options;
-
-const {
 	FORCE_RECOGNIZE,
 	SCROBBLE_PERCENT,
 	SCROBBLE_PODCASTS,
 	USE_NOTIFICATIONS,
 	USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
-} = Options;
+} from '@/background/storage/options';
 
 function makeComputedProperties() {
 	const properties = {};

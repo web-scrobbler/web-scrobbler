@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { createApiCallResultStub, scrobblerIdStub } from '#/helpers/create-stubs';
 import { getTestName } from '#/helpers/util';
 
-import ApiCallResult from '@/background/scrobbler/api-call-result';
+import { ApiCallResult } from '@/background/scrobbler/api-call-result';
 
 const { RESULT_OK, RESULT_IGNORE } = ApiCallResult;
 

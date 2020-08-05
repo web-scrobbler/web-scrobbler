@@ -68,7 +68,7 @@ import { browser } from 'webextension-polyfill-ts';
 
 import UserPropertiesModal from '@/ui/options/modals/user-properties-modal.vue';
 
-import ScrobbleManager from '@/background/scrobbler/scrobble-manager';
+import { ScrobbleManager } from '@/background/scrobbler/scrobble-manager';
 
 import { getCurrentTab } from '@/common/util-browser';
 import { Request, sendMessageToAll } from '@/common/messages';

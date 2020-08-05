@@ -1,4 +1,4 @@
-export default class {
+export class StorageAreaStub {
 	data: unknown;
 
 	constructor() {

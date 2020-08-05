@@ -1,6 +1,7 @@
-import StorageWrapper from '@/background/storage/storage-wrapper';
-import StorageAreaStub from '#/stubs/storage-area-stub';
-import ApiCallResult, {
+import { StorageWrapper } from '@/background/storage/storage-wrapper';
+import { StorageAreaStub } from '#/stubs/storage-area-stub';
+import {
+	ApiCallResult,
 	ApiCallResultType,
 } from '@/background/scrobbler/api-call-result';
 

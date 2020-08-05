@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 
-import ApiCallResult from '@/background/scrobbler/api-call-result';
-import BaseScrobbler, { Session } from '@/background/scrobbler/base-scrobbler';
+import { ApiCallResult } from '@/background/scrobbler/api-call-result';
+import { BaseScrobbler, Session } from '@/background/scrobbler/base-scrobbler';
 
 import { SongInfo } from '@/background/object/song';
 import { hideObjectValue, timeoutPromise } from '@/background/util/util';
@@ -24,7 +24,7 @@ interface ListenBrainzParams {
 	payload: unknown[];
 }
 
-export default class ListenBrainz extends BaseScrobbler {
+export class ListenBrainzScrobbler extends BaseScrobbler {
 	userToken: string;
 	userApiUrl: string;
 

@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import BrowserStorage from '@/background/storage/browser-storage';
+import { BrowserStorage } from '@/background/storage/browser-storage';
 import { getTestName } from '#/helpers/util';
 
 describe(getTestName(__filename), () => {

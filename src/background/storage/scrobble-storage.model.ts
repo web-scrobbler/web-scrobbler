@@ -1,5 +1,4 @@
-import CustomStorage from '@/background/storage/custom-storage';
-
+import { CustomStorage } from '@/background/storage/custom-storage';
 import { SongInfo } from '@/background/object/song';
 
 export interface ScrobblerStorageEntry {
@@ -11,7 +10,7 @@ export interface ScrobbleStorageData {
 	[entryId: string]: ScrobblerStorageEntry;
 }
 
-export default abstract class ScrobbleStorageModel extends CustomStorage {
+export abstract class ScrobbleStorageModel extends CustomStorage {
 	/* Public methods */
 
 	async addSong(songInfo: SongInfo, scrobblerIds: string[]): Promise<void> {

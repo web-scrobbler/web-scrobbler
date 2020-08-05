@@ -4,7 +4,8 @@ import { expect } from 'chai';
 
 import { getTestName } from '#/helpers/util';
 
-import Song, {
+import {
+	Song,
 	ParsedSongInfo,
 	ProcessedSongInfo,
 } from '@/background/object/song';

@@ -1,9 +1,9 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import Controller from '@/background/object/controller';
-import Song from '@/background/object/song';
-
+import { Controller } from '@/background/object/controller';
 import { ControllerMode } from '@/background/object/controller-mode';
+import { Song } from '@/background/object/song';
+
 import { L } from '@/common/i18n';
 
 const tempIconDisplayDuration = 5000;
@@ -106,7 +106,7 @@ const ExtensionActions: Record<string, BrowserActionRawItem> = {
 /**
  * A wrapper around the browser.browserAction API.
  */
-export default class BrowserAction {
+export class BrowserAction {
 	currentBrowserAction: BrowserActionItem = null;
 	previousBrowserAction: BrowserActionItem = null;
 	timeoutId: NodeJS.Timeout = null;

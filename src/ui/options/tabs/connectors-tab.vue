@@ -69,19 +69,16 @@ import AddPatternsModal from '@/ui/options/modals/add-patterns-modal.vue';
 import SpriteIcon from '@/ui/shared/sprite-icon.vue';
 
 import { getSortedConnectors } from '@/common/util-connector';
-import CustomPatterns from '@/background/storage/custom-patterns';
-import Options from '@/background/storage/options';
-
-import gearIcon from 'bootstrap-icons/icons/gear.svg';
-
-const {
+import { CustomPatterns } from '@/background/storage/custom-patterns';
+import {
 	getOption,
 	isConnectorEnabled,
 	setAllConnectorsEnabled,
 	setConnectorEnabled,
-} = Options;
+	DISABLED_CONNECTORS,
+} from '@/background/storage/options';
 
-const { DISABLED_CONNECTORS } = Options;
+import gearIcon from 'bootstrap-icons/icons/gear.svg';
 
 const connectors = getSortedConnectors();
 

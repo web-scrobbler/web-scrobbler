@@ -1,7 +1,7 @@
 import md5 from 'blueimp-md5';
 
-import Song from '@/background/object/song';
-import CustomStorage from '@/background/storage/custom-storage';
+import { Song } from '@/background/object/song';
+import { CustomStorage } from '@/background/storage/custom-storage';
 import { EditedSongInfo } from '@/background/object/song';
 
 type SavedEditsStorage = Record<string, EditedSongInfo>;
@@ -9,7 +9,7 @@ type SavedEditsStorage = Record<string, EditedSongInfo>;
 /**
  * A model to load/save song info to a storage.
  */
-export default abstract class SavedEditsModel extends CustomStorage {
+export abstract class SavedEditsModel extends CustomStorage {
 	/**
 	 * Public functions.
 	 */

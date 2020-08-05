@@ -3,7 +3,7 @@ type TimerCallback = () => void;
 /**
  * Timer object.
  */
-export default class Timer {
+export class Timer {
 	/**
 	 * Target seconds.
 	 */

@@ -1,11 +1,12 @@
-import ApiCallResult from '@/background/scrobbler/api-call-result';
-import BaseScrobbler, {
+import { ApiCallResult } from '@/background/scrobbler/api-call-result';
+import {
+	BaseScrobbler,
 	ScrobblerSongInfo,
 } from '@/background/scrobbler/base-scrobbler';
-import LastFmScrobbler from '@/background/scrobbler/lastfm-scrobbler';
-import LibreFmScrobbler from '@/background/scrobbler/librefm-scrobbler';
-import ListenBrainzScrobbler from '@/background/scrobbler/listenbrainz-scrobbler';
-import MalojaScrobbler from '@/background/scrobbler/maloja-scrobbler';
+import { LastFmScrobbler } from '@/background/scrobbler/lastfm-scrobbler';
+import { LibreFmScrobbler } from '@/background/scrobbler/librefm-scrobbler';
+import { ListenBrainzScrobbler } from '@/background/scrobbler/listenbrainz-scrobbler';
+import { MalojaScrobbler } from '@/background/scrobbler/maloja-scrobbler';
 
 import { SongInfo } from '@/background/object/song';
 
@@ -41,7 +42,7 @@ function isScrobblerInArray(
 	});
 }
 
-export default new (class {
+export const ScrobbleManager = new (class {
 	/**
 	 * Bind all registered scrobblers.
 	 *

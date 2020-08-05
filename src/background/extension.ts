@@ -1,14 +1,14 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import BaseScrobbler, {
+import {
+	BaseScrobbler,
 	UserProperties,
 } from '@/background/scrobbler/base-scrobbler';
-import BrowserStorage from '@/background/storage/browser-storage';
-import Controller, { ControllerEvent } from '@/background/object/controller';
-import Notifications from '@/background/browser/notifications';
-import ScrobbleManager from '@/background/scrobbler/scrobble-manager';
-import StorageWrapper from '@/background/storage/storage-wrapper';
-import TabWorker from '@/background/object/tab-worker';
+import { BrowserStorage } from '@/background/storage/browser-storage';
+import { Controller, ControllerEvent } from '@/background/object/controller';
+import { ScrobbleManager } from '@/background/scrobbler/scrobble-manager';
+import { StorageWrapper } from '@/background/storage/storage-wrapper';
+import { TabWorker } from '@/background/object/tab-worker';
 
 import { openTab } from '@/common/util-browser';
 import {
@@ -18,6 +18,13 @@ import {
 	ScrobblerRequestResponse,
 	UserPropertiesResponse,
 } from '@/common/messages';
+import {
+	clearNowPlaying,
+	showAuthNotification,
+	showSignInError,
+	showNowPlaying,
+	showSongNotRecognized,
+} from '@/background/browser/notifications';
 
 /**
  * How many times to show auth notification.
@@ -32,7 +39,7 @@ interface AuthNotificationsStorage {
 	authDisplayCount: number;
 }
 
-export default class Extension {
+export class Extension {
 	private tabWorker: TabWorker;
 	private extVersion: string;
 	private notificationStorage: StorageWrapper;
@@ -49,7 +56,7 @@ export default class Extension {
 					case ControllerEvent.Reset: {
 						const song = ctrl.getCurrentSong();
 						if (song) {
-							Notifications.clearNowPlaying(song);
+							clearNowPlaying(song);
 						}
 						break;
 					}
@@ -61,7 +68,7 @@ export default class Extension {
 						}
 						const { label } = ctrl.getConnector();
 
-						Notifications.showNowPlaying(song, label, () => {
+						showNowPlaying(song, label, () => {
 							openTab(ctrl.tabId);
 						});
 						break;
@@ -69,7 +76,7 @@ export default class Extension {
 
 					case ControllerEvent.SongUnrecognized: {
 						const song = ctrl.getCurrentSong();
-						await Notifications.showSongNotRecognized(song, () => {
+						await showSongNotRecognized(song, () => {
 							openTab(ctrl.tabId);
 						});
 						break;
@@ -211,7 +218,7 @@ export default class Extension {
 				'/ui/options/index.html#accounts'
 			);
 			try {
-				await Notifications.showAuthNotification(() => {
+				await showAuthNotification(() => {
 					browser.tabs.create({ url: authUrl });
 				});
 			} catch (e) {
@@ -239,7 +246,7 @@ export default class Extension {
 		} catch (e) {
 			console.log(`Unable to get auth URL for ${scrobbler.getLabel()}`);
 
-			Notifications.showSignInError(scrobbler, () => {
+			showSignInError(scrobbler, () => {
 				const statusUrl = scrobbler.getStatusUrl();
 				if (statusUrl) {
 					browser.tabs.create({ url: statusUrl });

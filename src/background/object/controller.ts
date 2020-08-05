@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import ApiCallResult from '@/background/scrobbler/api-call-result';
-import Options from '@/background/storage/options';
-import Pipeline from '@/background/pipeline/pipeline';
-import SavedEdits from '@/background/storage/saved-edits';
-import ScrobbleManager from '@/background/scrobbler/scrobble-manager';
-import ScrobbleStorage from '@/background/storage/scrobble-storage';
-import Song from '@/background/object/song';
-import Timer from '@/background/object/timer';
+import { ApiCallResult } from '@/background/scrobbler/api-call-result';
+import { Pipeline } from '@/background/pipeline/pipeline';
+import { SavedEdits } from '@/background/storage/saved-edits';
+import { ScrobbleManager } from '@/background/scrobbler/scrobble-manager';
+import { ScrobbleStorage } from '@/background/storage/scrobble-storage';
+import { Song } from '@/background/object/song';
+import { Timer } from '@/background/object/timer';
 
 import {
 	areAllResults,
@@ -16,6 +15,11 @@ import {
 	isAnyResult,
 	LogType,
 } from '@/background/util/util';
+import {
+	getOption,
+	SCROBBLE_PERCENT,
+	SCROBBLE_PODCASTS,
+} from '@/background/storage/options';
 
 import { ControllerMode } from '@/background/object/controller-mode';
 import { ParsedSongInfo, EditedSongInfo } from '@/background/object/song';
@@ -36,7 +40,7 @@ export enum ControllerEvent {
 /**
  * Object that handles song playback and scrobbling actions.
  */
-export default class Controller {
+export class Controller {
 	mode: ControllerMode;
 	tabId: number;
 	isEnabled: boolean;
@@ -67,9 +71,7 @@ export default class Controller {
 		this.replayDetectionTimer = new Timer();
 
 		this.currentSong = null;
-		this.shouldScrobblePodcasts = Options.getOption<boolean>(
-			Options.SCROBBLE_PODCASTS
-		);
+		this.shouldScrobblePodcasts = getOption(SCROBBLE_PODCASTS);
 
 		this.debugLog(`Created controller for ${connector.label} connector`);
 	}
@@ -636,7 +638,7 @@ export default class Controller {
 	}
 
 	private getSecondsToScrobble(duration: number): number {
-		const percent = Options.getOption<number>(Options.SCROBBLE_PERCENT);
+		const percent = getOption<number>(SCROBBLE_PERCENT);
 		return getSecondsToScrobble(duration, percent);
 	}
 

@@ -1,6 +1,6 @@
 import { isAnyResult } from '@/background/util/util';
 
-import ApiCallResult from '@/background/scrobbler/api-call-result';
+import { ApiCallResult } from '@/background/scrobbler/api-call-result';
 
 import {
 	FunctionTestData,

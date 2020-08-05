@@ -122,9 +122,9 @@
 import EditTrackModal from '@/ui/options/modals/edit-track-modal.vue';
 import TrackInfo from '@/ui/options/components/track-info.vue';
 
-import ApiCallResult from '@/background/scrobbler/api-call-result';
-import ScrobbleManager from '@/background/scrobbler/scrobble-manager';
-import ScrobbleStorage from '@/background/storage/scrobble-storage';
+import { ApiCallResult } from '@/background/scrobbler/api-call-result';
+import { ScrobbleManager } from '@/background/scrobbler/scrobble-manager';
+import { ScrobbleStorage } from '@/background/storage/scrobble-storage';
 
 import { exportData, importData } from '@/ui/util';
 

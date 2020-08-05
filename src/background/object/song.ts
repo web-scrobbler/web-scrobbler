@@ -92,7 +92,7 @@ export type EditedSongInfo = BaseSongInfo;
 
 export type BaseSongField = keyof BaseSongInfo;
 
-export default class Song {
+export class Song {
 	parsed: ParsedSongInfo;
 	processed: ProcessedSongInfo;
 	metadata: SongMetadata;

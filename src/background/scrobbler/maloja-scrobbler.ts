@@ -1,5 +1,5 @@
-import ApiCallResult from '@/background/scrobbler/api-call-result';
-import BaseScrobbler, { Session } from '@/background/scrobbler/base-scrobbler';
+import { ApiCallResult } from '@/background/scrobbler/api-call-result';
+import { BaseScrobbler, Session } from '@/background/scrobbler/base-scrobbler';
 
 import { SongInfo } from '@/background/object/song';
 

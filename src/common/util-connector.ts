@@ -1,8 +1,9 @@
 import connectors from '@/connectors.json';
-import CustomPatterns from '@/background/storage/custom-patterns';
+
+import { ConnectorEntry } from '@/common/connector-entry';
+import { CustomPatterns } from '@/background/storage/custom-patterns';
 
 import { isPatternMatched } from '@/background/util/url-match';
-import { ConnectorEntry } from '@/common/connector-entry';
 
 /**
  * Find a connector entry matching a given URL. Return null if no connector
