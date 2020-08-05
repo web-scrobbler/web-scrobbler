@@ -99,7 +99,12 @@ module.exports = (functionArg) => {
 			rules: [
 				{
 					test: /\.css$/i,
-					use: [MiniCssExtractPlugin.loader, 'css-loader'],
+					use: [
+						getMode() === modeDevelopment
+							? 'vue-style-loader'
+							: MiniCssExtractPlugin.loader,
+						'css-loader',
+					],
 				},
 				{
 					test: /\.html$/,
