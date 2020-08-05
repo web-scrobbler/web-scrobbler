@@ -56,7 +56,9 @@
 							>{{ song.metadata.userPlayCount }}</span
 						>
 					</span>
-					<span class="tag">{{ label }}</span>
+					<span class="tag tag-label-overflow">
+						{{ label }}
+					</span>
 				</div>
 			</div>
 			<div class="edit-controls">
@@ -528,17 +530,19 @@ input {
  */
 
 .tags {
+	display: flex;
+	margin: 0 -0.1rem;
 	margin-top: 5px;
 	white-space: nowrap;
 }
 
 .tag {
 	background-color: #247ba0;
-	border-radius: 3px;
+	border-radius: 0.2rem;
 	color: white;
-	display: inline-block;
 	font-size: 12px;
 	height: 20px;
+	margin: 0 0.1rem;
 	padding: 0px 5px;
 }
 
@@ -547,6 +551,12 @@ input {
 	height: 16px;
 	vertical-align: bottom;
 	width: 16px;
+}
+
+.tag-label-overflow {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 }
 
 /**
