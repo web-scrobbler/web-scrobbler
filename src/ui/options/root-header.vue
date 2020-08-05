@@ -1,5 +1,5 @@
 <template>
-	<header class="navbar navbar-expand navbar-dark bg-dark sticky-top">
+	<header class="navbar navbar-expand navbar-dark navbar-bg sticky-top">
 		<nav class="container" aria-label="Main navigation">
 			<sprite-icon class="logo mr-3" :icon="webScrobblerIcon" />
 			<span class="navbar-brand">Web Scrobbler</span>
@@ -85,13 +85,13 @@ export default {
 
 <style>
 .contact-link {
-	color: rgba(255, 255, 255, 0.55);
+	color: #a3a6a9;
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;
 }
 
 .contact-link:hover {
-	color: rgba(255, 255, 255, 0.75);
+	color: #cccecf;
 }
 
 .contact-link svg {
@@ -102,5 +102,10 @@ export default {
 .logo {
 	height: 2rem;
 	width: 2rem;
+}
+
+.navbar-bg {
+	background-color: #232122;
+	border-bottom: 1px solid #141313;
 }
 </style>
