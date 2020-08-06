@@ -44,24 +44,18 @@
 					<span
 						class="tag counter"
 						v-if="song.metadata.userPlayCount > 0"
+						:title="
+							L('infoYourScrobbles', song.metadata.userPlayCount)
+						"
 					>
 						<sprite-icon class="tag-icon" :icon="lastFm" />
-						<span
-							:title="
-								L(
-									'infoYourScrobbles',
-									song.metadata.userPlayCount
-								)
-							"
-							>{{ song.metadata.userPlayCount }}</span
-						>
+						<span>{{ song.metadata.userPlayCount }}</span>
 					</span>
-					<span class="tag tag-label-overflow">
-						<span
-							:title="L('infoYouListeningVia', label)"
-						>
-							{{ label }}
-						</span>
+					<span
+						class="tag tag-label-overflow"
+						:title="L('infoYouListeningVia', label)"
+					>
+						{{ label }}
 					</span>
 				</div>
 			</div>
@@ -189,11 +183,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import { Song } from '@/background/object/song';
-import {
-	Event,
-	Request,
-	sendMessageToActiveTab,
-} from '@/common/messages';
+import { Event, Request, sendMessageToActiveTab } from '@/common/messages';
 
 import arrowCounterClockwise from 'bootstrap-icons/icons/arrow-counterclockwise.svg';
 import arrowLeftRight from 'bootstrap-icons/icons/arrow-left-right.svg';
@@ -428,7 +418,9 @@ input {
 	width: 100%;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
 	box-sizing: inherit;
 }
 
