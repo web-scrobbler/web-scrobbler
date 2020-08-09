@@ -9,7 +9,7 @@ import {
 
 import { hideStringInText, timeoutPromise } from '@/background/util/util';
 import { createQueryString } from '@/common/util-browser';
-import { SongInfo } from '@/background/object/song';
+import { SongInfo, LoveStatus } from '@/background/object/song';
 
 export interface AudioScrobblerApiParams {
 	[param: string]: string;
@@ -224,14 +224,15 @@ export abstract class AudioScrobbler extends BaseScrobbler {
 	/** @override */
 	async toggleLove(
 		songInfo: SongInfo,
-		isLoved: boolean
+		loveStatus: LoveStatus
 	): Promise<ApiCallResult> {
 		const { artist, track } = songInfo;
 		const { sessionID } = await this.getSession();
 		const params = {
 			track,
 			artist,
-			method: isLoved ? 'track.love' : 'track.unlove',
+			method:
+				loveStatus === LoveStatus.Loved ? 'track.love' : 'track.unlove',
 			sk: sessionID,
 		};
 

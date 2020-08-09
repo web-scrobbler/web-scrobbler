@@ -6,7 +6,7 @@ import {
 } from '@/background/scrobbler/audio-scrobbler';
 
 import { ScrobblerSongInfo } from '@/background/scrobbler/base-scrobbler';
-import { SongInfo } from '@/background/object/song';
+import { SongInfo, LoveStatus } from '@/background/object/song';
 
 export class LastFmScrobbler extends AudioScrobbler {
 	/** @override */
@@ -119,7 +119,8 @@ export class LastFmScrobbler extends AudioScrobbler {
 
 		const userlovedStatus = trackInfo.userloved;
 		if (userlovedStatus) {
-			result.metadata.userloved = userlovedStatus === '1';
+			result.metadata.userloved =
+				userlovedStatus === '1' ? LoveStatus.Loved : LoveStatus.Unloved;
 		}
 
 		if (albumInfo) {

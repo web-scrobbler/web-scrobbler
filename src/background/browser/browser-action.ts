@@ -2,7 +2,7 @@ import { browser } from 'webextension-polyfill-ts';
 
 import { Controller } from '@/background/object/controller';
 import { ControllerMode } from '@/background/object/controller-mode';
-import { Song } from '@/background/object/song';
+import { Song, LoveStatus } from '@/background/object/song';
 
 import { L } from '@/common/i18n';
 
@@ -128,13 +128,14 @@ export class BrowserAction {
 	/**
 	 * Set a temporary love/unlove browser action.
 	 *
-	 * @param isLoved Is song loved or unloved
+	 * @param loveStatus Is song loved or unloved
 	 * @param song Song instance
 	 */
-	setSongLoved(isLoved: boolean, song: Song): void {
-		const mode = isLoved
-			? ExtensionActions.Loved
-			: ExtensionActions.Unloved;
+	setSongLoved(loveStatus: LoveStatus, song: Song): void {
+		const mode =
+			loveStatus === LoveStatus.Loved
+				? ExtensionActions.Loved
+				: ExtensionActions.Unloved;
 		this.setTempBrowserAction(mode, song.getArtistTrackString());
 	}
 

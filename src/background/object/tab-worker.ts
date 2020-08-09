@@ -28,7 +28,7 @@ import {
 	sendMessageToContentScripts,
 	CorrectTrackResponse,
 } from '@/common/messages';
-import { ParsedSongInfo } from '@/background/object/song';
+import { ParsedSongInfo, LoveStatus } from '@/background/object/song';
 
 export abstract class TabWorker {
 	private activeTabId: number = browser.tabs.TAB_ID_NONE;
@@ -78,10 +78,16 @@ export abstract class TabWorker {
 
 			case 'love-song':
 			case 'unlove-song': {
-				const isLoved = command === 'love-song';
+				const loveStatus =
+					command === 'love-song'
+						? LoveStatus.Loved
+						: LoveStatus.Unloved;
 
-				await ctrl.toggleLove(isLoved);
-				this.browserAction.setSongLoved(isLoved, ctrl.getCurrentSong());
+				await ctrl.toggleLove(loveStatus);
+				this.browserAction.setSongLoved(
+					loveStatus,
+					ctrl.getCurrentSong()
+				);
 				break;
 			}
 		}
@@ -123,8 +129,8 @@ export abstract class TabWorker {
 			}
 
 			case Request.ToggleLove: {
-				const { isLoved } = data as ToggleLoveResponse;
-				await ctrl.toggleLove(isLoved);
+				const { loveStatus } = data as ToggleLoveResponse;
+				await ctrl.toggleLove(loveStatus);
 				break;
 			}
 

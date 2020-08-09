@@ -3,7 +3,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import { UserProperties } from '@/background/scrobbler/base-scrobbler';
-import { EditedSongInfo } from '@/background/object/song';
+import { EditedSongInfo, LoveStatus } from '@/background/object/song';
 
 export enum Event {
 	/**
@@ -65,7 +65,8 @@ export enum Request {
 	/**
 	 * A request to love/unlove a now playing track.
 	 *
-	 * A request sender must provide a boolean flag as a `isLoved` property.
+	 * A request sender must provide a LoveStatus value in the `loveStatus`
+	 * property.
 	 */
 	ToggleLove = 'REQUEST_TOGGLE_LOVE',
 
@@ -118,7 +119,7 @@ export interface CorrectTrackResponse {
  * A response to Request.ToggleLove request.
  */
 export interface ToggleLoveResponse {
-	isLoved: boolean;
+	loveStatus: LoveStatus;
 }
 
 /**

@@ -8,6 +8,7 @@ import {
 	Song,
 	ParsedSongInfo,
 	ProcessedSongInfo,
+	LoveStatus,
 } from '@/background/object/song';
 
 /**
@@ -205,7 +206,7 @@ function testGetCloneableData() {
 	it('should return a copy of song', () => {
 		const song = createSong(parsedInfo, processedInfo);
 
-		song.setLoveStatus(true);
+		song.setLoveStatus(LoveStatus.Loved);
 		song.flags.isCorrectedByUser = true;
 
 		const copy = song.getCloneableData();
@@ -385,33 +386,33 @@ function testResetInfo() {
 function testSetLoveStatus() {
 	it('should return true if `setLoveStatus` called with true', () => {
 		const song = createSong(emptyParsedInfo);
-		song.setLoveStatus(true);
+		song.setLoveStatus(LoveStatus.Loved);
 
-		expect(song.metadata.userloved).to.be.true;
+		expect(song.metadata.userloved).to.be.equal(LoveStatus.Loved);
 	});
 
 	it('should return false if one of services set it to false', () => {
 		const song = createSong(emptyParsedInfo);
-		song.setLoveStatus(true);
-		song.setLoveStatus(false);
+		song.setLoveStatus(LoveStatus.Loved);
+		song.setLoveStatus(LoveStatus.Unloved);
 
-		expect(song.metadata.userloved).to.be.false;
+		expect(song.metadata.userloved).to.be.equal(LoveStatus.Unloved);
 	});
 
 	it('should return false if one of services set it to false', () => {
 		const song = createSong(emptyParsedInfo);
-		song.setLoveStatus(false);
-		song.setLoveStatus(true);
+		song.setLoveStatus(LoveStatus.Unloved);
+		song.setLoveStatus(LoveStatus.Loved);
 
-		expect(song.metadata.userloved).to.be.false;
+		expect(song.metadata.userloved).to.be.equal(LoveStatus.Unloved);
 	});
 
 	it('should return proper value if `force` param is used', () => {
 		const song = createSong(emptyParsedInfo);
-		song.setLoveStatus(false);
-		song.setLoveStatus(true, { force: true });
+		song.setLoveStatus(LoveStatus.Unloved);
+		song.setLoveStatus(LoveStatus.Loved, { force: true });
 
-		expect(song.metadata.userloved).to.be.true;
+		expect(song.metadata.userloved).to.be.equal(LoveStatus.Loved);
 	});
 }
 

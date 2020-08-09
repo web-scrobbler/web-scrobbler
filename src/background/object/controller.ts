@@ -5,7 +5,7 @@ import { Pipeline } from '@/background/pipeline/pipeline';
 import { SavedEdits } from '@/background/storage/saved-edits';
 import { ScrobbleManager } from '@/background/scrobbler/scrobble-manager';
 import { ScrobbleStorage } from '@/background/storage/scrobble-storage';
-import { Song } from '@/background/object/song';
+import { Song, LoveStatus } from '@/background/object/song';
 import { Timer } from '@/background/object/timer';
 
 import {
@@ -207,18 +207,18 @@ export class Controller {
 	/**
 	 * Send request to love or unlove current song.
 	 *
-	 * @param isLoved Flag indicated song is loved
+	 * @param loveStatus Flag indicated song is loved
 	 */
-	async toggleLove(isLoved: boolean): Promise<void> {
+	async toggleLove(loveStatus: LoveStatus): Promise<void> {
 		this.assertSongIsPlaying();
 
 		if (!this.currentSong.isValid()) {
 			throw new Error('No valid song is now playing');
 		}
 
-		await ScrobbleManager.toggleLove(this.currentSong.getInfo(), isLoved);
+		await ScrobbleManager.toggleLove(this.currentSong.getInfo(), loveStatus);
 
-		this.currentSong.setLoveStatus(isLoved, { force: true });
+		this.currentSong.setLoveStatus(loveStatus, { force: true });
 		this.onSongUpdated();
 	}
 

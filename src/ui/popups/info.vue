@@ -100,7 +100,7 @@
 				<button
 					type="button"
 					class="unlove-btn control-btn"
-					v-if="song.metadata.userloved"
+					v-if="isSongLoved"
 					:title="L('infoUnlove')"
 					@click="setTrackLoved(false)"
 				>
@@ -182,7 +182,7 @@
 <script>
 import { browser } from 'webextension-polyfill-ts';
 
-import { Song } from '@/background/object/song';
+import { Song, LoveStatus } from '@/background/object/song';
 import { Event, Request, sendMessageToActiveTab } from '@/common/messages';
 
 import arrowCounterClockwise from 'bootstrap-icons/icons/arrow-counterclockwise.svg';
@@ -236,6 +236,11 @@ export default {
 		browser.runtime.onMessage.removeListener(this.onCoreMessage);
 	},
 	components: { SpriteIcon },
+	computed: {
+		isSongLoved() {
+			return this.song.metadata.userloved === LoveStatus.Loved;
+		},
+	},
 	methods: {
 		getAlbumArt() {
 			return this.song.getTrackArt() || defaultTrackArt;
@@ -260,7 +265,8 @@ export default {
 		},
 
 		setTrackLoved(isLoved) {
-			sendMessageToActiveTab(Request.ToggleLove, { isLoved });
+			const loveStatus = isLoved ? LoveStatus.Loved : LoveStatus.Unloved;
+			sendMessageToActiveTab(Request.ToggleLove, { loveStatus });
 		},
 
 		swapArtistAndTrack() {

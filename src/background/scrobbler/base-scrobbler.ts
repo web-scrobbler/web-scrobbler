@@ -8,7 +8,7 @@ import { BrowserStorage } from '@/background/storage/browser-storage';
 import { StorageWrapper } from '@/background/storage/storage-wrapper';
 
 import { debugLog, LogType } from '@/background/util/util';
-import { SongInfo, SongMetadata } from '@/background/object/song';
+import { SongInfo, SongMetadata, LoveStatus } from '@/background/object/song';
 
 export interface UserProperties {
 	[prop: string]: string;
@@ -163,13 +163,13 @@ export abstract class BaseScrobbler {
 	 * Send an (un)love request.
 	 *
 	 * @param songInfo Object containing song info
-	 * @param isLoved Flag means song should be loved or not
+	 * @param loveStatus Flag means song should be loved or not
 	 *
 	 * @return Result
 	 */
 	abstract async toggleLove(
 		songInfo: SongInfo,
-		isLoved: boolean
+		loveStatus: LoveStatus
 	): Promise<ApiCallResult>;
 
 	/**
