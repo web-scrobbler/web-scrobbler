@@ -1567,6 +1567,13 @@ const connectors = [{
 	],
 	js: 'connectors/nightride.fm.js',
 	id: 'nightridefm',
+}, {
+	label: 'Qobuz',
+	matches: [
+		'*://*.qobuz.com/*',
+	],
+	js: 'connectors/qobuz.js',
+	id: 'qobuz',
 }];
 
 define(() => connectors);
