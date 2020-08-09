@@ -61,7 +61,7 @@ Connector.getTrackInfo = () => {
 
 Connector.getTimeInfo = () => {
 	const videoElement = document.querySelector(videoSelector);
-	if (videoElement && areChaptersMissing()) {
+	if (videoElement && !areChaptersAvailable()) {
 		const { currentTime, duration } = videoElement;
 
 		return { currentTime, duration };
@@ -75,6 +75,10 @@ Connector.isPlaying = () => {
 };
 
 Connector.getUniqueID = () => {
+	if (areChaptersAvailable()) {
+		return null;
+	}
+
 	/*
 	 * ytd-watch-flexy element contains ID of a first played video
 	 * if the miniplayer is visible, so we should check
@@ -122,8 +126,8 @@ function setupEventListener() {
 	$(videoSelector).on('timeupdate', Connector.onStateChanged);
 }
 
-function areChaptersMissing() {
-	return !Util.getTextFromSelectors(chapterNameSelector);
+function areChaptersAvailable() {
+	return Util.getTextFromSelectors(chapterNameSelector);
 }
 
 /**
