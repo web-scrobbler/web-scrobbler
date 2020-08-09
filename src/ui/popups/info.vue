@@ -1,14 +1,14 @@
 <template>
 	<div class="main-container" @click.alt="showDebugInfo()">
-		<a class="album-art" :href="getAlbumArt()" target="_blank">
+		<a class="album-art" :href="albumArt" target="_blank">
 			<img
 				class="album-art"
 				alt="Cover art"
-				:src="getAlbumArt()"
+				:src="albumArt"
 				:title="L('infoOpenAlbumArt')"
 			/>
 		</a>
-		<div class="popup-container" v-if="isInfoMode()">
+		<div class="popup-container" v-if="isInfoMode && isSongAvailable">
 			<div class="info-fields">
 				<div class="song-field track">
 					<a
@@ -16,7 +16,7 @@
 						:href="song.metadata.trackUrl"
 						:title="L('infoViewTrackPage')"
 					>
-						{{ song.getTrack() }}
+						{{ track }}
 					</a>
 				</div>
 				<div class="song-field">
@@ -25,7 +25,7 @@
 						:href="song.metadata.artistUrl"
 						:title="L('infoViewArtistPage')"
 					>
-						{{ song.getArtist() }}
+						{{ artist }}
 					</a>
 				</div>
 				<div class="song-field">
@@ -34,11 +34,11 @@
 						:href="song.metadata.albumUrl"
 						:title="L('infoViewAlbumPage')"
 					>
-						{{ song.getAlbum() }}
+						{{ album }}
 					</a>
 				</div>
 				<div class="song-field">
-					{{ song.getAlbumArtist() }}
+					{{ albumArtist }}
 				</div>
 				<div class="tags">
 					<span
@@ -64,7 +64,7 @@
 					type="button"
 					class="edit-btn control-btn"
 					:disabled="isTrackControlDisabled()"
-					:title="L(getEditTitleId())"
+					:title="L(editTitleId)"
 					@click="setEditMode()"
 				>
 					<sprite-icon :icon="pencilSquare" />
@@ -74,7 +74,7 @@
 					class="revert-btn control-btn"
 					v-if="song.flags.isCorrectedByUser"
 					:disabled="isTrackControlDisabled()"
-					:title="L(getRevertTitleId())"
+					:title="L(revertTitleId)"
 					@click="resetTrack()"
 				>
 					<sprite-icon :icon="arrowCounterClockwise" />
@@ -92,7 +92,7 @@
 					class="skip-btn control-btn"
 					v-else
 					:disabled="isTrackControlDisabled()"
-					:title="L(getSkipTitleId())"
+					:title="L(skipTitleId)"
 					@click="skipTrack"
 				>
 					<sprite-icon :icon="slashCircle" />
@@ -117,7 +117,7 @@
 				</button>
 			</div>
 		</div>
-		<div class="popup-container" v-if="isEditMode()">
+		<div class="popup-container" v-if="isEditMode && isSongAvailable">
 			<div class="edit-fields">
 				<input
 					type="text"
@@ -157,7 +157,7 @@
 					type="button"
 					class="submit-btn control-btn"
 					:disabled="isEditControlDisabled()"
-					:title="L(getSubmitTitleId())"
+					:title="L(submitTitleId)"
 					@click="submitChanges()"
 				>
 					<sprite-icon :icon="check2Square" />
@@ -166,14 +166,20 @@
 					type="button"
 					class="swap-btn control-btn"
 					:disabled="isEditControlDisabled()"
-					:title="L(getSwapTitleId())"
+					:title="L(swapTitleId)"
 					@click="swapArtistAndTrack()"
 				>
 					<sprite-icon :icon="arrowLeftRight" />
 				</button>
 			</div>
 		</div>
-		<div class="debug-container" v-if="isDebugInfoVisible">
+		<div class="stub-container" v-if="!isSongAvailable">
+			{{ L('infoNoSongInfoAvaiable') }}
+		</div>
+		<div
+			class="debug-container"
+			v-if="isDebugInfoVisible && isSongAvailable"
+		>
 			<pre>{{ song.toString() }}</pre>
 		</div>
 	</div>
@@ -204,10 +210,10 @@ const defaultTrackArt = '/icons/cover_art_default.png';
 export default {
 	data() {
 		return {
-			[Song.FIELD_ARTIST]: null,
-			[Song.FIELD_TRACK]: null,
-			[Song.FIELD_ALBUM]: null,
-			[Song.FIELD_ALBUM_ARTIST]: null,
+			artist: null,
+			track: null,
+			album: null,
+			albumArtist: null,
 
 			mode: modeInfo,
 			song: null,
@@ -237,15 +243,57 @@ export default {
 	},
 	components: { SpriteIcon },
 	computed: {
+		albumArt() {
+			return (this.song && this.song.getTrackArt()) || defaultTrackArt;
+		},
+
+		editTitleId() {
+			return this.isTrackControlDisabled()
+				? 'infoEditUnableTitle'
+				: 'infoEditTitle';
+		},
+
+		revertTitleId() {
+			return this.isTrackControlDisabled()
+				? 'infoRevertUnableTitle'
+				: 'infoRevertTitle';
+		},
+
+		skipTitleId() {
+			return this.isTrackControlDisabled()
+				? 'infoSkipUnableTitle'
+				: 'infoSkipTitle';
+		},
+
+		submitTitleId() {
+			return this.isEditControlDisabled()
+				? 'infoSubmitUnableTitle'
+				: 'infoSubmitTitle';
+		},
+
+		swapTitleId() {
+			return this.isEditControlDisabled()
+				? 'infoSwapUnableTitle'
+				: 'infoSwapTitle';
+		},
+
+		isEditMode() {
+			return this.mode === modeEdit;
+		},
+
+		isInfoMode() {
+			return this.mode === modeInfo;
+		},
+
+		isSongAvailable() {
+			return this.song !== null;
+		},
+
 		isSongLoved() {
 			return this.song.metadata.userloved === LoveStatus.Loved;
 		},
 	},
 	methods: {
-		getAlbumArt() {
-			return this.song.getTrackArt() || defaultTrackArt;
-		},
-
 		/** Actions */
 
 		checkAndSubmitChanges() {
@@ -290,36 +338,6 @@ export default {
 
 		/** Controls */
 
-		getEditTitleId() {
-			return this.isTrackControlDisabled()
-				? 'infoEditUnableTitle'
-				: 'infoEditTitle';
-		},
-
-		getRevertTitleId() {
-			return this.isTrackControlDisabled()
-				? 'infoRevertUnableTitle'
-				: 'infoRevertTitle';
-		},
-
-		getSkipTitleId() {
-			return this.isTrackControlDisabled()
-				? 'infoSkipUnableTitle'
-				: 'infoSkipTitle';
-		},
-
-		getSubmitTitleId() {
-			return this.isEditControlDisabled()
-				? 'infoSubmitUnableTitle'
-				: 'infoSubmitTitle';
-		},
-
-		getSwapTitleId() {
-			return this.isEditControlDisabled()
-				? 'infoSwapUnableTitle'
-				: 'infoSwapTitle';
-		},
-
 		isEditControlDisabled() {
 			return !(this.artist && this.track);
 		},
@@ -330,19 +348,7 @@ export default {
 
 		/** View modes */
 
-		isEditMode() {
-			return this.mode === modeEdit;
-		},
-
-		isInfoMode() {
-			return this.mode === modeInfo;
-		},
-
 		setEditMode() {
-			for (const fieldName of Song.BASE_FIELDS) {
-				this[fieldName] = this.song.getField(fieldName);
-			}
-
 			this.mode = modeEdit;
 		},
 
@@ -374,10 +380,19 @@ export default {
 		},
 
 		async updateCurrentTrack(clonedData) {
+			if (!clonedData) {
+				this.song = null;
+				return;
+			}
+
 			this.song = Song.wrap(clonedData);
 			this.label = await sendMessageToActiveTab(
 				Request.GetConnectorLabel
 			);
+
+			for (const fieldName of Song.BASE_FIELDS) {
+				this[fieldName] = this.song.getField(fieldName);
+			}
 
 			if (this.song.isValid() || this.song.flags.isSkipped) {
 				this.setInfoMode();
@@ -449,6 +464,13 @@ input {
 .debug-container {
 	margin-left: 0.5rem;
 	max-width: calc(var(--cover-art-size) + var(--info-width));
+}
+
+.stub-container {
+	display: flex;
+	font-size: 1.2rem;
+	margin: auto;
+	text-align: center;
 }
 
 /**
