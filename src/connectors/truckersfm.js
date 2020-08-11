@@ -11,4 +11,3 @@ Connector.trackSelector = '.player-title-text';
 Connector.playButtonSelector = '.pause-btn > .fa-play';
 
 Connector.onReady = Connector.onStateChanged;
-
