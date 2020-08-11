@@ -21,6 +21,7 @@ const videoSelector = '.html5-main-video';
 const chapterNameSelector = '.html5-video-player .ytp-chapter-title-content';
 const videoTitleSelector = '.html5-video-player .ytp-title-link';
 const channelNameSelector = '#top-row .ytd-channel-name a';
+const videoDescriptionSelector = '#meta-contents #description';
 
 // Dummy category indicates an actual category is being fetched
 const categoryPending = 'YT_DUMMY_CATEGORY_PENDING';
@@ -206,7 +207,7 @@ async function readConnectorOptions() {
 }
 
 function getVideoDescription() {
-	return $('#description').text();
+	return Util.getTextFromSelectors(videoDescriptionSelector);
 }
 
 function getTrackInfoFromDescription() {
