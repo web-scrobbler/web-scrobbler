@@ -1574,6 +1574,13 @@ const connectors = [{
 	],
 	js: 'connectors/qobuz.js',
 	id: 'qobuz',
+}, {
+	label: 'TruckersFM',
+	matches: [
+		'*://*.truckers.fm/*',
+	],
+	js: 'connectors/truckersfm.js',
+	id: 'truckersfm',
 }];
 
 define(() => connectors);
