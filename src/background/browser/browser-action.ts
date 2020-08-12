@@ -22,7 +22,7 @@ type BrowserActionRawItem = {
 	 * A popup name. Can be nullable, if you don't need a popup for the
 	 * browser action.
 	 *
-	 * This value will be converted to '${popup}'.
+	 * This value will be converted to a path to the popup HTML file.
 	 */
 	popupName: string | null;
 	/**
