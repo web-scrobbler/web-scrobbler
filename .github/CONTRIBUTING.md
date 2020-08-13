@@ -41,7 +41,7 @@ For example, if you added a new connector, and fixed an existing one, open
 two separate PRs for each change; if you added a new feature and updated
 connectors to use this feature, you can open a single PR containing all changes.
 
-If you plan on contributing a something that require significant changes, please
+If you plan on contributing something that requires significant changes, please
 contact us first. You can find us in [Discord][Discord-Server]; alternatively,
 feel free to open a new issue and tell us about your plans.
 
