@@ -28,9 +28,11 @@ const Util = {
 	 * @return {Number} Seconds
 	 */
 	stringToSeconds(str) {
-		if (!str) {
+		const timeFormatExpression = /^\s*-?(\d\d:){0,2}(\d\d)\s*$/g;
+		if (!timeFormatExpression.test(str)) {
 			return 0;
 		}
+
 		const negativeExpression = /-/g;
 		const digitsExpression = /\d\d/g;
 

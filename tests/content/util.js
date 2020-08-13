@@ -154,6 +154,14 @@ const STRING_TO_SECONDS_DATA = [{
 	description: 'should not parse malformed format',
 	args: [NaN],
 	expected: 0,
+}, {
+	description: 'should not parse a format without colons',
+	args: ['01 10 30'],
+	expected: 0,
+}, {
+	description: 'should not parse a format with days',
+	args: ['01:00:00:00'],
+	expected: 0,
 }];
 
 /**
