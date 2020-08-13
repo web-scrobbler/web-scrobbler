@@ -119,8 +119,8 @@ const ESCAPE_BAD_TIME_VALUES_DATA = [{
  * @type {Array}
  */
 const STRING_TO_SECONDS_DATA = [{
-	description: 'should trim string and parse time',
-	args: ['01:10:30 '],
+	description: 'should parse time that contains leading and trailing whitespace',
+	args: [' 01:10:30 '],
 	expected: 4230,
 }, {
 	description: 'should parse time in hh:mm:ss format',
@@ -129,6 +129,10 @@ const STRING_TO_SECONDS_DATA = [{
 }, {
 	description: 'should parse negative time',
 	args: ['-01:10'],
+	expected: -70,
+}, {
+	description: 'should parse negative time that contains leading and trailing whitespace',
+	args: [' -01:10 '],
 	expected: -70,
 }, {
 	description: 'should parse time in mm:ss format',
