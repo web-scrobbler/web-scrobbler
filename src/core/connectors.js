@@ -1068,6 +1068,8 @@ const connectors = [{
 	matches: [
 		'*://gimmeradio.com/*',
 		'*://www.gimmeradio.com/*',
+		'*://gimmecountry.com/*',
+		'*://www.gimmecountry.com/*',
 	],
 	js: 'connectors/gimmeradio.js',
 	id: 'gimmeradio',
