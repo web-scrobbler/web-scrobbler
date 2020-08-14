@@ -28,13 +28,13 @@ const Util = {
 	 * @return {Number} Seconds
 	 */
 	stringToSeconds(str) {
-		const timeFormatExpression = /^\s*-?(\d\d:){0,2}(\d\d)\s*$/g;
+		const timeFormatExpression = /^\s*-?((\d{1,2}:\d\d:\d\d)|(\d{1,2}:\d\d)|(\d{1,2}))\s*$/g;
 		if (!timeFormatExpression.test(str)) {
 			return 0;
 		}
 
 		const negativeExpression = /-/g;
-		const digitsExpression = /\d\d/g;
+		const digitsExpression = /\d{1,2}/g;
 
 		const seconds = str.match(digitsExpression)
 			.reverse()

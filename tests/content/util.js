@@ -127,6 +127,10 @@ const STRING_TO_SECONDS_DATA = [{
 	args: ['01:10:30'],
 	expected: 4230,
 }, {
+	description: 'should parse time in h:mm:ss format',
+	args: ['5:20:00'],
+	expected: 19200,
+}, {
 	description: 'should parse negative time',
 	args: ['-01:10'],
 	expected: -70,
@@ -139,9 +143,17 @@ const STRING_TO_SECONDS_DATA = [{
 	args: ['05:20'],
 	expected: 320,
 }, {
+	description: 'should parse time in m:ss format',
+	args: ['5:20'],
+	expected: 320,
+}, {
 	description: 'should parse time in ss format',
 	args: ['20'],
 	expected: 20,
+}, {
+	description: 'should parse time in s format',
+	args: ['2'],
+	expected: 2,
 }, {
 	description: 'should not parse empty string',
 	args: [''],
