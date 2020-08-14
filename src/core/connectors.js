@@ -1068,6 +1068,8 @@ const connectors = [{
 	matches: [
 		'*://gimmeradio.com/*',
 		'*://www.gimmeradio.com/*',
+		'*://gimmecountry.com/*',
+		'*://www.gimmecountry.com/*',
 	],
 	js: 'connectors/gimmeradio.js',
 	id: 'gimmeradio',
@@ -1574,6 +1576,13 @@ const connectors = [{
 	],
 	js: 'connectors/qobuz.js',
 	id: 'qobuz',
+}, {
+	label: 'TruckersFM',
+	matches: [
+		'*://*.truckers.fm/*',
+	],
+	js: 'connectors/truckersfm.js',
+	id: 'truckersfm',
 }];
 
 define(() => connectors);
