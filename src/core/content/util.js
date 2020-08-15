@@ -28,37 +28,20 @@ const Util = {
 	 * @return {Number} Seconds
 	 */
 	stringToSeconds(str) {
-		if (!str) {
+		const timeFormatExpression = /^\s*-?((\d{1,2}:\d\d:\d\d)|(\d{1,2}:\d\d)|(\d{1,2}))\s*$/g;
+		if (!timeFormatExpression.test(str)) {
 			return 0;
 		}
 
-		let s = str.toString().trim();
-		let val = 0;
-		let seconds = 0;
+		const negativeExpression = /-/g;
+		const digitsExpression = /\d{1,2}/g;
 
-		const isNegative = s.startsWith('-');
-		if (isNegative) {
-			s = s.substr(1);
-		}
+		const seconds = str.match(digitsExpression)
+			.reverse()
+			.map((current) => parseInt(current, 10))
+			.reduce((total, current, i) => total + current * Math.pow(60, i));
 
-		for (let i = 0; i < 3; i++) {
-			const idx = s.lastIndexOf(':');
-			if (idx > -1) {
-				val = parseInt(s.substr(idx + 1), 10);
-				seconds += val * Math.pow(60, i);
-				s = s.substr(0, idx);
-			} else {
-				val = parseInt(s, 10);
-				seconds += val * Math.pow(60, i);
-				break;
-			}
-		}
-
-		if (isNegative) {
-			seconds = -seconds;
-		}
-
-		return seconds;
+		return (negativeExpression.test(str)) ? -seconds : seconds;
 	},
 
 	/**
