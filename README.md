@@ -60,10 +60,11 @@ Before building the extension you should install dependencies:
 # Install dependencies
 > npm install
 
-# Build the extension
-> npx grunt build:firefox
-# or
+# Build the extension for Chrome
 > npx grunt build:chrome
+
+# Build the extension for Firefox
+> npx grunt build:firefox
 ```
 
 The built extension is available in `build` directory. You can install it as an
