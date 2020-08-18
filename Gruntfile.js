@@ -20,7 +20,7 @@ const distFileFirefox = 'web-scrobbler-firefox.zip';
 
 const manifestPath = `${srcDir}/${manifestFile}`;
 
-const filesToBump = [manifestPath, 'package.json', 'package-lock.json'];
+const filesToBump = ['package.json', 'package-lock.json'];
 
 const cssFilesToLint = [`${srcDir}/ui/**/*.css`];
 const docFilesToLint = ['*.md', '.github/**/*.md'];

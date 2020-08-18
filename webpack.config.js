@@ -72,6 +72,8 @@ const defaultBrowser = browserChrome;
 
 const isDevServer = !!process.env.WEBPACK_DEV_SERVER;
 
+const packageFile = require('./package.json');
+
 /**
  * A list of CSS styles shared across UI modules. These styles will be extracted
  * as separate chunks.
@@ -475,6 +477,8 @@ function transformContentScript(contents, browser) {
  */
 function transformManifest(contents, browser) {
 	const manifest = JSON.parse(contents);
+
+	manifest.version = packageFile.version;
 
 	switch (browser) {
 		case browserChrome: {
