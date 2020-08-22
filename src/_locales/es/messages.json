@@ -1,6 +1,11 @@
 {
+    "extDescription": {
+        "message": "¡Scrobble música desde toda la web!",
+        "description": "Description of the extension"
+    },
+
     "optionsTitle": {
-        "message": "Opciones del Web Scrobbler",
+        "message": "Opciones de Web Scrobbler",
         "description": "Title of options page"
     },
     "optionsGeneral": {
@@ -65,7 +70,7 @@
     },
     "optionTdlShortTrackNamesTitle": {
         "message": "Tidal proporciona nombres de pistas abreviados para ciertas canciones (sin \"Remasterizado\", etc.)",
-        "description": ""
+        "Description": "Option label"
     },
     "optionYtDesc": {
         "message": "Si desactiva ambas opciones, la extensión hará scrobbles de los videos de Youtube en todas las categorías.",
@@ -91,6 +96,7 @@
         "message": "Ignorar videos que no están en la categoría Entretenimiento",
         "description": "Option title"
     },
+
     "optionsAccounts": {
         "message": "Cuentas",
         "description": "'Accounts' section"
@@ -115,6 +121,31 @@
         "message": "Iniciar sesión",
         "description": "Button label"
     },
+    "accountsScrobblerProps": {
+        "message": "Propiedades",
+        "description": "Button label"
+    },
+    "accountsScrobblerPropsTitle": {
+        "message": "$1 propiedades",
+        "description": "Button label"
+    },
+    "accountsUserApiUrl": {
+        "message": "URL API",
+        "description": "Input label"
+    },
+    "accountsUserApiUrlPlaceholder": {
+        "message": "URL API personalizada",
+        "description": "Input label"
+    },
+    "accountsUserToken": {
+        "message": "Token",
+        "description": "Input label"
+    },
+    "accountsUserTokenPlaceholder": {
+        "message": "Token personalizado",
+        "description": "Input label"
+    },
+
     "optionsOptions": {
         "message": "Opciones",
         "description": "'Options' section"
@@ -159,10 +190,12 @@
         "message": "Alternar",
         "description": "Label of toggle button"
     },
+
     "learnMoreLabel": {
         "message": "Más información",
         "description": "Learn more label"
     },
+
     "contactTitle": {
         "message": "Contacto",
         "description": "'Contact' section"
@@ -179,6 +212,7 @@
         "message": "Ver política de privacidad",
         "description": "Description for privacy section"
     },
+
     "faqTitle": {
         "message": "FAQ",
         "description": "'FAQ' section"
@@ -275,6 +309,7 @@
         "message": "El autor original de esta extensión es David Šabata. Ahora la misma es desarrollada y mantenido por el equipo dado en llamar Web Scrobbler Team.",
         "description": "Answer #7"
     },
+
     "optionsAbout": {
         "message": "Acerca",
         "description": "'About' section"
@@ -339,6 +374,7 @@
         "message": "No hay ítems en caché.",
         "description": "Popup hint"
     },
+
     "getStartedHeader": {
         "message": "Reproduzca algo de música para empezar",
         "description": "The header of 'Get started' popup"
@@ -355,6 +391,7 @@
         "message": "El código del conector para este sitio web específico necesita ser actualizado. Puede dirigirse a la <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">lista de problemas</a> y ver si este sitio web ya fue reportado. Si no lo está, puede informar de este nuevo problema que describa qué está mal, qué comportamiento se espera y qué está sucediendo.",
         "description": "Description of how to submit new issue"
     },
+
     "serviceErrorHeader": {
         "message": "Error del servicio",
         "description": "The header of 'error' popup"
@@ -363,6 +400,7 @@
         "message": "Parece que algo salió mal mientras se hacía scrobbling de la canción. Abra la página de opciones e intente volver a autenticarse con los servicios. Si la reautenticación no ayuda, y aún ve este mensaje, cree <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\"> un nuevo problema</a> en la página del proyecto en GitHub.",
         "description": "The description of service error"
     },
+
     "disabledSiteHeader": {
         "message": "Este sitio web está apagado",
         "description": "The header of 'disabled' popup"
@@ -375,6 +413,7 @@
         "message": "Abrir página de opciones",
         "description": "Button label"
     },
+
     "unsupportedWebsiteHeader": {
         "message": "Este sitio web no está soportado",
         "description": "The header of 'unsupported' popup"
@@ -387,6 +426,7 @@
         "message": "Algunos sitios web de Google compatibles con la extensión (por ejemplo, Google Play Music, YouTube) pueden bloquearse debido a una política de ExtensionSettings.",
         "description": "The description of 'unsupported' popup"
     },
+
     "infoLove": {
         "message": "Amar esta canción",
         "description": "Label of love/unlove button"
@@ -475,6 +515,7 @@
         "message": "Tus scrobbles: $1",
         "description": "Label for user play count"
     },
+
     "pageActionBase": {
         "message": "Este sitio es apto para scrobbling",
         "description": "`base` page action title"
@@ -523,6 +564,7 @@
         "message": "Dejaste de amar $1",
         "description": "`unsupported` page action title"
     },
+
     "menuDisableConnector": {
         "message": "Desactivar conector $1",
         "description": "Context menu item"
@@ -535,6 +577,7 @@
         "message": "Desactivar conector $1 hasta que la pestaña esté cerrada",
         "description": "Context menu item"
     },
+
     "notificationConnectAccounts": {
         "message": "Conectar sus cuentas",
         "description": "Notification title"
@@ -583,6 +626,7 @@
         "message": "Optar por no",
         "description": "Opt out"
     },
+
     "hotkeyToggleConnector": {
         "message": "Cambiar la modalidad de scrobbling para el actual sitio web",
         "description": "Hotkey label"
@@ -594,9 +638,5 @@
     "hotkeyUnloveSong": {
         "message": "Canción desamada, sonando",
         "description": "Hotkey label"
-    },
-    "extDescription": {
-        "message": "Scrobble música desde toda la web!",
-        "description": "Description of the extension"
     }
 }
