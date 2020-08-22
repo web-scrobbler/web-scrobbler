@@ -42,17 +42,17 @@
 				</div>
 				<div class="tags">
 					<span
-						class="tag counter"
+						class="tag"
 						v-if="song.metadata.userPlayCount > 0"
 						:title="
 							L`infoYourScrobbles ${song.metadata.userPlayCount}`
 						"
 					>
-						<sprite-icon class="tag-icon" :icon="lastFm" />
+						<sprite-icon class="tag__icon" :icon="lastFm" />
 						<span>{{ song.metadata.userPlayCount }}</span>
 					</span>
 					<span
-						class="tag tag-label-overflow"
+						class="tag tag--overflow"
 						:title="L`infoYouListeningVia ${label}`"
 					>
 						{{ label }}
@@ -515,7 +515,7 @@ input {
 	border: none;
 	color: #495053;
 	cursor: pointer;
-	margin-right: 0.25rem;
+	margin-right: 0.5rem;
 	outline: none;
 	padding: 0rem;
 	text-align: center;
@@ -567,7 +567,6 @@ input {
 	display: flex;
 	margin: 0 -0.1rem;
 	margin-top: 0.25rem;
-	white-space: nowrap;
 }
 
 .tag {
@@ -578,19 +577,20 @@ input {
 	height: 1.25rem;
 	margin: 0 0.15rem;
 	padding: 0 0.25rem;
+	white-space: nowrap;
 }
 
-.tag-icon {
-	color: white;
-	height: 1rem;
-	vertical-align: bottom;
-	width: 1rem;
-}
-
-.tag-label-overflow {
+.tag--overflow {
 	overflow: hidden;
 	text-overflow: ellipsis;
-	white-space: nowrap;
+}
+
+.tag__icon {
+	color: white;
+	height: 1rem;
+	margin-right: 0.25rem;
+	vertical-align: bottom;
+	width: 1rem;
 }
 
 /**
