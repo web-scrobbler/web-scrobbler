@@ -1,10 +1,8 @@
 <template>
 	<div class="mb-2">
-		<div class="artist-track">
-			{{ artist }} — {{ track }}
-		</div>
+		<div class="artist-track">{{ artist }} — {{ track }}</div>
 		<div class="album" v-if="album">
-			{{ L('albumTooltip', album) }}
+			{{ L`albumTooltip ${album}` }}
 		</div>
 	</div>
 </template>

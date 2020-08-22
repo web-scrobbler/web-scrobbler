@@ -3,9 +3,9 @@
 		<template v-slot:icon>
 			<sprite-icon :icon="exclamationCircle" class="popup-icon" />
 		</template>
-		<template v-slot:title>{{ L('serviceErrorHeader') }}</template>
+		<template v-slot:title>{{ L`serviceErrorHeader` }}</template>
 		<template v-slot:body>
-			<p class="description">{{ L('serviceErrorDesc') }}</p>
+			<p class="description">{{ L`serviceErrorDesc` }}</p>
 			<div class="mb-2">
 				<a
 					class="card-link"
@@ -13,7 +13,7 @@
 					href="/ui/options/index.html#accounts"
 					target="_blank"
 				>
-					{{ L('buttonOpenOptions') }}
+					{{ L`buttonOpenOptions` }}
 				</a>
 			</div>
 			<div>
@@ -23,7 +23,7 @@
 					href="https://github.com/web-scrobbler/web-scrobbler/issues"
 					target="_blank"
 				>
-					{{ L('buttonOpenIssues') }}
+					{{ L`buttonOpenIssues` }}
 				</a>
 			</div>
 		</template>

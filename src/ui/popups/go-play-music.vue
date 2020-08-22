@@ -3,24 +3,24 @@
 		<template v-slot:icon>
 			<sprite-icon :icon="musicNoteList" class="popup-icon" />
 		</template>
-		<template v-slot:title>{{ L('getStartedHeader') }}</template>
+		<template v-slot:title>{{ L`getStartedHeader` }}</template>
 		<template v-slot:body>
 			<p class="mb-0" v-if="!isDescriptionVisible">
 				<a href="#" class="card-link" @click="showDescription">{{
-					L('getStartedSubheader')
+					L`getStartedSubheader`
 				}}</a>
 			</p>
 
 			<div class="mt-2" v-if="isDescriptionVisible">
-				<p class="description">{{ L('getStartedSiteChanged') }}</p>
-				<p class="description">{{ L('getStartedSubmitIssue') }}</p>
+				<p class="description">{{ L`getStartedSiteChanged` }}</p>
+				<p class="description">{{ L`getStartedSubmitIssue` }}</p>
 				<a
 					class="card-link"
 					role="button"
 					href="https://github.com/web-scrobbler/web-scrobbler/issues"
 					target="_blank"
 				>
-					{{ L('buttonOpenIssues') }}
+					{{ L`buttonOpenIssues` }}
 				</a>
 			</div>
 		</template>

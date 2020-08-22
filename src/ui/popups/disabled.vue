@@ -3,16 +3,16 @@
 		<template v-slot:icon>
 			<sprite-icon :icon="toggleOffIcon" class="popup-icon" />
 		</template>
-		<template v-slot:title>{{ L('disabledSiteHeader') }}</template>
+		<template v-slot:title>{{ L`disabledSiteHeader` }}</template>
 		<template v-slot:body>
-			<p class="description">{{ L('disabledSiteDesc') }}</p>
+			<p class="description">{{ L`disabledSiteDesc` }}</p>
 			<a
 				class="card-link"
 				role="button"
 				href="/ui/options/index.html#connectors"
 				target="_blank"
 			>
-				{{ L('buttonOpenOptions') }}
+				{{ L`buttonOpenOptions` }}
 			</a>
 		</template>
 	</base-popup>

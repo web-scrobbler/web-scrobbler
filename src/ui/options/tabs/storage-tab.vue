@@ -1,21 +1,21 @@
 <template>
 	<div role="tabpanel">
 		<div class="options-section">
-			<h5>{{ L('storageScrobbleStorageTitle') }}</h5>
+			<h5>{{ L`storageScrobbleStorageTitle` }}</h5>
 
 			<template v-if="areTracksLoaded">
 				<p v-if="hasTracks">
-					{{ L('storageScrobbleStorageDescDefault') }}
+					{{ L`storageScrobbleStorageDescDefault` }}
 				</p>
-				<p v-else>{{ L('storageScrobbleStorageDescNoSongs') }}</p>
+				<p v-else>{{ L`storageScrobbleStorageDescNoSongs` }}</p>
 			</template>
 			<template v-else>
-				<p>{{ L('loadingLabel') }}</p>
+				<p>{{ L`loadingLabel` }}</p>
 			</template>
 
 			<div class="mb-4" v-if="areTracksLoaded">
 				<a href="#" class="card-link" @click.prevent="importTracks()">
-					{{ L('buttonImport') }}
+					{{ L`buttonImport` }}
 				</a>
 				<template v-if="hasTracks">
 					<a
@@ -23,14 +23,14 @@
 						class="card-link"
 						@click.prevent="exporTracks()"
 					>
-						{{ L('buttonExport') }}
+						{{ L`buttonExport` }}
 					</a>
 					<a
 						href="#"
 						class="card-link"
 						@click.prevent="clearTracks()"
 					>
-						{{ L('buttonClear') }}
+						{{ L`buttonClear` }}
 					</a>
 				</template>
 			</div>
@@ -53,7 +53,7 @@
 		</div>
 
 		<div class="options-section" v-if="hasTracks">
-			<h5>{{ L('storageScrobbleStorageCount', tracksCount) }}</h5>
+			<h5>{{ L`storageScrobbleStorageCount ${tracksCount}` }}</h5>
 			<div class="mb-4">
 				<div
 					class="mb-4"
@@ -88,21 +88,21 @@
 							href="#"
 							@click.prevent="showModal(trackId)"
 						>
-							{{ L('buttonEdit') }}
+							{{ L`buttonEdit` }}
 						</a>
 						<a
 							class="card-link"
 							href="#"
 							@click.prevent="scrobbleTrack(trackId)"
 						>
-							{{ L('buttonScrobble') }}
+							{{ L`buttonScrobble` }}
 						</a>
 						<a
 							class="card-link"
 							href="#"
 							@click.prevent="removeTrack(trackId)"
 						>
-							{{ L('buttonRemove') }}
+							{{ L`buttonRemove` }}
 						</a>
 					</div>
 				</div>
@@ -241,7 +241,7 @@ export default {
 				);
 				const labelsList = scrobblerLabels.join(', ');
 
-				this.showError(this.L('unableToScrobble', labelsList));
+				this.showError(this.L`unableToScrobble ${labelsList}`);
 			}
 		},
 

@@ -5,7 +5,7 @@
 				class="album-art"
 				alt="Cover art"
 				:src="albumArt"
-				:title="L('infoOpenAlbumArt')"
+				:title="L`infoOpenAlbumArt`"
 			/>
 		</a>
 		<div class="popup-container" v-if="isInfoMode && isSongAvailable">
@@ -14,7 +14,7 @@
 					<a
 						target="_blank"
 						:href="song.metadata.trackUrl"
-						:title="L('infoViewTrackPage')"
+						:title="L`infoViewTrackPage`"
 					>
 						{{ track }}
 					</a>
@@ -23,7 +23,7 @@
 					<a
 						target="_blank"
 						:href="song.metadata.artistUrl"
-						:title="L('infoViewArtistPage')"
+						:title="L`infoViewArtistPage`"
 					>
 						{{ artist }}
 					</a>
@@ -32,7 +32,7 @@
 					<a
 						target="_blank"
 						:href="song.metadata.albumUrl"
-						:title="L('infoViewAlbumPage')"
+						:title="L`infoViewAlbumPage`"
 					>
 						{{ album }}
 					</a>
@@ -45,7 +45,7 @@
 						class="tag counter"
 						v-if="song.metadata.userPlayCount > 0"
 						:title="
-							L('infoYourScrobbles', song.metadata.userPlayCount)
+							L`infoYourScrobbles ${song.metadata.userPlayCount}`
 						"
 					>
 						<sprite-icon class="tag-icon" :icon="lastFm" />
@@ -53,7 +53,7 @@
 					</span>
 					<span
 						class="tag tag-label-overflow"
-						:title="L('infoYouListeningVia', label)"
+						:title="L`infoYouListeningVia ${label}`"
 					>
 						{{ label }}
 					</span>
@@ -83,7 +83,7 @@
 					type="button"
 					class="unskip-btn control-btn"
 					v-if="song.flags.isSkipped"
-					:title="L('infoSkippedTitle')"
+					:title="L`infoSkippedTitle`"
 				>
 					<sprite-icon :icon="slashCircle" />
 				</button>
@@ -101,7 +101,7 @@
 					type="button"
 					class="unlove-btn control-btn"
 					v-if="isSongLoved"
-					:title="L('infoUnlove')"
+					:title="L`infoUnlove`"
 					@click="setTrackLoved(false)"
 				>
 					<sprite-icon :icon="heartFill" />
@@ -110,7 +110,7 @@
 					type="button"
 					class="love-btn control-btn"
 					v-else
-					:title="L('infoLove')"
+					:title="L`infoLove`"
 					@click="setTrackLoved(true)"
 				>
 					<sprite-icon :icon="heart" />
@@ -124,7 +124,7 @@
 					tabindex="1"
 					spellcheck="false"
 					v-model.trim="track"
-					:placeholder="L('trackPlaceholder')"
+					:placeholder="L`trackPlaceholder`"
 					@keyup.enter="checkAndSubmitChanges()"
 				/>
 				<input
@@ -132,7 +132,7 @@
 					tabindex="2"
 					spellcheck="false"
 					v-model.trim="artist"
-					:placeholder="L('artistPlaceholder')"
+					:placeholder="L`artistPlaceholder`"
 					@keyup.enter="checkAndSubmitChanges()"
 				/>
 				<input
@@ -140,7 +140,7 @@
 					tabindex="3"
 					spellcheck="false"
 					v-model.trim="album"
-					:placeholder="L('albumPlaceholder')"
+					:placeholder="L`albumPlaceholder`"
 					@keyup.enter="checkAndSubmitChanges()"
 				/>
 				<input
@@ -148,7 +148,7 @@
 					tabindex="4"
 					spellcheck="false"
 					v-model.trim="albumArtist"
-					:placeholder="L('albumArtistPlaceholder')"
+					:placeholder="L`albumArtistPlaceholder`"
 					@keyup.enter="checkAndSubmitChanges()"
 				/>
 			</div>
@@ -174,7 +174,7 @@
 			</div>
 		</div>
 		<div class="stub-container" v-if="!isSongAvailable">
-			{{ L('infoNoSongInfoAvaiable') }}
+			{{ L`infoNoSongInfoAvaiable` }}
 		</div>
 		<div
 			class="debug-container"

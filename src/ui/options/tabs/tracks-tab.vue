@@ -1,16 +1,16 @@
 <template>
 	<div role="tabpanel">
 		<div class="options-section">
-			<h5>{{ L('tracksEditedTracks') }}</h5>
+			<h5>{{ L`tracksEditedTracks` }}</h5>
 
 			<template v-if="areTracksLoaded">
 				<p v-if="hasEditedTracks">
-					{{ L('tracksEditedTracksDesc') }}
+					{{ L`tracksEditedTracksDesc` }}
 				</p>
-				<p v-else>{{ L('tracksNoEditedTracks') }}</p>
+				<p v-else>{{ L`tracksNoEditedTracks` }}</p>
 			</template>
 			<template v-else>
-				<p>{{ L('loadingLabel') }}</p>
+				<p>{{ L`loadingLabel` }}</p>
 			</template>
 
 			<div>
@@ -18,7 +18,7 @@
 					href="#"
 					class="card-link"
 					@click.prevent="importEditedTracks()"
-					>{{ L('buttonImport') }}</a
+					>{{ L`buttonImport` }}</a
 				>
 				<a
 					href="#"
@@ -26,7 +26,7 @@
 					v-if="hasEditedTracks"
 					@click.prevent="exportEditedTracks()"
 				>
-					{{ L('buttonExport') }}
+					{{ L`buttonExport` }}
 				</a>
 				<a
 					href="#"
@@ -34,12 +34,12 @@
 					v-if="hasEditedTracks"
 					@click.prevent="clearEditedTracks()"
 				>
-					{{ L('buttonClear') }}
+					{{ L`buttonClear` }}
 				</a>
 			</div>
 		</div>
 		<div class="options-section" v-if="hasEditedTracks">
-			<h5>{{ L('tracksEditedTracksCount', editedTracksCount) }}</h5>
+			<h5>{{ L`tracksEditedTracksCount ${editedTracksCount}` }}</h5>
 
 			<div
 				class="mb-4"
@@ -57,7 +57,7 @@
 						class="card-link"
 						@click.prevent="removeEntry(songId)"
 					>
-						{{ L('buttonRemove') }}
+						{{ L`buttonRemove` }}
 					</a>
 				</div>
 			</div>

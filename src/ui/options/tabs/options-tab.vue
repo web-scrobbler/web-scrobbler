@@ -1,57 +1,57 @@
 <template>
 	<div role="tabpanel" @click.alt="showHiddenOptions()">
 		<div class="options-section">
-			<h5>{{ L('optionsGeneral') }}</h5>
+			<h5>{{ L`optionsGeneral` }}</h5>
 			<div class="form-check">
 				<label
 					class="form-check-label"
-					:title="L('optionUseNotificationsTitle')"
+					:title="L`optionUseNotificationsTitle`"
 				>
 					<input
 						class="form-check-input"
 						type="checkbox"
 						v-model="USE_NOTIFICATIONS"
 					/>
-					{{ L('optionUseNotifications') }}
+					{{ L`optionUseNotifications` }}
 				</label>
 			</div>
 			<div class="form-check">
 				<label
 					class="form-check-label"
-					:title="L('optionUnrecognizedNotificationsTitle')"
+					:title="L`optionUnrecognizedNotificationsTitle`"
 				>
 					<input
 						class="form-check-input"
 						type="checkbox"
 						v-model="USE_UNRECOGNIZED_SONG_NOTIFICATIONS"
 					/>
-					{{ L('optionUnrecognizedNotifications') }}
+					{{ L`optionUnrecognizedNotifications` }}
 				</label>
 			</div>
 			<div class="form-check">
 				<label
 					class="form-check-label"
-					:title="L('optionForceRecognizeTitle')"
+					:title="L`optionForceRecognizeTitle`"
 				>
 					<input
 						class="form-check-input"
 						type="checkbox"
 						v-model="FORCE_RECOGNIZE"
 					/>
-					{{ L('optionForceRecognize') }}
+					{{ L`optionForceRecognize` }}
 				</label>
 			</div>
 			<div class="form-check">
 				<label
 					class="form-check-label"
-					:title="L('optionScrobblePodcastsTitle')"
+					:title="L`optionScrobblePodcastsTitle`"
 				>
 					<input
 						class="form-check-input"
 						type="checkbox"
 						v-model="SCROBBLE_PODCASTS"
 					/>
-					{{ L('optionScrobblePodcasts') }}
+					{{ L`optionScrobblePodcasts` }}
 				</label>
 			</div>
 		</div>
@@ -61,14 +61,14 @@
 			<div class="form-check">
 				<label
 					class="form-check-label"
-					:title="L('optionTdlShortTrackNamesTitle')"
+					:title="L`optionTdlShortTrackNamesTitle`"
 				>
 					<input
 						class="form-check-input"
 						type="checkbox"
 						v-model="Tidal_useShortTrackNames"
 					/>
-					{{ L('optionTdlShortTrackNames') }}
+					{{ L`optionTdlShortTrackNames` }}
 				</label>
 			</div>
 		</div>
@@ -78,39 +78,39 @@
 			<div class="form-check">
 				<label
 					class="form-check-label"
-					:title="L('optionYtMusicOnlyTitle')"
+					:title="L`optionYtMusicOnlyTitle`"
 				>
 					<input
 						class="form-check-input"
 						type="checkbox"
 						v-model="YouTube_scrobbleMusicOnly"
 					/>
-					{{ L('optionYtMusicOnly') }}
+					{{ L`optionYtMusicOnly` }}
 				</label>
 			</div>
 			<div class="form-check">
 				<label
 					class="form-check-label"
-					:title="L('optionYtEntertainmentOnlyTitle')"
+					:title="L`optionYtEntertainmentOnlyTitle`"
 				>
 					<input
 						class="form-check-input"
 						type="checkbox"
 						v-model="YouTube_scrobbleEntertainmentOnly"
 					/>
-					{{ L('optionYtEntertainmentOnly') }}
+					{{ L`optionYtEntertainmentOnly` }}
 				</label>
 			</div>
 
 			<p class="mt-2">
-				<small class="text-muted">{{ L('optionYtDesc') }}</small>
+				<small class="text-muted">{{ L`optionYtDesc` }}</small>
 			</p>
 		</div>
 
 		<div class="options-section" v-if="areHiddenOptionVisible">
-			<h5>{{ L('optionsHidden') }}</h5>
+			<h5>{{ L`optionsHidden` }}</h5>
 			<div class="form-group">
-				<label>{{ L('optionScrobblePercent') }}</label>
+				<label>{{ L`optionScrobblePercent` }}</label>
 				<select
 					class="form-select form-select-sm percent-select"
 					v-model="SCROBBLE_PERCENT"
@@ -119,10 +119,10 @@
 						{{ percent }}
 					</option>
 				</select>
-				<label>% {{ L('optionScrobblePercentSuffix') }}</label>
+				<label>% {{ L`optionScrobblePercentSuffix` }}</label>
 			</div>
 			<p class="mt-2">
-				<small class="text-muted">{{ L('optionPercentDesc') }}</small>
+				<small class="text-muted">{{ L`optionPercentDesc` }}</small>
 			</p>
 		</div>
 	</div>

@@ -1,16 +1,16 @@
 <template>
 	<div role="tabpanel" @click.alt="showHiddenOptions()">
 		<div class="options-section">
-			<h5>{{ L('connectorsSidebarTitle') }}</h5>
-			<p>{{ L('connectorsDescription') }}</p>
-			<p>{{ L('connectorsEnableDisableHint') }}</p>
+			<h5>{{ L`connectorsSidebarTitle` }}</h5>
+			<p>{{ L`connectorsDescription` }}</p>
+			<p>{{ L`connectorsEnableDisableHint` }}</p>
 			<p>
-				<span>{{ L('connectorsCustomPatternsHint') }}</span>
+				<span>{{ L`connectorsCustomPatternsHint` }}</span>
 				<a
 					target="_blank"
 					href="https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns"
 				>
-					{{ L('learnMoreLabel') }}
+					{{ L`learnMoreLabel` }}
 				</a>
 			</p>
 		</div>
@@ -23,7 +23,7 @@
 							type="checkbox"
 							v-model="toggleConnectorsValue"
 						/>
-						{{ L('connectorsToggleConnectors') }}
+						{{ L`connectorsToggleConnectors` }}
 					</label>
 				</div>
 			</div>

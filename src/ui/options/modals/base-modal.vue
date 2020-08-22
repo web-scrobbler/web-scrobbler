@@ -24,14 +24,14 @@
 						class="btn btn-secondary"
 						data-dismiss="modal"
 					>
-						{{ L('buttonCancel') }}
+						{{ L`buttonCancel` }}
 					</button>
 					<button
 						type="button"
 						class="btn btn-primary"
 						@click="emitOnOkClickEvent"
 					>
-						{{ L('buttonOk') }}
+						{{ L`buttonOk` }}
 					</button>
 				</div>
 			</div>

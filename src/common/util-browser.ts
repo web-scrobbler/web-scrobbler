@@ -57,7 +57,7 @@ export async function getPlatformName(): Promise<string> {
  * @return Privacy policy URL
  */
 export async function getPrivacyPolicyFilename(): Promise<string> {
-	const locale = L('@@ui_locale');
+	const locale = L`@@ui_locale`;
 	const privacyFilenames = [defaultPrivacyPath];
 
 	if (!locale.startsWith('en')) {

@@ -6,7 +6,7 @@
 		<template v-slot:header> {{ connector.label }} </template>
 		<template v-slot:body>
 			<div class="options-section" v-if="hasBuiltinPatterns">
-				<h6>{{ L('patternsBuiltinPatterns') }}</h6>
+				<h6>{{ L`patternsBuiltinPatterns` }}</h6>
 				<ul class="list-unstyled">
 					<li
 						v-for="(pattern, index) in builtInPatterns"
@@ -17,14 +17,14 @@
 				</ul>
 			</div>
 			<div class="options-section" v-if="hasCustomPatterns">
-				<h6>{{ L('patternsCustomPatterns') }}</h6>
+				<h6>{{ L`patternsCustomPatterns` }}</h6>
 				<ul class="list-unstyled">
 					<li v-for="(pattern, index) in editedPatterns" :key="index">
 						<span class="pattern">{{ pattern }}</span>
 						<button
 							type="button"
 							class="close"
-							:title="L('buttonRemove')"
+							:title="L`buttonRemove`"
 							@click="removePattern(index)"
 						>
 							<span aria-hidden="true">&times;</span>
@@ -33,13 +33,13 @@
 				</ul>
 			</div>
 
-			<p>{{ L('patternsCustomPatternsHint') }}</p>
+			<p>{{ L`patternsCustomPatternsHint` }}</p>
 			<div class="input-group mb-3">
 				<input
 					class="form-control"
 					type="text"
 					spellcheck="false"
-					:placeholder="L('patternsCustomPatternPlaceholder')"
+					:placeholder="L`patternsCustomPatternPlaceholder`"
 					v-model.trim="editedPattern"
 				/>
 				<button
@@ -47,7 +47,7 @@
 					type="button"
 					@click="addPattern"
 				>
-					{{ L('buttonAdd') }}
+					{{ L`buttonAdd` }}
 				</button>
 			</div>
 		</template>

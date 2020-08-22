@@ -69,10 +69,8 @@ export function showNowPlaying(
 
 	const userPlayCount = song.metadata.userPlayCount;
 	if (userPlayCount) {
-		const userPlayCountStr = L(
-			'infoYourScrobbles',
-			userPlayCount.toString()
-		);
+		const userPlayCountStr = L`infoYourScrobbles ${userPlayCount.toString()}`;
+
 		message = `${message}\n${userPlayCountStr}`;
 	}
 
@@ -127,7 +125,7 @@ export function showSignInError(
 	scrobbler: BaseScrobbler,
 	onClick: OnClickedListener
 ): void {
-	const errorMessage = L('notificationUnableSignIn', scrobbler.getLabel());
+	const errorMessage = L`notificationUnableSignIn ${scrobbler.getLabel()}`;
 
 	showErrorNotification(errorMessage, onClick);
 }
@@ -149,8 +147,8 @@ export async function showSongNotRecognized(
 	const options = {
 		type: defaultNotificationType,
 		iconUrl: unknownTrackArtUrl,
-		title: L('notificationNotRecognized'),
-		message: L('notificationNotRecognizedText'),
+		title: L`notificationNotRecognized`,
+		message: L`notificationNotRecognizedText`,
 	};
 
 	const notificationId = await showNotification(options, onClick);
@@ -167,8 +165,8 @@ export async function showAuthNotification(
 ): Promise<void> {
 	const options = {
 		type: defaultNotificationType,
-		title: L('notificationConnectAccounts'),
-		message: L('notificationConnectAccountsText'),
+		title: L`notificationConnectAccounts`,
+		message: L`notificationConnectAccountsText`,
 	};
 
 	await showNotification(options, onClicked);
@@ -292,7 +290,7 @@ function showErrorNotification(
 	message: string,
 	onClick: OnClickedListener = null
 ): void {
-	const title = L('notificationAuthError');
+	const title = L`notificationAuthError`;
 	const options = {
 		type: defaultNotificationType,
 		iconUrl: defaultIconUrl,

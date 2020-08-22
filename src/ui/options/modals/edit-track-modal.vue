@@ -3,48 +3,48 @@
 		@onClose="forwardEvent('onClose', $event)"
 		@onOkClick="submitChanges"
 	>
-		<template v-slot:header> {{ L('editSongTitle') }} </template>
+		<template v-slot:header> {{ L`editSongTitle` }} </template>
 		<template v-slot:body>
 			<div class="mb-3">
-				<label class="form-label">{{ L('artistTitle') }}</label>
+				<label class="form-label">{{ L`artistTitle` }}</label>
 				<input
 					required
 					type="text"
 					spellcheck="false"
 					class="form-control"
 					v-model.trim="artist"
-					:placeholder="L('artistPlaceholder')"
+					:placeholder="L`artistPlaceholder`"
 				/>
 			</div>
 			<div class="mb-3">
-				<label class="form-label">{{ L('trackTitle') }}</label>
+				<label class="form-label">{{ L`trackTitle` }}</label>
 				<input
 					required
 					type="text"
 					spellcheck="false"
 					class="form-control"
 					v-model.trim="track"
-					:placeholder="L('trackPlaceholder')"
+					:placeholder="L`trackPlaceholder`"
 				/>
 			</div>
 			<div class="mb-3">
-				<label class="form-label">{{ L('albumTitle') }}</label>
+				<label class="form-label">{{ L`albumTitle` }}</label>
 				<input
 					type="text"
 					spellcheck="false"
 					class="form-control"
 					v-model.trim="album"
-					:placeholder="L('albumPlaceholder')"
+					:placeholder="L`albumPlaceholder`"
 				/>
 			</div>
 			<div class="mb-3">
-				<label class="form-label">{{ L('albumArtistTitle') }}</label>
+				<label class="form-label">{{ L`albumArtistTitle` }}</label>
 				<input
 					type="text"
 					spellcheck="false"
 					class="form-control"
 					v-model.trim="albumArtist"
-					:placeholder="L('albumArtistPlaceholder')"
+					:placeholder="L`albumArtistPlaceholder`"
 				/>
 			</div>
 		</template>

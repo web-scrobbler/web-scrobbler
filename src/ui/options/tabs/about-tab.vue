@@ -1,12 +1,12 @@
 <template>
 	<div role="tabpanel">
 		<div class="options-section">
-			<h5>{{ L('aboutSidebarTitle') }}</h5>
-			<p>{{ L('aboutExtensionDesc') }}</p>
+			<h5>{{ L`aboutSidebarTitle` }}</h5>
+			<p>{{ L`aboutExtensionDesc` }}</p>
 		</div>
 
 		<div class="options-section">
-			<h5>{{ L('aboutLinksTitle') }}</h5>
+			<h5>{{ L`aboutLinksTitle` }}</h5>
 			<ul>
 				<li v-for="(link, stringId) in links" :key="stringId">
 					<a target="_blank" :href="link">
@@ -17,8 +17,8 @@
 		</div>
 
 		<div class="options-section">
-			<h5>{{ L('aboutShowSomeLoveTitle') }}</h5>
-			<p>{{ L('aboutShowSomeLoveText') }}</p>
+			<h5>{{ L`aboutShowSomeLoveTitle` }}</h5>
+			<p>{{ L`aboutShowSomeLoveText` }}</p>
 
 			<div class="text-center">
 				<a

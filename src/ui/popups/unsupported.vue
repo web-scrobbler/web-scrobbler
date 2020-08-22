@@ -3,17 +3,17 @@
 		<template v-slot:icon>
 			<sprite-icon :icon="emojiFrown" class="popup-icon" />
 		</template>
-		<template v-slot:title>{{ L('unsupportedWebsiteHeader') }}</template>
+		<template v-slot:title>{{ L`unsupportedWebsiteHeader` }}</template>
 		<template v-slot:body>
-			<p class="description">{{ L('unsupportedWebsiteDesc') }}</p>
+			<p class="description">{{ L`unsupportedWebsiteDesc` }}</p>
 
 			<p class="description mb-0">
-				<span>{{ L('unsupportedWebsiteDesc2') }}</span>
+				<span>{{ L`unsupportedWebsiteDesc2` }}</span>
 				<a
 					target="_blank"
 					href="https://cloud.google.com/docs/chrome-enterprise/policies/?policy=ExtensionSettings"
 				>
-					{{ L('learnMoreLabel') }}
+					{{ L`learnMoreLabel` }}
 				</a>
 			</p>
 		</template>

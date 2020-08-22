@@ -4,7 +4,7 @@
 		@onOkClick="saveProperties"
 	>
 		<template v-slot:header>{{
-			L('accountsScrobblerPropsTitle', label)
+			L`accountsScrobblerPropsTitle ${label}`
 		}}</template>
 		<template v-slot:body>
 			<div

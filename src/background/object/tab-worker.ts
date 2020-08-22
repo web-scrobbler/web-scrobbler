@@ -375,7 +375,7 @@ export abstract class TabWorker {
 		ctrl: Controller
 	): void {
 		const { label } = ctrl.getConnector();
-		const itemTitle2 = L('menuDisableUntilTabClosed', label);
+		const itemTitle2 = L`menuDisableUntilTabClosed ${label}`;
 		this.addContextMenuItem(tabId, itemTitle2, () => {
 			ctrl.setEnabled(false);
 		});

@@ -9,10 +9,10 @@
 
 			<div class="mb-2">
 				<template v-if="data.isSignedIn">
-					{{ L('accountsSignedInAs', data.userName) }}
+					{{ L`accountsSignedInAs ${data.userName}` }}
 				</template>
 				<template v-else>
-					{{ L('accountsNotSignedIn') }}
+					{{ L`accountsNotSignedIn` }}
 				</template>
 			</div>
 
@@ -23,7 +23,7 @@
 					@click.prevent="showModal(data.scrobbler)"
 					v-if="data.hasUserProperties"
 				>
-					{{ L('accountsScrobblerProps') }}
+					{{ L`accountsScrobblerProps` }}
 				</a>
 				<template v-if="data.isSignedIn">
 					<a
@@ -32,14 +32,14 @@
 						:href="data.profileUrl"
 						v-if="data.hasProfileUrl"
 					>
-						{{ L('accountsProfile') }}
+						{{ L`accountsProfile` }}
 					</a>
 					<a
 						class="card-link"
 						href="#"
 						@click.prevent="signOut(data.scrobbler)"
 					>
-						{{ L('accountsSignOut') }}
+						{{ L`accountsSignOut` }}
 					</a>
 				</template>
 				<template v-else>
@@ -48,7 +48,7 @@
 						href="#"
 						@click.prevent="signIn(data.scrobbler)"
 					>
-						{{ L('accountsSignIn') }}
+						{{ L`accountsSignIn` }}
 					</a>
 				</template>
 			</div>
