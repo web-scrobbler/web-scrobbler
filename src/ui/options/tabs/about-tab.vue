@@ -72,11 +72,7 @@ export default {
 	components: { SpriteIcon },
 	methods: {
 		async fetchPrivacyLink() {
-			this.$set(
-				this.links,
-				'aboutPrivacyPolicyTitle',
-				await getPrivacyPolicyUrl()
-			);
+			this.links.aboutPrivacyPolicyTitle = await getPrivacyPolicyUrl();
 		},
 	},
 };

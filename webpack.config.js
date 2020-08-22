@@ -13,7 +13,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 
 const {
 	buildDir,
@@ -123,8 +123,12 @@ module.exports = (functionArg) => {
 				},
 				{
 					test: /\.tsx?$/,
-					use: 'ts-loader',
-					exclude: /node_modules/,
+					use: {
+						loader: 'ts-loader',
+						options: {
+							appendTsSuffixTo: [/\.vue$/],
+						},
+					},
 				},
 				{
 					test: /\.svg$/,

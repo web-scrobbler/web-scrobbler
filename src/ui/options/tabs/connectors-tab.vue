@@ -122,9 +122,9 @@ export default {
 		async updateCustomPatterns(patterns) {
 			const connectorId = this.editedConnector.id;
 			if (patterns.length > 0) {
-				this.$set(this.customPatterns, connectorId, patterns);
+				this.customPatterns[connectorId] = patterns;
 			} else {
-				this.$delete(this.customPatterns, connectorId);
+				delete this.customPatterns[connectorId];
 			}
 			await CustomPatterns.saveData(this.customPatterns);
 

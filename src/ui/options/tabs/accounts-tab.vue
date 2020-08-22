@@ -222,11 +222,9 @@ export default {
 		},
 
 		async refreshAccount(scrobbler) {
-			this.$set(
-				this.accountsData,
-				scrobbler.getId(),
-				await makeAccountsDataFromScrobbler(scrobbler)
-			);
+			this.accountsData[
+				scrobbler.getId()
+			] = await makeAccountsDataFromScrobbler(scrobbler);
 		},
 
 		hideModal() {

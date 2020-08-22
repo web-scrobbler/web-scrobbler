@@ -246,27 +246,23 @@ export default {
 		},
 
 		async removeTrack(trackId) {
-			this.$delete(this.tracks, trackId);
+			delete this.tracks[trackId];
 		},
 
 		async updateScrobblerIds(trackId, scrobblerIds) {
 			const { songInfo } = this.tracks[trackId];
 
-			this.$set(this.tracks, trackId, {
-				songInfo,
-				scrobblerIds,
-			});
+			this.tracks[trackId] = { songInfo, scrobblerIds };
 		},
 
 		async updateSongInfo(editedSongInfo) {
 			const trackId = this.editedTrackId;
-
 			const { songInfo, scrobblerIds } = this.tracks[trackId];
 
-			this.$set(this.tracks, trackId, {
+			this.tracks[trackId] = {
 				songInfo: Object.assign({}, songInfo, editedSongInfo),
 				scrobblerIds,
-			});
+			};
 		},
 
 		showModal(trackId) {

@@ -115,7 +115,7 @@ export default {
 		},
 
 		async removeEntry(songId) {
-			this.$delete(this.editedTracks, songId);
+			delete this.editedTracks[songId];
 			await SavedEdits.saveData(this.editedTracks);
 		},
 	},
