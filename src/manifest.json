@@ -19,8 +19,7 @@
     "connectors/musickit-dom-inject.js",
     "connectors/vk-dom-inject.js",
     "connectors/yandex-music-dom-inject.js",
-    "connectors/sber-zvuk-dom-inject.js",
-    "*.md"
+    "connectors/sber-zvuk-dom-inject.js"
   ],
 
   "background": {
