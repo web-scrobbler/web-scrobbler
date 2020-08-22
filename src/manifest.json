@@ -4,9 +4,9 @@
 
   "description": "__MSG_extDescription__",
   "icons": {
-    "16": "icons/icon-generic-16.png",
-    "48": "icons/icon-chrome-48.png",
-    "128": "icons/icon-chrome-128.png"
+    "16": "icons/web-scrobbler-16.png",
+    "48": "icons/web-scrobbler-48.png",
+    "128": "icons/web-scrobbler-128.png"
   },
 
   "manifest_version": 2,

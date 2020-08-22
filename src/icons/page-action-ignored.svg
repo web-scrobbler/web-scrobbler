@@ -1,37 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   id="svg4136"
-   xml:space="preserve"
-   enable-background="new 0 0 38 38"
-   viewBox="0 0 38 38"
-   y="0"
-   x="0"
-   version="1.1"><metadata
-     id="metadata4146"><rdf:RDF><cc:Work
-         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title></dc:title></cc:Work></rdf:RDF></metadata><defs
-     id="defs4144" /><path
-     fill="#d51007"
-     id="path4138"
-     d="M34 38H4c-2.2 0-4-1.8-4-4V4c0-2.2 1.8-4 4-4h30c2.2 0 4 1.8 4 4v30C38 36.2 36.2 38 34 38z" /><rect
-     transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,0,0)"
-     ry="2.5"
-     y="-16"
-     x="24.370058"
-     height="32"
-     width="5"
-     id="rect3336"
-     style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" /><rect
-     transform="matrix(0.70710678,0.70710678,-0.70710678,0.70710678,0,0)"
-     ry="2.5"
-     y="-2.5"
-     x="10.870058"
-     height="5"
-     width="32"
-     id="rect3338"
-     style="fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" /></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.1.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0" y="0" viewBox="0 0 38 38" enable-background="new 0 0 38 38" xml:space="preserve">
+<path id="path4138" fill="#B8422C" d="M34,38H4c-2.2,0-4-1.8-4-4V4c0-2.2,1.8-4,4-4h30c2.2,0,4,1.8,4,4v30C38,36.2,36.2,38,34,38z"
+	/>
+<path id="rect3336" fill="#FFFFFF" d="M30.3,7.7L30.3,7.7c1,1,1,2.6,0,3.5L11.2,30.3c-1,1-2.6,1-3.5,0l0,0c-1-1-1-2.6,0-3.5
+	L26.8,7.7C27.8,6.7,29.3,6.7,30.3,7.7z"/>
+<path id="rect3338" fill="#FFFFFF" d="M11.2,7.7l19.1,19.1c1,1,1,2.6,0,3.5l0,0c-1,1-2.6,1-3.5,0L7.7,11.2c-1-1-1-2.6,0-3.5l0,0
+	C8.7,6.7,10.2,6.7,11.2,7.7z"/>
+</svg>

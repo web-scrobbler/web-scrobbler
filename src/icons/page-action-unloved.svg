@@ -1,51 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://creativecommons.org/ns#"
-   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
-   xmlns:svg="http://www.w3.org/2000/svg"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   version="1.1"
-   x="0"
-   y="0"
-   viewBox="0 0 38 38"
-   enable-background="new 0 0 38 38"
-   xml:space="preserve"
-   id="svg2"
-   inkscape:version="0.91 r13725"
-   sodipodi:docname="page_action_unloved.svg"
-   inkscape:export-filename="C:\Users\esprit\Desktop\page_action_unloved_19.png"
-   inkscape:export-xdpi="45"
-   inkscape:export-ydpi="45"><metadata
-     id="metadata12"><rdf:RDF><cc:Work
-         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
-           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /><dc:title /></cc:Work></rdf:RDF></metadata><defs
-     id="defs10" /><sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="1858"
-     inkscape:window-height="1057"
-     id="namedview8"
-     showgrid="false"
-     inkscape:zoom="4.3915052"
-     inkscape:cx="-3.5150168"
-     inkscape:cy="-29.873489"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg2" /><path
-     fill="#d51007"
-     d="M34 38H4c-2.2 0-4-1.8-4-4V4c0-2.2 1.8-4 4-4h30c2.2 0 4 1.8 4 4v30C38 36.2 36.2 38 34 38z"
-     id="path4" /><path
-     id="path4136"
-     d="m 29.204093,10.238313 -0.11249,-0.13391 c -2.15613,-2.517511 -5.53093,-2.769261 -7.94954,-0.792751 l 1.60772,5.538511 -4.49974,3.428089 2.24987,6.85619 -6.74961,-7.71321 4.49974,-3.42809 -1.34055,-4.63328 c -2.42329,-2.02472 -5.83091,-1.78904 -8.0010901,0.74989 l -0.1125,0.12856 c -2.2826798,2.66748 -2.3811098,6.9151 -0.3421598,9.75935 l 9.9416099,11.70908 c 0.33279,0.39101 0.87182,0.39101 1.20461,0 l 9.9463,-11.71444 c 2.03894,-2.83889 1.94051,-7.08651 -0.34217,-9.75399 z"
-     inkscape:connector-curvature="0"
-     style="fill:#ffffff;fill-opacity:1" /></svg>
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 24.1.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0" y="0" viewBox="0 0 38 38" enable-background="new 0 0 38 38" xml:space="preserve">
+<path fill="#B8422C" d="M34,38H4c-2.2,0-4-1.8-4-4V4c0-2.2,1.8-4,4-4h30c2.2,0,4,1.8,4,4v30C38,36.2,36.2,38,34,38z"/>
+<path fill="#FFFFFF" d="M29.2,10.2l-0.1-0.1c-2.2-2.5-5.5-2.8-7.9-0.8l1.6,5.5
+	l-4.5,3.4l2.2,6.9l-6.7-7.7l4.5-3.4l-1.3-4.6c-2.4-2-5.8-1.8-8,0.7l-0.1,0.1c-2.3,2.7-2.4,6.9-0.3,9.8l9.9,11.7
+	c0.3,0.4,0.9,0.4,1.2,0L29.5,20C31.6,17.2,31.5,12.9,29.2,10.2z"/>
+</svg>
