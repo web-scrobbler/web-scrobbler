@@ -93,7 +93,7 @@
 				</button>
 				<button
 					type="button"
-					class="control-btn control-btn--skip"
+					class="control-btn control-btn--default"
 					v-else
 					:disabled="isTrackControlDisabled()"
 					:title="L(skipTitleId)"
@@ -103,7 +103,7 @@
 				</button>
 				<button
 					type="button"
-					class="control-btn control-btn--unlove"
+					class="control-btn control-btn--active"
 					v-if="isSongLoved"
 					:title="L`infoUnlove`"
 					@click="setTrackLoved(false)"
@@ -112,7 +112,7 @@
 				</button>
 				<button
 					type="button"
-					class="control-btn control-btn--love"
+					class="control-btn control-btn--default"
 					v-else
 					:title="L`infoLove`"
 					@click="setTrackLoved(true)"
@@ -159,7 +159,7 @@
 			<div class="edit-controls">
 				<button
 					type="button"
-					class="control-btn control-btn--submit"
+					class="control-btn control-btn--default"
 					:disabled="isEditControlDisabled()"
 					:title="L(submitTitleId)"
 					@click="submitChanges()"
@@ -414,6 +414,9 @@ export default {
 :root {
 	--cover-art-size: 136px;
 	--info-width: 224px;
+
+	--color-accent: #b8422c;
+	--color-gray: #495053;
 }
 
 /**
@@ -519,7 +522,6 @@ input {
 .control-btn {
 	background: none;
 	border: none;
-	color: #495053;
 	cursor: pointer;
 	margin-right: 0.5rem;
 	outline: none;
@@ -528,41 +530,31 @@ input {
 	width: 1rem;
 }
 
+.control-btn--default {
+	color: var(--color-gray);
+}
+
+.control-btn--default:hover {
+	color: var(--color-accent);
+}
+
+.control-btn--active {
+	color: var(--color-accent);
+}
+
+.control-btn--active:hover {
+	color: var(--color-gray);
+}
+
 .control-btn[disabled] {
 	color: #aaa !important;
 	cursor: default !important;
 }
 
-.control-btn--default:hover {
-	color: #247ba0;
-}
-
-.control-btn--love:hover {
-	color: #d51007;
-}
-
-.control-btn--skip:hover {
-	color: #d51007;
-}
-
-.control-btn--unlove {
-	color: #d51007;
-}
-
-.control-btn--unlove:hover {
-	color: #495053;
-}
-
-.control-btn--unskip {
-	color: #d51007;
-}
-
+.control-btn--unskip,
 .control-btn--unskip:hover {
+	color: var(--color-accent);
 	cursor: default;
-}
-
-.control-btn--submit:hover {
-	color: #65a858;
 }
 
 /**
@@ -576,7 +568,7 @@ input {
 }
 
 .tag {
-	background-color: #247ba0;
+	background-color: var(--color-accent);
 	border-radius: 0.2rem;
 	color: white;
 	font-size: 0.75rem;

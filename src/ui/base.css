@@ -3,8 +3,11 @@
  */
 
 :root {
-	--color-accent: #d51007;
-	--color-active: #ba0d07;
+	--color-accent: #b8422c;
+	--color-active: #9e3725;
+
+	--button-border-color: #1b1f2326;
+	--shadow-button: 0 0 0 0.2rem #9e372580;
 }
 
 a {
@@ -40,18 +43,18 @@ h5 {
 
 .btn-primary {
 	background-color: var(--color-accent);
-	border-color: rgba(27, 31, 35, 0.15);
+	border-color: var(--button-border-color);
 }
 
 .btn-primary:hover {
 	background-color: var(--color-active);
-	border-color: rgba(27, 31, 35, 0.15);
+	border-color: var(--button-border-color);
 }
 
 .btn-primary:focus {
 	background-color: var(--color-active);
-	border-color: rgba(27, 31, 35, 0.15);
-	box-shadow: 0 0 0 0.2rem rgba(178, 12, 7, 0.5);
+	border-color: var(--button-border-color);
+	box-shadow: var(--shadow-button);
 }
 
 .btn-check:checked + .btn-primary,
@@ -60,7 +63,7 @@ h5 {
 .btn-primary.active,
 .show > .btn-primary.dropdown-toggle {
 	background-color: var(--color-active);
-	box-shadow: 0 0 0 0.2rem rgba(178, 12, 7, 0.5);
+	box-shadow: var(--shadow-button);
 }
 
 .btn-check:checked + .btn-primary:focus,
@@ -68,31 +71,30 @@ h5 {
 .btn-primary:active:focus,
 .btn-primary.active:focus,
 .show > .btn-primary.dropdown-toggle:focus {
-	box-shadow: 0 0 0 0.2rem rgba(178, 12, 7, 0.5);
+	box-shadow: var(--shadow-button);
 }
 
 .form-check-input:focus {
-	/* border-color: #8bbafe; */
-	border-color: rgba(27, 31, 35, 0.15);
-	box-shadow: 0 0 0 0.2rem rgba(178, 12, 7, 0.5);
+	border-color: var(--button-border-color);
+	box-shadow: var(--shadow-button);
 	outline: 0;
 }
 
 .form-check-input:checked {
 	background-color: var(--color-accent);
-	border-color: rgba(27, 31, 35, 0.15);
+	border-color: var(--button-border-color);
 }
 
 .form-check-input[type='checkbox']:indeterminate {
 	background-color: var(--color-accent);
-	border-color: rgba(27, 31, 35, 0.15);
+	border-color: var(--button-border-color);
 }
 
 .form-file-input:focus-within ~ .form-file-label {
-	border-color: rgba(27, 31, 35, 0.15);
-	box-shadow: 0 0 0 0.2rem rgba(178, 12, 7, 0.5);
+	border-color: var(--button-border-color);
+	box-shadow: var(--shadow-button);
 }
 
 .form-switch .form-check-input:focus {
-	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23d88583'/%3e%3c/svg%3e");
+	background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='3' fill='%23ce9b92'/%3e%3c/svg%3e");
 }

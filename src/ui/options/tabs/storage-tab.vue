@@ -286,7 +286,7 @@ export default {
 }
 
 .lastfm {
-	background-color: var(--color-accent);
+	background-color: #ba0000;
 }
 
 .librefm {
