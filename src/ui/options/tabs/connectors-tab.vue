@@ -107,8 +107,9 @@ export default {
 	watch: {
 		toggleConnectorsValue(newValue) {
 			const isEnabled = newValue;
-
 			setAllConnectorsEnabled(isEnabled);
+
+			this.$forceUpdate();
 		},
 	},
 	methods: {
