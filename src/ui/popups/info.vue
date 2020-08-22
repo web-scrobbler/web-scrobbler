@@ -10,7 +10,7 @@
 		</a>
 		<div class="popup-container" v-if="isInfoMode && isSongAvailable">
 			<div class="info-fields">
-				<div class="song-field track">
+				<div class="song-field song-field--track">
 					<a
 						target="_blank"
 						:href="song.metadata.trackUrl"
@@ -66,7 +66,7 @@
 			<div class="edit-controls">
 				<button
 					type="button"
-					class="edit-btn control-btn"
+					class="control-btn control-btn--default"
 					:disabled="isTrackControlDisabled()"
 					:title="L(editTitleId)"
 					@click="setEditMode()"
@@ -75,7 +75,7 @@
 				</button>
 				<button
 					type="button"
-					class="revert-btn control-btn"
+					class="control-btn control-btn--default"
 					v-if="song.flags.isCorrectedByUser"
 					:disabled="isTrackControlDisabled()"
 					:title="L(revertTitleId)"
@@ -85,7 +85,7 @@
 				</button>
 				<button
 					type="button"
-					class="unskip-btn control-btn"
+					class="control-btn control-btn--unskip"
 					v-if="song.flags.isSkipped"
 					:title="L`infoSkippedTitle`"
 				>
@@ -93,7 +93,7 @@
 				</button>
 				<button
 					type="button"
-					class="skip-btn control-btn"
+					class="control-btn control-btn--skip"
 					v-else
 					:disabled="isTrackControlDisabled()"
 					:title="L(skipTitleId)"
@@ -103,7 +103,7 @@
 				</button>
 				<button
 					type="button"
-					class="unlove-btn control-btn"
+					class="control-btn control-btn--unlove"
 					v-if="isSongLoved"
 					:title="L`infoUnlove`"
 					@click="setTrackLoved(false)"
@@ -112,7 +112,7 @@
 				</button>
 				<button
 					type="button"
-					class="love-btn control-btn"
+					class="control-btn control-btn--love"
 					v-else
 					:title="L`infoLove`"
 					@click="setTrackLoved(true)"
@@ -159,7 +159,7 @@
 			<div class="edit-controls">
 				<button
 					type="button"
-					class="submit-btn control-btn"
+					class="control-btn control-btn--submit"
 					:disabled="isEditControlDisabled()"
 					:title="L(submitTitleId)"
 					@click="submitChanges()"
@@ -168,7 +168,7 @@
 				</button>
 				<button
 					type="button"
-					class="swap-btn control-btn"
+					class="control-btn control-btn--default"
 					:disabled="isEditControlDisabled()"
 					:title="L(swapTitleId)"
 					@click="swapArtistAndTrack()"
@@ -512,7 +512,7 @@ input {
 	white-space: nowrap;
 }
 
-.track {
+.song-field--track {
 	font-weight: 600;
 }
 
@@ -529,40 +529,40 @@ input {
 }
 
 .control-btn[disabled] {
-	cursor: default;
+	color: #aaa !important;
+	cursor: default !important;
 }
 
-.control-btn:not([disabled]):hover {
+.control-btn--default:hover {
 	color: #247ba0;
 }
 
-.skip-btn:hover:not([disabled]) {
+.control-btn--love:hover {
 	color: #d51007;
 }
 
-.control-btn.submit-btn:not([disabled]):hover {
-	color: #65a858;
-}
-
-.control-btn.unskip-btn {
+.control-btn--skip:hover {
 	color: #d51007;
 }
 
-.control-btn.unskip-btn:hover {
+.control-btn--unlove {
 	color: #d51007;
+}
+
+.control-btn--unlove:hover {
+	color: #495053;
+}
+
+.control-btn--unskip {
+	color: #d51007;
+}
+
+.control-btn--unskip:hover {
 	cursor: default;
 }
 
-.control-btn.love-btn:hover {
-	color: #d51007;
-}
-
-.control-btn.unlove-btn {
-	color: #d51007;
-}
-
-.control-btn.unlove-btn:hover {
-	color: #495053;
+.control-btn--submit:hover {
+	color: #65a858;
 }
 
 /**
@@ -603,13 +603,5 @@ input {
 	/* Use smaller margin for `playFill` icon */
 	margin-left: -0.15rem;
 	margin-right: 0.1rem;
-}
-
-/**
- * Helpers.
- */
-
-[disabled] {
-	color: #aaa;
 }
 </style>
