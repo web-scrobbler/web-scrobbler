@@ -1,7 +1,7 @@
 <div align="center">
 
 <p>
-	<img width="128" src="./src/icons/icon_chrome_circle.svg"/>
+	<img width="128" src="./src/icons/icon-chrome-circle.svg"/>
 </p>
 <h1>Web Scrobbler</h1>
 

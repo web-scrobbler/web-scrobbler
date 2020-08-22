@@ -15,7 +15,7 @@ type BrowserActionRawItem = {
 	/**
 	 * A browser action icon name.
 	 *
-	 * This value will be converted to '/icons/page_action_${icon}_${size}.png'.
+	 * This value will be converted to '/icons/page_action-${icon}-${size}.png'.
 	 */
 	icon: string;
 	/**
@@ -201,8 +201,8 @@ export class BrowserAction {
 		const { icon, popupName, titleId } = rawItem;
 		const title = L(titleId, placeholder);
 		const path = {
-			19: `/icons/page_action_${icon}_19.png`,
-			38: `/icons/page_action_${icon}_38.png`,
+			19: `/icons/page-action-${icon}-19.png`,
+			38: `/icons/page-action-${icon}-38.png`,
 		};
 		const popup = popupName && `/ui/popups/${popupName}.html`;
 

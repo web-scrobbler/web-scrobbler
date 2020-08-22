@@ -42,7 +42,7 @@ import discordIcon from 'simple-icons/icons/discord.svg';
 import githubIcon from 'simple-icons/icons/github.svg';
 import twitterIcon from 'simple-icons/icons/twitter.svg';
 
-import webScrobblerIcon from '@/icons/icon_chrome_circle.svg';
+import webScrobblerIcon from '@/icons/icon-chrome-circle.svg';
 
 const contactItems = [
 	{

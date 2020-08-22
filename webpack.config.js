@@ -498,8 +498,8 @@ function transformManifest(contents, browser) {
 				},
 			};
 
-			manifest.icons['48'] = 'icons/icon_firefox_48.png';
-			manifest.icons['128'] = 'icons/icon_firefox_128.png';
+			manifest.icons['48'] = 'icons/icon-firefox-48.png';
+			manifest.icons['128'] = 'icons/icon-firefox-128.png';
 
 			delete manifest.options_page;
 			break;

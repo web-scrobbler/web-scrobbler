@@ -18,10 +18,10 @@ const manifest = browser.runtime.getManifest() as Manifest.WebExtensionManifest;
 const defaultNotificationType: Notifications.TemplateType = 'basic';
 const defaultIconUrl = browser.runtime.getURL(manifest.icons['128']);
 const defaultTrackArtUrl = browser.runtime.getURL(
-	'/icons/cover_art_default.png'
+	'/icons/cover-art-default.png'
 );
 const unknownTrackArtUrl = browser.runtime.getURL(
-	'/icons/cover_art_unknown.png'
+	'/icons/cover-art-unknown.png'
 );
 
 /**
