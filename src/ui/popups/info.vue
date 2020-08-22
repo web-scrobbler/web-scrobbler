@@ -55,7 +55,11 @@
 						class="tag tag--overflow"
 						:title="L`infoYouListeningVia ${label}`"
 					>
-						{{ label }}
+						<sprite-icon
+							class="tag__icon tag__icon--play-icon"
+							:icon="playFill"
+						/>
+						<span>{{ label }}</span>
 					</span>
 				</div>
 			</div>
@@ -198,6 +202,7 @@ import heart from 'bootstrap-icons/icons/heart.svg';
 import heartFill from 'bootstrap-icons/icons/heart-fill.svg';
 import lastFm from 'simple-icons/icons/last-dot-fm.svg';
 import pencilSquare from 'bootstrap-icons/icons/pencil-square.svg';
+import playFill from 'bootstrap-icons/icons/play-fill.svg';
 import slashCircle from 'bootstrap-icons/icons/slash-circle.svg';
 
 import SpriteIcon from '@/ui/shared/sprite-icon.vue';
@@ -228,6 +233,7 @@ export default {
 			heartFill,
 			lastFm,
 			pencilSquare,
+			playFill,
 			slashCircle,
 		};
 	},
@@ -591,6 +597,12 @@ input {
 	margin-right: 0.25rem;
 	vertical-align: bottom;
 	width: 1rem;
+}
+
+.tag__icon--play-icon {
+	/* Use smaller margin for `playFill` icon */
+	margin-left: -0.15rem;
+	margin-right: 0.1rem;
 }
 
 /**
