@@ -92,7 +92,7 @@ See the [privacy policy][Privacy].
 See the [license file][License].
 
 <!-- Badges -->
-[AmoBadge]: https://img.shields.io/amo/v/web-scrobbler.svg?label=firefox&logo=mozilla-firefox&logoColor=white
+[AmoBadge]: https://img.shields.io/amo/v/web-scrobbler.svg?label=firefox&logo=firefox-browser&logoColor=white
 [CodacyBadge]: https://img.shields.io/codacy/grade/32658c34c5c542d9a315ead8d5eadd0e?logo=codacy&logoColor=white
 [CodacyCoverageBadge]: https://img.shields.io/codacy/coverage/32658c34c5c542d9a315ead8d5eadd0e?logo=codacy&logoColor=white
 [DiscordBadge]: https://img.shields.io/discord/716363971070001202?logo=discord&logoColor=white&color=7289dA

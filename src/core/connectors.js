@@ -1068,6 +1068,8 @@ const connectors = [{
 	matches: [
 		'*://gimmeradio.com/*',
 		'*://www.gimmeradio.com/*',
+		'*://gimmecountry.com/*',
+		'*://www.gimmecountry.com/*',
 	],
 	js: 'connectors/gimmeradio.js',
 	id: 'gimmeradio',
@@ -1252,7 +1254,7 @@ const connectors = [{
 }, {
 	label: 'Apple Music',
 	matches: [
-		'*://music.apple.com/*',
+		'*://*.music.apple.com/*',
 	],
 	js: 'connectors/apple-music.js',
 	id: 'apple-music',
@@ -1280,10 +1282,11 @@ const connectors = [{
 }, {
 	label: 'GDS.FM',
 	matches: [
-		'*://play.gds.fm/*',
+		'*://www.gds.fm/*',
+		'*://gds.fm/*',
 	],
-	js: 'connectors/gds-play.fm.js',
-	id: 'gds-play',
+	js: 'connectors/gds.fm.js',
+	id: 'gds',
 }, {
 	label: 'Wynk Music',
 	matches: [
@@ -1532,12 +1535,54 @@ const connectors = [{
 	js: 'connectors/jsososo.js',
 	id: 'jsososo',
 }, {
+	label: 'Supla',
+	matches: [
+		'*://*.supla.fi/*',
+	],
+	js: 'connectors/supla.js',
+	id: 'supla',
+}, {
 	label: 'swr3',
 	matches: [
 		'*://www.swr3.de/*',
 	],
 	js: 'connectors/swr3.js',
 	id: 'swr3',
+}, {
+	label: 'Epidemic Sound',
+	matches: [
+		'*://*.epidemicsound.com/*',
+	],
+	js: 'connectors/epidemicsound.js',
+	id: 'epidemicsound',
+}, {
+	label: 'Rekt Network',
+	matches: [
+		'*://rekt.network/*',
+	],
+	js: 'connectors/rekt.network.js',
+	id: 'rektnetwork',
+}, {
+	label: 'Nightride FM',
+	matches: [
+		'*://nightride.fm/*',
+	],
+	js: 'connectors/nightride.fm.js',
+	id: 'nightridefm',
+}, {
+	label: 'Qobuz',
+	matches: [
+		'*://*.qobuz.com/*',
+	],
+	js: 'connectors/qobuz.js',
+	id: 'qobuz',
+}, {
+	label: 'TruckersFM',
+	matches: [
+		'*://*.truckers.fm/*',
+	],
+	js: 'connectors/truckersfm.js',
+	id: 'truckersfm',
 }];
 
 define(() => connectors);

@@ -4,19 +4,13 @@ const filter = new MetadataFilter({
 	artist: [removeByPrefix, removeBuySuffix],
 });
 
-const trackIconSelector = '[class*=RebrandPlayerSliderComponent__TrackIcon]';
-const trackIconPausedClass = 'dvjoTG';
-
 Connector.playerSelector = '[class*=playerQueue__PlayerWrapper]';
 
-Connector.artistSelector = '[class*=RebrandPlayerSliderComponent__Artist]';
+Connector.artistSelector = '[class*=PlayerSliderComponent__Artist]';
 
-Connector.trackSelector = '[class*=RebrandPlayerSliderComponent__Track]';
+Connector.trackSelector = '[class*=PlayerSliderComponent__Track]';
 
-Connector.isPlaying = () => {
-	const trackIcon = $(trackIconSelector);
-	return !trackIcon.hasClass(trackIconPausedClass);
-};
+Connector.playButtonSelector = '[aria-label=Play]';
 
 Connector.isStateChangeAllowed = () => {
 	/*

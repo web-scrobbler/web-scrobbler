@@ -18,8 +18,10 @@ const categoryCache = new Map();
  */
 const videoSelector = '.html5-main-video';
 
+const chapterNameSelector = '.html5-video-player .ytp-chapter-title-content';
 const videoTitleSelector = '.html5-video-player .ytp-title-link';
 const channelNameSelector = '#top-row .ytd-channel-name a';
+const videoDescriptionSelector = '#meta-contents #description';
 
 // Dummy category indicates an actual category is being fetched
 const categoryPending = 'YT_DUMMY_CATEGORY_PENDING';
@@ -32,38 +34,41 @@ const categoryEntertainment = 'Entertainment';
 let currentVideoDescription = null;
 let artistTrackFromDescription = null;
 
+const trackInfoGetters = [
+	getTrackInfoFromDescription,
+	getTrackInfoFromChapters,
+	getTrackInfoFromTitle,
+];
+
 readConnectorOptions();
 setupEventListener();
 
 Connector.playerSelector = '#content';
 
 Connector.getTrackInfo = () => {
-	const trackInfo = getTrackInfoFromDescription();
-	if (!Util.isArtistTrackEmpty(trackInfo)) {
+	let trackInfo = null;
+
+	for (const getter of trackInfoGetters) {
+		trackInfo = getter();
+		if (Util.isArtistTrackEmpty(trackInfo)) {
+			continue;
+		}
+
 		return trackInfo;
 	}
 
-	let { artist, track } = Util.processYtVideoTitle(
-		Util.getTextFromSelectors(videoTitleSelector)
-	);
-	if (!artist) {
-		artist = Util.getTextFromSelectors(channelNameSelector);
+	return trackInfo;
+};
+
+Connector.getTimeInfo = () => {
+	const videoElement = document.querySelector(videoSelector);
+	if (videoElement && !areChaptersAvailable()) {
+		const { currentTime, duration } = videoElement;
+
+		return { currentTime, duration };
 	}
 
-	return { artist, track };
-};
-
-/*
- * Because player can be still present in the page, we need to detect
- * that it's invisible and don't return current time. Otherwise resulting
- * state may not be considered empty.
- */
-Connector.getCurrentTime = () => {
-	return $(videoSelector).prop('currentTime');
-};
-
-Connector.getDuration = () => {
-	return $(videoSelector).prop('duration');
+	return null;
 };
 
 Connector.isPlaying = () => {
@@ -71,6 +76,10 @@ Connector.isPlaying = () => {
 };
 
 Connector.getUniqueID = () => {
+	if (areChaptersAvailable()) {
+		return null;
+	}
+
 	/*
 	 * ytd-watch-flexy element contains ID of a first played video
 	 * if the miniplayer is visible, so we should check
@@ -91,8 +100,9 @@ Connector.isScrobblingAllowed = () => {
 		return false;
 	}
 
-	// FIXME: Workaround to prevent scrobbling the vidio opened in a background tab.
-	if (Connector.getCurrentTime() < 1) {
+	// Workaround to prevent scrobbling the video opened in a background tab.
+	const videoElement = document.querySelector(videoSelector);
+	if (videoElement && videoElement.currentTime < 1) {
 		return false;
 	}
 
@@ -116,6 +126,10 @@ Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 
 function setupEventListener() {
 	$(videoSelector).on('timeupdate', Connector.onStateChanged);
+}
+
+function areChaptersAvailable() {
+	return Util.getTextFromSelectors(chapterNameSelector);
 }
 
 /**
@@ -193,7 +207,7 @@ async function readConnectorOptions() {
 }
 
 function getVideoDescription() {
-	return $('#description').text();
+	return Util.getTextFromSelectors(videoDescriptionSelector);
 }
 
 function getTrackInfoFromDescription() {
@@ -206,4 +220,21 @@ function getTrackInfoFromDescription() {
 	artistTrackFromDescription = Util.parseYtVideoDescription(description);
 
 	return artistTrackFromDescription;
+}
+
+function getTrackInfoFromChapters() {
+	return Util.splitArtistTrack(
+		Util.getTextFromSelectors(chapterNameSelector)
+	);
+}
+
+function getTrackInfoFromTitle() {
+	let { artist, track } = Util.processYtVideoTitle(
+		Util.getTextFromSelectors(videoTitleSelector)
+	);
+	if (!artist) {
+		artist = Util.getTextFromSelectors(channelNameSelector);
+	}
+
+	return { artist, track };
 }

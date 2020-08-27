@@ -425,7 +425,7 @@ function BaseConnector() {
 	 *
 	 * @param {Object} event Event object
 	 */
-	this.onScriptEvent = (event) => { // eslint-disable-line
+	this.onScriptEvent = (event) => { // eslint-disable-line no-unused-vars
 		// Do nothing
 	};
 
@@ -834,5 +834,5 @@ function BaseConnector() {
 	this.stateChangedWorkerThrottled = Util.throttle(this.stateChangedWorker, 500);
 }
 
-// eslint-disable-next-line
+// eslint-disable-next-line no-unused-vars
 const Connector = window.Connector || new BaseConnector();

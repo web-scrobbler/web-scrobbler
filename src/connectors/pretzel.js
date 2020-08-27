@@ -1,6 +1,6 @@
 'use strict';
 
-Connector.playerSelector = '.dKCoZ';
+Connector.playerSelector = '.eLgAlM';
 
 Connector.trackSelector = '.bPhEWg';
 

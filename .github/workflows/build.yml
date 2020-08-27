@@ -1,7 +1,6 @@
 name: Build
 on:
   push:
-    branches: [master]
   pull_request:
     types: [opened, synchronize]
 jobs:
@@ -23,7 +22,7 @@ jobs:
         npx grunt clean:build
         npx grunt build:chrome
         cp -r build web-scrobbler-chrome
-    - uses: actions/upload-artifact@master
+    - uses: actions/upload-artifact@v2
       with:
         name: web-scrobbler-chrome
         path: web-scrobbler-chrome
@@ -32,7 +31,7 @@ jobs:
         npx grunt clean:build
         npx grunt build:firefox
         cp -r build web-scrobbler-firefox
-    - uses: actions/upload-artifact@master
+    - uses: actions/upload-artifact@v2
       with:
         name: web-scrobbler-firefox
         path: web-scrobbler-firefox

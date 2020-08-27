@@ -222,7 +222,7 @@
     "description": "Question #1"
   },
   "faqAnswer1a": {
-    "message": "You should click on a notification that is shown when the extension is loaded first time. Then, you should grant access to your accounts.",
+    "message": "You should click on a notification that is shown when the extension is loaded the first time. Then, you should grant access to your accounts.",
     "description": "Answer #1"
   },
   "faqAnswer1b": {
@@ -234,11 +234,11 @@
     "description": "Question #2"
   },
   "faqAnswer2a": {
-    "message": "You can do that by right-clicking on the green extension icon in the extension bar. Using the context menu you can disable the connector for current web service.",
+    "message": "You can do that by right-clicking on the green extension icon in the extension bar. Using the context menu you can disable the connector for the current web service.",
     "description": "Answer #2"
   },
   "faqAnswer2b": {
-    "message": "Use the checkboxes on the options page to disable certain connector, or the \"Toggle\" checkbox to disable scrobbling globally.",
+    "message": "Use the checkboxes on the options page to disable certain connectors, or the \"Toggle\" checkbox to disable scrobbling globally.",
     "description": "Answer #2"
   },
   "faqQuestion3": {
@@ -250,7 +250,7 @@
     "description": "Answer #3"
   },
   "faqAnswer3b": {
-    "message": "Also, there's an option called \"Force track recognition\" that makes the extension to force scrobbling the track even if track is not validated by Last.fm.",
+    "message": "Also, there's an option called \"Force track recognition\" that makes the extension force scrobbling the track even if the track is not validated by Last.fm.",
     "description": "Answer #3"
   },
   "faqQuestion4": {
@@ -306,7 +306,7 @@
     "description": "Question #7"
   },
   "faqAnswer7": {
-    "message": "The original author of this extension is David Šabata. Now this extension is developed and maintained by so-called Web Scrobbler Team.",
+    "message": "The original author of this extension is David Šabata. Now this extension is developed and maintained by the Web Scrobbler Team.",
     "description": "Answer #7"
   },
 

@@ -1,11 +1,49 @@
 'use strict';
 
-const playerBar = '.controls';
+const mainPlayerBar = '.controls';
 
-Connector.playerSelector = playerBar;
+if (isMainPlayer()) {
+	Util.debugLog('Setup the connector for main player');
 
-Connector.artistTrackSelector = `${playerBar} .scroll-title`;
+	setupMainPlayer();
+} else {
+	Util.debugLog('Setup the connector for Gold player');
 
-Connector.pauseButtonSelector = `${playerBar} .fa-pause`;
+	setupGoldPlayer();
+}
 
-Connector.useMediaSessionApi();
+function isMainPlayer() {
+	return document.querySelector(mainPlayerBar) !== null;
+}
+
+function setupMainPlayer() {
+	Connector.playerSelector = mainPlayerBar;
+
+	Connector.artistTrackSelector = `${mainPlayerBar} .scroll-title`;
+
+	Connector.pauseButtonSelector = `${mainPlayerBar} .fa-pause`;
+
+	Connector.useMediaSessionApi();
+}
+
+function setupGoldPlayer() {
+	Connector.playerSelector = '#controlbar';
+
+	Connector.trackSelector = '.song-info .song-title';
+
+	Connector.getArtist = () => {
+		const artists = Util.queryElements('.song-info .artist-name');
+
+		if (artists !== null) {
+			return Util.joinArtists(artists.toArray());
+		}
+
+		return null;
+	};
+
+	Connector.trackArtSelector = '.album-art';
+
+	Connector.timeInfoSelector = '.active-song-time';
+
+	Connector.pauseButtonSelector = '.play-pause-btn .fa-pause';
+}
