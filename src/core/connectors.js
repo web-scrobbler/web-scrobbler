@@ -1583,6 +1583,13 @@ const connectors = [{
 	],
 	js: 'connectors/truckersfm.js',
 	id: 'truckersfm',
+}, {
+	label: 'detektor.fm',
+	matches: [
+		'*://detektor.fm/*',
+	],
+	js: 'connectors/detektorfm.js',
+	id: 'detektorfm',
 }];
 
 define(() => connectors);
