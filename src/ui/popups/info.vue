@@ -1,5 +1,9 @@
 <template>
-	<div class="main-container" @click.alt="showDebugInfo()">
+	<div
+		class="main-container"
+		@click.alt="showDebugInfo()"
+		v-if="isSongAvailable"
+	>
 		<a class="album-art" :href="albumArt" target="_blank">
 			<img
 				class="album-art"
@@ -8,7 +12,7 @@
 				:title="L`infoOpenAlbumArt`"
 			/>
 		</a>
-		<div class="popup-container" v-if="isInfoMode && isSongAvailable">
+		<div class="popup-container" v-if="isInfoMode">
 			<div class="info-fields">
 				<div class="song-field song-field--track">
 					<a
@@ -121,7 +125,7 @@
 				</button>
 			</div>
 		</div>
-		<div class="popup-container" v-if="isEditMode && isSongAvailable">
+		<div class="popup-container" v-if="isEditMode">
 			<div class="edit-fields">
 				<input
 					type="text"
@@ -177,14 +181,14 @@
 				</button>
 			</div>
 		</div>
-		<div class="stub-container" v-if="!isSongAvailable">
-			{{ L`infoNoSongInfoAvaiable` }}
-		</div>
-		<div
-			class="debug-container"
-			v-if="isDebugInfoVisible && isSongAvailable"
-		>
+		<div class="debug-container" v-if="isDebugInfoVisible">
 			<pre>{{ song.toString() }}</pre>
+		</div>
+	</div>
+	<!-- eslint-disable-next-line vue/valid-template-root -->
+	<div class="stub-container" v-if="!isSongAvailable">
+		<div class="stub-container__content">
+			{{ L`infoNoSongInfoAvaiable` }}
 		</div>
 	</div>
 </template>
@@ -412,8 +416,11 @@ export default {
 
 <style>
 :root {
-	--cover-art-size: 136px;
 	--info-width: 224px;
+	--cover-art-size: 136px;
+
+	--popup-height: var(--cover-art-size);
+	--popup-width: calc(var(--cover-art-size) + var(--info-width));
 
 	--color-accent: #b8422c;
 	--color-gray: #495053;
@@ -461,7 +468,7 @@ input {
 .main-container {
 	display: grid;
 	grid-template-columns: var(--cover-art-size) var(--info-width);
-	min-height: var(--cover-art-size);
+	min-height: var(--popup-height);
 }
 
 .popup-container {
@@ -472,14 +479,19 @@ input {
 
 .debug-container {
 	margin-left: 0.5rem;
-	max-width: calc(var(--cover-art-size) + var(--info-width));
+	max-width: var(--popup-width);
 }
 
 .stub-container {
 	display: flex;
 	font-size: 1.2rem;
-	margin: auto;
+	height: var(--popup-height);
 	text-align: center;
+	width: var(--popup-width);
+}
+
+.stub-container__content {
+	margin: auto;
 }
 
 /**
