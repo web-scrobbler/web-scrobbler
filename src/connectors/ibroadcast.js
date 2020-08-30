@@ -14,4 +14,4 @@ Connector.durationSelector = '.mgr-player-top .jp-duration';
 
 Connector.trackArtSelector = '.mgr-player-nowplaying .mgr-player-artwork';
 
-Connector.isPlaying = () => document.querySelector('.mgr-player-top .mgr-player-play').getAttribute('src') === '/svg/btn-pause.svg';
+Connector.isPlaying = () => Util.getAttrFromSelectors('.mgr-player-top .mgr-player-play', 'src') === '/svg/btn-pause.svg';
