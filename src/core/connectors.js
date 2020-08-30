@@ -1590,6 +1590,13 @@ const connectors = [{
 	],
 	js: 'connectors/detektorfm.js',
 	id: 'detektorfm',
+}, {
+	label: 'ibroadcast.com',
+	matches: [
+		'*://media.ibroadcast.com/*',
+	],
+	js: 'connectors/ibroadcast.js',
+	id: 'ibroadcast',
 }];
 
 define(() => connectors);
