@@ -62,7 +62,7 @@ export class ApiCallResult {
 	 *
 	 * @return Check result
 	 */
-	is(resultType: string): boolean {
+	is(resultType: ApiCallResultType): boolean {
 		return this.type === resultType;
 	}
 
