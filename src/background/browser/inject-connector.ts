@@ -4,10 +4,10 @@ import { ConnectorEntry } from '@/common/connector-entry';
 import { Request, sendMessageToContentScripts } from '@/common/messages';
 
 const contentScripts = [
-	'vendor/filter.js',
-	'content/util.js',
-	'content/reactor.js',
-	'content/connector.js',
+	'/vendor/filter.js',
+	'/content/util.js',
+	'/content/reactor.js',
+	'/content/connector.js',
 ];
 const starterScript = 'content/starter.js';
 
@@ -49,7 +49,9 @@ export async function injectConnector(
 	}
 
 	try {
-		return injectScripts(tabId, connector);
+		return injectScripts(tabId, connector.js, {
+			allFrames: connector.allFrames || false,
+		});
 	} catch (err) {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 		console.warn(err.message);
@@ -78,30 +80,31 @@ async function isConnectorInjected(tabId: number): Promise<boolean> {
  * Inject content scripts into the page.
  *
  * @param tabId Tab ID
- * @param connector Connector entry
+ * @param connectorScript Path to the connector file
+ * @param options Options
+ * @param options.allFrames Allow/disallow injecting the connector into all frames
  *
  * @return InjectResult value
  */
 async function injectScripts(
 	tabId: number,
-	connector: ConnectorEntry
+	connectorScript: string,
+	{ allFrames = false } = {}
 ): Promise<InjectResult> {
-	const scripts = [...contentScripts, connector.js, starterScript];
+	// https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/tabs/executeScript
+	const scripts = [...contentScripts, `/${connectorScript}`, starterScript];
 
 	for (const file of scripts) {
-		const allFrames = connector.allFrames || false;
-
-		console.log(`Injecting ${file}`);
-		/* @ifdef FIREFOX **
 		try {
-		/* @endif */
-		await browser.tabs.executeScript(tabId, { file, allFrames });
-		/* @ifdef FIREFOX **
+			await browser.tabs.executeScript(tabId, { file, allFrames });
+
+			console.log(`Injected ${file}`);
 		} catch (e) {
-			// Firefox throws an error if a content script returns no value.
-			console.error(e);
+			// Firefox throws an error if a content script returns no value,
+			// so we should catch it, and continue injecting scripts.
+
+			console.warn(`Unable to inject ${file}: ${(e as Error).message}`);
 		}
-		/* @endif */
 	}
 
 	return InjectResult.Matched;
