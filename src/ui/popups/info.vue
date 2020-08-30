@@ -128,6 +128,7 @@
 		<div class="popup-container" v-if="isEditMode">
 			<div class="edit-fields">
 				<input
+					class="edit-field"
 					type="text"
 					tabindex="1"
 					spellcheck="false"
@@ -136,6 +137,7 @@
 					@keyup.enter="checkAndSubmitChanges()"
 				/>
 				<input
+					class="edit-field"
 					type="text"
 					tabindex="2"
 					spellcheck="false"
@@ -144,6 +146,7 @@
 					@keyup.enter="checkAndSubmitChanges()"
 				/>
 				<input
+					class="edit-field"
 					type="text"
 					tabindex="3"
 					spellcheck="false"
@@ -152,6 +155,7 @@
 					@keyup.enter="checkAndSubmitChanges()"
 				/>
 				<input
+					class="edit-field"
 					type="text"
 					tabindex="4"
 					spellcheck="false"
@@ -424,6 +428,9 @@ export default {
 
 	--color-accent: #b8422c;
 	--color-gray: #495053;
+
+	--color-foreground: #212529;
+	--color-background: #fff;
 }
 
 /**
@@ -431,19 +438,17 @@ export default {
  */
 
 a {
-	color: #212529;
+	color: var(--color-foreground);
 	text-decoration: none;
 }
 
 body {
-	background-color: #fff;
-	color: #212529;
+	background-color: var(--color-background);
+	color: var(--color-foreground);
 	font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
 		'Helvetica Neue', Arial, sans-serif;
 	font-size: 13px;
-	margin: 0;
 	overflow: hidden;
-	padding: 0;
 }
 
 html {
@@ -452,7 +457,11 @@ html {
 
 input {
 	font-family: inherit;
-	width: 100%;
+}
+
+* {
+	margin: 0;
+	padding: 0;
 }
 
 *,
@@ -519,6 +528,25 @@ input {
 	grid-row: 2;
 	justify-self: start;
 	margin: 0 0.5rem 0.25rem;
+}
+
+.edit-field {
+	background: var(--color-background);
+	border: 1px solid var(--color-foreground);
+	border-radius: 0%;
+	color: var(--color-foreground);
+	padding: 0.15rem;
+	width: 100%;
+}
+
+.edit-field:not(:last-child) {
+	border-bottom: 1px solid var(--color-background);
+}
+
+.edit-field:focus {
+	border-bottom: 1px solid var(--color-foreground);
+	box-shadow: 0 0 0 1px var(--color-foreground);
+	outline: none;
 }
 
 .song-field {
