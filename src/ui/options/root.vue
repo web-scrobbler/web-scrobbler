@@ -8,15 +8,20 @@
 					:class="{ show: isSidebarVisible }"
 				>
 					<a
-						class="nav-link"
+						class="nav-link sidebar-link"
 						role="tab"
 						v-for="(tabData, tabName) in tabs"
 						:key="tabData.titleId"
 						:href="`#${tabName}`"
 						:class="{ active: currentTabName === tabName }"
 					>
-						<sprite-icon :icon="tabData.icon" />
-						<span>{{ L(tabData.titleId) }}</span>
+						<sprite-icon
+							class="sidebar-link__icon"
+							:icon="tabData.icon"
+						/>
+						<span class="sidebar-link__title">{{
+							L(tabData.titleId)
+						}}</span>
 					</a>
 				</div>
 			</div>
@@ -159,20 +164,25 @@ body.modal-open {
 		position: sticky;
 		top: 5rem;
 	}
+
+	.sidebar-link__title {
+		display: inline !important;
+		margin-left: 0.5rem;
+	}
 }
 
 .sidebar {
 	grid-area: sidebar;
 }
 
-.sidebar-links a {
+.sidebar-link {
 	color: rgba(0, 0, 0, 0.85);
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
-.sidebar-links a:hover {
+.sidebar-link:hover {
 	background-color: rgba(0, 0, 0, 0.1);
 	border-radius: 6px;
 	color: var(--color-active);
@@ -183,11 +193,14 @@ body.modal-open {
 	font-weight: 600;
 }
 
-.nav-link svg {
+.sidebar-link__icon {
 	height: 1.5rem;
-	margin-right: 0.5rem;
 	vertical-align: top;
 	width: 1.5rem;
+}
+
+.sidebar-link__title {
+	display: none;
 }
 
 .content {
