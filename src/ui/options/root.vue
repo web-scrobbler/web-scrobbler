@@ -185,7 +185,7 @@ body.modal-open {
 
 .nav-link svg {
 	height: 1.5rem;
-	margin-right: 0.25rem;
+	margin-right: 0.5rem;
 	vertical-align: top;
 	width: 1.5rem;
 }
