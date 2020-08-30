@@ -5,7 +5,7 @@
 	>
 		<template v-slot:header> {{ connector.label }} </template>
 		<template v-slot:body>
-			<div class="options-section" v-if="hasBuiltinPatterns">
+			<div v-if="hasBuiltinPatterns" class="options-section">
 				<h6>{{ L`patternsBuiltinPatterns` }}</h6>
 				<ul class="list-unstyled">
 					<li
@@ -16,7 +16,7 @@
 					</li>
 				</ul>
 			</div>
-			<div class="options-section" v-if="hasCustomPatterns">
+			<div v-if="hasCustomPatterns" class="options-section">
 				<h6>{{ L`patternsCustomPatterns` }}</h6>
 				<ul class="list-unstyled">
 					<li v-for="(pattern, index) in editedPatterns" :key="index">

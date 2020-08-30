@@ -21,24 +21,24 @@
 					>{{ L`buttonImport` }}</a
 				>
 				<a
+					v-if="hasEditedTracks"
 					href="#"
 					class="card-link"
-					v-if="hasEditedTracks"
 					@click.prevent="exportEditedTracks()"
 				>
 					{{ L`buttonExport` }}
 				</a>
 				<a
+					v-if="hasEditedTracks"
 					href="#"
 					class="card-link"
-					v-if="hasEditedTracks"
 					@click.prevent="clearEditedTracks()"
 				>
 					{{ L`buttonClear` }}
 				</a>
 			</div>
 		</div>
-		<div class="options-section" v-if="hasEditedTracks">
+		<div v-if="hasEditedTracks" class="options-section">
 			<h5>{{ L`tracksEditedTracksCount ${editedTracksCount}` }}</h5>
 
 			<div

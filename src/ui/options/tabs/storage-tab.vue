@@ -37,9 +37,9 @@
 		</div>
 
 		<div
+			v-if="isAlertVisible"
 			class="alert alert-danger alert-dismissible"
 			role="alert"
-			v-if="isAlertVisible"
 		>
 			{{ alertMessage }}
 			<button

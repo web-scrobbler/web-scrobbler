@@ -18,19 +18,19 @@
 
 			<div>
 				<a
+					v-if="data.hasUserProperties"
 					class="card-link"
 					href="#"
 					@click.prevent="showModal(data.scrobbler)"
-					v-if="data.hasUserProperties"
 				>
 					{{ L`accountsScrobblerProps` }}
 				</a>
 				<template v-if="data.isSignedIn">
 					<a
+						v-if="data.hasProfileUrl"
 						class="card-link"
 						target="_blank"
 						:href="data.profileUrl"
-						v-if="data.hasProfileUrl"
 					>
 						{{ L`accountsProfile` }}
 					</a>

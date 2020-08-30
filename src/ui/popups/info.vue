@@ -1,8 +1,8 @@
 <template>
 	<div
+		v-if="isSongAvailable"
 		class="main-container"
 		@click.alt="showDebugInfo()"
-		v-if="isSongAvailable"
 	>
 		<a class="album-art" :href="albumArt" target="_blank">
 			<img
@@ -12,7 +12,7 @@
 				:title="L`infoOpenAlbumArt`"
 			/>
 		</a>
-		<div class="popup-container" v-if="isInfoMode">
+		<div v-if="isInfoMode" class="popup-container">
 			<div class="info-fields">
 				<div class="song-field song-field--track">
 					<a
@@ -46,8 +46,8 @@
 				</div>
 				<div class="tags">
 					<span
-						class="tag"
 						v-if="song.metadata.userPlayCount > 0"
+						class="tag"
 						:title="
 							L`infoYourScrobbles ${song.metadata.userPlayCount}`
 						"
@@ -78,9 +78,9 @@
 					<sprite-icon :icon="pencilSquare" />
 				</button>
 				<button
+					v-if="song.flags.isCorrectedByUser"
 					type="button"
 					class="control-btn control-btn--default"
-					v-if="song.flags.isCorrectedByUser"
 					:disabled="isTrackControlDisabled()"
 					:title="L(revertTitleId)"
 					@click="resetTrack()"
@@ -88,17 +88,17 @@
 					<sprite-icon :icon="arrowCounterClockwise" />
 				</button>
 				<button
+					v-if="song.flags.isSkipped"
 					type="button"
 					class="control-btn control-btn--unskip"
-					v-if="song.flags.isSkipped"
 					:title="L`infoSkippedTitle`"
 				>
 					<sprite-icon :icon="slashCircle" />
 				</button>
 				<button
+					v-else
 					type="button"
 					class="control-btn control-btn--default"
-					v-else
 					:disabled="isTrackControlDisabled()"
 					:title="L(skipTitleId)"
 					@click="skipTrack"
@@ -106,18 +106,18 @@
 					<sprite-icon :icon="slashCircle" />
 				</button>
 				<button
+					v-if="isSongLoved"
 					type="button"
 					class="control-btn control-btn--active"
-					v-if="isSongLoved"
 					:title="L`infoUnlove`"
 					@click="setTrackLoved(false)"
 				>
 					<sprite-icon :icon="heartFill" />
 				</button>
 				<button
+					v-else
 					type="button"
 					class="control-btn control-btn--default"
-					v-else
 					:title="L`infoLove`"
 					@click="setTrackLoved(true)"
 				>
@@ -125,7 +125,7 @@
 				</button>
 			</div>
 		</div>
-		<div class="popup-container" v-if="isEditMode">
+		<div v-if="isEditMode" class="popup-container">
 			<div class="edit-fields">
 				<input
 					class="edit-field"
@@ -185,12 +185,12 @@
 				</button>
 			</div>
 		</div>
-		<div class="debug-container" v-if="isDebugInfoVisible">
+		<div v-if="isDebugInfoVisible" class="debug-container">
 			<pre>{{ song.toString() }}</pre>
 		</div>
 	</div>
 	<!-- eslint-disable-next-line vue/valid-template-root -->
-	<div class="stub-container" v-if="!isSongAvailable">
+	<div v-if="!isSongAvailable" class="stub-container">
 		<div class="stub-container__content">
 			{{ L`infoNoSongInfoAvaiable` }}
 		</div>

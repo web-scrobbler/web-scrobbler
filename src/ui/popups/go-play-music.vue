@@ -5,13 +5,13 @@
 		</template>
 		<template v-slot:title>{{ L`getStartedHeader` }}</template>
 		<template v-slot:body>
-			<p class="mb-0" v-if="!isDescriptionVisible">
+			<p v-if="!isDescriptionVisible" class="mb-0">
 				<a href="#" class="card-link" @click="showDescription">{{
 					L`getStartedSubheader`
 				}}</a>
 			</p>
 
-			<div class="mt-2" v-if="isDescriptionVisible">
+			<div v-if="isDescriptionVisible" class="mt-2">
 				<p class="description">{{ L`getStartedSiteChanged` }}</p>
 				<p class="description">{{ L`getStartedSubmitIssue` }}</p>
 				<a

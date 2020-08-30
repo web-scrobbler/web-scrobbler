@@ -107,7 +107,7 @@
 			</p>
 		</div>
 
-		<div class="options-section" v-if="areHiddenOptionVisible">
+		<div v-if="areHiddenOptionVisible" class="options-section">
 			<h5>{{ L`optionsHidden` }}</h5>
 			<div class="form-group">
 				<label>{{ L`optionScrobblePercent` }}</label>

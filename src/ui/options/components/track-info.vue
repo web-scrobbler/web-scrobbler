@@ -1,7 +1,7 @@
 <template>
 	<div class="mb-2">
 		<div class="artist-track">{{ artist }} — {{ track }}</div>
-		<div class="album" v-if="album">
+		<div v-if="album" class="album">
 			{{ L`albumTooltip ${album}` }}
 		</div>
 	</div>
