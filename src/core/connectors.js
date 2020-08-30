@@ -1591,7 +1591,7 @@ const connectors = [{
 	js: 'connectors/detektorfm.js',
 	id: 'detektorfm',
 }, {
-	label: 'ibroadcast.com',
+	label: 'iBroadcast',
 	matches: [
 		'*://media.ibroadcast.com/*',
 	],
