@@ -67,6 +67,18 @@ export class ApiCallResult {
 	}
 
 	/**
+	 * Check if a given result type is an error result.
+	 *
+	 * @return Check result
+	 */
+	isError(): boolean {
+		return (
+			this.type === ApiCallResult.ERROR_AUTH ||
+			this.type === ApiCallResult.ERROR_OTHER
+		);
+	}
+
+	/**
 	 * Set an additional information related to the result.
 	 *
 	 * @param contextInfo Context info

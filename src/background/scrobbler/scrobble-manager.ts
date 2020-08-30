@@ -258,14 +258,11 @@ export const ScrobbleManager = new (class {
 		scrobbler: BaseScrobbler,
 		result: ApiCallResult
 	): Promise<ApiCallResult> {
-		const isOtherError = result.is(ApiCallResult.ERROR_OTHER);
-		const isAuthError = result.is(ApiCallResult.ERROR_AUTH);
-
-		if (!(isOtherError || isAuthError)) {
+		if (!result.isError()) {
 			throw new Error('Invalid result');
 		}
 
-		if (isAuthError) {
+		if (result.is(ApiCallResult.ERROR_AUTH)) {
 			// Don't unbind scrobblers which have tokens
 			const isReady = await scrobbler.isReadyForGrantAccess();
 			if (!isReady) {
