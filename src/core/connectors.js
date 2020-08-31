@@ -1597,6 +1597,13 @@ const connectors = [{
 	],
 	js: 'connectors/ibroadcast.js',
 	id: 'ibroadcast',
+}, {
+	label: 'Radio7',
+	matches: [
+		'*://radio7.lv/*',
+	],
+	js: 'connectors/radio7.js',
+	id: 'radio7lv',
 }];
 
 define(() => connectors);
