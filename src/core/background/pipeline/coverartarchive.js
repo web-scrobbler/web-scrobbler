@@ -28,7 +28,7 @@ define(() => {
 
 				coverArtUrl = await checkCoverArt(mbId);
 			} catch (e) {
-				return;
+				continue;
 			}
 
 			if (coverArtUrl) {

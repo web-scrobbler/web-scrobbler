@@ -1590,6 +1590,20 @@ const connectors = [{
 	matches: [
 		'*://winampify.io/*',
 	],
+}, {
+	label: 'detektor.fm',
+	matches: [
+		'*://detektor.fm/*',
+	],
+	js: 'connectors/detektorfm.js',
+	id: 'detektorfm',
+}, {
+	label: 'iBroadcast',
+	matches: [
+		'*://media.ibroadcast.com/*',
+	],
+	js: 'connectors/ibroadcast.js',
+	id: 'ibroadcast',
 }];
 
 define(() => connectors);

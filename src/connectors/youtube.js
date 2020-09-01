@@ -80,19 +80,7 @@ Connector.getUniqueID = () => {
 		return null;
 	}
 
-	/*
-	 * ytd-watch-flexy element contains ID of a first played video
-	 * if the miniplayer is visible, so we should check
-	 * if URL of a current video in miniplayer is accessible.
-	 */
-	const miniPlayerVideoUrl = $('ytd-miniplayer[active] [selected] a').attr(
-		'href'
-	);
-	if (miniPlayerVideoUrl) {
-		return Util.getYtVideoIdFromUrl(miniPlayerVideoUrl);
-	}
-
-	return $('ytd-watch-flexy').attr('video-id');
+	return getVideoId();
 };
 
 Connector.isScrobblingAllowed = () => {
@@ -110,7 +98,7 @@ Connector.isScrobblingAllowed = () => {
 		return true;
 	}
 
-	const videoCategory = getVideoCategory(Connector.getUniqueID());
+	const videoCategory = getVideoCategory();
 	if (!videoCategory) {
 		return false;
 	}
@@ -132,12 +120,26 @@ function areChaptersAvailable() {
 	return Util.getTextFromSelectors(chapterNameSelector);
 }
 
-/**
- * Get video category.
- * @param  {String} videoId Video ID
- * @return {String} Video category
- */
-function getVideoCategory(videoId) {
+function getVideoId() {
+	/*
+	 * ytd-watch-flexy element contains ID of a first played video
+	 * if the miniplayer is visible, so we should check
+	 * if URL of a current video in miniplayer is accessible.
+	 */
+	const miniPlayerVideoUrl = Util.getAttrFromSelectors(
+		'ytd-miniplayer[active] [selected] a',
+		'href'
+	);
+	if (miniPlayerVideoUrl) {
+		return Util.getYtVideoIdFromUrl(miniPlayerVideoUrl);
+	}
+
+	return Util.getAttrFromSelectors('ytd-watch-flexy', 'video-id');
+}
+
+function getVideoCategory() {
+	const videoId = getVideoId();
+
 	if (!videoId) {
 		return null;
 	}
