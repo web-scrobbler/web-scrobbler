@@ -4,4 +4,4 @@ Connector.playerSelector = '#page-wrap';
 
 Connector.artistTrackSelector = '#now';
 
-Connector.isPlaying = () => Util.isElementVisible('#jp_container_1 .jp-pause');
+Connector.pauseButtonSelector = '#jp_container_1 .jp-pause';
