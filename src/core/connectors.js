@@ -1245,7 +1245,7 @@ const connectors = [{
 	js: 'connectors/radioco.js',
 	id: 'radioco',
 }, {
-	label: 'R-a-dio',
+	label: 'R/a/dio',
 	matches: [
 		'*://r-a-d.io/*',
 	],
