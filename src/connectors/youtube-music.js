@@ -21,7 +21,10 @@ Connector.getTrackArt = () => {
 	return null;
 };
 
-Connector.albumSelector = '.ytmusic-player-bar .yt-formatted-string.style-scope.yt-simple-endpoint[href*="browse/MPREb_"]';
+Connector.albumSelector = [
+	'.ytmusic-player-bar .yt-formatted-string.style-scope.yt-simple-endpoint[href*="browse/MPREb_"]',
+	'.ytmusic-player-bar .yt-formatted-string.style-scope.yt-simple-endpoint[href*="browse/FEmusic_library_privately_owned_release_detailb_"]',
+];
 
 Connector.timeInfoSelector = '.ytmusic-player-bar.time-info';
 
