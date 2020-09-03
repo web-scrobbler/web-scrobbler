@@ -1245,7 +1245,7 @@ const connectors = [{
 	js: 'connectors/radioco.js',
 	id: 'radioco',
 }, {
-	label: 'R-a-dio',
+	label: 'R/a/dio',
 	matches: [
 		'*://r-a-d.io/*',
 	],
@@ -1604,6 +1604,13 @@ const connectors = [{
 	],
 	js: 'connectors/ibroadcast.js',
 	id: 'ibroadcast',
+}, {
+	label: 'Radio7',
+	matches: [
+		'*://radio7.lv/*',
+	],
+	js: 'connectors/radio7.js',
+	id: 'radio7lv',
 }];
 
 define(() => connectors);
