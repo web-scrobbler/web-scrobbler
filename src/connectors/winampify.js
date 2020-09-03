@@ -1,8 +1,7 @@
 'use strict';
 
 Connector.playerSelector = '#winamp-meta';
-
-Connector.isPlaying = () => Util.hasElementClass('#main-window', 'play');
-Connector.getAlbum = () => Util.getTextFromSelectors('#winamp-meta-album', 'unknown');
-Connector.getArtist = () => Util.getTextFromSelectors('#winamp-meta-artist', 'unknown');
-Connector.getTrack = () => Util.getTextFromSelectors('#winamp-meta-title', 'unknown');
+Connector.playButtonSelector = '#main-window .play';
+Connector.albumSelector = '#winamp-meta-album';
+Connector.artistSelector = '#winamp-meta-artist';
+Connector.trackSelector = '#winamp-meta-title';
