@@ -25,6 +25,4 @@ Connector.getArtistTrack = () => {
 	return { artist, track };
 };
 
-Connector.getAlbum = () => {
-	return document.querySelector('.thats-left > h1 [itemprop=name]').textContent;
-};
+Connector.albumSelector = '.thats-left > h1 [itemprop=name]';
