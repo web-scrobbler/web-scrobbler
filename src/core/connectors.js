@@ -1584,6 +1584,13 @@ const connectors = [{
 	js: 'connectors/truckersfm.js',
 	id: 'truckersfm',
 }, {
+	id: 'winampify',
+	label: 'Winampify',
+	js: 'connectors/winampify.js',
+	matches: [
+		'*://winampify.io/*',
+	],
+}, {
 	label: 'detektor.fm',
 	matches: [
 		'*://detektor.fm/*',
