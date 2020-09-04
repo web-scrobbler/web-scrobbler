@@ -1,89 +1,30 @@
 'use strict';
 
-const version = $('body').hasClass('navia') ? 'new' : 'legacy';
-switch (version) {
-	case 'new':
-		bindNew();
-		break;
+Connector.currentTimeSelector = '.jw-text-elapsed';
 
-	case 'legacy':
-		bindLegacy();
-		break;
+Connector.durationSelector = '.jw-text-duration';
 
-	default:
-		Util.debugLog('Unable to match version. Please report at https://github.com/web-scrobbler/web-scrobbler/issues', 'warn');
-		break;
-}
+Connector.isPlaying = () => !document.querySelector('video').paused;
 
-function bindCommon() {
-	Connector.currentTimeSelector = '.jw-text-elapsed';
+Connector.playerSelector = '#theatre-ia';
 
-	Connector.durationSelector = '.jw-text-duration';
+Connector.trackArtSelector = '#theatre-ia center > img';
 
-	Connector.isPlaying = () => {
-		return !$('video')[0].paused;
-	};
-}
+Connector.getArtistTrack = () => {
+	let track = document.querySelector('.jwrowV2.playing .ttl, .audio-track-list .selected .track-title').textContent;
+	const artist = document.querySelector('.key-val-big a span, .metadata-definition > dd').textContent;
 
-function bindNew() {
-	bindCommon();
+	const trackParts = track.split('-').map((item) => {
+		return item.trim();
+	});
 
-	Connector.playerSelector = '#theatre-ia';
+	if (trackParts.length === 3 && trackParts[0] === artist) {
+		track = trackParts[2];
+	}
 
-	Connector.trackArtSelector = '#theatre-ia center > img';
+	return { artist, track };
+};
 
-	Connector.getArtistTrack = () => {
-		let track = $('.jwrowV2.playing .ttl, .audio-track-list .selected .track-title').text();
-		const artist = $('.key-val-big a span, .metadata-definition > dd').first().text();
-
-		const trackParts = track.split('-').map((item) => {
-			return item.trim();
-		});
-		if (trackParts.length === 3 && trackParts[0] === artist) {
-			track = trackParts[2];
-		}
-
-		return { artist, track };
-	};
-
-	Connector.getAlbum = () => {
-		return $('.thats-left > h1 [itemprop=name]').text();
-	};
-}
-
-function bindLegacy() {
-	bindCommon();
-
-	Connector.playerSelector = '#avplaydiv';
-
-	Connector.trackArtSelector = '#col1 > div:nth-child(1) > div:nth-child(2) > img';
-
-	Connector.getAlbum = () => {
-		let album = $('.x-archive-meta-title').text();
-
-		// Remove artist from album
-		const parts = album.split('-');
-		if (parts.length > 0 && parts[0].trim() === Connector.getArtist()) {
-			album = album.substr(album.indexOf('-') + 1);
-		}
-
-		return album;
-	};
-
-	Connector.getArtist = () => {
-		return $('span.key:contains("Artist/Composer:"), span.key:contains("Band/Artist:")').next().text();
-	};
-
-	Connector.getTrack = () => {
-		// Get title directly from player
-		let title = $('.playing > .ttl').text();
-
-		// Some titles are stored as artist - track # - title so strip out non-title elements
-		const parts = title.split('-');
-		if (parts.length === 3 && parts[0].trim() === Connector.getArtist()) {
-			title = parts[2];
-		}
-
-		return title;
-	};
-}
+Connector.getAlbum = () => {
+	return document.querySelector('.thats-left > h1 [itemprop=name]').textContent;
+};
