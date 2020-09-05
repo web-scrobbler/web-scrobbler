@@ -1,0 +1,28 @@
+name: Resources
+on:
+  push:
+    branches: ['master']
+jobs:
+  resources:
+    name: Update resources
+    runs-on: ubuntu-latest
+    steps:
+    - name: Read .nvmrc
+      run: echo ::set-output name=nvmrc::$(cat .nvmrc)
+      id: nvm
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v1
+      with:
+        node-version: '${{ steps.nvm.outputs.nvmrc }}'
+    - name: Install dependencies
+      run: npm install
+    - name: Regenerate type declarations
+      run: npm run types
+    - name: Push updated type declarations
+      uses: test-room-7/action-update-file@v1
+      with:
+        file-path: |
+          src/types/connector.d.ts
+          src/types/util.d.ts
+        commit-msg: Update type declarations
+        github-token: ${{ secrets.GITHUB_TOKEN }}
