@@ -49,7 +49,7 @@
     "nyc": "15.1.0",
     "prettier-config-web-scrobbler": "^0.1.0",
     "remark-preset-lint-recommended": "4.0.1",
-    "stylelint": "13.6.1",
+    "stylelint": "13.7.0",
     "stylelint-config-web-scrobbler": "0.2.0"
   },
   "engines": {
