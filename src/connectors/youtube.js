@@ -156,7 +156,7 @@ function getVideoCategory() {
 
 	fetchCategoryName(videoId)
 		.then((category) => {
-			console.log(`Fetched category for ${videoId}: ${category}`);
+			Util.debugLog(`Fetched category for ${videoId}: ${category}`);
 			categoryCache.set(videoId, category);
 		})
 		.catch((err) => {
