@@ -318,12 +318,11 @@ const Util = {
 	 * an array, return text of first available element.
 	 *
 	 * @param {String|String[]} selectors Single selector or array of selectors
-	 * @param {String} [defaultValue=null] Fallback value
 	 *
 	 * @return {String} Text of element, if available, or default value
 	 */
 	/* istanbul ignore next */
-	getTextFromSelectors(selectors, defaultValue = null) {
+	getTextFromSelectors(selectors) {
 		const elements = this.queryElements(selectors);
 
 		if (elements.length === 1) {
@@ -337,7 +336,7 @@ const Util = {
 			}
 		}
 
-		return defaultValue;
+		return null;
 	},
 
 	/**
@@ -348,12 +347,11 @@ const Util = {
 	 *
 	 * @param {String|String[]} selectors Single selector or array of selectors
 	 * @param {String} attr Attrubute to get
-	 * @param {String} [defaultValue=null] Fallback value
 	 *
 	 * @return {String} Text of element, if available, or default value
 	 */
 	/* istanbul ignore next */
-	getAttrFromSelectors(selectors, attr, defaultValue = null) {
+	getAttrFromSelectors(selectors, attr) {
 		const elements = this.queryElements(selectors);
 
 		if (elements.length === 1) {
@@ -367,7 +365,7 @@ const Util = {
 			}
 		}
 
-		return defaultValue;
+		return null;
 	},
 
 	/**
