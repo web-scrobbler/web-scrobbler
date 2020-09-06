@@ -89,7 +89,7 @@ See the [privacy policy][Privacy].
 
 ## License
 
-See the [license file][License].
+Licensed under the [MIT License][License].
 
 <!-- Badges -->
 [AmoBadge]: https://img.shields.io/amo/v/web-scrobbler.svg?label=firefox&logo=firefox-browser&logoColor=white
