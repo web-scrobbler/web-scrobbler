@@ -171,7 +171,11 @@ function getVideoCategory() {
 }
 
 async function fetchCategoryName(videoId) {
-	const videoUrl = `https://youtube.com/watch?v=${videoId}`;
+	/*
+	 * We cannot use `location.href`, since it could miss the video URL
+	 * in case when YouTube mini player is visible.
+	 */
+	const videoUrl = `${location.origin}/watch?v=${videoId}`;
 
 	try {
 		/*
