@@ -444,6 +444,10 @@
     "message": "You're listening to this track via $1",
     "description": "Tooltip for the connector label"
   },
+  "infoNoSongInfoAvaiable": {
+    "message": "No song info is available",
+    "description": "Message when a now playing song is not available"
+  },
 
 
   "pageActionBase": {
