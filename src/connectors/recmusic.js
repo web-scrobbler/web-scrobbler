@@ -18,7 +18,9 @@ Connector.durationSelector = '.seekbar-duration:last-child';
 
 Connector.trackSelector = 'p.track-info-title';
 
-Connector.isPlaying = () => document.querySelector('.button-play').classList.contains('mk-web-icon-stop');
+Connector.pauseButtonSelector = ".button-play.mk-web-icon-stop";
+
+//Connector.isPlaying = () => document.querySelector('.button-play').classList.contains('mk-web-icon-stop');
 
 Connector.applyFilter(filter);
 
