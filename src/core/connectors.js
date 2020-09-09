@@ -1618,6 +1618,6 @@ const connectors = [{
 	],
 	js: 'connectors/recmusic.js',
 	id: 'recmusic',
-},];
+}];
 
 define(() => connectors);
