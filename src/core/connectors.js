@@ -1611,6 +1611,13 @@ const connectors = [{
 	],
 	js: 'connectors/radio7.js',
 	id: 'radio7lv',
+}, {
+	label: 'RecMusic',
+	matches: [
+		'*://recmusic.jp/*',
+	],
+	js: 'connectors/recmusic.js',
+	id: 'recmusic',
 }];
 
 define(() => connectors);
