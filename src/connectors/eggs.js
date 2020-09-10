@@ -4,6 +4,8 @@ Connector.getDuration = () => document.querySelector('#aPlayer').duration;
 
 Connector.getCurrentTime = () => document.querySelector('#aPlayer').currentTime;
 
+Connector.playerSelector = '.m-upload-list';
+
 if (window.location.href.includes('/artist/')) {
 	setupArtistPlayer();
 } else {
@@ -11,7 +13,6 @@ if (window.location.href.includes('/artist/')) {
 }
 
 function setupArtistPlayer() {
-	Connector.playerSelector = '.m-upload-list ul';
 
 	Connector.getTrackArt = () => document.querySelector('.pause[style*="display: block;"]').closest('.img-album').querySelector('img').src;
 
@@ -23,7 +24,6 @@ function setupArtistPlayer() {
 }
 
 function setupSongPlayer() {
-	Connector.playerSelector = '.player';
 
 	Connector.trackArtSelector = '.img-album img';
 
