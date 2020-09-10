@@ -1,8 +1,9 @@
 'use strict';
 
-Connector.getDuration = () => document.querySelector('#aPlayer').duration;
-
-Connector.getCurrentTime = () => document.querySelector('#aPlayer').currentTime;
+Connector.getTimeInfo = () => {
+	const { currentTime, duration } = document.querySelector('#aPlayer');
+	return { currentTime, duration };
+};
 
 Connector.playerSelector = '.m-upload-list';
 
@@ -14,11 +15,17 @@ if (window.location.href.includes('/artist/')) {
 
 function setupArtistPlayer() {
 
-	Connector.getTrackArt = () => document.querySelector('.pause[style*="display: block;"]').closest('.img-album').querySelector('img').src;
+	Connector.getTrackInfo = () => {
+		const parentLi = document.querySelector('.pause[style*="display: block"]').closest('li');
 
-	Connector.getArtist = () => document.querySelector('.pause[style*="display: block;"]').closest('li').querySelector('.artist_name').innerText;
+		const songInfo = {
+			artist: parentLi.querySelector('.artist_name').innerText,
+			track: parentLi.querySelector('.player').dataset.srcname,
+			trackArt: parentLi.querySelector('img').src,
+		};
 
-	Connector.getTrack = () => document.querySelector('.pause[style*="display: block;"]').closest('.player').dataset.srcname;
+		return songInfo;
+	};
 
 	Connector.pauseButtonSelector = '.pause[style*="display: block;"]';
 }
