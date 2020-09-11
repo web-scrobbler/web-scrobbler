@@ -1,5 +1,9 @@
 'use strict';
 
+const filter = new MetadataFilter({
+	track: removeMV,
+});
+
 let trackInfo = {};
 let timeInfo = {};
 let isPlaying = false;
@@ -10,6 +14,8 @@ Connector.getTimeInfo = () => {
 };
 
 Connector.playerSelector = '.m-upload-list';
+
+Connector.applyFilter(filter);
 
 Connector.injectScript('connectors/eggs-dom-inject.js');
 
@@ -101,3 +107,7 @@ Connector.onScriptEvent = (event) => {
 
 	}
 };
+
+function removeMV(text){
+  return text.replace(/(\(MV\)|MV)$/, '');
+}
