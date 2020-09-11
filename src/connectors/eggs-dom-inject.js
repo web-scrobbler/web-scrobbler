@@ -54,6 +54,11 @@ function placeYoutubeVideo() {
 		height: '290',
 		width: '500',
 		videoId,
+		playerVars: {
+			origin: 'https://eggs.mu/',
+			wmode: 'transparent',
+			rel: 0,
+		},
 		events: {
 			'onStateChange': youtubeStateChange,
 		},
