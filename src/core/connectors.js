@@ -1618,6 +1618,13 @@ const connectors = [{
 	],
 	js: 'connectors/recmusic.js',
 	id: 'recmusic',
+}, {
+	label: 'Eggs',
+	matches: [
+		'*://eggs.mu/*',
+	],
+	js: 'connectors/eggs.js',
+	id: 'eggs',
 }];
 
 define(() => connectors);
