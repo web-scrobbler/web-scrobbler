@@ -109,5 +109,5 @@ Connector.onScriptEvent = (event) => {
 };
 
 function removeMV(text) {
-	return text.replace(/(\(MV\)|MV)$/, '');
+	return text.replace(/(\(MV\)|【MV】|MV)$/, '');
 }
