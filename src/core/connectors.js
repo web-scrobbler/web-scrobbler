@@ -1268,7 +1268,7 @@ const connectors = [{
 }, {
 	label: 'Watch2Gether',
 	matches: [
-		'*://www.watch2gether.com/*',
+		'*://w2g.tv/*',
 	],
 	js: 'connectors/watch2gether.js',
 	id: 'watch2gether',
