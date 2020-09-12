@@ -26,17 +26,14 @@ if (window.location.href.includes('/artist/')) {
 }
 
 function setupYoutubePlayer() {
-
 	Connector.getTrackInfo = () => trackInfo;
 
 	Connector.isPlaying = () => isPlaying;
 
 	Connector.getTimeInfo = () => timeInfo;
-
 }
 
 function setupArtistPlayer() {
-
 	const youtubeScript = document.createElement('script');
 	youtubeScript.src = 'https://www.youtube.com/iframe_api';
 	document.head.append(youtubeScript);
@@ -49,7 +46,6 @@ function setupArtistPlayer() {
 }
 
 function setArtistConnector() {
-
 	Connector.getTrackInfo = () => {
 		const parentLi = document.querySelector('.pause[style*="display: block"]').closest('li');
 
@@ -65,11 +61,9 @@ function setArtistConnector() {
 	Connector.isPlaying = () => {
 		document.querySelectorAll('.pause[style*="display: block;"]').length;
 	};
-
 }
 
 function setupSongPlayer() {
-
 	Connector.trackArtSelector = '.img-album img';
 
 	Connector.artistSelector = '.artist_name a';
@@ -94,17 +88,12 @@ function checkToggleArtist(mutationList) {
 }
 
 Connector.onScriptEvent = (event) => {
-
 	({ trackInfo, isPlaying, timeInfo } = event.data);
 
 	if (event.data.playerType === 'youtube') {
-
 		Connector.onStateChanged();
-
 	} else if (event.data.playerType === 'youtubestart') {
-
 		setupYoutubePlayer();
-
 	}
 };
 

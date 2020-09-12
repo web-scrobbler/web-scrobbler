@@ -14,28 +14,21 @@ if (isArtistPage) {
 
 	observer.observe(document.body, { childList: true });
 } else {
-
-	window.player.addEventListener('onStateChange', youtubeStateChange);
-
+	window.player.addEventListener('onStateChange', onYoutubeStateChange);
 }
 
 function toggleExternalPlayer(mutationList) {
-
 	const removedList = mutationList[0].removedNodes;
 
 	if (removedList.length) {
-
 		// external player has been started
 		if (removedList[0].id === 'fancybox-loading') {
-
 			replaceYoutubeVideo();
-
 		}
 	}
 }
 
 function replaceYoutubeVideo() {
-
 	const iframeParent = document.querySelector('.fancybox-inner');
 	videoId = iframeParent.querySelector('iframe').src.split('/').pop().split('?')[0];
 
@@ -60,18 +53,19 @@ function placeYoutubeVideo() {
 			rel: 0,
 		},
 		events: {
-			'onStateChange': youtubeStateChange,
+			'onStateChange': onYoutubeStateChange,
 		},
 	});
 }
 
-function youtubeStateChange(event) {
-
-	const parentElmt = (document.querySelector(`a[href*="${videoId}"]`) && document.querySelector(`a[href*="${videoId}"]`).closest('li')) || document;
+function onYoutubeStateChange(event) {
+	const currentPlayer = document.querySelector(`a[href*="${videoId}"]`);
+	const parentElmt = (currentPlayer && currentPlayer.closest('li')) || document;
+	const playerTypeSuffix = (event.data === -1) ? 'start' : '';
 
 	window.postMessage({
 		sender: 'web-scrobbler',
-		playerType: `youtube${(event.data === -1) ? 'start' : ''}`,
+		playerType: `youtube${playerTypeSuffix}`,
 		isPlaying: event.data === 1,
 		timeInfo: {
 			currentTime: event.target.getCurrentTime(),
