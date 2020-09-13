@@ -164,7 +164,7 @@ function BaseConnector() {
 
 	/**
 	 * Selector of element contains a track art of now playing song.
-	 * Default implmentation looks for track art URL in `src` attribute or
+	 * Default implementation looks for track art URL in `src` attribute or
 	 * `background-image` (`background`) CSS property of given element.
 	 *
 	 * Used for the notification service and "Now playing" popup.
