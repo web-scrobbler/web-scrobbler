@@ -19,3 +19,7 @@ Connector.getTrackArt = () => {
 Connector.currentTimeSelector = '#played';
 
 Connector.durationSelector = '#duration';
+
+Connector.isScrobblingAllowed = () => {
+	return Connector.getDuration() !== 0;
+};
