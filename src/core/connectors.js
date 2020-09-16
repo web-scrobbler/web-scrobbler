@@ -1625,6 +1625,13 @@ const connectors = [{
 	],
 	js: 'connectors/eggs.js',
 	id: 'eggs',
+}, {
+	label: 'Jamstash',
+	matches: [
+		'*://jamstash.com/*',
+	],
+	js: 'connectors/jamstash.js',
+	id: 'jamstash',
 }];
 
 define(() => connectors);
