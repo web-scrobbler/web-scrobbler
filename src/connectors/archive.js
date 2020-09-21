@@ -39,7 +39,32 @@ Connector.getArtistTrack = () => {
 		track = trackParts[2];
 	}
 
+	if (hasAllTracksNumericPrefix('.jwrowV2 .ttl')) {
+		track = track.trim().replace(/^(\d+\w+)/, '');
+	}
+
 	return { artist, track };
 };
 
 Connector.albumSelector = '.thats-left > h1 [itemprop=name]';
+
+function hasAllTracksNumericPrefix(trackSelector) {
+
+	const tracks = document.querySelectorAll(trackSelector);
+
+	if (tracks.length === 0) {
+		return false;
+	}
+
+	let hasAllTracksNumericPrefix = true;
+	const re = /^\d+\w+/;
+
+	for (let i = 0; i < tracks.length; ++i) {
+		if (!re.test(tracks[i].innerText)) {
+			hasAllTracksNumericPrefix = false;
+			break;
+		}
+	}
+
+	return hasAllTracksNumericPrefix;
+}
