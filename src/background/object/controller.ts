@@ -13,6 +13,7 @@ import {
 	debugLog,
 	getSecondsToScrobble,
 	isAnyResult,
+	isStateEmpty,
 	LogType,
 } from '@/background/util/util';
 import {
@@ -663,17 +664,6 @@ export class Controller {
 		const message = `Tab ${this.tabId}: ${text}`;
 		debugLog(message, logType);
 	}
-}
-
-/**
- * Check if given connector state is empty.
- *
- * @param state Connector state
- *
- * @return Check result
- */
-function isStateEmpty(state: ParsedSongInfo): boolean {
-	return !(state.artist && state.track) && !state.uniqueID && !state.duration;
 }
 
 /**

@@ -2,6 +2,7 @@ import {
 	ApiCallResult,
 	ApiCallResultType,
 } from '@/background/scrobbler/api-call-result';
+import { ParsedSongInfo } from '@/background/object/song';
 
 export type LogType = 'log' | 'warn' | 'error';
 
@@ -139,6 +140,17 @@ export function isAnyResult(
 	resultType: ApiCallResultType
 ): boolean {
 	return results.some((r) => r.is(resultType));
+}
+
+/**
+ * Check if a given connector state is empty.
+ *
+ * @param state Connector state
+ *
+ * @return Check result
+ */
+export function isStateEmpty(state: ParsedSongInfo): boolean {
+	return !((state.artist && state.track) || state.uniqueID || state.duration);
 }
 
 /**
