@@ -49,16 +49,13 @@ Connector.getArtistTrack = () => {
 Connector.albumSelector = '.thats-left > h1 [itemprop=name]';
 
 function hasAllTracksNumericPrefix(trackSelector) {
-
 	const tracks = document.querySelectorAll(trackSelector);
-
 	if (tracks.length === 0) {
 		return false;
 	}
 
 	let hasAllTracksNumericPrefix = true;
 	const re = /^\d+\w+/;
-
 	for (let i = 0; i < tracks.length; ++i) {
 		if (!re.test(tracks[i].innerText)) {
 			hasAllTracksNumericPrefix = false;
