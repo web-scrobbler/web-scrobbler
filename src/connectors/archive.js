@@ -9,6 +9,8 @@ const trackSelectors = [
 	'.audio-track-list .selected .track-title',
 ];
 
+const numericTrackRegex = /^\d+\w+/;
+
 Connector.currentTimeSelector = '.jw-text-elapsed';
 
 Connector.durationSelector = '.jw-text-duration';
@@ -55,9 +57,8 @@ function hasAllTracksNumericPrefix(trackSelector) {
 	}
 
 	let hasAllTracksNumericPrefix = true;
-	const re = /^\d+\w+/;
-	for (let i = 0; i < tracks.length; ++i) {
-		if (!re.test(tracks[i].innerText)) {
+	for (const track of tracks) {
+		if (!numericTrackRegex.test(track.innerText)) {
 			hasAllTracksNumericPrefix = false;
 			break;
 		}
