@@ -50,6 +50,7 @@ Connector.getArtistTrack = () => {
 
 Connector.albumSelector = '.thats-left > h1 [itemprop=name]';
 
+// Example: https://archive.org/details/AH003_corwin_trails_-_corwin_trails
 function hasAllTracksNumericPrefix(trackSelector) {
 	const tracks = document.querySelectorAll(trackSelector);
 	if (tracks.length === 0) {
