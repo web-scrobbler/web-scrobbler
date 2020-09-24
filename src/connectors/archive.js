@@ -11,6 +11,8 @@ const trackSelectors = [
 
 const numericTrackRegex = /^\d+\w+/;
 
+const tracksSelector = '.jwrowV2 .ttl';
+
 Connector.currentTimeSelector = '.jw-text-elapsed';
 
 Connector.durationSelector = '.jw-text-duration';
@@ -41,7 +43,7 @@ Connector.getArtistTrack = () => {
 		track = trackParts[2];
 	}
 
-	if (hasAllTracksNumericPrefix('.jwrowV2 .ttl')) {
+	if (hasAllTracksNumericPrefix(tracksSelector)) {
 		track = track.trim().replace(/^(\d+\w+)/, '');
 	}
 
