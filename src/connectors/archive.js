@@ -13,6 +13,18 @@ const numericTrackRegex = /^\d+\w+/;
 
 const tracksSelector = '.jwrowV2 .ttl';
 
+const filter = new MetadataFilter({ track: removeNumericPrefixes });
+
+Connector.applyFilter(filter);
+
+function removeNumericPrefixes(track) {
+	if (hasAllTracksNumericPrefix(tracksSelector)) {
+		return track.trim().replace(/^(\d+\w+)/, '');
+	}
+
+	return track;
+}
+
 Connector.currentTimeSelector = '.jw-text-elapsed';
 
 Connector.durationSelector = '.jw-text-duration';
@@ -41,10 +53,6 @@ Connector.getArtistTrack = () => {
 
 	if (trackParts.length === 3 && trackParts[0] === artist) {
 		track = trackParts[2];
-	}
-
-	if (hasAllTracksNumericPrefix(tracksSelector)) {
-		track = track.trim().replace(/^(\d+\w+)/, '');
 	}
 
 	return { artist, track };
