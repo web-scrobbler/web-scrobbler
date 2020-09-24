@@ -1632,6 +1632,13 @@ const connectors = [{
 	],
 	js: 'connectors/jamstash.js',
 	id: 'jamstash',
+}, {
+	label: 'SubFire',
+	matches: [
+		'*://p.subfireplayer.net/*',
+	],
+	js: 'connectors/subfire.js',
+	id: 'subfire',
 }];
 
 define(() => connectors);
