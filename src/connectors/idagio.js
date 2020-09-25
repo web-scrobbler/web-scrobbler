@@ -2,14 +2,13 @@
 
 const symphonySelector = '.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) span';
 const movementSelector = '.player-PlayerInfo__infoEl--2jhHY span span span';
-const composerSelector = '.player-PlayerInfo__infoEl--2jhHY span:first-child';
 const directorSelector = '.player-PlayerInfo__recordingInfo--15VMv>span:first-child span';
 const recordingInfoSelector = '.player-PlayerInfo__recordingInfo--15VMv';
 const pauseButtonSelector = '.player-PlayerControls__btn--1r-vy:nth-child(2) .util-IconLabel__component--3Uitr span';
 
 Connector.playerSelector = '.player-PlayerBar__bar--2yos_';
 
-Connector.artistSelector = composerSelector;
+Connector.artistSelector = '.player-PlayerInfo__infoEl--2jhHY span:first-child';
 
 Connector.getTrack = () => getCurrentTrack();
 
