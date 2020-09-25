@@ -69,7 +69,7 @@ function hasAllTracksNumericPrefix(trackSelector) {
 
 	let hasAllTracksNumericPrefix = true;
 	for (const track of tracks) {
-		if (!numericTrackRegex.test(track.innerText)) {
+		if (!numericTrackRegex.test(track.textContent)) {
 			hasAllTracksNumericPrefix = false;
 			break;
 		}
