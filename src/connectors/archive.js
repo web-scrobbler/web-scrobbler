@@ -9,6 +9,22 @@ const trackSelectors = [
 	'.audio-track-list .selected .track-title',
 ];
 
+const numericTrackRegex = /^\d+\w+/;
+
+const tracksSelector = '.jwrowV2 .ttl';
+
+const filter = new MetadataFilter({ track: removeNumericPrefixes });
+
+Connector.applyFilter(filter);
+
+function removeNumericPrefixes(track) {
+	if (hasAllTracksNumericPrefix(tracksSelector)) {
+		return track.trim().replace(/^(\d+\w+)/, '');
+	}
+
+	return track;
+}
+
 Connector.currentTimeSelector = '.jw-text-elapsed';
 
 Connector.durationSelector = '.jw-text-duration';
@@ -43,3 +59,21 @@ Connector.getArtistTrack = () => {
 };
 
 Connector.albumSelector = '.thats-left > h1 [itemprop=name]';
+
+// Example: https://archive.org/details/AH003_corwin_trails_-_corwin_trails
+function hasAllTracksNumericPrefix(trackSelector) {
+	const tracks = document.querySelectorAll(trackSelector);
+	if (tracks.length === 0) {
+		return false;
+	}
+
+	let hasAllTracksNumericPrefix = true;
+	for (const track of tracks) {
+		if (!numericTrackRegex.test(track.textContent)) {
+			hasAllTracksNumericPrefix = false;
+			break;
+		}
+	}
+
+	return hasAllTracksNumericPrefix;
+}

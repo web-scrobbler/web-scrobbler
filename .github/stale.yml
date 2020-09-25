@@ -5,6 +5,9 @@ exemptLabels:
   - dependencies
   - feature
   - request
+exemptProjects: true
+exemptMilestones: true
+exemptAssignees: true
 staleLabel: outdated
 markComment: >
   This issue has been automatically marked as stale because it has not had

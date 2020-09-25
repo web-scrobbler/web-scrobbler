@@ -1,5 +1,13 @@
 'use strict';
 
+const filter = new MetadataFilter({
+	track: removeMV,
+});
+
+let trackInfo = {};
+let timeInfo = {};
+let isPlaying = false;
+
 Connector.getTimeInfo = () => {
 	const { currentTime, duration } = document.querySelector('#aPlayer');
 	return { currentTime, duration };
@@ -7,14 +15,37 @@ Connector.getTimeInfo = () => {
 
 Connector.playerSelector = '.m-upload-list';
 
+Connector.applyFilter(filter);
+
+Connector.injectScript('connectors/eggs-dom-inject.js');
+
 if (window.location.href.includes('/artist/')) {
 	setupArtistPlayer();
 } else {
 	setupSongPlayer();
 }
 
-function setupArtistPlayer() {
+function setupYoutubePlayer() {
+	Connector.getTrackInfo = () => trackInfo;
 
+	Connector.isPlaying = () => isPlaying;
+
+	Connector.getTimeInfo = () => timeInfo;
+}
+
+function setupArtistPlayer() {
+	const youtubeScript = document.createElement('script');
+	youtubeScript.src = 'https://www.youtube.com/iframe_api';
+	document.head.append(youtubeScript);
+
+	const observer = new MutationObserver(checkToggleArtist);
+
+	observer.observe(document.body, { childList: true });
+
+	setArtistConnector();
+}
+
+function setArtistConnector() {
 	Connector.getTrackInfo = () => {
 		const parentLi = document.querySelector('.pause[style*="display: block"]').closest('li');
 
@@ -27,11 +58,12 @@ function setupArtistPlayer() {
 		return songInfo;
 	};
 
-	Connector.pauseButtonSelector = '.pause[style*="display: block;"]';
+	Connector.isPlaying = () => {
+		document.querySelectorAll('.pause[style*="display: block;"]').length;
+	};
 }
 
 function setupSongPlayer() {
-
 	Connector.trackArtSelector = '.img-album img';
 
 	Connector.artistSelector = '.artist_name a';
@@ -39,4 +71,32 @@ function setupSongPlayer() {
 	Connector.trackSelector = '#js-product-name-0 p';
 
 	Connector.pauseButtonSelector = '.pause';
+}
+
+function checkToggleArtist(mutationList) {
+	const removedList = mutationList[0].removedNodes;
+
+	if (removedList.length) {
+
+		// external player has been closed
+		if (removedList[0].classList.contains('fancybox-overlay')) {
+
+			setArtistConnector();
+
+		}
+	}
+}
+
+Connector.onScriptEvent = (event) => {
+	({ trackInfo, isPlaying, timeInfo } = event.data);
+
+	if (event.data.playerType === 'youtube') {
+		Connector.onStateChanged();
+	} else if (event.data.playerType === 'youtubestart') {
+		setupYoutubePlayer();
+	}
+};
+
+function removeMV(text) {
+	return text.replace(/(\(MV\)|【MV】|MV)$/, '');
 }

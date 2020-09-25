@@ -30,15 +30,14 @@ an [unpacked extension][DocsUnpacked].
 
 ### Chrome Web Store
 
-It can be installed directly from [Chrome Web Store][WebStore] with Chrome used.
+It can be installed directly from the [Chrome Web Store][WebStore] for Chrome users.
 
 Opera users can install the extension from Chrome Web Store using the
 [Download Chrome Extension][DownloadChromeExt] addon for Opera.
 
 ### Addons.mozilla.org
 
-For those who prefer Firefox as a main browser, the extension is
-available on [AMO][Amo].
+For those who prefer Firefox, the extension is available on [AMO][Amo].
 
 ### Install from source code
 
@@ -70,18 +69,18 @@ The detailed build instruction is available [here][BuildInstructions].
 ### Develop connectors
 
 Check the [wiki page][WikiDev] to understand development of connectors. Please
-also read [contributions guidelines][Contributing].
+also read our[contributions guidelines][Contributing].
 
 ### Translations
 
 We use Transifex to maintain translations. If you want to translate
-the extension, follow [this][Translations] wiki page for details.
+the extension, follow the [translations][Translations] wiki page for details.
 
 ## Media
 
 Follow [@web_scrobbler][Twitter] on Twitter to receive the latest news and updates.
 
-Join the experimental [Discord channel][Discord] to discuss the extension.
+Join the [Discord channel][Discord] to discuss the extension.
 
 ## Privacy Policy
 
