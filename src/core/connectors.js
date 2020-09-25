@@ -1268,7 +1268,7 @@ const connectors = [{
 }, {
 	label: 'Watch2Gether',
 	matches: [
-		'*://w2g.tv/*',
+		'*://www.watch2gether.com/*',
 	],
 	js: 'connectors/watch2gether.js',
 	id: 'watch2gether',
@@ -1626,12 +1626,12 @@ const connectors = [{
 	js: 'connectors/eggs.js',
 	id: 'eggs',
 }, {
-	label: 'Jamstash',
+	label: 'Idagio',
 	matches: [
-		'*://jamstash.com/*',
+		'*://app.idagio.com/*',
 	],
-	js: 'connectors/jamstash.js',
-	id: 'jamstash',
+	js: 'connectors/idagio.js',
+	id: 'idagio',
 }];
 
 define(() => connectors);
