@@ -45,4 +45,11 @@ Connector.isPlaying = () => {
 
 Connector.isScrobblingAllowed = () => !Util.isElementVisible(adSelector);
 
-Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+const baseStateChangedWorker = Connector.stateChangedWorker;
+Connector.stateChangedWorker = () => {
+	Connector.metadataFilter = MetadataFilter.getDefaultFilter();
+	if (! Connector.getAlbum()) {
+		Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+	}
+	baseStateChangedWorker();
+};
