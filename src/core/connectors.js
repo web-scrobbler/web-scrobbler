@@ -1639,6 +1639,13 @@ const connectors = [{
 	],
 	js: 'connectors/subfire.js',
 	id: 'subfire',
+}, {
+	label: 'Idagio',
+	matches: [
+		'*://app.idagio.com/*',
+	],
+	js: 'connectors/idagio.js',
+	id: 'idagio',
 }];
 
 define(() => connectors);
