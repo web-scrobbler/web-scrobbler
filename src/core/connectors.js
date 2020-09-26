@@ -1632,6 +1632,13 @@ const connectors = [{
 	],
 	js: 'connectors/jamstash.js',
 	id: 'jamstash',
+}, {
+	label: 'Idagio',
+	matches: [
+		'*://app.idagio.com/*',
+	],
+	js: 'connectors/idagio.js',
+	id: 'idagio',
 }];
 
 define(() => connectors);
