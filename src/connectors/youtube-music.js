@@ -26,9 +26,11 @@ Connector.albumSelector = [
 Connector.getArtistTrack = () => {
 	let artist; let track;
 	if (Connector.getAlbum()) {
+		Connector.resetFilter();
 		artist = Util.getTextFromSelectors(channelNameSelector);
 		track = Util.getTextFromSelectors(trackSelector);
 	} else {
+		Connector.applyFilter(MetadataFilter.getYoutubeFilter());
 		({ artist, track } = Util.processYtVideoTitle(Util.getTextFromSelectors(trackSelector)));
 		if (!artist) {
 			artist = Util.getTextFromSelectors(channelNameSelector);
@@ -44,12 +46,3 @@ Connector.isPlaying = () => {
 };
 
 Connector.isScrobblingAllowed = () => !Util.isElementVisible(adSelector);
-
-const baseStateChangedWorker = Connector.stateChangedWorker;
-Connector.stateChangedWorker = () => {
-	Connector.metadataFilter = MetadataFilter.getDefaultFilter();
-	if (! Connector.getAlbum()) {
-		Connector.applyFilter(MetadataFilter.getYoutubeFilter());
-	}
-	baseStateChangedWorker();
-};
