@@ -71,7 +71,7 @@ The detailed build instruction is available [here][BuildInstructions].
 ### Develop connectors
 
 Check the [wiki page][WikiDev] to understand development of connectors. Please
-also read our[contributions guidelines][Contributing].
+also read our [contribution guidelines][Contributing].
 
 ### Translations
 
