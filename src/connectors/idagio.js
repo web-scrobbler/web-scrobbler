@@ -17,11 +17,16 @@ Connector.isPlaying = () => Util.getTextFromSelectors('.player-PlayerControls__b
 Connector.isScrobblingAllowed = () => Util.getTextFromSelectors('.player-PlayerInfo__recordingInfo--15VMv') !== 'Sponsor message';
 
 function getCurrentTrack() {
-  return Util.getTextFromSelectors(".player-PlayerInfo__infoEl--2jhHY").split(" – ").slice(1).join(" - ").replace(" op. ", ", op. ");
+	return Util.getTextFromSelectors('.player-PlayerInfo__infoEl--2jhHY').split(' – ').slice(1).join(' - ');
 }
 
 function getCurrentSymphony() {
-	const symphonyShort = Util.getTextFromSelectors('.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) span').split(/ in [A-G]/)[0];
-	const director = Util.getTextFromSelectors('.player-PlayerInfo__recordingInfo--15VMv>span:first-child span');
-	return `${symphonyShort} (${director})`;
+	const symphonyShort = Util.getTextFromSelectors('.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) span:first-child').split(/ in [A-G]/)[0].split(/ op. [0-9]/)[0].split(/ KV [0-9]/)[0];
+	const commonName = Util.getTextFromSelectors('.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) span:nth-child(2)') || '';
+	const director = removeParenthesis(Util.getTextFromSelectors('.player-PlayerInfo__recordingInfo--15VMv>span:first-child span'));
+	return `${symphonyShort}${commonName} (${director})`;
+}
+
+function removeParenthesis(text) {
+	return text.replace(/\s*\(.*?\)\s*/g, '');
 }
