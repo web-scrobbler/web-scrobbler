@@ -21,7 +21,7 @@ function getCurrentTrack() {
 }
 
 function getCurrentSymphony() {
-	const symphonyShort = Util.getTextFromSelectors('.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) span:first-child').split(/ in [A-G]/)[0].split(/ op. [0-9]/)[0].split(/ KV [0-9]/)[0];
+	const symphonyShort = Util.getTextFromSelectors('.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) span:first-child').split(/ in [A-G]| op. [0-9]| KV [0-9]/)[0];
 	const commonName = Util.getTextFromSelectors('.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) span:nth-child(2)') || '';
 	const director = removeParenthesis(Util.getTextFromSelectors('.player-PlayerInfo__recordingInfo--15VMv>span:first-child span'));
 	return `${symphonyShort}${commonName} (${director})`;
