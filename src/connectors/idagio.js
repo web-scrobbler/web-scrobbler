@@ -4,9 +4,9 @@ Connector.playerSelector = '.player-PlayerBar__bar--2yos_';
 
 Connector.artistSelector = '.player-PlayerInfo__infoEl--2jhHY span:first-child';
 
-Connector.getTrack = () => getCurrentTrack();
+Connector.getTrack = getCurrentTrack;
 
-Connector.getAlbum = () => getCurrentSymphony();
+Connector.getAlbum = getCurrentSymphony;
 
 Connector.currentTimeSelector = '.player-PlayerProgress__progress--2F0qB>span';
 
