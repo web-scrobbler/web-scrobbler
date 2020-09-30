@@ -17,7 +17,7 @@ Connector.isPlaying = () => Util.getTextFromSelectors('.player-PlayerControls__b
 Connector.isScrobblingAllowed = () => Util.getTextFromSelectors('.player-PlayerInfo__recordingInfo--15VMv') !== 'Sponsor message';
 
 function getCurrentTrack() {
-	return Util.getTextFromSelectors('.player-PlayerInfo__infoEl--2jhHY').split(' – ').slice(1).join(' - ');
+	return Util.getTextFromSelectors('.player-PlayerInfo__infoEl--2jhHY').split(' – ').slice(1).join(': ');
 }
 
 function getCurrentSymphony() {
