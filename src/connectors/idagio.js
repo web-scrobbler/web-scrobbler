@@ -1,9 +1,9 @@
 'use strict';
 
-const symphonySelector = '.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) span';
-const movementSelector = '.player-PlayerInfo__infoEl--2jhHY span span span';
+const symphonySelector = '.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) span:first-child';
+const commonNameSelector = '.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) span:nth-child(2)';
 const directorSelector = '.player-PlayerInfo__recordingInfo--15VMv>span:first-child span';
-const recordingInfoSelector = '.player-PlayerInfo__recordingInfo--15VMv';
+const trackSelector = '.player-PlayerInfo__infoEl--2jhHY';
 const pauseButtonSelector = '.player-PlayerControls__btn--1r-vy:nth-child(2) .util-IconLabel__component--3Uitr span';
 
 Connector.playerSelector = '.player-PlayerBar__bar--2yos_';
@@ -20,16 +20,19 @@ Connector.durationSelector = '.player-PlayerProgress__timeTotal--3aHlj span';
 
 Connector.isPlaying = () => Util.getTextFromSelectors(pauseButtonSelector) === 'Pause';
 
-Connector.isScrobblingAllowed = () => Util.getTextFromSelectors(recordingInfoSelector) !== 'Sponsor message';
+Connector.isScrobblingAllowed = () => Util.getTextFromSelectors('.player-PlayerInfo__recordingInfo--15VMv') !== 'Sponsor message';
 
 function getCurrentTrack() {
-	const symphony = Util.getTextFromSelectors(symphonySelector);
-	const movement = Util.getTextFromSelectors(movementSelector);
-	return `${symphony}: ${movement}`;
+	return Util.getTextFromSelectors(trackSelector).split(' – ').slice(1).join(': ');
 }
 
 function getCurrentSymphony() {
-	const symphonyShort = Util.getTextFromSelectors(symphonySelector).split(/ in [A-G]/)[0];
-	const director = Util.getTextFromSelectors(directorSelector);
-	return `${symphonyShort} (${director})`;
+	const symphonyShort = Util.getTextFromSelectors(symphonySelector).split(/ in [A-G]| op. [0-9]| KV [0-9]/)[0];
+	const commonName = Util.getTextFromSelectors(commonNameSelector) || '';
+	const director = removeParenthesis(Util.getTextFromSelectors(directorSelector));
+	return `${symphonyShort}${commonName} (${director})`;
+}
+
+function removeParenthesis(text) {
+	return text.replace(/\s*\(.*?\)\s*/g, '');
 }
