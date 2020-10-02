@@ -1651,6 +1651,11 @@ const connectors = [{
 	matches: ['*://relax-fm.ru/*'],
 	js: 'connectors/relaxfm.js',
 	id: 'relaxfm',
+}, {
+	label: 'Laut.fm',
+	matches: ['*://laut.fm/*'],
+	js: 'connectors/laut.fm.js',
+	id: 'laut.fm',
 }];
 
 define(() => connectors);
