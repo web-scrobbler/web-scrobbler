@@ -6,4 +6,4 @@ Connector.artistSelector = '.TitleExecutorAir';
 
 Connector.trackSelector = '.TitleTracksAir';
 
-Connector.isPlaying = () => $('.toggleplayer').hasClass('stop');
+Connector.pauseButtonSelector = '.toggleplayer.stop';
