@@ -1647,7 +1647,7 @@ const connectors = [{
 	js: 'connectors/idagio.js',
 	id: 'idagio',
 }, {
-	label: 'Relaxfm',
+	label: 'Relax FM',
 	matches: ['*://relax-fm.ru/*'],
 	js: 'connectors/relaxfm.js',
 	id: 'relaxfm',
