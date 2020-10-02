@@ -41,7 +41,27 @@ Connector.getRemainingTime = () => {
 
 Connector.isPlaying = () => $('.playControl').hasClass('playing');
 
-Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+const filterArtistPremiereRules = [
+	{ source: /^\s*Premiere.*:\s*/i, target: '' },
+	{ source: /^\s*\*\*Premiere\*\*\s*/i, target: '' },
+];
+
+const filterTrackPremiereRules = [
+	{ source: /\[.*Premiere.*\]/i, target: '' },
+];
+
+function filterArtistPremiere(text) {
+	return MetadataFilter.filterWithFilterRules(text, filterArtistPremiereRules);
+}
+
+function filterTrackPremiere(text) {
+	return MetadataFilter.filterWithFilterRules(text, filterTrackPremiereRules);
+}
+
+Connector.applyFilter(MetadataFilter.getYoutubeFilter().append({
+	artist: filterArtistPremiere,
+	track: filterTrackPremiere,
+}));
 
 function getDurationOrRemainingTime() {
 	return Util.getSecondsFromSelectors(durationSelector);
