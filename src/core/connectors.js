@@ -1646,6 +1646,11 @@ const connectors = [{
 	],
 	js: 'connectors/idagio.js',
 	id: 'idagio',
+}, {
+	label: 'Laut.fm',
+	matches: ['*://laut.fm/*'],
+	js: 'connectors/laut.fm.js',
+	id: 'laut.fm',
 }];
 
 define(() => connectors);
