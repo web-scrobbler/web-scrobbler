@@ -46,7 +46,7 @@ const filterArtistPremiereRules = [
 	{ source: /^\s*\*\*Premiere\*\*\s*/i, target: '' },
 ];
 
-const filterTrackPRemiereRules = [
+const filterTrackPremiereRules = [
 	{ source: /\[.*Premiere.*\]/i, target: '' },
 ];
 
@@ -55,7 +55,7 @@ function filterArtistPremiere(text) {
 }
 
 function filterTrackPremiere(text) {
-	return MetadataFilter.filterWithFilterRules(text, filterTrackPRemiereRules);
+	return MetadataFilter.filterWithFilterRules(text, filterTrackPremiereRules);
 }
 
 Connector.applyFilter(MetadataFilter.getYoutubeFilter().append({
