@@ -12,6 +12,9 @@ jobs:
     - name: Read .nvmrc
       run: echo ::set-output name=NVMRC::$(cat .nvmrc)
       id: nvm
+    - name: Get version from ref
+      id: get-version
+      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
     - name: Setup node
       uses: actions/setup-node@v1
       with:
@@ -28,13 +31,12 @@ jobs:
         CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
         CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
     - name: Publish release on GitHub
-      run: |
-        npx grunt publish_github_drafts
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: test-room-7/action-publish-release-drafts@v0.1.0
+      with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          tag-name: ${{ steps.get-version.outputs.VERSION }}
     - name: Request website update
       run: |
-        VERSION=$(echo $GITHUB_REF | cut -d / -f 3)
         curl -X POST \
             -H "Authorization: token ${GH_FA_TOKEN}" \
             -H "Accept: application/vnd.github.everest-preview+json" \
@@ -43,3 +45,4 @@ jobs:
       env:
         GH_FA_TOKEN: ${{ secrets.GH_FA_TOKEN }}
         WEBSITE_REPO: web-scrobbler/website-resources
+        VERSION: ${{ steps.get-version.outputs.VERSION }}

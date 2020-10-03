@@ -175,12 +175,6 @@ module.exports = (grunt) => {
 				commitFiles: FILES_TO_BUMP,
 			},
 		},
-		publish_github_drafts: {
-			owner: 'web-scrobbler',
-			repo: 'web-scrobbler',
-			token: process.env.GH_TOKEN,
-			tag: 'v<%= manifest.version %>', // Add `v` prefix for tags
-		},
 		webstore_upload: {
 			accounts: {
 				default: {
@@ -345,7 +339,7 @@ module.exports = (grunt) => {
 			}
 
 			const publishTasks = [
-				'publish:chrome', 'publish:firefox', 'github_release',
+				'publish:chrome', 'publish:firefox',
 			];
 			releaseTasks.push(...publishTasks);
 		}
