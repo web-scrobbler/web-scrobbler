@@ -1656,6 +1656,11 @@ const connectors = [{
 	matches: ['*://laut.fm/*'],
 	js: 'connectors/laut.fm.js',
 	id: 'laut.fm',
+}, {
+	label: 'Mmagnatune',
+	matches: ['*://magnatune.com/*'],
+	js: 'connectors/magnatune.js',
+	id: 'magnatune',
 }];
 
 define(() => connectors);
