@@ -23,7 +23,9 @@ Connector.albumSelector = [
 	'.ytmusic-player-bar .yt-formatted-string.style-scope.yt-simple-endpoint[href*="browse/FEmusic_library_privately_owned_release_detailb_"]',
 ];
 
-const videoHasAlbum = () => !!Connector.getAlbum();
+function videoHasAlbum() {
+	return !!Connector.getAlbum();
+}
 
 Connector.getArtistTrack = () => {
 	let artist; let track;
@@ -47,7 +49,9 @@ Connector.isPlaying = () => {
 
 Connector.isScrobblingAllowed = () => !Util.isElementVisible(adSelector);
 
-const filterYoutubeIfNonAlbum = (text) => videoHasAlbum() ? text : MetadataFilter.youtube(text);
+function filterYoutubeIfNonAlbum(text) {
+	return videoHasAlbum() ? text : MetadataFilter.youtube(text);
+}
 
 const conditionalYoutubeFilter = new MetadataFilter({ track: filterYoutubeIfNonAlbum });
 
