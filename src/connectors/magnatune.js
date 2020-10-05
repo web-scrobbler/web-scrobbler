@@ -32,5 +32,4 @@ Connector.getAlbum = () => {
 	return artistElement.closest('font').innerText.replace(artistElement.textContent, '').slice(1);
 };
 
-
 Connector.isPlaying = () => document.querySelectorAll('#hugeplay a').length === 3;
