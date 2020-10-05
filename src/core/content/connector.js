@@ -435,14 +435,6 @@ function BaseConnector() {
 	 */
 
 	/**
-	 * Reset the filter to default, removing any custom filters added using
-	 * applyFilter.
-	 */
-	this.resetFilter = () => {
-		metadataFilter = MetadataFilter.getDefaultFilter();
-	};
-
-	/**
 	 * Add custom filter to default one. Use this method only to apply
 	 * custom metadata filters.
 	 *
