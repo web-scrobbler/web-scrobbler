@@ -13,7 +13,14 @@ define((require) => {
 	 * @param  {Object} song Song instance
 	 */
 	async function process(song) {
-		song.flags.isCorrectedByUser = await SavedEdits.loadSongInfo(song);
+		let isSongInfoLoaded = false;
+		try {
+			isSongInfoLoaded = await SavedEdits.loadSongInfo(song);
+		} catch (e) {
+			// Do nothing
+		}
+
+		song.flags.isCorrectedByUser = isSongInfoLoaded;
 	}
 
 	return { process };
