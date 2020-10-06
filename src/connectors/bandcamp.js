@@ -41,15 +41,12 @@ function setupConnector() {
 	if (isAlbumPage()) {
 		Util.debugLog('Init props for album player');
 
+		initPropertiesForSongAndAlbumPlayer();
 		initPropertiesForAlbumPlayer();
 	} else if (isSongPage()) {
-		/*
-		 * The song page has almost the same selectors
-		 * as the album page, but we override some of them.
-		 */
 		Util.debugLog('Init props for song player');
 
-		initPropertiesForAlbumPlayer();
+		initPropertiesForSongAndAlbumPlayer();
 		initPropertiesForSongPlayer();
 	} else if (isCollectionsPage()) {
 		Util.debugLog('Init props for collections player');
@@ -94,26 +91,32 @@ function initGenericProperties() {
 // Example: https://northlane.bandcamp.com/album/mesmer
 function initPropertiesForAlbumPlayer() {
 	// This selector won't be used for Various Artists compilations
-	Connector.artistSelector = 'span[itemprop=byArtist]';
+	Connector.artistSelector = '#name-section a';
 
-	Connector.albumArtistSelector = 'span[itemprop="byArtist"]';
+	Connector.albumArtistSelector = '#name-section a';
 
-	Connector.trackSelector = '.track_info .title';
+	Connector.trackSelector = '.title-section .title';
 
-	Connector.albumSelector = 'h2.trackTitle';
+	Connector.albumSelector = '#name-section .trackTitle';
+}
 
+// Example: https://dansarecords.bandcamp.com/track/tribal-love-tribal-dirt-mix
+function initPropertiesForSongPlayer() {
+	Connector.artistSelector = '.albumTitle span:last-of-type a';
+
+	Connector.albumArtistSelector = '.albumTitle span:last-of-type a';
+
+	Connector.trackSelector = '#name-section .trackTitle';
+
+	Connector.albumSelector = '#name-section .fromAlbum';
+}
+
+function initPropertiesForSongAndAlbumPlayer() {
 	Connector.currentTimeSelector = '.time_elapsed';
 
 	Connector.durationSelector = '.time_total';
 
 	Connector.trackArtSelector = '#tralbumArt > a > img';
-}
-
-// Example: https://dansarecords.bandcamp.com/track/tribal-love-tribal-dirt-mix
-function initPropertiesForSongPlayer() {
-	Connector.trackSelector = 'h2.trackTitle';
-
-	Connector.albumSelector = '[itemprop="inAlbum"] [itemprop="name"]';
 }
 
 // Example: https://bandcamp.com/tag/discovery
@@ -180,14 +183,14 @@ function initPropertiesForHomePage() {
 
 	Connector.getUniqueID = () => {
 		if (document.querySelector('.bcweekly.playing') !== null) {
-			const pageData = getData('#pagedata', 'data-blob');
+			const { bcw_data: bandcampWeeklyData } = getData('#pagedata', 'data-blob');
+			const currentShowId = location.search.match(/show=(\d+)?/)[1];
 
-			const showId = pageData.bcw_show.show_id;
-			const currentShowId = +location.search.match(/show=(\d+)?/)[1];
-
-			if (currentShowId === showId) {
+			if (currentShowId in bandcampWeeklyData) {
+				const currentShowData = bandcampWeeklyData[currentShowId];
 				const currentTrackIndex = Util.getAttrFromSelectors('.bcweekly-current', 'data-index');
-				return pageData.bcw_show.tracks[currentTrackIndex].track_id;
+
+				return currentShowData.tracks[currentTrackIndex].track_id;
 			}
 		}
 
@@ -217,7 +220,7 @@ function isArtistVarious(artist, track) {
 	 * Example: https://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
 	 */
 	if (isAlbumPage()) {
-		const trackNodes = document.querySelectorAll('.track_list span[itemprop="name"]');
+		const trackNodes = document.querySelectorAll('.track_list .track-title');
 		for (const trackNode of trackNodes) {
 			const trackName = trackNode.textContent;
 			if (!Util.findSeparator(trackName, SEPARATORS)) {
