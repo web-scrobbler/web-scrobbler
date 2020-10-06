@@ -23,13 +23,13 @@ Connector.getTrack = () => {
 		return null;
 	}
 
-	return matched[1].trim();
+	return matched[1];
 };
 
 Connector.getAlbum = () => {
 	const artistElement = document.querySelector(artistSelector);
 
-	return artistElement.closest('font').innerText.replace(artistElement.textContent, '').slice(1);
+	return artistElement.closest('font').textContent.replace(artistElement.textContent, '').slice(1);
 };
 
 Connector.isPlaying = () => document.querySelectorAll('#hugeplay a').length === 3;
