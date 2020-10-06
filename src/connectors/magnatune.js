@@ -1,5 +1,3 @@
-
-
 'use strict';
 
 const artistSelector = "a[href^='/artists']";
