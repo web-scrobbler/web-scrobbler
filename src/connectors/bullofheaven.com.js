@@ -4,7 +4,6 @@ const artistName = 'Bull of Heaven';
 
 const trackPrefixRegex = /\d+ - /;
 
-const playButtonSelector = '.jp-play';
 
 const filter = new MetadataFilter({ track: removeNumericPrefixes });
 
@@ -26,4 +25,4 @@ Connector.currentTimeSelector = '.jp-current-time';
 
 Connector.durationSelector = '.jp-duration';
 
-Connector.isPlaying = () => !Util.isElementVisible(playButtonSelector);
+Connector.playButtonSelector = '.jp-play';
