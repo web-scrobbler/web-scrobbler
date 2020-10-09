@@ -2,18 +2,23 @@
 
 const artistName = 'Bull of Heaven';
 
-const trackRegex = /\d+ - /;
+const trackPrefixRegex = /\d+ - /;
 
 const playButtonSelector = '.jp-play';
+
+const filter = new MetadataFilter({ track: removeNumericPrefixes });
+
+Connector.applyFilter(filter);
+
+function removeNumericPrefixes(track) {
+	return track.replace(trackPrefixRegex, '');
+}
 
 Connector.playerSelector = '#jp_container_N';
 
 Connector.getArtist = () => artistName;
 
-Connector.getTrack = () => {
-	const trackElement = document.querySelector('.jp-playlist-current .playlist-title');
-	return trackElement.textContent.replace(trackRegex, '');
-};
+Connector.trackSelector = '.jp-playlist-current .playlist-title';
 
 Connector.trackArtSelector = '#jp_poster_0';
 
