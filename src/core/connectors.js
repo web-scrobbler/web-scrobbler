@@ -1666,6 +1666,11 @@ const connectors = [{
 	matches: ['*://libre.fm/*'],
 	js: 'connectors/librefm.js',
 	id: 'librefm',
+}, {
+	label: 'Brain.fm',
+	matches: ['*://www.brain.fm/*'],
+	js: 'connectors/brainfm.js',
+	id: 'brainfm',
 }];
 
 define(() => connectors);
