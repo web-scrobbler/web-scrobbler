@@ -8,30 +8,41 @@ jobs:
     name: Build the extension
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Read .nvmrc
-      run: echo ::set-output name=nvmrc::$(cat .nvmrc)
-      id: nvm
-    - name: Setup node
+    - name: Checkout the repository
+      uses: actions/checkout@v2
+
+    - name: Get Node.js version from .nvmrc
+      id: get-node-version
+      run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+    - name: Setup Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: '${{ steps.nvm.outputs.nvmrc }}'
-    - run: npm install
-    - name: Build the extension (Chrome)
+        node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build the extension for Chrome
       run: |
         npx grunt clean:build
         npx grunt build:chrome
         cp -r build web-scrobbler-chrome
-    - uses: actions/upload-artifact@v2
+
+    - name: Upload the extension for Chrome as an artifact
+      uses: actions/upload-artifact@v2
       with:
         name: web-scrobbler-chrome
         path: web-scrobbler-chrome
-    - name: Build the extension (Firefox)
+
+    - name: Build the extension for Firefox
       run: |
         npx grunt clean:build
         npx grunt build:firefox
         cp -r build web-scrobbler-firefox
-    - uses: actions/upload-artifact@v2
+
+    - name: Upload the extension for Firefox as an artifact
+      uses: actions/upload-artifact@v2
       with:
         name: web-scrobbler-firefox
         path: web-scrobbler-firefox
