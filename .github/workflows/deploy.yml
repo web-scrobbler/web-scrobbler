@@ -16,7 +16,7 @@ jobs:
 
     - name: Get version from ref
       id: get-version
-      run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      run: echo ::set-output name=EXT_VERSION::${GITHUB_REF/refs\/tags\//}
 
     - name: Setup node
       uses: actions/setup-node@v1
@@ -54,7 +54,7 @@ jobs:
       uses: test-room-7/action-publish-release-drafts@v0
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          tag-name: ${{ steps.get-version.outputs.VERSION }}
+          tag-name: ${{ steps.get-version.outputs.EXT_VERSION }}
 
     - name: Request website update
       run: |
@@ -66,4 +66,4 @@ jobs:
       env:
         GH_FA_TOKEN: ${{ secrets.GH_FA_TOKEN }}
         WEBSITE_REPO: web-scrobbler/website-resources
-        VERSION: ${{ steps.get-version.outputs.VERSION }}
+        VERSION: ${{ steps.get-version.outputs.EXT_VERSION }}
