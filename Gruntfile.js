@@ -2,7 +2,6 @@
 
 require('dotenv').config();
 
-const CHROME_EXTENSION_ID = 'hhinaapppaileiechjoiifaancjggfjm';
 const FIREFOX_EXTENSION_ID = '{799c0914-748b-41df-a25c-22d008f9e83f}';
 
 const SRC_DIR = 'src';
@@ -161,34 +160,11 @@ module.exports = (grunt) => {
 		 * Publish tasks.
 		 */
 
-		amo_upload: {
-			issuer: process.env.AMO_ISSUER,
-			secret: process.env.AMO_SECRET,
-			id: FIREFOX_EXTENSION_ID,
-			version: '<%= manifest.version %>',
-			src: DIST_FILE_FIREFOX,
-		},
 		bump: {
 			options: {
 				files: FILES_TO_BUMP,
 				updateConfigs: ['manifest'],
 				commitFiles: FILES_TO_BUMP,
-			},
-		},
-		webstore_upload: {
-			accounts: {
-				default: {
-					publish: true,
-					client_id: process.env.CHROME_CLIENT_ID,
-					client_secret: process.env.CHROME_CLIENT_SECRET,
-					refresh_token: process.env.CHROME_REFRESH_TOKEN,
-				},
-			},
-			extensions: {
-				'web-scrobbler': {
-					appID: CHROME_EXTENSION_ID,
-					zip: DIST_FILE_CHROME,
-				},
 			},
 		},
 
@@ -304,63 +280,19 @@ module.exports = (grunt) => {
 	});
 
 	/**
-	 * Publish data.
-	 * @param  {String} browser Browser name
-	 */
-	grunt.registerTask('publish', (browser) => {
-		assertBrowserIsSupported(browser);
-
-		grunt.task.run(
-			[`dist:${browser}:release`, `upload:${browser}`, 'clean:dist']);
-	});
-
-	/**
 	 * Release new version.
 	 *
-	 * For this project Travis CI is configured to publish the extension
+	 * For this project GitHub Actions are configured to publish the extension
 	 * if new tag is pushed to the project repository.
 	 *
-	 * As a fallback, the extension can be released locally:
-	 * > grunt release:%type%:local
-	 *
 	 * @param {String} versionType Release type supported by grunt-bump
-	 * @param {String} releaseMode Release mode (local or empty)
 	 */
-	grunt.registerTask('release', (versionType, releaseMode) => {
+	grunt.registerTask('release', (versionType) => {
 		if (!versionType) {
 			grunt.fail.fatal('You should specify release type!');
 		}
 
-		const releaseTasks = [`bump:${versionType}`];
-
-		if (releaseMode) {
-			if (releaseMode !== 'local') {
-				grunt.fail.fatal(`Unknown release type: ${releaseMode}`);
-			}
-
-			const publishTasks = [
-				'publish:chrome', 'publish:firefox',
-			];
-			releaseTasks.push(...publishTasks);
-		}
-
-		grunt.task.run(releaseTasks);
-	});
-
-	/**
-	 * Upload new version.
-	 *
-	 * @param  {String} browser Browser name
-	 */
-	grunt.registerTask('upload', (browser) => {
-		switch (browser) {
-			case 'chrome':
-				grunt.task.run('webstore_upload');
-				break;
-			case 'firefox':
-				grunt.task.run('amo_upload');
-				break;
-		}
+		grunt.task.run(`bump:${versionType}`);
 	});
 
 	/**
