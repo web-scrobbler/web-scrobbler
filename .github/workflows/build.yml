@@ -29,7 +29,7 @@ jobs:
         npx grunt build:chrome
         cp -r build web-scrobbler-chrome
 
-    - name: Upload the extension for Chrome as a artifact
+    - name: Upload the extension for Chrome as an artifact
       uses: actions/upload-artifact@v2
       with:
         name: web-scrobbler-chrome
@@ -41,7 +41,7 @@ jobs:
         npx grunt build:firefox
         cp -r build web-scrobbler-firefox
 
-    - name: Upload the extension for Firefox as a artifact
+    - name: Upload the extension for Firefox as an artifact
       uses: actions/upload-artifact@v2
       with:
         name: web-scrobbler-firefox
