@@ -13,19 +13,24 @@ jobs:
       IS_MASTER_BRANCH: ${{ github.ref == 'refs/heads/master' }}
     steps:
     - uses: actions/checkout@v2
+
     - name: Get Node.js version from .nvmrc
       id: get-node-version
       run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
     - name: Setup Node.js
       uses: actions/setup-node@v1
       with:
         node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
+
     - run: npm install
+
     - name: Run linters
       run: |
         npm run lint
       env:
         CI: true
+
     - name: Run tests
       run: |
         if $IS_COVERAGE_ALLOWED && $IS_MASTER_BRANCH; then
