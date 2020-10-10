@@ -1676,6 +1676,11 @@ const connectors = [{
 	matches: ['*://bullofheaven.com/*'],
 	js: 'connectors/bullofheaven.com.js',
 	id: 'bullofheavencom',
+}, {
+	label: 'All Classical Portland',
+	matches: ['*://player.allclassical.org/*'],
+	js: 'connectors/allclassical.org.js',
+	id: 'allclassicalportland',
 }];
 
 define(() => connectors);
