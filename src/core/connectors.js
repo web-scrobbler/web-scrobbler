@@ -1667,6 +1667,11 @@ const connectors = [{
 	js: 'connectors/librefm.js',
 	id: 'librefm',
 }, {
+	label: 'Brain.fm',
+	matches: ['*://www.brain.fm/*'],
+	js: 'connectors/brainfm.js',
+	id: 'brainfm',
+}, {
 	label: 'bullofheaven.com',
 	matches: ['*://bullofheaven.com/*'],
 	js: 'connectors/bullofheaven.com.js',
