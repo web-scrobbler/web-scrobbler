@@ -12,7 +12,8 @@ jobs:
       IS_COVERAGE_ALLOWED: ${{ secrets.CODACY_PROJECT_TOKEN != '' }}
       IS_MASTER_BRANCH: ${{ github.ref == 'refs/heads/master' }}
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout the repository
+      uses: actions/checkout@v2
 
     - name: Get Node.js version from .nvmrc
       id: get-node-version
@@ -23,7 +24,8 @@ jobs:
       with:
         node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
 
-    - run: npm install
+    - name: Install dependencies
+      run: npm install
 
     - name: Run linters
       run: |

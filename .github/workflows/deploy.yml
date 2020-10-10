@@ -8,13 +8,14 @@ jobs:
     name: Deploy the extension
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - name: Checkout the repository
+      uses: actions/checkout@v2
 
     - name: Get Node.js version from .nvmrc
       id: get-node-version
       run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
 
-    - name: Get version from ref
+    - name: Get the extension version from ref
       id: get-version
       run: echo ::set-output name=EXT_VERSION::${GITHUB_REF/refs\/tags\//}
 
@@ -23,7 +24,8 @@ jobs:
       with:
         node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
 
-    - run: npm install
+    - name: Install dependencies
+      run: npm install
 
     - name: Create zipballs
       run: |
