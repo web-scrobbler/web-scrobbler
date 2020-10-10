@@ -31,7 +31,7 @@ jobs:
         CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
         CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
     - name: Publish release on GitHub
-      uses: test-room-7/action-publish-release-drafts@v0.1.0
+      uses: test-room-7/action-publish-release-drafts@v0
       with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           tag-name: ${{ steps.get-version.outputs.VERSION }}
