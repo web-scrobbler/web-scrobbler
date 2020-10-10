@@ -13,13 +13,13 @@ jobs:
       IS_MASTER_BRANCH: ${{ github.ref == 'refs/heads/master' }}
     steps:
     - uses: actions/checkout@v2
-    - name: Read .nvmrc
-      run: echo ::set-output name=NVMRC::$(cat .nvmrc)
-      id: nvm
-    - name: Setup node
+    - name: Get Node.js version from .nvmrc
+      id: get-node-version
+      run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+    - name: Setup Node.js
       uses: actions/setup-node@v1
       with:
-        node-version: '${{ steps.nvm.outputs.NVMRC }}'
+        node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
     - run: npm install
     - name: Run linters
       run: |
