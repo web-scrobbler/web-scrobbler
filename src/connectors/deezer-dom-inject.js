@@ -27,34 +27,76 @@ function sendEvent() {
 	window.postMessage({
 		sender: 'web-scrobbler',
 		type: 'DEEZER_STATE',
-		trackInfo: getTrackInfo(),
+		trackInfo: getCurrentMediaInfo(),
 		isPlaying: isPlaying(),
+		isPodcast: isPodcast(),
 	}, '*');
 }
 
-function getTrackInfo() {
+function getCurrentMediaInfo() {
 	const player = window.dzPlayer;
-	const item = player.getCurrentSong();
+	const currentMedia = player.getCurrentSong();
 
-	let trackTitle = item.SNG_TITLE;
-	const trackVersion = item.VERSION;
+	const mediaType = currentMedia.__TYPE__;
+	const currentTime = player.getPosition();
+	const duration = player.getDuration();
+
+	let trackInfo = null;
+
+	switch (mediaType) {
+		case 'episode': {
+			trackInfo = getEpisodeInfo(currentMedia);
+			break;
+		}
+
+		case 'song': {
+			trackInfo = getTrackInfo(currentMedia);
+			break;
+		}
+	}
+
+	if (!trackInfo) {
+		console.warn(`Web Scrobbler: Unable to load track info for ${mediaType} media type`);
+		return null;
+	}
+
+	trackInfo.currentTime = currentTime;
+	trackInfo.duration = duration;
+
+	return trackInfo;
+}
+
+function getTrackInfo(currentMedia) {
+	let trackTitle = currentMedia.SNG_TITLE;
+	const trackVersion = currentMedia.VERSION;
 	if (trackVersion) {
 		trackTitle = `${trackTitle} ${trackVersion}`;
 	}
 
 	return {
-		artist: item.ART_NAME,
+		artist: currentMedia.ART_NAME,
 		track: trackTitle,
-		album: item.ALB_TITLE,
-		duration: player.getDuration(),
-		currentTime: player.getPosition(),
-		uniqueID: item.SNG_ID,
-		trackArt: getTrackArt(item.ALB_PICTURE),
+		album: currentMedia.ALB_TITLE,
+		uniqueID: currentMedia.SNG_ID,
+		trackArt: getTrackArt(currentMedia.ALB_PICTURE),
+	};
+}
+
+function getEpisodeInfo(currentMedia) {
+	return {
+		artist: currentMedia.SHOW_NAME,
+		track: currentMedia.EPISODE_TITLE,
+		uniqueID: currentMedia.EPISODE_ID,
 	};
 }
 
 function isPlaying() {
 	return window.dzPlayer.isPlaying();
+}
+
+function isPodcast() {
+	const currentMedia = window.dzPlayer.getCurrentSong();
+	return currentMedia.__TYPE__ === 'episode';
 }
 
 function getTrackArt(pic) {
