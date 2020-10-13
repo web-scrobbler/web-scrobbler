@@ -37,6 +37,11 @@ function getCurrentMediaInfo() {
 	const player = window.dzPlayer;
 	const currentMedia = player.getCurrentSong();
 
+	// Radio stations don't provide track info
+	if (currentMedia.EXTERNAL) {
+		return null;
+	}
+
 	const mediaType = currentMedia.__TYPE__;
 	const currentTime = player.getPosition();
 	const duration = player.getDuration();
