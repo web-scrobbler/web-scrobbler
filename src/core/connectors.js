@@ -1681,6 +1681,11 @@ const connectors = [{
 	matches: ['*://player.allclassical.org/*'],
 	js: 'connectors/allclassical.org.js',
 	id: 'allclassicalportland',
+}, {
+	label: 'Migu Music',
+	matches: ['*://music.migu.cn/*'],
+	js: 'connectors/migu-music.js',
+	id: 'migu-music',
 }];
 
 define(() => connectors);
