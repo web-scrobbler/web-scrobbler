@@ -41,6 +41,7 @@ function replaceYoutubeVideo() {
 	videoFrame.id = 'webscrobblerPlayer';
 	videoFrame.height = 290;
 	videoFrame.width = 500;
+	videoFrame.style = 'display: block';
 	iframeParent.append(videoFrame);
 
 	videoFrame.addEventListener('load', function() {
