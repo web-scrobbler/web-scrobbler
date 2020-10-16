@@ -17,8 +17,6 @@ Connector.playerSelector = '.m-upload-list';
 
 Connector.applyFilter(filter);
 
-Connector.injectScript('../core/background/service/widgetapi-vflI8cWQm.js');
-Connector.injectScript('../core/background/service/iframe_api.js');
 Connector.injectScript('./connectors/eggs-dom-inject.js');
 
 
