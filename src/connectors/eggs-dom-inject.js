@@ -6,7 +6,7 @@
  */
 
 const isArtistPage = window.location.href.includes('/artist/');
-let videoFrame = document.createElement('iframe');
+const videoFrame = document.createElement('iframe');
 let currentTime = 0;
 let duration = 180;
 
@@ -38,44 +38,44 @@ function replaceYoutubeVideo() {
 	iframeParent.innerHTML = '';
 
 	videoFrame.src = `https://www.youtube.com/embed/${videoId}?origin=https%3A%2F%2Feggs.mu&wmode=transparent&rel=0&enablejsapi=1&widgetid=1`;
-	videoFrame.id = "webscrobblerPlayer";
-  videoFrame.height = 290;
-  videoFrame.width = 500;
+	videoFrame.id = 'webscrobblerPlayer';
+	videoFrame.height = 290;
+	videoFrame.width = 500;
 	iframeParent.append(videoFrame);
-	
-  videoFrame.addEventListener("load", function () {
-    var message = JSON.stringify({
-        event: 'listening',
-        id: videoFrame.id,
-        channel: 'widget'
-    });
-    videoFrame.contentWindow.postMessage(message, 'https://www.youtube.com');
 
-    message = JSON.stringify({
-        event: "command",
-        func: "addEventListener",
-        args: ["onStateChange"],
-        id: videoFrame.id,
-        channel: "widget"
-    });
-    videoFrame.contentWindow.postMessage(message, 'https://www.youtube.com');
-  });
+	videoFrame.addEventListener('load', function() {
+		let message = JSON.stringify({
+			event: 'listening',
+			id: videoFrame.id,
+			channel: 'widget',
+		});
+		videoFrame.contentWindow.postMessage(message, 'https://www.youtube.com');
+
+		message = JSON.stringify({
+			event: 'command',
+			func: 'addEventListener',
+			args: ['onStateChange'],
+			id: videoFrame.id,
+			channel: 'widget',
+		});
+		videoFrame.contentWindow.postMessage(message, 'https://www.youtube.com');
+	});
 }
 
-window.addEventListener('message', event => {
-  if (event.origin !== 'https://www.youtube.com') {
-    return;
-  }
-  const data = JSON.parse(event.data);
-  switch (data.event) {
-    case 'onStateChange':
-      onYoutubeStateChange(data);
-      break;
-    case 'infoDelivery':
-      getTimestamps(data);
-  }
+window.addEventListener('message', (event) => {
+	if (event.origin !== 'https://www.youtube.com') {
+		return;
+	}
+	const data = JSON.parse(event.data);
+	switch (data.event) {
+		case 'onStateChange':
+			onYoutubeStateChange(data);
+			break;
+		case 'infoDelivery':
+			getTimestamps(data);
+	}
 });
-  
+
 function onYoutubeStateChange(data) {
 	const currentPlayer = document.querySelector(`a[href*="${videoId}"]`);
 	const parentElmt = (currentPlayer && currentPlayer.closest('li')) || document;
@@ -97,7 +97,7 @@ function onYoutubeStateChange(data) {
 }
 
 function onYoutubeSongStateChange(event) {
-  const currentPlayer = document.querySelector(`a[href*="${videoId}"]`);
+	const currentPlayer = document.querySelector(`a[href*="${videoId}"]`);
 	const parentElmt = (currentPlayer && currentPlayer.closest('li')) || document;
 	const playerTypeSuffix = (event.data === -1) ? 'start' : '';
 
@@ -117,12 +117,12 @@ function onYoutubeSongStateChange(event) {
 }
 
 function getTimestamps(data) {
-  if (data.info) {
-    if (data.info.currentTime) {
-      currentTime = data.info.currentTime;
-    }
-    if (data.info.duration) {
-      duration = data.info.duration;
-    }
-  }
+	if (data.info) {
+		if (data.info.currentTime) {
+			currentTime = data.info.currentTime;
+		}
+		if (data.info.duration) {
+			duration = data.info.duration;
+		}
+	}
 }
