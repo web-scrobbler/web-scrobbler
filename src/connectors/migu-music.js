@@ -14,16 +14,6 @@ Connector.timeInfoSelector = '.current-time';
 
 Connector.trackArtSelector = '.song-cover img';
 
-Connector.getTrackArt = () => {
-	const element = Util.queryElements(Connector.trackArtSelector);
-	if (!element) {
-		return null;
-	}
-
-	const trackArtUrl = element.attr('src');
-	return Util.normalizeUrl(trackArtUrl);
-};
-
 Connector.isTrackArtDefault = (trackArtUrl) => {
 	return trackArtUrl.includes('data:image/jpeg;base64');
 };
