@@ -8,7 +8,7 @@
 const isArtistPage = window.location.href.includes('/artist/');
 let frameID = '';
 let currentTime = 0;
-let duration = 180;
+let duration = 0;
 
 let videoId = '';
 
