@@ -92,8 +92,8 @@ function onYoutubeStateChange(data) {
 			duration,
 		},
 		trackInfo: {
-			artist: parentElmt.querySelector(`.artist_name${(isArtistPage) ? '' : ' a'}`).innerText,
-			track: parentElmt.querySelector(`.product_name${(isArtistPage) ? ' a' : ' p'}`).innerText,
+			artist: parentElmt.querySelector(`.artist_name${(isArtistPage) ? '' : ' a'}`).textContent,
+			track: parentElmt.querySelector(`.product_name${(isArtistPage) ? ' a' : ' p'}`).textContent,
 		},
 	}, '*');
 }
@@ -110,8 +110,8 @@ function onYoutubeClose() {
 			duration,
 		},
 		trackInfo: {
-			artist: parentElmt.querySelector(`.artist_name${(isArtistPage) ? '' : ' a'}`).innerText,
-			track: parentElmt.querySelector(`.product_name${(isArtistPage) ? ' a' : ' p'}`).innerText,
+			artist: parentElmt.querySelector(`.artist_name${(isArtistPage) ? '' : ' a'}`).textContent,
+			track: parentElmt.querySelector(`.product_name${(isArtistPage) ? ' a' : ' p'}`).textContent,
 		},
 	}, '*');
 }
@@ -130,8 +130,8 @@ function onYoutubeSongStateChange(event) {
 			duration: event.target.getDuration(),
 		},
 		trackInfo: {
-			artist: parentElmt.querySelector(`.artist_name${(isArtistPage) ? '' : ' a'}`).innerText,
-			track: parentElmt.querySelector(`.product_name${(isArtistPage) ? ' a' : ' p'}`).innerText,
+			artist: parentElmt.querySelector(`.artist_name${(isArtistPage) ? '' : ' a'}`).textContent,
+			track: parentElmt.querySelector(`.product_name${(isArtistPage) ? ' a' : ' p'}`).textContent,
 		},
 	}, '*');
 }
