@@ -85,6 +85,7 @@ function checkToggleArtist(mutationList) {
 }
 
 Connector.onScriptEvent = (event) => {
+	console.log(event.data);
 	({ trackInfo, isPlaying, timeInfo } = event.data);
 
 	if (event.data.playerType === 'youtube') {

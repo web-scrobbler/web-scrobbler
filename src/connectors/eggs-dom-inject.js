@@ -6,7 +6,7 @@
  */
 
 const isArtistPage = window.location.href.includes('/artist/');
-const videoFrame = document.createElement('iframe');
+let frameID = '';
 let currentTime = 0;
 let duration = 180;
 
@@ -27,27 +27,27 @@ function toggleExternalPlayer(mutationList) {
 		// external player has been started
 		if (removedList[0].id === 'fancybox-loading') {
 			replaceYoutubeVideo();
+			return null;
+		}
+		// external player has been closed
+		if (removedList[0].classList.contains('fancybox-overlay')) {
+			onYoutubeClose();
+			return null;
 		}
 	}
 }
 
 function replaceYoutubeVideo() {
-	const iframeParent = document.querySelector('.fancybox-inner');
-	videoId = iframeParent.querySelector('iframe').src.split('/').pop().split('?')[0];
+	const videoFrame = document.querySelector('.fancybox-inner iframe');
+	videoId = videoFrame.src.split('/').pop().split('?')[0];
 
-	iframeParent.innerHTML = '';
-
-	videoFrame.src = `https://www.youtube.com/embed/${videoId}?origin=https%3A%2F%2Feggs.mu&wmode=transparent&rel=0&enablejsapi=1&widgetid=1`;
-	videoFrame.id = 'webscrobblerPlayer';
-	videoFrame.height = 290;
-	videoFrame.width = 500;
-	videoFrame.style = 'display: block';
-	iframeParent.append(videoFrame);
+	videoFrame.src += '&enablejsapi=1&widgetid=1';
+	frameID = videoFrame.id;
 
 	videoFrame.addEventListener('load', function() {
 		let message = JSON.stringify({
 			event: 'listening',
-			id: videoFrame.id,
+			id: frameID,
 			channel: 'widget',
 		});
 		videoFrame.contentWindow.postMessage(message, 'https://www.youtube.com');
@@ -56,7 +56,7 @@ function replaceYoutubeVideo() {
 			event: 'command',
 			func: 'addEventListener',
 			args: ['onStateChange'],
-			id: videoFrame.id,
+			id: frameID,
 			channel: 'widget',
 		});
 		videoFrame.contentWindow.postMessage(message, 'https://www.youtube.com');
@@ -74,6 +74,7 @@ window.addEventListener('message', (event) => {
 			break;
 		case 'infoDelivery':
 			getTimestamps(data);
+			break;
 	}
 });
 
@@ -86,6 +87,24 @@ function onYoutubeStateChange(data) {
 		sender: 'web-scrobbler',
 		playerType: `youtube${playerTypeSuffix}`,
 		isPlaying: data.info === 1,
+		timeInfo: {
+			currentTime: currentTime || 0,
+			duration,
+		},
+		trackInfo: {
+			artist: parentElmt.querySelector(`.artist_name${(isArtistPage) ? '' : ' a'}`).innerText,
+			track: parentElmt.querySelector(`.product_name${(isArtistPage) ? ' a' : ' p'}`).innerText,
+		},
+	}, '*');
+}
+
+function onYoutubeClose() {
+	const currentPlayer = document.querySelector(`a[href*="${videoId}"]`);
+	const parentElmt = (currentPlayer && currentPlayer.closest('li')) || document;
+	window.postMessage({
+		sender: 'web-scrobbler',
+		playerType: 'youtube',
+		isPlaying: false,
 		timeInfo: {
 			currentTime,
 			duration,
