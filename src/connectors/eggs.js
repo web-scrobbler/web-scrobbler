@@ -47,7 +47,7 @@ function setArtistConnector() {
 		const parentLi = document.querySelector('.pause[style*="display: block"]').closest('li');
 
 		const songInfo = {
-			artist: parentLi.querySelector('.artist_name').innerText,
+			artist: parentLi.querySelector('.artist_name').textContent,
 			track: parentLi.querySelector('.player').dataset.srcname,
 			trackArt: parentLi.querySelector('img').src,
 		};
