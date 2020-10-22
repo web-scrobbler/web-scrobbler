@@ -24,7 +24,7 @@ define((require) => {
 		 * Disable Google Analytics.
 		 * @type {Boolean}
 		 */
-		[DISABLE_GA]: false,
+		[DISABLE_GA]: true,
 
 		/**
 		 * Force song recognition.
