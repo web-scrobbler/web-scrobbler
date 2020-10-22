@@ -64,7 +64,7 @@ define((require) => {
 	 * @return {String} Client ID
 	 */
 	function getClientId() {
-		let clientId = readClientId();
+		let clientId = readClientId() || readClientIdLegacy();
 
 		if (clientId === null) {
 			clientId = generateClientId();
@@ -75,11 +75,19 @@ define((require) => {
 	}
 
 	/**
+	 * Read client ID from the local storage.
+	 * @return {String} Client ID
+	 */
+	function readClientId() {
+		return localStorage.getItem('gaClientId');
+	}
+
+	/**
 	 * Read client ID from cookie.
 	 * It was previously stored by 'analytics.js'.
 	 * @return {String} Client ID
 	 */
-	function readClientId() {
+	function readClientIdLegacy() {
 		const match = document.cookie.match('(?:^|;)\\s*_ga=([^;]*)');
 		if (match) {
 			const gaCookieValue = match[1];
@@ -104,11 +112,11 @@ define((require) => {
 	}
 
 	/**
-	 * Save client ID to cookie.
+	 * Save client ID to the local storage.
 	 * @param  {String} clientId Client ID
 	 */
 	function saveClientId(clientId) {
-		document.cookie = `_ga=GA1.1.${clientId}`;
+		localStorage.setItem('gaClientId', clientId);
 	}
 
 	/**
