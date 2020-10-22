@@ -42,13 +42,15 @@ jobs:
         refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
 
     - name: Publish the extension for Firefox
-      uses: test-room-7/action-publish-firefox-addon@master
+      uses: trmcnvn/firefox-addon@v1
       with:
-        issuer: ${{ secrets.AMO_ISSUER }}
-        secret: ${{ secrets.AMO_SECRET }}
-        addon-id: '{799c0914-748b-41df-a25c-22d008f9e83f}'
-        version: ${{ steps.get-version.outputs.EXT_VERSION }}
-        path: web-scrobbler-firefox.zip
+        api-key: ${{ secrets.AMO_ISSUER }}
+        api-secret: ${{ secrets.AMO_SECRET }}
+        # Manifest is used to get version only, so we provide
+        # `package.json` file here, which contains the extension version.
+        manifest: package.json
+        uuid: '{799c0914-748b-41df-a25c-22d008f9e83f}'
+        xpi: web-scrobbler-firefox.zip
 
     - name: Publish release on GitHub
       uses: test-room-7/action-publish-release-drafts@v0
