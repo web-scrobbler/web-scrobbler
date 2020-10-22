@@ -17,7 +17,8 @@ Connector.playerSelector = '.m-upload-list';
 
 Connector.applyFilter(filter);
 
-Connector.injectScript('connectors/eggs-dom-inject.js');
+Connector.injectScript('./connectors/eggs-dom-inject.js');
+
 
 if (window.location.href.includes('/artist/')) {
 	setupArtistPlayer();
@@ -34,10 +35,6 @@ function setupYoutubePlayer() {
 }
 
 function setupArtistPlayer() {
-	const youtubeScript = document.createElement('script');
-	youtubeScript.src = 'https://www.youtube.com/iframe_api';
-	document.head.append(youtubeScript);
-
 	const observer = new MutationObserver(checkToggleArtist);
 
 	observer.observe(document.body, { childList: true });
@@ -50,7 +47,7 @@ function setArtistConnector() {
 		const parentLi = document.querySelector('.pause[style*="display: block"]').closest('li');
 
 		const songInfo = {
-			artist: parentLi.querySelector('.artist_name').innerText,
+			artist: parentLi.querySelector('.artist_name').textContent,
 			track: parentLi.querySelector('.player').dataset.srcname,
 			trackArt: parentLi.querySelector('img').src,
 		};
