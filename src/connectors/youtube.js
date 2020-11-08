@@ -1,6 +1,12 @@
 'use strict';
 
 /**
+ * Whether to scrobble individual tracks from album videos.
+ * @type {Boolean}
+ */
+let scrobbleIndividualTracks = false;
+
+/**
  * Array of categories allowed to be scrobbled.
  * @type {Array}
  */
@@ -34,11 +40,7 @@ const categoryEntertainment = 'Entertainment';
 let currentVideoDescription = null;
 let artistTrackFromDescription = null;
 
-const trackInfoGetters = [
-	getTrackInfoFromDescription,
-	getTrackInfoFromChapters,
-	getTrackInfoFromTitle,
-];
+let trackInfoGetters = null;
 
 readConnectorOptions();
 setupEventListener();
@@ -46,15 +48,34 @@ setupEventListener();
 Connector.playerSelector = '#content';
 
 Connector.getTrackInfo = () => {
-	let trackInfo = null;
+	let trackInfo = {};
 
 	for (const getter of trackInfoGetters) {
-		trackInfo = getter();
-		if (Util.isArtistTrackEmpty(trackInfo)) {
-			continue;
-		}
+		if (scrobbleIndividualTracks) {
+			const currentTrackInfo = getter();
+			if (!currentTrackInfo) {
+				continue;
+			}
 
-		return trackInfo;
+			if (!trackInfo.artist) {
+				trackInfo.artist = currentTrackInfo.artist;
+			}
+
+			if (!trackInfo.track) {
+				trackInfo.track = currentTrackInfo.track;
+			}
+
+			if (!Util.isArtistTrackEmpty(trackInfo)) {
+				break;
+			}
+		} else {
+			trackInfo = getter();
+			if (Util.isArtistTrackEmpty(trackInfo)) {
+				continue;
+			}
+
+			return trackInfo;
+		}
 	}
 
 	return trackInfo;
@@ -203,6 +224,18 @@ async function fetchCategoryName(videoId) {
  * Asynchronously read connector options.
  */
 async function readConnectorOptions() {
+	if (await Util.getOption('YouTube', 'scrobbleIndividualTracks')) {
+		scrobbleIndividualTracks = true;
+		trackInfoGetters = scrobbleIndividualTracks ? [
+			getTrackInfoFromChapters,
+			getTrackInfoFromDescription,
+			getTrackInfoFromTitle,
+		] : [
+			getTrackInfoFromDescription,
+			getTrackInfoFromChapters,
+			getTrackInfoFromTitle,
+		];
+	}
 	if (await Util.getOption('YouTube', 'scrobbleMusicOnly')) {
 		allowedCategories.push(categoryMusic);
 	}
@@ -229,9 +262,10 @@ function getTrackInfoFromDescription() {
 }
 
 function getTrackInfoFromChapters() {
-	return Util.splitArtistTrack(
-		Util.getTextFromSelectors(chapterNameSelector)
-	);
+	const trackInfo = {};
+	trackInfo.artist = null;
+	trackInfo.track = Util.getTextFromSelectors(chapterNameSelector);
+	return trackInfo;
 }
 
 function getTrackInfoFromTitle() {

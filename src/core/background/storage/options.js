@@ -74,6 +74,7 @@ define((require) => {
 			useShortTrackNames: false,
 		},
 		YouTube: {
+			scrobbleIndividualTracks: false,
 			scrobbleMusicOnly: false,
 			scrobbleEntertainmentOnly: false,
 		},

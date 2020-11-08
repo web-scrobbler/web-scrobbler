@@ -26,6 +26,7 @@ define((require) => {
 			'#tdl-short-track-names': 'useShortTrackNames',
 		},
 		YouTube: {
+			'#yt-scrobble-individual-tracks': 'scrobbleIndividualTracks',
 			'#yt-music-only': 'scrobbleMusicOnly',
 			'#yt-entertainment-only': 'scrobbleEntertainmentOnly',
 		},
