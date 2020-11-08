@@ -64,17 +64,12 @@ Connector.getTrackInfo = () => {
 			if (!trackInfo.track) {
 				trackInfo.track = currentTrackInfo.track;
 			}
-
-			if (!Util.isArtistTrackEmpty(trackInfo)) {
-				break;
-			}
 		} else {
 			trackInfo = getter();
-			if (Util.isArtistTrackEmpty(trackInfo)) {
-				continue;
-			}
+		}
 
-			return trackInfo;
+		if (!Util.isArtistTrackEmpty(trackInfo)) {
+			break;
 		}
 	}
 
