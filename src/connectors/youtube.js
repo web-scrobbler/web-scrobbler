@@ -110,7 +110,9 @@ Connector.isScrobblingAllowed = () => {
 	return allowedCategories.includes(videoCategory);
 };
 
-Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+Connector.applyFilter(MetadataFilter.getYoutubeFilter().append({
+	artist: removeLtrRtlChars, track: removeLtrRtlChars,
+}));
 
 function setupEventListener() {
 	$(videoSelector).on('timeupdate', Connector.onStateChanged);
@@ -243,4 +245,11 @@ function getTrackInfoFromTitle() {
 	}
 
 	return { artist, track };
+}
+
+function removeLtrRtlChars(text) {
+	return MetadataFilter.filterWithFilterRules(text, [
+		{ source: /\u200e/g, target: '' },
+		{ source: /\u200f/g, target: '' },
+	]);
 }
