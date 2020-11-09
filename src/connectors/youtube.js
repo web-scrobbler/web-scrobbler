@@ -257,10 +257,7 @@ function getTrackInfoFromDescription() {
 }
 
 function getTrackInfoFromChapters() {
-	const trackInfo = {};
-	trackInfo.artist = null;
-	trackInfo.track = Util.getTextFromSelectors(chapterNameSelector);
-	return trackInfo;
+	return Util.splitArtistTrack(Util.getTextFromSelectors(chapterNameSelector), null, false, true);
 }
 
 function getTrackInfoFromTitle() {
