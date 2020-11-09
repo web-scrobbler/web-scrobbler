@@ -1,11 +1,11 @@
 'use strict';
 
 const albumSelector = '.player__album-text > a';
-const trackSelector = '.player .player__title';
+const trackSelector = '[class^=PlayerArtistInfo-module__heading]:last-child';
 const albumLabelSelector = '.player__album-text';
-const featArtistSelector = '.player .player__featuring';
+const featArtistSelector = '[class^=PlayerArtistInfo-module__featuring]';
 
-Connector.artistSelector = '.player .player__artist';
+Connector.artistSelector = '[class^=PlayerArtistInfo-module__heading]:first-child';
 
 Connector.getAlbum = () => {
 	if (isAlbum()) {
@@ -28,13 +28,11 @@ Connector.getTrack = () => {
 
 Connector.playerSelector = '.player';
 
-Connector.isPlaying = () => {
-	return $('.play-button--playing').length > 0;
-};
+Connector.pauseButtonSelector = '.play-button--playing';
 
-Connector.currentTimeSelector = '.waveform__elapsed';
+Connector.currentTimeSelector = '.player .waveform__elapsed';
 
-Connector.durationSelector = '.waveform__duration';
+Connector.durationSelector = '.player .waveform__duration';
 
 /**
  * Check if an album is playing.
@@ -50,10 +48,11 @@ function isAlbum() {
 }
 
 Connector.getTrackArt = () => {
-	const trackArt = $('.avatar-container img').attr('src');
-	if (!trackArt) {
-		return null;
+	const trackArt = Util.extractImageUrlFromSelectors('.avatar-container img');
+	if (trackArt && trackArt.includes('?')) {
+		const endIdx = trackArt.indexOf('?');
+		return trackArt.substr(0, endIdx);
 	}
-	const endIdx = trackArt.includes('?') ? trackArt.indexOf('?') : trackArt.length;
-	return trackArt.substr(0, endIdx);
+
+	return trackArt;
 };
