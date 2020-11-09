@@ -1691,6 +1691,11 @@ const connectors = [{
 	matches: ['*://weibo.com/*', '*://*.weibo.com/*'],
 	js: 'connectors/weibo.js',
 	id: 'weibo',
+}, {
+	label: 'Street Voice',
+	matches: ['*://streetvoice.cn/*'],
+	js: 'connectors/streetvoice.js',
+	id: 'streetvoice',
 }];
 
 define(() => connectors);
