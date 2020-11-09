@@ -257,7 +257,7 @@ function getTrackInfoFromDescription() {
 }
 
 function getTrackInfoFromChapters() {
-	return Util.splitArtistTrack(Util.getTextFromSelectors(chapterNameSelector), null, false, true);
+	return Util.splitArtistTrack(Util.getTextFromSelectors(chapterNameSelector), null, { swap: false }, { allowTrackOnly: true });
 }
 
 function getTrackInfoFromTitle() {

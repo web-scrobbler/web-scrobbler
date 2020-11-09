@@ -90,8 +90,8 @@ const Util = {
 	 * @param  {Boolean} [allowTrackOnly=false] Allow splitting of a string containing a track name only
 	 * @return {Object} Object contains artist and track fields
 	 */
-	splitArtistTrack(str, separators = null, { swap = false } = {}, allowTrackOnly = false) {
-		const [artist, track] = this.splitString(str, separators, { swap }, allowTrackOnly);
+	splitArtistTrack(str, separators = null, { swap = false } = {}, { allowTrackOnly = false } = {}) {
+		const [artist, track] = this.splitString(str, separators, { swap }, { allowTrackOnly });
 		return { artist, track };
 	},
 
@@ -134,7 +134,7 @@ const Util = {
 	 * @param  {Boolean} [returnStrAsSecond=false] Return the whole string as the second value if there is no separator in it
 	 * @return {Array} Array of strings splitted by separator
 	 */
-	splitString(str, separators, { swap = false } = {}, returnStrAsSecond = false) {
+	splitString(str, separators, { swap = false } = {}, { returnStrAsSecond = false } = {}) {
 		let first = null;
 		let second = null;
 
