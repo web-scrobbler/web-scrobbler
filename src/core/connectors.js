@@ -1686,6 +1686,11 @@ const connectors = [{
 	matches: ['*://music.migu.cn/*'],
 	js: 'connectors/migu-music.js',
 	id: 'migu-music',
+}, {
+	label: 'Street Voice',
+	matches: ['*://streetvoice.cn/*'],
+	js: 'connectors/streetvoice.js',
+	id: 'streetvoice',
 }];
 
 define(() => connectors);
