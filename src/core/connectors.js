@@ -1686,6 +1686,11 @@ const connectors = [{
 	matches: ['*://music.migu.cn/*'],
 	js: 'connectors/migu-music.js',
 	id: 'migu-music',
+}, {
+	label: 'Weibo',
+	matches: ['*://weibo.com/*', '*://*.weibo.com/*'],
+	js: 'connectors/weibo.js',
+	id: 'weibo',
 }];
 
 define(() => connectors);
