@@ -113,7 +113,7 @@
 				<label>{{ L`optionScrobblePercent` }}</label>
 				<select
 					class="form-select form-select-sm percent-select"
-					v-model="SCROBBLE_PERCENT"
+					v-model.number="SCROBBLE_PERCENT"
 				>
 					<option v-for="percent in percentValues" :key="percent">
 						{{ percent }}
