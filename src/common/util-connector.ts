@@ -37,23 +37,6 @@ export async function getConnectorByUrl(url: string): Promise<ConnectorEntry> {
 }
 
 /**
- * Get a connector entry by a given connector ID.
- *
- * @param connectorId Connector ID
- *
- * @return Connector entry
- */
-export function getConnectorById(connectorId: string): ConnectorEntry {
-	for (const connector of connectors) {
-		if (connector.id === connectorId) {
-			return connector;
-		}
-	}
-
-	return null;
-}
-
-/**
  * Return a sorted array of connector entries.
  *
  * @return Array of connectors
