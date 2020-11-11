@@ -257,7 +257,12 @@ function getTrackInfoFromDescription() {
 }
 
 function getTrackInfoFromChapters() {
-	return Util.splitArtistTrack(Util.getTextFromSelectors(chapterNameSelector), null, { swap: false }, { allowTrackOnly: true });
+	const chapterName = Util.getTextFromSelectors(chapterNameSelector);
+	const artistTrack = Util.splitArtistTrack(chapterName);
+	if (!artistTrack.artist && !artistTrack.track) {
+		artistTrack.track = chapterName;
+	}
+	return artistTrack;
 }
 
 function getTrackInfoFromTitle() {
