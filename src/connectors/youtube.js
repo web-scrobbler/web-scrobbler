@@ -1,12 +1,6 @@
 'use strict';
 
 /**
- * Whether to scrobble individual tracks from album videos.
- * @type {Boolean}
- */
-let scrobbleIndividualTracks = false;
-
-/**
  * Array of categories allowed to be scrobbled.
  * @type {Array}
  */
@@ -40,7 +34,11 @@ const categoryEntertainment = 'Entertainment';
 let currentVideoDescription = null;
 let artistTrackFromDescription = null;
 
-let trackInfoGetters = null;
+const trackInfoGetters = [
+	getTrackInfoFromChapters,
+	getTrackInfoFromDescription,
+	getTrackInfoFromTitle,
+];
 
 readConnectorOptions();
 setupEventListener();
@@ -48,24 +46,20 @@ setupEventListener();
 Connector.playerSelector = '#content';
 
 Connector.getTrackInfo = () => {
-	let trackInfo = {};
+	const trackInfo = {};
 
 	for (const getter of trackInfoGetters) {
-		if (scrobbleIndividualTracks) {
-			const currentTrackInfo = getter();
-			if (!currentTrackInfo) {
-				continue;
-			}
+		const currentTrackInfo = getter();
+		if (!currentTrackInfo) {
+			continue;
+		}
 
-			if (!trackInfo.artist) {
-				trackInfo.artist = currentTrackInfo.artist;
-			}
+		if (!trackInfo.artist) {
+			trackInfo.artist = currentTrackInfo.artist;
+		}
 
-			if (!trackInfo.track) {
-				trackInfo.track = currentTrackInfo.track;
-			}
-		} else {
-			trackInfo = getter();
+		if (!trackInfo.track) {
+			trackInfo.track = currentTrackInfo.track;
 		}
 
 		if (!Util.isArtistTrackEmpty(trackInfo)) {
@@ -219,18 +213,6 @@ async function fetchCategoryName(videoId) {
  * Asynchronously read connector options.
  */
 async function readConnectorOptions() {
-	if (await Util.getOption('YouTube', 'scrobbleIndividualTracks')) {
-		scrobbleIndividualTracks = true;
-		trackInfoGetters = scrobbleIndividualTracks ? [
-			getTrackInfoFromChapters,
-			getTrackInfoFromDescription,
-			getTrackInfoFromTitle,
-		] : [
-			getTrackInfoFromDescription,
-			getTrackInfoFromChapters,
-			getTrackInfoFromTitle,
-		];
-	}
 	if (await Util.getOption('YouTube', 'scrobbleMusicOnly')) {
 		allowedCategories.push(categoryMusic);
 	}

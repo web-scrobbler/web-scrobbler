@@ -80,14 +80,6 @@
     "message": "Note that a track will be scrobbled anyway, if it has been played for 4 minutes, regardless of the option value.",
     "description": "Description of scrobble percent option"
   },
-  "optionYtScrobbleIndividualTracks": {
-    "message": "Scrobble individual tracks from album videos",
-    "description": "Option label"
-  },
-  "optionYtScrobbleIndividualTracksTitle": {
-    "message": "If an album music video has a separate chapter for each track, scrobble individual tracks instead of the whole album",
-    "description": "Option title"
-  },
   "optionYtMusicOnly": {
     "message": "Scrobble videos from \"Music\" category",
     "description": "Option title"
