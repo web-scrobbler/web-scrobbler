@@ -1696,6 +1696,11 @@ const connectors = [{
 	matches: ['*://streetvoice.cn/*'],
 	js: 'connectors/streetvoice.js',
 	id: 'streetvoice',
+}, {
+	label: 'Red Bull',
+	matches: ['*://www.redbull.com/*'],
+	js: 'connectors/redbull.js',
+	id: 'redbull',
 }];
 
 define(() => connectors);
