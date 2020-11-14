@@ -65,8 +65,10 @@
     "default_popup": "/ui/popups/unsupported.html"
   },
 
-  "content_scripts": [{
-    "matches": ["<all_urls>"],
-    "js": ["connectors/dummy.js"]
-  }]
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content/dummy.js"]
+    }
+  ]
 }

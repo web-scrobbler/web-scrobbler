@@ -3,9 +3,7 @@ const fs = require('fs');
 const ROOT_DIR = '..';
 const CONNECTORS_DIR = 'src/connectors/';
 
-const SERVICE_FILES = [
-	'dummy.js', '.eslintrc.yml',
-];
+const SERVICE_FILES = ['.eslintrc.yml'];
 const DOM_INJECT_SUFFIX = 'dom-inject.js';
 
 const connectors = require(`${ROOT_DIR}/src/connectors.json`);
