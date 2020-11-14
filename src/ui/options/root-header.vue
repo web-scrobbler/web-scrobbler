@@ -4,7 +4,11 @@
 			<sprite-icon class="logo mr-3" :icon="webScrobblerIcon" />
 			<span class="navbar-brand">Web Scrobbler</span>
 			<ul class="navbar-nav ml-sm-auto">
-				<li class="nav-item" v-for="item in contactItems" :key="item.title">
+				<li
+					class="nav-item"
+					v-for="item in contactItems"
+					:key="item.title"
+				>
 					<a
 						class="contact-link"
 						rel="noopener"
@@ -77,7 +81,7 @@ export default {
 	methods: {
 		toggleSidebar() {
 			this.isSidebarVisible = !this.isSidebarVisible;
-			this.$emit('onSidebarToggle', this.isSidebarVisible);
+			this.$emit('on-sidebar-toggle', this.isSidebarVisible);
 		},
 	},
 };

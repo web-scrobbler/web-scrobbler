@@ -1,7 +1,7 @@
 <template>
 	<base-modal
-		@onClose="forwardEvent('onClose', $event)"
-		@onOkClick="savePatterns"
+		@on-modal-close="forwardEvent('on-modal-close', $event)"
+		@on-modal-ok-click="savePatterns"
 	>
 		<template v-slot:header> {{ connector.label }} </template>
 		<template v-slot:body>
@@ -92,7 +92,7 @@ export default {
 		},
 
 		savePatterns() {
-			this.forwardEvent('onOkClick', this.editedPatterns);
+			this.forwardEvent('on-modal-ok-click', this.editedPatterns);
 		},
 
 		removePattern(index) {

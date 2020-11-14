@@ -55,12 +55,12 @@ export default {
 	},
 	methods: {
 		emitOnCloseEvent() {
-			this.$emit('onClose');
+			this.$emit('on-modal-close');
 		},
 
 		emitOnOkClickEvent() {
 			this.modal.hide();
-			this.$emit('onOkClick');
+			this.$emit('on-modal-ok-click');
 		},
 	},
 };

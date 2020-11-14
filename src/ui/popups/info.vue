@@ -189,7 +189,7 @@
 			<pre>{{ song.toString() }}</pre>
 		</div>
 	</div>
-	<!-- eslint-disable-next-line vue/valid-template-root -->
+	<!-- eslint-disable-next-line vue/no-multiple-template-root -->
 	<div v-if="!isSongAvailable" class="stub-container">
 		<div class="stub-container__content">
 			{{ L`infoNoSongInfoAvaiable` }}

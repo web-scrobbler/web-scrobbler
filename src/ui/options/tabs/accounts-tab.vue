@@ -57,8 +57,8 @@
 			v-if="isModalActive"
 			:label="editedAccount.getLabel()"
 			:properties="createUserProperties(editedAccount)"
-			@onOkClick="saveUserProperties"
-			@onClose="hideModal"
+			@on-modal-ok-click="saveUserProperties"
+			@on-modal-close="hideModal"
 		/>
 	</div>
 </template>

@@ -1,7 +1,7 @@
 <template>
 	<base-modal
-		@onClose="forwardEvent('onClose', $event)"
-		@onOkClick="submitChanges"
+		@on-modal-close="forwardEvent('on-modal-close', $event)"
+		@on-modal-ok-click="submitChanges"
 	>
 		<template v-slot:header> {{ L`editSongTitle` }} </template>
 		<template v-slot:body>
@@ -76,7 +76,7 @@ export default {
 			if (this.artist && this.track) {
 				const songInfo = this.createEditedSongInfo();
 
-				this.$emit('onOkClick', songInfo);
+				this.$emit('on-modal-ok-click', songInfo);
 			}
 		},
 

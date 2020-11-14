@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<root-header @onSidebarToggle="toggleSidebar" />
+		<root-header @on-sidebar-toggle="toggleSidebar" />
 		<div class="container my-4 options-layout">
 			<div class="sidebar">
 				<div

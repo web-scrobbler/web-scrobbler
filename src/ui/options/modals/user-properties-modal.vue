@@ -1,7 +1,7 @@
 <template>
 	<base-modal
-		@onClose="forwardEvent('onClose', $event)"
-		@onOkClick="saveProperties"
+		@on-modal-close="forwardEvent('on-modal-close', $event)"
+		@on-modal-ok-click="saveProperties"
 	>
 		<template v-slot:header>{{
 			L`accountsScrobblerPropsTitle ${label}`
@@ -57,7 +57,7 @@ export default {
 				propertiesToSave[name] = value;
 			}
 
-			this.forwardEvent('onOkClick', propertiesToSave);
+			this.forwardEvent('on-modal-ok-click', propertiesToSave);
 		},
 	},
 };
