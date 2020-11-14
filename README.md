@@ -54,8 +54,6 @@ if you use Firefox.
 
 ### Build the extension
 
-Before building the extension you should install dependencies:
-
 ```sh
 # Install dependencies
 > npm install
