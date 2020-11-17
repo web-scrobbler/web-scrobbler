@@ -1696,6 +1696,13 @@ const connectors = [{
 	matches: ['*://streetvoice.cn/*'],
 	js: 'connectors/streetvoice.js',
 	id: 'streetvoice',
+}, {
+	label: 'Synology',
+	matches: [
+		'*://*5000',
+	],
+	js: 'connectors/synology.js',
+	id: 'synology',
 }];
 
 define(() => connectors);
