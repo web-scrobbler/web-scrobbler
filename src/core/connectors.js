@@ -1699,7 +1699,7 @@ const connectors = [{
 }, {
 	label: 'Synology',
 	matches: [
-		'*://*5000',
+		'*://*5000/*',
 	],
 	js: 'connectors/synology.js',
 	id: 'synology',

@@ -15,12 +15,4 @@ Connector.durationSelector = '.info-duration';
 
 Connector.trackArtSelector = '.player-info-thumb';
 
-Connector.isPlaying = () => {
-	const playBtn = document.querySelector('.player-play > span');
-
-	if (!playBtn) {
-		return false;
-
-	}
-	return playBtn.classList.contains('player-btn-pause');
-};
+Connector.isPlaying = () => Util.hasElementClass('.player-play > span', 'player-btn-pause');
