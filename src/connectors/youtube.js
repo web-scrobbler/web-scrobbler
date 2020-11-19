@@ -241,7 +241,7 @@ function getTrackInfoFromDescription() {
 function getTrackInfoFromChapters() {
 	const chapterName = Util.getTextFromSelectors(chapterNameSelector);
 	const artistTrack = Util.splitArtistTrack(chapterName);
-	if (!artistTrack.artist && !artistTrack.track) {
+	if (!artistTrack.track) {
 		artistTrack.track = chapterName;
 	}
 	return artistTrack;
