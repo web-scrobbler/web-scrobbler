@@ -35,8 +35,8 @@ let currentVideoDescription = null;
 let artistTrackFromDescription = null;
 
 const trackInfoGetters = [
-	getTrackInfoFromDescription,
 	getTrackInfoFromChapters,
+	getTrackInfoFromDescription,
 	getTrackInfoFromTitle,
 ];
 
@@ -46,15 +46,25 @@ setupEventListener();
 Connector.playerSelector = '#content';
 
 Connector.getTrackInfo = () => {
-	let trackInfo = null;
+	const trackInfo = {};
 
 	for (const getter of trackInfoGetters) {
-		trackInfo = getter();
-		if (Util.isArtistTrackEmpty(trackInfo)) {
+		const currentTrackInfo = getter();
+		if (!currentTrackInfo) {
 			continue;
 		}
 
-		return trackInfo;
+		if (!trackInfo.artist) {
+			trackInfo.artist = currentTrackInfo.artist;
+		}
+
+		if (!trackInfo.track) {
+			trackInfo.track = currentTrackInfo.track;
+		}
+
+		if (!Util.isArtistTrackEmpty(trackInfo)) {
+			break;
+		}
 	}
 
 	return trackInfo;
@@ -231,9 +241,12 @@ function getTrackInfoFromDescription() {
 }
 
 function getTrackInfoFromChapters() {
-	return Util.splitArtistTrack(
-		Util.getTextFromSelectors(chapterNameSelector)
-	);
+	const chapterName = Util.getTextFromSelectors(chapterNameSelector);
+	const artistTrack = Util.splitArtistTrack(chapterName);
+	if (!artistTrack.track) {
+		artistTrack.track = chapterName;
+	}
+	return artistTrack;
 }
 
 function getTrackInfoFromTitle() {
