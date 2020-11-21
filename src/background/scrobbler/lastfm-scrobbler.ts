@@ -67,7 +67,7 @@ export class LastFmScrobbler extends AudioScrobbler {
 		try {
 			const { sessionName } = await this.getSession();
 			params.username = sessionName;
-		} catch (e) {
+		} catch {
 			// Do nothing
 		}
 

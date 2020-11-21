@@ -218,7 +218,7 @@ export class BrowserAction {
 			await browser.browserAction.setIcon({ path });
 			await browser.browserAction.setTitle({ title });
 			await browser.browserAction.setPopup({ popup });
-		} catch (e) {
+		} catch {
 			console.warn('Unable to set browser action icon');
 		}
 	}

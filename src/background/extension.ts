@@ -112,7 +112,7 @@ export class Extension {
 			browser.commands.onCommand.addListener((command: string) => {
 				this.tabWorker.processCommand(command);
 			});
-		} catch (e) {
+		} catch {
 			// Don't let the extension fail on Firefox for Android.
 		}
 
@@ -221,7 +221,7 @@ export class Extension {
 				await showAuthNotification(() => {
 					browser.tabs.create({ url: authUrl });
 				});
-			} catch (e) {
+			} catch {
 				// Fallback for browsers with no notifications support.
 				await browser.tabs.create({ url: authUrl });
 			}
@@ -243,7 +243,7 @@ export class Extension {
 
 			ScrobbleManager.bindScrobbler(scrobbler);
 			browser.tabs.create({ url: authUrl });
-		} catch (e) {
+		} catch {
 			console.log(`Unable to get auth URL for ${scrobbler.getLabel()}`);
 
 			showSignInError(scrobbler, () => {

@@ -198,7 +198,7 @@ export class ListenBrainzScrobbler extends BaseScrobbler {
 		try {
 			response = await timeoutPromise(timeout, promise);
 			result = (await response.json()) as ListenBrainzResult;
-		} catch (e) {
+		} catch {
 			this.debugLog('Error while sending request', 'error');
 			throw this.makeApiCallResult(ApiCallResult.ERROR_OTHER);
 		}
@@ -225,7 +225,7 @@ export class ListenBrainzScrobbler extends BaseScrobbler {
 		for (const url of authUrls) {
 			try {
 				session = await this.fetchSession(url);
-			} catch (e) {
+			} catch {
 				this.debugLog('request session timeout', 'warn');
 				continue;
 			}

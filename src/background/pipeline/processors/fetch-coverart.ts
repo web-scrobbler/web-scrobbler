@@ -56,7 +56,7 @@ export async function fetchCoverArt(song: Song): Promise<SongDiff> {
 			}
 
 			return { metadata: { trackArtUrl } };
-		} catch (e) {}
+		} catch {}
 	}
 
 	return {};

@@ -297,7 +297,7 @@ export abstract class AudioScrobbler extends BaseScrobbler {
 		try {
 			response = await timeoutPromise(timeout, promise);
 			responseData = (await response.json()) as AudioScrobblerResponse;
-		} catch (e) {
+		} catch {
 			throw this.makeApiCallResult(ApiCallResult.ERROR_OTHER);
 		}
 

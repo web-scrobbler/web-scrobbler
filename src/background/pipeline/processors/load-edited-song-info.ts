@@ -17,7 +17,7 @@ export async function loadEditedSongInfo(song: Song): Promise<SongDiff> {
 	let editedSongInfo: EditedSongInfo = null;
 	try {
 		editedSongInfo = await SavedEdits.loadSongInfo(song);
-	} catch (e) {
+	} catch {
 		// Do nothing
 	}
 

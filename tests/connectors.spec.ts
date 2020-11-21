@@ -28,7 +28,7 @@ function testConnectorPaths(entry: ConnectorEntry) {
 	const jsPath = join(__dirname, '../src', entry.js);
 	try {
 		statSync(jsPath);
-	} catch (e) {
+	} catch {
 		throw new Error(`File is missing: ${entry.js}`);
 	}
 }

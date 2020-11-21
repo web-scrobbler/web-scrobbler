@@ -453,7 +453,7 @@ export abstract class TabWorker {
 
 		try {
 			await sendMessageToAll(Event.TrackUpdated, { track });
-		} catch (e) {
+		} catch {
 			// Suppress errors
 		}
 	}

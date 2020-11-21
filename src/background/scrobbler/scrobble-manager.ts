@@ -41,7 +41,7 @@ export const ScrobbleManager = new (class {
 			try {
 				await scrobbler.getSession();
 				this.bindScrobbler(scrobbler);
-			} catch (e) {
+			} catch {
 				console.warn(`Unable to bind ${scrobbler.getLabel()}`);
 			}
 		}

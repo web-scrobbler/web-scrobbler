@@ -71,7 +71,7 @@ async function isConnectorInjected(tabId: number): Promise<boolean> {
 	try {
 		await sendMessageToContentScripts(tabId, Request.Ping);
 		return true;
-	} catch (e) {
+	} catch {
 		return false;
 	}
 }
@@ -99,11 +99,12 @@ async function injectScripts(
 			await browser.tabs.executeScript(tabId, { file, allFrames });
 
 			console.log(`Injected ${file}`);
-		} catch (e) {
+		} catch (err) {
 			// Firefox throws an error if a content script returns no value,
 			// so we should catch it, and continue injecting scripts.
-
-			console.warn(`Unable to inject ${file}: ${(e as Error).message}`);
+			if (err instanceof Error) {
+				console.warn(`Unable to inject ${file}: ${err.message}`);
+			}
 		}
 	}
 
