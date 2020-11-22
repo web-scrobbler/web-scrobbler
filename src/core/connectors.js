@@ -1701,6 +1701,13 @@ const connectors = [{
 	matches: ['*://www.redbull.com/*'],
 	js: 'connectors/redbull.js',
 	id: 'redbull',
+}, {
+	label: 'Synology',
+	matches: [
+		'*://*5000/*',
+	],
+	js: 'connectors/synology.js',
+	id: 'synology',
 }];
 
 define(() => connectors);
