@@ -18,8 +18,6 @@ let bandcampFilter = new MetadataFilter({
 	all: MetadataFilter.removeZeroWidth,
 });
 
-const audioElement = document.getElementsByTagName('audio')[0];
-
 setupConnector();
 
 /**
@@ -32,10 +30,18 @@ function setupConnector() {
 	 * Default implementation for all pages except home page.
 	 */
 	Connector.getUniqueID = () => {
-		const audioSrc = audioElement.getAttribute('src');
-		const audioIdMatch = /&id=(\d+)&/.exec(audioSrc);
+		const audioElements = document.getElementsByTagName('audio');
+		for (const audioElement of audioElements) {
+			const audioSrc = audioElement.getAttribute('src');
+			if (!audioSrc) {
+				continue;
+			}
 
-		return audioIdMatch ? audioIdMatch[1] : null;
+			const audioIdMatch = /&id=(\d+)&/.exec(audioSrc);
+			return audioIdMatch && audioIdMatch[1];
+		}
+
+		return null;
 	};
 
 	if (isAlbumPage()) {
@@ -252,8 +258,12 @@ function getPageType() {
 
 function initEventListeners() {
 	const events = ['playing', 'pause', 'timeupdate'];
+	const audioElements = document.getElementsByTagName('audio');
+
 	for (const event of events) {
-		audioElement.addEventListener(event, Connector.onStateChanged);
+		for (const audioElement of audioElements) {
+			audioElement.addEventListener(event, Connector.onStateChanged);
+		}
 	}
 }
 
