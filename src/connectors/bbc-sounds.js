@@ -16,6 +16,7 @@ function isLiveRadio() {
 	return document.querySelector(trackItemSelector) === null;
 }
 
+// Example: any of live radios from https://www.bbc.co.uk/sounds
 function setupPropertiesForLiveRadio() {
 	Connector.playerSelector = '.radio-main';
 
@@ -24,6 +25,7 @@ function setupPropertiesForLiveRadio() {
 	Connector.trackSelector = '.sc-c-track__title';
 }
 
+// Example: any of music mixes from https://www.bbc.co.uk/sounds
 function setupPropertierForOfflineRecord() {
 	const equalizerIconSelector = '.sc-c-equalizer';
 
