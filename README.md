@@ -58,11 +58,13 @@ if you use Firefox.
 # Install dependencies
 > npm install
 
-# Build the extension for Chrome
-> npx grunt build:chrome
+# Build the extension
+> npx grunt build:chrome   # Chrome and Chrome-based browsers
+> npx grunt build:firefox  # Firefox
 
-# Build the extension for Firefox
-> npx grunt build:firefox
+# Start the dev server w/ rebuild on changes and hot code reload
+> npm start -- chrome      # Chrome
+> npm start -- firefox     # Firefox
 ```
 
 The built extension is available in `build` directory. You can install it as an
