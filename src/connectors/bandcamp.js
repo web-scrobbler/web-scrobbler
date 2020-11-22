@@ -25,24 +25,7 @@ setupConnector();
  */
 function setupConnector() {
 	initEventListeners();
-
-	/*
-	 * Default implementation for all pages except home page.
-	 */
-	Connector.getUniqueID = () => {
-		const audioElements = document.getElementsByTagName('audio');
-		for (const audioElement of audioElements) {
-			const audioSrc = audioElement.getAttribute('src');
-			if (!audioSrc) {
-				continue;
-			}
-
-			const audioIdMatch = /&id=(\d+)&/.exec(audioSrc);
-			return audioIdMatch && audioIdMatch[1];
-		}
-
-		return null;
-	};
+	initGenericProperties();
 
 	if (isAlbumPage()) {
 		Util.debugLog('Init props for album player');
@@ -68,7 +51,8 @@ function setupConnector() {
 		initPropertiesForHomePage();
 	}
 
-	initGenericProperties();
+	// Apply the filter at the end to allow extend it in setup functions
+	Connector.applyFilter(bandcampFilter);
 }
 
 /**
@@ -91,7 +75,20 @@ function initGenericProperties() {
 
 	Connector.isPlaying = () => document.querySelector('.playing') !== null;
 
-	Connector.applyFilter(bandcampFilter);
+	Connector.getUniqueID = () => {
+		const audioElements = document.getElementsByTagName('audio');
+		for (const audioElement of audioElements) {
+			const audioSrc = audioElement.getAttribute('src');
+			if (!audioSrc) {
+				continue;
+			}
+
+			const audioIdMatch = /&id=(\d+)&/.exec(audioSrc);
+			return audioIdMatch && audioIdMatch[1];
+		}
+
+		return null;
+	};
 }
 
 // Example: https://northlane.bandcamp.com/album/mesmer
