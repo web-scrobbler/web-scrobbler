@@ -1697,6 +1697,11 @@ const connectors = [{
 	js: 'connectors/streetvoice.js',
 	id: 'streetvoice',
 }, {
+	label: 'Red Bull',
+	matches: ['*://www.redbull.com/*'],
+	js: 'connectors/redbull.js',
+	id: 'redbull',
+}, {
 	label: 'Synology',
 	matches: [
 		'*://*5000/*',
