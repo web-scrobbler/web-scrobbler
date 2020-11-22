@@ -6,8 +6,8 @@
 <h1>Web Scrobbler</h1>
 
 [![Chrome Web Store][WebStoreBadge]][WebStore]
-[![AMO][AmoBadge]][Amo]
-[![Edge][EdgeBadge]][Edge]
+[![Addons.mozilla.org][AmoBadge]][Amo]
+[![Microsoft Edge Addons][EdgeBadge]][Edge]
 
 [![Discord][DiscordBadge]][Discord]
 [![Test status][GitHubActionsBadge]][GitHubActions]
@@ -27,8 +27,7 @@ Web Scrobbler helps online music listeners to scrobble their playback history.
 ## Installation
 
 The extension can be either downloaded from the Chrome Web Store,
-<abbr title="addons.mozilla.org">AMO</abbr>, or installed as
-an [unpacked extension][DocsUnpacked].
+Addons.mozilla.org, or installed as an [unpacked extension][DocsUnpacked].
 
 ### Chrome Web Store
 
@@ -39,7 +38,11 @@ Opera users can install the extension from Chrome Web Store using the
 
 ### Addons.mozilla.org
 
-For those who prefer Firefox, the extension is available on [AMO][Amo].
+For those who prefer Firefox, the extension is available on [Addons.mozilla.org][Amo].
+
+### Microsoft Edge Add-ons
+
+The extension is also avaiable on the [Microsoft Edge Add-ons][Edge].
 
 ### Install from source code
 

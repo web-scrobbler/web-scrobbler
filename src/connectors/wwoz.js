@@ -9,7 +9,7 @@ const wwozFilter = new MetadataFilter({
 const wwozFilterRules = [
 	{ source: /"(.+?)"/g, target: '$1' },
 	{ source: /\s*\[[^\]]+]$/, target: '' },
-	{ source: /\s*\([^)]*version\)$/i, target: '1' },
+	{ source: /\s*\([^)]*version\)$/i, target: '' },
 ];
 
 Connector.playerSelector = '#player';
