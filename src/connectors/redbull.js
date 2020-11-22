@@ -123,7 +123,7 @@ function getArtistTrackFrom(getter) {
 			return artistTrack;
 		}
 
-		const regResult = regDesc[2].match(/\bby\b(.*)/);
+		const regResult = regDesc[2].match(/\bby\b(.*[^.])\.?/);
 
 		if (regResult) {
 			artistTrack.artist = regResult[1];
