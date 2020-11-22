@@ -194,6 +194,9 @@ module.exports = (grunt) => {
 			src: DOC_FILES,
 		},
 		stylelint: {
+			options: {
+				fix: !isCi,
+			},
 			all: CSS_FILES,
 		},
 
