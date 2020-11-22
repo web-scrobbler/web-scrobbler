@@ -8,7 +8,7 @@ const { BannerPlugin } = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ImageminPlugin = require('imagemin-webpack-plugin').default;
+const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
@@ -438,8 +438,12 @@ function createPlugins(browser) {
 		...createHtmlPluginsFromEntries([getHtmlEntry(backgroundPageEntry)]),
 		...createHtmlPluginsFromEntries(getUiPagesEntries()),
 		...createHtmlPluginsFromEntries(getUiPopupsEntries()),
-		new ImageminPlugin({
-			disable: getMode() !== modeProduction,
+		new ImageMinimizerPlugin({
+			filter: () => getMode() === modeProduction,
+			loader: false,
+			minimizerOptions: {
+				plugins: ['imagemin-optipng'],
+			},
 		}),
 		new BannerPlugin({
 			banner: 'name: [name]',
