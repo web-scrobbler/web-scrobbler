@@ -3,9 +3,12 @@
 let trackInfo = {};
 let isPlaying = false;
 
-const vkFilter = new MetadataFilter({
-	all: MetadataFilter.decodeHtmlEntities,
-}).extend(MetadataFilter.getRemasteredFilter());
+const vkFilter = MetadataFilter.createFilter(
+	MetadataFilter.createFilterSetForFields(
+		['artist', 'track', 'album', 'albumArtist'],
+		MetadataFilter.decodeHtmlEntities
+	)
+).extend(MetadataFilter.getRemasteredFilter());
 
 Connector.isPlaying = () => isPlaying;
 

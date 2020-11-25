@@ -8,7 +8,7 @@ const trackArtSelectors = [
 	'.track-region .artwork img',
 ];
 
-const filter = new MetadataFilter({ artist: removeTrailingDash });
+const filter = MetadataFilter.createFilter({ artist: removeTrailingDash });
 
 Connector.playerSelector = playerBar;
 

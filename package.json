@@ -13,7 +13,7 @@
     "blueimp-md5": "2.18.0",
     "bootstrap": "4.5.3",
     "jquery": "3.5.1",
-    "metadata-filter": "0.4.1",
+    "metadata-filter": "1.1.0",
     "requirejs": "2.3.6",
     "showdown": "1.9.1",
     "webextension-polyfill": "0.7.0"

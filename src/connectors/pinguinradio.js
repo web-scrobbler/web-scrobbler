@@ -1,6 +1,6 @@
 'use strict';
 
-const filter = new MetadataFilter({ artist: removeByPrefix });
+const filter = MetadataFilter.createFilter({ artist: removeByPrefix });
 
 Connector.playerSelector = 'body';
 

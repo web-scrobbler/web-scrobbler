@@ -14,9 +14,12 @@ const SEPARATORS = [' - ', ' | '];
 /**
  * This filter is applied after all page properties are inititialized.
  */
-let bandcampFilter = new MetadataFilter({
-	all: MetadataFilter.removeZeroWidth,
-});
+let bandcampFilter = MetadataFilter.createFilter(
+	MetadataFilter.createFilterSetForFields(
+		['artist', 'track', 'album', 'albumArtist'],
+		MetadataFilter.removeZeroWidth
+	)
+);
 
 setupConnector();
 
@@ -138,7 +141,7 @@ function initPropertiesForCollectionsPlayer() {
 
 // https://bandcamp.com/%YOURNAME%/feed
 function initPropertiesForFeedPlayer() {
-	bandcampFilter = bandcampFilter.extend(new MetadataFilter({
+	bandcampFilter = bandcampFilter.extend(MetadataFilter.createFilter({
 		artist: [removeByPrefix],
 	}));
 

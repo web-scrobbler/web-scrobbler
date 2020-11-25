@@ -7,7 +7,7 @@
  * This filter removes such suffixes.
  */
 
-const filter = new MetadataFilter({ track: removeYear });
+const filter = MetadataFilter.createFilter({ track: removeYear });
 const removeYearRe = /\s\(\d{2}\)\s?$/g;
 
 Connector.playerSelector = '.sxm-player-controls';

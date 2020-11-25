@@ -7,7 +7,7 @@ Connector.artistSelector = '#player .player-artist';
 Connector.albumSelector = '#player .player-play-container';
 Connector.playButtonSelector = '#player .icon-play-button';
 
-const filter = new MetadataFilter({
+const filter = MetadataFilter.createFilter({
 	// Remove the dash in front of the artist name
 	artist: (text) => text.replace(/- /, ''),
 });

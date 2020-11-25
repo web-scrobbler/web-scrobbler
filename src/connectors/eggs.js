@@ -1,6 +1,6 @@
 'use strict';
 
-const filter = new MetadataFilter({
+const filter = MetadataFilter.createFilter({
 	track: removeMV,
 });
 

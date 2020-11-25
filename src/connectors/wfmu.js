@@ -5,7 +5,7 @@
  * is used to get track info from WFMU main streams.
  */
 
-const filter = new MetadataFilter({
+const filter = MetadataFilter.createFilter({
 	track: cleanupTrack,
 });
 

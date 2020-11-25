@@ -21,7 +21,7 @@ function isMiniPlayer() {
 }
 
 function setupCommonProperties() {
-	const filter = new MetadataFilter({
+	const filter = MetadataFilter.createFilter({
 		track: MetadataFilter.fixTrackSuffix,
 		album: MetadataFilter.fixTrackSuffix,
 	});

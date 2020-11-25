@@ -12,6 +12,6 @@ function removeEnclosingQuotes(track) {
 	return track.trim().slice(1, -1);
 }
 
-const filter = new MetadataFilter({ track: removeEnclosingQuotes });
+const filter = MetadataFilter.createFilter({ track: removeEnclosingQuotes });
 
 Connector.applyFilter(filter);

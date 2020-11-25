@@ -31,7 +31,7 @@ Connector.getUniqueID = () => {
 		null;
 };
 
-const filter = new MetadataFilter({	track: filterTrack });
+const filter = MetadataFilter.createFilter({ track: filterTrack });
 
 function filterTrack(text) {
 	const regex = new RegExp(`^.*([${rightBrackets}]).*$`);

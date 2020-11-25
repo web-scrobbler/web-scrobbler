@@ -1,6 +1,6 @@
 'use strict';
 
-const filter = new MetadataFilter({ track: removeOriginalMix });
+const filter = MetadataFilter.createFilter({ track: removeOriginalMix });
 const playerBar = '.Player__container';
 
 Connector.playerSelector = playerBar;

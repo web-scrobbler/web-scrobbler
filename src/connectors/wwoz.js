@@ -1,6 +1,6 @@
 'use strict';
 
-const wwozFilter = new MetadataFilter({
+const wwozFilter = MetadataFilter.createFilter({
 	track: (text) => MetadataFilter.filterWithFilterRules(
 		text, wwozFilterRules
 	),

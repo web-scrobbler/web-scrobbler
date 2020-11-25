@@ -1,6 +1,6 @@
 'use strict';
 
-const filter = new MetadataFilter({ track: removeQuotes });
+const filter = MetadataFilter.createFilter({ track: removeQuotes });
 
 const trackSelectorCommon = '.play-item.gcol-electronic .playtxt a';
 

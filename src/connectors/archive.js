@@ -13,7 +13,7 @@ const numericTrackRegex = /^\d+\w+/;
 
 const tracksSelector = '.jwrowV2 .ttl';
 
-const filter = new MetadataFilter({ track: removeNumericPrefixes });
+const filter = MetadataFilter.createFilter({ track: removeNumericPrefixes });
 
 Connector.applyFilter(filter);
 

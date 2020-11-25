@@ -53,6 +53,6 @@ function filterYoutubeIfNonAlbum(text) {
 	return videoHasAlbum() ? text : MetadataFilter.youtube(text);
 }
 
-const conditionalYoutubeFilter = new MetadataFilter({ track: filterYoutubeIfNonAlbum });
+const conditionalYoutubeFilter = MetadataFilter.createFilter({ track: filterYoutubeIfNonAlbum });
 
 Connector.applyFilter(conditionalYoutubeFilter);

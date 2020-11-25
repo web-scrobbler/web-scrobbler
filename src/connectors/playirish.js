@@ -1,6 +1,6 @@
 'use strict';
 
-const filter = new MetadataFilter({ artist: removeNowPlayingPrefix });
+const filter = MetadataFilter.createFilter({ artist: removeNowPlayingPrefix });
 
 Connector.playerSelector = '.qt-musicplayer';
 

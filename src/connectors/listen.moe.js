@@ -1,6 +1,11 @@
 'use strict';
 
-const filter = new MetadataFilter({ all: trimSpaces });
+const filter = MetadataFilter.createFilter(
+	MetadataFilter.createFilterSetForFields(
+		['artist', 'track', 'album', 'albumArtist'],
+		trimSpaces
+	)
+);
 
 const filterRules = [
 	{ source: /\t/g, target: ' ' },

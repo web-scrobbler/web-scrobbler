@@ -444,7 +444,7 @@ function BaseConnector() {
 	 * @param  {Object} filter Filter object
 	 */
 	this.applyFilter = (filter) => {
-		metadataFilter = filter.extend(MetadataFilter.getDefaultFilter());
+		metadataFilter = filter.extend(defaultFilter);
 	};
 
 	/**
@@ -559,13 +559,18 @@ function BaseConnector() {
 		return document.location.href;
 	};
 
+	const defaultFilter = MetadataFilter.createFilter(
+		MetadataFilter.createFilterSetForFields(
+			['artist', 'track', 'album', 'albumArtist'],
+			[(text) => text.trim(), MetadataFilter.replaceNbsp]
+		)
+	);
+
 	/**
 	 * Filter object used to filter song metadata.
-	 *
-	 * @see {@link MetadataFilter}
 	 * @type {Object}
 	 */
-	let metadataFilter = MetadataFilter.getDefaultFilter();
+	let metadataFilter = defaultFilter;
 
 	/**
 	 * Default values of state properties.

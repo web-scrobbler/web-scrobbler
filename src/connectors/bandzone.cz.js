@@ -26,7 +26,7 @@ function setupMainPagePlayer() {
 }
 
 function setupDefaultPlayer() {
-	const filter = new MetadataFilter({ artist: removeGenre });
+	const filter = MetadataFilter.createFilter({ artist: removeGenre });
 
 	Connector.playerSelector = '#playerWidget';
 

@@ -2,7 +2,7 @@
 
 const titleContainer = '[class*=PlayerControlsMetadata]';
 
-const plexFilter = new MetadataFilter({
+const plexFilter = MetadataFilter.createFilter({
 	album: removeUnknownAlbum,
 });
 

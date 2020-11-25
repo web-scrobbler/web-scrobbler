@@ -2,7 +2,7 @@
 
 const OBSERVER_THROTTLE_INTERVAL = 1000;
 
-const filter = new MetadataFilter({ artist: removeByPrefix });
+const filter = MetadataFilter.createFilter({ artist: removeByPrefix });
 const trackInfoSelector = '._2Os_QRvaRk-4LyqyE4fhsh';
 const trackInfoBtnSelector = 'footer button';
 
