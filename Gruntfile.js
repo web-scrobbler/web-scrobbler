@@ -137,14 +137,10 @@ module.exports = (grunt) => {
 			firefox: {
 				src: `${BUILD_DIR}/manifest.json`,
 				changes: {
-					applications: {
+					browser_specific_settings: {
 						gecko: {
 							id: FIREFOX_EXTENSION_ID,
 							strict_min_version: '53.0',
-						},
-					},
-					browser_specific_settings: {
-						gecko: {
 							update_url: 'https://raw.githubusercontent.com/web-scrobbler/updates.json/master/updates.json',
 						},
 					},
