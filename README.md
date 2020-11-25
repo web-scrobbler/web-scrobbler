@@ -6,7 +6,6 @@
 <h1>Web Scrobbler</h1>
 
 [![Chrome Web Store][WebStoreBadge]][WebStore]
-[![Addons.mozilla.org][AmoBadge]][Amo]
 [![Microsoft Edge Addons][EdgeBadge]][Edge]
 
 [![Discord][DiscordBadge]][Discord]
@@ -26,8 +25,7 @@ Web Scrobbler helps online music listeners to scrobble their playback history.
 
 ## Installation
 
-The extension can be either downloaded from the Chrome Web Store,
-Addons.mozilla.org, or installed as an [unpacked extension][DocsUnpacked].
+The extension can be either downloaded from stores, or installed as an [unpacked extension][DocsUnpacked].
 
 ### Chrome Web Store
 
@@ -39,6 +37,8 @@ Opera users can install the extension from Chrome Web Store using the
 ### Addons.mozilla.org
 
 For those who prefer Firefox, the extension is available on [Addons.mozilla.org][Amo].
+
+Since v2.38.0 the extension uses a self-distribution model. You can download an XPI file from [GitHub Releases][github-releases] page.
 
 ### Microsoft Edge Add-ons
 
@@ -96,7 +96,6 @@ See the [privacy policy][Privacy].
 Licensed under the [MIT License][License].
 
 <!-- Badges -->
-[AmoBadge]: https://img.shields.io/amo/v/web-scrobbler.svg?label=firefox&logo=firefox-browser&logoColor=white
 [CodacyBadge]: https://img.shields.io/codacy/grade/32658c34c5c542d9a315ead8d5eadd0e?logo=codacy&logoColor=white
 [CodacyCoverageBadge]: https://img.shields.io/codacy/coverage/32658c34c5c542d9a315ead8d5eadd0e?logo=codacy&logoColor=white
 [DiscordBadge]: https://img.shields.io/discord/716363971070001202?logo=discord&logoColor=white&color=7289dA
@@ -124,6 +123,7 @@ Licensed under the [MIT License][License].
 [Codacy]: https://app.codacy.com/gh/web-scrobbler/web-scrobbler/dashboard
 [Discord]: https://discord.com/invite/u99wNWw
 [GitHubActions]: https://github.com/web-scrobbler/web-scrobbler/actions
+[github-releases]: https://github.com/web-scrobbler/web-scrobbler/releases
 [Twitter]: https://twitter.com/web_scrobbler
 
 <!-- Services -->

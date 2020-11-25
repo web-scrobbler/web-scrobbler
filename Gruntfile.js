@@ -143,6 +143,11 @@ module.exports = (grunt) => {
 							strict_min_version: '53.0',
 						},
 					},
+					browser_specific_settings: {
+						gecko: {
+							update_url: 'https://raw.githubusercontent.com/web-scrobbler/updates.json/master/updates.json',
+						},
+					},
 					icons: {
 						16: '<%= manifest.icons.16 %>',
 						48: 'icons/icon_firefox_48.png',
