@@ -1,3 +1,5 @@
+const path = require('path');
+
 const srcDir = 'src';
 const buildDir = 'build';
 
@@ -10,12 +12,11 @@ const browserFirefox = 'firefox';
 const supportedBrowsers = [browserChrome, browserFirefox];
 const supportedModes = [modeDevelopment, modeProduction];
 
-const extensionIds = {
-	[browserChrome]: 'hhinaapppaileiechjoiifaancjggfjm',
-	[browserFirefox]: '{799c0914-748b-41df-a25c-22d008f9e83f}',
-};
-
 const manifestFile = 'manifest.json';
+const manifestData = {
+	[browserChrome]: 'manifest-chrome.json',
+	[browserFirefox]: 'manifest-firefox.json',
+};
 
 /**
  * Throw an error if the extension doesn't support a given browser.
@@ -76,23 +77,28 @@ function configureTsCompilerForTests() {
 }
 
 /**
- * Return an extension ID for a given browser.
+ * Return browser-specific data that should be applied to the manifest.
  *
- * @param {String} browser Browser name
+ * @param  {String} browser Browser name
  *
- * @return {String} Extension ID
+ * @return {Object} Manifest data
  */
-function getExtensionId(browser) {
-	assertBrowserIsSupported(browser);
+function getBrowserSpecificManifestData(browser) {
+	const browserManifestFile = manifestData[browser];
 
-	return extensionIds[browser];
+	return require(resolve(srcDir, browserManifestFile));
+}
+
+function resolve(...p) {
+	return path.resolve(__dirname, ...p);
 }
 
 module.exports = {
 	assertBrowserIsSupported,
 	assertBuildModeIsValid,
 	configureTsCompilerForTests,
-	getExtensionId,
+	getBrowserSpecificManifestData,
+	resolve,
 
 	buildDir,
 	srcDir,

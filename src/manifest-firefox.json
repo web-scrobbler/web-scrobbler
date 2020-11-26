@@ -1,0 +1,12 @@
+{
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "{799c0914-748b-41df-a25c-22d008f9e83f}",
+      "strict_min_version": "53.0"
+    }
+  },
+  "options_ui": {
+    "page": "ui/options/index.html",
+    "open_in_tab": true
+  }
+}

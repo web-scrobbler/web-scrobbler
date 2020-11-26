@@ -1,5 +1,4 @@
 const fs = require('fs');
-const path = require('path');
 
 const { preprocess } = require('preprocess');
 const { minify } = require('terser');
@@ -20,7 +19,6 @@ const {
 	srcDir,
 
 	browserChrome,
-	browserFirefox,
 
 	modeDevelopment,
 	modeProduction,
@@ -28,7 +26,8 @@ const {
 	manifestFile,
 
 	assertBrowserIsSupported,
-	getExtensionId,
+	getBrowserSpecificManifestData,
+	resolve,
 } = require('./shared.config');
 
 /**
@@ -61,10 +60,7 @@ const vendorDir = 'vendor';
 const locales = '_locales/';
 const vendorFiles = ['metadata-filter/dist/filter.js'];
 const contentFiles = ['connectors/', 'content/'];
-const projectFiles = [
-	'LICENSE.md',
-	'README.md',
-];
+const projectFiles = ['LICENSE.md', 'README.md'];
 
 const defaultBrowser = browserChrome;
 
@@ -449,10 +445,6 @@ function createPlugins(browser) {
 	];
 }
 
-function resolve(...p) {
-	return path.resolve(__dirname, ...p);
-}
-
 /**
  * Preprocess and optimize content script code.
  *
@@ -482,32 +474,14 @@ function transformContentScript(contents, browser) {
  * @return {String} Transfrormed manifest contents
  */
 function transformManifest(contents, browser) {
-	const manifest = JSON.parse(contents);
+	const browserSpecificData = getBrowserSpecificManifestData(browser);
+	const baseManifest = JSON.parse(contents);
+	const manifest = Object.assign({}, baseManifest, browserSpecificData);
 
 	manifest.version = packageFile.version;
 
-	switch (browser) {
-		case browserChrome: {
-			delete manifest.options_ui;
-			break;
-		}
-
-		case browserFirefox: {
-			manifest.browser_specific_settings = {
-				gecko: {
-					id: getExtensionId(browserFirefox),
-					strict_min_version: '53.0',
-				},
-			};
-
-			delete manifest.options_page;
-			break;
-		}
-	}
-
 	if (getMode() === modeDevelopment) {
 		manifest['content_security_policy'] =
-			// eslint-disable-next-line quotes
 			"script-src 'self' 'unsafe-eval'; object-src 'self'";
 	}
 

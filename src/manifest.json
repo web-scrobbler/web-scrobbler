@@ -40,12 +40,6 @@
 
   "homepage_url": "https://web-scrobbler.com",
 
-  "options_page": "ui/options/index.html",
-  "options_ui": {
-    "page": "ui/options/index.html",
-    "open_in_tab": true
-  },
-
   "permissions": [
     "contextMenus",
     "tabs",
