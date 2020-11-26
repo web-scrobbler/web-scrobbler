@@ -18,8 +18,6 @@ const {
 	buildDir,
 	srcDir,
 
-	browserChrome,
-
 	modeDevelopment,
 	modeProduction,
 
@@ -61,8 +59,6 @@ const locales = '_locales/';
 const vendorFiles = ['metadata-filter/dist/filter.js'];
 const contentFiles = ['connectors/', 'content/'];
 const projectFiles = ['LICENSE.md', 'README.md'];
-
-const defaultBrowser = browserChrome;
 
 const isDevServer = !!process.env.WEBPACK_DEV_SERVER;
 
@@ -164,7 +160,17 @@ function getBrowserFromArgs(functionArg) {
 		return functionArg;
 	}
 
-	return process.argv[2] || defaultBrowser;
+	const argIndex = process.argv.indexOf('--browser');
+	if (argIndex > -1) {
+		const valueIndex = argIndex + 1;
+		if (valueIndex < process.argv.length) {
+			return process.argv[valueIndex];
+		}
+
+		return null;
+	}
+
+	return null;
 }
 
 /**
