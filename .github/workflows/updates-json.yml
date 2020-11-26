@@ -8,6 +8,10 @@ jobs:
     name: Request updating `updates.json`
     runs-on: ubuntu-latest
     steps:
+      - name: Get the extension version from ref
+        id: get-version
+        run: echo ::set-output name=EXT_VERSION::${GITHUB_REF/refs\/tags\//}
+
       - name: Request updating `updates.json` for Firefox
         run: |
           curl -X POST \
