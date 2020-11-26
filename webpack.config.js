@@ -64,8 +64,6 @@ const contentFiles = ['connectors/', 'content/'];
 const projectFiles = [
 	'LICENSE.md',
 	'README.md',
-	'package-lock.json',
-	'package.json',
 ];
 
 const defaultBrowser = browserChrome;
