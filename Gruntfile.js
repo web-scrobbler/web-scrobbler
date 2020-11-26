@@ -46,10 +46,6 @@ module.exports = (grunt) => {
 		 * Configs of build tasks.
 		 */
 
-		clean: {
-			build: buildDir,
-			dist: [distFileChrome, distFileFirefox],
-		},
 		compress: {
 			chrome: {
 				options: {
@@ -194,11 +190,7 @@ module.exports = (grunt) => {
 		gruntAssertBrowserIsSupported(browser);
 		gruntAssertBuildModeIsValid(mode);
 
-		grunt.task.run([
-			'clean:build',
-			`build:${browser}:${mode}`,
-			`compress:${browser}`,
-		]);
+		grunt.task.run([`build:${browser}:${mode}`, `compress:${browser}`]);
 	});
 
 	/**
