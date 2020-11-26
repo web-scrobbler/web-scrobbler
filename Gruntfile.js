@@ -187,9 +187,6 @@ module.exports = (grunt) => {
 	 * @param {String} [mode=modeDevelopment] Build mode
 	 */
 	grunt.registerTask('dist', (browser, mode = modeDevelopment) => {
-		gruntAssertBrowserIsSupported(browser);
-		gruntAssertBuildModeIsValid(mode);
-
 		grunt.task.run([`build:${browser}:${mode}`, `compress:${browser}`]);
 	});
 
