@@ -1708,6 +1708,13 @@ const connectors = [{
 	],
 	js: 'connectors/synology.js',
 	id: 'synology',
+}, {
+	label: 'Ragya',
+	matches: [
+		'*://www.ragya.com/*',
+	],
+	js: 'connectors/ragya.js',
+	id: 'ragya',
 }];
 
 define(() => connectors);
