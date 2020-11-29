@@ -57,7 +57,7 @@ export default {
 				propertiesToSave[name] = value;
 			}
 
-			this.forwardEvent('on-modal-ok-click', propertiesToSave);
+			this.$emit('on-save-properties', propertiesToSave);
 		},
 	},
 };

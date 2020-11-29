@@ -76,7 +76,7 @@ export default {
 			if (this.artist && this.track) {
 				const songInfo = this.createEditedSongInfo();
 
-				this.$emit('on-modal-ok-click', songInfo);
+				this.$emit('on-track-edited', songInfo);
 			}
 		},
 

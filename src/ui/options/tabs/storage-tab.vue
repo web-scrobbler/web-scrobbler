@@ -114,7 +114,7 @@
 		<edit-track-modal
 			v-if="isModalActive"
 			:songInfo="editedSongInfo"
-			@on-modal-ok-click="updateSongInfo"
+			@on-track-edited="updateSongInfo"
 			@on-modal-close="hideModal"
 		/>
 	</div>

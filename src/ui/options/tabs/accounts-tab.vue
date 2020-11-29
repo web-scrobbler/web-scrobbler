@@ -57,7 +57,7 @@
 			v-if="isModalActive"
 			:label="editedAccount.getLabel()"
 			:properties="createUserProperties(editedAccount)"
-			@on-modal-ok-click="saveUserProperties"
+			@on-save-properties="saveUserProperties"
 			@on-modal-close="hideModal"
 		/>
 	</div>
@@ -229,7 +229,6 @@ export default {
 
 		hideModal() {
 			this.isModalActive = false;
-			this.editedAccount = null;
 		},
 
 		showModal(scrobbler) {

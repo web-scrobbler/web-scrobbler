@@ -1,8 +1,5 @@
 <template>
-	<base-modal
-		@on-modal-close="forwardEvent('on-modal-close', $event)"
-		@on-modal-ok-click="savePatterns"
-	>
+	<base-modal @on-modal-ok-click="savePatterns">
 		<template v-slot:header> {{ connector.label }} </template>
 		<template v-slot:body>
 			<div v-if="hasBuiltinPatterns" class="options-section">
@@ -92,7 +89,7 @@ export default {
 		},
 
 		savePatterns() {
-			this.forwardEvent('on-modal-ok-click', this.editedPatterns);
+			this.$emit('on-save-patterns', this.editedPatterns);
 		},
 
 		removePattern(index) {

@@ -58,7 +58,7 @@
 			v-if="isModalActive"
 			:connector="editedConnector"
 			:patterns="getCustomPatterns(editedConnector)"
-			@on-modal-ok-click="updateCustomPatterns"
+			@on-save-patterns="updateCustomPatterns"
 			@on-modal-close="hideModal"
 		/>
 	</div>
