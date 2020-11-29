@@ -38,6 +38,9 @@
 				</a>
 			</div>
 		</div>
+
+		<storage-usage />
+
 		<div v-if="hasEditedTracks" class="options-section">
 			<h5>{{ L`tracksEditedTracksCount ${editedTracksCount}` }}</h5>
 
@@ -67,6 +70,7 @@
 
 <script>
 import TrackInfo from '@/ui/options/components/track-info.vue';
+import StorageUsage from '@/ui/options/components/storage-usage.vue';
 
 import { SavedEdits } from '@/background/storage/saved-edits';
 import { exportData, importData } from '@/ui/util';
@@ -83,7 +87,7 @@ export default {
 	created() {
 		this.loadEditedTracks();
 	},
-	components: { TrackInfo },
+	components: { TrackInfo, StorageUsage },
 	computed: {
 		editedTracksCount() {
 			return Object.keys(this.editedTracks).length;

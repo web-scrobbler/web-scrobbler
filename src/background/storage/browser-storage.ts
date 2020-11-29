@@ -139,11 +139,30 @@ function getSyncStorage(namespace: string): StorageWrapper {
 	return new StorageWrapper(storageArea, namespace);
 }
 
+/**
+ * Get the current amount of data stored in the local storage.
+ */
+function getLocalStorageUsage(): Promise<number> {
+	// FIXME: Remove these comments once it's added to Firefox
+	// @ts-ignore
+	// eslint-disable-next-line
+	return browser.storage.local.getBytesInUse(null);
+}
+
+/**
+ * Get maximum amount in bytes of data can be stored in the local storage.
+ */
+function getLocalStorageSize(): number {
+	return browser.storage.local.QUOTA_BYTES;
+}
+
 export const BrowserStorage = {
 	getLocalStorage,
 	getScrobblerStorage,
 	getStorage,
 	getSyncStorage,
+	getLocalStorageUsage,
+	getLocalStorageSize,
 
 	CONNECTORS_OPTIONS,
 	CORE,

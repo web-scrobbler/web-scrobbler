@@ -620,6 +620,16 @@
   },
 
 
+  "storageUsageTitle": {
+    "message": "Storage usage",
+    "description": "Title of storage usage block"
+  },
+  "storageUsageWarningText": {
+    "message": "Warning: low free storage space. You can remove edited tracks or unscrobbled tracks to free storage space.",
+    "description": "Warning text of storage usage block"
+  },
+
+
   "albumTooltip": {
     "message": "From \"$1\" album",
     "description": "Tooltip text"

@@ -36,6 +36,8 @@
 			</div>
 		</div>
 
+		<storage-usage />
+
 		<div
 			v-if="isAlertVisible"
 			class="alert alert-danger alert-dismissible"
@@ -121,6 +123,7 @@
 <script>
 import EditTrackModal from '@/ui/options/modals/edit-track-modal.vue';
 import TrackInfo from '@/ui/options/components/track-info.vue';
+import StorageUsage from '@/ui/options/components/storage-usage.vue';
 
 import { ApiCallResult } from '@/background/scrobbler/api-call-result';
 import { ScrobbleManager } from '@/background/scrobbler/scrobble-manager';
@@ -150,6 +153,7 @@ export default {
 	components: {
 		EditTrackModal,
 		TrackInfo,
+		StorageUsage,
 	},
 	computed: {
 		tracksCount() {
