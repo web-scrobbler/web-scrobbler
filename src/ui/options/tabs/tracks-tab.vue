@@ -74,54 +74,72 @@ import StorageUsage from '@/ui/options/components/storage-usage.vue';
 
 import { SavedEdits } from '@/background/storage/saved-edits';
 import { exportData, importData } from '@/ui/util';
+import { computed, onBeforeMount, ref, toRaw, watch } from 'vue';
 
 const exportFileName = 'edited-tracks.json';
 
 export default {
-	data() {
-		return {
-			editedTracks: {},
-			areTracksLoaded: false,
-		};
-	},
-	created() {
-		this.loadEditedTracks();
-	},
 	components: { TrackInfo, StorageUsage },
-	computed: {
-		editedTracksCount() {
-			return Object.keys(this.editedTracks).length;
-		},
-
-		hasEditedTracks() {
-			return this.editedTracksCount > 0;
-		},
-	},
-	methods: {
-		async loadEditedTracks() {
-			this.editedTracks = await SavedEdits.getData();
-			this.areTracksLoaded = true;
-		},
-		async exportEditedTracks() {
-			exportData(this.editedTracks, exportFileName);
-		},
-
-		async importEditedTracks() {
-			const data = await importData();
-
-			this.editedTracks = Object.assign({}, this.editedTracks, data);
-			await SavedEdits.updateData(this.editedTracks);
-		},
-
-		async clearEditedTracks() {
-			this.editedTracks = {};
-			await SavedEdits.clear();
-		},
-
-		async removeEntry(songId) {
-			delete this.editedTracks[songId];
-			await SavedEdits.saveData(this.editedTracks);
-		},
+	setup() {
+		return useEditedTracks();
 	},
 };
+
+function useEditedTracks() {
+	const areTracksLoaded = ref(false);
+	const editedTracks = ref({});
+
+	onBeforeMount(async () => {
+		editedTracks.value = await SavedEdits.getData();
+		areTracksLoaded.value = true;
+
+		watch(
+			editedTracks,
+			(newValue) => SavedEdits.saveData(toRaw(newValue)),
+			{ deep: true }
+		);
+	});
+
+	const editedTracksCount = computed(() => {
+		return Object.keys(editedTracks.value).length;
+	});
+	const hasEditedTracks = computed(() => {
+		return editedTracksCount.value > 0;
+	});
+
+	function exportEditedTracks() {
+		exportData(toRaw(editedTracks), exportFileName);
+	}
+
+	async function importEditedTracks() {
+		const importedData = await importData();
+
+		editedTracks.value = Object.assign(
+			{},
+			toRaw(editedTracks),
+			importedData
+		);
+	}
+
+	function clearEditedTracks() {
+		editedTracks.value = {};
+	}
+
+	function removeEntry(songId) {
+		delete editedTracks.value[songId];
+	}
+
+	return {
+		areTracksLoaded,
+		editedTracks,
+		editedTracksCount,
+		hasEditedTracks,
+
+		exportEditedTracks,
+		importEditedTracks,
+
+		clearEditedTracks,
+		removeEntry,
+	};
+}
 </script>

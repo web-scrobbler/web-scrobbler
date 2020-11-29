@@ -58,15 +58,19 @@
 			v-if="isModalActive"
 			:connector="editedConnector"
 			:patterns="getCustomPatterns(editedConnector)"
-			@on-save-patterns="updateCustomPatterns"
+			@on-save-patterns="saveCustomPatterns"
 			@on-modal-close="hideModal"
 		/>
 	</div>
 </template>
 
 <script>
+import { onBeforeMount, ref, toRaw, watch } from 'vue';
+
 import AddPatternsModal from '@/ui/options/modals/add-patterns-modal.vue';
 import SpriteIcon from '@/ui/shared/sprite-icon.vue';
+
+import gearIcon from 'bootstrap-icons/icons/gear.svg';
 
 import { getSortedConnectors } from '@/common/util-connector';
 import { CustomPatterns } from '@/background/storage/custom-patterns';
@@ -78,75 +82,97 @@ import {
 	DISABLED_CONNECTORS,
 } from '@/background/storage/options';
 
-import gearIcon from 'bootstrap-icons/icons/gear.svg';
-
 const connectors = getSortedConnectors();
+
+export default {
+	components: { AddPatternsModal, SpriteIcon },
+	data() {
+		return { connectors, gearIcon };
+	},
+	methods: {
+		isConnectorEnabled,
+		setConnectorEnabled,
+	},
+	setup() {
+		return {
+			...useToggleConnectors(),
+			...useCustomPatternsModal(),
+		};
+	},
+};
+
+function useCustomPatternsModal() {
+	const { customPatterns } = useCustomPatterns();
+
+	const editedConnector = ref(null);
+	const isModalActive = ref(false);
+
+	function showModal(connector) {
+		editedConnector.value = connector;
+
+		isModalActive.value = true;
+	}
+
+	function hideModal() {
+		isModalActive.value = false;
+	}
+
+	function saveCustomPatterns(patterns) {
+		const connectorId = editedConnector.value.id;
+		if (patterns.length > 0) {
+			customPatterns.value[connectorId] = patterns;
+		} else {
+			delete customPatterns.value[connectorId];
+		}
+	}
+
+	function getCustomPatterns(connector) {
+		return customPatterns.value[connector.id] || [];
+	}
+
+	return {
+		isModalActive,
+		editedConnector,
+
+		hideModal,
+		showModal,
+
+		getCustomPatterns,
+		saveCustomPatterns,
+	};
+}
+
+function useCustomPatterns() {
+	const customPatterns = ref({});
+
+	onBeforeMount(async () => {
+		customPatterns.value = await CustomPatterns.getData();
+
+		watch(
+			customPatterns,
+			async (newValue) => await CustomPatterns.saveData(toRaw(newValue)),
+			{ deep: true }
+		);
+	});
+
+	return { customPatterns };
+}
+
+function useToggleConnectors() {
+	const toggleConnectorsValue = ref(getToggleConnectorsState());
+	watch(toggleConnectorsValue, (isEnabled) => {
+		setAllConnectorsEnabled(isEnabled);
+	});
+
+	return {
+		toggleConnectorsValue,
+	};
+}
 
 function getToggleConnectorsState() {
 	const disabledConnectors = getOption(DISABLED_CONNECTORS);
 	return Object.keys(disabledConnectors).length !== connectors.length;
 }
-
-export default {
-	created() {
-		this.loadCustomPatterns();
-	},
-	data() {
-		return {
-			connectors,
-
-			gearIcon,
-
-			toggleConnectorsValue: getToggleConnectorsState(),
-
-			isModalActive: false,
-			editedConnector: {},
-		};
-	},
-	components: { AddPatternsModal, SpriteIcon },
-	watch: {
-		toggleConnectorsValue(newValue) {
-			const isEnabled = newValue;
-			setAllConnectorsEnabled(isEnabled);
-
-			this.$forceUpdate();
-		},
-	},
-	methods: {
-		isConnectorEnabled,
-		setConnectorEnabled,
-
-		async loadCustomPatterns() {
-			this.customPatterns = await CustomPatterns.getData();
-		},
-
-		async updateCustomPatterns(patterns) {
-			const connectorId = this.editedConnector.id;
-			if (patterns.length > 0) {
-				this.customPatterns[connectorId] = patterns;
-			} else {
-				delete this.customPatterns[connectorId];
-			}
-			await CustomPatterns.saveData(this.customPatterns);
-
-			this.hideModal();
-		},
-
-		getCustomPatterns(connector) {
-			return this.customPatterns[connector.id] || [];
-		},
-
-		showModal(connector) {
-			this.editedConnector = connector;
-
-			this.isModalActive = true;
-		},
-
-		hideModal() {
-			this.isModalActive = false;
-		},
-	},
-};
 </script>
 
 <style>
