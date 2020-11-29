@@ -80,7 +80,8 @@
     "node": ">=12.13.0"
   },
   "scripts": {
-    "start": "webpack-dev-server",
+    "dev:chrome": "webpack-dev-server --browser chrome",
+    "dev:firefox": "webpack-dev-server --browser firefox",
     "lint": "grunt lint",
     "test": "grunt test",
     "types": "npx tsc -p tsconfig.content.json && sh src/types/fix-declaration.sh",

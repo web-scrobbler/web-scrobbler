@@ -63,8 +63,8 @@ if you use Firefox.
 > npx grunt build:firefox  # Firefox
 
 # Start the dev server w/ rebuild on changes and hot code reload
-> npm start -- chrome      # Chrome
-> npm start -- firefox     # Firefox
+> npm run dev:chrome       # Chrome
+> npm run dev:firefox      # Firefox
 ```
 
 The built extension is available in `build` directory. You can install it as an
