@@ -24,10 +24,10 @@ Connector.isScrobblingAllowed = () => Util.getTextFromSelectors('.player-PlayerI
 
 function getCurrentTrack() {
 	let track = Util.getTextFromSelectors(trackSelector).split(' – ').slice(1).join(': ').trim();
-  if (track.slice(-1) === "–") {
-    track = track.slice(0, -1);
-  }
-  return track;
+	if (track.slice(-1) === '–') {
+		track = track.slice(0, -1);
+	}
+	return track;
 }
 
 function getCurrentSymphony() {
