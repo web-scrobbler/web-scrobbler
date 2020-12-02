@@ -23,7 +23,11 @@ Connector.isPlaying = () => Util.getTextFromSelectors(pauseButtonSelector) === '
 Connector.isScrobblingAllowed = () => Util.getTextFromSelectors('.player-PlayerInfo__recordingInfo--15VMv') !== 'Sponsor message';
 
 function getCurrentTrack() {
-	return Util.getTextFromSelectors(trackSelector).split(' – ').slice(1).join(': ');
+	let track = Util.getTextFromSelectors(trackSelector).split(' – ').slice(1).join(': ').trim();
+  if (track.slice(-1) === "–") {
+    track = track.slice(0, -1);
+  }
+  return track;
 }
 
 function getCurrentSymphony() {
