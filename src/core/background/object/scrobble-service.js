@@ -26,7 +26,7 @@ define((require) => {
 		new LastFmScrobbler(),
 		new LibreFmScrobbler(),
 		new ListenBrainzScrobbler(),
-		new MalojaScrobbler()
+		new MalojaScrobbler(),
 	];
 
 	/**

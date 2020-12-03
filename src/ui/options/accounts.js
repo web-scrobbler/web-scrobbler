@@ -27,7 +27,7 @@ define((require) => {
 				title: 'accountsUserToken',
 				placeholder: 'accountsUserTokenPlaceholder',
 			},
-		}
+		},
 	};
 
 	async function initialize() {
