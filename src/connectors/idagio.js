@@ -24,6 +24,12 @@ Connector.isScrobblingAllowed = () => Util.getTextFromSelectors('.player-PlayerI
 
 function getCurrentTrack() {
 	let track = Util.getTextFromSelectors(trackSelector).split(' – ').slice(1).join(': ').trim();
+	/*
+	 * Remove trailing dash. Example from https://app.idagio.com/albums/saint-saens-violin-sonata-no-1-cello-sonata-no-1-and-piano-trio-no-2
+	 * Saint-Saëns • Sonata for Violin and Piano No. 1 in D minor op. 75 R 123 • I. Allegro agitato –
+	 * Track without this: "Sonata for Violin and Piano No. 1 in D minor op. 75 R 123: I. Allegro agitato –"
+	 * Track with this: "Sonata for Violin and Piano No. 1 in D minor op. 75 R 123: I. Allegro agitato"
+	 */
 	if (track.slice(-1) === '–') {
 		track = track.slice(0, -1);
 	}
