@@ -30,9 +30,9 @@ function getCurrentTrack() {
 	 * Then, replace the dashes with colons, this makes the tag more in line with what is expected.
 	 * Finally, trim as a "just in case" in preparation for the next step. Unnecessary in the cases I've seen, but extremely simple and might prevent something down the line.
 	 * Example from https://app.idagio.com/albums/saint-saens-violin-sonata-no-1-cello-sonata-no-1-and-piano-trio-no-2:
-	 * "Camille Saint-Saëns – Sonata for Violin and Piano No. 1 in D minor op. 75 R 123 – I. Allegro agitato –"
+	 * "Camille Saint-Saëns – Sonata for Violin and Piano No. 1 in D minor op. 75 R 123 – I. Allegro agitato –"
 	 * -> ["Camille Saint-Saëns", "Sonata for Violin and Piano No. 1 in D minor op. 75 R 123", "I. Allegro agitato –"]
-	 * -> ["Sonata for Violin and Piano No. 1 in D minor op. 75 R 123", "I. Allegro agitato –"]
+	 * -> ["Sonata for Violin and Piano No. 1 in D minor op. 75 R 123", "I. Allegro agitato –"]
 	 * -> "Sonata for Violin and Piano No. 1 in D minor op. 75 R 123: I. Allegro agitato –"
 	 */
 	let track = Util.getTextFromSelectors(trackSelector).split(' – ').slice(1).join(': ').trim();
