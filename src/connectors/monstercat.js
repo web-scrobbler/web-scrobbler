@@ -27,12 +27,12 @@ function setupMainPlayer() {
 }
 
 function setupGoldPlayer() {
-	Connector.playerSelector = '#controlbar';
+	Connector.playerSelector = '.control-bar';
 
 	Connector.trackSelector = '.song-info .song-title';
 
 	Connector.getArtist = () => {
-		const artists = Util.queryElements('.song-info .artist-name');
+		const artists = Util.queryElements('.song-info .artists-list a');
 
 		if (artists !== null) {
 			return Util.joinArtists(artists.toArray());
@@ -45,5 +45,5 @@ function setupGoldPlayer() {
 
 	Connector.timeInfoSelector = '.active-song-time';
 
-	Connector.pauseButtonSelector = '.play-pause-btn .fa-pause';
+	Connector.pauseButtonSelector = '.play-pause .fa-pause';
 }
