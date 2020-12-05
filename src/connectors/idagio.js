@@ -23,7 +23,28 @@ Connector.isPlaying = () => Util.getTextFromSelectors(pauseButtonSelector) === '
 Connector.isScrobblingAllowed = () => Util.getTextFromSelectors('.player-PlayerInfo__recordingInfo--15VMv') !== 'Sponsor message';
 
 function getCurrentTrack() {
-	return Util.getTextFromSelectors(trackSelector).split(' – ').slice(1).join(': ');
+	/*
+	 * Idagio puts composer and piece all in the same div element, so we have to undo this.
+	 * First split the tag by dashes. Include spaces to avoid issues with names containing dashes.
+	 * The first part is the composer name. We want to exclude this, so we slice it off.
+	 * Then, replace the dashes with colons, this makes the tag more in line with what is expected.
+	 * Finally, trim as a "just in case" in preparation for the next step. Unnecessary in the cases I've seen, but extremely simple and might prevent something down the line.
+	 * Example from https://app.idagio.com/albums/saint-saens-violin-sonata-no-1-cello-sonata-no-1-and-piano-trio-no-2:
+	 * "Camille Saint-Saëns – Sonata for Violin and Piano No. 1 in D minor op. 75 R 123 – I. Allegro agitato –"
+	 * -> ["Camille Saint-Saëns", "Sonata for Violin and Piano No. 1 in D minor op. 75 R 123", "I. Allegro agitato –"]
+	 * -> ["Sonata for Violin and Piano No. 1 in D minor op. 75 R 123", "I. Allegro agitato –"]
+	 * -> "Sonata for Violin and Piano No. 1 in D minor op. 75 R 123: I. Allegro agitato –"
+	 */
+	let track = Util.getTextFromSelectors(trackSelector).split(' – ').slice(1).join(': ').trim();
+	/*
+	 * Now remove trailing dash if exists.
+	 * Example: "Sonata for Violin and Piano No. 1 in D minor op. 75 R 123: I. Allegro agitato –"
+	 * -> "Sonata for Violin and Piano No. 1 in D minor op. 75 R 123: I. Allegro agitato " (the space is trimmed later in core)
+	 */
+	if (track.slice(-1) === '–') {
+		track = track.slice(0, -1);
+	}
+	return track;
 }
 
 function getCurrentSymphony() {
