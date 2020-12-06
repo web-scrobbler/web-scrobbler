@@ -47,8 +47,9 @@ define((require) => {
 
 		/** @override */
 		async getSession() {
-			if (!this.userToken)
+			if (!this.userToken) {
 				throw ServiceCallResult.ERROR_AUTH;
+			}
 			return { sessionID: this.userToken };
 		}
 
@@ -74,13 +75,9 @@ define((require) => {
 			return this.sendRequest(songData, sessionID);
 		}
 
-		/**
-		 * Private methods
-		 * @param params
-		 * @param sessionID
-		 */
-		async sendRequest(params, sessionID) {
+		/** Private methods */
 
+		async sendRequest(params, sessionID) {
 			params.key = sessionID;
 
 			const requestInfo = {
@@ -97,8 +94,9 @@ define((require) => {
 			let response = null;
 			try {
 				response = await Util.timeoutPromise(timeout, promise);
-				if (response.status != 200)
+				if (response.status !== 200) {
 					return ServiceCallResult.ERROR_OTHER;
+				}
 			} catch (e) {
 				this.debugLog('Error while sending request', 'error');
 				return ServiceCallResult.ERROR_OTHER;
