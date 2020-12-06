@@ -47,6 +47,8 @@ define((require) => {
 
 		/** @override */
 		async getSession() {
+			if (!this.userToken)
+				throw ServiceCallResult.ERROR_AUTH;
 			return { sessionID: this.userToken };
 		}
 
