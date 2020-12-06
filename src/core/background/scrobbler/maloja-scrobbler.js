@@ -67,12 +67,10 @@ define((require) => {
 
 		/** @override */
 		async scrobble(song) {
-			const { sessionID } = await this.getSession();
-
 			const songData = this.makeTrackMetadata(song);
 			songData.time = song.metadata.startTimestamp;
 
-			return this.sendRequest(songData, sessionID);
+			return this.sendRequest(songData, this.userToken);
 		}
 
 		/** Private methods */
