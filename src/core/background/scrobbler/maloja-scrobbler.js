@@ -97,7 +97,8 @@ define((require) => {
 			let response = null;
 			try {
 				response = await Util.timeoutPromise(timeout, promise);
-				await response.json();
+				if (response.status != 200)
+					return ServiceCallResult.ERROR_OTHER;
 			} catch (e) {
 				this.debugLog('Error while sending request', 'error');
 				return ServiceCallResult.ERROR_OTHER;
