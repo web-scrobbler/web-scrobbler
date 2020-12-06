@@ -1,18 +1,6 @@
 'use strict';
 
 /**
- * Array of categories allowed to be scrobbled.
- * @type {Array}
- */
-const allowedCategories = [];
-
-/**
- * "Video Id=Category" map.
- * @type {Map}
- */
-const categoryCache = new Map();
-
-/**
  * CSS selector of video element. It's common for both players.
  * @type {String}
  */
@@ -30,6 +18,18 @@ const categoryUnknown = 'YT_DUMMY_CATEGORY_UNKNOWN';
 
 const categoryMusic = 'Music';
 const categoryEntertainment = 'Entertainment';
+
+/**
+ * Array of categories allowed to be scrobbled.
+ * @type {Array}
+ */
+const allowedCategories = [categoryUnknown];
+
+/**
+ * "Video Id=Category" map.
+ * @type {Map}
+ */
+const categoryCache = new Map();
 
 let currentVideoDescription = null;
 let artistTrackFromDescription = null;
@@ -102,8 +102,7 @@ Connector.isScrobblingAllowed = () => {
 	}
 
 	// Workaround to prevent scrobbling the video opened in a background tab.
-	const videoElement = document.querySelector(videoSelector);
-	if (videoElement && videoElement.currentTime < 1) {
+	if (!isVideoStartedPlaying()) {
 		return false;
 	}
 
@@ -116,16 +115,15 @@ Connector.isScrobblingAllowed = () => {
 		return false;
 	}
 
-	if (videoCategory === categoryUnknown) {
-		return true;
-	}
-
 	return allowedCategories.includes(videoCategory);
 };
 
-Connector.applyFilter(MetadataFilter.getYoutubeFilter().append({
-	artist: removeLtrRtlChars, track: removeLtrRtlChars,
-}));
+Connector.applyFilter(
+	MetadataFilter.getYoutubeFilter().append({
+		artist: removeLtrRtlChars,
+		track: removeLtrRtlChars,
+	})
+);
 
 function setupEventListener() {
 	$(videoSelector).on('timeupdate', Connector.onStateChanged);
@@ -153,6 +151,10 @@ function getVideoId() {
 }
 
 function getVideoCategory() {
+	if (true) {
+		return categoryUnknown;
+	}
+
 	const videoId = getVideoId();
 
 	if (!videoId) {
@@ -268,4 +270,9 @@ function removeLtrRtlChars(text) {
 		{ source: /\u200e/g, target: '' },
 		{ source: /\u200f/g, target: '' },
 	]);
+}
+
+function isVideoStartedPlaying() {
+	const videoElement = document.querySelector(videoSelector);
+	return videoElement && videoElement.currentTime > 0;
 }
