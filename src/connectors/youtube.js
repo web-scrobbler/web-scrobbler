@@ -73,7 +73,10 @@ Connector.getTrackInfo = () => {
 Connector.getTimeInfo = () => {
 	const videoElement = document.querySelector(videoSelector);
 	if (videoElement && !areChaptersAvailable()) {
-		const { currentTime, duration } = videoElement;
+		let { currentTime, duration, playbackRate } = videoElement;
+
+		currentTime /= playbackRate;
+		duration /= playbackRate;
 
 		return { currentTime, duration };
 	}
