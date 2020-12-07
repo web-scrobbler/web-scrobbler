@@ -137,23 +137,6 @@ export interface UserPropertiesResponse extends ScrobblerRequestResponse {
 }
 
 /**
- * Send a message to a tab with a given ID.
- *
- * @param tabId Tab ID
- * @param type Message type
- * @param [data] Data to send
- *
- * @return Response data
- */
-export async function sendMessageTo(
-	tabId: number,
-	type: MessageType,
-	data?: unknown
-): Promise<any> {
-	return browser.runtime.sendMessage({ tabId, type, data });
-}
-
-/**
  * Send a message to all modules.
  *
  * @param type Message type
