@@ -7,6 +7,7 @@ define((require) => {
 	const LastFmScrobbler = require('scrobbler/lastfm-scrobbler');
 	const LibreFmScrobbler = require('scrobbler/librefm-scrobbler');
 	const ListenBrainzScrobbler = require('scrobbler/listenbrainz-scrobbler');
+	const MalojaScrobbler = require('scrobbler/maloja-scrobbler');
 	const ServiceCallResult = require('object/service-call-result');
 
 	/**
@@ -25,6 +26,7 @@ define((require) => {
 		new LastFmScrobbler(),
 		new LibreFmScrobbler(),
 		new ListenBrainzScrobbler(),
+		new MalojaScrobbler(),
 	];
 
 	/**
