@@ -21,6 +21,8 @@ export interface ConnectorEntry {
 
 	/**
 	 * A website label.
+	 *
+	 * Ref: https://github.com/web-scrobbler/web-scrobbler/wiki/Connectors-development#how-to-set-a-label-for-a-connector
 	 */
 	label: string;
 
