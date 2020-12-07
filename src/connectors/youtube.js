@@ -151,10 +151,6 @@ function getVideoId() {
 }
 
 function getVideoCategory() {
-	if (true) {
-		return categoryUnknown;
-	}
-
 	const videoId = getVideoId();
 
 	if (!videoId) {
