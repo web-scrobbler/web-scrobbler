@@ -1,6 +1,5 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import { Controller } from '@/background/object/controller';
 import { ControllerMode } from '@/background/object/controller-mode';
 import { Song, LoveStatus } from '@/background/object/song';
 
@@ -107,19 +106,19 @@ const ExtensionActions: Record<string, BrowserActionRawItem> = {
  * A wrapper around the browser.browserAction API.
  */
 export class BrowserAction {
-	currentBrowserAction: BrowserActionItem = null;
-	previousBrowserAction: BrowserActionItem = null;
-	timeoutId: NodeJS.Timeout = null;
+	private currentBrowserAction: BrowserActionItem = null;
+	private previousBrowserAction: BrowserActionItem = null;
+	private timeoutId: NodeJS.Timeout = null;
 
 	/**
-	 * Update the browser action using a given controller as the context.
+	 * Update the browser action according to a given context (a controller
+	 * mode and a now playing song).
 	 *
-	 * @param controller Controller instance
+	 * @param controllerMode Controller mode
+	 * @param currentSong Song instance
 	 */
-	update(controller: Controller): void {
-		const currentSong = controller.getCurrentSong();
-
-		const browserActionItem = ControllerActions[controller.getMode()];
+	update(controllerMode: ControllerMode, currentSong: Song): void {
+		const browserActionItem = ControllerActions[controllerMode];
 		const placeholder = currentSong && currentSong.getArtistTrackString();
 
 		this.setPermBrowserAction(browserActionItem, placeholder);
@@ -223,7 +222,7 @@ export class BrowserAction {
 		}
 	}
 
-	isTempIconVisible(): boolean {
+	private isTempIconVisible(): boolean {
 		return this.timeoutId !== null;
 	}
 }

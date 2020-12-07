@@ -227,7 +227,10 @@ export abstract class TabWorker {
 	private updateBrowserAction(tabId: number): void {
 		const ctrl = this.tabControllers[tabId];
 		if (ctrl) {
-			this.browserAction.update(ctrl);
+			const controllerMode = ctrl.getMode();
+			const currentSong = ctrl.getCurrentSong();
+
+			this.browserAction.update(controllerMode, currentSong);
 		} else {
 			this.browserAction.reset();
 		}
