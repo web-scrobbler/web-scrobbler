@@ -44,7 +44,9 @@ function setupArtistPlayer() {
 
 function setArtistConnector() {
 	Connector.getTrackInfo = () => {
-		const parentLi = document.querySelector('.pause[style*="display: block"]').closest('li');
+		const currTrack = document.querySelector('.pause[style*="display: block"]') || document.querySelector('.playw:hover');
+
+		const parentLi = currTrack.closest('li');
 
 		const songInfo = {
 			artist: parentLi.querySelector('.artist_name').textContent,
@@ -55,9 +57,7 @@ function setArtistConnector() {
 		return songInfo;
 	};
 
-	Connector.isPlaying = () => {
-		document.querySelectorAll('.pause[style*="display: block;"]').length;
-	};
+	Connector.isPlaying = () => document.querySelectorAll('.pause[style*="display: block;"]').length !== 0;
 }
 
 function setupSongPlayer() {
