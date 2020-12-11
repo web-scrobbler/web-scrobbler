@@ -121,7 +121,7 @@ Connector.isScrobblingAllowed = () => {
 Connector.applyFilter(
 	MetadataFilter.getYoutubeFilter().append({
 		artist: removeLtrRtlChars,
-		track: removeLtrRtlChars,
+		track: [removeLtrRtlChars, removeNumericPrefix],
 	})
 );
 
@@ -266,6 +266,10 @@ function removeLtrRtlChars(text) {
 		{ source: /\u200e/g, target: '' },
 		{ source: /\u200f/g, target: '' },
 	]);
+}
+
+function removeNumericPrefix(text) {
+	return text.replace(/^\d+\.\s/, '');
 }
 
 function isVideoStartedPlaying() {
