@@ -1,12 +1,12 @@
 'use strict';
 
-const playerBar = '.player';
+const playerBar = '.RFplayer';
 
 Connector.playerSelector = playerBar;
 
-Connector.artistSelector = `${playerBar} .title-field`;
+Connector.artistSelector = `${playerBar} .media-informations a:first-child`;
 
-Connector.trackSelector = `${playerBar} .description-field`;
+Connector.trackSelector = `${playerBar} .media-informations a:last-child`;
 
 Connector.currentTimeSelector = `${playerBar} .start-time`;
 
