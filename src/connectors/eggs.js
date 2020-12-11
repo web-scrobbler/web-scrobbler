@@ -44,8 +44,8 @@ function setupArtistPlayer() {
 
 function setArtistConnector() {
 	Connector.getTrackInfo = () => {
-    const currTrack = document.querySelector('.pause[style*="display: block"]') || document.querySelector('.playw:hover');
-    
+		const currTrack = document.querySelector('.pause[style*="display: block"]') || document.querySelector('.playw:hover');
+
 		const parentLi = currTrack.closest('li');
 
 		const songInfo = {
