@@ -1,10 +1,15 @@
 import { expect } from 'chai';
 
 import { getTestName } from '#/helpers/util';
-import { makeStorageWrapperStub } from '#/helpers/create-stubs';
+import { NamespaceStorage } from '@/background/storage2/namespace/NamespaceStorage';
+import { MockedStorageArea } from '#/mock/MockedStorageArea';
 
 describe(getTestName(__filename), () => {
-	const storage = makeStorageWrapperStub();
+	const storageNamespace = 'TestNamespace';
+	const storage = new NamespaceStorage(
+		new MockedStorageArea(),
+		storageNamespace
+	);
 
 	it('should return empty object', async () => {
 		const data = await storage.get();

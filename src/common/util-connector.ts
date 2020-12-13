@@ -1,9 +1,9 @@
 import connectors from '@/connectors.json';
 
 import { ConnectorEntry } from '@/common/connector-entry';
-import { CustomPatterns } from '@/background/storage/custom-patterns';
 
 import { isPatternMatched } from '@/background/util/url-match';
+import { getCustomUrlPatterns } from '@/background/repository/GetCustomUrlPatterns';
 
 /**
  * Find a connector entry matching a given URL. Return null if no connector
@@ -14,7 +14,7 @@ import { isPatternMatched } from '@/background/util/url-match';
  * @return Connector entry
  */
 export async function getConnectorByUrl(url: string): Promise<ConnectorEntry> {
-	const customPatterns = await CustomPatterns.getData();
+	const customUrlPatterns = getCustomUrlPatterns();
 
 	for (const connector of connectors) {
 		const patterns = [];
@@ -22,9 +22,7 @@ export async function getConnectorByUrl(url: string): Promise<ConnectorEntry> {
 			patterns.push(...connector.matches);
 		}
 
-		if (customPatterns[connector.id]) {
-			patterns.push(...customPatterns[connector.id]);
-		}
+		patterns.push(...(await customUrlPatterns.getPatterns(connector.id)));
 
 		for (const pattern of patterns) {
 			if (isPatternMatched(url, pattern)) {

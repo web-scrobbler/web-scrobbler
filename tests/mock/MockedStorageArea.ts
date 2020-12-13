@@ -1,5 +1,7 @@
-export class StorageAreaStub {
-	data: unknown;
+import { Storage } from 'webextension-polyfill-ts';
+
+export class MockedStorageArea implements Storage.StorageArea {
+	private data: unknown;
 
 	constructor() {
 		this.data = {};

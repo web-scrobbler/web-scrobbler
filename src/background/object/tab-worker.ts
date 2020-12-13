@@ -157,6 +157,8 @@ export abstract class TabWorker {
 				const ctrl = this.tabControllers[tabId];
 				if (ctrl) {
 					ctrl.onStateChanged(data as ParsedSongInfo);
+					// @ts-ignore
+					return '222';
 				}
 				break;
 			}

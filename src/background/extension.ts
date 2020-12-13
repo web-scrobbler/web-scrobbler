@@ -4,10 +4,8 @@ import {
 	BaseScrobbler,
 	UserProperties,
 } from '@/background/scrobbler/base-scrobbler';
-import { BrowserStorage } from '@/background/storage/browser-storage';
 import { Controller, ControllerEvent } from '@/background/object/controller';
 import { ScrobbleManager } from '@/background/scrobbler/scrobble-manager';
-import { StorageWrapper } from '@/background/storage/storage-wrapper';
 import { TabWorker } from '@/background/object/tab-worker';
 
 import { openTab } from '@/common/util-browser';
@@ -26,29 +24,15 @@ import {
 	showSongNotRecognized,
 } from '@/background/browser/notifications';
 
-/**
- * How many times to show auth notification.
- */
-const authNotificationDisplayCount = 3;
-
-interface CoreStorage {
-	appVersion: string;
-}
-
-interface AuthNotificationsStorage {
-	authDisplayCount: number;
-}
+import { NotificationsRepository } from './repository/notifications/NotificationsRepository';
 
 export class Extension {
 	private tabWorker: TabWorker;
-	private extVersion: string;
-	private notificationStorage: StorageWrapper;
 
-	constructor() {
-		this.extVersion = browser.runtime.getManifest().version;
-		this.notificationStorage = BrowserStorage.getStorage(
-			BrowserStorage.NOTIFICATIONS
-		);
+	private notificationsRepository: NotificationsRepository;
+
+	constructor(notificationsRepository: NotificationsRepository) {
+		this.notificationsRepository = notificationsRepository;
 
 		this.tabWorker = new (class extends TabWorker {
 			async onControllerEvent(ctrl: Controller, event: ControllerEvent) {
@@ -92,8 +76,6 @@ export class Extension {
 	 * Entry point.
 	 */
 	async start(): Promise<void> {
-		await this.updateVersionInStorage();
-
 		if (!(await this.bindScrobblers())) {
 			console.warn('No scrobblers are bound');
 
@@ -189,19 +171,6 @@ export class Extension {
 	}
 
 	/**
-	 * Replace the extension version stored in local storage by current one.
-	 */
-	private async updateVersionInStorage(): Promise<void> {
-		const storage = BrowserStorage.getStorage(BrowserStorage.CORE);
-		const data = (await storage.get()) as CoreStorage;
-
-		data.appVersion = this.extVersion;
-		await storage.set(data);
-
-		await storage.debugLog();
-	}
-
-	/**
 	 * Ask a scrobble service to bind scrobblers.
 	 *
 	 * @return True if at least one scrobbler is registered;
@@ -213,7 +182,8 @@ export class Extension {
 	}
 
 	private async showAuthNotification(): Promise<void> {
-		if (await this.isAuthNotificationAllowed()) {
+		const shouldDisplayAuthNotification = await this.notificationsRepository.shouldDisplayAuthNotification();
+		if (shouldDisplayAuthNotification) {
 			const authUrl = browser.runtime.getURL(
 				'/ui/options/index.html#accounts'
 			);
@@ -226,7 +196,7 @@ export class Extension {
 				await browser.tabs.create({ url: authUrl });
 			}
 
-			await this.updateAuthDisplayCount();
+			await this.notificationsRepository.incrementAuthDisplayCount();
 		}
 	}
 
@@ -261,28 +231,5 @@ export class Extension {
 	): Promise<void> {
 		await scrobbler.applyUserProperties(userProps);
 		ScrobbleManager.bindScrobbler(scrobbler);
-	}
-
-	/**
-	 * Check if extension should display auth notification.
-	 *
-	 * @return Check result
-	 */
-	private async isAuthNotificationAllowed(): Promise<boolean> {
-		const data = (await this.notificationStorage.get()) as AuthNotificationsStorage;
-
-		const authDisplayCount = data.authDisplayCount || 0;
-		return authDisplayCount < authNotificationDisplayCount;
-	}
-
-	/**
-	 * Update internal counter of displayed auth notifications.
-	 */
-	private async updateAuthDisplayCount(): Promise<void> {
-		const data = (await this.notificationStorage.get()) as AuthNotificationsStorage;
-		const authDisplayCount = data.authDisplayCount || 0;
-
-		data.authDisplayCount = authDisplayCount + 1;
-		await this.notificationStorage.set(data);
 	}
 }

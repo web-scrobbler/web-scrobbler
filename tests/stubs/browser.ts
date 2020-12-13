@@ -1,4 +1,4 @@
-import { StorageAreaStub } from '#/stubs/storage-area-stub';
+import { MockedStorageArea } from '#/mock/MockedStorageArea';
 
 const translationStrings: Record<string, string> = {
 	availableStringId: 'Translated string',
@@ -6,8 +6,8 @@ const translationStrings: Record<string, string> = {
 
 export const browserStub = {
 	storage: {
-		local: new StorageAreaStub(),
-		sync: new StorageAreaStub(),
+		local: new MockedStorageArea(),
+		sync: new MockedStorageArea(),
 	},
 	i18n: {
 		getMessage(stringId: string): string {
