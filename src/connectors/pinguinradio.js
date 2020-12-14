@@ -1,19 +1,28 @@
 'use strict';
 
-const filter = MetadataFilter.createFilter({ artist: removeByPrefix });
+const trackInfoSelector = '.stream-title';
+const playButtonSelector = '.playbutton .material-icons';
 
-Connector.playerSelector = 'body';
+Connector.playerSelector = '.audio-player';
 
-Connector.artistSelector = '.artist-name';
+Connector.getArtistTrack = () => {
+	const trackInfoElement = document.querySelector(trackInfoSelector);
+	if (!trackInfoElement) {
+		return null;
+	}
 
-Connector.playButtonSelector = '.fa-play';
+	const [trackElement, , artistElement] = trackInfoElement.childNodes;
+	return {
+		artist: artistElement && artistElement.textContent,
+		track: trackElement && trackElement.textContent,
+	};
+};
 
-Connector.trackArtSelector = '.artist-image img';
+Connector.isPlaying = () => {
+	const playButton = document.querySelector(playButtonSelector);
+	if (playButton) {
+		return playButton.textContent.includes('pause');
+	}
 
-Connector.trackSelector = '.artist-track';
-
-Connector.applyFilter(filter);
-
-function removeByPrefix(text) {
-	return text.replace('by: ', '');
-}
+	return true;
+};
