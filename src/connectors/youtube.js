@@ -23,7 +23,7 @@ const categoryEntertainment = 'Entertainment';
  * Array of categories allowed to be scrobbled.
  * @type {Array}
  */
-const allowedCategories = [categoryUnknown];
+const allowedCategories = [];
 
 /**
  * "Video Id=Category" map.
@@ -106,16 +106,7 @@ Connector.isScrobblingAllowed = () => {
 		return false;
 	}
 
-	if (allowedCategories.length === 0) {
-		return true;
-	}
-
-	const videoCategory = getVideoCategory();
-	if (!videoCategory) {
-		return false;
-	}
-
-	return allowedCategories.includes(videoCategory);
+	return isVideoCategoryAllowed();
 };
 
 Connector.applyFilter(
@@ -275,4 +266,20 @@ function removeNumericPrefix(text) {
 function isVideoStartedPlaying() {
 	const videoElement = document.querySelector(videoSelector);
 	return videoElement && videoElement.currentTime > 0;
+}
+
+function isVideoCategoryAllowed() {
+	if (allowedCategories.length === 0) {
+		return true;
+	}
+
+	const videoCategory = getVideoCategory();
+	if (!videoCategory) {
+		return false;
+	}
+
+	return (
+		allowedCategories.includes(videoCategory) ||
+		videoCategory === categoryUnknown
+	);
 }
