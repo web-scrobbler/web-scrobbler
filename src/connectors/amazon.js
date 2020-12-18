@@ -50,7 +50,7 @@ function setupPropertiesForNewPlayer() {
 		return trackLink === '#';
 	};
 
-	Connector.playButtonSelector = 'music-button[icon-name=play]';
+	Connector.pauseButtonSelector = 'music-button[icon-name=pause]';
 }
 
 function setupPropertiesForOldPlayer() {
