@@ -1,17 +1,30 @@
 # Privacy policy
 
-## What data is being collected
+This privacy policy explains what data we collect and store; how we use and disclose this data.
 
-The extension uses Google Analytics to track its installs and usage. A single pageview is tracked every time the extension's background script is executed. That means one pageview for each browser session (the whole time the browser is running), regardless of the amount of scrobbled songs or supported websites visited.
+**Important note**: This document is applicable to Web Scrobbler v3 and newer.
 
-Although the extension requests permission to access all browsed pages, it does that only for convenience of future development - users will not be prompted to confirm access to every single website supported by the extension. It also opens up a possibility of supporting embedded players.
+## What data is collected?
 
-The extension does not track visits of any particular pages. It also does not access your personal data on any of supported websites. Nor does it interfere with any page's contents.
+The extension does not collect any of your personal data.
 
-## How the data is being used
+## What data is stored by the extension?
 
-The data collected by Google Analytics is used to track usage of the extension in time and across various browsers and their versions. The data can be used for strategic decisions regarding the extension's development and marketing.
+Your settings and credentials are stored within your browser. The extension stores:
 
-## Can I disable tracking
+ - Your credentials of scrobble services
+ - Your personal Web Scrobbler settings
+ - Your edited tracks
+ - Your unscrobbled tracks
+ - Your custom URL patterns for connectors
+ - System information of the extension
 
-In the options there is a checkbox labeled "Disable Google Analytics" to opt out of tracking.
+Your credentials are used to communicate with scrobble services only.
+
+All data is used by the extension internally; we don't send this data to 3rd-party services.
+
+## Why does the extension access to all websites?
+
+The extension supports several self-hosted services (e.g. Funkwhale), which supposed to have user-defined URLs. The extension could not know these URLs, that's why the accessing to all websites is required.
+
+Also, it asks accessing for user convinience only. Users will not be prompted to confirm access to new websites added in new extension versions.

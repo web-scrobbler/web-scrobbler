@@ -31,14 +31,6 @@
         "message": "Wymuś traktowanie nieznanych utworów jako rozpoznanych",
         "description": "Option title"
     },
-    "optionDisableGa": {
-        "message": "Wyłącz Google Analytics",
-        "description": "Option label"
-    },
-    "optionDisableGaTitle": {
-        "message": "Wyłącz zbieranie statystyk użytkowania przez Google Analytics",
-        "description": "Option title"
-    },
     "optionScrobblePodcasts": {
         "message": "Scrobbluj podcasty",
         "description": "Option title"

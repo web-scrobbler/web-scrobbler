@@ -31,14 +31,6 @@
         "message": "Forçar o reconhecimento de faixas desconhecidas",
         "description": "Option title"
     },
-    "optionDisableGa": {
-        "message": "Desativar Google Analytics",
-        "description": "Option label"
-    },
-    "optionDisableGaTitle": {
-        "message": "Desativa o envio de dados ao Google Analytics",
-        "description": "Option title"
-    },
     "optionScrobblePodcasts": {
         "message": "Efetuar scrobble de podcasts",
         "description": "Option title"

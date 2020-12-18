@@ -36,14 +36,6 @@
     "message": "Force recognition of unknown tracks",
     "description": "Option title"
   },
-  "optionDisableGa": {
-    "message": "Disable Google Analytics",
-    "description": "Option label"
-  },
-  "optionDisableGaTitle": {
-    "message": "Disable sending data to Google Analytics",
-    "description": "Option title"
-  },
   "optionScrobblePodcasts" : {
     "message": "Scrobble podcasts",
     "description": "Option title"

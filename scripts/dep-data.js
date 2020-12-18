@@ -56,15 +56,6 @@ const dependenciesInfo = {
 			],
 		}],
 	},
-	showdown: {
-		name: 'Showdown',
-		urlTemplate: 'https://github.com/showdownjs/showdown/archive/${ver}.zip',
-		paths: [{
-			srcPaths: [
-				'showdown/dist/showdown.min.js',
-			],
-		}],
-	},
 
 	'@fortawesome/fontawesome-free': {
 		name: 'FontAwesome',

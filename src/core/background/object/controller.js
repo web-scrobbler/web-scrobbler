@@ -522,8 +522,6 @@ define((require) => {
 				this.setMode(ControllerMode.Scrobbled);
 
 				this.onSongUpdated();
-
-				this.dispatchEvent(ControllerEvent.SongScrobbled);
 			} else if (Util.areAllResults(results, ServiceCallResult.RESULT_IGNORE)) {
 				this.debugLog('Song is ignored by service');
 				this.setMode(ControllerMode.Ignored);
