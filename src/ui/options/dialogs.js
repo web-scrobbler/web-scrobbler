@@ -23,17 +23,17 @@ define((require) => {
 			const connector = sortedConnectors[index];
 
 			modal.data('conn', index);
-			modal.find('.modal-title').html(connector.label);
+			modal.find('.modal-title').text(connector.label);
 
 			const allPatterns = await CustomPatterns.getAllPatterns();
 			const patterns = allPatterns[connector.id] || [];
 
-			const inputs = $('<ul class="list-unstyled patterns-list" id="conn-conf-list"></ul>');
+			const inputsContainer = $('#conn-conf-list');
+			inputsContainer.empty();
 			for (const value of patterns) {
-				inputs.append(createNewConfigInput(value));
+				inputsContainer.append(createNewConfigInput(value));
 			}
 
-			modal.find('.conn-conf-patterns').html(inputs);
 			modal.modal('show');
 		});
 
