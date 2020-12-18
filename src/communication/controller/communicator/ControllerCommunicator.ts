@@ -4,7 +4,7 @@ import {
 	LoveStatus,
 } from '@/background/object/song';
 
-export interface ControllerMessageSender {
+export interface ControllerCommunicator {
 	/**
 	 * Send a request to correct the now playing track.
 	 *

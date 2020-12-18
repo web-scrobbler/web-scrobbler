@@ -1,7 +1,7 @@
 import { MessageSender } from '@/communication/MessageSender';
 
 import { ControllerMessageType } from '@/communication/controller/ControllerMessageType';
-import { ControllerMessageSender } from '@/communication/controller/sender/ControllerMessageSender';
+import { ControllerCommunicator } from '@/communication/controller/communicator/ControllerCommunicator';
 
 import {
 	ClonedSong,
@@ -9,7 +9,7 @@ import {
 	LoveStatus,
 } from '@/background/object/song';
 
-export class ControllerMessageSenderImpl implements ControllerMessageSender {
+export class ControllerCommunicatorImpl implements ControllerCommunicator {
 	private messageSender: MessageSender;
 
 	constructor(sender: MessageSender) {
