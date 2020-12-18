@@ -57,7 +57,7 @@
     "test-with-coverage": "nyc grunt test",
     "upload-coverage": "curl -Ls https://coverage.codacy.com/get.sh | bash -s report -r ./coverage/lcov.info",
     "clean-coverage": "rm -rf ./coverage",
-    "postinstall": "node scripts/copy-vendor.js"
+    "postinstall": "node scripts/copy-vendor.js && node scripts/make-list.js"
   },
   "eslintConfig": {
     "extends": "web-scrobbler",
