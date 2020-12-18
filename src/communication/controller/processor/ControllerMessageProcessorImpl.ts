@@ -1,4 +1,5 @@
 /* eslint-disable indent */
+/* eslint-disable @typescript-eslint/require-await */
 
 import { Controller } from '@/background/object/controller';
 import {
@@ -19,7 +20,7 @@ export class ControllerMessageProcessorImpl implements MessageProcessor {
 		this.controller = controller;
 	}
 
-	processMessage(message: Message<unknown>): unknown {
+	processMessage(message: Message<unknown>): Promise<unknown> {
 		switch (message.type) {
 			case ControllerMessageType.CorrectTrack:
 				return this.processCorrectTrackMessage(
@@ -45,23 +46,27 @@ export class ControllerMessageProcessorImpl implements MessageProcessor {
 		}
 	}
 
-	private processCorrectTrackMessage(editedInfo: EditedSongInfo): void {
-		this.controller.setUserSongData(editedInfo);
+	private async processCorrectTrackMessage(
+		editedInfo: EditedSongInfo
+	): Promise<void> {
+		return this.controller.setUserSongData(editedInfo);
 	}
 
-	private proccessCorrectLabelMessage(): string {
-		return this.controller.getConnector().label;
+	private proccessCorrectLabelMessage(): Promise<string> {
+		return Promise.resolve(this.controller.getConnector().label);
 	}
 
-	private processGetTrackMessage(): ClonedSong {
-		return this.controller.getCurrentSong().getCloneableData();
+	private async processGetTrackMessage(): Promise<ClonedSong> {
+		return Promise.resolve(
+			this.controller.getCurrentSong().getCloneableData()
+		);
 	}
 
-	private processResetTrackMessage(): void {
+	private async processResetTrackMessage(): Promise<void> {
 		this.controller.resetSongData();
 	}
 
-	private processSkipTrackMessage(): void {
+	private async processSkipTrackMessage(): Promise<void> {
 		this.controller.skipCurrentSong();
 	}
 
