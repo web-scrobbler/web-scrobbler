@@ -21,7 +21,7 @@ jobs:
         node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
 
     - name: Install dependencies
-      run: npm install
+      run: npm ci
 
     - name: Build the extension for Chrome
       run: |
