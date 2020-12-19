@@ -10,11 +10,7 @@ import {
 } from '@/background/object/song';
 
 export class ControllerCommunicatorImpl implements ControllerCommunicator {
-	private messageSender: MessageSender;
-
-	constructor(sender: MessageSender) {
-		this.messageSender = sender;
-	}
+	constructor(private messageSender: MessageSender<ControllerMessageType>) {}
 
 	async correctTrack(editedInfo: EditedSongInfo): Promise<void> {
 		const message = {
