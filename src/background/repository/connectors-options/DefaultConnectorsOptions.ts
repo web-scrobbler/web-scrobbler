@@ -5,7 +5,7 @@ export const defaultConnectorsOptions: Readonly<ConnectorsOptionsData> = {
 		useShortTrackNames: false,
 	},
 	youtube: {
-		scrobbleMusicOnly: false,
-		scrobbleEntertainmentOnly: false,
+		scrobbleMusicOnly: true,
+		scrobbleEntertainmentOnly: true,
 	},
 };

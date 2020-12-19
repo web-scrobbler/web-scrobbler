@@ -14,7 +14,7 @@ describe(getTestName(__filename), testConnectorsOptions);
 function testConnectorsOptions() {
 	const connectorsOptions = createConnectorsOptions();
 
-	it('should return default options when initialized', () => {
+	it('should return default options when initialized', async () => {
 		const connectorIds = getObjectKeys(defaultConnectorsOptions);
 
 		for (const connectorId of connectorIds) {
@@ -25,55 +25,51 @@ function testConnectorsOptions() {
 			for (const optionKey of optionKeys) {
 				const optionValue =
 					defaultConnectorsOptions[connectorId][optionKey];
-				const promise = connectorsOptions.getOption(
+				const actualValue = await connectorsOptions.getOption(
 					connectorId,
 					optionKey
 				);
-				expect(promise).to.be.eventually.equal(optionValue);
+				expect(actualValue).to.be.equal(optionValue);
 			}
 		}
 	});
 
-	it('should set option for the connector', () => {
-		const promise = connectorsOptions.setOption(
+	it('should set option for the connector', async () => {
+		const expectedValue = true;
+		await connectorsOptions.setOption(
 			'youtube',
 			'scrobbleMusicOnly',
-			true
+			expectedValue
 		);
-		return expect(promise).to.be.eventually.fulfilled;
-	});
 
-	it('should read option for the connector', () => {
-		const promise = connectorsOptions.getOption(
+		const actualValue = await connectorsOptions.getOption(
 			'youtube',
 			'scrobbleMusicOnly'
 		);
-		return expect(promise).to.be.eventually.true;
+		return expect(actualValue).to.be.equal(expectedValue);
 	});
 
-	it('should set another option for the connector', () => {
-		const promise = connectorsOptions.setOption(
+	it('should set another option for the connector', async () => {
+		const expectedValue = true;
+		await connectorsOptions.setOption(
 			'youtube',
 			'scrobbleEntertainmentOnly',
-			true
+			expectedValue
 		);
-		return expect(promise).to.be.eventually.fulfilled;
-	});
 
-	it('should read another option for the connector', () => {
-		const promise = connectorsOptions.getOption(
+		const actualValue = await connectorsOptions.getOption(
 			'youtube',
 			'scrobbleEntertainmentOnly'
 		);
-		return expect(promise).to.be.eventually.true;
+		return expect(actualValue).to.be.equal(expectedValue);
 	});
 
-	it('should read first option for the connector', () => {
-		const promise = connectorsOptions.getOption(
+	it('should read first option for the connector', async () => {
+		const actualValue = await connectorsOptions.getOption(
 			'youtube',
 			'scrobbleMusicOnly'
 		);
-		return expect(promise).to.be.eventually.true;
+		return expect(actualValue).to.be.true;
 	});
 }
 
