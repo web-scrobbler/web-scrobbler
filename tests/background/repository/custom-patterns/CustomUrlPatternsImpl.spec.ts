@@ -10,42 +10,36 @@ import { CustomUrlPatternsImpl } from '@/background/repository/custom-patterns/C
 describe(getTestName(__filename), testCustomUrlPatternsRepository);
 
 function testCustomUrlPatternsRepository() {
-	const repository = createMockedRepository();
+	const repository: CustomUrlPatterns = new CustomUrlPatternsImpl(
+		new MockedStorage()
+	);
+
 	const connectorId = 'dummyConnectorId';
 	const customUrlPatterns = ['pattern1', 'pattern2'];
 
-	it('should have no patterns for unknown connector', () => {
-		const promise = repository.getPatterns(connectorId);
-		return expect(promise).to.be.eventually.empty;
+	it('should have no patterns for unknown connector', async () => {
+		const patterns = await repository.getPatterns(connectorId);
+		expect(patterns).to.be.empty;
 	});
 
-	it('should add patterns to unknown connector', () => {
-		const promise = repository.setPatterns(connectorId, customUrlPatterns);
-		return expect(promise).to.be.eventually.fulfilled;
+	it('should add patterns to unknown connector', async () => {
+		await repository.setPatterns(connectorId, customUrlPatterns);
+
+		const patterns = await repository.getPatterns(connectorId);
+		expect(patterns).to.be.deep.equal(customUrlPatterns);
 	});
 
-	it('should have patterns for known connector', () => {
-		const promise = repository.getPatterns(connectorId);
-		return expect(promise).to.be.eventually.deep.equal(customUrlPatterns);
+	it('should remove patterns for known connector', async () => {
+		await repository.deletePatterns(connectorId);
+
+		const patterns = await repository.getPatterns(connectorId);
+		expect(patterns).to.be.empty;
 	});
 
-	it('should remove patterns for known connector', () => {
-		const promise = repository.deletePatterns(connectorId);
-		return expect(promise).to.be.eventually.fulfilled;
-	});
+	it('should remove patterns for unknown connector', async () => {
+		await repository.deletePatterns(connectorId);
 
-	it('should remove patterns for unknown connector', () => {
-		const promise = repository.deletePatterns(connectorId);
-		return expect(promise).to.be.eventually.fulfilled;
+		const patterns = await repository.getPatterns(connectorId);
+		expect(patterns).to.be.empty;
 	});
-
-	it('should have no patterns for removed connector', () => {
-		const promise = repository.getPatterns(connectorId);
-		return expect(promise).to.be.eventually.empty;
-	});
-}
-
-function createMockedRepository(): CustomUrlPatterns {
-	const mockedStorage = new MockedStorage<CustomUrlPatternsData>();
-	return new CustomUrlPatternsImpl(mockedStorage);
 }
