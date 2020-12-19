@@ -1715,6 +1715,13 @@ const connectors = [{
 	],
 	js: 'connectors/ragya.js',
 	id: 'ragya',
+}, {
+	label: 'Dash Radio',
+	matches: [
+		'*://dashradio.com/*',
+	],
+	js: 'connectors/dashradio.js',
+	id: 'dashradio',
 }];
 
 define(() => connectors);
