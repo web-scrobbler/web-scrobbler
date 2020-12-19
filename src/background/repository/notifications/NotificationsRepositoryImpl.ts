@@ -19,7 +19,7 @@ export class NotificationsRepositoryImpl implements NotificationsRepository {
 		return authDisplayCount < authNotificationDisplayCount;
 	}
 
-	async incrementAuthDisplayCount(): Promise<void> {
+	async notifyAuthNotificationDisplayed(): Promise<void> {
 		const authDisplayCount = await this.getAuthDisplayCount();
 		return this.notificationsStorage.update({
 			authDisplayCount: authDisplayCount + 1,

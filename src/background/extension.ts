@@ -196,7 +196,7 @@ export class Extension {
 				await browser.tabs.create({ url: authUrl });
 			}
 
-			await this.notificationsRepository.incrementAuthDisplayCount();
+			await this.notificationsRepository.notifyAuthNotificationDisplayed();
 		}
 	}
 

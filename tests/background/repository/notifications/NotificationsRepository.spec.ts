@@ -18,9 +18,9 @@ function testNotificationsRepository() {
 	});
 
 	it('should disallow to display auth notifications', async () => {
-		await repository.incrementAuthDisplayCount();
-		await repository.incrementAuthDisplayCount();
-		await repository.incrementAuthDisplayCount();
+		await repository.notifyAuthNotificationDisplayed();
+		await repository.notifyAuthNotificationDisplayed();
+		await repository.notifyAuthNotificationDisplayed();
 
 		const shouldDisplay = await repository.shouldDisplayAuthNotification();
 		expect(shouldDisplay).to.be.false;
