@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { getTestName } from '#/helpers/util';
+import { getObjectKeys, getTestName } from '#/helpers/util';
 import { MockedStorage } from '#/mock/MockedStorage';
 
 import { defaultExtensionOptions } from '@/background/repository/options/DefaultExtensionOptions';
@@ -9,10 +9,7 @@ import { Options } from '@/background/repository/options/Options';
 
 import connectors from '@/connectors.json';
 import { ExtensionOptionsRepositoryData } from '@/background/repository/options/ExtensionOptionsRepositoryData';
-import {
-	ExtensionOptionKey,
-	ExtensionOptionsData,
-} from '@/background/repository/options/ExtensionOptionsData';
+import { ExtensionOptionsData } from '@/background/repository/options/ExtensionOptionsData';
 
 describe(getTestName(__filename), testOptions);
 
@@ -21,69 +18,56 @@ function testOptions() {
 	const connectorIds = connectors.map((connector) => connector.id);
 	const connectorId = connectorIds[0];
 
-	it('should return default option values', () => {
-		for (const [optionKey, optionValue] of Object.entries(
-			defaultExtensionOptions
-		)) {
-			expect(
-				options.getOption(optionKey as ExtensionOptionKey)
-			).to.be.eventually.equal(optionValue);
+	it('should return default option values', async () => {
+		const optionKeys = getObjectKeys(defaultExtensionOptions);
+
+		for (const optionKey of optionKeys) {
+			const expectedValue = defaultExtensionOptions[optionKey];
+			const actualValue = await options.getOption(optionKey);
+
+			expect(actualValue).to.be.equal(expectedValue);
 		}
 	});
 
-	it('should set option value', () => {
-		const promise = options.setOption('scrobblePercent', 100);
-		return expect(promise).to.be.eventually.fulfilled;
+	it('should set option value', async () => {
+		const expectedValue = 100;
+		await options.setOption('scrobblePercent', expectedValue);
+
+		const actualValue = await options.getOption('scrobblePercent');
+		return expect(actualValue).to.be.equal(expectedValue);
 	});
 
-	it('should return new option value', () => {
-		const promise = options.getOption('scrobblePercent');
-		return expect(promise).to.be.eventually.equal(100);
+	it('should return true for enabled connector', async () => {
+		const isEnabled = await options.isConnectorEnabled(connectorId);
+		return expect(isEnabled).to.be.true;
 	});
 
-	it('should return true for enabled connector', () => {
-		const promise = options.isConnectorEnabled(connectorId);
-		return expect(promise).to.be.eventually.true;
+	it('should disable given connector', async () => {
+		await options.setConnectorEnabled(connectorId, false);
+
+		const isEnabled = await options.isConnectorEnabled(connectorId);
+		return expect(isEnabled).to.be.false;
 	});
 
-	it('should disable given connector', () => {
-		const promise = options.setConnectorEnabled(connectorId, false);
-		return expect(promise).to.be.eventually.fulfilled;
+	it('should enable given connector', async () => {
+		await options.setConnectorEnabled(connectorId, true);
+
+		const isEnabled = await options.isConnectorEnabled(connectorId);
+		return expect(isEnabled).to.be.true;
 	});
 
-	it('should return false for disabled connector', () => {
-		const promise = options.isConnectorEnabled(connectorId);
-		return expect(promise).to.be.eventually.false;
+	it('should set all connectors enabled', async () => {
+		await options.setConnectorsEnabled(connectorIds, true);
+
+		const isEnabled = await options.isConnectorEnabled(connectorId);
+		return expect(isEnabled).to.be.true;
 	});
 
-	it('should enable given connector', () => {
-		const promise = options.setConnectorEnabled(connectorId, true);
-		return expect(promise).to.be.eventually.fulfilled;
-	});
+	it('should set all connectors disabled', async () => {
+		await options.setConnectorsEnabled(connectorIds, false);
 
-	it('should return true for enabled connector', () => {
-		const promise = options.isConnectorEnabled(connectorId);
-		return expect(promise).to.be.eventually.true;
-	});
-
-	it('should set all connectors enabled', () => {
-		const promise = options.setConnectorsEnabled(connectorIds, true);
-		return expect(promise).to.be.eventually.fulfilled;
-	});
-
-	it('should return true for enabled connector', () => {
-		const promise = options.isConnectorEnabled(connectorId);
-		return expect(promise).to.be.eventually.true;
-	});
-
-	it('should set all connectors disabled', () => {
-		const promise = options.setConnectorsEnabled(connectorIds, false);
-		return expect(promise).to.be.eventually.fulfilled;
-	});
-
-	it('should return false for disabled connector', () => {
-		const promise = options.isConnectorEnabled(connectorId);
-		return expect(promise).to.be.eventually.false;
+		const isEnabled = await options.isConnectorEnabled(connectorId);
+		return expect(isEnabled).to.be.false;
 	});
 }
 

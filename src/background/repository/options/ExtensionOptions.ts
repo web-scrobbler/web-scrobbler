@@ -22,11 +22,8 @@ export class ExtensionOptions implements Options<ExtensionOptionsData> {
 		key: K
 	): Promise<ExtensionOptionsData[K]> {
 		const storageData = await this.storage.get();
-		if (key in storageData) {
-			return storageData[key];
-		}
 
-		return defaultExtensionOptions[key];
+		return storageData[key] ?? defaultExtensionOptions[key];
 	}
 
 	async setOption<K extends ExtensionOptionKey>(
