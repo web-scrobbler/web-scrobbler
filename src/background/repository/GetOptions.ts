@@ -1,18 +1,11 @@
-import { Options } from './options/Options';
-import { ExtensionOptions } from './options/ExtensionOptions';
-import { ExtensionOptionsRepositoryData } from './options/ExtensionOptionsRepositoryData';
+import { Options } from '@/background/repository/options/Options';
+import { ExtensionOptions } from '@/background/repository/options/ExtensionOptions';
+import { ExtensionOptionsData } from '@/background/repository/options/ExtensionOptionsData';
 
 import { createOptionsStorage } from '@/background/storage2/StorageFactory';
 
-export function getOptions(): Options {
+export function getOptions(): Options<ExtensionOptionsData> {
 	return options;
 }
 
-function createOptions(): Options {
-	const optionsStorage = createOptionsStorage<
-		ExtensionOptionsRepositoryData
-	>();
-	return new ExtensionOptions(optionsStorage);
-}
-
-const options = createOptions();
+const options = new ExtensionOptions(createOptionsStorage());

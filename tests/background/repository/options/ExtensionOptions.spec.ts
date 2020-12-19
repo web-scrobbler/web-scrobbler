@@ -9,7 +9,10 @@ import { Options } from '@/background/repository/options/Options';
 
 import connectors from '@/connectors.json';
 import { ExtensionOptionsRepositoryData } from '@/background/repository/options/ExtensionOptionsRepositoryData';
-import { ExtensionOptionKey } from '@/background/repository/options/ExtensionOptionsData';
+import {
+	ExtensionOptionKey,
+	ExtensionOptionsData,
+} from '@/background/repository/options/ExtensionOptionsData';
 
 describe(getTestName(__filename), testOptions);
 
@@ -84,7 +87,7 @@ function testOptions() {
 	});
 }
 
-function createOptions(): Options {
+function createOptions(): Options<ExtensionOptionsData> {
 	const mockedStorage = new MockedStorage<ExtensionOptionsRepositoryData>();
 	return new ExtensionOptions(mockedStorage);
 }

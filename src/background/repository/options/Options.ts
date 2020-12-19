@@ -1,12 +1,7 @@
-import {
-	ExtensionOptionKey,
-	ExtensionOptionsData,
-} from '@/background/repository/options/ExtensionOptionsData';
-
 /**
  * Options repository.
  */
-export interface Options {
+export interface Options<D> {
 	/**
 	 * Get value of the given extension option.
 	 *
@@ -14,9 +9,7 @@ export interface Options {
 	 *
 	 * @return Option value
 	 */
-	getOption<K extends ExtensionOptionKey>(
-		key: K
-	): Promise<ExtensionOptionsData[K]>;
+	getOption<K extends keyof D>(key: K): Promise<D[K]>;
 
 	/**
 	 * Set value of the given extension option.
@@ -25,10 +18,7 @@ export interface Options {
 	 * @param value Option value
 	 *
 	 */
-	setOption<K extends ExtensionOptionKey>(
-		key: K,
-		value: ExtensionOptionsData[K]
-	): Promise<void>;
+	setOption<K extends keyof D>(key: K, value: D[K]): Promise<void>;
 
 	/**
 	 * Check if a connector with the given connector ID is enabled.

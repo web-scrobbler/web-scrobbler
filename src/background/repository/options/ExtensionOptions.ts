@@ -11,7 +11,7 @@ import {
 	ExtensionOptionsData,
 } from './ExtensionOptionsData';
 
-export class ExtensionOptions implements Options {
+export class ExtensionOptions implements Options<ExtensionOptionsData> {
 	private storage: Storage<ExtensionOptionsRepositoryData>;
 
 	constructor(storage: Storage<ExtensionOptionsRepositoryData>) {
