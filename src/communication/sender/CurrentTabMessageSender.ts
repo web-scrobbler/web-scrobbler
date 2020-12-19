@@ -6,8 +6,13 @@ import { MessageSender } from '../MessageSender';
 import { Message } from '../message/Message';
 
 export class CurrentTabMessageSender implements MessageSender {
-	async sendMessage<M, R>(message: Message<M>): Promise<R> {
+	async sendMessage<Data, Response>(
+		message: Message<Data>
+	): Promise<Response> {
 		const tabId = await getCurrentTab();
-		return (await browser.runtime.sendMessage({ tabId, message })) as R;
+		return (await browser.runtime.sendMessage({
+			tabId,
+			message,
+		})) as Response;
 	}
 }

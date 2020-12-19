@@ -8,5 +8,5 @@ export interface MessageSender {
 	 *
 	 * @return Response data
 	 */
-	sendMessage<T, R>(message: Message<T>): Promise<R>;
+	sendMessage<Data, Response>(message: Message<Data>): Promise<Response>;
 }

@@ -4,7 +4,9 @@ import { MessageSender } from '../MessageSender';
 import { Message } from '../message/Message';
 
 export class AllMessageSender implements MessageSender {
-	async sendMessage<M, R>(message: Message<M>): Promise<R> {
-		return (await browser.runtime.sendMessage(message)) as R;
+	async sendMessage<Data, Response>(
+		message: Message<Data>
+	): Promise<Response> {
+		return (await browser.runtime.sendMessage(message)) as Response;
 	}
 }
