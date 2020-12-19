@@ -8,7 +8,6 @@ import { Song, EditedSongInfo } from '@/background/object/song';
 
 import { EditedTracks } from '@/background/repository/edited-tracks/EditedTracks';
 import { EditedTracksImpl } from '@/background/repository/edited-tracks/EditedTracksImpl';
-import { EditedTracksRepositoryData } from '@/background/repository/edited-tracks/EditedTracksRepositoryData';
 
 chai.use(chaiAsPromised);
 
@@ -161,8 +160,7 @@ async function expectSongInfoNotLoaded(task: Promise<EditedSongInfo>) {
 }
 
 function createEditedTracks(...initialData: Song[]): EditedTracks {
-	const editedTracksStorage = new MockedStorage<EditedTracksRepositoryData>();
-	const editedTracks = new EditedTracksImpl(editedTracksStorage);
+	const editedTracks = new EditedTracksImpl(new MockedStorage());
 
 	for (const song of initialData) {
 		const editedInfo: EditedSongInfo = {

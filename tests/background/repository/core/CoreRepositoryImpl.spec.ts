@@ -1,9 +1,10 @@
+import { expect } from 'chai';
+
 import { getTestName } from '#/helpers/util';
 import { MockedStorage } from '#/mock/MockedStorage';
+
 import { CoreRepository } from '@/background/repository/core/CoreRepository';
-import { CoreRepositoryData } from '@/background/repository/core/CoreRepositoryData';
 import { CoreRepositoryImpl } from '@/background/repository/core/CoreRepositoryImpl';
-import { expect } from 'chai';
 
 describe(getTestName(__filename), testCoreRepository);
 
@@ -40,5 +41,5 @@ function testCoreRepository() {
 }
 
 function createCoreRepository(): CoreRepository {
-	return new CoreRepositoryImpl(new MockedStorage<CoreRepositoryData>());
+	return new CoreRepositoryImpl(new MockedStorage());
 }

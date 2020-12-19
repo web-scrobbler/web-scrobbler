@@ -4,7 +4,6 @@ import { getTestName } from '#/helpers/util';
 import { MockedStorage } from '#/mock/MockedStorage';
 
 import { NotificationsRepository } from '@/background/repository/notifications/NotificationsRepository';
-import { NotificationsRepositoryData } from '@/background/repository/notifications/NotificationsRepositoryData';
 import { NotificationsRepositoryImpl } from '@/background/repository/notifications/NotificationsRepositoryImpl';
 
 describe(getTestName(__filename), testNotificationsRepository);
@@ -28,6 +27,5 @@ function testNotificationsRepository() {
 }
 
 function createNotificationsRepository(): NotificationsRepository {
-	const mockedStorage = new MockedStorage<NotificationsRepositoryData>();
-	return new NotificationsRepositoryImpl(mockedStorage);
+	return new NotificationsRepositoryImpl(new MockedStorage());
 }

@@ -3,13 +3,13 @@ import { expect } from 'chai';
 import { getObjectKeys, getTestName } from '#/helpers/util';
 import { MockedStorage } from '#/mock/MockedStorage';
 
-import { defaultExtensionOptions } from '@/background/repository/options/DefaultExtensionOptions';
-import { ExtensionOptions } from '@/background/repository/options/ExtensionOptions';
 import { Options } from '@/background/repository/options/Options';
+import { ExtensionOptions } from '@/background/repository/options/ExtensionOptions';
+import { ExtensionOptionsData } from '@/background/repository/options/ExtensionOptionsData';
+
+import { defaultExtensionOptions } from '@/background/repository/options/DefaultExtensionOptions';
 
 import connectors from '@/connectors.json';
-import { ExtensionOptionsRepositoryData } from '@/background/repository/options/ExtensionOptionsRepositoryData';
-import { ExtensionOptionsData } from '@/background/repository/options/ExtensionOptionsData';
 
 describe(getTestName(__filename), testOptions);
 
@@ -72,6 +72,5 @@ function testOptions() {
 }
 
 function createOptions(): Options<ExtensionOptionsData> {
-	const mockedStorage = new MockedStorage<ExtensionOptionsRepositoryData>();
-	return new ExtensionOptions(mockedStorage);
+	return new ExtensionOptions(new MockedStorage());
 }
