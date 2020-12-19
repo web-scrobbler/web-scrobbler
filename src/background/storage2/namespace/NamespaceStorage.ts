@@ -7,7 +7,7 @@ import { Storage } from '@/background/storage2/Storage';
  *
  * This storage supports namespaces.
  */
-export class NamespaceStorage<T> implements Storage<T> {
+export class NamespaceStorage<D> implements Storage<D> {
 	private storage: BrowserStorage.StorageArea;
 	private namespace: string;
 
@@ -20,23 +20,23 @@ export class NamespaceStorage<T> implements Storage<T> {
 		this.namespace = namespace;
 	}
 
-	async get(): Promise<T> {
+	async get(): Promise<D> {
 		const data = await this.storage.get();
 		if (data && this.namespace in data) {
-			return data[this.namespace] as T;
+			return data[this.namespace] as D;
 		}
 
-		return {} as T;
+		return {} as D;
 	}
 
-	async set(data: T): Promise<void> {
+	async set(data: D): Promise<void> {
 		const dataToSave = {};
 		dataToSave[this.namespace] = data;
 
 		await this.storage.set(dataToSave);
 	}
 
-	async update(data: Partial<T>): Promise<void> {
+	async update(data: Partial<D>): Promise<void> {
 		const storageData = await this.get();
 		const dataToSave = Object.assign(storageData, data);
 

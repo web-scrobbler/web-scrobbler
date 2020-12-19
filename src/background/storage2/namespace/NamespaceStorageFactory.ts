@@ -10,8 +10,8 @@ import { Storage } from '@/background/storage2/Storage';
  *
  * @return StorageWrapper instance
  */
-export function createLocalStorage<T>(namespace: string): Storage<T> {
-	return new NamespaceStorage<T>(browser.storage.local, namespace);
+export function createLocalStorage<D>(namespace: string): Storage<D> {
+	return new NamespaceStorage<D>(browser.storage.local, namespace);
 }
 
 /**
@@ -21,6 +21,6 @@ export function createLocalStorage<T>(namespace: string): Storage<T> {
  *
  * @return StorageWrapper instance
  */
-export function createSyncStorage<T>(namespace: string): Storage<T> {
-	return new NamespaceStorage<T>(browser.storage.sync, namespace);
+export function createSyncStorage<D>(namespace: string): Storage<D> {
+	return new NamespaceStorage<D>(browser.storage.sync, namespace);
 }

@@ -1,27 +1,27 @@
 /**
  * Base storage interface.
  */
-export interface Storage<T> {
+export interface Storage<D> {
 	/**
 	 * Read data from storage.
 	 *
 	 * @return Storage data
 	 */
-	get(): Promise<T>;
+	get(): Promise<D>;
 
 	/**
 	 * Save data to storage.
 	 *
 	 * @param data Data to save
 	 */
-	set(data: T): Promise<void>;
+	set(data: D): Promise<void>;
 
 	/**
 	 * Extend saved data by given one.
 	 *
 	 * @param data Data to add
 	 */
-	update(data: Partial<T>): Promise<void>;
+	update(data: Partial<D>): Promise<void>;
 
 	/**
 	 * Clear storage.
