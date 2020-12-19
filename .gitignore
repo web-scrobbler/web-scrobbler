@@ -26,3 +26,6 @@
 .nyc_output/
 .nyc_cache/
 coverage/
+
+# Cache
+.eslintcache
