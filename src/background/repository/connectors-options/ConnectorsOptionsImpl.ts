@@ -15,14 +15,11 @@ export class ConnectorsOptionsImpl
 		K extends keyof ConnectorsOptionsData[I]
 	>(connectorId: I, optionKey: K): Promise<ConnectorsOptionsData[I][K]> {
 		const storageData = await this.storage.get();
-		if (
-			connectorId in storageData &&
-			optionKey in storageData[connectorId]
-		) {
-			return storageData[connectorId][optionKey];
-		}
 
-		return defaultConnectorsOptions[connectorId][optionKey];
+		return (
+			storageData[connectorId]?.[optionKey] ??
+			defaultConnectorsOptions[connectorId][optionKey]
+		);
 	}
 
 	async setOption<

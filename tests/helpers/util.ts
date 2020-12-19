@@ -10,3 +10,7 @@ export function getFunctionName(func: AnyFunction): string {
 export function getTestName(fileName: string): string {
 	return basename(fileName).split('.')[0];
 }
+
+export function getObjectKeys<T>(obj: T): (keyof T)[] {
+	return Object.keys(obj) as (keyof T)[];
+}

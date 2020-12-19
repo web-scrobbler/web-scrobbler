@@ -1,31 +1,38 @@
 import { expect } from 'chai';
 
-import { getTestName } from '#/helpers/util';
+import { getObjectKeys, getTestName } from '#/helpers/util';
 import { MockedStorage } from '#/mock/MockedStorage';
 
 import { ConnectorsOptions } from '@/background/repository/connectors-options/ConnectorsOptions';
 import { ConnectorsOptionsData } from '@/background/repository/connectors-options/ConnectorsOptionsData';
 import { ConnectorsOptionsImpl } from '@/background/repository/connectors-options/ConnectorsOptionsImpl';
 
+import { defaultConnectorsOptions } from '@/background/repository/connectors-options/DefaultConnectorsOptions';
+
 describe(getTestName(__filename), testConnectorsOptions);
 
 function testConnectorsOptions() {
 	const connectorsOptions = createConnectorsOptions();
 
-	// it('should return default options', () => {
-	// 	for (const connectorId in defaultConnectorsOptions) {
-	// 		for (const optionKey in defaultConnectorsOptions[connectorId]) {
-	// 			const optionValue =
-	// 				defaultConnectorsOptions[connectorId][optionKey];
-	// 			const promise = connectorsOptions.getOption(
-	// 				connectorId,
-	// 				optionKey
-	// 			);
+	it('should return default options when initialized', () => {
+		const connectorIds = getObjectKeys(defaultConnectorsOptions);
 
-	// 			expect(promise).to.be.eventually.equal(optionValue);
-	// 		}
-	// 	}
-	// });
+		for (const connectorId of connectorIds) {
+			const optionKeys = getObjectKeys(
+				defaultConnectorsOptions[connectorId]
+			);
+
+			for (const optionKey of optionKeys) {
+				const optionValue =
+					defaultConnectorsOptions[connectorId][optionKey];
+				const promise = connectorsOptions.getOption(
+					connectorId,
+					optionKey
+				);
+				expect(promise).to.be.eventually.equal(optionValue);
+			}
+		}
+	});
 
 	it('should set option for the connector', () => {
 		const promise = connectorsOptions.setOption(
