@@ -9,9 +9,7 @@ import { CustomUrlPatternsImpl } from '@/background/repository/custom-patterns/C
 describe(getTestName(__filename), testCustomUrlPatternsRepository);
 
 function testCustomUrlPatternsRepository() {
-	const repository: CustomUrlPatterns = new CustomUrlPatternsImpl(
-		new MockedStorage()
-	);
+	const repository = createCustomUrlPatterns();
 
 	const connectorId = 'dummyConnectorId';
 	const customUrlPatterns = ['pattern1', 'pattern2'];
@@ -41,4 +39,8 @@ function testCustomUrlPatternsRepository() {
 		const patterns = await repository.getPatterns(connectorId);
 		expect(patterns).to.be.empty;
 	});
+}
+
+function createCustomUrlPatterns(): CustomUrlPatterns {
+	return new CustomUrlPatternsImpl(new MockedStorage());
 }
