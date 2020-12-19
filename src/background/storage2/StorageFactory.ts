@@ -30,6 +30,10 @@ export function createOptionsStorage<D>(): Storage<D> {
 	return withLog<D>(createSyncStorage, 'Options');
 }
 
+export function createConnectorsOptionsStorage<D>(): Storage<D> {
+	return withLog<D>(createSyncStorage, 'Connectors');
+}
+
 /* Internal */
 
 type NamespaceStorageCreator = <D>(namespace: string) => Storage<D>;
