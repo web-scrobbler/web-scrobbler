@@ -7,6 +7,8 @@ import connectors from '@/connectors.json';
 import { createPattern } from '@/background/util/url-match';
 import { ConnectorEntry } from '@/common/connector-entry';
 
+const unuqueConnectorIds: string[] = [];
+
 function testUrlPatterns(entry: ConnectorEntry) {
 	if (!entry.matches) {
 		return;
@@ -34,16 +36,11 @@ function testConnectorPaths(entry: ConnectorEntry) {
 }
 
 function testIdUniqueness(entry: ConnectorEntry) {
-	for (const connector of connectors) {
-		if (connector.label === entry.label) {
-			continue;
-		}
-
-		expect(entry.id).to.be.not.equal(
-			connector.id,
-			`ID is not unique: ${entry.label}`
-		);
+	if (unuqueConnectorIds.includes(entry.id)) {
+		throw new Error(`${entry.id} is not unique`);
 	}
+
+	unuqueConnectorIds.push(entry.id);
 }
 
 describe('connectors.json', () => {
