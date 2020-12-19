@@ -1,9 +1,17 @@
 'use strict';
 
+const filter = MetadataFilter.createFilter({
+	artist: removeByText,
+});
+
 Connector.playerSelector = '#music-dataview-container';
 
-Connector.getArtist = () => {
-	return Util.getTextFromSelectors('#artist-text').substring(3);
-};
+Connector.artistSelector = '#artist-text';
 
 Connector.trackSelector = '#title-text';
+
+Connector.applyFilter(filter);
+
+function removeByText(text) {
+	return text.replace('by ', '');
+}
