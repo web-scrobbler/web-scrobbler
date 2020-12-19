@@ -3,7 +3,7 @@ import spies from 'chai-spies';
 
 import * as webExt from 'webextension-polyfill-ts';
 
-import { browserStub } from '#/stubs/browser';
+import { mockedBrowser } from '#/mock/MockedBrowser';
 
 setupChai();
 setupBrowserStub();
@@ -14,5 +14,5 @@ function setupChai() {
 
 function setupBrowserStub(): void {
 	// @ts-ignore
-	webExt.browser = browserStub as webExt.Browser;
+	webExt.browser = mockedBrowser as webExt.Browser;
 }
