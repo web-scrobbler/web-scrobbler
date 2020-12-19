@@ -1,10 +1,11 @@
+import { expect } from 'chai';
+
 import { getTestName } from '#/helpers/util';
 import { MockedStorage } from '#/mock/MockedStorage';
 
 import { CustomUrlPatterns } from '@/background/repository/custom-patterns/CustomUrlPatterns';
 import { CustomUrlPatternsData } from '@/background/repository/custom-patterns/CustomUrlPatternsData';
 import { CustomUrlPatternsImpl } from '@/background/repository/custom-patterns/CustomUrlPatternsImpl';
-import { expect } from 'chai';
 
 describe(getTestName(__filename), () => {
 	describe(
