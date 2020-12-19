@@ -4,7 +4,6 @@ import { getTestName } from '#/helpers/util';
 import { MockedStorage } from '#/mock/MockedStorage';
 
 import { CustomUrlPatterns } from '@/background/repository/custom-patterns/CustomUrlPatterns';
-import { CustomUrlPatternsData } from '@/background/repository/custom-patterns/CustomUrlPatternsData';
 import { CustomUrlPatternsImpl } from '@/background/repository/custom-patterns/CustomUrlPatternsImpl';
 
 describe(getTestName(__filename), testCustomUrlPatternsRepository);
