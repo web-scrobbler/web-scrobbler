@@ -19,4 +19,11 @@ export class CustomUrlPatternsImpl implements CustomUrlPatterns {
 			[connectorId]: patterns,
 		});
 	}
+
+	async deletePatterns(connectorId: string): Promise<void> {
+		const patterns = await this.patternsStorage.get();
+
+		delete patterns[connectorId];
+		return this.patternsStorage.set(patterns);
+	}
 }
