@@ -2,35 +2,44 @@ import { Storage } from '@/background/storage2/Storage';
 
 import { getStorageDumper } from '@/background/storage2/dumper/StorageDumperFactory';
 import {
-	createNamespaceStorage,
-	StorageNamespace,
+	createLocalStorage,
+	createSyncStorage,
 } from '@/background/storage2/namespace/NamespaceStorageFactory';
 
-export function createCoreStorage<T>(): Storage<T> {
-	return createStorageWithLog<T>(StorageNamespace.Core);
+/* Local */
+
+export function createCoreStorage<D>(): Storage<D> {
+	return withLog<D>(createLocalStorage, 'Core');
 }
 
-export function createCustomUrlPatternsStorage<T>(): Storage<T> {
-	return createStorageWithLog<T>(StorageNamespace.CustomUrlPatterns);
+export function createEditedTracksStorage<D>(): Storage<D> {
+	return withLog<D>(createLocalStorage, 'LocalCache');
 }
 
-export function createEditedTracksStorage<T>(): Storage<T> {
-	return createStorageWithLog<T>(StorageNamespace.EditedTracks);
+export function createNotificationsStorage<D>(): Storage<D> {
+	return withLog<D>(createLocalStorage, 'Notifications');
 }
 
-export function createNotificationsStorage<T>(): Storage<T> {
-	return createStorageWithLog<T>(StorageNamespace.Notifications);
+/* Sync */
+
+export function createCustomUrlPatternsStorage<D>(): Storage<D> {
+	return withLog<D>(createSyncStorage, 'customPatterns');
 }
 
-export function createOptionsStorage<T>(): Storage<T> {
-	return createStorageWithLog<T>(StorageNamespace.Options);
+export function createOptionsStorage<D>(): Storage<D> {
+	return withLog<D>(createSyncStorage, 'Options');
 }
 
-function createStorageWithLog<T>(
-	namespace: StorageNamespace,
+/* Internal */
+
+type NamespaceStorageCreator = <D>(namespace: string) => Storage<D>;
+
+function withLog<D>(
+	creator: NamespaceStorageCreator,
+	namespace: string,
 	sensitiveProperties?: string[]
-): Storage<T> {
-	const storage = createNamespaceStorage<T>(namespace);
+): Storage<D> {
+	const storage = creator<D>(namespace);
 	const storageDumper = getStorageDumper();
 
 	storageDumper
