@@ -11,15 +11,15 @@ export function CreateSongPipeline(): Processor<Song> {
 	const fieldNormalizer = new FieldNormalizer();
 
 	const coverArtFetcher = new CoverArtArchiveFetcher();
-	const coverArtLoader = new CoverArtProcessor(coverArtFetcher);
+	const coverArtProcessor = new CoverArtProcessor(coverArtFetcher);
 
 	const editedTracks = getEditedTracks();
-	const editedInfoLoader = new EditedInfoProcessor(editedTracks);
+	const editedInfoProcessor = new EditedInfoProcessor(editedTracks);
 
 	const processors: Processor<Song>[] = [
 		fieldNormalizer,
-		editedInfoLoader,
-		coverArtLoader,
+		editedInfoProcessor,
+		coverArtProcessor,
 	];
 	return new SongPipeline(processors);
 }

@@ -2,7 +2,7 @@ import { Options } from './options/Options';
 import { ExtensionOptions } from './options/ExtensionOptions';
 import { OptionsRepositoryData } from './options/ExtensionOptionsRepositoryData';
 
-import { createOptionsStorage } from '@/background/storage2/CreateStorage';
+import { createOptionsStorage } from '@/background/storage2/StorageFactory';
 
 export function getOptions(): Options {
 	return options;

@@ -1,10 +1,10 @@
-import { Storage } from './Storage';
+import { Storage } from '@/background/storage2/Storage';
 
+import { getStorageDumper } from '@/background/storage2/dumper/StorageDumperFactory';
 import {
 	createNamespaceStorage,
 	StorageNamespace,
-} from './namespace/CreateNamespaceStorage';
-import { getStorageLogger as getStorageDumper } from './dumper/GetStorageLogger';
+} from '@/background/storage2/namespace/NamespaceStorageFactory';
 
 export function createCoreStorage<T>(): Storage<T> {
 	return createStorageWithLog<T>(StorageNamespace.Core);

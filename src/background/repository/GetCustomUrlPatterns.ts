@@ -1,8 +1,8 @@
-import { CustomUrlPatternsImpl } from './custom-patterns/CustomPatternsImpl';
+import { CustomUrlPatternsImpl } from './custom-patterns/CustomUrlPatternsImpl';
 import { CustomUrlPatterns } from './custom-patterns/CustomUrlPatterns';
 import { CustomUrlPatternsData } from './custom-patterns/CustomUrlPatternsData';
 
-import { createCustomUrlPatternsStorage } from '../storage2/CreateStorage';
+import { createCustomUrlPatternsStorage } from '../storage2/StorageFactory';
 
 export function getCustomUrlPatterns(): CustomUrlPatterns {
 	return customUrlPatterns;

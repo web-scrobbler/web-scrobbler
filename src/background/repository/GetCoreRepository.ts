@@ -2,7 +2,7 @@ import { CoreRepository } from './core/CoreRepository';
 import { CoreRepositoryData } from './core/CoreRepositoryData';
 import { CoreRepositoryImpl } from './core/CoreRepositoryImpl';
 
-import { createCoreStorage } from '@/background/storage2/CreateStorage';
+import { createCoreStorage } from '@/background/storage2/StorageFactory';
 
 export function getCoreRepository(): CoreRepository {
 	return coreRepository;

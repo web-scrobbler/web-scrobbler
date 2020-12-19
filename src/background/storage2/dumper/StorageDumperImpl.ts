@@ -1,5 +1,5 @@
 import { Storage } from '../Storage';
-import { StorageDumper } from './StorageLogger';
+import { StorageDumper } from './StorageDumper';
 
 import { createHideSensitiveDataFunction } from './HideSensitiveData';
 
