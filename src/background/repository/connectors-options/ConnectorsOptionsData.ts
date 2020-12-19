@@ -7,5 +7,3 @@ export interface ConnectorsOptionsData {
 		useShortTrackNames: boolean;
 	};
 }
-
-export type ConnectorIdKey = keyof ConnectorsOptionsData;
