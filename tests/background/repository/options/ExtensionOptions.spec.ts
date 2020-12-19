@@ -53,6 +53,16 @@ function testOptions() {
 		return expect(promise).to.be.eventually.false;
 	});
 
+	it('should enable given connector', () => {
+		const promise = options.setConnectorEnabled(connectorId, true);
+		return expect(promise).to.be.eventually.fulfilled;
+	});
+
+	it('should return true for enabled connector', () => {
+		const promise = options.isConnectorEnabled(connectorId);
+		return expect(promise).to.be.eventually.true;
+	});
+
 	it('should set all connectors enabled', () => {
 		const promise = options.setConnectorsEnabled(connectorIds, true);
 		return expect(promise).to.be.eventually.fulfilled;
