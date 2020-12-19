@@ -4,7 +4,7 @@ on:
   pull_request:
     types: [opened, synchronize]
 jobs:
-  test:
+  build:
     name: Build the extension
     runs-on: ubuntu-latest
     steps:
@@ -21,7 +21,7 @@ jobs:
         node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
 
     - name: Install dependencies
-      run: npm install
+      run: npm ci
 
     - name: Build the extension for Chrome
       run: |

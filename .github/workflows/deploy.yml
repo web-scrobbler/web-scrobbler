@@ -25,7 +25,7 @@ jobs:
         node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
 
     - name: Install dependencies
-      run: npm install
+      run: npm ci
 
     - name: Create zipballs
       run: |
@@ -40,6 +40,17 @@ jobs:
         client-id: ${{ secrets.CHROME_CLIENT_ID }}
         client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
         refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+
+    - name: Publish the extension for Firefox
+      uses: trmcnvn/firefox-addon@v1
+      with:
+        api-key: ${{ secrets.AMO_ISSUER }}
+        api-secret: ${{ secrets.AMO_SECRET }}
+        # Manifest is used to get version only, so we provide
+        # `package.json` file here, which contains the extension version.
+        manifest: package.json
+        uuid: '{799c0914-748b-41df-a25c-22d008f9e83f}'
+        xpi: web-scrobbler-firefox.zip
 
     - name: Publish release on GitHub
       uses: test-room-7/action-publish-release-drafts@v0
