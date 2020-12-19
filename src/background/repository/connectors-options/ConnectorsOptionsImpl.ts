@@ -11,7 +11,7 @@ export class ConnectorsOptionsImpl
 	constructor(private storage: Storage<ConnectorsOptionsData>) {}
 
 	async getOption<
-		I extends 'youtube' | 'tidal',
+		I extends keyof ConnectorsOptionsData,
 		K extends keyof ConnectorsOptionsData[I]
 	>(connectorId: I, optionKey: K): Promise<ConnectorsOptionsData[I][K]> {
 		const storageData = await this.storage.get();
@@ -26,7 +26,7 @@ export class ConnectorsOptionsImpl
 	}
 
 	async setOption<
-		I extends 'youtube' | 'tidal',
+		I extends keyof ConnectorsOptionsData,
 		K extends keyof ConnectorsOptionsData[I],
 		V extends ConnectorsOptionsData[I][K]
 	>(connectorId: I, optionKey: K, optionValue: V): Promise<void> {
