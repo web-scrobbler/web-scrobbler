@@ -1,7 +1,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import { Message } from '../message/Message';
-import { TabMessageSender } from '../TabMessageSender';
+import { Message } from '@/communication/message/Message';
+import { TabMessageSender } from '@/communication/TabMessageSender';
 
 export class ContentScriptMessageSender implements TabMessageSender<number> {
 	async sendMessage<Data, Response>(

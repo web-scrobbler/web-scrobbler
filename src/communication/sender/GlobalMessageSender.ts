@@ -1,7 +1,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import { MessageSender } from '../MessageSender';
-import { Message } from '../message/Message';
+import { Message } from '@/communication/message/Message';
+import { MessageSender } from '@/communication/MessageSender';
 
 export class GlobalMessageSender implements MessageSender {
 	async sendMessage<Data, Response>(
