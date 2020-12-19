@@ -141,7 +141,6 @@ module.exports = (grunt) => {
 						gecko: {
 							id: FIREFOX_EXTENSION_ID,
 							strict_min_version: '53.0',
-							update_url: 'https://raw.githubusercontent.com/web-scrobbler/updates.json/master/updates.json',
 						},
 					},
 					icons: {
