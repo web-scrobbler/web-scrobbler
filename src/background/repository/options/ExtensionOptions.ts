@@ -38,7 +38,7 @@ export class ExtensionOptions implements Options {
 	async isConnectorEnabled(connectorId: string): Promise<boolean> {
 		const disabledConnectors = await this.getOption('disabledConnectors');
 
-		return connectorId in disabledConnectors;
+		return !(connectorId in disabledConnectors);
 	}
 
 	async setConnectorEnabled(
