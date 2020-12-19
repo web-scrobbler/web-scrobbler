@@ -8,16 +8,17 @@ import { Storage } from '@/background/storage2/Storage';
  * This storage supports namespaces.
  */
 export class NamespaceStorage<D> implements Storage<D> {
-	private storage: BrowserStorage.StorageArea;
-	private namespace: string;
-
 	/**
 	 * @param storage StorageArea object
 	 * @param namespace Storage namespace
 	 */
-	constructor(storage: BrowserStorage.StorageArea, namespace: string) {
-		this.storage = storage;
-		this.namespace = namespace;
+	constructor(
+		private storage: BrowserStorage.StorageArea,
+		private namespace: string
+	) {
+		if (!namespace) {
+			throw new Error('Storage namespace must not be empty!');
+		}
 	}
 
 	async get(): Promise<D> {
