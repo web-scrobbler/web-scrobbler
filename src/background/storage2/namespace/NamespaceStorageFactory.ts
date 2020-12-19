@@ -20,9 +20,10 @@ export enum StorageNamespace {
 
 const storageTypeMap: Record<string, StorageType> = {
 	[StorageNamespace.Core]: StorageType.Local,
-	[StorageNamespace.CustomUrlPatterns]: StorageType.Sync,
 	[StorageNamespace.EditedTracks]: StorageType.Local,
 	[StorageNamespace.Notifications]: StorageType.Local,
+
+	[StorageNamespace.CustomUrlPatterns]: StorageType.Sync,
 	[StorageNamespace.Options]: StorageType.Sync,
 };
 
