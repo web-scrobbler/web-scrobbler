@@ -4,38 +4,39 @@ import { Options } from './Options';
 import { defaultOptions } from './DefaultOptions';
 import {
 	DisabledConnectors,
-	OptionKey,
-	OptionsRepositoryData,
+	ExtensionOptionKey,
+	ExtensionOptionsData,
 } from './ExtensionOptionsRepositoryData';
 
 export class ExtensionOptions implements Options {
-	private storage: Storage<OptionsRepositoryData>;
+	private storage: Storage<ExtensionOptionsData>;
 
-	constructor(storage: Storage<OptionsRepositoryData>) {
+	constructor(storage: Storage<ExtensionOptionsData>) {
 		this.storage = storage;
 	}
 
-	async getOption<T>(key: OptionKey): Promise<T> {
+	async getOption<K extends ExtensionOptionKey>(
+		key: K
+	): Promise<ExtensionOptionsData[K]> {
 		const storageData = await this.storage.get();
 		if (key in storageData) {
-			// @ts-ignore
-			return storageData[key] as T;
+			return storageData[key];
 		}
 
-		// @ts-ignore
-		return defaultOptions[key] as T;
+		return defaultOptions[key];
 	}
 
-	async setOption<T>(key: OptionKey, value: T): Promise<void> {
+	async setOption<K extends ExtensionOptionKey>(
+		key: K,
+		value: ExtensionOptionsData[K]
+	): Promise<void> {
 		return this.storage.update({
 			[key]: value,
 		});
 	}
 
 	async isConnectorEnabled(connectorId: string): Promise<boolean> {
-		const disabledConnectors = await this.getOption<DisabledConnectors>(
-			'disabledConnectors'
-		);
+		const disabledConnectors = await this.getOption('disabledConnectors');
 
 		return connectorId in disabledConnectors;
 	}
@@ -44,9 +45,7 @@ export class ExtensionOptions implements Options {
 		connectorId: string,
 		isEnabled: boolean
 	): Promise<void> {
-		const disabledConnectors = await this.getOption<DisabledConnectors>(
-			'disabledConnectors'
-		);
+		const disabledConnectors = await this.getOption('disabledConnectors');
 
 		if (isEnabled) {
 			delete disabledConnectors[connectorId];

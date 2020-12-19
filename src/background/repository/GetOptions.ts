@@ -1,6 +1,6 @@
 import { Options } from './options/Options';
 import { ExtensionOptions } from './options/ExtensionOptions';
-import { OptionsRepositoryData } from './options/ExtensionOptionsRepositoryData';
+import { ExtensionOptionsData } from './options/ExtensionOptionsRepositoryData';
 
 import { createOptionsStorage } from '@/background/storage2/StorageFactory';
 
@@ -9,7 +9,7 @@ export function getOptions(): Options {
 }
 
 function createOptions(): Options {
-	const optionsStorage = createOptionsStorage<OptionsRepositoryData>();
+	const optionsStorage = createOptionsStorage<ExtensionOptionsData>();
 	return new ExtensionOptions(optionsStorage);
 }
 

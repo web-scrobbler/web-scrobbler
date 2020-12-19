@@ -1,6 +1,6 @@
-import { OptionsRepositoryData } from './ExtensionOptionsRepositoryData';
+import { ExtensionOptionsData } from './ExtensionOptionsRepositoryData';
 
-export const defaultOptions: OptionsRepositoryData = {
+export const defaultOptions: ExtensionOptionsData = {
 	disabledConnectors: {},
 	forceRecognize: false,
 	scrobblePercent: 50,

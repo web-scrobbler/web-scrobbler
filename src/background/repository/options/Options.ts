@@ -1,9 +1,34 @@
+import {
+	ExtensionOptionKey,
+	ExtensionOptionsData,
+} from '@/background/repository/options/ExtensionOptionsRepositoryData';
+
 /**
  * Options repository.
  */
 export interface Options {
-	getOption<T>(key: string): Promise<T>;
-	setOption<T>(key: string, value: T): Promise<void>;
+	/**
+	 * Get value of the given extension option.
+	 *
+	 * @param key Option key
+	 *
+	 * @return Option value
+	 */
+	getOption<K extends ExtensionOptionKey>(
+		key: K
+	): Promise<ExtensionOptionsData[K]>;
+
+	/**
+	 * Set value of the given extension option.
+	 *
+	 * @param key Option key
+	 * @param value Option value
+	 *
+	 */
+	setOption<K extends ExtensionOptionKey>(
+		key: K,
+		value: ExtensionOptionsData[K]
+	): Promise<void>;
 
 	/**
 	 * Check if a connector with the given connector ID is enabled.
