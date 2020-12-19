@@ -1,10 +1,8 @@
-export type ExtensionOptionKey = keyof ExtensionOptionsData;
-
 export interface DisabledConnectors {
 	[connectorId: string]: boolean;
 }
 
-export interface ExtensionOptionsData {
+export interface ExtensionOptionsRepositoryData {
 	/**
 	 * Object contains info of disabled connectors.
 	 *

@@ -3,15 +3,13 @@ import { expect } from 'chai';
 import { getTestName } from '#/helpers/util';
 import { MockedStorage } from '#/mock/MockedStorage';
 
-import { defaultOptions } from '@/background/repository/options/DefaultOptions';
+import { defaultExtensionOptions } from '@/background/repository/options/DefaultExtensionOptions';
 import { ExtensionOptions } from '@/background/repository/options/ExtensionOptions';
-import {
-	ExtensionOptionKey,
-	ExtensionOptionsData,
-} from '@/background/repository/options/ExtensionOptionsRepositoryData';
 import { Options } from '@/background/repository/options/Options';
 
 import connectors from '@/connectors.json';
+import { ExtensionOptionsRepositoryData } from '@/background/repository/options/ExtensionOptionsRepositoryData';
+import { ExtensionOptionKey } from '@/background/repository/options/ExtensionOptionsData';
 
 describe(getTestName(__filename), testOptions);
 
@@ -21,7 +19,9 @@ function testOptions() {
 	const connectorId = connectorIds[0];
 
 	it('should return default option values', () => {
-		for (const [optionKey, optionValue] of Object.entries(defaultOptions)) {
+		for (const [optionKey, optionValue] of Object.entries(
+			defaultExtensionOptions
+		)) {
 			expect(
 				options.getOption(optionKey as ExtensionOptionKey)
 			).to.be.eventually.equal(optionValue);
@@ -75,6 +75,6 @@ function testOptions() {
 }
 
 function createOptions(): Options {
-	const mockedStorage = new MockedStorage<ExtensionOptionsData>();
+	const mockedStorage = new MockedStorage<ExtensionOptionsRepositoryData>();
 	return new ExtensionOptions(mockedStorage);
 }

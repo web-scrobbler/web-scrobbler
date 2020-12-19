@@ -1,7 +1,7 @@
 import {
 	ExtensionOptionKey,
 	ExtensionOptionsData,
-} from '@/background/repository/options/ExtensionOptionsRepositoryData';
+} from '@/background/repository/options/ExtensionOptionsData';
 
 /**
  * Options repository.

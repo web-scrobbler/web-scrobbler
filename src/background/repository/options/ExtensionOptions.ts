@@ -1,17 +1,20 @@
 import { Storage } from '../../storage2/Storage';
 import { Options } from './Options';
 
-import { defaultOptions } from './DefaultOptions';
+import { defaultExtensionOptions } from './DefaultExtensionOptions';
 import {
 	DisabledConnectors,
+	ExtensionOptionsRepositoryData,
+} from './ExtensionOptionsRepositoryData';
+import {
 	ExtensionOptionKey,
 	ExtensionOptionsData,
-} from './ExtensionOptionsRepositoryData';
+} from './ExtensionOptionsData';
 
 export class ExtensionOptions implements Options {
-	private storage: Storage<ExtensionOptionsData>;
+	private storage: Storage<ExtensionOptionsRepositoryData>;
 
-	constructor(storage: Storage<ExtensionOptionsData>) {
+	constructor(storage: Storage<ExtensionOptionsRepositoryData>) {
 		this.storage = storage;
 	}
 
@@ -23,7 +26,7 @@ export class ExtensionOptions implements Options {
 			return storageData[key];
 		}
 
-		return defaultOptions[key];
+		return defaultExtensionOptions[key];
 	}
 
 	async setOption<K extends ExtensionOptionKey>(
@@ -36,8 +39,7 @@ export class ExtensionOptions implements Options {
 	}
 
 	async isConnectorEnabled(connectorId: string): Promise<boolean> {
-		const disabledConnectors = await this.getOption('disabledConnectors');
-
+		const disabledConnectors = await this.getDisabledConnectors();
 		return !(connectorId in disabledConnectors);
 	}
 
@@ -45,7 +47,7 @@ export class ExtensionOptions implements Options {
 		connectorId: string,
 		isEnabled: boolean
 	): Promise<void> {
-		const disabledConnectors = await this.getOption('disabledConnectors');
+		const disabledConnectors = await this.getDisabledConnectors();
 
 		if (isEnabled) {
 			delete disabledConnectors[connectorId];
@@ -53,7 +55,7 @@ export class ExtensionOptions implements Options {
 			disabledConnectors[connectorId] = true;
 		}
 
-		return this.setOption('disabledConnectors', disabledConnectors);
+		return this.setDisabledConnectors(disabledConnectors);
 	}
 
 	/**
@@ -74,6 +76,17 @@ export class ExtensionOptions implements Options {
 			}
 		}
 
-		return this.setOption('disabledConnectors', disabledConnectors);
+		return this.setDisabledConnectors(disabledConnectors);
+	}
+
+	private async getDisabledConnectors(): Promise<DisabledConnectors> {
+		const { disabledConnectors } = await this.storage.get();
+		return disabledConnectors || {};
+	}
+
+	private async setDisabledConnectors(
+		disabledConnectors: DisabledConnectors
+	): Promise<void> {
+		return this.storage.update({ disabledConnectors });
 	}
 }
