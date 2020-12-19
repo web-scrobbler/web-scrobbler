@@ -7,12 +7,13 @@ import { Storage } from '@/background/storage2/Storage';
 
 import connectors from '@/connectors.json';
 
-export class OptionsCleaner
+export class OptionsStorageCleaner
 	implements StorageCleaner<ExtensionOptionsRepositoryData> {
 	async clean(
 		storage: Storage<ExtensionOptionsRepositoryData>
 	): Promise<void> {
 		const { disabledConnectors } = await storage.get();
+		let isCleanedUp = false;
 
 		for (const connectorId of Object.keys(disabledConnectors)) {
 			const isFound = connectors.some(
@@ -20,12 +21,15 @@ export class OptionsCleaner
 			);
 
 			if (isFound) {
-				return;
+				continue;
 			}
 
 			delete disabledConnectors[connectorId];
+			isCleanedUp = true;
 		}
 
-		return storage.update({ disabledConnectors });
+		if (isCleanedUp) {
+			await storage.update({ disabledConnectors });
+		}
 	}
 }
