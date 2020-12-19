@@ -11,11 +11,15 @@ export class CoreRepositoryImpl implements CoreRepository {
 	}
 
 	async getExtensionVersion(): Promise<string> {
-		const coreStorageData = await this.coreStorage.get();
-		return coreStorageData.appVersion;
+		const { appVersion } = await this.coreStorage.get();
+		return appVersion ?? null;
 	}
 
 	async setExtensionVersion(version: string): Promise<void> {
+		if (!version) {
+			throw new TypeError('The extension version should be not empty!');
+		}
+
 		return this.coreStorage.update({
 			appVersion: version,
 		});
