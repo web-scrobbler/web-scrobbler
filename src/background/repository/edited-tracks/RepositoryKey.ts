@@ -18,6 +18,8 @@ import { Song } from '@/background/object/song';
  * we can't calculate the same ID again, since the song info is not the same.
  *
  * @param song Song object
+ *
+ * @yields Repository key
  */
 export function* generateRepositoryKey(
 	song: Song
