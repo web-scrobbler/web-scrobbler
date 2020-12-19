@@ -25,5 +25,7 @@ export class OptionsCleaner
 
 			delete disabledConnectors[connectorId];
 		}
+
+		return storage.update({ disabledConnectors });
 	}
 }
