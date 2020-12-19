@@ -11,34 +11,31 @@ function testCoreRepository() {
 	const repository = createCoreRepository();
 	const newVersion = '3.0.0';
 
-	it('should have no version when initialized', () => {
-		const promise = repository.getExtensionVersion();
-		return expect(promise).to.be.eventually.null;
+	it('should have no version when initialized', async () => {
+		const version = await repository.getExtensionVersion();
+		expect(version).to.be.null;
 	});
 
-	it('should set new version', () => {
-		const promise = repository.setExtensionVersion(newVersion);
-		return expect(promise).to.be.eventually.fulfilled;
-	});
+	it('should set new version', async () => {
+		await repository.setExtensionVersion(newVersion);
 
-	it('should read new version value', () => {
-		const promise = repository.getExtensionVersion();
-		return expect(promise).to.be.eventually.equal(newVersion);
+		const actualVersion = await repository.getExtensionVersion();
+		expect(actualVersion).to.be.equal(newVersion);
 	});
 
 	it('should not allow to set empty version', () => {
 		const promise = repository.setExtensionVersion('');
-		return expect(promise).to.be.eventually.rejected;
+		expect(promise).to.be.eventually.rejected;
 	});
 
 	it('should not allow to set null version', () => {
 		const promise = repository.setExtensionVersion(null);
-		return expect(promise).to.be.eventually.rejected;
+		expect(promise).to.be.eventually.rejected;
 	});
 
 	it('should not allow to set undefined version', () => {
 		const promise = repository.setExtensionVersion(undefined);
-		return expect(promise).to.be.eventually.rejected;
+		expect(promise).to.be.eventually.rejected;
 	});
 }
 

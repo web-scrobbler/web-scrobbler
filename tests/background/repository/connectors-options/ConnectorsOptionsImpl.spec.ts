@@ -46,7 +46,7 @@ function testConnectorsOptions() {
 			'youtube',
 			'scrobbleMusicOnly'
 		);
-		return expect(actualValue).to.be.equal(expectedValue);
+		expect(actualValue).to.be.equal(expectedValue);
 	});
 
 	it('should set another option for the connector', async () => {
@@ -61,7 +61,7 @@ function testConnectorsOptions() {
 			'youtube',
 			'scrobbleEntertainmentOnly'
 		);
-		return expect(actualValue).to.be.equal(expectedValue);
+		expect(actualValue).to.be.equal(expectedValue);
 	});
 
 	it('should read first option for the connector', async () => {
@@ -69,7 +69,7 @@ function testConnectorsOptions() {
 			'youtube',
 			'scrobbleMusicOnly'
 		);
-		return expect(actualValue).to.be.true;
+		expect(actualValue).to.be.true;
 	});
 }
 

@@ -7,16 +7,14 @@ import { NotificationsRepository } from '@/background/repository/notifications/N
 import { NotificationsRepositoryData } from '@/background/repository/notifications/NotificationsRepositoryData';
 import { NotificationsRepositoryImpl } from '@/background/repository/notifications/NotificationsRepositoryImpl';
 
-describe(getTestName(__filename), () => {
-	describe('test notifications repository', testNotificationsRepository);
-});
+describe(getTestName(__filename), testNotificationsRepository);
 
 function testNotificationsRepository() {
 	const repository = createNotificationsRepository();
 
-	it('should allow to display auth notifications', () => {
-		return expect(repository.shouldDisplayAuthNotification()).to.be
-			.eventually.true;
+	it('should allow to display auth notifications', async () => {
+		const shouldDisplay = await repository.shouldDisplayAuthNotification();
+		expect(shouldDisplay).to.be.true;
 	});
 
 	it('should disallow to display auth notifications', async () => {
@@ -24,8 +22,8 @@ function testNotificationsRepository() {
 		await repository.incrementAuthDisplayCount();
 		await repository.incrementAuthDisplayCount();
 
-		return expect(repository.shouldDisplayAuthNotification()).to.be
-			.eventually.false;
+		const shouldDisplay = await repository.shouldDisplayAuthNotification();
+		expect(shouldDisplay).to.be.false;
 	});
 }
 

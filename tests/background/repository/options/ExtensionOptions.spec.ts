@@ -34,33 +34,33 @@ function testOptions() {
 		await options.setOption('scrobblePercent', expectedValue);
 
 		const actualValue = await options.getOption('scrobblePercent');
-		return expect(actualValue).to.be.equal(expectedValue);
+		expect(actualValue).to.be.equal(expectedValue);
 	});
 
 	it('should return true for enabled connector', async () => {
 		const isEnabled = await options.isConnectorEnabled(connectorId);
-		return expect(isEnabled).to.be.true;
+		expect(isEnabled).to.be.true;
 	});
 
 	it('should disable given connector', async () => {
 		await options.setConnectorEnabled(connectorId, false);
 
 		const isEnabled = await options.isConnectorEnabled(connectorId);
-		return expect(isEnabled).to.be.false;
+		expect(isEnabled).to.be.false;
 	});
 
 	it('should enable given connector', async () => {
 		await options.setConnectorEnabled(connectorId, true);
 
 		const isEnabled = await options.isConnectorEnabled(connectorId);
-		return expect(isEnabled).to.be.true;
+		expect(isEnabled).to.be.true;
 	});
 
 	it('should set all connectors enabled', async () => {
 		await options.setConnectorsEnabled(connectorIds, true);
 
 		const isEnabled = await options.isConnectorEnabled(connectorId);
-		return expect(isEnabled).to.be.true;
+		expect(isEnabled).to.be.true;
 	});
 
 	it('should set all connectors disabled', async () => {
