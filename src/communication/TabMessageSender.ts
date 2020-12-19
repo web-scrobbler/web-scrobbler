@@ -1,8 +1,8 @@
 import { Message } from '@/communication/message/Message';
 
-export interface TabMessageSender<Receiver> {
+export interface TabMessageSender<Type, Receiver> {
 	sendMessage<Data, Response>(
 		receiver: Receiver,
-		message: Message<Data>
+		message: Message<Type, Data>
 	): Promise<Response>;
 }

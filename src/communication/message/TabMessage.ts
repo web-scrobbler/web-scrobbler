@@ -1,6 +1,6 @@
 import { Message } from './Message';
 
-export interface TabMessage<T> {
+export interface TabMessage<T, D> {
 	tabId: number;
-	message: Message<T>;
+	message: Message<T, D>;
 }

@@ -1,6 +1,6 @@
 import { Message } from '@/communication/message/Message';
 
-export interface MessageSender {
+export interface MessageSender<Type> {
 	/**
 	 * Send a message.
 	 *
@@ -8,5 +8,7 @@ export interface MessageSender {
 	 *
 	 * @return Response data
 	 */
-	sendMessage<Data, Response>(message: Message<Data>): Promise<Response>;
+	sendMessage<Data, Response>(
+		message: Message<Type, Data>
+	): Promise<Response>;
 }

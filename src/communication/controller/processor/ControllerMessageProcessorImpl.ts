@@ -12,15 +12,19 @@ import { Message } from '@/communication/message/Message';
 
 import { MessageProccessor as MessageProcessor } from '@/communication/MessageProccessor';
 import { ControllerMessageType } from '@/communication/controller/ControllerMessageType';
+import { assertUnreachable } from '@/background/util/util';
 
-export class ControllerMessageProcessorImpl implements MessageProcessor {
+export class ControllerMessageProcessorImpl
+	implements MessageProcessor<ControllerMessageType> {
 	private controller: Controller;
 
 	constructor(controller: Controller) {
 		this.controller = controller;
 	}
 
-	processMessage(message: Message<unknown>): Promise<unknown> {
+	processMessage(
+		message: Message<ControllerMessageType, unknown>
+	): Promise<unknown> {
 		switch (message.type) {
 			case ControllerMessageType.CorrectTrack:
 				return this.processCorrectTrackMessage(
@@ -43,6 +47,9 @@ export class ControllerMessageProcessorImpl implements MessageProcessor {
 				return this.processToggleLoveMessage(
 					message.data as LoveStatus
 				);
+
+			default:
+				assertUnreachable(message.type);
 		}
 	}
 

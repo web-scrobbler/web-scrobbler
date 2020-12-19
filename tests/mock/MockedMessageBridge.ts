@@ -2,10 +2,10 @@ import { Message } from '@/communication/message/Message';
 import { MessageProccessor } from '@/communication/MessageProccessor';
 import { MessageSender } from '@/communication/MessageSender';
 
-export class MockedMessageSender implements MessageSender {
-	constructor(private messageProcessor: MessageProccessor) {}
+export class MockedMessageSender<T> implements MessageSender<T> {
+	constructor(private messageProcessor: MessageProccessor<T>) {}
 
-	async sendMessage<T, R>(message: Message<T>): Promise<R> {
+	async sendMessage<D, R>(message: Message<T, D>): Promise<R> {
 		return (await this.messageProcessor.processMessage(message)) as R;
 	}
 }

@@ -1,5 +1,5 @@
 import { Message } from '@/communication/message/Message';
 
-export interface MessageProccessor {
-	processMessage(message: Message<unknown>): Promise<unknown>;
+export interface MessageProccessor<T> {
+	processMessage(message: Message<T, unknown>): Promise<unknown>;
 }

@@ -40,8 +40,14 @@ export function areAllResults(
 	return results.length > 0 && results.every((r) => r.is(resultType));
 }
 
+/* istanbul ignore next */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function assertUnreachable(x: never): never {
+	throw new Error("Didn't expect to get here");
+}
+
 /**
- * Print debug message.
+ * Print debug message.gst
  *
  * @param message Debug message
  * @param [logType=log] Log type

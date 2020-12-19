@@ -76,6 +76,11 @@ export async function getPrivacyPolicyFilename(): Promise<string> {
 	throw new Error('Found no privacy policy documents!');
 }
 
+export async function isBackgroundScript(): Promise<boolean> {
+	const backgroundPage = await browser.runtime.getBackgroundPage();
+	return backgroundPage === window;
+}
+
 /**
  * Check if the browser is in fullscreen mode.
  *
