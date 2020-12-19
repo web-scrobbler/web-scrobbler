@@ -1,6 +1,6 @@
 import { timeoutPromise } from '@/background/util/util';
 
-const testTimeout = 100;
+const testTimeout = 5;
 
 describe('timeoutPromise', () => {
 	it('should throw an error if promise is not resolved earlier', async () => {
