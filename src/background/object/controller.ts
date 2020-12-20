@@ -238,30 +238,19 @@ export class Controller {
 		 * we don't have enough data to use.
 		 */
 		if (isStateEmpty(newState)) {
-			if (this.currentSong) {
-				this.debugLog('Received empty state - resetting');
-
-				await this.addUnknownSongToStorage();
-				this.reset();
-			}
-
-			if (newState.isPlaying) {
-				this.debugLog(
-					`State from connector doesn't contain enough information about the playing track: ${toString(
-						newState
-					)}`,
-					'warn'
-				);
-			}
-
-			return;
+			return this.processEmptyState(newState);
 		}
 
 		const isSongChanged = this.isSongChanged(newState);
 
 		if (isSongChanged || this.isReplayingSong) {
 			if (newState.isPlaying) {
+				if (this.isNeedToAddSongToScrobbleStorage()) {
+					this.addSongToScrobbleStorage();
+				}
+
 				this.processNewState(newState);
+				await this.processSong();
 			} else {
 				this.reset();
 			}
@@ -279,14 +268,32 @@ export class Controller {
 		this.onControllerEvent(event);
 	}
 
+	private async processEmptyState(state: ParsedSongInfo): Promise<void> {
+		if (this.currentSong) {
+			this.debugLog('Received empty state - resetting');
+
+			if (this.isNeedToAddSongToScrobbleStorage()) {
+				await this.addSongToScrobbleStorage();
+			}
+			this.reset();
+		}
+
+		if (state.isPlaying) {
+			this.debugLog(
+				`State from connector doesn't contain enough information about the playing track: ${toString(
+					state
+				)}`,
+				'warn'
+			);
+		}
+	}
+
 	/**
 	 * Process connector state as new one.
 	 *
 	 * @param newState Connector state
 	 */
-	private async processNewState(newState: ParsedSongInfo): Promise<void> {
-		await this.addUnknownSongToStorage();
-
+	private processNewState(newState: ParsedSongInfo): void {
 		/*
 		 * We've hit a new song (or replaying the previous one)
 		 * clear any previous song and its bindings.
@@ -327,7 +334,6 @@ export class Controller {
 			this.replayDetectionTimer.pause();
 		}
 
-		this.processSong();
 		this.isReplayingSong = false;
 	}
 
@@ -376,9 +382,7 @@ export class Controller {
 	private async processSong(): Promise<void> {
 		this.setMode(ControllerMode.Loading);
 
-		if (!(await this.pipeline.process(this.currentSong))) {
-			return;
-		}
+		await this.pipeline.process(this.currentSong);
 
 		this.debugLog(
 			`Song finished processing: ${this.currentSong.toString()}`
@@ -493,27 +497,21 @@ export class Controller {
 	}
 
 	/**
-	 * Add current song to scrobble storage if it's needed.
-	 */
-	private async addUnknownSongToStorage(): Promise<void> {
-		if (this.isNeedToAddSongToScrobbleStorage()) {
-			const boundScrobblerIds = ScrobbleManager.getBoundScrobblers().map(
-				(scrobbler) => scrobbler.getId()
-			);
-
-			await this.addSongToScrobbleStorage(boundScrobblerIds);
-		}
-	}
-
-	/**
 	 * Add current song to scrobble storage.
 	 *
 	 * @param scrobblerIds Array of scrobbler IDs
 	 */
 	private async addSongToScrobbleStorage(
-		scrobblerIds: string[]
+		scrobblerIds?: string[]
 	): Promise<void> {
-		await ScrobbleStorage.addSong(this.currentSong.getInfo(), scrobblerIds);
+		let boundScrobblerIds = scrobblerIds;
+		if (!boundScrobblerIds) {
+			boundScrobblerIds = ScrobbleManager.getBoundScrobblers().map(
+				(scrobbler) => scrobbler.getId()
+			);
+		}
+
+		await ScrobbleStorage.addSong(this.currentSong.getInfo(), boundScrobblerIds);
 	}
 
 	/**

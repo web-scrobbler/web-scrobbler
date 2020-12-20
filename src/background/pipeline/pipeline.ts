@@ -33,8 +33,6 @@ export type ProcessSongFunction = (song: Song) => Promise<SongDiff>;
  * An object that processes song instances using various processors (functions).
  */
 export class Pipeline {
-	song: Song = null;
-
 	/**
 	 * Run pipeline processors against the given song instance.
 	 *
@@ -42,10 +40,7 @@ export class Pipeline {
 	 *
 	 * @return Process result
 	 */
-	async process(song: Song): Promise<boolean> {
-		// FIXME: Use another lock way
-		this.song = song;
-
+	async process(song: Song): Promise<void> {
 		for (const processor of processors) {
 			const { flags, metadata, processed } = await processor(song);
 
@@ -53,9 +48,5 @@ export class Pipeline {
 			song.metadata = Object.assign(song.metadata, metadata);
 			song.processed = Object.assign(song.processed, processed);
 		}
-
-		// Return false if this call is not relevant, e.g. when
-		// the controller calls `process` with another song.
-		return song.equals(this.song);
 	}
 }
