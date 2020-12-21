@@ -26,4 +26,4 @@ All data is used by the extension internally; we don't send this data to 3rd-par
 
 The extension supports several self-hosted services (e.g. Funkwhale), which supposed to have user-defined URLs. The extension could not know these URLs, that's why the accessing to all websites is required.
 
-Also, it asks accessing for user convinience only. Users will not be prompted to confirm access to new websites added in new extension versions.
+Also, it asks accessing for user convenience only. Users will not be prompted to confirm access to new websites added in new extension versions.
