@@ -2,7 +2,7 @@
 
 This privacy policy explains what data we collect and store; how we use and disclose this data.
 
-**Important note**: This document is applicable to Web Scrobbler v3 and newer.
+**Important note**: This document is applicable to Web Scrobbler v2.40.0 and newer.
 
 ## What data is collected?
 
@@ -15,7 +15,6 @@ Your settings and credentials are stored within your browser. The extension stor
  - Your credentials of scrobble services
  - Your personal Web Scrobbler settings
  - Your edited tracks
- - Your unscrobbled tracks
  - Your custom URL patterns for connectors
  - System information of the extension
 
