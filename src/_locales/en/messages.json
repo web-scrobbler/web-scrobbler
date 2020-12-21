@@ -346,6 +346,10 @@
     "message": "Add URL patterns that the connector should match below.",
     "description": "Popup hint"
   },
+  "customBlacklistPatternsHint": {
+    "message": "Add URL patterns that the connector should ignore below.",
+    "description": "Popup hint"
+  },
   "customPatternsAdd": {
     "message": "Add pattern",
     "description": "Add button"

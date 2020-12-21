@@ -9,14 +9,25 @@ define((require) => {
 	async function getConnectorByUrl(url) {
 		const customPatterns = await getAllPatterns();
 		for (const connector of connectors) {
-			const patterns = connector.matches || [];
+			const patterns = connector.matches.map(
+				(match) => ({
+					pattern: match,
+					isBlacklist: false,
+				})
+			) || [];
 
 			if (customPatterns[connector.id]) {
 				patterns.push(...customPatterns[connector.id]);
 			}
 
 			for (const pattern of patterns) {
-				if (UrlMatch.test(url, pattern)) {
+				if (UrlMatch.test(url, pattern['pattern']) && pattern['isBlacklist']) {
+					return null;
+				}
+			}
+
+			for (const pattern of patterns) {
+				if (UrlMatch.test(url, pattern['pattern'])) {
 					return connector;
 				}
 			}

@@ -29,11 +29,18 @@ define((require) => {
 			const patterns = allPatterns[connector.id] || [];
 
 			const inputs = $('<ul class="list-unstyled patterns-list" id="conn-conf-list"></ul>');
+			const blacklistInputs = $('<ul class="list-unstyled patterns-list" id="conn-conf-blacklist-list"></ul>');
 			for (const value of patterns) {
-				inputs.append(createNewConfigInput(value));
+				if (value['isBlacklist']) {
+					blacklistInputs.append(createNewConfigInput(value['pattern']));
+				} else {
+					inputs.append(createNewConfigInput(value['pattern']));
+				}
 			}
 
 			modal.find('.conn-conf-patterns').html(inputs);
+			modal.modal('show');
+			modal.find('.conn-conf-blacklist-patterns').html(blacklistInputs);
 			modal.modal('show');
 		});
 
@@ -47,7 +54,13 @@ define((require) => {
 			$('#conn-conf-list').find('input:text').each(function() {
 				const pattern = $(this).val();
 				if (pattern.length > 0) {
-					patterns.push(pattern);
+					patterns.push({ pattern, isBlacklist: false });
+				}
+			});
+			$('#conn-conf-blacklist-list').find('input:text').each(function() {
+				const pattern = $(this).val();
+				if (pattern.length > 0) {
+					patterns.push({ pattern, isBlacklist: true });
 				}
 			});
 
@@ -62,6 +75,10 @@ define((require) => {
 
 		$('button#add-pattern').click(() => {
 			$('#conn-conf-list').append(createNewConfigInput());
+		});
+
+		$('button#add-blacklist-pattern').click(() => {
+			$('#conn-conf-blacklist-list').append(createNewConfigInput());
 		});
 
 		$('button#conn-conf-reset').click(function() {

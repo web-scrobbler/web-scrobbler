@@ -16,9 +16,18 @@ define((require) => {
 	/**
 	 * This storage contains custom URL patterns defined by an user.
 	 *
+	 * Each pattern is a dictionary containing the pattern and a boolean
+	 * indicating if it should be used to blacklist instead.
+	 *
 	 * The format of storage data is following:
 	 * {
-	 *     connector_id: [URL_pattern_1, URL_pattern_2, ...],
+	 *     connector_id: [
+	 *         {
+	 *             isBlacklist: false,
+	 *             pattern: 'URL_pattern',
+	 *         }
+	 *         ...
+	 *     ],
 	 *     ...
 	 * }
 	 */
