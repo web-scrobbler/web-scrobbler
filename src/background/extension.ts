@@ -18,13 +18,13 @@ import {
 } from '@/common/messages';
 import {
 	clearNowPlaying,
-	showAuthNotification,
 	showSignInError,
 	showNowPlaying,
 	showSongNotRecognized,
 } from '@/background/browser/notifications';
 
 import { NotificationsRepository } from './repository/notifications/NotificationsRepository';
+import { createAuthReminder } from '@/background/auth-reminder/AuthReminderFactory';
 
 export class Extension {
 	private tabWorker: TabWorker;
@@ -182,22 +182,8 @@ export class Extension {
 	}
 
 	private async showAuthNotification(): Promise<void> {
-		const shouldDisplayAuthNotification = await this.notificationsRepository.shouldDisplayAuthNotification();
-		if (shouldDisplayAuthNotification) {
-			const authUrl = browser.runtime.getURL(
-				'/ui/options/index.html#accounts'
-			);
-			try {
-				await showAuthNotification(() => {
-					browser.tabs.create({ url: authUrl });
-				});
-			} catch {
-				// Fallback for browsers with no notifications support.
-				await browser.tabs.create({ url: authUrl });
-			}
-
-			await this.notificationsRepository.notifyAuthNotificationDisplayed();
-		}
+		const authReminder = createAuthReminder();
+		await authReminder.remind();
 	}
 
 	/**
