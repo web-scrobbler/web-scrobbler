@@ -1,4 +1,4 @@
-import { Song } from '@/background/object/song';
+import { Song } from '@/background/model/song/song';
 import { Processor } from '@/background/pipeline/Processor';
 
 export class SongPipeline implements Processor<Song> {

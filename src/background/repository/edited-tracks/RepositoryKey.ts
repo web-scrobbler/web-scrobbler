@@ -1,6 +1,7 @@
 import md5 from 'blueimp-md5';
 
-import { Song } from '@/background/object/song';
+import { Song } from '@/background/model/song/Song';
+import { ConnectorProp } from '@/background/model/ConnectorState';
 
 /**
  * Helpers to get/generate unique repository keys for the EditedTracks
@@ -48,7 +49,12 @@ export function getRepositoryKey(song: Song): string {
 		return uniqueId;
 	}
 
-	return createRepositoryKey(song, Song.BASE_FIELDS);
+	return createRepositoryKey(song, [
+		'artist',
+		'track',
+		'album',
+		'albumArtist',
+	]);
 }
 
 /**
@@ -59,14 +65,17 @@ export function getRepositoryKey(song: Song): string {
  *
  * @return Unique repository key
  */
-function createRepositoryKey(song: Song, properties: string[]): string {
+function createRepositoryKey(song: Song, properties: ConnectorProp[]): string {
 	let inputStr = '';
 
 	for (const field of properties) {
-		if (song.parsed[field]) {
-			inputStr += song.parsed[field];
+		const rawPropertyValue = song.getRawProperty(field);
+
+		if (rawPropertyValue) {
+			inputStr += rawPropertyValue;
 		}
 	}
+
 	if (inputStr) {
 		return md5(inputStr);
 	}

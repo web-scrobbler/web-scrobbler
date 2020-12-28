@@ -1,4 +1,5 @@
-import { EditedSongInfo, Song } from '@/background/object/song';
+import { Song } from '@/background/model/song/Song';
+import { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTrackInfo';
 
 /**
  * EditedTracks repository.
@@ -11,7 +12,7 @@ export interface EditedTracks {
 	 *
 	 * @return True if data is loaded; false otherwise
 	 */
-	getSongInfo(song: Song): Promise<EditedSongInfo>;
+	getSongInfo(song: Song): Promise<EditedTrackInfo>;
 
 	/**
 	 * Save the given edited info of the given song.
@@ -19,7 +20,7 @@ export interface EditedTracks {
 	 * @param song Song object
 	 * @param editedInfo Edited song info
 	 */
-	setSongInfo(song: Song, editedInfo: EditedSongInfo): Promise<void>;
+	setSongInfo(song: Song, editedInfo: EditedTrackInfo): Promise<void>;
 
 	/**
 	 * Remove edited song info of the given song.

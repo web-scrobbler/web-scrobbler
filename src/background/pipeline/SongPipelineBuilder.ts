@@ -1,4 +1,4 @@
-import { Song } from '@/background/object/song';
+import { Song } from '@/background/model/song/Song';
 import { Processor } from '@/background/pipeline/Processor';
 import { CoverArtProcessor } from '@/background/pipeline/processor/CoverArtProcessor';
 import { EditedInfoProcessor } from '@/background/pipeline/processor/EditedInfoProcessor';

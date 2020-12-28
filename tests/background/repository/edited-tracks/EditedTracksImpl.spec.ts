@@ -4,10 +4,12 @@ import chaiAsPromised from 'chai-as-promised';
 import { MockedStorage } from '#/mock/MockedStorage';
 import { getTestName } from '#/helpers/util';
 
-import { Song, EditedSongInfo } from '@/background/object/song';
+import { Song } from '@/background/model/song/Song';
+import { createSong } from '@/background/model/song/SongFactory';
 
 import { EditedTracks } from '@/background/repository/edited-tracks/EditedTracks';
 import { EditedTracksImpl } from '@/background/repository/edited-tracks/EditedTracksImpl';
+import { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTrackInfo';
 
 chai.use(chaiAsPromised);
 
@@ -144,18 +146,18 @@ function makeNonProcessedSong(
 	track: string,
 	album?: string,
 	uniqueID?: string
-) {
-	return new Song({ artist, track, album, uniqueID });
+): Song {
+	return createSong({ artist, track, album, uniqueID });
 }
 
 async function expectSongInfoLoaded(
-	task: Promise<EditedSongInfo>,
-	editedInfo: EditedSongInfo
+	task: Promise<EditedTrackInfo>,
+	editedInfo: EditedTrackInfo
 ) {
 	return expect(task).to.be.eventually.deep.equal(editedInfo);
 }
 
-async function expectSongInfoNotLoaded(task: Promise<EditedSongInfo>) {
+async function expectSongInfoNotLoaded(task: Promise<EditedTrackInfo>) {
 	return expect(task).to.eventually.be.null;
 }
 
@@ -163,7 +165,7 @@ function createEditedTracks(...initialData: Song[]): EditedTracks {
 	const editedTracks = new EditedTracksImpl(new MockedStorage());
 
 	for (const song of initialData) {
-		const editedInfo: EditedSongInfo = {
+		const editedInfo: EditedTrackInfo = {
 			artist: song.getArtist(),
 			track: song.getTrack(),
 			album: song.getAlbum(),

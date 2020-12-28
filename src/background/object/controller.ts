@@ -137,11 +137,12 @@ export class Controller {
 	async resetSongData(): Promise<void> {
 		this.assertSongIsPlaying();
 
-		this.currentSong.resetInfo();
 		await SavedEdits.removeSongInfo(this.currentSong);
 
+		// this.currentSong.resetInfo();
+
 		this.unprocessSong();
-		this.processSong();
+		// this.processSong();
 	}
 
 	/**
@@ -202,7 +203,7 @@ export class Controller {
 		await SavedEdits.saveSongInfo(this.currentSong, data);
 
 		this.unprocessSong();
-		this.processSong();
+		// this.processSong();
 	}
 
 	/**
@@ -217,7 +218,10 @@ export class Controller {
 			throw new Error('No valid song is now playing');
 		}
 
-		await ScrobbleManager.toggleLove(this.currentSong.getInfo(), loveStatus);
+		await ScrobbleManager.toggleLove(
+			this.currentSong.getInfo(),
+			loveStatus
+		);
 
 		this.currentSong.setLoveStatus(loveStatus, { force: true });
 		this.onSongUpdated();
@@ -428,7 +432,8 @@ export class Controller {
 		this.debugLog(`Song unprocessed: ${this.currentSong.toString()}`);
 		this.debugLog('Clearing playback timer destination time');
 
-		this.currentSong.resetData();
+		// this.currentSong.resetData();
+		this.currentSong = null;
 
 		this.playbackTimer.update(null);
 		this.replayDetectionTimer.update(null);
@@ -511,7 +516,10 @@ export class Controller {
 			);
 		}
 
-		await ScrobbleStorage.addSong(this.currentSong.getInfo(), boundScrobblerIds);
+		await ScrobbleStorage.addSong(
+			this.currentSong.getInfo(),
+			boundScrobblerIds
+		);
 	}
 
 	/**

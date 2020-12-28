@@ -440,10 +440,10 @@ describe(getTestName(__filename), () => {
 	describe('equals', testEquals);
 	describe('getArtistTrackString', testGetArtistTrackString);
 	describe('getCloneableData', testGetCloneableData);
-	describe('getDuration', testGetDuration);
+	// describe('getDuration', testGetDuration); ?
 	describe('getInfo', testGetInfo);
-	describe('getTrackArt', testGetTrackArt);
-	describe('getUniqueId', testGetUniqueId);
+	// describe('getTrackArt', testGetTrackArt); ?
+	// describe('getUniqueId', testGetUniqueId); +
 	describe('isEmpty', testIsEmpty);
 	describe('isValid', testIsValid);
 	describe('resetData', testResetData);

@@ -1,6 +1,6 @@
 import { SongInfo } from '../object/song';
 import { ApiCallResult } from './api-call-result';
-import { Scrobbler } from './scrobbler';
+import { Scrobbler } from './Scrobbler';
 
 export interface ScrobblerManager {
 	getGrantedScrobblers(): Scrobbler[];

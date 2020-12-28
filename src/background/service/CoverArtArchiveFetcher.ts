@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 
-import { Song } from '@/background/object/song';
+import { Song } from '@/background/model/song/Song';
 import { CoverArtFetcher } from '@/background/service/CoverArtFetcher';
 
 type Endpoint = 'release' | 'release-group';
@@ -23,7 +23,7 @@ interface MusicBrainzResponse {
 
 export class CoverArtArchiveFetcher implements CoverArtFetcher {
 	async getCoverArt(song: Song): Promise<string> {
-		let musicBrainzId = song.metadata.albumMbId;
+		let musicBrainzId = song.getMetadata('albumMbId');
 
 		for (const endpoint in endpoints) {
 			try {

@@ -1,4 +1,5 @@
-import { EditedSongInfo, Song } from '@/background/object/song';
+import { Song } from '@/background/model/song/Song';
+import { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTrackInfo';
 import { Storage } from '@/background/storage2/Storage';
 import { EditedTracks } from './EditedTracks';
 import { EditedTracksRepositoryData } from './EditedTracksRepositoryData';
@@ -12,7 +13,7 @@ export class EditedTracksImpl implements EditedTracks {
 		this.editedTracksStorage = storage;
 	}
 
-	async getSongInfo(song: Song): Promise<EditedSongInfo> {
+	async getSongInfo(song: Song): Promise<EditedTrackInfo> {
 		const editedTracks = await this.editedTracksStorage.get();
 
 		for (const repositoryKey of generateRepositoryKey(song)) {
@@ -24,7 +25,7 @@ export class EditedTracksImpl implements EditedTracks {
 		return null;
 	}
 
-	async setSongInfo(song: Song, editedInfo: EditedSongInfo): Promise<void> {
+	async setSongInfo(song: Song, editedInfo: EditedTrackInfo): Promise<void> {
 		const repositoryKey = getRepositoryKey(song);
 		return this.editedTracksStorage.update({
 			[repositoryKey]: removeEmptyProperties(editedInfo),
