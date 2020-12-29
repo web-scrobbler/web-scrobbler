@@ -69,7 +69,7 @@ function createRepositoryKey(song: Song, properties: ConnectorProp[]): string {
 	let inputStr = '';
 
 	for (const field of properties) {
-		const rawPropertyValue = song.getRawProperty(field);
+		const rawPropertyValue = ''; // song.getRawProperty(field);
 
 		if (rawPropertyValue) {
 			inputStr += rawPropertyValue;

@@ -33,7 +33,7 @@ export class SongImpl implements Song {
 		this.timeInfo = createTimeInfo(connectorState);
 
 		this.uniqueId = connectorState.uniqueID;
-		this.uniqueIdGenerator = this.resetFlags();
+		// this.uniqueIdGenerator = this.resetFlags();
 		this.resetMetadata();
 	}
 

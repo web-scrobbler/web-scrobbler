@@ -12,7 +12,8 @@ export class SongInfoProcessor implements Processor<Song> {
 		}
 
 		const scrobblerSongInfo = await this.songInfoFetcher.getSongInfo(
-			song.getInfo()
+			null
+			// song.getInfo()
 		);
 		const isSongValid = scrobblerSongInfo !== null;
 
