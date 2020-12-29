@@ -45,7 +45,5 @@ export interface Song {
 	): void;
 	resetMetadata(): void;
 
-	getRawProperty<K extends keyof ConnectorState>(key: K): ConnectorState[K];
-
 	serialize(): SongDto;
 }

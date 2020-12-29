@@ -11,6 +11,7 @@ import {
 
 import { hideStringInText, timeoutPromise } from '@/background/util/util';
 import { createQueryString } from '@/common/util-browser';
+import { AudioScrobblerAppInfo } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerData';
 
 export interface AudioScrobblerApiParams {
 	[param: string]: string;
@@ -52,14 +53,11 @@ export interface AudioScrobblerImage {
 	size: string;
 }
 
-export abstract class AudioScrobblerScrobbleService implements ScrobbleService {
-	constructor(private session: Session) {}
-
-	protected abstract getApiKey(): string;
-
-	protected abstract getApiUrl(): string;
-
-	protected abstract getApiSecret(): string;
+export class AudioScrobblerScrobbleService implements ScrobbleService {
+	constructor(
+		private session: Session,
+		private appInfo: AudioScrobblerAppInfo
+	) {}
 
 	async sendNowPlayingRequest(trackInfo: TrackInfo): Promise<ApiCallResult> {
 		const { artist, track, album, albumArtist, duration } = trackInfo;
@@ -215,7 +213,7 @@ export abstract class AudioScrobblerScrobbleService implements ScrobbleService {
 		params: AudioScrobblerApiParams,
 		signed: boolean
 	): string {
-		params.api_key = this.getApiKey();
+		params.api_key = this.appInfo.apiKey;
 		params.format = 'json';
 
 		if (signed) {
@@ -223,7 +221,7 @@ export abstract class AudioScrobblerScrobbleService implements ScrobbleService {
 		}
 
 		const queryStr = createQueryString(params);
-		return `${this.getApiUrl()}?${queryStr}`;
+		return `${this.appInfo.apiUrl}?${queryStr}`;
 	}
 
 	/**
@@ -246,7 +244,7 @@ export abstract class AudioScrobblerScrobbleService implements ScrobbleService {
 			o += key + params[key];
 		}
 
-		o += this.getApiSecret();
+		o += this.appInfo.apiSecret;
 
 		return md5(o);
 	}

@@ -1,16 +1,4 @@
-import { Session } from '../account/session';
-import { Account } from '../account/account';
-import { UserProperties } from '../account/user-properties';
-import { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
-
-export interface Scrobbler extends ScrobbleService {
-	/**
-	 * Return information about user account.
-	 *
-	 * @return User account info
-	 */
-	getAccount(): Account;
-
+export interface Scrobbler {
 	/**
 	 * Get the scrobbler ID. The ID must be unique.
 	 */
@@ -29,23 +17,9 @@ export interface Scrobbler extends ScrobbleService {
 	getProfileUrl(): string;
 
 	/**
-	 * Get session data.
-	 *
-	 * @return Session data
-	 */
-	getSession(): Session;
-
-	/**
 	 * Get status page URL.
 	 */
 	getStatusUrl(): string;
-
-	/**
-	 * Check if a user is signed in to the scrobbling service.
-	 *
-	 * @return Check result
-	 */
-	isSignedIn(): boolean;
 
 	/**
 	 * Request an auth URL where user should grant permission to the extension.

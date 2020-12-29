@@ -12,18 +12,16 @@ import {
 import { SongDto } from '@/background/model/song/SongDto';
 
 import { getObjectKeys } from '#/helpers/util';
+import { createTimeInfo, TimeInfo } from '@/background/model/song/TimeInfo';
+import { createSongInfo, SongInfoA } from '@/background/model/song/SongInfo';
+import { SongUniqueIdGenerator } from '@/background/model/song/SongUniqueIdGenerator';
 
 export class SongImpl implements Song {
-	private artist: string;
-	private album: string;
-	private track: string;
-	private albumArtist: string;
+	private songInfo: SongInfoA;
+	private timeInfo: TimeInfo;
 
-	private trackArt: string;
 	private uniqueId: string;
-
-	private currentTime: number;
-	private duration: number;
+	private uniqueIdGenerator: SongUniqueIdGenerator;
 
 	private flags: SongFlags;
 	private metadata: SongMetadata;
@@ -31,18 +29,11 @@ export class SongImpl implements Song {
 	private loveStatus: LoveStatus = LoveStatus.Unknown;
 
 	constructor(private connectorState: ConnectorState) {
-		this.artist = connectorState.artist;
-		this.track = connectorState.track;
-		this.album = connectorState.album;
-		this.albumArtist = connectorState.albumArtist;
+		this.songInfo = createSongInfo(connectorState);
+		this.timeInfo = createTimeInfo(connectorState);
 
-		this.trackArt = connectorState.trackArt;
 		this.uniqueId = connectorState.uniqueID;
-
-		this.currentTime = connectorState.currentTime || 0;
-		this.duration = connectorState.duration || 0;
-
-		this.resetFlags();
+		this.uniqueIdGenerator = this.resetFlags();
 		this.resetMetadata();
 	}
 
@@ -59,59 +50,59 @@ export class SongImpl implements Song {
 	}
 
 	getArtist(): string {
-		return this.artist;
+		return this.songInfo.artist;
 	}
 
 	setArtist(artist: string): void {
-		this.artist = artist;
+		this.songInfo.artist = artist;
 	}
 
 	getTrack(): string {
-		return this.track;
+		return this.songInfo.track;
 	}
 
 	setTrack(track: string): void {
-		this.track = track;
+		this.songInfo.track = track;
 	}
 
 	getAlbum(): string {
-		return this.album;
+		return this.songInfo.album;
 	}
 
 	setAlbum(album: string): void {
-		this.album = album;
+		this.songInfo.album = album;
 	}
 
 	getAlbumArtist(): string {
-		return this.albumArtist;
+		return this.songInfo.albumArtist;
 	}
 
 	setAlbumArtist(albumArtist: string): void {
-		this.albumArtist = albumArtist;
+		this.songInfo.albumArtist = albumArtist;
 	}
 
 	getCurrentTime(): number {
-		return this.currentTime;
+		return this.timeInfo.currentTime;
 	}
 
 	getDuration(): number {
-		return this.duration;
+		return this.timeInfo.duration;
 	}
 
 	setCurrentTime(currentTime: number): void {
-		this.currentTime = currentTime;
+		this.timeInfo.currentTime = currentTime;
 	}
 
 	setDuration(duration: number): void {
-		this.duration = duration;
+		this.timeInfo.duration = duration;
 	}
 
 	getTrackArt(): string {
-		return this.trackArt;
+		return this.songInfo.trackArt;
 	}
 
 	setTrackArt(trackArt: string): void {
-		this.trackArt = trackArt;
+		this.songInfo.trackArt = trackArt;
 	}
 
 	getLoveStatus(): LoveStatus {
