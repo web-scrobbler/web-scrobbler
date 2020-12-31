@@ -13,3 +13,5 @@ Connector.trackArtSelector = `${playerPopupSelector} .cover img`;
 Connector.currentTimeSelector = `${playerPopupSelector} .playinfo .currtime`;
 
 Connector.durationSelector = `${playerPopupSelector} .playinfo .maxtime`;
+
+Connector.isTrackArtDefault = (url) => url.endsWith('audio.png');
