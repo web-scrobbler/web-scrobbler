@@ -25,13 +25,6 @@ const connectors = [{
 	js: 'connectors/youtube.js',
 	id: 'youtube',
 }, {
-	label: 'Google Play Music',
-	matches: [
-		'*://play.google.com/music/*',
-	],
-	js: 'connectors/google-play.js',
-	id: 'google-play',
-}, {
 	label: 'MySpace',
 	matches: [
 		'*://myspace.com/*',
