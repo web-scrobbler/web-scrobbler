@@ -2,13 +2,13 @@
 
 Connector.playerSelector = '.player';
 
-Connector.trackArtSelector = '#currently-playing-album-cover img';
+Connector.trackArtSelector = '.cover .loaded';
 
-Connector.artistSelector = '#currently-playing-composer';
+Connector.artistSelector = '.composer';
 
-Connector.trackSelector = '.currently-playing .movement';
+Connector.trackSelector = '.movement-text';
 
-Connector.albumSelector = '#currently-playing-work';
+Connector.albumSelector = '.work';
 
 Connector.currentTimeSelector = '.progress span[title="Current Time"]';
 
@@ -22,4 +22,4 @@ Connector.durationSelector = '.progress span[title="Total Time"]';
 
 Connector.remainingTimeSelector = '.progress span[title="Remaining Time"]';
 
-Connector.playButtonSelector = '#player-play-pause img[title="Play"]';
+Connector.playButtonSelector = '.play-pause img[title=Play]';
