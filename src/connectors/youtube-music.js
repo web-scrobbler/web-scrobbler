@@ -1,11 +1,16 @@
 'use strict';
 
-const playButtonSelector = '.ytmusic-player-bar.play-pause-button #icon > svg > g > path';
 const trackArtSelector = '.ytmusic-player-bar.image';
-const channelNameSelector = 'ytmusic-player-queue-item[selected] .byline';
-const trackSelector = 'ytmusic-player-queue-item[selected] .song-title';
+const artistSelectors = [
+	'.ytmusic-player-bar.byline [href^=channel]',
+	'.ytmusic-player-bar.byline [href*="browse/FEmusic_library_privately_owned_artist_detaila_"]',
+];
+
+const trackSelector = '.ytmusic-player-bar.title';
 const adSelector = '.ytmusic-player-bar.advertisement';
 
+const playButtonSelector =
+	'.ytmusic-player-bar.play-pause-button #icon > svg > g > path';
 const playingPath = 'M6 19h4V5H6v14zm8-14v14h4V5h-4z';
 
 Connector.playerSelector = 'ytmusic-player-bar';
@@ -23,19 +28,23 @@ Connector.albumSelector = [
 	'.ytmusic-player-bar .yt-formatted-string.style-scope.yt-simple-endpoint[href*="browse/FEmusic_library_privately_owned_release_detailb_"]',
 ];
 
-function videoHasAlbum() {
+function hasVideoAlbum() {
 	return !!Connector.getAlbum();
 }
 
 Connector.getArtistTrack = () => {
-	let artist; let track;
-	if (videoHasAlbum()) {
-		artist = Util.getTextFromSelectors(channelNameSelector);
+	let artist;
+	let track;
+
+	if (hasVideoAlbum()) {
+		artist = getArtists();
 		track = Util.getTextFromSelectors(trackSelector);
 	} else {
-		({ artist, track } = Util.processYtVideoTitle(Util.getTextFromSelectors(trackSelector)));
+		({ artist, track } = Util.processYtVideoTitle(
+			Util.getTextFromSelectors(trackSelector)
+		));
 		if (!artist) {
-			artist = Util.getTextFromSelectors(channelNameSelector);
+			artist = getArtists();
 		}
 	}
 	return { artist, track };
@@ -49,8 +58,14 @@ Connector.isPlaying = () => {
 
 Connector.isScrobblingAllowed = () => !Util.isElementVisible(adSelector);
 
+function getArtists() {
+	// FIXME Use Array.from after jQuery support will be removed
+	const artistElements = Util.queryElements(artistSelectors);
+	return artistElements && Util.joinArtists(artistElements.toArray());
+}
+
 function filterYoutubeIfNonAlbum(text) {
-	return videoHasAlbum() ? text : MetadataFilter.youtube(text);
+	return hasVideoAlbum() ? text : MetadataFilter.youtube(text);
 }
 
 const youtubeMusicFilter = MetadataFilter.createFilter({
