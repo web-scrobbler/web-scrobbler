@@ -1,22 +1,22 @@
-import { StorageWrapper } from '@/background/storage/storage-wrapper';
+import { Storage } from '@/background/storage2/Storage';
 
 /**
  * This class provides a base interface for custom storage wrappers.
  */
 export abstract class CustomStorage {
-	storageRef: StorageWrapper;
+	storageRef: Storage<unknown>;
 
 	constructor() {
 		this.storageRef = this.getStorage();
 		/* @ifdef DEVELOPMENT */
-		this.storageRef.debugLog();
+		// this.storageRef.debugLog();
 		/* @endif */
 	}
 
 	/**
 	 * Return a reference to a storage object.
 	 */
-	abstract getStorage(): StorageWrapper;
+	abstract getStorage(): Storage<unknown>;
 
 	/**
 	 * Remove all data from the storage.

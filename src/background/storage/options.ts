@@ -215,12 +215,12 @@ async function setupDefaultConfigValues() {
 	const optionsStorageData = (await optionsStorage.get()) as Options;
 	options = Object.assign(options, optionsStorageData);
 	await optionsStorage.set(options);
-	optionsStorage.debugLog([DISABLED_CONNECTORS]);
+	// optionsStorage.debugLog([DISABLED_CONNECTORS]);
 
 	const connectorsOptionsData = (await connectorsOptionsStorage.get()) as ConnectorOptions;
 	connectorsOptions = Object.assign(connectorsOptions, connectorsOptionsData);
 	await connectorsOptionsStorage.set(connectorsOptions);
-	connectorsOptionsStorage.debugLog();
+	// connectorsOptionsStorage.debugLog();
 }
 
 async function cleanupConfigValues() {

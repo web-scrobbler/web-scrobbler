@@ -38,17 +38,7 @@
 				</a>
 				<div class="form-check form-switch">
 					<label class="form-check-label">
-						<input
-							class="form-check-input"
-							type="checkbox"
-							:checked="isConnectorEnabled(connector)"
-							@input="
-								setConnectorEnabled(
-									connector,
-									$event.target.checked
-								)
-							"
-						/>
+						<input class="form-check-input" type="checkbox" />
 						{{ connector.label }}
 					</label>
 				</div>
@@ -57,15 +47,15 @@
 		<add-patterns-modal
 			v-if="isModalActive"
 			:connector="editedConnector"
-			:patterns="getCustomPatterns(editedConnector)"
-			@on-save-patterns="saveCustomPatterns"
+			:patterns="customPatterns"
+			@on-save-patterns="setCustomPatterns"
 			@on-modal-close="hideModal"
 		/>
 	</div>
 </template>
 
 <script>
-import { onBeforeMount, ref, toRaw, watch } from 'vue';
+import { ref, toRaw, watch } from 'vue';
 
 import AddPatternsModal from '@/ui/options/modals/add-patterns-modal.vue';
 import SpriteIcon from '@/ui/shared/sprite-icon.vue';
@@ -73,25 +63,18 @@ import SpriteIcon from '@/ui/shared/sprite-icon.vue';
 import gearIcon from 'bootstrap-icons/icons/gear.svg';
 
 import { getSortedConnectors } from '@/common/util-connector';
-import { CustomPatterns } from '@/background/storage/custom-patterns';
-import {
-	getOption,
-	isConnectorEnabled,
-	setAllConnectorsEnabled,
-	setConnectorEnabled,
-	DISABLED_CONNECTORS,
-} from '@/background/storage/options';
+import { getOptions } from '@/background/repository/GetOptions';
+import { getCustomUrlPatterns } from '@/background/repository/GetCustomUrlPatterns';
 
 const connectors = getSortedConnectors();
+
+const options = getOptions();
+const customUrlPatterns = getCustomUrlPatterns();
 
 export default {
 	components: { AddPatternsModal, SpriteIcon },
 	data() {
 		return { connectors, gearIcon };
-	},
-	methods: {
-		isConnectorEnabled,
-		setConnectorEnabled,
 	},
 	setup() {
 		return {
@@ -102,14 +85,16 @@ export default {
 };
 
 function useCustomPatternsModal() {
-	const { customPatterns } = useCustomPatterns();
+	const { customPatterns, setCustomPatterns } = useCustomPatterns();
 
-	const editedConnector = ref(null);
 	const isModalActive = ref(false);
+	const editedConnector = ref(null);
 
-	function showModal(connector) {
+	async function showModal(connector) {
+		customPatterns.value = await customUrlPatterns.getPatterns(
+			connector.id
+		);
 		editedConnector.value = connector;
-
 		isModalActive.value = true;
 	}
 
@@ -117,51 +102,33 @@ function useCustomPatternsModal() {
 		isModalActive.value = false;
 	}
 
-	function saveCustomPatterns(patterns) {
-		const connectorId = editedConnector.value.id;
-		if (patterns.length > 0) {
-			customPatterns.value[connectorId] = patterns;
-		} else {
-			delete customPatterns.value[connectorId];
-		}
-	}
-
-	function getCustomPatterns(connector) {
-		return customPatterns.value[connector.id] || [];
-	}
-
 	return {
 		isModalActive,
-		editedConnector,
-
 		hideModal,
 		showModal,
 
-		getCustomPatterns,
-		saveCustomPatterns,
+		editedConnector,
+		customPatterns,
+		setCustomPatterns,
 	};
 }
 
 function useCustomPatterns() {
-	const customPatterns = ref({});
+	const customPatterns = ref([]);
 
-	onBeforeMount(async () => {
-		customPatterns.value = await CustomPatterns.getData();
+	function setCustomPatterns(connector, patterns) {
+		customUrlPatterns.setPatterns(connector.id, toRaw(patterns));
+	}
 
-		watch(
-			customPatterns,
-			async (newValue) => await CustomPatterns.saveData(toRaw(newValue)),
-			{ deep: true }
-		);
-	});
-
-	return { customPatterns };
+	return { customPatterns, setCustomPatterns };
 }
 
 function useToggleConnectors() {
 	const toggleConnectorsValue = ref(getToggleConnectorsState());
+	const allConnectorIds = connectors.map((connector) => connector.id);
+
 	watch(toggleConnectorsValue, (isEnabled) => {
-		setAllConnectorsEnabled(isEnabled);
+		options.setConnectorsEnabled(allConnectorIds, isEnabled);
 	});
 
 	return {
@@ -170,8 +137,9 @@ function useToggleConnectors() {
 }
 
 function getToggleConnectorsState() {
-	const disabledConnectors = getOption(DISABLED_CONNECTORS);
-	return Object.keys(disabledConnectors).length !== connectors.length;
+	// const disabledConnectors = getOption(DISABLED_CONNECTORS);
+	// return Object.keys(disabledConnectors).length !== connectors.length;
+	return false;
 }
 </script>
 

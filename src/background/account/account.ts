@@ -1,9 +1,7 @@
-import { Session } from './session';
-import { UserProperties } from './user-properties';
+import { Session } from './Session';
+import { UserProperties } from './UserProperties';
 
 export interface Account {
 	session: Session;
 	userProperties: UserProperties;
 }
-
-// export function createAccount() {}

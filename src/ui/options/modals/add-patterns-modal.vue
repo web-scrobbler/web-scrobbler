@@ -89,7 +89,7 @@ export default {
 		},
 
 		savePatterns() {
-			this.$emit('on-save-patterns', this.editedPatterns);
+			this.$emit('on-save-patterns', this.connector, this.editedPatterns);
 		},
 
 		removePattern(index) {

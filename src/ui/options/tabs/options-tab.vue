@@ -2,105 +2,56 @@
 	<div role="tabpanel" @click.alt="showHiddenOptions()">
 		<div class="options-section">
 			<h5>{{ L`optionsGeneral` }}</h5>
-			<div class="form-check">
-				<label
-					class="form-check-label"
-					:title="L`optionUseNotificationsTitle`"
-				>
-					<input
-						class="form-check-input"
-						type="checkbox"
-						v-model="USE_NOTIFICATIONS"
-					/>
-					{{ L`optionUseNotifications` }}
-				</label>
-			</div>
-			<div class="form-check">
-				<label
-					class="form-check-label"
-					:title="L`optionUnrecognizedNotificationsTitle`"
-				>
-					<input
-						class="form-check-input"
-						type="checkbox"
-						v-model="USE_UNRECOGNIZED_SONG_NOTIFICATIONS"
-					/>
-					{{ L`optionUnrecognizedNotifications` }}
-				</label>
-			</div>
-			<div class="form-check">
-				<label
-					class="form-check-label"
-					:title="L`optionForceRecognizeTitle`"
-				>
-					<input
-						class="form-check-input"
-						type="checkbox"
-						v-model="FORCE_RECOGNIZE"
-					/>
-					{{ L`optionForceRecognize` }}
-				</label>
-			</div>
-			<div class="form-check">
-				<label
-					class="form-check-label"
-					:title="L`optionScrobblePodcastsTitle`"
-				>
-					<input
-						class="form-check-input"
-						type="checkbox"
-						v-model="SCROBBLE_PODCASTS"
-					/>
-					{{ L`optionScrobblePodcasts` }}
-				</label>
-			</div>
+
+			<check-option
+				option-label-id="optionUseNotifications"
+				option-title-id="optionUseNotificationsTitle"
+				v-model="useNotifications"
+			/>
+
+			<check-option
+				option-label-id="optionUnrecognizedNotifications"
+				option-title-id="optionUnrecognizedNotificationsTitle"
+				v-model="useUnrecognizedSongNotifications"
+			/>
+
+			<check-option
+				option-label-id="optionForceRecognize"
+				option-title-id="optionForceRecognizeTitle"
+				v-model="forceRecognize"
+			/>
+
+			<check-option
+				option-label-id="optionScrobblePodcasts"
+				option-title-id="optionScrobblePodcastsTitle"
+				v-model="scrobblePodcasts"
+			/>
 		</div>
 
 		<div class="options-section">
 			<h5>Tidal</h5>
-			<div class="form-check">
-				<label
-					class="form-check-label"
-					:title="L`optionTdlShortTrackNamesTitle`"
-				>
-					<input
-						class="form-check-input"
-						type="checkbox"
-						v-model="Tidal_useShortTrackNames"
-					/>
-					{{ L`optionTdlShortTrackNames` }}
-				</label>
-			</div>
+
+			<check-option
+				option-label-id="optionTdlShortTrackNames"
+				option-title-id="optionTdlShortTrackNamesTitle"
+				v-model="tidal_useShortTrackNames"
+			/>
 		</div>
 
 		<div class="options-section">
 			<h5>YouTube</h5>
-			<div class="form-check">
-				<label
-					class="form-check-label"
-					:title="L`optionYtMusicOnlyTitle`"
-				>
-					<input
-						class="form-check-input"
-						type="checkbox"
-						v-model="YouTube_scrobbleMusicOnly"
-					/>
-					{{ L`optionYtMusicOnly` }}
-				</label>
-			</div>
-			<div class="form-check">
-				<label
-					class="form-check-label"
-					:title="L`optionYtEntertainmentOnlyTitle`"
-				>
-					<input
-						class="form-check-input"
-						type="checkbox"
-						v-model="YouTube_scrobbleEntertainmentOnly"
-					/>
-					{{ L`optionYtEntertainmentOnly` }}
-				</label>
-			</div>
+
+			<check-option
+				option-label-id="optionYtMusicOnly"
+				option-title-id="optionYtMusicOnlyTitle"
+				v-model="youtube_scrobbleMusicOnly"
+			/>
+
+			<check-option
+				option-label-id="optionYtEntertainmentOnly"
+				option-title-id="optionYtEntertainmentOnlyTitle"
+				v-model="youtube_scrobbleEntertainmentOnly"
+			/>
 
 			<p class="mt-2">
 				<small class="text-muted">{{ L`optionYtDesc` }}</small>
@@ -113,7 +64,7 @@
 				<label>{{ L`optionScrobblePercent` }}</label>
 				<select
 					class="form-select form-select-sm percent-select"
-					v-model.number="SCROBBLE_PERCENT"
+					v-model.number="scrobblePercent"
 				>
 					<option v-for="percent in percentValues" :key="percent">
 						{{ percent }}
@@ -129,77 +80,145 @@
 </template>
 
 <script>
-import {
-	getConnectorOption,
-	getConnectorOptions,
-	getConnectorsList,
-	getOption,
-	setConnectorOption,
-	setOption,
-	FORCE_RECOGNIZE,
-	SCROBBLE_PERCENT,
-	SCROBBLE_PODCASTS,
-	USE_NOTIFICATIONS,
-	USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
-} from '@/background/storage/options';
+import { ref, watch } from 'vue';
 
-function makeComputedProperties() {
-	const properties = {};
-	const optionsList = {
-		FORCE_RECOGNIZE,
-		SCROBBLE_PERCENT,
-		SCROBBLE_PODCASTS,
-		USE_NOTIFICATIONS,
-		USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
-	};
+import { getOptions } from '@/background/repository/GetOptions';
+import { getConnectorsOptions } from '@/background/repository/GetConnectorsOptions';
 
-	for (const propertyName in optionsList) {
-		const optionName = optionsList[propertyName];
+import CheckOption from '@/ui/options/components/check-option.vue';
 
-		properties[propertyName] = {
-			get() {
-				return getOption(optionName);
-			},
-			set(value) {
-				setOption(optionName, value);
-			},
+const options = getOptions();
+const connectorOptions = getConnectorsOptions();
+
+export default {
+	components: { CheckOption },
+	setup() {
+		const percentValues = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+		return {
+			...useHiddenOptions(),
+			...useExtensionOptions(),
+			...useConnectorsOptions(),
+			percentValues,
 		};
+	},
+};
+
+/**
+ * Return an object with refs for the extension options.
+ *
+ * Each ref can be used in the `v-model` attribute, e.g.:
+ * <component v-model="optionKey" ... />
+ *
+ * @return {Record<string, WritableComputedRef<any>>} Object containing refs
+ */
+function useExtensionOptions() {
+	const options = {};
+	const optionKeys = [
+		'useNotifications',
+		'useUnrecognizedSongNotifications',
+		'forceRecognize',
+		'scrobblePodcasts',
+		'scrobblePercent',
+	];
+
+	for (const optionKey of optionKeys) {
+		options[optionKey] = createExtensionOptionRef(optionKey);
 	}
 
-	for (const connectorLabel of getConnectorsList()) {
-		const connectorOptions = getConnectorOptions(connectorLabel);
+	return options;
+}
 
-		for (const optionName of connectorOptions) {
-			const propertyName = `${connectorLabel}_${optionName}`;
+/**
+ * Return an object with refs for connectors options.
+ *
+ * Each ref can be used in the `v-model` attribute, e.g.:
+ * <component v-model="connectorId_optionKey" ... />
+ *
+ * @return {Record<string, Ref<any>>} Object containing refs
+ */
+function useConnectorsOptions() {
+	const options = {};
+	const connectorOptionKeys = {
+		youtube: ['scrobbleMusicOnly', 'scrobbleEntertainmentOnly'],
+		tidal: ['useShortTrackNames'],
+	};
 
-			properties[propertyName] = {
-				get() {
-					return getConnectorOption(connectorLabel, optionName);
-				},
-				set(value) {
-					setConnectorOption(connectorLabel, optionName, value);
-				},
-			};
+	for (const connectorId in connectorOptionKeys) {
+		const optionKeys = connectorOptionKeys[connectorId];
+
+		for (const optionKey of optionKeys) {
+			options[`${connectorId}_${optionKey}`] = createConnectorOptionRef(
+				connectorId,
+				optionKey
+			);
 		}
 	}
 
-	return properties;
+	return options;
 }
 
-export default {
-	data() {
-		return {
-			areHiddenOptionVisible: false,
-			percentValues: [10, 20, 30, 40, 50, 60, 70, 80, 90, 100],
-		};
-	},
-	computed: makeComputedProperties(),
-	methods: {
-		showHiddenOptions() {
-			this.areHiddenOptionVisible = true;
-		},
-	},
-};
+/**
+ * Create a Vue ref for the given option.
+ *
+ * This ref will be initialized with the option value asynchronously. Updating
+ * ref's value will also save the option value.
+ *
+ * This ref is supposed to be used as a `v-model` attribute value.
+ *
+ * @param {String} optionKey Option key
+ *
+ * @return {Ref<any>} Ref
+ */
+function createExtensionOptionRef(optionKey) {
+	const optionRef = ref(null);
+	watch(optionRef, (value) => {
+		options.setOption(optionKey, value);
+	});
+
+	options.getOption(optionKey).then((value) => {
+		optionRef.value = value;
+	});
+
+	return optionRef;
+}
+
+/**
+ * Create a Vue computed ref for the given option for a connector with the given
+ * connector ID.
+ *
+ * This ref will be initialized with the option value asynchronously. Updating
+ * ref's value will also save the option value.
+ *
+ * This ref is supposed to be used as a `v-model`.
+ *
+ * @param {String} connectorId Connector ID
+ * @param {String} optionKey Option key
+ *
+ * @return {Ref<any>} Ref
+ */
+function createConnectorOptionRef(connectorId, optionKey) {
+	const optionRef = ref(null);
+	watch(optionRef, (value) => {
+		connectorOptions.setOption(connectorId, optionKey, value);
+	});
+
+	connectorOptions.getOption(connectorId, optionKey).then((value) => {
+		optionRef.value = value;
+	});
+
+	return optionRef;
+}
+
+function useHiddenOptions() {
+	const areHiddenOptionVisible = ref(false);
+
+	function showHiddenOptions() {
+		areHiddenOptionVisible.value = true;
+	}
+
+	return { areHiddenOptionVisible, showHiddenOptions };
+}
 </script>
 
 <style>

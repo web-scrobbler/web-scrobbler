@@ -1,6 +1,6 @@
 import md5 from 'blueimp-md5';
 
-import { Session } from '@/background/account/session';
+import { Session } from '@/background/account/Session';
 import { LoveStatus } from '@/background/model/song/LoveStatus';
 import { TrackInfo } from '@/background/model/song/TrackInfo';
 import { ApiCallResult } from '@/background/scrobbler/api-call-result';
@@ -11,7 +11,11 @@ import {
 
 import { hideStringInText, timeoutPromise } from '@/background/util/util';
 import { createQueryString } from '@/common/util-browser';
-import { AudioScrobblerAppInfo } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerData';
+import { AudioScrobblerAppInfo } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerAppInfo';
+import {
+	SessionData,
+	TokenBasedSessionProvider,
+} from '@/background/scrobbler/service/TokenBasedSessionProvider';
 
 export interface AudioScrobblerApiParams {
 	[param: string]: string;
@@ -53,11 +57,40 @@ export interface AudioScrobblerImage {
 	size: string;
 }
 
-export class AudioScrobblerScrobbleService implements ScrobbleService {
+export class AudioScrobblerScrobbleService
+	implements ScrobbleService, TokenBasedSessionProvider {
 	constructor(
 		private session: Session,
 		private appInfo: AudioScrobblerAppInfo
 	) {}
+
+	async requestToken(): Promise<string> {
+		const params = {
+			method: 'auth.gettoken',
+		};
+
+		try {
+			const response = await this.sendRequest({ method: 'GET' }, params, {
+				signed: false,
+			});
+			return response.token;
+		} catch (err) {
+			throw new Error('Error acquiring a token');
+		}
+	}
+
+	getAuthUrl(token: string): string {
+		return `${this.appInfo.authUrl}?api_key=${this.appInfo.apiKey}&token=${token}`;
+	}
+
+	async requestSession(token: string): Promise<SessionData> {
+		const params = { method: 'auth.getsession', token };
+		const response = await this.sendRequest({ method: 'GET' }, params);
+		this.processResponse(response);
+
+		const { key, name } = response.session;
+		return { key, name };
+	}
 
 	async sendNowPlayingRequest(trackInfo: TrackInfo): Promise<ApiCallResult> {
 		const { artist, track, album, albumArtist, duration } = trackInfo;
@@ -172,14 +205,14 @@ export class AudioScrobblerScrobbleService implements ScrobbleService {
 		}
 
 		const responseStr = JSON.stringify(responseData, null, 2);
-		// const debugMsg = hideUserData(responseData, responseStr);
+		const debugMsg = hideUserData(responseData, responseStr);
 
 		if (!response.ok) {
-			// this.debugLog(`${params.method} response:\n${debugMsg}`, 'error');
+			console.log(`${params.method} response:\n${debugMsg}`, 'error');
 			throw new ApiCallResult('error-other', 'id');
 		}
 
-		// this.debugLog(`${params.method} response:\n${debugMsg}`);
+		console.log(`${params.method} response:\n${debugMsg}`);
 		return responseData;
 	}
 

@@ -5,10 +5,10 @@ import {
 	ApiCallResultType,
 } from '@/background/scrobbler/api-call-result';
 import { BrowserStorage } from '@/background/storage/browser-storage';
-import { StorageWrapper } from '@/background/storage/storage-wrapper';
 
 import { debugLog, LogType } from '@/background/util/util';
 import { SongInfo, SongMetadata, LoveStatus } from '@/background/object/song';
+import { Storage } from '@/background/storage2/Storage';
 
 export interface UserProperties {
 	[prop: string]: string;
@@ -51,7 +51,7 @@ export interface ScrobblerStorage {
  * described above.
  */
 export abstract class BaseScrobbler {
-	protected storage: StorageWrapper;
+	protected storage: Storage<unknown>;
 
 	/**
 	 * Get timeout of all API requests in milliseconds.
@@ -276,7 +276,7 @@ export abstract class BaseScrobbler {
 		this.storage = BrowserStorage.getScrobblerStorage(
 			this.getStorageName()
 		);
-		this.storage.debugLog(sensitiveProps);
+		// this.storage.debugLog(sensitiveProps);
 	}
 
 	private async initUserProps(): Promise<void> {

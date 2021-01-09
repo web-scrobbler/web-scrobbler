@@ -2,12 +2,17 @@ import { SongInfo } from '../object/song';
 import { ApiCallResult } from './api-call-result';
 import { Scrobbler } from './Scrobbler';
 
-export interface ScrobblerManager {
-	getGrantedScrobblers(): Scrobbler[];
+export interface ScrobblerManager extends Iterable<Scrobbler> {
+	/**
+	 * Return a scrobbler by the given scrobbler ID.
+	 *
+	 * @return Scrobbler object
+	 */
+	getScrobblerById(scrobblerId: string): Scrobbler;
 
-	getScrobblerById(): Scrobbler;
+	addScrobbler(scrobbler: Scrobbler): void;
 
-	registerScrobbler(scrobbler: Scrobbler): void;
+	removeScrobbler(scrobblerId: string): void;
 
 	/**
 	 * Send now playing notification to each granted scrobbler.

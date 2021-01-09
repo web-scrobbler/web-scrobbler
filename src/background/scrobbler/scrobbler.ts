@@ -1,4 +1,6 @@
-export interface Scrobbler {
+import { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
+
+export interface Scrobbler extends ScrobbleService {
 	/**
 	 * Get the scrobbler ID. The ID must be unique.
 	 */
@@ -20,16 +22,4 @@ export interface Scrobbler {
 	 * Get status page URL.
 	 */
 	getStatusUrl(): string;
-
-	/**
-	 * Request an auth URL where user should grant permission to the extension.
-	 *
-	 * @return Auth URL
-	 */
-	requestAuthUrl(): Promise<string>;
-
-	/**
-	 * Sign out.
-	 */
-	signOut(): Promise<void>;
 }

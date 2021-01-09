@@ -1,16 +1,16 @@
-import { Account } from '@/background/account/account';
+import { Session } from '@/background/account/Session';
 import { LoveStatus } from '@/background/model/song/LoveStatus';
 import { TrackInfo } from '@/background/model/song/TrackInfo';
 import { ApiCallResult } from '@/background/scrobbler/api-call-result';
 import { Scrobbler } from '@/background/scrobbler/Scrobbler';
 import { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
 
-export abstract class BaseScrobbler implements Scrobbler, ScrobbleService {
+export abstract class BaseScrobbler implements Scrobbler {
+	protected session: Session;
 	private scrobbleService: ScrobbleService;
-	protected account: Account;
 
-	constructor(account: Account) {
-		this.account = account;
+	constructor(session: Session) {
+		this.session = session;
 		this.scrobbleService = this.createScrobbleService();
 	}
 
@@ -34,13 +34,5 @@ export abstract class BaseScrobbler implements Scrobbler, ScrobbleService {
 		loveStatus: LoveStatus
 	): Promise<ApiCallResult> {
 		return this.scrobbleService.sendLoveRequest(trackInfo, loveStatus);
-	}
-
-	requestAuthUrl(): Promise<string> {
-		throw new Error('Method not implemented.');
-	}
-
-	signOut(): Promise<void> {
-		throw new Error('Method not implemented.');
 	}
 }

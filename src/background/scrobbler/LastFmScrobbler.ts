@@ -1,7 +1,8 @@
 import { BaseScrobbler } from '@/background/scrobbler/BaseScrobbler';
-import { AudioScrobblerAppInfo } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerData';
-import { AudioScrobblerScrobbleService } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerScrobbleService';
 import { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
+
+import { AudioScrobblerAppInfo } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerAppInfo';
+import { AudioScrobblerScrobbleService } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerScrobbleService';
 
 export class LastFmScrobbler extends BaseScrobbler {
 	getId(): string {
@@ -13,11 +14,11 @@ export class LastFmScrobbler extends BaseScrobbler {
 	}
 
 	getProfileUrl(): string {
-		return null;
+		return `https://last.fm/user/${this.session.sessionName}`;
 	}
 
 	getStatusUrl(): string {
-		return null;
+		return 'http://status.last.fm/';
 	}
 
 	createScrobbleService(): ScrobbleService {
@@ -25,9 +26,9 @@ export class LastFmScrobbler extends BaseScrobbler {
 			apiUrl: 'https://ws.audioscrobbler.com/2.0/',
 			apiKey: 'd9bb1870d3269646f740544d9def2c95',
 			apiSecret: '2160733a567d4a1a69a73fad54c564b2',
+			authUrl: 'https://www.last.fm/api/auth/',
 		};
-		const { session } = this.account;
 
-		return new AudioScrobblerScrobbleService(session, lastFmAppInfo);
+		return new AudioScrobblerScrobbleService(this.session, lastFmAppInfo);
 	}
 }
