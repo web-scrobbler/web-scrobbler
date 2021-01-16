@@ -25,6 +25,9 @@ Connector.applyFilter(filter);
 
 function removeDecorationText(text) {
 	// Usual track name on Niconico is something like "【Hatsune Miku】Track Name【Original】"
-	const pattern = /(^【[^】]*】\s*|\s*【[^【]*】$|^\[[^\]]*\]\s*|\s*\[[^[]*\]$)/g;
-	return text.replaceAll(pattern, '');
+	const decorationPattern = /(^【[^】]*】\s*|\s*【[^【]*】$|^\[[^\]]*\]\s*|\s*\[[^[]*\]$)/g;
+	// Or something like "Track Name / Composer, Singer, etc."
+	const extraInfoPattern = /\s*(\/[^/]+|-[^-]+|\sfeat\..+|\sft\..+)$/i;
+
+	return text.replaceAll(decorationPattern, '').replace(extraInfoPattern, '');
 }
