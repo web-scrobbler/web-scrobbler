@@ -32,11 +32,11 @@ function removeDecorationText(text) {
 	// Or, something like "Track Name / Composer, Singer, etc."
 	const extraInfoPattern = /\s*(\/[^/]+|／[^／]+|\s-\s[^-]+|\sfeat\..+|\sft\..+)$/i;
 	// Or, something like "Original Song『Track Name』MV"
-	const titlePattern = /「(.+)」|『(.+)』/;
+	const titlePattern = /「(.+)」|『(.+)』|'(.+)'|"(.+)"/;
 
 	const match = text.match(titlePattern);
 	if (match) {
-		return match[1] || match[2];
+		return match[1] || match[2] || match[3] || match[4];
 	}
 
 	return text.replaceAll(decorationPattern, '').replace(extraInfoPattern, '');
