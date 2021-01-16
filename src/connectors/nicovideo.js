@@ -42,7 +42,8 @@ function removeDecorationText(text) {
 
 function selectPrimaryName(text) {
 	// Some artists show their alternative name as "Artist Name / Alternative Artist Name"
-	const namePattern = /^(.+?)\s*[/／].+/;
+	// or "Artist Name(Alternative Artist Name)"
+	const namePattern = /^(.+?)\s*([/／].+|\([^(]+\)$|（[^（]+）$)/;
 	const match = text.match(namePattern);
 	if (match) {
 		return match[1];
