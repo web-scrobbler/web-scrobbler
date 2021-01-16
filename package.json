@@ -12,6 +12,7 @@
     "blueimp-md5": "2.18.0",
     "bootstrap": "5.0.0-alpha1",
     "bootstrap-icons": "1.0.0-alpha5",
+    "js-logger": "^1.6.1",
     "metadata-filter": "1.1.1",
     "simple-icons": "2.18.0",
     "vue": "3.0.2",

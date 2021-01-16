@@ -1,10 +1,10 @@
-import type { TabOpener } from '@/background/authenticator/TabOpener';
+import type { TabOpener } from '@/background/authenticator/tab-opener/TabOpener';
 
 import { Session } from '@/background/account/Session';
 import { ScrobblerAuthenticator } from '@/background/authenticator/ScrobblerAuthenticator';
 import { TokenBasedSessionProvider } from '@/background/scrobbler/service/TokenBasedSessionProvider';
 
-export class AudioScrobblerAuthenticator implements ScrobblerAuthenticator {
+export class TokenAuthenticator implements ScrobblerAuthenticator {
 	constructor(
 		private tabOpener: TabOpener,
 		private sessionProvider: TokenBasedSessionProvider
@@ -14,13 +14,7 @@ export class AudioScrobblerAuthenticator implements ScrobblerAuthenticator {
 		const token = await this.sessionProvider.requestToken();
 		await this.tabOpener(this.sessionProvider.getAuthUrl(token));
 
-		try {
-			const { key, name } = await this.sessionProvider.requestSession(
-				token
-			);
-			return { sessionId: key, sessionName: name };
-		} catch {
-			throw new Error('Unable to request session');
-		}
+		const { key, name } = await this.sessionProvider.requestSession(token);
+		return { sessionId: key, sessionName: name };
 	}
 }

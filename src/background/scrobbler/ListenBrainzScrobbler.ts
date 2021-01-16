@@ -1,18 +1,22 @@
+import { ListenBrainzScrobblerService } from '@/background/scrobbler/service/listenbrainz/ListenBrainzScrobblerService';
+
 import { Scrobbler } from '@/background/scrobbler/Scrobbler';
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 
-import { AudioScrobblerScrobbleService } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerScrobbleService';
-import { LastFmAppInfo } from '@/background/scrobbler/service/audioscrobbler/LastFmAppInfo';
-
 import type { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
+import type { Session } from '@/background/account/Session';
 
-export class LastFmScrobbler extends Scrobbler {
+export class ListenBrainzScrobbler extends Scrobbler {
+	constructor(protected session: Session, private apiUrl: string) {
+		super(session);
+	}
+
 	getId(): ScrobblerId {
-		return ScrobblerId.LastFm;
+		return ScrobblerId.ListenBrainz;
 	}
 
 	getLabel(): string {
-		return 'Last.fm';
+		return 'ListenBrainz';
 	}
 
 	getProfileUrl(): string {
@@ -24,6 +28,6 @@ export class LastFmScrobbler extends Scrobbler {
 	}
 
 	createScrobbleService(): ScrobbleService {
-		return new AudioScrobblerScrobbleService(this.session, LastFmAppInfo);
+		return new ListenBrainzScrobblerService(this.session, this.apiUrl);
 	}
 }

@@ -1,3 +1,11 @@
 export interface UserProperties {
-	[prop: string]: string;
+	/**
+	 * Custom API URL.
+	 */
+	apiUrl?: string;
+
+	/**
+	 * Custom API token.
+	 */
+	token?: string;
 }

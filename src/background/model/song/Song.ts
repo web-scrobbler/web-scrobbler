@@ -1,8 +1,11 @@
-import { ConnectorState } from '@/background/model/ConnectorState';
 import { SongFlags } from '@/background/model/song/SongFlags';
 import { SongMetadata } from '@/background/model/song/SongMetadata';
 import { LoveStatus } from '@/background/object/song';
 import { SongDto } from '@/background/model/song/SongDto';
+import {
+	ConnectorProp,
+	ConnectorState,
+} from '@/background/model/ConnectorState';
 
 export interface Song {
 	getArtist(): string;
@@ -44,6 +47,8 @@ export interface Song {
 		value: SongMetadata[K]
 	): void;
 	resetMetadata(): void;
+
+	getRawProperty<K extends keyof ConnectorState>(key: K): ConnectorState[K];
 
 	serialize(): SongDto;
 }

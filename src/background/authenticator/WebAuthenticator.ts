@@ -1,12 +1,12 @@
 import { ScrobblerAuthenticator } from '@/background/authenticator/ScrobblerAuthenticator';
 import { Session } from '@/background/account/Session';
-import { SessionProvider } from '@/background/scrobbler/service/SessionProvider';
-import { TabOpener } from '@/background/authenticator/TabOpener';
+import { WebSessionProvider } from '@/background/scrobbler/service/WebSessionProvider';
+import { TabOpener } from '@/background/authenticator/tab-opener/TabOpener';
 
-export class ListenBrainzAuthenticator implements ScrobblerAuthenticator {
+export class WebAuthenticator implements ScrobblerAuthenticator {
 	constructor(
 		private tabOpener: TabOpener,
-		private sessionProvider: SessionProvider
+		private sessionProvider: WebSessionProvider
 	) {}
 
 	async requestSession(): Promise<Session> {

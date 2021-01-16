@@ -1,25 +1,64 @@
-import { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
+import {
+	ApiCallResult,
+	ApiCallResultType,
+} from '@/background/scrobbler/api-call-result';
 
-export interface Scrobbler extends ScrobbleService {
-	/**
-	 * Get the scrobbler ID. The ID must be unique.
-	 */
-	getId(): string;
+import type { LoveStatus } from '@/background/model/song/LoveStatus';
+import type { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
+import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
+import type { ScrobblerInfoProvider } from '@/background/scrobbler/ScrobblerInfoProvider';
+import type { Session } from '@/background/account/Session';
+import type { TrackInfo } from '@/background/model/song/TrackInfo';
 
-	/**
-	 * Get the scrobbler label.
-	 */
-	getLabel(): string;
+export abstract class Scrobbler implements ScrobblerInfoProvider {
+	protected session: Session;
+	private scrobbleService: ScrobbleService;
 
-	/**
-	 * Get URL to profile page.
-	 *
-	 * @return Profile URL
-	 */
-	getProfileUrl(): string;
+	constructor(session: Session) {
+		this.session = session;
+		this.scrobbleService = this.createScrobbleService();
+	}
 
-	/**
-	 * Get status page URL.
-	 */
-	getStatusUrl(): string;
+	abstract getId(): ScrobblerId;
+	abstract getLabel(): string;
+	abstract getProfileUrl(): string;
+	abstract getStatusUrl(): string;
+
+	abstract createScrobbleService(): ScrobbleService;
+
+	async sendNowPlayingRequest(trackInfo: TrackInfo): Promise<ApiCallResult> {
+		try {
+			await this.scrobbleService.sendNowPlayingRequest(trackInfo);
+			return this.createApiCallResult(ApiCallResult.RESULT_OK);
+		} catch (err) {
+			throw this.createApiCallResult(ApiCallResult.ERROR_OTHER);
+		}
+	}
+
+	async sendScrobbleRequest(trackInfo: TrackInfo): Promise<ApiCallResult> {
+		try {
+			await this.scrobbleService.sendScrobbleRequest(trackInfo);
+			return this.createApiCallResult(ApiCallResult.RESULT_OK);
+		} catch (err) {
+			throw this.createApiCallResult(ApiCallResult.ERROR_OTHER);
+		}
+	}
+
+	async sendLoveRequest(
+		trackInfo: TrackInfo,
+		loveStatus: LoveStatus
+	): Promise<ApiCallResult> {
+		try {
+			await this.scrobbleService.sendLoveRequest(trackInfo, loveStatus);
+			return this.createApiCallResult(ApiCallResult.RESULT_OK);
+		} catch (err) {
+			throw this.createApiCallResult(ApiCallResult.ERROR_OTHER);
+		}
+	}
+
+	protected createApiCallResult(
+		resultType: ApiCallResultType
+	): ApiCallResult {
+		return new ApiCallResult(resultType, this.getId());
+	}
 }

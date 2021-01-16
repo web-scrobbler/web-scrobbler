@@ -3,65 +3,25 @@ import md5 from 'blueimp-md5';
 import { Session } from '@/background/account/Session';
 import { LoveStatus } from '@/background/model/song/LoveStatus';
 import { TrackInfo } from '@/background/model/song/TrackInfo';
-import { ApiCallResult } from '@/background/scrobbler/api-call-result';
-import {
-	REQUEST_TIMEOUT,
-	ScrobbleService,
-} from '@/background/scrobbler/service/ScrobbleService';
+import { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
 
-import { hideStringInText, timeoutPromise } from '@/background/util/util';
+import { hideStringInText } from '@/background/util/util';
 import { createQueryString } from '@/common/util-browser';
 import { AudioScrobblerAppInfo } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerAppInfo';
 import {
 	SessionData,
 	TokenBasedSessionProvider,
 } from '@/background/scrobbler/service/TokenBasedSessionProvider';
-
-export interface AudioScrobblerApiParams {
-	[param: string]: string;
-}
-
-export interface AudioScrobblerResponse {
-	session?: {
-		key: string;
-		name: string;
-	};
-	token?: string;
-	error?: boolean; // TODO fix
-	scrobbles?: {
-		'@attr': {
-			accepted: string;
-		};
-	};
-	track?: {
-		name: string;
-		url?: string;
-		duration?: string;
-		userplaycount: string;
-		artist: {
-			name: string;
-			url?: string;
-		};
-		album?: {
-			title: string;
-			image?: AudioScrobblerImage[];
-			mbid?: string;
-			url?: string;
-		};
-		userloved?: '0' | '1';
-	};
-}
-
-export interface AudioScrobblerImage {
-	'#text': string;
-	size: string;
-}
+import { AudioScrobblerResponse } from './AudioScrobblerResponse';
+import { AudioScrobblerApiParams } from './AudioScrobblerApiParams';
+import { FetchResponse } from '@/background/util/fetch/Fetch';
+import { fetchJson } from '@/background/util/fetch/FetchJson';
 
 export class AudioScrobblerScrobbleService
 	implements ScrobbleService, TokenBasedSessionProvider {
 	constructor(
 		private session: Session,
-		private appInfo: AudioScrobblerAppInfo
+		private readonly appInfo: AudioScrobblerAppInfo
 	) {}
 
 	async requestToken(): Promise<string> {
@@ -92,7 +52,7 @@ export class AudioScrobblerScrobbleService
 		return { key, name };
 	}
 
-	async sendNowPlayingRequest(trackInfo: TrackInfo): Promise<ApiCallResult> {
+	async sendNowPlayingRequest(trackInfo: TrackInfo): Promise<void> {
 		const { artist, track, album, albumArtist, duration } = trackInfo;
 		const { sessionId } = this.session;
 		const params: AudioScrobblerApiParams = {
@@ -114,11 +74,12 @@ export class AudioScrobblerScrobbleService
 			params.duration = duration.toString();
 		}
 
-		const response = await this.sendRequest({ method: 'POST' }, params);
-		return this.processResponse(response);
+		return this.processResponse(
+			await this.sendRequest({ method: 'POST' }, params)
+		);
 	}
 
-	async sendScrobbleRequest(trackInfo: TrackInfo): Promise<ApiCallResult> {
+	async sendScrobbleRequest(trackInfo: TrackInfo): Promise<void> {
 		const { artist, track, album, albumArtist, timestamp } = trackInfo;
 		const { sessionId } = this.session;
 		const params: AudioScrobblerApiParams = {
@@ -137,28 +98,15 @@ export class AudioScrobblerScrobbleService
 			params['albumArtist[0]'] = albumArtist;
 		}
 
-		const response = await this.sendRequest({ method: 'POST' }, params);
-
-		try {
-			return this.processResponse(response);
-		} catch (err) {
-			const scrobbles = response.scrobbles;
-
-			if (scrobbles) {
-				const acceptedCount = scrobbles['@attr'].accepted;
-				if (acceptedCount === '0') {
-					return new ApiCallResult('error-other', 'id');
-				}
-			}
-		}
-
-		return new ApiCallResult('error-other', 'id');
+		return this.processResponse(
+			await this.sendRequest({ method: 'POST' }, params)
+		);
 	}
 
 	async sendLoveRequest(
 		trackInfo: TrackInfo,
 		loveStatus: LoveStatus
-	): Promise<ApiCallResult> {
+	): Promise<void> {
 		const { artist, track } = trackInfo;
 		const { sessionId } = this.session;
 		const params = {
@@ -169,8 +117,9 @@ export class AudioScrobblerScrobbleService
 			sk: sessionId,
 		};
 
-		const response = await this.sendRequest({ method: 'POST' }, params);
-		return this.processResponse(response);
+		return this.processResponse(
+			await this.sendRequest({ method: 'POST' }, params)
+		);
 	}
 
 	/**
@@ -185,53 +134,37 @@ export class AudioScrobblerScrobbleService
 	 *
 	 * @return Parsed response
 	 */
-	private async sendRequest(
+	protected async sendRequest(
 		options: RequestInit,
 		params: AudioScrobblerApiParams,
 		{ signed = true } = {}
 	): Promise<AudioScrobblerResponse> {
 		const url = this.makeRequestUrl(params, signed);
 
-		const promise = fetch(url, options);
-		const timeout = REQUEST_TIMEOUT;
+		const { ok, data } = await fetchJson(url, options);
 
-		let response: Response = null;
-		let responseData: AudioScrobblerResponse = null;
-		try {
-			response = await timeoutPromise(timeout, promise);
-			responseData = (await response.json()) as AudioScrobblerResponse;
-		} catch {
-			throw new ApiCallResult('error-other', 'id');
-		}
+		const responseStr = JSON.stringify(data, null, 2);
+		const debugMsg = hideUserData(data, responseStr);
 
-		const responseStr = JSON.stringify(responseData, null, 2);
-		const debugMsg = hideUserData(responseData, responseStr);
-
-		if (!response.ok) {
-			console.log(`${params.method} response:\n${debugMsg}`, 'error');
-			throw new ApiCallResult('error-other', 'id');
+		if (!ok) {
+			// console.log(`${params.method} response:\n${debugMsg}`, 'error');
+			throw new Error('Received error response');
 		}
 
 		console.log(`${params.method} response:\n${debugMsg}`);
-		return responseData;
+		return data;
 	}
 
 	/**
 	 * Process response and return service call result.
 	 *
 	 * @param responseData Response data
-	 *
-	 * @return Response result
 	 */
-	private processResponse(
-		responseData: AudioScrobblerResponse
-	): ApiCallResult {
+	private processResponse(responseData: AudioScrobblerResponse): void {
 		// FIXME Scrobbler ID
 		if (responseData.error) {
-			throw new ApiCallResult('error-other', 'id');
+			throw new Error('Error');
 		}
-
-		return new ApiCallResult('ok', 'id');
 	}
 
 	/**

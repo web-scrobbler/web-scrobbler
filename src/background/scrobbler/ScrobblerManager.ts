@@ -1,6 +1,7 @@
+import { Scrobbler } from '@/background/scrobbler/Scrobbler';
+import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import { SongInfo } from '../object/song';
 import { ApiCallResult } from './api-call-result';
-import { Scrobbler } from './Scrobbler';
 
 export interface ScrobblerManager extends Iterable<Scrobbler> {
 	/**
@@ -10,9 +11,19 @@ export interface ScrobblerManager extends Iterable<Scrobbler> {
 	 */
 	getScrobblerById(scrobblerId: string): Scrobbler;
 
-	addScrobbler(scrobbler: Scrobbler): void;
+	/**
+	 * Add or replace the given scrobbler.
+	 *
+	 * @param scrobbler Scrobbler object
+	 */
+	useScrobbler(scrobbler: Scrobbler): void;
 
-	removeScrobbler(scrobblerId: string): void;
+	/**
+	 * Remove a scrobbler with the given ID.
+	 *
+	 * @param  scrobblerId Scrobbler ID
+	 */
+	removeScrobbler(scrobblerId: ScrobblerId): void;
 
 	/**
 	 * Send now playing notification to each granted scrobbler.

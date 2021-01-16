@@ -1,9 +1,5 @@
-import { ApiCallResult } from '@/background/scrobbler/api-call-result';
-
-import { LoveStatus } from '@/background/model/song/LoveStatus';
-import { TrackInfo } from '@/background/model/song/TrackInfo';
-
-export const REQUEST_TIMEOUT = 15000;
+import type { LoveStatus } from '@/background/model/song/LoveStatus';
+import type { TrackInfo } from '@/background/model/song/TrackInfo';
 
 export interface ScrobbleService {
 	/**
@@ -13,7 +9,7 @@ export interface ScrobbleService {
 	 *
 	 * @return API call result
 	 */
-	sendNowPlayingRequest(trackInfo: TrackInfo): Promise<ApiCallResult>;
+	sendNowPlayingRequest(trackInfo: TrackInfo): Promise<void>;
 
 	/**
 	 * Send a scrobble request.
@@ -22,7 +18,7 @@ export interface ScrobbleService {
 	 *
 	 * @return API call result
 	 */
-	sendScrobbleRequest(trackInfo: TrackInfo): Promise<ApiCallResult>;
+	sendScrobbleRequest(trackInfo: TrackInfo): Promise<void>;
 
 	/**
 	 * Send an (un)love request.
@@ -35,5 +31,5 @@ export interface ScrobbleService {
 	sendLoveRequest(
 		trackInfo: TrackInfo,
 		loveStatus: LoveStatus
-	): Promise<ApiCallResult>;
+	): Promise<void>;
 }

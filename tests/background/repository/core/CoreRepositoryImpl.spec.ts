@@ -8,6 +8,8 @@ import { CoreRepositoryImpl } from '@/background/repository/core/CoreRepositoryI
 
 describe(getTestName(__filename), testCoreRepository);
 
+// FIXME use `return`
+
 function testCoreRepository() {
 	const repository = createCoreRepository();
 	const newVersion = '3.0.0';
