@@ -2,6 +2,7 @@
 
 const filter = MetadataFilter.createFilter({
 	track: removeDecorationText,
+	artist: selectPrimaryName,
 });
 
 const videoSelector = '.MainVideoPlayer > video';
@@ -37,4 +38,15 @@ function removeDecorationText(text) {
 	}
 
 	return text.replaceAll(decorationPattern, '').replace(extraInfoPattern, '');
+}
+
+function selectPrimaryName(text) {
+	// Some artists show their alternative name as "Artist Name / Alternative Artist Name"
+	const namePattern = /^(.+?)\s*[/／].+/;
+	const match = text.match(namePattern);
+	if (match) {
+		return match[1];
+	}
+
+	return text;
 }
