@@ -22,6 +22,8 @@ Connector.isPlaying = () => {
 	return video.currentTime > 0 && !video.paused && !video.ended;
 };
 
+Connector.getUniqueID = () => window.location.pathname.replace(/\/$/, '').replace(/.*\//, '');
+
 Connector.applyFilter(filter);
 
 function removeDecorationText(text) {
