@@ -39,7 +39,7 @@ function removeDecorationText(text) {
 		return match[1] || match[2] || match[3] || match[4];
 	}
 
-	return text.replaceAll(decorationPattern, '').replace(extraInfoPattern, '');
+	return text.replace(decorationPattern, '').replace(extraInfoPattern, '');
 }
 
 function selectPrimaryName(text) {
