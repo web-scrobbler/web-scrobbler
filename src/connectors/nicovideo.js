@@ -43,13 +43,16 @@ function removeDecorationText(text) {
 }
 
 function selectPrimaryName(text) {
+	// Niconico shows the artist name like "Artist さん" when you're a Japanese user
+	const nameWithoutSuffix = text.replace(/\sさん$/, '');
+
 	// Some artists show their alternative name as "Artist Name / Alternative Artist Name"
 	// or "Artist Name(Alternative Artist Name)"
 	const namePattern = /^(.+?)\s*([/／].+|\([^(]+\)$|（[^（]+）$)/;
-	const match = text.match(namePattern);
+	const match = nameWithoutSuffix.match(namePattern);
 	if (match) {
 		return match[1];
 	}
 
-	return text;
+	return nameWithoutSuffix;
 }
