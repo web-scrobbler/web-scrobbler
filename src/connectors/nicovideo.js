@@ -13,6 +13,8 @@ Connector.artistSelector = '.VideoOwnerInfo-pageLink';
 
 Connector.trackSelector = '.VideoTitle';
 
+Connector.durationSelector = '.PlayerPlayTime-duration';
+
 Connector.isPlaying = () => {
 	const video = document.querySelector(videoSelector);
 	if (!video) {
