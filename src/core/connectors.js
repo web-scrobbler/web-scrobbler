@@ -1715,6 +1715,13 @@ const connectors = [{
 	],
 	js: 'connectors/dashradio.js',
 	id: 'dashradio',
+}, {
+	label: 'Niconico',
+	matches: [
+		'*://www.nicovideo.jp/*',
+	],
+	js: 'connectors/nicovideo.js',
+	id: 'nicovideo',
 }];
 
 define(() => connectors);
