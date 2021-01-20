@@ -12,18 +12,17 @@ import { getAccountsRepository } from '@/background/repository/GetAccountsReposi
 import { createAuthenticator } from '@/background/authenticator/ScrobblerAuthenticatorFactory';
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import { createScrobbler } from '@/background/scrobbler/ScrobblerFactory';
+import { createSyncStorage } from '@/background/storage3/namespace/NamespaceStorageFactory';
 
 main();
 
 async function main() {
 	Logger.useDefaults({ defaultLevel: Logger.DEBUG });
 
-	const coreRepository = getCoreRepository();
 	const notificationsRepository = getNotificationsRepository();
 
 	await migrate();
-
-	coreRepository.setExtensionVersion(getExtentsionVersion());
+	updateCoreVersion();
 
 	new Extension(notificationsRepository).start();
 
@@ -39,6 +38,9 @@ async function main() {
 	await helper.signIn(ScrobblerId.Maloja);
 }
 
-function getExtentsionVersion(): string {
-	return browser.runtime.getManifest().version;
+function updateCoreVersion() {
+	const { version } = browser.runtime.getManifest();
+
+	const coreRepository = getCoreRepository();
+	coreRepository.setExtensionVersion(version);
 }
