@@ -1,14 +1,9 @@
 import { ScrobblerManagerImpl } from '@/background/scrobbler/manager/ScrobblerManagerImpl';
 import type { ScrobblerManager } from '@/background/scrobbler/ScrobblerManager';
 
-import { getAllScrobblerIds } from '@/background/scrobbler/ScrobblerId';
-
 import { createScrobbler } from '@/background/scrobbler/ScrobblerFactory';
-import {
-	createSessionFromUserProperties,
-	isSessionEmpty,
-} from '@/background/account/Session';
 import { getAccountsRepository } from '@/background/repository/GetAccountsRepository';
+import { getAllScrobblerIds } from '@/background/scrobbler/ScrobblerId';
 
 export async function createScrobblerManager(): Promise<ScrobblerManager> {
 	const scrobblerManager = new ScrobblerManagerImpl();
@@ -16,19 +11,14 @@ export async function createScrobblerManager(): Promise<ScrobblerManager> {
 
 	const scrobblerIds = getAllScrobblerIds();
 	for (const scrobblerId of scrobblerIds) {
-		let { session, userProperties } = await accountsRepository.getAccount(
-			scrobblerId
-		);
-		try {
-			session = createSessionFromUserProperties(userProperties);
-		} catch {}
+		const account = await accountsRepository.getAccount(scrobblerId);
 
-		if (isSessionEmpty(session)) {
+		try {
+			const scrobbler = createScrobbler(scrobblerId, account);
+			scrobblerManager.useScrobbler(scrobbler);
+		} catch {
 			continue;
 		}
-
-		const scrobbler = createScrobbler(scrobblerId, session, userProperties);
-		scrobblerManager.useScrobbler(scrobbler);
 	}
 
 	return scrobblerManager;

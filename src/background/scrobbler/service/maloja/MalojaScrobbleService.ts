@@ -1,6 +1,5 @@
 import { fetchJson } from '@/background/util/fetch/FetchJson';
 
-import type { FetchResponse } from '@/background/util/fetch/Fetch';
 import type { Session } from '@/background/account/Session';
 import type { TrackInfo } from '@/background/model/song/TrackInfo';
 import type { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
@@ -28,7 +27,8 @@ export class MalojaScrobbleService implements ScrobbleService {
 	private async sendRequest(
 		trackMetadata: MalojaTrackMetadata
 	): Promise<void> {
-		const query = { trackMetadata, key: this.session.sessionId };
+		const key = this.session.sessionId;
+		const query = { trackMetadata, key };
 
 		const requestInfo = {
 			method: 'POST',

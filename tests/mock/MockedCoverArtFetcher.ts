@@ -1,11 +1,9 @@
-import { Song } from '@/background/model/song/Song';
-import { CoverArtFetcher } from '@/background/service/CoverArtFetcher';
+import type { CoverArtProvider } from '@/background/provider/CoverArtProvider';
 
-export class MockedCoverArtFetcher implements CoverArtFetcher {
+export class MockedCoverArtFetcher implements CoverArtProvider {
 	constructor(private coverArtUrl: string) {}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	getCoverArt(song: Song): Promise<string> {
+	getCoverArt(): Promise<string> {
 		return Promise.resolve(this.coverArtUrl);
 	}
 }

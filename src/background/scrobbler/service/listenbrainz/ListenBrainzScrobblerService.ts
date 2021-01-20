@@ -1,5 +1,7 @@
 /* eslint-disable camelcase */
 
+import Logger, { ILogger } from 'js-logger';
+
 import { fetchJson } from '@/background/util/fetch/FetchJson';
 
 import type { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
@@ -26,7 +28,9 @@ interface TrackMetadata {
 export const defaultApiUrl = 'https://api.listenbrainz.org/1/submit-listens';
 
 export class ListenBrainzScrobblerService
-	implements ScrobbleService, WebSessionProvider {
+implements ScrobbleService, WebSessionProvider {
+	private logger: ILogger = Logger.get('ListenBrainz');
+
 	constructor(private session: Session, private apiUrl: string) {}
 
 	getAuthUrl(): string {
@@ -80,13 +84,12 @@ export class ListenBrainzScrobblerService
 			body: JSON.stringify(params),
 		};
 
-		const { ok } = await fetchJson(this.apiUrl, requestInfo);
+		const { ok, data } = await fetchJson(this.apiUrl, requestInfo);
+		this.logger.info('Response', JSON.stringify(data, null, 2));
 
 		if (!ok) {
 			throw new Error('Received error response');
 		}
-
-		// this.debugLog(JSON.stringify(data, null, 2));
 	}
 
 	private makeTrackMetadata(trackInfo: TrackInfo): TrackMetadata {

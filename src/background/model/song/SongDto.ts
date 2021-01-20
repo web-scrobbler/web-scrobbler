@@ -4,19 +4,19 @@ import { SongFlags } from '@/background/model/song/SongFlags';
 import { SongMetadata } from '@/background/model/song/SongMetadata';
 
 export interface SongDto {
-	artist: string;
-	track: string;
-	album: string;
-	albumArtist: string;
+	readonly artist: string;
+	readonly track: string;
+	readonly album: string;
+	readonly albumArtist: string;
 
-	trackArt: string;
+	readonly trackArt: string;
 
-	currentTime: number;
-	duration: number;
+	readonly currentTime: number;
+	readonly duration: number;
 
-	flags: SongFlags;
-	metadata: SongMetadata;
-	loveStatus: LoveStatus;
+	readonly flags: SongFlags;
+	readonly metadata: SongMetadata;
+	readonly loveStatus: LoveStatus;
 
-	connectorState: ConnectorState;
+	readonly connectorState: ConnectorState;
 }

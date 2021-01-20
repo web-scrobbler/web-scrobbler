@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
 import { expect } from 'chai';
 
 import { getTestName } from '#/helpers/util';

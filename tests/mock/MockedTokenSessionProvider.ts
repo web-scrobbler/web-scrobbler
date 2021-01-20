@@ -1,6 +1,6 @@
 import { dummySessionData } from '#/stub/DummySession';
-import { Session } from '@/background/account/Session';
-import {
+
+import type {
 	SessionData,
 	TokenBasedSessionProvider,
 } from '@/background/scrobbler/service/TokenBasedSessionProvider';

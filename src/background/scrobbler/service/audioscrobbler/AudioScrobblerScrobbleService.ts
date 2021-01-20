@@ -1,21 +1,21 @@
 import md5 from 'blueimp-md5';
 
-import { Session } from '@/background/account/Session';
 import { LoveStatus } from '@/background/model/song/LoveStatus';
-import { TrackInfo } from '@/background/model/song/TrackInfo';
-import { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
 
 import { hideStringInText } from '@/background/util/util';
 import { createQueryString } from '@/common/util-browser';
-import { AudioScrobblerAppInfo } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerAppInfo';
-import {
+import { fetchJson } from '@/background/util/fetch/FetchJson';
+
+import type { Session } from '@/background/account/Session';
+import type { TrackInfo } from '@/background/model/song/TrackInfo';
+import type { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
+import type { AudioScrobblerAppInfo } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerAppInfo';
+import type {
 	SessionData,
 	TokenBasedSessionProvider,
 } from '@/background/scrobbler/service/TokenBasedSessionProvider';
-import { AudioScrobblerResponse } from './AudioScrobblerResponse';
-import { AudioScrobblerApiParams } from './AudioScrobblerApiParams';
-import { FetchResponse } from '@/background/util/fetch/Fetch';
-import { fetchJson } from '@/background/util/fetch/FetchJson';
+import type { AudioScrobblerResponse } from './AudioScrobblerResponse';
+import type { AudioScrobblerApiParams } from './AudioScrobblerApiParams';
 
 export class AudioScrobblerScrobbleService
 	implements ScrobbleService, TokenBasedSessionProvider {
@@ -23,6 +23,8 @@ export class AudioScrobblerScrobbleService
 		private session: Session,
 		private readonly appInfo: AudioScrobblerAppInfo
 	) {}
+
+	/** TokenBasedSessionProvider implementation */
 
 	async requestToken(): Promise<string> {
 		const params = {
@@ -44,7 +46,7 @@ export class AudioScrobblerScrobbleService
 	}
 
 	async requestSession(token: string): Promise<SessionData> {
-		const params = { method: 'auth.getsession', token };
+		const params = { method: 'auth.getsession', token: token };
 		const response = await this.sendRequest({ method: 'GET' }, params);
 		this.processResponse(response);
 
@@ -52,12 +54,14 @@ export class AudioScrobblerScrobbleService
 		return { key, name };
 	}
 
+	/** ScrobbleService implementation */
+
 	async sendNowPlayingRequest(trackInfo: TrackInfo): Promise<void> {
 		const { artist, track, album, albumArtist, duration } = trackInfo;
 		const { sessionId } = this.session;
 		const params: AudioScrobblerApiParams = {
-			track,
-			artist,
+			track: track,
+			artist: artist,
 			method: 'track.updatenowplaying',
 			sk: sessionId,
 		};
@@ -110,8 +114,8 @@ export class AudioScrobblerScrobbleService
 		const { artist, track } = trackInfo;
 		const { sessionId } = this.session;
 		const params = {
-			track,
-			artist,
+			track: track,
+			artist: artist,
 			method:
 				loveStatus === LoveStatus.Loved ? 'track.love' : 'track.unlove',
 			sk: sessionId,
@@ -161,7 +165,6 @@ export class AudioScrobblerScrobbleService
 	 * @param responseData Response data
 	 */
 	private processResponse(responseData: AudioScrobblerResponse): void {
-		// FIXME Scrobbler ID
 		if (responseData.error) {
 			throw new Error('Error');
 		}

@@ -4,11 +4,13 @@ import { UserProperties } from '@/background/account/UserProperties';
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 
 export interface AccountsRepository {
-	getAccount(scrobblerId: string): Promise<Account>;
+	getAccount(scrobblerId: ScrobblerId): Promise<Account>;
+	removeAccount(scrobblerId: ScrobblerId): Promise<void>;
 
-	updateSession(scrobblerId: ScrobblerId, session: Session): Promise<void>;
+	updateSession(scrobblerId: ScrobblerId, session: Session): Promise<Account>;
+
 	updateUserProperties(
 		scrobblerId: ScrobblerId,
 		properties: UserProperties
-	): Promise<void>;
+	): Promise<Account>;
 }

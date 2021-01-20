@@ -14,14 +14,18 @@ import { SongDto } from '@/background/model/song/SongDto';
 import { getObjectKeys } from '#/helpers/util';
 import { createTimeInfo, TimeInfo } from '@/background/model/song/TimeInfo';
 import { createSongInfo, SongInfoA } from '@/background/model/song/SongInfo';
-import { SongUniqueIdGenerator } from '@/background/model/song/SongUniqueIdGenerator';
+import { IdGenerator } from '@/background/util/id-generator/IdGenerator';
+import {
+	createIdGenerator,
+	IdGeneratorFunction,
+} from '@/background/util/id-generator/IdGeneratorFactory';
 
 export class SongImpl implements Song {
 	private songInfo: SongInfoA;
 	private timeInfo: TimeInfo;
 
 	private uniqueId: string;
-	private uniqueIdGenerator: SongUniqueIdGenerator;
+	private idGenerator: IdGeneratorFunction;
 
 	private flags: SongFlags;
 	private metadata: SongMetadata;
@@ -32,13 +36,37 @@ export class SongImpl implements Song {
 		this.songInfo = createSongInfo(connectorState);
 		this.timeInfo = createTimeInfo(connectorState);
 
-		this.uniqueId = connectorState.uniqueID;
-		// this.uniqueIdGenerator = this.resetFlags();
+		const { artist, track, album, albumArtist, uniqueID } = connectorState;
+
+		this.uniqueId = uniqueID;
+		this.idGenerator = createIdGenerator([
+			artist,
+			track,
+			album,
+			albumArtist,
+		]);
+
+		this.resetFlags();
 		this.resetMetadata();
 	}
 
 	getUniqueId(): string {
-		return this.uniqueId;
+		const { value } = this.generateUniqueIds().next();
+		if (typeof value !== 'string') {
+			throw new Error('Should never happen');
+		}
+
+		return value;
+	}
+
+	*generateUniqueIds(): IdGenerator {
+		if (this.uniqueId) {
+			yield this.uniqueId;
+		}
+
+		for (const id of this.idGenerator()) {
+			yield id;
+		}
 	}
 
 	resetFlags(): void {
@@ -134,10 +162,6 @@ export class SongImpl implements Song {
 		value: SongMetadata[K]
 	): void {
 		this.metadata[key] = value;
-	}
-
-	getRawProperty<K extends keyof ConnectorState>(key: K): ConnectorState[K] {
-		return this.connectorState[key];
 	}
 
 	serialize(): SongDto {

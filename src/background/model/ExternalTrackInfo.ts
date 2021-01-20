@@ -1,7 +1,7 @@
 import { SongMetadata } from '@/background/model/song/SongMetadata';
-import { SongInfo } from '@/background/object/song';
+import { TrackInfo } from '@/background/model/song/TrackInfo';
 
 export interface ExternalTrackInfo {
-	trackInfo: SongInfo;
+	trackInfo: TrackInfo;
 	metadata: SongMetadata;
 }

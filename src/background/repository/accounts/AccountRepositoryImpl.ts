@@ -21,31 +21,53 @@ export class AccountsRepositoryImpl implements AccountsRepository {
 	};
 
 	async getAccount(scrobblerId: ScrobblerId): Promise<Account> {
-		const storageName = this.storageNameMap[scrobblerId];
-		const storage = this.getStorage(storageName);
+		const storage = this.getStorage(scrobblerId);
 
 		const { sessionID, sessionName, properties } = await storage.get();
 		return {
 			session: {
 				sessionId: sessionID,
-				sessionName,
+				sessionName: sessionName,
 			},
 			userProperties: properties,
 		};
 	}
 
-	updateSession(scrobblerId: ScrobblerId, session: Session): Promise<void> {
+	removeAccount(scrobblerId: ScrobblerId): Promise<void> {
 		throw new Error('Method not implemented.');
 	}
 
-	updateUserProperties(
+	async updateSession(
 		scrobblerId: ScrobblerId,
-		properties: UserProperties
-	): Promise<void> {
-		throw new Error('Method not implemented.');
+		session: Session
+	): Promise<Account> {
+		const storage = this.getStorage(scrobblerId);
+
+		await storage.update({
+			sessionID: session.sessionId,
+			sessionName: session.sessionName,
+		});
+
+		return this.getAccount(scrobblerId);
 	}
 
-	private getStorage(storageName: string): Storage<AccountsRepositoryData> {
+	async updateUserProperties(
+		scrobblerId: ScrobblerId,
+		userProperties: UserProperties
+	): Promise<Account> {
+		const storage = this.getStorage(scrobblerId);
+
+		await storage.update({
+			properties: userProperties,
+		});
+
+		return this.getAccount(scrobblerId);
+	}
+
+	private getStorage(
+		scrobblerId: ScrobblerId
+	): Storage<AccountsRepositoryData> {
+		const storageName = this.storageNameMap[scrobblerId];
 		return createLocalStorage(storageName);
 	}
 }

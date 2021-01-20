@@ -5,13 +5,13 @@ import { EditedInfoProcessor } from '@/background/pipeline/processor/EditedInfoP
 import { FieldNormalizer } from '@/background/pipeline/processor/FieldNormalizer';
 import { SongPipeline } from '@/background/pipeline/SongPipeline';
 import { getEditedTracks } from '@/background/repository/GetEditedTracks';
-import { CoverArtArchiveFetcher } from '@/background/service/CoverArtArchiveFetcher';
+import { CoverArtArchiveProvider } from '@/background/provider/CoverArtArchiveProvider';
 
 export function CreateSongPipeline(): Processor<Song> {
 	const fieldNormalizer = new FieldNormalizer();
 
-	const coverArtFetcher = new CoverArtArchiveFetcher();
-	const coverArtProcessor = new CoverArtProcessor(coverArtFetcher);
+	const coverArtProvider = new CoverArtArchiveProvider();
+	const coverArtProcessor = new CoverArtProcessor(coverArtProvider);
 
 	const editedTracks = getEditedTracks();
 	const editedInfoProcessor = new EditedInfoProcessor(editedTracks);

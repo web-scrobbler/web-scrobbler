@@ -20,11 +20,11 @@ export class ListenBrainzScrobbler extends Scrobbler {
 	}
 
 	getProfileUrl(): string {
-		return `https://last.fm/user/${this.session.sessionName}`;
+		return `https://listenbrainz.org/user/${this.session.sessionName}`;
 	}
 
 	getStatusUrl(): string {
-		return 'http://status.last.fm/';
+		return 'https://listenbrainz.org/current-status';
 	}
 
 	createScrobbleService(): ScrobbleService {

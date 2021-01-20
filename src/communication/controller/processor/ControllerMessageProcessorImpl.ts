@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 /* eslint-disable @typescript-eslint/require-await */
 
 import { Controller } from '@/background/object/controller';
@@ -15,7 +14,7 @@ import { ControllerMessageType } from '@/communication/controller/ControllerMess
 import { assertUnreachable } from '@/background/util/util';
 
 export class ControllerMessageProcessorImpl
-	implements MessageProcessor<ControllerMessageType> {
+implements MessageProcessor<ControllerMessageType> {
 	private controller: Controller;
 
 	constructor(controller: Controller) {

@@ -7,31 +7,50 @@ import { MalojaScrobbler } from '@/background/scrobbler/MalojaScrobbler';
 
 import { defaultApiUrl } from '@/background/scrobbler/service/listenbrainz/ListenBrainzScrobblerService';
 
-import type { Session } from '@/background/account/Session';
+import {
+	createSessionFromUserProperties,
+	isSessionEmpty,
+	Session,
+} from '@/background/account/Session';
+
+import type { Account } from '@/background/account/Account';
 import type { Scrobbler } from '@/background/scrobbler/Scrobbler';
 import type { UserProperties } from '@/background/account/UserProperties';
 
-type FactoryFunction = (
-	session: Session,
-	properties: UserProperties
-) => Scrobbler;
+/**
+ * Function that creates a Scrobbler instance.
+ */
+export interface ScrobblerFactory {
+	(scrobblerId: ScrobblerId, account: Account): Scrobbler;
+}
 
-const factoryFunctions: Record<ScrobblerId, FactoryFunction> = {
+export const createScrobbler: ScrobblerFactory = (
+	scrobblerId: ScrobblerId,
+	account: Account
+) => {
+	let { session, userProperties } = account;
+	try {
+		session = createSessionFromUserProperties(userProperties);
+	} catch {}
+
+	if (isSessionEmpty(session)) {
+		throw new Error('Cannot create scrobbler with empty session');
+	}
+
+	const factoryFunction = factoryFunctions[scrobblerId];
+	return factoryFunction(session, userProperties);
+};
+
+interface InternalFactoryFunction {
+	(session: Session, properties: UserProperties): Scrobbler;
+}
+
+const factoryFunctions: Record<ScrobblerId, InternalFactoryFunction> = {
 	[ScrobblerId.LastFm]: createLastFmScrobbler,
 	[ScrobblerId.LibreFm]: createLibreFmScrobbler,
 	[ScrobblerId.ListenBrainz]: createListenBrainzScrobbler,
 	[ScrobblerId.Maloja]: createMalojaScrobbler,
 };
-
-export function createScrobbler(
-	scrobblerId: ScrobblerId,
-	session: Session,
-	userProperties: UserProperties
-): Scrobbler {
-	const factoryFunction = factoryFunctions[scrobblerId];
-
-	return factoryFunction(session, userProperties);
-}
 
 function createLastFmScrobbler(session: Session): Scrobbler {
 	return new LastFmScrobbler(session);

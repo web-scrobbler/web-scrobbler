@@ -4,8 +4,6 @@ import { Storage } from '@/background/storage2/Storage';
 import { EditedTracks } from './EditedTracks';
 import { EditedTracksRepositoryData } from './EditedTracksRepositoryData';
 
-import { generateRepositoryKey, getRepositoryKey } from './RepositoryKey';
-
 export class EditedTracksImpl implements EditedTracks {
 	private editedTracksStorage: Storage<EditedTracksRepositoryData>;
 
@@ -16,9 +14,9 @@ export class EditedTracksImpl implements EditedTracks {
 	async getSongInfo(song: Song): Promise<EditedTrackInfo> {
 		const editedTracks = await this.editedTracksStorage.get();
 
-		for (const repositoryKey of generateRepositoryKey(song)) {
-			if (repositoryKey in editedTracks) {
-				return editedTracks[repositoryKey];
+		for (const uniqueId of song.generateUniqueIds()) {
+			if (uniqueId in editedTracks) {
+				return editedTracks[uniqueId];
 			}
 		}
 
@@ -26,17 +24,17 @@ export class EditedTracksImpl implements EditedTracks {
 	}
 
 	async setSongInfo(song: Song, editedInfo: EditedTrackInfo): Promise<void> {
-		const repositoryKey = getRepositoryKey(song);
+		const uniqueId = song.getUniqueId();
 		return this.editedTracksStorage.update({
-			[repositoryKey]: removeEmptyProperties(editedInfo),
+			[uniqueId]: removeEmptyProperties(editedInfo),
 		});
 	}
 
 	async deleteSongInfo(song: Song): Promise<void> {
-		const repositoryKey = getRepositoryKey(song);
+		const uniqueId = song.getUniqueId();
 		const editedTracks = await this.editedTracksStorage.get();
 
-		delete editedTracks[repositoryKey];
+		delete editedTracks[uniqueId];
 		return this.editedTracksStorage.set(editedTracks);
 	}
 

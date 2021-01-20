@@ -1,10 +1,11 @@
-import { getObjectKeys } from '#/helpers/util';
 import { Song } from '@/background/model/song/Song';
 import { Processor } from '@/background/pipeline/Processor';
-import { SongInfoFetcher } from '@/background/service/SongInfoFetcher';
+import { SongInfoProvider } from '@/background/provider/SongInfoProvider';
+
+import { getObjectKeys } from '#/helpers/util';
 
 export class SongInfoProcessor implements Processor<Song> {
-	constructor(private songInfoFetcher: SongInfoFetcher) {}
+	constructor(private songInfoFetcher: SongInfoProvider) {}
 
 	async process(song: Song): Promise<void> {
 		if (song.isEmpty()) {

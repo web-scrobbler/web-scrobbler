@@ -1,5 +1,5 @@
 import { Song } from '@/background/model/song/Song';
 
-export interface CoverArtFetcher {
+export interface CoverArtProvider {
 	getCoverArt(song: Song): Promise<string>;
 }

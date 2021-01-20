@@ -2,10 +2,8 @@ import { SongFlags } from '@/background/model/song/SongFlags';
 import { SongMetadata } from '@/background/model/song/SongMetadata';
 import { LoveStatus } from '@/background/object/song';
 import { SongDto } from '@/background/model/song/SongDto';
-import {
-	ConnectorProp,
-	ConnectorState,
-} from '@/background/model/ConnectorState';
+import { ConnectorState } from '@/background/model/ConnectorState';
+import { IdGenerator } from '@/background/util/id-generator/IdGenerator';
 
 export interface Song {
 	getArtist(): string;
@@ -21,16 +19,16 @@ export interface Song {
 	setAlbumArtist(albumArtist: string): void;
 
 	getCurrentTime(): number;
+	setCurrentTime(currentTime: number): void;
 
 	getDuration(): number;
-
-	setCurrentTime(currentTime: number): void;
 	setDuration(duration: number): void;
 
 	getTrackArt(): string;
 	setTrackArt(trackArt: string): void;
 
 	getUniqueId(): string;
+	generateUniqueIds(): IdGenerator;
 
 	getLoveStatus(): LoveStatus;
 	setLoveStatus(loveStatus: LoveStatus): void;
@@ -47,8 +45,6 @@ export interface Song {
 		value: SongMetadata[K]
 	): void;
 	resetMetadata(): void;
-
-	getRawProperty<K extends keyof ConnectorState>(key: K): ConnectorState[K];
 
 	serialize(): SongDto;
 }

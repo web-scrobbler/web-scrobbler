@@ -12,9 +12,16 @@ import {
 } from '@/background/scrobbler/service/SessionProviderFactory';
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 
-export function createAuthenticator(
+/**
+ * Function that creates a scrobbler authenticator.
+ */
+export interface ScrobblerAuthenticatorFactory {
+	(scrobblerId: ScrobblerId): ScrobblerAuthenticator;
+}
+
+export const createAuthenticator: ScrobblerAuthenticatorFactory = (
 	scrobblerId: ScrobblerId
-): ScrobblerAuthenticator {
+) => {
 	if (isTokenBasedAuthSupported(scrobblerId)) {
 		const sessionProvider = createTokenBasedSessionProvider(scrobblerId);
 		return new TokenAuthenticator(browserTabOpener, sessionProvider);
@@ -28,4 +35,4 @@ export function createAuthenticator(
 	throw new Error(
 		`Unable to create authenticator for scrobbler with "${scrobblerId}" ID`
 	);
-}
+};

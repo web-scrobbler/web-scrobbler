@@ -1,5 +1,3 @@
-/* eslint-disable indent */
-
 import { ConnectorsOptions } from '@/background/repository/connectors-options/ConnectorsOptions';
 import { ConnectorsOptionsData } from '@/background/repository/connectors-options/ConnectorsOptionsData';
 import { defaultConnectorsOptions } from '@/background/repository/connectors-options/DefaultConnectorsOptions';

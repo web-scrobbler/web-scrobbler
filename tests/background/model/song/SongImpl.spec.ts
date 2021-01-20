@@ -2,8 +2,6 @@ import { expect } from 'chai';
 
 import { getTestName } from '#/helpers/util';
 import { createSongStub } from '#/stub/SongStubFactory';
-import { createSongFromDto } from '@/background/model/song/SongFactory';
-import { Song } from '@/background/model/song/Song';
 import { SongDto } from '@/background/model/song/SongDto';
 
 describe(getTestName(__filename), () => {
@@ -16,12 +14,14 @@ function testGetUniqueId() {
 	it('should return unique ID if song has parsed unique ID', () => {
 		const uniqueId = 'unique';
 		const song = createSongStub({ uniqueID: uniqueId });
-		expect(song.getUniqueId()).to.be.equal(uniqueId);
+
+		expect(song.getUniqueId()).to.equal(uniqueId);
 	});
 
 	it('should not return unique ID if song has no parsed unique ID', () => {
-		const song = createSongStub();
-		expect(song.getUniqueId()).to.be.null;
+		const song = createSongStub({ artist: 'Artist', track: 'Track' });
+
+		expect(song.getUniqueId()).to.be.a('string').and.have.lengthOf.above(0);
 	});
 }
 
