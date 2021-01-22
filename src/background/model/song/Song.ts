@@ -1,9 +1,8 @@
-import { SongFlags } from '@/background/model/song/SongFlags';
-import { SongMetadata } from '@/background/model/song/SongMetadata';
-import { LoveStatus } from '@/background/object/song';
-import { SongDto } from '@/background/model/song/SongDto';
-import { ConnectorState } from '@/background/model/ConnectorState';
-import { IdGenerator } from '@/background/util/id-generator/IdGenerator';
+import type { IdGenerator } from '@/background/util/id-generator/IdGenerator';
+import type { LoveStatus } from '@/background/object/song';
+import type { SongDto } from '@/background/model/song/SongDto';
+import type { SongFlags } from '@/background/model/song/SongFlags';
+import type { SongMetadata } from '@/background/model/song/SongMetadata';
 
 export interface Song {
 	getArtist(): string;
