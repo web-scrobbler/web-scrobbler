@@ -7,15 +7,10 @@ import { MalojaScrobbler } from '@/background/scrobbler/MalojaScrobbler';
 
 import { defaultApiUrl } from '@/background/scrobbler/service/listenbrainz/ListenBrainzScrobblerService';
 
-import {
-	createSessionFromUserProperties,
-	isSessionEmpty,
-	Session,
-} from '@/background/account/Session';
-
-import type { Account } from '@/background/account/Account';
 import type { Scrobbler } from '@/background/scrobbler/Scrobbler';
 import type { UserProperties } from '@/background/account/UserProperties';
+import type { UserAccount } from '@/background/account/UserAccount';
+import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
 
 /**
  * Function that creates a Scrobbler instance.
@@ -26,28 +21,26 @@ import type { UserProperties } from '@/background/account/UserProperties';
  * @return Scrobbler object
  */
 export interface ScrobblerFactory {
-	(scrobblerId: ScrobblerId, account: Account): Scrobbler;
+	(scrobblerId: ScrobblerId, account: UserAccount): Scrobbler;
 }
 
 export const createScrobbler: ScrobblerFactory = (
 	scrobblerId: ScrobblerId,
-	account: Account
+	account: UserAccount
 ) => {
-	let { session, userProperties } = account;
-	try {
-		session = createSessionFromUserProperties(userProperties);
-	} catch {}
-
-	if (isSessionEmpty(session)) {
+	const session = account.getSession();
+	if (session.isEmpty()) {
 		throw new Error('Cannot create scrobbler with empty session');
 	}
+
+	const userProperties = account.getUserProperties();
 
 	const factoryFunction = factoryFunctions[scrobblerId];
 	return factoryFunction(session, userProperties);
 };
 
 interface InternalFactoryFunction {
-	(session: Session, properties: UserProperties): Scrobbler;
+	(session: ScrobblerSession, properties: UserProperties): Scrobbler;
 }
 
 const factoryFunctions: Record<ScrobblerId, InternalFactoryFunction> = {
@@ -57,16 +50,16 @@ const factoryFunctions: Record<ScrobblerId, InternalFactoryFunction> = {
 	[ScrobblerId.Maloja]: createMalojaScrobbler,
 };
 
-function createLastFmScrobbler(session: Session): Scrobbler {
+function createLastFmScrobbler(session: ScrobblerSession): Scrobbler {
 	return new LastFmScrobbler(session);
 }
 
-function createLibreFmScrobbler(session): Scrobbler {
+function createLibreFmScrobbler(session: ScrobblerSession): Scrobbler {
 	return new LibreFmScrobbler(session);
 }
 
 function createListenBrainzScrobbler(
-	session: Session,
+	session: ScrobblerSession,
 	userProperties: UserProperties
 ): Scrobbler {
 	const { apiUrl = defaultApiUrl } = userProperties;
@@ -75,7 +68,7 @@ function createListenBrainzScrobbler(
 }
 
 function createMalojaScrobbler(
-	session: Session,
+	session: ScrobblerSession,
 	userProperties: UserProperties
 ): Scrobbler {
 	const { apiUrl } = userProperties;

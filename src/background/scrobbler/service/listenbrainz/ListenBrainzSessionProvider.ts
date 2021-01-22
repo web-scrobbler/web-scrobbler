@@ -1,6 +1,6 @@
 import { fetchDocument } from '@/background/util/fetch/FetchDocument';
+import { ScrobblerSession } from '@/background/account/ScrobblerSession';
 
-import type { SessionData } from '@/background/scrobbler/service/TokenBasedSessionProvider';
 import type { WebSessionProvider } from '@/background/scrobbler/service/WebSessionProvider';
 
 export class ListenBrainzSessionProvider implements WebSessionProvider {
@@ -15,7 +15,7 @@ export class ListenBrainzSessionProvider implements WebSessionProvider {
 		return this.authUrl;
 	}
 
-	requestSession(): Promise<SessionData> {
+	requestSession(): Promise<ScrobblerSession> {
 		for (const url of this.fetchSessionUrls) {
 			try {
 				return this.fetchSession(url);
@@ -27,7 +27,7 @@ export class ListenBrainzSessionProvider implements WebSessionProvider {
 		throw new Error('Unable to fetch session');
 	}
 
-	private async fetchSession(url: string): Promise<SessionData> {
+	private async fetchSession(url: string): Promise<ScrobblerSession> {
 		// NOTE: Use 'same-origin' credentials to fix login on Firefox ESR 60.
 		const { ok, data: doc } = await fetchDocument(url, {
 			method: 'GET',
@@ -52,6 +52,6 @@ export class ListenBrainzSessionProvider implements WebSessionProvider {
 			throw new Error('Unable to find username');
 		}
 
-		return { key: authToken, name: username };
+		return new ScrobblerSession(authToken, username);
 	}
 }

@@ -15,7 +15,8 @@ describe(getTestName(__filename), () => {
 		);
 		const session = await authenticator.requestSession();
 
-		expect(session).to.be.deep.equal(dummySession);
+		expect(session.getId()).to.be.deep.equal(dummySession.getId());
+		expect(session.getName()).to.be.deep.equal(dummySession.getName());
 	});
 
 	it('should throw an error if requesting session is failed', () => {

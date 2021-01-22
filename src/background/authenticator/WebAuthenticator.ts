@@ -1,6 +1,6 @@
-import type { Session } from '@/background/account/Session';
-import type { TabOpener } from '@/background/authenticator/tab-opener/TabOpener';
 import type { ScrobblerAuthenticator } from '@/background/authenticator/ScrobblerAuthenticator';
+import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import type { TabOpener } from '@/background/authenticator/tab-opener/TabOpener';
 import type { WebSessionProvider } from '@/background/scrobbler/service/WebSessionProvider';
 
 export class WebAuthenticator implements ScrobblerAuthenticator {
@@ -9,15 +9,10 @@ export class WebAuthenticator implements ScrobblerAuthenticator {
 		private sessionProvider: WebSessionProvider
 	) {}
 
-	async requestSession(): Promise<Session> {
+	async requestSession(): Promise<ScrobblerSession> {
 		const authUrl = this.sessionProvider.getAuthUrl();
 		await this.tabOpener(authUrl);
 
-		try {
-			const { key, name } = await this.sessionProvider.requestSession();
-			return { sessionId: key, sessionName: name };
-		} catch {
-			throw new Error('Unable to request session');
-		}
+		return this.sessionProvider.requestSession();
 	}
 }

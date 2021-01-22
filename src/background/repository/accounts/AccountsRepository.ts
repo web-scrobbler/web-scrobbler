@@ -1,7 +1,7 @@
-import { Account } from '@/background/account/Account';
-import { Session } from '@/background/account/Session';
-import { UserProperties } from '@/background/account/UserProperties';
-import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
+import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
+import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import type { UserAccount } from '@/background/account/UserAccount';
+import type { UserProperties } from '@/background/account/UserProperties';
 
 export interface AccountsRepository {
 	/**
@@ -11,7 +11,7 @@ export interface AccountsRepository {
 	 *
 	 * @return User account
 	 */
-	getAccount(scrobblerId: ScrobblerId): Promise<Account>;
+	getAccount(scrobblerId: ScrobblerId): Promise<UserAccount>;
 
 	/**
 	 * Remove the user account for a scrobbler with the given ID.
@@ -30,8 +30,8 @@ export interface AccountsRepository {
 	 */
 	updateScrobblerSession(
 		scrobblerId: ScrobblerId,
-		session: Session
-	): Promise<Account>;
+		session: ScrobblerSession
+	): Promise<UserAccount>;
 
 	/**
 	 * Update user properties for a scrobbler with the given ID.
@@ -44,5 +44,5 @@ export interface AccountsRepository {
 	updateUserProperties(
 		scrobblerId: ScrobblerId,
 		properties: UserProperties
-	): Promise<Account>;
+	): Promise<UserAccount>;
 }

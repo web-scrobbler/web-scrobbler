@@ -1,12 +1,12 @@
 import { fetchJson } from '@/background/util/fetch/FetchJson';
 
-import type { Session } from '@/background/account/Session';
 import type { TrackInfo } from '@/background/model/song/TrackInfo';
 import type { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
 import type { MalojaTrackMetadata } from '@/background/scrobbler/service/maloja/MalojaTrackMetadata';
+import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
 
 export class MalojaScrobbleService implements ScrobbleService {
-	constructor(private session: Session, private apiUrl: string) {}
+	constructor(private session: ScrobblerSession, private apiUrl: string) {}
 
 	sendNowPlayingRequest(trackInfo: TrackInfo): Promise<void> {
 		const trackMetadata = this.makeTrackMetadata(trackInfo);
@@ -27,7 +27,7 @@ export class MalojaScrobbleService implements ScrobbleService {
 	private async sendRequest(
 		trackMetadata: MalojaTrackMetadata
 	): Promise<void> {
-		const key = this.session.sessionId;
+		const key = this.session.getId();
 		const query = { trackMetadata, key };
 
 		const requestInfo = {

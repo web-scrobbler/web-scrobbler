@@ -1,7 +1,7 @@
-import { dummySessionData } from '#/stub/DummySession';
+import { dummySession } from '#/stub/DummySession';
 
-import { SessionData } from '@/background/scrobbler/service/TokenBasedSessionProvider';
-import { WebSessionProvider } from '@/background/scrobbler/service/WebSessionProvider';
+import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import type { WebSessionProvider } from '@/background/scrobbler/service/WebSessionProvider';
 
 export class MockedWebSessionProvider implements WebSessionProvider {
 	private failRequestSession = false;
@@ -14,11 +14,11 @@ export class MockedWebSessionProvider implements WebSessionProvider {
 		return 'https://example.com/auth';
 	}
 
-	requestSession(): Promise<SessionData> {
+	requestSession(): Promise<ScrobblerSession> {
 		if (this.failRequestSession) {
 			throw new Error('Unable to request session');
 		}
 
-		return Promise.resolve(dummySessionData);
+		return Promise.resolve(dummySession);
 	}
 }

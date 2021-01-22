@@ -3,11 +3,11 @@ import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 
 import { MalojaScrobbleService } from '@/background/scrobbler/service/maloja/MalojaScrobbleService';
 
+import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
 import type { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
-import type { Session } from '@/background/account/Session';
 
 export class MalojaScrobbler extends Scrobbler {
-	constructor(protected session: Session, private apiUrl: string) {
+	constructor(session: ScrobblerSession, private apiUrl: string) {
 		super(session);
 	}
 

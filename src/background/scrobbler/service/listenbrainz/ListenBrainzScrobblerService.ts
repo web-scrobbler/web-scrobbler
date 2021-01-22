@@ -5,10 +5,8 @@ import Logger, { ILogger } from 'js-logger';
 import { fetchJson } from '@/background/util/fetch/FetchJson';
 
 import type { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
-import type { Session } from '@/background/account/Session';
-import type { SessionData } from '@/background/scrobbler/service/TokenBasedSessionProvider';
+import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
 import type { TrackInfo } from '@/background/model/song/TrackInfo';
-import type { WebSessionProvider } from '@/background/scrobbler/service/WebSessionProvider';
 
 interface ListenBrainzParams {
 	listen_type: 'playing_now' | 'single';
@@ -27,18 +25,13 @@ interface TrackMetadata {
 
 export const defaultApiUrl = 'https://api.listenbrainz.org/1/submit-listens';
 
-export class ListenBrainzScrobblerService
-implements ScrobbleService, WebSessionProvider {
+export class ListenBrainzScrobblerService implements ScrobbleService {
 	private logger: ILogger = Logger.get('ListenBrainz');
 
-	constructor(private session: Session, private apiUrl: string) {}
+	constructor(private session: ScrobblerSession, private apiUrl: string) {}
 
 	getAuthUrl(): string {
 		return 'https://listenbrainz.org/login/musicbrainz?next=%2Fprofile%2F';
-	}
-
-	requestSession(): Promise<SessionData> {
-		throw new Error('Method not implemented.');
 	}
 
 	sendNowPlayingRequest(trackInfo: TrackInfo): Promise<void> {
@@ -78,7 +71,7 @@ implements ScrobbleService, WebSessionProvider {
 		const requestInfo = {
 			method: 'POST',
 			headers: {
-				Authorization: `Token ${this.session.sessionId}`,
+				Authorization: `Token ${this.session.getId()}`,
 				'Content-Type': 'application/json; charset=UTF-8',
 			},
 			body: JSON.stringify(params),

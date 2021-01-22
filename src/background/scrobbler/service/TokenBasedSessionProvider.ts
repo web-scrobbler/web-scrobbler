@@ -2,6 +2,8 @@
  * Ref: https://www.last.fm/api/desktopauth
  */
 
+import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
+
 /**
  * A session provider using a token-based authentication.
  *
@@ -35,22 +37,7 @@ export interface TokenBasedSessionProvider {
 	 *
 	 * @param token Token
 	 *
-	 * @return Session data
+	 * @return Scrobbler session
 	 */
-	requestSession(token: string): Promise<SessionData>;
-}
-
-/**
- * Response from the TokenBasedSessionProvider.
- */
-export interface SessionData {
-	/**
-	 * Session key.
-	 */
-	key: string;
-
-	/**
-	 * Session name.
-	 */
-	name: string;
+	requestSession(token: string): Promise<ScrobblerSession>;
 }

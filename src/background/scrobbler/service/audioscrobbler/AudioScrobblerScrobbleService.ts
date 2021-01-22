@@ -1,26 +1,23 @@
 import md5 from 'blueimp-md5';
 
 import { LoveStatus } from '@/background/model/song/LoveStatus';
+import { ScrobblerSession } from '@/background/account/ScrobblerSession';
 
 import { hideStringInText } from '@/background/util/util';
 import { createQueryString } from '@/common/util-browser';
 import { fetchJson } from '@/background/util/fetch/FetchJson';
 
-import type { Session } from '@/background/account/Session';
 import type { TrackInfo } from '@/background/model/song/TrackInfo';
 import type { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
 import type { AudioScrobblerAppInfo } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerAppInfo';
-import type {
-	SessionData,
-	TokenBasedSessionProvider,
-} from '@/background/scrobbler/service/TokenBasedSessionProvider';
+import type { TokenBasedSessionProvider } from '@/background/scrobbler/service/TokenBasedSessionProvider';
 import type { AudioScrobblerResponse } from './AudioScrobblerResponse';
 import type { AudioScrobblerApiParams } from './AudioScrobblerApiParams';
 
 export class AudioScrobblerScrobbleService
 	implements ScrobbleService, TokenBasedSessionProvider {
 	constructor(
-		private session: Session,
+		private session: ScrobblerSession,
 		private readonly appInfo: AudioScrobblerAppInfo
 	) {}
 
@@ -45,25 +42,24 @@ export class AudioScrobblerScrobbleService
 		return `${this.appInfo.authUrl}?api_key=${this.appInfo.apiKey}&token=${token}`;
 	}
 
-	async requestSession(token: string): Promise<SessionData> {
+	async requestSession(token: string): Promise<ScrobblerSession> {
 		const params = { method: 'auth.getsession', token: token };
 		const response = await this.sendRequest({ method: 'GET' }, params);
 		this.processResponse(response);
 
 		const { key, name } = response.session;
-		return { key, name };
+		return new ScrobblerSession(key, name);
 	}
 
 	/** ScrobbleService implementation */
 
 	async sendNowPlayingRequest(trackInfo: TrackInfo): Promise<void> {
 		const { artist, track, album, albumArtist, duration } = trackInfo;
-		const { sessionId } = this.session;
 		const params: AudioScrobblerApiParams = {
 			track: track,
 			artist: artist,
 			method: 'track.updatenowplaying',
-			sk: sessionId,
+			sk: this.session.getId(),
 		};
 
 		if (album) {
@@ -85,13 +81,12 @@ export class AudioScrobblerScrobbleService
 
 	async sendScrobbleRequest(trackInfo: TrackInfo): Promise<void> {
 		const { artist, track, album, albumArtist, timestamp } = trackInfo;
-		const { sessionId } = this.session;
 		const params: AudioScrobblerApiParams = {
 			method: 'track.scrobble',
 			'timestamp[0]': timestamp.toString(),
 			'track[0]': track,
 			'artist[0]': artist,
-			sk: sessionId,
+			sk: this.session.getId(),
 		};
 
 		if (album) {
@@ -112,13 +107,12 @@ export class AudioScrobblerScrobbleService
 		loveStatus: LoveStatus
 	): Promise<void> {
 		const { artist, track } = trackInfo;
-		const { sessionId } = this.session;
 		const params = {
 			track: track,
 			artist: artist,
 			method:
 				loveStatus === LoveStatus.Loved ? 'track.love' : 'track.unlove',
-			sk: sessionId,
+			sk: this.session.getId(),
 		};
 
 		return this.processResponse(

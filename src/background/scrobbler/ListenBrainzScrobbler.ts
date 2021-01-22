@@ -4,10 +4,10 @@ import { Scrobbler } from '@/background/scrobbler/Scrobbler';
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 
 import type { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
-import type { Session } from '@/background/account/Session';
+import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
 
 export class ListenBrainzScrobbler extends Scrobbler {
-	constructor(protected session: Session, private apiUrl: string) {
+	constructor(protected session: ScrobblerSession, private apiUrl: string) {
 		super(session);
 	}
 
@@ -20,7 +20,7 @@ export class ListenBrainzScrobbler extends Scrobbler {
 	}
 
 	getProfileUrl(): string {
-		return `https://listenbrainz.org/user/${this.session.sessionName}`;
+		return `https://listenbrainz.org/user/${this.session.getName()}`;
 	}
 
 	getStatusUrl(): string {

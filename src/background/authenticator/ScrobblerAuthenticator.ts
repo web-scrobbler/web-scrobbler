@@ -1,10 +1,10 @@
-import type { Session } from '@/background/account/Session';
+import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
 
 export interface ScrobblerAuthenticator {
 	/**
 	 * Request a session.
 	 *
-	 * @return Session
+	 * @return Scrobbler session
 	 */
-	requestSession(): Promise<Session>;
+	requestSession(): Promise<ScrobblerSession>;
 }

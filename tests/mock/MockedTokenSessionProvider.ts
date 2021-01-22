@@ -1,9 +1,7 @@
-import { dummySessionData } from '#/stub/DummySession';
+import { dummySession } from '#/stub/DummySession';
 
-import type {
-	SessionData,
-	TokenBasedSessionProvider,
-} from '@/background/scrobbler/service/TokenBasedSessionProvider';
+import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import type { TokenBasedSessionProvider } from '@/background/scrobbler/service/TokenBasedSessionProvider';
 
 export class MockedTokenBasedSessionProvider
 	implements TokenBasedSessionProvider {
@@ -27,12 +25,12 @@ export class MockedTokenBasedSessionProvider
 		return `https://example.com/request?token=${token}`;
 	}
 
-	requestSession(token: string): Promise<SessionData> {
+	requestSession(token: string): Promise<ScrobblerSession> {
 		if (this.failRequestSession) {
 			throw new Error(`Unable to request session with '${token}' token`);
 		}
 
-		return Promise.resolve(dummySessionData);
+		return Promise.resolve(dummySession);
 	}
 }
 

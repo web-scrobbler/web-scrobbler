@@ -1,12 +1,3 @@
-import type { Session } from '@/background/account/Session';
-import type { SessionData } from '@/background/scrobbler/service/TokenBasedSessionProvider';
+import { ScrobblerSession } from '@/background/account/ScrobblerSession';
 
-export const dummySessionData: SessionData = {
-	key: 'key',
-	name: 'name',
-};
-
-export const dummySession: Session = {
-	sessionId: dummySessionData.key,
-	sessionName: dummySessionData.name,
-};
+export const dummySession = new ScrobblerSession('key', 'name');

@@ -1,4 +1,4 @@
-import { SessionData } from '@/background/scrobbler/service/TokenBasedSessionProvider';
+import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
 
 /**
  * A basic web provider.
@@ -10,5 +10,5 @@ import { SessionData } from '@/background/scrobbler/service/TokenBasedSessionPro
  */
 export interface WebSessionProvider {
 	getAuthUrl(): string;
-	requestSession(): Promise<SessionData>;
+	requestSession(): Promise<ScrobblerSession>;
 }

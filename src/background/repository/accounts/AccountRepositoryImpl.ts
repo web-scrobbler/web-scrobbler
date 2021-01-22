@@ -1,5 +1,5 @@
-import { Account } from '@/background/account/Account';
-import { Session } from '@/background/account/Session';
+import { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import { UserAccount } from '@/background/account/UserAccount';
 import { UserProperties } from '@/background/account/UserProperties';
 import { AccountsRepository } from '@/background/repository/accounts/AccountsRepository';
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
@@ -20,17 +20,12 @@ export class AccountsRepositoryImpl implements AccountsRepository {
 		[ScrobblerId.Maloja]: 'Maloja',
 	};
 
-	async getAccount(scrobblerId: ScrobblerId): Promise<Account> {
+	async getAccount(scrobblerId: ScrobblerId): Promise<UserAccount> {
 		const storage = this.getStorage(scrobblerId);
-
 		const { sessionID, sessionName, properties } = await storage.get();
-		return {
-			session: {
-				sessionId: sessionID,
-				sessionName: sessionName,
-			},
-			userProperties: properties,
-		};
+
+		const session = new ScrobblerSession(sessionID, sessionName);
+		return new UserAccount(session, properties);
 	}
 
 	removeAccount(scrobblerId: ScrobblerId): Promise<void> {
@@ -39,13 +34,13 @@ export class AccountsRepositoryImpl implements AccountsRepository {
 
 	async updateScrobblerSession(
 		scrobblerId: ScrobblerId,
-		session: Session
-	): Promise<Account> {
+		session: ScrobblerSession
+	): Promise<UserAccount> {
 		const storage = this.getStorage(scrobblerId);
 
 		await storage.update({
-			sessionID: session.sessionId,
-			sessionName: session.sessionName,
+			sessionID: session.getId(),
+			sessionName: session.getName(),
 		});
 
 		return this.getAccount(scrobblerId);
@@ -54,7 +49,7 @@ export class AccountsRepositoryImpl implements AccountsRepository {
 	async updateUserProperties(
 		scrobblerId: ScrobblerId,
 		userProperties: UserProperties
-	): Promise<Account> {
+	): Promise<UserAccount> {
 		const storage = this.getStorage(scrobblerId);
 
 		await storage.update({
