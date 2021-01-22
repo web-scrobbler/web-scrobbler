@@ -20,8 +20,7 @@ describe(getTestName(__filename), () => {
 	});
 
 	it('should not replace existing track art URL', async () => {
-		const song = createSongStub();
-		song.setTrackArt('external-track-art-url');
+		const song = createSongStub({ trackArt: 'external-track-art-url' });
 		await processor.process(song);
 
 		expect(song.getTrackArt()).equal('external-track-art-url');
