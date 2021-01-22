@@ -23,17 +23,12 @@ import {
 	showSongNotRecognized,
 } from '@/background/browser/notifications';
 
-import { NotificationsRepository } from './repository/notifications/NotificationsRepository';
-import { createAuthReminder } from '@/background/auth-reminder/AuthReminderFactory';
+import { AuthRemindFunction } from '@/background/auth-remind/AuthRemindFunction';
 
 export class Extension {
 	private tabWorker: TabWorker;
 
-	private notificationsRepository: NotificationsRepository;
-
-	constructor(notificationsRepository: NotificationsRepository) {
-		this.notificationsRepository = notificationsRepository;
-
+	constructor(private remindAuthRequired: AuthRemindFunction) {
 		this.tabWorker = new (class extends TabWorker {
 			async onControllerEvent(ctrl: Controller, event: ControllerEvent) {
 				switch (event) {
@@ -79,7 +74,7 @@ export class Extension {
 		if (!(await this.bindScrobblers())) {
 			console.warn('No scrobblers are bound');
 
-			this.showAuthNotification();
+			this.remindAuthRequired();
 		}
 	}
 
@@ -179,11 +174,6 @@ export class Extension {
 	private async bindScrobblers(): Promise<boolean> {
 		const boundScrobblers = await ScrobbleManager.bindAllScrobblers();
 		return boundScrobblers.length > 0;
-	}
-
-	private async showAuthNotification(): Promise<void> {
-		const authReminder = createAuthReminder();
-		await authReminder.remind();
 	}
 
 	/**

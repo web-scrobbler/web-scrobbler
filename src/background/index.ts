@@ -5,26 +5,24 @@ import { Extension } from '@/background/extension';
 import { migrate } from '@/background/util/migrate';
 
 import { getCoreRepository } from '@/background/repository/GetCoreRepository';
-import { getNotificationsRepository } from '@/background/repository/GetNotificationsRepository';
 import { createScrobblerManager } from '@/background/scrobbler/ScrobblerManagerFactory';
 import { AuthenticateHelper } from '@/background/authenticator/AuthenticateHelper';
 import { getAccountsRepository } from '@/background/repository/GetAccountsRepository';
 import { createAuthenticator } from '@/background/authenticator/ScrobblerAuthenticatorFactory';
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import { createScrobbler } from '@/background/scrobbler/ScrobblerFactory';
-import { createSyncStorage } from '@/background/storage3/namespace/NamespaceStorageFactory';
+import { createAuthRemindFunction } from '@/background/auth-remind/AuthRemindFunctionFactory';
 
 main();
 
 async function main() {
 	Logger.useDefaults({ defaultLevel: Logger.DEBUG });
 
-	const notificationsRepository = getNotificationsRepository();
-
 	await migrate();
 	updateCoreVersion();
 
-	new Extension(notificationsRepository).start();
+	const remindFn = createAuthRemindFunction();
+	new Extension(remindFn).start();
 
 	const scrobbleManager = await createScrobblerManager();
 	const accountsRepository = getAccountsRepository();
