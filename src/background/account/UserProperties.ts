@@ -1,11 +1,14 @@
+/**
+ * Object that holds user properties.
+ */
 export interface UserProperties {
 	/**
 	 * Custom API URL.
 	 */
-	apiUrl?: string;
+	readonly apiUrl?: string;
 
 	/**
-	 * Custom API token.
+	 * Custom API token. Can be used as a session ID.
 	 */
-	token?: string;
+	readonly token?: string;
 }

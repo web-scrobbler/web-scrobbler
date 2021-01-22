@@ -37,7 +37,7 @@ export class AccountsRepositoryImpl implements AccountsRepository {
 		throw new Error('Method not implemented.');
 	}
 
-	async updateSession(
+	async updateScrobblerSession(
 		scrobblerId: ScrobblerId,
 		session: Session
 	): Promise<Account> {

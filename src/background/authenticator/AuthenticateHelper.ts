@@ -18,7 +18,7 @@ export class AuthenticateHelper {
 		const authenticator = this.authenticatorFactory(scrobblerId);
 		const session = await authenticator.requestSession();
 
-		const account = await this.accountsRepository.updateSession(
+		const account = await this.accountsRepository.updateScrobblerSession(
 			scrobblerId,
 			session
 		);

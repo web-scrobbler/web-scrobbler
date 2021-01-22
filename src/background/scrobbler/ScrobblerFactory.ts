@@ -19,6 +19,11 @@ import type { UserProperties } from '@/background/account/UserProperties';
 
 /**
  * Function that creates a Scrobbler instance.
+ *
+ * @param scrobblerId Scrobbler ID
+ * @param account User account
+ *
+ * @return Scrobbler object
  */
 export interface ScrobblerFactory {
 	(scrobblerId: ScrobblerId, account: Account): Scrobbler;

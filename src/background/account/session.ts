@@ -1,4 +1,4 @@
-import { UserProperties } from '@/background/account/UserProperties';
+import type { UserProperties } from '@/background/account/UserProperties';
 
 const emptySessionName: string = null;
 
