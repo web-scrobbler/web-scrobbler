@@ -19,10 +19,6 @@ export class MalojaScrobbler extends Scrobbler {
 		return 'Maloja';
 	}
 
-	getProfileUrl(): string {
-		return null;
-	}
-
 	createScrobbleService(): ScrobbleService {
 		return new MalojaScrobbleService(this.session, this.apiUrl);
 	}

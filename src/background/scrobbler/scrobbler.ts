@@ -21,7 +21,19 @@ export abstract class Scrobbler implements ScrobblerInfoProvider {
 
 	abstract getId(): ScrobblerId;
 	abstract getLabel(): string;
-	abstract getProfileUrl(): string;
+
+	getProfileUrl(): string {
+		const baseProfileUrl = this.getBaseProfileUrl();
+		if (baseProfileUrl) {
+			return `${baseProfileUrl}/${this.session.getName()}`;
+		}
+
+		return null;
+	}
+
+	getBaseProfileUrl(): string {
+		return null;
+	}
 
 	abstract createScrobbleService(): ScrobbleService;
 

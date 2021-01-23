@@ -19,8 +19,8 @@ export class ListenBrainzScrobbler extends Scrobbler {
 		return 'ListenBrainz';
 	}
 
-	getProfileUrl(): string {
-		return `https://listenbrainz.org/user/${this.session.getName()}`;
+	getBaseProfileUrl(): string {
+		return 'https://listenbrainz.org/user';
 	}
 
 	createScrobbleService(): ScrobbleService {

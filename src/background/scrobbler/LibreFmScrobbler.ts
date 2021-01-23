@@ -15,8 +15,8 @@ export class LibreFmScrobbler extends Scrobbler {
 		return 'Libre.fm';
 	}
 
-	getProfileUrl(): string {
-		return `https://libre.fm/user/${this.session.getName()}`;
+	getBaseProfileUrl(): string {
+		return 'https://libre.fm/user';
 	}
 
 	createScrobbleService(): ScrobbleService {
