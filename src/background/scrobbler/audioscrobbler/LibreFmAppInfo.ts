@@ -1,4 +1,4 @@
-import { AudioScrobblerAppInfo } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerAppInfo';
+import { AudioScrobblerAppInfo } from '@/background/scrobbler/audioscrobbler/AudioScrobblerAppInfo';
 
 export const LibreFmAppInfo: AudioScrobblerAppInfo = {
 	apiUrl: 'https://libre.fm/2.0/',

@@ -6,7 +6,7 @@ import { MockedTabOpener } from '#/mock/MockedTabOpener';
 import { MockedWebSessionProvider } from '#/mock/MockedWebSessionProvider';
 
 import { WebAuthenticator } from '@/background/authenticator/WebAuthenticator';
-import type { WebSessionProvider } from '@/background/scrobbler/service/WebSessionProvider';
+import type { WebSessionProvider } from '@/background/scrobbler/session-provider/WebSessionProvider';
 
 describe(getTestName(__filename), () => {
 	it('should return session', async () => {

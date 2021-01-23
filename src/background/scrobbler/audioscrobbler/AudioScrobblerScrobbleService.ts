@@ -8,9 +8,9 @@ import { createQueryString } from '@/common/util-browser';
 import { fetchJson } from '@/background/util/fetch/FetchJson';
 
 import type { TrackInfo } from '@/background/model/song/TrackInfo';
-import type { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
-import type { AudioScrobblerAppInfo } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerAppInfo';
-import type { TokenBasedSessionProvider } from '@/background/scrobbler/service/TokenBasedSessionProvider';
+import type { ScrobbleService } from '@/background/scrobbler/ScrobbleService';
+import type { AudioScrobblerAppInfo } from '@/background/scrobbler/audioscrobbler/AudioScrobblerAppInfo';
+import type { TokenBasedSessionProvider } from '@/background/scrobbler/session-provider/TokenBasedSessionProvider';
 import type { AudioScrobblerResponse } from './AudioScrobblerResponse';
 import type { AudioScrobblerApiParams } from './AudioScrobblerApiParams';
 

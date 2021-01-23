@@ -4,7 +4,7 @@ import Logger, { ILogger } from 'js-logger';
 
 import { fetchJson } from '@/background/util/fetch/FetchJson';
 
-import type { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
+import type { ScrobbleService } from '@/background/scrobbler/ScrobbleService';
 import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
 import type { TrackInfo } from '@/background/model/song/TrackInfo';
 

@@ -1,4 +1,4 @@
-import { AudioScrobblerAppInfo } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerAppInfo';
+import { AudioScrobblerAppInfo } from '@/background/scrobbler/audioscrobbler/AudioScrobblerAppInfo';
 
 export const LastFmAppInfo: AudioScrobblerAppInfo = {
 	apiUrl: 'https://ws.audioscrobbler.com/2.0/',

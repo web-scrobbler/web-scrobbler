@@ -1,7 +1,7 @@
 import type { ScrobblerAuthenticator } from '@/background/authenticator/ScrobblerAuthenticator';
 import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
 import type { TabOpener } from '@/background/authenticator/tab-opener/TabOpener';
-import type { WebSessionProvider } from '@/background/scrobbler/service/WebSessionProvider';
+import type { WebSessionProvider } from '@/background/scrobbler/session-provider/WebSessionProvider';
 
 export class WebAuthenticator implements ScrobblerAuthenticator {
 	constructor(

@@ -1,8 +1,8 @@
 import { fetchJson } from '@/background/util/fetch/FetchJson';
 
 import type { TrackInfo } from '@/background/model/song/TrackInfo';
-import type { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
-import type { MalojaTrackMetadata } from '@/background/scrobbler/service/maloja/MalojaTrackMetadata';
+import type { ScrobbleService } from '@/background/scrobbler/ScrobbleService';
+import type { MalojaTrackMetadata } from '@/background/scrobbler/maloja/MalojaTrackMetadata';
 import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
 
 export class MalojaScrobbleService implements ScrobbleService {

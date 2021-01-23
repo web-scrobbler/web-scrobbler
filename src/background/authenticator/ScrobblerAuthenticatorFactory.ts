@@ -9,7 +9,7 @@ import {
 	createWebSessionProvider,
 	isTokenBasedAuthSupported,
 	isWebAuthSupported,
-} from '@/background/scrobbler/service/SessionProviderFactory';
+} from '@/background/scrobbler/session-provider/SessionProviderFactory';
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 
 /**

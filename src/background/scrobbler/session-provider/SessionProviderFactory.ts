@@ -1,11 +1,11 @@
-import { AudioScrobblerScrobbleService } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerScrobbleService';
-import { TokenBasedSessionProvider } from '@/background/scrobbler/service/TokenBasedSessionProvider';
+import { AudioScrobblerScrobbleService } from '@/background/scrobbler/audioscrobbler/AudioScrobblerScrobbleService';
+import { TokenBasedSessionProvider } from '@/background/scrobbler/session-provider/TokenBasedSessionProvider';
 
-import { LastFmAppInfo } from '@/background/scrobbler/service/audioscrobbler/LastFmAppInfo';
-import { LibreFmAppInfo } from '@/background/scrobbler/service/audioscrobbler/LibreFmAppInfo';
+import { LastFmAppInfo } from '@/background/scrobbler/audioscrobbler/LastFmAppInfo';
+import { LibreFmAppInfo } from '@/background/scrobbler/audioscrobbler/LibreFmAppInfo';
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
-import { WebSessionProvider } from '@/background/scrobbler/service/WebSessionProvider';
-import { ListenBrainzSessionProvider } from '@/background/scrobbler/service/listenbrainz/ListenBrainzSessionProvider';
+import { WebSessionProvider } from '@/background/scrobbler/session-provider/WebSessionProvider';
+import { ListenBrainzSessionProvider } from '@/background/scrobbler/listenbrainz/ListenBrainzSessionProvider';
 import { ScrobblerSession } from '@/background/account/ScrobblerSession';
 
 type TokenBasedAuthScrobblerId = ScrobblerId.LastFm | ScrobblerId.LibreFm;

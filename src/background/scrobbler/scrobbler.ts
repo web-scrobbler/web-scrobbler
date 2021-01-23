@@ -4,7 +4,7 @@ import {
 } from '@/background/scrobbler/api-call-result';
 
 import type { LoveStatus } from '@/background/model/song/LoveStatus';
-import type { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
+import type { ScrobbleService } from '@/background/scrobbler/ScrobbleService';
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
 import type { TrackInfo } from '@/background/model/song/TrackInfo';

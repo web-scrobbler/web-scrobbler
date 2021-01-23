@@ -8,7 +8,7 @@ import { dummySession } from '#/stub/DummySession';
 import { TokenAuthenticator } from '@/background/authenticator/TokenAuthenticator';
 
 import type { ScrobblerAuthenticator } from '@/background/authenticator/ScrobblerAuthenticator';
-import { TokenBasedSessionProvider } from '@/background/scrobbler/service/TokenBasedSessionProvider';
+import { TokenBasedSessionProvider } from '@/background/scrobbler/session-provider/TokenBasedSessionProvider';
 
 describe(getTestName(__filename), () => {
 	it('should return session', async () => {

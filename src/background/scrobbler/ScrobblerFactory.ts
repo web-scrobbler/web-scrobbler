@@ -3,22 +3,22 @@ import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import {
 	defaultApiUrl,
 	ListenBrainzScrobblerService,
-} from '@/background/scrobbler/service/listenbrainz/ListenBrainzScrobblerService';
+} from '@/background/scrobbler/listenbrainz/ListenBrainzScrobblerService';
 
 import { Scrobbler } from '@/background/scrobbler/Scrobbler';
 import type { UserProperties } from '@/background/account/UserProperties';
 import type { UserAccount } from '@/background/account/UserAccount';
 import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
 
-import { AudioScrobblerScrobbleService } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerScrobbleService';
-import { LastFmAppInfo } from '@/background/scrobbler/service/audioscrobbler/LastFmAppInfo';
+import { AudioScrobblerScrobbleService } from '@/background/scrobbler/audioscrobbler/AudioScrobblerScrobbleService';
+import { LastFmAppInfo } from '@/background/scrobbler/audioscrobbler/LastFmAppInfo';
 import { lastFmScrobblerInfo } from '@/background/scrobbler/audioscrobbler/LastFmScrobblerInfo';
-import { LibreFmScrobbleService } from '@/background/scrobbler/service/audioscrobbler/LibreFmScrobbleService';
-import { LibreFmAppInfo } from '@/background/scrobbler/service/audioscrobbler/LibreFmAppInfo';
+import { LibreFmScrobbleService } from '@/background/scrobbler/audioscrobbler/LibreFmScrobbleService';
+import { LibreFmAppInfo } from '@/background/scrobbler/audioscrobbler/LibreFmAppInfo';
 import { libreFmScrobblerInfo } from '@/background/scrobbler/audioscrobbler/LibreFmScrobblerInfo';
 import { LibreFmScrobbler } from '@/background/scrobbler/librefm-scrobbler';
 import { listenbrainzScrobblerInfo } from '@/background/scrobbler/listenbrainz/ListenBrainzScrobblerInfo';
-import { MalojaScrobbleService } from '@/background/scrobbler/service/maloja/MalojaScrobbleService';
+import { MalojaScrobbleService } from '@/background/scrobbler/maloja/MalojaScrobbleService';
 import { malojaScrobblerInfo } from '@/background/scrobbler/maloja/MalojaScrobblerInfo';
 
 /**
