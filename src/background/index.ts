@@ -24,8 +24,8 @@ async function main() {
 	const remindFn = createAuthRemindFunction();
 	new Extension(remindFn).start();
 
-	const scrobbleManager = await createScrobblerManager();
 	const accountsRepository = getAccountsRepository();
+	const scrobbleManager = await createScrobblerManager(accountsRepository);
 
 	const helper = new AuthenticateHelper(
 		scrobbleManager,

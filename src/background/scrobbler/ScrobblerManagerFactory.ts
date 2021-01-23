@@ -1,13 +1,15 @@
 import { ScrobblerManagerImpl } from '@/background/scrobbler/manager/ScrobblerManagerImpl';
-import type { ScrobblerManager } from '@/background/scrobbler/ScrobblerManager';
 
 import { createScrobbler } from '@/background/scrobbler/ScrobblerFactory';
-import { getAccountsRepository } from '@/background/repository/GetAccountsRepository';
 import { getAllScrobblerIds } from '@/background/scrobbler/ScrobblerId';
 
-export async function createScrobblerManager(): Promise<ScrobblerManager> {
+import type { AccountsRepository } from '@/background/repository/accounts/AccountsRepository';
+import type { ScrobblerManager } from '@/background/scrobbler/ScrobblerManager';
+
+export async function createScrobblerManager(
+	accountsRepository: AccountsRepository
+): Promise<ScrobblerManager> {
 	const scrobblerManager = new ScrobblerManagerImpl();
-	const accountsRepository = getAccountsRepository();
 
 	const scrobblerIds = getAllScrobblerIds();
 	for (const scrobblerId of scrobblerIds) {
