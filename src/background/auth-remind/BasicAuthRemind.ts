@@ -11,7 +11,7 @@ export const basicAuthRemind = async (
 	notifyFn: NotifyFunction
 ): Promise<void> => {
 	const authDisplayCount = await repository.getAuthDisplayCount();
-	if (authDisplayCount > maxNotificationDisplayCount) {
+	if (authDisplayCount >= maxNotificationDisplayCount) {
 		return;
 	}
 

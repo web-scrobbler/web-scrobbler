@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import { spy } from 'chai';
 
 import { getTestName } from '#/helpers/util';
 import { MockedStorage } from '#/mock/MockedStorage';
@@ -15,14 +16,14 @@ describe(getTestName(__filename), () => {
 	let remindFn: AuthRemindFunction;
 
 	beforeEach(() => {
-		notifyFn = () => null;
+		notifyFn = spy(() => Promise.resolve());
 		remindFn = createAuthRemindFunction(notifyFn);
 	});
 
 	it('should call notify function', async () => {
 		await remindFn();
 
-		// expect notify function is called 1 time
+		expect(notifyFn).to.have.called.exactly(1);
 	});
 
 	it('should not call notify funciton more than 3 times', async () => {
@@ -31,7 +32,7 @@ describe(getTestName(__filename), () => {
 		await remindFn();
 		await remindFn();
 
-		// expect notify function is called 3 times
+		expect(notifyFn).to.have.called.exactly(3);
 	});
 });
 
