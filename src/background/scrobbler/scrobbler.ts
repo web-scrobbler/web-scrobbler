@@ -22,7 +22,6 @@ export abstract class Scrobbler implements ScrobblerInfoProvider {
 	abstract getId(): ScrobblerId;
 	abstract getLabel(): string;
 	abstract getProfileUrl(): string;
-	abstract getStatusUrl(): string;
 
 	abstract createScrobbleService(): ScrobbleService;
 

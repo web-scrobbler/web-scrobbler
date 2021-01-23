@@ -23,10 +23,6 @@ export class MalojaScrobbler extends Scrobbler {
 		return null;
 	}
 
-	getStatusUrl(): string {
-		return null;
-	}
-
 	createScrobbleService(): ScrobbleService {
 		return new MalojaScrobbleService(this.session, this.apiUrl);
 	}

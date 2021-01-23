@@ -23,10 +23,6 @@ export class ListenBrainzScrobbler extends Scrobbler {
 		return `https://listenbrainz.org/user/${this.session.getName()}`;
 	}
 
-	getStatusUrl(): string {
-		return 'https://listenbrainz.org/current-status';
-	}
-
 	createScrobbleService(): ScrobbleService {
 		return new ListenBrainzScrobblerService(this.session, this.apiUrl);
 	}

@@ -19,10 +19,6 @@ export class LibreFmScrobbler extends Scrobbler {
 		return `https://libre.fm/user/${this.session.getName()}`;
 	}
 
-	getStatusUrl(): string {
-		return null;
-	}
-
 	createScrobbleService(): ScrobbleService {
 		return new LibreFmScrobbleService(this.session, LibreFmAppInfo);
 	}

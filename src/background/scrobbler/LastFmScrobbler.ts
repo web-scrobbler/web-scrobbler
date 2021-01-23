@@ -19,10 +19,6 @@ export class LastFmScrobbler extends Scrobbler {
 		return `https://last.fm/user/${this.session.getName()}`;
 	}
 
-	getStatusUrl(): string {
-		return 'http://status.last.fm/';
-	}
-
 	createScrobbleService(): ScrobbleService {
 		return new AudioScrobblerScrobbleService(this.session, LastFmAppInfo);
 	}

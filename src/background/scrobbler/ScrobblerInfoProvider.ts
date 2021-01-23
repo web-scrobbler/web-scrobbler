@@ -17,9 +17,4 @@ export interface ScrobblerInfoProvider {
 	 * @return Profile URL
 	 */
 	getProfileUrl(): string;
-
-	/**
-	 * Get status page URL.
-	 */
-	getStatusUrl(): string;
 }
