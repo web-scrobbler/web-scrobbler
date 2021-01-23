@@ -16,7 +16,7 @@ export class LastFmScrobbler extends Scrobbler {
 	}
 
 	getProfileUrl(): string {
-		return `https://last.fm/user/${this.session.sessionName}`;
+		return `https://last.fm/user/${this.session.getName()}`;
 	}
 
 	getStatusUrl(): string {

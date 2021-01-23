@@ -7,14 +7,14 @@ import type { LoveStatus } from '@/background/model/song/LoveStatus';
 import type { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import type { ScrobblerInfoProvider } from '@/background/scrobbler/ScrobblerInfoProvider';
-import type { Session } from '@/background/account/Session';
+import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
 import type { TrackInfo } from '@/background/model/song/TrackInfo';
 
 export abstract class Scrobbler implements ScrobblerInfoProvider {
-	protected session: Session;
+	protected session: ScrobblerSession;
 	private scrobbleService: ScrobbleService;
 
-	constructor(session: Session) {
+	constructor(session: ScrobblerSession) {
 		this.session = session;
 		this.scrobbleService = this.createScrobbleService();
 	}
