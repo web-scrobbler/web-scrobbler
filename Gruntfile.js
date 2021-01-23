@@ -138,7 +138,7 @@ module.exports = (grunt) => {
 					'ts-node/register',
 					'tsconfig-paths/register',
 					'source-map-support/register',
-					'tests/helpers/set-stubs',
+					'tests/SetupMocha',
 				],
 				reporter: './reporter/mocha-min.js',
 			},
