@@ -1,16 +1,25 @@
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 
-import { LastFmScrobbler } from '@/background/scrobbler/LastFmScrobbler';
-import { LibreFmScrobbler } from '@/background/scrobbler/LibreFmScrobbler';
-import { ListenBrainzScrobbler } from '@/background/scrobbler/ListenBrainzScrobbler';
-import { MalojaScrobbler } from '@/background/scrobbler/MalojaScrobbler';
+import {
+	defaultApiUrl,
+	ListenBrainzScrobblerService,
+} from '@/background/scrobbler/service/listenbrainz/ListenBrainzScrobblerService';
 
-import { defaultApiUrl } from '@/background/scrobbler/service/listenbrainz/ListenBrainzScrobblerService';
-
-import type { Scrobbler } from '@/background/scrobbler/Scrobbler';
+import { Scrobbler } from '@/background/scrobbler/Scrobbler';
 import type { UserProperties } from '@/background/account/UserProperties';
 import type { UserAccount } from '@/background/account/UserAccount';
 import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
+
+import { AudioScrobblerScrobbleService } from '@/background/scrobbler/service/audioscrobbler/AudioScrobblerScrobbleService';
+import { LastFmAppInfo } from '@/background/scrobbler/service/audioscrobbler/LastFmAppInfo';
+import { lastFmScrobblerInfo } from '@/background/scrobbler/audioscrobbler/LastFmScrobblerInfo';
+import { LibreFmScrobbleService } from '@/background/scrobbler/service/audioscrobbler/LibreFmScrobbleService';
+import { LibreFmAppInfo } from '@/background/scrobbler/service/audioscrobbler/LibreFmAppInfo';
+import { libreFmScrobblerInfo } from '@/background/scrobbler/audioscrobbler/LibreFmScrobblerInfo';
+import { LibreFmScrobbler } from '@/background/scrobbler/librefm-scrobbler';
+import { listenbrainzScrobblerInfo } from '@/background/scrobbler/listenbrainz/ListenBrainzScrobblerInfo';
+import { MalojaScrobbleService } from '@/background/scrobbler/service/maloja/MalojaScrobbleService';
+import { malojaScrobblerInfo } from '@/background/scrobbler/maloja/MalojaScrobblerInfo';
 
 /**
  * Function that creates a Scrobbler instance.
@@ -51,11 +60,21 @@ const factoryFunctions: Record<ScrobblerId, InternalFactoryFunction> = {
 };
 
 function createLastFmScrobbler(session: ScrobblerSession): Scrobbler {
-	return new LastFmScrobbler(session);
+	const lastFmScrobbleService = new AudioScrobblerScrobbleService(
+		session,
+		LastFmAppInfo
+	);
+
+	return new Scrobbler(session, lastFmScrobblerInfo, lastFmScrobbleService);
 }
 
 function createLibreFmScrobbler(session: ScrobblerSession): Scrobbler {
-	return new LibreFmScrobbler(session);
+	const libreFmScrobbleService = new LibreFmScrobbleService(
+		session,
+		LibreFmAppInfo
+	);
+
+	return new Scrobbler(session, libreFmScrobblerInfo, libreFmScrobbleService);
 }
 
 function createListenBrainzScrobbler(
@@ -63,8 +82,16 @@ function createListenBrainzScrobbler(
 	userProperties: UserProperties
 ): Scrobbler {
 	const { apiUrl = defaultApiUrl } = userProperties;
+	const listenBrainzScrobbleService = new ListenBrainzScrobblerService(
+		session,
+		apiUrl
+	);
 
-	return new ListenBrainzScrobbler(session, apiUrl);
+	return new Scrobbler(
+		session,
+		listenbrainzScrobblerInfo,
+		listenBrainzScrobbleService
+	);
 }
 
 function createMalojaScrobbler(
@@ -72,6 +99,7 @@ function createMalojaScrobbler(
 	userProperties: UserProperties
 ): Scrobbler {
 	const { apiUrl } = userProperties;
+	const malojaScrobbleService = new MalojaScrobbleService(session, apiUrl);
 
-	return new MalojaScrobbler(session, apiUrl);
+	return new Scrobbler(session, malojaScrobblerInfo, malojaScrobbleService);
 }

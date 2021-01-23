@@ -6,36 +6,33 @@ import {
 import type { LoveStatus } from '@/background/model/song/LoveStatus';
 import type { ScrobbleService } from '@/background/scrobbler/service/ScrobbleService';
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
-import type { ScrobblerInfoProvider } from '@/background/scrobbler/ScrobblerInfoProvider';
 import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
 import type { TrackInfo } from '@/background/model/song/TrackInfo';
+import type { ScrobblerInfo } from '@/background/scrobbler/ScrobblerInfo';
 
-export abstract class Scrobbler implements ScrobblerInfoProvider {
-	protected session: ScrobblerSession;
-	private scrobbleService: ScrobbleService;
+export class Scrobbler {
+	constructor(
+		private session: ScrobblerSession,
+		private scrobblerInfo: ScrobblerInfo,
+		private scrobbleService: ScrobbleService
+	) {}
 
-	constructor(session: ScrobblerSession) {
-		this.session = session;
-		this.scrobbleService = this.createScrobbleService();
+	getId(): ScrobblerId {
+		return this.scrobblerInfo.id;
 	}
 
-	abstract getId(): ScrobblerId;
-	abstract getLabel(): string;
+	getLabel(): string {
+		return this.scrobblerInfo.label;
+	}
 
 	getProfileUrl(): string {
-		const baseProfileUrl = this.getBaseProfileUrl();
+		const baseProfileUrl = this.scrobblerInfo.baseProfileUrl;
 		if (baseProfileUrl) {
 			return `${baseProfileUrl}/${this.session.getName()}`;
 		}
 
-		return null;
+		return this.scrobblerInfo.profileUrl ?? null;
 	}
-
-	getBaseProfileUrl(): string {
-		return null;
-	}
-
-	abstract createScrobbleService(): ScrobbleService;
 
 	async sendNowPlayingRequest(trackInfo: TrackInfo): Promise<ApiCallResult> {
 		try {
@@ -67,9 +64,7 @@ export abstract class Scrobbler implements ScrobblerInfoProvider {
 		}
 	}
 
-	protected createApiCallResult(
-		resultType: ApiCallResultType
-	): ApiCallResult {
+	private createApiCallResult(resultType: ApiCallResultType): ApiCallResult {
 		return new ApiCallResult(resultType, this.getId());
 	}
 }
