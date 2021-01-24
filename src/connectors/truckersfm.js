@@ -19,7 +19,7 @@ Connector.onReady = Connector.onStateChanged;
 Connector.applyFilter(filter);
 
 function formatArtists(text) {
-	let artist = text.split(',');
+	const artist = text.split(',');
 	return artist[0];
 }
 
