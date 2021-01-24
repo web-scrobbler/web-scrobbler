@@ -22,4 +22,3 @@ function formatArtists(text) {
 	const artist = text.split(',');
 	return artist[0];
 }
-
