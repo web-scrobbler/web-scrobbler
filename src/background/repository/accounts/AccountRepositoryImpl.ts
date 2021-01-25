@@ -18,14 +18,20 @@ export class AccountsRepositoryImpl implements AccountsRepository {
 		[ScrobblerId.LibreFm]: 'LibreFM',
 		[ScrobblerId.ListenBrainz]: 'ListenBrainz',
 		[ScrobblerId.Maloja]: 'Maloja',
-	};
+	} as const;
+
+	async *[Symbol.asyncIterator](): AsyncGenerator<UserAccount> {
+		for (const scrobblerId in this.storageNameMap) {
+			yield await this.getAccount(scrobblerId as ScrobblerId);
+		}
+	}
 
 	async getAccount(scrobblerId: ScrobblerId): Promise<UserAccount> {
 		const storage = this.getStorage(scrobblerId);
 		const { sessionID, sessionName, properties } = await storage.get();
 
 		const session = new ScrobblerSession(sessionID, sessionName);
-		return new UserAccount(session, properties);
+		return new UserAccount(scrobblerId, session, properties);
 	}
 
 	async removeAccount(scrobblerId: ScrobblerId): Promise<void> {

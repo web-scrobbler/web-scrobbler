@@ -23,17 +23,15 @@ import { malojaScrobblerInfo } from '@/background/scrobbler/maloja/MalojaScrobbl
 /**
  * Function that creates a Scrobbler instance.
  *
- * @param scrobblerId Scrobbler ID
  * @param account User account
  *
  * @return Scrobbler object
  */
 export interface ScrobblerFactory {
-	(scrobblerId: ScrobblerId, account: UserAccount): Scrobbler;
+	(account: UserAccount): Scrobbler;
 }
 
 export const createScrobbler: ScrobblerFactory = (
-	scrobblerId: ScrobblerId,
 	account: UserAccount
 ): Scrobbler => {
 	const session = account.getSession();
@@ -43,7 +41,7 @@ export const createScrobbler: ScrobblerFactory = (
 
 	const userProperties = account.getUserProperties();
 
-	const factoryFunction = factoryFunctions[scrobblerId];
+	const factoryFunction = factoryFunctions[account.getScrobblerId()];
 	return factoryFunction(session, userProperties);
 };
 

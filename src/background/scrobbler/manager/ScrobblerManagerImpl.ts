@@ -79,7 +79,7 @@ export class ScrobblerManagerImpl implements ScrobblerManager {
 		trackInfo: TrackInfo,
 		loveStatus: LoveStatus
 	): Promise<ApiCallResult[]> {
-		this.logger.info('Send "love" request:', this.scrobblers.size);
+		this.logger.info('Send "love" request');
 
 		return this.executeRequests((scrobbler) => {
 			return scrobbler.sendLoveRequest(trackInfo, loveStatus);

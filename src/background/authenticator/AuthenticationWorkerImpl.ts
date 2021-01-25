@@ -36,7 +36,7 @@ export class AuthenticationWorkerImpl implements AuthenticationWorker {
 			);
 		}
 
-		const scrobbler = this.scrobblerFactory(scrobblerId, account);
+		const scrobbler = this.scrobblerFactory(account);
 		this.scrobbleManager.useScrobbler(scrobbler);
 	}
 

@@ -3,7 +3,7 @@ import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
 import type { UserAccount } from '@/background/account/UserAccount';
 import type { UserProperties } from '@/background/account/UserProperties';
 
-export interface AccountsRepository {
+export interface AccountsRepository extends AsyncIterable<UserAccount> {
 	/**
 	 * Get the user account for a scrobbler with the given ID.
 	 *

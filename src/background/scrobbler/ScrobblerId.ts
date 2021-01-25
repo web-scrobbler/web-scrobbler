@@ -4,7 +4,3 @@ export enum ScrobblerId {
 	ListenBrainz = 'listenbrainz',
 	Maloja = 'maloja',
 }
-
-export function getAllScrobblerIds(): ReadonlyArray<ScrobblerId> {
-	return Object.values(ScrobblerId);
-}
