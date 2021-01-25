@@ -28,20 +28,31 @@ export class ScrobblerManagerImpl implements ScrobblerManager {
 	}
 
 	useScrobbler(scrobbler: Scrobbler): void {
-		this.logger.info(`Use scrobbler with "${scrobbler.getId()}" ID`);
+		const scrobblerId = scrobbler.getId();
+		if (this.scrobblers.has(scrobblerId)) {
+			this.logger.info(`Replace "${scrobblerId}" scrobbler`);
+		} else {
+			this.logger.info(`Use "${scrobblerId}" scrobbler`);
+		}
 
-		this.scrobblers.set(scrobbler.getId(), scrobbler);
+		this.scrobblers.set(scrobblerId, scrobbler);
 	}
 
 	removeScrobbler(scrobblerId: ScrobblerId): void {
-		this.logger.info(`Remove scrobbler with "${scrobblerId}" ID`);
+		if (!this.scrobblers.has(scrobblerId)) {
+			this.logger.warn(
+				`Attempt to remove missing "${scrobblerId}" scrobbler`
+			);
+			return;
+		}
+
+		this.logger.info(`Remove "${scrobblerId}" scrobbler`);
 
 		this.scrobblers.delete(scrobblerId);
-		console.log(this.scrobblers);
 	}
 
 	getTrackContextInfo(trackInfo: TrackInfo): Promise<TrackContextInfo[]> {
-		this.logger.info('Send "get info" request');
+		this.logger.info('Send "get info" request:', this.scrobblers.size);
 
 		return this.executeRequests((scrobbler) => {
 			return scrobbler.getTrackContextInfo(trackInfo);
@@ -49,7 +60,7 @@ export class ScrobblerManagerImpl implements ScrobblerManager {
 	}
 
 	sendNowPlayingRequest(trackInfo: TrackInfo): Promise<ApiCallResult[]> {
-		this.logger.info('Send "now playing" request');
+		this.logger.info('Send "now playing" request:', this.scrobblers.size);
 
 		return this.executeRequests((scrobbler) => {
 			return scrobbler.sendNowPlayingRequest(trackInfo);
@@ -57,7 +68,7 @@ export class ScrobblerManagerImpl implements ScrobblerManager {
 	}
 
 	sendScrobbleRequest(trackInfo: TrackInfo): Promise<ApiCallResult[]> {
-		this.logger.info('Send "scrobble" request');
+		this.logger.info('Send "scrobble" request:', this.scrobblers.size);
 
 		return this.executeRequests((scrobbler) => {
 			return scrobbler.sendScrobbleRequest(trackInfo);
@@ -68,7 +79,7 @@ export class ScrobblerManagerImpl implements ScrobblerManager {
 		trackInfo: TrackInfo,
 		loveStatus: LoveStatus
 	): Promise<ApiCallResult[]> {
-		this.logger.info('Send "love" request');
+		this.logger.info('Send "love" request:', this.scrobblers.size);
 
 		return this.executeRequests((scrobbler) => {
 			return scrobbler.sendLoveRequest(trackInfo, loveStatus);
