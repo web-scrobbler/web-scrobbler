@@ -1,5 +1,4 @@
-import chai, { expect } from 'chai';
-import chaiAsPromised from 'chai-as-promised';
+import { expect } from 'chai';
 
 import { MockedStorage } from '#/mock/MockedStorage';
 import { getTestName } from '#/helpers/util';
@@ -10,8 +9,6 @@ import { createSong } from '@/background/model/song/SongFactory';
 import { EditedTracks } from '@/background/repository/edited-tracks/EditedTracks';
 import { EditedTracksImpl } from '@/background/repository/edited-tracks/EditedTracksImpl';
 import { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTrackInfo';
-
-chai.use(chaiAsPromised);
 
 function testEmptySong() {
 	const editedTracks = createEditedTracks();
