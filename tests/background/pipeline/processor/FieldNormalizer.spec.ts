@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 import { createSongStub } from '#/stub/SongStubFactory';
 
 import { FieldNormalizer } from '@/background/pipeline/processor/FieldNormalizer';
 
-describe(getTestName(__filename), () => {
+describeModuleTest(__filename, () => {
 	const processor = new FieldNormalizer();
 
 	it('should normalize all fields', async () => {

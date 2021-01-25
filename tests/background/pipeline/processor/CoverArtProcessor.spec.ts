@@ -2,7 +2,7 @@ import { expect, spy } from 'chai';
 
 import { MockedCoverArtProvider } from '#/mock/MockedCoverArtProvider';
 import { createSongStub } from '#/stub/SongStubFactory';
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 
 import { CoverArtProcessor } from '@/background/pipeline/processor/CoverArtProcessor';
 
@@ -10,7 +10,7 @@ import type { CoverArtProvider } from '@/background/provider/CoverArtProvider';
 import type { Processor } from '@/background/pipeline/Processor';
 import type { Song } from '@/background/model/song/Song';
 
-describe(getTestName(__filename), () => {
+describeModuleTest(__filename, () => {
 	let provider: CoverArtProvider;
 	let processor: Processor<Song>;
 	let spyMethod: unknown;

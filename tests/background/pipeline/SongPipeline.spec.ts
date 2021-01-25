@@ -2,14 +2,14 @@
 
 import { expect, spy } from 'chai';
 
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 
 import { Song } from '@/background/model/song/Song';
 import { Processor } from '@/background/pipeline/Processor';
 import { SongPipeline } from '@/background/pipeline/SongPipeline';
 import { createSongStub } from '#/stub/SongStubFactory';
 
-describe(getTestName(__filename), () => {
+describeModuleTest(__filename, () => {
 	it('should execute all stages', async () => {
 		const processor1 = createDummyProcessor();
 		const processor2 = createDummyProcessor();

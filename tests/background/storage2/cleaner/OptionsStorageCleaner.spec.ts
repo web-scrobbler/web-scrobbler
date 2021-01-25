@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 import { MockedStorage } from '#/mock/MockedStorage';
 
 import { Storage } from '@/background/storage2/Storage';
@@ -13,7 +13,7 @@ import { OptionsStorageCleaner } from '@/background/storage2/cleaner/OptionsStor
 
 import { defaultExtensionOptions } from '@/background/repository/options/DefaultExtensionOptions';
 
-describe(getTestName(__filename), testOptionsStorageCleaner);
+describeModuleTest(__filename, testOptionsStorageCleaner);
 
 function testOptionsStorageCleaner() {
 	const unknownConnectorId = 'unknown';

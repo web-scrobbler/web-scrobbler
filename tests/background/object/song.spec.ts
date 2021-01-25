@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 
 import {
 	Song,
@@ -430,7 +430,7 @@ function testWrap() {
 	});
 }
 
-describe(getTestName(__filename), () => {
+describeModuleTest(__filename, () => {
 	describe('static fields', testStaticFields);
 	describe('parsed song info', testParsedFields);
 	describe('processed song info', testProcessedFields);

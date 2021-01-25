@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { getObjectKeys, getTestName } from '#/helpers/util';
+import { getObjectKeys, describeModuleTest } from '#/helpers/util';
 import { MockedStorage } from '#/mock/MockedStorage';
 
 import { ConnectorsOptions } from '@/background/repository/connectors-options/ConnectorsOptions';
@@ -9,9 +9,7 @@ import { ConnectorsOptionsImpl } from '@/background/repository/connectors-option
 
 import { defaultConnectorsOptions } from '@/background/repository/connectors-options/DefaultConnectorsOptions';
 
-describe(getTestName(__filename), testConnectorsOptions);
-
-function testConnectorsOptions() {
+describeModuleTest(__filename, () => {
 	const connectorsOptions = createConnectorsOptions();
 
 	it('should return default options when initialized', async () => {
@@ -71,7 +69,7 @@ function testConnectorsOptions() {
 		);
 		expect(actualValue).to.be.true;
 	});
-}
+});
 
 function createConnectorsOptions(): ConnectorsOptions<ConnectorsOptionsData> {
 	return new ConnectorsOptionsImpl(new MockedStorage());

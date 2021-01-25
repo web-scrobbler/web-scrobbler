@@ -4,11 +4,11 @@ import {
 	createApiCallResultStub,
 	scrobblerIdStub,
 } from '#/helpers/create-stubs';
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 
 import { ApiCallResult } from '@/background/scrobbler/api-call-result';
 
-describe(getTestName(__filename), () => {
+describeModuleTest(__filename, () => {
 	it('should return scrobbler ID', () => {
 		const result = createApiCallResultStub(ApiCallResult.RESULT_OK);
 		expect(result.getScrobblerId()).to.be.equal(scrobblerIdStub);

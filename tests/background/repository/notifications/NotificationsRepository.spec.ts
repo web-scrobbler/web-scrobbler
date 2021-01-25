@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 import { MockedStorage } from '#/mock/MockedStorage';
 
 import { NotificationsRepository } from '@/background/repository/notifications/NotificationsRepository';
 import { NotificationsRepositoryImpl } from '@/background/repository/notifications/NotificationsRepositoryImpl';
 
-describe(getTestName(__filename), testNotificationsRepository);
+describeModuleTest(__filename, testNotificationsRepository);
 
 function testNotificationsRepository() {
 	const repository = createNotificationsRepository();

@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 import { generateId } from '@/background/util/id-generator/IdGenerator';
 
-describe(getTestName(__filename), () => {
+describeModuleTest(__filename, () => {
 	it('should throw error if seed is empty', () => {
 		expect(() => getGeneratorValuesFromSeed([])).to.throw();
 	});

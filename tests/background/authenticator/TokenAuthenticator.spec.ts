@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { MockedTabOpener } from '#/mock/MockedTabOpener';
 import { MockedTokenBasedSessionProvider } from '#/mock/MockedTokenSessionProvider';
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 import { dummySession } from '#/stub/DummySession';
 
 import { TokenAuthenticator } from '@/background/authenticator/TokenAuthenticator';
@@ -10,7 +10,7 @@ import { TokenAuthenticator } from '@/background/authenticator/TokenAuthenticato
 import type { ScrobblerAuthenticator } from '@/background/authenticator/ScrobblerAuthenticator';
 import { TokenBasedSessionProvider } from '@/background/scrobbler/session-provider/TokenBasedSessionProvider';
 
-describe(getTestName(__filename), () => {
+describeModuleTest(__filename, () => {
 	it('should return session', async () => {
 		const authenticator = createTokenAuthenticator(
 			new MockedTokenBasedSessionProvider()

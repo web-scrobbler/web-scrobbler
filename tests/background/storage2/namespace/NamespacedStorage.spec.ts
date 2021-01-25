@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 import { MockedStorageArea } from '#/mock/MockedStorageArea';
 
 import { Storage } from '@/background/storage2/Storage';
 import { NamespaceStorage } from '@/background/storage2/namespace/NamespaceStorage';
 
-describe(getTestName(__filename), () => {
+describeModuleTest(__filename, () => {
 	describe('test creation', testStorageCreation);
 	describe('test work', testNamespaceStorage);
 });

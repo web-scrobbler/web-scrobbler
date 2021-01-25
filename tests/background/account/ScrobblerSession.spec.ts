@@ -1,9 +1,10 @@
 import { expect } from 'chai';
 
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
+
 import { ScrobblerSession } from '@/background/account/ScrobblerSession';
 
-describe(getTestName(__filename), () => {
+describeModuleTest(__filename, () => {
 	it('should return true for empty session', () => {
 		const session = ScrobblerSession.createEmptySession();
 

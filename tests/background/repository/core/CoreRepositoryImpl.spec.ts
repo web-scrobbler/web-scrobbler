@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 import { MockedStorage } from '#/mock/MockedStorage';
 
 import { CoreRepository } from '@/background/repository/core/CoreRepository';
 import { CoreRepositoryImpl } from '@/background/repository/core/CoreRepositoryImpl';
 
-describe(getTestName(__filename), testCoreRepository);
+describeModuleTest(__filename, testCoreRepository);
 
 // FIXME use `return`
 

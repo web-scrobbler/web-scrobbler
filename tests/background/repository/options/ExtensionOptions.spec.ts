@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { getObjectKeys, getTestName } from '#/helpers/util';
+import { getObjectKeys, describeModuleTest } from '#/helpers/util';
 import { MockedStorage } from '#/mock/MockedStorage';
 
 import { Options } from '@/background/repository/options/Options';
@@ -11,9 +11,7 @@ import { defaultExtensionOptions } from '@/background/repository/options/Default
 
 import connectors from '@/connectors.json';
 
-describe(getTestName(__filename), testOptions);
-
-function testOptions() {
+describeModuleTest(__filename, () => {
 	const options = createOptions();
 	const connectorIds = connectors.map((connector) => connector.id);
 	const connectorId = connectorIds[0];
@@ -69,7 +67,7 @@ function testOptions() {
 		const isEnabled = await options.isConnectorEnabled(connectorId);
 		return expect(isEnabled).to.be.false;
 	});
-}
+});
 
 function createOptions(): Options<ExtensionOptionsData> {
 	return new ExtensionOptions(new MockedStorage());

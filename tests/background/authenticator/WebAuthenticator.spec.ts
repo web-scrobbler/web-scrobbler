@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 import { dummySession } from '#/stub/DummySession';
 import { MockedTabOpener } from '#/mock/MockedTabOpener';
 import { MockedWebSessionProvider } from '#/mock/MockedWebSessionProvider';
@@ -8,7 +8,7 @@ import { MockedWebSessionProvider } from '#/mock/MockedWebSessionProvider';
 import { WebAuthenticator } from '@/background/authenticator/WebAuthenticator';
 import type { WebSessionProvider } from '@/background/scrobbler/session-provider/WebSessionProvider';
 
-describe(getTestName(__filename), () => {
+describeModuleTest(__filename, () => {
 	it('should return session', async () => {
 		const authenticator = createWebAuthenticator(
 			new MockedWebSessionProvider()

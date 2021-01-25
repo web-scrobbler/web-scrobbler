@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 
 import { isPatternMatched } from '@/background/util/url-match';
 
@@ -91,7 +91,7 @@ const urlMatchTestData = [
 	},
 ];
 
-describe(getTestName(__filename), () => {
+describeModuleTest(__filename, () => {
 	for (const data of urlMatchTestData) {
 		const { description, pattern, urls, expected } = data;
 

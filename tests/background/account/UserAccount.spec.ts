@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 
 import { UserAccount } from '@/background/account/UserAccount';
 import { ScrobblerSession } from '@/background/account/ScrobblerSession';
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 
-describe(getTestName(__filename), () => {
+describeModuleTest(__filename, () => {
 	const stubSessionId = 'stubId';
 	const stubSessionName = 'stubName';
 	const stubToken = 'stubToken';

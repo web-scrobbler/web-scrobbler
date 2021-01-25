@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 import { spy } from 'chai';
 
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 import { MockedStorage } from '#/mock/MockedStorage';
 
 import { NotificationsRepositoryImpl } from '@/background/repository/notifications/NotificationsRepositoryImpl';
@@ -11,7 +11,7 @@ import type {
 	NotifyFunction,
 } from '@/background/auth-remind/AuthRemindFunction';
 
-describe(getTestName(__filename), () => {
+describeModuleTest(__filename, () => {
 	let notifyFn: NotifyFunction;
 	let remindFn: AuthRemindFunction;
 

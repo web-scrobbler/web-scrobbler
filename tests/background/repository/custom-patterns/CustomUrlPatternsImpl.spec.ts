@@ -1,12 +1,12 @@
 import { expect } from 'chai';
 
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 import { MockedStorage } from '#/mock/MockedStorage';
 
 import { CustomUrlPatterns } from '@/background/repository/custom-patterns/CustomUrlPatterns';
 import { CustomUrlPatternsImpl } from '@/background/repository/custom-patterns/CustomUrlPatternsImpl';
 
-describe(getTestName(__filename), testCustomUrlPatternsRepository);
+describeModuleTest(__filename, testCustomUrlPatternsRepository);
 
 function testCustomUrlPatternsRepository() {
 	const repository = createCustomUrlPatterns();

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { MockedStorage } from '#/mock/MockedStorage';
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 
 import { Song } from '@/background/model/song/Song';
 import { createSong } from '@/background/model/song/SongFactory';
@@ -175,7 +175,7 @@ function createEditedTracks(...initialData: Song[]): EditedTracks {
 	return editedTracks;
 }
 
-describe(getTestName(__filename), () => {
+describeModuleTest(__filename, () => {
 	describe('should throw an error for empty songs', testEmptySong);
 
 	describe('should clear storage', testClearStorage);

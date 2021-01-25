@@ -1,10 +1,10 @@
 import { expect } from 'chai';
 
-import { getTestName } from '#/helpers/util';
+import { describeModuleTest } from '#/helpers/util';
 import { createSongStub } from '#/stub/SongStubFactory';
 import { SongDto } from '@/background/model/song/SongDto';
 
-describe(getTestName(__filename), () => {
+describeModuleTest(__filename, () => {
 	describe('Song.getUniqueId', testGetUniqueId);
 	describe('Song.isEmpty', testIsEmpty);
 	describe('Song.serialize', testSerialize);
