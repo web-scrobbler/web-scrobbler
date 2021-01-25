@@ -1,9 +1,14 @@
+import { LoveStatus } from '@/background/model/song/LoveStatus';
+import { TrackContextInfo } from '@/background/model/song/TrackContextInfo';
+import { TrackInfo } from '@/background/model/song/TrackInfo';
+import { TrackContextInfoProvider } from '@/background/provider/TrackContextInfoProvider';
+import { ApiCallResult } from '@/background/scrobbler/api-call-result';
 import { Scrobbler } from '@/background/scrobbler/Scrobbler';
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
-import { SongInfo } from '../object/song';
-import { ApiCallResult } from './api-call-result';
 
-export interface ScrobblerManager extends Iterable<Scrobbler> {
+export interface ScrobblerManager
+	extends Iterable<Scrobbler>,
+		TrackContextInfoProvider {
 	/**
 	 * Return a scrobbler by the given scrobbler ID.
 	 *
@@ -28,18 +33,23 @@ export interface ScrobblerManager extends Iterable<Scrobbler> {
 	/**
 	 * Send now playing notification to each granted scrobbler.
 	 *
-	 * @param songInfo Object containing song info
+	 * @param trackInfo Object containing song info
 	 *
 	 * @return List of API call results
 	 */
-	sendNowPlayingRequest(songInfo: SongInfo): Promise<ApiCallResult[]>;
+	sendNowPlayingRequest(trackInfo: TrackInfo): Promise<ApiCallResult[]>;
 
 	/**
 	 * Scrobble song to each granted scrobbler.
 	 *
-	 * @param songInfo Object containing song info
+	 * @param trackInfo Object containing song info
 	 *
 	 * @return List of API call results
 	 */
-	sendScrobbleRequest(songInfo: SongInfo): Promise<ApiCallResult[]>;
+	sendScrobbleRequest(trackInfo: TrackInfo): Promise<ApiCallResult[]>;
+
+	sendLoveRequest(
+		trackInfo: TrackInfo,
+		loveStatus: LoveStatus
+	): Promise<ApiCallResult[]>;
 }

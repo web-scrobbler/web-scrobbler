@@ -1,4 +1,4 @@
-import { AudioScrobblerImage } from './AudioScrobblerImage';
+import type { AudioScrobblerTrackInfo } from '@/background/scrobbler/audioscrobbler/AudioScrobblerTrackInfo';
 
 export interface AudioScrobblerResponse {
 	session?: {
@@ -12,21 +12,5 @@ export interface AudioScrobblerResponse {
 			accepted: string;
 		};
 	};
-	track?: {
-		name: string;
-		url?: string;
-		duration?: string;
-		userplaycount: string;
-		artist: {
-			name: string;
-			url?: string;
-		};
-		album?: {
-			title: string;
-			image?: AudioScrobblerImage[];
-			mbid?: string;
-			url?: string;
-		};
-		userloved?: '0' | '1';
-	};
+	track?: AudioScrobblerTrackInfo;
 }

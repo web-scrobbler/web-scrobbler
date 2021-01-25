@@ -2,9 +2,11 @@ import type { ApiCallResult } from '@/background/scrobbler/api-call-result';
 import type { Scrobbler } from '@/background/scrobbler/Scrobbler';
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import type { ScrobblerManager } from '@/background/scrobbler/ScrobblerManager';
-import type { SongInfo } from '@/background/object/song';
 
 import Logger, { ILogger } from 'js-logger';
+import { TrackInfo } from '@/background/model/song/TrackInfo';
+import { LoveStatus } from '@/background/model/song/LoveStatus';
+import { TrackContextInfo } from '@/background/model/song/TrackContextInfo';
 
 export class ScrobblerManagerImpl implements ScrobblerManager {
 	private logger: ILogger;
@@ -38,25 +40,45 @@ export class ScrobblerManagerImpl implements ScrobblerManager {
 		console.log(this.scrobblers);
 	}
 
-	sendNowPlayingRequest(songInfo: SongInfo): Promise<ApiCallResult[]> {
-		this.logger.info('Send "now playing" request');
+	getTrackContextInfo(trackInfo: TrackInfo): Promise<TrackContextInfo[]> {
+		this.logger.info('Send "get info" request');
 
-		const scrobblers = Array.from(this.scrobblers.values());
-		const promises = scrobblers.map((scrobbler) => {
-			return scrobbler.sendNowPlayingRequest(songInfo);
+		return this.executeRequests((scrobbler) => {
+			return scrobbler.getTrackContextInfo(trackInfo);
 		});
-
-		return Promise.all(promises);
 	}
 
-	sendScrobbleRequest(songInfo: SongInfo): Promise<ApiCallResult[]> {
+	sendNowPlayingRequest(trackInfo: TrackInfo): Promise<ApiCallResult[]> {
+		this.logger.info('Send "now playing" request');
+
+		return this.executeRequests((scrobbler) => {
+			return scrobbler.sendNowPlayingRequest(trackInfo);
+		});
+	}
+
+	sendScrobbleRequest(trackInfo: TrackInfo): Promise<ApiCallResult[]> {
 		this.logger.info('Send "scrobble" request');
 
-		const scrobblers = Array.from(this.scrobblers.values());
-		const promises = scrobblers.map((scrobbler) => {
-			return scrobbler.sendScrobbleRequest(songInfo);
+		return this.executeRequests((scrobbler) => {
+			return scrobbler.sendScrobbleRequest(trackInfo);
 		});
+	}
 
-		return Promise.all(promises);
+	sendLoveRequest(
+		trackInfo: TrackInfo,
+		loveStatus: LoveStatus
+	): Promise<ApiCallResult[]> {
+		this.logger.info('Send "love" request');
+
+		return this.executeRequests((scrobbler) => {
+			return scrobbler.sendLoveRequest(trackInfo, loveStatus);
+		});
+	}
+
+	private executeRequests<T>(
+		fn: (scrobbler: Scrobbler) => Promise<T>
+	): Promise<T[]> {
+		const requests = Array.from(this.scrobblers.values()).map(fn);
+		return Promise.all(requests);
 	}
 }

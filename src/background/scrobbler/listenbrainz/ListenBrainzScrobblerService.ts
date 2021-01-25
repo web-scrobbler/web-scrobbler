@@ -7,6 +7,7 @@ import { fetchJson } from '@/background/util/fetch/FetchJson';
 import type { ScrobbleService } from '@/background/scrobbler/ScrobbleService';
 import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
 import type { TrackInfo } from '@/background/model/song/TrackInfo';
+import { TrackContextInfo } from '@/background/model/song/TrackContextInfo';
 
 interface ListenBrainzParams {
 	listen_type: 'playing_now' | 'single';
@@ -29,6 +30,10 @@ export class ListenBrainzScrobblerService implements ScrobbleService {
 	private logger: ILogger = Logger.get('ListenBrainz');
 
 	constructor(private session: ScrobblerSession, private apiUrl: string) {}
+
+	getTrackContextInfo(): Promise<TrackContextInfo> {
+		return null;
+	}
 
 	getAuthUrl(): string {
 		return 'https://listenbrainz.org/login/musicbrainz?next=%2Fprofile%2F';

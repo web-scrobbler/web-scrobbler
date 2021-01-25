@@ -14,6 +14,10 @@ export class EditedInfoProcessor implements Processor<Song> {
 			return;
 		}
 
+		if (!editedTrackInfo) {
+			return null;
+		}
+
 		song.setArtist(editedTrackInfo.artist);
 		song.setTrack(editedTrackInfo.track);
 		song.setAlbum(editedTrackInfo.album);

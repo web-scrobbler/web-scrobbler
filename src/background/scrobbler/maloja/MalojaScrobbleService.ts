@@ -4,9 +4,14 @@ import type { TrackInfo } from '@/background/model/song/TrackInfo';
 import type { ScrobbleService } from '@/background/scrobbler/ScrobbleService';
 import type { MalojaTrackMetadata } from '@/background/scrobbler/maloja/MalojaTrackMetadata';
 import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import { TrackContextInfo } from '@/background/model/song/TrackContextInfo';
 
 export class MalojaScrobbleService implements ScrobbleService {
 	constructor(private session: ScrobblerSession, private apiUrl: string) {}
+
+	getTrackContextInfo(): Promise<TrackContextInfo> {
+		return null;
+	}
 
 	sendNowPlayingRequest(trackInfo: TrackInfo): Promise<void> {
 		const trackMetadata = this.makeTrackMetadata(trackInfo);

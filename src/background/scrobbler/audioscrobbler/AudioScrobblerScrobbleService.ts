@@ -13,13 +13,65 @@ import type { AudioScrobblerAppInfo } from '@/background/scrobbler/audioscrobble
 import type { TokenBasedSessionProvider } from '@/background/scrobbler/session-provider/TokenBasedSessionProvider';
 import type { AudioScrobblerResponse } from './AudioScrobblerResponse';
 import type { AudioScrobblerApiParams } from './AudioScrobblerApiParams';
+import { ExternalTrackInfoProvider } from '@/background/provider/ExternalTrackInfoProvider';
+import { AudioScrobblerImage } from '@/background/scrobbler/audioscrobbler/AudioScrobblerImage';
+import { TrackContextInfo } from '@/background/model/song/TrackContextInfo';
+import { ExternalTrackInfo } from '@/background/provider/ExternalTrackInfo';
+import { AudioScrobblerTrackInfo } from '@/background/scrobbler/audioscrobbler/AudioScrobblerTrackInfo';
 
 export class AudioScrobblerScrobbleService
-	implements ScrobbleService, TokenBasedSessionProvider {
+	implements
+		ScrobbleService,
+		TokenBasedSessionProvider,
+		ExternalTrackInfoProvider {
 	constructor(
 		private session: ScrobblerSession,
 		private readonly appInfo: AudioScrobblerAppInfo
 	) {}
+
+	/** SongInfoProvider implementation */
+
+	async getExternalTrackInfo(
+		trackInfo: TrackInfo
+	): Promise<ExternalTrackInfo> {
+		const audioScrobblerTrackInfo = await this.getAudioScrobblerTrackInfo(
+			trackInfo
+		);
+
+		const audioScrobblerAbumInfo = audioScrobblerTrackInfo.album;
+		const audioScrobblerArtistInfo = audioScrobblerTrackInfo.artist;
+
+		const artist = audioScrobblerArtistInfo.name;
+		const track = audioScrobblerTrackInfo.name;
+		const duration =
+			parseInt(audioScrobblerTrackInfo.duration) / 1000 || null;
+
+		const artistUrl = audioScrobblerTrackInfo.url;
+		const trackUrl = audioScrobblerTrackInfo.url;
+
+		const result: ExternalTrackInfo = {
+			artist,
+			track,
+			duration,
+
+			artistUrl,
+			trackUrl,
+		};
+
+		if (audioScrobblerAbumInfo) {
+			result.album = audioScrobblerAbumInfo.title;
+			result.albumUrl = audioScrobblerAbumInfo.url;
+			result.albumMbId = audioScrobblerAbumInfo.mbid;
+
+			if (Array.isArray(audioScrobblerAbumInfo.image)) {
+				result.trackArtUrl = getAlbumArtFromResponse(
+					audioScrobblerAbumInfo.image
+				);
+			}
+		}
+
+		return result;
+	}
 
 	/** TokenBasedSessionProvider implementation */
 
@@ -52,6 +104,23 @@ export class AudioScrobblerScrobbleService
 	}
 
 	/** ScrobbleService implementation */
+
+	async getTrackContextInfo(trackInfo: TrackInfo): Promise<TrackContextInfo> {
+		const audioScrobblerTrackInfo = await this.getAudioScrobblerTrackInfo(
+			trackInfo,
+			this.session.getName()
+		);
+
+		return {
+			userPlayCount: Number.parseInt(
+				audioScrobblerTrackInfo.userplaycount
+			),
+			loveStatus:
+				audioScrobblerTrackInfo.userloved === '1'
+					? LoveStatus.Loved
+					: LoveStatus.Unloved,
+		};
+	}
 
 	async sendNowPlayingRequest(trackInfo: TrackInfo): Promise<void> {
 		const { artist, track, album, albumArtist, duration } = trackInfo;
@@ -211,6 +280,34 @@ export class AudioScrobblerScrobbleService
 
 		return md5(o);
 	}
+
+	private async getAudioScrobblerTrackInfo(
+		trackInfo: TrackInfo,
+		username?: string
+	): Promise<Readonly<AudioScrobblerTrackInfo>> {
+		const { artist, track, album } = trackInfo;
+
+		const params: AudioScrobblerApiParams = {
+			track,
+			artist,
+			method: 'track.getinfo',
+		};
+
+		if (album) {
+			params.album = album;
+		}
+
+		if (username) {
+			params.username = username;
+		}
+
+		const responseData = await this.sendRequest({ method: 'GET' }, params, {
+			signed: false,
+		});
+		this.processResponse(responseData);
+
+		return responseData.track;
+	}
 }
 
 /**
@@ -236,4 +333,26 @@ function hideUserData(response: AudioScrobblerResponse, text: string) {
 	}
 
 	return debugMsg;
+}
+
+const imageSizes = ['extralarge', 'large', 'medium'];
+
+function getAlbumArtFromResponse(images: AudioScrobblerImage[]): string {
+	/*
+	 * Convert an array from response to an object.
+	 * Format is the following: { size: "url", ... }.
+	 */
+	const imagesMap: Record<string, string> = images.reduce((result, image) => {
+		result[image.size] = image['#text'];
+		return result;
+	}, {});
+
+	for (const imageSize of imageSizes) {
+		const url = imagesMap[imageSize];
+		if (url) {
+			return url;
+		}
+	}
+
+	return null;
 }

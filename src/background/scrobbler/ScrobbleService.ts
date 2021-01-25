@@ -1,7 +1,17 @@
 import type { LoveStatus } from '@/background/model/song/LoveStatus';
+import { TrackContextInfo } from '@/background/model/song/TrackContextInfo';
 import type { TrackInfo } from '@/background/model/song/TrackInfo';
 
 export interface ScrobbleService {
+	/**
+	 * Get user-specific context info for a track with the given track info.
+	 *
+	 * @param trackInfo Object containing track info
+	 *
+	 * @return Track context info
+	 */
+	getTrackContextInfo(trackInfo: TrackInfo): Promise<TrackContextInfo>;
+
 	/**
 	 * Send a now playing request.
 	 *

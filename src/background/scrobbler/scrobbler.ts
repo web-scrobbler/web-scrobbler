@@ -9,6 +9,7 @@ import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
 import type { TrackInfo } from '@/background/model/song/TrackInfo';
 import type { ScrobblerInfo } from '@/background/scrobbler/ScrobblerInfo';
+import { TrackContextInfo } from '@/background/model/song/TrackContextInfo';
 
 export class Scrobbler {
 	constructor(
@@ -32,6 +33,10 @@ export class Scrobbler {
 		}
 
 		return this.scrobblerInfo.profileUrl ?? null;
+	}
+
+	async getTrackContextInfo(trackInfo: TrackInfo): Promise<TrackContextInfo> {
+		return this.scrobbleService.getTrackContextInfo(trackInfo);
 	}
 
 	async sendNowPlayingRequest(trackInfo: TrackInfo): Promise<ApiCallResult> {

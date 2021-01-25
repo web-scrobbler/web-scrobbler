@@ -1,10 +1,10 @@
 export interface TrackInfo {
-	readonly artist: string;
-	readonly track: string;
-	readonly album?: string;
-	readonly albumArtist?: string;
+	artist: string;
+	track: string;
+	album?: string;
+	albumArtist?: string;
 
-	readonly duration?: number;
-	readonly originUrl?: string;
-	readonly timestamp?: number;
+	duration?: number;
+	originUrl?: string;
+	timestamp?: number;
 }

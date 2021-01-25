@@ -16,7 +16,6 @@ import { lastFmScrobblerInfo } from '@/background/scrobbler/audioscrobbler/LastF
 import { LibreFmScrobbleService } from '@/background/scrobbler/audioscrobbler/LibreFmScrobbleService';
 import { LibreFmAppInfo } from '@/background/scrobbler/audioscrobbler/LibreFmAppInfo';
 import { libreFmScrobblerInfo } from '@/background/scrobbler/audioscrobbler/LibreFmScrobblerInfo';
-import { LibreFmScrobbler } from '@/background/scrobbler/librefm-scrobbler';
 import { listenbrainzScrobblerInfo } from '@/background/scrobbler/listenbrainz/ListenBrainzScrobblerInfo';
 import { MalojaScrobbleService } from '@/background/scrobbler/maloja/MalojaScrobbleService';
 import { malojaScrobblerInfo } from '@/background/scrobbler/maloja/MalojaScrobblerInfo';
@@ -36,7 +35,7 @@ export interface ScrobblerFactory {
 export const createScrobbler: ScrobblerFactory = (
 	scrobblerId: ScrobblerId,
 	account: UserAccount
-) => {
+): Scrobbler => {
 	const session = account.getSession();
 	if (session.isEmpty()) {
 		throw new Error('Cannot create scrobbler with empty session');
