@@ -28,8 +28,9 @@ export class AccountsRepositoryImpl implements AccountsRepository {
 		return new UserAccount(session, properties);
 	}
 
-	removeAccount(scrobblerId: ScrobblerId): Promise<void> {
-		throw new Error('Method not implemented.');
+	async removeAccount(scrobblerId: ScrobblerId): Promise<void> {
+		const storage = this.getStorage(scrobblerId);
+		await storage.clear();
 	}
 
 	async updateScrobblerSession(
