@@ -1,6 +1,6 @@
 import type { CoverArtProvider } from '@/background/provider/CoverArtProvider';
 
-export class MockedCoverArtFetcher implements CoverArtProvider {
+export class MockedCoverArtProvider implements CoverArtProvider {
 	constructor(private coverArtUrl: string) {}
 
 	getCoverArt(): Promise<string> {

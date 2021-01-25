@@ -1,16 +1,27 @@
-import { expect } from 'chai';
+import { expect, spy } from 'chai';
 
+import { MockedCoverArtProvider } from '#/mock/MockedCoverArtProvider';
+import { createSongStub } from '#/stub/SongStubFactory';
 import { getTestName } from '#/helpers/util';
-import { MockedCoverArtFetcher } from '#/mock/MockedCoverArtFetcher';
 
-import { Song } from '@/background/model/song/Song';
-import { Processor } from '@/background/pipeline/Processor';
 import { CoverArtProcessor } from '@/background/pipeline/processor/CoverArtProcessor';
 
-import { createSongStub } from '#/stub/SongStubFactory';
+import type { CoverArtProvider } from '@/background/provider/CoverArtProvider';
+import type { Processor } from '@/background/pipeline/Processor';
+import type { Song } from '@/background/model/song/Song';
 
 describe(getTestName(__filename), () => {
-	const processor = createProcessor();
+	let provider: CoverArtProvider;
+	let processor: Processor<Song>;
+	let spyMethod: unknown;
+
+	beforeEach(() => {
+		provider = new MockedCoverArtProvider('fetched-track-art-url');
+		processor = new CoverArtProcessor(provider);
+
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+		spyMethod = spy.on(provider, 'getCoverArt');
+	});
 
 	it('should replace track art URL', async () => {
 		const song = createSongStub();
@@ -24,11 +35,6 @@ describe(getTestName(__filename), () => {
 		await processor.process(song);
 
 		expect(song.getTrackArt()).equal('external-track-art-url');
+		expect(spyMethod).to.not.have.called;
 	});
 });
-
-function createProcessor(): Processor<Song> {
-	// TODO check if fetcher is not executed if it's not needed
-	const coverArtFetcher = new MockedCoverArtFetcher('fetched-track-art-url');
-	return new CoverArtProcessor(coverArtFetcher);
-}

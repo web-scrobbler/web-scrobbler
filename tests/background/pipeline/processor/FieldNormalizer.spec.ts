@@ -1,22 +1,18 @@
 import { expect } from 'chai';
 
 import { getTestName } from '#/helpers/util';
-
-import { Song } from '@/background/model/song/Song';
-import { Processor } from '@/background/pipeline/Processor';
-import { FieldNormalizer } from '@/background/pipeline/processor/FieldNormalizer';
-
-import { createSong } from '@/background/model/song/SongFactory';
 import { createSongStub } from '#/stub/SongStubFactory';
 
+import { FieldNormalizer } from '@/background/pipeline/processor/FieldNormalizer';
+
 describe(getTestName(__filename), () => {
-	const processor = createProcessor();
+	const processor = new FieldNormalizer();
 
 	it('should normalize all fields', async () => {
 		const inputField = '\u0041\u006d\u0065\u0301\u006c\u0069\u0065';
 		const normalizedField = '\u0041\u006d\u00e9\u006c\u0069\u0065';
 
-		const song = createSong({
+		const song = createSongStub({
 			artist: inputField,
 			track: inputField,
 			album: inputField,
@@ -52,13 +48,8 @@ describe(getTestName(__filename), () => {
 		const song = createSongStub({ artist: null, track: null });
 
 		await processor.process(song);
-		// TODO check if fetcher is not executed if it's not needed
 
 		expect(song.getArtist()).equal(null);
 		expect(song.getTrack()).equal(null);
 	});
 });
-
-function createProcessor(): Processor<Song> {
-	return new FieldNormalizer();
-}
