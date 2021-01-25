@@ -6,7 +6,7 @@ import { migrate } from '@/background/util/migrate';
 
 import { getCoreRepository } from '@/background/repository/GetCoreRepository';
 import { createScrobblerManager } from '@/background/scrobbler/ScrobblerManagerFactory';
-import { AuthenticateHelper } from '@/background/authenticator/AuthenticateHelper';
+import { AuthenticationWorkerImpl } from '@/background/authenticator/AuthenticationWorkerImpl';
 import { getAccountsRepository } from '@/background/repository/GetAccountsRepository';
 import { createAuthenticator } from '@/background/authenticator/ScrobblerAuthenticatorFactory';
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
@@ -40,21 +40,23 @@ async function main() {
 	await migrate();
 	updateCoreVersion();
 
-	const remindFn = createAuthRemindFunction();
-	new Extension(remindFn).start();
-
 	const accountsRepository = getAccountsRepository();
 	const scrobbleManager = await createScrobblerManager(
 		accountsRepository,
 		createScrobbler
 	);
 
-	// const helper = new AuthenticateHelper(
-	// 	scrobbleManager,
-	// 	accountsRepository,
-	// 	createScrobbler,
-	// 	createAuthenticator
-	// );
+	const authWorker = new AuthenticationWorkerImpl(
+		scrobbleManager,
+		accountsRepository,
+		createScrobbler,
+		createAuthenticator
+	);
+	// await authWorker.signOut(ScrobblerId.LastFm);
+
+	const remindFn = createAuthRemindFunction();
+	new Extension(remindFn, authWorker).start();
+
 	// await helper.signIn(ScrobblerId.Maloja);
 
 	// const account = await accountsRepository.getAccount(ScrobblerId.LibreFm);
@@ -75,8 +77,8 @@ async function main() {
 
 	const pipeline = createTrackPipeline(editedTracks, scrobbleManager);
 
-	const song = createSongStub({ artist: 'Tool', track: 'Lateralus' });
-	await pipeline.process(song);
+	// const song = createSongStub({ artist: 'Tool', track: 'Lateralus' });
+	// await pipeline.process(song);
 }
 
 function updateCoreVersion() {

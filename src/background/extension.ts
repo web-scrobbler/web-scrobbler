@@ -24,11 +24,15 @@ import {
 } from '@/background/browser/notifications';
 
 import { AuthRemindFunction } from '@/background/auth-remind/AuthRemindFunction';
+import { AuthenticationWorker } from '@/background/authenticator/AuthenticationWorker';
 
 export class Extension {
 	private tabWorker: TabWorker;
 
-	constructor(private remindAuthRequired: AuthRemindFunction) {
+	constructor(
+		private remindAuthRequired: AuthRemindFunction,
+		private authWorker: AuthenticationWorker
+	) {
 		this.tabWorker = new (class extends TabWorker {
 			async onControllerEvent(ctrl: Controller, event: ControllerEvent) {
 				switch (event) {
