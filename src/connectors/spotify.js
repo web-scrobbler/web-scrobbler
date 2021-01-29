@@ -3,7 +3,7 @@
 const playerBar = '.Root__now-playing-bar';
 
 const artistSelector = `${playerBar} [dir="auto"]:last-child a`;
-const spotifyConnectSelector = '[class*=spoticon-spotify-connect]';
+const spotifyConnectSelector = '[aria-live="polite"] span';
 
 const playPauseButtonSvgPathSelector = `${playerBar} .player-controls__buttons button:nth-child(3) path`;
 const playButtonSvgPath = 'M4.018 14L14.41 8 4.018 2z';
@@ -60,15 +60,8 @@ function artistUrlIncludes(...strings) {
 
 function isMainTab() {
 	if (hasMultipleSources()) {
-		const spotifyConnectIconEl = document.querySelector(
-			spotifyConnectSelector
-		);
-		if (spotifyConnectIconEl !== null) {
-			const spotifyConnectEl = spotifyConnectIconEl.parentNode;
-			const deviceName = spotifyConnectEl.textContent;
-
-			return !deviceName.includes('Web Player');
-		}
+		const deviceName = getActiveDeviceName();
+		return deviceName && !deviceName.includes('Web Player');
 	}
 
 	return true;
@@ -76,4 +69,9 @@ function isMainTab() {
 
 function hasMultipleSources() {
 	return document.body.classList.contains('qualaroo--connect-bar-visible');
+}
+
+function getActiveDeviceName() {
+	const spotifyConnectEl = document.querySelector(spotifyConnectSelector);
+	return spotifyConnectEl && spotifyConnectEl.textContent;
 }
