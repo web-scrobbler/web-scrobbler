@@ -46,6 +46,11 @@ export function assertUnreachable(x: never): never {
 	throw new Error("Didn't expect to get here");
 }
 
+/* istanbul ignore next */
+export function isInEnum<T>(key: unknown, value: T): boolean {
+	return Object.values(value).includes(key);
+}
+
 /**
  * Print debug message.gst
  *

@@ -11,7 +11,7 @@ export type FetchWrapper<T> = (
 	init?: RequestInit
 ) => Promise<FetchResponse<T>>;
 
-export interface FetchResponse<T = unknown> {
+export interface FetchResponse<T> {
 	ok: boolean;
 	status: number;
 	data: T;

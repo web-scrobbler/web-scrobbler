@@ -1,7 +1,7 @@
 import { MessageSender } from '@/communication/MessageSender';
 
 import { ControllerMessageType } from '@/communication/controller/ControllerMessageType';
-import { ControllerCommunicator } from '@/communication/controller/communicator/ControllerCommunicator';
+import { ControllerCommunicator } from '@/communication/controller/ControllerCommunicator';
 
 import {
 	ClonedSong,

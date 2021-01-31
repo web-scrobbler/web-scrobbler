@@ -1,5 +1,4 @@
 import { LoveStatus } from '@/background/model/song/LoveStatus';
-import { TrackContextInfo } from '@/background/model/song/TrackContextInfo';
 import { TrackInfo } from '@/background/model/song/TrackInfo';
 import { TrackContextInfoProvider } from '@/background/provider/TrackContextInfoProvider';
 import { ApiCallResult } from '@/background/scrobbler/api-call-result';

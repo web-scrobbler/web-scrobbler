@@ -5,6 +5,7 @@ import { AccountsRepository } from '@/background/repository/accounts/AccountsRep
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import { createLocalStorage } from '@/background/storage2/namespace/NamespaceStorageFactory';
 import { Storage } from '@/background/storage2/Storage';
+import { createAccountStorage } from '@/background/storage2/StorageFactory';
 
 interface AccountsRepositoryData {
 	sessionID: string;
@@ -70,6 +71,6 @@ export class AccountsRepositoryImpl implements AccountsRepository {
 		scrobblerId: ScrobblerId
 	): Storage<AccountsRepositoryData> {
 		const storageName = this.storageNameMap[scrobblerId];
-		return createLocalStorage(storageName);
+		return createAccountStorage(storageName);
 	}
 }

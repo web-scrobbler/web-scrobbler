@@ -3,6 +3,8 @@ import { ScrobblerSession } from '@/background/account/ScrobblerSession';
 import type { UserProperties } from '@/background/account/UserProperties';
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 
+const unknownUsername = 'anonimous';
+
 /**
  * Object that holds user account data.
  */
@@ -47,6 +49,15 @@ export class UserAccount {
 		}
 
 		return this.session;
+	}
+
+	/**
+	 * Get username.
+	 *
+	 * @return Username
+	 */
+	getUsername(): string {
+		return this.getSession().getName() ?? unknownUsername;
 	}
 
 	/**

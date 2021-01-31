@@ -7,11 +7,6 @@ export interface ScrobblerInfo {
 	readonly id: ScrobblerId;
 
 	/**
-	 * Scrobbler label.
-	 */
-	readonly label: string;
-
-	/**
 	 * User profile URL.
 	 */
 	readonly profileUrl?: string;

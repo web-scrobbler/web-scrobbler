@@ -1,10 +1,10 @@
-import { UserProperties } from '@/background/account/UserProperties';
-import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
+import type { AccountInfo } from '@/background/model/AccountInfo';
+import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
+import type { UserProperties } from '@/background/account/UserProperties';
 
-/**
- * Helper to perform signing in/out.
- */
-export interface AuthenticationWorker {
+export interface AccountsCommunicator {
+	getAccounts(): Promise<ReadonlyArray<AccountInfo>>;
+
 	/**
 	 * Sign in to a service bound to a scrobbler with the given scrobbler ID.
 	 * If user properties are passed, use them to sign in as well.

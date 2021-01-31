@@ -5,6 +5,7 @@ import {
 	createLocalStorage,
 	createSyncStorage,
 } from '@/background/storage2/namespace/NamespaceStorageFactory';
+import Logger from 'js-logger';
 
 /* Local */
 
@@ -18,6 +19,14 @@ export function createEditedTracksStorage<D>(): Storage<D> {
 
 export function createNotificationsStorage<D>(): Storage<D> {
 	return withLog<D>(createLocalStorage, 'Notifications');
+}
+
+export function createAccountStorage<D>(scrobblerId: string): Storage<D> {
+	return withLog<D>(createLocalStorage, scrobblerId, [
+		'sessionID',
+		'sessionName',
+		'userProperties',
+	]);
 }
 
 /* Sync */
@@ -49,7 +58,10 @@ function withLog<D>(
 	storageDumper
 		.getStorageRawData(storage, sensitiveProperties)
 		.then((storageRepresentation) => {
-			console.info(`${namespace}Storage = ${storageRepresentation}`);
+			Logger.get('StorageFactory').debug(
+				`Create storage: ${namespace}Storage =`,
+				storageRepresentation
+			);
 		});
 
 	return storage;

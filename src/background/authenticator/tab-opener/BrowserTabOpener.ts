@@ -6,13 +6,16 @@ export const browserTabOpener: TabOpener = async (url: string) => {
 	const tab = await browser.tabs.create({ url });
 
 	return new Promise((resolve) => {
-		browser.tabs.onRemoved.addListener(function(tabId: number): void {
+		function onTabRemovedListener(tabId: number): void {
 			if (tabId !== tab.id) {
 				return;
 			}
 
+			browser.tabs.onRemoved.removeListener(onTabRemovedListener);
+
 			resolve();
-			browser.tabs.onRemoved.removeListener(this);
-		});
+		}
+
+		browser.tabs.onRemoved.addListener(onTabRemovedListener);
 	});
 };

@@ -16,8 +16,6 @@ export interface ScrobbleService {
 	 * Send a now playing request.
 	 *
 	 * @param trackInfo Object containing track info
-	 *
-	 * @return API call result
 	 */
 	sendNowPlayingRequest(trackInfo: TrackInfo): Promise<void>;
 
@@ -25,8 +23,6 @@ export interface ScrobbleService {
 	 * Send a scrobble request.
 	 *
 	 * @param trackInfo Object containing track info
-	 *
-	 * @return API call result
 	 */
 	sendScrobbleRequest(trackInfo: TrackInfo): Promise<void>;
 
@@ -35,8 +31,6 @@ export interface ScrobbleService {
 	 *
 	 * @param trackInfo Object containing song info
 	 * @param loveStatus Flag means song should be loved or not
-	 *
-	 * @return API call result
 	 */
 	sendLoveRequest(
 		trackInfo: TrackInfo,

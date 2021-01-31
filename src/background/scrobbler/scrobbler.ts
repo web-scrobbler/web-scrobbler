@@ -22,10 +22,6 @@ export class Scrobbler {
 		return this.scrobblerInfo.id;
 	}
 
-	getLabel(): string {
-		return this.scrobblerInfo.label;
-	}
-
 	getProfileUrl(): string {
 		const baseProfileUrl = this.scrobblerInfo.baseProfileUrl;
 		if (baseProfileUrl) {

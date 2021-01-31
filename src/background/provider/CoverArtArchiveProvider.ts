@@ -1,76 +1,14 @@
 import { Song } from '@/background/model/song/Song';
 import { CoverArtProvider } from '@/background/provider/CoverArtProvider';
 
-type Endpoint = 'release' | 'release-group';
-type EndPointKey = 'releases' | 'release-groups';
-
-const endpoints: Record<Endpoint, EndPointKey> = {
-	release: 'releases',
-	'release-group': 'release-groups',
-};
-
-interface EndpointInfo {
-	id: string;
-}
-
-interface MusicBrainzResponse {
-	count: number;
-	releases: EndpointInfo[];
-	'release-groups': EndpointInfo[];
-}
-
 export class CoverArtArchiveProvider implements CoverArtProvider {
 	async getCoverArt(song: Song): Promise<string> {
-		let musicBrainzId = song.getMetadata('albumMbId');
-
-		for (const endpoint in endpoints) {
-			try {
-				if (!musicBrainzId) {
-					musicBrainzId = await this.getMusicBrainzId(
-						endpoint as Endpoint,
-						song.getArtist(),
-						song.getTrack()
-					);
-				}
-
-				return this.getCoverArtByMbId(musicBrainzId);
-			} catch {}
+		const musicBrainzId = song.getMetadata('albumMbId');
+		if (musicBrainzId) {
+			return this.getCoverArtByMbId(musicBrainzId);
 		}
 
 		return null;
-	}
-
-	/**
-	 * Get track or album MusicBrainz ID.
-	 * Search API docs: http://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search
-	 * Query syntax docs: https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description
-	 *
-	 * @param endpoint Endpoint
-	 * @param artist Artist name
-	 * @param track Track title
-	 *
-	 * @return MusicBrainz ID
-	 */
-	private async getMusicBrainzId(
-		endpoint: Endpoint,
-		artist: string,
-		track: string
-	): Promise<string> {
-		const url =
-			`http://musicbrainz.org/ws/2/${endpoint}?fmt=json&query=` +
-			`title:+"${track}"^3 ${track} artistname:+"${artist}"^4${artist}`;
-		const response = await fetch(url);
-		if (!response.ok) {
-			throw new Error('Unable to fetch MusicBrainz ID');
-		}
-		const musicbrainz = (await response.json()) as MusicBrainzResponse;
-
-		if (musicbrainz.count === 0) {
-			throw new Error('Unable to fetch MusicBrainz ID');
-		}
-
-		const results = musicbrainz[endpoints[endpoint]];
-		return results[0].id;
 	}
 
 	/**

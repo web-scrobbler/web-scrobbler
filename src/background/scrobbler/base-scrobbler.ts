@@ -9,6 +9,8 @@ import { BrowserStorage } from '@/background/storage/browser-storage';
 import { debugLog, LogType } from '@/background/util/util';
 import { SongInfo, SongMetadata, LoveStatus } from '@/background/object/song';
 import { Storage } from '@/background/storage2/Storage';
+import { StorageDumperImpl } from '@/background/storage2/dumper/StorageDumperImpl';
+import Logger from 'js-logger';
 
 export interface UserProperties {
 	[prop: string]: string;

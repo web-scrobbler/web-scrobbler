@@ -201,7 +201,6 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import { Song, LoveStatus } from '@/background/object/song';
-import { Event, Request, sendMessageToActiveTab } from '@/common/messages';
 
 import arrowCounterClockwise from 'bootstrap-icons/icons/arrow-counterclockwise.svg';
 import arrowLeftRight from 'bootstrap-icons/icons/arrow-left-right.svg';
@@ -214,11 +213,14 @@ import playFill from 'bootstrap-icons/icons/play-fill.svg';
 import slashCircle from 'bootstrap-icons/icons/slash-circle.svg';
 
 import SpriteIcon from '@/ui/shared/sprite-icon.vue';
+import { getControllerCommunicator } from '@/communication/CommunicatorFactory';
 
 const modeEdit = 0;
 const modeInfo = 1;
 
 const defaultTrackArt = '/icons/cover_art_default.png';
+
+const controllerCommunicator = getControllerCommunicator();
 
 export default {
 	data() {
@@ -248,7 +250,7 @@ export default {
 	created() {
 		browser.runtime.onMessage.addListener(this.onCoreMessage);
 
-		sendMessageToActiveTab(Request.GetTrack).then((track) => {
+		controllerCommunicator.getTrack().then((track) => {
 			this.updateCurrentTrack(track);
 		});
 	},
@@ -319,16 +321,16 @@ export default {
 		},
 
 		resetTrack() {
-			sendMessageToActiveTab(Request.ResetTrack);
+			controllerCommunicator.resetTrack();
 		},
 
 		skipTrack() {
-			sendMessageToActiveTab(Request.SkipTrack);
+			controllerCommunicator.skipTrack();
 		},
 
 		setTrackLoved(isLoved) {
 			const loveStatus = isLoved ? LoveStatus.Loved : LoveStatus.Unloved;
-			sendMessageToActiveTab(Request.ToggleLove, { loveStatus });
+			controllerCommunicator.toggleLove(loveStatus);
 		},
 
 		swapArtistAndTrack() {
@@ -346,7 +348,8 @@ export default {
 				for (const field of Song.BASE_FIELDS) {
 					track[field] = this[field];
 				}
-				sendMessageToActiveTab(Request.CorrectTrack, { track });
+
+				controllerCommunicator.correctTrack({ track });
 			}
 		},
 
@@ -383,7 +386,7 @@ export default {
 		},
 
 		onCoreMessage(message) {
-			if (message.type !== Event.TrackUpdated) {
+			if (message.type !== 'EVENT_TRACK_UPDATED') {
 				return;
 			}
 			this.updateCurrentTrack(message.data.track);
@@ -400,9 +403,7 @@ export default {
 			}
 
 			this.song = Song.wrap(clonedData);
-			this.label = await sendMessageToActiveTab(
-				Request.GetConnectorLabel
-			);
+			this.label = await controllerCommunicator.getConnectorLabel();
 
 			for (const fieldName of Song.BASE_FIELDS) {
 				this[fieldName] = this.song.getField(fieldName);

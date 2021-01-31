@@ -2,14 +2,14 @@
 	<div role="tabpanel">
 		<div
 			class="options-section"
-			v-for="(data, scrobblerId) in accountsData"
-			:key="scrobblerId"
+			v-for="account in accountsData"
+			:key="account.scrobblerId"
 		>
-			<h5>{{ data.scrobbler.getLabel() }}</h5>
+			<h5>{{ account.scrobblerLabel }}</h5>
 
 			<div class="mb-2">
-				<template v-if="data.isSignedIn">
-					{{ L`accountsSignedInAs ${data.userName}` }}
+				<template v-if="account.username">
+					{{ L`accountsSignedInAs ${account.username}` }}
 				</template>
 				<template v-else>
 					{{ L`accountsNotSignedIn` }}
@@ -18,26 +18,26 @@
 
 			<div>
 				<a
-					v-if="data.hasUserProperties"
+					v-if="false"
 					class="card-link"
 					href="#"
 					@click.prevent="showModal(data.scrobbler)"
 				>
 					{{ L`accountsScrobblerProps` }}
 				</a>
-				<template v-if="data.isSignedIn">
+				<template v-if="account.username">
 					<a
-						v-if="data.hasProfileUrl"
+						v-if="account.profileUrl"
 						class="card-link"
 						target="_blank"
-						:href="data.profileUrl"
+						:href="account.profileUrl"
 					>
 						{{ L`accountsProfile` }}
 					</a>
 					<a
 						class="card-link"
 						href="#"
-						@click.prevent="signOut(data.scrobbler)"
+						@click.prevent="signOut(account.scrobblerId)"
 					>
 						{{ L`accountsSignOut` }}
 					</a>
@@ -46,7 +46,7 @@
 					<a
 						class="card-link"
 						href="#"
-						@click.prevent="signIn(data.scrobbler)"
+						@click.prevent="signIn(account.scrobblerId)"
 					>
 						{{ L`accountsSignIn` }}
 					</a>
@@ -64,46 +64,9 @@
 </template>
 
 <script>
-import { browser } from 'webextension-polyfill-ts';
-
 import UserPropertiesModal from '@/ui/options/modals/user-properties-modal.vue';
 
-import { ScrobbleManager } from '@/background/scrobbler/scrobble-manager';
-
-import { getCurrentTab } from '@/common/util-browser';
-import { Request, sendMessageToAll } from '@/common/messages';
-
-const anonimousName = 'anonimous';
-
-async function makeAccountsDataFromScrobbler(scrobbler) {
-	let userName = null;
-	let profileUrl = null;
-	let isSignedIn = false;
-	let hasProfileUrl = false;
-
-	const hasUserProperties = scrobbler.getUsedDefinedProperties().length > 0;
-
-	try {
-		const { sessionName } = await scrobbler.getSession();
-
-		profileUrl = await scrobbler.getProfileUrl();
-		userName = sessionName || anonimousName;
-
-		isSignedIn = true;
-		hasProfileUrl = profileUrl !== null;
-	} catch (err) {
-		// Do nothing
-	}
-
-	return {
-		isSignedIn,
-		hasProfileUrl,
-		hasUserProperties,
-		profileUrl,
-		scrobbler,
-		userName,
-	};
-}
+import { getAccountsCommunicator } from '@/communication/CommunicatorFactory';
 
 const scrobblerPropertiesMap = {
 	listenbrainz: {
@@ -130,52 +93,24 @@ const scrobblerPropertiesMap = {
 	},
 };
 
+const accountsCommunicator = getAccountsCommunicator();
+
 export default {
 	data() {
 		return {
 			accountsData: {},
-			optionsTab: null,
 
 			isModalActive: false,
 			editedAccount: null,
 		};
 	},
 	created() {
-		this.addTabListener();
 		this.loadAccounts();
-	},
-	beforeDestroy() {
-		this.removeTabListener();
 	},
 	components: { UserPropertiesModal },
 	methods: {
 		async loadAccounts() {
-			const accountsData = {};
-			const scrobblers = ScrobbleManager.getRegisteredScrobblers();
-
-			for (const scrobbler of scrobblers) {
-				accountsData[
-					scrobbler.getId()
-				] = await makeAccountsDataFromScrobbler(scrobbler);
-			}
-
-			this.accountsData = accountsData;
-		},
-
-		async addTabListener() {
-			this.optionsTab = await getCurrentTab();
-
-			browser.tabs.onActivated.addListener(this.onTabChanged);
-		},
-
-		removeTabListener() {
-			browser.tabs.onActivated.removeListener(this.onTabChanged);
-		},
-
-		onTabChanged(activeInfo) {
-			if (this.optionsTab.id === activeInfo.tabId) {
-				this.loadAccounts();
-			}
+			this.accountsData = await accountsCommunicator.getAccounts();
 		},
 
 		createUserProperties(scrobbler) {
@@ -197,34 +132,25 @@ export default {
 		},
 
 		async saveUserProperties(properties) {
-			const scrobblerId = this.editedAccount.getId();
+			// const scrobblerId = this.editedAccount.getId();
 
-			await sendMessageToAll(Request.ApplyUserProperties, {
-				scrobblerId,
-				properties,
-			});
-			await this.refreshAccount(this.editedAccount);
+			// await sendMessageToAll(Request.ApplyUserProperties, {
+			// 	scrobblerId,
+			// 	properties,
+			// });
+			// await this.loadAccounts();
 
 			this.hideModal();
 		},
 
-		signIn(scrobbler) {
-			sendMessageToAll(Request.SignIn, {
-				scrobblerId: scrobbler.getId(),
-			});
+		async signIn(scrobblerId) {
+			await accountsCommunicator.signIn(scrobblerId);
+			await this.loadAccounts();
 		},
 
-		async signOut(scrobbler) {
-			await sendMessageToAll(Request.SignOut, {
-				scrobblerId: scrobbler.getId(),
-			});
-			await this.refreshAccount(scrobbler);
-		},
-
-		async refreshAccount(scrobbler) {
-			this.accountsData[
-				scrobbler.getId()
-			] = await makeAccountsDataFromScrobbler(scrobbler);
+		async signOut(scrobblerId) {
+			await accountsCommunicator.signOut(scrobblerId);
+			await this.loadAccounts();
 		},
 
 		hideModal() {

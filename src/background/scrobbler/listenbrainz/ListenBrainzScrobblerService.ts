@@ -60,7 +60,7 @@ export class ListenBrainzScrobblerService implements ScrobbleService {
 			payload: [
 				{
 					listened_at: trackInfo.timestamp.toString(),
-					track_metadata: this.makeTrackMetadata(songInfo),
+					track_metadata: this.makeTrackMetadata(trackInfo),
 				},
 			],
 		};
