@@ -23,6 +23,7 @@ Web Scrobbler helps online music listeners to scrobble their playback history.
 -   [Last.fm][LastFm]
 -   [Libre.fm][LibreFm]
 -   [ListenBrainz][ListenBrainz]
+-   [Maloja][Maloja]
 
 ## Installation
 
@@ -129,6 +130,7 @@ Licensed under the [MIT License][License].
 [LastFm]: http://www.last.fm/
 [LibreFm]: https://libre.fm/
 [ListenBrainz]: https://listenbrainz.org/
+[Maloja]: https://github.com/krateng/maloja
 
 <!-- Wiki pages -->
 [WikiDev]: https://github.com/web-scrobbler/web-scrobbler/wiki/Connectors-development
