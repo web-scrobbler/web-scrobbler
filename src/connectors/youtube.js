@@ -260,7 +260,16 @@ function removeLtrRtlChars(text) {
 }
 
 function removeNumericPrefix(text) {
-	return text.replace(/^\d{1,2}[.)]\s?/, '');
+	return MetadataFilter.filterWithFilterRules(text, [
+		// `NN.` or `NN)`
+		{ source: /^\d{1,2}[.)]\s?/, target: '' },
+		/*
+		 * `(NN).` Ref: https://www.youtube.com/watch?v=KyabZRQeQgk
+		 * NOTE Initial tracklist format is (NN)  dd:dd  Artist - Track
+		 * YouTube adds a dot symbol after the numeric prefix.
+		 */
+		{ source: /^\(\d{1,2}\)\./, target: '' },
+	]);
 }
 
 function isVideoStartedPlaying() {
