@@ -31,9 +31,9 @@ Connector.albumSelector = `${Connector.playerSelector} [class^="infoTable--"] a[
 
 Connector.trackArtSelector = `${Connector.playerSelector} [class^="mediaImageryTrack"] img`;
 
-Connector.currentTimeSelector = `${Connector.playerSelector} [data-test="duration"] [class^="currentTime"]`;
+Connector.currentTimeSelector = `${Connector.playerSelector} [data-test="current-time"]`;
 
-Connector.durationSelector = `${Connector.playerSelector} [data-test="duration"] [class^="duration"]`;
+Connector.durationSelector = `${Connector.playerSelector} [data-test="duration-time"]`;
 
 Connector.applyFilter(MetadataFilter.getTidalFilter());
 
