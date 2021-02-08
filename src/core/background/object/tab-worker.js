@@ -450,8 +450,6 @@ define((require) => {
 					this.updateContextMenu(tabId);
 
 					tabs.sendMessage(tabId, { type: 'EVENT_READY' });
-
-					this.onConnectorActivated(connector);
 					break;
 				}
 			}
