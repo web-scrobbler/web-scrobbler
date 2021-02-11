@@ -1,7 +1,7 @@
 import { LoveStatus } from '@/background/model/song/LoveStatus';
-import { TrackInfo } from '@/background/model/song/TrackInfo';
 import { TrackContextInfoProvider } from '@/background/provider/TrackContextInfoProvider';
 import { ApiCallResult } from '@/background/scrobbler/api-call-result';
+import { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
 import { Scrobbler } from '@/background/scrobbler/Scrobbler';
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 
@@ -32,23 +32,27 @@ export interface ScrobblerManager
 	/**
 	 * Send now playing notification to each granted scrobbler.
 	 *
-	 * @param trackInfo Object containing song info
+	 * @param scrobbleEntity Object containing song info
 	 *
 	 * @return List of API call results
 	 */
-	sendNowPlayingRequest(trackInfo: TrackInfo): Promise<ApiCallResult[]>;
+	sendNowPlayingRequest(
+		scrobbleEntity: ScrobbleEntity
+	): Promise<ApiCallResult[]>;
 
 	/**
 	 * Scrobble song to each granted scrobbler.
 	 *
-	 * @param trackInfo Object containing song info
+	 * @param scrobbleEntity Object containing song info
 	 *
 	 * @return List of API call results
 	 */
-	sendScrobbleRequest(trackInfo: TrackInfo): Promise<ApiCallResult[]>;
+	sendScrobbleRequest(
+		scrobbleEntity: ScrobbleEntity
+	): Promise<ApiCallResult[]>;
 
 	sendLoveRequest(
-		trackInfo: TrackInfo,
+		scrobbleEntity: ScrobbleEntity,
 		loveStatus: LoveStatus
 	): Promise<ApiCallResult[]>;
 }

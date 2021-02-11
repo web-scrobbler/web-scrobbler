@@ -6,8 +6,8 @@ import { fetchJson } from '@/background/util/fetch/FetchJson';
 
 import type { ScrobbleService } from '@/background/scrobbler/ScrobbleService';
 import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
-import type { TrackInfo } from '@/background/model/song/TrackInfo';
-import { TrackContextInfo } from '@/background/model/song/TrackContextInfo';
+import { TrackContextInfo } from '@/background/scrobbler/TrackContextInfo';
+import { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
 
 interface ListenBrainzParams {
 	listen_type: 'playing_now' | 'single';
@@ -39,8 +39,8 @@ export class ListenBrainzScrobblerService implements ScrobbleService {
 		return 'https://listenbrainz.org/login/musicbrainz?next=%2Fprofile%2F';
 	}
 
-	sendNowPlayingRequest(trackInfo: TrackInfo): Promise<void> {
-		const trackMeta = this.makeTrackMetadata(trackInfo);
+	sendNowPlayingRequest(scrobbleEntity: ScrobbleEntity): Promise<void> {
+		const trackMeta = this.makeTrackMetadata(scrobbleEntity);
 
 		const params: ListenBrainzParams = {
 			listen_type: 'playing_now',
@@ -54,13 +54,13 @@ export class ListenBrainzScrobblerService implements ScrobbleService {
 		return this.sendRequest(params);
 	}
 
-	sendScrobbleRequest(trackInfo: TrackInfo): Promise<void> {
+	sendScrobbleRequest(scrobbleEntity: ScrobbleEntity): Promise<void> {
 		const params: ListenBrainzParams = {
 			listen_type: 'single',
 			payload: [
 				{
-					listened_at: trackInfo.timestamp.toString(),
-					track_metadata: this.makeTrackMetadata(trackInfo),
+					listened_at: scrobbleEntity.getTimestamp().toString(),
+					track_metadata: this.makeTrackMetadata(scrobbleEntity),
 				},
 			],
 		};
@@ -90,25 +90,23 @@ export class ListenBrainzScrobblerService implements ScrobbleService {
 		}
 	}
 
-	private makeTrackMetadata(trackInfo: TrackInfo): TrackMetadata {
-		const { artist, track, album, albumArtist, originUrl } = trackInfo;
-
+	private makeTrackMetadata(scrobbleEntity: ScrobbleEntity): TrackMetadata {
 		const trackMeta: TrackMetadata = {
-			artist_name: artist,
-			track_name: track,
+			artist_name: scrobbleEntity.getArtist(),
+			track_name: scrobbleEntity.getTrack(),
 			additional_info: {},
 		};
 
-		if (album) {
-			trackMeta.release_name = album;
+		if (scrobbleEntity.getAlbum()) {
+			trackMeta.release_name = scrobbleEntity.getAlbum();
 		}
 
-		if (originUrl) {
-			trackMeta.additional_info.origin_url = originUrl;
+		if (scrobbleEntity.getOriginUrl()) {
+			trackMeta.additional_info.origin_url = scrobbleEntity.getOriginUrl();
 		}
 
-		if (albumArtist) {
-			trackMeta.additional_info.release_artist_name = albumArtist;
+		if (scrobbleEntity.getAlbumArtist()) {
+			trackMeta.additional_info.release_artist_name = scrobbleEntity.getAlbumArtist();
 		}
 
 		return trackMeta;

@@ -3,8 +3,9 @@ import type { LoveStatus } from '@/background/object/song';
 import type { SongDto } from '@/background/model/song/SongDto';
 import type { SongFlags } from '@/background/model/song/SongFlags';
 import type { SongMetadata } from '@/background/model/song/SongMetadata';
+import type { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
 
-export interface Song {
+export interface Song extends ScrobbleEntity {
 	getArtist(): string;
 	setArtist(artist: string): void;
 
@@ -32,7 +33,13 @@ export interface Song {
 	getLoveStatus(): LoveStatus;
 	setLoveStatus(loveStatus: LoveStatus): void;
 
+	getArtistTrackString(): string;
+
 	isEmpty(): boolean;
+	isValid(): boolean;
+
+	isPlaying(): boolean;
+	setPlaying(isPlaying: boolean): void;
 
 	getFlag<K extends keyof SongFlags>(key: K): SongFlags[K];
 	setFlag<K extends keyof SongFlags>(key: K, value: SongFlags[K]): void;

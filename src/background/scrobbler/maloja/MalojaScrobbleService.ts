@@ -1,10 +1,10 @@
 import { fetchJson } from '@/background/util/fetch/FetchJson';
 
-import type { TrackInfo } from '@/background/model/song/TrackInfo';
 import type { ScrobbleService } from '@/background/scrobbler/ScrobbleService';
 import type { MalojaTrackMetadata } from '@/background/scrobbler/maloja/MalojaTrackMetadata';
 import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
-import { TrackContextInfo } from '@/background/model/song/TrackContextInfo';
+import { TrackContextInfo } from '@/background/scrobbler/TrackContextInfo';
+import { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
 
 export class MalojaScrobbleService implements ScrobbleService {
 	constructor(private session: ScrobblerSession, private apiUrl: string) {}
@@ -13,14 +13,14 @@ export class MalojaScrobbleService implements ScrobbleService {
 		return null;
 	}
 
-	sendNowPlayingRequest(trackInfo: TrackInfo): Promise<void> {
-		const trackMetadata = this.makeTrackMetadata(trackInfo);
+	sendNowPlayingRequest(scrobbleEntity: ScrobbleEntity): Promise<void> {
+		const trackMetadata = this.makeTrackMetadata(scrobbleEntity);
 		return this.sendRequest(trackMetadata);
 	}
 
-	sendScrobbleRequest(trackInfo: TrackInfo): Promise<void> {
-		const requestData = this.makeTrackMetadata(trackInfo);
-		requestData.time = trackInfo.timestamp;
+	sendScrobbleRequest(scrobbleEntity: ScrobbleEntity): Promise<void> {
+		const requestData = this.makeTrackMetadata(scrobbleEntity);
+		requestData.time = scrobbleEntity.getTimestamp();
 
 		return this.sendRequest(requestData);
 	}
@@ -51,8 +51,12 @@ export class MalojaScrobbleService implements ScrobbleService {
 		}
 	}
 
-	private makeTrackMetadata(songInfo: TrackInfo): MalojaTrackMetadata {
-		const { artist, track } = songInfo;
-		return { artist, track };
+	private makeTrackMetadata(
+		scrobbleEntity: ScrobbleEntity
+	): MalojaTrackMetadata {
+		return {
+			artist: scrobbleEntity.getArtist(),
+			track: scrobbleEntity.getTrack(),
+		};
 	}
 }

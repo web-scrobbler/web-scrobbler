@@ -9,15 +9,10 @@ export class TrackContextInfoLoader implements Processor<Song> {
 
 	async process(song: Song): Promise<void> {
 		const trackContextInfoArr = (
-			await this.provider.getTrackContextInfo(
-				// TODO replace
-				{
-					artist: song.getArtist(),
-					track: song.getTrack(),
-					album: song.getAlbum(),
-				}
-			)
+			await this.provider.getTrackContextInfo(song)
 		).filter((info) => info !== null);
+
+		console.log(trackContextInfoArr);
 
 		if (trackContextInfoArr.length === 0) {
 			return;

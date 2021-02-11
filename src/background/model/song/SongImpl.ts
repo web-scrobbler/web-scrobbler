@@ -24,6 +24,8 @@ export class SongImpl implements Song {
 	private songInfo: SongInfoA;
 	private timeInfo: TimeInfo;
 
+	private isPlayingFlag: boolean;
+
 	private uniqueId: string;
 	private idGenerator: IdGeneratorFunction;
 
@@ -36,7 +38,16 @@ export class SongImpl implements Song {
 		this.songInfo = createSongInfo(connectorState);
 		this.timeInfo = createTimeInfo(connectorState);
 
-		const { artist, track, album, albumArtist, uniqueID } = connectorState;
+		const {
+			artist,
+			track,
+			album,
+			albumArtist,
+			uniqueID,
+			isPlaying,
+		} = connectorState;
+
+		this.isPlayingFlag = isPlaying;
 
 		this.uniqueId = uniqueID;
 		this.idGenerator = createIdGenerator([
@@ -48,6 +59,14 @@ export class SongImpl implements Song {
 
 		this.resetFlags();
 		this.resetMetadata();
+	}
+
+	getOriginUrl(): string {
+		return null;
+	}
+
+	getTimestamp(): number {
+		return this.getMetadata('startTimestamp');
 	}
 
 	getUniqueId(): string {
@@ -141,8 +160,24 @@ export class SongImpl implements Song {
 		this.loveStatus = loveStatus;
 	}
 
+	getArtistTrackString(): string {
+		return `${this.getArtist()} — ${this.getTrack()}`;
+	}
+
 	isEmpty(): boolean {
 		return !(this.getArtist() && this.getTrack());
+	}
+
+	isValid(): boolean {
+		return this.getFlag('isCorrectedByUser') || this.getFlag('isValid');
+	}
+
+	isPlaying(): boolean {
+		return this.isPlayingFlag;
+	}
+
+	setPlaying(isPlaying: boolean): void {
+		this.isPlayingFlag = isPlaying;
 	}
 
 	getFlag<K extends keyof SongFlags>(key: K): SongFlags[K] {
@@ -184,7 +219,7 @@ export class SongImpl implements Song {
 		};
 	}
 
-	static fromDto(songDto: SongDto): SongImpl {
+	static fromDto(songDto: SongDto): Song {
 		const song = new SongImpl(songDto.connectorState);
 
 		song.setArtist(songDto.artist);

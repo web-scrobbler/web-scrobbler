@@ -11,11 +11,7 @@ export class ExternalTrackInfoLoader implements Processor<Song> {
 		}
 
 		const externalTrackInfo = await this.provider.getExternalTrackInfo(
-			{
-				artist: song.getArtist(),
-				track: song.getTrack(),
-				album: song.getAlbum(),
-			} // TODO replace
+			song
 		);
 		const isExternalInfoExist = externalTrackInfo !== null;
 

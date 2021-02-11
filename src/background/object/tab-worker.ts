@@ -401,8 +401,7 @@ export class TabWorker
 	 * @param ctrl Controller instance
 	 */
 	onSongUpdated(ctrl: Controller): void {
-		const track = ctrl.getCurrentSong().getCloneableData();
-
+		const track = ctrl.getCurrentSong().serialize();
 		new GlobalMessageSender().sendMessage({
 			type: 'EVENT_TRACK_UPDATED',
 			data: { track },

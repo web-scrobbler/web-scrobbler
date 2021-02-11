@@ -36,7 +36,7 @@ export class ControllerWorker
 			}
 
 			case ControllerMessageType.GetTrack: {
-				return controller.getCurrentSong().getCloneableData();
+				return controller.getCurrentSong().serialize();
 			}
 
 			case ControllerMessageType.ResetTrack: {

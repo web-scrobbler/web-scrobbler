@@ -1,9 +1,10 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import { ControllerMode } from '@/background/object/controller-mode';
-import { Song, LoveStatus } from '@/background/object/song';
 
 import { L } from '@/common/i18n';
+import { Song } from '@/background/model/song/Song';
+import { LoveStatus } from '@/background/model/song/LoveStatus';
 
 const tempIconDisplayDuration = 5000;
 

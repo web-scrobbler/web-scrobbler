@@ -7,9 +7,10 @@ import type { LoveStatus } from '@/background/model/song/LoveStatus';
 import type { ScrobbleService } from '@/background/scrobbler/ScrobbleService';
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
-import type { TrackInfo } from '@/background/model/song/TrackInfo';
 import type { ScrobblerInfo } from '@/background/scrobbler/ScrobblerInfo';
-import { TrackContextInfo } from '@/background/model/song/TrackContextInfo';
+import { TrackContextInfo } from '@/background/scrobbler/TrackContextInfo';
+import { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
+import { Song } from '@/background/model/song/Song';
 
 export class Scrobbler {
 	constructor(
@@ -31,22 +32,26 @@ export class Scrobbler {
 		return this.scrobblerInfo.profileUrl ?? null;
 	}
 
-	async getTrackContextInfo(trackInfo: TrackInfo): Promise<TrackContextInfo> {
-		return this.scrobbleService.getTrackContextInfo(trackInfo);
+	async getTrackContextInfo(song: Song): Promise<TrackContextInfo> {
+		return this.scrobbleService.getTrackContextInfo(song);
 	}
 
-	async sendNowPlayingRequest(trackInfo: TrackInfo): Promise<ApiCallResult> {
+	async sendNowPlayingRequest(
+		scrobbleEntity: ScrobbleEntity
+	): Promise<ApiCallResult> {
 		try {
-			await this.scrobbleService.sendNowPlayingRequest(trackInfo);
+			await this.scrobbleService.sendNowPlayingRequest(scrobbleEntity);
 			return this.createApiCallResult(ApiCallResult.RESULT_OK);
 		} catch (err) {
 			throw this.createApiCallResult(ApiCallResult.ERROR_OTHER);
 		}
 	}
 
-	async sendScrobbleRequest(trackInfo: TrackInfo): Promise<ApiCallResult> {
+	async sendScrobbleRequest(
+		scrobbleEntity: ScrobbleEntity
+	): Promise<ApiCallResult> {
 		try {
-			await this.scrobbleService.sendScrobbleRequest(trackInfo);
+			await this.scrobbleService.sendScrobbleRequest(scrobbleEntity);
 			return this.createApiCallResult(ApiCallResult.RESULT_OK);
 		} catch (err) {
 			throw this.createApiCallResult(ApiCallResult.ERROR_OTHER);
@@ -54,11 +59,14 @@ export class Scrobbler {
 	}
 
 	async sendLoveRequest(
-		trackInfo: TrackInfo,
+		scrobbleEntity: ScrobbleEntity,
 		loveStatus: LoveStatus
 	): Promise<ApiCallResult> {
 		try {
-			await this.scrobbleService.sendLoveRequest(trackInfo, loveStatus);
+			await this.scrobbleService.sendLoveRequest(
+				scrobbleEntity,
+				loveStatus
+			);
 			return this.createApiCallResult(ApiCallResult.RESULT_OK);
 		} catch (err) {
 			throw this.createApiCallResult(ApiCallResult.ERROR_OTHER);

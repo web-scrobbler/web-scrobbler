@@ -78,7 +78,7 @@
 					<sprite-icon :icon="pencilSquare" />
 				</button>
 				<button
-					v-if="song.flags.isCorrectedByUser"
+					v-if="song.getFlag('isCorrectedByUser')"
 					type="button"
 					class="control-btn control-btn--default"
 					:disabled="isTrackControlDisabled()"
@@ -88,7 +88,7 @@
 					<sprite-icon :icon="arrowCounterClockwise" />
 				</button>
 				<button
-					v-if="song.flags.isSkipped"
+					v-if="song.getFlag('isSkipped')"
 					type="button"
 					class="control-btn control-btn--unskip"
 					:title="L`infoSkippedTitle`"
@@ -200,7 +200,8 @@
 <script>
 import { browser } from 'webextension-polyfill-ts';
 
-import { Song, LoveStatus } from '@/background/object/song';
+import { LoveStatus } from '@/background/model/song/LoveStatus';
+import { SongImpl } from '@/background/model/song/SongImpl';
 
 import arrowCounterClockwise from 'bootstrap-icons/icons/arrow-counterclockwise.svg';
 import arrowLeftRight from 'bootstrap-icons/icons/arrow-left-right.svg';
@@ -306,7 +307,7 @@ export default {
 		},
 
 		isSongLoved() {
-			return this.song.metadata.userloved === LoveStatus.Loved;
+			return this.song.getLoveStatus() === LoveStatus.Loved;
 		},
 	},
 	methods: {
@@ -343,13 +344,13 @@ export default {
 		submitChanges() {
 			this.setInfoMode();
 
-			if (!this.song.flags.isValid || this.isTrackInfoChanged()) {
-				const track = {};
-				for (const field of Song.BASE_FIELDS) {
-					track[field] = this[field];
-				}
-
-				controllerCommunicator.correctTrack({ track });
+			if (!this.song.getFlag('isValid') || this.isTrackInfoChanged()) {
+				controllerCommunicator.correctTrack({
+					artist: this.artist,
+					track: this.track,
+					album: this.album,
+					albumArtist: this.albumArtist,
+				});
 			}
 		},
 
@@ -360,7 +361,10 @@ export default {
 		},
 
 		isTrackControlDisabled() {
-			return this.song.flags.isScrobbled || this.song.flags.isSkipped;
+			return (
+				this.song.getFlag('isScrobbled') ||
+				this.song.getFlag('isSkipped')
+			);
 		},
 
 		/** View modes */
@@ -376,11 +380,12 @@ export default {
 		/** Misc */
 
 		isTrackInfoChanged() {
-			for (const fieldName of Song.BASE_FIELDS) {
-				if (this[fieldName] !== this.song.getField(fieldName)) {
-					return true;
-				}
-			}
+			// FIXME Fix
+			// for (const fieldName of Song.BASE_FIELDS) {
+			// 	if (this[fieldName] !== this.song.getField(fieldName)) {
+			// 		return true;
+			// 	}
+			// }
 
 			return false;
 		},
@@ -402,14 +407,15 @@ export default {
 				return;
 			}
 
-			this.song = Song.wrap(clonedData);
+			this.song = SongImpl.fromDto(clonedData);
 			this.label = await controllerCommunicator.getConnectorLabel();
 
-			for (const fieldName of Song.BASE_FIELDS) {
-				this[fieldName] = this.song.getField(fieldName);
-			}
+			this.artist = this.song.getArtist();
+			this.track = this.song.getTrack();
+			this.album = this.song.getAlbum();
+			this.albumArtist = this.song.getAlbumArtist();
 
-			if (this.song.isValid() || this.song.flags.isSkipped) {
+			if (this.song.isValid() || this.song.getFlag('isSkipped')) {
 				this.setInfoMode();
 			} else {
 				this.setEditMode();

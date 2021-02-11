@@ -3,6 +3,7 @@
 import { expect, spy } from 'chai';
 
 import { describeModuleTest } from '#/helpers/util';
+import { loggerStub } from '#/mock/MockedLogger';
 
 import { Song } from '@/background/model/song/Song';
 import { Processor } from '@/background/pipeline/Processor';
@@ -17,7 +18,7 @@ describeModuleTest(__filename, () => {
 		const spyMethod1 = spy.on(processor1, 'process');
 		const spyMethod2 = spy.on(processor2, 'process');
 
-		const pipeline = new SongPipeline([processor1, processor2]);
+		const pipeline = new SongPipeline([processor1, processor2], loggerStub);
 		await pipeline.process(createSongStub());
 
 		expect(spyMethod1).to.have.called.exactly(1);

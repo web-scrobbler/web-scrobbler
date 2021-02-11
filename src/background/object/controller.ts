@@ -4,7 +4,7 @@ import { ApiCallResult } from '@/background/scrobbler/api-call-result';
 import { Pipeline } from '@/background/pipeline/pipeline';
 import { SavedEdits } from '@/background/storage/saved-edits';
 import { ScrobbleStorage } from '@/background/storage/scrobble-storage';
-import { Song, LoveStatus } from '@/background/object/song';
+import { Song } from '@/background/model/song/Song';
 import { Timer } from '@/background/object/timer';
 
 import {
@@ -28,12 +28,21 @@ import { ScrobblerManager } from '@/background/scrobbler/ScrobblerManager';
 import { NowPlayingListener } from '@/background/object/controller/NowPlayingListener';
 import { ModeChangeListener } from '@/background/object/controller/ModeChangeListener';
 import { SongUpdateListener } from '@/background/object/controller/SongUpdateListener';
+import { LoveStatus } from '@/background/model/song/LoveStatus';
+import { SongImpl } from '@/background/model/song/SongImpl';
+import { ConnectorState } from '@/background/model/ConnectorState';
+import { Processor } from '@/background/pipeline/Processor';
 
 /**
  * List of song fields used to check if song is changed. If any of
  * these fields are changed, the new song is playing.
  */
-const fieldsToCheckSongChange = ['artist', 'track', 'album', 'uniqueID'];
+const fieldsToCheckSongChange = [
+	'artist',
+	'track',
+	'album',
+	'uniqueID',
+] as const;
 
 /**
  * Object that handles song playback and scrobbling actions.
@@ -44,7 +53,6 @@ export class Controller {
 	isEnabled: boolean;
 	connector: ConnectorEntry;
 
-	pipeline: Pipeline;
 	currentSong: Song;
 	playbackTimer: Timer;
 	replayDetectionTimer: Timer;
@@ -56,18 +64,20 @@ export class Controller {
 	private songUpdateListener: SongUpdateListener;
 	private modeListener: ModeChangeListener;
 
+	private previousState: ConnectorState;
+
 	constructor(
 		tabId: number,
 		connector: ConnectorEntry,
 		isEnabled: boolean,
-		private scrobblerManager: ScrobblerManager
+		private scrobblerManager: ScrobblerManager,
+		private songPipeline: Processor<Song>
 	) {
 		this.tabId = tabId;
 		this.connector = connector;
 		this.isEnabled = isEnabled;
 		this.mode = isEnabled ? ControllerMode.Base : ControllerMode.Disabled;
 
-		this.pipeline = new Pipeline();
 		this.playbackTimer = new Timer();
 		this.replayDetectionTimer = new Timer();
 
@@ -122,10 +132,11 @@ export class Controller {
 	/**
 	 * Reset song data and process it again.
 	 */
-	async resetSongData(): Promise<void> {
+	resetSongData(): void {
 		this.assertSongIsPlaying();
 
-		await SavedEdits.removeSongInfo(this.currentSong);
+		// FIXME Move
+		// await SavedEdits.removeSongInfo(this.currentSong);
 
 		// this.currentSong.resetInfo();
 
@@ -141,7 +152,7 @@ export class Controller {
 
 		this.setMode(ControllerMode.Skipped);
 
-		this.currentSong.flags.isSkipped = true;
+		this.currentSong.setFlag('isSkipped', true);
 
 		this.playbackTimer.reset();
 		this.replayDetectionTimer.reset();
@@ -181,14 +192,15 @@ export class Controller {
 	 *
 	 * @param data Object contains song data
 	 */
-	async setUserSongData(data: EditedSongInfo): Promise<void> {
+	setUserSongData(data: EditedSongInfo): void {
 		this.assertSongIsPlaying();
 
-		if (this.currentSong.flags.isScrobbled) {
+		if (this.currentSong.getFlag('isScrobbled')) {
 			throw new Error('Unable to set user data for scrobbled song');
 		}
 
-		await SavedEdits.saveSongInfo(this.currentSong, data);
+		// FIXME Move
+		// await SavedEdits.saveSongInfo(this.currentSong, data);
 
 		this.unprocessSong();
 		// this.processSong();
@@ -207,11 +219,11 @@ export class Controller {
 		}
 
 		await this.scrobblerManager.sendLoveRequest(
-			this.currentSong.getInfo(),
+			this.currentSong,
 			loveStatus
 		);
 
-		this.currentSong.setLoveStatus(loveStatus, { force: true });
+		this.currentSong.setLoveStatus(loveStatus);
 		this.songUpdateListener.onSongUpdated(this);
 	}
 
@@ -234,11 +246,12 @@ export class Controller {
 		}
 
 		const isSongChanged = this.isSongChanged(newState);
+		this.previousState = newState;
 
 		if (isSongChanged || this.isReplayingSong) {
 			if (newState.isPlaying) {
 				if (this.isNeedToAddSongToScrobbleStorage()) {
-					this.addSongToScrobbleStorage();
+					await this.addSongToScrobbleStorage();
 				}
 
 				this.processNewState(newState);
@@ -281,14 +294,14 @@ export class Controller {
 	 *
 	 * @param newState Connector state
 	 */
-	private processNewState(newState: ParsedSongInfo): void {
+	private processNewState(newState: ConnectorState): void {
 		/*
 		 * We've hit a new song (or replaying the previous one)
 		 * clear any previous song and its bindings.
 		 */
 		this.resetState();
-		this.currentSong = new Song(newState);
-		this.currentSong.flags.isReplaying = this.isReplayingSong;
+		this.currentSong = new SongImpl(newState);
+		this.currentSong.setFlag('isReplaying', this.isReplayingSong);
 
 		this.debugLog(`New song detected: ${toString(newState)}`);
 
@@ -330,18 +343,18 @@ export class Controller {
 	 *
 	 * @param newState Connector state
 	 */
-	private processCurrentState(newState: ParsedSongInfo): void {
-		if (this.currentSong.flags.isSkipped) {
+	private processCurrentState(newState: ConnectorState): void {
+		if (this.currentSong.getFlag('isSkipped')) {
 			return;
 		}
 
 		const { currentTime, isPlaying, trackArt, duration } = newState;
 		const isPlayingStateChanged =
-			this.currentSong.parsed.isPlaying !== isPlaying;
+			this.currentSong.isPlaying() !== isPlaying;
 
-		this.currentSong.parsed.currentTime = currentTime;
-		this.currentSong.parsed.isPlaying = isPlaying;
-		this.currentSong.parsed.trackArt = trackArt;
+		this.currentSong.setCurrentTime(currentTime);
+		this.currentSong.setTrackArt(trackArt);
+		this.currentSong.setPlaying(isPlaying);
 
 		if (this.isNeedToUpdateDuration(newState)) {
 			this.updateSongDuration(duration);
@@ -370,7 +383,7 @@ export class Controller {
 	private async processSong(): Promise<void> {
 		this.setMode(ControllerMode.Loading);
 
-		await this.pipeline.process(this.currentSong);
+		await this.songPipeline.process(this.currentSong);
 
 		this.debugLog(
 			`Song finished processing: ${this.currentSong.toString()}`
@@ -378,7 +391,7 @@ export class Controller {
 
 		if (this.currentSong.isValid()) {
 			// Processing cleans this flag
-			this.currentSong.flags.isMarkedAsPlaying = false;
+			this.currentSong.setFlag('isMarkedAsPlaying', false);
 
 			this.updateTimers(this.currentSong.getDuration());
 
@@ -386,7 +399,7 @@ export class Controller {
 			 * If the song is playing, mark it immediately;
 			 * otherwise will be flagged in isPlaying binding.
 			 */
-			if (this.currentSong.parsed.isPlaying) {
+			if (this.currentSong.isPlaying()) {
 				/*
 				 * If playback timer is expired, then the extension
 				 * will scrobble song immediately, and there's no need
@@ -435,10 +448,11 @@ export class Controller {
 			this.playbackTimer.resume();
 			this.replayDetectionTimer.resume();
 
-			const { isMarkedAsPlaying } = this.currentSong.flags;
-
 			// Maybe the song was not marked as playing yet
-			if (!isMarkedAsPlaying && this.currentSong.isValid()) {
+			if (
+				!this.currentSong.getFlag('isMarkedAsPlaying') &&
+				this.currentSong.isValid()
+			) {
 				this.setSongNowPlaying();
 			} else {
 				// Resend current mode
@@ -457,13 +471,13 @@ export class Controller {
 	 *
 	 * @return Check result
 	 */
-	private isSongChanged(newState: ParsedSongInfo): boolean {
-		if (!this.currentSong) {
+	private isSongChanged(newState: ConnectorState): boolean {
+		if (!this.previousState) {
 			return true;
 		}
 
 		for (const field of fieldsToCheckSongChange) {
-			if (newState[field] !== this.currentSong.parsed[field]) {
+			if (newState[field] !== this.previousState[field]) {
 				return true;
 			}
 		}
@@ -481,7 +495,7 @@ export class Controller {
 	private isNeedToUpdateDuration(newState: ParsedSongInfo): boolean {
 		return (
 			newState.duration &&
-			this.currentSong.parsed.duration !== newState.duration
+			this.currentSong.getDuration() !== newState.duration
 		);
 	}
 
@@ -500,10 +514,11 @@ export class Controller {
 			).map((scrobbler) => scrobbler.getId());
 		}
 
-		await ScrobbleStorage.addSong(
-			this.currentSong.getInfo(),
-			boundScrobblerIds
-		);
+		// TODO Fix
+		// await ScrobbleStorage.addSong(
+		// 	this.currentSong,
+		// 	boundScrobblerIds
+		// );
 	}
 
 	/**
@@ -532,7 +547,7 @@ export class Controller {
 	private updateSongDuration(duration: number): void {
 		this.debugLog(`Update duration: ${duration}`);
 
-		this.currentSong.parsed.duration = duration;
+		this.currentSong.setDuration(duration);
 
 		if (this.currentSong.isValid()) {
 			this.updateTimers(duration);
@@ -570,10 +585,10 @@ export class Controller {
 	 * now playing.
 	 */
 	private async setSongNowPlaying(): Promise<void> {
-		this.currentSong.flags.isMarkedAsPlaying = true;
+		this.currentSong.setFlag('isMarkedAsPlaying', true);
 
 		const results = await this.scrobblerManager.sendNowPlayingRequest(
-			this.currentSong.getInfo()
+			this.currentSong
 		);
 		if (isAnyResult(results, ApiCallResult.RESULT_OK)) {
 			this.debugLog('Song set as now playing');
@@ -601,7 +616,7 @@ export class Controller {
 	 */
 	private async scrobbleSong(): Promise<void> {
 		const results = await this.scrobblerManager.sendScrobbleRequest(
-			this.currentSong.getInfo()
+			this.currentSong
 		);
 		const failedScrobblerIds = results
 			.filter((result) => !result.is(ApiCallResult.RESULT_OK))
@@ -611,7 +626,7 @@ export class Controller {
 		if (isAnyOkResult) {
 			this.debugLog('Scrobbled successfully');
 
-			this.currentSong.flags.isScrobbled = true;
+			this.currentSong.setFlag('isScrobbled', true);
 			this.setMode(ControllerMode.Scrobbled);
 
 			this.songUpdateListener.onSongUpdated(this);

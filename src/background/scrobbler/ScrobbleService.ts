@@ -1,6 +1,7 @@
 import type { LoveStatus } from '@/background/model/song/LoveStatus';
-import { TrackContextInfo } from '@/background/model/song/TrackContextInfo';
-import type { TrackInfo } from '@/background/model/song/TrackInfo';
+import { TrackContextInfo } from '@/background/scrobbler/TrackContextInfo';
+import { Song } from '@/background/model/song/Song';
+import { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
 
 export interface ScrobbleService {
 	/**
@@ -10,30 +11,30 @@ export interface ScrobbleService {
 	 *
 	 * @return Track context info
 	 */
-	getTrackContextInfo(trackInfo: TrackInfo): Promise<TrackContextInfo>;
+	getTrackContextInfo(song: Song): Promise<TrackContextInfo>;
 
 	/**
 	 * Send a now playing request.
 	 *
-	 * @param trackInfo Object containing track info
+	 * @param scrobbleEntity Object containing track info
 	 */
-	sendNowPlayingRequest(trackInfo: TrackInfo): Promise<void>;
+	sendNowPlayingRequest(scrobbleEntity: ScrobbleEntity): Promise<void>;
 
 	/**
 	 * Send a scrobble request.
 	 *
-	 * @param trackInfo Object containing track info
+	 * @param scrobbleEntity Object containing track info
 	 */
-	sendScrobbleRequest(trackInfo: TrackInfo): Promise<void>;
+	sendScrobbleRequest(scrobbleEntity: ScrobbleEntity): Promise<void>;
 
 	/**
 	 * Send an (un)love request.
 	 *
-	 * @param trackInfo Object containing song info
+	 * @param scrobbleEntity Object containing song info
 	 * @param loveStatus Flag means song should be loved or not
 	 */
 	sendLoveRequest(
-		trackInfo: TrackInfo,
+		scrobbleEntity: ScrobbleEntity,
 		loveStatus: LoveStatus
 	): Promise<void>;
 }

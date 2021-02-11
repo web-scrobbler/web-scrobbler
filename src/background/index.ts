@@ -37,7 +37,7 @@ import { ControllerWorker } from '@/communication/controller/ControllerWorker';
 import { ConnectorInjectorImpl } from '@/background/browser/inject';
 import { ContentScriptMessageSender } from '@/communication/sender/ContentScriptMessageSender';
 import { NotificationDisplayer } from '@/background/NotificationDisplayer';
-import { ControllerFactoryImpl } from '@/background/ControllerFactoryImpl';
+import { ControllerFactoryImpl } from '@/background/object/controller/ControllerFactoryImpl';
 
 Logger.useDefaults({ defaultLevel: Logger.DEBUG });
 const mainLogger = Logger.get('Main');
@@ -69,7 +69,13 @@ async function main() {
 		Logger.get('ConnectorInjector')
 	);
 
-	const controllerFactory = new ControllerFactoryImpl(scrobbleManager);
+	const editedTracks = getEditedTracks();
+	const pipeline = createTrackPipeline(editedTracks, scrobbleManager);
+
+	const controllerFactory = new ControllerFactoryImpl(
+		scrobbleManager,
+		pipeline
+	);
 
 	const tabWorker = new TabWorker(
 		controllerFactory,
@@ -91,10 +97,6 @@ async function main() {
 
 	setupCommunicationWorkers(authWorker, controllerWorker);
 	setupBrowserTabListener(tabWorker);
-
-	const editedTracks = getEditedTracks();
-
-	const pipeline = createTrackPipeline(editedTracks, scrobbleManager);
 }
 
 function updateCoreVersion() {

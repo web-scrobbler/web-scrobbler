@@ -1,6 +1,6 @@
-import type { TrackContextInfo } from '@/background/model/song/TrackContextInfo';
-import type { TrackInfo } from '@/background/model/song/TrackInfo';
+import { Song } from '@/background/model/song/Song';
+import type { TrackContextInfo } from '@/background/scrobbler/TrackContextInfo';
 
 export interface TrackContextInfoProvider {
-	getTrackContextInfo(trackInfo: TrackInfo): Promise<TrackContextInfo[]>;
+	getTrackContextInfo(song: Song): Promise<TrackContextInfo[]>;
 }

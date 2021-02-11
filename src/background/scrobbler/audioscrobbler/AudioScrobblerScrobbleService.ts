@@ -7,7 +7,6 @@ import { hideStringInText } from '@/background/util/util';
 import { createQueryString } from '@/common/util-browser';
 import { fetchJson } from '@/background/util/fetch/FetchJson';
 
-import type { TrackInfo } from '@/background/model/song/TrackInfo';
 import type { ScrobbleService } from '@/background/scrobbler/ScrobbleService';
 import type { AudioScrobblerAppInfo } from '@/background/scrobbler/audioscrobbler/AudioScrobblerAppInfo';
 import type { TokenBasedSessionProvider } from '@/background/scrobbler/session-provider/TokenBasedSessionProvider';
@@ -15,9 +14,11 @@ import type { AudioScrobblerResponse } from './AudioScrobblerResponse';
 import type { AudioScrobblerApiParams } from './AudioScrobblerApiParams';
 import { ExternalTrackInfoProvider } from '@/background/provider/ExternalTrackInfoProvider';
 import { AudioScrobblerImage } from '@/background/scrobbler/audioscrobbler/AudioScrobblerImage';
-import { TrackContextInfo } from '@/background/model/song/TrackContextInfo';
+import { TrackContextInfo } from '@/background/scrobbler/TrackContextInfo';
 import { ExternalTrackInfo } from '@/background/provider/ExternalTrackInfo';
 import { AudioScrobblerTrackInfo } from '@/background/scrobbler/audioscrobbler/AudioScrobblerTrackInfo';
+import { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
+import { Song } from '@/background/model/song/Song';
 
 export class AudioScrobblerScrobbleService
 	implements
@@ -31,11 +32,9 @@ export class AudioScrobblerScrobbleService
 
 	/** SongInfoProvider implementation */
 
-	async getExternalTrackInfo(
-		trackInfo: TrackInfo
-	): Promise<ExternalTrackInfo> {
+	async getExternalTrackInfo(song: Song): Promise<ExternalTrackInfo> {
 		const audioScrobblerTrackInfo = await this.getAudioScrobblerTrackInfo(
-			trackInfo
+			song
 		);
 
 		const audioScrobblerAbumInfo = audioScrobblerTrackInfo.album;
@@ -105,9 +104,9 @@ export class AudioScrobblerScrobbleService
 
 	/** ScrobbleService implementation */
 
-	async getTrackContextInfo(trackInfo: TrackInfo): Promise<TrackContextInfo> {
+	async getTrackContextInfo(song: Song): Promise<TrackContextInfo> {
 		const audioScrobblerTrackInfo = await this.getAudioScrobblerTrackInfo(
-			trackInfo,
+			song,
 			this.session.getName()
 		);
 
@@ -122,25 +121,24 @@ export class AudioScrobblerScrobbleService
 		};
 	}
 
-	async sendNowPlayingRequest(trackInfo: TrackInfo): Promise<void> {
-		const { artist, track, album, albumArtist, duration } = trackInfo;
+	async sendNowPlayingRequest(scrobbleEntity: ScrobbleEntity): Promise<void> {
 		const params: AudioScrobblerApiParams = {
-			track: track,
-			artist: artist,
+			track: scrobbleEntity.getTrack(),
+			artist: scrobbleEntity.getArtist(),
 			method: 'track.updatenowplaying',
 			sk: this.session.getId(),
 		};
 
-		if (album) {
-			params.album = album;
+		if (scrobbleEntity.getAlbum()) {
+			params.album = scrobbleEntity.getAlbum();
 		}
 
-		if (albumArtist) {
-			params.albumArtist = albumArtist;
+		if (scrobbleEntity.getAlbumArtist()) {
+			params.albumArtist = scrobbleEntity.getAlbumArtist();
 		}
 
-		if (duration) {
-			params.duration = duration.toString();
+		if (scrobbleEntity.getDuration()) {
+			params.duration = scrobbleEntity.getDuration().toString();
 		}
 
 		return this.processResponse(
@@ -148,22 +146,21 @@ export class AudioScrobblerScrobbleService
 		);
 	}
 
-	async sendScrobbleRequest(trackInfo: TrackInfo): Promise<void> {
-		const { artist, track, album, albumArtist, timestamp } = trackInfo;
+	async sendScrobbleRequest(scrobbleEntity: ScrobbleEntity): Promise<void> {
 		const params: AudioScrobblerApiParams = {
 			method: 'track.scrobble',
-			'timestamp[0]': timestamp.toString(),
-			'track[0]': track,
-			'artist[0]': artist,
+			'timestamp[0]': scrobbleEntity.getTimestamp().toString(),
+			'track[0]': scrobbleEntity.getTrack(),
+			'artist[0]': scrobbleEntity.getArtist(),
 			sk: this.session.getId(),
 		};
 
-		if (album) {
-			params['album[0]'] = album;
+		if (scrobbleEntity.getAlbum()) {
+			params['album[0]'] = scrobbleEntity.getAlbum();
 		}
 
-		if (albumArtist) {
-			params['albumArtist[0]'] = albumArtist;
+		if (scrobbleEntity.getAlbumArtist()) {
+			params['albumArtist[0]'] = scrobbleEntity.getAlbumArtist();
 		}
 
 		return this.processResponse(
@@ -172,13 +169,12 @@ export class AudioScrobblerScrobbleService
 	}
 
 	async sendLoveRequest(
-		trackInfo: TrackInfo,
+		scrobbleEntity: ScrobbleEntity,
 		loveStatus: LoveStatus
 	): Promise<void> {
-		const { artist, track } = trackInfo;
 		const params = {
-			track: track,
-			artist: artist,
+			track: scrobbleEntity.getTrack(),
+			artist: scrobbleEntity.getArtist(),
 			method:
 				loveStatus === LoveStatus.Loved ? 'track.love' : 'track.unlove',
 			sk: this.session.getId(),
@@ -282,19 +278,17 @@ export class AudioScrobblerScrobbleService
 	}
 
 	private async getAudioScrobblerTrackInfo(
-		trackInfo: TrackInfo,
+		song: Song,
 		username?: string
 	): Promise<Readonly<AudioScrobblerTrackInfo>> {
-		const { artist, track, album } = trackInfo;
-
 		const params: AudioScrobblerApiParams = {
-			track,
-			artist,
+			track: song.getTrack(),
+			artist: song.getArtist(),
 			method: 'track.getinfo',
 		};
 
-		if (album) {
-			params.album = album;
+		if (song.getAlbum()) {
+			params.album = song.getAlbum();
 		}
 
 		if (username) {
