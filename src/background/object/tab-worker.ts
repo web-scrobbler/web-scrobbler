@@ -25,7 +25,7 @@ import { ModeChangeListener } from '@/background/object/controller/ModeChangeLis
 import { SongUpdateListener } from '@/background/object/controller/SongUpdateListener';
 import { GlobalMessageSender } from '@/communication/sender/GlobalMessageSender';
 import { ContentScriptMessageSender } from '@/communication/sender/ContentScriptMessageSender';
-import { ControllerFactory } from '@/background/ControllerFactory';
+import { ControllerFactory } from '@/background/object/controller/ControllerFactory';
 
 export class TabWorker
 	implements

@@ -1,6 +1,6 @@
 import { Controller } from '@/background/object/controller';
 
-import type { ControllerFactory } from '@/background/ControllerFactory';
+import type { ControllerFactory } from '@/background/object/controller/ControllerFactory';
 import type { ScrobblerManager } from '@/background/scrobbler/ScrobblerManager';
 import type { ConnectorEntry } from '@/common/connector-entry';
 
