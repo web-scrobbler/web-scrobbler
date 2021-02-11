@@ -5,7 +5,7 @@ import { ControllerMessageType } from '@/communication/controller/ControllerMess
 import { assertUnreachable, isInEnum } from '@/background/util/util';
 
 import type { Message } from '@/communication/message/Message';
-import type { CommunicationWorker } from '@/communication/MessageReceiver';
+import type { CommunicationWorker } from '@/communication/CommunicationWorker';
 import type { ActiveControllerProvider } from '@/background/ActiveControllerProvider';
 
 export class ControllerWorker

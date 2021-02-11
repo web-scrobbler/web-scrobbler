@@ -13,7 +13,7 @@ import { getScrobblerLabel } from '@/background/scrobbler/ScrobblerLabel';
 
 import type { AccountsRepository } from '@/background/repository/accounts/AccountsRepository';
 import type { Message } from '@/communication/message/Message';
-import type { CommunicationWorker } from '@/communication/MessageReceiver';
+import type { CommunicationWorker } from '@/communication/CommunicationWorker';
 import type { ScrobblerAuthenticatorFactory } from '@/background/authenticator/ScrobblerAuthenticatorFactory';
 import type { ScrobblerFactory } from '@/background/scrobbler/ScrobblerFactory';
 import type { ScrobblerManager } from '@/background/scrobbler/ScrobblerManager';

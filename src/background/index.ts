@@ -29,7 +29,7 @@ import { fetchJson } from '@/background/util/fetch/FetchJson';
 import { MusicBrainzAlbumIdProvider } from '@/background/provider/album-id/MusicBrainzAlbumIdProvider';
 import { AlbumIdLoader } from '@/background/pipeline/processor/AlbumIdLoader';
 import { Message } from '@/communication/message/Message';
-import { CommunicationWorker } from '@/communication/MessageReceiver';
+import { CommunicationWorker } from '@/communication/CommunicationWorker';
 import { TabWorker } from '@/background/object/tab-worker';
 import { BrowserTabListener } from '@/background/BrowserTabListener';
 import { ConnectorState } from '@/background/model/ConnectorState';
