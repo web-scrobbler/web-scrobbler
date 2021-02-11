@@ -3,8 +3,7 @@ import { InjectResult } from '@/background/browser/inject/InjectResult';
 import type { ConnectorInjector } from '@/background/browser/inject/ConnectorInjector';
 import type { ConnectorEntry } from '@/common/connector-entry';
 import type { TabMessageSender } from '@/communication/TabMessageSender';
-
-import Logger from 'js-logger';
+import type { Logger } from '@/background/util/Logger';
 
 export type InjectScriptFunction = (
 	tabId: number,
@@ -17,11 +16,10 @@ export interface InjectScriptPayload {
 }
 
 export class ConnectorInjectorImpl implements ConnectorInjector {
-	private logger = Logger.get('ConnectorInjector');
-
 	constructor(
 		private injectScript: InjectScriptFunction,
-		private sender: TabMessageSender<string>
+		private sender: TabMessageSender<string>,
+		private logger: Logger
 	) {}
 
 	/**

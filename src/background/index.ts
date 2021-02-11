@@ -51,7 +51,8 @@ async function main() {
 	const accountsRepository = getAccountsRepository();
 	const scrobbleManager = await createScrobblerManager(
 		accountsRepository,
-		createScrobbler
+		createScrobbler,
+		Logger.get('ScrobbleManager')
 	);
 
 	mainLogger.debug(
@@ -64,7 +65,8 @@ async function main() {
 		async (tabId, options) => {
 			await browser.tabs.executeScript(tabId, options);
 		},
-		new ContentScriptMessageSender()
+		new ContentScriptMessageSender(),
+		Logger.get('ConnectorInjector')
 	);
 
 	const controllerFactory = new ControllerFactoryImpl(scrobbleManager);
@@ -137,7 +139,7 @@ function createTrackPipeline(
 		albumIdLoader,
 		coverArtProcessor,
 	];
-	return new SongPipeline(processors);
+	return new SongPipeline(processors, Logger.get('SongPipeline'));
 }
 
 function setupCommunicationWorkers(

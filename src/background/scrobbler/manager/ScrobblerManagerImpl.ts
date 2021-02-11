@@ -1,23 +1,20 @@
 import type { ApiCallResult } from '@/background/scrobbler/api-call-result';
+import type { Logger } from '@/background/util/Logger';
 import type { Scrobbler } from '@/background/scrobbler/Scrobbler';
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import type { ScrobblerManager } from '@/background/scrobbler/ScrobblerManager';
 
-import Logger, { ILogger } from 'js-logger';
 import { TrackInfo } from '@/background/model/song/TrackInfo';
 import { LoveStatus } from '@/background/model/song/LoveStatus';
 import { TrackContextInfo } from '@/background/model/song/TrackContextInfo';
 
 export class ScrobblerManagerImpl implements ScrobblerManager {
-	private logger: ILogger;
 	private scrobblers: Map<ScrobblerId, Scrobbler> = new Map<
 		ScrobblerId,
 		Scrobbler
 	>();
 
-	constructor() {
-		this.logger = Logger.get('ScrobbleManager');
-	}
+	constructor(private logger: Logger) {}
 
 	[Symbol.iterator](): IterableIterator<Scrobbler> {
 		return this.scrobblers.values();
