@@ -60,15 +60,18 @@ async function main() {
 		} scrobblers`
 	);
 
-	const injector = new ConnectorInjectorImpl(async (tabId, options) => {
-		await browser.tabs.executeScript(tabId, options);
-	}, new ContentScriptMessageSender());
+	const connectorInjector = new ConnectorInjectorImpl(
+		async (tabId, options) => {
+			await browser.tabs.executeScript(tabId, options);
+		},
+		new ContentScriptMessageSender()
+	);
 
 	const controllerFactory = new ControllerFactoryImpl(scrobbleManager);
 
 	const tabWorker = new TabWorker(
 		controllerFactory,
-		injector,
+		connectorInjector,
 		new NotificationDisplayer()
 	);
 
