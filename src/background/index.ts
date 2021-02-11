@@ -37,6 +37,7 @@ import { ControllerWorker } from '@/communication/controller/ControllerWorker';
 import { ConnectorInjectorImpl } from '@/background/browser/inject';
 import { ContentScriptMessageSender } from '@/communication/sender/ContentScriptMessageSender';
 import { NotificationDisplayer } from '@/background/NotificationDisplayer';
+import { ControllerFactoryImpl } from '@/background/ControllerFactoryImpl';
 
 Logger.useDefaults({ defaultLevel: Logger.DEBUG });
 const mainLogger = Logger.get('Main');
@@ -63,8 +64,10 @@ async function main() {
 		await browser.tabs.executeScript(tabId, options);
 	}, new ContentScriptMessageSender());
 
+	const controllerFactory = new ControllerFactoryImpl(scrobbleManager);
+
 	const tabWorker = new TabWorker(
-		scrobbleManager,
+		controllerFactory,
 		injector,
 		new NotificationDisplayer()
 	);

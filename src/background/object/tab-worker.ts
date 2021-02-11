@@ -16,7 +16,6 @@ import {
 } from '@/background/storage/options';
 import { L } from '@/common/i18n';
 import { LoveStatus } from '@/background/object/song';
-import { ScrobblerManager } from '@/background/scrobbler/ScrobblerManager';
 import { BrowserTabListener } from '@/background/BrowserTabListener';
 import { ConnectorState } from '@/background/model/ConnectorState';
 import { ActiveControllerProvider } from '@/background/ActiveControllerProvider';
@@ -26,6 +25,7 @@ import { ModeChangeListener } from '@/background/object/controller/ModeChangeLis
 import { SongUpdateListener } from '@/background/object/controller/SongUpdateListener';
 import { GlobalMessageSender } from '@/communication/sender/GlobalMessageSender';
 import { ContentScriptMessageSender } from '@/communication/sender/ContentScriptMessageSender';
+import { ControllerFactory } from '@/background/ControllerFactory';
 
 export class TabWorker
 	implements
@@ -40,7 +40,7 @@ export class TabWorker
 	private browserAction: BrowserAction;
 
 	constructor(
-		private scrobbleManager: ScrobblerManager,
+		private controllerFactory: ControllerFactory,
 		private connectorInjector: ConnectorInjector,
 		private nowPlayingListener: NowPlayingListener
 	) {
@@ -459,11 +459,10 @@ export class TabWorker
 	 */
 	private createController(tabId: number, connector: ConnectorEntry): void {
 		const isEnabled = isConnectorEnabled(connector);
-		const ctrl = new Controller(
+		const ctrl = this.controllerFactory.createController(
 			tabId,
 			connector,
-			isEnabled,
-			this.scrobbleManager
+			isEnabled
 		);
 		ctrl.setSongUpdateListener(this);
 		ctrl.setModeListener(this);
