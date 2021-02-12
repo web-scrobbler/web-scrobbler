@@ -1722,6 +1722,13 @@ const connectors = [{
 	],
 	js: 'connectors/nicovideo.js',
 	id: 'nicovideo',
-}];
+}, {
+	label: 'СберЗвук',
+	matches: [
+		'*://sber-zvuk.com/*',
+	],
+	js: 'connectors/sber-zvuk.js',
+	id: 'sber-zvuk',
+},];
 
 define(() => connectors);
