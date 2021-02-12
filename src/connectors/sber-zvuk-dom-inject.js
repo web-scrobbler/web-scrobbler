@@ -1,7 +1,7 @@
 'use strict';
 
 const getTrackInfo = (track, currentTime) => {
-	const { title, credits, duration, id, image, release_title } = track;
+	const { title, credits, duration, id, image, release_title: album } = track;
 	const trackArt = image.src.replace('{size}', '400x400');
 
 	return {
@@ -11,13 +11,13 @@ const getTrackInfo = (track, currentTime) => {
 		duration,
 		trackArt,
 		currentTime,
-		album: release_title,
+		album,
 	};
 };
 
 const queueEvent = (event) => {
 	let type = null;
-	let trackInfo, queue;
+	let trackInfo; let queue;
 
 	if (event.type === 'update') {
 		switch (event.name) {
@@ -45,7 +45,7 @@ const queueEvent = (event) => {
 		window.postMessage({
 			sender: 'web-scrobbler',
 			type,
-			trackInfo: trackInfo,
+			trackInfo,
 		}, '*');
 	}
 

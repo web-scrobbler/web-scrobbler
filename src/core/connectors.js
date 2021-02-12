@@ -1729,6 +1729,6 @@ const connectors = [{
 	],
 	js: 'connectors/sber-zvuk.js',
 	id: 'sber-zvuk',
-},];
+}];
 
 define(() => connectors);
