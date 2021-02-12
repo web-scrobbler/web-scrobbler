@@ -1,6 +1,6 @@
 'use strict';
 
-const getTrackInfo = function(track, currentTime) {
+function getTrackInfo(track, currentTime) {
 	const { title, credits, duration, id, image, release_title: album } = track;
 	const trackArt = image.src.replace('{size}', '400x400');
 
@@ -13,9 +13,9 @@ const getTrackInfo = function(track, currentTime) {
 		currentTime,
 		album,
 	};
-};
+}
 
-const queueEvent = (event) => {
+function queueEvent(event) {
 	let type = null;
 	let queue;
 
@@ -44,7 +44,7 @@ const queueEvent = (event) => {
 		type,
 		trackInfo,
 	}, '*');
-};
+}
 
 function setupEventListeners() {
 	window.newPlayer.$mobx.observe(queueEvent);
