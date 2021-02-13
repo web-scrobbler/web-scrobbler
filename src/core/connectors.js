@@ -1729,6 +1729,10 @@ const connectors = [{
 	],
 	js: 'connectors/sber-zvuk.js',
 	id: 'sber-zvuk',
+}, {
+	label: 'Navidrome',
+	js: 'connectors/navidrome.js',
+	id: 'navidrome',
 }];
 
 define(() => connectors);
