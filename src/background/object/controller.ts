@@ -119,14 +119,14 @@ export class Controller implements SongUpdateListener2 {
 	}
 
 	onSongChanged(song: Song): void {
-		this.currentSong = song;
+		this.reset();
+
 		if (!song) {
 			this.setMode(ControllerMode.Base);
-			this.reset();
-
 			return;
 		}
 
+		this.currentSong = song;
 		this.debugLogWithSongInfo('New song detected');
 
 		// TODO Move this to ConnectorStateWorker
@@ -298,7 +298,7 @@ export class Controller implements SongUpdateListener2 {
 	}
 
 	/**
-	 * Reset controller state.
+	 * Reset controller.
 	 */
 	private reset(): void {
 		this.nowPlayingListener.onReset(this);
@@ -322,7 +322,13 @@ export class Controller implements SongUpdateListener2 {
 
 		this.debugLog('Song finished processing');
 
-		this.postProcessSong();
+		if (this.currentSong.isValid()) {
+			this.prepareNowPlaying();
+		} else {
+			this.setSongNotRecognized();
+		}
+
+		this.songUpdateListener.onSongUpdated(this);
 	}
 
 	/**
@@ -338,33 +344,27 @@ export class Controller implements SongUpdateListener2 {
 		this.replayDetectionTimer.update(null);
 	}
 
-	private postProcessSong(): void {
-		if (this.currentSong.isValid()) {
-			this.currentSong.setFlag('isMarkedAsPlaying', false);
-
-			this.updateTimers(this.currentSong.getDuration());
-
-			if (this.currentSong.isPlaying()) {
-				if (this.playbackTimer.isExpired()) {
-					this.nowPlayingListener.onNowPlaying(this);
-				} else {
-					this.setSongNowPlaying();
-				}
-			} else {
-				this.setMode(ControllerMode.Base);
-			}
-		} else {
-			this.setSongNotRecognized();
-		}
-
-		this.songUpdateListener.onSongUpdated(this);
-	}
-
 	private replayCurrentSong(): void {
 		this.debugLogWithSongInfo('Replaying song');
 
 		this.startTimers();
-		this.postProcessSong();
+		this.prepareNowPlaying();
+	}
+
+	private prepareNowPlaying(): void {
+		this.currentSong.setFlag('isMarkedAsPlaying', false);
+
+		this.updateTimers(this.currentSong.getDuration());
+
+		if (this.currentSong.isPlaying()) {
+			if (this.playbackTimer.isExpired()) {
+				this.nowPlayingListener.onNowPlaying(this);
+			} else {
+				this.setSongNowPlaying();
+			}
+		} else {
+			this.setMode(ControllerMode.Base);
+		}
 	}
 
 	/**
