@@ -4,11 +4,11 @@ import { MockedStorage } from '#/mock/MockedStorage';
 import { describeModuleTest } from '#/helpers/util';
 
 import { Song } from '@/background/model/song/Song';
-import { createSong } from '@/background/model/song/SongFactory';
 
 import { EditedTracks } from '@/background/repository/edited-tracks/EditedTracks';
 import { EditedTracksImpl } from '@/background/repository/edited-tracks/EditedTracksImpl';
 import { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTrackInfo';
+import { createSongStub } from '#/stub/SongStubFactory';
 
 function testEmptySong() {
 	const editedTracks = createEditedTracks();
@@ -144,7 +144,7 @@ function makeNonProcessedSong(
 	album?: string,
 	uniqueID?: string
 ): Song {
-	return createSong({ artist, track, album, uniqueID });
+	return createSongStub({ artist, track, album, uniqueID });
 }
 
 async function expectSongInfoLoaded(

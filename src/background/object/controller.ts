@@ -1,10 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { ApiCallResult } from '@/background/scrobbler/api-call-result';
-import { Pipeline } from '@/background/pipeline/pipeline';
-import { SavedEdits } from '@/background/storage/saved-edits';
-import { ScrobbleStorage } from '@/background/storage/scrobble-storage';
-import { Song } from '@/background/model/song/Song';
 import { Timer } from '@/background/object/timer';
 
 import {
@@ -29,7 +25,7 @@ import { NowPlayingListener } from '@/background/object/controller/NowPlayingLis
 import { ModeChangeListener } from '@/background/object/controller/ModeChangeListener';
 import { SongUpdateListener } from '@/background/object/controller/SongUpdateListener';
 import { LoveStatus } from '@/background/model/song/LoveStatus';
-import { SongImpl } from '@/background/model/song/SongImpl';
+import { Song } from '@/background/model/song/Song';
 import { ConnectorState } from '@/background/model/ConnectorState';
 import { Processor } from '@/background/pipeline/Processor';
 
@@ -300,7 +296,7 @@ export class Controller {
 		 * clear any previous song and its bindings.
 		 */
 		this.resetState();
-		this.currentSong = new SongImpl(newState);
+		this.currentSong = new Song(newState);
 		this.currentSong.setFlag('isReplaying', this.isReplayingSong);
 
 		this.debugLog(`New song detected: ${toString(newState)}`);

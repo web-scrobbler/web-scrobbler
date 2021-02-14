@@ -3,12 +3,11 @@ import {
 	createDefaultConnectorState,
 } from '@/background/model/ConnectorState';
 import { Song } from '@/background/model/song/Song';
-import { createSong } from '@/background/model/song/SongFactory';
 
 export function createSongStub(state?: Partial<ConnectorState>): Song {
 	const defaultState = createDefaultConnectorState();
 
-	return createSong({
+	return new Song({
 		...defaultState,
 		artist: defaultArtist,
 		track: defaultTrack,

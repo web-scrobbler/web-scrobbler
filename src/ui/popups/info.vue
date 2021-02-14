@@ -201,7 +201,7 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import { LoveStatus } from '@/background/model/song/LoveStatus';
-import { SongImpl } from '@/background/model/song/SongImpl';
+import { Song } from '@/background/model/song/Song';
 
 import arrowCounterClockwise from 'bootstrap-icons/icons/arrow-counterclockwise.svg';
 import arrowLeftRight from 'bootstrap-icons/icons/arrow-left-right.svg';
@@ -407,7 +407,7 @@ export default {
 				return;
 			}
 
-			this.song = SongImpl.fromDto(clonedData);
+			this.song = Song.fromDto(clonedData);
 			this.label = await controllerCommunicator.getConnectorLabel();
 
 			this.artist = this.song.getArtist();
