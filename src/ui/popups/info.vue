@@ -219,7 +219,7 @@ import { getControllerCommunicator } from '@/communication/CommunicatorFactory';
 const modeEdit = 0;
 const modeInfo = 1;
 
-const defaultTrackArt = '/icons/cover_art_default.png';
+const defaultTrackArt = '/icons/cover-art-default.png';
 
 const controllerCommunicator = getControllerCommunicator();
 
