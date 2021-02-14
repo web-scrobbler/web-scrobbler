@@ -83,9 +83,9 @@ export class ListenBrainzScrobblerService implements ScrobbleService {
 		};
 
 		const { ok, data } = await fetchJson(this.apiUrl, requestInfo);
-		this.logger.info('Response', JSON.stringify(data, null, 2));
 
 		if (!ok) {
+			this.logger.info('Response', JSON.stringify(data, null, 2));
 			throw new Error('Received error response');
 		}
 	}

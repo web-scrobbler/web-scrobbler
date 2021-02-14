@@ -12,8 +12,6 @@ export class TrackContextInfoLoader implements SongPipelineStage {
 			await this.provider.getTrackContextInfo(song)
 		).filter((info) => info !== null);
 
-		console.log(trackContextInfoArr);
-
 		if (trackContextInfoArr.length === 0) {
 			return;
 		}

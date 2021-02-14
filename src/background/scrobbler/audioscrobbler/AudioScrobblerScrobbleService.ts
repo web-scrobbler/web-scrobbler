@@ -19,12 +19,15 @@ import { ExternalTrackInfo } from '@/background/provider/ExternalTrackInfo';
 import { AudioScrobblerTrackInfo } from '@/background/scrobbler/audioscrobbler/AudioScrobblerTrackInfo';
 import { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
 import { Song } from '@/background/model/song/Song';
+import Logger from 'js-logger';
 
 export class AudioScrobblerScrobbleService
 	implements
 		ScrobbleService,
 		TokenBasedSessionProvider,
 		ExternalTrackInfoProvider {
+	private logger = Logger.get('AudioScrobbler');
+
 	constructor(
 		private session: ScrobblerSession,
 		private readonly appInfo: AudioScrobblerAppInfo
@@ -203,18 +206,16 @@ export class AudioScrobblerScrobbleService
 		{ signed = true } = {}
 	): Promise<AudioScrobblerResponse> {
 		const url = this.makeRequestUrl(params, signed);
-
 		const { ok, data } = await fetchJson(url, options);
 
-		const responseStr = JSON.stringify(data, null, 2);
-		const debugMsg = hideUserData(data, responseStr);
-
 		if (!ok) {
-			// console.log(`${params.method} response:\n${debugMsg}`, 'error');
+			const responseStr = JSON.stringify(data, null, 2);
+			const debugMsg = hideUserData(data, responseStr);
+			this.logger.error(`${params.method} response:\n${debugMsg}`);
+
 			throw new Error('Received error response');
 		}
 
-		console.log(`${params.method} response:\n${debugMsg}`);
 		return data;
 	}
 
