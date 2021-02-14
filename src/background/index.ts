@@ -13,7 +13,6 @@ import { AudioScrobblerScrobbleService } from '@/background/scrobbler/audioscrob
 import { LastFmAppInfo } from '@/background/scrobbler/audioscrobbler/LastFmAppInfo';
 import { SongPipeline } from '@/background/pipeline/SongPipeline';
 import { FieldNormalizer } from '@/background/pipeline/processor/FieldNormalizer';
-import { CoverArtArchiveProvider } from '@/background/provider/CoverArtArchiveProvider';
 import { CoverArtProcessor } from '@/background/pipeline/processor/CoverArtProcessor';
 import { EditedTracks } from '@/background/repository/edited-tracks/EditedTracks';
 import { EditedInfoProcessor } from '@/background/pipeline/processor/EditedInfoProcessor';
@@ -23,8 +22,6 @@ import { TrackContextInfoProvider } from '@/background/provider/TrackContextInfo
 import { TrackContextInfoLoader } from '@/background/pipeline/processor/TrackContextInfoLoader';
 import { getEditedTracks } from '@/background/repository/GetEditedTracks';
 import { fetchJson } from '@/background/util/fetch/FetchJson';
-import { MusicBrainzAlbumIdProvider } from '@/background/provider/album-id/MusicBrainzAlbumIdProvider';
-import { AlbumIdLoader } from '@/background/pipeline/processor/AlbumIdLoader';
 import { Message } from '@/communication/message/Message';
 import { CommunicationWorker } from '@/communication/CommunicationWorker';
 import { TabWorker } from '@/background/object/tab-worker';
@@ -40,6 +37,7 @@ import { BrowserNotifications } from '@/background/browser/notifications/Browser
 import { AuthReminder } from '@/background/auth-reminder/AuthReminder';
 import { BrowserAuthNotifier } from '@/background/auth-reminder/BrowserAuthNotifier';
 import { getNotificationsRepository } from '@/background/repository/GetNotificationsRepository';
+import { CoverArtArchiveProvider } from '@/background/provider/CoverArtArchiveProvider';
 
 Logger.useDefaults({ defaultLevel: Logger.DEBUG });
 const mainLogger = Logger.get('Main');
@@ -135,12 +133,8 @@ function createTrackPipeline(
 		trackContextInfoProvider
 	);
 
-	const albumIdLoader = new AlbumIdLoader(
-		new MusicBrainzAlbumIdProvider(fetchJson)
-	);
-
 	const coverArtProcessor = new CoverArtProcessor(
-		new CoverArtArchiveProvider()
+		new CoverArtArchiveProvider(fetchJson)
 	);
 
 	const processors = [
@@ -148,7 +142,6 @@ function createTrackPipeline(
 		editedInfoProcessor,
 		externalTrackInfoLoader,
 		trackContextInfoLoader,
-		albumIdLoader,
 		coverArtProcessor,
 	];
 	return new SongPipeline(processors, Logger.get('SongPipeline'));
