@@ -54,15 +54,6 @@ export class TabWorker
 	}
 
 	/**
-	 * Returna an ID of the current tab.
-	 *
-	 * @return Tab ID
-	 */
-	getActiveTabId(): number {
-		return this.activeTabId;
-	}
-
-	/**
 	 * Called when a command is executed.
 	 *
 	 * @param command Command ID
