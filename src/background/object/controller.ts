@@ -242,6 +242,8 @@ export class Controller {
 		}
 
 		const isSongChanged = this.isSongChanged(newState);
+		this.previousState = newState;
+
 		if (isSongChanged || this.isReplayingSong) {
 			if (newState.isPlaying) {
 				if (this.isNeedToAddSongToScrobbleStorage()) {
@@ -256,8 +258,6 @@ export class Controller {
 		} else {
 			this.processCurrentState(newState);
 		}
-
-		this.previousState = newState;
 	}
 
 	private setMode(mode: ControllerMode): void {
