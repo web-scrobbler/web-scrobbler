@@ -8,7 +8,6 @@ import {
 	debugLog,
 	getSecondsToScrobble,
 	isAnyResult,
-	isStateEmpty,
 	LogType,
 } from '@/background/util/util';
 import {
@@ -27,7 +26,11 @@ import { SongUpdateListener } from '@/background/object/controller/SongUpdateLis
 import { LoveStatus } from '@/background/model/song/LoveStatus';
 import { Song } from '@/background/model/song/Song';
 import { ConnectorState } from '@/background/model/ConnectorState';
-import { SongPipelineStage } from '@/background/pipeline/SongPipelineStage';
+import {
+	ConnectorStateWorker,
+	SongUpdateListener2,
+} from '@/background/ConnectorStateWorker';
+import { SongPipeline } from '@/background/pipeline/SongPipeline';
 
 /**
  * List of song fields used to check if song is changed. If any of
@@ -43,31 +46,31 @@ const fieldsToCheckSongChange = [
 /**
  * Object that handles song playback and scrobbling actions.
  */
-export class Controller {
+export class Controller implements SongUpdateListener2 {
 	mode: ControllerMode;
 	tabId: number;
 	isEnabled: boolean;
 	connector: ConnectorEntry;
 
-	currentSong: Song;
 	playbackTimer: Timer;
 	replayDetectionTimer: Timer;
 
-	isReplayingSong = false;
 	shouldScrobblePodcasts: boolean;
+
+	private currentSong: Song;
 
 	private nowPlayingListener: NowPlayingListener;
 	private songUpdateListener: SongUpdateListener;
 	private modeListener: ModeChangeListener;
 
-	private previousState: ConnectorState;
+	private worker: ConnectorStateWorker;
 
 	constructor(
 		tabId: number,
 		connector: ConnectorEntry,
 		isEnabled: boolean,
 		private scrobblerManager: ScrobblerManager,
-		private songPipeline: SongPipelineStage
+		private songPipeline: SongPipeline
 	) {
 		this.tabId = tabId;
 		this.connector = connector;
@@ -77,10 +80,63 @@ export class Controller {
 		this.playbackTimer = new Timer();
 		this.replayDetectionTimer = new Timer();
 
-		this.currentSong = null;
 		this.shouldScrobblePodcasts = getOption(SCROBBLE_PODCASTS);
 
 		this.debugLog(`Created controller for ${connector.label} connector`);
+
+		this.worker = new ConnectorStateWorker(this);
+	}
+
+	onPlayingStateChanged(isPlaying: boolean): void {
+		this.debugLog(`isPlaying state changed to ${isPlaying.toString()}`);
+
+		if (isPlaying) {
+			this.playbackTimer.resume();
+			this.replayDetectionTimer.resume();
+
+			// Maybe the song was not marked as playing yet
+			if (
+				!this.currentSong.getFlag('isMarkedAsPlaying') &&
+				this.currentSong.isValid()
+			) {
+				this.setSongNowPlaying();
+			} else {
+				// Resend current mode
+				this.setMode(this.mode);
+			}
+		} else {
+			this.playbackTimer.pause();
+			this.replayDetectionTimer.pause();
+		}
+	}
+
+	onSongDurationChanged(duration: number): void {
+		if (this.currentSong.isValid()) {
+			this.debugLog(`Update duration: ${duration}`);
+
+			this.updateTimers(duration);
+		}
+	}
+
+	onSongChanged(song: Song): void {
+		this.currentSong = song;
+		if (!song) {
+			this.setMode(ControllerMode.Base);
+			this.reset();
+
+			return;
+		}
+
+		this.debugLogWithSongInfo('New song detected');
+
+		// TODO Move this to ConnectorStateWorker
+		// if (!this.shouldScrobblePodcasts && newState.isPodcast) {
+		// 	this.skipCurrentSong();
+		// 	return;
+		// }
+
+		this.startTimers();
+		this.processSong();
 	}
 
 	/** Listeners. */
@@ -110,7 +166,7 @@ export class Controller {
 		if (flag) {
 			this.setMode(ControllerMode.Base);
 		} else {
-			this.resetState();
+			this.reset();
 			this.setMode(ControllerMode.Disabled);
 		}
 	}
@@ -122,7 +178,7 @@ export class Controller {
 		this.debugLog(
 			`Remove controller for ${this.connector.label} connector`
 		);
-		this.resetState();
+		this.reset();
 	}
 
 	/**
@@ -228,36 +284,12 @@ export class Controller {
 	 *
 	 * @param newState State of connector
 	 */
-	async onStateChanged(newState: ParsedSongInfo): Promise<void> {
+	onStateChanged(newState: ParsedSongInfo): void {
 		if (!this.isEnabled) {
 			return;
 		}
 
-		/*
-		 * Empty state has same semantics as reset; even if isPlaying,
-		 * we don't have enough data to use.
-		 */
-		if (isStateEmpty(newState)) {
-			return this.processEmptyState(newState);
-		}
-
-		const isSongChanged = this.isSongChanged(newState);
-		this.previousState = newState;
-
-		if (isSongChanged || this.isReplayingSong) {
-			if (newState.isPlaying) {
-				if (this.isNeedToAddSongToScrobbleStorage()) {
-					await this.addSongToScrobbleStorage();
-				}
-
-				this.processNewState(newState);
-				await this.processSong();
-			} else {
-				this.reset();
-			}
-		} else {
-			this.processCurrentState(newState);
-		}
+		this.worker.process(newState);
 	}
 
 	private setMode(mode: ControllerMode): void {
@@ -265,106 +297,10 @@ export class Controller {
 		this.modeListener.onModeChanged(this);
 	}
 
-	private async processEmptyState(state: ParsedSongInfo): Promise<void> {
-		if (this.currentSong) {
-			this.debugLog('Received empty state - resetting');
-
-			if (this.isNeedToAddSongToScrobbleStorage()) {
-				await this.addSongToScrobbleStorage();
-			}
-			this.reset();
-		}
-
-		if (state.isPlaying) {
-			this.debugLog(
-				`State from connector doesn't contain enough information about the playing track: ${toString(
-					state
-				)}`,
-				'warn'
-			);
-		}
-	}
-
-	/**
-	 * Process connector state as new one.
-	 *
-	 * @param newState Connector state
-	 */
-	private processNewState(newState: ConnectorState): void {
-		/*
-		 * We've hit a new song (or replaying the previous one)
-		 * clear any previous song and its bindings.
-		 */
-		this.resetState();
-		this.currentSong = new Song(newState);
-		this.currentSong.setFlag('isReplaying', this.isReplayingSong);
-
-		this.debugLog(`New song detected: ${toString(newState)}`);
-
-		if (!this.shouldScrobblePodcasts && newState.isPodcast) {
-			this.skipCurrentSong();
-			return;
-		}
-
-		/*
-		 * Start the timer, actual time will be set after processing
-		 * is done; we can call doScrobble directly, because the timer
-		 * will be allowed to trigger only after the song is validated.
-		 */
-		this.playbackTimer.start(() => {
-			this.scrobbleSong();
-		});
-
-		this.replayDetectionTimer.start(() => {
-			this.debugLog('Replaying song...');
-			this.isReplayingSong = true;
-		});
-
-		/*
-		 * If we just detected the track and it's not playing yet,
-		 * pause the timer right away; this is important, because
-		 * isPlaying flag binding only calls pause/resume which assumes
-		 * the timer is started.
-		 */
-		if (!newState.isPlaying) {
-			this.playbackTimer.pause();
-			this.replayDetectionTimer.pause();
-		}
-
-		this.isReplayingSong = false;
-	}
-
-	/**
-	 * Process connector state as current one.
-	 *
-	 * @param newState Connector state
-	 */
-	private processCurrentState(newState: ConnectorState): void {
-		if (this.currentSong.getFlag('isSkipped')) {
-			return;
-		}
-
-		const { currentTime, isPlaying, trackArt, duration } = newState;
-		const isPlayingStateChanged =
-			this.currentSong.isPlaying() !== isPlaying;
-
-		this.currentSong.setCurrentTime(currentTime);
-		this.currentSong.setTrackArt(trackArt);
-
-		if (this.isNeedToUpdateDuration(newState)) {
-			this.updateSongDuration(duration);
-		}
-
-		if (isPlayingStateChanged) {
-			this.currentSong.setPlaying(isPlaying);
-			this.onPlayingStateChanged(isPlaying);
-		}
-	}
-
 	/**
 	 * Reset controller state.
 	 */
-	private resetState(): void {
+	private reset(): void {
 		this.nowPlayingListener.onReset(this);
 
 		this.playbackTimer.reset();
@@ -381,31 +317,35 @@ export class Controller {
 
 		await this.songPipeline.process(this.currentSong);
 
-		this.debugLog(
-			`Song finished processing: ${this.currentSong.toString()}`
-		);
+		this.debugLog('Song finished processing');
 
+		this.postProcessSong();
+	}
+
+	/**
+	 * Called when song was already flagged as processed, but now is
+	 * entering the pipeline again.
+	 */
+	private unprocessSong(): void {
+		this.debugLog('Song unprocessed');
+
+		this.currentSong = null;
+
+		this.playbackTimer.update(null);
+		this.replayDetectionTimer.update(null);
+	}
+
+	private postProcessSong(): void {
 		if (this.currentSong.isValid()) {
-			// Processing cleans this flag
 			this.currentSong.setFlag('isMarkedAsPlaying', false);
 
 			this.updateTimers(this.currentSong.getDuration());
 
-			/*
-			 * If the song is playing, mark it immediately;
-			 * otherwise will be flagged in isPlaying binding.
-			 */
 			if (this.currentSong.isPlaying()) {
-				/*
-				 * If playback timer is expired, then the extension
-				 * will scrobble song immediately, and there's no need
-				 * to set song as now playing. We should dispatch
-				 * a "now playing" event, though.
-				 */
-				if (!this.playbackTimer.isExpired()) {
-					this.setSongNowPlaying();
-				} else {
+				if (this.playbackTimer.isExpired()) {
 					this.nowPlayingListener.onNowPlaying(this);
+				} else {
+					this.setSongNowPlaying();
 				}
 			} else {
 				this.setMode(ControllerMode.Base);
@@ -417,82 +357,11 @@ export class Controller {
 		this.songUpdateListener.onSongUpdated(this);
 	}
 
-	/**
-	 * Called when song was already flagged as processed, but now is
-	 * entering the pipeline again.
-	 */
-	private unprocessSong(): void {
-		this.debugLog(`Song unprocessed: ${this.currentSong.toString()}`);
-		this.debugLog('Clearing playback timer destination time');
+	private replayCurrentSong(): void {
+		this.debugLogWithSongInfo('Replaying song');
 
-		// this.currentSong.resetData();
-		this.currentSong = null;
-
-		this.playbackTimer.update(null);
-		this.replayDetectionTimer.update(null);
-	}
-
-	/**
-	 * Called when playing state is changed.
-	 *
-	 * @param value New playing state
-	 */
-	private onPlayingStateChanged(value: boolean): void {
-		this.debugLog(`isPlaying state changed to ${value.toString()}`);
-
-		if (value) {
-			this.playbackTimer.resume();
-			this.replayDetectionTimer.resume();
-
-			// Maybe the song was not marked as playing yet
-			if (
-				!this.currentSong.getFlag('isMarkedAsPlaying') &&
-				this.currentSong.isValid()
-			) {
-				this.setSongNowPlaying();
-			} else {
-				// Resend current mode
-				this.setMode(this.mode);
-			}
-		} else {
-			this.playbackTimer.pause();
-			this.replayDetectionTimer.pause();
-		}
-	}
-
-	/**
-	 * Check if song is changed by given connector state.
-	 *
-	 * @param newState Connector state
-	 *
-	 * @return Check result
-	 */
-	private isSongChanged(newState: ConnectorState): boolean {
-		if (!this.currentSong) {
-			return true;
-		}
-
-		for (const field of fieldsToCheckSongChange) {
-			if (newState[field] !== this.previousState[field]) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Check if song duration should be updated.
-	 *
-	 * @param newState Connector state
-	 *
-	 * @return Check result
-	 */
-	private isNeedToUpdateDuration(newState: ParsedSongInfo): boolean {
-		return (
-			newState.duration &&
-			this.currentSong.getDuration() !== newState.duration
-		);
+		this.startTimers();
+		this.postProcessSong();
 	}
 
 	/**
@@ -535,19 +404,15 @@ export class Controller {
 		return false;
 	}
 
-	/**
-	 * Update song duration value.
-	 *
-	 * @param duration Duration in seconds
-	 */
-	private updateSongDuration(duration: number): void {
-		this.debugLog(`Update duration: ${duration}`);
+	private startTimers(): void {
+		// Start the timer; actual time will be set after processing is done.
+		this.playbackTimer.start(() => {
+			this.scrobbleSong();
+		});
 
-		this.currentSong.setDuration(duration);
-
-		if (this.currentSong.isValid()) {
-			this.updateTimers(duration);
-		}
+		this.replayDetectionTimer.start(() => {
+			this.replayCurrentSong();
+		});
 	}
 
 	/**
@@ -587,10 +452,12 @@ export class Controller {
 			this.currentSong
 		);
 		if (isAnyResult(results, ScrobblerResult.RESULT_OK)) {
-			this.debugLog('Song set as now playing');
+			this.debugLogWithSongInfo('Set as now playing');
+
 			this.setMode(ControllerMode.Playing);
 		} else {
-			this.debugLog("Song isn't set as now playing");
+			this.debugLogWithSongInfo('Is not set as now playing');
+
 			this.setMode(ControllerMode.Err);
 		}
 
@@ -620,7 +487,7 @@ export class Controller {
 
 		const isAnyOkResult = results.length > failedScrobblerIds.length;
 		if (isAnyOkResult) {
-			this.debugLog('Scrobbled successfully');
+			this.debugLogWithSongInfo(`Scrobbled successfully`);
 
 			this.currentSong.setFlag('isScrobbled', true);
 			this.setMode(ControllerMode.Scrobbled);
@@ -644,11 +511,6 @@ export class Controller {
 		return getSecondsToScrobble(duration, percent);
 	}
 
-	private reset(): void {
-		this.resetState();
-		this.setMode(ControllerMode.Base);
-	}
-
 	private assertSongIsPlaying(): void {
 		if (!this.currentSong) {
 			throw new Error('No song is now playing');
@@ -665,15 +527,8 @@ export class Controller {
 		const message = `Tab ${this.tabId}: ${text}`;
 		debugLog(message, logType);
 	}
-}
 
-/**
- * Get string representation of given object.
- *
- * @param obj Any object
- *
- * @return String value
- */
-function toString(obj: unknown): string {
-	return JSON.stringify(obj, null, 2);
+	debugLogWithSongInfo(text: string): void {
+		this.debugLog(`${text}: ${this.currentSong.getArtistTrackString()}`);
+	}
 }
