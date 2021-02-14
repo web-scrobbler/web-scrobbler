@@ -38,6 +38,7 @@ import { NotificationDisplayer } from '@/background/NotificationDisplayer';
 import { ControllerFactoryImpl } from '@/background/object/controller/ControllerFactoryImpl';
 import { BrowserContextMenuManager } from '@/background/browser/context-menu/BrowserContextMenuManager';
 import { createContextMenuWorker } from '@/background/ContextMenuWorkerFactory';
+import { BrowserNotifications } from '@/background/browser/notifications/BrowserNotifications';
 
 Logger.useDefaults({ defaultLevel: Logger.DEBUG });
 const mainLogger = Logger.get('Main');
@@ -80,7 +81,7 @@ async function main() {
 	const tabWorker = new TabWorker(
 		controllerFactory,
 		connectorInjector,
-		new NotificationDisplayer(),
+		new NotificationDisplayer(new BrowserNotifications()),
 		createContextMenuWorker
 	);
 

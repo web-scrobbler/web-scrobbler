@@ -1,34 +1,39 @@
-import {
-	clearNowPlaying,
-	showNowPlaying,
-	showSongNotRecognized,
-} from '@/background/browser/notifications';
-import { NowPlayingListener } from '@/background/object/controller/NowPlayingListener';
-import { Controller } from '@/background/object/controller';
 import { openTab } from '@/common/util-browser';
 
+import type { Controller } from '@/background/object/controller';
+import type { Notifications } from '@/background/browser/notifications/Notifications';
+import type { NowPlayingListener } from '@/background/object/controller/NowPlayingListener';
+
 export class NotificationDisplayer implements NowPlayingListener {
+	constructor(private notifications: Notifications) {}
+
 	onReset(ctrl: Controller): void {
-		// const song = ctrl.getCurrentSong();
-		// if (song) {
-		// 	clearNowPlaying(song);
-		// }
+		const song = ctrl.getCurrentSong();
+		if (song) {
+			this.notifications.clearNowPlaying(song);
+		}
 	}
 
 	onNowPlaying(ctrl: Controller): void {
-		// const song = ctrl.getCurrentSong();
-		// if (song.flags.isReplaying) {
-		// 	return;
-		// }
-		// if (song.isValid()) {
-		// 	const { label } = ctrl.getConnector();
-		// 	showNowPlaying(song, label, () => {
-		// 		openTab(ctrl.tabId);
-		// 	});
-		// } else {
-		// 	showSongNotRecognized(song, () => {
-		// 		openTab(ctrl.tabId);
-		// 	});
-		// }
+		const song = ctrl.getCurrentSong();
+		if (song.getFlag('isReplaying')) {
+			return;
+		}
+
+		const onClickedFn = () => {
+			openTab(ctrl.tabId);
+		};
+
+		if (song.isValid()) {
+			const { label } = ctrl.getConnector();
+
+			this.notifications.showNowPlayingNotification(
+				song,
+				label,
+				onClickedFn
+			);
+		} else {
+			this.notifications.showSongNotRecognized(song, onClickedFn);
+		}
 	}
 }
