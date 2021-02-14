@@ -18,7 +18,7 @@ import { L } from '@/common/i18n';
 import { LoveStatus } from '@/background/object/song';
 import { BrowserTabListener } from '@/background/BrowserTabListener';
 import { ConnectorState } from '@/background/model/ConnectorState';
-import { ActiveControllerProvider } from '@/background/ActiveControllerProvider';
+import { ActiveControllerProvider } from '@/background/object/ActiveControllerProvider';
 import { ConnectorInjector, InjectResult } from '@/background/browser/inject';
 import { NowPlayingListener } from '@/background/object/controller/NowPlayingListener';
 import { ModeChangeListener } from '@/background/object/controller/ModeChangeListener';
