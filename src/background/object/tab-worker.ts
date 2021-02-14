@@ -26,6 +26,8 @@ import { SongUpdateListener } from '@/background/object/controller/SongUpdateLis
 import { GlobalMessageSender } from '@/communication/sender/GlobalMessageSender';
 import { ContentScriptMessageSender } from '@/communication/sender/ContentScriptMessageSender';
 import { ControllerFactory } from '@/background/object/controller/ControllerFactory';
+import { ContextMenuWorkerFactory } from '@/background/ContextMenuWorkerFactory';
+import { ContextMenuWorker } from '@/background/ContextMenuWorker';
 
 export class TabWorker
 	implements
@@ -39,11 +41,16 @@ export class TabWorker
 	private tabControllers: Record<number, Controller> = {};
 	private browserAction: BrowserAction;
 
+	private contextMenuWorker: ContextMenuWorker;
+
 	constructor(
 		private controllerFactory: ControllerFactory,
 		private connectorInjector: ConnectorInjector,
-		private nowPlayingListener: NowPlayingListener
+		private nowPlayingListener: NowPlayingListener,
+		contextMenuFactory: ContextMenuWorkerFactory
 	) {
+		this.contextMenuWorker = contextMenuFactory(this);
+
 		this.initialize();
 	}
 
@@ -51,6 +58,23 @@ export class TabWorker
 
 	getActiveController(): Controller {
 		return this.tabControllers[this.activeTabId] ?? null;
+	}
+
+	getController(tabId: number): Controller {
+		return this.tabControllers[tabId] ?? null;
+	}
+
+	/**
+	 * Enable or disable a connector attached to a given controller.
+	 *
+	 * @param ctrl Controller instance
+	 * @param isEnabled Flag value
+	 */
+	setConnectorState(ctrl: Controller, isEnabled: boolean): void {
+		const connector = ctrl.getConnector();
+
+		ctrl.setEnabled(isEnabled);
+		setConnectorEnabled(connector, isEnabled);
 	}
 
 	/**
@@ -127,7 +151,7 @@ export class TabWorker
 			this.activeTabId = tabId;
 		}
 
-		this.updateContextMenu(tabId);
+		this.contextMenuWorker.updateMenuForTab(tabId);
 	}
 
 	/**
@@ -238,120 +262,11 @@ export class TabWorker
 			this.activeTabId = lastActiveTabId;
 
 			this.updateBrowserAction(this.activeTabId);
-			this.updateContextMenu(this.activeTabId);
+			this.contextMenuWorker.updateMenuForTab(this.activeTabId);
 		} else {
 			this.browserAction.reset();
-			this.resetContextMenu();
+			this.contextMenuWorker.resetMenu();
 		}
-	}
-
-	/**
-	 * Setup context menu of the browser action for a tab with given tab ID.
-	 *
-	 * @param tabId Tab ID
-	 */
-	private updateContextMenu(tabId: number): void {
-		this.resetContextMenu();
-
-		const ctrl = this.tabControllers[tabId];
-
-		// Always display context menu for current tab
-		if (ctrl) {
-			this.addToggleConnectorMenu(tabId, ctrl);
-			if (ctrl.isEnabled) {
-				this.addDisableUntilTabClosedItem(tabId, ctrl);
-			}
-		}
-
-		// Add additional menu items for active tab (if it's not current)...
-		if (this.activeTabId !== tabId) {
-			const activeCtrl = this.tabControllers[this.activeTabId];
-
-			if (activeCtrl) {
-				if (
-					ctrl &&
-					activeCtrl.getConnector().id === ctrl.getConnector().id
-				) {
-					return;
-				}
-
-				// ...but only if it has a different connector injected.
-				this.addToggleConnectorMenu(tabId, activeCtrl);
-			}
-		}
-	}
-
-	/**
-	 * Remove all items from the context menu.
-	 */
-	private resetContextMenu(): void {
-		browser.contextMenus.removeAll();
-	}
-
-	/**
-	 * Add a "Enable/Disable X" menu item for a given controller.
-	 *
-	 * @param tabId Tab ID
-	 * @param ctrl Controller instance
-	 */
-	private addToggleConnectorMenu(tabId: number, ctrl: Controller): void {
-		const { label } = ctrl.getConnector();
-		const titleId = ctrl.isEnabled
-			? 'menuDisableConnector'
-			: 'menuEnableConnector';
-		const itemTitle = L(titleId, label);
-		const newState = !ctrl.isEnabled;
-
-		this.addContextMenuItem(tabId, itemTitle, () => {
-			this.setConnectorState(ctrl, newState);
-		});
-	}
-
-	/**
-	 * Add a "Disable X until tab is closed" menu item for a given controller.
-	 *
-	 * @param tabId Tab ID
-	 * @param ctrl Controller instance
-	 */
-	private addDisableUntilTabClosedItem(
-		tabId: number,
-		ctrl: Controller
-	): void {
-		const { label } = ctrl.getConnector();
-		const itemTitle2 = L`menuDisableUntilTabClosed ${label}`;
-		this.addContextMenuItem(tabId, itemTitle2, () => {
-			ctrl.setEnabled(false);
-		});
-	}
-
-	/**
-	 * Helper function to add item to page action context menu.
-	 *
-	 * @param tabId Tab ID
-	 * @param title Item title
-	 * @param onClicked Function that will be called on item click
-	 */
-	private addContextMenuItem(
-		tabId: number,
-		title: string,
-		onClicked: () => void
-	): void {
-		const onclick = () => {
-			onClicked();
-
-			this.updateContextMenu(tabId);
-			if (this.shouldUpdateBrowserAction(tabId)) {
-				this.updateBrowserAction(tabId);
-			}
-		};
-
-		const type = 'normal';
-		browser.contextMenus.create({
-			title,
-			type,
-			onclick,
-			contexts: ['browser_action'],
-		});
 	}
 
 	/**
@@ -374,7 +289,7 @@ export class TabWorker
 		}
 
 		if (isActiveCtrlChanged) {
-			this.updateContextMenu(this.currentTabId);
+			this.contextMenuWorker.updateMenuForTab(this.currentTabId);
 		}
 
 		if (isCtrlModeInactive) {
@@ -431,7 +346,7 @@ export class TabWorker
 				if (this.shouldUpdateBrowserAction(tabId)) {
 					this.updateBrowserAction(tabId);
 				}
-				this.updateContextMenu(tabId);
+				this.contextMenuWorker.updateMenuForTab(tabId);
 
 				new ContentScriptMessageSender().sendMessage(tabId, {
 					type: 'EVENT_READY',
@@ -474,18 +389,5 @@ export class TabWorker
 
 		controller.finish();
 		delete this.tabControllers[tabId];
-	}
-
-	/**
-	 * Enable or disable a connector attached to a given controller.
-	 *
-	 * @param ctrl Controller instance
-	 * @param isEnabled Flag value
-	 */
-	private setConnectorState(ctrl: Controller, isEnabled: boolean): void {
-		const connector = ctrl.getConnector();
-
-		ctrl.setEnabled(isEnabled);
-		setConnectorEnabled(connector, isEnabled);
 	}
 }
