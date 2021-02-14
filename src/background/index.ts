@@ -13,8 +13,6 @@ import { createAuthRemindFunction } from '@/background/auth-remind/AuthRemindFun
 import { AudioScrobblerScrobbleService } from '@/background/scrobbler/audioscrobbler/AudioScrobblerScrobbleService';
 import { LastFmAppInfo } from '@/background/scrobbler/audioscrobbler/LastFmAppInfo';
 import { SongPipeline } from '@/background/pipeline/SongPipeline';
-import { Processor } from '@/background/pipeline/Processor';
-import { Song } from '@/background/model/song/Song';
 import { FieldNormalizer } from '@/background/pipeline/processor/FieldNormalizer';
 import { CoverArtArchiveProvider } from '@/background/provider/CoverArtArchiveProvider';
 import { CoverArtProcessor } from '@/background/pipeline/processor/CoverArtProcessor';
@@ -70,11 +68,11 @@ async function main() {
 	);
 
 	const editedTracks = getEditedTracks();
-	const pipeline = createTrackPipeline(editedTracks, scrobblerManager);
+	const trackPipeline = createTrackPipeline(editedTracks, scrobblerManager);
 
 	const controllerFactory = new ControllerFactoryImpl(
 		scrobblerManager,
-		pipeline
+		trackPipeline
 	);
 
 	const tabWorker = new TabWorker(
@@ -109,7 +107,7 @@ function updateCoreVersion() {
 function createTrackPipeline(
 	editedTracks: EditedTracks,
 	trackContextInfoProvider: TrackContextInfoProvider
-): Processor<Song> {
+): SongPipeline {
 	const fieldNormalizer = new FieldNormalizer();
 
 	const editedInfoProcessor = new EditedInfoProcessor(editedTracks);

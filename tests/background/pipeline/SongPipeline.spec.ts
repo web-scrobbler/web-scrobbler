@@ -5,8 +5,7 @@ import { expect, spy } from 'chai';
 import { describeModuleTest } from '#/helpers/util';
 import { loggerStub } from '#/mock/MockedLogger';
 
-import { Song } from '@/background/model/song/Song';
-import { Processor } from '@/background/pipeline/Processor';
+import { SongPipelineStage } from '@/background/pipeline/SongPipelineStage';
 import { SongPipeline } from '@/background/pipeline/SongPipeline';
 import { createSongStub } from '#/stub/SongStubFactory';
 
@@ -26,8 +25,8 @@ describeModuleTest(__filename, () => {
 	});
 });
 
-function createDummyProcessor(): Processor<Song> {
-	return new (class implements Processor<Song> {
+function createDummyProcessor(): SongPipelineStage {
+	return new (class implements SongPipelineStage {
 		process(): Promise<void> {
 			return Promise.resolve();
 		}

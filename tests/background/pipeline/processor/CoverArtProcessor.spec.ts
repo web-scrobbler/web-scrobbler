@@ -7,12 +7,11 @@ import { describeModuleTest } from '#/helpers/util';
 import { CoverArtProcessor } from '@/background/pipeline/processor/CoverArtProcessor';
 
 import type { CoverArtProvider } from '@/background/provider/CoverArtProvider';
-import type { Processor } from '@/background/pipeline/Processor';
-import type { Song } from '@/background/model/song/Song';
+import type { SongPipelineStage } from '@/background/pipeline/SongPipelineStage';
 
 describeModuleTest(__filename, () => {
 	let provider: CoverArtProvider;
-	let processor: Processor<Song>;
+	let processor: SongPipelineStage;
 	let spyMethod: unknown;
 
 	beforeEach(() => {

@@ -1,10 +1,10 @@
 import { LoveStatus } from '@/background/model/song/LoveStatus';
 
 import type { Song } from '@/background/model/song/Song';
-import type { Processor } from '@/background/pipeline/Processor';
+import type { SongPipelineStage } from '@/background/pipeline/SongPipelineStage';
 import type { TrackContextInfoProvider } from '@/background/provider/TrackContextInfoProvider';
 
-export class TrackContextInfoLoader implements Processor<Song> {
+export class TrackContextInfoLoader implements SongPipelineStage {
 	constructor(private provider: TrackContextInfoProvider) {}
 
 	async process(song: Song): Promise<void> {

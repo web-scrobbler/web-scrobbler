@@ -1,8 +1,8 @@
 import { Song } from '@/background/model/song/Song';
-import { Processor } from '@/background/pipeline/Processor';
+import { SongPipelineStage } from '@/background/pipeline/SongPipelineStage';
 import { CoverArtProvider } from '@/background/provider/CoverArtProvider';
 
-export class CoverArtProcessor implements Processor<Song> {
+export class CoverArtProcessor implements SongPipelineStage {
 	constructor(private provider: CoverArtProvider) {}
 
 	async process(song: Song): Promise<void> {

@@ -1,8 +1,8 @@
 import { Song } from '@/background/model/song/Song';
-import { Processor } from '@/background/pipeline/Processor';
+import { SongPipelineStage } from '@/background/pipeline/SongPipelineStage';
 import { ExternalTrackInfoProvider } from '@/background/provider/ExternalTrackInfoProvider';
 
-export class ExternalTrackInfoLoader implements Processor<Song> {
+export class ExternalTrackInfoLoader implements SongPipelineStage {
 	constructor(private provider: ExternalTrackInfoProvider) {}
 
 	async process(song: Song): Promise<void> {

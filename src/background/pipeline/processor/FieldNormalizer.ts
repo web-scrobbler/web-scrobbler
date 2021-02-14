@@ -1,7 +1,7 @@
 import { Song } from '@/background/model/song/Song';
-import { Processor } from '@/background/pipeline/Processor';
+import { SongPipelineStage } from '@/background/pipeline/SongPipelineStage';
 
-export class FieldNormalizer implements Processor<Song> {
+export class FieldNormalizer implements SongPipelineStage {
 	// eslint-disable-next-line @typescript-eslint/require-await
 	async process(song: Song): Promise<void> {
 		if (song.isEmpty()) {

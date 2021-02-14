@@ -27,7 +27,7 @@ import { SongUpdateListener } from '@/background/object/controller/SongUpdateLis
 import { LoveStatus } from '@/background/model/song/LoveStatus';
 import { Song } from '@/background/model/song/Song';
 import { ConnectorState } from '@/background/model/ConnectorState';
-import { Processor } from '@/background/pipeline/Processor';
+import { SongPipelineStage } from '@/background/pipeline/SongPipelineStage';
 
 /**
  * List of song fields used to check if song is changed. If any of
@@ -67,7 +67,7 @@ export class Controller {
 		connector: ConnectorEntry,
 		isEnabled: boolean,
 		private scrobblerManager: ScrobblerManager,
-		private songPipeline: Processor<Song>
+		private songPipeline: SongPipelineStage
 	) {
 		this.tabId = tabId;
 		this.connector = connector;
