@@ -2,7 +2,7 @@ import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import {
 	AccountInfo,
 	createEmptyAccountInfo,
-} from '@/background/model/AccountInfo';
+} from '@/communication/accounts/AccountInfo';
 import {
 	AccountsMessageType,
 	SignInPayload,
@@ -19,6 +19,7 @@ import type { ScrobblerFactory } from '@/background/scrobbler/ScrobblerFactory';
 import type { ScrobblerManager } from '@/background/scrobbler/ScrobblerManager';
 import type { UserAccount } from '@/background/account/UserAccount';
 import type { UserProperties } from '@/background/scrobbler/UserProperties';
+import { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 
 export class AccountsWorker
 	implements CommunicationWorker<AccountsMessageType, SignInPayload> {
@@ -41,7 +42,7 @@ export class AccountsWorker
 
 		switch (type) {
 			case AccountsMessageType.GetAccounts: {
-				return this.getAccounts();
+				return this.getAccountInfoList();
 			}
 
 			case AccountsMessageType.SignIn: {
@@ -56,7 +57,7 @@ export class AccountsWorker
 		}
 	}
 
-	private async getAccounts(): Promise<ReadonlyArray<AccountInfo>> {
+	private async getAccountInfoList(): Promise<ReadonlyArray<AccountInfo>> {
 		const accountInfoArr: AccountInfo[] = [];
 
 		for (const scrobblerId of Object.values(ScrobblerId)) {
@@ -64,10 +65,7 @@ export class AccountsWorker
 				scrobblerId
 			);
 
-			const acccountInfo =
-				this.getAccountInfo(account) ||
-				createEmptyAccountInfo(scrobblerId);
-
+			const acccountInfo = this.getAccountInfo(account);
 			accountInfoArr.push(acccountInfo);
 		}
 
@@ -84,9 +82,7 @@ export class AccountsWorker
 				userProperties
 			);
 		} else {
-			const authenticator = this.authenticatorFactory(scrobblerId);
-			const session = await authenticator.requestSession();
-
+			const session = await this.requestSession(scrobblerId);
 			await this.accountsRepository.updateScrobblerSession(
 				scrobblerId,
 				session
@@ -94,14 +90,7 @@ export class AccountsWorker
 		}
 
 		const account = await this.accountsRepository.getAccount(scrobblerId);
-		const session = account.getSession();
-
-		const scrobbler = this.scrobblerFactory(
-			scrobblerId,
-			session,
-			userProperties
-		);
-		this.scrobbleManager.useScrobbler(scrobbler);
+		return this.useAccountForScrobbler(account, scrobblerId);
 	}
 
 	private async signOut(scrobblerId: ScrobblerId): Promise<void> {
@@ -113,7 +102,7 @@ export class AccountsWorker
 		const scrobblerId = account.getScrobblerId();
 		const scrobbler = this.scrobbleManager.getScrobblerById(scrobblerId);
 		if (!scrobbler) {
-			return null;
+			return createEmptyAccountInfo(scrobblerId);
 		}
 
 		return {
@@ -122,5 +111,27 @@ export class AccountsWorker
 			scrobblerId: scrobbler.getId(),
 			scrobblerLabel: getScrobblerLabel(scrobbler.getId()),
 		};
+	}
+
+	private requestSession(
+		scrobblerId: ScrobblerId
+	): Promise<ScrobblerSession> {
+		const authenticator = this.authenticatorFactory(scrobblerId);
+		return authenticator.requestSession();
+	}
+
+	private useAccountForScrobbler(
+		account: UserAccount,
+		scrobblerId: ScrobblerId
+	): void {
+		const session = account.getSession();
+		const properties = account.getUserProperties();
+
+		const scrobbler = this.scrobblerFactory(
+			scrobblerId,
+			session,
+			properties
+		);
+		this.scrobbleManager.useScrobbler(scrobbler);
 	}
 }

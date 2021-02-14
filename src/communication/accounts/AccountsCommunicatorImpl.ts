@@ -1,6 +1,6 @@
 import { AccountsMessageType } from '@/communication/accounts/AccountsMessageType';
 
-import type { AccountInfo } from '@/background/model/AccountInfo';
+import type { AccountInfo } from '@/communication/accounts/AccountInfo';
 import type { AccountsCommunicator } from '@/communication/accounts/AccountsCommunicator';
 import type { MessageSender } from '@/communication/MessageSender';
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';

@@ -1,4 +1,4 @@
-import type { AccountInfo } from '@/background/model/AccountInfo';
+import type { AccountInfo } from '@/communication/accounts/AccountInfo';
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import type { UserProperties } from '@/background/scrobbler/UserProperties';
 
