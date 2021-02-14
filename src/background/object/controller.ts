@@ -242,8 +242,6 @@ export class Controller {
 		}
 
 		const isSongChanged = this.isSongChanged(newState);
-		this.previousState = newState;
-
 		if (isSongChanged || this.isReplayingSong) {
 			if (newState.isPlaying) {
 				if (this.isNeedToAddSongToScrobbleStorage()) {
@@ -258,6 +256,8 @@ export class Controller {
 		} else {
 			this.processCurrentState(newState);
 		}
+
+		this.previousState = newState;
 	}
 
 	private setMode(mode: ControllerMode): void {
@@ -350,13 +350,13 @@ export class Controller {
 
 		this.currentSong.setCurrentTime(currentTime);
 		this.currentSong.setTrackArt(trackArt);
-		this.currentSong.setPlaying(isPlaying);
 
 		if (this.isNeedToUpdateDuration(newState)) {
 			this.updateSongDuration(duration);
 		}
 
 		if (isPlayingStateChanged) {
+			this.currentSong.setPlaying(isPlaying);
 			this.onPlayingStateChanged(isPlaying);
 		}
 	}
@@ -468,7 +468,7 @@ export class Controller {
 	 * @return Check result
 	 */
 	private isSongChanged(newState: ConnectorState): boolean {
-		if (!this.previousState) {
+		if (!this.currentSong) {
 			return true;
 		}
 
