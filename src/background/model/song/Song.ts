@@ -168,6 +168,25 @@ export class Song implements ScrobbleEntity {
 		return !(this.getArtist() && this.getTrack());
 	}
 
+	isEqual(song: Song): boolean {
+		if (!song) {
+			return false;
+		}
+
+		const thisUniqueId = this.getUniqueId();
+		const otherUniqueId = song.getUniqueId();
+		if (thisUniqueId || otherUniqueId) {
+			return thisUniqueId === otherUniqueId;
+		}
+
+		return (
+			this.getArtist() === song.getArtist() &&
+			this.getTrack() === song.getTrack() &&
+			this.getAlbum() === song.getAlbum() &&
+			this.getAlbumArtist() === song.getAlbumArtist()
+		);
+	}
+
 	isValid(): boolean {
 		return this.getFlag('isCorrectedByUser') || this.getFlag('isValid');
 	}

@@ -136,7 +136,7 @@ export class Controller implements SongUpdateListener2 {
 		// }
 
 		this.startTimers();
-		this.processSong();
+		this.processSong(song);
 	}
 
 	/** Listeners. */
@@ -312,10 +312,13 @@ export class Controller implements SongUpdateListener2 {
 	/**
 	 * Process song using pipeline module.
 	 */
-	private async processSong(): Promise<void> {
+	private async processSong(song: Song): Promise<void> {
 		this.setMode(ControllerMode.Loading);
 
-		await this.songPipeline.process(this.currentSong);
+		await this.songPipeline.process(song);
+		if (!song.isEqual(this.currentSong)) {
+			return;
+		}
 
 		this.debugLog('Song finished processing');
 
