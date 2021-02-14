@@ -15,12 +15,11 @@ export class AuthReminder {
 	 */
 	async notifyAuthIsRequired(): Promise<void> {
 		const authDisplayCount = await this.repository.getAuthDisplayCount();
-		if (authDisplayCount >= maxNotificationDisplayCount) {
-			return;
-		}
 
-		await this.notifier.notify();
-		await this.repository.setAuthDisplayCount(authDisplayCount + 1);
+		if (authDisplayCount < maxNotificationDisplayCount) {
+			await this.notifier.notify();
+			await this.repository.setAuthDisplayCount(authDisplayCount + 1);
+		}
 	}
 }
 
