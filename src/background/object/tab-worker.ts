@@ -306,12 +306,16 @@ export class TabWorker
 	 *
 	 * @param ctrl Controller instance
 	 */
-	onSongUpdated(ctrl: Controller): void {
+	async onSongUpdated(ctrl: Controller): Promise<void> {
 		const track = ctrl.getCurrentSong().serialize();
-		new GlobalMessageSender().sendMessage({
-			type: 'EVENT_TRACK_UPDATED',
-			data: { track },
-		});
+		try {
+			await new GlobalMessageSender().sendMessage({
+				type: 'EVENT_TRACK_UPDATED',
+				data: { track },
+			});
+		} catch {
+			// Do nothing
+		}
 	}
 
 	/**
