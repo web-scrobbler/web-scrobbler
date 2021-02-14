@@ -11,7 +11,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.15.2",
     "blueimp-md5": "2.18.0",
-    "bootstrap": "4.5.3",
+    "bootstrap": "4.6.0",
     "jquery": "3.5.1",
     "metadata-filter": "1.1.1",
     "requirejs": "2.3.6",
