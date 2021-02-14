@@ -24,7 +24,7 @@ import { malojaScrobblerInfo } from '@/background/scrobbler/maloja/MalojaScrobbl
  *
  * @param scrobblerId Scrobbler ID to create
  * @param session Scrobbler session
- * @param userProperties User properties
+ * @param [userProperties] User properties
  *
  * @return Scrobbler object
  */
@@ -39,7 +39,7 @@ export interface ScrobblerFactory {
 export const createScrobbler: ScrobblerFactory = (
 	scrobblerId: ScrobblerId,
 	session: ScrobblerSession,
-	userProperties?: UserProperties
+	userProperties: UserProperties = {}
 ): Scrobbler => {
 	if (session.isEmpty()) {
 		throw new Error('Cannot create scrobbler with empty session');
