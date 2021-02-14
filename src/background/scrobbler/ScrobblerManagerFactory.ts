@@ -22,8 +22,16 @@ export async function createScrobblerManager(
 	const scrobblerManager = new ScrobblerManagerImpl(logger);
 
 	for await (const account of accountsRepository) {
+		const scrobblerId = account.getScrobblerId();
+		const session = account.getSession();
+		const userProperties = account.getUserProperties();
+
 		try {
-			const scrobbler = scrobblerFactory(account);
+			const scrobbler = scrobblerFactory(
+				scrobblerId,
+				session,
+				userProperties
+			);
 			scrobblerManager.useScrobbler(scrobbler);
 		} catch {
 			continue;

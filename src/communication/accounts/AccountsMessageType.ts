@@ -1,5 +1,5 @@
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
-import type { UserProperties } from '@/background/account/UserProperties';
+import type { UserProperties } from '@/background/scrobbler/UserProperties';
 
 export enum AccountsMessageType {
 	SignIn = 'SignIn',

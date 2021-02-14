@@ -2,7 +2,7 @@
  * Ref: https://www.last.fm/api/desktopauth
  */
 
-import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import type { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 
 /**
  * A session provider using a token-based authentication.

@@ -1,5 +1,5 @@
 import type { ScrobblerAuthenticator } from '@/background/authenticator/ScrobblerAuthenticator';
-import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import type { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 import type { TabOpener } from '@/background/authenticator/tab-opener/TabOpener';
 import type { WebSessionProvider } from '@/background/scrobbler/session-provider/WebSessionProvider';
 

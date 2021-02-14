@@ -1,5 +1,5 @@
 import { fetchDocument } from '@/background/util/fetch/FetchDocument';
-import { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 
 import type { WebSessionProvider } from '@/background/scrobbler/session-provider/WebSessionProvider';
 

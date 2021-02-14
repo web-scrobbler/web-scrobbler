@@ -1,4 +1,4 @@
-import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import type { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 
 /**
  * A basic web provider.

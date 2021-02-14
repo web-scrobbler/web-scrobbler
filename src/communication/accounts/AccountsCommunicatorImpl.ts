@@ -4,7 +4,7 @@ import type { AccountInfo } from '@/background/model/AccountInfo';
 import type { AccountsCommunicator } from '@/communication/accounts/AccountsCommunicator';
 import type { MessageSender } from '@/communication/MessageSender';
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
-import type { UserProperties } from '@/background/account/UserProperties';
+import type { UserProperties } from '@/background/scrobbler/UserProperties';
 
 export class AccountsCommunicatorImpl implements AccountsCommunicator {
 	constructor(private sender: MessageSender<AccountsMessageType>) {}

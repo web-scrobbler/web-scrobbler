@@ -2,7 +2,7 @@ import { expect } from 'chai';
 
 import { describeModuleTest } from '#/helpers/util';
 
-import { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 
 describeModuleTest(__filename, () => {
 	it('should return true for empty session', () => {

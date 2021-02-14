@@ -1,6 +1,6 @@
-import { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 
-import type { UserProperties } from '@/background/account/UserProperties';
+import type { UserProperties } from '@/background/scrobbler/UserProperties';
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 
 const unknownUsername = 'anonimous';

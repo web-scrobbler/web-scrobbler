@@ -1,7 +1,7 @@
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
-import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import type { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 import type { UserAccount } from '@/background/account/UserAccount';
-import type { UserProperties } from '@/background/account/UserProperties';
+import type { UserProperties } from '@/background/scrobbler/UserProperties';
 
 export interface AccountsRepository extends AsyncIterable<UserAccount> {
 	/**

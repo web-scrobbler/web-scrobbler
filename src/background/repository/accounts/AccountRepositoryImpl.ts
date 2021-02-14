@@ -1,6 +1,6 @@
-import { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 import { UserAccount } from '@/background/account/UserAccount';
-import { UserProperties } from '@/background/account/UserProperties';
+import { UserProperties } from '@/background/scrobbler/UserProperties';
 import { AccountsRepository } from '@/background/repository/accounts/AccountsRepository';
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import { createLocalStorage } from '@/background/storage2/namespace/NamespaceStorageFactory';

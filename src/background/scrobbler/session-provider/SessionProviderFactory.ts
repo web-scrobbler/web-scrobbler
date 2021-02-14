@@ -6,7 +6,7 @@ import { LibreFmAppInfo } from '@/background/scrobbler/audioscrobbler/LibreFmApp
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import { WebSessionProvider } from '@/background/scrobbler/session-provider/WebSessionProvider';
 import { ListenBrainzSessionProvider } from '@/background/scrobbler/listenbrainz/ListenBrainzSessionProvider';
-import { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 
 type TokenBasedAuthScrobblerId = ScrobblerId.LastFm | ScrobblerId.LibreFm;
 type TokenBasedSessionProviderFactory = () => TokenBasedSessionProvider;

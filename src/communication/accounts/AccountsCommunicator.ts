@@ -1,6 +1,6 @@
 import type { AccountInfo } from '@/background/model/AccountInfo';
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
-import type { UserProperties } from '@/background/account/UserProperties';
+import type { UserProperties } from '@/background/scrobbler/UserProperties';
 
 export interface AccountsCommunicator {
 	getAccounts(): Promise<ReadonlyArray<AccountInfo>>;

@@ -2,7 +2,7 @@ import { fetchJson } from '@/background/util/fetch/FetchJson';
 
 import type { ScrobbleService } from '@/background/scrobbler/ScrobbleService';
 import type { MalojaTrackMetadata } from '@/background/scrobbler/maloja/MalojaTrackMetadata';
-import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import type { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 import { TrackContextInfo } from '@/background/scrobbler/TrackContextInfo';
 import { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
 

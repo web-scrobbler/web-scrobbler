@@ -1,3 +1,3 @@
-import { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 
 export const dummySession = new ScrobblerSession('key', 'name');

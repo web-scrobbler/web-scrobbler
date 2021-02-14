@@ -18,7 +18,7 @@ import type { ScrobblerAuthenticatorFactory } from '@/background/authenticator/S
 import type { ScrobblerFactory } from '@/background/scrobbler/ScrobblerFactory';
 import type { ScrobblerManager } from '@/background/scrobbler/ScrobblerManager';
 import type { UserAccount } from '@/background/account/UserAccount';
-import type { UserProperties } from '@/background/account/UserProperties';
+import type { UserProperties } from '@/background/scrobbler/UserProperties';
 
 export class AccountsWorker
 	implements CommunicationWorker<AccountsMessageType, SignInPayload> {
@@ -78,35 +78,35 @@ export class AccountsWorker
 		scrobblerId: ScrobblerId,
 		userProperties?: UserProperties
 	): Promise<void> {
-		const account = await this.getAccount(scrobblerId, userProperties);
+		if (userProperties) {
+			await this.accountsRepository.updateUserProperties(
+				scrobblerId,
+				userProperties
+			);
+		} else {
+			const authenticator = this.authenticatorFactory(scrobblerId);
+			const session = await authenticator.requestSession();
 
-		const scrobbler = this.scrobblerFactory(account);
+			await this.accountsRepository.updateScrobblerSession(
+				scrobblerId,
+				session
+			);
+		}
+
+		const account = await this.accountsRepository.getAccount(scrobblerId);
+		const session = account.getSession();
+
+		const scrobbler = this.scrobblerFactory(
+			scrobblerId,
+			session,
+			userProperties
+		);
 		this.scrobbleManager.useScrobbler(scrobbler);
 	}
 
 	private async signOut(scrobblerId: ScrobblerId): Promise<void> {
 		await this.accountsRepository.removeAccount(scrobblerId);
 		this.scrobbleManager.removeScrobbler(scrobblerId);
-	}
-
-	private async getAccount(
-		scrobblerId: ScrobblerId,
-		userProperties?: UserProperties
-	): Promise<UserAccount> {
-		if (userProperties) {
-			return await this.accountsRepository.updateUserProperties(
-				scrobblerId,
-				userProperties
-			);
-		}
-
-		const authenticator = this.authenticatorFactory(scrobblerId);
-		const session = await authenticator.requestSession();
-
-		return await this.accountsRepository.updateScrobblerSession(
-			scrobblerId,
-			session
-		);
 	}
 
 	private getAccountInfo(account: UserAccount): AccountInfo {

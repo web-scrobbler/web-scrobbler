@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { describeModuleTest } from '#/helpers/util';
 
 import { UserAccount } from '@/background/account/UserAccount';
-import { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 
 describeModuleTest(__filename, () => {

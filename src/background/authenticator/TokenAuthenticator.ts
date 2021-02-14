@@ -1,6 +1,6 @@
 import type { TabOpener } from '@/background/authenticator/tab-opener/TabOpener';
 import type { ScrobblerAuthenticator } from '@/background/authenticator/ScrobblerAuthenticator';
-import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import type { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 import type { TokenBasedSessionProvider } from '@/background/scrobbler/session-provider/TokenBasedSessionProvider';
 
 export class TokenAuthenticator implements ScrobblerAuthenticator {

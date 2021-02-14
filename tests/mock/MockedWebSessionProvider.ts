@@ -1,6 +1,6 @@
 import { dummySession } from '#/stub/DummySession';
 
-import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import type { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 import type { WebSessionProvider } from '@/background/scrobbler/session-provider/WebSessionProvider';
 
 export class MockedWebSessionProvider implements WebSessionProvider {

@@ -6,9 +6,8 @@ import {
 } from '@/background/scrobbler/listenbrainz/ListenBrainzScrobblerService';
 
 import { Scrobbler } from '@/background/scrobbler/Scrobbler';
-import type { UserProperties } from '@/background/account/UserProperties';
-import type { UserAccount } from '@/background/account/UserAccount';
-import type { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import type { UserProperties } from '@/background/scrobbler/UserProperties';
+import type { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 
 import { AudioScrobblerScrobbleService } from '@/background/scrobbler/audioscrobbler/AudioScrobblerScrobbleService';
 import { LastFmAppInfo } from '@/background/scrobbler/audioscrobbler/LastFmAppInfo';
@@ -23,25 +22,30 @@ import { malojaScrobblerInfo } from '@/background/scrobbler/maloja/MalojaScrobbl
 /**
  * Function that creates a Scrobbler instance.
  *
- * @param account User account
+ * @param scrobblerId Scrobbler ID to create
+ * @param session Scrobbler session
+ * @param userProperties User properties
  *
  * @return Scrobbler object
  */
 export interface ScrobblerFactory {
-	(account: UserAccount): Scrobbler;
+	(
+		scrobblerId: ScrobblerId,
+		session: ScrobblerSession,
+		userProperties?: UserProperties
+	): Scrobbler;
 }
 
 export const createScrobbler: ScrobblerFactory = (
-	account: UserAccount
+	scrobblerId: ScrobblerId,
+	session: ScrobblerSession,
+	userProperties?: UserProperties
 ): Scrobbler => {
-	const session = account.getSession();
 	if (session.isEmpty()) {
 		throw new Error('Cannot create scrobbler with empty session');
 	}
 
-	const userProperties = account.getUserProperties();
-
-	const factoryFunction = factoryFunctions[account.getScrobblerId()];
+	const factoryFunction = factoryFunctions[scrobblerId];
 	return factoryFunction(session, userProperties);
 };
 

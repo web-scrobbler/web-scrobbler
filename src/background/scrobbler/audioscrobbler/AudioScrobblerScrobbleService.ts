@@ -1,7 +1,7 @@
 import md5 from 'blueimp-md5';
 
 import { LoveStatus } from '@/background/model/song/LoveStatus';
-import { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 
 import { hideStringInText } from '@/background/util/util';
 import { createQueryString } from '@/common/util-browser';

@@ -20,7 +20,7 @@ import { CoverArtArchiveProvider } from '@/background/provider/CoverArtArchivePr
 import { CoverArtProcessor } from '@/background/pipeline/processor/CoverArtProcessor';
 import { EditedTracks } from '@/background/repository/edited-tracks/EditedTracks';
 import { EditedInfoProcessor } from '@/background/pipeline/processor/EditedInfoProcessor';
-import { ScrobblerSession } from '@/background/account/ScrobblerSession';
+import { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 import { ExternalTrackInfoLoader } from '@/background/pipeline/processor/ExternalTrackInfoLoader';
 import { TrackContextInfoProvider } from '@/background/provider/TrackContextInfoProvider';
 import { TrackContextInfoLoader } from '@/background/pipeline/processor/TrackContextInfoLoader';
