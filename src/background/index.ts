@@ -9,7 +9,6 @@ import { AccountsWorker } from '@/communication/accounts/AccountsWorker';
 import { getAccountsRepository } from '@/background/repository/GetAccountsRepository';
 import { createAuthenticator } from '@/background/authenticator/ScrobblerAuthenticatorFactory';
 import { createScrobbler } from '@/background/scrobbler/ScrobblerFactory';
-import { createAuthRemindFunction } from '@/background/auth-remind/AuthRemindFunctionFactory';
 import { AudioScrobblerScrobbleService } from '@/background/scrobbler/audioscrobbler/AudioScrobblerScrobbleService';
 import { LastFmAppInfo } from '@/background/scrobbler/audioscrobbler/LastFmAppInfo';
 import { SongPipeline } from '@/background/pipeline/SongPipeline';
@@ -36,9 +35,11 @@ import { ConnectorInjectorImpl } from '@/background/browser/inject';
 import { ContentScriptMessageSender } from '@/communication/sender/ContentScriptMessageSender';
 import { NotificationDisplayer } from '@/background/NotificationDisplayer';
 import { ControllerFactoryImpl } from '@/background/object/controller/ControllerFactoryImpl';
-import { BrowserContextMenuManager } from '@/background/browser/context-menu/BrowserContextMenuManager';
 import { createContextMenuWorker } from '@/background/ContextMenuWorkerFactory';
 import { BrowserNotifications } from '@/background/browser/notifications/BrowserNotifications';
+import { AuthReminder } from '@/background/auth-reminder/AuthReminder';
+import { BrowserAuthNotifier } from '@/background/auth-reminder/BrowserAuthNotifier';
+import { getNotificationsRepository } from '@/background/repository/GetNotificationsRepository';
 
 Logger.useDefaults({ defaultLevel: Logger.DEBUG });
 const mainLogger = Logger.get('Main');
@@ -62,6 +63,8 @@ async function main() {
 		} scrobblers`
 	);
 
+	const notifications = new BrowserNotifications();
+
 	const connectorInjector = new ConnectorInjectorImpl(
 		async (tabId, options) => {
 			await browser.tabs.executeScript(tabId, options);
@@ -81,7 +84,7 @@ async function main() {
 	const tabWorker = new TabWorker(
 		controllerFactory,
 		connectorInjector,
-		new NotificationDisplayer(new BrowserNotifications()),
+		new NotificationDisplayer(notifications),
 		createContextMenuWorker
 	);
 
@@ -94,8 +97,13 @@ async function main() {
 		createAuthenticator
 	);
 
-	const remindFn = createAuthRemindFunction();
-	remindFn();
+	const authNotifier = new BrowserAuthNotifier(notifications);
+	const notificationsRepository = getNotificationsRepository();
+	const authReminder = new AuthReminder(
+		notificationsRepository,
+		authNotifier
+	);
+	authReminder.notifyAuthIsRequired();
 
 	setupCommunicationWorkers(authWorker, controllerWorker);
 	setupBrowserTabListener(tabWorker);
