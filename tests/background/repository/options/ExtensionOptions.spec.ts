@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { getObjectKeys, describeModuleTest } from '#/helpers/util';
-import { MockedStorage } from '#/mock/MockedStorage';
+import { MemoryStorage } from '#/stub/MemoryStorage';
 
 import { Options } from '@/background/repository/options/Options';
 import { ExtensionOptions } from '@/background/repository/options/ExtensionOptions';
@@ -70,5 +70,5 @@ describeModuleTest(__filename, () => {
 });
 
 function createOptions(): Options<ExtensionOptionsData> {
-	return new ExtensionOptions(new MockedStorage());
+	return new ExtensionOptions(new MemoryStorage());
 }

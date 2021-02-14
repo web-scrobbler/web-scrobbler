@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { describeModuleTest } from '#/helpers/util';
-import { MockedStorage } from '#/mock/MockedStorage';
+import { MemoryStorage } from '#/stub/MemoryStorage';
 
 import { CoreRepository } from '@/background/repository/core/CoreRepository';
 import { CoreRepositoryImpl } from '@/background/repository/core/CoreRepositoryImpl';
@@ -43,5 +43,5 @@ function testCoreRepository() {
 }
 
 function createCoreRepository(): CoreRepository {
-	return new CoreRepositoryImpl(new MockedStorage());
+	return new CoreRepositoryImpl(new MemoryStorage());
 }

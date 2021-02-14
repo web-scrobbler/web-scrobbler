@@ -3,7 +3,7 @@ import { dummySession } from '#/stub/DummySession';
 import type { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 import type { TokenBasedSessionProvider } from '@/background/scrobbler/session-provider/TokenBasedSessionProvider';
 
-export class MockedTokenBasedSessionProvider
+export class TokenBasedSessionProviderStub
 	implements TokenBasedSessionProvider {
 	private failRequestToken = false;
 	private failRequestSession = false;

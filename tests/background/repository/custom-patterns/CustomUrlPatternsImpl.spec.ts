@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { describeModuleTest } from '#/helpers/util';
-import { MockedStorage } from '#/mock/MockedStorage';
+import { MemoryStorage } from '#/stub/MemoryStorage';
 
 import { CustomUrlPatterns } from '@/background/repository/custom-patterns/CustomUrlPatterns';
 import { CustomUrlPatternsImpl } from '@/background/repository/custom-patterns/CustomUrlPatternsImpl';
@@ -42,5 +42,5 @@ function testCustomUrlPatternsRepository() {
 }
 
 function createCustomUrlPatterns(): CustomUrlPatterns {
-	return new CustomUrlPatternsImpl(new MockedStorage());
+	return new CustomUrlPatternsImpl(new MemoryStorage());
 }

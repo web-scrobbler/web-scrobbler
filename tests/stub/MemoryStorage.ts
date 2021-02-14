@@ -1,9 +1,9 @@
-import { Storage } from '@/background/storage2/Storage';
+import type { Storage } from '@/background/storage2/Storage';
 
 /**
  * In-memory `Storage` implementation.
  */
-export class MockedStorage<T> implements Storage<T> {
+export class MemoryStorage<T> implements Storage<T> {
 	constructor(private data: T = {} as T) {}
 
 	async get(): Promise<T> {

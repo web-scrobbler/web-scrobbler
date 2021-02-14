@@ -1,19 +1,19 @@
 import { expect } from 'chai';
 
-import { MockedTabOpener } from '#/mock/MockedTabOpener';
-import { MockedTokenBasedSessionProvider } from '#/mock/MockedTokenSessionProvider';
+import { TokenBasedSessionProviderStub } from '#/stub/TokenSessionProviderStub';
 import { describeModuleTest } from '#/helpers/util';
 import { dummySession } from '#/stub/DummySession';
+import { tabOpenerStub } from '#/stub/TabOpenerStub';
 
 import { TokenAuthenticator } from '@/background/authenticator/TokenAuthenticator';
 
 import type { ScrobblerAuthenticator } from '@/background/authenticator/ScrobblerAuthenticator';
-import { TokenBasedSessionProvider } from '@/background/scrobbler/session-provider/TokenBasedSessionProvider';
+import type { TokenBasedSessionProvider } from '@/background/scrobbler/session-provider/TokenBasedSessionProvider';
 
 describeModuleTest(__filename, () => {
 	it('should return session', async () => {
 		const authenticator = createTokenAuthenticator(
-			new MockedTokenBasedSessionProvider()
+			new TokenBasedSessionProviderStub()
 		);
 		const session = await authenticator.requestSession();
 
@@ -23,7 +23,7 @@ describeModuleTest(__filename, () => {
 
 	it('should throw an error if requesting token is failed', () => {
 		const authenticator = createTokenAuthenticator(
-			new MockedTokenBasedSessionProvider({ failRequestToken: true })
+			new TokenBasedSessionProviderStub({ failRequestToken: true })
 		);
 
 		return expect(
@@ -33,7 +33,7 @@ describeModuleTest(__filename, () => {
 
 	it('should throw an error if requesting session is failed', () => {
 		const authenticator = createTokenAuthenticator(
-			new MockedTokenBasedSessionProvider({ failRequestSession: true })
+			new TokenBasedSessionProviderStub({ failRequestSession: true })
 		);
 
 		return expect(
@@ -47,5 +47,5 @@ describeModuleTest(__filename, () => {
 function createTokenAuthenticator(
 	sessionProvider: TokenBasedSessionProvider
 ): ScrobblerAuthenticator {
-	return new TokenAuthenticator(MockedTabOpener, sessionProvider);
+	return new TokenAuthenticator(tabOpenerStub, sessionProvider);
 }

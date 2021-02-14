@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
+import { WebSessionProviderStub } from '#/stub/WebSessionProviderStub';
 import { describeModuleTest } from '#/helpers/util';
 import { dummySession } from '#/stub/DummySession';
-import { MockedTabOpener } from '#/mock/MockedTabOpener';
-import { MockedWebSessionProvider } from '#/mock/MockedWebSessionProvider';
+import { tabOpenerStub } from '#/stub/TabOpenerStub';
 
 import { WebAuthenticator } from '@/background/authenticator/WebAuthenticator';
 import type { WebSessionProvider } from '@/background/scrobbler/session-provider/WebSessionProvider';
@@ -11,7 +11,7 @@ import type { WebSessionProvider } from '@/background/scrobbler/session-provider
 describeModuleTest(__filename, () => {
 	it('should return session', async () => {
 		const authenticator = createWebAuthenticator(
-			new MockedWebSessionProvider()
+			new WebSessionProviderStub()
 		);
 		const session = await authenticator.requestSession();
 
@@ -21,7 +21,7 @@ describeModuleTest(__filename, () => {
 
 	it('should throw an error if requesting session is failed', () => {
 		const authenticator = createWebAuthenticator(
-			new MockedWebSessionProvider({ failRequestSession: true })
+			new WebSessionProviderStub({ failRequestSession: true })
 		);
 
 		return expect(
@@ -33,5 +33,5 @@ describeModuleTest(__filename, () => {
 function createWebAuthenticator(
 	sessionProvider: WebSessionProvider
 ): WebAuthenticator {
-	return new WebAuthenticator(MockedTabOpener, sessionProvider);
+	return new WebAuthenticator(tabOpenerStub, sessionProvider);
 }

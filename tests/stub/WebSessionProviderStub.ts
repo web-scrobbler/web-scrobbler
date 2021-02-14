@@ -3,7 +3,7 @@ import { dummySession } from '#/stub/DummySession';
 import type { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 import type { WebSessionProvider } from '@/background/scrobbler/session-provider/WebSessionProvider';
 
-export class MockedWebSessionProvider implements WebSessionProvider {
+export class WebSessionProviderStub implements WebSessionProvider {
 	private failRequestSession = false;
 
 	constructor({ failRequestSession = false } = {}) {

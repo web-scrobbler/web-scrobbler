@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { getObjectKeys, describeModuleTest } from '#/helpers/util';
-import { MockedStorage } from '#/mock/MockedStorage';
+import { MemoryStorage } from '#/stub/MemoryStorage';
 
 import { ConnectorsOptions } from '@/background/repository/connectors-options/ConnectorsOptions';
 import { ConnectorsOptionsData } from '@/background/repository/connectors-options/ConnectorsOptionsData';
@@ -72,5 +72,5 @@ describeModuleTest(__filename, () => {
 });
 
 function createConnectorsOptions(): ConnectorsOptions<ConnectorsOptionsData> {
-	return new ConnectorsOptionsImpl(new MockedStorage());
+	return new ConnectorsOptionsImpl(new MemoryStorage());
 }

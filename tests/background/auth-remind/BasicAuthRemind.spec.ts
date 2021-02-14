@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { spy } from 'chai';
 
 import { describeModuleTest } from '#/helpers/util';
-import { MockedStorage } from '#/mock/MockedStorage';
+import { MemoryStorage } from '#/stub/MemoryStorage';
 
 import { NotificationsRepositoryImpl } from '@/background/repository/notifications/NotificationsRepositoryImpl';
 import { basicAuthRemind } from '@/background/auth-remind/BasicAuthRemind';
@@ -39,7 +39,7 @@ describeModuleTest(__filename, () => {
 function createAuthRemindFunction(
 	notifyFn: NotifyFunction
 ): AuthRemindFunction {
-	const repository = new NotificationsRepositoryImpl(new MockedStorage());
+	const repository = new NotificationsRepositoryImpl(new MemoryStorage());
 
 	return () => basicAuthRemind(repository, notifyFn);
 }

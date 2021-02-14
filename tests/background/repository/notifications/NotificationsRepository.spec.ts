@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { describeModuleTest } from '#/helpers/util';
-import { MockedStorage } from '#/mock/MockedStorage';
+import { MemoryStorage } from '#/stub/MemoryStorage';
 
 import { NotificationsRepository } from '@/background/repository/notifications/NotificationsRepository';
 import { NotificationsRepositoryImpl } from '@/background/repository/notifications/NotificationsRepositoryImpl';
@@ -25,5 +25,5 @@ function testNotificationsRepository() {
 }
 
 function createNotificationsRepository(): NotificationsRepository {
-	return new NotificationsRepositoryImpl(new MockedStorage());
+	return new NotificationsRepositoryImpl(new MemoryStorage());
 }

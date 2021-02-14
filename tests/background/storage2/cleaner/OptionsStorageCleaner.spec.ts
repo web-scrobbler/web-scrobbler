@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { describeModuleTest } from '#/helpers/util';
-import { MockedStorage } from '#/mock/MockedStorage';
+import { MemoryStorage } from '#/stub/MemoryStorage';
 
 import { Storage } from '@/background/storage2/Storage';
 
@@ -53,7 +53,7 @@ function createOptionsStorage(
 		disabledConnectors,
 	};
 
-	return new MockedStorage<ExtensionOptionsRepositoryData>(
+	return new MemoryStorage<ExtensionOptionsRepositoryData>(
 		defaultStorageData
 	);
 }

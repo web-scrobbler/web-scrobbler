@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 
-import { MockedStorage } from '#/mock/MockedStorage';
+import { MemoryStorage } from '#/stub/MemoryStorage';
 import { describeModuleTest } from '#/helpers/util';
 
 import { Song } from '@/background/model/song/Song';
@@ -159,7 +159,7 @@ async function expectSongInfoNotLoaded(task: Promise<EditedTrackInfo>) {
 }
 
 function createEditedTracks(...initialData: Song[]): EditedTracks {
-	const editedTracks = new EditedTracksImpl(new MockedStorage());
+	const editedTracks = new EditedTracksImpl(new MemoryStorage());
 
 	for (const song of initialData) {
 		const editedInfo: EditedTrackInfo = {
