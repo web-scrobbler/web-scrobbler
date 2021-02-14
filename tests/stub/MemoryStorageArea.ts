@@ -1,6 +1,6 @@
 import { Storage } from 'webextension-polyfill-ts';
 
-export class MockedStorageArea implements Storage.StorageArea {
+export class MemoryStorageArea implements Storage.StorageArea {
 	private data: unknown;
 
 	constructor() {

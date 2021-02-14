@@ -1,7 +1,7 @@
 import { expect } from 'chai';
 
 import { describeModuleTest } from '#/helpers/util';
-import { MockedStorageArea } from '#/mock/MockedStorageArea';
+import { MemoryStorageArea } from '#/stub/MemoryStorageArea';
 
 import { Storage } from '@/background/storage2/Storage';
 import { NamespaceStorage } from '@/background/storage2/namespace/NamespaceStorage';
@@ -72,5 +72,5 @@ function testStorageCreation() {
 }
 
 function createNamespaceStorage(namespage: string): Storage<unknown> {
-	return new NamespaceStorage(new MockedStorageArea(), namespage);
+	return new NamespaceStorage(new MemoryStorageArea(), namespage);
 }

@@ -1,4 +1,4 @@
-export const mockedI18n = {
+export const i18nStub = {
 	getMessage(stringId: string): string {
 		return translationStrings[stringId] || '';
 	},

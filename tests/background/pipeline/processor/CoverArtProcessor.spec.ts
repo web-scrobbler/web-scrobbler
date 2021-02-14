@@ -1,6 +1,6 @@
 import { expect, spy } from 'chai';
 
-import { MockedCoverArtProvider } from '#/mock/MockedCoverArtProvider';
+import { CoverArtProviderStub } from '#/stub/CoverArtProviderStub';
 import { createSongStub } from '#/stub/SongStubFactory';
 import { describeModuleTest } from '#/helpers/util';
 
@@ -16,7 +16,7 @@ describeModuleTest(__filename, () => {
 	let spyMethod: unknown;
 
 	beforeEach(() => {
-		provider = new MockedCoverArtProvider('fetched-track-art-url');
+		provider = new CoverArtProviderStub('fetched-track-art-url');
 		processor = new CoverArtProcessor(provider);
 
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

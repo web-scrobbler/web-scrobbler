@@ -1,10 +1,10 @@
-import { MockedStorageArea } from '#/mock/MockedStorageArea';
-import { mockedI18n } from '#/mock/MockedI18n';
+import { MemoryStorageArea } from '#/stub/MemoryStorageArea';
+import { i18nStub } from '#/stub/I18nStub';
 
 export const mockedBrowser = {
 	storage: {
-		local: new MockedStorageArea(),
-		sync: new MockedStorageArea(),
+		local: new MemoryStorageArea(),
+		sync: new MemoryStorageArea(),
 	},
-	i18n: mockedI18n,
+	i18n: i18nStub,
 };
