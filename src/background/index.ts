@@ -49,15 +49,15 @@ async function main() {
 	updateCoreVersion();
 
 	const accountsRepository = getAccountsRepository();
-	const scrobbleManager = await createScrobblerManager(
+	const scrobblerManager = await createScrobblerManager(
 		accountsRepository,
 		createScrobbler,
-		Logger.get('ScrobbleManager')
+		Logger.get('ScrobblerManager')
 	);
 
 	mainLogger.debug(
 		`Initialized scrobble manager with ${
-			Array.from(scrobbleManager).length
+			Array.from(scrobblerManager).length
 		} scrobblers`
 	);
 
@@ -70,10 +70,10 @@ async function main() {
 	);
 
 	const editedTracks = getEditedTracks();
-	const pipeline = createTrackPipeline(editedTracks, scrobbleManager);
+	const pipeline = createTrackPipeline(editedTracks, scrobblerManager);
 
 	const controllerFactory = new ControllerFactoryImpl(
-		scrobbleManager,
+		scrobblerManager,
 		pipeline
 	);
 
@@ -86,7 +86,7 @@ async function main() {
 	const controllerWorker = new ControllerWorker(tabWorker);
 
 	const authWorker = new AccountsWorker(
-		scrobbleManager,
+		scrobblerManager,
 		accountsRepository,
 		createScrobbler,
 		createAuthenticator

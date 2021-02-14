@@ -1,7 +1,7 @@
 import {
-	ApiCallResult,
+	ScrobblerResult,
 	ApiCallResultType,
-} from '@/background/scrobbler/api-call-result';
+} from '@/background/scrobbler/ScrobblerResult';
 
 import type { LoveStatus } from '@/background/model/song/LoveStatus';
 import type { ScrobbleService } from '@/background/scrobbler/ScrobbleService';
@@ -38,42 +38,44 @@ export class Scrobbler {
 
 	async sendNowPlayingRequest(
 		scrobbleEntity: ScrobbleEntity
-	): Promise<ApiCallResult> {
+	): Promise<ScrobblerResult> {
 		try {
 			await this.scrobbleService.sendNowPlayingRequest(scrobbleEntity);
-			return this.createApiCallResult(ApiCallResult.RESULT_OK);
+			return this.createApiCallResult(ScrobblerResult.RESULT_OK);
 		} catch (err) {
-			throw this.createApiCallResult(ApiCallResult.ERROR_OTHER);
+			throw this.createApiCallResult(ScrobblerResult.ERROR_OTHER);
 		}
 	}
 
 	async sendScrobbleRequest(
 		scrobbleEntity: ScrobbleEntity
-	): Promise<ApiCallResult> {
+	): Promise<ScrobblerResult> {
 		try {
 			await this.scrobbleService.sendScrobbleRequest(scrobbleEntity);
-			return this.createApiCallResult(ApiCallResult.RESULT_OK);
+			return this.createApiCallResult(ScrobblerResult.RESULT_OK);
 		} catch (err) {
-			throw this.createApiCallResult(ApiCallResult.ERROR_OTHER);
+			throw this.createApiCallResult(ScrobblerResult.ERROR_OTHER);
 		}
 	}
 
 	async sendLoveRequest(
 		scrobbleEntity: ScrobbleEntity,
 		loveStatus: LoveStatus
-	): Promise<ApiCallResult> {
+	): Promise<ScrobblerResult> {
 		try {
 			await this.scrobbleService.sendLoveRequest(
 				scrobbleEntity,
 				loveStatus
 			);
-			return this.createApiCallResult(ApiCallResult.RESULT_OK);
+			return this.createApiCallResult(ScrobblerResult.RESULT_OK);
 		} catch (err) {
-			throw this.createApiCallResult(ApiCallResult.ERROR_OTHER);
+			throw this.createApiCallResult(ScrobblerResult.ERROR_OTHER);
 		}
 	}
 
-	private createApiCallResult(resultType: ApiCallResultType): ApiCallResult {
-		return new ApiCallResult(resultType, this.getId());
+	private createApiCallResult(
+		resultType: ApiCallResultType
+	): ScrobblerResult {
+		return new ScrobblerResult(resultType, this.getId());
 	}
 }

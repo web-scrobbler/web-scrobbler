@@ -1,7 +1,7 @@
 import {
-	ApiCallResult,
+	ScrobblerResult,
 	ApiCallResultType,
-} from '@/background/scrobbler/api-call-result';
+} from '@/background/scrobbler/ScrobblerResult';
 import { ParsedSongInfo } from '@/background/object/song';
 
 export type LogType = 'log' | 'warn' | 'error';
@@ -34,7 +34,7 @@ export const MAX_SCROBBLE_TIME = 240;
  * @return True if all results matching the given result type
  */
 export function areAllResults(
-	results: ApiCallResult[],
+	results: ScrobblerResult[],
 	resultType: ApiCallResultType
 ): boolean {
 	return results.length > 0 && results.every((r) => r.is(resultType));
@@ -147,7 +147,7 @@ export function hideObjectValue(value: unknown): string {
  * @return True if one or more results matching the given result type is found
  */
 export function isAnyResult(
-	results: ApiCallResult[],
+	results: ScrobblerResult[],
 	resultType: ApiCallResultType
 ): boolean {
 	return results.some((r) => r.is(resultType));

@@ -1,6 +1,6 @@
 export type ApiCallResultType = 'ok' | 'ignored' | 'error-auth' | 'error-other';
 
-export class ApiCallResult {
+export class ScrobblerResult {
 	private type: ApiCallResultType;
 	private scrobblerId: string;
 	private contextInfo: unknown;
@@ -73,8 +73,8 @@ export class ApiCallResult {
 	 */
 	isError(): boolean {
 		return (
-			this.type === ApiCallResult.ERROR_AUTH ||
-			this.type === ApiCallResult.ERROR_OTHER
+			this.type === ScrobblerResult.ERROR_AUTH ||
+			this.type === ScrobblerResult.ERROR_OTHER
 		);
 	}
 

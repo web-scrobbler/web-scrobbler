@@ -1,12 +1,12 @@
 import {
-	ApiCallResult,
+	ScrobblerResult,
 	ApiCallResultType,
-} from '@/background/scrobbler/api-call-result';
+} from '@/background/scrobbler/ScrobblerResult';
 
 export const scrobblerIdStub = 'stub-id';
 
-export function createApiCallResultStub(
+export function createScrobblerResultStub(
 	resultType: ApiCallResultType
-): ApiCallResult {
-	return new ApiCallResult(resultType, scrobblerIdStub);
+): ScrobblerResult {
+	return new ScrobblerResult(resultType, scrobblerIdStub);
 }

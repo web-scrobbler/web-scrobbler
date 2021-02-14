@@ -1,4 +1,4 @@
-import type { ApiCallResult } from '@/background/scrobbler/api-call-result';
+import type { ScrobblerResult } from '@/background/scrobbler/ScrobblerResult';
 import type { Logger } from '@/background/util/Logger';
 import type { Scrobbler } from '@/background/scrobbler/Scrobbler';
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
@@ -59,7 +59,7 @@ export class ScrobblerManagerImpl implements ScrobblerManager {
 
 	sendNowPlayingRequest(
 		scrobbleEntity: ScrobbleEntity
-	): Promise<ApiCallResult[]> {
+	): Promise<ScrobblerResult[]> {
 		this.logger.info('Send "now playing" request:', this.scrobblers.size);
 
 		return this.executeRequests((scrobbler) => {
@@ -69,7 +69,7 @@ export class ScrobblerManagerImpl implements ScrobblerManager {
 
 	sendScrobbleRequest(
 		scrobbleEntity: ScrobbleEntity
-	): Promise<ApiCallResult[]> {
+	): Promise<ScrobblerResult[]> {
 		this.logger.info('Send "scrobble" request:', this.scrobblers.size);
 
 		return this.executeRequests((scrobbler) => {
@@ -80,7 +80,7 @@ export class ScrobblerManagerImpl implements ScrobblerManager {
 	sendLoveRequest(
 		scrobbleEntity: ScrobbleEntity,
 		loveStatus: LoveStatus
-	): Promise<ApiCallResult[]> {
+	): Promise<ScrobblerResult[]> {
 		this.logger.info('Send "love" request');
 
 		return this.executeRequests((scrobbler) => {

@@ -1,7 +1,6 @@
 import { browser, Tabs } from 'webextension-polyfill-ts';
 
 import { L } from '@/common/i18n';
-import { AudioScrobblerApiParams } from '@/background/scrobbler/audio-scrobbler';
 
 /**
  * Filename of a privacy policy document.
@@ -20,7 +19,7 @@ const defaultPrivacyPath = `_locales/en/${privacyFileName}`;
  *
  * @return Query string
  */
-export function createQueryString(params: AudioScrobblerApiParams): string {
+export function createQueryString(params: Record<string, string>): string {
 	const parts = [];
 
 	for (const x in params) {

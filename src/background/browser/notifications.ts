@@ -1,6 +1,5 @@
 import { browser, Manifest, Notifications } from 'webextension-polyfill-ts';
 
-import { BaseScrobbler } from '@/background/scrobbler/base-scrobbler';
 import { Song } from '@/background/object/song';
 
 import {
@@ -113,21 +112,6 @@ export function showNowPlaying(
 export function clearNowPlaying(song: Song): void {
 	clearNotificationTimeout();
 	remove(song.metadata.notificationId);
-}
-
-/**
- * Show an error notification if a user is unable to sign in to service.
- *
- * @param scrobbler Scrobbler instance
- * @param [onClick] Function that will be called on notification click
- */
-export function showSignInError(
-	scrobbler: BaseScrobbler,
-	onClick: OnClickedListener
-): void {
-	const errorMessage = L`notificationUnableSignIn ${scrobbler.getLabel()}`;
-
-	showErrorNotification(errorMessage, onClick);
 }
 
 /**

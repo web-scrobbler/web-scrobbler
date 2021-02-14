@@ -125,8 +125,6 @@ import EditTrackModal from '@/ui/options/modals/edit-track-modal.vue';
 import TrackInfo from '@/ui/options/components/track-info.vue';
 import StorageUsage from '@/ui/options/components/storage-usage.vue';
 
-import { ApiCallResult } from '@/background/scrobbler/api-call-result';
-import { ScrobbleManager } from '@/background/scrobbler/scrobble-manager';
 import { ScrobbleStorage } from '@/background/storage/scrobble-storage';
 
 import { exportData, importData } from '@/ui/util';
@@ -202,7 +200,8 @@ export default {
 		},
 
 		getScrobblerLabel(scrobblerId) {
-			return ScrobbleManager.getScrobblerById(scrobblerId).getLabel();
+			// return ScrobbleManager.getScrobblerById(scrobblerId).getLabel();
+			return 'scrobblerId';
 		},
 
 		async clearTracks() {
@@ -211,42 +210,35 @@ export default {
 		},
 
 		async scrobbleTrack(trackId) {
-			const { songInfo, scrobblerIds } = this.tracks[trackId];
-			const results = await ScrobbleManager.scrobbleWithScrobblers(
-				songInfo,
-				scrobblerIds
-			);
-
-			const okScrobblersIds = [];
-			const failedScrobblerIds = [];
-
-			for (const result of results) {
-				const scrobblerId = result.getScrobblerId();
-
-				if (result.is(ApiCallResult.RESULT_OK)) {
-					okScrobblersIds.push(scrobblerId);
-				} else {
-					failedScrobblerIds.push(scrobblerId);
-				}
-			}
-
-			const areAllResultsOk = okScrobblersIds.length === results.length;
-
-			if (areAllResultsOk) {
-				this.removeTrack(trackId);
-			} else {
-				const isNeedToUpdateScrobblerIds = okScrobblersIds.length > 0;
-				if (isNeedToUpdateScrobblerIds) {
-					await this.updateScrobblerIds(trackId, failedScrobblerIds);
-				}
-
-				const scrobblerLabels = this.getScrobblerLabels(
-					failedScrobblerIds
-				);
-				const labelsList = scrobblerLabels.join(', ');
-
-				this.showError(this.L`unableToScrobble ${labelsList}`);
-			}
+			// const { songInfo, scrobblerIds } = this.tracks[trackId];
+			// const results = await ScrobbleManager.scrobbleWithScrobblers(
+			// 	songInfo,
+			// 	scrobblerIds
+			// );
+			// const okScrobblersIds = [];
+			// const failedScrobblerIds = [];
+			// for (const result of results) {
+			// 	const scrobblerId = result.getScrobblerId();
+			// 	if (result.is(ApiCallResult.RESULT_OK)) {
+			// 		okScrobblersIds.push(scrobblerId);
+			// 	} else {
+			// 		failedScrobblerIds.push(scrobblerId);
+			// 	}
+			// }
+			// const areAllResultsOk = okScrobblersIds.length === results.length;
+			// if (areAllResultsOk) {
+			// 	this.removeTrack(trackId);
+			// } else {
+			// 	const isNeedToUpdateScrobblerIds = okScrobblersIds.length > 0;
+			// 	if (isNeedToUpdateScrobblerIds) {
+			// 		await this.updateScrobblerIds(trackId, failedScrobblerIds);
+			// 	}
+			// 	const scrobblerLabels = this.getScrobblerLabels(
+			// 		failedScrobblerIds
+			// 	);
+			// 	const labelsList = scrobblerLabels.join(', ');
+			// 	this.showError(this.L`unableToScrobble ${labelsList}`);
+			// }
 		},
 
 		async removeTrack(trackId) {

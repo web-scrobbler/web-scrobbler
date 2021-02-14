@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { ApiCallResult } from '@/background/scrobbler/api-call-result';
+import { ScrobblerResult } from '@/background/scrobbler/ScrobblerResult';
 import { Timer } from '@/background/object/timer';
 
 import {
@@ -586,7 +586,7 @@ export class Controller {
 		const results = await this.scrobblerManager.sendNowPlayingRequest(
 			this.currentSong
 		);
-		if (isAnyResult(results, ApiCallResult.RESULT_OK)) {
+		if (isAnyResult(results, ScrobblerResult.RESULT_OK)) {
 			this.debugLog('Song set as now playing');
 			this.setMode(ControllerMode.Playing);
 		} else {
@@ -615,7 +615,7 @@ export class Controller {
 			this.currentSong
 		);
 		const failedScrobblerIds = results
-			.filter((result) => !result.is(ApiCallResult.RESULT_OK))
+			.filter((result) => !result.is(ScrobblerResult.RESULT_OK))
 			.map((result) => result.getScrobblerId());
 
 		const isAnyOkResult = results.length > failedScrobblerIds.length;
@@ -626,7 +626,7 @@ export class Controller {
 			this.setMode(ControllerMode.Scrobbled);
 
 			this.songUpdateListener.onSongUpdated(this);
-		} else if (areAllResults(results, ApiCallResult.RESULT_IGNORE)) {
+		} else if (areAllResults(results, ScrobblerResult.RESULT_IGNORE)) {
 			this.debugLog('Song is ignored by service');
 			this.setMode(ControllerMode.Ignored);
 		} else {

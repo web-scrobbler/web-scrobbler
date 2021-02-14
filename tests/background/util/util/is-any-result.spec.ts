@@ -1,17 +1,17 @@
 import { isAnyResult } from '@/background/util/util';
 
-import { ApiCallResult } from '@/background/scrobbler/api-call-result';
+import { ScrobblerResult } from '@/background/scrobbler/ScrobblerResult';
 
 import {
 	FunctionTestData,
 	describeAndTestFunction,
 } from '#/helpers/test-function';
-import { createApiCallResultStub } from '#/helpers/create-stubs';
+import { createScrobblerResultStub } from '#/helpers/create-stubs';
 
-const { RESULT_OK, ERROR_OTHER } = ApiCallResult;
+const { RESULT_OK, ERROR_OTHER } = ScrobblerResult;
 
-const resultOk = createApiCallResultStub(RESULT_OK);
-const resultError = createApiCallResultStub(ERROR_OTHER);
+const resultOk = createScrobblerResultStub(RESULT_OK);
+const resultError = createScrobblerResultStub(ERROR_OTHER);
 
 const functionTestData: FunctionTestData<typeof isAnyResult>[] = [
 	{
