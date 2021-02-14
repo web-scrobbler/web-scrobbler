@@ -49,7 +49,7 @@ function removeEmptyProperties<T>(obj: T): T {
 	Object.keys(clone).forEach((key) => {
 		if (clone[key] && typeof clone[key] === 'object') {
 			removeEmptyProperties(clone[key]);
-		} else if (clone[key] === undefined) {
+		} else if (!clone[key]) {
 			delete clone[key];
 		}
 	});
