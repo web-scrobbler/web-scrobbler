@@ -1,16 +1,15 @@
 import {
 	ScrobblerResult,
-	ApiCallResultType,
+	ScrobblerResultType,
 } from '@/background/scrobbler/ScrobblerResult';
 
 import type { LoveStatus } from '@/background/model/song/LoveStatus';
+import type { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
 import type { ScrobbleService } from '@/background/scrobbler/ScrobbleService';
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
-import type { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 import type { ScrobblerInfo } from '@/background/scrobbler/ScrobblerInfo';
-import { TrackContextInfo } from '@/background/scrobbler/TrackContextInfo';
-import { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
-import { Song } from '@/background/model/song/Song';
+import type { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
+import type { TrackContextInfo } from '@/background/scrobbler/TrackContextInfo';
 
 export class Scrobbler {
 	constructor(
@@ -32,8 +31,14 @@ export class Scrobbler {
 		return this.scrobblerInfo.profileUrl ?? null;
 	}
 
-	async getTrackContextInfo(song: Song): Promise<TrackContextInfo> {
-		return this.scrobbleService.getTrackContextInfo(song);
+	async getTrackContextInfo(
+		scrobbleEntity: ScrobbleEntity
+	): Promise<TrackContextInfo> {
+		try {
+			return this.scrobbleService.getTrackContextInfo(scrobbleEntity);
+		} catch {
+			return null;
+		}
 	}
 
 	async sendNowPlayingRequest(
@@ -41,9 +46,9 @@ export class Scrobbler {
 	): Promise<ScrobblerResult> {
 		try {
 			await this.scrobbleService.sendNowPlayingRequest(scrobbleEntity);
-			return this.createApiCallResult(ScrobblerResult.RESULT_OK);
+			return this.createResult(ScrobblerResultType.OK);
 		} catch (err) {
-			throw this.createApiCallResult(ScrobblerResult.ERROR_OTHER);
+			return this.createResult(ScrobblerResultType.ERROR_OTHER);
 		}
 	}
 
@@ -52,9 +57,9 @@ export class Scrobbler {
 	): Promise<ScrobblerResult> {
 		try {
 			await this.scrobbleService.sendScrobbleRequest(scrobbleEntity);
-			return this.createApiCallResult(ScrobblerResult.RESULT_OK);
+			return this.createResult(ScrobblerResultType.OK);
 		} catch (err) {
-			throw this.createApiCallResult(ScrobblerResult.ERROR_OTHER);
+			return this.createResult(ScrobblerResultType.ERROR_OTHER);
 		}
 	}
 
@@ -67,15 +72,13 @@ export class Scrobbler {
 				scrobbleEntity,
 				loveStatus
 			);
-			return this.createApiCallResult(ScrobblerResult.RESULT_OK);
+			return this.createResult(ScrobblerResultType.OK);
 		} catch (err) {
-			throw this.createApiCallResult(ScrobblerResult.ERROR_OTHER);
+			return this.createResult(ScrobblerResultType.ERROR_OTHER);
 		}
 	}
 
-	private createApiCallResult(
-		resultType: ApiCallResultType
-	): ScrobblerResult {
+	private createResult(resultType: ScrobblerResultType): ScrobblerResult {
 		return new ScrobblerResult(resultType, this.getId());
 	}
 }

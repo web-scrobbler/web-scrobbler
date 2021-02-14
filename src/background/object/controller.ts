@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { ScrobblerResult } from '@/background/scrobbler/ScrobblerResult';
+import {
+	ScrobblerResult,
+	ScrobblerResultType,
+} from '@/background/scrobbler/ScrobblerResult';
 import { Timer } from '@/background/object/timer';
 
 import {
@@ -454,7 +457,7 @@ export class Controller implements SongUpdateListener2 {
 		const results = await this.scrobblerManager.sendNowPlayingRequest(
 			this.currentSong
 		);
-		if (isAnyResult(results, ScrobblerResult.RESULT_OK)) {
+		if (isAnyResult(results, ScrobblerResultType.OK)) {
 			this.debugLogWithSongInfo('Set as now playing');
 
 			this.setMode(ControllerMode.Playing);
@@ -485,18 +488,18 @@ export class Controller implements SongUpdateListener2 {
 			this.currentSong
 		);
 		const failedScrobblerIds = results
-			.filter((result) => !result.is(ScrobblerResult.RESULT_OK))
+			.filter((result) => !result.is(ScrobblerResultType.OK))
 			.map((result) => result.getScrobblerId());
 
 		const isAnyOkResult = results.length > failedScrobblerIds.length;
 		if (isAnyOkResult) {
-			this.debugLogWithSongInfo(`Scrobbled successfully`);
+			this.debugLogWithSongInfo('Scrobbled successfully');
 
 			this.currentSong.setFlag('isScrobbled', true);
 			this.setMode(ControllerMode.Scrobbled);
 
 			this.songUpdateListener.onSongUpdated(this);
-		} else if (areAllResults(results, ScrobblerResult.RESULT_IGNORE)) {
+		} else if (areAllResults(results, ScrobblerResultType.IGNORED)) {
 			this.debugLog('Song is ignored by service');
 			this.setMode(ControllerMode.Ignored);
 		} else {

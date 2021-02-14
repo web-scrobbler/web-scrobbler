@@ -1,17 +1,18 @@
 import type { LoveStatus } from '@/background/model/song/LoveStatus';
-import { TrackContextInfo } from '@/background/scrobbler/TrackContextInfo';
-import { Song } from '@/background/model/song/Song';
-import { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
+import type { TrackContextInfo } from '@/background/scrobbler/TrackContextInfo';
+import type { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
 
 export interface ScrobbleService {
 	/**
 	 * Get user-specific context info for a track with the given track info.
 	 *
-	 * @param trackInfo Object containing track info
+	 * @param scrobbleEntity Object containing track info
 	 *
 	 * @return Track context info
 	 */
-	getTrackContextInfo(song: Song): Promise<TrackContextInfo>;
+	getTrackContextInfo(
+		scrobbleEntity: ScrobbleEntity
+	): Promise<TrackContextInfo>;
 
 	/**
 	 * Send a now playing request.

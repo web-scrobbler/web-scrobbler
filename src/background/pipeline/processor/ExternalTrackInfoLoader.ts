@@ -1,5 +1,6 @@
 import { Song } from '@/background/model/song/Song';
 import { SongPipelineStage } from '@/background/pipeline/SongPipelineStage';
+import { ExternalTrackInfo } from '@/background/provider/ExternalTrackInfo';
 import { ExternalTrackInfoProvider } from '@/background/provider/ExternalTrackInfoProvider';
 
 export class ExternalTrackInfoLoader implements SongPipelineStage {
@@ -10,40 +11,40 @@ export class ExternalTrackInfoLoader implements SongPipelineStage {
 			return;
 		}
 
-		const externalTrackInfo = await this.provider.getExternalTrackInfo(
-			song
-		);
-		const isExternalInfoExist = externalTrackInfo !== null;
+		let externalTrackInfo: ExternalTrackInfo;
+		try {
+			externalTrackInfo = await this.provider.getExternalTrackInfo(song);
+		} catch {
+			return;
+		}
 
 		// TODO Move this option
 		// const forceRecognize = getOption<boolean>(FORCE_RECOGNIZE);
 
-		if (isExternalInfoExist) {
-			const { artist, track, album, duration } = externalTrackInfo;
+		const { artist, track, album, duration } = externalTrackInfo;
 
-			if (!song.getFlag('isCorrectedByUser')) {
-				song.setArtist(artist);
-				song.setTrack(track);
+		if (!song.getFlag('isCorrectedByUser')) {
+			song.setArtist(artist);
+			song.setTrack(track);
 
-				if (!song.getAlbum()) {
-					song.setAlbum(album);
-				}
-
-				if (!song.getDuration()) {
-					song.setDuration(duration);
-				}
+			if (!song.getAlbum()) {
+				song.setAlbum(album);
 			}
 
-			if (!song.getTrackArt()) {
-				song.setTrackArt(externalTrackInfo.trackArtUrl);
+			if (!song.getDuration()) {
+				song.setDuration(duration);
 			}
-
-			song.setMetadata('albumMbId', externalTrackInfo.albumMbId);
-			song.setMetadata('albumUrl', externalTrackInfo.albumUrl);
-			song.setMetadata('artistUrl', externalTrackInfo.artistUrl);
-			song.setMetadata('trackUrl', externalTrackInfo.trackUrl);
 		}
 
-		song.setFlag('isValid', isExternalInfoExist);
+		if (!song.getTrackArt()) {
+			song.setTrackArt(externalTrackInfo.trackArtUrl);
+		}
+
+		song.setMetadata('albumMbId', externalTrackInfo.albumMbId);
+		song.setMetadata('albumUrl', externalTrackInfo.albumUrl);
+		song.setMetadata('artistUrl', externalTrackInfo.artistUrl);
+		song.setMetadata('trackUrl', externalTrackInfo.trackUrl);
+
+		song.setFlag('isValid', true);
 	}
 }

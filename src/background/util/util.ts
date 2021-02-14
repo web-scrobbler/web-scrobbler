@@ -1,6 +1,6 @@
 import {
 	ScrobblerResult,
-	ApiCallResultType,
+	ScrobblerResultType,
 } from '@/background/scrobbler/ScrobblerResult';
 import { ParsedSongInfo } from '@/background/object/song';
 
@@ -35,7 +35,7 @@ export const MAX_SCROBBLE_TIME = 240;
  */
 export function areAllResults(
 	results: ScrobblerResult[],
-	resultType: ApiCallResultType
+	resultType: ScrobblerResultType
 ): boolean {
 	return results.length > 0 && results.every((r) => r.is(resultType));
 }
@@ -148,7 +148,7 @@ export function hideObjectValue(value: unknown): string {
  */
 export function isAnyResult(
 	results: ScrobblerResult[],
-	resultType: ApiCallResultType
+	resultType: ScrobblerResultType
 ): boolean {
 	return results.some((r) => r.is(resultType));
 }

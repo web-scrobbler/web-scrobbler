@@ -7,7 +7,6 @@ import type { ScrobblerManager } from '@/background/scrobbler/ScrobblerManager';
 import { LoveStatus } from '@/background/model/song/LoveStatus';
 import { TrackContextInfo } from '@/background/scrobbler/TrackContextInfo';
 import { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
-import { Song } from '@/background/model/song/Song';
 
 export class ScrobblerManagerImpl implements ScrobblerManager {
 	private scrobblers: Map<ScrobblerId, Scrobbler> = new Map<
@@ -49,11 +48,13 @@ export class ScrobblerManagerImpl implements ScrobblerManager {
 		this.scrobblers.delete(scrobblerId);
 	}
 
-	getTrackContextInfo(song: Song): Promise<TrackContextInfo[]> {
+	getTrackContextInfo(
+		scrobbleable: ScrobbleEntity
+	): Promise<TrackContextInfo[]> {
 		this.logger.info('Send "get info" request:', this.scrobblers.size);
 
 		return this.executeRequests((scrobbler) => {
-			return scrobbler.getTrackContextInfo(song);
+			return scrobbler.getTrackContextInfo(scrobbleable);
 		});
 	}
 

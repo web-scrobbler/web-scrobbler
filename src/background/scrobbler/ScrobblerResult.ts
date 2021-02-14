@@ -1,36 +1,21 @@
-export type ApiCallResultType = 'ok' | 'ignored' | 'error-auth' | 'error-other';
+export enum ScrobblerResultType {
+	OK,
+	IGNORED,
+	ERROR_AUTH,
+	ERROR_OTHER,
+}
 
 export class ScrobblerResult {
-	private type: ApiCallResultType;
+	private type: ScrobblerResultType;
 	private scrobblerId: string;
 	private contextInfo: unknown;
-
-	/**
-	 * Successfull result.
-	 */
-	static readonly RESULT_OK = 'ok';
-
-	/**
-	 * Song is ignored by scrobbling service.
-	 */
-	static readonly RESULT_IGNORE = 'ignored';
-
-	/**
-	 * Authorization error.
-	 */
-	static readonly ERROR_AUTH = 'error-auth';
-
-	/**
-	 * Another error.
-	 */
-	static readonly ERROR_OTHER = 'error-other';
 
 	/**
 	 * @constructor
 	 * @param resultType Result type
 	 * @param scrobblerId Scrobbler ID
 	 */
-	constructor(resultType: ApiCallResultType, scrobblerId: string) {
+	constructor(resultType: ScrobblerResultType, scrobblerId: string) {
 		this.type = resultType;
 		this.scrobblerId = scrobblerId;
 
@@ -62,7 +47,7 @@ export class ScrobblerResult {
 	 *
 	 * @return Check result
 	 */
-	is(resultType: ApiCallResultType): boolean {
+	is(resultType: ScrobblerResultType): boolean {
 		return this.type === resultType;
 	}
 
@@ -73,8 +58,8 @@ export class ScrobblerResult {
 	 */
 	isError(): boolean {
 		return (
-			this.type === ScrobblerResult.ERROR_AUTH ||
-			this.type === ScrobblerResult.ERROR_OTHER
+			this.type === ScrobblerResultType.ERROR_AUTH ||
+			this.type === ScrobblerResultType.ERROR_OTHER
 		);
 	}
 
