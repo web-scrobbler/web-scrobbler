@@ -7,8 +7,6 @@ import { getCoreRepository } from '@/background/repository/GetCoreRepository';
 import { createScrobblerManager } from '@/background/scrobbler/ScrobblerManagerFactory';
 import { AccountsWorker } from '@/communication/accounts/AccountsWorker';
 import { getAccountsRepository } from '@/background/repository/GetAccountsRepository';
-import { createAuthenticator } from '@/background/authenticator/ScrobblerAuthenticatorFactory';
-import { createScrobbler } from '@/background/scrobbler/ScrobblerFactory';
 import { AudioScrobblerScrobbleService } from '@/background/scrobbler/audioscrobbler/AudioScrobblerScrobbleService';
 import { LastFmAppInfo } from '@/background/scrobbler/audioscrobbler/LastFmAppInfo';
 import { SongPipeline } from '@/background/pipeline/SongPipeline';
@@ -39,6 +37,8 @@ import { BrowserAuthNotifier } from '@/background/auth-reminder/BrowserAuthNotif
 import { getNotificationsRepository } from '@/background/repository/GetNotificationsRepository';
 import { CoverArtArchiveProvider } from '@/background/provider/CoverArtArchiveProvider';
 import { getExtensionOptions } from '@/background/repository/GetExtensionOptions';
+import { GeneralScrobblerFactory } from '@/background/scrobbler/GeneralScrobblerFactory';
+import { ScrobblerAuthenticatorFactory } from '@/background/authenticator/ScrobblerAuthenticatorFactory';
 
 Logger.useDefaults({ defaultLevel: Logger.DEBUG });
 const mainLogger = Logger.get('Main');
@@ -49,10 +49,15 @@ async function main() {
 	await migrate();
 	updateCoreVersion();
 
+	const scrobblerFactory = new GeneralScrobblerFactory();
+	const authenticatorFactory = new ScrobblerAuthenticatorFactory(
+		scrobblerFactory
+	);
+
 	const accountsRepository = getAccountsRepository();
 	const scrobblerManager = await createScrobblerManager(
 		accountsRepository,
-		createScrobbler,
+		scrobblerFactory,
 		Logger.get('ScrobblerManager')
 	);
 
@@ -94,8 +99,8 @@ async function main() {
 	const authWorker = new AccountsWorker(
 		scrobblerManager,
 		accountsRepository,
-		createScrobbler,
-		createAuthenticator
+		scrobblerFactory,
+		authenticatorFactory
 	);
 
 	const authNotifier = new BrowserAuthNotifier(notifications);

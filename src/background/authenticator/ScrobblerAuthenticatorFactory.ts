@@ -1,38 +1,43 @@
 import { browserTabOpener } from '@/background/authenticator/tab-opener/BrowserTabOpener';
 
-import type { ScrobblerAuthenticator } from '@/background/authenticator/ScrobblerAuthenticator';
+import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import { TokenAuthenticator } from '@/background/authenticator/TokenAuthenticator';
 import { WebAuthenticator } from '@/background/authenticator/WebAuthenticator';
 
-import {
-	createTokenBasedSessionProvider,
-	createWebSessionProvider,
-	isTokenBasedAuthSupported,
-	isWebAuthSupported,
-} from '@/background/scrobbler/session-provider/SessionProviderFactory';
-import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
+import type { ScrobblerAuthenticator } from '@/background/authenticator/ScrobblerAuthenticator';
+import type { SessionProviderFactory } from '@/background/scrobbler/SessionProviderFactory';
 
 /**
- * Function that creates a scrobbler authenticator.
+ * Object that creates scrobbler authenticators.
  */
-export interface ScrobblerAuthenticatorFactory {
-	(scrobblerId: ScrobblerId): ScrobblerAuthenticator;
+export class ScrobblerAuthenticatorFactory {
+	constructor(private factory: SessionProviderFactory) {}
+
+	/**
+	 * Create an authenticator for a scrobbler with the given scrobbler ID.
+	 *
+	 * @param scrobblerId Scrobbler ID
+	 *
+	 * @return Authenticator instance
+	 * @throws Throws an error if the scrobbler does not support authentication via session
+	 */
+	createAuthenticator(scrobblerId: ScrobblerId): ScrobblerAuthenticator {
+		if (this.factory.isTokenBasedAuthSupported(scrobblerId)) {
+			const sessionProvider = this.factory.createTokenBasedSessionProvider(
+				scrobblerId
+			);
+			return new TokenAuthenticator(browserTabOpener, sessionProvider);
+		}
+
+		if (this.factory.isWebAuthSupported(scrobblerId)) {
+			const sessionProvider = this.factory.createWebSessionProvider(
+				scrobblerId
+			);
+			return new WebAuthenticator(browserTabOpener, sessionProvider);
+		}
+
+		throw new Error(
+			`Unable to create authenticator for scrobbler with "${scrobblerId}" ID`
+		);
+	}
 }
-
-export const createAuthenticator: ScrobblerAuthenticatorFactory = (
-	scrobblerId: ScrobblerId
-) => {
-	if (isTokenBasedAuthSupported(scrobblerId)) {
-		const sessionProvider = createTokenBasedSessionProvider(scrobblerId);
-		return new TokenAuthenticator(browserTabOpener, sessionProvider);
-	}
-
-	if (isWebAuthSupported(scrobblerId)) {
-		const sessionProvider = createWebSessionProvider(scrobblerId);
-		return new WebAuthenticator(browserTabOpener, sessionProvider);
-	}
-
-	throw new Error(
-		`Unable to create authenticator for scrobbler with "${scrobblerId}" ID`
-	);
-};

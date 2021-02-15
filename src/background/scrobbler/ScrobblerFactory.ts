@@ -1,106 +1,24 @@
-import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
-
-import {
-	defaultApiUrl,
-	ListenBrainzScrobblerService,
-} from '@/background/scrobbler/listenbrainz/ListenBrainzScrobblerService';
-
-import { Scrobbler } from '@/background/scrobbler/Scrobbler';
-import type { UserProperties } from '@/background/scrobbler/UserProperties';
+import type { Scrobbler } from '@/background/scrobbler/Scrobbler';
+import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import type { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
-
-import { AudioScrobblerScrobbleService } from '@/background/scrobbler/audioscrobbler/AudioScrobblerScrobbleService';
-import { LastFmAppInfo } from '@/background/scrobbler/audioscrobbler/LastFmAppInfo';
-import { lastFmScrobblerInfo } from '@/background/scrobbler/audioscrobbler/LastFmScrobblerInfo';
-import { LibreFmScrobbleService } from '@/background/scrobbler/audioscrobbler/LibreFmScrobbleService';
-import { LibreFmAppInfo } from '@/background/scrobbler/audioscrobbler/LibreFmAppInfo';
-import { libreFmScrobblerInfo } from '@/background/scrobbler/audioscrobbler/LibreFmScrobblerInfo';
-import { listenbrainzScrobblerInfo } from '@/background/scrobbler/listenbrainz/ListenBrainzScrobblerInfo';
-import { MalojaScrobbleService } from '@/background/scrobbler/maloja/MalojaScrobbleService';
-import { malojaScrobblerInfo } from '@/background/scrobbler/maloja/MalojaScrobblerInfo';
+import type { UserProperties } from '@/background/scrobbler/UserProperties';
 
 /**
- * Function that creates a Scrobbler instance.
- *
- * @param scrobblerId Scrobbler ID to create
- * @param session Scrobbler session
- * @param [userProperties] User properties
- *
- * @return Scrobbler object
+ * Object that creates scrobblers.
  */
 export interface ScrobblerFactory {
-	(
+	/**
+	 * Create a new scrobbler instance by a given scrobbler ID.
+	 *
+	 * @param scrobblerId Scrobbler ID to create
+	 * @param session Scrobbler session
+	 * @param [properties] User properties
+	 *
+	 * @return Scrobbler object
+	 */
+	createScrobbler(
 		scrobblerId: ScrobblerId,
 		session: ScrobblerSession,
-		userProperties?: UserProperties
+		properties?: UserProperties
 	): Scrobbler;
-}
-
-export const createScrobbler: ScrobblerFactory = (
-	scrobblerId: ScrobblerId,
-	session: ScrobblerSession,
-	userProperties: UserProperties = {}
-): Scrobbler => {
-	if (session.isEmpty()) {
-		throw new Error('Cannot create scrobbler with empty session');
-	}
-
-	const factoryFunction = factoryFunctions[scrobblerId];
-	return factoryFunction(session, userProperties);
-};
-
-interface InternalFactoryFunction {
-	(session: ScrobblerSession, properties: UserProperties): Scrobbler;
-}
-
-const factoryFunctions: Record<ScrobblerId, InternalFactoryFunction> = {
-	[ScrobblerId.LastFm]: createLastFmScrobbler,
-	[ScrobblerId.LibreFm]: createLibreFmScrobbler,
-	[ScrobblerId.ListenBrainz]: createListenBrainzScrobbler,
-	[ScrobblerId.Maloja]: createMalojaScrobbler,
-};
-
-function createLastFmScrobbler(session: ScrobblerSession): Scrobbler {
-	const lastFmScrobbleService = new AudioScrobblerScrobbleService(
-		session,
-		LastFmAppInfo
-	);
-
-	return new Scrobbler(session, lastFmScrobblerInfo, lastFmScrobbleService);
-}
-
-function createLibreFmScrobbler(session: ScrobblerSession): Scrobbler {
-	const libreFmScrobbleService = new LibreFmScrobbleService(
-		session,
-		LibreFmAppInfo
-	);
-
-	return new Scrobbler(session, libreFmScrobblerInfo, libreFmScrobbleService);
-}
-
-function createListenBrainzScrobbler(
-	session: ScrobblerSession,
-	userProperties: UserProperties
-): Scrobbler {
-	const { apiUrl = defaultApiUrl } = userProperties;
-	const listenBrainzScrobbleService = new ListenBrainzScrobblerService(
-		session,
-		apiUrl
-	);
-
-	return new Scrobbler(
-		session,
-		listenbrainzScrobblerInfo,
-		listenBrainzScrobbleService
-	);
-}
-
-function createMalojaScrobbler(
-	session: ScrobblerSession,
-	userProperties: UserProperties
-): Scrobbler {
-	const { apiUrl } = userProperties;
-	const malojaScrobbleService = new MalojaScrobbleService(session, apiUrl);
-
-	return new Scrobbler(session, malojaScrobblerInfo, malojaScrobbleService);
 }

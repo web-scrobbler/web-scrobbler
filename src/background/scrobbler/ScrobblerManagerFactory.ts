@@ -27,7 +27,7 @@ export async function createScrobblerManager(
 		const userProperties = account.getUserProperties();
 
 		try {
-			const scrobbler = scrobblerFactory(
+			const scrobbler = scrobblerFactory.createScrobbler(
 				scrobblerId,
 				session,
 				userProperties

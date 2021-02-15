@@ -116,7 +116,9 @@ export class AccountsWorker
 	private requestSession(
 		scrobblerId: ScrobblerId
 	): Promise<ScrobblerSession> {
-		const authenticator = this.authenticatorFactory(scrobblerId);
+		const authenticator = this.authenticatorFactory.createAuthenticator(
+			scrobblerId
+		);
 		return authenticator.requestSession();
 	}
 
@@ -127,7 +129,7 @@ export class AccountsWorker
 		const session = account.getSession();
 		const properties = account.getUserProperties();
 
-		const scrobbler = this.scrobblerFactory(
+		const scrobbler = this.scrobblerFactory.createScrobbler(
 			scrobblerId,
 			session,
 			properties
