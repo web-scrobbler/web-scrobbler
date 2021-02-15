@@ -28,6 +28,12 @@ describeModuleTest(__filename, () => {
 		expect(account.getUserProperties()).to.be.empty;
 	});
 
+	it('should return default username', () => {
+		const account = new UserAccount(ScrobblerId.LastFm);
+
+		expect(account.getUsername()).to.be.a('string').that.not.empty;
+	});
+
 	it('should return proper session', () => {
 		const account = new UserAccount(ScrobblerId.LastFm, stubSession);
 		const session = account.getSession();
