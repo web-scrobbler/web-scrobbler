@@ -26,7 +26,7 @@ export interface Notifications {
 	showNowPlayingNotification(
 		song: Song,
 		contextMessage: string,
-		onClick: OnClickedListener
+		onClick: OnNotificationClickedListener
 	): Promise<void>;
 
 	/**
@@ -37,7 +37,7 @@ export interface Notifications {
 	 */
 	showNotRecognizedNotification(
 		song: Song,
-		onClick: OnClickedListener
+		onClick: OnNotificationClickedListener
 	): Promise<void>;
 
 	/**
@@ -45,7 +45,9 @@ export interface Notifications {
 	 *
 	 * @param onClicked Function that will be called on notification click
 	 */
-	showAuthNotification(onClicked: OnClickedListener): Promise<void>;
+	showAuthNotification(
+		onClicked: OnNotificationClickedListener
+	): Promise<void>;
 }
 
-export type OnClickedListener = (notificationId: string) => void;
+export type OnNotificationClickedListener = (notificationId: string) => void;

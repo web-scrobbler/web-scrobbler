@@ -5,7 +5,7 @@ import {
 
 import {
 	Notifications,
-	OnClickedListener,
+	OnNotificationClickedListener,
 } from '@/background/browser/notifications/Notifications';
 
 import { Song } from '@/background/model/song/Song';
@@ -16,7 +16,7 @@ export class BrowserNotifications implements Notifications {
 	/**
 	 * Map of click listeners indexed by notification IDs.
 	 */
-	private clickListeners: Record<string, OnClickedListener> = {};
+	private clickListeners: Record<string, OnNotificationClickedListener> = {};
 
 	constructor() {
 		browser.notifications.onClicked.addListener((notificationId) => {
@@ -46,7 +46,7 @@ export class BrowserNotifications implements Notifications {
 	async showNowPlayingNotification(
 		song: Song,
 		contextMessage: string,
-		onClick: OnClickedListener
+		onClick: OnNotificationClickedListener
 	): Promise<void> {
 		const iconUrl = song.getTrackArt() || defaultTrackArtUrl;
 		/* @ifdef CHROME */
@@ -103,7 +103,7 @@ export class BrowserNotifications implements Notifications {
 
 	async showNotRecognizedNotification(
 		song: Song,
-		onClick: OnClickedListener
+		onClick: OnNotificationClickedListener
 	): Promise<void> {
 		const options = {
 			type: defaultNotificationType,
@@ -116,7 +116,9 @@ export class BrowserNotifications implements Notifications {
 		song.setMetadata('notificationId', notificationId);
 	}
 
-	async showAuthNotification(onClicked: OnClickedListener): Promise<void> {
+	async showAuthNotification(
+		onClicked: OnNotificationClickedListener
+	): Promise<void> {
 		const options = {
 			type: defaultNotificationType,
 			title: L`notificationConnectAccounts`,
@@ -128,7 +130,7 @@ export class BrowserNotifications implements Notifications {
 
 	private async showNotification(
 		options: BNotifications.CreateNotificationOptions,
-		onClick: OnClickedListener
+		onClick: OnNotificationClickedListener
 	): Promise<string> {
 		const notificationOptions: BNotifications.CreateNotificationOptions = {
 			...options,
@@ -170,7 +172,7 @@ export class BrowserNotifications implements Notifications {
 	 */
 	private addOnClickedListener(
 		notificationId: string,
-		callback: OnClickedListener
+		callback: OnNotificationClickedListener
 	): void {
 		this.clickListeners[notificationId] = callback;
 	}
