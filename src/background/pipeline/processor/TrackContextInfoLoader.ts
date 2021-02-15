@@ -10,7 +10,7 @@ export class TrackContextInfoLoader implements SongPipelineStage {
 	async process(song: Song): Promise<void> {
 		const trackContextInfoArr = (
 			await this.provider.getTrackContextInfo(song)
-		).filter((info) => info !== null);
+		).filter(Boolean);
 
 		if (trackContextInfoArr.length === 0) {
 			return;

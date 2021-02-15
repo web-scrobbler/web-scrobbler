@@ -35,7 +35,9 @@ export class Scrobbler {
 		scrobbleEntity: ScrobbleEntity
 	): Promise<TrackContextInfo> {
 		try {
-			return this.scrobbleService.getTrackContextInfo(scrobbleEntity);
+			return await this.scrobbleService.getTrackContextInfo(
+				scrobbleEntity
+			);
 		} catch {
 			return null;
 		}
