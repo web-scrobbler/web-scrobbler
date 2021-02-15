@@ -10,6 +10,7 @@ import {
 
 import { Song } from '@/background/model/song/Song';
 import { L } from '@/common/i18n';
+import { getPlatformName, isFullscreenMode } from '@/common/util-browser';
 
 export class BrowserNotifications implements Notifications {
 	/**
@@ -27,8 +28,19 @@ export class BrowserNotifications implements Notifications {
 		});
 	}
 
-	areAvailable(): Promise<boolean> {
+	async areAvailable(): Promise<boolean> {
+		// @ifdef CHROME
+		// Chrome on Mac does not show notification while in fullscreen mode.
+		const platform = await getPlatformName();
+		if (platform === 'mac') {
+			return !(await isFullscreenMode());
+		}
+
+		return true;
+		// @endif
+		/* @ifdef FIREFOX
 		return Promise.resolve(true);
+		/* @endif */
 	}
 
 	async showNowPlayingNotification(
