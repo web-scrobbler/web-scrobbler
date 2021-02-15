@@ -16,7 +16,6 @@ export class BrowserNotifications implements Notifications {
 	 * Map of click listeners indexed by notification IDs.
 	 */
 	private clickListeners: Record<string, OnClickedListener> = {};
-	private notificationTimeoutId: NodeJS.Timeout = null;
 
 	constructor() {
 		browser.notifications.onClicked.addListener((notificationId) => {
@@ -75,18 +74,14 @@ export class BrowserNotifications implements Notifications {
 		options.contextMessage = contextMessage;
 		/* @endif */
 
-		this.clearNotificationTimeout();
-
-		return new Promise((resolve, reject) => {
-			this.notificationTimeoutId = setTimeout(() => {
-				this.showNotification(options, onClick)
-					.then((notificationId) => {
-						song.setMetadata('notificationId', notificationId);
-						resolve();
-					})
-					.catch(reject);
-			}, NOW_PLAYING_NOTIFICATION_DELAY);
-		});
+		let notificationId: string;
+		try {
+			notificationId = await this.showNotification(options, onClick);
+		} catch {
+			options.iconUrl = defaultTrackArtUrl;
+			notificationId = await this.showNotification(options, onClick);
+		}
+		song.setMetadata('notificationId', notificationId);
 	}
 
 	clearNowPlaying(song: Song): void {
@@ -184,14 +179,6 @@ export class BrowserNotifications implements Notifications {
 			delete this.clickListeners[notificationId];
 		}
 	}
-
-	private clearNotificationTimeout(): void {
-		if (this.notificationTimeoutId) {
-			clearTimeout(this.notificationTimeoutId);
-
-			this.notificationTimeoutId = null;
-		}
-	}
 }
 
 const defaultNotificationType: BNotifications.TemplateType = 'basic';
@@ -201,8 +188,3 @@ const defaultTrackArtUrl = browser.runtime.getURL(
 const unknownTrackArtUrl = browser.runtime.getURL(
 	'/icons/cover-art-unknown.png'
 );
-
-/**
- * Now playing notification delay in milliseconds.
- */
-const NOW_PLAYING_NOTIFICATION_DELAY = 5000;
