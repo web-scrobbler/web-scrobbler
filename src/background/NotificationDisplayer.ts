@@ -7,15 +7,14 @@ import type {
 } from '@/background/browser/notifications/Notifications';
 import type { NowPlayingListener } from '@/background/object/controller/NowPlayingListener';
 import type { Song } from '@/background/model/song/Song';
-import type { Options } from '@/background/repository/options/Options';
-import type { ExtensionOptionsData } from '@/background/repository/options/ExtensionOptionsData';
+import type { ExtensionOptions } from '@/background/repository/extension-options/ExtensionOptions';
 
 export class NotificationDisplayer implements NowPlayingListener {
 	private timeoutId: NodeJS.Timeout = null;
 
 	constructor(
 		private notifications: Notifications,
-		private options: Options<ExtensionOptionsData>
+		private options: ExtensionOptions
 	) {}
 
 	onReset(ctrl: Controller): void {

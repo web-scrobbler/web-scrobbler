@@ -8,10 +8,10 @@ import { Storage } from '@/background/storage2/Storage';
 import {
 	DisabledConnectors,
 	ExtensionOptionsRepositoryData,
-} from '@/background/repository/options/ExtensionOptionsRepositoryData';
+} from '@/background/repository/extension-options/ExtensionOptionsRepositoryData';
 import { OptionsStorageCleaner } from '@/background/storage2/cleaner/OptionsStorageCleaner';
 
-import { defaultExtensionOptions } from '@/background/repository/options/DefaultExtensionOptions';
+import { defaultExtensionOptions } from '@/background/repository/extension-options/DefaultExtensionOptions';
 
 describeModuleTest(__filename, testOptionsStorageCleaner);
 

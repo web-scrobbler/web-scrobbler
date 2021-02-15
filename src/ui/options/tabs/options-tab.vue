@@ -82,12 +82,12 @@
 <script>
 import { ref, watch } from 'vue';
 
-import { getOptions } from '@/background/repository/GetOptions';
+import { getExtensionOptions } from '@/background/repository/GetExtensionOptions';
 import { getConnectorsOptions } from '@/background/repository/GetConnectorsOptions';
 
 import CheckOption from '@/ui/options/components/check-option.vue';
 
-const options = getOptions();
+const options = getExtensionOptions();
 const connectorOptions = getConnectorsOptions();
 
 export default {

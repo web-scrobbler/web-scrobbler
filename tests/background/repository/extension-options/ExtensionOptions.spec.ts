@@ -3,16 +3,13 @@ import { expect } from 'chai';
 import { getObjectKeys, describeModuleTest } from '#/helpers/util';
 import { MemoryStorage } from '#/stub/MemoryStorage';
 
-import { Options } from '@/background/repository/options/Options';
-import { ExtensionOptions } from '@/background/repository/options/ExtensionOptions';
-import { ExtensionOptionsData } from '@/background/repository/options/ExtensionOptionsData';
-
-import { defaultExtensionOptions } from '@/background/repository/options/DefaultExtensionOptions';
+import { ExtensionOptions } from '@/background/repository/extension-options/ExtensionOptions';
+import { defaultExtensionOptions } from '@/background/repository/extension-options/DefaultExtensionOptions';
 
 import connectors from '@/connectors.json';
 
 describeModuleTest(__filename, () => {
-	const options = createOptions();
+	const options = new ExtensionOptions(new MemoryStorage());
 	const connectorIds = connectors.map((connector) => connector.id);
 	const connectorId = connectorIds[0];
 
@@ -68,7 +65,3 @@ describeModuleTest(__filename, () => {
 		return expect(isEnabled).to.be.false;
 	});
 });
-
-function createOptions(): Options<ExtensionOptionsData> {
-	return new ExtensionOptions(new MemoryStorage());
-}

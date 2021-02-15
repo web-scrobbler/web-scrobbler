@@ -1,4 +1,4 @@
-import { ExtensionOptionsRepositoryData } from '@/background/repository/options/ExtensionOptionsRepositoryData';
+import { ExtensionOptionsRepositoryData } from '@/background/repository/extension-options/ExtensionOptionsRepositoryData';
 
 import { StorageCleaner } from '@/background/storage2/cleaner/StorageCleaner';
 import { Storage } from '@/background/storage2/Storage';
@@ -6,7 +6,7 @@ import { Storage } from '@/background/storage2/Storage';
 import connectors from '@/connectors.json';
 
 export class OptionsStorageCleaner
-implements StorageCleaner<ExtensionOptionsRepositoryData> {
+	implements StorageCleaner<ExtensionOptionsRepositoryData> {
 	async clean(
 		storage: Storage<ExtensionOptionsRepositoryData>
 	): Promise<void> {

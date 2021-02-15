@@ -1,17 +1,16 @@
-import { Storage } from '../../storage2/Storage';
-import { Options } from './Options';
+import { defaultExtensionOptions } from '@/background/repository/extension-options/DefaultExtensionOptions';
 
-import { defaultExtensionOptions } from './DefaultExtensionOptions';
-import {
-	DisabledConnectors,
-	ExtensionOptionsRepositoryData,
-} from './ExtensionOptionsRepositoryData';
-import {
+import type {
 	ExtensionOptionKey,
 	ExtensionOptionsData,
-} from './ExtensionOptionsData';
+} from '@/background/repository/extension-options/ExtensionOptionsData';
+import type {
+	DisabledConnectors,
+	ExtensionOptionsRepositoryData,
+} from '@/background/repository/extension-options/ExtensionOptionsRepositoryData';
+import type { Storage } from '@/background/storage2/Storage';
 
-export class ExtensionOptions implements Options<ExtensionOptionsData> {
+export class ExtensionOptions {
 	private storage: Storage<ExtensionOptionsRepositoryData>;
 
 	constructor(storage: Storage<ExtensionOptionsRepositoryData>) {

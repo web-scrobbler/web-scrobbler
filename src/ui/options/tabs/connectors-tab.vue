@@ -63,12 +63,12 @@ import SpriteIcon from '@/ui/shared/sprite-icon.vue';
 import gearIcon from 'bootstrap-icons/icons/gear.svg';
 
 import { getSortedConnectors } from '@/common/util-connector';
-import { getOptions } from '@/background/repository/GetOptions';
+import { getExtensionOptions } from '@/background/repository/GetExtensionOptions';
 import { getCustomUrlPatterns } from '@/background/repository/GetCustomUrlPatterns';
 
 const connectors = getSortedConnectors();
 
-const options = getOptions();
+const options = getExtensionOptions();
 const customUrlPatterns = getCustomUrlPatterns();
 
 export default {

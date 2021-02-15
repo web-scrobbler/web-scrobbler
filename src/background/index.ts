@@ -38,7 +38,7 @@ import { AuthReminder } from '@/background/auth-reminder/AuthReminder';
 import { BrowserAuthNotifier } from '@/background/auth-reminder/BrowserAuthNotifier';
 import { getNotificationsRepository } from '@/background/repository/GetNotificationsRepository';
 import { CoverArtArchiveProvider } from '@/background/provider/CoverArtArchiveProvider';
-import { getOptions } from '@/background/repository/GetOptions';
+import { getExtensionOptions } from '@/background/repository/GetExtensionOptions';
 
 Logger.useDefaults({ defaultLevel: Logger.DEBUG });
 const mainLogger = Logger.get('Main');
@@ -80,7 +80,7 @@ async function main() {
 		trackPipeline
 	);
 
-	const options = getOptions();
+	const options = getExtensionOptions();
 
 	const tabWorker = new TabWorker(
 		controllerFactory,

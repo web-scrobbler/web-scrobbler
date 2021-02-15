@@ -1,4 +1,4 @@
-import { ExtensionOptionsData } from '@/background/repository/options/ExtensionOptionsData';
+import { ExtensionOptionsData } from '@/background/repository/extension-options/ExtensionOptionsData';
 
 export const defaultExtensionOptions: ExtensionOptionsData = {
 	forceRecognize: false,
