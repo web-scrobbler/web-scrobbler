@@ -6,11 +6,13 @@ import { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTra
  */
 export interface EditedTracks {
 	/**
-	 * Get edited song info for the given song.
+	 * Get edited track info for the given song. Return null if track info
+	 * does not exist.
 	 *
 	 * @param song Song object
 	 *
-	 * @return True if data is loaded; false otherwise
+	 * @return Edited track info
+	 * @throws Throws an error if song does not contain unique ID
 	 */
 	getSongInfo(song: Song): Promise<EditedTrackInfo>;
 
