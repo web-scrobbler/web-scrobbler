@@ -12,7 +12,7 @@ export class NotificationDisplayer implements NowPlayingListener {
 	onReset(ctrl: Controller): void {
 		const song = ctrl.getCurrentSong();
 		if (song) {
-			this.notifications.clearNowPlaying(song);
+			this.notifications.clearNotification(song);
 		}
 	}
 
@@ -38,7 +38,7 @@ export class NotificationDisplayer implements NowPlayingListener {
 				);
 			}, nowPlayingNotificationDelay);
 		} else {
-			this.notifications.showSongNotRecognized(song, onClickedFn);
+			this.notifications.showNotRecognizedNotification(song, onClickedFn);
 		}
 	}
 

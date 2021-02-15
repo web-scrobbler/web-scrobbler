@@ -84,12 +84,12 @@ export class BrowserNotifications implements Notifications {
 		song.setMetadata('notificationId', notificationId);
 	}
 
-	clearNowPlaying(song: Song): void {
+	clearNotification(song: Song): void {
 		const notificationId = song.getMetadata('notificationId');
 		this.removeNotification(notificationId);
 	}
 
-	async showSongNotRecognized(
+	async showNotRecognizedNotification(
 		song: Song,
 		onClick: OnClickedListener
 	): Promise<void> {

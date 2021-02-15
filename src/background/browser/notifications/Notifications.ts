@@ -2,13 +2,19 @@ import { Song } from '@/background/model/song/Song';
 
 export interface Notifications {
 	/**
-	 * Check if browser notifications are available.
+	 * Check if notifications are available.
 	 *
-	 * Note that Chrome on Mac does not show notification while in fullscreen mode.
-	 *
-	 * @return Check result	 */
+	 * @return Check result
+	 */
 
 	areAvailable(): Promise<boolean>;
+
+	/**
+	 * Remove a notification for the given song.
+	 *
+	 * @param song Song
+	 */
+	clearNotification(song: Song): void;
 
 	/**
 	 * Show now playing notification.
@@ -24,19 +30,12 @@ export interface Notifications {
 	): Promise<void>;
 
 	/**
-	 * Remove now playing notification for the given song.
-	 *
-	 * @param song Song instance
-	 */
-	clearNowPlaying(song: Song): void;
-
-	/**
 	 * Show a notification the given song is not recognized.
 	 *
-	 * @param song Song instance
+	 * @param song Song
 	 * @param [onClick] Function that will be called on notification click
 	 */
-	showSongNotRecognized(
+	showNotRecognizedNotification(
 		song: Song,
 		onClick: OnClickedListener
 	): Promise<void>;
