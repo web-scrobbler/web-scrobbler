@@ -4,9 +4,6 @@ import { getObjectKeys, describeModuleTest } from '#/helpers/util';
 import { MemoryStorage } from '#/stub/MemoryStorage';
 
 import { ConnectorsOptions } from '@/background/repository/connectors-options/ConnectorsOptions';
-import { ConnectorsOptionsData } from '@/background/repository/connectors-options/ConnectorsOptionsData';
-import { ConnectorsOptionsImpl } from '@/background/repository/connectors-options/ConnectorsOptionsImpl';
-
 import { defaultConnectorsOptions } from '@/background/repository/connectors-options/DefaultConnectorsOptions';
 
 describeModuleTest(__filename, () => {
@@ -71,6 +68,6 @@ describeModuleTest(__filename, () => {
 	});
 });
 
-function createConnectorsOptions(): ConnectorsOptions<ConnectorsOptionsData> {
-	return new ConnectorsOptionsImpl(new MemoryStorage());
+function createConnectorsOptions(): ConnectorsOptions {
+	return new ConnectorsOptions(new MemoryStorage());
 }

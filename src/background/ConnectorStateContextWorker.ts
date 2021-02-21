@@ -5,13 +5,15 @@ import {
 } from '@/background/model/ConnectorStateContext';
 
 import type { ConnectorsOptions } from '@/background/repository/connectors-options/ConnectorsOptions';
-import type { ConnectorsOptionsData } from '@/background/repository/connectors-options/ConnectorsOptionsData';
 import type { ExtensionOptions } from '@/background/repository/extension-options/ExtensionOptions';
 
+/**
+ * Helper to process ConnectorStateContext contents.
+ */
 export class ConnectorStateContextWorker {
 	constructor(
 		private extensionOptions: ExtensionOptions,
-		private connectorsOptions: ConnectorsOptions<ConnectorsOptionsData>
+		private connectorsOptions: ConnectorsOptions
 	) {}
 
 	/**

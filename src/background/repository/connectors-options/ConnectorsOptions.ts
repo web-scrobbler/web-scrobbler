@@ -1,4 +1,11 @@
-export interface ConnectorsOptions<D> {
+import { defaultConnectorsOptions } from '@/background/repository/connectors-options/DefaultConnectorsOptions';
+
+import type { ConnectorsOptionsData } from '@/background/repository/connectors-options/ConnectorsOptionsData';
+import type { Storage } from '@/background/storage2/Storage';
+
+export class ConnectorsOptions {
+	constructor(private storage: Storage<ConnectorsOptionsData>) {}
+
 	/**
 	 * Return option value for a connector with the given connector ID.
 	 *
@@ -7,10 +14,17 @@ export interface ConnectorsOptions<D> {
 	 *
 	 * @return Option value
 	 */
-	getOption<I extends keyof D, K extends keyof D[I]>(
-		connectorId: I,
-		optionKey: K
-	): Promise<D[I][K]>;
+	async getOption<
+		I extends keyof ConnectorsOptionsData,
+		K extends keyof ConnectorsOptionsData[I]
+	>(connectorId: I, optionKey: K): Promise<ConnectorsOptionsData[I][K]> {
+		const storageData = await this.storage.get();
+
+		return (
+			storageData[connectorId]?.[optionKey] ??
+			defaultConnectorsOptions[connectorId][optionKey]
+		);
+	}
 
 	/**
 	 * Set option value for a connector with the given connector ID.
@@ -19,9 +33,18 @@ export interface ConnectorsOptions<D> {
 	 * @param optionKey Option key
 	 * @param optionValue Option value
 	 */
-	setOption<I extends keyof D, K extends keyof D[I], V extends D[I][K]>(
-		connectorId: I,
-		optionKey: K,
-		optionValue: V
-	): Promise<void>;
+	async setOption<
+		I extends keyof ConnectorsOptionsData,
+		K extends keyof ConnectorsOptionsData[I],
+		V extends ConnectorsOptionsData[I][K]
+	>(connectorId: I, optionKey: K, optionValue: V): Promise<void> {
+		const storageData = await this.storage.get();
+		const connectorOptions =
+			storageData[connectorId] ?? ({} as ConnectorsOptionsData[I]);
+
+		connectorOptions[optionKey] = optionValue;
+		return this.storage.update({
+			[connectorId]: connectorOptions,
+		});
+	}
 }
