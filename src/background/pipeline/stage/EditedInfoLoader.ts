@@ -22,5 +22,7 @@ export class EditedInfoLoader implements SongPipelineStage {
 		song.setTrack(editedTrackInfo.track);
 		song.setAlbum(editedTrackInfo.album);
 		song.setAlbumArtist(editedTrackInfo.albumArtist);
+
+		song.setFlag('isCorrectedByUser', true);
 	}
 }
