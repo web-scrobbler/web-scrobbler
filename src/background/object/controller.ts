@@ -20,9 +20,6 @@ import { ControllerMode } from '@/background/object/controller-mode';
 import { ParsedSongInfo, EditedSongInfo } from '@/background/object/song';
 import { ConnectorEntry } from '@/common/connector-entry';
 import { ScrobblerManager } from '@/background/scrobbler/ScrobblerManager';
-import { NowPlayingListener } from '@/background/object/controller/NowPlayingListener';
-import { ModeChangeListener } from '@/background/object/controller/ModeChangeListener';
-import { SongUpdateListener } from '@/background/object/controller/SongUpdateListener';
 import { LoveStatus } from '@/background/model/song/LoveStatus';
 import { Song } from '@/background/model/song/Song';
 import {
@@ -30,6 +27,10 @@ import {
 	SongUpdateListener2,
 } from '@/background/ConnectorStateWorker';
 import { SongPipeline } from '@/background/pipeline/SongPipeline';
+import { ExecutableEvent } from '@/background/model/event/ExecutableEvent';
+import { Event } from '@/background/model/event/Event';
+
+type ControllerEventCallback = (controller: Controller) => void;
 
 /**
  * Object that handles song playback and scrobbling actions.
@@ -45,11 +46,14 @@ export class Controller implements SongUpdateListener2 {
 
 	shouldScrobblePodcasts: boolean;
 
-	private currentSong: Song;
+	private onModeChangedEvent = new ExecutableEvent<ControllerEventCallback>();
+	private onSongUpdatedEvent = new ExecutableEvent<ControllerEventCallback>();
+	private onSongNowPlayingEvent = new ExecutableEvent<
+		ControllerEventCallback
+	>();
+	private onResetEvent = new ExecutableEvent<ControllerEventCallback>();
 
-	private nowPlayingListener: NowPlayingListener;
-	private songUpdateListener: SongUpdateListener;
-	private modeListener: ModeChangeListener;
+	private currentSong: Song;
 
 	private worker: ConnectorStateWorker;
 
@@ -73,6 +77,22 @@ export class Controller implements SongUpdateListener2 {
 		this.debugLog(`Created controller for ${connector.label} connector`);
 
 		this.worker = new ConnectorStateWorker(this);
+	}
+
+	get onModeChanged(): Event<ControllerEventCallback> {
+		return this.onModeChangedEvent;
+	}
+
+	get onSongUpdated(): Event<ControllerEventCallback> {
+		return this.onSongUpdatedEvent;
+	}
+
+	get onSongNowPlaying(): Event<ControllerEventCallback> {
+		return this.onSongNowPlayingEvent;
+	}
+
+	get onReset(): Event<ControllerEventCallback> {
+		return this.onResetEvent;
 	}
 
 	onPlayingStateChanged(isPlaying: boolean): void {
@@ -125,20 +145,6 @@ export class Controller implements SongUpdateListener2 {
 
 		this.startTimers();
 		this.processSong(song);
-	}
-
-	/** Listeners. */
-
-	setSongUpdateListener(listener: SongUpdateListener): void {
-		this.songUpdateListener = listener;
-	}
-
-	setModeListener(listener: ModeChangeListener): void {
-		this.modeListener = listener;
-	}
-
-	setNowPlayingListener(listener: NowPlayingListener): void {
-		this.nowPlayingListener = listener;
 	}
 
 	/** Public functions */
@@ -197,7 +203,7 @@ export class Controller implements SongUpdateListener2 {
 		this.playbackTimer.reset();
 		this.replayDetectionTimer.reset();
 
-		this.songUpdateListener.onSongUpdated(this);
+		this.onSongUpdatedEvent.execute(this);
 	}
 
 	/**
@@ -264,7 +270,7 @@ export class Controller implements SongUpdateListener2 {
 		);
 
 		this.currentSong.setLoveStatus(loveStatus);
-		this.songUpdateListener.onSongUpdated(this);
+		this.onSongUpdatedEvent.execute(this);
 	}
 
 	/**
@@ -282,14 +288,14 @@ export class Controller implements SongUpdateListener2 {
 
 	private setMode(mode: ControllerMode): void {
 		this.mode = mode;
-		this.modeListener.onModeChanged(this);
+		this.onModeChangedEvent.execute(this);
 	}
 
 	/**
 	 * Reset controller.
 	 */
 	private reset(): void {
-		this.nowPlayingListener.onReset(this);
+		this.onResetEvent.execute(this);
 
 		this.playbackTimer.reset();
 		this.replayDetectionTimer.reset();
@@ -316,7 +322,7 @@ export class Controller implements SongUpdateListener2 {
 			this.setSongNotRecognized();
 		}
 
-		this.songUpdateListener.onSongUpdated(this);
+		this.onSongUpdatedEvent.execute(this);
 	}
 
 	/**
@@ -348,7 +354,7 @@ export class Controller implements SongUpdateListener2 {
 
 		if (this.currentSong.isPlaying()) {
 			if (this.playbackTimer.isExpired()) {
-				this.nowPlayingListener.onNowPlaying(this);
+				this.onSongNowPlayingEvent.execute(this);
 			} else {
 				this.setSongNowPlaying();
 			}
@@ -454,7 +460,7 @@ export class Controller implements SongUpdateListener2 {
 			this.setMode(ControllerMode.Err);
 		}
 
-		this.nowPlayingListener.onNowPlaying(this);
+		this.onSongNowPlayingEvent.execute(this);
 	}
 
 	/**
@@ -462,7 +468,7 @@ export class Controller implements SongUpdateListener2 {
 	 */
 	private setSongNotRecognized(): void {
 		this.setMode(ControllerMode.Unknown);
-		this.nowPlayingListener.onNowPlaying(this);
+		this.onSongNowPlayingEvent.execute(this);
 	}
 
 	/**
@@ -485,7 +491,7 @@ export class Controller implements SongUpdateListener2 {
 			this.currentSong.setFlag('isScrobbled', true);
 			this.setMode(ControllerMode.Scrobbled);
 
-			this.songUpdateListener.onSongUpdated(this);
+			this.onSongUpdatedEvent.execute(this);
 		} else if (areAllResults(results, ScrobblerResultType.IGNORED)) {
 			this.debugLog('Song is ignored by service');
 			this.setMode(ControllerMode.Ignored);

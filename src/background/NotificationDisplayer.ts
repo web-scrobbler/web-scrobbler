@@ -5,11 +5,10 @@ import type {
 	Notifications,
 	OnNotificationClickedListener,
 } from '@/background/browser/notifications/Notifications';
-import type { NowPlayingListener } from '@/background/object/controller/NowPlayingListener';
 import type { Song } from '@/background/model/song/Song';
 import type { ExtensionOptions } from '@/background/repository/extension-options/ExtensionOptions';
 
-export class NotificationDisplayer implements NowPlayingListener {
+export class NotificationDisplayer {
 	private timeoutId: NodeJS.Timeout = null;
 
 	constructor(
@@ -17,14 +16,24 @@ export class NotificationDisplayer implements NowPlayingListener {
 		private options: ExtensionOptions
 	) {}
 
-	onReset(ctrl: Controller): void {
+	/**
+	 * Hide last now playing notification for the given controller.
+	 *
+	 * @param ctrl Controller
+	 */
+	hideNotification(ctrl: Controller): void {
 		const song = ctrl.getCurrentSong();
 		if (song) {
 			this.notifications.clearNotification(song);
 		}
 	}
 
-	onNowPlaying(ctrl: Controller): void {
+	/**
+	 * Show now playing notification for the given controller.
+	 *
+	 * @param ctrl Controller
+	 */
+	showNotification(ctrl: Controller): void {
 		const song = ctrl.getCurrentSong();
 		if (song.getFlag('isReplaying')) {
 			return;

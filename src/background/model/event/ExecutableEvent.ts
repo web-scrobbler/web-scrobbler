@@ -12,7 +12,7 @@ export class ExecutableEvent<F extends AnyFunction> implements Event<F> {
 		this.eventListeners.delete(cb);
 	}
 
-	call(args: Parameters<F>): void {
+	execute(...args: Parameters<F>): void {
 		for (const cb of this.eventListeners) {
 			cb(...(args as unknown[]));
 		}

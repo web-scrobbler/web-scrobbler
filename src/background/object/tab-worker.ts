@@ -14,27 +14,19 @@ import {
 	isConnectorEnabled,
 	setConnectorEnabled,
 } from '@/background/storage/options';
-import { L } from '@/common/i18n';
 import { LoveStatus } from '@/background/object/song';
 import { BrowserTabListener } from '@/background/BrowserTabListener';
 import { ConnectorState } from '@/background/model/ConnectorState';
 import { ActiveControllerProvider } from '@/background/object/ActiveControllerProvider';
 import { ConnectorInjector, InjectResult } from '@/background/browser/inject';
-import { NowPlayingListener } from '@/background/object/controller/NowPlayingListener';
-import { ModeChangeListener } from '@/background/object/controller/ModeChangeListener';
-import { SongUpdateListener } from '@/background/object/controller/SongUpdateListener';
 import { GlobalMessageSender } from '@/communication/sender/GlobalMessageSender';
 import { ContentScriptMessageSender } from '@/communication/sender/ContentScriptMessageSender';
 import { ControllerFactory } from '@/background/object/controller/ControllerFactory';
 import { ContextMenuWorkerFactory } from '@/background/ContextMenuWorkerFactory';
 import { ContextMenuWorker } from '@/background/ContextMenuWorker';
+import { NotificationDisplayer } from '@/background/NotificationDisplayer';
 
-export class TabWorker
-	implements
-		BrowserTabListener,
-		ActiveControllerProvider,
-		ModeChangeListener,
-		SongUpdateListener {
+export class TabWorker implements BrowserTabListener, ActiveControllerProvider {
 	private activeTabId: number = browser.tabs.TAB_ID_NONE;
 	private currentTabId: number = browser.tabs.TAB_ID_NONE;
 
@@ -46,7 +38,7 @@ export class TabWorker
 	constructor(
 		private controllerFactory: ControllerFactory,
 		private connectorInjector: ConnectorInjector,
-		private nowPlayingListener: NowPlayingListener,
+		private notificationDisplayer: NotificationDisplayer,
 		contextMenuFactory: ContextMenuWorkerFactory
 	) {
 		this.contextMenuWorker = contextMenuFactory(this);
@@ -274,7 +266,7 @@ export class TabWorker
 	 *
 	 * @param ctrl  Controller instance
 	 */
-	onModeChanged(ctrl: Controller): void {
+	private onModeChanged(ctrl: Controller): void {
 		const tabId = ctrl.tabId;
 		const isCtrlModeInactive = isInactiveMode(ctrl.getMode());
 		let isActiveCtrlChanged = false;
@@ -306,7 +298,7 @@ export class TabWorker
 	 *
 	 * @param ctrl Controller instance
 	 */
-	async onSongUpdated(ctrl: Controller): Promise<void> {
+	private async onSongUpdated(ctrl: Controller): Promise<void> {
 		const track = ctrl.getCurrentSong().serialize();
 		try {
 			await new GlobalMessageSender().sendMessage({
@@ -373,9 +365,22 @@ export class TabWorker
 			connector,
 			isEnabled
 		);
-		ctrl.setSongUpdateListener(this);
-		ctrl.setModeListener(this);
-		ctrl.setNowPlayingListener(this.nowPlayingListener);
+
+		ctrl.onReset.addListener((ctrl) => {
+			this.notificationDisplayer.hideNotification(ctrl);
+		});
+
+		ctrl.onSongNowPlaying.addListener((ctrl) => {
+			this.notificationDisplayer.showNotification(ctrl);
+		});
+
+		ctrl.onModeChanged.addListener((ctrl) => {
+			this.onModeChanged(ctrl);
+		});
+
+		ctrl.onSongUpdated.addListener((ctrl) => {
+			this.onSongUpdated(ctrl);
+		});
 
 		this.tabControllers[tabId] = ctrl;
 	}
