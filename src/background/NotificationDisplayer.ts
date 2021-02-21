@@ -24,6 +24,7 @@ export class NotificationDisplayer {
 	hideNotification(ctrl: Controller): void {
 		const song = ctrl.getCurrentSong();
 		if (song) {
+			this.clearTimeout();
 			this.notifications.clearNotification(song);
 		}
 	}
