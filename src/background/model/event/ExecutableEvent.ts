@@ -1,7 +1,7 @@
 import type { AnyFunction } from '#/helpers/util';
 import type { Event } from '@/background/model/event/Event';
 
-export class EventImpl<F extends AnyFunction> implements Event<F> {
+export class ExecutableEvent<F extends AnyFunction> implements Event<F> {
 	private eventListeners: Set<F> = new Set();
 
 	addListener(cb: F): void {
