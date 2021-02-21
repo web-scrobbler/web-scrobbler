@@ -1,6 +1,6 @@
 import { ConnectorState } from '@/background/model/ConnectorState';
 
-export interface SongInfoA {
+export interface SongInfo {
 	artist: string;
 	track: string;
 	album: string;
@@ -8,7 +8,7 @@ export interface SongInfoA {
 	trackArt: string;
 }
 
-export function createSongInfo(state: ConnectorState): SongInfoA {
+export function createSongInfo(state: ConnectorState): SongInfo {
 	const { artist, track, album, albumArtist, trackArt } = state;
 
 	return { artist, track, album, albumArtist, trackArt };

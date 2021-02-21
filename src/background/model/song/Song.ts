@@ -12,7 +12,7 @@ import { SongDto } from '@/background/model/song/SongDto';
 
 import { getObjectKeys } from '#/helpers/util';
 import { createTimeInfo, TimeInfo } from '@/background/model/song/TimeInfo';
-import { createSongInfo, SongInfoA } from '@/background/model/song/SongInfo';
+import { createSongInfo, SongInfo } from '@/background/model/song/SongInfo';
 import { IdGenerator } from '@/background/util/id-generator/IdGenerator';
 import {
 	createIdGenerator,
@@ -21,7 +21,7 @@ import {
 import type { Scrobbleable } from '@/background/scrobbler/Scrobbleable';
 
 export class Song implements Scrobbleable {
-	private songInfo: SongInfoA;
+	private songInfo: SongInfo;
 	private timeInfo: TimeInfo;
 
 	private isPlayingFlag: boolean;
