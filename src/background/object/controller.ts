@@ -350,6 +350,8 @@ export class Controller implements SongUpdateListener2 {
 	private replayCurrentSong(): void {
 		this.debugLogWithSongInfo('Replaying song');
 
+		this.currentSong.setFlag('isReplaying', true);
+
 		this.startTimers();
 		this.prepareNowPlaying();
 	}
