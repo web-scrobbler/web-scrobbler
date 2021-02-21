@@ -4,7 +4,7 @@ import type { ScrobbleService } from '@/background/scrobbler/ScrobbleService';
 import type { MalojaTrackMetadata } from '@/background/scrobbler/maloja/MalojaTrackMetadata';
 import type { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 import { TrackContextInfo } from '@/background/scrobbler/TrackContextInfo';
-import { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
+import { Scrobbleable } from '@/background/scrobbler/Scrobbleable';
 
 export class MalojaScrobbleService implements ScrobbleService {
 	constructor(private session: ScrobblerSession, private apiUrl: string) {}
@@ -13,12 +13,12 @@ export class MalojaScrobbleService implements ScrobbleService {
 		return null;
 	}
 
-	sendNowPlayingRequest(scrobbleEntity: ScrobbleEntity): Promise<void> {
+	sendNowPlayingRequest(scrobbleEntity: Scrobbleable): Promise<void> {
 		const trackMetadata = this.makeTrackMetadata(scrobbleEntity);
 		return this.sendRequest(trackMetadata);
 	}
 
-	sendScrobbleRequest(scrobbleEntity: ScrobbleEntity): Promise<void> {
+	sendScrobbleRequest(scrobbleEntity: Scrobbleable): Promise<void> {
 		const requestData = this.makeTrackMetadata(scrobbleEntity);
 		requestData.time = scrobbleEntity.getTimestamp();
 
@@ -52,7 +52,7 @@ export class MalojaScrobbleService implements ScrobbleService {
 	}
 
 	private makeTrackMetadata(
-		scrobbleEntity: ScrobbleEntity
+		scrobbleEntity: Scrobbleable
 	): MalojaTrackMetadata {
 		return {
 			artist: scrobbleEntity.getArtist(),

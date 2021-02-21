@@ -1,4 +1,4 @@
-export interface ScrobbleEntity {
+export interface Scrobbleable {
 	getArtist(): string;
 	getTrack(): string;
 	getAlbum(): string;

@@ -1,6 +1,6 @@
 import type { LoveStatus } from '@/background/model/song/LoveStatus';
 import type { TrackContextInfo } from '@/background/scrobbler/TrackContextInfo';
-import type { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
+import type { Scrobbleable } from '@/background/scrobbler/Scrobbleable';
 
 export interface ScrobbleService {
 	/**
@@ -11,7 +11,7 @@ export interface ScrobbleService {
 	 * @return Track context info
 	 */
 	getTrackContextInfo(
-		scrobbleEntity: ScrobbleEntity
+		scrobbleEntity: Scrobbleable
 	): Promise<TrackContextInfo>;
 
 	/**
@@ -19,14 +19,14 @@ export interface ScrobbleService {
 	 *
 	 * @param scrobbleEntity Object containing track info
 	 */
-	sendNowPlayingRequest(scrobbleEntity: ScrobbleEntity): Promise<void>;
+	sendNowPlayingRequest(scrobbleEntity: Scrobbleable): Promise<void>;
 
 	/**
 	 * Send a scrobble request.
 	 *
 	 * @param scrobbleEntity Object containing track info
 	 */
-	sendScrobbleRequest(scrobbleEntity: ScrobbleEntity): Promise<void>;
+	sendScrobbleRequest(scrobbleEntity: Scrobbleable): Promise<void>;
 
 	/**
 	 * Send an (un)love request.
@@ -35,7 +35,7 @@ export interface ScrobbleService {
 	 * @param loveStatus Flag means song should be loved or not
 	 */
 	sendLoveRequest(
-		scrobbleEntity: ScrobbleEntity,
+		scrobbleEntity: Scrobbleable,
 		loveStatus: LoveStatus
 	): Promise<void>;
 }

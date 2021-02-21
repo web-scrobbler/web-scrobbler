@@ -11,7 +11,7 @@ import type { ScrobbleService } from '@/background/scrobbler/ScrobbleService';
 import type { AudioScrobblerAppInfo } from '@/background/scrobbler/audioscrobbler/AudioScrobblerAppInfo';
 import type { TokenBasedSessionProvider } from '@/background/scrobbler/session-provider/TokenBasedSessionProvider';
 import type { AudioScrobblerResponse } from './AudioScrobblerResponse';
-import type { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
+import type { Scrobbleable } from '@/background/scrobbler/Scrobbleable';
 import type { AudioScrobblerApiParams } from './AudioScrobblerApiParams';
 import { ExternalTrackInfoProvider } from '@/background/provider/ExternalTrackInfoProvider';
 import { AudioScrobblerImage } from '@/background/scrobbler/audioscrobbler/AudioScrobblerImage';
@@ -36,7 +36,7 @@ export class AudioScrobblerScrobbleService
 	/** ExternalTrackInfoProvider implementation */
 
 	async getExternalTrackInfo(
-		scrobbleable: ScrobbleEntity
+		scrobbleable: Scrobbleable
 	): Promise<ExternalTrackInfo> {
 		const audioScrobblerTrackInfo = await this.getAudioScrobblerTrackInfo(
 			scrobbleable
@@ -110,7 +110,7 @@ export class AudioScrobblerScrobbleService
 	/** ScrobbleService implementation */
 
 	async getTrackContextInfo(
-		scrobbleable: ScrobbleEntity
+		scrobbleable: Scrobbleable
 	): Promise<TrackContextInfo> {
 		const audioScrobblerTrackInfo = await this.getAudioScrobblerTrackInfo(
 			scrobbleable,
@@ -128,7 +128,7 @@ export class AudioScrobblerScrobbleService
 		};
 	}
 
-	async sendNowPlayingRequest(scrobbleEntity: ScrobbleEntity): Promise<void> {
+	async sendNowPlayingRequest(scrobbleEntity: Scrobbleable): Promise<void> {
 		const params: AudioScrobblerApiParams = {
 			track: scrobbleEntity.getTrack(),
 			artist: scrobbleEntity.getArtist(),
@@ -153,7 +153,7 @@ export class AudioScrobblerScrobbleService
 		);
 	}
 
-	async sendScrobbleRequest(scrobbleEntity: ScrobbleEntity): Promise<void> {
+	async sendScrobbleRequest(scrobbleEntity: Scrobbleable): Promise<void> {
 		const params: AudioScrobblerApiParams = {
 			method: 'track.scrobble',
 			'timestamp[0]': scrobbleEntity.getTimestamp().toString(),
@@ -176,7 +176,7 @@ export class AudioScrobblerScrobbleService
 	}
 
 	async sendLoveRequest(
-		scrobbleEntity: ScrobbleEntity,
+		scrobbleEntity: Scrobbleable,
 		loveStatus: LoveStatus
 	): Promise<void> {
 		const params = {
@@ -283,7 +283,7 @@ export class AudioScrobblerScrobbleService
 	}
 
 	private async getAudioScrobblerTrackInfo(
-		scrobbleable: ScrobbleEntity,
+		scrobbleable: Scrobbleable,
 		username?: string
 	): Promise<Readonly<AudioScrobblerTrackInfo>> {
 		const params: AudioScrobblerApiParams = {

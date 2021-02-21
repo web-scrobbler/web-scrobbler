@@ -1,7 +1,7 @@
 import { LoveStatus } from '@/background/model/song/LoveStatus';
 import { TrackContextInfoProvider } from '@/background/provider/TrackContextInfoProvider';
 import { ScrobblerResult } from '@/background/scrobbler/ScrobblerResult';
-import { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
+import { Scrobbleable } from '@/background/scrobbler/Scrobbleable';
 import { Scrobbler } from '@/background/scrobbler/Scrobbler';
 import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 
@@ -37,7 +37,7 @@ export interface ScrobblerManager
 	 * @return List of API call results
 	 */
 	sendNowPlayingRequest(
-		scrobbleEntity: ScrobbleEntity
+		scrobbleEntity: Scrobbleable
 	): Promise<ScrobblerResult[]>;
 
 	/**
@@ -48,11 +48,11 @@ export interface ScrobblerManager
 	 * @return List of API call results
 	 */
 	sendScrobbleRequest(
-		scrobbleEntity: ScrobbleEntity
+		scrobbleEntity: Scrobbleable
 	): Promise<ScrobblerResult[]>;
 
 	sendLoveRequest(
-		scrobbleEntity: ScrobbleEntity,
+		scrobbleEntity: Scrobbleable,
 		loveStatus: LoveStatus
 	): Promise<ScrobblerResult[]>;
 }

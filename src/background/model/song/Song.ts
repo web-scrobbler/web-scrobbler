@@ -18,9 +18,9 @@ import {
 	createIdGenerator,
 	IdGeneratorFunction,
 } from '@/background/util/id-generator/IdGeneratorFactory';
-import type { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
+import type { Scrobbleable } from '@/background/scrobbler/Scrobbleable';
 
-export class Song implements ScrobbleEntity {
+export class Song implements Scrobbleable {
 	private songInfo: SongInfoA;
 	private timeInfo: TimeInfo;
 

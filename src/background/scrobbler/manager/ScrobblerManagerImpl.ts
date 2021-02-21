@@ -6,7 +6,7 @@ import type { ScrobblerManager } from '@/background/scrobbler/ScrobblerManager';
 
 import { LoveStatus } from '@/background/model/song/LoveStatus';
 import { TrackContextInfo } from '@/background/scrobbler/TrackContextInfo';
-import { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
+import { Scrobbleable } from '@/background/scrobbler/Scrobbleable';
 
 export class ScrobblerManagerImpl implements ScrobblerManager {
 	private scrobblers: Map<ScrobblerId, Scrobbler> = new Map<
@@ -49,7 +49,7 @@ export class ScrobblerManagerImpl implements ScrobblerManager {
 	}
 
 	getTrackContextInfo(
-		scrobbleable: ScrobbleEntity
+		scrobbleable: Scrobbleable
 	): Promise<TrackContextInfo[]> {
 		this.logger.info('Send "get info" request:', this.scrobblers.size);
 
@@ -59,7 +59,7 @@ export class ScrobblerManagerImpl implements ScrobblerManager {
 	}
 
 	sendNowPlayingRequest(
-		scrobbleEntity: ScrobbleEntity
+		scrobbleEntity: Scrobbleable
 	): Promise<ScrobblerResult[]> {
 		this.logger.info('Send "now playing" request:', this.scrobblers.size);
 
@@ -69,7 +69,7 @@ export class ScrobblerManagerImpl implements ScrobblerManager {
 	}
 
 	sendScrobbleRequest(
-		scrobbleEntity: ScrobbleEntity
+		scrobbleEntity: Scrobbleable
 	): Promise<ScrobblerResult[]> {
 		this.logger.info('Send "scrobble" request:', this.scrobblers.size);
 
@@ -79,7 +79,7 @@ export class ScrobblerManagerImpl implements ScrobblerManager {
 	}
 
 	sendLoveRequest(
-		scrobbleEntity: ScrobbleEntity,
+		scrobbleEntity: Scrobbleable,
 		loveStatus: LoveStatus
 	): Promise<ScrobblerResult[]> {
 		this.logger.info('Send "love" request');

@@ -7,7 +7,7 @@ import { fetchJson } from '@/background/util/fetch/FetchJson';
 import type { ScrobbleService } from '@/background/scrobbler/ScrobbleService';
 import type { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 import { TrackContextInfo } from '@/background/scrobbler/TrackContextInfo';
-import { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
+import { Scrobbleable } from '@/background/scrobbler/Scrobbleable';
 
 interface ListenBrainzParams {
 	listen_type: 'playing_now' | 'single';
@@ -39,7 +39,7 @@ export class ListenBrainzScrobblerService implements ScrobbleService {
 		return 'https://listenbrainz.org/login/musicbrainz?next=%2Fprofile%2F';
 	}
 
-	sendNowPlayingRequest(scrobbleEntity: ScrobbleEntity): Promise<void> {
+	sendNowPlayingRequest(scrobbleEntity: Scrobbleable): Promise<void> {
 		const trackMeta = this.makeTrackMetadata(scrobbleEntity);
 
 		const params: ListenBrainzParams = {
@@ -54,7 +54,7 @@ export class ListenBrainzScrobblerService implements ScrobbleService {
 		return this.sendRequest(params);
 	}
 
-	sendScrobbleRequest(scrobbleEntity: ScrobbleEntity): Promise<void> {
+	sendScrobbleRequest(scrobbleEntity: Scrobbleable): Promise<void> {
 		const params: ListenBrainzParams = {
 			listen_type: 'single',
 			payload: [
@@ -90,7 +90,7 @@ export class ListenBrainzScrobblerService implements ScrobbleService {
 		}
 	}
 
-	private makeTrackMetadata(scrobbleEntity: ScrobbleEntity): TrackMetadata {
+	private makeTrackMetadata(scrobbleEntity: Scrobbleable): TrackMetadata {
 		const trackMeta: TrackMetadata = {
 			artist_name: scrobbleEntity.getArtist(),
 			track_name: scrobbleEntity.getTrack(),

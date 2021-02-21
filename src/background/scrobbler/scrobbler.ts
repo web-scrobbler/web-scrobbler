@@ -4,7 +4,7 @@ import {
 } from '@/background/scrobbler/ScrobblerResult';
 
 import type { LoveStatus } from '@/background/model/song/LoveStatus';
-import type { ScrobbleEntity } from '@/background/scrobbler/ScrobbleEntity';
+import type { Scrobbleable } from '@/background/scrobbler/Scrobbleable';
 import type { ScrobbleService } from '@/background/scrobbler/ScrobbleService';
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 import type { ScrobblerInfo } from '@/background/scrobbler/ScrobblerInfo';
@@ -32,7 +32,7 @@ export class Scrobbler {
 	}
 
 	async getTrackContextInfo(
-		scrobbleEntity: ScrobbleEntity
+		scrobbleEntity: Scrobbleable
 	): Promise<TrackContextInfo> {
 		try {
 			return await this.scrobbleService.getTrackContextInfo(
@@ -44,7 +44,7 @@ export class Scrobbler {
 	}
 
 	async sendNowPlayingRequest(
-		scrobbleEntity: ScrobbleEntity
+		scrobbleEntity: Scrobbleable
 	): Promise<ScrobblerResult> {
 		try {
 			await this.scrobbleService.sendNowPlayingRequest(scrobbleEntity);
@@ -55,7 +55,7 @@ export class Scrobbler {
 	}
 
 	async sendScrobbleRequest(
-		scrobbleEntity: ScrobbleEntity
+		scrobbleEntity: Scrobbleable
 	): Promise<ScrobblerResult> {
 		try {
 			await this.scrobbleService.sendScrobbleRequest(scrobbleEntity);
@@ -66,7 +66,7 @@ export class Scrobbler {
 	}
 
 	async sendLoveRequest(
-		scrobbleEntity: ScrobbleEntity,
+		scrobbleEntity: Scrobbleable,
 		loveStatus: LoveStatus
 	): Promise<ScrobblerResult> {
 		try {
