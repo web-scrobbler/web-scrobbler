@@ -21,11 +21,10 @@ export class TrackContextInfoLoader implements SongPipelineStage {
 				continue;
 			}
 
-			if (song.getLoveStatus() === LoveStatus.Unloved) {
+			song.setLoveStatus(loveStatus);
+			if (loveStatus === LoveStatus.Unloved) {
 				break;
 			}
-
-			song.setLoveStatus(loveStatus);
 		}
 
 		const firstInfo = trackContextInfoArr[0];
