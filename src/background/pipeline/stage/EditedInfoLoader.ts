@@ -1,7 +1,7 @@
-import { Song } from '@/background/model/song/Song';
-import { SongPipelineStage } from '@/background/pipeline/SongPipelineStage';
-import { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTrackInfo';
-import { EditedTracks } from '@/background/repository/edited-tracks/EditedTracks';
+import type { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTrackInfo';
+import type { EditedTracks } from '@/background/repository/edited-tracks/EditedTracks';
+import type { Song } from '@/background/model/song/Song';
+import type { SongPipelineStage } from '@/background/pipeline/SongPipelineStage';
 
 export class EditedInfoLoader implements SongPipelineStage {
 	constructor(private editedTracks: EditedTracks) {}

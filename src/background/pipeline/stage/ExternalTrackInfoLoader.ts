@@ -1,7 +1,7 @@
-import { Song } from '@/background/model/song/Song';
-import { SongPipelineStage } from '@/background/pipeline/SongPipelineStage';
-import { ExternalTrackInfo } from '@/background/provider/ExternalTrackInfo';
-import { ExternalTrackInfoProvider } from '@/background/provider/ExternalTrackInfoProvider';
+import type { ExternalTrackInfo } from '@/background/provider/ExternalTrackInfo';
+import type { ExternalTrackInfoProvider } from '@/background/provider/ExternalTrackInfoProvider';
+import type { Song } from '@/background/model/song/Song';
+import type { SongPipelineStage } from '@/background/pipeline/SongPipelineStage';
 
 export class ExternalTrackInfoLoader implements SongPipelineStage {
 	constructor(private provider: ExternalTrackInfoProvider) {}

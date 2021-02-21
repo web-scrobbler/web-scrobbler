@@ -1,6 +1,6 @@
-import { Song } from '@/background/model/song/Song';
-import { SongPipelineStage } from '@/background/pipeline/SongPipelineStage';
-import { CoverArtProvider } from '@/background/provider/CoverArtProvider';
+import type { CoverArtProvider } from '@/background/provider/CoverArtProvider';
+import type { Song } from '@/background/model/song/Song';
+import type { SongPipelineStage } from '@/background/pipeline/SongPipelineStage';
 
 export class CoverArtLoader implements SongPipelineStage {
 	constructor(private provider: CoverArtProvider) {}
