@@ -14,6 +14,12 @@ describeModuleTest(__filename, () => {
 	const stubSession = new ScrobblerSession(stubSessionId, stubSessionName);
 	const stubUserProperties = { token: stubToken };
 
+	it('should return the same scrobbler ID', () => {
+		const account = new UserAccount(ScrobblerId.LastFm);
+
+		expect(account.getScrobblerId()).to.be.equal(ScrobblerId.LastFm);
+	});
+
 	it('should return empty session by default', () => {
 		const account = new UserAccount(ScrobblerId.LastFm);
 
