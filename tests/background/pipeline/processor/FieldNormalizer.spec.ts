@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import { describeModuleTest } from '#/helpers/util';
 import { createSongStub } from '#/stub/SongStubFactory';
 
-import { FieldNormalizer } from '@/background/pipeline/processor/FieldNormalizer';
+import { FieldNormalizer } from '@/background/pipeline/stage/FieldNormalizer';
 
 describeModuleTest(__filename, () => {
 	const processor = new FieldNormalizer();

@@ -3,7 +3,7 @@ import { SongPipelineStage } from '@/background/pipeline/SongPipelineStage';
 import { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTrackInfo';
 import { EditedTracks } from '@/background/repository/edited-tracks/EditedTracks';
 
-export class EditedInfoProcessor implements SongPipelineStage {
+export class EditedInfoLoader implements SongPipelineStage {
 	constructor(private editedTracks: EditedTracks) {}
 
 	async process(song: Song): Promise<void> {
@@ -15,7 +15,7 @@ export class EditedInfoProcessor implements SongPipelineStage {
 		}
 
 		if (!editedTrackInfo) {
-			return null;
+			return;
 		}
 
 		song.setArtist(editedTrackInfo.artist);

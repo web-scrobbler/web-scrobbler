@@ -2,7 +2,7 @@ import type { Song } from '@/background/model/song/Song';
 
 export interface SongPipelineStage {
 	/**
-	 * Process the given song
+	 * Process the given song.
 	 *
 	 * @param song Song
 	 */

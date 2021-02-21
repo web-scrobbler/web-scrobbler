@@ -4,7 +4,7 @@ import { CoverArtProviderStub } from '#/stub/CoverArtProviderStub';
 import { createSongStub } from '#/stub/SongStubFactory';
 import { describeModuleTest } from '#/helpers/util';
 
-import { CoverArtProcessor } from '@/background/pipeline/processor/CoverArtProcessor';
+import { CoverArtLoader } from '@/background/pipeline/stage/CoverArtLoader';
 
 import type { CoverArtProvider } from '@/background/provider/CoverArtProvider';
 import type { SongPipelineStage } from '@/background/pipeline/SongPipelineStage';
@@ -16,7 +16,7 @@ describeModuleTest(__filename, () => {
 
 	beforeEach(() => {
 		provider = new CoverArtProviderStub('fetched-track-art-url');
-		processor = new CoverArtProcessor(provider);
+		processor = new CoverArtLoader(provider);
 
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		spyMethod = spy.on(provider, 'getCoverArt');

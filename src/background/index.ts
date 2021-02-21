@@ -10,14 +10,14 @@ import { getAccountsRepository } from '@/background/repository/GetAccountsReposi
 import { AudioScrobblerScrobbleService } from '@/background/scrobbler/audioscrobbler/AudioScrobblerScrobbleService';
 import { LastFmAppInfo } from '@/background/scrobbler/audioscrobbler/LastFmAppInfo';
 import { SongPipeline } from '@/background/pipeline/SongPipeline';
-import { FieldNormalizer } from '@/background/pipeline/processor/FieldNormalizer';
-import { CoverArtProcessor } from '@/background/pipeline/processor/CoverArtProcessor';
+import { FieldNormalizer } from '@/background/pipeline/stage/FieldNormalizer';
+import { CoverArtLoader } from '@/background/pipeline/stage/CoverArtLoader';
 import { EditedTracks } from '@/background/repository/edited-tracks/EditedTracks';
-import { EditedInfoProcessor } from '@/background/pipeline/processor/EditedInfoProcessor';
+import { EditedInfoLoader } from '@/background/pipeline/stage/EditedInfoLoader';
 import { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
-import { ExternalTrackInfoLoader } from '@/background/pipeline/processor/ExternalTrackInfoLoader';
+import { ExternalTrackInfoLoader } from '@/background/pipeline/stage/ExternalTrackInfoLoader';
 import { TrackContextInfoProvider } from '@/background/provider/TrackContextInfoProvider';
-import { TrackContextInfoLoader } from '@/background/pipeline/processor/TrackContextInfoLoader';
+import { TrackContextInfoLoader } from '@/background/pipeline/stage/TrackContextInfoLoader';
 import { getEditedTracks } from '@/background/repository/GetEditedTracks';
 import { fetchJson } from '@/background/util/fetch/FetchJson';
 import { Message } from '@/communication/message/Message';
@@ -128,7 +128,7 @@ function createTrackPipeline(
 ): SongPipeline {
 	const fieldNormalizer = new FieldNormalizer();
 
-	const editedInfoProcessor = new EditedInfoProcessor(editedTracks);
+	const editedInfoProcessor = new EditedInfoLoader(editedTracks);
 
 	const externalTrackInfoLoader = new ExternalTrackInfoLoader(
 		new AudioScrobblerScrobbleService(
@@ -141,7 +141,7 @@ function createTrackPipeline(
 		trackContextInfoProvider
 	);
 
-	const coverArtProcessor = new CoverArtProcessor(
+	const coverArtProcessor = new CoverArtLoader(
 		new CoverArtArchiveProvider(fetchJson)
 	);
 
