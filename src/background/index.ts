@@ -39,6 +39,8 @@ import { CoverArtArchiveProvider } from '@/background/provider/CoverArtArchivePr
 import { getExtensionOptions } from '@/background/repository/GetExtensionOptions';
 import { GeneralScrobblerFactory } from '@/background/scrobbler/GeneralScrobblerFactory';
 import { ScrobblerAuthenticatorFactory } from '@/background/authenticator/ScrobblerAuthenticatorFactory';
+import { populateEditedTracks } from '@/development/EditedTracksPopulator';
+import { EditedTracksWorker } from '@/communication/edited-tracks/EditedTracksWorker';
 
 Logger.useDefaults({ defaultLevel: Logger.DEBUG });
 const mainLogger = Logger.get('Main');
@@ -48,6 +50,11 @@ main();
 async function main() {
 	await migrate();
 	updateCoreVersion();
+
+	const editedTracks = getEditedTracks();
+	/* @ifdef DEVELOPMENT */
+	await populateEditedTracks(editedTracks);
+	/* @endif */
 
 	const scrobblerFactory = new GeneralScrobblerFactory();
 	const authenticatorFactory = new ScrobblerAuthenticatorFactory(
@@ -77,7 +84,6 @@ async function main() {
 		Logger.get('ConnectorInjector')
 	);
 
-	const editedTracks = getEditedTracks();
 	const trackPipeline = createTrackPipeline(editedTracks, scrobblerManager);
 
 	const controllerFactory = new ControllerFactoryImpl(
@@ -95,6 +101,7 @@ async function main() {
 	);
 
 	const controllerWorker = new ControllerWorker(tabWorker);
+	const editedTracksWorker = new EditedTracksWorker(editedTracks);
 
 	const authWorker = new AccountsWorker(
 		scrobblerManager,
@@ -111,7 +118,7 @@ async function main() {
 	);
 	authReminder.notifyAuthIsRequired();
 
-	setupCommunicationWorkers(authWorker, controllerWorker);
+	setupCommunicationWorkers(authWorker, controllerWorker, editedTracksWorker);
 	setupBrowserTabListener(tabWorker);
 }
 

@@ -37,7 +37,7 @@ function testEmptySong() {
 	const emptySong = createSong(null, null);
 
 	it('should throw an error while getting info of an empty song', () => {
-		const promise = editedTracks.getSongInfo(emptySong);
+		const promise = editedTracks.getSongInfo(emptySong.generateUniqueIds());
 		return expect(promise).to.eventually.rejected;
 	});
 
@@ -48,7 +48,10 @@ function testEmptySong() {
 			track: 'TrackEdited',
 		};
 
-		const promise = editedTracks.setSongInfo(emptySong, editedInfo);
+		const promise = editedTracks.setSongInfo(
+			emptySong.getUniqueId(),
+			editedInfo
+		);
 		return expect(promise).to.eventually.rejected;
 	});
 }
@@ -60,7 +63,9 @@ function testClearStorage() {
 	it('should clear edited tracks', async () => {
 		await editedTracks.clear();
 
-		return expectSongInfoNotLoaded(editedTracks.getSongInfo(song));
+		return expectSongInfoNotLoaded(
+			editedTracks.getSongInfo(song.generateUniqueIds())
+		);
 	});
 }
 
@@ -69,7 +74,9 @@ function testLoadNoSavedSong() {
 	const notSavedSong = createSong('Artist', 'Track', 'Album');
 
 	it('should not load not saved song', () => {
-		return expectSongInfoNotLoaded(editedTracks.getSongInfo(notSavedSong));
+		return expectSongInfoNotLoaded(
+			editedTracks.getSongInfo(notSavedSong.generateUniqueIds())
+		);
 	});
 }
 
@@ -78,11 +85,13 @@ function testRemoveSongInfo() {
 	const editedTracks = createEditedTracks(song);
 
 	it('should remove saved song', () => {
-		return editedTracks.deleteSongInfo(song);
+		return editedTracks.deleteSongInfo(song.getUniqueId());
 	});
 
 	it('should not load removed song', () => {
-		return expectSongInfoNotLoaded(editedTracks.getSongInfo(song));
+		return expectSongInfoNotLoaded(
+			editedTracks.getSongInfo(song.generateUniqueIds())
+		);
 	});
 }
 
@@ -97,7 +106,7 @@ function testSaveLoadSongWithoutId() {
 
 	it('should load edited info of song with no unique ID', () => {
 		return expectSongInfoLoaded(
-			editedTracks.getSongInfo(existingSong),
+			editedTracks.getSongInfo(existingSong.generateUniqueIds()),
 			expectedEditedInfo
 		);
 	});
@@ -114,7 +123,7 @@ function testSaveLoadSongWithId() {
 
 	it('should get edited info of song with unique ID', () => {
 		return expectSongInfoLoaded(
-			editedTracks.getSongInfo(songWithUniqueId),
+			editedTracks.getSongInfo(songWithUniqueId.generateUniqueIds()),
 			expectedEditedInfo
 		);
 	});
@@ -131,10 +140,10 @@ function testSaveOverwriteSong() {
 	};
 
 	it('should save edited info of song with no album', async () => {
-		await editedTracks.setSongInfo(existingSong, editedInfo);
+		await editedTracks.setSongInfo(existingSong.getUniqueId(), editedInfo);
 
 		await expectSongInfoLoaded(
-			editedTracks.getSongInfo(existingSong),
+			editedTracks.getSongInfo(existingSong.generateUniqueIds()),
 			editedInfo
 		);
 	});
@@ -152,7 +161,7 @@ function testSaveLoadSongFallback() {
 
 	it('should load edited info of song with album', () => {
 		return expectSongInfoLoaded(
-			editedTracks.getSongInfo(playingSong),
+			editedTracks.getSongInfo(playingSong.generateUniqueIds()),
 			expectedEditedInfo
 		);
 	});
@@ -189,7 +198,7 @@ function createEditedTracks(...initialSongs: Song[]): EditedTracks {
 			albumArtist: song.getAlbumArtist(),
 		};
 
-		editedTracks.setSongInfo(song, editedInfo);
+		editedTracks.setSongInfo(song.getUniqueId(), editedInfo);
 	}
 
 	return editedTracks;

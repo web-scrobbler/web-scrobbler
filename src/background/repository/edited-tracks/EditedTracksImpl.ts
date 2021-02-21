@@ -1,8 +1,7 @@
-import { Song } from '@/background/model/song/Song';
-import { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTrackInfo';
-import { Storage } from '@/background/storage2/Storage';
-import { EditedTracks } from './EditedTracks';
-import { EditedTracksRepositoryData } from './EditedTracksRepositoryData';
+import type { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTrackInfo';
+import type { EditedTracks } from './EditedTracks';
+import type { EditedTracksRepositoryData } from './EditedTracksRepositoryData';
+import type { Storage } from '@/background/storage2/Storage';
 
 export class EditedTracksImpl implements EditedTracks {
 	private editedTracksStorage: Storage<EditedTracksRepositoryData>;
@@ -11,10 +10,24 @@ export class EditedTracksImpl implements EditedTracks {
 		this.editedTracksStorage = storage;
 	}
 
-	async getSongInfo(song: Song): Promise<EditedTrackInfo> {
+	getEditedTracks(): Promise<EditedTracksRepositoryData> {
+		return this.editedTracksStorage.get();
+	}
+
+	async importEditedTracks(
+		dataToImport: EditedTracksRepositoryData
+	): Promise<void> {
+		const existingData = await this.editedTracksStorage.get();
+
+		return this.editedTracksStorage.set(
+			Object.assign({}, existingData, dataToImport)
+		);
+	}
+
+	async getSongInfo(songIds: Iterable<string>): Promise<EditedTrackInfo> {
 		const editedTracks = await this.editedTracksStorage.get();
 
-		for (const uniqueId of song.generateUniqueIds()) {
+		for (const uniqueId of songIds) {
 			if (uniqueId in editedTracks) {
 				return editedTracks[uniqueId];
 			}
@@ -23,18 +36,19 @@ export class EditedTracksImpl implements EditedTracks {
 		return null;
 	}
 
-	async setSongInfo(song: Song, editedInfo: EditedTrackInfo): Promise<void> {
-		const uniqueId = song.getUniqueId();
+	async setSongInfo(
+		songId: string,
+		editedInfo: EditedTrackInfo
+	): Promise<void> {
 		return this.editedTracksStorage.update({
-			[uniqueId]: removeEmptyProperties(editedInfo),
+			[songId]: removeEmptyProperties(editedInfo),
 		});
 	}
 
-	async deleteSongInfo(song: Song): Promise<void> {
-		const uniqueId = song.getUniqueId();
+	async deleteSongInfo(songId: string): Promise<void> {
 		const editedTracks = await this.editedTracksStorage.get();
 
-		delete editedTracks[uniqueId];
+		delete editedTracks[songId];
 		return this.editedTracksStorage.set(editedTracks);
 	}
 

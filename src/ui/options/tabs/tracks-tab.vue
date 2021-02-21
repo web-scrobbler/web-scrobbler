@@ -58,7 +58,7 @@
 					<a
 						href="#"
 						class="card-link"
-						@click.prevent="removeEntry(songId)"
+						@click.prevent="removeEditedTrack(songId)"
 					>
 						{{ L`buttonRemove` }}
 					</a>
@@ -72,14 +72,17 @@
 import TrackInfo from '@/ui/options/components/track-info.vue';
 import StorageUsage from '@/ui/options/components/storage-usage.vue';
 
-import { SavedEdits } from '@/background/storage/saved-edits';
 import { exportData, importData } from '@/ui/util';
-import { computed, onBeforeMount, ref, toRaw, watch } from 'vue';
+import { computed, onBeforeMount, ref } from 'vue';
+import { createEditedTracksCommunicator } from '@/communication/CommunicatorFactory';
 
 const exportFileName = 'edited-tracks.json';
 
+const communicator = createEditedTracksCommunicator();
+
 export default {
 	components: { TrackInfo, StorageUsage },
+
 	setup() {
 		return useEditedTracks();
 	},
@@ -90,14 +93,8 @@ function useEditedTracks() {
 	const editedTracks = ref({});
 
 	onBeforeMount(async () => {
-		editedTracks.value = await SavedEdits.getData();
+		editedTracks.value = await communicator.getEditedTracks();
 		areTracksLoaded.value = true;
-
-		watch(
-			editedTracks,
-			(newValue) => SavedEdits.saveData(toRaw(newValue)),
-			{ deep: true }
-		);
 	});
 
 	const editedTracksCount = computed(() => {
@@ -108,25 +105,24 @@ function useEditedTracks() {
 	});
 
 	function exportEditedTracks() {
-		exportData(toRaw(editedTracks), exportFileName);
+		exportData(editedTracks.value, exportFileName);
 	}
 
 	async function importEditedTracks() {
 		const importedData = await importData();
+		await communicator.importEditedTracks(importedData);
 
-		editedTracks.value = Object.assign(
-			{},
-			toRaw(editedTracks),
-			importedData
-		);
+		editedTracks.value = await communicator.getEditedTracks();
 	}
 
-	function clearEditedTracks() {
+	async function clearEditedTracks() {
 		editedTracks.value = {};
+		await communicator.clearEditedTracks();
 	}
 
-	function removeEntry(songId) {
+	async function removeEditedTrack(songId) {
 		delete editedTracks.value[songId];
+		await communicator.removeEditedTrack(songId);
 	}
 
 	return {
@@ -139,7 +135,7 @@ function useEditedTracks() {
 		importEditedTracks,
 
 		clearEditedTracks,
-		removeEntry,
+		removeEditedTrack,
 	};
 }
 </script>

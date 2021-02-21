@@ -9,7 +9,9 @@ export class EditedInfoLoader implements SongPipelineStage {
 	async process(song: Song): Promise<void> {
 		let editedTrackInfo: EditedTrackInfo = null;
 		try {
-			editedTrackInfo = await this.editedTracks.getSongInfo(song);
+			editedTrackInfo = await this.editedTracks.getSongInfo(
+				song.generateUniqueIds()
+			);
 		} catch {
 			return;
 		}

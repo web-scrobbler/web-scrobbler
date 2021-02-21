@@ -1,10 +1,22 @@
-import { Song } from '@/background/model/song/Song';
-import { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTrackInfo';
+import type { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTrackInfo';
+import type { EditedTracksRepositoryData } from '@/background/repository/edited-tracks/EditedTracksRepositoryData';
 
 /**
  * EditedTracks repository.
  */
 export interface EditedTracks {
+	/**
+	 * Get all edited tracks.
+	 *
+	 * @return Edited tracks
+	 */
+	getEditedTracks(): Promise<EditedTracksRepositoryData>;
+
+	/**
+	 * Import edited tracks.
+	 */
+	importEditedTracks(data: EditedTracksRepositoryData): Promise<void>;
+
 	/**
 	 * Get edited track info for the given song. Return null if track info
 	 * does not exist.
@@ -14,22 +26,22 @@ export interface EditedTracks {
 	 * @return Edited track info
 	 * @throws Throws an error if song does not contain unique ID
 	 */
-	getSongInfo(song: Song): Promise<EditedTrackInfo>;
+	getSongInfo(songId: Iterable<string>): Promise<EditedTrackInfo>;
 
 	/**
 	 * Save the given edited info of the given song.
 	 *
-	 * @param song Song object
+	 * @param songId Song unique ID
 	 * @param editedInfo Edited song info
 	 */
-	setSongInfo(song: Song, editedInfo: EditedTrackInfo): Promise<void>;
+	setSongInfo(songId: string, editedInfo: EditedTrackInfo): Promise<void>;
 
 	/**
 	 * Remove edited song info of the given song.
 	 *
-	 * @param song Song object
+	 * @param songId Song unique ID
 	 */
-	deleteSongInfo(song: Song): Promise<void>;
+	deleteSongInfo(songId: string): Promise<void>;
 
 	/**
 	 * Remove all entries.
