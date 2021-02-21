@@ -1,9 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import {
-	ScrobblerResult,
-	ScrobblerResultType,
-} from '@/background/scrobbler/ScrobblerResult';
+import { ScrobblerResultType } from '@/background/scrobbler/ScrobblerResult';
 import { Timer } from '@/background/object/timer';
 
 import {
@@ -28,23 +25,11 @@ import { ModeChangeListener } from '@/background/object/controller/ModeChangeLis
 import { SongUpdateListener } from '@/background/object/controller/SongUpdateListener';
 import { LoveStatus } from '@/background/model/song/LoveStatus';
 import { Song } from '@/background/model/song/Song';
-import { ConnectorState } from '@/background/model/ConnectorState';
 import {
 	ConnectorStateWorker,
 	SongUpdateListener2,
 } from '@/background/ConnectorStateWorker';
 import { SongPipeline } from '@/background/pipeline/SongPipeline';
-
-/**
- * List of song fields used to check if song is changed. If any of
- * these fields are changed, the new song is playing.
- */
-const fieldsToCheckSongChange = [
-	'artist',
-	'track',
-	'album',
-	'uniqueID',
-] as const;
 
 /**
  * Object that handles song playback and scrobbling actions.
