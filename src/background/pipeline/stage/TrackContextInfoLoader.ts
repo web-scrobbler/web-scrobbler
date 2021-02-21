@@ -22,7 +22,7 @@ export class TrackContextInfoLoader implements SongPipelineStage {
 			}
 
 			if (song.getLoveStatus() === LoveStatus.Unloved) {
-				continue;
+				break;
 			}
 
 			song.setLoveStatus(loveStatus);
