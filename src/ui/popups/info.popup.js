@@ -80,7 +80,7 @@ class InfoPopup {
 
 		this.view.setTrackArt(trackArtUrl);
 		this.view.setUserLovedIcon(userloved);
-		this.view.setUserPlayCount(userPlayCount);
+		this.view.setUserPlayCount(userPlayCount || 0);
 		this.view.setConnectorLabel(this.song.connectorLabel);
 	}
 
