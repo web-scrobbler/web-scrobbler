@@ -21,7 +21,7 @@
 					<a
 						href="#"
 						class="card-link"
-						@click.prevent="exporTracks()"
+						@click.prevent="exportTracks()"
 					>
 						{{ L`buttonExport` }}
 					</a>
@@ -38,28 +38,12 @@
 
 		<storage-usage />
 
-		<div
-			v-if="isAlertVisible"
-			class="alert alert-danger alert-dismissible"
-			role="alert"
-		>
-			{{ alertMessage }}
-			<button
-				type="button"
-				class="close"
-				aria-label="Close"
-				@click="isAlertVisible = false"
-			>
-				<span aria-hidden="true">&times;</span>
-			</button>
-		</div>
-
 		<div class="options-section" v-if="hasTracks">
 			<h5>{{ L`storageScrobbleStorageCount ${tracksCount}` }}</h5>
 			<div class="mb-4">
 				<div
 					class="mb-4"
-					v-for="({ songInfo, scrobblerIds }, trackId) in tracks"
+					v-for="({ scrobbleable, scrobblerIds }, trackId) in tracks"
 					:key="trackId"
 				>
 					<div
@@ -76,13 +60,13 @@
 							</span>
 						</div>
 						<small class="date text-muted">
-							{{ getDateString(songInfo.timestamp) }}
+							{{ getDateString(scrobbleable.timestamp) }}
 						</small>
 					</div>
 					<track-info
-						:artist="songInfo.artist"
-						:track="songInfo.track"
-						:album="songInfo.album"
+						:artist="scrobbleable.artist"
+						:track="scrobbleable.track"
+						:album="scrobbleable.album"
 					/>
 					<div>
 						<a
@@ -113,8 +97,8 @@
 
 		<edit-track-modal
 			v-if="isModalActive"
-			:songInfo="editedSongInfo"
-			@on-track-edited="updateSongInfo"
+			:songInfo="editedInfo"
+			@on-track-edited="updateTrackInfo"
 			@on-modal-close="hideModal"
 		/>
 	</div>
@@ -125,155 +109,117 @@ import EditTrackModal from '@/ui/options/modals/edit-track-modal.vue';
 import TrackInfo from '@/ui/options/components/track-info.vue';
 import StorageUsage from '@/ui/options/components/storage-usage.vue';
 
-import { ScrobbleStorage } from '@/background/storage/scrobble-storage';
-
 import { exportData, importData } from '@/ui/util';
+import { createScrobbleStorageCommunicator } from '@/communication/CommunicatorFactory';
+import { getScrobblerLabel } from '@/background/scrobbler/ScrobblerLabel';
+import { computed, ref } from 'vue';
 
 const exportFileName = 'scrobble-storage.json';
+const communicator = createScrobbleStorageCommunicator();
 
 export default {
-	data() {
-		return {
-			tracks: {},
-			areTracksLoaded: false,
+	components: { EditTrackModal, TrackInfo, StorageUsage },
 
-			editedTrackId: null,
-			editedSongInfo: {},
-			isModalActive: false,
+	setup() {
+		return useUnscrobbledTracks();
+	},
 
-			alertMessage: null,
-			isAlertVisible: false,
-		};
-	},
-	created() {
-		this.loadTracksFromStorage();
-	},
-	components: {
-		EditTrackModal,
-		TrackInfo,
-		StorageUsage,
-	},
-	computed: {
-		tracksCount() {
-			return Object.keys(this.tracks).length;
-		},
-
-		hasTracks() {
-			return this.tracksCount > 0;
-		},
-	},
-	watch: {
-		tracks: {
-			handler(data) {
-				this.saveTracksToStorage(data);
-			},
-			deep: true,
-		},
-	},
 	methods: {
-		async loadTracksFromStorage() {
-			this.tracks = await ScrobbleStorage.getData();
-			this.areTracksLoaded = true;
-		},
-
-		async saveTracksToStorage() {
-			await ScrobbleStorage.saveData(this.tracks);
-		},
-
-		async exporTracks() {
-			exportData(this.tracks, exportFileName);
-		},
-
-		async importTracks() {
-			const data = await importData();
-
-			this.tracks = data;
-		},
-
-		showError(text) {
-			this.alertMessage = text;
-			this.isAlertVisible = true;
+		getScrobblerLabel(scrobblerId) {
+			return getScrobblerLabel(scrobblerId);
 		},
 
 		getDateString(timestamp) {
 			return new Date(timestamp * 1000).toLocaleString();
 		},
-
-		getScrobblerLabel(scrobblerId) {
-			// return ScrobbleManager.getScrobblerById(scrobblerId).getLabel();
-			return 'scrobblerId';
-		},
-
-		async clearTracks() {
-			this.tracks = {};
-			await ScrobbleStorage.clear();
-		},
-
-		async scrobbleTrack(trackId) {
-			// const { songInfo, scrobblerIds } = this.tracks[trackId];
-			// const results = await ScrobbleManager.scrobbleWithScrobblers(
-			// 	songInfo,
-			// 	scrobblerIds
-			// );
-			// const okScrobblersIds = [];
-			// const failedScrobblerIds = [];
-			// for (const result of results) {
-			// 	const scrobblerId = result.getScrobblerId();
-			// 	if (result.is(ApiCallResult.RESULT_OK)) {
-			// 		okScrobblersIds.push(scrobblerId);
-			// 	} else {
-			// 		failedScrobblerIds.push(scrobblerId);
-			// 	}
-			// }
-			// const areAllResultsOk = okScrobblersIds.length === results.length;
-			// if (areAllResultsOk) {
-			// 	this.removeTrack(trackId);
-			// } else {
-			// 	const isNeedToUpdateScrobblerIds = okScrobblersIds.length > 0;
-			// 	if (isNeedToUpdateScrobblerIds) {
-			// 		await this.updateScrobblerIds(trackId, failedScrobblerIds);
-			// 	}
-			// 	const scrobblerLabels = this.getScrobblerLabels(
-			// 		failedScrobblerIds
-			// 	);
-			// 	const labelsList = scrobblerLabels.join(', ');
-			// 	this.showError(this.L`unableToScrobble ${labelsList}`);
-			// }
-		},
-
-		async removeTrack(trackId) {
-			delete this.tracks[trackId];
-		},
-
-		async updateScrobblerIds(trackId, scrobblerIds) {
-			const { songInfo } = this.tracks[trackId];
-
-			this.tracks[trackId] = { songInfo, scrobblerIds };
-		},
-
-		async updateSongInfo(editedSongInfo) {
-			const trackId = this.editedTrackId;
-			const { songInfo, scrobblerIds } = this.tracks[trackId];
-
-			this.tracks[trackId] = {
-				songInfo: Object.assign({}, songInfo, editedSongInfo),
-				scrobblerIds,
-			};
-		},
-
-		showModal(trackId) {
-			const { songInfo } = this.tracks[trackId];
-
-			this.editedTrackId = trackId;
-			this.editedSongInfo = songInfo;
-			this.isModalActive = true;
-		},
-
-		hideModal() {
-			this.isModalActive = false;
-		},
 	},
 };
+
+function useUnscrobbledTracks() {
+	const areTracksLoaded = ref(false);
+	const tracks = ref({});
+	communicator.getUnscrobbledTracks().then((data) => {
+		tracks.value = data;
+		areTracksLoaded.value = true;
+	});
+
+	const tracksCount = computed(() => Object.keys(tracks.value).length);
+	const hasTracks = computed(() => tracksCount.value > 0);
+
+	async function removeTrack(entryId) {
+		await communicator.deleteUnscrobbledTrack(entryId);
+		delete tracks.value[entryId];
+	}
+
+	async function clearTracks() {
+		await communicator.clearUnscrobbledTracks();
+		tracks.value = {};
+	}
+
+	async function exportTracks() {
+		exportData(tracks.value, exportFileName);
+	}
+
+	async function importTracks() {
+		const importedData = await importData();
+		await communicator.importUnscrobbledTracks(importedData);
+
+		tracks.value = await communicator.getUnscrobbledTracks();
+	}
+
+	async function scrobbleTrack(entryId) {
+		await communicator.scrobbleTrack(entryId);
+
+		tracks.value = await communicator.getUnscrobbledTracks();
+	}
+
+	const isModalActive = ref(false);
+	const editedInfo = ref({});
+	const editedTrackId = ref(null);
+
+	async function showModal(entryId) {
+		const { scrobbleable } = await communicator.getTrack(entryId);
+		editedInfo.value = scrobbleable;
+		editedTrackId.value = entryId;
+
+		isModalActive.value = true;
+	}
+
+	function hideModal() {
+		isModalActive.value = false;
+	}
+
+	async function updateTrackInfo(trackInfo) {
+		const newTrackInfo = Object.assign({}, editedInfo.value, trackInfo);
+		await communicator.updateTrackInfo(editedTrackId.value, newTrackInfo);
+
+		tracks.value = await communicator.getUnscrobbledTracks();
+	}
+
+	return {
+		areTracksLoaded,
+		tracks,
+
+		removeTrack,
+		clearTracks,
+
+		exportTracks,
+		importTracks,
+		scrobbleTrack,
+
+		tracksCount,
+		hasTracks,
+
+		isModalActive,
+
+		editedInfo,
+		editedTrackId,
+
+		hideModal,
+		showModal,
+		updateTrackInfo,
+	};
+}
 </script>
 
 <style>

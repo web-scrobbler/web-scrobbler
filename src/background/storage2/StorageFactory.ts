@@ -29,6 +29,10 @@ export function createAccountStorage<D>(scrobblerId: string): Storage<D> {
 	]);
 }
 
+export function createScrobbleCacheStorage<D>(): Storage<D> {
+	return withLog<D>(createLocalStorage, 'ScrobbleStorage');
+}
+
 /* Sync */
 
 export function createCustomUrlPatternsStorage<D>(): Storage<D> {

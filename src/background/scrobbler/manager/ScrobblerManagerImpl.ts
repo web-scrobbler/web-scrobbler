@@ -69,13 +69,14 @@ export class ScrobblerManagerImpl implements ScrobblerManager {
 	}
 
 	sendScrobbleRequest(
-		scrobbleEntity: Scrobbleable
+		scrobbleEntity: Scrobbleable,
+		scrobblerIds?: ReadonlyArray<ScrobblerId>
 	): Promise<ScrobblerResult[]> {
 		this.logger.info('Send "scrobble" request:', this.scrobblers.size);
 
 		return this.executeRequests((scrobbler) => {
 			return scrobbler.sendScrobbleRequest(scrobbleEntity);
-		});
+		}, scrobblerIds);
 	}
 
 	sendLoveRequest(
@@ -90,9 +91,17 @@ export class ScrobblerManagerImpl implements ScrobblerManager {
 	}
 
 	private executeRequests<T>(
-		fn: (scrobbler: Scrobbler) => Promise<T>
+		fn: (scrobbler: Scrobbler) => Promise<T>,
+		scrobblerIds?: ReadonlyArray<ScrobblerId>
 	): Promise<T[]> {
-		const requests = Array.from(this.scrobblers.values()).map(fn);
+		let scrobblers = Array.from(this.scrobblers.values());
+		if (scrobblerIds) {
+			scrobblers = scrobblers.filter((scrobbler) =>
+				scrobblerIds.includes(scrobbler.getId())
+			);
+		}
+
+		const requests = scrobblers.map(fn);
 		return Promise.all(requests);
 	}
 }

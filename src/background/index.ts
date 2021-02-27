@@ -41,6 +41,10 @@ import { GeneralScrobblerFactory } from '@/background/scrobbler/GeneralScrobbler
 import { ScrobblerAuthenticatorFactory } from '@/background/authenticator/ScrobblerAuthenticatorFactory';
 import { populateEditedTracks } from '@/development/EditedTracksPopulator';
 import { EditedTracksWorker } from '@/communication/edited-tracks/EditedTracksWorker';
+import { ScrobbleCache } from '@/background/repository/scrobble-cache/ScrobbleCache';
+import { createScrobbleCacheStorage } from '@/background/storage2/StorageFactory';
+import { populateScrobbleCache } from '@/development/ScrobbleCachePopulator';
+import { ScrobbleCacheWorker } from '@/communication/scrobble-cache/ScrobbleCacheWorker';
 
 Logger.useDefaults({ defaultLevel: Logger.DEBUG });
 const mainLogger = Logger.get('Main');
@@ -52,8 +56,11 @@ async function main() {
 	updateCoreVersion();
 
 	const editedTracks = getEditedTracks();
+	const scrobbleCache = new ScrobbleCache(createScrobbleCacheStorage());
+
 	/* @ifdef DEVELOPMENT */
 	await populateEditedTracks(editedTracks);
+	await populateScrobbleCache(scrobbleCache);
 	/* @endif */
 
 	const scrobblerFactory = new GeneralScrobblerFactory();
@@ -110,6 +117,11 @@ async function main() {
 		authenticatorFactory
 	);
 
+	const scrobbleCacheWorker = new ScrobbleCacheWorker(
+		scrobbleCache,
+		scrobblerManager
+	);
+
 	const authNotifier = new BrowserAuthNotifier(notifications);
 	const notificationsRepository = getNotificationsRepository();
 	const authReminder = new AuthReminder(
@@ -118,7 +130,12 @@ async function main() {
 	);
 	authReminder.notifyAuthIsRequired();
 
-	setupCommunicationWorkers(authWorker, controllerWorker, editedTracksWorker);
+	setupCommunicationWorkers(
+		authWorker,
+		controllerWorker,
+		editedTracksWorker,
+		scrobbleCacheWorker
+	);
 	setupBrowserTabListener(tabWorker);
 }
 

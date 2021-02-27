@@ -1,3 +1,5 @@
+import { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
+
 export enum ScrobblerResultType {
 	OK,
 	IGNORED,
@@ -7,7 +9,7 @@ export enum ScrobblerResultType {
 
 export class ScrobblerResult {
 	private type: ScrobblerResultType;
-	private scrobblerId: string;
+	private scrobblerId: ScrobblerId;
 	private contextInfo: unknown;
 
 	/**
@@ -15,7 +17,7 @@ export class ScrobblerResult {
 	 * @param resultType Result type
 	 * @param scrobblerId Scrobbler ID
 	 */
-	constructor(resultType: ScrobblerResultType, scrobblerId: string) {
+	constructor(resultType: ScrobblerResultType, scrobblerId: ScrobblerId) {
 		this.type = resultType;
 		this.scrobblerId = scrobblerId;
 
@@ -27,7 +29,7 @@ export class ScrobblerResult {
 	 *
 	 * @return Scrobbler ID
 	 */
-	getScrobblerId(): string {
+	getScrobblerId(): ScrobblerId {
 		return this.scrobblerId;
 	}
 

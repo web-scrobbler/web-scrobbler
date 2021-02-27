@@ -48,7 +48,8 @@ export interface ScrobblerManager
 	 * @return List of API call results
 	 */
 	sendScrobbleRequest(
-		scrobbleEntity: Scrobbleable
+		scrobbleEntity: Scrobbleable,
+		scrobblerIds?: ReadonlyArray<ScrobblerId>
 	): Promise<ScrobblerResult[]>;
 
 	sendLoveRequest(

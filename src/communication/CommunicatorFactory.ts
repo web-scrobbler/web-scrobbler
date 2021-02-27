@@ -5,6 +5,7 @@ import { GlobalMessageSender } from '@/communication/sender/GlobalMessageSender'
 
 import type { AccountsCommunicator } from '@/communication/accounts/AccountsCommunicator';
 import type { ControllerCommunicator } from './controller/ControllerCommunicator';
+import { ScrobbleCacheCommunicator } from '@/communication/scrobble-cache/ScrobbleCacheCommunicator';
 
 const globalMessageSender = new GlobalMessageSender();
 
@@ -18,4 +19,8 @@ export function getAccountsCommunicator(): AccountsCommunicator {
 
 export function createEditedTracksCommunicator(): EditedTracksCommunicator {
 	return new EditedTracksCommunicator(globalMessageSender);
+}
+
+export function createScrobbleStorageCommunicator(): ScrobbleCacheCommunicator {
+	return new ScrobbleCacheCommunicator(globalMessageSender);
 }
