@@ -1,9 +1,10 @@
 'use strict';
 
 const trackArtSelector = '.ytmusic-player-bar.image';
+
 const artistSelectors = [
-	'.ytmusic-player-bar.byline [href^=channel]',
-	'.ytmusic-player-bar.byline [href*="browse/FEmusic_library_privately_owned_artist_detaila_"]',
+	'.ytmusic-player-bar.byline [href*="channel/"]:not([href*="channel/MPREb_"])',
+	'.ytmusic-player-bar.byline [href*="feed/music_library_privately_owned_artist_detaila_"]',
 ];
 
 const trackSelector = '.ytmusic-player-bar.title';
@@ -23,9 +24,11 @@ Connector.getTrackArt = () => {
 	return null;
 };
 
+
+
 Connector.albumSelector = [
-	'.ytmusic-player-bar .yt-formatted-string.style-scope.yt-simple-endpoint[href*="browse/MPREb_"]',
-	'.ytmusic-player-bar .yt-formatted-string.style-scope.yt-simple-endpoint[href*="browse/FEmusic_library_privately_owned_release_detailb_"]',
+	'.ytmusic-player-bar [href*="channel/MPREb_"]',
+	'.ytmusic-player-bar [href*="feed/music_library_privately_owned_release_detailb_"]',
 ];
 
 function hasVideoAlbum() {
