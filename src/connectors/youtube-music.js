@@ -24,7 +24,9 @@ Connector.getTrackArt = () => {
 	return null;
 };
 
-const albumSelectors = [
+
+
+Connector.albumSelector = [
 	'.ytmusic-player-bar [href*="channel/MPREb_"]',
 	'.ytmusic-player-bar [href*="feed/music_library_privately_owned_release_detailb_"]',
 ];
