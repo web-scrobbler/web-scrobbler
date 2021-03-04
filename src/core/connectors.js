@@ -320,7 +320,7 @@ const connectors = [{
 }, {
 	label: 'Hype Machine Premieres',
 	matches: [
-		'*://hypem.com/premiere/*',
+		'*://hypem.com/album/*',
 	],
 	js: 'connectors/hypem-premieres.js',
 	id: 'hypem-premieres',
