@@ -1,6 +1,19 @@
 'use strict';
 
 /**
+ * Quick links to debug and test the connector:
+ *
+ * https://www.youtube.com/watch?v=WA3hL4hDx9c - auto-generated music video
+ * The connector should get info via `getTrackInfoFromDescription` function
+ *
+ * https://www.youtube.com/watch?v=eYLbteOm42k - video with chapters available
+ * The connector should get info via `getTrackInfoFromChapters` function
+ *
+ * https://www.youtube.com/watch?v=mHnC_vELJsk - regular video
+ * The connector should get info via `getTrackInfoFromTitle` function
+ */
+
+/**
  * CSS selector of video element. It's common for both players.
  * @type {String}
  */
