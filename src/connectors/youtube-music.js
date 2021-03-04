@@ -1,10 +1,40 @@
 'use strict';
 
+/**
+ * Quick links to debug and test the connector:
+ *
+ * https://music.youtube.com/playlist?list=OLAK5uy_kDEvxPASaVnoSjOZViKEn4S3iVaueN0UI
+ * Multiple artists
+ *
+ * https://music.youtube.com/playlist?list=OLAK5uy_k-OR_rCdS5UNV22eIhAOWLMZbbxa20muQ
+ * Auto-generated YouTube video (and generic track on YouTube Music)
+ *
+ * https://music.youtube.com/watch?v=Ap1fDjCXQrU
+ * Regular YouTube video which contains artist and track names in video title
+ *
+ * https://music.youtube.com/watch?v=hHrvuQ4DwJ8
+ * Regular YouTube video which contains track name in video title and
+ * artist name as a channel name
+ *
+ * https://music.youtube.com/library/uploaded_songs
+ * Uploaded songs have different artist and track selectors
+ */
+
 const trackArtSelector = '.ytmusic-player-bar.image';
 
 const artistSelectors = [
+	// Base selector
 	'.ytmusic-player-bar.byline [href*="channel/"]:not([href*="channel/MPREb_"])',
+
+	// Selector for self-uploaded music
 	'.ytmusic-player-bar.byline [href*="feed/music_library_privately_owned_artist_detaila_"]',
+];
+const albumSelectors = [
+	// Base selector
+	'.ytmusic-player-bar [href*="channel/MPREb_"]',
+
+	// Selector for self-uploaded music
+	'.ytmusic-player-bar [href*="feed/music_library_privately_owned_release_detailb_"]',
 ];
 
 const trackSelector = '.ytmusic-player-bar.title';
@@ -24,12 +54,7 @@ Connector.getTrackArt = () => {
 	return null;
 };
 
-
-
-Connector.albumSelector = [
-	'.ytmusic-player-bar [href*="channel/MPREb_"]',
-	'.ytmusic-player-bar [href*="feed/music_library_privately_owned_release_detailb_"]',
-];
+Connector.albumSelector = albumSelectors;
 
 function hasVideoAlbum() {
 	return !!Connector.getAlbum();
