@@ -1,9 +1,7 @@
 'use strict';
 
 const trackArtSelector = '.ytmusic-player-bar.image';
-const artistSelectors = [
-	'.ytmusic-player-bar.byline .yt-formatted-string:first-child',
-];
+const artistSelectors = '.ytmusic-player-bar.byline .yt-formatted-string:first-child';
 
 const trackSelector = '.ytmusic-player-bar.title';
 const adSelector = '.ytmusic-player-bar.advertisement';
@@ -22,8 +20,7 @@ Connector.getTrackArt = () => {
 	return null;
 };
 
-Connector.albumSelector = [
-	'.ytmusic-player-bar.byline .yt-formatted-string:nth-child(3)'];
+Connector.albumSelector = '.ytmusic-player-bar.byline .yt-formatted-string:nth-child(3)';
 
 function hasVideoAlbum() {
 	return !!Connector.getAlbum();
