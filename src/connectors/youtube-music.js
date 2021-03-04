@@ -1,7 +1,6 @@
 'use strict';
 
 const trackArtSelector = '.ytmusic-player-bar.image';
-const artistSelectors = '.ytmusic-player-bar.byline .yt-formatted-string:first-child';
 
 const artistSelectors = [
 	'.ytmusic-player-bar.byline [href*="channel/"]:not([href*="channel/MPREb_"])',
