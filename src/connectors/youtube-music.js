@@ -2,8 +2,7 @@
 
 const trackArtSelector = '.ytmusic-player-bar.image';
 const artistSelectors = [
-	'.ytmusic-player-bar.byline [href^=channel]',
-	'.ytmusic-player-bar.byline [href*="browse/FEmusic_library_privately_owned_artist_detaila_"]',
+	'.ytmusic-player-bar.byline .yt-formatted-string:first-child',
 ];
 
 const trackSelector = '.ytmusic-player-bar.title';
@@ -24,9 +23,7 @@ Connector.getTrackArt = () => {
 };
 
 Connector.albumSelector = [
-	'.ytmusic-player-bar .yt-formatted-string.style-scope.yt-simple-endpoint[href*="browse/MPREb_"]',
-	'.ytmusic-player-bar .yt-formatted-string.style-scope.yt-simple-endpoint[href*="browse/FEmusic_library_privately_owned_release_detailb_"]',
-];
+	'.ytmusic-player-bar.byline .yt-formatted-string:nth-child(3)'];
 
 function hasVideoAlbum() {
 	return !!Connector.getAlbum();
