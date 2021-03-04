@@ -54,6 +54,11 @@ Connector.getTrackArt = () => {
 	return null;
 };
 
+Connector.isTrackArtDefault = (url) => {
+	// Self-uploaded tracks could not have cover arts
+	return url.includes('cover_track_default');
+};
+
 Connector.albumSelector = albumSelectors;
 
 function hasVideoAlbum() {
