@@ -318,11 +318,11 @@ const connectors = [{
 	js: 'connectors/tidal.js',
 	id: 'tidal',
 }, {
-	label: 'Hype Machine Premieres',
+	label: 'Hype Machine Featured Albums',
 	matches: [
-		'*://hypem.com/premiere/*',
+		'*://hypem.com/album/*',
 	],
-	js: 'connectors/hypem-premieres.js',
+	js: 'connectors/hypem-albums.js',
 	id: 'hypem-premieres',
 }, {
 	label: 'Hype Machine',
