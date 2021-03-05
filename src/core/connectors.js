@@ -318,7 +318,7 @@ const connectors = [{
 	js: 'connectors/tidal.js',
 	id: 'tidal',
 }, {
-	label: 'Hype Machine Premieres',
+	label: 'Hype Machine Featured Albums',
 	matches: [
 		'*://hypem.com/album/*',
 	],
