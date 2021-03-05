@@ -322,7 +322,7 @@ const connectors = [{
 	matches: [
 		'*://hypem.com/album/*',
 	],
-	js: 'connectors/hypem-premieres.js',
+	js: 'connectors/hypem-albums.js',
 	id: 'hypem-premieres',
 }, {
 	label: 'Hype Machine',
