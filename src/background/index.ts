@@ -31,7 +31,7 @@ import { ContentScriptMessageSender } from '@/communication/sender/ContentScript
 import { NotificationDisplayer } from '@/background/NotificationDisplayer';
 import { ControllerFactoryImpl } from '@/background/object/controller/ControllerFactoryImpl';
 import { createContextMenuWorker } from '@/background/ContextMenuWorkerFactory';
-import { BrowserNotifications } from '@/background/browser/notifications/BrowserNotifications';
+import { BrowserNotifications } from '@/ui/notifications/BrowserNotifications';
 import { AuthReminder } from '@/background/auth-reminder/AuthReminder';
 import { BrowserAuthNotifier } from '@/background/auth-reminder/BrowserAuthNotifier';
 import { getNotificationsRepository } from '@/background/repository/GetNotificationsRepository';

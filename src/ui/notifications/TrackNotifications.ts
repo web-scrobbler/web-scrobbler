@@ -1,12 +1,11 @@
 import { Song } from '@/background/model/song/Song';
 
-export interface Notifications {
+export interface TrackNotifications {
 	/**
 	 * Check if notifications are available.
 	 *
 	 * @return Check result
 	 */
-
 	areAvailable(): Promise<boolean>;
 
 	/**
@@ -38,15 +37,6 @@ export interface Notifications {
 	showNotRecognizedNotification(
 		song: Song,
 		onClick: OnNotificationClickedListener
-	): Promise<void>;
-
-	/**
-	 * Show an auth notification.
-	 *
-	 * @param onClicked Function that will be called on notification click
-	 */
-	showAuthNotification(
-		onClicked: OnNotificationClickedListener
 	): Promise<void>;
 }
 

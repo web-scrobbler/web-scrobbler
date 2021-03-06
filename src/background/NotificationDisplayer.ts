@@ -3,9 +3,9 @@ import { DelayedAction } from '@/background/util/DelayedAction';
 
 import type { Controller } from '@/background/object/controller';
 import type {
-	Notifications,
+	TrackNotifications,
 	OnNotificationClickedListener,
-} from '@/background/browser/notifications/Notifications';
+} from '@/ui/notifications/TrackNotifications';
 import type { Song } from '@/background/model/song/Song';
 import type { ExtensionOptions } from '@/background/repository/extension-options/ExtensionOptions';
 
@@ -13,7 +13,7 @@ export class NotificationDisplayer {
 	private delayedAction = new DelayedAction(nowPlayingNotificationDelay);
 
 	constructor(
-		private notifications: Notifications,
+		private notifications: TrackNotifications,
 		private options: ExtensionOptions
 	) {}
 

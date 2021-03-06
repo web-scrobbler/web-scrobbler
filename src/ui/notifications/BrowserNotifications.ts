@@ -3,16 +3,18 @@ import {
 	Notifications as BNotifications,
 } from 'webextension-polyfill-ts';
 
-import {
-	Notifications,
+import type {
+	TrackNotifications,
 	OnNotificationClickedListener,
-} from '@/background/browser/notifications/Notifications';
+} from '@/ui/notifications/TrackNotifications';
 
 import { Song } from '@/background/model/song/Song';
 import { L } from '@/common/i18n';
 import { getPlatformName, isFullscreenMode } from '@/common/util-browser';
+import { AuthNotifications } from '@/ui/notifications/AuthNotifications';
 
-export class BrowserNotifications implements Notifications {
+export class BrowserNotifications
+	implements AuthNotifications, TrackNotifications {
 	/**
 	 * Map of click listeners indexed by notification IDs.
 	 */

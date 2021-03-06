@@ -1,10 +1,10 @@
 import { browser } from 'webextension-polyfill-ts';
 
 import type { AuthNotifier } from '@/background/auth-reminder/AuthNotifier';
-import type { Notifications } from '@/background/browser/notifications/Notifications';
+import type { AuthNotifications } from '@/ui/notifications/AuthNotifications';
 
 export class BrowserAuthNotifier implements AuthNotifier {
-	constructor(private notifications: Notifications) {}
+	constructor(private notifications: AuthNotifications) {}
 
 	async notify(): Promise<void> {
 		const authUrl = browser.runtime.getURL(
@@ -12,7 +12,7 @@ export class BrowserAuthNotifier implements AuthNotifier {
 		);
 
 		if (await this.notifications.areAvailable()) {
-			this.notifications.showAuthNotification(() => {
+			await this.notifications.showAuthNotification(() => {
 				browser.tabs.create({ url: authUrl });
 			});
 		} else {
