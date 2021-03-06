@@ -10,11 +10,6 @@ import {
 	isAnyResult,
 	LogType,
 } from '@/background/util/util';
-import {
-	getOption,
-	SCROBBLE_PERCENT,
-	SCROBBLE_PODCASTS,
-} from '@/background/storage/options';
 
 import { ControllerMode } from '@/background/object/controller-mode';
 import { ParsedSongInfo, EditedSongInfo } from '@/background/object/song';
@@ -44,8 +39,6 @@ export class Controller implements SongUpdateListener2 {
 	playbackTimer: Timer;
 	replayDetectionTimer: Timer;
 
-	shouldScrobblePodcasts: boolean;
-
 	private onModeChangedEvent = new ExecutableEvent<ControllerEventCallback>();
 	private onSongUpdatedEvent = new ExecutableEvent<ControllerEventCallback>();
 	private onSongNowPlayingEvent = new ExecutableEvent<
@@ -71,8 +64,6 @@ export class Controller implements SongUpdateListener2 {
 
 		this.playbackTimer = new Timer();
 		this.replayDetectionTimer = new Timer();
-
-		this.shouldScrobblePodcasts = getOption(SCROBBLE_PODCASTS);
 
 		this.debugLog(`Created controller for ${connector.label} connector`);
 
@@ -506,7 +497,7 @@ export class Controller implements SongUpdateListener2 {
 	}
 
 	private getSecondsToScrobble(duration: number): number {
-		const percent = getOption<number>(SCROBBLE_PERCENT);
+		const percent = 50; // getOption<number>(SCROBBLE_PERCENT);
 		return getSecondsToScrobble(duration, percent);
 	}
 

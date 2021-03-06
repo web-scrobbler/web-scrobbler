@@ -11,8 +11,7 @@
 
 <script>
 import { computed, onBeforeMount, ref } from 'vue';
-
-import { BrowserStorage } from '@/background/storage/browser-storage';
+import { getDataUsage } from '@/background/storage2/DataUsageFactory';
 
 const usagePercentThreshold = 90;
 
@@ -27,11 +26,13 @@ function getReadableSize(bytes) {
 }
 
 function useStorageSize() {
+	const dataUsage = getDataUsage();
+
 	const storageUsed = ref(0);
-	const storageTotal = ref(BrowserStorage.getLocalStorageSize());
+	const storageTotal = ref(dataUsage.getLocalStorageSize());
 
 	onBeforeMount(async () => {
-		storageUsed.value = await BrowserStorage.getLocalStorageUsage();
+		storageUsed.value = await dataUsage.getLocalStorageUsage();
 	});
 
 	const usageLabel = computed(() => {

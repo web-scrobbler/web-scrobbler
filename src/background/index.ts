@@ -104,6 +104,7 @@ async function main() {
 		controllerFactory,
 		connectorInjector,
 		new NotificationDisplayer(notifications, options),
+		options,
 		createContextMenuWorker
 	);
 

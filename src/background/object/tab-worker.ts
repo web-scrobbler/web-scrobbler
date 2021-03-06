@@ -10,10 +10,6 @@ import {
 import { ConnectorEntry } from '@/common/connector-entry';
 import { getCurrentTab } from '@/common/util-browser';
 import { getConnectorByUrl } from '@/common/util-connector';
-import {
-	isConnectorEnabled,
-	setConnectorEnabled,
-} from '@/background/storage/options';
 import { LoveStatus } from '@/background/object/song';
 import { BrowserTabListener } from '@/background/BrowserTabListener';
 import { ConnectorState } from '@/background/model/ConnectorState';
@@ -25,6 +21,7 @@ import { ControllerFactory } from '@/background/object/controller/ControllerFact
 import { ContextMenuWorkerFactory } from '@/background/ContextMenuWorkerFactory';
 import { ContextMenuWorker } from '@/background/ContextMenuWorker';
 import { NotificationDisplayer } from '@/background/NotificationDisplayer';
+import { ExtensionOptions } from '@/background/repository/extension-options/ExtensionOptions';
 
 export class TabWorker implements BrowserTabListener, ActiveControllerProvider {
 	private activeTabId: number = browser.tabs.TAB_ID_NONE;
@@ -39,6 +36,7 @@ export class TabWorker implements BrowserTabListener, ActiveControllerProvider {
 		private controllerFactory: ControllerFactory,
 		private connectorInjector: ConnectorInjector,
 		private notificationDisplayer: NotificationDisplayer,
+		private extensionOptions: ExtensionOptions,
 		contextMenuFactory: ContextMenuWorkerFactory
 	) {
 		this.contextMenuWorker = contextMenuFactory(this);
@@ -66,7 +64,7 @@ export class TabWorker implements BrowserTabListener, ActiveControllerProvider {
 		const connector = ctrl.getConnector();
 
 		ctrl.setEnabled(isEnabled);
-		setConnectorEnabled(connector, isEnabled);
+		this.extensionOptions.setConnectorEnabled(connector.id, isEnabled);
 	}
 
 	/**
@@ -337,7 +335,7 @@ export class TabWorker implements BrowserTabListener, ActiveControllerProvider {
 
 			case InjectResult.Matched: {
 				this.unloadController(tabId);
-				this.createController(tabId, connector);
+				await this.createController(tabId, connector);
 
 				if (this.shouldUpdateBrowserAction(tabId)) {
 					this.updateBrowserAction(tabId);
@@ -358,8 +356,13 @@ export class TabWorker implements BrowserTabListener, ActiveControllerProvider {
 	 * @param tabId An ID of a tab bound to the controller
 	 * @param connector A connector match object
 	 */
-	private createController(tabId: number, connector: ConnectorEntry): void {
-		const isEnabled = isConnectorEnabled(connector);
+	private async createController(
+		tabId: number,
+		connector: ConnectorEntry
+	): Promise<void> {
+		const isEnabled = await this.extensionOptions.isConnectorEnabled(
+			connector.id
+		);
 		const ctrl = this.controllerFactory.createController(
 			tabId,
 			connector,
