@@ -1,4 +1,5 @@
 import { openTab } from '@/common/util-browser';
+import { DelayedAction } from '@/background/util/DelayedAction';
 
 import type { Controller } from '@/background/object/controller';
 import type {
@@ -9,7 +10,7 @@ import type { Song } from '@/background/model/song/Song';
 import type { ExtensionOptions } from '@/background/repository/extension-options/ExtensionOptions';
 
 export class NotificationDisplayer {
-	private timeoutId: NodeJS.Timeout = null;
+	private delayedAction = new DelayedAction(nowPlayingNotificationDelay);
 
 	constructor(
 		private notifications: Notifications,
@@ -24,7 +25,8 @@ export class NotificationDisplayer {
 	hideNotification(ctrl: Controller): void {
 		const song = ctrl.getCurrentSong();
 		if (song) {
-			this.clearTimeout();
+			this.delayedAction.cancel();
+
 			this.notifications.clearNotification(song);
 		}
 	}
@@ -59,15 +61,13 @@ export class NotificationDisplayer {
 		onClickedFn: OnNotificationClickedListener
 	): Promise<void> {
 		if (await this.options.getOption('useNotifications')) {
-			this.clearTimeout();
-
-			this.timeoutId = setTimeout(() => {
+			this.delayedAction.execute(() => {
 				this.notifications.showNowPlayingNotification(
 					song,
 					label,
 					onClickedFn
 				);
-			}, nowPlayingNotificationDelay);
+			});
 		}
 	}
 
@@ -77,14 +77,6 @@ export class NotificationDisplayer {
 	): Promise<void> {
 		if (await this.options.getOption('useUnrecognizedSongNotifications')) {
 			this.notifications.showNotRecognizedNotification(song, onClickedFn);
-		}
-	}
-
-	private clearTimeout(): void {
-		if (this.timeoutId !== null) {
-			clearTimeout(this.timeoutId);
-
-			this.timeoutId = null;
 		}
 	}
 }
