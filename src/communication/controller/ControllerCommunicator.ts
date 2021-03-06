@@ -1,8 +1,6 @@
-import {
-	ClonedSong,
-	EditedSongInfo,
-	LoveStatus,
-} from '@/background/object/song';
+import type { LoveStatus } from '@/background/model/song/LoveStatus';
+import type { SongDto } from '@/background/model/song/SongDto';
+import type { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTrackInfo';
 
 export interface ControllerCommunicator {
 	/**
@@ -10,7 +8,7 @@ export interface ControllerCommunicator {
 	 *
 	 * @param editedInfo Edited track info
 	 */
-	correctTrack(editedInfo: EditedSongInfo): Promise<void>;
+	correctTrack(editedInfo: EditedTrackInfo): Promise<void>;
 
 	/**
 	 * Send a request to get a label of the active connector.
@@ -24,7 +22,7 @@ export interface ControllerCommunicator {
 	 *
 	 * @return Cloned song
 	 */
-	getTrack(): Promise<ClonedSong>;
+	getTrack(): Promise<SongDto>;
 
 	/**
 	 * Send a request to reset the now playing track.

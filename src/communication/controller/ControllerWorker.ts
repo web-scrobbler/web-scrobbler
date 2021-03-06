@@ -1,5 +1,3 @@
-import { EditedSongInfo, LoveStatus } from '@/background/object/song';
-
 import { ControllerMessageType } from '@/communication/controller/ControllerMessageType';
 
 import { assertUnreachable, isInEnum } from '@/background/util/util';
@@ -7,6 +5,8 @@ import { assertUnreachable, isInEnum } from '@/background/util/util';
 import type { Message } from '@/communication/message/Message';
 import type { CommunicationWorker } from '@/communication/CommunicationWorker';
 import type { ActiveControllerProvider } from '@/background/object/ActiveControllerProvider';
+import type { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTrackInfo';
+import type { LoveStatus } from '@/background/model/song/LoveStatus';
 
 export class ControllerWorker
 	implements CommunicationWorker<ControllerMessageType> {
@@ -27,7 +27,7 @@ export class ControllerWorker
 		switch (message.type) {
 			case ControllerMessageType.CorrectTrack: {
 				return controller.setUserSongData(
-					message.data as EditedSongInfo
+					message.data as EditedTrackInfo
 				);
 			}
 

@@ -2,17 +2,14 @@ import { MessageSender } from '@/communication/MessageSender';
 
 import { ControllerMessageType } from '@/communication/controller/ControllerMessageType';
 import { ControllerCommunicator } from '@/communication/controller/ControllerCommunicator';
-
-import {
-	ClonedSong,
-	EditedSongInfo,
-	LoveStatus,
-} from '@/background/object/song';
+import { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTrackInfo';
+import { SongDto } from '@/background/model/song/SongDto';
+import { LoveStatus } from '@/background/model/song/LoveStatus';
 
 export class ControllerCommunicatorImpl implements ControllerCommunicator {
 	constructor(private messageSender: MessageSender<ControllerMessageType>) {}
 
-	async correctTrack(editedInfo: EditedSongInfo): Promise<void> {
+	async correctTrack(editedInfo: EditedTrackInfo): Promise<void> {
 		const message = {
 			type: ControllerMessageType.CorrectTrack,
 			data: editedInfo,
@@ -25,7 +22,7 @@ export class ControllerCommunicatorImpl implements ControllerCommunicator {
 		return this.messageSender.sendMessage(message);
 	}
 
-	async getTrack(): Promise<ClonedSong> {
+	async getTrack(): Promise<SongDto> {
 		const message = { type: ControllerMessageType.GetTrack };
 		return this.messageSender.sendMessage(message);
 	}

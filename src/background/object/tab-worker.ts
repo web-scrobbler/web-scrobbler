@@ -10,7 +10,6 @@ import {
 import { ConnectorEntry } from '@/common/connector-entry';
 import { getCurrentTab } from '@/common/util-browser';
 import { getConnectorByUrl } from '@/common/util-connector';
-import { LoveStatus } from '@/background/object/song';
 import { BrowserTabListener } from '@/background/BrowserTabListener';
 import { ConnectorState } from '@/background/model/ConnectorState';
 import { ActiveControllerProvider } from '@/background/object/ActiveControllerProvider';
@@ -22,6 +21,7 @@ import { ContextMenuWorkerFactory } from '@/background/ContextMenuWorkerFactory'
 import { ContextMenuWorker } from '@/background/ContextMenuWorker';
 import { NotificationDisplayer } from '@/background/NotificationDisplayer';
 import { ExtensionOptions } from '@/background/repository/extension-options/ExtensionOptions';
+import { LoveStatus } from '@/background/model/song/LoveStatus';
 
 export class TabWorker implements BrowserTabListener, ActiveControllerProvider {
 	private activeTabId: number = browser.tabs.TAB_ID_NONE;

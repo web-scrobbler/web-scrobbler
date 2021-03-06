@@ -1,8 +1,8 @@
+import type { ConnectorState } from '@/background/model/ConnectorState';
 import {
 	ScrobblerResult,
 	ScrobblerResultType,
 } from '@/background/scrobbler/ScrobblerResult';
-import { ParsedSongInfo } from '@/background/object/song';
 
 export type LogType = 'log' | 'warn' | 'error';
 
@@ -160,7 +160,7 @@ export function isAnyResult(
  *
  * @return Check result
  */
-export function isStateEmpty(state: ParsedSongInfo): boolean {
+export function isStateEmpty(state: ConnectorState): boolean {
 	return !((state.artist && state.track) || state.uniqueID || state.duration);
 }
 

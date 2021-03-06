@@ -12,7 +12,6 @@ import {
 } from '@/background/util/util';
 
 import { ControllerMode } from '@/background/object/controller-mode';
-import { ParsedSongInfo, EditedSongInfo } from '@/background/object/song';
 import { ConnectorEntry } from '@/common/connector-entry';
 import { ScrobblerManager } from '@/background/scrobbler/ScrobblerManager';
 import { LoveStatus } from '@/background/model/song/LoveStatus';
@@ -24,6 +23,8 @@ import {
 import { SongPipeline } from '@/background/pipeline/SongPipeline';
 import { ExecutableEvent } from '@/background/model/event/ExecutableEvent';
 import { Event } from '@/background/model/event/Event';
+import { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTrackInfo';
+import { ConnectorState } from '@/background/model/ConnectorState';
 
 type ControllerEventCallback = (controller: Controller) => void;
 
@@ -229,7 +230,7 @@ export class Controller implements SongUpdateListener2 {
 	 *
 	 * @param data Object contains song data
 	 */
-	setUserSongData(data: EditedSongInfo): void {
+	setUserSongData(data: EditedTrackInfo): void {
 		this.assertSongIsPlaying();
 
 		if (this.currentSong.getFlag('isScrobbled')) {
@@ -269,7 +270,7 @@ export class Controller implements SongUpdateListener2 {
 	 *
 	 * @param newState State of connector
 	 */
-	onStateChanged(newState: ParsedSongInfo): void {
+	onStateChanged(newState: ConnectorState): void {
 		if (!this.isEnabled) {
 			return;
 		}

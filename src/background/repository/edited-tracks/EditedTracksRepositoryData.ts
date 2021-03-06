@@ -1,5 +1,5 @@
-import { EditedSongInfo } from '@/background/object/song';
+import { EditedTrackInfo } from '@/background/repository/edited-tracks/EditedTrackInfo';
 
 export interface EditedTracksRepositoryData {
-	[repositoryKey: string]: EditedSongInfo;
+	[repositoryKey: string]: EditedTrackInfo;
 }
