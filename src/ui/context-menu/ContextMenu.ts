@@ -1,4 +1,4 @@
-export interface ContextMenuMananger {
+export interface ContextMenu {
 	addContextMenuItem(
 		tabId: number,
 		title: string,

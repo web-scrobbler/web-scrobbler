@@ -2,13 +2,13 @@ import { Controller } from '@/background/object/controller';
 
 import { L } from '@/common/i18n';
 
-import type { ContextMenuMananger } from '@/background/browser/context-menu/ContextMenuManager';
+import type { ContextMenu } from '@/ui/context-menu/ContextMenu';
 import type { TabWorker } from '@/background/object/tab-worker';
 
 export class ContextMenuWorker {
 	constructor(
 		private tabWorker: TabWorker,
-		private menuManager: ContextMenuMananger
+		private menuManager: ContextMenu
 	) {}
 
 	/**

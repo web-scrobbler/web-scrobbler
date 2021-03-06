@@ -1,11 +1,11 @@
 import { Menus } from 'webextension-polyfill-ts';
 
 import {
-	ContextMenuMananger,
+	ContextMenu,
 	OnContextMenuItemClicked,
-} from '@/background/browser/context-menu/ContextMenuManager';
+} from '@/ui/context-menu/ContextMenu';
 
-export class BrowserContextMenuManager implements ContextMenuMananger {
+export class BrowserContextMenu implements ContextMenu {
 	constructor(private contextMenu: Menus.Static) {}
 
 	addContextMenuItem(
