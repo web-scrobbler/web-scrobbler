@@ -29,10 +29,19 @@ export class DelayedAction {
 	 * Cancel the pending action.
 	 */
 	cancel(): void {
-		if (this.timeoutId) {
+		if (this.timeoutId !== null) {
 			clearTimeout(this.timeoutId);
 
 			this.timeoutId = null;
 		}
+	}
+
+	/**
+	 * Check if any callback is queued to execute with delay.
+	 *
+	 * @return Check result
+	 */
+	isPending(): boolean {
+		return this.timeoutId !== null;
 	}
 }

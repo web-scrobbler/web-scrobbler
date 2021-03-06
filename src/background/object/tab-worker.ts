@@ -1,6 +1,5 @@
 import { browser } from 'webextension-polyfill-ts';
 
-import { BrowserAction } from '@/background/browser/browser-action';
 import { Controller } from '@/background/object/controller';
 
 import {
@@ -22,13 +21,15 @@ import { ContextMenuWorker } from '@/background/ContextMenuWorker';
 import { NotificationDisplayer } from '@/background/NotificationDisplayer';
 import { ExtensionOptions } from '@/background/repository/extension-options/ExtensionOptions';
 import { LoveStatus } from '@/background/model/song/LoveStatus';
+import { ActionIcon } from '@/ui/action-icon/ActionIcon';
+import { BrowserActionIcon } from '@/ui/action-icon/BrowserActionIcon';
 
 export class TabWorker implements BrowserTabListener, ActiveControllerProvider {
 	private activeTabId: number = browser.tabs.TAB_ID_NONE;
 	private currentTabId: number = browser.tabs.TAB_ID_NONE;
 
 	private tabControllers: Record<number, Controller> = {};
-	private browserAction: BrowserAction;
+	private browserAction: ActionIcon;
 
 	private contextMenuWorker: ContextMenuWorker;
 
@@ -93,9 +94,9 @@ export class TabWorker implements BrowserTabListener, ActiveControllerProvider {
 						: LoveStatus.Unloved;
 
 				await ctrl.toggleLove(loveStatus);
-				this.browserAction.setSongLoved(
-					loveStatus,
-					ctrl.getCurrentSong()
+				this.browserAction.setLoveStatus(
+					ctrl.getCurrentSong(),
+					loveStatus
 				);
 				break;
 			}
@@ -165,7 +166,7 @@ export class TabWorker implements BrowserTabListener, ActiveControllerProvider {
 			this.currentTabId = currentTab.id;
 		}
 
-		this.browserAction = new BrowserAction();
+		this.browserAction = new BrowserActionIcon();
 		/*
 		 * Prevent restoring the browser action icon
 		 * from the previous session.
@@ -184,7 +185,7 @@ export class TabWorker implements BrowserTabListener, ActiveControllerProvider {
 			const controllerMode = ctrl.getMode();
 			const currentSong = ctrl.getCurrentSong();
 
-			this.browserAction.update(controllerMode, currentSong);
+			this.browserAction.setAction(currentSong, controllerMode);
 		} else {
 			this.browserAction.reset();
 		}
