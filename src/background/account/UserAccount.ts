@@ -3,7 +3,7 @@ import { ScrobblerSession } from '@/background/scrobbler/ScrobblerSession';
 import type { UserProperties } from '@/background/scrobbler/UserProperties';
 import type { ScrobblerId } from '@/background/scrobbler/ScrobblerId';
 
-const unknownUsername = 'anonimous';
+const unknownUsername = 'anonymous';
 
 /**
  * Object that holds user account data.
