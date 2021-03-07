@@ -57,7 +57,13 @@ Connector.isPlaying = () => {
 
 Connector.playerSelector = '#theatre-ia';
 
-Connector.trackArtSelector = '.album-cover img';
+Connector.trackArtSelector = [
+	// https://archive.org/details/AH013_sarin_sunday_-_the_lonely_hike
+	'#theatre-ia center > img',
+
+	// https://archive.org/details/lp_everybody-knows-this-is-nowhere_neil-young-crazy-horse-robin-lane
+	'.album-cover img',
+];
 
 Connector.getTrackInfo = () => {
 	const artist = getArtists(artistSelectors);
