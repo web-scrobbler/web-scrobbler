@@ -71,12 +71,13 @@ Connector.getTrackInfo = () => {
 	let track = Util.getTextFromSelectors(trackSelectors);
 
 	if (track) {
-		const [itemTitle, itemArtist] = track
+		// Second item could be an artist name or track duration
+		const [firstItem, secondItem] = track
 			.split('-')
 			.map((item) => item.trim());
 
-		if (artist.includes(itemArtist)) {
-			track = itemTitle;
+		if (artist.includes(secondItem)) {
+			track = firstItem;
 		}
 	} else {
 		track = album;
