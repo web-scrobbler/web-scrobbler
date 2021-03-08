@@ -34,7 +34,7 @@ const filter = MetadataFilter.createFilter({ track: removeNumericPrefixes });
 Connector.applyFilter(filter);
 
 function removeNumericPrefixes(track) {
-	if (hasAllTracksNumericPrefix(tracksSelector)) {
+	if (hasAllTracksNumericPrefix()) {
 		return track.trim().replace(/^(\d+\w+)/, '');
 	}
 
@@ -86,15 +86,15 @@ Connector.getTrackInfo = () => {
 	return { artist, track, album };
 };
 
-function hasAllTracksNumericPrefix(trackSelector) {
-	const tracks = document.querySelectorAll(trackSelector);
+function hasAllTracksNumericPrefix() {
+	const tracks = document.querySelectorAll(tracksSelector);
 	if (tracks.length === 0) {
 		return false;
 	}
 
 	let hasAllTracksNumericPrefix = true;
 	for (const track of tracks) {
-		if (!numericTrackRegex.test(track.textContent)) {
+		if (!numericTrackRegex.test(track.textContent.trim())) {
 			hasAllTracksNumericPrefix = false;
 			break;
 		}
