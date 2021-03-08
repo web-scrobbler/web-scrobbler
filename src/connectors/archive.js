@@ -21,7 +21,10 @@ const artistSelectors = [
 	'.item-details-metadata > dl > dd a',
 ];
 const trackSelectors = [
+	// https://archive.org/details/AH003_corwin_trails_-_corwin_trails
 	'.jwrowV2.playing .ttl',
+
+	// https://archive.org/details/lp_everybody-knows-this-is-nowhere_neil-young-crazy-horse-robin-lane
 	'.audio-track-list .selected .track-title',
 ];
 const albumSelector = '.thats-left > h1 [itemprop=name]';
