@@ -1733,6 +1733,13 @@ const connectors = [{
 	label: 'Navidrome',
 	js: 'connectors/navidrome.js',
 	id: 'navidrome',
+}, {
+	label: 'turntable.fm',
+	matches: [
+		'*://turntable.fm/*',
+	],
+	js: 'connectors/turntable.fm.js',
+	id: 'turntable.fm',
 }];
 
 define(() => connectors);
