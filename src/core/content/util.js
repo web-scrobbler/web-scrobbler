@@ -611,11 +611,15 @@ const Util = {
 		} else if (numberOfFields === 2) {
 			[track, artist] = trackInfo;
 		} else {
-			[track, artist, featArtists] = trackInfo;
+			[track, artist, ...featArtists] = trackInfo;
 
-			const featArtistsStr = featArtists.split(this.ytDescSeparator)
-				.join(this.ARTIST_SEPARATOR);
-			track = `${track} (feat. ${featArtistsStr})`;
+			const areFeatArtistPresent = featArtists.some((artist) =>
+				track.includes(artist)
+			);
+			if (!areFeatArtistPresent) {
+				const featArtistsStr = featArtists.join(this.ARTIST_SEPARATOR);
+				track = `${track} (feat. ${featArtistsStr})`;
+			}
 		}
 
 		return { artist, track, album };
