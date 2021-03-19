@@ -608,7 +608,7 @@
     "description": "Startup intro title"
   },
   "startupIntroText": {
-    "message": "Before we can begin to scrobble all your music, you must first review and opt in (or out) to our privacy policy.",
+    "message": "Before we can begin to scrobble all your music, you must first review and opt in (or out) of our privacy policy.",
     "description": "Startup intro text"
   },
   "startupFinished": {
