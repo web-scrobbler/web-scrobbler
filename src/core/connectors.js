@@ -1741,27 +1741,27 @@ const connectors = [{
 	js: 'connectors/turntable.fm.js',
 	id: 'turntable.fm',
 }, {
-    label: 'Stingray Music',
-    matches: [
+	label: 'Stingray Music',
+	matches: [
 		'*://webplayer.stingray.com/*'
 	],
-    js: 'connectors/stingray.js',
-    id: 'stingray',
+	js: 'connectors/stingray.js',
+	id: 'stingray',
 }, {
-    label: 'Indie88',
-    matches: [
+	label: 'Indie88',
+	matches: [
 		'*://indie88.com/lean-stream-player/*',
 		'*://cob.leanplayer.com/CINDFM*'
 	],
-    js: 'connectors/indie88.js',
-    id: 'indie88',
+	js: 'connectors/indie88.js',
+	id: 'indie88',
 }, {
-    label: 'CBC Music',
-    matches: [
+	label: 'CBC Music',
+	matches: [
 		'*://www.cbc.ca/listen/cbc-music-playlists*'
 	],
-    js: 'connectors/cbcmusic.js',
-    id: 'cbcmusic',
+	js: 'connectors/cbcmusic.js',
+	id: 'cbcmusic',
 }];
 
 define(() => connectors);
