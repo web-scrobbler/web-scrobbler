@@ -526,7 +526,7 @@ const Util = {
 		},
 		// Artist「Track」 (Japanese tracks)
 		{
-			pattern: /(.+?)[『「](.+?)[」』]/,
+			pattern: /(.+?)[『「【](.+?)[」』】]/,
 			groups: { artist: 1, track: 2 },
 		},
 		// Track (... by Artist)
