@@ -575,22 +575,6 @@
         "message": "Haga clic en el icono en la barra de extensiones para corregir y enviar información de la pista.",
         "description": "Notification text"
     },
-    "startupTitle": {
-        "message": "Bienvenido a Web Scrobbler!",
-        "description": "Title for startup page"
-    },
-    "startupIntroTitle": {
-        "message": "Gracias por decidir instalar Web Scrobbler!",
-        "description": "Startup intro title"
-    },
-    "startupIntroText": {
-        "message": "Antes de empezar a scrobble toda tu música, primero debes revisar y optar positiva o negativamente nuestra política de privacidad",
-        "description": "Startup intro text"
-    },
-    "startupFinished": {
-        "message": "Gracias! Si cambias de parecer, puedes modificarlo desde las opciones.",
-        "description": "Startup finished text"
-    },
     "optIn": {
         "message": "Optar por sí",
         "description": "Opt in"

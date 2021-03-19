@@ -575,22 +575,6 @@
         "message": "点击扩展列中的图标来更正和提交曲目信息。",
         "description": "Notification text"
     },
-    "startupTitle": {
-        "message": "欢迎使用 Web Scrobbler！",
-        "description": "Title for startup page"
-    },
-    "startupIntroTitle": {
-        "message": "感谢选择安装 Web Scrobbler！",
-        "description": "Startup intro title"
-    },
-    "startupIntroText": {
-        "message": "在我们开始记录您的所有音乐之前，您必须先审查并选择加入（或退出）我们的隐私政策。",
-        "description": "Startup intro text"
-    },
-    "startupFinished": {
-        "message": "感谢！如果您改变主意，可以在选项中进行更改。",
-        "description": "Startup finished text"
-    },
     "optIn": {
         "message": "选择参加",
         "description": "Opt in"

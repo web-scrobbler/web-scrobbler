@@ -551,22 +551,6 @@
         "message": "Kliknite na ikonku v lište doplnkov a uložte správne údaje.",
         "description": "Notification text"
     },
-    "startupTitle": {
-        "message": "Vitajte vo Web Scrobbleri!",
-        "description": "Title for startup page"
-    },
-    "startupIntroTitle": {
-        "message": "Ďakujeme Vám, že ste si vybrali Web Scrobbler!",
-        "description": "Startup intro title"
-    },
-    "startupIntroText": {
-        "message": "Predtým než môžeme začať zaznamenávať vašu hudbu, je nutné si prečítať a vyjadriť súhlas/nesúhlas s našimi zásadami o ochrane osobných údajov.",
-        "description": "Startup intro text"
-    },
-    "startupFinished": {
-        "message": "Ďakujeme! V prípade že zmeníte názor, môžete zmeniť Vaše rozhodnutie v nastaveniach doplnku.",
-        "description": "Startup finished text"
-    },
     "optIn": {
         "message": "Súhlasiť",
         "description": "Opt in"

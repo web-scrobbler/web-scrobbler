@@ -507,22 +507,6 @@
         "message": "Klick auf das Symbol in der Erweiterungsleiste und trage Titelinformationen ein.",
         "description": "Notification text"
     },
-    "startupTitle": {
-        "message": "Willkommen beim Web Scrobbler!",
-        "description": "Title for startup page"
-    },
-    "startupIntroTitle": {
-        "message": "Danke, dass du dir Web Scrobbler installiert hast.",
-        "description": "Startup intro title"
-    },
-    "startupIntroText": {
-        "message": "Bevor wir anfangen können, all deine Musik zu scrobblen, musst du zuerst unseren Datenschutzbestimmungen zustimmen (oder ablehnen).",
-        "description": "Startup intro text"
-    },
-    "startupFinished": {
-        "message": "Danke! Wenn du dich umentscheidest, kannst du dies in Einstellungen ändern.",
-        "description": "Startup finished text"
-    },
     "optIn": {
         "message": "Opt In",
         "description": "Opt in"
