@@ -1743,7 +1743,7 @@ const connectors = [{
 }, {
 	label: 'Stingray Music',
 	matches: [
-		'*://webplayer.stingray.com/*'
+		'*://webplayer.stingray.com/*',
 	],
 	js: 'connectors/stingray.js',
 	id: 'stingray',
@@ -1751,14 +1751,14 @@ const connectors = [{
 	label: 'Indie88',
 	matches: [
 		'*://indie88.com/lean-stream-player/*',
-		'*://cob.leanplayer.com/CINDFM*'
+		'*://cob.leanplayer.com/CINDFM*',
 	],
 	js: 'connectors/indie88.js',
 	id: 'indie88',
 }, {
 	label: 'CBC Music',
 	matches: [
-		'*://www.cbc.ca/listen/cbc-music-playlists*'
+		'*://www.cbc.ca/listen/cbc-music-playlists*',
 	],
 	js: 'connectors/cbcmusic.js',
 	id: 'cbcmusic',
