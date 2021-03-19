@@ -1,6 +1,6 @@
 'use strict';
 
-//Indie88 has the track and artist flipped on their main web player. The values are intentionally flipped in this Connector
+// Indie88 has the track and artist flipped on their main web player. The values are intentionally flipped in this Connector
 
 Connector.playerSelector = 'div.cobrp-player-main, div.mediaplayer-mainbody';
 
