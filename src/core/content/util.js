@@ -588,9 +588,6 @@ const Util = {
 		// MV/PV if not followed by an opening/closing bracket or if ending
 		title = title.replace(/(MV|PV)([「【『』】」]|$)/i, '$2');
 
-		// Music video in japanese brackets
-		title = title.replace(/[(【)](of+icial\s*)?(music\s*)?(video|audio)[)】]/i, '');
-
 		// Try to match one of the regexps
 		for (const regExp of this.ytTitleRegExps) {
 			const artistTrack = title.match(regExp.pattern);
