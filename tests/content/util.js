@@ -353,10 +353,6 @@ const PROCESS_YT_VIDEO_TITLE_DATA = [{
 	args: ['Track Name'],
 	expected: { artist: null, track: 'Track Name' },
 }, {
-	description: 'should remove "【Music Video】" string',
-	args: ['Artist - Track【Music Video】'],
-	expected: { artist: 'Artist', track: 'Track' },
-}, {
 	description: 'should remove "【MV】" string',
 	args: ['Artist - Track【MV】'],
 	expected: { artist: 'Artist', track: 'Track' },
@@ -485,9 +481,9 @@ const PROCESS_YT_VIDEO_TITLE_DATA = [{
 	args: ['Artist -【Track】'],
 	expected: { artist: 'Artist ', track: 'Track' },
 }, {
-	description: 'should remove 【Official Video】string (yonige moment)',
+	description: 'should prioritize dashes over 【】',
 	args: ['Artist -Track-【Official Video】'],
-	expected: { artist: 'Artist ', track: 'Track' },
+	expected: { artist: 'Artist ', track: 'Track【Official Video】' },
 }, {
 	description: 'should prioritize other brackets over 【】',
 	args: ['Artist「Track」【stuff】'],
