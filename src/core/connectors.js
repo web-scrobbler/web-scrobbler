@@ -1741,21 +1741,6 @@ const connectors = [{
 	js: 'connectors/turntable.fm.js',
 	id: 'turntable.fm',
 }, {
-	label: 'Stingray Music',
-	matches: [
-		'*://webplayer.stingray.com/*',
-	],
-	js: 'connectors/stingray.js',
-	id: 'stingray',
-}, {
-	label: 'Indie88',
-	matches: [
-		'*://indie88.com/lean-stream-player/*',
-		'*://cob.leanplayer.com/CINDFM*',
-	],
-	js: 'connectors/indie88.js',
-	id: 'indie88',
-}, {
 	label: 'CBC Music',
 	matches: [
 		'*://www.cbc.ca/listen/cbc-music-playlists*',
