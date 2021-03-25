@@ -2,17 +2,28 @@
 
 // Indie88 has the track and artist flipped on their main web player. The values are intentionally flipped in this Connector
 
-Connector.playerSelector = [
-	'div.cobrp-player-main',
-	'div.mediaplayer-mainbody',
-];
+function setupConnector() {
+	if (isCobrPlayer()) {
+		setupCobrPlayer();
+	} else {
+		setupWebsitePlayer();
+	}
+}
 
-Connector.artistSelector = [
-	'div.cobrp-player-artist',
-	'p#track-info-title span',
-];
+function isCobrPlayer() {
+	return $('article.cobrp-page').length > 0;
+}
 
-Connector.trackSelector = [
-	'.cobrp-player-song',
-	'p#track-info-artist span',
-];
+function setupCobrPlayer() {
+	Connector.playerSelector = 'div.cobrp-player-main';
+	Connector.trackSelector = 'div.cobrp-player-song';
+	Connector.artistSelector = 'div.cobrp-player-artist';
+}
+
+function setupWebsitePlayer() {
+	Connector.playerSelector = 'div.mediaplayer-mainbody';
+	Connector.artistSelector = 'p#track-info-title span';
+	Connector.trackSelector = 'p#track-info-artist span';
+}
+
+setupConnector();
