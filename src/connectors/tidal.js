@@ -8,7 +8,7 @@ Connector.pauseButtonSelector = `${Connector.playerSelector} [data-type="button_
 
 Connector.isScrobblingAllowed = () => !!$(Connector.playButtonSelector);
 
-Connector.trackSelector = `${Connector.playerSelector} [data-test="footer-track-title"] a[href^="/track/"]`;
+Connector.trackSelector = `${Connector.playerSelector} [data-test="footer-track-title"]`;
 
 Connector.getUniqueID = () => {
 	const trackUrl = $(Connector.trackSelector).attr('href');
