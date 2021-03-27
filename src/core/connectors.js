@@ -1738,8 +1738,8 @@ const connectors = [{
 	matches: [
 		'*://www.playlist-randomizer.com/*',
 	],
-	js: 'connectors/playlistrandomizer.js',
-	id: 'playlistrandomizer',
+	js: 'connectors/playlist-randomizer.js',
+	id: 'playlist-randomizer',
 }, {
 	label: 'QueUp',
 	matches: [
