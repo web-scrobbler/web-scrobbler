@@ -1747,6 +1747,13 @@ const connectors = [{
 	],
 	js: 'connectors/playlistrandomizer.js',
 	id: 'playlistrandomizer',
+}, {
+	label: 'Que Up',
+	matches: [
+		'*://www.queup.net/*',
+	],
+	js: 'connectors/queup.js',
+	id: 'queup',
 }];
 
 define(() => connectors);
