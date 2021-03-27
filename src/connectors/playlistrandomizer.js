@@ -6,7 +6,7 @@ Connector.trackArtSelector = '.Mui-selected .MuiListItemAvatar-root .MuiAvatar-c
 const trackSelector = '.Mui-selected .MuiListItemText-root .MuiListItemText-primary';
 
 Connector.getArtistTrack = () => {
-	let { artist, track } = Util.processYtVideoTitle($(trackSelector).text());
+	let { artist, track } = Util.processYtVideoTitle(Util.getTextFromSelectors(trackSelector));
 
 	// Set to some default information that we have (probably "Song Title Song Artist" with a space)
 	// so that the user can edit the info in the extension
