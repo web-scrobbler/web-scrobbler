@@ -696,13 +696,6 @@ const connectors = [{
 	js: 'connectors/monstercat.js',
 	id: 'monstercat',
 }, {
-	label: 'Randomtube',
-	matches: [
-		'*://youtube-playlist-randomizer.valami.info/*',
-	],
-	js: 'connectors/randomtube.js',
-	id: 'randomtube',
-}, {
 	label: 'Listen.moe',
 	matches: [
 		'*://listen.moe/*',
