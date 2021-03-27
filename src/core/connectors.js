@@ -1740,6 +1740,13 @@ const connectors = [{
 	],
 	js: 'connectors/turntable.fm.js',
 	id: 'turntable.fm',
+}, {
+	label: 'Playlist Randomizer',
+	matches: [
+		'*://www.playlist-randomizer.com/*',
+	],
+	js: 'connectors/playlistrandomizer.js',
+	id: 'playlistrandomizer',
 }];
 
 define(() => connectors);
