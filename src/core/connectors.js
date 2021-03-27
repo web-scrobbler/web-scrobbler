@@ -1741,7 +1741,7 @@ const connectors = [{
 	js: 'connectors/playlistrandomizer.js',
 	id: 'playlistrandomizer',
 }, {
-	label: 'Que Up',
+	label: 'QueUp',
 	matches: [
 		'*://www.queup.net/*',
 	],
