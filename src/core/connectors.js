@@ -1747,6 +1747,13 @@ const connectors = [{
 	],
 	js: 'connectors/playlistrandomizer.js',
 	id: 'playlistrandomizer',
+}, {
+	label: 'Lounge.fm',
+	matches: [
+		'*://www.lounge.fm/*',
+	],
+	js: 'connectors/loungefm.js',
+	id: 'loungefm',
 }];
 
 define(() => connectors);
