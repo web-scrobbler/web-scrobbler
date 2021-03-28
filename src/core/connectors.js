@@ -696,13 +696,6 @@ const connectors = [{
 	js: 'connectors/monstercat.js',
 	id: 'monstercat',
 }, {
-	label: 'Randomtube',
-	matches: [
-		'*://youtube-playlist-randomizer.valami.info/*',
-	],
-	js: 'connectors/randomtube.js',
-	id: 'randomtube',
-}, {
 	label: 'Listen.moe',
 	matches: [
 		'*://listen.moe/*',
@@ -1745,8 +1738,15 @@ const connectors = [{
 	matches: [
 		'*://www.playlist-randomizer.com/*',
 	],
-	js: 'connectors/playlistrandomizer.js',
-	id: 'playlistrandomizer',
+	js: 'connectors/playlist-randomizer.js',
+	id: 'playlist-randomizer',
+}, {
+	label: 'QueUp',
+	matches: [
+		'*://www.queup.net/*',
+	],
+	js: 'connectors/queup.js',
+	id: 'queup',
 }];
 
 define(() => connectors);
