@@ -1747,6 +1747,13 @@ const connectors = [{
 	],
 	js: 'connectors/queup.js',
 	id: 'queup',
+}, {
+	label: 'Live 365',
+	matches: [
+		'*://*.live365.com/*',
+	],
+	js: 'connectors/live365.js',
+	id: 'live365',
 }];
 
 define(() => connectors);
