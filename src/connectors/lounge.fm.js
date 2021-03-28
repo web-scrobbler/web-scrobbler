@@ -1,14 +1,24 @@
 'use strict';
 
 Connector.playerSelector = '#player';
+Connector.artistSelector = '#artist';
+Connector.trackSelector = '#title';
 Connector.trackArtSelector = '#imgCover';
+Connector.albumSelector = '#album';
 
 Connector.isPlaying = () => Util.hasElementClass('#player', 'playing');
 
-Connector.getTrackInfo = () => {
-	const artist = Util.getTextFromSelectors('#artist').replace('von ', '');
-	const track = Util.getTextFromSelectors('#title');
-	const album = Util.getTextFromSelectors('#album').replace(', Album: ', '');
+const filter = MetadataFilter.createFilter({
+	artist: removeVonPrefix,
+	album: removeAlbumPrefix,
+});
 
-	return { artist, track, album };
-};
+Connector.applyFilter(filter);
+
+function removeVonPrefix(text) {
+	return text.replace('von ', '');
+}
+
+function removeAlbumPrefix(text) {
+	return text.replace(', Album: ', '');
+}
