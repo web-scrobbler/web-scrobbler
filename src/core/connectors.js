@@ -1752,8 +1752,8 @@ const connectors = [{
 	matches: [
 		'*://www.lounge.fm/*',
 	],
-	js: 'connectors/loungefm.js',
-	id: 'loungefm',
+	js: 'connectors/lounge.fm.js',
+	id: 'lounge.fm',
 }];
 
 define(() => connectors);
