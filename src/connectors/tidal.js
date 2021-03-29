@@ -11,7 +11,7 @@ Connector.isScrobblingAllowed = () => !!$(Connector.playButtonSelector);
 Connector.trackSelector = `${Connector.playerSelector} div[data-test="footer-track-title"]`;
 
 Connector.getUniqueID = () => {
-	const trackUrl = $(Connector.trackSelector).attr('href');
+	const trackUrl = $(`${Connector.trackSelector} a`).attr('href');
 	if (trackUrl) {
 		return trackUrl.split('/').pop();
 	}
