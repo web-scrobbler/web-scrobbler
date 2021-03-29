@@ -56,14 +56,6 @@
     "message": "Scrobble podcast episodes",
     "description": "Option label"
   },
-  "optionTdlShortTrackNames": {
-    "message": "Use short track names",
-    "description": "Option title"
-  },
-  "optionTdlShortTrackNamesTitle": {
-    "message": "Tidal provides shortened track names for certain tracks (without \"Remastered\", etc.)",
-    "Description": "Option label"
-  },
   "optionYtDesc": {
     "message": "If you turn off both options, the extension will scrobble Youtube videos from all categories.",
     "description": "Description of Youtube options"

@@ -51,14 +51,6 @@
         "message": "Efetuar scrobble de episódios de podcasts",
         "description": "Option label"
     },
-    "optionTdlShortTrackNames": {
-        "message": "Usar nomes curtos de faixas",
-        "description": "Option title"
-    },
-    "optionTdlShortTrackNamesTitle": {
-        "message": "O Tidal fornece nomes mais curtos para certas faixas (sem \"Remastered\", etc.)",
-        "description": ""
-    },
     "optionYtDesc": {
         "message": "Caso desative ambas as opções, a extensão efetuará scrobble de vídeos do Youtube de todas as categorias.",
         "description": "Description of Youtube options"

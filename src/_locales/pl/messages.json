@@ -51,14 +51,6 @@
         "message": "Scrobbluj odcinki podcastów",
         "description": "Option label"
     },
-    "optionTdlShortTrackNames": {
-        "message": "Używaj krótszych nazw utworów",
-        "description": "Option title"
-    },
-    "optionTdlShortTrackNamesTitle": {
-        "message": "Tidal dla niektórych utworów udostępnia skrócone wersje ich nazw (bez \"Remastered\", etc.)",
-        "description": ""
-    },
     "optionYtDesc": {
         "message": "Jeśli wyłączysz obie opcje, rozszerzenie będzie scrobblować filmy na Youtube niezależnie od kategorii.",
         "description": "Description of Youtube options"
