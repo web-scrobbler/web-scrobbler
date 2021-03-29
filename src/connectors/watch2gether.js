@@ -15,7 +15,7 @@ Connector.getTrackInfo = () => {
 		return {};
 	}
 
-	const chatTextItem = chatProviderItem.nextElementSibling;
+	const chatTextItem = chatProviderItem.nextElementSibling.nextElementSibling;
 
 	const type = chatProviderItem.classList[1] || 'unknown';
 	const title = chatTextItem.textContent;
