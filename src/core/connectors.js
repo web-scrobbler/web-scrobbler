@@ -1743,7 +1743,7 @@ const connectors = [{
 }, {
 	label: 'Stingray Music',
 	matches: [
-		'*://webplayer.stingray.com/*',
+		'*://*.stingray.com/*',
 	],
 	js: 'connectors/stingray.js',
 	id: 'stingray',
