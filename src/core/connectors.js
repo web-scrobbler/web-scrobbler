@@ -1734,6 +1734,13 @@ const connectors = [{
 	js: 'connectors/turntable.fm.js',
 	id: 'turntable.fm',
 }, {
+	label: 'CBC Music',
+	matches: [
+		'*://www.cbc.ca/listen/cbc-music-playlists*',
+	],
+	js: 'connectors/cbcmusic.js',
+	id: 'cbcmusic',
+}, {
 	label: 'Indie88',
 	matches: [
 		'*://indie88.com/lean-stream-player/*',
