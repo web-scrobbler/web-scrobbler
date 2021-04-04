@@ -10,11 +10,7 @@ Connector.trackSelector =
 
 Connector.albumSelector = 'cover-with-info.current.cover div.album';
 
-Connector.getTrackArt = () =>
-	Util.extractUrlFromCssProperty(
-		document.querySelector('cover-with-info.current.cover div.background')
-			.style['background-image']
-	);
+Connector.trackArtSelector = 'cover-with-info.current.cover div.background';
 
 Connector.currentTimeSelector = 'time-progress div.time.duration';
 
