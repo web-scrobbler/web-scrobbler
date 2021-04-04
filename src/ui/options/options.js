@@ -21,9 +21,6 @@ define((require) => {
 		'#scrobble-podcasts': Options.SCROBBLE_PODCASTS,
 	};
 	const CONNECTORS_OPTIONS_UI_MAP = {
-		Tidal: {
-			'#tdl-short-track-names': 'useShortTrackNames',
-		},
 		YouTube: {
 			'#yt-music-only': 'scrobbleMusicOnly',
 			'#yt-entertainment-only': 'scrobbleEntertainmentOnly',

@@ -51,14 +51,6 @@
         "message": "记录播客节目",
         "description": "Option label"
     },
-    "optionTdlShortTrackNames": {
-        "message": "使用简短的曲目名称",
-        "description": "Option title"
-    },
-    "optionTdlShortTrackNamesTitle": {
-        "message": "Tidal为某些曲目提供了简短的曲目名称（没有“重制”等）",
-        "description": ""
-    },
     "optionYtDesc": {
         "message": "如果您关闭了这两个选项，该扩展程序将会对所有类别的 Youtube 视频追踪播放记录。",
         "description": "Description of Youtube options"
