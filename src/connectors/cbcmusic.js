@@ -6,12 +6,16 @@ const filter = new MetadataFilter({
 });
 
 Connector.playerSelector = 'div.playerUI';
+
 Connector.artistSelector = 'div.playerUI div.marqueeContent div';
+
 Connector.trackSelector = 'div.playerUI div.marqueeContent div';
+
 Connector.currentTimeSelector = 'div.scrubControlCurrentTime';
+
 Connector.durationSelector = 'div.scrubControlDuration';
 Connector.isPlaying = () => {
-	return $('button.playButton').hasClass('playButton--pause');
+	return Util.hasElementClass('button.playButton', 'playButton--pause');
 };
 
 Connector.onReady = Connector.onStateChanged;
