@@ -51,14 +51,6 @@
         "message": "Scrobble episodios del podcast",
         "description": "Option label"
     },
-    "optionTdlShortTrackNames": {
-        "message": "Usar nombres cortos de la canción",
-        "description": "Option title"
-    },
-    "optionTdlShortTrackNamesTitle": {
-        "message": "Tidal proporciona nombres de pistas abreviados para ciertas canciones (sin \"Remasterizado\", etc.)",
-        "description": ""
-    },
     "optionYtDesc": {
         "message": "Si desactiva ambas opciones, la extensión hará scrobbles de los videos de Youtube en todas las categorías.",
         "description": "Description of Youtube options"
@@ -574,22 +566,6 @@
     "notificationNotRecognizedText": {
         "message": "Haga clic en el icono en la barra de extensiones para corregir y enviar información de la pista.",
         "description": "Notification text"
-    },
-    "startupTitle": {
-        "message": "Bienvenido a Web Scrobbler!",
-        "description": "Title for startup page"
-    },
-    "startupIntroTitle": {
-        "message": "Gracias por decidir instalar Web Scrobbler!",
-        "description": "Startup intro title"
-    },
-    "startupIntroText": {
-        "message": "Antes de empezar a scrobble toda tu música, primero debes revisar y optar positiva o negativamente nuestra política de privacidad",
-        "description": "Startup intro text"
-    },
-    "startupFinished": {
-        "message": "Gracias! Si cambias de parecer, puedes modificarlo desde las opciones.",
-        "description": "Startup finished text"
     },
     "optIn": {
         "message": "Optar por sí",

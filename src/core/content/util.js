@@ -18,8 +18,21 @@ const Util = {
 	 * @type {Array}
 	 */
 	separators: [
-		' -- ', '--', ' ~ ', ' \u002d ', ' \u2013 ', ' \u2014 ',
-		' // ', '\u002d', '\u2013', '\u2014', ':', '|', '///', '/', '~',
+		' -- ',
+		'--',
+		' ~ ',
+		' \u002d ',
+		' \u2013 ',
+		' \u2014 ',
+		' // ',
+		'\u002d',
+		'\u2013',
+		'\u2014',
+		':',
+		'|',
+		'///',
+		'/',
+		'~',
 	],
 
 	/**
@@ -36,12 +49,13 @@ const Util = {
 		const negativeExpression = /-/g;
 		const digitsExpression = /\d{1,2}/g;
 
-		const seconds = str.match(digitsExpression)
+		const seconds = str
+			.match(digitsExpression)
 			.reverse()
 			.map((current) => parseInt(current, 10))
 			.reduce((total, current, i) => total + current * Math.pow(60, i));
 
-		return (negativeExpression.test(str)) ? -seconds : seconds;
+		return negativeExpression.test(str) ? -seconds : seconds;
 	},
 
 	/**
@@ -77,9 +91,11 @@ const Util = {
 			return null;
 		}
 
-		return artists.map((artist) => {
-			return artist.textContent;
-		}).join(this.ARTIST_SEPARATOR);
+		return artists
+			.map((artist) => {
+				return artist.textContent;
+			})
+			.join(this.ARTIST_SEPARATOR);
 	},
 
 	/**
@@ -114,7 +130,9 @@ const Util = {
 	 * @return {Object} Array ontains 'currentTime' and 'duration' fields
 	 */
 	splitTimeInfo(str, separator = '/', { swap = false } = {}) {
-		let [currentTime, duration] = this.splitString(str, [separator], { swap });
+		let [currentTime, duration] = this.splitString(str, [separator], {
+			swap,
+		});
 		if (currentTime) {
 			currentTime = this.stringToSeconds(currentTime);
 		}
@@ -358,9 +376,7 @@ const Util = {
 	 */
 	/* istanbul ignore next */
 	getSecondsFromSelectors(selectors) {
-		return Util.stringToSeconds(
-			Util.getTextFromSelectors(selectors)
-		);
+		return Util.stringToSeconds(Util.getTextFromSelectors(selectors));
 	},
 
 	/**
@@ -432,7 +448,9 @@ const Util = {
 		}
 
 		if (!Array.isArray(selectors)) {
-			throw new TypeError(`Unknown type of selector: ${typeof selectors}`);
+			throw new TypeError(
+				`Unknown type of selector: ${typeof selectors}`
+			);
 		}
 
 		for (const selector of selectors) {
@@ -526,7 +544,7 @@ const Util = {
 		},
 		// Artist「Track」 (Japanese tracks)
 		{
-			pattern: /(.+?)「(.+?)」/,
+			pattern: /(.+?)[『｢「](.+?)[」｣』]/,
 			groups: { artist: 1, track: 2 },
 		},
 		// Track (... by Artist)
@@ -550,10 +568,25 @@ const Util = {
 		}
 
 		// Remove [genre] or 【genre】 from the beginning of the title
-		let title = videoTitle.replace(/^((\[[^\]]+])|(【[^】]+】))\s*-*\s*/i, '');
+		let title = videoTitle.replace(
+			/^((\[[^\]]+])|(【[^】]+】))\s*-*\s*/i,
+			''
+		);
 
 		// Remove track (CD and vinyl) numbers from the beginning of the title
 		title = title.replace(/^\s*([a-zA-Z]{1,2}|[0-9]{1,2})[1-9]?\.\s+/i, '');
+
+		// Remove - preceding opening bracket
+		title = title.replace(/-\s*([「【『])/, '$1');
+
+		// 【/(*Music Video/MV/PV*】/)
+		title = title.replace(/[(【].*?((MV)|(PV)).*?[】)]/i, '');
+
+		// 【/(東方/オリジナル*】/)
+		title = title.replace(/[(【]((オリジナル)|(東方)).*?[】)]/, '');
+
+		// MV/PV if not followed by an opening/closing bracket or if ending
+		title = title.replace(/(MV|PV)([「【『』】」]|$)/i, '$2');
 
 		// Try to match one of the regexps
 		for (const regExp of this.ytTitleRegExps) {
@@ -570,6 +603,15 @@ const Util = {
 			({ artist, track } = this.splitArtistTrack(title));
 		}
 
+		// No match? Check for 【】
+		if (this.isArtistTrackEmpty({ artist, track })) {
+			const artistTrack = title.match(/(.+?)【(.+?)】/);
+			if (artistTrack) {
+				artist = artistTrack[1];
+				track = artistTrack[2];
+			}
+		}
+
 		if (this.isArtistTrackEmpty({ artist, track })) {
 			track = title;
 		}
@@ -578,9 +620,10 @@ const Util = {
 	},
 
 	isYtVideoDescriptionValid(desc) {
-		return desc && (
-			desc.startsWith(this.ytDescFirstLine) ||
-			desc.endsWith(this.ytDescLastLine)
+		return (
+			desc &&
+			(desc.startsWith(this.ytDescFirstLine) ||
+				desc.endsWith(this.ytDescLastLine))
 		);
 	},
 
@@ -589,11 +632,14 @@ const Util = {
 			return null;
 		}
 
-		const lines = desc.split('\n').filter((line) => {
-			return line.length > 0;
-		}).filter((line) => {
-			return !line.startsWith(this.ytDescFirstLine);
-		});
+		const lines = desc
+			.split('\n')
+			.filter((line) => {
+				return line.length > 0;
+			})
+			.filter((line) => {
+				return !line.startsWith(this.ytDescFirstLine);
+			});
 
 		const firstLine = lines[0];
 		const secondLine = lines[1];
@@ -611,11 +657,15 @@ const Util = {
 		} else if (numberOfFields === 2) {
 			[track, artist] = trackInfo;
 		} else {
-			[track, artist, featArtists] = trackInfo;
+			[track, artist, ...featArtists] = trackInfo;
 
-			const featArtistsStr = featArtists.split(this.ytDescSeparator)
-				.join(this.ARTIST_SEPARATOR);
-			track = `${track} (feat. ${featArtistsStr})`;
+			const areFeatArtistPresent = featArtists.some((artist) =>
+				track.includes(artist)
+			);
+			if (!areFeatArtistPresent) {
+				const featArtistsStr = featArtists.join(this.ARTIST_SEPARATOR);
+				track = `${track} (feat. ${featArtistsStr})`;
+			}
 		}
 
 		return { artist, track, album };
