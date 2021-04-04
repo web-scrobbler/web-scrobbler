@@ -1,0 +1,46 @@
+name: Publish
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+jobs:
+  deploy:
+    name: Publish release on GitHub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Get Node.js version from .nvmrc
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Get the extension version from ref
+        id: get-version
+        run: echo ::set-output name=EXT_VERSION::${GITHUB_REF/refs\/tags\//}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Request website update
+        run: |
+          curl -X POST \
+              -H "Authorization: token ${GH_FA_TOKEN}" \
+              -H "Accept: application/vnd.github.everest-preview+json" \
+              -d "{\"event_type\":\"${VERSION}\"}" \
+              https://api.github.com/repos/${WEBSITE_REPO}/dispatches
+        env:
+          GH_FA_TOKEN: ${{ secrets.GH_FA_TOKEN }}
+          WEBSITE_REPO: web-scrobbler/website-resources
+          VERSION: ${{ steps.get-version.outputs.EXT_VERSION }}
+
+      - name: Publish release on GitHub
+        uses: test-room-7/action-publish-release-drafts@v0
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          tag-name: ${{ steps.get-version.outputs.EXT_VERSION }}

@@ -39,14 +39,6 @@
         "message": "Scrobble podcast episodes",
         "description": "Option label"
     },
-    "optionTdlShortTrackNames": {
-        "message": "Use short track names",
-        "description": "Option title"
-    },
-    "optionTdlShortTrackNamesTitle": {
-        "message": "Tidal provides shortened track names for certain tracks (without \"Remastered\", etc.)",
-        "description": ""
-    },
     "optionYtDesc": {
         "message": "Wenn du beide Optionen deaktivierst, wird die Erweiterung Youtubevideos aus allen Kategorien scrobblen.",
         "description": "Description of Youtube options"
@@ -506,22 +498,6 @@
     "notificationNotRecognizedText": {
         "message": "Klick auf das Symbol in der Erweiterungsleiste und trage Titelinformationen ein.",
         "description": "Notification text"
-    },
-    "startupTitle": {
-        "message": "Willkommen beim Web Scrobbler!",
-        "description": "Title for startup page"
-    },
-    "startupIntroTitle": {
-        "message": "Danke, dass du dir Web Scrobbler installiert hast.",
-        "description": "Startup intro title"
-    },
-    "startupIntroText": {
-        "message": "Bevor wir anfangen können, all deine Musik zu scrobblen, musst du zuerst unseren Datenschutzbestimmungen zustimmen (oder ablehnen).",
-        "description": "Startup intro text"
-    },
-    "startupFinished": {
-        "message": "Danke! Wenn du dich umentscheidest, kannst du dies in Einstellungen ändern.",
-        "description": "Startup finished text"
     },
     "optIn": {
         "message": "Opt In",

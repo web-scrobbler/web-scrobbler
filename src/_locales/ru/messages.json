@@ -51,14 +51,6 @@
         "message": "Разрешить приложению скробблить подкасты",
         "description": "Option label"
     },
-    "optionTdlShortTrackNames": {
-        "message": "Использовать короткие имена композиций",
-        "description": "Option title"
-    },
-    "optionTdlShortTrackNamesTitle": {
-        "message": "Tidal предоставляет короткие имена некоторых композиций (например, без суффикса \"Remastered\", и т.п.)",
-        "description": ""
-    },
     "optionYtDesc": {
         "message": "Если вы отключите обе настройки, расширение будет скробблить видео из всех категорий.",
         "description": "Description of Youtube options"
@@ -574,22 +566,6 @@
     "notificationNotRecognizedText": {
         "message": "Кликните на иконку справа от адресной строки, чтобы скорректировать информацию о композиции.",
         "description": "Notification text"
-    },
-    "startupTitle": {
-        "message": "Добро пожаловать в Web Scrobbler!",
-        "description": "Title for startup page"
-    },
-    "startupIntroTitle": {
-        "message": "Благодарим за установку Web Scrobbler!",
-        "description": "Startup intro title"
-    },
-    "startupIntroText": {
-        "message": "Прежде, чем мы начнём скробблить ваши композиции, вам следует ознакомиться с нашей политикой конфиденциальности и принять или отклонить её.",
-        "description": "Startup intro text"
-    },
-    "startupFinished": {
-        "message": "Спасибо! Если вы захотите изменить свой выбор, вы можете сделать это в настройках расширения.",
-        "description": "Startup finished text"
     },
     "optIn": {
         "message": "Принять",

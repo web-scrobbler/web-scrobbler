@@ -51,14 +51,6 @@
         "message": "Scrobbluj odcinki podcastów",
         "description": "Option label"
     },
-    "optionTdlShortTrackNames": {
-        "message": "Używaj krótszych nazw utworów",
-        "description": "Option title"
-    },
-    "optionTdlShortTrackNamesTitle": {
-        "message": "Tidal dla niektórych utworów udostępnia skrócone wersje ich nazw (bez \"Remastered\", etc.)",
-        "description": ""
-    },
     "optionYtDesc": {
         "message": "Jeśli wyłączysz obie opcje, rozszerzenie będzie scrobblować filmy na Youtube niezależnie od kategorii.",
         "description": "Description of Youtube options"
@@ -574,22 +566,6 @@
     "notificationNotRecognizedText": {
         "message": "Kliknij ikonę na pasku rozszerzeń, aby poprawić i przesłać informacje o utworze.",
         "description": "Notification text"
-    },
-    "startupTitle": {
-        "message": "Witamy w Web Scrobblerze!",
-        "description": "Title for startup page"
-    },
-    "startupIntroTitle": {
-        "message": "Dzięki, że wybrałeś Web Scrobblera!",
-        "description": "Startup intro title"
-    },
-    "startupIntroText": {
-        "message": "Zanim będziemy mogli zacząć scrobblować całą twoją muzykę, musisz najpierw zapoznać się i wyrazić (albo i nie) zgodę na naszą politykę prywatności.",
-        "description": "Startup intro text"
-    },
-    "startupFinished": {
-        "message": "Dzięki! Jeśli zmienisz zdanie, zawsze możesz zmienić wybór w opcjach rozszerzenia.",
-        "description": "Startup finished text"
     },
     "optIn": {
         "message": "Zgadzam się",

@@ -1,16 +1,24 @@
 'use strict';
 
-Connector.playerSelector = '.player__inner';
+const artistSelector = '.player__track-album [href*=artist]';
+const timeInfoSelector = '.player__track-time-content';
 
-Connector.artistSelector = '.link-artist';
+Connector.playerSelector = '.player';
 
-Connector.trackSelector = '.player__inner__container1__track__name';
+Connector.trackSelector = '.player__track-title';
 
-Connector.albumSelector =
-	'.player__inner__container1__track__album a:last-child';
+Connector.albumSelector = '.player__track-album';
 
-Connector.trackArtSelector = '.player__inner__container1__cover img';
-
-Connector.timeInfoSelector = '.player__inner__container1__time';
+Connector.trackArtSelector = '.player__track-cover img';
 
 Connector.playButtonSelector = '.pct-player-play';
+
+Connector.getArtist = () => {
+	const artists = document.querySelectorAll(artistSelector);
+	return Util.joinArtists(Array.from(artists));
+};
+
+Connector.getTimeInfo = () => {
+	const rawTimeInfo = Util.getTextFromSelectors(timeInfoSelector);
+	return Util.splitTimeInfo(rawTimeInfo, '-');
+};

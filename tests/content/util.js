@@ -352,6 +352,142 @@ const PROCESS_YT_VIDEO_TITLE_DATA = [{
 	description: 'should use title as track title',
 	args: ['Track Name'],
 	expected: { artist: null, track: 'Track Name' },
+}, {
+	description: 'should remove "【MV】" string',
+	args: ['Artist - Track【MV】'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "【Whatever MV】" string',
+	args: ['Artist「Track」【Whatever MV】'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "【MV Whatever】" string',
+	args: ['Artist - Track【MV Whatever】'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "(MV)" string',
+	args: ['Artist - Track(MV)'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "MV" string',
+	args: ['Artist - TrackMV'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should not remove "MV" in string',
+	args: ['Artist - Omvei'],
+	expected: { artist: 'Artist', track: 'Omvei' },
+}, {
+	description: 'should remove "MV" in string if before 「',
+	args: ['ArtistMV「Track」'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "MV" in string if before 【',
+	args: ['ArtistMV【Track】'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "MV" in string if before 『',
+	args: ['ArtistMV『Track』'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "MV" in string if before 」',
+	args: ['Artist「TrackMV」'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "MV" in string if before 』',
+	args: ['Artist『TrackMV』'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "PV" string',
+	args: ['Artist - TrackPV'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should not remove "PV" in string',
+	args: ['Artist - Oppvakt'],
+	expected: { artist: 'Artist', track: 'Oppvakt' },
+}, {
+	description: 'should remove "PV" in string if before 「',
+	args: ['ArtistPV「Track」'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "PV" in string if before 『',
+	args: ['ArtistPV『Track』'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "PV" in string if before 」',
+	args: ['Artist「TrackPV」'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "PV" in string if before 』',
+	args: ['Artist『TrackPV』'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "【PV】" string',
+	args: ['Artist - Track【PV】'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "【Whatever PV】" string',
+	args: ['Artist - Track【Whatever PV】'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "【PV Whatever】" string',
+	args: ['Artist - Track【PV Whatever】'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "(PV)" string',
+	args: ['Artist - Track (PV)'],
+	expected: { artist: 'Artist', track: 'Track ' },
+}, {
+	description: 'should remove "(Whatever PV)" string',
+	args: ['Artist - Track(Whatever PV)'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "(PV Whatever)" string',
+	args: ['Artist - Track(PV Whatever)'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "(Whatever MV)" string',
+	args: ['Artist - Track(Whatever MV)'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "(MV Whatever)" string',
+	args: ['Artist - Track (MV Whatever)'],
+	expected: { artist: 'Artist', track: 'Track ' },
+}, {
+	description: 'should remove "【オリジナル】" string',
+	args: ['Artist - Track【オリジナル】'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "【オリジナルWhatever】" string',
+	args: ['Artist【Track】【オリジナルWhatever】'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "【東方】" string',
+	args: ['Artist - Track【東方】'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove "【東方Whatever】" string',
+	args: ['Artist「Track」【東方Whatever】'],
+	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should remove dash from "-「" string',
+	args: ['Artist - 「Track」'],
+	expected: { artist: 'Artist ', track: 'Track' },
+}, {
+	description: 'should remove dash from "-『" string',
+	args: ['Artist -『Track』'],
+	expected: { artist: 'Artist ', track: 'Track' },
+}, {
+	description: 'should remove dash from "-【" string',
+	args: ['Artist -【Track】'],
+	expected: { artist: 'Artist ', track: 'Track' },
+}, {
+	description: 'should prioritize dashes over 【】',
+	args: ['Artist -Track-【Official Video】'],
+	expected: { artist: 'Artist ', track: 'Track【Official Video】' },
+}, {
+	description: 'should prioritize other brackets over 【】',
+	args: ['Artist「Track」【stuff】'],
+	expected: { artist: 'Artist', track: 'Track' },
 }];
 
 /**
