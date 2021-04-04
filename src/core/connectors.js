@@ -1734,6 +1734,14 @@ const connectors = [{
 	js: 'connectors/turntable.fm.js',
 	id: 'turntable.fm',
 }, {
+	label: 'Indie88',
+	matches: [
+		'*://indie88.com/lean-stream-player/*',
+		'*://cob.leanplayer.com/CINDFM*',
+	],
+	js: 'connectors/indie88.js',
+	id: 'indie88',
+}, {
 	label: 'Playlist Randomizer',
 	matches: [
 		'*://www.playlist-randomizer.com/*',
