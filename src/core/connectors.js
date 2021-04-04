@@ -1734,6 +1734,28 @@ const connectors = [{
 	js: 'connectors/turntable.fm.js',
 	id: 'turntable.fm',
 }, {
+	label: 'Stingray Music',
+	matches: [
+		'*://*.stingray.com/*',
+	],
+	js: 'connectors/stingray.js',
+	id: 'stingray',
+}, {
+	label: 'CBC Music',
+	matches: [
+		'*://www.cbc.ca/listen/cbc-music-playlists*',
+	],
+	js: 'connectors/cbcmusic.js',
+	id: 'cbcmusic',
+}, {
+	label: 'Indie88',
+	matches: [
+		'*://indie88.com/lean-stream-player/*',
+		'*://cob.leanplayer.com/CINDFM*',
+	],
+	js: 'connectors/indie88.js',
+	id: 'indie88',
+}, {
 	label: 'Playlist Randomizer',
 	matches: [
 		'*://www.playlist-randomizer.com/*',
@@ -1747,6 +1769,27 @@ const connectors = [{
 	],
 	js: 'connectors/queup.js',
 	id: 'queup',
+}, {
+	label: 'Live 365',
+	matches: [
+		'*://*.live365.com/*',
+	],
+	js: 'connectors/live365.js',
+	id: 'live365',
+}, {
+	label: 'Lounge.fm',
+	matches: [
+		'*://www.lounge.fm/*',
+	],
+	js: 'connectors/lounge.fm.js',
+	id: 'lounge.fm',
+}, {
+	label: 'EulerBeats',
+	matches: [
+		'*://eulerbeats.com/*',
+	],
+	js: 'connectors/eulerbeats.js',
+	id: 'eulerbeats',
 }];
 
 define(() => connectors);
