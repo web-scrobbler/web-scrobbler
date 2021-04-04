@@ -1,6 +1,6 @@
 'use strict';
 
-const playerBar = '[class*=BottomFixed]';
+const playerBar = '[data-test=player-container]';
 const controlBar = '[data-test=controls-container]';
 
 Connector.playerSelector = playerBar;

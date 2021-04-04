@@ -80,7 +80,7 @@ define((require) => {
 
 		let authStr = null;
 		if (session) {
-			const userName = session.sessionName || 'anonimous';
+			const userName = session.sessionName || 'anonymous';
 			const authText = browser.i18n.getMessage('accountsSignedInAs', userName);
 			authStr = $('<span class="card-text"/>').text(authText);
 		} else {
