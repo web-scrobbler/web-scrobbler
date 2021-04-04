@@ -1734,6 +1734,13 @@ const connectors = [{
 	js: 'connectors/turntable.fm.js',
 	id: 'turntable.fm',
 }, {
+	label: 'Stingray Music',
+	matches: [
+		'*://*.stingray.com/*',
+	],
+	js: 'connectors/stingray.js',
+	id: 'stingray',
+}, {
 	label: 'CBC Music',
 	matches: [
 		'*://www.cbc.ca/listen/cbc-music-playlists*',
