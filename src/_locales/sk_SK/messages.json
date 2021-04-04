@@ -51,14 +51,6 @@
         "message": "Zaznamenáva diely podcastov",
         "description": "Option label"
     },
-    "optionTdlShortTrackNames": {
-        "message": "Použiť skrátené názvy skladieb",
-        "description": "Option title"
-    },
-    "optionTdlShortTrackNamesTitle": {
-        "message": "Táto možnosť poskytuje skrátené názvy pre určité skladby (vymaže z názvu slová ako \"naživo\" atď.)",
-        "description": ""
-    },
     "optionYtDesc": {
         "message": "Ak vypnete obe možnosti, doplnok bude zaznamenávať youtube videá zo všetkých kategórii.",
         "description": "Description of Youtube options"
