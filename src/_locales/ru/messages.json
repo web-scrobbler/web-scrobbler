@@ -51,14 +51,6 @@
         "message": "Разрешить приложению скробблить подкасты",
         "description": "Option label"
     },
-    "optionTdlShortTrackNames": {
-        "message": "Использовать короткие имена композиций",
-        "description": "Option title"
-    },
-    "optionTdlShortTrackNamesTitle": {
-        "message": "Tidal предоставляет короткие имена некоторых композиций (например, без суффикса \"Remastered\", и т.п.)",
-        "description": ""
-    },
     "optionYtDesc": {
         "message": "Если вы отключите обе настройки, расширение будет скробблить видео из всех категорий.",
         "description": "Description of Youtube options"

@@ -51,14 +51,6 @@
         "message": "Scrobble episodios del podcast",
         "description": "Option label"
     },
-    "optionTdlShortTrackNames": {
-        "message": "Usar nombres cortos de la canción",
-        "description": "Option title"
-    },
-    "optionTdlShortTrackNamesTitle": {
-        "message": "Tidal proporciona nombres de pistas abreviados para ciertas canciones (sin \"Remasterizado\", etc.)",
-        "description": ""
-    },
     "optionYtDesc": {
         "message": "Si desactiva ambas opciones, la extensión hará scrobbles de los videos de Youtube en todas las categorías.",
         "description": "Description of Youtube options"

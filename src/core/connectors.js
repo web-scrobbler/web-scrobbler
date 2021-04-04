@@ -1754,6 +1754,20 @@ const connectors = [{
 	],
 	js: 'connectors/live365.js',
 	id: 'live365',
+}, {
+	label: 'Lounge.fm',
+	matches: [
+		'*://www.lounge.fm/*',
+	],
+	js: 'connectors/lounge.fm.js',
+	id: 'lounge.fm',
+}, {
+	label: 'EulerBeats',
+	matches: [
+		'*://eulerbeats.com/*',
+	],
+	js: 'connectors/eulerbeats.js',
+	id: 'eulerbeats',
 }];
 
 define(() => connectors);
