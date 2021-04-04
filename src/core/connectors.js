@@ -1747,6 +1747,13 @@ const connectors = [{
 	],
 	js: 'connectors/queup.js',
 	id: 'queup',
+}, {
+	label: 'EulerBeats',
+	matches: [
+		'*://eulerbeats.com/*',
+	],
+	js: 'connectors/eulerbeats.js',
+	id: 'eulerbeats',
 }];
 
 define(() => connectors);
