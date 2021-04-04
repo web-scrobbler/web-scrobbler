@@ -1748,6 +1748,13 @@ const connectors = [{
 	js: 'connectors/queup.js',
 	id: 'queup',
 }, {
+	label: 'Lounge.fm',
+	matches: [
+		'*://www.lounge.fm/*',
+	],
+	js: 'connectors/lounge.fm.js',
+	id: 'lounge.fm',
+}, {
 	label: 'EulerBeats',
 	matches: [
 		'*://eulerbeats.com/*',
