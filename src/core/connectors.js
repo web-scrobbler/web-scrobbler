@@ -1790,6 +1790,13 @@ const connectors = [{
 	],
 	js: 'connectors/eulerbeats.js',
 	id: 'eulerbeats',
+}, {
+	label: 'FilmMusic.io',
+	matches: [
+		'*://*.filmmusic.io/*',
+	],
+	js: 'connectors/filmmusic.io.js',
+	id: 'filmmusic.io',
 }];
 
 define(() => connectors);
