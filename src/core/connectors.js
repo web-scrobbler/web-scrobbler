@@ -423,12 +423,12 @@ const connectors = [{
 	js: 'connectors/radiotunes.js',
 	id: 'classicalradio',
 }, {
-	label: 'Radio.com',
+	label: 'Audacy',
 	matches: [
-		'*://www.radio.com/*',
+		'*://www.audacy.com/*',
 	],
-	js: 'connectors/radio.com.js',
-	id: 'radio.com',
+	js: 'connectors/audacy.js',
+	id: 'audacy',
 }, {
 	label: 'GetWorkDoneMusic',
 	matches: [
