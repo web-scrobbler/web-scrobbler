@@ -423,12 +423,12 @@ const connectors = [{
 	js: 'connectors/radiotunes.js',
 	id: 'classicalradio',
 }, {
-	label: 'Radio.com',
+	label: 'Audacy',
 	matches: [
-		'*://www.radio.com/*',
+		'*://www.audacy.com/*',
 	],
-	js: 'connectors/radio.com.js',
-	id: 'radio.com',
+	js: 'connectors/audacy.js',
+	id: 'audacy',
 }, {
 	label: 'GetWorkDoneMusic',
 	matches: [
@@ -1790,6 +1790,13 @@ const connectors = [{
 	],
 	js: 'connectors/eulerbeats.js',
 	id: 'eulerbeats',
+}, {
+	label: 'FilmMusic.io',
+	matches: [
+		'*://*.filmmusic.io/*',
+	],
+	js: 'connectors/filmmusic.io.js',
+	id: 'filmmusic.io',
 }];
 
 define(() => connectors);
