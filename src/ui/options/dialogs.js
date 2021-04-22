@@ -43,7 +43,7 @@ define((require) => {
 				const optionValue = await Options.getConnectorOverrideOption(connector.id, option);
 				$(optionId).prop('checked', optionValue || false);
 				if (optionValue === undefined) {
-					$(optionId).prop("indeterminate", true);
+					$(optionId).prop('indeterminate', true);
 				}
 			}
 
