@@ -42,7 +42,7 @@ define((require) => {
 			this.currentSong = null;
 			this.isReplayingSong = false;
 			this.shouldScrobblePodcasts = true;
-			(async () => this.shouldScrobblePodcasts = await Options.getOption(Options.SCROBBLE_PODCASTS))();
+			(async () => this.shouldScrobblePodcasts = await Options.getOption(Options.SCROBBLE_PODCASTS, connector.id))();
 
 			this.debugLog(`Created controller for ${connector.label} connector`);
 		}
@@ -335,7 +335,7 @@ define((require) => {
 		async processSong() {
 			this.setMode(ControllerMode.Loading);
 
-			if (!await this.pipeline.process(this.currentSong)) {
+			if (!await this.pipeline.process(this.currentSong, this.connector)) {
 				return;
 			}
 
@@ -466,7 +466,7 @@ define((require) => {
 				return;
 			}
 
-			const percent = await Options.getOption(Options.SCROBBLE_PERCENT);
+			const percent = await Options.getOption(Options.SCROBBLE_PERCENT, this.connector.id);
 			const secondsToScrobble = Util.getSecondsToScrobble(duration, percent);
 
 			if (secondsToScrobble !== -1) {

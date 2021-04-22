@@ -315,6 +315,10 @@
         "message": "La extensión es gratuita y siempre lo será. Pero si desea apoyar el desarrollo de la extensión, puede usar el botón a continuación.",
         "description": ""
     },
+    "customPatterns": {
+        "message": "Patrones de direcciones URL",
+        "description": "'URL patterns' section"
+    },
     "customPatternsHint": {
         "message": "Agrega patrones de direcciones URL que a continuación el conector debe hacer coincidir.",
         "description": "Popup hint"

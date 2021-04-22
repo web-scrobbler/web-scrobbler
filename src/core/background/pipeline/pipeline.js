@@ -17,12 +17,12 @@ define((require) => {
 			];
 		}
 
-		async process(song) {
+		async process(song, connector) {
 			// FIXME: Use another lock way
 			this.song = song;
 
 			for (const processor of this.processors) {
-				await processor.process(song);
+				await processor.process(song, connector);
 			}
 
 			// Return false if this call is not relevant, e.g. when

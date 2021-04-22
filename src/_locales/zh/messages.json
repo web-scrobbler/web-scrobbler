@@ -315,6 +315,10 @@
         "message": "该扩展免费并将永久免费。但是如果你想支持扩展的开发，可以使用下方按钮。",
         "description": ""
     },
+    "customPatterns": {
+        "message": "网址格式",
+        "description": "'URL patterns' section"
+    },
     "customPatternsHint": {
         "message": "在下方为接口添加匹配网址。",
         "description": "Popup hint"
