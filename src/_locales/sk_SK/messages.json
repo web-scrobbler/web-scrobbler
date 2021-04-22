@@ -291,6 +291,10 @@
         "message": "Používanie doplnku je zadarmo, a vždy aj bude. Avšak, ak chcete podporiť vývoj doplnku, môžete použiť tlačidlo nižšie.",
         "description": ""
     },
+    "customPatterns": {
+        "message": "URL vzory",
+        "description": "'URL patterns' section"
+    },
     "customPatternsHint": {
         "message": "URL vzory ktoré má konektor brať pridajte dolu.",
         "description": "Popup hint"
