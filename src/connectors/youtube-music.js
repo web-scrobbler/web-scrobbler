@@ -32,9 +32,9 @@ const artistSelectors = [
 const albumSelectors = [
 	// Old base selector, leaving in case removing it would break something
 	'.ytmusic-player-bar [href*="channel/MPREb_"]',
-  
-  // New base selector
-  '.ytmusic-player-bar [href*="browse/MPREb_"]',
+	
+	// New base selector
+	'.ytmusic-player-bar [href*="browse/MPREb_"]',
 
 	// Selector for self-uploaded music
 	'.ytmusic-player-bar [href*="feed/music_library_privately_owned_release_detailb_"]',
