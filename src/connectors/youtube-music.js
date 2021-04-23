@@ -23,8 +23,8 @@
 const trackArtSelector = '.ytmusic-player-bar.image';
 
 const artistSelectors = [
-	// Base selector
-	'.ytmusic-player-bar.byline [href*="channel/"]:not([href*="channel/MPREb_"])',
+	// Base selector, combining both new and old
+	'.ytmusic-player-bar.byline [href*="channel/"]:not([href*="channel/MPREb_"]):not([href*="browse/MPREb_"])',
 
 	// Selector for self-uploaded music
 	'.ytmusic-player-bar.byline [href*="feed/music_library_privately_owned_artist_detaila_"]',
