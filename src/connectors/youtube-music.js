@@ -26,8 +26,11 @@ const artistSelectors = [
 	// Base selector, combining both new and old
 	'.ytmusic-player-bar.byline [href*="channel/"]:not([href*="channel/MPREb_"]):not([href*="browse/MPREb_"])',
 
-	// Selector for self-uploaded music
+	// Old selector for self-uploaded music
 	'.ytmusic-player-bar.byline [href*="feed/music_library_privately_owned_artist_detaila_"]',
+
+	//New selector for self-uploaded music
+	'.ytmusic-player-bar.byline [href*="browse/FEmusic_library_privately_owned_artist_detaila_"]',
 ];
 const albumSelectors = [
 	// Old base selector, leaving in case removing it would break something
@@ -36,8 +39,11 @@ const albumSelectors = [
 	// New base selector
 	'.ytmusic-player-bar [href*="browse/MPREb_"]',
 
-	// Selector for self-uploaded music
+	// Old selector for self-uploaded music, also leaving for now
 	'.ytmusic-player-bar [href*="feed/music_library_privately_owned_release_detailb_"]',
+
+	// New selector for self-uploaded music
+	'.ytmusic-player-bar [href*="browse/FEmusic_library_privately_owned_release_detailb_"]'
 ];
 
 const trackSelector = '.ytmusic-player-bar.title';
