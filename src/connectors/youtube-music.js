@@ -43,7 +43,7 @@ const albumSelectors = [
 	'.ytmusic-player-bar [href*="feed/music_library_privately_owned_release_detailb_"]',
 
 	// New selector for self-uploaded music
-	'.ytmusic-player-bar [href*="browse/FEmusic_library_privately_owned_release_detailb_"]'
+	'.ytmusic-player-bar [href*="browse/FEmusic_library_privately_owned_release_detailb_"]',
 ];
 
 const trackSelector = '.ytmusic-player-bar.title';
