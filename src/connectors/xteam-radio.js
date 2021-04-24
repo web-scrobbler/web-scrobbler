@@ -1,6 +1,6 @@
 'use strict';
 
-Connector.playerSelector = '.now-playing-bar--container'; // .play-pause-button--container
+Connector.playerSelector = '.now-playing-bar--container';
 
 Connector.pauseButtonSelector = '.play-pause-button--pause-container';
 
