@@ -29,7 +29,7 @@ const artistSelectors = [
 	// Old selector for self-uploaded music
 	'.ytmusic-player-bar.byline [href*="feed/music_library_privately_owned_artist_detaila_"]',
 
-	//New selector for self-uploaded music
+	// New selector for self-uploaded music
 	'.ytmusic-player-bar.byline [href*="browse/FEmusic_library_privately_owned_artist_detaila_"]',
 ];
 const albumSelectors = [
