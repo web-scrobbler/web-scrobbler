@@ -1800,8 +1800,8 @@ const connectors = [{
 }, {
 	label: 'X-Team Radio',
 	matches: [
-    '*://radio.x-team.com/*'
-  ],
+		'*://radio.x-team.com/*',
+	],
 	js: 'connectors/xteam-radio.js',
 	id: 'xteam-radio',
 }, {
