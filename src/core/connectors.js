@@ -1798,6 +1798,13 @@ const connectors = [{
 	js: 'connectors/filmmusic.io.js',
 	id: 'filmmusic.io',
 }, {
+	label: 'Calm',
+	matches: [
+		'*://*.calm.com/*',
+	],
+	js: 'connectors/calm.js',
+	id: 'calm',
+}, {
 	label: 'Keakie',
 	matches: [
 		'*://*.keakie.com/*',
