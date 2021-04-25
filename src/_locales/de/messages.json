@@ -267,6 +267,10 @@
         "message": "Anders als andere Erweiterungen enthält diese keine blinkenden Banner oder hinterhältige Werbung.",
         "description": ""
     },
+    "customPatterns": {
+        "message": "URL-Muster",
+        "description": "'URL patterns' section"
+    },
     "customPatternsHint": {
         "message": "Füge URL-Muster, für die der Verbinder gelten soll unten ein.",
         "description": "Popup hint"

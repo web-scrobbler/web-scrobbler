@@ -326,6 +326,10 @@
     "message": "The extension is free, and will always be free. But if you want to support development of the extension, you can use the button below.",
     "description": ""
   },
+  "customPatterns": {
+    "message": "URL patterns",
+    "description": "'URL patterns' section"
+  },
   "customPatternsHint": {
     "message": "Add URL patterns that the connector should match below.",
     "description": "Popup hint"

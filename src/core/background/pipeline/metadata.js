@@ -19,8 +19,9 @@ define((require) => {
 	/**
 	 * Load song info using ScrobblerService object.
 	 * @param  {Object} song Song instance
+	 * @param  {Object} connector Connector instance
 	 */
-	async function process(song) {
+	async function process(song, connector) {
 		if (song.isEmpty()) {
 			return;
 		}
@@ -44,7 +45,7 @@ define((require) => {
 			}
 		}
 
-		const forceRecognize = await Options.getOption(Options.FORCE_RECOGNIZE);
+		const forceRecognize = await Options.getOption(Options.FORCE_RECOGNIZE, connector.id);
 		song.flags.isValid = isSongValid || forceRecognize;
 	}
 

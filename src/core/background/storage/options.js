@@ -6,6 +6,7 @@ define((require) => {
 
 	const options = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 	const connectorsOptions = BrowserStorage.getStorage(BrowserStorage.CONNECTORS_OPTIONS);
+	const connectorsOverrideOptions = BrowserStorage.getStorage(BrowserStorage.CONNECTORS_OVERRIDE_OPTIONS);
 
 	const FORCE_RECOGNIZE = 'forceRecognize';
 	const USE_NOTIFICATIONS = 'useNotifications';
@@ -97,6 +98,8 @@ define((require) => {
 		}
 		await connectorsOptions.set(data);
 		connectorsOptions.debugLog();
+
+		connectorsOverrideOptions.debugLog();
 	}
 
 	async function cleanupConfigValues() {
@@ -119,8 +122,15 @@ define((require) => {
 		}
 	}
 
-	async function getOption(key) {
+	async function getOption(key, connector) {
 		assertValidOptionKey(key);
+
+		if (connector !== undefined) {
+			const optionValue = await getConnectorOverrideOption(connector, key);
+			if (optionValue !== undefined) {
+				return optionValue;
+			}
+		}
 
 		const data = await options.get();
 		return data[key];
@@ -146,6 +156,21 @@ define((require) => {
 		data[connector][key] = value;
 
 		await connectorsOptions.set(data);
+	}
+
+	async function getConnectorOverrideOption(connector, key) {
+		const data = await connectorsOverrideOptions.get();
+		return data[connector] && data[connector][key];
+	}
+
+	async function setConnectorOverrideOption(connector, key, value) {
+		const data = await connectorsOverrideOptions.get();
+		if (!data[connector]) {
+			data[connector] = {};
+		}
+		data[connector][key] = value;
+
+		await connectorsOverrideOptions.set(data);
 	}
 
 	function assertValidOptionKey(key) {
@@ -214,6 +239,7 @@ define((require) => {
 		isConnectorEnabled, setConnectorEnabled, setAllConnectorsEnabled,
 
 		getOption, setOption, getConnectorOption, setConnectorOption,
+		getConnectorOverrideOption, setConnectorOverrideOption,
 
 		FORCE_RECOGNIZE, USE_NOTIFICATIONS,
 		SCROBBLE_PODCASTS, USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
