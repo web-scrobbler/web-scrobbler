@@ -1803,7 +1803,14 @@ const connectors = [{
 		'*://*.calm.com/*',
 	],
 	js: 'connectors/calm.js',
-	id: 'calm.com',
+	id: 'calm',
+}, {
+	label: 'Keakie',
+	matches: [
+		'*://*.keakie.com/*',
+	],
+	js: 'connectors/keakie.js',
+	id: 'keakie',
 }];
 
 define(() => connectors);
