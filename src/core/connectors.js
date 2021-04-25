@@ -1799,9 +1799,25 @@ const connectors = [{
 	id: 'filmmusic.io',
 }, {
 	label: 'X-Team Radio',
-	matches: ['*://radio.x-team.com/*'],
+	matches: [
+    '*://radio.x-team.com/*'
+  ],
 	js: 'connectors/xteam-radio.js',
 	id: 'xteam-radio',
+}, {
+	label: 'Calm',
+	matches: [
+		'*://*.calm.com/*',
+	],
+	js: 'connectors/calm.js',
+	id: 'calm',
+}, {
+	label: 'Keakie',
+	matches: [
+		'*://*.keakie.com/*',
+	],
+	js: 'connectors/keakie.js',
+	id: 'keakie',
 }];
 
 define(() => connectors);
