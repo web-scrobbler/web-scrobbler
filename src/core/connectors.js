@@ -1797,6 +1797,13 @@ const connectors = [{
 	],
 	js: 'connectors/filmmusic.io.js',
 	id: 'filmmusic.io',
+}, {
+	label: 'Keakie',
+	matches: [
+		'*://*.keakie.com/*',
+	],
+	js: 'connectors/keakie.js',
+	id: 'keakie',
 }];
 
 define(() => connectors);
