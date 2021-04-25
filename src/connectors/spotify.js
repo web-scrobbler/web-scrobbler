@@ -12,9 +12,17 @@ Connector.useMediaSessionApi();
 
 Connector.playerSelector = playerBar;
 
-Connector.artistSelector = artistSelector;
+Connector.artistSelector = [
+	artistSelector,
+	// For local files
+	`${playerBar} [data-testid="track-info-artists"]`,
+];
 
-Connector.trackSelector = `${playerBar} [dir="auto"]:first-child a`;
+Connector.trackSelector = [
+	`${playerBar} [dir="auto"]:first-child a`,
+	// For local files
+	`${playerBar} [data-testid="track-info-name"]`,
+];
 
 Connector.trackArtSelector = '.NavBarFooter .cover-art-image';
 
@@ -26,7 +34,7 @@ Connector.applyFilter(MetadataFilter.getSpotifyFilter());
 
 Connector.isScrobblingAllowed = () => isMusicPlaying() && isMainTab();
 
-Connector.isPodcast = () => artistUrlIncludes('/show/');
+Connector.isPodcast = () => isPodcastPlaying();
 
 Connector.isPlaying = () => {
 	const svgPath = Util.getAttrFromSelectors(
@@ -41,7 +49,7 @@ Connector.isPlaying = () => {
 };
 
 function isMusicPlaying() {
-	return artistUrlIncludes('/artist/', '/show/');
+	return artistUrlIncludes('/artist/', '/show/') || isLocalFilePlaying();
 }
 
 function artistUrlIncludes(...strings) {
@@ -56,6 +64,20 @@ function artistUrlIncludes(...strings) {
 	}
 
 	return false;
+}
+
+function isPodcastPlaying() {
+	if (isLocalFilePlaying()) {
+		return false;
+	}
+
+	return artistUrlIncludes('/show/');
+}
+
+function isLocalFilePlaying() {
+	// Local files has no links
+	// TODO Use better detection
+	return document.querySelector(artistSelector) === null;
 }
 
 function isMainTab() {
