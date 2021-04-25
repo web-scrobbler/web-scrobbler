@@ -1798,6 +1798,13 @@ const connectors = [{
 	js: 'connectors/filmmusic.io.js',
 	id: 'filmmusic.io',
 }, {
+	label: 'X-Team Radio',
+	matches: [
+    '*://radio.x-team.com/*'
+  ],
+	js: 'connectors/xteam-radio.js',
+	id: 'xteam-radio',
+}, {
 	label: 'Calm',
 	matches: [
 		'*://*.calm.com/*',
