@@ -60,9 +60,8 @@ define((require) => {
 
 		/** @override */
 		async sendNowPlaying(song) {
-			const { sessionID } = await this.getSession();
-			const songData = this.makeTrackMetadata(song);
-			return this.sendRequest(songData, sessionID);
+			// Maloja does not support "now playing" scrobbles.
+			return ServiceCallResult.RESULT_OK
 		}
 
 		/** @override */
