@@ -68,7 +68,6 @@ define((require) => {
 		/** @override */
 		async scrobble(song) {
 			const songData = this.makeTrackMetadata(song);
-			songData.time = song.metadata.startTimestamp;
 
 			return this.sendRequest(songData, this.userToken);
 		}
@@ -107,6 +106,7 @@ define((require) => {
 			const trackMeta = {
 				artist: song.getArtist(),
 				title: song.getTrack(),
+				time: song.metadata.startTimestamp,
 			};
 
 			return trackMeta;
