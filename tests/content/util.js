@@ -369,9 +369,13 @@ const PROCESS_YT_VIDEO_TITLE_DATA = [{
 	args: ['Artist - Track(MV)'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
-	description: 'should remove "MV" string',
-	args: ['Artist - TrackMV'],
+	description: 'should remove trailing " MV" string',
+	args: ['Artist - Track MV'],
 	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should not remove trailing "MV" string',
+	args: ['Artist - TrackMV'],
+	expected: { artist: 'Artist', track: 'TrackMV' },
 }, {
 	description: 'should not remove "MV" in string',
 	args: ['Artist - Omvei'],
@@ -397,9 +401,13 @@ const PROCESS_YT_VIDEO_TITLE_DATA = [{
 	args: ['Artist『TrackMV』'],
 	expected: { artist: 'Artist', track: 'Track' },
 }, {
-	description: 'should remove "PV" string',
-	args: ['Artist - TrackPV'],
+	description: 'should remove trailing " PV" string',
+	args: ['Artist - Track PV'],
 	expected: { artist: 'Artist', track: 'Track' },
+}, {
+	description: 'should not remove trailing "PV" string',
+	args: ['Artist - TrackPV'],
+	expected: { artist: 'Artist', track: 'TrackPV' },
 }, {
 	description: 'should not remove "PV" in string',
 	args: ['Artist - Oppvakt'],
