@@ -587,7 +587,7 @@ const Util = {
 
 		// MV/PV if followed by an opening/closing bracket
 		title = title.replace(/(MV|PV)([「【『』】」])/i, '$2');
-		
+
 		// MV/PV if ending and with whitespace in front
 		title = title.replace(/\s+(MV|PV)$/i, '');
 
