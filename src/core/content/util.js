@@ -585,8 +585,11 @@ const Util = {
 		// 【/(東方/オリジナル*】/)
 		title = title.replace(/[(【]((オリジナル)|(東方)).*?[】)]/, '');
 
-		// MV/PV if not followed by an opening/closing bracket or if ending
-		title = title.replace(/(MV|PV)([「【『』】」]|$)/i, '$2');
+		// MV/PV if followed by an opening/closing bracket
+		title = title.replace(/(MV|PV)([「【『』】」])/i, '$2');
+
+		// MV/PV if ending and with whitespace in front
+		title = title.replace(/\s+(MV|PV)$/i, '');
 
 		// Try to match one of the regexps
 		for (const regExp of this.ytTitleRegExps) {
