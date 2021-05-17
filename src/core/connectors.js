@@ -1818,6 +1818,20 @@ const connectors = [{
 	],
 	js: 'connectors/keakie.js',
 	id: 'keakie',
+}, {
+	label: 'KKBOX',
+	matches: [
+		'*://*play-beta.kkbox.com/*',
+	],
+	js: 'connectors/kkbox.js',
+	id: 'kkbox',
+}, {
+	label: 'KKBOX Legacy',
+	matches: [
+		'*://*play.kkbox.com/*',
+	],
+	js: 'connectors/kkbox-legacy.js',
+	id: 'kkbox-legacy',
 }];
 
 define(() => connectors);
