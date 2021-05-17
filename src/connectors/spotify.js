@@ -26,9 +26,9 @@ Connector.trackSelector = [
 
 Connector.trackArtSelector = '.NavBarFooter .cover-art-image';
 
-Connector.currentTimeSelector = `${playerBar} .playback-bar__progress-time:first-child`;
+Connector.currentTimeSelector = `${playerBar} [data-testid=playback-position]`;
 
-Connector.durationSelector = `${playerBar} .playback-bar__progress-time:last-child`;
+Connector.durationSelector = `${playerBar} [data-testid=playback-duration]`;
 
 Connector.applyFilter(MetadataFilter.getSpotifyFilter());
 
