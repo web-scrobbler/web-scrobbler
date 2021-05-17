@@ -59,9 +59,9 @@ define((require) => {
 		}
 
 		/** @override */
-		async sendNowPlaying(song) {
+		async sendNowPlaying() {
 			// Maloja does not support "now playing" scrobbles.
-			return ServiceCallResult.RESULT_OK
+			return ServiceCallResult.RESULT_OK;
 		}
 
 		/** @override */
