@@ -52,6 +52,10 @@ Connector.isScrobblingAllowed = () => {
 	cue = +Util.getAttrFromSelectors('.cPlay:first input', 'value');
 	currentTime = Util.getSecondsFromSelectors('#playerWidgetCurrentTime');
 	const noIDs = Util.queryElements('.cPlay:first .redTxt').length;
+	const mashup = Util.hasElementClass(
+		'.cPlay:first span.trackValue',
+		'mashupTrack'
+	);
 
-	return noIDs <= 0 && (cue > 0 || nextCue > 0);
+	return noIDs <= 0 && (cue > 0 || nextCue > 0) && !mashup;
 };
