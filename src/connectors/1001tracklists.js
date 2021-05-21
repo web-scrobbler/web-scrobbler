@@ -11,7 +11,7 @@ const mixDuration = Util.stringToSeconds(
 
 Connector.playerSelector = '#playerWidgetFields';
 
-Connector.trackArtSelector = '#artworkLeft';
+Connector.trackArtSelector = '.cPlay:first .artM';
 
 Connector.albumSelector = '#pageTitle';
 
