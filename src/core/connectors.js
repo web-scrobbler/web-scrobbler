@@ -1435,7 +1435,7 @@ const connectors = [{
 	],
 	js: 'connectors/jb.fm.js',
 	id: 'jbfm',
-} ,{
+}, {
 	label: 'SECTOR Radio',
 	matches: [
 		'*://sectorradio.ru/*',
