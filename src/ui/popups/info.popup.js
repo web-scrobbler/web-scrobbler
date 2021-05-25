@@ -56,7 +56,7 @@ class InfoPopup {
 
 			this.view.setFieldValue(field, fieldValue);
 			if (fieldUrl) {
-				this.view.setFieldUrl(field, fieldUrl);
+				this.view.setFieldUrl(field, fieldUrl, fieldValue);
 			} else {
 				this.view.removeFieldUrl(field);
 			}

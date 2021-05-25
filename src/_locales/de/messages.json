@@ -408,15 +408,15 @@
         "description": "Placeholder of album artist input"
     },
     "infoViewArtistPage": {
-        "message": "Künstlerseite ansehen",
+        "message": "Künstlerseite ansehen: $1",
         "description": "Placeholder of album input"
     },
     "infoViewAlbumPage": {
-        "message": "Albumseite ansehen",
+        "message": "Albumseite ansehen: $1",
         "description": "Placeholder of album input"
     },
     "infoViewTrackPage": {
-        "message": "Titelseite ansehen",
+        "message": "Titelseite ansehen: $1",
         "description": "Placeholder of album input"
     },
     "pageActionBase": {
