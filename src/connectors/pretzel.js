@@ -56,7 +56,7 @@ function setupPropertiesForFullPlayer() {
 
 	Connector.playerSelector = '.hOOKvw';
 
-	Connector.trackSelector = '.oKpSL';
+	Connector.trackSelector = '.kzpiRD .oKpSL';
 
 	Connector.albumSelector = '.kzpiRD p:nth-child(3) a';
 
