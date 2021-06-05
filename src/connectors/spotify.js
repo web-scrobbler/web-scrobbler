@@ -5,9 +5,6 @@ const playerBar = '.Root__now-playing-bar';
 const artistSelector = `${playerBar} [dir="auto"]:last-child a`;
 const spotifyConnectSelector = '[aria-live="polite"] span';
 
-const playPauseButtonSvgPathSelector = `${playerBar} .player-controls__buttons button:nth-child(3) path`;
-const playButtonSvgPath = 'M4.018 14L14.41 8 4.018 2z';
-
 Connector.useMediaSessionApi();
 
 Connector.playerSelector = playerBar;
@@ -30,23 +27,13 @@ Connector.currentTimeSelector = `${playerBar} [data-testid=playback-position]`;
 
 Connector.durationSelector = `${playerBar} [data-testid=playback-duration]`;
 
+Connector.pauseButtonSelector = `${playerBar} [data-testid=control-button-pause]`;
+
 Connector.applyFilter(MetadataFilter.getSpotifyFilter());
 
 Connector.isScrobblingAllowed = () => isMusicPlaying() && isMainTab();
 
 Connector.isPodcast = () => isPodcastPlaying();
-
-Connector.isPlaying = () => {
-	const svgPath = Util.getAttrFromSelectors(
-		playPauseButtonSvgPathSelector,
-		'd'
-	);
-	if (svgPath) {
-		return svgPath !== playButtonSvgPath;
-	}
-
-	return true;
-};
 
 function isMusicPlaying() {
 	return artistUrlIncludes('/artist/', '/show/') || isLocalFilePlaying();
