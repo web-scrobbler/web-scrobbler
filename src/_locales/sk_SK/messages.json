@@ -448,15 +448,15 @@
         "description": "Placeholder of album artist input"
     },
     "infoViewArtistPage": {
-        "message": "Otvoriť stránku interpreta",
+        "message": "Otvoriť stránku interpreta: $1",
         "description": "Placeholder of album input"
     },
     "infoViewAlbumPage": {
-        "message": "Otvoriť stránku albumu",
+        "message": "Otvoriť stránku albumu: $1",
         "description": "Placeholder of album input"
     },
     "infoViewTrackPage": {
-        "message": "Otvoriť stránku skladby",
+        "message": "Otvoriť stránku skladby: $1",
         "description": "Placeholder of album input"
     },
     "infoYourScrobbles": {

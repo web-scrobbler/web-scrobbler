@@ -472,15 +472,15 @@
         "description": "Placeholder of album artist input"
     },
     "infoViewArtistPage": {
-        "message": "查看艺术家页面",
+        "message": "查看艺术家页面：$1",
         "description": "Placeholder of album input"
     },
     "infoViewAlbumPage": {
-        "message": "查看专辑页面",
+        "message": "查看专辑页面：$1",
         "description": "Placeholder of album input"
     },
     "infoViewTrackPage": {
-        "message": "查看曲目页面",
+        "message": "查看曲目页面：$1",
         "description": "Placeholder of album input"
     },
     "infoYourScrobbles": {

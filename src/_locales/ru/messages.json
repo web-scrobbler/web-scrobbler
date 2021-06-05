@@ -472,15 +472,15 @@
         "description": "Placeholder of album artist input"
     },
     "infoViewArtistPage": {
-        "message": "Посмотреть страницу исполнителя",
+        "message": "Посмотреть страницу исполнителя: $1",
         "description": "Placeholder of album input"
     },
     "infoViewAlbumPage": {
-        "message": "Посмотреть страницу альбома",
+        "message": "Посмотреть страницу альбома: $1",
         "description": "Placeholder of album input"
     },
     "infoViewTrackPage": {
-        "message": "Посмотреть страницу композиции",
+        "message": "Посмотреть страницу композиции: $1",
         "description": "Placeholder of album input"
     },
     "infoYourScrobbles": {

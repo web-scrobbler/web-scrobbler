@@ -191,12 +191,12 @@ class InfoPopupView {
 		$(selector).val(value);
 	}
 
-	setFieldUrl(field, url) {
+	setFieldUrl(field, url, title) {
 		const selector = InfoPopupView.getFieldSelector(field);
 		const fieldTitleId = fieldTitleMap[field];
 
 		$(selector).attr('href', url);
-		$(selector).attr('title', this.i18n(fieldTitleId));
+		$(selector).attr('title', this.i18n(fieldTitleId, title));
 	}
 
 	removeFieldUrl(field) {

@@ -472,15 +472,15 @@
         "description": "Placeholder of album artist input"
     },
     "infoViewArtistPage": {
-        "message": "Zobacz stronę wykonawcy",
+        "message": "Zobacz stronę wykonawcy: $1",
         "description": "Placeholder of album input"
     },
     "infoViewAlbumPage": {
-        "message": "Zobacz stronę albumu",
+        "message": "Zobacz stronę albumu: $1",
         "description": "Placeholder of album input"
     },
     "infoViewTrackPage": {
-        "message": "Zobacz stronę utworu",
+        "message": "Zobacz stronę utworu: $1",
         "description": "Placeholder of album input"
     },
     "infoYourScrobbles": {
