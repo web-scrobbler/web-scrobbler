@@ -20,7 +20,7 @@ Connector.getUniqueID = () => {
 
 Connector.artistSelector = `${Connector.playerSelector} span.artist-link`;
 
-Connector.albumSelector = ['#nowPlaying table[class^="infoTable--"] a[href^="/album/"]', `${Connector.playerSelector} a[href^="/album/"]`];
+Connector.albumSelector = ['#nowPlaying div.react-tabs a[href^="/album/"]', `${Connector.playerSelector} a[href^="/album/"]`];
 
 Connector.trackArtSelector = `${Connector.playerSelector} figure[data-test="current-media-imagery"] img`;
 
