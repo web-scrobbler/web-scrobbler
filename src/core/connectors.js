@@ -1393,6 +1393,13 @@ const connectors = [{
 	js: 'connectors/smoothfm.js',
 	id: 'smoothfm',
 }, {
+	label: 'Vodafone.fm',
+	matches: [
+		'*://vodafone.fm/*',
+	],
+	js: 'connectors/vodafone.fm.js',
+	id: 'vodafonefm',
+}, {
 	label: 'Relisten.net',
 	matches: [
 		'*://relisten.net/*',
