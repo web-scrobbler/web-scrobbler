@@ -1,11 +1,9 @@
 'use strict';
 
-Connector.playerSelector = '.recaster-mainWrapper';
+Connector.playerSelector = '#audioPlayer';
 
-Connector.artistSelector = '.recaster-currentArtist';
+Connector.artistSelector = '.trackInfos-artist';
 
-Connector.trackSelector = '.recaster-currentSong';
+Connector.trackSelector = '.trackInfos-title';
 
-Connector.trackArtSelector = '.recaster-coverLink img';
-
-Connector.isPlaying = () => $('.recaster-mainBt').hasClass('rc-active');
+Connector.pauseButtonSelector = '#stopButton';
