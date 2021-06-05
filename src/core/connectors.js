@@ -1436,6 +1436,13 @@ const connectors = [{
 	js: 'connectors/shuffleone.js',
 	id: 'shuffleone',
 }, {
+	label: 'JB FM',
+	matches: [
+		'*://jb.fm/player/*',
+	],
+	js: 'connectors/jb.fm.js',
+	id: 'jbfm',
+}, {
 	label: 'SECTOR Radio',
 	matches: [
 		'*://sectorradio.ru/*',
