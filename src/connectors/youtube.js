@@ -251,10 +251,10 @@ function getTrackInfoFromChapters() {
 	if (!artistTrack.track) {
 		artistTrack.track = chapterName;
 	}
-	//fix for when Youtube has artist name like '<div class="ytp-chapter-title-content">20..<Artist> - <Song></div>' (notice '..')
-	//which then causes parser to parse artist as '.Artist' instead of just 'Artist'
+	// fix for when Youtube has artist name like '<div class="ytp-chapter-title-content">20..<Artist> - <Song></div>' (notice '..')
+	// which then causes parser to parse artist as '.Artist' instead of just 'Artist'
 	if (artistTrack.artist && (new RegExp('[0-9][\\.]{2}.*')).test(artistTrack.artist)) {
-		artistTrack.artist = artistTrack.artist.replace("..", ".");
+		artistTrack.artist = artistTrack.artist.replace('..', '.');
 	}
 	return artistTrack;
 }
