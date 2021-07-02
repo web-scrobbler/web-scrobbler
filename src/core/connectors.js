@@ -1846,6 +1846,11 @@ const connectors = [{
 	],
 	js: 'connectors/kkbox-legacy.js',
 	id: 'kkbox-legacy',
+}, {
+	label: 'Thrill Jockey',
+	matches: ['*://thrilljockey.com/products/*'],
+	js: 'connectors/thrilljockey.js',
+	id: 'thrilljockey',
 }];
 
 define(() => connectors);
