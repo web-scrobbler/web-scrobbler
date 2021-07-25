@@ -1259,12 +1259,12 @@ const connectors = [{
 	js: 'connectors/watch2gether.js',
 	id: 'watch2gether',
 }, {
-	label: 'Poolside FM',
+	label: 'Poolsuite',
 	matches: [
-		'*://poolside.fm/*',
+		'*://poolsuite.net/*',
 	],
-	js: 'connectors/poolside.js',
-	id: 'poolside',
+	js: 'connectors/poolsuite.js',
+	id: 'poolsuite',
 }, {
 	label: 'GDS.FM',
 	matches: [
