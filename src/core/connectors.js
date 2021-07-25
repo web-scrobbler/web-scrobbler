@@ -260,13 +260,6 @@ const connectors = [{
 	js: 'connectors/reverbnation.js',
 	id: 'reverbnation',
 }, {
-	label: 'Xiami',
-	matches: [
-		'*://*.xiami.com/*',
-	],
-	js: 'connectors/xiami.js',
-	id: 'xiami',
-}, {
 	label: 'NRK Radio',
 	matches: [
 		'*://radio.nrk.no/*',
