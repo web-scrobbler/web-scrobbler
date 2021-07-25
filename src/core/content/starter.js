@@ -37,7 +37,7 @@
 
 		Util.debugLog('Setting up observer');
 
-		const observeTarget = document.querySelector(Connector.playerSelector);
+		const observeTarget = retrieveObserveTarget();
 		if (observeTarget !== null) {
 			setupObserver(observeTarget);
 		} else {
@@ -60,7 +60,7 @@
 
 	function setupSecondObserver() {
 		const playerObserver = new MutationObserver(() => {
-			const observeTarget = document.querySelector(Connector.playerSelector);
+			const observeTarget = retrieveObserveTarget();
 			if (observeTarget !== null) {
 				playerObserver.disconnect();
 				setupObserver(observeTarget);
@@ -72,5 +72,9 @@
 			attributes: false, characterData: false,
 		};
 		playerObserver.observe(document, playerObserverConfig);
+	}
+
+	function retrieveObserveTarget() {
+		return document.querySelector(Connector.playerSelector);
 	}
 })();
