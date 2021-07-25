@@ -1846,6 +1846,13 @@ const connectors = [{
 	],
 	js: 'connectors/kkbox-legacy.js',
 	id: 'kkbox-legacy',
+}, {
+	label: 'Radio Horizonte',
+	matches: [
+		'*://*horizonte.cl/*',
+	],
+	js: 'connectors/horizonte.cl.js',
+	id: 'horizontecl',
 }];
 
 define(() => connectors);
