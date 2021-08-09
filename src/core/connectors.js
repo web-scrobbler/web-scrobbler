@@ -1851,6 +1851,11 @@ const connectors = [{
 	],
 	js: 'connectors/horizonte.cl.js',
 	id: 'horizontecl',
+}, {
+	label: 'Yammat FM',
+	matches: ['*://*yammat.fm/*'],
+	js: 'connectors/yammat.fm.js',
+	id: 'yammat.fm',
 }];
 
 define(() => connectors);
