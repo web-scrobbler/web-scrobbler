@@ -35,6 +35,8 @@ Connector.isScrobblingAllowed = () => isMusicPlaying() && isMainTab();
 
 Connector.isPodcast = () => isPodcastPlaying();
 
+Connector.getUniqueID = () => getTrackUri();
+
 function isMusicPlaying() {
 	return artistUrlIncludes('/artist/', '/show/') || isLocalFilePlaying();
 }
@@ -83,4 +85,19 @@ function hasMultipleSources() {
 function getActiveDeviceName() {
 	const spotifyConnectEl = document.querySelector(spotifyConnectSelector);
 	return spotifyConnectEl && spotifyConnectEl.textContent;
+}
+
+function getTrackUri() {
+	const contextLinkEl = document.querySelector('[data-testid="context-link"]');
+	if (!contextLinkEl || !contextLinkEl.href) {
+		return null;
+	}
+
+	const url = new URL(contextLinkEl);
+	const trackUri = url.searchParams.get('uri');
+	if (trackUri && trackUri.startsWith('spotify:track:')) {
+		return trackUri;
+	}
+
+	return null;
 }
