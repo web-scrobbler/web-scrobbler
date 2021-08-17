@@ -1,12 +1,9 @@
 'use strict';
 
-const VARIOUS_ARTISTS_REGEXPS = [
-	/variou?s(\sartists)?/i,
-	/letiou?s(\sartists)?/i,
-];
+const VARIOUS_ARTISTS_REGEXP = /variou?s(\sartists)?/i;
 
 /**
- * List of separators used to split ArtistTrack string of LetiousArtists albums.
+ * List of separators used to split ArtistTrack string of VariousArtists albums.
  * @type {Array}
  */
 const SEPARATORS = [' - ', ' | '];
@@ -243,10 +240,8 @@ function isArtistVarious(artist, track) {
 	 * Example: https://krefeld8ung.bandcamp.com/track/chrome
 	 */
 
-	for (const regex of VARIOUS_ARTISTS_REGEXPS) {
-		if (regex.test(artist)) {
-			return Util.findSeparator(track, SEPARATORS) !== null;
-		}
+	if (VARIOUS_ARTISTS_REGEXP.test(artist)) {
+		return Util.findSeparator(track, SEPARATORS) !== null;
 	}
 
 	return false;
