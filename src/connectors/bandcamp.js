@@ -1,6 +1,6 @@
 'use strict';
 
-const VARIOUS_ARTISTS_REGEXP = /variou?s(\sartists)?/i;
+const VARIOUS_ARTISTS_REGEXP = /variou?s\sartists?/i;
 
 /**
  * List of separators used to split ArtistTrack string of VariousArtists albums.
