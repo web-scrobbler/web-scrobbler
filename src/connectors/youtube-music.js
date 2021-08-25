@@ -108,10 +108,7 @@ Connector.isScrobblingAllowed = () => !Util.isElementVisible(adSelector);
 
 function getArtists() {
 	// FIXME Use Array.from after jQuery support will be removed
-	console.log('Before queryElements');
 	const artistElements = Util.queryElements(artistSelectors);
-	console.log(artistElements);
-	console.log('After queryElements');
 	return artistElements && Util.joinArtists(artistElements.toArray());
 }
 
