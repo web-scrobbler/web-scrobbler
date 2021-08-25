@@ -18,6 +18,9 @@
  *
  * https://music.youtube.com/library/uploaded_songs
  * Uploaded songs have different artist and track selectors
+ *
+ * https://music.youtube.com/watch?v=6Vph_mT76Bw
+ * Artist without hyperlinked channel page
  */
 
 const trackArtSelector = '.ytmusic-player-bar.image';
@@ -31,6 +34,9 @@ const artistSelectors = [
 
 	// New selector for self-uploaded music
 	'.ytmusic-player-bar.byline [href*="browse/FEmusic_library_privately_owned_artist_detaila_"]',
+
+	// Fallback selector for when channel is not hyperlinked
+	'.ytmusic-player-bar.byline span',
 ];
 const albumSelectors = [
 	// Old base selector, leaving in case removing it would break something
@@ -102,7 +108,10 @@ Connector.isScrobblingAllowed = () => !Util.isElementVisible(adSelector);
 
 function getArtists() {
 	// FIXME Use Array.from after jQuery support will be removed
+	console.log('Before queryElements');
 	const artistElements = Util.queryElements(artistSelectors);
+	console.log(artistElements);
+	console.log('After queryElements');
 	return artistElements && Util.joinArtists(artistElements.toArray());
 }
 
