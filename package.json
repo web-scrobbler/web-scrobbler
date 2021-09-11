@@ -42,7 +42,7 @@
     "mocha-lcov-reporter": "1.3.0",
     "node-define": "0.1.1",
     "nyc": "15.1.0",
-    "prettier": "2.3.2",
+    "prettier": "2.4.0",
     "prettier-config-web-scrobbler": "0.1.0",
     "remark-preset-lint-recommended": "5.0.0",
     "stylelint": "13.13.1",
