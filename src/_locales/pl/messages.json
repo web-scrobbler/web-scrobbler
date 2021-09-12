@@ -571,14 +571,6 @@
         "message": "Kliknij ikonę na pasku rozszerzeń, aby poprawić i przesłać informacje o utworze.",
         "description": "Notification text"
     },
-    "optIn": {
-        "message": "Zgadzam się",
-        "description": "Opt in"
-    },
-    "optOut": {
-        "message": "Nie zgadzam się",
-        "description": "Opt out"
-    },
     "hotkeyToggleConnector": {
         "message": "Przełącz scrobblowanie dla obecnej witryny",
         "description": "Hotkey label"

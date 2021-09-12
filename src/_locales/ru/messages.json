@@ -571,14 +571,6 @@
         "message": "Кликните на иконку справа от адресной строки, чтобы скорректировать информацию о композиции.",
         "description": "Notification text"
     },
-    "optIn": {
-        "message": "Принять",
-        "description": "Opt in"
-    },
-    "optOut": {
-        "message": "Отклонить",
-        "description": "Opt out"
-    },
     "hotkeyToggleConnector": {
         "message": "Включить/выключить скробблинг для текущего сайта",
         "description": "Hotkey label"

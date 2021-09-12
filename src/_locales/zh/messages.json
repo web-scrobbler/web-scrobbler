@@ -571,14 +571,6 @@
         "message": "点击扩展列中的图标来更正和提交曲目信息。",
         "description": "Notification text"
     },
-    "optIn": {
-        "message": "选择参加",
-        "description": "Opt in"
-    },
-    "optOut": {
-        "message": "选择退出",
-        "description": "Opt out"
-    },
     "hotkeyToggleConnector": {
         "message": "切换对当前网站的跟踪",
         "description": "Hotkey label"
