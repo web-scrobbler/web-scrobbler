@@ -547,14 +547,6 @@
         "message": "Kliknite na ikonku v lište doplnkov a uložte správne údaje.",
         "description": "Notification text"
     },
-    "optIn": {
-        "message": "Súhlasiť",
-        "description": "Opt in"
-    },
-    "optOut": {
-        "message": "Nesúhlasiť",
-        "description": "Opt out"
-    },
     "hotkeyToggleConnector": {
         "message": "Prepnúť zaznamenávanie pre aktuálnu stránku",
         "description": "Hotkey label"

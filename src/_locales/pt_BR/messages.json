@@ -547,14 +547,6 @@
         "message": "Clique no ícone na barra de extensões para corrigir e enviar dados da faixa.",
         "description": "Notification text"
     },
-    "optIn": {
-        "message": "Aceitar",
-        "description": "Opt in"
-    },
-    "optOut": {
-        "message": "Recusar",
-        "description": "Opt out"
-    },
     "hotkeyToggleConnector": {
         "message": "Alternar scrobble para o site atual",
         "description": "Hotkey label"

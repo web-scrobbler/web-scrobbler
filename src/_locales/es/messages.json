@@ -571,14 +571,6 @@
         "message": "Haga clic en el icono en la barra de extensiones para corregir y enviar información de la pista.",
         "description": "Notification text"
     },
-    "optIn": {
-        "message": "Optar por sí",
-        "description": "Opt in"
-    },
-    "optOut": {
-        "message": "Optar por no",
-        "description": "Opt out"
-    },
     "hotkeyToggleConnector": {
         "message": "Cambiar la modalidad de scrobbling para el actual sitio web",
         "description": "Hotkey label"
