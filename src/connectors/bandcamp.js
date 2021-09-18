@@ -224,11 +224,22 @@ function isArtistVarious(artist, track) {
 	 */
 	if (isAlbumPage()) {
 		const trackNodes = document.querySelectorAll('.track_list .track-title');
+		const artists = [];
 		for (const trackNode of trackNodes) {
 			const trackName = trackNode.textContent;
 			if (!Util.findSeparator(trackName, SEPARATORS)) {
 				return false;
 			}
+			const { artist } = Util.splitArtistTrack(trackName, SEPARATORS);
+			artists.push(artist);
+		}
+		/*
+		 * Return false if every detected artist on the album has a very short name.
+		 * It is probably not artist names but disc sides or some kind of numbers.
+		 * Example: https://teenagemenopause.bandcamp.com/album/viens-mourir
+		 */
+		if (artists.every((artist) => artist.length <= 2)) {
+			return false;
 		}
 
 		return true;
