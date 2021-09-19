@@ -98,6 +98,14 @@ Connector.isPlaying = () => {
 	return Util.getAttrFromSelectors(playButtonSelector, 'd') === playingPath;
 };
 
+Connector.getUniqueID = () => {
+	const videoUrl = Util.getAttrFromSelectors('.yt-uix-sessionlink', 'href');
+
+	if (videoUrl) {
+		return Util.getYtVideoIdFromUrl(videoUrl);
+	}
+};
+
 Connector.isScrobblingAllowed = () => !Util.isElementVisible(adSelector);
 
 function getArtists() {
