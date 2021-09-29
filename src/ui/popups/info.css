@@ -13,6 +13,7 @@ body {
 	margin: 0px;
 	overflow: hidden;
 	padding: 0px;
+	width: max-content;
 }
 
 a {
