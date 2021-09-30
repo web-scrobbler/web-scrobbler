@@ -1,7 +1,7 @@
 'use strict';
 
 const artistAlbumSeparator = ' - ';
-const artistAlbumSelector = '.songInfo';
+const artistAlbumSelector = '.songTitle';
 
 Connector.playerSelector = '.music-player-panel';
 
@@ -14,8 +14,9 @@ Connector.currentTimeSelector = '.current-time';
 Connector.durationSelector = '.duration';
 
 Connector.getTrackInfo = () => {
-	const artistAlbum = Util.getTextFromSelectors(artistAlbumSelector);
-	return Util.splitArtistAlbum(artistAlbum, [artistAlbumSeparator]);
+	const artistAlbumYear = document.querySelector(artistAlbumSelector).parentNode.nextSibling.innerText;
+	const [artist, album] = artistAlbumYear.split(artistAlbumSeparator, 2);
+	return { artist, album };
 };
 
 Connector.isPlaying = () => {
