@@ -1605,12 +1605,12 @@ const connectors = [{
 	js: 'connectors/radio7.js',
 	id: 'radio7lv',
 }, {
-	label: 'RecMusic',
+	label: 'TOWER RECORDS MUSIC',
 	matches: [
-		'*://recmusic.jp/*',
+		'*://music.tower.jp/*',
 	],
-	js: 'connectors/recmusic.js',
-	id: 'recmusic',
+	js: 'connectors/towerrecordsmusic.js',
+	id: 'towerrecordsmusic',
 }, {
 	label: 'Eggs',
 	matches: [
