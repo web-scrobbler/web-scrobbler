@@ -1852,7 +1852,7 @@ const connectors = [{
 	js: 'connectors/horizonte.cl.js',
 	id: 'horizontecl',
 }, {
-	label: 'Radio Rock&Pop Chile',
+	label: 'Rock&Pop Chile',
 	matches: [
 		'*://envivo.rockandpop.cl/*',
 	],

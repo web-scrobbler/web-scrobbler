@@ -13,3 +13,11 @@ Connector.trackArtSelector = '.mm_media-left img';
 Connector.currentTimeSelector = '.mm_current-time';
 
 Connector.durationSelector = '.mm_total-time';
+
+Connector.isScrobblingAllowed = () => {
+	const artist = Connector.getArtist();
+	if (artist) {
+		return !artist.toLowerCase().includes('24/7');
+	}
+	return false;
+};
