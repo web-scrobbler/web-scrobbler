@@ -2,7 +2,7 @@
 
 const playerBar = '.Root__now-playing-bar';
 
-const artistSelector = `${playerBar} [dir="auto"]:last-child a`;
+const artistSelector = `${playerBar} [data-testid="context-item-info-artist"]`;
 const spotifyConnectSelector = `${playerBar} [aria-live="polite"]`;
 
 Connector.useMediaSessionApi();
