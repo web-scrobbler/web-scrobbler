@@ -1851,6 +1851,13 @@ const connectors = [{
 	],
 	js: 'connectors/horizonte.cl.js',
 	id: 'horizontecl',
+}, {
+	label: 'Rock&Pop Chile',
+	matches: [
+		'*://envivo.rockandpop.cl/*',
+	],
+	js: 'connectors/rockandpop.cl.js',
+	id: 'rockandpopcl',
 }];
 
 define(() => connectors);
