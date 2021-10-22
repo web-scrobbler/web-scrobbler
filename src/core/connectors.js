@@ -1872,6 +1872,13 @@ const connectors = [{
 	],
 	js: 'connectors/zeno.js',
 	id: 'zeno',
+}, {
+	label: 'Naxos Music Library',
+	matches: [
+		'*://*.naxosmusiclibrary.com/*',
+	],
+	js: 'connectors/naxosmusiclibrary.js',
+	id: 'naxosmusiclibrary',
 }];
 
 define(() => connectors);
