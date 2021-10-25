@@ -1,23 +1,27 @@
 'use strict';
 
-const playerBar = '.player';
-const artistAlbumSep = '-';
+const filter = new MetadataFilter({
+	track: cleanupTrack,
+	artist: cleanupArtist,
+});
 
-Connector.playerSelector = '.listen-body';
-
-Connector.trackSelector = '.player-title';
-
-Connector.artistSelector = '.player-artist';
-
-Connector.getAlbum = () => {
-	const artistAlbumStr = $(Connector.trackArtSelector).attr('title');
-	const [, album] = Util.splitString(artistAlbumStr, artistAlbumSep);
-
-	return album;
+Connector.playerSelector = 'aside.player';
+Connector.trackSelector = 'aside.player .player_subhead';
+Connector.artistSelector = 'aside.player .player_subhead';
+Connector.isPlaying = () => {
+	return $('button.playPauseButton span.player-pause').hasClass('false');
 };
 
-Connector.trackArtSelector = '.listen-album img';
+Connector.onReady = Connector.onStateChanged;
 
-Connector.isTrackArtDefault = (url) => url.includes('default');
+Connector.applyFilter(filter);
 
-Connector.isPlaying = () => $(playerBar).hasClass('is-playing');
+function cleanupTrack(track) {
+	// Extract a track title from a `Track by Artist` string.
+	return track.replace(/^(.*?)\s(by)\s(.*?)$/s, '$1');
+}
+
+function cleanupArtist(artist) {
+	// Extract the artist from a `Track by Artist` string.
+	return artist.replace(/^(.*?)\s(by)\s(.*?)$/s, '$3');
+}
