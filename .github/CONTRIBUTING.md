@@ -23,6 +23,10 @@ Please read [this page][DebugExtension] to understand how to get
 the extension logs. If you don't know how to report bugs effectively,
 please use [this article][ReportBugs] as a guideline.
 
+### Submitting rules
+
+Please make sure your issue describes only one feature, request or bug.
+
 ## Submitting pull requests
 
 -   Read [our wiki][Wiki].
@@ -43,7 +47,7 @@ connectors to use this feature, you can open a single PR containing all changes.
 
 If you plan on contributing something that requires significant changes, please
 contact us first. You can find us in [Discord][Discord-Server]; alternatively,
-feel free to open a new issue and tell us about your plans.
+feel free to open a new issue or discussion and tell us about your plans.
 
 ### Setup environment
 
