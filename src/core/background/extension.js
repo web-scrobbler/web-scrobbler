@@ -274,7 +274,7 @@ define((require) => {
 						return;
 					}
 
-					Notifications.showNowPlaying(song, () => {
+					Notifications.showNowPlaying(song, ctrl.connector, () => {
 						openTab(ctrl.tabId);
 					});
 					break;
@@ -282,7 +282,7 @@ define((require) => {
 
 				case SongUnrecognized: {
 					const song = ctrl.getCurrentSong();
-					Notifications.showSongNotRecognized(song, () => {
+					Notifications.showSongNotRecognized(song, ctrl.connector, () => {
 						openTab(ctrl.tabId);
 					});
 					break;

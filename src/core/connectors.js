@@ -260,13 +260,6 @@ const connectors = [{
 	js: 'connectors/reverbnation.js',
 	id: 'reverbnation',
 }, {
-	label: 'Xiami',
-	matches: [
-		'*://*.xiami.com/*',
-	],
-	js: 'connectors/xiami.js',
-	id: 'xiami',
-}, {
 	label: 'NRK Radio',
 	matches: [
 		'*://radio.nrk.no/*',
@@ -423,12 +416,12 @@ const connectors = [{
 	js: 'connectors/radiotunes.js',
 	id: 'classicalradio',
 }, {
-	label: 'Radio.com',
+	label: 'Audacy',
 	matches: [
-		'*://www.radio.com/*',
+		'*://www.audacy.com/*',
 	],
-	js: 'connectors/radio.com.js',
-	id: 'radio.com',
+	js: 'connectors/audacy.js',
+	id: 'audacy',
 }, {
 	label: 'GetWorkDoneMusic',
 	matches: [
@@ -695,13 +688,6 @@ const connectors = [{
 	],
 	js: 'connectors/monstercat.js',
 	id: 'monstercat',
-}, {
-	label: 'Randomtube',
-	matches: [
-		'*://youtube-playlist-randomizer.valami.info/*',
-	],
-	js: 'connectors/randomtube.js',
-	id: 'randomtube',
 }, {
 	label: 'Listen.moe',
 	matches: [
@@ -1266,12 +1252,12 @@ const connectors = [{
 	js: 'connectors/watch2gether.js',
 	id: 'watch2gether',
 }, {
-	label: 'Poolside FM',
+	label: 'Poolsuite',
 	matches: [
-		'*://poolside.fm/*',
+		'*://poolsuite.net/*',
 	],
-	js: 'connectors/poolside.js',
-	id: 'poolside',
+	js: 'connectors/poolsuite.js',
+	id: 'poolsuite',
 }, {
 	label: 'GDS.FM',
 	matches: [
@@ -1400,6 +1386,13 @@ const connectors = [{
 	js: 'connectors/smoothfm.js',
 	id: 'smoothfm',
 }, {
+	label: 'Vodafone.fm',
+	matches: [
+		'*://vodafone.fm/*',
+	],
+	js: 'connectors/vodafone.fm.js',
+	id: 'vodafonefm',
+}, {
 	label: 'Relisten.net',
 	matches: [
 		'*://relisten.net/*',
@@ -1435,6 +1428,13 @@ const connectors = [{
 	],
 	js: 'connectors/shuffleone.js',
 	id: 'shuffleone',
+}, {
+	label: 'JB FM',
+	matches: [
+		'*://jb.fm/player/*',
+	],
+	js: 'connectors/jb.fm.js',
+	id: 'jbfm',
 }, {
 	label: 'SECTOR Radio',
 	matches: [
@@ -1605,12 +1605,12 @@ const connectors = [{
 	js: 'connectors/radio7.js',
 	id: 'radio7lv',
 }, {
-	label: 'RecMusic',
+	label: 'TOWER RECORDS MUSIC',
 	matches: [
-		'*://recmusic.jp/*',
+		'*://music.tower.jp/*',
 	],
-	js: 'connectors/recmusic.js',
-	id: 'recmusic',
+	js: 'connectors/towerrecordsmusic.js',
+	id: 'towerrecordsmusic',
 }, {
 	label: 'Eggs',
 	matches: [
@@ -1741,12 +1741,123 @@ const connectors = [{
 	js: 'connectors/turntable.fm.js',
 	id: 'turntable.fm',
 }, {
+	label: 'Stingray Music',
+	matches: [
+		'*://*.stingray.com/*',
+	],
+	js: 'connectors/stingray.js',
+	id: 'stingray',
+}, {
 	label: 'CBC Music',
 	matches: [
 		'*://www.cbc.ca/listen/cbc-music-playlists*',
 	],
 	js: 'connectors/cbcmusic.js',
 	id: 'cbcmusic',
+}, {
+	label: 'Indie88',
+	matches: [
+		'*://indie88.com/lean-stream-player/*',
+		'*://cob.leanplayer.com/CINDFM*',
+	],
+	js: 'connectors/indie88.js',
+	id: 'indie88',
+}, {
+	label: 'Playlist Randomizer',
+	matches: [
+		'*://www.playlist-randomizer.com/*',
+	],
+	js: 'connectors/playlist-randomizer.js',
+	id: 'playlist-randomizer',
+}, {
+	label: 'QueUp',
+	matches: [
+		'*://www.queup.net/*',
+	],
+	js: 'connectors/queup.js',
+	id: 'queup',
+}, {
+	label: 'Live 365',
+	matches: [
+		'*://*.live365.com/*',
+	],
+	js: 'connectors/live365.js',
+	id: 'live365',
+}, {
+	label: 'Lounge.fm',
+	matches: [
+		'*://www.lounge.fm/*',
+	],
+	js: 'connectors/lounge.fm.js',
+	id: 'lounge.fm',
+}, {
+	label: 'EulerBeats',
+	matches: [
+		'*://eulerbeats.com/*',
+	],
+	js: 'connectors/eulerbeats.js',
+	id: 'eulerbeats',
+}, {
+	label: 'FilmMusic.io',
+	matches: [
+		'*://*.filmmusic.io/*',
+	],
+	js: 'connectors/filmmusic.io.js',
+	id: 'filmmusic.io',
+}, {
+	label: 'X-Team Radio',
+	matches: [
+		'*://radio.x-team.com/*',
+	],
+	js: 'connectors/xteam-radio.js',
+	id: 'xteam-radio',
+}, {
+	label: 'Calm',
+	matches: [
+		'*://*.calm.com/*',
+	],
+	js: 'connectors/calm.js',
+	id: 'calm',
+}, {
+	label: 'Keakie',
+	matches: [
+		'*://*.keakie.com/*',
+	],
+	js: 'connectors/keakie.js',
+	id: 'keakie',
+}, {
+	label: 'KKBOX',
+	matches: [
+		'*://*play-beta.kkbox.com/*',
+	],
+	js: 'connectors/kkbox.js',
+	id: 'kkbox',
+}, {
+	label: 'KKBOX Legacy',
+	matches: [
+		'*://*play.kkbox.com/*',
+	],
+	js: 'connectors/kkbox-legacy.js',
+	id: 'kkbox-legacy',
+}, {
+	label: 'Thrill Jockey',
+	matches: ['*://thrilljockey.com/products/*'],
+	js: 'connectors/thrilljockey.js',
+	id: 'thrilljockey',
+}, {
+	label: 'Radio Horizonte',
+	matches: [
+		'*://*horizonte.cl/*',
+	],
+	js: 'connectors/horizonte.cl.js',
+	id: 'horizontecl',
+}, {
+	label: 'Rock&Pop Chile',
+	matches: [
+		'*://envivo.rockandpop.cl/*',
+	],
+	js: 'connectors/rockandpop.cl.js',
+	id: 'rockandpopcl',
 }];
 
 define(() => connectors);

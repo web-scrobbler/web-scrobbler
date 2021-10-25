@@ -59,16 +59,14 @@ define((require) => {
 		}
 
 		/** @override */
-		async sendNowPlaying(song) {
-			const { sessionID } = await this.getSession();
-			const songData = this.makeTrackMetadata(song);
-			return this.sendRequest(songData, sessionID);
+		async sendNowPlaying() {
+			// Maloja does not support "now playing" scrobbles.
+			return ServiceCallResult.RESULT_OK;
 		}
 
 		/** @override */
 		async scrobble(song) {
 			const songData = this.makeTrackMetadata(song);
-			songData.time = song.metadata.startTimestamp;
 
 			return this.sendRequest(songData, this.userToken);
 		}
@@ -107,6 +105,7 @@ define((require) => {
 			const trackMeta = {
 				artist: song.getArtist(),
 				title: song.getTrack(),
+				time: song.metadata.startTimestamp,
 			};
 
 			return trackMeta;

@@ -2,11 +2,11 @@
 
 Connector.playerSelector = '.player';
 
-Connector.trackArtSelector = '.cover .loaded';
+Connector.trackArtSelector = '.player-section .cover .loaded';
 
 Connector.artistSelector = '.composer';
 
-Connector.trackSelector = '.movement-text';
+Connector.trackSelector = '.track-title';
 
 Connector.albumSelector = '.work';
 

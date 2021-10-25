@@ -2,46 +2,43 @@
 
 const playerBar = '.Root__now-playing-bar';
 
-const artistSelector = `${playerBar} [dir="auto"]:last-child a`;
-const spotifyConnectSelector = '[aria-live="polite"] span';
-
-const playPauseButtonSvgPathSelector = `${playerBar} .player-controls__buttons button:nth-child(3) path`;
-const playButtonSvgPath = 'M4.018 14L14.41 8 4.018 2z';
+const artistSelector = `${playerBar} [data-testid="context-item-info-artist"]`;
+const spotifyConnectSelector = `${playerBar} [aria-live="polite"]`;
 
 Connector.useMediaSessionApi();
 
 Connector.playerSelector = playerBar;
 
-Connector.artistSelector = artistSelector;
+Connector.artistSelector = [
+	artistSelector,
+	// For local files
+	`${playerBar} [data-testid="track-info-artists"]`,
+];
 
-Connector.trackSelector = `${playerBar} [dir="auto"]:first-child a`;
+Connector.trackSelector = [
+	`${playerBar} [dir="auto"]:first-child a`,
+	// For local files
+	`${playerBar} [data-testid="track-info-name"]`,
+];
 
 Connector.trackArtSelector = '.NavBarFooter .cover-art-image';
 
-Connector.currentTimeSelector = `${playerBar} .playback-bar__progress-time:first-child`;
+Connector.currentTimeSelector = `${playerBar} [data-testid=playback-position]`;
 
-Connector.durationSelector = `${playerBar} .playback-bar__progress-time:last-child`;
+Connector.durationSelector = `${playerBar} [data-testid=playback-duration]`;
+
+Connector.pauseButtonSelector = `${playerBar} [data-testid=control-button-pause]`;
 
 Connector.applyFilter(MetadataFilter.getSpotifyFilter());
 
 Connector.isScrobblingAllowed = () => isMusicPlaying() && isMainTab();
 
-Connector.isPodcast = () => artistUrlIncludes('/show/');
+Connector.isPodcast = () => isPodcastPlaying();
 
-Connector.isPlaying = () => {
-	const svgPath = Util.getAttrFromSelectors(
-		playPauseButtonSvgPathSelector,
-		'd'
-	);
-	if (svgPath) {
-		return svgPath !== playButtonSvgPath;
-	}
-
-	return true;
-};
+Connector.getUniqueID = () => getTrackUri();
 
 function isMusicPlaying() {
-	return artistUrlIncludes('/artist/', '/show/');
+	return artistUrlIncludes('/artist/', '/show/') || isLocalFilePlaying();
 }
 
 function artistUrlIncludes(...strings) {
@@ -56,6 +53,20 @@ function artistUrlIncludes(...strings) {
 	}
 
 	return false;
+}
+
+function isPodcastPlaying() {
+	if (isLocalFilePlaying()) {
+		return false;
+	}
+
+	return artistUrlIncludes('/show/');
+}
+
+function isLocalFilePlaying() {
+	// Local files has no links
+	// TODO Use better detection
+	return document.querySelector(artistSelector) === null;
 }
 
 function isMainTab() {
@@ -74,4 +85,19 @@ function hasMultipleSources() {
 function getActiveDeviceName() {
 	const spotifyConnectEl = document.querySelector(spotifyConnectSelector);
 	return spotifyConnectEl && spotifyConnectEl.textContent;
+}
+
+function getTrackUri() {
+	const contextLinkEl = document.querySelector('[data-testid="context-link"]');
+	if (!contextLinkEl || !contextLinkEl.href) {
+		return null;
+	}
+
+	const url = new URL(contextLinkEl);
+	const trackUri = url.searchParams.get('uri');
+	if (trackUri && trackUri.startsWith('spotify:track:')) {
+		return trackUri;
+	}
+
+	return null;
 }
