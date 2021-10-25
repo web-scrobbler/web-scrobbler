@@ -8,10 +8,7 @@ const filter = new MetadataFilter({
 Connector.playerSelector = 'aside.player';
 Connector.trackSelector = 'aside.player .player_subhead';
 Connector.artistSelector = 'aside.player .player_subhead';
-Connector.isPlaying = () => {
-	return $('button.playPauseButton span.player-pause').hasClass('false');
-};
-
+Connector.isPlaying = () => $('aside.player').hasClass('is-playing');
 Connector.onReady = Connector.onStateChanged;
 
 Connector.applyFilter(filter);
