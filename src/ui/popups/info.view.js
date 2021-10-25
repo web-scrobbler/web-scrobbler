@@ -218,8 +218,8 @@ class InfoPopupView {
 			});
 		}
 
-		$(inputGenericId).off('keyup');
-		$(inputGenericId).on('keyup', (e) => {
+		$(inputGenericId).off('keydown');
+		$(inputGenericId).on('keydown', (e) => {
 			const isSubmitAction = e.which === 13;
 
 			if (isSubmitAction) {
