@@ -15,10 +15,10 @@ Connector.applyFilter(filter);
 
 function cleanupTrack(track) {
 	// Extract a track title from a `Track by Artist` string.
-	return track.replace(/^(.*?)\s(by)\s(.*?)$/s, '$1');
+	return track.replace(/^(.*?)\s(by)\s(.*?)$/, '$1');
 }
 
 function cleanupArtist(artist) {
 	// Extract the artist from a `Track by Artist` string.
-	return artist.replace(/^(.*?)\s(by)\s(.*?)$/s, '$3');
+	return artist.replace(/^(.*?)\s(by)\s(.*?)$/, '$3');
 }
