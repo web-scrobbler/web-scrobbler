@@ -9,9 +9,9 @@ const STATIONS_SWAP = [
 	'Cat-Country-987', '885-FM-So-Cal',
 ];
 
-const playerBar = '[class^=player-module__playerContainer___2izJC]';
+const playerBar = '[class^=player-module__playerContainer]';
 const artistTrackSelector = '#playerTitle';
-const stationNameSelector = '[class^=nowPlaying-module__link___2wDL2]';
+const stationNameSelector = '[class^=nowPlaying-module__link]';
 
 Connector.playerSelector = playerBar;
 
