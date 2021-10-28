@@ -1858,6 +1858,13 @@ const connectors = [{
 	],
 	js: 'connectors/rockandpop.cl.js',
 	id: 'rockandpopcl',
+}, {
+	label: 'WYEP',
+	matches: [
+		'*://wyep.org/*',
+	],
+	js: 'connectors/wyep.js',
+	id: 'wyep',
 }];
 
 define(() => connectors);
