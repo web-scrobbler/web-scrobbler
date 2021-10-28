@@ -27,7 +27,7 @@ Connector.currentTimeSelector = `${playerBar} [data-testid=playback-position]`;
 
 Connector.durationSelector = `${playerBar} [data-testid=playback-duration]`;
 
-Connector.pauseButtonSelector = `${playerBar} [data-testid=control-button-pause]`;
+Connector.pauseButtonSelector = `${playerBar} [data-testid=control-button-playpause] [fill=none]`;
 
 Connector.applyFilter(MetadataFilter.getSpotifyFilter());
 
