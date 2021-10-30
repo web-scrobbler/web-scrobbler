@@ -1,6 +1,6 @@
 'use strict';
 
-const filter = MetadataFilter.createFilter({
+const filter = new MetadataFilter({
 	track: cleanupTrack,
 	artist: cleanupArtist,
 });
