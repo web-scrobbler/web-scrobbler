@@ -1865,6 +1865,13 @@ const connectors = [{
 	],
 	js: 'connectors/wyep.js',
 	id: 'wyep',
+}, {
+	label: 'ZENO',
+	matches: [
+		'*://*zeno.fm/*',
+	],
+	js: 'connectors/zeno.js',
+	id: 'zeno',
 }];
 
 define(() => connectors);
