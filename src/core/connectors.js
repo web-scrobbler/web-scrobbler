@@ -1858,6 +1858,20 @@ const connectors = [{
 	],
 	js: 'connectors/rockandpop.cl.js',
 	id: 'rockandpopcl',
+}, {
+	label: 'WYEP',
+	matches: [
+		'*://wyep.org/*',
+	],
+	js: 'connectors/wyep.js',
+	id: 'wyep',
+}, {
+	label: 'ZENO',
+	matches: [
+		'*://*zeno.fm/*',
+	],
+	js: 'connectors/zeno.js',
+	id: 'zeno',
 }];
 
 define(() => connectors);
