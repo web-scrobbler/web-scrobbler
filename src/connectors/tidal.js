@@ -8,7 +8,7 @@ Connector.pauseButtonSelector = `${Connector.playerSelector} button[data-test="p
 
 Connector.isScrobblingAllowed = () => !!$(Connector.playButtonSelector);
 
-Connector.trackSelector = `${Connector.playerSelector} div[data-test="footer-track-title"]`;
+Connector.trackSelector = ['#nowPlaying .react-tabs__tab-panel--selected > div > div:nth-child(1) > div:nth-child(1) > span:nth-child(2)', `${Connector.playerSelector} div[data-test="footer-track-title"]`];
 
 Connector.getUniqueID = () => {
 	const trackUrl = $(`${Connector.trackSelector} a`).attr('href');
