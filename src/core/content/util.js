@@ -353,14 +353,16 @@ const Util = {
 	getAttrFromSelectors(selectors, attr, defaultValue = null) {
 		const elements = this.queryElements(selectors);
 
-		if (elements.length === 1) {
-			return elements[0].getAttribute(attr);
-		}
+		if (elements) {
+			if (elements.length === 1) {
+				return elements[0].getAttribute(attr);
+			}
 
-		for (const element of elements) {
-			const attrValue = element.getAttribute(attr);
-			if (attrValue) {
-				return attrValue;
+			for (const element of elements) {
+				const attrValue = element.getAttribute(attr);
+				if (attrValue) {
+					return attrValue;
+				}
 			}
 		}
 
