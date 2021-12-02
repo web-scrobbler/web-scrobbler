@@ -22,6 +22,15 @@ Connector.artistSelector = `${Connector.playerSelector} span.artist-link`;
 
 Connector.albumSelector = ['#nowPlaying div.react-tabs a[href^="/album/"]', `${Connector.playerSelector} a[href^="/album/"]`];
 
+Connector.getAlbumArtist = () => {
+	const albumUrl = Util.getAttrFromSelectors(Connector.albumSelector, 'href');
+	const canonicalUrl = Util.getAttrFromSelectors('head link[rel="canonical"]', 'href');
+	if (albumUrl && canonicalUrl && canonicalUrl.endsWith(albumUrl)) {
+		return Util.getTextFromSelectors('#main .header-details .artist-link');
+	}
+	return null;
+};
+
 Connector.trackArtSelector = `${Connector.playerSelector} figure[data-test="current-media-imagery"] img`;
 
 Connector.currentTimeSelector = `${Connector.playerSelector} time[data-test="current-time"]`;
