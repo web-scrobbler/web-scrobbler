@@ -1872,6 +1872,13 @@ const connectors = [{
 	],
 	js: 'connectors/zeno.js',
 	id: 'zeno',
+}, {
+	label: 'Klassik Radio',
+	matches: [
+		'*://*klassikradio.de/*',
+	],
+	js: 'connectors/klassikradio.de.js',
+	id: 'klassikradio',
 }];
 
 define(() => connectors);
