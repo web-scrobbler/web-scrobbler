@@ -32,7 +32,7 @@ function getTrackInfo() {
 	return {
 		track, album, trackArt,
 
-		artist: trackInfo.artists[0].title,
+		artist: trackInfo.artists.map((artist) => artist.title).join(', '),
 		duration: trackInfo.duration,
 		currentTime: YandexAPI.getProgress().position,
 		uniqueID: trackInfo.link,
