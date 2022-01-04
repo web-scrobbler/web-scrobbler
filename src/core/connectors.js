@@ -1879,6 +1879,10 @@ const connectors = [{
 	],
 	js: 'connectors/klassikradio.de.js',
 	id: 'klassikradio',
+}, {
+	label: 'Beetle',
+	js: 'connectors/beetle.js',
+	id: 'beetle',
 }];
 
 define(() => connectors);
