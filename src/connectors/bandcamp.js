@@ -65,7 +65,7 @@ function initGenericProperties() {
 
 	Connector.getArtistTrack = () => {
 		const artist = Util.getTextFromSelectors(Connector.artistSelector);
-		const track = Util.getTextFromSelectors(Connector.trackSelector);
+		const track = parseTrackTitle(Util.getTextFromSelectors(Connector.trackSelector));
 
 		if (isArtistVarious(artist, track)) {
 			return Util.splitArtistTrack(track, SEPARATORS);
@@ -260,6 +260,16 @@ function isArtistVarious(artist, track) {
 
 function getPageType() {
 	return Util.getAttrFromSelectors('meta[property="og:type"]', 'content');
+}
+
+function parseTrackTitle(trackTitle) {
+	const RECORD_SIDE_REGEX = /^[A-Z][1-9]\.? /;
+	let title = trackTitle;
+	if (title.substring(0, 3).match(RECORD_SIDE_REGEX) || title.substring(0, 4).match(RECORD_SIDE_REGEX)) {
+		title = trackTitle.replace(RECORD_SIDE_REGEX, '');
+	}
+
+	return title;
 }
 
 function initEventListeners() {
