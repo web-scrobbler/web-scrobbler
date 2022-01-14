@@ -65,11 +65,15 @@ function initGenericProperties() {
 
 	Connector.getArtistTrack = () => {
 		const artist = Util.getTextFromSelectors(Connector.artistSelector);
-		const track = parseTrackTitle(Util.getTextFromSelectors(Connector.trackSelector));
+		let track = Util.getTextFromSelectors(Connector.trackSelector);
 
 		if (isArtistVarious(artist, track)) {
 			return Util.splitArtistTrack(track, SEPARATORS);
 		}
+		if (trackContainsRecordSide()) {
+			track = Util.removeRecordSide(track);
+		}
+
 		return { artist, track };
 	};
 
@@ -258,18 +262,24 @@ function isArtistVarious(artist, track) {
 	return false;
 }
 
-function getPageType() {
-	return Util.getAttrFromSelectors('meta[property="og:type"]', 'content');
-}
-
-function parseTrackTitle(trackTitle) {
+function trackContainsRecordSide() {
 	const RECORD_SIDE_REGEX = /^[A-Z][1-9]\.? /;
-	let title = trackTitle;
-	if (title.substring(0, 3).match(RECORD_SIDE_REGEX) || title.substring(0, 4).match(RECORD_SIDE_REGEX)) {
-		title = trackTitle.replace(RECORD_SIDE_REGEX, '');
+	const trackNodes = document.querySelectorAll('.track_list .track-title');
+	let numTracksWithRecordSide = 0;
+
+	for (const trackNode of trackNodes) {
+		const trackName = trackNode.textContent;
+		if (trackName.substring(0, 3).match(RECORD_SIDE_REGEX) || trackName.substring(0, 4).match(RECORD_SIDE_REGEX)) {
+			numTracksWithRecordSide++;
+		}
 	}
 
-	return title;
+	// return true if all tracks on the album page contain a record side
+	return numTracksWithRecordSide === trackNodes.length;
+}
+
+function getPageType() {
+	return Util.getAttrFromSelectors('meta[property="og:type"]', 'content');
 }
 
 function initEventListeners() {

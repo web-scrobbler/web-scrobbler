@@ -111,6 +111,16 @@ const Util = {
 	},
 
 	/**
+	 * Remove record side from track title.
+	 * @param {String} str String contains track title
+	 * @return {String} String contains track title without record side
+	 */
+	removeRecordSide(str) {
+		const RECORD_SIDE_REGEX = /^[A-Z][1-9]\.? /;
+		return str.replace(RECORD_SIDE_REGEX, '');
+	},
+
+	/**
 	 * Split string to artist and album.
 	 * @param  {String} str String contains artist and track
 	 * @param  {Array} [separators] Array of separators
