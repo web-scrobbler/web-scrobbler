@@ -2,7 +2,7 @@
 
 const playerBar = '.Root__now-playing-bar';
 
-const artistSelector = `${playerBar} [dir="auto"]:last-child a`;
+const artistSelector = `${playerBar} [data-testid="context-item-info-artist"]`;
 const spotifyConnectSelector = `${playerBar} [aria-live="polite"]`;
 
 Connector.useMediaSessionApi();
@@ -27,7 +27,7 @@ Connector.currentTimeSelector = `${playerBar} [data-testid=playback-position]`;
 
 Connector.durationSelector = `${playerBar} [data-testid=playback-duration]`;
 
-Connector.pauseButtonSelector = `${playerBar} [data-testid=control-button-pause]`;
+Connector.pauseButtonSelector = `${playerBar} [data-testid=control-button-playpause] [fill=none]`;
 
 Connector.applyFilter(MetadataFilter.getSpotifyFilter());
 

@@ -1,11 +1,13 @@
 name: Deploy
+
 on:
   push:
     tags:
       - 'v*.*.*'
+
 jobs:
-  deploy:
-    name: Deploy the extension
+  deploy-chrome:
+    name: Deploy Chrome extension
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
@@ -23,10 +25,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Create zipballs
-        run: |
-          npx grunt dist:chrome
-          npx grunt dist:firefox
+      - name: Create zipball
+        run: npx grunt dist:chrome
 
       - name: Publish the extension for Chrome
         uses: trmcnvn/chrome-addon@v2
@@ -36,6 +36,28 @@ jobs:
           client-id: ${{ secrets.CHROME_CLIENT_ID }}
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+
+  deploy-firefox:
+    name: Deploy Firefox extension
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Get Node.js version from .nvmrc
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create zipball
+        run: npx grunt dist:firefox
 
       - name: Publish the extension for Firefox
         uses: trmcnvn/firefox-addon@v1

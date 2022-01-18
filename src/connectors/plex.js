@@ -25,7 +25,7 @@ Connector.trackArtSelector = [
 // @endif
 
 Connector.pauseButtonSelector = [
-	`${Connector.playerSelector} [data-qa-id="pauseButton"]`,
+	`${Connector.playerSelector} [data-testid="pauseButton"]`,
 	`${Connector.playerSelector} [class^=plex-icon-player-pause]`,
 ];
 

@@ -1605,12 +1605,12 @@ const connectors = [{
 	js: 'connectors/radio7.js',
 	id: 'radio7lv',
 }, {
-	label: 'RecMusic',
+	label: 'TOWER RECORDS MUSIC',
 	matches: [
-		'*://recmusic.jp/*',
+		'*://music.tower.jp/*',
 	],
-	js: 'connectors/recmusic.js',
-	id: 'recmusic',
+	js: 'connectors/towerrecordsmusic.js',
+	id: 'towerrecordsmusic',
 }, {
 	label: 'Eggs',
 	matches: [
@@ -1851,6 +1851,38 @@ const connectors = [{
 	],
 	js: 'connectors/horizonte.cl.js',
 	id: 'horizontecl',
+}, {
+	label: 'Rock&Pop Chile',
+	matches: [
+		'*://envivo.rockandpop.cl/*',
+	],
+	js: 'connectors/rockandpop.cl.js',
+	id: 'rockandpopcl',
+}, {
+	label: 'WYEP',
+	matches: [
+		'*://wyep.org/*',
+	],
+	js: 'connectors/wyep.js',
+	id: 'wyep',
+}, {
+	label: 'ZENO',
+	matches: [
+		'*://*zeno.fm/*',
+	],
+	js: 'connectors/zeno.js',
+	id: 'zeno',
+}, {
+	label: 'Klassik Radio',
+	matches: [
+		'*://*klassikradio.de/*',
+	],
+	js: 'connectors/klassikradio.de.js',
+	id: 'klassikradio',
+}, {
+	label: 'Beetle',
+	js: 'connectors/beetle.js',
+	id: 'beetle',
 }];
 
 define(() => connectors);
