@@ -28,5 +28,5 @@ Connector.getTrackArt = () => {
 		// mobile overlay mode
 		getAlbumImageFromClass('.cover') ||
 		// mobile mini controller mode
-		getAlbumImageFromClass('.music-player-controller');
+		getAlbumImageFromClass('.music-player-controller', true);
 };
