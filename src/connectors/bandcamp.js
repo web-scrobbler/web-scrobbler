@@ -263,13 +263,12 @@ function isArtistVarious(artist, track) {
 }
 
 function trackContainsRecordSide() {
-	const RECORD_SIDE_REGEX = /^[A-Z][1-9]\.? /;
 	const trackNodes = document.querySelectorAll('.track_list .track-title');
 	let numTracksWithRecordSide = 0;
 
 	for (const trackNode of trackNodes) {
 		const trackName = trackNode.textContent;
-		if (trackName.substring(0, 3).match(RECORD_SIDE_REGEX) || trackName.substring(0, 4).match(RECORD_SIDE_REGEX)) {
+		if (trackName.substring(0, 3).match(Util.RECORD_SIDE_REGEX) || trackName.substring(0, 4).match(Util.RECORD_SIDE_REGEX)) {
 			numTracksWithRecordSide++;
 		}
 	}

@@ -111,13 +111,21 @@ const Util = {
 	},
 
 	/**
+	 * Regular Expression to detect record side in track title
+	 * @type { RegExp }
+	 */
+	RECORD_SIDE_REGEX: /^[A-Z][1-9]\.? /,
+
+	/**
 	 * Remove record side from track title.
 	 * @param {String} str String contains track title
 	 * @return {String} String contains track title without record side
 	 */
 	removeRecordSide(str) {
-		const RECORD_SIDE_REGEX = /^[A-Z][1-9]\.? /;
-		return str.replace(RECORD_SIDE_REGEX, '');
+		if (str !== null) {
+			return str.replace(Util.RECORD_SIDE_REGEX, '');
+		}
+		return null;
 	},
 
 	/**
