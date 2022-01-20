@@ -85,6 +85,36 @@ const SPLIT_ARTIST_ALBUM_DATA = [{
 }];
 
 /**
+ * Test data for testing 'Util.removeRecordSide' function.
+ * @type {Array}
+ */
+const REMOVE_RECORD_SIDE_DATA = [{
+	description: 'should not modify string without record side',
+	args: ['track'],
+	expected: 'track',
+}, {
+	description: 'should return null for null input',
+	args: [null],
+	expected: null,
+}, {
+	description: 'should return empty result for empty input',
+	args: [''],
+	expected: '',
+}, {
+	description: 'should return string without record side',
+	args: ['A1. track'],
+	expected: 'track',
+}, {
+	description: 'should not modify string with invalid record side',
+	args: ['Z0. track'],
+	expected: 'Z0. track',
+}, {
+	description: 'should not modify string that is "record side-like" ',
+	args: ['V0.1D track'],
+	expected: 'V0.1D track',
+}];
+
+/**
  * Test data for testing 'Util.escapeBadTimeValues' function.
  * @type {Array}
  */
@@ -797,6 +827,9 @@ const testData = [{
 }, {
 	func: Util.splitArtistTrack,
 	data: SPLIT_ARTIST_TRACK_DATA,
+}, {
+	func: Util.removeRecordSide,
+	data: REMOVE_RECORD_SIDE_DATA,
 }, {
 	func: Util.splitArtistAlbum,
 	data: SPLIT_ARTIST_ALBUM_DATA,
