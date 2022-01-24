@@ -1883,6 +1883,11 @@ const connectors = [{
 	label: 'Beetle',
 	js: 'connectors/beetle.js',
 	id: 'beetle',
+}, {
+	label: 'RefNet',
+	matches: ['*://listen.refnet.fm/*'],
+	js: 'connectors/refnet.js',
+	id: 'refnet',
 }];
 
 define(() => connectors);
