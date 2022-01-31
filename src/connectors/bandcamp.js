@@ -221,13 +221,25 @@ function isCollectionsPage() {
 	return document.querySelector('#carousel-player') !== null;
 }
 
-function isArtistVarious(artist, track) {
-	/*
-	 * Return true if all tracks contain a hyphen or vertical bar on album page.
-	 * Example: https://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
-	 */
+
+function getTrackNodes() {
+	let trackNodes = null;
 	if (isAlbumPage()) {
-		const trackNodes = document.querySelectorAll('.track_list .track-title');
+		trackNodes = document.querySelectorAll('.track_list .track-title');
+	} else if (isCollectionsPage()) {
+		trackNodes = document.querySelectorAll('.queue .title span:nth-child(2)');
+	}
+
+	return trackNodes;
+}
+
+function isArtistVarious(artist, track) {
+	const trackNodes = getTrackNodes();
+	/*
+	* Return true if all tracks contain a hyphen or vertical bar on album page.
+	* Example: https://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
+	*/
+	if (trackNodes) {
 		const artists = [];
 		for (const trackNode of trackNodes) {
 			const trackName = trackNode.textContent;
@@ -263,7 +275,7 @@ function isArtistVarious(artist, track) {
 }
 
 function trackContainsRecordSide() {
-	const trackNodes = document.querySelectorAll('.track_list .track-title');
+	const trackNodes = getTrackNodes();
 	let numTracksWithRecordSide = 0;
 
 	for (const trackNode of trackNodes) {
