@@ -1873,6 +1873,13 @@ const connectors = [{
 	js: 'connectors/zeno.js',
 	id: 'zeno',
 }, {
+	label: 'Naxos Music Library',
+	matches: [
+		'*://*.naxosmusiclibrary.com/*',
+	],
+	js: 'connectors/naxosmusiclibrary.js',
+	id: 'naxosmusiclibrary',
+}, {
 	label: 'Klassik Radio',
 	matches: [
 		'*://*klassikradio.de/*',
