@@ -1,23 +1,32 @@
 'use strict';
 
-const artistAlbumSeparator = ' - ';
-const artistAlbumSelector = '.songInfo';
-
 Connector.playerSelector = '.music-player-panel';
 
 Connector.trackSelector = '.songTitle';
 
-Connector.trackArtSelector = '.img-content';
+Connector.artistSelector = '.songArtist';
+
+Connector.albumSelector = '.songAlbum';
 
 Connector.currentTimeSelector = '.current-time';
 
 Connector.durationSelector = '.duration';
 
-Connector.getTrackInfo = () => {
-	const artistAlbum = Util.getTextFromSelectors(artistAlbumSelector);
-	return Util.splitArtistAlbum(artistAlbum, [artistAlbumSeparator]);
-};
-
 Connector.isPlaying = () => {
 	return document.querySelector('.img-rotate-pause') === null;
+};
+
+function getAlbumImageFromClass(className, useBackgroundImage) {
+	return document.querySelector(className) && (
+		useBackgroundImage ? document.querySelector(className).style['background-image'] :
+			document.querySelector(className).src);
+}
+
+Connector.getTrackArt = () => {
+	// desktop view mode
+	return getAlbumImageFromClass('.img-content') ||
+		// mobile overlay mode
+		getAlbumImageFromClass('.cover') ||
+		// mobile mini controller mode
+		getAlbumImageFromClass('.music-player-controller', true);
 };
