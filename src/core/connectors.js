@@ -1879,6 +1879,22 @@ const connectors = [{
 	],
 	js: 'connectors/naxosmusiclibrary.js',
 	id: 'naxosmusiclibrary',
+}, {
+	label: 'Klassik Radio',
+	matches: [
+		'*://*klassikradio.de/*',
+	],
+	js: 'connectors/klassikradio.de.js',
+	id: 'klassikradio',
+}, {
+	label: 'Beetle',
+	js: 'connectors/beetle.js',
+	id: 'beetle',
+}, {
+	label: 'RefNet',
+	matches: ['*://listen.refnet.fm/*'],
+	js: 'connectors/refnet.js',
+	id: 'refnet',
 }];
 
 define(() => connectors);

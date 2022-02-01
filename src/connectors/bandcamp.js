@@ -65,11 +65,15 @@ function initGenericProperties() {
 
 	Connector.getArtistTrack = () => {
 		const artist = Util.getTextFromSelectors(Connector.artistSelector);
-		const track = Util.getTextFromSelectors(Connector.trackSelector);
+		let track = Util.getTextFromSelectors(Connector.trackSelector);
 
 		if (isArtistVarious(artist, track)) {
 			return Util.splitArtistTrack(track, SEPARATORS);
 		}
+		if (trackContainsRecordSide()) {
+			track = Util.removeRecordSide(track);
+		}
+
 		return { artist, track };
 	};
 
@@ -217,13 +221,25 @@ function isCollectionsPage() {
 	return document.querySelector('#carousel-player') !== null;
 }
 
-function isArtistVarious(artist, track) {
-	/*
-	 * Return true if all tracks contain a hyphen or vertical bar on album page.
-	 * Example: https://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
-	 */
+
+function getTrackNodes() {
+	let trackNodes = null;
 	if (isAlbumPage()) {
-		const trackNodes = document.querySelectorAll('.track_list .track-title');
+		trackNodes = document.querySelectorAll('.track_list .track-title');
+	} else if (isCollectionsPage()) {
+		trackNodes = document.querySelectorAll('.queue .title span:nth-child(2)');
+	}
+
+	return trackNodes;
+}
+
+function isArtistVarious(artist, track) {
+	const trackNodes = getTrackNodes();
+	/*
+	* Return true if all tracks contain a hyphen or vertical bar on album page.
+	* Example: https://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
+	*/
+	if (trackNodes) {
 		const artists = [];
 		for (const trackNode of trackNodes) {
 			const trackName = trackNode.textContent;
@@ -256,6 +272,21 @@ function isArtistVarious(artist, track) {
 	}
 
 	return false;
+}
+
+function trackContainsRecordSide() {
+	const trackNodes = getTrackNodes();
+	let numTracksWithRecordSide = 0;
+
+	for (const trackNode of trackNodes) {
+		const trackName = trackNode.textContent;
+		if (trackName.substring(0, 3).match(Util.RECORD_SIDE_REGEX) || trackName.substring(0, 4).match(Util.RECORD_SIDE_REGEX)) {
+			numTracksWithRecordSide++;
+		}
+	}
+
+	// return true if all tracks on the album page contain a record side
+	return numTracksWithRecordSide === trackNodes.length;
 }
 
 function getPageType() {

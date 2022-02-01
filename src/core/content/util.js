@@ -111,6 +111,24 @@ const Util = {
 	},
 
 	/**
+	 * Regular Expression to detect record side in track title
+	 * @type { RegExp }
+	 */
+	RECORD_SIDE_REGEX: /^[A-Z][1-9]\.? /,
+
+	/**
+	 * Remove record side from track title.
+	 * @param {String} str String contains track title
+	 * @return {String} String contains track title without record side
+	 */
+	removeRecordSide(str) {
+		if (str !== null) {
+			return str.replace(Util.RECORD_SIDE_REGEX, '');
+		}
+		return null;
+	},
+
+	/**
 	 * Split string to artist and album.
 	 * @param  {String} str String contains artist and track
 	 * @param  {Array} [separators] Array of separators
@@ -353,14 +371,16 @@ const Util = {
 	getAttrFromSelectors(selectors, attr, defaultValue = null) {
 		const elements = this.queryElements(selectors);
 
-		if (elements.length === 1) {
-			return elements[0].getAttribute(attr);
-		}
+		if (elements) {
+			if (elements.length === 1) {
+				return elements[0].getAttribute(attr);
+			}
 
-		for (const element of elements) {
-			const attrValue = element.getAttribute(attr);
-			if (attrValue) {
-				return attrValue;
+			for (const element of elements) {
+				const attrValue = element.getAttribute(attr);
+				if (attrValue) {
+					return attrValue;
+				}
 			}
 		}
 
