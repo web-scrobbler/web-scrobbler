@@ -223,7 +223,7 @@ function isCollectionsPage() {
 
 
 function getTrackNodes() {
-	let trackNodes = null;
+	let trackNodes = [];
 	if (isAlbumPage()) {
 		trackNodes = document.querySelectorAll('.track_list .track-title');
 	} else if (isCollectionsPage()) {
@@ -239,7 +239,7 @@ function isArtistVarious(artist, track) {
 	* Return true if all tracks contain a hyphen or vertical bar on album page.
 	* Example: https://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
 	*/
-	if (trackNodes) {
+	if (trackNodes.length !== 0) {
 		const artists = [];
 		for (const trackNode of trackNodes) {
 			const trackName = trackNode.textContent;
