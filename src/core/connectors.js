@@ -1902,6 +1902,7 @@ const connectors = [{
 	],
 	js: 'connectors/auborddeleau.radio.js',
 	id: 'auborddeleau.radio',
+	allFrames: true,
 }];
 
 define(() => connectors);
