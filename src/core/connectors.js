@@ -1895,6 +1895,13 @@ const connectors = [{
 	matches: ['*://listen.refnet.fm/*'],
 	js: 'connectors/refnet.js',
 	id: 'refnet',
+}, {
+	label: "La Radio du bord de l'eau",
+	matches: [
+		'*://*auborddeleau.radio/*',
+	],
+	js: 'connectors/auborddeleau.radio.js',
+	id: 'auborddeleau.radio',
 }];
 
 define(() => connectors);
