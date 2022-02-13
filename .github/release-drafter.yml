@@ -1,0 +1,11 @@
+categories:
+  - title: '🚀 Added'
+    label: 'added'
+  - title: '⬆️ Updated'
+    label: 'updated'
+  - title: '🐛 Fixed'
+    label: 'fixed'
+template: |
+  ## Changes
+
+  $CHANGES
