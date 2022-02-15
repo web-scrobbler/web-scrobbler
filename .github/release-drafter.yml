@@ -7,6 +7,8 @@ categories:
     label: 'fixed'
   - title: '🔧 Maintenance'
     label: 'maintenance'
+exclude-labels:
+  - 'skip-changelog'
 template: |
   ## Changes
 
