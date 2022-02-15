@@ -1,5 +1,6 @@
 'use strict';
 
+
 function setupConnector() {
 	if (isHomePlayer()) {
 		setupHomePlayer();
