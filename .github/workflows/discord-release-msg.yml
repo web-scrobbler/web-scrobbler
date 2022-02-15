@@ -3,7 +3,7 @@ name: 'Release messages to #news announcement channel'
 on:
   release:
     types:
-      - published
+      - created
 
 jobs:
   send_release_message:
