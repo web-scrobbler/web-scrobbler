@@ -5,6 +5,8 @@ categories:
     label: 'updated'
   - title: '🐛 Fixed'
     label: 'fixed'
+  - title: '🔧 Maintenance'
+    label: 'maintenance'
 template: |
   ## Changes
 
