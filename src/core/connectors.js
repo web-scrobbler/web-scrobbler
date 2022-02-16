@@ -1686,7 +1686,7 @@ const connectors = [{
 	id: 'weibo',
 }, {
 	label: 'Street Voice',
-	matches: ['*://streetvoice.cn/*'],
+	matches: ['*://streetvoice.cn/*', '*://streetvoice.com/*'],
 	js: 'connectors/streetvoice.js',
 	id: 'streetvoice',
 }, {
