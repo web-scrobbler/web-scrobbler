@@ -1443,12 +1443,12 @@ const connectors = [{
 	js: 'connectors/sectorradio.js',
 	id: 'sectorradio',
 }, {
-	label: 'LiveXLive',
+	label: 'LiveOne',
 	matches: [
-		'*://*.livexlive.com/*',
+		'*://*.liveone.com/*',
 	],
-	js: 'connectors/livexlive.js',
-	id: 'livexlive',
+	js: 'connectors/liveone.js',
+	id: 'liveone',
 }, {
 	label: 'PocketCasts',
 	matches: [

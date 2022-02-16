@@ -1,0 +1,15 @@
+categories:
+  - title: '🚀 Added'
+    label: 'added'
+  - title: '⬆️ Updated'
+    label: 'updated'
+  - title: '🐛 Fixed'
+    label: 'fixed'
+  - title: '🔧 Maintenance'
+    label: 'maintenance'
+exclude-labels:
+  - 'skip-changelog'
+template: |
+  ## Changes
+
+  $CHANGES
