@@ -1,3 +1,5 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
 categories:
   - title: '🚀 Added'
     label: 'added'
@@ -9,6 +11,17 @@ categories:
     label: 'maintenance'
 exclude-labels:
   - 'skip-changelog'
+version-resolver:
+  major:
+    labels:
+      - 'major'
+  minor:
+    labels:
+      - 'minor'
+  patch:
+    labels:
+      - 'patch'
+  default: patch
 template: |
   ## Changes
 
