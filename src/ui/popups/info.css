@@ -88,7 +88,7 @@ input {
 	border: none;
 	color: #495053;
 	cursor: pointer;
-	font-family: 'Font Awesome 5 Free', serif;
+	font-family: 'Font Awesome 6 Free', serif;
 	font-size: 1.1rem;
 	outline: none;
 	padding: 0;
@@ -177,7 +177,7 @@ input {
 
 .counter::before {
 	content: '\f202';
-	font-family: 'Font Awesome 5 Brands', serif;
+	font-family: 'Font Awesome 6 Brands', serif;
 }
 
 /**
