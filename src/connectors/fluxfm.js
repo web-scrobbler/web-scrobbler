@@ -1,17 +1,14 @@
 'use strict';
 
-Connector.playerSelector = '#Wrapper';
+Connector.playerSelector = '.hero-player__headline';
 
-Connector.artistSelector = '#track-artist';
-
-Connector.trackSelector = '#track-title';
-
-Connector.albumSelector = '#track-album';
-
-Connector.trackArtSelector = '#covercontainer img';
+Connector.getArtistTrack = () => {
+	const artistTrack = Util.getTextFromSelectors('.hero-player__title');
+	return Util.splitArtistTrack(artistTrack);
+};
 
 Connector.isPlaying = () => {
-	return $('#controls-play').hasClass('play');
+	return Util.getAttrFromSelectors('rs-play-button > rs-button > button', 'title') === 'Pausieren';
 };
 
 Connector.onReady = Connector.onStateChanged;

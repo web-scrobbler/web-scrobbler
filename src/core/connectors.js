@@ -545,7 +545,7 @@ const connectors = [{
 }, {
 	label: 'FluxFM Berlin',
 	matches: [
-		'*://www.fluxfm.de/stream/*',
+		'*://www.fluxfm.de/*',
 	],
 	js: 'connectors/fluxfm.js',
 	id: 'fluxfm',
