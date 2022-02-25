@@ -8,7 +8,7 @@ Connector.getArtistTrack = () => {
 };
 
 Connector.isPlaying = () => {
-	return Util.getAttrFromSelectors('rs-play-button > rs-button > button', 'title') === 'Pausieren';
+	return Util.getAttrFromSelectors('.playbar rs-play-button > rs-button > button', 'title') === 'Pausieren';
 };
 
 Connector.isStateChangeAllowed = () => {
