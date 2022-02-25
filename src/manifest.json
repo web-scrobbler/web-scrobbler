@@ -6,7 +6,9 @@
   "icons": {
     "16": "icons/icon_generic_16.png",
     "48": "icons/icon_chrome_48.png",
-    "128": "icons/icon_chrome_128.png"
+    "128": "icons/icon_chrome_128.png",
+    "256": "icons/icon_chrome_256.png",
+    "512": "icons/icon_chrome_512.png"
   },
 
   "manifest_version": 2,
