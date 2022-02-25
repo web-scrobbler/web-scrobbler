@@ -2,8 +2,7 @@ name: 'Release messages to #news announcement channel'
 
 on:
   release:
-    types:
-      - created
+    types: [published]
 
 jobs:
   send_release_message:
