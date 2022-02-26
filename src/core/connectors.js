@@ -48,6 +48,14 @@ const connectors = [{
 	js: 'connectors/bandcamp.js',
 	id: 'bandcamp',
 }, {
+	label: 'BNDCMPR',
+	matches: [
+		'*://bndcmpr.co/*',
+	],
+	js: 'connectors/bndcmpr.js',
+	id: 'bndcmpr',
+	allFrames: true,
+}, {
 	label: 'Pandora',
 	matches: [
 		'*://www.pandora.com/*',
