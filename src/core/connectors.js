@@ -1925,6 +1925,13 @@ const connectors = [{
 	],
 	js: 'connectors/nowyswiat.js',
 	id: 'nowyswiat',
+}, {
+	label: 'Radio Cuca',
+	matches: [
+		'*://*radiocuca.es/*',
+	],
+	js: 'connectors/radiocuca.js',
+	id: 'radiocuca',
 }];
 
 define(() => connectors);
