@@ -1918,6 +1918,13 @@ const connectors = [{
 	],
 	js: 'connectors/willy.radio.js',
 	id: 'willy.radio',
+}, {
+	label: 'Radio Cuca',
+	matches: [
+		'*://*radiocuca.es/*',
+	],
+	js: 'connectors/radiocuca.js',
+	id: 'radiocuca',
 }];
 
 define(() => connectors);
