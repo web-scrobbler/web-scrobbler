@@ -58,7 +58,7 @@ require([
 		$('a#privacy-url').attr('href', privacyPolicyUrl);
 	}
 
-	$(document).ready(() => {
+	jQuery(() => {
 		initialize();
 	});
 });
