@@ -1925,6 +1925,20 @@ const connectors = [{
 	],
 	js: 'connectors/night.fm.js',
 	id: 'night.fm',
+}, {
+	label: 'Radio Nowy Swiat',
+	matches: [
+		'*://nowyswiat.online/*',
+	],
+	js: 'connectors/nowyswiat.js',
+	id: 'nowyswiat',
+}, {
+	label: 'Radio Cuca',
+	matches: [
+		'*://*radiocuca.es/*',
+	],
+	js: 'connectors/radiocuca.js',
+	id: 'radiocuca',
 }];
 
 define(() => connectors);
