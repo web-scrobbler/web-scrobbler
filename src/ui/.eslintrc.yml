@@ -1,2 +1,3 @@
 globals:
   $: readonly
+  jQuery: readonly
