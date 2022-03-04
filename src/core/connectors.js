@@ -1919,6 +1919,13 @@ const connectors = [{
 	js: 'connectors/willy.radio.js',
 	id: 'willy.radio',
 }, {
+	label: 'Radio Nowy Swiat',
+	matches: [
+		'*://nowyswiat.online/*',
+	],
+	js: 'connectors/nowyswiat.js',
+	id: 'nowyswiat',
+}, {
 	label: 'Radio Cuca',
 	matches: [
 		'*://*radiocuca.es/*',
