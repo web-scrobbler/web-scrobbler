@@ -1919,6 +1919,13 @@ const connectors = [{
 	js: 'connectors/willy.radio.js',
 	id: 'willy.radio',
 }, {
+	label: 'NIGHT.FM',
+	matches: [
+		'*://*night.fm/*',
+	],
+	js: 'connectors/night.fm.js',
+	id: 'night.fm',
+}, {
 	label: 'Radio Nowy Swiat',
 	matches: [
 		'*://nowyswiat.online/*',
