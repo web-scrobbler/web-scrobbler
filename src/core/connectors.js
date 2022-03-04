@@ -1903,6 +1903,13 @@ const connectors = [{
 	js: 'connectors/auborddeleau.radio.js',
 	id: 'auborddeleau.radio',
 	allFrames: true,
+}, {
+	label: 'Radio Nowy Swiat',
+	matches: [
+		'*://nowyswiat.online/*',
+	],
+	js: 'connectors/nowyswiat.js',
+	id: 'nowyswiat',
 }];
 
 define(() => connectors);
