@@ -48,6 +48,14 @@ const connectors = [{
 	js: 'connectors/bandcamp.js',
 	id: 'bandcamp',
 }, {
+	label: 'BNDCMPR',
+	matches: [
+		'*://bndcmpr.co/*',
+	],
+	js: 'connectors/bndcmpr.js',
+	id: 'bndcmpr',
+	allFrames: true,
+}, {
 	label: 'Pandora',
 	matches: [
 		'*://www.pandora.com/*',
@@ -1903,6 +1911,13 @@ const connectors = [{
 	js: 'connectors/auborddeleau.radio.js',
 	id: 'auborddeleau.radio',
 	allFrames: true,
+}, {
+	label: 'Radio Willy',
+	matches: [
+		'*://*willy.radio/player/willy/*',
+	],
+	js: 'connectors/willy.radio.js',
+	id: 'willy.radio',
 }, {
 	label: 'Radio Nowy Swiat',
 	matches: [
