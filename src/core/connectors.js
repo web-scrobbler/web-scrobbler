@@ -1933,6 +1933,13 @@ const connectors = [{
 	js: 'connectors/nowyswiat.js',
 	id: 'nowyswiat',
 }, {
+	label: 'Oxigenio.fm',
+	matches: [
+		'*://*oxigenio.fm/*',
+	],
+	js: 'connectors/oxigenio.fm.js',
+	id: 'oxigenio.fm',
+}, {
 	label: 'Radio Cuca',
 	matches: [
 		'*://*radiocuca.es/*',
