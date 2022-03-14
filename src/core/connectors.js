@@ -1940,6 +1940,13 @@ const connectors = [{
 	js: 'connectors/radiolla.js',
 	id: 'radiolla',
 }, {
+	label: 'Oxigenio.fm',
+	matches: [
+		'*://*oxigenio.fm/*',
+	],
+	js: 'connectors/oxigenio.fm.js',
+	id: 'oxigenio.fm',
+}, {
 	label: 'Radio Cuca',
 	matches: [
 		'*://*radiocuca.es/*',
