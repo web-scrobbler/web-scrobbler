@@ -1933,6 +1933,13 @@ const connectors = [{
 	js: 'connectors/nowyswiat.js',
 	id: 'nowyswiat',
 }, {
+	label: 'Radiolla',
+	matches: [
+		'*://*radiolla.com/*',
+	],
+	js: 'connectors/radiolla.js',
+	id: 'radiolla',
+}, {
 	label: 'Oxigenio.fm',
 	matches: [
 		'*://*oxigenio.fm/*',
