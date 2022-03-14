@@ -10,5 +10,3 @@ Connector.isStateChangeAllowed = () => {
 	const artistTrack = Util.getTextFromSelectors(Connector.artistTrackSelector);
 	return artistTrack.includes('-') && !artistTrack.match(/^\s*OXIGENIO - /);
 };
-
-Connector.onReady = Connector.onStateChanged;
