@@ -9,5 +9,3 @@ Connector.trackSelector = '#trackInfoLandscape > small';
 Connector.trackArtSelector = 'img#albumImage';
 
 Connector.pauseButtonSelector = '#play.button.stop';
-
-Connector.onReady = Connector.onStateChanged;
