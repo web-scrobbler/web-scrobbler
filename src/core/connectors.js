@@ -1836,17 +1836,10 @@ const connectors = [{
 }, {
 	label: 'KKBOX',
 	matches: [
-		'*://*play-beta.kkbox.com/*',
+		'*://*play.kkbox.com/*',
 	],
 	js: 'connectors/kkbox.js',
 	id: 'kkbox',
-}, {
-	label: 'KKBOX Legacy',
-	matches: [
-		'*://*play.kkbox.com/*',
-	],
-	js: 'connectors/kkbox-legacy.js',
-	id: 'kkbox-legacy',
 }, {
 	label: 'Thrill Jockey',
 	matches: ['*://thrilljockey.com/products/*'],
