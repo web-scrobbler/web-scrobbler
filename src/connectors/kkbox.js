@@ -8,7 +8,7 @@ Connector.playerSelector = '._2eEzN2';
 
 Connector.trackArtSelector = '._3rswBX img';
 
-Connector.pauseButtonSelector = '.k-icon-ctrl-pause';
+Connector.pauseButtonSelector = '.k-icon-now_playing-pause';
 
 Connector.getTimeInfo = () => Util.splitTimeInfo(document.querySelector('._3nysXh').innerText);
 
