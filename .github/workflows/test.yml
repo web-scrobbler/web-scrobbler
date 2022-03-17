@@ -6,7 +6,7 @@ on:
     types: [opened, synchronize]
 jobs:
   test:
-    name: Run linters and tests
+    name: Run tests
     runs-on: ubuntu-latest
     env:
       IS_COVERAGE_ALLOWED: ${{ secrets.CODACY_PROJECT_TOKEN != '' }}
@@ -25,13 +25,7 @@ jobs:
         node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
 
     - name: Install dependencies
-      run: npm install
-
-    - name: Run linters
-      run: |
-        npm run lint
-      env:
-        CI: true
+      run: npm ci
 
     - name: Run tests
       run: |

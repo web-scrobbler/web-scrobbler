@@ -1,60 +1,71 @@
 name: Deploy
+
 on:
   push:
     tags:
       - 'v*.*.*'
+
 jobs:
-  deploy:
-    name: Deploy the extension
+  deploy-chrome:
+    name: Deploy Chrome extension
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout the repository
-      uses: actions/checkout@v2
+      - name: Checkout the repository
+        uses: actions/checkout@v2
 
-    - name: Get Node.js version from .nvmrc
-      id: get-node-version
-      run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+      - name: Get Node.js version from .nvmrc
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
 
-    - name: Get the extension version from ref
-      id: get-version
-      run: echo ::set-output name=EXT_VERSION::${GITHUB_REF/refs\/tags\//}
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Install dependencies
-      run: npm install
+      - name: Create zipball
+        run: npx grunt dist:chrome
 
-    - name: Create zipballs
-      run: |
-        npx grunt dist:chrome
-        npx grunt dist:firefox
+      - name: Publish the extension for Chrome
+        uses: trmcnvn/chrome-addon@v2
+        with:
+          extension: hhinaapppaileiechjoiifaancjggfjm
+          zip: web-scrobbler-chrome.zip
+          client-id: ${{ secrets.CHROME_CLIENT_ID }}
+          client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
+          refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
 
-    - name: Publish the extension for Chrome
-      uses: trmcnvn/chrome-addon@v2
-      with:
-        extension: hhinaapppaileiechjoiifaancjggfjm
-        zip: web-scrobbler-chrome.zip
-        client-id: ${{ secrets.CHROME_CLIENT_ID }}
-        client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
-        refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
+  deploy-firefox:
+    name: Deploy Firefox extension
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
 
-    - name: Publish release on GitHub
-      uses: test-room-7/action-publish-release-drafts@v0
-      with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          tag-name: ${{ steps.get-version.outputs.EXT_VERSION }}
+      - name: Get Node.js version from .nvmrc
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
 
-    - name: Request website update
-      run: |
-        curl -X POST \
-            -H "Authorization: token ${GH_FA_TOKEN}" \
-            -H "Accept: application/vnd.github.everest-preview+json" \
-            -d "{\"event_type\":\"${VERSION}\"}" \
-            https://api.github.com/repos/${WEBSITE_REPO}/dispatches
-      env:
-        GH_FA_TOKEN: ${{ secrets.GH_FA_TOKEN }}
-        WEBSITE_REPO: web-scrobbler/website-resources
-        VERSION: ${{ steps.get-version.outputs.EXT_VERSION }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create zipball
+        run: npx grunt dist:firefox
+
+      - name: Publish the extension for Firefox
+        uses: trmcnvn/firefox-addon@v1
+        with:
+          api-key: ${{ secrets.AMO_ISSUER }}
+          api-secret: ${{ secrets.AMO_SECRET }}
+          # Manifest is used to get version only, so we provide
+          # `package.json` file here, which contains the extension version.
+          manifest: package.json
+          uuid: '{799c0914-748b-41df-a25c-22d008f9e83f}'
+          xpi: web-scrobbler-firefox.zip

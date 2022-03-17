@@ -26,7 +26,6 @@
  */
 
 define((require) => {
-	const GA = require('service/ga');
 	const browser = require('webextension-polyfill');
 	const TabWorker = require('object/tab-worker');
 	const Notifications = require('browser/notifications');
@@ -36,7 +35,7 @@ define((require) => {
 	const { openTab } = require('util/util-browser');
 
 	const {
-		ControllerReset, SongNowPlaying, SongScrobbled, SongUnrecognized,
+		ControllerReset, SongNowPlaying, SongUnrecognized,
 	} = require('object/controller-event');
 
 	/**
@@ -54,10 +53,6 @@ define((require) => {
 				BrowserStorage.NOTIFICATIONS
 			);
 			this.tabWorker = new TabWorker(this);
-			this.tabWorker.onConnectorActivated = ({ label }) => {
-				GA.event('core', 'inject', label);
-				this.setSessionActive();
-			};
 			this.tabWorker.onControllerEvent = (ctrl, event) => {
 				this.processControllerEvent(ctrl, event);
 			};
@@ -76,8 +71,6 @@ define((require) => {
 
 				this.showAuthNotification();
 			}
-
-			GA.pageview(`/background-loaded?version=${this.extVersion}`);
 		}
 
 		/** Private functions. */
@@ -257,7 +250,6 @@ define((require) => {
 			}
 
 			this.isSessionActive = true;
-			GA.pageview(`/background-injected?version=${this.extVersion}`);
 		}
 
 		/**
@@ -282,21 +274,15 @@ define((require) => {
 						return;
 					}
 
-					Notifications.showNowPlaying(song, () => {
+					Notifications.showNowPlaying(song, ctrl.connector, () => {
 						openTab(ctrl.tabId);
 					});
 					break;
 				}
 
-				case SongScrobbled: {
-					const { label } = ctrl.getConnector();
-					GA.event('core', 'scrobble', label);
-					break;
-				}
-
 				case SongUnrecognized: {
 					const song = ctrl.getCurrentSong();
-					Notifications.showSongNotRecognized(song, () => {
+					Notifications.showSongNotRecognized(song, ctrl.connector, () => {
 						openTab(ctrl.tabId);
 					});
 					break;

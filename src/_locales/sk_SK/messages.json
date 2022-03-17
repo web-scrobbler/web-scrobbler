@@ -31,14 +31,6 @@
         "message": "Vynúti rozpoznávanie neznámych skladieb",
         "description": "Option title"
     },
-    "optionDisableGa": {
-        "message": "Zakázať Google Analytics",
-        "description": "Option label"
-    },
-    "optionDisableGaTitle": {
-        "message": "Zakázať odosielanie dát službe Google Analytics",
-        "description": "Option title"
-    },
     "optionScrobblePodcasts": {
         "message": "Zaznamenávať podcasty",
         "description": "Option title"
@@ -58,14 +50,6 @@
     "optionScrobblePodcastsTitle": {
         "message": "Zaznamenáva diely podcastov",
         "description": "Option label"
-    },
-    "optionTdlShortTrackNames": {
-        "message": "Použiť skrátené názvy skladieb",
-        "description": "Option title"
-    },
-    "optionTdlShortTrackNamesTitle": {
-        "message": "Táto možnosť poskytuje skrátené názvy pre určité skladby (vymaže z názvu slová ako \"naživo\" atď.)",
-        "description": ""
     },
     "optionYtDesc": {
         "message": "Ak vypnete obe možnosti, doplnok bude zaznamenávať youtube videá zo všetkých kategórii.",
@@ -307,6 +291,10 @@
         "message": "Používanie doplnku je zadarmo, a vždy aj bude. Avšak, ak chcete podporiť vývoj doplnku, môžete použiť tlačidlo nižšie.",
         "description": ""
     },
+    "customPatterns": {
+        "message": "URL vzory",
+        "description": "'URL patterns' section"
+    },
     "customPatternsHint": {
         "message": "URL vzory ktoré má konektor brať pridajte dolu.",
         "description": "Popup hint"
@@ -460,15 +448,15 @@
         "description": "Placeholder of album artist input"
     },
     "infoViewArtistPage": {
-        "message": "Otvoriť stránku interpreta",
+        "message": "Otvoriť stránku interpreta: $1",
         "description": "Placeholder of album input"
     },
     "infoViewAlbumPage": {
-        "message": "Otvoriť stránku albumu",
+        "message": "Otvoriť stránku albumu: $1",
         "description": "Placeholder of album input"
     },
     "infoViewTrackPage": {
-        "message": "Otvoriť stránku skladby",
+        "message": "Otvoriť stránku skladby: $1",
         "description": "Placeholder of album input"
     },
     "infoYourScrobbles": {
@@ -558,30 +546,6 @@
     "notificationNotRecognizedText": {
         "message": "Kliknite na ikonku v lište doplnkov a uložte správne údaje.",
         "description": "Notification text"
-    },
-    "startupTitle": {
-        "message": "Vitajte vo Web Scrobbleri!",
-        "description": "Title for startup page"
-    },
-    "startupIntroTitle": {
-        "message": "Ďakujeme Vám, že ste si vybrali Web Scrobbler!",
-        "description": "Startup intro title"
-    },
-    "startupIntroText": {
-        "message": "Predtým než môžeme začať zaznamenávať vašu hudbu, je nutné si prečítať a vyjadriť súhlas/nesúhlas s našimi zásadami o ochrane osobných údajov.",
-        "description": "Startup intro text"
-    },
-    "startupFinished": {
-        "message": "Ďakujeme! V prípade že zmeníte názor, môžete zmeniť Vaše rozhodnutie v nastaveniach doplnku.",
-        "description": "Startup finished text"
-    },
-    "optIn": {
-        "message": "Súhlasiť",
-        "description": "Opt in"
-    },
-    "optOut": {
-        "message": "Nesúhlasiť",
-        "description": "Opt out"
     },
     "hotkeyToggleConnector": {
         "message": "Prepnúť zaznamenávanie pre aktuálnu stránku",

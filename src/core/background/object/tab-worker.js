@@ -24,15 +24,6 @@ define((require) => {
 		/** Listeners. */
 
 		/**
-		 * Called if a connector injected into a page.
-		 *
-		 * @param {Object} connector Connector match object
-		 */
-		onConnectorActivated(connector) { // eslint-disable-line no-unused-vars
-			throw new Error('This function must be overridden!');
-		}
-
-		/**
 		 * Called if a new event is dispatched.
 		 *
 		 * @param {Object} ctrl Controller instance
@@ -459,8 +450,6 @@ define((require) => {
 					this.updateContextMenu(tabId);
 
 					tabs.sendMessage(tabId, { type: 'EVENT_READY' });
-
-					this.onConnectorActivated(connector);
 					break;
 				}
 			}

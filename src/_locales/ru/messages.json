@@ -31,14 +31,6 @@
         "message": "Принудительное распознавание композиций",
         "description": "Option title"
     },
-    "optionDisableGa": {
-        "message": "Отключить Google Analytics",
-        "description": "Option label"
-    },
-    "optionDisableGaTitle": {
-        "message": "Отключить отправку анонимной статистики использования расширения",
-        "description": "Option title"
-    },
     "optionScrobblePodcasts": {
         "message": "Скробблить подкасты",
         "description": "Option title"
@@ -58,14 +50,6 @@
     "optionScrobblePodcastsTitle": {
         "message": "Разрешить приложению скробблить подкасты",
         "description": "Option label"
-    },
-    "optionTdlShortTrackNames": {
-        "message": "Использовать короткие имена композиций",
-        "description": "Option title"
-    },
-    "optionTdlShortTrackNamesTitle": {
-        "message": "Tidal предоставляет короткие имена некоторых композиций (например, без суффикса \"Remastered\", и т.п.)",
-        "description": ""
     },
     "optionYtDesc": {
         "message": "Если вы отключите обе настройки, расширение будет скробблить видео из всех категорий.",
@@ -331,6 +315,10 @@
         "message": "Расширение бесплатно, и всегда будет бесплатным. Если вы хотите поддержать разработку расширения, вы можете воспользоваться кнопкой ниже.",
         "description": ""
     },
+    "customPatterns": {
+        "message": "Шаблоны URL",
+        "description": "'URL patterns' section"
+    },
     "customPatternsHint": {
         "message": "Добавьте необходимые шаблоны URL для коннектора.",
         "description": "Popup hint"
@@ -484,15 +472,15 @@
         "description": "Placeholder of album artist input"
     },
     "infoViewArtistPage": {
-        "message": "Посмотреть страницу исполнителя",
+        "message": "Посмотреть страницу исполнителя: $1",
         "description": "Placeholder of album input"
     },
     "infoViewAlbumPage": {
-        "message": "Посмотреть страницу альбома",
+        "message": "Посмотреть страницу альбома: $1",
         "description": "Placeholder of album input"
     },
     "infoViewTrackPage": {
-        "message": "Посмотреть страницу композиции",
+        "message": "Посмотреть страницу композиции: $1",
         "description": "Placeholder of album input"
     },
     "infoYourScrobbles": {
@@ -582,30 +570,6 @@
     "notificationNotRecognizedText": {
         "message": "Кликните на иконку справа от адресной строки, чтобы скорректировать информацию о композиции.",
         "description": "Notification text"
-    },
-    "startupTitle": {
-        "message": "Добро пожаловать в Web Scrobbler!",
-        "description": "Title for startup page"
-    },
-    "startupIntroTitle": {
-        "message": "Благодарим за установку Web Scrobbler!",
-        "description": "Startup intro title"
-    },
-    "startupIntroText": {
-        "message": "Прежде, чем мы начнём скробблить ваши композиции, вам следует ознакомиться с нашей политикой конфиденциальности и принять или отклонить её.",
-        "description": "Startup intro text"
-    },
-    "startupFinished": {
-        "message": "Спасибо! Если вы захотите изменить свой выбор, вы можете сделать это в настройках расширения.",
-        "description": "Startup finished text"
-    },
-    "optIn": {
-        "message": "Принять",
-        "description": "Opt in"
-    },
-    "optOut": {
-        "message": "Отклонить",
-        "description": "Opt out"
     },
     "hotkeyToggleConnector": {
         "message": "Включить/выключить скробблинг для текущего сайта",

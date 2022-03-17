@@ -191,12 +191,12 @@ class InfoPopupView {
 		$(selector).val(value);
 	}
 
-	setFieldUrl(field, url) {
+	setFieldUrl(field, url, title) {
 		const selector = InfoPopupView.getFieldSelector(field);
 		const fieldTitleId = fieldTitleMap[field];
 
 		$(selector).attr('href', url);
-		$(selector).attr('title', this.i18n(fieldTitleId));
+		$(selector).attr('title', this.i18n(fieldTitleId, title));
 	}
 
 	removeFieldUrl(field) {
@@ -218,8 +218,8 @@ class InfoPopupView {
 			});
 		}
 
-		$(inputGenericId).off('keyup');
-		$(inputGenericId).on('keyup', (e) => {
+		$(inputGenericId).off('keydown');
+		$(inputGenericId).on('keydown', (e) => {
 			const isSubmitAction = e.which === 13;
 
 			if (isSubmitAction) {

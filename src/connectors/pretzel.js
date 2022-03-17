@@ -1,75 +1,29 @@
 'use strict';
 
-setupConnector();
+const filter = MetadataFilter.createFilter({
+	track: MetadataFilter.fixTrackSuffix,
+	album: MetadataFilter.fixTrackSuffix,
+});
 
-function setupConnector() {
-	setupCommonProperties();
+Connector.applyFilter(filter);
 
-	if (isMiniPlayer()) {
-		Util.debugLog('Setup properties for mini player');
+const artistSelector = '.kzpiRD p:nth-child(2) a';
 
-		setupPropertiesForMiniPlayer();
-	} else {
-		Util.debugLog('Setup properties for full player');
+Connector.playerSelector = '.hOOKvw';
 
-		setupPropertiesForFullPlayer();
-	}
-}
+Connector.trackSelector = '.kzpiRD .oKpSL';
 
-function isMiniPlayer() {
-	return location.hostname === 'app.pretzel.rocks';
-}
+Connector.albumSelector = '.kzpiRD p:nth-child(3) a';
 
-function setupCommonProperties() {
-	const filter = MetadataFilter.createFilter({
-		track: MetadataFilter.fixTrackSuffix,
-		album: MetadataFilter.fixTrackSuffix,
-	});
+Connector.playButtonSelector = '.pretzel-icon-player_play';
 
-	Connector.applyFilter(filter);
-}
+Connector.trackArtSelector = '.rwQJb img';
 
-// https://app.pretzel.rocks
-function setupPropertiesForMiniPlayer() {
-	const artistSelector = '.kkKxss p:nth-child(2) .CIWgt';
+Connector.currentTimeSelector = '.hcriLb p:nth-child(1)';
 
-	Connector.playerSelector = '.eLgAlM';
+Connector.durationSelector = '.hcriLb p:nth-child(3)';
 
-	Connector.trackSelector = '.bPhEWg';
-
-	Connector.albumSelector = '.kkKxss p:nth-child(3) .CIWgt';
-
-	Connector.pauseButtonSelector = '.pretzel-icon-pause';
-
-	Connector.trackArtSelector = '.rgUOX';
-
-	Connector.currentTimeSelector = '.foNsgO p:nth-child(1)';
-
-	Connector.durationSelector = '.foNsgO p:nth-child(2)';
-
-	Connector.getArtist = () => getArtistsFromElement(artistSelector);
-}
-
-// https://play.pretzel.rocks/
-function setupPropertiesForFullPlayer() {
-	const artistSelector = '.kzpiRD p:nth-child(2) a';
-
-	Connector.playerSelector = '.hOOKvw';
-
-	Connector.trackSelector = '.oKpSL';
-
-	Connector.albumSelector = '.kzpiRD p:nth-child(3) a';
-
-	Connector.playButtonSelector = '.pretzel-icon-player_play';
-
-	Connector.trackArtSelector = '.rwQJb img';
-
-	Connector.currentTimeSelector = '.hcriLb p:nth-child(1)';
-
-	Connector.durationSelector = '.hcriLb p:nth-child(3)';
-
-	Connector.getArtist = () => getArtistsFromElement(artistSelector);
-}
+Connector.getArtist = () => getArtistsFromElement(artistSelector);
 
 function getArtistsFromElement(selector) {
 	const artistElements = document.querySelectorAll(selector);

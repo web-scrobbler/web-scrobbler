@@ -2,46 +2,46 @@
 
 const playerBar = '.Root__now-playing-bar';
 
-const artistSelector = `${playerBar} [dir="auto"]:last-child a`;
-const spotifyConnectSelector = '[class*=spoticon-spotify-connect]';
-
-const playPauseButtonSvgPathSelector = `${playerBar} .player-controls__buttons button:nth-child(3) path`;
-const playButtonSvgPath = 'M4.018 14L14.41 8 4.018 2z';
+const artistSelector = `${playerBar} [data-testid="context-item-info-artist"]`;
+const playingPath = 'M2.7 1a.7.7 0 00-.7.7v12.6a.7.7 0 00.7.7h2.6a.7.7 0 00.7-.7V1.7a.7.7 0 00-.7-.7H2.7zm8 0a.7.7 0 00-.7.7v12.6a.7.7 0 00.7.7h2.6a.7.7 0 00.7-.7V1.7a.7.7 0 00-.7-.7h-2.6z';
+const spotifyConnectSelector = `${playerBar} [aria-live="polite"]`;
+const oldPauseButtonSelector = `${playerBar} [data-testid=control-button-playpause] [fill=none]`;
+const newPauseButtonSelector = `${playerBar} [data-testid=control-button-playpause] > svg > path[d="${playingPath}"]`;
 
 Connector.useMediaSessionApi();
 
 Connector.playerSelector = playerBar;
 
-Connector.artistSelector = artistSelector;
+Connector.artistSelector = [
+	artistSelector,
+	// For local files
+	`${playerBar} [data-testid="track-info-artists"]`,
+];
 
-Connector.trackSelector = `${playerBar} [dir="auto"]:first-child a`;
+Connector.trackSelector = [
+	`${playerBar} [dir="auto"]:first-child a`,
+	// For local files
+	`${playerBar} [data-testid="track-info-name"]`,
+];
 
 Connector.trackArtSelector = '.NavBarFooter .cover-art-image';
 
-Connector.currentTimeSelector = `${playerBar} .playback-bar__progress-time:first-child`;
+Connector.currentTimeSelector = `${playerBar} [data-testid=playback-position]`;
 
-Connector.durationSelector = `${playerBar} .playback-bar__progress-time:last-child`;
+Connector.durationSelector = `${playerBar} [data-testid=playback-duration]`;
+
+Connector.pauseButtonSelector = `${oldPauseButtonSelector}, ${newPauseButtonSelector}`;
 
 Connector.applyFilter(MetadataFilter.getSpotifyFilter());
 
 Connector.isScrobblingAllowed = () => isMusicPlaying() && isMainTab();
 
-Connector.isPodcast = () => artistUrlIncludes('/show/');
+Connector.isPodcast = () => isPodcastPlaying();
 
-Connector.isPlaying = () => {
-	const svgPath = Util.getAttrFromSelectors(
-		playPauseButtonSvgPathSelector,
-		'd'
-	);
-	if (svgPath) {
-		return svgPath !== playButtonSvgPath;
-	}
-
-	return true;
-};
+Connector.getUniqueID = () => getTrackUri();
 
 function isMusicPlaying() {
-	return artistUrlIncludes('/artist/', '/show/');
+	return artistUrlIncludes('/artist/', '/show/') || isLocalFilePlaying();
 }
 
 function artistUrlIncludes(...strings) {
@@ -58,17 +58,24 @@ function artistUrlIncludes(...strings) {
 	return false;
 }
 
+function isPodcastPlaying() {
+	if (isLocalFilePlaying()) {
+		return false;
+	}
+
+	return artistUrlIncludes('/show/');
+}
+
+function isLocalFilePlaying() {
+	// Local files has no links
+	// TODO Use better detection
+	return document.querySelector(artistSelector) === null;
+}
+
 function isMainTab() {
 	if (hasMultipleSources()) {
-		const spotifyConnectIconEl = document.querySelector(
-			spotifyConnectSelector
-		);
-		if (spotifyConnectIconEl !== null) {
-			const spotifyConnectEl = spotifyConnectIconEl.parentNode;
-			const deviceName = spotifyConnectEl.textContent;
-
-			return !deviceName.includes('Web Player');
-		}
+		const deviceName = getActiveDeviceName();
+		return deviceName && !deviceName.includes('Web Player');
 	}
 
 	return true;
@@ -76,4 +83,24 @@ function isMainTab() {
 
 function hasMultipleSources() {
 	return document.body.classList.contains('qualaroo--connect-bar-visible');
+}
+
+function getActiveDeviceName() {
+	const spotifyConnectEl = document.querySelector(spotifyConnectSelector);
+	return spotifyConnectEl && spotifyConnectEl.textContent;
+}
+
+function getTrackUri() {
+	const contextLinkEl = document.querySelector('[data-testid="context-link"]');
+	if (!contextLinkEl || !contextLinkEl.href) {
+		return null;
+	}
+
+	const url = new URL(contextLinkEl);
+	const trackUri = url.searchParams.get('uri');
+	if (trackUri && trackUri.startsWith('spotify:track:')) {
+		return trackUri;
+	}
+
+	return null;
 }

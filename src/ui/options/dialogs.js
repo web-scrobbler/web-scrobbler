@@ -4,17 +4,29 @@ define((require) => {
 	const browser = require('webextension-polyfill');
 	const SavedEdits = require('storage/saved-edits');
 	const CustomPatterns = require('storage/custom-patterns');
+	const Options = require('storage/options');
 
 	const { getSortedConnectors } = require('util/util-connector');
 
 	const sortedConnectors = getSortedConnectors();
 
+	/**
+	 * Object that maps options to their element IDs.
+	 * @type {Object}
+	 */
+	const OPTIONS_UI_MAP = {
+		'#conn-conf-force-recognize': Options.FORCE_RECOGNIZE,
+		'#conn-conf-use-notifications': Options.USE_NOTIFICATIONS,
+		'#conn-conf-use-unrecognized-song-notifications': Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
+		'#conn-conf-scrobble-podcasts': Options.SCROBBLE_PODCASTS,
+	};
+
 	function initialize() {
-		initAddPatternDialog();
+		initConnectorConfigDialog();
 		initViewEditedDialog();
 	}
 
-	function initAddPatternDialog() {
+	function initConnectorConfigDialog() {
 		$('body').on('click', 'a.conn-config', async (e) => {
 			e.preventDefault();
 
@@ -23,25 +35,43 @@ define((require) => {
 			const connector = sortedConnectors[index];
 
 			modal.data('conn', index);
-			modal.find('.modal-title').html(connector.label);
+			modal.find('.modal-title').text(connector.label);
+
+			for (const optionId in OPTIONS_UI_MAP) {
+				const option = OPTIONS_UI_MAP[optionId];
+
+				const optionValue = await Options.getConnectorOverrideOption(connector.id, option);
+				$(optionId).prop('checked', optionValue || false);
+				if (optionValue === undefined) {
+					$(optionId).prop('indeterminate', true);
+				}
+			}
 
 			const allPatterns = await CustomPatterns.getAllPatterns();
 			const patterns = allPatterns[connector.id] || [];
 
-			const inputs = $('<ul class="list-unstyled patterns-list" id="conn-conf-list"></ul>');
+			const inputsContainer = $('#conn-conf-list');
+			inputsContainer.empty();
 			for (const value of patterns) {
-				inputs.append(createNewConfigInput(value));
+				inputsContainer.append(createNewConfigInput(value));
 			}
 
-			modal.find('.conn-conf-patterns').html(inputs);
 			modal.modal('show');
 		});
 
-		$('button#conn-conf-ok').click(function() {
+		$('button#conn-conf-ok').click(async function() {
 			const modal = $(this).closest('#conn-conf-modal');
 
 			const index = modal.data('conn');
 			const connector = sortedConnectors[index];
+
+			for (const optionId in OPTIONS_UI_MAP) {
+				const option = OPTIONS_UI_MAP[optionId];
+
+				if (!$(optionId).prop('indeterminate')) {
+					await Options.setConnectorOverrideOption(connector.id, option, $(optionId).is(':checked'));
+				}
+			}
 
 			const patterns = [];
 			$('#conn-conf-list').find('input:text').each(function() {
@@ -64,11 +94,17 @@ define((require) => {
 			$('#conn-conf-list').append(createNewConfigInput());
 		});
 
-		$('button#conn-conf-reset').click(function() {
+		$('button#conn-conf-reset').click(async function() {
 			const modal = $(this).closest('#conn-conf-modal');
 
 			const index = modal.data('conn');
 			const connector = sortedConnectors[index];
+
+			for (const optionId in OPTIONS_UI_MAP) {
+				const option = OPTIONS_UI_MAP[optionId];
+
+				await Options.setConnectorOverrideOption(connector.id, option, undefined);
+			}
 
 			CustomPatterns.resetPatterns(connector.id);
 

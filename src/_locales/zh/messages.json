@@ -31,14 +31,6 @@
         "message": "强制记录未知曲目",
         "description": "Option title"
     },
-    "optionDisableGa": {
-        "message": "禁用 Google Analytics",
-        "description": "Option label"
-    },
-    "optionDisableGaTitle": {
-        "message": "禁止向 Google Analytics 发送数据",
-        "description": "Option title"
-    },
     "optionScrobblePodcasts": {
         "message": "记录播客",
         "description": "Option title"
@@ -58,14 +50,6 @@
     "optionScrobblePodcastsTitle": {
         "message": "记录播客节目",
         "description": "Option label"
-    },
-    "optionTdlShortTrackNames": {
-        "message": "使用简短的曲目名称",
-        "description": "Option title"
-    },
-    "optionTdlShortTrackNamesTitle": {
-        "message": "Tidal为某些曲目提供了简短的曲目名称（没有“重制”等）",
-        "description": ""
     },
     "optionYtDesc": {
         "message": "如果您关闭了这两个选项，该扩展程序将会对所有类别的 Youtube 视频追踪播放记录。",
@@ -331,6 +315,10 @@
         "message": "该扩展免费并将永久免费。但是如果你想支持扩展的开发，可以使用下方按钮。",
         "description": ""
     },
+    "customPatterns": {
+        "message": "网址格式",
+        "description": "'URL patterns' section"
+    },
     "customPatternsHint": {
         "message": "在下方为接口添加匹配网址。",
         "description": "Popup hint"
@@ -484,15 +472,15 @@
         "description": "Placeholder of album artist input"
     },
     "infoViewArtistPage": {
-        "message": "查看艺术家页面",
+        "message": "查看艺术家页面：$1",
         "description": "Placeholder of album input"
     },
     "infoViewAlbumPage": {
-        "message": "查看专辑页面",
+        "message": "查看专辑页面：$1",
         "description": "Placeholder of album input"
     },
     "infoViewTrackPage": {
-        "message": "查看曲目页面",
+        "message": "查看曲目页面：$1",
         "description": "Placeholder of album input"
     },
     "infoYourScrobbles": {
@@ -582,30 +570,6 @@
     "notificationNotRecognizedText": {
         "message": "点击扩展列中的图标来更正和提交曲目信息。",
         "description": "Notification text"
-    },
-    "startupTitle": {
-        "message": "欢迎使用 Web Scrobbler！",
-        "description": "Title for startup page"
-    },
-    "startupIntroTitle": {
-        "message": "感谢选择安装 Web Scrobbler！",
-        "description": "Startup intro title"
-    },
-    "startupIntroText": {
-        "message": "在我们开始记录您的所有音乐之前，您必须先审查并选择加入（或退出）我们的隐私政策。",
-        "description": "Startup intro text"
-    },
-    "startupFinished": {
-        "message": "感谢！如果您改变主意，可以在选项中进行更改。",
-        "description": "Startup finished text"
-    },
-    "optIn": {
-        "message": "选择参加",
-        "description": "Opt in"
-    },
-    "optOut": {
-        "message": "选择退出",
-        "description": "Opt out"
     },
     "hotkeyToggleConnector": {
         "message": "切换对当前网站的跟踪",

@@ -48,10 +48,11 @@ define((require) => {
 
 	/**
 	 * Check if notifications are allowed by user.
+	 * @param  {Object} connector Connector instance
 	 * @return {Boolean} Check result
 	 */
-	async function isAllowed() {
-		return await Options.getOption(Options.USE_NOTIFICATIONS);
+	async function isAllowed(connector) {
+		return await Options.getOption(Options.USE_NOTIFICATIONS, connector.id);
 	}
 
 	/**
@@ -124,10 +125,11 @@ define((require) => {
 	/**
 	 * Show 'Now playing' notification.
 	 * @param  {Object} song Copy of song instance
+	 * @param  {Object} connector Connector instance
 	 * @param  {Function} [onClick] Function that will be called on notification click
 	 */
-	async function showNowPlaying(song, onClick) {
-		if (!await isAllowed()) {
+	async function showNowPlaying(song, connector, onClick) {
+		if (!await isAllowed(connector)) {
 			return;
 		}
 
@@ -207,10 +209,11 @@ define((require) => {
 	/**
 	 * Show notification if song is not recognized.
 	 * @param  {Object} song Song instance
+	 * @param  {Object} connector Connector instance
 	 * @param  {Function} [onClick] Function that will be called on notification click
 	 */
-	async function showSongNotRecognized(song, onClick) {
-		if (!await Options.getOption(Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS)) {
+	async function showSongNotRecognized(song, connector, onClick) {
+		if (!await Options.getOption(Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS, connector.id)) {
 			return;
 		}
 
