@@ -9,5 +9,3 @@ Connector.trackSelector = '.now-playing div[data-meta="title"]';
 Connector.albumSelector = '.now-playing div[data-meta="album"]';
 
 Connector.isPlaying = () => document.getElementById('toggle-play-pause').getAttribute('aria-label') !== 'Play';
-
-Connector.onReady = Connector.onStateChanged;
