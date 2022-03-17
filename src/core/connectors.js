@@ -1717,6 +1717,14 @@ const connectors = [{
 	js: 'connectors/ragya.js',
 	id: 'ragya',
 }, {
+
+	label: 'CodeRadio',
+	matches: [
+		'https://coderadio.freecodecamp.org/*',
+	],
+	js: 'connectors/coderadio.js',
+	id: 'coderadio',
+}, {
 	label: 'Dash Radio',
 	matches: [
 		'*://dashradio.com/*',
