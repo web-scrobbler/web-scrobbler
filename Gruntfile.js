@@ -21,9 +21,7 @@ const EXTENSION_SRC = [
 	// Skip SVG
 	'!icons/*.svg',
 ];
-const EXTENSION_DOCS = [
-	'README.md', 'LICENSE.md',
-];
+const EXTENSION_DOCS = ['*.md'];
 const EXTENSION_EXTRA = [
 	'package.json', 'package-lock.json',
 ];
@@ -141,7 +139,6 @@ module.exports = (grunt) => {
 						gecko: {
 							id: FIREFOX_EXTENSION_ID,
 							strict_min_version: '53.0',
-							update_url: 'https://raw.githubusercontent.com/web-scrobbler/updates.json/master/updates.json',
 						},
 					},
 					icons: {
@@ -174,6 +171,7 @@ module.exports = (grunt) => {
 		eslint: {
 			target: JS_FILES,
 			options: {
+				cache: !isCi,
 				fix: !isCi,
 			},
 		},

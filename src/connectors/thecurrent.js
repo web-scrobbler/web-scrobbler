@@ -1,23 +1,24 @@
 'use strict';
 
-const playerBar = '.player';
-const artistAlbumSep = '-';
+const filter = MetadataFilter.createFilter({
+	track: cleanupTrack,
+	artist: cleanupArtist,
+});
 
-Connector.playerSelector = '.listen-body';
+Connector.playerSelector = 'aside.player';
+Connector.trackSelector = 'aside.player .player_subhead';
+Connector.artistSelector = 'aside.player .player_subhead';
+Connector.isPlaying = () => $('aside.player').hasClass('is-playing');
+Connector.onReady = Connector.onStateChanged;
 
-Connector.trackSelector = '.player-title';
+Connector.applyFilter(filter);
 
-Connector.artistSelector = '.player-artist';
+function cleanupTrack(track) {
+	// Extract a track title from a `Track by Artist` string.
+	return track.replace(/^(.*?)\s(by)\s(.*?)$/i, '$1');
+}
 
-Connector.getAlbum = () => {
-	const artistAlbumStr = $(Connector.trackArtSelector).attr('title');
-	const [, album] = Util.splitString(artistAlbumStr, artistAlbumSep);
-
-	return album;
-};
-
-Connector.trackArtSelector = '.listen-album img';
-
-Connector.isTrackArtDefault = (url) => url.includes('default');
-
-Connector.isPlaying = () => $(playerBar).hasClass('is-playing');
+function cleanupArtist(artist) {
+	// Extract the artist from a `Track by Artist` string.
+	return artist.replace(/^(.*?)\s(by)\s(.*?)$/i, '$3');
+}

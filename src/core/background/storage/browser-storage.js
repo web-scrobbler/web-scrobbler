@@ -8,10 +8,16 @@ define((require) => {
 	const SYNC = 1;
 
 	/**
-	 * This storage contains the options values.
+	 * This storage contains the connector options values.
 	 * @see DEFAULT_CONNECTOR_OPTIONS_MAP object in `config` module.
 	 */
 	const CONNECTORS_OPTIONS = 'Connectors';
+
+	/**
+	 * This storage contains the connector override options values.
+	 * @see DEFAULT_CONNECTOR_OVERRIDE_OPTIONS_MAP object in `config` module.
+	 */
+	const CONNECTORS_OVERRIDE_OPTIONS = 'ConnectorsOverrideOptions';
 
 	/**
 	 * This storage contains custom URL patterns defined by an user.
@@ -74,6 +80,7 @@ define((require) => {
 
 	const storageTypeMap = {
 		[CONNECTORS_OPTIONS]: SYNC,
+		[CONNECTORS_OVERRIDE_OPTIONS]: SYNC,
 		[CUSTOM_PATTERNS]: SYNC,
 		[NOTIFICATIONS]: SYNC,
 		[OPTIONS]: SYNC,
@@ -138,7 +145,7 @@ define((require) => {
 
 		getLocalStorage, getSyncStorage,
 
-		CONNECTORS_OPTIONS, CUSTOM_PATTERNS,
+		CONNECTORS_OPTIONS, CONNECTORS_OVERRIDE_OPTIONS, CUSTOM_PATTERNS,
 		NOTIFICATIONS, LOCAL_CACHE, OPTIONS, CORE,
 	};
 });

@@ -14,6 +14,7 @@
 # Vendor
 /node_modules/
 /src/vendor/
+3RD-PARTY.md
 
 # Private
 .env
@@ -26,3 +27,6 @@
 .nyc_output/
 .nyc_cache/
 coverage/
+
+# Cache
+.eslintcache

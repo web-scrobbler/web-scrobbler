@@ -1,17 +1,29 @@
 # Polityka prywatności
 
-## Jakie dane są zbierane
+Niniejsza polityka prywatności wyjaśnia zakres danych zbieranych, przetwarzanych przez rozszerzenie; a także zakres ich wykorzystania oraz dalszego wykorzystania tych danych.
 
-Rozszerzenie używa Google Analytics do zbierania informacji o instalacjach i wykorzystaniu. Pojedyncza odsłona rejestrowana jest przy każdym uruchomieniu rozszerzenia - oznacza to jedną odsłonę na każdą sesję przeglądarki (czyli od jej uruchomienia do zamknięcia), niezależnie od ilości przescrobblowanych utworów oraz odwiedzonych wspieranych witryn.
+**Istotna uwaga**: Dokument ten ma zastosowanie do Web Scrobblera w wersji 2.40.0 oraz nowszych.
 
-Mimo że rozszerzenie wymaga uprawnień dostępu do wszystkich przeglądanych stron internetowych, spowodowane jest to jedynie względem na ciągły rozwój dodatku - użytkownik nie musi w związku z tym potwierdzać uprawnień związanych z każdym kolejnym wspieranym serwisem. Otwiera to także drogę dla przyszłego wsparcia dla odtwarzaczy osadzonych zewnętrznych stronach internetowych.
+## Jakie dane są zbierane?
 
-Rozszerzenie nie zbiera informacji o żadnej z odwiedzanych witryn. Nie ma również dostępu do prywatnych informacji na żadnym ze wspieranych serwisów. Nie ingeruje ona również w żaden sposób w treść stron.
+Rozszerzenie nie zbiera żadnych informacji osobistych.
 
-## W jaki sposób wykorzystywane są dane
+## Jakie dane są przechowywane przez rozszerzenie?
 
-Dane zbierane przez Google Analytict używane są do analizy użycia rozszerzenia na przestrzeni czasu z uwzględnieniem podziału na różne przeglądarki internetowe i konkretne ich wersje. Dane mogą zostać wykorzystane przy podejmowaniu decyzji odnośnie dalszego rozwoju i marketingu rozszerzenia.
+Twoje ustawienia oraz poświadczenia logowania są przechowywane wewnątrz przeglądarki. Rozszerzenie przechowuje:
 
-## Czy mogę wyłączyć śledzenie
+ - Twoje poświadczenia logowania do usług scrobblera
+ - Twoje osobiste ustawienia Web Scrobblera
+ - Twoje zmodyfikowane utwory
+ - Niestandardowe wzorce adresów wspieranych usług
+ - Informacje systemowe rozszerzenia
 
-W ustawieniach obecna jest opcja o nazwie "Wyłącz Google Analytics" umożliwiająca wyłączenie zbierania danych.
+Twoje poświadczenia logowania są wykorzystywane wyłącznie do komunikacji z usługami scrobblera.
+
+Wszelkie dane są przechowywane w pamięci wewnętrznej rozszerzenia; nie przesyłamy ich do serwisów stron trzecich.
+
+## Czemu rozszerzenie uzyskuje dostęp do wszystkich witryn?
+
+Rozszerzenie wspiera wiele usług hostowanych samodzielnie (takich jak Funkwhale), których adres internetowy zależny jest od użytkownika. Adresy tych usług nie mogą być z wyprzedzeniem określone wewnątrz rozszerzenia, wymagany jest więc dostęp do wszystkich możliwych adresów.
+
+Zwiększa to również wygodę dla użytkownika, który nie musi udzielać zgód na dostęp do każdej z nowych usług dodawanych w przyszłych aktualizacjach.

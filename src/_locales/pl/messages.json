@@ -31,14 +31,6 @@
         "message": "Wymuś traktowanie nieznanych utworów jako rozpoznanych",
         "description": "Option title"
     },
-    "optionDisableGa": {
-        "message": "Wyłącz Google Analytics",
-        "description": "Option label"
-    },
-    "optionDisableGaTitle": {
-        "message": "Wyłącz zbieranie statystyk użytkowania przez Google Analytics",
-        "description": "Option title"
-    },
     "optionScrobblePodcasts": {
         "message": "Scrobbluj podcasty",
         "description": "Option title"
@@ -58,14 +50,6 @@
     "optionScrobblePodcastsTitle": {
         "message": "Scrobbluj odcinki podcastów",
         "description": "Option label"
-    },
-    "optionTdlShortTrackNames": {
-        "message": "Używaj krótszych nazw utworów",
-        "description": "Option title"
-    },
-    "optionTdlShortTrackNamesTitle": {
-        "message": "Tidal dla niektórych utworów udostępnia skrócone wersje ich nazw (bez \"Remastered\", etc.)",
-        "description": ""
     },
     "optionYtDesc": {
         "message": "Jeśli wyłączysz obie opcje, rozszerzenie będzie scrobblować filmy na Youtube niezależnie od kategorii.",
@@ -331,6 +315,10 @@
         "message": "Rozszerzenie jest i pozostanie bezpłatne. Jeśli jednak chcesz wesprzeć jego dalszy rozwój, możesz skorzystać z poniższej opcji.",
         "description": ""
     },
+    "customPatterns": {
+        "message": "Wzorce adresów",
+        "description": "'URL patterns' section"
+    },
     "customPatternsHint": {
         "message": "Wprowadź poniżej wzorce adresów, dla których aktywowana ma być obsługa serwisu.",
         "description": "Popup hint"
@@ -484,15 +472,15 @@
         "description": "Placeholder of album artist input"
     },
     "infoViewArtistPage": {
-        "message": "Zobacz stronę wykonawcy",
+        "message": "Zobacz stronę wykonawcy: $1",
         "description": "Placeholder of album input"
     },
     "infoViewAlbumPage": {
-        "message": "Zobacz stronę albumu",
+        "message": "Zobacz stronę albumu: $1",
         "description": "Placeholder of album input"
     },
     "infoViewTrackPage": {
-        "message": "Zobacz stronę utworu",
+        "message": "Zobacz stronę utworu: $1",
         "description": "Placeholder of album input"
     },
     "infoYourScrobbles": {
@@ -582,30 +570,6 @@
     "notificationNotRecognizedText": {
         "message": "Kliknij ikonę na pasku rozszerzeń, aby poprawić i przesłać informacje o utworze.",
         "description": "Notification text"
-    },
-    "startupTitle": {
-        "message": "Witamy w Web Scrobblerze!",
-        "description": "Title for startup page"
-    },
-    "startupIntroTitle": {
-        "message": "Dzięki, że wybrałeś Web Scrobblera!",
-        "description": "Startup intro title"
-    },
-    "startupIntroText": {
-        "message": "Zanim będziemy mogli zacząć scrobblować całą twoją muzykę, musisz najpierw zapoznać się i wyrazić (albo i nie) zgodę na naszą politykę prywatności.",
-        "description": "Startup intro text"
-    },
-    "startupFinished": {
-        "message": "Dzięki! Jeśli zmienisz zdanie, zawsze możesz zmienić wybór w opcjach rozszerzenia.",
-        "description": "Startup finished text"
-    },
-    "optIn": {
-        "message": "Zgadzam się",
-        "description": "Opt in"
-    },
-    "optOut": {
-        "message": "Nie zgadzam się",
-        "description": "Opt out"
     },
     "hotkeyToggleConnector": {
         "message": "Przełącz scrobblowanie dla obecnej witryny",

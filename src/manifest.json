@@ -1,12 +1,14 @@
 {
   "name": "Web Scrobbler",
-  "version": "2.39.0",
+  "version": "2.56.1",
 
   "description": "__MSG_extDescription__",
   "icons": {
     "16": "icons/icon_generic_16.png",
     "48": "icons/icon_chrome_48.png",
-    "128": "icons/icon_chrome_128.png"
+    "128": "icons/icon_chrome_128.png",
+    "256": "icons/icon_chrome_256.png",
+    "512": "icons/icon_chrome_512.png"
   },
 
   "manifest_version": 2,
@@ -19,6 +21,7 @@
     "connectors/musickit-dom-inject.js",
     "connectors/vk-dom-inject.js",
     "connectors/yandex-music-dom-inject.js",
+    "connectors/sber-zvuk-dom-inject.js",
     "*.md"
   ],
 
