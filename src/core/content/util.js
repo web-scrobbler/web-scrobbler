@@ -327,7 +327,7 @@ const Util = {
 	 * a first element with the attribute available.
 	 *
 	 * @param  {String|Array} selectors Single selector or array of selectors
-	 * @param  {String} attr Attrubute to get
+	 * @param  {String} attr Attribute to get
 	 * @param  {Object} [defaultValue=null] Fallback value
 	 * @return {Object} Text of element, if available, or default value
 	 */
