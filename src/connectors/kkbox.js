@@ -1,16 +1,16 @@
 'use strict';
 
-Connector.artistSelector = '._2kDaGE';
+Connector.artistSelector = '.yKVKxJ';
 
-Connector.trackSelector = '._1VVryi>a';
+Connector.trackSelector = '.hayDaa>a';
 
-Connector.playerSelector = '._2eEzN2';
+Connector.playerSelector = '.mngLWd';
 
-Connector.trackArtSelector = '._3rswBX img';
+Connector.trackArtSelector = '.kl3pDr img';
 
 Connector.pauseButtonSelector = '.k-icon-now_playing-pause';
 
-Connector.getTimeInfo = () => Util.splitTimeInfo(document.querySelector('._3nysXh').innerText);
+Connector.getTimeInfo = () => Util.splitTimeInfo(document.querySelector('.bR5Q8S').innerText);
 
 const filter = MetadataFilter.createFilter({
 	track: getLocalName,
