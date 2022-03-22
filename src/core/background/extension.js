@@ -90,12 +90,20 @@ define((require) => {
 				// Don't let the extension fail on Firefox for Android.
 			}
 
-			browser.tabs.onUpdated.addListener((_, changeInfo, tab) => {
+			browser.tabs.onUpdated.addListener(async (_, changeInfo, tab) => {
+
 				if (changeInfo.status !== 'complete') {
 					return;
 				}
 
-				return this.tabWorker.processTabUpdate(tab.id, tab.url);
+				// Workaround for weird bug where the url is not returned.
+				// This is weird, this is stupid, but it breaks with some extensions like teleparty without this code for some reason.
+				let url = tab.url;
+				if (typeof url === 'undefined') {
+					url = await browser.tabs.get(tab.id).then((idTab) => idTab.url);
+				}
+
+				return this.tabWorker.processTabUpdate(tab.id, url);
 			});
 
 			browser.tabs.onRemoved.addListener((tabId) => {
