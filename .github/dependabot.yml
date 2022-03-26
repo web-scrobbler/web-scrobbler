@@ -9,7 +9,7 @@ updates:
     timezone: Europe/Moscow
   open-pull-requests-limit: 10
   reviewers:
-  - alexesprit
+  - @web-scrobbler/maintenance-team
   labels:
   - dependencies
   - maintenance
