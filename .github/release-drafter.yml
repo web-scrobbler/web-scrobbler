@@ -14,13 +14,13 @@ exclude-labels:
 version-resolver:
   major:
     labels:
-      - 'major'
+      - 'major-change'
   minor:
     labels:
-      - 'minor'
+      - 'minor-change'
   patch:
     labels:
-      - 'patch'
+      - 'patch-change'
   default: patch
 template: |
   ## Changes
