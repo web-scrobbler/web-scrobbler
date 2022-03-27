@@ -7,7 +7,7 @@ Connector.playerSelector = '.player';
 
 Connector.trackSelector = '.player__track-title';
 
-Connector.albumSelector = '.player__track-album';
+Connector.albumSelector = '.player__track-album > a:nth-of-type(2)';
 
 Connector.trackArtSelector = '.player__track-cover img';
 
