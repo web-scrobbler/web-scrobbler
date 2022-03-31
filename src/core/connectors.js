@@ -48,6 +48,14 @@ const connectors = [{
 	js: 'connectors/bandcamp.js',
 	id: 'bandcamp',
 }, {
+	label: 'BNDCMPR',
+	matches: [
+		'*://bndcmpr.co/*',
+	],
+	js: 'connectors/bndcmpr.js',
+	id: 'bndcmpr',
+	allFrames: true,
+}, {
 	label: 'Pandora',
 	matches: [
 		'*://www.pandora.com/*',
@@ -545,7 +553,7 @@ const connectors = [{
 }, {
 	label: 'FluxFM Berlin',
 	matches: [
-		'*://www.fluxfm.de/stream/*',
+		'*://www.fluxfm.de/*',
 	],
 	js: 'connectors/fluxfm.js',
 	id: 'fluxfm',
@@ -1233,7 +1241,7 @@ const connectors = [{
 }, {
 	label: 'Apple Music',
 	matches: [
-		'*://*.music.apple.com/*',
+		'*://*music.apple.com/*',
 	],
 	js: 'connectors/apple-music.js',
 	id: 'apple-music',
@@ -1443,12 +1451,12 @@ const connectors = [{
 	js: 'connectors/sectorradio.js',
 	id: 'sectorradio',
 }, {
-	label: 'LiveXLive',
+	label: 'LiveOne',
 	matches: [
-		'*://*.livexlive.com/*',
+		'*://*.liveone.com/*',
 	],
-	js: 'connectors/livexlive.js',
-	id: 'livexlive',
+	js: 'connectors/liveone.js',
+	id: 'liveone',
 }, {
 	label: 'PocketCasts',
 	matches: [
@@ -1605,12 +1613,12 @@ const connectors = [{
 	js: 'connectors/radio7.js',
 	id: 'radio7lv',
 }, {
-	label: 'RecMusic',
+	label: 'TOWER RECORDS MUSIC',
 	matches: [
-		'*://recmusic.jp/*',
+		'*://music.tower.jp/*',
 	],
-	js: 'connectors/recmusic.js',
-	id: 'recmusic',
+	js: 'connectors/towerrecordsmusic.js',
+	id: 'towerrecordsmusic',
 }, {
 	label: 'Eggs',
 	matches: [
@@ -1686,7 +1694,7 @@ const connectors = [{
 	id: 'weibo',
 }, {
 	label: 'Street Voice',
-	matches: ['*://streetvoice.cn/*'],
+	matches: ['*://streetvoice.cn/*', '*://streetvoice.com/*'],
 	js: 'connectors/streetvoice.js',
 	id: 'streetvoice',
 }, {
@@ -1708,6 +1716,14 @@ const connectors = [{
 	],
 	js: 'connectors/ragya.js',
 	id: 'ragya',
+}, {
+
+	label: 'CodeRadio',
+	matches: [
+		'https://coderadio.freecodecamp.org/*',
+	],
+	js: 'connectors/coderadio.js',
+	id: 'coderadio',
 }, {
 	label: 'Dash Radio',
 	matches: [
@@ -1828,17 +1844,10 @@ const connectors = [{
 }, {
 	label: 'KKBOX',
 	matches: [
-		'*://*play-beta.kkbox.com/*',
+		'*://*play.kkbox.com/*',
 	],
 	js: 'connectors/kkbox.js',
 	id: 'kkbox',
-}, {
-	label: 'KKBOX Legacy',
-	matches: [
-		'*://*play.kkbox.com/*',
-	],
-	js: 'connectors/kkbox-legacy.js',
-	id: 'kkbox-legacy',
 }, {
 	label: 'Thrill Jockey',
 	matches: ['*://thrilljockey.com/products/*'],
@@ -1852,8 +1861,104 @@ const connectors = [{
 	js: 'connectors/horizonte.cl.js',
 	id: 'horizontecl',
 }, {
+	label: 'Rock&Pop Chile',
+	matches: [
+		'*://envivo.rockandpop.cl/*',
+	],
+	js: 'connectors/rockandpop.cl.js',
+	id: 'rockandpopcl',
+}, {
+	label: 'WYEP',
+	matches: [
+		'*://wyep.org/*',
+	],
+	js: 'connectors/wyep.js',
+	id: 'wyep',
+}, {
+	label: 'ZENO',
+	matches: [
+		'*://*zeno.fm/*',
+	],
+	js: 'connectors/zeno.js',
+	id: 'zeno',
+}, {
+	label: 'Naxos Music Library',
+	matches: [
+		'*://*.naxosmusiclibrary.com/*',
+	],
+	js: 'connectors/naxosmusiclibrary.js',
+	id: 'naxosmusiclibrary',
+}, {
+	label: 'Klassik Radio',
+	matches: [
+		'*://*klassikradio.de/*',
+	],
+	js: 'connectors/klassikradio.de.js',
+	id: 'klassikradio',
+}, {
+	label: 'Beetle',
+	js: 'connectors/beetle.js',
+	id: 'beetle',
+}, {
+	label: 'RefNet',
+	matches: ['*://listen.refnet.fm/*'],
+	js: 'connectors/refnet.js',
+	id: 'refnet',
+}, {
+	label: "La Radio du bord de l'eau",
+	matches: [
+		'*://*auborddeleau.radio/*',
+	],
+	js: 'connectors/auborddeleau.radio.js',
+	id: 'auborddeleau.radio',
+	allFrames: true,
+}, {
+	label: 'Radio Willy',
+	matches: [
+		'*://*willy.radio/player/willy/*',
+	],
+	js: 'connectors/willy.radio.js',
+	id: 'willy.radio',
+}, {
+	label: 'NIGHT.FM',
+	matches: [
+		'*://*night.fm/*',
+	],
+	js: 'connectors/night.fm.js',
+	id: 'night.fm',
+}, {
+	label: 'Radio Nowy Swiat',
+	matches: [
+		'*://nowyswiat.online/*',
+	],
+	js: 'connectors/nowyswiat.js',
+	id: 'nowyswiat',
+}, {
+	label: 'Radiolla',
+	matches: [
+		'*://*radiolla.com/*',
+	],
+	js: 'connectors/radiolla.js',
+	id: 'radiolla',
+}, {
+	label: 'Oxigenio.fm',
+	matches: [
+		'*://*oxigenio.fm/*',
+	],
+	js: 'connectors/oxigenio.fm.js',
+	id: 'oxigenio.fm',
+}, {
+	label: 'Radio Cuca',
+	matches: [
+		'*://*radiocuca.es/*',
+	],
+	js: 'connectors/radiocuca.js',
+	id: 'radiocuca',
+}, {
 	label: 'Yammat FM',
-	matches: ['*://*yammat.fm/*'],
+	matches: [
+		'*://*yammat.fm/*'
+	],
 	js: 'connectors/yammat.fm.js',
 	id: 'yammat.fm',
 }];

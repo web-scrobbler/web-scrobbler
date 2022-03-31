@@ -2,8 +2,11 @@
 
 const playerBar = '.Root__now-playing-bar';
 
-const artistSelector = `${playerBar} [dir="auto"]:last-child a`;
+const artistSelector = `${playerBar} [data-testid="context-item-info-artist"]`;
+const playingPath = 'M2.7 1a.7.7 0 00-.7.7v12.6a.7.7 0 00.7.7h2.6a.7.7 0 00.7-.7V1.7a.7.7 0 00-.7-.7H2.7zm8 0a.7.7 0 00-.7.7v12.6a.7.7 0 00.7.7h2.6a.7.7 0 00.7-.7V1.7a.7.7 0 00-.7-.7h-2.6z';
 const spotifyConnectSelector = `${playerBar} [aria-live="polite"]`;
+const oldPauseButtonSelector = `${playerBar} [data-testid=control-button-playpause] [fill=none]`;
+const newPauseButtonSelector = `${playerBar} [data-testid=control-button-playpause] > svg > path[d="${playingPath}"]`;
 
 Connector.useMediaSessionApi();
 
@@ -27,13 +30,15 @@ Connector.currentTimeSelector = `${playerBar} [data-testid=playback-position]`;
 
 Connector.durationSelector = `${playerBar} [data-testid=playback-duration]`;
 
-Connector.pauseButtonSelector = `${playerBar} [data-testid=control-button-pause]`;
+Connector.pauseButtonSelector = `${oldPauseButtonSelector}, ${newPauseButtonSelector}`;
 
 Connector.applyFilter(MetadataFilter.getSpotifyFilter());
 
 Connector.isScrobblingAllowed = () => isMusicPlaying() && isMainTab();
 
 Connector.isPodcast = () => isPodcastPlaying();
+
+Connector.getUniqueID = () => getTrackUri();
 
 function isMusicPlaying() {
 	return artistUrlIncludes('/artist/', '/show/') || isLocalFilePlaying();
@@ -83,4 +88,19 @@ function hasMultipleSources() {
 function getActiveDeviceName() {
 	const spotifyConnectEl = document.querySelector(spotifyConnectSelector);
 	return spotifyConnectEl && spotifyConnectEl.textContent;
+}
+
+function getTrackUri() {
+	const contextLinkEl = document.querySelector('[data-testid="context-link"]');
+	if (!contextLinkEl || !contextLinkEl.href) {
+		return null;
+	}
+
+	const url = new URL(contextLinkEl);
+	const trackUri = url.searchParams.get('uri');
+	if (trackUri && trackUri.startsWith('spotify:track:')) {
+		return trackUri;
+	}
+
+	return null;
 }

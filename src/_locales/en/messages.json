@@ -595,14 +595,6 @@
     "message": "Click on the icon in the extensions bar to correct and submit track info.",
     "description": "Notification text"
   },
-  "optIn": {
-    "message": "Opt In",
-    "description": "Opt in"
-  },
-  "optOut": {
-    "message": "Opt out",
-    "description": "Opt out"
-  },
 
   "hotkeyToggleConnector": {
     "message": "Toggle scrobbling for current website",

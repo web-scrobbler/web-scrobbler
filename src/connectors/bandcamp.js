@@ -1,12 +1,9 @@
 'use strict';
 
-const VARIOUS_ARTISTS_REGEXPS = [
-	/variou?s(\sartists)?/i,
-	/letiou?s(\sartists)?/i,
-];
+const VARIOUS_ARTISTS_REGEXP = /variou?s\sartists?/i;
 
 /**
- * List of separators used to split ArtistTrack string of LetiousArtists albums.
+ * List of separators used to split ArtistTrack string of VariousArtists albums.
  * @type {Array}
  */
 const SEPARATORS = [' - ', ' | '];
@@ -68,11 +65,15 @@ function initGenericProperties() {
 
 	Connector.getArtistTrack = () => {
 		const artist = Util.getTextFromSelectors(Connector.artistSelector);
-		const track = Util.getTextFromSelectors(Connector.trackSelector);
+		let track = Util.getTextFromSelectors(Connector.trackSelector);
 
 		if (isArtistVarious(artist, track)) {
 			return Util.splitArtistTrack(track, SEPARATORS);
 		}
+		if (trackContainsRecordSide()) {
+			track = Util.removeRecordSide(track);
+		}
+
 		return { artist, track };
 	};
 
@@ -220,18 +221,41 @@ function isCollectionsPage() {
 	return document.querySelector('#carousel-player') !== null;
 }
 
-function isArtistVarious(artist, track) {
-	/*
-	 * Return true if all tracks contain a hyphen or vertical bar on album page.
-	 * Example: https://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
-	 */
+
+function getTrackNodes() {
+	let trackNodes = [];
 	if (isAlbumPage()) {
-		const trackNodes = document.querySelectorAll('.track_list .track-title');
+		trackNodes = document.querySelectorAll('.track_list .track-title');
+	} else if (isCollectionsPage()) {
+		trackNodes = document.querySelectorAll('.queue .title span:nth-child(2)');
+	}
+
+	return trackNodes;
+}
+
+function isArtistVarious(artist, track) {
+	const trackNodes = getTrackNodes();
+	/*
+	* Return true if all tracks contain a hyphen or vertical bar on album page.
+	* Example: https://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
+	*/
+	if (trackNodes.length !== 0) {
+		const artists = [];
 		for (const trackNode of trackNodes) {
 			const trackName = trackNode.textContent;
 			if (!Util.findSeparator(trackName, SEPARATORS)) {
 				return false;
 			}
+			const { artist } = Util.splitArtistTrack(trackName, SEPARATORS);
+			artists.push(artist);
+		}
+		/*
+		 * Return false if every detected artist on the album has a very short name.
+		 * It is probably not artist names but disc sides or some kind of numbers.
+		 * Example: https://teenagemenopause.bandcamp.com/album/viens-mourir
+		 */
+		if (artists.every((artist) => artist.length <= 2)) {
+			return false;
 		}
 
 		return true;
@@ -243,13 +267,26 @@ function isArtistVarious(artist, track) {
 	 * Example: https://krefeld8ung.bandcamp.com/track/chrome
 	 */
 
-	for (const regex of VARIOUS_ARTISTS_REGEXPS) {
-		if (regex.test(artist)) {
-			return Util.findSeparator(track, SEPARATORS) !== null;
-		}
+	if (VARIOUS_ARTISTS_REGEXP.test(artist)) {
+		return Util.findSeparator(track, SEPARATORS) !== null;
 	}
 
 	return false;
+}
+
+function trackContainsRecordSide() {
+	const trackNodes = getTrackNodes();
+	let numTracksWithRecordSide = 0;
+
+	for (const trackNode of trackNodes) {
+		const trackName = trackNode.textContent;
+		if (trackName.substring(0, 3).match(Util.RECORD_SIDE_REGEX) || trackName.substring(0, 4).match(Util.RECORD_SIDE_REGEX)) {
+			numTracksWithRecordSide++;
+		}
+	}
+
+	// return true if all tracks on the album page contain a record side
+	return numTracksWithRecordSide === trackNodes.length;
 }
 
 function getPageType() {

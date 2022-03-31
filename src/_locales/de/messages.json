@@ -503,14 +503,6 @@
         "message": "Klick auf das Symbol in der Erweiterungsleiste und trage Titelinformationen ein.",
         "description": "Notification text"
     },
-    "optIn": {
-        "message": "Opt In",
-        "description": "Opt in"
-    },
-    "optOut": {
-        "message": "Opt out",
-        "description": "Opt out"
-    },
     "hotkeyToggleConnector": {
         "message": "Toggle scrobbling für die Webseite",
         "description": "Hotkey label"

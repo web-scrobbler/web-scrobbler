@@ -17,5 +17,5 @@ Connector.durationSelector = '.vjs-duration-display';
 Connector.trackArtSelector = '.current-track-imgContainer img';
 
 Connector.isScrobblingAllowed = () => {
-	return Connector.getArtist() !== 'LiveXLive';
+	return Connector.getArtist() !== 'LiveOne';
 };

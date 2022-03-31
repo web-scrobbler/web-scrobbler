@@ -247,7 +247,7 @@ function getTrackInfoFromDescription() {
 
 function getTrackInfoFromChapters() {
 	const chapterName = Util.getTextFromSelectors(chapterNameSelector);
-	const artistTrack = Util.splitArtistTrack(chapterName);
+	const artistTrack = Util.processYtVideoTitle(chapterName);
 	if (!artistTrack.track) {
 		artistTrack.track = chapterName;
 	}
