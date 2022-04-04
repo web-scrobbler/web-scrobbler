@@ -34,7 +34,7 @@
     "grunt-lintspaces": "0.10.0",
     "grunt-mocha-cli": "7.0.0",
     "grunt-preprocess": "5.1.0",
-    "grunt-remark": "10.0.0",
+    "grunt-remark": "11.0.0",
     "grunt-replace-json": "0.1.0",
     "grunt-stylelint": "0.18.0",
     "jit-grunt": "0.10.0",
