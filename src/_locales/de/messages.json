@@ -33,15 +33,27 @@
     },
     "optionScrobblePodcasts": {
         "message": "Scrobble podcasts",
-        "description": "Option title"
+        "description": "Option label"
     },
     "optionScrobblePodcastsTitle": {
         "message": "Scrobble podcast episodes",
-        "description": "Option label"
+        "description": "Option title"
+    },
+    "optionsHidden": {
+        "message": "Versteckt",
+        "description": "'Hidden' section"
+    },
+    "optionScrobblePercent": {
+        "message": "Scrobble bei",
+        "description": "Option title"
+    },
+    "optionScrobblePercentSuffix": {
+        "message": "der Songlänge",
+        "description": "Option title"
     },
     "optionYtDesc": {
-        "message": "Wenn du beide Optionen deaktivierst, wird die Erweiterung Youtubevideos aus allen Kategorien scrobblen.",
-        "description": "Description of Youtube options"
+        "message": "Wenn du beide Optionen deaktivierst, wird die Erweiterung YouTubevideos aus allen Kategorien scrobblen.",
+        "description": "Description of YouTube options"
     },
     "optionYtMusicOnly": {
         "message": "Videos aus der Kategorie \"Musik\" scrobblen",
