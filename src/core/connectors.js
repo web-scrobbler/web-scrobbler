@@ -690,6 +690,13 @@ const connectors = [{
 	js: 'connectors/freegalmusic.js',
 	id: 'freegalmusic',
 }, {
+	label: 'hoopla',
+	matches: [
+		'*://www.hoopladigital.com/*',
+	],
+	js: 'connectors/hoopladigital.js',
+	id: 'hoopladigital',
+}, {
 	label: 'Monstercat',
 	matches: [
 		'*://www.monstercat.com/*',
