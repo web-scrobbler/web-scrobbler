@@ -52,7 +52,7 @@
         "description": "Option title"
     },
     "optionYtDesc": {
-        "message": "Wenn du beide Optionen deaktivierst, wird die Erweiterung YouTubevideos aus allen Kategorien scrobblen.",
+        "message": "Wenn du beide Optionen deaktivierst, wird die Erweiterung YouTube videos aus allen Kategorien scrobblen.",
         "description": "Description of YouTube options"
     },
     "optionYtMusicOnly": {
