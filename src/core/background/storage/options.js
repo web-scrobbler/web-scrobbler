@@ -13,6 +13,7 @@ define((require) => {
 	const SCROBBLE_PERCENT = 'scrobblePercent';
 	const DISABLED_CONNECTORS = 'disabledConnectors';
 	const USE_UNRECOGNIZED_SONG_NOTIFICATIONS = 'useUnrecognizedSongNotifications';
+	const SCROBBLE_EDITED_TRACKS_ONLY = 'scrobbleEditedTracksOnly';
 	const SCROBBLE_PODCASTS = 'scrobblePodcasts';
 
 	/**
@@ -25,6 +26,12 @@ define((require) => {
 		 * @type {Boolean}
 		 */
 		[FORCE_RECOGNIZE]: false,
+
+		/**
+		 * Scrobble edited tracks only.
+		 * @type {Boolean}
+		 */
+		[SCROBBLE_EDITED_TRACKS_ONLY]: false,
 
 		/**
 		 * Scrobble podcast episodes.
@@ -241,7 +248,7 @@ define((require) => {
 		getOption, setOption, getConnectorOption, setConnectorOption,
 		getConnectorOverrideOption, setConnectorOverrideOption,
 
-		FORCE_RECOGNIZE, USE_NOTIFICATIONS,
+		FORCE_RECOGNIZE, USE_NOTIFICATIONS, SCROBBLE_EDITED_TRACKS_ONLY,
 		SCROBBLE_PODCASTS, USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
 		DISABLED_CONNECTORS, SCROBBLE_PERCENT,
 	};

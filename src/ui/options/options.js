@@ -18,6 +18,7 @@ define((require) => {
 		'#force-recognize': Options.FORCE_RECOGNIZE,
 		'#use-notifications': Options.USE_NOTIFICATIONS,
 		'#use-unrecognized-song-notifications': Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
+		'#scrobble-edited-tracks-only': Options.SCROBBLE_EDITED_TRACKS_ONLY,
 		'#scrobble-podcasts': Options.SCROBBLE_PODCASTS,
 	};
 	const CONNECTORS_OPTIONS_UI_MAP = {

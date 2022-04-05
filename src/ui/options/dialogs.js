@@ -18,6 +18,7 @@ define((require) => {
 		'#conn-conf-force-recognize': Options.FORCE_RECOGNIZE,
 		'#conn-conf-use-notifications': Options.USE_NOTIFICATIONS,
 		'#conn-conf-use-unrecognized-song-notifications': Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
+		'#conn-conf-scrobble-edited-tracks-only': Options.SCROBBLE_EDITED_TRACKS_ONLY,
 		'#conn-conf-scrobble-podcasts': Options.SCROBBLE_PODCASTS,
 	};
 

@@ -36,6 +36,14 @@
         "message": "Force recognition of unknown tracks",
         "description": "Option title"
     },
+    "optionScrobbleEditedTracksOnly": {
+        "message": "Scrobble edited tracks only",
+        "description": "Option label"
+    },
+    "optionScrobbleEditedTracksOnlyTitle": {
+        "message": "Only scrobble tracks if they are edited",
+        "description": "Option title"
+    },
     "optionScrobblePodcasts": {
         "message": "Scrobble podcasts",
         "description": "Option label"
