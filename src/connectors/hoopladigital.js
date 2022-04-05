@@ -6,7 +6,7 @@ Connector.trackSelector = '.text-current > h2';
 
 Connector.getTrackInfo = () => {
     const artistAlbum = Util.getTextFromSelectors('.text-current > p');
-    return Util.splitArtistAlbum(artistAlbum, ['-'], { swap: true });
+    return Util.splitArtistAlbum(artistAlbum, [' - '], { swap: true });
 };
 
 Connector.trackArtSelector = '.duration-1000 .max-w-112 > img';
