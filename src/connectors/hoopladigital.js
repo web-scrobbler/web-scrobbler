@@ -10,8 +10,8 @@ Connector.getTrackInfo = () => {
     const lastSeparator = artistAlbumText.lastIndexOf(' - ');
 
     const artistAlbumInfo = {
-        artist: artistAlbumText.slice(lastSeparator + 3),
-        track: artistAlbumText.slice(0, lastSeparator)
+        album: artistAlbumText.slice(0, lastSeparator),
+        artist: artistAlbumText.slice(lastSeparator + 3)
     };
 
     return artistAlbumInfo;
