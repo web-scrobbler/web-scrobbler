@@ -5,8 +5,16 @@ Connector.playerSelector = '.duration-1000';
 Connector.trackSelector = '.text-current > h2';
 
 Connector.getTrackInfo = () => {
-    const artistAlbum = Util.getTextFromSelectors('.text-current > p');
-    return Util.splitArtistAlbum(artistAlbum, [' - '], { swap: true });
+    const artistAlbumText = Util.getTextFromSelectors('.text-current > p');
+
+    const lastSeparator = artistAlbumText.lastIndexOf(' - ');
+
+    const artistAlbumInfo = {
+        artist: artistAlbumText.slice(lastSeparator + 3),
+        track: artistAlbumText.slice(0, lastSeparator)
+    };
+
+    return artistAlbumInfo;
 };
 
 Connector.trackArtSelector = '.duration-1000 .max-w-112 > img';
