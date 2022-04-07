@@ -5,16 +5,16 @@ Connector.playerSelector = '.duration-1000';
 Connector.trackSelector = '.text-current > h2';
 
 Connector.getTrackInfo = () => {
-    const artistAlbumText = Util.getTextFromSelectors('.text-current > p');
+	const artistAlbumText = Util.getTextFromSelectors('.text-current > p');
 
-    const lastSeparator = artistAlbumText.lastIndexOf(' - ');
+	const lastSeparator = artistAlbumText.lastIndexOf(' - ');
 
-    const artistAlbumInfo = {
-        album: artistAlbumText.slice(0, lastSeparator),
-        artist: artistAlbumText.slice(lastSeparator + 3)
-    };
+	const artistAlbumInfo = {
+		album: artistAlbumText.slice(0, lastSeparator),
+		artist: artistAlbumText.slice(lastSeparator + 3),
+	};
 
-    return artistAlbumInfo;
+	return artistAlbumInfo;
 };
 
 Connector.trackArtSelector = '.duration-1000 .max-w-112 > img';
