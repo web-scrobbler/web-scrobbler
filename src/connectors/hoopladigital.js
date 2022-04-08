@@ -7,11 +7,11 @@ Connector.trackSelector = '.text-current > h2';
 Connector.getTrackInfo = () => {
 	const artistAlbumText = Util.getTextFromSelectors('.text-current > p');
 
-	const lastSeparator = artistAlbumText.lastIndexOf(' - ');
+	const lastSeparatorIndex = artistAlbumText.lastIndexOf(' - ');
 
 	const artistAlbumInfo = {
-		album: artistAlbumText.slice(0, lastSeparator),
-		artist: artistAlbumText.slice(lastSeparator + 3),
+		album: artistAlbumText.slice(0, lastSeparatorIndex),
+		artist: artistAlbumText.slice(lastSeparatorIndex + 3),
 	};
 
 	return artistAlbumInfo;
