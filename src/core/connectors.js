@@ -1006,6 +1006,8 @@ const connectors = [{
 	label: 'FIP',
 	matches: [
 		'*://www.fip.fr/*',
+		'*://www.radiofrance.fr/fip/*',
+		'*://www.radiofrance.fr/fip*',
 	],
 	js: 'connectors/fip.js',
 	id: 'fip',
