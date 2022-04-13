@@ -1,20 +1,20 @@
 'use strict';
 
-const playerBar = '.RFplayer';
+const playerBar = '#player';
 
 Connector.playerSelector = playerBar;
 
-Connector.artistSelector = `${playerBar} .media-informations a:first-child`;
+Connector.artistSelector = `${playerBar} .line3`;
 
-Connector.trackSelector = `${playerBar} .media-informations a:last-child`;
+Connector.trackSelector = `${playerBar} .line2`;
 
-Connector.currentTimeSelector = `${playerBar} .start-time`;
+Connector.currentTimeSelector = `${playerBar} .time-left`;
 
-Connector.durationSelector = `${playerBar} .end-time`;
+Connector.durationSelector = `${playerBar} .time-right`;
 
 Connector.trackArtSelector = `${playerBar} .cover img`;
 
-Connector.pauseButtonSelector = `${playerBar} .ico-stop`;
+Connector.pauseButtonSelector = `${playerBar} .stopped`;
 
 // function removeYearFromArtist(text) {
 // 	const regexp = new RegExp(/\s+\(\d{4}\)(?=[^\s+(\d{4})]*$)/gm);
