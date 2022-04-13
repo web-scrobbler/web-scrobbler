@@ -1957,10 +1957,10 @@ const connectors = [{
 	js: 'connectors/oxigenio.fm.js',
 	id: 'oxigenio.fm',
 }, {
-  label: 'Intergalactic FM',
-  matches: ['*://*intergalactic.fm/*'],
-  js: 'connectors/intergalacticfm.js',
-  id: 'intergalactic.fm',
+	label: 'Intergalactic FM',
+	matches: ['*://*intergalactic.fm/*'],
+	js: 'connectors/intergalacticfm.js',
+	id: 'intergalactic.fm',
 }, {
 	label: 'Radio Cuca',
 	matches: [
@@ -1969,6 +1969,5 @@ const connectors = [{
 	js: 'connectors/radiocuca.js',
 	id: 'radiocuca',
 }];
-
 
 define(() => connectors);
