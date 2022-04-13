@@ -33,6 +33,10 @@
     },
     "optionScrobblePodcasts": {
         "message": "Zaznamenávať podcasty",
+        "description": "Option label"
+    },
+    "optionScrobblePodcastsTitle": {
+        "message": "Zaznamenáva diely podcastov",
         "description": "Option title"
     },
     "optionsHidden": {
@@ -47,13 +51,9 @@
         "message": "dĺžky skladby",
         "description": "Option title"
     },
-    "optionScrobblePodcastsTitle": {
-        "message": "Zaznamenáva diely podcastov",
-        "description": "Option label"
-    },
     "optionYtDesc": {
         "message": "Ak vypnete obe možnosti, doplnok bude zaznamenávať youtube videá zo všetkých kategórii.",
-        "description": "Description of Youtube options"
+        "description": "Description of YouTube options"
     },
     "optionPercentDesc": {
         "message": "Ak skladba hrala aspoň 4 minúty, tak bude zaznamenaná bezohľadu na nastavenú hodnotu.",
@@ -372,7 +372,7 @@
         "description": "The description of 'unsupported' popup"
     },
     "unsupportedWebsiteDesc2": {
-        "message": "Niektoré Google stránky podporované doplnkom (napr. Google Play Hudba, Youtube) môžu byť zablokované kvôli politike nastavení doplnku.",
+        "message": "Niektoré Google stránky podporované doplnkom (napr. Google Play Hudba, YouTube) môžu byť zablokované kvôli politike nastavení doplnku.",
         "description": "The description of 'unsupported' popup"
     },
     "infoLove": {

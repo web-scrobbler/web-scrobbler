@@ -33,6 +33,10 @@
     },
     "optionScrobblePodcasts": {
         "message": "Скробблить подкасты",
+        "description": "Option label"
+    },
+    "optionScrobblePodcastsTitle": {
+        "message": "Разрешить приложению скробблить подкасты",
         "description": "Option title"
     },
     "optionsHidden": {
@@ -47,13 +51,9 @@
         "message": "композиции",
         "description": "Option title"
     },
-    "optionScrobblePodcastsTitle": {
-        "message": "Разрешить приложению скробблить подкасты",
-        "description": "Option label"
-    },
     "optionYtDesc": {
         "message": "Если вы отключите обе настройки, расширение будет скробблить видео из всех категорий.",
-        "description": "Description of Youtube options"
+        "description": "Description of YouTube options"
     },
     "optionPercentDesc": {
         "message": "Примечание: композиция будет заскробблена, если она играет более 4 минут, независимо от значения данной настройки.",

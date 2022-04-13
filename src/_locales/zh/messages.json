@@ -33,6 +33,10 @@
     },
     "optionScrobblePodcasts": {
         "message": "记录播客",
+        "description": "Option label"
+    },
+    "optionScrobblePodcastsTitle": {
+        "message": "记录播客节目",
         "description": "Option title"
     },
     "optionsHidden": {
@@ -47,13 +51,9 @@
         "message": "曲目长度",
         "description": "Option title"
     },
-    "optionScrobblePodcastsTitle": {
-        "message": "记录播客节目",
-        "description": "Option label"
-    },
     "optionYtDesc": {
-        "message": "如果您关闭了这两个选项，该扩展程序将会对所有类别的 Youtube 视频追踪播放记录。",
-        "description": "Description of Youtube options"
+        "message": "如果您关闭了这两个选项，该扩展程序将会对所有类别的 YouTube 视频追踪播放记录。",
+        "description": "Description of YouTube options"
     },
     "optionPercentDesc": {
         "message": "请注意，如果一个曲目已播放了4分钟，无论选项值如何，它都将被记录。",

@@ -33,6 +33,10 @@
     },
     "optionScrobblePodcasts": {
         "message": "Scrobbluj podcasty",
+        "description": "Option label"
+    },
+    "optionScrobblePodcastsTitle": {
+        "message": "Scrobbluj odcinki podcastów",
         "description": "Option title"
     },
     "optionsHidden": {
@@ -47,13 +51,9 @@
         "message": "czasu trwania utworu",
         "description": "Option title"
     },
-    "optionScrobblePodcastsTitle": {
-        "message": "Scrobbluj odcinki podcastów",
-        "description": "Option label"
-    },
     "optionYtDesc": {
-        "message": "Jeśli wyłączysz obie opcje, rozszerzenie będzie scrobblować filmy na Youtube niezależnie od kategorii.",
-        "description": "Description of Youtube options"
+        "message": "Jeśli wyłączysz obie opcje, rozszerzenie będzie scrobblować filmy na YouTube niezależnie od kategorii.",
+        "description": "Description of YouTube options"
     },
     "optionPercentDesc": {
         "message": "Niezależnie od ustawionej wartości, utwór zostanie przescrobblowany jeśli będzie odtwarzany dłużej niż 4 minuty.",
