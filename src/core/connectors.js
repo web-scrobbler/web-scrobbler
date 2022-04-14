@@ -1766,6 +1766,13 @@ const connectors = [{
 	js: 'connectors/turntable.fm.js',
 	id: 'turntable.fm',
 }, {
+	label: 'Burntable',
+	matches: [
+		'*://*.burntable.com/*',
+	],
+	js: 'connectors/burntable.js',
+	id: 'burntable',
+}, {
 	label: 'Stingray Music',
 	matches: [
 		'*://*.stingray.com/*',
