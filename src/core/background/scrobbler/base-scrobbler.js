@@ -220,6 +220,16 @@ define((require) => {
 			return false;
 		}
 
+		/**
+		 * Apply filters over song before dispatching requests.
+		 *
+		 * @param {Object} song the song about to be dispatched
+		 * @return {Object} updated song
+		 */
+		async _applyFilter(song) {
+			return song;
+		}
+
 		/** Constants */
 
 		/**

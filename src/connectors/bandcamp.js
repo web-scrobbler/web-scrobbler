@@ -17,9 +17,6 @@ let bandcampFilter = MetadataFilter.createFilter(
 		MetadataFilter.removeZeroWidth
 	)
 );
-bandcampFilter = bandcampFilter.extend(MetadataFilter.createFilter({
-	albumArtist: [cleanVariousArtists],
-}));
 
 setupConnector();
 
@@ -315,8 +312,4 @@ function getData(selector, attr) {
 	}
 
 	return {};
-}
-
-function cleanVariousArtists(text) {
-	return text.includes('Various Artists') ? 'Various Artists' : text;
 }
