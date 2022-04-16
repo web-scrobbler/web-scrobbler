@@ -22,7 +22,7 @@
     "chai-as-promised": "7.1.1",
     "chai-spies": "1.0.0",
     "eslint-config-web-scrobbler": "1.1.0",
-    "grunt": "1.4.1",
+    "grunt": "1.5.2",
     "grunt-bump": "0.8.0",
     "grunt-cli": "1.4.3",
     "grunt-contrib-clean": "2.0.0",
