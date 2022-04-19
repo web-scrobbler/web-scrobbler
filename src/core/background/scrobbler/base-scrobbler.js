@@ -220,6 +220,16 @@ define((require) => {
 			return false;
 		}
 
+		/**
+		 * Apply filters over song object. Override if scrobbler requires custom global filtering.
+		 *
+		 * @param {Object} song the song about to be dispatched
+		 * @return {Object} updated song
+		 */
+		applyFilter(song) {
+			return song;
+		}
+
 		/** Constants */
 
 		/**

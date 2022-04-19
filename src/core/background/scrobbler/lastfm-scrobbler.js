@@ -7,6 +7,11 @@ define((require) => {
 	const AudioScrobbler = require('scrobbler/audio-scrobbler');
 	const ServiceCallResult = require('object/service-call-result');
 
+
+	const cleanVariousArtistsFilter = (text) => {
+		return text.includes('Various Artists') ? 'Various Artists' : text;
+	};
+
 	class LastFmScrobbler extends AudioScrobbler {
 		/** @override */
 		getApiUrl() {
@@ -151,6 +156,19 @@ define((require) => {
 			songInfo.userPlayCount = parseInt(trackInfo.userplaycount) || 0;
 
 			return songInfo;
+		}
+
+		/** @override */
+		applyFilter(song) {
+
+			/**
+			 * Last.fm rejects track if album artist contains more then just "Various Artists"
+			 */
+			if (song.getAlbumArtist()) {
+				song.parsed.albumArtist = cleanVariousArtistsFilter(song.getAlbumArtist());
+			}
+
+			return song;
 		}
 	}
 
