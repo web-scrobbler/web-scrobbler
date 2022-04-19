@@ -159,7 +159,7 @@ define((require) => {
 		}
 
 		/** @override */
-		async _applyFilter(song) {
+		async applyFilter(song) {
 
 			/**
 			 * Last.fm rejects track if album artist contains more then just "Various Artists"

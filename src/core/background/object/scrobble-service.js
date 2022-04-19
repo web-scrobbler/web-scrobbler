@@ -114,7 +114,7 @@ define((require) => {
 
 			return Promise.all(boundScrobblers.map((scrobbler) => {
 				// Forward result (including errors) to caller
-				return scrobbler.sendNowPlaying(song).catch((result) => {
+				return scrobbler.sendNowPlaying(scrobbler.applyFilter(song)).catch((result) => {
 					return this.processErrorResult(scrobbler, result);
 				});
 			}));
@@ -130,7 +130,7 @@ define((require) => {
 
 			return Promise.all(boundScrobblers.map((scrobbler) => {
 				// Forward result (including errors) to caller
-				return scrobbler.scrobble(song).catch((result) => {
+				return scrobbler.scrobble(scrobbler.applyFilter(song)).catch((result) => {
 					return this.processErrorResult(scrobbler, result);
 				});
 			}));

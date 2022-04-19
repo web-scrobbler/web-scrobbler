@@ -117,25 +117,24 @@ define((require) => {
 
 		/** @override */
 		async sendNowPlaying(song) {
-			const filteredSong = await this._applyFilter(song);
 			const { sessionID } = await this.getSession();
 			const params = {
 				method: 'track.updatenowplaying',
-				track: filteredSong.getTrack(),
-				artist: filteredSong.getArtist(),
+				track: song.getTrack(),
+				artist: song.getArtist(),
 				sk: sessionID,
 			};
 
-			if (filteredSong.getAlbum()) {
-				params.album = filteredSong.getAlbum();
+			if (song.getAlbum()) {
+				params.album = song.getAlbum();
 			}
 
-			if (filteredSong.getAlbumArtist()) {
-				params.albumArtist = filteredSong.getAlbumArtist();
+			if (song.getAlbumArtist()) {
+				params.albumArtist = song.getAlbumArtist();
 			}
 
-			if (filteredSong.getDuration()) {
-				params.duration = filteredSong.getDuration();
+			if (song.getDuration()) {
+				params.duration = song.getDuration();
 			}
 
 			const response = await this.sendRequest({ method: 'POST' }, params);
@@ -144,22 +143,21 @@ define((require) => {
 
 		/** @override */
 		async scrobble(song) {
-			const filteredSong = await this._applyFilter(song);
 			const { sessionID } = await this.getSession();
 			const params = {
 				method: 'track.scrobble',
-				'timestamp[0]': filteredSong.metadata.startTimestamp,
-				'track[0]': filteredSong.getTrack(),
-				'artist[0]': filteredSong.getArtist(),
+				'timestamp[0]': song.metadata.startTimestamp,
+				'track[0]': song.getTrack(),
+				'artist[0]': song.getArtist(),
 				sk: sessionID,
 			};
 
-			if (filteredSong.getAlbum()) {
-				params['album[0]'] = filteredSong.getAlbum();
+			if (song.getAlbum()) {
+				params['album[0]'] = song.getAlbum();
 			}
 
-			if (filteredSong.getAlbumArtist()) {
-				params['albumArtist[0]'] = filteredSong.getAlbumArtist();
+			if (song.getAlbumArtist()) {
+				params['albumArtist[0]'] = song.getAlbumArtist();
 			}
 
 			const response = await this.sendRequest({ method: 'POST' }, params);

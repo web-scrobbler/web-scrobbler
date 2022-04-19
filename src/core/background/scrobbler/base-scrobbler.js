@@ -221,12 +221,12 @@ define((require) => {
 		}
 
 		/**
-		 * Apply filters over song before dispatching requests.
+		 * Apply filters over song object. Override if scrobbler requires custom global filtering.
 		 *
 		 * @param {Object} song the song about to be dispatched
 		 * @return {Object} updated song
 		 */
-		async _applyFilter(song) {
+		async applyFilter(song) {
 			return song;
 		}
 
