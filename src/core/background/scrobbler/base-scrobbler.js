@@ -226,7 +226,7 @@ define((require) => {
 		 * @param {Object} song the song about to be dispatched
 		 * @return {Object} updated song
 		 */
-		async applyFilter(song) {
+		applyFilter(song) {
 			return song;
 		}
 
