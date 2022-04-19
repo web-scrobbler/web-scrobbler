@@ -337,5 +337,4 @@ define((require) => {
 	}
 
 	return AudioScrobbler;
-
 });
