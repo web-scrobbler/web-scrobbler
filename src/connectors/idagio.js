@@ -4,7 +4,7 @@ const symphonySelector = '.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) sp
 const commonNameSelector = '.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) span:nth-child(2)';
 const directorSelector = '.player-PlayerInfo__recordingInfo--15VMv>span:first-child span';
 const trackSelector = '.player-PlayerInfo__infoEl--2jhHY';
-const pauseButtonSelector = '.player-PlayerControls__btn--1r-vy:nth-child(2) .util-IconLabel__component--3Uitr span';
+const pauseButtonSelector = '.player-PlayerControls__btn--1r-vy:nth-child(3) .util-IconLabel__component--3Uitr span';
 
 Connector.playerSelector = '.player-PlayerBar__bar--2yos_';
 
