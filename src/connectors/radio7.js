@@ -1,7 +1,7 @@
 'use strict';
 
-Connector.playerSelector = '#page-wrap';
+Connector.playerSelector = '.swiper-intro-inner';
 
-Connector.artistTrackSelector = '#now';
+Connector.artistTrackSelector = '#dziesma';
 
-Connector.pauseButtonSelector = '#jp_container_1 .jp-pause';
+Connector.pauseButtonSelector = '.amazingaudioplayer-pause';
