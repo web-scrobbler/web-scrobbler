@@ -33,6 +33,7 @@ input {
 	display: grid;
 	grid-template-columns: 136px 224px;
 	min-height: 136px;
+	overflow: hidden;
 }
 
 .popup-container {
