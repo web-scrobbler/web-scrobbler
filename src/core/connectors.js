@@ -1975,6 +1975,13 @@ const connectors = [{
 	],
 	js: 'connectors/radiocuca.js',
 	id: 'radiocuca',
+}, {
+	label: 'Yammat FM',
+	matches: [
+		'*://*yammat.fm/*',
+	],
+	js: 'connectors/yammat.fm.js',
+	id: 'yammat.fm',
 }];
 
 define(() => connectors);
