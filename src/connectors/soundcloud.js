@@ -49,7 +49,7 @@ Connector.getUniqueID = () => {
 
 Connector.getOriginUrl = () => {
 	return Connector.getUniqueID();
-}
+};
 
 const filterArtistPremiereRules = [
 	{ source: /^\s*Premiere.*:\s*/i, target: '' },
