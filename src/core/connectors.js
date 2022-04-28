@@ -1957,7 +1957,7 @@ const connectors = [{
 }, {
 	label: 'Yammat FM',
 	matches: [
-		'*://*yammat.fm/*'
+		'*://*yammat.fm/*',
 	],
 	js: 'connectors/yammat.fm.js',
 	id: 'yammat.fm',
