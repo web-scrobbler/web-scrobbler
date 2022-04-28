@@ -138,6 +138,16 @@ function initPropertiesForCollectionsPlayer() {
 	Connector.timeInfoSelector = '.pos-dur';
 
 	Connector.trackArtSelector = '.now-playing img';
+
+	Connector.getOriginUrl = () => {
+		const buyNowAnchor = document.querySelector('.buy-now a');
+		if (buyNowAnchor === null) {
+			Util.debugLog('Failed to resolve originUrl');
+			return document.location.href;
+		}
+
+		return buyNowAnchor.href.split('?')[0];
+	};
 }
 
 // https://bandcamp.com/%YOURNAME%/feed
