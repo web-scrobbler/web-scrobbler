@@ -41,6 +41,16 @@ Connector.getRemainingTime = () => {
 
 Connector.isPlaying = () => $('.playControl').hasClass('playing');
 
+
+Connector.getUniqueID = () => {
+	return document.querySelector('.playbackSoundBadge__titleLink').href;
+};
+
+
+Connector.getOriginUrl = () => {
+	return Connector.getUniqueID();
+}
+
 const filterArtistPremiereRules = [
 	{ source: /^\s*Premiere.*:\s*/i, target: '' },
 	{ source: /^\s*\*\*Premiere\*\*\s*/i, target: '' },
