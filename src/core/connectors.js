@@ -1989,6 +1989,13 @@ const connectors = [{
 	],
 	js: 'connectors/yammat.fm.js',
 	id: 'yammat.fm',
+}, {
+	label: 'Husk Recordings',
+	matches: [
+		'*://huskrecordings.com/music/*',
+	],
+	js: 'connectors/huskrecordings.js',
+	id: 'huskrecordings',
 }];
 
 define(() => connectors);
