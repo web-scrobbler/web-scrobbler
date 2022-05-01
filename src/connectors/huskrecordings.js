@@ -9,6 +9,6 @@ Connector.artistSelector = '#artist';
 Connector.albumSelector = '#album';
 
 Connector.isPlaying = () => Util.hasElementClass(
-	['#metadata'],
+	'#metadata',
 	'playing'
 );
