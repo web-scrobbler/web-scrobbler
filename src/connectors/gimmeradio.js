@@ -1,8 +1,8 @@
 'use strict';
 
-Connector.playerSelector = '.hjxFdN';
+Connector.playerSelector = '#foobar';
 
-Connector.artistSelector = '.kFfdBo';
+Connector.artistSelector = '.fRAiDH';
 
 Connector.trackSelector = '.fZIbtd';
 
