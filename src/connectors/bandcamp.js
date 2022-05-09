@@ -139,15 +139,7 @@ function initPropertiesForCollectionsPlayer() {
 
 	Connector.trackArtSelector = '.now-playing img';
 
-	Connector.getOriginUrl = () => {
-		const buyNowAnchor = document.querySelector('.buy-now a');
-		if (buyNowAnchor === null) {
-			Util.debugLog('Failed to resolve originUrl');
-			return document.location.href;
-		}
-
-		return buyNowAnchor.href.split('?')[0];
-	};
+	Connector.getOriginUrl = () => getOriginUrl('.buy-now a');
 }
 
 // https://bandcamp.com/%YOURNAME%/feed
@@ -163,6 +155,8 @@ function initPropertiesForFeedPlayer() {
 	Connector.trackArtSelector = '#track_play_waypoint img';
 
 	Connector.playButtonSelector = '#track_play_waypoint.playing';
+
+	Connector.getOriginUrl = () => getOriginUrl('.playing .buy-now a');
 
 	function removeByPrefix(text) {
 		return text.replace('by ', '');
@@ -213,6 +207,9 @@ function initPropertiesForHomePage() {
 
 		return null;
 	};
+
+
+	Connector.getOriginUrl = () => getOriginUrl('.playable.playing');
 }
 
 function isAlbumPage() {
@@ -230,7 +227,6 @@ function isFeedPage() {
 function isCollectionsPage() {
 	return document.querySelector('#carousel-player') !== null;
 }
-
 
 function getTrackNodes() {
 	let trackNodes = [];
@@ -322,4 +318,14 @@ function getData(selector, attr) {
 	}
 
 	return {};
+}
+
+function getOriginUrl(selector) {
+	const originUrlAnchor = document.querySelector(selector);
+	if (originUrlAnchor === null) {
+		Util.debugLog('Failed to resolve originUrl');
+		return document.location.href;
+	}
+
+	return originUrlAnchor.href.split('?')[0];
 }
