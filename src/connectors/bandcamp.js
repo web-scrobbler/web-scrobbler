@@ -140,7 +140,7 @@ function initPropertiesForCollectionsPlayer() {
 	Connector.trackArtSelector = '.now-playing img';
 
 	Connector.getOriginUrl = () => {
-		const buyNowAnchor = document.querySelector('.buy-now a');
+		const buyNowAnchor = document.querySelector('.playing .buy-now a');
 		if (buyNowAnchor === null) {
 			Util.debugLog('Failed to resolve originUrl');
 			return document.location.href;
