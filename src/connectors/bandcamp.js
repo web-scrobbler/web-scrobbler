@@ -209,7 +209,7 @@ function initPropertiesForHomePage() {
 	};
 
 
-	Connector.getOriginUrl = () => getOriginUrl('.playable.playing');
+	Connector.getOriginUrl = () => getOriginUrl('.playable.playing[href], .playable.playing + a');
 }
 
 function isAlbumPage() {
