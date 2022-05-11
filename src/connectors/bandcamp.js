@@ -139,7 +139,7 @@ function initPropertiesForCollectionsPlayer() {
 
 	Connector.trackArtSelector = '.now-playing img';
 
-	Connector.getOriginUrl = () => getOriginUrl('.buy-now a');
+	Connector.getOriginUrl = () => getOriginUrl('.playing .collection-title-details a');
 }
 
 // https://bandcamp.com/%YOURNAME%/feed
