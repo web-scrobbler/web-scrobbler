@@ -21,14 +21,6 @@ Connector.trackArtSelector = '.player.playing .mpaa img';
 
 Connector.isPlaying = () => $('.player.playing').length > 0;
 
-Connector.getOriginUrl = () => getOriginUrl('.player.playing a.buy-now');
+Connector.getOriginUrl = () => Util.getOriginUrl('.player.playing a.buy-now');
 
-function getOriginUrl(selector) {
-	const originUrlAnchor = document.querySelector(selector);
-	if (originUrlAnchor === null) {
-		Util.debugLog('Failed to resolve originUrl');
-		return document.location.href;
-	}
 
-	return originUrlAnchor.href.split('?')[0];
-}

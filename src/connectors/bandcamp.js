@@ -139,7 +139,7 @@ function initPropertiesForCollectionsPlayer() {
 
 	Connector.trackArtSelector = '.now-playing img';
 
-	Connector.getOriginUrl = () => getOriginUrl('.playing .collection-title-details a, .playing .buy-now a');
+	Connector.getOriginUrl = () => Util.getOriginUrl('.playing .collection-title-details a, .playing .buy-now a');
 }
 
 // https://bandcamp.com/%YOURNAME%/feed
@@ -156,7 +156,7 @@ function initPropertiesForFeedPlayer() {
 
 	Connector.playButtonSelector = '#track_play_waypoint.playing';
 
-	Connector.getOriginUrl = () => getOriginUrl('.playing .buy-now a');
+	Connector.getOriginUrl = () => Util.getOriginUrl('.playing .buy-now a');
 
 	function removeByPrefix(text) {
 		return text.replace('by ', '');
@@ -209,7 +209,7 @@ function initPropertiesForHomePage() {
 	};
 
 
-	Connector.getOriginUrl = () => getOriginUrl('.playable.playing[href], .playable.playing + a');
+	Connector.getOriginUrl = () => Util.getOriginUrl('.playable.playing[href], .playable.playing + a');
 }
 
 function isAlbumPage() {
@@ -318,14 +318,4 @@ function getData(selector, attr) {
 	}
 
 	return {};
-}
-
-function getOriginUrl(selector) {
-	const originUrlAnchor = document.querySelector(selector);
-	if (originUrlAnchor === null) {
-		Util.debugLog('Failed to resolve originUrl');
-		return document.location.href;
-	}
-
-	return originUrlAnchor.href.split('?')[0];
 }
