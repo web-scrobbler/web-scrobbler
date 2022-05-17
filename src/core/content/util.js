@@ -749,7 +749,7 @@ const Util = {
 	/**
 	 * Get the origin URL from selector, falling back to the document location on failure.
 	 * @param {String} selector
-	 * @returns {String}
+	 * @return {String} Returns the href attribute of the first matching element. Defaults to the current browser location.
 	 */
 	getOriginUrl(selector) {
 		const originUrlAnchor = document.querySelector(selector);
