@@ -22,5 +22,3 @@ Connector.trackArtSelector = '.player.playing .mpaa img';
 Connector.isPlaying = () => $('.player.playing').length > 0;
 
 Connector.getOriginUrl = () => Util.getOriginUrl('.player.playing a.buy-now');
-
-
