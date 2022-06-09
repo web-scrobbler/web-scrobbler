@@ -284,7 +284,7 @@ define((require) => {
 				trackMeta.additional_info.release_artist_name = song.getAlbumArtist();
 			}
 
-			if (song.getUniqueId() && song.metadata.label === "Spotify") {
+			if (song.getUniqueId() && song.metadata.label === 'Spotify') {
 				trackMeta.additional_info.spotify_id = song.getUniqueId();
 			}
 
