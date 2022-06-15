@@ -25,12 +25,8 @@ function removeByText(text) {
 }
 
 function addWindowListeners() {
-	addEventListener('load', () => {
-		setWindowWidth();
-	});
-	addEventListener('resize', () => {
-		setWindowWidth();
-	});
+	addEventListener('load', setWindowWidth);
+	addEventListener('resize', setWindowWidth);
 	function setWindowWidth() {
 		ww = window.innerWidth;
 	}
