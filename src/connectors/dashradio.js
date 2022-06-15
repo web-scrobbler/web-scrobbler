@@ -5,10 +5,10 @@ const filter = MetadataFilter.createFilter({
 });
 
 Connector.playerSelector = '#music-dataview-container';
-// should be '.artist'
-Connector.artistSelector = '#marquee2 > span.artist';
 
-Connector.trackSelector = '#marquee1 > span';
+Connector.artistSelector = '#artist-text';
+
+Connector.trackSelector = '#title-text';
 
 Connector.applyFilter(filter);
 
