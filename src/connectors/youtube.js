@@ -101,6 +101,12 @@ Connector.isPlaying = () => {
 	return $('.html5-video-player').hasClass('playing-mode');
 };
 
+Connector.getOriginUrl = () => {
+	const videoId = getVideoId();
+
+	return `https://youtu.be/${videoId}`;
+};
+
 Connector.getUniqueID = () => {
 	if (areChaptersAvailable()) {
 		return null;
