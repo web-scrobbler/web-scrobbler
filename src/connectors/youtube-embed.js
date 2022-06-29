@@ -42,6 +42,12 @@ function setupConnector() {
 		return $('.html5-video-player').hasClass('playing-mode');
 	};
 
+	Connector.getOriginUrl = () => {
+		const videoId = getVideoId();
+
+		return `https://youtu.be/${videoId}`;
+	};
+
 	Connector.getUniqueID = () => {
 		return getVideoId();
 	};
