@@ -10,6 +10,16 @@
  */
 const VIDEO_SELECTOR = '.html5-main-video';
 
+function getVideoUrl() {
+	return $('.ytp-title-link').attr('href');
+}
+
+function getVideoId() {
+	const videoUrl = getVideoUrl();
+
+	return Util.getYtVideoIdFromUrl(videoUrl);
+}
+
 function setupConnector() {
 	const videoElement = $(VIDEO_SELECTOR);
 	// Skip frames with no video element
@@ -33,8 +43,7 @@ function setupConnector() {
 	};
 
 	Connector.getUniqueID = () => {
-		const videoUrl = $('.ytp-title-link').attr('href');
-		return Util.getYtVideoIdFromUrl(videoUrl);
+		return getVideoId();
 	};
 
 	Connector.applyFilter(MetadataFilter.getYoutubeFilter());
