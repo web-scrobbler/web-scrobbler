@@ -2,7 +2,7 @@
 
 Connector.playerSelector = 'div[app-player] .player-wrapper';
 
-Connector.playButtonSelector = '.play-toggle';
+Connector.pauseButtonSelector = '.player-controls .pause-toggle';
 
 Connector.artistSelector = '.player-info .artist-name';
 
