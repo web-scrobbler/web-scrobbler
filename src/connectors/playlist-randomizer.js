@@ -1,12 +1,15 @@
 'use strict';
 
-Connector.playerSelector = '.MuiCard-root';
+Connector.playerSelector = '#root';
 Connector.trackArtSelector = '.Mui-selected .MuiListItemAvatar-root .MuiAvatar-circular .MuiAvatar-img';
 
 const trackSelector = '.Mui-selected .MuiListItemText-root .MuiListItemText-primary';
 
 Connector.getArtistTrack = () => {
 	const currentTrack = document.querySelector(trackSelector);
+	if (!currentTrack) {
+		return;
+	}
 	let { artist, track } = Util.processYtVideoTitle(currentTrack.firstChild.nodeValue);
 
 	// Set to some default information that we have (probably "Song Title Song Artist" with a space)
