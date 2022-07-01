@@ -1,20 +1,22 @@
 'use strict';
 
-Connector.playerSelector = '.MuiList-root';
-Connector.trackArtSelector = '.Mui-selected .MuiListItemAvatar-root .MuiAvatar-circle .MuiAvatar-img';
+Connector.playerSelector = '.MuiCard-root';
+Connector.trackArtSelector = '.Mui-selected .MuiListItemAvatar-root .MuiAvatar-circular .MuiAvatar-img';
 
 const trackSelector = '.Mui-selected .MuiListItemText-root .MuiListItemText-primary';
 
 Connector.getArtistTrack = () => {
-	let { artist, track } = Util.processYtVideoTitle(Util.getTextFromSelectors(trackSelector));
+	const currentTrack = document.querySelector(trackSelector);
+	let { artist, track } = Util.processYtVideoTitle(currentTrack.firstChild.nodeValue);
 
 	// Set to some default information that we have (probably "Song Title Song Artist" with a space)
 	// so that the user can edit the info in the extension
 	if (!artist) {
-		artist = Util.getTextFromSelectors(trackSelector);
+		const regex = /^(.*) - Topic$/;
+		artist = currentTrack.lastChild.innerText.replace(regex, '$1');
 	}
 	if (!track) {
-		track = Util.getTextFromSelectors(trackSelector);
+		track = currentTrack.firstChild.nodeValue;
 	}
 
 	return { artist, track };

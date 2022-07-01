@@ -1798,6 +1798,7 @@ const connectors = [{
 	label: 'Playlist Randomizer',
 	matches: [
 		'*://www.playlist-randomizer.com/*',
+		'*://playlist-randomizer.com/*',
 	],
 	js: 'connectors/playlist-randomizer.js',
 	id: 'playlist-randomizer',
