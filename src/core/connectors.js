@@ -1996,6 +1996,13 @@ const connectors = [{
 	],
 	js: 'connectors/huskrecordings.js',
 	id: 'huskrecordings',
+}, {
+	label: 'nugs.net',
+	matches: [
+		'*://play.nugs.net/*',
+	],
+	js: 'connectors/nugs.js',
+	id: 'nugs',
 }];
 
 define(() => connectors);
