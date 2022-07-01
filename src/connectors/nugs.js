@@ -4,8 +4,6 @@ Connector.playerSelector = 'div[app-player] .player-wrapper';
 
 Connector.playButtonSelector = '.play-toggle';
 
-Connector.pauseButtonSelector = '.pause-toggle';
-
 Connector.artistSelector = '.player-info .artist-name';
 
 Connector.trackSelector = '.player-info .track-title';
