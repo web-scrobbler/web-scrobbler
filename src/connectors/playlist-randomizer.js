@@ -2,6 +2,7 @@
 
 Connector.playerSelector = '#root';
 Connector.trackArtSelector = '.Mui-selected .MuiListItemAvatar-root .MuiAvatar-circular .MuiAvatar-img';
+Connector.playButtonSelector = 'button[title="Play"]';
 
 const trackSelector = '.Mui-selected .MuiListItemText-root .MuiListItemText-primary';
 
