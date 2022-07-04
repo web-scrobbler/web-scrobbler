@@ -40,6 +40,8 @@ Connector.isPodcast = () => isPodcastPlaying();
 
 Connector.getUniqueID = () => getTrackUri();
 
+Connector.getOriginUrl = () => Connector.getUniqueID();
+
 function isMusicPlaying() {
 	return artistUrlIncludes('/artist/', '/show/') || isLocalFilePlaying();
 }
@@ -98,8 +100,10 @@ function getTrackUri() {
 
 	const url = new URL(contextLinkEl);
 	const trackUri = url.searchParams.get('uri');
-	if (trackUri && trackUri.startsWith('spotify:track:')) {
-		return trackUri;
+	const trackId = trackUri.split(':')?.[2];
+	if (trackUri && trackUri.startsWith('spotify:track:') && trackId) {
+		const trackUrl = `https://open.spotify.com/track/${trackId}`;
+		return trackUrl;
 	}
 
 	return null;
