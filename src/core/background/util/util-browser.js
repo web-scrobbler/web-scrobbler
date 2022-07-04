@@ -102,6 +102,15 @@ define((require) => {
 		browser.tabs.update(tabId, { active: true });
 	}
 
+	/**
+	 * Get the version of the extension.
+	 *
+	 * @return {String} the extension version
+	 */
+	function getExtensionVersion() {
+		return browser.runtime.getManifest().version;
+	}
+
 	return {
 		createQueryString,
 		getCurrentTab,
@@ -109,5 +118,6 @@ define((require) => {
 		getPrivacyPolicyFilename,
 		isFullscreenMode,
 		openTab,
+		getExtensionVersion,
 	};
 });

@@ -152,6 +152,17 @@ define(() => {
 		return results.length > 0 && results.every((r) => r === result);
 	}
 
+	/**
+	 * Get the canonical from a given URL.
+	 *
+	 * @param {String} url
+	 * @return {String} The canonical domain
+	 */
+	function getCanonicalDomain(url) {
+		const domain = new URL(url);
+		return domain.hostname.replace('www.', '');
+	}
+
 	return {
 		debugLog,
 		isAnyResult,
@@ -160,6 +171,7 @@ define(() => {
 		hideObjectValue,
 		hideStringInText,
 		timeoutPromise,
+		getCanonicalDomain,
 
 		DEFAULT_SCROBBLE_TIME,
 		HIDDEN_PLACEHOLDER,
