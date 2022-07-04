@@ -155,7 +155,7 @@ define(() => {
 	/**
 	 * Get the canonical from a given URL.
 	 *
-	 * @param {String} url
+	 * @param {String} url URL to convert
 	 * @return {String} The canonical domain
 	 */
 	function getCanonicalDomain(url) {
