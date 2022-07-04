@@ -100,7 +100,7 @@ function getTrackUri() {
 
 	const url = new URL(contextLinkEl);
 	const trackUri = url.searchParams.get('uri');
-	const trackId = trackUri.split(':')?.[2];
+	const trackId = trackUri?.split(':')?.[2];
 	if (trackUri && trackUri.startsWith('spotify:track:') && trackId) {
 		const trackUrl = `https://open.spotify.com/track/${trackId}`;
 		return trackUrl;
