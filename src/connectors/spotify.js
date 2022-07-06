@@ -40,7 +40,7 @@ Connector.isPodcast = () => isPodcastPlaying();
 
 Connector.getUniqueID = () => getTrackUri();
 
-Connector.getOriginUrl = () => Connector.getUniqueID();
+Connector.getOriginUrl = () => getTrackUrl();
 
 function isMusicPlaying() {
 	return artistUrlIncludes('/artist/', '/show/') || isLocalFilePlaying();
@@ -92,14 +92,8 @@ function getActiveDeviceName() {
 	return spotifyConnectEl && spotifyConnectEl.textContent;
 }
 
-function getTrackUri() {
-	const contextLinkEl = document.querySelector('[data-testid="context-link"]');
-	if (!contextLinkEl || !contextLinkEl.href) {
-		return null;
-	}
-
-	const url = new URL(contextLinkEl);
-	const trackUri = url.searchParams.get('uri');
+function getTrackUrl() {
+	const trackUri = getTrackUri();
 	const trackId = trackUri?.split(':')?.[2];
 	if (trackUri && trackUri.startsWith('spotify:track:') && trackId) {
 		const trackUrl = `https://open.spotify.com/track/${trackId}`;
@@ -107,4 +101,14 @@ function getTrackUri() {
 	}
 
 	return null;
+}
+
+function getTrackUri() {
+	const contextLinkEl = document.querySelector('[data-testid="context-link"]');
+	if (!contextLinkEl || !contextLinkEl.href) {
+		return null;
+	}
+
+	const url = new URL(contextLinkEl);
+	return url.searchParams.get('uri');
 }
