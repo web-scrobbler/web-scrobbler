@@ -94,13 +94,16 @@ function getActiveDeviceName() {
 
 function getTrackUrl() {
 	const trackUri = getTrackUri();
-	const trackId = trackUri?.split(':')?.[2];
-	if (trackUri && trackUri.startsWith('spotify:track:') && trackId) {
-		const trackUrl = `https://open.spotify.com/track/${trackId}`;
-		return trackUrl;
+	if (trackUri === null) {
+		return null;
 	}
 
-	return null;
+	const trackId = trackUri?.split(':')?.[2];
+	if (!trackId) {
+		return null;
+	}
+
+	return `https://open.spotify.com/track/${trackId}`;
 }
 
 function getTrackUri() {
@@ -110,5 +113,10 @@ function getTrackUri() {
 	}
 
 	const url = new URL(contextLinkEl);
-	return url.searchParams.get('uri');
+	const trackUri = url.searchParams.get('uri');
+	if (!trackUri || !trackUri.startsWith('spotify:track:')) {
+		return null;
+	}
+
+	return trackUri;
 }
