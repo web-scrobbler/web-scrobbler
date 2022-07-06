@@ -274,7 +274,7 @@ define((require) => {
 				additional_info: {
 					submission_client: 'Web Scrobbler',
 					submission_client_version: UtilBrowser.getExtensionVersion(),
-					music_service: song.metadata.label,
+					music_service_name: song.metadata.label,
 				},
 			};
 
