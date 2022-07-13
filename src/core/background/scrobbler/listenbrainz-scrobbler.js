@@ -5,6 +5,8 @@
  */
 define((require) => {
 	const Util = require('util/util');
+	const UtilBrowser = require('util/util-browser');
+
 	const BaseScrobbler = require('scrobbler/base-scrobbler');
 	const ServiceCallResult = require('object/service-call-result');
 
@@ -269,7 +271,11 @@ define((require) => {
 			const trackMeta = {
 				artist_name: song.getArtist(),
 				track_name: song.getTrack(),
-				additional_info: {},
+				additional_info: {
+					submission_client: 'Web Scrobbler',
+					submission_client_version: UtilBrowser.getExtensionVersion(),
+					music_service_name: song.metadata.label,
+				},
 			};
 
 			if (song.getAlbum()) {
