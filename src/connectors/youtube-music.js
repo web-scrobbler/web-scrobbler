@@ -110,8 +110,7 @@ Connector.isScrobblingAllowed = () => !Util.isElementVisible(adSelector);
 
 function getArtists() {
 	// FIXME Use Array.from after jQuery support will be removed
-	const artistElements = Util.queryElements(artistSelectors);
-	return artistElements && Util.joinArtists(artistElements.toArray());
+	return Util.queryElements(artistSelectors).toArray()[0]?.textContent;
 }
 
 function filterYoutubeIfNonAlbum(text) {
