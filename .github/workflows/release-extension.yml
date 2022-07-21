@@ -5,7 +5,7 @@ on:
     inputs:
       release-type:
         type: choice
-        description: Release type
+        description: Release type (check uncommited draft release)
         options:
         - patch
         - minor
