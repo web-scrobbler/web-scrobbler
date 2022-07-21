@@ -1,0 +1,21 @@
+name: Release
+on:
+  workflow_dispatch:
+    inputs:
+      release-type:
+        type: choice
+        description: Release type
+        options:
+        - patch
+        - minor
+        - major
+jobs:
+  deploy:
+    name: Publish release on GitHub
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+      - name: Release
+        run: npx grunt release:${{ github.event.inputs.release-type }}
