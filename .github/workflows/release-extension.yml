@@ -1,4 +1,5 @@
-name: Release
+name: Release extension
+
 on:
   workflow_dispatch:
     inputs:
