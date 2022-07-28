@@ -79,14 +79,14 @@ Connector.getArtistTrack = () => {
 	let track;
 
 	if (hasVideoAlbum()) {
-		artist = getArtists();
+		artist = getArtist();
 		track = Util.getTextFromSelectors(trackSelector);
 	} else {
 		({ artist, track } = Util.processYtVideoTitle(
 			Util.getTextFromSelectors(trackSelector)
 		));
 		if (!artist) {
-			artist = getArtists();
+			artist = getArtist();
 		}
 	}
 	return { artist, track };
@@ -108,8 +108,7 @@ Connector.getUniqueID = () => {
 
 Connector.isScrobblingAllowed = () => !Util.isElementVisible(adSelector);
 
-function getArtists() {
-	// FIXME Use Array.from after jQuery support will be removed
+function getArtist() {
 	return Util.queryElements(artistSelectors).toArray()[0]?.textContent;
 }
 
