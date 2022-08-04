@@ -6,4 +6,4 @@ Connector.artistSelector = '.episode-name';
 
 Connector.trackSelector = '.song-name';
 
-Connector.isPlaying = () => $('.play').hasClass('.active');
+Connector.isPlaying = () => Util.hasElementClass('.play', 'active');
