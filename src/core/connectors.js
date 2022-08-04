@@ -1975,6 +1975,34 @@ const connectors = [{
 	],
 	js: 'connectors/radiocuca.js',
 	id: 'radiocuca',
+}, {
+	label: 'Irama Nusantara',
+	matches: [
+		'*://*.iramanusantara.org/*',
+	],
+	js: 'connectors/iramanusantara.js',
+	id: 'iramanusantara',
+}, {
+	label: 'Yammat FM',
+	matches: [
+		'*://*yammat.fm/*',
+	],
+	js: 'connectors/yammat.fm.js',
+	id: 'yammat.fm',
+}, {
+	label: 'Husk Recordings',
+	matches: [
+		'*://huskrecordings.com/music/*',
+	],
+	js: 'connectors/huskrecordings.js',
+	id: 'huskrecordings',
+}, {
+	label: 'nugs.net',
+	matches: [
+		'*://play.nugs.net/*',
+	],
+	js: 'connectors/nugs.js',
+	id: 'nugs',
 }];
 
 define(() => connectors);

@@ -745,6 +745,21 @@ const Util = {
 
 		return { artist: null, track };
 	},
+
+	/**
+	 * Get the origin URL from selector, falling back to the document location on failure.
+	 * @param {String} selector - A string containing one or more selectors to match. Must be a valid CSS selector string.
+	 * @return {String} Returns the href attribute of the first matching element. Defaults to the current browser location.
+	 */
+	getOriginUrl(selector) {
+		const originUrlAnchor = document.querySelector(selector);
+		if (originUrlAnchor === null) {
+			Util.debugLog('Failed to resolve originUrl');
+			return document.location.href;
+		}
+
+		return originUrlAnchor.href.split('?')[0];
+	},
 };
 
 // @ifdef DEBUG

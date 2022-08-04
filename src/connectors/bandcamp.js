@@ -138,6 +138,8 @@ function initPropertiesForCollectionsPlayer() {
 	Connector.timeInfoSelector = '.pos-dur';
 
 	Connector.trackArtSelector = '.now-playing img';
+
+	Connector.getOriginUrl = () => Util.getOriginUrl('.playing .collection-title-details a, .playing .buy-now a');
 }
 
 // https://bandcamp.com/%YOURNAME%/feed
@@ -153,6 +155,8 @@ function initPropertiesForFeedPlayer() {
 	Connector.trackArtSelector = '#track_play_waypoint img';
 
 	Connector.playButtonSelector = '#track_play_waypoint.playing';
+
+	Connector.getOriginUrl = () => Util.getOriginUrl('.playing .buy-now a');
 
 	function removeByPrefix(text) {
 		return text.replace('by ', '');
@@ -203,6 +207,9 @@ function initPropertiesForHomePage() {
 
 		return null;
 	};
+
+
+	Connector.getOriginUrl = () => Util.getOriginUrl('.playable.playing[href], .playable.playing + a');
 }
 
 function isAlbumPage() {
@@ -220,7 +227,6 @@ function isFeedPage() {
 function isCollectionsPage() {
 	return document.querySelector('#carousel-player') !== null;
 }
-
 
 function getTrackNodes() {
 	let trackNodes = [];
