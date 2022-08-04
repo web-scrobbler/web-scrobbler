@@ -2003,12 +2003,13 @@ const connectors = [{
 	],
 	js: 'connectors/nugs.js',
 	id: 'nugs',
-},{
+}, {
 	label: 'KCRW 89.9FM',
-	matches: ['*://www.kcrw.com/*'],
+	matches: [
+		'*://www.kcrw.com/*'
+	],
 	js: 'connectors/kcrw.js',
 	id: 'kcrw',
-	
 }];
 
 define(() => connectors);
