@@ -2006,7 +2006,7 @@ const connectors = [{
 }, {
 	label: 'KCRW 89.9FM',
 	matches: [
-		'*://www.kcrw.com/*'
+		'*://www.kcrw.com/*',
 	],
 	js: 'connectors/kcrw.js',
 	id: 'kcrw',
