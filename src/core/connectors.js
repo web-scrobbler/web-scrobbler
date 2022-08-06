@@ -2010,6 +2010,13 @@ const connectors = [{
 	],
 	js: 'connectors/livephish.js',
 	id: 'livephish.com',	
+}, {
+	label: 'KCRW 89.9FM',
+	matches: [
+		'*://www.kcrw.com/*',
+	],
+	js: 'connectors/kcrw.js',
+	id: 'kcrw',
 }];
 
 define(() => connectors);
