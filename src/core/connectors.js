@@ -2004,6 +2004,13 @@ const connectors = [{
 	js: 'connectors/nugs.js',
 	id: 'nugs',
 }, {
+	label: 'livephish.com',
+	matches: [
+		'*://plus.livephish.com/*',
+	],
+	js: 'connectors/livephish.js',
+	id: 'livephish.com',
+}, {
 	label: 'KCRW 89.9FM',
 	matches: [
 		'*://www.kcrw.com/*',
