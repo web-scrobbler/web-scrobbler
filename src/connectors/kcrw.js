@@ -1,6 +1,6 @@
 'use strict';
 
-Connector.playerSelector = '.play';
+Connector.playerSelector = '#player';
 
 Connector.artistSelector = '.episode-name';
 
