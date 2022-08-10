@@ -2011,6 +2011,13 @@ const connectors = [{
 	js: 'connectors/livephish.js',
 	id: 'livephish.com',
 }, {
+	label: 'Ishkur\'s Guide to Electronic Music',
+	matches: [
+		'*://music.ishkur.com/*',
+	],
+	js: 'connectors/ishkur.js',
+	id: 'music.ishkur.com',
+}, {
 	label: 'KCRW 89.9FM',
 	matches: [
 		'*://www.kcrw.com/*',
