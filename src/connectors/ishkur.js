@@ -1,6 +1,6 @@
 'use strict';
 
-Connector.playerSelector = '#audioplayer';
+Connector.playerSelector = '#musicbox';
 
 Connector.artistTrackSelector = '#showtrack';
 
