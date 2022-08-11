@@ -290,6 +290,13 @@ const connectors = [{
 	js: 'connectors/odnoklassniki.js',
 	id: 'odnoklassniki',
 }, {
+	label: 'Online Radio Box',
+	matches: [
+		'*://onlineradiobox.com/*',
+	],
+	js: 'connectors/onlineradiobox.js',
+	id: 'onlineradiobox',
+}, {
 	label: '163 Music',
 	matches: [
 		'*://music.163.com/*',
