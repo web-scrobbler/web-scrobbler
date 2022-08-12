@@ -1,24 +1,25 @@
 'use strict';
 
-Connector.playerSelector = '.duration-1000';
+Connector.playerSelector = '.duration-700.z-100'; // player is destroyed when album ends
 
-Connector.trackSelector = '.text-current > h2';
+Connector.playButtonSelector = '.duration-700.z-100 button[aria-label=Play]';
 
-Connector.getTrackInfo = () => {
-	const artistAlbumText = Util.getTextFromSelectors('.text-current > p');
+Connector.trackSelector = '.duration-700.z-100 .text-current > p:first-of-type';
 
-	const lastSeparatorIndex = artistAlbumText.lastIndexOf(' - ');
+Connector.artistSelector = '.duration-700.z-100 .text-current > p:nth-of-type(2)';
 
-	const artistAlbumInfo = {
-		album: artistAlbumText.slice(0, lastSeparatorIndex),
-		artist: artistAlbumText.slice(lastSeparatorIndex + 3),
-	};
+Connector.albumSelector = '.duration-700.z-100 .box-border button.text-hoopla-blue-800 > a:last-of-type'; // only available in expanded player
 
-	return artistAlbumInfo;
+Connector.getTrackArt = () => {
+	const trackArtUrl = Util.extractImageUrlFromSelectors('.duration-700.z-100 .grid > div:first-of-type > img');
+
+	if (trackArtUrl) {
+		return trackArtUrl.replace(/(?<=_)\d{3}(?=\.jpeg)/g, '916'); // larger image path
+	}
+
+	return null;
 };
 
-Connector.trackArtSelector = '.duration-1000 .max-w-112 > img';
+Connector.durationSelector = '.duration-700.z-100 .grid > div:nth-of-type(2) > div.justify-between > span:last-of-type > span';
 
-Connector.playButtonSelector = '.duration-1000 button[aria-label=Play]';
-
-Connector.durationSelector = '.duration-1000 .rounded-md.border-gray-400 button > span > span:nth-of-type(3) > span';
+Connector.currentTimeSelector = '.duration-700.z-100 .grid > div:nth-of-type(2) > div.justify-between > span:first-of-type > span';
