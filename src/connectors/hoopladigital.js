@@ -1,12 +1,12 @@
 'use strict';
 
-Connector.playerSelector = '.duration-700.z-100'; // player is destroyed when album ends
+Connector.playerSelector = '#app'; // .duration-700 player wrapper is destroyed when album ends
 
-Connector.playButtonSelector = '.duration-700.z-100 button[aria-label=Play]';
+Connector.playButtonSelector = 'button[aria-label=Play]';
 
-Connector.trackSelector = '.duration-700.z-100 .text-current > p:first-of-type';
+Connector.trackSelector = '.text-current > p:first-of-type';
 
-Connector.artistSelector = '.duration-700.z-100 .text-current > p:nth-of-type(2)';
+Connector.artistSelector = '.text-current > p:nth-of-type(2)';
 
 Connector.albumSelector = '.duration-700.z-100 .box-border button.text-hoopla-blue-800 > a:last-of-type'; // only available in expanded player
 
@@ -14,7 +14,7 @@ Connector.getTrackArt = () => {
 	const trackArtUrl = Util.extractImageUrlFromSelectors('.duration-700.z-100 .grid > div:first-of-type > img');
 
 	if (trackArtUrl) {
-		return trackArtUrl.replace(/(?<=_)\d{3}(?=\.jpeg)/g, '916'); // larger image path
+		return trackArtUrl.replace(/(?<=_)\d{3}(?=\.jpeg)/g, '916'); // larger image filename
 	}
 
 	return null;
