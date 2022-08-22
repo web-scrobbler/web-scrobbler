@@ -1130,10 +1130,9 @@ const connectors = [{
 	js: 'connectors/blocsonic.js',
 	id: 'blocsonic',
 }, {
-	label: 'Resonate.is',
+	label: 'Resonate',
 	matches: [
-		'*://resonate.is/*',
-		'*://*.resonate.is/*',
+		'*://stream.resonate.coop/*',
 	],
 	js: 'connectors/resonate.js',
 	id: 'resonate',
