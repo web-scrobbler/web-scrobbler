@@ -2,7 +2,7 @@
 
 Connector.playerSelector = '#app'; // .duration-700 player wrapper is destroyed when album ends
 
-Connector.playButtonSelector = 'button[aria-label=Play]';
+Connector.pauseButtonSelector = 'button[aria-label=Pause]';
 
 Connector.trackSelector = '.text-current > p:first-of-type';
 
