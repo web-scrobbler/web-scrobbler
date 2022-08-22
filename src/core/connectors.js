@@ -2025,6 +2025,13 @@ const connectors = [{
 	js: 'connectors/ishkur.js',
 	id: 'music.ishkur.com',
 }, {
+	label: 'Nonoki',
+	matches: [
+		'https://nonoki.com/music/*',
+	],
+	js: 'connectors/nonoki.js',
+	id: 'nonoki',
+}, {
 	label: 'KCRW 89.9FM',
 	matches: [
 		'*://www.kcrw.com/*',
