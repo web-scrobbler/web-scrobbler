@@ -704,6 +704,104 @@ const connectors = [{
 	js: 'connectors/hoopladigital.js',
 	id: 'hoopladigital',
 }, {
+	label: 'Amplify 817',
+	matches: [
+		'*://amplify817.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'amplify817',
+}, {
+	label: 'Capital City Records',
+	matches: [
+		'*://capitalcityrecords.ca/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'capitalcityrecords',
+}, {
+	label: 'Electric Lady Bird',
+	matches: [
+		'*://atxlibrary.musicat.co/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'musicat-atxlibrary',
+}, {
+	label: 'FlipSide',
+	matches: [
+		'*://flipside.apl.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'apl-flipside',
+}, {
+	label: 'HUM (Hear Utah Music)',
+	matches: [
+		'*://hum.slcpl.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'slcpl-hum',
+}, {
+	label: 'KDL Vibes',
+	matches: [
+		'*://vibes.kdl.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'kdl-vibes',
+}, {
+	label: 'Library Music Project',
+	matches: [
+		'*://librarymusicproject.com/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'librarymusicproject',
+}, {
+	label: 'MNspin',
+	matches: [
+		'*://hclib.musicat.co/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'musicat-hclib',
+}, {
+	label: 'Nashville BoomBox',
+	matches: [
+		'*://boombox.library.nashville.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'nashville-library-boombox',
+}, {
+	label: 'QC Beats',
+	matches: [
+		'*://qcbeats.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'qcbeats',
+}, {
+	label: 'Sawdust City Sounds',
+	matches: [
+		'*://sawdustcitysounds.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'sawdustcitysounds',
+}, {
+	label: 'Seattle PlayBack',
+	matches: [
+		'*://playback.spl.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'spl-playback',
+}, {
+	label: 'STACKS',
+	matches: [
+		'*://stacks.carnegielibrary.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'carnegielibrary-stacks',
+}, {
+	label: 'Tracks Music Library',
+	matches: [
+		'*://tracksmusiclibrary.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'tracksmusiclibrary',
+}, {
 	label: 'Monstercat',
 	matches: [
 		'*://www.monstercat.com/*',
@@ -1732,10 +1830,9 @@ const connectors = [{
 	js: 'connectors/ragya.js',
 	id: 'ragya',
 }, {
-
 	label: 'CodeRadio',
 	matches: [
-		'https://coderadio.freecodecamp.org/*',
+		'*://coderadio.freecodecamp.org/*',
 	],
 	js: 'connectors/coderadio.js',
 	id: 'coderadio',
@@ -2026,7 +2123,7 @@ const connectors = [{
 }, {
 	label: 'Nonoki',
 	matches: [
-		'https://nonoki.com/music/*',
+		'*://nonoki.com/music/*',
 	],
 	js: 'connectors/nonoki.js',
 	id: 'nonoki',
