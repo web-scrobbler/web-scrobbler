@@ -290,6 +290,13 @@ const connectors = [{
 	js: 'connectors/odnoklassniki.js',
 	id: 'odnoklassniki',
 }, {
+	label: 'Online Radio Box',
+	matches: [
+		'*://onlineradiobox.com/*',
+	],
+	js: 'connectors/onlineradiobox.js',
+	id: 'onlineradiobox',
+}, {
 	label: '163 Music',
 	matches: [
 		'*://music.163.com/*',
@@ -696,6 +703,104 @@ const connectors = [{
 	],
 	js: 'connectors/hoopladigital.js',
 	id: 'hoopladigital',
+}, {
+	label: 'Amplify 817',
+	matches: [
+		'*://amplify817.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'amplify817',
+}, {
+	label: 'Capital City Records',
+	matches: [
+		'*://capitalcityrecords.ca/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'capitalcityrecords',
+}, {
+	label: 'Electric Lady Bird',
+	matches: [
+		'*://atxlibrary.musicat.co/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'musicat-atxlibrary',
+}, {
+	label: 'FlipSide',
+	matches: [
+		'*://flipside.apl.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'apl-flipside',
+}, {
+	label: 'HUM (Hear Utah Music)',
+	matches: [
+		'*://hum.slcpl.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'slcpl-hum',
+}, {
+	label: 'KDL Vibes',
+	matches: [
+		'*://vibes.kdl.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'kdl-vibes',
+}, {
+	label: 'Library Music Project',
+	matches: [
+		'*://librarymusicproject.com/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'librarymusicproject',
+}, {
+	label: 'MNspin',
+	matches: [
+		'*://hclib.musicat.co/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'musicat-hclib',
+}, {
+	label: 'Nashville BoomBox',
+	matches: [
+		'*://boombox.library.nashville.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'nashville-library-boombox',
+}, {
+	label: 'QC Beats',
+	matches: [
+		'*://qcbeats.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'qcbeats',
+}, {
+	label: 'Sawdust City Sounds',
+	matches: [
+		'*://sawdustcitysounds.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'sawdustcitysounds',
+}, {
+	label: 'Seattle PlayBack',
+	matches: [
+		'*://playback.spl.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'spl-playback',
+}, {
+	label: 'STACKS',
+	matches: [
+		'*://stacks.carnegielibrary.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'carnegielibrary-stacks',
+}, {
+	label: 'Tracks Music Library',
+	matches: [
+		'*://tracksmusiclibrary.org/*',
+	],
+	js: 'connectors/musicat.js',
+	id: 'tracksmusiclibrary',
 }, {
 	label: 'Monstercat',
 	matches: [
@@ -1123,10 +1228,9 @@ const connectors = [{
 	js: 'connectors/blocsonic.js',
 	id: 'blocsonic',
 }, {
-	label: 'Resonate.is',
+	label: 'Resonate',
 	matches: [
-		'*://resonate.is/*',
-		'*://*.resonate.is/*',
+		'*://stream.resonate.coop/*',
 	],
 	js: 'connectors/resonate.js',
 	id: 'resonate',
@@ -1726,10 +1830,9 @@ const connectors = [{
 	js: 'connectors/ragya.js',
 	id: 'ragya',
 }, {
-
 	label: 'CodeRadio',
 	matches: [
-		'https://coderadio.freecodecamp.org/*',
+		'*://coderadio.freecodecamp.org/*',
 	],
 	js: 'connectors/coderadio.js',
 	id: 'coderadio',
@@ -2003,6 +2106,34 @@ const connectors = [{
 	],
 	js: 'connectors/nugs.js',
 	id: 'nugs',
+}, {
+	label: 'livephish.com',
+	matches: [
+		'*://plus.livephish.com/*',
+	],
+	js: 'connectors/livephish.js',
+	id: 'livephish.com',
+}, {
+	label: 'Ishkur\'s Guide to Electronic Music',
+	matches: [
+		'*://music.ishkur.com/*',
+	],
+	js: 'connectors/ishkur.js',
+	id: 'music.ishkur.com',
+}, {
+	label: 'Nonoki',
+	matches: [
+		'*://nonoki.com/music/*',
+	],
+	js: 'connectors/nonoki.js',
+	id: 'nonoki',
+}, {
+	label: 'KCRW 89.9FM',
+	matches: [
+		'*://www.kcrw.com/*',
+	],
+	js: 'connectors/kcrw.js',
+	id: 'kcrw',
 }];
 
 define(() => connectors);
