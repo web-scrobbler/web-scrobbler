@@ -854,10 +854,18 @@ const connectors = [{
 	label: 'Jazz24',
 	matches: [
 		'*://www.jazz24.org/',
-		'*://v6.player.abacast.net/854',
+		'*://*player.wostreaming.net/854',
 	],
-	js: 'connectors/jazz24.js',
+	js: 'connectors/wostreaming.js',
 	id: 'jazz24',
+}, {
+	label: 'KJazz 88.1',
+	matches: [
+		'*://kkjz.org/',
+		'*://player.listenlive.co/67941',
+	],
+	js: 'connectors/listenlive.js',
+	id: 'kkjz',
 }, {
 	label: 'Planet Radio',
 	matches: [
