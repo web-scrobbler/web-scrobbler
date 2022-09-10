@@ -869,7 +869,7 @@ const connectors = [{
 }, {
 	label: '99.3 The X',
 	matches: [
-		'*://www.993thex.com//',
+		'*://www.993thex.com/',
 		'*://*player.wostreaming.net/8775',
 	],
 	js: 'connectors/wostreaming.js',
