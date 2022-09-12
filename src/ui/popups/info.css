@@ -10,9 +10,9 @@ body {
 	background-color: #fff;
 	color: #212529;
 	font-size: 13px;
-	margin: 0px;
+	margin: 0;
 	overflow: hidden;
-	padding: 0px;
+	padding: 0;
 	width: max-content;
 }
 
@@ -56,8 +56,8 @@ input {
 	grid-column: 1;
 	grid-row: 1;
 	height: 136px;
-	width: 136px;
 	object-fit: cover;
+	width: 136px;
 }
 
 .edit-fields,
