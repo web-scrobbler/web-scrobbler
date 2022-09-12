@@ -40,8 +40,7 @@ input {
 	display: grid;
 	grid-template-columns: 209px;
 	grid-template-rows: auto auto;
-	margin: 5px;
-	margin-left: 10px;
+	margin: 5px 5px 5px 10px;
 }
 
 .debug-container {
@@ -58,6 +57,7 @@ input {
 	grid-row: 1;
 	height: 136px;
 	width: 136px;
+	object-fit: cover;
 }
 
 .edit-fields,
