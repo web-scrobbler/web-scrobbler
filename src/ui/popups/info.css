@@ -10,9 +10,9 @@ body {
 	background-color: #fff;
 	color: #212529;
 	font-size: 13px;
-	margin: 0px;
+	margin: 0;
 	overflow: hidden;
-	padding: 0px;
+	padding: 0;
 	width: max-content;
 }
 
@@ -40,8 +40,7 @@ input {
 	display: grid;
 	grid-template-columns: 209px;
 	grid-template-rows: auto auto;
-	margin: 5px;
-	margin-left: 10px;
+	margin: 5px 5px 5px 10px;
 }
 
 .debug-container {
@@ -57,6 +56,7 @@ input {
 	grid-column: 1;
 	grid-row: 1;
 	height: 136px;
+	object-fit: cover;
 	width: 136px;
 }
 
