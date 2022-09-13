@@ -859,6 +859,14 @@ const connectors = [{
 	js: 'connectors/jazz24.js',
 	id: 'jazz24',
 }, {
+	label: 'KJazz 88.1',
+	matches: [
+		'*://kkjz.org/',
+		'*://player.listenlive.co/67941',
+	],
+	js: 'connectors/listenlive.js',
+	id: 'kkjz',
+}, {
 	label: 'Planet Radio',
 	matches: [
 		'*://planetradio.co.uk/*/player/*',
