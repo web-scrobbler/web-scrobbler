@@ -163,7 +163,7 @@ define((require) => {
 			// https://listenbrainz.readthedocs.io/en/latest/users/api-usage.html#lookup-mbids
 			const lookupRequestParams = new URLSearchParams({
 				recording_name: song.getTrack(),
-				artist_name: song.getArtist()
+				artist_name: song.getArtist(),
 			});
 
 			let lookupResult = {};
@@ -172,20 +172,20 @@ define((require) => {
 				lookupResult = await this.listenBrainzApi('GET', `${baseUrl}/metadata/lookup?${lookupRequestParams}`, null, null);
 			} catch (e) {}
 
-			this.debugLog(`lookup result: ${JSON.stringify(lookupResult, null, 2)}`)
+			this.debugLog(`lookup result: ${JSON.stringify(lookupResult, null, 2)}`);
 
-			if (lookupResult.recording_mbid) {
+			if (!lookupResult.recording_mbid) {
+				this.debugLog(`Could not lookup metadata for song: ${song}`);
+			} else {
 				// https://listenbrainz.readthedocs.io/en/latest/users/api-usage.html#love-hate-feedback
 				const { sessionID } = await this.getSession();
 				const loveRequestBody = {
 					recording_mbid: lookupResult.recording_mbid,
-					score: isLoved ? 1 : 0
+					score: isLoved ? 1 : 0,
 				};
 				const loveResult = await this.listenBrainzApi('POST', `${baseUrl}/feedback/recording-feedback`, loveRequestBody, sessionID);
 
 				return this.processResult(loveResult);
-			} else {
-				this.debugLog(`Could not lookup metadata for song: ${song}`);
 			}
 		}
 
@@ -199,17 +199,17 @@ define((require) => {
 
 		async listenBrainzApi(method, url, body, sessionID) {
 			const requestInfo = {
-				method: method,
+				method,
 				headers: {
-					'Content-Type': 'application/json; charset=UTF-8'
-				}
+					'Content-Type': 'application/json; charset=UTF-8',
+				},
 			};
 
 			if (body) {
-				requestInfo.body = JSON.stringify(body)
+				requestInfo.body = JSON.stringify(body);
 			}
 
-			if (sessionID != null) {
+			if (sessionID) {
 				requestInfo.headers.Authorization = `Token ${sessionID}`;
 			}
 
