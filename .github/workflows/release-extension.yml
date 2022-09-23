@@ -1,0 +1,30 @@
+name: Release extension
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        type: choice
+        description: Release type (check uncommited draft release)
+        options:
+        - patch
+        - minor
+        - major
+jobs:
+  deploy:
+    name: Release a new extension version
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.BOT_PAT }}
+      - name: Setup git config
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "<>"
+      - name: Release
+        run: npx grunt release:${{ inputs.release_type }}
+        env:
+          CI: true
