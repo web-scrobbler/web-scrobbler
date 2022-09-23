@@ -22,8 +22,8 @@ jobs:
           token: ${{ secrets.BOT_PAT }}
       - name: Setup git config
         run: |
-          git config user.name "${{ github.actor }}"
-          git config user.email "<>"
+          git config user.name "web-scrobbler-bot"
+          git config user.email "${{ secrets.BOT_EMAIL }}"
       - name: Get Node.js version from .nvmrc
         id: get-node-version
         run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
