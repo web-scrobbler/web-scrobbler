@@ -45,7 +45,7 @@
     "prettier": "2.7.1",
     "prettier-config-web-scrobbler": "0.1.0",
     "remark-preset-lint-recommended": "6.1.2",
-    "stylelint": "14.11.0",
+    "stylelint": "14.12.1",
     "stylelint-config-web-scrobbler": "0.2.0"
   },
   "engines": {
