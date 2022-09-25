@@ -1,4 +1,5 @@
 'use strict';
+
 initConnector();
 
 function initConnector() {
