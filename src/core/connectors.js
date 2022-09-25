@@ -2185,6 +2185,13 @@ const connectors = [{
 	js: 'connectors/nonoki.js',
 	id: 'nonoki',
 }, {
+	label: 'Beatbump',
+	matches: [
+		'*://beatbump.ml/*',
+	],
+	js: 'connectors/beatbump.js',
+	id: 'beatbump',
+}, {
 	label: 'KCRW 89.9FM',
 	matches: [
 		'*://www.kcrw.com/*',
