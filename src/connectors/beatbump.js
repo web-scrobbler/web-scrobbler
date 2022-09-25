@@ -10,6 +10,8 @@ Connector.currentTimeSelector = '.progress-container .timestamp:first-child';
 
 Connector.durationSelector = '.progress-container .timestamp:last-child';
 
+Connector.trackArtSelector = '.now-playing img';
+
 Connector.isPlaying = () => {
 	return document.querySelector('.player-btn.player-title svg use').href.baseVal === '/icons.svg#pause';
 };
