@@ -2198,6 +2198,17 @@ const connectors = [{
 	],
 	js: 'connectors/kcrw.js',
 	id: 'kcrw',
+}, {
+	label: 'Hardtunes',
+	matches: [
+		'*://www.hard-tunes.de/*',
+		'*://www.hardtunes.com/*',
+		'*://www.hardtunes.fr/*',
+		'*://www.hardtunes.it/*',
+		'*://www.hardtunes.nl/*',
+	],
+	js: 'connectors/hardtunes.js',
+	id: 'hardtunes',
 }];
 
 define(() => connectors);
