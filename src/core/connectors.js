@@ -851,61 +851,12 @@ const connectors = [{
 	js: 'connectors/radioultra.js',
 	id: 'radiojazzfm',
 }, {
-	label: 'WXBQ 96.9',
+	label: 'WO Streaming',
 	matches: [
-		'*://www.969wxbq.com/',
-		'*://*player.wostreaming.net/8773',
+		'*://*player.wostreaming.net/*',
 	],
 	js: 'connectors/wostreaming.js',
-	id: '969wxbq',
-}, {
-	label: 'Electric 94.9',
-	matches: [
-		'*://www.electric949.com/',
-		'*://*player.wostreaming.net/8774',
-	],
-	js: 'connectors/wostreaming.js',
-	id: 'electric949',
-}, {
-	label: '99.3 The X',
-	matches: [
-		'*://www.993thex.com/',
-		'*://*player.wostreaming.net/8775',
-	],
-	js: 'connectors/wostreaming.js',
-	id: '993thex',
-}, {
-	label: 'WQBE 97.5',
-	matches: [
-		'*://www.wqbe.com/',
-		'*://*player.wostreaming.net/8777',
-	],
-	js: 'connectors/wostreaming.js',
-	id: 'wqbe',
-}, {
-	label: 'Electric 102.7',
-	matches: [
-		'*://electric102.com/*',
-		'*://*player.wostreaming.net/8778',
-	],
-	js: 'connectors/wostreaming.js',
-	id: 'electric102',
-}, {
-	label: 'New Life 94.5',
-	matches: [
-		'*://newlife945.com/',
-		'*://*player.wostreaming.net/8779',
-	],
-	js: 'connectors/wostreaming.js',
-	id: 'newlife945',
-}, {
-	label: 'Jazz24',
-	matches: [
-		'*://www.jazz24.org/',
-		'*://*player.wostreaming.net/854',
-	],
-	js: 'connectors/wostreaming.js',
-	id: 'jazz24',
+	id: 'wostreaming',
 }, {
 	label: 'KJazz 88.1',
 	matches: [
