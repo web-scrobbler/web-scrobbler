@@ -2198,6 +2198,14 @@ const connectors = [{
 	],
 	js: 'connectors/kcrw.js',
 	id: 'kcrw',
+}, {
+	label: 'Totally Wired Radio',
+	matches: [
+		'*://totallywiredradio.com/',
+		'*://totallywiredradio.com/player/',
+	],
+	js: 'connectors/totallywiredradio.js',
+	id: 'totallywiredradio',
 }];
 
 define(() => connectors);
