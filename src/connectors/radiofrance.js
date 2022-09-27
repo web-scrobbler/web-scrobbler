@@ -8,13 +8,13 @@ Connector.getTrackInfo = () => {
 	const artistText = Util.getTextFromSelectors('#player .line3');
 	const trackText = Util.getTextFromSelectors('#player .line2');
 
-	if (artistText && trackText && !trackText.includes('Le direct')) {
+	if (artistText && !artistText.includes(' - ') && trackText && !trackText.includes('Le direct')) {
 		return {
 			artist: artistText,
 			track: trackText,
 		};
 
-	} else if (artistText && artistText.includes(' - ') && trackText && trackText.includes('Le direct')) {
+	} else if (artistText && artistText.includes(' - ')) {
 		return Util.splitArtistTrack(artistText);
 	}
 
