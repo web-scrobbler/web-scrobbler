@@ -28,29 +28,27 @@ function setupPropertiesForNewPlayer() {
 
 	Connector.getTrackInfo = () => {
 		const trackContainer = document.querySelector(trackContainerSelector);
-		if (trackContainer === null) {
-			return null;
+
+		if (trackContainer) {
+			const artist = trackContainer.getAttribute('secondary-text');
+			const track = trackContainer.getAttribute('primary-text');
+			const trackArt = trackContainer.getAttribute('image-src');
+
+			return { artist, track, trackArt };
 		}
 
-		const artist = trackContainer.getAttribute('secondary-text');
-		const track = trackContainer.getAttribute('primary-text');
-		const trackArt = trackContainer.getAttribute('image-src');
-
-		return { artist, track, trackArt };
+		return null;
 	};
 
 	Connector.isScrobblingAllowed = () => {
-		const trackLink = Util.getAttrFromSelectors(
-			trackContainerSelector,
-			'primary-href'
-		);
+		const trackLink = Util.getAttrFromSelectors(trackContainerSelector, 'primary-href');
 
 		// NOTE Regular tracks have no link
 		// Check this condition first if the connector does not work
 		return trackLink === '#';
 	};
 
-	Connector.playButtonSelector = 'music-button[icon-name=play][variant=glass]';
+	Connector.pauseButtonSelector = `${playerBarSelector} music-button[icon-name=pause]`;
 }
 
 function setupPropertiesForOldPlayer() {
