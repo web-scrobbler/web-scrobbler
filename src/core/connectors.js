@@ -84,7 +84,7 @@ const connectors = [{
 	js: 'connectors/soundcloud.js',
 	id: 'soundcloud',
 }, {
-	label: 'Amazon',
+	label: 'Amazon Music',
 	matches: [
 		'*://music.amazon.*/*',
 		'*://www.amazon.*/gp/dmusic/cloudplayer/*',
