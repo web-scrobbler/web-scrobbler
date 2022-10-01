@@ -1221,7 +1221,7 @@ const connectors = [{
 }, {
 	label: 'Český Rozhlas',
 	matches: [
-		'*://prehravac.rozhlas.cz/*',
+		'*://mujrozhlas.cz/*',
 	],
 	js: 'connectors/rozhlas.js',
 	id: 'rozhlas',
