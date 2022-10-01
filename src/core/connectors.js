@@ -907,13 +907,12 @@ const connectors = [{
 	js: 'connectors/wostreaming.js',
 	id: 'jazz24',
 }, {
-	label: 'KJazz 88.1',
+	label: 'Listen Live',
 	matches: [
-		'*://kkjz.org/',
-		'*://player.listenlive.co/67941',
+		'*://player.listenlive.co/*',
 	],
 	js: 'connectors/listenlive.js',
-	id: 'kkjz',
+	id: 'listenlive',
 }, {
 	label: 'Planet Radio',
 	matches: [
