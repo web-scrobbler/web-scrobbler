@@ -10,7 +10,17 @@ Connector.currentTimeSelector = '.progress-container .timestamp:first-child';
 
 Connector.durationSelector = '.progress-container .timestamp:last-child';
 
-Connector.trackArtSelector = '.now-playing img';
+
+Connector.getTrackArt = () => {
+	const trackArtUrl = Util.extractImageUrlFromSelectors('.now-playing img');
+
+	if (trackArtUrl) {
+		return trackArtUrl.replace(/w\d+-h\d+/, 'w300-h300');
+	}
+
+	return null;
+};
+
 
 Connector.isPlaying = () => {
 	return document.querySelector('.player-btn.player-title svg use').href.baseVal === '/icons.svg#pause';
