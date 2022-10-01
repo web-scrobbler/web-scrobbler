@@ -187,6 +187,7 @@ const connectors = [{
 	label: 'Douban.FM',
 	matches: [
 		'*://douban.fm/*',
+		'*://fm.douban.fm/*',
 	],
 	js: 'connectors/douban.fm.js',
 	id: 'douban.fm',
