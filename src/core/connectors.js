@@ -2141,6 +2141,13 @@ const connectors = [{
 	js: 'connectors/beatbump.js',
 	id: 'beatbump',
 }, {
+	label: 'LINE MUSIC',
+	matches: [
+		'*://music.line.me/*',
+	],
+	js: 'connectors/line-music.js',
+	id: 'linemusic',
+}, {
 	label: 'KCRW 89.9FM',
 	matches: [
 		'*://www.kcrw.com/*',
