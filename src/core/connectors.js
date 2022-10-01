@@ -2158,6 +2158,14 @@ const connectors = [{
 	],
 	js: 'connectors/hardtunes.js',
 	id: 'hardtunes',
+}, {
+	label: 'XRAY.FM',
+	matches: [
+		'*://xray.fm/*',
+		'*://www.xray.fm/*',
+	],
+	js: 'connectors/xrayfm.js',
+	id: 'xrayfm',
 }];
 
 define(() => connectors);
