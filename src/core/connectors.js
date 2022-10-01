@@ -1114,14 +1114,12 @@ const connectors = [{
 	js: 'connectors/jetsetradio.live.js',
 	id: 'jetsetradio.live',
 }, {
-	label: 'FIP',
+	label: 'Radio France',
 	matches: [
-		'*://www.fip.fr/*',
-		'*://www.radiofrance.fr/fip/*',
-		'*://www.radiofrance.fr/fip*',
+		'*://www.radiofrance.fr/*',
 	],
-	js: 'connectors/fip.js',
-	id: 'fip',
+	js: 'connectors/radiofrance.js',
+	id: 'radiofrance',
 }, {
 	label: 'RemixRotation',
 	matches: [
