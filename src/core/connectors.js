@@ -2198,6 +2198,13 @@ const connectors = [{
 	js: 'connectors/kcrw.js',
 	id: 'kcrw',
 }, {
+	label: 'World Fusion Radio',
+	matches: [
+		'*://worldfusionradio.com/*',
+	],
+	js: 'connectors/worldfusionradio.js',
+	id: 'worldfusionradio',
+}, {
 	label: 'Hardtunes',
 	matches: [
 		'*://www.hard-tunes.de/*',
