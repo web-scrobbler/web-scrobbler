@@ -2148,7 +2148,7 @@ const connectors = [{
 	js: 'connectors/line-music.js',
 	id: 'linemusic',
 }, {
-	label: 'KCRW 89.9FM',
+	label: 'KCRW',
 	matches: [
 		'*://www.kcrw.com/*',
 	],
