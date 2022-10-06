@@ -254,7 +254,7 @@ const connectors = [{
 	js: 'connectors/tunein.js',
 	id: 'tunein',
 }, {
-	label: 'MixCloud',
+	label: 'Mixcloud',
 	matches: [
 		'*://mixcloud.com/*',
 		'*://*.mixcloud.com/*',
