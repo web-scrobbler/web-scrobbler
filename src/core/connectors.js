@@ -2173,6 +2173,13 @@ const connectors = [{
 	js: 'connectors/hardtunes.js',
 	id: 'hardtunes',
 }, {
+	label: 'The Jazz Groove',
+	matches: [
+		'*://jazzgroove.org/*',
+	],
+	js: 'connectors/jazzgroove.js',
+	id: 'jazzgroove',
+}, {
 	label: 'XRAY.FM',
 	matches: [
 		'*://xray.fm/*',
