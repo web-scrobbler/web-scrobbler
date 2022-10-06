@@ -28,16 +28,15 @@ function setupPropertiesForNewPlayer() {
 
 	Connector.getTrackInfo = () => {
 		const trackContainer = document.querySelector(trackContainerSelector);
-
-		if (trackContainer) {
-			const artist = trackContainer.getAttribute('secondary-text');
-			const track = trackContainer.getAttribute('primary-text');
-			const trackArt = trackContainer.getAttribute('image-src');
-
-			return { artist, track, trackArt };
+		if (trackContainer === null) {
+			return null;
 		}
 
-		return null;
+		const artist = trackContainer.getAttribute('secondary-text');
+		const track = trackContainer.getAttribute('primary-text');
+		const trackArt = trackContainer.getAttribute('image-src');
+
+		return { artist, track, trackArt };
 	};
 
 	Connector.isScrobblingAllowed = () => {
