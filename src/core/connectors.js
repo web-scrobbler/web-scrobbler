@@ -84,7 +84,7 @@ const connectors = [{
 	js: 'connectors/soundcloud.js',
 	id: 'soundcloud',
 }, {
-	label: 'Amazon',
+	label: 'Amazon Music',
 	matches: [
 		'*://music.amazon.*/*',
 		'*://www.amazon.*/gp/dmusic/cloudplayer/*',
@@ -187,6 +187,7 @@ const connectors = [{
 	label: 'Douban.FM',
 	matches: [
 		'*://douban.fm/*',
+		'*://fm.douban.fm/*',
 	],
 	js: 'connectors/douban.fm.js',
 	id: 'douban.fm',
@@ -253,7 +254,7 @@ const connectors = [{
 	js: 'connectors/tunein.js',
 	id: 'tunein',
 }, {
-	label: 'MixCloud',
+	label: 'Mixcloud',
 	matches: [
 		'*://mixcloud.com/*',
 		'*://*.mixcloud.com/*',
@@ -851,69 +852,19 @@ const connectors = [{
 	js: 'connectors/radioultra.js',
 	id: 'radiojazzfm',
 }, {
-	label: 'WXBQ 96.9',
+	label: 'WO Streaming',
 	matches: [
-		'*://www.969wxbq.com/',
-		'*://*player.wostreaming.net/8773',
+		'*://*player.wostreaming.net/*',
 	],
 	js: 'connectors/wostreaming.js',
-	id: '969wxbq',
+	id: 'wostreaming',
 }, {
-	label: 'Electric 94.9',
+	label: 'Listen Live',
 	matches: [
-		'*://www.electric949.com/',
-		'*://*player.wostreaming.net/8774',
-	],
-	js: 'connectors/wostreaming.js',
-	id: 'electric949',
-}, {
-	label: '99.3 The X',
-	matches: [
-		'*://www.993thex.com/',
-		'*://*player.wostreaming.net/8775',
-	],
-	js: 'connectors/wostreaming.js',
-	id: '993thex',
-}, {
-	label: 'WQBE 97.5',
-	matches: [
-		'*://www.wqbe.com/',
-		'*://*player.wostreaming.net/8777',
-	],
-	js: 'connectors/wostreaming.js',
-	id: 'wqbe',
-}, {
-	label: 'Electric 102.7',
-	matches: [
-		'*://electric102.com/*',
-		'*://*player.wostreaming.net/8778',
-	],
-	js: 'connectors/wostreaming.js',
-	id: 'electric102',
-}, {
-	label: 'New Life 94.5',
-	matches: [
-		'*://newlife945.com/',
-		'*://*player.wostreaming.net/8779',
-	],
-	js: 'connectors/wostreaming.js',
-	id: 'newlife945',
-}, {
-	label: 'Jazz24',
-	matches: [
-		'*://www.jazz24.org/',
-		'*://*player.wostreaming.net/854',
-	],
-	js: 'connectors/wostreaming.js',
-	id: 'jazz24',
-}, {
-	label: 'KJazz 88.1',
-	matches: [
-		'*://kkjz.org/',
-		'*://player.listenlive.co/67941',
+		'*://player.listenlive.co/*',
 	],
 	js: 'connectors/listenlive.js',
-	id: 'kkjz',
+	id: 'listenlive',
 }, {
 	label: 'Planet Radio',
 	matches: [
@@ -1164,14 +1115,12 @@ const connectors = [{
 	js: 'connectors/jetsetradio.live.js',
 	id: 'jetsetradio.live',
 }, {
-	label: 'FIP',
+	label: 'Radio France',
 	matches: [
-		'*://www.fip.fr/*',
-		'*://www.radiofrance.fr/fip/*',
-		'*://www.radiofrance.fr/fip*',
+		'*://www.radiofrance.fr/*',
 	],
-	js: 'connectors/fip.js',
-	id: 'fip',
+	js: 'connectors/radiofrance.js',
+	id: 'radiofrance',
 }, {
 	label: 'RemixRotation',
 	matches: [
@@ -1957,6 +1906,7 @@ const connectors = [{
 	label: 'Playlist Randomizer',
 	matches: [
 		'*://www.playlist-randomizer.com/*',
+		'*://playlist-randomizer.com/*',
 	],
 	js: 'connectors/playlist-randomizer.js',
 	id: 'playlist-randomizer',
@@ -2184,12 +2134,59 @@ const connectors = [{
 	js: 'connectors/nonoki.js',
 	id: 'nonoki',
 }, {
-	label: 'KCRW 89.9FM',
+	label: 'Beatbump',
+	matches: [
+		'*://beatbump.ml/*',
+	],
+	js: 'connectors/beatbump.js',
+	id: 'beatbump',
+}, {
+	label: 'LINE MUSIC',
+	matches: [
+		'*://music.line.me/*',
+	],
+	js: 'connectors/line-music.js',
+	id: 'linemusic',
+}, {
+	label: 'KCRW',
 	matches: [
 		'*://www.kcrw.com/*',
 	],
 	js: 'connectors/kcrw.js',
 	id: 'kcrw',
+}, {
+	label: 'World Fusion Radio',
+	matches: [
+		'*://worldfusionradio.com/*',
+	],
+	js: 'connectors/worldfusionradio.js',
+	id: 'worldfusionradio',
+}, {
+	label: 'Hardtunes',
+	matches: [
+		'*://www.hard-tunes.de/*',
+		'*://www.hardtunes.com/*',
+		'*://www.hardtunes.fr/*',
+		'*://www.hardtunes.it/*',
+		'*://www.hardtunes.nl/*',
+	],
+	js: 'connectors/hardtunes.js',
+	id: 'hardtunes',
+}, {
+	label: 'The Jazz Groove',
+	matches: [
+		'*://jazzgroove.org/*',
+	],
+	js: 'connectors/jazzgroove.js',
+	id: 'jazzgroove',
+}, {
+	label: 'XRAY.FM',
+	matches: [
+		'*://xray.fm/*',
+		'*://www.xray.fm/*',
+	],
+	js: 'connectors/xrayfm.js',
+	id: 'xrayfm',
 }];
 
 define(() => connectors);

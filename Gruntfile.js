@@ -49,6 +49,8 @@ const DOC_FILES = [
 
 const isCi = process.env.CI === 'true';
 
+const BUMP_BRANCH = isCi ? 'origin' : 'upstream';
+
 module.exports = (grunt) => {
 	grunt.initConfig({
 		manifest: grunt.file.readJSON(MANIFEST_FILE),
@@ -161,6 +163,7 @@ module.exports = (grunt) => {
 				files: FILES_TO_BUMP,
 				updateConfigs: ['manifest'],
 				commitFiles: FILES_TO_BUMP,
+				pushTo: BUMP_BRANCH,
 			},
 		},
 
