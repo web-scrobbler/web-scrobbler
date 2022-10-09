@@ -144,7 +144,7 @@ function areChaptersAvailable() {
 
 	// SponsorBlock extension hijacks chapter element. Ignore it.
 	const sponsorBlockButton = document.getElementById('startSegmentButton');
-	if (sponsorBlockButton && (text === 'Non-Music' || text === 'Sponsor' || text === 'Credits/Endcards' || text === 'Intermission')) {
+	if (sponsorBlockButton && (text === 'Non-Music' || text === 'Sponsor' || text === 'Endcards/Credits' || text === 'Intermission')) {
 		return false;
 	}
 
