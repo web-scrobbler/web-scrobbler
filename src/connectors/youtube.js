@@ -140,7 +140,16 @@ function setupEventListener() {
 }
 
 function areChaptersAvailable() {
-	return Util.getTextFromSelectors(chapterNameSelector);
+	const text = Util.getTextFromSelectors(chapterNameSelector);
+
+	// SponsorBlock extension hijacks chapter element. Ignore it.
+	const sponsorBlockButton = document.getElementById('startSegmentButton');
+	if (sponsorBlockButton && (text === 'Non-Music' || text === 'Sponsor' || text === 'Endcards/Credits' || text === 'Intermission')) {
+		return false;
+	}
+
+	// Return the text if no sponsorblock text.
+	return text;
 }
 
 function getVideoId() {
@@ -252,6 +261,15 @@ function getTrackInfoFromDescription() {
 }
 
 function getTrackInfoFromChapters() {
+
+	// Short circuit if chapters not available - necessary to avoid misscrobbling with SponsorBlock.
+	if (!areChaptersAvailable()) {
+		return {
+			artist: null,
+			track: null,
+		};
+	}
+
 	const chapterName = Util.getTextFromSelectors(chapterNameSelector);
 	const artistTrack = Util.processYtVideoTitle(chapterName);
 	if (!artistTrack.track) {
