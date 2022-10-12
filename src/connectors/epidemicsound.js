@@ -1,6 +1,6 @@
 'use strict';
 
-Connector.playerSelector = '[class*=_PlayerUI__container_]';
+Connector.playerSelector = '[class*=_MessageContainer__messageContainer_]';
 
 Connector.artistSelector = '[class*=_CreativesLabel__container_]';
 
