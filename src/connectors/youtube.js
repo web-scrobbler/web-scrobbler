@@ -143,8 +143,7 @@ function areChaptersAvailable() {
 	const text = Util.getTextFromSelectors(chapterNameSelector);
 
 	// SponsorBlock extension hijacks chapter element. Ignore it.
-	const sponsorBlockButton = document.getElementById('startSegmentButton');
-	if (sponsorBlockButton && (text === 'Non-Music' || text === 'Sponsor' || text === 'Endcards/Credits' || text === 'Intermission')) {
+	if (document.querySelector('.ytp-chapter-title-content.sponsorBlock-segment-title')) {
 		return false;
 	}
 
