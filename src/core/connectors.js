@@ -1240,7 +1240,7 @@ const connectors = [{
 	js: 'connectors/resonate.js',
 	id: 'resonate',
 }, {
-	label: 'KEXP Radio',
+	label: 'KEXP',
 	matches: [
 		'*://*.kexp.org/*',
 	],
