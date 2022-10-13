@@ -497,8 +497,8 @@ const Util = {
 
 	/**
 	 * Normalize given URL. Currently it only normalizes
-	 * protocol-relative links.
-	 * @param  {String} url URL, which is possibly protocol-relative
+	 * protocol-relative and root-relative links.
+	 * @param  {String} url URL, which is possibly relative
 	 * @return {String} Normalized URL
 	 */
 	/* istanbul ignore next */
@@ -507,7 +507,15 @@ const Util = {
 			return null;
 		}
 
-		return url.startsWith('//') ? location.protocol + url : url;
+		if (url.startsWith('//')) {
+			return location.protocol + url;
+		}
+
+		if (url.match(/^\/(?!\/)/g)) {
+			return location.origin + url;
+		}
+
+		return url;
 	},
 
 	/**
