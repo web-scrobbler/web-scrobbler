@@ -817,6 +817,13 @@ const connectors = [{
 	js: 'connectors/listen.moe.js',
 	id: 'listen.moe',
 }, {
+	label: 'anime(bits)',
+	matches: [
+		'*://radio.animebits.moe/',
+	],
+	js: 'connectors/animebits.js',
+	id: 'animebits',
+}, {
 	label: 'Fair Price Music',
 	matches: [
 		'*://www.fairpricemusic.com/*',
