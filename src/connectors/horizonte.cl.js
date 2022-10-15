@@ -1,11 +1,23 @@
 'use strict';
 
-Connector.playerSelector = '.np__details';
+Connector.playerSelector = '.np__player_widget';
 
-Connector.artistSelector = 'p[class="line__clamp_2"]';
+Connector.artistTrackSelector = '.np__info_principal';
 
-Connector.trackSelector = 'h1[class="line__clamp_2"]';
+Connector.trackArtSelector = '.np__avatar_element_image';
 
-Connector.playButtonSelector = '.button_control .fa-play';
+Connector.isTrackArtDefault = (url) => url.includes('/show/images/');
 
-Connector.trackArtSelector = '.np__thumbnail img';
+Connector.isPlaying = () => Util.hasElementClass('.np__btn_controls_play .np__btn_controls_icon', 'fa-pause');
+
+Connector.isScrobblingAllowed = () => {
+	return (
+		// only livestream provides artist and track info; check for on air/al aire indicator
+		Util.isElementVisible('.np__equalizer') &&
+		!Util.hasElementClass('.np__equalizer', 'np__equalizer__stop')
+	);
+};
+
+Connector.isStateChangeAllowed = () => {
+	return Connector.getArtistTrack() && Util.isElementVisible(Connector.artistTrackSelector);
+};

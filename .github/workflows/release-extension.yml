@@ -1,0 +1,39 @@
+name: Release extension
+
+on:
+  workflow_dispatch:
+    inputs:
+      release_type:
+        type: choice
+        description: Release type (check uncommited draft release)
+        options:
+        - patch
+        - minor
+        - major
+jobs:
+  deploy:
+    name: Release a new extension version
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.BOT_PAT }}
+      - name: Setup git config
+        run: |
+          git config user.name "web-scrobbler-bot"
+          git config user.email "${{ secrets.BOT_EMAIL }}"
+      - name: Get Node.js version from .nvmrc
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
+      - name: Install dependencies
+        run: npm ci
+      - name: Release
+        run: npx grunt release:${{ inputs.release_type }}
+        env:
+          CI: true

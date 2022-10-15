@@ -1,23 +1,40 @@
 'use strict';
 
-Connector.playerSelector = '.MuiList-root';
-Connector.trackArtSelector = '.Mui-selected .MuiListItemAvatar-root .MuiAvatar-circle .MuiAvatar-img';
+Connector.playerSelector = '#root';
+Connector.trackArtSelector = '.Mui-selected .MuiListItemAvatar-root .MuiAvatar-circular .MuiAvatar-img';
 
 const trackSelector = '.Mui-selected .MuiListItemText-root .MuiListItemText-primary';
 
-Connector.getArtistTrack = () => {
-	let { artist, track } = Util.processYtVideoTitle(Util.getTextFromSelectors(trackSelector));
+Connector.isPlaying = () => {
+	const playButton = document.querySelector('button[title="Play"]');
+	const tooltip = document.querySelector('.MuiTooltip-popper');
+	const tooltipText = tooltip ? tooltip.innerText : '';
 
-	// Set to some default information that we have (probably "Song Title Song Artist" with a space)
-	// so that the user can edit the info in the extension
+	if (playButton || tooltipText.includes('Play')) {
+		return false;
+	}
+
+	return true;
+};
+
+Connector.getArtistTrack = () => {
+	const currentTrack = document.querySelector(trackSelector);
+	if (!currentTrack) {
+		return;
+	}
+	let { artist, track } = Util.processYtVideoTitle(currentTrack.firstChild.nodeValue);
+
+	// Set to some default information that we have so that the user can edit the info in the extension
 	if (!artist) {
-		artist = Util.getTextFromSelectors(trackSelector);
+		const regex = /^(.*) - Topic$/;
+		artist = currentTrack.lastChild.innerText.replace(regex, '$1');
 	}
 	if (!track) {
-		track = Util.getTextFromSelectors(trackSelector);
+		track = currentTrack.firstChild.nodeValue;
 	}
 
 	return { artist, track };
 };
 
 Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+Connector.onReady = Connector.onStateChanged;
