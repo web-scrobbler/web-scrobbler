@@ -820,6 +820,7 @@ const connectors = [{
 	label: 'anime(bits)',
 	matches: [
 		'*://radio.animebits.moe/',
+		'*://radio.animebits.moe/player/*',
 	],
 	js: 'connectors/animebits.js',
 	id: 'animebits',
