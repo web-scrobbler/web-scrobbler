@@ -21,5 +21,5 @@ Connector.isPlaying = () => Util.hasElementClass('#play-pause', 'playing');
 Connector.applyFilter(filter);
 
 function removePlaylistNumber(text) {
-	return text.replace(/^\d+\.\s/g, '');
+	return text.replace(/^\d+\.\s/, '');
 }
