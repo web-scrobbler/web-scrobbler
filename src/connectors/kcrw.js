@@ -16,8 +16,8 @@ Connector.getTrackInfo = () => {
 			artist: artistText,
 			track: trackText,
 		};
-	} 
-	
+	}
+
 	if (!Util.hasElementClass(metaSelector, 'music') && artistText && showNameText === 'Today\'s Top Tune') {
 		const artistTrackSplit = artistText.split(': ');
 		return {
