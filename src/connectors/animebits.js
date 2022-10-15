@@ -1,12 +1,14 @@
 'use strict';
 
+const filter = MetadataFilter.createFilter({ track: removePlaylistNumber });
+
 Connector.playerSelector = '#radio-left';
 
-Connector.artistSelector = '#meta-container .np-artist';
+Connector.trackSelector = ['#meta-container .np-song', '#meta-container .song-name'];
 
-Connector.albumSelector = '#meta-container .np-album';
+Connector.artistSelector = ['#meta-container .np-artist', '#meta-container .song-artist'];
 
-Connector.trackSelector = '#meta-container .np-song';
+Connector.albumSelector = ['#meta-container .np-album', '#meta-container .song-album'];
 
 Connector.trackArtSelector = 'img.main-cover';
 
@@ -15,3 +17,9 @@ Connector.durationSelector = '#time-container .duration';
 Connector.currentTimeSelector = '#time-container .current-time';
 
 Connector.isPlaying = () => Util.hasElementClass('#play-pause', 'playing');
+
+Connector.applyFilter(filter);
+
+function removePlaylistNumber(text) {
+	return text.replace(/^\d+\.\s/g, '');
+}
