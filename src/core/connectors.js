@@ -2194,6 +2194,13 @@ const connectors = [{
 	],
 	js: 'connectors/xrayfm.js',
 	id: 'xrayfm',
+}, {
+	label: 'QCIndie',
+	matches: [
+		'*://www.qcindie.com/listen-live/*',
+	],
+	js: 'connectors/qcindie.js',
+	id: 'QCIndie',
 }];
 
 define(() => connectors);
