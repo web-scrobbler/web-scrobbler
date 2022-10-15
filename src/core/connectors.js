@@ -2194,6 +2194,13 @@ const connectors = [{
 	],
 	js: 'connectors/xrayfm.js',
 	id: 'xrayfm',
+}, {
+	label: 'GotRadio',
+	matches: [
+		'*://player.gotradio.com/*',
+	],
+	js: 'connectors/gotradio.js',
+	id: 'GotRadio',
 }];
 
 define(() => connectors);
