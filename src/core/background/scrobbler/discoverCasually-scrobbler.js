@@ -47,10 +47,10 @@ define((require) => {
 
 		/** @override */
 		async getSession() {
-			// if (!this.userToken) {
-			// 	throw ServiceCallResult.ERROR_AUTH;
-			// }
-			// return { sessionID: this.userToken };
+			if (!this.userApiUrl) {
+				throw ServiceCallResult.ERROR_AUTH;
+			}
+			return { userName: 'DiscoverCasually' };
 		}
 
 		/** @override */
@@ -83,7 +83,7 @@ define((require) => {
 				},
 				body: JSON.stringify(params),
 			};
-
+			console.log(requestInfo, 'is this going through');
 			const promise = fetch(this.userApiUrl, requestInfo);
 			const timeout = BaseScrobbler.REQUEST_TIMEOUT;
 

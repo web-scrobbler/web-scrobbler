@@ -28,6 +28,17 @@ define((require) => {
 				placeholder: 'accountsUserTokenPlaceholder',
 			},
 		},
+		DiscoverCasually: {
+			userApiUrl: {
+				title: 'accountsUserApiUrl',
+				placeholder: 'accountsUserApiUrlPlaceholder',
+			},
+			userToken: {
+				type: 'password',
+				title: 'accountsUserToken',
+				placeholder: 'accountsUserTokenPlaceholder',
+			},
+		},
 	};
 
 	async function initialize() {
