@@ -51,7 +51,10 @@ const adSelector = '.ytmusic-player-bar.advertisement';
 
 const playButtonSelector =
 	'.ytmusic-player-bar.play-pause-button #icon > svg > g > path';
-const playingPath = 'M6 19h4V5H6v14zm8-14v14h4V5h-4z';
+const playingPaths = [
+	'M9,19H7V5H9ZM17,5H15V19h2Z', // New design being rolled out
+	'M6 19h4V5H6v14zm8-14v14h4V5h-4z',
+];
 
 Connector.playerSelector = 'ytmusic-player-bar';
 
@@ -95,7 +98,7 @@ Connector.getArtistTrack = () => {
 Connector.timeInfoSelector = '.ytmusic-player-bar.time-info';
 
 Connector.isPlaying = () => {
-	return Util.getAttrFromSelectors(playButtonSelector, 'd') === playingPath;
+	return playingPaths.includes(Util.getAttrFromSelectors(playButtonSelector, 'd'));
 };
 
 Connector.getUniqueID = () => {

@@ -42,5 +42,5 @@ jobs:
       - name: Publish release on GitHub
         uses: test-room-7/action-publish-release-drafts@v0
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.BOT_PAT }}
           tag-name: ${{ steps.get-version.outputs.EXT_VERSION }}

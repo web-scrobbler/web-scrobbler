@@ -1,6 +1,6 @@
 {
   "name": "web-scrobbler",
-  "version": "2.69.0",
+  "version": "2.76.0",
   "author": "David Šabata <posta@davidsabata.cz>",
   "description": "Scrobble music all around the web!",
   "private": true,
@@ -9,7 +9,7 @@
     "url": "https://github.com/web-scrobbler/web-scrobbler.git"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "6.1.2",
+    "@fortawesome/fontawesome-free": "6.2.0",
     "blueimp-md5": "2.19.0",
     "bootstrap": "4.6.2",
     "jquery": "3.6.1",
@@ -45,7 +45,7 @@
     "prettier": "2.7.1",
     "prettier-config-web-scrobbler": "0.1.0",
     "remark-preset-lint-recommended": "6.1.2",
-    "stylelint": "14.11.0",
+    "stylelint": "14.13.0",
     "stylelint-config-web-scrobbler": "0.2.0"
   },
   "engines": {

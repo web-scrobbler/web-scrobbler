@@ -22,7 +22,7 @@ Connector.getTrackArt = () => {
 	const trackArtUrl = Util.extractImageUrlFromSelectors('.current-track .album img.art');
 
 	if (trackArtUrl) {
-		return trackArtUrl.replace(/(?<=scale_width=)\d{3}/g, '540'); // larger image filename
+		return trackArtUrl.replace(/(?<=scale_width=)\d+/g, '540'); // larger image filename
 	}
 
 	return null;
