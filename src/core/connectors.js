@@ -2200,7 +2200,14 @@ const connectors = [{
 		'*://www.qcindie.com/listen-live/*',
 	],
 	js: 'connectors/qcindie.js',
-	id: 'QCIndie',
+	id: 'qcindie',
+}, {
+	label: 'Colorado Public Radio',
+	matches: [
+		'*://www.cpr.org/*',
+	],
+	js: 'connectors/cpr.js',
+	id: 'cpr',
 }];
 
 define(() => connectors);
