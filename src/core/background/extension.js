@@ -65,7 +65,7 @@ define((require) => {
 		 */
 		async start() {
 			await this.updateVersionInStorage();
-
+			console.log('start gets invoked');
 			if (!await this.bindScrobblers()) {
 				console.warn('No scrobblers are bound');
 
@@ -177,6 +177,7 @@ define((require) => {
 		 *                   false if no scrobblers are registered
 		 */
 		async bindScrobblers() {
+			console.log('line 180');
 			const boundScrobblers = await ScrobbleService.bindAllScrobblers();
 			return boundScrobblers.length > 0;
 		}
@@ -221,6 +222,7 @@ define((require) => {
 		}
 
 		async applyUserProperties(scrobbler, userProps) {
+			console.log('line 225', scrobbler, userProps);
 			await scrobbler.applyUserProperties(userProps);
 			ScrobbleService.bindScrobbler(scrobbler);
 		}

@@ -58,6 +58,7 @@ define((require) => {
 
 	async function createAccountViews() {
 		const scrobblers = ScrobbleService.getRegisteredScrobblers();
+
 		for (const scrobbler of scrobblers) {
 			createEmptyAccountView(scrobbler);
 			createAccountView(scrobbler);

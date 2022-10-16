@@ -50,12 +50,14 @@ define((require) => {
 			if (!this.userApiUrl) {
 				throw ServiceCallResult.ERROR_AUTH;
 			}
-			return { userName: 'DiscoverCasually' };
+			return {
+				userName: 'DiscoverCasually',
+				sessionID: 99999 };
 		}
 
 		/** @override */
 		async isReadyForGrantAccess() {
-			// return false;
+			return false;
 		}
 
 		/** @override */
@@ -67,7 +69,7 @@ define((require) => {
 		/** @override */
 		async scrobble(song) {
 			const songData = this.makeTrackMetadata(song);
-
+			console.log('line 70', song);
 			return this.sendRequest(songData, this.userApiUrl);
 		}
 

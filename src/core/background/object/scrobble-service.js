@@ -49,9 +49,11 @@ define((require) => {
 		 * @return {Array} Bound scrobblers
 		 */
 		async bindAllScrobblers() {
+			console.log('line 52 bbind');
 			for (const scrobbler of registeredScrobblers) {
 				try {
 					await scrobbler.getSession();
+					console.log(await scrobbler.getSession(), 54);
 					this.bindScrobbler(scrobbler);
 				} catch (e) {
 					console.warn(`Unable to bind ${scrobbler.getLabel()}`);
@@ -66,6 +68,7 @@ define((require) => {
 		 * @param {Object} scrobbler Scrobbler instance
 		 */
 		bindScrobbler(scrobbler) {
+			console.log(scrobbler, 71);
 			if (!isScrobblerInArray(scrobbler, boundScrobblers)) {
 				boundScrobblers.push(scrobbler);
 				console.log(`Bind ${scrobbler.getLabel()} scrobbler`);
@@ -164,6 +167,7 @@ define((require) => {
 		 * @return {Array} Array of bound scrobblers
 		 */
 		getRegisteredScrobblers() {
+			console.log(168, registeredScrobblers);
 			return registeredScrobblers;
 		},
 
