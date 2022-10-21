@@ -9,10 +9,8 @@ Connector.trackSelector = '.qtmplayer__songdata .qtmplayer__title';
 Connector.isPlaying = () => Util.hasElementClass('#qtmplayerNotif', 'playing');
 
 Connector.isScrobblingAllowed = () => {
-	const stationID = 'Indie 102.3';
 	return (
-		!Connector.getTrack().includes(stationID) &&
-		!Connector.getArtist().includes(stationID) &&
+		!Util.getTextFromSelectors('.qtmplayer__songdata').includes('Indie 102.3') &&
 		!Connector.getArtist().startsWith('with ')
 	);
 };
