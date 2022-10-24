@@ -2210,6 +2210,13 @@ const connectors = [{
 	js: 'connectors/cpr.js',
 	id: 'cpr',
 }, {
+	label: 'Indie 102.3',
+	matches: [
+		'*://indie.cpr.org/',
+	],
+	js: 'connectors/cpr-indie.js',
+	id: 'cpr-indie',
+}, {
 	label: 'WXPN',
 	matches: [
 		'*://xpn.org/*',
