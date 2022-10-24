@@ -2215,7 +2215,7 @@ const connectors = [{
 		'*://xpn.org/*',
 	],
 	js: 'connectors/xpn.js',
-	id: 'WXPN',
+	id: 'wxpn',
 }];
 
 define(() => connectors);
