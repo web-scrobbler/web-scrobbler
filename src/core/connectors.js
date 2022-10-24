@@ -2209,6 +2209,13 @@ const connectors = [{
 	],
 	js: 'connectors/cpr.js',
 	id: 'cpr',
+}, {
+	label: 'WXPN',
+	matches: [
+		'*://xpn.org/*',
+	],
+	js: 'connectors/xpn.js',
+	id: 'WXPN',
 }];
 
 define(() => connectors);
