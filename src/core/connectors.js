@@ -2217,12 +2217,12 @@ const connectors = [{
 	js: 'connectors/cpr-indie.js',
 	id: 'cpr-indie',
 }, {
-	label: 'WXPN',
+	label: 'XPN',
 	matches: [
 		'*://xpn.org/*',
 	],
 	js: 'connectors/xpn.js',
-	id: 'wxpn',
+	id: 'xpn',
 }];
 
 define(() => connectors);
