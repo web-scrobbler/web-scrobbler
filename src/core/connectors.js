@@ -2217,7 +2217,7 @@ const connectors = [{
 	js: 'connectors/cpr-indie.js',
 	id: 'cpr-indie',
 }, {
-	label: 'XPN',
+	label: 'WXPN',
 	matches: [
 		'*://xpn.org/*',
 	],
