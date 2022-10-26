@@ -2196,6 +2196,13 @@ const connectors = [{
 	js: 'connectors/xrayfm.js',
 	id: 'xrayfm',
 }, {
+	label: 'DKFM Shoegaze Radio',
+	matches: [
+		'*://decayfm.com/*',
+	],
+	js: 'connectors/decayfm.js',
+	id: 'decayfm',
+}, {
 	label: 'QCIndie',
 	matches: [
 		'*://www.qcindie.com/listen-live/*',
