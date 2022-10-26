@@ -1006,6 +1006,13 @@ const connectors = [{
 	js: 'connectors/streamsquid.js',
 	id: 'streamsquid',
 }, {
+	label: 'Streemlion',
+	matches: [
+		'*://listen.streemlion.com/*',
+	],
+	js: 'connectors/streemlion.js',
+	id: 'streemlion',
+}, {
 	label: 'eMusic',
 	matches: [
 		'*://www.emusic.com/*',
@@ -2195,6 +2202,13 @@ const connectors = [{
 	],
 	js: 'connectors/xrayfm.js',
 	id: 'xrayfm',
+}, {
+	label: 'DKFM Shoegaze Radio',
+	matches: [
+		'*://decayfm.com/*',
+	],
+	js: 'connectors/decayfm.js',
+	id: 'decayfm',
 }, {
 	label: 'QCIndie',
 	matches: [
