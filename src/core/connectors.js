@@ -1006,6 +1006,13 @@ const connectors = [{
 	js: 'connectors/streamsquid.js',
 	id: 'streamsquid',
 }, {
+	label: 'Streemlion',
+	matches: [
+		'*://listen.streemlion.com/*',
+	],
+	js: 'connectors/streemlion.js',
+	id: 'streemlion',
+}, {
 	label: 'eMusic',
 	matches: [
 		'*://www.emusic.com/*',
