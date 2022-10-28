@@ -820,6 +820,7 @@ const connectors = [{
 	label: 'anime(bits)',
 	matches: [
 		'*://radio.animebits.moe/',
+		'*://radio.animebits.moe/player/*',
 	],
 	js: 'connectors/animebits.js',
 	id: 'animebits',
@@ -1004,6 +1005,13 @@ const connectors = [{
 	],
 	js: 'connectors/streamsquid.js',
 	id: 'streamsquid',
+}, {
+	label: 'Streemlion',
+	matches: [
+		'*://listen.streemlion.com/*',
+	],
+	js: 'connectors/streemlion.js',
+	id: 'streemlion',
 }, {
 	label: 'eMusic',
 	matches: [
@@ -2194,6 +2202,41 @@ const connectors = [{
 	],
 	js: 'connectors/xrayfm.js',
 	id: 'xrayfm',
+}, {
+	label: 'DKFM Shoegaze Radio',
+	matches: [
+		'*://decayfm.com/*',
+	],
+	js: 'connectors/decayfm.js',
+	id: 'decayfm',
+}, {
+	label: 'QCIndie',
+	matches: [
+		'*://www.qcindie.com/listen-live/*',
+	],
+	js: 'connectors/qcindie.js',
+	id: 'qcindie',
+}, {
+	label: 'Colorado Public Radio',
+	matches: [
+		'*://www.cpr.org/*',
+	],
+	js: 'connectors/cpr.js',
+	id: 'cpr',
+}, {
+	label: 'Indie 102.3',
+	matches: [
+		'*://indie.cpr.org/',
+	],
+	js: 'connectors/cpr-indie.js',
+	id: 'cpr-indie',
+}, {
+	label: 'WXPN',
+	matches: [
+		'*://xpn.org/*',
+	],
+	js: 'connectors/xpn.js',
+	id: 'xpn',
 }, {
 	label: 'GotRadio',
 	matches: [
