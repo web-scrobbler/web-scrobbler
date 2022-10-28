@@ -1,6 +1,6 @@
 'use strict';
 Connector.playerSelector = '#app';
-Connector.trackSelector = '.music-player_metaInner_Va844 .title';
-Connector.artistSelector = '.music-player_metaInner_Va844 .artist';
-Connector.trackArtSelector = 'img._base-resource-image_image_3p9XJ';
-Connector.isPlaying = () => Util.getAttrFromSelectors('div.music-player_play_2rjtB > svg > use', 'xlink\:href') === '#icon-pause';
+Connector.trackSelector = '[class*=music-player_metaInner_] .title';
+Connector.artistSelector = '[class*=music-player_metaInner_] .artist';
+Connector.trackArtSelector = 'img[class*=_base-resource-image_image_]';
+Connector.isPlaying = () => Util.getAttrFromSelectors('[class*=music-player_play_] > svg > use', 'xlink\:href') === '#icon-pause';
