@@ -14,3 +14,7 @@ updates:
   - dependencies
   - maintenance
   versioning-strategy: increase
+- package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: "weekly"
