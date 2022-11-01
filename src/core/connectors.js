@@ -2238,7 +2238,7 @@ const connectors = [{
 	js: 'connectors/xpn.js',
 	id: 'xpn',
 }, {
-	label: 'frisky.fm',
+	label: 'FRISKY',
 	matches: [
 		'*://frisky.fm/*',
 		'*://www.frisky.fm/*',
