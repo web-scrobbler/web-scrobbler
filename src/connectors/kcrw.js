@@ -1,6 +1,14 @@
 'use strict';
 
-const filter = MetadataFilter.createFilter({ track: removeFancyQuotes });
+const filter = MetadataFilter.createFilter({
+	artist: replaceSmartQuotes,
+	track: [
+		removeSmartQuotes,
+		replaceSmartQuotes,
+		MetadataFilter.removeVersion,
+		MetadataFilter.removeCleanExplicit,
+	],
+});
 
 Connector.playerSelector = '.site-player'; // supports main and mini players
 
@@ -11,7 +19,7 @@ Connector.getTrackInfo = () => {
 	const artistText = Util.getTextFromSelectors(`${metaSelector} .episode-name`);
 	const trackText = Util.getTextFromSelectors(`${metaSelector} .song-name`);
 
-	if (Util.hasElementClass(metaSelector, 'music') && trackText && !artistText.includes('[BREAK]')) {
+	if (Util.hasElementClass(metaSelector, 'music') && trackText && artistText !== '[BREAK]') {
 		return {
 			artist: artistText,
 			track: trackText,
@@ -35,6 +43,10 @@ Connector.isPlaying = () => Util.hasElementClass('button.play', 'active');
 
 Connector.applyFilter(filter);
 
-function removeFancyQuotes(text) {
-	return text.replace(/[‘’“”]/g, ''); // filter for Today's Top Tune
+function removeSmartQuotes(text) { // filter for Today's Top Tune
+	return text.replace(/^[\u2018\u201c](.+)[\u2019\u201d](?=\s\(|$)/, '$1');
+}
+
+function replaceSmartQuotes(text) {
+	return text.replace(/[\u2018\u2019]/g, '\'').replace(/[\u201c\u201d]/g, '"');
 }
