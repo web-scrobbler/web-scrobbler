@@ -2245,6 +2245,13 @@ const connectors = [{
 	],
 	js: 'connectors/friskyfm.js',
 	id: 'friskyfm',
+}, {
+	label: 'GotRadio',
+	matches: [
+		'*://player.gotradio.com/*',
+	],
+	js: 'connectors/gotradio.js',
+	id: 'gotradio',
 }];
 
 define(() => connectors);

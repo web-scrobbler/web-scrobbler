@@ -84,7 +84,7 @@ function isMainTab() {
 }
 
 function hasMultipleSources() {
-	return document.body.classList.contains('qualaroo--connect-bar-visible');
+	return document.querySelector(spotifyConnectSelector) !== null;
 }
 
 function getActiveDeviceName() {
