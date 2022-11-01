@@ -2238,6 +2238,14 @@ const connectors = [{
 	js: 'connectors/xpn.js',
 	id: 'xpn',
 }, {
+	label: 'FRISKY',
+	matches: [
+		'*://frisky.fm/*',
+		'*://www.frisky.fm/*',
+	],
+	js: 'connectors/friskyfm.js',
+	id: 'friskyfm',
+}, {
 	label: 'GotRadio',
 	matches: [
 		'*://player.gotradio.com/*',
