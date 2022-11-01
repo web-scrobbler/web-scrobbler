@@ -2237,6 +2237,13 @@ const connectors = [{
 	],
 	js: 'connectors/xpn.js',
 	id: 'xpn',
+}, {
+	label: 'GotRadio',
+	matches: [
+		'*://player.gotradio.com/*',
+	],
+	js: 'connectors/gotradio.js',
+	id: 'gotradio',
 }];
 
 define(() => connectors);
