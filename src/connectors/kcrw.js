@@ -44,7 +44,7 @@ Connector.isPlaying = () => Util.hasElementClass('button.play', 'active');
 Connector.applyFilter(filter);
 
 function removeSmartQuotes(text) { // filter for Today's Top Tune
-	return text.replace(/^[\u2018\u201c]|[\u2019\u201d](?=\s\(|$)/g, '');
+	return text.replace(/^[\u2018\u201c](.+)[\u2019\u201d](?=\s\(|$)/, '$1');
 }
 
 function replaceSmartQuotes(text) {
