@@ -2243,7 +2243,7 @@ const connectors = [{
 		'*://player.gotradio.com/*',
 	],
 	js: 'connectors/gotradio.js',
-	id: 'GotRadio',
+	id: 'gotradio',
 }];
 
 define(() => connectors);
