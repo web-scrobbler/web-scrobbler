@@ -17,4 +17,12 @@ updates:
 - package-ecosystem: "github-actions"
   directory: "/"
   schedule:
-    interval: "weekly"
+    interval: weekly
+    day: saturday
+    time: "19:00"
+    timezone: Europe/Moscow
+  reviewers:
+  - "web-scrobbler/maintenance-team"
+  labels:
+  - dependencies
+  - maintenance
