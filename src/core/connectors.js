@@ -2252,6 +2252,13 @@ const connectors = [{
 	],
 	js: 'connectors/gotradio.js',
 	id: 'gotradio',
+}, {
+	label: 'LightningStream',
+	matches: [
+		'*://*lightningstream.com/*',
+	],
+	js: 'connectors/lightningstream.js',
+	id: 'lightningstream',
 }];
 
 define(() => connectors);
