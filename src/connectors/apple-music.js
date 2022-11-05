@@ -14,7 +14,7 @@ Connector.getRemainingTime = () => queryShadowRoot('.lcd-progress__time--remaini
 
 Connector.getTrack = () => queryShadowRoot('.lcd-meta__primary-wrapper .lcd-meta-line__fragment').textContent;
 
-Connector.pauseButtonSelector = '.playback-play__pause';
+Connector.isPlaying = () => document.querySelector('.playback-play__pause').getAttribute('aria-hidden') !== 'true';
 
 // Manually update as the player is within shadow root
 const observer = new MutationObserver(Connector.onStateChanged);
@@ -24,3 +24,6 @@ observer.observe(shadowRoot, {
 	attributes: true,
 	characterData: true,
 });
+
+// Update on buttons changing, these are outside shadow root
+Connector.playerSelector = 'amp-playback-controls-play';
