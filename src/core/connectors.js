@@ -817,6 +817,14 @@ const connectors = [{
 	js: 'connectors/listen.moe.js',
 	id: 'listen.moe',
 }, {
+	label: 'anime(bits)',
+	matches: [
+		'*://radio.animebits.moe/',
+		'*://radio.animebits.moe/player/*',
+	],
+	js: 'connectors/animebits.js',
+	id: 'animebits',
+}, {
 	label: 'Fair Price Music',
 	matches: [
 		'*://www.fairpricemusic.com/*',
@@ -997,6 +1005,13 @@ const connectors = [{
 	],
 	js: 'connectors/streamsquid.js',
 	id: 'streamsquid',
+}, {
+	label: 'Streemlion',
+	matches: [
+		'*://listen.streemlion.com/*',
+	],
+	js: 'connectors/streemlion.js',
+	id: 'streemlion',
 }, {
 	label: 'eMusic',
 	matches: [
@@ -1240,7 +1255,7 @@ const connectors = [{
 	js: 'connectors/resonate.js',
 	id: 'resonate',
 }, {
-	label: 'KEXP Radio',
+	label: 'KEXP',
 	matches: [
 		'*://*.kexp.org/*',
 	],
@@ -2187,6 +2202,63 @@ const connectors = [{
 	],
 	js: 'connectors/xrayfm.js',
 	id: 'xrayfm',
+}, {
+	label: 'DKFM Shoegaze Radio',
+	matches: [
+		'*://decayfm.com/*',
+	],
+	js: 'connectors/decayfm.js',
+	id: 'decayfm',
+}, {
+	label: 'QCIndie',
+	matches: [
+		'*://www.qcindie.com/listen-live/*',
+	],
+	js: 'connectors/qcindie.js',
+	id: 'qcindie',
+}, {
+	label: 'Colorado Public Radio',
+	matches: [
+		'*://www.cpr.org/*',
+	],
+	js: 'connectors/cpr.js',
+	id: 'cpr',
+}, {
+	label: 'Indie 102.3',
+	matches: [
+		'*://indie.cpr.org/',
+	],
+	js: 'connectors/cpr-indie.js',
+	id: 'cpr-indie',
+}, {
+	label: 'WXPN',
+	matches: [
+		'*://xpn.org/*',
+	],
+	js: 'connectors/xpn.js',
+	id: 'xpn',
+}, {
+	label: 'FRISKY',
+	matches: [
+		'*://frisky.fm/*',
+		'*://www.frisky.fm/*',
+	],
+	js: 'connectors/friskyfm.js',
+	id: 'friskyfm',
+}, {
+	label: 'GotRadio',
+	matches: [
+		'*://player.gotradio.com/*',
+	],
+	js: 'connectors/gotradio.js',
+	id: 'gotradio',
+}, {
+	label: 'LightningStream',
+	matches: [
+		'*://*lightningstream.com/*',
+	],
+	js: 'connectors/lightningstream.js',
+	id: 'lightningstream',
 }];
 
 define(() => connectors);

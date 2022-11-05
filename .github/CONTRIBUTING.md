@@ -32,6 +32,7 @@ Please make sure your issue describes only one feature, request or bug.
 -   Read [our wiki][Wiki].
 -   Fork the Web Scrobbler [git repository][Repository].
 -   Create a pull request against the [**master**][RepositoryMaster] branch.
+-   Ensure PR title explains **concicely** what the functionality is doing.
 -   Ensure the PR description **clearly** describes the problem and solution.
 Include the relevant issue number(s) if applicable.
 -   Ensure CI tests pass.
@@ -44,6 +45,9 @@ Please open a separate PR for each *logical* addition, change, or deletion.
 For example, if you added a new connector, and fixed an existing one, open
 two separate PRs for each change; if you added a new feature and updated
 connectors to use this feature, you can open a single PR containing all changes.
+
+This is because we leverage tooling to automate the release notes and uses the
+PR title and labels to organise this correctly.
 
 If you plan on contributing something that requires significant changes, please
 contact us first. You can find us in [Discord][Discord-Server]; alternatively,
