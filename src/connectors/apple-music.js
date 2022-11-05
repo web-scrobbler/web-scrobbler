@@ -1,22 +1,26 @@
 'use strict';
 
-const ARTISTALBUM_SEPARATOR = '—';
+const shadowRoot = document.querySelector('amp-lcd').shadowRoot;
 
-const artistAlbumSelector = '.web-chrome-playback-lcd__sub-copy-scroll-inner-text-wrapper';
+const queryShadowRoot = (selector) => shadowRoot.querySelector(selector);
 
-Connector.playerSelector = '.web-chrome';
+Connector.getArtist = () => queryShadowRoot('.lcd-meta__secondary .lcd-meta-line__fragment:first-child').textContent;
 
-Connector.currentTimeSelector = '#apple-music-current-playback-time';
+Connector.getAlbum = () => queryShadowRoot('.lcd-meta__secondary .lcd-meta-line__fragment:last-child').textContent;
 
-Connector.remainingTimeSelector = '#apple-music-current-playback-time-remaining';
+Connector.getCurrentTime = () => queryShadowRoot('.lcd-progress__time--elapsed').textContent;
 
-Connector.trackSelector = '.web-chrome-playback-lcd__song-name-scroll-inner-text-wrapper';
+Connector.getRemainingTime = () => queryShadowRoot('.lcd-progress__time--remaining').textContent;
 
-Connector.getTrackInfo = () => {
-	const artistAlbum = Util.getTextFromSelectors(artistAlbumSelector);
-	return Util.splitArtistAlbum(artistAlbum, [ARTISTALBUM_SEPARATOR]);
-};
+Connector.getTrack = () => queryShadowRoot('.lcd-meta__primary-wrapper .lcd-meta-line__fragment').textContent;
 
-Connector.isPlaying = () => {
-	return $(Connector.playerSelector).hasClass('is-playing');
-};
+Connector.pauseButtonSelector = '.playback-play__pause';
+
+// Manually update as the player is within shadow root
+const observer = new MutationObserver(Connector.onStateChanged);
+observer.observe(shadowRoot, {
+	childList: true,
+	subtree: true,
+	attributes: true,
+	characterData: true,
+});
