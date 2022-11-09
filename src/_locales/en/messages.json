@@ -346,6 +346,10 @@
         "message": "The extension is free, and will always be free. But if you want to support development of the extension, you can use the button below.",
         "description": ""
     },
+    "donationButtonLabel": {
+      "message": "Support us on OpenCollective",
+      "description": "The donation button label"
+    },
     "customPatterns": {
         "message": "URL patterns",
         "description": "'URL patterns' section"

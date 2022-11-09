@@ -1,11 +1,13 @@
 'use strict';
 
-Connector.playerSelector = '[class*=PlayerUI__content]';
+Connector.playerSelector = '[class*=_MessageContainer__messageContainer_]';
 
-Connector.artistSelector = '[class*=CreativesLabel__container]';
+Connector.artistSelector = '[class*=_CreativesLabel__container_]';
 
-Connector.trackSelector = '[class*=TrackInfo__title]';
+Connector.trackSelector = ['[class*=_ScrollingLabel__label_]', '[class*=_TrackInfo__mobileContainer_] > [aria-label^=track]'];
 
-Connector.timeInfoSelector = '[class*=TimeProgress__container]';
+Connector.currentTimeSelector = '[class*=_PlayerBar__elapsedTime_]';
 
-Connector.playButtonSelector = '[class*=PlaybackControls__playIcon]';
+Connector.durationSelector = '[class*=_PlayerBar__waveform_] + span';
+
+Connector.isPlaying = () => Util.getAttrFromSelectors('[class*=_PlaybackControls__playPauseButton_]', 'title') === 'Pause';

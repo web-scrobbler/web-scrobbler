@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Get Node.js version from .nvmrc
         id: get-node-version
@@ -20,7 +20,7 @@ jobs:
         run: echo ::set-output name=EXT_VERSION::${GITHUB_REF/refs\/tags\//}
 
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
           node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
 
@@ -42,5 +42,5 @@ jobs:
       - name: Publish release on GitHub
         uses: test-room-7/action-publish-release-drafts@v0
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.BOT_PAT }}
           tag-name: ${{ steps.get-version.outputs.EXT_VERSION }}

@@ -5,11 +5,14 @@
  */
 define((require) => {
 	const Util = require('util/util');
+	const UtilBrowser = require('util/util-browser');
+
 	const BaseScrobbler = require('scrobbler/base-scrobbler');
 	const ServiceCallResult = require('object/service-call-result');
 
 	const listenBrainzTokenPage = 'https://listenbrainz.org/profile/';
-	const apiUrl = 'https://api.listenbrainz.org/1/submit-listens';
+	const baseUrl = 'https://api.listenbrainz.org/1';
+	const apiUrl = `${baseUrl}/submit-listens`;
 
 	class ListenBrainz extends BaseScrobbler {
 		/** @override */
@@ -135,7 +138,7 @@ define((require) => {
 					},
 				],
 			};
-			return this.sendRequest(params, sessionID);
+			return this.sendScrobbleRequest(params, sessionID);
 		}
 
 		/** @override */
@@ -151,21 +154,66 @@ define((require) => {
 					},
 				],
 			};
-			return this.sendRequest(params, sessionID);
+			return this.sendScrobbleRequest(params, sessionID);
+		}
+
+
+		/** @override */
+		async toggleLove(song, isLoved) {
+			// https://listenbrainz.readthedocs.io/en/latest/users/api-usage.html#lookup-mbids
+			const lookupRequestParams = new URLSearchParams({
+				recording_name: song.getTrack(),
+				artist_name: song.getArtist(),
+			});
+
+			let lookupResult = {};
+
+			try {
+				lookupResult = await this.listenBrainzApi('GET', `${baseUrl}/metadata/lookup?${lookupRequestParams}`, null, null);
+			} catch (e) {}
+
+			this.debugLog(`lookup result: ${JSON.stringify(lookupResult, null, 2)}`);
+
+			if (!lookupResult.recording_mbid) {
+				this.debugLog(`Could not lookup metadata for song: ${song}`);
+			} else {
+				// https://listenbrainz.readthedocs.io/en/latest/users/api-usage.html#love-hate-feedback
+				const { sessionID } = await this.getSession();
+				const loveRequestBody = {
+					recording_mbid: lookupResult.recording_mbid,
+					score: isLoved ? 1 : 0,
+				};
+				const loveResult = await this.listenBrainzApi('POST', `${baseUrl}/feedback/recording-feedback`, loveRequestBody, sessionID);
+
+				return this.processResult(loveResult);
+			}
+		}
+
+		/** @override */
+		canLoveSong() {
+			return true;
 		}
 
 		/** Private methods. */
 
-		async sendRequest(params, sessionID) {
+
+		async listenBrainzApi(method, url, body, sessionID) {
 			const requestInfo = {
-				method: 'POST',
+				method,
 				headers: {
-					Authorization: `Token ${sessionID}`,
 					'Content-Type': 'application/json; charset=UTF-8',
 				},
-				body: JSON.stringify(params),
 			};
-			const promise = fetch(this.userApiUrl || apiUrl, requestInfo);
+
+			if (body) {
+				requestInfo.body = JSON.stringify(body);
+			}
+
+			if (sessionID) {
+				requestInfo.headers.Authorization = `Token ${sessionID}`;
+			}
+
+			const promise = fetch(url, requestInfo);
 			const timeout = BaseScrobbler.REQUEST_TIMEOUT;
 
 			let result = null;
@@ -190,6 +238,11 @@ define((require) => {
 
 			this.debugLog(JSON.stringify(result, null, 2));
 
+			return result;
+		}
+
+		async sendScrobbleRequest(params, sessionID) {
+			const result = await this.listenBrainzApi('POST', this.userApiUrl || apiUrl, params, sessionID);
 			return this.processResult(result);
 		}
 
@@ -269,7 +322,11 @@ define((require) => {
 			const trackMeta = {
 				artist_name: song.getArtist(),
 				track_name: song.getTrack(),
-				additional_info: {},
+				additional_info: {
+					submission_client: 'Web Scrobbler',
+					submission_client_version: UtilBrowser.getExtensionVersion(),
+					music_service_name: song.metadata.label,
+				},
 			};
 
 			if (song.getAlbum()) {
@@ -282,6 +339,14 @@ define((require) => {
 
 			if (song.getAlbumArtist()) {
 				trackMeta.additional_info.release_artist_name = song.getAlbumArtist();
+			}
+
+			if (song.getOriginUrl() && song.metadata.label === 'Spotify') {
+				trackMeta.additional_info.spotify_id = song.getOriginUrl();
+			}
+
+			if (song.getDuration()) {
+				trackMeta.additional_info.duration = song.getDuration();
 			}
 
 			return trackMeta;

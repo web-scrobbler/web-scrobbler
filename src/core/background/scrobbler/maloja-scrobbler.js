@@ -108,6 +108,14 @@ define((require) => {
 				time: song.metadata.startTimestamp,
 			};
 
+			if (song.getAlbum()) {
+				trackMeta.album = song.getAlbum();
+			}
+
+			if (song.getAlbumArtist()) {
+				trackMeta.albumartists = [song.getAlbumArtist()];
+			}
+
 			return trackMeta;
 		}
 	}

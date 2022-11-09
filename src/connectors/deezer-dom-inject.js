@@ -19,8 +19,10 @@ function initConnector() {
 function addEventListeners() {
 	const ev = window.Events;
 	ev.subscribe(ev.player.play, sendEvent);
+	ev.subscribe(ev.player.playing, sendEvent);
 	ev.subscribe(ev.player.paused, sendEvent);
 	ev.subscribe(ev.player.resume, sendEvent);
+	ev.subscribe(ev.player.finish, sendEvent);
 }
 
 function sendEvent() {

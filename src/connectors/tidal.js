@@ -35,6 +35,6 @@ Connector.trackArtSelector = `${Connector.playerSelector} figure[data-test="curr
 
 Connector.currentTimeSelector = `${Connector.playerSelector} time[data-test="current-time"]`;
 
-Connector.durationSelector = `${Connector.playerSelector} time[data-test="duration-time"]`;
+Connector.durationSelector = `${Connector.playerSelector} time[data-test="duration"]`;
 
 Connector.applyFilter(MetadataFilter.getTidalFilter());

@@ -40,6 +40,8 @@ Connector.isPodcast = () => isPodcastPlaying();
 
 Connector.getUniqueID = () => getTrackUri();
 
+Connector.getOriginUrl = () => getTrackUrl();
+
 function isMusicPlaying() {
 	return artistUrlIncludes('/artist/', '/show/') || isLocalFilePlaying();
 }
@@ -82,12 +84,26 @@ function isMainTab() {
 }
 
 function hasMultipleSources() {
-	return document.body.classList.contains('qualaroo--connect-bar-visible');
+	return document.querySelector(spotifyConnectSelector) !== null;
 }
 
 function getActiveDeviceName() {
 	const spotifyConnectEl = document.querySelector(spotifyConnectSelector);
 	return spotifyConnectEl && spotifyConnectEl.textContent;
+}
+
+function getTrackUrl() {
+	const trackUri = getTrackUri();
+	if (trackUri === null) {
+		return null;
+	}
+
+	const trackId = trackUri?.split(':')?.[2];
+	if (!trackId) {
+		return null;
+	}
+
+	return `https://open.spotify.com/track/${trackId}`;
 }
 
 function getTrackUri() {
@@ -98,9 +114,9 @@ function getTrackUri() {
 
 	const url = new URL(contextLinkEl);
 	const trackUri = url.searchParams.get('uri');
-	if (trackUri && trackUri.startsWith('spotify:track:')) {
-		return trackUri;
+	if (!trackUri || !trackUri.startsWith('spotify:track:')) {
+		return null;
 	}
 
-	return null;
+	return trackUri;
 }

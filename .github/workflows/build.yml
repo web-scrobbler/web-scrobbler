@@ -9,14 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout the repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Get Node.js version from .nvmrc
       id: get-node-version
       run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
 
     - name: Setup Node.js
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
 
@@ -30,7 +30,7 @@ jobs:
         cp -r build web-scrobbler-chrome
 
     - name: Upload the extension for Chrome as an artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: web-scrobbler-chrome
         path: web-scrobbler-chrome
@@ -42,7 +42,7 @@ jobs:
         cp -r build web-scrobbler-firefox
 
     - name: Upload the extension for Firefox as an artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: web-scrobbler-firefox
         path: web-scrobbler-firefox

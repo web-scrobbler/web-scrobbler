@@ -2,19 +2,21 @@
 
 Connector.playerSelector = 'body';
 
-Connector.getArtistTrack = () => {
-	let artistTrack = $('#nowplaying > table > tbody > tr > td > table:nth-child(1) > tbody > tr:nth-child(3) > td').text();
-	artistTrack = artistTrack.replace('Now Playing:', '');
+Connector.getTrackInfo = () => {
+	const artistTrackElement = document.querySelector('#nowplaying > table table tbody > tr:nth-of-type(3) font');
 
-	return Util.splitArtistTrack(artistTrack);
+	if (artistTrackElement && artistTrackElement.childNodes.length > 2) {
+		return {
+			artist: artistTrackElement.childNodes[1].textContent,
+			track: artistTrackElement.childNodes[2].textContent.substring(3), // omit dash and spaces
+		};
+	}
+
+	return null;
 };
 
-Connector.trackArtSelector = '#bio img';
+Connector.trackArtSelector = '#bio .img-left-text img';
 
-Connector.isPlaying = () => $('#jp_container_1').hasClass('jp-state-playing');
+Connector.isPlaying = () => Util.hasElementClass('#jp_container_1', 'jp-state-playing');
 
-Connector.isScrobblingAllowed = () => {
-	const artistTrack = Connector.getArtistTrack();
-
-	return artistTrack !== 'Dandelion Radio - next show on the hour';
-};
+Connector.isScrobblingAllowed = () => Connector.getTrackInfo();

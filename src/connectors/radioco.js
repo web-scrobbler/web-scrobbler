@@ -2,12 +2,12 @@
 
 Connector.playerSelector = '.radioco-player';
 
-Connector.trackSelector = '.track-name';
-
 Connector.artistSelector = '.track-artist';
+
+Connector.trackSelector = '.track-name';
 
 Connector.trackArtSelector = '.current-artwork';
 
-Connector.isPlaying = () => {
-	return $('.radioco-player').hasClass('playing');
-};
+Connector.currentTimeSelector = '.streamtime';
+
+Connector.isPlaying = () => Util.hasElementClass(Connector.playerSelector, 'playing');
