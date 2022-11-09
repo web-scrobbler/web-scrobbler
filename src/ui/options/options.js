@@ -15,11 +15,12 @@ define((require) => {
 	 * @type {Object}
 	 */
 	const OPTIONS_UI_MAP = {
-		'#force-recognize': Options.FORCE_RECOGNIZE,
 		'#use-notifications': Options.USE_NOTIFICATIONS,
 		'#use-unrecognized-song-notifications': Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
-		'#scrobble-edited-tracks-only': Options.SCROBBLE_EDITED_TRACKS_ONLY,
 		'#scrobble-podcasts': Options.SCROBBLE_PODCASTS,
+		'#force-recognize': Options.FORCE_RECOGNIZE,
+		'#scrobble-recognized-tracks': Options.SCROBBLE_RECOGNIZED_TRACKS,
+		'#scrobble-edited-tracks-only': Options.SCROBBLE_EDITED_TRACKS_ONLY,
 	};
 	const CONNECTORS_OPTIONS_UI_MAP = {
 		YouTube: {
@@ -37,7 +38,9 @@ define((require) => {
 		for (const optionId in OPTIONS_UI_MAP) {
 			const option = OPTIONS_UI_MAP[optionId];
 
-			$(optionId).click(async function() {
+			$(optionId).on('input', async function() {
+				// TODO: Does this trigger when a radio button gets unchecked?
+				console.log('input', this.checked);
 				Options.setOption(option, this.checked);
 			});
 

@@ -28,6 +28,18 @@
         "message": "Show notification if track is not recognized by the extension",
         "description": "Option title"
     },
+    "optionScrobblePodcasts": {
+        "message": "Scrobble podcasts",
+        "description": "Option label"
+    },
+    "optionScrobblePodcastsTitle": {
+        "message": "Scrobble podcast episodes",
+        "description": "Option title"
+    },
+    "optionsScrobbleBehavior": {
+        "message": "Scrobble behavior",
+        "description": "'Scrobble behavior' section"
+    },
     "optionForceRecognize": {
         "message": "Force track recognition",
         "description": "Option label"
@@ -36,20 +48,20 @@
         "message": "Force recognition of unknown tracks",
         "description": "Option title"
     },
+    "optionScrobbleRecognizedTracks": {
+        "message": "Scrobble recognized or edited tracks",
+        "description": "Option label"
+    },
+    "optionScrobbleRecognizedTracksTitle": {
+        "message": "Only scrobble tracks if they are recognized or edited",
+        "description": "Option title"
+    },
     "optionScrobbleEditedTracksOnly": {
         "message": "Scrobble edited tracks only",
         "description": "Option label"
     },
     "optionScrobbleEditedTracksOnlyTitle": {
         "message": "Only scrobble tracks if they are edited",
-        "description": "Option title"
-    },
-    "optionScrobblePodcasts": {
-        "message": "Scrobble podcasts",
-        "description": "Option label"
-    },
-    "optionScrobblePodcastsTitle": {
-        "message": "Scrobble podcast episodes",
         "description": "Option title"
     },
     "optionsHidden": {
