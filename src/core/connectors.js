@@ -691,7 +691,7 @@ const connectors = [{
 	js: 'connectors/emby.js',
 	id: 'emby',
 }, {
-	label: 'Freegal',
+	label: 'Freegal Music',
 	matches: [
 		'*://*.freegalmusic.com/*',
 	],
