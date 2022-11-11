@@ -1996,10 +1996,38 @@ const connectors = [{
 }, {
 	label: 'Radio Horizonte',
 	matches: [
-		'*://*horizonte.cl/*',
+		'*://horizonte.cl/*',
 	],
-	js: 'connectors/horizonte.cl.js',
+	js: 'connectors/mediastream.js',
 	id: 'horizontecl',
+}, {
+	label: 'Sonar FM',
+	matches: [
+		'*://sonarfm.cl/*',
+	],
+	js: 'connectors/mediastream.js',
+	id: 'sonarfmcl',
+}, {
+	label: 'Play FM',
+	matches: [
+		'*://playfm.cl/*',
+	],
+	js: 'connectors/mediastream.js',
+	id: 'playfmcl',
+}, {
+	label: 'WKM Radio',
+	matches: [
+		'*://www.wkmradio.com/*',
+	],
+	js: 'connectors/mediastream.js',
+	id: 'wkmradio',
+}, {
+	label: 'Rockaxis',
+	matches: [
+		'*://www.rockaxis.com/*',
+	],
+	js: 'connectors/mediastream.js',
+	id: 'rockaxis',
 }, {
 	label: 'Rock&Pop Chile',
 	matches: [
