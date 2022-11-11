@@ -2259,6 +2259,13 @@ const connectors = [{
 	],
 	js: 'connectors/lightningstream.js',
 	id: 'lightningstream',
+}, {
+	label: 'WSUM',
+	matches: [
+		'*://streamdb9web.securenetsystems.net/cirrusencore/WSUMFM',
+	],
+	js: 'connectors/wsum.js',
+	id: 'wsum',
 }];
 
 define(() => connectors);
