@@ -2197,8 +2197,7 @@ const connectors = [{
 }, {
 	label: 'XRAY.FM',
 	matches: [
-		'*://xray.fm/*',
-		'*://www.xray.fm/*',
+		'*://*.xray.fm/*',
 	],
 	js: 'connectors/xrayfm.js',
 	id: 'xrayfm',
@@ -2240,8 +2239,7 @@ const connectors = [{
 }, {
 	label: 'FRISKY',
 	matches: [
-		'*://frisky.fm/*',
-		'*://www.frisky.fm/*',
+		'*://*.frisky.fm/*',
 	],
 	js: 'connectors/friskyfm.js',
 	id: 'friskyfm',
@@ -2255,7 +2253,8 @@ const connectors = [{
 }, {
 	label: 'LightningStream',
 	matches: [
-		'*://*lightningstream.com/*',
+		'*://*.lightningstream.com/Player*',
+		'*://*.lightningstream.com/player*',
 	],
 	js: 'connectors/lightningstream.js',
 	id: 'lightningstream',
