@@ -2031,9 +2031,9 @@ const connectors = [{
 }, {
 	label: 'Rock&Pop Chile',
 	matches: [
-		'*://envivo.rockandpop.cl/*',
+		'*://www.rockandpop.cl/*',
 	],
-	js: 'connectors/rockandpop.cl.js',
+	js: 'connectors/rockandpopcl.js',
 	id: 'rockandpopcl',
 }, {
 	label: 'WYEP',
