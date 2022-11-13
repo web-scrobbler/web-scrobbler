@@ -2262,7 +2262,7 @@ const connectors = [{
 }, {
 	label: 'Securenet Systems',
 	matches: [
-		'*://*.securenetsystems.net/cirrusencore/*',
+		'*://*.securenetsystems.net/*',
 	],
 	js: 'connectors/securenetsystems.js',
 	id: 'securenetsystems',
