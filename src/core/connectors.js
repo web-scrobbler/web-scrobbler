@@ -2293,6 +2293,15 @@ const connectors = [{
 	],
 	js: 'connectors/wsum.js',
 	id: 'wsum',
+}, {
+	label: 'WBRU',
+	matches: [
+		'*://*wbru.com/*',
+		'*://embed.radio.co/player/*',
+	],
+	js: 'connectors/wbru.js',
+	id: 'wbru',
+	allFrames: true,
 }];
 
 define(() => connectors);
