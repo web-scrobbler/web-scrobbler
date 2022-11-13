@@ -2262,7 +2262,8 @@ const connectors = [{
 }, {
 	label: 'Securenet Systems',
 	matches: [
-		'*://*.securenetsystems.net/*',
+		'*://radio.securenetsystems.net/*',
+		'*://stream*.securenetsystems.net/*',
 	],
 	js: 'connectors/securenetsystems.js',
 	id: 'securenetsystems',
