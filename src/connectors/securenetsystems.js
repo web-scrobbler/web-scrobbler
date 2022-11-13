@@ -16,6 +16,6 @@ Connector.durationSelector = `${songOnNow} .songDuration`;
 
 Connector.currentTimeSelector = `${songOnNow} .progressTime`;
 
-Connector.isTrackArtDefault = (url) => url.includes('album-art-default');
+Connector.isTrackArtDefault = (url) => url.match(/album-art(-default)?.png$/);
 
 Connector.isPlaying = () => Util.isElementVisible(['.songPlaying .pauseButton', '#transport-pause']);
