@@ -2299,7 +2299,7 @@ const connectors = [{
 		'*://*wbru.com/*',
 		'*://embed.radio.co/player/*',
 	],
-	js: 'connectors/wbru.js',
+	js: 'connectors/radioco.js',
 	id: 'wbru',
 	allFrames: true,
 }];
