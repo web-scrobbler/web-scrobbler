@@ -1365,6 +1365,14 @@ const connectors = [{
 	js: 'connectors/radioco.js',
 	id: 'radioco',
 }, {
+	label: 'Super45.fm',
+	matches: [
+		'*://super45.fm/',
+	],
+	js: 'connectors/radioco.js',
+	id: 'super45fm',
+	allFrames: true,
+}, {
 	label: 'R/a/dio',
 	matches: [
 		'*://r-a-d.io/*',
