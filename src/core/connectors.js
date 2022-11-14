@@ -2296,8 +2296,7 @@ const connectors = [{
 }, {
 	label: 'WBRU',
 	matches: [
-		'*://*wbru.com/*',
-		'*://embed.radio.co/player/*',
+		'*://www.wbru.com/*',
 	],
 	js: 'connectors/radioco.js',
 	id: 'wbru',
