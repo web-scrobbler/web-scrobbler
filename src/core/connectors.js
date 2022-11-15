@@ -1350,7 +1350,7 @@ const connectors = [{
 	js: 'connectors/funkwhale.js',
 	id: 'funkwhale',
 }, {
-	label: '9128 live',
+	label: '9128.live',
 	matches: [
 		'*://9128.live/*',
 	],
