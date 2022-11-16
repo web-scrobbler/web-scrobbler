@@ -28,6 +28,17 @@ define((require) => {
 				placeholder: 'accountsUserTokenPlaceholder',
 			},
 		},
+		DiscoverCasually: {
+			userApiUrl: {
+				title: 'accountsUserApiUrl',
+				placeholder: 'accountsUserApiUrlPlaceholder',
+			},
+			userToken: {
+				type: 'password',
+				title: 'accountsUserToken',
+				placeholder: 'accountsUserTokenPlaceholder',
+			},
+		},
 	};
 
 	async function initialize() {
@@ -47,6 +58,7 @@ define((require) => {
 
 	async function createAccountViews() {
 		const scrobblers = ScrobbleService.getRegisteredScrobblers();
+
 		for (const scrobbler of scrobblers) {
 			createEmptyAccountView(scrobbler);
 			createAccountView(scrobbler);

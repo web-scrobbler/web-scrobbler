@@ -24,7 +24,7 @@ define((require) => {
 		 * Force song recognition.
 		 * @type {Boolean}
 		 */
-		[FORCE_RECOGNIZE]: false,
+		[FORCE_RECOGNIZE]: true,
 
 		/**
 		 * Scrobble podcast episodes.
@@ -42,7 +42,8 @@ define((require) => {
 		 * Scrobble percent.
 		 * @type {Number}
 		 */
-		[SCROBBLE_PERCENT]: 50,
+		// default changed to suit my needs
+		[SCROBBLE_PERCENT]: 1,
 
 		/**
 		 * Object contains info of disabled connectors.
@@ -56,7 +57,7 @@ define((require) => {
 		 * Notify if song is not recognized.
 		 * @type {Boolean}
 		 */
-		[USE_UNRECOGNIZED_SONG_NOTIFICATIONS]: false,
+		[USE_UNRECOGNIZED_SONG_NOTIFICATIONS]: true,
 	};
 
 	/**
@@ -65,7 +66,7 @@ define((require) => {
 	 */
 	const DEFAULT_CONNECTOR_OPTIONS = {
 		YouTube: {
-			scrobbleMusicOnly: false,
+			scrobbleMusicOnly: true,
 			scrobbleEntertainmentOnly: false,
 		},
 	};
