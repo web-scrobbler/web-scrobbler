@@ -1350,7 +1350,7 @@ const connectors = [{
 	js: 'connectors/funkwhale.js',
 	id: 'funkwhale',
 }, {
-	label: '9128 live',
+	label: '9128.live',
 	matches: [
 		'*://9128.live/*',
 	],
@@ -1364,6 +1364,14 @@ const connectors = [{
 	],
 	js: 'connectors/radioco.js',
 	id: 'radioco',
+}, {
+	label: 'Super45.fm',
+	matches: [
+		'*://super45.fm/',
+	],
+	js: 'connectors/radioco.js',
+	id: 'super45fm',
+	allFrames: true,
 }, {
 	label: 'R/a/dio',
 	matches: [
