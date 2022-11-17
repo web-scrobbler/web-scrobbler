@@ -2302,6 +2302,14 @@ const connectors = [{
 	],
 	js: 'connectors/securenetsystems.js',
 	id: 'securenetsystems',
+}, {
+	label: 'WBRU',
+	matches: [
+		'*://www.wbru.com/*',
+	],
+	js: 'connectors/radioco.js',
+	id: 'wbru',
+	allFrames: true,
 }];
 
 define(() => connectors);
