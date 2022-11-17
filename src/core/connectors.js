@@ -691,7 +691,7 @@ const connectors = [{
 	js: 'connectors/emby.js',
 	id: 'emby',
 }, {
-	label: 'Freegal',
+	label: 'Freegal Music',
 	matches: [
 		'*://*.freegalmusic.com/*',
 	],
@@ -1350,7 +1350,7 @@ const connectors = [{
 	js: 'connectors/funkwhale.js',
 	id: 'funkwhale',
 }, {
-	label: '9128 live',
+	label: '9128.live',
 	matches: [
 		'*://9128.live/*',
 	],
@@ -1364,6 +1364,14 @@ const connectors = [{
 	],
 	js: 'connectors/radioco.js',
 	id: 'radioco',
+}, {
+	label: 'Super45.fm',
+	matches: [
+		'*://super45.fm/',
+	],
+	js: 'connectors/radioco.js',
+	id: 'super45fm',
+	allFrames: true,
 }, {
 	label: 'R/a/dio',
 	matches: [
@@ -2287,12 +2295,13 @@ const connectors = [{
 	js: 'connectors/lightningstream.js',
 	id: 'lightningstream',
 }, {
-	label: 'WSUM',
+	label: 'Securenet Systems',
 	matches: [
-		'*://streamdb9web.securenetsystems.net/cirrusencore/WSUMFM',
+		'*://radio.securenetsystems.net/*',
+		'*://stream*.securenetsystems.net/*',
 	],
-	js: 'connectors/wsum.js',
-	id: 'wsum',
+	js: 'connectors/securenetsystems.js',
+	id: 'securenetsystems',
 }, {
 	label: 'WBRU',
 	matches: [
