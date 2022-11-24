@@ -1328,9 +1328,9 @@ const connectors = [{
 	label: 'Invidious',
 	matches: [
 		'*://*.invidio.us/*',
- 		'*://yewtu.be/*',
- 		'*://invidious.*/*',
- 		'*://inv.*/*',
+		'*://yewtu.be/*',
+		'*://invidious.*/*',
+		'*://inv.*/*',
 	],
 	js: 'connectors/invidious.js',
 	id: 'invidious',
