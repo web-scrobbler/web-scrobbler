@@ -18,6 +18,7 @@
 
 # Private
 .env
+.envrc
 
 # Other
 /*.log
@@ -30,3 +31,4 @@ coverage/
 
 # Cache
 .eslintcache
+

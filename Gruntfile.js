@@ -7,6 +7,7 @@ const BUILD_DIR = 'build';
 
 const DIST_FILE_CHROME = 'web-scrobbler-chrome.zip';
 const DIST_FILE_FIREFOX = 'web-scrobbler-firefox.zip';
+const DIST_FILE_EDGE = 'web-scrobbler-edge.zip';
 const MANIFEST_FILE = 'src/manifest.json';
 
 const FILES_TO_PREPROCESS = [
@@ -61,12 +62,15 @@ module.exports = (grunt) => {
 
 		clean: {
 			build: BUILD_DIR,
-			dist: [DIST_FILE_CHROME, DIST_FILE_FIREFOX],
+			dist: [DIST_FILE_CHROME, DIST_FILE_FIREFOX, DIST_FILE_EDGE],
 			chrome: [
 				`${BUILD_DIR}/icons/icon_firefox_*.png`,
 			],
 			firefox: [
 				`${BUILD_DIR}/icons/icon_chrome_*.png`,
+			],
+			edge: [
+				`${BUILD_DIR}/icons/icon_firefox_*.png`,
 			],
 		},
 		copy: {
@@ -100,6 +104,15 @@ module.exports = (grunt) => {
 			firefox: {
 				options: {
 					archive: DIST_FILE_FIREFOX,
+					pretty: true,
+				},
+				expand: true,
+				cwd: BUILD_DIR,
+				src: '**/*',
+			},
+			edge: {
+				options: {
+					archive: DIST_FILE_EDGE,
 					pretty: true,
 				},
 				expand: true,
@@ -150,6 +163,12 @@ module.exports = (grunt) => {
 					},
 
 					options_page: undefined,
+				},
+			},
+			edge: {
+				src: `${BUILD_DIR}/manifest.json`,
+				changes: {
+					options_ui: undefined,
 				},
 			},
 		},
@@ -316,7 +335,7 @@ module.exports = (grunt) => {
 	 * @param  {String}  browser Browser name
 	 */
 	function assertBrowserIsSupported(browser) {
-		const supportedBrowsers = ['chrome', 'firefox'];
+		const supportedBrowsers = ['chrome', 'firefox', 'edge'];
 		const browsersLabel = `Currently supported browsers: ${supportedBrowsers.join(', ')}`;
 
 		if (!browser) {

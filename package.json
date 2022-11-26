@@ -8,6 +8,7 @@
     "type": "git",
     "url": "https://github.com/web-scrobbler/web-scrobbler.git"
   },
+  "type": "module",
   "dependencies": {
     "@fortawesome/fontawesome-free": "6.2.1",
     "blueimp-md5": "2.19.0",
@@ -18,6 +19,7 @@
     "webextension-polyfill": "0.10.0"
   },
   "devDependencies": {
+    "@plasmo-corp/ewu": "^0.6.0",
     "chai": "4.3.7",
     "chai-as-promised": "7.1.1",
     "chai-spies": "1.0.0",
