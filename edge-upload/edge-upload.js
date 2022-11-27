@@ -6,6 +6,11 @@ const clientId = process.env.EDGE_CLIENT_ID;
 const clientSecret = process.env.EDGE_CLIENT_SECRET;
 
 
+console.log(`productId:${productId}`);
+console.log(`accessTokenUrl:${accessTokenUrl}`);
+console.log(`clientId:${clientId}`);
+console.log(`clientSecret:${clientSecret}`);
+
 const client = new EdgeWebstoreClient({
   productId,
   clientId,
@@ -15,6 +20,6 @@ const client = new EdgeWebstoreClient({
 
 
 client.submit({
-	filePath: "./web-scrobbler-edge.zip",
+	filePath: "./../web-scrobbler-edge.zip",
 	notes: 'Upgrade to v2.81.0',
 });
