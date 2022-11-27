@@ -1,0 +1,14 @@
+{
+  "name": "edge-upload",
+  "version": "1.0.0",
+  "description": "",
+  "main": "edge-upload.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "module",
+  "license": "ISC",
+  "dependencies": {
+    "@plasmo-corp/ewu": "^0.6.0"
+  }
+}

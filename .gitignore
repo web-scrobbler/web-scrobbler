@@ -12,7 +12,7 @@
 .DS_Store
 
 # Vendor
-/node_modules/
+node_modules/
 /src/vendor/
 3RD-PARTY.md
 
