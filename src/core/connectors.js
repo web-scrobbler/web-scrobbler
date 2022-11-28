@@ -2310,6 +2310,13 @@ const connectors = [{
 	js: 'connectors/radioco.js',
 	id: 'wbru',
 	allFrames: true,
+}, {
+	label: 'uwu radio',
+	matches: [
+		'*://radio.uwu.network/*',
+	],
+	js: 'connectors/uwu-radio.js',
+	id: 'uwu-radio',
 }];
 
 define(() => connectors);
