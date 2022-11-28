@@ -4,4 +4,4 @@ Connector.playerSelector = '#player';
 
 Connector.artistTrackSelector = '.track-meta > h5';
 
-Connector.isPlaying = () => $('.vjs-play-control').hasClass('vjs-playing');
+Connector.isPlaying = () => Util.hasElementClass('.vjs-play-control', 'vjs-playing');
