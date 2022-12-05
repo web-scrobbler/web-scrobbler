@@ -1,12 +1,22 @@
 'use strict';
 
-const trackArtSelector = '.nowPlayingBarInfoContainer .nowPlayingImage';
+const trackArtSelector = [
+	// Emby v4.7.10
+	'.nowPlayingBarInfoContainer .nowPlayingBarImage',
+	'.nowPlayingBarInfoContainer .nowPlayingImage'
+];
 
 Connector.playerSelector = '.nowPlayingBar';
 
-Connector.artistSelector = '.nowPlayingBarText .nowPlayingBarSecondaryText';
+Connector.artistSelector = [
+	// Emby v4.7.10
+	'.nowPlayingBarText .secondaryText',
+	'.nowPlayingBarText .nowPlayingBarSecondaryText'
+];
 
 Connector.trackSelector = [
+	// Emby v4.7.10
+	'.nowPlayingBarText div:nth-child(1) button',
 	// Jellyfin v10.6.0 and newer
 	'.nowPlayingBarText div:nth-child(1) a',
 	// Emby or Jellyfin v10.5.0 and older
