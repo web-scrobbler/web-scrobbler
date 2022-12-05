@@ -1,7 +1,7 @@
 'use strict';
 
 const trackArtSelector = [
-	// Emby v4.7.10
+	// Emby v4.6.7
 	'.nowPlayingBarInfoContainer .nowPlayingBarImage',
 	'.nowPlayingBarInfoContainer .nowPlayingImage'
 ];
@@ -9,7 +9,7 @@ const trackArtSelector = [
 Connector.playerSelector = '.nowPlayingBar';
 
 Connector.artistSelector = [
-	// Emby v4.7.10
+	// Emby v4.6.7
 	'.nowPlayingBarText .secondaryText',
 	'.nowPlayingBarText .nowPlayingBarSecondaryText'
 ];
@@ -23,7 +23,12 @@ Connector.trackSelector = [
 	'.nowPlayingBarText .textActionButton',
 ];
 
-Connector.albumSelector = '.videoOsdTitle button:last-child';
+Connector.albumSelector = [
+	// Emby v4.7.10
+	'.videoOsdThirdTitle button[data-type="MusicAlbum"]',
+	// Emby v4.6.7
+	'.videoOsdTitle button:nth-child(2)'
+];
 
 Connector.trackArtSelector = trackArtSelector;
 
