@@ -15,10 +15,8 @@ Connector.artistSelector = [
 ];
 
 Connector.trackSelector = [
-	// Emby v4.7.10
-	'.nowPlayingBarText div:nth-child(1) button',
 	// Jellyfin v10.6.0 and newer
-	'.nowPlayingBarText div:nth-child(1) a',
+	'.nowPlayingBarText div:nth-child(1)',
 	// Emby or Jellyfin v10.5.0 and older
 	'.nowPlayingBarText .textActionButton',
 ];
