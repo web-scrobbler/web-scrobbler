@@ -21,12 +21,12 @@ Connector.trackSelector = [
 	'.nowPlayingBarText .textActionButton',
 ];
 
-Connector.albumSelector = [
-	// Emby v4.7.10
-	'.videoOsdThirdTitle button[data-type="MusicAlbum"]',
-	// Emby v4.6.7
-	'.videoOsdTitle button:nth-child(2)'
-];
+// Connector.albumSelector = [
+// 	// Emby v4.7.10
+// 	'.videoOsdThirdTitle button[data-type="MusicAlbum"]',
+// 	// Emby v4.6.7
+// 	'.videoOsdTitle button:nth-child(2)'
+// ];
 
 Connector.timeInfoSelector = '.nowPlayingBarCenter .nowPlayingBarCurrentTime';
 
