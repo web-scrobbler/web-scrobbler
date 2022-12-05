@@ -1,6 +1,6 @@
 'use strict';
 
-const trackArtSelector = [
+Connector.trackArtSelector = [
 	// Emby v4.6.7
 	'.nowPlayingBarInfoContainer .nowPlayingBarImage',
 	'.nowPlayingBarInfoContainer .nowPlayingImage'
@@ -30,8 +30,6 @@ Connector.albumSelector = [
 	'.videoOsdTitle button:nth-child(2)'
 ];
 
-Connector.trackArtSelector = trackArtSelector;
-
 Connector.timeInfoSelector = '.nowPlayingBarCenter .nowPlayingBarCurrentTime';
 
 Connector.isPlaying = () => {
@@ -54,7 +52,7 @@ Connector.isPlaying = () => {
 };
 
 Connector.getTrackArt = () => {
-	const trackArtUrl = Util.extractImageUrlFromSelectors(trackArtSelector);
+	const trackArtUrl = Util.extractImageUrlFromSelectors(Connector.trackArtSelector);
 	if (trackArtUrl) {
 		return trackArtUrl.replace(/height=\d+/, '');
 	}
@@ -63,7 +61,7 @@ Connector.getTrackArt = () => {
 };
 
 Connector.getUniqueID = () => {
-	const trackArtUrl = Util.extractImageUrlFromSelectors(trackArtSelector);
+	const trackArtUrl = Util.extractImageUrlFromSelectors(Connector.trackArtSelector);
 	if (trackArtUrl) {
 		return /Items\/(\w+)/g.exec(trackArtUrl)[1];
 	}
