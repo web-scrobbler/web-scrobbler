@@ -23,6 +23,8 @@ Connector.trackSelector = [
 	'.nowPlayingBarText .textActionButton',
 ];
 
+Connector.albumSelector = '.videoOsdTitle button:last-child';
+
 Connector.trackArtSelector = trackArtSelector;
 
 Connector.timeInfoSelector = '.nowPlayingBarCenter .nowPlayingBarCurrentTime';
