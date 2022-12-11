@@ -1,4 +1,5 @@
 import { EdgeWebstoreClient } from "@plasmo-corp/ewu"
+import Package from "./../package.json" assert { type: "json" };
 
 const productId = process.env.EDGE_PRODUCT_ID;
 const accessTokenUrl = process.env.EDGE_ACCESS_TOKEN_URL;
@@ -19,7 +20,10 @@ const client = new EdgeWebstoreClient({
 });
 
 
+const version = Package.version;
+
+
 client.submit({
 	filePath: "./../web-scrobbler-edge.zip",
-	notes: 'Upgrade to v2.81.0',
+	notes: `Upgrade to v${version}`,
 });
