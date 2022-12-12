@@ -4,8 +4,8 @@ const playerBar = '#playerInfo';
 
 Connector.playerSelector = playerBar;
 
-Connector.artistSelector = '[class^=nAlcjXw7n-gCNvOuXJ3NGw]';
+Connector.artistSelector = `${playerBar} > a:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2)`;
 
-Connector.trackSelector = '[class^=uJJQ-D8eiQOnA7MKjB3SbA]';
+Connector.trackSelector = `${playerBar} > a:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)`;
 
-Connector.trackArtSelector = '[class^=IlGjRHoRuNvk5TYo]';
+Connector.trackArtSelector = `${playerBar} > a:nth-of-type(1) > img`;
