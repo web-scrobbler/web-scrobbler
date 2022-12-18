@@ -26,6 +26,8 @@ define((require) => {
 			'#yt-music-only': 'scrobbleMusicOnly',
 			'#yt-entertainment-only': 'scrobbleEntertainmentOnly',
 			'#yt-music-recognised-only': 'scrobbleMusicRecognisedOnly',
+			'#yt-enable-get-track-info-from-yt-music':
+				'enableGetTrackInfoFromYtMusic',
 		},
 	};
 

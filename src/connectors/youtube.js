@@ -50,6 +50,12 @@ const categoryCache = new Map();
  */
 let scrobbleMusicRecognisedOnly = false;
 
+/**
+ * Wether the Youtube Music track info getter is enabled
+ * @type {boolean}
+ */
+let getTrackInfoFromYtMusicEnabled = false;
+
 let currentVideoDescription = null;
 let artistTrackFromDescription = null;
 
@@ -70,13 +76,15 @@ Connector.playerSelector = '#content';
 Connector.getTrackInfo = () => {
 	const trackInfo = {};
 
-	const videoId = getVideoId();
-	if (!getTrackInfoFromYoutubeMusicCache[videoId]) {
-		// start loading getTrackInfoFromYoutubeMusic
-		getTrackInfoFromYoutubeMusic();
+	if (getTrackInfoFromYtMusicEnabled) {
+		const videoId = getVideoId();
+		if (!getTrackInfoFromYoutubeMusicCache[videoId]) {
+			// start loading getTrackInfoFromYoutubeMusic
+			getTrackInfoFromYoutubeMusic();
 
-		// wait for getTrackInfoFromYoutubeMusic to finish
-		return trackInfo;
+			// wait for getTrackInfoFromYoutubeMusic to finish
+			return trackInfo;
+		}
 	}
 
 	for (const getter of trackInfoGetters) {
@@ -285,6 +293,11 @@ async function readConnectorOptions() {
 		scrobbleMusicRecognisedOnly = true;
 		Util.debugLog('Only scrobbling when recognised by YouTube Music');
 	}
+
+	if (await Util.getOption('YouTube', 'enableGetTrackInfoFromYtMusic')) {
+		getTrackInfoFromYtMusicEnabled = true;
+		Util.debugLog('Get track info from YouTube Music enabled');
+	}
 }
 
 function getVideoDescription() {
@@ -304,6 +317,12 @@ function getTrackInfoFromDescription() {
 }
 
 function getTrackInfoFromYoutubeMusic() {
+	// if neither getTrackInfoFromYtMusicEnabled nor scrobbleMusicRecognisedOnly
+	// are enabled, there is no need to run this getter
+	if (!getTrackInfoFromYtMusicEnabled && !scrobbleMusicRecognisedOnly) {
+		return {};
+	}
+
 	const videoId = getVideoId();
 
 	if (!getTrackInfoFromYoutubeMusicCache[videoId]) {
@@ -313,6 +332,13 @@ function getTrackInfoFromYoutubeMusic() {
 			currentTrackInfo: {},
 		};
 	} else {
+		if (!getTrackInfoFromYtMusicEnabled) {
+			// this means that only scrobbleMusicRecognisedOnly is enabled,
+			// therefore only the cache is used and we return {} for the
+			// actual getter
+			return {};
+		}
+
 		if (getTrackInfoFromYoutubeMusicCache[videoId].done) {
 			// already ran!
 			return getTrackInfoFromYoutubeMusicCache[videoId].currentTrackInfo;

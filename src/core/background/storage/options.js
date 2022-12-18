@@ -68,6 +68,7 @@ define((require) => {
 			scrobbleMusicOnly: false,
 			scrobbleEntertainmentOnly: false,
 			scrobbleMusicRecognisedOnly: false,
+			enableGetTrackInfoFromYtMusic: false,
 		},
 	};
 
