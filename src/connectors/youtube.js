@@ -47,8 +47,11 @@ const categoryCache = new Map();
 let currentVideoDescription = null;
 let artistTrackFromDescription = null;
 
+const getTrackInfoFromYoutubeMusicCache = {};
+
 const trackInfoGetters = [
 	getTrackInfoFromChapters,
+	getTrackInfoFromYoutubeMusic,
 	getTrackInfoFromDescription,
 	getTrackInfoFromTitle,
 ];
@@ -60,6 +63,15 @@ Connector.playerSelector = '#content';
 
 Connector.getTrackInfo = () => {
 	const trackInfo = {};
+
+	const videoId = getVideoId();
+	if (!getTrackInfoFromYoutubeMusicCache[videoId]) {
+		// start loading getTrackInfoFromYoutubeMusic
+		getTrackInfoFromYoutubeMusic();
+
+		// wait for getTrackInfoFromYoutubeMusic to finish
+		return trackInfo;
+	}
 
 	for (const getter of trackInfoGetters) {
 		const currentTrackInfo = getter();
@@ -259,8 +271,65 @@ function getTrackInfoFromDescription() {
 	return artistTrackFromDescription;
 }
 
-function getTrackInfoFromChapters() {
+function getTrackInfoFromYoutubeMusic() {
+	const videoId = getVideoId();
 
+	if (!getTrackInfoFromYoutubeMusicCache[videoId]) {
+		getTrackInfoFromYoutubeMusicCache[videoId] = {
+			videoId: null,
+			done: false,
+			currentTrackInfo: {},
+		};
+	} else {
+		if (getTrackInfoFromYoutubeMusicCache[videoId].done) {
+			// already ran!
+			return getTrackInfoFromYoutubeMusicCache[videoId].currentTrackInfo;
+		}
+		// still running, lets be patient
+		return {};
+	}
+
+	const body = JSON.stringify({
+		context: {
+			client: {
+				// parameters are needed, you get a 400 if you omit these
+				// specific values are just what I got when doing a request
+				// using firefox
+				clientName: 'WEB_REMIX',
+				clientVersion: '1.20221212.01.00',
+			},
+		},
+		captionParams: {},
+		videoId,
+	});
+
+	fetch('https://music.youtube.com/youtubei/v1/player', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body,
+	})
+		.then((response) => response.json())
+		.then((videoInfo) => {
+			// if videoDetails is not MUSIC_VIDEO_TYPE_OMV, it seems like it's
+			// not something youtube recognises as a music video, so it usually
+			// gives wrong results, so we only return if it is that
+			// musicVideoType
+			if (
+				videoInfo.videoDetails?.musicVideoType ===
+				'MUSIC_VIDEO_TYPE_OMV'
+			) {
+				getTrackInfoFromYoutubeMusicCache[videoId].currentTrackInfo = {
+					artist: videoInfo.videoDetails.author,
+					track: videoInfo.videoDetails.title,
+				};
+			}
+			getTrackInfoFromYoutubeMusicCache[videoId].done = true;
+		});
+}
+
+function getTrackInfoFromChapters() {
 	// Short circuit if chapters not available - necessary to avoid misscrobbling with SponsorBlock.
 	if (!areChaptersAvailable()) {
 		return {
