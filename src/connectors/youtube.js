@@ -44,6 +44,12 @@ const allowedCategories = [];
  */
 const categoryCache = new Map();
 
+/**
+ * Wether we should only scrobble music recognised by YouTube Music
+ * @type {boolean}
+ */
+let scrobbleMusicRecognisedOnly = false;
+
 let currentVideoDescription = null;
 let artistTrackFromDescription = null;
 
@@ -135,6 +141,27 @@ Connector.isScrobblingAllowed = () => {
 	// Workaround to prevent scrobbling the video opened in a background tab.
 	if (!isVideoStartedPlaying()) {
 		return false;
+	}
+
+	if (scrobbleMusicRecognisedOnly) {
+		const videoId = getVideoId();
+		const ytMusicCache = getTrackInfoFromYoutubeMusicCache[videoId];
+
+		if (!ytMusicCache) {
+			// start loading getTrackInfoFromYoutubeMusic
+			getTrackInfoFromYoutubeMusic();
+			return false;
+		}
+
+		if (!ytMusicCache.done) {
+			// not done loading yet
+			return false;
+		}
+
+		if (!ytMusicCache.recognisedByYtMusic) {
+			// not recognised!
+			return false;
+		}
 	}
 
 	return isVideoCategoryAllowed();
@@ -253,6 +280,11 @@ async function readConnectorOptions() {
 		allowedCategories.push(categoryEntertainment);
 	}
 	Util.debugLog(`Allowed categories: ${allowedCategories.join(', ')}`);
+
+	if (await Util.getOption('YouTube', 'scrobbleMusicRecognisedOnly')) {
+		scrobbleMusicRecognisedOnly = true;
+		Util.debugLog('Only scrobbling when recognised by YouTube Music');
+	}
 }
 
 function getVideoDescription() {
@@ -312,10 +344,17 @@ function getTrackInfoFromYoutubeMusic() {
 	})
 		.then((response) => response.json())
 		.then((videoInfo) => {
+			getTrackInfoFromYoutubeMusicCache[videoId] = {
+				done: true,
+				recognisedByYtMusic:
+					videoInfo.videoDetails?.musicVideoType.startsWith(
+						'MUSIC_VIDEO_'
+					),
+			};
+
 			// if videoDetails is not MUSIC_VIDEO_TYPE_OMV, it seems like it's
-			// not something youtube recognises as a music video, so it usually
-			// gives wrong results, so we only return if it is that
-			// musicVideoType
+			// not something youtube music actually knows, so it usually gives
+			// wrong results, so we only return if it is that musicVideoType
 			if (
 				videoInfo.videoDetails?.musicVideoType ===
 				'MUSIC_VIDEO_TYPE_OMV'
@@ -325,7 +364,6 @@ function getTrackInfoFromYoutubeMusic() {
 					track: videoInfo.videoDetails.title,
 				};
 			}
-			getTrackInfoFromYoutubeMusicCache[videoId].done = true;
 		});
 }
 

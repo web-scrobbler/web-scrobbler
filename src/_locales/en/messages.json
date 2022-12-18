@@ -80,6 +80,14 @@
         "message": "Ignore videos that are not in Entertainment category",
         "description": "Option title"
     },
+    "optionYtMusicRecognisedOnly": {
+        "message": "Scrobble only videos that are recognized by YouTube Music as music",
+        "description": "Option label"
+    },
+    "optionYtMusicRecognisedOnlyTitle": {
+        "message": "Ignore videos that are not recognised by YouTube Music as music",
+        "description": "Option title"
+    },
 
     "optionsAccounts": {
         "message": "Accounts",

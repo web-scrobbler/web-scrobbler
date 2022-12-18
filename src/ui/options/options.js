@@ -17,13 +17,15 @@ define((require) => {
 	const OPTIONS_UI_MAP = {
 		'#force-recognize': Options.FORCE_RECOGNIZE,
 		'#use-notifications': Options.USE_NOTIFICATIONS,
-		'#use-unrecognized-song-notifications': Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
+		'#use-unrecognized-song-notifications':
+			Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
 		'#scrobble-podcasts': Options.SCROBBLE_PODCASTS,
 	};
 	const CONNECTORS_OPTIONS_UI_MAP = {
 		YouTube: {
 			'#yt-music-only': 'scrobbleMusicOnly',
 			'#yt-entertainment-only': 'scrobbleEntertainmentOnly',
+			'#yt-music-recognised-only': 'scrobbleMusicRecognisedOnly',
 		},
 	};
 
