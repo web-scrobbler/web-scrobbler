@@ -485,6 +485,13 @@ const connectors = [{
 	js: 'connectors/rmfon.js',
 	id: 'rmfon',
 }, {
+	label: 'Radio 357',
+	matches: [
+		'*://radio357.pl/*',
+	],
+	js: 'connectors/radio357.js',
+	id: 'radio357',
+}, {
 	label: 'JazzRadio',
 	matches: [
 		'*://www.jazzradio.com/*',
