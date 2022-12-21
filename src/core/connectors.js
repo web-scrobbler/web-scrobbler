@@ -2317,6 +2317,14 @@ const connectors = [{
 	],
 	js: 'connectors/uwu-radio.js',
 	id: 'uwu-radio',
+}, {
+	label: 'MyStreamPlayer',
+	matches: [
+		'*://*.mystreamplayer.com/*',
+	],
+	js: 'connectors/mystreamplayer.js',
+	id: 'mystreamplayer',
+	allFrames: true,
 }];
 
 define(() => connectors);
