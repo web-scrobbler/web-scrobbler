@@ -373,9 +373,9 @@ function getTrackInfoFromYoutubeMusic() {
 			getTrackInfoFromYoutubeMusicCache[videoId] = {
 				done: true,
 				recognisedByYtMusic:
-					videoInfo.videoDetails?.musicVideoType.startsWith(
+					videoInfo.videoDetails?.musicVideoType?.startsWith(
 						'MUSIC_VIDEO_'
-					),
+					) || false,
 			};
 
 			// if videoDetails is not MUSIC_VIDEO_TYPE_OMV, it seems like it's
@@ -390,6 +390,16 @@ function getTrackInfoFromYoutubeMusic() {
 					track: videoInfo.videoDetails.title,
 				};
 			}
+		})
+		.catch((err) => {
+			Util.debugLog(
+				`Failed to fetch youtube music data for ${videoId}: ${err}`,
+				'warn'
+			);
+			getTrackInfoFromYoutubeMusicCache[videoId] = {
+				done: true,
+				recognisedByYtMusic: false,
+			};
 		});
 }
 
