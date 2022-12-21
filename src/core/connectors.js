@@ -2321,6 +2321,7 @@ const connectors = [{
 	label: 'MyStreamPlayer',
 	matches: [
 		'*://*.mystreamplayer.com/*',
+		'*://*.bagelradio.com/*',
 	],
 	js: 'connectors/mystreamplayer.js',
 	id: 'mystreamplayer',
