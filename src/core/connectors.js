@@ -1339,6 +1339,13 @@ const connectors = [{
 	js: 'connectors/invidious.js',
 	id: 'invidious',
 }, {
+	label: 'Piped',
+	matches: [
+		'*://piped.video/*',
+	],
+	js: 'connectors/piped.js',
+	id: 'piped',
+}, {
 	label: 'Pretzel',
 	matches: [
 		'*://*.pretzel.rocks/*',
