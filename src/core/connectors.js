@@ -2321,10 +2321,17 @@ const connectors = [{
 	label: 'MyStreamPlayer',
 	matches: [
 		'*://*.mystreamplayer.com/*',
-		'*://*.bagelradio.com/*',
 	],
 	js: 'connectors/mystreamplayer.js',
 	id: 'mystreamplayer',
+	allFrames: true,
+}, {
+	label: 'BagelRadio',
+	matches: [
+		'*://*.bagelradio.com/*',
+	],
+	js: 'connectors/mystreamplayer.js',
+	id: 'bagelradio',
 	allFrames: true,
 }];
 
