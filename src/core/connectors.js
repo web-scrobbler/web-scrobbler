@@ -2323,8 +2323,7 @@ const connectors = [{
 		'*://*.mystreamplayer.com/*',
 	],
 	js: 'connectors/mystreamplayer.js',
-	id: 'mystreamplayer',
-	allFrames: true,
+	id: 'mystreamplayer'
 }, {
 	label: 'BagelRadio',
 	matches: [
