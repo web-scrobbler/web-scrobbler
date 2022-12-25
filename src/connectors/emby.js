@@ -3,7 +3,7 @@
 Connector.trackArtSelector = [
 	// Emby v4.6.7
 	'.nowPlayingBarInfoContainer .nowPlayingBarImage',
-	'.nowPlayingBarInfoContainer .nowPlayingImage'
+	'.nowPlayingBarInfoContainer .nowPlayingImage',
 ];
 
 Connector.playerSelector = '.nowPlayingBar';
@@ -11,7 +11,7 @@ Connector.playerSelector = '.nowPlayingBar';
 Connector.artistSelector = [
 	// Emby v4.6.7
 	'.nowPlayingBarText .secondaryText',
-	'.nowPlayingBarText .nowPlayingBarSecondaryText'
+	'.nowPlayingBarText .nowPlayingBarSecondaryText',
 ];
 
 Connector.trackSelector = [
@@ -20,13 +20,6 @@ Connector.trackSelector = [
 	// Emby or Jellyfin v10.5.0 and older
 	'.nowPlayingBarText .textActionButton',
 ];
-
-// Connector.albumSelector = [
-// 	// Emby v4.7.10
-// 	'.videoOsdThirdTitle button[data-type="MusicAlbum"]',
-// 	// Emby v4.6.7
-// 	'.videoOsdTitle button:nth-child(2)'
-// ];
 
 Connector.timeInfoSelector = '.nowPlayingBarCenter .nowPlayingBarCurrentTime';
 
@@ -43,7 +36,7 @@ Connector.isPlaying = () => {
 		'.nowPlayingBarCenter .playPauseButton'
 	);
 	if (playButtonText) {
-		return playButtonText === '\uE034';  // pause button icon
+		return playButtonText === '\uE034'; // pause button icon
 	}
 	// Jellyfin v10.6.0 and newer
 	return document.querySelector('.playPauseButton .play_arrow') === null;
