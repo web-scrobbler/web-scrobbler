@@ -37,6 +37,42 @@ jobs:
           client-secret: ${{ secrets.CHROME_CLIENT_SECRET }}
           refresh-token: ${{ secrets.CHROME_REFRESH_TOKEN }}
 
+  deploy-edge:
+    name: Deploy Edge extension
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      - name: Get Node.js version from .nvmrc
+        id: get-node-version
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '${{ steps.get-node-version.outputs.NODE_VERSION }}'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create zipball
+        run: npx grunt dist:chrome
+
+      - name: Get version from package
+        id: get-package-version
+        run: echo ::set-output name=PACKAGE_VERSION::$(jq .version package.json -r)
+
+      - name: Publish the extension for Edge
+        uses: inverse/edge-addon-python@master
+        with:
+          product_id: ${{ secrets.EDGE_PRODUCT_ID }}
+          client_id: ${{ secrets.EDGE_CLIENT_ID }}
+          client_secret: ${{ secrets.EDGE_CLIENT_SECRET }}
+          access_token_url: ${{ secrets.EDGE_ACCESS_TOKEN_URL }}
+          zip: web-scrobbler-chrome.zip # Compatible with Chrome
+          notes: Version ${{ steps.get-package-version.outputs.PACKAGE_VERSION }} upload
+
   deploy-firefox:
     name: Deploy Firefox extension
     runs-on: ubuntu-latest
