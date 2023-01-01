@@ -2346,6 +2346,14 @@ const connectors = [{
 	js: 'connectors/mystreamplayer.js',
 	id: 'bagelradio',
 	allFrames: true,
+},	{
+	label: 'Amazing Radio',
+	matches: [
+		'*://amazingradio.com/*',
+		'*://amazingradio.us/*',
+	],
+	js: 'connectors/amazingradio.js',
+	id: 'amazingradio',
 }];
 
 define(() => connectors);
