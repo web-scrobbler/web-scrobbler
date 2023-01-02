@@ -93,6 +93,8 @@ function initGenericProperties() {
 
 		return null;
 	};
+
+	Connector.getOriginUrl = () => document.location.href.split('?')[0];
 }
 
 // Example: https://northlane.bandcamp.com/album/mesmer

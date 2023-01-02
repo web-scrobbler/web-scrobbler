@@ -1,17 +1,11 @@
 'use strict';
 
-const playerBar = '.player';
-const trackInfoSelector = `${playerBar} .wn-V5h-u-OET_437EyjDf`;
+const playerBar = '#playerInfo';
 
-Connector.playerSelector = '.player';
+Connector.playerSelector = playerBar;
 
-Connector.artistSelector = `${playerBar} ._1SfzMWS_FLqI5gTeovlVHb`;
+Connector.artistSelector = `${playerBar} > a:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(2)`;
 
-Connector.trackSelector = `${playerBar} .LvJXZ-tmO_091qVzXsrAA`;
+Connector.trackSelector = `${playerBar} > a:nth-of-type(1) > div:nth-of-type(1) > div:nth-of-type(1)`;
 
-Connector.pauseButtonSelector = '.icon-player-pause';
-
-Connector.getUniqueID = () => {
-	const trackUrl = Util.getAttrFromSelectors(trackInfoSelector, 'href');
-	return trackUrl && trackUrl.split('/').pop();
-};
+Connector.trackArtSelector = `${playerBar} > a:nth-of-type(1) > img`;

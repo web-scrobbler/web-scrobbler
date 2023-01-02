@@ -1,7 +1,6 @@
 'use strict';
-// the artist and track info are inverted on this site, values for artist and track are intentionally flipped
 
-Connector.playerSelector = '#content';
-Connector.artistSelector = '#ReloadThis > div:first-of-type .trackinfo';
-Connector.trackSelector = '#ReloadThis > div:first-of-type .artistinfo';
-Connector.isPlaying = () => Util.isElementVisible('.lunaaudioplayer [id$=smallbuttonpause]');
+Connector.playerSelector = '.p3-wrapper';
+Connector.artistSelector = '.p3-artistInfo';
+Connector.trackSelector = '.p3-title';
+Connector.isPlaying = () => Util.hasElementClass('#ppBtn', 'playing');

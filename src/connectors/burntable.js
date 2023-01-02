@@ -1,41 +1,49 @@
 'use strict';
 
-// only works on mixes via https://burntable.com/listen or user playlists; album playback limited to 60-second increments
+/*
+ * connector only works on mixes via https://burntable.com/listen or user playlists;
+ * full album playback limited to 60-second increments due to licensing restrictions
+ */
+
+const filter = MetadataFilter.createFilter({ album: removePressingYear });
+
+const trackInfoWrapper = '.magic-marquee .magic-marquee-content';
 
 Connector.playerSelector = '.universal-player';
 
-Connector.getTrackInfo = () => {
-	let albumText;
-	let artistText;
-	let trackText;
+Connector.trackArtSelector = `${Connector.playerSelector} .v-image__image--cover`;
 
-	const artistAlbumText = Util.getTextFromSelectors('.universal-player .magic-marquee .magic-marquee-content > span > span:last-of-type');
+Connector.getTrack = () => {
+	const trackTextElement = document.querySelector(`${trackInfoWrapper} > span`);
 
-	if (artistAlbumText !== null) { // ensure text captured
-		const artistAlbumSplit = artistAlbumText.split(' \u2013 '); // en dash separator
-		albumText = artistAlbumSplit[1];
-		artistText = artistAlbumSplit[0];
+	if (trackTextElement) {
+		return trackTextElement.childNodes[1].textContent; // get text without span siblings
 	}
 
-	const trackTextElement = document.querySelector('.universal-player .magic-marquee .magic-marquee-content > span');
-
-	if (trackTextElement !== null) { // ensure element loaded
-		trackText = trackTextElement.childNodes[1].textContent; // get text without span siblings
-	}
-
-	return {
-		album: albumText,
-		artist: artistText,
-		track: trackText,
-	};
+	return null;
 };
 
-const filter = MetadataFilter.createFilter({
-	album: (text) => text.replace(/\s\((\d{4})?\)$/g, ''), // remove year of vinyl pressing
-});
+Connector.getTrackInfo = () => {
+	const artistAlbumText = Util.getTextFromSelectors(`${trackInfoWrapper} > span > span:last-of-type`);
+
+	if (artistAlbumText) {
+		return Util.splitArtistAlbum(artistAlbumText, [' \u2013 ']);
+	}
+
+	return null;
+};
+
+Connector.isPlaying = () => {
+	const playButtonSelector = `${Connector.playerSelector} button.v-size--large`;
+
+	return (
+		Util.isElementVisible(`${playButtonSelector} .mdi-pause`) &&
+		!Util.hasElementClass(playButtonSelector, 'v-btn--loading')
+	);
+};
 
 Connector.applyFilter(filter);
 
-Connector.trackArtSelector = '.universal-player .v-image__image--cover';
-
-Connector.playButtonSelector = '.universal-player button.v-size--large i.mdi-play';
+function removePressingYear(text) {
+	return text.replace(/\s\((\d{4})?\)$/, '');
+}

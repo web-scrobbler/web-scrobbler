@@ -10,7 +10,7 @@ jobs:
     name: Sends release message
     steps:
       - name: Sending message
-        uses: nhevia/discord-styled-releases@main
+        uses: nhevia/discord-styled-releases@v1.2.3
         with:
           webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
           webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}
