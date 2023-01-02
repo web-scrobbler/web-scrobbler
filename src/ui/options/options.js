@@ -39,13 +39,21 @@ define((require) => {
 			const option = OPTIONS_UI_MAP[optionId];
 
 			$(optionId).on('input', async function() {
-				// TODO: Does this trigger when a radio button gets unchecked?
-				console.log('input', this.checked);
-				Options.setOption(option, this.checked);
+				await Options.setOption(option, this.checked);
+
+				if (this.type === 'radio') {
+					// Set option value of other radio buttons to false.
+					for (const radioInput of document.querySelectorAll(`input[type="radio"][name="${this.name}"]`)) {
+						if (radioInput !== this) {
+							const otherOption = OPTIONS_UI_MAP[`#${radioInput.id}`];
+							await Options.setOption(otherOption, false);
+						}
+					}
+				}
 			});
 
 			const optionValue = await Options.getOption(option);
-			$(optionId).attr('checked', optionValue);
+			$(optionId).prop('checked', optionValue);
 		}
 
 		const scrobblePercentEl = $('#scrobblePercent');
@@ -56,9 +64,9 @@ define((require) => {
 		scrobblePercentEl[0].selectedIndex = percentValues.indexOf(
 			await Options.getOption(Options.SCROBBLE_PERCENT)
 		);
-		scrobblePercentEl.on('change', function() {
+		scrobblePercentEl.on('change', async function() {
 			const percent = percentValues[this.selectedIndex];
-			Options.setOption(Options.SCROBBLE_PERCENT, percent);
+			await Options.setOption(Options.SCROBBLE_PERCENT, percent);
 		});
 
 		$(optionsContainerId).bind('click', function(event) {
@@ -79,7 +87,7 @@ define((require) => {
 
 				const optionValue =
 					await Options.getConnectorOption(connector, option);
-				$(optionId).attr('checked', optionValue);
+				$(optionId).prop('checked', optionValue);
 			}
 		}
 	}

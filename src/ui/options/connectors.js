@@ -37,10 +37,10 @@ define((require) => {
 				Options.setConnectorEnabled(connector, this.checked);
 			});
 			const isConnectorEnabled = !(connector.id in disabledConnectors);
-			checkbox.attr('checked', isConnectorEnabled);
+			checkbox.prop('checked', isConnectorEnabled);
 		});
 
-		$('input#toggle').attr('checked', toggleCheckboxState);
+		$('input#toggle').prop('checked', toggleCheckboxState);
 		$('input#toggle').click(function() {
 			// First set each to the negated value and then trigger click
 			$('input[id^="conn"]').each((index, connector) => {
