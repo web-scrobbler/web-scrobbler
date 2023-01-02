@@ -49,7 +49,7 @@
         "description": "Option title"
     },
     "optionScrobbleRecognizedTracks": {
-        "message": "Scrobble recognized or edited tracks",
+        "message": "Scrobble recognized or edited tracks (default)",
         "description": "Option label"
     },
     "optionScrobbleRecognizedTracksTitle": {
