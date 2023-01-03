@@ -1,25 +1,22 @@
 'use strict';
 
+const filter = MetadataFilter.createFilter({ track: removeEdit });
+
 Connector.playerSelector = '#player';
 
-Connector.trackSelector = [
-	'#player > div > div > div.playerInfo > div > div > h5 > a',
-	'#player > div > div > div.playerInfo > div:nth-child(2) > h3 > a.title',
-];
+Connector.artistSelector = ['#player .playerInfo h3.name > a', '#player .playerInfo .tune a.name'];
 
-Connector.artistSelector = [
-	'#player > div > div > div.playerInfo > div > div > h3 > a',
-	'#player > div > div > div.playerInfo > div:nth-child(2) > h3 > a.name',
-];
+Connector.trackSelector = ['#player .playerInfo h5.title > a', '#player .playerInfo .tune a.title'];
 
-Connector.trackArtSelector = '#player > div > div > img';
+Connector.trackArtSelector = '#player img.artwork';
 
-Connector.isPlaying = () =>
-	Util.hasElementClass(
-		'#player > div > div > div.control-btns > mat-icon',
-		'playing'
-	) ||
-	Util.getAttrFromSelectors(
-		'#player > div > div > div.control-btns.extras > mat-icon.mat-icon.notranslate.playerControls.mat-icon-no-color',
-		'data-mat-icon-name'
-	) === 'pause';
+Connector.isPlaying = () => {
+	const playerControlsIcon = Util.getAttrFromSelectors('#player .control-btns .playerControls', 'data-mat-icon-name');
+	return playerControlsIcon === 'levels' || playerControlsIcon === 'pause';
+};
+
+Connector.applyFilter(filter);
+
+function removeEdit(text) {
+	return text.replace(/\s?\((Clean|Radio) Edit\)/i, '');
+}
