@@ -10,6 +10,8 @@ Connector.trackSelector = ['#player .playerInfo h5.title > a', '#player .playerI
 
 Connector.trackArtSelector = '#player img.artwork';
 
+Connector.isTrackArtDefault = (url) => url.includes('/defaults/');
+
 Connector.isPlaying = () => {
 	const playerControlsIcon = Util.getAttrFromSelectors('#player .control-btns .playerControls', 'data-mat-icon-name');
 	return playerControlsIcon === 'levels' || playerControlsIcon === 'pause';
