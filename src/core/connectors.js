@@ -1860,7 +1860,7 @@ const connectors = [{
 }, {
 	label: 'Synology',
 	matches: [
-		'*://*5000/*', 
+		'*://*5000/*',
 		'*://*/?launchApp=SYNO.SDS.AudioStation.Application*',
 	],
 	js: 'connectors/synology.js',
