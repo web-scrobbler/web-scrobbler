@@ -2,37 +2,22 @@
 
 const filter = MetadataFilter.createFilter({
 	artist: extractPrimaryArtist,
-	track: [removeParody, removeRemaster],
+	track: [removeParody, removeRemaster, replaceSmartQuotes],
 });
 
 Connector.playerSelector = '#player-section';
 
-Connector.pauseButtonSelector = '.fp-playbtn[title=Pause]';
+Connector.artistSelector = `${Connector.playerSelector} .fp-message .artist-name`;
 
-Connector.trackSelector = '.playlist-player ul > li.active-playlist-song';
+Connector.trackSelector = `${Connector.playerSelector} .fp-message .song-name`;
 
-Connector.durationSelector = '.fp-duration';
+Connector.trackArtSelector = `${Connector.playerSelector} .album-image img`;
 
-Connector.currentTimeSelector = '.fp-elapsed';
+Connector.currentTimeSelector = `${Connector.playerSelector} .fp-elapsed`;
 
-Connector.getArtist = () => {
-	const artistTrackText = Util.getTextFromSelectors('.fp-message');
+Connector.durationSelector = `${Connector.playerSelector} .fp-duration`;
 
-	if (artistTrackText) {
-		// track title may be truncated or missing; only return artist
-		return artistTrackText.split(' - ')[0];
-	}
-
-	return null;
-};
-
-Connector.isScrobblingAllowed = () => {
-	return (
-		Connector.getTrack() &&
-		Util.isElementVisible(Connector.playerSelector) &&
-		!Connector.getArtist().includes('Sorry, this song is not available')
-	);
-};
+Connector.isPlaying = () => Util.hasElementClass('#fp-audio', 'is-playing');
 
 Connector.applyFilter(filter);
 
@@ -42,9 +27,13 @@ function extractPrimaryArtist(text) {
 }
 
 function removeParody(text) {
-	return text.replace(/\s?\((Parody|Lyrical Adaption) of.*(\)|\.{3})/i, '');
+	return text.replace(/\s?\((Parody|Lyrical Adaption) of.*\)/i, '');
 }
 
 function removeRemaster(text) {
-	return text.replace(/\s?(\(|\[)[\s\w]*Remaster(ed)?[\s\w]*(\)|\]|\.{3})/gi, '');
+	return text.replace(/\s?(\(|\[)[\s\w]*Re-?master(ed)?[\s\w]*(\)|\])/gi, '');
+}
+
+function replaceSmartQuotes(text) {
+	return text.replace(/[\u2018\u2019]/g, '\'').replace(/[\u201c\u201d]/g, '"');
 }
