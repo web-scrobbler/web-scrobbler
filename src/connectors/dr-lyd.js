@@ -7,7 +7,7 @@ Connector.playButtonSelector = 'button[title="Afspil"]';
 Connector.artistSelector = '[class^=MusicArtistRole_role]';
 
 const filter = MetadataFilter.createFilter({
-	track: cleanupTrack
+	track: cleanupTrack,
 });
 
 Connector.trackSelector = '[class^=MusicTrackLine_title]';
