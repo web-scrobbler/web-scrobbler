@@ -2355,6 +2355,13 @@ const connectors = [{
 	],
 	js: 'connectors/amazingradio.js',
 	id: 'amazingradio',
+},	{
+	label: 'DR Lyd',
+	matches: [
+		'*://www.dr.dk/lyd*',
+	],
+	js: 'connectors/dr-lyd.js',
+	id: 'dr-lyd',
 }];
 
 define(() => connectors);
