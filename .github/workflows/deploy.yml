@@ -64,7 +64,7 @@ jobs:
         run: echo ::set-output name=PACKAGE_VERSION::$(jq .version package.json -r)
 
       - name: Publish the extension for Edge
-        uses: inverse/edge-addon@v1.0.2
+        uses: inverse/edge-addon@v1.0.3
         with:
           product_id: ${{ secrets.EDGE_PRODUCT_ID }}
           client_id: ${{ secrets.EDGE_CLIENT_ID }}
