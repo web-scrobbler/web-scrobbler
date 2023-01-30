@@ -24,7 +24,7 @@ Connector.trackArtSelector = `${audioPlayer} ${buttonFullscreen} img`;
 Connector.isTrackArtDefault = (url) => url.includes('base64');
 
 Connector.isPlaying = () => {
-	const buttonPlaying = Util.getTextFromSelectors(`${audioPlayer} > div:first-of-type > div:nth-of-type(2) > button:not([aria-label=Like]) svg title`);
+	const buttonPlaying = Util.getTextFromSelectors(`${audioPlayer} button:not([aria-label=Like]) svg title`);
 	return buttonPlaying === 'Stop' || buttonPlaying === 'Pause';
 };
 
