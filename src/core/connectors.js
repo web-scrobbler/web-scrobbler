@@ -2241,6 +2241,7 @@ const connectors = [{
 }, {
 	label: 'KINK',
 	matches: [
+		'*://kink.nl/player',
 		'*://kink.nl/player/*',
 	],
 	js: 'connectors/kinknl.js',
