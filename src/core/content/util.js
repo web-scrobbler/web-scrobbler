@@ -597,7 +597,7 @@ const Util = {
 
 		// Remove [genre] or 【genre】 from the beginning of the title
 		let title = videoTitle.replace(
-			/^((\[[^\]]+])|(【[^】]+】))\s*-*\s*/i,
+			/^((\[[^\]]+\])|(【[^】]+】))\s*-*\s*/i,
 			''
 		);
 
