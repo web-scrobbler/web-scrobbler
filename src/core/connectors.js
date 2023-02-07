@@ -2239,6 +2239,14 @@ const connectors = [{
 	js: 'connectors/hardtunes.js',
 	id: 'hardtunes',
 }, {
+	label: 'KINK',
+	matches: [
+		'*://kink.nl/player',
+		'*://kink.nl/player/*',
+	],
+	js: 'connectors/kinknl.js',
+	id: 'kinknl',
+}, {
 	label: 'The Jazz Groove',
 	matches: [
 		'*://jazzgroove.org/*',
