@@ -23,5 +23,5 @@ Connector.getTrackArt = () => {
 
 
 Connector.isPlaying = () => {
-    return document.querySelector('.player-btn.player-title svg use').href.baseVal.replace(/.*\//, '') === 'icons-9852f1b5.svg#pause';
+	return document.querySelector('.player-btn.player-title svg use').href.baseVal.replace(/.*\//, '') === 'icons-9852f1b5.svg#pause';
 };
