@@ -2370,6 +2370,13 @@ const connectors = [{
 	],
 	js: 'connectors/dr-lyd.js',
 	id: 'dr-lyd',
+},	{
+	label: 'lulu.fm',
+	matches: [
+		'*://*lulu.fm/*',
+	],
+	js: 'connectors/lulu.fm.js',
+	id: 'lulufm',
 }];
 
 define(() => connectors);
