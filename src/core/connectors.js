@@ -1198,6 +1198,8 @@ const connectors = [{
 		'*://www.gimmeradio.com/*',
 		'*://gimmecountry.com/*',
 		'*://www.gimmecountry.com/*',
+		'*://gimmemetal.com/*',
+		'*://www.gimmemetal.com/*',
 	],
 	js: 'connectors/gimmeradio.js',
 	id: 'gimmeradio',
