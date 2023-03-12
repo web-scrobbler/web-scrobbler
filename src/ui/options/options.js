@@ -16,7 +16,8 @@ define((require) => {
 	 */
 	const OPTIONS_UI_MAP = {
 		'#use-notifications': Options.USE_NOTIFICATIONS,
-		'#use-unrecognized-song-notifications': Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
+		'#use-unrecognized-song-notifications':
+			Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
 		'#scrobble-podcasts': Options.SCROBBLE_PODCASTS,
 		'#force-recognize': Options.FORCE_RECOGNIZE,
 		'#scrobble-recognized-tracks': Options.SCROBBLE_RECOGNIZED_TRACKS,
@@ -26,6 +27,9 @@ define((require) => {
 		YouTube: {
 			'#yt-music-only': 'scrobbleMusicOnly',
 			'#yt-entertainment-only': 'scrobbleEntertainmentOnly',
+			'#yt-music-recognised-only': 'scrobbleMusicRecognisedOnly',
+			'#yt-enable-get-track-info-from-yt-music':
+				'enableGetTrackInfoFromYtMusic',
 		},
 	};
 

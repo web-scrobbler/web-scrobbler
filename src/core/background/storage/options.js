@@ -81,6 +81,8 @@ define((require) => {
 		YouTube: {
 			scrobbleMusicOnly: false,
 			scrobbleEntertainmentOnly: false,
+			scrobbleMusicRecognisedOnly: false,
+			enableGetTrackInfoFromYtMusic: false,
 		},
 	};
 

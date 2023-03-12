@@ -44,11 +44,26 @@ const allowedCategories = [];
  */
 const categoryCache = new Map();
 
+/**
+ * Wether we should only scrobble music recognised by YouTube Music
+ * @type {boolean}
+ */
+let scrobbleMusicRecognisedOnly = false;
+
+/**
+ * Wether the Youtube Music track info getter is enabled
+ * @type {boolean}
+ */
+let getTrackInfoFromYtMusicEnabled = false;
+
 let currentVideoDescription = null;
 let artistTrackFromDescription = null;
 
+const getTrackInfoFromYoutubeMusicCache = {};
+
 const trackInfoGetters = [
 	getTrackInfoFromChapters,
+	getTrackInfoFromYoutubeMusic,
 	getTrackInfoFromDescription,
 	getTrackInfoFromTitle,
 ];
@@ -60,6 +75,17 @@ Connector.playerSelector = '#content';
 
 Connector.getTrackInfo = () => {
 	const trackInfo = {};
+
+	if (getTrackInfoFromYtMusicEnabled) {
+		const videoId = getVideoId();
+		if (!getTrackInfoFromYoutubeMusicCache[videoId]) {
+			// start loading getTrackInfoFromYoutubeMusic
+			getTrackInfoFromYoutubeMusic();
+
+			// wait for getTrackInfoFromYoutubeMusic to finish
+			return trackInfo;
+		}
+	}
 
 	for (const getter of trackInfoGetters) {
 		const currentTrackInfo = getter();
@@ -123,6 +149,27 @@ Connector.isScrobblingAllowed = () => {
 	// Workaround to prevent scrobbling the video opened in a background tab.
 	if (!isVideoStartedPlaying()) {
 		return false;
+	}
+
+	if (scrobbleMusicRecognisedOnly) {
+		const videoId = getVideoId();
+		const ytMusicCache = getTrackInfoFromYoutubeMusicCache[videoId];
+
+		if (!ytMusicCache) {
+			// start loading getTrackInfoFromYoutubeMusic
+			getTrackInfoFromYoutubeMusic();
+			return false;
+		}
+
+		if (!ytMusicCache.done) {
+			// not done loading yet
+			return false;
+		}
+
+		if (!ytMusicCache.recognisedByYtMusic) {
+			// not recognised!
+			return false;
+		}
 	}
 
 	return isVideoCategoryAllowed();
@@ -241,6 +288,16 @@ async function readConnectorOptions() {
 		allowedCategories.push(categoryEntertainment);
 	}
 	Util.debugLog(`Allowed categories: ${allowedCategories.join(', ')}`);
+
+	if (await Util.getOption('YouTube', 'scrobbleMusicRecognisedOnly')) {
+		scrobbleMusicRecognisedOnly = true;
+		Util.debugLog('Only scrobbling when recognised by YouTube Music');
+	}
+
+	if (await Util.getOption('YouTube', 'enableGetTrackInfoFromYtMusic')) {
+		getTrackInfoFromYtMusicEnabled = true;
+		Util.debugLog('Get track info from YouTube Music enabled');
+	}
 }
 
 function getVideoDescription() {
@@ -259,8 +316,94 @@ function getTrackInfoFromDescription() {
 	return artistTrackFromDescription;
 }
 
-function getTrackInfoFromChapters() {
+function getTrackInfoFromYoutubeMusic() {
+	// if neither getTrackInfoFromYtMusicEnabled nor scrobbleMusicRecognisedOnly
+	// are enabled, there is no need to run this getter
+	if (!getTrackInfoFromYtMusicEnabled && !scrobbleMusicRecognisedOnly) {
+		return {};
+	}
 
+	const videoId = getVideoId();
+
+	if (!getTrackInfoFromYoutubeMusicCache[videoId]) {
+		getTrackInfoFromYoutubeMusicCache[videoId] = {
+			videoId: null,
+			done: false,
+			currentTrackInfo: {},
+		};
+	} else {
+		if (!getTrackInfoFromYtMusicEnabled) {
+			// this means that only scrobbleMusicRecognisedOnly is enabled,
+			// therefore only the cache is used and we return {} for the
+			// actual getter
+			return {};
+		}
+
+		if (getTrackInfoFromYoutubeMusicCache[videoId].done) {
+			// already ran!
+			return getTrackInfoFromYoutubeMusicCache[videoId].currentTrackInfo;
+		}
+		// still running, lets be patient
+		return {};
+	}
+
+	const body = JSON.stringify({
+		context: {
+			client: {
+				// parameters are needed, you get a 400 if you omit these
+				// specific values are just what I got when doing a request
+				// using firefox
+				clientName: 'WEB_REMIX',
+				clientVersion: '1.20221212.01.00',
+			},
+		},
+		captionParams: {},
+		videoId,
+	});
+
+	fetch('https://music.youtube.com/youtubei/v1/player', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body,
+	})
+		.then((response) => response.json())
+		.then((videoInfo) => {
+			getTrackInfoFromYoutubeMusicCache[videoId] = {
+				done: true,
+				recognisedByYtMusic:
+					videoInfo.videoDetails?.musicVideoType?.startsWith(
+						'MUSIC_VIDEO_'
+					) || false,
+			};
+
+			// if videoDetails is not MUSIC_VIDEO_TYPE_OMV, it seems like it's
+			// not something youtube music actually knows, so it usually gives
+			// wrong results, so we only return if it is that musicVideoType
+			if (
+				videoInfo.videoDetails?.musicVideoType ===
+				'MUSIC_VIDEO_TYPE_OMV'
+			) {
+				getTrackInfoFromYoutubeMusicCache[videoId].currentTrackInfo = {
+					artist: videoInfo.videoDetails.author,
+					track: videoInfo.videoDetails.title,
+				};
+			}
+		})
+		.catch((err) => {
+			Util.debugLog(
+				`Failed to fetch youtube music data for ${videoId}: ${err}`,
+				'warn'
+			);
+			getTrackInfoFromYoutubeMusicCache[videoId] = {
+				done: true,
+				recognisedByYtMusic: false,
+			};
+		});
+}
+
+function getTrackInfoFromChapters() {
 	// Short circuit if chapters not available - necessary to avoid misscrobbling with SponsorBlock.
 	if (!areChaptersAvailable()) {
 		return {
