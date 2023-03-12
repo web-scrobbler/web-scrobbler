@@ -8,18 +8,32 @@ define((require) => {
 	const connectorsOptions = BrowserStorage.getStorage(BrowserStorage.CONNECTORS_OPTIONS);
 	const connectorsOverrideOptions = BrowserStorage.getStorage(BrowserStorage.CONNECTORS_OVERRIDE_OPTIONS);
 
-	const FORCE_RECOGNIZE = 'forceRecognize';
 	const USE_NOTIFICATIONS = 'useNotifications';
-	const SCROBBLE_PERCENT = 'scrobblePercent';
-	const DISABLED_CONNECTORS = 'disabledConnectors';
 	const USE_UNRECOGNIZED_SONG_NOTIFICATIONS = 'useUnrecognizedSongNotifications';
 	const SCROBBLE_PODCASTS = 'scrobblePodcasts';
+	const FORCE_RECOGNIZE = 'forceRecognize';
+	const SCROBBLE_RECOGNIZED_TRACKS = 'scrobbleRecognizedTracks';
+	const SCROBBLE_EDITED_TRACKS_ONLY = 'scrobbleEditedTracksOnly';
+	const SCROBBLE_PERCENT = 'scrobblePercent';
+	const DISABLED_CONNECTORS = 'disabledConnectors';
 
 	/**
 	 * Object that stores default option values.
 	 * @type {Object}
 	 */
 	const DEFAULT_OPTIONS = {
+		/**
+		 * Use now playing notifications.
+		 * @type {Boolean}
+		 */
+		[USE_NOTIFICATIONS]: true,
+
+		/**
+		 * Notify if song is not recognized.
+		 * @type {Boolean}
+		 */
+		[USE_UNRECOGNIZED_SONG_NOTIFICATIONS]: false,
+
 		/**
 		 * Force song recognition.
 		 * @type {Boolean}
@@ -33,10 +47,16 @@ define((require) => {
 		[SCROBBLE_PODCASTS]: true,
 
 		/**
-		 * Use now playing notifications.
+		 * Only scrobble tracks if they are recognized or edited.
 		 * @type {Boolean}
 		 */
-		[USE_NOTIFICATIONS]: true,
+		[SCROBBLE_RECOGNIZED_TRACKS]: true,
+
+		/**
+		 * Only scrobble tracks if they are edited.
+		 * @type {Boolean}
+		 */
+		[SCROBBLE_EDITED_TRACKS_ONLY]: false,
 
 		/**
 		 * Scrobble percent.
@@ -51,12 +71,6 @@ define((require) => {
 		 * @type {Object}
 		 */
 		[DISABLED_CONNECTORS]: {},
-
-		/**
-		 * Notify if song is not recognized.
-		 * @type {Boolean}
-		 */
-		[USE_UNRECOGNIZED_SONG_NOTIFICATIONS]: false,
 	};
 
 	/**
@@ -241,8 +255,8 @@ define((require) => {
 		getOption, setOption, getConnectorOption, setConnectorOption,
 		getConnectorOverrideOption, setConnectorOverrideOption,
 
-		FORCE_RECOGNIZE, USE_NOTIFICATIONS,
-		SCROBBLE_PODCASTS, USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
-		DISABLED_CONNECTORS, SCROBBLE_PERCENT,
+		USE_NOTIFICATIONS, USE_UNRECOGNIZED_SONG_NOTIFICATIONS, SCROBBLE_PODCASTS,
+		FORCE_RECOGNIZE, SCROBBLE_RECOGNIZED_TRACKS, SCROBBLE_EDITED_TRACKS_ONLY,
+		SCROBBLE_PERCENT, DISABLED_CONNECTORS,
 	};
 });

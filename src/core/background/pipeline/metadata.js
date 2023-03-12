@@ -46,7 +46,10 @@ define((require) => {
 		}
 
 		const forceRecognize = await Options.getOption(Options.FORCE_RECOGNIZE, connector.id);
-		song.flags.isValid = isSongValid || forceRecognize;
+		const scrobbleEditedTracksOnly = await Options.getOption(Options.SCROBBLE_EDITED_TRACKS_ONLY, connector.id);
+
+		song.flags.isValid = (isSongValid || forceRecognize) &&
+			(song.flags.isCorrectedByUser || !scrobbleEditedTracksOnly);
 	}
 
 	/**

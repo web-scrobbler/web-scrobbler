@@ -15,10 +15,12 @@ define((require) => {
 	 * @type {Object}
 	 */
 	const OPTIONS_UI_MAP = {
-		'#conn-conf-force-recognize': Options.FORCE_RECOGNIZE,
 		'#conn-conf-use-notifications': Options.USE_NOTIFICATIONS,
 		'#conn-conf-use-unrecognized-song-notifications': Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
 		'#conn-conf-scrobble-podcasts': Options.SCROBBLE_PODCASTS,
+		'#conn-conf-force-recognize': Options.FORCE_RECOGNIZE,
+		'#conn-conf-scrobble-recognized-tracks': Options.SCROBBLE_RECOGNIZED_TRACKS,
+		'#conn-conf-scrobble-edited-tracks-only': Options.SCROBBLE_EDITED_TRACKS_ONLY,
 	};
 
 	function initialize() {

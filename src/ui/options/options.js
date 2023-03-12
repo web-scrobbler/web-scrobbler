@@ -15,10 +15,12 @@ define((require) => {
 	 * @type {Object}
 	 */
 	const OPTIONS_UI_MAP = {
-		'#force-recognize': Options.FORCE_RECOGNIZE,
 		'#use-notifications': Options.USE_NOTIFICATIONS,
 		'#use-unrecognized-song-notifications': Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
 		'#scrobble-podcasts': Options.SCROBBLE_PODCASTS,
+		'#force-recognize': Options.FORCE_RECOGNIZE,
+		'#scrobble-recognized-tracks': Options.SCROBBLE_RECOGNIZED_TRACKS,
+		'#scrobble-edited-tracks-only': Options.SCROBBLE_EDITED_TRACKS_ONLY,
 	};
 	const CONNECTORS_OPTIONS_UI_MAP = {
 		YouTube: {
@@ -36,12 +38,22 @@ define((require) => {
 		for (const optionId in OPTIONS_UI_MAP) {
 			const option = OPTIONS_UI_MAP[optionId];
 
-			$(optionId).click(async function() {
-				Options.setOption(option, this.checked);
+			$(optionId).on('input', async function() {
+				await Options.setOption(option, this.checked);
+
+				if (this.type === 'radio') {
+					// Set option value of other radio buttons to false.
+					for (const radioInput of document.querySelectorAll(`input[type="radio"][name="${this.name}"]`)) {
+						if (radioInput !== this) {
+							const otherOption = OPTIONS_UI_MAP[`#${radioInput.id}`];
+							await Options.setOption(otherOption, false);
+						}
+					}
+				}
 			});
 
 			const optionValue = await Options.getOption(option);
-			$(optionId).attr('checked', optionValue);
+			$(optionId).prop('checked', optionValue);
 		}
 
 		const scrobblePercentEl = $('#scrobblePercent');
@@ -52,9 +64,9 @@ define((require) => {
 		scrobblePercentEl[0].selectedIndex = percentValues.indexOf(
 			await Options.getOption(Options.SCROBBLE_PERCENT)
 		);
-		scrobblePercentEl.on('change', function() {
+		scrobblePercentEl.on('change', async function() {
 			const percent = percentValues[this.selectedIndex];
-			Options.setOption(Options.SCROBBLE_PERCENT, percent);
+			await Options.setOption(Options.SCROBBLE_PERCENT, percent);
 		});
 
 		$(optionsContainerId).bind('click', function(event) {
@@ -75,7 +87,7 @@ define((require) => {
 
 				const optionValue =
 					await Options.getConnectorOption(connector, option);
-				$(optionId).attr('checked', optionValue);
+				$(optionId).prop('checked', optionValue);
 			}
 		}
 	}

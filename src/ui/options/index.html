@@ -71,10 +71,6 @@
 										<label class="form-check-label" for="use-unrecognized-song-notifications" i18n="optionUnrecognizedNotifications" i18n-title="optionUnrecognizedNotificationsTitle"></label>
 									</div>
 									<div class="form-check">
-										<input class="form-check-input" type="checkbox" id="force-recognize">
-										<label class="form-check-label" for="force-recognize" i18n="optionForceRecognize" i18n-title="optionForceRecognizeTitle"></label>
-									</div>
-									<div class="form-check">
 										<input class="form-check-input" type="checkbox" id="scrobble-podcasts">
 										<label class="form-check-label" for="scrobble-podcasts" i18n="optionScrobblePodcasts" i18n-title="optionScrobblePodcastsTitle"></label>
 									</div>
@@ -110,6 +106,22 @@
 										<p class="mb-0">
 											<small class="text-muted" i18n="optionPercentDesc"></small>
 										</p>
+									</div>
+								</div>
+
+								<h5 i18n="optionsScrobbleBehavior"></h5>
+								<div class="options-block">
+									<div class="form-check">
+										<input class="form-check-input" type="radio" id="force-recognize" name="behavior" value="force-recognize">
+										<label class="form-check-label" for="force-recognize" i18n="optionForceRecognize" i18n-title="optionForceRecognizeTitle"></label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" id="scrobble-recognized-tracks" name="behavior" value="scrobble-recognized-tracks">
+										<label class="form-check-label" for="scrobble-recognized-tracks" i18n="optionScrobbleRecognizedTracks" i18n-title="optionScrobbleRecognizedTracksTitle"></label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" id="scrobble-edited-tracks-only" name="behavior" value="scrobble-edited-tracks-only">
+										<label class="form-check-label" for="scrobble-edited-tracks-only" i18n="optionScrobbleEditedTracksOnly" i18n-title="optionScrobbleEditedTracksOnlyTitle"></label>
 									</div>
 								</div>
 
@@ -317,12 +329,23 @@
 								<label class="form-check-label" for="conn-conf-use-unrecognized-song-notifications" i18n="optionUnrecognizedNotifications" i18n-title="optionUnrecognizedNotificationsTitle"></label>
 							</div>
 							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="conn-conf-force-recognize">
+								<input class="form-check-input" type="checkbox" id="conn-conf-scrobble-podcasts">
+								<label class="form-check-label" for="conn-conf-scrobble-podcasts" i18n="optionScrobblePodcasts" i18n-title="optionScrobblePodcastsTitle"></label>
+							</div>
+						</div>
+						<h6 i18n="optionsScrobbleBehavior"></h6>
+						<div class="options-block">
+							<div class="form-check">
+								<input class="form-check-input" type="radio" id="conn-conf-force-recognize" name="conn-conf-behavior" value="force-recognize">
 								<label class="form-check-label" for="conn-conf-force-recognize" i18n="optionForceRecognize" i18n-title="optionForceRecognizeTitle"></label>
 							</div>
 							<div class="form-check">
-								<input class="form-check-input" type="checkbox" id="conn-conf-scrobble-podcasts">
-								<label class="form-check-label" for="conn-conf-scrobble-podcasts" i18n="optionScrobblePodcasts" i18n-title="optionScrobblePodcastsTitle"></label>
+								<input class="form-check-input" type="radio" id="conn-conf-scrobble-recognized-tracks" name="conn-conf-behavior" value="scrobble-recognized-tracks">
+								<label class="form-check-label" for="conn-conf-scrobble-recognized-tracks" i18n="optionScrobbleRecognizedTracks" i18n-title="optionScrobbleRecognizedTracksTitle"></label>
+							</div>
+							<div class="form-check">
+								<input class="form-check-input" type="radio" id="conn-conf-scrobble-edited-tracks-only" name="conn-conf-behavior" value="scrobble-edited-tracks-only">
+								<label class="form-check-label" for="conn-conf-scrobble-edited-tracks-only" i18n="optionScrobbleEditedTracksOnly" i18n-title="optionScrobbleEditedTracksOnlyTitle"></label>
 							</div>
 						</div>
 						<h6 i18n="customPatterns"></h6>
