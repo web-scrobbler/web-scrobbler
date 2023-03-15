@@ -2379,6 +2379,13 @@ const connectors = [{
 	],
 	js: 'connectors/lulu.fm.js',
 	id: 'lulufm',
+},	{
+	label: 'ROCK ANTENNE',
+	matches: [
+		'*://*rockantenne.*/webradio/*',
+	],
+	js: 'connectors/rockantenne.js',
+	id: 'rockantenne',
 }];
 
 define(() => connectors);
