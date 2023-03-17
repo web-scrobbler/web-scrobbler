@@ -1,7 +1,10 @@
 'use strict';
 
 const filter = MetadataFilter.createFilter({
-	artist: replaceSmartQuotes,
+	artist: [
+		removeShowName,
+		replaceSmartQuotes,
+	],
 	track: [
 		removeSmartQuotes,
 		replaceSmartQuotes,
@@ -27,7 +30,7 @@ Connector.getTrackInfo = () => {
 	}
 
 	if (!Util.hasElementClass(metaSelector, 'music') && artistText && showNameText === 'Today\'s Top Tune') {
-		const artistTrackSplit = artistText.split(': ');
+		const artistTrackSplit = artistText.split(/\s+[-\u2013]\s+/);
 		return {
 			artist: artistTrackSplit[0],
 			track: artistTrackSplit[1],
@@ -42,6 +45,10 @@ Connector.getTrackInfo = () => {
 Connector.isPlaying = () => Util.hasElementClass('button.play', 'active');
 
 Connector.applyFilter(filter);
+
+function removeShowName(text) { // filter for Today's Top Tune
+	return text.replace(/Today('|\u2019)s Top Tune:\s+/, '');
+}
 
 function removeSmartQuotes(text) { // filter for Today's Top Tune
 	return text.replace(/^[\u2018\u201c](.+)[\u2019\u201d](?=\s\(|$)/, '$1');
