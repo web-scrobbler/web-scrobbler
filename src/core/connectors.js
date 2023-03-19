@@ -2386,6 +2386,27 @@ const connectors = [{
 	],
 	js: 'connectors/rockantenne.js',
 	id: 'rockantenne',
+},	{
+	label: 'VocaDB',
+	matches: [
+		'*://vocadb.net/*',
+	],
+	js: 'connectors/vocadb.js',
+	id: 'vocadb',
+},	{
+	label: 'UtaiteDB',
+	matches: [
+		'*://utaitedb.net/*',
+	],
+	js: 'connectors/vocadb.js',
+	id: 'utaitedb',
+},	{
+	label: 'TouhouDB',
+	matches: [
+		'*://touhoudb.com/*',
+	],
+	js: 'connectors/vocadb.js',
+	id: 'touhoudb',
 }];
 
 define(() => connectors);
