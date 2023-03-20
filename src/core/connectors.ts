@@ -1,23 +1,12 @@
-'use strict';
+export interface ConnectorMeta {
+	label: string;
+	matches: string[];
+	js: string;
+	id: string;
+	allFrames?: true;
+}
 
-/**
- * All match entries are defined here, instead of manifest.
- *
- * Matching connector is injected to the page after document_end event.
- *
- * Supported fields:
- *   @param {String} label Website label
- *   @param {Array} matches Array of match patterns.
- *   Connectors are processed in order and the first match is used;
- *   you can use this behavior to emulate exclude matches,
- *   @param {String} js Path to connector file.
- *   @param {String} id Entry ID. This value must be unique.
- *   Do not change this property w/o any serious reason.
- *   @param {Boolean} allFrames Value representing InjectDetails.allFrames.
- *   False by default.
- */
-
-const connectors = [{
+export default <ConnectorMeta[]>[{
 	label: 'YouTube',
 	matches: [
 		'*://www.youtube.com/*',
@@ -2387,5 +2376,3 @@ const connectors = [{
 	js: 'connectors/rockantenne.js',
 	id: 'rockantenne',
 }];
-
-define(() => connectors);
