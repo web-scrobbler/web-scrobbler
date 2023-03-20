@@ -1,43 +1,47 @@
-'use strict';
-
 /**
  * The module manages URL patterns can be defined by users.
  */
-define((require) => {
-	const BrowserStorage = require('storage/browser-storage');
+import { getStorage, CUSTOM_PATTERNS } from '@/core/storage/browser-storage';
+import { CustomPatterns } from './wrapper';
 
-	const storage = BrowserStorage.getStorage(BrowserStorage.CUSTOM_PATTERNS);
+const storage = getStorage(CUSTOM_PATTERNS);
 
-	return {
-		/**
-		 * Get custom patterns for all connectors.
-		 * @return {Object} Custom URL patterns
-		 */
-		getAllPatterns() {
-			return storage.get();
-		},
+/**
+ * Get custom patterns for all connectors.
+ * @returns Custom URL patterns
+ */
+export function getAllPatterns(): Promise<CustomPatterns | null> {
+	return storage.get();
+}
 
-		/**
-		 * Update custom patterns and save them to storage.
-		 * @param {String} connectorId Connector ID
-		 * @param {Array} patterns Array of custom URL patterns
-		 */
-		async setPatterns(connectorId, patterns) {
-			const data = await storage.get();
+/**
+ * Update custom patterns and save them to storage.
+ * @param connectorId - Connector ID
+ * @param patterns - Array of custom URL patterns
+ */
+export async function setPatterns(
+	connectorId: string,
+	patterns: string[]
+): Promise<void> {
+	const data = await storage.get();
+	if (!data) {
+		throw new Error('No custom patterns found');
+	}
 
-			data[connectorId] = patterns;
-			await storage.set(data);
-		},
+	data[connectorId] = patterns;
+	await storage.set(data);
+}
 
-		/**
-		 * Remove custom URL patterns for given connector.
-		 * @param {String} connectorId Connector ID
-		 */
-		async resetPatterns(connectorId) {
-			const data = await storage.get();
+/**
+ * Remove custom URL patterns for given connector.
+ * @param connectorId - Connector ID
+ */
+export async function resetPatterns(connectorId: string): Promise<void> {
+	const data = await storage.get();
+	if (!data) {
+		throw new Error('No custom patterns found');
+	}
 
-			delete data[connectorId];
-			await storage.set(data);
-		},
-	};
-});
+	delete data[connectorId];
+	await storage.set(data);
+}

@@ -1,36 +1,44 @@
-'use strict';
+import * as BrowserStorage from '@/core/storage/browser-storage';
+import SavedEditsModel from '@/core/storage/saved-edits.model';
+import { SavedEdit } from '@/core/storage/options';
+import StorageWrapper, { DataModels } from '@/core/storage/wrapper';
 
-define((require) => {
-	const BrowserStorage = require('storage/browser-storage');
-	const SavedEditsModel = require('storage/saved-edits.model');
+type K = typeof BrowserStorage.LOCAL_CACHE;
+type V = DataModels[K];
+type T = Record<K, V>;
 
-	class SavedEditsImpl extends SavedEditsModel {
-		constructor() {
-			super();
+class SavedEditsImpl extends SavedEditsModel {
+	private songInfoStorage = BrowserStorage.getStorage<K>(
+		BrowserStorage.LOCAL_CACHE
+	);
 
-			this.songInfoStorage = BrowserStorage.getStorage(
-				BrowserStorage.LOCAL_CACHE
-			);
-			/* @ifdef DEBUG */
-			this.songInfoStorage.debugLog();
-			/* @endif */
-		}
+	constructor() {
+		super(BrowserStorage.getLocalStorage(BrowserStorage.LOCAL_CACHE));
 
-		/** @override */
-		async clear() {
-			return await this.songInfoStorage.clear();
-		}
-
-		/** @override */
-		async getSongInfoStorage() {
-			return await this.songInfoStorage.get();
-		}
-
-		/** @override */
-		async saveSongInfoToStorage(data) {
-			return await this.songInfoStorage.set(data);
-		}
+		/* @ifdef DEBUG */
+		void this.songInfoStorage.debugLog();
+		/* @endif */
 	}
 
-	return new SavedEditsImpl();
-});
+	/** @override */
+	async clear(): Promise<void> {
+		return await this.songInfoStorage.clear();
+	}
+
+	/** @override */
+	async getSongInfoStorage(): Promise<Record<string, SavedEdit> | null> {
+		return this.songInfoStorage.get();
+	}
+
+	/** @override */
+	async saveSongInfoToStorage(data: T[K]): Promise<void> {
+		return await this.songInfoStorage.set(data);
+	}
+
+	/** @override */
+	getStorage(): StorageWrapper<K> {
+		return BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);
+	}
+}
+
+export default new SavedEditsImpl();

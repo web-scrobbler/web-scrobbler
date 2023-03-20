@@ -1,123 +1,118 @@
-'use strict';
+import browser from 'webextension-polyfill';
 
-define((require) => {
-	const browser = require('webextension-polyfill');
+/**
+ * Filename of privacy policy document.
+ */
+const PRIVACY_FILENAME = 'privacy.md';
 
-	/**
-	 * Filename of privacy policy document.
-	 * @type {String}
-	 */
-	const PRIVACY_FILENAME = 'privacy.md';
+/**
+ * Location of default privacy policy document.
+ */
+const DEFAULT_PRIVACY_PATH = `_locales/en/${PRIVACY_FILENAME}`;
 
-	/**
-	 * Location of default privacy policy document.
-	 * @type {String}
-	 */
-	const DEFAULT_PRIVACY_PATH = `_locales/en/${PRIVACY_FILENAME}`;
-
-	/**
-	 * Create query string from object properties.
-	 * @param {Array} params Object contains query parameters
-	 */
-	function createQueryString(params) {
-		const parts = [];
-
-		for (const x in params) {
-			parts.push(`${x}=${encodeURIComponent(params[x])}`);
-		}
-
-		return parts.join('&');
-	}
-
-	/**
-	 * Return current tab.
-	 * @return {Promise} Promise that will be resolved with current tab object
-	 */
-	async function getCurrentTab() {
-		const query = { active: true, currentWindow: true };
-		const tabs = await browser.tabs.query(query);
-
-		return tabs[0];
-	}
-
-	/**
-	 * Return platform name.
-	 * @return {String} Platform name
-	 */
-	async function getPlatformName() {
-		const platformInfo = await browser.runtime.getPlatformInfo();
-		return platformInfo.os;
-	}
-
-	/**
-	 * Get URL of privacy policy document.
-	 * @return {String} privacy policy URL
-	 */
-	async function getPrivacyPolicyFilename() {
-		const locale = browser.i18n.getMessage('@@ui_locale');
-		const privacyFilenames = [DEFAULT_PRIVACY_PATH];
-
-		if (!locale.startsWith('en')) {
-			const language = locale.split('_')[0];
-
-			privacyFilenames.unshift(`_locales/${language}/${PRIVACY_FILENAME}`);
-			privacyFilenames.unshift(`_locales/${locale}/${PRIVACY_FILENAME}`);
-		}
-
-		for (const privacyFilename of privacyFilenames) {
-			if (await isFileExists(privacyFilename)) {
-				return privacyFilename;
+/**
+ * Create query string from object properties.
+ * @param params - Object contains query parameters
+ */
+export function createQueryString(
+	params: Record<string, string | null | undefined | number>
+): string {
+	const preparedParams = Object.entries(params).reduce(
+		(acc, [key, value]) => {
+			if (typeof value === 'string') {
+				acc[key] = value;
+			} else if (typeof value === 'number') {
+				acc[key] = value.toString();
+			} else if (typeof value === 'undefined' || value === null) {
+				acc[key] = '';
 			}
+
+			return acc;
+		},
+		{} as Record<string, string>
+	);
+
+	return new URLSearchParams(preparedParams).toString();
+}
+
+/**
+ * Return current tab.
+ * @returns Promise that will be resolved with current tab object
+ */
+export async function getCurrentTab(): Promise<browser.Tabs.Tab> {
+	const query = { active: true, currentWindow: true };
+	const tabs = await browser.tabs.query(query);
+
+	return tabs[0];
+}
+
+/**
+ * Return platform name.
+ * @returns Platform name
+ */
+export async function getPlatformName(): Promise<browser.Runtime.PlatformOs> {
+	const platformInfo = await browser.runtime.getPlatformInfo();
+	return platformInfo.os;
+}
+
+/**
+ * Get URL of privacy policy document.
+ * @returns privacy policy URL
+ */
+export async function getPrivacyPolicyFilename(): Promise<string> {
+	const locale = browser.i18n.getMessage('@@ui_locale');
+	const privacyFilenames = [DEFAULT_PRIVACY_PATH];
+
+	if (!locale.startsWith('en')) {
+		const language = locale.split('_')[0];
+
+		privacyFilenames.unshift(`_locales/${language}/${PRIVACY_FILENAME}`);
+		privacyFilenames.unshift(`_locales/${locale}/${PRIVACY_FILENAME}`);
+	}
+
+	for (const privacyFilename of privacyFilenames) {
+		if (await isFileExists(privacyFilename)) {
+			return privacyFilename;
 		}
-
-		throw new Error('Found no privacy policy documents!');
 	}
 
-	/**
-	 * Check if an extension resource file exists.
-	 * @param  {String} fileName Filename to check
-	 * @return {Boolean} Check result
-	 */
-	async function isFileExists(fileName) {
-		const fileUrl = browser.runtime.getURL(fileName);
-		const response = await fetch(fileUrl);
+	throw new Error('Found no privacy policy documents!');
+}
 
-		return response.status === 200;
-	}
+/**
+ * Check if an extension resource file exists.
+ * @param fileName - Filename to check
+ * @returns Check result
+ */
+async function isFileExists(fileName: string) {
+	const fileUrl = browser.runtime.getURL(fileName);
+	const response = await fetch(fileUrl);
 
-	/**
-	 * Check if browser is in fullscreen mode.
-	 * @return {Promise} Promise that will be resolved with check result
-	 */
-	async function isFullscreenMode() {
-		const browserWindow = await browser.windows.getCurrent();
-		return browserWindow.state === 'fullscreen';
-	}
+	return response.status === 200;
+}
 
-	/**
-	 * Activate tab by given tab ID.
-	 * @param {Number} tabId Tab ID
-	 */
-	function openTab(tabId) {
-		browser.tabs.update(tabId, { active: true });
-	}
+/**
+ * Check if browser is in fullscreen mode.
+ * @returns Promise that will be resolved with check result
+ */
+export async function isFullscreenMode(): Promise<boolean> {
+	const browserWindow = await browser.windows.getCurrent();
+	return browserWindow.state === 'fullscreen';
+}
 
-	/**
-	 * Get the version of the extension.
-	 *
-	 * @return {String} the extension version
-	 */
-	function getExtensionVersion() {
-		return browser.runtime.getManifest().version;
-	}
+/**
+ * Activate tab by given tab ID.
+ * @param tabId - Tab ID
+ */
+export function openTab(tabId: number): void {
+	void browser.tabs.update(tabId, { active: true });
+}
 
-	return {
-		createQueryString,
-		getCurrentTab,
-		getPlatformName,
-		getPrivacyPolicyFilename,
-		isFullscreenMode,
-		openTab,
-		getExtensionVersion,
-	};
-});
+/**
+ * Get the version of the extension.
+ *
+ * @returns the extension version
+ */
+export function getExtensionVersion(): string {
+	return browser.runtime.getManifest().version;
+}

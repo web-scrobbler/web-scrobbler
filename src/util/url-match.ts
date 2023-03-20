@@ -1,20 +1,18 @@
-'use strict';
-
-function escapeRegExp(string) {
+function escapeRegExp(string: string) {
 	return string.replace(/[$()*+.?[\\^{|}]/g, '\\$&');
 	// return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function replaceAsterisks(string) {
+function replaceAsterisks(string: string) {
 	return string.split('*').map(escapeRegExp).join('.*');
 }
 
 /**
  * Create regex from single match pattern.
- * @param  {String} pattern URL pattern as string
- * @return {Object} RegExp based on pattern string
+ * @param pattern - URL pattern as string
+ * @returns RegExp based on pattern string
  */
-function createPattern(pattern) {
+export function createPattern(pattern: string): RegExp | null {
 	if (typeof pattern !== 'string') {
 		return null;
 	}
@@ -58,11 +56,11 @@ function createPattern(pattern) {
 
 /**
  * Test if URL matches given URL pattern.
- * @param  {String} string URL
- * @param  {String} pattern URL pattern
- * @return {Boolean} Result
+ * @param string - URL
+ * @param pattern - URL pattern
+ * @returns Result
  */
-function test(string, pattern) {
+export function test(string: string, pattern: string): boolean {
 	const regex = createPattern(pattern);
 	if (!regex) {
 		return false;
@@ -70,7 +68,3 @@ function test(string, pattern) {
 
 	return regex.test(string);
 }
-
-define(() => {
-	return { test, createPattern };
-});

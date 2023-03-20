@@ -1,264 +1,368 @@
-'use strict';
+import connectors, { ConnectorMeta } from '@/core/connectors';
+import * as BrowserStorage from '@/core/storage/browser-storage';
 
-define((require) => {
-	const connectors = require('connectors');
-	const BrowserStorage = require('storage/browser-storage');
+const options = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
+const connectorsOptions = BrowserStorage.getStorage(
+	BrowserStorage.CONNECTORS_OPTIONS
+);
+const connectorsOverrideOptions = BrowserStorage.getStorage(
+	BrowserStorage.CONNECTORS_OVERRIDE_OPTIONS
+);
 
-	const options = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
-	const connectorsOptions = BrowserStorage.getStorage(BrowserStorage.CONNECTORS_OPTIONS);
-	const connectorsOverrideOptions = BrowserStorage.getStorage(BrowserStorage.CONNECTORS_OVERRIDE_OPTIONS);
+export const USE_NOTIFICATIONS = 'useNotifications';
+export const USE_UNRECOGNIZED_SONG_NOTIFICATIONS =
+	'useUnrecognizedSongNotifications';
+export const SCROBBLE_PODCASTS = 'scrobblePodcasts';
+export const FORCE_RECOGNIZE = 'forceRecognize';
+export const SCROBBLE_RECOGNIZED_TRACKS = 'scrobbleRecognizedTracks';
+export const SCROBBLE_EDITED_TRACKS_ONLY = 'scrobbleEditedTracksOnly';
+export const SCROBBLE_PERCENT = 'scrobblePercent';
+export const DISABLED_CONNECTORS = 'disabledConnectors';
 
-	const USE_NOTIFICATIONS = 'useNotifications';
-	const USE_UNRECOGNIZED_SONG_NOTIFICATIONS = 'useUnrecognizedSongNotifications';
-	const SCROBBLE_PODCASTS = 'scrobblePodcasts';
-	const FORCE_RECOGNIZE = 'forceRecognize';
-	const SCROBBLE_RECOGNIZED_TRACKS = 'scrobbleRecognizedTracks';
-	const SCROBBLE_EDITED_TRACKS_ONLY = 'scrobbleEditedTracksOnly';
-	const SCROBBLE_PERCENT = 'scrobblePercent';
-	const DISABLED_CONNECTORS = 'disabledConnectors';
+export interface GlobalOptions {
+	/**
+	 * Force song recognition.
+	 */
+	[FORCE_RECOGNIZE]: boolean;
 
 	/**
-	 * Object that stores default option values.
-	 * @type {Object}
+	 * Use now playing notifications.
 	 */
-	const DEFAULT_OPTIONS = {
-		/**
-		 * Use now playing notifications.
-		 * @type {Boolean}
-		 */
-		[USE_NOTIFICATIONS]: true,
+	[USE_NOTIFICATIONS]: boolean;
 
-		/**
-		 * Notify if song is not recognized.
-		 * @type {Boolean}
-		 */
-		[USE_UNRECOGNIZED_SONG_NOTIFICATIONS]: false,
+	/**
+	 * Scrobble percent.
+	 */
+	[SCROBBLE_PERCENT]: number;
 
-		/**
-		 * Force song recognition.
-		 * @type {Boolean}
-		 */
-		[FORCE_RECOGNIZE]: false,
+	/**
+	 * Object contains info of disabled connectors.
+	 * Each key is a connector ID. If the connector is disabled,
+	 * key value should be true. If connector is enabled, key should not exist.
+	 */
+	[DISABLED_CONNECTORS]: { [connectorId: string]: boolean };
 
-		/**
-		 * Scrobble podcast episodes.
-		 * @type {Boolean}
-		 */
-		[SCROBBLE_PODCASTS]: true,
+	/**
+	 * Notify if song is not recognized.
+	 */
+	[USE_UNRECOGNIZED_SONG_NOTIFICATIONS]: boolean;
 
-		/**
-		 * Only scrobble tracks if they are recognized or edited.
-		 * @type {Boolean}
-		 */
-		[SCROBBLE_RECOGNIZED_TRACKS]: true,
+	/**
+	 * Only scrobble tracks if they are recognized or edited.
+	 */
+	[SCROBBLE_RECOGNIZED_TRACKS]: boolean;
 
-		/**
-		 * Only scrobble tracks if they are edited.
-		 * @type {Boolean}
-		 */
-		[SCROBBLE_EDITED_TRACKS_ONLY]: false,
+	/**
+	 * Only scrobble tracks if they are edited.
+	 */
+	[SCROBBLE_EDITED_TRACKS_ONLY]: boolean;
 
-		/**
-		 * Scrobble percent.
-		 * @type {Number}
-		 */
-		[SCROBBLE_PERCENT]: 50,
+	/**
+	 * Scrobble podcast episodes.
+	 */
+	[SCROBBLE_PODCASTS]: boolean;
+}
 
-		/**
-		 * Object contains info of disabled connectors.
-		 * Each key is a connector ID. If the connector is disabled,
-		 * key value should be true. If connector is enabled, key should not exist.
-		 * @type {Object}
-		 */
-		[DISABLED_CONNECTORS]: {},
+/**
+ * Object that stores default option values.
+ */
+const DEFAULT_OPTIONS: GlobalOptions = {
+	[FORCE_RECOGNIZE]: false,
+	[SCROBBLE_PODCASTS]: true,
+	[USE_NOTIFICATIONS]: true,
+	[USE_UNRECOGNIZED_SONG_NOTIFICATIONS]: false,
+	[SCROBBLE_RECOGNIZED_TRACKS]: true,
+	[SCROBBLE_EDITED_TRACKS_ONLY]: false,
+	[SCROBBLE_PERCENT]: 50,
+	[DISABLED_CONNECTORS]: {},
+};
+
+const OVERRIDE_CONTENT = {
+	[FORCE_RECOGNIZE]: false,
+	[SCROBBLE_RECOGNIZED_TRACKS]: true,
+	[SCROBBLE_EDITED_TRACKS_ONLY]: false,
+	[SCROBBLE_PODCASTS]: true,
+	[USE_NOTIFICATIONS]: true,
+	[USE_UNRECOGNIZED_SONG_NOTIFICATIONS]: false,
+};
+
+export interface ConnectorOptions {
+	YouTube: {
+		scrobbleMusicOnly: boolean;
+		scrobbleEntertainmentOnly: boolean;
+		scrobbleMusicRecognisedOnly: boolean;
+		enableGetTrackInfoFromYtMusic: boolean;
 	};
+}
 
-	/**
-	 * Object that stores default option values for specific connectors.
-	 * @type {Object}
-	 */
-	const DEFAULT_CONNECTOR_OPTIONS = {
-		YouTube: {
-			scrobbleMusicOnly: false,
-			scrobbleEntertainmentOnly: false,
-			scrobbleMusicRecognisedOnly: false,
-			enableGetTrackInfoFromYtMusic: false,
-		},
+/**
+ * Object that stores default option values for specific connectors.
+ */
+const DEFAULT_CONNECTOR_OPTIONS: ConnectorOptions = {
+	YouTube: {
+		scrobbleMusicOnly: false,
+		scrobbleEntertainmentOnly: false,
+		scrobbleMusicRecognisedOnly: false,
+		enableGetTrackInfoFromYtMusic: false,
+	},
+};
+
+export interface ConnectorsOverrideOptionValues {
+	[FORCE_RECOGNIZE]?: boolean;
+	[USE_NOTIFICATIONS]?: boolean;
+	[SCROBBLE_PODCASTS]?: boolean;
+	[USE_UNRECOGNIZED_SONG_NOTIFICATIONS]?: boolean;
+	[SCROBBLE_RECOGNIZED_TRACKS]?: boolean;
+	[SCROBBLE_EDITED_TRACKS_ONLY]?: boolean;
+}
+
+export interface ConnectorsOverrideOptions {
+	[connectorId: string]: ConnectorsOverrideOptionValues;
+}
+
+export type SavedEdit = {
+	album: string | null;
+	albumArtist: string | null;
+	artist: string;
+	track: string;
+};
+
+/**
+ * Setup default options values.
+ * This function is called on module init.
+ */
+async function setupDefaultConfigValues() {
+	const data = { ...DEFAULT_OPTIONS, ...(await options.get()) };
+
+	await options.set(data);
+	void options.debugLog([DISABLED_CONNECTORS]);
+
+	const connectorData = {
+		...DEFAULT_CONNECTOR_OPTIONS,
+		...(await connectorsOptions.get()),
 	};
+	for (const connectorKey in DEFAULT_CONNECTOR_OPTIONS) {
+		const typedKey = connectorKey as keyof ConnectorOptions;
+		connectorData[typedKey] = {
+			...DEFAULT_CONNECTOR_OPTIONS[typedKey],
+			...connectorData[typedKey],
+		};
+	}
+	await connectorsOptions.set(connectorData);
 
-	/**
-	 * Setup default options values.
-	 * This function is called on module init.
-	 */
-	async function setupDefaultConfigValues() {
-		let data = await options.get();
-		for (const key in DEFAULT_OPTIONS) {
-			if (data[key] === undefined) {
-				data[key] = DEFAULT_OPTIONS[key];
-			}
-		}
-		await options.set(data);
-		options.debugLog([DISABLED_CONNECTORS]);
+	void connectorsOptions.debugLog();
+	void connectorsOverrideOptions.debugLog();
+}
 
-		data = await connectorsOptions.get();
-		for (const connectorKey in DEFAULT_CONNECTOR_OPTIONS) {
-			if (data[connectorKey] === undefined) {
-				data[connectorKey] = DEFAULT_CONNECTOR_OPTIONS[connectorKey];
-			} else {
-				for (const key in DEFAULT_CONNECTOR_OPTIONS[connectorKey]) {
-					if (data[connectorKey][key] === undefined) {
-						data[connectorKey][key] = DEFAULT_CONNECTOR_OPTIONS[connectorKey][key];
-					}
-				}
-			}
-		}
-		await connectorsOptions.set(data);
-		connectorsOptions.debugLog();
-
-		connectorsOverrideOptions.debugLog();
+async function cleanupConfigValues() {
+	const data = await options.get();
+	if (!data) {
+		throw new Error('No options data found');
 	}
 
-	async function cleanupConfigValues() {
-		const data = await options.get();
+	for (const connectorId of Object.keys(data[DISABLED_CONNECTORS])) {
+		let isFound = false;
 
-		for (const connectorId of Object.keys(data[DISABLED_CONNECTORS])) {
-			let isFound = false;
-
-			for (const connector of connectors) {
-				if (connector.id === connectorId) {
-					isFound = true;
-					break;
-				}
-			}
-
-			if (!isFound) {
-				delete data[DISABLED_CONNECTORS][connectorId];
-				console.log(`Remove ${connectorId} from storage`);
-			}
-		}
-	}
-
-	async function getOption(key, connector) {
-		assertValidOptionKey(key);
-
-		if (connector !== undefined) {
-			const optionValue = await getConnectorOverrideOption(connector, key);
-			if (optionValue !== undefined) {
-				return optionValue;
+		for (const connector of connectors) {
+			if (connector.id === connectorId) {
+				isFound = true;
+				break;
 			}
 		}
 
-		const data = await options.get();
-		return data[key];
-	}
-
-	async function setOption(key, value) {
-		assertValidOptionKey(key);
-
-		await options.update({ [key]: value });
-	}
-
-	async function getConnectorOption(connector, key) {
-		assertValidConnectorOptionKey(connector, key);
-
-		const data = await connectorsOptions.get();
-		return data[connector][key];
-	}
-
-	async function setConnectorOption(connector, key, value) {
-		assertValidConnectorOptionKey(connector, key);
-
-		const data = await connectorsOptions.get();
-		data[connector][key] = value;
-
-		await connectorsOptions.set(data);
-	}
-
-	async function getConnectorOverrideOption(connector, key) {
-		const data = await connectorsOverrideOptions.get();
-		return data[connector] && data[connector][key];
-	}
-
-	async function setConnectorOverrideOption(connector, key, value) {
-		const data = await connectorsOverrideOptions.get();
-		if (!data[connector]) {
-			data[connector] = {};
+		if (!isFound) {
+			delete data[DISABLED_CONNECTORS][connectorId];
+			console.log(`Remove ${connectorId} from storage`);
 		}
-		data[connector][key] = value;
+	}
+}
 
-		await connectorsOverrideOptions.set(data);
+export async function getOption(
+	key: string,
+	connector?: string
+): Promise<unknown> {
+	if (!assertValidOptionKey(key)) {
+		return;
 	}
 
-	function assertValidOptionKey(key) {
-		if (!(key in DEFAULT_OPTIONS)) {
-			throw new Error(`Unknown option key: ${key}`);
+	if (connector !== undefined) {
+		const optionValue = await getConnectorOverrideOption(connector, key);
+		if (optionValue !== undefined) {
+			return optionValue;
 		}
 	}
 
-	function assertValidConnectorOptionKey(connector, key) {
-		if (!(connector in DEFAULT_CONNECTOR_OPTIONS)) {
-			throw new Error(`Unknown connector: ${connector}`);
-		}
+	const data = await options.get();
+	return data?.[key];
+}
 
-		if (!(key in DEFAULT_CONNECTOR_OPTIONS[connector])) {
-			throw new Error(`Unknown connector option key: ${key}`);
-		}
+export async function setOption<T extends keyof GlobalOptions>(
+	key: T,
+	value: GlobalOptions[T]
+): Promise<void> {
+	if (!assertValidOptionKey(key)) {
+		return;
 	}
 
-	/**
-	 * Check if connector is enabled.
-	 * @param  {Object} connector Connector
-	 * @return {Boolean} Check result
-	 */
-	async function isConnectorEnabled(connector) {
-		const data = await options.get();
-		return !data[DISABLED_CONNECTORS][connector.id] === true;
+	await options.update({ [key]: value });
+}
+
+// TODO: the types could be a little stricter on these functions, but it's not too bad
+export async function getConnectorOption(
+	connector: string,
+	key: string
+): Promise<boolean | undefined> {
+	if (!assertValidConnector(connector)) {
+		return;
+	}
+	if (!assertValidConnectorOptionKey(connector, key)) {
+		return;
 	}
 
-	/**
-	 * Enable or disable connector.
-	 * @param  {Object}  connector Connector
-	 * @param  {Boolean} state True if connector is enabled; false otherwise
-	 */
-	async function setConnectorEnabled(connector, state) {
-		const data = await options.get();
+	const data = await connectorsOptions.get();
+	return data?.[connector][key];
+}
 
-		if (state) {
-			delete data[DISABLED_CONNECTORS][connector.id];
-		} else {
+export async function setConnectorOption(
+	connector: string,
+	key: string,
+	value: boolean
+): Promise<void> {
+	if (!assertValidConnector(connector)) {
+		return;
+	}
+	if (!assertValidConnectorOptionKey(connector, key)) {
+		return;
+	}
+
+	const data = await connectorsOptions.get();
+	if (!data?.[connector]) {
+		throw new Error(`Connector ${connector} not found in storage`);
+	}
+	data[connector][key] = value;
+
+	await connectorsOptions.set(data);
+}
+
+export async function getConnectorOverrideOption(
+	connector: string,
+	key: keyof GlobalOptions
+): Promise<boolean | undefined> {
+	if (!assertValidOverride(key)) {
+		return;
+	}
+	const data = await connectorsOverrideOptions.get();
+	return data?.[connector]?.[key];
+}
+
+export async function setConnectorOverrideOption(
+	connector: string,
+	key: keyof ConnectorsOverrideOptionValues,
+	value: boolean | undefined
+): Promise<void> {
+	const data = await connectorsOverrideOptions.get();
+	if (!data) {
+		throw new Error('No connectors override data found');
+	}
+	if (!data[connector]) {
+		data[connector] = {};
+	}
+	data[connector][key] = value;
+
+	await connectorsOverrideOptions.set(data);
+}
+
+function assertValidOptionKey(key: string): key is keyof GlobalOptions {
+	if (!(key in DEFAULT_OPTIONS)) {
+		throw new Error(`Unknown option key: ${key}`);
+	}
+	return true;
+}
+
+function assertValidOverride(
+	key: string
+): key is keyof ConnectorsOverrideOptionValues {
+	if (!(key in OVERRIDE_CONTENT)) {
+		return false;
+	}
+	return true;
+}
+
+function assertValidConnector(
+	connector: string
+): connector is keyof ConnectorOptions {
+	if (!(connector in DEFAULT_CONNECTOR_OPTIONS)) {
+		throw new Error(`Unknown connector: ${connector}`);
+	}
+	return true;
+}
+
+function assertValidConnectorOptionKey(
+	connector: keyof ConnectorOptions,
+	key: string
+): key is keyof ConnectorOptions[keyof ConnectorOptions] {
+	if (!(key in DEFAULT_CONNECTOR_OPTIONS[connector])) {
+		throw new Error(`Unknown connector option key: ${key}`);
+	}
+	return true;
+}
+
+/**
+ * Check if connector is enabled.
+ * @param connector - Connector
+ * @returns Check result
+ */
+export async function isConnectorEnabled(
+	connector: ConnectorMeta
+): Promise<boolean> {
+	const data = await options.get();
+	if (!data) {
+		throw 'No options data found';
+	}
+	return !data[DISABLED_CONNECTORS][connector.id] === true;
+}
+
+/**
+ * Enable or disable connector.
+ * @param connector - Connector
+ * @param state - True if connector is enabled; false otherwise
+ */
+export async function setConnectorEnabled(
+	connector: ConnectorMeta,
+	state: boolean
+): Promise<void> {
+	const data = await options.get();
+	if (!data) {
+		throw 'No options data found';
+	}
+
+	if (state) {
+		delete data[DISABLED_CONNECTORS][connector.id];
+	} else {
+		data[DISABLED_CONNECTORS][connector.id] = true;
+	}
+
+	await options.set(data);
+}
+
+/**
+ * Enable or disable all connectors.
+ * @param state - True if connector is enabled; false otherwise
+ */
+export async function setAllConnectorsEnabled(state: boolean): Promise<void> {
+	const data = await options.get();
+	if (!data) {
+		throw 'No options data found';
+	}
+
+	data[DISABLED_CONNECTORS] = {};
+	if (!state) {
+		for (const connector of connectors) {
 			data[DISABLED_CONNECTORS][connector.id] = true;
 		}
-
-		await options.set(data);
 	}
 
-	/**
-	 * Enable or disable all connectors.
-	 * @param  {Boolean} state True if connector is enabled; false otherwise
-	 */
-	async function setAllConnectorsEnabled(state) {
-		const data = await options.get();
+	await options.set(data);
+}
 
-		data[DISABLED_CONNECTORS] = {};
-		if (!state) {
-			for (const connector of connectors) {
-				data[DISABLED_CONNECTORS][connector.id] = true;
-			}
-		}
-
-		await options.set(data);
-	}
-
-	setupDefaultConfigValues().then(cleanupConfigValues);
-
-	return {
-		isConnectorEnabled, setConnectorEnabled, setAllConnectorsEnabled,
-
-		getOption, setOption, getConnectorOption, setConnectorOption,
-		getConnectorOverrideOption, setConnectorOverrideOption,
-
-		USE_NOTIFICATIONS, USE_UNRECOGNIZED_SONG_NOTIFICATIONS, SCROBBLE_PODCASTS,
-		FORCE_RECOGNIZE, SCROBBLE_RECOGNIZED_TRACKS, SCROBBLE_EDITED_TRACKS_ONLY,
-		SCROBBLE_PERCENT, DISABLED_CONNECTORS,
-	};
-});
+void setupDefaultConfigValues().then(cleanupConfigValues);
