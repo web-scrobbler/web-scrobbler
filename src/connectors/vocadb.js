@@ -22,6 +22,7 @@ function cleanupArtist(artist) {
 						.replace(/^波音リツキレ$/, '波音リツ')
 						.replace(/^星尘Infinity$/, '星尘')
 						.replace(/^遙$/, '夏語遙')
+						.replace(/^v flower|v4 flower|Ci flower$/, 'flower')
 						.trim();
 				}
 				return [...new Set(feat)].join(', ');
