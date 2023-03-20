@@ -1,67 +1,54 @@
-'use strict';
+import * as MetadataFilter from 'metadata-filter';
+import browser from 'webextension-polyfill';
+import { ArtistTrackInfo, BaseState, State, TimeInfo } from '@/core/types';
+import * as Util from '@/core/content/util';
+import { ConnectorMeta } from '../connectors';
 
-/**
- * Base connector object.
- *
- * Provides properties and functions allow to get
- * track info from a website.
- *
- * @constructor
- */
-function BaseConnector() {
+export default class BaseConnector {
+	/**
+	 * Meta of connector
+	 */
+	public meta: ConnectorMeta;
+
 	/**
 	 * Selector of an element containing artist name.
 	 *
 	 * Only applies when default implementation of
 	 * `BaseConnector.getArtist` is used.
-	 *
-	 * @type {String}
-	 * @type {Array}
 	 */
-	this.artistSelector = null;
+	public artistSelector: string | string[] | null = null;
 
 	/**
 	 * Selector of an element containing track name.
 	 *
 	 * Only applies when default implementation of
 	 * `BaseConnector.getTrack` is used.
-	 *
-	 * @type {String}
-	 * @type {Array}
 	 */
-	this.trackSelector = null;
+	public trackSelector: string | string[] | null = null;
 
 	/**
 	 * Selector of an element containing album name.
 	 *
 	 * Only applies when default implementation of
 	 * `BaseConnector.getAlbum` is used.
-	 *
-	 * @type {String}
-	 * @type {Array}
 	 */
-	this.albumSelector = null;
+	public albumSelector: string | string[] | null = null;
 
 	/**
 	 * Selector of an element containing the album artist.
 	 *
 	 * Only applies when default implementation of
 	 * `BaseConnector.getAlbumArtist` is used.
-	 *
-	 * @type {String}
 	 */
-	this.albumArtistSelector = null;
+	public albumArtistSelector: string | null = null;
 
 	/**
 	 * Selector of an element containing track current time in h:m:s format.
 	 *
 	 * Only applies when default implementation of
 	 * `BaseConnector.getCurrentTime` is used.
-	 *
-	 * @type {String}
-	 * @type {Array}
 	 */
-	this.currentTimeSelector = null;
+	public currentTimeSelector: string | string[] | null = null;
 
 	/**
 	 * Selector of an element containing track remaining time in h:m:s format.
@@ -76,22 +63,16 @@ function BaseConnector() {
 	 *
 	 * Only applies when default implementation of
 	 * `BaseConnector.getRemainingTime` is used.
-	 *
-	 * @type {String}
-	 * @type {Array}
 	 */
-	this.remainingTimeSelector = null;
+	public remainingTimeSelector: string | string[] | null = null;
 
 	/**
 	 * Selector of an element containing track duration in h:m:s format.
 	 *
 	 * Only applies when default implementation of
 	 * `BaseConnector.getDuration` is used.
-	 *
-	 * @type {String}
-	 * @type {Array}
 	 */
-	this.durationSelector = null;
+	public durationSelector: string | string[] | null = null;
 
 	/**
 	 * Selector of an element containing both current time and duration.
@@ -101,11 +82,8 @@ function BaseConnector() {
 	 *
 	 * Only applies when default implementation of
 	 * `BaseConnector.getTimeInfo` is used.
-	 *
-	 * @type {String}
-	 * @type {Array}
 	 */
-	this.timeInfoSelector = null;
+	public timeInfoSelector: string | string[] | null = null;
 
 	/**
 	 * Selector of an element containing both artist and track name.
@@ -117,11 +95,8 @@ function BaseConnector() {
 	 *
 	 * Only applies when default implementation of
 	 * `BaseConnector.getArtistTrack` is used.
-	 *
-	 * @type {String}
-	 * @type {Array}
 	 */
-	this.artistTrackSelector = null;
+	public artistTrackSelector: string | string[] | null = null;
 
 	/**
 	 * Selector of a play button element. If the element is not visible,
@@ -131,11 +106,8 @@ function BaseConnector() {
 	 *
 	 * Only applies when default implementation of
 	 * `BaseConnector.isPlaying` is used.
-	 *
-	 * @type {String}
-	 * @type {Array}
 	 */
-	this.playButtonSelector = null;
+	public playButtonSelector: string | string[] | null = null;
 
 	/**
 	 * Selector of a pause button element. If the element is visible,
@@ -145,11 +117,8 @@ function BaseConnector() {
 	 *
 	 * Only applies when default implementation of
 	 * `BaseConnector.isPlaying` is used.
-	 *
-	 * @type {String}
-	 * @type {Array}
 	 */
-	this.pauseButtonSelector = null;
+	public pauseButtonSelector: string | string[] | null = null;
 
 	/**
 	 * Selector of a container closest to the player. Changes on this element
@@ -157,10 +126,8 @@ function BaseConnector() {
 	 *
 	 * Set this selector to use with default observing or
 	 * set up some custom detection of player state changing.
-	 *
-	 * @type {String}
 	 */
-	this.playerSelector = null;
+	public playerSelector: string | string[] | null = null;
 
 	/**
 	 * Selector of element contains a track art of now playing song.
@@ -170,11 +137,8 @@ function BaseConnector() {
 	 * Used for the notification service and "Now playing" popup.
 	 *
 	 * If not specified will fall back to Last.fm API.
-	 *
-	 * @type {String}
-	 * @type {Array}
 	 */
-	this.trackArtSelector = null;
+	public trackArtSelector: string | string[] | null = null;
 
 	/**
 	 * Priority of getters:
@@ -182,42 +146,41 @@ function BaseConnector() {
 	 * 2) `Connector.getArtistTrack` and `Connector.getTimeInfo`;
 	 * 3) `Connector.getTrackInfo`.
 	 */
-
 	/**
 	 * Default implementation of artist name lookup by selector.
 	 *
 	 * Override this method for more complex behaviour.
 	 *
-	 * @return {String} Song artist
+	 * @returns Song artist
 	 */
-	this.getArtist = () => Util.getTextFromSelectors(this.artistSelector);
+	public getArtist: () => string | null;
 
 	/**
 	 * Default implementation of track name lookup by selector.
 	 *
 	 * Override this method for more complex behaviour.
 	 *
-	 * @return {String} Song title
+	 * @returns Song title
 	 */
-	this.getTrack = () => Util.getTextFromSelectors(this.trackSelector);
+	public getTrack: () => string | null;
 
 	/**
 	 * Default implementation of album name lookup by selector.
 	 *
 	 * Override this method for more complex behaviour.
 	 *
-	 * @return {String} Song album
+	 * @returns Song album
 	 */
-	this.getAlbum = () => Util.getTextFromSelectors(this.albumSelector);
+	public getAlbum: () => string | null;
 
 	/**
 	 * Default implementation of album artist name lookup by selector.
 	 *
 	 * Override this method for more complex behaviour.
 	 *
-	 * @return {String} Song album artist
+	 * @returns Song album artist
 	 */
-	this.getAlbumArtist = () => Util.getTextFromSelectors(this.albumArtistSelector);
+	public getAlbumArtist: () => string | null;
 
 	/**
 	 * Default implementation of track duration lookup. If this method returns
@@ -226,11 +189,9 @@ function BaseConnector() {
 	 * While it's not generally needed, override this method for more
 	 * complex behaviour.
 	 *
-	 * @return {Number} Track length in seconds
+	 * @returns Track length in seconds
 	 */
-	this.getDuration = () => {
-		return Util.getSecondsFromSelectors(this.durationSelector);
-	};
+	public getDuration: () => number | undefined;
 
 	/**
 	 * Default implementation of track current time lookup by selector with
@@ -238,11 +199,9 @@ function BaseConnector() {
 	 *
 	 * Override this method for more complex behaviour.
 	 *
-	 * @return {Number} Number of seconds passed from the beginning of the track
+	 * @returns Number of seconds passed from the beginning of the track
 	 */
-	this.getCurrentTime = () => {
-		return Util.getSecondsFromSelectors(this.currentTimeSelector);
-	};
+	public getCurrentTime: () => number | undefined;
 
 	/**
 	 * Default implementation of track remaining time lookup by selector with
@@ -258,11 +217,9 @@ function BaseConnector() {
 	 *
 	 * Override this method for more complex behaviour.
 	 *
-	 * @return {Number} Number of remaining seconds
+	 * @returns Number of remaining seconds
 	 */
-	this.getRemainingTime = () => {
-		return Util.getSecondsFromSelectors(this.remainingTimeSelector);
-	};
+	public getRemainingTime: () => number | undefined;
 
 	/**
 	 * Default implementation of current time and duration lookup by selector.
@@ -271,13 +228,9 @@ function BaseConnector() {
 	 *
 	 * Override this method for more complex behaviour.
 	 *
-	 * @return {Object} Object contains current time and duration info
+	 * @returns Object containing current time and duration info
 	 */
-	this.getTimeInfo = () => {
-		return Util.splitTimeInfo(
-			Util.getTextFromSelectors(this.timeInfoSelector)
-		);
-	};
+	public getTimeInfo: () => TimeInfo | null;
 
 	/**
 	 * Default implementation of artist and track name lookup by selector.
@@ -286,13 +239,9 @@ function BaseConnector() {
 	 *
 	 * Override this method for more complex behaviour.
 	 *
-	 * @return {Object} Object contain artist and track information
+	 * @returns Object containing artist and track information
 	 */
-	this.getArtistTrack = () => {
-		return Util.splitArtistTrack(
-			Util.getTextFromSelectors(this.artistTrackSelector)
-		);
-	};
+	public getArtistTrack: () => ArtistTrackInfo;
 
 	/**
 	 * Get object contains track info.
@@ -301,9 +250,9 @@ function BaseConnector() {
 	 * Use this function to get several properties
 	 * from a single source per one call.
 	 *
-	 * @return {Object} Track info
+	 * @returns Track info
 	 */
-	this.getTrackInfo = () => null;
+	public getTrackInfo: () => BaseState | null = () => null;
 
 	/**
 	 * Returns a unique identifier of current track. The identifier does not
@@ -318,9 +267,9 @@ function BaseConnector() {
 	 * It is strongly recommended for connector authors to implement this method
 	 * when possible.
 	 *
-	 * @return {String} Song unique ID
+	 * @returns Song unique ID
 	 */
-	this.getUniqueID = () => null;
+	public getUniqueID: () => string | null = () => null;
 
 	/**
 	 * Default implementation of check for active playback by play/pause button
@@ -328,53 +277,26 @@ function BaseConnector() {
 	 *
 	 * Override this method for custom behaviour.
 	 *
-	 * @return {Boolean} True if song is now playing; false otherwise
+	 * @returns True if song is now playing; false otherwise
 	 */
-	this.isPlaying = () => {
-		if (this.playButtonSelector) {
-			const playButton = Util.queryElements(this.playButtonSelector);
-			if (playButton) {
-				return !playButton.is(':visible');
-			}
-
-			return false;
-		}
-
-		if (this.pauseButtonSelector) {
-			const pauseButton = Util.queryElements(this.pauseButtonSelector);
-			if (pauseButton) {
-				return pauseButton.is(':visible');
-			}
-
-			return false;
-		}
-
-		/*
-		 * Return true if play/pause button selector is not specified. It's
-		 * better to assume the playback is always playing than otherwise. :)
-		 */
-
-		return true;
-	};
+	public isPlaying: () => boolean;
 
 	/**
 	 * Default implementation to check whether a podcast is playing. Only has an
 	 * effect if the user has opted to disable podcast scrobbling.
 	 *
-	 * @return {Boolean} True if the current track is a podcast; false otherwise
+	 * @returns True if the current track is a podcast; false otherwise
 	 */
-	this.isPodcast = () => false;
+	public isPodcast: () => boolean = () => false;
 
 	/**
 	 * Default implementation used to get the track art URL from the selector.
 	 *
 	 * Override this method for more complex behaviour.
 	 *
-	 * @return {String} Track art URL
+	 * @returns Track art URL
 	 */
-	this.getTrackArt = () => {
-		return Util.extractImageUrlFromSelectors(this.trackArtSelector);
-	};
+	public getTrackArt: () => string | null;
 
 	/**
 	 * Default implementation of a check if given track art URL
@@ -382,11 +304,10 @@ function BaseConnector() {
 	 *
 	 * Override this method to exclude default track arts.
 	 *
-	 * @param  {String} trackArtUrl Track art URL
-	 * @return {Boolean} Check result
+	 * @param trackArtUrl - Track art URL
+	 * @returns Check result
 	 */
-	// eslint-disable-next-line no-unused-vars
-	this.isTrackArtDefault = (trackArtUrl) => false;
+	public isTrackArtDefault: (trackArtUrl: string) => boolean = () => false;
 
 	/**
 	 * Default implementation of a check to see if a state change is allowed.
@@ -395,9 +316,9 @@ function BaseConnector() {
 	 * Override this method to allow certain states to be ignored, for example
 	 * if an advert is playing.
 	 *
-	 * @return {Boolean} True if state change is allowed; false otherwise
+	 * @returns True if state change is allowed; false otherwise
 	 */
-	this.isStateChangeAllowed = () => true;
+	public isStateChangeAllowed: () => boolean = () => true;
 
 	/**
 	 * Default implementation of a check to see if a scrobbling is allowed.
@@ -405,9 +326,9 @@ function BaseConnector() {
 	 *
 	 * Override this method to allow certain states to be reset.
 	 *
-	 * @return {Boolean} True if state change is allowed; false otherwise
+	 * @returns True if state change is allowed; false otherwise
 	 */
-	this.isScrobblingAllowed = () => true;
+	public isScrobblingAllowed: () => boolean = () => true;
 
 	/**
 	 * Function that will be called when the connector is injected and
@@ -415,7 +336,9 @@ function BaseConnector() {
 	 *
 	 * Override this method for more complex behaviour.
 	 */
-	this.onReady = () => { /* Do nothing */ };
+	public onReady: () => void = () => {
+		// Do nothing by default
+	};
 
 	/**
 	 * Called then injected script emits event.
@@ -423,17 +346,25 @@ function BaseConnector() {
 	 *
 	 * Override this method to get data from injected scripts.
 	 *
-	 * @param {Object} event Event object
+	 * @param event - Event object
 	 */
-	this.onScriptEvent = (event) => { // eslint-disable-line no-unused-vars
+	public onScriptEvent: (
+		event: MessageEvent<Record<string, unknown>>
+	) => void = () => {
 		// Do nothing
 	};
+
+	private defaultFilter = MetadataFilter.createFilter(
+		MetadataFilter.createFilterSetForFields(
+			['artist', 'track', 'album', 'albumArtist'],
+			[(text) => text.trim(), MetadataFilter.replaceNbsp]
+		)
+	);
 
 	/**
 	 * Connectors can use, but must not override functions
 	 * and properties defined below.
 	 */
-
 	/**
 	 * Add custom filter to default one. Use this method only to apply
 	 * custom metadata filters.
@@ -441,27 +372,15 @@ function BaseConnector() {
 	 * The given filter will be used first to make sure the default filter
 	 * is executed after all other filters.
 	 *
-	 * @param  {Object} filter Filter object
+	 * @param filter - Filter object
 	 */
-	this.applyFilter = (filter) => {
-		metadataFilter = filter.extend(defaultFilter);
-	};
+	public applyFilter: (filter: MetadataFilter.MetadataFilter) => void;
 
 	/**
- 	 * Send request to core to reset current state. Should be used if connector
- 	 * has custom state change listener.
- 	 */
-	this.resetState = () => {
-		if (isStateReset) {
-			return;
-		}
-
-		if (this.reactorCallback !== null) {
-			this.reactorCallback({}, Object.keys(defaultState));
-		}
-
-		isStateReset = true;
-	};
+	 * Send request to core to reset current state. Should be used if connector
+	 * has custom state change listener.
+	 */
+	public resetState: () => void;
 
 	/**
 	 * Inject custom script into a page.
@@ -470,17 +389,17 @@ function BaseConnector() {
 	 * using `window.postMessage` function.
 	 *
 	 * The format of message is following:
-	 * {
+	 * \{
 	 * 	   // required fields
 	 *	   sender: 'web-scrobbler',
 	 *	   // optional fields used to exchange data
 	 *	   foo: bar,
 	 * 	   bar: baz,
-	 * }
+	 * \}
 	 *
-	 * @param  {String} scriptFile Path to script file
+	 * @param scriptFile - Path to script file
 	 */
-	this.injectScript = (scriptFile) => {
+	public injectScript: (scriptFile: string) => void = (scriptFile) => {
 		if (!window.webScrobblerScripts) {
 			window.webScrobblerScripts = {};
 		}
@@ -492,16 +411,21 @@ function BaseConnector() {
 		const scriptUrl = browser.runtime.getURL(scriptFile);
 		Util.injectScriptIntoDocument(scriptUrl);
 
-		console.log(`Web Scrobbler: Injected ${scriptFile}`);
+		Util.debugLog(`Injected ${scriptFile}`);
 
-		window.addEventListener('message', (event) => {
-			if (event.data.sender !== 'web-scrobbler') {
-				return;
+		window.addEventListener(
+			'message',
+			(event: MessageEvent<Record<string, unknown>>) => {
+				if (
+					'sender' in event.data &&
+					event.data.sender !== 'web-scrobbler'
+				) {
+					return;
+				}
+
+				this.onScriptEvent(event);
 			}
-
-			this.onScriptEvent(event);
-		});
-
+		);
 
 		window.webScrobblerScripts[scriptFile] = true;
 	};
@@ -511,27 +435,7 @@ function BaseConnector() {
 	 * collects the track metadata and communicates with the background script
 	 * if needed.
 	 */
-	this.onStateChanged = () => {
-		if (!this.isStateChangeAllowed()) {
-			return;
-		}
-
-		/**
-		 * Because gathering the state from DOM is quite expensive and mutation
-		 * events can be emitted REALLY often, we use throttle to set a minimum
-		 * delay between two calls of the state change listener.
-		 *
-		 * Only exception is change in pause/play state which we detect
-		 * immediately so we don't miss a quick play/pause/play or
-		 * pause/play/pause sequence.
-		 */
-		const isPlaying = this.isPlaying();
-		if (isPlaying !== currentState.isPlaying) {
-			this.stateChangedWorker();
-		} else {
-			this.stateChangedWorkerThrottled();
-		}
-	};
+	public onStateChanged: () => void;
 
 	/**
 	 * Enable support for MediaSession API.
@@ -539,8 +443,8 @@ function BaseConnector() {
 	 * The connector will use MediaMetadata to get track info,
 	 * if Media Session API is available, and MediaMetadata is filled.
 	 */
-	this.useMediaSessionApi = () => {
-		isMediaSessionAllowed = 'mediaSession' in navigator;
+	public useMediaSessionApi: () => void = () => {
+		this.isMediaSessionAllowed = 'mediaSession' in navigator;
 	};
 
 	/**
@@ -549,103 +453,41 @@ function BaseConnector() {
 	 * Connectors must not call functions defined below.
 	 * Connectors must not override functions and properties defined below.
 	 */
-
 	/**
 	 * Default implementation for getting origin URL.
 	 *
-	 * @return {String} The source URL
+	 * @returns The source URL
 	 */
-	this.getOriginUrl = () => {
+	public getOriginUrl: () => string = () => {
 		return document.location.href;
 	};
 
-	const defaultFilter = MetadataFilter.createFilter(
-		MetadataFilter.createFilterSetForFields(
-			['artist', 'track', 'album', 'albumArtist'],
-			[(text) => text.trim(), MetadataFilter.replaceNbsp]
-		)
-	);
+	/**
+	 * Boolean flag that indicates whether MediaSession API is supported.
+	 * This flag is set to true if connector calls `useMediaSessionApi` method.
+	 * Otherwise, it is set to false.
+	 */
+	private isMediaSessionAllowed = false;
 
 	/**
 	 * Filter object used to filter song metadata.
-	 * @type {Object}
 	 */
-	let metadataFilter = defaultFilter;
+	private metadataFilter = this.defaultFilter;
 
 	/**
 	 * Default values of state properties.
-	 * @type {Object}
 	 */
-	const defaultState = {
-		/* Required fields */
-
-		/**
-		 * Track name.
-		 * @type {String}
-		 */
+	private defaultState: State = {
 		track: null,
-
-		/**
-		 * Artist name.
-		 * @type {String}
-		 */
 		artist: null,
-
-		/* Optional fields */
-
-		/**
- 		 * Album name.
- 		 * @type {String}
- 		 */
 		album: null,
-
-		/**
-		 * Album artist.
-		 *
-		 * @type {String}
-		 */
 		albumArtist: null,
-
-		/**
-		 * Track unique ID.
-		 * @type {String}
-		 */
 		uniqueID: null,
-
-		/**
-		 * Track duration.
-		 * @type {Number}
-		 */
 		duration: null,
-
-		/**
-		 * Current time.
-		 * @type {Number}
-		 */
 		currentTime: null,
-
-		/**
-		 * Playing/pause state.
-		 * @type {Boolean}
-		 */
 		isPlaying: true,
-
-		/**
-		 * URL to track art image.
-		 * @type {String}
-		 */
 		trackArt: null,
-
-		/**
-		 * Whether the current track is a podcast episode.
-		 * @type {String}
-		 */
 		isPodcast: false,
-
-		/**
-		 * Origin URL.
-		 * @type {String}
-		 */
 		originUrl: null,
 	};
 
@@ -653,191 +495,340 @@ function BaseConnector() {
 	/**
 	 * List of song fields used to check if song is changed. If any of
 	 * these fields are changed, the new song is playing.
-	 * @type {Array}
 	 */
-	const fieldsToCheckSongChange = ['artist', 'track', 'album', 'albumArtist', 'uniqueID'];
+	private fieldsToCheckSongChange: (keyof State)[] = [
+		'artist',
+		'track',
+		'album',
+		'albumArtist',
+		'uniqueID',
+	];
 	// @endif
-
-	const mediaSessionFields = ['artist', 'track', 'album', 'trackArt'];
-	const artistTrackFields = ['artist', 'track'];
-	const timeInfoFields = ['duration', 'currentTime'];
-
-	let isMediaSessionAllowed = false;
+	private mediaSessionFields: (keyof State)[] = [
+		'artist',
+		'track',
+		'album',
+		'trackArt',
+	];
+	private artistTrackFields: (keyof State)[] = ['artist', 'track'];
+	private timeInfoFields: (keyof State)[] = ['duration', 'currentTime'];
 
 	/**
 	 * Gathered info about the current track for internal use.
-	 * @type {Object}
 	 */
-	const currentState = Object.assign({}, defaultState);
+	private currentState = Object.assign({}, this.defaultState);
 
 	/**
 	 * Filtered info about the current track for internal use.
-	 * @type {Object}
 	 */
-	const filteredState = Object.assign({}, defaultState);
+	private filteredState = Object.assign({}, this.defaultState);
 
 	/**
 	 * Flag indicates the current state is reset by the connector.
 	 * Used to prevent spamming the controller by empty states.
-	 *
-	 * @type {Boolean}
 	 */
-	let isStateReset = false;
+	private isStateReset = false;
 
 	/**
-	 * Callback set by the reactor to listen on state changes of this connector.
-	 *
-	 * @type {Function}
+	 * Callback set by the controller to listen on state changes of this connector.
 	 */
-	this.reactorCallback = null;
+	public controllerCallback:
+		| ((state: State, fields: (keyof State)[]) => void)
+		| null = null;
 
 	/**
 	 * Function for all the hard work around detecting and updating state.
 	 */
-	this.stateChangedWorker = () => {
-		if (!this.isScrobblingAllowed()) {
-			this.resetState();
-			return;
-		}
-
-		isStateReset = false;
-
-		const changedFields = [];
-		const newState = this.getCurrentState();
-
-		for (const key in currentState) {
-			let newValue;
-			if (newState[key] || newState[key] === false) {
-				newValue = newState[key];
-			} else {
-				newValue = defaultState[key];
-			}
-			const oldValue = currentState[key];
-
-			if (newValue !== oldValue) {
-				currentState[key] = newValue;
-				changedFields.push(key);
-			}
-		}
-
-		if (changedFields.length > 0) {
-			this.filterState(changedFields);
-
-			if (this.reactorCallback !== null) {
-				this.reactorCallback(filteredState, changedFields);
-			}
-
-			// @ifdef DEBUG
-			if (changedFields.includes('isPlaying')) {
-				Util.debugLog(`isPlaying state changed to ${newState.isPlaying}`);
-			}
-
-			for (const field of fieldsToCheckSongChange) {
-				if (changedFields.includes(field)) {
-					Util.debugLog(JSON.stringify(filteredState, null, 2));
-					break;
-				}
-			}
-			// @endif
-		}
-	};
+	private stateChangedWorker: () => void;
 
 	/**
 	 * Get current state of connector.
-	 * @return {Object} Current state
+	 * @returns Current state
 	 */
-	this.getCurrentState = () => {
-		const newState = {
-			albumArtist: this.getAlbumArtist(),
-			uniqueID: this.getUniqueID(),
-			duration: this.getDuration(),
-			currentTime: this.getCurrentTime(),
-			isPlaying: this.isPlaying(),
-			isPodcast: this.isPodcast(),
-			originUrl: this.getOriginUrl(),
-		};
-
-		let mediaSessionInfo = null;
-		if (isMediaSessionAllowed) {
-			const { mediaSession } = navigator;
-			mediaSessionInfo = Util.getMediaSessionInfo(mediaSession);
-		}
-
-		if (!mediaSessionInfo) {
-			mediaSessionInfo = {
-				trackArt: this.getTrackArt(),
-				artist: this.getArtist(),
-				track: this.getTrack(),
-				album: this.getAlbum(),
-			};
-		}
-		Util.fillEmptyFields(newState, mediaSessionInfo, mediaSessionFields);
-
-		const remainingTime = Math.abs(this.getRemainingTime());
-		if (remainingTime) {
-			if (!newState.currentTime && newState.duration) {
-				newState.currentTime = newState.duration - remainingTime;
-			}
-
-			if (!newState.duration && newState.currentTime) {
-				newState.duration = newState.currentTime + remainingTime;
-			}
-		}
-
-		const timeInfo = this.getTimeInfo();
-		Util.fillEmptyFields(newState, timeInfo, timeInfoFields);
-
-		const artistTrack = this.getArtistTrack();
-		Util.fillEmptyFields(newState, artistTrack, artistTrackFields);
-
-		const trackInfo = this.getTrackInfo();
-		Util.fillEmptyFields(newState, trackInfo, Object.keys(defaultState));
-
-		return newState;
-	};
+	private getCurrentState: () => State;
 
 	/**
 	 * Filter changed fields.
-	 * @param  {Array} changedFields List of changed fields
+	 * @param changedFields - List of changed fields
 	 */
-	this.filterState = (changedFields) => {
-		for (const field of changedFields) {
-			let fieldValue = currentState[field];
-
-			switch (field) {
-				case 'albumArtist': {
-					if (fieldValue === currentState.artist) {
-						fieldValue = defaultState[field];
-					}
-				}
-				// eslint-disable-next-line no-fallthrough
-				case 'artist':
-				case 'track':
-				case 'album': {
-					fieldValue = metadataFilter.filterField(field, fieldValue) || defaultState[field];
-					break;
-				}
-				case 'currentTime':
-				case 'duration': {
-					fieldValue = Util.escapeBadTimeValues(fieldValue) || defaultState[field];
-					break;
-				}
-				case 'trackArt':
-					if (fieldValue && this.isTrackArtDefault(fieldValue)) {
-						fieldValue = null;
-					}
-					break;
-			}
-
-			filteredState[field] = fieldValue;
-		}
-	};
+	private filterState: (changedFields: (keyof State)[]) => void;
 
 	/**
 	 * Throttled call for state changed worker.
 	 */
-	this.stateChangedWorkerThrottled = Util.throttle(this.stateChangedWorker, 500);
-}
+	private stateChangedWorkerThrottled: () => void;
 
-// eslint-disable-next-line no-unused-vars
-const Connector = window.Connector || new BaseConnector();
+	constructor(meta: ConnectorMeta) {
+		this.meta = meta;
+
+		this.getArtist = () => Util.getTextFromSelectors(this.artistSelector);
+
+		this.getTrack = () => Util.getTextFromSelectors(this.trackSelector);
+
+		this.getAlbum = () => Util.getTextFromSelectors(this.albumSelector);
+
+		this.getAlbumArtist = () =>
+			Util.getTextFromSelectors(this.albumArtistSelector);
+
+		this.getDuration = () => {
+			return Util.getSecondsFromSelectors(this.durationSelector);
+		};
+
+		this.getCurrentTime = () => {
+			return Util.getSecondsFromSelectors(this.currentTimeSelector);
+		};
+
+		this.getRemainingTime = () => {
+			return Util.getSecondsFromSelectors(this.remainingTimeSelector);
+		};
+
+		this.getTimeInfo = () => {
+			return Util.splitTimeInfo(
+				Util.getTextFromSelectors(this.timeInfoSelector)
+			);
+		};
+
+		this.getArtistTrack = () => {
+			return Util.splitArtistTrack(
+				Util.getTextFromSelectors(this.artistTrackSelector)
+			);
+		};
+
+		this.isPlaying = () => {
+			if (this.playButtonSelector) {
+				return Util.isElementVisible(this.playButtonSelector);
+			}
+
+			if (this.pauseButtonSelector) {
+				return Util.isElementVisible(this.pauseButtonSelector);
+			}
+
+			/*
+			 * Return true if play/pause button selector is not specified. It's
+			 * better to assume the playback is always playing than otherwise. :)
+			 */
+			return true;
+		};
+
+		this.getTrackArt = () => {
+			return Util.extractImageUrlFromSelectors(this.trackArtSelector);
+		};
+
+		this.applyFilter = (filter) => {
+			this.metadataFilter = filter.extend(this.defaultFilter);
+		};
+
+		this.resetState = () => {
+			if (this.isStateReset) {
+				return;
+			}
+
+			if (this.controllerCallback !== null) {
+				this.controllerCallback(
+					{},
+					Object.keys(this.defaultState) as (keyof State)[]
+				);
+			}
+
+			this.isStateReset = true;
+		};
+
+		this.onStateChanged = () => {
+			if (!this.isStateChangeAllowed()) {
+				return;
+			}
+
+			/**
+			 * Because gathering the state from DOM is quite expensive and mutation
+			 * events can be emitted REALLY often, we use throttle to set a minimum
+			 * delay between two calls of the state change listener.
+			 *
+			 * Only exception is change in pause/play state which we detect
+			 * immediately so we don't miss a quick play/pause/play or
+			 * pause/play/pause sequence.
+			 */
+			const isPlaying = this.isPlaying();
+			if (isPlaying !== this.currentState.isPlaying) {
+				this.stateChangedWorker();
+			} else {
+				this.stateChangedWorkerThrottled();
+			}
+		};
+
+		this.stateChangedWorker = () => {
+			if (!this.isScrobblingAllowed()) {
+				this.resetState();
+				return;
+			}
+
+			this.isStateReset = false;
+
+			const changedFields: (keyof State)[] = [];
+			const newState = this.getCurrentState();
+
+			for (const keyRaw in this.currentState) {
+				let newValue;
+				const key = keyRaw as keyof State;
+				if (newState[key] || newState[key] === false) {
+					newValue = newState[key];
+				} else {
+					newValue = this.defaultState[key];
+				}
+				const oldValue = this.currentState[key];
+
+				if (newValue !== oldValue) {
+					// @ts-expect-error - TS is a bit confused by the optionality of the fields
+					this.currentState[key] = newValue;
+					changedFields.push(key);
+				}
+			}
+
+			if (changedFields.length > 0) {
+				this.filterState(changedFields);
+
+				if (this.controllerCallback !== null) {
+					this.controllerCallback(this.filteredState, changedFields);
+				}
+
+				// @ifdef DEBUG
+				if (changedFields.includes('isPlaying')) {
+					Util.debugLog(
+						`isPlaying state changed to ${
+							newState.isPlaying?.toString() ?? 'undefined'
+						}`
+					);
+				}
+
+				for (const field of this.fieldsToCheckSongChange) {
+					if (changedFields.includes(field)) {
+						Util.debugLog(
+							JSON.stringify(this.filteredState, null, 2)
+						);
+						break;
+					}
+				}
+				// @endif
+			}
+		};
+
+		this.getCurrentState = () => {
+			const newState = {
+				albumArtist: this.getAlbumArtist(),
+				uniqueID: this.getUniqueID(),
+				duration: this.getDuration(),
+				currentTime: this.getCurrentTime(),
+				isPlaying: this.isPlaying(),
+				isPodcast: this.isPodcast(),
+				originUrl: this.getOriginUrl(),
+			};
+
+			let mediaSessionInfo = null;
+			if (this.isMediaSessionAllowed) {
+				const { mediaSession } = navigator;
+				mediaSessionInfo = Util.getMediaSessionInfo(mediaSession);
+			}
+
+			if (!mediaSessionInfo) {
+				mediaSessionInfo = {
+					trackArt: this.getTrackArt(),
+					artist: this.getArtist(),
+					track: this.getTrack(),
+					album: this.getAlbum(),
+				};
+			}
+			Util.fillEmptyFields(
+				newState,
+				mediaSessionInfo,
+				this.mediaSessionFields
+			);
+
+			const remainingTime = Math.abs(this.getRemainingTime() ?? 0);
+			if (remainingTime) {
+				if (!newState.currentTime && newState.duration) {
+					newState.currentTime = newState.duration - remainingTime;
+				}
+
+				if (!newState.duration && newState.currentTime) {
+					newState.duration = newState.currentTime + remainingTime;
+				}
+			}
+
+			const timeInfo = this.getTimeInfo();
+			Util.fillEmptyFields(newState, timeInfo, this.timeInfoFields);
+
+			const artistTrack = this.getArtistTrack();
+			Util.fillEmptyFields(newState, artistTrack, this.artistTrackFields);
+
+			const trackInfo = this.getTrackInfo();
+			if (trackInfo !== null) {
+				Util.fillEmptyFields(
+					newState,
+					trackInfo,
+					Object.keys(this.defaultState) as (keyof State)[]
+				);
+			}
+
+			return newState;
+		};
+
+		/**
+		 * Filter changed fields.
+		 * @param changedFields - List of changed fields
+		 */
+		this.filterState = (changedFields) => {
+			for (const field of changedFields) {
+				let fieldValue = this.currentState[field];
+
+				switch (field) {
+					case 'albumArtist': {
+						if (fieldValue === this.currentState.artist) {
+							fieldValue = this.defaultState[field];
+						}
+					}
+					// eslint-disable-next-line no-fallthrough
+					case 'artist':
+					case 'track':
+					case 'album': {
+						if (fieldValue === null || fieldValue === undefined) {
+							fieldValue = this.defaultState[field];
+							break;
+						}
+						fieldValue =
+							this.metadataFilter.filterField(
+								field,
+								fieldValue as string
+							) || this.defaultState[field];
+						break;
+					}
+					case 'currentTime':
+					case 'duration': {
+						if (fieldValue === null || fieldValue === undefined) {
+							fieldValue = this.defaultState[field];
+							break;
+						}
+						fieldValue =
+							Util.escapeBadTimeValues(fieldValue as number) ||
+							this.defaultState[field];
+						break;
+					}
+					case 'trackArt':
+						if (
+							fieldValue &&
+							this.isTrackArtDefault(fieldValue as string)
+						) {
+							fieldValue = null;
+						}
+						break;
+				}
+
+				// @ts-expect-error - TS is a bit confused by the optionality of the fields
+				this.filteredState[field] = fieldValue;
+			}
+		};
+
+		this.stateChangedWorkerThrottled = Util.throttle(
+			this.stateChangedWorker,
+			500
+		);
+	}
+}

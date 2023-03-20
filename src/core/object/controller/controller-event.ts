@@ -1,15 +1,5 @@
-'use strict';
+export const ControllerReset = 'ControllerReset';
 
-const ControllerReset = 'ControllerReset';
+export const SongNowPlaying = 'SongNowPlaying';
 
-const SongNowPlaying = 'SongNowPlaying';
-
-const SongUnrecognized = 'SongUnrecognized';
-
-define(() => {
-	return {
-		ControllerReset,
-		SongNowPlaying,
-		SongUnrecognized,
-	};
-});
+export const SongUnrecognized = 'SongUnrecognized';

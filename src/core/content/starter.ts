@@ -1,80 +1,115 @@
-'use strict';
-
-/**
- * This script is injected to the page after the {@link BaseConnector} and
- * a custom connector are already in place and set up.
- *
+/*
  * As custom connectors should be declarative only without any actions triggered
  * on pageload, this starter is needed for connectors to start running
  */
-(() => {
-	if (window.STARTER_LOADED !== undefined) {
+
+import Reactor from '@/core/content/reactor';
+import BaseConnector from './connector';
+import * as BrowserStorage from '@/core/storage/browser-storage';
+import { DISABLED_CONNECTORS } from '@/core/storage/options';
+import { sendContentMessage } from '@/util/communication';
+
+export default function start() {
+	if (window.STARTER_LOADED) {
 		Util.debugLog('Starter is already loaded', 'warn');
 		return;
 	}
-	window.STARTER_LOADED = true;
 
 	if (isConnectorInvalid()) {
-		Util.debugLog('You have overwritten or unset the Connector object', 'warn');
+		Util.debugLog(
+			'You have overwritten or unset the Connector object',
+			'warn'
+		);
 		return;
 	}
 
-	setupStateListening();
+	void setupStateListening();
+}
 
-	/* Internal functions. */
+function isConnectorInvalid() {
+	return (
+		typeof Connector === 'undefined' ||
+		!(Connector instanceof BaseConnector)
+	);
+}
 
-	function isConnectorInvalid() {
-		return typeof Connector === 'undefined' || !(Connector instanceof BaseConnector);
+async function setupStateListening() {
+	const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
+	const options = await globalOptions.get();
+	const disabledTabs = BrowserStorage.getStorage(
+		BrowserStorage.DISABLED_TABS
+	);
+	const disabledTabList = await disabledTabs.get();
+	const currentTab = await sendContentMessage({
+		type: 'getTabId',
+		payload: undefined,
+	});
+	new Reactor(
+		Connector,
+		!disabledTabList?.[currentTab ?? -2]?.[Connector.meta.id] &&
+			(options === null ||
+				!options[DISABLED_CONNECTORS][Connector.meta.id])
+	);
+
+	if (Connector.playerSelector === null) {
+		Util.debugLog(
+			'`Connector.playerSelector` is empty. The current connector is expected to manually detect state changes',
+			'info'
+		);
+		return;
 	}
 
-	function setupStateListening() {
-		new Reactor(Connector);
+	Util.debugLog('Setting up observer');
 
-		if (Connector.playerSelector === null) {
-			Util.debugLog('`Connector.playerSelector` is empty. The current connector is expected to manually detect state changes', 'info');
-			return;
-		}
+	const observeTarget = retrieveObserveTarget();
+	if (observeTarget !== null) {
+		setupObserver(observeTarget);
+	} else {
+		Util.debugLog(
+			`Element '${Connector.playerSelector.toString()}' is missing`,
+			'warn'
+		);
+		setupSecondObserver();
+	}
+}
 
-		Util.debugLog('Setting up observer');
+function setupObserver(observeTarget: Node) {
+	const observer = new MutationObserver(Connector.onStateChanged);
+	const observerConfig = {
+		childList: true,
+		subtree: true,
+		attributes: true,
+		characterData: true,
+	};
 
+	observer.observe(observeTarget, observerConfig);
+
+	Util.debugLog(
+		`Used '${
+			Connector.playerSelector?.toString() ??
+			'errorPlayerSelectorNotDefined'
+		}' to watch changes.`
+	);
+}
+
+function setupSecondObserver() {
+	const playerObserver = new MutationObserver(() => {
 		const observeTarget = retrieveObserveTarget();
 		if (observeTarget !== null) {
+			playerObserver.disconnect();
 			setupObserver(observeTarget);
-		} else {
-			Util.debugLog(`Element '${Connector.playerSelector}' is missing`, 'warn');
-			setupSecondObserver();
 		}
-	}
+	});
 
-	function setupObserver(observeTarget) {
-		const observer = new MutationObserver(Connector.onStateChanged);
-		const observerConfig = {
-			childList: true, subtree: true,
-			attributes: true, characterData: true,
-		};
+	const playerObserverConfig = {
+		childList: true,
+		subtree: true,
+		attributes: false,
+		characterData: false,
+	};
+	playerObserver.observe(document, playerObserverConfig);
+}
 
-		observer.observe(observeTarget, observerConfig);
-
-		Util.debugLog(`Used '${Connector.playerSelector}' to watch changes.`);
-	}
-
-	function setupSecondObserver() {
-		const playerObserver = new MutationObserver(() => {
-			const observeTarget = retrieveObserveTarget();
-			if (observeTarget !== null) {
-				playerObserver.disconnect();
-				setupObserver(observeTarget);
-			}
-		});
-
-		const playerObserverConfig = {
-			childList: true, subtree: true,
-			attributes: false, characterData: false,
-		};
-		playerObserver.observe(document, playerObserverConfig);
-	}
-
-	function retrieveObserveTarget() {
-		return document.querySelector(Connector.playerSelector);
-	}
-})();
+function retrieveObserveTarget() {
+	return document.querySelector(Connector.playerSelector?.toString() ?? '');
+}
