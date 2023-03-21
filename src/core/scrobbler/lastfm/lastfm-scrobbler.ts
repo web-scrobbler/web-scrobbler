@@ -1,176 +1,178 @@
 'use strict';
 
+import { ServiceCallResult } from '@/core/object/service-call-result';
+import Song from '@/core/object/song';
+import AudioScrobbler, {
+	AudioScrobblerParams,
+} from '@/core/scrobbler/audio-scrobbler/audio-scrobbler';
+import { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
+import { LastFmTrackInfo } from '@/core/scrobbler/lastfm/lastfm.types';
+
 /**
- * Module for all communication with L.FM
+ * Module for all communication with Last.FM
  */
-define((require) => {
-	const AudioScrobbler = require('scrobbler/audio-scrobbler');
-	const ServiceCallResult = require('object/service-call-result');
+export default class LastFmScrobbler extends AudioScrobbler {
+	/** @override */
+	getApiUrl(): string {
+		return 'https://ws.audioscrobbler.com/2.0/';
+	}
 
+	/** @override */
+	getApiKey(): string {
+		return 'd9bb1870d3269646f740544d9def2c95';
+	}
 
-	const cleanVariousArtistsFilter = (text) => {
-		return text.includes('Various Artists') ? 'Various Artists' : text;
-	};
+	/** @override */
+	getApiSecret(): string {
+		return '2160733a567d4a1a69a73fad54c564b2';
+	}
 
-	class LastFmScrobbler extends AudioScrobbler {
-		/** @override */
-		getApiUrl() {
-			return 'https://ws.audioscrobbler.com/2.0/';
+	/** @override */
+	getBaseAuthUrl(): string {
+		return 'https://www.last.fm/api/auth/';
+	}
+
+	/** @override */
+	getBaseProfileUrl(): string {
+		return 'https://last.fm/user/';
+	}
+
+	/** @override */
+	getId(): string {
+		return 'lastfm';
+	}
+
+	/** @override */
+	getLabel(): 'Last.fm' {
+		return 'Last.fm';
+	}
+
+	/** @override */
+	getStatusUrl(): string {
+		return 'http://status.last.fm/';
+	}
+
+	/** @override */
+	getStorageName(): 'LastFM' {
+		return 'LastFM';
+	}
+
+	/** @override */
+	async getSongInfo(song: Song): Promise<ScrobblerSongInfo> {
+		const params: AudioScrobblerParams = {
+			track: song.getTrack(),
+			artist: song.getArtist(),
+			method: 'track.getinfo',
+		};
+
+		try {
+			const { sessionName } = await this.getSession();
+			params.username = sessionName;
+		} catch (e) {
+			// Do nothing
 		}
 
-		/** @override */
-		getApiKey() {
-			return 'd9bb1870d3269646f740544d9def2c95';
+		if (song.getAlbum()) {
+			params.album = song.getAlbum();
 		}
 
-		/** @override */
-		getApiSecret() {
-			return '2160733a567d4a1a69a73fad54c564b2';
+		const responseData = await this.sendRequest<LastFmTrackInfo>(
+			{ method: 'GET' },
+			params,
+			false
+		);
+
+		const result = this.processResponse(responseData);
+		if (result !== ServiceCallResult.RESULT_OK) {
+			throw new Error('Unable to load song info');
 		}
 
-		/** @override */
-		getBaseAuthUrl() {
-			return 'https://www.last.fm/api/auth/';
+		const data = this.parseSongInfo(responseData);
+
+		if (this.canLoveSong() && data) {
+			song.setLoveStatus(data.userloved || false);
 		}
 
-		/** @override */
-		getBaseProfileUrl() {
-			return 'https://last.fm/user/';
+		return data;
+	}
+
+	/** @override */
+	canLoadSongInfo(): boolean {
+		return true;
+	}
+
+	/**
+	 * Parse service response and return parsed data.
+	 * @param responseData - Last.fm track.getInfo response data
+	 * @returns Parsed song info
+	 */
+	public parseSongInfo(responseData: LastFmTrackInfo): ScrobblerSongInfo {
+		const songInfo: Partial<ScrobblerSongInfo> = {};
+
+		const trackInfo = responseData.track;
+		const albumInfo = responseData.track.album;
+		const artistInfo = responseData.track.artist;
+		const userlovedStatus = trackInfo.userloved;
+
+		if (userlovedStatus) {
+			songInfo.userloved = userlovedStatus === '1';
+		} else {
+			songInfo.userloved = undefined;
 		}
 
-		/** @override */
-		getId() {
-			return 'lastfm';
-		}
+		songInfo.artist = artistInfo.name;
+		songInfo.artistUrl = artistInfo.url;
 
-		/** @override */
-		getLabel() {
-			return 'Last.fm';
-		}
+		songInfo.track = trackInfo.name;
+		songInfo.trackUrl = trackInfo.url;
 
-		/** @override */
-		getStatusUrl() {
-			return 'http://status.last.fm/';
-		}
+		songInfo.duration = parseInt(trackInfo.duration) / 1000 || null;
 
-		/** @override */
-		getStorageName() {
-			return 'LastFM';
-		}
+		if (albumInfo) {
+			songInfo.album = albumInfo.title;
+			songInfo.albumUrl = albumInfo.url;
+			songInfo.albumMbId = albumInfo.mbid;
 
-		/** @override */
-		async getSongInfo(song) {
-			const params = {
-				track: song.getTrack(),
-				artist: song.getArtist(),
-				method: 'track.getinfo',
-			};
+			if (Array.isArray(albumInfo.image)) {
+				/*
+				 * Convert an array from response to an object.
+				 * Format is the following: { size: "url", ... }.
+				 */
+				const images = albumInfo.image.reduce((result, image) => {
+					result[image.size] = image['#text'];
+					return result;
+				}, {} as Record<string, string>);
 
-			try {
-				const { sessionName } = await this.getSession();
-				params.username = sessionName;
-			} catch (e) {
-				// Do nothing
-			}
+				const imageSizes = ['extralarge', 'large', 'medium'];
 
-			if (song.getAlbum()) {
-				params.album = song.getAlbum();
-			}
-
-			const responseData = await this.sendRequest(
-				{ method: 'GET' },
-				params,
-				false
-			);
-			const result = AudioScrobbler.processResponse(responseData);
-			if (result !== ServiceCallResult.RESULT_OK) {
-				throw new Error('Unable to load song info');
-			}
-
-			const data = this.parseSongInfo(responseData);
-			if (this.canLoveSong() && data) {
-				song.setLoveStatus(data.userloved);
-			}
-
-			return data;
-		}
-
-		/** @override */
-		canLoadSongInfo() {
-			return true;
-		}
-
-		/**
-		 * Parse service response and return parsed data.
-		 * @param  {Object} responseData Last.fm response data
-		 * @return {Object} Parsed song info
-		 */
-		parseSongInfo(responseData) {
-			const songInfo = {};
-
-			const trackInfo = responseData.track;
-			const albumInfo = responseData.track.album;
-			const artistInfo = responseData.track.artist;
-
-			const userlovedStatus = trackInfo.userloved;
-			if (userlovedStatus) {
-				songInfo.userloved = userlovedStatus === '1';
-			} else {
-				songInfo.userloved = undefined;
-			}
-
-			songInfo.artist = artistInfo.name;
-			songInfo.artistUrl = artistInfo.url;
-
-			songInfo.track = trackInfo.name;
-			songInfo.trackUrl = trackInfo.url;
-
-			songInfo.duration = parseInt(trackInfo.duration) / 1000 || null;
-
-			if (albumInfo) {
-				songInfo.album = albumInfo.title;
-				songInfo.albumUrl = albumInfo.url;
-				songInfo.albumMbId = albumInfo.mbid;
-
-				if (Array.isArray(albumInfo.image)) {
-					/*
-					 * Convert an array from response to an object.
-					 * Format is the following: { size: "url", ... }.
-					 */
-					const images = albumInfo.image.reduce((result, image) => {
-						result[image.size] = image['#text'];
-						return result;
-					}, {});
-
-					const imageSizes = ['extralarge', 'large', 'medium'];
-					for (const imageSize of imageSizes) {
-						const url = images[imageSize];
-						if (url) {
-							songInfo.trackArtUrl = url;
-							break;
-						}
+				for (const imageSize of imageSizes) {
+					const url = images[imageSize];
+					if (url) {
+						songInfo.trackArtUrl = url;
+						break;
 					}
 				}
 			}
-
-			songInfo.userPlayCount = parseInt(trackInfo.userplaycount) || 0;
-
-			return songInfo;
 		}
 
-		/** @override */
-		applyFilter(song) {
+		songInfo.userPlayCount = parseInt(trackInfo.userplaycount) || 0;
 
-			/**
-			 * Last.fm rejects track if album artist contains more then just "Various Artists"
-			 */
-			if (song.getAlbumArtist()) {
-				song.parsed.albumArtist = cleanVariousArtistsFilter(song.getAlbumArtist());
-			}
-
-			return song;
-		}
+		return songInfo as ScrobblerSongInfo;
 	}
 
-	return LastFmScrobbler;
-});
+	/** @override */
+	applyFilter(song: Song): Song {
+		/**
+		 * Last.fm rejects track if album artist contains more then just "Various Artists"
+		 */
+		if (song.getAlbumArtist()) {
+			const albumArtist = song.getAlbumArtist() || '';
+
+			song.parsed.albumArtist = albumArtist.includes('Various Artists')
+				? 'Various Artists'
+				: albumArtist;
+		}
+
+		return song;
+	}
+}
