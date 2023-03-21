@@ -1,18 +1,21 @@
-'use strict';
+export {};
 
 const artistTrackRe = /(.+?)《(.+?)》/;
 
 function setupCoverPlayer() {
 	Connector.getArtistTrack = () => {
-		const text = $('.video_title ._base_title').attr('title');
-		return extractArtistTrack(text);
+		const text = Util.getAttrFromSelectors(
+			'.video_title ._base_title',
+			'title'
+		);
+		return extractArtistTrack(text ?? '');
 	};
 }
 
 function setupPagePlayer() {
 	Connector.getArtistTrack = () => {
-		const text = $('.video_title').attr('title');
-		return extractArtistTrack(text);
+		const text = Util.getAttrFromSelectors('.video_title', 'title');
+		return extractArtistTrack(text ?? '');
 	};
 }
 
@@ -27,7 +30,7 @@ function isPagePlayer() {
 }
 
 // Example: 周华健《朋友》(KTV版)
-function extractArtistTrack(artistTrackStr) {
+function extractArtistTrack(artistTrackStr: string) {
 	const match = artistTrackStr.match(artistTrackRe);
 	if (match) {
 		return { artist: match[1], track: match[2] };
@@ -43,9 +46,9 @@ function setupConnector() {
 	// Set up connector depending on player type
 	if (isCoverPlayer()) {
 		setupCoverPlayer();
-	}	else if (isPagePlayer()) {
+	} else if (isPagePlayer()) {
 		setupPagePlayer();
-	}	else {
+	} else {
 		Util.debugLog('Unknown player', 'warn');
 	}
 }

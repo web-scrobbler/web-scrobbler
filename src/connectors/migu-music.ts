@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.mod-player';
 
@@ -15,7 +15,7 @@ Connector.timeInfoSelector = '.current-time';
 Connector.trackArtSelector = '.song-cover img';
 
 Connector.isTrackArtDefault = (trackArtUrl) => {
-	return trackArtUrl.includes('data:image/jpeg;base64');
+	return Boolean(trackArtUrl?.includes('data:image/jpeg;base64'));
 };
 
 Connector.getUniqueID = () => {

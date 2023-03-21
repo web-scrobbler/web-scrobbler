@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.artistTrackSelector = '.progress > span';
 

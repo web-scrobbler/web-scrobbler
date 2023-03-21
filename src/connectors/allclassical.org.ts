@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#live';
 
@@ -8,4 +8,5 @@ Connector.artistSelector = '#composer';
 
 Connector.playButtonSelector = '#live-play';
 
-Connector.isScrobblingAllowed = () => document.querySelector('.nowplaying-label').textContent === 'Now Playing';
+Connector.isScrobblingAllowed = () =>
+	Util.getTextFromSelectors('.nowplaying-label') === 'Now Playing';

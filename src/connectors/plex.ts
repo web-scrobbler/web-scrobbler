@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const titleContainer = '[class*=PlayerControlsMetadata]';
 
@@ -36,11 +36,11 @@ Connector.applyFilter(MetadataFilter.getYoutubeFilter().extend(plexFilter));
 
 Connector.getTrack = () => {
 	if (Connector.getArtist()) {
-		return $(Connector.trackSelector).text();
+		return Util.getTextFromSelectors(Connector.trackSelector);
 	}
 	return null;
 };
 
-function removeUnknownAlbum(text) {
+function removeUnknownAlbum(text: string) {
 	return text.replace('[Unknown Album]', '');
 }

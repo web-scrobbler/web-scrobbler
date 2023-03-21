@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#d-content';
 Connector.albumSelector = '#d-info-text .d-sub-text-2';
@@ -8,17 +8,19 @@ Connector.trackArtSelector = '#d-album-art > #d-image img';
 
 Connector.getArtistTrack = () => {
 	if (isPlayingLiveRadio()) {
-		const songTitle = $('.d-queue-info .song-title').text();
+		const songTitle = Util.getTextFromSelectors(
+			'.d-queue-info .song-title'
+		);
 		return Util.splitArtistTrack(songTitle);
 	}
 
-	const artist = $('#d-info-text .d-sub-text-1').text();
-	const track = $('#d-info-text .d-main-text').text();
+	const artist = Util.getTextFromSelectors('#d-info-text .d-sub-text-1');
+	const track = Util.getTextFromSelectors('#d-info-text .d-main-text');
 	return { artist, track };
 };
 
 Connector.isPlaying = () => {
-	const duration = Connector.getDuration();
+	const duration = Connector.getDuration() ?? 0;
 
 	/*
 	 * The app doesn't update the remaining and elapsed times straight away
@@ -30,10 +32,14 @@ Connector.isPlaying = () => {
 		return false;
 	}
 
-	return $('#d-primary-control .play').length === 0;
+	return Boolean(document.querySelector('#d-primary-control .play'));
 };
 
 function isPlayingLiveRadio() {
-	return $('#d-secondary-control-left .disabled').length === 1 &&
-		$('#d-secondary-control-right .disabled').length === 1;
+	return (
+		Boolean(
+			document.querySelector('#d-secondary-control-left .disabled')
+		) &&
+		Boolean(document.querySelector('#d-secondary-control-right .disabled'))
+	);
 }

@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const playerBar = '#music';
 
@@ -16,8 +16,10 @@ Connector.trackSelector = `${playerBar} .u-music-title`;
 
 Connector.getAlbum = () => {
 	const catalogID = getCatalogID();
-	const albumHeader = Util.queryElements(`.eps._playAlbum[data-catalogueid="${catalogID}"]`);
-	if (albumHeader.length > 0) {
+	const albumHeader = Util.queryElements(
+		`.eps._playAlbum[data-catalogueid="${catalogID}"]`
+	);
+	if (albumHeader && albumHeader.length > 0) {
 		return albumHeader[0].textContent;
 	}
 	return null;
@@ -34,6 +36,9 @@ Connector.trackArtSelector = `${playerBar} .u-cover img`;
 Connector.getUniqueID = () => {
 	const catalogID = getCatalogID();
 	// Remark: NML starts counting track numbers from 0
-	const trackNum = Util.getAttrFromSelectors(`${playerBar} span.u-album`, 'data-tracknum');
+	const trackNum = Util.getAttrFromSelectors(
+		`${playerBar} span.u-album`,
+		'data-tracknum'
+	);
 	return `${catalogID}+${trackNum}`;
 };

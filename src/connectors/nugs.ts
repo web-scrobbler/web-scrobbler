@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = 'div[app-player] .player-wrapper';
 

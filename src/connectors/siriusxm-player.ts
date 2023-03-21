@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 /*
  * On some "decade" stations SiriusXM appends the last two digits
@@ -17,7 +17,12 @@ Connector.artistSelector = '.sxm-player-controls .artist-name';
 Connector.trackSelector = '.sxm-player-controls .track-name';
 
 Connector.isPlaying = () => {
-	return $('.sxm-player-controls .play-pause-btn').attr('title') === 'Pause';
+	return (
+		Util.getAttrFromSelectors(
+			'.sxm-player-controls .play-pause-btn',
+			'title'
+		) === 'Pause'
+	);
 };
 
 Connector.trackArtSelector = '.album-image-cell img';
@@ -33,6 +38,6 @@ Connector.isScrobblingAllowed = () => {
 
 Connector.applyFilter(filter);
 
-function removeYear(track) {
+function removeYear(track: string) {
 	return track.replace(removeYearRe, '');
 }

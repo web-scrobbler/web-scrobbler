@@ -1,11 +1,12 @@
-'use strict';
+export {};
 
 const albumSelector = '.player__album-text > a';
 const trackSelector = '[class^=PlayerArtistInfo-module__heading]:last-child';
 const albumLabelSelector = '.player__album-text';
 const featArtistSelector = '[class^=PlayerArtistInfo-module__featuring]';
 
-Connector.artistSelector = '[class^=PlayerArtistInfo-module__heading]:first-child';
+Connector.artistSelector =
+	'[class^=PlayerArtistInfo-module__heading]:first-child';
 
 Connector.getAlbum = () => {
 	if (isAlbum()) {

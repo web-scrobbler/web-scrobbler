@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.ctl';
 
@@ -6,9 +6,7 @@ Connector.artistSelector = '#newPlayerArtistName';
 
 Connector.trackSelector = '.tracktitle > a';
 
-Connector.getAlbum = () => {
-	return $('.albumtitle').attr('title');
-};
+Connector.getAlbum = () => Util.getAttrFromSelectors('.albumtitle', 'title');
 
 Connector.currentTimeSelector = '.start';
 

@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const openfmFilter = MetadataFilter.createFilter({
 	album: removeYearFromAlbum,
@@ -16,6 +16,6 @@ Connector.pauseButtonSelector = '.controls-con > .stop-btn';
 
 Connector.applyFilter(openfmFilter);
 
-function removeYearFromAlbum(text) {
+function removeYearFromAlbum(text: string) {
 	return text.replace(/ \[\d*\]$/, '');
 }

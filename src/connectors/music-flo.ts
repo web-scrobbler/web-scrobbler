@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.player_ct.mini';
 Connector.artistSelector = '.track_area .track_info .artist';

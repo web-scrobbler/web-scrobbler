@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const filter = MetadataFilter.createFilter({
 	artist: formatArtists,
@@ -18,7 +18,7 @@ Connector.onReady = Connector.onStateChanged;
 
 Connector.applyFilter(filter);
 
-function formatArtists(text) {
+function formatArtists(text: string) {
 	const artist = text.split(',');
 	return artist[0];
 }

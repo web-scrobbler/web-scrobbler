@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 /**
  * This connector is for 181fm.mystreamplayer.com website.
@@ -16,7 +16,7 @@ Connector.trackSelector = '.heading-group .fill_song';
 
 Connector.getAlbum = () => {
 	// Artist / Album
-	const artistAlbumStr = $('#artist').text();
+	const artistAlbumStr = Util.getTextFromSelectors('#artist');
 	const artistSlash = `${Connector.getArtist()} / `;
 	if (artistAlbumStr && artistAlbumStr.includes(artistSlash)) {
 		return artistAlbumStr.replace(artistSlash, '');
@@ -28,7 +28,7 @@ Connector.getAlbum = () => {
 Connector.trackArtSelector = '.songimg';
 
 Connector.isTrackArtDefault = (trackArtUrl) => {
-	return trackArtUrl.endsWith(DEFAULT_TRACK_ART);
+	return trackArtUrl?.endsWith(DEFAULT_TRACK_ART) ?? false;
 };
 
 Connector.pauseButtonSelector = '#playbtn.jp-stopx';

@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#div_player_wrapper';
 
@@ -12,4 +12,5 @@ Connector.durationSelector = '#durationLabel';
 
 Connector.trackArtSelector = '#img_cover_1';
 
-Connector.isPlaying = () => $('#statusLabel').text() === 'Playing';
+Connector.isPlaying = () =>
+	Util.getTextFromSelectors('#statusLabel') === 'Playing';

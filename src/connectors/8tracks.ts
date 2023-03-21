@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 function setupConnector() {
 	setupCommonProperties();
@@ -10,16 +10,19 @@ function setupConnector() {
 }
 
 function isYoutubePlayer() {
-	return $('body').hasClass('international');
+	return Util.hasElementClass('body', 'international');
 }
 
 function setupYoutubePlayer() {
 	Connector.playerSelector = '#youtube_player';
 
-	Connector.isPlaying = () => $('#mix_youtube').hasClass('playing');
+	Connector.isPlaying = () => Util.hasElementClass('#mix_youtube', 'playing');
 
 	Connector.getUniqueID = () => {
-		return $('.track_details_container a').data('track_id');
+		return Util.getDataFromSelectors(
+			'.track_details_container a',
+			'track_id'
+		);
 	};
 }
 
@@ -39,7 +42,7 @@ function setupCommonProperties() {
 	Connector.trackArtSelector = '#player_mix img';
 
 	Connector.getUniqueID = () => {
-		const trackId = $('.track_details').attr('id');
+		const trackId = Util.getAttrFromSelectors('.track_details', 'id');
 		if (trackId) {
 			return trackId.replace('track_details_', '');
 		}

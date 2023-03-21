@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const OBSERVER_THROTTLE_INTERVAL = 1000;
 
@@ -15,7 +15,7 @@ Connector.artistSelector = `${trackInfoSelector} > div:nth-child(2)`;
 Connector.trackSelector = `${trackInfoSelector} > div:nth-child(1)`;
 
 Connector.isPlaying = () => {
-	return !$('[data-test-id="playButton"]').hasClass('undefined');
+	return !Util.hasElementClass('[data-test-id="playButton"]', 'undefined');
 };
 
 Connector.isStateChangeAllowed = () => {
@@ -24,12 +24,12 @@ Connector.isStateChangeAllowed = () => {
 	 * resetting the current state, don't allow to update state
 	 * if no track info is on the page.
 	 */
-	return Connector.getArtist() && Connector.getTrack();
+	return Boolean(Connector.getArtist() && Connector.getTrack());
 };
 
 Connector.applyFilter(filter);
 
-function removeByPrefix(text) {
+function removeByPrefix(text: string) {
 	return text.replace('By: ', '');
 }
 
@@ -40,14 +40,22 @@ function setupObserver() {
 	 * track info all the time, the connector clicks on "Track Info" button
 	 * periodically.
 	 */
-	new MutationObserver(Util.throttle(() => {
-		// Click on "Track Info" button to display track info.
-		const trackInfoButton = $(trackInfoBtnSelector);
-		const isButtonActive = trackInfoButton.css('opacity') === '1';
-		if (isButtonActive) {
-			trackInfoButton.click();
-		}
-	}, OBSERVER_THROTTLE_INTERVAL)).observe(document, {
+	new MutationObserver(
+		Util.throttle(() => {
+			// Click on "Track Info" button to display track info.
+			const trackInfoButton = document.querySelector(
+				trackInfoBtnSelector
+			) as HTMLButtonElement;
+			const isButtonActive =
+				Util.getCSSPropertyFromSelectors(
+					trackInfoBtnSelector,
+					'opacity'
+				) === '1';
+			if (isButtonActive) {
+				trackInfoButton.click();
+			}
+		}, OBSERVER_THROTTLE_INTERVAL)
+	).observe(document, {
 		subtree: true,
 		childList: true,
 		attributes: true,

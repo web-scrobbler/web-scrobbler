@@ -3,15 +3,22 @@
 Connector.playerSelector = '#playdeck';
 
 Connector.getArtist = () => {
-	return $('#songdetails_artist').text().split(' - ')[0];
+	return (
+		Util.getTextFromSelectors('#songdetails_artist')?.split(' - ')[0] ??
+		null
+	);
 };
 
 Connector.trackSelector = '#songdetails_song';
 
-Connector.isPlaying = () => !$('#playdeck audio').pausedi;
+Connector.isPlaying = () =>
+	!(document.querySelector('#playdeck audio') as HTMLAudioElement).paused;
 
 Connector.getAlbum = () => {
-	return $('#songdetails_artist').text().split(' - ')[1];
+	return (
+		Util.getTextFromSelectors('#songdetails_artist')?.split(' - ')[1] ??
+		null
+	);
 };
 
 Connector.trackArtSelector = '#coverartimage img';

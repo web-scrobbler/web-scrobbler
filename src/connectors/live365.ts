@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.trackArtSelector = "img[alt^='Art for']";
 
@@ -12,9 +12,16 @@ const artistAlbumSeparator = ' by ';
 
 Connector.getArtistTrack = () => {
 	// "Art for Layla by Derek & The Dominos"
-	const artistAndTrackUnparsed = Util.getAttrFromSelectors(Connector.trackArtSelector, 'alt');
+	const artistAndTrackUnparsed = Util.getAttrFromSelectors(
+		Connector.trackArtSelector ?? '',
+		'alt'
+	);
 
-	const artistAndTrackParsed = Util.splitArtistTrack(artistAndTrackUnparsed, [artistAlbumSeparator], { swap: true });
+	const artistAndTrackParsed = Util.splitArtistTrack(
+		artistAndTrackUnparsed,
+		[artistAlbumSeparator],
+		true
+	);
 
 	return artistAndTrackParsed;
 };
@@ -22,7 +29,7 @@ Connector.getArtistTrack = () => {
 const filter = MetadataFilter.createFilter({ track: removeTrackPrefix });
 Connector.applyFilter(filter);
 
-function removeTrackPrefix(track) {
+function removeTrackPrefix(track: string) {
 	return track.replace('Art for ', '');
 }
 
@@ -31,16 +38,24 @@ const ADWTAG = 'Advert:';
 const ADBREAK = 'Ad Break';
 
 Connector.isScrobblingAllowed = () => {
-	const artist = Connector.getArtistTrack().artist;
-	return artist !== null
-		&& artist !== LIVE_365_ARTIST
-		&& artist !== 'undefined'
-		&& !artist.includes(ADWTAG)
-		&& !artist.includes(ADBREAK);
+	const artist = Connector.getArtistTrack()?.artist;
+	return (
+		artist !== null &&
+		artist !== LIVE_365_ARTIST &&
+		artist !== 'undefined' &&
+		!artist?.includes(ADWTAG) &&
+		!artist?.includes(ADBREAK)
+	);
 };
+
+/*
+
+UPDATE: This function no longer exists anywhere in the codebase.
 
 // By overriding this method we can work around the limitation of not being able to do a proper selector for the player
 Connector.getObserveTarget = () => {
 	// By selecting the parent of the track art, we get something very close to the player, which results in an overall better behaviour
-	return document.querySelector(Connector.playerSelector).parentElement;
+	return document.querySelector(Connector.playerSelector as string)
+		?.parentElement;
 };
+*/

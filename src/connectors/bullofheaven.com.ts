@@ -1,15 +1,14 @@
-'use strict';
+export {};
 
 const artistName = 'Bull of Heaven';
 
 const trackPrefixRegex = /\d+ - /;
 
-
 const filter = MetadataFilter.createFilter({ track: removeNumericPrefixes });
 
 Connector.applyFilter(filter);
 
-function removeNumericPrefixes(track) {
+function removeNumericPrefixes(track: string) {
 	return track.replace(trackPrefixRegex, '');
 }
 

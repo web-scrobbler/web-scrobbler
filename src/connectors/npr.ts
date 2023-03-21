@@ -1,9 +1,8 @@
-'use strict';
+export {};
 
 /**
  * Artist, "Title"
  * Land of Talk, "What Was I Thinking?"
- * @type {Object}
  */
 const titleRegEx = /(.+?),\s["'](.+)["']/;
 
@@ -17,8 +16,8 @@ Connector.getArtistTrack = () => {
 	let artist = null;
 	let track = null;
 
-	const rawText = $('.audio-title').text();
-	const result = rawText.match(titleRegEx);
+	const rawText = Util.getTextFromSelectors('.audio-title');
+	const result = rawText?.match(titleRegEx);
 	if (result) {
 		artist = result[1];
 		track = result[2];
@@ -27,4 +26,4 @@ Connector.getArtistTrack = () => {
 	return { artist, track };
 };
 
-Connector.isPlaying = () => $('.player-basic').hasClass('is-playing');
+Connector.isPlaying = () => Util.hasElementClass('.player-basic', 'is-playing');

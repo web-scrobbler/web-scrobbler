@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const filter = MetadataFilter.createFilter({
 	track: cleanupTrack,
@@ -22,12 +22,12 @@ Connector.onReady = Connector.onStateChanged;
 
 Connector.applyFilter(filter);
 
-function cleanupTrack(track) {
+function cleanupTrack(track: string) {
 	// Extract a track title from a `Track by Artist` string.
 	return track.replace(/^(.*?)\s(by)\s(.*?)$/i, '$1');
 }
 
-function cleanupArtist(artist) {
+function cleanupArtist(artist: string) {
 	// Extract the artist from a `Track by Artist` string.
 	return artist.replace(/^(.*?)\s(by)\s(.*?)$/i, '$3');
 }

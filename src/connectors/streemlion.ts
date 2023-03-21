@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.player-wpr';
 
@@ -8,4 +8,5 @@ Connector.trackSelector = `${Connector.playerSelector} .track-info .track-title`
 
 Connector.trackArtSelector = `${Connector.playerSelector} .album-cover`;
 
-Connector.isPlaying = () => Util.hasElementClass(`${Connector.playerSelector} .ppBtn`, 'playing');
+Connector.isPlaying = () =>
+	Util.hasElementClass(`${Connector.playerSelector} .ppBtn`, 'playing');

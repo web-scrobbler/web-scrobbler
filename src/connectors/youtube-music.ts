@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 /**
  * Quick links to debug and test the connector:
@@ -68,7 +68,7 @@ Connector.getTrackArt = () => {
 
 Connector.isTrackArtDefault = (url) => {
 	// Self-uploaded tracks could not have cover arts
-	return url.includes('cover_track_default');
+	return Boolean(url?.includes('cover_track_default'));
 };
 
 Connector.albumSelector = albumSelectors;
@@ -98,7 +98,9 @@ Connector.getArtistTrack = () => {
 Connector.timeInfoSelector = '.ytmusic-player-bar.time-info';
 
 Connector.isPlaying = () => {
-	return playingPaths.includes(Util.getAttrFromSelectors(playButtonSelector, 'd'));
+	return playingPaths.includes(
+		Util.getAttrFromSelectors(playButtonSelector, 'd') ?? ''
+	);
 };
 
 Connector.getUniqueID = () => {
@@ -107,6 +109,7 @@ Connector.getUniqueID = () => {
 	if (videoUrl) {
 		return Util.getYtVideoIdFromUrl(videoUrl);
 	}
+	return null;
 };
 
 Connector.isScrobblingAllowed = () => !Util.isElementVisible(adSelector);
@@ -114,10 +117,10 @@ Connector.isScrobblingAllowed = () => !Util.isElementVisible(adSelector);
 function getArtists() {
 	// FIXME Use Array.from after jQuery support will be removed
 	const artistElements = Util.queryElements(artistSelectors);
-	return artistElements && Util.joinArtists(artistElements.toArray());
+	return artistElements && Util.joinArtists([...artistElements]);
 }
 
-function filterYoutubeIfNonAlbum(text) {
+function filterYoutubeIfNonAlbum(text: string) {
 	return hasVideoAlbum() ? text : MetadataFilter.youtube(text);
 }
 

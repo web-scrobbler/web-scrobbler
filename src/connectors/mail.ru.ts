@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const DEFAULT_TRACK_ART = 'empty-cover.svg';
 
@@ -14,6 +14,7 @@ Connector.durationSelector = '.l-music__player__song__time.duration';
 
 Connector.trackArtSelector = '.l-music__player__song__cover';
 
-Connector.isTrackArtDefault = (url) => url.endsWith(DEFAULT_TRACK_ART);
+Connector.isTrackArtDefault = (url) =>
+	url?.endsWith(DEFAULT_TRACK_ART) ?? false;
 
-Connector.isPlaying = () => $('.l-music__player').hasClass('playing');
+Connector.isPlaying = () => Util.hasElementClass('.l-music__player', 'playing');

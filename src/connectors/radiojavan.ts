@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.artistSelector = '.mainPanel .artist';
 
@@ -15,6 +15,8 @@ Connector.durationSelector = '#mp3_duration';
 Connector.trackArtSelector = '.mainPanel .artwork > img';
 
 new MutationObserver(Connector.onStateChanged).observe(document, {
-	childList: true, subtree: true,
-	attributes: true, characterData: true,
+	childList: true,
+	subtree: true,
+	attributes: true,
+	characterData: true,
 });

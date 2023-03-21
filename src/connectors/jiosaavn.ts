@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const playerBar = '.c-player';
 const artistSelector = `${playerBar} figcaption > p > a`;

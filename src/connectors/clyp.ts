@@ -1,5 +1,4 @@
-'use strict';
-
+export {};
 
 function setup() {
 	if (isPlayerPage()) {
@@ -12,29 +11,41 @@ function setup() {
 }
 
 function isPlayerPage() {
-	return $('#player-page').length !== 0;
+	return Boolean(document.querySelector('#player-page'));
 }
 
 function isCardsPlayerPage() {
-	return $('.cards-wrapper, .audio-cards').length !== 0;
+	return Boolean(document.querySelector('.cards-wrapper, .audio-cards'));
 }
 
 function setupCardsPlayer() {
 	Connector.playerSelector = '.cards-wrapper, .audio-cards';
 
 	Connector.getArtist = () => {
-		const container = $('.audio-card').has('.pause-button');
-		return container.find('span.name').text();
+		const cards = Util.queryElements('.audio-card');
+		if (!cards) {
+			return null;
+		}
+		const container = [...cards].filter((element) =>
+			element.classList.contains('pause-button')
+		)[0];
+		return container.querySelector('span.name')?.textContent ?? null;
 	};
 
 	Connector.getTrack = () => {
-		const container = $('.audio-card').has('.pause-button');
-		return container.find('.card-title-text').text();
+		const cards = Util.queryElements('.audio-card');
+		if (!cards) {
+			return null;
+		}
+		const container = [...cards].filter((element) =>
+			element.classList.contains('pause-button')
+		)[0];
+		return container.querySelector('.card-title-text')?.textContent ?? null;
 	};
 
-	Connector.isPlaying = () => $('.pause-button.small').length !== 0;
+	Connector.isPlaying = () =>
+		Boolean(document.querySelector('.pause-button.small'));
 }
-
 
 function setupPlayerPage() {
 	Connector.playerSelector = '#player-page';
@@ -43,7 +54,8 @@ function setupPlayerPage() {
 
 	Connector.trackSelector = '.audio-file-title';
 
-	Connector.isPlaying = () => $('.soundwave-container > .pause-button').length !== 0;
+	Connector.isPlaying = () =>
+		Boolean(document.querySelector('.soundwave-container > .pause-button'));
 }
 
 setup();

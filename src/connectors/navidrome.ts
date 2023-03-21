@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.music-player-panel';
 
@@ -16,17 +16,22 @@ Connector.isPlaying = () => {
 	return document.querySelector('.img-rotate-pause') === null;
 };
 
-function getAlbumImageFromClass(className, useBackgroundImage) {
-	return document.querySelector(className) && (
-		useBackgroundImage ? document.querySelector(className).style['background-image'] :
-			document.querySelector(className).src);
+function getAlbumImageFromClass(className: string, useBackgroundImage = false) {
+	return (
+		document.querySelector(className) &&
+		(useBackgroundImage
+			? Util.getCSSPropertyFromSelectors(className, 'background-image')
+			: (document.querySelector(className) as HTMLImageElement)?.src)
+	);
 }
 
 Connector.getTrackArt = () => {
 	// desktop view mode
-	return getAlbumImageFromClass('.img-content') ||
+	return (
+		getAlbumImageFromClass('.img-content') ||
 		// mobile overlay mode
 		getAlbumImageFromClass('.cover') ||
 		// mobile mini controller mode
-		getAlbumImageFromClass('.music-player-controller', true);
+		getAlbumImageFromClass('.music-player-controller', true)
+	);
 };

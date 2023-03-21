@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 // Not a typo, this is spelled the same as the site.
 Connector.playerSelector = '#player-controlls';

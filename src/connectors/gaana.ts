@@ -1,16 +1,18 @@
-'use strict';
+export {};
 
 /**
  * The last track title. Used for detecting new songs.
- * @type {String}
  */
-let lastTrackTitle = null;
+let lastTrackTitle: string | null = null;
 
 /**
  * Object that holds information about song.
  * @type {Object}
  */
-let songInfo = null;
+let songInfo: {
+	artist: string | null;
+	track: string | null;
+} | null = null;
 
 Connector.playerSelector = '.player';
 
@@ -75,10 +77,10 @@ function isNewSongPlaying() {
 
 /**
  * Load artist page asynchronously and fetch artist name.
- * @param {String} albumInfoUrl Album info URL
- * @return {Promise} Promise that will be resolved with the song info
+ * @param albumInfoUrl - Album info URL
+ * @return Promise that will be resolved with the song info
  */
-async function fetchSongInfo(albumInfoUrl) {
+async function fetchSongInfo(albumInfoUrl: string) {
 	const track = lastTrackTitle;
 	let artist = null;
 
@@ -92,7 +94,7 @@ async function fetchSongInfo(albumInfoUrl) {
 		const songTitleElement = song.querySelector('.s_title .sng_c');
 
 		if (songTitleElement) {
-			const songTitle = songTitleElement.textContent.trim();
+			const songTitle = songTitleElement.textContent?.trim();
 
 			if (songTitle === track) {
 				console.log(2222);

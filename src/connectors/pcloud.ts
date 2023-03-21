@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const playerPopupSelector = '#audioplayer[style]';
 
@@ -14,4 +14,4 @@ Connector.currentTimeSelector = `${playerPopupSelector} .playinfo .currtime`;
 
 Connector.durationSelector = `${playerPopupSelector} .playinfo .maxtime`;
 
-Connector.isTrackArtDefault = (url) => url.endsWith('audio.png');
+Connector.isTrackArtDefault = (url) => url?.endsWith('audio.png') ?? false;

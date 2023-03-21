@@ -1,7 +1,9 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#player-logo';
 
 Connector.artistTrackSelector = '#track';
 
-Connector.isPlaying = () => $('#player-control-playing').css('display') === 'inline';
+Connector.isPlaying = () =>
+	Util.getCSSPropertyFromSelectors('#player-control-playing', 'display') ===
+	'inline';

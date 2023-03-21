@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#player';
 Connector.artistSelector = '#artist';
@@ -15,10 +15,10 @@ const filter = MetadataFilter.createFilter({
 
 Connector.applyFilter(filter);
 
-function removeVonPrefix(text) {
+function removeVonPrefix(text: string) {
 	return text.replace('von ', '');
 }
 
-function removeAlbumPrefix(text) {
+function removeAlbumPrefix(text: string) {
 	return text.replace(', Album: ', '');
 }

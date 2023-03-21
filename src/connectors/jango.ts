@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#player';
 
@@ -9,5 +9,8 @@ Connector.artistSelector = '#player-artist';
 Connector.trackArtSelector = '#player_album_art';
 
 Connector.isPlaying = () => {
-	return Util.getAttrFromSelectors('#player-play-button svg', 'data-icon') === 'pause-circle';
+	return (
+		Util.getAttrFromSelectors('#player-play-button svg', 'data-icon') ===
+		'pause-circle'
+	);
 };

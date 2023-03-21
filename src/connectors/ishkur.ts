@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#musicbox';
 
@@ -6,4 +6,5 @@ Connector.artistTrackSelector = '#showtrack';
 
 Connector.currentTimeSelector = '#mejs-currenttime';
 
-Connector.isPlaying = () => Util.hasElementClass('.mejs-playpause-button', 'mejs-pause');
+Connector.isPlaying = () =>
+	Util.hasElementClass('.mejs-playpause-button', 'mejs-pause');

@@ -1,12 +1,12 @@
-'use strict';
+export {};
 
-let nextCue;
-let cue;
-let currentTime;
+let nextCue: number;
+let cue: number;
+let currentTime: number;
 const mixDuration = Util.stringToSeconds(
 	Util.getTextFromSelectors('.mediaTabItm:not(.hidden) .active')
-		.split('[')[1]
-		.split(']')[0]
+		?.split('[')[1]
+		.split(']')[0] ?? ''
 );
 
 Connector.playerSelector = '#playerWidgetFields';
@@ -38,7 +38,7 @@ Connector.getDuration = () => {
 		case nextCue > 0:
 			return nextCue;
 		case cue > 0:
-			return mixDuration - cue;
+			return (mixDuration ?? 0) - cue;
 	}
 };
 
@@ -46,13 +46,17 @@ Connector.isPlaying = () =>
 	Util.hasElementClass('#playerWidgetPause', 'fa-pause');
 
 Connector.isScrobblingAllowed = () => {
-	nextCue = +Util.getAttrFromSelectors(
-		'.cPlay:first ~ .tlpTog:first input',
-		'value'
+	nextCue = parseInt(
+		Util.getAttrFromSelectors(
+			'.cPlay:first ~ .tlpTog:first input',
+			'value'
+		) ?? ''
 	);
-	cue = +Util.getAttrFromSelectors('.cPlay:first input', 'value');
-	currentTime = Util.getSecondsFromSelectors('#playerWidgetCurrentTime');
-	const noIDs = Util.queryElements('.cPlay:first .redTxt').length;
+	cue = parseInt(
+		Util.getAttrFromSelectors('.cPlay:first input', 'value') ?? ''
+	);
+	currentTime = Util.getSecondsFromSelectors('#playerWidgetCurrentTime') ?? 0;
+	const noIDs = Util.queryElements('.cPlay:first .redTxt')?.length ?? 0;
 	const mashup = Util.hasElementClass(
 		'.cPlay:first span.trackValue',
 		'mashupTrack'

@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.p3-wrapper';
 Connector.artistSelector = '.p3-artistInfo';

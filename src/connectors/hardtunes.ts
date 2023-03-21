@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const trackSelector = '#jp_audio_0';
 
@@ -10,10 +10,10 @@ Connector.trackArtSelector = '#jp_poster_0';
 
 Connector.getUniqueID = () => {
 	const src = Util.getAttrFromSelectors(trackSelector, 'src');
-	return src.split('/').pop().split('.').shift();
+	return src?.split('/').at(-1)?.split('.')[0] ?? null;
 };
 
 Connector.getArtistTrack = () => {
 	const title = Util.getAttrFromSelectors(trackSelector, 'title');
-	return Util.splitArtistTrack(title, ['<br/>'], { swap: true });
+	return Util.splitArtistTrack(title, ['<br/>'], true);
 };

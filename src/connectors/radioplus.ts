@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.audio-controller';
 
@@ -7,5 +7,8 @@ Connector.artistSelector = '.info .artist';
 Connector.trackSelector = '.info .song';
 
 Connector.isPlaying = () => {
-	return $('.audio-controller .any-surfer').text() === 'Stop de radiospeler';
+	return (
+		Util.getTextFromSelectors('.audio-controller .any-surfer') ===
+		'Stop de radiospeler'
+	);
 };

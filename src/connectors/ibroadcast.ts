@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.mgr-player';
 
@@ -14,7 +14,5 @@ Connector.durationSelector = '.mgr-player-duration';
 
 Connector.trackArtSelector = '.mgr-player-artwork-image';
 
-Connector.isPlaying = () => Util.hasElementClass(
-	['.mgr-player-play'],
-	'icon-player-pause'
-);
+Connector.isPlaying = () =>
+	Util.hasElementClass(['.mgr-player-play'], 'icon-player-pause');

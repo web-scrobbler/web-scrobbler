@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#headplayer';
 
@@ -7,9 +7,9 @@ Connector.currentTimeSelector = '#player-playedtime';
 Connector.artistTrackSelector = '.headplayer-titleReal';
 
 Connector.getDuration = () => {
-	return $('audio')[0].duration;
+	return document.querySelector('audio')?.duration;
 };
 
 Connector.isPlaying = () => {
-	return $('#headplayer-play').hasClass('hidden');
+	return Util.hasElementClass('#headplayer-play', 'hidden');
 };

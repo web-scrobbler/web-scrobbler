@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const playerBar = '.audio-player';
 

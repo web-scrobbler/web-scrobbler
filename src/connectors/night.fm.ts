@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.trackArtSelector = '.coverArt';
 
@@ -12,6 +12,6 @@ Connector.playButtonSelector = '.playButton';
 
 Connector.isPlaying = () => Util.hasElementClass('.playButton > i', 'fa-pause');
 
-Connector.getDuration = () => document.querySelector('audio').duration;
+Connector.getDuration = () => document.querySelector('audio')?.duration;
 
-Connector.getCurrentTime = () => document.querySelector('audio').currentTime;
+Connector.getCurrentTime = () => document.querySelector('audio')?.currentTime;

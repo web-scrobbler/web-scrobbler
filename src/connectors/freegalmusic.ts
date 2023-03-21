@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const filter = MetadataFilter.createFilter({
 	artist: extractPrimaryArtist,
@@ -21,19 +21,19 @@ Connector.isPlaying = () => Util.hasElementClass('#fp-audio', 'is-playing');
 
 Connector.applyFilter(filter);
 
-function extractPrimaryArtist(text) {
+function extractPrimaryArtist(text: string) {
 	// only return first artist if semicolon/comma-separated list of contributors
 	return text.split(/(;|((?<!\d),))(?!\s)/)[0];
 }
 
-function removeParody(text) {
+function removeParody(text: string) {
 	return text.replace(/\s?\((Parody|Lyrical Adaption) of.*\)/i, '');
 }
 
-function removeRemaster(text) {
+function removeRemaster(text: string) {
 	return text.replace(/\s?(\(|\[)[\s\w]*Re-?master(ed)?[\s\w]*(\)|\])/gi, '');
 }
 
-function replaceSmartQuotes(text) {
-	return text.replace(/[\u2018\u2019]/g, '\'').replace(/[\u201c\u201d]/g, '"');
+function replaceSmartQuotes(text: string) {
+	return text.replace(/[\u2018\u2019]/g, "'").replace(/[\u201c\u201d]/g, '"');
 }

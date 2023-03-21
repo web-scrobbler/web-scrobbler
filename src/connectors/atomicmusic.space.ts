@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.sound-player';
 
@@ -12,4 +12,5 @@ Connector.currentTimeSelector = '.jp-current-time';
 
 Connector.durationSelector = '.jp-duration';
 
-Connector.isPlaying = () => $('.jp-pause').css('display') === 'block';
+Connector.isPlaying = () =>
+	Util.getCSSPropertyFromSelectors('.jp-pause', 'display') === 'block';

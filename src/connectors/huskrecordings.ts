@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#webamp';
 
@@ -8,7 +8,4 @@ Connector.artistSelector = '#artist';
 
 Connector.albumSelector = '#album';
 
-Connector.isPlaying = () => Util.hasElementClass(
-	'#metadata',
-	'playing'
-);
+Connector.isPlaying = () => Util.hasElementClass('#metadata', 'playing');

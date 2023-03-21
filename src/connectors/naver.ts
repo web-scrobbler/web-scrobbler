@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.player';
 
@@ -11,7 +11,7 @@ Connector.currentTimeSelector = '.played';
 Connector.durationSelector = '.total';
 
 Connector.isPlaying = () => {
-	return $('.player_controller .is_paused').length !== 0;
+	return Boolean(document.querySelector('.player_controller .is_paused'));
 };
 
 Connector.trackArtSelector = '.player_cover .cover img';

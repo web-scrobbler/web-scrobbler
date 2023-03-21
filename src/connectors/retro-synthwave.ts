@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#scamp_player';
 
@@ -12,4 +12,4 @@ Connector.currentTimeSelector = '.sp-player-container .sp-time-elapsed';
 
 Connector.durationSelector = '.sp-player-container .sp-time-total';
 
-Connector.isPlaying = () => $('#scamp_player').hasClass('playing');
+Connector.isPlaying = () => Util.hasElementClass('#scamp_player', 'playing');

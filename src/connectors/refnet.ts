@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#radio';
 
@@ -6,9 +6,9 @@ Connector.remainingTimeSelector = '#clock';
 
 Connector.getArtistTrack = () => {
 	const marquee = Util.getTextFromSelectors('#marquee');
-	const artistTrack = marquee.split(' :: ')[0];
+	const artistTrack = marquee?.split(' :: ')[0];
 	const track = Util.getTextFromSelectors('#slots > .live h4');
-	const artist = artistTrack.substring(`${track} by `.length);
+	const artist = artistTrack?.substring(`${track} by `.length);
 	return { track, artist };
 };
 
@@ -17,7 +17,7 @@ Connector.getOriginUrl = () => {
 };
 
 Connector.isPlaying = () => {
-	return Util.hasElementClass(Connector.playerSelector, 'playing');
+	return Util.hasElementClass(Connector.playerSelector ?? '', 'playing');
 };
 
 Connector.isScrobblingAllowed = () => {

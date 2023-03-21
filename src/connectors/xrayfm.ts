@@ -1,11 +1,13 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#audio-toolbar';
 
 Connector.pauseButtonSelector = '#audio-toolbar .stop-button';
 
 Connector.getArtistTrack = () => {
-	const artistTrackText = Util.getTextFromSelectors('#current-track a[href$=playlist]');
+	const artistTrackText = Util.getTextFromSelectors(
+		'#current-track a[href$=playlist]'
+	);
 
 	if (artistTrackText && !artistTrackText.includes('{{data.')) {
 		return Util.splitArtistTrack(artistTrackText);
@@ -15,5 +17,7 @@ Connector.getArtistTrack = () => {
 };
 
 Connector.isScrobblingAllowed = () => {
-	return Connector.getArtistTrack() && Util.isElementVisible('#current-track');
+	return Boolean(
+		Connector.getArtistTrack() && Util.isElementVisible('#current-track')
+	);
 };

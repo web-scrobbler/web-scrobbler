@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.musica-info';
 

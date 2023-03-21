@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 /**
  * This connector supports Bandcamp embedded player.
@@ -19,6 +19,6 @@ Connector.durationSelector = '.player.playing .mptime > span:last-child';
 
 Connector.trackArtSelector = '.player.playing .mpaa img';
 
-Connector.isPlaying = () => $('.player.playing').length > 0;
+Connector.isPlaying = () => Boolean(document.querySelector('.player.playing'));
 
 Connector.getOriginUrl = () => Util.getOriginUrl('.player.playing a.buy-now');

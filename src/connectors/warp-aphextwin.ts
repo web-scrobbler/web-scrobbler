@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.player';
 
@@ -11,10 +11,20 @@ Connector.currentTimeSelector = '.current-time.js-current-time';
 Connector.playButtonSelector = '.track-controls .js-play-track';
 
 Connector.getArtist = () => {
-	return $('.current-track .js-current-track-artist').text().replace(' - ', '');
+	return (
+		Util.getTextFromSelectors(
+			'.current-track .js-current-track-artist'
+		)?.replace(' - ', '') ?? null
+	);
 };
 
 Connector.getAlbum = () => {
-	const releasePath = $(Connector.trackSelector).attr('href');
-	return $(`.track-list .track-release a[href="${releasePath}"]`).attr('title');
+	const releasePath = Util.getAttrFromSelectors(
+		Connector.trackSelector ?? '',
+		'href'
+	);
+	return Util.getAttrFromSelectors(
+		`.track-list .track-release a[href="${releasePath}"]`,
+		'title'
+	);
 };

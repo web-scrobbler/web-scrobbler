@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const filter = MetadataFilter.createFilter({
 	track: removeDecorationText,
@@ -18,7 +18,7 @@ Connector.durationSelector = '.PlayerPlayTime-duration';
 Connector.currentTimeSelector = '.PlayerPlayTime-playtime';
 
 Connector.isPlaying = () => {
-	const video = document.querySelector(videoSelector);
+	const video = document.querySelector(videoSelector) as HTMLVideoElement;
 	if (!video) {
 		return false;
 	}
@@ -26,15 +26,18 @@ Connector.isPlaying = () => {
 	return video.currentTime > 0 && !video.paused && !video.ended;
 };
 
-Connector.getUniqueID = () => window.location.pathname.replace(/\/$/, '').replace(/.*\//, '');
+Connector.getUniqueID = () =>
+	window.location.pathname.replace(/\/$/, '').replace(/.*\//, '');
 
 Connector.applyFilter(filter);
 
-function removeDecorationText(text) {
+function removeDecorationText(text: string) {
 	// Usual track name on Niconico is something like "【Hatsune Miku】Track Name【Original】"
-	const decorationPattern = /^【[^】]*】\s*|\s*【[^【]*】$|^\[[^\]]*\]\s*|\s*\[[^[]*\]$/g;
+	const decorationPattern =
+		/^【[^】]*】\s*|\s*【[^【]*】$|^\[[^\]]*\]\s*|\s*\[[^[]*\]$/g;
 	// Or, something like "Track Name / Composer, Singer, etc."
-	const extraInfoPattern = /\s*(\/[^/]+|／[^／]+|[^\da-zA-Z]-[^\da-zA-Z][^-]+|\sfeat\..+|\sft\..+)$/i;
+	const extraInfoPattern =
+		/\s*(\/[^/]+|／[^／]+|[^\da-zA-Z]-[^\da-zA-Z][^-]+|\sfeat\..+|\sft\..+)$/i;
 	// Or, something like "Original Song『Track Name』MV"
 	const titlePattern = /「(.+)」|『(.+)』|'(.+)'|"(.+)"/;
 
@@ -46,7 +49,7 @@ function removeDecorationText(text) {
 	return text.replace(decorationPattern, '').replace(extraInfoPattern, '');
 }
 
-function selectPrimaryName(text) {
+function selectPrimaryName(text: string) {
 	// Niconico shows the artist name like "Artist さん" when you're a Japanese user
 	const nameWithoutSuffix = text.replace(/\sさん$/, '');
 

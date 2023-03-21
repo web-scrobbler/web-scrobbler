@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#player';
 
@@ -8,12 +8,16 @@ Connector.getTrackInfo = () => {
 	const artistText = Util.getTextFromSelectors('#player .line3');
 	const trackText = Util.getTextFromSelectors('#player .line2');
 
-	if (artistText && !artistText.includes(' - ') && trackText && !trackText.includes('Le direct')) {
+	if (
+		artistText &&
+		!artistText.includes(' - ') &&
+		trackText &&
+		!trackText.includes('Le direct')
+	) {
 		return {
 			artist: artistText,
 			track: trackText,
 		};
-
 	} else if (artistText && artistText.includes(' - ')) {
 		return Util.splitArtistTrack(artistText);
 	}
@@ -36,5 +40,8 @@ Connector.currentTimeSelector = '#player .time-left';
 Connector.durationSelector = '#player .time-right';
 
 Connector.isScrobblingAllowed = () => {
-	return Connector.getTrackInfo() && !Util.isElementVisible('#player button.skip-ad');
+	return Boolean(
+		Connector.getTrackInfo() &&
+			!Util.isElementVisible('#player button.skip-ad')
+	);
 };

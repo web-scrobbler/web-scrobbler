@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 /**
  * Example links to debug and test the connector:
@@ -36,7 +36,7 @@ const filter = MetadataFilter.createFilter({ track: removeNumericPrefixes });
 
 Connector.applyFilter(filter);
 
-function removeNumericPrefixes(track) {
+function removeNumericPrefixes(track: string) {
 	if (hasAllTracksNumericPrefix()) {
 		return track.trim().replace(/^(\d+\w+)/, '');
 	}
@@ -79,7 +79,7 @@ Connector.getTrackInfo = () => {
 			.split('-')
 			.map((item) => item.trim());
 
-		if (artist.includes(secondItem)) {
+		if (artist?.includes(secondItem)) {
 			track = firstItem;
 		}
 	} else {
@@ -98,7 +98,7 @@ function hasAllTracksNumericPrefix() {
 
 	let hasAllTracksNumericPrefix = true;
 	for (const track of tracks) {
-		if (!numericTrackRegex.test(track.textContent.trim())) {
+		if (!numericTrackRegex.test(track?.textContent?.trim() ?? '')) {
 			hasAllTracksNumericPrefix = false;
 			break;
 		}
@@ -107,7 +107,7 @@ function hasAllTracksNumericPrefix() {
 	return hasAllTracksNumericPrefix;
 }
 
-function getArtists(selectors) {
+function getArtists(selectors: string[]) {
 	const artistElements = Util.queryElements(selectors);
-	return artistElements && Util.joinArtists(artistElements.toArray());
+	return artistElements && Util.joinArtists([...artistElements]);
 }

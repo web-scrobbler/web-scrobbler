@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 setupConnector();
 
@@ -22,67 +22,103 @@ function setupConnector() {
 
 		Connector.artistSelector = '.info .track span';
 
-		Connector.isPlaying = () => 0 < $('.controls .ion-pause').length;
+		Connector.isPlaying = () =>
+			Boolean(document.querySelector('.controls .ion-pause'));
 
 		Connector.getCurrentTime = () => {
-			const text = $('.progress-bar').attr('current');
-			return Util.stringToSeconds(text);
+			const text = Util.getAttrFromSelectors('.progress-bar', 'current');
+			return Util.stringToSeconds(text ?? '');
 		};
 
 		Connector.getDuration = () => {
-			const text = $('.progress-bar').attr('duration');
-			return Util.stringToSeconds(text);
+			const text = Util.getAttrFromSelectors('.progress-bar', 'duration');
+			return Util.stringToSeconds(text ?? '');
 		};
 	}
 	function setupVideoPlayer() {
-		function isSingle() { /* lyric page */
-			return $('html').hasClass('page-letra');
+		function isSingle() {
+			/* lyric page */
+			return Util.hasElementClass('html', 'page-letra');
 		}
 		function isListSongsFM() {
-			return 0 < $('.listSongsFM').length;
+			return Boolean(document.querySelector('.listSongsFM'));
 		}
 		/* for discografia and switching player versions */
-		$('div.info, #vPlayer, #playerTop100, #content.artist, #playerContainer')
-			.bind('DOMNodeInserted', Connector.onStateChanged);
+		Util.bindListeners(
+			[
+				'div.info',
+				'#vPlayer',
+				'#playerTop100',
+				'#content.artist',
+				'#playerContainer',
+			],
+			'DOMNodeInserted',
+			Connector.onStateChanged
+		);
 
 		/* new player, old player, listSongsFM */
-		Connector.playerSelector = '.vPlayer3, .vPlayerStd, .playerFM, .listSongsFM';
+		Connector.playerSelector =
+			'.vPlayer3, .vPlayerStd, .playerFM, .listSongsFM';
 
-		Connector.getTrack = () => $('.infoMusic h3').text() ||
-			(isSingle() ? $('#header h1').text() : null);
+		Connector.getTrack = () =>
+			Util.getTextFromSelectors('.infoMusic h3') ||
+			(isSingle() ? Util.getTextFromSelectors('#header h1') : null);
 
-		Connector.getArtist = () => $('.infoMusic h5').text() ||
-			(isSingle() ? $('#header p a').text() : null);
+		Connector.getArtist = () =>
+			Util.getTextFromSelectors('.infoMusic h5') ||
+			(isSingle() ? Util.getTextFromSelectors('#header p a') : null);
 
-		Connector.artistTrackSelector = '.playTracks li.playing span,\
+		Connector.artistTrackSelector =
+			'.playTracks li.playing span,\
 			.songsList li.playing a';
 
 		if (isListSongsFM()) {
 			Connector.getArtistTrack = () => {
-				const text = $('.songList li:first-child').find('a, span').text();
+				const li = document.querySelector('.songList li:first-child');
+				const texts = [
+					...(li?.querySelectorAll('a') ?? []),
+					...(li?.querySelectorAll('span') ?? []),
+				];
+				const text = texts.map((e) => e.innerText).join('');
 				return Util.splitArtistTrack(text);
 			};
 		}
 
-		Connector.albumSelector = '#album .left span,\
+		Connector.albumSelector =
+			'#album .left span,\
 			.current ~ a span,\
 			.playing .playlistAlbumInfo a';
 
 		Connector.getTrackArt = () => {
-			return $('#album img').attr('src') ||
-				$('.current').parent().find('.cover img').attr('src') ||
-				$('.playing .playlistAlbumInfo img').attr('src');
+			const parent = document.querySelector('.current')?.parentElement;
+			return (
+				Util.getAttrFromSelectors('#album img', 'src') ||
+				parent?.querySelector('.cover img')?.getAttribute('src') ||
+				Util.getAttrFromSelectors(
+					'.playing .playlistAlbumInfo img',
+					'src'
+				)
+			);
 		};
 
-		Connector.isPlaying = () => 0 < $('.pause').length;
+		Connector.isPlaying = () => Boolean(document.querySelector('.pause'));
 
 		Connector.currentTimeSelector = '.currentTime, .timer';
 
 		Connector.durationSelector = '.duration';
 
-		Connector.getUniqueID = () => /* new player */
-			$('li.itemPlaylist.playing').data('pointerid') ||	/* playlist */
-				$('#lyrFoot b a').text().split('=').pop() ||	/* single */
-				$('.songList li:first-child').data('pointerid');	/* list songs FM */
+		Connector.getUniqueID = () =>
+			/* new player */
+			Util.getDataFromSelectors(
+				'li.itemPlaylist.playing',
+				'pointerid'
+			) /* playlist */ ||
+			Util.getTextFromSelectors('#lyrFoot b a')
+				?.split('=')
+				.at(-1) /* single */ ||
+			Util.getDataFromSelectors(
+				'.songList li:first-child',
+				'pointerid'
+			); /* list songs FM */
 	}
 }

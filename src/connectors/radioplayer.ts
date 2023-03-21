@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const artistSelector = '.playing-now .pod-title';
 const trackSelector = '.playing-now .pod-desc';
@@ -8,19 +8,21 @@ Connector.playerSelector = '.radioplayer-head';
 Connector.playButtonSelector = '#play';
 
 // Priority: 1.
-Connector.artistTrackSelector = [
-	'.song-text', '.scrolling-text',
-];
+Connector.artistTrackSelector = ['.song-text', '.scrolling-text'];
 
 // Priority: 2.
 Connector.getTrackInfo = () => {
-	const radioFeedFrame = $('#radiofeed_iframe').contents();
-	if (radioFeedFrame.length === 0) {
+	const frame = document.querySelector(
+		'#radiofeed_iframe'
+	) as HTMLIFrameElement;
+	const radioFeedFrame =
+		frame.contentWindow?.document || frame.contentDocument;
+	if (!radioFeedFrame) {
 		return null;
 	}
 
-	const artist = radioFeedFrame.find(artistSelector).text();
-	const track = radioFeedFrame.find(trackSelector).text();
+	const artist = radioFeedFrame.querySelector(artistSelector)?.textContent;
+	const track = radioFeedFrame.querySelector(trackSelector)?.textContent;
 
 	return { artist, track };
 };

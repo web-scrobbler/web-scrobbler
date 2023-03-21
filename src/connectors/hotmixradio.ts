@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#new_ajax-player';
 
@@ -10,6 +10,9 @@ Connector.trackArtSelector = '#hotmixPlayerSongCover';
 
 Connector.pauseButtonSelector = '#play-pause .fa-pause';
 
-function getScrollableText(selector) {
-	return $(`${selector} a`).first().text() || $(selector).text();
+function getScrollableText(selector: string) {
+	return (
+		Util.getTextFromSelectors(`${selector} a`) ||
+		Util.getTextFromSelectors(selector)
+	);
 }

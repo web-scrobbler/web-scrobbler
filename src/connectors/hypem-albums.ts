@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.hype-player';
 
@@ -10,7 +10,7 @@ Connector.trackSelector = 'li.active .title';
 
 Connector.trackArtSelector = 'img#album-big';
 
-Connector.isPlaying = () => $('.hype-player').hasClass('playing');
+Connector.isPlaying = () => Util.hasElementClass('.hype-player', 'playing');
 
 Connector.currentTimeSelector = '.current_pos';
 

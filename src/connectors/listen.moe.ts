@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const filter = MetadataFilter.createFilter(
 	MetadataFilter.createFilterSetForFields(
@@ -20,11 +20,12 @@ Connector.artistSelector = '.player-song-artist';
 Connector.trackSelector = '.player-song-title';
 
 Connector.isPlaying = () => {
-	return !$('#audio-player').paused;
+	return !(document.querySelector('#audio-player') as HTMLAudioElement)
+		.paused;
 };
 
 Connector.applyFilter(filter);
 
-function trimSpaces(text) {
+function trimSpaces(text: string) {
 	return MetadataFilter.filterWithFilterRules(text, filterRules);
 }

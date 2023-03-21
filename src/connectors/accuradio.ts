@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#playerContents';
 
@@ -14,6 +14,9 @@ Connector.trackArtSelector = '#albumArtImg';
 
 Connector.pauseButtonSelector = '#playerPauseButton';
 
-function getScrollableText(selector) {
-	return $(`${selector} div`).first().text() || $(selector).text();
+function getScrollableText(selector: string) {
+	return (
+		Util.getTextFromSelectors(`${selector} div`) ||
+		Util.getTextFromSelectors(selector)
+	);
 }

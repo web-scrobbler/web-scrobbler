@@ -15,13 +15,13 @@ const INFO_ADDITIONAL = 16;
 
 setupEventListeners();
 
-function sendUpdateEvent(type) {
-	const audioObject = window.ap._currentAudio;
+function sendUpdateEvent(type: string) {
+	const audioObject = (window as any).ap._currentAudio;
 	if (!audioObject) {
 		return;
 	}
 
-	const audioElImpl = window.ap._impl._currentAudioEl || {};
+	const audioElImpl = (window as any).ap._impl._currentAudioEl || {};
 	const { currentTime } = audioElImpl;
 
 	/*
@@ -41,23 +41,26 @@ function sendUpdateEvent(type) {
 		track = `${track} (${additionalInfo})`;
 	}
 
-	window.postMessage({
-		sender: 'web-scrobbler',
-		type,
-		trackInfo: {
-			currentTime,
-			trackArt,
-			track,
-			duration: audioObject[INFO_DURATION],
-			uniqueID: `${audioObject[INFO_OWNER_ID]}_${audioObject[INFO_ID]}`,
-			artist: audioObject[INFO_ARTIST],
+	window.postMessage(
+		{
+			sender: 'web-scrobbler',
+			type,
+			trackInfo: {
+				currentTime,
+				trackArt,
+				track,
+				duration: audioObject[INFO_DURATION],
+				uniqueID: `${audioObject[INFO_OWNER_ID]}_${audioObject[INFO_ID]}`,
+				artist: audioObject[INFO_ARTIST],
+			},
 		},
-	}, '*');
+		'*'
+	);
 }
 
 function setupEventListeners() {
 	for (const e of ['start', 'progress', 'pause', 'stop']) {
-		window.ap.subscribers.push({
+		(window as any).ap.subscribers.push({
 			et: e,
 			cb: sendUpdateEvent.bind(null, e),
 		});
@@ -66,10 +69,10 @@ function setupEventListeners() {
 
 /**
  * Extract largest track art from list of track art URLs.
- * @param  {String} trackArts String contains list of track art URLs
- * @return {String} Track art URL
+ * @param trackArts - String contains list of track art URLs
+ * @returns Track art URL
  */
-function extractTrackArt(trackArts) {
+function extractTrackArt(trackArts: string) {
 	const trackArtArr = trackArts.split(',');
 	return trackArtArr.pop();
 }

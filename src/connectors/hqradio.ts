@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#player';
 
@@ -6,4 +6,4 @@ Connector.artistTrackSelector = '#track .title';
 
 Connector.trackArtSelector = '#disc .cover';
 
-Connector.isPlaying = () => $('body').hasClass('_playing');
+Connector.isPlaying = () => Util.hasElementClass('body', '_playing');

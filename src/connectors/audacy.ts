@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const audioPlayer = 'div[aria-label="Audio player"]';
 const buttonOpenFullscreen = 'button[aria-label="Open full-screen player"]';
@@ -8,47 +8,69 @@ const fullArtistTrackSelector = `${buttonCloseFullscreen} + div span`;
 Connector.playerSelector = '#root'; // player not in DOM until initiated by user
 
 Connector.getArtist = () => {
-	const miniArtistStationText = Util.getTextFromSelectors(`${audioPlayer} ${buttonOpenFullscreen} span:nth-of-type(2)`);
+	const miniArtistStationText = Util.getTextFromSelectors(
+		`${audioPlayer} ${buttonOpenFullscreen} span:nth-of-type(2)`
+	);
 
 	if (miniArtistStationText !== null) {
 		return miniArtistStationText.split(' • ')[0];
 	}
 
 	if (fullArtistTrackSelector !== null) {
-		return Util.getTextFromSelectors(fullArtistTrackSelector).split(' - ')[1];
+		return (
+			Util.getTextFromSelectors(fullArtistTrackSelector)?.split(
+				' - '
+			)[1] ?? ''
+		);
 	}
 
 	return null;
 };
 
 Connector.getTrack = () => {
-	const miniTrackText = Util.getTextFromSelectors(`${audioPlayer} ${buttonOpenFullscreen} span:first-of-type`);
+	const miniTrackText = Util.getTextFromSelectors(
+		`${audioPlayer} ${buttonOpenFullscreen} span:first-of-type`
+	);
 
 	if (miniTrackText !== null) {
 		return miniTrackText;
 	}
 
 	if (fullArtistTrackSelector !== null) {
-		return Util.getTextFromSelectors(fullArtistTrackSelector).split(' - ')[0];
+		return (
+			Util.getTextFromSelectors(fullArtistTrackSelector)?.split(
+				' - '
+			)[0] ?? ''
+		);
 	}
 
 	return null;
 };
 
-Connector.trackArtSelector = [`${audioPlayer} ${buttonOpenFullscreen} img`, `${buttonCloseFullscreen} + div img`];
+Connector.trackArtSelector = [
+	`${audioPlayer} ${buttonOpenFullscreen} img`,
+	`${buttonCloseFullscreen} + div img`,
+];
 
-Connector.isTrackArtDefault = (url) => url.includes('base64');
+Connector.isTrackArtDefault = (url) => url?.includes('base64') ?? false;
 
 Connector.isPlaying = () => {
 	const buttonSvgTitle = 'button:not([aria-label=Like]) svg title';
-	const buttonPlaying = Util.getTextFromSelectors([`${audioPlayer} ${buttonSvgTitle}`, `${buttonCloseFullscreen} + div ${buttonSvgTitle}`]);
+	const buttonPlaying = Util.getTextFromSelectors([
+		`${audioPlayer} ${buttonSvgTitle}`,
+		`${buttonCloseFullscreen} + div ${buttonSvgTitle}`,
+	]);
 	return buttonPlaying === 'Pause' || buttonPlaying === 'Stop';
 };
 
 Connector.isScrobblingAllowed = () => {
-	return (
-		Connector.getArtist() && !Connector.getArtist().includes('Audacy') &&
-		Connector.getTrack() && !Connector.getTrack().includes('Advertisement') &&
-		Connector.getArtist() !== Connector.getTrack()
+	const artist = Connector.getArtist();
+	const track = Connector.getTrack();
+	return Boolean(
+		artist &&
+			!artist.includes('Audacy') &&
+			track &&
+			!track.includes('Advertisement') &&
+			artist !== track
 	);
 };

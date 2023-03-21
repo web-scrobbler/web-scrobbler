@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 /*
  * This connector currently covers Radio ULTRA, Наше Радио, RockFM,
@@ -11,4 +11,5 @@ Connector.artistSelector = '.track-info .artist';
 
 Connector.trackSelector = '.track-info .song';
 
-Connector.isPlaying = () => $('#jp_container_1').hasClass('jp-state-playing');
+Connector.isPlaying = () =>
+	Util.hasElementClass('#jp_container_1', 'jp-state-playing');

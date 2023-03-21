@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const showNameSelector = '.show-info-with-image__text__title';
 

@@ -1,13 +1,10 @@
-'use strict';
+export {};
 
 /**
  * Stations have Artist-Track info reversed.
  * Each entry is a part of station URL.
- * @type {Array}
  */
-const STATIONS_SWAP = [
-	'Cat-Country-987', '885-FM-So-Cal',
-];
+const STATIONS_SWAP = ['Cat-Country-987', '885-FM-So-Cal'];
 
 const playerBar = '[class^=player-module__playerContainer]';
 const artistTrackSelector = '#playerTitle';
@@ -20,7 +17,7 @@ Connector.getArtistTrack = () => {
 
 	if (artistTrackText) {
 		const swap = shouldSwapArtistTrack();
-		return Util.splitArtistTrack(artistTrackText, null, { swap });
+		return Util.splitArtistTrack(artistTrackText, null, swap);
 	}
 
 	return null;

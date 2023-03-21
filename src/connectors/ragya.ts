@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.music-box';
 
@@ -12,4 +12,6 @@ Connector.currentTimeSelector = '.timer .clr-primary';
 
 Connector.durationSelector = '.timer .clr-white';
 
-Connector.isPlaying = () => document.querySelector('.play-btn-logo').getAttribute('src') === 'assets/images/pause.svg';
+Connector.isPlaying = () =>
+	Util.getAttrFromSelectors('.play-btn-logo', 'src') ===
+	'assets/images/pause.svg';

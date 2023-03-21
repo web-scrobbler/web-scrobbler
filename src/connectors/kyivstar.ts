@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.navigation';
 
@@ -12,7 +12,10 @@ Connector.trackArtSelector = '#song_image';
 
 Connector.isTrackArtDefault = (trackArtUrl) => {
 	const defaultFiles = [
-		'business.jpg', 'top_hits.jpg', 'ksrock.png', 'KSlounge.png',
+		'business.jpg',
+		'top_hits.jpg',
+		'ksrock.png',
+		'KSlounge.png',
 	];
 
 	for (const file of defaultFiles) {

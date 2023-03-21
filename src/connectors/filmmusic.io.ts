@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.audioplayer-wrapper';
 Connector.artistSelector = '.isplaying .fm-song-top-info a';

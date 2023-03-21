@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#qtmplayer';
 
@@ -8,8 +8,10 @@ Connector.trackSelector = '.qtmplayer__songdata .qtmplayer__title .marquee';
 
 Connector.trackArtSelector = '.qtmplayer__covercontainer img';
 
-Connector.isPlaying = () => Util.getTextFromSelectors('#qtmplayerPlay .material-icons') === 'pause';
+Connector.isPlaying = () =>
+	Util.getTextFromSelectors('#qtmplayerPlay .material-icons') === 'pause';
 
 Connector.isScrobblingAllowed = () => {
-	return Connector.getArtist() && !Connector.getArtist().match(/^DKFM|^ID\/PSA|^Advert:/);
+	const artist = Connector.getArtist();
+	return Boolean(artist && !artist.match(/^DKFM|^ID\/PSA|^Advert:/));
 };

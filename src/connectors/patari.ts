@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.player';
 
@@ -8,4 +8,5 @@ Connector.trackSelector = `${Connector.playerSelector} .songName`;
 
 Connector.timeInfoSelector = '.rightWrapper';
 
-Connector.isPlaying = () => $('.playerPlay').attr('src').includes('pause');
+Connector.isPlaying = () =>
+	Util.getAttrFromSelectors('.playerPlay', 'src')?.includes('pause') ?? false;

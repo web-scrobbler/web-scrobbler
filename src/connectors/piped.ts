@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#app > div';
 
@@ -11,9 +11,10 @@ Connector.getArtistTrack = () => {
 };
 
 Connector.getCurrentTime = () =>
-	document.querySelector('.shaka-video').currentTime;
+	(document.querySelector('.shaka-video') as HTMLVideoElement).currentTime;
 
-Connector.getDuration = () => document.querySelector('.shaka-video').duration;
+Connector.getDuration = () =>
+	(document.querySelector('.shaka-video') as HTMLVideoElement).duration;
 
 Connector.getUniqueID = () => {
 	const videoUrl = Util.getAttrFromSelectors('[aria-current=page]', 'href');
@@ -21,6 +22,7 @@ Connector.getUniqueID = () => {
 };
 
 Connector.isPlaying = () =>
-	document.querySelector('.shaka-small-play-button').innerText === 'pause';
+	(document.querySelector('.shaka-small-play-button') as HTMLButtonElement)
+		?.innerText === 'pause';
 
 Connector.applyFilter(MetadataFilter.getYoutubeFilter());

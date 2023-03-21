@@ -1,5 +1,4 @@
-
-'use strict';
+export {};
 
 Connector.playerSelector = '.navbar-player';
 

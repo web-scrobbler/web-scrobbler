@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.artistSelector = '.action-artist';
 

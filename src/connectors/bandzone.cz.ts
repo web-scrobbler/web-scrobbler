@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 setupConnector();
 
@@ -11,18 +11,23 @@ function setupConnector() {
 }
 
 function isMainPage() {
-	return location.href === 'http://bandzone.cz/' ||
-		location.href === 'https://bandzone.cz/';
+	return (
+		location.href === 'http://bandzone.cz/' ||
+		location.href === 'https://bandzone.cz/'
+	);
 }
 
 function setupMainPagePlayer() {
 	Connector.playerSelector = '#stats';
 
-	Connector.artistSelector = '.stat:has(.ui-miniaudioplayer-state-playing) h4';
+	Connector.artistSelector =
+		'.stat:has(.ui-miniaudioplayer-state-playing) h4';
 
-	Connector.trackSelector = '.stat:has(.ui-miniaudioplayer-state-playing) .songTitle';
+	Connector.trackSelector =
+		'.stat:has(.ui-miniaudioplayer-state-playing) .songTitle';
 
-	Connector.isPlaying = () => $('.ui-miniaudioplayer-state-playing').length > 0;
+	Connector.isPlaying = () =>
+		Boolean(document.querySelector('.ui-miniaudioplayer-state-playing'));
 }
 
 function setupDefaultPlayer() {
@@ -36,12 +41,13 @@ function setupDefaultPlayer() {
 
 	Connector.timeInfoSelector = '.ui-audioplayer-time';
 
-	Connector.isPlaying = () => $('.ui-audioplayer-button').text() === 'stop';
+	Connector.isPlaying = () =>
+		Util.getTextFromSelectors('.ui-audioplayer-button') === 'stop';
 
 	Connector.applyFilter(filter);
 
-	function removeGenre(text) {
-		const genre = $('.profile-name span').text();
-		return text.replace(genre, '');
+	function removeGenre(text: string) {
+		const genre = Util.getTextFromSelectors('.profile-name span');
+		return text.replace(genre ?? '', '');
 	}
 }

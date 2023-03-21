@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.region-bottomBar';
 
@@ -11,7 +11,10 @@ Connector.durationSelector = 'span[data-qa="remaining_time"]';
 Connector.trackArtSelector = '.Tuner__Audio__TrackDetail__img img';
 
 Connector.getTrackArt = () => {
-	const trackArtUrl = $('.Tuner__Audio__TrackDetail__img img').attr('src');
+	const trackArtUrl = Util.getAttrFromSelectors(
+		'.Tuner__Audio__TrackDetail__img img',
+		'src'
+	);
 	if (trackArtUrl) {
 		return trackArtUrl.replace('90W_90H', '500W_500H');
 	}
@@ -22,5 +25,5 @@ Connector.getTrackArt = () => {
 Connector.pauseButtonSelector = '[data-qa="pause_button"]';
 
 Connector.isScrobblingAllowed = () => {
-	return $('.Tuner__Audio__TrackDetail__title--ad').length === 0;
+	return !document.querySelector('.Tuner__Audio__TrackDetail__title--ad');
 };

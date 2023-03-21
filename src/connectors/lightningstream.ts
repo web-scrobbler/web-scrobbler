@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#MainContainer';
 
@@ -8,6 +8,6 @@ Connector.artistSelector = '.SN_pw_slot.open .SN_pw_artist';
 
 Connector.trackArtSelector = '.SN_pw_slot.open .SN_pw_cover';
 
-Connector.isTrackArtDefault = (url) => url.includes('noimage');
+Connector.isTrackArtDefault = (url) => url?.includes('noimage') ?? false;
 
 Connector.isPlaying = () => Util.isElementVisible('#playerStopLink');

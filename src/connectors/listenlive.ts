@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#nowPlaying';
 
@@ -17,7 +17,9 @@ Connector.getAlbum = () => {
 };
 
 Connector.getTrackArt = () => {
-	const trackArtUrl = Util.extractImageUrlFromSelectors('.nowPlayingCard figure img');
+	const trackArtUrl = Util.extractImageUrlFromSelectors(
+		'.nowPlayingCard figure img'
+	);
 
 	if (trackArtUrl) {
 		return trackArtUrl.replace(/(?<=\/)\d+x\d+/g, '300x300'); // larger image path
@@ -26,6 +28,6 @@ Connector.getTrackArt = () => {
 	return null;
 };
 
-Connector.isTrackArtDefault = (url) => url.includes('default');
+Connector.isTrackArtDefault = (url) => url?.includes('default') ?? false;
 
 Connector.isPlaying = () => Util.hasElementClass('#nowPlaying', 'hasSong');

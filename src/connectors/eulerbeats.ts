@@ -1,11 +1,11 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#root';
 
 Connector.isPlaying = () =>
 	!!document.querySelector('.eulerbeats-main.eulerbeats-is-playing');
 
-Connector.getUniqueID = () => getSeed();
+Connector.getUniqueID = () => getSeed() ?? null;
 
 Connector.getAlbum = () => 'Euler';
 

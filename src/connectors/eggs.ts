@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const filter = MetadataFilter.createFilter({
 	track: removeMV,
@@ -9,7 +9,9 @@ let timeInfo = {};
 let isPlaying = false;
 
 Connector.getTimeInfo = () => {
-	const { currentTime, duration } = document.querySelector('#aPlayer');
+	const { currentTime, duration } = document.querySelector(
+		'#aPlayer'
+	) as HTMLAudioElement;
 	return { currentTime, duration };
 };
 
@@ -18,7 +20,6 @@ Connector.playerSelector = '.m-upload-list';
 Connector.applyFilter(filter);
 
 Connector.injectScript('./connectors/eggs-dom-inject.js');
-
 
 if (window.location.href.includes('/artist/')) {
 	setupArtistPlayer();
@@ -44,20 +45,25 @@ function setupArtistPlayer() {
 
 function setArtistConnector() {
 	Connector.getTrackInfo = () => {
-		const currTrack = document.querySelector('.pause[style*="display: block"]') || document.querySelector('.playw:hover');
+		const currTrack =
+			document.querySelector('.pause[style*="display: block"]') ||
+			document.querySelector('.playw:hover');
 
-		const parentLi = currTrack.closest('li');
+		const parentLi = currTrack?.closest('li');
 
 		const songInfo = {
-			artist: parentLi.querySelector('.artist_name').textContent,
-			track: parentLi.querySelector('.player').dataset.srcname,
-			trackArt: parentLi.querySelector('img').src,
+			artist: parentLi?.querySelector('.artist_name')?.textContent,
+			track: (parentLi?.querySelector('.player') as HTMLElement).dataset
+				.srcname,
+			trackArt: (parentLi?.querySelector('img') as HTMLImageElement).src,
 		};
 
 		return songInfo;
 	};
 
-	Connector.isPlaying = () => document.querySelectorAll('.pause[style*="display: block;"]').length !== 0;
+	Connector.isPlaying = () =>
+		document.querySelectorAll('.pause[style*="display: block;"]').length !==
+		0;
 }
 
 function setupSongPlayer() {
@@ -70,21 +76,22 @@ function setupSongPlayer() {
 	Connector.pauseButtonSelector = '.pause';
 }
 
-function checkToggleArtist(mutationList) {
+function checkToggleArtist(mutationList: MutationRecord[]) {
 	const removedList = mutationList[0].removedNodes;
 
 	if (removedList.length) {
-
 		// external player has been closed
-		if (removedList[0].classList.contains('fancybox-overlay')) {
-
+		if (
+			(removedList[0] as HTMLElement).classList.contains(
+				'fancybox-overlay'
+			)
+		) {
 			setArtistConnector();
-
 		}
 	}
 }
 
-Connector.onScriptEvent = (event) => {
+Connector.onScriptEvent = (event: any) => {
 	({ trackInfo, isPlaying, timeInfo } = event.data);
 
 	if (event.data.playerType === 'youtube') {
@@ -94,6 +101,6 @@ Connector.onScriptEvent = (event) => {
 	}
 };
 
-function removeMV(text) {
+function removeMV(text: string) {
 	return text.replace(/(\(MV\)|【MV】|MV)$/, '');
 }

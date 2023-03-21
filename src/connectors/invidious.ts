@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#player';
 
@@ -9,15 +9,16 @@ Connector.currentTimeSelector = '.vjs-current-time-display';
 Connector.durationSelector = '.vjs-duration-display';
 
 Connector.getArtistTrack = () => {
-	const text = $(Connector.artistTrackSelector).text();
+	const text = Util.getTextFromSelectors(Connector.artistTrackSelector);
 	return Util.processYtVideoTitle(text);
 };
 
 Connector.getUniqueID = () => {
-	const videoUrl = $('h1 a').attr('href');
+	const videoUrl = Util.getAttrFromSelectors('h1 a', 'href');
 	return Util.getYtVideoIdFromUrl(videoUrl);
 };
 
-Connector.isPlaying = () => $('.vjs-play-control').hasClass('vjs-playing');
+Connector.isPlaying = () =>
+	Util.hasElementClass('.vjs-play-control', 'vjs-playing');
 
 Connector.applyFilter(MetadataFilter.getYoutubeFilter());

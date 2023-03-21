@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const globalArtistSelector = '.ng-apg-media-artist';
 const globalTrackSelector = '.ng-apg-media-title';
@@ -14,12 +14,15 @@ function setupConnector() {
 }
 
 function isEmbeddedPlayer() {
-	return $('#audio-listen-player').length > 0;
+	return Boolean(document.getElementById('audio-listen-player'));
 }
 
 function setupGlobalPlayer() {
 	Connector.getArtistTrack = () => {
-		let { artist, track } = Util.splitArtistTrack(Util.getTextFromSelectors(globalTrackSelector), '-');
+		let { artist, track } = Util.splitArtistTrack(
+			Util.getTextFromSelectors(globalTrackSelector),
+			['-']
+		);
 
 		if (!artist) {
 			artist = Util.getTextFromSelectors(globalArtistSelector);
@@ -41,7 +44,10 @@ function setupGlobalPlayer() {
 
 function setupEmbeddedPlayer() {
 	Connector.getArtistTrack = () => {
-		let { artist, track } = Util.splitArtistTrack(Util.getTextFromSelectors(embeddedTrackSelector), '-');
+		let { artist, track } = Util.splitArtistTrack(
+			Util.getTextFromSelectors(embeddedTrackSelector),
+			['-']
+		);
 
 		if (!artist) {
 			artist = Util.getTextFromSelectors(embeddedArtistSelector);

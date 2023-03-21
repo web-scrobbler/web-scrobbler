@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const artistSelector = "a[href^='/artists']";
 
@@ -15,8 +15,9 @@ Connector.getTrack = () => {
 		return null;
 	}
 
-	const trackContent = playingImg.closest('td').nextElementSibling.textContent;
-	const matched = trackContent.match(trackRegex);
+	const trackContent =
+		playingImg.closest('td')?.nextElementSibling?.textContent;
+	const matched = trackContent?.match(trackRegex);
 	if (!matched) {
 		return null;
 	}
@@ -27,7 +28,13 @@ Connector.getTrack = () => {
 Connector.getAlbum = () => {
 	const artistElement = document.querySelector(artistSelector);
 
-	return artistElement.closest('font').textContent.replace(artistElement.textContent, '').slice(1);
+	return (
+		artistElement
+			?.closest('font')
+			?.textContent?.replace(artistElement?.textContent ?? '', '')
+			.slice(1) ?? null
+	);
 };
 
-Connector.isPlaying = () => document.querySelectorAll('#hugeplay a').length === 3;
+Connector.isPlaying = () =>
+	document.querySelectorAll('#hugeplay a').length === 3;

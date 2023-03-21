@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const artistSelector = '.player__track-album [href*=artist]';
 const timeInfoSelector = '.player__track-time-content';

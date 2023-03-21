@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const trackArtSelector = '#currentTracklookupImage';
 
@@ -21,4 +21,5 @@ Connector.getTrackArt = () => {
 	return trackArtUrl && trackArtUrl.replace(/\._SL\d+_/, '');
 };
 
-Connector.isTrackArtDefault = (url) => url.includes('placeHolderCovers');
+Connector.isTrackArtDefault = (url) =>
+	url?.includes('placeHolderCovers') ?? false;

@@ -1,6 +1,6 @@
-'use strict';
+export {};
 
-function getTrackInfo(track, currentTime) {
+function getTrackInfo(track: any, currentTime: number) {
 	const { title, credits, duration, id, image, release_title: album } = track;
 	const trackArt = image.src.replace('{size}', '400x400');
 
@@ -15,7 +15,7 @@ function getTrackInfo(track, currentTime) {
 	};
 }
 
-function queueEvent(event) {
+function queueEvent(event: any) {
 	let type = null;
 	let queue;
 
@@ -30,24 +30,33 @@ function queueEvent(event) {
 			break;
 		case 'currentTime':
 		case 'current_idx':
-			queue = event.name === 'current_idx' ? event.object : event.object.Queue;
+			queue =
+				event.name === 'current_idx'
+					? event.object
+					: event.object.Queue;
 			type = 'currentTime';
 			break;
 		default:
 			return;
 	}
 
-	const trackInfo = getTrackInfo(queue.currentTrack, queue.Player.currentTime);
+	const trackInfo = getTrackInfo(
+		queue.currentTrack,
+		queue.Player.currentTime
+	);
 
-	window.postMessage({
-		sender: 'web-scrobbler',
-		type,
-		trackInfo,
-	}, '*');
+	window.postMessage(
+		{
+			sender: 'web-scrobbler',
+			type,
+			trackInfo,
+		},
+		'*'
+	);
 }
 
 function setupEventListeners() {
-	window.newPlayer.$mobx.observe(queueEvent);
+	(window as any).newPlayer.$mobx.observe(queueEvent);
 }
 
 setupEventListeners();

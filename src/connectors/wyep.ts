@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const player = '.wyep-player';
 
@@ -9,6 +9,8 @@ Connector.trackSelector = `${player} .wyep-player__title`;
 Connector.pauseButtonSelector = `${player}.is-playing`;
 
 Connector.getTrackInfo = () => {
-	const artistAlbum = Util.getTextFromSelectors(`${player} .wyep-player__description`);
+	const artistAlbum = Util.getTextFromSelectors(
+		`${player} .wyep-player__description`
+	);
 	return Util.splitArtistAlbum(artistAlbum, ['·']);
 };

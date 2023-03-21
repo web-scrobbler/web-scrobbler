@@ -1,10 +1,12 @@
-'use strict';
+export {};
 
 const playerBar = '.Root__now-playing-bar';
 
 const artistSelector = `${playerBar} [data-testid="context-item-info-artist"]`;
-const oldPlayingPath = 'M2.7 1a.7.7 0 00-.7.7v12.6a.7.7 0 00.7.7h2.6a.7.7 0 00.7-.7V1.7a.7.7 0 00-.7-.7H2.7zm8 0a.7.7 0 00-.7.7v12.6a.7.7 0 00.7.7h2.6a.7.7 0 00.7-.7V1.7a.7.7 0 00-.7-.7h-2.6z';
-const newPlayingPath = 'M2.7 1a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7H2.7zm8 0a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7h-2.6z';
+const oldPlayingPath =
+	'M2.7 1a.7.7 0 00-.7.7v12.6a.7.7 0 00.7.7h2.6a.7.7 0 00.7-.7V1.7a.7.7 0 00-.7-.7H2.7zm8 0a.7.7 0 00-.7.7v12.6a.7.7 0 00.7.7h2.6a.7.7 0 00.7-.7V1.7a.7.7 0 00-.7-.7h-2.6z';
+const newPlayingPath =
+	'M2.7 1a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7H2.7zm8 0a.7.7 0 0 0-.7.7v12.6a.7.7 0 0 0 .7.7h2.6a.7.7 0 0 0 .7-.7V1.7a.7.7 0 0 0-.7-.7h-2.6z';
 const spotifyConnectSelector = `${playerBar} [aria-live="polite"]`;
 const oldPauseButtonSelector = `${playerBar} [data-testid=control-button-playpause] > svg > path[d="${oldPlayingPath}"]`;
 const newPauseButtonSelector = `${playerBar} [data-testid=control-button-playpause] > svg > path[d="${newPlayingPath}"]`;
@@ -35,7 +37,7 @@ Connector.pauseButtonSelector = `${oldPauseButtonSelector}, ${newPauseButtonSele
 
 Connector.applyFilter(MetadataFilter.getSpotifyFilter());
 
-Connector.isScrobblingAllowed = () => isMusicPlaying() && isMainTab();
+Connector.isScrobblingAllowed = () => Boolean(isMusicPlaying() && isMainTab());
 
 Connector.isPodcast = () => isPodcastPlaying();
 
@@ -47,7 +49,7 @@ function isMusicPlaying() {
 	return artistUrlIncludes('/artist/', '/show/') || isLocalFilePlaying();
 }
 
-function artistUrlIncludes(...strings) {
+function artistUrlIncludes(...strings: string[]) {
 	const artistUrl = Util.getAttrFromSelectors(artistSelector, 'href');
 
 	if (artistUrl) {
@@ -108,12 +110,14 @@ function getTrackUrl() {
 }
 
 function getTrackUri() {
-	const contextLinkEl = document.querySelector('[data-testid="context-link"]');
+	const contextLinkEl = document.querySelector(
+		'[data-testid="context-link"]'
+	) as HTMLAnchorElement;
 	if (!contextLinkEl || !contextLinkEl.href) {
 		return null;
 	}
 
-	const url = new URL(contextLinkEl);
+	const url = new URL(contextLinkEl.href);
 	const trackUri = url.searchParams.get('uri');
 	if (!trackUri || !trackUri.startsWith('spotify:track:')) {
 		return null;

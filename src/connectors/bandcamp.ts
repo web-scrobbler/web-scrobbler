@@ -1,12 +1,13 @@
-'use strict';
+import type { Separator } from '@/core/content/util';
+
+export {};
 
 const VARIOUS_ARTISTS_REGEXP = /variou?s\sartists?/i;
 
 /**
  * List of separators used to split ArtistTrack string of VariousArtists albums.
- * @type {Array}
  */
-const SEPARATORS = [' - ', ' | '];
+const SEPARATORS: Separator[] = [' - ', ' | '];
 
 /**
  * This filter is applied after all page properties are inititialized.
@@ -71,7 +72,7 @@ function initGenericProperties() {
 			return Util.splitArtistTrack(track, SEPARATORS);
 		}
 		if (trackContainsRecordSide()) {
-			track = Util.removeRecordSide(track);
+			track = Util.removeRecordSide(track ?? '');
 		}
 
 		return { artist, track };
@@ -141,14 +142,19 @@ function initPropertiesForCollectionsPlayer() {
 
 	Connector.trackArtSelector = '.now-playing img';
 
-	Connector.getOriginUrl = () => Util.getOriginUrl('.playing .collection-title-details a, .playing .buy-now a');
+	Connector.getOriginUrl = () =>
+		Util.getOriginUrl(
+			'.playing .collection-title-details a, .playing .buy-now a'
+		);
 }
 
 // https://bandcamp.com/%YOURNAME%/feed
 function initPropertiesForFeedPlayer() {
-	bandcampFilter = bandcampFilter.extend(MetadataFilter.createFilter({
-		artist: [removeByPrefix],
-	}));
+	bandcampFilter = bandcampFilter.extend(
+		MetadataFilter.createFilter({
+			artist: [removeByPrefix],
+		})
+	);
 
 	Connector.artistSelector = '.waypoint-artist-title';
 
@@ -160,7 +166,7 @@ function initPropertiesForFeedPlayer() {
 
 	Connector.getOriginUrl = () => Util.getOriginUrl('.playing .buy-now a');
 
-	function removeByPrefix(text) {
+	function removeByPrefix(text: string) {
 		return text.replace('by ', '');
 	}
 }
@@ -196,22 +202,28 @@ function initPropertiesForHomePage() {
 
 	Connector.getUniqueID = () => {
 		if (document.querySelector('.bcweekly.playing') !== null) {
-			const { bcw_data: bandcampWeeklyData } = getData('#pagedata', 'data-blob');
-			const currentShowId = location.search.match(/show=(\d+)?/)[1];
+			const { bcw_data: bandcampWeeklyData } = getData(
+				'#pagedata',
+				'data-blob'
+			);
+			const currentShowId = location.search.match(/show=(\d+)?/)?.[1];
 
-			if (currentShowId in bandcampWeeklyData) {
+			if (currentShowId && currentShowId in bandcampWeeklyData) {
 				const currentShowData = bandcampWeeklyData[currentShowId];
-				const currentTrackIndex = Util.getAttrFromSelectors('.bcweekly-current', 'data-index');
+				const currentTrackIndex = Util.getDataFromSelectors(
+					'.bcweekly-current',
+					'index'
+				);
 
-				return currentShowData.tracks[currentTrackIndex].track_id;
+				return currentShowData.tracks[currentTrackIndex ?? ''].track_id;
 			}
 		}
 
 		return null;
 	};
 
-
-	Connector.getOriginUrl = () => Util.getOriginUrl('.playable.playing[href], .playable.playing + a');
+	Connector.getOriginUrl = () =>
+		Util.getOriginUrl('.playable.playing[href], .playable.playing + a');
 }
 
 function isAlbumPage() {
@@ -231,27 +243,30 @@ function isCollectionsPage() {
 }
 
 function getTrackNodes() {
-	let trackNodes = [];
+	let trackNodes: NodeListOf<Element> =
+		document.querySelectorAll('thisshouldbeempty');
 	if (isAlbumPage()) {
 		trackNodes = document.querySelectorAll('.track_list .track-title');
 	} else if (isCollectionsPage()) {
-		trackNodes = document.querySelectorAll('.queue .title span:nth-child(2)');
+		trackNodes = document.querySelectorAll(
+			'.queue .title span:nth-child(2)'
+		);
 	}
 
 	return trackNodes;
 }
 
-function isArtistVarious(artist, track) {
+function isArtistVarious(artist: string | null, track: string | null) {
 	const trackNodes = getTrackNodes();
 	/*
-	* Return true if all tracks contain a hyphen or vertical bar on album page.
-	* Example: https://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
-	*/
+	 * Return true if all tracks contain a hyphen or vertical bar on album page.
+	 * Example: https://krefeld8ung.bandcamp.com/album/krefeld-8ung-vol-1
+	 */
 	if (trackNodes.length !== 0) {
 		const artists = [];
 		for (const trackNode of trackNodes) {
 			const trackName = trackNode.textContent;
-			if (!Util.findSeparator(trackName, SEPARATORS)) {
+			if (!Util.findSeparator(trackName ?? '', SEPARATORS)) {
 				return false;
 			}
 			const { artist } = Util.splitArtistTrack(trackName, SEPARATORS);
@@ -262,7 +277,7 @@ function isArtistVarious(artist, track) {
 		 * It is probably not artist names but disc sides or some kind of numbers.
 		 * Example: https://teenagemenopause.bandcamp.com/album/viens-mourir
 		 */
-		if (artists.every((artist) => artist.length <= 2)) {
+		if (artists.every((artist) => !artist || artist.length <= 2)) {
 			return false;
 		}
 
@@ -275,8 +290,8 @@ function isArtistVarious(artist, track) {
 	 * Example: https://krefeld8ung.bandcamp.com/track/chrome
 	 */
 
-	if (VARIOUS_ARTISTS_REGEXP.test(artist)) {
-		return Util.findSeparator(track, SEPARATORS) !== null;
+	if (VARIOUS_ARTISTS_REGEXP.test(artist ?? '')) {
+		return Util.findSeparator(track ?? '', SEPARATORS) !== null;
 	}
 
 	return false;
@@ -288,7 +303,10 @@ function trackContainsRecordSide() {
 
 	for (const trackNode of trackNodes) {
 		const trackName = trackNode.textContent;
-		if (trackName.substring(0, 3).match(Util.RECORD_SIDE_REGEX) || trackName.substring(0, 4).match(Util.RECORD_SIDE_REGEX)) {
+		if (
+			trackName?.substring(0, 3).match(Util.RECORD_SIDE_REGEX) ||
+			trackName?.substring(0, 4).match(Util.RECORD_SIDE_REGEX)
+		) {
 			numTracksWithRecordSide++;
 		}
 	}
@@ -312,11 +330,11 @@ function initEventListeners() {
 	}
 }
 
-function getData(selector, attr) {
+function getData(selector: string, attr: string) {
 	const element = document.querySelector(selector);
 	if (element) {
 		const rawData = element.getAttribute(attr);
-		return JSON.parse(rawData);
+		return JSON.parse(rawData ?? '');
 	}
 
 	return {};

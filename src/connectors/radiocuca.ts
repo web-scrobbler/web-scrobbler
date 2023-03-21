@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.qtmplayer__controllayer';
 
@@ -9,7 +9,10 @@ Connector.artistSelector = '.qtmplayer__artist .marquee';
 Connector.trackArtSelector = '.qtmplayer__cover > img';
 
 Connector.isPlaying = () => {
-	return Util.getTextFromSelectors('#qtmplayerPlay > .material-icons') === 'pause';
+	return (
+		Util.getTextFromSelectors('#qtmplayerPlay > .material-icons') ===
+		'pause'
+	);
 };
 
 Connector.isStateChangeAllowed = () => {

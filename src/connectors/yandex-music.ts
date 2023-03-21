@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 let trackInfo = {};
 let isPlaying = false;
@@ -10,8 +10,8 @@ Connector.getTrackInfo = () => trackInfo;
 Connector.onScriptEvent = (e) => {
 	switch (e.data.type) {
 		case 'YANDEX_MUSIC_STATE':
-			trackInfo = e.data.trackInfo;
-			isPlaying = e.data.isPlaying;
+			trackInfo = e.data.trackInfo as any;
+			isPlaying = e.data.isPlaying as boolean;
 
 			Connector.onStateChanged();
 			break;

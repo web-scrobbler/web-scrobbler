@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 function setupConnector() {
 	if (isMobilePlayer()) {
@@ -9,7 +9,7 @@ function setupConnector() {
 }
 
 function isMobilePlayer() {
-	return $('#appbar').length > 0;
+	return Boolean(document.querySelector('#appbar'));
 }
 
 function setupDesktopPlayer() {
@@ -32,15 +32,16 @@ function setupMobilePlayer() {
 	Connector.trackSelector = 'h1 a';
 
 	Connector.getArtist = () => {
-		const text = $('h3>span').text();
-		return text.split('Icon Angle right').shift();
+		const text = Util.getTextFromSelectors('h3>span');
+		return text?.split('Icon Angle right')[0] ?? null;
 	};
 
-	Connector.trackArtSelector = '#app > div > div:nth-child(2) > div:nth-child(3)';
+	Connector.trackArtSelector =
+		'#app > div > div:nth-child(2) > div:nth-child(3)';
 
 	Connector.getUniqueID = () => {
-		const text = $('h1 > a').attr('href');
-		return text.split('/').slice(-2).shift();
+		const text = Util.getAttrFromSelectors('h1 > a', 'href');
+		return text?.split('/').at(-2) ?? null;
 	};
 }
 

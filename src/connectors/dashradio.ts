@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 addWindowListeners();
 
@@ -10,7 +10,7 @@ Connector.playerSelector = '#music-dataview-container';
 
 Connector.applyFilter(filter);
 
-function removeByText(text) {
+function removeByText(text: string) {
 	return text.replace('by ', '');
 }
 

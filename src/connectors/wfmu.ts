@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 /*
  * This connector covers archived tracks only. A `radiorethink` connector
@@ -19,7 +19,7 @@ Connector.playButtonSelector = '.mejs-play';
 
 Connector.applyFilter(filter);
 
-function cleanupTrack(track) {
+function cleanupTrack(track: string) {
 	// Extract a track title from a `"Track" by Artist` string.
 	return track.replace(/(")(.*)(")( by )(.*)/g, '$2');
 }

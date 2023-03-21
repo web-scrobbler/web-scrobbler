@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '[class^=Player_PlayerBar_bar]';
 
@@ -13,6 +13,6 @@ const filter = MetadataFilter.createFilter({
 Connector.trackSelector = '[class^=MusicTrackLine_title]';
 Connector.applyFilter(filter);
 
-function cleanupTrack(text) {
+function cleanupTrack(text: string) {
 	return text.replace('“', '').replace('”', '');
 }

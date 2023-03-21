@@ -1,7 +1,7 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.drawer-content';
 
-Connector.isPlaying = () => $('.pulse-hover-play').hasClass('stop');
+Connector.isPlaying = () => Util.hasElementClass('.pulse-hover-play', 'stop');
 
 Connector.artistTrackSelector = '.pulse-info h3';

@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const filter = MetadataFilter.createFilter({ track: removePrefix });
 
@@ -10,6 +10,6 @@ Connector.trackArtSelector = 'img.songimg';
 
 Connector.applyFilter(filter);
 
-function removePrefix(track) {
+function removePrefix(track: string) {
 	return track.replace('Hot-', '').replace('new-', '');
 }

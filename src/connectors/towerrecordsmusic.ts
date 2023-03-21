@@ -1,16 +1,14 @@
-'use strict';
+export {};
 
 /**
  * The last album thumbnail. Used for detecting new thumbnails.
- * @type {String}
  */
-let lastAlbumThumbnail = null;
+let lastAlbumThumbnail: string | null = null;
 
 /**
- * Object that holds album title
- * @type {String}
+ * Holds album title
  */
-let albumTitle = null;
+let albumTitle: string | null = null;
 
 const filter = MetadataFilter.createFilter(
 	MetadataFilter.createFilterSetForFields(
@@ -28,7 +26,13 @@ Connector.getAlbum = () => {
 	return albumTitle;
 };
 
-Connector.getTrackArt = () => Util.extractUrlFromCssProperty(document.querySelector('#jacketImageAudio').style['background-image']);
+Connector.getTrackArt = () =>
+	Util.extractUrlFromCssProperty(
+		Util.getCSSPropertyFromSelectors(
+			'#jacketImageAudio',
+			'background-image'
+		) ?? ''
+	);
 
 Connector.currentTimeSelector = '#currentTimeAudio';
 
@@ -55,23 +59,36 @@ Connector.applyFilter(filter);
  */
 
 async function fetchAlbumTitle() {
-
-	const albumThumbnailBackground = document.querySelector('#jacketImageAudio').style['background-image'];
-	const artistID = document.querySelector('#artistNameAudio').href.split('/').slice(-1)[0];
+	const albumThumbnailBackground = Util.getCSSPropertyFromSelectors(
+		'#jacketImageAudio',
+		'background-image'
+	);
+	const artistID = (
+		document.querySelector('#artistNameAudio') as HTMLAnchorElement
+	).href
+		.split('/')
+		.slice(-1)[0];
 	const albumListURL = `https://music.tower.jp/artist/album/list/${artistID}`;
 
 	const albumListString = await (await fetch(albumListURL)).text();
 	const parser = new DOMParser();
-	const albumListDocument = parser.parseFromString(albumListString, 'text/html');
+	const albumListDocument = parser.parseFromString(
+		albumListString,
+		'text/html'
+	);
 
-	const albumList = albumListDocument.querySelectorAll('.c-media__image');
+	const albumList = albumListDocument.querySelectorAll(
+		'.c-media__image'
+	) as NodeListOf<HTMLImageElement>;
 
 	for (const album of albumList) {
-		if (album.style['background-image'] === albumThumbnailBackground) {
+		if (
+			Util.getCSSProperty(album, 'background-image') ===
+			albumThumbnailBackground
+		) {
 			return katakanaHanToZen(album.alt); // filter must be manually applied because it doesn't work when applied with metadatafilter
 		}
 	}
-
 }
 
 /**
@@ -79,15 +96,13 @@ async function fetchAlbumTitle() {
  */
 async function requestAlbum() {
 	if (isNewAlbum()) {
-
 		try {
-			albumTitle = await fetchAlbumTitle();
+			albumTitle = (await fetchAlbumTitle()) ?? null;
 		} catch (err) {
 			Util.debugLog(`Error: ${err}`, 'error');
 
 			resetAlbumTitle();
 		}
-
 	}
 }
 
@@ -100,10 +115,13 @@ function resetAlbumTitle() {
 
 /**
  * Check if album is changed.
- * @return {Boolean} True if new album is playing; false otherwise
+ * @returns True if new album is playing; false otherwise
  */
 function isNewAlbum() {
-	const albumThumbnail = document.querySelector('#jacketImageAudio').style['background-image'];
+	const albumThumbnail = Util.getCSSPropertyFromSelectors(
+		'#jacketImageAudio',
+		'background-image'
+	);
 
 	if (lastAlbumThumbnail !== albumThumbnail) {
 		lastAlbumThumbnail = albumThumbnail;
@@ -115,24 +133,91 @@ function isNewAlbum() {
 
 /**
  * Replace half-width katakana with full-width katakana in the text.
- * @param  {String} text String to be filtered
- * @return {String} Filtered string
+ * @param text - String to be filtered
+ * @returns Filtered string
  */
 
-const katakanaHanToZenMap = { '｡': '。', '｢': '「', '｣': '」', '､': '、', '･': '・', 'ｦ': 'ヲ', 'ｧ': 'ァ', 'ｨ': 'ィ', 'ｩ': 'ゥ', 'ｪ': 'ェ', 'ｫ': 'ォ', 'ｬ': 'ャ', 'ｭ': 'ュ', 'ｮ': 'ョ', 'ｯ': 'ッ', 'ｰ': 'ー', 'ｱ': 'ア', 'ｲ': 'イ', 'ｳ': 'ウ', 'ｴ': 'エ', 'ｵ': 'オ', 'ｶ': 'カ', 'ｷ': 'キ', 'ｸ': 'ク', 'ｹ': 'ケ', 'ｺ': 'コ', 'ｻ': 'サ', 'ｼ': 'シ', 'ｽ': 'ス', 'ｾ': 'セ', 'ｿ': 'ソ', 'ﾀ': 'タ', 'ﾁ': 'チ', 'ﾂ': 'ツ', 'ﾃ': 'テ', 'ﾄ': 'ト', 'ﾅ': 'ナ', 'ﾆ': 'ニ', 'ﾇ': 'ヌ', 'ﾈ': 'ネ', 'ﾉ': 'ノ', 'ﾊ': 'ハ', 'ﾋ': 'ヒ', 'ﾌ': 'フ', 'ﾍ': 'ヘ', 'ﾎ': 'ホ', 'ﾏ': 'マ', 'ﾐ': 'ミ', 'ﾑ': 'ム', 'ﾒ': 'メ', 'ﾓ': 'モ', 'ﾔ': 'ヤ', 'ﾕ': 'ユ', 'ﾖ': 'ヨ', 'ﾗ': 'ラ', 'ﾘ': 'リ', 'ﾙ': 'ル', 'ﾚ': 'レ', 'ﾛ': 'ロ', 'ﾜ': 'ワ', 'ﾝ': 'ン' };
+const katakanaHanToZenMap = {
+	'｡': '。',
+	'｢': '「',
+	'｣': '」',
+	'､': '、',
+	'･': '・',
+	ｦ: 'ヲ',
+	ｧ: 'ァ',
+	ｨ: 'ィ',
+	ｩ: 'ゥ',
+	ｪ: 'ェ',
+	ｫ: 'ォ',
+	ｬ: 'ャ',
+	ｭ: 'ュ',
+	ｮ: 'ョ',
+	ｯ: 'ッ',
+	ｰ: 'ー',
+	ｱ: 'ア',
+	ｲ: 'イ',
+	ｳ: 'ウ',
+	ｴ: 'エ',
+	ｵ: 'オ',
+	ｶ: 'カ',
+	ｷ: 'キ',
+	ｸ: 'ク',
+	ｹ: 'ケ',
+	ｺ: 'コ',
+	ｻ: 'サ',
+	ｼ: 'シ',
+	ｽ: 'ス',
+	ｾ: 'セ',
+	ｿ: 'ソ',
+	ﾀ: 'タ',
+	ﾁ: 'チ',
+	ﾂ: 'ツ',
+	ﾃ: 'テ',
+	ﾄ: 'ト',
+	ﾅ: 'ナ',
+	ﾆ: 'ニ',
+	ﾇ: 'ヌ',
+	ﾈ: 'ネ',
+	ﾉ: 'ノ',
+	ﾊ: 'ハ',
+	ﾋ: 'ヒ',
+	ﾌ: 'フ',
+	ﾍ: 'ヘ',
+	ﾎ: 'ホ',
+	ﾏ: 'マ',
+	ﾐ: 'ミ',
+	ﾑ: 'ム',
+	ﾒ: 'メ',
+	ﾓ: 'モ',
+	ﾔ: 'ヤ',
+	ﾕ: 'ユ',
+	ﾖ: 'ヨ',
+	ﾗ: 'ラ',
+	ﾘ: 'リ',
+	ﾙ: 'ル',
+	ﾚ: 'レ',
+	ﾛ: 'ロ',
+	ﾜ: 'ワ',
+	ﾝ: 'ン',
+};
 
-function katakanaHanToZen(text) {
-
+function katakanaHanToZen(text: string) {
 	let textOutput = '';
 
 	for (const character of text) {
-		const charCode = character.charCodeAt();
+		const charCode = character.charCodeAt(0);
 
-		if (charCode >= 65377 && charCode <= 65437) {
-			textOutput += katakanaHanToZenMap[character];
+		if (character in katakanaHanToZenMap) {
+			textOutput +=
+				katakanaHanToZenMap[
+					character as keyof typeof katakanaHanToZenMap
+				];
 		} else if (charCode === 65438 || charCode === 65439) {
-			const lastCharCode = textOutput[textOutput.length - 1].charCodeAt();
-			textOutput = textOutput.slice(0, -1) + String.fromCharCode(lastCharCode + charCode - 65437);
+			const lastCharCode =
+				textOutput[textOutput.length - 1].charCodeAt(0);
+			textOutput =
+				textOutput.slice(0, -1) +
+				String.fromCharCode(lastCharCode + charCode - 65437);
 		} else {
 			textOutput += character;
 		}

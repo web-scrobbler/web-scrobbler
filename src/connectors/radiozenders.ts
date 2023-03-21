@@ -1,19 +1,17 @@
-'use strict';
+export {};
 
 let swapArtistTrack = false;
-if ($('.player-station-title').text().includes('Qmusic')) {
+if (Util.getTextFromSelectors('.player-station-title')?.includes('Qmusic')) {
 	swapArtistTrack = true;
 }
 
 Connector.playerSelector = '#jp_container_1';
 
-Connector.getArtistTrack = function() {
-	const artistTrack = $('#player-station-info').text();
-	return Util.splitArtistTrack(artistTrack, [' - '], {
-		swap: swapArtistTrack,
-	});
+Connector.getArtistTrack = function () {
+	const artistTrack = Util.getTextFromSelectors('#player-station-info');
+	return Util.splitArtistTrack(artistTrack, [' - '], swapArtistTrack);
 };
 
 Connector.isPlaying = () => {
-	return $('#jp_container_1').hasClass('jp-state-playing');
+	return Util.hasElementClass('#jp_container_1', 'jp-state-playing');
 };

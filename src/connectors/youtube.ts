@@ -1,4 +1,6 @@
-'use strict';
+import type { TrackInfoWithAlbum } from '@/core/types';
+
+export {};
 
 /**
  * Quick links to debug and test the connector:
@@ -15,7 +17,6 @@
 
 /**
  * CSS selector of video element. It's common for both players.
- * @type {String}
  */
 const videoSelector = '.html5-main-video';
 
@@ -34,32 +35,28 @@ const categoryEntertainment = 'Entertainment';
 
 /**
  * Array of categories allowed to be scrobbled.
- * @type {Array}
  */
-const allowedCategories = [];
+const allowedCategories: string[] = [];
 
 /**
  * "Video Id=Category" map.
- * @type {Map}
  */
 const categoryCache = new Map();
 
 /**
  * Wether we should only scrobble music recognised by YouTube Music
- * @type {boolean}
  */
 let scrobbleMusicRecognisedOnly = false;
 
 /**
  * Wether the Youtube Music track info getter is enabled
- * @type {boolean}
  */
 let getTrackInfoFromYtMusicEnabled = false;
 
-let currentVideoDescription = null;
-let artistTrackFromDescription = null;
+let currentVideoDescription: string | null = null;
+let artistTrackFromDescription: TrackInfoWithAlbum | null = null;
 
-const getTrackInfoFromYoutubeMusicCache = {};
+const getTrackInfoFromYoutubeMusicCache: any = {};
 
 const trackInfoGetters = [
 	getTrackInfoFromChapters,
@@ -74,11 +71,11 @@ setupEventListener();
 Connector.playerSelector = '#content';
 
 Connector.getTrackInfo = () => {
-	const trackInfo = {};
+	const trackInfo: TrackInfoWithAlbum = {};
 
 	if (getTrackInfoFromYtMusicEnabled) {
 		const videoId = getVideoId();
-		if (!getTrackInfoFromYoutubeMusicCache[videoId]) {
+		if (!getTrackInfoFromYoutubeMusicCache[videoId ?? '']) {
 			// start loading getTrackInfoFromYoutubeMusic
 			getTrackInfoFromYoutubeMusic();
 
@@ -110,7 +107,9 @@ Connector.getTrackInfo = () => {
 };
 
 Connector.getTimeInfo = () => {
-	const videoElement = document.querySelector(videoSelector);
+	const videoElement = document.querySelector(
+		videoSelector
+	) as HTMLVideoElement;
 	if (videoElement && !areChaptersAvailable()) {
 		let { currentTime, duration, playbackRate } = videoElement;
 
@@ -124,7 +123,7 @@ Connector.getTimeInfo = () => {
 };
 
 Connector.isPlaying = () => {
-	return $('.html5-video-player').hasClass('playing-mode');
+	return Util.hasElementClass('.html5-video-player', 'playing-mode');
 };
 
 Connector.getOriginUrl = () => {
@@ -142,7 +141,7 @@ Connector.getUniqueID = () => {
 };
 
 Connector.isScrobblingAllowed = () => {
-	if ($('.ad-showing').length > 0) {
+	if (Boolean(document.querySelector('.ad-showing'))) {
 		return false;
 	}
 
@@ -153,7 +152,7 @@ Connector.isScrobblingAllowed = () => {
 
 	if (scrobbleMusicRecognisedOnly) {
 		const videoId = getVideoId();
-		const ytMusicCache = getTrackInfoFromYoutubeMusicCache[videoId];
+		const ytMusicCache = getTrackInfoFromYoutubeMusicCache[videoId ?? ''];
 
 		if (!ytMusicCache) {
 			// start loading getTrackInfoFromYoutubeMusic
@@ -183,14 +182,20 @@ Connector.applyFilter(
 );
 
 function setupEventListener() {
-	$(videoSelector).on('timeupdate', Connector.onStateChanged);
+	document
+		.querySelector(videoSelector)
+		?.addEventListener('timeupdate', Connector.onStateChanged);
 }
 
 function areChaptersAvailable() {
 	const text = Util.getTextFromSelectors(chapterNameSelector);
 
 	// SponsorBlock extension hijacks chapter element. Ignore it.
-	if (document.querySelector('.ytp-chapter-title-content.sponsorBlock-segment-title')) {
+	if (
+		document.querySelector(
+			'.ytp-chapter-title-content.sponsorBlock-segment-title'
+		)
+	) {
 		return false;
 	}
 
@@ -248,7 +253,7 @@ function getVideoCategory() {
 	return null;
 }
 
-async function fetchCategoryName(videoId) {
+async function fetchCategoryName(videoId: string) {
 	/*
 	 * We cannot use `location.href`, since it could miss the video URL
 	 * in case when YouTube mini player is visible.
@@ -325,8 +330,8 @@ function getTrackInfoFromYoutubeMusic() {
 
 	const videoId = getVideoId();
 
-	if (!getTrackInfoFromYoutubeMusicCache[videoId]) {
-		getTrackInfoFromYoutubeMusicCache[videoId] = {
+	if (!getTrackInfoFromYoutubeMusicCache[videoId ?? '']) {
+		getTrackInfoFromYoutubeMusicCache[videoId ?? ''] = {
 			videoId: null,
 			done: false,
 			currentTrackInfo: {},
@@ -339,9 +344,10 @@ function getTrackInfoFromYoutubeMusic() {
 			return {};
 		}
 
-		if (getTrackInfoFromYoutubeMusicCache[videoId].done) {
+		if (getTrackInfoFromYoutubeMusicCache[videoId ?? ''].done) {
 			// already ran!
-			return getTrackInfoFromYoutubeMusicCache[videoId].currentTrackInfo;
+			return getTrackInfoFromYoutubeMusicCache[videoId ?? '']
+				.currentTrackInfo;
 		}
 		// still running, lets be patient
 		return {};
@@ -370,7 +376,7 @@ function getTrackInfoFromYoutubeMusic() {
 	})
 		.then((response) => response.json())
 		.then((videoInfo) => {
-			getTrackInfoFromYoutubeMusicCache[videoId] = {
+			getTrackInfoFromYoutubeMusicCache[videoId ?? ''] = {
 				done: true,
 				recognisedByYtMusic:
 					videoInfo.videoDetails?.musicVideoType?.startsWith(
@@ -385,7 +391,9 @@ function getTrackInfoFromYoutubeMusic() {
 				videoInfo.videoDetails?.musicVideoType ===
 				'MUSIC_VIDEO_TYPE_OMV'
 			) {
-				getTrackInfoFromYoutubeMusicCache[videoId].currentTrackInfo = {
+				getTrackInfoFromYoutubeMusicCache[
+					videoId ?? ''
+				].currentTrackInfo = {
 					artist: videoInfo.videoDetails.author,
 					track: videoInfo.videoDetails.title,
 				};
@@ -396,7 +404,7 @@ function getTrackInfoFromYoutubeMusic() {
 				`Failed to fetch youtube music data for ${videoId}: ${err}`,
 				'warn'
 			);
-			getTrackInfoFromYoutubeMusicCache[videoId] = {
+			getTrackInfoFromYoutubeMusicCache[videoId ?? ''] = {
 				done: true,
 				recognisedByYtMusic: false,
 			};
@@ -431,14 +439,14 @@ function getTrackInfoFromTitle() {
 	return { artist, track };
 }
 
-function removeLtrRtlChars(text) {
+function removeLtrRtlChars(text: string) {
 	return MetadataFilter.filterWithFilterRules(text, [
 		{ source: /\u200e/g, target: '' },
 		{ source: /\u200f/g, target: '' },
 	]);
 }
 
-function removeNumericPrefix(text) {
+function removeNumericPrefix(text: string) {
 	return MetadataFilter.filterWithFilterRules(text, [
 		// `NN.` or `NN)`
 		{ source: /^\d{1,2}[.)]\s?/, target: '' },
@@ -452,7 +460,9 @@ function removeNumericPrefix(text) {
 }
 
 function isVideoStartedPlaying() {
-	const videoElement = document.querySelector(videoSelector);
+	const videoElement = document.querySelector(
+		videoSelector
+	) as HTMLVideoElement;
 	return videoElement && videoElement.currentTime > 0;
 }
 

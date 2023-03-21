@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 function setupConnector() {
 	if (isDefaultPlayer()) {
@@ -11,17 +11,17 @@ function setupConnector() {
 }
 
 function isDefaultPlayer() {
-	return $('.playact').length > 0;
+	return document.getElementsByClassName('playact').length > 0;
 }
 
 function isH5Player() {
-	return $('#bd-player').length > 0;
+	return Boolean(document.getElementById('bd-player'));
 }
 
 function setupDefaultPlayer() {
 	Connector.playerSelector = '.playact';
 
-	Connector.getUniqueID = () => $('.playing input').val();
+	Connector.getUniqueID = () => Util.getValueFromSelectors('.playing input');
 
 	Connector.trackSelector = '#songinfo .songtitle>a';
 
@@ -58,8 +58,7 @@ function setupDayPlayer() {
 
 function setupH5Player() {
 	Connector.playerSelector = '#nowplaying';
-
-	Connector.getUniqueID = () => $('a.current').data('id');
+	Connector.getUniqueID = () => Util.getDataFromSelectors('a.current', 'id');
 
 	Connector.trackSelector = '#song-name';
 

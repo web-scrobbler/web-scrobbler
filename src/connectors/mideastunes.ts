@@ -1,9 +1,9 @@
-'use strict';
+export {};
 
 setupConnector();
 function setupConnector() {
-	['.player-info', '#now-playing'].forEach(function(playerSelector, index) {
-		if ($(playerSelector).length) {
+	['.player-info', '#now-playing'].forEach(function (playerSelector, index) {
+		if (document.querySelector(playerSelector)) {
 			Connector.playerSelector = playerSelector;
 			if (index === 0) {
 				setupArtistPlayer();
@@ -21,8 +21,11 @@ function setupArtistPlayer() {
 	Connector.durationSelector = 'span > .total';
 
 	Connector.isPlaying = () => {
-		const text = $('.playback-play-icon').css('backgroundPosition');
-		return text.includes('-40');
+		const text = Util.getCSSPropertyFromSelectors(
+			'.playback-play-icon',
+			'background-position'
+		);
+		return Boolean(text?.includes('-40'));
 	};
 }
 function setupMapPlayer() {
@@ -34,5 +37,5 @@ function setupMapPlayer() {
 
 	Connector.durationSelector = '.duration-seconds';
 
-	Connector.isPlaying = () => 0 < $('.playing').length;
+	Connector.isPlaying = () => Boolean(document.querySelector('.playing'));
 }

@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const playerBar = '[data-test=player-container]';
 const controlBar = '[data-test=controls-container]';
@@ -13,5 +13,5 @@ Connector.trackSelector = `${playerBar} [data-test=line-text]:nth-child(2)`;
 
 Connector.isScrobblingAllowed = () => {
 	const track = Connector.getTrack();
-	return track && !track.startsWith('Thanks for listening');
+	return Boolean(track && !track.startsWith('Thanks for listening'));
 };

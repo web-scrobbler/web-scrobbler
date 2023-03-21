@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const trackItemSelector = '.sc-c-basic-tile';
 
@@ -43,8 +43,8 @@ function setupPropertierForOfflineRecord() {
 		}
 
 		const trackItem = artistTrackElement.closest(trackItemSelector);
-		const artist = trackItem.querySelector(artistSelector).textContent;
-		const track = trackItem.querySelector(trackSelector).textContent;
+		const artist = trackItem?.querySelector(artistSelector)?.textContent;
+		const track = trackItem?.querySelector(trackSelector)?.textContent;
 
 		return { artist, track };
 	};

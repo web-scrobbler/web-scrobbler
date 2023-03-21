@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#interfaceMI_0';
 
@@ -9,9 +9,12 @@ Connector.trackSelector = '#T_mp3j_0';
 Connector.getTrackInfo = () => {
 	const text = Util.getTextFromSelectors('.entry-title');
 	const pattern = /(pyr\d+) (.+) – (.+)/g;
-	const matches = [...text.matchAll(pattern)][0];
+	const matches = [...(text?.matchAll(pattern) ?? [])][0];
 	return {
-		uniqueID: `${matches[1]}#${$('.mp3j_A_current').attr('id')}`,
+		uniqueID: `${matches[1]}#${Util.getAttrFromSelectors(
+			'.mp3j_A_current',
+			'id'
+		)}`,
 		artist: matches[2],
 		album: matches[3],
 	};

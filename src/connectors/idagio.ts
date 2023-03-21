@@ -1,10 +1,14 @@
-'use strict';
+export {};
 
-const symphonySelector = '.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) span:first-child';
-const commonNameSelector = '.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) span:nth-child(2)';
-const directorSelector = '.player-PlayerInfo__recordingInfo--15VMv>span:first-child span';
+const symphonySelector =
+	'.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) span:first-child';
+const commonNameSelector =
+	'.player-PlayerInfo__infoEl--2jhHY span:nth-child(3) span:nth-child(2)';
+const directorSelector =
+	'.player-PlayerInfo__recordingInfo--15VMv>span:first-child span';
 const trackSelector = '.player-PlayerInfo__infoEl--2jhHY';
-const pauseButtonSelector = '.player-PlayerControls__btn--1r-vy:nth-child(3) .util-IconLabel__component--3Uitr span';
+const pauseButtonSelector =
+	'.player-PlayerControls__btn--1r-vy:nth-child(3) .util-IconLabel__component--3Uitr span';
 
 Connector.playerSelector = '.player-PlayerBar__bar--2yos_';
 
@@ -18,9 +22,12 @@ Connector.currentTimeSelector = '.player-PlayerProgress__progress--2F0qB>span';
 
 Connector.durationSelector = '.player-PlayerProgress__timeTotal--3aHlj span';
 
-Connector.isPlaying = () => Util.getTextFromSelectors(pauseButtonSelector) === 'Pause';
+Connector.isPlaying = () =>
+	Util.getTextFromSelectors(pauseButtonSelector) === 'Pause';
 
-Connector.isScrobblingAllowed = () => Util.getTextFromSelectors('.player-PlayerInfo__recordingInfo--15VMv') !== 'Sponsor message';
+Connector.isScrobblingAllowed = () =>
+	Util.getTextFromSelectors('.player-PlayerInfo__recordingInfo--15VMv') !==
+	'Sponsor message';
 
 function getCurrentTrack() {
 	/*
@@ -35,25 +42,33 @@ function getCurrentTrack() {
 	 * -> ["Sonata for Violin and Piano No. 1 in D minor op. 75 R 123", "I. Allegro agitato –"]
 	 * -> "Sonata for Violin and Piano No. 1 in D minor op. 75 R 123: I. Allegro agitato –"
 	 */
-	let track = Util.getTextFromSelectors(trackSelector).split(' – ').slice(1).join(': ').trim();
+	let track = Util.getTextFromSelectors(trackSelector)
+		?.split(' – ')
+		.slice(1)
+		.join(': ')
+		.trim();
 	/*
 	 * Now remove trailing dash if exists.
 	 * Example: "Sonata for Violin and Piano No. 1 in D minor op. 75 R 123: I. Allegro agitato –"
 	 * -> "Sonata for Violin and Piano No. 1 in D minor op. 75 R 123: I. Allegro agitato " (the space is trimmed later in core)
 	 */
-	if (track.slice(-1) === '–') {
+	if (track?.at(-1) === '–') {
 		track = track.slice(0, -1);
 	}
-	return track;
+	return track ?? null;
 }
 
 function getCurrentSymphony() {
-	const symphonyShort = Util.getTextFromSelectors(symphonySelector).split(/ in [A-G]| op. [0-9]| KV [0-9]/)[0];
+	const symphonyShort = Util.getTextFromSelectors(symphonySelector)?.split(
+		/ in [A-G]| op. [0-9]| KV [0-9]/
+	)[0];
 	const commonName = Util.getTextFromSelectors(commonNameSelector) || '';
-	const director = removeParenthesis(Util.getTextFromSelectors(directorSelector));
+	const director = removeParenthesis(
+		Util.getTextFromSelectors(directorSelector)
+	);
 	return `${symphonyShort}${commonName} (${director})`;
 }
 
-function removeParenthesis(text) {
-	return text.replace(/\s*\(.*?\)\s*/g, '');
+function removeParenthesis(text: string | null) {
+	return text?.replace(/\s*\(.*?\)\s*/g, '');
 }

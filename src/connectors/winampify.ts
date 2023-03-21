@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#winamp-meta';
 Connector.playButtonSelector = '#main-window .play';

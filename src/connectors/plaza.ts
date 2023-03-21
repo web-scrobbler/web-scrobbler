@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.player-meta';
 
@@ -10,4 +10,5 @@ Connector.trackArtSelector = '.cover img';
 
 Connector.timeInfoSelector = '.player-time';
 
-Connector.isPlaying = () => $('.player-play').text() === 'Stop';
+Connector.isPlaying = () =>
+	Util.getTextFromSelectors('.player-play') === 'Stop';

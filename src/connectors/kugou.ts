@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.player-module';
 
@@ -17,6 +17,6 @@ Connector.currentTimeSelector = '.change-time';
 Connector.durationSelector = '.all-time';
 
 Connector.getUniqueID = () => {
-	const text = document.location.hash.substr(1);
-	return text.split('&').shift().split('=').pop();
+	const text = document.location.hash.slice(1);
+	return text.split('&')[0].split('=').at(-1) ?? null;
 };

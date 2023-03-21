@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 function setupConnector() {
 	if (isMobilePlayer()) {
@@ -10,7 +10,7 @@ function setupConnector() {
 }
 
 function isMobilePlayer() {
-	return Util.queryElements('#react-mobile-search').length > 0;
+	return Boolean(document.querySelector('#react-mobile-search'));
 }
 
 function setupDesktopPlayer() {
@@ -36,7 +36,7 @@ function setupMobilePlayer() {
 }
 
 function isListPlayer() {
-	return Util.queryElements('#item_box_list').length > 0;
+	return Boolean(document.querySelector('#item_box_list'));
 }
 
 function setupSinglePlayer() {
@@ -65,8 +65,10 @@ function setupCommonProperties() {
 	Connector.durationSelector = `${Connector.playerSelector} .text-right`;
 
 	Connector.getUniqueID = () => {
-		return Util.getAttrFromSelectors(`${Connector.playerSelector
-		} button[data-id]`, 'data-id');
+		return Util.getAttrFromSelectors(
+			`${Connector.playerSelector} button[data-id]`,
+			'data-id'
+		);
 	};
 }
 setupConnector();

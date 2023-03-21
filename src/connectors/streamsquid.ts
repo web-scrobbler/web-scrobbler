@@ -1,11 +1,16 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#player-bar';
 
 Connector.getArtistTrack = () => {
-	const trackElem = $('.queue-item-selected');
-	const artist = trackElem.data('artist-name');
-	const track = trackElem.data('track-name');
+	const artist = Util.getDataFromSelectors(
+		'.queue-item-selected',
+		'artist-name'
+	);
+	const track = Util.getDataFromSelectors(
+		'.queue-item-selected',
+		'track-name'
+	);
 
 	return { artist, track };
 };

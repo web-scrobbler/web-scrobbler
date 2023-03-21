@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#player-infos';
 
@@ -8,4 +8,5 @@ Connector.trackSelector = '#now-playing .title';
 
 Connector.trackArtSelector = '#cover-container img';
 
-Connector.isPlaying = () => $('#status').text() === 'odtwarzanie';
+Connector.isPlaying = () =>
+	Util.getTextFromSelectors('#status') === 'odtwarzanie';

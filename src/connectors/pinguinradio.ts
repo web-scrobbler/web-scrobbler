@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const trackInfoSelector = '.stream-title';
 const playButtonSelector = '.playbutton .material-icons';
@@ -21,7 +21,7 @@ Connector.getArtistTrack = () => {
 Connector.isPlaying = () => {
 	const playButton = document.querySelector(playButtonSelector);
 	if (playButton) {
-		return playButton.textContent.includes('pause');
+		return playButton.textContent?.includes('pause') ?? false;
 	}
 
 	return true;

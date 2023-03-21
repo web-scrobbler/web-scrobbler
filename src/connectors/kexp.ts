@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.Player';
 
@@ -8,6 +8,7 @@ Connector.albumSelector = '.Player-album';
 
 Connector.trackArtSelector = '.Player-coverImage';
 
-Connector.isTrackArtDefault = (url) => url.includes('default');
+Connector.isTrackArtDefault = (url) => url?.includes('default') ?? false;
 
-Connector.isPlaying = () => Util.hasElementClass(Connector.playerSelector, 'Player--playing');
+Connector.isPlaying = () =>
+	Util.hasElementClass(Connector.playerSelector ?? '', 'Player--playing');

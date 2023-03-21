@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const filter = MetadataFilter.createFilter({ artist: removeNowPlayingPrefix });
 
@@ -10,6 +10,6 @@ Connector.pauseButtonSelector = '.sm2_playing';
 
 Connector.applyFilter(filter);
 
-function removeNowPlayingPrefix(artist) {
+function removeNowPlayingPrefix(artist: string) {
 	return artist.replace('NOW PLAYING:', '');
 }

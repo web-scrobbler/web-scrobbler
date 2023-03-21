@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.trackArtSelector = [
 	// Emby v4.6.7
@@ -43,7 +43,9 @@ Connector.isPlaying = () => {
 };
 
 Connector.getTrackArt = () => {
-	const trackArtUrl = Util.extractImageUrlFromSelectors(Connector.trackArtSelector);
+	const trackArtUrl = Util.extractImageUrlFromSelectors(
+		Connector.trackArtSelector
+	);
 	if (trackArtUrl) {
 		return trackArtUrl.replace(/height=\d+/, '');
 	}
@@ -52,9 +54,11 @@ Connector.getTrackArt = () => {
 };
 
 Connector.getUniqueID = () => {
-	const trackArtUrl = Util.extractImageUrlFromSelectors(Connector.trackArtSelector);
+	const trackArtUrl = Util.extractImageUrlFromSelectors(
+		Connector.trackArtSelector
+	);
 	if (trackArtUrl) {
-		return /Items\/(\w+)/g.exec(trackArtUrl)[1];
+		return /Items\/(\w+)/g.exec(trackArtUrl)?.[1] ?? null;
 	}
 
 	return null;

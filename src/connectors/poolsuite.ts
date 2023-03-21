@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playButtonSelector = '.middle.paused';
 Connector.playerSelector = '.inner-size';

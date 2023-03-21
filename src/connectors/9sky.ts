@@ -1,18 +1,30 @@
-'use strict';
+export {};
 
 // http://www.fileformat.info/info/unicode/category/Ps/list.htm
-const rightBrackets = ')|༻༽᚜‛‟⁆⁾₎⌉⌋〉❩❫❭❯❱❳❵⟆⟧⟩⟫⟭⟯⦄⦆⦈⦊⦌⦎⦐⦒⦔⦖⦘⧙⧛⧽⸣⸥⸧⸩⹃〉》」』】〕〗〙〛〞﵀︘︶︸︺︼︾﹀﹂﹄﹈﹚﹜﹞）＼｜｠｣';
+const rightBrackets =
+	')|༻༽᚜‛‟⁆⁾₎⌉⌋〉❩❫❭❯❱❳❵⟆⟧⟩⟫⟭⟯⦄⦆⦈⦊⦌⦎⦐⦒⦔⦖⦘⧙⧛⧽⸣⸥⸧⸩⹃〉》」』】〕〗〙〛〞﵀︘︶︸︺︼︾﹀﹂﹄﹈﹚﹜﹞）＼｜｠｣';
 const titleBrackets = '〉》」』】〕〗〙〛〞﵀︘︶︸︺︼︾﹀﹂﹄﹈';
 
-$('audio, video').bind('playing pause timeupdate', Connector.onStateChanged);
+Util.bindListeners(
+	['audio', 'video'],
+	['playing', 'pause', 'timeupdate'],
+	Connector.onStateChanged
+);
 
-Connector.getDuration = () => $('audio, video').prop('duration');
-
-Connector.getCurrentTime = () => $('audio, video').prop('currentTime');
+Connector.getTimeInfo = () => {
+	const { duration, currentTime } = Util.queryElements([
+		'audio',
+		'video',
+	])?.[0] as HTMLMediaElement;
+	return { duration, currentTime };
+};
 
 Connector.isPlaying = () => {
-	const media = $('audio, video').get(0);
-	return media.currentTime && !media.paused && !media.ended;
+	const media = Util.queryElements([
+		'audio',
+		'video',
+	])?.[0] as HTMLMediaElement;
+	return Boolean(media?.currentTime && !media.paused && !media.ended);
 };
 
 Connector.playerSelector = '.music_bg, .mv_box';
@@ -24,25 +36,24 @@ Connector.artistSelector = '.musicright_box3 a, #name_h3 a:last-child';
 Connector.trackArtSelector = '#playimg';
 
 Connector.getUniqueID = () => {
-	const text = $('.li1 img').parents('ul').attr('id');
+	const element = Util.queryElements('.li1 img')?.[0]?.closest('ul');
+	const text = element?.getAttribute('id');
 	const match = /id=(\d+)/g.exec(location.search);
-	return text && `a${text.slice(4)}` ||
-		match && `v${match[1]}` ||
-		null;
+	return (text && `a${text.slice(4)}`) || (match && `v${match[1]}`) || null;
 };
 
 const filter = MetadataFilter.createFilter({ track: filterTrack });
 
-function filterTrack(text) {
+function filterTrack(text: string) {
 	const regex = new RegExp(`^.*([${rightBrackets}]).*$`);
 
 	const filteredText = text.replace(regex, filterBrackets);
 	return filteredText.replace(/[\s_—－-][^_—－-]+(?:版|version|mv)\s*$/i, '');
 }
 
-function filterBrackets(text, bracket) {
+function filterBrackets(text: string, bracket: string) {
 	const i = text.lastIndexOf(bracket);
-	const j = text.indexOf(String.fromCharCode(bracket.charCodeAt() - 1));
+	const j = text.indexOf(String.fromCharCode(bracket.charCodeAt(0) - 1));
 	const b = text.slice(j + 1, i);
 	if (!/(?:版|version|mv)\s*$/i.test(b)) {
 		return titleBrackets.includes(bracket) ? b : text;

@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 /*
  * connector only works on mixes via https://burntable.com/listen or user playlists;
@@ -14,7 +14,9 @@ Connector.playerSelector = '.universal-player';
 Connector.trackArtSelector = `${Connector.playerSelector} .v-image__image--cover`;
 
 Connector.getTrack = () => {
-	const trackTextElement = document.querySelector(`${trackInfoWrapper} > span`);
+	const trackTextElement = document.querySelector(
+		`${trackInfoWrapper} > span`
+	);
 
 	if (trackTextElement) {
 		return trackTextElement.childNodes[1].textContent; // get text without span siblings
@@ -24,7 +26,9 @@ Connector.getTrack = () => {
 };
 
 Connector.getTrackInfo = () => {
-	const artistAlbumText = Util.getTextFromSelectors(`${trackInfoWrapper} > span > span:last-of-type`);
+	const artistAlbumText = Util.getTextFromSelectors(
+		`${trackInfoWrapper} > span > span:last-of-type`
+	);
 
 	if (artistAlbumText) {
 		return Util.splitArtistAlbum(artistAlbumText, [' \u2013 ']);
@@ -44,6 +48,6 @@ Connector.isPlaying = () => {
 
 Connector.applyFilter(filter);
 
-function removePressingYear(text) {
+function removePressingYear(text: string) {
 	return text.replace(/\s\((\d{4})?\)$/, '');
 }

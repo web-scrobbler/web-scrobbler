@@ -1,11 +1,11 @@
-'use strict';
+export {};
 
 const oldPlayerSelector = '.player';
 
 setupConnector();
 
 function setupConnector() {
-	const isOldPlayer = $(oldPlayerSelector).length > 0;
+	const isOldPlayer = Boolean(document.querySelector(oldPlayerSelector));
 
 	if (isOldPlayer) {
 		setupOldPlayer();

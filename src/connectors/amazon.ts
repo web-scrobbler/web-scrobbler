@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const oldUiPlayerBarSelector = '#dragonflyTransport .rightSide';
 
@@ -40,7 +40,10 @@ function setupPropertiesForNewPlayer() {
 	};
 
 	Connector.isScrobblingAllowed = () => {
-		const trackLink = Util.getAttrFromSelectors(trackContainerSelector, 'primary-href');
+		const trackLink = Util.getAttrFromSelectors(
+			trackContainerSelector,
+			'primary-href'
+		);
 
 		// NOTE Regular tracks have no link
 		// Check this condition first if the connector does not work

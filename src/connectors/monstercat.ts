@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const mainPlayerBar = '.controls';
 
@@ -35,7 +35,7 @@ function setupGoldPlayer() {
 		const artists = Util.queryElements('.song-info .artists-list a');
 
 		if (artists !== null) {
-			return Util.joinArtists(artists.toArray());
+			return Util.joinArtists([...artists]);
 		}
 
 		return null;

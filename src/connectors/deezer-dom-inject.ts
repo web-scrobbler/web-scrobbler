@@ -1,13 +1,18 @@
-'use strict';
+export {};
 
 initConnector();
 
 function initConnector() {
 	let retries = 0;
-	if (window.dzPlayer && window.Events) {
+	if (
+		'dzPlayer' in window &&
+		window.dzPlayer &&
+		'Events' in window &&
+		window.Events
+	) {
 		addEventListeners();
 	} else if (retries < 6) {
-		window.setTimeout(function() {
+		window.setTimeout(function () {
 			initConnector();
 			retries++;
 		}, 1007);
@@ -17,7 +22,10 @@ function initConnector() {
 }
 
 function addEventListeners() {
-	const ev = window.Events;
+	if (!('Events' in window)) {
+		return;
+	}
+	const ev = window.Events as any;
 	ev.subscribe(ev.player.play, sendEvent);
 	ev.subscribe(ev.player.playing, sendEvent);
 	ev.subscribe(ev.player.paused, sendEvent);
@@ -26,17 +34,23 @@ function addEventListeners() {
 }
 
 function sendEvent() {
-	window.postMessage({
-		sender: 'web-scrobbler',
-		type: 'DEEZER_STATE',
-		trackInfo: getCurrentMediaInfo(),
-		isPlaying: isPlaying(),
-		isPodcast: isPodcast(),
-	}, '*');
+	window.postMessage(
+		{
+			sender: 'web-scrobbler',
+			type: 'DEEZER_STATE',
+			trackInfo: getCurrentMediaInfo(),
+			isPlaying: isPlaying(),
+			isPodcast: isPodcast(),
+		},
+		'*'
+	);
 }
 
 function getCurrentMediaInfo() {
-	const player = window.dzPlayer;
+	if (!('dzPlayer' in window)) {
+		return;
+	}
+	const player = window.dzPlayer as any;
 	const currentMedia = player.getCurrentSong();
 
 	// Radio stations don't provide track info
@@ -48,7 +62,13 @@ function getCurrentMediaInfo() {
 	const currentTime = player.getPosition();
 	const duration = player.getDuration();
 
-	let trackInfo = null;
+	let trackInfo: {
+		artist: any;
+		track: any;
+		uniqueID: any;
+		duration?: any;
+		currentTime?: any;
+	} | null = null;
 
 	switch (mediaType) {
 		case 'episode': {
@@ -63,7 +83,9 @@ function getCurrentMediaInfo() {
 	}
 
 	if (!trackInfo) {
-		console.warn(`Web Scrobbler: Unable to load track info for ${mediaType} media type`);
+		console.warn(
+			`Web Scrobbler: Unable to load track info for ${mediaType} media type`
+		);
 		return null;
 	}
 
@@ -73,7 +95,7 @@ function getCurrentMediaInfo() {
 	return trackInfo;
 }
 
-function getTrackInfo(currentMedia) {
+function getTrackInfo(currentMedia: any) {
 	let trackTitle = currentMedia.SNG_TITLE;
 	const trackVersion = currentMedia.VERSION;
 	if (trackVersion) {
@@ -89,7 +111,7 @@ function getTrackInfo(currentMedia) {
 	};
 }
 
-function getEpisodeInfo(currentMedia) {
+function getEpisodeInfo(currentMedia: any) {
 	return {
 		artist: currentMedia.SHOW_NAME,
 		track: currentMedia.EPISODE_TITLE,
@@ -98,14 +120,20 @@ function getEpisodeInfo(currentMedia) {
 }
 
 function isPlaying() {
-	return window.dzPlayer.isPlaying();
+	if (!('dzPlayer' in window)) {
+		return;
+	}
+	return (window.dzPlayer as any).isPlaying();
 }
 
 function isPodcast() {
-	const currentMedia = window.dzPlayer.getCurrentSong();
+	if (!('dzPlayer' in window)) {
+		return;
+	}
+	const currentMedia = (window.dzPlayer as any).getCurrentSong();
 	return currentMedia.__TYPE__ === 'episode';
 }
 
-function getTrackArt(pic) {
+function getTrackArt(pic: string) {
 	return `https://e-cdns-images.dzcdn.net/images/cover/${pic}/264x264-000000-80-0-0.jpg`;
 }

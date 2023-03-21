@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const filter = MetadataFilter.createFilter({ album: removeAlbumPreface });
 
@@ -9,9 +9,15 @@ Connector.artistSelector = `${Connector.playerSelector} [class^=audioPlayerTitle
 Connector.trackSelector = `${Connector.playerSelector} [class^=liveStreamTitle__heading-]`;
 
 Connector.getAlbum = () => {
-	const albumText = Util.getTextFromSelectors(`${Connector.playerSelector} [class^=liveStreamTitle__meta-]`);
+	const albumText = Util.getTextFromSelectors(
+		`${Connector.playerSelector} [class^=liveStreamTitle__meta-]`
+	);
 
-	if (albumText && albumText.startsWith('Album:') && !albumText.includes(': (Single)')) {
+	if (
+		albumText &&
+		albumText.startsWith('Album:') &&
+		!albumText.includes(': (Single)')
+	) {
 		return albumText;
 	}
 
@@ -20,12 +26,12 @@ Connector.getAlbum = () => {
 
 Connector.pauseButtonSelector = `${Connector.playerSelector} [class^=playPauseButton__icon-][class*=playPauseButton__pause-]`;
 
-Connector.isScrobblingAllowed = () => Connector.getArtist();
+Connector.isScrobblingAllowed = () => Boolean(Connector.getArtist());
 
-Connector.isStateChangeAllowed = () => Connector.getTrack();
+Connector.isStateChangeAllowed = () => Boolean(Connector.getTrack());
 
 Connector.applyFilter(filter);
 
-function removeAlbumPreface(text) {
+function removeAlbumPreface(text: string) {
 	return text.replace(/^Album:\s/, '');
 }

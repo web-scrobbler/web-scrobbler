@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 /*
  * Connector for Apple's MusicKit JS.
@@ -14,8 +14,8 @@ Connector.getTrackInfo = () => trackInfo;
 Connector.onScriptEvent = (e) => {
 	switch (e.data.type) {
 		case 'MUSICKIT_STATE':
-			trackInfo = e.data.trackInfo;
-			isPlaying = e.data.isPlaying;
+			trackInfo = e.data.trackInfo as any;
+			isPlaying = e.data.isPlaying as boolean;
 
 			Connector.onStateChanged();
 			break;

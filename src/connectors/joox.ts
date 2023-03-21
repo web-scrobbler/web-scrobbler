@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const playerSelector = '.kIpMXu';
 const artistSelector = `${playerSelector} .kOwKMw a`;

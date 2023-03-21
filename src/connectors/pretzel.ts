@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const filter = MetadataFilter.createFilter({
 	track: MetadataFilter.fixTrackSuffix,
@@ -25,7 +25,7 @@ Connector.durationSelector = '.hcriLb p:nth-child(3)';
 
 Connector.getArtist = () => getArtistsFromElement(artistSelector);
 
-function getArtistsFromElement(selector) {
+function getArtistsFromElement(selector: string) {
 	const artistElements = document.querySelectorAll(selector);
 	return Util.joinArtists(Array.from(artistElements));
 }

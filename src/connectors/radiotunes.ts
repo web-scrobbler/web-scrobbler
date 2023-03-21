@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const playerBar = '#webplayer-region';
 const trackArtSelectors = [
@@ -32,11 +32,14 @@ Connector.getTrackArt = () => {
 };
 
 Connector.isPlaying = () => {
-	return $('#webplayer-region').attr('data-state') === 'playing';
+	return (
+		Util.getAttrFromSelectors('#webplayer-region', 'data-state') ===
+		'playing'
+	);
 };
 
 Connector.applyFilter(filter);
 
-function removeTrailingDash(text) {
+function removeTrailingDash(text: string) {
 	return text.replace(/\s-\s$/, '');
 }

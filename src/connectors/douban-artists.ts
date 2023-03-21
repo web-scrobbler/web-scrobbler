@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 function setupConnector() {
 	setupCommonProperties();
@@ -17,11 +17,12 @@ function setupCommonProperties() {
 }
 
 function isDesktopPlayer() {
-	return $('#app-container').length > 0;
+	return Boolean(document.querySelector('#app-container'));
 }
 
 function setupDesktopPlayer() {
-	Connector.getUniqueID = () => $('.current .fav').attr('id');
+	Connector.getUniqueID = () =>
+		Util.getAttrFromSelectors('.current .fav', 'id');
 
 	Connector.playerSelector = '.pl-controls .container';
 
@@ -34,8 +35,10 @@ function setupMobilePlayer() {
 	Connector.playerSelector = '.pla-wrapper';
 
 	Connector.getArtistTrack = () => {
-		const text = $('.song-title>div>div:nth-child(1)').text();
-		return Util.splitArtistTrack(text, ['-'], { swap: true });
+		const text = Util.getTextFromSelectors(
+			'.song-title>div>div:nth-child(1)'
+		);
+		return Util.splitArtistTrack(text, ['-'], true);
 	};
 }
 

@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '#player-controls';
 
@@ -6,21 +6,22 @@ Connector.artistSelector = '#player-nowplaying [href^="/artist/"]';
 
 Connector.trackSelector = '#player-nowplaying [href^="/track/"]';
 
-Connector.trackArtSelector = [
-	'.haarp-active .thumb', '.thumb',
-];
+Connector.trackArtSelector = ['.haarp-active .thumb', '.thumb'];
 
-Connector.isTrackArtDefault = (url) => url.includes('solid_color');
+Connector.isTrackArtDefault = (url) => url?.includes('solid_color') ?? false;
 
 Connector.getUniqueID = () => {
-	const trackUrl = $('#player-nowplaying [href^="/track/"]').attr('href');
+	const trackUrl = Util.getAttrFromSelectors(
+		'#player-nowplaying [href^="/track/"]',
+		'href'
+	);
 	if (trackUrl) {
-		return trackUrl.split('/').pop();
+		return trackUrl.split('/').at(-1) ?? null;
 	}
 	return null;
 };
 
-Connector.isPlaying = () => $('#playerPlay').hasClass('pause');
+Connector.isPlaying = () => Util.hasElementClass('#playerPlay', 'pause');
 
 Connector.currentTimeSelector = '#player-time-position';
 

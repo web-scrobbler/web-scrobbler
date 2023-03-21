@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.c-player__container';
 

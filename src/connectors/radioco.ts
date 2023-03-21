@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.radioco-player';
 
@@ -10,4 +10,5 @@ Connector.trackArtSelector = '.current-artwork';
 
 Connector.currentTimeSelector = '.streamtime';
 
-Connector.isPlaying = () => Util.hasElementClass(Connector.playerSelector, 'playing');
+Connector.isPlaying = () =>
+	Util.hasElementClass(Connector.playerSelector ?? '', 'playing');

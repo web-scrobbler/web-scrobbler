@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 let trackInfo = {};
 let isPlaying = false;
@@ -17,7 +17,7 @@ Connector.onScriptEvent = (event) => {
 			break;
 	}
 
-	trackInfo = event.data.trackInfo;
+	trackInfo = event.data.trackInfo as any;
 
 	Connector.onStateChanged();
 };

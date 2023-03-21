@@ -14,7 +14,7 @@ const BrowserStorage = (async () => {
 	return import('@/core/storage/browser-storage');
 })();
 
-type Separator =
+export type Separator =
 	| ' -- '
 	| '--'
 	| ' ~ '
@@ -29,7 +29,13 @@ type Separator =
 	| '|'
 	| '///'
 	| '/'
-	| '~';
+	| '~'
+	| ' | '
+	| '<br/>'
+	| ' by '
+	| ', '
+	| '-'
+	| '·';
 
 /**
  * Separator used to join array of artist names into a single string.
@@ -169,7 +175,7 @@ export function removeRecordSide(str: string): string | null {
  * @returns Object containing artist and track fields
  */
 export function splitArtistAlbum(
-	str: string,
+	str: string | null,
 	separators: Separator[] | null = null,
 	swap = false
 ): { artist: string | null; album: string | null } {
@@ -210,7 +216,7 @@ export function splitTimeInfo(
  * @returns Array of strings splitted by separator
  */
 export function splitString(
-	str: string,
+	str: string | null,
 	separators: Separator[] | null,
 	swap = false
 ): [string | null, string | null] {
@@ -287,7 +293,9 @@ export function throttle<T>(func: () => T, wait: number): () => T | undefined {
  * @param artistTrack - Object contains artist and track info
  * @returns True if object is empty; false otherwise
  */
-export function isArtistTrackEmpty(artistTrack: ArtistTrackInfo): boolean {
+export function isArtistTrackEmpty(
+	artistTrack: ArtistTrackInfo | null
+): boolean {
 	return !(artistTrack && artistTrack.artist && artistTrack.track);
 }
 
@@ -413,6 +421,33 @@ export function getAttrFromSelectors(
 }
 
 /**
+ * Bind event listeners to elements matching selectors
+ *
+ * @param selectors - Single selector or array of selectors
+ * @param events - Single event or array of events to bind
+ * @param fn - Function to bind
+ */
+export function bindListeners(
+	selectors: string | string[],
+	events: string | string[],
+	fn: (e: Event) => void
+) {
+	const elements = queryElements(selectors);
+	if (!elements) {
+		return;
+	}
+	for (const element of elements) {
+		if (typeof events === 'string') {
+			element.addEventListener(events, fn);
+		} else {
+			for (const event of events) {
+				element.addEventListener(event, fn);
+			}
+		}
+	}
+}
+
+/**
  * Extract time in seconds from first available element
  * defined by CSS selector.
  *
@@ -456,6 +491,38 @@ export function extractImageUrlFromSelectors(
 	}
 
 	return normalizeUrl(trackArtUrl);
+}
+
+/**
+ * Get value of CSS property of an element by selectors
+ *
+ * @param selectors - Single selector or array of selectors
+ * @param property - CSS property to get value of
+ * @returns value of CSS property
+ */
+export function getCSSPropertyFromSelectors(
+	selectors: string | string[],
+	property: string
+) {
+	const elements = queryElements(selectors);
+	if (!elements) {
+		return null;
+	}
+	for (const element of elements) {
+		const value = getCSSProperty(element, property);
+		if (value) {
+			return value;
+		}
+	}
+	return null;
+}
+
+/**
+ * Get value of CSS property of an element
+ */
+export function getCSSProperty(element: Element, property: string) {
+	const style = window.getComputedStyle(element);
+	return style.getPropertyValue(property);
 }
 
 /**
@@ -511,6 +578,36 @@ function visibleFilter(elements: NodeListOf<HTMLElement>) {
 export function isElementVisible(selectors: string | string[]): boolean {
 	const element = queryElements(selectors);
 	return (element && visibleFilter(element)) ?? false;
+}
+
+/**
+ * Get value of the first element matching a given selector.
+ *
+ * @param selectors - Single selector or array of selectors
+ * @returns Value, or null if not found
+ */
+export function getValueFromSelectors(
+	selectors: string | string[]
+): string | null {
+	const element = queryElements(selectors);
+	if (!element || !('value' in element)) {
+		return null;
+	}
+	return element.value as string;
+}
+
+/**
+ * Get value of data property for the first element matching a given selector.
+ *
+ * @param selectors - Single selector or array of selectors
+ * @param name - Name of the data property to get value for
+ * @returns Value, or null if not found
+ */
+export function getDataFromSelectors(
+	selectors: string | string[],
+	name: string
+): string | null {
+	return getAttrFromSelectors(selectors, `data-${name}`);
 }
 
 /**
@@ -789,7 +886,7 @@ export function parseYtVideoDescription(
  * @param videoUrl - Video URL
  * @returns Video ID
  */
-export function getYtVideoIdFromUrl(videoUrl: string): string | null {
+export function getYtVideoIdFromUrl(videoUrl: string | null): string | null {
 	if (!videoUrl) {
 		return null;
 	}

@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.MiniSessionPlayer__PlayerBar-du0okt-4';
 Connector.artistSelector = '.MiniSessionPlayer__Subtitle-du0okt-11';

@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 const filter = MetadataFilter.createFilter({ artist: joinArtists });
 
@@ -14,13 +14,16 @@ Connector.trackArtSelector = '.player-data .image-player';
 
 Connector.isScrobblingAllowed = () => {
 	return (
-		!Connector.getArtist().includes('24/7') && !Connector.getTrack().includes('24/7') &&
-		!Util.extractImageUrlFromSelectors(Connector.trackArtSelector).includes('/fotos/original/')
+		!Connector.getArtist()?.includes('24/7') &&
+		!Connector.getTrack()?.includes('24/7') &&
+		!Util.extractImageUrlFromSelectors(
+			Connector.trackArtSelector
+		)?.includes('/fotos/original/')
 	);
 };
 
 Connector.applyFilter(filter);
 
-function joinArtists(text) {
+function joinArtists(text: string) {
 	return text.replace(/(?<!\d),(?!\s)/, ' and ');
 }

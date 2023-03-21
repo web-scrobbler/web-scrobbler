@@ -1,4 +1,4 @@
-'use strict';
+export {};
 
 Connector.playerSelector = '.l-highlight';
 
@@ -11,5 +11,5 @@ Connector.isPlaying = () => {
 };
 
 Connector.isScrobblingAllowed = () => {
-	return !Connector.getArtist().includes('ROCK ANTENNE');
+	return !Connector.getArtist()?.includes('ROCK ANTENNE');
 };

@@ -1,23 +1,26 @@
-'use strict';
+export {};
 
 const trackRegEx = new RegExp(String.fromCharCode(160), 'g');
 
 Connector.playerSelector = '.m-playbar';
 
 Connector.getTrackArt = () => {
-	const src = $('.head.j-flag img').attr('src');
-	return src.split('?').shift();
+	const src = Util.getAttrFromSelectors('.head.j-flag img', 'src');
+	return src?.split('?')[0] ?? '';
 };
 
 Connector.getTrack = () => {
-	const track = $('.fc1').text();
+	const track = Util.getTextFromSelectors('.fc1') ?? '';
 	return track.replace(trackRegEx, ' ');
 };
 
-Connector.getArtist = () => $('.by span').attr('title');
+Connector.getArtist = () => Util.getAttrFromSelectors('.by span', 'title');
 
 Connector.playButtonSelector = '[data-action="play"]';
 
 Connector.timeInfoSelector = '.time';
 
-Connector.getUniqueID = () => $('.fc1').attr('href').split('id=').pop();
+Connector.getUniqueID = () => {
+	const attr = Util.getAttrFromSelectors('.fc1', 'href');
+	return attr?.split('id=').at(-1) ?? '';
+};

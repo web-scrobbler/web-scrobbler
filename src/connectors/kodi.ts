@@ -1,6 +1,13 @@
-'use strict';
+export {};
 
-const fields = {
+const fields: {
+	[key: string]: {
+		selector: string;
+		func: (
+			selectors: string | string[]
+		) => (string | null) | (number | undefined);
+	};
+} = {
 	artist: {
 		selector: '.playing-subtitle',
 		func: Util.getTextFromSelectors.bind(Util),
@@ -19,7 +26,7 @@ const fields = {
 	},
 	trackArt: {
 		selector: '.playing-thumb',
-		func: getTrackArtUrl,
+		func: (selectors) => getTrackArtUrl(selectors as string),
 	},
 };
 
@@ -30,7 +37,7 @@ Connector.playerSelector = '#player-wrapper';
 
 Connector.getTrackInfo = () => {
 	const context = getCurrentContext();
-	const trackInfo = {};
+	const trackInfo: { [key: string]: string | null | number | undefined } = {};
 
 	for (const field in fields) {
 		const { selector, func } = fields[field];
@@ -43,25 +50,25 @@ Connector.getTrackInfo = () => {
 };
 
 Connector.isPlaying = () => {
-	const body = $('body');
+	const body = document.querySelector('body');
 
-	if (body.hasClass('active-player-local')) {
-		return body.hasClass('local-playing');
+	if (body?.classList.contains('active-player-local')) {
+		return body.classList.contains('local-playing');
 	}
-	if (body.hasClass('active-player-kodi')) {
-		return body.hasClass('kodi-playing');
+	if (body?.classList.contains('active-player-kodi')) {
+		return body.classList.contains('kodi-playing');
 	}
 
 	throw new Error('Unknown context');
 };
 
 function getCurrentContext() {
-	const body = $('body');
+	const body = document.querySelector('body');
 
-	if (body.hasClass('active-player-local')) {
+	if (body?.classList.contains('active-player-local')) {
 		return localPlayerSelector;
 	}
-	if (body.hasClass('active-player-kodi')) {
+	if (body?.classList.contains('active-player-kodi')) {
 		return kodiPlayerSelector;
 	}
 
@@ -72,12 +79,10 @@ function getCurrentContext() {
  * `#player-local .playing-thumb` contains invalid path in `src` attribute.
  * Use a custom function to extract URL from CSS property only.
  */
-function getTrackArtUrl(selector) {
-	const element = Util.queryElements(selector);
-	if (element) {
-		const propertyValue = element.css('background-image');
-		return Util.extractUrlFromCssProperty(propertyValue);
-	}
-
-	return null;
+function getTrackArtUrl(selector: string) {
+	return (
+		Util.extractUrlFromCssProperty(
+			Util.getCSSPropertyFromSelectors(selector, 'background-image') ?? ''
+		) ?? null
+	);
 }

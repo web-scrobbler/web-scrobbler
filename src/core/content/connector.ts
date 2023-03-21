@@ -191,7 +191,7 @@ export default class BaseConnector {
 	 *
 	 * @returns Track length in seconds
 	 */
-	public getDuration: () => number | undefined;
+	public getDuration: () => number | null | undefined;
 
 	/**
 	 * Default implementation of track current time lookup by selector with
@@ -201,7 +201,7 @@ export default class BaseConnector {
 	 *
 	 * @returns Number of seconds passed from the beginning of the track
 	 */
-	public getCurrentTime: () => number | undefined;
+	public getCurrentTime: () => number | null | undefined;
 
 	/**
 	 * Default implementation of track remaining time lookup by selector with
@@ -219,7 +219,7 @@ export default class BaseConnector {
 	 *
 	 * @returns Number of remaining seconds
 	 */
-	public getRemainingTime: () => number | undefined;
+	public getRemainingTime: () => number | null | undefined;
 
 	/**
 	 * Default implementation of current time and duration lookup by selector.
@@ -241,7 +241,7 @@ export default class BaseConnector {
 	 *
 	 * @returns Object containing artist and track information
 	 */
-	public getArtistTrack: () => ArtistTrackInfo;
+	public getArtistTrack: () => ArtistTrackInfo | null;
 
 	/**
 	 * Get object contains track info.
@@ -307,7 +307,7 @@ export default class BaseConnector {
 	 * @param trackArtUrl - Track art URL
 	 * @returns Check result
 	 */
-	public isTrackArtDefault: (trackArtUrl: string) => boolean = () => false;
+	public isTrackArtDefault: (trackArtUrl?: string) => boolean = () => false;
 
 	/**
 	 * Default implementation of a check to see if a state change is allowed.
@@ -417,7 +417,8 @@ export default class BaseConnector {
 			'message',
 			(event: MessageEvent<Record<string, unknown>>) => {
 				if (
-					'sender' in event.data &&
+					typeof event.data !== 'object' ||
+					!('sender' in event.data) ||
 					event.data.sender !== 'web-scrobbler'
 				) {
 					return;
@@ -458,7 +459,7 @@ export default class BaseConnector {
 	 *
 	 * @returns The source URL
 	 */
-	public getOriginUrl: () => string = () => {
+	public getOriginUrl: () => string | null = () => {
 		return document.location.href;
 	};
 
