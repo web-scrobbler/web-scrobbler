@@ -14,7 +14,7 @@ Connector.getArtist = () => {
 		return miniArtistStationText.split(' • ')[0];
 	}
 
-	if (fullArtistTrackSelector !== null) {
+	if (Util.isElementVisible(fullArtistTrackSelector)) {
 		return Util.getTextFromSelectors(fullArtistTrackSelector).split(' - ')[1];
 	}
 
@@ -28,7 +28,7 @@ Connector.getTrack = () => {
 		return miniTrackText;
 	}
 
-	if (fullArtistTrackSelector !== null) {
+	if (Util.isElementVisible(fullArtistTrackSelector)) {
 		return Util.getTextFromSelectors(fullArtistTrackSelector).split(' - ')[0];
 	}
 
@@ -40,7 +40,7 @@ Connector.trackArtSelector = [`${audioPlayer} ${buttonOpenFullscreen} img`, `${b
 Connector.isTrackArtDefault = (url) => url.includes('base64');
 
 Connector.isPlaying = () => {
-	const buttonSvgTitle = 'button:not([aria-label=Like]) svg title';
+	const buttonSvgTitle = 'button:not([aria-label=Like], [aria-label*=thumbs]) svg title';
 	const buttonPlaying = Util.getTextFromSelectors([`${audioPlayer} ${buttonSvgTitle}`, `${buttonCloseFullscreen} + div ${buttonSvgTitle}`]);
 	return buttonPlaying === 'Pause' || buttonPlaying === 'Stop';
 };
