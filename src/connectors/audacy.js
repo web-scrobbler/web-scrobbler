@@ -48,7 +48,7 @@ Connector.isPlaying = () => {
 Connector.isScrobblingAllowed = () => {
 	return (
 		Connector.getArtist() && !Connector.getArtist().includes('Audacy') &&
-		Connector.getTrack() && !Connector.getTrack().includes('Advertisement') &&
+		Connector.getTrack() && !Connector.getTrack().startsWith('Advertisement') &&
 		Connector.getArtist() !== Connector.getTrack()
 	);
 };
