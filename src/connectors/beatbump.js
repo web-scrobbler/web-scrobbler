@@ -10,7 +10,6 @@ Connector.currentTimeSelector = '.progress-container .timestamp:first-child';
 
 Connector.durationSelector = '.progress-container .timestamp:last-child';
 
-
 Connector.getTrackArt = () => {
 	const trackArtUrl = Util.extractImageUrlFromSelectors('.now-playing img');
 
@@ -21,7 +20,4 @@ Connector.getTrackArt = () => {
 	return null;
 };
 
-
-Connector.isPlaying = () => {
-	return document.querySelector('.player-btn.player-title svg use').href.baseVal.replace(/.*\//, '') === 'icons-9852f1b5.svg#pause';
-};
+Connector.isPlaying = () => Util.getAttrFromSelectors('.player-btn.player-title svg use', 'href').split('#').pop() === 'pause';
