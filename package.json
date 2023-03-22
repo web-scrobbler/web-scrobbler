@@ -2,6 +2,9 @@
   "name": "web-scrobbler",
   "version": "2.88.1",
   "author": "David Šabata <posta@davidsabata.cz>",
+  "contributors": [
+    "@mountainash (https://mountainash.id.au/)"
+  ],
   "description": "Scrobble music all around the web!",
   "private": true,
   "repository": {
