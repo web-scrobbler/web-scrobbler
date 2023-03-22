@@ -20,4 +20,7 @@ Connector.getTrackArt = () => {
 	return null;
 };
 
-Connector.isPlaying = () => Util.getAttrFromSelectors('.player-btn.player-title svg use', 'href').split('#').pop() === 'pause';
+Connector.isPlaying = () => {
+	const playerButton = '.player-btn.player-title svg use';
+	return Util.isElementVisible(playerButton) && Util.getAttrFromSelectors(playerButton, 'href').split('#').pop() === 'pause';
+};
