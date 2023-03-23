@@ -198,6 +198,28 @@ ul {
 	}
 }
 
+.selectOption {
+	.bigLabel {
+		align-items: center;
+		cursor: pointer;
+		display: flex;
+		font-size: 1.2em;
+		gap: 0.5em;
+		padding: 0.5em 0;
+	}
+
+	select {
+		background-color: var(--background);
+		border: none;
+		border-radius: 0.5em;
+		color: var(--text);
+		display: inline-block;
+		font-size: 1em;
+		margin-left: auto;
+		padding: 0.25em 0.5em;
+	}
+}
+
 .muted {
 	color: var(--muted-text);
 }

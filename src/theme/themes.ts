@@ -15,9 +15,8 @@ export async function initializeThemes() {
 	updateTheme('theme-system');
 }
 
-export async function updateTheme(theme: string) {
-	document.body.classList.remove('theme-dark');
-	document.body.classList.remove('theme-light');
+export async function updateTheme(theme: ModifiedTheme) {
+	document.body.className = '';
 	document.body.classList.add(await processTheme(theme));
 	await browser.storage.sync.set({
 		theme,
@@ -34,8 +33,14 @@ async function processTheme(theme: string) {
 	return theme;
 }
 
-export const themeList = ['system', 'dark', 'light'];
+type Theme = 'system' | 'dark' | 'light';
+export type ModifiedTheme = `theme-${Theme}`;
 
-export async function getTheme() {
+export const themeList: Theme[] = ['system', 'dark', 'light'];
+export const modifiedThemeList = themeList.map(
+	(theme) => `theme-${theme}`
+) as ModifiedTheme[];
+
+export async function getTheme(): Promise<ModifiedTheme> {
 	return (await browser.storage.sync.get('theme')).theme || 'theme-system';
 }

@@ -190,3 +190,13 @@ export function isAnyResult<T>(results: T[], result: T): boolean {
 export function areAllResults<T>(results: T[], result: T): boolean {
 	return results.length > 0 && results.every((r) => r === result);
 }
+
+/**
+ * Capitalize the first letter in a string.
+ *
+ * @param text - The string to capitalize the first letter of
+ * @returns The string with the first letter capitalized
+ */
+export function capitalizeFirstLetter(text: string): string {
+	return text[0].toUpperCase() + text.slice(1);
+}

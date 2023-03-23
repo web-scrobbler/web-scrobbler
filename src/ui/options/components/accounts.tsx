@@ -3,7 +3,7 @@ import ScrobbleService, {
 	Scrobbler,
 	ScrobblerLabel,
 } from '@/core/object/scrobble-service';
-import { ErrorBoundary, For, Show, createResource, onCleanup } from 'solid-js';
+import { For, Show, createResource, onCleanup } from 'solid-js';
 import styles from './components.module.scss';
 import browser from 'webextension-polyfill';
 import { debugLog } from '@/util/util';

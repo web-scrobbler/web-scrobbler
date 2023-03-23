@@ -9,8 +9,7 @@ import { ControllerModeStr } from '@/core/object/controller/controller';
 import { CloneableSong } from '@/core/object/song';
 import ClonedSong from '@/core/object/cloned-song';
 
-export async function updateAction() {
-	const tab = await getCurrentTab();
+export async function performUpdateAction(tab: ManagerTab) {
 	sendPopupMessage({
 		type: 'currentTab',
 		payload: tab,
@@ -20,6 +19,11 @@ export async function updateAction() {
 
 	await updateMenus(tab);
 	setAction(tab.mode, tab.song);
+}
+
+export async function updateAction() {
+	const tab = await getCurrentTab();
+	await performUpdateAction(tab);
 }
 
 async function updateMenus(tab: ManagerTab) {

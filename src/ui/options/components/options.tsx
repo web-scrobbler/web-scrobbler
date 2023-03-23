@@ -29,6 +29,14 @@ import {
 	TripleCheckboxState,
 } from './inputs';
 import browser from 'webextension-polyfill';
+import {
+	ModifiedTheme,
+	getTheme,
+	modifiedThemeList,
+	themeList,
+	updateTheme,
+} from '@/theme/themes';
+import { capitalizeFirstLetter, debugLog } from '@/util/util';
 
 const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 const connectorOptions = BrowserStorage.getStorage(
@@ -185,6 +193,7 @@ function GlobalOptionsList(props: {
 		<>
 			<h2>{t('optionsGeneral')}</h2>
 			<ul>
+				<ThemeSelector />
 				<Show when={browser.notifications}>
 					<GlobalOptionEntry
 						options={options}
@@ -795,5 +804,50 @@ function ConnectorTripleCheckbox(props: {
 				});
 			}}
 		/>
+	);
+}
+
+function ThemeSelector() {
+	const [theme, setTheme] = createResource(getTheme);
+
+	return (
+		<div class={styles.selectOption}>
+			<label title={t('optionThemeTitle')} class={styles.bigLabel}>
+				{t('optionTheme')}
+				<select
+					value={theme()}
+					onChange={(e) => {
+						const value = e.currentTarget.value;
+						const typedValue = value as ModifiedTheme;
+
+						if (!modifiedThemeList.includes(typedValue)) {
+							debugLog(
+								`value ${
+									e.currentTarget.value
+								} not in themelist ${modifiedThemeList.join(
+									','
+								)}`,
+								'error'
+							);
+							return;
+						}
+						setTheme.mutate(() => typedValue);
+						updateTheme(typedValue);
+					}}
+				>
+					<For each={themeList}>
+						{(themeName) => (
+							<option value={`theme-${themeName}`}>
+								{t(
+									`optionTheme${capitalizeFirstLetter(
+										themeName
+									)}`
+								)}
+							</option>
+						)}
+					</For>
+				</select>
+			</label>
+		</div>
 	);
 }

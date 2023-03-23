@@ -4,7 +4,7 @@ import browser from 'webextension-polyfill';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import { controllerModePriority } from '@/core/object/controller/controller';
-import { updateAction } from './action';
+import { performUpdateAction, updateAction } from './action';
 
 const state = BrowserStorage.getStorage(BrowserStorage.STATE_MANAGEMENT);
 
@@ -120,20 +120,22 @@ export async function getCurrentTab(): Promise<ManagerTab> {
 	void state.setLocking({
 		activeTabs: filteredTabs,
 	});
-	updateAction();
 
 	for (const priorityGroup of controllerModePriority) {
 		for (const tab of activeTabs) {
 			if (priorityGroup.includes(tab.mode)) {
+				performUpdateAction(tab);
 				return tab;
 			}
 		}
 	}
-	return {
+	const defaultTab: ManagerTab = {
 		tabId: -1,
 		mode: ControllerMode.Unsupported,
 		song: null,
 	};
+	performUpdateAction(defaultTab);
+	return defaultTab;
 }
 
 export async function fetchTab() {
