@@ -13,6 +13,9 @@ import {
 	fetchTab,
 	filterInactiveTabs,
 	getCurrentTab,
+	getState,
+	setState,
+	unlockState,
 } from './util';
 import { ControllerModeStr } from '@/core/object/controller/controller';
 import { CloneableSong } from '@/core/object/song';
@@ -25,7 +28,6 @@ import ClonedSong from '@/core/object/cloned-song';
 import { openTab } from '@/util/util-browser';
 import { updateAction } from './action';
 
-const state = BrowserStorage.getStorage(BrowserStorage.STATE_MANAGEMENT);
 const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
 
 browser.runtime.onStartup.addListener(startupFunc);
@@ -34,8 +36,8 @@ browser.runtime.onInstalled.addListener(startupFunc);
 browser.tabs.onRemoved.addListener(async (tabId) => {
 	const activeTabs = await fetchTab();
 
-	await state.getLocking();
-	await state.setLocking({
+	await getState();
+	await setState({
 		activeTabs: await filterInactiveTabs(activeTabs),
 	});
 	updateAction();
@@ -48,7 +50,7 @@ browser.tabs.onRemoved.addListener(async (tabId) => {
 });
 
 browser.tabs.onUpdated.addListener(async (tabId, _, tab) => {
-	const { activeTabs } = (await state.getLocking()) ?? { activeTabs: [] };
+	const { activeTabs } = (await getState()) ?? { activeTabs: [] };
 	let curTab: ManagerTab = {
 		tabId,
 		mode: ControllerMode.Unsupported,
@@ -68,7 +70,7 @@ browser.tabs.onUpdated.addListener(async (tabId, _, tab) => {
 		newTabs = [curTab, ...newTabs];
 	}
 
-	await state.setLocking({
+	await setState({
 		activeTabs: await filterInactiveTabs(newTabs),
 	});
 	updateAction();
@@ -85,7 +87,7 @@ async function updateTab(
 	// perform the update, making sure there is no race condition, and making sure locking isnt permanently locked by an error
 	let performedSet = false;
 	try {
-		let { activeTabs } = (await state.getLocking()) ?? { activeTabs: [] };
+		let { activeTabs } = (await getState()) ?? { activeTabs: [] };
 		activeTabs = await filterInactiveTabs(activeTabs);
 		for (let i = 0; i < activeTabs.length; i++) {
 			if (activeTabs[i].tabId !== tabId) {
@@ -94,12 +96,12 @@ async function updateTab(
 
 			activeTabs[i] = fn(activeTabs[i]);
 			performedSet = true;
-			await state.setLocking({ activeTabs });
+			await setState({ activeTabs });
 			updateAction();
 			return;
 		}
 		performedSet = true;
-		await state.setLocking({
+		await setState({
 			activeTabs: [
 				fn({
 					tabId,
@@ -112,7 +114,7 @@ async function updateTab(
 		updateAction();
 	} catch (err) {
 		if (!performedSet) {
-			state.unlock();
+			unlockState();
 		}
 	}
 }
@@ -193,6 +195,7 @@ setupBackgroundListeners(
 );
 
 function startupFunc() {
+	const state = BrowserStorage.getStorage(BrowserStorage.STATE_MANAGEMENT);
 	state.set({
 		activeTabs: [],
 	});

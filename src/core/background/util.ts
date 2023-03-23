@@ -102,6 +102,18 @@ export async function filterInactiveTabs(activeTabs: ManagerTab[]) {
 	});
 }
 
+export function unlockState(): void {
+	return state.unlock();
+}
+
+export async function getState(): Promise<StateManagement | null> {
+	return state.getLocking();
+}
+
+export async function setState(data: StateManagement): Promise<void> {
+	return state.setLocking(data);
+}
+
 export async function getCurrentTab(): Promise<ManagerTab> {
 	const { activeTabs } = (await state.getLocking()) ?? { activeTabs: [] };
 	const filteredTabs = await filterInactiveTabs(activeTabs);

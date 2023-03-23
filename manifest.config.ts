@@ -9,6 +9,7 @@ export const common: Manifest.WebExtensionManifest = {
 	version: pkg.version,
 
 	permissions: ['storage', 'contextMenus', 'notifications'],
+	host_permissions: ['http://*/', 'https://*/'],
 
 	content_scripts: [
 		{
@@ -18,9 +19,17 @@ export const common: Manifest.WebExtensionManifest = {
 		},
 	],
 
+	action: {
+		default_icon: {
+			'19': 'icons/page_action_unsupported_19.png',
+			'38': 'icons/page_action_unsupported_38.png',
+		},
+		default_title: '__MSG_pageActionUnsupported__',
+		default_popup: 'src/ui/popup/index.html',
+	},
+
 	background: {
-		scripts: ['background/main.js'],
-		persistent: false,
+		service_worker: 'background/main.js',
 	},
 
 	web_accessible_resources: [
@@ -39,76 +48,22 @@ export const common: Manifest.WebExtensionManifest = {
 export const chromeManifest: Manifest.WebExtensionManifest = {
 	...common,
 
-	host_permissions: ['http://*/', 'https://*/'],
-
-	background: {
-		service_worker: 'background/main.js',
-	},
-
-	action: {
-		default_icon: {
-			'19': 'icons/page_action_unsupported_19.png',
-			'38': 'icons/page_action_unsupported_38.png',
-		},
-		default_title: '__MSG_pageActionUnsupported__',
-		default_popup: 'src/ui/popup/index.html',
-	},
-
-	icons: {
-		16: 'icons/icon_generic_16.png',
-		48: 'icons/icon_chrome_48.png',
-		128: 'icons/icon_chrome_128.png',
-		256: 'icons/icon_chrome_256.png',
-		512: 'icons/icon_chrome_512.png',
-	},
+	icons: browserIcons('chrome'),
 };
 
 export const safariManifest: Manifest.WebExtensionManifest = {
 	...common,
 
-	manifest_version: 2,
-	permissions: [...common.permissions!, 'http://*/', 'https://*/'],
-
-	web_accessible_resources: ['connectors/*'],
-
-	icons: {
-		16: 'icons/icon_generic_16.png',
-		48: 'icons/icon_safari_48.png',
-		128: 'icons/icon_safari_128.png',
-		256: 'icons/icon_safari_256.png',
-		512: 'icons/icon_safari_512.png',
-	},
-
-	browser_action: {
-		default_icon: {
-			'19': 'icons/page_action_unsupported_19.png',
-			'38': 'icons/page_action_unsupported_38.png',
-		},
-		default_title: '__MSG_pageActionUnsupported__',
-		default_popup: 'src/ui/popup/index.html',
-	},
+	icons: browserIcons('safari'),
 };
 
 export const firefoxManifest: Manifest.WebExtensionManifest = {
 	...common,
 
-	host_permissions: ['http://*/', 'https://*/'],
+	icons: browserIcons('firefox'),
 
-	action: {
-		default_icon: {
-			'19': 'icons/page_action_unsupported_19.png',
-			'38': 'icons/page_action_unsupported_38.png',
-		},
-		default_title: '__MSG_pageActionUnsupported__',
-		default_popup: 'src/ui/popup/index.html',
-	},
-
-	icons: {
-		16: 'icons/icon_generic_16.png',
-		48: 'icons/icon_firefox_48.png',
-		128: 'icons/icon_firefox_128.png',
-		256: 'icons/icon_firefox_256.png',
-		512: 'icons/icon_firefox_512.png',
+	background: {
+		scripts: ['background/main.js'],
 	},
 
 	browser_specific_settings: {
@@ -117,3 +72,13 @@ export const firefoxManifest: Manifest.WebExtensionManifest = {
 		},
 	},
 };
+
+function browserIcons(browser: string) {
+	return {
+		16: 'icons/icon_generic_16.png',
+		48: `icons/icon_${browser}_48.png`,
+		128: `icons/icon_${browser}_128.png`,
+		256: `icons/icon_${browser}_256.png`,
+		512: `icons/icon_${browser}_512.png`,
+	};
+}

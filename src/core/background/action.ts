@@ -65,6 +65,14 @@ async function updateMenus(tab: ManagerTab) {
 	});
 }
 
+function getIconURL(url: string) {
+	const runtimeURL = browser.runtime.getURL(url);
+	if (runtimeURL.startsWith('safari')) {
+		return url;
+	}
+	return runtimeURL;
+}
+
 function setAction(mode: ControllerModeStr, song: CloneableSong | null): void {
 	let songstr = '';
 	if (song) {
@@ -72,30 +80,13 @@ function setAction(mode: ControllerModeStr, song: CloneableSong | null): void {
 		songstr = `${clonedSong.getArtist()} - ${clonedSong.getTrack()}`;
 	}
 
-	if (browser.action) {
-		browser.action.setIcon({
-			path: {
-				19: browser.runtime.getURL(
-					`icons/page_action_${mode.toLowerCase()}_19.png`
-				),
-				38: browser.runtime.getURL(
-					`icons/page_action_${mode.toLowerCase()}_38.png`
-				),
-			},
-		});
-		browser.action.setTitle({
-			title: t(`pageAction${mode}`, songstr),
-		});
-		return;
-	}
-
-	browser.browserAction.setIcon({
+	browser.action.setIcon({
 		path: {
-			19: `icons/page_action_${mode.toLowerCase()}_19.png`,
-			38: `icons/page_action_${mode.toLowerCase()}_38.png`,
+			19: getIconURL(`icons/page_action_${mode.toLowerCase()}_19.png`),
+			38: getIconURL(`icons/page_action_${mode.toLowerCase()}_38.png`),
 		},
 	});
-	browser.browserAction.setTitle({
+	browser.action.setTitle({
 		title: t(`pageAction${mode}`, songstr),
 	});
 }
