@@ -1,22 +1,26 @@
-import Song, { BaseSong } from '@/core/object/song';
+import { BaseSong } from '@/core/object/song';
 
-import { i18n, notifications, runtime } from 'webextension-polyfill';
+import browser from 'webextension-polyfill';
 import { getPlatformName, isFullscreenMode } from '@/util/util-browser';
 import * as Options from '@/core/storage/options';
 import { ConnectorMeta } from '@/core/connectors';
 import { Scrobbler } from '@/core/object/scrobble-service';
 
-const manifest = runtime.getManifest();
+const manifest = browser.runtime.getManifest();
 const DEFAULT_OPTIONS_VALUES: {
 	type: 'basic';
 	iconUrl: string;
 } = {
 	type: 'basic',
-	iconUrl: runtime.getURL(manifest.icons?.['128'] ?? ''),
+	iconUrl: browser.runtime.getURL(manifest.icons?.['128'] ?? ''),
 };
 
-const defaultTrackArtUrl = runtime.getURL('/icons/cover_art_default.png');
-const unknownTrackArtUrl = runtime.getURL('icons/cover_art_unknown.png');
+const defaultTrackArtUrl = browser.runtime.getURL(
+	'/icons/cover_art_default.png'
+);
+const unknownTrackArtUrl = browser.runtime.getURL(
+	'icons/cover_art_unknown.png'
+);
 
 /**
  * Now playing notification delay in milliseconds.
@@ -122,7 +126,10 @@ async function showNotification(
 
 	let notificationId: string;
 	try {
-		notificationId = await notifications.create('', processedOptions);
+		notificationId = await browser.notifications?.create(
+			'',
+			processedOptions
+		);
 	} catch (err) {
 		// Use default track art and try again
 		if (processedOptions.iconUrl === defaultTrackArtUrl) {
@@ -130,7 +137,10 @@ async function showNotification(
 		}
 
 		processedOptions.iconUrl = defaultTrackArtUrl;
-		notificationId = await notifications.create('', processedOptions);
+		notificationId = await browser.notifications?.create(
+			'',
+			processedOptions
+		);
 	}
 
 	if (typeof onClick === 'function') {
@@ -173,7 +183,7 @@ export async function showNowPlaying(
 
 	const userPlayCount = song.metadata.userPlayCount;
 	if (userPlayCount) {
-		const userPlayCountStr = i18n.getMessage(
+		const userPlayCountStr = browser.i18n.getMessage(
 			'infoYourScrobbles',
 			userPlayCount.toString()
 		);
@@ -225,7 +235,7 @@ export function showError(
 	message: string,
 	onClick: (() => void) | null = null
 ): void {
-	const title = i18n.getMessage('notificationAuthError');
+	const title = browser.i18n.getMessage('notificationAuthError');
 	const options = { title, message };
 	void showNotification(options, onClick);
 }
@@ -239,7 +249,7 @@ export function showSignInError(
 	scrobbler: Scrobbler,
 	onClick: () => void
 ): void {
-	const errorMessage = i18n.getMessage(
+	const errorMessage = browser.i18n.getMessage(
 		'notificationUnableSignIn',
 		scrobbler.getLabel()
 	);
@@ -268,8 +278,8 @@ export async function showSongNotRecognized(
 
 	const options = {
 		iconUrl: unknownTrackArtUrl,
-		title: i18n.getMessage('notificationNotRecognized'),
-		message: i18n.getMessage('notificationNotRecognizedText'),
+		title: browser.i18n.getMessage('notificationNotRecognized'),
+		message: browser.i18n.getMessage('notificationNotRecognizedText'),
 	};
 
 	const notificationId = await showNotification(options, onClick);
@@ -282,8 +292,8 @@ export async function showSongNotRecognized(
  */
 export async function showAuthNotification(onClick: () => void): Promise<void> {
 	const options = {
-		title: i18n.getMessage('notificationConnectAccounts'),
-		message: i18n.getMessage('notificationConnectAccountsText'),
+		title: browser.i18n.getMessage('notificationConnectAccounts'),
+		message: browser.i18n.getMessage('notificationConnectAccountsText'),
 	};
 
 	await showNotification(options, onClick);
@@ -297,7 +307,7 @@ export async function showAuthNotification(onClick: () => void): Promise<void> {
  */
 function remove(notificationId: string) {
 	if (notificationId) {
-		void notifications.clear(notificationId);
+		void browser.notifications?.clear(notificationId);
 	}
 }
 
@@ -308,13 +318,13 @@ function clearNotificationTimeout() {
 	}
 }
 
-notifications.onClicked.addListener((notificationId) => {
+browser.notifications?.onClicked.addListener((notificationId) => {
 	console.log(`Notification onClicked: ${notificationId}`);
 
 	if (clickListeners[notificationId]) {
 		clickListeners[notificationId](notificationId);
 	}
 });
-notifications.onClosed.addListener((notificationId) => {
+browser.notifications?.onClosed.addListener((notificationId) => {
 	removeOnClickedListener(notificationId);
 });

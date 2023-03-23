@@ -138,18 +138,24 @@ export default class StorageWrapper<K extends keyof DataModels> {
 	}
 
 	/**
-	 * Read data from storage.
-	 * @typeParam T - Data type
-	 * @param locking - Whether to use locking. Prevents race conditions. Non-locking gets will not respect locking either.
+	 * Read data from storage, don't respect locking
 	 * @returns Storage data
 	 */
-	async get(locking = false): Promise<DataModels[K] | null> {
-		const ready = new Promise((resolve) => {
-			if (!locking) {
-				resolve(true);
-				return;
-			}
+	async get(): Promise<DataModels[K] | null> {
+		const data = await this.storage.get();
+		if (data && this.namespace in data) {
+			return data[this.namespace] as DataModels[K];
+		}
 
+		return null;
+	}
+
+	/**
+	 * Read data from storage, respect locking
+	 * @returns Storage data
+	 */
+	async getLocking(): Promise<DataModels[K] | null> {
+		const ready = new Promise((resolve) => {
 			const id = this.autoIncrement++;
 			this.requests.push(id);
 			if (this.requests[0] === id) {
@@ -168,22 +174,14 @@ export default class StorageWrapper<K extends keyof DataModels> {
 		});
 		await ready;
 
-		const data = await this.storage.get();
-		if (data && this.namespace in data) {
-			return data[this.namespace] as DataModels[K];
-		}
-
-		return null;
+		return this.get();
 	}
 
 	/**
-	 * Save data to storage.
+	 * Save data to storage, don't lock storage
 	 * @param data - Data to save
 	 */
-	async set(data: DataModels[K], locking = false): Promise<void> {
-		if (locking) {
-			this.unlock();
-		}
+	async set(data: DataModels[K]): Promise<void> {
 		const dataToSave = {
 			[this.namespace]: data,
 		};
@@ -192,15 +190,28 @@ export default class StorageWrapper<K extends keyof DataModels> {
 	}
 
 	/**
+	 * Save data to storage, and lock storage
+	 * @param data - Data to save
+	 */
+	async setLocking(data: DataModels[K]): Promise<void> {
+		try {
+			await this.set(data);
+		} catch (err) {
+			console.warn(err);
+		}
+		this.unlock();
+	}
+
+	/**
 	 * Extend saved data by given one.
 	 * @param data - Data to add
 	 */
 	async update(data: Partial<DataModels[K]>): Promise<void> {
-		const storageData = await this.get(true);
+		const storageData = await this.getLocking();
 		const dataToSave = Object.assign(storageData ?? {}, data);
 
 		// TODO: use default here instead of empty object to avoid this workaround
-		await this.set(dataToSave as DataModels[K], true);
+		await this.setLocking(dataToSave as DataModels[K]);
 	}
 
 	/**

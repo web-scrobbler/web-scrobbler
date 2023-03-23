@@ -96,9 +96,9 @@ export async function filterInactiveTabs(activeTabs: ManagerTab[]) {
 }
 
 export async function getCurrentTab(): Promise<ManagerTab> {
-	const { activeTabs } = (await state.get()) ?? { activeTabs: [] };
+	const { activeTabs } = (await state.getLocking()) ?? { activeTabs: [] };
 	const filteredTabs = await filterInactiveTabs(activeTabs);
-	void state.set({
+	void state.setLocking({
 		activeTabs: filteredTabs,
 	});
 

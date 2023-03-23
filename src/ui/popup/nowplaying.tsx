@@ -5,8 +5,11 @@ import {
 	Resource,
 	Show,
 	Switch,
+	createEffect,
 	createMemo,
 	createSignal,
+	onCleanup,
+	onMount,
 } from 'solid-js';
 import { ManagerTab } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
@@ -35,13 +38,51 @@ export default function NowPlaying(props: { tab: Resource<ManagerTab> }) {
 		return new ClonedSong(rawSong, rawTab.tabId);
 	});
 
+	// set width property manually, safari doesnt play well with dynamic
+	let nowplaying: HTMLDivElement | undefined;
+	function resizeWindow() {
+		if (!nowplaying || nowplaying.scrollWidth < 10) {
+			return;
+		}
+		document.body.style.width = `${nowplaying.scrollWidth}px`;
+	}
+	const observer = new ResizeObserver(resizeWindow);
+
+	onMount(() => {
+		if (!nowplaying) {
+			return;
+		}
+		observer.observe(nowplaying);
+	});
+
+	onCleanup(() => {
+		observer.disconnect();
+		document.body.style.width = 'auto';
+	});
+
+	createEffect(() => {
+		if (isEditing()) {
+			observer.disconnect();
+		} else {
+			if (!nowplaying) {
+				return;
+			}
+			observer.disconnect();
+			observer.observe(nowplaying);
+
+			if (nowplaying.scrollWidth > 10) {
+				document.body.style.width = `${nowplaying.scrollWidth}px`;
+			}
+		}
+	});
+
 	return (
 		<Switch fallback={<Base />}>
 			<Match when={isEditing()}>
 				<EditComponent tab={tab} />
 			</Match>
 			<Match when={song()}>
-				<div class={styles.nowPlayingPopup}>
+				<div class={styles.nowPlayingPopup} ref={nowplaying}>
 					<a
 						class={styles.coverArtWrapper}
 						href={

@@ -1,6 +1,6 @@
 import { t } from '@/util/i18n';
 import styles from './popup.module.scss';
-import { Resource, createSignal, onCleanup } from 'solid-js';
+import { Resource, createSignal, onCleanup, onMount } from 'solid-js';
 import { ManagerTab } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
 import ClonedSong from '@/core/object/cloned-song';
@@ -30,15 +30,38 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 		payload: true,
 	});
 
+	// manually set popup width property, safari does not play well with dynamic width
+	let nowplaying: HTMLDivElement | undefined;
+	function resizeWindow() {
+		if (!nowplaying || nowplaying.scrollWidth < 10) {
+			return;
+		}
+		document.body.style.width = `${nowplaying.scrollWidth}px`;
+	}
+	const observer = new ResizeObserver(resizeWindow);
+
+	onMount(() => {
+		if (!nowplaying) {
+			return;
+		}
+		if (nowplaying.scrollWidth > 10) {
+			document.body.style.width = `${nowplaying.scrollWidth}px`;
+		}
+		observer.observe(nowplaying);
+	});
+
 	onCleanup(() => {
 		sendBackgroundMessage(tab()?.tabId ?? -1, {
 			type: 'setEditState',
 			payload: false,
 		});
+
+		observer.disconnect();
+		document.body.style.width = 'auto';
 	});
 
 	return (
-		<div class={styles.nowPlayingPopup}>
+		<div class={styles.nowPlayingPopup} ref={nowplaying}>
 			<a
 				class={styles.coverArtWrapper}
 				href={

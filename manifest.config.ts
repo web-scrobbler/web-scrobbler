@@ -7,7 +7,8 @@ export const common: Manifest.WebExtensionManifest = {
 	default_locale: 'en',
 	description: '__MSG_extDescription__',
 	version: pkg.version,
-	permissions: ['scripting', 'storage', 'contextMenus', 'notifications'],
+
+	permissions: ['storage', 'contextMenus', 'notifications'],
 	host_permissions: ['http://*/', 'https://*/'],
 
 	content_scripts: [
@@ -40,11 +41,39 @@ export const common: Manifest.WebExtensionManifest = {
 	},
 };
 
-export const chromeManifest: Manifest.WebExtensionManifest = {
+export const chromeSafariCommon: Manifest.WebExtensionManifest = {
 	...common,
 
 	background: {
 		service_worker: 'background/main.js',
+	},
+};
+
+export const chromeManifest: Manifest.WebExtensionManifest = {
+	...chromeSafariCommon,
+
+	icons: {
+		16: 'icons/icon_generic_16.png',
+		48: 'icons/icon_chrome_48.png',
+		128: 'icons/icon_chrome_128.png',
+		256: 'icons/icon_chrome_256.png',
+		512: 'icons/icon_chrome_512.png',
+	},
+};
+
+export const safariManifest: Manifest.WebExtensionManifest = {
+	...chromeSafariCommon,
+
+	background: {
+		service_worker: 'background/main.js',
+	},
+
+	icons: {
+		16: 'icons/icon_generic_16.png',
+		48: 'icons/icon_safari_48.png',
+		128: 'icons/icon_safari_128.png',
+		256: 'icons/icon_safari_256.png',
+		512: 'icons/icon_safari_512.png',
 	},
 };
 
@@ -53,6 +82,14 @@ export const firefoxManifest: Manifest.WebExtensionManifest = {
 
 	background: {
 		scripts: ['background/main.js'],
+	},
+
+	icons: {
+		16: 'icons/icon_generic_16.png',
+		48: 'icons/icon_firefox_48.png',
+		128: 'icons/icon_firefox_128.png',
+		256: 'icons/icon_firefox_256.png',
+		512: 'icons/icon_firefox_512.png',
 	},
 
 	browser_specific_settings: {

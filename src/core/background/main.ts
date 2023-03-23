@@ -36,7 +36,8 @@ browser.runtime.onInstalled.addListener(startupFunc);
 browser.tabs.onRemoved.addListener(async (tabId) => {
 	const activeTabs = await fetchTab();
 
-	await state.set({
+	await state.getLocking();
+	await state.setLocking({
 		activeTabs: await filterInactiveTabs(activeTabs),
 	});
 	updateAction();
@@ -49,7 +50,7 @@ browser.tabs.onRemoved.addListener(async (tabId) => {
 });
 
 browser.tabs.onUpdated.addListener(async (tabId, _, tab) => {
-	const { activeTabs } = (await state.get()) ?? { activeTabs: [] };
+	const { activeTabs } = (await state.getLocking()) ?? { activeTabs: [] };
 	let curTab: ManagerTab = {
 		tabId,
 		mode: ControllerMode.Unsupported,
@@ -69,7 +70,7 @@ browser.tabs.onUpdated.addListener(async (tabId, _, tab) => {
 		newTabs = [curTab, ...newTabs];
 	}
 
-	await state.set({
+	await state.setLocking({
 		activeTabs: await filterInactiveTabs(newTabs),
 	});
 	updateAction();
@@ -86,7 +87,7 @@ async function updateTab(
 	// perform the update, making sure there is no race condition, and making sure locking isnt permanently locked by an error
 	let performedSet = false;
 	try {
-		let { activeTabs } = (await state.get(true)) ?? { activeTabs: [] };
+		let { activeTabs } = (await state.getLocking()) ?? { activeTabs: [] };
 		activeTabs = await filterInactiveTabs(activeTabs);
 		for (let i = 0; i < activeTabs.length; i++) {
 			if (activeTabs[i].tabId !== tabId) {
@@ -95,24 +96,21 @@ async function updateTab(
 
 			activeTabs[i] = fn(activeTabs[i]);
 			performedSet = true;
-			await state.set({ activeTabs }, true);
+			await state.setLocking({ activeTabs });
 			updateAction();
 			return;
 		}
 		performedSet = true;
-		await state.set(
-			{
-				activeTabs: [
-					fn({
-						tabId,
-						mode: ControllerMode.Unsupported,
-						song: null,
-					}),
-					...activeTabs,
-				],
-			},
-			true
-		);
+		await state.setLocking({
+			activeTabs: [
+				fn({
+					tabId,
+					mode: ControllerMode.Unsupported,
+					song: null,
+				}),
+				...activeTabs,
+			],
+		});
 		updateAction();
 	} catch (err) {
 		if (!performedSet) {
@@ -204,7 +202,7 @@ async function setAction(mode: ControllerModeStr): Promise<void> {
 				`icons/page_action_${mode.toLowerCase()}_19.png`
 			),
 			38: browser.runtime.getURL(
-				`icons/page_action_${mode.toLowerCase()}_19.png`
+				`icons/page_action_${mode.toLowerCase()}_38.png`
 			),
 		},
 	});
@@ -218,7 +216,10 @@ async function updateAction() {
 	sendPopupMessage({
 		type: 'currentTab',
 		payload: tab,
+	}).catch((err) => {
+		console.warn(err);
 	});
+
 	await updateMenus(tab);
 	await setAction(tab.mode);
 }
