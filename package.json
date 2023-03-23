@@ -29,6 +29,7 @@
     "@suid/icons-material": "^0.5.9",
     "blueimp-md5": "^2.19.0",
     "metadata-filter": "^1.1.1",
+    "stylelint": "^13.13.1",
     "vite": "^4.1.4",
     "webextension-polyfill": "^0.10.0"
   },
@@ -49,7 +50,6 @@
     "remark-preset-lint-recommended": "^6.1.2",
     "sass": "^1.58.3",
     "solid-js": "^1.6.13",
-    "stylelint": "^13.13.1",
     "stylelint-config-web-scrobbler": "^0.2.0",
     "tsx": "^3.12.5",
     "typescript": "^4.9.5",
