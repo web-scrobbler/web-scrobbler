@@ -15,8 +15,9 @@ import Sidebar from './sidebar/sidebar';
 import InfoComponent from '@/ui/options/components/info';
 import FAQ from './components/faq';
 import ContactComponent from './components/contact';
-import OptionsComponent, { EditsModal } from './components/options';
+import OptionsComponent from './components/options/options';
 import Accounts from './components/accounts';
+import { EditsModal } from './components/options/edited-tracks';
 
 export type Settings =
 	| {

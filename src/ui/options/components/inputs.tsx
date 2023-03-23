@@ -8,6 +8,7 @@ import Check from '@suid/icons-material/CheckOutlined';
 import Close from '@suid/icons-material/CloseOutlined';
 import RestartAlt from '@suid/icons-material/RestartAltOutlined';
 import IndeterminateCheckBox from '@suid/icons-material/IndeterminateCheckBoxOutlined';
+import { ConnectorMeta } from '@/core/connectors';
 
 export function Checkbox(props: {
 	title: string;
@@ -311,5 +312,64 @@ export function TripleCheckbox(props: {
 				</div>
 			</span>
 		</div>
+	);
+}
+
+export function ConnectorTripleCheckbox(props: {
+	title: string;
+	label: string;
+	connector: ConnectorMeta;
+	option: keyof Options.ConnectorsOverrideOptionValues;
+	overrideOptions: Resource<Options.ConnectorsOverrideOptions | null>;
+	setOverrideOptions: ResourceActions<
+		Options.ConnectorsOverrideOptions | null | undefined,
+		unknown
+	>;
+	connectorOverrideOptions: StorageWrapper<
+		typeof BrowserStorage.CONNECTORS_OVERRIDE_OPTIONS
+	>;
+}) {
+	const {
+		title,
+		label,
+		connector,
+		option,
+		overrideOptions,
+		connectorOverrideOptions,
+		setOverrideOptions,
+	} = props;
+	return (
+		<TripleCheckbox
+			title={title}
+			label={label}
+			id={connector.id}
+			state={() => {
+				const override = overrideOptions()?.[connector.id];
+				if (!override || !(option in override)) {
+					return TripleCheckboxState.Indeterminate;
+				}
+				if (override[option]) {
+					return TripleCheckboxState.Checked;
+				}
+				return TripleCheckboxState.Unchecked;
+			}}
+			onInput={(state) => {
+				setOverrideOptions.mutate((o) => {
+					const newOptions = {
+						...(o ?? {}),
+					};
+					if (state === TripleCheckboxState.Indeterminate) {
+						delete newOptions[connector.id][option];
+					} else {
+						newOptions[connector.id] = {
+							...newOptions[connector.id],
+							[option]: state === TripleCheckboxState.Checked,
+						};
+					}
+					connectorOverrideOptions.set(newOptions);
+					return newOptions;
+				});
+			}}
+		/>
 	);
 }
