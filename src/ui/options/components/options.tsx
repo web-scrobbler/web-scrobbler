@@ -6,6 +6,7 @@ import {
 	Resource,
 	ResourceActions,
 	Setter,
+	Show,
 	createResource,
 } from 'solid-js';
 import styles from './components.module.scss';
@@ -27,6 +28,7 @@ import {
 	TripleCheckbox,
 	TripleCheckboxState,
 } from './inputs';
+import browser from 'webextension-polyfill';
 
 const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 const connectorOptions = BrowserStorage.getStorage(
@@ -183,22 +185,24 @@ function GlobalOptionsList(props: {
 		<>
 			<h2>{t('optionsGeneral')}</h2>
 			<ul>
-				<GlobalOptionEntry
-					options={options}
-					setOptions={setOptions}
-					globalOptions={globalOptions}
-					i18ntitle="optionUseNotificationsTitle"
-					i18nlabel="optionUseNotifications"
-					key={Options.USE_NOTIFICATIONS}
-				/>
-				<GlobalOptionEntry
-					options={options}
-					setOptions={setOptions}
-					globalOptions={globalOptions}
-					i18ntitle="optionUnrecognizedNotificationsTitle"
-					i18nlabel="optionUnrecognizedNotifications"
-					key={Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS}
-				/>
+				<Show when={browser.notifications}>
+					<GlobalOptionEntry
+						options={options}
+						setOptions={setOptions}
+						globalOptions={globalOptions}
+						i18ntitle="optionUseNotificationsTitle"
+						i18nlabel="optionUseNotifications"
+						key={Options.USE_NOTIFICATIONS}
+					/>
+					<GlobalOptionEntry
+						options={options}
+						setOptions={setOptions}
+						globalOptions={globalOptions}
+						i18ntitle="optionUnrecognizedNotificationsTitle"
+						i18nlabel="optionUnrecognizedNotifications"
+						key={Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS}
+					/>
+				</Show>
 				<GlobalOptionEntry
 					options={options}
 					setOptions={setOptions}
@@ -538,22 +542,24 @@ function ConnectorOverrideOptionDetails(props: {
 	return (
 		<>
 			<h3>{t('optionsGeneral')}</h3>
-			<ConnectorTripleCheckbox
-				title={t('optionUseNotificationsTitle')}
-				label={t('optionUseNotifications')}
-				connector={connector}
-				option={Options.USE_NOTIFICATIONS}
-				overrideOptions={overrideOptions}
-				setOverrideOptions={setOverrideOptions}
-			/>
-			<ConnectorTripleCheckbox
-				title={t('optionUnrecognizedNotificationsTitle')}
-				label={t('optionUnrecognizedNotifications')}
-				connector={connector}
-				option={Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS}
-				overrideOptions={overrideOptions}
-				setOverrideOptions={setOverrideOptions}
-			/>
+			<Show when={browser.notifications}>
+				<ConnectorTripleCheckbox
+					title={t('optionUseNotificationsTitle')}
+					label={t('optionUseNotifications')}
+					connector={connector}
+					option={Options.USE_NOTIFICATIONS}
+					overrideOptions={overrideOptions}
+					setOverrideOptions={setOverrideOptions}
+				/>
+				<ConnectorTripleCheckbox
+					title={t('optionUnrecognizedNotificationsTitle')}
+					label={t('optionUnrecognizedNotifications')}
+					connector={connector}
+					option={Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS}
+					overrideOptions={overrideOptions}
+					setOverrideOptions={setOverrideOptions}
+				/>
+			</Show>
 			<ConnectorTripleCheckbox
 				title={t('optionScrobblePodcastsTitle')}
 				label={t('optionScrobblePodcasts')}
