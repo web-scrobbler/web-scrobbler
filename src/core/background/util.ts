@@ -4,8 +4,15 @@ import browser from 'webextension-polyfill';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import { controllerModePriority } from '@/core/object/controller/controller';
+import { updateAction } from './action';
 
 const state = BrowserStorage.getStorage(BrowserStorage.STATE_MANAGEMENT);
+
+export const contextMenus = {
+	ENABLE_CONNECTOR: 'enableConnector',
+	DISABLE_CONNECTOR: 'disableConnector',
+	DISABLE_UNTIL_CLOSED: 'disableUntilClosed',
+};
 
 /**
  * Filters asynchronously. Parallelized.
@@ -101,6 +108,7 @@ export async function getCurrentTab(): Promise<ManagerTab> {
 	void state.setLocking({
 		activeTabs: filteredTabs,
 	});
+	updateAction();
 
 	for (const priorityGroup of controllerModePriority) {
 		for (const tab of activeTabs) {

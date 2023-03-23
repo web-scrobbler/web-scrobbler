@@ -5,14 +5,17 @@ import { ManagerTab } from '@/core/storage/wrapper';
 import {
 	backgroundListener,
 	sendBackgroundMessage,
-	sendPopupMessage,
 	setupBackgroundListeners,
 } from '@/util/communication';
 import browser from 'webextension-polyfill';
-import { fetchTab, filterInactiveTabs, getCurrentTab } from './util';
+import {
+	contextMenus,
+	fetchTab,
+	filterInactiveTabs,
+	getCurrentTab,
+} from './util';
 import { ControllerModeStr } from '@/core/object/controller/controller';
 import { CloneableSong } from '@/core/object/song';
-import { t } from '@/util/i18n';
 import {
 	clearNowPlaying,
 	showNowPlaying,
@@ -20,12 +23,7 @@ import {
 } from '@/util/notifications';
 import ClonedSong from '@/core/object/cloned-song';
 import { openTab } from '@/util/util-browser';
-
-const contextMenus = {
-	ENABLE_CONNECTOR: 'enableConnector',
-	DISABLE_CONNECTOR: 'disableConnector',
-	DISABLE_UNTIL_CLOSED: 'disableUntilClosed',
-};
+import { updateAction } from './action';
 
 const state = BrowserStorage.getStorage(BrowserStorage.STATE_MANAGEMENT);
 const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
@@ -125,7 +123,6 @@ async function updateMode(tabId: number | undefined, mode: ControllerModeStr) {
 		mode,
 		song: oldTab.song,
 	}));
-	updateAction();
 }
 
 async function updateState(
@@ -194,78 +191,6 @@ setupBackgroundListeners(
 		},
 	})
 );
-
-async function setAction(mode: ControllerModeStr): Promise<void> {
-	await browser.action.setIcon({
-		path: {
-			19: browser.runtime.getURL(
-				`icons/page_action_${mode.toLowerCase()}_19.png`
-			),
-			38: browser.runtime.getURL(
-				`icons/page_action_${mode.toLowerCase()}_38.png`
-			),
-		},
-	});
-	await browser.action.setTitle({
-		title: t(`pageAction${mode}`),
-	});
-}
-
-async function updateAction() {
-	const tab = await getCurrentTab();
-	sendPopupMessage({
-		type: 'currentTab',
-		payload: tab,
-	}).catch((err) => {
-		console.warn(err);
-	});
-
-	await updateMenus(tab);
-	await setAction(tab.mode);
-}
-
-async function updateMenus(tab: ManagerTab) {
-	if (tab.mode === ControllerMode.Unsupported) {
-		browser.contextMenus.update(contextMenus.ENABLE_CONNECTOR, {
-			visible: false,
-		});
-		browser.contextMenus.update(contextMenus.DISABLE_CONNECTOR, {
-			visible: false,
-		});
-		browser.contextMenus.update(contextMenus.DISABLE_UNTIL_CLOSED, {
-			visible: false,
-		});
-		return;
-	}
-
-	const tabData = await browser.tabs.get(tab.tabId);
-	const connector = await getConnectorByUrl(tabData.url ?? '');
-	if (tab.mode === ControllerMode.Disabled) {
-		browser.contextMenus.update(contextMenus.ENABLE_CONNECTOR, {
-			visible: true,
-			title: t('menuEnableConnector', connector?.label),
-		});
-		browser.contextMenus.update(contextMenus.DISABLE_CONNECTOR, {
-			visible: false,
-		});
-		browser.contextMenus.update(contextMenus.DISABLE_UNTIL_CLOSED, {
-			visible: false,
-		});
-		return;
-	}
-
-	browser.contextMenus.update(contextMenus.ENABLE_CONNECTOR, {
-		visible: false,
-	});
-	browser.contextMenus.update(contextMenus.DISABLE_CONNECTOR, {
-		visible: true,
-		title: t('menuDisableConnector', connector?.label),
-	});
-	browser.contextMenus.update(contextMenus.DISABLE_UNTIL_CLOSED, {
-		visible: true,
-		title: t('menuDisableUntilTabClosed', connector?.label),
-	});
-}
 
 function startupFunc() {
 	state.set({
