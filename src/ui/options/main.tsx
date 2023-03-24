@@ -19,6 +19,9 @@ import OptionsComponent from './components/options/options';
 import Accounts from './components/accounts';
 import { EditsModal } from './components/options/edited-tracks';
 
+/**
+ * All the different options pages, their sidebar labels, and icons.
+ */
 export type Settings =
 	| {
 			namei18n: 'optionsAccounts';
@@ -51,6 +54,9 @@ export type Settings =
 			element: typeof ShowSomeLove;
 	  };
 
+/**
+ * All the different options pages, their sidebar labels, and icons.
+ */
 const settings: Settings[] = [
 	{ namei18n: 'optionsAccounts', icon: ManageAccounts, element: Accounts },
 	{ namei18n: 'optionsOptions', icon: Settings, element: OptionsComponent },
@@ -60,6 +66,9 @@ const settings: Settings[] = [
 	{ namei18n: 'showSomeLoveTitle', icon: Favorite, element: ShowSomeLove },
 ];
 
+/**
+ * Preferences component, with a sidebar and several different options and info pages
+ */
 function Options() {
 	const [activeSetting, setActiveSetting] = createSignal<Settings>({
 		namei18n: 'showSomeLoveTitle',
@@ -119,6 +128,7 @@ function Options() {
 	);
 }
 
+// Render the Options component using SolidJS
 const root = document.getElementById('root');
 if (!root) {
 	throw new Error('Root element not found');

@@ -336,6 +336,9 @@ export default class Controller {
 		void this.processSong();
 	}
 
+	/**
+	 * Reprocess currently playing song without otherwise changing it.
+	 */
 	async reprocessSong(): Promise<void> {
 		this.assertSongIsPlaying();
 		if (!assertSongNotNull(this.currentSong)) {
@@ -419,7 +422,12 @@ export default class Controller {
 
 	/** Internal functions */
 
-	setMode(mode: ControllerModeStr): void {
+	/**
+	 * Set the mode of the controller
+	 *
+	 * @param mode - new controller mode
+	 */
+	private setMode(mode: ControllerModeStr): void {
 		if (!mode) {
 			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 			throw new Error(`Unknown mode: ${mode}`);
@@ -429,7 +437,7 @@ export default class Controller {
 		this.onModeChanged();
 	}
 
-	dispatchEvent(event: string): void {
+	private dispatchEvent(event: string): void {
 		if (!event) {
 			throw new Error(`Unknown event: ${event}`);
 		}
@@ -441,7 +449,7 @@ export default class Controller {
 	 * Process connector state as new one.
 	 * @param newState - Connector state
 	 */
-	processNewState(newState: State): void {
+	private processNewState(newState: State): void {
 		/*
 		 * We've hit a new song (or replaying the previous one)
 		 * clear any previous song and its bindings.
@@ -492,7 +500,7 @@ export default class Controller {
 	 * Process connector state as current one.
 	 * @param newState - Connector state
 	 */
-	processCurrentState(newState: State): void {
+	private processCurrentState(newState: State): void {
 		if (!assertSongNotNull(this.currentSong)) {
 			return;
 		}
@@ -520,7 +528,7 @@ export default class Controller {
 	/**
 	 * Reset controller state.
 	 */
-	resetState(): void {
+	private resetState(): void {
 		this.dispatchEvent(ControllerEvents.ControllerReset);
 
 		this.playbackTimer.reset();
@@ -532,7 +540,7 @@ export default class Controller {
 	/**
 	 * Process song using pipeline module.
 	 */
-	async processSong(): Promise<void> {
+	private async processSong(): Promise<void> {
 		this.setMode(ControllerMode.Loading);
 		if (!assertSongNotNull(this.currentSong)) {
 			return;
@@ -585,7 +593,7 @@ export default class Controller {
 	 * Called when song was already flagged as processed, but now is
 	 * entering the pipeline again.
 	 */
-	unprocessSong(): void {
+	private unprocessSong(): void {
 		if (!assertSongNotNull(this.currentSong)) {
 			return;
 		}
@@ -603,7 +611,7 @@ export default class Controller {
 	 * Called when playing state is changed.
 	 * @param value - New playing state
 	 */
-	onPlayingStateChanged(value: boolean): void {
+	private onPlayingStateChanged(value: boolean): void {
 		this.debugLog(`isPlaying state changed to ${String(value)}`);
 
 		if (value && this.currentSong) {
@@ -630,7 +638,7 @@ export default class Controller {
 	 * @param newState - Connector state
 	 * @returns Check result
 	 */
-	isSongChanged(newState: State): boolean {
+	private isSongChanged(newState: State): boolean {
 		if (!assertSongNotNull(this.currentSong)) {
 			return true;
 		}
@@ -654,7 +662,7 @@ export default class Controller {
 	 * @param newState - Connector state
 	 * @returns Check result
 	 */
-	isNeedToUpdateDuration(newState: State): boolean {
+	private isNeedToUpdateDuration(newState: State): boolean {
 		return (
 			Boolean(newState.duration) &&
 			this.currentSong?.parsed.duration !== newState.duration
@@ -665,7 +673,7 @@ export default class Controller {
 	 * Update song duration value.
 	 * @param duration - Duration in seconds
 	 */
-	updateSongDuration(duration: number): void {
+	private updateSongDuration(duration: number): void {
 		if (!assertSongNotNull(this.currentSong)) {
 			return;
 		}
@@ -682,7 +690,7 @@ export default class Controller {
 	 * Update internal timers.
 	 * @param duration - Song duration in seconds
 	 */
-	async updateTimers(duration: number): Promise<void> {
+	private async updateTimers(duration: number): Promise<void> {
 		if (this.playbackTimer.isExpired()) {
 			this.debugLog('Attempt to update expired timers', 'warn');
 			return;
@@ -718,7 +726,7 @@ export default class Controller {
 	 * Contains all actions to be done when song is ready to be marked as
 	 * now playing.
 	 */
-	async setSongNowPlaying(): Promise<void> {
+	private async setSongNowPlaying(): Promise<void> {
 		if (!assertSongNotNull(this.currentSong)) {
 			return;
 		}
@@ -738,7 +746,7 @@ export default class Controller {
 	/**
 	 * Notify user that song it not recognized by the extension.
 	 */
-	setSongNotRecognized(): void {
+	private setSongNotRecognized(): void {
 		this.setMode(ControllerMode.Unknown);
 		this.dispatchEvent(ControllerEvents.SongUnrecognized);
 	}
@@ -748,7 +756,7 @@ export default class Controller {
 	 *
 	 * @param isEnabled - Whether to enable or disable connector.
 	 */
-	setConnectorState(isEnabled: boolean) {
+	private setConnectorState(isEnabled: boolean) {
 		this.setEnabled(isEnabled);
 		Options.setConnectorEnabled(this.getConnector(), isEnabled);
 	}
@@ -756,7 +764,7 @@ export default class Controller {
 	/**
 	 * Disable connector until tab is closed
 	 */
-	async disableUntilTabIsClosed() {
+	private async disableUntilTabIsClosed() {
 		const disabledTabList = await disabledTabs.get();
 		const currentTab = await this.tabId;
 		disabledTabs.set({
@@ -774,7 +782,7 @@ export default class Controller {
 	 * The time should be set only after the song is validated and ready
 	 * to be scrobbled.
 	 */
-	async scrobbleSong(): Promise<void> {
+	private async scrobbleSong(): Promise<void> {
 		if (!assertSongNotNull(this.currentSong)) {
 			return;
 		}
@@ -809,12 +817,18 @@ export default class Controller {
 		}
 	}
 
-	reset(): void {
+	/**
+	 * Reset the state of the connector, removing currently playing song if there is one.
+	 */
+	private reset(): void {
 		this.resetState();
 		this.setMode(ControllerMode.Base);
 	}
 
-	assertSongIsPlaying(): void {
+	/**
+	 * Assert whether there is a song playing right now
+	 */
+	private assertSongIsPlaying(): void {
 		if (!this.currentSong) {
 			throw new Error('No song is now playing');
 		}
@@ -825,7 +839,7 @@ export default class Controller {
 	 * @param text - Debug message
 	 * @param logType - Log type
 	 */
-	debugLog(text: string, logType: DebugLogType = 'log'): void {
+	private debugLog(text: string, logType: DebugLogType = 'log'): void {
 		const message = `Controller: ${text}`;
 		debugLog(message, logType);
 	}

@@ -5,6 +5,9 @@ import browser from 'webextension-polyfill';
 import Settings from '@suid/icons-material/SettingsOutlined';
 import optionComponentStyles from '../options/components/components.module.scss';
 
+/**
+ * Info to be shown when an error occurs when submitting scrobbles to a service
+ */
 export default function Err() {
 	return (
 		<div class={styles.alertPopup}>

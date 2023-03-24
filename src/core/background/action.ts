@@ -9,6 +9,11 @@ import { ControllerModeStr } from '@/core/object/controller/controller';
 import { CloneableSong } from '@/core/object/song';
 import ClonedSong from '@/core/object/cloned-song';
 
+/**
+ * Updates action state using information from a tab
+ *
+ * @param tab - The tab to get new action state from
+ */
 export async function performUpdateAction(tab: ManagerTab) {
 	sendPopupMessage({
 		type: 'currentTab',
@@ -21,12 +26,20 @@ export async function performUpdateAction(tab: ManagerTab) {
 	setAction(tab.mode, tab.song);
 }
 
+/**
+ * Fetches the tab to update action state from, and then updates the action state
+ */
 export async function updateAction() {
 	const tab = await getCurrentTab();
 	await performUpdateAction(tab);
 }
 
-async function updateMenus(tab: ManagerTab) {
+/**
+ * Updates which context menu items are displayed.
+ *
+ * @param tab - tab to base update of context menus on
+ */
+async function updateMenus(tab: ManagerTab): Promise<void> {
 	if (tab.mode === ControllerMode.Unsupported) {
 		browser.contextMenus.update(contextMenus.ENABLE_CONNECTOR, {
 			visible: false,
@@ -69,6 +82,13 @@ async function updateMenus(tab: ManagerTab) {
 	});
 }
 
+/**
+ * Browser behavior on what URLs are accepted for files is inconsistent.
+ * This function detects what browser is used and fetches the right URL.
+ *
+ * @param url - absolute URL of icon
+ * @returns icon URL that's usable in the current browser
+ */
 function getIconURL(url: string) {
 	const runtimeURL = browser.runtime.getURL(url);
 	if (runtimeURL.startsWith('safari')) {
@@ -77,6 +97,12 @@ function getIconURL(url: string) {
 	return runtimeURL;
 }
 
+/**
+ * Set action details
+ *
+ * @param mode - Controller mode to set state to display
+ * @param song - Currently playing song, if there is one
+ */
 function setAction(mode: ControllerModeStr, song: CloneableSong | null): void {
 	let songstr = '';
 	if (song) {

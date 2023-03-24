@@ -16,6 +16,9 @@ import {
 
 const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 
+/**
+ * Component that shows the basic global options to the user.
+ */
 export default function GlobalOptionsList(props: {
 	options: Resource<Options.GlobalOptions | null>;
 	setOptions: ResourceActions<
@@ -60,6 +63,9 @@ export default function GlobalOptionsList(props: {
 	);
 }
 
+/**
+ * Component that allows the user to select a display theme.
+ */
 function ThemeSelector() {
 	const [theme, setTheme] = createResource(getTheme);
 

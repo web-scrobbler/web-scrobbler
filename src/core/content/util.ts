@@ -14,6 +14,10 @@ const BrowserStorage = (async () => {
 	return import('@/core/storage/browser-storage');
 })();
 
+/**
+ * All the separators used by the core and by connectors.
+ * This can be expanded just fine, do so if you run into trouble while developing a connector.
+ */
 export type Separator =
 	| ' -- '
 	| '--'

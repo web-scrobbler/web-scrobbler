@@ -2,6 +2,9 @@ import { t } from '@/util/i18n';
 import VolunteerActivism from '@suid/icons-material/VolunteerActivismOutlined';
 import styles from './components.module.scss';
 
+/**
+ * Component that allows the user to donate to development
+ */
 export default function ShowSomeLove() {
 	return (
 		<>

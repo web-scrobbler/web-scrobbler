@@ -6,6 +6,9 @@ import { t } from '@/util/i18n';
 
 const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 
+/**
+ * Component that allows the user to select requirements for the scrobbler to actually scrobble a song.
+ */
 export default function ScrobbleBehavior(props: {
 	options: Resource<Options.GlobalOptions | null>;
 	setOptions: ResourceActions<

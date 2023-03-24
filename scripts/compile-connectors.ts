@@ -4,6 +4,10 @@ import fs from 'fs-extra';
 import colorLog from './log';
 import { getBrowser } from './util';
 
+/**
+ * Vite plugin that compiles the connector .ts files, and moves them to the correct folder
+ * for the browser that is currently the build target
+ */
 export default function compileConnectors(): PluginOption {
 	return {
 		name: 'compile-connectors',

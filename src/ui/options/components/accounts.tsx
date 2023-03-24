@@ -8,6 +8,9 @@ import styles from './components.module.scss';
 import browser from 'webextension-polyfill';
 import { debugLog } from '@/util/util';
 
+/**
+ * Properties associated with each scrobbler, and the input type to use for the user to edit them.
+ */
 const scrobblerPropertiesMap = {
 	ListenBrainz: {
 		userApiUrl: {
@@ -35,6 +38,9 @@ const scrobblerPropertiesMap = {
 	},
 };
 
+/**
+ * Component that allows the user to sign in and out of their scrobbler accounts
+ */
 export default function Accounts() {
 	return (
 		<>
@@ -47,6 +53,9 @@ export default function Accounts() {
 	);
 }
 
+/**
+ * Component that allows the user to sign in and out of a specific scrobbler
+ */
 function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 	const { label } = props;
 	const rawScrobbler = ScrobbleService.getScrobblerByLabel(label);
@@ -115,6 +124,9 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 	);
 }
 
+/**
+ * Text to show when a user is not signed into a scrobbler.
+ */
 function SignedOut(props: { scrobbler: Scrobbler }) {
 	const { scrobbler } = props;
 	return (
@@ -136,6 +148,9 @@ function SignedOut(props: { scrobbler: Scrobbler }) {
 	);
 }
 
+/**
+ * Component that allows the user to edit scrobbler properties for the scrobblers that support them.
+ */
 function Properties(props: { scrobbler: Scrobbler }) {
 	const { scrobbler } = props;
 	const label = scrobbler.getLabel();
@@ -175,6 +190,12 @@ function Properties(props: { scrobbler: Scrobbler }) {
 	);
 }
 
+/**
+ * Check if a scrobbler has user-set properties associated with it.
+ *
+ * @param label - scrobbler to check if has properties
+ * @returns true if scrobbler has properties, false if not
+ */
 function labelHasProperties(
 	label: ScrobblerLabel
 ): label is keyof typeof scrobblerPropertiesMap {

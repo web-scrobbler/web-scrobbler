@@ -3,6 +3,9 @@ import { Settings } from '../main';
 import styles from './sidebar.module.scss';
 import { t } from '@/util/i18n';
 
+/**
+ * Button corresponding to a specific subsection of preferences in sidebar
+ */
 function SidebarButton(props: {
 	item: Settings;
 	activeSetting: Accessor<Settings>;
@@ -25,6 +28,9 @@ function SidebarButton(props: {
 	);
 }
 
+/**
+ * Component that shows nav sidebar
+ */
 export default function Sidebar(props: {
 	items: Settings[];
 	activeSetting: Accessor<Settings>;

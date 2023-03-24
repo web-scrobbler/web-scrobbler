@@ -8,6 +8,9 @@ import {
 	ProcessedSongData,
 } from './song';
 
+/**
+ * This class is used to create a song object from a cloned song.
+ */
 export default class ClonedSong extends BaseSong {
 	public parsed: ParsedSongData;
 	public processed: ProcessedSongData;

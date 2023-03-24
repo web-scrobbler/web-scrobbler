@@ -25,6 +25,9 @@ import { sendBackgroundMessage } from '@/util/communication';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import EditComponent from './edit';
 
+/**
+ * Component showing info for currently playing song if there is one
+ */
 export default function NowPlaying(props: { tab: Resource<ManagerTab> }) {
 	const { tab } = props;
 
@@ -224,6 +227,12 @@ export default function NowPlaying(props: { tab: Resource<ManagerTab> }) {
 	);
 }
 
+/**
+ * Get the correct label for the skip label based on current controller mode
+ *
+ * @param tab - currently active tab
+ * @returns label for skip button
+ */
 function getSkipLabel(tab: Resource<ManagerTab>): string {
 	switch (tab()?.mode) {
 		case ControllerMode.Playing:

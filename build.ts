@@ -5,6 +5,11 @@ import { getBrowser } from 'scripts/util';
 import colorLog from 'scripts/log';
 import { exec } from 'child_process';
 
+/**
+ * Try to make a directory, dont error if the directory exists
+ *
+ * @param str - path to directory to try to make
+ */
 async function trymkdir(str: string) {
 	try {
 		await mkdir(str);

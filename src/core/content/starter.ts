@@ -9,7 +9,10 @@ import * as BrowserStorage from '@/core/storage/browser-storage';
 import { DISABLED_CONNECTORS } from '@/core/storage/options';
 import { sendContentMessage } from '@/util/communication';
 
-export default function start() {
+/**
+ * Sets up observers and "starts up" the connector
+ */
+export default function start(): void {
 	if (window.STARTER_LOADED) {
 		Util.debugLog('Starter is already loaded', 'warn');
 		return;
@@ -26,14 +29,22 @@ export default function start() {
 	void setupStateListening();
 }
 
-function isConnectorInvalid() {
+/**
+ * Checks if there is a valid connector loaded in the tab.
+ *
+ * @returns true if no valid connector is loaded, false if there is a valid connector loaded.
+ */
+function isConnectorInvalid(): boolean {
 	return (
 		typeof Connector === 'undefined' ||
 		!(Connector instanceof BaseConnector)
 	);
 }
 
-async function setupStateListening() {
+/**
+ * Sets up state listening and controller.
+ */
+async function setupStateListening(): Promise<void> {
 	const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 	const options = await globalOptions.get();
 	const disabledTabs = BrowserStorage.getStorage(
@@ -73,6 +84,11 @@ async function setupStateListening() {
 	}
 }
 
+/**
+ * Setup state change observer for a connector.
+ *
+ * @param observeTarget - The node to observe for state changes
+ */
 function setupObserver(observeTarget: Node) {
 	const observer = new MutationObserver(Connector.onStateChanged);
 	const observerConfig = {
@@ -92,6 +108,9 @@ function setupObserver(observeTarget: Node) {
 	);
 }
 
+/**
+ * Set up backup observer to be used if the main observer target doesn't exist
+ */
 function setupSecondObserver() {
 	const playerObserver = new MutationObserver(() => {
 		const observeTarget = retrieveObserveTarget();
@@ -110,6 +129,11 @@ function setupSecondObserver() {
 	playerObserver.observe(document, playerObserverConfig);
 }
 
-function retrieveObserveTarget() {
+/**
+ * Fetches the element the connector wants to observe.
+ *
+ * @returns the element to be observed
+ */
+function retrieveObserveTarget(): Element | null {
 	return document.querySelector(Connector.playerSelector?.toString() ?? '');
 }

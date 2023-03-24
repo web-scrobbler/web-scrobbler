@@ -7,10 +7,14 @@ import Controller from '@/core/object/controller/controller';
  * and communicates with background script as necessary.
  */
 export default class Reactor {
+	/**
+	 * Controller object of current tab
+	 */
 	private controller: Controller;
 
 	/**
 	 * @param connector - Connector object
+	 * @param isEnabled - Whether the connector is currently enabled
 	 */
 	constructor(connector: BaseConnector, isEnabled: boolean) {
 		this.controller = new Controller(connector.meta, isEnabled);

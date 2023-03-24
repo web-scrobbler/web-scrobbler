@@ -25,6 +25,9 @@ const customPatterns = BrowserStorage.getStorage(
 	BrowserStorage.CUSTOM_PATTERNS
 );
 
+/**
+ * Component that shows the override options for all connectors
+ */
 export default function ConnectorOverrideOptions() {
 	const [options, setOptions] = createResource(
 		globalOptions.get.bind(globalOptions)
@@ -96,6 +99,9 @@ export default function ConnectorOverrideOptions() {
 	);
 }
 
+/**
+ * The connector override options for one connector
+ */
 function ConnectorOption(props: {
 	connector: ConnectorMeta;
 	options: Resource<Options.GlobalOptions | null>;
@@ -172,6 +178,9 @@ function ConnectorOption(props: {
 	);
 }
 
+/**
+ * The connector override option details for a single connector
+ */
 function ConnectorOverrideOptionDetails(props: {
 	connector: ConnectorMeta;
 	overrideOptions: Resource<Options.ConnectorsOverrideOptions | null>;
@@ -320,6 +329,9 @@ function ConnectorOverrideOptionDetails(props: {
 	);
 }
 
+/**
+ * input boxes that allows the user to edit the custom URL patterns for a connector
+ */
 function EditCustomPatterns(props: {
 	connector: ConnectorMeta;
 	customPatternOptions: Resource<CustomPatterns | null>;

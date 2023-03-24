@@ -6,6 +6,12 @@ import * as Options from '@/core/storage/options';
 import { ConnectorMeta } from '@/core/connectors';
 import { Scrobbler } from '@/core/object/scrobble-service';
 
+/**
+ * Notification service.
+ * Note: safari currently does not support the browser.notifications API.
+ * As such, notification calls are optional chained, so nothing happens in safari.
+ */
+
 const manifest = browser.runtime.getManifest();
 const DEFAULT_OPTIONS_VALUES: {
 	type: 'basic';

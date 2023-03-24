@@ -31,10 +31,19 @@ import { updateAction } from './action';
 
 const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
 
+// Set up listeners. These must all be synchronously set up at startup time (Manifest V3 service worker)
 browser.runtime.onStartup.addListener(startupFunc);
 browser.runtime.onInstalled.addListener(startupFunc);
+browser.tabs.onRemoved.addListener(onRemovedUpdate);
+browser.tabs.onUpdated.addListener(updateTabList);
+browser.tabs.onActivated.addListener(onActivatedUpdate);
 
-browser.tabs.onRemoved.addListener(async (tabId) => {
+/**
+ * Update action and context menus to reflect a tab being closed.
+ *
+ * @param tabId - tab ID of closed tab
+ */
+async function onRemovedUpdate(tabId: number) {
 	const activeTabs = await fetchTab();
 
 	await getState();
@@ -48,15 +57,25 @@ browser.tabs.onRemoved.addListener(async (tabId) => {
 		delete tabs[tabId];
 		disabledTabs.set(tabs);
 	}
-});
+}
 
-browser.tabs.onUpdated.addListener(updateTabList);
-browser.tabs.onActivated.addListener(onActivatedUpdate);
-
+/**
+ * Update action and context menus to reflect the user switching the currently active tab.
+ *
+ * @param activeInfo - Information about the switch of tabs
+ */
 async function onActivatedUpdate(activeInfo: Tabs.OnActivatedActiveInfoType) {
 	await updateTabList(activeInfo.tabId);
 }
 
+/**
+ * Update the active tabs list to reflect the order of priority.
+ * We generally want information about more recently used tabs displayed first.
+ *
+ * @param tabId - currently active tab.
+ * @param _ - unused
+ * @param tab - currently active tab details, if they exist.
+ */
 async function updateTabList(tabId: number, _?: any, tab?: Tabs.Tab) {
 	const { activeTabs } = (await getState()) ?? { activeTabs: [] };
 	let curTab: ManagerTab = {
@@ -85,10 +104,16 @@ async function updateTabList(tabId: number, _?: any, tab?: Tabs.Tab) {
 	updateAction();
 }
 
+/**
+ * Update the details of a tab to reflect a change in controller mode or song state.
+ *
+ * @param tabId - tab id to update details of
+ * @param fn - function that mutates the old tab state to the updated tab state
+ */
 async function updateTab(
 	tabId: number | undefined,
 	fn: (tab: ManagerTab) => ManagerTab
-) {
+): Promise<void> {
 	if (!tabId) {
 		throw new Error('No tabid given');
 	}
@@ -128,6 +153,12 @@ async function updateTab(
 	}
 }
 
+/**
+ * Update the controller mode of a specified tab.
+ *
+ * @param tabId - ID of the tab to update mode of
+ * @param mode - New controller mode
+ */
 async function updateMode(tabId: number | undefined, mode: ControllerModeStr) {
 	await updateTab(tabId, (oldTab) => ({
 		tabId: oldTab.tabId,
@@ -136,6 +167,12 @@ async function updateMode(tabId: number | undefined, mode: ControllerModeStr) {
 	}));
 }
 
+/**
+ * Update the currently playing song of a specified tab.
+ *
+ * @param tabId - ID of the tab to update song of
+ * @param song - New song
+ */
 async function updateState(
 	tabId: number | undefined,
 	song: CloneableSong | null
@@ -147,7 +184,11 @@ async function updateState(
 	}));
 }
 
+// Set up listeners for messages from content scripts and popup/settings script. Must be set synchronously on first script run.
 setupBackgroundListeners(
+	/**
+	 * Listener triggered on change of controller mode in a tab.
+	 */
 	backgroundListener({
 		type: 'controllerModeChange',
 		fn: (mode, sender) => {
@@ -155,6 +196,10 @@ setupBackgroundListeners(
 			console.log(`changed mode to ${mode} in tab ${sender.tab?.id}`);
 		},
 	}),
+
+	/**
+	 * Listener triggered on change of currently playing song in a tab.
+	 */
 	backgroundListener({
 		type: 'songUpdate',
 		fn: (song, sender) => {
@@ -163,6 +208,11 @@ setupBackgroundListeners(
 			console.log(song);
 		},
 	}),
+
+	/**
+	 * Listener called by content script that wants to know the tab ID of the tab it is connected to.
+	 * Returns the tab ID of the content script.
+	 */
 	backgroundListener({
 		type: 'getTabId',
 		fn: (payload, sender) => {
@@ -171,6 +221,10 @@ setupBackgroundListeners(
 			return sender.tab?.id;
 		},
 	}),
+
+	/**
+	 * Listener called by a controller to trigger a now playing notification.
+	 */
 	backgroundListener({
 		type: 'showNowPlaying',
 		fn: (payload, sender) => {
@@ -183,12 +237,20 @@ setupBackgroundListeners(
 			);
 		},
 	}),
+
+	/**
+	 * Listener called by a controller to trigger clearing now playing notification.
+	 */
 	backgroundListener({
 		type: 'clearNowPlaying',
 		fn: (payload, sender) => {
 			clearNowPlaying(new ClonedSong(payload.song, sender.tab?.id ?? -1));
 		},
 	}),
+
+	/**
+	 * Listener called by a controller to trigger showing a notification telling the user the song was not recognized.
+	 */
 	backgroundListener({
 		type: 'showSongNotRecognized',
 		fn: (payload, sender) => {
@@ -203,6 +265,10 @@ setupBackgroundListeners(
 	})
 );
 
+/**
+ * Sets up the starting state of the extension on browser startup/extension install.
+ * Storage is used instead of variables, as with Manifest V3 service workers, script state cannot be guaranteed.
+ */
 function startupFunc() {
 	const state = BrowserStorage.getStorage(BrowserStorage.STATE_MANAGEMENT);
 	state.set({

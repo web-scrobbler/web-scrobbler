@@ -4,6 +4,11 @@ import { CloneableSong } from '@/core/object/song';
 import { ManagerTab } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
 
+/**
+ * This file deals with communication between the different scripts.
+ * It uses continuations to restrict type to a single listener type
+ */
+
 interface PopupCommunications {
 	currentTab: {
 		payload: ManagerTab;

@@ -68,25 +68,13 @@ async function updateTabs(state: StateManagement): Promise<StateManagement> {
 	state.activeTabs = await filterAsync(state.activeTabs, checkIfActive);
 	return state;
 }
-/*
-async function updateState(tab:ManagerTab) {
-	const state =
-}
-*/
-/**
- * Update all tab states
- *
- * @param state - State management storage content
- * @returns State Management storage content with state contents updated
- */
-/*
-async function updateTabState(
-	state: StateManagement
-): Promise<StateManagement> {
-	const newActiveTabs = state.activeTabs.map()
-}
-*/
 
+/**
+ * Remove irrelevant tabs from tab state.
+ *
+ * @param activeTabs - previous tab list
+ * @returns tab list updated to filter out tabs that are no longer relevant
+ */
 export async function filterInactiveTabs(activeTabs: ManagerTab[]) {
 	return filterAsync(activeTabs, async (entry) => {
 		try {
@@ -99,18 +87,38 @@ export async function filterInactiveTabs(activeTabs: ManagerTab[]) {
 	});
 }
 
+/**
+ * Unlock state management storage.
+ */
 export function unlockState(): void {
 	return state.unlock();
 }
 
+/**
+ * Get current tab list
+ *
+ * @returns tab list
+ */
 export async function getState(): Promise<StateManagement | null> {
 	return state.getLocking();
 }
 
+/**
+ * Set tab list
+ *
+ * @param data - new tab list
+ */
 export async function setState(data: StateManagement): Promise<void> {
 	return state.setLocking(data);
 }
 
+/**
+ * Gets the tab to base action and context menus on.
+ * Generally, this prioritizes the most recent tab.
+ * However, certain controller states are prioritized over other controller states.
+ *
+ * @returns tab details
+ */
 export async function getCurrentTab(): Promise<ManagerTab> {
 	const { activeTabs } = (await state.getLocking()) ?? { activeTabs: [] };
 	const filteredTabs = await filterInactiveTabs(activeTabs);
@@ -135,6 +143,11 @@ export async function getCurrentTab(): Promise<ManagerTab> {
 	return defaultTab;
 }
 
+/**
+ * Helper that fetches tab list, and returns empty array if an improper response is received.
+ *
+ * @returns active tab list
+ */
 export async function fetchTab() {
 	const { activeTabs } = (await state.get()) ?? { activeTabs: [] };
 	return activeTabs;

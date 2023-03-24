@@ -5,6 +5,9 @@ import browser from 'webextension-polyfill';
 import Settings from '@suid/icons-material/SettingsOutlined';
 import optionComponentStyles from '../options/components/components.module.scss';
 
+/**
+ * Information to be shown on a website where web scrobbler has been disabled
+ */
 export default function Disabled() {
 	return (
 		<div class={styles.alertPopup}>

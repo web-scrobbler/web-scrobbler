@@ -5,6 +5,9 @@ import Lock from '@suid/icons-material/LockOutlined';
 import { t } from '@/util/i18n';
 import styles from './components.module.scss';
 
+/**
+ * Component that displays links to various places to get in touch with web scrobbler maintainers
+ */
 export default function ContactComponent() {
 	return (
 		<>

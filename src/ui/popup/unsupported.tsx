@@ -2,6 +2,9 @@ import { t } from '@/util/i18n';
 import SentimentDissatisfied from '@suid/icons-material/SentimentDissatisfiedOutlined';
 import styles from './popup.module.scss';
 
+/**
+ * Info to show when the user is on a website not supported by web scrobbler
+ */
 export default function Unsupported() {
 	return (
 		<div class={styles.alertPopup}>

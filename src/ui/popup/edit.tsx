@@ -9,6 +9,9 @@ import PublishedWithChanges from '@suid/icons-material/PublishedWithChangesOutli
 import { sendBackgroundMessage } from '@/util/communication';
 import savedEdits from '@/core/storage/saved-edits';
 
+/**
+ * Component that allows the user to edit the currently playing track
+ */
 export default function Edit(props: { tab: Resource<ManagerTab> }) {
 	const { tab } = props;
 
@@ -166,6 +169,12 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 	);
 }
 
+/**
+ * Save edit to storage
+ * @param tab - tab data of the tab whose data is being edited
+ * @param clonedSong - cloned song from the tab
+ * @param data - the new song data to edit to
+ */
 async function saveEdit(
 	tab: Resource<ManagerTab>,
 	clonedSong: ClonedSong,

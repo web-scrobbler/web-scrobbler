@@ -13,6 +13,9 @@ import Err from './err';
 import NowPlaying from './nowplaying';
 import Edit from './edit';
 
+/**
+ * Component that determines what popup to show, and then shows it
+ */
 function Popup() {
 	const [tab, setTab] = createResource(getCurrentTab);
 
@@ -55,6 +58,7 @@ function Popup() {
 	);
 }
 
+//render the popup
 const root = document.getElementById('root');
 if (!root) {
 	throw new Error('Root element not found');

@@ -10,6 +10,9 @@ import Delete from '@suid/icons-material/DeleteOutlined';
 
 const localCache = BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);
 
+/**
+ * Component that allows the user to see, import, and export track metadata edits.
+ */
 export default function EditedTracks(props: {
 	setActiveModal: Setter<string>;
 	modal: HTMLDialogElement | undefined;
@@ -28,6 +31,10 @@ export default function EditedTracks(props: {
 	);
 }
 
+/**
+ * Component that shows all the currently registered track edits and allows the user to delete them.
+ * To be displayed in a modal.
+ */
 export function EditsModal() {
 	const [edits, { mutate }] = createResource(localCache.get.bind(localCache));
 	return (
@@ -49,6 +56,9 @@ export function EditsModal() {
 	);
 }
 
+/**
+ * Component that shows a single track edit and allows the user to delete it.
+ */
 function TrackInfo(props: {
 	key: string;
 	track: Options.SavedEdit;
@@ -81,6 +91,9 @@ function TrackInfo(props: {
 	);
 }
 
+/**
+ * Button that allows the user to open the modal that shows them their track edits
+ */
 function ViewEdits(props: {
 	setActiveModal: Setter<string>;
 	modal: HTMLDialogElement | undefined;
@@ -101,6 +114,9 @@ function ViewEdits(props: {
 	);
 }
 
+/**
+ * Button that exports edits for the user
+ */
 function ExportEdits() {
 	return (
 		<button class={styles.editButton} onClick={downloadEdits}>
@@ -110,6 +126,9 @@ function ExportEdits() {
 	);
 }
 
+/**
+ * Compiles all the users track edits from storage and downloads them
+ */
 async function downloadEdits() {
 	const edits = await localCache.get();
 	if (!edits) return;
@@ -123,6 +142,9 @@ async function downloadEdits() {
 	a.click();
 }
 
+/**
+ * Button that allows the user to upload a .json file and get edits from it.
+ */
 function ImportEdits() {
 	return (
 		<button
@@ -146,6 +168,9 @@ function ImportEdits() {
 	);
 }
 
+/**
+ * Reads an imported .json file and import the edits to storage
+ */
 function pushEdits(
 	e: Event & {
 		currentTarget: HTMLInputElement;

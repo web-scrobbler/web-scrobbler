@@ -8,6 +8,9 @@ const connectorOptions = BrowserStorage.getStorage(
 	BrowserStorage.CONNECTORS_OPTIONS
 );
 
+/**
+ * Component that shows the options specific to only a certain connector.
+ */
 export default function ConnectorOptionsList() {
 	const [options, setOptions] = createResource(
 		connectorOptions.get.bind(connectorOptions)

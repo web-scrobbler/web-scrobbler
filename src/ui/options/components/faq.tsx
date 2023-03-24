@@ -1,5 +1,8 @@
 import { t } from '@/util/i18n';
 
+/**
+ * Component that shows some frequently asked questions
+ */
 export default function FAQ() {
 	return (
 		<>

@@ -7,7 +7,6 @@ import browser from 'webextension-polyfill';
 import scrobbleService from '@/core/object/scrobble-service';
 
 main();
-
 async function main() {
 	try {
 		await fetchConnector();
@@ -18,7 +17,11 @@ async function main() {
 	start();
 }
 
-async function fetchConnector() {
+/**
+ * Check for a connector that fits the current URL, and bind it if it exists.
+ * Also, set up window variables for use in connector scripts.
+ */
+async function fetchConnector(): Promise<void> {
 	const connector = await getConnectorByUrl(window.location.href);
 	if (!connector) {
 		return;

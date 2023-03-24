@@ -1,7 +1,5 @@
 import type { ConnectorMeta } from '@/core/connectors';
 import { State } from '@/core/types';
-import { contentListener, setupContentListeners } from '@/util/communication';
-import scrobbleService from './scrobble-service';
 
 export interface ProcessedSongData {
 	artist?: string | null;

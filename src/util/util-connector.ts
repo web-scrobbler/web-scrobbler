@@ -3,6 +3,11 @@ import { test } from '@/util/url-match';
 
 import { getAllPatterns } from '@/core/storage/custom-patterns';
 
+/**
+ * Get the connector corresponding to a url, if there is one
+ * @param url - url to search for connector for
+ * @returns connector corresponding to url
+ */
 export async function getConnectorByUrl(
 	url: string
 ): Promise<ConnectorMeta | null> {
@@ -24,6 +29,11 @@ export async function getConnectorByUrl(
 	return null;
 }
 
+/**
+ * Get the connector corresponding to a connector id, if there is one
+ * @param connectorId - id to search for connector for
+ * @returns connector corresponding to id
+ */
 export function getConnectorById(connectorId: string): ConnectorMeta | null {
 	for (const connector of connectors) {
 		if (connector.id === connectorId) {

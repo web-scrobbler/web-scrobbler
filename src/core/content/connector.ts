@@ -354,6 +354,9 @@ export default class BaseConnector {
 		// Do nothing
 	};
 
+	/**
+	 * Default metadata filter to be used if none other is specified
+	 */
 	private defaultFilter = MetadataFilter.createFilter(
 		MetadataFilter.createFilterSetForFields(
 			['artist', 'track', 'album', 'albumArtist'],

@@ -10,6 +10,9 @@ import RestartAlt from '@suid/icons-material/RestartAltOutlined';
 import IndeterminateCheckBox from '@suid/icons-material/IndeterminateCheckBoxOutlined';
 import { ConnectorMeta } from '@/core/connectors';
 
+/**
+ * Checkbox option component
+ */
 export function Checkbox(props: {
 	title: string;
 	label: string;
@@ -39,6 +42,10 @@ export function Checkbox(props: {
 	);
 }
 
+/**
+ * Checkbox option component made for being inside detail summary element.
+ * Safari does not behave well with just a typical old checkbox, so we have to do some working around that.
+ */
 export function SummaryCheckbox(props: {
 	title: string;
 	label: string;
@@ -86,6 +93,9 @@ export function SummaryCheckbox(props: {
 	);
 }
 
+/**
+ * Radio selector buttons
+ */
 export function RadioButtons(props: {
 	buttons: {
 		label: string;
@@ -144,6 +154,9 @@ export function RadioButtons(props: {
 	);
 }
 
+/**
+ * Checkbox made for connector options
+ */
 export function ConnectorOptionEntry<
 	K extends keyof Options.ConnectorOptions
 >(props: {
@@ -192,6 +205,9 @@ export function ConnectorOptionEntry<
 	);
 }
 
+/**
+ * Checkbox made for basic global options
+ */
 export function GlobalOptionEntry(props: {
 	options: Resource<Options.GlobalOptions | null>;
 	setOptions: ResourceActions<
@@ -227,12 +243,20 @@ export function GlobalOptionEntry(props: {
 	);
 }
 
+/**
+ * The different states a triple checkbox can have.
+ */
 export enum TripleCheckboxState {
 	Unchecked,
 	Checked,
 	Indeterminate,
 }
 
+/**
+ * Checkbox component that can have one of three states.
+ * This is made for connector override options,
+ * where an option can be override to true/false, or use global option/neutral
+ */
 export function TripleCheckbox(props: {
 	title: string;
 	label: string;
@@ -315,6 +339,9 @@ export function TripleCheckbox(props: {
 	);
 }
 
+/**
+ * Triple checkbox made for connector override options
+ */
 export function ConnectorTripleCheckbox(props: {
 	title: string;
 	label: string;

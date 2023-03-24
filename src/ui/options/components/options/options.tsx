@@ -9,6 +9,9 @@ import ConnectorOverrideOptions from './connector-override';
 
 const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 
+/**
+ * Component that shows options to the user
+ */
 export default function OptionsComponent(props: {
 	setActiveModal: Setter<string>;
 	modal: HTMLDialogElement | undefined;

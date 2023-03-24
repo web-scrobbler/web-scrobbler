@@ -1,6 +1,9 @@
 import { Manifest } from 'webextension-polyfill';
 import pkg from './package.json';
 
+/**
+ * Common properties between all browsers manifests
+ */
 export const common: Manifest.WebExtensionManifest = {
 	manifest_version: 3,
 	name: 'Web Scrobbler',
@@ -45,18 +48,27 @@ export const common: Manifest.WebExtensionManifest = {
 	},
 };
 
+/**
+ * Manifest for chromium browsers
+ */
 export const chromeManifest: Manifest.WebExtensionManifest = {
 	...common,
 
 	icons: browserIcons('chrome'),
 };
 
+/**
+ * Manifest for safari
+ */
 export const safariManifest: Manifest.WebExtensionManifest = {
 	...common,
 
 	icons: browserIcons('safari'),
 };
 
+/**
+ * Manifest for firefox
+ */
 export const firefoxManifest: Manifest.WebExtensionManifest = {
 	...common,
 
@@ -73,6 +85,12 @@ export const firefoxManifest: Manifest.WebExtensionManifest = {
 	},
 };
 
+/**
+ * Gets icon paths for a browser
+ *
+ * @param browser - browser to get icons for
+ * @returns object of icon paths
+ */
 function browserIcons(browser: string) {
 	return {
 		16: 'icons/icon_generic_16.png',

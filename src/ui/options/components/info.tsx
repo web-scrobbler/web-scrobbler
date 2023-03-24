@@ -1,5 +1,8 @@
 import { currentChangelog, t } from '@/util/i18n';
 
+/**
+ * Component that shows basic information about the extension
+ */
 export default function InfoComponent() {
 	return (
 		<>
