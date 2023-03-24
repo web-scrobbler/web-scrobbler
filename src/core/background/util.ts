@@ -90,12 +90,9 @@ async function updateTabState(
 export async function filterInactiveTabs(activeTabs: ManagerTab[]) {
 	return filterAsync(activeTabs, async (entry) => {
 		try {
-			if (entry.mode === ControllerMode.Unsupported) {
-				return false;
-			}
 			const tab = await browser.tabs.get(entry.tabId);
-			const connector = await getConnectorByUrl(tab.url ?? '');
-			return connector !== null;
+			await getConnectorByUrl(tab.url ?? '');
+			return true;
 		} catch (err) {
 			return false;
 		}

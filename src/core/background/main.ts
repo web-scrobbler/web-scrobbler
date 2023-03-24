@@ -7,10 +7,11 @@ import {
 	sendBackgroundMessage,
 	setupBackgroundListeners,
 } from '@/util/communication';
-import browser from 'webextension-polyfill';
+import browser, { Tabs } from 'webextension-polyfill';
 import {
 	contextMenus,
 	fetchTab,
+	filterAsync,
 	filterInactiveTabs,
 	getCurrentTab,
 	getState,
@@ -49,7 +50,14 @@ browser.tabs.onRemoved.addListener(async (tabId) => {
 	}
 });
 
-browser.tabs.onUpdated.addListener(async (tabId, _, tab) => {
+browser.tabs.onUpdated.addListener(updateTabList);
+browser.tabs.onActivated.addListener(onActivatedUpdate);
+
+async function onActivatedUpdate(activeInfo: Tabs.OnActivatedActiveInfoType) {
+	await updateTabList(activeInfo.tabId);
+}
+
+async function updateTabList(tabId: number, _?: any, tab?: Tabs.Tab) {
 	const { activeTabs } = (await getState()) ?? { activeTabs: [] };
 	let curTab: ManagerTab = {
 		tabId,
@@ -57,24 +65,25 @@ browser.tabs.onUpdated.addListener(async (tabId, _, tab) => {
 		song: null,
 	};
 	let newTabs =
-		activeTabs?.filter((active) => {
+		(await filterAsync(activeTabs, async (active) => {
 			if (active.tabId !== tabId) {
 				return true;
 			}
-			curTab = active;
-			return false;
-		}) ?? [];
 
-	const connector = await getConnectorByUrl(tab.url ?? '');
-	if (connector) {
-		newTabs = [curTab, ...newTabs];
-	}
+			const connector = await getConnectorByUrl(tab?.url ?? '');
+			if (!tab || connector) {
+				curTab = active;
+			}
+			return false;
+		})) ?? [];
+
+	newTabs = [curTab, ...newTabs];
 
 	await setState({
 		activeTabs: await filterInactiveTabs(newTabs),
 	});
 	updateAction();
-});
+}
 
 async function updateTab(
 	tabId: number | undefined,

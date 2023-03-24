@@ -44,8 +44,12 @@ export const controllerModePriority: ControllerModeStr[][] = [
 	[ControllerMode.Unknown],
 	[ControllerMode.Loading],
 	[ControllerMode.Playing, ControllerMode.Scrobbled],
-	[ControllerMode.Base],
-	[ControllerMode.Skipped, ControllerMode.Disabled],
+	[
+		ControllerMode.Base,
+		ControllerMode.Skipped,
+		ControllerMode.Disabled,
+		ControllerMode.Unsupported,
+	],
 ];
 
 type updateEvent = {
