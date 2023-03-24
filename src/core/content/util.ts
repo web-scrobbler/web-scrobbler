@@ -69,10 +69,10 @@ export const defaultSeparators = [
  * @param str - Time-string in h:m:s format
  * @returns Seconds
  */
-export function stringToSeconds(str: string): number | undefined {
+export function stringToSeconds(str: string | null): number {
 	const timeFormatExpression =
 		/^\s*-?((\d{1,2}:\d\d:\d\d)|(\d{1,2}:\d\d)|(\d{1,2}))\s*$/g;
-	if (!timeFormatExpression.test(str)) {
+	if (!str || !timeFormatExpression.test(str)) {
 		return 0;
 	}
 
@@ -85,7 +85,7 @@ export function stringToSeconds(str: string): number | undefined {
 		.map((current) => parseInt(current, 10))
 		.reduce((total, current, i) => total + current * Math.pow(60, i));
 
-	return seconds && negativeExpression.test(str) ? -seconds : seconds;
+	return seconds && negativeExpression.test(str) ? -seconds : seconds ?? 0;
 }
 
 /**
@@ -202,7 +202,7 @@ export function splitTimeInfo(
 		};
 	}
 	const [currentTime, duration] = splitString(str, [separator], swap).map(
-		(e) => stringToSeconds(e ?? '')
+		(e) => stringToSeconds(e)
 	);
 
 	return { currentTime, duration };
@@ -343,7 +343,7 @@ export function getMediaSessionInfo(
 
 	const track = title;
 	let trackArt = null;
-	if (artwork.length > 0) {
+	if (artwork?.length > 0) {
 		const { src } = artwork[artwork.length - 1];
 		trackArt = src;
 	}

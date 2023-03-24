@@ -1,11 +1,10 @@
-'use strict';
+import { expect, it, describe } from 'vitest';
+import Song, { ParsedSongData, ProcessedSongData } from '@/core/object/song';
+import { State } from '@/core/types';
 
 /**
  * Tests for Song object.
  */
-
-const expect = require('chai').expect;
-const Song = require('../../src/core/background/object/song');
 
 const defaultParsedData = {
 	album: null,
@@ -39,7 +38,6 @@ const PARSED_DATA = {
 };
 /**
  * Object that contains processed song data.
- * @type {Object}
  */
 const PROCESSED_DATA = {
 	artist: 'Processed Artist',
@@ -51,25 +49,36 @@ const PROCESSED_DATA = {
 
 const DUMMY_CONNECTOR = {
 	label: 'Dummy label',
+	js: 'Dummy js',
+	matches: ['Dummy match'],
+	id: 'Dummy id',
 };
 
 /**
  * Create song object.
- * @param  {Object} parsedData Object contains custom parsed data values
- * @param  {Object} processedData Object contains custom processed data values
- * @return {Object} Processed song object
+ * @param  parsedData - Object contains custom parsed data values
+ * @param  processedData - Object contains custom processed data values
+ * @returns Processed song object
  */
-function createSong(parsedData, processedData) {
-	const parsedDataCopy = {};
+function createSong(
+	parsedData: ParsedSongData,
+	processedData?: ProcessedSongData
+) {
+	const parsedDataCopy: ParsedSongData = {};
 	for (const prop in defaultParsedData) {
-		parsedDataCopy[prop] = parsedData[prop] || defaultParsedData[prop];
+		const typedProp = prop as keyof ParsedSongData;
+		//@ts-expect-error - it doesnt like this
+		parsedDataCopy[typedProp] =
+			parsedData[typedProp] || defaultParsedData[typedProp];
 	}
 
-	const song = new Song(parsedDataCopy, DUMMY_CONNECTOR);
+	const song = new Song(parsedDataCopy as State, DUMMY_CONNECTOR);
 
 	if (processedData) {
 		for (const field in processedData) {
-			song.processed[field] = processedData[field];
+			const typedField = field as keyof ProcessedSongData;
+			//@ts-expect-error - it doesnt like this
+			song.processed[typedField] = processedData[typedField];
 		}
 	}
 
@@ -90,8 +99,9 @@ function testParsedFields() {
 	};
 
 	for (const key in valuesMap) {
-		const expectedValue = PARSED_DATA[key];
-		const actualValue = valuesMap[key];
+		const typedKey = key as keyof typeof valuesMap;
+		const expectedValue = PARSED_DATA[typedKey];
+		const actualValue = valuesMap[typedKey];
 
 		it(`should return parsed ${key} value`, () => {
 			expect(expectedValue).to.be.equal(actualValue);
@@ -112,8 +122,9 @@ function testProcessedFields() {
 	};
 
 	for (const key in valuesMap) {
-		const expectedValue = PROCESSED_DATA[key];
-		const actualValue = valuesMap[key];
+		const typedKey = key as keyof typeof valuesMap;
+		const expectedValue = PROCESSED_DATA[typedKey];
+		const actualValue = valuesMap[typedKey];
 
 		it(`should return processed ${key} value`, () => {
 			expect(expectedValue).to.be.equal(actualValue);
@@ -131,7 +142,10 @@ function testGetDuration() {
 	});
 
 	it('should return parsed duration if no processed duration', () => {
-		const song = createSong({ duration: parsedDuration }, { duration: processedDuration });
+		const song = createSong(
+			{ duration: parsedDuration },
+			{ duration: processedDuration }
+		);
 		expect(song.getDuration()).equals(parsedDuration);
 	});
 
@@ -232,7 +246,7 @@ function testSetLoveStatus() {
 	it('should return proper value if `force` param is used', () => {
 		const song = createSong({});
 		song.setLoveStatus(false);
-		song.setLoveStatus(true, { force: true });
+		song.setLoveStatus(true, true);
 
 		expect(song.metadata.userloved).to.be.true;
 	});
@@ -243,10 +257,10 @@ function testResetData() {
 		const song = createSong({});
 
 		song.flags.isCorrectedByUser = true;
-		song.metadata.notificationId = 123;
+		song.metadata.notificationId = '123';
 
 		expect(song.flags.isCorrectedByUser).to.be.true;
-		expect(song.metadata.notificationId).equals(123);
+		expect(song.metadata.notificationId).equals('123');
 
 		song.resetData();
 
@@ -267,8 +281,9 @@ function testResetInfo() {
 	};
 
 	for (const key in valuesMap) {
-		const expectedValue = PARSED_DATA[key];
-		const actualValue = valuesMap[key];
+		const typedKey = key as keyof typeof valuesMap;
+		const expectedValue = PARSED_DATA[typedKey];
+		const actualValue = valuesMap[typedKey];
 
 		it(`should return processed ${key} value`, () => {
 			expect(expectedValue).to.be.equal(actualValue);
@@ -285,18 +300,27 @@ function testGetCloneableData() {
 
 		const copy = song.getCloneableData();
 		for (const field of ['parsed', 'processed', 'flags', 'metadata']) {
-			expect(copy[field]).to.be.deep.equal(song[field]);
+			const typedField = field as
+				| 'parsed'
+				| 'processed'
+				| 'flags'
+				| 'metadata';
+			expect(copy[typedField]).to.be.deep.equal(song[typedField]);
 		}
 	});
 }
 
 function testEquals() {
 	const songWithUniqueId = createSong({
-		artist: 'Artist', track: 'Title', album: 'Album',
+		artist: 'Artist',
+		track: 'Title',
+		album: 'Album',
 		uniqueID: 'uniqueId1',
 	});
 	const songWithNoUniqueId = createSong({
-		artist: 'Artist', track: 'Title', album: 'Album',
+		artist: 'Artist',
+		track: 'Title',
+		album: 'Album',
 	});
 
 	it('should equal itself if unique ID is available', () => {
@@ -309,7 +333,9 @@ function testEquals() {
 
 	it('should equal another song with the same uniqueId', () => {
 		const sameSong = createSong({
-			artist: 'Artist', track: 'Title', album: 'Album',
+			artist: 'Artist',
+			track: 'Title',
+			album: 'Album',
 			uniqueID: 'uniqueId1',
 		});
 		expect(songWithUniqueId.equals(sameSong)).to.be.true;
@@ -317,21 +343,27 @@ function testEquals() {
 
 	it('should equal another song with the same info', () => {
 		const sameSong = createSong({
-			artist: 'Artist', track: 'Title', album: 'Album',
+			artist: 'Artist',
+			track: 'Title',
+			album: 'Album',
 		});
 		expect(songWithNoUniqueId.equals(sameSong)).to.be.true;
 	});
 
 	it('should not equal song with no unique ID', () => {
 		const differentSong = createSong({
-			artist: 'Artist', track: 'Title', album: 'Album',
+			artist: 'Artist',
+			track: 'Title',
+			album: 'Album',
 		});
 		expect(songWithUniqueId.equals(differentSong)).to.be.false;
 	});
 
 	it('should not equal song with the different uniqueId', () => {
 		const differentSong = createSong({
-			artist: 'Artist', track: 'Title', album: 'Album',
+			artist: 'Artist',
+			track: 'Title',
+			album: 'Album',
 			uniqueID: 'uniqueId2',
 		});
 		expect(songWithUniqueId.equals(differentSong)).to.be.false;
@@ -339,17 +371,19 @@ function testEquals() {
 
 	it('should equal another song with the different info', () => {
 		const differentSong = createSong({
-			artist: 'Artist 2', track: 'Title 2', album: 'Album 2',
+			artist: 'Artist 2',
+			track: 'Title 2',
+			album: 'Album 2',
 		});
 		expect(songWithNoUniqueId.equals(differentSong)).to.be.false;
 	});
 
 	it('should not equal null value', () => {
-		expect(songWithUniqueId.equals(null)).to.be.false;
+		expect(songWithUniqueId.equals(null as any)).to.be.false;
 	});
 
 	it('should not equal non-song object', () => {
-		expect(songWithUniqueId.equals(23)).to.be.false;
+		expect(songWithUniqueId.equals(23 as any)).to.be.false;
 	});
 }
 
@@ -379,7 +413,9 @@ function testGetUniqueId() {
 	it('should return unique ID if song has parsed unique ID', () => {
 		const uniqueId = 'unique';
 		const song = createSong({
-			artist: 'Artist', track: 'Title', album: 'Album',
+			artist: 'Artist',
+			track: 'Title',
+			album: 'Album',
 			uniqueID: uniqueId,
 		});
 		expect(song.getUniqueId()).to.be.equal(uniqueId);
@@ -387,7 +423,9 @@ function testGetUniqueId() {
 
 	it('should not return unique ID if song has no parsed unique ID', () => {
 		const song = createSong({
-			artist: 'Artist', track: 'Title', album: 'Album',
+			artist: 'Artist',
+			track: 'Title',
+			album: 'Album',
 		});
 		expect(song.getUniqueId()).to.be.null;
 	});

@@ -114,6 +114,9 @@ export function hideObjectValue(
 		| StateManagement
 ): string {
 	if (!keyValue) {
+		if (keyValue === null) {
+			return 'null';
+		}
 		return keyValue?.toString() ?? 'undefined';
 	}
 

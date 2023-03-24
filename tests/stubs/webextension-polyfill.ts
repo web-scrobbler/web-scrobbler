@@ -1,36 +1,31 @@
-'use strict';
-
 /**
  * StorageArea object stub.
  */
-class StorageAreaStub {
+export class StorageAreaStub {
+	private data: Record<string, unknown>;
 	constructor() {
 		this.data = {};
 	}
 
 	get() {
 		return this.data;
-
 	}
 
-	set(data) {
+	set(data: Record<string, unknown>) {
 		this.data = Object.assign(this.data, data);
 	}
 
-	remove(key) {
+	remove(key: string) {
 		delete this.data[key];
 	}
 }
 
 /**
  * Browser object stub.
- * @type {Object}
  */
-const browser = {
+export const browser = {
 	storage: {
 		local: new StorageAreaStub(),
 		sync: new StorageAreaStub(),
 	},
 };
-
-define([], () => browser);
