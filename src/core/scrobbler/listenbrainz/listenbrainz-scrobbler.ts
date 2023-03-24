@@ -210,7 +210,9 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 				null,
 				null
 			);
-		} catch (e) {}
+		} catch (e) {
+			// ignore error
+		}
 
 		this.debugLog(
 			`lookup result: ${JSON.stringify(lookupResult, null, 2)}`

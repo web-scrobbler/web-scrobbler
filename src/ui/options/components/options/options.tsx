@@ -16,7 +16,6 @@ export default function OptionsComponent(props: {
 	setActiveModal: Setter<string>;
 	modal: HTMLDialogElement | undefined;
 }) {
-	const { setActiveModal, modal } = props;
 	const [options, setOptions] = createResource(
 		globalOptions.get.bind(globalOptions)
 	);
@@ -26,7 +25,10 @@ export default function OptionsComponent(props: {
 			<GlobalOptionsList options={options} setOptions={setOptions} />
 			<ConnectorOptionsList />
 			<ScrobbleBehavior options={options} setOptions={setOptions} />
-			<EditedTracks setActiveModal={setActiveModal} modal={modal} />
+			<EditedTracks
+				setActiveModal={props.setActiveModal}
+				modal={props.modal}
+			/>
 			<ConnectorOverrideOptions />
 		</>
 	);

@@ -13,6 +13,7 @@ export default function Err() {
 		<div class={styles.alertPopup}>
 			<Error class={styles.bigIcon} />
 			<h1>{t('serviceErrorHeader')}</h1>
+			{/* eslint-disable-next-line */}
 			<p innerHTML={t('serviceErrorDesc')} />
 			<a
 				href={browser.runtime.getURL('src/ui/options/index.html')}

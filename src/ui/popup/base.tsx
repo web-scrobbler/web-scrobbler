@@ -17,6 +17,7 @@ export default function Base() {
 					{t('getStartedSubheader')}
 				</summary>
 				<p>{t('getStartedSiteChanged')}</p>
+				{/* eslint-disable-next-line */}
 				<p innerHTML={t('getStartedSubmitIssue')} />
 			</details>
 		</div>

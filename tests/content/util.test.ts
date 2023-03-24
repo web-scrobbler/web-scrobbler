@@ -135,7 +135,6 @@ const REMOVE_RECORD_SIDE_DATA = [
 
 /**
  * Test data for testing 'Util.escapeBadTimeValues' function.
- * @type {Array}
  */
 const ESCAPE_BAD_TIME_VALUES_DATA = [
 	{

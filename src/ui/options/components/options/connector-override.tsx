@@ -42,6 +42,7 @@ export default function ConnectorOverrideOptions() {
 		<>
 			<h2>{t('optionsSupportedWebsites')}</h2>
 			<p>{t('optionsEnableDisableHint')}</p>
+			{/* eslint-disable-next-line */}
 			<p innerHTML={t('optionsCustomPatternsHint')} />
 			<ul class={styles.connectorOptionsList}>
 				<li>

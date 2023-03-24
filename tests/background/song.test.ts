@@ -22,7 +22,6 @@ const defaultParsedData = {
 
 /**
  * Object that contains source data for Song object.
- * @type {Object}
  */
 const PARSED_DATA = {
 	artist: 'Artist',

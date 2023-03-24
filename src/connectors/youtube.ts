@@ -141,7 +141,7 @@ Connector.getUniqueID = () => {
 };
 
 Connector.isScrobblingAllowed = () => {
-	if (Boolean(document.querySelector('.ad-showing'))) {
+	if (document.querySelector('.ad-showing')) {
 		return false;
 	}
 

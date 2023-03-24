@@ -16,5 +16,5 @@
     "strict": true,
     "target": "ES2020"
   },
-  "include": ["src/**/*", "tests/**/*", "scripts/**/*", "vite.configs.ts", "manifest.config.ts", "build.ts"]
+  "include": ["src/**/*", "tests/**/*", "scripts/**/*", "vite.configs.ts", "*.config.ts", "build.ts"]
 }

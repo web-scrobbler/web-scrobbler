@@ -29,9 +29,11 @@ export default function FAQ() {
 				<li>{t('faqAnswer4b3')}</li>
 				<li>{t('faqAnswer4b4')}</li>
 			</ol>
+			{/* eslint-disable-next-line */}
 			<p innerHTML={t('faqAnswer4c')}></p>
 
 			<h2>{t('faqQuestion5')}</h2>
+			{/* eslint-disable-next-line */}
 			<p innerHTML={t('faqAnswer5')}></p>
 
 			<h2>{t('faqQuestion6')}</h2>

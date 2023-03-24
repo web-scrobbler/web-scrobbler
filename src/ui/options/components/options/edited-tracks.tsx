@@ -17,13 +17,15 @@ export default function EditedTracks(props: {
 	setActiveModal: Setter<string>;
 	modal: HTMLDialogElement | undefined;
 }) {
-	const { setActiveModal, modal } = props;
 	return (
 		<>
 			<h2>{t('optionsEditedTracks')}</h2>
 			<p>{t('optionsEditedTracksDesc')}</p>
 			<div class={styles.buttonContainer}>
-				<ViewEdits setActiveModal={setActiveModal} modal={modal} />
+				<ViewEdits
+					setActiveModal={props.setActiveModal}
+					modal={props.modal}
+				/>
 				<ExportEdits />
 				<ImportEdits />
 			</div>
@@ -66,15 +68,14 @@ function TrackInfo(props: {
 		[key: string]: Options.SavedEdit;
 	} | null>;
 }) {
-	const { key, track, mutate } = props;
 	return (
 		<li class={styles.deleteListing}>
 			<button
 				class={styles.deleteEditButton}
 				onClick={() => {
-					mutate((e) => {
+					props.mutate((e) => {
 						if (!e) return e;
-						delete e[key];
+						delete e[props.key];
 						localCache.set(e);
 						return {
 							...e,
@@ -85,7 +86,7 @@ function TrackInfo(props: {
 				<Delete />
 			</button>
 			<span>
-				{track.artist} - {track.track}
+				{props.track.artist} - {props.track.track}
 			</span>
 		</li>
 	);
@@ -98,14 +99,13 @@ function ViewEdits(props: {
 	setActiveModal: Setter<string>;
 	modal: HTMLDialogElement | undefined;
 }) {
-	const { setActiveModal, modal } = props;
 	return (
 		<button
 			class={styles.editButton}
 			onClick={(e) => {
 				e.stopImmediatePropagation();
-				setActiveModal('savedEdits');
-				modal?.showModal();
+				props.setActiveModal('savedEdits');
+				props.modal?.showModal();
 			}}
 		>
 			<Visibility />

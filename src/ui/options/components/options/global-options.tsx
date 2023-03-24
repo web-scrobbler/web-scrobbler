@@ -26,7 +26,6 @@ export default function GlobalOptionsList(props: {
 		unknown
 	>;
 }) {
-	const { options, setOptions } = props;
 	return (
 		<>
 			<h2>{t('optionsGeneral')}</h2>
@@ -34,16 +33,16 @@ export default function GlobalOptionsList(props: {
 				<ThemeSelector />
 				<Show when={browser.notifications}>
 					<GlobalOptionEntry
-						options={options}
-						setOptions={setOptions}
+						options={props.options}
+						setOptions={props.setOptions}
 						globalOptions={globalOptions}
 						i18ntitle="optionUseNotificationsTitle"
 						i18nlabel="optionUseNotifications"
 						key={Options.USE_NOTIFICATIONS}
 					/>
 					<GlobalOptionEntry
-						options={options}
-						setOptions={setOptions}
+						options={props.options}
+						setOptions={props.setOptions}
 						globalOptions={globalOptions}
 						i18ntitle="optionUnrecognizedNotificationsTitle"
 						i18nlabel="optionUnrecognizedNotifications"
@@ -51,8 +50,8 @@ export default function GlobalOptionsList(props: {
 					/>
 				</Show>
 				<GlobalOptionEntry
-					options={options}
-					setOptions={setOptions}
+					options={props.options}
+					setOptions={props.setOptions}
 					globalOptions={globalOptions}
 					i18ntitle="optionScrobblePodcastsTitle"
 					i18nlabel="optionScrobblePodcasts"

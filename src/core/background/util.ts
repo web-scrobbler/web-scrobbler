@@ -4,7 +4,7 @@ import browser from 'webextension-polyfill';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import { controllerModePriority } from '@/core/object/controller/controller';
-import { performUpdateAction, updateAction } from './action';
+import { performUpdateAction } from './action';
 
 const state = BrowserStorage.getStorage(BrowserStorage.STATE_MANAGEMENT);
 
@@ -40,33 +40,6 @@ export async function filterAsync<T>(
 		}
 	}
 	return filteredArr;
-}
-
-/**
- * Checks if the tab is still active and supported.
- *
- * @param tab - State Manager tab instance
- * @returns true if tab is still open and on a URL that web scrobbler supports, false otherwise
- */
-async function checkIfActive(tab: ManagerTab) {
-	try {
-		const tabDetails = await browser.tabs.get(tab.tabId);
-		const connector = await getConnectorByUrl(tabDetails.url ?? '');
-		return Boolean(connector);
-	} catch (err) {
-		return false;
-	}
-}
-
-/**
- * Update all tabs of state storage
- *
- * @param state - State Management storage content
- * @returns State Management storage content without inactive tabs and with state updated
- */
-async function updateTabs(state: StateManagement): Promise<StateManagement> {
-	state.activeTabs = await filterAsync(state.activeTabs, checkIfActive);
-	return state;
 }
 
 /**

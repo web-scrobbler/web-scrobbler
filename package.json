@@ -9,13 +9,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite dev",
     "build:chrome": "cross-env BROWSER=chrome tsx build.ts",
     "build:firefox": "cross-env BROWSER=firefox tsx build.ts",
     "build:safari": "cross-env BROWSER=safari tsx build.ts",
-    "build": "vite build",
     "buildts": "tsc --project tsconfig.connectors.json",
-    "test": "vitest"
+    "test": "vitest",
+    "lint": "eslint . && stylelint \"**/*.scss\" && remark ."
   },
   "repository": {
     "type": "git",
@@ -43,10 +42,14 @@
     "cross-env": "^7.0.3",
     "eslint": "^8.35.0",
     "eslint-config-web-scrobbler": "^2.1.1",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-solid": "^0.11.0",
     "eslint-plugin-tsdoc": "^0.2.17",
     "fs-extra": "^11.1.0",
     "prettier": "^2.8.4",
     "prettier-config-web-scrobbler": "^0.1.0",
+    "remark": "^14.0.2",
+    "remark-cli": "^11.0.0",
     "remark-preset-lint-recommended": "^6.1.2",
     "sass": "^1.58.3",
     "solid-js": "^1.6.13",
@@ -59,13 +62,6 @@
   },
   "engines": {
     "node": ">=16.14.2"
-  },
-  "eslintConfig": {
-    "extends": "web-scrobbler",
-    "parserOptions": {
-      "sourceType": "script",
-      "ecmaVersion": 2020
-    }
   },
   "prettier": "prettier-config-web-scrobbler",
   "remark": {
