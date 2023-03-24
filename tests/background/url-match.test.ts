@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Tests for 'url-match' module.
  */
