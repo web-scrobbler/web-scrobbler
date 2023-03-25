@@ -21,11 +21,10 @@ Connector.getTrackArt = () => {
 };
 
 Connector.isPlaying = () => {
+	const playerButton = '.player-btn.player-title svg use';
 	return (
-		(
-			document.querySelector(
-				'.player-btn.player-title svg use'
-			) as SVGUseElement
-		)?.href.baseVal.replace(/.*\//, '') === 'icons-9852f1b5.svg#pause'
+		Util.isElementVisible(playerButton) &&
+		Util.getAttrFromSelectors(playerButton, 'href')?.split('#').pop() ===
+			'pause'
 	);
 };
