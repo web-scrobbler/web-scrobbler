@@ -16,7 +16,7 @@ Connector.getArtist = () => {
 		return miniArtistStationText.split(' • ')[0];
 	}
 
-	if (fullArtistTrackSelector !== null) {
+	if (Util.isElementVisible(fullArtistTrackSelector)) {
 		return (
 			Util.getTextFromSelectors(fullArtistTrackSelector)?.split(
 				' - '
@@ -36,7 +36,7 @@ Connector.getTrack = () => {
 		return miniTrackText;
 	}
 
-	if (fullArtistTrackSelector !== null) {
+	if (Util.isElementVisible(fullArtistTrackSelector)) {
 		return (
 			Util.getTextFromSelectors(fullArtistTrackSelector)?.split(
 				' - '
@@ -55,7 +55,7 @@ Connector.trackArtSelector = [
 Connector.isTrackArtDefault = (url) => url?.includes('base64') ?? false;
 
 Connector.isPlaying = () => {
-	const buttonSvgTitle = 'button:not([aria-label=Like]) svg title';
+	const buttonSvgTitle = 'button:not([aria-label=Like], [aria-label*=thumbs]) svg title';
 	const buttonPlaying = Util.getTextFromSelectors([
 		`${audioPlayer} ${buttonSvgTitle}`,
 		`${buttonCloseFullscreen} + div ${buttonSvgTitle}`,
@@ -70,7 +70,7 @@ Connector.isScrobblingAllowed = () => {
 		artist &&
 			!artist.includes('Audacy') &&
 			track &&
-			!track.includes('Advertisement') &&
+			!track.startsWith('Advertisement') &&
 			artist !== track
 	);
 };
