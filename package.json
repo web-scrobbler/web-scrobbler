@@ -9,6 +9,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "dev:chrome": "cross-env BUILD_TYPE=dev npm run build:chrome",
+    "dev:firefox": "cross-env BUILD_TYPE=dev npm run build:firefox",
+    "dev:safari": "cross-env BUILD_TYPE=dev npm run build:safari",
     "build:chrome": "cross-env BROWSER=chrome tsx build.ts",
     "build:firefox": "cross-env BROWSER=firefox tsx build.ts",
     "build:safari": "cross-env BROWSER=safari tsx build.ts",
@@ -39,6 +42,7 @@
     "@types/react": "^18.0.28",
     "@types/webextension-polyfill": "^0.10.0",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
+    "chokidar": "^3.5.3",
     "cross-env": "^7.0.3",
     "eslint": "^8.35.0",
     "eslint-config-web-scrobbler": "^2.1.1",

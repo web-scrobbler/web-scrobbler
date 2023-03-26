@@ -1,10 +1,11 @@
-import { UserConfig } from 'vite';
+import { UserConfig, normalizePath } from 'vite';
 import { resolve } from 'path';
 import * as manifests from './manifest.config';
 import solid from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import compileConnectors from './scripts/compile-connectors';
 import makeManifest from './scripts/make-manifest';
+import { isDev } from 'scripts/util';
 
 const dist = resolve(import.meta.url.slice(5), '..', 'build');
 const root = resolve(import.meta.url.slice(5), '..', 'src');
@@ -35,9 +36,10 @@ function distRoot() {
 export const buildBackground: UserConfig = {
 	...common,
 	build: {
-		minify: false,
+		minify: !isDev(),
 		outDir: resolve(distRoot(), 'background'),
 		emptyOutDir: true,
+		watch: isDev() ? {} : null,
 		lib: {
 			entry: resolve(root, 'core', 'background', 'main.ts'),
 			name: manifests.common.name,
@@ -55,9 +57,10 @@ export const buildBackground: UserConfig = {
 export const buildContent: UserConfig = {
 	...common,
 	build: {
-		minify: false,
+		minify: !isDev(),
 		outDir: resolve(distRoot(), 'content'),
 		emptyOutDir: true,
+		watch: isDev() ? {} : null,
 		lib: {
 			entry: resolve(root, 'core', 'content', 'main.ts'),
 			name: manifests.common.name,
@@ -75,9 +78,10 @@ export const buildContent: UserConfig = {
 export const buildStart: UserConfig = {
 	...common,
 	build: {
-		minify: false,
+		minify: !isDev(),
 		outDir: distRoot(),
-		emptyOutDir: true,
+		emptyOutDir: false,
+		watch: isDev() ? {} : null,
 		rollupOptions: {
 			input: {
 				popup: resolve(root, 'ui', 'popup', 'index.html'),
@@ -92,19 +96,22 @@ export const buildStart: UserConfig = {
 		viteStaticCopy({
 			targets: [
 				{
-					src: resolve(root, '_locales'),
+					src: normalizePath(resolve(root, '_locales')),
 					dest: '',
 				},
 				{
-					src: resolve(root, 'icons'),
+					src: normalizePath(resolve(root, 'icons')),
 					dest: '',
 				},
 				{
-					src: resolve(root, 'img'),
+					src: normalizePath(resolve(root, 'img')),
 					dest: '',
 				},
 			],
 		}),
-		compileConnectors(),
+		compileConnectors({
+			isDev: isDev(),
+			watchDirectory: 'src/connectors/*',
+		}),
 	],
 };

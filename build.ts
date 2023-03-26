@@ -4,6 +4,7 @@ import { mkdir } from 'fs/promises';
 import { getBrowser } from 'scripts/util';
 import colorLog from 'scripts/log';
 import { exec } from 'child_process';
+import { emptydirSync } from 'fs-extra';
 
 /**
  * Try to make a directory, dont error if the directory exists
@@ -27,11 +28,16 @@ async function trymkdir(str: string) {
 
 async function main() {
 	await trymkdir('build');
-	await trymkdir(`build/${getBrowser(process.env.BROWSER)}`);
+	const folder = `build/${getBrowser(process.env.BROWSER)}`;
+	await trymkdir(folder);
+	emptydirSync(folder);
 
-	await build(configs.buildStart);
-	await build(configs.buildBackground);
-	await build(configs.buildContent);
+	const scripts = [
+		build(configs.buildStart),
+		build(configs.buildBackground),
+		build(configs.buildContent),
+	];
+	await Promise.all(scripts);
 
 	if (process.env.BROWSER === 'safari') {
 		colorLog('Compiling safari extension', 'info');

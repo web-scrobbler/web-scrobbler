@@ -8,6 +8,13 @@ export const browserNames = {
 };
 
 /**
+ * @returns true if dev build, false otherwise.
+ */
+export function isDev() {
+	return process.env.BUILD_TYPE === 'dev';
+}
+
+/**
  * Get folder name corresponding to current build target
  *
  * @param browser - build target
