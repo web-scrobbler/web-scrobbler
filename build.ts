@@ -26,6 +26,20 @@ async function trymkdir(str: string) {
 	}
 }
 
+async function deploy() {
+	switch (process.env.BROWSER) {
+		case 'chrome':
+			console.log('deploying for chrome!');
+			break;
+		case 'firefox':
+			console.log('deploying for firefox!');
+			break;
+		case 'safari':
+			console.log('deploying for safari!');
+			break;
+	}
+}
+
 async function main() {
 	await trymkdir('build');
 	const folder = `build/${getBrowser(process.env.BROWSER)}`;
@@ -41,15 +55,23 @@ async function main() {
 
 	if (process.env.BROWSER === 'safari') {
 		colorLog('Compiling safari extension', 'info');
-		exec('bash safari.sh', (err, stdout, stderr) => {
-			if (err) {
-				colorLog(err, 'error');
-				colorLog(stdout, 'info');
-				colorLog(stderr, 'error');
-				return;
-			}
-			colorLog('Successfully compiled safari extension', 'success');
+		await new Promise<void>((resolve, reject) => {
+			exec('bash safari.sh', (err, stdout, stderr) => {
+				if (err) {
+					colorLog(err, 'error');
+					colorLog(stdout, 'info');
+					colorLog(stderr, 'error');
+					reject();
+					return;
+				}
+				colorLog('Successfully compiled safari extension', 'success');
+				resolve();
+			});
 		});
+	}
+
+	if (process.env.BUILD_TYPE === 'release') {
+		deploy();
 	}
 }
 

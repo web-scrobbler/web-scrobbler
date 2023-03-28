@@ -60,8 +60,8 @@ export default function compileConnectors(options: {
 }): PluginOption {
 	return {
 		name: 'compile-connectors',
-		buildStart() {
-			generateConnectors();
+		async buildStart() {
+			await generateConnectors();
 			if (!options.isDev) {
 				return;
 			}
