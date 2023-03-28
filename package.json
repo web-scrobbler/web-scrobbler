@@ -9,9 +9,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "release:chrome": "cross-env BUILD_TYPE=release npm run build:chrome",
-    "release:firefox": "cross-env BUILD_TYPE=release npm run build:firefox",
-    "release:safari": "cross-env BUILD_TYPE=release npm run build:safari",
+    "dist:chrome": "cross-env BUILD_TYPE=dist npm run build:chrome",
+    "dist:firefox": "cross-env BUILD_TYPE=dist npm run build:firefox",
+    "dist:safari": "cross-env BUILD_TYPE=dist npm run build:safari",
     "dev:chrome": "cross-env BUILD_TYPE=dev npm run build:chrome",
     "dev:firefox": "cross-env BUILD_TYPE=dev npm run build:firefox",
     "dev:safari": "cross-env BUILD_TYPE=dev npm run build:safari",

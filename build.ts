@@ -26,16 +26,16 @@ async function trymkdir(str: string) {
 	}
 }
 
-async function deploy() {
+async function createDistributable() {
 	switch (process.env.BROWSER) {
 		case 'chrome':
-			console.log('deploying for chrome!');
+			console.log('creating distributable for chrome!');
 			break;
 		case 'firefox':
-			console.log('deploying for firefox!');
+			console.log('creating distributable for firefox!');
 			break;
 		case 'safari':
-			console.log('deploying for safari!');
+			console.log('creating distributable for safari!');
 			break;
 	}
 }
@@ -70,8 +70,8 @@ async function main() {
 		});
 	}
 
-	if (process.env.BUILD_TYPE === 'release') {
-		deploy();
+	if (process.env.BUILD_TYPE === 'dist') {
+		createDistributable();
 	}
 }
 
