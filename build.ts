@@ -1,10 +1,11 @@
 import { build } from 'vite';
 import * as configs from './vite.configs';
 import { mkdir } from 'fs/promises';
-import { getBrowser } from 'scripts/util';
+import { getBrowser } from './scripts/util';
 import colorLog from 'scripts/log';
 import { exec } from 'child_process';
 import { emptydirSync } from 'fs-extra';
+import createDistributable from 'scripts/create-distributable';
 
 /**
  * Try to make a directory, dont error if the directory exists
@@ -23,20 +24,6 @@ async function trymkdir(str: string) {
 		) {
 			throw new Error('Something went wrong making build folder');
 		}
-	}
-}
-
-async function createDistributable() {
-	switch (process.env.BROWSER) {
-		case 'chrome':
-			console.log('creating distributable for chrome!');
-			break;
-		case 'firefox':
-			console.log('creating distributable for firefox!');
-			break;
-		case 'safari':
-			console.log('creating distributable for safari!');
-			break;
 	}
 }
 

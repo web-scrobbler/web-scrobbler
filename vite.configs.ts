@@ -6,6 +6,7 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 import compileConnectors from './scripts/compile-connectors';
 import makeManifest from './scripts/make-manifest';
 import { isDev } from 'scripts/util';
+import minifyImages from 'scripts/minify-images';
 
 const dist = resolve(import.meta.url.slice(5), '..', 'build');
 const root = resolve(import.meta.url.slice(5), '..', 'src');
@@ -99,19 +100,12 @@ export const buildStart: UserConfig = {
 					src: normalizePath(resolve(root, '_locales')),
 					dest: '',
 				},
-				{
-					src: normalizePath(resolve(root, 'icons')),
-					dest: '',
-				},
-				{
-					src: normalizePath(resolve(root, 'img')),
-					dest: '',
-				},
 			],
 		}),
 		compileConnectors({
 			isDev: isDev(),
 			watchDirectory: 'src/connectors/*',
 		}),
+		minifyImages(),
 	],
 };
