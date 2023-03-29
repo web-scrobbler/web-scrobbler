@@ -1,4 +1,8 @@
-rm -r build/safari
+#!/bin/bash
+
+set -euo pipefail
+
+rm -rf build/safari
 mkdir build/safari
 cd build/safari
 xcrun safari-web-extension-converter ../safariraw --no-open
