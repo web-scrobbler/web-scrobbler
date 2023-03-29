@@ -19,13 +19,13 @@ export default function makeManifest(): PluginOption {
 			return new Promise((resolve, reject) => {
 				switch (process.env.BROWSER) {
 					case 'chrome':
-						writeManifest(resolve, chromeManifest);
+						writeManifest(resolve, reject, chromeManifest);
 						break;
 					case 'safari':
-						writeManifest(resolve, safariManifest);
+						writeManifest(resolve, reject, safariManifest);
 						break;
 					case 'firefox':
-						writeManifest(resolve, firefoxManifest);
+						writeManifest(resolve, reject, firefoxManifest);
 						break;
 				}
 			});
@@ -41,14 +41,20 @@ export default function makeManifest(): PluginOption {
  */
 function writeManifest(
 	resolve: () => void,
+	reject: (reason?: unknown) => void,
 	manifest: Manifest.WebExtensionManifest
 ) {
 	fs.writeJSON(
 		`build/${getBrowser(process.env.BROWSER)}/manifest.json`,
 		manifest,
 		{ spaces: 2 }
-	).then(() => {
-		colorLog('Successfully wrote manifest', 'success');
-		resolve();
-	});
+	)
+		.then(() => {
+			colorLog('Successfully wrote manifest', 'success');
+			resolve();
+		})
+		.catch((err) => {
+			colorLog('Failed to write manifest', 'error');
+			reject(err);
+		});
 }
