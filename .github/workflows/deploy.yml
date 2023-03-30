@@ -60,12 +60,10 @@ jobs:
         run: npm run dist firefox
 
       - name: Publish the extension for Firefox
-        uses: trmcnvn/firefox-addon@v1
+        uses: yayuyokitano/firefox-addon@v0.0.1-alpha
         with:
           api-key: ${{ secrets.AMO_ISSUER }}
           api-secret: ${{ secrets.AMO_SECRET }}
-          # Manifest is used to get version only, so we provide
-          # `package.json` file here, which contains the extension version.
-          manifest: package.json
-          uuid: '{799c0914-748b-41df-a25c-22d008f9e83f}'
+          guid: '{799c0914-748b-41df-a25c-22d008f9e83f}'
           xpi: web-scrobbler-firefox.zip
+          src: web-scrobbler-src.zip
