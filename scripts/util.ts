@@ -11,7 +11,7 @@ export const browserNames = {
  * @returns true if dev build, false otherwise.
  */
 export function isDev() {
-	return process.env.BUILD_TYPE === 'dev';
+	return releaseType === 'dev';
 }
 
 /**
@@ -20,9 +20,13 @@ export function isDev() {
  * @param browser - build target
  * @returns folder name
  */
-export function getBrowser(browser?: string) {
+export function getBrowser() {
+	const browser = releaseTarget;
 	if (!browser) throw new Error('No browser specified');
 	const browserName = browserNames[browser as keyof typeof browserNames];
 	if (!browserName) throw new Error(`Invalid browser ${browser} specified`);
 	return browserName;
 }
+
+export const releaseTarget = process.argv.at(-1);
+export const releaseType = process.argv.at(-2);

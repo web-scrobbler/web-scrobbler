@@ -1,7 +1,7 @@
 import { build } from 'vite';
 import * as configs from './vite.configs';
 import { mkdir } from 'fs/promises';
-import { getBrowser } from './scripts/util';
+import { getBrowser, releaseTarget, releaseType } from './scripts/util';
 import colorLog from 'scripts/log';
 import { exec } from 'child_process';
 import { emptydirSync } from 'fs-extra';
@@ -29,7 +29,7 @@ async function trymkdir(str: string) {
 
 async function main() {
 	await trymkdir('build');
-	const folder = `build/${getBrowser(process.env.BROWSER)}`;
+	const folder = `build/${getBrowser()}`;
 	await trymkdir(folder);
 	emptydirSync(folder);
 
@@ -40,7 +40,7 @@ async function main() {
 	];
 	await Promise.all(scripts);
 
-	if (process.env.BROWSER === 'safari') {
+	if (releaseTarget === 'safari') {
 		colorLog('Compiling safari extension', 'info');
 		await new Promise<void>((resolve, reject) => {
 			exec('bash safari.sh', (err, stdout, stderr) => {
@@ -57,7 +57,7 @@ async function main() {
 		});
 	}
 
-	if (process.env.BUILD_TYPE === 'dist') {
+	if (releaseType === 'dist') {
 		createDistributable();
 	}
 }

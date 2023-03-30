@@ -2,6 +2,7 @@ import archiver from 'archiver';
 import fs from 'fs';
 import path from 'path';
 import colorLog from './log';
+import { releaseTarget } from './util';
 
 async function createSafariDistributable() {
 	colorLog('TODO: Make safari distributable work', 'error');
@@ -31,13 +32,13 @@ async function createSrcArchive() {
 }
 
 export default async function createDistributable() {
-	if (process.env.BROWSER === 'safari') {
+	if (releaseTarget === 'safari') {
 		await createSafariDistributable();
 		return;
 	}
 
 	const curDir = path.resolve(path.dirname(''));
-	const outputFile = `${curDir}/web-scrobbler-${process.env.BROWSER}.zip`;
+	const outputFile = `${curDir}/web-scrobbler-${releaseTarget}.zip`;
 	const output = fs.createWriteStream(outputFile);
 
 	const archive = archiver('zip', {
@@ -46,10 +47,10 @@ export default async function createDistributable() {
 
 	archive.pipe(output);
 
-	archive.directory(`build/${process.env.BROWSER}`, false);
+	archive.directory(`build/${releaseTarget}`, false);
 	archive.finalize();
 
-	if (process.env.BROWSER === 'firefox') {
+	if (releaseTarget === 'firefox') {
 		await createSrcArchive();
 	}
 }

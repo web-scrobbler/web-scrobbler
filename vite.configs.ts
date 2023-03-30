@@ -5,7 +5,7 @@ import solid from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import compileConnectors from './scripts/compile-connectors';
 import makeManifest from './scripts/make-manifest';
-import { isDev } from 'scripts/util';
+import { isDev, releaseTarget } from 'scripts/util';
 import minifyImages from 'scripts/minify-images';
 
 const dist = resolve(import.meta.url.slice(5), '..', 'build');
@@ -27,7 +27,7 @@ const common: UserConfig = {
 };
 
 function distRoot() {
-	const browser = process.env.BROWSER;
+	const browser = releaseTarget;
 	if (!browser || !(browser in builds)) {
 		return builds.error;
 	}

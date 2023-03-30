@@ -6,7 +6,7 @@ import {
 	safariManifest,
 } from 'manifest.config';
 import colorLog from './log';
-import { getBrowser } from './util';
+import { getBrowser, releaseTarget } from './util';
 import { Manifest } from 'webextension-polyfill';
 
 /**
@@ -17,7 +17,7 @@ export default function makeManifest(): PluginOption {
 		name: 'make-manifest',
 		generateBundle() {
 			return new Promise((resolve, reject) => {
-				switch (process.env.BROWSER) {
+				switch (releaseTarget) {
 					case 'chrome':
 						writeManifest(resolve, reject, chromeManifest);
 						break;
@@ -44,11 +44,7 @@ function writeManifest(
 	reject: (reason?: unknown) => void,
 	manifest: Manifest.WebExtensionManifest
 ) {
-	fs.writeJSON(
-		`build/${getBrowser(process.env.BROWSER)}/manifest.json`,
-		manifest,
-		{ spaces: 2 }
-	)
+	fs.writeJSON(`build/${getBrowser()}/manifest.json`, manifest, { spaces: 2 })
 		.then(() => {
 			colorLog('Successfully wrote manifest', 'success');
 			resolve();

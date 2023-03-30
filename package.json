@@ -9,9 +9,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dist": "cross-env BUILD_TYPE=dist npm run build",
-    "dev": "cross-env BUILD_TYPE=dev npm run build",
-    "build": "build() { cross-env BROWSER=$1 tsx build.ts; }; build",
+    "dist": "npm run build dist",
+    "dev": "npm run build dev",
+    "build": "tsx build.ts",
     "buildts": "tsc --project tsconfig.connectors.json",
     "test": "vitest",
     "lint": "eslint . && stylelint \"**/*.scss\" && remark ."
@@ -44,7 +44,6 @@
     "@typescript-eslint/eslint-plugin": "5.54.1",
     "archiver": "5.3.1",
     "chokidar": "3.5.3",
-    "cross-env": "7.0.3",
     "eslint": "8.35.0",
     "eslint-config-web-scrobbler": "2.1.1",
     "eslint-plugin-react": "7.32.2",

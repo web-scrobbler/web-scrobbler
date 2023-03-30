@@ -7,11 +7,11 @@ import colorLog from './log';
 
 async function performMinification() {
 	await imagemin(['src/icons/*.png'], {
-		destination: `build/${getBrowser(process.env.BROWSER)}/icons`,
+		destination: `build/${getBrowser()}/icons`,
 		plugins: [imageminPngquant()],
 	});
 	await imagemin(['src/img/*.{jpg,png}'], {
-		destination: `build/${getBrowser(process.env.BROWSER)}/img`,
+		destination: `build/${getBrowser()}/img`,
 		plugins: [imageminJpegtran(), imageminPngquant()],
 	});
 }

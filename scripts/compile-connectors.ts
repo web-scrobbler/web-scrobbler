@@ -25,12 +25,10 @@ function generateConnectors() {
 				colorLog('Connector file compilation complete', 'success');
 
 				try {
-					fs.removeSync(
-						`build/${getBrowser(process.env.BROWSER)}/connectors`
-					);
+					fs.removeSync(`build/${getBrowser()}/connectors`);
 					fs.moveSync(
 						'build/connectorraw/connectors',
-						`build/${getBrowser(process.env.BROWSER)}/connectors`
+						`build/${getBrowser()}/connectors`
 					);
 					fs.removeSync('build/connectorraw');
 					colorLog('Connector files moved', 'success');
