@@ -25,7 +25,7 @@ jobs:
 
       - name: Build the extension for Chrome
         run: |
-          npm run build:chrome
+          npm run build chrome
 
       - name: Upload the extension for Chrome as an artifact
         uses: actions/upload-artifact@v3
@@ -35,7 +35,7 @@ jobs:
 
       - name: Build the extension for Firefox
         run: |
-          npm run build:firefox
+          npm run build firefox
 
       - name: Upload the extension for Firefox as an artifact
         uses: actions/upload-artifact@v3

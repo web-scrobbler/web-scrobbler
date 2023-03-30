@@ -26,7 +26,7 @@ jobs:
         run: npm ci
 
       - name: Create zipball
-        run: npx run dist:chrome
+        run: npx run dist chrome
 
       - name: Publish the extension for Chrome
         uses: trmcnvn/chrome-addon@v2
@@ -57,7 +57,7 @@ jobs:
         run: npm ci
 
       - name: Create zipball
-        run: npm run dist:firefox
+        run: npm run dist firefox
 
       - name: Publish the extension for Firefox
         uses: trmcnvn/firefox-addon@v1
