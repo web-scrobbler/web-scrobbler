@@ -9,15 +9,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dist:chrome": "cross-env BUILD_TYPE=dist npm run build:chrome",
-    "dist:firefox": "cross-env BUILD_TYPE=dist npm run build:firefox",
-    "dist:safari": "cross-env BUILD_TYPE=dist npm run build:safari",
-    "dev:chrome": "cross-env BUILD_TYPE=dev npm run build:chrome",
-    "dev:firefox": "cross-env BUILD_TYPE=dev npm run build:firefox",
-    "dev:safari": "cross-env BUILD_TYPE=dev npm run build:safari",
-    "build:chrome": "cross-env BROWSER=chrome tsx build.ts",
-    "build:firefox": "cross-env BROWSER=firefox tsx build.ts",
-    "build:safari": "cross-env BROWSER=safari tsx build.ts",
+    "dist": "cross-env BUILD_TYPE=dist npm run build",
+    "dev": "cross-env BUILD_TYPE=dev npm run build",
+    "build": "build() { cross-env BROWSER=$1 tsx build.ts; }; build",
     "buildts": "tsc --project tsconfig.connectors.json",
     "test": "vitest",
     "lint": "eslint . && stylelint \"**/*.scss\" && remark ."

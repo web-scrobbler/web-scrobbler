@@ -61,11 +61,11 @@ Before building the extension you should install dependencies:
 > npm install
 
 # Build the extension
-> npm run build:firefox
+> npm run build firefox
 # or
-> npm run build:chrome
+> npm run build chrome
 # or (requires Xcode (xcrun and xcodebuild))
-> npm run build:safari
+> npm run build safari
 ```
 
 The built extension is available in `build` directory. You can install it as an
