@@ -60,7 +60,7 @@ jobs:
         run: npm run dist firefox
 
       - name: Publish the extension for Firefox
-        uses: yayuyokitano/firefox-addon@v0.0.2-alpha
+        uses: yayuyokitano/firefox-addon@v0.0.3-alpha
         with:
           api_key: ${{ secrets.AMO_ISSUER }}
           api_secret: ${{ secrets.AMO_SECRET }}
