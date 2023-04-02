@@ -25,6 +25,3 @@ rules:
   prefer-const:
     - error
     - destructuring: all
-ignorePatterns:
-  - Gruntfile.js
-  - .grunt/unused-files.js
