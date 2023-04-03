@@ -116,6 +116,26 @@
         "message": "Ignore videos that are not recognised by YouTube Music as music",
         "description": "Option title"
     },
+    "optionTheme": {
+        "message": "Theme",
+        "description": "Option label"
+    },
+    "optionThemeTitle": {
+        "message": "Choose the theme of the extension",
+        "description": "Option title"
+    },
+    "optionThemeLight": {
+        "message": "Light",
+        "description": "Option label"
+    },
+    "optionThemeDark": {
+        "message": "Dark",
+        "description": "Option label"
+    },
+    "optionThemeSystem": {
+        "message": "System",
+        "description": "Option label"
+    },
 
     "optionsAccounts": {
         "message": "Accounts",
@@ -555,9 +575,9 @@
         "message": "Looking up $1",
         "description": "`loading` page action title"
     },
-    "pageActionRecognized": {
+    "pageActionPlaying": {
         "message": "Now playing $1",
-        "description": "`recognized` page action title"
+        "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
         "message": "Scrobbled $1",

@@ -1,5 +1,4 @@
 exclude:
-  - '.grunt/**'
   - 'tests/**'
   - '*.js'
 hook-run-in-this-context: true

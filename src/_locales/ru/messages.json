@@ -495,9 +495,9 @@
         "message": "Поиск $1",
         "description": "`loading` page action title"
     },
-    "pageActionRecognized": {
+    "pageActionPlaying": {
         "message": "Сейчас играет $1",
-        "description": "`recognized` page action title"
+        "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
         "message": "Заскробблено $1",

@@ -1,70 +1,74 @@
 {
   "name": "web-scrobbler",
-  "version": "2.87.0",
+  "version": "3.0.0",
   "author": "David Šabata <posta@davidsabata.cz>",
+  "contributors": [
+    "@mountainash (https://mountainash.id.au/)"
+  ],
   "description": "Scrobble music all around the web!",
   "private": true,
+  "type": "module",
+  "scripts": {
+    "dist": "npm run build dist",
+    "dev": "npm run build dev",
+    "build": "tsx build.ts",
+    "buildts": "tsc --project tsconfig.connectors.json",
+    "test": "vitest",
+    "lint": "eslint . && stylelint \"**/*.scss\" && remark ."
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/web-scrobbler/web-scrobbler.git"
+    "url": "git+https://github.com/web-scrobbler/web-scrobbler.git"
   },
+  "bugs": {
+    "url": "https://github.com/web-scrobbler/web-scrobbler/issues"
+  },
+  "homepage": "https://web-scrobbler.com/",
   "dependencies": {
-    "@fortawesome/fontawesome-free": "6.3.0",
+    "@suid/icons-material": "0.5.9",
     "blueimp-md5": "2.19.0",
-    "bootstrap": "4.6.2",
-    "jquery": "3.6.4",
     "metadata-filter": "1.1.1",
-    "requirejs": "2.3.6",
+    "stylelint": "13.13.1",
+    "vite": "4.1.4",
     "webextension-polyfill": "0.10.0"
   },
   "devDependencies": {
-    "chai": "4.3.7",
-    "chai-as-promised": "7.1.1",
-    "chai-spies": "1.0.0",
-    "eslint-config-web-scrobbler": "1.1.0",
-    "grunt": "1.6.1",
-    "grunt-bump": "0.8.0",
-    "grunt-cli": "1.4.3",
-    "grunt-contrib-clean": "2.0.1",
-    "grunt-contrib-compress": "2.0.0",
-    "grunt-contrib-copy": "1.0.0",
-    "grunt-contrib-imagemin": "4.0.0",
-    "grunt-eslint": "24.0.1",
-    "grunt-jsonlint": "2.1.3",
-    "grunt-lintspaces": "0.10.2",
-    "grunt-mocha-cli": "7.0.0",
-    "grunt-preprocess": "5.1.0",
-    "grunt-remark": "10.0.0",
-    "grunt-replace-json": "0.1.0",
-    "grunt-stylelint": "0.18.0",
-    "jit-grunt": "0.10.0",
-    "mocha": "10.2.0",
-    "mocha-lcov-reporter": "1.3.0",
-    "node-define": "0.1.1",
-    "nyc": "15.1.0",
-    "prettier": "2.8.4",
+    "@types/archiver": "5.3.2",
+    "@types/blueimp-md5": "2.18.0",
+    "@types/fs-extra": "11.0.1",
+    "@types/imagemin": "8.0.1",
+    "@types/imagemin-jpegtran": "5.0.1",
+    "@types/node": "18.14.6",
+    "@types/react": "18.0.28",
+    "@types/webextension-polyfill": "0.10.0",
+    "@typescript-eslint/eslint-plugin": "5.54.1",
+    "archiver": "5.3.1",
+    "chokidar": "3.5.3",
+    "eslint": "8.35.0",
+    "eslint-config-web-scrobbler": "2.1.1",
+    "eslint-plugin-react": "7.32.2",
+    "eslint-plugin-solid": "0.11.0",
+    "eslint-plugin-tsdoc": "0.2.17",
+    "fs-extra": "11.1.0",
+    "imagemin": "8.0.1",
+    "imagemin-jpegtran": "7.0.0",
+    "imagemin-pngquant": "9.0.2",
+    "prettier": "2.8.7",
     "prettier-config-web-scrobbler": "0.1.0",
+    "remark": "14.0.2",
+    "remark-cli": "11.0.0",
     "remark-preset-lint-recommended": "6.1.2",
-    "stylelint": "14.16.1",
-    "stylelint-config-web-scrobbler": "0.2.0"
+    "sass": "1.58.3",
+    "solid-js": "1.6.13",
+    "stylelint-config-web-scrobbler": "0.2.0",
+    "tsx": "3.12.5",
+    "typescript": "4.9.5",
+    "vite-plugin-solid": "2.6.1",
+    "vite-plugin-static-copy": "0.13.1",
+    "vitest": "0.29.7"
   },
   "engines": {
     "node": ">=16.14.2"
-  },
-  "scripts": {
-    "lint": "grunt lint",
-    "test": "grunt test",
-    "test-with-coverage": "nyc grunt test",
-    "upload-coverage": "curl -Ls https://coverage.codacy.com/get.sh | bash -s report -r ./coverage/lcov.info",
-    "clean-coverage": "rm -rf ./coverage",
-    "postinstall": "node scripts/copy-vendor.js && node scripts/make-list.js"
-  },
-  "eslintConfig": {
-    "extends": "web-scrobbler",
-    "parserOptions": {
-      "sourceType": "script",
-      "ecmaVersion": 2020
-    }
   },
   "prettier": "prettier-config-web-scrobbler",
   "remark": {

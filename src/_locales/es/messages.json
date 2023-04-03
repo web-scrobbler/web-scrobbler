@@ -495,9 +495,9 @@
         "message": "Buscando $1",
         "description": "`loading` page action title"
     },
-    "pageActionRecognized": {
+    "pageActionPlaying": {
         "message": "Ahora reproduciendo $1",
-        "description": "`recognized` page action title"
+        "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
         "message": "Scrobbled $1",

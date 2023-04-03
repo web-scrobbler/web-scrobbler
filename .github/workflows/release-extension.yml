@@ -7,9 +7,9 @@ on:
         type: choice
         description: Release type (check uncommited draft release)
         options:
-        - patch
-        - minor
-        - major
+          - patch
+          - minor
+          - major
 jobs:
   deploy:
     name: Release a new extension version
@@ -34,6 +34,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Release
-        run: npx grunt release:${{ inputs.release_type }}
+        run: ./release-extension.sh ${{ inputs.release_type }}
         env:
           CI: true

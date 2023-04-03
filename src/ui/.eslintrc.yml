@@ -1,3 +1,0 @@
-globals:
-  $: readonly
-  jQuery: readonly

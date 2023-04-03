@@ -495,9 +495,9 @@
         "message": "查找 $1",
         "description": "`loading` page action title"
     },
-    "pageActionRecognized": {
+    "pageActionPlaying": {
         "message": "正在播放 $1",
-        "description": "`recognized` page action title"
+        "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
         "message": "已提交 $1",

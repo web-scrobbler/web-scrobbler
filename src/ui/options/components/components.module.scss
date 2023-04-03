@@ -1,0 +1,387 @@
+.deleteListing {
+	align-items: center;
+	display: flex;
+
+	&:not(:last-child) {
+		margin-bottom: 0.5em;
+	}
+
+	span {
+		font-size: 1.2em;
+	}
+}
+
+.buttonContainer {
+	display: flex;
+	gap: 0.5em;
+}
+
+.linkButton,
+.editButton,
+.deleteEditButton,
+.patternAddButton,
+.resetButton {
+	border-radius: 3px;
+}
+
+.linkButton,
+.editButton,
+.deleteEditButton,
+.patternDeleteButton,
+.patternAddButton,
+.resetButton {
+	align-items: center;
+	background-color: var(--always-last-fm);
+	border: none;
+	color: var(--always-light);
+	cursor: pointer;
+	display: flex;
+	width: min-content;
+
+	&:hover {
+		background-color: var(--always-last-fm-hover);
+	}
+
+	span {
+		white-space: nowrap;
+	}
+}
+
+.deleteEditButton {
+	margin-right: 0.5em;
+}
+
+.linkButton,
+.editButton,
+.patternAddButton,
+.resetButton {
+	font-size: 1.2em;
+	padding: 0.5em 1em;
+	white-space: nowrap;
+
+	svg {
+		margin-right: 0.2em;
+	}
+}
+
+.linkButton svg {
+	margin-bottom: 4px;
+}
+
+.editButton svg,
+.patternAddButton svg {
+	margin-left: -5px;
+}
+
+.contactList {
+	padding-left: 0;
+
+	.contactEntry {
+		align-items: center;
+		display: flex;
+		padding: 0.5em 0;
+
+		.invertImg {
+			filter: var(--invert-filter);
+		}
+
+		span {
+			color: var(--text);
+			font-size: 1.2em;
+
+			&:not(.brandText) {
+				margin-left: 0.4em;
+			}
+		}
+
+		svg {
+			color: var(--text);
+			height: 32px;
+			width: 32px;
+		}
+
+		.githubSpan {
+			margin-top: 4px;
+		}
+
+		.twitterSpan {
+			color: #1c9bef;
+			margin-top: 5px;
+		}
+
+		.privacySpan {
+			margin-top: 5px;
+		}
+
+		.brandText {
+			font-size: 1.7em;
+			font-stretch: ultra-condensed;
+			font-weight: bold;
+			margin-left: 5px;
+		}
+
+		.twitterBrandText {
+			color: #1c9bef;
+		}
+	}
+}
+
+ul {
+	list-style-type: none;
+	padding-left: 0;
+	width: max-content;
+}
+
+.checkboxOption {
+
+	$tickSize: 1.05em;
+	$checkboxSize: 1.4em;
+	$tickWidth: 2.5em;
+	$tickOffset: calc(($checkboxSize - $tickSize) / 2);
+
+	input {
+		-webkit-appearance: none;
+		appearance: none;
+	}
+
+	.checkboxWrapper {
+		background-color: var(--checkbox-inactive);
+		border-radius: $checkboxSize;
+		display: inline-block;
+		height: $checkboxSize;
+		margin-left: auto;
+		position: relative;
+		width: $tickWidth;
+
+		.checkbox {
+			background-color: var(--always-light);
+			border-radius: $tickSize;
+			display: inline-block;
+			height: $tickSize;
+			left: $tickOffset;
+			position: absolute;
+			top: $tickOffset;
+			transition: left 0.2s ease-in-out;
+			width: $tickSize;
+		}
+	}
+
+	input:checked ~ .checkboxWrapper {
+		background-color: var(--always-last-fm);
+
+		.checkbox {
+			left: calc($tickWidth - $tickOffset - $tickSize);
+		}
+	}
+
+	.bigLabel,
+	.summarySpan {
+		align-items: center;
+		cursor: pointer;
+		display: flex;
+		font-size: 1.2em;
+		gap: 0.5em;
+		padding: 0.5em 0;
+	}
+
+	&.summaryCheckbox .summarySpan {
+		justify-content: space-between;
+
+		label {
+			cursor: pointer;
+		}
+	}
+
+	.bigLabel:hover,
+	&.summaryCheckbox .checkboxWrapper:hover {
+		filter: brightness(1.1);
+	}
+}
+
+.selectOption {
+	.bigLabel {
+		align-items: center;
+		cursor: pointer;
+		display: flex;
+		font-size: 1.2em;
+		gap: 0.5em;
+		padding: 0.5em 0;
+	}
+
+	select {
+		background-color: var(--background);
+		border: none;
+		border-radius: 0.5em;
+		color: var(--text);
+		display: inline-block;
+		font-size: 1em;
+		margin-left: auto;
+		padding: 0.25em 0.5em;
+	}
+}
+
+.muted {
+	color: var(--muted-text);
+}
+
+.connectorOptionsList {
+	summary,
+	& > li:first-child {
+		align-items: center;
+		display: flex;
+		gap: 0.5em;
+		width: 100%;
+
+		.checkboxOption {
+			flex-grow: 1;
+		}
+	}
+
+	summary {
+		cursor: pointer;
+	}
+
+	.expandVector {
+		transition: transform 0.2s ease-in-out;
+	}
+
+	details[open] {
+		.expandVector {
+			transform: rotate(-180deg);
+		}
+	}
+}
+
+.tripleCheckboxOption {
+	span {
+		align-items: center;
+		display: flex;
+		font-size: 1.2em;
+		gap: 0.5em;
+		justify-content: space-between;
+		padding: 0.5em 0;
+	}
+
+	.tripleCheckboxWrapper {
+		border-radius: 0.5em;
+		display: flex;
+		overflow: hidden;
+
+		.tripleCheckboxLabel {
+			align-items: center;
+			background-color: var(--background);
+			color: var(--text);
+			cursor: pointer;
+			display: flex;
+			height: 1.75em;
+			justify-content: center;
+			margin: 0;
+			width: 2.25em;
+
+			&.unchecked {
+				color: var(--last-fm);
+
+				&.activeBox,
+				&:hover {
+					background-color: var(--last-fm);
+					color: var(--always-light);
+				}
+			}
+
+			&.checked {
+				color: var(--confirm);
+
+				&.activeBox,
+				&:hover {
+					background-color: var(--confirm);
+					color: var(--always-light);
+				}
+			}
+
+			&.indeterminate {
+				&.activeBox,
+				&:hover {
+					background-color: var(--checkbox-inactive);
+					color: var(--always-light);
+				}
+			}
+		}
+
+		.tripleCheckbox {
+			-webkit-appearance: none;
+			appearance: none;
+			background-color: #fff;
+			height: 0;
+			margin: 0;
+			width: 0;
+		}
+	}
+}
+
+.patternWrapper {
+	border-radius: 0.5em;
+	display: flex;
+	margin-bottom: 0.5em;
+	overflow: hidden;
+	width: max-content;
+
+	.patternInput {
+		background-color: var(--background);
+		border: none;
+		color: var(--text);
+		font-size: 1.2em;
+	}
+}
+
+summary {
+	list-style: none;
+
+	&::-webkit-details-marker {
+		display: none;
+	}
+}
+
+.radioButtons {
+
+	li {
+		margin-bottom: 1em;
+	}
+
+	input {
+		-webkit-appearance: none;
+		appearance: none;
+		margin: 0;
+	}
+
+	.radioLabel {
+		background-color: var(--background);
+		border-radius: 0.5em;
+		color: var(--text);
+		cursor: pointer;
+		display: inline-block;
+		font-size: 1.2em;
+		padding: 0.5em 1em;
+	}
+
+	.radioLabel:hover,
+	input:checked + .radioLabel {
+		background-color: var(--last-fm);
+		color: var(--always-light);
+	}
+}
+
+.propLabel {
+	display: block;
+	font-size: 1em;
+	margin-bottom: 0.5em;
+}
+
+.propInput {
+	background-color: var(--background);
+	border: none;
+	border-radius: 0.5em;
+	color: var(--text);
+	font-size: 1em;
+	margin-left: 0.5em;
+	padding: 0.25em 0.5em;
+}
