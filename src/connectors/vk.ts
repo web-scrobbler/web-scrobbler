@@ -8,7 +8,7 @@ const vkFilter = MetadataFilter.createFilter(
 		['artist', 'track', 'album', 'albumArtist'],
 		MetadataFilter.decodeHtmlEntities
 	)
-).extend(MetadataFilter.getRemasteredFilter());
+).extend(MetadataFilter.createRemasteredFilter());
 
 Connector.isPlaying = () => isPlaying;
 

@@ -43,7 +43,7 @@ Connector.getUniqueID = () => {
 	return null;
 };
 
-Connector.applyFilter(MetadataFilter.getRemasteredFilter());
+Connector.applyFilter(MetadataFilter.createRemasteredFilter());
 
 /**
  * Find element in player iframe content.

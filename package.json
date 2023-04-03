@@ -27,7 +27,7 @@
   "dependencies": {
     "@suid/icons-material": "0.5.9",
     "blueimp-md5": "2.19.0",
-    "metadata-filter": "1.1.1",
+    "@web-scrobbler/metadata-filter": "3.0.0",
     "stylelint": "13.13.1",
     "vite": "4.1.4",
     "webextension-polyfill": "0.10.0"

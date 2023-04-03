@@ -35,7 +35,7 @@ Connector.durationSelector = `${playerBar} [data-testid=playback-duration]`;
 
 Connector.pauseButtonSelector = `${oldPauseButtonSelector}, ${newPauseButtonSelector}`;
 
-Connector.applyFilter(MetadataFilter.getSpotifyFilter());
+Connector.applyFilter(MetadataFilter.createSpotifyFilter());
 
 Connector.isScrobblingAllowed = () => Boolean(isMusicPlaying() && isMainTab());
 

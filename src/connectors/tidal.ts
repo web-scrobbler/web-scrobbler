@@ -53,4 +53,4 @@ Connector.currentTimeSelector = `${Connector.playerSelector} time[data-test="cur
 
 Connector.durationSelector = `${Connector.playerSelector} time[data-test="duration"]`;
 
-Connector.applyFilter(MetadataFilter.getTidalFilter());
+Connector.applyFilter(MetadataFilter.createTidalFilter());

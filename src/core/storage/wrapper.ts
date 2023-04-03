@@ -223,6 +223,7 @@ export default class StorageWrapper<K extends keyof DataModels> {
 		const data = await this.get();
 
 		const hideSensitiveDataFn = (key: string, value: DataModels[K]) => {
+			console.info(typeof value);
 			if (hiddenKeys.includes(key)) {
 				return hideObjectValue(value);
 			}
