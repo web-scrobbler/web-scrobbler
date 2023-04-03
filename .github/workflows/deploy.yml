@@ -26,7 +26,7 @@ jobs:
         run: npm ci
 
       - name: Create zipball
-        run: npx grunt dist:chrome
+        run: npx run dist chrome
 
       - name: Publish the extension for Chrome
         uses: trmcnvn/chrome-addon@v2
@@ -57,15 +57,13 @@ jobs:
         run: npm ci
 
       - name: Create zipball
-        run: npx grunt dist:firefox
+        run: npm run dist firefox
 
       - name: Publish the extension for Firefox
-        uses: trmcnvn/firefox-addon@v1
+        uses: yayuyokitano/firefox-addon@v0.0.3-alpha
         with:
-          api-key: ${{ secrets.AMO_ISSUER }}
-          api-secret: ${{ secrets.AMO_SECRET }}
-          # Manifest is used to get version only, so we provide
-          # `package.json` file here, which contains the extension version.
-          manifest: package.json
-          uuid: '{799c0914-748b-41df-a25c-22d008f9e83f}'
-          xpi: web-scrobbler-firefox.zip
+          api_key: ${{ secrets.AMO_ISSUER }}
+          api_secret: ${{ secrets.AMO_SECRET }}
+          guid: '{799c0914-748b-41df-a25c-22d008f9e83f}'
+          xpi_path: web-scrobbler-firefox.zip
+          src_path: web-scrobbler-src.zip

@@ -471,9 +471,9 @@
         "message": "Vyhľadáva sa$1",
         "description": "`loading` page action title"
     },
-    "pageActionRecognized": {
+    "pageActionPlaying": {
         "message": "Práve hrá $1",
-        "description": "`recognized` page action title"
+        "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
         "message": "Zaznamenané $1",

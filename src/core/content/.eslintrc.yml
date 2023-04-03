@@ -1,9 +1,0 @@
-globals:
-  $: readonly
-  browser: readonly
-
-  Util: readonly
-  Reactor: readonly
-  Connector: readonly
-  BaseConnector: readonly
-  MetadataFilter: readonly

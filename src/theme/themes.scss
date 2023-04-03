@@ -1,0 +1,42 @@
+$themes: (
+	light: (
+		always-light: #fff,
+		always-last-fm: #d82323,
+		always-last-fm-hover: #fc3434,
+		background: #fff,
+		checkbox-inactive: #8e8e8e,
+		sidebar-bg: rgba(250, 235, 235, 0.7),
+		modal-bg: rgba(255, 255, 255, 0.95),
+		last-fm-bg: #faebeb,
+		muted-text: #555,
+		text: #222,
+		last-fm: #d82323,
+		confirm: #00b300,
+		site-image: url('../img/site-light.jpg'),
+		invert-filter: invert(0%),
+	),
+	dark: (
+		always-light: #fff,
+		always-last-fm: #d82323,
+		always-last-fm-hover: #fc3434,
+		background: #1e1e1e,
+		checkbox-inactive: #8e8e8e,
+		sidebar-bg: rgba(194, 57, 55, 0.7),
+		modal-bg: rgba(40, 40, 40, 0.95),
+		last-fm-bg: #c23937,
+		muted-text: #bbb,
+		text: #eee,
+		last-fm: #fc3434,
+		confirm: #00b300,
+		site-image: url('../img/site-dark.jpg'),
+		invert-filter: invert(100%),
+	),
+);
+
+@each $name, $map in $themes {
+	.theme-#{$name} {
+		@each $key, $value in $map {
+			--#{$key}: #{$value};
+		}
+	}
+}
