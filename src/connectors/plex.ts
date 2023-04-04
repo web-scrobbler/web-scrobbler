@@ -32,7 +32,7 @@ Connector.pauseButtonSelector = [
 // For watch-it-later videos
 Connector.artistTrackSelector = `${Connector.playerSelector} [class*=MetadataPosterTitle-title]`;
 
-Connector.applyFilter(MetadataFilter.getYoutubeFilter().extend(plexFilter));
+Connector.applyFilter(MetadataFilter.createYouTubeFilter().extend(plexFilter));
 
 Connector.getTrack = () => {
 	if (Connector.getArtist()) {

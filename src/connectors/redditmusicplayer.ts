@@ -21,4 +21,4 @@ Connector.getUniqueID = () => {
 	return Util.getYtVideoIdFromUrl(videoUrl);
 };
 
-Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+Connector.applyFilter(MetadataFilter.createYouTubeFilter());

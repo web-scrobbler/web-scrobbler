@@ -53,7 +53,7 @@ function setupConnector() {
 		return getVideoId();
 	};
 
-	Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+	Connector.applyFilter(MetadataFilter.createYouTubeFilter());
 }
 
 setupConnector();

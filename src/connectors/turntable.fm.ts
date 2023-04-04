@@ -10,4 +10,4 @@ Connector.currentTimeSelector = '.songboard-time';
 
 Connector.remainingTimeSelector = '.songboard-time-left';
 
-Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+Connector.applyFilter(MetadataFilter.createYouTubeFilter());

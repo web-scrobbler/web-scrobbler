@@ -73,7 +73,7 @@ function filterTrackPremiere(text: string) {
 }
 
 Connector.applyFilter(
-	MetadataFilter.getYoutubeFilter().append({
+	MetadataFilter.createYouTubeFilter().append({
 		artist: filterArtistPremiere,
 		track: filterTrackPremiere,
 	})

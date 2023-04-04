@@ -43,5 +43,5 @@ Connector.getArtistTrack = () => {
 	return { artist, track };
 };
 
-Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+Connector.applyFilter(MetadataFilter.createYouTubeFilter());
 Connector.onReady = Connector.onStateChanged;

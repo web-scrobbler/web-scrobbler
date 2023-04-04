@@ -25,4 +25,4 @@ Connector.isPlaying = () =>
 	(document.querySelector('.shaka-small-play-button') as HTMLButtonElement)
 		?.innerText === 'pause';
 
-Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+Connector.applyFilter(MetadataFilter.createYouTubeFilter());
