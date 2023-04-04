@@ -83,6 +83,7 @@ export const buildStart: UserConfig = {
 		outDir: distRoot(),
 		emptyOutDir: false,
 		watch: isDev() ? {} : null,
+		sourcemap: isDev(),
 		rollupOptions: {
 			input: {
 				popup: resolve(root, 'ui', 'popup', 'index.html'),
