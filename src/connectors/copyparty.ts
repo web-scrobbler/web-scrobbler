@@ -12,6 +12,6 @@ Connector.trackSelector = '#np_title';
 Connector.currentTimeSelector = '#np_pos';
 Connector.durationSelector = '#np_dur';
 
-this.getUniqueID = () => {
+Connector.getUniqueID = () => {
 	return Util.getTextFromSelectors('#np_url');
 };
