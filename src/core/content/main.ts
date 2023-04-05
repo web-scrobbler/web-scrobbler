@@ -1,7 +1,7 @@
 import { getConnectorByUrl } from '../../util/util-connector';
 import BaseConnector from '@/core/content/connector';
 import * as Util from '@/core/content/util';
-import * as MetadataFilter from 'metadata-filter';
+import * as MetadataFilter from '@web-scrobbler/metadata-filter';
 import start from '@/core/content/starter';
 import browser from 'webextension-polyfill';
 import scrobbleService from '@/core/object/scrobble-service';

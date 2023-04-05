@@ -2,7 +2,7 @@ export {};
 
 Connector.playerSelector = '#app-root';
 
-Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+Connector.applyFilter(MetadataFilter.createYouTubeFilter());
 
 Connector.getArtistTrack = () => {
 	const text = Util.getAttrFromSelectors(

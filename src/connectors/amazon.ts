@@ -13,7 +13,7 @@ function setupConnector() {
 		setupPropertiesForOldPlayer();
 	}
 
-	Connector.applyFilter(MetadataFilter.getAmazonFilter());
+	Connector.applyFilter(MetadataFilter.createAmazonFilter());
 }
 
 function isNewPlayer() {

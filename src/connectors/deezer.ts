@@ -1,6 +1,6 @@
 export {};
 
-const deezerFilter = MetadataFilter.getRemasteredFilter();
+const deezerFilter = MetadataFilter.createRemasteredFilter();
 
 let trackInfo = {};
 let isPlaying = false;

@@ -175,7 +175,7 @@ Connector.isScrobblingAllowed = () => {
 };
 
 Connector.applyFilter(
-	MetadataFilter.getYoutubeFilter().append({
+	MetadataFilter.createYouTubeFilter().append({
 		artist: [removeLtrRtlChars, removeNumericPrefix],
 		track: [removeLtrRtlChars, removeNumericPrefix],
 	})

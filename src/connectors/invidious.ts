@@ -21,4 +21,4 @@ Connector.getUniqueID = () => {
 Connector.isPlaying = () =>
 	Util.hasElementClass('.vjs-play-control', 'vjs-playing');
 
-Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+Connector.applyFilter(MetadataFilter.createYouTubeFilter());

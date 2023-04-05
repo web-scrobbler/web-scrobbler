@@ -32,7 +32,7 @@ Connector.getTrackInfo = () => {
 
 Connector.timeInfoSelector = '.player-time';
 
-Connector.applyFilter(MetadataFilter.getYoutubeFilter());
+Connector.applyFilter(MetadataFilter.createYouTubeFilter());
 
 function getVideoId(type: string, url: string) {
 	switch (type) {
