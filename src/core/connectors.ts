@@ -2088,4 +2088,10 @@ export default <ConnectorMeta[]>[
 		js: 'rockantenne.js',
 		id: 'rockantenne',
 	},
+	{
+		label: 'copyparty',
+		matches: ['*://127.0.0.1:3923/*', '*://a.ocv.me/*'],
+		js: 'copyparty.js',
+		id: 'copyparty',
+	},
 ];
