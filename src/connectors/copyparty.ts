@@ -13,5 +13,5 @@ Connector.currentTimeSelector = '#np_pos';
 Connector.durationSelector = '#np_dur';
 
 this.getUniqueID = () => {
-	return document.getElementById('np_url').textContent;
+	return Util.getTextFromSelectors('#np_url');
 };
