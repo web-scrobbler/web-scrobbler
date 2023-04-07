@@ -1,5 +1,6 @@
 import { Manifest } from 'webextension-polyfill';
 import pkg from './package.json';
+import { releaseTarget } from './scripts/util';
 
 /**
  * Common properties between all browsers manifests
@@ -46,6 +47,8 @@ export const common: Manifest.WebExtensionManifest = {
 		256: 'icons/icon_main_256.png',
 		512: 'icons/icon_main_512.png',
 	},
+
+	action: getAction(releaseTarget),
 };
 
 /**
@@ -53,15 +56,6 @@ export const common: Manifest.WebExtensionManifest = {
  */
 export const chromeManifest: Manifest.WebExtensionManifest = {
 	...common,
-
-	action: {
-		default_icon: {
-			'19': 'icons/page_action_unsupported_19_light.png',
-			'38': 'icons/page_action_unsupported_38_light.png',
-		},
-		default_title: '__MSG_pageActionUnsupported__',
-		default_popup: 'src/ui/popup/index.html',
-	},
 };
 
 /**
@@ -69,15 +63,6 @@ export const chromeManifest: Manifest.WebExtensionManifest = {
  */
 export const safariManifest: Manifest.WebExtensionManifest = {
 	...common,
-
-	action: {
-		default_icon: {
-			'19': 'icons/page_action_unsupported_19_safari.png',
-			'38': 'icons/page_action_unsupported_38_safari.png',
-		},
-		default_title: '__MSG_pageActionUnsupported__',
-		default_popup: 'src/ui/popup/index.html',
-	},
 };
 
 /**
@@ -85,17 +70,6 @@ export const safariManifest: Manifest.WebExtensionManifest = {
  */
 export const firefoxManifest: Manifest.WebExtensionManifest = {
 	...common,
-
-	action: {
-		default_icon: {
-			16: 'icons/page_action_unsupported_16_light.png',
-			19: 'icons/page_action_unsupported_19_light.png',
-			32: 'icons/page_action_unsupported_32_light.png',
-			38: 'icons/page_action_unsupported_38_light.png',
-		},
-		default_title: '__MSG_pageActionUnsupported__',
-		default_popup: 'src/ui/popup/index.html',
-	},
 
 	background: {
 		scripts: ['background/main.js'],
@@ -107,3 +81,23 @@ export const firefoxManifest: Manifest.WebExtensionManifest = {
 		},
 	},
 };
+
+/**
+ * Gets action with defaults for a browser
+ *
+ * @param browser - browser to get action for
+ * @returns manifest action object
+ */
+function getAction(browser?: string) {
+	const type = browser === 'safari' ? 'safari' : 'light';
+	return {
+		default_icon: {
+			16: `icons/page_action_unsupported_16_${type}.png`,
+			19: `icons/page_action_unsupported_19_${type}.png`,
+			32: `icons/page_action_unsupported_32_${type}.png`,
+			38: `icons/page_action_unsupported_38_${type}.png`,
+		},
+		default_title: '__MSG_pageActionUnsupported__',
+		default_popup: 'src/ui/popup/index.html',
+	};
+}
