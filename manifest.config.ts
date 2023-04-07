@@ -92,10 +92,10 @@ function getAction(browser?: string) {
 	const type = browser === 'safari' ? 'safari' : 'light';
 	return {
 		default_icon: {
-			16: `icons/page_action_unsupported_16_${type}.png`,
-			19: `icons/page_action_unsupported_19_${type}.png`,
-			32: `icons/page_action_unsupported_32_${type}.png`,
-			38: `icons/page_action_unsupported_38_${type}.png`,
+			16: `icons/action_unsupported_16_${type}.png`,
+			19: `icons/action_unsupported_19_${type}.png`,
+			32: `icons/action_unsupported_32_${type}.png`,
+			38: `icons/action_unsupported_38_${type}.png`,
 		},
 		default_title: '__MSG_pageActionUnsupported__',
 		default_popup: 'src/ui/popup/index.html',

@@ -110,13 +110,23 @@ async function setAction(tab: ManagerTab): Promise<void> {
 
 	browser.action.setIcon({
 		path: {
+			16: getIconURL(
+				`icons/action_${tab.mode.toLowerCase()}_16_${await getIconType(
+					tab.tabId
+				)}.png`
+			),
 			19: getIconURL(
-				`icons/page_action_${tab.mode.toLowerCase()}_19_${await getIconType(
+				`icons/action_${tab.mode.toLowerCase()}_19_${await getIconType(
+					tab.tabId
+				)}.png`
+			),
+			32: getIconURL(
+				`icons/action_${tab.mode.toLowerCase()}_32_${await getIconType(
 					tab.tabId
 				)}.png`
 			),
 			38: getIconURL(
-				`icons/page_action_${tab.mode.toLowerCase()}_38_${await getIconType(
+				`icons/action_${tab.mode.toLowerCase()}_38_${await getIconType(
 					tab.tabId
 				)}.png`
 			),
