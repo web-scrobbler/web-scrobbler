@@ -1,14 +1,14 @@
 export {};
 
-Connector.playerSelector = '#player';
+Connector.playerSelector = '#seek';
 
-Connector.artistSelector = '#pl-info-text > h4';
+Connector.artistSelector = '#player-music > div > span > a:nth-child(1)';
 
-Connector.trackSelector = '#pl-info-text > h3';
+Connector.trackSelector = '#player-music > div > span:nth-child(1)';
 
 // Album title is only available when track is played through the album page
-Connector.albumSelector = '.ad-info-text1 > h1';
+Connector.albumSelector = 'h1:first-of-type';
 
-Connector.playButtonSelector = '#pl-ctrl-play';
+Connector.playButtonSelector = 'li > div > div > button:nth-child(1)';
 
-Connector.trackArtSelector = '.player-img > img';
+Connector.trackArtSelector = '#player-music > span > img';
