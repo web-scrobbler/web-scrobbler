@@ -69,7 +69,7 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 				class={styles.coverArtWrapper}
 				href={
 					clonedSong.getTrackArt() ??
-					browser.runtime.getURL('icons/cover_art_default.png')
+					browser.runtime.getURL('img/cover_art_default.png')
 				}
 				target="_blank"
 				rel="noopener noreferrer"
@@ -79,7 +79,7 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 					class={styles.coverArt}
 					src={
 						clonedSong.getTrackArt() ??
-						browser.runtime.getURL('icons/cover_art_default.png')
+						browser.runtime.getURL('img/cover_art_default.png')
 					}
 				/>
 			</a>

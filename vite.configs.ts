@@ -7,6 +7,7 @@ import compileConnectors from './scripts/compile-connectors';
 import makeManifest from './scripts/make-manifest';
 import { isDev, releaseTarget } from 'scripts/util';
 import minifyImages from 'scripts/minify-images';
+import generateIcons from 'scripts/generate-icons';
 
 const dist = resolve(import.meta.url.slice(5), '..', 'build');
 const root = resolve(import.meta.url.slice(5), '..', 'src');
@@ -95,6 +96,7 @@ export const buildStart: UserConfig = {
 	plugins: [
 		solid(),
 		makeManifest(),
+		generateIcons(),
 		viteStaticCopy({
 			targets: [
 				{

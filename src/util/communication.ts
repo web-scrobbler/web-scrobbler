@@ -86,6 +86,10 @@ interface BackgroundCommunications {
 		payload: undefined;
 		response: void;
 	};
+	isDarkModePreferred: {
+		payload: undefined;
+		response: boolean;
+	};
 }
 
 /**

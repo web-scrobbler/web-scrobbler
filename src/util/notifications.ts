@@ -21,12 +21,8 @@ const DEFAULT_OPTIONS_VALUES: {
 	iconUrl: browser.runtime.getURL(manifest.icons?.['128'] ?? ''),
 };
 
-const defaultTrackArtUrl = browser.runtime.getURL(
-	'/icons/cover_art_default.png'
-);
-const unknownTrackArtUrl = browser.runtime.getURL(
-	'icons/cover_art_unknown.png'
-);
+const defaultTrackArtUrl = browser.runtime.getURL('/img/cover_art_default.png');
+const unknownTrackArtUrl = browser.runtime.getURL('img/cover_art_unknown.png');
 
 /**
  * Now playing notification delay in milliseconds.

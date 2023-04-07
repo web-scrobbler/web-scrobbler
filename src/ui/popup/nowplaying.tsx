@@ -90,9 +90,7 @@ export default function NowPlaying(props: { tab: Resource<ManagerTab> }) {
 						class={styles.coverArtWrapper}
 						href={
 							song()?.getTrackArt() ??
-							browser.runtime.getURL(
-								'icons/cover_art_default.png'
-							)
+							browser.runtime.getURL('img/cover_art_default.png')
 						}
 						target="_blank"
 						rel="noopener noreferrer"
@@ -103,7 +101,7 @@ export default function NowPlaying(props: { tab: Resource<ManagerTab> }) {
 							src={
 								song()?.getTrackArt() ??
 								browser.runtime.getURL(
-									'icons/cover_art_default.png'
+									'img/cover_art_default.png'
 								)
 							}
 						/>

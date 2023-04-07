@@ -22,15 +22,6 @@ export const common: Manifest.WebExtensionManifest = {
 		},
 	],
 
-	action: {
-		default_icon: {
-			'19': 'icons/page_action_unsupported_19.png',
-			'38': 'icons/page_action_unsupported_38.png',
-		},
-		default_title: '__MSG_pageActionUnsupported__',
-		default_popup: 'src/ui/popup/index.html',
-	},
-
 	background: {
 		service_worker: 'background/main.js',
 	},
@@ -46,6 +37,15 @@ export const common: Manifest.WebExtensionManifest = {
 		page: 'src/ui/options/index.html',
 		open_in_tab: true,
 	},
+
+	icons: {
+		16: 'icons/icon_generic_16.png',
+		48: 'icons/icon_main_48.png',
+		96: 'icons/icon_main_96.png',
+		128: 'icons/icon_main_128.png',
+		256: 'icons/icon_main_256.png',
+		512: 'icons/icon_main_512.png',
+	},
 };
 
 /**
@@ -54,7 +54,14 @@ export const common: Manifest.WebExtensionManifest = {
 export const chromeManifest: Manifest.WebExtensionManifest = {
 	...common,
 
-	icons: browserIcons('chrome'),
+	action: {
+		default_icon: {
+			'19': 'icons/page_action_unsupported_19_light.png',
+			'38': 'icons/page_action_unsupported_38_light.png',
+		},
+		default_title: '__MSG_pageActionUnsupported__',
+		default_popup: 'src/ui/popup/index.html',
+	},
 };
 
 /**
@@ -63,7 +70,14 @@ export const chromeManifest: Manifest.WebExtensionManifest = {
 export const safariManifest: Manifest.WebExtensionManifest = {
 	...common,
 
-	icons: browserIcons('safari'),
+	action: {
+		default_icon: {
+			'19': 'icons/page_action_unsupported_19_safari.png',
+			'38': 'icons/page_action_unsupported_38_safari.png',
+		},
+		default_title: '__MSG_pageActionUnsupported__',
+		default_popup: 'src/ui/popup/index.html',
+	},
 };
 
 /**
@@ -72,7 +86,16 @@ export const safariManifest: Manifest.WebExtensionManifest = {
 export const firefoxManifest: Manifest.WebExtensionManifest = {
 	...common,
 
-	icons: browserIcons('firefox'),
+	action: {
+		default_icon: {
+			16: 'icons/page_action_unsupported_16_light.png',
+			19: 'icons/page_action_unsupported_19_light.png',
+			32: 'icons/page_action_unsupported_32_light.png',
+			38: 'icons/page_action_unsupported_38_light.png',
+		},
+		default_title: '__MSG_pageActionUnsupported__',
+		default_popup: 'src/ui/popup/index.html',
+	},
 
 	background: {
 		scripts: ['background/main.js'],
@@ -84,19 +107,3 @@ export const firefoxManifest: Manifest.WebExtensionManifest = {
 		},
 	},
 };
-
-/**
- * Gets icon paths for a browser
- *
- * @param browser - browser to get icons for
- * @returns object of icon paths
- */
-function browserIcons(browser: string) {
-	return {
-		16: 'icons/icon_generic_16.png',
-		48: `icons/icon_${browser}_48.png`,
-		128: `icons/icon_${browser}_128.png`,
-		256: `icons/icon_${browser}_256.png`,
-		512: `icons/icon_${browser}_512.png`,
-	};
-}
