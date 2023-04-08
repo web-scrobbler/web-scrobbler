@@ -39,7 +39,7 @@
     "@types/imagemin": "8.0.1",
     "@types/imagemin-jpegtran": "5.0.1",
     "@types/node": "18.14.6",
-    "@types/react": "18.0.28",
+    "@types/react": "18.0.33",
     "@types/webextension-polyfill": "0.10.0",
     "@typescript-eslint/eslint-plugin": "5.54.1",
     "archiver": "5.3.1",
