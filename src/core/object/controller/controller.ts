@@ -145,11 +145,6 @@ export default class Controller {
 			contentListener({
 				type: 'disableConnectorUntilTabIsClosed',
 				fn: () => this.disableUntilTabIsClosed(),
-			}),
-			contentListener({
-				type: 'isDarkModePreferred',
-				fn: () =>
-					window.matchMedia('(prefers-color-scheme: dark)').matches,
 			})
 		);
 	}

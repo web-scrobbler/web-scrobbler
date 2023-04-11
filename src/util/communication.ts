@@ -49,6 +49,10 @@ interface ContentCommunications {
 		};
 		response: void;
 	};
+	updateTheme: {
+		payload: 'dark' | 'light';
+		response: void;
+	};
 }
 
 interface BackgroundCommunications {
@@ -85,10 +89,6 @@ interface BackgroundCommunications {
 	disableConnectorUntilTabIsClosed: {
 		payload: undefined;
 		response: void;
-	};
-	isDarkModePreferred: {
-		payload: undefined;
-		response: boolean;
 	};
 }
 

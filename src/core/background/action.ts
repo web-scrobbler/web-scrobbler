@@ -1,6 +1,6 @@
 import browser from 'webextension-polyfill';
-import { contextMenus, getCurrentTab } from './util';
-import { sendBackgroundMessage, sendPopupMessage } from '@/util/communication';
+import { contextMenus, getBrowserPreferredTheme, getCurrentTab } from './util';
+import { sendPopupMessage } from '@/util/communication';
 import { ManagerTab } from '@/core/storage/wrapper';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import { getConnectorByUrl } from '@/util/util-connector';
@@ -111,24 +111,16 @@ async function setAction(tab: ManagerTab): Promise<void> {
 	browser.action.setIcon({
 		path: {
 			16: getIconURL(
-				`icons/action_${tab.mode.toLowerCase()}_16_${await getIconType(
-					tab.tabId
-				)}.png`
+				`icons/action_${tab.mode.toLowerCase()}_16_${await getIconType()}.png`
 			),
 			19: getIconURL(
-				`icons/action_${tab.mode.toLowerCase()}_19_${await getIconType(
-					tab.tabId
-				)}.png`
+				`icons/action_${tab.mode.toLowerCase()}_19_${await getIconType()}.png`
 			),
 			32: getIconURL(
-				`icons/action_${tab.mode.toLowerCase()}_32_${await getIconType(
-					tab.tabId
-				)}.png`
+				`icons/action_${tab.mode.toLowerCase()}_32_${await getIconType()}.png`
 			),
 			38: getIconURL(
-				`icons/action_${tab.mode.toLowerCase()}_38_${await getIconType(
-					tab.tabId
-				)}.png`
+				`icons/action_${tab.mode.toLowerCase()}_38_${await getIconType()}.png`
 			),
 		},
 	});
@@ -142,22 +134,12 @@ async function setAction(tab: ManagerTab): Promise<void> {
  * Safari has entirely separate icons, and chromium/firefox uses themed icons.
  * Get the type of icon to display
  *
- * @param tabId - ID of tab action is being set from, used to get theme.
- *
  * @returns the icon type to display.
  */
-async function getIconType(tabId: number) {
+async function getIconType() {
 	if (!browser.notifications) {
 		return 'safari';
 	}
 
-	if (
-		await sendBackgroundMessage(tabId, {
-			type: 'isDarkModePreferred',
-			payload: undefined,
-		})
-	) {
-		return 'dark';
-	}
-	return 'light';
+	return getBrowserPreferredTheme();
 }

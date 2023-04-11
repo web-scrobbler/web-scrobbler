@@ -9,8 +9,9 @@ import {
 } from '@/util/communication';
 import browser, { Tabs } from 'webextension-polyfill';
 import {
+	DEFAULT_STATE,
 	contextMenus,
-	fetchTab,
+	fetchState,
 	filterAsync,
 	filterInactiveTabs,
 	getCurrentTab,
@@ -44,11 +45,11 @@ browser.tabs.onActivated.addListener(onActivatedUpdate);
  * @param tabId - tab ID of closed tab
  */
 async function onRemovedUpdate(tabId: number) {
-	const activeTabs = await fetchTab();
+	const curState = await fetchState();
 
-	await getState();
 	await setState({
-		activeTabs: await filterInactiveTabs(activeTabs),
+		activeTabs: await filterInactiveTabs(curState.activeTabs),
+		browserPreferredTheme: curState.browserPreferredTheme,
 	});
 	updateAction();
 
@@ -77,14 +78,14 @@ async function onActivatedUpdate(activeInfo: Tabs.OnActivatedActiveInfoType) {
  * @param tab - currently active tab details, if they exist.
  */
 async function updateTabList(tabId: number, _?: any, tab?: Tabs.Tab) {
-	const { activeTabs } = (await getState()) ?? { activeTabs: [] };
+	const curState = (await getState()) ?? DEFAULT_STATE;
 	let curTab: ManagerTab = {
 		tabId,
 		mode: ControllerMode.Unsupported,
 		song: null,
 	};
 	let newTabs =
-		(await filterAsync(activeTabs, async (active) => {
+		(await filterAsync(curState.activeTabs, async (active) => {
 			if (active.tabId !== tabId) {
 				return true;
 			}
@@ -100,6 +101,7 @@ async function updateTabList(tabId: number, _?: any, tab?: Tabs.Tab) {
 
 	await setState({
 		activeTabs: await filterInactiveTabs(newTabs),
+		browserPreferredTheme: curState.browserPreferredTheme,
 	});
 	updateAction();
 }
@@ -121,8 +123,8 @@ async function updateTab(
 	// perform the update, making sure there is no race condition, and making sure locking isnt permanently locked by an error
 	let performedSet = false;
 	try {
-		let { activeTabs } = (await getState()) ?? { activeTabs: [] };
-		activeTabs = await filterInactiveTabs(activeTabs);
+		const curState = (await getState()) ?? DEFAULT_STATE;
+		const activeTabs = await filterInactiveTabs(curState.activeTabs);
 		for (let i = 0; i < activeTabs.length; i++) {
 			if (activeTabs[i].tabId !== tabId) {
 				continue;
@@ -130,7 +132,10 @@ async function updateTab(
 
 			activeTabs[i] = fn(activeTabs[i]);
 			performedSet = true;
-			await setState({ activeTabs });
+			await setState({
+				activeTabs,
+				browserPreferredTheme: curState.browserPreferredTheme,
+			});
 			updateAction();
 			return;
 		}
@@ -144,6 +149,7 @@ async function updateTab(
 				}),
 				...activeTabs,
 			],
+			browserPreferredTheme: curState.browserPreferredTheme,
 		});
 		updateAction();
 	} catch (err) {
@@ -262,6 +268,20 @@ setupBackgroundListeners(
 				}
 			);
 		},
+	}),
+
+	/**
+	 * Listener called by a content script to update the browser preferred theme.
+	 */
+	backgroundListener({
+		type: 'updateTheme',
+		fn: async (payload) => {
+			const curState = (await getState()) ?? DEFAULT_STATE;
+			await setState({
+				activeTabs: curState.activeTabs,
+				browserPreferredTheme: payload,
+			});
+		},
 	})
 );
 
@@ -271,9 +291,7 @@ setupBackgroundListeners(
  */
 function startupFunc() {
 	const state = BrowserStorage.getStorage(BrowserStorage.STATE_MANAGEMENT);
-	state.set({
-		activeTabs: [],
-	});
+	state.set(DEFAULT_STATE);
 	disabledTabs.set({});
 
 	browser.contextMenus.create({

@@ -5,9 +5,11 @@ import * as MetadataFilter from '@web-scrobbler/metadata-filter';
 import start from '@/core/content/starter';
 import browser from 'webextension-polyfill';
 import scrobbleService from '@/core/object/scrobble-service';
+import { sendContentMessage } from '@/util/communication';
 
 main();
 async function main() {
+	updateTheme();
 	try {
 		await fetchConnector();
 	} catch (err) {
@@ -43,4 +45,17 @@ async function fetchConnector(): Promise<void> {
 		);
 		throw err;
 	}
+}
+
+/**
+ * Updates the browser preferred theme in storage for icon theming.
+ */
+function updateTheme() {
+	const theme = window.matchMedia('(prefers-color-scheme: dark)').matches
+		? 'dark'
+		: 'light';
+	sendContentMessage({
+		type: 'updateTheme',
+		payload: theme,
+	});
 }

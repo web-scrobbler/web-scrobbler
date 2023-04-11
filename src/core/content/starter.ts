@@ -8,6 +8,7 @@ import BaseConnector from './connector';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import { DISABLED_CONNECTORS } from '@/core/storage/options';
 import { sendContentMessage } from '@/util/communication';
+import * as Util from '@/core/content/util';
 
 /**
  * Sets up observers and "starts up" the connector
