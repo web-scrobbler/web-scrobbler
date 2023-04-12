@@ -108,20 +108,16 @@ async function setAction(tab: ManagerTab): Promise<void> {
 		songstr = `${clonedSong.getArtist()} - ${clonedSong.getTrack()}`;
 	}
 
+	const iconType = await getIconType();
+	const iconPath = (resolution: number) =>
+		`icons/action_${tab.mode.toLowerCase()}_${resolution}_${iconType}.png`;
+
 	browser.action.setIcon({
 		path: {
-			16: getIconURL(
-				`icons/action_${tab.mode.toLowerCase()}_16_${await getIconType()}.png`
-			),
-			19: getIconURL(
-				`icons/action_${tab.mode.toLowerCase()}_19_${await getIconType()}.png`
-			),
-			32: getIconURL(
-				`icons/action_${tab.mode.toLowerCase()}_32_${await getIconType()}.png`
-			),
-			38: getIconURL(
-				`icons/action_${tab.mode.toLowerCase()}_38_${await getIconType()}.png`
-			),
+			16: getIconURL(iconPath(16)),
+			19: getIconURL(iconPath(19)),
+			32: getIconURL(iconPath(32)),
+			38: getIconURL(iconPath(38)),
 		},
 	});
 	browser.action.setTitle({
