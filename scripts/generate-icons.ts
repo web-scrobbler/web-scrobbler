@@ -79,6 +79,19 @@ const monochromeColors = {
 };
 
 /**
+ * A map of theme names and border color to use
+ */
+const borderColor = {
+	light: '#f7f7f7',
+	dark: '#3b3b3b',
+};
+
+/**
+ * Thickness of icon borders
+ */
+const borderThickness = 1;
+
+/**
  * Safari tints icons - we only use a single color for these.
  */
 const safariIconColor = '#707070';
@@ -132,14 +145,49 @@ async function createUnmodifiedIcon(
  * @param color - color code of the color to be used.
  * @returns a monochrome PNG buffer from the svg file.
  */
-async function createMonochromeIcon(path: string, size: number, color: string) {
+async function createMonochromeIcon(
+	path: string,
+	size: number,
+	color: string,
+	borderColor?: string
+) {
+	// If there is a border, make room for the border
+	const iconSize = borderColor ? size - borderThickness * 2 : size;
+
+	// draw the icon itself to one canvas first
+	const iconCanvas = createCanvas(size, size);
+	const iconCtx = iconCanvas.getContext('2d');
+	const image = await loadImage(resolve(input, 'monochrome', path));
+	iconCtx.drawImage(
+		image,
+		borderThickness,
+		borderThickness,
+		iconSize,
+		iconSize
+	);
+	// fill it in with the main icon color
+	iconCtx.globalCompositeOperation = 'source-in';
+	iconCtx.fillStyle = color;
+	iconCtx.fillRect(0, 0, size, size);
+
+	// In safari we don't need borders ever. Skip the next part and return immediately
+	if (!borderColor) {
+		return iconCanvas.toBuffer();
+	}
+
+	// now draw icon border
 	const canvas = createCanvas(size, size);
 	const ctx = canvas.getContext('2d');
-	const image = await loadImage(resolve(input, 'monochrome', path));
 	ctx.drawImage(image, 0, 0, size, size);
+	// fill in
 	ctx.globalCompositeOperation = 'source-in';
-	ctx.fillStyle = color;
+	ctx.fillStyle = borderColor;
 	ctx.fillRect(0, 0, size, size);
+
+	// draw the main icon inside the border
+	ctx.globalCompositeOperation = 'source-over';
+	ctx.drawImage(iconCanvas, 0, 0, size, size);
+
 	return canvas.toBuffer();
 }
 
@@ -177,11 +225,21 @@ async function writeMonochromeIcon(
 	for (const res of actionIconResolutions) {
 		await fs.writeFile(
 			getOutputPath(path, res, 'light'),
-			await createMonochromeIcon(path, res, monochromeColors[path].light)
+			await createMonochromeIcon(
+				path,
+				res,
+				monochromeColors[path].light,
+				borderColor.light
+			)
 		);
 		await fs.writeFile(
 			getOutputPath(path, res, 'dark'),
-			await createMonochromeIcon(path, res, monochromeColors[path].dark)
+			await createMonochromeIcon(
+				path,
+				res,
+				monochromeColors[path].dark,
+				borderColor.dark
+			)
 		);
 	}
 }
