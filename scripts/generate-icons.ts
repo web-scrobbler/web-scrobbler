@@ -137,7 +137,7 @@ async function createUnmodifiedIcon(
 	folder: string,
 	path: string,
 	size: number
-) {
+): Promise<Buffer> {
 	const canvas = createCanvas(size, size);
 	const ctx = canvas.getContext('2d');
 	const image = await loadImage(resolve(input, folder, path));
@@ -158,7 +158,7 @@ async function createMonochromeIcon(
 	size: number,
 	color: string,
 	borderColor?: string
-) {
+): Promise<Buffer> {
 	// If there is a border, make room for the border
 	const iconSize = borderColor ? size - borderThickness * 2 : size;
 
@@ -272,7 +272,7 @@ async function writeMainIcon(): Promise<void> {
  * @param size - desired resolution of PNG.
  * @returns PNG file name to output to.
  */
-function getMiscOutputPath(path: string, size: number): string  {
+function getMiscOutputPath(path: string, size: number): string {
 	const name = path.split('.')[0];
 	return resolve(output, `${name}_${size}.png`);
 }
@@ -282,7 +282,7 @@ function getMiscOutputPath(path: string, size: number): string  {
  *
  * @param path - filename of the svg.
  */
-async function writeMiscIcon(path: keyof typeof miscSizes) {
+async function writeMiscIcon(path: keyof typeof miscSizes): Promise<void> {
 	for (const res of miscSizes[path]) {
 		await fs.writeFile(
 			getMiscOutputPath(path, res),
@@ -294,7 +294,7 @@ async function writeMiscIcon(path: keyof typeof miscSizes) {
 /**
  * Handles calling all the functions of the script correctly.
  */
-async function main() {
+async function main(): Promise<void> {
 	await fs.mkdir(output, { recursive: true });
 
 	//write monochrome icons
