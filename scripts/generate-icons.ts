@@ -272,7 +272,7 @@ async function writeMainIcon(): Promise<void> {
  * @param size - desired resolution of PNG.
  * @returns PNG file name to output to.
  */
-function getMiscOutputPath(path: string, size: number) {
+function getMiscOutputPath(path: string, size: number): string  {
 	const name = path.split('.')[0];
 	return resolve(output, `${name}_${size}.png`);
 }
