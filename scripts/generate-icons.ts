@@ -1,19 +1,19 @@
 import fs from 'fs/promises';
 import { createCanvas, loadImage } from 'canvas';
 import { resolve } from 'path';
-import { getBrowser, releaseTarget } from './util';
+import { getBrowser, releaseTarget, releaseTargets } from './util';
 import colorLog from './log';
 import { PluginOption } from 'vite';
 
 /**
  * Input folder containing the original svg icons in the source.
  */
-const input = resolve('', 'src', 'icons');
+const input = resolve('src', 'icons');
 
 /**
  * Output folder where the rendered images should be output during the building.
  */
-const output = resolve('', 'build', getBrowser(), 'icons');
+const output = resolve('build', getBrowser(), 'icons');
 
 /**
  * Resolutions to render main icon to.
@@ -85,6 +85,14 @@ const borderColor = {
 	light: '#f7f7f7',
 	dark: '#3b3b3b',
 };
+
+/**
+ * enum of icon themes
+ */
+enum themes {
+	light = 'light',
+	dark = 'dark',
+}
 
 /**
  * Thickness of icon borders
@@ -212,10 +220,10 @@ function getOutputPath(path: string, size: number, type: string) {
 async function writeMonochromeIcon(
 	path: keyof typeof monochromeColors
 ): Promise<void> {
-	if (releaseTarget === 'safari') {
+	if (releaseTarget === releaseTargets.safari) {
 		for (const res of actionIconResolutions) {
 			await fs.writeFile(
-				getOutputPath(path, res, 'safari'),
+				getOutputPath(path, res, releaseTargets.safari),
 				await createMonochromeIcon(path, res, safariIconColor)
 			);
 		}
@@ -224,7 +232,7 @@ async function writeMonochromeIcon(
 
 	for (const res of actionIconResolutions) {
 		await fs.writeFile(
-			getOutputPath(path, res, 'light'),
+			getOutputPath(path, res, themes.light),
 			await createMonochromeIcon(
 				path,
 				res,
@@ -233,7 +241,7 @@ async function writeMonochromeIcon(
 			)
 		);
 		await fs.writeFile(
-			getOutputPath(path, res, 'dark'),
+			getOutputPath(path, res, themes.dark),
 			await createMonochromeIcon(
 				path,
 				res,
