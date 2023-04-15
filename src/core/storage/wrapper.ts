@@ -62,6 +62,7 @@ export interface ManagerTab {
 
 export interface StateManagement {
 	activeTabs: ManagerTab[];
+	browserPreferredTheme: 'light' | 'dark';
 }
 
 export interface DataModels extends ScrobblerModels {

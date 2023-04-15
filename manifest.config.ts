@@ -1,5 +1,6 @@
 import { Manifest } from 'webextension-polyfill';
 import pkg from './package.json';
+import { releaseTarget } from './scripts/util';
 
 /**
  * Common properties between all browsers manifests
@@ -22,15 +23,6 @@ export const common: Manifest.WebExtensionManifest = {
 		},
 	],
 
-	action: {
-		default_icon: {
-			'19': 'icons/page_action_unsupported_19.png',
-			'38': 'icons/page_action_unsupported_38.png',
-		},
-		default_title: '__MSG_pageActionUnsupported__',
-		default_popup: 'src/ui/popup/index.html',
-	},
-
 	background: {
 		service_worker: 'background/main.js',
 	},
@@ -46,6 +38,17 @@ export const common: Manifest.WebExtensionManifest = {
 		page: 'src/ui/options/index.html',
 		open_in_tab: true,
 	},
+
+	icons: {
+		16: 'icons/icon_generic_16.png',
+		48: 'icons/icon_main_48.png',
+		96: 'icons/icon_main_96.png',
+		128: 'icons/icon_main_128.png',
+		256: 'icons/icon_main_256.png',
+		512: 'icons/icon_main_512.png',
+	},
+
+	action: getAction(releaseTarget),
 };
 
 /**
@@ -53,8 +56,6 @@ export const common: Manifest.WebExtensionManifest = {
  */
 export const chromeManifest: Manifest.WebExtensionManifest = {
 	...common,
-
-	icons: browserIcons('chrome'),
 };
 
 /**
@@ -62,8 +63,6 @@ export const chromeManifest: Manifest.WebExtensionManifest = {
  */
 export const safariManifest: Manifest.WebExtensionManifest = {
 	...common,
-
-	icons: browserIcons('safari'),
 };
 
 /**
@@ -71,8 +70,6 @@ export const safariManifest: Manifest.WebExtensionManifest = {
  */
 export const firefoxManifest: Manifest.WebExtensionManifest = {
 	...common,
-
-	icons: browserIcons('firefox'),
 
 	background: {
 		scripts: ['background/main.js'],
@@ -86,17 +83,22 @@ export const firefoxManifest: Manifest.WebExtensionManifest = {
 };
 
 /**
- * Gets icon paths for a browser
+ * Gets action with defaults for a browser
  *
- * @param browser - browser to get icons for
- * @returns object of icon paths
+ * @param browser - browser to get action for
+ * @returns manifest action object
  */
-function browserIcons(browser: string) {
+function getAction(browser?: string) {
+	// default to light theme in browsers that have themed icon as we cannot dynamically set in manifest.
+	const defaultType = browser === 'safari' ? 'safari' : 'light';
 	return {
-		16: 'icons/icon_generic_16.png',
-		48: `icons/icon_${browser}_48.png`,
-		128: `icons/icon_${browser}_128.png`,
-		256: `icons/icon_${browser}_256.png`,
-		512: `icons/icon_${browser}_512.png`,
+		default_icon: {
+			16: `icons/action_unsupported_16_${defaultType}.png`,
+			19: `icons/action_unsupported_19_${defaultType}.png`,
+			32: `icons/action_unsupported_32_${defaultType}.png`,
+			38: `icons/action_unsupported_38_${defaultType}.png`,
+		},
+		default_title: '__MSG_pageActionUnsupported__',
+		default_popup: 'src/ui/popup/index.html',
 	};
 }

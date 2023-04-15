@@ -49,6 +49,10 @@ interface ContentCommunications {
 		};
 		response: void;
 	};
+	updateTheme: {
+		payload: 'dark' | 'light';
+		response: void;
+	};
 }
 
 interface BackgroundCommunications {

@@ -6,7 +6,7 @@ import { getBrowser } from './util';
 import colorLog from './log';
 
 async function performMinification() {
-	await imagemin(['src/icons/*.png'], {
+	await imagemin([`build/${getBrowser()}/icons/*.png`], {
 		destination: `build/${getBrowser()}/icons`,
 		plugins: [imageminPngquant()],
 	});
@@ -22,7 +22,7 @@ async function performMinification() {
 export default function minifyImages(): PluginOption {
 	return {
 		name: 'compile-connectors',
-		async generateBundle() {
+		async buildEnd() {
 			await performMinification();
 			colorLog('Finished image minification', 'success');
 		},

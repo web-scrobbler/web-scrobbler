@@ -68,18 +68,18 @@ export function unlockState(): void {
 }
 
 /**
- * Get current tab list
+ * Get current state
  *
- * @returns tab list
+ * @returns current state
  */
 export async function getState(): Promise<StateManagement | null> {
 	return state.getLocking();
 }
 
 /**
- * Set tab list
+ * Set state
  *
- * @param data - new tab list
+ * @param data - new state
  */
 export async function setState(data: StateManagement): Promise<void> {
 	return state.setLocking(data);
@@ -93,14 +93,15 @@ export async function setState(data: StateManagement): Promise<void> {
  * @returns tab details
  */
 export async function getCurrentTab(): Promise<ManagerTab> {
-	const { activeTabs } = (await state.getLocking()) ?? { activeTabs: [] };
-	const filteredTabs = await filterInactiveTabs(activeTabs);
+	const curState = (await state.getLocking()) ?? DEFAULT_STATE;
+	const filteredTabs = await filterInactiveTabs(curState.activeTabs);
 	void state.setLocking({
 		activeTabs: filteredTabs,
+		browserPreferredTheme: curState.browserPreferredTheme,
 	});
 
 	for (const priorityGroup of controllerModePriority) {
-		for (const tab of activeTabs) {
+		for (const tab of filteredTabs) {
 			if (priorityGroup.includes(tab.mode)) {
 				performUpdateAction(tab);
 				return tab;
@@ -117,11 +118,28 @@ export async function getCurrentTab(): Promise<ManagerTab> {
 }
 
 /**
- * Helper that fetches tab list, and returns empty array if an improper response is received.
+ * Helper that fetches current state, and returns base object if nothing is fetched. Locking.
  *
- * @returns active tab list
+ * @returns current state
  */
-export async function fetchTab() {
-	const { activeTabs } = (await state.get()) ?? { activeTabs: [] };
-	return activeTabs;
+export async function fetchState(): Promise<StateManagement> {
+	const curState = (await state.getLocking()) ?? DEFAULT_STATE;
+	return curState;
 }
+
+/**
+ * Gets the current browser preferred theme, does not lock.
+ *
+ * @returns the current browser preferred theme.
+ */
+export async function getBrowserPreferredTheme(): Promise<'light' | 'dark'> {
+	return (await state.get())?.browserPreferredTheme ?? 'light';
+}
+
+/**
+ * Default storage state
+ */
+export const DEFAULT_STATE: StateManagement = {
+	activeTabs: [],
+	browserPreferredTheme: 'light',
+};
