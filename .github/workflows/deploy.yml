@@ -88,7 +88,7 @@ jobs:
         run: npm ci
 
       - name: Create zipball
-        run: npx run dist chrome
+        run: npm run dist chrome
 
       - name: Get version from package
         id: get-package-version
