@@ -63,7 +63,7 @@
     "sass": "1.62.0",
     "solid-js": "1.7.3",
     "stylelint-config-web-scrobbler": "0.2.0",
-    "tsx": "3.12.5",
+    "tsx": "3.12.6",
     "typescript": "5.0.4",
     "vite-plugin-solid": "2.7.0",
     "vite-plugin-static-copy": "0.13.1",
