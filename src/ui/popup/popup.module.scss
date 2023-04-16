@@ -135,3 +135,15 @@ a {
 .bold {
 	font-weight: bold;
 }
+
+.settingsIcon {
+	bottom: 0.75em;
+	color: var(--text);
+	position: absolute;
+	right: 0.75em;
+
+	&:hover,
+	&:active {
+		color: var(--last-fm);
+	}
+}
