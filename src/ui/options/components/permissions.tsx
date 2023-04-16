@@ -3,6 +3,10 @@ import browser from 'webextension-polyfill';
 import styles from './components.module.scss';
 import { t } from '@/util/i18n';
 
+const desiredPermissions = {
+	origins: ['http://*/', 'https://*/'],
+};
+
 export default function Permissions() {
 	const [perms, setPerms] = createSignal(true);
 	hasPermissions(setPerms);
@@ -15,9 +19,7 @@ export default function Permissions() {
 					onClick={() => {
 						// This is inline and not async, as when it was not there were some issues with safari isTrusted
 						browser.permissions
-							.request({
-								origins: ['http://*/', 'https://*/'],
-							})
+							.request(desiredPermissions)
 							.then(setPerms);
 					}}
 				>
@@ -29,9 +31,5 @@ export default function Permissions() {
 }
 
 async function hasPermissions(setPerms: Setter<boolean>) {
-	setPerms(
-		await browser.permissions.contains({
-			origins: ['http://*/', 'https://*/'],
-		})
-	);
+	setPerms(await browser.permissions.contains(desiredPermissions));
 }
