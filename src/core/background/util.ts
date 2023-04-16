@@ -68,15 +68,6 @@ export function unlockState(): void {
 }
 
 /**
- * Get current state
- *
- * @returns current state
- */
-export async function getState(): Promise<StateManagement | null> {
-	return state.getLocking();
-}
-
-/**
  * Set state
  *
  * @param data - new state
@@ -93,9 +84,9 @@ export async function setState(data: StateManagement): Promise<void> {
  * @returns tab details
  */
 export async function getCurrentTab(): Promise<ManagerTab> {
-	const curState = (await state.getLocking()) ?? DEFAULT_STATE;
+	const curState = await getState();
 	const filteredTabs = await filterInactiveTabs(curState.activeTabs);
-	void state.setLocking({
+	await setState({
 		activeTabs: filteredTabs,
 		browserPreferredTheme: curState.browserPreferredTheme,
 	});
@@ -122,7 +113,7 @@ export async function getCurrentTab(): Promise<ManagerTab> {
  *
  * @returns current state
  */
-export async function fetchState(): Promise<StateManagement> {
+export async function getState(): Promise<StateManagement> {
 	const curState = (await state.getLocking()) ?? DEFAULT_STATE;
 	return curState;
 }

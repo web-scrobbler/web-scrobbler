@@ -11,11 +11,10 @@ import browser, { Tabs } from 'webextension-polyfill';
 import {
 	DEFAULT_STATE,
 	contextMenus,
-	fetchState,
+	getState,
 	filterAsync,
 	filterInactiveTabs,
 	getCurrentTab,
-	getState,
 	setState,
 	unlockState,
 } from './util';
@@ -45,7 +44,7 @@ browser.tabs.onActivated.addListener(onActivatedUpdate);
  * @param tabId - tab ID of closed tab
  */
 async function onRemovedUpdate(tabId: number) {
-	const curState = await fetchState();
+	const curState = await getState();
 
 	await setState({
 		activeTabs: await filterInactiveTabs(curState.activeTabs),
@@ -78,7 +77,7 @@ async function onActivatedUpdate(activeInfo: Tabs.OnActivatedActiveInfoType) {
  * @param tab - currently active tab details, if they exist.
  */
 async function updateTabList(tabId: number, _?: any, tab?: Tabs.Tab) {
-	const curState = (await getState()) ?? DEFAULT_STATE;
+	const curState = await getState();
 	let curTab: ManagerTab = {
 		tabId,
 		mode: ControllerMode.Unsupported,
@@ -123,7 +122,7 @@ async function updateTab(
 	// perform the update, making sure there is no race condition, and making sure locking isnt permanently locked by an error
 	let performedSet = false;
 	try {
-		const curState = (await getState()) ?? DEFAULT_STATE;
+		const curState = await getState();
 		const activeTabs = await filterInactiveTabs(curState.activeTabs);
 		for (let i = 0; i < activeTabs.length; i++) {
 			if (activeTabs[i].tabId !== tabId) {
@@ -276,7 +275,7 @@ setupBackgroundListeners(
 	backgroundListener({
 		type: 'updateTheme',
 		fn: async (payload) => {
-			const curState = (await getState()) ?? DEFAULT_STATE;
+			const curState = await getState();
 			await setState({
 				activeTabs: curState.activeTabs,
 				browserPreferredTheme: payload,
