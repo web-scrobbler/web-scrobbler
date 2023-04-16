@@ -28,8 +28,7 @@ export async function performUpdateAction(tab: ManagerTab) {
  * Fetches the tab to update action state from, and then updates the action state
  */
 export async function updateAction() {
-	const tab = await getCurrentTab();
-	await performUpdateAction(tab);
+	await getCurrentTab();
 }
 
 /**

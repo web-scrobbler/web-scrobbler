@@ -129,8 +129,8 @@ export default class StorageWrapper<K extends keyof DataModels> {
 	}
 
 	unlock(): void {
-		this.emitter.emit('updateLock', this.requests[0]);
 		this.requests = this.requests.slice(1);
+		this.emitter.emit('updateLock', this.requests[0]);
 
 		clearInterval(this.interval);
 		this.interval = setInterval(() => {
