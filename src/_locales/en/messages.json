@@ -12,6 +12,10 @@
         "message": "General",
         "description": "'General' section"
     },
+    "optionsPermissionsLabel": {
+        "message": "You have not granted Web Scrobbler the permission to access all sites, which means you have to click the extension icon to start scrobbling every time. Click here to grant the permission. Note that in safari the permission will not automatically be granted, but the next time you visit a supported site you will be able to click \"Always Allow on Every Website...\" to grant the permission.",
+        "description": "Label for permissions button"
+    },
     "optionUseNotifications": {
         "message": "Use now playing notifications",
         "description": "Option label"

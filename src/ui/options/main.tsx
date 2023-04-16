@@ -18,6 +18,7 @@ import ContactComponent from './components/contact';
 import OptionsComponent from './components/options/options';
 import Accounts from './components/accounts';
 import { EditsModal } from './components/options/edited-tracks';
+import Permissions from './components/permissions';
 
 /**
  * All the different options pages, their sidebar labels, and icons.
@@ -93,6 +94,7 @@ function Options() {
 
 	return (
 		<>
+			<Permissions />
 			<div class={styles.settings}>
 				<Sidebar
 					items={settings}

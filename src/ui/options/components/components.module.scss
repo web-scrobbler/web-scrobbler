@@ -385,3 +385,19 @@ summary {
 	margin-left: 0.5em;
 	padding: 0.25em 0.5em;
 }
+
+.permissionsPopup {
+	background-color: var(--sidebar-bg);
+	color: var(--text);
+	margin: 0;
+	text-align: center;
+
+	button {
+		background: none;
+		border: none;
+		cursor: pointer;
+		font-size: 1.25em;
+		margin: 0;
+		padding: 1em 15vw;
+	}
+}
