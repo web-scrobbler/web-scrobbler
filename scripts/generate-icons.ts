@@ -97,7 +97,21 @@ enum themes {
 /**
  * Thickness of icon borders
  */
-const borderThickness = 1;
+const borderThickness = 0.5;
+
+/**
+ * Offset adjacency matrix
+ */
+const adjacencies = [
+	[borderThickness, 0],
+	[borderThickness, borderThickness],
+	[0, borderThickness],
+	[-borderThickness, borderThickness],
+	[-borderThickness, 0],
+	[-borderThickness, -borderThickness],
+	[0, -borderThickness],
+	[borderThickness, -borderThickness],
+];
 
 /**
  * Safari tints icons - we only use a single color for these.
@@ -183,10 +197,18 @@ async function createMonochromeIcon(
 		return iconCanvas.toBuffer();
 	}
 
-	// now draw icon border
+	// now draw offset icons to create a border
 	const canvas = createCanvas(size, size);
 	const ctx = canvas.getContext('2d');
-	ctx.drawImage(image, 0, 0, size, size);
+	for (const adjacency of adjacencies) {
+		ctx.drawImage(
+			image,
+			adjacency[0] + borderThickness,
+			adjacency[1] + borderThickness,
+			iconSize,
+			iconSize
+		);
+	}
 	// fill in
 	ctx.globalCompositeOperation = 'source-in';
 	ctx.fillStyle = borderColor;
