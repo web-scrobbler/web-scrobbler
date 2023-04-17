@@ -19,6 +19,6 @@ jobs:
           pull-request-number: "${{ github.event.pull_request.number }}"
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           valid-labels: >-
-            maintenance, fixed, updated, added, skip-changelog
-            major-change, minor-change, patch-change          
+            maintenance, fixed, updated, added, skip-changelog,
+            major-change, minor-change, patch-change
           disable-reviews: true
