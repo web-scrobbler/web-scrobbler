@@ -82,21 +82,63 @@ export default function ConnectorOverrideOptions() {
 						}}
 					/>
 				</li>
-				<For each={connectors}>
-					{(connector) => (
-						<ConnectorOption
-							connector={connector}
-							options={options}
-							setOptions={setOptions}
-							overrideOptions={overrideOptions}
-							setOverrideOptions={setOverrideOptions}
-							customPatternOptions={customPatternOptions}
-							setCustomPatternOptions={setCustomPatternOptions}
-						/>
-					)}
-				</For>
+
+				<ConnectorOptions
+					options={options}
+					setOptions={setOptions}
+					overrideOptions={overrideOptions}
+					setOverrideOptions={setOverrideOptions}
+					customPatternOptions={customPatternOptions}
+					setCustomPatternOptions={setCustomPatternOptions}
+				/>
 			</ul>
 		</>
+	);
+}
+
+/**
+ * Connector Override Options list
+ */
+function ConnectorOptions(props: {
+	options: Resource<Options.GlobalOptions | null>;
+	setOptions: ResourceActions<
+		Options.GlobalOptions | null | undefined,
+		unknown
+	>;
+	overrideOptions: Resource<Options.ConnectorsOverrideOptions | null>;
+	setOverrideOptions: ResourceActions<
+		Options.ConnectorsOverrideOptions | null | undefined,
+		unknown
+	>;
+	customPatternOptions: Resource<CustomPatterns | null>;
+	setCustomPatternOptions: ResourceActions<
+		CustomPatterns | null | undefined,
+		unknown
+	>;
+}) {
+	return (
+		<Show
+			when={
+				!props.options.loading &&
+				!props.overrideOptions.loading &&
+				!props.customPatternOptions.loading
+			}
+			fallback={<p>{t('optionsLoadingConnectorOptions')}</p>}
+		>
+			<For each={connectors}>
+				{(connector) => (
+					<ConnectorOption
+						connector={connector}
+						options={props.options}
+						setOptions={props.setOptions}
+						overrideOptions={props.overrideOptions}
+						setOverrideOptions={props.setOverrideOptions}
+						customPatternOptions={props.customPatternOptions}
+						setCustomPatternOptions={props.setCustomPatternOptions}
+					/>
+				)}
+			</For>
+		</Show>
 	);
 }
 

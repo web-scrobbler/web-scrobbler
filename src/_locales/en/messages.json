@@ -234,6 +234,10 @@
         "message": "Toggle",
         "description": "Label of toggle button"
     },
+    "optionsLoadingConnectorOptions": {
+        "message": "Loading connector options...",
+        "description": "Loading connector options message"
+    },
 
     "learnMoreLabel": {
         "message": "Learn more",
