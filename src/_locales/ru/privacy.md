@@ -1,29 +1,29 @@
-# Политика конфиденциальности
+# Privacy policy
 
-Данная политика конфиденциальности описывает, какие данные мы собираем и храним, как мы используем и раскрываем эти данные.
+This privacy policy explains what data we collect and store; how we use and disclose this data.
 
-**Важное примечание**: Данный документ применим к Web Scrobbler версии v2.40.0 и более новым.
+**Important note**: This document is applicable to Web Scrobbler v2.40.0 and newer.
 
-## Какие данные мы собираем?
+## What data is collected?
 
-Расширение не собирает вашу персональную информацию.
+The extension does not collect any of your personal data.
 
-## Какие данные хранит расширение?
+## What data is stored by the extension?
 
-Ваши настройки и учётные записи сохраняются с использованием возможностей браузера. Расширение хранит:
+Your settings and credentials are stored within your browser. The extension stores:
 
- - Ваши учетные записи
- - Ваши персональные настройки расширения
- - Информацию об отредактированных вами композициях
- - Пользовательские URL паттерны для коннекторов
- - Системную информацию для нужд расширения
+ - Your credentials of scrobble services
+ - Your personal Web Scrobbler settings
+ - Your edited tracks
+ - Your custom URL patterns for connectors
+ - System information of the extension
 
-Ваши учётные записи используются только для работы с сервисами для скробблинга.
+Your credentials are used to communicate with scrobble services only.
 
-Все данные используются только внутри расширения; мы не отправляем эти данные третьим лицам.
+All data is used by the extension internally; we don't send this data to 3rd-party services.
 
-## Почему расширение запрашивает доступ ко всем сайтам?
+## Why does the extension access to all websites?
 
 The extension supports several self-hosted services (e.g. Funkwhale), which are supposed to have user-defined URLs. The extension could not know these URLs, that's why access to all websites is required.
 
-Также, это сделано для удобства пользователей. Пользователи не получат повторный запрос на разрешение доступа к новым сайтам, которые добавляются в новых версиях.
+Also, it asks accessing for user convenience only. Users will not be prompted to confirm access to new websites added in new extension versions.

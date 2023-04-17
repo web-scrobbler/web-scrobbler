@@ -8,7 +8,7 @@
         "description": "'General' section"
     },
     "optionsPermissionsLabel": {
-        "message": "You have not granted Web Scrobbler the permission to access all sites, which means you have to click the extension icon to start scrobbling every time. Click here to grant the permission. Note that in safari the permission will not automatically be granted, but the next time you visit a supported site you will be able to click \"Always Allow on Every Website...\" to grant the permission.",
+        "message": "",
         "description": "Label for permissions button"
     },
     "optionUseNotifications": {
@@ -36,7 +36,7 @@
         "description": "Option title"
     },
     "optionsScrobbleBehavior": {
-        "message": "Scrobble behavior",
+        "message": "",
         "description": "'Scrobble behavior' section"
     },
     "optionForceRecognize": {
@@ -48,19 +48,19 @@
         "description": "Option title"
     },
     "optionScrobbleRecognizedTracks": {
-        "message": "Scrobble recognized or edited tracks (default)",
+        "message": "",
         "description": "Option label"
     },
     "optionScrobbleRecognizedTracksTitle": {
-        "message": "Only scrobble tracks if they are recognized or edited",
+        "message": "",
         "description": "Option title"
     },
     "optionScrobbleEditedTracksOnly": {
-        "message": "Scrobble edited tracks only",
+        "message": "",
         "description": "Option label"
     },
     "optionScrobbleEditedTracksOnlyTitle": {
-        "message": "Only scrobble tracks if they are edited",
+        "message": "",
         "description": "Option title"
     },
     "optionsHidden": {
@@ -76,7 +76,7 @@
         "description": "Option title"
     },
     "optionYtDesc": {
-        "message": "If you turn off both options, the extension will scrobble YouTube videos from all categories.",
+        "message": "",
         "description": "Description of YouTube options"
     },
     "optionPercentDesc": {
@@ -100,39 +100,39 @@
         "description": "Option title"
     },
     "optionYtGetTrackInfoFromYtMusic": {
-        "message": "Use Youtube Music to get track info",
+        "message": "",
         "description": "Option label"
     },
     "optionYtGetTrackInfoFromYtMusicTitle": {
-        "message": "Use Youtube Music to get track info, if disabled defaults to using description and video title",
+        "message": "",
         "description": "Option title"
     },
     "optionYtMusicRecognisedOnly": {
-        "message": "Scrobble only videos that are recognized by YouTube Music as music",
+        "message": "",
         "description": "Option label"
     },
     "optionYtMusicRecognisedOnlyTitle": {
-        "message": "Ignore videos that are not recognised by YouTube Music as music",
+        "message": "",
         "description": "Option title"
     },
     "optionTheme": {
-        "message": "Theme",
+        "message": "",
         "description": "Option label"
     },
     "optionThemeTitle": {
-        "message": "Choose the theme of the extension",
+        "message": "",
         "description": "Option title"
     },
     "optionThemeLight": {
-        "message": "Light",
+        "message": "",
         "description": "Option label"
     },
     "optionThemeDark": {
-        "message": "Dark",
+        "message": "",
         "description": "Option label"
     },
     "optionThemeSystem": {
-        "message": "System",
+        "message": "",
         "description": "Option label"
     },
     "optionsAccounts": {
@@ -228,7 +228,7 @@
         "description": "Label of toggle button"
     },
     "optionsLoadingConnectorOptions": {
-        "message": "Loading connector options...",
+        "message": "",
         "description": "Loading connector options message"
     },
     "learnMoreLabel": {
@@ -344,7 +344,7 @@
         "description": "Question #7"
     },
     "faqAnswer7": {
-        "message": "The original author of this extension is David Šabata. Now this extension is developed and maintained by the Web Scrobbler Team.",
+        "message": "",
         "description": "Answer #7"
     },
     "optionsAbout": {
@@ -380,11 +380,11 @@
         "description": ""
     },
     "donationButtonLabel": {
-        "message": "Support us on OpenCollective",
+        "message": "",
         "description": "The donation button label"
     },
     "customPatterns": {
-        "message": "URL patterns",
+        "message": "",
         "description": "'URL patterns' section"
     },
     "customPatternsHint": {
@@ -540,15 +540,15 @@
         "description": "Placeholder of album artist input"
     },
     "infoViewArtistPage": {
-        "message": "View artist page: $1",
+        "message": "",
         "description": "Placeholder of album input"
     },
     "infoViewAlbumPage": {
-        "message": "View album page: $1",
+        "message": "",
         "description": "Placeholder of album input"
     },
     "infoViewTrackPage": {
-        "message": "View track page: $1",
+        "message": "",
         "description": "Placeholder of album input"
     },
     "infoYourScrobbles": {
@@ -564,7 +564,7 @@
         "description": "`loading` page action title"
     },
     "pageActionPlaying": {
-        "message": "Now playing $1",
+        "message": "",
         "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
