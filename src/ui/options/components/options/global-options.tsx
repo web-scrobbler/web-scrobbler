@@ -62,12 +62,12 @@ export default function GlobalOptionsList(props: {
 	);
 }
 
+const [theme, setTheme] = createResource(getTheme);
+
 /**
  * Component that allows the user to select a display theme.
  */
 function ThemeSelector() {
-	const [theme, setTheme] = createResource(getTheme);
-
 	return (
 		<div class={styles.selectOption}>
 			<label title={t('optionThemeTitle')} class={styles.bigLabel}>
