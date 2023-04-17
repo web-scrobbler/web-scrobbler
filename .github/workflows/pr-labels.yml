@@ -20,5 +20,5 @@ jobs:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
           valid-labels: "\
             maintenance, fixed, updated, added, skip-changelog,\
-            major-change, minor-change, patch-change"
+            major-change, minor-change, patch-change, test"
           disable-reviews: true
