@@ -33,12 +33,13 @@ export default function EditedTracks(props: {
 	);
 }
 
+const [edits, { mutate }] = createResource(localCache.get.bind(localCache));
+
 /**
  * Component that shows all the currently registered track edits and allows the user to delete them.
  * To be displayed in a modal.
  */
 export function EditsModal() {
-	const [edits, { mutate }] = createResource(localCache.get.bind(localCache));
 	return (
 		<>
 			<h1>

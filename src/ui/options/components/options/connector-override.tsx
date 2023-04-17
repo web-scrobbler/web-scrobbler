@@ -1,13 +1,20 @@
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import * as Options from '@/core/storage/options';
-import { For, Resource, ResourceActions, Show, createResource } from 'solid-js';
+import {
+	Accessor,
+	For,
+	Show,
+	Suspense,
+	createEffect,
+	createResource,
+	createSignal,
+} from 'solid-js';
 import styles from '../components.module.scss';
 import Settings from '@suid/icons-material/SettingsOutlined';
 import ExpandMore from '@suid/icons-material/ExpandMoreOutlined';
 import Delete from '@suid/icons-material/DeleteOutlined';
 import connectors, { ConnectorMeta } from '@/core/connectors';
 import Add from '@suid/icons-material/AddOutlined';
-import { CustomPatterns } from '@/core/storage/wrapper';
 import {
 	Checkbox,
 	ConnectorTripleCheckbox,
@@ -25,19 +32,24 @@ const customPatterns = BrowserStorage.getStorage(
 	BrowserStorage.CUSTOM_PATTERNS
 );
 
+const [options, setOptions] = createResource(
+	globalOptions.get.bind(globalOptions)
+);
+const [overrideOptions, setOverrideOptions] = createResource(
+	connectorOverrideOptions.get.bind(connectorOverrideOptions)
+);
+const [customPatternOptions, setCustomPatternOptions] = createResource(
+	customPatterns.get.bind(customPatterns)
+);
+console.log(options.loading);
+
 /**
  * Component that shows the override options for all connectors
  */
 export default function ConnectorOverrideOptions() {
-	const [options, setOptions] = createResource(
-		globalOptions.get.bind(globalOptions)
-	);
-	const [overrideOptions, setOverrideOptions] = createResource(
-		connectorOverrideOptions.get.bind(connectorOverrideOptions)
-	);
-	const [customPatternOptions, setCustomPatternOptions] = createResource(
-		customPatterns.get.bind(customPatterns)
-	);
+	console.log(options());
+	console.log(overrideOptions());
+	console.log(customPatternOptions());
 	return (
 		<>
 			<h2>{t('optionsSupportedWebsites')}</h2>
@@ -83,14 +95,7 @@ export default function ConnectorOverrideOptions() {
 					/>
 				</li>
 
-				<ConnectorOptions
-					options={options}
-					setOptions={setOptions}
-					overrideOptions={overrideOptions}
-					setOverrideOptions={setOverrideOptions}
-					customPatternOptions={customPatternOptions}
-					setCustomPatternOptions={setCustomPatternOptions}
-				/>
+				<ConnectorOptions />
 			</ul>
 		</>
 	);
@@ -99,82 +104,31 @@ export default function ConnectorOverrideOptions() {
 /**
  * Connector Override Options list
  */
-function ConnectorOptions(props: {
-	options: Resource<Options.GlobalOptions | null>;
-	setOptions: ResourceActions<
-		Options.GlobalOptions | null | undefined,
-		unknown
-	>;
-	overrideOptions: Resource<Options.ConnectorsOverrideOptions | null>;
-	setOverrideOptions: ResourceActions<
-		Options.ConnectorsOverrideOptions | null | undefined,
-		unknown
-	>;
-	customPatternOptions: Resource<CustomPatterns | null>;
-	setCustomPatternOptions: ResourceActions<
-		CustomPatterns | null | undefined,
-		unknown
-	>;
-}) {
+function ConnectorOptions() {
 	return (
-		<Show
-			when={
-				!props.options.loading &&
-				!props.overrideOptions.loading &&
-				!props.customPatternOptions.loading
-			}
-			fallback={<p>{t('optionsLoadingConnectorOptions')}</p>}
-		>
+		<Suspense fallback={<p>{t('optionsLoadingConnectorOptions')}</p>}>
 			<For each={connectors}>
-				{(connector) => (
-					<ConnectorOption
-						connector={connector}
-						options={props.options}
-						setOptions={props.setOptions}
-						overrideOptions={props.overrideOptions}
-						setOverrideOptions={props.setOverrideOptions}
-						customPatternOptions={props.customPatternOptions}
-						setCustomPatternOptions={props.setCustomPatternOptions}
-					/>
-				)}
+				{(connector) => <ConnectorOption connector={connector} />}
 			</For>
-		</Show>
+		</Suspense>
 	);
 }
 
 /**
  * The connector override options for one connector
  */
-function ConnectorOption(props: {
-	connector: ConnectorMeta;
-	options: Resource<Options.GlobalOptions | null>;
-	setOptions: ResourceActions<
-		Options.GlobalOptions | null | undefined,
-		unknown
-	>;
-	overrideOptions: Resource<Options.ConnectorsOverrideOptions | null>;
-	setOverrideOptions: ResourceActions<
-		Options.ConnectorsOverrideOptions | null | undefined,
-		unknown
-	>;
-	customPatternOptions: Resource<CustomPatterns | null>;
-	setCustomPatternOptions: ResourceActions<
-		CustomPatterns | null | undefined,
-		unknown
-	>;
-}) {
-	const {
-		connector,
-		options,
-		setOptions,
-		overrideOptions,
-		setOverrideOptions,
-		customPatternOptions,
-		setCustomPatternOptions,
-	} = props;
+function ConnectorOption(props: { connector: ConnectorMeta }) {
+	const { connector } = props;
+	const [ref, setRef] = createSignal<HTMLDetailsElement>();
+	const [active, setActive] = createSignal(false);
+	createEffect(() => {
+		ref()?.addEventListener('toggle', () => {
+			setActive((a) => !a);
+		});
+	});
 	return (
 		<li>
-			<details>
+			<details ref={setRef}>
 				<summary>
 					<ExpandMore class={styles.expandVector} />
 					<SummaryCheckbox
@@ -211,10 +165,7 @@ function ConnectorOption(props: {
 				</summary>
 				<ConnectorOverrideOptionDetails
 					connector={connector}
-					overrideOptions={overrideOptions}
-					setOverrideOptions={setOverrideOptions}
-					customPatternOptions={customPatternOptions}
-					setCustomPatternOptions={setCustomPatternOptions}
+					active={active}
 				/>
 			</details>
 		</li>
@@ -226,26 +177,11 @@ function ConnectorOption(props: {
  */
 function ConnectorOverrideOptionDetails(props: {
 	connector: ConnectorMeta;
-	overrideOptions: Resource<Options.ConnectorsOverrideOptions | null>;
-	setOverrideOptions: ResourceActions<
-		Options.ConnectorsOverrideOptions | null | undefined,
-		unknown
-	>;
-	customPatternOptions: Resource<CustomPatterns | null>;
-	setCustomPatternOptions: ResourceActions<
-		CustomPatterns | null | undefined,
-		unknown
-	>;
+	active: Accessor<boolean>;
 }) {
-	const {
-		connector,
-		customPatternOptions,
-		setCustomPatternOptions,
-		overrideOptions,
-		setOverrideOptions,
-	} = props;
+	const { connector } = props;
 	return (
-		<>
+		<Show when={props.active()}>
 			<h3>{t('optionsGeneral')}</h3>
 			<Show when={browser.notifications}>
 				<ConnectorTripleCheckbox
@@ -363,27 +299,16 @@ function ConnectorOverrideOptionDetails(props: {
 			/>
 			<h3>{t('customPatterns')}</h3>
 			<p>{t('customPatternsHint')}</p>
-			<EditCustomPatterns
-				connector={connector}
-				customPatternOptions={customPatternOptions}
-				setCustomPatternOptions={setCustomPatternOptions}
-			/>
-		</>
+			<EditCustomPatterns connector={connector} />
+		</Show>
 	);
 }
 
 /**
  * input boxes that allows the user to edit the custom URL patterns for a connector
  */
-function EditCustomPatterns(props: {
-	connector: ConnectorMeta;
-	customPatternOptions: Resource<CustomPatterns | null>;
-	setCustomPatternOptions: ResourceActions<
-		CustomPatterns | null | undefined,
-		unknown
-	>;
-}) {
-	const { connector, customPatternOptions, setCustomPatternOptions } = props;
+function EditCustomPatterns(props: { connector: ConnectorMeta }) {
+	const { connector } = props;
 	return (
 		<>
 			<For each={customPatternOptions()?.[connector.id] ?? []}>
