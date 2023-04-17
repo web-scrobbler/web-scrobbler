@@ -41,15 +41,11 @@ const [overrideOptions, setOverrideOptions] = createResource(
 const [customPatternOptions, setCustomPatternOptions] = createResource(
 	customPatterns.get.bind(customPatterns)
 );
-console.log(options.loading);
 
 /**
  * Component that shows the override options for all connectors
  */
 export default function ConnectorOverrideOptions() {
-	console.log(options());
-	console.log(overrideOptions());
-	console.log(customPatternOptions());
 	return (
 		<>
 			<h2>{t('optionsSupportedWebsites')}</h2>
