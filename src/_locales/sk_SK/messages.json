@@ -8,7 +8,7 @@
         "description": "'General' section"
     },
     "optionsPermissionsLabel": {
-        "message": "",
+        "message": "You have not granted Web Scrobbler the permission to access all sites, which means you have to click the extension icon to start scrobbling every time. Click here to grant the permission. Note that in safari the permission will not automatically be granted, but the next time you visit a supported site you will be able to click \"Always Allow on Every Website...\" to grant the permission.",
         "description": "Label for permissions button"
     },
     "optionUseNotifications": {
@@ -36,7 +36,7 @@
         "description": "Option title"
     },
     "optionsScrobbleBehavior": {
-        "message": "",
+        "message": "Scrobble behavior",
         "description": "'Scrobble behavior' section"
     },
     "optionForceRecognize": {
@@ -48,19 +48,19 @@
         "description": "Option title"
     },
     "optionScrobbleRecognizedTracks": {
-        "message": "",
+        "message": "Scrobble recognized or edited tracks (default)",
         "description": "Option label"
     },
     "optionScrobbleRecognizedTracksTitle": {
-        "message": "",
+        "message": "Only scrobble tracks if they are recognized or edited",
         "description": "Option title"
     },
     "optionScrobbleEditedTracksOnly": {
-        "message": "",
+        "message": "Scrobble edited tracks only",
         "description": "Option label"
     },
     "optionScrobbleEditedTracksOnlyTitle": {
-        "message": "",
+        "message": "Only scrobble tracks if they are edited",
         "description": "Option title"
     },
     "optionsHidden": {
@@ -76,7 +76,7 @@
         "description": "Option title"
     },
     "optionYtDesc": {
-        "message": "",
+        "message": "If you turn off both options, the extension will scrobble YouTube videos from all categories.",
         "description": "Description of YouTube options"
     },
     "optionPercentDesc": {
@@ -100,39 +100,39 @@
         "description": "Option title"
     },
     "optionYtGetTrackInfoFromYtMusic": {
-        "message": "",
+        "message": "Use Youtube Music to get track info",
         "description": "Option label"
     },
     "optionYtGetTrackInfoFromYtMusicTitle": {
-        "message": "",
+        "message": "Use Youtube Music to get track info, if disabled defaults to using description and video title",
         "description": "Option title"
     },
     "optionYtMusicRecognisedOnly": {
-        "message": "",
+        "message": "Scrobble only videos that are recognized by YouTube Music as music",
         "description": "Option label"
     },
     "optionYtMusicRecognisedOnlyTitle": {
-        "message": "",
+        "message": "Ignore videos that are not recognised by YouTube Music as music",
         "description": "Option title"
     },
     "optionTheme": {
-        "message": "",
+        "message": "Theme",
         "description": "Option label"
     },
     "optionThemeTitle": {
-        "message": "",
+        "message": "Choose the theme of the extension",
         "description": "Option title"
     },
     "optionThemeLight": {
-        "message": "",
+        "message": "Light",
         "description": "Option label"
     },
     "optionThemeDark": {
-        "message": "",
+        "message": "Dark",
         "description": "Option label"
     },
     "optionThemeSystem": {
-        "message": "",
+        "message": "System",
         "description": "Option label"
     },
     "optionsAccounts": {
@@ -160,27 +160,27 @@
         "description": "Button label"
     },
     "accountsScrobblerProps": {
-        "message": "",
+        "message": "Properties",
         "description": "Button label"
     },
     "accountsScrobblerPropsTitle": {
-        "message": "",
+        "message": "$1 properties",
         "description": "Button label"
     },
     "accountsUserApiUrl": {
-        "message": "",
+        "message": "API URL",
         "description": "Input label"
     },
     "accountsUserApiUrlPlaceholder": {
-        "message": "",
+        "message": "Custom API URL",
         "description": "Input label"
     },
     "accountsUserToken": {
-        "message": "",
+        "message": "Token",
         "description": "Input label"
     },
     "accountsUserTokenPlaceholder": {
-        "message": "",
+        "message": "Custom token",
         "description": "Input label"
     },
     "optionsOptions": {
@@ -228,7 +228,7 @@
         "description": "Label of toggle button"
     },
     "optionsLoadingConnectorOptions": {
-        "message": "",
+        "message": "Loading connector options...",
         "description": "Loading connector options message"
     },
     "learnMoreLabel": {
@@ -380,11 +380,11 @@
         "description": ""
     },
     "donationButtonLabel": {
-        "message": "",
+        "message": "Support us on OpenCollective",
         "description": "The donation button label"
     },
     "customPatterns": {
-        "message": "",
+        "message": "URL patterns",
         "description": "'URL patterns' section"
     },
     "customPatternsHint": {
@@ -540,15 +540,15 @@
         "description": "Placeholder of album artist input"
     },
     "infoViewArtistPage": {
-        "message": "",
+        "message": "View artist page: $1",
         "description": "Placeholder of album input"
     },
     "infoViewAlbumPage": {
-        "message": "",
+        "message": "View album page: $1",
         "description": "Placeholder of album input"
     },
     "infoViewTrackPage": {
-        "message": "",
+        "message": "View track page: $1",
         "description": "Placeholder of album input"
     },
     "infoYourScrobbles": {
@@ -564,7 +564,7 @@
         "description": "`loading` page action title"
     },
     "pageActionPlaying": {
-        "message": "",
+        "message": "Now playing $1",
         "description": "`playing` page action title"
     },
     "pageActionScrobbled": {

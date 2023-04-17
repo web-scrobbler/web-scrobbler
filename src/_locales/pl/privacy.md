@@ -1,29 +1,29 @@
-# Privacy policy
+# Polityka prywatności
 
-This privacy policy explains what data we collect and store; how we use and disclose this data.
+Niniejsza polityka prywatności wyjaśnia zakres danych zbieranych, przetwarzanych przez rozszerzenie; a także zakres ich wykorzystania oraz dalszego wykorzystania tych danych.
 
-**Important note**: This document is applicable to Web Scrobbler v2.40.0 and newer.
+**Istotna uwaga**: Dokument ten ma zastosowanie do Web Scrobblera w wersji 2.40.0 oraz nowszych.
 
-## What data is collected?
+## Jakie dane są zbierane?
 
-The extension does not collect any of your personal data.
+Rozszerzenie nie zbiera żadnych informacji osobistych.
 
-## What data is stored by the extension?
+## Jakie dane są przechowywane przez rozszerzenie?
 
-Your settings and credentials are stored within your browser. The extension stores:
+Twoje ustawienia oraz poświadczenia logowania są przechowywane wewnątrz przeglądarki. Rozszerzenie przechowuje:
 
- - Your credentials of scrobble services
- - Your personal Web Scrobbler settings
- - Your edited tracks
- - Your custom URL patterns for connectors
- - System information of the extension
+ - Twoje poświadczenia logowania do usług scrobblera
+ - Twoje osobiste ustawienia Web Scrobblera
+ - Twoje zmodyfikowane utwory
+ - Niestandardowe wzorce adresów wspieranych usług
+ - Informacje systemowe rozszerzenia
 
-Your credentials are used to communicate with scrobble services only.
+Twoje poświadczenia logowania są wykorzystywane wyłącznie do komunikacji z usługami scrobblera.
 
-All data is used by the extension internally; we don't send this data to 3rd-party services.
+Wszelkie dane są przechowywane w pamięci wewnętrznej rozszerzenia; nie przesyłamy ich do serwisów stron trzecich.
 
-## Why does the extension access to all websites?
+## Czemu rozszerzenie uzyskuje dostęp do wszystkich witryn?
 
 The extension supports several self-hosted services (e.g. Funkwhale), which are supposed to have user-defined URLs. The extension could not know these URLs, that's why access to all websites is required.
 
-Also, it asks accessing for user convenience only. Users will not be prompted to confirm access to new websites added in new extension versions.
+Zwiększa to również wygodę dla użytkownika, który nie musi udzielać zgód na dostęp do każdej z nowych usług dodawanych w przyszłych aktualizacjach.
