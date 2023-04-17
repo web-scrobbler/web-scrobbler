@@ -24,6 +24,6 @@
 
 ## Почему расширение запрашивает доступ ко всем сайтам?
 
-Расширение поддерживает некоторые self-hosted сервисы (например, Funkwhale), которые подразумевают использование URL, заданных их владельцами. Расширение не может знать заранее эти URL, поэтому оно запрашивает разрешения доступа ко всем веб-сайтам.
+The extension supports several self-hosted services (e.g. Funkwhale), which are supposed to have user-defined URLs. The extension could not know these URLs, that's why access to all websites is required.
 
 Также, это сделано для удобства пользователей. Пользователи не получат повторный запрос на разрешение доступа к новым сайтам, которые добавляются в новых версиях.

@@ -7,6 +7,10 @@
         "message": "Общие",
         "description": "'General' section"
     },
+    "optionsPermissionsLabel": {
+        "message": "You have not granted Web Scrobbler the permission to access all sites, which means you have to click the extension icon to start scrobbling every time. Click here to grant the permission. Note that in safari the permission will not automatically be granted, but the next time you visit a supported site you will be able to click \"Always Allow on Every Website...\" to grant the permission.",
+        "description": "Label for permissions button"
+    },
     "optionUseNotifications": {
         "message": "Уведомлять о проигрываемой композиции",
         "description": "Option label"
@@ -23,6 +27,18 @@
         "message": "Показывать уведомление, если расширение не смогло распознать композицию",
         "description": "Option title"
     },
+    "optionScrobblePodcasts": {
+        "message": "Скробблить подкасты",
+        "description": "Option label"
+    },
+    "optionScrobblePodcastsTitle": {
+        "message": "Разрешить приложению скробблить подкасты",
+        "description": "Option title"
+    },
+    "optionsScrobbleBehavior": {
+        "message": "Scrobble behavior",
+        "description": "'Scrobble behavior' section"
+    },
     "optionForceRecognize": {
         "message": "Принудительное распознавание",
         "description": "Option label"
@@ -31,12 +47,20 @@
         "message": "Принудительное распознавание композиций",
         "description": "Option title"
     },
-    "optionScrobblePodcasts": {
-        "message": "Скробблить подкасты",
+    "optionScrobbleRecognizedTracks": {
+        "message": "Scrobble recognized or edited tracks (default)",
         "description": "Option label"
     },
-    "optionScrobblePodcastsTitle": {
-        "message": "Разрешить приложению скробблить подкасты",
+    "optionScrobbleRecognizedTracksTitle": {
+        "message": "Only scrobble tracks if they are recognized or edited",
+        "description": "Option title"
+    },
+    "optionScrobbleEditedTracksOnly": {
+        "message": "Scrobble edited tracks only",
+        "description": "Option label"
+    },
+    "optionScrobbleEditedTracksOnlyTitle": {
+        "message": "Only scrobble tracks if they are edited",
         "description": "Option title"
     },
     "optionsHidden": {
@@ -52,7 +76,7 @@
         "description": "Option title"
     },
     "optionYtDesc": {
-        "message": "Если вы отключите обе настройки, расширение будет скробблить видео из всех категорий.",
+        "message": "If you turn off both options, the extension will scrobble YouTube videos from all categories.",
         "description": "Description of YouTube options"
     },
     "optionPercentDesc": {
@@ -74,6 +98,42 @@
     "optionYtEntertainmentOnlyTitle": {
         "message": "Игнорировать видео, которые не в категории \"Развлечения\"",
         "description": "Option title"
+    },
+    "optionYtGetTrackInfoFromYtMusic": {
+        "message": "Use Youtube Music to get track info",
+        "description": "Option label"
+    },
+    "optionYtGetTrackInfoFromYtMusicTitle": {
+        "message": "Use Youtube Music to get track info, if disabled defaults to using description and video title",
+        "description": "Option title"
+    },
+    "optionYtMusicRecognisedOnly": {
+        "message": "Scrobble only videos that are recognized by YouTube Music as music",
+        "description": "Option label"
+    },
+    "optionYtMusicRecognisedOnlyTitle": {
+        "message": "Ignore videos that are not recognised by YouTube Music as music",
+        "description": "Option title"
+    },
+    "optionTheme": {
+        "message": "Theme",
+        "description": "Option label"
+    },
+    "optionThemeTitle": {
+        "message": "Choose the theme of the extension",
+        "description": "Option title"
+    },
+    "optionThemeLight": {
+        "message": "Light",
+        "description": "Option label"
+    },
+    "optionThemeDark": {
+        "message": "Dark",
+        "description": "Option label"
+    },
+    "optionThemeSystem": {
+        "message": "System",
+        "description": "Option label"
     },
     "optionsAccounts": {
         "message": "Аккаунты",
@@ -166,6 +226,10 @@
     "optionsToggle": {
         "message": "Переключить",
         "description": "Label of toggle button"
+    },
+    "optionsLoadingConnectorOptions": {
+        "message": "Loading connector options...",
+        "description": "Loading connector options message"
     },
     "learnMoreLabel": {
         "message": "Узнать больше",
@@ -315,8 +379,12 @@
         "message": "Расширение бесплатно, и всегда будет бесплатным. Если вы хотите поддержать разработку расширения, вы можете воспользоваться кнопкой ниже.",
         "description": ""
     },
+    "donationButtonLabel": {
+        "message": "Support us on OpenCollective",
+        "description": "The donation button label"
+    },
     "customPatterns": {
-        "message": "Шаблоны URL",
+        "message": "URL patterns",
         "description": "'URL patterns' section"
     },
     "customPatternsHint": {
@@ -472,15 +540,15 @@
         "description": "Placeholder of album artist input"
     },
     "infoViewArtistPage": {
-        "message": "Посмотреть страницу исполнителя: $1",
+        "message": "View artist page: $1",
         "description": "Placeholder of album input"
     },
     "infoViewAlbumPage": {
-        "message": "Посмотреть страницу альбома: $1",
+        "message": "View album page: $1",
         "description": "Placeholder of album input"
     },
     "infoViewTrackPage": {
-        "message": "Посмотреть страницу композиции: $1",
+        "message": "View track page: $1",
         "description": "Placeholder of album input"
     },
     "infoYourScrobbles": {
@@ -496,7 +564,7 @@
         "description": "`loading` page action title"
     },
     "pageActionPlaying": {
-        "message": "Сейчас играет $1",
+        "message": "Now playing $1",
         "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
