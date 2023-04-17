@@ -6,7 +6,7 @@ on:
 jobs:
   build:
     name: Build the extension
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v3
@@ -42,3 +42,13 @@ jobs:
         with:
           name: web-scrobbler-firefox
           path: build/firefox
+
+      - name: Build the extension for Safari
+        run: |
+          npm run build safari
+
+      - name: Upload the extension for Safari as an artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: web-scrobbler-safari
+          path: build/safari
