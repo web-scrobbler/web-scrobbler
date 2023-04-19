@@ -19,6 +19,6 @@ for (const index in translationFiles) {
 
 	if (modified) {
 		colorLog(`Updating ${filePath}`, 'info');
-		await writeFile(filePath, JSON.stringify(json, null, 4));
+		await writeFile(filePath, JSON.stringify(json, null, 4) + '\n');
 	}
 }
