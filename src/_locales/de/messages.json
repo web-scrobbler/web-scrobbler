@@ -307,6 +307,10 @@
         "message": "Die Browser-Erweiterung ist kostenlos und wird immer zwar gebührenfrei sein. Wenn Sie aber ihre Entwicklung unterstützen wollen, können Sie den Knöpf unter klicken. ",
         "description": ""
     },
+    "customPatterns": {
+        "message": "URL-Muster",
+        "description": "'URL patterns' section"
+    },
     "customPatternsHint": {
         "message": "Füge URL-Muster, für die der Verbinder gelten soll unten ein.",
         "description": "Popup hint"
@@ -423,6 +427,10 @@
         "message": "Änderungen zurücksetzen",
         "description": "Title of revert button"
     },
+    "infoRevertUnableTitle": {
+        "message": "Du kannst einen bereits gescrobbleten Titel nicht zurücksetzen",
+        "description": "Title of revert button"
+    },
     "infoSkipTitle": {
         "message": "Den aktuellen Titel nicht scrobblen",
         "description": "Title of skip button"
@@ -455,6 +463,18 @@
         "message": "Albumkünstler (optional)",
         "description": "Placeholder of album artist input"
     },
+    "infoViewArtistPage": {
+        "message": "Künstlerseite ansehen: $1",
+        "description": "Placeholder of album input"
+    },
+    "infoViewAlbumPage": {
+        "message": "Albumseite ansehen: $1",
+        "description": "Placeholder of album input"
+    },
+    "infoViewTrackPage": {
+        "message": "Titelseite ansehen: $1",
+        "description": "Placeholder of album input"
+    },
     "pageActionBase": {
         "message": "Diese Seite wird für Scrobbling unterstützt",
         "description": "`base` page action title"
@@ -462,6 +482,10 @@
     "pageActionLoading": {
         "message": "Suche $1",
         "description": "`loading` page action title"
+    },
+    "pageActionPlaying": {
+        "message": "Es läuft $1",
+        "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
         "message": "$1 wurde gescrobbled",
