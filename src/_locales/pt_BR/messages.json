@@ -51,6 +51,10 @@
         "message": "da duração total da música",
         "description": "Option title"
     },
+    "optionYtDesc": {
+        "message": "Caso desative ambas as opções, a extensão efetuará scrobble de vídeos do YouTube de todas as categorias.",
+        "description": "Description of YouTube options"
+    },
     "optionPercentDesc": {
         "message": "Observe que o scrobble será feito em faixas que estejam em reprodução por mais de 4 minutos independentemente do valor informado.",
         "description": "Description of scrobble percent option"
@@ -311,6 +315,10 @@
         "message": "A extensão é gratuita, e sempre será. Mas, caso queira apoiar o desenvolvimento, sinta-se à vontade para usar o botão abaixo.",
         "description": ""
     },
+    "customPatterns": {
+        "message": "Padrões de URL",
+        "description": "'URL patterns' section"
+    },
     "customPatternsHint": {
         "message": "Adicione padrões de URL que o conector deva corresponder abaixo.",
         "description": "Popup hint"
@@ -463,6 +471,18 @@
         "message": "Artista do álbum (opcional)",
         "description": "Placeholder of album artist input"
     },
+    "infoViewArtistPage": {
+        "message": "Ver página do artista: $1",
+        "description": "Placeholder of album input"
+    },
+    "infoViewAlbumPage": {
+        "message": "Ver página do álbum: $1",
+        "description": "Placeholder of album input"
+    },
+    "infoViewTrackPage": {
+        "message": "Ver página da faixa: $1",
+        "description": "Placeholder of album input"
+    },
     "infoYourScrobbles": {
         "message": "Total de scrobbles: $1",
         "description": "Label for user play count"
@@ -474,6 +494,10 @@
     "pageActionLoading": {
         "message": "Buscando por $1",
         "description": "`loading` page action title"
+    },
+    "pageActionPlaying": {
+        "message": "Reproduzindo $1",
+        "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
         "message": "Feito scrobble de $1",

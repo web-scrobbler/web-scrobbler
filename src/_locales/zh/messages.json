@@ -51,6 +51,10 @@
         "message": "曲目长度",
         "description": "Option title"
     },
+    "optionYtDesc": {
+        "message": "如果您关闭了这两个选项，该扩展程序将会对所有类别的 YouTube 视频追踪播放记录。",
+        "description": "Description of YouTube options"
+    },
     "optionPercentDesc": {
         "message": "请注意，如果一个曲目已播放了4分钟，无论选项值如何，它都将被记录。",
         "description": "Description of scrobble percent option"
@@ -307,6 +311,10 @@
         "message": "该扩展免费并将永久免费。但是如果你想支持扩展的开发，可以使用下方按钮。",
         "description": ""
     },
+    "customPatterns": {
+        "message": "网址格式",
+        "description": "'URL patterns' section"
+    },
     "customPatternsHint": {
         "message": "在下方为接口添加匹配网址。",
         "description": "Popup hint"
@@ -459,6 +467,18 @@
         "message": "专辑艺人（可选）",
         "description": "Placeholder of album artist input"
     },
+    "infoViewArtistPage": {
+        "message": "查看艺术家页面：$1",
+        "description": "Placeholder of album input"
+    },
+    "infoViewAlbumPage": {
+        "message": "查看专辑页面：$1",
+        "description": "Placeholder of album input"
+    },
+    "infoViewTrackPage": {
+        "message": "查看曲目页面：$1",
+        "description": "Placeholder of album input"
+    },
     "infoYourScrobbles": {
         "message": "你的记录：$1",
         "description": "Label for user play count"
@@ -470,6 +490,10 @@
     "pageActionLoading": {
         "message": "查找 $1",
         "description": "`loading` page action title"
+    },
+    "pageActionPlaying": {
+        "message": "正在播放 $1",
+        "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
         "message": "已提交 $1",

@@ -51,6 +51,10 @@
         "message": "de duración de la canción",
         "description": "Option title"
     },
+    "optionYtDesc": {
+        "message": "Si desactiva ambas opciones, la extensión hará scrobbles de los videos de YouTube en todas las categorías.",
+        "description": "Description of YouTube options"
+    },
     "optionPercentDesc": {
         "message": "Tenga en cuenta que una pista será scrobbled de todos modos, si se ha ejecutado durante 4 minutos, independientemente del valor de la opción.",
         "description": "Description of scrobble percent option"
@@ -311,6 +315,10 @@
         "message": "La extensión es gratuita y siempre lo será. Pero si desea apoyar el desarrollo de la extensión, puede usar el botón a continuación.",
         "description": ""
     },
+    "customPatterns": {
+        "message": "Patrones de direcciones URL",
+        "description": "'URL patterns' section"
+    },
     "customPatternsHint": {
         "message": "Agrega patrones de direcciones URL que a continuación el conector debe hacer coincidir.",
         "description": "Popup hint"
@@ -463,6 +471,18 @@
         "message": "Album del artista (opcional)",
         "description": "Placeholder of album artist input"
     },
+    "infoViewArtistPage": {
+        "message": "Ver página del artista: $1",
+        "description": "Placeholder of album input"
+    },
+    "infoViewAlbumPage": {
+        "message": "Ver página del álbum: $1",
+        "description": "Placeholder of album input"
+    },
+    "infoViewTrackPage": {
+        "message": "Ver página de la canción: $1",
+        "description": "Placeholder of album input"
+    },
     "infoYourScrobbles": {
         "message": "Tus scrobbles: $1",
         "description": "Label for user play count"
@@ -474,6 +494,10 @@
     "pageActionLoading": {
         "message": "Buscando $1",
         "description": "`loading` page action title"
+    },
+    "pageActionPlaying": {
+        "message": "Ahora reproduciendo $1",
+        "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
         "message": "Scrobbled $1",

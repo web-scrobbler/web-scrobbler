@@ -51,6 +51,10 @@
         "message": "композиции",
         "description": "Option title"
     },
+    "optionYtDesc": {
+        "message": "Если вы отключите обе настройки, расширение будет скробблить видео из всех категорий.",
+        "description": "Description of YouTube options"
+    },
     "optionPercentDesc": {
         "message": "Примечание: композиция будет заскробблена, если она играет более 4 минут, независимо от значения данной настройки.",
         "description": "Description of scrobble percent option"
@@ -311,6 +315,10 @@
         "message": "Расширение бесплатно, и всегда будет бесплатным. Если вы хотите поддержать разработку расширения, вы можете воспользоваться кнопкой ниже.",
         "description": ""
     },
+    "customPatterns": {
+        "message": "Шаблоны URL",
+        "description": "'URL patterns' section"
+    },
     "customPatternsHint": {
         "message": "Добавьте необходимые шаблоны URL для коннектора.",
         "description": "Popup hint"
@@ -463,6 +471,18 @@
         "message": "Исполнитель альбома (необязательно)",
         "description": "Placeholder of album artist input"
     },
+    "infoViewArtistPage": {
+        "message": "Посмотреть страницу исполнителя: $1",
+        "description": "Placeholder of album input"
+    },
+    "infoViewAlbumPage": {
+        "message": "Посмотреть страницу альбома: $1",
+        "description": "Placeholder of album input"
+    },
+    "infoViewTrackPage": {
+        "message": "Посмотреть страницу композиции: $1",
+        "description": "Placeholder of album input"
+    },
     "infoYourScrobbles": {
         "message": "Прослушиваний: $1",
         "description": "Label for user play count"
@@ -474,6 +494,10 @@
     "pageActionLoading": {
         "message": "Поиск $1",
         "description": "`loading` page action title"
+    },
+    "pageActionPlaying": {
+        "message": "Сейчас играет $1",
+        "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
         "message": "Заскробблено $1",
