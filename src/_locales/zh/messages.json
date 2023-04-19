@@ -7,10 +7,6 @@
         "message": "常规",
         "description": "'General' section"
     },
-    "optionsPermissionsLabel": {
-        "message": "You have not granted Web Scrobbler the permission to access all sites, which means you have to click the extension icon to start scrobbling every time. Click here to grant the permission. Note that in safari the permission will not automatically be granted, but the next time you visit a supported site you will be able to click \"Always Allow on Every Website...\" to grant the permission.",
-        "description": "Label for permissions button"
-    },
     "optionUseNotifications": {
         "message": "提示当前曲目",
         "description": "Option label"
@@ -35,32 +31,12 @@
         "message": "记录播客节目",
         "description": "Option title"
     },
-    "optionsScrobbleBehavior": {
-        "message": "Scrobble behavior",
-        "description": "'Scrobble behavior' section"
-    },
     "optionForceRecognize": {
         "message": "强制曲目识别",
         "description": "Option label"
     },
     "optionForceRecognizeTitle": {
         "message": "强制记录未知曲目",
-        "description": "Option title"
-    },
-    "optionScrobbleRecognizedTracks": {
-        "message": "Scrobble recognized or edited tracks (default)",
-        "description": "Option label"
-    },
-    "optionScrobbleRecognizedTracksTitle": {
-        "message": "Only scrobble tracks if they are recognized or edited",
-        "description": "Option title"
-    },
-    "optionScrobbleEditedTracksOnly": {
-        "message": "Scrobble edited tracks only",
-        "description": "Option label"
-    },
-    "optionScrobbleEditedTracksOnlyTitle": {
-        "message": "Only scrobble tracks if they are edited",
         "description": "Option title"
     },
     "optionsHidden": {
@@ -74,10 +50,6 @@
     "optionScrobblePercentSuffix": {
         "message": "曲目长度",
         "description": "Option title"
-    },
-    "optionYtDesc": {
-        "message": "If you turn off both options, the extension will scrobble YouTube videos from all categories.",
-        "description": "Description of YouTube options"
     },
     "optionPercentDesc": {
         "message": "请注意，如果一个曲目已播放了4分钟，无论选项值如何，它都将被记录。",
@@ -98,42 +70,6 @@
     "optionYtEntertainmentOnlyTitle": {
         "message": "忽略不属于娱乐分类的视频",
         "description": "Option title"
-    },
-    "optionYtGetTrackInfoFromYtMusic": {
-        "message": "Use Youtube Music to get track info",
-        "description": "Option label"
-    },
-    "optionYtGetTrackInfoFromYtMusicTitle": {
-        "message": "Use Youtube Music to get track info, if disabled defaults to using description and video title",
-        "description": "Option title"
-    },
-    "optionYtMusicRecognisedOnly": {
-        "message": "Scrobble only videos that are recognized by YouTube Music as music",
-        "description": "Option label"
-    },
-    "optionYtMusicRecognisedOnlyTitle": {
-        "message": "Ignore videos that are not recognised by YouTube Music as music",
-        "description": "Option title"
-    },
-    "optionTheme": {
-        "message": "Theme",
-        "description": "Option label"
-    },
-    "optionThemeTitle": {
-        "message": "Choose the theme of the extension",
-        "description": "Option title"
-    },
-    "optionThemeLight": {
-        "message": "Light",
-        "description": "Option label"
-    },
-    "optionThemeDark": {
-        "message": "Dark",
-        "description": "Option label"
-    },
-    "optionThemeSystem": {
-        "message": "System",
-        "description": "Option label"
     },
     "optionsAccounts": {
         "message": "账户",
@@ -226,10 +162,6 @@
     "optionsToggle": {
         "message": "全部启用/全部禁用",
         "description": "Label of toggle button"
-    },
-    "optionsLoadingConnectorOptions": {
-        "message": "Loading connector options...",
-        "description": "Loading connector options message"
     },
     "learnMoreLabel": {
         "message": "了解更多",
@@ -343,10 +275,6 @@
         "message": "作者是谁？",
         "description": "Question #7"
     },
-    "faqAnswer7": {
-        "message": "The original author of this extension is David Šabata. Now this extension is developed and maintained by the Web Scrobbler Team.",
-        "description": "Answer #7"
-    },
     "optionsAbout": {
         "message": "关于",
         "description": "'About' section"
@@ -378,14 +306,6 @@
     "showSomeLoveText2": {
         "message": "该扩展免费并将永久免费。但是如果你想支持扩展的开发，可以使用下方按钮。",
         "description": ""
-    },
-    "donationButtonLabel": {
-        "message": "Support us on OpenCollective",
-        "description": "The donation button label"
-    },
-    "customPatterns": {
-        "message": "URL patterns",
-        "description": "'URL patterns' section"
     },
     "customPatternsHint": {
         "message": "在下方为接口添加匹配网址。",
@@ -539,18 +459,6 @@
         "message": "专辑艺人（可选）",
         "description": "Placeholder of album artist input"
     },
-    "infoViewArtistPage": {
-        "message": "View artist page: $1",
-        "description": "Placeholder of album input"
-    },
-    "infoViewAlbumPage": {
-        "message": "View album page: $1",
-        "description": "Placeholder of album input"
-    },
-    "infoViewTrackPage": {
-        "message": "View track page: $1",
-        "description": "Placeholder of album input"
-    },
     "infoYourScrobbles": {
         "message": "你的记录：$1",
         "description": "Label for user play count"
@@ -562,10 +470,6 @@
     "pageActionLoading": {
         "message": "查找 $1",
         "description": "`loading` page action title"
-    },
-    "pageActionPlaying": {
-        "message": "Now playing $1",
-        "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
         "message": "已提交 $1",

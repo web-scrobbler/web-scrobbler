@@ -7,10 +7,6 @@
         "message": "Všeobecné",
         "description": "'General' section"
     },
-    "optionsPermissionsLabel": {
-        "message": "You have not granted Web Scrobbler the permission to access all sites, which means you have to click the extension icon to start scrobbling every time. Click here to grant the permission. Note that in safari the permission will not automatically be granted, but the next time you visit a supported site you will be able to click \"Always Allow on Every Website...\" to grant the permission.",
-        "description": "Label for permissions button"
-    },
     "optionUseNotifications": {
         "message": "Použiť notifikácie \"práve hrá\"",
         "description": "Option label"
@@ -35,32 +31,12 @@
         "message": "Zaznamenáva diely podcastov",
         "description": "Option title"
     },
-    "optionsScrobbleBehavior": {
-        "message": "Scrobble behavior",
-        "description": "'Scrobble behavior' section"
-    },
     "optionForceRecognize": {
         "message": "Vynútiť rozpoznanie skladby",
         "description": "Option label"
     },
     "optionForceRecognizeTitle": {
         "message": "Vynúti rozpoznávanie neznámych skladieb",
-        "description": "Option title"
-    },
-    "optionScrobbleRecognizedTracks": {
-        "message": "Scrobble recognized or edited tracks (default)",
-        "description": "Option label"
-    },
-    "optionScrobbleRecognizedTracksTitle": {
-        "message": "Only scrobble tracks if they are recognized or edited",
-        "description": "Option title"
-    },
-    "optionScrobbleEditedTracksOnly": {
-        "message": "Scrobble edited tracks only",
-        "description": "Option label"
-    },
-    "optionScrobbleEditedTracksOnlyTitle": {
-        "message": "Only scrobble tracks if they are edited",
         "description": "Option title"
     },
     "optionsHidden": {
@@ -74,10 +50,6 @@
     "optionScrobblePercentSuffix": {
         "message": "dĺžky skladby",
         "description": "Option title"
-    },
-    "optionYtDesc": {
-        "message": "If you turn off both options, the extension will scrobble YouTube videos from all categories.",
-        "description": "Description of YouTube options"
     },
     "optionPercentDesc": {
         "message": "Ak skladba hrala aspoň 4 minúty, tak bude zaznamenaná bezohľadu na nastavenú hodnotu.",
@@ -98,42 +70,6 @@
     "optionYtEntertainmentOnlyTitle": {
         "message": "Ignoruje videá, ktoré nie sú z kategórie \"Zábava\"",
         "description": "Option title"
-    },
-    "optionYtGetTrackInfoFromYtMusic": {
-        "message": "Use Youtube Music to get track info",
-        "description": "Option label"
-    },
-    "optionYtGetTrackInfoFromYtMusicTitle": {
-        "message": "Use Youtube Music to get track info, if disabled defaults to using description and video title",
-        "description": "Option title"
-    },
-    "optionYtMusicRecognisedOnly": {
-        "message": "Scrobble only videos that are recognized by YouTube Music as music",
-        "description": "Option label"
-    },
-    "optionYtMusicRecognisedOnlyTitle": {
-        "message": "Ignore videos that are not recognised by YouTube Music as music",
-        "description": "Option title"
-    },
-    "optionTheme": {
-        "message": "Theme",
-        "description": "Option label"
-    },
-    "optionThemeTitle": {
-        "message": "Choose the theme of the extension",
-        "description": "Option title"
-    },
-    "optionThemeLight": {
-        "message": "Light",
-        "description": "Option label"
-    },
-    "optionThemeDark": {
-        "message": "Dark",
-        "description": "Option label"
-    },
-    "optionThemeSystem": {
-        "message": "System",
-        "description": "Option label"
     },
     "optionsAccounts": {
         "message": "Účty",
@@ -158,30 +94,6 @@
     "accountsSignIn": {
         "message": "Prihlásiť",
         "description": "Button label"
-    },
-    "accountsScrobblerProps": {
-        "message": "Properties",
-        "description": "Button label"
-    },
-    "accountsScrobblerPropsTitle": {
-        "message": "$1 properties",
-        "description": "Button label"
-    },
-    "accountsUserApiUrl": {
-        "message": "API URL",
-        "description": "Input label"
-    },
-    "accountsUserApiUrlPlaceholder": {
-        "message": "Custom API URL",
-        "description": "Input label"
-    },
-    "accountsUserToken": {
-        "message": "Token",
-        "description": "Input label"
-    },
-    "accountsUserTokenPlaceholder": {
-        "message": "Custom token",
-        "description": "Input label"
     },
     "optionsOptions": {
         "message": "Nastavenia",
@@ -226,10 +138,6 @@
     "optionsToggle": {
         "message": "Prepnúť",
         "description": "Label of toggle button"
-    },
-    "optionsLoadingConnectorOptions": {
-        "message": "Loading connector options...",
-        "description": "Loading connector options message"
     },
     "learnMoreLabel": {
         "message": "Dozvedieť sa viac",
@@ -378,14 +286,6 @@
     "showSomeLoveText2": {
         "message": "Používanie doplnku je zadarmo, a vždy aj bude. Avšak, ak chcete podporiť vývoj doplnku, môžete použiť tlačidlo nižšie.",
         "description": ""
-    },
-    "donationButtonLabel": {
-        "message": "Support us on OpenCollective",
-        "description": "The donation button label"
-    },
-    "customPatterns": {
-        "message": "URL patterns",
-        "description": "'URL patterns' section"
     },
     "customPatternsHint": {
         "message": "URL vzory ktoré má konektor brať pridajte dolu.",
@@ -539,18 +439,6 @@
         "message": "Autor obalu albumu (nepovinné)",
         "description": "Placeholder of album artist input"
     },
-    "infoViewArtistPage": {
-        "message": "View artist page: $1",
-        "description": "Placeholder of album input"
-    },
-    "infoViewAlbumPage": {
-        "message": "View album page: $1",
-        "description": "Placeholder of album input"
-    },
-    "infoViewTrackPage": {
-        "message": "View track page: $1",
-        "description": "Placeholder of album input"
-    },
     "infoYourScrobbles": {
         "message": "Počet záznamov: $1",
         "description": "Label for user play count"
@@ -562,10 +450,6 @@
     "pageActionLoading": {
         "message": "Vyhľadáva sa$1",
         "description": "`loading` page action title"
-    },
-    "pageActionPlaying": {
-        "message": "Now playing $1",
-        "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
         "message": "Zaznamenané $1",

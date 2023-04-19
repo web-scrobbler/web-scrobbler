@@ -7,10 +7,6 @@
         "message": "Allgemeines",
         "description": "'General' section"
     },
-    "optionsPermissionsLabel": {
-        "message": "You have not granted Web Scrobbler the permission to access all sites, which means you have to click the extension icon to start scrobbling every time. Click here to grant the permission. Note that in safari the permission will not automatically be granted, but the next time you visit a supported site you will be able to click \"Always Allow on Every Website...\" to grant the permission.",
-        "description": "Label for permissions button"
-    },
     "optionUseNotifications": {
         "message": "Verwende Benachrichtigungen für laufenden Titel",
         "description": "Option label"
@@ -27,18 +23,6 @@
         "message": "Benachrichtigung anzeigen wenn Titel nicht von der Erweiterung erkannt wird",
         "description": "Option title"
     },
-    "optionScrobblePodcasts": {
-        "message": "Scrobble podcasts",
-        "description": "Option label"
-    },
-    "optionScrobblePodcastsTitle": {
-        "message": "Scrobble podcast episodes",
-        "description": "Option title"
-    },
-    "optionsScrobbleBehavior": {
-        "message": "Scrobble behavior",
-        "description": "'Scrobble behavior' section"
-    },
     "optionForceRecognize": {
         "message": "Titelerkennung erzwingen",
         "description": "Option label"
@@ -46,42 +30,6 @@
     "optionForceRecognizeTitle": {
         "message": "Erkennen von unbekannten Titeln erzwingen",
         "description": "Option title"
-    },
-    "optionScrobbleRecognizedTracks": {
-        "message": "Scrobble recognized or edited tracks (default)",
-        "description": "Option label"
-    },
-    "optionScrobbleRecognizedTracksTitle": {
-        "message": "Only scrobble tracks if they are recognized or edited",
-        "description": "Option title"
-    },
-    "optionScrobbleEditedTracksOnly": {
-        "message": "Scrobble edited tracks only",
-        "description": "Option label"
-    },
-    "optionScrobbleEditedTracksOnlyTitle": {
-        "message": "Only scrobble tracks if they are edited",
-        "description": "Option title"
-    },
-    "optionsHidden": {
-        "message": "Hidden",
-        "description": "'Hidden' section"
-    },
-    "optionScrobblePercent": {
-        "message": "Scrobble at",
-        "description": "Option title"
-    },
-    "optionScrobblePercentSuffix": {
-        "message": "of song duration",
-        "description": "Option title"
-    },
-    "optionYtDesc": {
-        "message": "If you turn off both options, the extension will scrobble YouTube videos from all categories.",
-        "description": "Description of YouTube options"
-    },
-    "optionPercentDesc": {
-        "message": "Note that a track will be scrobbled anyway, if it has been played for 4 minutes, regardless of the option value.",
-        "description": "Description of scrobble percent option"
     },
     "optionYtMusicOnly": {
         "message": "Videos aus der Kategorie \"Musik\" scrobblen",
@@ -98,42 +46,6 @@
     "optionYtEntertainmentOnlyTitle": {
         "message": "Ignoriere Videos die nicht in Kategorie Unterhaltung sind",
         "description": "Option title"
-    },
-    "optionYtGetTrackInfoFromYtMusic": {
-        "message": "Use Youtube Music to get track info",
-        "description": "Option label"
-    },
-    "optionYtGetTrackInfoFromYtMusicTitle": {
-        "message": "Use Youtube Music to get track info, if disabled defaults to using description and video title",
-        "description": "Option title"
-    },
-    "optionYtMusicRecognisedOnly": {
-        "message": "Scrobble only videos that are recognized by YouTube Music as music",
-        "description": "Option label"
-    },
-    "optionYtMusicRecognisedOnlyTitle": {
-        "message": "Ignore videos that are not recognised by YouTube Music as music",
-        "description": "Option title"
-    },
-    "optionTheme": {
-        "message": "Theme",
-        "description": "Option label"
-    },
-    "optionThemeTitle": {
-        "message": "Choose the theme of the extension",
-        "description": "Option title"
-    },
-    "optionThemeLight": {
-        "message": "Light",
-        "description": "Option label"
-    },
-    "optionThemeDark": {
-        "message": "Dark",
-        "description": "Option label"
-    },
-    "optionThemeSystem": {
-        "message": "System",
-        "description": "Option label"
     },
     "optionsAccounts": {
         "message": "Accounts",
@@ -173,14 +85,6 @@
     },
     "accountsUserApiUrlPlaceholder": {
         "message": "API URL personalisieren",
-        "description": "Input label"
-    },
-    "accountsUserToken": {
-        "message": "Token",
-        "description": "Input label"
-    },
-    "accountsUserTokenPlaceholder": {
-        "message": "Custom token",
         "description": "Input label"
     },
     "optionsOptions": {
@@ -226,10 +130,6 @@
     "optionsToggle": {
         "message": "An/Ausschalten",
         "description": "Label of toggle button"
-    },
-    "optionsLoadingConnectorOptions": {
-        "message": "Loading connector options...",
-        "description": "Loading connector options message"
     },
     "learnMoreLabel": {
         "message": "Mehr erfahren",
@@ -379,14 +279,6 @@
         "message": "Die Browser-Erweiterung ist kostenlos und wird immer zwar gebührenfrei sein. Wenn Sie aber ihre Entwicklung unterstützen wollen, können Sie den Knöpf unter klicken. ",
         "description": ""
     },
-    "donationButtonLabel": {
-        "message": "Support us on OpenCollective",
-        "description": "The donation button label"
-    },
-    "customPatterns": {
-        "message": "URL patterns",
-        "description": "'URL patterns' section"
-    },
     "customPatternsHint": {
         "message": "Füge URL-Muster, für die der Verbinder gelten soll unten ein.",
         "description": "Popup hint"
@@ -503,10 +395,6 @@
         "message": "Änderungen zurücksetzen",
         "description": "Title of revert button"
     },
-    "infoRevertUnableTitle": {
-        "message": "You cannot revert this track",
-        "description": "Title of revert button"
-    },
     "infoSkipTitle": {
         "message": "Den aktuellen Titel nicht scrobblen",
         "description": "Title of skip button"
@@ -539,22 +427,6 @@
         "message": "Albumkünstler (optional)",
         "description": "Placeholder of album artist input"
     },
-    "infoViewArtistPage": {
-        "message": "View artist page: $1",
-        "description": "Placeholder of album input"
-    },
-    "infoViewAlbumPage": {
-        "message": "View album page: $1",
-        "description": "Placeholder of album input"
-    },
-    "infoViewTrackPage": {
-        "message": "View track page: $1",
-        "description": "Placeholder of album input"
-    },
-    "infoYourScrobbles": {
-        "message": "Your scrobbles: $1",
-        "description": "Label for user play count"
-    },
     "pageActionBase": {
         "message": "Diese Seite wird für Scrobbling unterstützt",
         "description": "`base` page action title"
@@ -562,10 +434,6 @@
     "pageActionLoading": {
         "message": "Suche $1",
         "description": "`loading` page action title"
-    },
-    "pageActionPlaying": {
-        "message": "Now playing $1",
-        "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
         "message": "$1 wurde gescrobbled",
