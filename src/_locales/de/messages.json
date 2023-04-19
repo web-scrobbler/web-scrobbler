@@ -31,6 +31,22 @@
         "message": "Erkennen von unbekannten Titeln erzwingen",
         "description": "Option title"
     },
+    "optionsHidden": {
+        "message": "Versteckt",
+        "description": "'Hidden' section"
+    },
+    "optionScrobblePercent": {
+        "message": "Scrobble bei",
+        "description": "Option title"
+    },
+    "optionScrobblePercentSuffix": {
+        "message": "der Songlänge",
+        "description": "Option title"
+    },
+    "optionYtDesc": {
+        "message": "Wenn du beide Optionen deaktivierst, wird die Erweiterung YouTube videos aus allen Kategorien scrobblen.",
+        "description": "Description of YouTube options"
+    },
     "optionYtMusicOnly": {
         "message": "Videos aus der Kategorie \"Musik\" scrobblen",
         "description": "Option title"
@@ -46,6 +62,18 @@
     "optionYtEntertainmentOnlyTitle": {
         "message": "Ignoriere Videos die nicht in Kategorie Unterhaltung sind",
         "description": "Option title"
+    },
+    "optionThemeLight": {
+        "message": "Licht",
+        "description": "Option label"
+    },
+    "optionThemeDark": {
+        "message": "Dunkel",
+        "description": "Option label"
+    },
+    "optionThemeSystem": {
+        "message": "System",
+        "description": "Option label"
     },
     "optionsAccounts": {
         "message": "Accounts",

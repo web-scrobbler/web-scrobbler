@@ -1,5 +1,6 @@
 import { glob } from 'glob';
 import { readFile, writeFile } from 'fs/promises';
+import colorLog from 'scripts/log';
 
 const translationFiles = await glob('src/_locales/**/messages.json');
 
@@ -17,7 +18,7 @@ for (const index in translationFiles) {
 	});
 
 	if (modified) {
-		console.log(`Updating ${filePath}`);
+		colorLog(`Updating ${filePath}`, 'info');
 		await writeFile(filePath, JSON.stringify(json, null, 4));
 	}
 }
