@@ -15,7 +15,7 @@
     "buildts": "tsc --project tsconfig.connectors.json",
     "test": "vitest",
     "lint": "eslint . && stylelint \"**/*.scss\" && remark .",
-    "translations": "tx pull -m onlytranslated && tsx scripts/translations-prepare.ts "
+    "translations": "tx pull -m onlytranslated && tsx scripts/translations-prepare.ts"
   },
   "repository": {
     "type": "git",

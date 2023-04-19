@@ -51,6 +51,10 @@
         "message": "dĺžky skladby",
         "description": "Option title"
     },
+    "optionYtDesc": {
+        "message": "Ak vypnete obe možnosti, doplnok bude zaznamenávať youtube videá zo všetkých kategórii.",
+        "description": "Description of YouTube options"
+    },
     "optionPercentDesc": {
         "message": "Ak skladba hrala aspoň 4 minúty, tak bude zaznamenaná bezohľadu na nastavenú hodnotu.",
         "description": "Description of scrobble percent option"
@@ -287,6 +291,10 @@
         "message": "Používanie doplnku je zadarmo, a vždy aj bude. Avšak, ak chcete podporiť vývoj doplnku, môžete použiť tlačidlo nižšie.",
         "description": ""
     },
+    "customPatterns": {
+        "message": "URL vzory",
+        "description": "'URL patterns' section"
+    },
     "customPatternsHint": {
         "message": "URL vzory ktoré má konektor brať pridajte dolu.",
         "description": "Popup hint"
@@ -439,6 +447,18 @@
         "message": "Autor obalu albumu (nepovinné)",
         "description": "Placeholder of album artist input"
     },
+    "infoViewArtistPage": {
+        "message": "Otvoriť stránku interpreta: $1",
+        "description": "Placeholder of album input"
+    },
+    "infoViewAlbumPage": {
+        "message": "Otvoriť stránku albumu: $1",
+        "description": "Placeholder of album input"
+    },
+    "infoViewTrackPage": {
+        "message": "Otvoriť stránku skladby: $1",
+        "description": "Placeholder of album input"
+    },
     "infoYourScrobbles": {
         "message": "Počet záznamov: $1",
         "description": "Label for user play count"
@@ -450,6 +470,10 @@
     "pageActionLoading": {
         "message": "Vyhľadáva sa$1",
         "description": "`loading` page action title"
+    },
+    "pageActionPlaying": {
+        "message": "Práve hrá $1",
+        "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
         "message": "Zaznamenané $1",
