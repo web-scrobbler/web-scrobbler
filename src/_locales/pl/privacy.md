@@ -24,6 +24,6 @@ Wszelkie dane są przechowywane w pamięci wewnętrznej rozszerzenia; nie przesy
 
 ## Czemu rozszerzenie uzyskuje dostęp do wszystkich witryn?
 
-The extension supports several self-hosted services (e.g. Funkwhale), which are supposed to have user-defined URLs. The extension could not know these URLs, that's why access to all websites is required.
+Rozszerzenie wspiera wiele usług hostowanych samodzielnie (takich jak Funkwhale), których adres internetowy zależny jest od użytkownika. Adresy tych usług nie mogą być z wyprzedzeniem określone wewnątrz rozszerzenia, wymagany jest więc dostęp do wszystkich możliwych adresów.
 
 Zwiększa to również wygodę dla użytkownika, który nie musi udzielać zgód na dostęp do każdej z nowych usług dodawanych w przyszłych aktualizacjach.
