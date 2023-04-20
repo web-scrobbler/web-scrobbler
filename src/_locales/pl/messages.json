@@ -7,6 +7,10 @@
         "message": "Ogólne",
         "description": "'General' section"
     },
+    "optionsPermissionsLabel": {
+        "message": "Nie nadałeś rozszerzeniu Web Scrobbler uprawnień pozwalających na dostęp do odwiedzanych witryn internetowych, co oznacza że do rozpoczęcia scrobblingu każdorazowo konieczne jest kliknięcie ikony rozszerzenia. Kliknij tutaj, aby nadać uprawnienia. Jeżeli korzystasz z przeglądarki Safari, uprawnienia nie zostaną nadane automatycznie, ale podczas kolejnej wizyty na jednej z witryn wspieranej przez rozszerzenie będziesz mieć możliwość kliknięcia \"Zawsze zezwalaj na wszystkich witrynach...\" aby je zaakceptować.",
+        "description": "Label for permissions button"
+    },
     "optionUseNotifications": {
         "message": "Powiadomienia o aktualnie odtwarzanym",
         "description": "Option label"
@@ -23,6 +27,18 @@
         "message": "Pokaż powiadomienie, jeśli rozszerzenie nie rozpozna automatycznie utworu",
         "description": "Option title"
     },
+    "optionScrobblePodcasts": {
+        "message": "Scrobbluj podcasty",
+        "description": "Option label"
+    },
+    "optionScrobblePodcastsTitle": {
+        "message": "Scrobbluj odcinki podcastów",
+        "description": "Option title"
+    },
+    "optionsScrobbleBehavior": {
+        "message": "Zachowanie scrobblera",
+        "description": "'Scrobble behavior' section"
+    },
     "optionForceRecognize": {
         "message": "Wymuś rozpoznanie utworu",
         "description": "Option label"
@@ -31,12 +47,20 @@
         "message": "Wymuś traktowanie nieznanych utworów jako rozpoznanych",
         "description": "Option title"
     },
-    "optionScrobblePodcasts": {
-        "message": "Scrobbluj podcasty",
+    "optionScrobbleRecognizedTracks": {
+        "message": "Scrobbluj zarówno utwory rozpoznane automatycznie, jak i ręcznie (domyślne)",
         "description": "Option label"
     },
-    "optionScrobblePodcastsTitle": {
-        "message": "Scrobbluj odcinki podcastów",
+    "optionScrobbleRecognizedTracksTitle": {
+        "message": "Scrobbluj utwory, jeżeli ich dane rozpoznane automatycznie przez rozszerzenie, albo ręcznie",
+        "description": "Option title"
+    },
+    "optionScrobbleEditedTracksOnly": {
+        "message": "Scrobbluj utwory rozpoznane ręcznie",
+        "description": "Option label"
+    },
+    "optionScrobbleEditedTracksOnlyTitle": {
+        "message": "Scrobbluj utwory wyłącznie, jeżeli ich dane zostały wprowadzone ręcznie",
         "description": "Option title"
     },
     "optionsHidden": {
@@ -74,6 +98,42 @@
     "optionYtEntertainmentOnlyTitle": {
         "message": "Ignoruj filmy spoza kategorii Rozrywka",
         "description": "Option title"
+    },
+    "optionYtGetTrackInfoFromYtMusic": {
+        "message": "Korzystaj z usługi Youtube Music aby uzyskać informacje o utworze",
+        "description": "Option label"
+    },
+    "optionYtGetTrackInfoFromYtMusicTitle": {
+        "message": "Wykorzystuje Youtube music do pobierania informacji o utworze, przy wyłączeniu opcji domyślnie korzysta z opisu i tytułu materiału wideo",
+        "description": "Option title"
+    },
+    "optionYtMusicRecognisedOnly": {
+        "message": "Scrobbluj wyłącznie filmy rozpoznane przez YouTube Music jako muzyka",
+        "description": "Option label"
+    },
+    "optionYtMusicRecognisedOnlyTitle": {
+        "message": "Ignoruje filmy, które nie zostały rozpoznane jako muzyka przez usługę YouTube Music",
+        "description": "Option title"
+    },
+    "optionTheme": {
+        "message": "Motyw",
+        "description": "Option label"
+    },
+    "optionThemeTitle": {
+        "message": "Wybierz motyw z jakiego ma korzystać rozszerzenie",
+        "description": "Option title"
+    },
+    "optionThemeLight": {
+        "message": "Jasny",
+        "description": "Option label"
+    },
+    "optionThemeDark": {
+        "message": "Ciemny",
+        "description": "Option label"
+    },
+    "optionThemeSystem": {
+        "message": "Systemowy",
+        "description": "Option label"
     },
     "optionsAccounts": {
         "message": "Konta",
@@ -166,6 +226,10 @@
     "optionsToggle": {
         "message": "Przełącz",
         "description": "Label of toggle button"
+    },
+    "optionsLoadingConnectorOptions": {
+        "message": "Ładowanie ustawień usługi...",
+        "description": "Loading connector options message"
     },
     "learnMoreLabel": {
         "message": "Dowiedz się więcej",
@@ -315,8 +379,12 @@
         "message": "Rozszerzenie jest i pozostanie bezpłatne. Jeśli jednak chcesz wesprzeć jego dalszy rozwój, możesz skorzystać z poniższej opcji.",
         "description": ""
     },
+    "donationButtonLabel": {
+        "message": "Wesprzyj nas poprzez OpenCollective",
+        "description": "The donation button label"
+    },
     "customPatterns": {
-        "message": "Wzorce adresów",
+        "message": "Wzorce adresów URL",
         "description": "'URL patterns' section"
     },
     "customPatternsHint": {

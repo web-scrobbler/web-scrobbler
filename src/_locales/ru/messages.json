@@ -23,20 +23,20 @@
         "message": "Показывать уведомление, если расширение не смогло распознать композицию",
         "description": "Option title"
     },
-    "optionForceRecognize": {
-        "message": "Принудительное распознавание",
-        "description": "Option label"
-    },
-    "optionForceRecognizeTitle": {
-        "message": "Принудительное распознавание композиций",
-        "description": "Option title"
-    },
     "optionScrobblePodcasts": {
         "message": "Скробблить подкасты",
         "description": "Option label"
     },
     "optionScrobblePodcastsTitle": {
         "message": "Разрешить приложению скробблить подкасты",
+        "description": "Option title"
+    },
+    "optionForceRecognize": {
+        "message": "Принудительное распознавание",
+        "description": "Option label"
+    },
+    "optionForceRecognizeTitle": {
+        "message": "Принудительное распознавание композиций",
         "description": "Option title"
     },
     "optionsHidden": {

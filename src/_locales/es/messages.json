@@ -23,20 +23,20 @@
         "message": "Mostrar notificación si la extensión no reconoce la canción",
         "description": "Option title"
     },
-    "optionForceRecognize": {
-        "message": "Forzar reconocimiento de canción",
-        "description": "Option label"
-    },
-    "optionForceRecognizeTitle": {
-        "message": "Forzar reconocimiento de canciones desconocidas",
-        "description": "Option title"
-    },
     "optionScrobblePodcasts": {
         "message": "Scrobble podcasts",
         "description": "Option label"
     },
     "optionScrobblePodcastsTitle": {
         "message": "Scrobble episodios del podcast",
+        "description": "Option title"
+    },
+    "optionForceRecognize": {
+        "message": "Forzar reconocimiento de canción",
+        "description": "Option label"
+    },
+    "optionForceRecognizeTitle": {
+        "message": "Forzar reconocimiento de canciones desconocidas",
         "description": "Option title"
     },
     "optionsHidden": {

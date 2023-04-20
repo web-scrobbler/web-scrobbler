@@ -23,20 +23,20 @@
         "message": "扩展无法识别曲目时显示通知",
         "description": "Option title"
     },
-    "optionForceRecognize": {
-        "message": "强制曲目识别",
-        "description": "Option label"
-    },
-    "optionForceRecognizeTitle": {
-        "message": "强制记录未知曲目",
-        "description": "Option title"
-    },
     "optionScrobblePodcasts": {
         "message": "记录播客",
         "description": "Option label"
     },
     "optionScrobblePodcastsTitle": {
         "message": "记录播客节目",
+        "description": "Option title"
+    },
+    "optionForceRecognize": {
+        "message": "强制曲目识别",
+        "description": "Option label"
+    },
+    "optionForceRecognizeTitle": {
+        "message": "强制记录未知曲目",
         "description": "Option title"
     },
     "optionsHidden": {

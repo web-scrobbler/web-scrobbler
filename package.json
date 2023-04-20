@@ -14,7 +14,8 @@
     "build": "tsx build.ts",
     "buildts": "tsc --project tsconfig.connectors.json",
     "test": "vitest",
-    "lint": "eslint . && stylelint \"**/*.scss\" && remark ."
+    "lint": "eslint . && stylelint \"**/*.scss\" && remark .",
+    "translations": "tx pull -m onlytranslated && tsx scripts/translations-prepare.ts"
   },
   "repository": {
     "type": "git",
@@ -52,6 +53,7 @@
     "eslint-plugin-solid": "0.12.1",
     "eslint-plugin-tsdoc": "0.2.17",
     "fs-extra": "11.1.1",
+    "glob": "10.2.1",
     "imagemin": "8.0.1",
     "imagemin-jpegtran": "7.0.0",
     "imagemin-pngquant": "9.0.2",

@@ -1,0 +1,17 @@
+[main]
+host = https://www.transifex.com
+
+[o:web-scrobbler:p:web-scrobbler:r:messages-json--master]
+file_filter   = src/_locales/<lang>/messages.json
+source_file   = src/_locales/en/messages.json
+type          = CHROME
+minimum_perc  = 0
+resource_name = messages.json
+
+[o:web-scrobbler:p:web-scrobbler:r:privacy-md--master]
+file_filter   = src/_locales/<lang>/privacy.md
+source_file   = src/_locales/en/privacy.md
+type          = GITHUBMARKDOWN
+minimum_perc  = 0
+resource_name = privacy.md
+

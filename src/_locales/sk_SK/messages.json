@@ -23,20 +23,20 @@
         "message": "Ukáže notifikáciu ak doplnok nerozpoznal skladbu",
         "description": "Option title"
     },
-    "optionForceRecognize": {
-        "message": "Vynútiť rozpoznanie skladby",
-        "description": "Option label"
-    },
-    "optionForceRecognizeTitle": {
-        "message": "Vynúti rozpoznávanie neznámych skladieb",
-        "description": "Option title"
-    },
     "optionScrobblePodcasts": {
         "message": "Zaznamenávať podcasty",
         "description": "Option label"
     },
     "optionScrobblePodcastsTitle": {
         "message": "Zaznamenáva diely podcastov",
+        "description": "Option title"
+    },
+    "optionForceRecognize": {
+        "message": "Vynútiť rozpoznanie skladby",
+        "description": "Option label"
+    },
+    "optionForceRecognizeTitle": {
+        "message": "Vynúti rozpoznávanie neznámych skladieb",
         "description": "Option title"
     },
     "optionsHidden": {
@@ -256,7 +256,7 @@
         "description": "Question #7"
     },
     "faqAnswer7": {
-        "message": "Pôvodným autorom doplnku je David Šabata. Momentálne je doplnok vyvíjaný a udržiavaný Web Scrobbler tímom.",
+        "message": "Pôvodným autorom doplnku je David Šabata. Momentálne je tento doplnok vyvíjaný a udržiavaný Web Scrobbler tímom.",
         "description": "Answer #7"
     },
     "optionsAbout": {
@@ -372,7 +372,7 @@
         "description": "The description of 'unsupported' popup"
     },
     "unsupportedWebsiteDesc2": {
-        "message": "Niektoré Google stránky podporované doplnkom (napr. Google Play Hudba, YouTube) môžu byť zablokované kvôli politike nastavení doplnku.",
+        "message": "Niektoré Google stránky podporované doplnkom (napr. Google Play Hudba, Youtube) môžu byť zablokované kvôli politike nastavení doplnku.",
         "description": "The description of 'unsupported' popup"
     },
     "infoLove": {

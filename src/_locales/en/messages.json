@@ -3,7 +3,6 @@
         "message": "Scrobble music all around the web!",
         "description": "Description of the extension"
     },
-
     "optionsTitle": {
         "message": "Web Scrobbler options",
         "description": "Title of options page"
@@ -140,7 +139,6 @@
         "message": "System",
         "description": "Option label"
     },
-
     "optionsAccounts": {
         "message": "Accounts",
         "description": "'Accounts' section"
@@ -189,7 +187,6 @@
         "message": "Custom token",
         "description": "Input label"
     },
-
     "optionsOptions": {
         "message": "Options",
         "description": "'Options' section"
@@ -238,12 +235,10 @@
         "message": "Loading connector options...",
         "description": "Loading connector options message"
     },
-
     "learnMoreLabel": {
         "message": "Learn more",
         "description": "Learn more label"
     },
-
     "contactTitle": {
         "message": "Contact",
         "description": "'Contact' section"
@@ -260,7 +255,6 @@
         "message": "View the privacy policy",
         "description": "Description for privacy section"
     },
-
     "faqTitle": {
         "message": "FAQ",
         "description": "'FAQ' section"
@@ -357,7 +351,6 @@
         "message": "The original author of this extension is David Šabata. Now this extension is developed and maintained by the Web Scrobbler Team.",
         "description": "Answer #7"
     },
-
     "optionsAbout": {
         "message": "About",
         "description": "'About' section"
@@ -391,8 +384,8 @@
         "description": ""
     },
     "donationButtonLabel": {
-      "message": "Support us on OpenCollective",
-      "description": "The donation button label"
+        "message": "Support us on OpenCollective",
+        "description": "The donation button label"
     },
     "customPatterns": {
         "message": "URL patterns",
@@ -430,8 +423,6 @@
         "message": "No items in cache.",
         "description": "Popup hint"
     },
-
-
     "getStartedHeader": {
         "message": "Play some music to get started",
         "description": "The header of 'Get started' popup"
@@ -448,8 +439,6 @@
         "message": "The connector code for this specific website needs to be updated. You can navigate to the <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">list of issues</a> and see if this website is already reported. If it is not, you can submit a new issue describing what's wrong, what's expected behavior and what's happening instead.",
         "description": "Description of how to submit new issue"
     },
-
-
     "serviceErrorHeader": {
         "message": "Service error",
         "description": "The header of 'error' popup"
@@ -458,7 +447,6 @@
         "message": "Looks like something went wrong while scrobbling the music. Please open the options page and try to reauthenticate with services. If reauthentication doesn't help, and you still see this message, please create <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">a new issue</a> at the GitHub project page.",
         "description": "The description of service error"
     },
-
     "disabledSiteHeader": {
         "message": "This website is turned off",
         "description": "The header of 'disabled' popup"
@@ -471,7 +459,6 @@
         "message": "Open options page",
         "description": "Button label"
     },
-
     "unsupportedWebsiteHeader": {
         "message": "This website is not supported",
         "description": "The header of 'unsupported' popup"
@@ -484,7 +471,6 @@
         "message": "Some Google websites supported by the extension (e.g. Google Play Music, YouTube) can be blocked due to an ExtensionSettings policy.",
         "description": "The description of 'unsupported' popup"
     },
-
     "infoLove": {
         "message": "Love track",
         "description": "Label of love/unlove button"
@@ -573,8 +559,6 @@
         "message": "Your scrobbles: $1",
         "description": "Label for user play count"
     },
-
-
     "pageActionBase": {
         "message": "This site is supported for scrobbling",
         "description": "`base` page action title"
@@ -623,8 +607,6 @@
         "message": "You unloved $1",
         "description": "`unsupported` page action title"
     },
-
-
     "menuDisableConnector": {
         "message": "Disable $1 connector",
         "description": "Context menu item"
@@ -637,8 +619,6 @@
         "message": "Disable $1 connector until tab is closed",
         "description": "Context menu item"
     },
-
-
     "notificationConnectAccounts": {
         "message": "Connect your accounts",
         "description": "Notification title"
@@ -663,7 +643,6 @@
         "message": "Click on the icon in the extensions bar to correct and submit track info.",
         "description": "Notification text"
     },
-
     "hotkeyToggleConnector": {
         "message": "Toggle scrobbling for current website",
         "description": "Hotkey label"

@@ -31,14 +31,6 @@
         "message": "Erkennen von unbekannten Titeln erzwingen",
         "description": "Option title"
     },
-    "optionScrobblePodcasts": {
-        "message": "Scrobble podcasts",
-        "description": "Option label"
-    },
-    "optionScrobblePodcastsTitle": {
-        "message": "Scrobble podcast episodes",
-        "description": "Option title"
-    },
     "optionsHidden": {
         "message": "Versteckt",
         "description": "'Hidden' section"
@@ -71,6 +63,18 @@
         "message": "Ignoriere Videos die nicht in Kategorie Unterhaltung sind",
         "description": "Option title"
     },
+    "optionThemeLight": {
+        "message": "Licht",
+        "description": "Option label"
+    },
+    "optionThemeDark": {
+        "message": "Dunkel",
+        "description": "Option label"
+    },
+    "optionThemeSystem": {
+        "message": "System",
+        "description": "Option label"
+    },
     "optionsAccounts": {
         "message": "Accounts",
         "description": "'Accounts' section"
@@ -94,6 +98,22 @@
     "accountsSignIn": {
         "message": "Anmelden",
         "description": "Button label"
+    },
+    "accountsScrobblerProps": {
+        "message": "Eigenschaften",
+        "description": "Button label"
+    },
+    "accountsScrobblerPropsTitle": {
+        "message": "$1 Eigenschaften",
+        "description": "Button label"
+    },
+    "accountsUserApiUrl": {
+        "message": "API URL",
+        "description": "Input label"
+    },
+    "accountsUserApiUrlPlaceholder": {
+        "message": "API URL personalisieren",
+        "description": "Input label"
     },
     "optionsOptions": {
         "message": "Einstellungen",
@@ -128,7 +148,7 @@
         "description": "Enable/disable hint"
     },
     "optionsCustomPatternsHint": {
-        "message": "Klick auf das Zahnradsymbol um benutzerdefinierte URL-Muster für die Verbinder zu konfigurieren. <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>Mehr erfahren</a>",
+        "message": "Klick auf das Zahnradsymbol um benutzerdefinierte URL-Muster für die Verbinder zu konfigurieren.",
         "description": "Description of how to configure custom URL patterns"
     },
     "optionsSupportedWebsites": {
@@ -138,6 +158,10 @@
     "optionsToggle": {
         "message": "An/Ausschalten",
         "description": "Label of toggle button"
+    },
+    "learnMoreLabel": {
+        "message": "Mehr erfahren",
+        "description": "Learn more label"
     },
     "contactTitle": {
         "message": "Kontakt",
@@ -248,7 +272,7 @@
         "description": "Question #7"
     },
     "faqAnswer7": {
-        "message": "Der ursprüngliche Autor dieser Erweiterung ist David Šabata. Jetzt wird diese Erweiterung vom sogenannten Web-Scrobbler-Team verwaltet.",
+        "message": "Der ursprüngliche Autor dieser Erweiterung ist David Šabata. Jetzt wird diese Erweiterung Web-Scrobbler-Team verwaltet.",
         "description": "Answer #7"
     },
     "optionsAbout": {
@@ -260,7 +284,7 @@
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
-        "message": "Web Scrobbler ist gemacht für Leute, die Musik online im Browser hören und ein vollständiges Wiedergabegearchiv über Last.fms Scrobbling-Dienst haben möchten.",
+        "message": "Web Scrobbler ist eine Browser-Erweiterung für Leute, die Musik über ihren Browser zuhören und gerne ein aktualisiertes Playback-Verlauf durch Scrobbling-Dienstleistungen wie Last.fm, Libre.fm und ListenBrainz haben wollen.",
         "description": "'About' section text"
     },
     "contributorsTitle": {
@@ -277,6 +301,10 @@
     },
     "showSomeLoveText1": {
         "message": "Anders als andere Erweiterungen enthält diese keine blinkenden Banner oder hinterhältige Werbung.",
+        "description": ""
+    },
+    "showSomeLoveText2": {
+        "message": "Die Browser-Erweiterung ist kostenlos und wird immer zwar gebührenfrei sein. Wenn Sie aber ihre Entwicklung unterstützen wollen, können Sie den Knöpf unter klicken. ",
         "description": ""
     },
     "customPatterns": {
@@ -359,6 +387,10 @@
         "message": "Web Scrobbler unterstützt das Scrobblen von dieser Webseite nicht.",
         "description": "The description of 'unsupported' popup"
     },
+    "unsupportedWebsiteDesc2": {
+        "message": "Aufgrund einer ExtensionSettings-Richtlinie können einige durch die Erweiterung unterstützten Google-Webseiten (z.B. Google Play Music, YouTube) gesperrt angezeigt werden. ",
+        "description": "The description of 'unsupported' popup"
+    },
     "infoLove": {
         "message": "Lieblingstitel",
         "description": "Label of love/unlove button"
@@ -372,7 +404,7 @@
         "description": "Title of edit button"
     },
     "infoEditUnableTitle": {
-        "message": "Du kannst bereits gescrobblete Titel nicht bearbeiten",
+        "message": "Du kannst diesen Titel nicht bearbeiten",
         "description": "Title of edit button"
     },
     "infoSwapTitle": {
@@ -380,8 +412,16 @@
         "description": "Title of swap button"
     },
     "infoSwapUnableTitle": {
-        "message": "Du kannst einen bereits gescrobbleten Titel nicht austauschen",
+        "message": "Sie dürfen nicht leere Musiktitel scrobbeln",
         "description": "Title of swap button"
+    },
+    "infoSubmitTitle": {
+        "message": "Änderungen einsenden",
+        "description": "Title of submit button"
+    },
+    "infoSubmitUnableTitle": {
+        "message": "Sie dürfen nicht leere Musiktitel scrobbeln",
+        "description": "Title of submit button"
     },
     "infoRevertTitle": {
         "message": "Änderungen zurücksetzen",
@@ -396,8 +436,12 @@
         "description": "Title of skip button"
     },
     "infoSkipUnableTitle": {
-        "message": "Du kannst bereits gescrobblete Titel nicht überspringen",
+        "message": "Du kannst diesen Titel nicht überspringen",
         "description": "Title of skip button"
+    },
+    "infoSkippedTitle": {
+        "message": "Sie haben diesen Titel geskippt",
+        "description": "Title of unskip button"
     },
     "infoOpenAlbumArt": {
         "message": "Albumcover in neuem Tab öffnen",
