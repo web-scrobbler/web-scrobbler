@@ -279,6 +279,10 @@
         "message": "作者是谁？",
         "description": "Question #7"
     },
+    "faqAnswer7": {
+        "message": "本扩展的原作者是 David Šabata 。现在该扩展由 Web Scrobbler 团队开发和维护。",
+        "description": "Answer #7"
+    },
     "optionsAbout": {
         "message": "关于",
         "description": "'About' section"
