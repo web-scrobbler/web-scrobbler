@@ -28,6 +28,7 @@ import {
 import ClonedSong from '@/core/object/cloned-song';
 import { openTab } from '@/util/util-browser';
 import { updateAction } from './action';
+import { setRegexDefaults } from '@/util/regex';
 
 const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
 
@@ -292,6 +293,8 @@ function startupFunc() {
 	const state = BrowserStorage.getStorage(BrowserStorage.STATE_MANAGEMENT);
 	state.set(DEFAULT_STATE);
 	disabledTabs.set({});
+
+	setRegexDefaults();
 
 	browser.contextMenus.create({
 		id: contextMenus.ENABLE_CONNECTOR,

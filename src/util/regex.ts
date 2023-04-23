@@ -1,4 +1,5 @@
 import Song, { BaseSong } from '@/core/object/song';
+import * as BrowserStorage from '@/core/storage/browser-storage';
 
 /**
  * Editable fields.
@@ -150,4 +151,49 @@ export function editSong(edit: RegexEdit, song: Song) {
  */
 export function getSongField(clonedSong: BaseSong, type: FieldType) {
 	return clonedSong[`get${type}`]() ?? '';
+}
+
+/**
+ * Default regexes to be applied on first load
+ */
+const DEFAULT_REGEXES = [
+	{
+		search: {
+			Track: null,
+			Artist: null,
+			Album: '(.*) - Single',
+			AlbumArtist: null,
+		},
+		replace: {
+			Track: null,
+			Artist: null,
+			Album: '$1',
+			AlbumArtist: null,
+		},
+	},
+	{
+		search: {
+			Track: null,
+			Artist: null,
+			Album: '(.*) - EP',
+			AlbumArtist: null,
+		},
+		replace: {
+			Track: null,
+			Artist: null,
+			Album: '$1',
+			AlbumArtist: null,
+		},
+	},
+];
+
+/**
+ * Sets default regexes if none exist.
+ */
+export async function setRegexDefaults() {
+	const regexEdits = BrowserStorage.getStorage(BrowserStorage.REGEX_EDITS);
+	const regexes = await regexEdits.get();
+	if (!regexes) {
+		regexEdits.set(DEFAULT_REGEXES);
+	}
 }
