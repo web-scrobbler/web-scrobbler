@@ -203,6 +203,18 @@
         "message": "$1 edited tracks",
         "description": "'Edited tracks' header"
     },
+    "optionsRegexEdits": {
+        "message": "Regex/Bulk edits",
+        "description": "'Regex/Bulk edits' header"
+    },
+    "optionsRegexEditsDesc": {
+        "message": "This extension stores regex/bulk edits.",
+        "description": "Description of regex/bulk edits"
+    },
+    "optionsRegexEditsPopupTitle": {
+        "message": "$1 regex/bulk edits",
+        "description": "'Regex/Bulk edits' header"
+    },
     "optionsViewEdited": {
         "message": "View",
         "description": "Button to view edited tracks"
@@ -495,6 +507,14 @@
         "message": "You cannot swap empty track info",
         "description": "Title of swap button"
     },
+    "infoRegexTitle": {
+        "message": "Regex/Bulk edit mode",
+        "description": "Title of regex/bulk edit button"
+    },
+    "infoEditedWarning": {
+        "message": "This track has been edited. Regex edits are not applied to edited tracks, and the preview you see here may be inaccurate.",
+        "description": "Warning message to user if bulk editing on a previously edited track"
+    },
     "infoSubmitTitle": {
         "message": "Submit changes",
         "description": "Title of submit button"
@@ -542,6 +562,34 @@
     "infoAlbumArtistPlaceholder": {
         "message": "Album artist (optional)",
         "description": "Placeholder of album artist input"
+    },
+    "infoSearchLabel": {
+        "message": "Search",
+        "description": "Label of regex edit search input"
+    },
+    "infoReplaceLabel": {
+        "message": "Replace",
+        "description": "Label of regex edit replace input"
+    },
+    "infoPreviewLabel": {
+        "message": "Preview",
+        "description": "Label of regex edit preview output"
+    },
+    "infoArtistLabel": {
+      "message": "Artist",
+      "description": "Label of artist input row"
+    },
+    "infoTrackLabel": {
+        "message": "Track",
+        "description": "Label of track input row"
+    },
+    "infoAlbumLabel": {
+        "message": "Album",
+        "description": "Label of album input row"
+    },
+    "infoAlbumArtistLabel": {
+        "message": "Album artist",
+        "description": "Label of album artist input row"
     },
     "infoViewArtistPage": {
         "message": "View artist page: $1",

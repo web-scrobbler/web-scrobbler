@@ -22,6 +22,7 @@ export type Flags =
 	| {
 			isScrobbled: boolean;
 			isCorrectedByUser: boolean;
+			isRegexEditedByUser: boolean;
 			isValid: boolean;
 			isMarkedAsPlaying: boolean;
 			isSkipped: boolean;
@@ -360,6 +361,11 @@ export default class Song extends BaseSong {
 			 * Flag indicated song info is changed or approved by user.
 			 */
 			isCorrectedByUser: false,
+
+			/**
+			 * Flag indicating song info has been affected by a user regex/bulk edit
+			 */
+			isRegexEditedByUser: false,
 
 			/**
 			 * Flag indicated song is known by scrobbling service.

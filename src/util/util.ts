@@ -10,6 +10,7 @@ import {
 	Properties,
 	StateManagement,
 } from '@/core/storage/wrapper';
+import { RegexEdit } from './regex';
 
 /**
  * Module that contains some useful helper functions for background scripts.
@@ -112,6 +113,7 @@ export function hideObjectValue(
 		| Properties
 		| ListenBrainzModel
 		| StateManagement
+		| RegexEdit[]
 ): string {
 	if (!keyValue) {
 		if (keyValue === null) {

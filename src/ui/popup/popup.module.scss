@@ -147,3 +147,126 @@ a {
 		color: var(--last-fm);
 	}
 }
+
+.regexContainer {
+	align-items: center;
+	box-sizing: border-box;
+	display: grid;
+	gap: 0.5em 1em;
+	grid-template: '. search replace preview' 2em
+		'track tracksearch trackreplace trackpreview' 2em
+		'artist artistsearch artistreplace artistpreview' 2em
+		'album albumsearch albumreplace albumpreview' 2em
+		'albumartist albumartistsearch albumartistreplace albumartistpreview' 2em
+		'footer footer footer footer' auto / auto 1fr 1fr 1fr;
+	padding: 1em;
+	width: 800px;
+
+	.entryLabel {
+		justify-self: right;
+	}
+
+	.searchWrapper {
+		align-self: center;
+		position: relative;
+
+		.searchField {
+			box-sizing: border-box;
+			width: 100%;
+		}
+
+		.regexTest {
+			position: absolute;
+			right: 0.1em;
+			top: 50%;
+			transform: translateY(-50%);
+
+			&.regexSuccess {
+				color: var(--confirm);
+			}
+
+			&.regexFailure {
+				color: var(--last-fm);
+			}
+		}
+	}
+
+	.editWarning {
+		color: var(--last-fm);
+	}
+
+	input {
+		padding: 0.25em 0.5em;
+	}
+
+	.regexFooter {
+		display: flex;
+		flex-direction: column;
+		grid-area: footer;
+	}
+
+	/**
+	 * assign grid areas
+	 */
+
+	.searchLabel {
+		grid-area: search;
+	}
+	.replaceLabel {
+		grid-area: replace;
+	}
+	.previewLabel {
+		grid-area: preview;
+	}
+	.trackLabel {
+		grid-area: track;
+	}
+	.artistLabel {
+		grid-area: artist;
+	}
+	.albumLabel {
+		grid-area: album;
+	}
+	.albumartistLabel {
+		grid-area: albumartist;
+	}
+
+	.trackSearch {
+		grid-area: tracksearch;
+	}
+	.artistSearch {
+		grid-area: artistsearch;
+	}
+	.albumSearch {
+		grid-area: albumsearch;
+	}
+	.albumartistSearch {
+		grid-area: albumartistsearch;
+	}
+
+	.trackReplace {
+		grid-area: trackreplace;
+	}
+	.artistReplace {
+		grid-area: artistreplace;
+	}
+	.albumReplace {
+		grid-area: albumreplace;
+	}
+	.albumartistReplace {
+		grid-area: albumartistreplace;
+	}
+
+	.trackPreview {
+		grid-area: trackpreview;
+	}
+	.artistPreview {
+		grid-area: artistpreview;
+	}
+	.albumPreview {
+		grid-area: albumpreview;
+	}
+	.albumartistPreview {
+		grid-area: albumartistpreview;
+	}
+}

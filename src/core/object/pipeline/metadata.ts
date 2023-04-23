@@ -6,6 +6,7 @@ import Song from '@/core/object/song';
 import { ConnectorMeta } from '@/core/connectors';
 import ScrobbleService from '@/core/object/scrobble-service';
 import { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
+import { processRegex } from './user-input';
 
 const INFO_TO_COPY: ['duration', 'artist', 'track'] = [
 	'duration',
@@ -54,6 +55,8 @@ export async function process(
 			if (!song.getAlbum()) {
 				song.processed.album = songInfo.album;
 			}
+
+			processRegex(song);
 		}
 
 		for (const field of METADATA_TO_COPY) {

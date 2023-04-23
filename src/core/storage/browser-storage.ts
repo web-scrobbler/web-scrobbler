@@ -79,6 +79,34 @@ export const STATE_MANAGEMENT = 'StateManagement';
 export const DISABLED_TABS = 'DisabledTabs';
 
 /**
+ * This storage contains the regex/bulk edits saved by the user.
+ * The format of storage data is following:
+ * [
+ *     ...,
+ *     \{
+ *         search: \{
+ * 		       Track: 'Track search regex or null',
+ * 		       Artist: 'Artist search regex or null',
+ * 		       Album: 'Album search regex or null',
+ * 		       AlbumArtist: 'AlbumArtist search regex or null',
+ * 	       \},
+ * 	       replace: \{
+ * 		       Track: 'Track replace regex or null',
+ * 		       Artist: 'Artist replace regex or null',
+ * 		       Album: 'Album replace regex or null',
+ * 		       AlbumArtist: 'AlbumArtist replace regex or null',
+ * 	       \},
+ *     \},
+ *     ...
+ * ]
+ *
+ * All non-null search properties must be true for the edit to be applied.
+ * It will then apply all non-null replace properties where search is non-null.
+ * The latest regex edit to match will be applied, assuming no local cache edits exist.
+ */
+export const REGEX_EDITS = 'RegexEdits';
+
+/**
  * This storage contains the data saved and used by the extension core.
  * The format of storage data is following:
  * \{
@@ -100,6 +128,7 @@ const storageTypeMap = {
 	Maloja: LOCAL,
 
 	[LOCAL_CACHE]: LOCAL,
+	[REGEX_EDITS]: LOCAL,
 	[CORE]: LOCAL,
 	[STATE_MANAGEMENT]: LOCAL,
 	[DISABLED_TABS]: LOCAL,
