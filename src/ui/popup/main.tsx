@@ -21,7 +21,11 @@ import { t } from '@/util/i18n';
  * List of modes that have a settings button in the popup content, dont show supplementary settings icon.
  * Also include loading mode as it is too small.
  */
-const settingModes = [ControllerMode.Disabled, ControllerMode.Err, ControllerMode.Loading];
+const settingModes = [
+	ControllerMode.Disabled,
+	ControllerMode.Err,
+	ControllerMode.Loading,
+];
 
 /**
  * Component that determines what popup to show, and then shows it
