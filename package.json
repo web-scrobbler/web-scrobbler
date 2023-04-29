@@ -26,7 +26,7 @@
   },
   "homepage": "https://web-scrobbler.com/",
   "dependencies": {
-    "@suid/icons-material": "0.6.0",
+    "@suid/icons-material": "0.6.1",
     "@web-scrobbler/metadata-filter": "3.0.1",
     "blueimp-md5": "2.19.0",
     "stylelint": "13.13.1",
