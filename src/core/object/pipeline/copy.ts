@@ -4,7 +4,7 @@
 import Song from '@/core/object/song';
 
 /**
- * Normalize info fields of given track.
+ * Copy data from parsed to processed fields.
  * @param song - Song object
  */
 export function process(song: Song): void {
