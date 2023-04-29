@@ -22,7 +22,12 @@ export type Flags =
 	| {
 			isScrobbled: boolean;
 			isCorrectedByUser: boolean;
-			isRegexEditedByUser: boolean;
+			isRegexEditedByUser: {
+				Track: boolean;
+				Artist: boolean;
+				Album: boolean;
+				AlbumArtist: boolean;
+			};
 			isAlbumFetched: boolean;
 			isValid: boolean;
 			isMarkedAsPlaying: boolean;
@@ -366,7 +371,12 @@ export default class Song extends BaseSong {
 			/**
 			 * Flag indicating song info has been affected by a user regex/bulk edit
 			 */
-			isRegexEditedByUser: false,
+			isRegexEditedByUser: {
+				Track: false,
+				Artist: false,
+				Album: false,
+				AlbumArtist: false,
+			},
 
 			/**
 			 * Flag indicating that the album of the current track was fetched from the Last.fm API

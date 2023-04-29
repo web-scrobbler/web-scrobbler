@@ -21,24 +21,20 @@ export default abstract class RegexEditsModel extends CustomStorage<K> {
 	 * Apply regex edits to a given song object.
 	 *
 	 * @param song - Song instance
-	 * @returns True if data is loaded; false otherwise
 	 */
-	async loadSongInfo(song: Song): Promise<boolean> {
+	async loadSongInfo(song: Song): Promise<void> {
 		const storageData = await this.getRegexEditStorage();
 
 		if (!storageData) {
-			return false;
+			return;
 		}
 
 		for (let i = storageData.length - 1; i >= 0; i--) {
-			if (!shouldApplyEdit(storageData[i].search, song)) {
+			if (!shouldApplyEdit(storageData[i], song)) {
 				continue;
 			}
 			editSong(storageData[i], song);
-			return true;
 		}
-
-		return false;
 	}
 
 	/**
