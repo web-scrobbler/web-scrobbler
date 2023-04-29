@@ -1,10 +1,16 @@
+import ClonedSong from '@/core/object/cloned-song';
 import Song, { BaseSong } from '@/core/object/song';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 
 /**
  * Editable fields.
  */
-export type FieldType = 'Track' | 'Artist' | 'Album' | 'AlbumArtist';
+export type FieldType = 'track' | 'artist' | 'album' | 'albumArtist';
+
+/**
+ * Editable fields with pascal case for function calls and i18n
+ */
+export type PascalCaseFieldType = 'Track' | 'Artist' | 'Album' | 'AlbumArtist';
 
 /**
  * Edit fields with nullability; used for storage. Null indicates the field should be ignored.
@@ -92,7 +98,6 @@ export function searchMatches(search: string | null, text: string): boolean {
 
 /**
  * Replaces a single field based on a regex edit.
- * Mutates the song object to indicate that field has been edited.
  *
  * @param search - Search regex
  * @param replace - Replace regex
@@ -100,8 +105,6 @@ export function searchMatches(search: string | null, text: string): boolean {
  * @returns Text with regex applied
  */
 function replaceField(
-	song: BaseSong,
-	fieldName: FieldType,
 	search: string | null,
 	replace: string | null,
 	text: string
@@ -111,11 +114,7 @@ function replaceField(
 	}
 	try {
 		const regex = new RegExp(`^${search}$`);
-		const editedText = text.replace(regex, replace);
-
-		// Indicate that this field has been edited and return the edited text
-		song.flags.isRegexEditedByUser[fieldName] = true;
-		return editedText;
+		return text.replace(regex, replace);
 	} catch (err) {
 		return text;
 	}
@@ -126,20 +125,14 @@ function replaceField(
  *
  * @param search - Search regex fields
  * @param replace - Replace regex fields
- * @param song - Song to apply regex to
+ * @param fields - Fields to apply regex to
  * @returns Edited fields
  */
 export function replaceFields(
 	search: RegexFields,
 	replace: RegexFields,
-	song: BaseSong
+	fields: EditedFields
 ): EditedFields {
-	const fields: EditedFields = {
-		Track: getSongField(song, 'Track'),
-		Artist: getSongField(song, 'Artist'),
-		Album: getSongField(song, 'Album'),
-		AlbumArtist: getSongField(song, 'AlbumArtist'),
-	};
 	for (const _field of Object.keys(fields)) {
 		const field = _field as FieldType;
 		if (!searchMatches(search[field], fields[field])) {
@@ -149,8 +142,6 @@ export function replaceFields(
 	for (const _field of Object.keys(fields)) {
 		const field = _field as FieldType;
 		fields[field] = replaceField(
-			song,
-			field,
 			search[field],
 			replace[field],
 			fields[field]
@@ -160,20 +151,67 @@ export function replaceFields(
 }
 
 /**
+ * Gets processed fields from song.
+ *
+ * @param song - Song to get processed fields from
+ * @returns Processed fields
+ */
+export function getProcessedFields(song: BaseSong): EditedFields {
+	return {
+		track: getSongField(song, 'track'),
+		artist: getSongField(song, 'artist'),
+		album: getSongField(song, 'album'),
+		albumArtist: getSongField(song, 'albumArtist'),
+	};
+}
+
+/**
+ * Gets non-regex processed fields from song.
+ * This is used for previews.
+ *
+ * @param song - Song to get processed fields from
+ * @returns Processed fields without regex
+ */
+export function getProcessedFieldsNoRegex(song: BaseSong): EditedFields {
+	return {
+		track: getSongFieldNoRegex(song, 'track'),
+		artist: getSongFieldNoRegex(song, 'artist'),
+		album: getSongFieldNoRegex(song, 'album'),
+		albumArtist: getSongFieldNoRegex(song, 'albumArtist'),
+	};
+}
+
+/**
  * Applies a regex edit to a song.
  *
  * @param edit - Regex edit to apply
  * @param song - Song to apply regex to
  */
 export function editSong(edit: RegexEdit, song: Song) {
-	const fields = replaceFields(edit.search, edit.replace, song);
-	song.processed = {
-		...song.processed,
-		track: fields.Track,
-		artist: fields.Artist,
-		album: fields.Album,
-		albumArtist: fields.AlbumArtist,
-	};
+	const fields = replaceFields(
+		edit.search,
+		edit.replace,
+		getProcessedFields(song)
+	);
+
+	for (const [_key, field] of Object.entries(fields)) {
+		const key = _key as FieldType;
+		if (field !== getSongField(song, key)) {
+			song.flags.isRegexEditedByUser[key] = true;
+			song.processed[key] = field;
+		}
+	}
+}
+
+/**
+ * Converts a field to pascal case.
+ *
+ * @param text - Field to convert
+ * @returns Field in pascal case
+ */
+export function pascalCaseField(text: FieldType): PascalCaseFieldType {
+	return (text.charAt(0).toUpperCase() +
+		text.slice(1)) as PascalCaseFieldType;
 }
 
 /**
@@ -183,8 +221,22 @@ export function editSong(edit: RegexEdit, song: Song) {
  * @param type - Field to get
  * @returns Content of field from song
  */
-export function getSongField(clonedSong: BaseSong, type: FieldType) {
-	return clonedSong[`get${type}`]() ?? '';
+export function getSongField(clonedSong: BaseSong, type: FieldType): string {
+	return clonedSong[`get${pascalCaseField(type)}`]() ?? '';
+}
+
+/**
+ * Gets a field from a song ignoring regex edits.
+ *
+ * @param clonedSong - Song to get field from
+ * @param type - Field to get
+ * @returns Content of field from song ignoring regex edits
+ */
+export function getSongFieldNoRegex(
+	clonedSong: BaseSong,
+	type: FieldType
+): string {
+	return (clonedSong.noRegex[type] || clonedSong.parsed[type]) ?? '';
 }
 
 /**
@@ -193,30 +245,30 @@ export function getSongField(clonedSong: BaseSong, type: FieldType) {
 const DEFAULT_REGEXES = [
 	{
 		search: {
-			Track: null,
-			Artist: null,
-			Album: '(.*) - Single',
-			AlbumArtist: null,
+			track: null,
+			artist: null,
+			album: '(.*) - Single',
+			albumArtist: null,
 		},
 		replace: {
-			Track: null,
-			Artist: null,
-			Album: '$1',
-			AlbumArtist: null,
+			track: null,
+			artist: null,
+			album: '$1',
+			albumArtist: null,
 		},
 	},
 	{
 		search: {
-			Track: null,
-			Artist: null,
-			Album: '(.*) - EP',
-			AlbumArtist: null,
+			track: null,
+			artist: null,
+			album: '(.*) - EP',
+			albumArtist: null,
 		},
 		replace: {
-			Track: null,
-			Artist: null,
-			Album: '$1',
-			AlbumArtist: null,
+			track: null,
+			artist: null,
+			album: '$1',
+			albumArtist: null,
 		},
 	},
 ];

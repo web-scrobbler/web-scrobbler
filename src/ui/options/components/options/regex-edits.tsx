@@ -6,7 +6,7 @@ import Download from '@suid/icons-material/DownloadOutlined';
 import Upload from '@suid/icons-material/UploadOutlined';
 import Visibility from '@suid/icons-material/VisibilityOutlined';
 import Delete from '@suid/icons-material/DeleteOutlined';
-import { FieldType, RegexEdit } from '@/util/regex';
+import { FieldType, RegexEdit, pascalCaseField } from '@/util/regex';
 
 const regexEdits = BrowserStorage.getStorage(BrowserStorage.REGEX_EDITS);
 
@@ -89,10 +89,10 @@ function EditInfo(props: {
 				<span class={styles.regexDeleteReplaceLabel}>
 					{t('infoReplaceLabel')}
 				</span>
-				<Entry edit={props.edit} type={'Track'} />
-				<Entry edit={props.edit} type={'Artist'} />
-				<Entry edit={props.edit} type={'Album'} />
-				<Entry edit={props.edit} type={'AlbumArtist'} />
+				<Entry edit={props.edit} type={'track'} />
+				<Entry edit={props.edit} type={'artist'} />
+				<Entry edit={props.edit} type={'album'} />
+				<Entry edit={props.edit} type={'albumArtist'} />
 			</div>
 		</li>
 	);
@@ -104,13 +104,23 @@ function EditInfo(props: {
 function Entry(props: { edit: RegexEdit; type: FieldType }) {
 	return (
 		<>
-			<span class={styles[`regexDelete${props.type}Label`]}>
-				{t(`info${props.type}Label`)}
+			<span
+				class={styles[`regexDelete${pascalCaseField(props.type)}Label`]}
+			>
+				{t(`info${pascalCaseField(props.type)}Label`)}
 			</span>
-			<span class={styles[`regexDelete${props.type}Search`]}>
+			<span
+				class={
+					styles[`regexDelete${pascalCaseField(props.type)}Search`]
+				}
+			>
 				{props.edit.search[props.type]}
 			</span>
-			<span class={styles[`regexDelete${props.type}Replace`]}>
+			<span
+				class={
+					styles[`regexDelete${pascalCaseField(props.type)}Replace`]
+				}
+			>
 				{props.edit.replace[props.type]}
 			</span>
 		</>

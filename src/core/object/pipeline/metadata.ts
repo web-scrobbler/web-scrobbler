@@ -53,6 +53,7 @@ export async function process(
 
 			if (!song.getAlbum() || song.flags.isAlbumFetched) {
 				song.processed.album = songInfo.album;
+				song.noRegex.album = songInfo.album;
 				song.flags.isAlbumFetched = true;
 			}
 		}

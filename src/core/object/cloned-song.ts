@@ -14,6 +14,7 @@ import {
 export default class ClonedSong extends BaseSong {
 	public parsed: ParsedSongData;
 	public processed: ProcessedSongData;
+	public noRegex: ProcessedSongData;
 	public flags: Flags;
 	public metadata: Metadata;
 	public connectorLabel: string;
@@ -23,6 +24,7 @@ export default class ClonedSong extends BaseSong {
 		super();
 		this.parsed = song.parsed;
 		this.processed = song.processed;
+		this.noRegex = song.noRegex;
 		this.flags = song.flags;
 		this.metadata = song.metadata;
 		this.connectorLabel = song.connectorLabel;

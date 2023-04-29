@@ -16,7 +16,9 @@ import {
 	EditedFields,
 	FieldType,
 	RegexFields,
-	getSongField,
+	getProcessedFieldsNoRegex,
+	getSongFieldNoRegex,
+	pascalCaseField,
 	replaceFields,
 	searchMatches,
 } from '@/util/regex';
@@ -25,22 +27,22 @@ import regexEdits from '@/core/storage/regex-edits';
 import { sendBackgroundMessage } from '@/util/communication';
 
 const [searches, setSearches] = createSignal({
-	Track: null,
-	Artist: null,
-	Album: null,
-	AlbumArtist: null,
+	track: null,
+	artist: null,
+	album: null,
+	albumArtist: null,
 } as RegexFields);
 const [replaces, setReplaces] = createSignal({
-	Track: null,
-	Artist: null,
-	Album: null,
-	AlbumArtist: null,
+	track: null,
+	artist: null,
+	album: null,
+	albumArtist: null,
 } as RegexFields);
 const [previews, setPreviews] = createSignal({
-	Track: '',
-	Artist: '',
-	Album: '',
-	AlbumArtist: '',
+	track: '',
+	artist: '',
+	album: '',
+	albumArtist: '',
 } as EditedFields);
 
 /**
@@ -55,10 +57,10 @@ export default function Regex(props: {
 			<span class={styles.searchLabel}>{t('infoSearchLabel')}</span>
 			<span class={styles.replaceLabel}>{t('infoReplaceLabel')}</span>
 			<span class={styles.previewLabel}>{t('infoPreviewLabel')}</span>
-			<Entry clonedSong={props.clonedSong} type="Track" />
-			<Entry clonedSong={props.clonedSong} type="Artist" />
-			<Entry clonedSong={props.clonedSong} type="Album" />
-			<Entry clonedSong={props.clonedSong} type="AlbumArtist" />
+			<Entry clonedSong={props.clonedSong} type="track" />
+			<Entry clonedSong={props.clonedSong} type="artist" />
+			<Entry clonedSong={props.clonedSong} type="album" />
+			<Entry clonedSong={props.clonedSong} type="albumArtist" />
 			<Footer tab={props.tab} clonedSong={props.clonedSong} />
 		</div>
 	);
@@ -71,26 +73,28 @@ function Entry(props: { clonedSong: ClonedSong; type: FieldType }) {
 	const { clonedSong, type } = props;
 	setPreviews((prev) => ({
 		...prev,
-		[type]: getSongField(clonedSong, type),
+		[type]: getSongFieldNoRegex(clonedSong, type),
 	}));
 
 	createEffect(() => {
-		setPreviews(() => replaceFields(searches(), replaces(), clonedSong));
+		setPreviews(() =>
+			replaceFields(
+				searches(),
+				replaces(),
+				getProcessedFieldsNoRegex(clonedSong)
+			)
+		);
 	});
 
 	return (
 		<>
-			<span
-				class={`${styles[`${type.toLowerCase()}Label`]} ${
-					styles.entryLabel
-				}`}
-			>
-				{t(`info${type}Label`)}
+			<span class={`${styles[`${type}Label`]} ${styles.entryLabel}`}>
+				{t(`info${pascalCaseField(type)}Label`)}
 			</span>
 			<SearchField type={type} clonedSong={clonedSong} />
 			<input
 				type="text"
-				class={styles[`${type.toLowerCase()}Replace`]}
+				class={styles[`${type}Replace`]}
 				onInput={(e) =>
 					setReplaces((prev) => ({
 						...prev,
@@ -98,9 +102,7 @@ function Entry(props: { clonedSong: ClonedSong; type: FieldType }) {
 					}))
 				}
 			/>
-			<span class={styles[`${type.toLowerCase()}Preview`]}>
-				{previews()[type]}
-			</span>
+			<span class={styles[`${type}Preview`]}>{previews()[type]}</span>
 		</>
 	);
 }
@@ -111,11 +113,7 @@ function Entry(props: { clonedSong: ClonedSong; type: FieldType }) {
 function SearchField(props: { type: FieldType; clonedSong: ClonedSong }) {
 	const { type, clonedSong } = props;
 	return (
-		<div
-			class={`${styles[`${type.toLowerCase()}Search`]} ${
-				styles.searchWrapper
-			}`}
-		>
+		<div class={`${styles[`${type}Search`]} ${styles.searchWrapper}`}>
 			<input
 				type="text"
 				class={styles.searchField}
@@ -139,7 +137,7 @@ function SearchField(props: { type: FieldType; clonedSong: ClonedSong }) {
 				<Match
 					when={searchMatches(
 						searches()[type],
-						getSongField(clonedSong, type)
+						getSongFieldNoRegex(clonedSong, type)
 					)}
 				>
 					<Check
@@ -157,12 +155,7 @@ function SearchField(props: { type: FieldType; clonedSong: ClonedSong }) {
 function Footer(props: { tab: Resource<ManagerTab>; clonedSong: ClonedSong }) {
 	return (
 		<div class={styles.regexFooter}>
-			<Show
-				when={
-					props.clonedSong.flags.isCorrectedByUser ||
-					props.clonedSong.flags.isRegexEditedByUser
-				}
-			>
+			<Show when={props.clonedSong.flags.isCorrectedByUser}>
 				<span class={styles.editWarning}>{t('infoEditedWarning')}</span>
 			</Show>
 			<div class={styles.controlButtons}>

@@ -85,16 +85,16 @@ export const DISABLED_TABS = 'DisabledTabs';
  *     ...,
  *     \{
  *         search: \{
- * 		       Track: 'Track search regex or null',
- * 		       Artist: 'Artist search regex or null',
- * 		       Album: 'Album search regex or null',
- * 		       AlbumArtist: 'AlbumArtist search regex or null',
+ * 		       track: 'Track search regex or null',
+ * 		       artist: 'Artist search regex or null',
+ * 		       album: 'Album search regex or null',
+ * 		       albumArtist: 'Album Artist search regex or null',
  * 	       \},
  * 	       replace: \{
- * 		       Track: 'Track replace regex or null',
- * 		       Artist: 'Artist replace regex or null',
- * 		       Album: 'Album replace regex or null',
- * 		       AlbumArtist: 'AlbumArtist replace regex or null',
+ * 		       track: 'Track replace regex or null',
+ * 		       artist: 'Artist replace regex or null',
+ * 		       album: 'Album replace regex or null',
+ * 		       albumArtist: 'Album Artist replace regex or null',
  * 	       \},
  *     \},
  *     ...
