@@ -276,6 +276,19 @@ export abstract class BaseSong {
 	static get BASE_FIELDS(): ['artist', 'track', 'album', 'albumArtist'] {
 		return ['artist', 'track', 'album', 'albumArtist'];
 	}
+
+	/**
+	 * Fields in a processed song.
+	 */
+	static get PROCESSED_FIELDS(): [
+		'track',
+		'album',
+		'artist',
+		'albumArtist',
+		'duration'
+	] {
+		return ['track', 'album', 'artist', 'albumArtist', 'duration'];
+	}
 }
 
 /**
@@ -440,9 +453,7 @@ export default class Song extends BaseSong {
 	}
 
 	private initProcessedData(): void {
-		const fields: ['track', 'album', 'artist', 'albumArtist', 'duration'] =
-			['track', 'album', 'artist', 'albumArtist', 'duration'];
-		for (const field of fields) {
+		for (const field of Song.PROCESSED_FIELDS) {
 			this.processed[field] = null;
 			this.noRegex[field] = null;
 		}

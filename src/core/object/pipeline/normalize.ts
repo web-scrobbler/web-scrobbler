@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * This pipeline stage normalizes track info fields.
  */
