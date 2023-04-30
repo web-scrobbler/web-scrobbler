@@ -3,7 +3,7 @@ import Pipeline from '@/core/object/pipeline/pipeline';
 import Song from '@/core/object/song';
 import regexEdits from '@/core/storage/regex-edits';
 import { State } from '@/core/types';
-import { RegexEdit } from '@/util/regex';
+import { RegexEdit, getProcessedFields } from '@/util/regex';
 import { getConnectorById } from '@/util/util-connector';
 import { randomBytes } from 'crypto';
 import { beforeEach, describe, expect, it } from 'vitest';
@@ -53,20 +53,16 @@ describe('Should edit Regex', () => {
 		);
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(song.getTrack()).to.equal('Re:start');
-		expect(song.getArtist()).to.equal('フミンニッキ');
-		expect(song.getAlbum()).to.equal('Re:start - EP');
-		expect(song.getAlbumArtist()).to.equal(null);
+		expect(getProcessedFields(song)).to.deep.equal(
+			processedFuminnikkiSongWithEP
+		);
 	});
 
 	it("Should apply edit to song's album", async () => {
 		await regexEdits.saveRegexEdit(epRemover.search, epRemover.replace);
 		const song = new Song(correctFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(song.getTrack()).to.equal('Re:start');
-		expect(song.getArtist()).to.equal('フミンニッキ');
-		expect(song.getAlbum()).to.equal('Re:start');
-		expect(song.getAlbumArtist()).to.equal(null);
+		expect(getProcessedFields(song)).to.deep.equal(processedFuminnikkiSong);
 	});
 
 	it("Should apply edit to song's artist and album", async () => {
@@ -77,10 +73,7 @@ describe('Should edit Regex', () => {
 		await regexEdits.saveRegexEdit(epRemover.search, epRemover.replace);
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
-		expect(song.getTrack()).to.equal('Re:start');
-		expect(song.getArtist()).to.equal('フミンニッキ');
-		expect(song.getAlbum()).to.equal('Re:start');
-		expect(song.getAlbumArtist()).to.equal(null);
+		expect(getProcessedFields(song)).to.deep.equal(processedFuminnikkiSong);
 	});
 
 	it("Should apply only the most recent edit to song's artist only once", async () => {
@@ -186,6 +179,18 @@ const wrongFuminnikkiSong: State = {
 const correctFuminnikkiSong: State = {
 	track: 'Re:start',
 	artist: 'フミンニッキ',
+};
+
+const processedFuminnikkiSong: State = {
+	track: 'Re:start',
+	artist: 'フミンニッキ',
+	album: 'Re:start',
+	albumArtist: null,
+};
+
+const processedFuminnikkiSongWithEP: State = {
+	...processedFuminnikkiSong,
+	album: 'Re:start - EP',
 };
 
 const youtubeConnector = getConnectorById('youtube')!;
