@@ -3,7 +3,11 @@ import Pipeline from '@/core/object/pipeline/pipeline';
 import Song from '@/core/object/song';
 import regexEdits from '@/core/storage/regex-edits';
 import { State } from '@/core/types';
-import { RegexEdit, getProcessedFields } from '@/util/regex';
+import {
+	RegexEdit,
+	getProcessedFields,
+	getProcessedFieldsNoRegex,
+} from '@/util/regex';
 import { getConnectorById } from '@/util/util-connector';
 import { randomBytes } from 'crypto';
 import { beforeEach, describe, expect, it } from 'vitest';
@@ -109,6 +113,24 @@ describe('Should edit Regex', () => {
 		expect(song.getAlbum()).to.equal(null);
 		expect(song.getAlbumArtist()).to.equal(null);
 	});
+
+	it('Should have non-regex edits saved for preview', async () => {
+		await regexEdits.saveRegexEdit(
+			fuminnikkiFixer.search,
+			fuminnikkiFixer.replace
+		);
+		await regexEdits.saveRegexEdit(epRemover.search, epRemover.replace);
+
+		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
+		await pipeline.process(song, youtubeConnector);
+		expect(getProcessedFields(song)).to.deep.equal(processedFuminnikkiSong);
+		expect(getProcessedFieldsNoRegex(song)).to.deep.equal({
+			track: 'Re:start',
+			artist: 'Fuminnikki',
+			album: 'Re:start - EP',
+			albumArtist: '',
+		});
+	});
 });
 
 const epRemover: RegexEdit = {
@@ -185,7 +207,7 @@ const processedFuminnikkiSong: State = {
 	track: 'Re:start',
 	artist: 'フミンニッキ',
 	album: 'Re:start',
-	albumArtist: null,
+	albumArtist: '',
 };
 
 const processedFuminnikkiSongWithEP: State = {
