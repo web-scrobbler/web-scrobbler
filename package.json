@@ -72,7 +72,7 @@
     "vitest": "0.30.1"
   },
   "engines": {
-    "node": ">=16.14.2"
+    "node": ">=18.0.0"
   },
   "prettier": "prettier-config-web-scrobbler",
   "remark": {

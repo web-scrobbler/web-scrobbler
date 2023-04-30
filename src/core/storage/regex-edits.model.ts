@@ -69,7 +69,8 @@ export default abstract class RegexEditsModel extends CustomStorage<K> {
 		if (storageData === null) {
 			return;
 		}
+		storageData.splice(index, 1);
 
-		await this.saveRegexEditToStorage(storageData.splice(index, 1));
+		await this.saveRegexEditToStorage(storageData);
 	}
 }
