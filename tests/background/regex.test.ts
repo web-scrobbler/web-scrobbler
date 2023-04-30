@@ -1,7 +1,9 @@
 import WebextensionPolyfillMocker from '#/mocks/webextension-polyfill';
 import Pipeline from '@/core/object/pipeline/pipeline';
 import Song from '@/core/object/song';
+import { SavedEdit } from '@/core/storage/options';
 import regexEdits from '@/core/storage/regex-edits';
+import savedEdits from '@/core/storage/saved-edits';
 import { State } from '@/core/types';
 import {
 	RegexEdit,
@@ -130,6 +132,19 @@ describe('Should edit Regex', () => {
 			album: 'Re:start - EP',
 			albumArtist: '',
 		});
+	});
+
+	it('Should not apply regex edit if there is a song edit', async () => {
+		await regexEdits.saveRegexEdit(
+			artistNumberSuffixer(1).search,
+			artistNumberSuffixer(1).replace
+		);
+
+		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
+		savedEdits.saveSongInfo(song, processedFuminnikkiSong as SavedEdit);
+		await pipeline.process(song, youtubeConnector);
+
+		expect(getProcessedFields(song)).to.deep.equal(processedFuminnikkiSong);
 	});
 });
 
