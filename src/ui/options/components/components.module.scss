@@ -401,3 +401,14 @@ summary {
 		padding: 1em 15vw;
 	}
 }
+
+.attentionWindow {
+	background-color: var(--sidebar-bg);
+	color: var(--text);
+	font-size: 1.2em;
+	line-height: 1.25;
+	margin: 0 auto;
+	padding: 1em;
+	text-align: center;
+	width: 80%;
+}
