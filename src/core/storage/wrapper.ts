@@ -227,9 +227,6 @@ export default class StorageWrapper<K extends keyof DataModels> {
 			if (hiddenKeys.includes(key)) {
 				return hideObjectValue(value);
 			}
-			if (typeof value !== 'string' && typeof value !== 'number') {
-				return 'expected a number or a string';
-			}
 
 			return value;
 		};
