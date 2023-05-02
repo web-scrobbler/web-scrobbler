@@ -611,7 +611,7 @@ export default class Controller {
 	 * Called when playing state is changed.
 	 * @param value - New playing state
 	 */
-	private onPlayingStateChanged(value: boolean): void {
+	private onPlayingStateChanged(value: boolean | null): void {
 		this.debugLog(`isPlaying state changed to ${String(value)}`);
 
 		if (value && this.currentSong) {

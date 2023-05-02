@@ -14,7 +14,6 @@ Connector.durationSelector = '.l-music__player__song__time.duration';
 
 Connector.trackArtSelector = '.l-music__player__song__cover';
 
-Connector.isTrackArtDefault = (url) =>
-	url?.endsWith(DEFAULT_TRACK_ART) ?? false;
+Connector.isTrackArtDefault = (url) => url?.endsWith(DEFAULT_TRACK_ART);
 
 Connector.isPlaying = () => Util.hasElementClass('.l-music__player', 'playing');

@@ -10,4 +10,4 @@ Connector.isPlaying = () => Util.hasElementClass('#kast-play', 'kast-playing');
 
 Connector.trackArtSelector = '.pg-history .onair img';
 
-Connector.isTrackArtDefault = (url) => url?.includes('default') ?? false;
+Connector.isTrackArtDefault = (url) => url?.includes('default');

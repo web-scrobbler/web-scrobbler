@@ -22,7 +22,7 @@ Connector.getUniqueID = () => {
 		`${playerBar} .track-title a`,
 		'href'
 	);
-	return trackUrl?.split('/').at(-1) ?? '';
+	return trackUrl?.split('/').at(-1);
 };
 
 Connector.applyFilter(filter);

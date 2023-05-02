@@ -1,21 +1,20 @@
 export {};
 
 Connector.getArtist = () => {
-	return getIframeElement('#player-artist')?.textContent ?? null;
+	return getIframeElement('#player-artist')?.textContent;
 };
 
 Connector.getTrack = () => {
-	return getIframeElement('#player-title')?.textContent ?? null;
+	return getIframeElement('#player-title')?.textContent;
 };
 
 Connector.getDuration = () => {
-	const duration = getIframeElement('#player-time-left')?.textContent ?? '';
+	const duration = getIframeElement('#player-time-left')?.textContent;
 	return Util.stringToSeconds(duration);
 };
 
 Connector.getCurrentTime = () => {
-	const currentTime =
-		getIframeElement('#player-time-played')?.textContent ?? '';
+	const currentTime = getIframeElement('#player-time-played')?.textContent;
 	return Util.stringToSeconds(currentTime);
 };
 
@@ -38,7 +37,7 @@ Connector.getTrackArt = () => {
 Connector.getUniqueID = () => {
 	const trackUrl = getIframeElement('#player')?.getAttribute('src');
 	if (trackUrl) {
-		return trackUrl.split('/').at(-1) ?? null;
+		return trackUrl.split('/').at(-1);
 	}
 	return null;
 };

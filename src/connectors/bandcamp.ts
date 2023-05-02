@@ -72,7 +72,7 @@ function initGenericProperties() {
 			return Util.splitArtistTrack(track, SEPARATORS);
 		}
 		if (trackContainsRecordSide()) {
-			track = Util.removeRecordSide(track ?? '');
+			track = Util.removeRecordSide(track);
 		}
 
 		return { artist, track };
@@ -291,7 +291,7 @@ function isArtistVarious(artist: string | null, track: string | null) {
 	 */
 
 	if (VARIOUS_ARTISTS_REGEXP.test(artist ?? '')) {
-		return Util.findSeparator(track ?? '', SEPARATORS) !== null;
+		return Util.findSeparator(track, SEPARATORS) !== null;
 	}
 
 	return false;

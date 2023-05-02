@@ -11,16 +11,14 @@ Connector.currentTimeSelector = '.current-time.js-current-time';
 Connector.playButtonSelector = '.track-controls .js-play-track';
 
 Connector.getArtist = () => {
-	return (
-		Util.getTextFromSelectors(
-			'.current-track .js-current-track-artist'
-		)?.replace(' - ', '') ?? null
-	);
+	return Util.getTextFromSelectors(
+		'.current-track .js-current-track-artist'
+	)?.replace(' - ', '');
 };
 
 Connector.getAlbum = () => {
 	const releasePath = Util.getAttrFromSelectors(
-		Connector.trackSelector ?? '',
+		Connector.trackSelector,
 		'href'
 	);
 	return Util.getAttrFromSelectors(

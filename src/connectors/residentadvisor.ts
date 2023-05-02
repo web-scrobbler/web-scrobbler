@@ -71,7 +71,7 @@ Connector.getTrackInfo = () => {
 		case PLAYER_TYPES.POPULAR: {
 			const artistTrackStr =
 				trackContainer?.querySelector('div a')?.textContent;
-			({ artist, track } = Util.splitArtistTrack(artistTrackStr ?? ''));
+			({ artist, track } = Util.splitArtistTrack(artistTrackStr));
 			break;
 		}
 		case PLAYER_TYPES.SINGLE: {

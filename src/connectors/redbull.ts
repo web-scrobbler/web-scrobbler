@@ -32,7 +32,7 @@ Connector.getUniqueID = () => {
 		'[data-content-id]',
 		'data-content-id'
 	);
-	return (text && text.split(':').at(-2)) ?? null;
+	return text && text.split(':').at(-2);
 };
 
 Connector.getArtistTrack = () => {

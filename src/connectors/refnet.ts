@@ -17,7 +17,7 @@ Connector.getOriginUrl = () => {
 };
 
 Connector.isPlaying = () => {
-	return Util.hasElementClass(Connector.playerSelector ?? '', 'playing');
+	return Util.hasElementClass(Connector.playerSelector, 'playing');
 };
 
 Connector.isScrobblingAllowed = () => {

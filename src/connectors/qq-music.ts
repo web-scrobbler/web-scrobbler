@@ -8,7 +8,7 @@ Connector.trackSelector = '#song_name a';
 
 Connector.getUniqueID = () => {
 	const text = Util.getAttrFromSelectors('#song_name a', 'href');
-	return text?.split('/').at(-1)?.split('.html')[0] ?? null;
+	return text?.split('/').at(-1)?.split('.html')[0];
 };
 
 Connector.albumSelector = '#album_name a';

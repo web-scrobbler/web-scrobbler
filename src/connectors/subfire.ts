@@ -30,4 +30,4 @@ Connector.getUniqueID = () => {
 };
 
 Connector.isScrobblingAllowed = () =>
-	Util.isElementVisible(Connector.playerSelector ?? '');
+	Util.isElementVisible(Connector.playerSelector);

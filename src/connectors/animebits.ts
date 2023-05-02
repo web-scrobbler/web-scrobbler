@@ -25,7 +25,7 @@ Connector.durationSelector = '#time-container .duration';
 
 Connector.currentTimeSelector = '#time-container .current-time';
 
-Connector.isTrackArtDefault = (url) => url?.includes('no-cover') ?? false;
+Connector.isTrackArtDefault = (url) => url?.includes('no-cover');
 
 Connector.isPlaying = () => Util.hasElementClass('#play-pause', 'playing');
 

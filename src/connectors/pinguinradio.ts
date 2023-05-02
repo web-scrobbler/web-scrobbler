@@ -21,7 +21,7 @@ Connector.getArtistTrack = () => {
 Connector.isPlaying = () => {
 	const playButton = document.querySelector(playButtonSelector);
 	if (playButton) {
-		return playButton.textContent?.includes('pause') ?? false;
+		return playButton.textContent?.includes('pause');
 	}
 
 	return true;

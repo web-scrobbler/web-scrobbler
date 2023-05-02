@@ -3,7 +3,7 @@ export {};
 Connector.playerSelector = '#indieshuffle_player';
 
 Connector.getArtist = () =>
-	Util.getTextFromSelectors('#player-current .artist')?.slice(0, -3) ?? null;
+	Util.getTextFromSelectors('#player-current .artist')?.slice(0, -3);
 
 Connector.trackSelector = '#player-current .title';
 

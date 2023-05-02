@@ -20,7 +20,7 @@ Connector.getArtistTrack = () => {
 };
 
 Connector.isPlaying = () => {
-	const duration = Connector.getDuration() ?? 0;
+	const duration = Connector.getDuration();
 
 	/*
 	 * The app doesn't update the remaining and elapsed times straight away
@@ -28,7 +28,7 @@ Connector.isPlaying = () => {
 	 * down from an hour. This is a workaround to avoid detecting an incorrect
 	 * duration time.
 	 */
-	if (duration > 3600) {
+	if (!duration || duration > 3600) {
 		return false;
 	}
 

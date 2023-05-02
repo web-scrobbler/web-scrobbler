@@ -33,7 +33,7 @@ function setupMobilePlayer() {
 
 	Connector.getArtist = () => {
 		const text = Util.getTextFromSelectors('h3>span');
-		return text?.split('Icon Angle right')[0] ?? null;
+		return text?.split('Icon Angle right')[0];
 	};
 
 	Connector.trackArtSelector =
@@ -41,7 +41,7 @@ function setupMobilePlayer() {
 
 	Connector.getUniqueID = () => {
 		const text = Util.getAttrFromSelectors('h1 > a', 'href');
-		return text?.split('/').at(-2) ?? null;
+		return text?.split('/').at(-2);
 	};
 }
 

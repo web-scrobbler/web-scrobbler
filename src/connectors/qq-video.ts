@@ -8,14 +8,14 @@ function setupCoverPlayer() {
 			'.video_title ._base_title',
 			'title'
 		);
-		return extractArtistTrack(text ?? '');
+		return extractArtistTrack(text);
 	};
 }
 
 function setupPagePlayer() {
 	Connector.getArtistTrack = () => {
 		const text = Util.getAttrFromSelectors('.video_title', 'title');
-		return extractArtistTrack(text ?? '');
+		return extractArtistTrack(text);
 	};
 }
 
@@ -30,7 +30,10 @@ function isPagePlayer() {
 }
 
 // Example: 周华健《朋友》(KTV版)
-function extractArtistTrack(artistTrackStr: string) {
+function extractArtistTrack(artistTrackStr?: string | null) {
+	if (!artistTrackStr) {
+		return null;
+	}
 	const match = artistTrackStr.match(artistTrackRe);
 	if (match) {
 		return { artist: match[1], track: match[2] };

@@ -73,7 +73,7 @@ export const defaultSeparators = [
  * @param str - Time-string in h:m:s format
  * @returns Seconds
  */
-export function stringToSeconds(str: string | null): number {
+export function stringToSeconds(str?: string | null): number {
 	const timeFormatExpression =
 		/^\s*-?((\d{1,2}:\d\d:\d\d)|(\d{1,2}:\d\d)|(\d{1,2}))\s*$/g;
 	if (!str || !timeFormatExpression.test(str)) {
@@ -100,7 +100,7 @@ export function stringToSeconds(str: string | null): number {
  * @returns Object containing position and width of separator
  */
 export function findSeparator(
-	str: string,
+	str: string | null,
 	separators: Separator[] | null = null
 ): { index: number; length: number } | null {
 	if (str === null || str.length === 0) {
@@ -143,11 +143,11 @@ export function joinArtists(artists: Node[]): string | null {
  * @returns Object contains artist and track fields
  */
 export function splitArtistTrack(
-	str: string | null,
+	str: string | null | undefined,
 	separators: Separator[] | null = null,
 	swap = false
 ): ArtistTrackInfo {
-	if (str === null) {
+	if (!str) {
 		return { artist: null, track: null };
 	}
 	const [artist, track] = splitString(str, separators, swap);
@@ -164,7 +164,7 @@ export const RECORD_SIDE_REGEX = /^[A-Z][1-9]\.? /;
  * @param str - String containing track title
  * @returns Track title without record side
  */
-export function removeRecordSide(str: string): string | null {
+export function removeRecordSide(str: string | null): string | null {
 	if (str !== null) {
 		return str.replace(RECORD_SIDE_REGEX, '');
 	}
@@ -179,7 +179,7 @@ export function removeRecordSide(str: string): string | null {
  * @returns Object containing artist and track fields
  */
 export function splitArtistAlbum(
-	str: string | null,
+	str: string | null | undefined,
 	separators: Separator[] | null = null,
 	swap = false
 ): { artist: string | null; album: string | null } {
@@ -220,7 +220,7 @@ export function splitTimeInfo(
  * @returns Array of strings splitted by separator
  */
 export function splitString(
-	str: string | null,
+	str: string | null | undefined,
 	separators: Separator[] | null,
 	swap = false
 ): [string | null, string | null] {
@@ -264,7 +264,12 @@ export function escapeBadTimeValues(time: unknown): number | null {
  * @param cssProperty - CSS property
  * @returns Track art URL
  */
-export function extractUrlFromCssProperty(cssProperty: string): string | null {
+export function extractUrlFromCssProperty(
+	cssProperty?: string | null
+): string | null {
+	if (!cssProperty) {
+		return null;
+	}
 	const match = /url\((["']?)(.*)\1\)/.exec(cssProperty);
 	if (match) {
 		return match[2].trim();
@@ -313,8 +318,8 @@ export function isArtistTrackEmpty(
  */
 export function fillEmptyFields(
 	target: State,
-	source: State | null,
-	fields: (keyof State)[]
+	source?: State | null,
+	fields?: (keyof State)[]
 ): State {
 	if (!source || !Array.isArray(fields)) {
 		return target;
@@ -402,10 +407,13 @@ export function getTextFromSelectors(
  */
 /* istanbul ignore next */
 export function getAttrFromSelectors(
-	selectors: string | string[],
+	selectors: string | string[] | null,
 	attr: string,
 	defaultValue: string | null = null
 ): string | null {
+	if (selectors === null) {
+		return defaultValue;
+	}
 	const elements = queryElements(selectors);
 
 	if (elements) {
@@ -538,9 +546,12 @@ export function getCSSProperty(element: Element, property: string) {
  */
 /* istanbul ignore next */
 export function hasElementClass(
-	selectors: string | string[],
+	selectors: string | string[] | null,
 	cls: string
 ): boolean {
+	if (selectors === null) {
+		return false;
+	}
 	const elements = queryElements(selectors);
 	if (!elements) {
 		return false;
@@ -579,7 +590,12 @@ function visibleFilter(elements: NodeListOf<HTMLElement>) {
  * @returns Check result
  */
 /* istanbul ignore next */
-export function isElementVisible(selectors: string | string[]): boolean {
+export function isElementVisible(
+	selectors?: string | string[] | null
+): boolean {
+	if (!selectors) {
+		return false;
+	}
 	const element = queryElements(selectors);
 	return (element && visibleFilter(element)) ?? false;
 }
@@ -623,7 +639,7 @@ export function getDataFromSelectors(
  */
 /* istanbul ignore next */
 export function queryElements(
-	selectors: string | string[]
+	selectors?: string | string[] | null
 ): NodeListOf<HTMLElement> | null {
 	if (!selectors) {
 		return null;
@@ -771,7 +787,7 @@ export const ytTitleRegExps = [
  * @returns Object containing artist and track fields
  */
 export function processYtVideoTitle(
-	videoTitle: string | null
+	videoTitle?: string | null
 ): ArtistTrackInfo {
 	let artist = null;
 	let track = null;
@@ -915,7 +931,10 @@ export const scArtistTrackRe = /(.+)\s[:\u2013-\u2015-]\s(.+)/;
  * @param track - SoundCloud track title
  * @returns Object contains artist and track fields
  */
-export function processSoundCloudTrack(track: string): ArtistTrackInfo {
+export function processSoundCloudTrack(track?: string | null): ArtistTrackInfo {
+	if (!track) {
+		return { artist: null, track: null };
+	}
 	/*
 	 * Sometimes the artist name is in the track title,
 	 * e.g. Tokyo Rose - Zender Overdrive by Aphasia Records.

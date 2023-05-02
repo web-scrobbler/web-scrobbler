@@ -58,7 +58,7 @@ Connector.getUniqueID = () => {
 		Connector.trackArtSelector
 	);
 	if (trackArtUrl) {
-		return /Items\/(\w+)/g.exec(trackArtUrl)?.[1] ?? null;
+		return /Items\/(\w+)/g.exec(trackArtUrl)?.[1];
 	}
 
 	return null;

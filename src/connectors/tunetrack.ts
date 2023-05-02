@@ -9,7 +9,7 @@ Connector.pauseButtonSelector = '.pause-btn';
 
 Connector.getUniqueID = () => {
 	const text = Util.getAttrFromSelectors(`${trackSelector} a`, 'href');
-	return (text && /\/(\d+)-?/g.exec(text)?.at(-1)) ?? null;
+	return text && /\/(\d+)-?/g.exec(text)?.at(-1);
 };
 
 Connector.trackSelector = trackSelector;

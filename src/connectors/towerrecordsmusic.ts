@@ -8,7 +8,7 @@ let lastAlbumThumbnail: string | null = null;
 /**
  * Holds album title
  */
-let albumTitle: string | null = null;
+let albumTitle: string | null | undefined = null;
 
 const filter = MetadataFilter.createFilter(
 	MetadataFilter.createFilterSetForFields(
@@ -31,7 +31,7 @@ Connector.getTrackArt = () =>
 		Util.getCSSPropertyFromSelectors(
 			'#jacketImageAudio',
 			'background-image'
-		) ?? ''
+		)
 	);
 
 Connector.currentTimeSelector = '#currentTimeAudio';
@@ -97,7 +97,7 @@ async function fetchAlbumTitle() {
 async function requestAlbum() {
 	if (isNewAlbum()) {
 		try {
-			albumTitle = (await fetchAlbumTitle()) ?? null;
+			albumTitle = await fetchAlbumTitle();
 		} catch (err) {
 			Util.debugLog(`Error: ${err}`, 'error');
 

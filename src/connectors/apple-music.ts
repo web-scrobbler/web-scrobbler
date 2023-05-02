@@ -7,11 +7,11 @@ const queryShadowRoot = (selector: string) =>
 
 Connector.getArtist = () =>
 	queryShadowRoot('.lcd-meta__secondary .lcd-meta-line__fragment:first-child')
-		?.textContent ?? '';
+		?.textContent;
 
 Connector.getAlbum = () =>
 	queryShadowRoot('.lcd-meta__secondary .lcd-meta-line__fragment:last-child')
-		?.textContent ?? '';
+		?.textContent;
 
 Connector.getCurrentTime = () =>
 	parseInt(
@@ -25,7 +25,7 @@ Connector.getRemainingTime = () =>
 
 Connector.getTrack = () =>
 	queryShadowRoot('.lcd-meta__primary-wrapper .lcd-meta-line__fragment')
-		?.textContent ?? '';
+		?.textContent;
 
 Connector.isPlaying = () =>
 	Util.getAttrFromSelectors('.playback-play__pause', 'aria-hidden') !==

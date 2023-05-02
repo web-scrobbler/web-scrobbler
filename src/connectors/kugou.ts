@@ -18,5 +18,5 @@ Connector.durationSelector = '.all-time';
 
 Connector.getUniqueID = () => {
 	const text = document.location.hash.slice(1);
-	return text.split('&')[0].split('=').at(-1) ?? null;
+	return text.split('&')[0].split('=').at(-1);
 };
