@@ -330,7 +330,7 @@ export default class BaseConnector {
 	 *
 	 * @returns True if state change is allowed; false otherwise
 	 */
-	public isScrobblingAllowed: () => boolean | null = () => true;
+	public isScrobblingAllowed: () => boolean | null | undefined = () => true;
 
 	/**
 	 * Function that will be called when the connector is injected and
