@@ -600,7 +600,7 @@ export default class BaseConnector {
 
 		this.isPlaying = () => {
 			if (this.playButtonSelector) {
-				return Util.isElementVisible(this.playButtonSelector);
+				return !Util.isElementVisible(this.playButtonSelector);
 			}
 
 			if (this.pauseButtonSelector) {
