@@ -1,13 +1,22 @@
 import { t } from '@/util/i18n';
 import styles from './popup.module.scss';
-import { Resource, createSignal, onCleanup, onMount } from 'solid-js';
+import {
+	Match,
+	Resource,
+	Switch,
+	createSignal,
+	onCleanup,
+	onMount,
+} from 'solid-js';
 import { ManagerTab } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
 import ClonedSong from '@/core/object/cloned-song';
 import Check from '@suid/icons-material/CheckOutlined';
+import Code from '@suid/icons-material/CodeOutlined';
 import PublishedWithChanges from '@suid/icons-material/PublishedWithChangesOutlined';
 import { sendBackgroundMessage } from '@/util/communication';
 import savedEdits from '@/core/storage/saved-edits';
+import Regex from './regex';
 
 /**
  * Component that allows the user to edit the currently playing track
@@ -27,6 +36,7 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 	const [albumArtist, setAlbumArtist] = createSignal(
 		clonedSong.getAlbumArtist() ?? ''
 	);
+	const [isRegex, setIsRegex] = createSignal(false);
 
 	sendBackgroundMessage(tab()?.tabId ?? -1, {
 		type: 'setEditState',
@@ -65,106 +75,122 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 
 	return (
 		<div class={styles.nowPlayingPopup} ref={nowplaying}>
-			<a
-				class={styles.coverArtWrapper}
-				href={
-					clonedSong.getTrackArt() ??
-					browser.runtime.getURL('img/cover_art_default.png')
-				}
-				target="_blank"
-				rel="noopener noreferrer"
-				title={t('infoOpenAlbumArt')}
-			>
-				<img
-					class={styles.coverArt}
-					src={
-						clonedSong.getTrackArt() ??
-						browser.runtime.getURL('img/cover_art_default.png')
-					}
-				/>
-			</a>
-			<div class={styles.songDetails}>
-				<input
-					class={styles.editField}
-					type="text"
-					value={clonedSong.getTrack() ?? ''}
-					title={t('infoTrackPlaceholder')}
-					placeholder={t('infoTrackPlaceholder')}
-					onInput={(e) => {
-						setTrack(e.currentTarget.value);
-					}}
-				/>
-				<input
-					class={styles.editField}
-					type="text"
-					value={clonedSong.getArtist() ?? ''}
-					title={t('infoArtistPlaceholder')}
-					placeholder={t('infoArtistPlaceholder')}
-					onInput={(e) => {
-						setArtist(e.currentTarget.value);
-					}}
-				/>
-				<input
-					class={styles.editField}
-					type="text"
-					value={clonedSong.getAlbum() ?? ''}
-					title={t('infoAlbumPlaceholder')}
-					placeholder={t('infoAlbumPlaceholder')}
-					onInput={(e) => {
-						setAlbum(e.currentTarget.value);
-					}}
-				/>
-				<input
-					class={styles.editField}
-					type="text"
-					value={clonedSong.getAlbumArtist() ?? ''}
-					title={t('infoAlbumArtistPlaceholder')}
-					placeholder={t('infoAlbumArtistPlaceholder')}
-					onInput={(e) => {
-						setAlbumArtist(e.currentTarget.value);
-					}}
-				/>
-				<div class={styles.controlButtons}>
-					<button
-						class={styles.controlButton}
-						disabled={!track() || !artist()}
-						title={
-							!track() || !artist()
-								? t('infoSubmitUnableTitle')
-								: t('infoSubmitTitle')
+			<Switch>
+				<Match when={isRegex()}>
+					<Regex clonedSong={clonedSong} tab={tab} />
+				</Match>
+				<Match when={!isRegex()}>
+					<a
+						class={styles.coverArtWrapper}
+						href={
+							clonedSong.getTrackArt() ??
+							browser.runtime.getURL('img/cover_art_default.png')
 						}
-						onClick={() => {
-							saveEdit(tab, clonedSong, {
-								artist: artist(),
-								track: track(),
-								album: album() || null,
-								albumArtist: albumArtist() || null,
-							});
-						}}
+						target="_blank"
+						rel="noopener noreferrer"
+						title={t('infoOpenAlbumArt')}
 					>
-						<Check />
-					</button>
-					<button
-						class={styles.controlButton}
-						disabled={!track() || !artist()}
-						title={
-							!track() || !artist()
-								? t('infoSwapUnableTitle')
-								: t('infoSwapTitle')
-						}
-						onClick={() => {
-							saveEdit(tab, clonedSong, {
-								artist: track(),
-								track: artist(),
-								album: album() || null,
-								albumArtist: albumArtist() || null,
-							});
-						}}
-					>
-						<PublishedWithChanges />
-					</button>
-				</div>
-			</div>
+						<img
+							class={styles.coverArt}
+							src={
+								clonedSong.getTrackArt() ??
+								browser.runtime.getURL(
+									'img/cover_art_default.png'
+								)
+							}
+						/>
+					</a>
+					<div class={styles.songDetails}>
+						<input
+							class={styles.editField}
+							type="text"
+							value={clonedSong.getTrack() ?? ''}
+							title={t('infoTrackPlaceholder')}
+							placeholder={t('infoTrackPlaceholder')}
+							onInput={(e) => {
+								setTrack(e.currentTarget.value);
+							}}
+						/>
+						<input
+							class={styles.editField}
+							type="text"
+							value={clonedSong.getArtist() ?? ''}
+							title={t('infoArtistPlaceholder')}
+							placeholder={t('infoArtistPlaceholder')}
+							onInput={(e) => {
+								setArtist(e.currentTarget.value);
+							}}
+						/>
+						<input
+							class={styles.editField}
+							type="text"
+							value={clonedSong.getAlbum() ?? ''}
+							title={t('infoAlbumPlaceholder')}
+							placeholder={t('infoAlbumPlaceholder')}
+							onInput={(e) => {
+								setAlbum(e.currentTarget.value);
+							}}
+						/>
+						<input
+							class={styles.editField}
+							type="text"
+							value={clonedSong.getAlbumArtist() ?? ''}
+							title={t('infoAlbumArtistPlaceholder')}
+							placeholder={t('infoAlbumArtistPlaceholder')}
+							onInput={(e) => {
+								setAlbumArtist(e.currentTarget.value);
+							}}
+						/>
+						<div class={styles.controlButtons}>
+							<button
+								class={styles.controlButton}
+								disabled={!track() || !artist()}
+								title={
+									!track() || !artist()
+										? t('infoSubmitUnableTitle')
+										: t('infoSubmitTitle')
+								}
+								onClick={() => {
+									saveEdit(tab, clonedSong, {
+										artist: artist(),
+										track: track(),
+										album: album() || null,
+										albumArtist: albumArtist() || null,
+									});
+								}}
+							>
+								<Check />
+							</button>
+							<button
+								class={styles.controlButton}
+								disabled={!track() || !artist()}
+								title={
+									!track() || !artist()
+										? t('infoSwapUnableTitle')
+										: t('infoSwapTitle')
+								}
+								onClick={() => {
+									saveEdit(tab, clonedSong, {
+										artist: track(),
+										track: artist(),
+										album: album() || null,
+										albumArtist: albumArtist() || null,
+									});
+								}}
+							>
+								<PublishedWithChanges />
+							</button>
+							<button
+								class={styles.controlButton}
+								title={t('infoRegexTitle')}
+								onClick={() => setIsRegex(true)}
+							>
+								<Code />
+							</button>
+						</div>
+					</div>
+				</Match>
+			</Switch>
 		</div>
 	);
 }
