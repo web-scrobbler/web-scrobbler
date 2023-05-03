@@ -14,8 +14,8 @@ export async function process(song: Song): Promise<void> {
 	let isSongInfoLoaded = false;
 	try {
 		isSongInfoLoaded = await SavedEdits.loadSongInfo(song);
-	} catch (e) {
-		// Do nothing
+	} catch (err) {
+		console.error(err);
 	}
 
 	song.flags.isCorrectedByUser = isSongInfoLoaded;
