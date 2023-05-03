@@ -73,7 +73,7 @@ export const defaultSeparators = [
  * @param str - Time-string in h:m:s format
  * @returns Seconds
  */
-export function stringToSeconds(str?: string | null): number {
+export function stringToSeconds(str: string | null | undefined): number {
 	const timeFormatExpression =
 		/^\s*-?((\d{1,2}:\d\d:\d\d)|(\d{1,2}:\d\d)|(\d{1,2}))\s*$/g;
 	if (!str || !timeFormatExpression.test(str)) {
@@ -265,7 +265,7 @@ export function escapeBadTimeValues(time: unknown): number | null {
  * @returns Track art URL
  */
 export function extractUrlFromCssProperty(
-	cssProperty?: string | null
+	cssProperty: string | null | undefined
 ): string | null {
 	if (!cssProperty) {
 		return null;
@@ -318,8 +318,8 @@ export function isArtistTrackEmpty(
  */
 export function fillEmptyFields(
 	target: State,
-	source?: State | null,
-	fields?: (keyof State)[]
+	source: State | null | undefined,
+	fields: (keyof State)[] | undefined
 ): State {
 	if (!source || !Array.isArray(fields)) {
 		return target;
@@ -591,7 +591,7 @@ function visibleFilter(elements: NodeListOf<HTMLElement>) {
  */
 /* istanbul ignore next */
 export function isElementVisible(
-	selectors?: string | string[] | null
+	selectors: string | string[] | null | undefined
 ): boolean {
 	if (!selectors) {
 		return false;
@@ -639,7 +639,7 @@ export function getDataFromSelectors(
  */
 /* istanbul ignore next */
 export function queryElements(
-	selectors?: string | string[] | null
+	selectors: string | string[] | null | undefined
 ): NodeListOf<HTMLElement> | null {
 	if (!selectors) {
 		return null;
@@ -787,7 +787,7 @@ export const ytTitleRegExps = [
  * @returns Object containing artist and track fields
  */
 export function processYtVideoTitle(
-	videoTitle?: string | null
+	videoTitle: string | null | undefined
 ): ArtistTrackInfo {
 	let artist = null;
 	let track = null;
@@ -931,7 +931,9 @@ export const scArtistTrackRe = /(.+)\s[:\u2013-\u2015-]\s(.+)/;
  * @param track - SoundCloud track title
  * @returns Object contains artist and track fields
  */
-export function processSoundCloudTrack(track?: string | null): ArtistTrackInfo {
+export function processSoundCloudTrack(
+	track: string | null | undefined
+): ArtistTrackInfo {
 	if (!track) {
 		return { artist: null, track: null };
 	}

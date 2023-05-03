@@ -308,7 +308,7 @@ export default class BaseConnector {
 	 * @returns Check result
 	 */
 	public isTrackArtDefault: (
-		trackArtUrl?: string
+		trackArtUrl?: string | null | undefined
 	) => boolean | null | undefined = () => false;
 
 	/**
