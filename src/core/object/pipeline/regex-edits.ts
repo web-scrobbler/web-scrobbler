@@ -12,7 +12,7 @@ export async function process(song: Song): Promise<void> {
 	}
 	try {
 		await RegexEdits.loadSongInfo(song);
-	} catch (e) {
-		// Do nothing
+	} catch (err) {
+		console.error(err);
 	}
 }
