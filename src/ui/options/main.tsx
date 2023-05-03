@@ -9,6 +9,8 @@ import Info from '@suid/icons-material/InfoOutlined';
 import Help from '@suid/icons-material/HelpOutlined';
 import Contacts from '@suid/icons-material/ContactsOutlined';
 import Settings from '@suid/icons-material/SettingsOutlined';
+import Edit from '@suid/icons-material/EditOutlined';
+import Extension from '@suid/icons-material/ExtensionOutlined';
 import Close from '@suid/icons-material/CloseOutlined';
 import ManageAccounts from '@suid/icons-material/ManageAccountsOutlined';
 import Sidebar from './sidebar/sidebar';
@@ -17,9 +19,11 @@ import FAQ from './components/faq';
 import ContactComponent from './components/contact';
 import OptionsComponent from './components/options/options';
 import Accounts from './components/accounts';
-import { EditsModal } from './components/options/edited-tracks';
+import { EditsModal } from './components/edit-options/edited-tracks';
 import Permissions from './components/permissions';
-import { RegexEditsModal } from './components/options/regex-edits';
+import { RegexEditsModal } from './components/edit-options/regex-edits';
+import ConnectorOverrideOptions from './components/connector-override';
+import EditOptions from './components/edit-options/edit-options';
 
 /**
  * All the different options pages, their sidebar labels, and icons.
@@ -34,6 +38,16 @@ export type Settings =
 			namei18n: 'optionsOptions';
 			icon: typeof Settings;
 			element: typeof OptionsComponent;
+	  }
+	| {
+			namei18n: 'optionsEdits';
+			icon: typeof Edit;
+			element: typeof EditOptions;
+	  }
+	| {
+			namei18n: 'optionsConnectors';
+			icon: typeof Extension;
+			element: typeof ConnectorOverrideOptions;
 	  }
 	| {
 			namei18n: 'contactTitle';
@@ -62,6 +76,12 @@ export type Settings =
 const settings: Settings[] = [
 	{ namei18n: 'optionsAccounts', icon: ManageAccounts, element: Accounts },
 	{ namei18n: 'optionsOptions', icon: Settings, element: OptionsComponent },
+	{ namei18n: 'optionsEdits', icon: Edit, element: EditOptions },
+	{
+		namei18n: 'optionsConnectors',
+		icon: Extension,
+		element: ConnectorOverrideOptions,
+	},
 	{ namei18n: 'contactTitle', icon: Contacts, element: ContactComponent },
 	{ namei18n: 'faqTitle', icon: Help, element: FAQ },
 	{ namei18n: 'optionsAbout', icon: Info, element: InfoComponent },
