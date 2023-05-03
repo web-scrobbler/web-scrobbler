@@ -38,16 +38,18 @@ export default function Sidebar(props: {
 }) {
 	const { items, activeSetting, setActiveSetting } = props;
 	return (
-		<nav class={styles.sidebar}>
-			<For each={items}>
-				{(item) => (
-					<SidebarButton
-						item={item}
-						activeSetting={activeSetting}
-						setActiveSetting={setActiveSetting}
-					/>
-				)}
-			</For>
-		</nav>
+		<div class={styles.sidebarWrapper}>
+			<nav class={styles.sidebar}>
+				<For each={items}>
+					{(item) => (
+						<SidebarButton
+							item={item}
+							activeSetting={activeSetting}
+							setActiveSetting={setActiveSetting}
+						/>
+					)}
+				</For>
+			</nav>
+		</div>
 	);
 }
