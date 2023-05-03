@@ -9,7 +9,7 @@ import {
 	createResource,
 	createSignal,
 } from 'solid-js';
-import styles from '../components.module.scss';
+import styles from './components.module.scss';
 import Settings from '@suid/icons-material/SettingsOutlined';
 import ExpandMore from '@suid/icons-material/ExpandMoreOutlined';
 import Delete from '@suid/icons-material/DeleteOutlined';
@@ -20,7 +20,7 @@ import {
 	ConnectorTripleCheckbox,
 	RadioButtons,
 	SummaryCheckbox,
-} from '../inputs';
+} from './inputs';
 import browser from 'webextension-polyfill';
 import { t } from '@/util/i18n';
 
@@ -48,7 +48,7 @@ const [customPatternOptions, setCustomPatternOptions] = createResource(
 export default function ConnectorOverrideOptions() {
 	return (
 		<>
-			<h2>{t('optionsSupportedWebsites')}</h2>
+			<h1>{t('optionsSupportedWebsites')}</h1>
 			<p>{t('optionsEnableDisableHint')}</p>
 			{/* eslint-disable-next-line */}
 			<p innerHTML={t('optionsCustomPatternsHint')} />

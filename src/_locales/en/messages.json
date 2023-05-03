@@ -191,6 +191,10 @@
         "message": "Options",
         "description": "'Options' section"
     },
+    "optionsEdits": {
+        "message": "Edits",
+        "description": "'Edits' section"
+    },
     "optionsEditedTracks": {
         "message": "Edited tracks",
         "description": "'Edited tracks' header"
@@ -226,6 +230,10 @@
     "optionsImportEdited": {
         "message": "Import",
         "description": "Button to import edited tracks"
+    },
+    "optionsConnectors": {
+        "message": "Connectors",
+        "description": "'Connectors' section"
     },
     "optionsEnableDisableHint": {
         "message": "Click on the checkbox to enable/disable connectors.",
