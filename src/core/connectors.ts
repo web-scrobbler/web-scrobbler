@@ -2094,4 +2094,10 @@ export default <ConnectorMeta[]>[
 		js: 'copyparty.js',
 		id: 'copyparty',
 	},
+	{
+		label: 'Fungjai',
+		matches: ['*://*.fungjai.com/*'],
+		js: 'fungjai.js',
+		id: 'fungjai',
+	},
 ];

@@ -22,6 +22,13 @@ export type Flags =
 	| {
 			isScrobbled: boolean;
 			isCorrectedByUser: boolean;
+			isRegexEditedByUser: {
+				track: boolean;
+				artist: boolean;
+				album: boolean;
+				albumArtist: boolean;
+			};
+			isAlbumFetched: boolean;
 			isValid: boolean;
 			isMarkedAsPlaying: boolean;
 			isSkipped: boolean;
@@ -48,6 +55,7 @@ export type Metadata =
 export interface CloneableSong {
 	parsed: ParsedSongData;
 	processed: ProcessedSongData;
+	noRegex: ProcessedSongData;
 	flags: Flags;
 	metadata: Metadata;
 	connectorLabel: string;
@@ -56,6 +64,7 @@ export interface CloneableSong {
 export abstract class BaseSong {
 	public abstract parsed: ParsedSongData;
 	public abstract processed: ProcessedSongData;
+	public abstract noRegex: ProcessedSongData;
 	public abstract flags: Flags;
 	public abstract metadata: Metadata;
 	public abstract connectorLabel: string;
@@ -211,6 +220,7 @@ export abstract class BaseSong {
 	getCloneableData(): CloneableSong {
 		return {
 			parsed: this.parsed,
+			noRegex: this.noRegex,
 			processed: this.processed,
 			metadata: this.metadata,
 			flags: this.flags,
@@ -266,6 +276,19 @@ export abstract class BaseSong {
 	static get BASE_FIELDS(): ['artist', 'track', 'album', 'albumArtist'] {
 		return ['artist', 'track', 'album', 'albumArtist'];
 	}
+
+	/**
+	 * Fields in a processed song.
+	 */
+	static get PROCESSED_FIELDS(): [
+		'track',
+		'album',
+		'artist',
+		'albumArtist',
+		'duration'
+	] {
+		return ['track', 'album', 'artist', 'albumArtist', 'duration'];
+	}
 }
 
 /**
@@ -274,6 +297,7 @@ export abstract class BaseSong {
 export default class Song extends BaseSong {
 	public parsed: ParsedSongData;
 	public processed: ProcessedSongData;
+	public noRegex: ProcessedSongData;
 	public flags: Flags;
 	public metadata: Metadata;
 	public connectorLabel: string;
@@ -304,6 +328,20 @@ export default class Song extends BaseSong {
 		 * as the object is processed in pipeline. Can be modified.
 		 */
 		this.processed = {
+			track: null,
+			artist: null,
+			albumArtist: null,
+			album: null,
+			duration: null,
+		};
+
+		/**
+		 * Post-processed song data, excluding regex-based changes.
+		 * Initially filled with parsed data and optionally changed
+		 * as the object is processed in pipeline. Should not be modified outside pipeline.
+		 * Used for regex edit preview for user convenience.
+		 */
+		this.noRegex = {
 			track: null,
 			artist: null,
 			albumArtist: null,
@@ -362,6 +400,21 @@ export default class Song extends BaseSong {
 			isCorrectedByUser: false,
 
 			/**
+			 * Flag indicating song info has been affected by a user regex/bulk edit
+			 */
+			isRegexEditedByUser: {
+				track: false,
+				artist: false,
+				album: false,
+				albumArtist: false,
+			},
+
+			/**
+			 * Flag indicating that the album of the current track was fetched from the Last.fm API
+			 */
+			isAlbumFetched: false,
+
+			/**
 			 * Flag indicated song is known by scrobbling service.
 			 */
 			isValid: false,
@@ -400,10 +453,9 @@ export default class Song extends BaseSong {
 	}
 
 	private initProcessedData(): void {
-		const fields: ['track', 'album', 'artist', 'albumArtist', 'duration'] =
-			['track', 'album', 'artist', 'albumArtist', 'duration'];
-		for (const field of fields) {
+		for (const field of Song.PROCESSED_FIELDS) {
 			this.processed[field] = null;
+			this.noRegex[field] = null;
 		}
 	}
 }

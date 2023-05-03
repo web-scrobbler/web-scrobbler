@@ -6,6 +6,7 @@ import ConnectorOptionsList from './connector-options';
 import ScrobbleBehavior from './scrobble-behavior';
 import EditedTracks from './edited-tracks';
 import ConnectorOverrideOptions from './connector-override';
+import RegexEdits from './regex-edits';
 
 const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 
@@ -27,6 +28,10 @@ export default function OptionsComponent(props: {
 			<ConnectorOptionsList />
 			<ScrobbleBehavior options={options} setOptions={setOptions} />
 			<EditedTracks
+				setActiveModal={props.setActiveModal}
+				modal={props.modal}
+			/>
+			<RegexEdits
 				setActiveModal={props.setActiveModal}
 				modal={props.modal}
 			/>

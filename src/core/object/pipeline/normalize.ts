@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * This pipeline stage normalizes track info fields.
  */
@@ -14,6 +12,7 @@ export function process(song: Song): void {
 		const fieldValue = song.processed[field];
 		if (typeof fieldValue === 'string' && fieldValue) {
 			song.processed[field] = fieldValue.normalize();
+			song.noRegex[field] = fieldValue.normalize();
 		}
 	}
 }

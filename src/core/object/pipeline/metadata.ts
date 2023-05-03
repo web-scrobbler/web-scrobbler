@@ -47,12 +47,17 @@ export async function process(
 	if (isSongValid) {
 		if (!song.flags.isCorrectedByUser) {
 			for (const field of INFO_TO_COPY) {
+				if (!songInfo[field]) {
+					continue;
+				}
 				// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Set regardless of previous state
 				(song.processed[field] as any) = songInfo[field];
 			}
 
-			if (!song.getAlbum()) {
+			if (!song.getAlbum() || song.flags.isAlbumFetched) {
 				song.processed.album = songInfo.album;
+				song.noRegex.album = songInfo.album;
+				song.flags.isAlbumFetched = true;
 			}
 		}
 

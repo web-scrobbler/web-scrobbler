@@ -19,6 +19,7 @@ import OptionsComponent from './components/options/options';
 import Accounts from './components/accounts';
 import { EditsModal } from './components/options/edited-tracks';
 import Permissions from './components/permissions';
+import { RegexEditsModal } from './components/options/regex-edits';
 
 /**
  * All the different options pages, their sidebar labels, and icons.
@@ -116,6 +117,9 @@ function Options() {
 					<Switch fallback={<div>Loading...</div>}>
 						<Match when={activeModal() === 'savedEdits'}>
 							<EditsModal />
+						</Match>
+						<Match when={activeModal() === 'regexEdits'}>
+							<RegexEditsModal />
 						</Match>
 					</Switch>
 				</div>

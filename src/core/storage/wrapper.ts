@@ -9,6 +9,7 @@ import {
 	LOCAL_CACHE,
 	NOTIFICATIONS,
 	OPTIONS,
+	REGEX_EDITS,
 	STATE_MANAGEMENT,
 	StorageNamespace,
 } from '@/core/storage/browser-storage';
@@ -22,6 +23,7 @@ import { ControllerModeStr } from '@/core/object/controller/controller';
 import { CloneableSong } from '@/core/object/song';
 import EventEmitter from '@/util/emitter';
 import connectors from '@/core/connectors';
+import { RegexEdit } from '@/util/regex';
 
 export interface CustomPatterns {
 	[connectorId: string]: string[];
@@ -76,6 +78,7 @@ export interface DataModels extends ScrobblerModels {
 	/* local options */
 	[CORE]: { appVersion: string };
 	[LOCAL_CACHE]: { [key: string]: SavedEdit };
+	[REGEX_EDITS]: RegexEdit[];
 
 	/* state management */
 	[STATE_MANAGEMENT]: StateManagement;

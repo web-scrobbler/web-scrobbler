@@ -7,7 +7,7 @@ import {
 	sendBackgroundMessage,
 	setupBackgroundListeners,
 } from '@/util/communication';
-import browser, { Tabs } from 'webextension-polyfill';
+import browser from 'webextension-polyfill';
 import {
 	DEFAULT_STATE,
 	contextMenus,
@@ -28,6 +28,7 @@ import {
 import ClonedSong from '@/core/object/cloned-song';
 import { openTab } from '@/util/util-browser';
 import { updateAction } from './action';
+import { setRegexDefaults } from '@/util/regex';
 
 const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
 
@@ -37,6 +38,7 @@ browser.runtime.onInstalled.addListener(startupFunc);
 browser.tabs.onRemoved.addListener(onRemovedUpdate);
 browser.tabs.onUpdated.addListener(updateTabList);
 browser.tabs.onActivated.addListener(onActivatedUpdate);
+browser.contextMenus.onClicked.addListener(contextMenuHandler);
 
 /**
  * Update action and context menus to reflect a tab being closed.
@@ -64,7 +66,9 @@ async function onRemovedUpdate(tabId: number) {
  *
  * @param activeInfo - Information about the switch of tabs
  */
-async function onActivatedUpdate(activeInfo: Tabs.OnActivatedActiveInfoType) {
+async function onActivatedUpdate(
+	activeInfo: browser.Tabs.OnActivatedActiveInfoType
+) {
 	await updateTabList(activeInfo.tabId);
 }
 
@@ -76,7 +80,7 @@ async function onActivatedUpdate(activeInfo: Tabs.OnActivatedActiveInfoType) {
  * @param _ - unused
  * @param tab - currently active tab details, if they exist.
  */
-async function updateTabList(tabId: number, _?: any, tab?: Tabs.Tab) {
+async function updateTabList(tabId: number, _?: any, tab?: browser.Tabs.Tab) {
 	const curState = await getState();
 	let curTab: ManagerTab = {
 		tabId,
@@ -293,6 +297,8 @@ function startupFunc() {
 	state.set(DEFAULT_STATE);
 	disabledTabs.set({});
 
+	setRegexDefaults();
+
 	browser.contextMenus.create({
 		id: contextMenus.ENABLE_CONNECTOR,
 		visible: false,
@@ -313,32 +319,37 @@ function startupFunc() {
 		contexts: ['action'],
 		title: 'Error: You should not be seeing this',
 	});
+}
 
-	browser.contextMenus.onClicked.addListener(async (info) => {
-		const tab = await getCurrentTab();
+/**
+ * Handles context menu click and takes appropriate action
+ *
+ * @param info - information about the context menu click event
+ */
+async function contextMenuHandler(info: browser.Menus.OnClickData) {
+	const tab = await getCurrentTab();
 
-		switch (info.menuItemId) {
-			case contextMenus.ENABLE_CONNECTOR: {
-				sendBackgroundMessage(tab.tabId, {
-					type: 'setConnectorState',
-					payload: true,
-				});
-				break;
-			}
-			case contextMenus.DISABLE_CONNECTOR: {
-				sendBackgroundMessage(tab.tabId, {
-					type: 'setConnectorState',
-					payload: false,
-				});
-				break;
-			}
-			case contextMenus.DISABLE_UNTIL_CLOSED: {
-				sendBackgroundMessage(tab.tabId, {
-					type: 'disableConnectorUntilTabIsClosed',
-					payload: undefined,
-				});
-				break;
-			}
+	switch (info.menuItemId) {
+		case contextMenus.ENABLE_CONNECTOR: {
+			sendBackgroundMessage(tab.tabId, {
+				type: 'setConnectorState',
+				payload: true,
+			});
+			break;
 		}
-	});
+		case contextMenus.DISABLE_CONNECTOR: {
+			sendBackgroundMessage(tab.tabId, {
+				type: 'setConnectorState',
+				payload: false,
+			});
+			break;
+		}
+		case contextMenus.DISABLE_UNTIL_CLOSED: {
+			sendBackgroundMessage(tab.tabId, {
+				type: 'disableConnectorUntilTabIsClosed',
+				payload: undefined,
+			});
+			break;
+		}
+	}
 }
