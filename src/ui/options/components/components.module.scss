@@ -402,6 +402,17 @@ summary {
 	}
 }
 
+.attentionWindow {
+	background-color: var(--sidebar-bg);
+	color: var(--text);
+	font-size: 1.2em;
+	line-height: 1.25;
+	margin: 0 auto;
+	padding: 1em;
+	text-align: center;
+	width: 80%;
+}
+
 .regexDeleteContent {
 	align-items: center;
 	background: repeating-linear-gradient(var(--last-fm-bg) 0 2.5em,transparent 2.5em 5em);
