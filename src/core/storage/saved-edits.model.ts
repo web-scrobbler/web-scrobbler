@@ -11,7 +11,7 @@ import { SavedEdit } from '@/core/storage/options';
 type K = typeof LOCAL_CACHE;
 type V = DataModels[K];
 type T = Record<K, V>;
-type TContent = T[K];
+export type TContent = T[K];
 
 export default abstract class SavedEditsModel extends CustomStorage<K> {
 	/**

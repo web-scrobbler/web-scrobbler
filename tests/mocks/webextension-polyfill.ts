@@ -36,7 +36,7 @@ const browser = {
 	},
 };
 
-export default class WebextensionPolyfillMocker {
+class WebextensionPolyfillMocker {
 	constructor() {
 		vi.mock('webextension-polyfill', () => ({
 			default: browser,
@@ -57,3 +57,5 @@ export default class WebextensionPolyfillMocker {
 		browser.storage.sync.clear();
 	}
 }
+
+export default new WebextensionPolyfillMocker();
