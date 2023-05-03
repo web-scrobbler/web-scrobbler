@@ -1,4 +1,4 @@
-import WebextensionPolyfillMocker from '#/mocks/webextension-polyfill';
+import webextensionPolyfill from '#/mocks/webextension-polyfill';
 import Pipeline from '@/core/object/pipeline/pipeline';
 import Song from '@/core/object/song';
 import { SavedEdit } from '@/core/storage/options';
@@ -14,13 +14,12 @@ import { getConnectorById } from '@/util/util-connector';
 import { randomBytes } from 'crypto';
 import { beforeEach, describe, expect, it } from 'vitest';
 
-const mocker = new WebextensionPolyfillMocker();
 const pipeline = new Pipeline();
 
 describe('Should edit Regex', () => {
 	beforeEach(() => {
-		mocker.reset();
-		mocker.setUser();
+		webextensionPolyfill.reset();
+		webextensionPolyfill.setUser();
 	});
 
 	it('Should add edits to storage', async () => {

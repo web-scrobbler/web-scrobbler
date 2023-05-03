@@ -23,11 +23,7 @@ export async function setPatterns(
 	connectorId: string,
 	patterns: string[]
 ): Promise<void> {
-	const data = await storage.get();
-	if (!data) {
-		throw new Error('No custom patterns found');
-	}
-
+	const data = (await storage.get()) ?? {};
 	data[connectorId] = patterns;
 	await storage.set(data);
 }
@@ -37,11 +33,7 @@ export async function setPatterns(
  * @param connectorId - Connector ID
  */
 export async function resetPatterns(connectorId: string): Promise<void> {
-	const data = await storage.get();
-	if (!data) {
-		throw new Error('No custom patterns found');
-	}
-
+	const data = (await storage.get()) ?? {};
 	delete data[connectorId];
 	await storage.set(data);
 }
