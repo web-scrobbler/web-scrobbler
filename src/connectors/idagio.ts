@@ -55,7 +55,7 @@ function getCurrentTrack() {
 	if (track?.at(-1) === '–') {
 		track = track.slice(0, -1);
 	}
-	return track ?? null;
+	return track;
 }
 
 function getCurrentSymphony() {

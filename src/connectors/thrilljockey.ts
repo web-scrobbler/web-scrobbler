@@ -8,7 +8,7 @@ Connector.trackSelector = `${Connector.playerSelector} .audio-player__title`;
 
 Connector.getTrack = () => {
 	const trackName = Util.getTextFromSelectors(Connector.trackSelector);
-	return trackName?.slice(trackName.indexOf(' ') + 1) ?? null;
+	return trackName?.slice(trackName.indexOf(' ') + 1);
 };
 
 Connector.artistSelector = '.product-info-holder a[href^="/artists/"]';

@@ -28,6 +28,6 @@ Connector.getTrackArt = () => {
 	return null;
 };
 
-Connector.isTrackArtDefault = (url) => url?.includes('default') ?? false;
+Connector.isTrackArtDefault = (url) => url?.includes('default');
 
 Connector.isPlaying = () => Util.hasElementClass('#nowPlaying', 'hasSong');

@@ -19,5 +19,5 @@ Connector.isPlaying = () => {
 		'#play-pause img',
 		'src'
 	);
-	return playButtonImgFilename?.includes('pause') ?? false;
+	return playButtonImgFilename?.includes('pause');
 };

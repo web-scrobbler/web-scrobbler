@@ -14,5 +14,5 @@ Connector.trackArtSelector = '.music_pic img';
 
 Connector.getUniqueID = () => {
 	const text = Util.getAttrFromSelectors('.current', 'objectid');
-	return (text && text.split('_').at(-1)) ?? null;
+	return text && text.split('_').at(-1);
 };

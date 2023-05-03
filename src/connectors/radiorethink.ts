@@ -21,5 +21,4 @@ Connector.getTrackArt = () => {
 	return trackArtUrl && trackArtUrl.replace(/\._SL\d+_/, '');
 };
 
-Connector.isTrackArtDefault = (url) =>
-	url?.includes('placeHolderCovers') ?? false;
+Connector.isTrackArtDefault = (url) => url?.includes('placeHolderCovers');

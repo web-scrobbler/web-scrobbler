@@ -28,7 +28,7 @@ Connector.getAlbum = () => {
 Connector.trackArtSelector = '.songimg';
 
 Connector.isTrackArtDefault = (trackArtUrl) => {
-	return trackArtUrl?.endsWith(DEFAULT_TRACK_ART) ?? false;
+	return trackArtUrl?.endsWith(DEFAULT_TRACK_ART);
 };
 
 Connector.pauseButtonSelector = '#playbtn.jp-stopx';

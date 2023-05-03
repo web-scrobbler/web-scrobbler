@@ -9,4 +9,4 @@ Connector.trackSelector = `${Connector.playerSelector} .songName`;
 Connector.timeInfoSelector = '.rightWrapper';
 
 Connector.isPlaying = () =>
-	Util.getAttrFromSelectors('.playerPlay', 'src')?.includes('pause') ?? false;
+	Util.getAttrFromSelectors('.playerPlay', 'src')?.includes('pause');

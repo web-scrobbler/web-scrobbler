@@ -7,7 +7,7 @@ Connector.trackSelector = '.info-title';
 Connector.getTrackInfo = () => {
 	const albumArtistText =
 		document.querySelector('.info-album-artist')?.textContent;
-	return Util.splitArtistAlbum(albumArtistText ?? '', null, true);
+	return Util.splitArtistAlbum(albumArtistText, null, true);
 };
 
 Connector.currentTimeSelector = '.info-position';

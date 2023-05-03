@@ -153,7 +153,7 @@ export default class BaseConnector {
 	 *
 	 * @returns Song artist
 	 */
-	public getArtist: () => string | null;
+	public getArtist: () => string | null | undefined;
 
 	/**
 	 * Default implementation of track name lookup by selector.
@@ -162,7 +162,7 @@ export default class BaseConnector {
 	 *
 	 * @returns Song title
 	 */
-	public getTrack: () => string | null;
+	public getTrack: () => string | null | undefined;
 
 	/**
 	 * Default implementation of album name lookup by selector.
@@ -171,7 +171,7 @@ export default class BaseConnector {
 	 *
 	 * @returns Song album
 	 */
-	public getAlbum: () => string | null;
+	public getAlbum: () => string | null | undefined;
 
 	/**
 	 * Default implementation of album artist name lookup by selector.
@@ -180,7 +180,7 @@ export default class BaseConnector {
 	 *
 	 * @returns Song album artist
 	 */
-	public getAlbumArtist: () => string | null;
+	public getAlbumArtist: () => string | null | undefined;
 
 	/**
 	 * Default implementation of track duration lookup. If this method returns
@@ -230,7 +230,7 @@ export default class BaseConnector {
 	 *
 	 * @returns Object containing current time and duration info
 	 */
-	public getTimeInfo: () => TimeInfo | null;
+	public getTimeInfo: () => TimeInfo | null | undefined;
 
 	/**
 	 * Default implementation of artist and track name lookup by selector.
@@ -241,7 +241,7 @@ export default class BaseConnector {
 	 *
 	 * @returns Object containing artist and track information
 	 */
-	public getArtistTrack: () => ArtistTrackInfo | null;
+	public getArtistTrack: () => ArtistTrackInfo | null | undefined;
 
 	/**
 	 * Get object contains track info.
@@ -252,7 +252,7 @@ export default class BaseConnector {
 	 *
 	 * @returns Track info
 	 */
-	public getTrackInfo: () => BaseState | null = () => null;
+	public getTrackInfo: () => BaseState | null | undefined = () => null;
 
 	/**
 	 * Returns a unique identifier of current track. The identifier does not
@@ -269,7 +269,7 @@ export default class BaseConnector {
 	 *
 	 * @returns Song unique ID
 	 */
-	public getUniqueID: () => string | null = () => null;
+	public getUniqueID: () => string | null | undefined = () => null;
 
 	/**
 	 * Default implementation of check for active playback by play/pause button
@@ -279,7 +279,7 @@ export default class BaseConnector {
 	 *
 	 * @returns True if song is now playing; false otherwise
 	 */
-	public isPlaying: () => boolean;
+	public isPlaying: () => boolean | null | undefined;
 
 	/**
 	 * Default implementation to check whether a podcast is playing. Only has an
@@ -287,7 +287,7 @@ export default class BaseConnector {
 	 *
 	 * @returns True if the current track is a podcast; false otherwise
 	 */
-	public isPodcast: () => boolean = () => false;
+	public isPodcast: () => boolean | null = () => false;
 
 	/**
 	 * Default implementation used to get the track art URL from the selector.
@@ -296,7 +296,7 @@ export default class BaseConnector {
 	 *
 	 * @returns Track art URL
 	 */
-	public getTrackArt: () => string | null;
+	public getTrackArt: () => string | null | undefined;
 
 	/**
 	 * Default implementation of a check if given track art URL
@@ -307,7 +307,9 @@ export default class BaseConnector {
 	 * @param trackArtUrl - Track art URL
 	 * @returns Check result
 	 */
-	public isTrackArtDefault: (trackArtUrl?: string) => boolean = () => false;
+	public isTrackArtDefault: (
+		trackArtUrl?: string | null | undefined
+	) => boolean | null | undefined = () => false;
 
 	/**
 	 * Default implementation of a check to see if a state change is allowed.
@@ -318,7 +320,7 @@ export default class BaseConnector {
 	 *
 	 * @returns True if state change is allowed; false otherwise
 	 */
-	public isStateChangeAllowed: () => boolean = () => true;
+	public isStateChangeAllowed: () => boolean | null | undefined = () => true;
 
 	/**
 	 * Default implementation of a check to see if a scrobbling is allowed.
@@ -328,7 +330,7 @@ export default class BaseConnector {
 	 *
 	 * @returns True if state change is allowed; false otherwise
 	 */
-	public isScrobblingAllowed: () => boolean = () => true;
+	public isScrobblingAllowed: () => boolean | null | undefined = () => true;
 
 	/**
 	 * Function that will be called when the connector is injected and
@@ -462,7 +464,7 @@ export default class BaseConnector {
 	 *
 	 * @returns The source URL
 	 */
-	public getOriginUrl: () => string | null = () => {
+	public getOriginUrl: () => string | null | undefined = () => {
 		return document.location.href;
 	};
 

@@ -80,9 +80,7 @@ function getCurrentContext() {
  * Use a custom function to extract URL from CSS property only.
  */
 function getTrackArtUrl(selector: string) {
-	return (
-		Util.extractUrlFromCssProperty(
-			Util.getCSSPropertyFromSelectors(selector, 'background-image') ?? ''
-		) ?? null
+	return Util.extractUrlFromCssProperty(
+		Util.getCSSPropertyFromSelectors(selector, 'background-image')
 	);
 }

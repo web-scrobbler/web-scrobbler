@@ -6,7 +6,7 @@ let currentTime: number;
 const mixDuration = Util.stringToSeconds(
 	Util.getTextFromSelectors('.mediaTabItm:not(.hidden) .active')
 		?.split('[')[1]
-		.split(']')[0] ?? ''
+		.split(']')[0]
 );
 
 Connector.playerSelector = '#playerWidgetFields';

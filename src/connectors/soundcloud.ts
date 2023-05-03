@@ -12,7 +12,7 @@ Connector.currentTimeSelector =
 
 Connector.getArtistTrack = () => {
 	let { artist, track } = Util.processSoundCloudTrack(
-		Util.getTextFromSelectors(trackSelector) ?? ''
+		Util.getTextFromSelectors(trackSelector)
 	);
 	if (!artist) {
 		artist = Util.getTextFromSelectors(artistSelector);

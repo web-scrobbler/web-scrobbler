@@ -14,61 +14,61 @@ export interface ArtistTrackInfo {
 	/**
 	 * Artist name
 	 */
-	artist?: string|null;
+	artist?: string | null;
 
 	/**
 	 * Track name
 	 */
-	track?: string|null;
+	track?: string | null;
 }
 
 export interface TrackInfoWithAlbum extends ArtistTrackInfo {
 	/**
 	 * Album name
 	 */
-	album?: string|null;
+	album?: string | null;
 }
 
 export interface BaseState extends TrackInfoWithAlbum {
 	/**
 	 * URL to track art image.
 	 */
-	trackArt?: string|null;
+	trackArt?: string | null;
 }
 
 export interface State extends BaseState {
 	/**
 	 * Album artist.
 	 */
-	albumArtist?: string|null,
+	albumArtist?: string | null;
 
 	/**
 	 * Track unique ID.
 	 */
-	uniqueID?: string|null,
+	uniqueID?: string | null;
 
 	/**
 	 * Track duration.
 	 */
-	duration?: number|null,
+	duration?: number | null;
 
 	/**
 	 * Current time.
 	 */
-	currentTime?: number|null,
+	currentTime?: number | null;
 
 	/**
 	 * Playing/pause state.
 	 */
-	isPlaying?: boolean,
+	isPlaying?: boolean | null;
 
 	/**
 	 * Whether the current track is a podcast episode.
 	 */
-	isPodcast?: boolean,
+	isPodcast?: boolean | null;
 
 	/**
 	 * Origin URL.
 	 */
-	originUrl?: string|null,
+	originUrl?: string | null;
 }

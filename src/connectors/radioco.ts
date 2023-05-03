@@ -11,4 +11,4 @@ Connector.trackArtSelector = '.current-artwork';
 Connector.currentTimeSelector = '.streamtime';
 
 Connector.isPlaying = () =>
-	Util.hasElementClass(Connector.playerSelector ?? '', 'playing');
+	Util.hasElementClass(Connector.playerSelector, 'playing');

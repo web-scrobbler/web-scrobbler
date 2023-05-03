@@ -27,12 +27,12 @@ function setupConnector() {
 
 		Connector.getCurrentTime = () => {
 			const text = Util.getAttrFromSelectors('.progress-bar', 'current');
-			return Util.stringToSeconds(text ?? '');
+			return Util.stringToSeconds(text);
 		};
 
 		Connector.getDuration = () => {
 			const text = Util.getAttrFromSelectors('.progress-bar', 'duration');
-			return Util.stringToSeconds(text ?? '');
+			return Util.stringToSeconds(text);
 		};
 	}
 	function setupVideoPlayer() {

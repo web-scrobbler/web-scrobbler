@@ -29,7 +29,7 @@ function setupCardsPlayer() {
 		const container = [...cards].filter((element) =>
 			element.classList.contains('pause-button')
 		)[0];
-		return container.querySelector('span.name')?.textContent ?? null;
+		return container.querySelector('span.name')?.textContent;
 	};
 
 	Connector.getTrack = () => {
@@ -40,7 +40,7 @@ function setupCardsPlayer() {
 		const container = [...cards].filter((element) =>
 			element.classList.contains('pause-button')
 		)[0];
-		return container.querySelector('.card-title-text')?.textContent ?? null;
+		return container.querySelector('.card-title-text')?.textContent;
 	};
 
 	Connector.isPlaying = () =>

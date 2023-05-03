@@ -28,12 +28,10 @@ Connector.getTrack = () => {
 Connector.getAlbum = () => {
 	const artistElement = document.querySelector(artistSelector);
 
-	return (
-		artistElement
-			?.closest('font')
-			?.textContent?.replace(artistElement?.textContent ?? '', '')
-			.slice(1) ?? null
-	);
+	return artistElement
+		?.closest('font')
+		?.textContent?.replace(artistElement?.textContent ?? '', '')
+		.slice(1);
 };
 
 Connector.isPlaying = () =>

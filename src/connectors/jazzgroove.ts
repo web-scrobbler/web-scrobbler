@@ -25,4 +25,4 @@ Connector.isTrackArtDefault = () => {
 Connector.isScrobblingAllowed = () => !Connector.isTrackArtDefault();
 
 Connector.isPlaying = () =>
-	!Util.hasElementClass(Connector.playerSelector ?? '', 'jg-player--paused');
+	!Util.hasElementClass(Connector.playerSelector, 'jg-player--paused');

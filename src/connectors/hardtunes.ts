@@ -10,7 +10,7 @@ Connector.trackArtSelector = '#jp_poster_0';
 
 Connector.getUniqueID = () => {
 	const src = Util.getAttrFromSelectors(trackSelector, 'src');
-	return src?.split('/').at(-1)?.split('.')[0] ?? null;
+	return src?.split('/').at(-1)?.split('.')[0];
 };
 
 Connector.getArtistTrack = () => {

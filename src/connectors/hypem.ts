@@ -8,7 +8,7 @@ Connector.trackSelector = '#player-nowplaying [href^="/track/"]';
 
 Connector.trackArtSelector = ['.haarp-active .thumb', '.thumb'];
 
-Connector.isTrackArtDefault = (url) => url?.includes('solid_color') ?? false;
+Connector.isTrackArtDefault = (url) => url?.includes('solid_color');
 
 Connector.getUniqueID = () => {
 	const trackUrl = Util.getAttrFromSelectors(
@@ -16,7 +16,7 @@ Connector.getUniqueID = () => {
 		'href'
 	);
 	if (trackUrl) {
-		return trackUrl.split('/').at(-1) ?? null;
+		return trackUrl.split('/').at(-1);
 	}
 	return null;
 };

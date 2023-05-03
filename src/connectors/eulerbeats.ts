@@ -5,7 +5,7 @@ Connector.playerSelector = '#root';
 Connector.isPlaying = () =>
 	!!document.querySelector('.eulerbeats-main.eulerbeats-is-playing');
 
-Connector.getUniqueID = () => getSeed() ?? null;
+Connector.getUniqueID = () => getSeed();
 
 Connector.getAlbum = () => 'Euler';
 

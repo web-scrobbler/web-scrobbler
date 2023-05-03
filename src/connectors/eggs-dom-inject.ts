@@ -10,7 +10,7 @@ let frameID = '';
 let currentTime = 0;
 let duration = 0;
 
-let videoId = '';
+let videoId: string | undefined = '';
 
 if (isArtistPage) {
 	const observer = new MutationObserver(toggleExternalPlayer);
@@ -50,7 +50,7 @@ function replaceYoutubeVideo() {
 	const videoFrame = document.querySelector(
 		'.fancybox-inner iframe'
 	) as HTMLIFrameElement;
-	videoId = videoFrame.src.split('/').pop()?.split('?')[0] ?? '';
+	videoId = videoFrame.src.split('/').pop()?.split('?')[0];
 
 	videoFrame.src += '&enablejsapi=1&widgetid=1';
 	frameID = videoFrame.id;

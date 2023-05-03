@@ -8,7 +8,7 @@ Connector.albumSelector = '.Player-album';
 
 Connector.trackArtSelector = '.Player-coverImage';
 
-Connector.isTrackArtDefault = (url) => url?.includes('default') ?? false;
+Connector.isTrackArtDefault = (url) => url?.includes('default');
 
 Connector.isPlaying = () =>
-	Util.hasElementClass(Connector.playerSelector ?? '', 'Player--playing');
+	Util.hasElementClass(Connector.playerSelector, 'Player--playing');

@@ -11,7 +11,7 @@ Connector.getArtistTrack = () => {
 		/ \[.*/,
 		''
 	);
-	return Util.splitArtistTrack(text ?? null);
+	return Util.splitArtistTrack(text);
 };
 
 Connector.isPlaying = () => Util.hasElementClass('.item.play.button', 'active');
