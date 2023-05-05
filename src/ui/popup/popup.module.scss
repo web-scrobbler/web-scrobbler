@@ -24,6 +24,10 @@ body {
 a {
 	color: var(--last-fm);
 	text-decoration: none;
+
+	&.notRedAnchor {
+		color: var(--text);
+	}
 }
 
 .centered {
