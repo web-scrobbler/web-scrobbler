@@ -1,5 +1,5 @@
 import { t } from '@/util/i18n';
-import { For, Setter, createResource } from 'solid-js';
+import { For, Setter, createResource, createSignal } from 'solid-js';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
 import Download from '@suid/icons-material/DownloadOutlined';
@@ -178,22 +178,16 @@ async function downloadEdits() {
  * Button that allows the user to upload a .json file and get edits from it.
  */
 function ImportEdits() {
+	const [ref, setRef] = createSignal<HTMLInputElement>();
 	return (
-		<button
-			class={styles.editButton}
-			onClick={() =>
-				(
-					document.querySelector('#import-edits') as HTMLInputElement
-				)?.click()
-			}
-		>
+		<button class={styles.editButton} onClick={() => ref()?.click()}>
 			<Download />
 			{t('optionsImportEdited')}
 			<input
 				hidden={true}
+				ref={setRef}
 				type="file"
 				accept=".json"
-				id="import-edits"
 				onChange={pushEdits}
 			/>
 		</button>
