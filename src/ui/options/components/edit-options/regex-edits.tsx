@@ -209,7 +209,9 @@ function pushEdits(
 	reader.addEventListener('load', async (e) => {
 		const edits = JSON.parse(e.target?.result as string);
 		const oldEdits = await regexEdits.get();
-		regexEdits.set([...(oldEdits ?? []), ...edits]);
+		const newEdits = [...(oldEdits ?? []), ...edits];
+		regexEdits.set(newEdits);
+		mutate(newEdits);
 	});
 	reader.readAsText(file);
 }

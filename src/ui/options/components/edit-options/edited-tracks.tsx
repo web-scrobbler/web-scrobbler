@@ -178,10 +178,12 @@ function pushEdits(
 	reader.addEventListener('load', async (e) => {
 		const edits = JSON.parse(e.target?.result as string);
 		const oldEdits = await localCache.get();
-		localCache.set({
+		const newEdits = {
 			...oldEdits,
 			...edits,
-		});
+		};
+		localCache.set(newEdits);
+		mutate(newEdits);
 	});
 	reader.readAsText(file);
 }
