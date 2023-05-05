@@ -167,13 +167,10 @@ function ExportEdits() {
 async function downloadEdits() {
 	const edits = await regexEdits.get();
 	if (!edits) return;
-	const blob = new Blob([JSON.stringify(edits)], {
-		type: 'application/json',
-	});
-	const url = URL.createObjectURL(blob);
+	const data = `data:text/json;base64,${btoa(JSON.stringify(edits))}`;
 	const a = document.createElement('a');
-	a.href = url;
 	a.download = 'local-cache.json';
+	a.href = data;
 	a.click();
 }
 
