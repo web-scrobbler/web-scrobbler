@@ -5,6 +5,7 @@ import {
 	JSXElement,
 	Match,
 	Resource,
+	Setter,
 	Show,
 	Switch,
 	createEffect,
@@ -30,18 +31,17 @@ import {
 	createAlbumURL,
 	createArtistURL,
 	createTrackLibraryURL,
-	createTrackURL,
 } from '@/util/util';
 import scrobbleService from '@/core/object/scrobble-service';
 import { SessionData } from '@/core/scrobbler/base-scrobbler';
-
-const [isEditing, setIsEditing] = createSignal(false);
 
 /**
  * Component showing info for currently playing song if there is one
  */
 export default function NowPlaying(props: { tab: Resource<ManagerTab> }) {
 	const { tab } = props;
+
+	const [isEditing, setIsEditing] = createSignal(false);
 
 	const song = createMemo(() => {
 		const rawTab = tab();
@@ -114,7 +114,11 @@ export default function NowPlaying(props: { tab: Resource<ManagerTab> }) {
 							}
 						/>
 					</PopupLink>
-					<SongDetails song={song} tab={tab} />
+					<SongDetails
+						song={song}
+						tab={tab}
+						setIsEditing={setIsEditing}
+					/>
 				</div>
 			</Match>
 		</Switch>
@@ -124,13 +128,18 @@ export default function NowPlaying(props: { tab: Resource<ManagerTab> }) {
 function SongDetails(props: {
 	song: Accessor<ClonedSong | null>;
 	tab: Resource<ManagerTab>;
+	setIsEditing: Setter<boolean>;
 }) {
 	const { song, tab } = props;
 	return (
 		<div class={styles.songDetails}>
 			<TrackData song={song} />
 			<TrackMetadata song={song} />
-			<TrackControls song={song} tab={tab} />
+			<TrackControls
+				song={song}
+				tab={tab}
+				setIsEditing={props.setIsEditing}
+			/>
 		</div>
 	);
 }
@@ -144,13 +153,13 @@ function TrackData(props: { song: Accessor<ClonedSong | null> }) {
 		<>
 			<PopupLink
 				class={styles.bold}
-				href={createTrackURL(song()?.getArtist(), song()?.getTrack())}
+				href={song()?.metadata?.trackUrl ?? ''}
 				title={t('infoViewTrackPage', song()?.getTrack() ?? '')}
 			>
 				{song()?.getTrack()}
 			</PopupLink>
 			<PopupLink
-				href={createArtistURL(song()?.getArtist())}
+				href={song()?.metadata?.artistUrl ?? ''}
 				title={t('infoViewArtistPage', song()?.getArtist() ?? '')}
 			>
 				{song()?.getArtist()}
@@ -214,6 +223,7 @@ function TrackMetadata(props: { song: Accessor<ClonedSong | null> }) {
 function TrackControls(props: {
 	song: Accessor<ClonedSong | null>;
 	tab: Resource<ManagerTab>;
+	setIsEditing: Setter<boolean>;
 }) {
 	const { song, tab } = props;
 	return (
@@ -227,7 +237,7 @@ function TrackControls(props: {
 						: t('infoEditUnableTitle')
 				}
 				onClick={() => {
-					setIsEditing(true);
+					props.setIsEditing(true);
 				}}
 			>
 				<Edit />
