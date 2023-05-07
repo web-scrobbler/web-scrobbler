@@ -205,3 +205,69 @@ export function areAllResults<T>(results: T[], result: T): boolean {
 export function capitalizeFirstLetter(text: string): string {
 	return text[0].toUpperCase() + text.slice(1);
 }
+
+/**
+ * Create a URL to an artist page on Last.fm.
+ * @param artist - Artist name
+ * @returns URL to the artist page
+ */
+export function createArtistURL(artist: string | null | undefined): string {
+	if (!artist) {
+		return '';
+	}
+	return `https://www.last.fm/music/${encodeURIComponent(artist)}`;
+}
+
+/**
+ * Create a URL to an album page on Last.fm.
+ * @param artist - Artist name
+ * @param album - Album name
+ * @returns URL to the album page
+ */
+export function createAlbumURL(
+	artist: string | null | undefined,
+	album: string | null | undefined
+): string {
+	if (!album || !artist) {
+		return '';
+	}
+	return `${createArtistURL(artist)}/${encodeURIComponent(album)}`;
+}
+
+/**
+ * Create a URL to a track page on Last.fm.
+ * @param artist - Artist name
+ * @param track - Track name
+ * @returns URL to the track page
+ */
+export function createTrackURL(
+	artist: string | null | undefined,
+	track?: string | null | undefined
+): string {
+	if (!track || !artist) {
+		return '';
+	}
+	return `${createArtistURL(artist)}/_/${encodeURIComponent(track)}`;
+}
+
+/**
+ * Create a URL to the page for a track in a user's library on Last.fm.
+ * @param username - Username
+ * @param artist - Artist name
+ * @param track - Track name
+ * @returns URL to the track library page
+ */
+export function createTrackLibraryURL(
+	username: string | null | undefined,
+	artist: string | null | undefined,
+	track: string | null | undefined
+): string {
+	if (!track || !artist || !username) {
+		return '';
+	}
+	return `https://www.last.fm/user/${encodeURIComponent(
+		username
+	)}/library/music/${encodeURIComponent(artist)}/_/${encodeURIComponent(
+		track
+	)}`;
+}
