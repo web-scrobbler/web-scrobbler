@@ -235,6 +235,22 @@ export function createAlbumURL(
 }
 
 /**
+ * Create a URL to a track page on Last.fm.
+ * @param artist - Artist name
+ * @param track - Track name
+ * @returns URL to the track page
+ */
+export function createTrackURL(
+	artist: string | null | undefined,
+	track?: string | null | undefined
+): string {
+	if (!track || !artist) {
+		return '';
+	}
+	return `${createArtistURL(artist)}/_/${encodeURIComponent(track)}`;
+}
+
+/**
  * Create a URL to the page for a track in a user's library on Last.fm.
  * @param username - Username
  * @param artist - Artist name

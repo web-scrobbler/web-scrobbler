@@ -31,6 +31,7 @@ import {
 	createAlbumURL,
 	createArtistURL,
 	createTrackLibraryURL,
+	createTrackURL,
 } from '@/util/util';
 import scrobbleService from '@/core/object/scrobble-service';
 import { SessionData } from '@/core/scrobbler/base-scrobbler';
@@ -153,13 +154,13 @@ function TrackData(props: { song: Accessor<ClonedSong | null> }) {
 		<>
 			<PopupLink
 				class={styles.bold}
-				href={song()?.metadata?.trackUrl ?? ''}
+				href={createTrackURL(song()?.getArtist(), song()?.getTrack())}
 				title={t('infoViewTrackPage', song()?.getTrack() ?? '')}
 			>
 				{song()?.getTrack()}
 			</PopupLink>
 			<PopupLink
-				href={song()?.metadata?.artistUrl ?? ''}
+				href={createArtistURL(song()?.getArtist())}
 				title={t('infoViewArtistPage', song()?.getArtist() ?? '')}
 			>
 				{song()?.getArtist()}
