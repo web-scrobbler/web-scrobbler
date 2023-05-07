@@ -70,6 +70,8 @@ export type Settings =
 			element: typeof ShowSomeLove;
 	  };
 
+export type ModalType = 'savedEdits' | 'regexEdits' | '';
+
 /**
  * All the different options pages, their sidebar labels, and icons.
  */
@@ -97,7 +99,7 @@ function Options() {
 		icon: Favorite,
 		element: ShowSomeLove,
 	});
-	const [activeModal, setActiveModal] = createSignal<string>('');
+	const [activeModal, setActiveModal] = createSignal<ModalType>('');
 	let modal: HTMLDialogElement | undefined;
 
 	const onclick = (e: MouseEvent) => {
