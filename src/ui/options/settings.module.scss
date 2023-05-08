@@ -20,7 +20,10 @@ a {
 
 .settings {
 	display: flex;
-	min-height: 100vh;
+	//stylelint-disable-next-line unit-no-unknown
+	height: 100dvh;
+	//stylelint-disable-next-line unit-no-unknown
+	min-height: 100dvh;
 	overflow: hidden;
 	width: 100%;
 
@@ -35,14 +38,25 @@ a {
 		opacity: 0.2;
 		position: fixed;
 		width: 100%;
-		z-index: -1;
+		z-index: -2;
+	}
+}
+
+@media only screen and (max-width: 700px) {
+	.settings {
+		flex-direction: column-reverse;
+	}
+
+	.settingsContentWrapper {
+		padding: 0 1em;
 	}
 }
 
 .settingsContentWrapper {
-	flex-grow: 1;
-	height: 100vh;
+	flex: 1 1 auto;
 	overflow-y: auto;
+	padding: 0 1.5em;
+	padding-bottom: 1.5em;
 }
 
 .settingsContent {

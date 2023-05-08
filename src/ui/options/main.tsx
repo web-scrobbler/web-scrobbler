@@ -2,103 +2,40 @@ import { render } from 'solid-js/web';
 import styles from './settings.module.scss';
 import { initializeThemes } from '@/theme/themes';
 import '@/theme/themes.scss';
-import { Match, Switch, createSignal, onCleanup } from 'solid-js';
+import { Match, Show, Switch, createSignal, onCleanup } from 'solid-js';
 import ShowSomeLove from './components/showSomeLove';
 import Favorite from '@suid/icons-material/FavoriteOutlined';
-import Info from '@suid/icons-material/InfoOutlined';
-import Help from '@suid/icons-material/HelpOutlined';
-import Contacts from '@suid/icons-material/ContactsOutlined';
-import Settings from '@suid/icons-material/SettingsOutlined';
-import Edit from '@suid/icons-material/EditOutlined';
-import Extension from '@suid/icons-material/ExtensionOutlined';
 import Close from '@suid/icons-material/CloseOutlined';
-import ManageAccounts from '@suid/icons-material/ManageAccountsOutlined';
 import Sidebar from './sidebar/sidebar';
-import InfoComponent from '@/ui/options/components/info';
-import FAQ from './components/faq';
-import ContactComponent from './components/contact';
-import OptionsComponent from './components/options/options';
-import Accounts from './components/accounts';
 import { EditsModal } from './components/edit-options/edited-tracks';
 import Permissions from './components/permissions';
 import { RegexEditsModal } from './components/edit-options/regex-edits';
-import ConnectorOverrideOptions from './components/connector-override';
-import EditOptions from './components/edit-options/edit-options';
+import {
+	ModalType,
+	NavigatorNavigationButton,
+	settings,
+} from './components/navigator';
+import ContextMenu from '../components/context-menu/context-menu';
 
 /**
- * All the different options pages, their sidebar labels, and icons.
+ * Media query for detecting whether to use context menu or sidebar
+ *
+ * @returns true if the context menu should be shown, false if the sidebar should be shown
  */
-export type Settings =
-	| {
-			namei18n: 'optionsAccounts';
-			icon: typeof ManageAccounts;
-			element: typeof Accounts;
-	  }
-	| {
-			namei18n: 'optionsOptions';
-			icon: typeof Settings;
-			element: typeof OptionsComponent;
-	  }
-	| {
-			namei18n: 'optionsEdits';
-			icon: typeof Edit;
-			element: typeof EditOptions;
-	  }
-	| {
-			namei18n: 'optionsConnectors';
-			icon: typeof Extension;
-			element: typeof ConnectorOverrideOptions;
-	  }
-	| {
-			namei18n: 'contactTitle';
-			icon: typeof Contacts;
-			element: typeof ContactComponent;
-	  }
-	| {
-			namei18n: 'faqTitle';
-			icon: typeof Help;
-			element: typeof FAQ;
-	  }
-	| {
-			namei18n: 'optionsAbout';
-			icon: typeof Info;
-			element: typeof InfoComponent;
-	  }
-	| {
-			namei18n: 'showSomeLoveTitle';
-			icon: typeof Favorite;
-			element: typeof ShowSomeLove;
-	  };
-
-export type ModalType = 'savedEdits' | 'regexEdits' | '';
-
-/**
- * All the different options pages, their sidebar labels, and icons.
- */
-const settings: Settings[] = [
-	{ namei18n: 'optionsAccounts', icon: ManageAccounts, element: Accounts },
-	{ namei18n: 'optionsOptions', icon: Settings, element: OptionsComponent },
-	{ namei18n: 'optionsEdits', icon: Edit, element: EditOptions },
-	{
-		namei18n: 'optionsConnectors',
-		icon: Extension,
-		element: ConnectorOverrideOptions,
-	},
-	{ namei18n: 'contactTitle', icon: Contacts, element: ContactComponent },
-	{ namei18n: 'faqTitle', icon: Help, element: FAQ },
-	{ namei18n: 'optionsAbout', icon: Info, element: InfoComponent },
-	{ namei18n: 'showSomeLoveTitle', icon: Favorite, element: ShowSomeLove },
-];
+function contextMenuQuery() {
+	return window.matchMedia('(max-width: 700px)').matches;
+}
 
 /**
  * Preferences component, with a sidebar and several different options and info pages
  */
 function Options() {
-	const [activeSetting, setActiveSetting] = createSignal<Settings>({
-		namei18n: 'showSomeLoveTitle',
-		icon: Favorite,
-		element: ShowSomeLove,
-	});
+	const [activeSetting, setActiveSetting] =
+		createSignal<NavigatorNavigationButton>({
+			namei18n: 'showSomeLoveTitle',
+			icon: Favorite,
+			element: ShowSomeLove,
+		});
 	const [activeModal, setActiveModal] = createSignal<ModalType>('');
 	let modal: HTMLDialogElement | undefined;
 
@@ -115,15 +52,31 @@ function Options() {
 	document.addEventListener('click', onclick);
 	onCleanup(() => document.removeEventListener('click', onclick));
 
+	const [shouldShowContextMenu, setShouldShowContextMenu] = createSignal(
+		contextMenuQuery()
+	);
+	const resizeListener = () => setShouldShowContextMenu(contextMenuQuery());
+	window.addEventListener('resize', resizeListener);
+
 	return (
 		<>
 			<Permissions />
 			<div class={styles.settings}>
-				<Sidebar
-					items={settings}
-					activeSetting={activeSetting}
-					setActiveSetting={setActiveSetting}
-				/>
+				<Show
+					when={shouldShowContextMenu()}
+					fallback={
+						<Sidebar
+							items={settings}
+							activeSetting={activeSetting}
+							setActiveSetting={setActiveSetting}
+						/>
+					}
+				>
+					<ContextMenu
+						items={settings}
+						setActiveSetting={setActiveSetting}
+					/>
+				</Show>
 				<div class={styles.settingsContentWrapper}>
 					<div class={styles.settingsContent}>
 						{activeSetting().element({ setActiveModal, modal })}

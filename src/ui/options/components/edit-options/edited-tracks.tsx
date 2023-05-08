@@ -5,7 +5,7 @@ import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
 import Delete from '@suid/icons-material/DeleteOutlined';
 import { ExportEdits, ImportEdits, ViewEdits } from './util';
-import { ModalType } from '../../main';
+import { ModalType } from '../navigator';
 
 const localCache = BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);
 const [edits, { mutate }] = createResource(localCache.get.bind(localCache));

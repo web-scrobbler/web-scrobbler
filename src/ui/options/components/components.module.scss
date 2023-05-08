@@ -152,6 +152,7 @@ ul {
 		margin-left: auto;
 		position: relative;
 		width: $tickWidth;
+		z-index: -1;
 
 		.checkbox {
 			background-color: var(--always-light);

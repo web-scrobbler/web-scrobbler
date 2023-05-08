@@ -5,7 +5,7 @@ import styles from '../components.module.scss';
 import Delete from '@suid/icons-material/DeleteOutlined';
 import { FieldType, RegexEdit, pascalCaseField } from '@/util/regex';
 import { ExportEdits, ImportEdits, ViewEdits } from './util';
-import { ModalType } from '../../main';
+import { ModalType } from '../navigator';
 
 const regexEdits = BrowserStorage.getStorage(BrowserStorage.REGEX_EDITS);
 const [edits, { mutate }] = createResource(regexEdits.get.bind(regexEdits));

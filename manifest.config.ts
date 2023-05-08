@@ -24,7 +24,7 @@ export const common: Manifest.WebExtensionManifest = {
 	],
 
 	background: {
-		service_worker: 'background/main.js',
+		scripts: ['background/main.js'],
 	},
 
 	web_accessible_resources: [
@@ -56,6 +56,9 @@ export const common: Manifest.WebExtensionManifest = {
  */
 export const chromeManifest: Manifest.WebExtensionManifest = {
 	...common,
+	background: {
+		service_worker: 'background/main.js',
+	},
 };
 
 /**
@@ -70,10 +73,6 @@ export const safariManifest: Manifest.WebExtensionManifest = {
  */
 export const firefoxManifest: Manifest.WebExtensionManifest = {
 	...common,
-
-	background: {
-		scripts: ['background/main.js'],
-	},
 
 	browser_specific_settings: {
 		gecko: {

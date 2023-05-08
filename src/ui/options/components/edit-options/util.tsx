@@ -8,7 +8,7 @@ import styles from '../components.module.scss';
 import { t } from '@/util/i18n';
 import { Setter, createSignal } from 'solid-js';
 import { RegexEdit } from '@/util/regex';
-import { ModalType } from '../../main';
+import { ModalType } from '../navigator';
 
 type EditWrapper = StorageWrapper<
 	typeof BrowserStorage.REGEX_EDITS | typeof BrowserStorage.LOCAL_CACHE
