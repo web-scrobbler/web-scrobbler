@@ -38,7 +38,7 @@ browser.runtime.onInstalled.addListener(startupFunc);
 browser.tabs.onRemoved.addListener(onRemovedUpdate);
 browser.tabs.onUpdated.addListener(updateTabList);
 browser.tabs.onActivated.addListener(onActivatedUpdate);
-browser.contextMenus.onClicked.addListener(contextMenuHandler);
+browser.contextMenus?.onClicked.addListener(contextMenuHandler);
 
 /**
  * Update action and context menus to reflect a tab being closed.
@@ -299,21 +299,21 @@ function startupFunc() {
 
 	setRegexDefaults();
 
-	browser.contextMenus.create({
+	browser.contextMenus?.create({
 		id: contextMenus.ENABLE_CONNECTOR,
 		visible: false,
 		contexts: ['action'],
 		title: 'Error: You should not be seeing this',
 	});
 
-	browser.contextMenus.create({
+	browser.contextMenus?.create({
 		id: contextMenus.DISABLE_CONNECTOR,
 		visible: false,
 		contexts: ['action'],
 		title: 'Error: You should not be seeing this',
 	});
 
-	browser.contextMenus.create({
+	browser.contextMenus?.create({
 		id: contextMenus.DISABLE_UNTIL_CLOSED,
 		visible: false,
 		contexts: ['action'],

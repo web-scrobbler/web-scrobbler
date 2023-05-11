@@ -1,7 +1,7 @@
 import { build } from 'vite';
 import * as configs from './vite.configs';
 import { mkdir } from 'fs/promises';
-import { getBrowser, releaseTarget, releaseType } from './scripts/util';
+import { getBrowser, isDev, releaseTarget, releaseType } from './scripts/util';
 import colorLog from 'scripts/log';
 import { exec } from 'child_process';
 import { emptydirSync } from 'fs-extra';
@@ -40,20 +40,32 @@ async function main() {
 	];
 	await Promise.all(scripts);
 
+	if (isDev() && releaseTarget === 'safari') {
+		await new Promise((resolve) => {
+			setTimeout(resolve, 10000);
+		});
+	}
+
 	if (releaseTarget === 'safari') {
 		colorLog('Compiling safari extension', 'info');
 		await new Promise<void>((resolve, reject) => {
-			exec('bash safari.sh', (err, stdout, stderr) => {
-				if (err) {
-					colorLog(err, 'error');
-					colorLog(stdout, 'info');
-					colorLog(stderr, 'error');
-					reject();
-					return;
+			exec(
+				`bash safari.sh${isDev() ? ' dev' : ''}`,
+				(err, stdout, stderr) => {
+					if (err) {
+						colorLog(err, 'error');
+						colorLog(stdout, 'info');
+						colorLog(stderr, 'error');
+						reject();
+						return;
+					}
+					colorLog(
+						'Successfully compiled safari extension',
+						'success'
+					);
+					resolve();
 				}
-				colorLog('Successfully compiled safari extension', 'success');
-				resolve();
-			});
+			);
 		});
 	}
 

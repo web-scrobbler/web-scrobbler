@@ -38,13 +38,13 @@ export async function updateAction() {
  */
 async function updateMenus(tab: ManagerTab): Promise<void> {
 	if (tab.mode === ControllerMode.Unsupported) {
-		browser.contextMenus.update(contextMenus.ENABLE_CONNECTOR, {
+		browser.contextMenus?.update(contextMenus.ENABLE_CONNECTOR, {
 			visible: false,
 		});
-		browser.contextMenus.update(contextMenus.DISABLE_CONNECTOR, {
+		browser.contextMenus?.update(contextMenus.DISABLE_CONNECTOR, {
 			visible: false,
 		});
-		browser.contextMenus.update(contextMenus.DISABLE_UNTIL_CLOSED, {
+		browser.contextMenus?.update(contextMenus.DISABLE_UNTIL_CLOSED, {
 			visible: false,
 		});
 		return;
@@ -53,27 +53,27 @@ async function updateMenus(tab: ManagerTab): Promise<void> {
 	const tabData = await browser.tabs.get(tab.tabId);
 	const connector = await getConnectorByUrl(tabData.url ?? '');
 	if (tab.mode === ControllerMode.Disabled) {
-		browser.contextMenus.update(contextMenus.ENABLE_CONNECTOR, {
+		browser.contextMenus?.update(contextMenus.ENABLE_CONNECTOR, {
 			visible: true,
 			title: t('menuEnableConnector', connector?.label),
 		});
-		browser.contextMenus.update(contextMenus.DISABLE_CONNECTOR, {
+		browser.contextMenus?.update(contextMenus.DISABLE_CONNECTOR, {
 			visible: false,
 		});
-		browser.contextMenus.update(contextMenus.DISABLE_UNTIL_CLOSED, {
+		browser.contextMenus?.update(contextMenus.DISABLE_UNTIL_CLOSED, {
 			visible: false,
 		});
 		return;
 	}
 
-	browser.contextMenus.update(contextMenus.ENABLE_CONNECTOR, {
+	browser.contextMenus?.update(contextMenus.ENABLE_CONNECTOR, {
 		visible: false,
 	});
-	browser.contextMenus.update(contextMenus.DISABLE_CONNECTOR, {
+	browser.contextMenus?.update(contextMenus.DISABLE_CONNECTOR, {
 		visible: true,
 		title: t('menuDisableConnector', connector?.label),
 	});
-	browser.contextMenus.update(contextMenus.DISABLE_UNTIL_CLOSED, {
+	browser.contextMenus?.update(contextMenus.DISABLE_UNTIL_CLOSED, {
 		visible: true,
 		title: t('menuDisableUntilTabClosed', connector?.label),
 	});

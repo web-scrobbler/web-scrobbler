@@ -1,0 +1,139 @@
+.contextMenu {
+	background-color: var(--last-fm-bg);
+	bottom: 0;
+	color: var(--text);
+	display: flex;
+
+	.contextMenuItem {
+		flex-grow: 1;
+		padding: 0.5em 0;
+		position: relative;
+
+		&.activeDialogButton::after {
+			animation: 0.1s ease-in-out forwards showTip;
+			border-left: 20px solid transparent;
+			border-right: 20px solid transparent;
+			border-top: 20px solid var(--context-bg);
+			content: '';
+			height: 0;
+			left: 50%;
+			position: absolute;
+			top: -20px;
+			transform: translateX(-50%) scaleY(0);
+			transform-origin: center;
+			width: 0;
+		}
+	}
+}
+
+.contextMenuDialog {
+	animation: 0s ease-in-out forwards hide;
+	background-color: var(--context-bg);
+	border: none;
+	border-radius: 0.5em;
+	color: var(--text);
+	display: flex;
+	flex-direction: column;
+	min-width: 50vw;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	transform: translateY(calc(-100%)) scale(0);
+	transform-origin: bottom center;
+	z-index: 0;
+
+
+	// stylelint-disable-next-line no-duplicate-selectors
+	& {
+		/* avoid flickering on ios */
+		-webkit-backface-visibility: hidden;
+		-webkit-perspective: 1000;
+	}
+
+
+	&.mountedAnimation {
+		animation-duration: 0.1s;
+	}
+
+	&[open] {
+		animation: 0.1s ease-in-out forwards show;
+	}
+
+	.contextMenuItem {
+		padding: 1em;
+
+		&:not(:last-child) {
+			border-bottom: 1px solid var(--last-fm);
+		}
+	}
+}
+
+.contextMenu,
+.contextMenuDialog {
+	// stylelint-disable-next-line no-duplicate-selectors
+	& {
+		/* avoid flickering on ios */
+		-webkit-backface-visibility: hidden;
+		-webkit-perspective: 1000;
+	}
+
+	.contextMenuItem {
+		background-color: transparent;
+		border: none;
+		color: var(--text);
+		cursor: pointer;
+		display: flex;
+		flex-direction: column;
+		font-size: 1em;
+		justify-content: center;
+
+		& > * {
+			cursor: pointer;
+			display: block;
+			margin: 0 auto;
+		}
+
+		&:hover {
+			background-color: var(--always-last-fm-hover);
+			color: var(--always-light);
+		}
+	}
+}
+
+@keyframes show {
+	0% {
+		display: none;
+		transform: translateY(calc(-100%)) scale(0);
+	}
+	1% {
+		display: flex;
+		transform: translateY(calc(-100%)) scale(0);
+	}
+	100% {
+		display: flex;
+		transform: translateY(calc(-100% - 20px)) scale(1);
+	}
+}
+
+@keyframes hide {
+	0% {
+		display: flex;
+		transform: translateY(calc(-100% - 20px)) scale(1);
+	}
+	99% {
+		display: flex;
+		transform: translateY(calc(-100%)) scale(0);
+	}
+	100% {
+		display: none;
+	}
+}
+
+@keyframes showTip {
+	from {
+		transform: translateX(-50%) scaleY(0);
+	}
+	to {
+		transform: translateX(-50%) scaleY(1);
+	}
+}
