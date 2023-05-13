@@ -68,7 +68,7 @@
     "tsx": "3.12.7",
     "typescript": "5.0.4",
     "vite-plugin-solid": "2.7.0",
-    "vite-plugin-static-copy": "0.14.0",
+    "vite-plugin-static-copy": "0.15.0",
     "vitest": "0.31.0"
   },
   "engines": {
