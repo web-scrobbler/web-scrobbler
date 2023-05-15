@@ -9,7 +9,7 @@ export interface ConnectorMeta {
 export default <ConnectorMeta[]>[
 	{
 		label: 'YouTube',
-		matches: ['*://www.youtube.com/*'],
+		matches: ['*://www.youtube.com/*', '*://m.youtube.com/*'],
 		js: 'youtube.js',
 		id: 'youtube',
 	},
