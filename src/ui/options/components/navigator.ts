@@ -12,9 +12,21 @@ import FAQ from '@/ui/options/components/faq';
 import ContactComponent from '@/ui/options/components/contact';
 import OptionsComponent from '@/ui/options/components/options/options';
 import Accounts from '@/ui/options/components/accounts';
+import ToggleOn from '@suid/icons-material/ToggleOnOutlined';
+import ToggleOff from '@suid/icons-material/ToggleOffOutlined';
+import Timer from '@suid/icons-material/TimerOutlined';
 import ConnectorOverrideOptions from '@/ui/options/components/connector-override';
 import EditOptions from '@/ui/options/components/edit-options/edit-options';
 import Favorite from '@suid/icons-material/FavoriteOutlined';
+import browser from 'webextension-polyfill';
+import {
+	disableConnector,
+	disableUntilClosed,
+	enableConnector,
+	getCurrentTab,
+} from '@/core/background/util';
+import { getConnectorByUrl } from '@/util/util-connector';
+import * as ControllerMode from '@/core/object/controller/controller-mode';
 
 /**
  * Type indicating possible states for modal
@@ -96,6 +108,68 @@ export const settings: Navigator = [
 	{ namei18n: 'showSomeLoveTitle', icon: Favorite, element: ShowSomeLove },
 ];
 
+async function getToggleNavigators(): Promise<NavigatorActionButton[]> {
+	const tab = await getCurrentTab();
+
+	if (tab.mode === ControllerMode.Unsupported) {
+		return [];
+	}
+
+	if (tab.mode === ControllerMode.Disabled) {
+		return [
+			{
+				namei18n: 'menuEnableConnector',
+				icon: ToggleOn,
+				action: () => {
+					enableConnector(tab.tabId);
+				},
+			},
+		];
+	}
+
+	return [
+		{
+			namei18n: 'menuDisableConnector',
+			icon: ToggleOff,
+			action: () => {
+				disableConnector(tab.tabId);
+			},
+		},
+		{
+			namei18n: 'menuDisableUntilTabClosed',
+			icon: Timer,
+			action: () => {
+				disableUntilClosed(tab.tabId);
+			},
+		},
+	];
+}
+
+export async function getMobileNavigatorGroup(): Promise<NavigatorButtonGroup> {
+	const group: NavigatorButtonGroup = {
+		namei18n: 'optionsOptions',
+		icon: Settings,
+		group: [
+			{
+				namei18n: 'optionsOptions',
+				icon: Settings,
+				action: () => {
+					browser.tabs.create({
+						url: browser.runtime.getURL(
+							'src/ui/options/index.html'
+						),
+					});
+				},
+			},
+		],
+	};
+
+	const toggleNavigators = await getToggleNavigators();
+	group.group.push(...toggleNavigators);
+
+	return group;
+}
+
 export function triggerNavigationButton(
 	button: NavigatorButton | NavigatorButtonGroup,
 	setActiveSetting: Setter<NavigatorNavigationButton>
@@ -120,5 +194,5 @@ export function triggerNavigationButton(
 export function itemIsSingular(
 	item: NavigatorButton | NavigatorButtonGroup
 ): item is NavigatorButton {
-	return 'element' in item;
+	return !('group' in item);
 }

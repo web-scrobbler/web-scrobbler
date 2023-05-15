@@ -1,6 +1,5 @@
 .contextMenu {
 	background-color: var(--last-fm-bg);
-	bottom: 0;
 	color: var(--text);
 	display: flex;
 
@@ -8,6 +7,13 @@
 		flex-grow: 1;
 		padding: 0.5em 0;
 		position: relative;
+
+		@supports (-webkit-touch-callout: none) {
+			&.activeDialogButton {
+				background-color: var(--always-last-fm-hover);
+				color: var(--always-light);
+			}
+		}
 
 		&.activeDialogButton::after {
 			animation: 0.1s ease-in-out forwards showTip;
@@ -40,7 +46,18 @@
 	position: absolute;
 	transform: translateY(calc(-100%)) scale(0);
 	transform-origin: bottom center;
-	z-index: 0;
+
+	&.leftDialog {
+		margin-left: 20px;
+		margin-right: auto;
+		transform-origin: bottom left;
+	}
+
+	&.rightDialog {
+		margin-left: auto;
+		margin-right: 20px;
+		transform-origin: bottom right;
+	}
 
 
 	// stylelint-disable-next-line no-duplicate-selectors
@@ -70,6 +87,8 @@
 
 .contextMenu,
 .contextMenuDialog {
+	z-index: 1000000;
+
 	// stylelint-disable-next-line no-duplicate-selectors
 	& {
 		/* avoid flickering on ios */
@@ -93,9 +112,11 @@
 			margin: 0 auto;
 		}
 
-		&:hover {
-			background-color: var(--always-last-fm-hover);
-			color: var(--always-light);
+		@supports not (-webkit-touch-callout: none) {
+			&:hover {
+				background-color: var(--always-last-fm-hover);
+				color: var(--always-light);
+			}
 		}
 	}
 }

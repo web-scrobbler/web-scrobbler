@@ -1,3 +1,12 @@
+@mixin iOSTextInput {
+	appearance: none;
+	background-color: var(--last-fm-bg);
+	border: none;
+	box-sizing: border-box;
+	color: var(--text);
+	font-size: 1.2em;
+}
+
 .alertPopup {
 	padding: 15px;
 	text-align: center;
@@ -76,6 +85,12 @@ a {
 		min-width: 30ch;
 		padding: 0.5em 1em;
 		white-space: nowrap;
+
+		@supports (-webkit-touch-callout: none) {
+			.editField {
+				@include iOSTextInput;
+			}
+		}
 	}
 
 	.playDetails {
@@ -272,5 +287,117 @@ a {
 	}
 	.albumArtistPreview {
 		grid-area: albumartistpreview;
+	}
+}
+
+@supports (-webkit-touch-callout: none) {
+
+	.root {
+		display: flex;
+		flex-direction: column-reverse;
+		// stylelint-disable-next-line unit-no-unknown
+		height: 100dvh;
+		width: 100vw;
+	}
+
+	.nowPlayingPopup,
+	.alertPopup {
+		align-items: center;
+		box-sizing: border-box;
+		flex: 1 1 auto;
+		flex-direction: column;
+		margin: 0 auto;
+		overflow: auto;
+		overflow-y: auto;
+		padding-bottom: 1.5em;
+		width: 100%;
+	}
+
+	.nowPlayingPopup {
+		.coverArtWrapper {
+			filter: drop-shadow(0 0.25em 0.5em var(--text));
+			flex: 0 0 auto;
+			height: min(30vh, 30vw);
+			margin: 1em 0;
+			position: relative;
+
+			&::after {
+				background-color: var(--background);
+				clip-path: url(#coverArtClip);
+				content: '';
+				inset: 0;
+				position: absolute;
+				z-index: -100;
+			}
+
+			.coverArt {
+				clip-path: url(#coverArtClip);
+				display: inline-block;
+				max-width: min(30vh, 30vw);
+			}
+		}
+
+		.songDetails {
+			align-items: center;
+		}
+
+		.iosLoveButton {
+			background-color: transparent;
+			border: none;
+			color: var(--text);
+			cursor: pointer;
+			padding: 0.25em 0.5em;
+
+			&.active {
+				color: var(--last-fm);
+			}
+
+			svg {
+				height: 2em;
+				width: 2em;
+			}
+		}
+	}
+
+	.regexContainer {
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+
+		.iosSearchLabel,
+		.iosReplaceLabel,
+		.iosPreviewLabel {
+			margin-top: 0.5em;
+		}
+
+		input {
+			@include iOSTextInput;
+			width: 100%;
+		}
+
+		.entryWrapper {
+			align-items: center;
+			border: 1px solid var(--last-fm-bg);
+			border-radius: 1em;
+			display: flex;
+			flex-direction: column;
+
+			.entryWrapperLegend {
+				padding: 0 1em;
+			}
+		}
+
+		.searchWrapper {
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+
+			.regexTest {
+				bottom: -0.3em; // I have no idea why this works - and I honestly don't want to know either
+				top: auto;
+			}
+		}
 	}
 }

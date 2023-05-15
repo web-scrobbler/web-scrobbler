@@ -75,7 +75,8 @@ function TrackInfo(props: {
 		<li class={styles.deleteListing}>
 			<button
 				class={styles.deleteEditButton}
-				onClick={() => {
+				onClick={(event) => {
+					event.stopPropagation();
 					props.mutate((e) => {
 						if (!e) return e;
 						delete e[props.key];

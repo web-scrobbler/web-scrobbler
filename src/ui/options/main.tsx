@@ -41,12 +41,16 @@ function Options() {
 
 	const onclick = (e: MouseEvent) => {
 		const target = e.target;
-		if (!(target instanceof HTMLElement)) return;
+		if (!(target instanceof HTMLElement)) {
+			return;
+		}
 		if (
 			target.closest(`.${styles.modal}`) &&
 			!target.classList.contains(styles.modal)
-		)
+		) {
+			e.stopPropagation();
 			return;
+		}
 		modal?.close();
 	};
 	document.addEventListener('click', onclick);

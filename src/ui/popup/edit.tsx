@@ -1,9 +1,14 @@
 import { t } from '@/util/i18n';
 import styles from './popup.module.scss';
 import {
+	Accessor,
 	Match,
 	Resource,
+	Setter,
+	Show,
 	Switch,
+	createMemo,
+	createResource,
 	createSignal,
 	onCleanup,
 	onMount,
@@ -16,7 +21,13 @@ import Code from '@suid/icons-material/CodeOutlined';
 import PublishedWithChanges from '@suid/icons-material/PublishedWithChangesOutlined';
 import { sendBackgroundMessage } from '@/util/communication';
 import savedEdits from '@/core/storage/saved-edits';
-import Regex from './regex';
+import Regex, { RegexEditContextMenu } from './regex';
+import { Squircle, isIos } from '../components/util';
+import {
+	Navigator,
+	getMobileNavigatorGroup,
+} from '../options/components/navigator';
+import ContextMenu from '../components/context-menu/context-menu';
 
 /**
  * Component that allows the user to edit the currently playing track
@@ -74,125 +85,210 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 	});
 
 	return (
-		<div class={styles.nowPlayingPopup} ref={nowplaying}>
-			<Switch>
-				<Match when={isRegex()}>
-					<Regex clonedSong={clonedSong} tab={tab} />
-				</Match>
-				<Match when={!isRegex()}>
-					<a
-						class={styles.coverArtWrapper}
-						href={
-							clonedSong.getTrackArt() ??
-							browser.runtime.getURL('img/cover_art_default.png')
-						}
-						target="_blank"
-						rel="noopener noreferrer"
-						title={t('infoOpenAlbumArt')}
-					>
-						<img
-							class={styles.coverArt}
-							src={
+		<>
+			<Show when={isIos()}>
+				<Switch>
+					<Match when={isRegex()}>
+						<RegexEditContextMenu tab={tab} />
+					</Match>
+					<Match when={!isRegex()}>
+						<EditContextMenu
+							tab={tab}
+							clonedSong={clonedSong}
+							setIsRegex={setIsRegex}
+							track={track}
+							artist={artist}
+							album={album}
+							albumArtist={albumArtist}
+						/>
+					</Match>
+				</Switch>
+			</Show>
+			<div class={styles.nowPlayingPopup} ref={nowplaying}>
+				<Switch>
+					<Match when={isRegex()}>
+						<Regex clonedSong={clonedSong} tab={tab} />
+					</Match>
+					<Match when={!isRegex()}>
+						<a
+							class={styles.coverArtWrapper}
+							href={
 								clonedSong.getTrackArt() ??
 								browser.runtime.getURL(
 									'img/cover_art_default.png'
 								)
 							}
-						/>
-					</a>
-					<div class={styles.songDetails}>
-						<input
-							class={styles.editField}
-							type="text"
-							value={clonedSong.getTrack() ?? ''}
-							title={t('infoTrackPlaceholder')}
-							placeholder={t('infoTrackPlaceholder')}
-							onInput={(e) => {
-								setTrack(e.currentTarget.value);
-							}}
-						/>
-						<input
-							class={styles.editField}
-							type="text"
-							value={clonedSong.getArtist() ?? ''}
-							title={t('infoArtistPlaceholder')}
-							placeholder={t('infoArtistPlaceholder')}
-							onInput={(e) => {
-								setArtist(e.currentTarget.value);
-							}}
-						/>
-						<input
-							class={styles.editField}
-							type="text"
-							value={clonedSong.getAlbum() ?? ''}
-							title={t('infoAlbumPlaceholder')}
-							placeholder={t('infoAlbumPlaceholder')}
-							onInput={(e) => {
-								setAlbum(e.currentTarget.value);
-							}}
-						/>
-						<input
-							class={styles.editField}
-							type="text"
-							value={clonedSong.getAlbumArtist() ?? ''}
-							title={t('infoAlbumArtistPlaceholder')}
-							placeholder={t('infoAlbumArtistPlaceholder')}
-							onInput={(e) => {
-								setAlbumArtist(e.currentTarget.value);
-							}}
-						/>
-						<div class={styles.controlButtons}>
-							<button
-								class={styles.controlButton}
-								disabled={!track() || !artist()}
-								title={
-									!track() || !artist()
-										? t('infoSubmitUnableTitle')
-										: t('infoSubmitTitle')
+							target="_blank"
+							rel="noopener noreferrer"
+							title={t('infoOpenAlbumArt')}
+						>
+							<img
+								class={styles.coverArt}
+								src={
+									clonedSong.getTrackArt() ??
+									browser.runtime.getURL(
+										'img/cover_art_default.png'
+									)
 								}
-								onClick={() => {
-									saveEdit(tab, clonedSong, {
-										artist: artist(),
-										track: track(),
-										album: album() || null,
-										albumArtist: albumArtist() || null,
-									});
+							/>
+							<Squircle id="coverArtClip" />
+						</a>
+						<div class={styles.songDetails}>
+							<input
+								class={styles.editField}
+								type="text"
+								value={clonedSong.getTrack() ?? ''}
+								title={t('infoTrackPlaceholder')}
+								placeholder={t('infoTrackPlaceholder')}
+								onInput={(e) => {
+									setTrack(e.currentTarget.value);
 								}}
-							>
-								<Check />
-							</button>
-							<button
-								class={styles.controlButton}
-								disabled={!track() || !artist()}
-								title={
-									!track() || !artist()
-										? t('infoSwapUnableTitle')
-										: t('infoSwapTitle')
-								}
-								onClick={() => {
-									saveEdit(tab, clonedSong, {
-										artist: track(),
-										track: artist(),
-										album: album() || null,
-										albumArtist: albumArtist() || null,
-									});
+							/>
+							<input
+								class={styles.editField}
+								type="text"
+								value={clonedSong.getArtist() ?? ''}
+								title={t('infoArtistPlaceholder')}
+								placeholder={t('infoArtistPlaceholder')}
+								onInput={(e) => {
+									setArtist(e.currentTarget.value);
 								}}
-							>
-								<PublishedWithChanges />
-							</button>
-							<button
-								class={styles.controlButton}
-								title={t('infoRegexTitle')}
-								onClick={() => setIsRegex(true)}
-							>
-								<Code />
-							</button>
+							/>
+							<input
+								class={styles.editField}
+								type="text"
+								value={clonedSong.getAlbum() ?? ''}
+								title={t('infoAlbumPlaceholder')}
+								placeholder={t('infoAlbumPlaceholder')}
+								onInput={(e) => {
+									setAlbum(e.currentTarget.value);
+								}}
+							/>
+							<input
+								class={styles.editField}
+								type="text"
+								value={clonedSong.getAlbumArtist() ?? ''}
+								title={t('infoAlbumArtistPlaceholder')}
+								placeholder={t('infoAlbumArtistPlaceholder')}
+								onInput={(e) => {
+									setAlbumArtist(e.currentTarget.value);
+								}}
+							/>
+							<Show when={!isIos()}>
+								<div class={styles.controlButtons}>
+									<button
+										class={styles.controlButton}
+										disabled={!track() || !artist()}
+										title={
+											!track() || !artist()
+												? t('infoSubmitUnableTitle')
+												: t('infoSubmitTitle')
+										}
+										onClick={() => {
+											saveEdit(tab, clonedSong, {
+												artist: artist(),
+												track: track(),
+												album: album() || null,
+												albumArtist:
+													albumArtist() || null,
+											});
+										}}
+									>
+										<Check />
+									</button>
+									<button
+										class={styles.controlButton}
+										disabled={!track() || !artist()}
+										title={
+											!track() || !artist()
+												? t('infoSwapUnableTitle')
+												: t('infoSwapTitle')
+										}
+										onClick={() => {
+											saveEdit(tab, clonedSong, {
+												artist: track(),
+												track: artist(),
+												album: album() || null,
+												albumArtist:
+													albumArtist() || null,
+											});
+										}}
+									>
+										<PublishedWithChanges />
+									</button>
+									<button
+										class={styles.controlButton}
+										title={t('infoRegexTitle')}
+										onClick={() => setIsRegex(true)}
+									>
+										<Code />
+									</button>
+								</div>
+							</Show>
 						</div>
-					</div>
-				</Match>
-			</Switch>
-		</div>
+					</Match>
+				</Switch>
+			</div>
+		</>
 	);
+}
+
+function EditContextMenu(props: {
+	tab: Resource<ManagerTab>;
+	clonedSong: ClonedSong;
+	setIsRegex: Setter<boolean>;
+	track: Accessor<string>;
+	artist: Accessor<string>;
+	album: Accessor<string>;
+	albumArtist: Accessor<string>;
+}) {
+	const [navigatorResource] = createResource(getMobileNavigatorGroup);
+	const items = createMemo(() => {
+		const items: Navigator = [
+			{
+				namei18n:
+					!props.track() || !props.artist()
+						? 'infoSubmitUnableTitleShort'
+						: 'infoSubmitTitleShort',
+				icon: Check,
+				action: () =>
+					saveEdit(props.tab, props.clonedSong, {
+						artist: props.artist(),
+						track: props.track(),
+						album: props.album() || null,
+						albumArtist: props.albumArtist() || null,
+					}),
+			},
+			{
+				namei18n:
+					!props.track() || !props.artist()
+						? 'infoSwapUnableTitleShort'
+						: 'infoSwapTitleShort',
+				icon: PublishedWithChanges,
+				action: () =>
+					saveEdit(props.tab, props.clonedSong, {
+						artist: props.track(),
+						track: props.artist(),
+						album: props.album() || null,
+						albumArtist: props.albumArtist() || null,
+					}),
+			},
+			{
+				namei18n: 'infoRegexTitleShort',
+				icon: Code,
+				action: () => props.setIsRegex(true),
+			},
+		];
+		if (!navigatorResource.loading) {
+			const navigatorGroup = navigatorResource();
+			if (navigatorGroup) {
+				items.push(navigatorGroup);
+			}
+		}
+		return items;
+	});
+
+	return <ContextMenu items={items()} />;
 }
 
 /**

@@ -511,6 +511,14 @@
         "message": "You cannot edit this track",
         "description": "Title of edit button"
     },
+    "infoEditTitleShort": {
+        "message": "Edit",
+        "description": "Title of edit button, should be short for mobile button label"
+    },
+    "infoEditUnableTitleShort": {
+        "message": "Can't Edit",
+        "description": "Title of edit button, should be short for mobile button label"
+    },
     "infoSwapTitle": {
         "message": "Swap title and artist",
         "description": "Title of swap button"
@@ -519,9 +527,21 @@
         "message": "You cannot swap empty track info",
         "description": "Title of swap button"
     },
+    "infoSwapTitleShort": {
+        "message": "Swap title/artist",
+        "description": "Title of swap button, should be short for mobile button label"
+    },
+    "infoSwapUnableTitleShort": {
+        "message": "Can't swap info",
+        "description": "Title of swap button, should be short for mobile button label"
+    },
     "infoRegexTitle": {
         "message": "Regex/Bulk edit mode",
         "description": "Title of regex/bulk edit button"
+    },
+    "infoRegexTitleShort": {
+        "message": "Regex/Bulk edit",
+        "description": "Title of regex/bulk edit button, should be short for mobile button label"
     },
     "infoEditedWarning": {
         "message": "This track has been edited. Regex edits are not applied to edited tracks, and the preview you see here may be inaccurate.",
@@ -535,6 +555,14 @@
         "message": "You cannot submit empty track info",
         "description": "Title of submit button"
     },
+    "infoSubmitTitleShort": {
+        "message": "Submit",
+        "description": "Title of submit button, should be short for mobile button label"
+    },
+    "infoSubmitUnableTitleShort": {
+        "message": "Can't submit",
+        "description": "Title of submit button, should be short for mobile button label"
+    },
     "infoRevertTitle": {
         "message": "Revert changes",
         "description": "Title of revert button"
@@ -542,6 +570,14 @@
     "infoRevertUnableTitle": {
         "message": "You cannot revert this track",
         "description": "Title of revert button"
+    },
+    "infoRevertTitleShort": {
+      "message": "Revert",
+      "description": "Title of revert button, should be short for mobile button label"
+    },
+    "infoRevertUnableTitleShort": {
+      "message": "Can't Revert",
+      "description": "Title of revert button, should be short for mobile button label"
     },
     "infoSkipTitle": {
         "message": "Don't scrobble current track",
@@ -554,6 +590,18 @@
     "infoSkippedTitle": {
         "message": "You skipped this track",
         "description": "Title of unskip button"
+    },
+    "infoSkipTitleShort": {
+      "message": "Skip",
+      "description": "Title of skip button, should be short for mobile button label"
+    },
+    "infoSkipUnableTitleShort": {
+      "message": "Can't Skip",
+      "description": "Title of skip button, should be short for mobile button label"
+    },
+    "infoSkippedTitleShort": {
+      "message": "Skipped",
+      "description": "Title of unskip button, should be short for mobile button label"
     },
     "infoOpenAlbumArt": {
         "message": "Open album art in new tab",
