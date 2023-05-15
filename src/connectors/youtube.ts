@@ -21,9 +21,18 @@ export {};
 const videoSelector = '.html5-main-video';
 
 const chapterNameSelector = '.html5-video-player .ytp-chapter-title-content';
-const videoTitleSelector = '.html5-video-player .ytp-title-link';
-const channelNameSelector = '#top-row .ytd-channel-name a';
-const videoDescriptionSelector = '#meta-contents #description';
+const videoTitleSelector = [
+	'.html5-video-player .ytp-title-link',
+	'.slim-video-information-title .yt-core-attributed-string',
+];
+const channelNameSelector = [
+	'#top-row .ytd-channel-name a',
+	'.slim-owner-channel-name .yt-core-attributed-string',
+];
+const videoDescriptionSelector = [
+	'#meta-contents #description',
+	'.crawler-full-description',
+];
 
 // Dummy category indicates an actual category is being fetched
 const categoryPending = 'YT_DUMMY_CATEGORY_PENDING';
@@ -68,7 +77,7 @@ const trackInfoGetters = [
 readConnectorOptions();
 setupEventListener();
 
-Connector.playerSelector = '#content';
+Connector.playerSelector = ['#content', '#player'];
 
 Connector.getTrackInfo = () => {
 	const trackInfo: TrackInfoWithAlbum = {};
@@ -217,7 +226,17 @@ function getVideoId() {
 		return Util.getYtVideoIdFromUrl(miniPlayerVideoUrl);
 	}
 
-	return Util.getAttrFromSelectors('ytd-watch-flexy', 'video-id');
+	const videoIDDesktop = Util.getAttrFromSelectors(
+		'ytd-watch-flexy',
+		'video-id'
+	);
+	if (videoIDDesktop) {
+		return videoIDDesktop;
+	}
+
+	// as a fallback on mobile, try to get the video ID from the URL
+	const videoIDMobile = new URLSearchParams(window.location.search).get('v');
+	return videoIDMobile;
 }
 
 function getVideoCategory() {
