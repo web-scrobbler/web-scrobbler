@@ -15,7 +15,7 @@ jobs:
 
       - name: Get Node.js version from .nvmrc
         id: get-node-version
-        run: echo "{NODE_VERSION}=$(cat .nvmrc)" >> $GITHUB_ENV
+        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -46,7 +46,7 @@ jobs:
 
       - name: Get Node.js version from .nvmrc
         id: get-node-version
-        run: echo "{NODE_VERSION}=$(cat .nvmrc)" >> $GITHUB_ENV
+        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -77,7 +77,7 @@ jobs:
 
       - name: Get Node.js version from .nvmrc
         id: get-node-version
-        run: echo "{NODE_VERSION}=$(cat .nvmrc)" >> $GITHUB_ENV
+        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
