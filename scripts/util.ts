@@ -1,3 +1,6 @@
+import { resolve } from 'path';
+import { normalizePath } from 'vite';
+
 /**
  * Folder names corresponding to build targets
  */
@@ -35,6 +38,15 @@ export function getBrowser() {
 	const browserName = outputFolder[browser as keyof typeof outputFolder];
 	if (!browserName) throw new Error(`Invalid browser ${browser} specified`);
 	return browserName;
+}
+
+/**
+ * Resolve vite path in a cross-platform way
+ *
+ * @param paths - paths to resolve
+ */
+export function resolvePath(...paths: string[]) {
+	return normalizePath(resolve(...paths));
 }
 
 export const releaseTarget = process.argv.at(-1);

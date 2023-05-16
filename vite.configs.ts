@@ -1,21 +1,20 @@
-import { UserConfig, normalizePath } from 'vite';
-import { resolve } from 'path';
+import { UserConfig } from 'vite';
 import * as manifests from './manifest.config';
 import solid from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 import compileConnectors from './scripts/compile-connectors';
 import makeManifest from './scripts/make-manifest';
-import { isDev, releaseTarget } from 'scripts/util';
+import { isDev, releaseTarget, resolvePath } from 'scripts/util';
 import minifyImages from 'scripts/minify-images';
 import generateIcons from 'scripts/generate-icons';
 
-const dist = resolve(import.meta.url.slice(5), '..', 'build');
-const root = resolve(import.meta.url.slice(5), '..', 'src');
+const dist = resolvePath('build');
+const root = resolvePath('src');
 const builds = {
-	chrome: resolve(dist, 'chrome'),
-	firefox: resolve(dist, 'firefox'),
-	safari: resolve(dist, 'safariraw'),
-	error: resolve(dist, 'error'),
+	chrome: resolvePath(dist, 'chrome'),
+	firefox: resolvePath(dist, 'firefox'),
+	safari: resolvePath(dist, 'safariraw'),
+	error: resolvePath(dist, 'error'),
 };
 
 const common: UserConfig = {
@@ -39,11 +38,11 @@ export const buildBackground: UserConfig = {
 	...common,
 	build: {
 		minify: !isDev(),
-		outDir: resolve(distRoot(), 'background'),
+		outDir: resolvePath(distRoot(), 'background'),
 		emptyOutDir: true,
 		watch: isDev() ? {} : null,
 		lib: {
-			entry: resolve(root, 'core', 'background', 'main.ts'),
+			entry: resolvePath(root, 'core', 'background', 'main.ts'),
 			name: manifests.common.name,
 			formats: ['iife'],
 		},
@@ -60,11 +59,11 @@ export const buildContent: UserConfig = {
 	...common,
 	build: {
 		minify: !isDev(),
-		outDir: resolve(distRoot(), 'content'),
+		outDir: resolvePath(distRoot(), 'content'),
 		emptyOutDir: true,
 		watch: isDev() ? {} : null,
 		lib: {
-			entry: resolve(root, 'core', 'content', 'main.ts'),
+			entry: resolvePath(root, 'core', 'content', 'main.ts'),
 			name: manifests.common.name,
 			formats: ['iife'],
 		},
@@ -87,8 +86,8 @@ export const buildStart: UserConfig = {
 		sourcemap: isDev(),
 		rollupOptions: {
 			input: {
-				popup: resolve(root, 'ui', 'popup', 'index.html'),
-				options: resolve(root, 'ui', 'options', 'index.html'),
+				popup: resolvePath(root, 'ui', 'popup', 'index.html'),
+				options: resolvePath(root, 'ui', 'options', 'index.html'),
 			},
 			output: {},
 		},
@@ -100,7 +99,7 @@ export const buildStart: UserConfig = {
 		viteStaticCopy({
 			targets: [
 				{
-					src: normalizePath(resolve(root, '_locales')),
+					src: resolvePath(root, '_locales'),
 					dest: '',
 				},
 			],
