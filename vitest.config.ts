@@ -1,4 +1,4 @@
-import { resolvePath } from 'scripts/util';
+import { resolvePath } from './scripts/util';
 export default {
 	resolve: {
 		alias: {
