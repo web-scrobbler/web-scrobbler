@@ -1,9 +1,9 @@
-import path from 'path';
+import { resolvePath } from './scripts/util';
 export default {
 	resolve: {
 		alias: {
-			'@': path.resolve(__dirname, './src'),
-			'#': path.resolve(__dirname, './tests'),
+			'@': resolvePath(__dirname, './src'),
+			'#': resolvePath(__dirname, './tests'),
 		},
 	},
 };
