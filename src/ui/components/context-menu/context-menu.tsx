@@ -6,11 +6,29 @@ import {
 	itemIsSingular,
 	triggerNavigationButton,
 } from '@/ui/options/components/navigator';
-import { For, Setter, Show, createSignal, onMount } from 'solid-js';
+import {
+	Accessor,
+	For,
+	Setter,
+	Show,
+	createMemo,
+	createSignal,
+	onMount,
+} from 'solid-js';
 import styles from './context-menu.module.scss';
 import { t } from '@/util/i18n';
 
 function closeDialogs(e: MouseEvent) {
+	if (!(e.target instanceof Element)) return;
+
+	const dialogButton = e.target.closest(`.${styles.contextMenuItem}`);
+	const dialog = dialogButton?.nextElementSibling;
+
+	let currentlyOpen = true;
+	if (dialog instanceof HTMLDialogElement) {
+		currentlyOpen = dialog.open;
+	}
+
 	const dialogs = document.querySelectorAll('dialog');
 	dialogs.forEach((dialog) => {
 		dialog.close();
@@ -22,12 +40,7 @@ function closeDialogs(e: MouseEvent) {
 		dialogButton.classList.remove(styles.activeDialogButton);
 	});
 
-	if (!(e.target instanceof Element)) return;
-
-	const dialogButton = e.target.closest(`.${styles.contextMenuItem}`);
-	const dialog = dialogButton?.nextElementSibling;
-
-	if (!(dialog instanceof HTMLDialogElement)) return;
+	if (!(dialog instanceof HTMLDialogElement) || currentlyOpen) return;
 
 	dialog.show();
 	dialogButton?.classList.add(styles.activeDialogButton);
@@ -35,7 +48,7 @@ function closeDialogs(e: MouseEvent) {
 
 export default function ContextMenu(props: {
 	items: Navigator;
-	setActiveSetting: Setter<NavigatorNavigationButton>;
+	setActiveSetting?: Setter<NavigatorNavigationButton>;
 }) {
 	onMount(() => {
 		window.addEventListener('click', closeDialogs);
@@ -54,12 +67,14 @@ export default function ContextMenu(props: {
 
 function ContextMenuItems(props: {
 	items: Navigator;
-	setActiveSetting: Setter<NavigatorNavigationButton>;
+	setActiveSetting?: Setter<NavigatorNavigationButton>;
 }) {
 	return (
 		<For each={props.items}>
-			{(item) => (
+			{(item, index) => (
 				<ContextMenuItem
+					index={index}
+					length={props.items.length}
 					item={item}
 					setActiveSetting={props.setActiveSetting}
 				/>
@@ -69,10 +84,25 @@ function ContextMenuItems(props: {
 }
 
 function ContextMenuItem(props: {
+	index: Accessor<number>;
+	length: number;
 	item: NavigatorButtonGroup | NavigatorButton;
-	setActiveSetting: Setter<NavigatorNavigationButton>;
+	setActiveSetting?: Setter<NavigatorNavigationButton>;
 }) {
 	const [mounted, setMounted] = createSignal(false);
+	const locationClass = createMemo(() => {
+		if (props.length === 1) {
+			return styles.centerDialog;
+		}
+		if (props.index() === 0) {
+			return styles.leftDialog;
+		}
+		if (props.index() === props.length - 1) {
+			return styles.rightDialog;
+		}
+		return styles.centerDialog;
+	});
+
 	// hacky way to ensure animation doesnt play on load. If its not loaded it just fails to display an animation, no big deal.
 	onMount(() => {
 		setTimeout(() => {
@@ -83,16 +113,24 @@ function ContextMenuItem(props: {
 		<>
 			<button
 				class={styles.contextMenuItem}
-				onClick={() =>
-					triggerNavigationButton(props.item, props.setActiveSetting)
-				}
+				onClick={() => {
+					if (props.setActiveSetting && 'element' in props.item) {
+						triggerNavigationButton(
+							props.item,
+							props.setActiveSetting
+						);
+					}
+					if ('action' in props.item) {
+						props.item.action();
+					}
+				}}
 			>
 				<props.item.icon />
 				<label>{t(props.item.namei18n)}</label>
 			</button>
 			<Show when={!itemIsSingular(props.item)}>
 				<dialog
-					class={`${styles.contextMenuDialog} ${
+					class={`${styles.contextMenuDialog} ${locationClass()} ${
 						mounted() && `${styles.mountedAnimation}`
 					}`}
 				>

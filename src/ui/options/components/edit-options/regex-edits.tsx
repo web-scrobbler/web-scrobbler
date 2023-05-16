@@ -73,7 +73,8 @@ function EditInfo(props: {
 		<li class={styles.deleteListing}>
 			<button
 				class={styles.deleteEditButton}
-				onClick={() => {
+				onClick={(event) => {
+					event.stopPropagation();
 					props.mutate((e) => {
 						if (!e) return e;
 						const o = e.filter((_, i) => i !== props.index);

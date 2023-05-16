@@ -95,12 +95,23 @@ a {
 	position: relative;
 	width: 80vw;
 
+	@supports (-webkit-touch-callout: none) {
+		border-radius: 0;
+		// stylelint-disable-next-line unit-no-unknown
+		height: 100dvh;
+		margin: 0;
+		// stylelint-disable-next-line unit-no-unknown
+		max-height: 100dvh;
+		max-width: 100vw;
+		width: 100vw;
+	}
+
 	.modalContent {
 		box-sizing: border-box;
-		height: 80vh;
+		height: 100%;
 		overflow: auto;
 		padding: 1em;
-		width: 80vw;
+		width: 100%;
 	}
 
 	.modalClose {
@@ -112,6 +123,10 @@ a {
 		position: absolute;
 		right: 0;
 		top: 0;
+
+		@supports (-webkit-touch-callout: none) {
+			padding: 0.75em 1em 0.5em;
+		}
 
 		&:hover {
 			background-color: var(--always-last-fm-hover);

@@ -17,6 +17,9 @@ import {
 	getCurrentTab,
 	setState,
 	unlockState,
+	enableConnector,
+	disableConnector,
+	disableUntilClosed,
 } from './util';
 import { ControllerModeStr } from '@/core/object/controller/controller';
 import { CloneableSong } from '@/core/object/song';
@@ -331,24 +334,15 @@ async function contextMenuHandler(info: browser.Menus.OnClickData) {
 
 	switch (info.menuItemId) {
 		case contextMenus.ENABLE_CONNECTOR: {
-			sendBackgroundMessage(tab.tabId, {
-				type: 'setConnectorState',
-				payload: true,
-			});
+			enableConnector(tab.tabId);
 			break;
 		}
 		case contextMenus.DISABLE_CONNECTOR: {
-			sendBackgroundMessage(tab.tabId, {
-				type: 'setConnectorState',
-				payload: false,
-			});
+			disableConnector(tab.tabId);
 			break;
 		}
 		case contextMenus.DISABLE_UNTIL_CLOSED: {
-			sendBackgroundMessage(tab.tabId, {
-				type: 'disableConnectorUntilTabIsClosed',
-				payload: undefined,
-			});
+			disableUntilClosed(tab.tabId);
 			break;
 		}
 	}

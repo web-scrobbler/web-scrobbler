@@ -5,6 +5,7 @@ import * as ControllerMode from '@/core/object/controller/controller-mode';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import { controllerModePriority } from '@/core/object/controller/controller';
 import { performUpdateAction } from './action';
+import { sendBackgroundMessage } from '@/util/communication';
 
 const state = BrowserStorage.getStorage(BrowserStorage.STATE_MANAGEMENT);
 
@@ -134,3 +135,39 @@ export const DEFAULT_STATE: StateManagement = {
 	activeTabs: [],
 	browserPreferredTheme: 'light',
 };
+
+/**
+ * Disables connector of a tab
+ *
+ * @param tabId - tab id of tab to disable connector of
+ */
+export function disableConnector(tabId: number) {
+	sendBackgroundMessage(tabId, {
+		type: 'setConnectorState',
+		payload: false,
+	});
+}
+
+/**
+ * Enables connector of a tab
+ *
+ * @param tabId - tab id of tab to enable connector of
+ */
+export function enableConnector(tabId: number) {
+	sendBackgroundMessage(tabId, {
+		type: 'setConnectorState',
+		payload: true,
+	});
+}
+
+/**
+ * Disables connector of a tab until the tab is closed
+ *
+ * @param tabId - tab id of tab to disable connector of
+ */
+export function disableUntilClosed(tabId: number) {
+	sendBackgroundMessage(tabId, {
+		type: 'disableConnectorUntilTabIsClosed',
+		payload: undefined,
+	});
+}
