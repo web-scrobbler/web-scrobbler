@@ -136,5 +136,19 @@ function setupSecondObserver() {
  * @returns the element to be observed
  */
 function retrieveObserveTarget(): Element | null {
-	return document.querySelector(Connector.playerSelector?.toString() ?? '');
+	if (Connector.playerSelector === null) {
+		return null;
+	}
+
+	if (typeof Connector.playerSelector === 'object') {
+		for (const selector of Connector.playerSelector) {
+			const element = document.querySelector(selector);
+			if (element !== null) {
+				return element;
+			}
+		}
+		return null;
+	}
+
+	return document.querySelector(Connector.playerSelector);
 }
