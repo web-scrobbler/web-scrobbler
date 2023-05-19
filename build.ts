@@ -49,23 +49,17 @@ async function main() {
 	if (releaseTarget === 'safari' && !isDev()) {
 		colorLog('Compiling safari extension', 'info');
 		await new Promise<void>((resolve, reject) => {
-			exec(
-				`bash safari.sh${isDev() ? ' dev' : ''}`,
-				(err, stdout, stderr) => {
-					if (err) {
-						colorLog(err, 'error');
-						colorLog(stdout, 'info');
-						colorLog(stderr, 'error');
-						reject();
-						return;
-					}
-					colorLog(
-						'Successfully compiled safari extension',
-						'success'
-					);
-					resolve();
+			exec('bash safari.sh', (err, stdout, stderr) => {
+				if (err) {
+					colorLog(err, 'error');
+					colorLog(stdout, 'info');
+					colorLog(stderr, 'error');
+					reject();
+					return;
 				}
-			);
+				colorLog('Successfully compiled safari extension', 'success');
+				resolve();
+			});
 		});
 	}
 
