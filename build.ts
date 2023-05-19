@@ -46,7 +46,7 @@ async function main() {
 		});
 	}
 
-	if (releaseTarget === 'safari') {
+	if (releaseTarget === 'safari' && !isDev()) {
 		colorLog('Compiling safari extension', 'info');
 		await new Promise<void>((resolve, reject) => {
 			exec(
