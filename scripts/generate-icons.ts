@@ -204,7 +204,7 @@ async function createMacIcon(
 
 	/**
 	 * Apply shadow
-	 **/
+	 */
 	ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
 	ctx.shadowBlur = (5 * 128) / size;
 	ctx.shadowOffsetX = 0;
