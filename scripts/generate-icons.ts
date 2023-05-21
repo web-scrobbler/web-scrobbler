@@ -27,7 +27,7 @@ const input = resolve('src', 'icons');
 const output = resolve('build', getBrowser(), 'icons');
 
 /**
- * xcode share app folder
+ * xcode shared app folder
  */
 const xcodeApp = resolve('.xcode', 'Web Scrobbler', 'Shared (App)');
 
