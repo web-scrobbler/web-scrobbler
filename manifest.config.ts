@@ -40,7 +40,7 @@ export const common: Manifest.WebExtensionManifest = {
 	},
 
 	icons: {
-		16: 'icons/icon_generic_16.png',
+		16: 'icons/icon_main_16.png',
 		48: 'icons/icon_main_48.png',
 		96: 'icons/icon_main_96.png',
 		128: 'icons/icon_main_128.png',

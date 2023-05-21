@@ -6,6 +6,17 @@ import colorLog from './log';
 import { PluginOption } from 'vite';
 
 /**
+ * Get the name of the main icon based on the release target.
+ * @returns The name of the main icon.
+ */
+function mainIconName(): string {
+	if (releaseTarget === releaseTargets.safari) {
+		return 'safari';
+	}
+	return 'universal';
+}
+
+/**
  * Input folder containing the original svg icons in the source.
  */
 const input = resolve('src', 'icons');
@@ -16,21 +27,29 @@ const input = resolve('src', 'icons');
 const output = resolve('build', getBrowser(), 'icons');
 
 /**
+ * xcode share app folder
+ */
+const xcodeApp = resolve('.xcode', 'Web Scrobbler', 'Shared (App)');
+
+/**
+ * xcode assets folder
+ */
+const xcodeAssets = resolve(xcodeApp, 'Assets.xcassets');
+
+/**
+ * Resolutions to render xcode icons to
+ */
+const xcodeIconResolutions = [16, 32, 128, 256, 512];
+
+/**
  * Resolutions to render main icon to.
  */
-const mainIconResolutions = [48, 96, 128, 256, 512];
+const mainIconResolutions = [16, 48, 96, 128, 256, 512];
 
 /**
  * Resolutions to render action icons to
  */
 const actionIconResolutions = [16, 19, 32, 38];
-
-/**
- * A map of filenames in the misc icon folder and the sizes we want them in PNG format
- */
-const miscSizes = {
-	'icon_generic.svg': [16],
-};
 
 /**
  * A map of filenames in the monochrome icon folder and the colors we want them in PNG format
@@ -155,7 +174,43 @@ async function createUnmodifiedIcon(
 	const canvas = createCanvas(size, size);
 	const ctx = canvas.getContext('2d');
 	const image = await loadImage(resolve(input, folder, path));
+	image.width = size;
+	image.height = size;
 	ctx.drawImage(image, 0, 0, size, size);
+	return canvas.toBuffer();
+}
+
+/**
+ * Creates a png from a svg editing to adjust for apple's icon style
+ *
+ * @param folder - folder containing the icon svg in src.
+ * @param path - name of the svg file.
+ * @param size - desired resolution of the png file.
+ * @returns a PNG buffer from the svg file
+ */
+async function createMacIcon(
+	folder: string,
+	path: string,
+	size: number
+): Promise<Buffer> {
+	const sizeModifier = 100 / 114;
+	const canvas = createCanvas(size, size);
+	const ctx = canvas.getContext('2d');
+	const image = await loadImage(resolve(input, folder, path));
+	const iconSize = size * sizeModifier;
+	const iconOffset = (size - iconSize) / 2;
+	image.width = iconSize;
+	image.height = iconSize;
+
+	/**
+	 * Apply shadow
+	 **/
+	ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+	ctx.shadowBlur = (5 * 128) / size;
+	ctx.shadowOffsetX = 0;
+	ctx.shadowOffsetY = (2 * 128) / size;
+
+	ctx.drawImage(image, iconOffset, iconOffset, iconSize, iconSize);
 	return canvas.toBuffer();
 }
 
@@ -180,6 +235,8 @@ async function createMonochromeIcon(
 	const iconCanvas = createCanvas(size, size);
 	const iconCtx = iconCanvas.getContext('2d');
 	const image = await loadImage(resolve(input, 'monochrome', path));
+	image.width = iconSize;
+	image.height = iconSize;
 	iconCtx.drawImage(
 		image,
 		borderThickness,
@@ -278,7 +335,7 @@ async function writeMonochromeIcon(
  * Writes all the appropriate PNGs for the main extension icon for the target browser.
  */
 async function writeMainIcon(): Promise<void> {
-	const path = `${releaseTarget}.svg`;
+	const path = `${mainIconName()}.svg`;
 	for (const res of mainIconResolutions) {
 		await fs.writeFile(
 			resolve(output, `icon_main_${res}.png`),
@@ -287,28 +344,53 @@ async function writeMainIcon(): Promise<void> {
 	}
 }
 
-/**
- * Gets new PNG file name for misc icons
- *
- * @param path - filename of original svg.
- * @param size - desired resolution of PNG.
- * @returns PNG file name to output to.
- */
-function getMiscOutputPath(path: string, size: number): string {
-	const name = path.split('.')[0];
-	return resolve(output, `${name}_${size}.png`);
-}
+async function writexcodeIcons(): Promise<void> {
+	const mainPath = `${mainIconName()}.svg`;
+	/**
+	 * Write main icon
+	 */
+	await fs.writeFile(
+		resolve(xcodeApp, 'Resources', 'Icon.png'),
+		await createUnmodifiedIcon('main', mainPath, 512)
+	);
 
-/**
- * Writes all the appropriate PNG files for a single misc svg.
- *
- * @param path - filename of the svg.
- */
-async function writeMiscIcon(path: keyof typeof miscSizes): Promise<void> {
-	for (const res of miscSizes[path]) {
+	/**
+	 * Write LargeIcon.imageset
+	 */
+	await fs.writeFile(
+		resolve(xcodeAssets, 'LargeIcon.imageset', 'icon_main_256.png'),
+		await createUnmodifiedIcon('main', mainPath, 256)
+	);
+
+	/**
+	 * Write AppIcon.appiconset
+	 */
+	await fs.writeFile(
+		resolve(
+			xcodeAssets,
+			'AppIcon.appiconset',
+			'universal-icon-1024@1x.png'
+		),
+		await createUnmodifiedIcon('main', mainPath, 1024)
+	);
+
+	for (const res of xcodeIconResolutions) {
 		await fs.writeFile(
-			getMiscOutputPath(path, res),
-			await createUnmodifiedIcon('misc', path, res)
+			resolve(
+				xcodeAssets,
+				'AppIcon.appiconset',
+				`mac-icon-${res}@1x.png`
+			),
+			await createMacIcon('main', 'safarishadow.svg', res)
+		);
+
+		await fs.writeFile(
+			resolve(
+				xcodeAssets,
+				'AppIcon.appiconset',
+				`mac-icon-${res}@2x.png`
+			),
+			await createMacIcon('main', 'safarishadow.svg', res * 2)
 		);
 	}
 }
@@ -335,18 +417,8 @@ async function main(): Promise<void> {
 
 	await writeMainIcon();
 
-	//write misc icons
-	for (const path of await fs.readdir(resolve(input, 'misc'))) {
-		// avoid extra files (looking at you, .DS_Store)
-		if (!path.endsWith('.svg')) {
-			continue;
-		}
-
-		if (!assertMiscPathValid(path)) {
-			colorLog(`File ${path} is not a valid misc icon.`);
-			throw new Error(`File ${path} is not a valid misc icon.`);
-		}
-		await writeMiscIcon(path);
+	if (releaseTarget === releaseTargets.safari) {
+		await writexcodeIcons();
 	}
 }
 
@@ -360,14 +432,4 @@ function assertMonochromePathValid(
 	path: string
 ): path is keyof typeof monochromeColors {
 	return path in monochromeColors;
-}
-
-/**
- * Checks if a misc path has target sizes defined.
- *
- * @param path - filename of svg to check
- * @returns true if file is associated with an array of target sizes, false otherwise.
- */
-function assertMiscPathValid(path: string): path is keyof typeof miscSizes {
-	return path in miscSizes;
 }
