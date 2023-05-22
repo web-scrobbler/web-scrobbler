@@ -7,7 +7,7 @@
    viewBox="0 0 128 128"
    version="1.1"
    id="svg8569"
-   sodipodi:docname="safarifixed.svg"
+   sodipodi:docname="smallshadow.svg"
    inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -16,40 +16,6 @@
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
      id="defs8573">
-    <inkscape:path-effect
-       effect="fillet_chamfer"
-       id="path-effect51479"
-       is_visible="true"
-       lpeversion="1"
-       nodesatellites_param="F,0,0,1,0,30,0,1 @ F,0,0,1,0,30,0,1 @ F,0,0,1,0,30,0,1 @ F,0,0,1,0,30,0,1"
-       unit="px"
-       method="auto"
-       mode="F"
-       radius="30"
-       chamfer_steps="1"
-       flexible="false"
-       use_knot_distance="true"
-       apply_no_radius="true"
-       apply_with_radius="true"
-       only_selected="false"
-       hide_knots="false" />
-    <inkscape:path-effect
-       effect="fillet_chamfer"
-       id="path-effect51469"
-       is_visible="true"
-       lpeversion="1"
-       nodesatellites_param="F,0,0,1,0,25,0,1 @ F,0,0,1,0,25,0,1 @ F,0,0,1,0,25,0,1 @ F,0,0,1,0,25,0,1 @ F,0,0,1,0,25,0,1 @ F,0,0,1,0,25,0,1 @ F,0,0,1,0,25,0,1 @ F,0,0,1,0,25,0,1 @ F,0,0,1,0,25,0,1"
-       unit="px"
-       method="bezier"
-       mode="F"
-       radius="0"
-       chamfer_steps="1"
-       flexible="false"
-       use_knot_distance="true"
-       apply_no_radius="true"
-       apply_with_radius="true"
-       only_selected="false"
-       hide_knots="false" />
     <linearGradient
        inkscape:collect="always"
        id="linearGradient14880">
@@ -119,7 +85,7 @@
        width="1.2189281"
        height="1.4192904">
       <feFlood
-         flood-opacity="0.29999999999999999"
+         flood-opacity="0.30303030303030304"
          flood-color="rgb(0,0,0)"
          result="flood"
          id="feFlood8906" />
@@ -138,7 +104,8 @@
          dx="0"
          dy="1.6499999999999999"
          result="offset"
-         id="feOffset8912" />
+         id="feOffset8912"
+         preserveAlpha="false" />
       <feComposite
          in="SourceGraphic"
          in2="offset"
@@ -253,17 +220,13 @@
     </filter>
     <clipPath
        clipPathUnits="userSpaceOnUse"
-       id="clipPath51482">
-      <path
-         style="fill:#e42f37;stroke-width:0.989302"
-         id="rect51484"
-         width="118"
-         height="118"
-         x="5"
-         y="5"
-         inkscape:path-effect="#path-effect51479"
-         d="m 35,5 h 58 a 30,30 45 0 1 30,30 V 93 A 30,30 135 0 1 93,123 H 35 A 30,30 45 0 1 5,93 V 35 A 30,30 135 0 1 35,5 Z"
-         sodipodi:type="rect" />
+       id="clipPath38562">
+      <circle
+         style="opacity:1;fill:#e54850;fill-opacity:1;stroke-width:1.00049"
+         id="circle38564"
+         cx="64"
+         cy="64"
+         r="59" />
     </clipPath>
   </defs>
   <sodipodi:namedview
@@ -276,9 +239,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
-     inkscape:zoom="3.3718094"
-     inkscape:cx="11.269913"
-     inkscape:cy="47.748844"
+     inkscape:zoom="3.2430926"
+     inkscape:cx="31.913982"
+     inkscape:cy="61.052835"
      inkscape:window-width="1440"
      inkscape:window-height="764"
      inkscape:window-x="0"
@@ -302,7 +265,7 @@
      inkscape:groupmode="layer"
      id="layer1"
      inkscape:label="bg"
-     clip-path="url(#clipPath51482)">
+     clip-path="url(#clipPath38562)">
     <rect
        style="opacity:1;fill:#e42f37;fill-opacity:1"
        id="bgred"
@@ -353,12 +316,10 @@
        transform="matrix(0.8583418,0.21265628,-0.32810945,0.82116839,15.891185,2.7731673)" />
   </g>
   <path
-     d="M 50,5 H 78 C 91.807119,5 117.90778,6.4221095 121.98376,18.688403 123.09714,22.039103 123,36.192881 123,50 v 28 c 0,13.807119 -0.25196,35.93468 -9,41.706 C 103,123 103,123 103,123 H 50 C 36.192881,123 10.092218,121.57789 6.0162359,109.3116 4.9028568,105.9609 5,91.807119 5,78 V 50 C 5,36.192881 6.4221095,10.092218 18.688403,6.0162359 22.039103,4.9028568 36.192881,5 50,5 Z"
+     d="m 25,5 h 78 c 11.046,0 20,8.954 20,20 v 78 c 0,6.982 -3.578,13.129 -9,16.706 -3.156,2.082 -6.936,3.294 -11,3.294 H 25 C 13.954,123 5,114.046 5,103 V 25 C 5,13.954 13.954,5 25,5 Z"
      fill="#386fdc"
      style="display:none;fill:#e3252e;fill-opacity:1"
-     id="path12484"
-     inkscape:path-effect="#path-effect51469"
-     inkscape:original-d="m 25,5 h 78 c 11.046,0 20,8.954 20,20 v 78 c 0,6.982 -3.578,13.129 -9,16.706 -3.156,2.082 -6.936,3.294 -11,3.294 H 25 C 13.954,123 5,114.046 5,103 V 25 C 5,13.954 13.954,5 25,5 Z" />
+     id="path12484" />
   <g
      id="logo"
      transform="matrix(1.2999943,0,0,1.2999943,-19.610906,-19.632538)"
