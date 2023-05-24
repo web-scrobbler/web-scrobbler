@@ -16,7 +16,7 @@ Connector.getTrack = () => {
 
 Connector.getArtist = () => Util.getAttrFromSelectors('.by span', 'title');
 
-Connector.playButtonSelector = '[data-action="play"]';
+Connector.playButtonSelector = 'a[data-action="play"]';
 
 Connector.timeInfoSelector = '.time';
 
