@@ -1,6 +1,6 @@
 export {};
 
-const playerBar = '.Root__now-playing-bar';
+const playerBar = '.Root [data-testid="now-playing-bar"]';
 
 const artistSelector = `${playerBar} [data-testid="context-item-info-artist"]`;
 const oldPlayingPath =
