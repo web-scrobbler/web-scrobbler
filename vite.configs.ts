@@ -7,6 +7,7 @@ import makeManifest from './scripts/make-manifest';
 import { isDev, releaseTarget, resolvePath } from 'scripts/util';
 import minifyImages from 'scripts/minify-images';
 import generateIcons from 'scripts/generate-icons';
+import ConditionalCompile from 'vite-plugin-conditional-compiler';
 
 const dist = resolvePath('build');
 const root = resolvePath('src');
@@ -93,6 +94,7 @@ export const buildStart: UserConfig = {
 		},
 	},
 	plugins: [
+		ConditionalCompile(),
 		solid(),
 		makeManifest(),
 		generateIcons(),

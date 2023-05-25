@@ -4,6 +4,7 @@
     "drewbourne.vscode-remark-lint",
     "esbenp.prettier-vscode",
     "stylelint.vscode-stylelint",
-    "editorconfig.editorconfig"
+    "editorconfig.editorconfig",
+    "aaron-bond.better-comments"
   ]
 }

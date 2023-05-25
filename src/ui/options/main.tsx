@@ -3,8 +3,6 @@ import styles from './settings.module.scss';
 import { initializeThemes } from '@/theme/themes';
 import '@/theme/themes.scss';
 import { Match, Show, Switch, createSignal, onCleanup } from 'solid-js';
-import ShowSomeLove from './components/showSomeLove';
-import Favorite from '@suid/icons-material/FavoriteOutlined';
 import Close from '@suid/icons-material/CloseOutlined';
 import Sidebar from './sidebar/sidebar';
 import { EditsModal } from './components/edit-options/edited-tracks';
@@ -13,7 +11,9 @@ import { RegexEditsModal } from './components/edit-options/regex-edits';
 import {
 	ModalType,
 	NavigatorNavigationButton,
+	aboutItem,
 	settings,
+	showSomeLoveItem,
 } from './components/navigator';
 import ContextMenu from '../components/context-menu/context-menu';
 
@@ -26,16 +26,18 @@ function contextMenuQuery() {
 	return window.matchMedia('(max-width: 700px)').matches;
 }
 
+// Show some love as default except safari, where we don't want it shown because apple
+let defaultSetting = aboutItem;
+// #v-ifndef VITE_SAFARI
+defaultSetting = showSomeLoveItem;
+// #v-endif
+
 /**
  * Preferences component, with a sidebar and several different options and info pages
  */
 function Options() {
 	const [activeSetting, setActiveSetting] =
-		createSignal<NavigatorNavigationButton>({
-			namei18n: 'showSomeLoveTitle',
-			icon: Favorite,
-			element: ShowSomeLove,
-		});
+		createSignal<NavigatorNavigationButton>(defaultSetting);
 	const [activeModal, setActiveModal] = createSignal<ModalType>('');
 	let modal: HTMLDialogElement | undefined;
 

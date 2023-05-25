@@ -13,6 +13,8 @@ export default function InfoComponent() {
 			<h2>{t('contributorsTitle')}</h2>
 			{/* eslint-disable-next-line */}
 			<p innerHTML={t('contributorsText')}></p>
+			{/* eslint-disable-next-line */}
+			<p innerHTML={t('contributorsContribute')}></p>
 		</>
 	);
 }

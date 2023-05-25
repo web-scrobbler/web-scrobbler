@@ -25,7 +25,6 @@ import {
 	enableConnector,
 	getCurrentTab,
 } from '@/core/background/util';
-import { getConnectorByUrl } from '@/util/util-connector';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 
 /**
@@ -70,42 +69,76 @@ export type NavigatorButtonGroup = {
  */
 export type Navigator = (NavigatorButton | NavigatorButtonGroup)[];
 
+export const accountItem: NavigatorNavigationButton = {
+	namei18n: 'optionsAccounts',
+	icon: ManageAccounts,
+	element: Accounts,
+};
+
+export const optionsItem: NavigatorNavigationButton = {
+	namei18n: 'optionsOptions',
+	icon: Settings,
+	element: OptionsComponent,
+};
+
+export const editOptionsItem: NavigatorNavigationButton = {
+	namei18n: 'optionsEdits',
+	icon: Edit,
+	element: EditOptions,
+};
+
+export const connectorOverrideOptionsItem: NavigatorNavigationButton = {
+	namei18n: 'optionsConnectors',
+	icon: Extension,
+	element: ConnectorOverrideOptions,
+};
+
+export const optionsGroup: NavigatorButtonGroup = {
+	namei18n: 'optionsOptions',
+	icon: Settings,
+	group: [optionsItem, editOptionsItem, connectorOverrideOptionsItem],
+};
+
+export const contactItem: NavigatorNavigationButton = {
+	namei18n: 'contactTitle',
+	icon: Contacts,
+	element: ContactComponent,
+};
+
+export const faqItem: NavigatorNavigationButton = {
+	namei18n: 'faqTitle',
+	icon: Help,
+	element: FAQ,
+};
+
+export const aboutItem: NavigatorNavigationButton = {
+	namei18n: 'optionsAbout',
+	icon: Info,
+	element: InfoComponent,
+};
+
+export const aboutGroup: NavigatorButtonGroup = {
+	namei18n: 'optionsAbout',
+	icon: Info,
+	group: [contactItem, faqItem, aboutItem],
+};
+
+export const showSomeLoveItem: NavigatorNavigationButton = {
+	namei18n: 'showSomeLoveTitle',
+	icon: Favorite,
+	element: ShowSomeLove,
+};
+
 /**
  * All the different options pages, their sidebar labels, and icons.
  */
 export const settings: Navigator = [
-	{ namei18n: 'optionsAccounts', icon: ManageAccounts, element: Accounts },
-	{
-		namei18n: 'optionsOptions',
-		icon: Settings,
-		group: [
-			{
-				namei18n: 'optionsOptions',
-				icon: Settings,
-				element: OptionsComponent,
-			},
-			{ namei18n: 'optionsEdits', icon: Edit, element: EditOptions },
-			{
-				namei18n: 'optionsConnectors',
-				icon: Extension,
-				element: ConnectorOverrideOptions,
-			},
-		],
-	},
-	{
-		namei18n: 'optionsAbout',
-		icon: Info,
-		group: [
-			{
-				namei18n: 'contactTitle',
-				icon: Contacts,
-				element: ContactComponent,
-			},
-			{ namei18n: 'faqTitle', icon: Help, element: FAQ },
-			{ namei18n: 'optionsAbout', icon: Info, element: InfoComponent },
-		],
-	},
-	{ namei18n: 'showSomeLoveTitle', icon: Favorite, element: ShowSomeLove },
+	accountItem,
+	optionsGroup,
+	aboutGroup,
+	// #v-ifndef VITE_SAFARI
+	showSomeLoveItem,
+	// #v-endif
 ];
 
 async function getToggleNavigators(): Promise<NavigatorActionButton[]> {

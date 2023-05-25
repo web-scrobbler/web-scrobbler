@@ -391,6 +391,10 @@
         "message": "You can find the list of contributors <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">right on the GitHub</a>",
         "description": "'About' section text"
     },
+    "contributorsContribute": {
+        "message": "Want to contribute? See all the ways you can contribute to the project at <a href=\"https://web-scrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
+        "description": "'About' section text"
+    },
     "showSomeLoveTitle": {
         "message": "Show some love",
         "description": "'Show some love' section"
