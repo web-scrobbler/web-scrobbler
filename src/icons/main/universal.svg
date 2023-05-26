@@ -7,7 +7,7 @@
    viewBox="0 0 128 128"
    version="1.1"
    id="svg8569"
-   sodipodi:docname="universal 2.svg"
+   sodipodi:docname="universal.svg"
    inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
@@ -240,7 +240,7 @@
      inkscape:deskcolor="#d1d1d1"
      showgrid="false"
      inkscape:zoom="3.2430926"
-     inkscape:cx="21.430162"
+     inkscape:cx="10.946342"
      inkscape:cy="61.052836"
      inkscape:window-width="1440"
      inkscape:window-height="764"
@@ -265,7 +265,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="all"
-     transform="matrix(1.0847458,0,0,1.0847458,-5.423729,-5.4237288)">
+     transform="matrix(0.91525424,0,0,0.91525424,5.4237286,5.4237288)">
     <g
        inkscape:groupmode="layer"
        id="layer1"
