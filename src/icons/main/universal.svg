@@ -244,7 +244,7 @@
      inkscape:cy="61.052836"
      inkscape:window-width="1440"
      inkscape:window-height="764"
-     inkscape:window-x="0"
+     inkscape:window-x="-1"
      inkscape:window-y="25"
      inkscape:window-maximized="0"
      inkscape:current-layer="layer2" />
@@ -265,7 +265,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="all"
-     transform="matrix(0.91525424,0,0,0.91525424,5.4237286,5.4237288)">
+     transform="matrix(1.0847458,0,0,1.0847458,-5.423729,-5.4237288)">
     <g
        inkscape:groupmode="layer"
        id="layer1"
