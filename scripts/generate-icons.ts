@@ -169,14 +169,18 @@ export default function generateIcons(): PluginOption {
 async function createUnmodifiedIcon(
 	folder: string,
 	path: string,
-	size: number
+	size: number,
+	margin?: number
 ): Promise<Buffer> {
 	const canvas = createCanvas(size, size);
 	const ctx = canvas.getContext('2d');
 	const image = await loadImage(resolve(input, folder, path));
-	image.width = size;
-	image.height = size;
-	ctx.drawImage(image, 0, 0, size, size);
+
+	const iconMargin = margin ?? 0;
+	const iconSize = size - iconMargin * 2;
+	image.width = iconSize;
+	image.height = iconSize;
+	ctx.drawImage(image, iconMargin, iconMargin, iconSize, iconSize);
 	return canvas.toBuffer();
 }
 
@@ -336,10 +340,12 @@ async function writeMonochromeIcon(
  */
 async function writeMainIcon(): Promise<void> {
 	const path = `${mainIconName()}.svg`;
+	const marginFactor = releaseTarget !== releaseTargets.safari ? 10 / 128 : 0;
 	for (const res of mainIconResolutions) {
+		const margin = res >= 128 ? res * marginFactor : 0;
 		await fs.writeFile(
 			resolve(output, `icon_main_${res}.png`),
-			await createUnmodifiedIcon('main', path, res)
+			await createUnmodifiedIcon('main', path, res, margin)
 		);
 	}
 }
