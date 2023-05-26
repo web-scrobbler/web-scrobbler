@@ -1,3 +1,6 @@
+// must be imported first to set env variables
+import './scripts/set-env';
+
 import { build } from 'vite';
 import * as configs from './vite.configs';
 import { mkdir } from 'fs/promises';
