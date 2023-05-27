@@ -15,6 +15,8 @@ export default function Err() {
 			<h1>{t('serviceErrorHeader')}</h1>
 			{/* eslint-disable-next-line */}
 			<p innerHTML={t('serviceErrorDesc')} />
+			{/* eslint-disable-next-line */}
+			<p innerHTML={t('serviceErrorAdblock')} />
 			<a
 				href={browser.runtime.getURL('src/ui/options/index.html')}
 				class={`${optionComponentStyles.linkButton} ${styles.centered}`}

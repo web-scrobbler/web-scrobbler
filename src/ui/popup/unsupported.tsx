@@ -11,6 +11,7 @@ export default function Unsupported() {
 			<SentimentDissatisfied class={styles.bigIcon} />
 			<h1>{t('unsupportedWebsiteHeader')}</h1>
 			<p>{t('unsupportedWebsiteDesc')}</p>
+			<p>{t('unsupportedWebsiteUpdateNote')}</p>
 			<p>
 				<span>{t('unsupportedWebsiteDesc2')} </span>
 				<a
