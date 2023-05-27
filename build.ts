@@ -67,7 +67,7 @@ async function main() {
 	}
 
 	if (releaseType === 'dist') {
-		createDistributable();
+		await createDistributable();
 	}
 }
 
