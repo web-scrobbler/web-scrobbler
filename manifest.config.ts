@@ -76,7 +76,7 @@ export const firefoxManifest: Manifest.WebExtensionManifest = {
 
 	browser_specific_settings: {
 		gecko: {
-			id: 'yayuyokitano@web-scrobbler.com',
+			id: '{799c0914-748b-41df-a25c-22d008f9e83f}',
 		},
 	},
 };
