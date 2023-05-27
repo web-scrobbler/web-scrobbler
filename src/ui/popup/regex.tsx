@@ -65,8 +65,7 @@ export default function Regex(props: {
 		<div
 			class={styles.regexContainer}
 			onKeyDown={(event) => {
-				console.log(event);
-				if (event.key === 'Enter') {
+				if (event.key === 'Enter' && !event.isComposing) {
 					saveEdit(props.tab);
 				}
 			}}

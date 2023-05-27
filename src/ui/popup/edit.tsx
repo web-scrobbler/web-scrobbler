@@ -136,7 +136,10 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 						<div
 							class={styles.songDetails}
 							onKeyDown={(event) => {
-								if (event.key === 'Enter') {
+								if (
+									event.key === 'Enter' &&
+									!event.isComposing
+								) {
 									saveEdit(tab, clonedSong, {
 										artist: artist(),
 										track: track(),
