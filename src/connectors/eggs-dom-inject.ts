@@ -1,37 +1,35 @@
-export {};
-
 /*
  * This script runs in non-isolated environment(eggs.mu itself)
  * for accessing window variables
  */
 
-const isArtistPage = window.location.href.includes('/artist/');
-let frameID = '';
-let currentTime = 0;
-let duration = 0;
+const eggsIsArtistPage = window.location.href.includes('/artist/');
+let eggsFrameID = '';
+let eggsCurrentTime = 0;
+let eggsDuration = 0;
 
-let videoId: string | undefined = '';
+let eggsVideoId: string | undefined = '';
 
-if (isArtistPage) {
-	const observer = new MutationObserver(toggleExternalPlayer);
+if (eggsIsArtistPage) {
+	const observer = new MutationObserver(eggsToggleExternalPlayer);
 
 	observer.observe(document.body, { childList: true });
 } else {
 	if ('player' in window) {
 		(window.player as any).addEventListener(
 			'onStateChange',
-			onYoutubeSongStateChange
+			eggsOnYoutubeSongStateChange
 		);
 	}
 }
 
-function toggleExternalPlayer(mutationList: MutationRecord[]) {
+function eggsToggleExternalPlayer(mutationList: MutationRecord[]) {
 	const removedList = mutationList[0].removedNodes;
 
 	if (removedList.length) {
 		// external player has been started
 		if ((removedList[0] as HTMLElement).id === 'fancybox-loading') {
-			replaceYoutubeVideo();
+			eggsReplaceYoutubeVideo();
 			return null;
 		}
 		// external player has been closed
@@ -40,25 +38,25 @@ function toggleExternalPlayer(mutationList: MutationRecord[]) {
 				'fancybox-overlay'
 			)
 		) {
-			onYoutubeClose();
+			eggsOnYoutubeClose();
 			return null;
 		}
 	}
 }
 
-function replaceYoutubeVideo() {
+function eggsReplaceYoutubeVideo() {
 	const videoFrame = document.querySelector(
 		'.fancybox-inner iframe'
 	) as HTMLIFrameElement;
-	videoId = videoFrame.src.split('/').pop()?.split('?')[0];
+	eggsVideoId = videoFrame.src.split('/').pop()?.split('?')[0];
 
 	videoFrame.src += '&enablejsapi=1&widgetid=1';
-	frameID = videoFrame.id;
+	eggsFrameID = videoFrame.id;
 
 	videoFrame.addEventListener('load', function () {
 		let message = JSON.stringify({
 			event: 'listening',
-			id: frameID,
+			id: eggsFrameID,
 			channel: 'widget',
 		});
 		videoFrame.contentWindow &&
@@ -71,7 +69,7 @@ function replaceYoutubeVideo() {
 			event: 'command',
 			func: 'addEventListener',
 			args: ['onStateChange'],
-			id: frameID,
+			id: eggsFrameID,
 			channel: 'widget',
 		});
 		videoFrame.contentWindow &&
@@ -89,16 +87,16 @@ window.addEventListener('message', (event) => {
 	const data = JSON.parse(event.data);
 	switch (data.event) {
 		case 'onStateChange':
-			onYoutubeStateChange(data);
+			eggsOnYoutubeStateChange(data);
 			break;
 		case 'infoDelivery':
-			getTimestamps(data);
+			eggsGetTimestamps(data);
 			break;
 	}
 });
 
-function onYoutubeStateChange(data: any) {
-	const currentPlayer = document.querySelector(`a[href*="${videoId}"]`);
+function eggsOnYoutubeStateChange(data: any) {
+	const currentPlayer = document.querySelector(`a[href*="${eggsVideoId}"]`);
 	const parentElmt =
 		(currentPlayer && currentPlayer.closest('li')) || document;
 	const playerTypeSuffix = data.info === -1 ? 'start' : '';
@@ -109,15 +107,15 @@ function onYoutubeStateChange(data: any) {
 			playerType: `youtube${playerTypeSuffix}`,
 			isPlaying: data.info === 1,
 			timeInfo: {
-				currentTime: currentTime || 0,
-				duration,
+				currentTime: eggsCurrentTime || 0,
+				eggsDuration,
 			},
 			trackInfo: {
 				artist: parentElmt.querySelector(
-					`.artist_name${isArtistPage ? '' : ' a'}`
+					`.artist_name${eggsIsArtistPage ? '' : ' a'}`
 				)?.textContent,
 				track: parentElmt.querySelector(
-					`.product_name${isArtistPage ? ' a' : ' p'}`
+					`.product_name${eggsIsArtistPage ? ' a' : ' p'}`
 				)?.textContent,
 			},
 		},
@@ -125,8 +123,8 @@ function onYoutubeStateChange(data: any) {
 	);
 }
 
-function onYoutubeClose() {
-	const currentPlayer = document.querySelector(`a[href*="${videoId}"]`);
+function eggsOnYoutubeClose() {
+	const currentPlayer = document.querySelector(`a[href*="${eggsVideoId}"]`);
 	const parentElmt =
 		(currentPlayer && currentPlayer.closest('li')) || document;
 	window.postMessage(
@@ -135,15 +133,15 @@ function onYoutubeClose() {
 			playerType: 'youtube',
 			isPlaying: false,
 			timeInfo: {
-				currentTime,
-				duration,
+				eggsCurrentTime,
+				eggsDuration,
 			},
 			trackInfo: {
 				artist: parentElmt.querySelector(
-					`.artist_name${isArtistPage ? '' : ' a'}`
+					`.artist_name${eggsIsArtistPage ? '' : ' a'}`
 				)?.textContent,
 				track: parentElmt.querySelector(
-					`.product_name${isArtistPage ? ' a' : ' p'}`
+					`.product_name${eggsIsArtistPage ? ' a' : ' p'}`
 				)?.textContent,
 			},
 		},
@@ -151,8 +149,8 @@ function onYoutubeClose() {
 	);
 }
 
-function onYoutubeSongStateChange(event: any) {
-	const currentPlayer = document.querySelector(`a[href*="${videoId}"]`);
+function eggsOnYoutubeSongStateChange(event: any) {
+	const currentPlayer = document.querySelector(`a[href*="${eggsVideoId}"]`);
 	const parentElmt =
 		(currentPlayer && currentPlayer.closest('li')) || document;
 	const playerTypeSuffix = event.data === -1 ? 'start' : '';
@@ -168,10 +166,10 @@ function onYoutubeSongStateChange(event: any) {
 			},
 			trackInfo: {
 				artist: parentElmt.querySelector(
-					`.artist_name${isArtistPage ? '' : ' a'}`
+					`.artist_name${eggsIsArtistPage ? '' : ' a'}`
 				)?.textContent,
 				track: parentElmt.querySelector(
-					`.product_name${isArtistPage ? ' a' : ' p'}`
+					`.product_name${eggsIsArtistPage ? ' a' : ' p'}`
 				)?.textContent,
 			},
 		},
@@ -179,13 +177,13 @@ function onYoutubeSongStateChange(event: any) {
 	);
 }
 
-function getTimestamps(data: any) {
+function eggsGetTimestamps(data: any) {
 	if (data.info) {
 		if (data.info.currentTime) {
-			currentTime = data.info.currentTime;
+			eggsCurrentTime = data.info.currentTime;
 		}
 		if (data.info.duration) {
-			duration = data.info.duration;
+			eggsDuration = data.info.duration;
 		}
 	}
 }

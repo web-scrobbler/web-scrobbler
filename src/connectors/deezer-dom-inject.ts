@@ -1,8 +1,6 @@
-export {};
+deezerInitConnector();
 
-initConnector();
-
-function initConnector() {
+function deezerInitConnector() {
 	let retries = 0;
 	if (
 		'dzPlayer' in window &&
@@ -10,10 +8,10 @@ function initConnector() {
 		'Events' in window &&
 		window.Events
 	) {
-		addEventListeners();
+		deezerAddEventListeners();
 	} else if (retries < 6) {
 		window.setTimeout(function () {
-			initConnector();
+			deezerInitConnector();
 			retries++;
 		}, 1007);
 	} else {
@@ -21,32 +19,32 @@ function initConnector() {
 	}
 }
 
-function addEventListeners() {
+function deezerAddEventListeners() {
 	if (!('Events' in window)) {
 		return;
 	}
 	const ev = window.Events as any;
-	ev.subscribe(ev.player.play, sendEvent);
-	ev.subscribe(ev.player.playing, sendEvent);
-	ev.subscribe(ev.player.paused, sendEvent);
-	ev.subscribe(ev.player.resume, sendEvent);
-	ev.subscribe(ev.player.finish, sendEvent);
+	ev.subscribe(ev.player.play, deezerSendEvent);
+	ev.subscribe(ev.player.playing, deezerSendEvent);
+	ev.subscribe(ev.player.paused, deezerSendEvent);
+	ev.subscribe(ev.player.resume, deezerSendEvent);
+	ev.subscribe(ev.player.finish, deezerSendEvent);
 }
 
-function sendEvent() {
+function deezerSendEvent() {
 	window.postMessage(
 		{
 			sender: 'web-scrobbler',
 			type: 'DEEZER_STATE',
-			trackInfo: getCurrentMediaInfo(),
-			isPlaying: isPlaying(),
-			isPodcast: isPodcast(),
+			trackInfo: deezerGetCurrentMediaInfo(),
+			isPlaying: deezerIsPlaying(),
+			isPodcast: deezerIsPodcast(),
 		},
 		'*'
 	);
 }
 
-function getCurrentMediaInfo() {
+function deezerGetCurrentMediaInfo() {
 	if (!('dzPlayer' in window)) {
 		return;
 	}
@@ -72,12 +70,12 @@ function getCurrentMediaInfo() {
 
 	switch (mediaType) {
 		case 'episode': {
-			trackInfo = getEpisodeInfo(currentMedia);
+			trackInfo = deezerGetEpisodeInfo(currentMedia);
 			break;
 		}
 
 		case 'song': {
-			trackInfo = getTrackInfo(currentMedia);
+			trackInfo = deezerGetTrackInfo(currentMedia);
 			break;
 		}
 	}
@@ -95,7 +93,7 @@ function getCurrentMediaInfo() {
 	return trackInfo;
 }
 
-function getTrackInfo(currentMedia: any) {
+function deezerGetTrackInfo(currentMedia: any) {
 	let trackTitle = currentMedia.SNG_TITLE;
 	const trackVersion = currentMedia.VERSION;
 	if (trackVersion) {
@@ -107,11 +105,11 @@ function getTrackInfo(currentMedia: any) {
 		track: trackTitle,
 		album: currentMedia.ALB_TITLE,
 		uniqueID: currentMedia.SNG_ID,
-		trackArt: getTrackArt(currentMedia.ALB_PICTURE),
+		trackArt: deezerGetTrackArt(currentMedia.ALB_PICTURE),
 	};
 }
 
-function getEpisodeInfo(currentMedia: any) {
+function deezerGetEpisodeInfo(currentMedia: any) {
 	return {
 		artist: currentMedia.SHOW_NAME,
 		track: currentMedia.EPISODE_TITLE,
@@ -119,14 +117,14 @@ function getEpisodeInfo(currentMedia: any) {
 	};
 }
 
-function isPlaying() {
+function deezerIsPlaying() {
 	if (!('dzPlayer' in window)) {
 		return;
 	}
 	return (window.dzPlayer as any).isPlaying();
 }
 
-function isPodcast() {
+function deezerIsPodcast() {
 	if (!('dzPlayer' in window)) {
 		return;
 	}
@@ -134,6 +132,6 @@ function isPodcast() {
 	return currentMedia.__TYPE__ === 'episode';
 }
 
-function getTrackArt(pic: string) {
+function deezerGetTrackArt(pic: string) {
 	return `https://e-cdns-images.dzcdn.net/images/cover/${pic}/264x264-000000-80-0-0.jpg`;
 }

@@ -1,6 +1,4 @@
-export {};
-
-function getTrackInfo(track: any, currentTime: number) {
+function sberGetTrackInfo(track: any, currentTime: number) {
 	const { title, credits, duration, id, image, release_title: album } = track;
 	const trackArt = image.src.replace('{size}', '400x400');
 
@@ -15,7 +13,7 @@ function getTrackInfo(track: any, currentTime: number) {
 	};
 }
 
-function queueEvent(event: any) {
+function sberQueueEvent(event: any) {
 	let type = null;
 	let queue;
 
@@ -40,7 +38,7 @@ function queueEvent(event: any) {
 			return;
 	}
 
-	const trackInfo = getTrackInfo(
+	const trackInfo = sberGetTrackInfo(
 		queue.currentTrack,
 		queue.Player.currentTime
 	);
@@ -55,8 +53,8 @@ function queueEvent(event: any) {
 	);
 }
 
-function setupEventListeners() {
-	(window as any).newPlayer.$mobx.observe(queueEvent);
+function sberSetupEventListeners() {
+	(window as any).newPlayer.$mobx.observe(sberQueueEvent);
 }
 
-setupEventListeners();
+sberSetupEventListeners();
