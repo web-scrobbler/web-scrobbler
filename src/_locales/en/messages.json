@@ -475,6 +475,10 @@
         "message": "Looks like something went wrong while scrobbling the music. Please open the options page and try to reauthenticate with services. If reauthentication doesn't help, and you still see this message, please create <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">a new issue</a> at the GitHub project page.",
         "description": "The description of service error"
     },
+    "serviceErrorAdblock": {
+        "message": "Note that some adblockers may interfere with the extension. If you have any adblocker installed, try to disable it and see if it helps. If you are using uBlock Origin, you can add an exception for last.fm by adding <code>@@||ws.audioscrobbler.com</code> under \"My filters\" tab. Other adblockers may have similar functionality.",
+        "description": "The description of service error"
+    },
     "disabledSiteHeader": {
         "message": "This website is turned off",
         "description": "The header of 'disabled' popup"
@@ -497,6 +501,10 @@
     },
     "unsupportedWebsiteDesc2": {
         "message": "Some Google websites supported by the extension (e.g. Google Play Music, YouTube) can be blocked due to an ExtensionSettings policy.",
+        "description": "The description of 'unsupported' popup"
+    },
+    "unsupportedWebsiteUpdateNote": {
+        "message": "If the extension recently updated sites may show as unsupported until you refresh the page.",
         "description": "The description of 'unsupported' popup"
     },
     "infoLove": {
