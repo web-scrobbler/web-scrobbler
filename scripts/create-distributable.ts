@@ -9,6 +9,7 @@ async function createSafariDistributable() {
 }
 
 async function createSrcArchive() {
+	colorLog('Creating src archive', 'info');
 	const curDir = path.resolve(path.dirname(''));
 	const outputFile = `${curDir}/web-scrobbler-src.zip`;
 
@@ -28,7 +29,8 @@ async function createSrcArchive() {
 			ignore: ['web-scrobbler-*.zip', '*/'],
 		});
 
-	archive.finalize();
+	await archive.finalize();
+	colorLog('Created src archive', 'success');
 }
 
 export default async function createDistributable() {
@@ -37,6 +39,7 @@ export default async function createDistributable() {
 		return;
 	}
 
+	colorLog(`Creating distributable for ${releaseTarget}`, 'info');
 	const curDir = path.resolve(path.dirname(''));
 	const outputFile = `${curDir}/web-scrobbler-${releaseTarget}.zip`;
 	const output = fs.createWriteStream(outputFile);
@@ -48,7 +51,8 @@ export default async function createDistributable() {
 	archive.pipe(output);
 
 	archive.directory(`build/${releaseTarget}`, false);
-	archive.finalize();
+	await archive.finalize();
+	colorLog(`Created distributable for ${releaseTarget}`, 'success');
 
 	if (releaseTarget === 'firefox') {
 		await createSrcArchive();
