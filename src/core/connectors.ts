@@ -1204,7 +1204,7 @@ export default <ConnectorMeta[]>[
 	{
 		label: 'Apple Music',
 		matches: ['*://*music.apple.com/*'],
-		js: 'apple-music.js',
+		js: 'musickit.js',
 		id: 'apple-music',
 	},
 	{

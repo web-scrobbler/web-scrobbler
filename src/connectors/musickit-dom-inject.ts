@@ -11,18 +11,23 @@ if ('MusicKit' in window && window.MusicKit) {
 
 function musicKitAddEventListeners() {
 	const Events = (window as any).MusicKit.Events;
-	musicKitPlayer().addEventListener(
+	musicKitInstance().addEventListener(
 		Events.metadataDidChange,
 		musicKitSendEvent
 	);
-	musicKitPlayer().addEventListener(
+	musicKitInstance().addEventListener(
 		Events.playbackStateDidChange,
+		musicKitSendEvent
+	);
+	musicKitInstance().addEventListener(
+		Events.nowPlayingItemDidChange,
 		musicKitSendEvent
 	);
 }
 
-function musicKitPlayer() {
-	return (window as any).MusicKit.getInstance().player;
+function musicKitInstance() {
+	const api = (window as any).MusicKit;
+	return api.getInstance().player ?? api.getInstance();
 }
 
 function musicKitSendEvent() {
@@ -38,18 +43,22 @@ function musicKitSendEvent() {
 }
 
 function musicKitGetTrackInfo() {
-	const item = musicKitPlayer().nowPlayingItem;
+	const item = musicKitInstance().nowPlayingItem;
 	return {
 		album: item.albumName,
 		track: item.title,
 		artist: item.artistName,
-		trackArt: item.artworkURL,
-		duration: musicKitPlayer().currentPlaybackDuration,
+		trackArt: musicKitArtwork(item.artworkURL),
+		duration: musicKitInstance().currentPlaybackDuration,
 		uniqueID: item.id,
-		currentTime: musicKitPlayer().currentPlaybackTime,
+		currentTime: musicKitInstance().currentPlaybackTime,
 	};
 }
 
+function musicKitArtwork(url: string) {
+	return url.replace('{w}x{h}bb', '256x256bb');
+}
+
 function musicKitIsPlaying() {
-	return musicKitPlayer().isPlaying;
+	return musicKitInstance().isPlaying;
 }
