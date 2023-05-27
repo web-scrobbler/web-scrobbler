@@ -1,27 +1,25 @@
-export {};
-
 const YandexAPI = (window as any).externalAPI;
 
-setupListeners();
+yandexSetupListeners();
 
-function setupListeners() {
-	YandexAPI.on(YandexAPI.EVENT_STATE, onEvent);
-	YandexAPI.on(YandexAPI.EVENT_TRACK, onEvent);
+function yandexSetupListeners() {
+	YandexAPI.on(YandexAPI.EVENT_STATE, yandexOnEvent);
+	YandexAPI.on(YandexAPI.EVENT_TRACK, yandexOnEvent);
 }
 
-function onEvent() {
+function yandexOnEvent() {
 	window.postMessage(
 		{
 			sender: 'web-scrobbler',
 			type: 'YANDEX_MUSIC_STATE',
-			trackInfo: getTrackInfo(),
+			trackInfo: yandexGetTrackInfo(),
 			isPlaying: YandexAPI.isPlaying(),
 		},
 		'*'
 	);
 }
 
-function getTrackInfo() {
+function yandexGetTrackInfo() {
 	const trackInfo = YandexAPI.getCurrentTrack();
 
 	const track = trackInfo.title;
