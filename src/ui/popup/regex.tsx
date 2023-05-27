@@ -62,7 +62,15 @@ export default function Regex(props: {
 	tab: Resource<ManagerTab>;
 }) {
 	return (
-		<div class={styles.regexContainer}>
+		<div
+			class={styles.regexContainer}
+			onKeyDown={(event) => {
+				console.log(event);
+				if (event.key === 'Enter') {
+					saveEdit(props.tab);
+				}
+			}}
+		>
 			<Show when={!isIos()}>
 				<span class={styles.searchLabel}>{t('infoSearchLabel')}</span>
 				<span class={styles.replaceLabel}>{t('infoReplaceLabel')}</span>

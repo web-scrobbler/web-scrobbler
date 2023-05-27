@@ -133,7 +133,19 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 							/>
 							<Squircle id="coverArtClip" />
 						</a>
-						<div class={styles.songDetails}>
+						<div
+							class={styles.songDetails}
+							onKeyDown={(event) => {
+								if (event.key === 'Enter') {
+									saveEdit(tab, clonedSong, {
+										artist: artist(),
+										track: track(),
+										album: album() || null,
+										albumArtist: albumArtist() || null,
+									});
+								}
+							}}
+						>
 							<input
 								class={styles.editField}
 								type="text"
