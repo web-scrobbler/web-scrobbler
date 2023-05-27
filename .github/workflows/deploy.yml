@@ -5,6 +5,9 @@ on:
     tags:
       - 'v*.*.*'
 
+env:
+  ACTIONS_STEP_DEBUG: true
+
 jobs:
   deploy-chrome:
     name: Deploy Chrome extension
