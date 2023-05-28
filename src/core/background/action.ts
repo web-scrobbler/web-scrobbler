@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill';
-import { contextMenus, getBrowserPreferredTheme, getCurrentTab } from './util';
+import { contextMenus, getBrowserPreferredTheme } from './util';
 import { sendPopupMessage } from '@/util/communication';
 import { ManagerTab } from '@/core/storage/wrapper';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
@@ -22,13 +22,6 @@ export async function performUpdateAction(tab: ManagerTab) {
 
 	await updateMenus(tab);
 	setAction(tab);
-}
-
-/**
- * Fetches the tab to update action state from, and then updates the action state
- */
-export async function updateAction() {
-	await getCurrentTab();
 }
 
 /**

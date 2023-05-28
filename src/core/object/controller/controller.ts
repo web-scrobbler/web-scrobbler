@@ -52,6 +52,22 @@ export const controllerModePriority: ControllerModeStr[][] = [
 	],
 ];
 
+/**
+ * Priorities of each state as an object
+ */
+export const controllerModePriorityObject: Record<ControllerModeStr, number> = {
+	[ControllerMode.Base]: 0,
+	[ControllerMode.Skipped]: 0,
+	[ControllerMode.Disabled]: 0,
+	[ControllerMode.Unsupported]: 0,
+	[ControllerMode.Playing]: 1,
+	[ControllerMode.Scrobbled]: 1,
+	[ControllerMode.Loading]: 2,
+	[ControllerMode.Unknown]: 3,
+	[ControllerMode.Ignored]: 4,
+	[ControllerMode.Err]: 4,
+};
+
 type updateEvent = {
 	updateEditStatus: (isEditing: boolean) => void;
 };
@@ -145,6 +161,13 @@ export default class Controller {
 			contentListener({
 				type: 'disableConnectorUntilTabIsClosed',
 				fn: () => this.disableUntilTabIsClosed(),
+			}),
+			contentListener({
+				type: 'getConnectorDetails',
+				fn: () => ({
+					mode: this.mode,
+					song: this.currentSong?.getCloneableData() ?? null,
+				}),
 			})
 		);
 	}

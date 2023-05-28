@@ -1,10 +1,8 @@
-import { getConnectorByUrl } from '@/util/util-connector';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import { ManagerTab } from '@/core/storage/wrapper';
 import {
 	backgroundListener,
-	sendBackgroundMessage,
 	setupBackgroundListeners,
 } from '@/util/communication';
 import browser from 'webextension-polyfill';
@@ -12,16 +10,21 @@ import {
 	DEFAULT_STATE,
 	contextMenus,
 	getState,
-	filterAsync,
 	filterInactiveTabs,
-	getCurrentTab,
 	setState,
 	unlockState,
 	enableConnector,
 	disableConnector,
 	disableUntilClosed,
+	updateTabsFromTabList,
+	getCurrentTab,
+	getActiveTabDetails,
+	getCurrentTabId,
 } from './util';
-import { ControllerModeStr } from '@/core/object/controller/controller';
+import {
+	ControllerModeStr,
+	controllerModePriorityObject,
+} from '@/core/object/controller/controller';
 import { CloneableSong } from '@/core/object/song';
 import {
 	clearNowPlaying,
@@ -30,7 +33,6 @@ import {
 } from '@/util/notifications';
 import ClonedSong from '@/core/object/cloned-song';
 import { openTab } from '@/util/util-browser';
-import { updateAction } from './action';
 import { setRegexDefaults } from '@/util/regex';
 
 const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
@@ -38,9 +40,9 @@ const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
 // Set up listeners. These must all be synchronously set up at startup time (Manifest V3 service worker)
 browser.runtime.onStartup.addListener(startupFunc);
 browser.runtime.onInstalled.addListener(startupFunc);
-browser.tabs.onRemoved.addListener(onRemovedUpdate);
-browser.tabs.onUpdated.addListener(updateTabList);
-browser.tabs.onActivated.addListener(onActivatedUpdate);
+browser.tabs.onRemoved.addListener(onTabRemoved);
+browser.tabs.onUpdated.addListener(onTabUpdated);
+browser.tabs.onActivated.addListener(onTabActivated);
 browser.contextMenus?.onClicked.addListener(contextMenuHandler);
 
 /**
@@ -48,14 +50,16 @@ browser.contextMenus?.onClicked.addListener(contextMenuHandler);
  *
  * @param tabId - tab ID of closed tab
  */
-async function onRemovedUpdate(tabId: number) {
+async function onTabRemoved(tabId: number) {
 	const curState = await getState();
 
+	const filteredTabs = await filterInactiveTabs(curState.activeTabs);
 	await setState({
-		activeTabs: await filterInactiveTabs(curState.activeTabs),
+		activeTabs: filteredTabs,
 		browserPreferredTheme: curState.browserPreferredTheme,
 	});
-	updateAction();
+	const newActiveTab = await getCurrentTabId();
+	updateTabsFromTabList(filteredTabs, newActiveTab);
 
 	const tabs = await disabledTabs.get();
 	if (tabs?.[tabId]) {
@@ -69,10 +73,10 @@ async function onRemovedUpdate(tabId: number) {
  *
  * @param activeInfo - Information about the switch of tabs
  */
-async function onActivatedUpdate(
+async function onTabActivated(
 	activeInfo: browser.Tabs.OnActivatedActiveInfoType
 ) {
-	await updateTabList(activeInfo.tabId);
+	await updateTabList(activeInfo.tabId, true);
 }
 
 /**
@@ -80,36 +84,53 @@ async function onActivatedUpdate(
  * We generally want information about more recently used tabs displayed first.
  *
  * @param tabId - currently active tab.
- * @param _ - unused
+ * @param changeInfo - information about the change in tab.
  * @param tab - currently active tab details, if they exist.
  */
-async function updateTabList(tabId: number, _?: any, tab?: browser.Tabs.Tab) {
+async function onTabUpdated(
+	tabId: number,
+	changeInfo: browser.Tabs.OnUpdatedChangeInfoType,
+	tab?: browser.Tabs.Tab
+) {
+	if (tab?.active && changeInfo.status === 'complete') {
+		await updateTabList(tabId, false);
+	}
+}
+
+/**
+ * Update the active tabs list to reflect the order of priority.
+ * We generally want information about more recently used tabs displayed first.
+ *
+ * @param tabId - currently active tab.
+ * @param activated - whether the tab was just activated or not.
+ */
+async function updateTabList(tabId: number, activated: boolean) {
 	const curState = await getState();
-	let curTab: ManagerTab = {
-		tabId,
-		mode: ControllerMode.Unsupported,
-		song: null,
-	};
-	let newTabs =
-		(await filterAsync(curState.activeTabs, async (active) => {
-			if (active.tabId !== tabId) {
-				return true;
-			}
+	let newTabs = activated
+		? curState.activeTabs.filter((active) => active.tabId !== tabId)
+		: curState.activeTabs;
 
-			const connector = await getConnectorByUrl(tab?.url ?? '');
-			if (!tab || connector) {
-				curTab = active;
-			}
-			return false;
-		})) ?? [];
+	const curTab = await getActiveTabDetails(newTabs, tabId);
 
-	newTabs = [curTab, ...newTabs];
+	if (
+		controllerModePriorityObject[curTab.mode] !== 0 &&
+		curTab.tabId === tabId
+	) {
+		if (activated) {
+			newTabs = [curTab, ...newTabs];
+		} else {
+			newTabs = newTabs.map((active) =>
+				active.tabId === tabId ? curTab : active
+			);
+		}
+	}
+	const filteredTabs = await filterInactiveTabs(newTabs);
 
 	await setState({
-		activeTabs: await filterInactiveTabs(newTabs),
+		activeTabs: filteredTabs,
 		browserPreferredTheme: curState.browserPreferredTheme,
 	});
-	updateAction();
+	updateTabsFromTabList(filteredTabs, tabId);
 }
 
 /**
@@ -142,22 +163,23 @@ async function updateTab(
 				activeTabs,
 				browserPreferredTheme: curState.browserPreferredTheme,
 			});
-			updateAction();
+			updateTabsFromTabList(activeTabs, tabId);
 			return;
 		}
 		performedSet = true;
+		const newTabs = [
+			fn({
+				tabId,
+				mode: ControllerMode.Unsupported,
+				song: null,
+			}),
+			...activeTabs,
+		];
 		await setState({
-			activeTabs: [
-				fn({
-					tabId,
-					mode: ControllerMode.Unsupported,
-					song: null,
-				}),
-				...activeTabs,
-			],
+			activeTabs: newTabs,
 			browserPreferredTheme: curState.browserPreferredTheme,
 		});
-		updateAction();
+		updateTabsFromTabList(activeTabs, tabId);
 	} catch (err) {
 		if (!performedSet) {
 			unlockState();
