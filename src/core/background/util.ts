@@ -3,7 +3,10 @@ import { ManagerTab, StateManagement } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import * as BrowserStorage from '@/core/storage/browser-storage';
-import { controllerModePriority } from '@/core/object/controller/controller';
+import {
+	controllerModePriority,
+	controllerModePriorityObject,
+} from '@/core/object/controller/controller';
 import { performUpdateAction } from './action';
 import { sendBackgroundMessage } from '@/util/communication';
 
@@ -104,14 +107,19 @@ export async function getActiveTabDetails(
 	tabs: ManagerTab[],
 	tabId?: number
 ): Promise<ManagerTab> {
-	const tab = getPriorityTabDetails(tabs);
-	if (tab) {
-		return tab;
-	}
+	const tab = getPriorityTabDetails(tabs, tabId);
 	if (!tabId) {
 		tabId = await getCurrentTabId();
 	}
-	return getTabDetails(tabId);
+	const curTab = await getTabDetails(tabId);
+	if (
+		tab &&
+		controllerModePriorityObject[tab.mode] >
+			controllerModePriorityObject[curTab.mode]
+	) {
+		return tab;
+	}
+	return curTab;
 }
 
 /**
@@ -148,14 +156,25 @@ async function getTabDetails(tabId: number): Promise<ManagerTab> {
  * Get the highest priority priority tab for action state.
  * This tab will be prioritized over the active tab.
  * @param tabs - list of priority tabs from state
+ * @param tabId - Currently active tab id if known
  * @returns the tab that is the current priority for action state
  */
-function getPriorityTabDetails(tabs: ManagerTab[]): ManagerTab | null {
+function getPriorityTabDetails(
+	tabs: ManagerTab[],
+	tabId?: number
+): ManagerTab | null {
 	for (const priorityGroup of controllerModePriority.slice(0, -1)) {
+		let toReturn: ManagerTab | null = null;
 		for (const tab of tabs) {
 			if (priorityGroup.includes(tab.mode)) {
-				return tab;
+				if (tabId && tab.tabId === tabId) {
+					return tab;
+				}
+				toReturn = tab;
 			}
+		}
+		if (toReturn) {
+			return toReturn;
 		}
 	}
 	return null;

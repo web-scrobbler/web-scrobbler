@@ -53,15 +53,19 @@ export const controllerModePriority: ControllerModeStr[][] = [
 ];
 
 /**
- * States of lowest priority.
+ * Priorities of each state as an object
  */
-export const controllerModeLowestPriority: Partial<
-	Record<ControllerModeStr, true>
-> = {
-	[ControllerMode.Base]: true,
-	[ControllerMode.Skipped]: true,
-	[ControllerMode.Disabled]: true,
-	[ControllerMode.Unsupported]: true,
+export const controllerModePriorityObject: Record<ControllerModeStr, number> = {
+	[ControllerMode.Base]: 0,
+	[ControllerMode.Skipped]: 0,
+	[ControllerMode.Disabled]: 0,
+	[ControllerMode.Unsupported]: 0,
+	[ControllerMode.Playing]: 1,
+	[ControllerMode.Scrobbled]: 1,
+	[ControllerMode.Loading]: 2,
+	[ControllerMode.Unknown]: 3,
+	[ControllerMode.Ignored]: 4,
+	[ControllerMode.Err]: 4,
 };
 
 type updateEvent = {
