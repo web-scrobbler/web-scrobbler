@@ -1,6 +1,7 @@
 import { t } from '@/util/i18n';
 import SentimentDissatisfied from '@suid/icons-material/SentimentDissatisfiedOutlined';
 import styles from './popup.module.scss';
+import { PopupAnchor } from '../components/util';
 
 /**
  * Info to show when the user is on a website not supported by web scrobbler
@@ -14,13 +15,9 @@ export default function Unsupported() {
 			<p>{t('unsupportedWebsiteUpdateNote')}</p>
 			<p>
 				<span>{t('unsupportedWebsiteDesc2')} </span>
-				<a
-					target="_blank"
-					rel="noopener noreferrer"
-					href="https://cloud.google.com/docs/chrome-enterprise/policies/?policy=ExtensionSettings"
-				>
+				<PopupAnchor href="https://cloud.google.com/docs/chrome-enterprise/policies/?policy=ExtensionSettings">
 					{t('learnMoreLabel')}
-				</a>
+				</PopupAnchor>
 			</p>
 		</div>
 	);

@@ -2,6 +2,7 @@ import { t } from '@/util/i18n';
 import MusicNote from '@suid/icons-material/MusicNoteOutlined';
 import styles from './popup.module.scss';
 import ExpandMore from '@suid/icons-material/ExpandMoreOutlined';
+import { TPopupAnchor } from '../components/util';
 
 /**
  * Info to be shown on a recognized website before anything is played.
@@ -17,8 +18,9 @@ export default function Base() {
 					{t('getStartedSubheader')}
 				</summary>
 				<p>{t('getStartedSiteChanged')}</p>
-				{/* eslint-disable-next-line */}
-				<p innerHTML={t('getStartedSubmitIssue')} />
+				<p>
+					<TPopupAnchor messageName="getStartedSubmitIssue" />
+				</p>
 			</details>
 		</div>
 	);

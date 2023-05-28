@@ -1,5 +1,5 @@
 import browser from 'webextension-polyfill';
-import { getExtensionVersion } from './util-browser';
+import { getExtensionVersion } from '@/util/util-browser';
 
 /**
  * Gets localized string from locale.

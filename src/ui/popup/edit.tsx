@@ -22,7 +22,7 @@ import PublishedWithChanges from '@suid/icons-material/PublishedWithChangesOutli
 import { sendBackgroundMessage } from '@/util/communication';
 import savedEdits from '@/core/storage/saved-edits';
 import Regex, { RegexEditContextMenu } from './regex';
-import { Squircle, isIos } from '../components/util';
+import { PopupAnchor, Squircle, isIos } from '../components/util';
 import {
 	Navigator,
 	getMobileNavigatorGroup,
@@ -110,7 +110,7 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 						<Regex clonedSong={clonedSong} tab={tab} />
 					</Match>
 					<Match when={!isRegex()}>
-						<a
+						<PopupAnchor
 							class={styles.coverArtWrapper}
 							href={
 								clonedSong.getTrackArt() ??
@@ -118,8 +118,6 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 									'img/cover_art_default.png'
 								)
 							}
-							target="_blank"
-							rel="noopener noreferrer"
 							title={t('infoOpenAlbumArt')}
 						>
 							<img
@@ -132,7 +130,7 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 								}
 							/>
 							<Squircle id="coverArtClip" />
-						</a>
+						</PopupAnchor>
 						<div
 							class={styles.songDetails}
 							onKeyDown={(event) => {
