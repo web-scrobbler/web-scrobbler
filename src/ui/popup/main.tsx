@@ -24,7 +24,7 @@ import Settings from '@suid/icons-material/SettingsOutlined';
 import browser from 'webextension-polyfill';
 import styles from './popup.module.scss';
 import { t } from '@/util/i18n';
-import { isIos } from '../components/util';
+import { PopupAnchor, isIos } from '../components/util';
 import ContextMenu from '../components/context-menu/context-menu';
 import {
 	Navigator,
@@ -120,15 +120,13 @@ function Popup() {
 			</Switch>
 
 			<Show when={!settingModes.includes(tab()?.mode ?? '') && !isIos()}>
-				<a
+				<PopupAnchor
 					href={browser.runtime.getURL('src/ui/options/index.html')}
 					class={styles.settingsIcon}
-					target="_blank"
 					title={t('disabledSiteButton')}
-					rel="noopener noreferrer"
 				>
 					<Settings />
-				</a>
+				</PopupAnchor>
 			</Show>
 		</>
 	);

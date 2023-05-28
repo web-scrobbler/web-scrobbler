@@ -4,6 +4,7 @@ import styles from './popup.module.scss';
 import browser from 'webextension-polyfill';
 import Settings from '@suid/icons-material/SettingsOutlined';
 import optionComponentStyles from '../options/components/components.module.scss';
+import { PopupAnchor, TPopupAnchor } from '../components/util';
 
 /**
  * Info to be shown when an error occurs when submitting scrobbles to a service
@@ -13,19 +14,18 @@ export default function Err() {
 		<div class={styles.alertPopup}>
 			<Error class={styles.bigIcon} />
 			<h1>{t('serviceErrorHeader')}</h1>
-			{/* eslint-disable-next-line */}
-			<p innerHTML={t('serviceErrorDesc')} />
+			<p>
+				<TPopupAnchor messageName="serviceErrorDesc" />
+			</p>
 			{/* eslint-disable-next-line */}
 			<p innerHTML={t('serviceErrorAdblock')} />
-			<a
+			<PopupAnchor
 				href={browser.runtime.getURL('src/ui/options/index.html')}
 				class={`${optionComponentStyles.linkButton} ${styles.centered}`}
-				target="_blank"
-				rel="noopener noreferrer"
 			>
 				<Settings />
 				{t('disabledSiteButton')}
-			</a>
+			</PopupAnchor>
 		</div>
 	);
 }

@@ -4,6 +4,7 @@ import styles from './popup.module.scss';
 import browser from 'webextension-polyfill';
 import Settings from '@suid/icons-material/SettingsOutlined';
 import optionComponentStyles from '../options/components/components.module.scss';
+import { PopupAnchor } from '../components/util';
 
 /**
  * Information to be shown on a website where web scrobbler has been disabled
@@ -14,15 +15,13 @@ export default function Disabled() {
 			<MusicOff class={styles.bigIcon} />
 			<h1>{t('disabledSiteHeader')}</h1>
 			<p>{t('disabledSiteDesc')}</p>
-			<a
+			<PopupAnchor
 				href={browser.runtime.getURL('src/ui/options/index.html')}
 				class={`${optionComponentStyles.linkButton} ${styles.centered}`}
-				target="_blank"
-				rel="noopener noreferrer"
 			>
 				<Settings />
 				{t('disabledSiteButton')}
-			</a>
+			</PopupAnchor>
 		</div>
 	);
 }
