@@ -16,7 +16,9 @@ async function createSrcArchive() {
 	const output = fs.createWriteStream(outputFile);
 
 	const archive = archiver('zip', {
-		zlib: { level: 0 },
+		zlib: {
+			level: 5,
+		},
 	});
 
 	archive.pipe(output);
@@ -45,7 +47,9 @@ export default async function createDistributable() {
 	const output = fs.createWriteStream(outputFile);
 
 	const archive = archiver('zip', {
-		zlib: { level: 0 },
+		zlib: {
+			level: 5,
+		},
 	});
 
 	archive.pipe(output);
