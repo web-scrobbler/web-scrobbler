@@ -3,7 +3,6 @@ import * as BrowserStorage from '@/core/storage/browser-storage';
 import { ManagerTab } from '@/core/storage/wrapper';
 import {
 	backgroundListener,
-	sendBackgroundMessage,
 	setupBackgroundListeners,
 } from '@/util/communication';
 import browser from 'webextension-polyfill';
@@ -12,14 +11,20 @@ import {
 	contextMenus,
 	getState,
 	filterInactiveTabs,
-	getCurrentTab,
 	setState,
 	unlockState,
 	enableConnector,
 	disableConnector,
 	disableUntilClosed,
+	updateTabsFromTabList,
+	getCurrentTab,
+	getActiveTabDetails,
+	getCurrentTabId,
 } from './util';
-import { ControllerModeStr } from '@/core/object/controller/controller';
+import {
+	ControllerModeStr,
+	controllerModeLowestPriority,
+} from '@/core/object/controller/controller';
 import { CloneableSong } from '@/core/object/song';
 import {
 	clearNowPlaying,
@@ -28,7 +33,6 @@ import {
 } from '@/util/notifications';
 import ClonedSong from '@/core/object/cloned-song';
 import { openTab } from '@/util/util-browser';
-import { updateAction } from './action';
 import { setRegexDefaults } from '@/util/regex';
 
 const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
@@ -49,11 +53,13 @@ browser.contextMenus?.onClicked.addListener(contextMenuHandler);
 async function onTabRemoved(tabId: number) {
 	const curState = await getState();
 
+	const filteredTabs = await filterInactiveTabs(curState.activeTabs);
 	await setState({
-		activeTabs: await filterInactiveTabs(curState.activeTabs),
+		activeTabs: filteredTabs,
 		browserPreferredTheme: curState.browserPreferredTheme,
 	});
-	updateAction();
+	const newActiveTab = await getCurrentTabId();
+	updateTabsFromTabList(filteredTabs, newActiveTab);
 
 	const tabs = await disabledTabs.get();
 	if (tabs?.[tabId]) {
@@ -70,7 +76,7 @@ async function onTabRemoved(tabId: number) {
 async function onTabActivated(
 	activeInfo: browser.Tabs.OnActivatedActiveInfoType
 ) {
-	await updateTabList(activeInfo.tabId);
+	await updateTabList(activeInfo.tabId, true);
 }
 
 /**
@@ -87,7 +93,7 @@ async function onTabUpdated(
 	tab?: browser.Tabs.Tab
 ) {
 	if (tab?.active && changeInfo.status === 'complete') {
-		await updateTabList(tabId);
+		await updateTabList(tabId, false);
 	}
 }
 
@@ -96,39 +102,31 @@ async function onTabUpdated(
  * We generally want information about more recently used tabs displayed first.
  *
  * @param tabId - currently active tab.
+ * @param activated - whether the tab was just activated or not.
  */
-async function updateTabList(tabId: number) {
+async function updateTabList(tabId: number, activated: boolean) {
 	const curState = await getState();
-	let newTabs = curState.activeTabs.filter(
-		(active) => active.tabId !== tabId
-	);
+	let newTabs = activated
+		? curState.activeTabs.filter((active) => active.tabId !== tabId)
+		: curState.activeTabs;
 
-	try {
-		const tab = await browser.tabs.get(tabId);
-		if (!tab) {
-			return;
-		}
-		const tabState = await sendBackgroundMessage(tabId, {
-			type: 'getConnectorDetails',
-			payload: undefined,
-		});
-		const curTab: ManagerTab = {
-			tabId,
-			mode: tabState.mode,
-			song: tabState.song,
-		};
-		if (curTab.mode !== ControllerMode.Unsupported) {
+	const curTab = await getActiveTabDetails(newTabs, tabId);
+	if (!controllerModeLowestPriority[curTab.mode]) {
+		if (activated) {
 			newTabs = [curTab, ...newTabs];
+		} else {
+			newTabs = newTabs.map((active) =>
+				active.tabId === tabId ? curTab : active
+			);
 		}
-	} catch (err) {
-		// tab was closed
 	}
+	const filteredTabs = await filterInactiveTabs(newTabs);
 
 	await setState({
-		activeTabs: await filterInactiveTabs(newTabs),
+		activeTabs: filteredTabs,
 		browserPreferredTheme: curState.browserPreferredTheme,
 	});
-	updateAction();
+	updateTabsFromTabList(filteredTabs, tabId);
 }
 
 /**
@@ -161,22 +159,23 @@ async function updateTab(
 				activeTabs,
 				browserPreferredTheme: curState.browserPreferredTheme,
 			});
-			updateAction();
+			updateTabsFromTabList(activeTabs, tabId);
 			return;
 		}
 		performedSet = true;
+		const newTabs = [
+			fn({
+				tabId,
+				mode: ControllerMode.Unsupported,
+				song: null,
+			}),
+			...activeTabs,
+		];
 		await setState({
-			activeTabs: [
-				fn({
-					tabId,
-					mode: ControllerMode.Unsupported,
-					song: null,
-				}),
-				...activeTabs,
-			],
+			activeTabs: newTabs,
 			browserPreferredTheme: curState.browserPreferredTheme,
 		});
-		updateAction();
+		updateTabsFromTabList(activeTabs, tabId);
 	} catch (err) {
 		if (!performedSet) {
 			unlockState();

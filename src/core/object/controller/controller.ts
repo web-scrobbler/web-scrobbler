@@ -52,6 +52,18 @@ export const controllerModePriority: ControllerModeStr[][] = [
 	],
 ];
 
+/**
+ * States of lowest priority.
+ */
+export const controllerModeLowestPriority: Partial<
+	Record<ControllerModeStr, true>
+> = {
+	[ControllerMode.Base]: true,
+	[ControllerMode.Skipped]: true,
+	[ControllerMode.Disabled]: true,
+	[ControllerMode.Unsupported]: true,
+};
+
 type updateEvent = {
 	updateEditStatus: (isEditing: boolean) => void;
 };
