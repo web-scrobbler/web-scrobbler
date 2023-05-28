@@ -111,7 +111,7 @@ export default function NowPlaying(props: { tab: Resource<ManagerTab> }) {
 					/>
 				</Show>
 				<div class={styles.nowPlayingPopup} ref={nowplaying}>
-					<PopupAnchor
+					<PopupLink
 						class={styles.coverArtWrapper}
 						href={
 							song()?.getTrackArt() ??
@@ -129,7 +129,7 @@ export default function NowPlaying(props: { tab: Resource<ManagerTab> }) {
 							}
 						/>
 						<Squircle id="coverArtClip" />
-					</PopupAnchor>
+					</PopupLink>
 					<SongDetails
 						song={song}
 						tab={tab}
@@ -240,20 +240,20 @@ function TrackData(props: { song: Accessor<ClonedSong | null> }) {
 	const { song } = props;
 	return (
 		<>
-			<PopupAnchor
+			<PopupLink
 				class={styles.bold}
 				href={createTrackURL(song()?.getArtist(), song()?.getTrack())}
 				title={t('infoViewTrackPage', song()?.getTrack() ?? '')}
 			>
 				{song()?.getTrack()}
-			</PopupAnchor>
-			<PopupAnchor
+			</PopupLink>
+			<PopupLink
 				href={createArtistURL(song()?.getArtist())}
 				title={t('infoViewArtistPage', song()?.getArtist() ?? '')}
 			>
 				{song()?.getArtist()}
-			</PopupAnchor>
-			<PopupAnchor
+			</PopupLink>
+			<PopupLink
 				href={createAlbumURL(
 					song()?.getAlbumArtist() || song()?.getArtist(),
 					song()?.getTrack()
@@ -261,13 +261,13 @@ function TrackData(props: { song: Accessor<ClonedSong | null> }) {
 				title={t('infoViewAlbumPage', song()?.getAlbum() ?? '')}
 			>
 				{song()?.getAlbum()}
-			</PopupAnchor>
-			<PopupAnchor
+			</PopupLink>
+			<PopupLink
 				href={createArtistURL(song()?.getAlbumArtist())}
 				title={t('infoViewArtistPage', song()?.getAlbumArtist() ?? '')}
 			>
 				{song()?.getAlbumArtist()}
-			</PopupAnchor>
+			</PopupLink>
 		</>
 	);
 }
@@ -286,7 +286,7 @@ function TrackMetadata(props: { song: Accessor<ClonedSong | null> }) {
 
 	return (
 		<div class={styles.playDetails}>
-			<PopupAnchor
+			<PopupLink
 				class={`${styles.playCount} ${styles.label}`}
 				href={createTrackLibraryURL(
 					session()?.sessionName,
@@ -300,7 +300,7 @@ function TrackMetadata(props: { song: Accessor<ClonedSong | null> }) {
 			>
 				<LastFMIcon />
 				{song()?.metadata.userPlayCount || 0}
-			</PopupAnchor>
+			</PopupLink>
 			<span class={styles.label}>{song()?.connectorLabel}</span>
 		</div>
 	);
@@ -381,6 +381,26 @@ function TrackControls(props: {
 				</span>
 			</button>
 		</div>
+	);
+}
+
+/**
+ * Create a link that opens in a new tab
+ */
+function PopupLink(props: {
+	class?: string;
+	href: string;
+	title: string;
+	children: string | JSXElement | JSXElement[];
+}) {
+	return (
+		<PopupAnchor
+			class={`${props.class} ${styles.notRedAnchor}`}
+			href={props.href}
+			title={props.title}
+		>
+			{props.children}
+		</PopupAnchor>
 	);
 }
 
