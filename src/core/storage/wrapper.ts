@@ -146,6 +146,9 @@ export default class StorageWrapper<K extends keyof DataModels> {
 	 * @returns Storage data
 	 */
 	async get(): Promise<DataModels[K] | null> {
+		// #v-ifdef DEV
+		console.log('StorageWrapper#get: ', this.namespace);
+		// #v-endif
 		const data = await this.storage.get();
 		if (data && this.namespace in data) {
 			return data[this.namespace] as DataModels[K];
