@@ -1,15 +1,14 @@
-
 /**
  * Timer object.
  */
 export default class Timer {
-	private targetSeconds:number|null = null;
-	private startedOn:number|null = null;
-	private pausedOn:number|null = null;
+	private targetSeconds: number | null = null;
+	private startedOn: number | null = null;
+	private pausedOn: number | null = null;
 	private spentPaused = 0;
-	private callback:(()=>void)|null = null;
+	private callback: (() => void) | null = null;
 	private hasTriggered = false;
-	private timeoutId:number|null = null;
+	private timeoutId: number | null = null;
 
 	constructor() {
 		this.reset();
@@ -18,7 +17,13 @@ export default class Timer {
 	/**
 	 * Reset timer.
 	 */
-	reset():void {
+	reset(): void {
+		this.targetSeconds = null;
+		this.startedOn = null;
+		this.pausedOn = null;
+		this.spentPaused = 0;
+		this.callback = null;
+		this.hasTriggered = false;
 		this.clearTrigger();
 	}
 
@@ -27,7 +32,7 @@ export default class Timer {
 	 * Use update function to define time to trigger.
 	 * @param cb - Function that will be called when timer is triggered
 	 */
-	start(cb:()=>void):void {
+	start(cb: () => void): void {
 		this.reset();
 		this.startedOn = now();
 		this.pausedOn = null;
@@ -37,7 +42,7 @@ export default class Timer {
 	/**
 	 * Pause timer.
 	 */
-	pause():void {
+	pause(): void {
 		// only if timer was started and was running
 		if (this.startedOn !== null && this.pausedOn === null) {
 			this.pausedOn = now();
@@ -48,7 +53,7 @@ export default class Timer {
 	/**
 	 * Unpause timer.
 	 */
-	resume():void {
+	resume(): void {
 		// only if timer was started and was paused
 		if (this.startedOn !== null && this.pausedOn !== null) {
 			this.spentPaused += now() - this.pausedOn;
@@ -74,7 +79,7 @@ export default class Timer {
 	 *
 	 * @param seconds - Seconds
 	 */
-	update(seconds:number|null):void {
+	update(seconds: number | null): void {
 		// only if timer was started
 		if (this.startedOn !== null) {
 			this.targetSeconds = seconds;
@@ -93,7 +98,7 @@ export default class Timer {
 	 * Return remaining seconds or null if no destination time is set.
 	 * @returns Remaining seconds
 	 */
-	getRemainingSeconds():number|null {
+	getRemainingSeconds(): number | null {
 		if (this.targetSeconds === null) {
 			return null;
 		}
@@ -105,7 +110,7 @@ export default class Timer {
 	 * Check if timer is expired. Expired timer has negative remaining time.
 	 * @returns Check result
 	 */
-	isExpired():boolean {
+	isExpired(): boolean {
 		const remainingSeconds = this.getRemainingSeconds();
 		return remainingSeconds !== null && remainingSeconds < 0;
 	}
@@ -116,7 +121,7 @@ export default class Timer {
 	 * Trigger timer in given seconds.
 	 * @param seconds - Seconds
 	 */
-	setTrigger(seconds:number):void {
+	setTrigger(seconds: number): void {
 		this.clearTrigger();
 		this.timeoutId = window.setTimeout(() => {
 			if (!this.callback) {
@@ -130,7 +135,7 @@ export default class Timer {
 	/**
 	 * Clear internal timeout.
 	 */
-	clearTrigger():void {
+	clearTrigger(): void {
 		if (this.timeoutId) {
 			clearTimeout(this.timeoutId);
 		}
@@ -142,7 +147,7 @@ export default class Timer {
 	 * Time spent paused does not count
 	 * @returns Elapsed seconds
 	 */
-	getElapsed():number {
+	getElapsed(): number {
 		if (this.startedOn === null) {
 			throw Error('elapsed time called before alarm started');
 		}
