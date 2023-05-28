@@ -35,7 +35,6 @@ export default class Timer {
 	start(cb: () => void): void {
 		this.reset();
 		this.startedOn = now();
-		this.pausedOn = null;
 		this.callback = cb;
 	}
 
