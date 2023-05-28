@@ -21,6 +21,9 @@ const connectorStub = getConnectorById('youtube')!;
  * Run all tests.
  */
 function runTests() {
+	beforeAll(() => {
+		savedEdits.init();
+	});
 	describe('should throw an error for empty songs', testSaveEmptySong);
 
 	describe('clear storage', testClearStorage);

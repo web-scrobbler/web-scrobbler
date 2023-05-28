@@ -20,6 +20,7 @@ describe('Should edit Regex', () => {
 	beforeEach(() => {
 		webextensionPolyfill.reset();
 		webextensionPolyfill.setUser();
+		regexEdits.init();
 	});
 
 	it('Should add edits to storage', async () => {
