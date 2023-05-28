@@ -130,6 +130,8 @@ export default class Controller {
 				type: 'setEditState',
 				fn: (isEditing) => {
 					this.isEditing = isEditing;
+					this.eventEmitter.emit('updateEditStatus', isEditing);
+
 					if (isEditing) {
 						clearTimeout(this.setNotEditingTimeout);
 						this.setNotEditingTimeout = setTimeout(() => {
@@ -137,7 +139,6 @@ export default class Controller {
 							this.eventEmitter.emit('updateEditStatus', false);
 						}, 5000);
 					}
-					this.eventEmitter.emit('updateEditStatus', isEditing);
 				},
 			}),
 			contentListener({
