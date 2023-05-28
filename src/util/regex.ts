@@ -196,7 +196,7 @@ export function editSong(edit: RegexEdit, song: Song) {
 
 	for (const [_key, field] of Object.entries(fields)) {
 		const key = _key as FieldType;
-		if (field !== getSongField(song, key)) {
+		if (edit.search[key] && edit.replace[key]) {
 			song.flags.isRegexEditedByUser[key] = true;
 			song.processed[key] = field;
 		}
