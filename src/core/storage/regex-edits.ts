@@ -11,8 +11,8 @@ type T = Record<K, V>;
 class RegexEditsImpl extends RegexEditsModel {
 	private regexEditStorage = this.getStorage();
 
-	constructor() {
-		super(BrowserStorage.getLocalStorage(BrowserStorage.REGEX_EDITS));
+	public init() {
+		this._init(BrowserStorage.getLocalStorage(BrowserStorage.REGEX_EDITS));
 
 		/* @ifdef DEBUG */
 		void this.regexEditStorage.debugLog();

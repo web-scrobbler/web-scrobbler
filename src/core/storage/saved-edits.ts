@@ -12,8 +12,8 @@ class SavedEditsImpl extends SavedEditsModel {
 		BrowserStorage.LOCAL_CACHE
 	);
 
-	constructor() {
-		super(BrowserStorage.getLocalStorage(BrowserStorage.LOCAL_CACHE));
+	public init() {
+		this._init(BrowserStorage.getLocalStorage(BrowserStorage.LOCAL_CACHE));
 
 		/* @ifdef DEBUG */
 		void this.songInfoStorage.debugLog();

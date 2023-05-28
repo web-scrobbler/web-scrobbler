@@ -6,6 +6,8 @@ import start from '@/core/content/starter';
 import browser from 'webextension-polyfill';
 import scrobbleService from '@/core/object/scrobble-service';
 import { sendContentMessage } from '@/util/communication';
+import savedEdits from '../storage/saved-edits';
+import regexEdits from '../storage/regex-edits';
 
 main();
 async function main() {
@@ -29,11 +31,18 @@ async function fetchConnector(): Promise<void> {
 		return;
 	}
 
+	// Don't run the connector in frames if it's not allowed to run in frames
+	if (window !== top && !connector.allFrames) {
+		return;
+	}
+
 	window.Connector = new BaseConnector(connector);
 	window.Util = Util;
 	window.MetadataFilter = MetadataFilter;
 	window.webScrobblerScripts = {};
 	await scrobbleService.bindAllScrobblers();
+	savedEdits.init();
+	regexEdits.init();
 
 	try {
 		await import(browser.runtime.getURL(`connectors/${connector?.js}`));

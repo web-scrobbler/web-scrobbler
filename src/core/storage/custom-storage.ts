@@ -1,13 +1,21 @@
 import StorageWrapper, { DataModels } from '@/core/storage/wrapper';
+import { debugLog } from '@/util/util';
 
 /**
  * This class provides a base interface for custom storage wrappers.
  */
 export abstract class CustomStorage<K extends keyof DataModels> {
-	public storageRef: StorageWrapper<K>;
+	public storageRef: StorageWrapper<K> | null;
 
-	constructor(storageRef: StorageWrapper<K>) {
+	constructor() {
+		this.storageRef = null;
+	}
+
+	abstract init(): void;
+
+	protected _init(storageRef: StorageWrapper<K>): void {
 		this.storageRef = storageRef;
+
 		/* @ifdef DEVELOPMENT */
 		void this.storageRef.debugLog();
 		/* @endif */
@@ -22,6 +30,9 @@ export abstract class CustomStorage<K extends keyof DataModels> {
 	 * Remove all data from the storage.
 	 */
 	async clear(): Promise<void> {
+		if (!this.storageRef) {
+			return;
+		}
 		return await this.storageRef.clear();
 	}
 
@@ -31,6 +42,10 @@ export abstract class CustomStorage<K extends keyof DataModels> {
 	 * @returns Storage data
 	 */
 	async getData(): Promise<DataModels[K] | null> {
+		if (!this.storageRef) {
+			debugLog('Storage reference is not initialized', 'warn');
+			return null;
+		}
 		return await this.storageRef.get();
 	}
 
@@ -41,6 +56,10 @@ export abstract class CustomStorage<K extends keyof DataModels> {
 	 * @returns Storage data
 	 */
 	async saveData(data: DataModels[K]): Promise<void> {
+		if (!this.storageRef) {
+			debugLog('Storage reference is not initialized', 'warn');
+			return;
+		}
 		return await this.storageRef.set(data);
 	}
 
@@ -51,6 +70,10 @@ export abstract class CustomStorage<K extends keyof DataModels> {
 	 * @returns Storage data
 	 */
 	async updateData(data: DataModels[K]): Promise<void> {
+		if (!this.storageRef) {
+			debugLog('Storage reference is not initialized', 'warn');
+			return;
+		}
 		return await this.storageRef.update(data);
 	}
 }
