@@ -91,6 +91,9 @@ export default class Controller {
 	private shouldScrobblePodcasts = true;
 
 	private isEditing = false;
+	private setNotEditingTimeout = setTimeout(() => {
+		// do nothing
+	}, 0);
 	private eventEmitter = new EventEmitter<updateEvent>();
 	private tabId = sendContentMessage({
 		type: 'getTabId',
@@ -144,6 +147,14 @@ export default class Controller {
 				fn: (isEditing) => {
 					this.isEditing = isEditing;
 					this.eventEmitter.emit('updateEditStatus', isEditing);
+
+					if (isEditing) {
+						clearTimeout(this.setNotEditingTimeout);
+						this.setNotEditingTimeout = setTimeout(() => {
+							this.isEditing = false;
+							this.eventEmitter.emit('updateEditStatus', false);
+						}, 5000);
+					}
 				},
 			}),
 			contentListener({

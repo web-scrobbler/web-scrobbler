@@ -72,6 +72,16 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 			document.body.style.width = `${nowplaying.scrollWidth}px`;
 		}
 		observer.observe(nowplaying);
+
+		const interval = setInterval(() => {
+			sendBackgroundMessage(tab()?.tabId ?? -1, {
+				type: 'setEditState',
+				payload: true,
+			});
+		}, 1000);
+		return () => {
+			clearInterval(interval);
+		};
 	});
 
 	onCleanup(() => {
