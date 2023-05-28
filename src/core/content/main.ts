@@ -27,7 +27,6 @@ async function main() {
  */
 async function fetchConnector(): Promise<void> {
 	const connector = await getConnectorByUrl(window.location.href);
-	console.log('bbbbb', connector, window.location.href);
 	if (!connector) {
 		return;
 	}
