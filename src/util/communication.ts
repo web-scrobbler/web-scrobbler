@@ -86,6 +86,13 @@ interface BackgroundCommunications {
 		payload: boolean;
 		response: void;
 	};
+	getConnectorDetails: {
+		payload: undefined;
+		response: {
+			mode: ControllerModeStr;
+			song: CloneableSong | null;
+		};
+	};
 	disableConnectorUntilTabIsClosed: {
 		payload: undefined;
 		response: void;

@@ -145,6 +145,13 @@ export default class Controller {
 			contentListener({
 				type: 'disableConnectorUntilTabIsClosed',
 				fn: () => this.disableUntilTabIsClosed(),
+			}),
+			contentListener({
+				type: 'getConnectorDetails',
+				fn: () => ({
+					mode: this.mode,
+					song: this.currentSong?.getCloneableData() ?? null,
+				}),
 			})
 		);
 	}
