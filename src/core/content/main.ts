@@ -27,7 +27,13 @@ async function main() {
  */
 async function fetchConnector(): Promise<void> {
 	const connector = await getConnectorByUrl(window.location.href);
+	console.log('bbbbb', connector, window.location.href);
 	if (!connector) {
+		return;
+	}
+
+	// Don't run the connector in frames if it's not allowed to run in frames
+	if (window !== top && !connector.allFrames) {
 		return;
 	}
 
