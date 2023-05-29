@@ -21,6 +21,7 @@ function cleanupArtist(artist) {
 						.replace(/^結月ゆかり.+$/, '結月ゆかり')
 						.replace(/^波音リツキレ$/, '波音リツ')
 						.replace(/^星尘Infinity$/, '星尘')
+						.replace(/^重音テトSV$/, '重音テト')
 						.replace(/^遙$/, '夏語遙')
 						.replace(/^v flower|v4 flower|Ci flower$/, 'flower')
 						.trim();
