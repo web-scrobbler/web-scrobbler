@@ -21,7 +21,7 @@ function getScrollableText(selector: string) {
 	);
 }
 
-function getDuration() {
+function getDurationInfo() {
 	const text = Util.getTextFromSelectors('#progressWrapper');
 	if (text === null) {
 		return null;
@@ -31,19 +31,19 @@ function getDuration() {
 }
 
 Connector.getCurrentTime = () => {
-	const duration = getDuration();
-	if (duration === null) {
+	const durationInfo = getDurationInfo();
+	if (durationInfo === null) {
 		return null;
 	}
 
-	return Util.stringToSeconds(duration[0].trim());
+	return Util.stringToSeconds(durationInfo[0].trim());
 };
 
 Connector.getDuration = () => {
-	const duration = getDuration();
-	if (duration === null) {
+	const durationInfo = getDurationInfo();
+	if (durationInfo === null) {
 		return null;
 	}
 
-	return Util.stringToSeconds(duration[1].trim());
+	return Util.stringToSeconds(durationInfo[1].trim());
 };
