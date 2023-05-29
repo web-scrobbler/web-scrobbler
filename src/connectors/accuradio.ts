@@ -20,3 +20,30 @@ function getScrollableText(selector: string) {
 		Util.getTextFromSelectors(selector)
 	);
 }
+
+function getDuration() {
+	const text = Util.getTextFromSelectors('#progressWrapper');
+	if (text === null) {
+		return null;
+	}
+
+	return text.split('/');
+}
+
+Connector.getCurrentTime = () => {
+	const duration = getDuration();
+	if (duration === null) {
+		return null;
+	}
+
+	return Util.stringToSeconds(duration[0].trim());
+};
+
+Connector.getDuration = () => {
+	const duration = getDuration();
+	if (duration === null) {
+		return null;
+	}
+
+	return Util.stringToSeconds(duration[1].trim());
+};
