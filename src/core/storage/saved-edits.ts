@@ -15,9 +15,9 @@ class SavedEditsImpl extends SavedEditsModel {
 	public init() {
 		this._init(BrowserStorage.getLocalStorage(BrowserStorage.LOCAL_CACHE));
 
-		/* @ifdef DEBUG */
+		// #v-ifdef VITE_DEV
 		void this.songInfoStorage.debugLog();
-		/* @endif */
+		// #v-endif
 	}
 
 	/** @override */

@@ -54,6 +54,7 @@ export const buildBackground: UserConfig = {
 			},
 		},
 	},
+	plugins: [ConditionalCompile()],
 };
 
 export const buildContent: UserConfig = {
@@ -75,6 +76,7 @@ export const buildContent: UserConfig = {
 			},
 		},
 	},
+	plugins: [ConditionalCompile()],
 };
 
 export const buildStart: UserConfig = {
