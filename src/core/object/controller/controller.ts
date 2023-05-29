@@ -592,10 +592,7 @@ export default class Controller {
 			// Processing cleans this flag
 			this.currentSong.flags.isMarkedAsPlaying = false;
 
-			const duration = this.currentSong.getDuration();
-			if (duration) {
-				await this.updateTimers(duration);
-			}
+			await this.updateTimers(this.currentSong.getDuration());
 
 			/*
 			 * If the song is playing, mark it immediately;
@@ -724,7 +721,9 @@ export default class Controller {
 	 * Update internal timers.
 	 * @param duration - Song duration in seconds
 	 */
-	private async updateTimers(duration: number): Promise<void> {
+	private async updateTimers(
+		duration: number | null | undefined
+	): Promise<void> {
 		if (this.playbackTimer.isExpired()) {
 			this.debugLog('Attempt to update expired timers', 'warn');
 			return;

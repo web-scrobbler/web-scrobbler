@@ -61,7 +61,7 @@ export function debugLog(text: unknown, logType: DebugLogType = 'log'): void {
  * @returns Seconds to scrobble
  */
 export function getSecondsToScrobble(
-	duration: number,
+	duration: number | null | undefined,
 	percent: number
 ): number {
 	if (isDurationInvalid(duration)) {
@@ -136,7 +136,9 @@ export function hideObjectValue(
  * @param duration - Duration in seconds
  * @returns Check result
  */
-function isDurationInvalid(duration: number) {
+function isDurationInvalid(
+	duration: number | null | undefined
+): duration is null | undefined {
 	return (
 		!duration ||
 		typeof duration !== 'number' ||
