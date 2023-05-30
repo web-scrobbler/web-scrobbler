@@ -14,9 +14,9 @@ class RegexEditsImpl extends RegexEditsModel {
 	public init() {
 		this._init(BrowserStorage.getLocalStorage(BrowserStorage.REGEX_EDITS));
 
-		/* @ifdef DEBUG */
+		// #v-ifdef VITE_DEV
 		void this.regexEditStorage.debugLog();
-		/* @endif */
+		// #v-endif
 	}
 
 	/** @override */
