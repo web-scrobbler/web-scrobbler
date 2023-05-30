@@ -179,6 +179,10 @@ export default class Controller {
 					mode: this.mode,
 					song: this.currentSong?.getCloneableData() ?? null,
 				}),
+			}),
+			contentListener({
+				type: 'ping',
+				fn: () => true,
 			})
 		);
 	}
