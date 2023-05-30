@@ -776,9 +776,6 @@ export default class Controller {
 		}
 		this.currentSong.flags.isMarkedAsPlaying = true;
 
-		/**
-		 * Hacky, but the way sending async responses works in chrome is odd.
-		 */
 		const results = await sendContentMessage({
 			type: 'setNowPlaying',
 			payload: {
@@ -854,15 +851,12 @@ export default class Controller {
 			});
 		}
 
-		/**
-		 * Hacky, but the way sending async responses works in chrome is odd.
-		 */
-		const results = (await sendContentMessage({
+		const results = await sendContentMessage({
 			type: 'scrobble',
 			payload: {
 				song: this.currentSong.getCloneableData(),
 			},
-		})) as unknown as ServiceCallResult[];
+		});
 
 		if (isAnyResult(results, ServiceCallResult.RESULT_OK)) {
 			this.debugLog('Scrobbled successfully');
