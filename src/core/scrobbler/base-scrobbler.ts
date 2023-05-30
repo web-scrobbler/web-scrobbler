@@ -226,7 +226,6 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 * Implementation must return object contains a song data.
 	 *
 	 * @param song - Song instance
-	 * @param tabId - Tab ID where the song is playing
 	 */
 	// eslint-disable-next-line no-unused-vars
 	public abstract getSongInfo(
