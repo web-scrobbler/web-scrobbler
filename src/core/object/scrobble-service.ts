@@ -4,8 +4,9 @@ import LibreFmScrobbler from '@/core/scrobbler/librefm-scrobbler';
 import ListenBrainzScrobbler from '@/core/scrobbler/listenbrainz/listenbrainz-scrobbler';
 import MalojaScrobbler from '@/core/scrobbler/maloja/maloja-scrobbler';
 import { ServiceCallResult } from '@/core/object/service-call-result';
-import Song, { BaseSong } from '@/core/object/song';
+import { BaseSong } from '@/core/object/song';
 import { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
+import ClonedSong from './cloned-song';
 
 /**
  * Service to handle all scrobbling behavior.
@@ -96,7 +97,7 @@ class ScrobbleService {
 	 * @returns Promise resolved with array of song info objects
 	 */
 	getSongInfo(
-		song: Song
+		song: ClonedSong
 	): Promise<(Record<string, never> | ScrobblerSongInfo | null)[]> {
 		const scrobblers = registeredScrobblers.filter((scrobbler) => {
 			return scrobbler.canLoadSongInfo();
@@ -122,7 +123,7 @@ class ScrobbleService {
 	 * @param song - Song instance
 	 * @returns Promise that will be resolved then the task will complete
 	 */
-	sendNowPlaying(song: Song): Promise<ServiceCallResult[]> {
+	sendNowPlaying(song: BaseSong): Promise<ServiceCallResult[]> {
 		console.log(
 			`Send "now playing" request: ${this.boundScrobblers.length}`
 		);
@@ -149,7 +150,7 @@ class ScrobbleService {
 	 * @param song - Song instance
 	 * @returns Promise that will be resolved then the task will complete
 	 */
-	scrobble(song: Song): Promise<ServiceCallResult[]> {
+	scrobble(song: BaseSong): Promise<ServiceCallResult[]> {
 		console.log(`Send "scrobble" request: ${this.boundScrobblers.length}`);
 
 		return Promise.all(

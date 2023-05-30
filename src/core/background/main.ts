@@ -34,6 +34,7 @@ import {
 import ClonedSong from '@/core/object/cloned-song';
 import { openTab } from '@/util/util-browser';
 import { setRegexDefaults } from '@/util/regex';
+import { getSongInfo, scrobble, sendNowPlaying, toggleLove } from './scrobble';
 
 const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
 
@@ -268,6 +269,53 @@ setupBackgroundListeners(
 				() => {
 					openTab(sender.tab?.id ?? -1);
 				}
+			);
+		},
+	}),
+
+	/**
+	 * Listener called by a controller to trigger sending of now playing info.
+	 */
+	backgroundListener({
+		type: 'setNowPlaying',
+		fn: (payload, sender) => {
+			return sendNowPlaying(
+				new ClonedSong(payload.song, sender.tab?.id ?? -1)
+			);
+		},
+	}),
+
+	/**
+	 * Listener called by a controller to trigger a scrobble.
+	 */
+	backgroundListener({
+		type: 'scrobble',
+		fn: (payload, sender) => {
+			return scrobble(new ClonedSong(payload.song, sender.tab?.id ?? -1));
+		},
+	}),
+
+	/**
+	 * Listener called by a controller to trigger getting song info.
+	 */
+	backgroundListener({
+		type: 'getSongInfo',
+		fn: (payload, sender) => {
+			return getSongInfo(
+				new ClonedSong(payload.song, sender.tab?.id ?? -1)
+			);
+		},
+	}),
+
+	/**
+	 * Listener called by a controller to love or unlove a song.
+	 */
+	backgroundListener({
+		type: 'toggleLove',
+		fn: (payload, sender) => {
+			return toggleLove(
+				new ClonedSong(payload.song, sender.tab?.id ?? -1),
+				payload.isLoved
 			);
 		},
 	}),

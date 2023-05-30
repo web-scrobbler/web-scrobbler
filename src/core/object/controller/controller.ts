@@ -12,7 +12,6 @@ import Timer from '@/core/object/timer';
 import Pipeline from '@/core/object/pipeline/pipeline';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import * as ControllerEvents from '@/core/object/controller/controller-event';
-import ScrobbleService from '@/core/object/scrobble-service';
 import { ServiceCallResult } from '@/core/object/service-call-result';
 import SavedEdits from '@/core/storage/saved-edits';
 import { State } from '@/core/types';
@@ -134,6 +133,12 @@ export default class Controller {
 				type: 'toggleLove',
 				fn: ({ isLoved }) => {
 					this.toggleLove(isLoved);
+				},
+			}),
+			contentListener({
+				type: 'updateLove',
+				fn: ({ isLoved }) => {
+					this.currentSong?.setLoveStatus(isLoved, true);
 				},
 			}),
 			contentListener({
@@ -263,7 +268,6 @@ export default class Controller {
 				break;
 			}
 		}
-		console.log(event);
 		// do nothing
 	}
 
@@ -401,7 +405,13 @@ export default class Controller {
 		this.currentSong.setLoveStatus(isLoved, true);
 		this.onSongUpdated();
 		try {
-			await ScrobbleService.toggleLove(this.currentSong, isLoved);
+			await sendContentMessage({
+				type: 'toggleLove',
+				payload: {
+					song: this.currentSong.getCloneableData(),
+					isLoved,
+				},
+			});
 		} catch (err) {
 			this.currentSong.setLoveStatus(!isLoved, true);
 		}
@@ -765,7 +775,17 @@ export default class Controller {
 			return;
 		}
 		this.currentSong.flags.isMarkedAsPlaying = true;
-		const results = await ScrobbleService.sendNowPlaying(this.currentSong);
+
+		/**
+		 * Hacky, but the way sending async responses works in chrome is odd.
+		 */
+		const results = await sendContentMessage({
+			type: 'setNowPlaying',
+			payload: {
+				song: this.currentSong.getCloneableData(),
+			},
+		});
+
 		if (isAnyResult(results, ServiceCallResult.RESULT_OK)) {
 			this.debugLog('Song set as now playing');
 			this.setMode(ControllerMode.Playing);
@@ -834,7 +854,16 @@ export default class Controller {
 			});
 		}
 
-		const results = await ScrobbleService.scrobble(this.currentSong);
+		/**
+		 * Hacky, but the way sending async responses works in chrome is odd.
+		 */
+		const results = (await sendContentMessage({
+			type: 'scrobble',
+			payload: {
+				song: this.currentSong.getCloneableData(),
+			},
+		})) as unknown as ServiceCallResult[];
+
 		if (isAnyResult(results, ServiceCallResult.RESULT_OK)) {
 			this.debugLog('Scrobbled successfully');
 

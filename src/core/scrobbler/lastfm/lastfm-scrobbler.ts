@@ -1,12 +1,14 @@
 'use strict';
 
+import ClonedSong from '@/core/object/cloned-song';
 import { ServiceCallResult } from '@/core/object/service-call-result';
-import Song from '@/core/object/song';
+import { BaseSong } from '@/core/object/song';
 import AudioScrobbler, {
 	AudioScrobblerParams,
 } from '@/core/scrobbler/audio-scrobbler/audio-scrobbler';
 import { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
 import { LastFmTrackInfo } from '@/core/scrobbler/lastfm/lastfm.types';
+import { sendBackgroundMessage } from '@/util/communication';
 
 /**
  * Module for all communication with Last.FM
@@ -58,7 +60,7 @@ export default class LastFmScrobbler extends AudioScrobbler {
 	}
 
 	/** @override */
-	async getSongInfo(song: Song): Promise<ScrobblerSongInfo> {
+	async getSongInfo(song: ClonedSong): Promise<ScrobblerSongInfo> {
 		const params: AudioScrobblerParams = {
 			track: song.getTrack(),
 			artist: song.getArtist(),
@@ -90,7 +92,12 @@ export default class LastFmScrobbler extends AudioScrobbler {
 		const data = this.parseSongInfo(responseData);
 
 		if (this.canLoveSong() && data) {
-			song.setLoveStatus(data.userloved || false);
+			sendBackgroundMessage(song.controllerTabId, {
+				type: 'updateLove',
+				payload: {
+					isLoved: data.userloved || false,
+				},
+			});
 		}
 
 		return data;
@@ -161,7 +168,7 @@ export default class LastFmScrobbler extends AudioScrobbler {
 	}
 
 	/** @override */
-	applyFilter(song: Song): Song {
+	applyFilter(song: BaseSong): BaseSong {
 		/**
 		 * Last.fm rejects track if album artist contains more then just "Various Artists"
 		 */

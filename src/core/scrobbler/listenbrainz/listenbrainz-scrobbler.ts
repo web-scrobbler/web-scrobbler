@@ -1,7 +1,7 @@
 'use strict';
 
 import { ServiceCallResult } from '@/core/object/service-call-result';
-import Song, { BaseSong } from '@/core/object/song';
+import { BaseSong } from '@/core/object/song';
 import * as Util from '@/util/util';
 import { getExtensionVersion } from '@/util/util-browser';
 import BaseScrobbler, { SessionData } from '@/core/scrobbler/base-scrobbler';
@@ -155,7 +155,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 	}
 
 	/** @override */
-	async sendNowPlaying(song: Song): Promise<ServiceCallResult> {
+	async sendNowPlaying(song: BaseSong): Promise<ServiceCallResult> {
 		const { sessionID } = await this.getSession();
 		const trackMeta = this.makeTrackMetadata(song);
 
@@ -171,7 +171,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 	}
 
 	/** @override */
-	public async scrobble(song: Song): Promise<ServiceCallResult> {
+	public async scrobble(song: BaseSong): Promise<ServiceCallResult> {
 		const { sessionID } = await this.getSession();
 
 		const params = {
@@ -298,9 +298,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		return result;
 	}
 
-	async sendScrobbleRequest<
-		T extends Record<string, unknown> = Record<string, unknown>
-	>(
+	async sendScrobbleRequest(
 		params: ListenBrainzParams,
 		sessionID: string
 	): Promise<ServiceCallResult> {
@@ -386,7 +384,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		return ServiceCallResult.RESULT_OK;
 	}
 
-	private makeTrackMetadata(song: Song): ListenBrainzTrackMeta {
+	private makeTrackMetadata(song: BaseSong): ListenBrainzTrackMeta {
 		const trackMeta: ListenBrainzTrackMeta = {
 			artist_name: song.getArtist() ?? '',
 			track_name: song.getTrack() ?? '',
