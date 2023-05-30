@@ -43,7 +43,7 @@ export async function process(song: Song): Promise<void> {
 /**
  * Get track or album MusicBrainz ID.
  * Search API docs:
- * 	http://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search
+ * 	https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search
  * Query syntax docs:
  * 	https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description
  *
@@ -60,7 +60,7 @@ async function getMusicBrainzId(endpoint: string, song: Song) {
 	}
 
 	const url =
-		`http://musicbrainz.org/ws/2/${endpoint}?fmt=json&query=` +
+		`https://musicbrainz.org/ws/2/${endpoint}?fmt=json&query=` +
 		`title:+"${track ?? ''}"^3 ${track ?? ''} artistname:+"${
 			artist ?? ''
 		}"^4${artist ?? ''}`;
@@ -89,7 +89,7 @@ async function getMusicBrainzId(endpoint: string, song: Song) {
  * @returns Cover art URL
  */
 async function checkCoverArt(mbid: string) {
-	const coverArtUrl = `http://coverartarchive.org/release/${mbid}/front-500`;
+	const coverArtUrl = `https://coverartarchive.org/release/${mbid}/front-500`;
 	const response = await fetch(coverArtUrl, { method: 'HEAD' });
 	if (response.ok) {
 		return coverArtUrl;
