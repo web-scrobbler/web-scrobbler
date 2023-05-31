@@ -263,8 +263,6 @@ export default class Controller {
 				break;
 			}
 		}
-		console.log(event);
-		// do nothing
 	}
 
 	/** Public functions */
