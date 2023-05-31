@@ -19,7 +19,6 @@ export default class Reactor {
 	constructor(connector: BaseConnector, isEnabled: boolean) {
 		this.controller = new Controller(connector.meta, isEnabled);
 
-		console.log('binding');
 		// Setup listening for state changes on connector.
 		connector.controllerCallback = this.onStateChanged.bind(this);
 	}

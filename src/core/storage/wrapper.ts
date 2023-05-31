@@ -238,7 +238,10 @@ export default class StorageWrapper<K extends keyof DataModels> {
 		};
 
 		const text = JSON.stringify(data, hideSensitiveDataFn, 2);
-		console.info(`storage.${this.namespace} = ${text}`);
+		// dont log in content script
+		if (location.protocol === 'chrome-extension:') {
+			console.info(`storage.${this.namespace} = ${text}`);
+		}
 	}
 
 	/**
