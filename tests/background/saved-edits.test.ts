@@ -1,7 +1,6 @@
 import { expect, describe, it, beforeAll } from 'vitest';
 
 import webextensionPolyfill from '#/mocks/webextension-polyfill';
-('#/mocks/webextension-polyfill');
 
 import Song from '@/core/object/song';
 import { getConnectorById } from '@/util/util-connector';
