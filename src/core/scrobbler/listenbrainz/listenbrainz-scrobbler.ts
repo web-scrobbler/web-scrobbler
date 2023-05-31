@@ -335,7 +335,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		// NOTE: Use 'same-origin' credentials to fix login on Firefox ESR 60.
 		const promise = fetch(url, {
 			method: 'GET',
-			// #v-ifndef VITE_FIREFOX
+			// #v-ifdef VITE_FIREFOX
 			credentials: 'same-origin',
 			// #v-endif
 		});
