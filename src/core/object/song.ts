@@ -366,8 +366,6 @@ export default class Song extends BaseSong {
 		this.connectorLabel = connector.label;
 
 		this.initSongData();
-
-		console.log('creating song');
 	}
 
 	public resetInfo(): void {

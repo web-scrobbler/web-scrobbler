@@ -2,7 +2,6 @@ import { ConnectorMeta } from '@/core/connectors';
 import * as Options from '@/core/storage/options';
 import {
 	areAllResults,
-	debugLog,
 	DebugLogType,
 	getSecondsToScrobble,
 	isAnyResult,
@@ -23,6 +22,7 @@ import {
 } from '@/util/communication';
 import EventEmitter from '@/util/emitter';
 import * as BrowserStorage from '@/core/storage/browser-storage';
+import { debugLog } from '@/core/content/util';
 
 /**
  * List of song fields used to check if song is changed. If any of
@@ -118,7 +118,7 @@ export default class Controller {
 				this.shouldScrobblePodcasts = shouldScrobblePodcasts;
 			})
 			.catch((err) => {
-				console.error(err);
+				debugLog(err, 'error');
 			});
 
 		this.debugLog(`Created controller for ${connector.label} connector`);

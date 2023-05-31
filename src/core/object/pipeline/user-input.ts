@@ -5,6 +5,7 @@
 
 import SavedEdits from '@/core/storage/saved-edits';
 import Song from '@/core/object/song';
+import { debugLog } from '@/core/content/util';
 
 /**
  * Fill song info by user defined values.
@@ -15,7 +16,7 @@ export async function process(song: Song): Promise<void> {
 	try {
 		isSongInfoLoaded = await SavedEdits.loadSongInfo(song);
 	} catch (err) {
-		console.error(err);
+		debugLog(err, 'error');
 	}
 
 	song.flags.isCorrectedByUser = isSongInfoLoaded;
