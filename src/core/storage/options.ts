@@ -1,5 +1,6 @@
 import connectors, { ConnectorMeta } from '@/core/connectors';
 import * as BrowserStorage from '@/core/storage/browser-storage';
+import { debugLog } from '../content/util';
 
 const options = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 const connectorsOptions = BrowserStorage.getStorage(
@@ -172,7 +173,7 @@ async function cleanupConfigValues() {
 
 		if (!isFound) {
 			delete data[DISABLED_CONNECTORS][connectorId];
-			console.log(`Remove ${connectorId} from storage`);
+			debugLog(`Remove ${connectorId} from storage`);
 		}
 	}
 }

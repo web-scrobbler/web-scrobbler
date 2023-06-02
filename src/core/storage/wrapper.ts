@@ -24,6 +24,7 @@ import { CloneableSong } from '@/core/object/song';
 import EventEmitter from '@/util/emitter';
 import connectors from '@/core/connectors';
 import { RegexEdit } from '@/util/regex';
+import { debugLog } from '../content/util';
 
 export interface CustomPatterns {
 	[connectorId: string]: string[];
@@ -204,7 +205,7 @@ export default class StorageWrapper<K extends keyof DataModels> {
 		try {
 			await this.set(data);
 		} catch (err) {
-			console.warn(err);
+			debugLog(err, 'warn');
 		}
 		this.unlock();
 	}
@@ -238,7 +239,13 @@ export default class StorageWrapper<K extends keyof DataModels> {
 		};
 
 		const text = JSON.stringify(data, hideSensitiveDataFn, 2);
-		console.info(`storage.${this.namespace} = ${text}`);
+
+		// #v-ifndef VITE_TEST
+		// dont log in content script
+		if (location?.protocol === 'chrome-extension:') {
+			debugLog(`storage.${this.namespace} = ${text}`, 'info');
+		}
+		// #v-endif
 	}
 
 	/**

@@ -1,5 +1,6 @@
 import Song from '@/core/object/song';
 import { MusicBrainzSearch } from './coverartarchive.types';
+import { debugLog } from '@/core/content/util';
 
 /**
  * Fetch coverart from MusicBrainz archive.
@@ -7,10 +8,10 @@ import { MusicBrainzSearch } from './coverartarchive.types';
  */
 export async function process(song: Song): Promise<void> {
 	if (song.parsed.trackArt) {
-		console.log('Using local/parsed artwork');
+		debugLog('Using local/parsed artwork');
 		return;
 	} else if (song.metadata.trackArtUrl) {
-		console.log('Found album artwork via LastFM');
+		debugLog('Found album artwork via LastFM');
 		return;
 	} else if (song.isEmpty()) {
 		return;
@@ -32,7 +33,7 @@ export async function process(song: Song): Promise<void> {
 		}
 
 		if (coverArtUrl) {
-			console.log('Found album artwork via MusicBrainz');
+			debugLog('Found album artwork via MusicBrainz');
 
 			song.metadata.trackArtUrl = coverArtUrl;
 			return;

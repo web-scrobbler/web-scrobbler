@@ -5,6 +5,7 @@ import { getPlatformName, isFullscreenMode } from '@/util/util-browser';
 import * as Options from '@/core/storage/options';
 import { ConnectorMeta } from '@/core/connectors';
 import { Scrobbler } from '@/core/object/scrobble-service';
+import { debugLog } from '@/core/content/util';
 
 /**
  * Notification service.
@@ -214,7 +215,8 @@ export async function showNowPlaying(
 				song.metadata.notificationId = notificationId;
 			})
 			.catch((err) => {
-				console.warn('Unable to show now playing notification: ', err);
+				debugLog('Unable to show now playing notification: ', 'warn');
+				debugLog(err, 'warn');
 			});
 	}, NOW_PLAYING_NOTIFICATION_DELAY);
 }
@@ -324,7 +326,7 @@ function clearNotificationTimeout() {
 }
 
 browser.notifications?.onClicked.addListener((notificationId) => {
-	console.log(`Notification onClicked: ${notificationId}`);
+	debugLog(`Notification onClicked: ${notificationId}`);
 
 	if (clickListeners[notificationId]) {
 		clickListeners[notificationId](notificationId);

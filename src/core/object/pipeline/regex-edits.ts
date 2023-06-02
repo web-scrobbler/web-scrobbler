@@ -1,3 +1,4 @@
+import { debugLog } from '@/core/content/util';
 import Song from '@/core/object/song';
 import RegexEdits from '@/core/storage/regex-edits';
 
@@ -13,6 +14,6 @@ export async function process(song: Song): Promise<void> {
 	try {
 		await RegexEdits.loadSongInfo(song);
 	} catch (err) {
-		console.error(err);
+		debugLog(err, 'error');
 	}
 }

@@ -6,6 +6,7 @@ import MalojaScrobbler from '@/core/scrobbler/maloja/maloja-scrobbler';
 import { ServiceCallResult } from '@/core/object/service-call-result';
 import Song, { BaseSong } from '@/core/object/song';
 import { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
+import { debugLog } from '../content/util';
 
 /**
  * Service to handle all scrobbling behavior.
@@ -57,7 +58,7 @@ class ScrobbleService {
 				await scrobbler.getSession();
 				this.bindScrobbler(scrobbler);
 			} catch (e) {
-				console.warn(`Unable to bind ${scrobbler.getLabel()}`);
+				debugLog(`Unable to bind ${scrobbler.getLabel()}`, 'warn');
 			}
 		}
 
@@ -71,7 +72,7 @@ class ScrobbleService {
 	bindScrobbler(scrobbler: Scrobbler): void {
 		if (!isScrobblerInArray(scrobbler, this.boundScrobblers)) {
 			this.boundScrobblers.push(scrobbler);
-			console.log(`Bind ${scrobbler.getLabel()} scrobbler`);
+			debugLog(`Bind ${scrobbler.getLabel()} scrobbler`);
 		}
 	}
 
@@ -84,9 +85,9 @@ class ScrobbleService {
 			const index = this.boundScrobblers.indexOf(scrobbler);
 			this.boundScrobblers.splice(index, 1);
 
-			console.log(`Unbind ${scrobbler.getLabel()} scrobbler`);
+			debugLog(`Unbind ${scrobbler.getLabel()} scrobbler`);
 		} else {
-			console.error(`${scrobbler.getLabel()} is not bound`);
+			debugLog(`${scrobbler.getLabel()} is not bound`, 'error');
 		}
 	}
 
@@ -101,15 +102,17 @@ class ScrobbleService {
 		const scrobblers = registeredScrobblers.filter((scrobbler) => {
 			return scrobbler.canLoadSongInfo();
 		});
-		console.log(`Send "get info" request: ${scrobblers.length}`);
+
+		debugLog(`Send "get info" request: ${scrobblers.length}`);
 
 		return Promise.all(
 			scrobblers.map(async (scrobbler) => {
 				try {
 					return await scrobbler.getSongInfo(song);
 				} catch {
-					console.warn(
-						`Unable to get song info from ${scrobbler.getLabel()}`
+					debugLog(
+						`Unable to get song info from ${scrobbler.getLabel()}`,
+						'warn'
 					);
 					return null;
 				}
@@ -123,9 +126,7 @@ class ScrobbleService {
 	 * @returns Promise that will be resolved then the task will complete
 	 */
 	sendNowPlaying(song: Song): Promise<ServiceCallResult[]> {
-		console.log(
-			`Send "now playing" request: ${this.boundScrobblers.length}`
-		);
+		debugLog(`Send "now playing" request: ${this.boundScrobblers.length}`);
 
 		return Promise.all(
 			this.boundScrobblers.map(async (scrobbler) => {
@@ -150,7 +151,7 @@ class ScrobbleService {
 	 * @returns Promise that will be resolved then the task will complete
 	 */
 	scrobble(song: Song): Promise<ServiceCallResult[]> {
-		console.log(`Send "scrobble" request: ${this.boundScrobblers.length}`);
+		debugLog(`Send "scrobble" request: ${this.boundScrobblers.length}`);
 
 		return Promise.all(
 			this.boundScrobblers.map(async (scrobbler) => {
@@ -183,7 +184,7 @@ class ScrobbleService {
 			return scrobbler.canLoveSong();
 		});
 		const requestName = flag ? 'love' : 'unlove';
-		console.log(`Send "${requestName}" request: ${scrobblers.length}`);
+		debugLog(`Send "${requestName}" request: ${scrobblers.length}`);
 
 		return Promise.all(
 			scrobblers.map(async (scrobbler) => {
