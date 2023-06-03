@@ -38,7 +38,7 @@ function distRoot() {
 export const buildBackground: UserConfig = {
 	...common,
 	build: {
-		minify: !isDev(),
+		minify: false,
 		outDir: resolvePath(distRoot(), 'background'),
 		emptyOutDir: true,
 		watch: isDev() ? {} : null,
@@ -60,7 +60,7 @@ export const buildBackground: UserConfig = {
 export const buildContent: UserConfig = {
 	...common,
 	build: {
-		minify: !isDev(),
+		minify: false,
 		outDir: resolvePath(distRoot(), 'content'),
 		emptyOutDir: true,
 		watch: isDev() ? {} : null,
@@ -82,7 +82,7 @@ export const buildContent: UserConfig = {
 export const buildStart: UserConfig = {
 	...common,
 	build: {
-		minify: !isDev(),
+		minify: false,
 		outDir: distRoot(),
 		emptyOutDir: false,
 		watch: isDev() ? {} : null,
