@@ -496,7 +496,7 @@ export function extractImageUrlFromSelectors(
 		return null;
 	}
 	const elements = queryElements(selectors);
-	if (!elements) {
+	if (!elements || !elements.length) {
 		return null;
 	}
 
