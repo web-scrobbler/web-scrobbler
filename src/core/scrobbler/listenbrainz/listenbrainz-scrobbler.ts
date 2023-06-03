@@ -21,8 +21,6 @@ const apiUrl = `${baseUrl}/submit-listens`;
 export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'> {
 	public userApiUrl!: string;
 	public userToken!: string;
-	/** Can't find where this value is being set from */
-	private authUrl!: string;
 
 	public async getSongInfo(): Promise<Record<string, never>> {
 		return Promise.resolve({});
@@ -314,21 +312,12 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 	}
 
 	private async requestSession() {
-		const authUrls = [listenBrainzTokenPage, this.authUrl];
-
 		let session = null;
 
-		for (const url of authUrls) {
-			try {
-				session = await this.fetchSession(url);
-			} catch (e) {
-				this.debugLog('request session timeout', 'warn');
-				continue;
-			}
-
-			if (session) {
-				break;
-			}
+		try {
+			session = await this.fetchSession(listenBrainzTokenPage);
+		} catch (e) {
+			this.debugLog('request session timeout', 'warn');
 		}
 
 		if (session) {
@@ -346,7 +335,9 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		// NOTE: Use 'same-origin' credentials to fix login on Firefox ESR 60.
 		const promise = fetch(url, {
 			method: 'GET',
+			// #v-ifdef VITE_FIREFOX
 			credentials: 'same-origin',
+			// #v-endif
 		});
 		const timeout = this.REQUEST_TIMEOUT;
 
