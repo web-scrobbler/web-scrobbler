@@ -36,17 +36,6 @@ export function createQueryString(
 }
 
 /**
- * Return current tab.
- * @returns Promise that will be resolved with current tab object
- */
-export async function getCurrentTab(): Promise<browser.Tabs.Tab> {
-	const query = { active: true, currentWindow: true };
-	const tabs = await browser.tabs.query(query);
-
-	return tabs[0];
-}
-
-/**
  * Return platform name.
  * @returns Platform name
  */
