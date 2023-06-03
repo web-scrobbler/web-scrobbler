@@ -39,6 +39,22 @@
         "message": "Принудительное распознавание композиций",
         "description": "Option title"
     },
+    "optionScrobbleRecognizedTracks": {
+        "message": "Скробблить распознанные или отредактированные треки (по-умолчанию)",
+        "description": "Option label"
+    },
+    "optionScrobbleRecognizedTracksTitle": {
+        "message": "Скробблить только те треки, которые были распознаны расширением, либо отредактированы вами",
+        "description": "Option title"
+    },
+    "optionScrobbleEditedTracksOnly": {
+        "message": "Скробблить только отредактированные треки",
+        "description": "Option label"
+    },
+    "optionScrobbleEditedTracksOnlyTitle": {
+        "message": "Скробблить только те треки, которые были отредактированы вами",
+        "description": "Option title"
+    },
     "optionsHidden": {
         "message": "Скрытые",
         "description": "'Hidden' section"
@@ -74,6 +90,26 @@
     "optionYtEntertainmentOnlyTitle": {
         "message": "Игнорировать видео, которые не в категории \"Развлечения\"",
         "description": "Option title"
+    },
+    "optionYtGetTrackInfoFromYtMusic": {
+        "message": "Использовать YouTube Music для получения информации о треках",
+        "description": "Option label"
+    },
+    "optionYtGetTrackInfoFromYtMusicTitle": {
+        "message": "Использовать YouTube Music для получения информации о треках; если отключено, то будут использованы данные из заголовка и описания видео",
+        "description": "Option title"
+    },
+    "optionTheme": {
+        "message": "Тема",
+        "description": "Option label"
+    },
+    "optionThemeLight": {
+        "message": "Светлая",
+        "description": "Option label"
+    },
+    "optionThemeDark": {
+        "message": "Тёмная",
+        "description": "Option label"
     },
     "optionsAccounts": {
         "message": "Аккаунты",
@@ -151,6 +187,10 @@
         "message": "Импорт",
         "description": "Button to import edited tracks"
     },
+    "optionsConnectors": {
+        "message": "Коннекторы",
+        "description": "'Connectors' section"
+    },
     "optionsEnableDisableHint": {
         "message": "Поставьте или снимите галочку, чтобы включить или выключить коннекторы.",
         "description": "Enable/disable hint"
@@ -166,6 +206,10 @@
     "optionsToggle": {
         "message": "Переключить",
         "description": "Label of toggle button"
+    },
+    "optionsLoadingConnectorOptions": {
+        "message": "Загрузка настроек коннекторов…",
+        "description": "Loading connector options message"
     },
     "learnMoreLabel": {
         "message": "Узнать больше",
@@ -303,9 +347,17 @@
         "message": "Вы можете посмотреть список участников проекта на <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">странице проекта</a> на GitHub.",
         "description": "'About' section text"
     },
+    "contributorsContribute": {
+        "message": "Если вы хотите поучаствовать в разработке, вы можете ознакомиться со способами внести вклад в проект <a href=\"https://web-scrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">на нашем сайте</a>.",
+        "description": "'About' section text"
+    },
     "showSomeLoveTitle": {
         "message": "Пожертвования",
         "description": "'Show some love' section"
+    },
+    "showSomeLoveFundingCampaign": {
+        "message": "Со временем в нашем багтрекере накопилось большое количество багрепортов. Начиная с середины августа 2023 и до середины марта 2024 один из наших ключевых разработчиков проекта будет доступен для фултайм работы над расширением на пониженной ставке. Если мы соберём $$1,500, то сможем покрыть один месяц фултайм разработки, и так до 9-10 тысяч долларов. Если вы хотите поддержать эту кампанию, чтобы помочь нам разгрести список багрепортов и сделать Web Scrobbler ещё лучше, используйте кнопку ниже. Мы по-прежнему намерены оставить расширение и все его функции бесплатными. Пожалуйста, помогите распространить эту информацию.",
+        "description": "Temporary funding campaign"
     },
     "showSomeLoveText1": {
         "message": "В отличие от других расширений, это не содержит рекламные баннеры.",
@@ -314,6 +366,10 @@
     "showSomeLoveText2": {
         "message": "Расширение бесплатно, и всегда будет бесплатным. Если вы хотите поддержать разработку расширения, вы можете воспользоваться кнопкой ниже.",
         "description": ""
+    },
+    "donationButtonLabel": {
+        "message": "Поддержать нас на OpenCollective",
+        "description": "The donation button label"
     },
     "customPatterns": {
         "message": "Шаблоны URL",
@@ -470,6 +526,22 @@
     "infoAlbumArtistPlaceholder": {
         "message": "Исполнитель альбома (необязательно)",
         "description": "Placeholder of album artist input"
+    },
+    "infoArtistLabel": {
+        "message": "Исполнитель",
+        "description": "Label of artist input row"
+    },
+    "infoTrackLabel": {
+        "message": "Трек",
+        "description": "Label of track input row"
+    },
+    "infoAlbumLabel": {
+        "message": "Альбом",
+        "description": "Label of album input row"
+    },
+    "infoAlbumArtistLabel": {
+        "message": "Исполнитель альбома",
+        "description": "Label of album artist input row"
     },
     "infoViewArtistPage": {
         "message": "Посмотреть страницу исполнителя: $1",
