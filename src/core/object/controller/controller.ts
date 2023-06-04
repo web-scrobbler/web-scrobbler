@@ -37,35 +37,15 @@ export type ControllerModeStr =
 	(typeof ControllerMode)[keyof typeof ControllerMode];
 
 /**
- * States and their priority. earlier indices will be displayed first.
- */
-export const controllerModePriority: ControllerModeStr[][] = [
-	[ControllerMode.Err, ControllerMode.Ignored],
-	[ControllerMode.Unknown],
-	[ControllerMode.Loading],
-	[ControllerMode.Playing, ControllerMode.Scrobbled],
-	[
-		ControllerMode.Base,
-		ControllerMode.Skipped,
-		ControllerMode.Disabled,
-		ControllerMode.Unsupported,
-	],
-];
-
-/**
  * Priorities of each state as an object
  */
-export const controllerModePriorityObject: Record<ControllerModeStr, number> = {
-	[ControllerMode.Base]: 0,
-	[ControllerMode.Skipped]: 0,
-	[ControllerMode.Disabled]: 0,
-	[ControllerMode.Unsupported]: 0,
-	[ControllerMode.Playing]: 1,
-	[ControllerMode.Scrobbled]: 1,
-	[ControllerMode.Loading]: 2,
-	[ControllerMode.Unknown]: 3,
-	[ControllerMode.Ignored]: 4,
-	[ControllerMode.Err]: 4,
+export const isPrioritizedMode: Partial<Record<ControllerModeStr, true>> = {
+	[ControllerMode.Playing]: true,
+	[ControllerMode.Scrobbled]: true,
+	[ControllerMode.Loading]: true,
+	[ControllerMode.Unknown]: true,
+	[ControllerMode.Ignored]: true,
+	[ControllerMode.Err]: true,
 };
 
 type updateEvent = {
