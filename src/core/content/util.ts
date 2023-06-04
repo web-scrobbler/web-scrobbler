@@ -287,12 +287,22 @@ export function extractUrlFromCssProperty(
  */
 export function throttle<T>(func: () => T, wait: number): () => T | undefined {
 	let prev = 0;
+	let timeout = setTimeout(() => {
+		// do nothing
+	}, 0);
+
 	return () => {
 		const now = Date.now();
-		if (now - prev > wait) {
+		const remaining = wait - (now - prev);
+		if (remaining <= 0) {
 			prev = now;
 			return func();
 		}
+		clearTimeout(timeout);
+		timeout = setTimeout(() => {
+			prev = Date.now();
+			func();
+		}, remaining);
 	};
 }
 
@@ -486,7 +496,7 @@ export function extractImageUrlFromSelectors(
 		return null;
 	}
 	const elements = queryElements(selectors);
-	if (!elements) {
+	if (!elements || !elements.length) {
 		return null;
 	}
 

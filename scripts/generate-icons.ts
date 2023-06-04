@@ -185,6 +185,34 @@ async function createUnmodifiedIcon(
 }
 
 /**
+ * Creates a png from a svg without making any edits to it.
+ *
+ * @param folder - folder containing the icon svg in src.
+ * @param path - name of the svg file.
+ * @param size - desired resolution of the png file.
+ * @returns a PNG buffer from the svg file
+ */
+async function createUnmodifiedIconNoAlpha(
+	folder: string,
+	path: string,
+	size: number,
+	margin?: number
+): Promise<Buffer> {
+	const canvas = createCanvas(size, size);
+	const ctx = canvas.getContext('2d');
+	ctx.fillStyle = '#fd3148';
+	ctx.fillRect(0, 0, size, size);
+	const image = await loadImage(resolve(input, folder, path));
+
+	const iconMargin = margin ?? 0;
+	const iconSize = size - iconMargin * 2;
+	image.width = iconSize;
+	image.height = iconSize;
+	ctx.drawImage(image, iconMargin, iconMargin, iconSize, iconSize);
+	return canvas.toBuffer();
+}
+
+/**
  * Creates a png from a svg editing to adjust for apple's icon style
  *
  * @param folder - folder containing the icon svg in src.
@@ -377,7 +405,7 @@ async function writexcodeIcons(): Promise<void> {
 			'AppIcon.appiconset',
 			'universal-icon-1024@1x.png'
 		),
-		await createUnmodifiedIcon('main', mainPath, 1024)
+		await createUnmodifiedIconNoAlpha('main', mainPath, 1024)
 	);
 
 	for (const res of xcodeIconResolutions) {

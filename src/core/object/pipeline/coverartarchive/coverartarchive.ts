@@ -1,5 +1,6 @@
 import Song from '@/core/object/song';
 import { MusicBrainzSearch } from './coverartarchive.types';
+import { debugLog } from '@/core/content/util';
 
 /**
  * Fetch coverart from MusicBrainz archive.
@@ -7,10 +8,10 @@ import { MusicBrainzSearch } from './coverartarchive.types';
  */
 export async function process(song: Song): Promise<void> {
 	if (song.parsed.trackArt) {
-		console.log('Using local/parsed artwork');
+		debugLog('Using local/parsed artwork');
 		return;
 	} else if (song.metadata.trackArtUrl) {
-		console.log('Found album artwork via LastFM');
+		debugLog('Found album artwork via LastFM');
 		return;
 	} else if (song.isEmpty()) {
 		return;
@@ -32,7 +33,7 @@ export async function process(song: Song): Promise<void> {
 		}
 
 		if (coverArtUrl) {
-			console.log('Found album artwork via MusicBrainz');
+			debugLog('Found album artwork via MusicBrainz');
 
 			song.metadata.trackArtUrl = coverArtUrl;
 			return;
@@ -43,7 +44,7 @@ export async function process(song: Song): Promise<void> {
 /**
  * Get track or album MusicBrainz ID.
  * Search API docs:
- * 	http://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search
+ * 	https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search
  * Query syntax docs:
  * 	https://lucene.apache.org/core/4_3_0/queryparser/org/apache/lucene/queryparser/classic/package-summary.html#package_description
  *
@@ -60,7 +61,7 @@ async function getMusicBrainzId(endpoint: string, song: Song) {
 	}
 
 	const url =
-		`http://musicbrainz.org/ws/2/${endpoint}?fmt=json&query=` +
+		`https://musicbrainz.org/ws/2/${endpoint}?fmt=json&query=` +
 		`title:+"${track ?? ''}"^3 ${track ?? ''} artistname:+"${
 			artist ?? ''
 		}"^4${artist ?? ''}`;
@@ -89,7 +90,7 @@ async function getMusicBrainzId(endpoint: string, song: Song) {
  * @returns Cover art URL
  */
 async function checkCoverArt(mbid: string) {
-	const coverArtUrl = `http://coverartarchive.org/release/${mbid}/front-500`;
+	const coverArtUrl = `https://coverartarchive.org/release/${mbid}/front-500`;
 	const response = await fetch(coverArtUrl, { method: 'HEAD' });
 	if (response.ok) {
 		return coverArtUrl;

@@ -15,7 +15,7 @@ function deezerInitConnector() {
 			retries++;
 		}, 1007);
 	} else {
-		console.warn('Web Scrobbler: Failed to initialize deezer connector!');
+		Util.debugLog('Failed to initialize deezer connector!', 'warn');
 	}
 }
 
@@ -81,8 +81,9 @@ function deezerGetCurrentMediaInfo() {
 	}
 
 	if (!trackInfo) {
-		console.warn(
-			`Web Scrobbler: Unable to load track info for ${mediaType} media type`
+		Util.debugLog(
+			`Unable to load track info for ${mediaType} media type`,
+			'warn'
 		);
 		return null;
 	}

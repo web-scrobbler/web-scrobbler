@@ -2,7 +2,6 @@ import { ConnectorMeta } from '@/core/connectors';
 import * as Options from '@/core/storage/options';
 import {
 	areAllResults,
-	debugLog,
 	DebugLogType,
 	getSecondsToScrobble,
 	isAnyResult,
@@ -22,6 +21,7 @@ import {
 } from '@/util/communication';
 import EventEmitter from '@/util/emitter';
 import * as BrowserStorage from '@/core/storage/browser-storage';
+import { debugLog } from '@/core/content/util';
 
 /**
  * List of song fields used to check if song is changed. If any of
@@ -36,35 +36,15 @@ export type ControllerModeStr =
 	(typeof ControllerMode)[keyof typeof ControllerMode];
 
 /**
- * States and their priority. earlier indices will be displayed first.
- */
-export const controllerModePriority: ControllerModeStr[][] = [
-	[ControllerMode.Err, ControllerMode.Ignored],
-	[ControllerMode.Unknown],
-	[ControllerMode.Loading],
-	[ControllerMode.Playing, ControllerMode.Scrobbled],
-	[
-		ControllerMode.Base,
-		ControllerMode.Skipped,
-		ControllerMode.Disabled,
-		ControllerMode.Unsupported,
-	],
-];
-
-/**
  * Priorities of each state as an object
  */
-export const controllerModePriorityObject: Record<ControllerModeStr, number> = {
-	[ControllerMode.Base]: 0,
-	[ControllerMode.Skipped]: 0,
-	[ControllerMode.Disabled]: 0,
-	[ControllerMode.Unsupported]: 0,
-	[ControllerMode.Playing]: 1,
-	[ControllerMode.Scrobbled]: 1,
-	[ControllerMode.Loading]: 2,
-	[ControllerMode.Unknown]: 3,
-	[ControllerMode.Ignored]: 4,
-	[ControllerMode.Err]: 4,
+export const isPrioritizedMode: Partial<Record<ControllerModeStr, true>> = {
+	[ControllerMode.Playing]: true,
+	[ControllerMode.Scrobbled]: true,
+	[ControllerMode.Loading]: true,
+	[ControllerMode.Unknown]: true,
+	[ControllerMode.Ignored]: true,
+	[ControllerMode.Err]: true,
 };
 
 type updateEvent = {
@@ -117,7 +97,7 @@ export default class Controller {
 				this.shouldScrobblePodcasts = shouldScrobblePodcasts;
 			})
 			.catch((err) => {
-				console.error(err);
+				debugLog(err, 'error');
 			});
 
 		this.debugLog(`Created controller for ${connector.label} connector`);
@@ -602,10 +582,7 @@ export default class Controller {
 			// Processing cleans this flag
 			this.currentSong.flags.isMarkedAsPlaying = false;
 
-			const duration = this.currentSong.getDuration();
-			if (duration) {
-				await this.updateTimers(duration);
-			}
+			await this.updateTimers(this.currentSong.getDuration());
 
 			/*
 			 * If the song is playing, mark it immediately;
@@ -734,7 +711,9 @@ export default class Controller {
 	 * Update internal timers.
 	 * @param duration - Song duration in seconds
 	 */
-	private async updateTimers(duration: number): Promise<void> {
+	private async updateTimers(
+		duration: number | null | undefined
+	): Promise<void> {
 		if (this.playbackTimer.isExpired()) {
 			this.debugLog('Attempt to update expired timers', 'warn');
 			return;

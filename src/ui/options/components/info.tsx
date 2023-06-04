@@ -13,8 +13,10 @@ export default function InfoComponent() {
 			<h2>{t('contributorsTitle')}</h2>
 			{/* eslint-disable-next-line */}
 			<p innerHTML={t('contributorsText')}></p>
+			// #v-ifndef VITE_SAFARI
 			{/* eslint-disable-next-line */}
 			<p innerHTML={t('contributorsContribute')}></p>
+			// #v-endif
 		</>
 	);
 }

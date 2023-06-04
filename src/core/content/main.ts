@@ -13,11 +13,14 @@ async function main() {
 	updateTheme();
 	try {
 		await fetchConnector();
+		start();
 	} catch (err) {
+		if (err instanceof Error && err.message === 'dontlog') {
+			return;
+		}
 		Util.debugLog(err, 'error');
 		return;
 	}
-	start();
 }
 
 /**
@@ -27,12 +30,12 @@ async function main() {
 async function fetchConnector(): Promise<void> {
 	const connector = await getConnectorByUrl(window.location.href);
 	if (!connector) {
-		return;
+		throw new Error('dontlog');
 	}
 
 	// Don't run the connector in frames if it's not allowed to run in frames
 	if (window !== top && !connector.allFrames) {
-		return;
+		throw new Error('dontlog');
 	}
 
 	window.Connector = new BaseConnector(connector);

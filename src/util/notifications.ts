@@ -5,6 +5,7 @@ import { getPlatformName, isFullscreenMode } from '@/util/util-browser';
 import * as Options from '@/core/storage/options';
 import { ConnectorMeta } from '@/core/connectors';
 import { Scrobbler } from '@/core/object/scrobble-service';
+import { debugLog } from '@/core/content/util';
 
 /**
  * Notification service.
@@ -42,17 +43,17 @@ let notificationTimeoutId: NodeJS.Timeout | null = null;
  * @returns Check result
  */
 async function isAvailable() {
-	// @ifdef CHROME
+	// #v-ifdef VITE_CHROME
 	const platform = await getPlatformName();
 	if (platform === 'mac') {
 		return !(await isFullscreenMode());
 	}
 
 	return true;
-	// @endif
-	/* @ifdef FIREFOX
+	// #v-endif
+	// #v-ifdef VITE_FIREFOX
 	return true;
-	/* @endif */
+	// #v-endif
 }
 
 /**
@@ -169,14 +170,17 @@ export async function showNowPlaying(
 
 	const connectorLabel = song.metadata.label;
 	const iconUrl = song.getTrackArt() || defaultTrackArtUrl;
-	// @ifdef CHROME
-	let message = song.getArtist();
-	const title = song.getTrack();
-	// @endif
-	/* @ifdef FIREFOX
-	let message = `${song.getTrack()}\n${song.getArtist()}`;
-	let title = `Web Scrobbler \u2022 ${connectorLabel}`;
-	/* @endif */
+	// #v-ifdef VITE_CHROME
+	const chromeMessage = song.getArtist();
+	const chromeTitle = song.getTrack();
+	// #v-endif
+	// #v-ifdef VITE_FIREFOX
+	const firefoxMessage = `${song.getTrack()}\n${song.getArtist()}`;
+	const firefoxTitle = `Web Scrobbler \u2022 ${connectorLabel}`;
+	// #v-endif
+
+	let message = chromeMessage ?? firefoxMessage;
+	const title = chromeTitle ?? firefoxTitle;
 
 	const albumName = song.getAlbum();
 	if (albumName) {
@@ -197,10 +201,10 @@ export async function showNowPlaying(
 		title: title ?? 'null',
 		message: message ?? 'null',
 
-		// @ifdef CHROME
+		// #v-ifdef VITE_CHROME
 		silent: true,
 		contextMessage: connectorLabel,
-		// @endif
+		// #v-endif
 	};
 
 	clearNotificationTimeout();
@@ -211,7 +215,8 @@ export async function showNowPlaying(
 				song.metadata.notificationId = notificationId;
 			})
 			.catch((err) => {
-				console.warn('Unable to show now playing notification: ', err);
+				debugLog('Unable to show now playing notification: ', 'warn');
+				debugLog(err, 'warn');
 			});
 	}, NOW_PLAYING_NOTIFICATION_DELAY);
 }
@@ -321,7 +326,7 @@ function clearNotificationTimeout() {
 }
 
 browser.notifications?.onClicked.addListener((notificationId) => {
-	console.log(`Notification onClicked: ${notificationId}`);
+	debugLog(`Notification onClicked: ${notificationId}`);
 
 	if (clickListeners[notificationId]) {
 		clickListeners[notificationId](notificationId);

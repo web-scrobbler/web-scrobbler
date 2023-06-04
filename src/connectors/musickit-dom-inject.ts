@@ -3,55 +3,70 @@
  * global. It listens to events directly from the player and propagates these
  * events to the extension via 'postMessage'.
  */
-if ('MusicKit' in window && window.MusicKit) {
-	musicKitAddEventListeners();
-} else {
-	document.addEventListener('musickitloaded', musicKitAddEventListeners);
-}
+musicKitAddEventListeners();
 
-function musicKitAddEventListeners() {
+async function musicKitAddEventListeners() {
 	const Events = (window as any).MusicKit.Events;
-	musicKitInstance().addEventListener(
-		Events.metadataDidChange,
-		musicKitSendEvent
-	);
-	musicKitInstance().addEventListener(
-		Events.playbackStateDidChange,
-		musicKitSendEvent
-	);
-	musicKitInstance().addEventListener(
+	const instance = await musicKitInstance();
+	instance.addEventListener(Events.metadataDidChange, musicKitSendEvent);
+	instance.addEventListener(Events.playbackStateDidChange, musicKitSendEvent);
+	instance.addEventListener(
 		Events.nowPlayingItemDidChange,
 		musicKitSendEvent
 	);
 }
 
-function musicKitInstance() {
+async function musicKitInstance() {
 	const api = (window as any).MusicKit;
-	return api.getInstance().player ?? api.getInstance();
+
+	const initInstance = api?.getInstance();
+	// If the instance is already available, return it immediately
+	if (initInstance) {
+		return initInstance?.player ?? initInstance;
+	}
+
+	// Otherwise, poll until it is available
+	let i = 0;
+	return new Promise<any>((resolve, reject) => {
+		const interval = setInterval(() => {
+			const instance = api?.getInstance();
+			if (instance) {
+				clearInterval(interval);
+				resolve(instance?.player ?? instance);
+				return;
+			}
+			if (i++ > 100) {
+				clearInterval(interval);
+				reject('MusicKit instance not found');
+				return;
+			}
+		}, 100);
+	});
 }
 
-function musicKitSendEvent() {
+async function musicKitSendEvent() {
 	window.postMessage(
 		{
 			sender: 'web-scrobbler',
 			type: 'MUSICKIT_STATE',
-			trackInfo: musicKitGetTrackInfo(),
-			isPlaying: musicKitIsPlaying(),
+			trackInfo: await musicKitGetTrackInfo(),
+			isPlaying: await musicKitIsPlaying(),
 		},
 		'*'
 	);
 }
 
-function musicKitGetTrackInfo() {
-	const item = musicKitInstance().nowPlayingItem;
+async function musicKitGetTrackInfo() {
+	const instance = await musicKitInstance();
+	const item = instance.nowPlayingItem;
 	return {
 		album: item.albumName,
 		track: item.title,
 		artist: item.artistName,
 		trackArt: musicKitArtwork(item.artworkURL),
-		duration: musicKitInstance().currentPlaybackDuration,
+		duration: instance.currentPlaybackDuration,
 		uniqueID: item.id,
-		currentTime: musicKitInstance().currentPlaybackTime,
+		currentTime: instance.currentPlaybackTime,
 	};
 }
 
@@ -59,6 +74,6 @@ function musicKitArtwork(url: string) {
 	return url.replace('{w}x{h}bb', '256x256bb');
 }
 
-function musicKitIsPlaying() {
-	return musicKitInstance().isPlaying;
+async function musicKitIsPlaying() {
+	return (await musicKitInstance()).isPlaying;
 }

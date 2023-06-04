@@ -23,7 +23,7 @@ import {
 } from './util';
 import {
 	ControllerModeStr,
-	controllerModePriorityObject,
+	isPrioritizedMode,
 } from '@/core/object/controller/controller';
 import { CloneableSong } from '@/core/object/song';
 import {
@@ -113,10 +113,7 @@ async function updateTabList(tabId: number, activated: boolean) {
 
 	const curTab = await getActiveTabDetails(newTabs, tabId);
 
-	if (
-		controllerModePriorityObject[curTab.mode] !== 0 &&
-		curTab.tabId === tabId
-	) {
+	if (isPrioritizedMode[curTab.mode] && curTab.tabId === tabId) {
 		if (activated) {
 			newTabs = [curTab, ...newTabs];
 		} else {

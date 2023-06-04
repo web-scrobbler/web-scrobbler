@@ -16,9 +16,9 @@ export abstract class CustomStorage<K extends keyof DataModels> {
 	protected _init(storageRef: StorageWrapper<K>): void {
 		this.storageRef = storageRef;
 
-		/* @ifdef DEVELOPMENT */
+		// #v-ifdef VITE_DEV
 		void this.storageRef.debugLog();
-		/* @endif */
+		// #v-endif
 	}
 
 	/**

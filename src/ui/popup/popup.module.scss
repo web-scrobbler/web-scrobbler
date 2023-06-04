@@ -86,6 +86,12 @@ a {
 		padding: 0.5em 1em;
 		white-space: nowrap;
 
+		a {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+
 		@supports (-webkit-touch-callout: none) {
 			.editField {
 				@include iOSTextInput;
