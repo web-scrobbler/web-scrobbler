@@ -103,3 +103,5 @@ jobs:
           access_token_url: ${{ secrets.EDGE_ACCESS_TOKEN_URL }}
           zip: web-scrobbler-chrome.zip # Compatible with Chrome
           notes: 'Version ${{ steps.get-package-version.outputs.PACKAGE_VERSION }} upload'
+          debug: true
+
