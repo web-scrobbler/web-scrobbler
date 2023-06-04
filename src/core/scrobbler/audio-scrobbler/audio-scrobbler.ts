@@ -4,7 +4,7 @@ import { hideStringInText, timeoutPromise } from '@/util/util';
 import { createQueryString } from '@/util/util-browser';
 import BaseScrobbler, { SessionData } from '@/core/scrobbler/base-scrobbler';
 import { ServiceCallResult } from '@/core/object/service-call-result';
-import Song, { BaseSong } from '@/core/object/song';
+import { BaseSong } from '@/core/object/song';
 import {
 	AudioScrobblerSessionResponse,
 	AudioScrobblerTrackScrobbleResponse,
@@ -156,7 +156,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 	}
 
 	/** @override */
-	async sendNowPlaying(song: Song): Promise<ServiceCallResult> {
+	async sendNowPlaying(song: BaseSong): Promise<ServiceCallResult> {
 		const { sessionID } = await this.getSession();
 		const params: AudioScrobblerParams = {
 			method: 'track.updatenowplaying',
@@ -183,7 +183,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 	}
 
 	/** @override */
-	async scrobble(song: Song): Promise<ServiceCallResult> {
+	async scrobble(song: BaseSong): Promise<ServiceCallResult> {
 		const { sessionID } = await this.getSession();
 		const params: AudioScrobblerScrobbleParams = {
 			method: 'track.scrobble',

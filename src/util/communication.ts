@@ -1,6 +1,8 @@
 import { ConnectorMeta } from '@/core/connectors';
 import { ControllerModeStr } from '@/core/object/controller/controller';
+import { ServiceCallResult } from '@/core/object/service-call-result';
 import { CloneableSong } from '@/core/object/song';
+import { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
 import { ManagerTab } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
 
@@ -53,6 +55,31 @@ interface ContentCommunications {
 		payload: 'dark' | 'light';
 		response: void;
 	};
+	setNowPlaying: {
+		payload: {
+			song: CloneableSong;
+		};
+		response: Promise<ServiceCallResult[]>;
+	};
+	scrobble: {
+		payload: {
+			song: CloneableSong;
+		};
+		response: Promise<ServiceCallResult[]>;
+	};
+	getSongInfo: {
+		payload: {
+			song: CloneableSong;
+		};
+		response: Promise<(Record<string, never> | ScrobblerSongInfo | null)[]>;
+	};
+	toggleLove: {
+		payload: {
+			song: CloneableSong;
+			isLoved: boolean;
+		};
+		response: Promise<(ServiceCallResult | Record<string, never>)[]>;
+	};
 }
 
 interface BackgroundCommunications {
@@ -65,6 +92,12 @@ interface BackgroundCommunications {
 		response: void;
 	};
 	toggleLove: {
+		payload: {
+			isLoved: boolean;
+		};
+		response: void;
+	};
+	updateLove: {
 		payload: {
 			isLoved: boolean;
 		};

@@ -26,6 +26,22 @@ class StorageAreaStub {
 	}
 }
 
+const messages = {
+	getSongInfo: (payload: any) => {
+		if (
+			payload.song.processed.artist === 'フミンニッキ' &&
+			payload.song.processed.track === 'Re:start'
+		) {
+			return Promise.resolve([
+				{
+					album: 'Re:start - EP',
+				},
+			]);
+		}
+		Promise.resolve([]);
+	},
+};
+
 /**
  * Browser object stub.
  */
@@ -33,6 +49,13 @@ const browser = {
 	storage: {
 		local: new StorageAreaStub(),
 		sync: new StorageAreaStub(),
+	},
+	runtime: {
+		sendMessage: (payload: {
+			type: string;
+			payload: Record<string, unknown>;
+			//@ts-ignore - we know that this is sound
+		}) => messages[payload.type]?.(payload.payload) ?? Promise.resolve([]),
 	},
 };
 

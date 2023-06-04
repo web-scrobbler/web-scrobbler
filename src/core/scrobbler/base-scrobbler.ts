@@ -1,13 +1,14 @@
 'use strict';
 
 import { DebugLogType, debugLog } from '@/util/util';
-import Song, { BaseSong } from '@/core/object/song';
+import { BaseSong } from '@/core/object/song';
 import { ServiceCallResult } from '@/core/object/service-call-result';
 import StorageWrapper, { ScrobblerModels } from '@/core/storage/wrapper';
 import {
 	StorageNamespace,
 	getScrobblerStorage,
 } from '../storage/browser-storage';
+import ClonedSong from '../object/cloned-song';
 
 export interface SessionData {
 	/** ID of a current session */
@@ -196,7 +197,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 * @param song - Song instance
 	 */
 	// eslint-disable-next-line no-unused-vars
-	public abstract sendNowPlaying(song: Song): Promise<ServiceCallResult>;
+	public abstract sendNowPlaying(song: BaseSong): Promise<ServiceCallResult>;
 
 	/**
 	 * Send song to API to scrobble.
@@ -205,7 +206,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 * @param song - Song instance
 	 */
 	// eslint-disable-next-line no-unused-vars
-	public abstract scrobble(song: Song): Promise<ServiceCallResult>;
+	public abstract scrobble(song: BaseSong): Promise<ServiceCallResult>;
 
 	/**
 	 * Love or unlove given song.
@@ -216,7 +217,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 */
 	// eslint-disable-next-line no-unused-vars
 	public abstract toggleLove(
-		song: BaseSong,
+		song: ClonedSong,
 		isLoved: boolean
 	): Promise<ServiceCallResult | Record<string, never>>;
 
@@ -228,7 +229,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 */
 	// eslint-disable-next-line no-unused-vars
 	public abstract getSongInfo(
-		song: Song
+		song: BaseSong
 	): Promise<ScrobblerSongInfo | Record<string, never>>;
 
 	/* Getters. */
@@ -290,7 +291,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 * @param song - the song about to be dispatched
 	 * @returns updated song
 	 */
-	public applyFilter(song: Song): Song {
+	public applyFilter(song: BaseSong): BaseSong {
 		return song;
 	}
 

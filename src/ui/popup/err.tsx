@@ -17,8 +17,6 @@ export default function Err() {
 			<p>
 				<TPopupAnchor messageName="serviceErrorDesc" />
 			</p>
-			{/* eslint-disable-next-line */}
-			<p innerHTML={t('serviceErrorAdblock')} />
 			<PopupAnchor
 				href={browser.runtime.getURL('src/ui/options/index.html')}
 				class={`${optionComponentStyles.linkButton} ${styles.centered}`}
