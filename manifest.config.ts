@@ -25,6 +25,7 @@ export const common: Manifest.WebExtensionManifest = {
 
 	background: {
 		scripts: ['background/main.js'],
+		persistent: false,
 	},
 
 	web_accessible_resources: [

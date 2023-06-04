@@ -180,7 +180,7 @@ export async function getCurrentTabId() {
  * @returns tab details
  */
 export async function getCurrentTab(): Promise<ManagerTab> {
-	const curState = await getState();
+	const curState = (await state.get()) ?? DEFAULT_STATE;
 	return getActiveTabDetails(curState.activeTabs);
 }
 
