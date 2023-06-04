@@ -8,7 +8,10 @@ import type {
 	TrackInfoWithAlbum,
 } from '@/core/types';
 import type { ConnectorOptions } from '@/core/storage/options';
+import type { ControllerModeStr } from '@/core/object/controller/controller';
 import type { DebugLogType } from '@/util/util';
+
+import * as ControllerMode from '@/core/object/controller/controller-mode';
 
 const BrowserStorage = (async () => {
 	return import('@/core/storage/browser-storage');
@@ -1028,4 +1031,25 @@ export function getOriginUrl(selector: string): string {
 		originUrlAnchor.getAttribute('href')?.split('?')?.[0] ??
 		document.location.href
 	);
+}
+
+export function getInfoBoxText(
+	mode: ControllerModeStr | undefined,
+	state: State
+) {
+	if (!mode || !state.artist || !state.track) {
+		return 'Loading...';
+	}
+
+	const trackInfo = `${state.artist} - ${state.track}`;
+	switch (mode) {
+		case ControllerMode.Loading:
+			return 'Loading...';
+		case ControllerMode.Playing:
+			return 'Will scrobble as ' + trackInfo;
+		case ControllerMode.Scrobbled:
+			return 'Scrobbled as ' + trackInfo;
+		default:
+			return "Won't scrobble";
+	}
 }

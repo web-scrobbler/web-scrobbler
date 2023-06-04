@@ -2,6 +2,7 @@ import * as MetadataFilter from '@web-scrobbler/metadata-filter';
 import browser from 'webextension-polyfill';
 import { ArtistTrackInfo, BaseState, State, TimeInfo } from '@/core/types';
 import * as Util from '@/core/content/util';
+import Controller from '@/core/object/controller/controller';
 import { ConnectorMeta } from '../connectors';
 
 export default class BaseConnector {
@@ -128,6 +129,11 @@ export default class BaseConnector {
 	 * set up some custom detection of player state changing.
 	 */
 	public playerSelector: string | string[] | null = null;
+
+	/**
+	 * TODO: write info
+	 */
+	public scrobbleInfoLocationSelector: string | null = null;
 
 	/**
 	 * Selector of element contains a track art of now playing song.
@@ -544,6 +550,16 @@ export default class BaseConnector {
 		| null = null;
 
 	/**
+	 * Function that handles updating the scrobble info box
+	 */
+	private getInfoBoxElement: () => HTMLDivElement | null;
+
+	/**
+	 * Function that handles updating the scrobble info box
+	 */
+	private updateInfoBox: () => void;
+
+	/**
 	 * Function for all the hard work around detecting and updating state.
 	 */
 	private stateChangedWorker: () => void;
@@ -564,6 +580,11 @@ export default class BaseConnector {
 	 * Throttled call for state changed worker.
 	 */
 	private stateChangedWorkerThrottled: () => void;
+
+	/**
+	 * Handle to the controller managing this connector
+	 */
+	public controller: Controller | null = null;
 
 	constructor(meta: ConnectorMeta) {
 		this.meta = meta;
@@ -638,6 +659,9 @@ export default class BaseConnector {
 			}
 
 			this.isStateReset = true;
+
+			// reset the infoBox so we do not display old info
+			this.updateInfoBox();
 		};
 
 		this.onStateChanged = () => {
@@ -660,6 +684,61 @@ export default class BaseConnector {
 			} else {
 				this.stateChangedWorkerThrottled();
 			}
+		};
+
+		this.getInfoBoxElement = (): HTMLDivElement | null => {
+			if (!this.scrobbleInfoLocationSelector) {
+				return null;
+			}
+
+			const parentEl = document.querySelector(
+				this.scrobbleInfoLocationSelector
+			);
+			if (!parentEl) {
+				return null;
+			}
+
+			// check if infoBoxEl was already created
+			let infoBoxElement = document.querySelector<HTMLDivElement>(
+				'#scrobbler-infobox-el'
+			);
+
+			// check if element is still in the correct place
+			if (infoBoxElement) {
+				if (infoBoxElement.parentElement !== parentEl) {
+					infoBoxElement.remove();
+				} else {
+					return infoBoxElement;
+				}
+			}
+
+			// if it was not in the correct place or didn't exist, create it
+			infoBoxElement = document.createElement('div');
+			infoBoxElement.setAttribute('id', 'scrobbler-infobox-el');
+			parentEl.appendChild(infoBoxElement);
+			return infoBoxElement;
+		};
+
+		this.updateInfoBox = () => {
+			const infoBoxElement = this.getInfoBoxElement();
+			if (!infoBoxElement) {
+				// clean up
+				const infoBoxElement = document.querySelector<HTMLDivElement>(
+					'#scrobbler-infobox-el'
+				);
+				if (infoBoxElement) {
+					infoBoxElement.remove();
+				}
+				return;
+			}
+
+			const state = this.getCurrentState();
+			const mode = this.controller?.getMode();
+
+			infoBoxElement.innerHTML = `<h3>${Util.getInfoBoxText(
+				mode,
+				state
+			)}</h3>`;
 		};
 
 		this.stateChangedWorker = () => {
@@ -711,6 +790,8 @@ export default class BaseConnector {
 				}
 				// #v-endif
 			}
+
+			this.updateInfoBox();
 		};
 
 		this.getCurrentState = () => {

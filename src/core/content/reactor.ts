@@ -21,6 +21,7 @@ export default class Reactor {
 
 		// Setup listening for state changes on connector.
 		connector.controllerCallback = this.onStateChanged.bind(this);
+		connector.controller = this.controller;
 	}
 
 	/**
