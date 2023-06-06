@@ -3,6 +3,7 @@ import * as BrowserStorage from '@/core/storage/browser-storage';
 import { ManagerTab } from '@/core/storage/wrapper';
 import {
 	backgroundListener,
+	sendBackgroundMessage,
 	setupBackgroundListeners,
 } from '@/util/communication';
 import browser from 'webextension-polyfill';
@@ -45,6 +46,48 @@ browser.tabs.onRemoved.addListener(onTabRemoved);
 browser.tabs.onUpdated.addListener(onTabUpdated);
 browser.tabs.onActivated.addListener(onTabActivated);
 browser.contextMenus?.onClicked.addListener(contextMenuHandler);
+browser.commands?.onCommand.addListener(commandHandler);
+
+/**
+ * Handle user commands (hotkeys) to the extension.
+ *
+ * @param command - The command that was used
+ */
+async function commandHandler(command: string) {
+	const tab = await getCurrentTab();
+
+	switch (command) {
+		case 'toggle-connector':
+			if (tab.mode === ControllerMode.Disabled) {
+				enableConnector(tab.tabId);
+			} else {
+				disableConnector(tab.tabId);
+			}
+			break;
+		case 'love-song':
+			setLoveStatus(tab.tabId, true);
+			break;
+		case 'unlove-song':
+			setLoveStatus(tab.tabId, false);
+			break;
+	}
+}
+
+/**
+ * Set love status of song
+ *
+ * @param tabId	- Tab ID of the tab to update
+ * @param isLoved - Whether the song is loved
+ *
+ */
+function setLoveStatus(tabId: number, isLoved: boolean) {
+	sendBackgroundMessage(tabId ?? -1, {
+		type: 'toggleLove',
+		payload: {
+			isLoved: isLoved,
+		},
+	});
+}
 
 /**
  * Update action and context menus to reflect a tab being closed.
