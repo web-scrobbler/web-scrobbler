@@ -12,15 +12,15 @@ const mixDuration = Util.stringToSeconds(
 Connector.playerSelector = '#playerWidgetFields';
 
 Connector.getTrackArt = () =>
-	Util.getAttrFromSelectors('.cPlay:first .artM', 'data-src');
+	Util.getAttrFromSelectors('.cPlay .artM', 'data-src');
 
 Connector.albumSelector = '#pageTitle';
 
-Connector.getUniqueID = () => Util.getAttrFromSelectors('.cPlay:first', 'id');
+Connector.getUniqueID = () => Util.getAttrFromSelectors('.cPlay', 'id');
 
 Connector.getArtistTrack = () => {
 	const text = Util.getAttrFromSelectors(
-		'.cPlay:first meta[itemprop="name"]',
+		'.cPlay meta[itemprop="name"]',
 		'content'
 	);
 	return Util.splitArtistTrack(text);
@@ -47,18 +47,13 @@ Connector.isPlaying = () =>
 
 Connector.isScrobblingAllowed = () => {
 	nextCue = parseInt(
-		Util.getAttrFromSelectors(
-			'.cPlay:first ~ .tlpTog:first input',
-			'value'
-		) ?? ''
+		Util.getAttrFromSelectors('.cPlay ~ .tlpTog input', 'value') ?? ''
 	);
-	cue = parseInt(
-		Util.getAttrFromSelectors('.cPlay:first input', 'value') ?? ''
-	);
+	cue = parseInt(Util.getAttrFromSelectors('.cPlay input', 'value') ?? '');
 	currentTime = Util.getSecondsFromSelectors('#playerWidgetCurrentTime') ?? 0;
-	const noIDs = Util.queryElements('.cPlay:first .redTxt')?.length ?? 0;
+	const noIDs = Util.queryElements('.cPlay .redTxt')?.length ?? 0;
 	const mashup = Util.hasElementClass(
-		'.cPlay:first span.trackValue',
+		'.cPlay span.trackValue',
 		'mashupTrack'
 	);
 
