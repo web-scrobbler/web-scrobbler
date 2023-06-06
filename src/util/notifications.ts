@@ -170,17 +170,12 @@ export async function showNowPlaying(
 
 	const connectorLabel = song.metadata.label;
 	const iconUrl = song.getTrackArt() || defaultTrackArtUrl;
-	// #v-ifdef VITE_CHROME
-	const chromeMessage = song.getArtist();
-	const chromeTitle = song.getTrack();
-	// #v-endif
+	let message = song.getArtist();
+	let title = song.getTrack();
 	// #v-ifdef VITE_FIREFOX
-	const firefoxMessage = `${song.getTrack()}\n${song.getArtist()}`;
-	const firefoxTitle = `Web Scrobbler \u2022 ${connectorLabel}`;
+	message = `${song.getTrack()}\n${song.getArtist()}`;
+	title = `Web Scrobbler \u2022 ${connectorLabel}`;
 	// #v-endif
-
-	let message = chromeMessage ?? firefoxMessage;
-	const title = chromeTitle ?? firefoxTitle;
 
 	const albumName = song.getAlbum();
 	if (albumName) {
