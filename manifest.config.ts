@@ -45,6 +45,18 @@ export const common: Manifest.WebExtensionManifest = {
 	},
 
 	action: getAction(releaseTarget),
+
+	commands: {
+		'toggle-connector': {
+			description: '__MSG_hotkeyToggleConnector__',
+		},
+		'love-song': {
+			description: '__MSG_hotkeyLoveSong__',
+		},
+		'unlove-song': {
+			description: '__MSG_hotkeyUnloveSong__',
+		},
+	},
 };
 
 /**
