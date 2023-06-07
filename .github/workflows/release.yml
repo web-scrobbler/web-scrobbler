@@ -12,12 +12,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Get Node.js version from .nvmrc
-        id: get-node-version
         run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
 
       - name: Get the extension version from ref
-        id: get-version
-        run: echo ::set-output name=EXT_VERSION::${GITHUB_REF/refs\/tags\//}
+        run: echo "EXT_VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -37,10 +35,10 @@ jobs:
         env:
           GH_FA_TOKEN: ${{ secrets.GH_FA_TOKEN }}
           WEBSITE_REPO: web-scrobbler/website-resources
-          VERSION: ${{ steps.get-version.outputs.EXT_VERSION }}
+          VERSION: ${{ env.EXT_VERSION }}
 
       - name: Publish release on GitHub
         uses: test-room-7/action-publish-release-drafts@v0
         with:
           github-token: ${{ secrets.BOT_PAT }}
-          tag-name: ${{ steps.get-version.outputs.EXT_VERSION }}
+          tag-name: ${{ env.EXT_VERSION }}
