@@ -63,6 +63,7 @@ async function musicKitGetTrackInfo() {
 		album: item.albumName,
 		track: item.title,
 		artist: item.artistName,
+		albumArtist: item.container?.attributes?.artistName,
 		trackArt: musicKitArtwork(item.artworkURL),
 		duration: instance.currentPlaybackDuration,
 		uniqueID: item.id,
