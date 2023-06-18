@@ -17,3 +17,6 @@ Connector.isPlaying = () => {
 		'M9 8v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z'
 	);
 };
+
+Connector.currentTimeSelector = '#seek time:nth-of-type(1)';
+Connector.durationSelector = '#seek time:nth-of-type(2)';
