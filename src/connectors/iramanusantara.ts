@@ -10,3 +10,10 @@ Connector.trackSelector = '#player-music > div > span:nth-child(1)';
 Connector.albumSelector = 'h1:first-of-type';
 
 Connector.trackArtSelector = '#player-music > span > img';
+
+Connector.isPlaying = () => {
+	return (
+		Util.getAttrFromSelectors('#player-control button svg path', 'd') ===
+		'M9 8v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z'
+	);
+};
