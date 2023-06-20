@@ -70,6 +70,7 @@ export interface ScrobblerModels {
 	ListenBrainz?: ListenBrainzModel;
 	Maloja?: Properties;
 	Webhook?: WebhookModel;
+	Pleroma?: Properties;
 }
 
 export interface ManagerTab {

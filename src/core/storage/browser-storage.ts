@@ -127,6 +127,7 @@ const storageTypeMap = {
 	ListenBrainz: LOCAL,
 	Maloja: LOCAL,
 	Webhook: LOCAL,
+	Pleroma: LOCAL,
 
 	[LOCAL_CACHE]: LOCAL,
 	[REGEX_EDITS]: LOCAL,
