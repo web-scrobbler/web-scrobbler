@@ -90,6 +90,7 @@ a {
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
+			width: fit-content;
 		}
 
 		@supports (-webkit-touch-callout: none) {
