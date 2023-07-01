@@ -29,7 +29,7 @@
     "@suid/icons-material": "0.6.3",
     "@web-scrobbler/metadata-filter": "3.0.1",
     "blueimp-md5": "2.19.0",
-    "stylelint": "13.13.1",
+    "stylelint": "15.9.0",
     "vite": "4.3.9",
     "webextension-polyfill": "0.10.0"
   },
