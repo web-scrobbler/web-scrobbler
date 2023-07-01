@@ -90,6 +90,7 @@ a {
 			overflow: hidden;
 			text-overflow: ellipsis;
 			white-space: nowrap;
+			width: fit-content;
 		}
 
 		@supports (-webkit-touch-callout: none) {
@@ -102,6 +103,7 @@ a {
 	.playDetails {
 		display: flex;
 		gap: 0.5em;
+		width: fit-content;
 	}
 
 	.playCount {
@@ -126,6 +128,7 @@ a {
 	.controlButtons {
 		display: flex;
 		margin-top: 0.5em;
+		width: fit-content;
 
 		.controlButton {
 			background-color: transparent;
