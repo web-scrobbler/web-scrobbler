@@ -83,12 +83,12 @@ a {
 		gap: 0.25em;
 		max-width: 50ch;
 		min-width: 30ch;
+		overflow: hidden;
 		padding: 0.5em 1em;
+		text-overflow: ellipsis;
 		white-space: nowrap;
 
 		a {
-			overflow: hidden;
-			text-overflow: ellipsis;
 			white-space: nowrap;
 			width: fit-content;
 		}
@@ -103,7 +103,6 @@ a {
 	.playDetails {
 		display: flex;
 		gap: 0.5em;
-		width: fit-content;
 	}
 
 	.playCount {
@@ -128,7 +127,6 @@ a {
 	.controlButtons {
 		display: flex;
 		margin-top: 0.5em;
-		width: fit-content;
 
 		.controlButton {
 			background-color: transparent;
