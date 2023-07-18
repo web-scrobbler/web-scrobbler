@@ -1,20 +1,20 @@
 export {};
 
 function setupConnector() {
-	if (isDesktopPlayer()) {
-		setupDesktopPlayer();
+  if (isDesktopPlayer()) {
+    setupDesktopPlayer();
 	} 
   else {
-		setupMobilePlayer();
+    setupMobilePlayer();
 	}
 }
 
 function isDesktopPlayer() {
-	return Boolean(document.querySelector('.radio'));
+  return Boolean(document.querySelector('.radio'));
 }
 
 function setupDesktopPlayer() {
-	Connector.playerSelector = '.radio';
+  Connector.playerSelector = '.radio';
 
   Connector.artistTrackSelector = '.stream.stream-signal > tbody > tr > td';
 
