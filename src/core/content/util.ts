@@ -747,7 +747,7 @@ export function injectScriptIntoDocument(scriptUrl: string): void {
  * @param logType - Log type
  */
 /* istanbul ignore next */
-export function debugLog(text: any, logType: DebugLogType = 'log'): void {
+export function debugLog(text: unknown, logType: DebugLogType = 'log'): void {
 	const logFunc = console[logType];
 
 	if (typeof logFunc !== 'function') {

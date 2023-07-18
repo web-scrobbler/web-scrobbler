@@ -167,6 +167,7 @@ interface BackgroundMessage<K extends keyof BackgroundCommunications> {
 
 export function setupContentListeners(...listeners: ContentListener[]) {
 	browser.runtime.onMessage.addListener(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(message: BackgroundMessage<any>, sender) => {
 			let done = false;
 			for (const l of listeners) {
@@ -229,6 +230,7 @@ interface ContentMessage<K extends keyof ContentCommunications> {
 
 export function setupBackgroundListeners(...listeners: BackgroundListener[]) {
 	browser.runtime.onMessage.addListener(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(message: ContentMessage<any>, sender) => {
 			let done = false;
 			for (const l of listeners) {
@@ -288,6 +290,7 @@ interface PopupMessage<K extends keyof PopupCommunications> {
 
 export function setupPopupListeners(...listeners: PopupListener[]) {
 	browser.runtime.onMessage.addListener(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Set regardless of previous state
 		(message: PopupMessage<any>, sender) => {
 			let done = false;
 			for (const l of listeners) {
