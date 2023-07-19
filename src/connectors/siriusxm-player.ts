@@ -29,12 +29,19 @@ Connector.isScrobblingAllowed = () => {
 	const artist = Connector.getArtist()?.toLowerCase();
 	const track = Connector.getTrack()?.toLowerCase();
 	const filteredTerms = [
-		"siriusxmu",
+		"@siriusxm",
+		"@jennylsq",
+		"@radiomadison",
+		"@morningmashup",
+		"josiah",
+		"1-877-33-sirius",
+		"@sxm", //will broadly catch a bunch of sxm Twitter handles
 		"altnation",
-		"sxmhairnation",
 		".c", // will catch .com and .ca URLs
 		"indie 1.0",
 		"#",
+		"facebook",
+		"twitter",
 	];
 
 	return !filteredTerms.some(
