@@ -31,9 +31,9 @@ function setupMobilePlayer() {
   const lowerPlayerPlayButton = '#oframeaudioplayer0 > pjsdiv:nth-child(8) > pjsdiv:nth-child(2)';
 
   Connector.isPlaying = () => {
-    return (Util.isElementVisible(upperPlayerPlayButton) 
-    || Util.isElementVisible(lowerPlayerPlayButton))
-  }
+    return (Util.getCSSPropertyFromSelectors(upperPlayerPlayButton, 'visibility') === 'hidden'
+    || Util.getCSSPropertyFromSelectors(lowerPlayerPlayButton, 'visibility') === 'hidden')
+  };
 }
 
 setupConnector();
