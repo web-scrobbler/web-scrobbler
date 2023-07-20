@@ -65,7 +65,7 @@ let getTrackInfoFromYtMusicEnabled = false;
 let currentVideoDescription: string | null = null;
 let artistTrackFromDescription: TrackInfoWithAlbum | null = null;
 
-const getTrackInfoFromYoutubeMusicCache: any = {};
+const getTrackInfoFromYoutubeMusicCache: {[videoId: string]: {done?: boolean, recognisedByYtMusic?: boolean, videoId?: string|null, currentTrackInfo?: {artist?:string,track?:string}}} = {};
 
 const trackInfoGetters = [
 	getTrackInfoFromChapters,

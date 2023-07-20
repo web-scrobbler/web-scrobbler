@@ -378,11 +378,11 @@ function testEquals() {
 	});
 
 	it('should not equal null value', () => {
-		expect(songWithUniqueId.equals(null as any)).to.be.false;
+		expect(songWithUniqueId.equals(null)).to.be.false;
 	});
 
 	it('should not equal non-song object', () => {
-		expect(songWithUniqueId.equals(23 as any)).to.be.false;
+		expect(songWithUniqueId.equals(23)).to.be.false;
 	});
 }
 
