@@ -25,7 +25,16 @@ function deezerAddEventListeners() {
 	if (!('Events' in window)) {
 		return;
 	}
-	const ev = window.Events as { player: {play:unknown, playing:unknown, paused:unknown, resume:unknown, finish:unknown}, subscribe: (_:unknown, __:unknown) => void};
+	const ev = window.Events as {
+		player: {
+			play: unknown;
+			playing: unknown;
+			paused: unknown;
+			resume: unknown;
+			finish: unknown;
+		};
+		subscribe: (_: unknown, __: unknown) => void;
+	};
 	ev.subscribe(ev.player.play, deezerSendEvent);
 	ev.subscribe(ev.player.playing, deezerSendEvent);
 	ev.subscribe(ev.player.paused, deezerSendEvent);
@@ -42,29 +51,33 @@ function deezerSendEvent() {
 			isPlaying: deezerIsPlaying(),
 			isPodcast: deezerIsPodcast(),
 		},
-		'*'
+		'*',
 	);
 }
 
 interface DeezerMedia {
-	__TYPE__:string;
-	EXTERNAL?:unknown;
-	SNG_ID?:string;
-	SNG_TITLE?:string;
-	VERSION?:string;
-	ART_NAME?:string;
-	ALB_TITLE?:string;
-	ALB_PICTURE:string;
-	SHOW_NAME?:string;
-	EPISODE_TITLE?:string;
-	EPISODE_ID?:string;
+	__TYPE__: string;
+	EXTERNAL?: unknown;
+	SNG_ID?: string;
+	SNG_TITLE?: string;
+	VERSION?: string;
+	ART_NAME?: string;
+	ALB_TITLE?: string;
+	ALB_PICTURE: string;
+	SHOW_NAME?: string;
+	EPISODE_TITLE?: string;
+	EPISODE_ID?: string;
 }
 
 function deezerGetCurrentMediaInfo() {
 	if (!('dzPlayer' in window)) {
 		return;
 	}
-	const player = window.dzPlayer as {getCurrentSong: ()=>DeezerMedia,getPosition:()=>number|null,getDuration:()=>number|null};
+	const player = window.dzPlayer as {
+		getCurrentSong: () => DeezerMedia;
+		getPosition: () => number | null;
+		getDuration: () => number | null;
+	};
 	const currentMedia = player.getCurrentSong();
 
 	// Radio stations don't provide track info
@@ -93,7 +106,7 @@ function deezerGetCurrentMediaInfo() {
 	if (!trackInfo) {
 		Util.debugLog(
 			`Unable to load track info for ${mediaType} media type`,
-			'warn'
+			'warn',
 		);
 		return null;
 	}
@@ -132,14 +145,16 @@ function deezerIsPlaying() {
 	if (!('dzPlayer' in window)) {
 		return;
 	}
-	return (window.dzPlayer as {isPlaying: ()=>boolean}).isPlaying();
+	return (window.dzPlayer as { isPlaying: () => boolean }).isPlaying();
 }
 
 function deezerIsPodcast() {
 	if (!('dzPlayer' in window)) {
 		return;
 	}
-	const currentMedia = (window.dzPlayer as {getCurrentSong:()=>DeezerMedia}).getCurrentSong();
+	const currentMedia = (
+		window.dzPlayer as { getCurrentSong: () => DeezerMedia }
+	).getCurrentSong();
 	return currentMedia.__TYPE__ === 'episode';
 }
 

@@ -10,7 +10,7 @@ let isPlaying = false;
 
 Connector.getTimeInfo = () => {
 	const { currentTime, duration } = document.querySelector(
-		'#aPlayer'
+		'#aPlayer',
 	) as HTMLAudioElement;
 	return { currentTime, duration };
 };
@@ -83,7 +83,7 @@ function checkToggleArtist(mutationList: MutationRecord[]) {
 		// external player has been closed
 		if (
 			(removedList[0] as HTMLElement).classList.contains(
-				'fancybox-overlay'
+				'fancybox-overlay',
 			)
 		) {
 			setArtistConnector();

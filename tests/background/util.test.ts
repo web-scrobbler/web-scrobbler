@@ -271,7 +271,10 @@ function testTimeoutPromise() {
  * @param func - Function to be tested
  * @param testData - Array of test data
  */
-function testFunction(func: (...args: unknown[]) => unknown, testData: TestData[]) {
+function testFunction(
+	func: (...args: unknown[]) => unknown,
+	testData: TestData[],
+) {
 	const boundFunc = func.bind(Util);
 
 	for (const data of testData) {

@@ -1,9 +1,16 @@
-interface TrackInfo {title:string,credits:string,duration:number,id:string,image:{src:string},release_title:string}
+interface TrackInfo {
+	title: string;
+	credits: string;
+	duration: number;
+	id: string;
+	image: { src: string };
+	release_title: string;
+}
 
 interface QueueEventObject {
-	Queue: QueueEventObject
-	currentTrack: TrackInfo
-	Player: {currentTime:number}
+	Queue: QueueEventObject;
+	currentTrack: TrackInfo;
+	Player: { currentTime: number };
 }
 
 function sberGetTrackInfo(track: TrackInfo, currentTime: number) {
@@ -21,7 +28,12 @@ function sberGetTrackInfo(track: TrackInfo, currentTime: number) {
 	};
 }
 
-function sberQueueEvent(event: {type:string,name:string,newValue:unknown,object:QueueEventObject}) {
+function sberQueueEvent(event: {
+	type: string;
+	name: string;
+	newValue: unknown;
+	object: QueueEventObject;
+}) {
 	let type = null;
 	let queue;
 
@@ -48,7 +60,7 @@ function sberQueueEvent(event: {type:string,name:string,newValue:unknown,object:
 
 	const trackInfo = sberGetTrackInfo(
 		queue.currentTrack,
-		queue.Player.currentTime
+		queue.Player.currentTime,
 	);
 
 	window.postMessage(
@@ -57,12 +69,16 @@ function sberQueueEvent(event: {type:string,name:string,newValue:unknown,object:
 			type,
 			trackInfo,
 		},
-		'*'
+		'*',
 	);
 }
 
 function sberSetupEventListeners() {
-	(window as unknown as {newPlayer: {$mobx: {observe: (ev: object) => void}}}).newPlayer.$mobx.observe(sberQueueEvent);
+	(
+		window as unknown as {
+			newPlayer: { $mobx: { observe: (ev: object) => void } };
+		}
+	).newPlayer.$mobx.observe(sberQueueEvent);
 }
 
 sberSetupEventListeners();

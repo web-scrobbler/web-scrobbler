@@ -61,7 +61,7 @@ const DUMMY_CONNECTOR = {
  */
 function createSong(
 	parsedData: ParsedSongData,
-	processedData?: ProcessedSongData
+	processedData?: ProcessedSongData,
 ) {
 	const parsedDataCopy: ParsedSongData = {};
 	for (const prop in defaultParsedData) {
@@ -143,7 +143,7 @@ function testGetDuration() {
 	it('should return parsed duration if no processed duration', () => {
 		const song = createSong(
 			{ duration: parsedDuration },
-			{ duration: processedDuration }
+			{ duration: processedDuration },
 		);
 		expect(song.getDuration()).equals(parsedDuration);
 	});

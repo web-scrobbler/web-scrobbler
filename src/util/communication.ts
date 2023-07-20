@@ -140,23 +140,23 @@ interface SpecificContentListener<K extends keyof BackgroundCommunications> {
 	type: K;
 	fn: (
 		payload: BackgroundCommunications[K]['payload'],
-		sender: browser.Runtime.MessageSender
+		sender: browser.Runtime.MessageSender,
 	) => BackgroundCommunications[K]['response'];
 }
 
 type ContentListener = <R>(
 	cont: <T extends keyof BackgroundCommunications>(
-		prop: SpecificContentListener<T>
-	) => R
+		prop: SpecificContentListener<T>,
+	) => R,
 ) => R;
 
 export function contentListener<T extends keyof BackgroundCommunications>(
-	property: SpecificContentListener<T>
+	property: SpecificContentListener<T>,
 ): ContentListener {
 	return <R>(
 		cont: <T extends keyof BackgroundCommunications>(
-			prop: SpecificContentListener<T>
-		) => R
+			prop: SpecificContentListener<T>,
+		) => R,
 	) => cont(property);
 }
 
@@ -182,15 +182,15 @@ export function setupContentListeners(...listeners: ContentListener[]) {
 					return Promise.resolve(response);
 				}
 			}
-		}
+		},
 	);
 }
 
 export async function sendBackgroundMessage<
-	K extends keyof BackgroundCommunications
+	K extends keyof BackgroundCommunications,
 >(
 	tabId: number,
-	message: BackgroundMessage<K>
+	message: BackgroundMessage<K>,
 ): Promise<BackgroundCommunications[K]['response']> {
 	return browser.tabs.sendMessage(tabId, message);
 }
@@ -203,23 +203,23 @@ interface SpecificBackgroundListener<K extends keyof ContentCommunications> {
 	type: K;
 	fn: (
 		payload: ContentCommunications[K]['payload'],
-		sender: browser.Runtime.MessageSender
+		sender: browser.Runtime.MessageSender,
 	) => ContentCommunications[K]['response'];
 }
 
 type BackgroundListener = <R>(
 	cont: <T extends keyof ContentCommunications>(
-		prop: SpecificBackgroundListener<T>
-	) => R
+		prop: SpecificBackgroundListener<T>,
+	) => R,
 ) => R;
 
 export function backgroundListener<T extends keyof ContentCommunications>(
-	property: SpecificBackgroundListener<T>
+	property: SpecificBackgroundListener<T>,
 ): BackgroundListener {
 	return <R>(
 		cont: <T extends keyof ContentCommunications>(
-			prop: SpecificBackgroundListener<T>
-		) => R
+			prop: SpecificBackgroundListener<T>,
+		) => R,
 	) => cont(property);
 }
 
@@ -245,12 +245,12 @@ export function setupBackgroundListeners(...listeners: BackgroundListener[]) {
 					return Promise.resolve(response);
 				}
 			}
-		}
+		},
 	);
 }
 
 export async function sendContentMessage<K extends keyof ContentCommunications>(
-	message: ContentMessage<K>
+	message: ContentMessage<K>,
 ): Promise<ContentCommunications[K]['response']> {
 	return browser.runtime.sendMessage(message);
 }
@@ -263,23 +263,23 @@ interface SpecificPopupListener<K extends keyof PopupCommunications> {
 	type: K;
 	fn: (
 		payload: PopupCommunications[K]['payload'],
-		sender: browser.Runtime.MessageSender
+		sender: browser.Runtime.MessageSender,
 	) => PopupCommunications[K]['response'];
 }
 
 type PopupListener = <R>(
 	cont: <T extends keyof PopupCommunications>(
-		prop: SpecificPopupListener<T>
-	) => R
+		prop: SpecificPopupListener<T>,
+	) => R,
 ) => R;
 
 export function popupListener<T extends keyof PopupCommunications>(
-	property: SpecificPopupListener<T>
+	property: SpecificPopupListener<T>,
 ): PopupListener {
 	return <R>(
 		cont: <T extends keyof PopupCommunications>(
-			prop: SpecificPopupListener<T>
-		) => R
+			prop: SpecificPopupListener<T>,
+		) => R,
 	) => cont(property);
 }
 
@@ -305,12 +305,12 @@ export function setupPopupListeners(...listeners: PopupListener[]) {
 					return Promise.resolve(response);
 				}
 			}
-		}
+		},
 	);
 }
 
 export async function sendPopupMessage<K extends keyof PopupCommunications>(
-	message: PopupMessage<K>
+	message: PopupMessage<K>,
 ): Promise<PopupCommunications[K]['response']> {
 	return browser.runtime.sendMessage(message);
 }

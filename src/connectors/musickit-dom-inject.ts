@@ -8,32 +8,31 @@ musicKitAddEventListeners();
 interface MusicKitWindow {
 	MusicKit: {
 		Events: {
-			metadataDidChange: unknown
-			playbackStateDidChange: unknown
-			nowPlayingItemDidChange: unknown
-		}
-		getInstance: ()=>MusicKitInstance
-	}
+			metadataDidChange: unknown;
+			playbackStateDidChange: unknown;
+			nowPlayingItemDidChange: unknown;
+		};
+		getInstance: () => MusicKitInstance;
+	};
 }
 
 interface MusicKitInstance {
-	player?: MusicKitInstance
-	addEventListener:(_:unknown,__:()=>void)=>void
+	player?: MusicKitInstance;
+	addEventListener: (_: unknown, __: () => void) => void;
 	nowPlayingItem: {
-		albumName:string
-		title:string
-		artistName:string
-		artworkURL:string
+		albumName: string;
+		title: string;
+		artistName: string;
+		artworkURL: string;
 		container?: {
-			attributes?: {[key: string]: string}
-		}
-		id:unknown
-	}
-	currentPlaybackDuration:number
-	currentPlaybackTime:number
-	isPlaying:boolean
+			attributes?: { [key: string]: string };
+		};
+		id: unknown;
+	};
+	currentPlaybackDuration: number;
+	currentPlaybackTime: number;
+	isPlaying: boolean;
 }
-
 
 async function musicKitAddEventListeners() {
 	const Events = (window as unknown as MusicKitWindow).MusicKit.Events;
@@ -42,7 +41,7 @@ async function musicKitAddEventListeners() {
 	instance.addEventListener(Events.playbackStateDidChange, musicKitSendEvent);
 	instance.addEventListener(
 		Events.nowPlayingItemDidChange,
-		musicKitSendEvent
+		musicKitSendEvent,
 	);
 }
 
@@ -82,7 +81,7 @@ async function musicKitSendEvent() {
 			trackInfo: await musicKitGetTrackInfo(),
 			isPlaying: await musicKitIsPlaying(),
 		},
-		'*'
+		'*',
 	);
 }
 

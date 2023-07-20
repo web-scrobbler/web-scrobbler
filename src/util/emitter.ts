@@ -3,7 +3,7 @@
  */
 export default class EventEmitter<
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	T extends Record<string, (...args: any[]) => void>
+	T extends Record<string, (...args: any[]) => void>,
 > {
 	private events: Map<keyof T, T[keyof T][]> = new Map();
 	/**
@@ -27,7 +27,7 @@ export default class EventEmitter<
 		const curEvents = this.events.get(event) || [];
 		this.events.set(
 			event,
-			curEvents.filter((e) => e !== fn)
+			curEvents.filter((e) => e !== fn),
 		);
 	}
 
