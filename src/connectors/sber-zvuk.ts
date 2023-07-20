@@ -17,7 +17,7 @@ Connector.onScriptEvent = (event) => {
 			break;
 	}
 
-	trackInfo = event.data.trackInfo as any;
+	trackInfo = event.data.trackInfo as object;
 
 	Connector.onStateChanged();
 };

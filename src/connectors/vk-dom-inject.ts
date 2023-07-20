@@ -13,14 +13,23 @@ const VK_INFO_ADDITIONAL = 16;
 
 vkSetupEventListeners();
 
+interface VKWindow {
+	ap: {
+		_currentAudio?: string[]
+		_impl: {_currentAudioEl?: {currentTime:string}}
+		subscribers: {
+			push: (_:object)=>void
+		}
+	}
+}
+
 function vkSendUpdateEvent(type: string) {
-	const audioObject = (window as any).ap._currentAudio;
+	const audioObject = (window as unknown as VKWindow).ap._currentAudio;
 	if (!audioObject) {
 		return;
 	}
 
-	const audioElImpl = (window as any).ap._impl._currentAudioEl || {};
-	const { currentTime } = audioElImpl;
+	const currentTime = (window as unknown as VKWindow).ap._impl._currentAudioEl?.currentTime
 
 	/*
 	 * VK player sets current time equal to song duration on startup.
@@ -58,7 +67,7 @@ function vkSendUpdateEvent(type: string) {
 
 function vkSetupEventListeners() {
 	for (const e of ['start', 'progress', 'pause', 'stop']) {
-		(window as any).ap.subscribers.push({
+		(window as unknown as VKWindow).ap.subscribers.push({
 			et: e,
 			cb: vkSendUpdateEvent.bind(null, e),
 		});

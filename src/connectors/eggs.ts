@@ -91,8 +91,10 @@ function checkToggleArtist(mutationList: MutationRecord[]) {
 	}
 }
 
-Connector.onScriptEvent = (event: any) => {
-	({ trackInfo, isPlaying, timeInfo } = event.data);
+Connector.onScriptEvent = (event: MessageEvent<Record<string, unknown>>) => {
+	trackInfo = event.data.trackInfo as object;
+	isPlaying = event.data.isPlaying as boolean;
+	timeInfo = event.data.timeInfo as object;
 
 	if (event.data.playerType === 'youtube') {
 		Connector.onStateChanged();

@@ -16,7 +16,7 @@ if (eggsIsArtistPage) {
 	observer.observe(document.body, { childList: true });
 } else {
 	if ('player' in window) {
-		(window.player as any).addEventListener(
+		(window.player as {addEventListener:(_:string,__:(ev:{data:number,target:{getCurrentTime:()=>number,getDuration:()=>number}})=>void)=>void}).addEventListener(
 			'onStateChange',
 			eggsOnYoutubeSongStateChange
 		);
@@ -95,7 +95,7 @@ window.addEventListener('message', (event) => {
 	}
 });
 
-function eggsOnYoutubeStateChange(data: any) {
+function eggsOnYoutubeStateChange(data: {info:number}) {
 	const currentPlayer = document.querySelector(`a[href*="${eggsVideoId}"]`);
 	const parentElmt =
 		(currentPlayer && currentPlayer.closest('li')) || document;
@@ -149,7 +149,7 @@ function eggsOnYoutubeClose() {
 	);
 }
 
-function eggsOnYoutubeSongStateChange(event: any) {
+function eggsOnYoutubeSongStateChange(event: {data:number,target:{getCurrentTime:()=>number,getDuration:()=>number}}) {
 	const currentPlayer = document.querySelector(`a[href*="${eggsVideoId}"]`);
 	const parentElmt =
 		(currentPlayer && currentPlayer.closest('li')) || document;
@@ -177,7 +177,7 @@ function eggsOnYoutubeSongStateChange(event: any) {
 	);
 }
 
-function eggsGetTimestamps(data: any) {
+function eggsGetTimestamps(data: {info?:{currentTime?:number,duration?:number}}) {
 	if (data.info) {
 		if (data.info.currentTime) {
 			eggsCurrentTime = data.info.currentTime;
