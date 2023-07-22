@@ -37,7 +37,8 @@ Connector.isScrobblingAllowed = () => {
 		"1-877-33-sirius",
 		"@sxm", //will broadly catch a bunch of sxm Twitter handles
 		"altnation",
-		".c", // will catch .com and .ca URLs
+		".ca",
+		".com",
 		"indie 1.0",
 		"#",
 		"facebook",
@@ -47,6 +48,8 @@ Connector.isScrobblingAllowed = () => {
 	return !filteredTerms.some(
 		(term) => artist?.includes(term) || track?.includes(term)
 	);
+
+	return !filteredTerms.track?.includes("@");
 };
 
 Connector.applyFilter(filter);
