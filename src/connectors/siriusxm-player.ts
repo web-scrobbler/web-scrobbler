@@ -48,8 +48,6 @@ Connector.isScrobblingAllowed = () => {
 	return !filteredTerms.some(
 		(term) => artist?.includes(term) || track?.includes(term)
 	);
-
-	return !filteredTerms.track?.includes("@");
 };
 
 Connector.applyFilter(filter);
