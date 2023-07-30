@@ -2110,5 +2110,6 @@ export default <ConnectorMeta[]>[
 		label: 'TrackerHub',
 		matches: ['*://trackerhub.vercel.app/*'],
 		js: 'trackerhub.js',
-		id: 'trackerhub'
+		id: 'trackerhub',
+	}.
 ];
