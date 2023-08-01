@@ -19,6 +19,7 @@ export const SCROBBLE_RECOGNIZED_TRACKS = 'scrobbleRecognizedTracks';
 export const SCROBBLE_EDITED_TRACKS_ONLY = 'scrobbleEditedTracksOnly';
 export const SCROBBLE_PERCENT = 'scrobblePercent';
 export const DISABLED_CONNECTORS = 'disabledConnectors';
+export const DEBUG_LOGGING_ENABLED = 'debugLoggingEnabled';
 
 export interface GlobalOptions {
 	/**
@@ -62,6 +63,11 @@ export interface GlobalOptions {
 	 * Scrobble podcast episodes.
 	 */
 	[SCROBBLE_PODCASTS]: boolean;
+
+	/**
+	 * Allow debug messages to be logged to the browser console.
+	 */
+	[DEBUG_LOGGING_ENABLED]: boolean;
 }
 
 /**
@@ -74,6 +80,7 @@ const DEFAULT_OPTIONS: GlobalOptions = {
 	[USE_UNRECOGNIZED_SONG_NOTIFICATIONS]: false,
 	[SCROBBLE_RECOGNIZED_TRACKS]: true,
 	[SCROBBLE_EDITED_TRACKS_ONLY]: false,
+	[DEBUG_LOGGING_ENABLED]: false,
 	[SCROBBLE_PERCENT]: 50,
 	[DISABLED_CONNECTORS]: {},
 };
