@@ -2100,4 +2100,10 @@ export default <ConnectorMeta[]>[
 		js: 'fungjai.js',
 		id: 'fungjai',
 	},
+	{
+		label: 'Radio Caprice',
+		matches: ['*://radcap.ru/*'],
+		js: 'radcap.js',
+		id: 'radcap',
+	},
 ];
