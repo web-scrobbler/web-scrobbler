@@ -1,14 +1,19 @@
 export {};
 
 /*
- * On some "decade" stations SiriusXM appends the last two digits
+ * Station Meta Filter
+ * - On some "decade" stations SiriusXM appends the last two digits
  * of the release year to the song title like this: Where Is The Love (03).
+ * - On The Covers Channel, it adds Heroes (David Bowie Cover) to the track
+ * - A lot of stations seem to employ adding EXCLUSIVE to the track name, so that is now removed
  *
- * This filter removes such suffixes.
+ * Filter Station Meta
+ * - There is now a filter for much of the station meta on SiriusXM. Removes social media handles, URLs, shownames
  */
 
-const filter = MetadataFilter.createFilter({ track: removeYear });
-const removeYearRe = /\s\(\d{2}\)\s?$/g;
+const filter = MetadataFilter.createFilter({ track: removeStationMeta });
+const removeExtraRe =
+	/\s\(\d{2}\)\s?|\h*\([^)]*\b(?:cover|Cover)\b[^)]*\)|EXCLUSIVE/gi;
 
 Connector.playerSelector = ".sxm-player-controls";
 Connector.artistSelector = ".sxm-player-controls .artist-name";
@@ -52,6 +57,6 @@ Connector.isScrobblingAllowed = () => {
 
 Connector.applyFilter(filter);
 
-function removeYear(track: string) {
-	return track.replace(removeYearRe, "");
+function removeStationMeta(track: string) {
+	return track.replace(removeExtraRe, "");
 }
