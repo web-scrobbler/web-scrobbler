@@ -13,7 +13,7 @@ export {};
 
 const filter = MetadataFilter.createFilter({ track: removeStationMeta });
 const removeExtraRe =
-	/\s\(\d{2}\)\s?|\h*\([^)]*\b(?:cover|Cover)\b[^)]*\)|EXCLUSIVE/gi;
+	/\s\(\d{2}\)\s?|\h\([^)]*\b(?:cover|Cover)\b[^)]*\)|EXCLUSIVE/gi;
 
 Connector.playerSelector = ".sxm-player-controls";
 Connector.artistSelector = ".sxm-player-controls .artist-name";
