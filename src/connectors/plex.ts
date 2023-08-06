@@ -6,7 +6,12 @@ const plexFilter = MetadataFilter.createFilter({
 	album: removeUnknownAlbum,
 });
 
-Connector.playerSelector = '[class^=Player-miniPlayerContainer]';
+Connector.useMediaSessionApi();
+
+Connector.playerSelector = [
+	'[class^=PlayerContainer-container]',
+    '[class^=Player-miniPlayerContainer]',
+];
 
 Connector.trackSelector = `${titleContainer} a[class*=MetadataPosterTitle]`;
 
