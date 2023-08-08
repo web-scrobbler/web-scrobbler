@@ -2106,4 +2106,10 @@ export default <ConnectorMeta[]>[
 		js: 'radcap.js',
 		id: 'radcap',
 	},
+	{
+		label: 'TrackerHub',
+		matches: ['*://trackerhub.vercel.app/*'],
+		js: 'trackerhub.js',
+		id: 'trackerhub',
+	},
 ];
