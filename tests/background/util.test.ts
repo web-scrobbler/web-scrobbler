@@ -226,7 +226,7 @@ function runTests() {
 function testDebugLog() {
 	it('should throw an error if type is invalid', () => {
 		function callInvalidDebugLog() {
-			Util.debugLog('Test', 'invalid_type123' as any);
+			Util.debugLog('Test', 'invalid_type123');
 		}
 
 		expect(callInvalidDebugLog).to.throw();
@@ -271,7 +271,10 @@ function testTimeoutPromise() {
  * @param func - Function to be tested
  * @param testData - Array of test data
  */
-function testFunction(func: (...args: any[]) => unknown, testData: TestData[]) {
+function testFunction(
+	func: (...args: unknown[]) => unknown,
+	testData: TestData[],
+) {
 	const boundFunc = func.bind(Util);
 
 	for (const data of testData) {

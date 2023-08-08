@@ -5,19 +5,48 @@
  */
 musicKitAddEventListeners();
 
+interface MusicKitWindow {
+	MusicKit: {
+		Events: {
+			metadataDidChange: unknown;
+			playbackStateDidChange: unknown;
+			nowPlayingItemDidChange: unknown;
+		};
+		getInstance: () => MusicKitInstance;
+	};
+}
+
+interface MusicKitInstance {
+	player?: MusicKitInstance;
+	addEventListener: (_: unknown, __: () => void) => void;
+	nowPlayingItem: {
+		albumName: string;
+		title: string;
+		artistName: string;
+		artworkURL: string;
+		container?: {
+			attributes?: { [key: string]: string };
+		};
+		id: unknown;
+	};
+	currentPlaybackDuration: number;
+	currentPlaybackTime: number;
+	isPlaying: boolean;
+}
+
 async function musicKitAddEventListeners() {
-	const Events = (window as any).MusicKit.Events;
+	const Events = (window as unknown as MusicKitWindow).MusicKit.Events;
 	const instance = await musicKitInstance();
 	instance.addEventListener(Events.metadataDidChange, musicKitSendEvent);
 	instance.addEventListener(Events.playbackStateDidChange, musicKitSendEvent);
 	instance.addEventListener(
 		Events.nowPlayingItemDidChange,
-		musicKitSendEvent
+		musicKitSendEvent,
 	);
 }
 
 async function musicKitInstance() {
-	const api = (window as any).MusicKit;
+	const api = (window as unknown as MusicKitWindow).MusicKit;
 
 	const initInstance = api?.getInstance();
 	// If the instance is already available, return it immediately
@@ -27,7 +56,7 @@ async function musicKitInstance() {
 
 	// Otherwise, poll until it is available
 	let i = 0;
-	return new Promise<any>((resolve, reject) => {
+	return new Promise<MusicKitInstance>((resolve, reject) => {
 		const interval = setInterval(() => {
 			const instance = api?.getInstance();
 			if (instance) {
@@ -52,7 +81,7 @@ async function musicKitSendEvent() {
 			trackInfo: await musicKitGetTrackInfo(),
 			isPlaying: await musicKitIsPlaying(),
 		},
-		'*'
+		'*',
 	);
 }
 

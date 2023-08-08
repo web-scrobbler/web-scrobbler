@@ -1,3 +1,5 @@
+import { State } from '@/core/types';
+
 deezerInitConnector();
 
 function deezerInitConnector() {
@@ -23,7 +25,16 @@ function deezerAddEventListeners() {
 	if (!('Events' in window)) {
 		return;
 	}
-	const ev = window.Events as any;
+	const ev = window.Events as {
+		player: {
+			play: unknown;
+			playing: unknown;
+			paused: unknown;
+			resume: unknown;
+			finish: unknown;
+		};
+		subscribe: (_: unknown, __: unknown) => void;
+	};
 	ev.subscribe(ev.player.play, deezerSendEvent);
 	ev.subscribe(ev.player.playing, deezerSendEvent);
 	ev.subscribe(ev.player.paused, deezerSendEvent);
@@ -40,15 +51,33 @@ function deezerSendEvent() {
 			isPlaying: deezerIsPlaying(),
 			isPodcast: deezerIsPodcast(),
 		},
-		'*'
+		'*',
 	);
+}
+
+interface DeezerMedia {
+	__TYPE__: string;
+	EXTERNAL?: unknown;
+	SNG_ID?: string;
+	SNG_TITLE?: string;
+	VERSION?: string;
+	ART_NAME?: string;
+	ALB_TITLE?: string;
+	ALB_PICTURE: string;
+	SHOW_NAME?: string;
+	EPISODE_TITLE?: string;
+	EPISODE_ID?: string;
 }
 
 function deezerGetCurrentMediaInfo() {
 	if (!('dzPlayer' in window)) {
 		return;
 	}
-	const player = window.dzPlayer as any;
+	const player = window.dzPlayer as {
+		getCurrentSong: () => DeezerMedia;
+		getPosition: () => number | null;
+		getDuration: () => number | null;
+	};
 	const currentMedia = player.getCurrentSong();
 
 	// Radio stations don't provide track info
@@ -60,13 +89,7 @@ function deezerGetCurrentMediaInfo() {
 	const currentTime = player.getPosition();
 	const duration = player.getDuration();
 
-	let trackInfo: {
-		artist: any;
-		track: any;
-		uniqueID: any;
-		duration?: any;
-		currentTime?: any;
-	} | null = null;
+	let trackInfo: State | null = null;
 
 	switch (mediaType) {
 		case 'episode': {
@@ -83,7 +106,7 @@ function deezerGetCurrentMediaInfo() {
 	if (!trackInfo) {
 		Util.debugLog(
 			`Unable to load track info for ${mediaType} media type`,
-			'warn'
+			'warn',
 		);
 		return null;
 	}
@@ -94,7 +117,7 @@ function deezerGetCurrentMediaInfo() {
 	return trackInfo;
 }
 
-function deezerGetTrackInfo(currentMedia: any) {
+function deezerGetTrackInfo(currentMedia: DeezerMedia) {
 	let trackTitle = currentMedia.SNG_TITLE;
 	const trackVersion = currentMedia.VERSION;
 	if (trackVersion) {
@@ -110,7 +133,7 @@ function deezerGetTrackInfo(currentMedia: any) {
 	};
 }
 
-function deezerGetEpisodeInfo(currentMedia: any) {
+function deezerGetEpisodeInfo(currentMedia: DeezerMedia) {
 	return {
 		artist: currentMedia.SHOW_NAME,
 		track: currentMedia.EPISODE_TITLE,
@@ -122,14 +145,16 @@ function deezerIsPlaying() {
 	if (!('dzPlayer' in window)) {
 		return;
 	}
-	return (window.dzPlayer as any).isPlaying();
+	return (window.dzPlayer as { isPlaying: () => boolean }).isPlaying();
 }
 
 function deezerIsPodcast() {
 	if (!('dzPlayer' in window)) {
 		return;
 	}
-	const currentMedia = (window.dzPlayer as any).getCurrentSong();
+	const currentMedia = (
+		window.dzPlayer as { getCurrentSong: () => DeezerMedia }
+	).getCurrentSong();
 	return currentMedia.__TYPE__ === 'episode';
 }
 

@@ -1,4 +1,19 @@
-function sberGetTrackInfo(track: any, currentTime: number) {
+interface TrackInfo {
+	title: string;
+	credits: string;
+	duration: number;
+	id: string;
+	image: { src: string };
+	release_title: string;
+}
+
+interface QueueEventObject {
+	Queue: QueueEventObject;
+	currentTrack: TrackInfo;
+	Player: { currentTime: number };
+}
+
+function sberGetTrackInfo(track: TrackInfo, currentTime: number) {
 	const { title, credits, duration, id, image, release_title: album } = track;
 	const trackArt = image.src.replace('{size}', '400x400');
 
@@ -13,7 +28,12 @@ function sberGetTrackInfo(track: any, currentTime: number) {
 	};
 }
 
-function sberQueueEvent(event: any) {
+function sberQueueEvent(event: {
+	type: string;
+	name: string;
+	newValue: unknown;
+	object: QueueEventObject;
+}) {
 	let type = null;
 	let queue;
 
@@ -40,7 +60,7 @@ function sberQueueEvent(event: any) {
 
 	const trackInfo = sberGetTrackInfo(
 		queue.currentTrack,
-		queue.Player.currentTime
+		queue.Player.currentTime,
 	);
 
 	window.postMessage(
@@ -49,12 +69,16 @@ function sberQueueEvent(event: any) {
 			type,
 			trackInfo,
 		},
-		'*'
+		'*',
 	);
 }
 
 function sberSetupEventListeners() {
-	(window as any).newPlayer.$mobx.observe(sberQueueEvent);
+	(
+		window as unknown as {
+			newPlayer: { $mobx: { observe: (ev: object) => void } };
+		}
+	).newPlayer.$mobx.observe(sberQueueEvent);
 }
 
 sberSetupEventListeners();

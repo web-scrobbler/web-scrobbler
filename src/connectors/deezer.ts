@@ -1,3 +1,4 @@
+import { State } from '@/core/types';
 export {};
 
 const deezerFilter = MetadataFilter.createRemasteredFilter();
@@ -18,7 +19,7 @@ Connector.onScriptEvent = (event) => {
 	switch (event.data.type) {
 		case 'DEEZER_STATE':
 			({ trackInfo, isPlaying, isPodcast } = event.data as {
-				trackInfo: any;
+				trackInfo: State;
 				isPlaying: boolean;
 				isPodcast: boolean;
 			});

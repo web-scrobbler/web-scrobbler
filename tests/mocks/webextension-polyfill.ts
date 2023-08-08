@@ -27,7 +27,7 @@ class StorageAreaStub {
 }
 
 const messages = {
-	getSongInfo: (payload: any) => {
+	getSongInfo: (payload: { song: CloneableSong }) => {
 		if (
 			payload.song.processed.artist === 'フミンニッキ' &&
 			payload.song.processed.track === 'Re:start'

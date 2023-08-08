@@ -10,7 +10,7 @@ let isPlaying = false;
 
 Connector.getTimeInfo = () => {
 	const { currentTime, duration } = document.querySelector(
-		'#aPlayer'
+		'#aPlayer',
 	) as HTMLAudioElement;
 	return { currentTime, duration };
 };
@@ -83,7 +83,7 @@ function checkToggleArtist(mutationList: MutationRecord[]) {
 		// external player has been closed
 		if (
 			(removedList[0] as HTMLElement).classList.contains(
-				'fancybox-overlay'
+				'fancybox-overlay',
 			)
 		) {
 			setArtistConnector();
@@ -91,8 +91,10 @@ function checkToggleArtist(mutationList: MutationRecord[]) {
 	}
 }
 
-Connector.onScriptEvent = (event: any) => {
-	({ trackInfo, isPlaying, timeInfo } = event.data);
+Connector.onScriptEvent = (event: MessageEvent<Record<string, unknown>>) => {
+	trackInfo = event.data.trackInfo as object;
+	isPlaying = event.data.isPlaying as boolean;
+	timeInfo = event.data.timeInfo as object;
 
 	if (event.data.playerType === 'youtube') {
 		Connector.onStateChanged();

@@ -1,4 +1,22 @@
-const YandexAPI = (window as any).externalAPI;
+interface YandexWindow {
+	externalAPI: {
+		on: (_: unknown, __: () => void) => void;
+		EVENT_STATE: unknown;
+		EVENT_TRACK: unknown;
+		isPlaying: () => boolean;
+		getCurrentTrack: () => {
+			title: string;
+			album: { title: string };
+			cover: string;
+			artists: { title: string }[];
+			duration: number;
+			link: string;
+		};
+		getProgress: () => { position: number };
+	};
+}
+
+const YandexAPI = (window as unknown as YandexWindow).externalAPI;
 
 yandexSetupListeners();
 
@@ -15,7 +33,7 @@ function yandexOnEvent() {
 			trackInfo: yandexGetTrackInfo(),
 			isPlaying: YandexAPI.isPlaying(),
 		},
-		'*'
+		'*',
 	);
 }
 

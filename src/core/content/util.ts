@@ -101,7 +101,7 @@ export function stringToSeconds(str: string | null | undefined): number {
  */
 export function findSeparator(
 	str: string | null,
-	separators: Separator[] | null = null
+	separators: Separator[] | null = null,
 ): { index: number; length: number } | null {
 	if (str === null || str.length === 0) {
 		return null;
@@ -145,7 +145,7 @@ export function joinArtists(artists: Node[]): string | null {
 export function splitArtistTrack(
 	str: string | null | undefined,
 	separators: Separator[] | null = null,
-	swap = false
+	swap = false,
 ): ArtistTrackInfo {
 	if (!str) {
 		return { artist: null, track: null };
@@ -181,7 +181,7 @@ export function removeRecordSide(str: string | null): string | null {
 export function splitArtistAlbum(
 	str: string | null | undefined,
 	separators: Separator[] | null = null,
-	swap = false
+	swap = false,
 ): { artist: string | null; album: string | null } {
 	const [artist, album] = splitString(str, separators, swap);
 	return { artist, album };
@@ -197,7 +197,7 @@ export function splitArtistAlbum(
 export function splitTimeInfo(
 	str: string | null,
 	separator: Separator = '/',
-	swap = false
+	swap = false,
 ): TimeInfo {
 	if (str === null) {
 		return {
@@ -206,7 +206,7 @@ export function splitTimeInfo(
 		};
 	}
 	const [currentTime, duration] = splitString(str, [separator], swap).map(
-		(e) => stringToSeconds(e)
+		(e) => stringToSeconds(e),
 	);
 
 	return { currentTime, duration };
@@ -222,7 +222,7 @@ export function splitTimeInfo(
 export function splitString(
 	str: string | null | undefined,
 	separators: Separator[] | null,
-	swap = false
+	swap = false,
 ): [string | null, string | null] {
 	let first = null;
 	let second = null;
@@ -265,7 +265,7 @@ export function escapeBadTimeValues(time: unknown): number | null {
  * @returns Track art URL
  */
 export function extractUrlFromCssProperty(
-	cssProperty: string | null | undefined
+	cssProperty: string | null | undefined,
 ): string | null {
 	if (!cssProperty) {
 		return null;
@@ -313,7 +313,7 @@ export function throttle<T>(func: () => T, wait: number): () => T | undefined {
  * @returns True if object is empty; false otherwise
  */
 export function isArtistTrackEmpty(
-	artistTrack: ArtistTrackInfo | null
+	artistTrack: ArtistTrackInfo | null,
 ): boolean {
 	return !(artistTrack && artistTrack.artist && artistTrack.track);
 }
@@ -329,7 +329,7 @@ export function isArtistTrackEmpty(
 export function fillEmptyFields(
 	target: State,
 	source: State | null | undefined,
-	fields: (keyof State)[] | undefined
+	fields: (keyof State)[] | undefined,
 ): State {
 	if (!source || !Array.isArray(fields)) {
 		return target;
@@ -352,7 +352,7 @@ export function fillEmptyFields(
  * @returns Track info
  */
 export function getMediaSessionInfo(
-	mediaSession: MediaSession
+	mediaSession: MediaSession,
 ): BaseState | null {
 	if (!(mediaSession && mediaSession.metadata)) {
 		return null;
@@ -383,7 +383,7 @@ export function getMediaSessionInfo(
 /* istanbul ignore next */
 export function getTextFromSelectors(
 	selectors: string | string[] | null,
-	defaultValue: string | null = null
+	defaultValue: string | null = null,
 ): string | null {
 	if (selectors === null) {
 		return defaultValue;
@@ -419,7 +419,7 @@ export function getTextFromSelectors(
 export function getAttrFromSelectors(
 	selectors: string | string[] | null,
 	attr: string,
-	defaultValue: string | null = null
+	defaultValue: string | null = null,
 ): string | null {
 	if (selectors === null) {
 		return defaultValue;
@@ -452,7 +452,7 @@ export function getAttrFromSelectors(
 export function bindListeners(
 	selectors: string | string[],
 	events: string | string[],
-	fn: (e: Event) => void
+	fn: (e: Event) => void,
 ) {
 	const elements = queryElements(selectors);
 	if (!elements) {
@@ -478,7 +478,7 @@ export function bindListeners(
  */
 /* istanbul ignore next */
 export function getSecondsFromSelectors(
-	selectors: string | string[] | null
+	selectors: string | string[] | null,
 ): number | undefined {
 	return stringToSeconds(getTextFromSelectors(selectors) ?? '');
 }
@@ -490,7 +490,7 @@ export function getSecondsFromSelectors(
  */
 /* istanbul ignore next */
 export function extractImageUrlFromSelectors(
-	selectors: string | string[] | null
+	selectors: string | string[] | null,
 ): string | null {
 	if (selectors === null) {
 		return null;
@@ -524,7 +524,7 @@ export function extractImageUrlFromSelectors(
  */
 export function getCSSPropertyFromSelectors(
 	selectors: string | string[],
-	property: string
+	property: string,
 ) {
 	const elements = queryElements(selectors);
 	if (!elements) {
@@ -557,7 +557,7 @@ export function getCSSProperty(element: Element, property: string) {
 /* istanbul ignore next */
 export function hasElementClass(
 	selectors: string | string[] | null,
-	cls: string
+	cls: string,
 ): boolean {
 	if (selectors === null) {
 		return false;
@@ -601,7 +601,7 @@ function visibleFilter(elements: NodeListOf<HTMLElement>) {
  */
 /* istanbul ignore next */
 export function isElementVisible(
-	selectors: string | string[] | null | undefined
+	selectors: string | string[] | null | undefined,
 ): boolean {
 	if (!selectors) {
 		return false;
@@ -617,7 +617,7 @@ export function isElementVisible(
  * @returns Value, or null if not found
  */
 export function getValueFromSelectors(
-	selectors: string | string[]
+	selectors: string | string[],
 ): string | null {
 	const element = queryElements(selectors);
 	if (!element || !('value' in element)) {
@@ -635,7 +635,7 @@ export function getValueFromSelectors(
  */
 export function getDataFromSelectors(
 	selectors: string | string[],
-	name: string
+	name: string,
 ): string | null {
 	return getAttrFromSelectors(selectors, `data-${name}`);
 }
@@ -649,7 +649,7 @@ export function getDataFromSelectors(
  */
 /* istanbul ignore next */
 export function queryElements(
-	selectors: string | string[] | null | undefined
+	selectors: string | string[] | null | undefined,
 ): NodeListOf<HTMLElement> | null {
 	if (!selectors) {
 		return null;
@@ -665,7 +665,7 @@ export function queryElements(
 
 	for (const selector of selectors) {
 		const elements = document.querySelectorAll(
-			selector
+			selector,
 		) as NodeListOf<HTMLElement>;
 		if (elements.length > 0) {
 			return elements;
@@ -684,7 +684,7 @@ export function queryElements(
 /* istanbul ignore next */
 export async function getOption(
 	connector: string,
-	key: string
+	key: string,
 ): Promise<boolean> {
 	const awaitedStorage = await BrowserStorage;
 	const data = await awaitedStorage
@@ -747,7 +747,7 @@ export function injectScriptIntoDocument(scriptUrl: string): void {
  * @param logType - Log type
  */
 /* istanbul ignore next */
-export function debugLog(text: any, logType: DebugLogType = 'log'): void {
+export function debugLog(text: unknown, logType: DebugLogType = 'log'): void {
 	const logFunc = console[logType];
 
 	if (typeof logFunc !== 'function') {
@@ -797,7 +797,7 @@ export const ytTitleRegExps = [
  * @returns Object containing artist and track fields
  */
 export function processYtVideoTitle(
-	videoTitle: string | null | undefined
+	videoTitle: string | null | undefined,
 ): ArtistTrackInfo {
 	let artist = null;
 	let track = null;
@@ -861,12 +861,12 @@ export function processYtVideoTitle(
 export function isYtVideoDescriptionValid(desc: string | null): desc is string {
 	return Boolean(
 		desc &&
-			(desc.startsWith(ytDescFirstLine) || desc.endsWith(ytDescLastLine))
+			(desc.startsWith(ytDescFirstLine) || desc.endsWith(ytDescLastLine)),
 	);
 }
 
 export function parseYtVideoDescription(
-	desc: string | null
+	desc: string | null,
 ): TrackInfoWithAlbum | null {
 	if (!isYtVideoDescriptionValid(desc)) {
 		return null;
@@ -899,8 +899,8 @@ export function parseYtVideoDescription(
 	} else {
 		[track, artist, ...featArtists] = trackInfo;
 
-		const areFeatArtistPresent = featArtists.some((artist) =>
-			track?.includes(artist)
+		const areFeatArtistPresent = featArtists.some(
+			(artist) => track?.includes(artist),
 		);
 		if (!areFeatArtistPresent) {
 			const featArtistsStr = featArtists.join(ARTIST_SEPARATOR);
@@ -942,7 +942,7 @@ export const scArtistTrackRe = /(.+)\s[:\u2013-\u2015-]\s(.+)/;
  * @returns Object contains artist and track fields
  */
 export function processSoundCloudTrack(
-	track: string | null | undefined
+	track: string | null | undefined,
 ): ArtistTrackInfo {
 	if (!track) {
 		return { artist: null, track: null };
