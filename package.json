@@ -30,7 +30,7 @@
     "@web-scrobbler/metadata-filter": "3.0.1",
     "blueimp-md5": "2.19.0",
     "stylelint": "13.13.1",
-    "vite": "4.4.8",
+    "vite": "4.4.9",
     "webextension-polyfill": "0.10.0"
   },
   "devDependencies": {
