@@ -40,7 +40,7 @@
     "@types/imagemin": "8.0.1",
     "@types/imagemin-jpegtran": "5.0.1",
     "@types/node": "20.5.0",
-    "@types/react": "18.2.18",
+    "@types/react": "18.2.20",
     "@types/webextension-polyfill": "0.10.1",
     "@typescript-eslint/eslint-plugin": "6.3.0",
     "archiver": "5.3.1",
