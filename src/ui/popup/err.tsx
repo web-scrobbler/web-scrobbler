@@ -18,7 +18,9 @@ export default function Err() {
 				<TPopupAnchor messageName="serviceErrorDesc" />
 			</p>
 			<PopupAnchor
-				href={browser.runtime.getURL('src/ui/options/index.html')}
+				href={browser.runtime.getURL(
+					'src/ui/options/index.html?p=accounts',
+				)}
 				class={`${optionComponentStyles.linkButton} ${styles.centered}`}
 			>
 				<Settings />
