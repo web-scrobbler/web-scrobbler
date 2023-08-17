@@ -29,6 +29,7 @@ import {
 import { CloneableSong } from '@/core/object/song';
 import {
 	clearNowPlaying,
+	showAuthNotification,
 	showNowPlaying,
 	showSongNotRecognized,
 } from '@/util/notifications';
@@ -36,6 +37,7 @@ import ClonedSong from '@/core/object/cloned-song';
 import { openTab } from '@/util/util-browser';
 import { setRegexDefaults } from '@/util/regex';
 import { getSongInfo, scrobble, sendNowPlaying, toggleLove } from './scrobble';
+import scrobbleService from '../object/scrobble-service';
 
 const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
 
@@ -118,7 +120,7 @@ async function onTabRemoved(tabId: number) {
  * @param activeInfo - Information about the switch of tabs
  */
 async function onTabActivated(
-	activeInfo: browser.Tabs.OnActivatedActiveInfoType
+	activeInfo: browser.Tabs.OnActivatedActiveInfoType,
 ) {
 	await updateTabList(activeInfo.tabId, true);
 }
@@ -134,7 +136,7 @@ async function onTabActivated(
 async function onTabUpdated(
 	tabId: number,
 	changeInfo: browser.Tabs.OnUpdatedChangeInfoType,
-	tab?: browser.Tabs.Tab
+	tab?: browser.Tabs.Tab,
 ) {
 	if (tab?.active && changeInfo.status === 'complete') {
 		await updateTabList(tabId, false);
@@ -161,7 +163,7 @@ async function updateTabList(tabId: number, activated: boolean) {
 			newTabs = [curTab, ...newTabs];
 		} else {
 			newTabs = newTabs.map((active) =>
-				active.tabId === tabId ? curTab : active
+				active.tabId === tabId ? curTab : active,
 			);
 		}
 	}
@@ -182,7 +184,7 @@ async function updateTabList(tabId: number, activated: boolean) {
  */
 async function updateTab(
 	tabId: number | undefined,
-	fn: (tab: ManagerTab) => ManagerTab
+	fn: (tab: ManagerTab) => ManagerTab,
 ): Promise<void> {
 	if (!tabId) {
 		throw new Error('No tabid given');
@@ -250,7 +252,7 @@ async function updateMode(tabId: number | undefined, mode: ControllerModeStr) {
  */
 async function updateState(
 	tabId: number | undefined,
-	song: CloneableSong | null
+	song: CloneableSong | null,
 ) {
 	await updateTab(tabId, (oldTab) => ({
 		tabId: oldTab.tabId,
@@ -308,7 +310,7 @@ setupBackgroundListeners(
 				payload.connector,
 				() => {
 					openTab(sender.tab?.id ?? -1);
-				}
+				},
 			);
 		},
 	}),
@@ -320,7 +322,7 @@ setupBackgroundListeners(
 		type: 'setNowPlaying',
 		fn: (payload, sender) => {
 			return sendNowPlaying(
-				new ClonedSong(payload.song, sender.tab?.id ?? -1)
+				new ClonedSong(payload.song, sender.tab?.id ?? -1),
 			);
 		},
 	}),
@@ -342,7 +344,7 @@ setupBackgroundListeners(
 		type: 'getSongInfo',
 		fn: (payload, sender) => {
 			return getSongInfo(
-				new ClonedSong(payload.song, sender.tab?.id ?? -1)
+				new ClonedSong(payload.song, sender.tab?.id ?? -1),
 			);
 		},
 	}),
@@ -355,7 +357,7 @@ setupBackgroundListeners(
 		fn: (payload, sender) => {
 			return toggleLove(
 				new ClonedSong(payload.song, sender.tab?.id ?? -1),
-				payload.isLoved
+				payload.isLoved,
 			);
 		},
 	}),
@@ -381,7 +383,7 @@ setupBackgroundListeners(
 				payload.connector,
 				() => {
 					openTab(sender.tab?.id ?? -1);
-				}
+				},
 			);
 		},
 	}),
@@ -398,8 +400,37 @@ setupBackgroundListeners(
 				browserPreferredTheme: payload,
 			});
 		},
-	})
+	}),
 );
+
+/**
+ * Replace the extension version stored in local storage by current one.
+ */
+async function updateVersionInStorage() {
+	const storage = BrowserStorage.getStorage(BrowserStorage.CORE);
+	let data = await storage.get();
+	if (!data) {
+		data = {
+			appVersion: '',
+		};
+	}
+
+	data.appVersion = browser.runtime.getManifest().version;
+	await storage.set(data);
+
+	storage.debugLog();
+}
+
+/**
+ * Ask a scrobble service to bind scrobblers.
+ *
+ * @returns true if at least one scrobbler is registered;
+ *          false if no scrobblers are registered
+ */
+async function bindScrobblers() {
+	const boundScrobblers = await scrobbleService.bindAllScrobblers();
+	return boundScrobblers.length > 0;
+}
 
 /**
  * Sets up the starting state of the extension on browser startup/extension install.
@@ -411,6 +442,13 @@ function startupFunc() {
 	disabledTabs.set({});
 
 	setRegexDefaults();
+	updateVersionInStorage();
+	bindScrobblers().then((bound) => {
+		if (!bound) {
+			console.warn('No scrobblers are bound');
+			showAuthNotification();
+		}
+	});
 
 	browser.contextMenus?.create({
 		id: contextMenus.ENABLE_CONNECTOR,
