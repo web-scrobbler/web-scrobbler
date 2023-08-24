@@ -93,7 +93,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 * @param props - Object contains user properties
 	 */
 	public async applyUserProperties(
-		props: Record<string, unknown>
+		props: Record<string, unknown>,
 	): Promise<void> {
 		this.applyProps(props, this.getUsedDefinedProperties());
 
@@ -200,6 +200,26 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	public abstract sendNowPlaying(song: BaseSong): Promise<ServiceCallResult>;
 
 	/**
+	 * Send resumed playing status of song to API.
+	 * Implementation must return ServiceCallResult constant.
+	 *
+	 * @param song - Song instance
+	 */
+	// eslint-disable-next-line no-unused-vars
+	public abstract sendResumedPlaying(
+		song: BaseSong,
+	): Promise<ServiceCallResult>;
+
+	/**
+	 * Send paused status of song to API.
+	 * Implementation must return ServiceCallResult constant.
+	 *
+	 * @param song - Song instance
+	 */
+	// eslint-disable-next-line no-unused-vars
+	public abstract sendPaused(song: BaseSong): Promise<ServiceCallResult>;
+
+	/**
 	 * Send song to API to scrobble.
 	 * Implementation must return ServiceCallResult constant.
 	 *
@@ -218,7 +238,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	// eslint-disable-next-line no-unused-vars
 	public abstract toggleLove(
 		song: ClonedSong,
-		isLoved: boolean
+		isLoved: boolean,
 	): Promise<ServiceCallResult | Record<string, never>>;
 
 	/**
@@ -229,7 +249,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 */
 	// eslint-disable-next-line no-unused-vars
 	public abstract getSongInfo(
-		song: BaseSong
+		song: BaseSong,
 	): Promise<ScrobblerSongInfo | Record<string, never>>;
 
 	/* Getters. */
@@ -246,7 +266,8 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 		| 'Last.fm'
 		| 'ListenBrainz'
 		| 'Maloja'
-		| 'Libre.fm';
+		| 'Libre.fm'
+		| 'Webhook';
 
 	/**
 	 * Get URL to profile page.
@@ -353,7 +374,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 
 	private applyProps(
 		props: Record<string, unknown>,
-		allowedProps: string[]
+		allowedProps: string[],
 	): void {
 		for (const prop in props) {
 			if (!allowedProps.includes(prop)) {
