@@ -43,11 +43,12 @@ Connector.getRemainingTime = () => {
 Connector.isPlaying = () => Util.hasElementClass('.playControl', 'playing');
 
 Connector.getUniqueID = () => {
-	return (
+	const url = new URL((
 		document.querySelector(
 			'.playbackSoundBadge__titleLink'
 		) as HTMLAnchorElement
-	).href;
+	).href);
+	return url.origin + url.pathname;
 };
 
 Connector.getOriginUrl = () => {
