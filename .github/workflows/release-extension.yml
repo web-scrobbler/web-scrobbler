@@ -24,7 +24,7 @@ jobs:
         run: |
           git config user.name "web-scrobbler-bot"
           git config user.email "${{ secrets.BOT_EMAIL }}"
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
           node-version-file: '.nvmrc'
       - name: Install dependencies
