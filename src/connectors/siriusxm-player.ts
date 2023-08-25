@@ -11,9 +11,9 @@ export {};
  * - There is now a filter for much of the station meta on SiriusXM. Removes social media handles, URLs, shownames
  */
 
-const filter = MetadataFilter.createFilter({ track: removeStationMeta });
-const removeExtraRe =
-	/\s\(\d{2}\)\s?|\([^)]*\b(?:cover|Cover)\b[^)]*\)|EXCLUSIVE/gi;
+const filter = MetadataFilter.createFilter({
+	track: [removeYear, removeCover, removeExclusive],
+});
 
 Connector.playerSelector = ".sxm-player-controls";
 Connector.artistSelector = ".sxm-player-controls .artist-name";
@@ -23,7 +23,7 @@ Connector.isPlaying = () => {
 	return (
 		Util.getAttrFromSelectors(
 			".sxm-player-controls .play-pause-btn",
-			"title"
+			"title",
 		) === "Pause"
 	);
 };
@@ -51,12 +51,20 @@ Connector.isScrobblingAllowed = () => {
 	];
 
 	return !filteredTerms.some(
-		(term) => artist?.includes(term) || track?.includes(term)
+		(term) => artist?.includes(term) || track?.includes(term),
 	);
 };
 
 Connector.applyFilter(filter);
 
-function removeStationMeta(track: string) {
-	return track.replace(removeExtraRe, "");
+function removeExclusive(track: string) {
+	return track.replace(/\sEXCLUSIVE/g, "");
+}
+
+function removeCover(track: string) {
+	return track.replace(/\([^)]*\b(?:cover|Cover)\b[^)]*\)/g, "");
+}
+
+function removeYear(track: string) {
+	return track.replace(/\s\(\d{2}\)\s?$/g, "");
 }
