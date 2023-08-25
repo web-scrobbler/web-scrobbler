@@ -23,13 +23,10 @@ jobs:
       - name: Setup git config
         run: |
           git config user.name "web-scrobbler-bot"
-          git config user.email "${{ secrets.BOT_EMAIL }}"
-      - name: Get Node.js version from .nvmrc
-        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
-      - name: Setup Node.js
+          git config user.email "${{ secrets.BOT_EMAIL }}"      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '${{ env.NODE_VERSION }}'
+          node-version-file: '.nvmrc'
       - name: Install dependencies
         run: npm ci
       - name: Release
