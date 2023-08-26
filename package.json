@@ -42,7 +42,7 @@
     "@types/node": "20.5.6",
     "@types/react": "18.2.20",
     "@types/webextension-polyfill": "0.10.1",
-    "@typescript-eslint/eslint-plugin": "6.3.0",
+    "@typescript-eslint/eslint-plugin": "6.4.1",
     "archiver": "5.3.1",
     "canvas": "2.11.2",
     "chokidar": "3.5.3",
