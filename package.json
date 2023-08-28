@@ -43,7 +43,7 @@
     "@types/react": "18.2.20",
     "@types/webextension-polyfill": "0.10.1",
     "@typescript-eslint/eslint-plugin": "6.4.1",
-    "archiver": "5.3.1",
+    "archiver": "6.0.0",
     "canvas": "2.11.2",
     "chokidar": "3.5.3",
     "esbuild": "0.19.2",
