@@ -7,11 +7,15 @@ import type {
 	TimeInfo,
 	TrackInfoWithAlbum,
 } from '@/core/types';
-import type { GlobalOptions, ConnectorOptions } from '@/core/storage/options';
+import type { ConnectorOptions } from '@/core/storage/options';
 import type { DebugLogType } from '@/util/util';
 
 const BrowserStorage = (async () => {
 	return import('@/core/storage/browser-storage');
+})();
+
+const Options = (async () => {
+	return import('@/core/storage/options');
 })();
 
 /**
@@ -704,25 +708,6 @@ export async function getOption(
 }
 
 /**
- * Read global option from storage.
- * @param key - Option key
- * @returns Option value
- */
-/* istanbul ignore next */
-export async function getGlobalOption(
-	key: keyof GlobalOptions,
-): Promise<unknown> {
-	const awaitedStorage = await BrowserStorage;
-	const data = await awaitedStorage
-		.getStorage(awaitedStorage.OPTIONS)
-		.get();
-	if (data && key in data) {
-		return data[key];
-	}
-	return false;
-}
-
-/**
  * Normalize given URL. Currently it only normalizes
  * protocol-relative and root-relative links.
  * @param url - URL, which is possibly relative
@@ -767,12 +752,14 @@ export function injectScriptIntoDocument(scriptUrl: string): void {
  */
 /* istanbul ignore next */
 export async function debugLog(text: unknown, logType: DebugLogType = 'log'): Promise<void> {
-	const logFunc = console[logType];
-	const loggingEnabled = await getGlobalOption('debugLoggingEnabled');
+	const awaitedOptions = await Options;
+	const loggingEnabled = await awaitedOptions.getOption(awaitedOptions.DEBUG_LOGGING_ENABLED);
 
 	if (!loggingEnabled) {
 		return;
 	}
+
+	const logFunc = console[logType];
 
 	if (typeof logFunc !== 'function') {
 		throw new TypeError(`Unknown log type: ${logType}`);
