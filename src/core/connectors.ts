@@ -2112,4 +2112,10 @@ export default <ConnectorMeta[]>[
 		js: 'trackerhub.js',
 		id: 'trackerhub',
 	},
+	{
+		label: 'Gensokyo Radio',
+		matches: ['*://gensokyoradio.net/*'],
+		js: 'gensokyoradio.js',
+		id: 'gensokyoradio',
+	},
 ];
