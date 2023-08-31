@@ -1926,7 +1926,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Beatbump',
-		matches: ['*://beatbump.ml/*'],
+		matches: ['*://beatbump.io/*'],
 		js: 'beatbump.js',
 		id: 'beatbump',
 	},
