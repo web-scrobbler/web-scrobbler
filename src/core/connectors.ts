@@ -2112,4 +2112,10 @@ export default <ConnectorMeta[]>[
 		js: 'trackerhub.js',
 		id: 'trackerhub',
 	},
+	{
+		label: 'Stationhead',
+		matches: ['*://*stationhead.com/*'],
+		js: 'stationhead.js',
+		id: 'stationhead',
+	},
 ];
