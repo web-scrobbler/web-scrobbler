@@ -2118,4 +2118,10 @@ export default <ConnectorMeta[]>[
 		js: 'gensokyoradio.js',
 		id: 'gensokyoradio',
 	},
+	{
+		label: 'Stationhead',
+		matches: ['*://*stationhead.com/*'],
+		js: 'stationhead.js',
+		id: 'stationhead',
+	},
 ];
