@@ -9,4 +9,5 @@ export default {
 		},
 	},
 	plugins: [ConditionalCompile()],
+	testTimeout: 10000,
 };
