@@ -10,6 +10,8 @@ Connector.trackSelector = '#playerTitle';
 
 Connector.albumSelector = '#playerAlbum';
 
+Connector.albumArtistSelector = '#playerCircle';
+
 Connector.trackArtSelector = '#playerArt';
 
 Connector.timeInfoSelector = '#playerCounter';
