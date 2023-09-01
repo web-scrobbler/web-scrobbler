@@ -20,7 +20,8 @@ Connector.isPlaying = () => isPlaying;
 
 Connector.isTrackArtDefault = (trackArtUrl) => {
 	return (
-		trackArtUrl == 'https://gensokyoradio.net/images/assets/no-albumart.png'
+		!!trackArtUrl &&
+		/(gr-logo-placeholder|no-albumart)\.png$/i.test(trackArtUrl)
 	);
 };
 
