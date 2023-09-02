@@ -12,6 +12,8 @@ import {
 	ModalType,
 	NavigatorNavigationButton,
 	aboutItem,
+	accountItem,
+	connectorOverrideOptionsItem,
 	settings,
 	showSomeLoveItem,
 } from './components/navigator';
@@ -26,11 +28,26 @@ function contextMenuQuery() {
 	return window.matchMedia('(max-width: 700px)').matches;
 }
 
-// Show some love as default except safari, where we don't want it shown because apple
-let defaultSetting = aboutItem;
-// #v-ifndef VITE_SAFARI
-defaultSetting = showSomeLoveItem;
-// #v-endif
+function getDefaultSetting(): NavigatorNavigationButton {
+	// if a page override is selected, return that page
+	const pageTitle = new URLSearchParams(window.location.search).get('p');
+	switch (pageTitle) {
+		case 'accounts':
+			return accountItem;
+		case 'connectors':
+			return connectorOverrideOptionsItem;
+	}
+
+	// in non-safari, go to show some love page
+	// #v-ifndef VITE_SAFARI
+	return showSomeLoveItem;
+	// #v-endif
+
+	// We actually reach this in safari, return about page
+	return aboutItem;
+}
+
+const defaultSetting = getDefaultSetting();
 
 /**
  * Preferences component, with a sidebar and several different options and info pages
@@ -59,7 +76,7 @@ function Options() {
 	onCleanup(() => document.removeEventListener('click', onclick));
 
 	const [shouldShowContextMenu, setShouldShowContextMenu] = createSignal(
-		contextMenuQuery()
+		contextMenuQuery(),
 	);
 	const resizeListener = () => setShouldShowContextMenu(contextMenuQuery());
 	window.addEventListener('resize', resizeListener);
