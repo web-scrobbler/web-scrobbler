@@ -1,4 +1,4 @@
-import { ArtistTrackInfo } from '@/core/types';
+import type { ArtistTrackInfo } from '@/core/types';
 
 export {};
 

@@ -1,4 +1,4 @@
-import { State } from '@/core/types';
+import type { State } from '@/core/types';
 export {};
 
 const deezerFilter = MetadataFilter.createRemasteredFilter();
