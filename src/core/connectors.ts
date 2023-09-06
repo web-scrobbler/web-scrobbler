@@ -59,7 +59,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'SoundCloud',
-		matches: ['*://soundcloud.com/*'],
+		matches: ['*://soundcloud.com/*', '*://m.soundcloud.com/*'],
 		js: 'soundcloud.js',
 		id: 'soundcloud',
 	},
