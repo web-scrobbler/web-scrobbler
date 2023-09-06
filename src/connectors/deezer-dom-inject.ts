@@ -1,5 +1,3 @@
-import { State } from '@/core/types';
-
 deezerInitConnector();
 
 function deezerInitConnector() {
@@ -55,6 +53,16 @@ function deezerSendEvent() {
 	);
 }
 
+interface DeezerState {
+	artist?: string;
+	track?: string;
+	album?: string;
+	uniqueID?: string;
+	trackArt?: string;
+	duration?: number | null;
+	currentTime?: number | null;
+}
+
 interface DeezerMedia {
 	__TYPE__: string;
 	EXTERNAL?: unknown;
@@ -89,7 +97,7 @@ function deezerGetCurrentMediaInfo() {
 	const currentTime = player.getPosition();
 	const duration = player.getDuration();
 
-	let trackInfo: State | null = null;
+	let trackInfo: DeezerState | null = null;
 
 	switch (mediaType) {
 		case 'episode': {
