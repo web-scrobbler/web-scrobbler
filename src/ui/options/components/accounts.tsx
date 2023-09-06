@@ -36,6 +36,13 @@ const scrobblerPropertiesMap = {
 			placeholder: 'accountsUserTokenPlaceholder',
 		},
 	},
+	Webhook: {
+		userApiUrl: {
+			type: 'text',
+			title: 'accountsUserApiUrl',
+			placeholder: 'accountsUserApiUrlPlaceholder',
+		},
+	},
 };
 
 /**
@@ -49,6 +56,7 @@ export default function Accounts() {
 			<ScrobblerDisplay label="Libre.fm" />
 			<ScrobblerDisplay label="ListenBrainz" />
 			<ScrobblerDisplay label="Maloja" />
+			<ScrobblerDisplay label="Webhook" />
 		</>
 	);
 }
@@ -61,10 +69,10 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 	const rawScrobbler = ScrobbleService.getScrobblerByLabel(label);
 	if (!rawScrobbler) return <></>;
 	const [session, setSession] = createResource(
-		rawScrobbler.getSession.bind(rawScrobbler)
+		rawScrobbler.getSession.bind(rawScrobbler),
 	);
 	const [profileUrl, setProfileUrl] = createResource(
-		rawScrobbler.getProfileUrl.bind(rawScrobbler)
+		rawScrobbler.getProfileUrl.bind(rawScrobbler),
 	);
 
 	const onFocus = async () => {
@@ -77,7 +85,7 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 		} catch (err) {
 			debugLog(
 				`${rawScrobbler.getLabel()}: Error while fetching session`,
-				'warn'
+				'warn',
 			);
 			debugLog(err, 'warn');
 		}
@@ -92,7 +100,7 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 				<p>
 					{t(
 						'accountsSignedInAs',
-						session()?.sessionName || 'anonymous'
+						session()?.sessionName || 'anonymous',
 					)}
 				</p>
 				<div class={styles.buttonContainer}>
@@ -156,7 +164,7 @@ function Properties(props: { scrobbler: Scrobbler }) {
 	const label = scrobbler.getLabel();
 	if (!labelHasProperties(label)) return <></>;
 	const [properties, setProperties] = createResource(
-		scrobbler.getUserProperties.bind(scrobbler)
+		scrobbler.getUserProperties.bind(scrobbler),
 	);
 	return (
 		<>
@@ -197,7 +205,7 @@ function Properties(props: { scrobbler: Scrobbler }) {
  * @returns true if scrobbler has properties, false if not
  */
 function labelHasProperties(
-	label: ScrobblerLabel
+	label: ScrobblerLabel,
 ): label is keyof typeof scrobblerPropertiesMap {
 	return label in scrobblerPropertiesMap;
 }

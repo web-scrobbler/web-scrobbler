@@ -36,7 +36,14 @@ import {
 import ClonedSong from '@/core/object/cloned-song';
 import { openTab } from '@/util/util-browser';
 import { setRegexDefaults } from '@/util/regex';
-import { getSongInfo, scrobble, sendNowPlaying, toggleLove } from './scrobble';
+import {
+	getSongInfo,
+	scrobble,
+	sendNowPlaying,
+	sendPaused,
+	sendResumedPlaying,
+	toggleLove,
+} from './scrobble';
 import scrobbleService from '../object/scrobble-service';
 
 const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
@@ -322,6 +329,30 @@ setupBackgroundListeners(
 		type: 'setNowPlaying',
 		fn: (payload, sender) => {
 			return sendNowPlaying(
+				new ClonedSong(payload.song, sender.tab?.id ?? -1),
+			);
+		},
+	}),
+
+	/**
+	 * Listener called by a controller to trigger sending paused song on every pause.
+	 */
+	backgroundListener({
+		type: 'setPaused',
+		fn: (payload, sender) => {
+			return sendPaused(
+				new ClonedSong(payload.song, sender.tab?.id ?? -1),
+			);
+		},
+	}),
+
+	/**
+	 * Listener called by a controller to trigger sending playing song on every resumed play.
+	 */
+	backgroundListener({
+		type: 'setResumedPlaying',
+		fn: (payload, sender) => {
+			return sendResumedPlaying(
 				new ClonedSong(payload.song, sender.tab?.id ?? -1),
 			);
 		},

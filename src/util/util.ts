@@ -7,6 +7,7 @@ import {
 } from '@/core/storage/options';
 import {
 	ListenBrainzModel,
+	WebhookModel,
 	Properties,
 	StateManagement,
 } from '@/core/storage/wrapper';
@@ -62,7 +63,7 @@ export function debugLog(text: unknown, logType: DebugLogType = 'log'): void {
  */
 export function getSecondsToScrobble(
 	duration: number | null | undefined,
-	percent: number
+	percent: number,
 ): number {
 	if (isDurationInvalid(duration)) {
 		return DEFAULT_SCROBBLE_TIME;
@@ -112,8 +113,9 @@ export function hideObjectValue(
 		| { token?: string }
 		| Properties
 		| ListenBrainzModel
+		| WebhookModel
 		| StateManagement
-		| RegexEdit[]
+		| RegexEdit[],
 ): string {
 	if (!keyValue) {
 		if (keyValue === null) {
@@ -137,7 +139,7 @@ export function hideObjectValue(
  * @returns Check result
  */
 function isDurationInvalid(
-	duration: number | null | undefined
+	duration: number | null | undefined,
 ): duration is null | undefined {
 	return (
 		!duration ||
@@ -155,7 +157,7 @@ function isDurationInvalid(
  */
 export function timeoutPromise<T>(
 	timeout: number,
-	promise: Promise<T>
+	promise: Promise<T>,
 ): Promise<T> {
 	return new Promise((resolve, reject) => {
 		const timeoutId = setTimeout(() => {
@@ -169,7 +171,7 @@ export function timeoutPromise<T>(
 			(err) => {
 				clearTimeout(timeoutId);
 				reject(err);
-			}
+			},
 		);
 	});
 }
@@ -228,7 +230,7 @@ export function createArtistURL(artist: string | null | undefined): string {
  */
 export function createAlbumURL(
 	artist: string | null | undefined,
-	album: string | null | undefined
+	album: string | null | undefined,
 ): string {
 	if (!album || !artist) {
 		return '';
@@ -244,7 +246,7 @@ export function createAlbumURL(
  */
 export function createTrackURL(
 	artist: string | null | undefined,
-	track?: string | null | undefined
+	track?: string | null | undefined,
 ): string {
 	if (!track || !artist) {
 		return '';
@@ -262,14 +264,14 @@ export function createTrackURL(
 export function createTrackLibraryURL(
 	username: string | null | undefined,
 	artist: string | null | undefined,
-	track: string | null | undefined
+	track: string | null | undefined,
 ): string {
 	if (!track || !artist || !username) {
 		return '';
 	}
 	return `https://www.last.fm/user/${encodeURIComponent(
-		username
+		username,
 	)}/library/music/${encodeURIComponent(artist)}/_/${encodeURIComponent(
-		track
+		track,
 	)}`;
 }

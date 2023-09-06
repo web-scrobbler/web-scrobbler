@@ -50,11 +50,14 @@ export type ListenBrainzModel =
 	| ListenBrainzAuthStarted
 	| ListenBrainzAuthFinished;
 
+export type WebhookModel = { userApiUrl?: string };
+
 export interface ScrobblerModels {
 	LastFM?: { token?: string } | { sessionID?: string; sessionName?: string };
 	LibreFM?: { token?: string } | { sessionID?: string; sessionName?: string };
 	ListenBrainz?: ListenBrainzModel;
 	Maloja?: Properties;
+	Webhook?: WebhookModel;
 }
 
 export interface ManagerTab {
@@ -126,7 +129,7 @@ export default class StorageWrapper<K extends keyof DataModels> {
 		storage:
 			| browser.Storage.SyncStorageAreaSync
 			| browser.Storage.LocalStorageArea,
-		namespace: StorageNamespace
+		namespace: StorageNamespace,
 	) {
 		this.storage = storage;
 		this.namespace = namespace;

@@ -5,10 +5,22 @@ import { BaseSong } from '../object/song';
 import { ScrobblerSongInfo } from '../scrobbler/base-scrobbler';
 
 export async function sendNowPlaying(
-	song: BaseSong
+	song: BaseSong,
 ): Promise<ServiceCallResult[]> {
 	await scrobbleService.bindAllScrobblers();
 	return scrobbleService.sendNowPlaying(song);
+}
+
+export async function sendPaused(song: BaseSong): Promise<ServiceCallResult[]> {
+	await scrobbleService.bindAllScrobblers();
+	return scrobbleService.sendPaused(song);
+}
+
+export async function sendResumedPlaying(
+	song: BaseSong,
+): Promise<ServiceCallResult[]> {
+	await scrobbleService.bindAllScrobblers();
+	return scrobbleService.sendResumedPlaying(song);
 }
 
 export async function scrobble(song: BaseSong): Promise<ServiceCallResult[]> {
@@ -17,7 +29,7 @@ export async function scrobble(song: BaseSong): Promise<ServiceCallResult[]> {
 }
 
 export async function getSongInfo(
-	song: ClonedSong
+	song: ClonedSong,
 ): Promise<(Record<string, never> | ScrobblerSongInfo | null)[]> {
 	await scrobbleService.bindAllScrobblers();
 	return scrobbleService.getSongInfo(song);
@@ -25,7 +37,7 @@ export async function getSongInfo(
 
 export async function toggleLove(
 	song: BaseSong,
-	isLoved: boolean
+	isLoved: boolean,
 ): Promise<(ServiceCallResult | Record<string, never>)[]> {
 	await scrobbleService.bindAllScrobblers();
 	const res = await scrobbleService.toggleLove(song, isLoved);

@@ -61,6 +61,18 @@ interface ContentCommunications {
 		};
 		response: Promise<ServiceCallResult[]>;
 	};
+	setPaused: {
+		payload: {
+			song: CloneableSong;
+		};
+		response: void;
+	};
+	setResumedPlaying: {
+		payload: {
+			song: CloneableSong;
+		};
+		response: void;
+	};
 	scrobble: {
 		payload: {
 			song: CloneableSong;

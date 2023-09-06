@@ -164,7 +164,7 @@ export default class Controller {
 					mode: this.mode,
 					song: this.currentSong?.getCloneableData() ?? null,
 				}),
-			})
+			}),
 		);
 	}
 
@@ -273,7 +273,7 @@ export default class Controller {
 	 */
 	public finish(): void {
 		this.debugLog(
-			`Remove controller for ${this.connector.label} connector`
+			`Remove controller for ${this.connector.label} connector`,
 		);
 		this.resetState();
 	}
@@ -422,9 +422,9 @@ export default class Controller {
 			if (newState.isPlaying) {
 				this.debugLog(
 					`State from connector doesn't contain enough information about the playing track: ${toString(
-						newState as Record<string, unknown>
+						newState as Record<string, unknown>,
 					)}`,
-					'warn'
+					'warn',
 				);
 			}
 
@@ -483,7 +483,9 @@ export default class Controller {
 		this.currentSong.flags.isReplaying = this.isReplayingSong;
 
 		this.debugLog(
-			`New song detected: ${toString(newState as Record<string, string>)}`
+			`New song detected: ${toString(
+				newState as Record<string, string>,
+			)}`,
 		);
 
 		if (!this.shouldScrobblePodcasts && newState.isPodcast) {
@@ -575,7 +577,7 @@ export default class Controller {
 		}
 
 		this.debugLog(
-			`Song finished processing: ${this.currentSong.toString()}`
+			`Song finished processing: ${this.currentSong.toString()}`,
 		);
 
 		if (this.currentSong.isValid()) {
@@ -636,6 +638,7 @@ export default class Controller {
 		this.debugLog(`isPlaying state changed to ${String(value)}`);
 
 		if (value && this.currentSong) {
+			this.setResumedPlaying();
 			this.playbackTimer.resume();
 			this.replayDetectionTimer.resume();
 
@@ -649,6 +652,7 @@ export default class Controller {
 				this.setMode(this.mode);
 			}
 		} else {
+			this.setPaused();
 			this.playbackTimer.pause();
 			this.replayDetectionTimer.pause();
 		}
@@ -712,7 +716,7 @@ export default class Controller {
 	 * @param duration - Song duration in seconds
 	 */
 	private async updateTimers(
-		duration: number | null | undefined
+		duration: number | null | undefined,
 	): Promise<void> {
 		if (this.playbackTimer.isExpired()) {
 			this.debugLog('Attempt to update expired timers', 'warn');
@@ -721,7 +725,7 @@ export default class Controller {
 
 		const percent = await Options.getOption(
 			Options.SCROBBLE_PERCENT,
-			this.connector.id
+			this.connector.id,
 		);
 		if (typeof percent !== 'number') {
 			return;
@@ -737,7 +741,7 @@ export default class Controller {
 			this.debugLog(
 				`The song will be scrobbled in ${
 					remainedSeconds ?? -999
-				} seconds`
+				} seconds`,
 			);
 			this.debugLog(`The song will be repeated in ${duration} seconds`);
 		} else {
@@ -771,6 +775,30 @@ export default class Controller {
 		}
 
 		this.dispatchEvent(ControllerEvents.SongNowPlaying);
+	}
+
+	private async setPaused(): Promise<void> {
+		if (!assertSongNotNull(this.currentSong)) {
+			return;
+		}
+		await sendContentMessage({
+			type: 'setPaused',
+			payload: {
+				song: this.currentSong.getCloneableData(),
+			},
+		});
+	}
+
+	private async setResumedPlaying(): Promise<void> {
+		if (!assertSongNotNull(this.currentSong)) {
+			return;
+		}
+		await sendContentMessage({
+			type: 'setResumedPlaying',
+			payload: {
+				song: this.currentSong.getCloneableData(),
+			},
+		});
 	}
 
 	/**
