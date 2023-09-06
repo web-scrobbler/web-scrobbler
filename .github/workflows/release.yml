@@ -11,16 +11,13 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v3
 
-      - name: Get Node.js version from .nvmrc
-        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
-
       - name: Get the extension version from ref
         run: echo "EXT_VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '${{ env.NODE_VERSION }}'
+          node-version-file: '.nvmrc'
 
       - name: Install dependencies
         run: npm ci

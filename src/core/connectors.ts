@@ -1926,7 +1926,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Beatbump',
-		matches: ['*://beatbump.ml/*'],
+		matches: ['*://beatbump.io/*'],
 		js: 'beatbump.js',
 		id: 'beatbump',
 	},
@@ -2111,5 +2111,17 @@ export default <ConnectorMeta[]>[
 		matches: ['*://trackerhub.vercel.app/*'],
 		js: 'trackerhub.js',
 		id: 'trackerhub',
+	},
+	{
+		label: 'Gensokyo Radio',
+		matches: ['*://gensokyoradio.net/*'],
+		js: 'gensokyoradio.js',
+		id: 'gensokyoradio',
+	},
+	{
+		label: 'Stationhead',
+		matches: ['*://*stationhead.com/*'],
+		js: 'stationhead.js',
+		id: 'stationhead',
 	},
 ];

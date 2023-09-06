@@ -16,7 +16,9 @@ export default function Disabled() {
 			<h1>{t('disabledSiteHeader')}</h1>
 			<p>{t('disabledSiteDesc')}</p>
 			<PopupAnchor
-				href={browser.runtime.getURL('src/ui/options/index.html')}
+				href={browser.runtime.getURL(
+					'src/ui/options/index.html?p=connectors',
+				)}
 				class={`${optionComponentStyles.linkButton} ${styles.centered}`}
 			>
 				<Settings />

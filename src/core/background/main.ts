@@ -29,6 +29,7 @@ import {
 import { CloneableSong } from '@/core/object/song';
 import {
 	clearNowPlaying,
+	showAuthNotification,
 	showNowPlaying,
 	showSongNotRecognized,
 } from '@/util/notifications';
@@ -43,6 +44,7 @@ import {
 	sendResumedPlaying,
 	toggleLove,
 } from './scrobble';
+import scrobbleService from '../object/scrobble-service';
 
 const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
 
@@ -433,6 +435,35 @@ setupBackgroundListeners(
 );
 
 /**
+ * Replace the extension version stored in local storage by current one.
+ */
+async function updateVersionInStorage() {
+	const storage = BrowserStorage.getStorage(BrowserStorage.CORE);
+	let data = await storage.get();
+	if (!data) {
+		data = {
+			appVersion: '',
+		};
+	}
+
+	data.appVersion = browser.runtime.getManifest().version;
+	await storage.set(data);
+
+	storage.debugLog();
+}
+
+/**
+ * Ask a scrobble service to bind scrobblers.
+ *
+ * @returns true if at least one scrobbler is registered;
+ *          false if no scrobblers are registered
+ */
+async function bindScrobblers() {
+	const boundScrobblers = await scrobbleService.bindAllScrobblers();
+	return boundScrobblers.length > 0;
+}
+
+/**
  * Sets up the starting state of the extension on browser startup/extension install.
  * Storage is used instead of variables, as with Manifest V3 service workers, script state cannot be guaranteed.
  */
@@ -442,6 +473,13 @@ function startupFunc() {
 	disabledTabs.set({});
 
 	setRegexDefaults();
+	updateVersionInStorage();
+	bindScrobblers().then((bound) => {
+		if (!bound) {
+			console.warn('No scrobblers are bound');
+			showAuthNotification();
+		}
+	});
 
 	browser.contextMenus?.create({
 		id: contextMenus.ENABLE_CONNECTOR,
