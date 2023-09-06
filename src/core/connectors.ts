@@ -2124,4 +2124,19 @@ export default <ConnectorMeta[]>[
 		js: 'stationhead.js',
 		id: 'stationhead',
 	},
+	{
+		label: 'TECHNOBASE.FM',
+		matches: [
+			'*://*technobase.fm/*',
+			'*://*housetime.fm/*',
+			'*://*hardbase.fm/*',
+			'*://*trancebase.fm/*',
+			'*://*coretime.fm/*',
+			'*://*clubtime.fm/*',
+			'*://*teatime.fm/*',
+			'*://*replay.fm/*',
+		],
+		js: 'technobase.fm.js',
+		id: 'technobase.fm',
+	},
 ];
