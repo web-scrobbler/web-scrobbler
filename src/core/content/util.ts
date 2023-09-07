@@ -752,6 +752,7 @@ export function injectScriptIntoDocument(scriptUrl: string): void {
 class DebugLogQueue {
   private queue: {text: unknown, logType: DebugLogType}[] = [];
   private isActive = false;
+  private shouldPrint = Options.then((awaitedOptions) => awaitedOptions.getOption(awaitedOptions.DEBUG_LOGGING_ENABLED));
 
   /**
    * Enqueue a log message to be printed.
@@ -773,7 +774,7 @@ class DebugLogQueue {
     try {
       for (let i = 0; i < 100 && this.queue.length > 0; i++) {
         const currentMessage = this.queue.shift();
-        if (currentMessage && await this.shouldPrint()) {
+        if (currentMessage && await this.shouldPrint) {
           const logFunc = console[currentMessage.logType];
 
           if (typeof logFunc !== 'function') {
@@ -788,15 +789,6 @@ class DebugLogQueue {
     } catch(err) {
       this.isActive = false;
     }
-  }
-
-  /**
-   * Check if the user has enabled debug logging in the extension options.
-   */
-  private async shouldPrint(): Promise<boolean> {
-    const awaitedOptions = await Options;
-    const debugLoggingEnabled = await awaitedOptions.getOption(awaitedOptions.DEBUG_LOGGING_ENABLED);
-    return !!debugLoggingEnabled;
   }
 }
 const debugLogQueue = new DebugLogQueue();
