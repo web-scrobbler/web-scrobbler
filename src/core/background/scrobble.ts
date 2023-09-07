@@ -36,7 +36,7 @@ export async function getSongInfo(
 }
 
 export async function toggleLove(
-	song: BaseSong,
+	song: ClonedSong,
 	isLoved: boolean,
 ): Promise<(ServiceCallResult | Record<string, never>)[]> {
 	await scrobbleService.bindAllScrobblers();

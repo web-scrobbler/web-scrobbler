@@ -187,6 +187,18 @@
         "message": "Custom token",
         "description": "Input label"
     },
+    "accountsApplicationName": {
+        "message": "Application name",
+        "description": "Input label"
+    },
+    "accountsApplicationNamePlaceholder": {
+        "message": "Custom webhook label",
+        "description": "Input label"
+    },
+    "accountsAddWebhook": {
+        "message": "Add Webhook",
+        "description": "Button label"
+    },
     "optionsOptions": {
         "message": "Options",
         "description": "'Options' section"

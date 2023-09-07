@@ -17,9 +17,7 @@ type EditSetter = Setter<
 	| {
 			[key: string]: Options.SavedEdit;
 	  }
-	| {
-			[key: string]: RegexEdit[];
-	  }
+	| RegexEdit[]
 	| null
 	| undefined
 >;
@@ -72,7 +70,7 @@ async function downloadEdits(editWrapper: EditWrapper, filename: string) {
 	const edits = await editWrapper.get();
 	if (!edits) return;
 	const data = `data:text/json;charset=UTF-8,${encodeURIComponent(
-		JSON.stringify(edits)
+		JSON.stringify(edits),
 	)}`;
 	const a = document.createElement('a');
 	a.download = filename;
@@ -112,7 +110,7 @@ function pushEdits(
 		target: Element;
 	},
 	editWrapper: EditWrapper,
-	mutate: EditSetter
+	mutate: EditSetter,
 ) {
 	const file = e.currentTarget.files?.[0];
 	if (!file) return;

@@ -169,6 +169,16 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 	}
 
 	/** @override */
+	async sendPaused(): Promise<ServiceCallResult> {
+		return ServiceCallResult.RESULT_OK;
+	}
+
+	/** @override */
+	async sendResumedPlaying(): Promise<ServiceCallResult> {
+		return ServiceCallResult.RESULT_OK;
+	}
+
+	/** @override */
 	public async scrobble(song: BaseSong): Promise<ServiceCallResult> {
 		const { sessionID } = await this.getSession();
 
@@ -191,7 +201,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		const artist = song.getArtist();
 		if (typeof track !== 'string' || typeof artist !== 'string') {
 			throw new Error(
-				`Invalid track ${JSON.stringify({ artist, track })}`
+				`Invalid track ${JSON.stringify({ artist, track })}`,
 			);
 		}
 		const lookupRequestParams = new URLSearchParams({
@@ -206,14 +216,14 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 				'GET',
 				`${baseUrl}/metadata/lookup?${lookupRequestParams}`,
 				null,
-				null
+				null,
 			);
 		} catch (e) {
 			// ignore error
 		}
 
 		this.debugLog(
-			`lookup result: ${JSON.stringify(lookupResult, null, 2)}`
+			`lookup result: ${JSON.stringify(lookupResult, null, 2)}`,
 		);
 
 		if (!lookupResult.recording_mbid) {
@@ -231,7 +241,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 			'POST',
 			`${baseUrl}/feedback/recording-feedback`,
 			loveRequestBody,
-			sessionID
+			sessionID,
 		);
 
 		return this.processResult(loveResult);
@@ -245,12 +255,12 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 	/** Private methods. */
 
 	private async listenBrainzApi<
-		T extends Record<string, unknown> = Record<string, unknown>
+		T extends Record<string, unknown> = Record<string, unknown>,
 	>(
 		method: string,
 		url: string,
 		body: ListenBrainzParams | null,
-		sessionID: string | null
+		sessionID: string | null,
 	): Promise<T> {
 		const requestInfo: RequestInit = {
 			method,
@@ -298,13 +308,13 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 
 	async sendScrobbleRequest(
 		params: ListenBrainzParams,
-		sessionID: string
+		sessionID: string,
 	): Promise<ServiceCallResult> {
 		const result = await this.listenBrainzApi(
 			'POST',
 			this.userApiUrl || apiUrl,
 			params,
-			sessionID
+			sessionID,
 		);
 		return this.processResult(result);
 	}

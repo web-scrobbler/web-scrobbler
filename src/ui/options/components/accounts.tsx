@@ -6,6 +6,7 @@ import ScrobbleService, {
 import { For, Show, createResource, onCleanup } from 'solid-js';
 import styles from './components.module.scss';
 import browser from 'webextension-polyfill';
+import Delete from '@suid/icons-material/DeleteOutlined';
 import { debugLog } from '@/util/util';
 
 /**
@@ -36,7 +37,18 @@ const scrobblerPropertiesMap = {
 			placeholder: 'accountsUserTokenPlaceholder',
 		},
 	},
+};
+
+/**
+ * Properties associated with each scrobbler that are stored as an array with items add-and-removable, and the type of input to use to edit them.
+ */
+const scrobblerArrayPropertiesMap = {
 	Webhook: {
+		applicationName: {
+			type: 'text',
+			title: 'accountsApplicationName',
+			placeholder: 'accountsApplicationNamePlaceholder',
+		},
 		userApiUrl: {
 			type: 'text',
 			title: 'accountsUserApiUrl',
@@ -95,7 +107,10 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 
 	return (
 		<>
-			<Show when={!session.error && session()}>
+			<Show
+				when={!session.error && session()}
+				fallback={<SignedOut scrobbler={rawScrobbler} />}
+			>
 				<h2>{rawScrobbler.getLabel()}</h2>
 				<p>
 					{t(
@@ -124,9 +139,7 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 					</button>
 				</div>
 				<Properties scrobbler={rawScrobbler} />
-			</Show>
-			<Show when={session.error || !session()}>
-				<SignedOut scrobbler={rawScrobbler} />
+				<ArrayProperties scrobbler={rawScrobbler} />
 			</Show>
 		</>
 	);
@@ -152,6 +165,7 @@ function SignedOut(props: { scrobbler: Scrobbler }) {
 				{t('accountsSignIn')}
 			</button>
 			<Properties scrobbler={scrobbler} />
+			<ArrayProperties scrobbler={scrobbler} />
 		</>
 	);
 }
@@ -198,6 +212,85 @@ function Properties(props: { scrobbler: Scrobbler }) {
 	);
 }
 
+function ArrayProperties(props: { scrobbler: Scrobbler }) {
+	const { scrobbler } = props;
+	const label = scrobbler.getLabel();
+	if (!labelHasArrayProperties(label)) return <></>;
+	const [properties, setProperties] = createResource(
+		scrobbler.getArrayProperties.bind(scrobbler),
+	);
+	const newProps = {
+		applicationName: '',
+		userApiUrl: '',
+	};
+	return (
+		<>
+			<h3>{t('accountsScrobblerProps')}</h3>
+			<div class={styles.arrayPropWrapper}>
+				<For each={properties()}>
+					{(item, index) => (
+						<div class={styles.arrayProps}>
+							<button
+								class={styles.deleteEditButton}
+								onClick={() => {
+									setProperties.mutate((o) => {
+										if (!o) o = [];
+										if (o.length <= index()) return o;
+										o = [
+											...o.slice(0, index()),
+											...o.slice(index() + 1),
+										];
+										scrobbler.applyUserArrayProperties(o);
+										return o;
+									});
+								}}
+							>
+								<Delete />
+							</button>
+							<For each={Object.values(item)}>
+								{(val) => (
+									<span class={styles.arrayProp}>{val}</span>
+								)}
+							</For>
+						</div>
+					)}
+				</For>
+			</div>
+			<For each={Object.entries(scrobblerArrayPropertiesMap[label])}>
+				{([key, { type, title, placeholder }]) => {
+					const typedKey =
+						key as keyof (typeof scrobblerArrayPropertiesMap)[typeof label];
+					return (
+						<label class={styles.propLabel}>
+							{t(title)}
+							<input
+								class={styles.propInput}
+								type={type}
+								placeholder={t(placeholder)}
+								onInput={(e) => {
+									newProps[typedKey] = e.currentTarget.value;
+								}}
+							/>
+						</label>
+					);
+				}}
+			</For>
+			<button
+				class={styles.resetButton}
+				onClick={() => {
+					setProperties.mutate((o) => {
+						if (!o) o = [];
+						scrobbler.addUserArrayProperties(newProps);
+						return [...o, newProps];
+					});
+				}}
+			>
+				{t('accountsAddWebhook')}
+			</button>
+		</>
+	);
+}
+
 /**
  * Check if a scrobbler has user-set properties associated with it.
  *
@@ -208,4 +301,16 @@ function labelHasProperties(
 	label: ScrobblerLabel,
 ): label is keyof typeof scrobblerPropertiesMap {
 	return label in scrobblerPropertiesMap;
+}
+
+/**
+ * Check if a scrobbler has user-set array properties associated with it.
+ *
+ * @param label - scrobbler to check if has array properties
+ * @returns true if scrobbler has array properties, false if not
+ */
+function labelHasArrayProperties(
+	label: ScrobblerLabel,
+): label is keyof typeof scrobblerArrayPropertiesMap {
+	return label in scrobblerArrayPropertiesMap;
 }

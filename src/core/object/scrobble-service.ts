@@ -248,7 +248,7 @@ class ScrobbleService {
 	 * @returns Promise that will be resolved then the task will complete
 	 */
 	async toggleLove(
-		song: BaseSong,
+		song: ClonedSong,
 		flag: boolean,
 	): Promise<(ServiceCallResult | Record<string, never>)[]> {
 		const scrobblers = registeredScrobblers.filter((scrobbler) => {
