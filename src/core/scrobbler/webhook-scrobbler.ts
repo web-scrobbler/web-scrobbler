@@ -44,13 +44,10 @@ export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 
 	/** @override */
 	getSession(): Promise<SessionData> {
-		console.log('getting session');
 		if (!this.arrayProperties || this.arrayProperties.length === 0) {
-			console.log('fail');
 			return Promise.reject('');
 		}
 		// Webhook connection doesn't have a session.
-		console.log('success');
 		return Promise.resolve({ sessionID: 'webhook' });
 	}
 
@@ -107,6 +104,7 @@ export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 			);
 			for (const response of responses) {
 				if (response.status !== 200) {
+					this.debugLog(`Error in ${response.url}.`, 'error');
 					return ServiceCallResult.ERROR_OTHER;
 				}
 			}
