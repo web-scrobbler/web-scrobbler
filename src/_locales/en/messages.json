@@ -39,6 +39,14 @@
         "message": "Scrobble podcast episodes",
         "description": "Option title"
     },
+    "optionDebugLoggingEnabled": {
+        "message": "Enable debug logging",
+        "description": "Option label"
+    },
+    "optionDebugLoggingEnabledTitle": {
+        "message": "Allow the extension to log debug messages to the browser console",
+        "description": "Option title"
+    },
     "optionsScrobbleBehavior": {
         "message": "Scrobble behavior",
         "description": "'Scrobble behavior' section"

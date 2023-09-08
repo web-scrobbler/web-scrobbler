@@ -14,6 +14,10 @@ const BrowserStorage = (async () => {
 	return import('@/core/storage/browser-storage');
 })();
 
+const Options = (async () => {
+	return import('@/core/storage/options');
+})();
+
 /**
  * All the separators used by the core and by connectors.
  * This can be expanded just fine, do so if you run into trouble while developing a connector.
@@ -742,20 +746,61 @@ export function injectScriptIntoDocument(scriptUrl: string): void {
 }
 
 /**
+ * Handle async checks for DEBUG_LOGGING_ENABLED option while ensuring
+ * that logs are still printed in a predictable order.
+ */
+class DebugLogQueue {
+  private queue: {text: unknown, logType: DebugLogType}[] = [];
+  private isActive = false;
+  private shouldPrint = Options.then((awaitedOptions) => awaitedOptions.getOption(awaitedOptions.DEBUG_LOGGING_ENABLED));
+
+  /**
+   * Enqueue a log message to be printed.
+   * @param text - Debug message
+   * @param logType - Log type
+   */
+  public push(text: unknown, logType: DebugLogType): void {
+    this.queue.push({text, logType});
+    this.start();
+  }
+
+  /**
+   * Process the queue to print logs in order.
+   */
+  private async start(): Promise<void> {
+    if (this.isActive) return;
+    this.isActive = true;
+
+    try {
+      for (let i = 0; i < 100 && this.queue.length > 0; i++) {
+        const currentMessage = this.queue.shift();
+        if (currentMessage && await this.shouldPrint) {
+          const logFunc = console[currentMessage.logType];
+
+          if (typeof logFunc !== 'function') {
+            throw new TypeError(`Unknown log type: ${currentMessage.logType}`);
+          }
+
+          const message = `Web Scrobbler: ${currentMessage.text}`;
+          logFunc(message);
+        }
+      }
+      this.isActive = false;
+    } catch(err) {
+      this.isActive = false;
+    }
+  }
+}
+const debugLogQueue = new DebugLogQueue();
+
+/**
  * Print debug message with prefixed "Web Scrobbler" string.
  * @param text - Debug message
  * @param logType - Log type
  */
 /* istanbul ignore next */
 export function debugLog(text: unknown, logType: DebugLogType = 'log'): void {
-	const logFunc = console[logType];
-
-	if (typeof logFunc !== 'function') {
-		throw new TypeError(`Unknown log type: ${logType}`);
-	}
-
-	const message = `Web Scrobbler: ${text}`;
-	logFunc(message);
+  debugLogQueue.push(text, logType)
 }
 
 /** YouTube section. */
