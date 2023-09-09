@@ -57,7 +57,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 			const responseData = await this.sendRequest<{ token: string }>(
 				{ method: 'GET' },
 				params,
-				false
+				false,
 			);
 			token = responseData.token;
 		} catch (err) {
@@ -183,6 +183,16 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 	}
 
 	/** @override */
+	async sendPaused(): Promise<ServiceCallResult> {
+		return ServiceCallResult.RESULT_OK;
+	}
+
+	/** @override */
+	async sendResumedPlaying(): Promise<ServiceCallResult> {
+		return ServiceCallResult.RESULT_OK;
+	}
+
+	/** @override */
 	async scrobble(song: BaseSong): Promise<ServiceCallResult> {
 		const { sessionID } = await this.getSession();
 		const params: AudioScrobblerScrobbleParams = {
@@ -204,7 +214,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 		const response =
 			await this.sendRequest<AudioScrobblerTrackScrobbleResponse>(
 				{ method: 'POST' },
-				params
+				params,
 			);
 		const result = this.processResponse(response);
 
@@ -228,7 +238,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 	/** @override */
 	async toggleLove(
 		song: BaseSong,
-		isLoved: boolean
+		isLoved: boolean,
 	): Promise<ServiceCallResult> {
 		const { sessionID } = await this.getSession();
 		const params = {
@@ -262,11 +272,11 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 	 */
 
 	protected async sendRequest<
-		T extends Record<string, unknown> = Record<string, unknown>
+		T extends Record<string, unknown> = Record<string, unknown>,
 	>(
 		options: RequestInit,
 		params: AudioScrobblerParams,
-		signed = true
+		signed = true,
 	): Promise<T> {
 		const url = this.makeRequestUrl(params, signed);
 
@@ -307,7 +317,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 
 		const response = await this.sendRequest<AudioScrobblerSessionResponse>(
 			{ method: 'GET' },
-			params
+			params,
 		);
 
 		const result = this.processResponse(response);
@@ -330,7 +340,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 	 */
 	private makeRequestUrl(
 		params: AudioScrobblerParams,
-		signed: boolean
+		signed: boolean,
 	): string {
 		params.api_key = this.getApiKey();
 		params.format = 'json';
@@ -370,7 +380,7 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 	 * @returns Response result
 	 */
 	protected processResponse(
-		responseData: Record<string, unknown>
+		responseData: Record<string, unknown>,
 	): ServiceCallResult {
 		if (responseData.error) {
 			return ServiceCallResult.ERROR_OTHER;

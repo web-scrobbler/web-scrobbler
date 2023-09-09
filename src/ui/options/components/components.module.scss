@@ -414,6 +414,21 @@ summary {
 	width: 80%;
 }
 
+.arrayPropWrapper {
+	margin-bottom: 1rem;
+	margin-top: 0.5rem;
+
+	.arrayProps {
+		align-items: center;
+		display: flex;
+		margin-bottom: 0.2rem;
+	}
+
+	.arrayProp:not(:last-child) {
+		margin-right: 2rem;
+	}
+}
+
 .regexDeleteContent {
 	align-items: center;
 	background: repeating-linear-gradient(var(--last-fm-bg) 0 2.5em,transparent 2.5em 5em);

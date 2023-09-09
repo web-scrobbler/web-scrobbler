@@ -50,7 +50,19 @@ export type ListenBrainzModel =
 	| ListenBrainzAuthStarted
 	| ListenBrainzAuthFinished;
 
-export type WebhookModel = { userApiUrl?: string };
+export type WebhookModel = {
+	arrayProperties?: {
+		applicationName: string;
+		userApiUrl: string;
+	}[];
+};
+
+export type ArrayProperty = {
+	applicationName: string;
+	userApiUrl: string;
+};
+
+export type ArrayProperties = ArrayProperty[];
 
 export interface ScrobblerModels {
 	LastFM?: { token?: string } | { sessionID?: string; sessionName?: string };

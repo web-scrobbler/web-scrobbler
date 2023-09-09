@@ -23,27 +23,7 @@ export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 	public userApiUrl!: string;
 
 	/** @override */
-	getApiUrl(): string {
-		return '';
-	}
-
-	/** @override */
-	getApiKey(): string {
-		return '';
-	}
-
-	/** @override */
-	getApiSecret(): string {
-		return '';
-	}
-
-	/** @override */
-	getBaseAuthUrl(): string {
-		return '';
-	}
-
-	/** @override */
-	getBaseProfileUrl(): string {
+	protected getBaseProfileUrl(): string {
 		return '';
 	}
 
@@ -64,23 +44,31 @@ export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 
 	/** @override */
 	getSession(): Promise<SessionData> {
+		if (!this.arrayProperties || this.arrayProperties.length === 0) {
+			return Promise.reject('');
+		}
 		// Webhook connection doesn't have a session.
 		return Promise.resolve({ sessionID: 'webhook' });
 	}
 
 	/** @override */
 	public getAuthUrl(): Promise<string> {
-		throw new Error('Method not implemented.');
+		return Promise.resolve('');
 	}
 
 	/** @override */
 	public isReadyForGrantAccess(): Promise<boolean> {
-		throw new Error('Method not implemented.');
+		return Promise.resolve(false);
 	}
 
 	/** @override */
-	public getUsedDefinedProperties(): string[] {
-		return ['userApiUrl'];
+	public async getProfileUrl(): Promise<string> {
+		return Promise.resolve('');
+	}
+
+	/** @override */
+	public getUserDefinedArrayProperties(): string[] {
+		return ['applicationName', 'userApiUrl'];
 	}
 
 	public async getSongInfo(): Promise<Record<string, never>> {
@@ -89,6 +77,9 @@ export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 
 	/** @override */
 	async sendRequest(request: WebhookRequest): Promise<ServiceCallResult> {
+		if (!this.arrayProperties || this.arrayProperties.length === 0) {
+			return ServiceCallResult.ERROR_AUTH;
+		}
 		this.debugLog(
 			`Webhook - sendRequest: ${JSON.stringify(request, null, 2)}`,
 		);
@@ -100,15 +91,22 @@ export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 			body: JSON.stringify(request),
 		};
 
-		const promise = fetch(this.userApiUrl, requestInfo);
-
+		const promises: Promise<Response>[] = [];
+		for (const props of this.arrayProperties) {
+			promises.push(fetch(props.userApiUrl, requestInfo));
+		}
 		const timeout = this.REQUEST_TIMEOUT;
 
-		let response = null;
 		try {
-			response = await timeoutPromise(timeout, promise);
-			if (response.status !== 200) {
-				return ServiceCallResult.ERROR_OTHER;
+			const responses = await timeoutPromise(
+				timeout,
+				Promise.all(promises),
+			);
+			for (const response of responses) {
+				if (response.status !== 200) {
+					this.debugLog(`Error in ${response.url}.`, 'error');
+					return ServiceCallResult.ERROR_OTHER;
+				}
 			}
 		} catch (e) {
 			this.debugLog('Error while sending request', 'error');

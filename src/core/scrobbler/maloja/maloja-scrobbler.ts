@@ -77,6 +77,16 @@ export default class MalojaScrobbler extends BaseScrobbler<'Maloja'> {
 	}
 
 	/** @override */
+	async sendPaused(): Promise<ServiceCallResult> {
+		return ServiceCallResult.RESULT_OK;
+	}
+
+	/** @override */
+	async sendResumedPlaying(): Promise<ServiceCallResult> {
+		return ServiceCallResult.RESULT_OK;
+	}
+
+	/** @override */
 	public async scrobble(song: BaseSong): Promise<ServiceCallResult> {
 		const songData = this.makeTrackMetadata(song);
 
@@ -87,7 +97,7 @@ export default class MalojaScrobbler extends BaseScrobbler<'Maloja'> {
 
 	async sendRequest(
 		params: MalojaTrackMetadata,
-		sessionID: string
+		sessionID: string,
 	): Promise<ServiceCallResult> {
 		params.key = sessionID;
 
