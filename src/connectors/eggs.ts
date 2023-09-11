@@ -103,6 +103,6 @@ Connector.onScriptEvent = (event: MessageEvent<Record<string, unknown>>) => {
 	}
 };
 
-function removeMV(text: any) {
+function removeMV(text: string) {
 	return text.replace(/(\(MV\)|【MV】|MV)$/, '');
 }
