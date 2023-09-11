@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "module": "ES2020",
     "moduleResolution": "Node",
+    "isolatedModules": true,
     "outDir": "build",
     "jsx": "preserve",
     "jsxImportSource": "solid-js",

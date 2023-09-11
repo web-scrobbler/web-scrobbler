@@ -12,7 +12,7 @@
     "dist": "npm run build dist",
     "dev": "npm run build dev",
     "build": "tsx build.ts",
-    "buildts": "tsc --project tsconfig.connectors.json",
+    "checkts": "tsc --noEmit && tsc --noEmit --project tsconfig.connectors.json",
     "test": "vitest",
     "lint": "eslint . && stylelint \"**/*.scss\" && remark .",
     "fixstyle": "stylelint \"**/*.scss\" --fix",

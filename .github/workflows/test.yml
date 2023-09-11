@@ -20,5 +20,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check for typescript errors
+        run: npm run checkts
+
       - name: Run tests
         run: npm run test
