@@ -1661,10 +1661,13 @@ export default <ConnectorMeta[]>[
 		id: 'navidrome',
 	},
 	{
-		label: 'turntable.fm',
-		matches: ['*://turntable.fm/*'],
-		js: 'turntable.fm.js',
-		id: 'turntable.fm',
+		label: 'deepcut.fm',
+		matches: [
+			'*://deepcut.fm/*',
+			'*://turntable.fm/*',
+			],
+		js: 'deepcut.fm.js',
+		id: 'deepcut.fm',
 	},
 	{
 		label: 'Burntable',
