@@ -92,6 +92,12 @@ interface ContentCommunications {
 		};
 		response: Promise<(ServiceCallResult | Record<string, never>)[]>;
 	};
+	sendListenBrainzRequest: {
+		payload: {
+			url: string;
+		};
+		response: Promise<string | null>;
+	};
 }
 
 interface BackgroundCommunications {
