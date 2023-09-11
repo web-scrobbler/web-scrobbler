@@ -170,12 +170,12 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 
 	/** @override */
 	async sendPaused(): Promise<ServiceCallResult> {
-		return ServiceCallResult.RESULT_OK;
+		return Promise.resolve(ServiceCallResult.RESULT_OK);
 	}
 
 	/** @override */
 	async sendResumedPlaying(): Promise<ServiceCallResult> {
-		return ServiceCallResult.RESULT_OK;
+		return Promise.resolve(ServiceCallResult.RESULT_OK);
 	}
 
 	/** @override */
@@ -214,7 +214,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		try {
 			lookupResult = await this.listenBrainzApi<MetadataLookup>(
 				'GET',
-				`${baseUrl}/metadata/lookup?${lookupRequestParams}`,
+				`${baseUrl}/metadata/lookup?${lookupRequestParams.toString()}`,
 				null,
 				null,
 			);
@@ -227,7 +227,9 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		);
 
 		if (!lookupResult.recording_mbid) {
-			this.debugLog(`Could not lookup metadata for song: ${song}`);
+			this.debugLog(
+				`Could not lookup metadata for song: ${song.toString()}`,
+			);
 			return {};
 		}
 

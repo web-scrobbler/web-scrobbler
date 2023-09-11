@@ -170,7 +170,7 @@ async function createUnmodifiedIcon(
 	folder: string,
 	path: string,
 	size: number,
-	margin?: number
+	margin?: number,
 ): Promise<Buffer> {
 	const canvas = createCanvas(size, size);
 	const ctx = canvas.getContext('2d');
@@ -196,7 +196,7 @@ async function createUnmodifiedIconNoAlpha(
 	folder: string,
 	path: string,
 	size: number,
-	margin?: number
+	margin?: number,
 ): Promise<Buffer> {
 	const canvas = createCanvas(size, size);
 	const ctx = canvas.getContext('2d');
@@ -223,7 +223,7 @@ async function createUnmodifiedIconNoAlpha(
 async function createMacIcon(
 	folder: string,
 	path: string,
-	size: number
+	size: number,
 ): Promise<Buffer> {
 	const sizeModifier = 100 / 114;
 	const canvas = createCanvas(size, size);
@@ -258,7 +258,7 @@ async function createMonochromeIcon(
 	path: string,
 	size: number,
 	color: string,
-	borderColor?: string
+	borderColor?: string,
 ): Promise<Buffer> {
 	// If there is a border, make room for the border
 	const iconSize = borderColor ? size - borderThickness * 2 : size;
@@ -274,7 +274,7 @@ async function createMonochromeIcon(
 		borderThickness,
 		borderThickness,
 		iconSize,
-		iconSize
+		iconSize,
 	);
 	// fill it in with the main icon color
 	iconCtx.globalCompositeOperation = 'source-in';
@@ -295,7 +295,7 @@ async function createMonochromeIcon(
 			adjacency[0] + borderThickness,
 			adjacency[1] + borderThickness,
 			iconSize,
-			iconSize
+			iconSize,
 		);
 	}
 	// fill in
@@ -329,13 +329,13 @@ function getOutputPath(path: string, size: number, type: string) {
  * @param path - filename of svg.
  */
 async function writeMonochromeIcon(
-	path: keyof typeof monochromeColors
+	path: keyof typeof monochromeColors,
 ): Promise<void> {
 	if (releaseTarget === releaseTargets.safari) {
 		for (const res of actionIconResolutions) {
 			await fs.writeFile(
 				getOutputPath(path, res, releaseTargets.safari),
-				await createMonochromeIcon(path, res, safariIconColor)
+				await createMonochromeIcon(path, res, safariIconColor),
 			);
 		}
 		return;
@@ -348,8 +348,8 @@ async function writeMonochromeIcon(
 				path,
 				res,
 				monochromeColors[path].light,
-				borderColor.light
-			)
+				borderColor.light,
+			),
 		);
 		await fs.writeFile(
 			getOutputPath(path, res, themes.dark),
@@ -357,8 +357,8 @@ async function writeMonochromeIcon(
 				path,
 				res,
 				monochromeColors[path].dark,
-				borderColor.dark
-			)
+				borderColor.dark,
+			),
 		);
 	}
 }
@@ -373,7 +373,7 @@ async function writeMainIcon(): Promise<void> {
 		const margin = res >= 128 ? res * marginFactor : 0;
 		await fs.writeFile(
 			resolve(output, `icon_main_${res}.png`),
-			await createUnmodifiedIcon('main', path, res, margin)
+			await createUnmodifiedIcon('main', path, res, margin),
 		);
 	}
 }
@@ -385,7 +385,7 @@ async function writexcodeIcons(): Promise<void> {
 	 */
 	await fs.writeFile(
 		resolve(xcodeApp, 'Resources', 'Icon.png'),
-		await createUnmodifiedIcon('main', mainPath, 512)
+		await createUnmodifiedIcon('main', mainPath, 512),
 	);
 
 	/**
@@ -393,7 +393,7 @@ async function writexcodeIcons(): Promise<void> {
 	 */
 	await fs.writeFile(
 		resolve(xcodeAssets, 'LargeIcon.imageset', 'icon_main_256.png'),
-		await createUnmodifiedIcon('main', mainPath, 256)
+		await createUnmodifiedIcon('main', mainPath, 256),
 	);
 
 	/**
@@ -403,9 +403,9 @@ async function writexcodeIcons(): Promise<void> {
 		resolve(
 			xcodeAssets,
 			'AppIcon.appiconset',
-			'universal-icon-1024@1x.png'
+			'universal-icon-1024@1x.png',
 		),
-		await createUnmodifiedIconNoAlpha('main', mainPath, 1024)
+		await createUnmodifiedIconNoAlpha('main', mainPath, 1024),
 	);
 
 	for (const res of xcodeIconResolutions) {
@@ -413,18 +413,18 @@ async function writexcodeIcons(): Promise<void> {
 			resolve(
 				xcodeAssets,
 				'AppIcon.appiconset',
-				`mac-icon-${res}@1x.png`
+				`mac-icon-${res}@1x.png`,
 			),
-			await createMacIcon('main', 'safarishadow.svg', res)
+			await createMacIcon('main', 'safarishadow.svg', res),
 		);
 
 		await fs.writeFile(
 			resolve(
 				xcodeAssets,
 				'AppIcon.appiconset',
-				`mac-icon-${res}@2x.png`
+				`mac-icon-${res}@2x.png`,
 			),
-			await createMacIcon('main', 'safarishadow.svg', res * 2)
+			await createMacIcon('main', 'safarishadow.svg', res * 2),
 		);
 	}
 }
@@ -435,7 +435,7 @@ async function writexcodeIcons(): Promise<void> {
 async function main(): Promise<void> {
 	await fs.mkdir(output, { recursive: true });
 
-	//write monochrome icons
+	// write monochrome icons
 	for (const path of await fs.readdir(resolve(input, 'monochrome'))) {
 		// avoid extra files (looking at you, .DS_Store)
 		if (!path.endsWith('.svg')) {
@@ -463,7 +463,7 @@ async function main(): Promise<void> {
  * @returns true if the file is associated with a target color, false otherwise.
  */
 function assertMonochromePathValid(
-	path: string
+	path: string,
 ): path is keyof typeof monochromeColors {
 	return path in monochromeColors;
 }

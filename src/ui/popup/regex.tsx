@@ -99,8 +99,8 @@ function Entry(props: { clonedSong: ClonedSong; type: FieldType }) {
 			replaceFields(
 				searches(),
 				replaces(),
-				getProcessedFieldsNoRegex(clonedSong)
-			)
+				getProcessedFieldsNoRegex(clonedSong),
+			),
 		);
 	});
 
@@ -170,7 +170,7 @@ function SearchField(props: { type: FieldType; clonedSong: ClonedSong }) {
 				<Match
 					when={searchMatches(
 						searches()[type],
-						getSongFieldNoRegex(clonedSong, type)
+						getSongFieldNoRegex(clonedSong, type),
 					)}
 				>
 					<Check
@@ -273,7 +273,7 @@ export function RegexEditContextMenu(props: { tab: Resource<ManagerTab> }) {
 			{
 				namei18n: 'infoSubmitTitleShort',
 				icon: Check,
-				action: () => saveEdit(props.tab),
+				action: () => void saveEdit(props.tab),
 			},
 		];
 		if (!navigatorResource.loading) {

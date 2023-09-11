@@ -3,7 +3,7 @@ export {};
 const showNameSelector =
 	'div[class^="style_playbarInfo"] div[data-testid="show-info-title"]';
 
-Connector.playerSelector = ".globalplayer";
+Connector.playerSelector = '.globalplayer';
 Connector.trackSelector =
 	'div[data-testid="show-info-card"] h1[data-testid="show-info-title"]';
 Connector.artistSelector =

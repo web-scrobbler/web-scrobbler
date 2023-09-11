@@ -31,15 +31,15 @@ function runTests() {
 	describe('should overwrite edited song info', testSaveOverwriteSong);
 	describe(
 		'should save and load a song with unique ID',
-		testSaveLoadSongWithId
+		testSaveLoadSongWithId,
 	);
 	describe(
 		'should save and load a song with no unique ID',
-		testSaveLoadSongWithNoId
+		testSaveLoadSongWithNoId,
 	);
 	describe(
 		'should save and load a song (with fallback)',
-		testSaveLoadSongFallback
+		testSaveLoadSongFallback,
 	);
 }
 
@@ -47,15 +47,15 @@ function testSaveEmptySong() {
 	emptySavedEdits();
 	const emptySong = makeNonProcessedSong();
 
-	it('should throw an error while loading info of an empty song', async () => {
+	it('should throw an error while loading info of an empty song', () => {
 		expect(savedEdits.loadSongInfo(emptySong)).rejects.to.deep.equal(
-			new Error('Empty song')
+			new Error('Empty song'),
 		);
 	});
 
-	it('should throw an error while saving an empty song', async () => {
+	it('should throw an error while saving an empty song', () => {
 		expect(
-			savedEdits.saveSongInfo(emptySong, editedInfo)
+			savedEdits.saveSongInfo(emptySong, editedInfo),
 		).rejects.to.deep.equal(new Error('Empty song'));
 	});
 }
@@ -115,7 +115,7 @@ function testSaveLoadSongWithId() {
 		'Artist',
 		'Track',
 		'Album',
-		'uniqueId'
+		'uniqueId',
 	);
 
 	it('should return false for song with unique ID', async () => {
@@ -195,7 +195,7 @@ function makeNonProcessedSong(
 	artist?: string,
 	track?: string,
 	album?: string,
-	uniqueID?: string
+	uniqueID?: string,
 ) {
 	return new Song({ artist, track, album, uniqueID }, connectorStub);
 }
@@ -203,7 +203,7 @@ function makeNonProcessedSong(
 async function expectSongInfoLoaded(
 	model: SavedEditsModel,
 	song: Song,
-	editedInfo: SavedEdit
+	editedInfo: SavedEdit,
 ) {
 	const isLoaded = await model.loadSongInfo(song);
 

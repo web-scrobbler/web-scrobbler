@@ -51,11 +51,19 @@ const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
 // Set up listeners. These must all be synchronously set up at startup time (Manifest V3 service worker)
 browser.runtime.onStartup.addListener(startupFunc);
 browser.runtime.onInstalled.addListener(startupFunc);
-browser.tabs.onRemoved.addListener(onTabRemoved);
-browser.tabs.onUpdated.addListener(onTabUpdated);
-browser.tabs.onActivated.addListener(onTabActivated);
-browser.contextMenus?.onClicked.addListener(contextMenuHandler);
-browser.commands?.onCommand.addListener(commandHandler);
+browser.tabs.onRemoved.addListener((tabId) => void onTabRemoved(tabId));
+browser.tabs.onUpdated.addListener(
+	(tabId, changeInfo, tab) => void onTabUpdated(tabId, changeInfo, tab),
+);
+browser.tabs.onActivated.addListener(
+	(activeInfo) => void onTabActivated(activeInfo),
+);
+browser.contextMenus?.onClicked.addListener(
+	(info) => void contextMenuHandler(info),
+);
+browser.commands?.onCommand.addListener(
+	(command) => void commandHandler(command),
+);
 
 /**
  * Handle user commands (hotkeys) to the extension.
@@ -93,7 +101,7 @@ function setLoveStatus(tabId: number, isLoved: boolean) {
 	sendBackgroundMessage(tabId ?? -1, {
 		type: 'toggleLove',
 		payload: {
-			isLoved: isLoved,
+			isLoved,
 		},
 	});
 }
@@ -339,6 +347,7 @@ setupBackgroundListeners(
 	 */
 	backgroundListener({
 		type: 'setPaused',
+		// eslint-disable-next-line @typescript-eslint/no-misused-promises
 		fn: (payload, sender) => {
 			return sendPaused(
 				new ClonedSong(payload.song, sender.tab?.id ?? -1),
@@ -351,6 +360,7 @@ setupBackgroundListeners(
 	 */
 	backgroundListener({
 		type: 'setResumedPlaying',
+		// eslint-disable-next-line @typescript-eslint/no-misused-promises
 		fn: (payload, sender) => {
 			return sendResumedPlaying(
 				new ClonedSong(payload.song, sender.tab?.id ?? -1),
@@ -424,6 +434,7 @@ setupBackgroundListeners(
 	 */
 	backgroundListener({
 		type: 'updateTheme',
+		// eslint-disable-next-line @typescript-eslint/no-misused-promises
 		fn: async (payload) => {
 			const curState = await getState();
 			await setState({

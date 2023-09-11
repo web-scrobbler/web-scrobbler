@@ -16,8 +16,8 @@ Connector.trackSelector = [
 
 Connector.getUniqueID = () => {
 	const trackUrl = Util.getAttrFromSelectors(
-		`${Connector.trackSelector} a`,
-		'href'
+		`${Connector.trackSelector?.toString()} a`,
+		'href',
 	);
 	if (trackUrl) {
 		return trackUrl.split('/').at(-1);
@@ -41,10 +41,12 @@ Connector.getAlbumArtist = () => {
 	const albumUrl = Util.getAttrFromSelectors(Connector.albumSelector, 'href');
 	const canonicalUrl = Util.getAttrFromSelectors(
 		'head link[rel="canonical"]',
-		'href'
+		'href',
 	);
 	if (albumUrl && canonicalUrl && canonicalUrl.endsWith(albumUrl)) {
-		const albumArtistNode = document.querySelectorAll('#main .header-details .artist-link a');
+		const albumArtistNode = document.querySelectorAll(
+			'#main .header-details .artist-link a',
+		);
 		return Util.joinArtists(Array.from(albumArtistNode));
 	}
 	return null;

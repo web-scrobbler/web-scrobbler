@@ -58,7 +58,7 @@ const contextMenuModes = [
 function Popup() {
 	const [tab, setTab] = createResource(getCurrentTab);
 	const [navigatorResource, { refetch }] = createResource(
-		getMobileNavigatorGroup
+		getMobileNavigatorGroup,
 	);
 
 	createEffect(() => {
@@ -82,7 +82,7 @@ function Popup() {
 			fn: (currentTab) => {
 				setTab.mutate(currentTab);
 			},
-		})
+		}),
 	);
 
 	return (
@@ -132,7 +132,7 @@ function Popup() {
 	);
 }
 
-//render the popup
+// render the popup
 const body = document.body;
 const root = document.createElement('div');
 root.id = 'root';

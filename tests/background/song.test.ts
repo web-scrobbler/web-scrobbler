@@ -66,7 +66,7 @@ function createSong(
 	const parsedDataCopy: ParsedSongData = {};
 	for (const prop in defaultParsedData) {
 		const typedProp = prop as keyof ParsedSongData;
-		//@ts-expect-error - it doesnt like this
+		// @ts-expect-error - it doesnt like this
 		parsedDataCopy[typedProp] =
 			parsedData[typedProp] || defaultParsedData[typedProp];
 	}
@@ -76,7 +76,7 @@ function createSong(
 	if (processedData) {
 		for (const field in processedData) {
 			const typedField = field as keyof ProcessedSongData;
-			//@ts-expect-error - it doesnt like this
+			// @ts-expect-error - it doesnt like this
 			song.processed[typedField] = processedData[typedField];
 		}
 	}
@@ -378,10 +378,12 @@ function testEquals() {
 	});
 
 	it('should not equal null value', () => {
+		// @ts-expect-error
 		expect(songWithUniqueId.equals(null)).to.be.false;
 	});
 
 	it('should not equal non-song object', () => {
+		// @ts-expect-error
 		expect(songWithUniqueId.equals(23)).to.be.false;
 	});
 }

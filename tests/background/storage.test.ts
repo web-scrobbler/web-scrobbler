@@ -14,7 +14,7 @@ import { describe, it, expect } from 'vitest';
  */
 function testStorage<K extends BrowserStorage.StorageNamespace>(
 	type: K,
-	storage: StorageWrapper<K>
+	storage: StorageWrapper<K>,
 ) {
 	describe(`${type} storage`, () => {
 		it('should return empty object', async () => {
@@ -61,8 +61,10 @@ function runTests() {
 
 	for (const type in storages) {
 		// @ts-expect-error
+		// eslint-disable-next-line
 		const storage = storages[type];
 		// @ts-expect-error
+		// eslint-disable-next-line
 		testStorage(type, storage);
 	}
 

@@ -47,7 +47,7 @@ export function RegexEditsModal() {
 			<h1>
 				{t(
 					'optionsRegexEditsPopupTitle',
-					(edits() ?? []).length.toString()
+					(edits() ?? []).length.toString(),
 				)}
 			</h1>
 			<ul>
@@ -76,7 +76,9 @@ function EditInfo(props: {
 				onClick={(event) => {
 					event.stopPropagation();
 					props.mutate((e) => {
-						if (!e) return e;
+						if (!e) {
+							return e;
+						}
 						const o = e.filter((_, i) => i !== props.index);
 						regexEdits.set(o);
 						return o;

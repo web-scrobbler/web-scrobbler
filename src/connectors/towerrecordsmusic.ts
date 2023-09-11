@@ -13,8 +13,8 @@ let albumTitle: string | null | undefined = null;
 const filter = MetadataFilter.createFilter(
 	MetadataFilter.createFilterSetForFields(
 		['artist', 'track', 'albumArtist'],
-		katakanaHanToZen
-	)
+		katakanaHanToZen,
+	),
 );
 
 Connector.playerSelector = '#audioPlayer';
@@ -30,8 +30,8 @@ Connector.getTrackArt = () =>
 	Util.extractUrlFromCssProperty(
 		Util.getCSSPropertyFromSelectors(
 			'#jacketImageAudio',
-			'background-image'
-		)
+			'background-image',
+		),
 	);
 
 Connector.currentTimeSelector = '#currentTimeAudio';
@@ -61,7 +61,7 @@ Connector.applyFilter(filter);
 async function fetchAlbumTitle() {
 	const albumThumbnailBackground = Util.getCSSPropertyFromSelectors(
 		'#jacketImageAudio',
-		'background-image'
+		'background-image',
 	);
 	const artistID = (
 		document.querySelector('#artistNameAudio') as HTMLAnchorElement
@@ -74,11 +74,13 @@ async function fetchAlbumTitle() {
 	const parser = new DOMParser();
 	const albumListDocument = parser.parseFromString(
 		albumListString,
-		'text/html'
+		'text/html',
 	);
 
+	// eslint is simply wrong here, this declaration is necessary.
+	// eslint-disable-next-line
 	const albumList = albumListDocument.querySelectorAll(
-		'.c-media__image'
+		'.c-media__image',
 	) as NodeListOf<HTMLImageElement>;
 
 	for (const album of albumList) {
@@ -99,7 +101,7 @@ async function requestAlbum() {
 		try {
 			albumTitle = await fetchAlbumTitle();
 		} catch (err) {
-			Util.debugLog(`Error: ${err}`, 'error');
+			Util.debugLog(`Error: ${err?.toString()}`, 'error');
 
 			resetAlbumTitle();
 		}
@@ -120,7 +122,7 @@ function resetAlbumTitle() {
 function isNewAlbum() {
 	const albumThumbnail = Util.getCSSPropertyFromSelectors(
 		'#jacketImageAudio',
-		'background-image'
+		'background-image',
 	);
 
 	if (lastAlbumThumbnail !== albumThumbnail) {

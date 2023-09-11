@@ -53,9 +53,13 @@ export default function NowPlaying(props: { tab: Resource<ManagerTab> }) {
 
 	const song = createMemo(() => {
 		const rawTab = tab();
-		if (!rawTab) return null;
+		if (!rawTab) {
+			return null;
+		}
 		const rawSong = rawTab.song;
-		if (!rawSong) return null;
+		if (!rawSong) {
+			return null;
+		}
 		return new ClonedSong(rawSong, rawTab.tabId);
 	});
 
@@ -124,7 +128,7 @@ export default function NowPlaying(props: { tab: Resource<ManagerTab> }) {
 							src={
 								song()?.getTrackArt() ??
 								browser.runtime.getURL(
-									'img/cover_art_default.png'
+									'img/cover_art_default.png',
 								)
 							}
 						/>
@@ -256,7 +260,7 @@ function TrackData(props: { song: Accessor<ClonedSong | null> }) {
 			<PopupLink
 				href={createAlbumURL(
 					song()?.getAlbumArtist() || song()?.getArtist(),
-					song()?.getAlbum()
+					song()?.getAlbum(),
 				)}
 				title={t('infoViewAlbumPage', song()?.getAlbum() ?? '')}
 			>
@@ -291,11 +295,11 @@ function TrackMetadata(props: { song: Accessor<ClonedSong | null> }) {
 				href={createTrackLibraryURL(
 					session()?.sessionName,
 					song()?.getArtist(),
-					song()?.getTrack()
+					song()?.getTrack(),
 				)}
 				title={t(
 					'infoYourScrobbles',
-					(song()?.metadata.userPlayCount || 0).toString()
+					(song()?.metadata.userPlayCount || 0).toString(),
 				)}
 			>
 				<LastFMIcon />
@@ -458,7 +462,7 @@ function actionResetSongData(tab: Resource<ManagerTab>) {
  */
 function toggleLove(
 	tab: Resource<ManagerTab>,
-	song: Accessor<ClonedSong | null>
+	song: Accessor<ClonedSong | null>,
 ) {
 	sendBackgroundMessage(tab()?.tabId ?? -1, {
 		type: 'toggleLove',

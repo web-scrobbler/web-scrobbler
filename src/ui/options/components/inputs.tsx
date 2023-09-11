@@ -21,7 +21,7 @@ export function Checkbox(props: {
 		e: InputEvent & {
 			currentTarget: HTMLInputElement;
 			target: Element;
-		}
+		},
 	) => void;
 }) {
 	const { title, label, isChecked, onInput } = props;
@@ -55,7 +55,7 @@ export function SummaryCheckbox(props: {
 		e: Event & {
 			currentTarget: HTMLInputElement;
 			target: Element;
-		}
+		},
 	) => void;
 }) {
 	const { title, label, id, isChecked, onInput } = props;
@@ -69,7 +69,7 @@ export function SummaryCheckbox(props: {
 						// hacky but it works, hopefully it doesnt stop working
 						e.preventDefault();
 						const checkbox = document.getElementById(
-							id
+							id,
 						) as HTMLInputElement;
 						checkbox.checked = !checkbox.checked;
 						onInput({
@@ -108,13 +108,13 @@ export function RadioButtons(props: {
 		e: Event & {
 			currentTarget: HTMLInputElement;
 			target: Element;
-		}
+		},
 	) => void;
 	reset?: (
 		e: Event & {
 			currentTarget: HTMLButtonElement;
 			target: Element;
-		}
+		},
 	) => void;
 }) {
 	const { buttons, name, value, onChange, reset } = props;
@@ -158,7 +158,7 @@ export function RadioButtons(props: {
  * Checkbox made for connector options
  */
 export function ConnectorOptionEntry<
-	K extends keyof Options.ConnectorOptions
+	K extends keyof Options.ConnectorOptions,
 >(props: {
 	options: Resource<Options.ConnectorOptions | null>;
 	setOptions: ResourceActions<
@@ -188,7 +188,9 @@ export function ConnectorOptionEntry<
 				isChecked={() => options()?.[connector]?.[key] as boolean}
 				onInput={(e) => {
 					setOptions.mutate((o) => {
-						if (!o) return o;
+						if (!o) {
+							return o;
+						}
 						const newOptions = {
 							...o,
 							[connector]: {
@@ -229,7 +231,9 @@ export function GlobalOptionEntry(props: {
 				isChecked={() => options()?.[key] as boolean}
 				onInput={(e) => {
 					setOptions.mutate((o) => {
-						if (!o) return o;
+						if (!o) {
+							return o;
+						}
 						const newOptions = {
 							...o,
 							[key]: e.currentTarget.checked,

@@ -36,16 +36,20 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 	const { tab } = props;
 
 	const rawTab = tab();
-	if (!rawTab) return <></>;
+	if (!rawTab) {
+		return <></>;
+	}
 	const rawSong = rawTab.song;
-	if (!rawSong) return <></>;
+	if (!rawSong) {
+		return <></>;
+	}
 	const clonedSong = new ClonedSong(rawSong, rawTab.tabId);
 
 	const [track, setTrack] = createSignal(clonedSong.getTrack() ?? '');
 	const [artist, setArtist] = createSignal(clonedSong.getArtist() ?? '');
 	const [album, setAlbum] = createSignal(clonedSong.getAlbum() ?? '');
 	const [albumArtist, setAlbumArtist] = createSignal(
-		clonedSong.getAlbumArtist() ?? ''
+		clonedSong.getAlbumArtist() ?? '',
 	);
 	const [isRegex, setIsRegex] = createSignal(false);
 
@@ -125,7 +129,7 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 							href={
 								clonedSong.getTrackArt() ??
 								browser.runtime.getURL(
-									'img/cover_art_default.png'
+									'img/cover_art_default.png',
 								)
 							}
 							title={t('infoOpenAlbumArt')}
@@ -135,7 +139,7 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 								src={
 									clonedSong.getTrackArt() ??
 									browser.runtime.getURL(
-										'img/cover_art_default.png'
+										'img/cover_art_default.png',
 									)
 								}
 							/>
@@ -275,7 +279,7 @@ function EditContextMenu(props: {
 						: 'infoSubmitTitleShort',
 				icon: Check,
 				action: () =>
-					saveEdit(props.tab, props.clonedSong, {
+					void saveEdit(props.tab, props.clonedSong, {
 						artist: props.artist(),
 						track: props.track(),
 						album: props.album() || null,
@@ -289,7 +293,7 @@ function EditContextMenu(props: {
 						: 'infoSwapTitleShort',
 				icon: PublishedWithChanges,
 				action: () =>
-					saveEdit(props.tab, props.clonedSong, {
+					void saveEdit(props.tab, props.clonedSong, {
 						artist: props.track(),
 						track: props.artist(),
 						album: props.album() || null,
@@ -328,7 +332,7 @@ async function saveEdit(
 		track: string;
 		album: string | null;
 		albumArtist: string | null;
-	}
+	},
 ) {
 	await savedEdits.saveSongInfo(clonedSong, data);
 	sendBackgroundMessage(tab()?.tabId ?? -1, {

@@ -26,20 +26,20 @@ import { t } from '@/util/i18n';
 
 const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 const connectorOverrideOptions = BrowserStorage.getStorage(
-	BrowserStorage.CONNECTORS_OVERRIDE_OPTIONS
+	BrowserStorage.CONNECTORS_OVERRIDE_OPTIONS,
 );
 const customPatterns = BrowserStorage.getStorage(
-	BrowserStorage.CUSTOM_PATTERNS
+	BrowserStorage.CUSTOM_PATTERNS,
 );
 
 const [options, setOptions] = createResource(
-	globalOptions.get.bind(globalOptions)
+	globalOptions.get.bind(globalOptions),
 );
 const [overrideOptions, setOverrideOptions] = createResource(
-	connectorOverrideOptions.get.bind(connectorOverrideOptions)
+	connectorOverrideOptions.get.bind(connectorOverrideOptions),
 );
 const [customPatternOptions, setCustomPatternOptions] = createResource(
-	customPatterns.get.bind(customPatterns)
+	customPatterns.get.bind(customPatterns),
 );
 
 /**
@@ -65,7 +65,9 @@ export default function ConnectorOverrideOptions() {
 						onInput={(e) => {
 							if (e.currentTarget.checked) {
 								setOptions.mutate((o) => {
-									if (!o) return o;
+									if (!o) {
+										return o;
+									}
 									const newOptions = {
 										...o,
 										disabledConnectors: {},
@@ -75,10 +77,12 @@ export default function ConnectorOverrideOptions() {
 								});
 							} else {
 								const disabledConnectors = Object.fromEntries(
-									connectors.map((c) => [c.id, true])
+									connectors.map((c) => [c.id, true]),
 								);
 								setOptions.mutate((o) => {
-									if (!o) return o;
+									if (!o) {
+										return o;
+									}
 									const newOptions = {
 										...o,
 										disabledConnectors,
@@ -139,7 +143,9 @@ function ConnectorOption(props: { connector: ConnectorMeta }) {
 						}
 						onInput={(e) => {
 							setOptions.mutate((o) => {
-								if (!o) return o;
+								if (!o) {
+									return o;
+								}
 								const newOptions = {
 									...o,
 								};
@@ -316,16 +322,17 @@ function EditCustomPatterns(props: { connector: ConnectorMeta }) {
 							value={pattern}
 							onInput={(e) => {
 								setCustomPatternOptions.mutate((o) => {
-									if (!o) {
-										o = {};
+									let data = o;
+									if (!data) {
+										data = {};
 									}
-									o[connector.id] = [
-										...(o[connector.id] ?? []),
+									data[connector.id] = [
+										...(data[connector.id] ?? []),
 									];
-									o[connector.id][i()] =
+									data[connector.id][i()] =
 										e.currentTarget.value;
-									customPatterns.set(o);
-									return o;
+									customPatterns.set(data);
+									return data;
 								});
 							}}
 						/>
