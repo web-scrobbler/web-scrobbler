@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Get the extension version from ref
         run: echo "EXT_VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
