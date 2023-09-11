@@ -1,4 +1,4 @@
-@mixin iOSTextInput {
+@mixin ios-text-input {
 	appearance: none;
 	background-color: var(--last-fm-bg);
 	border: none;
@@ -159,6 +159,7 @@ a {
 
 			&[disabled] {
 				cursor: not-allowed;
+
 				&:not(.hiddenDisabled) {
 					color: var(--checkbox-inactive);
 				}
@@ -247,21 +248,27 @@ a {
 	.searchLabel {
 		grid-area: search;
 	}
+
 	.replaceLabel {
 		grid-area: replace;
 	}
+
 	.previewLabel {
 		grid-area: preview;
 	}
+
 	.trackLabel {
 		grid-area: track;
 	}
+
 	.artistLabel {
 		grid-area: artist;
 	}
+
 	.albumLabel {
 		grid-area: album;
 	}
+
 	.albumArtistLabel {
 		grid-area: albumartist;
 	}
@@ -269,12 +276,15 @@ a {
 	.trackSearch {
 		grid-area: tracksearch;
 	}
+
 	.artistSearch {
 		grid-area: artistsearch;
 	}
+
 	.albumSearch {
 		grid-area: albumsearch;
 	}
+
 	.albumArtistSearch {
 		grid-area: albumartistsearch;
 	}
@@ -282,12 +292,15 @@ a {
 	.trackReplace {
 		grid-area: trackreplace;
 	}
+
 	.artistReplace {
 		grid-area: artistreplace;
 	}
+
 	.albumReplace {
 		grid-area: albumreplace;
 	}
+
 	.albumArtistReplace {
 		grid-area: albumartistreplace;
 	}
@@ -295,19 +308,21 @@ a {
 	.trackPreview {
 		grid-area: trackpreview;
 	}
+
 	.artistPreview {
 		grid-area: artistpreview;
 	}
+
 	.albumPreview {
 		grid-area: albumpreview;
 	}
+
 	.albumArtistPreview {
 		grid-area: albumartistpreview;
 	}
 }
 
 @supports (-webkit-touch-callout: none) {
-
 	.root {
 		display: flex;
 		flex-direction: column-reverse;
@@ -339,7 +354,7 @@ a {
 
 			&::after {
 				background-color: var(--background);
-				clip-path: url(#coverArtClip);
+				clip-path: url('#coverArtClip');
 				content: '';
 				inset: 0;
 				position: absolute;
@@ -347,7 +362,7 @@ a {
 			}
 
 			.coverArt {
-				clip-path: url(#coverArtClip);
+				clip-path: url('#coverArtClip');
 				display: inline-block;
 				max-width: min(30vh, 30vw);
 			}

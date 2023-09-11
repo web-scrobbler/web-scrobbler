@@ -15,6 +15,7 @@
     "checkts": "tsc --noEmit && tsc --noEmit --project tsconfig.connectors.json",
     "test": "vitest",
     "lint": "eslint . --ext .ts,.tsx && stylelint \"**/*.scss\" && remark .",
+    "fixstyle": "stylelint \"**/*.scss\" --fix",
     "translations": "tx pull -m onlytranslated && tsx scripts/translations-prepare.ts"
   },
   "repository": {
@@ -29,7 +30,7 @@
     "@suid/icons-material": "0.6.9",
     "@web-scrobbler/metadata-filter": "3.0.2",
     "blueimp-md5": "2.19.0",
-    "stylelint": "13.13.1",
+    "stylelint": "15.10.3",
     "vite": "4.4.9",
     "webextension-polyfill": "0.10.0"
   },
