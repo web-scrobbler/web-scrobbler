@@ -11,7 +11,7 @@ let isPlaying = false;
 Connector.getTimeInfo = () => {
 	const { currentTime, duration } = document.querySelector(
 		'#aPlayer',
-	) as HTMLAudioElement;
+	) as HTMLDivElement;
 	return { currentTime, duration };
 };
 

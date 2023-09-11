@@ -1126,10 +1126,8 @@ function runTests() {
 		const description = func.name;
 
 		describe(description, () => {
-			/*
 			// TODO: type gymnastics
 			// @ts-ignore type gymnastics required on this one. It works.
-			*/
 			testFunction(func, data);
 		});
 	}
