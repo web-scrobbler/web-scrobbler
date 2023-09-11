@@ -11,7 +11,7 @@ let isPlaying = false;
 Connector.getTimeInfo = () => {
 	const { currentTime, duration } = document.querySelector(
 		'#aPlayer',
-	) as HTMLDivElement;
+	) as HTMLAudioElement;
 	return { currentTime, duration };
 };
 
@@ -103,6 +103,6 @@ Connector.onScriptEvent = (event: MessageEvent<Record<string, unknown>>) => {
 	}
 };
 
-function removeMV(text: string) {
+function removeMV(text: any) {
 	return text.replace(/(\(MV\)|【MV】|MV)$/, '');
 }
