@@ -34,7 +34,7 @@ function closeDialogs(e: MouseEvent) {
 		dialog.close();
 	});
 	const dialogButtons = document.querySelectorAll(
-		`.${styles.activeDialogButton}`
+		`.${styles.activeDialogButton}`,
 	);
 	dialogButtons.forEach((dialogButton) => {
 		dialogButton.classList.remove(styles.activeDialogButton);
@@ -117,7 +117,7 @@ function ContextMenuItem(props: {
 					if (props.setActiveSetting && 'element' in props.item) {
 						triggerNavigationButton(
 							props.item,
-							props.setActiveSetting
+							props.setActiveSetting,
 						);
 					}
 					if ('action' in props.item) {

@@ -16,10 +16,10 @@ Connector.getTrackInfo = () => {
 	const metaSelector = '.site-player .meta';
 	const timeSelector = '.site-player .duration';
 	const showNameText = Util.getTextFromSelectors(
-		`${metaSelector} .show-name`
+		`${metaSelector} .show-name`,
 	);
 	const artistText = Util.getTextFromSelectors(
-		`${metaSelector} .episode-name`
+		`${metaSelector} .episode-name`,
 	);
 	const trackText = Util.getTextFromSelectors(`${metaSelector} .song-name`);
 
@@ -44,7 +44,7 @@ Connector.getTrackInfo = () => {
 			artist: artistTrackSplit[0],
 			track: artistTrackSplit[1],
 			currentTime: Util.getSecondsFromSelectors(
-				`${timeSelector} .progress`
+				`${timeSelector} .progress`,
 			),
 			duration: Util.getSecondsFromSelectors(`${timeSelector} .total`),
 		};

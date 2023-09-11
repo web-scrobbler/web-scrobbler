@@ -42,6 +42,6 @@ Connector.durationSelector = '#player .time-right';
 Connector.isScrobblingAllowed = () => {
 	return Boolean(
 		Connector.getTrackInfo() &&
-			!Util.isElementVisible('#player button.skip-ad')
+			!Util.isElementVisible('#player button.skip-ad'),
 	);
 };

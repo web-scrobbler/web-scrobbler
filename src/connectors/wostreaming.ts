@@ -14,5 +14,5 @@ Connector.isTrackArtDefault = (url) =>
 Connector.isPlaying = () =>
 	Util.getAttrFromSelectors(
 		'div[class$=-stream-player] span[class$=-stream-player__play]',
-		'title'
+		'title',
 	) === 'Stop';

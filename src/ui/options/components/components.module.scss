@@ -133,7 +133,6 @@ ul {
 }
 
 .checkboxOption {
-
 	$tickSize: 1.05em;
 	$checkboxSize: 1.4em;
 	$tickWidth: 2.5em;
@@ -343,7 +342,6 @@ summary {
 }
 
 .radioButtons {
-
 	li {
 		margin-bottom: 1em;
 	}
@@ -431,10 +429,14 @@ summary {
 
 .regexDeleteContent {
 	align-items: center;
-	background: repeating-linear-gradient(var(--last-fm-bg) 0 2.5em,transparent 2.5em 5em);
+	background: repeating-linear-gradient(
+		var(--last-fm-bg) 0 2.5em,
+		transparent 2.5em 5em
+	);
 	display: grid;
 	gap: 0.5em 2em;
-	grid-template: '. search replace' 2em
+	grid-template:
+		'. search replace' 2em
 		'track tracksearch trackreplace' 2em
 		'artist artistsearch artistreplace' 2em
 		'album albumsearch albumreplace' 2em

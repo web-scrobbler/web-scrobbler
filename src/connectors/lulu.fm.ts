@@ -11,7 +11,7 @@ Connector.isPlaying = () =>
 
 Connector.getTrackArt = () => {
 	const trackArtUrl = Util.extractImageUrlFromSelectors(
-		'.qtmplayer__cover img'
+		'.qtmplayer__cover img',
 	);
 	if (trackArtUrl) {
 		return trackArtUrl;

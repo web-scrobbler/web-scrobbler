@@ -23,7 +23,7 @@ function setupArtistPlayer() {
 	Connector.isPlaying = () => {
 		const text = Util.getCSSPropertyFromSelectors(
 			'.playback-play-icon',
-			'background-position'
+			'background-position',
 		);
 		return Boolean(text?.includes('-40'));
 	};

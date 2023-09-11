@@ -10,7 +10,7 @@ Connector.useMediaSessionApi();
 
 Connector.playerSelector = [
 	'[class^=PlayerContainer-container]',
-    '[class^=Player-miniPlayerContainer]',
+	'[class^=Player-miniPlayerContainer]',
 ];
 
 Connector.trackSelector = `${titleContainer} a[class*=MetadataPosterTitle]`;

@@ -17,7 +17,7 @@ Connector.isScrobblingAllowed = () => {
 		!Connector.getArtist()?.includes('24/7') &&
 		!Connector.getTrack()?.includes('24/7') &&
 		!Util.extractImageUrlFromSelectors(
-			Connector.trackArtSelector
+			Connector.trackArtSelector,
 		)?.includes('/fotos/original/')
 	);
 };

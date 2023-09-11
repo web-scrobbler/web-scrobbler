@@ -67,7 +67,7 @@ function setupCommonProperties() {
 	Connector.getUniqueID = () => {
 		return Util.getAttrFromSelectors(
 			`${Connector.playerSelector} button[data-id]`,
-			'data-id'
+			'data-id',
 		);
 	};
 }

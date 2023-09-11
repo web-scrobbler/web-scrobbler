@@ -9,7 +9,7 @@ Connector.playButtonSelector = 'div[id^="wp"][id$="buttonplay"]';
 
 Connector.isStateChangeAllowed = () => {
 	const artistTrack = Util.getTextFromSelectors(
-		Connector.artistTrackSelector
+		Connector.artistTrackSelector,
 	);
 	return artistTrack?.includes('-') && !artistTrack?.match(/^\s*OXIGENIO - /);
 };

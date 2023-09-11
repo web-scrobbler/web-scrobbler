@@ -4,7 +4,7 @@ const fields: {
 	[key: string]: {
 		selector: string;
 		func: (
-			selectors: string | string[]
+			selectors: string | string[],
 		) => (string | null) | (number | undefined);
 	};
 } = {
@@ -81,6 +81,6 @@ function getCurrentContext() {
  */
 function getTrackArtUrl(selector: string) {
 	return Util.extractUrlFromCssProperty(
-		Util.getCSSPropertyFromSelectors(selector, 'background-image')
+		Util.getCSSPropertyFromSelectors(selector, 'background-image'),
 	);
 }

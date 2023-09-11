@@ -1,6 +1,6 @@
 export {};
 
-const playerSelector = 
+const playerSelector =
 	'#root>div>div:nth-child(2)>div>div>div>div>div:nth-child(2)>div:nth-child(2)>div';
 
 Connector.useMediaSessionApi();

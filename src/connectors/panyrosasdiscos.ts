@@ -13,7 +13,7 @@ Connector.getTrackInfo = () => {
 	return {
 		uniqueID: `${matches[1]}#${Util.getAttrFromSelectors(
 			'.mp3j_A_current',
-			'id'
+			'id',
 		)}`,
 		artist: matches[2],
 		album: matches[3],

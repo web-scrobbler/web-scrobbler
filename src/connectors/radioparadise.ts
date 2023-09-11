@@ -13,7 +13,7 @@ Connector.trackArtSelector = '#now_playing img.album-cover';
 Connector.isScrobblingAllowed = () => {
 	return (
 		!Util.getTextFromSelectors('#now_playing .title')?.includes(
-			'Listener-supported'
+			'Listener-supported',
 		) && !Connector.getArtist()?.startsWith('Commercial-Free')
 	);
 };

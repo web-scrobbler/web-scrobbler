@@ -27,7 +27,7 @@ function setupCardsPlayer() {
 			return null;
 		}
 		const container = [...cards].filter((element) =>
-			element.classList.contains('pause-button')
+			element.classList.contains('pause-button'),
 		)[0];
 		return container.querySelector('span.name')?.textContent;
 	};
@@ -38,7 +38,7 @@ function setupCardsPlayer() {
 			return null;
 		}
 		const container = [...cards].filter((element) =>
-			element.classList.contains('pause-button')
+			element.classList.contains('pause-button'),
 		)[0];
 		return container.querySelector('.card-title-text')?.textContent;
 	};

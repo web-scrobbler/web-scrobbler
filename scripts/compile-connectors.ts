@@ -28,7 +28,7 @@ function generateConnectors() {
 					fs.removeSync(`build/${getBrowser()}/connectors`);
 					fs.moveSync(
 						'build/connectorraw/connectors',
-						`build/${getBrowser()}/connectors`
+						`build/${getBrowser()}/connectors`,
 					);
 					fs.removeSync('build/connectorraw');
 					colorLog('Connector files moved', 'success');
@@ -38,7 +38,7 @@ function generateConnectors() {
 					reject();
 					return;
 				}
-			}
+			},
 		);
 	});
 }

@@ -27,7 +27,7 @@ describe('Should edit Regex', () => {
 		await regexEdits.saveRegexEdit(epRemover.search, epRemover.replace);
 		await regexEdits.saveRegexEdit(
 			singleRemover.search,
-			singleRemover.replace
+			singleRemover.replace,
 		);
 		expect(await regexEdits.getData()).to.deep.equal([
 			epRemover,
@@ -39,11 +39,11 @@ describe('Should edit Regex', () => {
 		await regexEdits.saveRegexEdit(epRemover.search, epRemover.replace);
 		await regexEdits.saveRegexEdit(
 			singleRemover.search,
-			singleRemover.replace
+			singleRemover.replace,
 		);
 		await regexEdits.saveRegexEdit(
 			fuminnikkiFixer.search,
-			fuminnikkiFixer.replace
+			fuminnikkiFixer.replace,
 		);
 		await regexEdits.deleteRegexEdit(1);
 		expect(await regexEdits.getData()).to.deep.equal([
@@ -55,12 +55,12 @@ describe('Should edit Regex', () => {
 	it("Should apply edit to song's artist", async () => {
 		await regexEdits.saveRegexEdit(
 			fuminnikkiFixer.search,
-			fuminnikkiFixer.replace
+			fuminnikkiFixer.replace,
 		);
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
 		await pipeline.process(song, youtubeConnector);
 		expect(getProcessedFields(song)).to.deep.equal(
-			processedFuminnikkiSongWithEP
+			processedFuminnikkiSongWithEP,
 		);
 	});
 
@@ -74,7 +74,7 @@ describe('Should edit Regex', () => {
 	it("Should apply edit to song's artist and album", async () => {
 		await regexEdits.saveRegexEdit(
 			fuminnikkiFixer.search,
-			fuminnikkiFixer.replace
+			fuminnikkiFixer.replace,
 		);
 		await regexEdits.saveRegexEdit(epRemover.search, epRemover.replace);
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);
@@ -85,11 +85,11 @@ describe('Should edit Regex', () => {
 	it("Should apply only the most recent edit to song's artist only once", async () => {
 		await regexEdits.saveRegexEdit(
 			artistNumberSuffixer(1).search,
-			artistNumberSuffixer(1).replace
+			artistNumberSuffixer(1).replace,
 		);
 		await regexEdits.saveRegexEdit(
 			artistNumberSuffixer(2).search,
-			artistNumberSuffixer(2).replace
+			artistNumberSuffixer(2).replace,
 		);
 
 		const song = new Song(correctFuminnikkiSong, youtubeConnector);
@@ -103,7 +103,7 @@ describe('Should edit Regex', () => {
 	it('Should apply edit to track that does not exist', async () => {
 		await regexEdits.saveRegexEdit(
 			artistNumberSuffixer(1).search,
-			artistNumberSuffixer(1).replace
+			artistNumberSuffixer(1).replace,
 		);
 
 		const artist = randomBytes(32).toString('hex');
@@ -119,7 +119,7 @@ describe('Should edit Regex', () => {
 	it('Should have non-regex edits saved for preview', async () => {
 		await regexEdits.saveRegexEdit(
 			fuminnikkiFixer.search,
-			fuminnikkiFixer.replace
+			fuminnikkiFixer.replace,
 		);
 		await regexEdits.saveRegexEdit(epRemover.search, epRemover.replace);
 
@@ -137,7 +137,7 @@ describe('Should edit Regex', () => {
 	it('Should not apply regex edit if there is a song edit', async () => {
 		await regexEdits.saveRegexEdit(
 			artistNumberSuffixer(1).search,
-			artistNumberSuffixer(1).replace
+			artistNumberSuffixer(1).replace,
 		);
 
 		const song = new Song(wrongFuminnikkiSong, youtubeConnector);

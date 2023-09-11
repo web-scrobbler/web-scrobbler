@@ -53,7 +53,7 @@ function setupConnector() {
 				'#playerContainer',
 			],
 			'DOMNodeInserted',
-			Connector.onStateChanged
+			Connector.onStateChanged,
 		);
 
 		/* new player, old player, listSongsFM */
@@ -96,7 +96,7 @@ function setupConnector() {
 				parent?.querySelector('.cover img')?.getAttribute('src') ||
 				Util.getAttrFromSelectors(
 					'.playing .playlistAlbumInfo img',
-					'src'
+					'src',
 				)
 			);
 		};
@@ -111,14 +111,14 @@ function setupConnector() {
 			/* new player */
 			Util.getDataFromSelectors(
 				'li.itemPlaylist.playing',
-				'pointerid'
+				'pointerid',
 			) /* playlist */ ||
 			Util.getTextFromSelectors('#lyrFoot b a')
 				?.split('=')
 				.at(-1) /* single */ ||
 			Util.getDataFromSelectors(
 				'.songList li:first-child',
-				'pointerid'
+				'pointerid',
 			); /* list songs FM */
 	}
 }

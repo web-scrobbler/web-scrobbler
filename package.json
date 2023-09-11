@@ -14,7 +14,8 @@
     "build": "tsx build.ts",
     "buildts": "tsc --project tsconfig.connectors.json",
     "test": "vitest",
-    "lint": "eslint . && stylelint \"**/*.scss\" && remark .",
+    "lint": "eslint . && stylelint \"**/*.scss\" && prettier . --check && remark .",
+    "prettierfix": "prettier . --write",
     "translations": "tx pull -m onlytranslated && tsx scripts/translations-prepare.ts"
   },
   "repository": {

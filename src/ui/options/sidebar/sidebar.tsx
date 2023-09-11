@@ -44,7 +44,7 @@ function SidebarButton(props: {
 				onClick={() =>
 					triggerNavigationButton(
 						item as NavigatorButton,
-						setActiveSetting
+						setActiveSetting,
 					)
 				}
 			>

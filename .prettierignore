@@ -6,3 +6,5 @@ src/_locales/**
 
 package.json
 package-lock.json
+
+**/*.md

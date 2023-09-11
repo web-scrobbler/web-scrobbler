@@ -74,7 +74,8 @@ a {
 		margin-top: 1em;
 	}
 
-	h1, h2 {
+	h1,
+	h2 {
 		margin-bottom: 0.5em;
 	}
 
@@ -82,7 +83,6 @@ a {
 		max-width: 55ch;
 	}
 }
-
 
 .modal {
 	background-color: var(--modal-bg);

@@ -15,8 +15,8 @@ const SEPARATORS: Separator[] = [' - ', ' | '];
 let bandcampFilter = MetadataFilter.createFilter(
 	MetadataFilter.createFilterSetForFields(
 		['artist', 'track', 'album', 'albumArtist'],
-		MetadataFilter.removeZeroWidth
-	)
+		MetadataFilter.removeZeroWidth,
+	),
 );
 
 setupConnector();
@@ -144,7 +144,7 @@ function initPropertiesForCollectionsPlayer() {
 
 	Connector.getOriginUrl = () =>
 		Util.getOriginUrl(
-			'.playing .collection-title-details a, .playing .buy-now a'
+			'.playing .collection-title-details a, .playing .buy-now a',
 		);
 }
 
@@ -153,7 +153,7 @@ function initPropertiesForFeedPlayer() {
 	bandcampFilter = bandcampFilter.extend(
 		MetadataFilter.createFilter({
 			artist: [removeByPrefix],
-		})
+		}),
 	);
 
 	Connector.artistSelector = '.waypoint-artist-title';
@@ -204,7 +204,7 @@ function initPropertiesForHomePage() {
 		if (document.querySelector('.bcweekly.playing') !== null) {
 			const { bcw_data: bandcampWeeklyData } = getData(
 				'#pagedata',
-				'data-blob'
+				'data-blob',
 			);
 			const currentShowId = location.search.match(/show=(\d+)?/)?.[1];
 
@@ -212,7 +212,7 @@ function initPropertiesForHomePage() {
 				const currentShowData = bandcampWeeklyData[currentShowId];
 				const currentTrackIndex = Util.getDataFromSelectors(
 					'.bcweekly-current',
-					'index'
+					'index',
 				);
 
 				return currentShowData.tracks[currentTrackIndex ?? ''].track_id;
@@ -249,7 +249,7 @@ function getTrackNodes() {
 		trackNodes = document.querySelectorAll('.track_list .track-title');
 	} else if (isCollectionsPage()) {
 		trackNodes = document.querySelectorAll(
-			'.queue .title span:nth-child(2)'
+			'.queue .title span:nth-child(2)',
 		);
 	}
 

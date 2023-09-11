@@ -52,7 +52,7 @@ export type ModifiedTheme = `theme-${Theme}`;
 
 export const themeList: Theme[] = ['system', 'dark', 'light'];
 export const modifiedThemeList = themeList.map(
-	(theme) => `theme-${theme}`
+	(theme) => `theme-${theme}`,
 ) as ModifiedTheme[];
 
 /**

@@ -45,7 +45,7 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 	const [artist, setArtist] = createSignal(clonedSong.getArtist() ?? '');
 	const [album, setAlbum] = createSignal(clonedSong.getAlbum() ?? '');
 	const [albumArtist, setAlbumArtist] = createSignal(
-		clonedSong.getAlbumArtist() ?? ''
+		clonedSong.getAlbumArtist() ?? '',
 	);
 	const [isRegex, setIsRegex] = createSignal(false);
 
@@ -125,7 +125,7 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 							href={
 								clonedSong.getTrackArt() ??
 								browser.runtime.getURL(
-									'img/cover_art_default.png'
+									'img/cover_art_default.png',
 								)
 							}
 							title={t('infoOpenAlbumArt')}
@@ -135,7 +135,7 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 								src={
 									clonedSong.getTrackArt() ??
 									browser.runtime.getURL(
-										'img/cover_art_default.png'
+										'img/cover_art_default.png',
 									)
 								}
 							/>
@@ -328,7 +328,7 @@ async function saveEdit(
 		track: string;
 		album: string | null;
 		albumArtist: string | null;
-	}
+	},
 ) {
 	await savedEdits.saveSongInfo(clonedSong, data);
 	sendBackgroundMessage(tab()?.tabId ?? -1, {

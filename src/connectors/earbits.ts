@@ -17,7 +17,7 @@ Connector.trackArtSelector = '.album_cover';
 Connector.isPlaying = () => {
 	const playButtonImgFilename = Util.getAttrFromSelectors(
 		'#play-pause img',
-		'src'
+		'src',
 	);
 	return playButtonImgFilename?.includes('pause');
 };

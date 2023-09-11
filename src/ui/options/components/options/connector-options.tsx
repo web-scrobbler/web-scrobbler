@@ -5,11 +5,11 @@ import { ConnectorOptionEntry } from '../inputs';
 import { t } from '@/util/i18n';
 
 const connectorOptions = BrowserStorage.getStorage(
-	BrowserStorage.CONNECTORS_OPTIONS
+	BrowserStorage.CONNECTORS_OPTIONS,
 );
 
 const [options, setOptions] = createResource(
-	connectorOptions.get.bind(connectorOptions)
+	connectorOptions.get.bind(connectorOptions),
 );
 
 /**

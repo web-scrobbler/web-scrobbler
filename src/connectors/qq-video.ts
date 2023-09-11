@@ -6,7 +6,7 @@ function setupCoverPlayer() {
 	Connector.getArtistTrack = () => {
 		const text = Util.getAttrFromSelectors(
 			'.video_title ._base_title',
-			'title'
+			'title',
 		);
 		return extractArtistTrack(text);
 	};

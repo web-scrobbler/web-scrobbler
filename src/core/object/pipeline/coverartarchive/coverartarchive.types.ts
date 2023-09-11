@@ -5,7 +5,7 @@ interface ArtistCredit {
 		id: string;
 		name: string;
 		'sort-name': string;
-	}
+	};
 }
 
 interface MusicBrainzRelease {
@@ -21,7 +21,7 @@ interface MusicBrainzRelease {
 		label: {
 			id: string;
 			name: string;
-		}
+		};
 	}[];
 	media: {
 		'disc-count': number;
@@ -29,13 +29,13 @@ interface MusicBrainzRelease {
 		'track-count': number;
 	}[];
 	'release-events': {
-		'date': string;
+		date: string;
 		area: {
 			id: string;
 			'iso-3166-1-codes': string[];
 			name: string;
 			'sort-name': string;
-		}
+		};
 	}[];
 	'release-group': {
 		id: string;
@@ -91,4 +91,6 @@ interface MusicBrainzReleaseGroupSearch {
 	'release-groups': MusicBrainzReleaseGroup[];
 }
 
-export type MusicBrainzSearch = MusicBrainzReleaseSearch | MusicBrainzReleaseGroupSearch;
+export type MusicBrainzSearch =
+	| MusicBrainzReleaseSearch
+	| MusicBrainzReleaseGroupSearch;

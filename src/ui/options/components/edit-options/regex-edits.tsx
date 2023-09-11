@@ -47,7 +47,7 @@ export function RegexEditsModal() {
 			<h1>
 				{t(
 					'optionsRegexEditsPopupTitle',
-					(edits() ?? []).length.toString()
+					(edits() ?? []).length.toString(),
 				)}
 			</h1>
 			<ul>

@@ -12,17 +12,17 @@ Connector.playButtonSelector = '.track-controls .js-play-track';
 
 Connector.getArtist = () => {
 	return Util.getTextFromSelectors(
-		'.current-track .js-current-track-artist'
+		'.current-track .js-current-track-artist',
 	)?.replace(' - ', '');
 };
 
 Connector.getAlbum = () => {
 	const releasePath = Util.getAttrFromSelectors(
 		Connector.trackSelector,
-		'href'
+		'href',
 	);
 	return Util.getAttrFromSelectors(
 		`.track-list .track-release a[href="${releasePath}"]`,
-		'title'
+		'title',
 	);
 };

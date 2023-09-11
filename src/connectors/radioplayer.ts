@@ -13,7 +13,7 @@ Connector.artistTrackSelector = ['.song-text', '.scrolling-text'];
 // Priority: 2.
 Connector.getTrackInfo = () => {
 	const frame = document.querySelector(
-		'#radiofeed_iframe'
+		'#radiofeed_iframe',
 	) as HTMLIFrameElement;
 	const radioFeedFrame =
 		frame.contentWindow?.document || frame.contentDocument;

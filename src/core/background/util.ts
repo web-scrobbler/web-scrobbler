@@ -24,7 +24,7 @@ export const contextMenus = {
  */
 export async function filterAsync<T>(
 	arr: T[],
-	filter: (entry: T) => Promise<boolean>
+	filter: (entry: T) => Promise<boolean>,
 ): Promise<T[]> {
 	if (!arr) {
 		return [];
@@ -86,7 +86,7 @@ export async function setState(data: StateManagement): Promise<void> {
  */
 export async function updateTabsFromTabList(
 	tabs: ManagerTab[],
-	tabId?: number
+	tabId?: number,
 ) {
 	const curTab = await getActiveTabDetails(tabs, tabId);
 	performUpdateAction(curTab);
@@ -102,7 +102,7 @@ export async function updateTabsFromTabList(
  */
 export async function getActiveTabDetails(
 	tabs: ManagerTab[],
-	tabId?: number
+	tabId?: number,
 ): Promise<ManagerTab> {
 	const tab = getPriorityTabDetails(tabs);
 	if (!tabId) {

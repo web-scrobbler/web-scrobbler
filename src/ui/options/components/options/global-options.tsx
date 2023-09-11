@@ -91,9 +91,9 @@ function ThemeSelector() {
 								`value ${
 									e.currentTarget.value
 								} not in themelist ${modifiedThemeList.join(
-									','
+									',',
 								)}`,
-								'error'
+								'error',
 							);
 							return;
 						}
@@ -106,8 +106,8 @@ function ThemeSelector() {
 							<option value={`theme-${themeName}`}>
 								{t(
 									`optionTheme${capitalizeFirstLetter(
-										themeName
-									)}`
+										themeName,
+									)}`,
 								)}
 							</option>
 						)}

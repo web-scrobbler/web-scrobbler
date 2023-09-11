@@ -55,7 +55,7 @@ function testPaths(entry: ConnectorMeta) {
 	const jsPath = path.join(
 		__dirname,
 		'../../src/connectors',
-		entry.js.replace('.js', '.ts')
+		entry.js.replace('.js', '.ts'),
 	);
 	try {
 		fs.statSync(jsPath);
