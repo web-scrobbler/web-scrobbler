@@ -45,6 +45,7 @@ import {
 	toggleLove,
 } from './scrobble';
 import scrobbleService from '../object/scrobble-service';
+import { fetchListenBrainzProfile } from '@/util/util';
 
 const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
 
@@ -391,6 +392,15 @@ setupBackgroundListeners(
 				payload.isLoved,
 			);
 		},
+	}),
+
+	/**
+	 * Listener called by a content script to attempt signing into musicbrainz.
+	 * This has to be done in background script, as safari blocks sending necessary cookies in other scripts.
+	 */
+	backgroundListener({
+		type: 'sendListenBrainzRequest',
+		fn: async (payload) => fetchListenBrainzProfile(payload.url),
 	}),
 
 	/**
