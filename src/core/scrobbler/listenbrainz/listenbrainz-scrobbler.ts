@@ -10,6 +10,7 @@ import {
 	ListenBrainzTrackMeta,
 	MetadataLookup,
 } from './listenbrainz.types';
+import { sendContentMessage } from '@/util/communication';
 
 /**
  * Module for all communication with LB
@@ -340,21 +341,25 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 
 	private async fetchSession(url: string) {
 		this.debugLog(`Use ${url}`);
-		// NOTE: Use 'same-origin' credentials to fix login on Firefox ESR 60.
-		const promise = fetch(url, {
-			method: 'GET',
-			// #v-ifdef VITE_FIREFOX
-			credentials: 'same-origin',
-			// #v-endif
-		});
+
+		// safari does not send cookies in content requests. Use background script to send.
+		// however, if already in background script, send directly as messaging will fail.
+		const promise = Util.isBackgroundScript()
+			? Util.fetchListenBrainzProfile(url)
+			: sendContentMessage({
+					type: 'sendListenBrainzRequest',
+					payload: {
+						url,
+					},
+			  });
 		const timeout = this.REQUEST_TIMEOUT;
 
-		const response = await Util.timeoutPromise(timeout, promise);
+		// @ts-expect-error typescript is confused by the combination of ternary and promise wrapped promise. It's a skill issue on typescript's part.
+		const rawHtml = await Util.timeoutPromise(timeout, promise);
 
-		if (response.ok) {
+		if (rawHtml !== null) {
 			const parser = new DOMParser();
 
-			const rawHtml = await response.text();
 			const doc = parser.parseFromString(rawHtml, 'text/html');
 
 			let sessionName = null;
