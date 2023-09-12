@@ -65,7 +65,14 @@ let getTrackInfoFromYtMusicEnabled = false;
 let currentVideoDescription: string | null = null;
 let artistTrackFromDescription: TrackInfoWithAlbum | null = null;
 
-const getTrackInfoFromYoutubeMusicCache: any = {};
+const getTrackInfoFromYoutubeMusicCache: {
+	[videoId: string]: {
+		done?: boolean;
+		recognisedByYtMusic?: boolean;
+		videoId?: string | null;
+		currentTrackInfo?: { artist?: string; track?: string };
+	};
+} = {};
 
 const trackInfoGetters = [
 	getTrackInfoFromChapters,
@@ -117,7 +124,7 @@ Connector.getTrackInfo = () => {
 
 Connector.getTimeInfo = () => {
 	const videoElement = document.querySelector(
-		videoSelector
+		videoSelector,
 	) as HTMLVideoElement;
 	if (videoElement && !areChaptersAvailable()) {
 		let { currentTime, duration, playbackRate } = videoElement;
@@ -187,7 +194,7 @@ Connector.applyFilter(
 	MetadataFilter.createYouTubeFilter().append({
 		artist: [removeLtrRtlChars, removeNumericPrefix],
 		track: [removeLtrRtlChars, removeNumericPrefix],
-	})
+	}),
 );
 
 function setupEventListener() {
@@ -202,7 +209,7 @@ function areChaptersAvailable() {
 	// SponsorBlock extension hijacks chapter element. Ignore it.
 	if (
 		document.querySelector(
-			'.ytp-chapter-title-content.sponsorBlock-segment-title'
+			'.ytp-chapter-title-content.sponsorBlock-segment-title',
 		)
 	) {
 		return false;
@@ -220,7 +227,7 @@ function getVideoId() {
 	 */
 	const miniPlayerVideoUrl = Util.getAttrFromSelectors(
 		'ytd-miniplayer[active] [selected] a',
-		'href'
+		'href',
 	);
 	if (miniPlayerVideoUrl) {
 		return Util.getYtVideoIdFromUrl(miniPlayerVideoUrl);
@@ -228,7 +235,7 @@ function getVideoId() {
 
 	const videoIDDesktop = Util.getAttrFromSelectors(
 		'ytd-watch-flexy',
-		'video-id'
+		'video-id',
 	);
 	if (videoIDDesktop) {
 		return videoIDDesktop;
@@ -264,7 +271,7 @@ function getVideoCategory() {
 		.catch((err) => {
 			Util.debugLog(
 				`Failed to fetch category for ${videoId}: ${err}`,
-				'warn'
+				'warn',
 			);
 			categoryCache.set(videoId, categoryUnknown);
 		});
@@ -399,7 +406,7 @@ function getTrackInfoFromYoutubeMusic() {
 				done: true,
 				recognisedByYtMusic:
 					videoInfo.videoDetails?.musicVideoType?.startsWith(
-						'MUSIC_VIDEO_'
+						'MUSIC_VIDEO_',
 					) || false,
 			};
 
@@ -421,7 +428,7 @@ function getTrackInfoFromYoutubeMusic() {
 		.catch((err) => {
 			Util.debugLog(
 				`Failed to fetch youtube music data for ${videoId}: ${err}`,
-				'warn'
+				'warn',
 			);
 			getTrackInfoFromYoutubeMusicCache[videoId ?? ''] = {
 				done: true,
@@ -449,7 +456,7 @@ function getTrackInfoFromChapters() {
 
 function getTrackInfoFromTitle() {
 	let { artist, track } = Util.processYtVideoTitle(
-		Util.getTextFromSelectors(videoTitleSelector)
+		Util.getTextFromSelectors(videoTitleSelector),
 	);
 	if (!artist) {
 		artist = Util.getTextFromSelectors(channelNameSelector);
@@ -480,7 +487,7 @@ function removeNumericPrefix(text: string) {
 
 function isVideoStartedPlaying() {
 	const videoElement = document.querySelector(
-		videoSelector
+		videoSelector,
 	) as HTMLVideoElement;
 	return videoElement && videoElement.currentTime > 0;
 }

@@ -11,16 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v3
-
-      - name: Get Node.js version from .nvmrc
-        id: get-node-version
-        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '${{ env.NODE_VERSION }}'
+          node-version-file: '.nvmrc'
 
       - name: Install dependencies
         run: npm ci
@@ -42,16 +38,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v3
-
-      - name: Get Node.js version from .nvmrc
-        id: get-node-version
-        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '${{ env.NODE_VERSION }}'
+          node-version-file: '.nvmrc'
 
       - name: Install dependencies
         run: npm ci
@@ -73,16 +65,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v3
-
-      - name: Get Node.js version from .nvmrc
-        id: get-node-version
-        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '${{ env.NODE_VERSION }}'
+          node-version-file: '.nvmrc'
 
       - name: Install dependencies
         run: npm ci
@@ -91,15 +79,15 @@ jobs:
         run: npm run dist chrome
 
       - name: Get version from package
-        id: get-package-version
-        run: echo ::set-output name=PACKAGE_VERSION::$(jq .version package.json -r)
+        run: echo "PACKAGE_VERSION=$(jq .version package.json -r)" >> $GITHUB_ENV
 
       - name: Publish the extension for Edge
-        uses: inverse/edge-addon@v1.0.4
+        uses: inverse/edge-addon@v1.0.9
         with:
           product_id: ${{ secrets.EDGE_PRODUCT_ID }}
           client_id: ${{ secrets.EDGE_CLIENT_ID }}
           client_secret: ${{ secrets.EDGE_CLIENT_SECRET }}
           access_token_url: ${{ secrets.EDGE_ACCESS_TOKEN_URL }}
           zip: web-scrobbler-chrome.zip # Compatible with Chrome
-          notes: 'Version ${{ steps.get-package-version.outputs.PACKAGE_VERSION }} upload'
+          notes: 'Version ${{ env.PACKAGE_VERSION }} upload'
+          debug: true

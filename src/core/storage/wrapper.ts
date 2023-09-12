@@ -24,6 +24,7 @@ import { CloneableSong } from '@/core/object/song';
 import EventEmitter from '@/util/emitter';
 import connectors from '@/core/connectors';
 import { RegexEdit } from '@/util/regex';
+import { debugLog } from '../content/util';
 
 export interface CustomPatterns {
 	[connectorId: string]: string[];
@@ -49,11 +50,26 @@ export type ListenBrainzModel =
 	| ListenBrainzAuthStarted
 	| ListenBrainzAuthFinished;
 
+export type WebhookModel = {
+	arrayProperties?: {
+		applicationName: string;
+		userApiUrl: string;
+	}[];
+};
+
+export type ArrayProperty = {
+	applicationName: string;
+	userApiUrl: string;
+};
+
+export type ArrayProperties = ArrayProperty[];
+
 export interface ScrobblerModels {
 	LastFM?: { token?: string } | { sessionID?: string; sessionName?: string };
 	LibreFM?: { token?: string } | { sessionID?: string; sessionName?: string };
 	ListenBrainz?: ListenBrainzModel;
 	Maloja?: Properties;
+	Webhook?: WebhookModel;
 }
 
 export interface ManagerTab {
@@ -125,7 +141,7 @@ export default class StorageWrapper<K extends keyof DataModels> {
 		storage:
 			| browser.Storage.SyncStorageAreaSync
 			| browser.Storage.LocalStorageArea,
-		namespace: StorageNamespace
+		namespace: StorageNamespace,
 	) {
 		this.storage = storage;
 		this.namespace = namespace;
@@ -204,7 +220,7 @@ export default class StorageWrapper<K extends keyof DataModels> {
 		try {
 			await this.set(data);
 		} catch (err) {
-			console.warn(err);
+			debugLog(err, 'warn');
 		}
 		this.unlock();
 	}
@@ -238,7 +254,13 @@ export default class StorageWrapper<K extends keyof DataModels> {
 		};
 
 		const text = JSON.stringify(data, hideSensitiveDataFn, 2);
-		console.info(`storage.${this.namespace} = ${text}`);
+
+		// #v-ifndef VITE_TEST
+		// dont log in content script
+		if (location?.protocol === 'chrome-extension:') {
+			debugLog(`storage.${this.namespace} = ${text}`, 'info');
+		}
+		// #v-endif
 	}
 
 	/**

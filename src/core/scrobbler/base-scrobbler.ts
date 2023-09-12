@@ -1,13 +1,18 @@
 'use strict';
 
 import { DebugLogType, debugLog } from '@/util/util';
-import Song, { BaseSong } from '@/core/object/song';
+import { BaseSong } from '@/core/object/song';
 import { ServiceCallResult } from '@/core/object/service-call-result';
-import StorageWrapper, { ScrobblerModels } from '@/core/storage/wrapper';
+import StorageWrapper, {
+	ArrayProperties,
+	ArrayProperty,
+	ScrobblerModels,
+} from '@/core/storage/wrapper';
 import {
 	StorageNamespace,
 	getScrobblerStorage,
 } from '../storage/browser-storage';
+import ClonedSong from '../object/cloned-song';
 
 export interface SessionData {
 	/** ID of a current session */
@@ -56,6 +61,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	protected storage: StorageWrapper<K>;
 	public userApiUrl: string | null = null;
 	public userToken: string | null = null;
+	public arrayProperties: ArrayProperties | null = null;
 
 	constructor() {
 		this.storage = this.initStorage();
@@ -92,7 +98,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 * @param props - Object contains user properties
 	 */
 	public async applyUserProperties(
-		props: Record<string, unknown>
+		props: Record<string, unknown>,
 	): Promise<void> {
 		this.applyProps(props, this.getUsedDefinedProperties());
 
@@ -145,6 +151,98 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 		return [];
 	}
 
+	/**
+	 * Return a list of user-defined scrobbler array properties.
+	 *
+	 * @returns a list of user-defined scrobbler array properties.
+	 */
+	public getUserDefinedArrayProperties(): string[] {
+		return [];
+	}
+
+	/**
+	 * Get array property values
+	 *
+	 * Each property is a property used internally in scrobblers.
+	 * Users can add and remove custom array properties in the extension settings.
+	 */
+	public async getArrayProperties(): Promise<
+		{
+			applicationName: string;
+			userApiUrl: string;
+		}[]
+	> {
+		const storage = await this.storage.get();
+		// @ts-ignore typescript is being weird and inconsistent about this line.
+		if (
+			!storage ||
+			!('arrayProperties' in storage) ||
+			!storage.arrayProperties
+		) {
+			return [];
+		}
+		return storage.arrayProperties;
+	}
+
+	/**
+	 * Add array property values
+	 *
+	 * Each property is a property used internally in scrobblers.
+	 * Users can add and remove custom array properties in the extension settings.
+	 *
+	 * @param props - The properties to add to the array.
+	 */
+	public async addUserArrayProperties(props: ArrayProperty) {
+		let data = await this.storage.get();
+
+		if (!data || !('arrayProperties' in data) || !data.arrayProperties) {
+			data = {
+				arrayProperties: [],
+			};
+		}
+		// this is weird we're just helping typescript out
+		if (!data || !('arrayProperties' in data) || !data.arrayProperties) {
+			debugLog('No data in storage', 'error');
+			return;
+		}
+
+		data.arrayProperties.push(props);
+		this.applyArrayProps(
+			data.arrayProperties,
+			this.getUserDefinedArrayProperties(),
+		);
+		this.storage.set(data);
+	}
+
+	/**
+	 * Apply array property values
+	 *
+	 * Replaces the property array with the one supplied in parameters.
+	 *
+	 * @param props - property values to apply
+	 */
+	public async applyUserArrayProperties(props: ArrayProperty[]) {
+		let data = await this.storage.get();
+
+		if (!data || !('arrayProperties' in data) || !data.arrayProperties) {
+			data = {
+				arrayProperties: [],
+			};
+		}
+		// this is weird we're just helping typescript out
+		if (!data || !('arrayProperties' in data) || !data.arrayProperties) {
+			debugLog('No data in storage', 'error');
+			return;
+		}
+
+		data.arrayProperties = props;
+		this.applyArrayProps(
+			data.arrayProperties,
+			this.getUserDefinedArrayProperties(),
+		);
+		this.storage.set(data);
+	}
+
 	/** Authentication */
 
 	/**
@@ -168,13 +266,15 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 			debugLog('No data in storage', 'error');
 			return;
 		}
-		// @ts-ignore typescript is being weird and inconsistent about this line.
+
 		if ('sessionID' in data) {
 			delete data.sessionID;
 		}
-		// @ts-ignore typescript is being weird and inconsistent about this line.
 		if ('sessionName' in data) {
 			delete data.sessionName;
+		}
+		if ('arrayProperties' in data) {
+			delete data.arrayProperties;
 		}
 
 		await this.storage.set(data);
@@ -196,7 +296,27 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 * @param song - Song instance
 	 */
 	// eslint-disable-next-line no-unused-vars
-	public abstract sendNowPlaying(song: Song): Promise<ServiceCallResult>;
+	public abstract sendNowPlaying(song: BaseSong): Promise<ServiceCallResult>;
+
+	/**
+	 * Send resumed playing status of song to API.
+	 * Implementation must return ServiceCallResult constant.
+	 *
+	 * @param song - Song instance
+	 */
+	// eslint-disable-next-line no-unused-vars
+	public abstract sendResumedPlaying(
+		song: BaseSong,
+	): Promise<ServiceCallResult>;
+
+	/**
+	 * Send paused status of song to API.
+	 * Implementation must return ServiceCallResult constant.
+	 *
+	 * @param song - Song instance
+	 */
+	// eslint-disable-next-line no-unused-vars
+	public abstract sendPaused(song: BaseSong): Promise<ServiceCallResult>;
 
 	/**
 	 * Send song to API to scrobble.
@@ -205,7 +325,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 * @param song - Song instance
 	 */
 	// eslint-disable-next-line no-unused-vars
-	public abstract scrobble(song: Song): Promise<ServiceCallResult>;
+	public abstract scrobble(song: BaseSong): Promise<ServiceCallResult>;
 
 	/**
 	 * Love or unlove given song.
@@ -216,8 +336,8 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 */
 	// eslint-disable-next-line no-unused-vars
 	public abstract toggleLove(
-		song: BaseSong,
-		isLoved: boolean
+		song: ClonedSong,
+		isLoved: boolean,
 	): Promise<ServiceCallResult | Record<string, never>>;
 
 	/**
@@ -228,7 +348,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 */
 	// eslint-disable-next-line no-unused-vars
 	public abstract getSongInfo(
-		song: Song
+		song: BaseSong,
 	): Promise<ScrobblerSongInfo | Record<string, never>>;
 
 	/* Getters. */
@@ -245,7 +365,8 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 		| 'Last.fm'
 		| 'ListenBrainz'
 		| 'Maloja'
-		| 'Libre.fm';
+		| 'Libre.fm'
+		| 'Webhook';
 
 	/**
 	 * Get URL to profile page.
@@ -290,7 +411,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	 * @param song - the song about to be dispatched
 	 * @returns updated song
 	 */
-	public applyFilter(song: Song): Song {
+	public applyFilter(song: BaseSong): BaseSong {
 		return song;
 	}
 
@@ -348,11 +469,14 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 				}
 			}
 		}
+		if (storageContent && 'arrayProperties' in storageContent) {
+			this.arrayProperties = storageContent.arrayProperties ?? [];
+		}
 	}
 
 	private applyProps(
 		props: Record<string, unknown>,
-		allowedProps: string[]
+		allowedProps: string[],
 	): void {
 		for (const prop in props) {
 			if (!allowedProps.includes(prop)) {
@@ -373,5 +497,30 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 				delete this[prop];
 			}
 		}
+	}
+
+	private applyArrayProps(
+		props: ArrayProperties,
+		allowedProps: string[],
+	): void {
+		if (!props) {
+			throw new Error('No props passed to applyArrayProps()');
+		}
+		if (props.length === 0) {
+			this.arrayProperties = [];
+			return;
+		}
+		for (const properties of props) {
+			for (const [key, value] of Object.entries(properties)) {
+				if (!allowedProps.includes(key)) {
+					throw new Error(`Unknown property: ${key}`);
+				}
+
+				if (value === undefined) {
+					throw new Error(`Property is not set: ${key}`);
+				}
+			}
+		}
+		this.arrayProperties = props;
 	}
 }

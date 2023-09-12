@@ -256,7 +256,7 @@ function TrackData(props: { song: Accessor<ClonedSong | null> }) {
 			<PopupLink
 				href={createAlbumURL(
 					song()?.getAlbumArtist() || song()?.getArtist(),
-					song()?.getTrack()
+					song()?.getAlbum()
 				)}
 				title={t('infoViewAlbumPage', song()?.getAlbum() ?? '')}
 			>

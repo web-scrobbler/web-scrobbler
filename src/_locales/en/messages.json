@@ -39,6 +39,14 @@
         "message": "Scrobble podcast episodes",
         "description": "Option title"
     },
+    "optionDebugLoggingEnabled": {
+        "message": "Enable debug logging",
+        "description": "Option label"
+    },
+    "optionDebugLoggingEnabledTitle": {
+        "message": "Allow the extension to log debug messages to the browser console",
+        "description": "Option title"
+    },
     "optionsScrobbleBehavior": {
         "message": "Scrobble behavior",
         "description": "'Scrobble behavior' section"
@@ -186,6 +194,18 @@
     "accountsUserTokenPlaceholder": {
         "message": "Custom token",
         "description": "Input label"
+    },
+    "accountsApplicationName": {
+        "message": "Application name",
+        "description": "Input label"
+    },
+    "accountsApplicationNamePlaceholder": {
+        "message": "Custom webhook label",
+        "description": "Input label"
+    },
+    "accountsAddWebhook": {
+        "message": "Add Webhook",
+        "description": "Button label"
     },
     "optionsOptions": {
         "message": "Options",
@@ -376,7 +396,7 @@
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='#'>here</a>. For the full changelog please visit <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>this page</a>.",
+        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='$1'>here</a>. For the full changelog please visit <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>this page</a>.",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -473,10 +493,6 @@
     },
     "serviceErrorDesc": {
         "message": "Looks like something went wrong while scrobbling the music. Please open the options page and try to reauthenticate with services. If reauthentication doesn't help, and you still see this message, please create <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">a new issue</a> at the GitHub project page.",
-        "description": "The description of service error"
-    },
-    "serviceErrorAdblock": {
-        "message": "Note that some adblockers may interfere with the extension. If you have any adblocker installed, try to disable it and see if it helps. If you are using uBlock Origin, you can add an exception for last.fm by adding <code>@@||ws.audioscrobbler.com</code> under \"My filters\" tab. Other adblockers may have similar functionality.",
         "description": "The description of service error"
     },
     "disabledSiteHeader": {

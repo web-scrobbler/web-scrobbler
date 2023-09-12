@@ -4,8 +4,8 @@
 import * as Options from '@/core/storage/options';
 import Song from '@/core/object/song';
 import { ConnectorMeta } from '@/core/connectors';
-import ScrobbleService from '@/core/object/scrobble-service';
 import { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
+import { sendContentMessage } from '@/util/communication';
 
 const INFO_TO_COPY: ['duration', 'artist', 'track'] = [
 	'duration',
@@ -41,7 +41,12 @@ export async function process(
 		return;
 	}
 
-	const songInfoArr = await ScrobbleService.getSongInfo(song);
+	const songInfoArr = await sendContentMessage({
+		type: 'getSongInfo',
+		payload: {
+			song: song.getCloneableData(),
+		},
+	});
 	const songInfo = getInfo(songInfoArr);
 	const isSongValid = songInfo !== null;
 	if (isSongValid) {

@@ -4,7 +4,6 @@ import * as Util from '@/core/content/util';
 import * as MetadataFilter from '@web-scrobbler/metadata-filter';
 import start from '@/core/content/starter';
 import browser from 'webextension-polyfill';
-import scrobbleService from '@/core/object/scrobble-service';
 import { sendContentMessage } from '@/util/communication';
 import savedEdits from '../storage/saved-edits';
 import regexEdits from '../storage/regex-edits';
@@ -14,11 +13,14 @@ async function main() {
 	updateTheme();
 	try {
 		await fetchConnector();
+		start();
 	} catch (err) {
+		if (err instanceof Error && err.message === 'dontlog') {
+			return;
+		}
 		Util.debugLog(err, 'error');
 		return;
 	}
-	start();
 }
 
 /**
@@ -28,19 +30,18 @@ async function main() {
 async function fetchConnector(): Promise<void> {
 	const connector = await getConnectorByUrl(window.location.href);
 	if (!connector) {
-		return;
+		throw new Error('dontlog');
 	}
 
 	// Don't run the connector in frames if it's not allowed to run in frames
 	if (window !== top && !connector.allFrames) {
-		return;
+		throw new Error('dontlog');
 	}
 
 	window.Connector = new BaseConnector(connector);
 	window.Util = Util;
 	window.MetadataFilter = MetadataFilter;
 	window.webScrobblerScripts = {};
-	await scrobbleService.bindAllScrobblers();
 	savedEdits.init();
 	regexEdits.init();
 

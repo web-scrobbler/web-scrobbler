@@ -1,4 +1,3 @@
-import ClonedSong from '@/core/object/cloned-song';
 import Song, { BaseSong } from '@/core/object/song';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 
@@ -107,7 +106,7 @@ export function searchMatches(search: string | null, text: string): boolean {
 function replaceField(
 	search: string | null,
 	replace: string | null,
-	text: string
+	text: string,
 ): string {
 	if (search === null || replace === null) {
 		return text;
@@ -131,7 +130,7 @@ function replaceField(
 export function replaceFields(
 	search: RegexFields,
 	replace: RegexFields,
-	fields: EditedFields
+	fields: EditedFields,
 ): EditedFields {
 	for (const _field of Object.keys(fields)) {
 		const field = _field as FieldType;
@@ -144,7 +143,7 @@ export function replaceFields(
 		fields[field] = replaceField(
 			search[field],
 			replace[field],
-			fields[field]
+			fields[field],
 		);
 	}
 	return fields;
@@ -191,7 +190,7 @@ export function editSong(edit: RegexEdit, song: Song) {
 	const fields = replaceFields(
 		edit.search,
 		edit.replace,
-		getProcessedFields(song)
+		getProcessedFields(song),
 	);
 
 	for (const [_key, field] of Object.entries(fields)) {
@@ -234,7 +233,7 @@ export function getSongField(clonedSong: BaseSong, type: FieldType): string {
  */
 export function getSongFieldNoRegex(
 	clonedSong: BaseSong,
-	type: FieldType
+	type: FieldType,
 ): string {
 	return (clonedSong.noRegex[type] || clonedSong.parsed[type]) ?? '';
 }

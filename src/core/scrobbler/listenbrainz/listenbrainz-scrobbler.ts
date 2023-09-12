@@ -1,7 +1,7 @@
 'use strict';
 
 import { ServiceCallResult } from '@/core/object/service-call-result';
-import Song, { BaseSong } from '@/core/object/song';
+import { BaseSong } from '@/core/object/song';
 import * as Util from '@/util/util';
 import { getExtensionVersion } from '@/util/util-browser';
 import BaseScrobbler, { SessionData } from '@/core/scrobbler/base-scrobbler';
@@ -10,6 +10,7 @@ import {
 	ListenBrainzTrackMeta,
 	MetadataLookup,
 } from './listenbrainz.types';
+import { sendContentMessage } from '@/util/communication';
 
 /**
  * Module for all communication with LB
@@ -21,8 +22,6 @@ const apiUrl = `${baseUrl}/submit-listens`;
 export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'> {
 	public userApiUrl!: string;
 	public userToken!: string;
-	/** Can't find where this value is being set from */
-	private authUrl!: string;
 
 	public async getSongInfo(): Promise<Record<string, never>> {
 		return Promise.resolve({});
@@ -155,7 +154,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 	}
 
 	/** @override */
-	async sendNowPlaying(song: Song): Promise<ServiceCallResult> {
+	async sendNowPlaying(song: BaseSong): Promise<ServiceCallResult> {
 		const { sessionID } = await this.getSession();
 		const trackMeta = this.makeTrackMetadata(song);
 
@@ -171,7 +170,17 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 	}
 
 	/** @override */
-	public async scrobble(song: Song): Promise<ServiceCallResult> {
+	async sendPaused(): Promise<ServiceCallResult> {
+		return ServiceCallResult.RESULT_OK;
+	}
+
+	/** @override */
+	async sendResumedPlaying(): Promise<ServiceCallResult> {
+		return ServiceCallResult.RESULT_OK;
+	}
+
+	/** @override */
+	public async scrobble(song: BaseSong): Promise<ServiceCallResult> {
 		const { sessionID } = await this.getSession();
 
 		const params = {
@@ -193,7 +202,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		const artist = song.getArtist();
 		if (typeof track !== 'string' || typeof artist !== 'string') {
 			throw new Error(
-				`Invalid track ${JSON.stringify({ artist, track })}`
+				`Invalid track ${JSON.stringify({ artist, track })}`,
 			);
 		}
 		const lookupRequestParams = new URLSearchParams({
@@ -208,14 +217,14 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 				'GET',
 				`${baseUrl}/metadata/lookup?${lookupRequestParams}`,
 				null,
-				null
+				null,
 			);
 		} catch (e) {
 			// ignore error
 		}
 
 		this.debugLog(
-			`lookup result: ${JSON.stringify(lookupResult, null, 2)}`
+			`lookup result: ${JSON.stringify(lookupResult, null, 2)}`,
 		);
 
 		if (!lookupResult.recording_mbid) {
@@ -233,7 +242,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 			'POST',
 			`${baseUrl}/feedback/recording-feedback`,
 			loveRequestBody,
-			sessionID
+			sessionID,
 		);
 
 		return this.processResult(loveResult);
@@ -247,12 +256,12 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 	/** Private methods. */
 
 	private async listenBrainzApi<
-		T extends Record<string, unknown> = Record<string, unknown>
+		T extends Record<string, unknown> = Record<string, unknown>,
 	>(
 		method: string,
 		url: string,
 		body: ListenBrainzParams | null,
-		sessionID: string | null
+		sessionID: string | null,
 	): Promise<T> {
 		const requestInfo: RequestInit = {
 			method,
@@ -298,37 +307,26 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		return result;
 	}
 
-	async sendScrobbleRequest<
-		T extends Record<string, unknown> = Record<string, unknown>
-	>(
+	async sendScrobbleRequest(
 		params: ListenBrainzParams,
-		sessionID: string
+		sessionID: string,
 	): Promise<ServiceCallResult> {
 		const result = await this.listenBrainzApi(
 			'POST',
 			this.userApiUrl || apiUrl,
 			params,
-			sessionID
+			sessionID,
 		);
 		return this.processResult(result);
 	}
 
 	private async requestSession() {
-		const authUrls = [listenBrainzTokenPage, this.authUrl];
-
 		let session = null;
 
-		for (const url of authUrls) {
-			try {
-				session = await this.fetchSession(url);
-			} catch (e) {
-				this.debugLog('request session timeout', 'warn');
-				continue;
-			}
-
-			if (session) {
-				break;
-			}
+		try {
+			session = await this.fetchSession(listenBrainzTokenPage);
+		} catch (e) {
+			this.debugLog('request session timeout', 'warn');
 		}
 
 		if (session) {
@@ -343,19 +341,25 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 
 	private async fetchSession(url: string) {
 		this.debugLog(`Use ${url}`);
-		// NOTE: Use 'same-origin' credentials to fix login on Firefox ESR 60.
-		const promise = fetch(url, {
-			method: 'GET',
-			credentials: 'same-origin',
-		});
+
+		// safari does not send cookies in content requests. Use background script to send.
+		// however, if already in background script, send directly as messaging will fail.
+		const promise = Util.isBackgroundScript()
+			? Util.fetchListenBrainzProfile(url)
+			: sendContentMessage({
+					type: 'sendListenBrainzRequest',
+					payload: {
+						url,
+					},
+			  });
 		const timeout = this.REQUEST_TIMEOUT;
 
-		const response = await Util.timeoutPromise(timeout, promise);
+		// @ts-expect-error typescript is confused by the combination of ternary and promise wrapped promise. It's a skill issue on typescript's part.
+		const rawHtml = await Util.timeoutPromise(timeout, promise);
 
-		if (response.ok) {
+		if (rawHtml !== null) {
 			const parser = new DOMParser();
 
-			const rawHtml = await response.text();
 			const doc = parser.parseFromString(rawHtml, 'text/html');
 
 			let sessionName = null;
@@ -386,7 +390,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		return ServiceCallResult.RESULT_OK;
 	}
 
-	private makeTrackMetadata(song: Song): ListenBrainzTrackMeta {
+	private makeTrackMetadata(song: BaseSong): ListenBrainzTrackMeta {
 		const trackMeta: ListenBrainzTrackMeta = {
 			artist_name: song.getArtist() ?? '',
 			track_name: song.getTrack() ?? '',

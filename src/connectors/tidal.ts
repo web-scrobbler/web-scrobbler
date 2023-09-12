@@ -25,7 +25,12 @@ Connector.getUniqueID = () => {
 	return null;
 };
 
-Connector.artistSelector = `${Connector.playerSelector} span.artist-link`;
+const artistSelector = `${Connector.playerSelector} span.artist-link a`;
+
+Connector.getArtist = () => {
+	const artistNodes = document.querySelectorAll(artistSelector);
+	return Util.joinArtists(Array.from(artistNodes));
+};
 
 Connector.albumSelector = [
 	'#nowPlaying div.react-tabs a[href^="/album/"]',
@@ -39,7 +44,8 @@ Connector.getAlbumArtist = () => {
 		'href'
 	);
 	if (albumUrl && canonicalUrl && canonicalUrl.endsWith(albumUrl)) {
-		return Util.getTextFromSelectors('#main .header-details .artist-link');
+		const albumArtistNode = document.querySelectorAll('#main .header-details .artist-link a');
+		return Util.joinArtists(Array.from(albumArtistNode));
 	}
 	return null;
 };

@@ -10,19 +10,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v3
-
-      - name: Get Node.js version from .nvmrc
-        id: get-node-version
-        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '${{ env.NODE_VERSION }}'
+          node-version-file: '.nvmrc'
 
       - name: Install dependencies
         run: npm ci
 
+      - name: Check for typescript errors
+        run: npm run checkts
+
       - name: Run tests
         run: npm run test
+
+  test_typescript:
+    name: Run tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check for typescript errors
+        run: npm run checkts

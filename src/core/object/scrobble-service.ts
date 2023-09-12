@@ -3,9 +3,12 @@ import LastFmScrobbler from '@/core/scrobbler/lastfm/lastfm-scrobbler';
 import LibreFmScrobbler from '@/core/scrobbler/librefm-scrobbler';
 import ListenBrainzScrobbler from '@/core/scrobbler/listenbrainz/listenbrainz-scrobbler';
 import MalojaScrobbler from '@/core/scrobbler/maloja/maloja-scrobbler';
+import WebhookScrobbler from '@/core/scrobbler/webhook-scrobbler';
 import { ServiceCallResult } from '@/core/object/service-call-result';
-import Song, { BaseSong } from '@/core/object/song';
+import { BaseSong } from '@/core/object/song';
 import { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
+import ClonedSong from './cloned-song';
+import { debugLog } from '../content/util';
 
 /**
  * Service to handle all scrobbling behavior.
@@ -15,7 +18,8 @@ export type Scrobbler =
 	| LastFmScrobbler
 	| LibreFmScrobbler
 	| ListenBrainzScrobbler
-	| MalojaScrobbler;
+	| MalojaScrobbler
+	| WebhookScrobbler;
 
 /**
  * Scrobblers that are registered and that can be bound.
@@ -25,9 +29,15 @@ const registeredScrobblers = [
 	new LibreFmScrobbler(),
 	new ListenBrainzScrobbler(),
 	new MalojaScrobbler(),
+	new WebhookScrobbler(),
 ];
 
-export type ScrobblerLabel = 'Last.fm' | 'ListenBrainz' | 'Libre.fm' | 'Maloja';
+export type ScrobblerLabel =
+	| 'Last.fm'
+	| 'ListenBrainz'
+	| 'Libre.fm'
+	| 'Maloja'
+	| 'Webhook';
 
 /**
  * Check if scrobbler is in given array of scrobblers.
@@ -57,7 +67,7 @@ class ScrobbleService {
 				await scrobbler.getSession();
 				this.bindScrobbler(scrobbler);
 			} catch (e) {
-				console.warn(`Unable to bind ${scrobbler.getLabel()}`);
+				debugLog(`Unable to bind ${scrobbler.getLabel()}`, 'warn');
 			}
 		}
 
@@ -71,7 +81,7 @@ class ScrobbleService {
 	bindScrobbler(scrobbler: Scrobbler): void {
 		if (!isScrobblerInArray(scrobbler, this.boundScrobblers)) {
 			this.boundScrobblers.push(scrobbler);
-			console.log(`Bind ${scrobbler.getLabel()} scrobbler`);
+			debugLog(`Bind ${scrobbler.getLabel()} scrobbler`);
 		}
 	}
 
@@ -84,9 +94,9 @@ class ScrobbleService {
 			const index = this.boundScrobblers.indexOf(scrobbler);
 			this.boundScrobblers.splice(index, 1);
 
-			console.log(`Unbind ${scrobbler.getLabel()} scrobbler`);
+			debugLog(`Unbind ${scrobbler.getLabel()} scrobbler`);
 		} else {
-			console.error(`${scrobbler.getLabel()} is not bound`);
+			debugLog(`${scrobbler.getLabel()} is not bound`, 'error');
 		}
 	}
 
@@ -96,24 +106,26 @@ class ScrobbleService {
 	 * @returns Promise resolved with array of song info objects
 	 */
 	getSongInfo(
-		song: Song
+		song: ClonedSong,
 	): Promise<(Record<string, never> | ScrobblerSongInfo | null)[]> {
 		const scrobblers = registeredScrobblers.filter((scrobbler) => {
 			return scrobbler.canLoadSongInfo();
 		});
-		console.log(`Send "get info" request: ${scrobblers.length}`);
+
+		debugLog(`Send "get info" request: ${scrobblers.length}`);
 
 		return Promise.all(
 			scrobblers.map(async (scrobbler) => {
 				try {
 					return await scrobbler.getSongInfo(song);
 				} catch {
-					console.warn(
-						`Unable to get song info from ${scrobbler.getLabel()}`
+					debugLog(
+						`Unable to get song info from ${scrobbler.getLabel()}`,
+						'warn',
 					);
 					return null;
 				}
-			})
+			}),
 		);
 	}
 
@@ -122,25 +134,85 @@ class ScrobbleService {
 	 * @param song - Song instance
 	 * @returns Promise that will be resolved then the task will complete
 	 */
-	sendNowPlaying(song: Song): Promise<ServiceCallResult[]> {
-		console.log(
-			`Send "now playing" request: ${this.boundScrobblers.length}`
-		);
+	sendNowPlaying(song: BaseSong): Promise<ServiceCallResult[]> {
+		debugLog(`Send "now playing" request: ${this.boundScrobblers.length}`);
 
 		return Promise.all(
 			this.boundScrobblers.map(async (scrobbler) => {
 				// Forward result (including errors) to caller
 				try {
 					return await scrobbler.sendNowPlaying(
-						scrobbler.applyFilter(song)
+						scrobbler.applyFilter(song),
 					);
 				} catch (result) {
 					return this.processErrorResult(
 						scrobbler,
-						result as ServiceCallResult
+						result as ServiceCallResult,
 					);
 				}
-			})
+			}),
+		);
+	}
+
+	/**
+	 * Send now playing notification to each bound scrobbler.
+	 * @param song - Song instance
+	 * @returns Promise that will be resolved then the task will complete
+	 */
+	sendPaused(song: BaseSong): Promise<ServiceCallResult[]> {
+		const supportedBoundScrobblers = this.boundScrobblers.filter(
+			(scrobbler) => typeof scrobbler.sendPaused === 'function',
+		);
+		if (supportedBoundScrobblers.length === 0) {
+			return Promise.resolve([ServiceCallResult.RESULT_OK]);
+		}
+		debugLog(`Send "paused" request: ${supportedBoundScrobblers.length}`);
+
+		return Promise.all(
+			supportedBoundScrobblers.map(async (scrobbler) => {
+				// Forward result (including errors) to caller
+				try {
+					return await scrobbler.sendPaused(
+						scrobbler.applyFilter(song),
+					);
+				} catch (result) {
+					return this.processErrorResult(
+						scrobbler,
+						result as ServiceCallResult,
+					);
+				}
+			}),
+		);
+	}
+
+	/**
+	 * Send now playing notification to each bound scrobbler.
+	 * @param song - Song instance
+	 * @returns Promise that will be resolved then the task will complete
+	 */
+	sendResumedPlaying(song: BaseSong): Promise<ServiceCallResult[]> {
+		const supportedBoundScrobblers = this.boundScrobblers.filter(
+			(scrobbler) => typeof scrobbler.sendResumedPlaying === 'function',
+		);
+		if (supportedBoundScrobblers.length === 0) {
+			return Promise.resolve([ServiceCallResult.RESULT_OK]);
+		}
+		debugLog(`Send "paused" request: ${supportedBoundScrobblers.length}`);
+
+		return Promise.all(
+			supportedBoundScrobblers.map(async (scrobbler) => {
+				// Forward result (including errors) to caller
+				try {
+					return await scrobbler.sendResumedPlaying(
+						scrobbler.applyFilter(song),
+					);
+				} catch (result) {
+					return this.processErrorResult(
+						scrobbler,
+						result as ServiceCallResult,
+					);
+				}
+			}),
 		);
 	}
 
@@ -149,23 +221,23 @@ class ScrobbleService {
 	 * @param song - Song instance
 	 * @returns Promise that will be resolved then the task will complete
 	 */
-	scrobble(song: Song): Promise<ServiceCallResult[]> {
-		console.log(`Send "scrobble" request: ${this.boundScrobblers.length}`);
+	scrobble(song: BaseSong): Promise<ServiceCallResult[]> {
+		debugLog(`Send "scrobble" request: ${this.boundScrobblers.length}`);
 
 		return Promise.all(
 			this.boundScrobblers.map(async (scrobbler) => {
 				// Forward result (including errors) to caller
 				try {
 					return await scrobbler.scrobble(
-						scrobbler.applyFilter(song)
+						scrobbler.applyFilter(song),
 					);
 				} catch (result) {
 					return this.processErrorResult(
 						scrobbler,
-						result as ServiceCallResult
+						result as ServiceCallResult,
 					);
 				}
-			})
+			}),
 		);
 	}
 
@@ -176,14 +248,14 @@ class ScrobbleService {
 	 * @returns Promise that will be resolved then the task will complete
 	 */
 	async toggleLove(
-		song: BaseSong,
-		flag: boolean
+		song: ClonedSong,
+		flag: boolean,
 	): Promise<(ServiceCallResult | Record<string, never>)[]> {
 		const scrobblers = registeredScrobblers.filter((scrobbler) => {
 			return scrobbler.canLoveSong();
 		});
 		const requestName = flag ? 'love' : 'unlove';
-		console.log(`Send "${requestName}" request: ${scrobblers.length}`);
+		debugLog(`Send "${requestName}" request: ${scrobblers.length}`);
 
 		return Promise.all(
 			scrobblers.map(async (scrobbler) => {
@@ -193,10 +265,10 @@ class ScrobbleService {
 				} catch (result) {
 					return this.processErrorResult(
 						scrobbler,
-						result as ServiceCallResult
+						result as ServiceCallResult,
 					);
 				}
-			})
+			}),
 		);
 	}
 
@@ -231,7 +303,7 @@ class ScrobbleService {
 	 */
 	async processErrorResult(
 		scrobbler: Scrobbler,
-		result: ServiceCallResult
+		result: ServiceCallResult,
 	): Promise<ServiceCallResult> {
 		const isOtherError = result === ServiceCallResult.ERROR_OTHER;
 		const isAuthError = result === ServiceCallResult.ERROR_AUTH;

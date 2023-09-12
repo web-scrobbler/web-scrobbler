@@ -97,10 +97,8 @@ async function fetchSongInfo(albumInfoUrl: string) {
 			const songTitle = songTitleElement.textContent?.trim();
 
 			if (songTitle === track) {
-				console.log(2222);
 				const artists = song.querySelectorAll('.s_artist .sng_c');
 				artist = Util.joinArtists(Array.from(artists));
-				console.log(artist);
 				break;
 			}
 		}

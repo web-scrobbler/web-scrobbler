@@ -2,7 +2,7 @@ import { TestData } from '#/types/types';
 import { expect, it, describe } from 'vitest';
 
 // trick webextension polyfill into thinking this is running in the browser
-(globalThis as any).chrome = {
+(globalThis as unknown as { chrome: unknown }).chrome = {
 	runtime: {
 		id: 'mock',
 	},
@@ -1098,7 +1098,10 @@ const testData = [
  * @param func - Function to be tested
  * @param testData - Array of test data
  */
-function testFunction(func: (...args: any[]) => unknown, testData: TestData[]) {
+function testFunction(
+	func: (...args: unknown[]) => unknown,
+	testData: TestData[],
+) {
 	const boundFunc = func.bind(Util);
 
 	for (const data of testData) {
@@ -1123,6 +1126,8 @@ function runTests() {
 		const description = func.name;
 
 		describe(description, () => {
+			// TODO: type gymnastics
+			// @ts-ignore type gymnastics required on this one. It works.
 			testFunction(func, data);
 		});
 	}

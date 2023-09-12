@@ -2,7 +2,6 @@ import { ConnectorMeta } from '@/core/connectors';
 import * as Options from '@/core/storage/options';
 import {
 	areAllResults,
-	debugLog,
 	DebugLogType,
 	getSecondsToScrobble,
 	isAnyResult,
@@ -12,7 +11,6 @@ import Timer from '@/core/object/timer';
 import Pipeline from '@/core/object/pipeline/pipeline';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import * as ControllerEvents from '@/core/object/controller/controller-event';
-import ScrobbleService from '@/core/object/scrobble-service';
 import { ServiceCallResult } from '@/core/object/service-call-result';
 import SavedEdits from '@/core/storage/saved-edits';
 import { State } from '@/core/types';
@@ -23,6 +21,7 @@ import {
 } from '@/util/communication';
 import EventEmitter from '@/util/emitter';
 import * as BrowserStorage from '@/core/storage/browser-storage';
+import { debugLog } from '@/core/content/util';
 
 /**
  * List of song fields used to check if song is changed. If any of
@@ -37,35 +36,15 @@ export type ControllerModeStr =
 	(typeof ControllerMode)[keyof typeof ControllerMode];
 
 /**
- * States and their priority. earlier indices will be displayed first.
- */
-export const controllerModePriority: ControllerModeStr[][] = [
-	[ControllerMode.Err, ControllerMode.Ignored],
-	[ControllerMode.Unknown],
-	[ControllerMode.Loading],
-	[ControllerMode.Playing, ControllerMode.Scrobbled],
-	[
-		ControllerMode.Base,
-		ControllerMode.Skipped,
-		ControllerMode.Disabled,
-		ControllerMode.Unsupported,
-	],
-];
-
-/**
  * Priorities of each state as an object
  */
-export const controllerModePriorityObject: Record<ControllerModeStr, number> = {
-	[ControllerMode.Base]: 0,
-	[ControllerMode.Skipped]: 0,
-	[ControllerMode.Disabled]: 0,
-	[ControllerMode.Unsupported]: 0,
-	[ControllerMode.Playing]: 1,
-	[ControllerMode.Scrobbled]: 1,
-	[ControllerMode.Loading]: 2,
-	[ControllerMode.Unknown]: 3,
-	[ControllerMode.Ignored]: 4,
-	[ControllerMode.Err]: 4,
+export const isPrioritizedMode: Partial<Record<ControllerModeStr, true>> = {
+	[ControllerMode.Playing]: true,
+	[ControllerMode.Scrobbled]: true,
+	[ControllerMode.Loading]: true,
+	[ControllerMode.Unknown]: true,
+	[ControllerMode.Ignored]: true,
+	[ControllerMode.Err]: true,
 };
 
 type updateEvent = {
@@ -118,7 +97,7 @@ export default class Controller {
 				this.shouldScrobblePodcasts = shouldScrobblePodcasts;
 			})
 			.catch((err) => {
-				console.error(err);
+				debugLog(err, 'error');
 			});
 
 		this.debugLog(`Created controller for ${connector.label} connector`);
@@ -134,6 +113,12 @@ export default class Controller {
 				type: 'toggleLove',
 				fn: ({ isLoved }) => {
 					this.toggleLove(isLoved);
+				},
+			}),
+			contentListener({
+				type: 'updateLove',
+				fn: ({ isLoved }) => {
+					this.currentSong?.setLoveStatus(isLoved, true);
 				},
 			}),
 			contentListener({
@@ -183,7 +168,7 @@ export default class Controller {
 			contentListener({
 				type: 'ping',
 				fn: () => true,
-			})
+			}),
 		);
 	}
 
@@ -267,7 +252,6 @@ export default class Controller {
 				break;
 			}
 		}
-		console.log(event);
 		// do nothing
 	}
 
@@ -293,7 +277,7 @@ export default class Controller {
 	 */
 	public finish(): void {
 		this.debugLog(
-			`Remove controller for ${this.connector.label} connector`
+			`Remove controller for ${this.connector.label} connector`,
 		);
 		this.resetState();
 	}
@@ -405,7 +389,13 @@ export default class Controller {
 		this.currentSong.setLoveStatus(isLoved, true);
 		this.onSongUpdated();
 		try {
-			await ScrobbleService.toggleLove(this.currentSong, isLoved);
+			await sendContentMessage({
+				type: 'toggleLove',
+				payload: {
+					song: this.currentSong.getCloneableData(),
+					isLoved,
+				},
+			});
 		} catch (err) {
 			this.currentSong.setLoveStatus(!isLoved, true);
 		}
@@ -436,9 +426,9 @@ export default class Controller {
 			if (newState.isPlaying) {
 				this.debugLog(
 					`State from connector doesn't contain enough information about the playing track: ${toString(
-						newState as Record<string, unknown>
+						newState as Record<string, unknown>,
 					)}`,
-					'warn'
+					'warn',
 				);
 			}
 
@@ -497,7 +487,9 @@ export default class Controller {
 		this.currentSong.flags.isReplaying = this.isReplayingSong;
 
 		this.debugLog(
-			`New song detected: ${toString(newState as Record<string, string>)}`
+			`New song detected: ${toString(
+				newState as Record<string, string>,
+			)}`,
 		);
 
 		if (!this.shouldScrobblePodcasts && newState.isPodcast) {
@@ -589,17 +581,14 @@ export default class Controller {
 		}
 
 		this.debugLog(
-			`Song finished processing: ${this.currentSong.toString()}`
+			`Song finished processing: ${this.currentSong.toString()}`,
 		);
 
 		if (this.currentSong.isValid()) {
 			// Processing cleans this flag
 			this.currentSong.flags.isMarkedAsPlaying = false;
 
-			const duration = this.currentSong.getDuration();
-			if (duration) {
-				await this.updateTimers(duration);
-			}
+			await this.updateTimers(this.currentSong.getDuration());
 
 			/*
 			 * If the song is playing, mark it immediately;
@@ -653,6 +642,7 @@ export default class Controller {
 		this.debugLog(`isPlaying state changed to ${String(value)}`);
 
 		if (value && this.currentSong) {
+			this.setResumedPlaying();
 			this.playbackTimer.resume();
 			this.replayDetectionTimer.resume();
 
@@ -666,6 +656,7 @@ export default class Controller {
 				this.setMode(this.mode);
 			}
 		} else {
+			this.setPaused();
 			this.playbackTimer.pause();
 			this.replayDetectionTimer.pause();
 		}
@@ -728,7 +719,9 @@ export default class Controller {
 	 * Update internal timers.
 	 * @param duration - Song duration in seconds
 	 */
-	private async updateTimers(duration: number): Promise<void> {
+	private async updateTimers(
+		duration: number | null | undefined,
+	): Promise<void> {
 		if (this.playbackTimer.isExpired()) {
 			this.debugLog('Attempt to update expired timers', 'warn');
 			return;
@@ -736,7 +729,7 @@ export default class Controller {
 
 		const percent = await Options.getOption(
 			Options.SCROBBLE_PERCENT,
-			this.connector.id
+			this.connector.id,
 		);
 		if (typeof percent !== 'number') {
 			return;
@@ -752,7 +745,7 @@ export default class Controller {
 			this.debugLog(
 				`The song will be scrobbled in ${
 					remainedSeconds ?? -999
-				} seconds`
+				} seconds`,
 			);
 			this.debugLog(`The song will be repeated in ${duration} seconds`);
 		} else {
@@ -769,7 +762,14 @@ export default class Controller {
 			return;
 		}
 		this.currentSong.flags.isMarkedAsPlaying = true;
-		const results = await ScrobbleService.sendNowPlaying(this.currentSong);
+
+		const results = await sendContentMessage({
+			type: 'setNowPlaying',
+			payload: {
+				song: this.currentSong.getCloneableData(),
+			},
+		});
+
 		if (isAnyResult(results, ServiceCallResult.RESULT_OK)) {
 			this.debugLog('Song set as now playing');
 			this.setMode(ControllerMode.Playing);
@@ -779,6 +779,30 @@ export default class Controller {
 		}
 
 		this.dispatchEvent(ControllerEvents.SongNowPlaying);
+	}
+
+	private async setPaused(): Promise<void> {
+		if (!assertSongNotNull(this.currentSong)) {
+			return;
+		}
+		await sendContentMessage({
+			type: 'setPaused',
+			payload: {
+				song: this.currentSong.getCloneableData(),
+			},
+		});
+	}
+
+	private async setResumedPlaying(): Promise<void> {
+		if (!assertSongNotNull(this.currentSong)) {
+			return;
+		}
+		await sendContentMessage({
+			type: 'setResumedPlaying',
+			payload: {
+				song: this.currentSong.getCloneableData(),
+			},
+		});
 	}
 
 	/**
@@ -838,7 +862,13 @@ export default class Controller {
 			});
 		}
 
-		const results = await ScrobbleService.scrobble(this.currentSong);
+		const results = await sendContentMessage({
+			type: 'scrobble',
+			payload: {
+				song: this.currentSong.getCloneableData(),
+			},
+		});
+
 		if (isAnyResult(results, ServiceCallResult.RESULT_OK)) {
 			this.debugLog('Scrobbled successfully');
 

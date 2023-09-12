@@ -5,6 +5,8 @@ import { getPlatformName, isFullscreenMode } from '@/util/util-browser';
 import * as Options from '@/core/storage/options';
 import { ConnectorMeta } from '@/core/connectors';
 import { Scrobbler } from '@/core/object/scrobble-service';
+import { debugLog } from '@/core/content/util';
+import * as BrowserStorage from '@/core/storage/browser-storage';
 
 /**
  * Notification service.
@@ -42,17 +44,20 @@ let notificationTimeoutId: NodeJS.Timeout | null = null;
  * @returns Check result
  */
 async function isAvailable() {
-	// @ifdef CHROME
+	if (!browser?.notifications) {
+		return false;
+	}
+	// #v-ifdef VITE_CHROME
 	const platform = await getPlatformName();
 	if (platform === 'mac') {
 		return !(await isFullscreenMode());
 	}
 
 	return true;
-	// @endif
-	/* @ifdef FIREFOX
+	// #v-endif
+	// #v-ifdef VITE_FIREFOX
 	return true;
-	/* @endif */
+	// #v-endif
 }
 
 /**
@@ -73,7 +78,7 @@ async function isAllowed(connector: ConnectorMeta) {
  * @param notificationId - Notification ID
  * @param callback - Function that will be called on notification click
  */
-function addOnClickedListener(notificationId: number, callback: () => void) {
+function addOnClickedListener(notificationId: string, callback: () => void) {
 	clickListeners[notificationId] = callback;
 }
 
@@ -111,7 +116,7 @@ interface ProcessedNotificationOptions extends BaseNotificationOptions {
  */
 async function showNotification(
 	options: BaseNotificationOptions,
-	onClick: (() => void) | null
+	onClick: (() => void) | null,
 ) {
 	if (!(await isAvailable())) {
 		throw new Error('Notifications are not available');
@@ -130,7 +135,7 @@ async function showNotification(
 	try {
 		notificationId = await browser.notifications?.create(
 			'',
-			processedOptions
+			processedOptions,
 		);
 	} catch (err) {
 		// Use default track art and try again
@@ -141,12 +146,12 @@ async function showNotification(
 		processedOptions.iconUrl = defaultTrackArtUrl;
 		notificationId = await browser.notifications?.create(
 			'',
-			processedOptions
+			processedOptions,
 		);
 	}
 
 	if (typeof onClick === 'function') {
-		addOnClickedListener(parseInt(notificationId), onClick);
+		addOnClickedListener(notificationId, onClick);
 	}
 
 	return notificationId;
@@ -161,7 +166,7 @@ async function showNotification(
 export async function showNowPlaying(
 	song: BaseSong,
 	connector: ConnectorMeta,
-	onClick: () => void
+	onClick: () => void,
 ): Promise<void> {
 	if (!(await isAllowed(connector))) {
 		return;
@@ -169,14 +174,12 @@ export async function showNowPlaying(
 
 	const connectorLabel = song.metadata.label;
 	const iconUrl = song.getTrackArt() || defaultTrackArtUrl;
-	// @ifdef CHROME
 	let message = song.getArtist();
-	const title = song.getTrack();
-	// @endif
-	/* @ifdef FIREFOX
-	let message = `${song.getTrack()}\n${song.getArtist()}`;
-	let title = `Web Scrobbler \u2022 ${connectorLabel}`;
-	/* @endif */
+	let title = song.getTrack();
+	// #v-ifdef VITE_FIREFOX
+	message = `${song.getTrack()}\n${song.getArtist()}`;
+	title = `Web Scrobbler \u2022 ${connectorLabel}`;
+	// #v-endif
 
 	const albumName = song.getAlbum();
 	if (albumName) {
@@ -187,7 +190,7 @@ export async function showNowPlaying(
 	if (userPlayCount) {
 		const userPlayCountStr = browser.i18n.getMessage(
 			'infoYourScrobbles',
-			userPlayCount.toString()
+			userPlayCount.toString(),
 		);
 		message = `${message ?? 'null'}\n${userPlayCountStr}`;
 	}
@@ -197,10 +200,10 @@ export async function showNowPlaying(
 		title: title ?? 'null',
 		message: message ?? 'null',
 
-		// @ifdef CHROME
+		// #v-ifdef VITE_CHROME
 		silent: true,
 		contextMessage: connectorLabel,
-		// @endif
+		// #v-endif
 	};
 
 	clearNotificationTimeout();
@@ -211,7 +214,8 @@ export async function showNowPlaying(
 				song.metadata.notificationId = notificationId;
 			})
 			.catch((err) => {
-				console.warn('Unable to show now playing notification: ', err);
+				debugLog('Unable to show now playing notification: ', 'warn');
+				debugLog(err, 'warn');
 			});
 	}, NOW_PLAYING_NOTIFICATION_DELAY);
 }
@@ -235,7 +239,7 @@ export function clearNowPlaying(song: BaseSong): void {
  */
 export function showError(
 	message: string,
-	onClick: (() => void) | null = null
+	onClick: (() => void) | null = null,
 ): void {
 	const title = browser.i18n.getMessage('notificationAuthError');
 	const options = { title, message };
@@ -249,11 +253,11 @@ export function showError(
  */
 export function showSignInError(
 	scrobbler: Scrobbler,
-	onClick: () => void
+	onClick: () => void,
 ): void {
 	const errorMessage = browser.i18n.getMessage(
 		'notificationUnableSignIn',
-		scrobbler.getLabel()
+		scrobbler.getLabel(),
 	);
 	showError(errorMessage, onClick);
 }
@@ -267,12 +271,12 @@ export function showSignInError(
 export async function showSongNotRecognized(
 	song: BaseSong,
 	connector: ConnectorMeta,
-	onClick: () => void
+	onClick: () => void,
 ): Promise<void> {
 	if (
 		!(await Options.getOption(
 			Options.USE_UNRECOGNIZED_SONG_NOTIFICATIONS,
-			connector.id
+			connector.id,
 		))
 	) {
 		return;
@@ -284,21 +288,81 @@ export async function showSongNotRecognized(
 		message: browser.i18n.getMessage('notificationNotRecognizedText'),
 	};
 
-	const notificationId = await showNotification(options, onClick);
-	song.metadata.notificationId = notificationId;
+	try {
+		const notificationId = await showNotification(options, onClick);
+		song.metadata.notificationId = notificationId;
+	} catch (err) {
+		debugLog('Unable to show song not recognized notification: ', 'warn');
+		debugLog(err, 'warn');
+	}
+}
+
+/**
+ * How many times to show auth notification.
+ */
+const authNotificationDisplayCount = 3;
+
+/**
+ * Storage for auth notification display count.
+ */
+const notificationStorage = BrowserStorage.getStorage(
+	BrowserStorage.NOTIFICATIONS,
+);
+
+/**
+ * Check if auth notification is allowed.
+ * @returns Check result
+ */
+async function isAuthNotificationAllowed(): Promise<boolean> {
+	const displayCount =
+		(await notificationStorage.get())?.authDisplayCount || 0;
+	return displayCount < authNotificationDisplayCount;
+}
+
+/**
+ * Update internal counter of displayed auth notifications.
+ */
+async function updateAuthDisplayCount() {
+	let data = await notificationStorage.get();
+	if (!data) {
+		data = {
+			authDisplayCount: 0,
+		};
+	}
+
+	data.authDisplayCount = data.authDisplayCount + 1;
+	await notificationStorage.set(data);
 }
 
 /**
  * Show auth notification.
- * @param onClick - Function that will be called on notification click
  */
-export async function showAuthNotification(onClick: () => void): Promise<void> {
+export async function showAuthNotification(): Promise<void> {
+	if (!(await isAuthNotificationAllowed())) {
+		return;
+	}
+
 	const options = {
 		title: browser.i18n.getMessage('notificationConnectAccounts'),
 		message: browser.i18n.getMessage('notificationConnectAccountsText'),
 	};
 
-	await showNotification(options, onClick);
+	try {
+		await showNotification(options, () => {
+			browser.tabs.create({
+				url: browser.runtime.getURL(
+					'src/ui/options/index.html?p=accounts',
+				),
+			});
+		});
+	} catch (err) {
+		debugLog('Unable to show auth notification: ', 'warn');
+		debugLog(err, 'warn');
+		browser.tabs.create({
+			url: browser.runtime.getURL('src/ui/options/index.html?p=accounts'),
+		});
+	}
+	void updateAuthDisplayCount();
 }
 
 /**
@@ -321,7 +385,7 @@ function clearNotificationTimeout() {
 }
 
 browser.notifications?.onClicked.addListener((notificationId) => {
-	console.log(`Notification onClicked: ${notificationId}`);
+	debugLog(`Notification onClicked: ${notificationId}`);
 
 	if (clickListeners[notificationId]) {
 		clickListeners[notificationId](notificationId);

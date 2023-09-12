@@ -1,7 +1,7 @@
 'use strict';
 
 import { ServiceCallResult } from '@/core/object/service-call-result';
-import Song from '@/core/object/song';
+import { BaseSong } from '@/core/object/song';
 import { timeoutPromise } from '@/util/util';
 import BaseScrobbler, { SessionData } from '@/core/scrobbler/base-scrobbler';
 import { MalojaTrackMetadata } from '@/core/scrobbler/maloja/maloja.types';
@@ -77,7 +77,17 @@ export default class MalojaScrobbler extends BaseScrobbler<'Maloja'> {
 	}
 
 	/** @override */
-	public async scrobble(song: Song): Promise<ServiceCallResult> {
+	async sendPaused(): Promise<ServiceCallResult> {
+		return ServiceCallResult.RESULT_OK;
+	}
+
+	/** @override */
+	async sendResumedPlaying(): Promise<ServiceCallResult> {
+		return ServiceCallResult.RESULT_OK;
+	}
+
+	/** @override */
+	public async scrobble(song: BaseSong): Promise<ServiceCallResult> {
 		const songData = this.makeTrackMetadata(song);
 
 		return this.sendRequest(songData, this.userToken);
@@ -87,7 +97,7 @@ export default class MalojaScrobbler extends BaseScrobbler<'Maloja'> {
 
 	async sendRequest(
 		params: MalojaTrackMetadata,
-		sessionID: string
+		sessionID: string,
 	): Promise<ServiceCallResult> {
 		params.key = sessionID;
 
@@ -117,7 +127,7 @@ export default class MalojaScrobbler extends BaseScrobbler<'Maloja'> {
 		return ServiceCallResult.RESULT_OK;
 	}
 
-	private makeTrackMetadata(song: Song) {
+	private makeTrackMetadata(song: BaseSong) {
 		const trackMeta: MalojaTrackMetadata = {
 			artist: song.getArtist() ?? '',
 			title: song.getTrack() ?? '',

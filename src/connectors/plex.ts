@@ -6,7 +6,12 @@ const plexFilter = MetadataFilter.createFilter({
 	album: removeUnknownAlbum,
 });
 
-Connector.playerSelector = '[class^=Player-miniPlayerContainer]';
+Connector.useMediaSessionApi();
+
+Connector.playerSelector = [
+	'[class^=PlayerContainer-container]',
+    '[class^=Player-miniPlayerContainer]',
+];
 
 Connector.trackSelector = `${titleContainer} a[class*=MetadataPosterTitle]`;
 
@@ -16,13 +21,10 @@ Connector.artistSelector = `${titleContainer} [class*=MetadataPosterTitle-title]
 
 Connector.timeInfoSelector = `${Connector.playerSelector} [class*=DurationRemaining-container]`;
 
-// @ifndef FIREFOX
-// NOTE: Blob URLs used in Plex aren't supported by Firefox 67 and older.
 Connector.trackArtSelector = [
 	`${Connector.playerSelector} [class^=PosterCardImg-imageContainer] div`,
 	'[class^=AudioVideoFullPlayer] [class^=PosterCardImg-imageContainer] div',
 ];
-// @endif
 
 Connector.pauseButtonSelector = [
 	`${Connector.playerSelector} [data-testid="pauseButton"]`,

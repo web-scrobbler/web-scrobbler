@@ -7,6 +7,7 @@ import {
 } from '@/core/storage/options';
 import {
 	ListenBrainzModel,
+	WebhookModel,
 	Properties,
 	StateManagement,
 } from '@/core/storage/wrapper';
@@ -61,8 +62,8 @@ export function debugLog(text: unknown, logType: DebugLogType = 'log'): void {
  * @returns Seconds to scrobble
  */
 export function getSecondsToScrobble(
-	duration: number,
-	percent: number
+	duration: number | null | undefined,
+	percent: number,
 ): number {
 	if (isDurationInvalid(duration)) {
 		return DEFAULT_SCROBBLE_TIME;
@@ -112,8 +113,9 @@ export function hideObjectValue(
 		| { token?: string }
 		| Properties
 		| ListenBrainzModel
+		| WebhookModel
 		| StateManagement
-		| RegexEdit[]
+		| RegexEdit[],
 ): string {
 	if (!keyValue) {
 		if (keyValue === null) {
@@ -136,7 +138,9 @@ export function hideObjectValue(
  * @param duration - Duration in seconds
  * @returns Check result
  */
-function isDurationInvalid(duration: number) {
+function isDurationInvalid(
+	duration: number | null | undefined,
+): duration is null | undefined {
 	return (
 		!duration ||
 		typeof duration !== 'number' ||
@@ -153,7 +157,7 @@ function isDurationInvalid(duration: number) {
  */
 export function timeoutPromise<T>(
 	timeout: number,
-	promise: Promise<T>
+	promise: Promise<T>,
 ): Promise<T> {
 	return new Promise((resolve, reject) => {
 		const timeoutId = setTimeout(() => {
@@ -167,7 +171,7 @@ export function timeoutPromise<T>(
 			(err) => {
 				clearTimeout(timeoutId);
 				reject(err);
-			}
+			},
 		);
 	});
 }
@@ -226,7 +230,7 @@ export function createArtistURL(artist: string | null | undefined): string {
  */
 export function createAlbumURL(
 	artist: string | null | undefined,
-	album: string | null | undefined
+	album: string | null | undefined,
 ): string {
 	if (!album || !artist) {
 		return '';
@@ -242,7 +246,7 @@ export function createAlbumURL(
  */
 export function createTrackURL(
 	artist: string | null | undefined,
-	track?: string | null | undefined
+	track?: string | null | undefined,
 ): string {
 	if (!track || !artist) {
 		return '';
@@ -260,14 +264,54 @@ export function createTrackURL(
 export function createTrackLibraryURL(
 	username: string | null | undefined,
 	artist: string | null | undefined,
-	track: string | null | undefined
+	track: string | null | undefined,
 ): string {
 	if (!track || !artist || !username) {
 		return '';
 	}
 	return `https://www.last.fm/user/${encodeURIComponent(
-		username
+		username,
 	)}/library/music/${encodeURIComponent(artist)}/_/${encodeURIComponent(
-		track
+		track,
 	)}`;
+}
+
+/**
+ * Check if script is currently running in a background script.
+ *
+ * @returns true if running in background script, false if running in any other context including popup.
+ */
+export function isBackgroundScript(): boolean {
+	// on chromium, no window in background script.
+	if (!self.window) {
+		return true;
+	}
+	// on firefox and safari, check for being in the generated background script
+	if (
+		(location.href.startsWith('safari-web-extension') ||
+			location.href.startsWith('moz-extension')) &&
+		location.href.endsWith('generated_background_page.html')
+	) {
+		return true;
+	}
+	return false;
+}
+
+/**
+ * Attempt to fetch listenbrainz profile HTML.
+ *
+ * @param url - URL of listenbrainz instance
+ * @returns html of profile, null if response error
+ */
+export async function fetchListenBrainzProfile(url: string) {
+	const res = await fetch(url, {
+		method: 'GET',
+		// #v-ifdef VITE_FIREFOX
+		credentials: 'same-origin',
+		// #v-endif
+	});
+	if (!res.ok) {
+		return null;
+	}
+	return res.text();
 }

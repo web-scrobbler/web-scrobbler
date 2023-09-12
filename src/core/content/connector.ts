@@ -497,7 +497,7 @@ export default class BaseConnector {
 		originUrl: null,
 	};
 
-	// @ifdef DEBUG
+	// #v-ifdef VITE_DEV
 	/**
 	 * List of song fields used to check if song is changed. If any of
 	 * these fields are changed, the new song is playing.
@@ -509,7 +509,7 @@ export default class BaseConnector {
 		'albumArtist',
 		'uniqueID',
 	];
-	// @endif
+	// #v-endif
 	private mediaSessionFields: (keyof State)[] = [
 		'artist',
 		'track',
@@ -696,7 +696,7 @@ export default class BaseConnector {
 					this.controllerCallback(this.filteredState, changedFields);
 				}
 
-				// @ifdef DEBUG
+				// #v-ifdef VITE_DEV
 				if (changedFields.includes('isPlaying')) {
 					Util.debugLog(
 						`isPlaying state changed to ${
@@ -713,7 +713,7 @@ export default class BaseConnector {
 						break;
 					}
 				}
-				// @endif
+				// #v-endif
 			}
 		};
 

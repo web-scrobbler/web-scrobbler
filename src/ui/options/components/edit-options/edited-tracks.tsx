@@ -47,7 +47,7 @@ export function EditsModal() {
 			<h1>
 				{t(
 					'optionsEditedTracksPopupTitle',
-					Object.keys(edits() ?? {}).length.toString()
+					Object.keys(edits() ?? {}).length.toString(),
 				)}
 			</h1>
 			<ul>
@@ -67,9 +67,13 @@ export function EditsModal() {
 function TrackInfo(props: {
 	key: string;
 	track: Options.SavedEdit;
-	mutate: Setter<{
-		[key: string]: Options.SavedEdit;
-	} | null>;
+	mutate: Setter<
+		| {
+				[key: string]: Options.SavedEdit;
+		  }
+		| null
+		| undefined
+	>;
 }) {
 	return (
 		<li class={styles.deleteListing}>

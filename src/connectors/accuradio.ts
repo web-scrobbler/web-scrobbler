@@ -14,6 +14,8 @@ Connector.trackArtSelector = '#albumArtImg';
 
 Connector.pauseButtonSelector = '#playerPauseButton';
 
+Connector.timeInfoSelector = '#progressWrapper';
+
 function getScrollableText(selector: string) {
 	return (
 		Util.getTextFromSelectors(`${selector} div`) ||

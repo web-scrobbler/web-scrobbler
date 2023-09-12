@@ -61,7 +61,7 @@ const DUMMY_CONNECTOR = {
  */
 function createSong(
 	parsedData: ParsedSongData,
-	processedData?: ProcessedSongData
+	processedData?: ProcessedSongData,
 ) {
 	const parsedDataCopy: ParsedSongData = {};
 	for (const prop in defaultParsedData) {
@@ -143,7 +143,7 @@ function testGetDuration() {
 	it('should return parsed duration if no processed duration', () => {
 		const song = createSong(
 			{ duration: parsedDuration },
-			{ duration: processedDuration }
+			{ duration: processedDuration },
 		);
 		expect(song.getDuration()).equals(parsedDuration);
 	});
@@ -378,11 +378,13 @@ function testEquals() {
 	});
 
 	it('should not equal null value', () => {
-		expect(songWithUniqueId.equals(null as any)).to.be.false;
+		// @ts-expect-error we are explicitly testing bad format here
+		expect(songWithUniqueId.equals(null)).to.be.false;
 	});
 
 	it('should not equal non-song object', () => {
-		expect(songWithUniqueId.equals(23 as any)).to.be.false;
+		// @ts-expect-error we are explicitly testing bad format here
+		expect(songWithUniqueId.equals(23)).to.be.false;
 	});
 }
 

@@ -126,6 +126,7 @@ const storageTypeMap = {
 	LibreFM: LOCAL,
 	ListenBrainz: LOCAL,
 	Maloja: LOCAL,
+	Webhook: LOCAL,
 
 	[LOCAL_CACHE]: LOCAL,
 	[REGEX_EDITS]: LOCAL,
@@ -141,7 +142,7 @@ const storageTypeMap = {
  * @throws if unknown namespace is specified
  */
 export function getStorage<K extends StorageNamespace>(
-	namespace: K
+	namespace: K,
 ): StorageWrapper<K> {
 	const storageType = storageTypeMap[namespace];
 	switch (storageType) {
@@ -160,7 +161,7 @@ export function getStorage<K extends StorageNamespace>(
  * @returns StorageWrapper instance
  */
 export function getScrobblerStorage<K extends keyof DataModels>(
-	namespace: StorageNamespace
+	namespace: StorageNamespace,
 ): StorageWrapper<K> {
 	return getLocalStorage(namespace);
 }
@@ -171,7 +172,7 @@ export function getScrobblerStorage<K extends keyof DataModels>(
  * @returns StorageWrapper instance
  */
 export function getLocalStorage<K extends keyof DataModels>(
-	namespace: StorageNamespace
+	namespace: StorageNamespace,
 ): StorageWrapper<K> {
 	const storageArea = browser.storage.local;
 	return new StorageWrapper(storageArea, namespace);
@@ -184,7 +185,7 @@ export function getLocalStorage<K extends keyof DataModels>(
  * @returns StorageWrapper instance
  */
 export function getSyncStorage<K extends keyof DataModels>(
-	namespace: StorageNamespace
+	namespace: StorageNamespace,
 ): StorageWrapper<K> {
 	const storageArea = browser.storage.sync || browser.storage.local;
 	return new StorageWrapper(storageArea, namespace);

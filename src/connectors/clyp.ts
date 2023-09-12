@@ -6,7 +6,7 @@ function setup() {
 	} else if (isCardsPlayerPage()) {
 		setupCardsPlayer();
 	} else {
-		console.warn('Unmapped page found');
+		Util.debugLog('Unmapped page found', 'warn');
 	}
 }
 

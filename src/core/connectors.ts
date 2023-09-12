@@ -59,7 +59,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'SoundCloud',
-		matches: ['*://soundcloud.com/*'],
+		matches: ['*://soundcloud.com/*', '*://m.soundcloud.com/*'],
 		js: 'soundcloud.js',
 		id: 'soundcloud',
 	},
@@ -1661,10 +1661,13 @@ export default <ConnectorMeta[]>[
 		id: 'navidrome',
 	},
 	{
-		label: 'turntable.fm',
-		matches: ['*://turntable.fm/*'],
-		js: 'turntable.fm.js',
-		id: 'turntable.fm',
+		label: 'deepcut.fm',
+		matches: [
+			'*://deepcut.fm/*',
+			'*://turntable.fm/*',
+			],
+		js: 'deepcut.fm.js',
+		id: 'deepcut.fm',
 	},
 	{
 		label: 'Burntable',
@@ -1926,7 +1929,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Beatbump',
-		matches: ['*://beatbump.ml/*'],
+		matches: ['*://beatbump.io/*'],
 		js: 'beatbump.js',
 		id: 'beatbump',
 	},
@@ -2099,5 +2102,44 @@ export default <ConnectorMeta[]>[
 		matches: ['*://*.fungjai.com/*'],
 		js: 'fungjai.js',
 		id: 'fungjai',
+	},
+	{
+		label: 'Radio Caprice',
+		matches: ['*://radcap.ru/*'],
+		js: 'radcap.js',
+		id: 'radcap',
+	},
+	{
+		label: 'TrackerHub',
+		matches: ['*://trackerhub.vercel.app/*'],
+		js: 'trackerhub.js',
+		id: 'trackerhub',
+	},
+	{
+		label: 'Gensokyo Radio',
+		matches: ['*://gensokyoradio.net/*'],
+		js: 'gensokyoradio.js',
+		id: 'gensokyoradio',
+	},
+	{
+		label: 'Stationhead',
+		matches: ['*://*stationhead.com/*'],
+		js: 'stationhead.js',
+		id: 'stationhead',
+	},
+	{
+		label: 'TECHNOBASE.FM',
+		matches: [
+			'*://*technobase.fm/*',
+			'*://*housetime.fm/*',
+			'*://*hardbase.fm/*',
+			'*://*trancebase.fm/*',
+			'*://*coretime.fm/*',
+			'*://*clubtime.fm/*',
+			'*://*teatime.fm/*',
+			'*://*replay.fm/*',
+		],
+		js: 'technobase.fm.js',
+		id: 'technobase.fm',
 	},
 ];

@@ -3,6 +3,7 @@ import * as BrowserStorage from '@/core/storage/browser-storage';
 import { ManagerTab } from '@/core/storage/wrapper';
 import {
 	backgroundListener,
+	sendBackgroundMessage,
 	setupBackgroundListeners,
 } from '@/util/communication';
 import browser from 'webextension-polyfill';
@@ -23,11 +24,12 @@ import {
 } from './util';
 import {
 	ControllerModeStr,
-	controllerModePriorityObject,
+	isPrioritizedMode,
 } from '@/core/object/controller/controller';
 import { CloneableSong } from '@/core/object/song';
 import {
 	clearNowPlaying,
+	showAuthNotification,
 	showNowPlaying,
 	showSongNotRecognized,
 } from '@/util/notifications';
@@ -35,6 +37,16 @@ import ClonedSong from '@/core/object/cloned-song';
 import { openTab } from '@/util/util-browser';
 import { setRegexDefaults } from '@/util/regex';
 import { attemptInjectAllTabs } from './inject';
+import {
+	getSongInfo,
+	scrobble,
+	sendNowPlaying,
+	sendPaused,
+	sendResumedPlaying,
+	toggleLove,
+} from './scrobble';
+import scrobbleService from '../object/scrobble-service';
+import { fetchListenBrainzProfile } from '@/util/util';
 
 const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
 
@@ -45,6 +57,48 @@ browser.tabs.onRemoved.addListener(onTabRemoved);
 browser.tabs.onUpdated.addListener(onTabUpdated);
 browser.tabs.onActivated.addListener(onTabActivated);
 browser.contextMenus?.onClicked.addListener(contextMenuHandler);
+browser.commands?.onCommand.addListener(commandHandler);
+
+/**
+ * Handle user commands (hotkeys) to the extension.
+ *
+ * @param command - The command that was used
+ */
+async function commandHandler(command: string) {
+	const tab = await getCurrentTab();
+
+	switch (command) {
+		case 'toggle-connector':
+			if (tab.mode === ControllerMode.Disabled) {
+				enableConnector(tab.tabId);
+			} else {
+				disableConnector(tab.tabId);
+			}
+			break;
+		case 'love-song':
+			setLoveStatus(tab.tabId, true);
+			break;
+		case 'unlove-song':
+			setLoveStatus(tab.tabId, false);
+			break;
+	}
+}
+
+/**
+ * Set love status of song
+ *
+ * @param tabId	- Tab ID of the tab to update
+ * @param isLoved - Whether the song is loved
+ *
+ */
+function setLoveStatus(tabId: number, isLoved: boolean) {
+	sendBackgroundMessage(tabId ?? -1, {
+		type: 'toggleLove',
+		payload: {
+			isLoved: isLoved,
+		},
+	});
+}
 
 /**
  * Update action and context menus to reflect a tab being closed.
@@ -75,7 +129,7 @@ async function onTabRemoved(tabId: number) {
  * @param activeInfo - Information about the switch of tabs
  */
 async function onTabActivated(
-	activeInfo: browser.Tabs.OnActivatedActiveInfoType
+	activeInfo: browser.Tabs.OnActivatedActiveInfoType,
 ) {
 	await updateTabList(activeInfo.tabId, true);
 }
@@ -91,7 +145,7 @@ async function onTabActivated(
 async function onTabUpdated(
 	tabId: number,
 	changeInfo: browser.Tabs.OnUpdatedChangeInfoType,
-	tab?: browser.Tabs.Tab
+	tab?: browser.Tabs.Tab,
 ) {
 	if (tab?.active && changeInfo.status === 'complete') {
 		await updateTabList(tabId, false);
@@ -113,15 +167,12 @@ async function updateTabList(tabId: number, activated: boolean) {
 
 	const curTab = await getActiveTabDetails(newTabs, tabId);
 
-	if (
-		controllerModePriorityObject[curTab.mode] !== 0 &&
-		curTab.tabId === tabId
-	) {
+	if (isPrioritizedMode[curTab.mode] && curTab.tabId === tabId) {
 		if (activated) {
 			newTabs = [curTab, ...newTabs];
 		} else {
 			newTabs = newTabs.map((active) =>
-				active.tabId === tabId ? curTab : active
+				active.tabId === tabId ? curTab : active,
 			);
 		}
 	}
@@ -142,7 +193,7 @@ async function updateTabList(tabId: number, activated: boolean) {
  */
 async function updateTab(
 	tabId: number | undefined,
-	fn: (tab: ManagerTab) => ManagerTab
+	fn: (tab: ManagerTab) => ManagerTab,
 ): Promise<void> {
 	if (!tabId) {
 		throw new Error('No tabid given');
@@ -216,7 +267,7 @@ async function updateMode(tabId: number | undefined, mode: ControllerModeStr) {
  */
 async function updateState(
 	tabId: number | undefined,
-	song: CloneableSong | null
+	song: CloneableSong | null,
 ) {
 	await updateTab(tabId, (oldTab) => ({
 		tabId: oldTab.tabId,
@@ -274,9 +325,89 @@ setupBackgroundListeners(
 				payload.connector,
 				() => {
 					openTab(sender.tab?.id ?? -1);
-				}
+				},
 			);
 		},
+	}),
+
+	/**
+	 * Listener called by a controller to trigger sending of now playing info.
+	 */
+	backgroundListener({
+		type: 'setNowPlaying',
+		fn: (payload, sender) => {
+			return sendNowPlaying(
+				new ClonedSong(payload.song, sender.tab?.id ?? -1),
+			);
+		},
+	}),
+
+	/**
+	 * Listener called by a controller to trigger sending paused song on every pause.
+	 */
+	backgroundListener({
+		type: 'setPaused',
+		fn: (payload, sender) => {
+			return sendPaused(
+				new ClonedSong(payload.song, sender.tab?.id ?? -1),
+			);
+		},
+	}),
+
+	/**
+	 * Listener called by a controller to trigger sending playing song on every resumed play.
+	 */
+	backgroundListener({
+		type: 'setResumedPlaying',
+		fn: (payload, sender) => {
+			return sendResumedPlaying(
+				new ClonedSong(payload.song, sender.tab?.id ?? -1),
+			);
+		},
+	}),
+
+	/**
+	 * Listener called by a controller to trigger a scrobble.
+	 */
+	backgroundListener({
+		type: 'scrobble',
+		fn: (payload, sender) => {
+			return scrobble(new ClonedSong(payload.song, sender.tab?.id ?? -1));
+		},
+	}),
+
+	/**
+	 * Listener called by a controller to trigger getting song info.
+	 */
+	backgroundListener({
+		type: 'getSongInfo',
+		fn: (payload, sender) => {
+			return getSongInfo(
+				new ClonedSong(payload.song, sender.tab?.id ?? -1),
+			);
+		},
+	}),
+
+	/**
+	 * Listener called by a controller to love or unlove a song.
+	 */
+	backgroundListener({
+		type: 'toggleLove',
+		fn: (payload, sender) => {
+			return toggleLove(
+				new ClonedSong(payload.song, sender.tab?.id ?? -1),
+				payload.isLoved,
+			);
+		},
+	}),
+
+	/**
+	 * Listener called by a content script to attempt signing into musicbrainz.
+	 * This has to be done in background script, as safari blocks sending necessary cookies in other scripts.
+	 */
+	backgroundListener({
+		type: 'sendListenBrainzRequest',
+		fn: async (payload) => fetchListenBrainzProfile(payload.url),
 	}),
 
 	/**
@@ -300,7 +431,7 @@ setupBackgroundListeners(
 				payload.connector,
 				() => {
 					openTab(sender.tab?.id ?? -1);
-				}
+				},
 			);
 		},
 	}),
@@ -317,8 +448,37 @@ setupBackgroundListeners(
 				browserPreferredTheme: payload,
 			});
 		},
-	})
+	}),
 );
+
+/**
+ * Replace the extension version stored in local storage by current one.
+ */
+async function updateVersionInStorage() {
+	const storage = BrowserStorage.getStorage(BrowserStorage.CORE);
+	let data = await storage.get();
+	if (!data) {
+		data = {
+			appVersion: '',
+		};
+	}
+
+	data.appVersion = browser.runtime.getManifest().version;
+	await storage.set(data);
+
+	storage.debugLog();
+}
+
+/**
+ * Ask a scrobble service to bind scrobblers.
+ *
+ * @returns true if at least one scrobbler is registered;
+ *          false if no scrobblers are registered
+ */
+async function bindScrobblers() {
+	const boundScrobblers = await scrobbleService.bindAllScrobblers();
+	return boundScrobblers.length > 0;
+}
 
 /**
  * Sets up the starting state of the extension on browser startup/extension install.
@@ -330,6 +490,13 @@ function onStartup() {
 	disabledTabs.set({});
 
 	setRegexDefaults();
+	updateVersionInStorage();
+	bindScrobblers().then((bound) => {
+		if (!bound) {
+			console.warn('No scrobblers are bound');
+			showAuthNotification();
+		}
+	});
 
 	browser.contextMenus?.create({
 		id: contextMenus.ENABLE_CONNECTOR,

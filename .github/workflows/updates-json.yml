@@ -9,8 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Get the extension version from ref
-        id: get-version
-        run: echo ::set-output name=EXT_VERSION::${GITHUB_REF/refs\/tags\//}
+        run: echo "EXT_VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
 
       - name: Request updating `updates.json` for Firefox
         run: |
@@ -22,4 +21,4 @@ jobs:
         env:
           GH_FA_TOKEN: ${{ secrets.GH_FA_TOKEN }}
           REPOSITORY: web-scrobbler/updates.json
-          VERSION: ${{ steps.get-version.outputs.EXT_VERSION }}
+          VERSION: ${{ env.EXT_VERSION }}

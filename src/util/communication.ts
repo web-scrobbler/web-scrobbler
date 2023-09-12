@@ -1,6 +1,8 @@
 import { ConnectorMeta } from '@/core/connectors';
 import { ControllerModeStr } from '@/core/object/controller/controller';
+import { ServiceCallResult } from '@/core/object/service-call-result';
 import { CloneableSong } from '@/core/object/song';
+import { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
 import { ManagerTab } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
 
@@ -53,6 +55,49 @@ interface ContentCommunications {
 		payload: 'dark' | 'light';
 		response: void;
 	};
+	setNowPlaying: {
+		payload: {
+			song: CloneableSong;
+		};
+		response: Promise<ServiceCallResult[]>;
+	};
+	setPaused: {
+		payload: {
+			song: CloneableSong;
+		};
+		response: void;
+	};
+	setResumedPlaying: {
+		payload: {
+			song: CloneableSong;
+		};
+		response: void;
+	};
+	scrobble: {
+		payload: {
+			song: CloneableSong;
+		};
+		response: Promise<ServiceCallResult[]>;
+	};
+	getSongInfo: {
+		payload: {
+			song: CloneableSong;
+		};
+		response: Promise<(Record<string, never> | ScrobblerSongInfo | null)[]>;
+	};
+	toggleLove: {
+		payload: {
+			song: CloneableSong;
+			isLoved: boolean;
+		};
+		response: Promise<(ServiceCallResult | Record<string, never>)[]>;
+	};
+	sendListenBrainzRequest: {
+		payload: {
+			url: string;
+		};
+		response: Promise<string | null>;
+	};
 }
 
 interface BackgroundCommunications {
@@ -65,6 +110,12 @@ interface BackgroundCommunications {
 		response: void;
 	};
 	toggleLove: {
+		payload: {
+			isLoved: boolean;
+		};
+		response: void;
+	};
+	updateLove: {
 		payload: {
 			isLoved: boolean;
 		};
@@ -111,23 +162,23 @@ interface SpecificContentListener<K extends keyof BackgroundCommunications> {
 	type: K;
 	fn: (
 		payload: BackgroundCommunications[K]['payload'],
-		sender: browser.Runtime.MessageSender
+		sender: browser.Runtime.MessageSender,
 	) => BackgroundCommunications[K]['response'];
 }
 
 type ContentListener = <R>(
 	cont: <T extends keyof BackgroundCommunications>(
-		prop: SpecificContentListener<T>
-	) => R
+		prop: SpecificContentListener<T>,
+	) => R,
 ) => R;
 
 export function contentListener<T extends keyof BackgroundCommunications>(
-	property: SpecificContentListener<T>
+	property: SpecificContentListener<T>,
 ): ContentListener {
 	return <R>(
 		cont: <T extends keyof BackgroundCommunications>(
-			prop: SpecificContentListener<T>
-		) => R
+			prop: SpecificContentListener<T>,
+		) => R,
 	) => cont(property);
 }
 
@@ -138,6 +189,7 @@ interface BackgroundMessage<K extends keyof BackgroundCommunications> {
 
 export function setupContentListeners(...listeners: ContentListener[]) {
 	browser.runtime.onMessage.addListener(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(message: BackgroundMessage<any>, sender) => {
 			let done = false;
 			for (const l of listeners) {
@@ -152,15 +204,15 @@ export function setupContentListeners(...listeners: ContentListener[]) {
 					return Promise.resolve(response);
 				}
 			}
-		}
+		},
 	);
 }
 
 export async function sendBackgroundMessage<
-	K extends keyof BackgroundCommunications
+	K extends keyof BackgroundCommunications,
 >(
 	tabId: number,
-	message: BackgroundMessage<K>
+	message: BackgroundMessage<K>,
 ): Promise<BackgroundCommunications[K]['response']> {
 	return browser.tabs.sendMessage(tabId, message);
 }
@@ -173,23 +225,23 @@ interface SpecificBackgroundListener<K extends keyof ContentCommunications> {
 	type: K;
 	fn: (
 		payload: ContentCommunications[K]['payload'],
-		sender: browser.Runtime.MessageSender
+		sender: browser.Runtime.MessageSender,
 	) => ContentCommunications[K]['response'];
 }
 
 type BackgroundListener = <R>(
 	cont: <T extends keyof ContentCommunications>(
-		prop: SpecificBackgroundListener<T>
-	) => R
+		prop: SpecificBackgroundListener<T>,
+	) => R,
 ) => R;
 
 export function backgroundListener<T extends keyof ContentCommunications>(
-	property: SpecificBackgroundListener<T>
+	property: SpecificBackgroundListener<T>,
 ): BackgroundListener {
 	return <R>(
 		cont: <T extends keyof ContentCommunications>(
-			prop: SpecificBackgroundListener<T>
-		) => R
+			prop: SpecificBackgroundListener<T>,
+		) => R,
 	) => cont(property);
 }
 
@@ -200,6 +252,7 @@ interface ContentMessage<K extends keyof ContentCommunications> {
 
 export function setupBackgroundListeners(...listeners: BackgroundListener[]) {
 	browser.runtime.onMessage.addListener(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		(message: ContentMessage<any>, sender) => {
 			let done = false;
 			for (const l of listeners) {
@@ -214,12 +267,12 @@ export function setupBackgroundListeners(...listeners: BackgroundListener[]) {
 					return Promise.resolve(response);
 				}
 			}
-		}
+		},
 	);
 }
 
 export async function sendContentMessage<K extends keyof ContentCommunications>(
-	message: ContentMessage<K>
+	message: ContentMessage<K>,
 ): Promise<ContentCommunications[K]['response']> {
 	return browser.runtime.sendMessage(message);
 }
@@ -232,23 +285,23 @@ interface SpecificPopupListener<K extends keyof PopupCommunications> {
 	type: K;
 	fn: (
 		payload: PopupCommunications[K]['payload'],
-		sender: browser.Runtime.MessageSender
+		sender: browser.Runtime.MessageSender,
 	) => PopupCommunications[K]['response'];
 }
 
 type PopupListener = <R>(
 	cont: <T extends keyof PopupCommunications>(
-		prop: SpecificPopupListener<T>
-	) => R
+		prop: SpecificPopupListener<T>,
+	) => R,
 ) => R;
 
 export function popupListener<T extends keyof PopupCommunications>(
-	property: SpecificPopupListener<T>
+	property: SpecificPopupListener<T>,
 ): PopupListener {
 	return <R>(
 		cont: <T extends keyof PopupCommunications>(
-			prop: SpecificPopupListener<T>
-		) => R
+			prop: SpecificPopupListener<T>,
+		) => R,
 	) => cont(property);
 }
 
@@ -259,6 +312,7 @@ interface PopupMessage<K extends keyof PopupCommunications> {
 
 export function setupPopupListeners(...listeners: PopupListener[]) {
 	browser.runtime.onMessage.addListener(
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any -- Set regardless of previous state
 		(message: PopupMessage<any>, sender) => {
 			let done = false;
 			for (const l of listeners) {
@@ -273,12 +327,12 @@ export function setupPopupListeners(...listeners: PopupListener[]) {
 					return Promise.resolve(response);
 				}
 			}
-		}
+		},
 	);
 }
 
 export async function sendPopupMessage<K extends keyof PopupCommunications>(
-	message: PopupMessage<K>
+	message: PopupMessage<K>,
 ): Promise<PopupCommunications[K]['response']> {
 	return browser.runtime.sendMessage(message);
 }

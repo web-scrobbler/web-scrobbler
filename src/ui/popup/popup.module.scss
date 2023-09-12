@@ -83,8 +83,15 @@ a {
 		gap: 0.25em;
 		max-width: 50ch;
 		min-width: 30ch;
+		overflow: hidden;
 		padding: 0.5em 1em;
+		text-overflow: ellipsis;
 		white-space: nowrap;
+
+		a {
+			white-space: nowrap;
+			width: fit-content;
+		}
 
 		@supports (-webkit-touch-callout: none) {
 			.editField {

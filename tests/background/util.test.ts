@@ -215,6 +215,8 @@ function runTests() {
 		const description = func.name;
 
 		describe(description, () => {
+			// TODO: type gymnastics
+			// @ts-ignore type gymnastics required on this one. It works.
 			testFunction(func, data);
 		});
 	}
@@ -226,7 +228,8 @@ function runTests() {
 function testDebugLog() {
 	it('should throw an error if type is invalid', () => {
 		function callInvalidDebugLog() {
-			Util.debugLog('Test', 'invalid_type123' as any);
+			// @ts-expect-error we are explicitly testing bad format here
+			Util.debugLog('Test', 'invalid_type123');
 		}
 
 		expect(callInvalidDebugLog).to.throw();
@@ -271,7 +274,10 @@ function testTimeoutPromise() {
  * @param func - Function to be tested
  * @param testData - Array of test data
  */
-function testFunction(func: (...args: any[]) => unknown, testData: TestData[]) {
+function testFunction(
+	func: (...args: unknown[]) => unknown,
+	testData: TestData[],
+) {
 	const boundFunc = func.bind(Util);
 
 	for (const data of testData) {

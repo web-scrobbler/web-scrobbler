@@ -2,7 +2,7 @@
  * Timer object.
  */
 export default class Timer {
-	private targetSeconds: number | null = null;
+	private targetSeconds: number | null | undefined = null;
 	private startedOn: number | null = null;
 	private pausedOn: number | null = null;
 	private spentPaused = 0;
@@ -58,7 +58,11 @@ export default class Timer {
 			this.spentPaused += now() - this.pausedOn;
 			this.pausedOn = null;
 
-			if (!this.hasTriggered && this.targetSeconds !== null) {
+			if (
+				!this.hasTriggered &&
+				this.targetSeconds !== null &&
+				this.targetSeconds !== undefined
+			) {
 				this.setTrigger(this.targetSeconds - this.getElapsed());
 			}
 		}
@@ -78,12 +82,15 @@ export default class Timer {
 	 *
 	 * @param seconds - Seconds
 	 */
-	update(seconds: number | null): void {
+	update(seconds: number | null | undefined): void {
 		// only if timer was started
 		if (this.startedOn !== null) {
 			this.targetSeconds = seconds;
 
-			if (this.targetSeconds !== null) {
+			if (
+				this.targetSeconds !== null &&
+				this.targetSeconds !== undefined
+			) {
 				if (this.pausedOn === null) {
 					this.setTrigger(this.targetSeconds - this.getElapsed());
 				}
@@ -98,7 +105,7 @@ export default class Timer {
 	 * @returns Remaining seconds
 	 */
 	getRemainingSeconds(): number | null {
-		if (this.targetSeconds === null) {
+		if (this.targetSeconds === null || this.targetSeconds === undefined) {
 			return null;
 		}
 

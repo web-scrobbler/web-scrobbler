@@ -16,10 +16,20 @@ if (eggsIsArtistPage) {
 	observer.observe(document.body, { childList: true });
 } else {
 	if ('player' in window) {
-		(window.player as any).addEventListener(
-			'onStateChange',
-			eggsOnYoutubeSongStateChange
-		);
+		(
+			window.player as {
+				addEventListener: (
+					_: string,
+					__: (ev: {
+						data: number;
+						target: {
+							getCurrentTime: () => number;
+							getDuration: () => number;
+						};
+					}) => void,
+				) => void;
+			}
+		).addEventListener('onStateChange', eggsOnYoutubeSongStateChange);
 	}
 }
 
@@ -35,7 +45,7 @@ function eggsToggleExternalPlayer(mutationList: MutationRecord[]) {
 		// external player has been closed
 		if (
 			(removedList[0] as HTMLElement).classList.contains(
-				'fancybox-overlay'
+				'fancybox-overlay',
 			)
 		) {
 			eggsOnYoutubeClose();
@@ -46,7 +56,7 @@ function eggsToggleExternalPlayer(mutationList: MutationRecord[]) {
 
 function eggsReplaceYoutubeVideo() {
 	const videoFrame = document.querySelector(
-		'.fancybox-inner iframe'
+		'.fancybox-inner iframe',
 	) as HTMLIFrameElement;
 	eggsVideoId = videoFrame.src.split('/').pop()?.split('?')[0];
 
@@ -62,7 +72,7 @@ function eggsReplaceYoutubeVideo() {
 		videoFrame.contentWindow &&
 			videoFrame.contentWindow.postMessage(
 				message,
-				'https://www.youtube.com'
+				'https://www.youtube.com',
 			);
 
 		message = JSON.stringify({
@@ -75,7 +85,7 @@ function eggsReplaceYoutubeVideo() {
 		videoFrame.contentWindow &&
 			videoFrame.contentWindow.postMessage(
 				message,
-				'https://www.youtube.com'
+				'https://www.youtube.com',
 			);
 	});
 }
@@ -95,7 +105,7 @@ window.addEventListener('message', (event) => {
 	}
 });
 
-function eggsOnYoutubeStateChange(data: any) {
+function eggsOnYoutubeStateChange(data: { info: number }) {
 	const currentPlayer = document.querySelector(`a[href*="${eggsVideoId}"]`);
 	const parentElmt =
 		(currentPlayer && currentPlayer.closest('li')) || document;
@@ -112,14 +122,14 @@ function eggsOnYoutubeStateChange(data: any) {
 			},
 			trackInfo: {
 				artist: parentElmt.querySelector(
-					`.artist_name${eggsIsArtistPage ? '' : ' a'}`
+					`.artist_name${eggsIsArtistPage ? '' : ' a'}`,
 				)?.textContent,
 				track: parentElmt.querySelector(
-					`.product_name${eggsIsArtistPage ? ' a' : ' p'}`
+					`.product_name${eggsIsArtistPage ? ' a' : ' p'}`,
 				)?.textContent,
 			},
 		},
-		'*'
+		'*',
 	);
 }
 
@@ -138,18 +148,21 @@ function eggsOnYoutubeClose() {
 			},
 			trackInfo: {
 				artist: parentElmt.querySelector(
-					`.artist_name${eggsIsArtistPage ? '' : ' a'}`
+					`.artist_name${eggsIsArtistPage ? '' : ' a'}`,
 				)?.textContent,
 				track: parentElmt.querySelector(
-					`.product_name${eggsIsArtistPage ? ' a' : ' p'}`
+					`.product_name${eggsIsArtistPage ? ' a' : ' p'}`,
 				)?.textContent,
 			},
 		},
-		'*'
+		'*',
 	);
 }
 
-function eggsOnYoutubeSongStateChange(event: any) {
+function eggsOnYoutubeSongStateChange(event: {
+	data: number;
+	target: { getCurrentTime: () => number; getDuration: () => number };
+}) {
 	const currentPlayer = document.querySelector(`a[href*="${eggsVideoId}"]`);
 	const parentElmt =
 		(currentPlayer && currentPlayer.closest('li')) || document;
@@ -166,18 +179,20 @@ function eggsOnYoutubeSongStateChange(event: any) {
 			},
 			trackInfo: {
 				artist: parentElmt.querySelector(
-					`.artist_name${eggsIsArtistPage ? '' : ' a'}`
+					`.artist_name${eggsIsArtistPage ? '' : ' a'}`,
 				)?.textContent,
 				track: parentElmt.querySelector(
-					`.product_name${eggsIsArtistPage ? ' a' : ' p'}`
+					`.product_name${eggsIsArtistPage ? ' a' : ' p'}`,
 				)?.textContent,
 			},
 		},
-		'*'
+		'*',
 	);
 }
 
-function eggsGetTimestamps(data: any) {
+function eggsGetTimestamps(data: {
+	info?: { currentTime?: number; duration?: number };
+}) {
 	if (data.info) {
 		if (data.info.currentTime) {
 			eggsCurrentTime = data.info.currentTime;

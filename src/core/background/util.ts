@@ -3,10 +3,7 @@ import { ManagerTab, StateManagement } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import * as BrowserStorage from '@/core/storage/browser-storage';
-import {
-	controllerModePriority,
-	controllerModePriorityObject,
-} from '@/core/object/controller/controller';
+import { isPrioritizedMode } from '@/core/object/controller/controller';
 import { performUpdateAction } from './action';
 import { sendBackgroundMessage } from '@/util/communication';
 
@@ -107,16 +104,12 @@ export async function getActiveTabDetails(
 	tabs: ManagerTab[],
 	tabId?: number
 ): Promise<ManagerTab> {
-	const tab = getPriorityTabDetails(tabs, tabId);
+	const tab = getPriorityTabDetails(tabs);
 	if (!tabId) {
 		tabId = await getCurrentTabId();
 	}
 	const curTab = await getTabDetails(tabId);
-	if (
-		tab &&
-		controllerModePriorityObject[tab.mode] >
-			controllerModePriorityObject[curTab.mode]
-	) {
+	if (tab && !isPrioritizedMode[curTab.mode]) {
 		return tab;
 	}
 	return curTab;
@@ -159,22 +152,10 @@ async function getTabDetails(tabId: number): Promise<ManagerTab> {
  * @param tabId - Currently active tab id if known
  * @returns the tab that is the current priority for action state
  */
-function getPriorityTabDetails(
-	tabs: ManagerTab[],
-	tabId?: number
-): ManagerTab | null {
-	for (const priorityGroup of controllerModePriority.slice(0, -1)) {
-		let toReturn: ManagerTab | null = null;
-		for (const tab of tabs) {
-			if (priorityGroup.includes(tab.mode)) {
-				if (tabId && tab.tabId === tabId) {
-					return tab;
-				}
-				toReturn = tab;
-			}
-		}
-		if (toReturn) {
-			return toReturn;
+function getPriorityTabDetails(tabs: ManagerTab[]): ManagerTab | null {
+	for (const tab of tabs) {
+		if (isPrioritizedMode[tab.mode]) {
+			return tab;
 		}
 	}
 	return null;
@@ -199,7 +180,7 @@ export async function getCurrentTabId() {
  * @returns tab details
  */
 export async function getCurrentTab(): Promise<ManagerTab> {
-	const curState = await getState();
+	const curState = (await state.get()) ?? DEFAULT_STATE;
 	return getActiveTabDetails(curState.activeTabs);
 }
 

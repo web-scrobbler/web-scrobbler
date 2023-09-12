@@ -23,7 +23,7 @@ Connector.currentTimeSelector = '.player-PlayerProgress__progress--2F0qB>span';
 Connector.durationSelector = '.player-PlayerProgress__timeTotal--3aHlj span';
 
 Connector.isPlaying = () =>
-	Util.getTextFromSelectors(pauseButtonSelector) === 'Pause';
+	Util.getTextFromSelectors(pauseButtonSelector)?.toUpperCase() === 'PAUSE';
 
 Connector.isScrobblingAllowed = () =>
 	Util.getTextFromSelectors('.player-PlayerInfo__recordingInfo--15VMv') !==

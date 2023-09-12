@@ -23,10 +23,6 @@ export const common: Manifest.WebExtensionManifest = {
 		},
 	],
 
-	background: {
-		scripts: ['background/main.js'],
-	},
-
 	web_accessible_resources: [
 		{
 			resources: ['connectors/*'],
@@ -49,6 +45,18 @@ export const common: Manifest.WebExtensionManifest = {
 	},
 
 	action: getAction(releaseTarget),
+
+	commands: {
+		'toggle-connector': {
+			description: '__MSG_hotkeyToggleConnector__',
+		},
+		'love-song': {
+			description: '__MSG_hotkeyLoveSong__',
+		},
+		'unlove-song': {
+			description: '__MSG_hotkeyUnloveSong__',
+		},
+	},
 };
 
 /**
@@ -66,6 +74,10 @@ export const chromeManifest: Manifest.WebExtensionManifest = {
  */
 export const safariManifest: Manifest.WebExtensionManifest = {
 	...common,
+	background: {
+		scripts: ['background/main.js'],
+		persistent: false,
+	},
 };
 
 /**
@@ -73,6 +85,9 @@ export const safariManifest: Manifest.WebExtensionManifest = {
  */
 export const firefoxManifest: Manifest.WebExtensionManifest = {
 	...common,
+	background: {
+		scripts: ['background/main.js'],
+	},
 
 	browser_specific_settings: {
 		gecko: {
