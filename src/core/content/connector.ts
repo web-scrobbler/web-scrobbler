@@ -538,9 +538,19 @@ export default class BaseConnector {
 	/**
 	 * Callback set by the controller to listen on state changes of this connector.
 	 */
-	public controllerCallback:
-		| ((state: State, fields: (keyof State)[]) => void)
-		| null = null;
+	private _controllerCallback: ((state: State) => void) | null = null;
+
+	/**
+	 * Callback set by the controller to listen on state changes of this connector.
+	 */
+	public get controllerCallback(): ((state: State) => void) | null {
+		return this._controllerCallback;
+	}
+
+	public set controllerCallback(callback: (state: State) => void) {
+		callback(this.getCurrentState());
+		this._controllerCallback = callback;
+	}
 
 	/**
 	 * Function for all the hard work around detecting and updating state.
@@ -630,10 +640,7 @@ export default class BaseConnector {
 			}
 
 			if (this.controllerCallback !== null) {
-				this.controllerCallback(
-					{},
-					Object.keys(this.defaultState) as (keyof State)[],
-				);
+				this.controllerCallback({});
 			}
 
 			this.isStateReset = true;
@@ -693,7 +700,7 @@ export default class BaseConnector {
 				this.filterState(changedFields);
 
 				if (this.controllerCallback !== null) {
-					this.controllerCallback(this.filteredState, changedFields);
+					this.controllerCallback(this.filteredState);
 				}
 
 				// #v-ifdef VITE_DEV

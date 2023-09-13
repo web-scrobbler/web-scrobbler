@@ -1,12 +1,13 @@
 import { getConnectorByUrl } from '@/util/util-connector';
 import browser from 'webextension-polyfill';
-import { sendBackgroundMessage } from '@/util/communication';
 
 /**
  * Attempts to inject the connector into the page.
  *
+ * Function does not wait for injection to finish, because it can hang if the tab is asleep.
+ *
  * @param tab - The tab to inject the connector into
- * @returns A promise that resolves when the connector is injected
+ * @returns A promise that resolves when the connector is being injected.
  */
 async function updateTab(tab: browser.Tabs.Tab) {
 	if (typeof tab.id === 'undefined') {
@@ -38,9 +39,10 @@ async function injectConnector(tabId: number, url: string) {
 		return;
 	}
 
-	if (await isConnectorInjected(tabId)) {
-		return;
-	}
+	/**
+	 * Important note: We do not check if the script already exists here.
+	 * As scripts are always invalidated on reload, and this only runs on install, there is no need.
+	 */
 
 	try {
 		return injectScripts(tabId);
@@ -56,31 +58,12 @@ async function injectConnector(tabId: number, url: string) {
  *
  * @param tabId - The tab to inject the script into
  */
-async function injectScripts(tabId: number) {
+function injectScripts(tabId: number) {
 	const script = 'content/main.js';
-	await browser.scripting.executeScript({
+	browser.scripting.executeScript({
 		target: { tabId },
 		files: [script],
 	});
-}
-
-/**
- * Checks if a connector is already injected into a tab
- *
- * @param tabId - The tab to check
- * @returns true if the connector is injected, false otherwise
- */
-async function isConnectorInjected(tabId: number) {
-	// Ping the content page to see if the script is already in place.
-	try {
-		await sendBackgroundMessage(tabId, {
-			type: 'ping',
-			payload: undefined,
-		});
-		return true;
-	} catch (e) {
-		return false;
-	}
 }
 
 /**
