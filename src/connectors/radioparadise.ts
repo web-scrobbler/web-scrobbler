@@ -1,19 +1,24 @@
 export {};
 
-Connector.playerSelector = '.content-wrapper';
+Connector.playerSelector = '#conductor-wrapper';
 
 Connector.albumSelector = '#now_playing .album';
-Connector.artistSelector = '#now_playing .artist';
-Connector.trackSelector = '#now_playing .title';
+Connector.artistSelector = '.player-bar .player-artist';
+Connector.trackSelector = '.player-bar .player-title';
 
-Connector.isPlaying = () => Util.hasElementClass('#play-button', 'active');
+Connector.isPlaying = () => {
+	return (
+		Util.getAttrFromSelectors('#global-player mat-icon', 'title') ===
+		'Pause'
+	);
+};
 
-Connector.trackArtSelector = '#now_playing img.album-cover';
+Connector.trackArtSelector = '.player-bar img.player-cover';
 
 Connector.isScrobblingAllowed = () => {
 	return (
-		!Util.getTextFromSelectors('#now_playing .title')?.includes(
-			'Listener-supported'
+		!Util.getTextFromSelectors('.player-bar .player-title')?.includes(
+			'Listener-supported',
 		) && !Connector.getArtist()?.startsWith('Commercial-Free')
 	);
 };
