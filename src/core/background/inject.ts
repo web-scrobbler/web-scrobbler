@@ -9,7 +9,7 @@ import browser from 'webextension-polyfill';
  * @param tab - The tab to inject the connector into
  * @returns A promise that resolves when the connector is being injected.
  */
-async function updateTab(tab: browser.Tabs.Tab) {
+async function attemptInjectTab(tab: browser.Tabs.Tab) {
 	if (typeof tab.id === 'undefined') {
 		throw new Error('Could not identify tab: ' + tab);
 	}
@@ -45,25 +45,16 @@ async function injectConnector(tabId: number, url: string) {
 	 */
 
 	try {
-		return injectScripts(tabId);
+		const script = 'content/main.js';
+		browser.scripting.executeScript({
+			target: { tabId },
+			files: [script],
+		});
 	} catch (err) {
 		if (err instanceof Error) {
 			console.warn(err.message);
 		}
 	}
-}
-
-/**
- * Inject content script into a tab.
- *
- * @param tabId - The tab to inject the script into
- */
-function injectScripts(tabId: number) {
-	const script = 'content/main.js';
-	browser.scripting.executeScript({
-		target: { tabId },
-		files: [script],
-	});
 }
 
 /**
@@ -76,7 +67,7 @@ export async function attemptInjectAllTabs() {
 	const tabs = await browser.tabs?.query({});
 	for (const tab of tabs ?? []) {
 		try {
-			await updateTab(tab);
+			await attemptInjectTab(tab);
 		} catch (err) {
 			console.warn('Error while injecting into tab: ', err);
 		}
