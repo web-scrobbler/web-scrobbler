@@ -10,35 +10,35 @@
  * @returns a cleanup function that cleans up event listeners and similar for a future overriding script.
  */
 
-interface Player {
-	addEventListener: (
-		_: string,
-		__: (ev: {
-			data: number;
-			target: {
-				getCurrentTime: () => number;
-				getDuration: () => number;
-			};
-		}) => void,
-	) => void;
-	removeEventListener: (
-		_: string,
-		__: (ev: {
-			data: number;
-			target: {
-				getCurrentTime: () => number;
-				getDuration: () => number;
-			};
-		}) => void,
-	) => void;
-}
-
 // cleanup previous script
 if ('cleanup' in window && typeof window.cleanup === 'function') {
 	window.cleanup();
 }
 
 (window as unknown as { cleanup: () => void }).cleanup = (() => {
+	interface Player {
+		addEventListener: (
+			_: string,
+			__: (ev: {
+				data: number;
+				target: {
+					getCurrentTime: () => number;
+					getDuration: () => number;
+				};
+			}) => void,
+		) => void;
+		removeEventListener: (
+			_: string,
+			__: (ev: {
+				data: number;
+				target: {
+					getCurrentTime: () => number;
+					getDuration: () => number;
+				};
+			}) => void,
+		) => void;
+	}
+
 	const isArtistPage = window.location.href.includes('/artist/');
 	let frameID = '';
 	let currentTime = 0;
