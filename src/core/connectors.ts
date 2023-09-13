@@ -1650,10 +1650,10 @@ export default <ConnectorMeta[]>[
 		id: 'nicovideo',
 	},
 	{
-		label: 'СберЗвук',
-		matches: ['*://sber-zvuk.com/*'],
-		js: 'sber-zvuk.js',
-		id: 'sber-zvuk',
+		label: 'Звук',
+		matches: ['*://zvuk.com/*'],
+		js: 'zvuk.js',
+		id: 'zvuk',
 	},
 	{
 		label: 'Navidrome',
@@ -1662,10 +1662,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'deepcut.fm',
-		matches: [
-			'*://deepcut.fm/*',
-			'*://turntable.fm/*',
-			],
+		matches: ['*://deepcut.fm/*', '*://turntable.fm/*'],
 		js: 'deepcut.fm.js',
 		id: 'deepcut.fm',
 	},
