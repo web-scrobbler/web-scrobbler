@@ -308,7 +308,7 @@ export default class BaseConnector {
 	 * @returns Check result
 	 */
 	public isTrackArtDefault: (
-		trackArtUrl?: string | null | undefined
+		trackArtUrl?: string | null | undefined,
 	) => boolean | null | undefined = () => false;
 
 	/**
@@ -351,7 +351,7 @@ export default class BaseConnector {
 	 * @param event - Event object
 	 */
 	public onScriptEvent: (
-		event: MessageEvent<Record<string, unknown>>
+		event: MessageEvent<Record<string, unknown>>,
 	) => void = () => {
 		// Do nothing
 	};
@@ -362,8 +362,8 @@ export default class BaseConnector {
 	private defaultFilter = MetadataFilter.createFilter(
 		MetadataFilter.createFilterSetForFields(
 			['artist', 'track', 'album', 'albumArtist'],
-			[(text) => text.trim(), MetadataFilter.replaceNbsp]
-		)
+			[(text) => text.trim(), MetadataFilter.replaceNbsp],
+		),
 	);
 
 	/**
@@ -430,7 +430,7 @@ export default class BaseConnector {
 				}
 
 				this.onScriptEvent(event);
-			}
+			},
 		);
 
 		window.webScrobblerScripts[scriptFile] = true;
@@ -590,13 +590,13 @@ export default class BaseConnector {
 
 		this.getTimeInfo = () => {
 			return Util.splitTimeInfo(
-				Util.getTextFromSelectors(this.timeInfoSelector)
+				Util.getTextFromSelectors(this.timeInfoSelector),
 			);
 		};
 
 		this.getArtistTrack = () => {
 			return Util.splitArtistTrack(
-				Util.getTextFromSelectors(this.artistTrackSelector)
+				Util.getTextFromSelectors(this.artistTrackSelector),
 			);
 		};
 
@@ -632,7 +632,7 @@ export default class BaseConnector {
 			if (this.controllerCallback !== null) {
 				this.controllerCallback(
 					{},
-					Object.keys(this.defaultState) as (keyof State)[]
+					Object.keys(this.defaultState) as (keyof State)[],
 				);
 			}
 
@@ -701,14 +701,14 @@ export default class BaseConnector {
 					Util.debugLog(
 						`isPlaying state changed to ${
 							newState.isPlaying?.toString() ?? 'undefined'
-						}`
+						}`,
 					);
 				}
 
 				for (const field of this.fieldsToCheckSongChange) {
 					if (changedFields.includes(field)) {
 						Util.debugLog(
-							JSON.stringify(this.filteredState, null, 2)
+							JSON.stringify(this.filteredState, null, 2),
 						);
 						break;
 					}
@@ -745,7 +745,7 @@ export default class BaseConnector {
 			Util.fillEmptyFields(
 				newState,
 				mediaSessionInfo,
-				this.mediaSessionFields
+				this.mediaSessionFields,
 			);
 
 			const remainingTime = Math.abs(this.getRemainingTime() ?? 0);
@@ -770,7 +770,7 @@ export default class BaseConnector {
 				Util.fillEmptyFields(
 					newState,
 					trackInfo,
-					Object.keys(this.defaultState) as (keyof State)[]
+					Object.keys(this.defaultState) as (keyof State)[],
 				);
 			}
 
@@ -802,7 +802,7 @@ export default class BaseConnector {
 						fieldValue =
 							this.metadataFilter.filterField(
 								field,
-								fieldValue as string
+								fieldValue as string,
 							) || this.defaultState[field];
 						break;
 					}
@@ -834,7 +834,25 @@ export default class BaseConnector {
 
 		this.stateChangedWorkerThrottled = Util.throttle(
 			this.stateChangedWorker,
-			500
+			500,
 		);
+
+		/**
+		 * Schedule a call to onstatechanged for a second ahead.
+		 *
+		 * When reloading/updating the extension, the site might not have a setup where there are regular updates especially if there is no seekbar
+		 * This ensures one call to onStateChanged is eventually done to get web scrobbler up to speed.
+		 *
+		 * This is only useful if a reload/update happens during a song being played, which invalidates extension context and requires us to recover everything.
+		 * In any other case it should essentially do nothing.
+		 *
+		 * Wait for one second to allow connector to initialize.
+		 *
+		 * This has to be in an anonymous call as we need to call what the onstatechanged function is then, not what it is now.
+		 * Connectors may have already overridden onstatechanged by that time.
+		 */
+		setTimeout(() => {
+			this.onStateChanged();
+		}, 1000);
 	}
 }
