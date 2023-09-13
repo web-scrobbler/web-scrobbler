@@ -148,10 +148,6 @@ interface BackgroundCommunications {
 		payload: undefined;
 		response: void;
 	};
-	ping: {
-		payload: undefined;
-		response: true;
-	};
 }
 
 /**

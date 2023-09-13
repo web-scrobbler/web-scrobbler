@@ -165,10 +165,6 @@ export default class Controller {
 					song: this.currentSong?.getCloneableData() ?? null,
 				}),
 			}),
-			contentListener({
-				type: 'ping',
-				fn: () => true,
-			}),
 		);
 	}
 
