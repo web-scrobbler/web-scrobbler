@@ -39,6 +39,7 @@ export type ControllerModeStr =
  * Priorities of each state as an object
  */
 export const isPrioritizedMode: Partial<Record<ControllerModeStr, true>> = {
+	[ControllerMode.Disallowed]: true,
 	[ControllerMode.Playing]: true,
 	[ControllerMode.Scrobbled]: true,
 	[ControllerMode.Loading]: true,
@@ -68,6 +69,15 @@ export default class Controller {
 	private currentSong: Song | null = null;
 	private isReplayingSong = false;
 	private shouldScrobblePodcasts = true;
+
+	private forceScrobble = false;
+	private shouldHaveScrobbled = false;
+	private shouldScrobble = () => {
+		if (this.forceScrobble) {
+			return true;
+		}
+		return this.currentSong?.parsed.isScrobblingAllowed;
+	};
 
 	private isEditing = false;
 	private setNotEditingTimeout = setTimeout(() => {
@@ -165,6 +175,17 @@ export default class Controller {
 					song: this.currentSong?.getCloneableData() ?? null,
 				}),
 			}),
+			contentListener({
+				type: 'forceScrobbleSong',
+				fn: () => {
+					this.forceScrobble = true;
+					if (this.shouldHaveScrobbled) {
+						void this.scrobbleSong();
+					} else {
+						void this.setSongNowPlaying();
+					}
+				},
+			}),
 		);
 	}
 
@@ -199,7 +220,7 @@ export default class Controller {
 		switch (event) {
 			case ControllerEvents.SongNowPlaying: {
 				const song = this.getCurrentSong();
-				if (!song || song.flags.isReplaying) {
+				if (!song || song.flags.isReplaying || !this.shouldScrobble()) {
 					return;
 				}
 				const id = await this.tabId;
@@ -230,7 +251,7 @@ export default class Controller {
 			}
 			case ControllerEvents.SongUnrecognized: {
 				const song = this.getCurrentSong();
-				if (!song) {
+				if (!song || !this.shouldScrobble()) {
 					return;
 				}
 				const id = await this.tabId;
@@ -534,13 +555,20 @@ export default class Controller {
 			return;
 		}
 
-		const { currentTime, isPlaying, trackArt, duration } = newState;
+		const {
+			currentTime,
+			isPlaying,
+			trackArt,
+			duration,
+			isScrobblingAllowed,
+		} = newState;
 		const isPlayingStateChanged =
 			this.currentSong.parsed.isPlaying !== isPlaying;
 
 		this.currentSong.parsed.currentTime = currentTime;
 		this.currentSong.parsed.isPlaying = isPlaying;
 		this.currentSong.parsed.trackArt = trackArt;
+		this.currentSong.parsed.isScrobblingAllowed = isScrobblingAllowed;
 
 		if (this.isNeedToUpdateDuration(newState) && duration) {
 			this.updateSongDuration(duration);
@@ -567,9 +595,14 @@ export default class Controller {
 	 * Process song using pipeline module.
 	 */
 	private async processSong(): Promise<void> {
-		this.setMode(ControllerMode.Loading);
 		if (!assertSongNotNull(this.currentSong)) {
 			return;
+		}
+
+		if (this.shouldScrobble()) {
+			this.setMode(ControllerMode.Loading);
+		} else {
+			this.setMode(ControllerMode.Disallowed);
 		}
 
 		if (!(await this.pipeline.process(this.currentSong, this.connector))) {
@@ -590,7 +623,9 @@ export default class Controller {
 			 * If the song is playing, mark it immediately;
 			 * otherwise will be flagged in isPlaying binding.
 			 */
-			if (this.currentSong.parsed.isPlaying) {
+			if (!this.shouldScrobble()) {
+				this.setMode(ControllerMode.Disallowed);
+			} else if (this.currentSong.parsed.isPlaying) {
 				/*
 					* If playback timer is expired, then the extension
 					* will scrobble song immediately, and there's no need
@@ -645,7 +680,11 @@ export default class Controller {
 			const { isMarkedAsPlaying } = this.currentSong.flags;
 
 			// Maybe the song was not marked as playing yet
-			if (!isMarkedAsPlaying && this.currentSong.isValid()) {
+			if (
+				!isMarkedAsPlaying &&
+				this.currentSong.isValid() &&
+				this.shouldScrobble()
+			) {
 				void this.setSongNowPlaying();
 			} else {
 				// Resend current mode
@@ -754,7 +793,7 @@ export default class Controller {
 	 * now playing.
 	 */
 	private async setSongNowPlaying(): Promise<void> {
-		if (!assertSongNotNull(this.currentSong)) {
+		if (!assertSongNotNull(this.currentSong) || !this.shouldScrobble()) {
 			return;
 		}
 		this.currentSong.flags.isMarkedAsPlaying = true;
@@ -842,6 +881,11 @@ export default class Controller {
 	 */
 	private async scrobbleSong(): Promise<void> {
 		if (!assertSongNotNull(this.currentSong)) {
+			return;
+		}
+
+		if (!this.shouldScrobble()) {
+			this.shouldHaveScrobbled = true;
 			return;
 		}
 

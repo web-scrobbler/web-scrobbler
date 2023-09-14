@@ -507,6 +507,22 @@
         "message": "Open options page",
         "description": "Button label"
     },
+    "disallowedHeader": {
+        "message": "Scrobbling is disabled",
+        "description": "The header of 'disallowed' popup"
+    },
+    "disallowedDesc1": {
+        "message": "Web Scrobbler has detected the song $2 by $1, but will not scrobble it.",
+        "description": "The description of 'disallowed' popup. $1 is the artist detected. $2 is the track detected"
+    },
+    "disallowedDesc2": {
+        "message": "This could be caused by your settings, especially on YouTube. Web Scrobbler will still scrobble elsewhere on this website.",
+        "description": "The description of 'disallowed' popup"
+    },
+    "disallowedButton": {
+        "message": "Scrobble anyway",
+        "description": "Button label"
+    },
     "unsupportedWebsiteHeader": {
         "message": "This website is not supported",
         "description": "The header of 'unsupported' popup"
