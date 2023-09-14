@@ -44,17 +44,11 @@ async function injectConnector(tabId: number, url: string) {
 	 * As scripts are always invalidated on reload, and this only runs on install, there is no need.
 	 */
 
-	try {
-		const script = 'content/main.js';
-		browser.scripting.executeScript({
-			target: { tabId },
-			files: [script],
-		});
-	} catch (err) {
-		if (err instanceof Error) {
-			console.warn(err.message);
-		}
-	}
+	const script = 'content/main.js';
+	browser.scripting.executeScript({
+		target: { tabId },
+		files: [script],
+	});
 }
 
 /**
