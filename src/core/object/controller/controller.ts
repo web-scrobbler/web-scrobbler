@@ -817,7 +817,7 @@ export default class Controller {
 	}
 
 	private async setPaused(): Promise<void> {
-		if (!assertSongNotNull(this.currentSong)) {
+		if (!assertSongNotNull(this.currentSong) || !this.shouldScrobble()) {
 			return;
 		}
 		await sendContentMessage({
@@ -829,7 +829,7 @@ export default class Controller {
 	}
 
 	private async setResumedPlaying(): Promise<void> {
-		if (!assertSongNotNull(this.currentSong)) {
+		if (!assertSongNotNull(this.currentSong) || !this.shouldScrobble()) {
 			return;
 		}
 		await sendContentMessage({
