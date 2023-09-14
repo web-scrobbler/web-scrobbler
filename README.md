@@ -7,6 +7,7 @@
 
 [![Chrome Web Store][WebStoreBadge]][WebStore]
 [![Addons.mozilla.org][AmoBadge]][Amo]
+[![iTunes App Store][AppleStoreBadge]][AppleStore]
 [![Microsoft Edge Addons][EdgeBadge]][Edge]
 
 [![Discord][DiscordBadge]][Discord]
@@ -39,6 +40,11 @@ Opera users can install the extension from Chrome Web Store using the
 ### Addons.mozilla.org
 
 For those who prefer Firefox, the extension is available on [Addons.mozilla.org][Amo].
+
+### Safari
+
+The extension is also available in the [Apple Store][AppleStore].
+
 
 ### Microsoft Edge Add-ons
 
@@ -106,6 +112,8 @@ Licensed under the [MIT License][License].
 [EdgeBadge]: https://img.shields.io/badge/dynamic/json?label=edge&logo=microsoft-edge&query=%24.version&url=https%3A%2F%2Fmicrosoftedge.microsoft.com%2Faddons%2Fgetproductdetailsbycrxid%2Fobiekdelmkmlgnhddmmnpnfhngejbnnc
 [GitHubActionsBadge]: https://img.shields.io/github/actions/workflow/status/web-scrobbler/web-scrobbler/test.yml
 [WebStoreBadge]: https://img.shields.io/chrome-web-store/v/hhinaapppaileiechjoiifaancjggfjm.svg?label=chrome&logo=google-chrome&logoColor=white
+[AppleStoreBadge]: https://img.shields.io/itunes/v/6449224218?label=safari&logo=apple&logoColor=white
+
 <!-- Docs -->
 
 [BuildInstructions]: https://github.com/web-scrobbler/web-scrobbler/wiki/Setup-development-environment
@@ -120,6 +128,7 @@ Licensed under the [MIT License][License].
 [Amo]: https://addons.mozilla.org/en-US/firefox/addon/web-scrobbler/
 [Edge]: https://microsoftedge.microsoft.com/addons/detail/web-scrobbler/obiekdelmkmlgnhddmmnpnfhngejbnnc
 [WebStore]: https://chrome.google.com/webstore/detail/lastfm-scrobbler/hhinaapppaileiechjoiifaancjggfjm
+[AppleStore]: https://apps.apple.com/app/web-scrobbler/id6449224218
 
 <!-- Other -->
 
