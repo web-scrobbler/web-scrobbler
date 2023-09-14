@@ -19,8 +19,8 @@ export default function Disallowed(props: { tab: Resource<ManagerTab> }) {
 	});
 
 	return (
-		<Show when={!isLoading()} fallback={<></>}>
-			<div class={styles.alertPopup}>
+		<Show when={!isLoading()}>
+			<div class={styles.widePopup}>
 				<MusicOff class={styles.bigIcon} />
 				<h1>{t('disallowedHeader')}</h1>
 				<p>
@@ -29,7 +29,27 @@ export default function Disallowed(props: { tab: Resource<ManagerTab> }) {
 						song()?.getTrack() ?? '???',
 					])}
 				</p>
-				<p>{t('disallowedDesc2')}</p>
+				<Show
+					when={song()?.metadata.label === 'YouTube'}
+					fallback={
+						<>
+							<p>{t('disallowedDesc2')}</p>
+							<ul>
+								<li>{t('disallowedDesc2Point1')}</li>
+								<li>{t('disallowedDesc2Point2')}</li>
+								<li>{t('disallowedDesc2Point3')}</li>
+							</ul>
+						</>
+					}
+				>
+					<p>{t('disallowedDescYoutube')}</p>
+					<ul>
+						<li>{t('disallowedDescYoutubePoint1')}</li>
+						<li>{t('disallowedDescYoutubePoint2')}</li>
+						<li>{t('disallowedDescYoutubePoint3')}</li>
+					</ul>
+				</Show>
+				<p>{t('disallowedDesc3')}</p>
 				<button
 					class={`${optionComponentStyles.resetButton} ${styles.centered}`}
 					onClick={() => {
