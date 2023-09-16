@@ -62,7 +62,7 @@
     "remark": "14.0.3",
     "remark-cli": "11.0.0",
     "remark-preset-lint-recommended": "6.1.3",
-    "sass": "1.66.1",
+    "sass": "1.67.0",
     "solid-js": "1.7.11",
     "stylelint-config-web-scrobbler": "0.2.0",
     "tsx": "3.12.8",
