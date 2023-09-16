@@ -46,7 +46,7 @@
     "archiver": "6.0.1",
     "canvas": "2.11.2",
     "chokidar": "3.5.3",
-    "esbuild": "0.19.2",
+    "esbuild": "0.19.3",
     "eslint": "8.49.0",
     "eslint-config-web-scrobbler": "2.1.1",
     "eslint-plugin-react": "7.33.2",
