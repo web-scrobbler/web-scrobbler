@@ -11,6 +11,7 @@ import type { ConnectorOptions } from '@/core/storage/options';
 import type { ControllerModeStr } from '@/core/object/controller/controller';
 import type { DebugLogType } from '@/util/util';
 
+import { t } from '@/util/i18n';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 
 const BrowserStorage = (async () => {
@@ -1035,37 +1036,22 @@ export function getOriginUrl(selector: string): string {
 
 export function getInfoBoxText(
 	mode: ControllerModeStr | undefined,
-	state: State
+	state: State,
 ) {
-	if (!mode || !state.artist || !state.track) {
-		return 'Loading...';
+	if (!mode) {
+		return t('pageActionLoading');
 	}
 
 	const trackInfo = `${state.artist} - ${state.track}`;
 	switch (mode) {
-		case ControllerMode.Base:
-		case ControllerMode.Loading:
-			return 'Loading...';
-		case ControllerMode.Playing:
-			return 'Will scrobble as ' + trackInfo;
-		case ControllerMode.Scrobbled:
-			return 'Scrobbled as ' + trackInfo;
-		case ControllerMode.Err:
-			return 'Scrobbler encountered an error';
-		case ControllerMode.Ignored:
-			return 'Track ignored';
-		case ControllerMode.Skipped:
-			return 'Track skipped';
-		case ControllerMode.Unknown:
-			return 'Track not recognised';
-		case ControllerMode.Disabled:
-			return 'Scrobbling disabled';
 		case ControllerMode.Disallowed:
-			return 'Scrobbling is not allowed due to an option';
-		case ControllerMode.Unsupported:
-			// This one should never be triggered
-			return 'Site not supported';
+			return t('infoBoxStateDisallowed', trackInfo);
+		case ControllerMode.Err:
+			return t('infoBoxStateError');
+		case ControllerMode.Unknown:
+			return t('infoBoxStateUnknown');
 		default:
-			return 'Unknown scrobble state';
+			// re-use existing translation messages
+			return t(`pageAction${mode}`, trackInfo);
 	}
 }
