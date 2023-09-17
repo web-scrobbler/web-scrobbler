@@ -138,7 +138,10 @@ export default class BaseConnector {
 	/**
 	 * Styles to apply to the infobox
 	 */
-	public scrobbleInfoStyle: Partial<CSSStyleDeclaration> | null = null;
+	public scrobbleInfoStyle: Partial<CSSStyleDeclaration> = {
+		display: 'flex',
+		gap: '0.5em',
+	};
 
 	/**
 	 * Selector of element contains a track art of now playing song.
@@ -721,14 +724,12 @@ export default class BaseConnector {
 			infoBoxElement = document.createElement('div');
 			infoBoxElement.setAttribute('id', 'scrobbler-infobox-el');
 
-			// style the infobox if defined
-			if (this.scrobbleInfoStyle) {
-				for (const prop in this.scrobbleInfoStyle) {
-					infoBoxElement.style.setProperty(
-						prop,
-						this.scrobbleInfoStyle[prop] || null,
-					);
-				}
+			// style the infobox
+			for (const prop in this.scrobbleInfoStyle) {
+				infoBoxElement.style.setProperty(
+					prop,
+					this.scrobbleInfoStyle[prop] || null,
+				);
 			}
 
 			parentEl.appendChild(infoBoxElement);
@@ -736,25 +737,48 @@ export default class BaseConnector {
 		};
 
 		this.updateInfoBox = () => {
+			let oldInfoBoxText: string | false = false;
 			const infoBoxElement = this.getInfoBoxElement();
 			if (!infoBoxElement) {
 				// clean up
 				const infoBoxElement = document.querySelector<HTMLDivElement>(
-					'#scrobbler-infobox-el'
+					'#scrobbler-infobox-el',
 				);
 				if (infoBoxElement) {
 					infoBoxElement.remove();
 				}
 				return;
+			} else {
+				const textEl = infoBoxElement.querySelector('span');
+				if (textEl) {
+					oldInfoBoxText = textEl.innerText;
+				}
 			}
 
 			const state = this.getCurrentState();
 			const mode = this.controller?.getMode();
+			const infoBoxText = Util.getInfoBoxText(mode, state);
 
-			infoBoxElement.innerHTML = `<h3>${Util.getInfoBoxText(
-				mode,
-				state
-			)}</h3>`;
+			// Check if infobox needs to be updated
+			if (!oldInfoBoxText || infoBoxText !== oldInfoBoxText) {
+				const img = document.createElement('img');
+				img.setAttribute(
+					'src',
+					browser.runtime.getURL('./icons/icon_main_48.png'),
+				);
+				img.setAttribute('alt', 'Web Scrobbler state:');
+				img.setAttribute('style', 'height: 1.2em');
+
+				const info = document.createElement('span');
+				info.innerText = infoBoxText;
+
+				// Clear old contents of infoBoxElement
+				while (infoBoxElement.firstChild) {
+					infoBoxElement.removeChild(infoBoxElement.firstChild);
+				}
+				infoBoxElement.appendChild(img);
+				infoBoxElement.appendChild(info);
+			}
 		};
 
 		this.stateChangedWorker = () => {
