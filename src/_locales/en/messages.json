@@ -512,7 +512,7 @@
         "description": "The header of 'disallowed' popup"
     },
     "disallowedDesc1": {
-        "message": "Web Scrobbler has detected the song $2 by $1, but will not scrobble it.",
+        "message": "Web Scrobbler has detected the song \"$2\" by \"$1\", but will not scrobble it.",
         "description": "The description of 'disallowed' popup on all sites including youtube. $1 is the artist detected. $2 is the track detected"
     },
     "disallowedDescYoutube": {
