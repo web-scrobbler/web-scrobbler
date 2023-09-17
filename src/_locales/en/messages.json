@@ -31,6 +31,14 @@
         "message": "Show notification if track is not recognized by the extension",
         "description": "Option title"
     },
+    "optionUseInfobox": {
+        "message": "Show infobox",
+        "description": "Option label"
+    },
+    "optionUseInfoboxTitle": {
+        "message": "Show web scrobbler infobox on page for supported websites",
+        "description": "Option title"
+    },
     "optionScrobblePodcasts": {
         "message": "Scrobble podcasts",
         "description": "Option label"

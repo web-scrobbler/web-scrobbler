@@ -200,6 +200,15 @@ function ConnectorOverrideOptionDetails(props: {
 				/>
 			</Show>
 			<ConnectorTripleCheckbox
+				title={t('optionUseInfoboxTitle')}
+				label={t('optionUseInfobox')}
+				connector={connector}
+				option={Options.USE_INFOBOX}
+				overrideOptions={overrideOptions}
+				setOverrideOptions={setOverrideOptions}
+				connectorOverrideOptions={connectorOverrideOptions}
+			/>
+			<ConnectorTripleCheckbox
 				title={t('optionScrobblePodcastsTitle')}
 				label={t('optionScrobblePodcasts')}
 				connector={connector}

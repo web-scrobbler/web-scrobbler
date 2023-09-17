@@ -3,6 +3,7 @@ import browser from 'webextension-polyfill';
 import { ArtistTrackInfo, BaseState, State, TimeInfo } from '@/core/types';
 import * as Util from '@/core/content/util';
 import Controller from '@/core/object/controller/controller';
+import * as Options from '@/core/storage/options';
 import { ConnectorMeta } from '../connectors';
 
 export default class BaseConnector {
@@ -695,7 +696,11 @@ export default class BaseConnector {
 		};
 
 		this.getInfoBoxElement = (): HTMLDivElement | null => {
-			if (!this.scrobbleInfoLocationSelector) {
+			if (
+				!this.scrobbleInfoLocationSelector ||
+				// infobox is disabled in options
+				!Options.getOption(Options.USE_INFOBOX, this.meta.id)
+			) {
 				return null;
 			}
 
