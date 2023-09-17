@@ -87,6 +87,11 @@ setupEventListener();
 Connector.playerSelector = ['#content', '#player'];
 
 Connector.scrobbleInfoLocationSelector = '#primary #title.ytd-watch-metadata';
+Connector.scrobbleInfoStyle = {
+	...Connector.scrobbleInfoStyle,
+	fontSize: '1.17em',
+	fontWeight: '700',
+};
 
 Connector.getTrackInfo = () => {
 	const trackInfo: TrackInfoWithAlbum = {};
