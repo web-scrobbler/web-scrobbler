@@ -1043,13 +1043,29 @@ export function getInfoBoxText(
 
 	const trackInfo = `${state.artist} - ${state.track}`;
 	switch (mode) {
+		case ControllerMode.Base:
 		case ControllerMode.Loading:
 			return 'Loading...';
 		case ControllerMode.Playing:
 			return 'Will scrobble as ' + trackInfo;
 		case ControllerMode.Scrobbled:
 			return 'Scrobbled as ' + trackInfo;
+		case ControllerMode.Err:
+			return 'Scrobbler encountered an error';
+		case ControllerMode.Ignored:
+			return 'Track ignored';
+		case ControllerMode.Skipped:
+			return 'Track skipped';
+		case ControllerMode.Unknown:
+			return 'Track not recognised';
+		case ControllerMode.Disabled:
+			return 'Scrobbling disabled';
+		case ControllerMode.Disallowed:
+			return 'Scrobbling is not allowed due to an option';
+		case ControllerMode.Unsupported:
+			// This one should never be triggered
+			return 'Site not supported';
 		default:
-			return "Won't scrobble";
+			return 'Unknown scrobble state';
 	}
 }
