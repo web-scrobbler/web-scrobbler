@@ -138,6 +138,7 @@ export default class BaseConnector {
 
 	/**
 	 * Styles to apply to the infobox
+	 * this is in camelCase so its fontSize, not font-size
 	 */
 	public scrobbleInfoStyle: Partial<CSSStyleDeclaration> = {
 		display: 'flex',
@@ -731,10 +732,7 @@ export default class BaseConnector {
 
 			// style the infobox
 			for (const prop in this.scrobbleInfoStyle) {
-				infoBoxElement.style.setProperty(
-					prop,
-					this.scrobbleInfoStyle[prop] || null,
-				);
+				infoBoxElement.style[prop] = this.scrobbleInfoStyle[prop] ?? '';
 			}
 
 			parentEl.appendChild(infoBoxElement);
