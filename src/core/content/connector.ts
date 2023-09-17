@@ -131,7 +131,7 @@ export default class BaseConnector {
 	public playerSelector: string | string[] | null = null;
 
 	/**
-	 * TODO: write info
+	 * This selector is used to determine where to inject the infobox
 	 */
 	public scrobbleInfoLocationSelector: string | null = null;
 
