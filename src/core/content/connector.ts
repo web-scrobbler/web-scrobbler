@@ -136,6 +136,11 @@ export default class BaseConnector {
 	public scrobbleInfoLocationSelector: string | null = null;
 
 	/**
+	 * Styles to apply to the infobox
+	 */
+	public scrobbleInfoStyle: Partial<CSSStyleDeclaration> | null = null;
+
+	/**
 	 * Selector of element contains a track art of now playing song.
 	 * Default implementation looks for track art URL in `src` attribute or
 	 * `background-image` (`background`) CSS property of given element.
@@ -715,6 +720,17 @@ export default class BaseConnector {
 			// if it was not in the correct place or didn't exist, create it
 			infoBoxElement = document.createElement('div');
 			infoBoxElement.setAttribute('id', 'scrobbler-infobox-el');
+
+			// style the infobox if defined
+			if (this.scrobbleInfoStyle) {
+				for (const prop in this.scrobbleInfoStyle) {
+					infoBoxElement.style.setProperty(
+						prop,
+						this.scrobbleInfoStyle[prop] || null,
+					);
+				}
+			}
+
 			parentEl.appendChild(infoBoxElement);
 			return infoBoxElement;
 		};
