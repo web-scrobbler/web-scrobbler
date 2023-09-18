@@ -30,6 +30,7 @@ import {
 	Navigator,
 	getMobileNavigatorGroup,
 } from '../options/components/navigator';
+import Disallowed from './disallowed';
 
 /**
  * List of modes that have a settings button in the popup content, dont show supplementary settings icon.
@@ -58,7 +59,7 @@ const contextMenuModes = [
 function Popup() {
 	const [tab, setTab] = createResource(getCurrentTab);
 	const [navigatorResource, { refetch }] = createResource(
-		getMobileNavigatorGroup
+		getMobileNavigatorGroup,
 	);
 
 	createEffect(() => {
@@ -82,7 +83,7 @@ function Popup() {
 			fn: (currentTab) => {
 				setTab.mutate(currentTab);
 			},
-		})
+		}),
 	);
 
 	return (
@@ -110,6 +111,9 @@ function Popup() {
 					}
 				>
 					<NowPlaying tab={tab} />
+				</Match>
+				<Match when={tab()?.mode === ControllerMode.Disallowed}>
+					<Disallowed tab={tab} />
 				</Match>
 				<Match when={tab()?.mode === ControllerMode.Unknown}>
 					<Edit tab={tab} />

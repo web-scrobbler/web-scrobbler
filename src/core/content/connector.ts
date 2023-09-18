@@ -308,7 +308,7 @@ export default class BaseConnector {
 	 * @returns Check result
 	 */
 	public isTrackArtDefault: (
-		trackArtUrl?: string | null | undefined
+		trackArtUrl?: string | null | undefined,
 	) => boolean | null | undefined = () => false;
 
 	/**
@@ -351,7 +351,7 @@ export default class BaseConnector {
 	 * @param event - Event object
 	 */
 	public onScriptEvent: (
-		event: MessageEvent<Record<string, unknown>>
+		event: MessageEvent<Record<string, unknown>>,
 	) => void = () => {
 		// Do nothing
 	};
@@ -362,8 +362,8 @@ export default class BaseConnector {
 	private defaultFilter = MetadataFilter.createFilter(
 		MetadataFilter.createFilterSetForFields(
 			['artist', 'track', 'album', 'albumArtist'],
-			[(text) => text.trim(), MetadataFilter.replaceNbsp]
-		)
+			[(text) => text.trim(), MetadataFilter.replaceNbsp],
+		),
 	);
 
 	/**
@@ -430,7 +430,7 @@ export default class BaseConnector {
 				}
 
 				this.onScriptEvent(event);
-			}
+			},
 		);
 
 		window.webScrobblerScripts[scriptFile] = true;
@@ -495,6 +495,7 @@ export default class BaseConnector {
 		trackArt: null,
 		isPodcast: false,
 		originUrl: null,
+		isScrobblingAllowed: true,
 	};
 
 	// #v-ifdef VITE_DEV
@@ -590,13 +591,13 @@ export default class BaseConnector {
 
 		this.getTimeInfo = () => {
 			return Util.splitTimeInfo(
-				Util.getTextFromSelectors(this.timeInfoSelector)
+				Util.getTextFromSelectors(this.timeInfoSelector),
 			);
 		};
 
 		this.getArtistTrack = () => {
 			return Util.splitArtistTrack(
-				Util.getTextFromSelectors(this.artistTrackSelector)
+				Util.getTextFromSelectors(this.artistTrackSelector),
 			);
 		};
 
@@ -632,7 +633,7 @@ export default class BaseConnector {
 			if (this.controllerCallback !== null) {
 				this.controllerCallback(
 					{},
-					Object.keys(this.defaultState) as (keyof State)[]
+					Object.keys(this.defaultState) as (keyof State)[],
 				);
 			}
 
@@ -662,11 +663,6 @@ export default class BaseConnector {
 		};
 
 		this.stateChangedWorker = () => {
-			if (!this.isScrobblingAllowed()) {
-				this.resetState();
-				return;
-			}
-
 			this.isStateReset = false;
 
 			const changedFields: (keyof State)[] = [];
@@ -701,14 +697,14 @@ export default class BaseConnector {
 					Util.debugLog(
 						`isPlaying state changed to ${
 							newState.isPlaying?.toString() ?? 'undefined'
-						}`
+						}`,
 					);
 				}
 
 				for (const field of this.fieldsToCheckSongChange) {
 					if (changedFields.includes(field)) {
 						Util.debugLog(
-							JSON.stringify(this.filteredState, null, 2)
+							JSON.stringify(this.filteredState, null, 2),
 						);
 						break;
 					}
@@ -726,6 +722,7 @@ export default class BaseConnector {
 				isPlaying: this.isPlaying(),
 				isPodcast: this.isPodcast(),
 				originUrl: this.getOriginUrl(),
+				isScrobblingAllowed: this.isScrobblingAllowed(),
 			};
 
 			let mediaSessionInfo = null;
@@ -745,7 +742,7 @@ export default class BaseConnector {
 			Util.fillEmptyFields(
 				newState,
 				mediaSessionInfo,
-				this.mediaSessionFields
+				this.mediaSessionFields,
 			);
 
 			const remainingTime = Math.abs(this.getRemainingTime() ?? 0);
@@ -770,7 +767,7 @@ export default class BaseConnector {
 				Util.fillEmptyFields(
 					newState,
 					trackInfo,
-					Object.keys(this.defaultState) as (keyof State)[]
+					Object.keys(this.defaultState) as (keyof State)[],
 				);
 			}
 
@@ -802,7 +799,7 @@ export default class BaseConnector {
 						fieldValue =
 							this.metadataFilter.filterField(
 								field,
-								fieldValue as string
+								fieldValue as string,
 							) || this.defaultState[field];
 						break;
 					}
@@ -834,7 +831,7 @@ export default class BaseConnector {
 
 		this.stateChangedWorkerThrottled = Util.throttle(
 			this.stateChangedWorker,
-			500
+			500,
 		);
 	}
 }
