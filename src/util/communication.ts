@@ -148,6 +148,10 @@ interface BackgroundCommunications {
 		payload: undefined;
 		response: void;
 	};
+	forceScrobbleSong: {
+		payload: undefined;
+		response: void;
+	};
 }
 
 /**

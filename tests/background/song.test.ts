@@ -66,8 +66,7 @@ function createSong(
 	const parsedDataCopy: ParsedSongData = {};
 	for (const prop in defaultParsedData) {
 		const typedProp = prop as keyof ParsedSongData;
-		//@ts-expect-error - it doesnt like this
-		parsedDataCopy[typedProp] =
+		parsedDataCopy[typedProp] = //@ts-expect-error - it doesnt like this
 			parsedData[typedProp] || defaultParsedData[typedProp];
 	}
 

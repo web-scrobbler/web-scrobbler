@@ -26,20 +26,20 @@ import { t } from '@/util/i18n';
 
 const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 const connectorOverrideOptions = BrowserStorage.getStorage(
-	BrowserStorage.CONNECTORS_OVERRIDE_OPTIONS
+	BrowserStorage.CONNECTORS_OVERRIDE_OPTIONS,
 );
 const customPatterns = BrowserStorage.getStorage(
-	BrowserStorage.CUSTOM_PATTERNS
+	BrowserStorage.CUSTOM_PATTERNS,
 );
 
 const [options, setOptions] = createResource(
-	globalOptions.get.bind(globalOptions)
+	globalOptions.get.bind(globalOptions),
 );
 const [overrideOptions, setOverrideOptions] = createResource(
-	connectorOverrideOptions.get.bind(connectorOverrideOptions)
+	connectorOverrideOptions.get.bind(connectorOverrideOptions),
 );
 const [customPatternOptions, setCustomPatternOptions] = createResource(
-	customPatterns.get.bind(customPatterns)
+	customPatterns.get.bind(customPatterns),
 );
 
 /**
@@ -52,7 +52,7 @@ export default function ConnectorOverrideOptions() {
 			<p>{t('optionsEnableDisableHint')}</p>
 			{/* eslint-disable-next-line */}
 			<p innerHTML={t('optionsCustomPatternsHint')} />
-			<ul class={styles.connectorOptionsList}>
+			<ul class={`${styles.connectorOptionsList} ${styles.optionList}`}>
 				<li>
 					<Settings />
 					<Checkbox
@@ -75,7 +75,7 @@ export default function ConnectorOverrideOptions() {
 								});
 							} else {
 								const disabledConnectors = Object.fromEntries(
-									connectors.map((c) => [c.id, true])
+									connectors.map((c) => [c.id, true]),
 								);
 								setOptions.mutate((o) => {
 									if (!o) return o;

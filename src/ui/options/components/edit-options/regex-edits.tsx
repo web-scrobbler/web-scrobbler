@@ -47,10 +47,10 @@ export function RegexEditsModal() {
 			<h1>
 				{t(
 					'optionsRegexEditsPopupTitle',
-					(edits() ?? []).length.toString()
+					(edits() ?? []).length.toString(),
 				)}
 			</h1>
-			<ul>
+			<ul class={styles.optionList}>
 				<For each={[...(edits() ?? []).entries()]}>
 					{([index, edit]) => (
 						<EditInfo index={index} edit={edit} mutate={mutate} />

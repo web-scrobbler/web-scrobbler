@@ -50,7 +50,7 @@ export function EditsModal() {
 					Object.keys(edits() ?? {}).length.toString(),
 				)}
 			</h1>
-			<ul>
+			<ul class={styles.optionList}>
 				<For each={Object.entries(edits() ?? {})}>
 					{([key, value]) => (
 						<TrackInfo key={key} track={value} mutate={mutate} />
