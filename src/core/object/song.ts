@@ -16,6 +16,7 @@ export interface ParsedSongData extends ProcessedSongData {
 	isPodcast?: boolean | null;
 	isPlaying?: boolean | null;
 	currentTime?: number | null;
+	isScrobblingAllowed?: boolean | null;
 }
 
 export type Flags =
@@ -285,7 +286,7 @@ export abstract class BaseSong {
 		'album',
 		'artist',
 		'albumArtist',
-		'duration'
+		'duration',
 	] {
 		return ['track', 'album', 'artist', 'albumArtist', 'duration'];
 	}
@@ -319,7 +320,7 @@ export default class Song extends BaseSong {
 				album: null,
 				duration: null,
 			},
-			parsedData
+			parsedData,
 		);
 
 		/**

@@ -507,6 +507,54 @@
         "message": "Open options page",
         "description": "Button label"
     },
+    "disallowedHeader": {
+        "message": "This song is not being scrobbled",
+        "description": "The header of 'disallowed' popup"
+    },
+    "disallowedDesc1": {
+        "message": "Web Scrobbler has detected the song \"$2\" by \"$1\", but will not scrobble it.",
+        "description": "The description of 'disallowed' popup on all sites including youtube. $1 is the artist detected. $2 is the track detected"
+    },
+    "disallowedDescYoutube": {
+        "message": "On YouTube, the most common causes include:",
+        "description": "The description of 'disallowed' popup on youtube."
+    },
+    "disallowedDescYoutubePoint1": {
+        "message": "Having \"Scrobble videos from \"Music/Entertainment\" category\" enabled and playing a video with a different category.",
+        "description": "Point 1 in example list on youtube"
+    },
+    "disallowedDescYoutubePoint2": {
+        "message": "Having \"Scrobble only videos that are recognized by YouTube Music as music\" enabled and playing a song not recognized by YouTube Music as music.",
+        "description": "Point 2 in example list on youtube"
+    },
+    "disallowedDescYoutubePoint3": {
+        "message": "Ads (even ads being blocked may temporarily show this.)",
+        "description": "Point 3 in example list on youtube"
+    },
+    "disallowedDesc2": {
+        "message": "This is because the website connector has deemed this not a song to scrobble. Some potential reasons include:",
+        "description": "The description of 'disallowed' popup on sites except youtube"
+    },
+    "disallowedDesc2Point1": {
+        "message": "Web Scrobbler might be interpreting this as an ad.",
+        "description": "Point 1 in example list on sites except youtube"
+    },
+    "disallowedDesc2Point2": {
+        "message": "Web Scrobbler might be identifying this song as being played on a different device.",
+        "description": "Point 2 in example list on sites except youtube"
+    },
+    "disallowedDesc2Point3": {
+        "message": "Web Scrobbler, for some other reason, believes this is not something that should be scrobbled.",
+        "description": "Point 3 in example list on sites except youtube"
+    },
+    "disallowedDesc3": {
+        "message": "Web Scrobbler should still scrobble music from elsewhere on this website.",
+        "description": "The description of 'disallowed' popup on all sites including youtube"
+    },
+    "disallowedButton": {
+        "message": "Scrobble anyway",
+        "description": "Button label"
+    },
     "unsupportedWebsiteHeader": {
         "message": "This website is not supported",
         "description": "The header of 'unsupported' popup"

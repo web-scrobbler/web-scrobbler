@@ -29,7 +29,7 @@ export default function GlobalOptionsList(props: {
 	return (
 		<>
 			<h2>{t('optionsGeneral')}</h2>
-			<ul>
+			<ul class={styles.optionList}>
 				<ThemeSelector />
 				<Show when={browser.notifications}>
 					<GlobalOptionEntry
@@ -91,9 +91,9 @@ function ThemeSelector() {
 								`value ${
 									e.currentTarget.value
 								} not in themelist ${modifiedThemeList.join(
-									','
+									',',
 								)}`,
-								'error'
+								'error',
 							);
 							return;
 						}
@@ -106,8 +106,8 @@ function ThemeSelector() {
 							<option value={`theme-${themeName}`}>
 								{t(
 									`optionTheme${capitalizeFirstLetter(
-										themeName
-									)}`
+										themeName,
+									)}`,
 								)}
 							</option>
 						)}

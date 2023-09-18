@@ -12,7 +12,7 @@ export default function ContactComponent() {
 	return (
 		<>
 			<h1>{t('contactTitle')}</h1>
-			<ul class={styles.contactList}>
+			<ul class={`${styles.contactList} ${styles.optionList}`}>
 				<a
 					href="https://github.com/web-scrobbler/web-scrobbler/issues"
 					target="_blank"

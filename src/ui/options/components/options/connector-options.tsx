@@ -5,11 +5,11 @@ import { ConnectorOptionEntry } from '../inputs';
 import { t } from '@/util/i18n';
 
 const connectorOptions = BrowserStorage.getStorage(
-	BrowserStorage.CONNECTORS_OPTIONS
+	BrowserStorage.CONNECTORS_OPTIONS,
 );
 
 const [options, setOptions] = createResource(
-	connectorOptions.get.bind(connectorOptions)
+	connectorOptions.get.bind(connectorOptions),
 );
 
 /**
@@ -19,7 +19,7 @@ export default function ConnectorOptionsList() {
 	return (
 		<>
 			<h2>YouTube</h2>
-			<ul>
+			<ul class={styles.optionList}>
 				<ConnectorOptionEntry
 					options={options}
 					setOptions={setOptions}
