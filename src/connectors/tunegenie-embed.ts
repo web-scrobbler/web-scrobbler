@@ -7,7 +7,7 @@ Connector.trackArtSelector = '.cover img';
 
 Connector.isPlaying = () => {
 	return (
-		Util.getAttrFromSelectors('.control a svg path', 'd') ===
-		'M400 32c26.5 0 48 21.5 48 48v352c0 26.5-21.5 48-48 48h-352c-26.5 0-48-21.5-48-48v-352c0-26.5 21.5-48 48-48h352z'
+		Util.getAttrFromSelectors('.control a svg path', 'd') !==
+		'M424.4 214.7c31.5 18.5 31.4 64.1 0 82.6l-352 208c-31.7 18.8-72.4-3.8-72.4-41.3v-416.1c0-41.8 43.8-58.2 72.4-41.3z'
 	);
 };
