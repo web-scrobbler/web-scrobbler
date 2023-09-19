@@ -776,7 +776,7 @@
         "description": "Description of the extension"
     },
     "infoBoxStateDisallowed": {
-        "message":  "Scrobbling is not allowed due to an option",
+        "message":  "Scrobbling is not allowed. Click web scrobbler extension icon for more information.",
         "description": "Infobox text when an option is disallowing scrobbling"
     },
     "infoBoxStateError": {
