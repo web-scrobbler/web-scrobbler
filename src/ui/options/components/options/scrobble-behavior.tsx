@@ -51,7 +51,9 @@ export default function ScrobbleBehavior(props: {
 				onChange={(e) => {
 					const value = e.currentTarget.value;
 					setOptions.mutate((o) => {
-						if (!o) return o;
+						if (!o) {
+							return o;
+						}
 						const newOptions = {
 							...o,
 							[Options.FORCE_RECOGNIZE]:

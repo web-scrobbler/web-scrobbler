@@ -82,7 +82,9 @@ function TrackInfo(props: {
 				onClick={(event) => {
 					event.stopPropagation();
 					props.mutate((e) => {
-						if (!e) return e;
+						if (!e) {
+							return e;
+						}
 						delete e[props.key];
 						localCache.set(e);
 						return {

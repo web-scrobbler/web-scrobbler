@@ -184,12 +184,12 @@ export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
 
 	/** @override */
 	async sendPaused(): Promise<ServiceCallResult> {
-		return ServiceCallResult.RESULT_OK;
+		return Promise.resolve(ServiceCallResult.RESULT_OK);
 	}
 
 	/** @override */
 	async sendResumedPlaying(): Promise<ServiceCallResult> {
-		return ServiceCallResult.RESULT_OK;
+		return Promise.resolve(ServiceCallResult.RESULT_OK);
 	}
 
 	/** @override */

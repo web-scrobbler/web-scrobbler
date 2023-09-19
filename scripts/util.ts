@@ -34,9 +34,13 @@ export function isDev() {
  */
 export function getBrowser() {
 	const browser = releaseTarget;
-	if (!browser) throw new Error('No browser specified');
+	if (!browser) {
+		throw new Error('No browser specified');
+	}
 	const browserName = outputFolder[browser as keyof typeof outputFolder];
-	if (!browserName) throw new Error(`Invalid browser ${browser} specified`);
+	if (!browserName) {
+		throw new Error(`Invalid browser ${browser} specified`);
+	}
 	return browserName;
 }
 

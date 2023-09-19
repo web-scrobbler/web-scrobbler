@@ -28,7 +28,7 @@ function generateConnectors() {
 					fs.removeSync(`build/${getBrowser()}/connectors`);
 					fs.moveSync(
 						'build/connectorraw/connectors',
-						`build/${getBrowser()}/connectors`
+						`build/${getBrowser()}/connectors`,
 					);
 					fs.removeSync('build/connectorraw');
 					colorLog('Connector files moved', 'success');
@@ -36,9 +36,8 @@ function generateConnectors() {
 				} catch (err) {
 					colorLog(err, 'error');
 					reject();
-					return;
 				}
-			}
+			},
 		);
 	});
 }
@@ -58,7 +57,7 @@ export default function compileConnectors(options: {
 }): PluginOption {
 	return {
 		name: 'compile-connectors',
-		async buildStart() {
+		buildStart: async () => {
 			await generateConnectors();
 			if (!options.isDev) {
 				return;
@@ -87,7 +86,7 @@ export default function compileConnectors(options: {
 				colorLog(err, 'error');
 			});
 		},
-		buildEnd(err?: Error) {
+		buildEnd: (err?: Error) => {
 			watcher?.close();
 			if (err) {
 				colorLog(err, 'error');

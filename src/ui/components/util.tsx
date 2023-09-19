@@ -85,6 +85,7 @@ export function TPopupAnchor(props: {
 			// get match and break if there is none, inserting remaining message
 			const match = message.match(anchorRegex);
 			if (!match) {
+				// eslint-disable-next-line
 				setRes((prev) => [...prev, message]);
 				break;
 			}
@@ -93,6 +94,7 @@ export function TPopupAnchor(props: {
 			const [str, href, content] = match;
 
 			// push the content before the anchor, the anchor, and then slice the message to repeat the loop on remaining text.
+			// eslint-disable-next-line
 			setRes((prev) => [
 				...prev,
 				message.slice(0, match.index),

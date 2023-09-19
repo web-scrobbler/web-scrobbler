@@ -23,15 +23,15 @@ function setupArtistPlayer() {
 	Connector.isPlaying = () => {
 		const text = Util.getCSSPropertyFromSelectors(
 			'.playback-play-icon',
-			'background-position'
+			'background-position',
 		);
 		return Boolean(text?.includes('-40'));
 	};
 }
 function setupMapPlayer() {
-	Connector.trackSelector = `${Connector.playerSelector} .card--artist__title`;
+	Connector.trackSelector = `${Connector.playerSelector?.toString()} .card--artist__title`;
 
-	Connector.artistSelector = `${Connector.playerSelector} .card--artist__subtitle a`;
+	Connector.artistSelector = `${Connector.playerSelector?.toString()} .card--artist__subtitle a`;
 
 	Connector.currentTimeSelector = '.progress-time';
 

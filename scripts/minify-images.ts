@@ -22,7 +22,7 @@ async function performMinification() {
 export default function minifyImages(): PluginOption {
 	return {
 		name: 'compile-connectors',
-		async buildEnd() {
+		buildEnd: async () => {
 			await performMinification();
 			colorLog('Finished image minification', 'success');
 		},

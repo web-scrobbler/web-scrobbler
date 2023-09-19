@@ -439,7 +439,7 @@ async function writexcodeIcons(): Promise<void> {
 async function main(): Promise<void> {
 	await fs.mkdir(output, { recursive: true });
 
-	//write monochrome icons
+	// write monochrome icons
 	for (const path of await fs.readdir(resolve(input, 'monochrome'))) {
 		// avoid extra files (looking at you, .DS_Store)
 		if (!path.endsWith('.svg')) {
