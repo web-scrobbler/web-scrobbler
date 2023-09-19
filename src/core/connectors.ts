@@ -2139,4 +2139,17 @@ export default <ConnectorMeta[]>[
 		js: 'technobase.fm.js',
 		id: 'technobase.fm',
 	},
+	{
+		label: 'TuneGenieEmbed',
+		matches: ['*://b3.tunegenie.com/*'],
+		js: 'tunegenie-embed.js',
+		id: 'tunegenie-embed',
+		allFrames: true,
+	},
+	{
+		label: 'TuneGenie',
+		matches: ['*://*.tunegenie.com/*'],
+		js: 'tunegenie.js',
+		id: 'tunegenie',
+	},
 ];

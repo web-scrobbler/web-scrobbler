@@ -59,7 +59,7 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 
 	async function getInstance() {
 		const api = (window as unknown as MusicKitWindow).MusicKit;
-
+    
 		const initInstance = api?.getInstance();
 		// If the instance is already available, return it immediately
 		if (initInstance) {

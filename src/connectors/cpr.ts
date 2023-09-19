@@ -10,7 +10,7 @@ Connector.trackSelector = `${Connector.playerSelector} [class^=liveStreamTitle__
 
 Connector.getAlbum = () => {
 	const albumText = Util.getTextFromSelectors(
-		`${Connector.playerSelector} [class^=liveStreamTitle__meta-]`
+		`${Connector.playerSelector?.toString()} [class^=liveStreamTitle__meta-]`,
 	);
 
 	if (

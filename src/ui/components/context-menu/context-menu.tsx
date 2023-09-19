@@ -19,7 +19,9 @@ import styles from './context-menu.module.scss';
 import { t } from '@/util/i18n';
 
 function closeDialogs(e: MouseEvent) {
-	if (!(e.target instanceof Element)) return;
+	if (!(e.target instanceof Element)) {
+		return;
+	}
 
 	const dialogButton = e.target.closest(`.${styles.contextMenuItem}`);
 	const dialog = dialogButton?.nextElementSibling;
@@ -34,13 +36,15 @@ function closeDialogs(e: MouseEvent) {
 		dialog.close();
 	});
 	const dialogButtons = document.querySelectorAll(
-		`.${styles.activeDialogButton}`
+		`.${styles.activeDialogButton}`,
 	);
 	dialogButtons.forEach((dialogButton) => {
 		dialogButton.classList.remove(styles.activeDialogButton);
 	});
 
-	if (!(dialog instanceof HTMLDialogElement) || currentlyOpen) return;
+	if (!(dialog instanceof HTMLDialogElement) || currentlyOpen) {
+		return;
+	}
 
 	dialog.show();
 	dialogButton?.classList.add(styles.activeDialogButton);
@@ -117,7 +121,7 @@ function ContextMenuItem(props: {
 					if (props.setActiveSetting && 'element' in props.item) {
 						triggerNavigationButton(
 							props.item,
-							props.setActiveSetting
+							props.setActiveSetting,
 						);
 					}
 					if ('action' in props.item) {

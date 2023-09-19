@@ -15,7 +15,7 @@ Connector.trackArtSelector = `${Connector.playerSelector} .v-image__image--cover
 
 Connector.getTrack = () => {
 	const trackTextElement = document.querySelector(
-		`${trackInfoWrapper} > span`
+		`${trackInfoWrapper} > span`,
 	);
 
 	if (trackTextElement) {
@@ -27,7 +27,7 @@ Connector.getTrack = () => {
 
 Connector.getTrackInfo = () => {
 	const artistAlbumText = Util.getTextFromSelectors(
-		`${trackInfoWrapper} > span > span:last-of-type`
+		`${trackInfoWrapper} > span > span:last-of-type`,
 	);
 
 	if (artistAlbumText) {
@@ -38,7 +38,7 @@ Connector.getTrackInfo = () => {
 };
 
 Connector.isPlaying = () => {
-	const playButtonSelector = `${Connector.playerSelector} button.v-size--large`;
+	const playButtonSelector = `${Connector.playerSelector?.toString()} button.v-size--large`;
 
 	return (
 		Util.isElementVisible(`${playButtonSelector} .mdi-pause`) &&

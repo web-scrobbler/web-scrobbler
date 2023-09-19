@@ -10,7 +10,7 @@ Connector.useMediaSessionApi();
 
 Connector.playerSelector = [
 	'[class^=PlayerContainer-container]',
-    '[class^=Player-miniPlayerContainer]',
+	'[class^=Player-miniPlayerContainer]',
 ];
 
 Connector.trackSelector = `${titleContainer} a[class*=MetadataPosterTitle]`;
@@ -19,20 +19,20 @@ Connector.albumSelector = `${titleContainer} [class*=MetadataPosterTitle-title] 
 
 Connector.artistSelector = `${titleContainer} [class*=MetadataPosterTitle-title] > a:nth-child(1)`;
 
-Connector.timeInfoSelector = `${Connector.playerSelector} [class*=DurationRemaining-container]`;
+Connector.timeInfoSelector = `${Connector.playerSelector.toString()} [class*=DurationRemaining-container]`;
 
 Connector.trackArtSelector = [
-	`${Connector.playerSelector} [class^=PosterCardImg-imageContainer] div`,
+	`${Connector.playerSelector.toString()} [class^=PosterCardImg-imageContainer] div`,
 	'[class^=AudioVideoFullPlayer] [class^=PosterCardImg-imageContainer] div',
 ];
 
 Connector.pauseButtonSelector = [
-	`${Connector.playerSelector} [data-testid="pauseButton"]`,
-	`${Connector.playerSelector} [class^=plex-icon-player-pause]`,
+	`${Connector.playerSelector.toString()} [data-testid="pauseButton"]`,
+	`${Connector.playerSelector.toString()} [class^=plex-icon-player-pause]`,
 ];
 
 // For watch-it-later videos
-Connector.artistTrackSelector = `${Connector.playerSelector} [class*=MetadataPosterTitle-title]`;
+Connector.artistTrackSelector = `${Connector.playerSelector.toString()} [class*=MetadataPosterTitle-title]`;
 
 Connector.applyFilter(MetadataFilter.createYouTubeFilter().extend(plexFilter));
 

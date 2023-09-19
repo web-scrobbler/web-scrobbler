@@ -79,7 +79,9 @@ export default function Accounts() {
 function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 	const { label } = props;
 	const rawScrobbler = ScrobbleService.getScrobblerByLabel(label);
-	if (!rawScrobbler) return <></>;
+	if (!rawScrobbler) {
+		return <></>;
+	}
 	const [session, setSession] = createResource(
 		rawScrobbler.getSession.bind(rawScrobbler),
 	);
@@ -102,8 +104,8 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 			debugLog(err, 'warn');
 		}
 	};
-	window.addEventListener('focus', onFocus);
-	onCleanup(() => window.removeEventListener('focus', onFocus));
+	window.addEventListener('focus', () => void onFocus());
+	onCleanup(() => window.removeEventListener('focus', () => void onFocus()));
 
 	return (
 		<>
@@ -129,11 +131,13 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 					</a>
 					<button
 						class={styles.resetButton}
-						onClick={async () => {
-							await rawScrobbler.signOut();
-							setSession.refetch();
-							setProfileUrl.refetch();
-						}}
+						onClick={() =>
+							void (async () => {
+								await rawScrobbler.signOut();
+								setSession.refetch();
+								setProfileUrl.refetch();
+							})()
+						}
 					>
 						{t('accountsSignOut')}
 					</button>
@@ -156,11 +160,15 @@ function SignedOut(props: { scrobbler: Scrobbler }) {
 			<p>{t('accountsNotSignedIn')}</p>
 			<button
 				class={styles.resetButton}
-				onClick={async () => {
-					const url = await scrobbler.getAuthUrl();
-					if (!url) return new Error('No auth URL');
-					await browser.tabs.create({ url });
-				}}
+				onClick={() =>
+					void (async () => {
+						const url = await scrobbler.getAuthUrl();
+						if (!url) {
+							return new Error('No auth URL');
+						}
+						await browser.tabs.create({ url });
+					})()
+				}
 			>
 				{t('accountsSignIn')}
 			</button>
@@ -176,7 +184,9 @@ function SignedOut(props: { scrobbler: Scrobbler }) {
 function Properties(props: { scrobbler: Scrobbler }) {
 	const { scrobbler } = props;
 	const label = scrobbler.getLabel();
-	if (!labelHasProperties(label)) return <></>;
+	if (!labelHasProperties(label)) {
+		return <></>;
+	}
 	const [properties, setProperties] = createResource(
 		scrobbler.getUserProperties.bind(scrobbler),
 	);
@@ -197,10 +207,13 @@ function Properties(props: { scrobbler: Scrobbler }) {
 								placeholder={t(placeholder)}
 								onInput={(e) => {
 									setProperties.mutate((o) => {
-										if (!o) o = {};
-										o[typedKey] = e.currentTarget.value;
-										scrobbler.applyUserProperties(o);
-										return o;
+										let data = o;
+										if (!data) {
+											data = {};
+										}
+										data[typedKey] = e.currentTarget.value;
+										scrobbler.applyUserProperties(data);
+										return data;
 									});
 								}}
 							/>
@@ -215,7 +228,9 @@ function Properties(props: { scrobbler: Scrobbler }) {
 function ArrayProperties(props: { scrobbler: Scrobbler }) {
 	const { scrobbler } = props;
 	const label = scrobbler.getLabel();
-	if (!labelHasArrayProperties(label)) return <></>;
+	if (!labelHasArrayProperties(label)) {
+		return <></>;
+	}
 	const [properties, setProperties] = createResource(
 		scrobbler.getArrayProperties.bind(scrobbler),
 	);
@@ -234,14 +249,21 @@ function ArrayProperties(props: { scrobbler: Scrobbler }) {
 								class={styles.deleteEditButton}
 								onClick={() => {
 									setProperties.mutate((o) => {
-										if (!o) o = [];
-										if (o.length <= index()) return o;
-										o = [
-											...o.slice(0, index()),
-											...o.slice(index() + 1),
+										let data = o;
+										if (!data) {
+											data = [];
+										}
+										if (data.length <= index()) {
+											return data;
+										}
+										data = [
+											...data.slice(0, index()),
+											...data.slice(index() + 1),
 										];
-										scrobbler.applyUserArrayProperties(o);
-										return o;
+										scrobbler.applyUserArrayProperties(
+											data,
+										);
+										return data;
 									});
 								}}
 							>
@@ -279,9 +301,12 @@ function ArrayProperties(props: { scrobbler: Scrobbler }) {
 				class={styles.resetButton}
 				onClick={() => {
 					setProperties.mutate((o) => {
-						if (!o) o = [];
+						let data = o;
+						if (!data) {
+							data = [];
+						}
 						scrobbler.addUserArrayProperties(newProps);
-						return [...o, newProps];
+						return [...data, newProps];
 					});
 				}}
 			>

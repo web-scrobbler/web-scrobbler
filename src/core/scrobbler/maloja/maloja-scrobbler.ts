@@ -78,12 +78,12 @@ export default class MalojaScrobbler extends BaseScrobbler<'Maloja'> {
 
 	/** @override */
 	async sendPaused(): Promise<ServiceCallResult> {
-		return ServiceCallResult.RESULT_OK;
+		return Promise.resolve(ServiceCallResult.RESULT_OK);
 	}
 
 	/** @override */
 	async sendResumedPlaying(): Promise<ServiceCallResult> {
-		return ServiceCallResult.RESULT_OK;
+		return Promise.resolve(ServiceCallResult.RESULT_OK);
 	}
 
 	/** @override */

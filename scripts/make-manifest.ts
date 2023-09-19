@@ -15,7 +15,7 @@ import { Manifest } from 'webextension-polyfill';
 export default function makeManifest(): PluginOption {
 	return {
 		name: 'make-manifest',
-		generateBundle() {
+		generateBundle: () => {
 			return new Promise((resolve, reject) => {
 				switch (releaseTarget) {
 					case 'chrome':
@@ -42,7 +42,7 @@ export default function makeManifest(): PluginOption {
 function writeManifest(
 	resolve: () => void,
 	reject: (reason?: unknown) => void,
-	manifest: Manifest.WebExtensionManifest
+	manifest: Manifest.WebExtensionManifest,
 ) {
 	fs.writeJSON(`build/${getBrowser()}/manifest.json`, manifest, { spaces: 2 })
 		.then(() => {
