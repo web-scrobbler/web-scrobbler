@@ -43,12 +43,12 @@
     "@types/react": "18.2.21",
     "@types/webextension-polyfill": "0.10.2",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
+    "@web-scrobbler/eslint-config": "^3.0.0",
     "archiver": "6.0.1",
     "canvas": "2.11.2",
     "chokidar": "3.5.3",
     "esbuild": "0.19.2",
     "eslint": "8.49.0",
-    "eslint-config-web-scrobbler": "^2.1.1",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-solid": "^0.13.0",
     "eslint-plugin-tsdoc": "^0.2.17",
@@ -76,7 +76,7 @@
     "node": ">=18.0.0"
   },
   "eslintConfig": {
-    "extends": "web-scrobbler/solid",
+    "extends": "@web-scrobbler/eslint-config/solid",
     "parserOptions": {
       "sourceType": "script",
       "ecmaVersion": 2020
