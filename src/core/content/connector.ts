@@ -2,8 +2,6 @@ import * as MetadataFilter from '@web-scrobbler/metadata-filter';
 import browser from 'webextension-polyfill';
 import { ArtistTrackInfo, BaseState, State, TimeInfo } from '@/core/types';
 import * as Util from '@/core/content/util';
-import Controller from '@/core/object/controller/controller';
-import * as Options from '@/core/storage/options';
 import { ConnectorMeta } from '../connectors';
 
 export default class BaseConnector {
@@ -560,16 +558,6 @@ export default class BaseConnector {
 		| null = null;
 
 	/**
-	 * Function that handles updating the scrobble info box
-	 */
-	private getInfoBoxElement: () => HTMLDivElement | null;
-
-	/**
-	 * Function that handles updating the scrobble info box
-	 */
-	private updateInfoBox: () => void;
-
-	/**
 	 * Function for all the hard work around detecting and updating state.
 	 */
 	private stateChangedWorker: () => void;
@@ -590,11 +578,6 @@ export default class BaseConnector {
 	 * Throttled call for state changed worker.
 	 */
 	private stateChangedWorkerThrottled: () => void;
-
-	/**
-	 * Handle to the controller managing this connector
-	 */
-	public controller: Controller | null = null;
 
 	constructor(meta: ConnectorMeta) {
 		this.meta = meta;
@@ -669,9 +652,6 @@ export default class BaseConnector {
 			}
 
 			this.isStateReset = true;
-
-			// reset the infoBox so we do not display old info
-			this.updateInfoBox();
 		};
 
 		this.onStateChanged = () => {
@@ -693,94 +673,6 @@ export default class BaseConnector {
 				this.stateChangedWorker();
 			} else {
 				this.stateChangedWorkerThrottled();
-			}
-		};
-
-		this.getInfoBoxElement = (): HTMLDivElement | null => {
-			if (
-				!this.scrobbleInfoLocationSelector ||
-				// infobox is disabled in options
-				!Options.getOption(Options.USE_INFOBOX, this.meta.id)
-			) {
-				return null;
-			}
-
-			const parentEl = document.querySelector(
-				this.scrobbleInfoLocationSelector
-			);
-			if (!parentEl) {
-				return null;
-			}
-
-			// check if infoBoxEl was already created
-			let infoBoxElement = document.querySelector<HTMLDivElement>(
-				'#scrobbler-infobox-el'
-			);
-
-			// check if element is still in the correct place
-			if (infoBoxElement) {
-				if (infoBoxElement.parentElement !== parentEl) {
-					infoBoxElement.remove();
-				} else {
-					return infoBoxElement;
-				}
-			}
-
-			// if it was not in the correct place or didn't exist, create it
-			infoBoxElement = document.createElement('div');
-			infoBoxElement.setAttribute('id', 'scrobbler-infobox-el');
-
-			// style the infobox
-			for (const prop in this.scrobbleInfoStyle) {
-				infoBoxElement.style[prop] = this.scrobbleInfoStyle[prop] ?? '';
-			}
-
-			parentEl.appendChild(infoBoxElement);
-			return infoBoxElement;
-		};
-
-		this.updateInfoBox = () => {
-			let oldInfoBoxText: string | false = false;
-			const infoBoxElement = this.getInfoBoxElement();
-			if (!infoBoxElement) {
-				// clean up
-				const infoBoxElement = document.querySelector<HTMLDivElement>(
-					'#scrobbler-infobox-el',
-				);
-				if (infoBoxElement) {
-					infoBoxElement.remove();
-				}
-				return;
-			} else {
-				const textEl = infoBoxElement.querySelector('span');
-				if (textEl) {
-					oldInfoBoxText = textEl.innerText;
-				}
-			}
-
-			const state = this.getCurrentState();
-			const mode = this.controller?.getMode();
-			const infoBoxText = Util.getInfoBoxText(mode, state);
-
-			// Check if infobox needs to be updated
-			if (!oldInfoBoxText || infoBoxText !== oldInfoBoxText) {
-				const img = document.createElement('img');
-				img.setAttribute(
-					'src',
-					browser.runtime.getURL('./icons/icon_main_48.png'),
-				);
-				img.setAttribute('alt', 'Web Scrobbler state:');
-				img.setAttribute('style', 'height: 1.2em');
-
-				const info = document.createElement('span');
-				info.innerText = infoBoxText;
-
-				// Clear old contents of infoBoxElement
-				while (infoBoxElement.firstChild) {
-					infoBoxElement.removeChild(infoBoxElement.firstChild);
-				}
-				infoBoxElement.appendChild(img);
-				infoBoxElement.appendChild(info);
 			}
 		};
 
@@ -833,8 +725,6 @@ export default class BaseConnector {
 				}
 				// #v-endif
 			}
-
-			this.updateInfoBox();
 		};
 
 		this.getCurrentState = () => {
