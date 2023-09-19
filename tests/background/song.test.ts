@@ -378,12 +378,12 @@ function testEquals() {
 	});
 
 	it('should not equal null value', () => {
-		// @ts-expect-error
+		// @ts-expect-error we are explicitly testing bad format here
 		expect(songWithUniqueId.equals(null)).to.be.false;
 	});
 
 	it('should not equal non-song object', () => {
-		// @ts-expect-error
+		// @ts-expect-error we are explicitly testing bad format here
 		expect(songWithUniqueId.equals(23)).to.be.false;
 	});
 }

@@ -71,4 +71,9 @@ export interface State extends BaseState {
 	 * Origin URL.
 	 */
 	originUrl?: string | null;
+
+	/**
+	 * Is scrobbling allowed
+	 */
+	isScrobblingAllowed?: boolean | null;
 }

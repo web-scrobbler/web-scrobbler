@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root css-1om0hkc"
+   focusable="false"
+   aria-hidden="true"
+   viewBox="0 0 24 24"
+   data-testid="MusicOffIcon"
+   version="1.1"
+   id="svg1158"
+   sodipodi:docname="action_disallowed.svg"
+   inkscape:version="1.2.2 (b0a84865, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1162" />
+  <sodipodi:namedview
+     id="namedview1160"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="9.8333333"
+     inkscape:cx="12"
+     inkscape:cy="12"
+     inkscape:window-width="1309"
+     inkscape:window-height="456"
+     inkscape:window-x="0"
+     inkscape:window-y="25"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg1158" />
+  <path
+     d="M 1.6933333,0 0,1.6933333 12,13.693333 v 0.373334 C 11.213333,13.613333 10.306667,13.333333 9.333333,13.333333 6.3866667,13.333333 4,15.72 4,18.666667 4,21.613333 6.3866667,24 9.333333,24 12.28,24 14.666667,21.613333 14.666667,18.666667 V 16.36 l 7.64,7.64 L 24,22.306667 Z M 14.666667,5.3333333 H 20 V 0 h -8 v 6.9066667 l 2.666667,2.6666663 z"
+     id="path1156"
+     style="stroke-width:1.33333" />
+</svg>

@@ -92,6 +92,12 @@ interface ContentCommunications {
 		};
 		response: Promise<(ServiceCallResult | Record<string, never>)[]>;
 	};
+	sendListenBrainzRequest: {
+		payload: {
+			url: string;
+		};
+		response: Promise<string | null>;
+	};
 }
 
 interface BackgroundCommunications {
@@ -139,6 +145,10 @@ interface BackgroundCommunications {
 		};
 	};
 	disableConnectorUntilTabIsClosed: {
+		payload: undefined;
+		response: void;
+	};
+	forceScrobbleSong: {
 		payload: undefined;
 		response: void;
 	};

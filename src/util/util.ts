@@ -275,3 +275,43 @@ export function createTrackLibraryURL(
 		track,
 	)}`;
 }
+
+/**
+ * Check if script is currently running in a background script.
+ *
+ * @returns true if running in background script, false if running in any other context including popup.
+ */
+export function isBackgroundScript(): boolean {
+	// on chromium, no window in background script.
+	if (!self.window) {
+		return true;
+	}
+	// on firefox and safari, check for being in the generated background script
+	if (
+		(location.href.startsWith('safari-web-extension') ||
+			location.href.startsWith('moz-extension')) &&
+		location.href.endsWith('generated_background_page.html')
+	) {
+		return true;
+	}
+	return false;
+}
+
+/**
+ * Attempt to fetch listenbrainz profile HTML.
+ *
+ * @param url - URL of listenbrainz instance
+ * @returns html of profile, null if response error
+ */
+export async function fetchListenBrainzProfile(url: string) {
+	const res = await fetch(url, {
+		method: 'GET',
+		// #v-ifdef VITE_FIREFOX
+		credentials: 'same-origin',
+		// #v-endif
+	});
+	if (!res.ok) {
+		return null;
+	}
+	return res.text();
+}

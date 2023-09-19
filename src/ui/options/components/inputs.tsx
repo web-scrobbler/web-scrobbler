@@ -119,7 +119,7 @@ export function RadioButtons(props: {
 }) {
 	const { buttons, name, value, onChange, reset } = props;
 	return (
-		<ul class={styles.radioButtons}>
+		<ul class={`${styles.radioButtons} ${styles.optionList}`}>
 			<For each={buttons}>
 				{(button) => (
 					<li>

@@ -95,6 +95,10 @@ const monochromeColors = {
 		light: '#adadad',
 		dark: '#727272',
 	},
+	'action_disallowed.svg': {
+		light: '#d51107',
+		dark: '#fc3434',
+	},
 };
 
 /**

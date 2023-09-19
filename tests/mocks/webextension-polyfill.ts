@@ -1,4 +1,4 @@
-import { CloneableSong } from '@/core/object/song';
+import type { CloneableSong } from '@/core/object/song';
 import { vi } from 'vitest';
 
 /**

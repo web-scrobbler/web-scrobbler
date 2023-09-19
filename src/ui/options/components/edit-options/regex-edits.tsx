@@ -50,7 +50,7 @@ export function RegexEditsModal() {
 					(edits() ?? []).length.toString(),
 				)}
 			</h1>
-			<ul>
+			<ul class={styles.optionList}>
 				<For each={[...(edits() ?? []).entries()]}>
 					{([index, edit]) => (
 						<EditInfo index={index} edit={edit} mutate={mutate} />

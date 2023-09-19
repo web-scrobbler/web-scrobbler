@@ -52,7 +52,7 @@ export default function ConnectorOverrideOptions() {
 			<p>{t('optionsEnableDisableHint')}</p>
 			{/* eslint-disable-next-line */}
 			<p innerHTML={t('optionsCustomPatternsHint')} />
-			<ul class={styles.connectorOptionsList}>
+			<ul class={`${styles.connectorOptionsList} ${styles.optionList}`}>
 				<li>
 					<Settings />
 					<Checkbox
