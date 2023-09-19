@@ -43,8 +43,12 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 	let frameID = '';
 	let currentTime = 0;
 	let duration = 0;
-	let videoFrameCleanUp = () => {};
-	let observerCleanUp = () => {};
+	let videoFrameCleanUp = () => {
+		/* do nothing, this will be overridden */
+	};
+	let observerCleanUp = () => {
+		/* do nothing, this will be overridden */
+	};
 
 	let videoId: string | undefined = '';
 
@@ -55,13 +59,11 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 		observerCleanUp = () => {
 			observer.disconnect();
 		};
-	} else {
-		if ('player' in window) {
-			(window.player as Player).addEventListener(
-				'onStateChange',
-				onYoutubeSongStateChange,
-			);
-		}
+	} else if ('player' in window) {
+		(window.player as Player).addEventListener(
+			'onStateChange',
+			onYoutubeSongStateChange,
+		);
 	}
 
 	function toggleExternalPlayer(mutationList: MutationRecord[]) {
@@ -134,16 +136,16 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 		if (event.origin !== 'https://www.youtube.com') {
 			return;
 		}
-	  // eslint-disable-next-line
+		// eslint-disable-next-line
 		const data = JSON.parse(event.data);
-	  // eslint-disable-next-line
+		// eslint-disable-next-line
 		switch (data.event) {
 			case 'onStateChange':
-			  // eslint-disable-next-line
+				// eslint-disable-next-line
 				onYoutubeStateChange(data);
 				break;
 			case 'infoDelivery':
-			  // eslint-disable-next-line
+				// eslint-disable-next-line
 				getTimestamps(data);
 				break;
 		}

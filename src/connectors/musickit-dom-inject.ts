@@ -15,7 +15,7 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 	window.cleanup();
 }
 
-(window as unknown as { cleanup: () => void }).cleanup = (() => {
+(window as unknown as { cleanup: () => Promise<void> }).cleanup = (() => {
 	addEventListeners();
 
 	interface MusicKitWindow {
@@ -59,7 +59,7 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 
 	async function getInstance() {
 		const api = (window as unknown as MusicKitWindow).MusicKit;
-    
+
 		const initInstance = api?.getInstance();
 		// If the instance is already available, return it immediately
 		if (initInstance) {
@@ -79,22 +79,25 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 				if (i++ > 100) {
 					clearInterval(interval);
 					reject('MusicKit instance not found');
-					return;
 				}
 			}, 100);
 		});
 	}
 
-	async function sendEvent() {
-		window.postMessage(
-			{
-				sender: 'web-scrobbler',
-				type: 'MUSICKIT_STATE',
-				trackInfo: await getTrackInfo(),
-				isPlaying: await isPlaying(),
-			},
-			'*',
-		);
+	function sendEvent() {
+		getTrackInfo().then((trackInfo) => {
+			instanceIsPlaying().then((isPlaying) => {
+				window.postMessage(
+					{
+						sender: 'web-scrobbler',
+						type: 'MUSICKIT_STATE',
+						trackInfo,
+						isPlaying,
+					},
+					'*',
+				);
+			});
+		});
 	}
 
 	async function getTrackInfo() {
@@ -116,7 +119,7 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 		return url.replace('{w}x{h}bb', '256x256bb');
 	}
 
-	async function isPlaying() {
+	async function instanceIsPlaying() {
 		return (await getInstance()).isPlaying;
 	}
 

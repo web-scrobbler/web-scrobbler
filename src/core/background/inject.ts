@@ -11,7 +11,7 @@ import browser from 'webextension-polyfill';
  */
 async function attemptInjectTab(tab: browser.Tabs.Tab) {
 	if (typeof tab.id === 'undefined') {
-		throw new Error('Could not identify tab: ' + tab);
+		throw new Error(`Could not identify tab: ${JSON.stringify(tab)}`);
 	}
 
 	let url = tab.url;
@@ -19,7 +19,9 @@ async function attemptInjectTab(tab: browser.Tabs.Tab) {
 		url = await browser.tabs.get(tab.id).then((idTab) => idTab.url);
 	}
 	if (typeof url === 'undefined') {
-		throw new Error('Could not identify URL of tab: ' + tab);
+		throw new Error(
+			`Could not identify URL of tab: ${JSON.stringify(tab)}`,
+		);
 	}
 
 	return injectConnector(tab.id, url);

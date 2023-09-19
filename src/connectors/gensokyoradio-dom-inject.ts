@@ -28,9 +28,7 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 		window.postMessage(
 			{
 				sender: 'web-scrobbler',
-				isPlaying: (window as unknown as Window).audio.paused
-					? false
-					: true,
+				isPlaying: !(window as unknown as Window).audio.paused,
 			},
 			'*',
 		);

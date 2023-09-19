@@ -53,11 +53,19 @@ const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
 // Set up listeners. These must all be synchronously set up at startup time (Manifest V3 service worker)
 browser.runtime.onStartup.addListener(onStartup);
 browser.runtime.onInstalled.addListener(onInstalled);
-browser.tabs.onRemoved.addListener(onTabRemoved);
-browser.tabs.onUpdated.addListener(onTabUpdated);
-browser.tabs.onActivated.addListener(onTabActivated);
-browser.contextMenus?.onClicked.addListener(contextMenuHandler);
-browser.commands?.onCommand.addListener(commandHandler);
+browser.tabs.onRemoved.addListener((tabId) => void onTabRemoved(tabId));
+browser.tabs.onUpdated.addListener(
+	(tabId, changeInfo, tab) => void onTabUpdated(tabId, changeInfo, tab),
+);
+browser.tabs.onActivated.addListener(
+	(activeInfo) => void onTabActivated(activeInfo),
+);
+browser.contextMenus?.onClicked.addListener(
+	(info) => void contextMenuHandler(info),
+);
+browser.commands?.onCommand.addListener(
+	(command) => void commandHandler(command),
+);
 
 /**
  * Handle user commands (hotkeys) to the extension.
