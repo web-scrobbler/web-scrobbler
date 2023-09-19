@@ -37,11 +37,17 @@ interface MusicKitInstance {
 async function musicKitAddEventListeners() {
 	const Events = (window as unknown as MusicKitWindow).MusicKit.Events;
 	const instance = await musicKitInstance();
-	instance.addEventListener(Events.metadataDidChange, musicKitSendEvent);
-	instance.addEventListener(Events.playbackStateDidChange, musicKitSendEvent);
+	instance.addEventListener(
+		Events.metadataDidChange,
+		() => void musicKitSendEvent(),
+	);
+	instance.addEventListener(
+		Events.playbackStateDidChange,
+		() => void musicKitSendEvent(),
+	);
 	instance.addEventListener(
 		Events.nowPlayingItemDidChange,
-		musicKitSendEvent,
+		() => void musicKitSendEvent(),
 	);
 }
 
@@ -67,7 +73,6 @@ async function musicKitInstance() {
 			if (i++ > 100) {
 				clearInterval(interval);
 				reject('MusicKit instance not found');
-				return;
 			}
 		}, 100);
 	});

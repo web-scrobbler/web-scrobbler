@@ -60,14 +60,14 @@ function setupListPlayer() {
 }
 
 function setupCommonProperties() {
-	Connector.currentTimeSelector = `${Connector.playerSelector} .text-left`;
+	Connector.currentTimeSelector = `${Connector.playerSelector?.toString()} .text-left`;
 
-	Connector.durationSelector = `${Connector.playerSelector} .text-right`;
+	Connector.durationSelector = `${Connector.playerSelector?.toString()} .text-right`;
 
 	Connector.getUniqueID = () => {
 		return Util.getAttrFromSelectors(
-			`${Connector.playerSelector} button[data-id]`,
-			'data-id'
+			`${Connector.playerSelector?.toString()} button[data-id]`,
+			'data-id',
 		);
 	};
 }

@@ -70,6 +70,8 @@ Connector.isPlaying = () =>
 		?.getAttribute('data-testid') === 'miniplayer-pause';
 
 Connector.getUniqueID = () => {
+	// eslint is simply wrong here this assertion is necessary.
+	// eslint-disable-next-line
 	const titleLink = document.querySelector(
 		'.playbackSoundBadge__titleLink',
 	) as HTMLAnchorElement | null;
