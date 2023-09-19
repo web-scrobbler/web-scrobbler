@@ -13,6 +13,7 @@ import type { DebugLogType } from '@/util/util';
 
 import { t } from '@/util/i18n';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
+import Song from '../object/song';
 
 const BrowserStorage = (async () => {
 	return import('@/core/storage/browser-storage');
@@ -754,46 +755,50 @@ export function injectScriptIntoDocument(scriptUrl: string): void {
  * that logs are still printed in a predictable order.
  */
 class DebugLogQueue {
-  private queue: {text: unknown, logType: DebugLogType}[] = [];
-  private isActive = false;
-  private shouldPrint = Options.then((awaitedOptions) => awaitedOptions.getOption(awaitedOptions.DEBUG_LOGGING_ENABLED));
+	private queue: { text: unknown; logType: DebugLogType }[] = [];
+	private isActive = false;
+	private shouldPrint = Options.then((awaitedOptions) =>
+		awaitedOptions.getOption(awaitedOptions.DEBUG_LOGGING_ENABLED),
+	);
 
-  /**
-   * Enqueue a log message to be printed.
-   * @param text - Debug message
-   * @param logType - Log type
-   */
-  public push(text: unknown, logType: DebugLogType): void {
-    this.queue.push({text, logType});
-    this.start();
-  }
+	/**
+	 * Enqueue a log message to be printed.
+	 * @param text - Debug message
+	 * @param logType - Log type
+	 */
+	public push(text: unknown, logType: DebugLogType): void {
+		this.queue.push({ text, logType });
+		this.start();
+	}
 
-  /**
-   * Process the queue to print logs in order.
-   */
-  private async start(): Promise<void> {
-    if (this.isActive) return;
-    this.isActive = true;
+	/**
+	 * Process the queue to print logs in order.
+	 */
+	private async start(): Promise<void> {
+		if (this.isActive) return;
+		this.isActive = true;
 
-    try {
-      for (let i = 0; i < 100 && this.queue.length > 0; i++) {
-        const currentMessage = this.queue.shift();
-        if (currentMessage && await this.shouldPrint) {
-          const logFunc = console[currentMessage.logType];
+		try {
+			for (let i = 0; i < 100 && this.queue.length > 0; i++) {
+				const currentMessage = this.queue.shift();
+				if (currentMessage && (await this.shouldPrint)) {
+					const logFunc = console[currentMessage.logType];
 
-          if (typeof logFunc !== 'function') {
-            throw new TypeError(`Unknown log type: ${currentMessage.logType}`);
-          }
+					if (typeof logFunc !== 'function') {
+						throw new TypeError(
+							`Unknown log type: ${currentMessage.logType}`,
+						);
+					}
 
-          const message = `Web Scrobbler: ${currentMessage.text}`;
-          logFunc(message);
-        }
-      }
-      this.isActive = false;
-    } catch(err) {
-      this.isActive = false;
-    }
-  }
+					const message = `Web Scrobbler: ${currentMessage.text}`;
+					logFunc(message);
+				}
+			}
+			this.isActive = false;
+		} catch (err) {
+			this.isActive = false;
+		}
+	}
 }
 const debugLogQueue = new DebugLogQueue();
 
@@ -804,7 +809,7 @@ const debugLogQueue = new DebugLogQueue();
  */
 /* istanbul ignore next */
 export function debugLog(text: unknown, logType: DebugLogType = 'log'): void {
-  debugLogQueue.push(text, logType)
+	debugLogQueue.push(text, logType);
 }
 
 /** YouTube section. */
@@ -1036,13 +1041,13 @@ export function getOriginUrl(selector: string): string {
 
 export function getInfoBoxText(
 	mode: ControllerModeStr | undefined,
-	state: State,
+	song: Song | null,
 ) {
 	if (!mode) {
 		return t('pageActionLoading');
 	}
 
-	const trackInfo = `${state.artist} - ${state.track}`;
+	const trackInfo = `${song?.getArtist()} - ${song?.getTrack()}`;
 	switch (mode) {
 		case ControllerMode.Disallowed:
 			return t('infoBoxStateDisallowed', trackInfo);
