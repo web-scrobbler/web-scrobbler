@@ -190,7 +190,6 @@ export default class StorageWrapper<K extends keyof DataModels> {
 				if (toRun === id) {
 					resolve(true);
 					this.emitter.off('updateLock', unlock);
-					return;
 				}
 			};
 			this.emitter.on('updateLock', unlock);

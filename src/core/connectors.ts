@@ -1661,10 +1661,13 @@ export default <ConnectorMeta[]>[
 		id: 'navidrome',
 	},
 	{
-		label: 'turntable.fm',
-		matches: ['*://turntable.fm/*'],
-		js: 'turntable.fm.js',
-		id: 'turntable.fm',
+		label: 'deepcut.fm',
+		matches: [
+			'*://deepcut.fm/*',
+			'*://turntable.fm/*',
+			],
+		js: 'deepcut.fm.js',
+		id: 'deepcut.fm',
 	},
 	{
 		label: 'Burntable',
@@ -2138,5 +2141,18 @@ export default <ConnectorMeta[]>[
 		],
 		js: 'technobase.fm.js',
 		id: 'technobase.fm',
+	},
+	{
+		label: 'TuneGenieEmbed',
+		matches: ['*://b3.tunegenie.com/*'],
+		js: 'tunegenie-embed.js',
+		id: 'tunegenie-embed',
+		allFrames: true,
+	},
+	{
+		label: 'TuneGenie',
+		matches: ['*://*.tunegenie.com/*'],
+		js: 'tunegenie.js',
+		id: 'tunegenie',
 	},
 ];

@@ -16,6 +16,7 @@ export interface ParsedSongData extends ProcessedSongData {
 	isPodcast?: boolean | null;
 	isPlaying?: boolean | null;
 	currentTime?: number | null;
+	isScrobblingAllowed?: boolean | null;
 }
 
 export type Flags =

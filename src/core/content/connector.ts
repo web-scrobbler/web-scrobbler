@@ -495,6 +495,7 @@ export default class BaseConnector {
 		trackArt: null,
 		isPodcast: false,
 		originUrl: null,
+		isScrobblingAllowed: true,
 	};
 
 	// #v-ifdef VITE_DEV
@@ -662,11 +663,6 @@ export default class BaseConnector {
 		};
 
 		this.stateChangedWorker = () => {
-			if (!this.isScrobblingAllowed()) {
-				this.resetState();
-				return;
-			}
-
 			this.isStateReset = false;
 
 			const changedFields: (keyof State)[] = [];
@@ -726,6 +722,7 @@ export default class BaseConnector {
 				isPlaying: this.isPlaying(),
 				isPodcast: this.isPodcast(),
 				originUrl: this.getOriginUrl(),
+				isScrobblingAllowed: this.isScrobblingAllowed(),
 			};
 
 			let mediaSessionInfo = null;

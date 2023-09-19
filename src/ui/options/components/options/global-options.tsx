@@ -29,7 +29,7 @@ export default function GlobalOptionsList(props: {
 	return (
 		<>
 			<h2>{t('optionsGeneral')}</h2>
-			<ul>
+			<ul class={styles.optionList}>
 				<ThemeSelector />
 				<Show when={browser.notifications}>
 					<GlobalOptionEntry

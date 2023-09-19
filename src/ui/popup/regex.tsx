@@ -273,7 +273,7 @@ export function RegexEditContextMenu(props: { tab: Resource<ManagerTab> }) {
 			{
 				namei18n: 'infoSubmitTitleShort',
 				icon: Check,
-				action: () => saveEdit(props.tab),
+				action: () => void saveEdit(props.tab),
 			},
 		];
 		if (!navigatorResource.loading) {

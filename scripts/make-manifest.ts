@@ -15,7 +15,7 @@ import { Manifest } from 'webextension-polyfill';
 export default function makeManifest(): PluginOption {
 	return {
 		name: 'make-manifest',
-		generateBundle() {
+		generateBundle: () => {
 			return new Promise((resolve, reject) => {
 				switch (releaseTarget) {
 					case 'chrome':

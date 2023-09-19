@@ -7,14 +7,23 @@
 	font-size: 1.2em;
 }
 
-.alertPopup {
+.alertPopup,
+.widePopup {
 	padding: 15px;
 	text-align: center;
-	width: 300px;
 
-	p {
+	p,
+	ul {
 		text-align: left;
 	}
+}
+
+.alertPopup {
+	width: 300px;
+}
+
+.widePopup {
+	width: 400px;
 }
 
 .bigIcon:not(table) {

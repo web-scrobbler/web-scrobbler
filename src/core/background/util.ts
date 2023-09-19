@@ -105,10 +105,11 @@ export async function getActiveTabDetails(
 	tabId?: number,
 ): Promise<ManagerTab> {
 	const tab = getPriorityTabDetails(tabs);
-	if (!tabId) {
-		tabId = await getCurrentTabId();
+	let trueTabId = tabId;
+	if (!trueTabId) {
+		trueTabId = await getCurrentTabId();
 	}
-	const curTab = await getTabDetails(tabId);
+	const curTab = await getTabDetails(trueTabId);
 	if (tab && !isPrioritizedMode[curTab.mode]) {
 		return tab;
 	}

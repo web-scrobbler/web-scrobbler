@@ -38,7 +38,7 @@ Connector.getTrackInfo = () => {
 };
 
 Connector.isPlaying = () => {
-	const playButtonSelector = `${Connector.playerSelector} button.v-size--large`;
+	const playButtonSelector = `${Connector.playerSelector?.toString()} button.v-size--large`;
 
 	return (
 		Util.isElementVisible(`${playButtonSelector} .mdi-pause`) &&

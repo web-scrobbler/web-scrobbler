@@ -4,7 +4,7 @@ import path from 'path';
 import colorLog from './log';
 import { releaseTarget } from './util';
 
-async function createSafariDistributable() {
+function createSafariDistributable() {
 	colorLog('TODO: Make safari distributable work', 'error');
 }
 
@@ -37,7 +37,7 @@ async function createSrcArchive() {
 
 export default async function createDistributable() {
 	if (releaseTarget === 'safari') {
-		await createSafariDistributable();
+		createSafariDistributable();
 		return;
 	}
 

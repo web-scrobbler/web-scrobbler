@@ -19,7 +19,9 @@ import styles from './context-menu.module.scss';
 import { t } from '@/util/i18n';
 
 function closeDialogs(e: MouseEvent) {
-	if (!(e.target instanceof Element)) return;
+	if (!(e.target instanceof Element)) {
+		return;
+	}
 
 	const dialogButton = e.target.closest(`.${styles.contextMenuItem}`);
 	const dialog = dialogButton?.nextElementSibling;
@@ -40,7 +42,9 @@ function closeDialogs(e: MouseEvent) {
 		dialogButton.classList.remove(styles.activeDialogButton);
 	});
 
-	if (!(dialog instanceof HTMLDialogElement) || currentlyOpen) return;
+	if (!(dialog instanceof HTMLDialogElement) || currentlyOpen) {
+		return;
+	}
 
 	dialog.show();
 	dialogButton?.classList.add(styles.activeDialogButton);

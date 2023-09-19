@@ -38,7 +38,7 @@ function SidebarButton(props: {
 				class={
 					styles.sidebarButton +
 					(activeSetting().namei18n === item.namei18n
-						? ' ' + styles.active
+						? ` ${styles.active}`
 						: '')
 				}
 				onClick={() =>

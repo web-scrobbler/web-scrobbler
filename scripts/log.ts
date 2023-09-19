@@ -1,6 +1,6 @@
 type ColorType = 'success' | 'info' | 'error' | 'warning' | keyof typeof COLORS;
 
-export default function colorLog(message: string, type?: ColorType): void {
+export default function colorLog(message: unknown, type?: ColorType): void {
 	let color: string = type || COLORS.FgBlack;
 
 	switch (type) {

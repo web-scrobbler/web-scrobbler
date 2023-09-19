@@ -50,7 +50,7 @@ export function RegexEditsModal() {
 					(edits() ?? []).length.toString(),
 				)}
 			</h1>
-			<ul>
+			<ul class={styles.optionList}>
 				<For each={[...(edits() ?? []).entries()]}>
 					{([index, edit]) => (
 						<EditInfo index={index} edit={edit} mutate={mutate} />
@@ -76,7 +76,9 @@ function EditInfo(props: {
 				onClick={(event) => {
 					event.stopPropagation();
 					props.mutate((e) => {
-						if (!e) return e;
+						if (!e) {
+							return e;
+						}
 						const o = e.filter((_, i) => i !== props.index);
 						regexEdits.set(o);
 						return o;

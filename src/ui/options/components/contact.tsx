@@ -12,7 +12,7 @@ export default function ContactComponent() {
 	return (
 		<>
 			<h1>{t('contactTitle')}</h1>
-			<ul class={styles.contactList}>
+			<ul class={`${styles.contactList} ${styles.optionList}`}>
 				<a
 					href="https://github.com/web-scrobbler/web-scrobbler/issues"
 					target="_blank"
@@ -21,7 +21,7 @@ export default function ContactComponent() {
 					<li class={styles.contactEntry}>
 						<img
 							class={styles.invertImg}
-							src={githubIcon}
+							src={githubIcon as string}
 							alt=""
 							width={32}
 							height={32}
@@ -44,7 +44,12 @@ export default function ContactComponent() {
 					rel="noopener noreferrer"
 				>
 					<li class={styles.contactEntry}>
-						<img src={twitterBird} alt="" width={32} height={32} />
+						<img
+							src={twitterBird as string}
+							alt=""
+							width={32}
+							height={32}
+						/>
 						<span
 							class={`${styles.brandText} ${styles.twitterBrandText}`}
 						>

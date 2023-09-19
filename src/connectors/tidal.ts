@@ -16,7 +16,7 @@ Connector.trackSelector = [
 
 Connector.getUniqueID = () => {
 	const trackUrl = Util.getAttrFromSelectors(
-		`${Connector.trackSelector} a`,
+		`${Connector.trackSelector?.toString()} a`,
 		'href',
 	);
 	if (trackUrl) {

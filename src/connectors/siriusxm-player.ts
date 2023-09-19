@@ -40,7 +40,7 @@ Connector.isScrobblingAllowed = () => {
 		'@morningmashup',
 		'josiah',
 		'1-877-33-sirius',
-		'@sxm', //will broadly catch a bunch of sxm Twitter handles
+		'@sxm', // will broadly catch a bunch of sxm Twitter handles
 		'altnation',
 		'.ca',
 		'.com',

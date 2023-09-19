@@ -19,7 +19,7 @@ export default function ConnectorOptionsList() {
 	return (
 		<>
 			<h2>YouTube</h2>
-			<ul>
+			<ul class={styles.optionList}>
 				<ConnectorOptionEntry
 					options={options}
 					setOptions={setOptions}

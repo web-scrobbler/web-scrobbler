@@ -36,9 +36,13 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 	const { tab } = props;
 
 	const rawTab = tab();
-	if (!rawTab) return <></>;
+	if (!rawTab) {
+		return <></>;
+	}
 	const rawSong = rawTab.song;
-	if (!rawSong) return <></>;
+	if (!rawSong) {
+		return <></>;
+	}
 	const clonedSong = new ClonedSong(rawSong, rawTab.tabId);
 
 	const [track, setTrack] = createSignal(clonedSong.getTrack() ?? '');
@@ -275,7 +279,7 @@ function EditContextMenu(props: {
 						: 'infoSubmitTitleShort',
 				icon: Check,
 				action: () =>
-					saveEdit(props.tab, props.clonedSong, {
+					void saveEdit(props.tab, props.clonedSong, {
 						artist: props.artist(),
 						track: props.track(),
 						album: props.album() || null,
@@ -289,7 +293,7 @@ function EditContextMenu(props: {
 						: 'infoSwapTitleShort',
 				icon: PublishedWithChanges,
 				action: () =>
-					saveEdit(props.tab, props.clonedSong, {
+					void saveEdit(props.tab, props.clonedSong, {
 						artist: props.track(),
 						track: props.artist(),
 						album: props.album() || null,

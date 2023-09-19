@@ -19,7 +19,6 @@ async function main() {
 			return;
 		}
 		Util.debugLog(err, 'error');
-		return;
 	}
 }
 
