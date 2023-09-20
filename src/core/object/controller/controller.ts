@@ -261,6 +261,7 @@ export default class Controller {
 			}),
 			contentListener({
 				type: 'disableConnectorUntilTabIsClosed',
+				// eslint-disable-next-line
 				fn: () => this.disableUntilTabIsClosed(),
 			}),
 			contentListener({
@@ -476,7 +477,7 @@ export default class Controller {
 	/**
 	 * Reprocess currently playing song without otherwise changing it.
 	 */
-	async reprocessSong(): Promise<void> {
+	reprocessSong(): void {
 		this.assertSongIsPlaying();
 		if (!assertSongNotNull(this.currentSong)) {
 			return;

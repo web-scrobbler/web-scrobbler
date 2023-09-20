@@ -14,7 +14,7 @@
     "build": "tsx build.ts",
     "checkts": "tsc --noEmit && tsc --noEmit --project tsconfig.connectors.json",
     "test": "vitest",
-    "lint": "eslint . && stylelint \"**/*.scss\" && remark .",
+    "lint": "eslint . --ext .ts,.tsx && stylelint \"**/*.scss\" && remark .",
     "translations": "tx pull -m onlytranslated && tsx scripts/translations-prepare.ts"
   },
   "repository": {
@@ -39,16 +39,16 @@
     "@types/fs-extra": "11.0.2",
     "@types/imagemin": "8.0.1",
     "@types/imagemin-jpegtran": "5.0.1",
-    "@types/node": "20.6.0",
+    "@types/node": "20.6.2",
     "@types/react": "18.2.21",
     "@types/webextension-polyfill": "0.10.2",
     "@typescript-eslint/eslint-plugin": "6.7.0",
+    "@web-scrobbler/eslint-config": "3.0.0",
     "archiver": "6.0.1",
     "canvas": "2.11.2",
     "chokidar": "3.5.3",
-    "esbuild": "0.19.2",
+    "esbuild": "0.19.3",
     "eslint": "8.49.0",
-    "eslint-config-web-scrobbler": "2.1.1",
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-solid": "0.13.0",
     "eslint-plugin-tsdoc": "0.2.17",
@@ -65,7 +65,7 @@
     "sass": "1.67.0",
     "solid-js": "1.7.11",
     "stylelint-config-web-scrobbler": "0.2.0",
-    "tsx": "3.12.8",
+    "tsx": "3.12.10",
     "typescript": "5.2.2",
     "vite-plugin-conditional-compiler": "0.1.1",
     "vite-plugin-solid": "2.7.0",
@@ -74,6 +74,13 @@
   },
   "engines": {
     "node": ">=18.0.0"
+  },
+  "eslintConfig": {
+    "extends": "@web-scrobbler/eslint-config/solid",
+    "parserOptions": {
+      "sourceType": "script",
+      "ecmaVersion": 2020
+    }
   },
   "prettier": "prettier-config-web-scrobbler",
   "remark": {

@@ -19,7 +19,6 @@ async function main() {
 			return;
 		}
 		Util.debugLog(err, 'error');
-		return;
 	}
 }
 
@@ -51,7 +50,7 @@ async function fetchConnector(): Promise<void> {
 	} catch (err) {
 		Util.debugLog(
 			`An error occured while loading ${connector.label} connector`,
-			'error'
+			'error',
 		);
 		throw err;
 	}

@@ -4,6 +4,8 @@ export {};
 
 const VARIOUS_ARTISTS_REGEXP = /variou?s\sartists?/i;
 
+// TODO: remove eslint ignores and properly type these things.
+
 /**
  * List of separators used to split ArtistTrack string of VariousArtists albums.
  */
@@ -15,8 +17,8 @@ const SEPARATORS: Separator[] = [' - ', ' | '];
 let bandcampFilter = MetadataFilter.createFilter(
 	MetadataFilter.createFilterSetForFields(
 		['artist', 'track', 'album', 'albumArtist'],
-		MetadataFilter.removeZeroWidth
-	)
+		MetadataFilter.removeZeroWidth,
+	),
 );
 
 setupConnector();
@@ -144,7 +146,7 @@ function initPropertiesForCollectionsPlayer() {
 
 	Connector.getOriginUrl = () =>
 		Util.getOriginUrl(
-			'.playing .collection-title-details a, .playing .buy-now a'
+			'.playing .collection-title-details a, .playing .buy-now a',
 		);
 }
 
@@ -153,7 +155,7 @@ function initPropertiesForFeedPlayer() {
 	bandcampFilter = bandcampFilter.extend(
 		MetadataFilter.createFilter({
 			artist: [removeByPrefix],
-		})
+		}),
 	);
 
 	Connector.artistSelector = '.waypoint-artist-title';
@@ -202,19 +204,22 @@ function initPropertiesForHomePage() {
 
 	Connector.getUniqueID = () => {
 		if (document.querySelector('.bcweekly.playing') !== null) {
+			// eslint-disable-next-line
 			const { bcw_data: bandcampWeeklyData } = getData(
 				'#pagedata',
-				'data-blob'
+				'data-blob',
 			);
 			const currentShowId = location.search.match(/show=(\d+)?/)?.[1];
 
 			if (currentShowId && currentShowId in bandcampWeeklyData) {
+				// eslint-disable-next-line
 				const currentShowData = bandcampWeeklyData[currentShowId];
 				const currentTrackIndex = Util.getDataFromSelectors(
 					'.bcweekly-current',
-					'index'
+					'index',
 				);
 
+				// eslint-disable-next-line
 				return currentShowData.tracks[currentTrackIndex ?? ''].track_id;
 			}
 		}
@@ -249,7 +254,7 @@ function getTrackNodes() {
 		trackNodes = document.querySelectorAll('.track_list .track-title');
 	} else if (isCollectionsPage()) {
 		trackNodes = document.querySelectorAll(
-			'.queue .title span:nth-child(2)'
+			'.queue .title span:nth-child(2)',
 		);
 	}
 
@@ -334,6 +339,7 @@ function getData(selector: string, attr: string) {
 	const element = document.querySelector(selector);
 	if (element) {
 		const rawData = element.getAttribute(attr);
+		// eslint-disable-next-line
 		return JSON.parse(rawData ?? '');
 	}
 

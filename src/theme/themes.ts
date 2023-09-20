@@ -5,12 +5,16 @@
 
 import browser from 'webextension-polyfill';
 
+// TODO: improve across the board
+
 /**
  * Initializes the theme from storage. To be run on load.
  */
 export async function initializeThemes() {
+	// eslint-disable-next-line
 	const theme = (await browser.storage.sync.get('theme')).theme;
 	if (theme) {
+		// eslint-disable-next-line
 		document.body.classList.add(await processTheme(theme));
 		return;
 	}
@@ -25,7 +29,7 @@ export async function initializeThemes() {
  */
 export async function updateTheme(theme: ModifiedTheme) {
 	document.body.className = '';
-	document.body.classList.add(await processTheme(theme));
+	document.body.classList.add(processTheme(theme));
 	await browser.storage.sync.set({
 		theme,
 	});
@@ -37,7 +41,7 @@ export async function updateTheme(theme: ModifiedTheme) {
  * @param theme - current theme
  * @returns the corresponding display theme
  */
-async function processTheme(theme: string) {
+function processTheme(theme: string) {
 	if (theme === 'theme-system') {
 		if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
 			return 'theme-dark';
@@ -52,7 +56,7 @@ export type ModifiedTheme = `theme-${Theme}`;
 
 export const themeList: Theme[] = ['system', 'dark', 'light'];
 export const modifiedThemeList = themeList.map(
-	(theme) => `theme-${theme}`
+	(theme) => `theme-${theme}`,
 ) as ModifiedTheme[];
 
 /**
@@ -61,5 +65,6 @@ export const modifiedThemeList = themeList.map(
  * @returns current theme
  */
 export async function getTheme(): Promise<ModifiedTheme> {
+	// eslint-disable-next-line
 	return (await browser.storage.sync.get('theme')).theme || 'theme-system';
 }

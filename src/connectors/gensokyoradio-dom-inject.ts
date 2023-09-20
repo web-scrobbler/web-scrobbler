@@ -14,9 +14,7 @@ function gensokyoSendUpdateEvent(type: string) {
 		{
 			sender: 'web-scrobbler',
 			type,
-			isPlaying: (window as unknown as GensokyoWindow).audio.paused
-				? false
-				: true,
+			isPlaying: !(window as unknown as GensokyoWindow).audio.paused,
 		},
 		'*',
 	);

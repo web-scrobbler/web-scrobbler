@@ -188,7 +188,9 @@ export function ConnectorOptionEntry<
 				isChecked={() => options()?.[connector]?.[key] as boolean}
 				onInput={(e) => {
 					setOptions.mutate((o) => {
-						if (!o) return o;
+						if (!o) {
+							return o;
+						}
 						const newOptions = {
 							...o,
 							[connector]: {
@@ -229,7 +231,9 @@ export function GlobalOptionEntry(props: {
 				isChecked={() => options()?.[key] as boolean}
 				onInput={(e) => {
 					setOptions.mutate((o) => {
-						if (!o) return o;
+						if (!o) {
+							return o;
+						}
 						const newOptions = {
 							...o,
 							[key]: e.currentTarget.checked,

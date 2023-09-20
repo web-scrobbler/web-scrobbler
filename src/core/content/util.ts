@@ -47,7 +47,6 @@ export type Separator =
 	| '<br/>'
 	| ' by '
 	| ', '
-	| '-'
 	| '·';
 
 /**
@@ -673,6 +672,7 @@ export function queryElements(
 	}
 
 	for (const selector of selectors) {
+		// eslint-disable-next-line
 		const elements = document.querySelectorAll(
 			selector,
 		) as NodeListOf<HTMLElement>;
@@ -775,7 +775,9 @@ class DebugLogQueue {
 	 * Process the queue to print logs in order.
 	 */
 	private async start(): Promise<void> {
-		if (this.isActive) return;
+		if (this.isActive) {
+			return;
+		}
 		this.isActive = true;
 
 		try {
@@ -790,7 +792,7 @@ class DebugLogQueue {
 						);
 					}
 
-					const message = `Web Scrobbler: ${currentMessage.text}`;
+					const message = `Web Scrobbler: ${currentMessage.text?.toString()}`;
 					logFunc(message);
 				}
 			}

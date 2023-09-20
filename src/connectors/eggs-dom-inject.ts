@@ -14,23 +14,21 @@ if (eggsIsArtistPage) {
 	const observer = new MutationObserver(eggsToggleExternalPlayer);
 
 	observer.observe(document.body, { childList: true });
-} else {
-	if ('player' in window) {
-		(
-			window.player as {
-				addEventListener: (
-					_: string,
-					__: (ev: {
-						data: number;
-						target: {
-							getCurrentTime: () => number;
-							getDuration: () => number;
-						};
-					}) => void,
-				) => void;
-			}
-		).addEventListener('onStateChange', eggsOnYoutubeSongStateChange);
-	}
+} else if ('player' in window) {
+	(
+		window.player as {
+			addEventListener: (
+				_: string,
+				__: (ev: {
+					data: number;
+					target: {
+						getCurrentTime: () => number;
+						getDuration: () => number;
+					};
+				}) => void,
+			) => void;
+		}
+	).addEventListener('onStateChange', eggsOnYoutubeSongStateChange);
 }
 
 function eggsToggleExternalPlayer(mutationList: MutationRecord[]) {
@@ -94,12 +92,16 @@ window.addEventListener('message', (event) => {
 	if (event.origin !== 'https://www.youtube.com') {
 		return;
 	}
+	// eslint-disable-next-line
 	const data = JSON.parse(event.data);
+	// eslint-disable-next-line
 	switch (data.event) {
 		case 'onStateChange':
+			// eslint-disable-next-line
 			eggsOnYoutubeStateChange(data);
 			break;
 		case 'infoDelivery':
+			// eslint-disable-next-line
 			eggsGetTimestamps(data);
 			break;
 	}
@@ -118,7 +120,7 @@ function eggsOnYoutubeStateChange(data: { info: number }) {
 			isPlaying: data.info === 1,
 			timeInfo: {
 				currentTime: eggsCurrentTime || 0,
-				eggsDuration,
+				duration: eggsDuration,
 			},
 			trackInfo: {
 				artist: parentElmt.querySelector(

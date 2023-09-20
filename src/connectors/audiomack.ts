@@ -37,7 +37,7 @@ Connector.durationSelector = '.player .waveform__duration';
 
 /**
  * Check if an album is playing.
- * @return {Boolean} Check result
+ * @returns Check result
  */
 function isAlbum() {
 	const label = Util.getTextFromSelectors(albumLabelSelector);

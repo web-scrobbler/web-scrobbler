@@ -136,7 +136,7 @@ function Popup() {
 	);
 }
 
-//render the popup
+// render the popup
 const body = document.body;
 const root = document.createElement('div');
 root.id = 'root';

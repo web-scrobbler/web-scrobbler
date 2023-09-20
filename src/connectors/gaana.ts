@@ -7,7 +7,6 @@ let lastTrackTitle: string | null = null;
 
 /**
  * Object that holds information about song.
- * @type {Object}
  */
 let songInfo: {
 	artist: string | null;
@@ -46,6 +45,7 @@ async function requestSongInfo() {
 		try {
 			songInfo = await fetchSongInfo(albumInfoUrl);
 		} catch (err) {
+			// eslint-disable-next-line
 			Util.debugLog(`Error: ${err}`, 'error');
 
 			resetSongInfo();
@@ -62,7 +62,7 @@ function resetSongInfo() {
 
 /**
  * Check if song is changed.
- * @return {Boolean} True if new song is playing; false otherwise
+ * @returns true if new song is playing; false otherwise
  */
 function isNewSongPlaying() {
 	const track = Util.getTextFromSelectors('#stitle');
@@ -78,7 +78,7 @@ function isNewSongPlaying() {
 /**
  * Load artist page asynchronously and fetch artist name.
  * @param albumInfoUrl - Album info URL
- * @return Promise that will be resolved with the song info
+ * @returns Promise that will be resolved with the song info
  */
 async function fetchSongInfo(albumInfoUrl: string) {
 	const track = lastTrackTitle;

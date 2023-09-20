@@ -53,9 +53,13 @@ export default function NowPlaying(props: { tab: Resource<ManagerTab> }) {
 
 	const song = createMemo(() => {
 		const rawTab = tab();
-		if (!rawTab) return null;
+		if (!rawTab) {
+			return null;
+		}
 		const rawSong = rawTab.song;
-		if (!rawSong) return null;
+		if (!rawSong) {
+			return null;
+		}
 		return new ClonedSong(rawSong, rawTab.tabId);
 	});
 
