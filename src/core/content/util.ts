@@ -867,13 +867,16 @@ export function processYtVideoTitle(
 	title = title.replace(/-\s*([「【『])/, '$1');
 
 	// 【/(*Music Video/MV/PV*】/)
-	title = title.replace(/[(【].*?((MV)|(PV)).*?[】)]/i, '');
+	title = title.replace(
+		/[(［【][^(［【]*?((Music Video)|(MV)|(PV)).*?[】］)]/i,
+		'',
+	);
 
 	// 【/(東方/オリジナル*】/)
-	title = title.replace(/[(【]((オリジナル)|(東方)).*?[】)]/, '');
+	title = title.replace(/[(［【]((オリジナル)|(東方)).*?[】］)]+?/, '');
 
 	// MV/PV if followed by an opening/closing bracket
-	title = title.replace(/(MV|PV)([「【『』】」])/i, '$2');
+	title = title.replace(/((?:Music Video)|MV|PV)([「［【『』】］」])/i, '$2');
 
 	// MV/PV if ending and with whitespace in front
 	title = title.replace(/\s+(MV|PV)$/i, '');
