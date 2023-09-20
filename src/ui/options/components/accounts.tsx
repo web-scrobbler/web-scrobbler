@@ -8,6 +8,7 @@ import styles from './components.module.scss';
 import browser from 'webextension-polyfill';
 import Delete from '@suid/icons-material/DeleteOutlined';
 import { debugLog } from '@/util/util';
+import { sendContentMessage } from '@/util/communication';
 
 /**
  * Properties associated with each scrobbler, and the input type to use for the user to edit them.
@@ -212,7 +213,14 @@ function Properties(props: { scrobbler: Scrobbler }) {
 											data = {};
 										}
 										data[typedKey] = e.currentTarget.value;
-										scrobbler.applyUserProperties(data);
+										scrobbler
+											.applyUserProperties(data)
+											.then(() => {
+												sendContentMessage({
+													type: 'updateScrobblerProperties',
+													payload: void 0,
+												});
+											});
 										return data;
 									});
 								}}
@@ -260,9 +268,14 @@ function ArrayProperties(props: { scrobbler: Scrobbler }) {
 											...data.slice(0, index()),
 											...data.slice(index() + 1),
 										];
-										scrobbler.applyUserArrayProperties(
-											data,
-										);
+										scrobbler
+											.applyUserArrayProperties(data)
+											.then(() => {
+												sendContentMessage({
+													type: 'updateScrobblerProperties',
+													payload: void 0,
+												});
+											});
 										return data;
 									});
 								}}
@@ -305,7 +318,12 @@ function ArrayProperties(props: { scrobbler: Scrobbler }) {
 						if (!data) {
 							data = [];
 						}
-						scrobbler.addUserArrayProperties(newProps);
+						scrobbler.addUserArrayProperties(newProps).then(() => {
+							sendContentMessage({
+								type: 'updateScrobblerProperties',
+								payload: void 0,
+							});
+						});
 						return [...data, newProps];
 					});
 				}}

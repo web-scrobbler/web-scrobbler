@@ -13,6 +13,10 @@ import {
 	getScrobblerStorage,
 } from '../storage/browser-storage';
 import ClonedSong from '../object/cloned-song';
+import {
+	backgroundListener,
+	setupBackgroundListeners,
+} from '@/util/communication';
 
 export interface SessionData {
 	/** ID of a current session */
@@ -66,6 +70,14 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	constructor() {
 		this.storage = this.initStorage();
 		void this.initUserProps();
+		setupBackgroundListeners(
+			backgroundListener({
+				type: 'updateScrobblerProperties',
+				fn: () => {
+					void this.initUserProps();
+				},
+			}),
+		);
 	}
 
 	/**
@@ -211,7 +223,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 			data.arrayProperties,
 			this.getUserDefinedArrayProperties(),
 		);
-		this.storage.set(data);
+		await this.storage.set(data);
 	}
 
 	/**
@@ -240,7 +252,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 			data.arrayProperties,
 			this.getUserDefinedArrayProperties(),
 		);
-		this.storage.set(data);
+		await this.storage.set(data);
 	}
 
 	/** Authentication */
