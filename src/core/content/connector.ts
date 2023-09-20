@@ -130,6 +130,21 @@ export default class BaseConnector {
 	public playerSelector: string | string[] | null = null;
 
 	/**
+	 * This selector is used to determine where to inject the infobox
+	 */
+	public scrobbleInfoLocationSelector: string | null = null;
+
+	/**
+	 * Styles to apply to the infobox
+	 * this is in camelCase so its fontSize, not font-size
+	 */
+	public scrobbleInfoStyle: Partial<CSSStyleDeclaration> = {
+		display: 'flex',
+		gap: '0.5em',
+		alignItems: 'center',
+	};
+
+	/**
 	 * Selector of element contains a track art of now playing song.
 	 * Default implementation looks for track art URL in `src` attribute or
 	 * `background-image` (`background`) CSS property of given element.

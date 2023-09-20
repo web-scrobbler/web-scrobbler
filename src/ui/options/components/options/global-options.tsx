@@ -53,6 +53,14 @@ export default function GlobalOptionsList(props: {
 					options={props.options}
 					setOptions={props.setOptions}
 					globalOptions={globalOptions}
+					i18ntitle="optionUseInfoboxTitle"
+					i18nlabel="optionUseInfobox"
+					key={Options.USE_INFOBOX}
+				/>
+				<GlobalOptionEntry
+					options={props.options}
+					setOptions={props.setOptions}
+					globalOptions={globalOptions}
 					i18ntitle="optionScrobblePodcastsTitle"
 					i18nlabel="optionScrobblePodcasts"
 					key={Options.SCROBBLE_PODCASTS}

@@ -4,7 +4,7 @@
 export const Base = 'Base';
 
 /**
- * An option is disallowing scrobbling.
+ * An option, or something hard coded into the connector, is disallowing scrobbling.
  */
 export const Disallowed = 'Disallowed';
 

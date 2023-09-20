@@ -1,12 +1,8 @@
 import { TestData } from '#/types/types';
 import { expect, it, describe } from 'vitest';
 
-// trick webextension polyfill into thinking this is running in the browser
-(globalThis as unknown as { chrome: unknown }).chrome = {
-	runtime: {
-		id: 'mock',
-	},
-};
+import webextensionPolyfill from '#/mocks/webextension-polyfill';
+webextensionPolyfill.reset();
 import * as Util from '@/core/content/util';
 
 /**

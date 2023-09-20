@@ -22,6 +22,8 @@ import {
 import EventEmitter from '@/util/emitter';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import { debugLog } from '@/core/content/util';
+import browser from 'webextension-polyfill';
+import BaseConnector from '@/core/content/connector';
 
 /**
  * List of song fields used to check if song is changed. If any of
@@ -58,7 +60,7 @@ const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
  * Object that handles song playback and scrobbling actions.
  */
 export default class Controller {
-	public connector: ConnectorMeta;
+	public connector: BaseConnector;
 	public isEnabled: boolean;
 	public mode: ControllerModeStr;
 
@@ -90,16 +92,109 @@ export default class Controller {
 	});
 
 	/**
+	 * Function that handles updating the scrobble info box
+	 */
+	private async getInfoBoxElement(): Promise<HTMLDivElement | null> {
+		if (
+			!this.connector.scrobbleInfoLocationSelector ||
+			// infobox is disabled in options
+			!(await Options.getOption(
+				Options.USE_INFOBOX,
+				this.connector.meta.id,
+			))
+		) {
+			return null;
+		}
+
+		const parentEl = document.querySelector(
+			this.connector.scrobbleInfoLocationSelector,
+		);
+		if (!parentEl) {
+			return null;
+		}
+
+		// check if infoBoxEl was already created
+		let infoBoxElement = document.querySelector<HTMLDivElement>(
+			'#scrobbler-infobox-el',
+		);
+
+		// check if element is still in the correct place
+		if (infoBoxElement) {
+			if (infoBoxElement.parentElement !== parentEl) {
+				infoBoxElement.remove();
+			} else {
+				return infoBoxElement;
+			}
+		}
+
+		// if it was not in the correct place or didn't exist, create it
+		infoBoxElement = document.createElement('div');
+		infoBoxElement.setAttribute('id', 'scrobbler-infobox-el');
+
+		// style the infobox
+		for (const prop in this.connector.scrobbleInfoStyle) {
+			infoBoxElement.style[prop] =
+				this.connector.scrobbleInfoStyle[prop] ?? '';
+		}
+
+		parentEl.appendChild(infoBoxElement);
+		return infoBoxElement;
+	}
+
+	private async updateInfoBox() {
+		let oldInfoBoxText: string | false = false;
+		const infoBoxElement = await this.getInfoBoxElement();
+		if (!infoBoxElement) {
+			// clean up
+			const infoBoxElement = document.querySelector<HTMLDivElement>(
+				'#scrobbler-infobox-el',
+			);
+			if (infoBoxElement) {
+				infoBoxElement.remove();
+			}
+			return;
+		}
+		const textEl = infoBoxElement.querySelector('span');
+		if (textEl) {
+			oldInfoBoxText = textEl.innerText;
+		}
+
+		const mode = this.getMode();
+		const infoBoxText = Util.getInfoBoxText(mode, this.currentSong);
+
+		// Check if infobox needs to be updated
+		if (!oldInfoBoxText || infoBoxText !== oldInfoBoxText) {
+			const img = document.createElement('img');
+			img.setAttribute(
+				'src',
+				browser.runtime.getURL('./icons/icon_main_48.png'),
+			);
+			img.setAttribute('alt', 'Web Scrobbler state:');
+			img.setAttribute('style', 'height: 1.2em');
+
+			const info = document.createElement('span');
+			info.innerText = infoBoxText;
+
+			// Clear old contents of infoBoxElement
+			while (infoBoxElement.firstChild) {
+				infoBoxElement.removeChild(infoBoxElement.firstChild);
+			}
+			infoBoxElement.appendChild(img);
+			infoBoxElement.appendChild(info);
+		}
+	}
+
+	/**
 	 * @param tabId - Tab ID
 	 * @param connector - Connector match object
 	 * @param isEnabled - Flag indicates initial stage
 	 */
-	constructor(connector: ConnectorMeta, isEnabled: boolean) {
+	constructor(connector: BaseConnector, isEnabled: boolean) {
 		this.connector = connector;
 		this.isEnabled = isEnabled;
 		this.mode = isEnabled ? ControllerMode.Base : ControllerMode.Disabled;
 		this.setMode(this.mode);
-		Options.getOption(Options.SCROBBLE_PODCASTS, connector.id)
+		Options.getOption(Options.SCROBBLE_PODCASTS, connector.meta.id)
 			.then((shouldScrobblePodcasts) => {
 				if (typeof shouldScrobblePodcasts !== 'boolean') {
 					return;
@@ -110,7 +205,9 @@ export default class Controller {
 				debugLog(err, 'error');
 			});
 
-		this.debugLog(`Created controller for ${connector.label} connector`);
+		this.debugLog(
+			`Created controller for ${connector.meta.label} connector`,
+		);
 
 		setupContentListeners(
 			contentListener({
@@ -196,6 +293,7 @@ export default class Controller {
 	 * Called if current song is updated.
 	 */
 	public onSongUpdated(): void {
+		this.updateInfoBox();
 		sendContentMessage({
 			type: 'songUpdate',
 			payload: this.currentSong?.getCloneableData() ?? null,
@@ -206,6 +304,7 @@ export default class Controller {
 	 * Called if a controller mode is changed.
 	 */
 	public onModeChanged(): void {
+		this.updateInfoBox();
 		sendContentMessage({
 			type: 'controllerModeChange',
 			payload: this.mode,
@@ -222,18 +321,18 @@ export default class Controller {
 			case ControllerEvents.SongNowPlaying: {
 				const song = this.getCurrentSong();
 				if (!song || song.flags.isReplaying || !this.shouldScrobble()) {
-					return;
+					break;
 				}
 				const id = await this.tabId;
 				if (!id) {
-					return;
+					break;
 				}
 
 				sendContentMessage({
 					type: 'showNowPlaying',
 					payload: {
 						song: song.getCloneableData(),
-						connector: this.connector,
+						connector: this.connector.meta,
 					},
 				});
 				break;
@@ -253,24 +352,25 @@ export default class Controller {
 			case ControllerEvents.SongUnrecognized: {
 				const song = this.getCurrentSong();
 				if (!song || !this.shouldScrobble()) {
-					return;
+					break;
 				}
 				const id = await this.tabId;
 				if (!id) {
-					return;
+					break;
 				}
 
 				sendContentMessage({
 					type: 'showSongNotRecognized',
 					payload: {
 						song: song.getCloneableData(),
-						connector: this.connector,
+						connector: this.connector.meta,
 					},
 				});
 				break;
 			}
 		}
-		// do nothing
+
+		this.updateInfoBox();
 	}
 
 	/** Public functions */
@@ -295,7 +395,7 @@ export default class Controller {
 	 */
 	public finish(): void {
 		this.debugLog(
-			`Remove controller for ${this.connector.label} connector`,
+			`Remove controller for ${this.connector.meta.label} connector`,
 		);
 		this.resetState();
 	}
@@ -337,7 +437,7 @@ export default class Controller {
 	 * @returns Connector
 	 */
 	getConnector(): ConnectorMeta {
-		return this.connector;
+		return this.connector.meta;
 	}
 
 	/**
@@ -501,7 +601,7 @@ export default class Controller {
 		 * clear any previous song and its bindings.
 		 */
 		this.resetState();
-		this.currentSong = new Song(newState, this.connector);
+		this.currentSong = new Song(newState, this.connector.meta);
 		this.currentSong.flags.isReplaying = this.isReplayingSong;
 
 		this.debugLog(
@@ -606,7 +706,12 @@ export default class Controller {
 			this.setMode(ControllerMode.Disallowed);
 		}
 
-		if (!(await this.pipeline.process(this.currentSong, this.connector))) {
+		if (
+			!(await this.pipeline.process(
+				this.currentSong,
+				this.connector.meta,
+			))
+		) {
 			return;
 		}
 
@@ -765,7 +870,7 @@ export default class Controller {
 
 		const percent = await Options.getOption(
 			Options.SCROBBLE_PERCENT,
-			this.connector.id,
+			this.connector.meta.id,
 		);
 		if (typeof percent !== 'number') {
 			return;
@@ -869,7 +974,7 @@ export default class Controller {
 			...disabledTabList,
 			[currentTab ?? -1]: {
 				...(disabledTabList?.[currentTab ?? -1] ?? {}),
-				[this.connector.id]: true,
+				[this.connector.meta.id]: true,
 			},
 		});
 		this.setEnabled(false);

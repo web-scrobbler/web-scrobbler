@@ -8,7 +8,12 @@ import type {
 	TrackInfoWithAlbum,
 } from '@/core/types';
 import type { ConnectorOptions } from '@/core/storage/options';
+import type { ControllerModeStr } from '@/core/object/controller/controller';
 import type { DebugLogType } from '@/util/util';
+
+import { t } from '@/util/i18n';
+import * as ControllerMode from '@/core/object/controller/controller-mode';
+import Song from '../object/song';
 
 const BrowserStorage = (async () => {
 	return import('@/core/storage/browser-storage');
@@ -1034,4 +1039,26 @@ export function getOriginUrl(selector: string): string {
 		originUrlAnchor.getAttribute('href')?.split('?')?.[0] ??
 		document.location.href
 	);
+}
+
+export function getInfoBoxText(
+	mode: ControllerModeStr | undefined,
+	song: Song | null,
+) {
+	if (!mode) {
+		return t('pageActionLoading');
+	}
+
+	const trackInfo = `${song?.getArtist()} - ${song?.getTrack()}`;
+	switch (mode) {
+		case ControllerMode.Disallowed:
+			return t('infoBoxStateDisallowed', trackInfo);
+		case ControllerMode.Err:
+			return t('infoBoxStateError');
+		case ControllerMode.Unknown:
+			return t('infoBoxStateUnknown');
+		default:
+			// re-use existing translation messages
+			return t(`pageAction${mode}`, trackInfo);
+	}
 }
