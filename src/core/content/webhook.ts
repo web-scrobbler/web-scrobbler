@@ -1,5 +1,6 @@
 import browser from 'webextension-polyfill';
 import scrobbleService from '../object/scrobble-service';
+import { sendContentMessage } from '@/util/communication';
 
 export function webhookListenForApproval() {
 	const scriptUrl = browser.runtime.getURL(
@@ -31,6 +32,12 @@ export function webhookListenForApproval() {
 				?.addUserArrayProperties({
 					applicationName: e.data.applicationName,
 					userApiUrl: e.data.userApiUrl,
+				})
+				.then(() => {
+					sendContentMessage({
+						type: 'updateScrobblerProperties',
+						payload: undefined,
+					});
 				});
 		}
 	});
