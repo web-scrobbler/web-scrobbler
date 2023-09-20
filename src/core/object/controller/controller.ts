@@ -94,11 +94,14 @@ export default class Controller {
 	/**
 	 * Function that handles updating the scrobble info box
 	 */
-	private getInfoBoxElement(): HTMLDivElement | null {
+	private async getInfoBoxElement(): Promise<HTMLDivElement | null> {
 		if (
 			!this.connector.scrobbleInfoLocationSelector ||
 			// infobox is disabled in options
-			!Options.getOption(Options.USE_INFOBOX, this.connector.meta.id)
+			!(await Options.getOption(
+				Options.USE_INFOBOX,
+				this.connector.meta.id,
+			))
 		) {
 			return null;
 		}
@@ -138,9 +141,9 @@ export default class Controller {
 		return infoBoxElement;
 	}
 
-	private updateInfoBox() {
+	private async updateInfoBox() {
 		let oldInfoBoxText: string | false = false;
-		const infoBoxElement = this.getInfoBoxElement();
+		const infoBoxElement = await this.getInfoBoxElement();
 		if (!infoBoxElement) {
 			// clean up
 			const infoBoxElement = document.querySelector<HTMLDivElement>(
@@ -150,11 +153,10 @@ export default class Controller {
 				infoBoxElement.remove();
 			}
 			return;
-		} else {
-			const textEl = infoBoxElement.querySelector('span');
-			if (textEl) {
-				oldInfoBoxText = textEl.innerText;
-			}
+		}
+		const textEl = infoBoxElement.querySelector('span');
+		if (textEl) {
+			oldInfoBoxText = textEl.innerText;
 		}
 
 		const mode = this.getMode();

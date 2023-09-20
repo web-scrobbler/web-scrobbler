@@ -141,6 +141,7 @@ export default class BaseConnector {
 	public scrobbleInfoStyle: Partial<CSSStyleDeclaration> = {
 		display: 'flex',
 		gap: '0.5em',
+		alignItems: 'center',
 	};
 
 	/**
