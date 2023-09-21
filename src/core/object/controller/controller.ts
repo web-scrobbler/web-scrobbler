@@ -22,6 +22,8 @@ import {
 import EventEmitter from '@/util/emitter';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import { debugLog } from '@/core/content/util';
+import scrobbleCache from '@/core/storage/scrobble-cache';
+import { ScrobbleStatus } from '@/core/storage/wrapper';
 
 /**
  * List of song fields used to check if song is changed. If any of
@@ -69,6 +71,7 @@ export default class Controller {
 	private currentSong: Song | null = null;
 	private isReplayingSong = false;
 	private shouldScrobblePodcasts = true;
+	private scrobbleCacheId: number | null = null;
 
 	private forceScrobble = false;
 	private shouldHaveScrobbled = false;
@@ -221,7 +224,12 @@ export default class Controller {
 		switch (event) {
 			case ControllerEvents.SongNowPlaying: {
 				const song = this.getCurrentSong();
-				if (!song || song.flags.isReplaying || !this.shouldScrobble()) {
+				if (
+					!song ||
+					song.flags.isReplaying ||
+					!this.shouldScrobble() ||
+					!this.currentSong?.isValid()
+				) {
 					return;
 				}
 				const id = await this.tabId;
@@ -252,7 +260,7 @@ export default class Controller {
 			}
 			case ControllerEvents.SongUnrecognized: {
 				const song = this.getCurrentSong();
-				if (!song || !this.shouldScrobble()) {
+				if (!song) {
 					return;
 				}
 				const id = await this.tabId;
@@ -614,35 +622,33 @@ export default class Controller {
 			`Song finished processing: ${this.currentSong.toString()}`,
 		);
 
-		if (this.currentSong.isValid()) {
-			// Processing cleans this flag
-			this.currentSong.flags.isMarkedAsPlaying = false;
+		// Processing cleans this flag
+		this.currentSong.flags.isMarkedAsPlaying = false;
 
-			await this.updateTimers(this.currentSong.getDuration());
+		await this.updateTimers(this.currentSong.getDuration());
 
+		/*
+		 * If the song is playing, mark it immediately;
+		 * otherwise will be flagged in isPlaying binding.
+		 */
+		if (!this.currentSong.isValid()) {
+			this.setSongNotRecognized();
+		} else if (!this.shouldScrobble()) {
+			this.setMode(ControllerMode.Disallowed);
+		} else if (this.currentSong.parsed.isPlaying) {
 			/*
-			 * If the song is playing, mark it immediately;
-			 * otherwise will be flagged in isPlaying binding.
-			 */
-			if (!this.shouldScrobble()) {
-				this.setMode(ControllerMode.Disallowed);
-			} else if (this.currentSong.parsed.isPlaying) {
-				/*
 					* If playback timer is expired, then the extension
 					* will scrobble song immediately, and there's no need
 					* to set song as now playing. We should dispatch
 					a "now playing" event, though.
 					*/
-				if (!this.playbackTimer.isExpired()) {
-					void this.setSongNowPlaying();
-				} else {
-					this.dispatchEvent(ControllerEvents.SongNowPlaying);
-				}
+			if (!this.playbackTimer.isExpired()) {
+				void this.setSongNowPlaying();
 			} else {
-				this.setMode(ControllerMode.Base);
+				this.dispatchEvent(ControllerEvents.SongNowPlaying);
 			}
 		} else {
-			this.setSongNotRecognized();
+			this.setMode(ControllerMode.Base);
 		}
 
 		this.onSongUpdated();
@@ -746,9 +752,7 @@ export default class Controller {
 
 		this.currentSong.parsed.duration = duration;
 
-		if (this.currentSong.isValid()) {
-			void this.updateTimers(duration);
-		}
+		void this.updateTimers(duration);
 	}
 
 	/**
@@ -794,7 +798,11 @@ export default class Controller {
 	 * now playing.
 	 */
 	private async setSongNowPlaying(): Promise<void> {
-		if (!assertSongNotNull(this.currentSong) || !this.shouldScrobble()) {
+		if (
+			!assertSongNotNull(this.currentSong) ||
+			!this.currentSong.isValid() ||
+			!this.shouldScrobble()
+		) {
 			return;
 		}
 		this.currentSong.flags.isMarkedAsPlaying = true;
@@ -818,7 +826,11 @@ export default class Controller {
 	}
 
 	private async setPaused(): Promise<void> {
-		if (!assertSongNotNull(this.currentSong) || !this.shouldScrobble()) {
+		if (
+			!assertSongNotNull(this.currentSong) ||
+			!this.currentSong.isValid() ||
+			!this.shouldScrobble()
+		) {
 			return;
 		}
 		await sendContentMessage({
@@ -830,7 +842,11 @@ export default class Controller {
 	}
 
 	private async setResumedPlaying(): Promise<void> {
-		if (!assertSongNotNull(this.currentSong) || !this.shouldScrobble()) {
+		if (
+			!assertSongNotNull(this.currentSong) ||
+			!this.currentSong.isValid() ||
+			!this.shouldScrobble()
+		) {
 			return;
 		}
 		await sendContentMessage({
@@ -876,6 +892,35 @@ export default class Controller {
 	}
 
 	/**
+	 * Tries to save failed scrobble due to disallowed/unrecognized.
+	 *
+	 * @returns true if scrobble is failed; false if should scrobble
+	 */
+	private async saveFailedScrobble(): Promise<boolean> {
+		if (!assertSongNotNull(this.currentSong)) {
+			return true;
+		}
+
+		if (!this.shouldScrobble()) {
+			this.scrobbleCacheId = await scrobbleCache.pushScrobble({
+				song: this.currentSong.getCloneableData(),
+				status: ScrobbleStatus.DISALLOWED,
+			});
+			this.shouldHaveScrobbled = true;
+			return true;
+		}
+		if (!this.currentSong.isValid()) {
+			this.scrobbleCacheId = await scrobbleCache.pushScrobble({
+				song: this.currentSong.getCloneableData(),
+				status: ScrobbleStatus.INVALID,
+			});
+			this.shouldHaveScrobbled = true;
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Called when scrobble timer triggers.
 	 * The time should be set only after the song is validated and ready
 	 * to be scrobbled.
@@ -885,9 +930,12 @@ export default class Controller {
 			return;
 		}
 
-		if (!this.shouldScrobble()) {
-			this.shouldHaveScrobbled = true;
+		if (await this.saveFailedScrobble()) {
 			return;
+		}
+		if (this.scrobbleCacheId) {
+			scrobbleCache.deleteScrobble(this.scrobbleCacheId);
+			this.scrobbleCacheId = null;
 		}
 
 		// dont scrobble until user stopped editing.

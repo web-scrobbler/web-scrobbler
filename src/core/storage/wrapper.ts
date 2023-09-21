@@ -10,6 +10,7 @@ import {
 	NOTIFICATIONS,
 	OPTIONS,
 	REGEX_EDITS,
+	SCROBBLE_CACHE,
 	STATE_MANAGEMENT,
 	StorageNamespace,
 } from '@/core/storage/browser-storage';
@@ -25,6 +26,7 @@ import EventEmitter from '@/util/emitter';
 import connectors from '@/core/connectors';
 import { RegexEdit } from '@/util/regex';
 import { debugLog } from '../content/util';
+import { ServiceCallResult } from '../object/service-call-result';
 
 export interface CustomPatterns {
 	[connectorId: string]: string[];
@@ -83,6 +85,40 @@ export interface StateManagement {
 	browserPreferredTheme: 'light' | 'dark';
 }
 
+export enum ScrobbleStatus {
+	SUCCESSFUL = 'success',
+	IGNORED = 'ignored',
+	ERROR = 'error',
+	DISALLOWED = 'disallowed',
+	INVALID = 'invalid',
+}
+
+export function getScrobbleStatus(
+	resultArr: ServiceCallResult[],
+): ScrobbleStatus {
+	// RESULT_IGNORE definitely requires action - prioritize it.
+	for (const res of resultArr) {
+		if (res === ServiceCallResult.RESULT_IGNORE) {
+			return ScrobbleStatus.IGNORED;
+		}
+	}
+	for (const res of resultArr) {
+		if (res !== ServiceCallResult.RESULT_OK) {
+			return ScrobbleStatus.ERROR;
+		}
+	}
+	return ScrobbleStatus.SUCCESSFUL;
+}
+
+export interface CacheScrobbleData {
+	song: CloneableSong;
+	status: ScrobbleStatus;
+}
+
+export interface CacheScrobble extends CacheScrobbleData {
+	id: number;
+}
+
 export interface DataModels extends ScrobblerModels {
 	/* sync options */
 	[CUSTOM_PATTERNS]: CustomPatterns;
@@ -95,6 +131,7 @@ export interface DataModels extends ScrobblerModels {
 	[CORE]: { appVersion: string };
 	[LOCAL_CACHE]: { [key: string]: SavedEdit };
 	[REGEX_EDITS]: RegexEdit[];
+	[SCROBBLE_CACHE]: CacheScrobble[];
 
 	/* state management */
 	[STATE_MANAGEMENT]: StateManagement;

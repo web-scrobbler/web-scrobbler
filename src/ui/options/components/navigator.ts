@@ -2,6 +2,7 @@ import { Component, Setter } from 'solid-js';
 import Info from '@suid/icons-material/InfoOutlined';
 import Help from '@suid/icons-material/HelpOutlined';
 import Contacts from '@suid/icons-material/ContactsOutlined';
+import QueueMusic from '@suid/icons-material/QueueMusicOutlined';
 import Settings from '@suid/icons-material/SettingsOutlined';
 import Edit from '@suid/icons-material/EditOutlined';
 import Extension from '@suid/icons-material/ExtensionOutlined';
@@ -26,6 +27,7 @@ import {
 	getCurrentTab,
 } from '@/core/background/util';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
+import ScrobbleCache from './scrobbleCache';
 
 /**
  * Type indicating possible states for modal
@@ -81,6 +83,12 @@ export const optionsItem: NavigatorNavigationButton = {
 	element: OptionsComponent,
 };
 
+export const scrobbleCache: NavigatorNavigationButton = {
+	namei18n: 'optionsScrobbleCache',
+	icon: QueueMusic,
+	element: ScrobbleCache,
+};
+
 export const editOptionsItem: NavigatorNavigationButton = {
 	namei18n: 'optionsEdits',
 	icon: Edit,
@@ -96,7 +104,12 @@ export const connectorOverrideOptionsItem: NavigatorNavigationButton = {
 export const optionsGroup: NavigatorButtonGroup = {
 	namei18n: 'optionsOptions',
 	icon: Settings,
-	group: [optionsItem, editOptionsItem, connectorOverrideOptionsItem],
+	group: [
+		optionsItem,
+		scrobbleCache,
+		editOptionsItem,
+		connectorOverrideOptionsItem,
+	],
 };
 
 export const contactItem: NavigatorNavigationButton = {
@@ -189,7 +202,7 @@ export async function getMobileNavigatorGroup(): Promise<NavigatorButtonGroup> {
 				action: () => {
 					browser.tabs.create({
 						url: browser.runtime.getURL(
-							'src/ui/options/index.html'
+							'src/ui/options/index.html',
 						),
 					});
 				},
@@ -205,7 +218,7 @@ export async function getMobileNavigatorGroup(): Promise<NavigatorButtonGroup> {
 
 export function triggerNavigationButton(
 	button: NavigatorButton | NavigatorButtonGroup,
-	setActiveSetting: Setter<NavigatorNavigationButton>
+	setActiveSetting: Setter<NavigatorNavigationButton>,
 ) {
 	if ('group' in button) {
 		return;
@@ -225,7 +238,7 @@ export function triggerNavigationButton(
  * @returns true if item is singular, false if item is a group
  */
 export function itemIsSingular(
-	item: NavigatorButton | NavigatorButtonGroup
+	item: NavigatorButton | NavigatorButtonGroup,
 ): item is NavigatorButton {
 	return !('group' in item);
 }

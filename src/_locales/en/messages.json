@@ -211,6 +211,34 @@
         "message": "Options",
         "description": "'Options' section"
     },
+    "optionsScrobbleCache": {
+        "message": "Cache",
+        "description": "'Scrobble Cache' section"
+    },
+    "optionsScrobbleCacheLoading": {
+        "message": "Loading scrobble cache...",
+        "description": "'Scrobble Cache' section"
+    },
+    "optionsScrobbleCacheSuccess": {
+        "message": "Successful Scrobbles",
+        "description": "'Scrobble Cache' successful scrobbles section header"
+    },
+    "optionsScrobbleCacheError": {
+        "message": "Errored Scrobbles",
+        "description": "'Scrobble Cache' errored scrobbles section header"
+    },
+    "optionsScrobbleCacheIgnored": {
+        "message": "Ignored Scrobbles",
+        "description": "'Scrobble Cache' ignored scrobbles section header"
+    },
+    "optionsScrobbleCacheDisallowed": {
+        "message": "Disallowed Scrobbles",
+        "description": "'Scrobble Cache' disallowed scrobbles section header"
+    },
+    "optionsScrobbleCacheUnrecognized": {
+        "message": "Unrecognized Scrobbles",
+        "description": "'Scrobble Cache' unrecognized scrobbles section header"
+    },
     "optionsEdits": {
         "message": "Edits",
         "description": "'Edits' section"
@@ -462,6 +490,10 @@
     "buttonReset": {
         "message": "Reset",
         "description": "Reset button label"
+    },
+    "buttonScrobble": {
+        "message": "Scrobble",
+        "description": "Scrobble button label"
     },
     "buttonClear": {
         "message": "Clear",

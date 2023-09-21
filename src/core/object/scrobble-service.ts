@@ -9,6 +9,8 @@ import { BaseSong } from '@/core/object/song';
 import { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
 import ClonedSong from './cloned-song';
 import { debugLog } from '../content/util';
+import scrobbleCache from '../storage/scrobble-cache';
+import { getScrobbleStatus } from '../storage/wrapper';
 
 /**
  * Service to handle all scrobbling behavior.
@@ -221,10 +223,10 @@ class ScrobbleService {
 	 * @param song - Song instance
 	 * @returns Promise that will be resolved then the task will complete
 	 */
-	scrobble(song: BaseSong): Promise<ServiceCallResult[]> {
+	async scrobble(song: BaseSong): Promise<ServiceCallResult[]> {
 		debugLog(`Send "scrobble" request: ${this.boundScrobblers.length}`);
 
-		return Promise.all(
+		const res = await Promise.all(
 			this.boundScrobblers.map(async (scrobbler) => {
 				// Forward result (including errors) to caller
 				try {
@@ -239,6 +241,11 @@ class ScrobbleService {
 				}
 			}),
 		);
+		void scrobbleCache.pushScrobble({
+			song: song.getCloneableData(),
+			status: getScrobbleStatus(res),
+		});
+		return res;
 	}
 
 	/**

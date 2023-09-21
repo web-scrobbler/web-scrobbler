@@ -1,5 +1,6 @@
 import browser from 'webextension-polyfill';
 import StorageWrapper, { DataModels } from '@/core/storage/wrapper';
+import type CloneableSong from '../object/song';
 
 const LOCAL = 0;
 const SYNC = 1;
@@ -107,6 +108,17 @@ export const DISABLED_TABS = 'DisabledTabs';
 export const REGEX_EDITS = 'RegexEdits';
 
 /**
+ * This storage contains the scrobble cache for the user to interact with.
+ * The format of the storage data is as follows:
+ * \{
+ *     song: {@link CloneableSong},
+ *     status: 'Status of the scrobble',
+ *     id: auto-increment unique ID.
+ * \}
+ */
+export const SCROBBLE_CACHE = 'ScrobbleCache';
+
+/**
  * This storage contains the data saved and used by the extension core.
  * The format of storage data is following:
  * \{
@@ -130,6 +142,7 @@ const storageTypeMap = {
 
 	[LOCAL_CACHE]: LOCAL,
 	[REGEX_EDITS]: LOCAL,
+	[SCROBBLE_CACHE]: LOCAL,
 	[CORE]: LOCAL,
 	[STATE_MANAGEMENT]: LOCAL,
 	[DISABLED_TABS]: LOCAL,

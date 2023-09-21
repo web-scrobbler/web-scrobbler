@@ -225,7 +225,8 @@
 	color: var(--muted-text);
 }
 
-.connectorOptionsList {
+.connectorOptionsList,
+.scrobbleCacheList {
 	summary,
 	& > li:first-child {
 		align-items: center;
@@ -491,5 +492,78 @@ summary {
 	}
 	.regexDeleteAlbumArtistReplace {
 		grid-area: albumartistreplace;
+	}
+}
+
+.scrobbleCacheList {
+	summary {
+		padding: 0.5rem 0;
+	}
+	.summarySpan {
+		font-size: 1.5em;
+		font-weight: bold;
+	}
+}
+
+.scrobble {
+	align-items: center;
+	background-color: var(--last-fm-bg-weak);
+	border-radius: 1em;
+	box-shadow: var(--neuomorphic-bottom), var(--neuomorphic-top);
+	display: flex;
+	gap: 0.5em;
+	height: 7em;
+	margin-bottom: 1em;
+	overflow: hidden;
+	padding-right: 1em;
+
+	.coverArt {
+		height: 7em;
+	}
+
+	.scrobbleDetails {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		height: 6em;
+		justify-content: space-between;
+
+		.scrobbleMetadata {
+			display: flex;
+			flex-direction: column;
+
+			.trackName {
+				font-size: 1rem;
+				font-weight: bold;
+			}
+
+			.artistName,
+			.albumName,
+			.albumArtistName {
+				font-size: 0.7rem;
+			}
+		}
+
+		.scrobbleActions {
+			display: flex;
+			gap: 0.5rem;
+
+			.scrobbleActionButton {
+				background-color: var(--always-last-fm);
+				border: none;
+				border-radius: 3px;
+				color: var(--always-light);
+				cursor: pointer;
+
+				&:hover {
+					background-color: var(--always-last-fm-hover);
+				}
+
+				&:disabled {
+					background-color: var(--last-fm-bg);
+					color: var(--text);
+				}
+			}
+		}
 	}
 }
