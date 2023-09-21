@@ -666,6 +666,11 @@ const PROCESS_YT_VIDEO_TITLE_DATA = [
 		args: ['Artist「Track」【stuff】'],
 		expected: { artist: 'Artist', track: 'Track' },
 	},
+	{
+		description: 'should remove ［Music Video］ string',
+		args: ['Artist - Track(feat.Artist2)［Music Video］'],
+		expected: { artist: 'Artist', track: 'Track(feat.Artist2)' },
+	},
 ];
 
 /**
