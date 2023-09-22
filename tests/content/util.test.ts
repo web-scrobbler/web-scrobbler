@@ -1,12 +1,8 @@
 import { TestData } from '#/types/types';
 import { expect, it, describe } from 'vitest';
 
-// trick webextension polyfill into thinking this is running in the browser
-(globalThis as unknown as { chrome: unknown }).chrome = {
-	runtime: {
-		id: 'mock',
-	},
-};
+import webextensionPolyfill from '#/mocks/webextension-polyfill';
+webextensionPolyfill.reset();
 import * as Util from '@/core/content/util';
 
 /**
@@ -669,6 +665,11 @@ const PROCESS_YT_VIDEO_TITLE_DATA = [
 		description: 'should prioritize other brackets over 【】',
 		args: ['Artist「Track」【stuff】'],
 		expected: { artist: 'Artist', track: 'Track' },
+	},
+	{
+		description: 'should remove ［Music Video］ string',
+		args: ['Artist - Track(feat.Artist2)［Music Video］'],
+		expected: { artist: 'Artist', track: 'Track(feat.Artist2)' },
 	},
 ];
 

@@ -8,7 +8,12 @@ import type {
 	TrackInfoWithAlbum,
 } from '@/core/types';
 import type { ConnectorOptions } from '@/core/storage/options';
+import type { ControllerModeStr } from '@/core/object/controller/controller';
 import type { DebugLogType } from '@/util/util';
+
+import { t } from '@/util/i18n';
+import * as ControllerMode from '@/core/object/controller/controller-mode';
+import Song from '../object/song';
 
 const BrowserStorage = (async () => {
 	return import('@/core/storage/browser-storage');
@@ -867,13 +872,16 @@ export function processYtVideoTitle(
 	title = title.replace(/-\s*([「【『])/, '$1');
 
 	// 【/(*Music Video/MV/PV*】/)
-	title = title.replace(/[(【].*?((MV)|(PV)).*?[】)]/i, '');
+	title = title.replace(
+		/[(［【][^(［【]*?((Music Video)|(MV)|(PV)).*?[】］)]/i,
+		'',
+	);
 
 	// 【/(東方/オリジナル*】/)
-	title = title.replace(/[(【]((オリジナル)|(東方)).*?[】)]/, '');
+	title = title.replace(/[(［【]((オリジナル)|(東方)).*?[】］)]+?/, '');
 
 	// MV/PV if followed by an opening/closing bracket
-	title = title.replace(/(MV|PV)([「【『』】」])/i, '$2');
+	title = title.replace(/((?:Music Video)|MV|PV)([「［【『』】］」])/i, '$2');
 
 	// MV/PV if ending and with whitespace in front
 	title = title.replace(/\s+(MV|PV)$/i, '');
@@ -1034,4 +1042,26 @@ export function getOriginUrl(selector: string): string {
 		originUrlAnchor.getAttribute('href')?.split('?')?.[0] ??
 		document.location.href
 	);
+}
+
+export function getInfoBoxText(
+	mode: ControllerModeStr | undefined,
+	song: Song | null,
+) {
+	if (!mode) {
+		return t('pageActionLoading');
+	}
+
+	const trackInfo = `${song?.getArtist()} - ${song?.getTrack()}`;
+	switch (mode) {
+		case ControllerMode.Disallowed:
+			return t('infoBoxStateDisallowed', trackInfo);
+		case ControllerMode.Err:
+			return t('infoBoxStateError');
+		case ControllerMode.Unknown:
+			return t('infoBoxStateUnknown');
+		default:
+			// re-use existing translation messages
+			return t(`pageAction${mode}`, trackInfo);
+	}
 }
