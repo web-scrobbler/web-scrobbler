@@ -1,29 +1,29 @@
-# Privacy policy
+# Datenschutzrichtlinie
 
-This privacy policy explains what data we collect and store; how we use and disclose this data.
+Diese Datenschutzrichtlinie erklärt, welche Daten wir erheben und speichern, wie wir sie verwenden und mitteilen.
 
-**Important note**: This document is applicable to Web Scrobbler v2.40.0 and newer.
+**Wichtiger Hinweis**: Dieses Dokument ist anwendbar auf Web Scrobbler v2.40.0 und neuer.
 
-## What data is collected?
+## Welche Daten werden erhoben?
 
-The extension does not collect any of your personal data.
+Diese Erweiterung sammelt keine deiner personenbezogenen Daten.
 
-## What data is stored by the extension?
+## Welche Daten werden von der Erweiterung gespeichert?
 
-Your settings and credentials are stored within your browser. The extension stores:
+Deine Einstellungen und Zugangsdaten werden in deinem Browser gespeichert. Die Erweiterung speichert:
 
- - Your credentials of scrobble services
- - Your personal Web Scrobbler settings
- - Your edited tracks
- - Your custom URL patterns for connectors
- - System information of the extension
+ - Deine Zugangsdaten für Scrobble-Dienste
+ - Deine persönlichen Einstellungen für Web Scrobbler
+ - Deine bearbeiteten Titel
+ - Deine individuellen URL-Muster für Verbinder
+ - Systeminformationen der Erweiterung
 
-Your credentials are used to communicate with scrobble services only.
+Deine Zugangsdaten werden nur zur Kommunikation mit dem Scrobble-Dienst verwendet.
 
-All data is used by the extension internally; we don't send this data to 3rd-party services.
+Alle Daten werden innerhalb der Erweiterung verarbeitet; wir senden diese Daten nicht an Drittanbieter. 
 
-## Why does the extension access to all websites?
+## Warum greift die Erweiterung auf alle Websites zu?
 
-The extension supports several self-hosted services (e.g. Funkwhale), which are supposed to have user-defined URLs. The extension could not know these URLs, that's why access to all websites is required.
+Die Erweiterung unterstützt etliche selbstgehostete Dienste (z.B. Funkwhale), die üblicherweise benutzerdefinierte URLs haben. Die Erweiterung kann diese URLs nicht kennen; daher ist der Zugriff auf alle Websites erforderlich.
 
-Also, it asks accessing for user convenience only. Users will not be prompted to confirm access to new websites added in new extension versions.
+Darüber hinaus erbittet sie den Zugriff nur noch wegen der Nutzerfreundlichkeit. Nutzer werden nicht bei Websites, die in neueren Versionen der Erweiterung hinzugefügt werden, erneut zur Zustimmung aufgefordert.

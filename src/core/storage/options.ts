@@ -13,6 +13,7 @@ const connectorsOverrideOptions = BrowserStorage.getStorage(
 export const USE_NOTIFICATIONS = 'useNotifications';
 export const USE_UNRECOGNIZED_SONG_NOTIFICATIONS =
 	'useUnrecognizedSongNotifications';
+export const USE_INFOBOX = 'showInfobox';
 export const SCROBBLE_PODCASTS = 'scrobblePodcasts';
 export const FORCE_RECOGNIZE = 'forceRecognize';
 export const SCROBBLE_RECOGNIZED_TRACKS = 'scrobbleRecognizedTracks';
@@ -31,6 +32,11 @@ export interface GlobalOptions {
 	 * Use now playing notifications.
 	 */
 	[USE_NOTIFICATIONS]: boolean;
+
+	/**
+	 * Show the infobox for supported connectors
+	 */
+	[USE_INFOBOX]: boolean;
 
 	/**
 	 * Scrobble percent.
@@ -82,6 +88,7 @@ const DEFAULT_OPTIONS: GlobalOptions = {
 	[SCROBBLE_EDITED_TRACKS_ONLY]: false,
 	[DEBUG_LOGGING_ENABLED]: false,
 	[SCROBBLE_PERCENT]: 50,
+	[USE_INFOBOX]: true,
 	[DISABLED_CONNECTORS]: {},
 };
 
@@ -92,6 +99,7 @@ const OVERRIDE_CONTENT = {
 	[SCROBBLE_PODCASTS]: true,
 	[USE_NOTIFICATIONS]: true,
 	[USE_UNRECOGNIZED_SONG_NOTIFICATIONS]: false,
+	[USE_INFOBOX]: true,
 };
 
 export interface ConnectorOptions {
@@ -118,6 +126,7 @@ const DEFAULT_CONNECTOR_OPTIONS: ConnectorOptions = {
 export interface ConnectorsOverrideOptionValues {
 	[FORCE_RECOGNIZE]?: boolean;
 	[USE_NOTIFICATIONS]?: boolean;
+	[USE_INFOBOX]?: boolean;
 	[SCROBBLE_PODCASTS]?: boolean;
 	[USE_UNRECOGNIZED_SONG_NOTIFICATIONS]?: boolean;
 	[SCROBBLE_RECOGNIZED_TRACKS]?: boolean;
