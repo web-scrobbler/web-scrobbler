@@ -32,7 +32,7 @@ Please make sure your issue describes only one feature, request or bug.
 -   Read [our wiki][Wiki].
 -   Fork the Web Scrobbler [git repository][Repository].
 -   Create a pull request against the [**master**][RepositoryMaster] branch.
--   Ensure PR title explains **concicely** what the functionality is doing.
+-   Ensure PR title explains **concisely** what the functionality is doing.
 -   Ensure the PR description **clearly** describes the problem and solution.
     Include the relevant issue number(s) if applicable.
 -   Ensure CI tests pass.
