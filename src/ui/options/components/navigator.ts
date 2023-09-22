@@ -8,7 +8,7 @@ import Edit from '@suid/icons-material/EditOutlined';
 import Extension from '@suid/icons-material/ExtensionOutlined';
 import ManageAccounts from '@suid/icons-material/ManageAccountsOutlined';
 import InfoComponent from '@/ui/options/components/info';
-import ShowSomeLove from '@/ui/options/components/showSomeLove';
+import ShowSomeLove from '@/ui/options/components/show-some-love';
 import FAQ from '@/ui/options/components/faq';
 import ContactComponent from '@/ui/options/components/contact';
 import OptionsComponent from '@/ui/options/components/options/options';
@@ -27,12 +27,12 @@ import {
 	getCurrentTab,
 } from '@/core/background/util';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
-import ScrobbleCache from './scrobbleCache';
+import ScrobbleCache from './scrobble-cache';
 
 /**
  * Type indicating possible states for modal
  */
-export type ModalType = 'savedEdits' | 'regexEdits' | '';
+export type ModalType = 'savedEdits' | 'regexEdits' | 'cacheEdit' | '';
 
 /**
  * Singular navigator button

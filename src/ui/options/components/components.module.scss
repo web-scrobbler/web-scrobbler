@@ -45,6 +45,12 @@
 	span {
 		white-space: nowrap;
 	}
+
+	&:disabled {
+		background-color: var(--last-fm-bg);
+		color: var(--muted-text);
+		cursor: default;
+	}
 }
 
 .deleteEditButton {
@@ -565,5 +571,28 @@ summary {
 				}
 			}
 		}
+	}
+}
+
+.editTable {
+	margin-bottom: 1rem;
+
+	label {
+		padding-right: 1rem;
+	}
+
+	label,
+	input {
+		font-size: 1rem;
+	}
+
+	input {
+		appearance: none;
+		background-color: var(--last-fm-bg-weak);
+		border: none;
+		border-radius: 0.5rem;
+		color: var(--text);
+		padding: 0.25rem 0.5rem;
+		width: 30ch;
 	}
 }

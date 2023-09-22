@@ -18,6 +18,8 @@ $themes: (
 		invert-filter: invert(0%),
 		neuomorphic-bottom: 10px 10px 30px #bbb,
 		neuomorphic-top: -10px -10px 30px #fff9f9,
+		neuomorphic-small-bottom: 5px 5px 15px #bbb,
+		neuomorphic-small-top: -5px -5px 15px #fff9f9,
 	),
 	dark: (
 		always-light: #fff,
@@ -38,6 +40,8 @@ $themes: (
 		invert-filter: invert(100%),
 		neuomorphic-bottom: 10px 10px 30px #111,
 		neuomorphic-top: -10px -10px 30px #333,
+		neuomorphic-small-bottom: 5px 5px 15px #111,
+		neuomorphic-small-top: -5px -5px 15px #333,
 	),
 );
 

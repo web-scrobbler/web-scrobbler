@@ -241,7 +241,7 @@ class ScrobbleService {
 				}
 			}),
 		);
-		void scrobbleCache.pushScrobble({
+		await scrobbleCache.pushScrobble({
 			song: song.getCloneableData(),
 			status: getScrobbleStatus(res),
 		});
