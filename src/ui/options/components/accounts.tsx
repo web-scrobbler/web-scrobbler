@@ -11,6 +11,7 @@ import Save from '@suid/icons-material/SaveOutlined';
 import AutoRenew from '@suid/icons-material/AutorenewOutlined';
 import Check from '@suid/icons-material/CheckOutlined';
 import { debugLog } from '@/util/util';
+import { sendContentMessage } from '@/util/communication';
 import { Dynamic } from 'solid-js/web';
 
 /**
@@ -255,7 +256,14 @@ function Properties(props: { scrobbler: Scrobbler }) {
 											data = {};
 										}
 										data[typedKey] = e.currentTarget.value;
-										scrobbler.applyUserProperties(data);
+										scrobbler
+											.applyUserProperties(data)
+											.then(() => {
+												sendContentMessage({
+													type: 'updateScrobblerProperties',
+													payload: void 0,
+												});
+											});
 										return data;
 									});
 								}}
@@ -304,9 +312,14 @@ function ArrayProperties(props: { scrobbler: Scrobbler }) {
 											...data.slice(0, index()),
 											...data.slice(index() + 1),
 										];
-										scrobbler.applyUserArrayProperties(
-											data,
-										);
+										scrobbler
+											.applyUserArrayProperties(data)
+											.then(() => {
+												sendContentMessage({
+													type: 'updateScrobblerProperties',
+													payload: void 0,
+												});
+											});
 										return data;
 									});
 								}}
@@ -349,7 +362,12 @@ function ArrayProperties(props: { scrobbler: Scrobbler }) {
 						if (!data) {
 							data = [];
 						}
-						scrobbler.addUserArrayProperties(newProps);
+						scrobbler.addUserArrayProperties(newProps).then(() => {
+							sendContentMessage({
+								type: 'updateScrobblerProperties',
+								payload: void 0,
+							});
+						});
 						return [...data, newProps];
 					});
 				}}
