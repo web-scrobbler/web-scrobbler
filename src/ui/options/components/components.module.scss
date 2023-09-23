@@ -594,5 +594,15 @@ summary {
 		color: var(--text);
 		padding: 0.25rem 0.5rem;
 		width: 30ch;
+  }
+}
+
+.saveIcon {
+	transform: rotate(0deg);
+
+	&.savingSaveIcon {
+		transform: rotate(360deg);
+		transform-origin: 41% 42.5%;
+		transition: transform 600ms ease-in-out;
 	}
 }

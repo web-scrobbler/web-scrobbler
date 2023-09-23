@@ -17,7 +17,7 @@ export default class Reactor {
 	 * @param isEnabled - Whether the connector is currently enabled
 	 */
 	constructor(connector: BaseConnector, isEnabled: boolean) {
-		this.controller = new Controller(connector.meta, isEnabled);
+		this.controller = new Controller(connector, isEnabled);
 
 		// Setup listening for state changes on connector.
 		connector.controllerCallback = this.onStateChanged.bind(this);

@@ -28,6 +28,10 @@ export const common: Manifest.WebExtensionManifest = {
 			resources: ['connectors/*'],
 			matches: ['<all_urls>'],
 		},
+		{
+			resources: ['icons/*'],
+			matches: ['<all_urls>'],
+		},
 	],
 
 	options_ui: {

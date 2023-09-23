@@ -3,11 +3,16 @@ import ScrobbleService, {
 	Scrobbler,
 	ScrobblerLabel,
 } from '@/core/object/scrobble-service';
-import { For, Show, createResource, onCleanup } from 'solid-js';
+import { For, Show, createResource, createSignal, onCleanup } from 'solid-js';
 import styles from './components.module.scss';
 import browser from 'webextension-polyfill';
 import Delete from '@suid/icons-material/DeleteOutlined';
+import Save from '@suid/icons-material/SaveOutlined';
+import AutoRenew from '@suid/icons-material/AutorenewOutlined';
+import Check from '@suid/icons-material/CheckOutlined';
 import { debugLog } from '@/util/util';
+import { sendContentMessage } from '@/util/communication';
+import { Dynamic } from 'solid-js/web';
 
 /**
  * Properties associated with each scrobbler, and the input type to use for the user to edit them.
@@ -178,6 +183,45 @@ function SignedOut(props: { scrobbler: Scrobbler }) {
 	);
 }
 
+enum SaveState {
+	BASE = 'base',
+	SAVING = 'saving',
+	SAVED = 'saved',
+}
+
+/**
+ * Save button component.
+ * This button doesn't actually do anything as the extension autosaves, but better user feedback :)
+ */
+function SaveButton() {
+	const [state, setState] = createSignal(SaveState.BASE);
+
+	const icons = {
+		[SaveState.BASE]: Save,
+		[SaveState.SAVING]: AutoRenew,
+		[SaveState.SAVED]: Check,
+	};
+
+	return (
+		<button
+			class={styles.resetButton}
+			onClick={() => {
+				if (state() !== SaveState.SAVING) {
+					setState(SaveState.SAVING);
+					setTimeout(() => {
+						setState(SaveState.SAVED);
+					}, 850);
+				}
+			}}
+		>
+			<div class={`${styles[`${state()}SaveIcon`]} ${styles.saveIcon}`}>
+				<Dynamic component={icons[state()]} />
+			</div>
+			Save
+		</button>
+	);
+}
+
 /**
  * Component that allows the user to edit scrobbler properties for the scrobblers that support them.
  */
@@ -212,7 +256,14 @@ function Properties(props: { scrobbler: Scrobbler }) {
 											data = {};
 										}
 										data[typedKey] = e.currentTarget.value;
-										scrobbler.applyUserProperties(data);
+										scrobbler
+											.applyUserProperties(data)
+											.then(() => {
+												sendContentMessage({
+													type: 'updateScrobblerProperties',
+													payload: void 0,
+												});
+											});
 										return data;
 									});
 								}}
@@ -221,6 +272,7 @@ function Properties(props: { scrobbler: Scrobbler }) {
 					);
 				}}
 			</For>
+			<SaveButton />
 		</>
 	);
 }
@@ -260,9 +312,14 @@ function ArrayProperties(props: { scrobbler: Scrobbler }) {
 											...data.slice(0, index()),
 											...data.slice(index() + 1),
 										];
-										scrobbler.applyUserArrayProperties(
-											data,
-										);
+										scrobbler
+											.applyUserArrayProperties(data)
+											.then(() => {
+												sendContentMessage({
+													type: 'updateScrobblerProperties',
+													payload: void 0,
+												});
+											});
 										return data;
 									});
 								}}
@@ -305,7 +362,12 @@ function ArrayProperties(props: { scrobbler: Scrobbler }) {
 						if (!data) {
 							data = [];
 						}
-						scrobbler.addUserArrayProperties(newProps);
+						scrobbler.addUserArrayProperties(newProps).then(() => {
+							sendContentMessage({
+								type: 'updateScrobblerProperties',
+								payload: void 0,
+							});
+						});
 						return [...data, newProps];
 					});
 				}}
