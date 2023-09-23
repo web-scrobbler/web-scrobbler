@@ -499,6 +499,10 @@
         "message": "Clear",
         "description": "Clear button label"
     },
+    "buttonRemove": {
+        "message": "Remove",
+        "description": "Remove button label, for removing a single scrobble from the cache"
+    },
     "noItemsInCache": {
         "message": "No items in cache.",
         "description": "Popup hint"

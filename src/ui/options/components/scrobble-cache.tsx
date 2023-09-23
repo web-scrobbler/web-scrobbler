@@ -402,7 +402,7 @@ function ScrobbleActions(props: {
 					});
 				}}
 			>
-				Remove
+				{t('buttonRemove')}
 			</button>
 		</div>
 	);
