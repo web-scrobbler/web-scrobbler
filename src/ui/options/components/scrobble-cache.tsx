@@ -18,6 +18,7 @@ import browser from 'webextension-polyfill';
 import { sendContentMessage } from '@/util/communication';
 import { ModalType } from './navigator';
 import savedEdits from '@/core/storage/saved-edits';
+import SavedEditsModel from '@/core/storage/saved-edits.model';
 
 const [scrobbles, setScrobbles] = createResource(
 	scrobbleCache.getScrobbleCacheStorage.bind(scrobbleCache),
@@ -392,6 +393,46 @@ function ScrobbleActions(props: {
 					}}
 				>
 					{t('buttonScrobble')}
+				</button>
+				<button
+					class={styles.scrobbleActionButton}
+					onClick={(e) => {
+						e.currentTarget.disabled = true;
+						const uniqueID = SavedEditsModel.getSongId(props.song);
+						const songsToScrobble = scrobbles()?.filter(
+							(e) =>
+								e.status !== ScrobbleStatus.SUCCESSFUL &&
+								SavedEditsModel.getSongId(
+									new ClonedSong(e.song, -1),
+								) === uniqueID,
+						);
+						if (!songsToScrobble) {
+							e.currentTarget.disabled = false;
+							return;
+						}
+
+						const promises: Promise<void>[] = [];
+						for (const scrobble of songsToScrobble) {
+							const clonedSong = new ClonedSong(
+								scrobble.song,
+								-1,
+							);
+							if (
+								SavedEditsModel.getSongId(clonedSong) ===
+								uniqueID
+							) {
+								promises.push(
+									scrobbleFromCache(clonedSong, scrobble.id),
+								);
+							}
+						}
+						Promise.all(promises).then(() => {
+							e.currentTarget.disabled = false;
+							setScrobbles.refetch();
+						});
+					}}
+				>
+					{t('buttonScrobbleAll')}
 				</button>
 			</Show>
 			<button
