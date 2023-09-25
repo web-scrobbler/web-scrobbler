@@ -7,11 +7,18 @@ import browser from 'webextension-polyfill';
 import { sendContentMessage } from '@/util/communication';
 import savedEdits from '../storage/saved-edits';
 import regexEdits from '../storage/regex-edits';
+import { webhookListenForApproval } from './webhook';
 
 main();
 async function main() {
 	updateTheme();
 	try {
+		if (
+			window.location.href.startsWith('https://web-scrobbler.com/webhook')
+		) {
+			webhookListenForApproval();
+			return;
+		}
 		await fetchConnector();
 		start();
 	} catch (err) {
