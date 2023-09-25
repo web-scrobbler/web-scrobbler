@@ -22,16 +22,16 @@ export type ListenBrainzParams =
 			payload: [
 				{
 					track_metadata: ListenBrainzTrackMeta;
-				}
+				},
 			];
 	  }
 	| {
-			listen_type: 'single';
+			listen_type: 'single' | 'import';
 			payload: [
 				{
 					listened_at: number;
 					track_metadata: ListenBrainzTrackMeta;
-				}
+				},
 			];
 	  }
 	| {

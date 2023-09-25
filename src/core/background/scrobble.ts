@@ -23,9 +23,12 @@ export async function sendResumedPlaying(
 	return scrobbleService.sendResumedPlaying(song);
 }
 
-export async function scrobble(song: BaseSong): Promise<ServiceCallResult[]> {
+export async function scrobble(
+	songs: BaseSong[],
+	currentlyPlaying: boolean,
+): Promise<ServiceCallResult[][]> {
 	await scrobbleService.bindAllScrobblers();
-	return scrobbleService.scrobble(song);
+	return scrobbleService.scrobble(songs, currentlyPlaying);
 }
 
 export async function getSongInfo(

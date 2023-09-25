@@ -375,7 +375,12 @@ setupBackgroundListeners(
 	backgroundListener({
 		type: 'scrobble',
 		fn: (payload, sender) => {
-			return scrobble(new ClonedSong(payload.song, sender.tab?.id ?? -1));
+			return scrobble(
+				payload.songs.map(
+					(song) => new ClonedSong(song, sender.tab?.id ?? -1),
+				),
+				payload.currentlyPlaying,
+			);
 		},
 	}),
 

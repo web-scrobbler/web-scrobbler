@@ -1,8 +1,7 @@
 import scrobbleCache from '@/core/storage/scrobble-cache';
-import { CacheScrobble, ScrobbleStatus } from '@/core/storage/wrapper';
+import { ScrobbleStatus } from '@/core/storage/wrapper';
 import { t } from '@/util/i18n';
 import {
-	Accessor,
 	For,
 	Setter,
 	Show,
@@ -18,7 +17,6 @@ import browser from 'webextension-polyfill';
 import { sendContentMessage } from '@/util/communication';
 import { ModalType } from './navigator';
 import savedEdits from '@/core/storage/saved-edits';
-import SavedEditsModel from '@/core/storage/saved-edits.model';
 
 const [scrobbles, setScrobbles] = createResource(
 	scrobbleCache.getScrobbleCacheStorage.bind(scrobbleCache),
@@ -26,6 +24,7 @@ const [scrobbles, setScrobbles] = createResource(
 
 const [songToEdit, setSongToEdit] = createSignal<ClonedSong>();
 const [scrobbleId, setScrobbleId] = createSignal<number>();
+const [isSelectingScrobbles, setSelectingScrobbles] = createSignal(false);
 
 export default function ScrobbleCache(props: {
 	setActiveModal: Setter<ModalType>;
@@ -34,6 +33,19 @@ export default function ScrobbleCache(props: {
 	return (
 		<>
 			<h1>{t('optionsScrobbleCache')}</h1>
+			<div class={styles.scrobbleButtonsWrapper}>
+				<button
+					class={styles.resetButton}
+					onClick={() => setSelectingScrobbles((prev) => !prev)}
+				>
+					Select Scrobbles
+				</button>
+				<Show when={isSelectingScrobbles()}>
+					<button class={styles.resetButton}>
+						Scrobble Selected
+					</button>
+				</Show>
+			</div>
 			<div class={styles.scrobbleCacheList}>
 				<Suspense fallback={t('optionsScrobbleCacheLoading')}>
 					<ScrobbleList
@@ -264,14 +276,22 @@ export function CacheEditModal() {
 
 function timeSince(time: number) {
 	const seconds = (time - Date.now()) / 1000;
-	let interval = seconds / 31536000;
+	let interval = seconds / 31_536_000;
 	const formatter = new Intl.RelativeTimeFormat();
 	if (Math.abs(interval) > 1) {
 		return formatter.format(Math.floor(interval), 'year');
 	}
-	interval = seconds / 86400;
+	interval = seconds / 2_629_744;
 	if (Math.abs(interval) > 1) {
 		return formatter.format(Math.floor(interval), 'month');
+	}
+	interval = seconds / 604_800;
+	if (Math.abs(interval) > 1) {
+		return formatter.format(Math.floor(interval), 'week');
+	}
+	interval = seconds / 86400;
+	if (Math.abs(interval) > 1) {
+		return formatter.format(Math.floor(interval), 'day');
 	}
 	interval = seconds / 3600;
 	if (Math.abs(interval) > 1) {
@@ -315,7 +335,23 @@ function ScrobbleList(props: {
 							song.metadata.startTimestamp * 1000,
 						);
 						return (
-							<div class={styles.scrobble}>
+							<label
+								class={styles.scrobble}
+								onClick={(e) => {
+									if (!isSelectingScrobbles()) {
+										e.preventDefault();
+									}
+								}}
+							>
+								<input
+									type="checkbox"
+									class={styles.scrobbleCheckbox}
+									hidden={
+										props.type ===
+											ScrobbleStatus.SUCCESSFUL ||
+										!isSelectingScrobbles()
+									}
+								/>
 								<img
 									class={styles.coverArt}
 									src={
@@ -349,7 +385,7 @@ function ScrobbleList(props: {
 									/>
 								</div>
 								<span title={dateString}>{relativeString}</span>
-							</div>
+							</label>
 						);
 					}}
 				</For>
@@ -379,60 +415,6 @@ function ScrobbleActions(props: {
 					}}
 				>
 					{t('infoEditTitleShort')}
-				</button>
-				<button
-					class={styles.scrobbleActionButton}
-					onClick={(e) => {
-						e.currentTarget.disabled = true;
-						void scrobbleFromCache(props.song, props.id).then(
-							() => {
-								e.currentTarget.disabled = false;
-								setScrobbles.refetch();
-							},
-						);
-					}}
-				>
-					{t('buttonScrobble')}
-				</button>
-				<button
-					class={styles.scrobbleActionButton}
-					onClick={(e) => {
-						e.currentTarget.disabled = true;
-						const uniqueID = SavedEditsModel.getSongId(props.song);
-						const songsToScrobble = scrobbles()?.filter(
-							(e) =>
-								e.status !== ScrobbleStatus.SUCCESSFUL &&
-								SavedEditsModel.getSongId(
-									new ClonedSong(e.song, -1),
-								) === uniqueID,
-						);
-						if (!songsToScrobble) {
-							e.currentTarget.disabled = false;
-							return;
-						}
-
-						const promises: Promise<void>[] = [];
-						for (const scrobble of songsToScrobble) {
-							const clonedSong = new ClonedSong(
-								scrobble.song,
-								-1,
-							);
-							if (
-								SavedEditsModel.getSongId(clonedSong) ===
-								uniqueID
-							) {
-								promises.push(
-									scrobbleFromCache(clonedSong, scrobble.id),
-								);
-							}
-						}
-						Promise.all(promises).then(() => {
-							e.currentTarget.disabled = false;
-							setScrobbles.refetch();
-						});
-					}}
-				>
-					{t('buttonScrobbleAll')}
 				</button>
 			</Show>
 			<button
@@ -471,15 +453,16 @@ async function editCacheScrobble(
 	song.processed.album = album;
 	song.processed.albumArtist = albumArtist;
 
-	await scrobbleFromCache(song, id);
+	await scrobbleFromCache([song], id);
 }
 
-async function scrobbleFromCache(song: ClonedSong, id: number) {
+async function scrobbleFromCache(songs: ClonedSong[], id: number) {
 	await scrobbleCache.deleteScrobble(id);
 	await sendContentMessage({
 		type: 'scrobble',
 		payload: {
-			song,
+			songs,
+			currentlyPlaying: false,
 		},
 	});
 }

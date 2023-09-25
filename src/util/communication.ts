@@ -75,9 +75,10 @@ interface ContentCommunications {
 	};
 	scrobble: {
 		payload: {
-			song: CloneableSong;
+			songs: CloneableSong[];
+			currentlyPlaying: boolean;
 		};
-		response: Promise<ServiceCallResult[]>;
+		response: Promise<ServiceCallResult[][]>;
 	};
 	getSongInfo: {
 		payload: {

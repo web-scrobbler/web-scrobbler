@@ -94,16 +94,17 @@ export enum ScrobbleStatus {
 }
 
 export function getScrobbleStatus(
-	resultArr: ServiceCallResult[],
+	resultArr: ServiceCallResult[][],
+	index: number,
 ): ScrobbleStatus {
 	// RESULT_IGNORE definitely requires action - prioritize it.
 	for (const res of resultArr) {
-		if (res === ServiceCallResult.RESULT_IGNORE) {
+		if (res[index] === ServiceCallResult.RESULT_IGNORE) {
 			return ScrobbleStatus.IGNORED;
 		}
 	}
 	for (const res of resultArr) {
-		if (res !== ServiceCallResult.RESULT_OK) {
+		if (res[index] !== ServiceCallResult.RESULT_OK) {
 			return ScrobbleStatus.ERROR;
 		}
 	}

@@ -1060,18 +1060,19 @@ export default class Controller {
 		const results = await sendContentMessage({
 			type: 'scrobble',
 			payload: {
-				song: this.currentSong.getCloneableData(),
+				songs: [this.currentSong.getCloneableData()],
+				currentlyPlaying: true,
 			},
 		});
 
-		if (isAnyResult(results, ServiceCallResult.RESULT_OK)) {
+		if (isAnyResult(results[0], ServiceCallResult.RESULT_OK)) {
 			this.debugLog('Scrobbled successfully');
 
 			this.currentSong.flags.isScrobbled = true;
 			this.setMode(ControllerMode.Scrobbled);
 
 			this.onSongUpdated();
-		} else if (areAllResults(results, ServiceCallResult.RESULT_IGNORE)) {
+		} else if (areAllResults(results[0], ServiceCallResult.RESULT_IGNORE)) {
 			this.debugLog('Song is ignored by service');
 			this.setMode(ControllerMode.Ignored);
 		} else {

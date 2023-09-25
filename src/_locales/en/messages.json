@@ -503,10 +503,6 @@
         "message": "Scrobble",
         "description": "Scrobble button label"
     },
-    "buttonScrobbleAll": {
-        "message": "Scrobble All",
-        "description": "Scrobble All button label"
-    },
     "buttonClear": {
         "message": "Clear",
         "description": "Clear button label"

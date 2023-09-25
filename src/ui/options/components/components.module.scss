@@ -606,3 +606,8 @@ summary {
 		transition: transform 600ms ease-in-out;
 	}
 }
+
+.scrobbleButtonsWrapper {
+	display: flex;
+	gap: 1rem;
+}
