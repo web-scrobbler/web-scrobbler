@@ -1,5 +1,5 @@
 import scrobbleCache from '@/core/storage/scrobble-cache';
-import { ScrobbleStatus } from '@/core/storage/wrapper';
+import { CacheScrobble, ScrobbleStatus } from '@/core/storage/wrapper';
 import { t } from '@/util/i18n';
 import {
 	For,
@@ -327,70 +327,121 @@ function ScrobbleList(props: {
 				</summary>
 				<For each={filteredScrobbles()}>
 					{(scrobble) => {
-						const song = new ClonedSong(scrobble.song, -1);
-						const dateString = new Date(
-							song.metadata.startTimestamp * 1000,
-						).toLocaleString();
-						const relativeString = timeSince(
-							song.metadata.startTimestamp * 1000,
-						);
 						return (
-							<label
-								class={styles.scrobble}
-								onClick={(e) => {
-									if (!isSelectingScrobbles()) {
-										e.preventDefault();
-									}
-								}}
-							>
-								<input
-									type="checkbox"
-									class={styles.scrobbleCheckbox}
-									hidden={
-										props.type ===
-											ScrobbleStatus.SUCCESSFUL ||
-										!isSelectingScrobbles()
-									}
-								/>
-								<img
-									class={styles.coverArt}
-									src={
-										song.getTrackArt() ??
-										browser.runtime.getURL(
-											'img/cover_art_default.png',
-										)
-									}
-								/>
-								<div class={styles.scrobbleDetails}>
-									<div class={styles.scrobbleMetadata}>
-										<span class={styles.trackName}>
-											{song.getTrack()}
-										</span>
-										<span class={styles.artistName}>
-											{song.getArtist()}
-										</span>
-										<span class={styles.albumName}>
-											{song.getAlbum()}
-										</span>
-										<span class={styles.albumArtistName}>
-											{song.getAlbumArtist()}
-										</span>
-									</div>
-									<ScrobbleActions
-										song={song}
-										id={scrobble.id}
-										status={scrobble.status}
-										setActiveModal={props.setActiveModal}
-										modal={props.modal}
-									/>
-								</div>
-								<span title={dateString}>{relativeString}</span>
-							</label>
+							<ScrobbleDetailsWrapper
+								scrobble={scrobble}
+								type={props.type}
+								title={props.title}
+								setActiveModal={props.setActiveModal}
+								modal={props.modal}
+							/>
 						);
 					}}
 				</For>
 			</details>
 		</Show>
+	);
+}
+
+function ScrobbleDetailsWrapper(props: {
+	scrobble: CacheScrobble;
+	type: ScrobbleStatus;
+	title: string;
+	setActiveModal: Setter<ModalType>;
+	modal: HTMLDialogElement | undefined;
+}) {
+	return (
+		<Show
+			when={props.type === ScrobbleStatus.SUCCESSFUL}
+			fallback={
+				<label
+					class={`${styles.scrobble}${
+						isSelectingScrobbles()
+							? ` ${styles.selectingScrobble}`
+							: ''
+					}`}
+					onClick={(e) => {
+						if (!isSelectingScrobbles()) {
+							e.preventDefault();
+						}
+					}}
+				>
+					<ScrobbleDetails
+						scrobble={props.scrobble}
+						type={props.type}
+						title={props.title}
+						setActiveModal={props.setActiveModal}
+						modal={props.modal}
+					/>
+				</label>
+			}
+		>
+			<div class={styles.scrobble}>
+				<ScrobbleDetails
+					scrobble={props.scrobble}
+					type={props.type}
+					title={props.title}
+					setActiveModal={props.setActiveModal}
+					modal={props.modal}
+				/>
+			</div>
+		</Show>
+	);
+}
+
+function ScrobbleDetails(props: {
+	scrobble: CacheScrobble;
+	type: ScrobbleStatus;
+	title: string;
+	setActiveModal: Setter<ModalType>;
+	modal: HTMLDialogElement | undefined;
+}) {
+	const song = createMemo(() => new ClonedSong(props.scrobble.song, -1));
+	const dateString = createMemo(() =>
+		new Date(song().metadata.startTimestamp * 1000).toLocaleString(),
+	);
+	const relativeString = createMemo(() =>
+		timeSince(song().metadata.startTimestamp * 1000),
+	);
+
+	return (
+		<>
+			<Show when={props.scrobble.status !== ScrobbleStatus.SUCCESSFUL}>
+				<input
+					type="checkbox"
+					class={styles.scrobbleCheckbox}
+					hidden={
+						props.type === ScrobbleStatus.SUCCESSFUL ||
+						!isSelectingScrobbles()
+					}
+				/>
+			</Show>
+			<img
+				class={styles.coverArt}
+				src={
+					song().getTrackArt() ??
+					browser.runtime.getURL('img/cover_art_default.png')
+				}
+			/>
+			<div class={styles.scrobbleDetails}>
+				<div class={styles.scrobbleMetadata}>
+					<span class={styles.trackName}>{song().getTrack()}</span>
+					<span class={styles.artistName}>{song().getArtist()}</span>
+					<span class={styles.albumName}>{song().getAlbum()}</span>
+					<span class={styles.albumArtistName}>
+						{song().getAlbumArtist()}
+					</span>
+				</div>
+				<ScrobbleActions
+					song={song()}
+					id={props.scrobble.id}
+					status={props.scrobble.status}
+					setActiveModal={props.setActiveModal}
+					modal={props.modal}
+				/>
+			</div>
+			<span title={dateString()}>{relativeString()}</span>
+		</>
 	);
 }
 

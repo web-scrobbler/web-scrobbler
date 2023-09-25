@@ -515,13 +515,36 @@ summary {
 	align-items: center;
 	background-color: var(--last-fm-bg-weak);
 	border-radius: 1em;
-	box-shadow: var(--neuomorphic-bottom), var(--neuomorphic-top);
+	box-shadow: var(--neuomorphic-small-bottom), var(--neuomorphic-small-top);
 	display: flex;
 	gap: 0.5em;
 	height: 7em;
 	margin-bottom: 1em;
 	overflow: hidden;
 	padding-right: 1em;
+
+	&.selectingScrobble {
+		cursor: pointer;
+		&:hover:not(:has(:checked)) {
+			background-color: var(--last-fm-bg);
+			color: var(--text);
+
+			.scrobbleDetails .scrobbleActions .scrobbleActionButton {
+				background-color: var(--always-last-fm);
+				color: var(--always-light);
+			}
+		}
+	}
+
+	&:has(:checked) {
+		background-color: var(--always-last-fm);
+		color: var(--always-light);
+
+		.scrobbleDetails .scrobbleActions .scrobbleActionButton {
+			background-color: var(--last-fm-bg-light);
+			color: var(--always-last-fm);
+		}
+	}
 
 	.coverArt {
 		height: 7em;
