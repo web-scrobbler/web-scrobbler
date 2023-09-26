@@ -2,7 +2,10 @@ export {};
 
 Connector.playerSelector = 'plus-player-container';
 
-Connector.trackSelector = 'plus-player-container .album';
+Connector.trackSelector = [
+        'music-currently-playing .title',
+        'plus-player-container .album' // for tracks with available album, track name is in link to album
+    ];
 
 Connector.artistSelector = 'plus-player-container .artist';
 
