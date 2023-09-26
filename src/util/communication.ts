@@ -98,6 +98,10 @@ interface ContentCommunications {
 		};
 		response: Promise<string | null>;
 	};
+	updateScrobblerProperties: {
+		payload: undefined;
+		response: void;
+	};
 }
 
 interface BackgroundCommunications {

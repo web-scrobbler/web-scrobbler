@@ -774,5 +774,17 @@
     "extDescription": {
         "message": "Scrobble music all around the web!",
         "description": "Description of the extension"
+    },
+    "infoBoxStateDisallowed": {
+        "message":  "Scrobbling is not allowed. Click web scrobbler extension icon for more information.",
+        "description": "Infobox text when an option is disallowing scrobbling"
+    },
+    "infoBoxStateError": {
+        "message": "A service error occurred. Click web scrobbler extension icon for more information.",
+        "description": "Infobox text when an error occured"
+    },
+    "infoBoxStateUnknown": {
+        "message": "The track is not recognized. Click web scrobbler extension icon to correct info.",
+        "description": "Infobox track is not recognized"
     }
 }

@@ -677,35 +677,35 @@
     },
     "pageActionBase": {
         "message": "This site is supported for scrobbling",
-        "description": "`base` page action title"
+        "description": "`base` page action title, also used for infobox"
     },
     "pageActionLoading": {
         "message": "Looking up $1",
-        "description": "`loading` page action title"
+        "description": "`loading` page action title, also used for infobox"
     },
     "pageActionPlaying": {
         "message": "Now playing $1",
-        "description": "`playing` page action title"
+        "description": "`playing` page action title, also used for infobox"
     },
     "pageActionScrobbled": {
         "message": "Scrobbled $1",
-        "description": "`scrobbled` page action title"
+        "description": "`scrobbled` page action title, also used for infobox"
     },
     "pageActionSkipped": {
         "message": "Skipped $1",
-        "description": "`skipped` page action title"
+        "description": "`skipped` page action title, also used for infobox"
     },
     "pageActionIgnored": {
         "message": "Ignored $1",
-        "description": "`ignored` page action title"
+        "description": "`ignored` page action title, also used for infobox"
     },
     "pageActionDisabled": {
         "message": "This site is supported for scrobbling, but you disabled it",
-        "description": "`disabled` page action title"
+        "description": "`disabled` page action title, also used for infobox"
     },
     "pageActionUnknown": {
         "message": "The track is not recognized. Click to submit correct info.",
-        "description": "`unknown` page action title"
+        "description": "`unknown` page action title, also used for infobox"
     },
     "pageActionError": {
         "message": "A service error occurred. Click for more information.",
@@ -713,7 +713,7 @@
     },
     "pageActionUnsupported": {
         "message": "Web Scrobbler does not support this website.",
-        "description": "`unsupported` page action title"
+        "description": "`unsupported` page action title, also used for infobox"
     },
     "pageActionLoved": {
         "message": "You loved $1",
@@ -774,5 +774,17 @@
     "extDescription": {
         "message": "Scrobble music all around the web!",
         "description": "Description of the extension"
+    },
+    "infoBoxStateDisallowed": {
+        "message":  "Scrobbling is not allowed. Click web scrobbler extension icon for more information.",
+        "description": "Infobox text when an option is disallowing scrobbling"
+    },
+    "infoBoxStateError": {
+        "message": "A service error occurred. Click web scrobbler extension icon for more information.",
+        "description": "Infobox text when an error occured"
+    },
+    "infoBoxStateUnknown": {
+        "message": "The track is not recognized. Click web scrobbler extension icon to correct info.",
+        "description": "Infobox track is not recognized"
     }
 }

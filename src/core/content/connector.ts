@@ -130,6 +130,21 @@ export default class BaseConnector {
 	public playerSelector: string | string[] | null = null;
 
 	/**
+	 * This selector is used to determine where to inject the infobox
+	 */
+	public scrobbleInfoLocationSelector: string | null = null;
+
+	/**
+	 * Styles to apply to the infobox
+	 * this is in camelCase so its fontSize, not font-size
+	 */
+	public scrobbleInfoStyle: Partial<CSSStyleDeclaration> = {
+		display: 'flex',
+		gap: '0.5em',
+		alignItems: 'center',
+	};
+
+	/**
 	 * Selector of element contains a track art of now playing song.
 	 * Default implementation looks for track art URL in `src` attribute or
 	 * `background-image` (`background`) CSS property of given element.
@@ -539,9 +554,19 @@ export default class BaseConnector {
 	/**
 	 * Callback set by the controller to listen on state changes of this connector.
 	 */
-	public controllerCallback:
-		| ((state: State, fields: (keyof State)[]) => void)
-		| null = null;
+	private _controllerCallback: ((state: State) => void) | null = null;
+
+	/**
+	 * Callback set by the controller to listen on state changes of this connector.
+	 */
+	public get controllerCallback(): ((state: State) => void) | null {
+		return this._controllerCallback;
+	}
+
+	public set controllerCallback(callback: (state: State) => void) {
+		callback(this.getCurrentState());
+		this._controllerCallback = callback;
+	}
 
 	/**
 	 * Function for all the hard work around detecting and updating state.
@@ -631,10 +656,7 @@ export default class BaseConnector {
 			}
 
 			if (this.controllerCallback !== null) {
-				this.controllerCallback(
-					{},
-					Object.keys(this.defaultState) as (keyof State)[],
-				);
+				this.controllerCallback({});
 			}
 
 			this.isStateReset = true;
@@ -689,7 +711,7 @@ export default class BaseConnector {
 				this.filterState(changedFields);
 
 				if (this.controllerCallback !== null) {
-					this.controllerCallback(this.filteredState, changedFields);
+					this.controllerCallback(this.filteredState);
 				}
 
 				// #v-ifdef VITE_DEV
@@ -833,5 +855,23 @@ export default class BaseConnector {
 			this.stateChangedWorker,
 			500,
 		);
+
+		/**
+		 * Schedule a call to onstatechanged for a second ahead.
+		 *
+		 * When reloading/updating the extension, the site might not have a setup where there are regular updates especially if there is no seekbar
+		 * This ensures one call to onStateChanged is eventually done to get web scrobbler up to speed.
+		 *
+		 * This is only useful if a reload/update happens during a song being played, which invalidates extension context and requires us to recover everything.
+		 * In any other case it should essentially do nothing.
+		 *
+		 * Wait for one second to allow connector to initialize.
+		 *
+		 * This has to be in an anonymous call as we need to call what the onstatechanged function is then, not what it is now.
+		 * Connectors may have already overridden onstatechanged by that time.
+		 */
+		setTimeout(() => {
+			this.onStateChanged();
+		}, 1000);
 	}
 }

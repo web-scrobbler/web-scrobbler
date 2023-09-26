@@ -499,3 +499,13 @@ summary {
 		grid-area: albumartistreplace;
 	}
 }
+
+.saveIcon {
+	transform: rotate(0deg);
+
+	&.savingSaveIcon {
+		transform: rotate(360deg);
+		transform-origin: 41% 42.5%;
+		transition: transform 600ms ease-in-out;
+	}
+}

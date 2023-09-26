@@ -31,6 +31,14 @@
         "message": "Show notification if track is not recognized by the extension",
         "description": "Option title"
     },
+    "optionUseInfobox": {
+        "message": "Show infobox",
+        "description": "Option label"
+    },
+    "optionUseInfoboxTitle": {
+        "message": "Show web scrobbler infobox on page for supported websites",
+        "description": "Option title"
+    },
     "optionScrobblePodcasts": {
         "message": "Scrobble podcasts",
         "description": "Option label"
@@ -745,31 +753,31 @@
     },
     "pageActionBase": {
         "message": "This site is supported for scrobbling",
-        "description": "`base` page action title"
+        "description": "`base` page action title, also used for infobox"
     },
     "pageActionLoading": {
         "message": "Looking up $1",
-        "description": "`loading` page action title"
+        "description": "`loading` page action title, also used for infobox"
     },
     "pageActionPlaying": {
         "message": "Now playing $1",
-        "description": "`playing` page action title"
+        "description": "`playing` page action title, also used for infobox"
     },
     "pageActionScrobbled": {
         "message": "Scrobbled $1",
-        "description": "`scrobbled` page action title"
+        "description": "`scrobbled` page action title, also used for infobox"
     },
     "pageActionSkipped": {
         "message": "Skipped $1",
-        "description": "`skipped` page action title"
+        "description": "`skipped` page action title, also used for infobox"
     },
     "pageActionIgnored": {
         "message": "Ignored $1",
-        "description": "`ignored` page action title"
+        "description": "`ignored` page action title, also used for infobox"
     },
     "pageActionDisabled": {
         "message": "This site is supported for scrobbling, but you disabled it",
-        "description": "`disabled` page action title"
+        "description": "`disabled` page action title, also used for infobox"
     },
     "pageActionUnknown": {
         "message": "The track is not recognized. Click to submit correct info.",
@@ -838,5 +846,17 @@
     "hotkeyUnloveSong": {
         "message": "Unlove now playing song",
         "description": "Hotkey label"
+    },
+    "infoBoxStateDisallowed": {
+        "message":  "Scrobbling is not allowed. Click web scrobbler extension icon for more information.",
+        "description": "Infobox text when an option is disallowing scrobbling"
+    },
+    "infoBoxStateError": {
+        "message": "A service error occurred. Click web scrobbler extension icon for more information.",
+        "description": "Infobox text when an error occured"
+    },
+    "infoBoxStateUnknown": {
+        "message": "The track is not recognized. Click web scrobbler extension icon to correct info.",
+        "description": "Infobox track is not recognized"
     }
 }
