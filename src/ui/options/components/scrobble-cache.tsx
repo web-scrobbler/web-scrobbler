@@ -43,6 +43,36 @@ export default function ScrobbleCache(props: {
 			<div class={styles.scrobbleButtonsWrapper}>
 				<button
 					class={styles.resetButton}
+					onClick={() => {
+						const buttons = document.querySelectorAll(
+							`.${styles.scrobbleCheckbox}`,
+						);
+						if (selectedScrobbles().length) {
+							buttons.forEach((checkbox) => {
+								(checkbox as HTMLInputElement).checked = false;
+							});
+							setSelectedScrobbles([]);
+						} else {
+							setSelectingScrobbles(true);
+							buttons.forEach((checkbox) => {
+								(checkbox as HTMLInputElement).checked = true;
+							});
+							setSelectedScrobbles(
+								(scrobbles() ?? []).filter(
+									(scrobble) =>
+										scrobble.status !==
+										ScrobbleStatus.SUCCESSFUL,
+								),
+							);
+						}
+					}}
+				>
+					{selectedScrobbles().length
+						? t('optionsScrobbleCacheUnselectAll')
+						: t('optionsScrobbleCacheSelectAll')}
+				</button>
+				<button
+					class={styles.resetButton}
 					onClick={() =>
 						setSelectingScrobbles((prev) => {
 							const isSelecting = !prev;

@@ -223,6 +223,14 @@
         "message": "Cache",
         "description": "'Scrobble Cache' section"
     },
+    "optionsScrobbleCacheSelectAll": {
+        "message": "Select All",
+        "description": "Select All button label"
+    },
+    "optionsScrobbleCacheUnselectAll": {
+        "message": "Unselect All",
+        "description": "Unselect All button label"
+    },
     "optionsScrobbleCacheSelectScrobbles": {
         "message": "Select Scrobbles",
         "description": "Select Scrobbles button label"
