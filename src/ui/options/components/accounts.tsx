@@ -3,7 +3,14 @@ import ScrobbleService, {
 	Scrobbler,
 	ScrobblerLabel,
 } from '@/core/object/scrobble-service';
-import { For, Show, createResource, createSignal, onCleanup } from 'solid-js';
+import {
+	For,
+	Match,
+	Switch,
+	createResource,
+	createSignal,
+	onCleanup,
+} from 'solid-js';
 import styles from './components.module.scss';
 import browser from 'webextension-polyfill';
 import Delete from '@suid/icons-material/DeleteOutlined';
@@ -114,42 +121,44 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 
 	return (
 		<>
-			<Show
-				when={!session.error && session()}
-				fallback={<SignedOut scrobbler={rawScrobbler} />}
-			>
-				<h2>{rawScrobbler.getLabel()}</h2>
-				<p>
-					{t(
-						'accountsSignedInAs',
-						session()?.sessionName || 'anonymous',
-					)}
-				</p>
-				<div class={styles.buttonContainer}>
-					<a
-						class={styles.linkButton}
-						href={profileUrl.error ? '#' : profileUrl()}
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						{t('accountsProfile')}
-					</a>
-					<button
-						class={styles.resetButton}
-						onClick={() =>
-							void (async () => {
-								await rawScrobbler.signOut();
-								setSession.refetch();
-								setProfileUrl.refetch();
-							})()
-						}
-					>
-						{t('accountsSignOut')}
-					</button>
-				</div>
-				<Properties scrobbler={rawScrobbler} />
-				<ArrayProperties scrobbler={rawScrobbler} />
-			</Show>
+			<h2>{rawScrobbler.getLabel()}</h2>
+			<Switch fallback={<SignedOut scrobbler={rawScrobbler} />}>
+				<Match when={rawScrobbler.isLocalOnly}>
+					<></>
+				</Match>
+				<Match when={!session.error && session()}>
+					<p>
+						{t(
+							'accountsSignedInAs',
+							session()?.sessionName || 'anonymous',
+						)}
+					</p>
+					<div class={styles.buttonContainer}>
+						<a
+							class={styles.linkButton}
+							href={profileUrl.error ? '#' : profileUrl()}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{t('accountsProfile')}
+						</a>
+						<button
+							class={styles.resetButton}
+							onClick={() =>
+								void (async () => {
+									await rawScrobbler.signOut();
+									setSession.refetch();
+									setProfileUrl.refetch();
+								})()
+							}
+						>
+							{t('accountsSignOut')}
+						</button>
+					</div>
+				</Match>
+			</Switch>
+			<Properties scrobbler={rawScrobbler} />
+			<ArrayProperties scrobbler={rawScrobbler} />
 		</>
 	);
 }
@@ -158,16 +167,14 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
  * Text to show when a user is not signed into a scrobbler.
  */
 function SignedOut(props: { scrobbler: Scrobbler }) {
-	const { scrobbler } = props;
 	return (
 		<>
-			<h2>{scrobbler.getLabel()}</h2>
 			<p>{t('accountsNotSignedIn')}</p>
 			<button
 				class={styles.resetButton}
 				onClick={() =>
 					void (async () => {
-						const url = await scrobbler.getAuthUrl();
+						const url = await props.scrobbler.getAuthUrl();
 						if (!url) {
 							return new Error('No auth URL');
 						}
@@ -177,8 +184,6 @@ function SignedOut(props: { scrobbler: Scrobbler }) {
 			>
 				{t('accountsSignIn')}
 			</button>
-			<Properties scrobbler={scrobbler} />
-			<ArrayProperties scrobbler={scrobbler} />
 		</>
 	);
 }

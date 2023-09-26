@@ -29,6 +29,7 @@ interface AudioScrobblerScrobbleParams extends AudioScrobblerParams {
 }
 
 export default abstract class AudioScrobbler extends BaseScrobbler<'LastFM'> {
+	public isLocalOnly = false;
 	protected abstract getApiKey(): string;
 	protected abstract getApiSecret(): string;
 	protected abstract getApiUrl(): string;
