@@ -2152,4 +2152,10 @@ export default <ConnectorMeta[]>[
 		js: 'tunegenie.js',
 		id: 'tunegenie',
 	},
+	{
+		label: 'RTL+ Musik',
+		matches: ['*://plus.rtl.de/musik/*'],
+		js: 'rtl-plus-musik.js',
+		id: 'rtl-plus-musik',
+	},
 ];
