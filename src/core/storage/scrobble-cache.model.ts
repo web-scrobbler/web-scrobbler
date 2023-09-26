@@ -72,14 +72,18 @@ export default abstract class ScrobbleCacheModel extends CustomStorage<K> {
 		return id;
 	}
 
-	async deleteScrobble(id: number): Promise<void> {
+	async deleteScrobbles(ids: number[]): Promise<void> {
 		const storageData = await this.getScrobbleCacheStorageLocking();
 		if (!storageData) {
 			return;
 		}
+		const scrobbleIdMap = new Map<number, boolean>();
+		for (const id of ids) {
+			scrobbleIdMap.set(id, true);
+		}
 
 		await this.saveScrobbleCacheToStorageLocking(
-			storageData.filter((e) => e.id !== id),
+			storageData.filter((e) => scrobbleIdMap.get(e.id) !== true),
 		);
 	}
 }

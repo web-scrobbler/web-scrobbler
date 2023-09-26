@@ -1040,7 +1040,7 @@ export default class Controller {
 			return;
 		}
 		if (this.scrobbleCacheId) {
-			scrobbleCache.deleteScrobble(this.scrobbleCacheId);
+			scrobbleCache.deleteScrobbles([this.scrobbleCacheId]);
 			this.scrobbleCacheId = null;
 		}
 

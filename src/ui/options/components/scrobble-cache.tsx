@@ -17,6 +17,8 @@ import browser from 'webextension-polyfill';
 import { sendContentMessage } from '@/util/communication';
 import { ModalType } from './navigator';
 import savedEdits from '@/core/storage/saved-edits';
+import { CloneableSong } from '@/core/object/song';
+import { debugLog } from '@/core/content/util';
 
 const [scrobbles, setScrobbles] = createResource(
 	scrobbleCache.getScrobbleCacheStorage.bind(scrobbleCache),
@@ -25,6 +27,10 @@ const [scrobbles, setScrobbles] = createResource(
 const [songToEdit, setSongToEdit] = createSignal<ClonedSong>();
 const [scrobbleId, setScrobbleId] = createSignal<number>();
 const [isSelectingScrobbles, setSelectingScrobbles] = createSignal(false);
+const [selectedScrobbles, setSelectedScrobbles] = createSignal<CacheScrobble[]>(
+	[],
+);
+const [isScrobblingMultiple, setScrobblingMultiple] = createSignal(false);
 
 export default function ScrobbleCache(props: {
 	setActiveModal: Setter<ModalType>;
@@ -36,12 +42,45 @@ export default function ScrobbleCache(props: {
 			<div class={styles.scrobbleButtonsWrapper}>
 				<button
 					class={styles.resetButton}
-					onClick={() => setSelectingScrobbles((prev) => !prev)}
+					onClick={() =>
+						setSelectingScrobbles((prev) => {
+							const isSelecting = !prev;
+							if (!isSelecting) {
+								document
+									.querySelectorAll(
+										`.${styles.scrobbleCheckbox}`,
+									)
+									.forEach((checkbox) => {
+										(checkbox as HTMLInputElement).checked =
+											false;
+									});
+								setSelectedScrobbles([]);
+							}
+							return isSelecting;
+						})
+					}
 				>
 					Select Scrobbles
 				</button>
 				<Show when={isSelectingScrobbles()}>
-					<button class={styles.resetButton}>
+					<button
+						class={styles.resetButton}
+						disabled={
+							isScrobblingMultiple() ||
+							selectedScrobbles().length === 0
+						}
+						onClick={() => {
+							setScrobblingMultiple(true);
+							void scrobbleMultipleFromCache(
+								selectedScrobbles(),
+							).then(() => {
+								setScrobbles.refetch();
+								setSelectedScrobbles([]);
+								setSelectingScrobbles(false);
+								setScrobblingMultiple(false);
+							});
+						}}
+					>
 						Scrobble Selected
 					</button>
 				</Show>
@@ -414,6 +453,19 @@ function ScrobbleDetails(props: {
 						props.type === ScrobbleStatus.SUCCESSFUL ||
 						!isSelectingScrobbles()
 					}
+					onChange={(e) => {
+						if (e.currentTarget.checked) {
+							setSelectedScrobbles((prev) => [
+								...prev,
+								props.scrobble,
+							]);
+						} else {
+							setSelectedScrobbles((prev) =>
+								prev.filter((e) => e.id !== props.scrobble.id),
+							);
+						}
+						console.log(selectedScrobbles());
+					}}
 				/>
 			</Show>
 			<img
@@ -471,7 +523,7 @@ function ScrobbleActions(props: {
 			<button
 				class={styles.scrobbleActionButton}
 				onClick={() => {
-					void scrobbleCache.deleteScrobble(props.id).then(() => {
+					void scrobbleCache.deleteScrobbles([props.id]).then(() => {
 						setScrobbles.refetch();
 					});
 				}}
@@ -504,16 +556,38 @@ async function editCacheScrobble(
 	song.processed.album = album;
 	song.processed.albumArtist = albumArtist;
 
-	await scrobbleFromCache([song], id);
+	await scrobbleFromCache(song.getCloneableData(), id);
 }
 
-async function scrobbleFromCache(songs: ClonedSong[], id: number) {
-	await scrobbleCache.deleteScrobble(id);
-	await sendContentMessage({
-		type: 'scrobble',
-		payload: {
-			songs,
-			currentlyPlaying: false,
-		},
-	});
+async function scrobbleMultipleFromCache(scrobbles: CacheScrobble[]) {
+	const scrobblesLimited = scrobbles.slice(0, 50);
+	await scrobbleCache.deleteScrobbles(
+		scrobblesLimited.map((scrobble) => scrobble.id),
+	);
+	try {
+		await sendContentMessage({
+			type: 'scrobble',
+			payload: {
+				songs: scrobblesLimited.map((scrobble) => scrobble.song),
+				currentlyPlaying: false,
+			},
+		});
+	} catch (err) {
+		debugLog(err, 'error');
+	}
+}
+
+async function scrobbleFromCache(song: CloneableSong, id: number) {
+	await scrobbleCache.deleteScrobbles([id]);
+	try {
+		await sendContentMessage({
+			type: 'scrobble',
+			payload: {
+				songs: [song],
+				currentlyPlaying: false,
+			},
+		});
+	} catch (err) {
+		debugLog(err, 'error');
+	}
 }
