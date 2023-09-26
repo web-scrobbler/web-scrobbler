@@ -6,6 +6,7 @@ import ScrobbleService, {
 import {
 	For,
 	Match,
+	Show,
 	Switch,
 	createResource,
 	createSignal,
@@ -124,7 +125,14 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 			<h2>{rawScrobbler.getLabel()}</h2>
 			<Switch fallback={<SignedOut scrobbler={rawScrobbler} />}>
 				<Match when={rawScrobbler.isLocalOnly}>
-					<></>
+					<Show when={!session.error && session()}>
+						<p>
+							{t(
+								'accountsSignedInAs',
+								session()?.sessionName || 'anonymous',
+							)}
+						</p>
+					</Show>
 				</Match>
 				<Match when={!session.error && session()}>
 					<p>
