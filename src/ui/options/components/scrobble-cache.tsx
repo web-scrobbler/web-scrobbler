@@ -61,7 +61,7 @@ export default function ScrobbleCache(props: {
 						})
 					}
 				>
-					Select Scrobbles
+					{t('optionsScrobbleCacheSelectScrobbles')}
 				</button>
 				<Show when={isSelectingScrobbles()}>
 					<button
@@ -82,7 +82,7 @@ export default function ScrobbleCache(props: {
 							});
 						}}
 					>
-						Scrobble Selected
+						{t('optionsScrobbleCacheScrobbleSelected')}
 					</button>
 				</Show>
 			</div>
@@ -246,7 +246,7 @@ export function CacheEditModal() {
 			</table>
 			<input id="should-edit-multiple" type="checkbox" checked={true} />
 			<label for="should-edit-multiple">
-				Edit and scrobble all unscrobbled instances of this song
+				{t('optionsScrobbleCacheEditAll')}
 			</label>
 			<button
 				disabled={!track() || !artist() || isLoading()}

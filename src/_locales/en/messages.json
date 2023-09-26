@@ -223,6 +223,18 @@
         "message": "Cache",
         "description": "'Scrobble Cache' section"
     },
+    "optionsScrobbleCacheSelectScrobbles": {
+        "message": "Select Scrobbles",
+        "description": "Select Scrobbles button label"
+    },
+    "optionsScrobbleCacheScrobbleSelected": {
+        "message": "Scrobble Selected",
+        "description": "Scrobble Selected button label"
+    },
+    "optionsScrobbleCacheEditAll": {
+        "message": "Edit and scrobble all unscrobbled instances of this song",
+        "description": "Label for checkbox to apply cache edit to all unscrobbled instances of the same track in cache."
+    },
     "optionsScrobbleCacheLoading": {
         "message": "Loading scrobble cache...",
         "description": "'Scrobble Cache' section"
@@ -498,10 +510,6 @@
     "buttonReset": {
         "message": "Reset",
         "description": "Reset button label"
-    },
-    "buttonScrobble": {
-        "message": "Scrobble",
-        "description": "Scrobble button label"
     },
     "buttonClear": {
         "message": "Clear",
