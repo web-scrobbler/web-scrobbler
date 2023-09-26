@@ -910,7 +910,6 @@ export default class Controller {
 		) {
 			return;
 		}
-		console.log('marking as now playing');
 		this.currentSong.flags.isMarkedAsPlaying = true;
 
 		const results = await sendContentMessage({

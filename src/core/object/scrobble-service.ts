@@ -245,7 +245,7 @@ class ScrobbleService {
 				}
 			}),
 		);
-		for (let i = 0; i < res.length; i++) {
+		for (let i = 0; i < res[0].length; i++) {
 			await scrobbleCache.pushScrobble({
 				song: songs[i].getCloneableData(),
 				status: getScrobbleStatus(res, i),

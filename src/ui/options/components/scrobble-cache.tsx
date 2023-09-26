@@ -19,6 +19,7 @@ import { ModalType } from './navigator';
 import savedEdits from '@/core/storage/saved-edits';
 import { CloneableSong } from '@/core/object/song';
 import { debugLog } from '@/core/content/util';
+import SavedEditsModel from '@/core/storage/saved-edits.model';
 
 const [scrobbles, setScrobbles] = createResource(
 	scrobbleCache.getScrobbleCacheStorage.bind(scrobbleCache),
@@ -150,25 +151,14 @@ export function CacheEditModal() {
 								onInput={(e) => setTrack(e.currentTarget.value)}
 								id="scrobble-cache-edit-track"
 								onKeyDown={(e) => {
-									if (
-										e.key === 'Enter' &&
-										!e.isComposing &&
-										artist() &&
-										track()
-									) {
-										setLoading(true);
-										void editCacheScrobble(
-											songToEdit(),
-											artist(),
-											track(),
-											album(),
-											albumArtist(),
-										).then(() => {
-											setLoading(false);
-											setScrobbles.refetch();
-											e.target.closest('dialog')?.close();
-										});
-									}
+									saveEditsWithKeyboard(
+										e,
+										artist(),
+										track(),
+										album(),
+										albumArtist(),
+										setLoading,
+									);
 								}}
 							/>
 						</td>
@@ -188,25 +178,14 @@ export function CacheEditModal() {
 								}
 								id="scrobble-cache-edit-artist"
 								onKeyDown={(e) => {
-									if (
-										e.key === 'Enter' &&
-										!e.isComposing &&
-										artist() &&
-										track()
-									) {
-										setLoading(true);
-										void editCacheScrobble(
-											songToEdit(),
-											artist(),
-											track(),
-											album(),
-											albumArtist(),
-										).then(() => {
-											setLoading(false);
-											setScrobbles.refetch();
-											e.target.closest('dialog')?.close();
-										});
-									}
+									saveEditsWithKeyboard(
+										e,
+										artist(),
+										track(),
+										album(),
+										albumArtist(),
+										setLoading,
+									);
 								}}
 							/>
 						</td>
@@ -224,25 +203,14 @@ export function CacheEditModal() {
 								onInput={(e) => setAlbum(e.currentTarget.value)}
 								id="scrobble-cache-edit-album"
 								onKeyDown={(e) => {
-									if (
-										e.key === 'Enter' &&
-										!e.isComposing &&
-										artist() &&
-										track()
-									) {
-										setLoading(true);
-										void editCacheScrobble(
-											songToEdit(),
-											artist(),
-											track(),
-											album(),
-											albumArtist(),
-										).then(() => {
-											setLoading(false);
-											setScrobbles.refetch();
-											e.target.closest('dialog')?.close();
-										});
-									}
+									saveEditsWithKeyboard(
+										e,
+										artist(),
+										track(),
+										album(),
+										albumArtist(),
+										setLoading,
+									);
 								}}
 							/>
 						</td>
@@ -262,49 +230,36 @@ export function CacheEditModal() {
 								}
 								id="scrobble-cache-edit-album-artist"
 								onKeyDown={(e) => {
-									if (
-										e.key === 'Enter' &&
-										!e.isComposing &&
-										artist() &&
-										track()
-									) {
-										setLoading(true);
-										void editCacheScrobble(
-											songToEdit(),
-											artist(),
-											track(),
-											album(),
-											albumArtist(),
-										).then(() => {
-											setLoading(false);
-											setScrobbles.refetch();
-											e.target.closest('dialog')?.close();
-										});
-									}
+									saveEditsWithKeyboard(
+										e,
+										artist(),
+										track(),
+										album(),
+										albumArtist(),
+										setLoading,
+									);
 								}}
 							/>
 						</td>
 					</tr>
 				</tbody>
 			</table>
+			<input id="should-edit-multiple" type="checkbox" checked={true} />
+			<label for="should-edit-multiple">
+				Edit and scrobble all unscrobbled instances of this song
+			</label>
 			<button
 				disabled={!track() || !artist() || isLoading()}
 				class={styles.resetButton}
 				onClick={(e) => {
-					if (artist() && track()) {
-						setLoading(true);
-						void editCacheScrobble(
-							songToEdit(),
-							artist(),
-							track(),
-							album(),
-							albumArtist(),
-						).then(() => {
-							setLoading(false);
-							setScrobbles.refetch();
-							e.target.closest('dialog')?.close();
-						});
-					}
+					saveEdits(
+						e,
+						artist(),
+						track(),
+						album(),
+						albumArtist(),
+						setLoading,
+					);
 				}}
 			>
 				{t('buttonScrobble')}
@@ -464,7 +419,6 @@ function ScrobbleDetails(props: {
 								prev.filter((e) => e.id !== props.scrobble.id),
 							);
 						}
-						console.log(selectedScrobbles());
 					}}
 				/>
 			</Show>
@@ -534,12 +488,58 @@ function ScrobbleActions(props: {
 	);
 }
 
-async function editCacheScrobble(
+function saveEditsWithKeyboard(
+	e: KeyboardEvent & {
+		currentTarget: HTMLInputElement;
+		target: Element;
+	},
+	artist: string,
+	track: string,
+	album: string,
+	albumArtist: string,
+	setLoading: Setter<boolean>,
+) {
+	if (e.key === 'Enter' && !e.isComposing && artist && track) {
+		saveEdits(e, artist, track, album, albumArtist, setLoading);
+	}
+}
+
+function saveEdits(
+	e: {
+		currentTarget: HTMLInputElement | HTMLButtonElement;
+		target: Element;
+	},
+	artist: string,
+	track: string,
+	album: string,
+	albumArtist: string,
+	setLoading: Setter<boolean>,
+) {
+	setLoading(true);
+	const shouldEditAll = (
+		document.getElementById('should-edit-multiple') as HTMLInputElement
+	).checked;
+	void editCacheScrobbles(
+		songToEdit(),
+		artist,
+		track,
+		album,
+		albumArtist,
+		shouldEditAll,
+	).then(() => {
+		setLoading(false);
+		setScrobbles.refetch();
+		e.target.closest('dialog')?.close();
+	});
+}
+
+async function editCacheScrobbles(
 	song: ClonedSong | undefined,
 	artist: string,
 	track: string,
 	album: string,
 	albumArtist: string,
+	shouldEditAll: boolean,
 ) {
 	if (!artist || !track || !song) {
 		return;
@@ -551,12 +551,26 @@ async function editCacheScrobble(
 		album: album || null,
 		albumArtist: albumArtist || null,
 	});
-	song.processed.track = track;
-	song.processed.artist = artist;
-	song.processed.album = album;
-	song.processed.albumArtist = albumArtist;
 
-	await scrobbleFromCache(song.getCloneableData(), id);
+	const songId = SavedEditsModel.getSongId(song);
+	const filteredScrobbles = shouldEditAll
+		? scrobbles()?.filter(
+				(scrobble) =>
+					scrobble.status !== ScrobbleStatus.SUCCESSFUL &&
+					SavedEditsModel.getSongId(
+						new ClonedSong(scrobble.song, -1),
+					) === songId,
+		  )
+		: scrobbles()?.filter((scrobble) => scrobble.id === id);
+	const editedScrobbles = filteredScrobbles?.map((scrobble) => {
+		scrobble.song.processed.track = track;
+		scrobble.song.processed.artist = artist;
+		scrobble.song.processed.album = album;
+		scrobble.song.processed.albumArtist = albumArtist;
+		return scrobble;
+	});
+
+	await scrobbleMultipleFromCache(editedScrobbles ?? []);
 }
 
 async function scrobbleMultipleFromCache(scrobbles: CacheScrobble[]) {
