@@ -2158,4 +2158,10 @@ export default <ConnectorMeta[]>[
 		js: 'rtl-plus-musik.js',
 		id: 'rtl-plus-musik',
 	},
+	{
+		label: 'Blend',
+		matches: ['*://blend.io/*'],
+		js: 'blend.js',
+		id: 'blend',
+	},
 ];
