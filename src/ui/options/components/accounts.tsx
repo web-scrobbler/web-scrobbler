@@ -7,6 +7,8 @@ import {
 	For,
 	Show,
 	createMemo,
+	Match,
+	Switch,
 	createResource,
 	createSignal,
 	onCleanup,
@@ -128,42 +130,51 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 
 	return (
 		<>
-			<Show
-				when={!session.error && session()}
-				fallback={<SignedOut scrobbler={rawScrobbler()} />}
-			>
-				<h2>{rawScrobbler()?.getLabel()}</h2>
-				<p>
-					{t(
-						'accountsSignedInAs',
-						session()?.sessionName || 'anonymous',
-					)}
-				</p>
-				<div class={styles.buttonContainer}>
-					<a
-						class={styles.linkButton}
-						href={profileUrl.error ? '#' : profileUrl()}
-						target="_blank"
-						rel="noopener noreferrer"
-					>
-						{t('accountsProfile')}
-					</a>
-					<button
-						class={styles.resetButton}
-						onClick={() =>
-							void (async () => {
-								await rawScrobbler()?.signOut();
-								setSession.refetch();
-								setProfileUrl.refetch();
-							})()
-						}
-					>
-						{t('accountsSignOut')}
-					</button>
-				</div>
-				<Properties scrobbler={rawScrobbler()} />
-				<ArrayProperties scrobbler={rawScrobbler()} />
-			</Show>
+			<h2>{rawScrobbler()?.getLabel()}</h2>
+			<Switch fallback={<SignedOut scrobbler={rawScrobbler()} />}>
+				<Match when={rawScrobbler()?.isLocalOnly}>
+					<Show when={!session.error && session()}>
+						<p>
+							{t(
+								'accountsSignedInAs',
+								session()?.sessionName || 'anonymous',
+							)}
+						</p>
+					</Show>
+				</Match>
+				<Match when={!session.error && session()}>
+					<p>
+						{t(
+							'accountsSignedInAs',
+							session()?.sessionName || 'anonymous',
+						)}
+					</p>
+					<div class={styles.buttonContainer}>
+						<a
+							class={styles.linkButton}
+							href={profileUrl.error ? '#' : profileUrl()}
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							{t('accountsProfile')}
+						</a>
+						<button
+							class={styles.resetButton}
+							onClick={() =>
+								void (async () => {
+									await rawScrobbler()?.signOut();
+									setSession.refetch();
+									setProfileUrl.refetch();
+								})()
+							}
+						>
+							{t('accountsSignOut')}
+						</button>
+					</div>
+				</Match>
+			</Switch>
+			<Properties scrobbler={rawScrobbler()} />
+			<ArrayProperties scrobbler={rawScrobbler()} />
 		</>
 	);
 }
@@ -174,7 +185,6 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 function SignedOut(props: { scrobbler: Scrobbler | null }) {
 	return (
 		<>
-			<h2>{props.scrobbler?.getLabel()}</h2>
 			<p>{t('accountsNotSignedIn')}</p>
 			<button
 				class={styles.resetButton}
@@ -190,8 +200,6 @@ function SignedOut(props: { scrobbler: Scrobbler | null }) {
 			>
 				{t('accountsSignIn')}
 			</button>
-			<Properties scrobbler={props.scrobbler} />
-			<ArrayProperties scrobbler={props.scrobbler} />
 		</>
 	);
 }
