@@ -2158,4 +2158,10 @@ export default <ConnectorMeta[]>[
 		js: 'rtl-plus-musik.js',
 		id: 'rtl-plus-musik',
 	},
+	{
+		label: 'Radio Italia',
+		matches: ['*://www.radioitalia.it/*'],
+		js: 'radio-italia.js',
+		id: 'radio-italia',
+	},
 ];
