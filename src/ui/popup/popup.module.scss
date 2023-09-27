@@ -79,7 +79,9 @@ a {
 	width: max-content;
 
 	.coverArtWrapper {
-		height: 100vh;
+		// set a very low height here. This prevents image from expanding uncontrollably.
+		// The entire image still remains clickable link (overflow).
+		height: 10px;
 
 		.coverArt {
 			width: 100vh;

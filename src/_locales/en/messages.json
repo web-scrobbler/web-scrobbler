@@ -563,6 +563,18 @@
         "message": "Scrobble anyway",
         "description": "Button label"
     },
+    "ignoredHeader": {
+        "message": "This scrobble was ignored",
+        "description": "The header of 'ignored' popup"
+    },
+    "ignoredDesc": {
+        "message": "Web Scrobbler tried to scrobble \"$2\" by \"$1\", but the tags were ignored by Last.FM.",
+        "description": "The description of 'ignored' popup. $1 is artist name, and $2 is track name"
+    },
+    "ignoredDescReadMore": {
+        "message": "Read more and ask for the song to be allowlisted here",
+        "description": "The description of 'ignored' popup, links to support.last.fm thread"
+    },
     "unsupportedWebsiteHeader": {
         "message": "This website is not supported",
         "description": "The header of 'unsupported' popup"
