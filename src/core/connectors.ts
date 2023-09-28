@@ -2158,4 +2158,10 @@ export default <ConnectorMeta[]>[
 		js: 'rtl-plus-musik.js',
 		id: 'rtl-plus-musik',
 	},
+	{
+		label: 'hearthis.at',
+		matches: ['*://hearthis.at/*'],
+		js: 'hearthis-at.js',
+		id: 'hearthis-at',
+	},
 ];
