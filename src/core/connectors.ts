@@ -2162,6 +2162,12 @@ export default <ConnectorMeta[]>[
 		id: 'rtl-plus-musik',
 	},
 	{
+		label: 'Lyden av Norge',
+		matches: ['*://www.lydenavnorge.no/*'],
+		js: 'lyden-av-norge.js',
+		id: 'lyden-av-norge',
+  },
+  {
 		label: 'audio.com',
 		matches: ['*://audio.com/*'],
 		js: 'audio.js',
