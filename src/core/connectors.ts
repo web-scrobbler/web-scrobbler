@@ -2163,5 +2163,11 @@ export default <ConnectorMeta[]>[
 		matches: ['*://*.afrocharts.com/*'],
 		js: 'afrocharts.js',
 		id: 'afrocharts',
+  },
+  {
+		label: 'Ed Banger Records',
+		matches: ['*://*.edbangerrecords.com/*'],
+		js: 'ed-banger-records.js',
+		id: 'ed-banger-records',
 	},
 ];
