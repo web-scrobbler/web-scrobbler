@@ -753,7 +753,10 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Planet Radio',
-		matches: ['*://planetradio.co.uk/*/player/*'],
+		matches: [
+			'*://planetradio.co.uk/*/play/*',
+			'*://planetradio.co.uk/*/player/*',
+		],
 		js: 'planetradio.js',
 		id: 'planetradio',
 	},
