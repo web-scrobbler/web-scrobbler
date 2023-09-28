@@ -2158,4 +2158,10 @@ export default <ConnectorMeta[]>[
 		js: 'rtl-plus-musik.js',
 		id: 'rtl-plus-musik',
 	},
+	{
+		label: 'AfroCharts',
+		matches: ['*://*.afrocharts.com/*'],
+		js: 'afrocharts.js',
+		id: 'afrocharts',
+	},
 ];
