@@ -2159,6 +2159,12 @@ export default <ConnectorMeta[]>[
 		id: 'rtl-plus-musik',
 	},
 	{
+		label: 'AfroCharts',
+		matches: ['*://*.afrocharts.com/*'],
+		js: 'afrocharts.js',
+		id: 'afrocharts',
+  },
+  {
 		label: 'Ed Banger Records',
 		matches: ['*://*.edbangerrecords.com/*'],
 		js: 'ed-banger-records.js',
