@@ -2162,6 +2162,12 @@ export default <ConnectorMeta[]>[
 		id: 'rtl-plus-musik',
 	},
 	{
+		label: 'Radio Italia',
+		matches: ['*://www.radioitalia.it/*'],
+		js: 'radio-italia.js',
+		id: 'radio-italia',
+  },
+  {
 		label: 'Lyden av Norge',
 		matches: ['*://www.lydenavnorge.no/*'],
 		js: 'lyden-av-norge.js',
