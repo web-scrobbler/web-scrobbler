@@ -2158,4 +2158,10 @@ export default <ConnectorMeta[]>[
 		js: 'rtl-plus-musik.js',
 		id: 'rtl-plus-musik',
 	},
+	{
+		label: 'Ed Banger Records',
+		matches: ['*://*.edbangerrecords.com/*'],
+		js: 'ed-banger-records.js',
+		id: 'ed-banger-records',
+	},
 ];
