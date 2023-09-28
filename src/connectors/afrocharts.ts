@@ -1,3 +1,5 @@
+export {};
+
 Connector.playerSelector = '.jp-controls';
 Connector.getArtistTrack = () =>
 	Util.splitArtistTrack(
