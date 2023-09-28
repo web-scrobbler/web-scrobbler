@@ -2162,6 +2162,12 @@ export default <ConnectorMeta[]>[
 		id: 'rtl-plus-musik',
 	},
 	{
+		label: 'audio.com',
+		matches: ['*://audio.com/*'],
+		js: 'audio.js',
+		id: 'audio-com',
+  },
+  {
 		label: 'AfroCharts',
 		matches: ['*://*.afrocharts.com/*'],
 		js: 'afrocharts.js',
