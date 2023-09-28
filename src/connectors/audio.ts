@@ -1,3 +1,5 @@
+export {};
+
 Connector.playerSelector = '#root>div>aside';
 
 Connector.trackSelector =
