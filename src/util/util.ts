@@ -10,6 +10,7 @@ import {
 	WebhookModel,
 	Properties,
 	StateManagement,
+	YoutubeAllowlist,
 } from '@/core/storage/wrapper';
 import { RegexEdit } from './regex';
 
@@ -115,7 +116,8 @@ export function hideObjectValue(
 		| ListenBrainzModel
 		| WebhookModel
 		| StateManagement
-		| RegexEdit[],
+		| RegexEdit[]
+		| YoutubeAllowlist,
 ): string {
 	if (!keyValue) {
 		if (keyValue === null) {
