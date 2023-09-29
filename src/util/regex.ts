@@ -171,7 +171,9 @@ export function getProcessedFields(song: BaseSong): EditedFields {
  * @param song - Song to get processed fields from
  * @returns Processed fields without regex
  */
-export function getProcessedFieldsNoRegex(song: BaseSong): EditedFields {
+export function getProcessedFieldsNoRegex(
+	song: BaseSong | undefined,
+): EditedFields {
 	return {
 		track: getSongFieldNoRegex(song, 'track'),
 		artist: getSongFieldNoRegex(song, 'artist'),
@@ -232,10 +234,10 @@ export function getSongField(clonedSong: BaseSong, type: FieldType): string {
  * @returns Content of field from song ignoring regex edits
  */
 export function getSongFieldNoRegex(
-	clonedSong: BaseSong,
+	clonedSong: BaseSong | undefined,
 	type: FieldType,
 ): string {
-	return (clonedSong.noRegex[type] || clonedSong.parsed[type]) ?? '';
+	return (clonedSong?.noRegex[type] || clonedSong?.parsed[type]) ?? '';
 }
 
 /**
