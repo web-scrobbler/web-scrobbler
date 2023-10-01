@@ -12,7 +12,7 @@ Connector.isPlaying = () => {
 	return (
 		Util.getCSSPropertyFromSelectors(
 			'.player-container > div.play-author > a > div > svg.icon.icon-play',
-			'display'
+			'display',
 		) === 'none'
 	);
 };

@@ -56,11 +56,11 @@ export default class LibreFmScrobbler extends AudioScrobbler {
 
 	/** @override */
 	protected sendRequest<
-		T extends Record<string, unknown> = Record<string, unknown>
+		T extends Record<string, unknown> = Record<string, unknown>,
 	>(
 		options: RequestInit,
 		params: AudioScrobblerParams,
-		signed?: boolean
+		signed?: boolean,
 	): Promise<T> {
 		if ('post' === options.method?.toLowerCase()) {
 			options.headers = {

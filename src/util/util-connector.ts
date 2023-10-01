@@ -9,7 +9,7 @@ import { getAllPatterns } from '@/core/storage/custom-patterns';
  * @returns connector corresponding to url
  */
 export async function getConnectorByUrl(
-	url: string
+	url: string,
 ): Promise<ConnectorMeta | null> {
 	const customPatterns = (await getAllPatterns()) || {};
 	for (const connector of connectors) {

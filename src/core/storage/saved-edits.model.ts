@@ -169,7 +169,7 @@ export default abstract class SavedEditsModel extends CustomStorage<K> {
 	 */
 	static makeSongId(
 		song: BaseSong,
-		properties: (keyof Song['parsed'])[]
+		properties: (keyof Song['parsed'])[],
 	): string {
 		let inputStr = '';
 

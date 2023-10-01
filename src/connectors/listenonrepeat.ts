@@ -7,7 +7,7 @@ Connector.applyFilter(MetadataFilter.createYouTubeFilter());
 Connector.getArtistTrack = () => {
 	const text = Util.getAttrFromSelectors(
 		'meta[name="twitter:title"]',
-		'content'
+		'content',
 	);
 	return Util.processYtVideoTitle(text);
 };

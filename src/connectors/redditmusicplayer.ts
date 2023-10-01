@@ -9,7 +9,7 @@ Connector.trackArtSelector = '.ui.item.active img';
 Connector.getArtistTrack = () => {
 	const text = Util.getTextFromSelectors('.current .title')?.replace(
 		/ \[.*/,
-		''
+		'',
 	);
 	return Util.splitArtistTrack(text);
 };

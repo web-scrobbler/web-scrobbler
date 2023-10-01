@@ -15,7 +15,7 @@ Connector.isTrackArtDefault = (url) => {
 	return Boolean(
 		url?.includes('/show/images/') ||
 			url?.includes('/player/') ||
-			url?.match(/\/artists\/(?!station\/)/)
+			url?.match(/\/artists\/(?!station\/)/),
 	);
 };
 
@@ -30,7 +30,7 @@ Connector.isPlaying = () => {
 		!Util.hasElementClass(onAirSelector, 'np__equalizer__stop') &&
 		Util.hasElementClass(
 			'.np__btn_controls_play .np__btn_controls_icon',
-			'fa-pause'
+			'fa-pause',
 		)
 	);
 };

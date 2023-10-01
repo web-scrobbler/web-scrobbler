@@ -16,5 +16,5 @@ Connector.durationSelector = '[class*=_PlayerBar__waveform_] + span';
 Connector.isPlaying = () =>
 	Util.getAttrFromSelectors(
 		'[class*=_PlaybackControls__playPauseButton_]',
-		'title'
+		'title',
 	) === 'Pause';

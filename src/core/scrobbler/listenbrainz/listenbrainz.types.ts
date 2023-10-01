@@ -22,7 +22,7 @@ export type ListenBrainzParams =
 			payload: [
 				{
 					track_metadata: ListenBrainzTrackMeta;
-				}
+				},
 			];
 	  }
 	| {
@@ -31,7 +31,7 @@ export type ListenBrainzParams =
 				{
 					listened_at: number;
 					track_metadata: ListenBrainzTrackMeta;
-				}
+				},
 			];
 	  }
 	| {

@@ -44,17 +44,17 @@ function setupObserver() {
 		Util.throttle(() => {
 			// Click on "Track Info" button to display track info.
 			const trackInfoButton = document.querySelector(
-				trackInfoBtnSelector
+				trackInfoBtnSelector,
 			) as HTMLButtonElement;
 			const isButtonActive =
 				Util.getCSSPropertyFromSelectors(
 					trackInfoBtnSelector,
-					'opacity'
+					'opacity',
 				) === '1';
 			if (isButtonActive) {
 				trackInfoButton.click();
 			}
-		}, OBSERVER_THROTTLE_INTERVAL)
+		}, OBSERVER_THROTTLE_INTERVAL),
 	).observe(document, {
 		subtree: true,
 		childList: true,

@@ -36,7 +36,7 @@ function setupMobilePlayer() {
 
 	Connector.getArtistTrack = () => {
 		const text = Util.getTextFromSelectors(
-			'.song-title>div>div:nth-child(1)'
+			'.song-title>div>div:nth-child(1)',
 		);
 		return Util.splitArtistTrack(text, ['-'], true);
 	};

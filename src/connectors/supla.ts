@@ -22,7 +22,7 @@ function getArtistTrackContainer() {
 	 */
 
 	const containers = document.querySelectorAll(
-		'[class^=RadioHeader__WidgetContent]'
+		'[class^=RadioHeader__WidgetContent]',
 	);
 
 	for (const container of containers) {

@@ -5,11 +5,11 @@ Connector.playerSelector = '#player-bar';
 Connector.getArtistTrack = () => {
 	const artist = Util.getDataFromSelectors(
 		'.queue-item-selected',
-		'artist-name'
+		'artist-name',
 	);
 	const track = Util.getDataFromSelectors(
 		'.queue-item-selected',
-		'track-name'
+		'track-name',
 	);
 
 	return { artist, track };

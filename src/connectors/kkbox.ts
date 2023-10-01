@@ -12,7 +12,7 @@ Connector.pauseButtonSelector = '.k-icon-now_playing-pause';
 
 Connector.getTimeInfo = () =>
 	Util.splitTimeInfo(
-		(document.querySelector('.bR5Q8S') as HTMLElement).innerText
+		(document.querySelector('.bR5Q8S') as HTMLElement).innerText,
 	);
 
 const filter = MetadataFilter.createFilter({

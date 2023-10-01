@@ -19,27 +19,27 @@ Connector.getTrackInfo = () => {
 
 	if (artistTrackElement && artistTrackElement.hasChildNodes()) {
 		artistText = Util.getTextFromSelectors(
-			'[class*=PlayerSliderComponent__Artist-]'
+			'[class*=PlayerSliderComponent__Artist-]',
 		);
 		trackText = Util.getTextFromSelectors(
-			'[class*=PlayerSliderComponent__Track-]'
+			'[class*=PlayerSliderComponent__Track-]',
 		);
 		podcastBoolean = false;
 	} else if (artistTrackElement && !artistTrackElement.hasChildNodes()) {
 		artistText = Util.getTextFromSelectors(
-			'[class^=PlayerControls__ShowOwnerName-]'
+			'[class^=PlayerControls__ShowOwnerName-]',
 		);
 		trackText = Util.getTextFromSelectors(
-			'[class*=PlayerControls__ShowTitle-]'
+			'[class*=PlayerControls__ShowTitle-]',
 		);
 		trackArtUrl = Util.extractImageUrlFromSelectors(
-			'[class^=PlayerControls__ShowPicture-] > img'
+			'[class^=PlayerControls__ShowPicture-] > img',
 		)?.replace(/(?<=\/)\d+x\d+(?=\/)/g, '300x300'); // larger image path
 		currentTimeValue = Util.getSecondsFromSelectors(
-			'[class^=PlayerSliderComponent__StartTime-]'
+			'[class^=PlayerSliderComponent__StartTime-]',
 		);
 		remainingTimeValue = Util.getSecondsFromSelectors(
-			'[class^=PlayerSliderComponent__EndTime-]'
+			'[class^=PlayerSliderComponent__EndTime-]',
 		);
 		podcastBoolean = true;
 	}
@@ -57,7 +57,7 @@ Connector.getTrackInfo = () => {
 Connector.isPlaying = () =>
 	Util.getAttrFromSelectors(
 		'[class^=PlayButton__PlayerControl-]',
-		'aria-label'
+		'aria-label',
 	) === 'Pause';
 
 Connector.isStateChangeAllowed = () => {
@@ -66,7 +66,7 @@ Connector.isStateChangeAllowed = () => {
 	 * and we should not update state in such case.
 	 */
 	return Boolean(
-		Connector.getTrackInfo() && Util.isElementVisible(trackInfoSelector)
+		Connector.getTrackInfo() && Util.isElementVisible(trackInfoSelector),
 	);
 };
 

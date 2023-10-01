@@ -4,10 +4,10 @@ import { debugLog } from '../content/util';
 
 const options = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 const connectorsOptions = BrowserStorage.getStorage(
-	BrowserStorage.CONNECTORS_OPTIONS
+	BrowserStorage.CONNECTORS_OPTIONS,
 );
 const connectorsOverrideOptions = BrowserStorage.getStorage(
-	BrowserStorage.CONNECTORS_OVERRIDE_OPTIONS
+	BrowserStorage.CONNECTORS_OVERRIDE_OPTIONS,
 );
 
 export const USE_NOTIFICATIONS = 'useNotifications';
@@ -196,7 +196,7 @@ async function cleanupConfigValues() {
 
 export async function getOption(
 	key: string,
-	connector?: string
+	connector?: string,
 ): Promise<unknown> {
 	if (!assertValidOptionKey(key)) {
 		return;
@@ -215,7 +215,7 @@ export async function getOption(
 
 export async function setOption<T extends keyof GlobalOptions>(
 	key: T,
-	value: GlobalOptions[T]
+	value: GlobalOptions[T],
 ): Promise<void> {
 	if (!assertValidOptionKey(key)) {
 		return;
@@ -227,7 +227,7 @@ export async function setOption<T extends keyof GlobalOptions>(
 // TODO: the types could be a little stricter on these functions, but it's not too bad
 export async function getConnectorOption(
 	connector: string,
-	key: string
+	key: string,
 ): Promise<boolean | undefined> {
 	if (!assertValidConnector(connector)) {
 		return;
@@ -243,7 +243,7 @@ export async function getConnectorOption(
 export async function setConnectorOption(
 	connector: string,
 	key: string,
-	value: boolean
+	value: boolean,
 ): Promise<void> {
 	if (!assertValidConnector(connector)) {
 		return;
@@ -263,7 +263,7 @@ export async function setConnectorOption(
 
 export async function getConnectorOverrideOption(
 	connector: string,
-	key: keyof GlobalOptions
+	key: keyof GlobalOptions,
 ): Promise<boolean | undefined> {
 	if (!assertValidOverride(key)) {
 		return;
@@ -275,7 +275,7 @@ export async function getConnectorOverrideOption(
 export async function setConnectorOverrideOption(
 	connector: string,
 	key: keyof ConnectorsOverrideOptionValues,
-	value: boolean | undefined
+	value: boolean | undefined,
 ): Promise<void> {
 	const data = await connectorsOverrideOptions.get();
 	if (!data) {
@@ -297,7 +297,7 @@ function assertValidOptionKey(key: string): key is keyof GlobalOptions {
 }
 
 function assertValidOverride(
-	key: string
+	key: string,
 ): key is keyof ConnectorsOverrideOptionValues {
 	if (!(key in OVERRIDE_CONTENT)) {
 		return false;
@@ -306,7 +306,7 @@ function assertValidOverride(
 }
 
 function assertValidConnector(
-	connector: string
+	connector: string,
 ): connector is keyof ConnectorOptions {
 	if (!(connector in DEFAULT_CONNECTOR_OPTIONS)) {
 		throw new Error(`Unknown connector: ${connector}`);
@@ -316,7 +316,7 @@ function assertValidConnector(
 
 function assertValidConnectorOptionKey(
 	connector: keyof ConnectorOptions,
-	key: string
+	key: string,
 ): key is keyof ConnectorOptions[keyof ConnectorOptions] {
 	if (!(key in DEFAULT_CONNECTOR_OPTIONS[connector])) {
 		throw new Error(`Unknown connector option key: ${key}`);
@@ -330,7 +330,7 @@ function assertValidConnectorOptionKey(
  * @returns Check result
  */
 export async function isConnectorEnabled(
-	connector: ConnectorMeta
+	connector: ConnectorMeta,
 ): Promise<boolean> {
 	const data = await options.get();
 	if (!data) {
@@ -346,7 +346,7 @@ export async function isConnectorEnabled(
  */
 export async function setConnectorEnabled(
 	connector: ConnectorMeta,
-	state: boolean
+	state: boolean,
 ): Promise<void> {
 	const data = await options.get();
 	if (!data) {

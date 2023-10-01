@@ -11,7 +11,7 @@ Connector.isPlaying = () => {
 	return (
 		Util.getAttrFromSelectors(
 			'.playbar rs-play-button > rs-button > button',
-			'title'
+			'title',
 		) === 'Pausieren'
 	);
 };

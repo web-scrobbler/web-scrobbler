@@ -20,7 +20,7 @@ Connector.trackArtSelector = '.Player__artwork-2';
 Connector.getUniqueID = () => {
 	const trackUrl = Util.getAttrFromSelectors(
 		`${playerBar} .track-title a`,
-		'href'
+		'href',
 	);
 	return trackUrl?.split('/').at(-1);
 };
@@ -29,7 +29,7 @@ Connector.applyFilter(filter);
 
 function removeOriginalMix(track: string) {
 	const remixedBy = Util.getTextFromSelectors(
-		`${playerBar} .track-title__remixed`
+		`${playerBar} .track-title__remixed`,
 	);
 	if (remixedBy === 'Original Mix') {
 		return track;

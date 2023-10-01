@@ -28,7 +28,7 @@ Connector.isPlaying = () => {
 
 Connector.getTrackArt = () => {
 	const imageSrc = getIframeElement('#player-badge-image')?.getAttribute(
-		'src'
+		'src',
 	);
 	const url = `${window.location.protocol}//${window.location.host}${imageSrc}`;
 	return url;

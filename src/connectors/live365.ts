@@ -14,13 +14,13 @@ Connector.getArtistTrack = () => {
 	// "Art for Layla by Derek & The Dominos"
 	const artistAndTrackUnparsed = Util.getAttrFromSelectors(
 		Connector.trackArtSelector,
-		'alt'
+		'alt',
 	);
 
 	const artistAndTrackParsed = Util.splitArtistTrack(
 		artistAndTrackUnparsed,
 		[artistAlbumSeparator],
-		true
+		true,
 	);
 
 	return artistAndTrackParsed;

@@ -30,7 +30,7 @@ function retrieveJwplayerState() {
 	script.id = 'tmpScript';
 	script.appendChild(document.createTextNode(scriptContent));
 	(document.body || document.head || document.documentElement).appendChild(
-		script
+		script,
 	);
 
 	const ret = Util.getAttrFromSelectors('body', 'tmp_state');

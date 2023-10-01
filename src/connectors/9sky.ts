@@ -8,7 +8,7 @@ const titleBrackets = '〉》」』】〕〗〙〛〞﵀︘︶︸︺︼︾﹀﹂
 Util.bindListeners(
 	['audio', 'video'],
 	['playing', 'pause', 'timeupdate'],
-	Connector.onStateChanged
+	Connector.onStateChanged,
 );
 
 Connector.getTimeInfo = () => {

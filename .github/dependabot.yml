@@ -1,28 +1,28 @@
 version: 2
 updates:
-- package-ecosystem: npm
-  directory: "/"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "19:00"
-    timezone: Europe/Moscow
-  open-pull-requests-limit: 10
-  reviewers:
-  - "web-scrobbler/maintenance-team"
-  labels:
-  - dependencies
-  - maintenance
-  versioning-strategy: increase
-- package-ecosystem: "github-actions"
-  directory: "/"
-  schedule:
-    interval: weekly
-    day: saturday
-    time: "19:00"
-    timezone: Europe/Moscow
-  reviewers:
-  - "web-scrobbler/maintenance-team"
-  labels:
-  - dependencies
-  - maintenance
+  - package-ecosystem: npm
+    directory: '/'
+    schedule:
+      interval: weekly
+      day: saturday
+      time: '19:00'
+      timezone: Europe/Moscow
+    open-pull-requests-limit: 10
+    reviewers:
+      - 'web-scrobbler/maintenance-team'
+    labels:
+      - dependencies
+      - maintenance
+    versioning-strategy: increase
+  - package-ecosystem: 'github-actions'
+    directory: '/'
+    schedule:
+      interval: weekly
+      day: saturday
+      time: '19:00'
+      timezone: Europe/Moscow
+    reviewers:
+      - 'web-scrobbler/maintenance-team'
+    labels:
+      - dependencies
+      - maintenance

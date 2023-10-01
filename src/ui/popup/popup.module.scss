@@ -191,7 +191,8 @@ a {
 	box-sizing: border-box;
 	display: grid;
 	gap: 0.5em 1em;
-	grid-template: '. search replace preview' 2em
+	grid-template:
+		'. search replace preview' 2em
 		'track tracksearch trackreplace trackpreview' 2em
 		'artist artistsearch artistreplace artistpreview' 2em
 		'album albumsearch albumreplace albumpreview' 2em

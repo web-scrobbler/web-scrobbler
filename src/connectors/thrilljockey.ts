@@ -20,7 +20,7 @@ Connector.trackArtSelector =
 
 Connector.getTrackArt = () =>
 	`${location.origin}${Util.extractImageUrlFromSelectors(
-		Connector.trackArtSelector
+		Connector.trackArtSelector,
 	)}`;
 
 Connector.currentTimeSelector = `${Connector.playerSelector} .audio-player__time-elapsed`;

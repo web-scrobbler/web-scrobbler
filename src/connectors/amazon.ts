@@ -42,7 +42,7 @@ function setupPropertiesForNewPlayer() {
 	Connector.isScrobblingAllowed = () => {
 		const trackLink = Util.getAttrFromSelectors(
 			trackContainerSelector,
-			'primary-href'
+			'primary-href',
 		);
 
 		// NOTE Regular tracks have no link
@@ -65,7 +65,7 @@ function setupPropertiesForOldPlayer() {
 				'.trackInfoContainer .trackArtist a',
 				'.trackInfoContainer .trackArtist span',
 			],
-			'title'
+			'title',
 		);
 	};
 
@@ -84,7 +84,7 @@ function setupPropertiesForOldPlayer() {
 
 		const albumCellTitle = Util.getAttrFromSelectors(
 			'tr.selectable.currentlyPlaying td.albumCell',
-			'title'
+			'title',
 		);
 		if (albumCellTitle) {
 			return albumCellTitle;
@@ -92,7 +92,7 @@ function setupPropertiesForOldPlayer() {
 
 		const albumImageTitle = Util.getAttrFromSelectors(
 			'.nowPlayingDetail img.albumImage',
-			'title'
+			'title',
 		);
 		if (albumImageTitle) {
 			return albumImageTitle;
@@ -120,7 +120,7 @@ function setupPropertiesForOldPlayer() {
 	Connector.getUniqueID = () => {
 		const optionsHref = Util.getAttrFromSelectors(
 			optionBtnSelector,
-			'href'
+			'href',
 		);
 		return optionsHref && optionsHref.replace(/[\W\w]+adriveId=/, '');
 	};
