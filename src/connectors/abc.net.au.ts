@@ -17,5 +17,5 @@ Connector.albumSelector = [
 Connector.isPlaying = () =>
 	Util.hasElementClass(
 		['#jwplayerDiv', '#radio-player4-player'],
-		'jw-state-playing'
+		'jw-state-playing',
 	);

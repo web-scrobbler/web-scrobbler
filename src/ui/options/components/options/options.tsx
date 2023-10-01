@@ -8,7 +8,7 @@ import ScrobbleBehavior from './scrobble-behavior';
 const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 
 const [options, setOptions] = createResource(
-	globalOptions.get.bind(globalOptions)
+	globalOptions.get.bind(globalOptions),
 );
 
 /**

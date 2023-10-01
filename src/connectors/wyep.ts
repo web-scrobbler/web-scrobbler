@@ -10,7 +10,7 @@ Connector.pauseButtonSelector = `${player}.is-playing`;
 
 Connector.getTrackInfo = () => {
 	const artistAlbum = Util.getTextFromSelectors(
-		`${player} .wyep-player__description`
+		`${player} .wyep-player__description`,
 	);
 	return Util.splitArtistAlbum(artistAlbum, ['·']);
 };

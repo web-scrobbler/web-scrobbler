@@ -21,7 +21,7 @@ function setupGlobalPlayer() {
 	Connector.getArtistTrack = () => {
 		let { artist, track } = Util.splitArtistTrack(
 			Util.getTextFromSelectors(globalTrackSelector),
-			['-']
+			['-'],
 		);
 
 		if (!artist) {
@@ -46,7 +46,7 @@ function setupEmbeddedPlayer() {
 	Connector.getArtistTrack = () => {
 		let { artist, track } = Util.splitArtistTrack(
 			Util.getTextFromSelectors(embeddedTrackSelector),
-			['-']
+			['-'],
 		);
 
 		if (!artist) {

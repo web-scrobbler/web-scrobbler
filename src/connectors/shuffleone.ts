@@ -14,7 +14,7 @@ Connector.isPlaying = () => {
 	return (
 		Util.getAttrFromSelectors(
 			'.bottom button:nth-child(3) > svg > path',
-			'd'
+			'd',
 		) === playingPath
 	);
 };

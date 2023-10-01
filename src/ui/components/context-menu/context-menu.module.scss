@@ -95,14 +95,12 @@
 		transform-origin: bottom right;
 	}
 
-
 	// stylelint-disable-next-line no-duplicate-selectors
 	& {
 		/* avoid flickering on ios */
 		-webkit-backface-visibility: hidden;
 		-webkit-perspective: 1000;
 	}
-
 
 	&.mountedAnimation {
 		animation-duration: 0.1s;

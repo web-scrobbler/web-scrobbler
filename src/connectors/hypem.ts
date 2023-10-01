@@ -13,7 +13,7 @@ Connector.isTrackArtDefault = (url) => url?.includes('solid_color');
 Connector.getUniqueID = () => {
 	const trackUrl = Util.getAttrFromSelectors(
 		'#player-nowplaying [href^="/track/"]',
-		'href'
+		'href',
 	);
 	if (trackUrl) {
 		return trackUrl.split('/').at(-1);

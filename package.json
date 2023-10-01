@@ -14,7 +14,8 @@
     "build": "tsx build.ts",
     "checkts": "tsc --noEmit && tsc --noEmit --project tsconfig.connectors.json",
     "test": "vitest",
-    "lint": "eslint . --ext .ts,.tsx && stylelint \"**/*.scss\" && remark .",
+    "lint": "eslint . --ext .ts,.tsx && stylelint \"**/*.scss\" && prettier . --check && remark .",
+    "prettierfix": "prettier . --write",
     "fixstyle": "stylelint \"**/*.scss\" --fix",
     "translations": "tx pull -m onlytranslated && tsx scripts/translations-prepare.ts"
   },

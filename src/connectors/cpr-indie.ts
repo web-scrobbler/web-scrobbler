@@ -11,7 +11,7 @@ Connector.isPlaying = () => Util.hasElementClass('#qtmplayerNotif', 'playing');
 Connector.isScrobblingAllowed = () => {
 	return (
 		!Util.getTextFromSelectors('.qtmplayer__songdata')?.includes(
-			'Indie 102.3'
+			'Indie 102.3',
 		) && !Connector.getArtist()?.startsWith('with ')
 	);
 };
