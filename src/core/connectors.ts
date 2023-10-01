@@ -2190,5 +2190,11 @@ export default <ConnectorMeta[]>[
 		matches: ['*://*.edbangerrecords.com/*'],
 		js: 'ed-banger-records.js',
 		id: 'ed-banger-records',
-	},
+  },
+  {
+		label: 'khinsider',
+		matches: ['*://downloads.khinsider.com/*'],
+		js: 'khinsider.js',
+		id: 'khinsider',
+  },
 ];
