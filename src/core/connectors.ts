@@ -2162,6 +2162,12 @@ export default <ConnectorMeta[]>[
 		id: 'rtl-plus-musik',
 	},
 	{
+		label: 'Blend',
+		matches: ['*://blend.io/*'],
+		js: 'blend.js',
+		id: 'blend',
+  },
+  {
 		label: 'Radio Italia',
 		matches: ['*://www.radioitalia.it/*'],
 		js: 'radio-italia.js',
