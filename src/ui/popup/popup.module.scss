@@ -104,7 +104,7 @@ a {
 
 		@supports (-webkit-touch-callout: none) {
 			.editField {
-				@include iOSTextInput;
+				@include ios-text-input;
 			}
 		}
 	}
@@ -403,7 +403,7 @@ a {
 		}
 
 		input {
-			@include iOSTextInput;
+			@include ios-text-input;
 			width: 100%;
 		}
 
