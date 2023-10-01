@@ -2210,6 +2210,12 @@ export default <ConnectorMeta[]>[
 		id: 'ed-banger-records',
 	},
 	{
+		label: 'Hyperpipe',
+		matches: ['*://hyperpipe.surge.sh/*'],
+		js: 'hyperpipe.js',
+		id: 'hyperpipe',
+	},
+	{
 		label: 'Radiofreccia',
 		matches: ['*://play.rtl.it/live/*'],
 		js: 'radiofreccia.js',
