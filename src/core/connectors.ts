@@ -753,7 +753,10 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Planet Radio',
-		matches: ['*://planetradio.co.uk/*/player/*'],
+		matches: [
+			'*://planetradio.co.uk/*/play/*',
+			'*://planetradio.co.uk/*/player/*',
+		],
 		js: 'planetradio.js',
 		id: 'planetradio',
 	},
@@ -2164,4 +2167,64 @@ export default <ConnectorMeta[]>[
 		js: 'tomorrowland.js',
 		id: 'tomorrowland',
 	},
+	{
+		label: 'hearthis.at',
+		matches: ['*://hearthis.at/*'],
+		js: 'hearthis-at.js',
+		id: 'hearthis-at',
+	},
+	{
+		label: 'Blend',
+		matches: ['*://blend.io/*'],
+		js: 'blend.js',
+		id: 'blend',
+  },
+  {
+		label: 'Radio Italia',
+		matches: ['*://www.radioitalia.it/*'],
+		js: 'radio-italia.js',
+		id: 'radio-italia',
+	},
+	{
+		label: 'Lyden av Norge',
+		matches: ['*://www.lydenavnorge.no/*'],
+		js: 'lyden-av-norge.js',
+		id: 'lyden-av-norge',
+	},
+	{
+		label: 'audio.com',
+		matches: ['*://audio.com/*'],
+		js: 'audio.js',
+		id: 'audio-com',
+	},
+	{
+		label: 'AfroCharts',
+		matches: ['*://*.afrocharts.com/*'],
+		js: 'afrocharts.js',
+		id: 'afrocharts',
+	},
+	{
+		label: 'Ed Banger Records',
+		matches: ['*://*.edbangerrecords.com/*'],
+		js: 'ed-banger-records.js',
+		id: 'ed-banger-records',
+	},
+	{
+		label: 'Hyperpipe',
+		matches: ['*://hyperpipe.surge.sh/*'],
+		js: 'hyperpipe.js',
+		id: 'hyperpipe',
+	},
+	{
+		label: 'Radiofreccia',
+		matches: ['*://play.rtl.it/live/*'],
+		js: 'radiofreccia.js',
+		id: 'radiofreccia',
+  },
+  {
+		label: 'khinsider',
+		matches: ['*://downloads.khinsider.com/*'],
+		js: 'khinsider.js',
+		id: 'khinsider',
+  },
 ];
