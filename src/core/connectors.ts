@@ -2166,29 +2166,35 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.radioitalia.it/*'],
 		js: 'radio-italia.js',
 		id: 'radio-italia',
-  },
-  {
+	},
+	{
 		label: 'Lyden av Norge',
 		matches: ['*://www.lydenavnorge.no/*'],
 		js: 'lyden-av-norge.js',
 		id: 'lyden-av-norge',
-  },
-  {
+	},
+	{
 		label: 'audio.com',
 		matches: ['*://audio.com/*'],
 		js: 'audio.js',
 		id: 'audio-com',
-  },
-  {
+	},
+	{
 		label: 'AfroCharts',
 		matches: ['*://*.afrocharts.com/*'],
 		js: 'afrocharts.js',
 		id: 'afrocharts',
-  },
-  {
+	},
+	{
 		label: 'Ed Banger Records',
 		matches: ['*://*.edbangerrecords.com/*'],
 		js: 'ed-banger-records.js',
 		id: 'ed-banger-records',
+	},
+	{
+		label: 'Hyperpipe',
+		matches: ['*://hyperpipe.surge.sh/*'],
+		js: 'hyperpipe.js',
+		id: 'hyperpipe',
 	},
 ];
