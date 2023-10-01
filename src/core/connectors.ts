@@ -2208,6 +2208,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://*.edbangerrecords.com/*'],
 		js: 'ed-banger-records.js',
 		id: 'ed-banger-records',
+	},
+	{
+		label: 'Radiofreccia',
+		matches: ['*://play.rtl.it/live/*'],
+		js: 'radiofreccia.js',
+		id: 'radiofreccia',
   },
   {
 		label: 'khinsider',
