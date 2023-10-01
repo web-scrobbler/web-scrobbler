@@ -2168,6 +2168,12 @@ export default <ConnectorMeta[]>[
 		id: 'rtl-plus-musik',
 	},
 	{
+		label: 'Tomorrowland',
+		matches: ['*://www.tomorrowland.com/*'],
+		js: 'tomorrowland.js',
+		id: 'tomorrowland',
+	},
+	{
 		label: 'hearthis.at',
 		matches: ['*://hearthis.at/*'],
 		js: 'hearthis-at.js',
