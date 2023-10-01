@@ -45,6 +45,7 @@
     "@types/webextension-polyfill": "0.10.3",
     "@typescript-eslint/eslint-plugin": "6.7.2",
     "@web-scrobbler/eslint-config": "3.0.0",
+    "@web-scrobbler/stylelint-config": "1.0.0",
     "archiver": "6.0.1",
     "canvas": "2.11.2",
     "chokidar": "3.5.3",
@@ -65,7 +66,6 @@
     "remark-preset-lint-recommended": "6.1.3",
     "sass": "1.68.0",
     "solid-js": "1.7.12",
-    "stylelint-config-web-scrobbler": "0.2.0",
     "tsx": "3.12.10",
     "typescript": "5.2.2",
     "vite-plugin-conditional-compiler": "0.1.1",
@@ -90,7 +90,7 @@
     ]
   },
   "stylelint": {
-    "extends": "stylelint-config-web-scrobbler"
+    "extends": "@web-scrobbler/stylelint-config"
   },
   "license": "MIT"
 }
