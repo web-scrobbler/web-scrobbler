@@ -14,6 +14,7 @@ import {
 	createMemo,
 	createResource,
 	createSignal,
+	onMount,
 } from 'solid-js';
 import {
 	EditedFields,
@@ -58,7 +59,7 @@ const [previews, setPreviews] = createSignal({
  * Regex editing popup
  */
 export default function Regex(props: {
-	clonedSong: ClonedSong;
+	clonedSong: ClonedSong | undefined;
 	tab: Resource<ManagerTab>;
 }) {
 	return (
@@ -87,33 +88,40 @@ export default function Regex(props: {
 /**
  * Label, inputs, and preview for a single song field.
  */
-function Entry(props: { clonedSong: ClonedSong; type: FieldType }) {
-	const { clonedSong, type } = props;
-	setPreviews((prev) => ({
-		...prev,
-		[type]: getSongFieldNoRegex(clonedSong, type),
-	}));
+function Entry(props: { clonedSong: ClonedSong | undefined; type: FieldType }) {
+	onMount(() => {
+		const type = props.type;
+		const clonedSong = props.clonedSong;
+		setPreviews((prev) => ({
+			...prev,
+			[type]: getSongFieldNoRegex(clonedSong, type),
+		}));
+	});
 
 	createEffect(() => {
 		setPreviews(() =>
 			replaceFields(
 				searches(),
 				replaces(),
-				getProcessedFieldsNoRegex(clonedSong),
+				getProcessedFieldsNoRegex(props.clonedSong),
 			),
 		);
 	});
 
 	return (
-		<EntryWrapper type={type}>
+		<EntryWrapper type={props.type}>
 			<Show when={!isIos()}>
-				<span class={`${styles[`${type}Label`]} ${styles.entryLabel}`}>
-					{t(`info${pascalCaseField(type)}Label`)}
+				<span
+					class={`${styles[`${props.type}Label`]} ${
+						styles.entryLabel
+					}`}
+				>
+					{t(`info${pascalCaseField(props.type)}Label`)}
 				</span>
 			</Show>
-			<SearchField type={type} clonedSong={clonedSong} />
-			<ReplaceField type={type} />
-			<PreviewOutput type={type} />
+			<SearchField type={props.type} clonedSong={props.clonedSong} />
+			<ReplaceField type={props.type} />
+			<PreviewOutput type={props.type} />
 		</EntryWrapper>
 	);
 }
@@ -137,23 +145,28 @@ function EntryWrapper(props: { type: FieldType; children: JSXElement }) {
 /**
  * A single search input for a single song property.
  */
-function SearchField(props: { type: FieldType; clonedSong: ClonedSong }) {
-	const { type, clonedSong } = props;
+function SearchField(props: {
+	type: FieldType;
+	clonedSong: ClonedSong | undefined;
+}) {
 	return (
-		<div class={`${styles[`${type}Search`]} ${styles.searchWrapper}`}>
+		<div class={`${styles[`${props.type}Search`]} ${styles.searchWrapper}`}>
 			<Show when={isIos()}>
-				<label for={`${type}SearchInput`} class={styles.iosSearchLabel}>
+				<label
+					for={`${props.type}SearchInput`}
+					class={styles.iosSearchLabel}
+				>
 					{t('infoSearchLabel')}
 				</label>
 			</Show>
 			<input
-				id={`${type}SearchInput`}
+				id={`${props.type}SearchInput`}
 				type="text"
 				class={styles.searchField}
 				onInput={(e) =>
 					setSearches((prev) => ({
 						...prev,
-						[type]: e.currentTarget.value || null,
+						[props.type]: e.currentTarget.value || null,
 					}))
 				}
 			/>
@@ -164,13 +177,13 @@ function SearchField(props: { type: FieldType; clonedSong: ClonedSong }) {
 					/>
 				}
 			>
-				<Match when={!searches()[type]}>
+				<Match when={!searches()[props.type]}>
 					<></>
 				</Match>
 				<Match
 					when={searchMatches(
-						searches()[type],
-						getSongFieldNoRegex(clonedSong, type),
+						searches()[props.type],
+						getSongFieldNoRegex(props.clonedSong, props.type),
 					)}
 				>
 					<Check
@@ -186,25 +199,24 @@ function SearchField(props: { type: FieldType; clonedSong: ClonedSong }) {
  * A single replace input for a single song property.
  */
 function ReplaceField(props: { type: FieldType }) {
-	const { type } = props;
 	return (
 		<>
 			<Show when={isIos()}>
 				<label
-					for={`${type}ReplaceInput`}
+					for={`${props.type}ReplaceInput`}
 					class={styles.iosReplaceLabel}
 				>
 					{t('infoReplaceLabel')}
 				</label>
 			</Show>
 			<input
-				id={`${type}ReplaceInput`}
+				id={`${props.type}ReplaceInput`}
 				type="text"
-				class={styles[`${type}Replace`]}
+				class={styles[`${props.type}Replace`]}
 				onInput={(e) =>
 					setReplaces((prev) => ({
 						...prev,
-						[type]: e.currentTarget.value || null,
+						[props.type]: e.currentTarget.value || null,
 					}))
 				}
 			/>
@@ -216,22 +228,21 @@ function ReplaceField(props: { type: FieldType }) {
  * Preview of a single song property.
  */
 function PreviewOutput(props: { type: FieldType }) {
-	const { type } = props;
 	return (
 		<>
 			<Show when={isIos()}>
 				<label
-					for={`${type}PreviewOutput`}
+					for={`${props.type}PreviewOutput`}
 					class={styles.iosPreviewLabel}
 				>
 					{t('infoPreviewLabel')}
 				</label>
 			</Show>
 			<output
-				id={`${type}PreviewOutput`}
-				class={styles[`${type}Preview`]}
+				id={`${props.type}PreviewOutput`}
+				class={styles[`${props.type}Preview`]}
 			>
-				{previews()[type]}
+				{previews()[props.type]}
 			</output>
 		</>
 	);
@@ -240,10 +251,13 @@ function PreviewOutput(props: { type: FieldType }) {
 /**
  * Footer of regex edit popup, allows the user to submit, and displays a warning if edit exists already.
  */
-function Footer(props: { tab: Resource<ManagerTab>; clonedSong: ClonedSong }) {
+function Footer(props: {
+	tab: Resource<ManagerTab>;
+	clonedSong: ClonedSong | undefined;
+}) {
 	return (
 		<div class={styles.regexFooter}>
-			<Show when={props.clonedSong.flags.isCorrectedByUser}>
+			<Show when={props.clonedSong?.flags.isCorrectedByUser}>
 				<span class={styles.editWarning}>{t('infoEditedWarning')}</span>
 			</Show>
 			<Show when={!isIos()}>

@@ -16,7 +16,6 @@ export default function ScrobbleBehavior(props: {
 		unknown
 	>;
 }) {
-	const { options, setOptions } = props;
 	return (
 		<>
 			<h2>{t('optionsScrobbleBehavior')}</h2>
@@ -40,17 +39,19 @@ export default function ScrobbleBehavior(props: {
 				]}
 				name="scrobbleBehavior"
 				value={() => {
-					if (options()?.[Options.FORCE_RECOGNIZE]) {
+					if (props.options()?.[Options.FORCE_RECOGNIZE]) {
 						return Options.FORCE_RECOGNIZE;
 					}
-					if (options()?.[Options.SCROBBLE_EDITED_TRACKS_ONLY]) {
+					if (
+						props.options()?.[Options.SCROBBLE_EDITED_TRACKS_ONLY]
+					) {
 						return Options.SCROBBLE_EDITED_TRACKS_ONLY;
 					}
 					return Options.SCROBBLE_RECOGNIZED_TRACKS;
 				}}
 				onChange={(e) => {
 					const value = e.currentTarget.value;
-					setOptions.mutate((o) => {
+					props.setOptions.mutate((o) => {
 						if (!o) {
 							return o;
 						}
