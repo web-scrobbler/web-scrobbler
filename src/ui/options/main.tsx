@@ -39,7 +39,7 @@ function getDefaultSetting(): NavigatorNavigationButton {
 	}
 
 	// in non-safari, go to show some love page
-	// #v-ifndef VITE_SAFARI
+	// #v-ifdef !VITE_SAFARI
 	return showSomeLoveItem;
 	// #v-endif
 

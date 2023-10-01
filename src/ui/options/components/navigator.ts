@@ -136,7 +136,7 @@ export const settings: Navigator = [
 	accountItem,
 	optionsGroup,
 	aboutGroup,
-	// #v-ifndef VITE_SAFARI
+	// #v-ifdef !VITE_SAFARI
 	showSomeLoveItem,
 	// #v-endif
 ];
@@ -189,7 +189,7 @@ export async function getMobileNavigatorGroup(): Promise<NavigatorButtonGroup> {
 				action: () => {
 					browser.tabs.create({
 						url: browser.runtime.getURL(
-							'src/ui/options/index.html'
+							'src/ui/options/index.html',
 						),
 					});
 				},
@@ -205,7 +205,7 @@ export async function getMobileNavigatorGroup(): Promise<NavigatorButtonGroup> {
 
 export function triggerNavigationButton(
 	button: NavigatorButton | NavigatorButtonGroup,
-	setActiveSetting: Setter<NavigatorNavigationButton>
+	setActiveSetting: Setter<NavigatorNavigationButton>,
 ) {
 	if ('group' in button) {
 		return;
@@ -225,7 +225,7 @@ export function triggerNavigationButton(
  * @returns true if item is singular, false if item is a group
  */
 export function itemIsSingular(
-	item: NavigatorButton | NavigatorButtonGroup
+	item: NavigatorButton | NavigatorButtonGroup,
 ): item is NavigatorButton {
 	return !('group' in item);
 }
