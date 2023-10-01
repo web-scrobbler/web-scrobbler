@@ -9,6 +9,7 @@ import ClonedSong from '../object/cloned-song';
 
 type WebhookRequest = {
 	eventName: string;
+	time: number;
 	data: {
 		song: BaseSong;
 		isLoved?: boolean;
@@ -21,6 +22,7 @@ type WebhookRequest = {
 
 export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 	public userApiUrl!: string;
+	public isLocalOnly = true;
 
 	/** @override */
 	protected getBaseProfileUrl(): string {
@@ -120,6 +122,7 @@ export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 	async sendNowPlaying(song: BaseSong): Promise<ServiceCallResult> {
 		return this.sendRequest({
 			eventName: 'nowplaying',
+			time: Date.now(),
 			data: { song },
 		});
 	}
@@ -128,6 +131,7 @@ export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 	async sendPaused(song: BaseSong): Promise<ServiceCallResult> {
 		return this.sendRequest({
 			eventName: 'paused',
+			time: Date.now(),
 			data: { song },
 		});
 	}
@@ -136,6 +140,7 @@ export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 	async sendResumedPlaying(song: BaseSong): Promise<ServiceCallResult> {
 		return this.sendRequest({
 			eventName: 'resumedplaying',
+			time: Date.now(),
 			data: { song },
 		});
 	}
@@ -144,6 +149,7 @@ export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 	public async scrobble(song: BaseSong): Promise<ServiceCallResult> {
 		return this.sendRequest({
 			eventName: 'scrobble',
+			time: Date.now(),
 			data: { song },
 		});
 	}
@@ -155,6 +161,7 @@ export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 	): Promise<ServiceCallResult | Record<string, never>> {
 		return this.sendRequest({
 			eventName: 'loved',
+			time: Date.now(),
 			data: { song, isLoved },
 		});
 	}

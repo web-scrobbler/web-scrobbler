@@ -22,6 +22,7 @@ const apiUrl = `${baseUrl}/submit-listens`;
 export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'> {
 	public userApiUrl!: string;
 	public userToken!: string;
+	public isLocalOnly = false;
 
 	public async getSongInfo(): Promise<Record<string, never>> {
 		return Promise.resolve({});

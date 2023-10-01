@@ -75,11 +75,12 @@ function EditInfo(props: {
 				class={styles.deleteEditButton}
 				onClick={(event) => {
 					event.stopPropagation();
+					const index = props.index;
 					props.mutate((e) => {
 						if (!e) {
 							return e;
 						}
-						const o = e.filter((_, i) => i !== props.index);
+						const o = e.filter((_, i) => i !== index);
 						regexEdits.set(o);
 						return o;
 					});

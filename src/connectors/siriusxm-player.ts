@@ -48,6 +48,7 @@ Connector.isScrobblingAllowed = () => {
 		'#',
 		'facebook',
 		'twitter',
+		'bdcast',
 	];
 
 	return !filteredTerms.some(

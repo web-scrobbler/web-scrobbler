@@ -36,6 +36,7 @@ import {
 import ClonedSong from '@/core/object/cloned-song';
 import { openTab } from '@/util/util-browser';
 import { setRegexDefaults } from '@/util/regex';
+import { attemptInjectAllTabs } from './inject';
 import {
 	getSongInfo,
 	scrobble,
@@ -50,8 +51,8 @@ import { fetchListenBrainzProfile } from '@/util/util';
 const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
 
 // Set up listeners. These must all be synchronously set up at startup time (Manifest V3 service worker)
-browser.runtime.onStartup.addListener(startupFunc);
-browser.runtime.onInstalled.addListener(startupFunc);
+browser.runtime.onStartup.addListener(onStartup);
+browser.runtime.onInstalled.addListener(onInstalled);
 browser.tabs.onRemoved.addListener((tabId) => void onTabRemoved(tabId));
 browser.tabs.onUpdated.addListener(
 	(tabId, changeInfo, tab) => void onTabUpdated(tabId, changeInfo, tab),
@@ -222,7 +223,10 @@ async function updateTab(
 				activeTabs,
 				browserPreferredTheme: curState.browserPreferredTheme,
 			});
-			updateTabsFromTabList(activeTabs, tabId);
+
+			// this can be different from the tab of the script calling the mode change
+			const activeTabId = await getCurrentTabId();
+			updateTabsFromTabList(activeTabs, activeTabId);
 			return;
 		}
 		performedSet = true;
@@ -238,7 +242,10 @@ async function updateTab(
 			activeTabs: newTabs,
 			browserPreferredTheme: curState.browserPreferredTheme,
 		});
-		updateTabsFromTabList(activeTabs, tabId);
+
+		// this can be different from the tab of the script calling the mode change
+		const activeTabId = await getCurrentTabId();
+		updateTabsFromTabList(activeTabs, activeTabId);
 	} catch (err) {
 		if (!performedSet) {
 			unlockState();
@@ -488,7 +495,7 @@ async function bindScrobblers() {
  * Sets up the starting state of the extension on browser startup/extension install.
  * Storage is used instead of variables, as with Manifest V3 service workers, script state cannot be guaranteed.
  */
-function startupFunc() {
+function onStartup() {
 	const state = BrowserStorage.getStorage(BrowserStorage.STATE_MANAGEMENT);
 	state.set(DEFAULT_STATE);
 	disabledTabs.set({});
@@ -522,6 +529,15 @@ function startupFunc() {
 		contexts: ['action'],
 		title: 'Error: You should not be seeing this',
 	});
+}
+
+/**
+ * To be ran on install/update. Does all the things extension does on startup,
+ * and also injects the content script into all eligible tabs as the old ones have been invalidated.
+ */
+function onInstalled() {
+	onStartup();
+	attemptInjectAllTabs();
 }
 
 /**

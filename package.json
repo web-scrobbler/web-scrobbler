@@ -16,6 +16,7 @@
     "test": "vitest",
     "lint": "eslint . --ext .ts,.tsx && stylelint \"**/*.scss\" && prettier . --check && remark .",
     "prettierfix": "prettier . --write",
+    "fixstyle": "stylelint \"**/*.scss\" --fix",
     "translations": "tx pull -m onlytranslated && tsx scripts/translations-prepare.ts"
   },
   "repository": {
@@ -30,31 +31,32 @@
     "@suid/icons-material": "0.6.9",
     "@web-scrobbler/metadata-filter": "3.0.2",
     "blueimp-md5": "2.19.0",
-    "stylelint": "13.13.1",
+    "stylelint": "15.10.3",
     "vite": "4.4.9",
     "webextension-polyfill": "0.10.0"
   },
   "devDependencies": {
-    "@types/archiver": "5.3.2",
+    "@types/archiver": "5.3.3",
     "@types/blueimp-md5": "2.18.0",
     "@types/fs-extra": "11.0.2",
     "@types/imagemin": "8.0.1",
     "@types/imagemin-jpegtran": "5.0.1",
-    "@types/node": "20.6.2",
+    "@types/node": "20.6.5",
     "@types/react": "18.2.21",
-    "@types/webextension-polyfill": "0.10.2",
-    "@typescript-eslint/eslint-plugin": "6.7.0",
+    "@types/webextension-polyfill": "0.10.3",
+    "@typescript-eslint/eslint-plugin": "6.7.2",
     "@web-scrobbler/eslint-config": "3.0.0",
+    "@web-scrobbler/stylelint-config": "1.0.1",
     "archiver": "6.0.1",
     "canvas": "2.11.2",
     "chokidar": "3.5.3",
-    "esbuild": "0.19.3",
-    "eslint": "8.49.0",
+    "esbuild": "0.19.4",
+    "eslint": "8.50.0",
     "eslint-plugin-react": "7.33.2",
     "eslint-plugin-solid": "0.13.0",
     "eslint-plugin-tsdoc": "0.2.17",
     "fs-extra": "11.1.1",
-    "glob": "10.3.4",
+    "glob": "10.3.6",
     "imagemin": "8.0.1",
     "imagemin-jpegtran": "7.0.0",
     "imagemin-pngquant": "9.0.2",
@@ -63,15 +65,14 @@
     "remark": "14.0.3",
     "remark-cli": "11.0.0",
     "remark-preset-lint-recommended": "6.1.3",
-    "sass": "1.67.0",
-    "solid-js": "1.7.11",
-    "stylelint-config-web-scrobbler": "0.2.0",
+    "sass": "1.68.0",
+    "solid-js": "1.7.12",
     "tsx": "3.12.10",
     "typescript": "5.2.2",
     "vite-plugin-conditional-compiler": "0.1.1",
     "vite-plugin-solid": "2.7.0",
     "vite-plugin-static-copy": "0.17.0",
-    "vitest": "0.34.4"
+    "vitest": "0.34.5"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -90,7 +91,7 @@
     ]
   },
   "stylelint": {
-    "extends": "stylelint-config-web-scrobbler"
+    "extends": "@web-scrobbler/stylelint-config"
   },
   "license": "MIT"
 }

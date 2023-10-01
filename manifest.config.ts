@@ -12,7 +12,7 @@ export const common: Manifest.WebExtensionManifest = {
 	description: '__MSG_extDescription__',
 	version: pkg.version,
 
-	permissions: ['storage', 'contextMenus', 'notifications'],
+	permissions: ['storage', 'contextMenus', 'notifications', 'scripting'],
 	host_permissions: ['http://*/', 'https://*/'],
 
 	content_scripts: [
@@ -26,6 +26,10 @@ export const common: Manifest.WebExtensionManifest = {
 	web_accessible_resources: [
 		{
 			resources: ['connectors/*'],
+			matches: ['<all_urls>'],
+		},
+		{
+			resources: ['icons/*'],
 			matches: ['<all_urls>'],
 		},
 	],

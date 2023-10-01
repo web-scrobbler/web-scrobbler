@@ -16,7 +16,7 @@
 		}
 
 		&.activeDialogButton::after {
-			animation: 0.1s ease-in-out forwards showTip;
+			animation: 0.1s ease-in-out forwards show-tip;
 			border-left: 20px solid transparent;
 			border-right: 20px solid transparent;
 			border-top: 20px solid var(--context-bg);
@@ -28,6 +28,42 @@
 			transform: translateX(-50%) scaleY(0);
 			transform-origin: center;
 			width: 0;
+		}
+	}
+}
+
+.contextMenu,
+.contextMenuDialog {
+	z-index: 1000000;
+
+	// stylelint-disable-next-line no-duplicate-selectors
+	& {
+		/* avoid flickering on ios */
+		-webkit-backface-visibility: hidden;
+		-webkit-perspective: 1000;
+	}
+
+	.contextMenuItem {
+		background-color: transparent;
+		border: none;
+		color: var(--text);
+		cursor: pointer;
+		display: flex;
+		flex-direction: column;
+		font-size: 1em;
+		justify-content: center;
+
+		& > * {
+			cursor: pointer;
+			display: block;
+			margin: 0 auto;
+		}
+
+		@supports not (-webkit-touch-callout: none) {
+			&:hover {
+				background-color: var(--always-last-fm-hover);
+				color: var(--always-light);
+			}
 		}
 	}
 }
@@ -83,51 +119,17 @@
 	}
 }
 
-.contextMenu,
-.contextMenuDialog {
-	z-index: 1000000;
-
-	// stylelint-disable-next-line no-duplicate-selectors
-	& {
-		/* avoid flickering on ios */
-		-webkit-backface-visibility: hidden;
-		-webkit-perspective: 1000;
-	}
-
-	.contextMenuItem {
-		background-color: transparent;
-		border: none;
-		color: var(--text);
-		cursor: pointer;
-		display: flex;
-		flex-direction: column;
-		font-size: 1em;
-		justify-content: center;
-
-		& > * {
-			cursor: pointer;
-			display: block;
-			margin: 0 auto;
-		}
-
-		@supports not (-webkit-touch-callout: none) {
-			&:hover {
-				background-color: var(--always-last-fm-hover);
-				color: var(--always-light);
-			}
-		}
-	}
-}
-
 @keyframes show {
 	0% {
 		display: none;
 		transform: translateY(calc(-100%)) scale(0);
 	}
+
 	1% {
 		display: flex;
 		transform: translateY(calc(-100%)) scale(0);
 	}
+
 	100% {
 		display: flex;
 		transform: translateY(calc(-100% - 20px)) scale(1);
@@ -139,19 +141,22 @@
 		display: flex;
 		transform: translateY(calc(-100% - 20px)) scale(1);
 	}
+
 	99% {
 		display: flex;
 		transform: translateY(calc(-100%)) scale(0);
 	}
+
 	100% {
 		display: none;
 	}
 }
 
-@keyframes showTip {
+@keyframes show-tip {
 	from {
 		transform: translateX(-50%) scaleY(0);
 	}
+
 	to {
 		transform: translateX(-50%) scaleY(1);
 	}

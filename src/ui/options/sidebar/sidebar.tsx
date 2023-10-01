@@ -18,17 +18,16 @@ function SidebarButton(props: {
 	activeSetting: Accessor<NavigatorNavigationButton>;
 	setActiveSetting: Setter<NavigatorNavigationButton>;
 }) {
-	const { item, activeSetting, setActiveSetting } = props;
 	return (
 		<Show
-			when={itemIsSingular(item)}
+			when={itemIsSingular(props.item)}
 			fallback={
-				<For each={(item as NavigatorButtonGroup).group}>
+				<For each={(props.item as NavigatorButtonGroup).group}>
 					{(groupItem) => (
 						<SidebarButton
 							item={groupItem}
-							activeSetting={activeSetting}
-							setActiveSetting={setActiveSetting}
+							activeSetting={props.activeSetting}
+							setActiveSetting={props.setActiveSetting}
 						/>
 					)}
 				</For>
@@ -37,19 +36,19 @@ function SidebarButton(props: {
 			<button
 				class={
 					styles.sidebarButton +
-					(activeSetting().namei18n === item.namei18n
+					(props.activeSetting().namei18n === props.item.namei18n
 						? ` ${styles.active}`
 						: '')
 				}
 				onClick={() =>
 					triggerNavigationButton(
-						item as NavigatorButton,
-						setActiveSetting,
+						props.item as NavigatorButton,
+						props.setActiveSetting,
 					)
 				}
 			>
-				<item.icon />
-				{t(item.namei18n)}
+				<props.item.icon />
+				{t(props.item.namei18n)}
 			</button>
 		</Show>
 	);
@@ -63,16 +62,15 @@ export default function Sidebar(props: {
 	activeSetting: Accessor<NavigatorNavigationButton>;
 	setActiveSetting: Setter<NavigatorNavigationButton>;
 }) {
-	const { items, activeSetting, setActiveSetting } = props;
 	return (
 		<div class={styles.sidebarWrapper}>
 			<nav class={styles.sidebar}>
-				<For each={items}>
+				<For each={props.items}>
 					{(item) => (
 						<SidebarButton
 							item={item}
-							activeSetting={activeSetting}
-							setActiveSetting={setActiveSetting}
+							activeSetting={props.activeSetting}
+							setActiveSetting={props.setActiveSetting}
 						/>
 					)}
 				</For>
