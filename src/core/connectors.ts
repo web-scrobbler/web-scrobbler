@@ -2172,8 +2172,8 @@ export default <ConnectorMeta[]>[
 		matches: ['*://blend.io/*'],
 		js: 'blend.js',
 		id: 'blend',
-  },
-  {
+	},
+	{
 		label: 'Radio Italia',
 		matches: ['*://www.radioitalia.it/*'],
 		js: 'radio-italia.js',
@@ -2214,11 +2214,11 @@ export default <ConnectorMeta[]>[
 		matches: ['*://play.rtl.it/live/*'],
 		js: 'radiofreccia.js',
 		id: 'radiofreccia',
-  },
-  {
+	},
+	{
 		label: 'khinsider',
 		matches: ['*://downloads.khinsider.com/*'],
 		js: 'khinsider.js',
 		id: 'khinsider',
-  },
+	},
 ];
