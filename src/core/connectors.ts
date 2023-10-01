@@ -2162,6 +2162,12 @@ export default <ConnectorMeta[]>[
 		id: 'rtl-plus-musik',
 	},
 	{
+		label: 'hearthis.at',
+		matches: ['*://hearthis.at/*'],
+		js: 'hearthis-at.js',
+		id: 'hearthis-at',
+	},
+	{
 		label: 'Blend',
 		matches: ['*://blend.io/*'],
 		js: 'blend.js',
