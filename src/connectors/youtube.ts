@@ -93,6 +93,15 @@ Connector.scrobbleInfoStyle = {
 	fontWeight: '700',
 };
 
+Connector.getChannelID = () =>
+	new URL(
+		(
+			document.querySelector(
+				'#upload-info .ytd-channel-name .yt-simple-endpoint',
+			) as HTMLAnchorElement
+		)?.href ?? 'https://youtube.com/',
+	).pathname.slice(2);
+
 Connector.getTrackInfo = () => {
 	const trackInfo: TrackInfoWithAlbum = {};
 

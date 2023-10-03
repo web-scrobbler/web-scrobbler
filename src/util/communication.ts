@@ -156,6 +156,21 @@ interface BackgroundCommunications {
 		payload: undefined;
 		response: void;
 	};
+	addToBlocklist: {
+		payload: undefined;
+		response: Promise<void>;
+	};
+	removeFromBlocklist: {
+		payload: undefined;
+		response: Promise<void>;
+	};
+	getChannelId: {
+		payload: undefined;
+		response: {
+			connector: ConnectorMeta;
+			channelID: string | null | undefined;
+		};
+	};
 }
 
 /**

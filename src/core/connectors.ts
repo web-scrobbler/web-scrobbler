@@ -4,6 +4,11 @@ export interface ConnectorMeta {
 	js: string;
 	id: string;
 	allFrames?: true;
+
+	/**
+	 * true if connector uses blocklist. Connector must implement {@link Connector.getChannelID}
+	 */
+	usesBlocklist?: true;
 }
 
 export default <ConnectorMeta[]>[
@@ -12,6 +17,7 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.youtube.com/*', '*://m.youtube.com/*'],
 		js: 'youtube.js',
 		id: 'youtube',
+		usesBlocklist: true,
 	},
 	{
 		label: 'MySpace',
@@ -2166,26 +2172,26 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.radioitalia.it/*'],
 		js: 'radio-italia.js',
 		id: 'radio-italia',
-  },
-  {
+	},
+	{
 		label: 'Lyden av Norge',
 		matches: ['*://www.lydenavnorge.no/*'],
 		js: 'lyden-av-norge.js',
 		id: 'lyden-av-norge',
-  },
-  {
+	},
+	{
 		label: 'audio.com',
 		matches: ['*://audio.com/*'],
 		js: 'audio.js',
 		id: 'audio-com',
-  },
-  {
+	},
+	{
 		label: 'AfroCharts',
 		matches: ['*://*.afrocharts.com/*'],
 		js: 'afrocharts.js',
 		id: 'afrocharts',
-  },
-  {
+	},
+	{
 		label: 'Ed Banger Records',
 		matches: ['*://*.edbangerrecords.com/*'],
 		js: 'ed-banger-records.js',

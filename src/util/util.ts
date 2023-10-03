@@ -10,7 +10,7 @@ import {
 	WebhookModel,
 	Properties,
 	StateManagement,
-	YoutubeAllowlist,
+	Blocklists,
 } from '@/core/storage/wrapper';
 import { RegexEdit } from './regex';
 
@@ -117,7 +117,7 @@ export function hideObjectValue(
 		| WebhookModel
 		| StateManagement
 		| RegexEdit[]
-		| YoutubeAllowlist,
+		| Blocklists,
 ): string {
 	if (!keyValue) {
 		if (keyValue === null) {

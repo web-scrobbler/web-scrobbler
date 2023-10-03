@@ -1,5 +1,10 @@
 import browser from 'webextension-polyfill';
-import { contextMenus, getBrowserPreferredTheme } from './util';
+import {
+	contextMenus,
+	getBrowserPreferredTheme,
+	getChannelDetails,
+	isChannelBlocklisted,
+} from './util';
 import { sendPopupMessage } from '@/util/communication';
 import { ManagerTab } from '@/core/storage/wrapper';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
@@ -40,6 +45,12 @@ async function updateMenus(tab: ManagerTab): Promise<void> {
 		browser.contextMenus?.update(contextMenus.DISABLE_UNTIL_CLOSED, {
 			visible: false,
 		});
+		browser.contextMenus?.update(contextMenus.DISABLE_CHANNEL, {
+			visible: false,
+		});
+		browser.contextMenus?.update(contextMenus.ENABLE_CHANNEL, {
+			visible: false,
+		});
 		return;
 	}
 
@@ -56,6 +67,12 @@ async function updateMenus(tab: ManagerTab): Promise<void> {
 		browser.contextMenus?.update(contextMenus.DISABLE_UNTIL_CLOSED, {
 			visible: false,
 		});
+		browser.contextMenus?.update(contextMenus.DISABLE_CHANNEL, {
+			visible: false,
+		});
+		browser.contextMenus?.update(contextMenus.ENABLE_CHANNEL, {
+			visible: false,
+		});
 		return;
 	}
 
@@ -70,6 +87,41 @@ async function updateMenus(tab: ManagerTab): Promise<void> {
 		visible: true,
 		title: t('menuDisableUntilTabClosed', connector?.label),
 	});
+
+	const channelDetails = await getChannelDetails(tab.tabId);
+	if (
+		!channelDetails ||
+		!channelDetails.channelID ||
+		!channelDetails.connector
+	) {
+		browser.contextMenus?.update(contextMenus.DISABLE_CHANNEL, {
+			visible: false,
+		});
+		browser.contextMenus?.update(contextMenus.ENABLE_CHANNEL, {
+			visible: false,
+		});
+	} else if (
+		await isChannelBlocklisted(
+			channelDetails.channelID,
+			channelDetails.connector,
+		)
+	) {
+		browser.contextMenus?.update(contextMenus.DISABLE_CHANNEL, {
+			visible: false,
+		});
+		browser.contextMenus?.update(contextMenus.ENABLE_CHANNEL, {
+			visible: true,
+			title: t('menuEnableChannel', channelDetails.channelID),
+		});
+	} else {
+		browser.contextMenus?.update(contextMenus.DISABLE_CHANNEL, {
+			visible: true,
+			title: t('menuDisableChannel', channelDetails.channelID),
+		});
+		browser.contextMenus?.update(contextMenus.ENABLE_CHANNEL, {
+			visible: false,
+		});
+	}
 }
 
 /**

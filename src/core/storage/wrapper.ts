@@ -12,7 +12,7 @@ import {
 	REGEX_EDITS,
 	STATE_MANAGEMENT,
 	StorageNamespace,
-	YOUTUBE_ALLOWLIST,
+	BLOCKLISTS,
 } from '@/core/storage/browser-storage';
 import {
 	ConnectorOptions,
@@ -84,11 +84,9 @@ export interface StateManagement {
 	browserPreferredTheme: 'light' | 'dark';
 }
 
-export interface YoutubeAllowlist {
-	useAllowlist: boolean;
-	allowlist: Record<string, true>;
-	blocklist: Record<string, true>;
-}
+export type Blocklists = Record<string, Blocklist>;
+
+export type Blocklist = Record<string, true>;
 
 export interface DataModels extends ScrobblerModels {
 	/* sync options */
@@ -102,7 +100,7 @@ export interface DataModels extends ScrobblerModels {
 	[CORE]: { appVersion: string };
 	[LOCAL_CACHE]: { [key: string]: SavedEdit };
 	[REGEX_EDITS]: RegexEdit[];
-	[YOUTUBE_ALLOWLIST]: YoutubeAllowlist;
+	[BLOCKLISTS]: Blocklists;
 
 	/* state management */
 	[STATE_MANAGEMENT]: StateManagement;

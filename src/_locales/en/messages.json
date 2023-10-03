@@ -811,6 +811,14 @@
         "message": "Disable $1 connector until tab is closed",
         "description": "Context menu item"
     },
+    "menuDisableChannel": {
+        "message": "Disable scrobbling from $1",
+        "description": "Context menu item"
+    },
+    "menuEnableChannel": {
+        "message": "Enable scrobbling from $1",
+        "description": "Context menu item"
+    },
     "notificationConnectAccounts": {
         "message": "Connect your accounts",
         "description": "Notification title"

@@ -63,15 +63,10 @@ export const NOTIFICATIONS = 'Notifications';
 export const LOCAL_CACHE = 'LocalCache';
 
 /**
- * This storage contains the allowlist/blocklist of youtube channels,
- * and whether the allowlist or blocklist should be used.
- * \{
- *     useAllowlist: boolean,
- *     allowlist: object of channel ids
- *     blocklist: object of channel ids
- * \}
+ * This storage contains the blocklist of each connector.
+ * Each blocklist is an object with channel IDs as keys.
  */
-export const YOUTUBE_ALLOWLIST = 'YoutubeAllowlist';
+export const BLOCKLISTS = 'Blocklists';
 
 /**
  * This storage contains the options values.
@@ -139,7 +134,7 @@ const storageTypeMap = {
 	Maloja: LOCAL,
 	Webhook: LOCAL,
 
-	[YOUTUBE_ALLOWLIST]: LOCAL,
+	[BLOCKLISTS]: LOCAL,
 	[LOCAL_CACHE]: LOCAL,
 	[REGEX_EDITS]: LOCAL,
 	[CORE]: LOCAL,

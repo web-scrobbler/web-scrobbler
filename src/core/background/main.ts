@@ -21,6 +21,9 @@ import {
 	getCurrentTab,
 	getActiveTabDetails,
 	getCurrentTabId,
+	addToBlocklist,
+	removeFromBlocklist,
+	getChannelDetails,
 } from './util';
 import {
 	ControllerModeStr,
@@ -529,6 +532,20 @@ function onStartup() {
 		contexts: ['action'],
 		title: 'Error: You should not be seeing this',
 	});
+
+	browser.contextMenus.create({
+		id: contextMenus.ENABLE_CHANNEL,
+		visible: false,
+		contexts: ['action'],
+		title: 'Error: You should not be seeing this',
+	});
+
+	browser.contextMenus.create({
+		id: contextMenus.DISABLE_CHANNEL,
+		visible: false,
+		contexts: ['action'],
+		title: 'Error: You should not be seeing this',
+	});
 }
 
 /**
@@ -559,6 +576,14 @@ async function contextMenuHandler(info: browser.Menus.OnClickData) {
 		}
 		case contextMenus.DISABLE_UNTIL_CLOSED: {
 			disableUntilClosed(tab.tabId);
+			break;
+		}
+		case contextMenus.ENABLE_CHANNEL: {
+			removeFromBlocklist(tab.tabId);
+			break;
+		}
+		case contextMenus.DISABLE_CHANNEL: {
+			addToBlocklist(tab.tabId);
 			break;
 		}
 	}

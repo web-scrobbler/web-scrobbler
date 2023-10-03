@@ -145,6 +145,11 @@ export default class BaseConnector {
 	};
 
 	/**
+	 * Function that gets a unique ID for channel/user blocklist
+	 */
+	public getChannelID: (() => string | null | undefined) | null = null;
+
+	/**
 	 * Selector of element contains a track art of now playing song.
 	 * Default implementation looks for track art URL in `src` attribute or
 	 * `background-image` (`background`) CSS property of given element.
