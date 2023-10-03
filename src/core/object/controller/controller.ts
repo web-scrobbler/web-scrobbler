@@ -87,6 +87,9 @@ export default class Controller {
 		payload: undefined,
 	});
 
+	/**
+	 * @returns true if song should scrobble; false if disallowed.
+	 */
 	private async shouldScrobble() {
 		if (this.forceScrobble) {
 			return true;
@@ -294,7 +297,7 @@ export default class Controller {
 				},
 			}),
 			contentListener({
-				type: 'getChannelId',
+				type: 'getChannelDetails',
 				fn: () => ({
 					connector: this.connector.meta,
 					channelID: this.connector.getChannelID?.(),
@@ -303,7 +306,6 @@ export default class Controller {
 			contentListener({
 				type: 'addToBlocklist',
 				fn: async () => {
-					console.log('adding to blocklist');
 					await this.blocklist.addToBlocklist(
 						this.connector.getChannelID?.() ?? '',
 					);
@@ -312,7 +314,6 @@ export default class Controller {
 			contentListener({
 				type: 'removeFromBlocklist',
 				fn: async () => {
-					console.log('removing from blocklist');
 					await this.blocklist.removeFromBlocklist(
 						this.connector.getChannelID?.() ?? '',
 					);

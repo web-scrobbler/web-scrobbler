@@ -23,7 +23,6 @@ import {
 	getCurrentTabId,
 	addToBlocklist,
 	removeFromBlocklist,
-	getChannelDetails,
 } from './util';
 import {
 	ControllerModeStr,

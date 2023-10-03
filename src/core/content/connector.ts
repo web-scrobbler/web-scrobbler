@@ -145,7 +145,10 @@ export default class BaseConnector {
 	};
 
 	/**
-	 * Function that gets a unique ID for channel/user blocklist
+	 * Function that gets a unique ID for channel/user blocklist.
+	 *
+	 * Has to be specified if usesBlocklist is set to true in connectors.ts.
+	 * If connectors.ts does not have usesBlocklist set to true, this should be null.
 	 */
 	public getChannelID: (() => string | null | undefined) | null = null;
 

@@ -164,7 +164,7 @@ interface BackgroundCommunications {
 		payload: undefined;
 		response: Promise<void>;
 	};
-	getChannelId: {
+	getChannelDetails: {
 		payload: undefined;
 		response: {
 			connector: ConnectorMeta;

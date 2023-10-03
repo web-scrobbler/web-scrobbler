@@ -10,6 +10,9 @@ export default class Blocklist {
 		this.isReady = this.init();
 	}
 
+	/**
+	 * Sets default values to blocklist if necessary
+	 */
 	private async setupDefaultBlocklist() {
 		let data = await this.storage.getLocking();
 		if (!data) {
@@ -20,12 +23,21 @@ export default class Blocklist {
 		}
 		await this.storage.setLocking(data);
 	}
+
+	/**
+	 * Initializes the blocklist with default values
+	 */
 	private async init(): Promise<true> {
 		await this.setupDefaultBlocklist();
 		return true;
 	}
 
-	public async addToBlocklist(id: string) {
+	/**
+	 * Adds a channel ID to blocklist
+	 *
+	 * @param id - ID of channel to add
+	 */
+	public async addToBlocklist(id: string): Promise<void> {
 		if (!id) {
 			return;
 		}
@@ -39,9 +51,14 @@ export default class Blocklist {
 			...data[this.connectorId],
 			[id]: true,
 		};
-		this.storage.setLocking(data);
+		await this.storage.setLocking(data);
 	}
 
+	/**
+	 * Removes a channel ID from blocklist
+	 *
+	 * @param id - ID of channel to remove
+	 */
 	public async removeFromBlocklist(id: string) {
 		if (!id) {
 			return;
@@ -56,6 +73,11 @@ export default class Blocklist {
 		this.storage.setLocking(data);
 	}
 
+	/**
+	 * @param id - ID of channel to check
+	 *
+	 * @returns true if channel isn't blocklisted; false if it is
+	 */
 	public async shouldScrobbleChannel(
 		id: string | undefined | null,
 	): Promise<boolean> {

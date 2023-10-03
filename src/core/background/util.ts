@@ -71,7 +71,7 @@ export async function filterInactiveTabs(activeTabs: ManagerTab[]) {
  */
 export async function getChannelDetails(tabId: number) {
 	return sendBackgroundMessage(tabId, {
-		type: 'getChannelId',
+		type: 'getChannelDetails',
 		payload: undefined,
 	});
 }
@@ -118,7 +118,6 @@ export async function updateTabsFromTabList(
 	tabs: ManagerTab[],
 	tabId?: number,
 ) {
-	console.log('updating tabs');
 	const curTab = await getActiveTabDetails(tabs, tabId);
 	performUpdateAction(curTab);
 	return curTab;
