@@ -2,7 +2,7 @@ export {};
 
 Connector.playerSelector = '#seek';
 
-Connector.artistSelector = '#player-music > div > span > a:nth-child(1)';
+Connector.artistSelector = '#player-music > div > span:nth-child(2)';
 
 Connector.trackSelector = '#player-music > div > span:nth-child(1)';
 
