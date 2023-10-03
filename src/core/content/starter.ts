@@ -22,7 +22,7 @@ export default function start(): void {
 	if (isConnectorInvalid()) {
 		Util.debugLog(
 			'You have overwritten or unset the Connector object',
-			'warn'
+			'warn',
 		);
 		return;
 	}
@@ -49,7 +49,7 @@ async function setupStateListening(): Promise<void> {
 	const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 	const options = await globalOptions.get();
 	const disabledTabs = BrowserStorage.getStorage(
-		BrowserStorage.DISABLED_TABS
+		BrowserStorage.DISABLED_TABS,
 	);
 	const disabledTabList = await disabledTabs.get();
 	const currentTab = await sendContentMessage({
@@ -60,13 +60,13 @@ async function setupStateListening(): Promise<void> {
 		Connector,
 		!disabledTabList?.[currentTab ?? -2]?.[Connector.meta.id] &&
 			(options === null ||
-				!options[DISABLED_CONNECTORS][Connector.meta.id])
+				!options[DISABLED_CONNECTORS][Connector.meta.id]),
 	);
 
 	if (Connector.playerSelector === null) {
 		Util.debugLog(
 			'`Connector.playerSelector` is empty. The current connector is expected to manually detect state changes',
-			'info'
+			'info',
 		);
 		return;
 	}
@@ -79,7 +79,7 @@ async function setupStateListening(): Promise<void> {
 	} else {
 		Util.debugLog(
 			`Element '${Connector.playerSelector.toString()}' is missing`,
-			'warn'
+			'warn',
 		);
 		setupSecondObserver();
 	}
@@ -105,7 +105,7 @@ function setupObserver(observeTarget: Node) {
 		`Used '${
 			Connector.playerSelector?.toString() ??
 			'errorPlayerSelectorNotDefined'
-		}' to watch changes.`
+		}' to watch changes.`,
 	);
 }
 

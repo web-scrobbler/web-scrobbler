@@ -20,9 +20,9 @@ a {
 
 .settings {
 	display: flex;
-	//stylelint-disable-next-line unit-no-unknown
+	// stylelint-disable-next-line unit-no-unknown
 	height: 100dvh;
-	//stylelint-disable-next-line unit-no-unknown
+	// stylelint-disable-next-line unit-no-unknown
 	min-height: 100dvh;
 	overflow: hidden;
 	width: 100%;
@@ -42,7 +42,7 @@ a {
 	}
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (width <= 700px) {
 	.settings {
 		flex-direction: column-reverse;
 	}
@@ -74,7 +74,8 @@ a {
 		margin-top: 1em;
 	}
 
-	h1, h2 {
+	h1,
+	h2 {
 		margin-bottom: 0.5em;
 	}
 
@@ -82,7 +83,6 @@ a {
 		max-width: 55ch;
 	}
 }
-
 
 .modal {
 	background-color: var(--modal-bg);

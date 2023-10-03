@@ -10,7 +10,7 @@ Connector.trackSelector = '.current-track .album > div:first-of-type';
 
 Connector.getTrackInfo = () => {
 	const artistAlbumText = Util.getTextFromSelectors(
-		'.current-track .album .title'
+		'.current-track .album .title',
 	);
 
 	if (artistAlbumText) {
@@ -22,7 +22,7 @@ Connector.getTrackInfo = () => {
 
 Connector.getTrackArt = () => {
 	const trackArtUrl = Util.extractImageUrlFromSelectors(
-		'.current-track .album img.art'
+		'.current-track .album img.art',
 	);
 
 	if (trackArtUrl) {

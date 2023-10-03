@@ -111,7 +111,7 @@ function getTrackUrl() {
 
 function getTrackUri() {
 	const contextLinkEl = document.querySelector(
-		'[data-testid="context-link"]'
+		'[data-testid="context-link"]',
 	) as HTMLAnchorElement;
 	if (!contextLinkEl || !contextLinkEl.href) {
 		return null;

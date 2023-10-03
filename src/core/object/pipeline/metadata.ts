@@ -18,7 +18,7 @@ const METADATA_TO_COPY: [
 	'trackUrl',
 	'albumUrl',
 	'userPlayCount',
-	'albumMbId'
+	'albumMbId',
 ] = [
 	'trackArtUrl',
 	'artistUrl',
@@ -35,7 +35,7 @@ const METADATA_TO_COPY: [
  */
 export async function process(
 	song: Song,
-	connector: ConnectorMeta
+	connector: ConnectorMeta,
 ): Promise<void> {
 	if (song.isEmpty()) {
 		return;
@@ -74,11 +74,11 @@ export async function process(
 
 	const forceRecognize = await Options.getOption(
 		Options.FORCE_RECOGNIZE,
-		connector.id
+		connector.id,
 	);
 	const scrobbleEditedTracksOnly = await Options.getOption(
 		Options.SCROBBLE_EDITED_TRACKS_ONLY,
-		connector.id
+		connector.id,
 	);
 
 	song.flags.isValid =
@@ -92,7 +92,7 @@ export async function process(
  * @returns Song info object
  */
 function getInfo(
-	songInfoArr: (ScrobblerSongInfo | Record<string, never> | null)[]
+	songInfoArr: (ScrobblerSongInfo | Record<string, never> | null)[],
 ) {
 	if (songInfoArr.length === 0) {
 		return null;

@@ -60,11 +60,11 @@ function getCurrentTrack() {
 
 function getCurrentSymphony() {
 	const symphonyShort = Util.getTextFromSelectors(symphonySelector)?.split(
-		/ in [A-G]| op. [0-9]| KV [0-9]/
+		/ in [A-G]| op. [0-9]| KV [0-9]/,
 	)[0];
 	const commonName = Util.getTextFromSelectors(commonNameSelector) || '';
 	const director = removeParenthesis(
-		Util.getTextFromSelectors(directorSelector)
+		Util.getTextFromSelectors(directorSelector),
 	);
 	return `${symphonyShort}${commonName} (${director})`;
 }

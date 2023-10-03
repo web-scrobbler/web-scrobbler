@@ -18,7 +18,7 @@ Connector.getAlbum = () => {
 
 Connector.getTrackArt = () => {
 	const trackArtUrl = Util.extractImageUrlFromSelectors(
-		'.nowPlayingCard figure img'
+		'.nowPlayingCard figure img',
 	);
 
 	if (trackArtUrl) {

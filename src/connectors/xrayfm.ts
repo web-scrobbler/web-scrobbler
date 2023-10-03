@@ -6,7 +6,7 @@ Connector.pauseButtonSelector = '#audio-toolbar .stop-button';
 
 Connector.getArtistTrack = () => {
 	const artistTrackText = Util.getTextFromSelectors(
-		'#current-track a[href$=playlist]'
+		'#current-track a[href$=playlist]',
 	);
 
 	if (artistTrackText && !artistTrackText.includes('{{data.')) {
@@ -18,6 +18,6 @@ Connector.getArtistTrack = () => {
 
 Connector.isScrobblingAllowed = () => {
 	return Boolean(
-		Connector.getArtistTrack() && Util.isElementVisible('#current-track')
+		Connector.getArtistTrack() && Util.isElementVisible('#current-track'),
 	);
 };

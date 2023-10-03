@@ -16,7 +16,7 @@
 		}
 
 		&.activeDialogButton::after {
-			animation: 0.1s ease-in-out forwards showTip;
+			animation: 0.1s ease-in-out forwards show-tip;
 			border-left: 20px solid transparent;
 			border-right: 20px solid transparent;
 			border-top: 20px solid var(--context-bg);
@@ -28,59 +28,6 @@
 			transform: translateX(-50%) scaleY(0);
 			transform-origin: center;
 			width: 0;
-		}
-	}
-}
-
-.contextMenuDialog {
-	animation: 0s ease-in-out forwards hide;
-	background-color: var(--context-bg);
-	border: none;
-	border-radius: 0.5em;
-	color: var(--text);
-	display: flex;
-	flex-direction: column;
-	min-width: 50vw;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	transform: translateY(calc(-100%)) scale(0);
-	transform-origin: bottom center;
-
-	&.leftDialog {
-		margin-left: 20px;
-		margin-right: auto;
-		transform-origin: bottom left;
-	}
-
-	&.rightDialog {
-		margin-left: auto;
-		margin-right: 20px;
-		transform-origin: bottom right;
-	}
-
-
-	// stylelint-disable-next-line no-duplicate-selectors
-	& {
-		/* avoid flickering on ios */
-		-webkit-backface-visibility: hidden;
-		-webkit-perspective: 1000;
-	}
-
-
-	&.mountedAnimation {
-		animation-duration: 0.1s;
-	}
-
-	&[open] {
-		animation: 0.1s ease-in-out forwards show;
-	}
-
-	.contextMenuItem {
-		padding: 1em;
-
-		&:not(:last-child) {
-			border-bottom: 1px solid var(--last-fm);
 		}
 	}
 }
@@ -121,15 +68,68 @@
 	}
 }
 
+.contextMenuDialog {
+	animation: 0s ease-in-out forwards hide;
+	background-color: var(--context-bg);
+	border: none;
+	border-radius: 0.5em;
+	color: var(--text);
+	display: flex;
+	flex-direction: column;
+	min-width: 50vw;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	transform: translateY(calc(-100%)) scale(0);
+	transform-origin: bottom center;
+
+	&.leftDialog {
+		margin-left: 20px;
+		margin-right: auto;
+		transform-origin: bottom left;
+	}
+
+	&.rightDialog {
+		margin-left: auto;
+		margin-right: 20px;
+		transform-origin: bottom right;
+	}
+
+	// stylelint-disable-next-line no-duplicate-selectors
+	& {
+		/* avoid flickering on ios */
+		-webkit-backface-visibility: hidden;
+		-webkit-perspective: 1000;
+	}
+
+	&.mountedAnimation {
+		animation-duration: 0.1s;
+	}
+
+	&[open] {
+		animation: 0.1s ease-in-out forwards show;
+	}
+
+	.contextMenuItem {
+		padding: 1em;
+
+		&:not(:last-child) {
+			border-bottom: 1px solid var(--last-fm);
+		}
+	}
+}
+
 @keyframes show {
 	0% {
 		display: none;
 		transform: translateY(calc(-100%)) scale(0);
 	}
+
 	1% {
 		display: flex;
 		transform: translateY(calc(-100%)) scale(0);
 	}
+
 	100% {
 		display: flex;
 		transform: translateY(calc(-100% - 20px)) scale(1);
@@ -141,19 +141,22 @@
 		display: flex;
 		transform: translateY(calc(-100% - 20px)) scale(1);
 	}
+
 	99% {
 		display: flex;
 		transform: translateY(calc(-100%)) scale(0);
 	}
+
 	100% {
 		display: none;
 	}
 }
 
-@keyframes showTip {
+@keyframes show-tip {
 	from {
 		transform: translateX(-50%) scaleY(0);
 	}
+
 	to {
 		transform: translateX(-50%) scaleY(1);
 	}

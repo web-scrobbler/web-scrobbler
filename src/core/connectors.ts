@@ -2168,6 +2168,24 @@ export default <ConnectorMeta[]>[
 		id: 'rtl-plus-musik',
 	},
 	{
+		label: 'Tomorrowland',
+		matches: ['*://www.tomorrowland.com/*'],
+		js: 'tomorrowland.js',
+		id: 'tomorrowland',
+	},
+	{
+		label: 'hearthis.at',
+		matches: ['*://hearthis.at/*'],
+		js: 'hearthis-at.js',
+		id: 'hearthis-at',
+	},
+	{
+		label: 'Blend',
+		matches: ['*://blend.io/*'],
+		js: 'blend.js',
+		id: 'blend',
+	},
+	{
 		label: 'Radio Italia',
 		matches: ['*://www.radioitalia.it/*'],
 		js: 'radio-italia.js',
@@ -2196,5 +2214,23 @@ export default <ConnectorMeta[]>[
 		matches: ['*://*.edbangerrecords.com/*'],
 		js: 'ed-banger-records.js',
 		id: 'ed-banger-records',
+	},
+	{
+		label: 'Hyperpipe',
+		matches: ['*://hyperpipe.surge.sh/*'],
+		js: 'hyperpipe.js',
+		id: 'hyperpipe',
+	},
+	{
+		label: 'Radiofreccia',
+		matches: ['*://play.rtl.it/live/*'],
+		js: 'radiofreccia.js',
+		id: 'radiofreccia',
+	},
+	{
+		label: 'khinsider',
+		matches: ['*://downloads.khinsider.com/*'],
+		js: 'khinsider.js',
+		id: 'khinsider',
 	},
 ];

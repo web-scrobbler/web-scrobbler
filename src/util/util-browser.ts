@@ -15,7 +15,7 @@ const DEFAULT_PRIVACY_PATH = `_locales/en/${PRIVACY_FILENAME}`;
  * @param params - Object contains query parameters
  */
 export function createQueryString(
-	params: Record<string, string | null | undefined | number>
+	params: Record<string, string | null | undefined | number>,
 ): string {
 	const preparedParams = Object.entries(params).reduce(
 		(acc, [key, value]) => {
@@ -29,7 +29,7 @@ export function createQueryString(
 
 			return acc;
 		},
-		{} as Record<string, string>
+		{} as Record<string, string>,
 	);
 
 	return new URLSearchParams(preparedParams).toString();

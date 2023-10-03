@@ -36,7 +36,7 @@ function setupPropertierForOfflineRecord() {
 
 	Connector.getArtistTrack = () => {
 		const artistTrackElement = document.querySelector(
-			equalizerIconSelector
+			equalizerIconSelector,
 		);
 		if (!artistTrackElement) {
 			return null;

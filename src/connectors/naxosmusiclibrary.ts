@@ -17,7 +17,7 @@ Connector.trackSelector = `${playerBar} .u-music-title`;
 Connector.getAlbum = () => {
 	const catalogID = getCatalogID();
 	const albumHeader = Util.queryElements(
-		`.eps._playAlbum[data-catalogueid="${catalogID}"]`
+		`.eps._playAlbum[data-catalogueid="${catalogID}"]`,
 	);
 	if (albumHeader && albumHeader.length > 0) {
 		return albumHeader[0].textContent;
@@ -38,7 +38,7 @@ Connector.getUniqueID = () => {
 	// Remark: NML starts counting track numbers from 0
 	const trackNum = Util.getAttrFromSelectors(
 		`${playerBar} span.u-album`,
-		'data-tracknum'
+		'data-tracknum',
 	);
 	return `${catalogID}+${trackNum}`;
 };

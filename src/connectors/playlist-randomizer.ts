@@ -25,7 +25,7 @@ Connector.getArtistTrack = () => {
 		return null;
 	}
 	let { artist, track } = Util.processYtVideoTitle(
-		currentTrack.firstChild?.nodeValue
+		currentTrack.firstChild?.nodeValue,
 	);
 
 	// Set to some default information that we have so that the user can edit the info in the extension
@@ -33,7 +33,7 @@ Connector.getArtistTrack = () => {
 		const regex = /^(.*) - Topic$/;
 		artist = (currentTrack.lastChild as HTMLElement)?.innerText.replace(
 			regex,
-			'$1'
+			'$1',
 		);
 	}
 	if (!track) {

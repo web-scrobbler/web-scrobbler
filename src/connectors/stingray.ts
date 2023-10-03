@@ -19,6 +19,6 @@ Connector.durationSelector = 'time-progress div.track.duration';
 Connector.isPlaying = () => {
 	return Util.hasElementClass(
 		'time-progress div.time.duration',
-		'ng-star-inserted'
+		'ng-star-inserted',
 	);
 };

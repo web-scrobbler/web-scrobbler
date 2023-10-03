@@ -3,8 +3,8 @@ export {};
 const filter = MetadataFilter.createFilter(
 	MetadataFilter.createFilterSetForFields(
 		['artist', 'track', 'album', 'albumArtist'],
-		trimSpaces
-	)
+		trimSpaces,
+	),
 );
 
 const filterRules = [

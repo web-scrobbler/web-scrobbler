@@ -47,7 +47,8 @@ export type Separator =
 	| '<br/>'
 	| ' by '
 	| ', '
-	| '·';
+	| '·'
+	| ' ·';
 
 /**
  * Separator used to join array of artist names into a single string.

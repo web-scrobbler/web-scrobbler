@@ -13,7 +13,7 @@ Connector.albumSelector =
 
 Connector.getTrackArt = () => {
 	const trackArtUrl = Util.extractImageUrlFromSelectors(
-		'.duration-700.z-100 .grid > div:first-of-type > img'
+		'.duration-700.z-100 .grid > div:first-of-type > img',
 	);
 
 	if (trackArtUrl) {

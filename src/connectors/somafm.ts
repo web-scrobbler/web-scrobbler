@@ -12,7 +12,7 @@ Connector.isPlaying = () => {
 	return (
 		Util.getAttrFromSelectors(
 			'.controls-container > div > button:nth-child(1)',
-			'ng-click'
+			'ng-click',
 		) === 'stop()'
 	);
 };

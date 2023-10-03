@@ -21,7 +21,7 @@ function setupYoutubePlayer() {
 	Connector.getUniqueID = () => {
 		return Util.getDataFromSelectors(
 			'.track_details_container a',
-			'track_id'
+			'track_id',
 		);
 	};
 }
