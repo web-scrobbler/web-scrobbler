@@ -309,6 +309,7 @@ export default class Controller {
 					await this.blocklist.addToBlocklist(
 						this.connector.getChannelID?.() ?? '',
 					);
+					this.setMode(ControllerMode.Disallowed);
 				},
 			}),
 			contentListener({
@@ -317,6 +318,11 @@ export default class Controller {
 					await this.blocklist.removeFromBlocklist(
 						this.connector.getChannelID?.() ?? '',
 					);
+					if (this.shouldHaveScrobbled) {
+						void this.scrobbleSong();
+					} else {
+						void this.setSongNowPlaying();
+					}
 				},
 			}),
 		);
