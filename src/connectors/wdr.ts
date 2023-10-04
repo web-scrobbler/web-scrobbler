@@ -11,4 +11,26 @@ Connector.isPlaying = () => {
 	return playButton !== null && playButton.classList.contains('playing');
 };
 
-// Don't scrobble if special strings like "WDR 5 Quarks - Wissenschaft und mehr mit Sebastian Sonntag"
+Connector.isScrobblingAllowed = () => {
+	const artistTrack = Util.getTextFromSelectors(
+		Connector.artistTrackSelector,
+	);
+	const disallowedStrings = [
+		'1Live',
+		'WDR 2',
+		'WDR 3',
+		'WDR 4',
+		'WDR 5',
+		'COSMO',
+	];
+
+	// Check if the artistTrack includes any of the disallowed strings
+	const containsDisallowedString =
+		artistTrack !== null &&
+		disallowedStrings.some((disallowedString) =>
+			artistTrack.includes(disallowedString),
+		);
+
+	// Scrobble only if none of the disallowed strings are included
+	return !containsDisallowedString;
+};
