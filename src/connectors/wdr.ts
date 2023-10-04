@@ -2,6 +2,10 @@ export {};
 
 // Connector for the WDR radio stations (1Live, WDR2, WDR3, WDR4, WDR5, COSMO, etc.)
 
+const filter = MetadataFilter.createFilter({
+	artist: cleanupArtist,
+});
+
 Connector.playerSelector = '.wdrrCurrentChannels';
 
 Connector.artistTrackSelector = '.wdrrCurrentShowTitleTitle';
@@ -34,3 +38,16 @@ Connector.isScrobblingAllowed = () => {
 	// Scrobble only if none of the disallowed strings are included
 	return !containsDisallowedString;
 };
+
+function cleanupArtist(artist: any) {
+	// Define patterns to find additional artists or features.
+	const patterns = [/ & .*/, / x .*/, / feat\..*/];
+
+	let cleanedArtist = artist;
+
+	patterns.forEach((pattern) => {
+		cleanedArtist = cleanedArtist.replace(pattern, '');
+	});
+
+	return cleanedArtist.trim();
+}
