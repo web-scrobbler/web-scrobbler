@@ -30,7 +30,7 @@ Connector.durationSelector = '.rbPlyr-timeDuration';
 Connector.getUniqueID = () => {
 	const text = Util.getAttrFromSelectors(
 		'[data-content-id]',
-		'data-content-id'
+		'data-content-id',
 	);
 	return text && text.split(':').at(-2);
 };
@@ -52,7 +52,7 @@ Connector.playButtonSelector = 'rbPlyr-playPause:not(.rbPlyr-pause)';
 Connector.isScrobblingAllowed = () => {
 	const pageType = Util.getAttrFromSelectors(
 		'meta[property="og:type"]',
-		'content'
+		'content',
 	);
 
 	const categoryLink = Util.getAttrFromSelectors('a[href*="/tags/"]', 'href');
@@ -61,7 +61,7 @@ Connector.isScrobblingAllowed = () => {
 		pageType &&
 			ALLOWED_TYPES.includes(pageType) &&
 			categoryLink &&
-			'music' === categoryLink.split('/').pop()
+			'music' === categoryLink.split('/').pop(),
 	);
 };
 
@@ -75,7 +75,7 @@ function getArtistTrackFrom(getter: string) {
 		// Example: https://www.redbull.com/int-en/episodes/red-bull-records-the-aces-daydream
 		const text = Util.getAttrFromSelectors(
 			'meta[property="og:title"]',
-			'content'
+			'content',
 		);
 
 		if (!text) {
@@ -122,7 +122,7 @@ function getArtistTrackFrom(getter: string) {
 		// Example: https://www.redbull.com/int-en/videos/check-your-dms-s1-e2-full-track-video
 		const text = Util.getAttrFromSelectors(
 			'meta[property="og:description"]',
-			'content'
+			'content',
 		);
 
 		if (!text) {

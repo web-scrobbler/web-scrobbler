@@ -24,6 +24,7 @@ type WebhookRequest = {
 
 export default class WebhookScrobbler extends BaseScrobbler<'Webhook'> {
 	public userApiUrl!: string;
+	public isLocalOnly = true;
 
 	/** @override */
 	protected getBaseProfileUrl(): string {

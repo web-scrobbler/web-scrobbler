@@ -66,6 +66,7 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 	public userApiUrl: string | null = null;
 	public userToken: string | null = null;
 	public arrayProperties: ArrayProperties | null = null;
+	abstract isLocalOnly: boolean;
 
 	constructor() {
 		this.storage = this.initStorage();

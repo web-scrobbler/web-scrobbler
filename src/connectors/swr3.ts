@@ -9,5 +9,5 @@ Connector.trackSelector = 'dl.audioplayer-title dd:nth-of-type(1)';
 Connector.isPlaying = () =>
 	Util.getAttrFromSelectors(
 		'.audioplayer-control[data-action=play]',
-		'aria-pressed'
+		'aria-pressed',
 	) === 'true';

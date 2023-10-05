@@ -86,7 +86,7 @@ Connector.getArtistTrack = () => {
 		track = Util.getTextFromSelectors(trackSelector);
 	} else {
 		({ artist, track } = Util.processYtVideoTitle(
-			Util.getTextFromSelectors(trackSelector)
+			Util.getTextFromSelectors(trackSelector),
 		));
 		if (!artist) {
 			artist = getArtists();
@@ -99,7 +99,7 @@ Connector.timeInfoSelector = '.ytmusic-player-bar.time-info';
 
 Connector.isPlaying = () => {
 	return playingPaths.includes(
-		Util.getAttrFromSelectors(playButtonSelector, 'd') ?? ''
+		Util.getAttrFromSelectors(playButtonSelector, 'd') ?? '',
 	);
 };
 

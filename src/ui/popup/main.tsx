@@ -1,12 +1,10 @@
-import { render } from 'solid-js/web';
+import { Dynamic, render } from 'solid-js/web';
 import './popup.module.scss';
 import Unsupported from './unsupported';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import { initializeThemes } from '@/theme/themes';
 import '@/theme/themes.scss';
 import {
-	Match,
-	Switch,
 	createResource,
 	Show,
 	createMemo,
@@ -31,6 +29,7 @@ import {
 	getMobileNavigatorGroup,
 } from '../options/components/navigator';
 import Disallowed from './disallowed';
+import Ignored from './ignored';
 
 /**
  * List of modes that have a settings button in the popup content, dont show supplementary settings icon.
@@ -86,44 +85,43 @@ function Popup() {
 		}),
 	);
 
+	const popupContent = {
+		[ControllerMode.Base]: () => <Base />,
+		[ControllerMode.Disabled]: () => <Disabled />,
+		[ControllerMode.Err]: () => <Err />,
+		[ControllerMode.Playing]: () => <NowPlaying tab={tab} />,
+		[ControllerMode.Skipped]: () => <NowPlaying tab={tab} />,
+		[ControllerMode.Scrobbled]: () => <NowPlaying tab={tab} />,
+		[ControllerMode.Disallowed]: () => <Disallowed tab={tab} />,
+		[ControllerMode.Unknown]: () => <Edit tab={tab} />,
+		[ControllerMode.Unsupported]: () => <Unsupported />,
+		[ControllerMode.Ignored]: () => <Ignored tab={tab} />,
+		[ControllerMode.Loading]: () => <></>,
+	};
+
 	return (
 		<>
 			<Show
-				when={!contextMenuModes.includes(tab()?.mode ?? '') && isIos()}
+				when={
+					!contextMenuModes.includes(
+						tab()?.mode ?? ControllerMode.Unsupported,
+					) && isIos()
+				}
 			>
 				<ContextMenu items={items()} />
 			</Show>
-			<Switch fallback={<></>}>
-				<Match when={tab()?.mode === ControllerMode.Base}>
-					<Base />
-				</Match>
-				<Match when={tab()?.mode === ControllerMode.Disabled}>
-					<Disabled />
-				</Match>
-				<Match when={tab()?.mode === ControllerMode.Err}>
-					<Err />
-				</Match>
-				<Match
-					when={
-						tab()?.mode === ControllerMode.Playing ||
-						tab()?.mode === ControllerMode.Skipped ||
-						tab()?.mode === ControllerMode.Scrobbled
-					}
-				>
-					<NowPlaying tab={tab} />
-				</Match>
-				<Match when={tab()?.mode === ControllerMode.Disallowed}>
-					<Disallowed tab={tab} />
-				</Match>
-				<Match when={tab()?.mode === ControllerMode.Unknown}>
-					<Edit tab={tab} />
-				</Match>
-				<Match when={tab()?.mode === ControllerMode.Unsupported}>
-					<Unsupported />
-				</Match>
-			</Switch>
-
-			<Show when={!settingModes.includes(tab()?.mode ?? '') && !isIos()}>
+			<Dynamic
+				component={
+					popupContent[tab()?.mode ?? ControllerMode.Unsupported]
+				}
+			/>
+			<Show
+				when={
+					!settingModes.includes(
+						tab()?.mode ?? ControllerMode.Unsupported,
+					) && !isIos()
+				}
+			>
 				<PopupAnchor
 					href={browser.runtime.getURL('src/ui/options/index.html')}
 					class={styles.settingsIcon}

@@ -21,7 +21,7 @@ export function getAllPatterns(): Promise<CustomPatterns | null> {
  */
 export async function setPatterns(
 	connectorId: string,
-	patterns: string[]
+	patterns: string[],
 ): Promise<void> {
 	const data = (await storage.get()) ?? {};
 	data[connectorId] = patterns;

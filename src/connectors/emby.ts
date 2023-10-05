@@ -26,14 +26,14 @@ Connector.timeInfoSelector = '.nowPlayingBarCenter .nowPlayingBarCurrentTime';
 Connector.isPlaying = () => {
 	// Emby or Jellyfin v10.5.0 and older
 	const playButtonLabel = Util.getTextFromSelectors(
-		'.nowPlayingBarCenter .playPauseButton i'
+		'.nowPlayingBarCenter .playPauseButton i',
 	);
 	if (playButtonLabel) {
 		return playButtonLabel === 'pause';
 	}
 	// Emby v4.7.10
 	const playButtonText = Util.getTextFromSelectors(
-		'.nowPlayingBarCenter .playPauseButton'
+		'.nowPlayingBarCenter .playPauseButton',
 	);
 	if (playButtonText) {
 		return playButtonText === '\uE034'; // pause button icon
@@ -44,7 +44,7 @@ Connector.isPlaying = () => {
 
 Connector.getTrackArt = () => {
 	const trackArtUrl = Util.extractImageUrlFromSelectors(
-		Connector.trackArtSelector
+		Connector.trackArtSelector,
 	);
 	if (trackArtUrl) {
 		return trackArtUrl.replace(/height=\d+/, '');
@@ -55,7 +55,7 @@ Connector.getTrackArt = () => {
 
 Connector.getUniqueID = () => {
 	const trackArtUrl = Util.extractImageUrlFromSelectors(
-		Connector.trackArtSelector
+		Connector.trackArtSelector,
 	);
 	if (trackArtUrl) {
 		return /Items\/(\w+)/g.exec(trackArtUrl)?.[1];

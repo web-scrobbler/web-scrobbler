@@ -21,7 +21,7 @@ function getVideoId() {
 
 function setupConnector() {
 	const videoElement = document.querySelector(
-		VIDEO_SELECTOR
+		VIDEO_SELECTOR,
 	) as HTMLVideoElement;
 	// Skip frames with no video element
 	if (!videoElement) {

@@ -9,7 +9,7 @@ type T = Record<K, V>;
 
 class SavedEditsImpl extends SavedEditsModel {
 	private songInfoStorage = BrowserStorage.getStorage<K>(
-		BrowserStorage.LOCAL_CACHE
+		BrowserStorage.LOCAL_CACHE,
 	);
 
 	public init() {

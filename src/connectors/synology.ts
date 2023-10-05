@@ -14,7 +14,7 @@ Connector.getTrackInfo = () => {
 
 	const album = albumArtistText.substr(0, albumArtistText.lastIndexOf(' - '));
 	const artist = albumArtistText.substr(
-		albumArtistText.lastIndexOf(' - ') + 3
+		albumArtistText.lastIndexOf(' - ') + 3,
 	);
 
 	return { artist, album };

@@ -4,7 +4,7 @@ Connector.playerSelector = 'body';
 
 Connector.getTrackInfo = () => {
 	const artistTrackElement = document.querySelector(
-		'#nowplaying > table table tbody > tr:nth-of-type(3) font'
+		'#nowplaying > table table tbody > tr:nth-of-type(3) font',
 	);
 
 	if (artistTrackElement && artistTrackElement.childNodes.length > 2) {

@@ -149,7 +149,7 @@ export const settings: Navigator = [
 	accountItem,
 	optionsGroup,
 	aboutGroup,
-	// #v-ifndef VITE_SAFARI
+	// #v-ifdef !VITE_SAFARI
 	showSomeLoveItem,
 	// #v-endif
 ];

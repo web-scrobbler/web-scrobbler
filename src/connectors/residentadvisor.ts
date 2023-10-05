@@ -89,12 +89,10 @@ Connector.getTrackInfo = () => {
 			track = trackContainer?.querySelector('.track a')?.textContent;
 			break;
 		case PLAYER_TYPES.ARCHIVED:
-			artist = trackContainer?.querySelector(
-				'li:last-child .pr8 div.f24'
-			)?.textContent;
-			track = trackContainer?.querySelector(
-				'li:last-child .pr8 a.f24'
-			)?.textContent;
+			artist = trackContainer?.querySelector('li:last-child .pr8 div.f24')
+				?.textContent;
+			track = trackContainer?.querySelector('li:last-child .pr8 a.f24')
+				?.textContent;
 			break;
 		case PLAYER_TYPES.UNKNOWN:
 			return null;

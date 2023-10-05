@@ -1,4 +1,4 @@
-@mixin iOSTextInput {
+@mixin ios-text-input {
 	appearance: none;
 	background-color: var(--last-fm-bg);
 	border: none;
@@ -79,7 +79,9 @@ a {
 	width: max-content;
 
 	.coverArtWrapper {
-		height: 100vh;
+		// set a very low height here. This prevents image from expanding uncontrollably.
+		// The entire image still remains clickable link (overflow).
+		height: 10px;
 
 		.coverArt {
 			width: 100vh;
@@ -104,7 +106,7 @@ a {
 
 		@supports (-webkit-touch-callout: none) {
 			.editField {
-				@include iOSTextInput;
+				@include ios-text-input;
 			}
 		}
 	}
@@ -159,6 +161,7 @@ a {
 
 			&[disabled] {
 				cursor: not-allowed;
+
 				&:not(.hiddenDisabled) {
 					color: var(--checkbox-inactive);
 				}
@@ -188,7 +191,8 @@ a {
 	box-sizing: border-box;
 	display: grid;
 	gap: 0.5em 1em;
-	grid-template: '. search replace preview' 2em
+	grid-template:
+		'. search replace preview' 2em
 		'track tracksearch trackreplace trackpreview' 2em
 		'artist artistsearch artistreplace artistpreview' 2em
 		'album albumsearch albumreplace albumpreview' 2em
@@ -247,21 +251,27 @@ a {
 	.searchLabel {
 		grid-area: search;
 	}
+
 	.replaceLabel {
 		grid-area: replace;
 	}
+
 	.previewLabel {
 		grid-area: preview;
 	}
+
 	.trackLabel {
 		grid-area: track;
 	}
+
 	.artistLabel {
 		grid-area: artist;
 	}
+
 	.albumLabel {
 		grid-area: album;
 	}
+
 	.albumArtistLabel {
 		grid-area: albumartist;
 	}
@@ -269,12 +279,15 @@ a {
 	.trackSearch {
 		grid-area: tracksearch;
 	}
+
 	.artistSearch {
 		grid-area: artistsearch;
 	}
+
 	.albumSearch {
 		grid-area: albumsearch;
 	}
+
 	.albumArtistSearch {
 		grid-area: albumartistsearch;
 	}
@@ -282,12 +295,15 @@ a {
 	.trackReplace {
 		grid-area: trackreplace;
 	}
+
 	.artistReplace {
 		grid-area: artistreplace;
 	}
+
 	.albumReplace {
 		grid-area: albumreplace;
 	}
+
 	.albumArtistReplace {
 		grid-area: albumartistreplace;
 	}
@@ -295,19 +311,21 @@ a {
 	.trackPreview {
 		grid-area: trackpreview;
 	}
+
 	.artistPreview {
 		grid-area: artistpreview;
 	}
+
 	.albumPreview {
 		grid-area: albumpreview;
 	}
+
 	.albumArtistPreview {
 		grid-area: albumartistpreview;
 	}
 }
 
 @supports (-webkit-touch-callout: none) {
-
 	.root {
 		display: flex;
 		flex-direction: column-reverse;
@@ -339,7 +357,7 @@ a {
 
 			&::after {
 				background-color: var(--background);
-				clip-path: url(#coverArtClip);
+				clip-path: url('#coverArtClip');
 				content: '';
 				inset: 0;
 				position: absolute;
@@ -347,7 +365,7 @@ a {
 			}
 
 			.coverArt {
-				clip-path: url(#coverArtClip);
+				clip-path: url('#coverArtClip');
 				display: inline-block;
 				max-width: min(30vh, 30vw);
 			}
@@ -388,7 +406,7 @@ a {
 		}
 
 		input {
-			@include iOSTextInput;
+			@include ios-text-input;
 			width: 100%;
 		}
 

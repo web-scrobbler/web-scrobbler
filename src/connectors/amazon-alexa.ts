@@ -9,7 +9,7 @@ Connector.trackArtSelector = '#d-album-art > #d-image img';
 Connector.getArtistTrack = () => {
 	if (isPlayingLiveRadio()) {
 		const songTitle = Util.getTextFromSelectors(
-			'.d-queue-info .song-title'
+			'.d-queue-info .song-title',
 		);
 		return Util.splitArtistTrack(songTitle);
 	}
@@ -38,7 +38,7 @@ Connector.isPlaying = () => {
 function isPlayingLiveRadio() {
 	return (
 		Boolean(
-			document.querySelector('#d-secondary-control-left .disabled')
+			document.querySelector('#d-secondary-control-left .disabled'),
 		) &&
 		Boolean(document.querySelector('#d-secondary-control-right .disabled'))
 	);

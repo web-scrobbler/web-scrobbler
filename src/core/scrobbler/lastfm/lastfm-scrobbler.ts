@@ -81,7 +81,7 @@ export default class LastFmScrobbler extends AudioScrobbler {
 		const responseData = await this.sendRequest<LastFmTrackInfo>(
 			{ method: 'GET' },
 			params,
-			false
+			false,
 		);
 
 		const result = this.processResponse(responseData);
@@ -145,10 +145,13 @@ export default class LastFmScrobbler extends AudioScrobbler {
 				 * Convert an array from response to an object.
 				 * Format is the following: { size: "url", ... }.
 				 */
-				const images = albumInfo.image.reduce((result, image) => {
-					result[image.size] = image['#text'];
-					return result;
-				}, {} as Record<string, string>);
+				const images = albumInfo.image.reduce(
+					(result, image) => {
+						result[image.size] = image['#text'];
+						return result;
+					},
+					{} as Record<string, string>,
+				);
 
 				const imageSizes = ['extralarge', 'large', 'medium'];
 

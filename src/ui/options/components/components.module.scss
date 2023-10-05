@@ -1,3 +1,68 @@
+.tripleCheckboxOption {
+	span {
+		align-items: center;
+		display: flex;
+		font-size: 1.2em;
+		gap: 0.5em;
+		justify-content: space-between;
+		padding: 0.5em 0;
+	}
+
+	.tripleCheckboxWrapper {
+		border-radius: 0.5em;
+		display: flex;
+		overflow: hidden;
+
+		.tripleCheckboxLabel {
+			align-items: center;
+			background-color: var(--background);
+			color: var(--text);
+			cursor: pointer;
+			display: flex;
+			height: 1.75em;
+			justify-content: center;
+			margin: 0;
+			width: 2.25em;
+
+			&.unchecked {
+				color: var(--last-fm);
+
+				&.activeBox,
+				&:hover {
+					background-color: var(--last-fm);
+					color: var(--always-light);
+				}
+			}
+
+			&.checked {
+				color: var(--confirm);
+
+				&.activeBox,
+				&:hover {
+					background-color: var(--confirm);
+					color: var(--always-light);
+				}
+			}
+
+			&.indeterminate {
+				&.activeBox,
+				&:hover {
+					background-color: var(--checkbox-inactive);
+					color: var(--always-light);
+				}
+			}
+		}
+
+		.tripleCheckbox {
+			-webkit-appearance: none;
+			background-color: #fff;
+			height: 0;
+			margin: 0;
+			width: 0;
+		}
+	}
+}
+
 .deleteListing {
 	align-items: center;
 	display: flex;
@@ -22,6 +87,23 @@
 .patternAddButton,
 .resetButton {
 	border-radius: 3px;
+}
+
+.deleteEditButton {
+	margin-right: 0.5em;
+}
+
+.linkButton,
+.editButton,
+.patternAddButton,
+.resetButton {
+	font-size: 1.2em;
+	padding: 0.5em 1em;
+	white-space: nowrap;
+
+	svg {
+		margin-right: 0.2em;
+	}
 }
 
 .linkButton,
@@ -50,23 +132,6 @@
 		background-color: var(--last-fm-bg);
 		color: var(--muted-text);
 		cursor: default;
-	}
-}
-
-.deleteEditButton {
-	margin-right: 0.5em;
-}
-
-.linkButton,
-.editButton,
-.patternAddButton,
-.resetButton {
-	font-size: 1.2em;
-	padding: 0.5em 1em;
-	white-space: nowrap;
-
-	svg {
-		margin-right: 0.2em;
 	}
 }
 
@@ -138,12 +203,33 @@
 	width: max-content;
 }
 
-.checkboxOption {
+.selectOption {
+	.bigLabel {
+		align-items: center;
+		cursor: pointer;
+		display: flex;
+		font-size: 1.2em;
+		gap: 0.5em;
+		padding: 0.5em 0;
+	}
 
-	$tickSize: 1.05em;
-	$checkboxSize: 1.4em;
-	$tickWidth: 2.5em;
-	$tickOffset: calc(($checkboxSize - $tickSize) / 2);
+	select {
+		background-color: var(--background);
+		border: none;
+		border-radius: 0.5em;
+		color: var(--text);
+		display: inline-block;
+		font-size: 1em;
+		margin-left: auto;
+		padding: 0.25em 0.5em;
+	}
+}
+
+.checkboxOption {
+	$tick-size: 1.05em;
+	$checkbox-size: 1.4em;
+	$tick-width: 2.5em;
+	$tick-offset: calc(($checkbox-size - $tick-size) / 2);
 
 	input {
 		-webkit-appearance: none;
@@ -152,24 +238,24 @@
 
 	.checkboxWrapper {
 		background-color: var(--checkbox-inactive);
-		border-radius: $checkboxSize;
+		border-radius: $checkbox-size;
 		display: inline-block;
-		height: $checkboxSize;
+		height: $checkbox-size;
 		margin-left: auto;
 		position: relative;
-		width: $tickWidth;
+		width: $tick-width;
 		z-index: -1;
 
 		.checkbox {
 			background-color: var(--always-light);
-			border-radius: $tickSize;
+			border-radius: $tick-size;
 			display: inline-block;
-			height: $tickSize;
-			left: $tickOffset;
+			height: $tick-size;
+			left: $tick-offset;
 			position: absolute;
-			top: $tickOffset;
+			top: $tick-offset;
 			transition: left 0.2s ease-in-out;
-			width: $tickSize;
+			width: $tick-size;
 		}
 	}
 
@@ -177,7 +263,7 @@
 		background-color: var(--always-last-fm);
 
 		.checkbox {
-			left: calc($tickWidth - $tickOffset - $tickSize);
+			left: calc($tick-width - $tick-offset - $tick-size);
 		}
 	}
 
@@ -205,30 +291,44 @@
 	}
 }
 
-.selectOption {
-	.bigLabel {
-		align-items: center;
-		cursor: pointer;
-		display: flex;
-		font-size: 1.2em;
-		gap: 0.5em;
-		padding: 0.5em 0;
-	}
+.muted {
+	color: var(--muted-text);
+}
 
-	select {
-		background-color: var(--background);
-		border: none;
-		border-radius: 0.5em;
-		color: var(--text);
-		display: inline-block;
-		font-size: 1em;
-		margin-left: auto;
-		padding: 0.25em 0.5em;
+summary {
+	list-style: none;
+
+	&::-webkit-details-marker {
+		display: none;
 	}
 }
 
-.muted {
-	color: var(--muted-text);
+.radioButtons {
+	li {
+		margin-bottom: 1em;
+	}
+
+	input {
+		-webkit-appearance: none;
+		appearance: none;
+		margin: 0;
+	}
+
+	.radioLabel {
+		background-color: var(--background);
+		border-radius: 0.5em;
+		color: var(--text);
+		cursor: pointer;
+		display: inline-block;
+		font-size: 1.2em;
+		padding: 0.5em 1em;
+	}
+
+	.radioLabel:hover,
+	input:checked + .radioLabel {
+		background-color: var(--last-fm);
+		color: var(--always-light);
+	}
 }
 
 .connectorOptionsList,
@@ -260,72 +360,6 @@
 	}
 }
 
-.tripleCheckboxOption {
-	span {
-		align-items: center;
-		display: flex;
-		font-size: 1.2em;
-		gap: 0.5em;
-		justify-content: space-between;
-		padding: 0.5em 0;
-	}
-
-	.tripleCheckboxWrapper {
-		border-radius: 0.5em;
-		display: flex;
-		overflow: hidden;
-
-		.tripleCheckboxLabel {
-			align-items: center;
-			background-color: var(--background);
-			color: var(--text);
-			cursor: pointer;
-			display: flex;
-			height: 1.75em;
-			justify-content: center;
-			margin: 0;
-			width: 2.25em;
-
-			&.unchecked {
-				color: var(--last-fm);
-
-				&.activeBox,
-				&:hover {
-					background-color: var(--last-fm);
-					color: var(--always-light);
-				}
-			}
-
-			&.checked {
-				color: var(--confirm);
-
-				&.activeBox,
-				&:hover {
-					background-color: var(--confirm);
-					color: var(--always-light);
-				}
-			}
-
-			&.indeterminate {
-				&.activeBox,
-				&:hover {
-					background-color: var(--checkbox-inactive);
-					color: var(--always-light);
-				}
-			}
-		}
-
-		.tripleCheckbox {
-			-webkit-appearance: none;
-			appearance: none;
-			background-color: #fff;
-			height: 0;
-			margin: 0;
-			width: 0;
-		}
-	}
-}
-
 .patternWrapper {
 	border-radius: 0.5em;
 	display: flex;
@@ -338,43 +372,6 @@
 		border: none;
 		color: var(--text);
 		font-size: 1.2em;
-	}
-}
-
-summary {
-	list-style: none;
-
-	&::-webkit-details-marker {
-		display: none;
-	}
-}
-
-.radioButtons {
-
-	li {
-		margin-bottom: 1em;
-	}
-
-	input {
-		-webkit-appearance: none;
-		appearance: none;
-		margin: 0;
-	}
-
-	.radioLabel {
-		background-color: var(--background);
-		border-radius: 0.5em;
-		color: var(--text);
-		cursor: pointer;
-		display: inline-block;
-		font-size: 1.2em;
-		padding: 0.5em 1em;
-	}
-
-	.radioLabel:hover,
-	input:checked + .radioLabel {
-		background-color: var(--last-fm);
-		color: var(--always-light);
 	}
 }
 
@@ -438,10 +435,14 @@ summary {
 
 .regexDeleteContent {
 	align-items: center;
-	background: repeating-linear-gradient(var(--last-fm-bg) 0 2.5em,transparent 2.5em 5em);
+	background: repeating-linear-gradient(
+		var(--last-fm-bg) 0 2.5em,
+		transparent 2.5em 5em
+	);
 	display: grid;
 	gap: 0.5em 2em;
-	grid-template: '. search replace' 2em
+	grid-template:
+		'. search replace' 2em
 		'track tracksearch trackreplace' 2em
 		'artist artistsearch artistreplace' 2em
 		'album albumsearch albumreplace' 2em
@@ -456,6 +457,7 @@ summary {
 	.regexDeleteSearchLabel {
 		grid-area: search;
 	}
+
 	.regexDeleteReplaceLabel {
 		grid-area: replace;
 	}
@@ -463,9 +465,11 @@ summary {
 	.regexDeleteTrackLabel {
 		grid-area: track;
 	}
+
 	.regexDeleteTrackSearch {
 		grid-area: tracksearch;
 	}
+
 	.regexDeleteTrackReplace {
 		grid-area: trackreplace;
 	}
@@ -473,9 +477,11 @@ summary {
 	.regexDeleteArtistLabel {
 		grid-area: artist;
 	}
+
 	.regexDeleteArtistSearch {
 		grid-area: artistsearch;
 	}
+
 	.regexDeleteArtistReplace {
 		grid-area: artistreplace;
 	}
@@ -483,9 +489,11 @@ summary {
 	.regexDeleteAlbumLabel {
 		grid-area: album;
 	}
+
 	.regexDeleteAlbumSearch {
 		grid-area: albumsearch;
 	}
+
 	.regexDeleteAlbumReplace {
 		grid-area: albumreplace;
 	}
@@ -493,9 +501,11 @@ summary {
 	.regexDeleteAlbumArtistLabel {
 		grid-area: albumartist;
 	}
+
 	.regexDeleteAlbumArtistSearch {
 		grid-area: albumartistsearch;
 	}
+
 	.regexDeleteAlbumArtistReplace {
 		grid-area: albumartistreplace;
 	}

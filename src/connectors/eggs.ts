@@ -50,6 +50,9 @@ function setArtistConnector() {
 			document.querySelector('.playw:hover');
 
 		const parentLi = currTrack?.closest('li');
+		if (!parentLi) {
+			return;
+		}
 
 		const songInfo = {
 			artist: parentLi?.querySelector('.artist_name')?.textContent,

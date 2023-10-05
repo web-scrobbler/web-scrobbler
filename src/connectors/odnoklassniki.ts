@@ -11,6 +11,6 @@ Connector.timeInfoSelector = '.mus_player_time';
 Connector.isPlaying = () => {
 	return Util.hasElementClass(
 		'#topPanelMusicPlayerControl',
-		'toolbar_music-play__active'
+		'toolbar_music-play__active',
 	);
 };
