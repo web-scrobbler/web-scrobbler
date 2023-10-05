@@ -82,7 +82,7 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 				},
 				'*',
 			);
-		}, 1000);			   
+		}, 1000);
 	}
 
 	interface State {
