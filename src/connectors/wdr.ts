@@ -2,9 +2,9 @@ export {};
 
 // Connector for the WDR radio stations (1Live, WDR2, WDR3, WDR4, WDR5, COSMO, etc.)
 
-const filter = MetadataFilter.createFilter({
-	artist: cleanupArtist,
-});
+const filter = MetadataFilter.createFilter({ artist: cleanupArtist });
+
+Connector.applyFilter(filter);
 
 Connector.playerSelector = '.wdrrCurrentChannels';
 
