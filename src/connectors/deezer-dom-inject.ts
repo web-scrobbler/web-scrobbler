@@ -56,9 +56,6 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 		const ev = window.Events as Events;
 		ev.subscribe(ev.player.play, sendEvent);
 		ev.subscribe(ev.player.playing, sendEvent);
-		ev.subscribe(ev.player.paused, sendEvent);
-		ev.subscribe(ev.player.resume, sendEvent);
-		ev.subscribe(ev.player.finish, sendEvent);
 		sendEvent();
 	}
 
@@ -69,22 +66,23 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 		const ev = window.Events as Events;
 		ev.unsubscribe(ev.player.play, sendEvent);
 		ev.unsubscribe(ev.player.playing, sendEvent);
-		ev.unsubscribe(ev.player.paused, sendEvent);
-		ev.unsubscribe(ev.player.resume, sendEvent);
-		ev.unsubscribe(ev.player.finish, sendEvent);
 	}
 
 	function sendEvent() {
-		window.postMessage(
-			{
-				sender: 'web-scrobbler',
-				type: 'DEEZER_STATE',
-				trackInfo: getCurrentMediaInfo(),
-				isPlaying: isPlaying(),
-				isPodcast: isPodcast(),
-			},
-			'*',
-		);
+		window.setTimeout(() => {
+			const trackInfo = getCurrentMediaInfo();
+			const isitPlaying = isPlaying();
+			window.postMessage(
+				{
+					sender: 'web-scrobbler',
+					type: 'DEEZER_STATE',
+					trackInfo,
+					isPlaying: isitPlaying,
+					isPodcast: isPodcast(),
+				},
+				'*',
+			);
+		}, 1000);			   
 	}
 
 	interface State {
@@ -118,7 +116,7 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 		const player = window.dzPlayer as {
 			getCurrentSong: () => Media;
 			getPosition: () => number | null;
-			getDuration: () => number | null;
+			getDuration: () => string;
 		};
 		const currentMedia = player.getCurrentSong();
 
@@ -129,7 +127,7 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 
 		const mediaType = currentMedia.__TYPE__;
 		const currentTime = player.getPosition();
-		const duration = player.getDuration();
+		const duration = parseInt(player.getDuration());
 
 		let trackInfo: State | null = null;
 
