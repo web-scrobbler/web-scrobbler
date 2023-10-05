@@ -225,6 +225,63 @@
 	}
 }
 
+.editTable {
+	margin-bottom: 1rem;
+
+	label {
+		padding-right: 1rem;
+	}
+
+	label,
+	input {
+		font-size: 1rem;
+	}
+
+	input {
+		appearance: none;
+		background-color: var(--last-fm-bg-weak);
+		border: none;
+		border-radius: 0.5rem;
+		color: var(--text);
+		padding: 0.25rem 0.5rem;
+		width: 30ch;
+	}
+}
+
+.saveIcon {
+	transform: rotate(0deg);
+
+	&.savingSaveIcon {
+		transform: rotate(360deg);
+		transform-origin: 41% 42.5%;
+		transition: transform 600ms ease-in-out;
+	}
+}
+
+.scrobbleButtonsWrapper {
+	display: flex;
+	gap: 1rem;
+}
+
+summary {
+	list-style: none;
+
+	&::-webkit-details-marker {
+		display: none;
+	}
+}
+
+.scrobbleCacheList {
+	summary {
+		padding: 0.5rem 0;
+	}
+
+	.summarySpan {
+		font-size: 1.5em;
+		font-weight: bold;
+	}
+}
+
 .checkboxOption {
 	$tick-size: 1.05em;
 	$checkbox-size: 1.4em;
@@ -293,14 +350,6 @@
 
 .muted {
 	color: var(--muted-text);
-}
-
-summary {
-	list-style: none;
-
-	&::-webkit-details-marker {
-		display: none;
-	}
 }
 
 .radioButtons {
@@ -511,16 +560,6 @@ summary {
 	}
 }
 
-.scrobbleCacheList {
-	summary {
-		padding: 0.5rem 0;
-	}
-	.summarySpan {
-		font-size: 1.5em;
-		font-weight: bold;
-	}
-}
-
 .scrobble {
 	align-items: center;
 	background-color: var(--last-fm-bg-weak);
@@ -532,29 +571,6 @@ summary {
 	margin-bottom: 1em;
 	overflow: hidden;
 	padding-right: 1em;
-
-	&.selectingScrobble {
-		cursor: pointer;
-		&:hover:not(:has(:checked)) {
-			background-color: var(--last-fm-bg);
-			color: var(--text);
-
-			.scrobbleDetails .scrobbleActions .scrobbleActionButton {
-				background-color: var(--always-last-fm);
-				color: var(--always-light);
-			}
-		}
-	}
-
-	&:has(:checked) {
-		background-color: var(--always-last-fm);
-		color: var(--always-light);
-
-		.scrobbleDetails .scrobbleActions .scrobbleActionButton {
-			background-color: var(--last-fm-bg-light);
-			color: var(--always-last-fm);
-		}
-	}
 
 	.scrobbleCheckbox {
 		border: none;
@@ -611,42 +627,28 @@ summary {
 			}
 		}
 	}
-}
 
-.editTable {
-	margin-bottom: 1rem;
+	&:has(:checked) {
+		background-color: var(--always-last-fm);
+		color: var(--always-light);
 
-	label {
-		padding-right: 1rem;
+		.scrobbleDetails .scrobbleActions .scrobbleActionButton {
+			background-color: var(--last-fm-bg-light);
+			color: var(--always-last-fm);
+		}
 	}
 
-	label,
-	input {
-		font-size: 1rem;
+	&.selectingScrobble {
+		cursor: pointer;
+
+		&:hover:not(:has(:checked)) {
+			background-color: var(--last-fm-bg);
+			color: var(--text);
+
+			.scrobbleDetails .scrobbleActions .scrobbleActionButton {
+				background-color: var(--always-last-fm);
+				color: var(--always-light);
+			}
+		}
 	}
-
-	input {
-		appearance: none;
-		background-color: var(--last-fm-bg-weak);
-		border: none;
-		border-radius: 0.5rem;
-		color: var(--text);
-		padding: 0.25rem 0.5rem;
-		width: 30ch;
-	}
-}
-
-.saveIcon {
-	transform: rotate(0deg);
-
-	&.savingSaveIcon {
-		transform: rotate(360deg);
-		transform-origin: 41% 42.5%;
-		transition: transform 600ms ease-in-out;
-	}
-}
-
-.scrobbleButtonsWrapper {
-	display: flex;
-	gap: 1rem;
 }
