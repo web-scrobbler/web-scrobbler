@@ -11,9 +11,6 @@ Connector.playerSelector = '.wdrrCurrentChannels';
 Connector.artistTrackSelector = '.wdrrCurrentShowTitleTitle';
 
 Connector.pauseButtonSelector = '#playCtrl.playing';
-	const playButton = document.querySelector('#playCtrl');
-	return playButton !== null && playButton.classList.contains('playing');
-};
 
 Connector.isScrobblingAllowed = () => {
 	const artistTrack = Util.getTextFromSelectors(
