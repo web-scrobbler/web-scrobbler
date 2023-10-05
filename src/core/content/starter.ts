@@ -56,12 +56,12 @@ async function setupStateListening(): Promise<void> {
 		type: 'getTabId',
 		payload: undefined,
 	});
-	const isEnabled =
-		!disabledTabList?.[currentTab ?? -2]?.[Connector.meta.id] &&
-		(options === null || !options[DISABLED_CONNECTORS][Connector.meta.id]);
 
-	const controller = new Controller(Connector, isEnabled);
-	Connector.controllerCallback = controller.onStateChanged.bind(controller);
+	createController(
+		!disabledTabList?.[currentTab ?? -2]?.[Connector.meta.id] &&
+			(options === null ||
+				!options[DISABLED_CONNECTORS][Connector.meta.id]),
+	);
 
 	if (Connector.playerSelector === null) {
 		Util.debugLog(
@@ -83,6 +83,16 @@ async function setupStateListening(): Promise<void> {
 		);
 		setupSecondObserver();
 	}
+}
+
+/**
+ * Creates controller
+ *
+ * @param isEnabled - Whether the connector is enabled or not
+ */
+function createController(isEnabled: boolean) {
+	const controller = new Controller(Connector, isEnabled);
+	Connector.controllerCallback = controller.onStateChanged.bind(controller);
 }
 
 /**
