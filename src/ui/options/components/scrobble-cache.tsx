@@ -575,12 +575,14 @@ async function editCacheScrobbles(
 		return;
 	}
 	const id = scrobbleId() ?? -1;
-	savedEdits.saveSongInfo(song, {
-		artist,
-		track,
-		album: album || null,
-		albumArtist: albumArtist || null,
-	});
+	if (shouldEditAll) {
+		savedEdits.saveSongInfo(song, {
+			artist,
+			track,
+			album: album || null,
+			albumArtist: albumArtist || null,
+		});
+	}
 
 	const songId = SavedEditsModel.getSongId(song);
 	const filteredScrobbles = shouldEditAll

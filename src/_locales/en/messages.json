@@ -507,6 +507,10 @@
         "message": "From \"$1\" album",
         "description": "Tooltip text"
     },
+    "buttonScrobble": {
+        "message": "Scrobble",
+        "description": "Scrobble button label"
+    },
     "buttonOk": {
         "message": "OK",
         "description": "OK button label"
