@@ -468,7 +468,7 @@
         "description": "Placeholder of album input"
     },
     "infoAlbumArtistPlaceholder": {
-        "message": "Album del artista (opcional)",
+        "message": "Artista del álbum (opcional)",
         "description": "Placeholder of album artist input"
     },
     "infoViewArtistPage": {
