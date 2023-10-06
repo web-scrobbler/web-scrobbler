@@ -36,7 +36,7 @@ Connector.isScrobblingAllowed = () => {
 	return !containsDisallowedString;
 };
 
-function cleanupArtist(artist: any) {
+function cleanupArtist(artist: string) {
 	// Define patterns to find additional artists or features.
 	const patterns = [/ & .*/, / x .*/, / feat\..*/];
 
