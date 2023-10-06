@@ -114,11 +114,16 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 			return;
 		}
 		const player = window.dzPlayer as {
-			getCurrentSong: () => Media;
+			getCurrentSong: () => Media | null;
 			getPosition: () => number | null;
-			getDuration: () => string;
+			getDuration: () => number | string | null;
 		};
 		const currentMedia = player.getCurrentSong();
+
+		// during initialization the player may not have loaded a media yet
+		if (currentMedia === null) {
+			return null;
+		}
 
 		// Radio stations don't provide track info
 		if (currentMedia.EXTERNAL) {
@@ -127,7 +132,10 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 
 		const mediaType = currentMedia.__TYPE__;
 		const currentTime = player.getPosition();
-		const duration = parseInt(player.getDuration());
+		let duration = player.getDuration();
+		if (typeof duration === 'string') {
+			duration = parseInt(duration);
+		}
 
 		let trackInfo: State | null = null;
 
@@ -193,8 +201,14 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 			return;
 		}
 		const currentMedia = (
-			window.dzPlayer as { getCurrentSong: () => Media }
+			window.dzPlayer as { getCurrentSong: () => Media | null }
 		).getCurrentSong();
+
+		// during initialization the player may not have loaded a media yet
+		if (currentMedia === null) {
+			return null;
+		}
+
 		return currentMedia.__TYPE__ === 'episode';
 	}
 
