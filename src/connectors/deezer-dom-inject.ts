@@ -56,9 +56,6 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 		const ev = window.Events as Events;
 		ev.subscribe(ev.player.play, sendEvent);
 		ev.subscribe(ev.player.playing, sendEvent);
-		ev.subscribe(ev.player.paused, sendEvent);
-		ev.subscribe(ev.player.resume, sendEvent);
-		ev.subscribe(ev.player.finish, sendEvent);
 		sendEvent();
 	}
 
@@ -69,22 +66,23 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 		const ev = window.Events as Events;
 		ev.unsubscribe(ev.player.play, sendEvent);
 		ev.unsubscribe(ev.player.playing, sendEvent);
-		ev.unsubscribe(ev.player.paused, sendEvent);
-		ev.unsubscribe(ev.player.resume, sendEvent);
-		ev.unsubscribe(ev.player.finish, sendEvent);
 	}
 
 	function sendEvent() {
-		window.postMessage(
-			{
-				sender: 'web-scrobbler',
-				type: 'DEEZER_STATE',
-				trackInfo: getCurrentMediaInfo(),
-				isPlaying: isPlaying(),
-				isPodcast: isPodcast(),
-			},
-			'*',
-		);
+		window.setTimeout(() => {
+			const trackInfo = getCurrentMediaInfo();
+			const isitPlaying = isPlaying();
+			window.postMessage(
+				{
+					sender: 'web-scrobbler',
+					type: 'DEEZER_STATE',
+					trackInfo,
+					isPlaying: isitPlaying,
+					isPodcast: isPodcast(),
+				},
+				'*',
+			);
+		}, 1000);
 	}
 
 	interface State {
@@ -116,11 +114,16 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 			return;
 		}
 		const player = window.dzPlayer as {
-			getCurrentSong: () => Media;
+			getCurrentSong: () => Media | null;
 			getPosition: () => number | null;
-			getDuration: () => number | null;
+			getDuration: () => number | string | null;
 		};
 		const currentMedia = player.getCurrentSong();
+
+		// during initialization the player may not have loaded a media yet
+		if (currentMedia === null) {
+			return null;
+		}
 
 		// Radio stations don't provide track info
 		if (currentMedia.EXTERNAL) {
@@ -129,7 +132,10 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 
 		const mediaType = currentMedia.__TYPE__;
 		const currentTime = player.getPosition();
-		const duration = player.getDuration();
+		let duration = player.getDuration();
+		if (typeof duration === 'string') {
+			duration = parseInt(duration);
+		}
 
 		let trackInfo: State | null = null;
 
@@ -195,8 +201,14 @@ if ('cleanup' in window && typeof window.cleanup === 'function') {
 			return;
 		}
 		const currentMedia = (
-			window.dzPlayer as { getCurrentSong: () => Media }
+			window.dzPlayer as { getCurrentSong: () => Media | null }
 		).getCurrentSong();
+
+		// during initialization the player may not have loaded a media yet
+		if (currentMedia === null) {
+			return null;
+		}
+
 		return currentMedia.__TYPE__ === 'episode';
 	}
 
