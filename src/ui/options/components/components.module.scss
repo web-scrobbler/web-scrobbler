@@ -287,6 +287,7 @@
 
 .muted {
 	color: var(--muted-text);
+	max-width: 50vw;
 }
 
 summary {
@@ -511,5 +512,46 @@ summary {
 		transform: rotate(360deg);
 		transform-origin: 41% 42.5%;
 		transition: transform 600ms ease-in-out;
+	}
+}
+
+.rangeInput {
+	margin-top: 0.25em;
+
+	.rangeInputLabel {
+		font-size: 1.2em;
+	}
+
+	.inputWrapper {
+		display: inline-block;
+		margin: auto 0.5em;
+		position: relative;
+
+		&::after {
+			font-size: 1.2em;
+			pointer-events: none;
+			position: absolute;
+			right: 0.5em;
+			top: calc(2px + 0.125em);
+			transition: all 0.05s ease-in-out;
+		}
+
+		&.percent::after {
+			content: '%';
+		}
+
+		input {
+			&::-webkit-outer-spin-button,
+			&::-webkit-inner-spin-button {
+				-webkit-appearance: none;
+				margin: 0;
+			}
+			-moz-appearance: textfield;
+			appearance: none;
+			border: none;
+			border-radius: 0.5em;
+			font-size: 1.2em;
+			padding: 0.25em 1.5em 0.25em 0.5em;
+		}
 	}
 }
