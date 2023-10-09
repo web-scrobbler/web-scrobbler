@@ -281,6 +281,7 @@ export function RangeOptionEntry(props: {
 						min={props.min}
 						max={props.max}
 						value={props.options()?.[props.key] as number}
+						class={styles.rangeNumberInput}
 						onChange={(e) => {
 							const key = props.key;
 							const globalOptions = props.globalOptions;
@@ -313,6 +314,7 @@ export function RangeOptionEntry(props: {
 				min={props.min}
 				max={props.max}
 				value={props.options()?.[props.key] as number}
+				class={styles.rangeSelection}
 				onInput={(e) => {
 					// dont actually apply it here; we'll get ratelimited REAL fast
 					const key = props.key;
