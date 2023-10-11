@@ -15,17 +15,39 @@ html {
 }
 
 body {
+    font: -apple-system-short-body;
+    text-align: center;
+    
+    margin: 0;
+    height: 100%;
+    width: 100vw;
+    background-color: #f2f1f6;
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: row;
+    margin: 0;
+    width: 100vw;
+    height: 100%;
+    overflow-x: hidden;
+}
+
+.page {
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
-
+    
     gap: var(--spacing);
-    margin: 0 calc(var(--spacing) * 2);
+    margin: 0;
     height: 100%;
+    width: 100vw;
+    flex-shrink: 0;
+}
 
-    font: -apple-system-short-body;
-    text-align: center;
+.page > :not(.big-image) {
+    margin: 0 5vw;
 }
 
 body:not(.platform-mac, .platform-ios) :is(.platform-mac, .platform-ios) {
@@ -58,4 +80,30 @@ body.state-off :is(.state-on, .state-unknown) {
 
 button {
     font-size: 1em;
+}
+
+ol {
+    text-align: left;
+}
+
+.big-image {
+    max-width: 100vw;
+    max-height: 70vh;
+}
+
+.nav-button {
+    position: absolute;
+    top: 43vh;
+    width: 50px;
+    height: 50px;
+    transform: translateY(-50%);
+    opacity: 0.95;
+}
+
+#prev {
+    left: 16px;
+}
+
+#next {
+    right: 16px;
 }

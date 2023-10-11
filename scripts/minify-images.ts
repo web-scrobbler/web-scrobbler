@@ -2,7 +2,7 @@ import imagemin from 'imagemin';
 import imageminJpegtran from 'imagemin-jpegtran';
 import imageminPngquant from 'imagemin-pngquant';
 import { PluginOption } from 'vite';
-import { getBrowser } from './util';
+import { getBrowser, releaseTarget, releaseTargets } from './util';
 import colorLog from './log';
 
 async function performMinification() {
@@ -10,10 +10,16 @@ async function performMinification() {
 		destination: `build/${getBrowser()}/icons`,
 		plugins: [imageminPngquant()],
 	});
-	await imagemin(['src/img/*.{jpg,png}'], {
+	await imagemin(['src/img/main/*.{jpg,png}'], {
 		destination: `build/${getBrowser()}/img`,
 		plugins: [imageminJpegtran(), imageminPngquant()],
 	});
+	if (releaseTarget === releaseTargets.safari) {
+		await imagemin(['src/img/safari/*.{jpg,png}'], {
+			destination: '.xcode/Web Scrobbler/Shared (App)/Resources',
+			plugins: [imageminJpegtran(), imageminPngquant()],
+		});
+	}
 }
 
 /**
