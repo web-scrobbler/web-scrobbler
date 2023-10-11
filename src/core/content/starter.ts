@@ -3,12 +3,12 @@
  * on pageload, this starter is needed for connectors to start running
  */
 
-import Reactor from '@/core/content/reactor';
 import BaseConnector from './connector';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import { DISABLED_CONNECTORS } from '@/core/storage/options';
 import { sendContentMessage } from '@/util/communication';
 import * as Util from '@/core/content/util';
+import Controller from '../object/controller/controller';
 
 /**
  * Sets up observers and "starts up" the connector
@@ -56,8 +56,8 @@ async function setupStateListening(): Promise<void> {
 		type: 'getTabId',
 		payload: undefined,
 	});
-	new Reactor(
-		Connector,
+
+	createController(
 		!disabledTabList?.[currentTab ?? -2]?.[Connector.meta.id] &&
 			(options === null ||
 				!options[DISABLED_CONNECTORS][Connector.meta.id]),
@@ -83,6 +83,16 @@ async function setupStateListening(): Promise<void> {
 		);
 		setupSecondObserver();
 	}
+}
+
+/**
+ * Creates controller
+ *
+ * @param isEnabled - Whether the connector is enabled or not
+ */
+function createController(isEnabled: boolean) {
+	const controller = new Controller(Connector, isEnabled);
+	Connector.controllerCallback = controller.onStateChanged.bind(controller);
 }
 
 /**
