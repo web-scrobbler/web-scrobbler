@@ -83,7 +83,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 	}
 
 	/** @override */
-	public getUsedDefinedProperties(): string[] {
+	public getUserDefinedProperties(): string[] {
 		return ['userApiUrl', 'userToken'];
 	}
 
