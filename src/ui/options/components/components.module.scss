@@ -1,55 +1,48 @@
 .tripleCheckboxOption {
+	$size: 0.5em;
+
 	span {
 		align-items: center;
 		display: flex;
 		font-size: 1.2em;
-		gap: 0.5em;
+		gap: $size;
 		justify-content: space-between;
-		padding: 0.5em 0;
+		padding: $size 0;
 	}
 
 	.tripleCheckboxWrapper {
-		border-radius: 0.5em;
+		border-radius: $size;
 		display: flex;
 		overflow: hidden;
 
 		.tripleCheckboxLabel {
+			--btn-color: var(--last-fm);
+			--btn-active-color: var(--always-light);
+			--btn-active-background-color: var(--last-fm);
 			align-items: center;
 			background-color: var(--background);
-			color: var(--text);
+			color: var(--btn-color);
 			cursor: pointer;
 			display: flex;
-			height: 1.75em;
+			height: 3.5 * $size;
 			justify-content: center;
 			margin: 0;
-			width: 2.25em;
+			width: 4.5 * $size;
 
-			&.unchecked {
-				color: var(--last-fm);
-
-				&.activeBox,
-				&:hover {
-					background-color: var(--last-fm);
-					color: var(--always-light);
-				}
+			&.activeBox,
+			&:hover {
+				background-color: var(--btn-active-background-color);
+				color: var(--btn-active-color);
 			}
 
 			&.checked {
-				color: var(--confirm);
-
-				&.activeBox,
-				&:hover {
-					background-color: var(--confirm);
-					color: var(--always-light);
-				}
+				--btn-color: var(--confirm);
+				--btn-active-background-color: var(--confirm);
 			}
 
 			&.indeterminate {
-				&.activeBox,
-				&:hover {
-					background-color: var(--checkbox-inactive);
-					color: var(--always-light);
-				}
+				--btn-color: var(--text);
+				--btn-active-background-color: var(--checkbox-inactive);
 			}
 		}
 
