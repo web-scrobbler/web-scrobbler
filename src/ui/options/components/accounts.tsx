@@ -190,7 +190,7 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 					}
 				>
 					<button
-						class={`${styles.resetButton} ${styles.topSpacing}`}
+						class={`${styles.button} ${styles.marginTop}`}
 						onClick={() => setShowLocalProps(true)}
 					>
 						{t('accountsUseLocalInstance')}

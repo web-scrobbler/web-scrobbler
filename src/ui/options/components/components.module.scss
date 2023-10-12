@@ -107,6 +107,10 @@
 		margin-right: 0.5em;
 	}
 
+	&.marginTop {
+		margin-top: 0.5em;
+	}
+
 	&.centered {
 		margin: 0 auto;
 	}
@@ -498,8 +502,4 @@ summary {
 		transform-origin: 41% 42.5%;
 		transition: transform 600ms ease-in-out;
 	}
-}
-
-.topSpacing {
-	margin-top: 0.5em;
 }
