@@ -251,7 +251,9 @@
 
 	input:checked ~ .checkboxWrapper {
 		--checkbox-background: var(--always-last-fm);
-		--checkbox-offset: calc(#{$tick-width} - #{$tick-offset} - #{$tick-size});
+		--checkbox-offset: calc(
+			#{$tick-width} - #{$tick-offset} - #{$tick-size}
+		);
 	}
 
 	.bigLabel,
