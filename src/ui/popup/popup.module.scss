@@ -83,8 +83,15 @@ a {
 		// The entire image still remains clickable link (overflow).
 		height: 10px;
 
-		.coverArt {
-			width: 100vh;
+		.coverArtBackground {
+			background-size: cover;
+
+			.coverArt {
+				aspect-ratio: 1 / 1;
+				backdrop-filter: blur(5px);
+				object-fit: contain;
+				width: 100vh;
+			}
 		}
 	}
 
