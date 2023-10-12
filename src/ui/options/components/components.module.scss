@@ -81,44 +81,22 @@
 	gap: 0.5em;
 }
 
-.linkButton,
-.editButton,
-.deleteEditButton,
-.patternAddButton,
-.resetButton {
+.button {
+	align-items: center;
+	background-color: var(--always-last-fm);
+	border: none;
 	border-radius: 3px;
-}
-
-.deleteEditButton {
-	margin-right: 0.5em;
-}
-
-.linkButton,
-.editButton,
-.patternAddButton,
-.resetButton {
+	color: var(--always-light);
+	cursor: pointer;
+	display: flex;
 	font-size: 1.2em;
 	padding: 0.5em 1em;
 	white-space: nowrap;
+	width: min-content;
 
 	svg {
 		margin-right: 0.2em;
 	}
-}
-
-.linkButton,
-.editButton,
-.deleteEditButton,
-.patternDeleteButton,
-.patternAddButton,
-.resetButton {
-	align-items: center;
-	background-color: var(--always-last-fm);
-	border: none;
-	color: var(--always-light);
-	cursor: pointer;
-	display: flex;
-	width: min-content;
 
 	&:hover {
 		background-color: var(--always-last-fm-hover);
@@ -127,15 +105,34 @@
 	span {
 		white-space: nowrap;
 	}
-}
 
-.linkButton svg {
-	margin-bottom: 4px;
-}
+	&.noradius {
+		border-radius: 0;
+	}
 
-.editButton svg,
-.patternAddButton svg {
-	margin-left: -5px;
+	&.marginRight {
+		margin-right: 0.5em;
+	}
+
+	&.centered {
+		margin: 0 auto;
+	}
+
+	&.openCollective {
+		margin-bottom: 4px;
+	}
+
+	&.small {
+		padding: 1px 7px 2px;
+
+		svg {
+			margin-right: 0;
+		}
+	}
+
+	&.shiftLeft svg {
+		margin-left: -5px;
+	}
 }
 
 .contactList {

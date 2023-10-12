@@ -55,7 +55,7 @@ export default function Disallowed(props: { tab: Resource<ManagerTab> }) {
 				</Show>
 				<p>{t('disallowedDesc3')}</p>
 				<button
-					class={`${optionComponentStyles.resetButton} ${styles.centered}`}
+					class={`${optionComponentStyles.button} ${optionComponentStyles.centered}`}
 					onClick={() => {
 						setLoading(true);
 						sendBackgroundMessage(props.tab()?.tabId ?? -1, {

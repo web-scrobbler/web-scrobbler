@@ -146,7 +146,7 @@ export function RadioButtons(props: {
 			<Show when={props.reset}>
 				<li>
 					<button
-						class={styles.resetButton}
+						class={`${styles.button} ${styles.shiftLeft}`}
 						onClick={(e) => {
 							props.reset?.(e);
 						}}
