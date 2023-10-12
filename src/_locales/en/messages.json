@@ -179,6 +179,10 @@
         "message": "Sign in",
         "description": "Button label"
     },
+    "accountsUseLocalInstance": {
+        "message": "Use local instance",
+        "description": "Button label"
+    },
     "accountsScrobblerProps": {
         "message": "Properties",
         "description": "Button label"

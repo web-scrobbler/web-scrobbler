@@ -31,7 +31,7 @@ export default class MalojaScrobbler extends BaseScrobbler<'Maloja'> {
 	}
 
 	/** @override */
-	public getUsedDefinedProperties(): string[] {
+	public getUserDefinedProperties(): string[] {
 		return ['userApiUrl', 'userToken'];
 	}
 

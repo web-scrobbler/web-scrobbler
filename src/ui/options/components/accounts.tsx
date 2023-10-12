@@ -106,6 +106,7 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 			return scrobbler.getProfileUrl();
 		}
 	});
+	const [showLocalProps, setShowLocalProps] = createSignal(false);
 
 	const onFocus = async () => {
 		try {
@@ -131,7 +132,13 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 	return (
 		<>
 			<h2>{rawScrobbler()?.getLabel()}</h2>
-			<Switch fallback={<SignedOut scrobbler={rawScrobbler()} />}>
+			<Switch
+				fallback={
+					<Show when={!showLocalProps()}>
+						<SignedOut scrobbler={rawScrobbler()} />
+					</Show>
+				}
+			>
 				<Match when={rawScrobbler()?.isLocalOnly}>
 					<Show when={!session.error && session()}>
 						<p>
@@ -173,8 +180,27 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 					</div>
 				</Match>
 			</Switch>
-			<Properties scrobbler={rawScrobbler()} />
-			<ArrayProperties scrobbler={rawScrobbler()} />
+			<Switch>
+				<Match
+					when={
+						!showLocalProps() &&
+						!rawScrobbler()?.isLocalOnly &&
+						(labelHasProperties(rawScrobbler()?.getLabel()) ||
+							labelHasArrayProperties(rawScrobbler()?.getLabel()))
+					}
+				>
+					<button
+						class={`${styles.resetButton} ${styles.topSpacing}`}
+						onClick={() => setShowLocalProps(true)}
+					>
+						{t('accountsUseLocalInstance')}
+					</button>
+				</Match>
+				<Match when={showLocalProps() || rawScrobbler()?.isLocalOnly}>
+					<Properties scrobbler={rawScrobbler()} />
+					<ArrayProperties scrobbler={rawScrobbler()} />
+				</Match>
+			</Switch>
 		</>
 	);
 }
