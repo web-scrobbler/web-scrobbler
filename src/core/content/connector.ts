@@ -150,7 +150,7 @@ export default class BaseConnector {
 	 * Has to be specified if usesBlocklist is set to true in connectors.ts.
 	 * If connectors.ts does not have usesBlocklist set to true, this should be null.
 	 */
-	public getChannelID: (() => string | null | undefined) | null = null;
+	public getChannelId: (() => string | null | undefined) | null = null;
 
 	/**
 	 * Selector of element contains a track art of now playing song.
