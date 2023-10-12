@@ -132,7 +132,10 @@
 	padding-left: 0;
 
 	.contactEntry {
+		--entry-color: var(--text);
+		--entry-margin-top: 5px;
 		align-items: center;
+		color: var(--entry-color);
 		display: flex;
 		padding: 0.5em 0;
 
@@ -140,8 +143,11 @@
 			filter: var(--invert-filter);
 		}
 
+		.desc {
+			margin-top: var(--entry-margin-top);
+		}
+
 		span {
-			color: var(--text);
 			font-size: 1.2em;
 
 			&:not(.brandText) {
@@ -150,22 +156,16 @@
 		}
 
 		svg {
-			color: var(--text);
 			height: 32px;
 			width: 32px;
 		}
 
-		.githubSpan {
-			margin-top: 4px;
+		&.contactTwitter {
+			--entry-color: #1c9bef;
 		}
 
-		.twitterSpan {
-			color: #1c9bef;
-			margin-top: 5px;
-		}
-
-		.privacySpan {
-			margin-top: 5px;
+		&.contactGithub {
+			--entry-margin-top: 4px;
 		}
 
 		.brandText {
@@ -173,10 +173,6 @@
 			font-stretch: ultra-condensed;
 			font-weight: bold;
 			margin-left: 5px;
-		}
-
-		.twitterBrandText {
-			color: #1c9bef;
 		}
 	}
 }
