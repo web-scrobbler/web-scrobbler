@@ -575,11 +575,14 @@ summary {
 	}
 
 	.inputWrapper {
+		--suffix: '';
 		display: inline-block;
 		margin: auto 0.5em;
 		position: relative;
 
 		&::after {
+			color: var(--text);
+			content: var(--suffix);
 			font-size: 1.2em;
 			pointer-events: none;
 			position: absolute;
@@ -588,8 +591,8 @@ summary {
 			transition: all 0.05s ease-in-out;
 		}
 
-		&.percent::after {
-			content: '%';
+		&.percent {
+			--suffix: '%';
 		}
 
 		.rangeNumberInput {
@@ -600,8 +603,10 @@ summary {
 			}
 			-moz-appearance: textfield;
 			appearance: textfield;
+			background-color: var(--background);
 			border: none;
 			border-radius: 0.5em;
+			color: var(--text);
 			font-size: 1.2em;
 			padding: 0.25em 1.5em 0.25em 0.5em;
 			width: 3ch;
