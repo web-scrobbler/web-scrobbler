@@ -4,4 +4,97 @@ export const LastFMIcon = () => (
 	</svg>
 );
 
-export const AlbumOff = () => <span>Custom Icon</span>;
+export const AlbumOff = () => (
+	<svg
+		class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiBox-root css-1om0hkc"
+		aria-hidden="true"
+		viewBox="0 0 24 24"
+		data-testid="AlbumIcon"
+		version="1.1"
+		id="svg134"
+		width="24"
+		height="24"
+		xmlns="http://www.w3.org/2000/svg"
+	>
+		<defs id="defs138">
+			<mask
+				maskUnits="userSpaceOnUse"
+				id="mask-powermask-path-effect3728"
+			>
+				<path
+					id="mask-powermask-path-effect3728_box"
+					style={{ fill: '#ffffff', 'fill-opacity': '1' }}
+					d="M 1,1 H 23 V 23 H 1 Z"
+				/>
+				<g id="g3726">
+					<rect
+						style={{
+							fill: '#000000',
+							'fill-opacity': '1',
+							stroke: 'none',
+							'stroke-width': '0.783298',
+							'stroke-linecap': 'round',
+							'stroke-linejoin': 'round',
+							'stroke-miterlimit': '2',
+							'paint-order': 'stroke fill markers',
+							'stop-color': '#000000',
+						}}
+						id="rect3722"
+						width="27.407948"
+						height="1.5774385"
+						x="-12.412281"
+						y="-0.70559257"
+						ry="0"
+						transform="rotate(41.317859)"
+					/>
+					<rect
+						style={{
+							fill: '#000000',
+							'fill-opacity': '1',
+							stroke: 'none',
+							'stroke-width': '0.783298',
+							'stroke-linecap': 'round',
+							'stroke-linejoin': 'round',
+							'stroke-miterlimit': '2',
+							'paint-order': 'stroke fill markers',
+							'stop-color': '#000000',
+						}}
+						id="rect3724"
+						width="27.407948"
+						height="1.5774385"
+						x="18.354237"
+						y="-0.67120558"
+						ry="0"
+						transform="rotate(41.317859)"
+					/>
+				</g>
+			</mask>
+		</defs>
+		<path
+			d="M 12,2 C 6.48,2 2,6.48 2,12 2,17.52 6.48,22 12,22 17.52,22 22,17.52 22,12 22,6.48 17.52,2 12,2 Z m 0,14.5 C 9.51,16.5 7.5,14.49 7.5,12 7.5,9.51 9.51,7.5 12,7.5 c 2.49,0 4.5,2.01 4.5,4.5 0,2.49 -2.01,4.5 -4.5,4.5 z M 12,11 c -0.55,0 -1,0.45 -1,1 0,0.55 0.45,1 1,1 0.55,0 1,-0.45 1,-1 0,-0.55 -0.45,-1 -1,-1 z"
+			id="path132"
+			style={{ display: 'inline' }}
+			mask="url(#mask-powermask-path-effect3728)"
+		/>
+		<rect
+			style={{
+				fill: '#000000',
+				'fill-opacity': '1',
+				stroke: 'none',
+				'stroke-width': '0.783298',
+				'stroke-linecap': 'round',
+				'stroke-linejoin': 'round',
+				'stroke-miterlimit': '2',
+				'paint-order': 'stroke fill markers',
+				'stop-color': '#000000',
+			}}
+			id="rect413"
+			width="27.407948"
+			height="1.5774385"
+			x="3.194612"
+			y="0.87523758"
+			ry="0"
+			transform="rotate(41.317859)"
+		/>
+	</svg>
+);
