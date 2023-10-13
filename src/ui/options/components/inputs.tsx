@@ -9,6 +9,7 @@ import Close from '@suid/icons-material/CloseOutlined';
 import RestartAlt from '@suid/icons-material/RestartAltOutlined';
 import IndeterminateCheckBox from '@suid/icons-material/IndeterminateCheckBoxOutlined';
 import { ConnectorMeta } from '@/core/connectors';
+import { clamp } from '@/util/util';
 
 /**
  * Checkbox option component
@@ -239,6 +240,105 @@ export function GlobalOptionEntry(props: {
 						const newOptions = {
 							...o,
 							[key]: e.currentTarget.checked,
+						};
+						globalOptions.set(newOptions);
+						return newOptions;
+					});
+				}}
+			/>
+		</li>
+	);
+}
+
+/**
+ * Range style input
+ */
+export function RangeOptionEntry(props: {
+	options: Resource<Options.GlobalOptions | null>;
+	setOptions: ResourceActions<
+		Options.GlobalOptions | null | undefined,
+		unknown
+	>;
+	min: number;
+	max: number;
+	prefixi18n: string;
+	suffixi18n: string;
+	numberType: 'percent';
+	globalOptions: StorageWrapper<typeof BrowserStorage.OPTIONS>;
+	key: keyof Options.GlobalOptions;
+}) {
+	return (
+		<li class={styles.rangeInput}>
+			<div>
+				<span class={styles.rangeInputLabel}>
+					{t(props.prefixi18n)}
+				</span>
+				<div
+					class={`${styles.inputWrapper} ${styles[props.numberType]}`}
+				>
+					<input
+						type="number"
+						min={props.min}
+						max={props.max}
+						value={props.options()?.[props.key] as number}
+						class={styles.rangeNumberInput}
+						onChange={(e) => {
+							const key = props.key;
+							const globalOptions = props.globalOptions;
+							const min = props.min;
+							const max = props.max;
+							props.setOptions.mutate((o) => {
+								if (!o) {
+									return o;
+								}
+								const newOptions = {
+									...o,
+									[key]: clamp(
+										min,
+										parseInt(e.currentTarget.value),
+										max,
+									),
+								};
+								globalOptions.set(newOptions);
+								return newOptions;
+							});
+						}}
+					/>
+				</div>
+				<span class={styles.rangeInputLabel}>
+					{t(props.suffixi18n)}
+				</span>
+			</div>
+			<input
+				type="range"
+				min={props.min}
+				max={props.max}
+				value={props.options()?.[props.key] as number}
+				class={styles.rangeSelection}
+				onInput={(e) => {
+					// dont actually apply it here; we'll get ratelimited REAL fast
+					const key = props.key;
+					props.setOptions.mutate((o) => {
+						if (!o) {
+							return o;
+						}
+						const newOptions = {
+							...o,
+							[key]: e.currentTarget.value,
+						};
+						return newOptions;
+					});
+				}}
+				onChange={(e) => {
+					const key = props.key;
+					const globalOptions = props.globalOptions;
+					props.setOptions.mutate((o) => {
+						if (!o) {
+							return o;
+						}
+						const newOptions = {
+							...o,
+							[key]: e.currentTarget.value,
 						};
 						globalOptions.set(newOptions);
 						return newOptions;
