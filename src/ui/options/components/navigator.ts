@@ -30,7 +30,7 @@ import * as ControllerMode from '@/core/object/controller/controller-mode';
 /**
  * Type indicating possible states for modal
  */
-export type ModalType = 'savedEdits' | 'regexEdits' | '';
+export type ModalType = 'savedEdits' | 'regexEdits' | 'blockedTags' | '';
 
 /**
  * Singular navigator button

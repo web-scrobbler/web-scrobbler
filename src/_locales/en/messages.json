@@ -251,6 +251,18 @@
         "message": "$1 regex/bulk edits",
         "description": "'Regex/Bulk edits' header"
     },
+    "optionsBlockedTags": {
+        "message": "Blocked tags",
+        "description": "'Blocked tags' header"
+    },
+    "optionsBlockedTagsDesc": {
+        "message": "This extension allows you to block certain artists/albums/tracks from scrobbling.",
+        "description": "Description of blocked tags"
+    },
+    "optionsBlockedTagsPopupTitle": {
+        "message": "$1 blocked tags",
+        "description": "'Blocked tags' header"
+    },
     "optionsViewEdited": {
         "message": "View",
         "description": "Button to view edited tracks"

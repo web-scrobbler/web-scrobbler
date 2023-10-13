@@ -18,6 +18,7 @@ import {
 	showSomeLoveItem,
 } from './components/navigator';
 import ContextMenu from '../components/context-menu/context-menu';
+import { BlockedTagsModal } from './components/edit-options/blocked-tags';
 
 /**
  * Media query for detecting whether to use context menu or sidebar
@@ -118,6 +119,9 @@ function Options() {
 						</Match>
 						<Match when={activeModal() === 'regexEdits'}>
 							<RegexEditsModal />
+						</Match>
+						<Match when={activeModal() === 'blockedTags'}>
+							<BlockedTagsModal />
 						</Match>
 					</Switch>
 				</div>
