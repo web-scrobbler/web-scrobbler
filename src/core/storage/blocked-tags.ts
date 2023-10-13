@@ -1,6 +1,6 @@
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import { BaseSong } from '../object/song';
-import { BlockedTagType, BlockedTagsReference } from './wrapper';
+import { BlockedTagType } from './wrapper';
 
 export default class BlockedTags {
 	private storage = BrowserStorage.getStorage(BrowserStorage.BLOCKED_TAGS);
@@ -30,15 +30,18 @@ export default class BlockedTags {
 	}
 
 	/**
-	 * Adds a channel ID to blocklist
+	 * Adds a set of tags to blocklist
 	 *
 	 * @param type - type of tag to block
 	 * @param song - song to add
 	 */
 	public async addToBlocklist(
 		type: BlockedTagType,
-		song: BaseSong,
+		song: BaseSong | undefined,
 	): Promise<void> {
+		if (!song) {
+			return;
+		}
 		await this.isReady;
 		const data = await this.storage.getLocking();
 		const artist = song.getArtist();
@@ -83,27 +86,43 @@ export default class BlockedTags {
 	}
 
 	/**
-	 * Removes a channel ID from blocklist
+	 * Removes a set of tags from blocklist
 	 *
 	 * @param tags - Tags to remove
 	 */
-	async removeFromBlocklist(tags: BlockedTagsReference): Promise<void> {
+	async removeFromBlocklist(
+		type: BlockedTagType,
+		song: BaseSong | undefined,
+	): Promise<void> {
+		if (!song) {
+			return;
+		}
+		const artist = song.getArtist();
+		const track = song.getTrack();
+		if (!artist || !track) {
+			return;
+		}
 		const data = await this.storage.getLocking();
 		if (!data) {
 			this.storage.unlock();
 			return;
 		}
-		switch (tags.type) {
+		switch (type) {
 			case 'artist': {
-				delete data[tags.artist]?.disabled;
+				delete data[artist]?.disabled;
 				break;
 			}
 			case 'album': {
-				delete data[tags.artist]?.albums[tags.album];
+				const albumArtist = song.getAlbumArtist() || artist;
+				const album = song.getAlbum();
+				if (!album) {
+					return;
+				}
+				delete data[albumArtist]?.albums[album];
 				break;
 			}
 			case 'track': {
-				delete data[tags.artist]?.tracks[tags.track];
+				delete data[artist]?.tracks[track];
 				break;
 			}
 		}
@@ -113,31 +132,52 @@ export default class BlockedTags {
 
 	/**
 	 * @param song - song to check
+	 * @returns object of booleans saying whether each tag type is blocked for the song.
+	 */
+	public async getBlockedTypes(song: BaseSong | undefined): Promise<{
+		artist: boolean;
+		album: boolean;
+		track: boolean;
+	}> {
+		const result = {
+			artist: false,
+			album: false,
+			track: false,
+		};
+		if (!song) {
+			return result;
+		}
+
+		await this.isReady;
+		const data = await this.storage.get();
+		const artist = song.getArtist();
+		const track = song.getTrack();
+
+		if (!data || !artist || !data[artist] || !track) {
+			return result;
+		}
+		if (data[artist].disabled) {
+			result.artist = true;
+		}
+		if (data[artist].tracks[track]) {
+			result.track = true;
+		}
+		const albumArtist = song.getAlbumArtist() || artist;
+		const album = song.getAlbum();
+		if (!album || !data[albumArtist]?.albums[album]) {
+			return result;
+		}
+		result.album = true;
+		return result;
+	}
+
+	/**
+	 * @param song - song to check
 	 *
 	 * @returns true if song isn't blocklisted; false if it is
 	 */
 	public async shouldScrobbleSong(song: BaseSong): Promise<boolean> {
-		await this.isReady;
-		const data = await this.storage.get();
-		const artist = song.getArtist();
-		if (!data || !artist || !data[artist]) {
-			return true;
-		}
-		if (data[artist].disabled) {
-			return false;
-		}
-		const track = song.getTrack();
-		if (!track || !data[artist].tracks[track]) {
-			return true;
-		}
-		if (data[artist].tracks[track]) {
-			return false;
-		}
-		const albumArtist = song.getAlbumArtist() || artist;
-		const album = song.getAlbum();
-		if (!album) {
-			return true;
-		}
-		return Boolean(data[albumArtist]?.albums[album]);
+		const res = await this.getBlockedTypes(song);
+		return !(res.artist || res.album || res.track);
 	}
 }

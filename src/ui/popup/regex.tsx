@@ -2,6 +2,12 @@ import ClonedSong from '@/core/object/cloned-song';
 import styles from './popup.module.scss';
 import Check from '@suid/icons-material/CheckOutlined';
 import Close from '@suid/icons-material/CloseOutlined';
+import PersonOff from '@suid/icons-material/PersonOff';
+import Person from '@suid/icons-material/Person';
+import Album from '@suid/icons-material/Album';
+import { AlbumOff } from '@/util/icons';
+import MusicOff from '@suid/icons-material/MusicOff';
+import Music from '@suid/icons-material/MusicNote';
 
 import { t } from '@/util/i18n';
 import {
@@ -26,7 +32,7 @@ import {
 	replaceFields,
 	searchMatches,
 } from '@/util/regex';
-import { ManagerTab } from '@/core/storage/wrapper';
+import { BlockedTagType, ManagerTab } from '@/core/storage/wrapper';
 import regexEdits from '@/core/storage/regex-edits';
 import { sendBackgroundMessage } from '@/util/communication';
 import ContextMenu from '../components/context-menu/context-menu';
@@ -35,6 +41,7 @@ import {
 	getMobileNavigatorGroup,
 } from '../options/components/navigator';
 import { isIos } from '../components/util';
+import BlockedTags from '@/core/storage/blocked-tags';
 
 const [searches, setSearches] = createSignal({
 	track: null,
@@ -54,6 +61,7 @@ const [previews, setPreviews] = createSignal({
 	album: '',
 	albumArtist: '',
 } as EditedFields);
+const blockedTags = new BlockedTags();
 
 /**
  * Regex editing popup
@@ -255,6 +263,10 @@ function Footer(props: {
 	tab: Resource<ManagerTab>;
 	clonedSong: ClonedSong | undefined;
 }) {
+	const song = createMemo(() => props.clonedSong);
+	const [blockedTypes, setBlockedTypes] = createResource(() =>
+		blockedTags.getBlockedTypes(song()),
+	);
 	return (
 		<div class={styles.regexFooter}>
 			<Show when={props.clonedSong?.flags.isCorrectedByUser}>
@@ -271,9 +283,81 @@ function Footer(props: {
 					>
 						<Check />
 					</button>
+					<Show when={blockedTypes()}>
+						{(blockedTypesLoaded) => (
+							<>
+								<BlockTagButton
+									isBlocked={blockedTypesLoaded().artist}
+									type="artist"
+									tabId={props.tab()?.tabId}
+									clonedSong={props.clonedSong}
+									UnblockIcon={() => <Person />}
+									BlockIcon={() => <PersonOff />}
+								/>
+								<Show when={props.clonedSong?.getAlbum()}>
+									<BlockTagButton
+										isBlocked={blockedTypesLoaded().album}
+										type="album"
+										tabId={props.tab()?.tabId}
+										clonedSong={props.clonedSong}
+										UnblockIcon={() => <Album />}
+										BlockIcon={() => <AlbumOff />}
+									/>
+								</Show>
+								<BlockTagButton
+									isBlocked={blockedTypesLoaded().track}
+									type="track"
+									tabId={props.tab()?.tabId}
+									clonedSong={props.clonedSong}
+									UnblockIcon={() => <Music />}
+									BlockIcon={() => <MusicOff />}
+								/>
+							</>
+						)}
+					</Show>
 				</div>
 			</Show>
 		</div>
+	);
+}
+
+function BlockTagButton(props: {
+	isBlocked: boolean;
+	type: BlockedTagType;
+	tabId: number | undefined;
+	clonedSong: ClonedSong | undefined;
+	UnblockIcon: () => JSXElement;
+	BlockIcon: () => JSXElement;
+}) {
+	return (
+		<button
+			class={styles.controlButton}
+			title={t('infoSubmitTitle')}
+			onClick={() => {
+				const tabId = props.tabId;
+				props.isBlocked
+					? blockedTags
+							.removeFromBlocklist(props.type, props.clonedSong)
+							.then(() =>
+								sendBackgroundMessage(tabId ?? -1, {
+									type: 'reprocessSong',
+									payload: undefined,
+								}),
+							)
+					: blockedTags
+							.addToBlocklist(props.type, props.clonedSong)
+							.then(() =>
+								sendBackgroundMessage(tabId ?? -1, {
+									type: 'reprocessSong',
+									payload: undefined,
+								}),
+							);
+			}}
+		>
+			<Show when={props.isBlocked} fallback={<props.BlockIcon />}>
+				<props.UnblockIcon />
+			</Show>
+		</button>
 	);
 }
 
