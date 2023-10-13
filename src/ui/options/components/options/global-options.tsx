@@ -65,14 +65,6 @@ export default function GlobalOptionsList(props: {
 					i18nlabel="optionScrobblePodcasts"
 					key={Options.SCROBBLE_PODCASTS}
 				/>
-				<GlobalOptionEntry
-					options={props.options}
-					setOptions={props.setOptions}
-					globalOptions={globalOptions}
-					i18ntitle="optionDebugLoggingEnabledTitle"
-					i18nlabel="optionDebugLoggingEnabled"
-					key={Options.DEBUG_LOGGING_ENABLED}
-				/>
 			</ul>
 		</>
 	);

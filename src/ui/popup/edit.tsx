@@ -138,15 +138,27 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 							}
 							title={t('infoOpenAlbumArt')}
 						>
-							<img
-								class={styles.coverArt}
-								src={
-									clonedSong()?.getTrackArt() ??
-									browser.runtime.getURL(
-										'img/cover_art_default.png',
-									)
-								}
-							/>
+							<div
+								class={styles.coverArtBackground}
+								style={{
+									'background-image': `url(${
+										clonedSong()?.getTrackArt() ??
+										browser.runtime.getURL(
+											'img/cover_art_default.png',
+										)
+									})`,
+								}}
+							>
+								<img
+									class={styles.coverArt}
+									src={
+										clonedSong()?.getTrackArt() ??
+										browser.runtime.getURL(
+											'img/cover_art_default.png',
+										)
+									}
+								/>
+							</div>
 							<Squircle id="coverArtClip" />
 						</PopupAnchor>
 						<div

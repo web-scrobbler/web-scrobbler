@@ -282,6 +282,7 @@
 
 .muted {
 	color: var(--muted-text);
+	max-width: 50vw;
 }
 
 summary {
@@ -511,5 +512,99 @@ summary {
 		transform: rotate(360deg);
 		transform-origin: 41% 42.5%;
 		transition: transform 600ms ease-in-out;
+	}
+}
+
+.rangeInput {
+	margin-top: 0.25em;
+
+	.rangeInputLabel {
+		font-size: 1.2em;
+	}
+
+	.rangeSelection {
+		-webkit-appearance: none;
+		appearance: none;
+		background: transparent;
+		cursor: pointer;
+		margin: 1rem auto;
+		width: 15rem;
+
+		&::-webkit-slider-runnable-track {
+			background: var(--checkbox-inactive);
+			border-radius: 0.5rem;
+			height: 0.5rem;
+		}
+
+		&::-moz-range-track {
+			background: var(--checkbox-inactive);
+			border-radius: 0.5rem;
+			height: 0.5rem;
+		}
+
+		&::-moz-range-thumb {
+			background-color: var(--always-last-fm);
+			border: none;
+			border-radius: 0.25rem;
+			height: 1.5rem;
+			width: 1rem;
+		}
+
+		&::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			appearance: none;
+			background-color: var(--always-last-fm);
+			border-radius: 0.25rem;
+			height: 1.5rem;
+			margin-top: -0.5rem;
+			width: 1rem;
+		}
+
+		&:hover,
+		&:focus {
+			&::-webkit-slider-thumb {
+				background-color: var(--always-last-fm-hover);
+				outline: none;
+			}
+
+			&::-moz-range-thumb {
+				background-color: var(--always-last-fm-hover);
+				outline: none;
+			}
+		}
+	}
+
+	.inputWrapper {
+		display: inline-block;
+		margin: auto 0.5em;
+		position: relative;
+
+		&::after {
+			font-size: 1.2em;
+			pointer-events: none;
+			position: absolute;
+			right: 0.5em;
+			top: calc(2px + 0.125em);
+			transition: all 0.05s ease-in-out;
+		}
+
+		&.percent::after {
+			content: '%';
+		}
+
+		.rangeNumberInput {
+			&::-webkit-outer-spin-button,
+			&::-webkit-inner-spin-button {
+				-webkit-appearance: none;
+				margin: 0;
+			}
+			-moz-appearance: textfield;
+			appearance: textfield;
+			border: none;
+			border-radius: 0.5em;
+			font-size: 1.2em;
+			padding: 0.25em 1.5em 0.25em 0.5em;
+			width: 3ch;
+		}
 	}
 }
