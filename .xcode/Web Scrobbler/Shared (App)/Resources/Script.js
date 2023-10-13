@@ -22,3 +22,40 @@ function openPreferences() {
 }
 
 document.querySelector("button.open-preferences").addEventListener("click", openPreferences);
+
+let curPage = 0;
+const totalPages = 4;
+
+function getPageWrapper() {
+    return document.querySelector(".page-wrapper");
+}
+
+function getWidth() {
+    const pageWrapper = getPageWrapper();
+    const boundingBox = pageWrapper.getBoundingClientRect();
+    return boundingBox.width;
+}
+
+function prev() {
+    const pageWrapper = getPageWrapper();
+    const width = getWidth();
+    if (curPage > 0) {
+        curPage--;
+    }
+    pageWrapper.scroll({left: width * curPage, top: 0, behavior: "smooth"});
+}
+
+function next() {
+    const pageWrapper = getPageWrapper();
+    const width = getWidth();
+    if (curPage < totalPages - 1) {
+        curPage++;
+    }
+    pageWrapper.scroll({left: width * curPage, top: 0, behavior: "smooth"});
+}
+
+document.getElementById("prev").addEventListener("click", prev);
+document.getElementById("next").addEventListener("click", next);
+window.addEventListener("swiped-left", next);
+window.addEventListener("swiped-right", prev);
+
