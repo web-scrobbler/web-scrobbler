@@ -78,7 +78,10 @@ export default class Controller {
 		if (this.forceScrobble) {
 			return true;
 		}
-		return this.currentSong?.parsed.isScrobblingAllowed;
+		return (
+			this.currentSong?.parsed.isScrobblingAllowed &&
+			this.currentSong.flags.hasBlockedTag
+		);
 	};
 
 	private isEditing = false;

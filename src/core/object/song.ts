@@ -34,6 +34,7 @@ export type Flags =
 			isMarkedAsPlaying: boolean;
 			isSkipped: boolean;
 			isReplaying: boolean;
+			hasBlockedTag: boolean;
 	  }
 	| Record<string, never>;
 
@@ -432,6 +433,11 @@ export default class Song extends BaseSong {
 			 * Flag means song is replaying again.
 			 */
 			isReplaying: false,
+
+			/**
+			 * Flag means song has blocked tag
+			 */
+			hasBlockedTag: false,
 		};
 	}
 
