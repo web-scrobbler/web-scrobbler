@@ -48,10 +48,6 @@ a {
 	}
 }
 
-.centered {
-	margin: 0 auto;
-}
-
 .alreadyPlaying {
 	summary {
 		align-items: center;
@@ -371,10 +367,19 @@ a {
 				z-index: -100;
 			}
 
-			.coverArt {
+			.coverArtBackground {
 				clip-path: url('#coverArtClip');
 				display: inline-block;
+			}
+
+			.coverArt,
+			.coverArtBackground {
+				max-height: min(30vh, 30vw);
 				max-width: min(30vh, 30vw);
+			}
+
+			.coverArt {
+				background-color: rgb(0 0 0 / 50%);
 			}
 		}
 

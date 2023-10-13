@@ -83,6 +83,10 @@
         "message": "Only scrobble tracks if they are edited",
         "description": "Option title"
     },
+    "optionsAdvanced": {
+        "message": "Advanced",
+        "description": "'Advanced' section"
+    },
     "optionsHidden": {
         "message": "Hidden",
         "description": "'Hidden' section"

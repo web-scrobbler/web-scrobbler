@@ -72,7 +72,7 @@ function EditInfo(props: {
 	return (
 		<li class={styles.deleteListing}>
 			<button
-				class={styles.deleteEditButton}
+				class={`${styles.button} ${styles.small} ${styles.marginRight}`}
 				onClick={(event) => {
 					event.stopPropagation();
 					const index = props.index;

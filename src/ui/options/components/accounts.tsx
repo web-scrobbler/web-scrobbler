@@ -158,7 +158,7 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 					</p>
 					<div class={styles.buttonContainer}>
 						<a
-							class={styles.linkButton}
+							class={styles.button}
 							href={profileUrl.error ? '#' : profileUrl()}
 							target="_blank"
 							rel="noopener noreferrer"
@@ -166,7 +166,7 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 							{t('accountsProfile')}
 						</a>
 						<button
-							class={styles.resetButton}
+							class={styles.button}
 							onClick={() =>
 								void (async () => {
 									await rawScrobbler()?.signOut();
@@ -190,7 +190,7 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 					}
 				>
 					<button
-						class={`${styles.resetButton} ${styles.topSpacing}`}
+						class={`${styles.button} ${styles.marginTop}`}
 						onClick={() => setShowLocalProps(true)}
 					>
 						{t('accountsUseLocalInstance')}
@@ -213,7 +213,7 @@ function SignedOut(props: { scrobbler: Scrobbler | null }) {
 		<>
 			<p>{t('accountsNotSignedIn')}</p>
 			<button
-				class={styles.resetButton}
+				class={styles.button}
 				onClick={() =>
 					void (async () => {
 						const url = await props.scrobbler?.getAuthUrl();
@@ -251,7 +251,7 @@ function SaveButton() {
 
 	return (
 		<button
-			class={styles.resetButton}
+			class={styles.button}
 			onClick={() => {
 				if (state() !== SaveState.SAVING) {
 					setState(SaveState.SAVING);
@@ -361,7 +361,7 @@ function ArrayProperties(props: { scrobbler: Scrobbler | null }) {
 							{(item, index) => (
 								<div class={styles.arrayProps}>
 									<button
-										class={styles.deleteEditButton}
+										class={`${styles.button} ${styles.small} ${styles.marginRight}`}
 										onClick={() => {
 											const scrobbler = props.scrobbler;
 											const curIndex = index();
@@ -431,7 +431,7 @@ function ArrayProperties(props: { scrobbler: Scrobbler | null }) {
 						}}
 					</For>
 					<button
-						class={styles.resetButton}
+						class={styles.button}
 						onClick={() => {
 							const scrobbler = props.scrobbler;
 							setProperties.mutate((o) => {
