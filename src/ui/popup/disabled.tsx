@@ -19,7 +19,7 @@ export default function Disabled() {
 				href={browser.runtime.getURL(
 					'src/ui/options/index.html?p=connectors',
 				)}
-				class={`${optionComponentStyles.linkButton} ${styles.centered}`}
+				class={`${optionComponentStyles.button} ${optionComponentStyles.centered}`}
 			>
 				<Settings />
 				{t('disabledSiteButton')}
