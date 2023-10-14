@@ -44,7 +44,7 @@
     "@types/node": "20.8.3",
     "@types/react": "18.2.25",
     "@types/webextension-polyfill": "0.10.4",
-    "@typescript-eslint/eslint-plugin": "6.7.4",
+    "@typescript-eslint/eslint-plugin": "6.7.5",
     "@web-scrobbler/eslint-config": "3.0.0",
     "@web-scrobbler/stylelint-config": "1.0.1",
     "archiver": "6.0.1",
