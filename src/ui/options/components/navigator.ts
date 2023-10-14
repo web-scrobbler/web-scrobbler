@@ -13,6 +13,7 @@ import FAQ from '@/ui/options/components/faq';
 import ContactComponent from '@/ui/options/components/contact';
 import OptionsComponent from '@/ui/options/components/options/options';
 import Accounts from '@/ui/options/components/accounts';
+import Tune from '@suid/icons-material/TuneOutlined';
 import ToggleOn from '@suid/icons-material/ToggleOnOutlined';
 import ToggleOff from '@suid/icons-material/ToggleOffOutlined';
 import Timer from '@suid/icons-material/TimerOutlined';
@@ -28,6 +29,7 @@ import {
 } from '@/core/background/util';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import ScrobbleCache from './scrobble-cache';
+import AdvancedOptionsComponent from './advanced-settings';
 
 /**
  * Type indicating possible states for modal
@@ -101,6 +103,12 @@ export const connectorOverrideOptionsItem: NavigatorNavigationButton = {
 	element: ConnectorOverrideOptions,
 };
 
+export const advancedOptionsItem: NavigatorNavigationButton = {
+	namei18n: 'optionsAdvanced',
+	icon: Tune,
+	element: AdvancedOptionsComponent,
+};
+
 export const optionsGroup: NavigatorButtonGroup = {
 	namei18n: 'optionsOptions',
 	icon: Settings,
@@ -109,6 +117,7 @@ export const optionsGroup: NavigatorButtonGroup = {
 		scrobbleCache,
 		editOptionsItem,
 		connectorOverrideOptionsItem,
+		advancedOptionsItem,
 	],
 };
 

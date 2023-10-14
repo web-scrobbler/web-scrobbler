@@ -349,7 +349,7 @@ function EditCustomPatterns(props: { connector: ConnectorMeta }) {
 							}}
 						/>
 						<button
-							class={styles.patternDeleteButton}
+							class={`${styles.button} ${styles.small} ${styles.noRadius}`}
 							type="button"
 							onClick={() => {
 								const connector = props.connector;
@@ -373,7 +373,7 @@ function EditCustomPatterns(props: { connector: ConnectorMeta }) {
 				)}
 			</For>
 			<button
-				class={styles.patternAddButton}
+				class={`${styles.button} ${styles.shiftLeft}`}
 				type="button"
 				onClick={() => {
 					const connector = props.connector;

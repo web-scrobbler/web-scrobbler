@@ -18,7 +18,9 @@ export default function ContactComponent() {
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					<li class={styles.contactEntry}>
+					<li
+						class={`${styles.contactEntry} ${styles.contactGithub}`}
+					>
 						<img
 							class={styles.invertImg}
 							src={githubIcon as string}
@@ -33,7 +35,7 @@ export default function ContactComponent() {
 							width={78}
 							height={32}
 						/>
-						<span class={styles.githubSpan}>
+						<span class={styles.desc}>
 							{t('contactGitHubDesc')}
 						</span>
 					</li>
@@ -43,19 +45,17 @@ export default function ContactComponent() {
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					<li class={styles.contactEntry}>
+					<li
+						class={`${styles.contactEntry} ${styles.contactTwitter}`}
+					>
 						<img
 							src={twitterBird as string}
 							alt=""
 							width={32}
 							height={32}
 						/>
-						<span
-							class={`${styles.brandText} ${styles.twitterBrandText}`}
-						>
-							Twitter
-						</span>
-						<span class={styles.twitterSpan}>
+						<span class={styles.brandText}>Twitter</span>
+						<span class={styles.desc}>
 							{t('contactTwitterDesc')}
 						</span>
 					</li>
@@ -65,10 +65,12 @@ export default function ContactComponent() {
 					target="_blank"
 					rel="noopener noreferrer"
 				>
-					<li class={styles.contactEntry}>
+					<li
+						class={`${styles.contactEntry} ${styles.contactPrivacy}`}
+					>
 						<Lock />
 						<span class={styles.brandText}>Privacy</span>
-						<span class={styles.privacySpan}>
+						<span class={styles.desc}>
 							{t('contactPrivacyPolicyDesc')}
 						</span>
 					</li>

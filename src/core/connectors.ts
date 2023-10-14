@@ -2227,4 +2227,10 @@ export default <ConnectorMeta[]>[
 		js: 'khinsider.js',
 		id: 'khinsider',
 	},
+	{
+		label: 'WDR',
+		matches: ['*://*.wdr.de/radio/*'],
+		js: 'wdr.js',
+		id: 'wdr',
+	},
 ];

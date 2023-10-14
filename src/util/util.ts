@@ -317,3 +317,14 @@ export async function fetchListenBrainzProfile(url: string) {
 	}
 	return res.text();
 }
+
+/**
+ * Clamp value between a minimum and a maximum
+ *
+ * @param min - minimum value
+ * @param value - value to clamp
+ * @param max - maximum value
+ */
+export function clamp(min: number, value: number, max: number) {
+	return Math.min(max, Math.max(min, value));
+}

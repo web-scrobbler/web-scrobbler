@@ -121,15 +121,27 @@ export default function NowPlaying(props: { tab: Resource<ManagerTab> }) {
 						}
 						title={t('infoOpenAlbumArt')}
 					>
-						<img
-							class={styles.coverArt}
-							src={
-								song()?.getTrackArt() ??
-								browser.runtime.getURL(
-									'img/cover_art_default.png',
-								)
-							}
-						/>
+						<div
+							class={styles.coverArtBackground}
+							style={{
+								'background-image': `url(${
+									song()?.getTrackArt() ??
+									browser.runtime.getURL(
+										'img/cover_art_default.png',
+									)
+								})`,
+							}}
+						>
+							<img
+								class={styles.coverArt}
+								src={
+									song()?.getTrackArt() ??
+									browser.runtime.getURL(
+										'img/cover_art_default.png',
+									)
+								}
+							/>
+						</div>
 						<Squircle id="coverArtClip" />
 					</PopupLink>
 					<SongDetails
