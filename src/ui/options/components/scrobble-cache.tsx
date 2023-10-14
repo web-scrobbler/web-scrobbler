@@ -42,7 +42,7 @@ export default function ScrobbleCache(props: {
 			<h1>{t('optionsScrobbleCache')}</h1>
 			<div class={styles.scrobbleButtonsWrapper}>
 				<button
-					class={styles.resetButton}
+					class={styles.button}
 					onClick={() => {
 						const buttons = document.querySelectorAll(
 							`.${styles.scrobbleCheckbox}`,
@@ -72,7 +72,7 @@ export default function ScrobbleCache(props: {
 						: t('optionsScrobbleCacheSelectAll')}
 				</button>
 				<button
-					class={styles.resetButton}
+					class={styles.button}
 					onClick={() =>
 						setSelectingScrobbles((prev) => {
 							const isSelecting = !prev;
@@ -95,7 +95,7 @@ export default function ScrobbleCache(props: {
 				</button>
 				<Show when={isSelectingScrobbles()}>
 					<button
-						class={styles.resetButton}
+						class={styles.button}
 						disabled={
 							isScrobblingMultiple() ||
 							selectedScrobbles().length === 0
@@ -280,7 +280,7 @@ export function CacheEditModal() {
 			</label>
 			<button
 				disabled={!track() || !artist() || isLoading()}
-				class={styles.resetButton}
+				class={styles.button}
 				onClick={(e) => {
 					saveEdits(
 						e,
