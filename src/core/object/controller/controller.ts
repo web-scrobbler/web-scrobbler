@@ -693,7 +693,7 @@ export default class Controller {
 	 * Process connector state as current one.
 	 * @param newState - Connector state
 	 */
-	private processCurrentState(newState: State): void {
+	private async processCurrentState(newState: State): Promise<void> {
 		if (!assertSongNotNull(this.currentSong)) {
 			return;
 		}
@@ -724,7 +724,7 @@ export default class Controller {
 			this.onPlayingStateChanged(isPlaying);
 		} else if (
 			this.mode === ControllerMode.Disallowed &&
-			this.shouldScrobble() &&
+			(await this.shouldScrobble()) &&
 			isPlaying
 		) {
 			// we need to unset disallowed whenever needed.

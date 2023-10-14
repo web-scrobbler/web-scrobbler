@@ -56,7 +56,7 @@ export function ViewBlocklist(props: {
 }) {
 	return (
 		<button
-			class={styles.editButton}
+			class={`${styles.button} ${styles.shiftLeft}`}
 			onClick={(e) => {
 				e.stopImmediatePropagation();
 				props.setActiveModal(props.type);
@@ -99,7 +99,7 @@ export function ExportBlocklist(props: {
 }) {
 	return (
 		<button
-			class={styles.editButton}
+			class={`${styles.button} ${styles.shiftLeft}`}
 			onClick={() =>
 				void downloadBlocklist(
 					props.blocklistWrapper,
@@ -162,7 +162,10 @@ export function ImportBlocklist(props: {
 }) {
 	const [ref, setRef] = createSignal<HTMLInputElement>();
 	return (
-		<button class={styles.editButton} onClick={() => ref()?.click()}>
+		<button
+			class={`${styles.button} ${styles.shiftLeft}`}
+			onClick={() => ref()?.click()}
+		>
 			<Download />
 			{t('optionsImportEdited')}
 			<input
