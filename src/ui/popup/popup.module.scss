@@ -55,6 +55,10 @@ a {
 		display: flex;
 		gap: 0.5em;
 		width: 100%;
+
+		&::-webkit-details-marker {
+			display: none;
+		}
 	}
 
 	.expandVector {

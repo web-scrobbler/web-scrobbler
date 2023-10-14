@@ -9,6 +9,8 @@ import {
 	createMemo,
 	createResource,
 	createSignal,
+	onCleanup,
+	onMount,
 } from 'solid-js';
 import styles from './components.module.scss';
 import ExpandMore from '@suid/icons-material/ExpandMoreOutlined';
@@ -298,10 +300,13 @@ export function CacheEditModal() {
 	);
 }
 
-function timeSince(time: number) {
+function timeSince(time: number, isShort: boolean) {
 	const seconds = (time - Date.now()) / 1000;
 	let interval = seconds / 31_536_000;
-	const formatter = new Intl.RelativeTimeFormat();
+	const formatter = new Intl.RelativeTimeFormat(
+		Intl.DateTimeFormat().resolvedOptions().locale,
+		{ style: isShort ? 'short' : 'long' },
+	);
 	if (Math.abs(interval) > 1) {
 		return formatter.format(Math.floor(interval), 'year');
 	}
@@ -424,9 +429,24 @@ function ScrobbleDetails(props: {
 	const dateString = createMemo(() =>
 		new Date(song().metadata.startTimestamp * 1000).toLocaleString(),
 	);
-	const relativeString = createMemo(() =>
-		timeSince(song().metadata.startTimestamp * 1000),
+
+	const [useShortMeta, setUseShortMeta] = createSignal(
+		window.innerWidth < 600,
 	);
+	const updateShortMeta = () => {
+		setUseShortMeta(window.innerWidth < 600);
+	};
+	const relativeString = createMemo(() =>
+		timeSince(song().metadata.startTimestamp * 1000, useShortMeta()),
+	);
+
+	onMount(() => {
+		window.addEventListener('resize', updateShortMeta);
+	});
+
+	onCleanup(() => {
+		window.removeEventListener('resize', updateShortMeta);
+	});
 
 	return (
 		<>
@@ -476,7 +496,9 @@ function ScrobbleDetails(props: {
 					modal={props.modal}
 				/>
 			</div>
-			<span title={dateString()}>{relativeString()}</span>
+			<span class={styles.scrobbleDate} title={dateString()}>
+				{relativeString()}
+			</span>
 		</>
 	);
 }

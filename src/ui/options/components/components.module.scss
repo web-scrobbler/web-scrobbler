@@ -252,6 +252,7 @@
 
 .scrobbleButtonsWrapper {
 	display: flex;
+	flex-wrap: wrap;
 	gap: 1rem;
 }
 
@@ -386,6 +387,10 @@
 
 	summary {
 		cursor: pointer;
+
+		&::-webkit-details-marker {
+			display: none;
+		}
 	}
 
 	.expandVector {
@@ -579,12 +584,18 @@
 		display: flex;
 		flex-direction: column;
 		flex-grow: 1;
-		height: 6em;
+		flex-shrink: 1;
 		justify-content: space-between;
+		min-height: 6em;
+		overflow: hidden;
 
 		.scrobbleMetadata {
 			display: flex;
 			flex-direction: column;
+
+			span {
+				white-space: nowrap;
+			}
 
 			.trackName {
 				font-size: 1rem;
@@ -642,6 +653,39 @@
 				background-color: var(--always-last-fm);
 				color: var(--always-light);
 			}
+		}
+	}
+
+	@media only screen and (width <= 500px) {
+		.scrobbleDetails .scrobbleMetadata {
+			.trackName {
+				font-size: 0.8rem;
+			}
+
+			.artistName,
+			.albumName,
+			.albumArtistName {
+				font-size: 0.6rem;
+			}
+		}
+
+		.scrobbleDate {
+			font-size: 0.8rem;
+		}
+	}
+
+	@media only screen and (width <= 400px) {
+		border-radius: 0;
+		box-sizing: border-box;
+		margin-left: -1rem;
+		width: 100vw;
+	}
+
+	@media only screen and (width <= 300px) {
+		padding-right: 0.5rem;
+
+		.scrobbleDate {
+			font-size: 0.7rem;
 		}
 	}
 }
