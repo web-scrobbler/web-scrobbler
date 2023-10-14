@@ -15,7 +15,7 @@ export default function ShowSomeLove() {
 			<p>{t('showSomeLoveText1')}</p>
 			<p>{t('showSomeLoveText2')}</p>
 			<a
-				class={styles.linkButton}
+				class={`${styles.button} ${styles.openCollective}`}
 				href="https://opencollective.com/web-scrobbler/donate"
 				target="_blank"
 				rel="noopener noreferrer"

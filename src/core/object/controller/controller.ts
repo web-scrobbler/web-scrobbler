@@ -722,6 +722,14 @@ export default class Controller {
 
 		if (isPlayingStateChanged && isPlaying !== void 0) {
 			this.onPlayingStateChanged(isPlaying);
+		} else if (
+			this.mode === ControllerMode.Disallowed &&
+			this.shouldScrobble() &&
+			isPlaying
+		) {
+			// we need to unset disallowed whenever needed.
+			// this is not necessarily tied to pausing/unpausing
+			this.setSongNowPlaying();
 		}
 	}
 

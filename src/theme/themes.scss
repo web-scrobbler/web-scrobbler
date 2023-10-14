@@ -13,7 +13,7 @@ $themes: (
 		text: #222,
 		last-fm: #d82323,
 		confirm: #00b300,
-		site-image: url('../img/site-light.jpg'),
+		site-image: url('../img/main/site-light.jpg'),
 		invert-filter: invert(0%),
 	),
 	dark: (
@@ -30,7 +30,7 @@ $themes: (
 		text: #eee,
 		last-fm: #fc3434,
 		confirm: #00b300,
-		site-image: url('../img/site-dark.jpg'),
+		site-image: url('../img/main/site-dark.jpg'),
 		invert-filter: invert(100%),
 	),
 );

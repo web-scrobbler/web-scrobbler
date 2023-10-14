@@ -83,6 +83,10 @@
         "message": "Only scrobble tracks if they are edited",
         "description": "Option title"
     },
+    "optionsAdvanced": {
+        "message": "Advanced",
+        "description": "'Advanced' section"
+    },
     "optionsHidden": {
         "message": "Hidden",
         "description": "'Hidden' section"
@@ -177,6 +181,10 @@
     },
     "accountsSignIn": {
         "message": "Sign in",
+        "description": "Button label"
+    },
+    "accountsUseLocalInstance": {
+        "message": "Use local instance",
         "description": "Button label"
     },
     "accountsScrobblerProps": {

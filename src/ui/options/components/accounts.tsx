@@ -106,6 +106,7 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 			return scrobbler.getProfileUrl();
 		}
 	});
+	const [showLocalProps, setShowLocalProps] = createSignal(false);
 
 	const onFocus = async () => {
 		try {
@@ -131,7 +132,13 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 	return (
 		<>
 			<h2>{rawScrobbler()?.getLabel()}</h2>
-			<Switch fallback={<SignedOut scrobbler={rawScrobbler()} />}>
+			<Switch
+				fallback={
+					<Show when={!showLocalProps()}>
+						<SignedOut scrobbler={rawScrobbler()} />
+					</Show>
+				}
+			>
 				<Match when={rawScrobbler()?.isLocalOnly}>
 					<Show when={!session.error && session()}>
 						<p>
@@ -151,7 +158,7 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 					</p>
 					<div class={styles.buttonContainer}>
 						<a
-							class={styles.linkButton}
+							class={styles.button}
 							href={profileUrl.error ? '#' : profileUrl()}
 							target="_blank"
 							rel="noopener noreferrer"
@@ -159,7 +166,7 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 							{t('accountsProfile')}
 						</a>
 						<button
-							class={styles.resetButton}
+							class={styles.button}
 							onClick={() =>
 								void (async () => {
 									await rawScrobbler()?.signOut();
@@ -173,8 +180,27 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 					</div>
 				</Match>
 			</Switch>
-			<Properties scrobbler={rawScrobbler()} />
-			<ArrayProperties scrobbler={rawScrobbler()} />
+			<Switch>
+				<Match
+					when={
+						!showLocalProps() &&
+						!rawScrobbler()?.isLocalOnly &&
+						(labelHasProperties(rawScrobbler()?.getLabel()) ||
+							labelHasArrayProperties(rawScrobbler()?.getLabel()))
+					}
+				>
+					<button
+						class={`${styles.button} ${styles.marginTop}`}
+						onClick={() => setShowLocalProps(true)}
+					>
+						{t('accountsUseLocalInstance')}
+					</button>
+				</Match>
+				<Match when={showLocalProps() || rawScrobbler()?.isLocalOnly}>
+					<Properties scrobbler={rawScrobbler()} />
+					<ArrayProperties scrobbler={rawScrobbler()} />
+				</Match>
+			</Switch>
 		</>
 	);
 }
@@ -187,7 +213,7 @@ function SignedOut(props: { scrobbler: Scrobbler | null }) {
 		<>
 			<p>{t('accountsNotSignedIn')}</p>
 			<button
-				class={styles.resetButton}
+				class={styles.button}
 				onClick={() =>
 					void (async () => {
 						const url = await props.scrobbler?.getAuthUrl();
@@ -225,7 +251,7 @@ function SaveButton() {
 
 	return (
 		<button
-			class={styles.resetButton}
+			class={styles.button}
 			onClick={() => {
 				if (state() !== SaveState.SAVING) {
 					setState(SaveState.SAVING);
@@ -335,7 +361,7 @@ function ArrayProperties(props: { scrobbler: Scrobbler | null }) {
 							{(item, index) => (
 								<div class={styles.arrayProps}>
 									<button
-										class={styles.deleteEditButton}
+										class={`${styles.button} ${styles.small} ${styles.marginRight}`}
 										onClick={() => {
 											const scrobbler = props.scrobbler;
 											const curIndex = index();
@@ -405,7 +431,7 @@ function ArrayProperties(props: { scrobbler: Scrobbler | null }) {
 						}}
 					</For>
 					<button
-						class={styles.resetButton}
+						class={styles.button}
 						onClick={() => {
 							const scrobbler = props.scrobbler;
 							setProperties.mutate((o) => {

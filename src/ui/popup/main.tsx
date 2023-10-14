@@ -112,7 +112,11 @@ function Popup() {
 			</Show>
 			<Dynamic
 				component={
-					popupContent[tab()?.mode ?? ControllerMode.Unsupported]
+					popupContent[
+						tab.loading
+							? ControllerMode.Loading
+							: tab()?.mode ?? ControllerMode.Unsupported
+					]
 				}
 			/>
 			<Show

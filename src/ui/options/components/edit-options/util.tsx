@@ -33,7 +33,7 @@ export function ViewEdits(props: {
 }) {
 	return (
 		<button
-			class={styles.editButton}
+			class={`${styles.button} ${styles.shiftLeft}`}
 			onClick={(e) => {
 				e.stopImmediatePropagation();
 				props.setActiveModal(props.type);
@@ -78,7 +78,7 @@ export function ExportEdits(props: {
 }) {
 	return (
 		<button
-			class={styles.editButton}
+			class={`${styles.button} ${styles.shiftLeft}`}
 			onClick={() =>
 				void downloadEdits(props.editWrapper, props.filename)
 			}
@@ -192,7 +192,10 @@ export function ImportEdits(props: {
 }) {
 	const [ref, setRef] = createSignal<HTMLInputElement>();
 	return (
-		<button class={styles.editButton} onClick={() => ref()?.click()}>
+		<button
+			class={`${styles.button} ${styles.shiftLeft}`}
+			onClick={() => ref()?.click()}
+		>
 			<Download />
 			{t('optionsImportEdited')}
 			<input

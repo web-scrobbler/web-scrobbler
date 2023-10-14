@@ -47,6 +47,16 @@
 		CE6FB7B42A175BB2007056D5 /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7A22A175BB2007056D5 /* _locales */; };
 		CE6FB7B52A175BB2007056D5 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7A32A175BB2007056D5 /* assets */; };
 		CE6FB7B62A175BB2007056D5 /* src in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7A42A175BB2007056D5 /* src */; };
+		CEB1C7812AD5C66500E20CCB /* compiledsettings.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C7802AD5C66500E20CCB /* compiledsettings.jpg */; };
+		CEB1C7822AD5C66500E20CCB /* compiledsettings.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C7802AD5C66500E20CCB /* compiledsettings.jpg */; };
+		CEB1C7872AD5CFAB00E20CCB /* settinglist.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C7862AD5CFAB00E20CCB /* settinglist.jpg */; };
+		CEB1C7882AD5CFAB00E20CCB /* settinglist.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C7862AD5CFAB00E20CCB /* settinglist.jpg */; };
+		CEB1C78A2AD601BA00E20CCB /* accounttab.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C7892AD601BA00E20CCB /* accounttab.jpg */; };
+		CEB1C78B2AD601BA00E20CCB /* accounttab.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C7892AD601BA00E20CCB /* accounttab.jpg */; };
+		CEB1C78D2AD601C300E20CCB /* safaricontextmenu.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C78C2AD601C300E20CCB /* safaricontextmenu.jpg */; };
+		CEB1C78E2AD601C300E20CCB /* safaricontextmenu.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C78C2AD601C300E20CCB /* safaricontextmenu.jpg */; };
+		CEB1C7902AD612DA00E20CCB /* SwipedEvents.js in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C78F2AD612DA00E20CCB /* SwipedEvents.js */; };
+		CEB1C7912AD612DA00E20CCB /* SwipedEvents.js in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C78F2AD612DA00E20CCB /* SwipedEvents.js */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -124,6 +134,11 @@
 		CE6FB7A22A175BB2007056D5 /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; name = _locales; path = ../../../build/safariraw/_locales; sourceTree = "<group>"; };
 		CE6FB7A32A175BB2007056D5 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../../build/safariraw/assets; sourceTree = "<group>"; };
 		CE6FB7A42A175BB2007056D5 /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = ../../../build/safariraw/src; sourceTree = "<group>"; };
+		CEB1C7802AD5C66500E20CCB /* compiledsettings.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = compiledsettings.jpg; sourceTree = "<group>"; };
+		CEB1C7862AD5CFAB00E20CCB /* settinglist.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = settinglist.jpg; sourceTree = "<group>"; };
+		CEB1C7892AD601BA00E20CCB /* accounttab.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = accounttab.jpg; sourceTree = "<group>"; };
+		CEB1C78C2AD601C300E20CCB /* safaricontextmenu.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = safaricontextmenu.jpg; sourceTree = "<group>"; };
+		CEB1C78F2AD612DA00E20CCB /* SwipedEvents.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SwipedEvents.js; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -185,9 +200,14 @@
 			isa = PBXGroup;
 			children = (
 				CE6FB7402A175BB1007056D5 /* Main.html */,
+				CEB1C7892AD601BA00E20CCB /* accounttab.jpg */,
+				CEB1C7802AD5C66500E20CCB /* compiledsettings.jpg */,
+				CEB1C78C2AD601C300E20CCB /* safaricontextmenu.jpg */,
+				CEB1C7862AD5CFAB00E20CCB /* settinglist.jpg */,
 				CE6FB7422A175BB1007056D5 /* Icon.png */,
 				CE6FB7432A175BB1007056D5 /* Style.css */,
 				CE6FB7442A175BB1007056D5 /* Script.js */,
+				CEB1C78F2AD612DA00E20CCB /* SwipedEvents.js */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -395,11 +415,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				CE6FB77F2A175BB2007056D5 /* Icon.png in Resources */,
+				CEB1C7812AD5C66500E20CCB /* compiledsettings.jpg in Resources */,
 				CE6FB7562A175BB2007056D5 /* LaunchScreen.storyboard in Resources */,
+				CEB1C7902AD612DA00E20CCB /* SwipedEvents.js in Resources */,
 				CE6FB77D2A175BB2007056D5 /* Main.html in Resources */,
 				CE6FB7832A175BB2007056D5 /* Script.js in Resources */,
 				CE6FB7872A175BB2007056D5 /* Assets.xcassets in Resources */,
 				CE6FB7592A175BB2007056D5 /* Main.storyboard in Resources */,
+				CEB1C78D2AD601C300E20CCB /* safaricontextmenu.jpg in Resources */,
+				CEB1C78A2AD601BA00E20CCB /* accounttab.jpg in Resources */,
+				CEB1C7872AD5CFAB00E20CCB /* settinglist.jpg in Resources */,
 				CE6FB7812A175BB2007056D5 /* Style.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -408,12 +433,17 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEB1C78B2AD601BA00E20CCB /* accounttab.jpg in Resources */,
 				CE6FB7802A175BB2007056D5 /* Icon.png in Resources */,
 				CE6FB7822A175BB2007056D5 /* Style.css in Resources */,
 				CE6FB7652A175BB2007056D5 /* Main.storyboard in Resources */,
+				CEB1C7822AD5C66500E20CCB /* compiledsettings.jpg in Resources */,
 				CE6FB7842A175BB2007056D5 /* Script.js in Resources */,
+				CEB1C7882AD5CFAB00E20CCB /* settinglist.jpg in Resources */,
 				CE6FB7882A175BB2007056D5 /* Assets.xcassets in Resources */,
+				CEB1C78E2AD601C300E20CCB /* safaricontextmenu.jpg in Resources */,
 				CE6FB77E2A175BB2007056D5 /* Main.html in Resources */,
+				CEB1C7912AD612DA00E20CCB /* SwipedEvents.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -663,7 +693,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.10;
+				MARKETING_VERSION = 3.3.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -694,7 +724,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 3.0.10;
+				MARKETING_VERSION = 3.3.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -733,7 +763,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.10;
+				MARKETING_VERSION = 3.3.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -772,7 +802,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.10;
+				MARKETING_VERSION = 3.3.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -807,7 +837,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.0.10;
+				MARKETING_VERSION = 3.3.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -839,7 +869,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.0.10;
+				MARKETING_VERSION = 3.3.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -875,7 +905,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.0.10;
+				MARKETING_VERSION = 3.3.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
@@ -912,7 +942,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MARKETING_VERSION = 3.0.10;
+				MARKETING_VERSION = 3.3.0;
 				OTHER_LDFLAGS = (
 					"-framework",
 					SafariServices,
