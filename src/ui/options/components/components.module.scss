@@ -75,17 +75,22 @@
 }
 
 .button {
+	$icon-color: var(--always-light);
 	align-items: center;
 	background-color: var(--always-last-fm);
 	border: none;
 	border-radius: 3px;
-	color: var(--always-light);
+	color: $icon-color;
 	cursor: pointer;
 	display: flex;
 	font-size: 1.2em;
 	padding: 0.5em 1em;
 	white-space: nowrap;
 	width: min-content;
+
+	.applyFill {
+		fill: $icon-color;
+	}
 
 	svg {
 		margin-right: 0.2em;

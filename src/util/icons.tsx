@@ -1,4 +1,5 @@
 import styles from '../ui/popup/popup.module.scss';
+import componentStyles from '../ui/options/components/components.module.scss';
 
 export const LastFMIcon = () => (
 	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -29,7 +30,7 @@ export const AlbumOff = () => (
 				/>
 				<g id="g3726">
 					<rect
-						class={styles.applyFill}
+						class={`${styles.applyFill} ${componentStyles.applyFill}`}
 						style={{
 							'fill-opacity': '1',
 							stroke: 'none',
@@ -43,7 +44,7 @@ export const AlbumOff = () => (
 						transform="rotate(41.317859)"
 					/>
 					<rect
-						class={styles.applyFill}
+						class={`${styles.applyFill} ${componentStyles.applyFill}`}
 						style={{
 							'fill-opacity': '1',
 							stroke: 'none',
@@ -62,12 +63,12 @@ export const AlbumOff = () => (
 		<path
 			d="M 12,2 C 6.48,2 2,6.48 2,12 2,17.52 6.48,22 12,22 17.52,22 22,17.52 22,12 22,6.48 17.52,2 12,2 Z m 0,14.5 C 9.51,16.5 7.5,14.49 7.5,12 7.5,9.51 9.51,7.5 12,7.5 c 2.49,0 4.5,2.01 4.5,4.5 0,2.49 -2.01,4.5 -4.5,4.5 z M 12,11 c -0.55,0 -1,0.45 -1,1 0,0.55 0.45,1 1,1 0.55,0 1,-0.45 1,-1 0,-0.55 -0.45,-1 -1,-1 z"
 			id="path132"
-			class={styles.applyFill}
+			class={`${styles.applyFill} ${componentStyles.applyFill}`}
 			style={{ display: 'inline' }}
 			mask="url(#mask-powermask-path-effect3728)"
 		/>
 		<rect
-			class={styles.applyFill}
+			class={`${styles.applyFill} ${componentStyles.applyFill}`}
 			style={{
 				'fill-opacity': '1',
 				stroke: 'none',
