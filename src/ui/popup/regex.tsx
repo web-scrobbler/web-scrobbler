@@ -332,7 +332,11 @@ function BlockTagButton(props: {
 	return (
 		<button
 			class={styles.controlButton}
-			title={t('infoSubmitTitle')}
+			title={t(
+				props.isBlocked
+					? `infoUnblock${pascalCaseField(props.type)}`
+					: `infoBlock${pascalCaseField(props.type)}`,
+			)}
 			onClick={() => {
 				const tabId = props.tabId;
 				props.isBlocked
