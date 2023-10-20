@@ -6,7 +6,7 @@ function setupConnector() {
 	if (isLiveRadio()) {
 		setupPropertiesForLiveRadio();
 	} else {
-		setupPropertierForOfflineRecord();
+		setupPropertiesForOfflineRecord();
 	}
 }
 
@@ -24,7 +24,7 @@ function setupPropertiesForLiveRadio() {
 }
 
 // Example: any of music mixes from https://www.bbc.co.uk/sounds
-function setupPropertierForOfflineRecord() {
+function setupPropertiesForOfflineRecord() {
 	const trackItemSelector = '.sc-c-basic-tile';
 	const equalizerIconSelector = '.sc-c-equalizer';
 
