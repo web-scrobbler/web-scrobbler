@@ -1,7 +1,5 @@
 export {};
 
-const trackItemSelector = '.sc-c-basic-tile';
-
 setupConnector();
 
 function setupConnector() {
@@ -13,12 +11,12 @@ function setupConnector() {
 }
 
 function isLiveRadio() {
-	return document.querySelector(trackItemSelector) === null;
+	return document.querySelector('.sc-c-episode__metadata') === null;
 }
 
 // Example: any of live radios from https://www.bbc.co.uk/sounds
 function setupPropertiesForLiveRadio() {
-	Connector.playerSelector = '.radio-main';
+	Connector.playerSelector = '.sc-c-tracks';
 
 	Connector.artistSelector = '.sc-c-track__artist';
 
@@ -27,12 +25,13 @@ function setupPropertiesForLiveRadio() {
 
 // Example: any of music mixes from https://www.bbc.co.uk/sounds
 function setupPropertierForOfflineRecord() {
+	const trackItemSelector = '.sc-c-basic-tile';
 	const equalizerIconSelector = '.sc-c-equalizer';
 
 	const artistSelector = '.sc-c-basic-tile__artist';
 	const trackSelector = '.sc-c-basic-tile__title';
 
-	Connector.playerSelector = '.sc-o-scrollable';
+	Connector.playerSelector = '.sc-c-scrollable-list';
 
 	Connector.getArtistTrack = () => {
 		const artistTrackElement = document.querySelector(
