@@ -36,6 +36,7 @@ export interface ScrobblerSongInfo {
 	trackArtUrl?: string;
 
 	album?: string;
+	albumArtist?: string;
 	albumUrl?: string;
 	albumMbId?: string;
 
