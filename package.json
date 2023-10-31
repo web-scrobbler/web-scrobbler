@@ -31,6 +31,7 @@
     "@suid/icons-material": "0.6.11",
     "@web-scrobbler/metadata-filter": "3.0.2",
     "blueimp-md5": "2.19.0",
+    "canvas": "^2.11.2",
     "stylelint": "15.10.3",
     "vite": "4.4.11",
     "webextension-polyfill": "0.10.0"
@@ -48,7 +49,6 @@
     "@web-scrobbler/eslint-config": "3.0.0",
     "@web-scrobbler/stylelint-config": "1.0.1",
     "archiver": "6.0.1",
-    "canvas": "2.11.2",
     "chokidar": "3.5.3",
     "esbuild": "0.19.4",
     "eslint": "8.51.0",
