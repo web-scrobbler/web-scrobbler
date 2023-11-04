@@ -38,7 +38,7 @@
   "devDependencies": {
     "@types/archiver": "5.3.3",
     "@types/blueimp-md5": "2.18.0",
-    "@types/fs-extra": "11.0.2",
+    "@types/fs-extra": "11.0.3",
     "@types/imagemin": "8.0.2",
     "@types/imagemin-jpegtran": "5.0.2",
     "@types/node": "20.8.3",
