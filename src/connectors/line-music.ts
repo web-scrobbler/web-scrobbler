@@ -2,9 +2,9 @@ export {};
 
 Connector.playerSelector = '.player_controller';
 
-Connector.artistSelector = '.info_area .artist .link_artist';
+Connector.artistSelector = '.info_area .artist';
 
-Connector.trackSelector = '.info_area .song .link';
+Connector.trackSelector = '.info_area .song';
 
 Connector.currentTimeSelector = '.playtime .now';
 
