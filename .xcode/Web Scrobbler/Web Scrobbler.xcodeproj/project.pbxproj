@@ -1,0 +1,1011 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		CE6FB7512A175BB2007056D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6FB7502A175BB2007056D5 /* AppDelegate.swift */; };
+		CE6FB7532A175BB2007056D5 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6FB7522A175BB2007056D5 /* SceneDelegate.swift */; };
+		CE6FB7562A175BB2007056D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7542A175BB2007056D5 /* LaunchScreen.storyboard */; };
+		CE6FB7592A175BB2007056D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7572A175BB2007056D5 /* Main.storyboard */; };
+		CE6FB7622A175BB2007056D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6FB7612A175BB2007056D5 /* AppDelegate.swift */; };
+		CE6FB7652A175BB2007056D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7632A175BB2007056D5 /* Main.storyboard */; };
+		CE6FB76D2A175BB2007056D5 /* Web Scrobbler Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CE6FB76C2A175BB2007056D5 /* Web Scrobbler Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CE6FB7772A175BB2007056D5 /* Web Scrobbler Extension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = CE6FB7762A175BB2007056D5 /* Web Scrobbler Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		CE6FB77D2A175BB2007056D5 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7402A175BB1007056D5 /* Main.html */; };
+		CE6FB77E2A175BB2007056D5 /* Main.html in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7402A175BB1007056D5 /* Main.html */; };
+		CE6FB77F2A175BB2007056D5 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7422A175BB1007056D5 /* Icon.png */; };
+		CE6FB7802A175BB2007056D5 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7422A175BB1007056D5 /* Icon.png */; };
+		CE6FB7812A175BB2007056D5 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7432A175BB1007056D5 /* Style.css */; };
+		CE6FB7822A175BB2007056D5 /* Style.css in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7432A175BB1007056D5 /* Style.css */; };
+		CE6FB7832A175BB2007056D5 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7442A175BB1007056D5 /* Script.js */; };
+		CE6FB7842A175BB2007056D5 /* Script.js in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7442A175BB1007056D5 /* Script.js */; };
+		CE6FB7852A175BB2007056D5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6FB7452A175BB1007056D5 /* ViewController.swift */; };
+		CE6FB7862A175BB2007056D5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6FB7452A175BB1007056D5 /* ViewController.swift */; };
+		CE6FB7872A175BB2007056D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7462A175BB2007056D5 /* Assets.xcassets */; };
+		CE6FB7882A175BB2007056D5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7462A175BB2007056D5 /* Assets.xcassets */; };
+		CE6FB7892A175BB2007056D5 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6FB7482A175BB2007056D5 /* SafariWebExtensionHandler.swift */; };
+		CE6FB78A2A175BB2007056D5 /* SafariWebExtensionHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6FB7482A175BB2007056D5 /* SafariWebExtensionHandler.swift */; };
+		CE6FB7A52A175BB2007056D5 /* background in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB79C2A175BB2007056D5 /* background */; };
+		CE6FB7A62A175BB2007056D5 /* connectors in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB79D2A175BB2007056D5 /* connectors */; };
+		CE6FB7A72A175BB2007056D5 /* content in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB79E2A175BB2007056D5 /* content */; };
+		CE6FB7A82A175BB2007056D5 /* img in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB79F2A175BB2007056D5 /* img */; };
+		CE6FB7A92A175BB2007056D5 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7A02A175BB2007056D5 /* icons */; };
+		CE6FB7AA2A175BB2007056D5 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7A12A175BB2007056D5 /* manifest.json */; };
+		CE6FB7AB2A175BB2007056D5 /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7A22A175BB2007056D5 /* _locales */; };
+		CE6FB7AC2A175BB2007056D5 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7A32A175BB2007056D5 /* assets */; };
+		CE6FB7AD2A175BB2007056D5 /* src in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7A42A175BB2007056D5 /* src */; };
+		CE6FB7AE2A175BB2007056D5 /* background in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB79C2A175BB2007056D5 /* background */; };
+		CE6FB7AF2A175BB2007056D5 /* connectors in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB79D2A175BB2007056D5 /* connectors */; };
+		CE6FB7B02A175BB2007056D5 /* content in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB79E2A175BB2007056D5 /* content */; };
+		CE6FB7B12A175BB2007056D5 /* img in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB79F2A175BB2007056D5 /* img */; };
+		CE6FB7B22A175BB2007056D5 /* icons in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7A02A175BB2007056D5 /* icons */; };
+		CE6FB7B32A175BB2007056D5 /* manifest.json in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7A12A175BB2007056D5 /* manifest.json */; };
+		CE6FB7B42A175BB2007056D5 /* _locales in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7A22A175BB2007056D5 /* _locales */; };
+		CE6FB7B52A175BB2007056D5 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7A32A175BB2007056D5 /* assets */; };
+		CE6FB7B62A175BB2007056D5 /* src in Resources */ = {isa = PBXBuildFile; fileRef = CE6FB7A42A175BB2007056D5 /* src */; };
+		CEB1C7812AD5C66500E20CCB /* compiledsettings.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C7802AD5C66500E20CCB /* compiledsettings.jpg */; };
+		CEB1C7822AD5C66500E20CCB /* compiledsettings.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C7802AD5C66500E20CCB /* compiledsettings.jpg */; };
+		CEB1C7872AD5CFAB00E20CCB /* settinglist.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C7862AD5CFAB00E20CCB /* settinglist.jpg */; };
+		CEB1C7882AD5CFAB00E20CCB /* settinglist.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C7862AD5CFAB00E20CCB /* settinglist.jpg */; };
+		CEB1C78A2AD601BA00E20CCB /* accounttab.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C7892AD601BA00E20CCB /* accounttab.jpg */; };
+		CEB1C78B2AD601BA00E20CCB /* accounttab.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C7892AD601BA00E20CCB /* accounttab.jpg */; };
+		CEB1C78D2AD601C300E20CCB /* safaricontextmenu.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C78C2AD601C300E20CCB /* safaricontextmenu.jpg */; };
+		CEB1C78E2AD601C300E20CCB /* safaricontextmenu.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C78C2AD601C300E20CCB /* safaricontextmenu.jpg */; };
+		CEB1C7902AD612DA00E20CCB /* SwipedEvents.js in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C78F2AD612DA00E20CCB /* SwipedEvents.js */; };
+		CEB1C7912AD612DA00E20CCB /* SwipedEvents.js in Resources */ = {isa = PBXBuildFile; fileRef = CEB1C78F2AD612DA00E20CCB /* SwipedEvents.js */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		CE6FB76E2A175BB2007056D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE6FB73A2A175BB1007056D5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE6FB76B2A175BB2007056D5;
+			remoteInfo = "Web Scrobbler Extension (iOS)";
+		};
+		CE6FB7782A175BB2007056D5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CE6FB73A2A175BB1007056D5 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CE6FB7752A175BB2007056D5;
+			remoteInfo = "Web Scrobbler Extension (macOS)";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		CE6FB7902A175BB2007056D5 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CE6FB76D2A175BB2007056D5 /* Web Scrobbler Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE6FB7972A175BB2007056D5 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				CE6FB7772A175BB2007056D5 /* Web Scrobbler Extension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		CE6FB7412A175BB1007056D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = Base; path = ../Base.lproj/Main.html; sourceTree = "<group>"; };
+		CE6FB7422A175BB1007056D5 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		CE6FB7432A175BB1007056D5 /* Style.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; path = Style.css; sourceTree = "<group>"; };
+		CE6FB7442A175BB1007056D5 /* Script.js */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.javascript; path = Script.js; sourceTree = "<group>"; };
+		CE6FB7452A175BB1007056D5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CE6FB7462A175BB2007056D5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CE6FB7482A175BB2007056D5 /* SafariWebExtensionHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariWebExtensionHandler.swift; sourceTree = "<group>"; };
+		CE6FB74D2A175BB2007056D5 /* Web Scrobbler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Web Scrobbler.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE6FB7502A175BB2007056D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CE6FB7522A175BB2007056D5 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		CE6FB7552A175BB2007056D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CE6FB7582A175BB2007056D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CE6FB75A2A175BB2007056D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE6FB75F2A175BB2007056D5 /* Web Scrobbler.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Web Scrobbler.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE6FB7612A175BB2007056D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CE6FB7642A175BB2007056D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		CE6FB7662A175BB2007056D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE6FB7672A175BB2007056D5 /* Web Scrobbler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Web Scrobbler.entitlements"; sourceTree = "<group>"; };
+		CE6FB76C2A175BB2007056D5 /* Web Scrobbler Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Web Scrobbler Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE6FB7712A175BB2007056D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE6FB7762A175BB2007056D5 /* Web Scrobbler Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "Web Scrobbler Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE6FB77B2A175BB2007056D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE6FB77C2A175BB2007056D5 /* Web Scrobbler.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "Web Scrobbler.entitlements"; sourceTree = "<group>"; };
+		CE6FB79C2A175BB2007056D5 /* background */ = {isa = PBXFileReference; lastKnownFileType = folder; name = background; path = ../../../build/safariraw/background; sourceTree = "<group>"; };
+		CE6FB79D2A175BB2007056D5 /* connectors */ = {isa = PBXFileReference; lastKnownFileType = folder; name = connectors; path = ../../../build/safariraw/connectors; sourceTree = "<group>"; };
+		CE6FB79E2A175BB2007056D5 /* content */ = {isa = PBXFileReference; lastKnownFileType = folder; name = content; path = ../../../build/safariraw/content; sourceTree = "<group>"; };
+		CE6FB79F2A175BB2007056D5 /* img */ = {isa = PBXFileReference; lastKnownFileType = folder; name = img; path = ../../../build/safariraw/img; sourceTree = "<group>"; };
+		CE6FB7A02A175BB2007056D5 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../../../build/safariraw/icons; sourceTree = "<group>"; };
+		CE6FB7A12A175BB2007056D5 /* manifest.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = manifest.json; path = ../../../build/safariraw/manifest.json; sourceTree = "<group>"; };
+		CE6FB7A22A175BB2007056D5 /* _locales */ = {isa = PBXFileReference; lastKnownFileType = folder; name = _locales; path = ../../../build/safariraw/_locales; sourceTree = "<group>"; };
+		CE6FB7A32A175BB2007056D5 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = ../../../build/safariraw/assets; sourceTree = "<group>"; };
+		CE6FB7A42A175BB2007056D5 /* src */ = {isa = PBXFileReference; lastKnownFileType = folder; name = src; path = ../../../build/safariraw/src; sourceTree = "<group>"; };
+		CEB1C7802AD5C66500E20CCB /* compiledsettings.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = compiledsettings.jpg; sourceTree = "<group>"; };
+		CEB1C7862AD5CFAB00E20CCB /* settinglist.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = settinglist.jpg; sourceTree = "<group>"; };
+		CEB1C7892AD601BA00E20CCB /* accounttab.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = accounttab.jpg; sourceTree = "<group>"; };
+		CEB1C78C2AD601C300E20CCB /* safaricontextmenu.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = safaricontextmenu.jpg; sourceTree = "<group>"; };
+		CEB1C78F2AD612DA00E20CCB /* SwipedEvents.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SwipedEvents.js; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CE6FB74A2A175BB2007056D5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE6FB75C2A175BB2007056D5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE6FB7692A175BB2007056D5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE6FB7732A175BB2007056D5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		CE6FB7392A175BB1007056D5 = {
+			isa = PBXGroup;
+			children = (
+				CE6FB73E2A175BB1007056D5 /* Shared (App) */,
+				CE6FB7472A175BB2007056D5 /* Shared (Extension) */,
+				CE6FB74F2A175BB2007056D5 /* iOS (App) */,
+				CE6FB7602A175BB2007056D5 /* macOS (App) */,
+				CE6FB7702A175BB2007056D5 /* iOS (Extension) */,
+				CE6FB77A2A175BB2007056D5 /* macOS (Extension) */,
+				CE6FB74E2A175BB2007056D5 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CE6FB73E2A175BB1007056D5 /* Shared (App) */ = {
+			isa = PBXGroup;
+			children = (
+				CE6FB7452A175BB1007056D5 /* ViewController.swift */,
+				CE6FB7462A175BB2007056D5 /* Assets.xcassets */,
+				CE6FB73F2A175BB1007056D5 /* Resources */,
+			);
+			path = "Shared (App)";
+			sourceTree = "<group>";
+		};
+		CE6FB73F2A175BB1007056D5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CE6FB7402A175BB1007056D5 /* Main.html */,
+				CEB1C7892AD601BA00E20CCB /* accounttab.jpg */,
+				CEB1C7802AD5C66500E20CCB /* compiledsettings.jpg */,
+				CEB1C78C2AD601C300E20CCB /* safaricontextmenu.jpg */,
+				CEB1C7862AD5CFAB00E20CCB /* settinglist.jpg */,
+				CE6FB7422A175BB1007056D5 /* Icon.png */,
+				CE6FB7432A175BB1007056D5 /* Style.css */,
+				CE6FB7442A175BB1007056D5 /* Script.js */,
+				CEB1C78F2AD612DA00E20CCB /* SwipedEvents.js */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		CE6FB7472A175BB2007056D5 /* Shared (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				CE6FB79B2A175BB2007056D5 /* Resources */,
+				CE6FB7482A175BB2007056D5 /* SafariWebExtensionHandler.swift */,
+			);
+			path = "Shared (Extension)";
+			sourceTree = "<group>";
+		};
+		CE6FB74E2A175BB2007056D5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				CE6FB74D2A175BB2007056D5 /* Web Scrobbler.app */,
+				CE6FB75F2A175BB2007056D5 /* Web Scrobbler.app */,
+				CE6FB76C2A175BB2007056D5 /* Web Scrobbler Extension.appex */,
+				CE6FB7762A175BB2007056D5 /* Web Scrobbler Extension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		CE6FB74F2A175BB2007056D5 /* iOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				CE6FB7502A175BB2007056D5 /* AppDelegate.swift */,
+				CE6FB7522A175BB2007056D5 /* SceneDelegate.swift */,
+				CE6FB7542A175BB2007056D5 /* LaunchScreen.storyboard */,
+				CE6FB7572A175BB2007056D5 /* Main.storyboard */,
+				CE6FB75A2A175BB2007056D5 /* Info.plist */,
+			);
+			path = "iOS (App)";
+			sourceTree = "<group>";
+		};
+		CE6FB7602A175BB2007056D5 /* macOS (App) */ = {
+			isa = PBXGroup;
+			children = (
+				CE6FB7612A175BB2007056D5 /* AppDelegate.swift */,
+				CE6FB7632A175BB2007056D5 /* Main.storyboard */,
+				CE6FB7662A175BB2007056D5 /* Info.plist */,
+				CE6FB7672A175BB2007056D5 /* Web Scrobbler.entitlements */,
+			);
+			path = "macOS (App)";
+			sourceTree = "<group>";
+		};
+		CE6FB7702A175BB2007056D5 /* iOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				CE6FB7712A175BB2007056D5 /* Info.plist */,
+			);
+			path = "iOS (Extension)";
+			sourceTree = "<group>";
+		};
+		CE6FB77A2A175BB2007056D5 /* macOS (Extension) */ = {
+			isa = PBXGroup;
+			children = (
+				CE6FB77B2A175BB2007056D5 /* Info.plist */,
+				CE6FB77C2A175BB2007056D5 /* Web Scrobbler.entitlements */,
+			);
+			path = "macOS (Extension)";
+			sourceTree = "<group>";
+		};
+		CE6FB79B2A175BB2007056D5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CE6FB79C2A175BB2007056D5 /* background */,
+				CE6FB79D2A175BB2007056D5 /* connectors */,
+				CE6FB79E2A175BB2007056D5 /* content */,
+				CE6FB79F2A175BB2007056D5 /* img */,
+				CE6FB7A02A175BB2007056D5 /* icons */,
+				CE6FB7A12A175BB2007056D5 /* manifest.json */,
+				CE6FB7A22A175BB2007056D5 /* _locales */,
+				CE6FB7A32A175BB2007056D5 /* assets */,
+				CE6FB7A42A175BB2007056D5 /* src */,
+			);
+			name = Resources;
+			path = "Shared (Extension)";
+			sourceTree = SOURCE_ROOT;
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		CE6FB74C2A175BB2007056D5 /* Web Scrobbler (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6FB7912A175BB2007056D5 /* Build configuration list for PBXNativeTarget "Web Scrobbler (iOS)" */;
+			buildPhases = (
+				CE6FB7492A175BB2007056D5 /* Sources */,
+				CE6FB74A2A175BB2007056D5 /* Frameworks */,
+				CE6FB74B2A175BB2007056D5 /* Resources */,
+				CE6FB7902A175BB2007056D5 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CE6FB76F2A175BB2007056D5 /* PBXTargetDependency */,
+			);
+			name = "Web Scrobbler (iOS)";
+			productName = "Web Scrobbler (iOS)";
+			productReference = CE6FB74D2A175BB2007056D5 /* Web Scrobbler.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CE6FB75E2A175BB2007056D5 /* Web Scrobbler (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6FB7982A175BB2007056D5 /* Build configuration list for PBXNativeTarget "Web Scrobbler (macOS)" */;
+			buildPhases = (
+				CE6FB75B2A175BB2007056D5 /* Sources */,
+				CE6FB75C2A175BB2007056D5 /* Frameworks */,
+				CE6FB75D2A175BB2007056D5 /* Resources */,
+				CE6FB7972A175BB2007056D5 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CE6FB7792A175BB2007056D5 /* PBXTargetDependency */,
+			);
+			name = "Web Scrobbler (macOS)";
+			productName = "Web Scrobbler (macOS)";
+			productReference = CE6FB75F2A175BB2007056D5 /* Web Scrobbler.app */;
+			productType = "com.apple.product-type.application";
+		};
+		CE6FB76B2A175BB2007056D5 /* Web Scrobbler Extension (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6FB78D2A175BB2007056D5 /* Build configuration list for PBXNativeTarget "Web Scrobbler Extension (iOS)" */;
+			buildPhases = (
+				CE6FB7682A175BB2007056D5 /* Sources */,
+				CE6FB7692A175BB2007056D5 /* Frameworks */,
+				CE6FB76A2A175BB2007056D5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Web Scrobbler Extension (iOS)";
+			productName = "Web Scrobbler Extension (iOS)";
+			productReference = CE6FB76C2A175BB2007056D5 /* Web Scrobbler Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		CE6FB7752A175BB2007056D5 /* Web Scrobbler Extension (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE6FB7942A175BB2007056D5 /* Build configuration list for PBXNativeTarget "Web Scrobbler Extension (macOS)" */;
+			buildPhases = (
+				CE6FB7722A175BB2007056D5 /* Sources */,
+				CE6FB7732A175BB2007056D5 /* Frameworks */,
+				CE6FB7742A175BB2007056D5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Web Scrobbler Extension (macOS)";
+			productName = "Web Scrobbler Extension (macOS)";
+			productReference = CE6FB7762A175BB2007056D5 /* Web Scrobbler Extension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CE6FB73A2A175BB1007056D5 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1430;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					CE6FB74C2A175BB2007056D5 = {
+						CreatedOnToolsVersion = 14.3;
+					};
+					CE6FB75E2A175BB2007056D5 = {
+						CreatedOnToolsVersion = 14.3;
+					};
+					CE6FB76B2A175BB2007056D5 = {
+						CreatedOnToolsVersion = 14.3;
+					};
+					CE6FB7752A175BB2007056D5 = {
+						CreatedOnToolsVersion = 14.3;
+					};
+				};
+			};
+			buildConfigurationList = CE6FB73D2A175BB1007056D5 /* Build configuration list for PBXProject "Web Scrobbler" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CE6FB7392A175BB1007056D5;
+			productRefGroup = CE6FB74E2A175BB2007056D5 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CE6FB74C2A175BB2007056D5 /* Web Scrobbler (iOS) */,
+				CE6FB75E2A175BB2007056D5 /* Web Scrobbler (macOS) */,
+				CE6FB76B2A175BB2007056D5 /* Web Scrobbler Extension (iOS) */,
+				CE6FB7752A175BB2007056D5 /* Web Scrobbler Extension (macOS) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CE6FB74B2A175BB2007056D5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE6FB77F2A175BB2007056D5 /* Icon.png in Resources */,
+				CEB1C7812AD5C66500E20CCB /* compiledsettings.jpg in Resources */,
+				CE6FB7562A175BB2007056D5 /* LaunchScreen.storyboard in Resources */,
+				CEB1C7902AD612DA00E20CCB /* SwipedEvents.js in Resources */,
+				CE6FB77D2A175BB2007056D5 /* Main.html in Resources */,
+				CE6FB7832A175BB2007056D5 /* Script.js in Resources */,
+				CE6FB7872A175BB2007056D5 /* Assets.xcassets in Resources */,
+				CE6FB7592A175BB2007056D5 /* Main.storyboard in Resources */,
+				CEB1C78D2AD601C300E20CCB /* safaricontextmenu.jpg in Resources */,
+				CEB1C78A2AD601BA00E20CCB /* accounttab.jpg in Resources */,
+				CEB1C7872AD5CFAB00E20CCB /* settinglist.jpg in Resources */,
+				CE6FB7812A175BB2007056D5 /* Style.css in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE6FB75D2A175BB2007056D5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CEB1C78B2AD601BA00E20CCB /* accounttab.jpg in Resources */,
+				CE6FB7802A175BB2007056D5 /* Icon.png in Resources */,
+				CE6FB7822A175BB2007056D5 /* Style.css in Resources */,
+				CE6FB7652A175BB2007056D5 /* Main.storyboard in Resources */,
+				CEB1C7822AD5C66500E20CCB /* compiledsettings.jpg in Resources */,
+				CE6FB7842A175BB2007056D5 /* Script.js in Resources */,
+				CEB1C7882AD5CFAB00E20CCB /* settinglist.jpg in Resources */,
+				CE6FB7882A175BB2007056D5 /* Assets.xcassets in Resources */,
+				CEB1C78E2AD601C300E20CCB /* safaricontextmenu.jpg in Resources */,
+				CE6FB77E2A175BB2007056D5 /* Main.html in Resources */,
+				CEB1C7912AD612DA00E20CCB /* SwipedEvents.js in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE6FB76A2A175BB2007056D5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE6FB7B62A175BB2007056D5 /* src in Resources */,
+				CE6FB7B12A175BB2007056D5 /* img in Resources */,
+				CE6FB7B52A175BB2007056D5 /* assets in Resources */,
+				CE6FB7B02A175BB2007056D5 /* content in Resources */,
+				CE6FB7AF2A175BB2007056D5 /* connectors in Resources */,
+				CE6FB7B22A175BB2007056D5 /* icons in Resources */,
+				CE6FB7B32A175BB2007056D5 /* manifest.json in Resources */,
+				CE6FB7B42A175BB2007056D5 /* _locales in Resources */,
+				CE6FB7AE2A175BB2007056D5 /* background in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE6FB7742A175BB2007056D5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE6FB7AD2A175BB2007056D5 /* src in Resources */,
+				CE6FB7A82A175BB2007056D5 /* img in Resources */,
+				CE6FB7AC2A175BB2007056D5 /* assets in Resources */,
+				CE6FB7A72A175BB2007056D5 /* content in Resources */,
+				CE6FB7A62A175BB2007056D5 /* connectors in Resources */,
+				CE6FB7A92A175BB2007056D5 /* icons in Resources */,
+				CE6FB7AA2A175BB2007056D5 /* manifest.json in Resources */,
+				CE6FB7AB2A175BB2007056D5 /* _locales in Resources */,
+				CE6FB7A52A175BB2007056D5 /* background in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CE6FB7492A175BB2007056D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE6FB7852A175BB2007056D5 /* ViewController.swift in Sources */,
+				CE6FB7512A175BB2007056D5 /* AppDelegate.swift in Sources */,
+				CE6FB7532A175BB2007056D5 /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE6FB75B2A175BB2007056D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE6FB7862A175BB2007056D5 /* ViewController.swift in Sources */,
+				CE6FB7622A175BB2007056D5 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE6FB7682A175BB2007056D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE6FB7892A175BB2007056D5 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE6FB7722A175BB2007056D5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CE6FB78A2A175BB2007056D5 /* SafariWebExtensionHandler.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		CE6FB76F2A175BB2007056D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE6FB76B2A175BB2007056D5 /* Web Scrobbler Extension (iOS) */;
+			targetProxy = CE6FB76E2A175BB2007056D5 /* PBXContainerItemProxy */;
+		};
+		CE6FB7792A175BB2007056D5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CE6FB7752A175BB2007056D5 /* Web Scrobbler Extension (macOS) */;
+			targetProxy = CE6FB7782A175BB2007056D5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		CE6FB7402A175BB1007056D5 /* Main.html */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE6FB7412A175BB1007056D5 /* Base */,
+			);
+			name = Main.html;
+			sourceTree = "<group>";
+		};
+		CE6FB7542A175BB2007056D5 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE6FB7552A175BB2007056D5 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		CE6FB7572A175BB2007056D5 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE6FB7582A175BB2007056D5 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		CE6FB7632A175BB2007056D5 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CE6FB7642A175BB2007056D5 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		CE6FB78B2A175BB2007056D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		CE6FB78C2A175BB2007056D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		CE6FB78E2A175BB2007056D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 3W9ST3ZP63;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Web Scrobbler Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 3.3.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.webScrobbler.Web-Scrobbler.Extension";
+				PRODUCT_NAME = "Web Scrobbler Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CE6FB78F2A175BB2007056D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 3W9ST3ZP63;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Web Scrobbler Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 3.3.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.webScrobbler.Web-Scrobbler.Extension";
+				PRODUCT_NAME = "Web Scrobbler Extension";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CE6FB7922A175BB2007056D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 3W9ST3ZP63;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Web Scrobbler";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 3.3.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.webScrobbler.Web-Scrobbler";
+				PRODUCT_NAME = "Web Scrobbler";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CE6FB7932A175BB2007056D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 3W9ST3ZP63;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "iOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Web Scrobbler";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 3.3.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.webScrobbler.Web-Scrobbler";
+				PRODUCT_NAME = "Web Scrobbler";
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		CE6FB7952A175BB2007056D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Web Scrobbler.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 3W9ST3ZP63;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Web Scrobbler Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 3.3.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.webScrobbler.Web-Scrobbler.Extension";
+				PRODUCT_NAME = "Web Scrobbler Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		CE6FB7962A175BB2007056D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = "macOS (Extension)/Web Scrobbler.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 3W9ST3ZP63;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (Extension)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Web Scrobbler Extension";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 3.3.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.webScrobbler.Web-Scrobbler.Extension";
+				PRODUCT_NAME = "Web Scrobbler Extension";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		CE6FB7992A175BB2007056D5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "macOS (App)/Web Scrobbler.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 3W9ST3ZP63;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Web Scrobbler";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 3.3.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.webScrobbler.Web-Scrobbler";
+				PRODUCT_NAME = "Web Scrobbler";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		CE6FB79A2A175BB2007056D5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "macOS (App)/Web Scrobbler.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2;
+				DEVELOPMENT_TEAM = 3W9ST3ZP63;
+				ENABLE_HARDENED_RUNTIME = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "macOS (App)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Web Scrobbler";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.music";
+				INFOPLIST_KEY_NSMainStoryboardFile = Main;
+				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MARKETING_VERSION = 3.3.0;
+				OTHER_LDFLAGS = (
+					"-framework",
+					SafariServices,
+					"-framework",
+					WebKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.webScrobbler.Web-Scrobbler";
+				PRODUCT_NAME = "Web Scrobbler";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CE6FB73D2A175BB1007056D5 /* Build configuration list for PBXProject "Web Scrobbler" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6FB78B2A175BB2007056D5 /* Debug */,
+				CE6FB78C2A175BB2007056D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE6FB78D2A175BB2007056D5 /* Build configuration list for PBXNativeTarget "Web Scrobbler Extension (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6FB78E2A175BB2007056D5 /* Debug */,
+				CE6FB78F2A175BB2007056D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE6FB7912A175BB2007056D5 /* Build configuration list for PBXNativeTarget "Web Scrobbler (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6FB7922A175BB2007056D5 /* Debug */,
+				CE6FB7932A175BB2007056D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE6FB7942A175BB2007056D5 /* Build configuration list for PBXNativeTarget "Web Scrobbler Extension (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6FB7952A175BB2007056D5 /* Debug */,
+				CE6FB7962A175BB2007056D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CE6FB7982A175BB2007056D5 /* Build configuration list for PBXNativeTarget "Web Scrobbler (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE6FB7992A175BB2007056D5 /* Debug */,
+				CE6FB79A2A175BB2007056D5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CE6FB73A2A175BB1007056D5 /* Project object */;
+}

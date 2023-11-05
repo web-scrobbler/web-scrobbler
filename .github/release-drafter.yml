@@ -1,0 +1,26 @@
+name-template: 'v$RESOLVED_VERSION'
+tag-template: 'v$RESOLVED_VERSION'
+categories:
+  - title: '🚀 Added'
+    label: 'added'
+  - title: '⬆️ Updated'
+    label: 'updated'
+  - title: '🐛 Fixed'
+    label: 'fixed'
+  - title: '🔧 Maintenance'
+    label: 'maintenance'
+exclude-labels:
+  - 'skip-changelog'
+version-resolver:
+  major:
+    labels:
+      - 'major-change'
+  minor:
+    labels:
+      - 'minor-change'
+  patch:
+    labels:
+      - 'patch-change'
+  default: patch
+template: |
+  $CHANGES

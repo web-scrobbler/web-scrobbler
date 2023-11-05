@@ -23,6 +23,14 @@
         "message": "Exibir uma notificação caso a faixa não for reconhecida pela extensão",
         "description": "Option title"
     },
+    "optionScrobblePodcasts": {
+        "message": "Efetuar scrobble de podcasts",
+        "description": "Option label"
+    },
+    "optionScrobblePodcastsTitle": {
+        "message": "Efetuar scrobble de episódios de podcasts",
+        "description": "Option title"
+    },
     "optionForceRecognize": {
         "message": "Forçar reconhecimento de faixa",
         "description": "Option label"
@@ -31,25 +39,25 @@
         "message": "Forçar o reconhecimento de faixas desconhecidas",
         "description": "Option title"
     },
-    "optionDisableGa": {
-        "message": "Desativar Google Analytics",
-        "description": "Option label"
+    "optionsHidden": {
+        "message": "Oculto",
+        "description": "'Hidden' section"
     },
-    "optionDisableGaTitle": {
-        "message": "Desativa o envio de dados ao Google Analytics",
+    "optionScrobblePercent": {
+        "message": "Fazer scrobble após",
         "description": "Option title"
     },
-    "optionGmPodcasts": {
-        "message": "Efetuar scrobble de podcasts no Google Music",
+    "optionScrobblePercentSuffix": {
+        "message": "da duração total da música",
         "description": "Option title"
-    },
-    "optionGmPodcastsTitle": {
-        "message": "Efetuar scrobble de podcasts no Google Music",
-        "description": "Option label"
     },
     "optionYtDesc": {
-        "message": "Caso desative ambas as opções, a extensão efetuará scrobble de vídeos do Youtube de todas as categorias.",
-        "description": "Description of Youtube options"
+        "message": "Caso desative ambas as opções, a extensão efetuará scrobble de vídeos do YouTube de todas as categorias.",
+        "description": "Description of YouTube options"
+    },
+    "optionPercentDesc": {
+        "message": "Observe que o scrobble será feito em faixas que estejam em reprodução por mais de 4 minutos independentemente do valor informado.",
+        "description": "Description of scrobble percent option"
     },
     "optionYtMusicOnly": {
         "message": "Efetuar scrobble de vídeos da categoria \"Música\"",
@@ -91,6 +99,30 @@
         "message": "Iniciar sessão",
         "description": "Button label"
     },
+    "accountsScrobblerProps": {
+        "message": "Propriedades",
+        "description": "Button label"
+    },
+    "accountsScrobblerPropsTitle": {
+        "message": "$1 propriedades",
+        "description": "Button label"
+    },
+    "accountsUserApiUrl": {
+        "message": "URL da API",
+        "description": "Input label"
+    },
+    "accountsUserApiUrlPlaceholder": {
+        "message": "URL da API personalizada",
+        "description": "Input label"
+    },
+    "accountsUserToken": {
+        "message": "Token",
+        "description": "Input label"
+    },
+    "accountsUserTokenPlaceholder": {
+        "message": "Token personalizado",
+        "description": "Input label"
+    },
     "optionsOptions": {
         "message": "Opções",
         "description": "'Options' section"
@@ -102,6 +134,10 @@
     "optionsEditedTracksDesc": {
         "message": "Esta extensão armazena dados de faixas editadas.",
         "description": "Description of edited tracks"
+    },
+    "optionsEditedTracksPopupTitle": {
+        "message": "$1faixa(s) editada(s)",
+        "description": "'Edited tracks' header"
     },
     "optionsViewEdited": {
         "message": "Ver",
@@ -120,7 +156,7 @@
         "description": "Enable/disable hint"
     },
     "optionsCustomPatternsHint": {
-        "message": "Clique no ícone de engrenagem para configurar padrões personalizados de URL para conectores. <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>Saiba mais</a>",
+        "message": "Clique no ícone de engrenagem para configurar padrões personalizados de URL para conectores.",
         "description": "Description of how to configure custom URL patterns"
     },
     "optionsSupportedWebsites": {
@@ -130,6 +166,10 @@
     "optionsToggle": {
         "message": "Alternar",
         "description": "Label of toggle button"
+    },
+    "learnMoreLabel": {
+        "message": "Saiba mais",
+        "description": "Learn more label"
     },
     "contactTitle": {
         "message": "Contatos",
@@ -240,7 +280,7 @@
         "description": "Question #7"
     },
     "faqAnswer7": {
-        "message": "O autor original desta extensão é David Šabata. Agora esta extensão é desenvolvida e mantida pela assim chamada \"Equipe do Web Scrobbler\".",
+        "message": "O autor original desta extensão é David Šabata. Agora esta extensão é desenvolvida e mantida pela \"Equipe do Web Scrobbler\".",
         "description": "Answer #7"
     },
     "optionsAbout": {
@@ -252,7 +292,7 @@
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
-        "message": "O Web Scrobbler foi criado para pessoas que ouvem música online no navegador e desejam manter um histórico de reprodução atualizado usando o serviço de scrobble da Last.fm.",
+        "message": "O Web Scrobbler é uma extensão de navegador criada para quem ouve música online direto do navegador e gostaria de manter um histórico de reprodução sempre atualizado usando serviços de rastreamento de músicas, como a Last.fm, Libre.fm e ListenBrainz.",
         "description": "'About' section text"
     },
     "contributorsTitle": {
@@ -272,8 +312,12 @@
         "description": ""
     },
     "showSomeLoveText2": {
-        "message": "Eu desenvolvo essa extensão no meu tempo livre, com código aberto e tudo, e eu estou e vou continuar fazendo isso de graça. Mas ainda assim, considere doar um dinheirinho para me manter motivado e para eu ter certeza de que sempre vou ter pizza e café suficientes para programar tarde da noite.",
+        "message": "A extensão é gratuita, e sempre será. Mas, caso queira apoiar o desenvolvimento, sinta-se à vontade para usar o botão abaixo.",
         "description": ""
+    },
+    "customPatterns": {
+        "message": "Padrões de URL",
+        "description": "'URL patterns' section"
     },
     "customPatternsHint": {
         "message": "Adicione padrões de URL que o conector deva corresponder abaixo.",
@@ -282,10 +326,6 @@
     "customPatternsAdd": {
         "message": "Adicionar padrão",
         "description": "Add button"
-    },
-    "editedTracksTitle": {
-        "message": "Faixas editadas",
-        "description": "Popup title"
     },
     "albumTooltip": {
         "message": "Do álbum \"$1\"",
@@ -335,10 +375,6 @@
         "message": "Parece que algo deu errado ao efetuar o scrobble da música. Por favor, abra a página de opções e tente autenticar novamente com os serviços. Caso o problema persista, crie um <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">novo issue</a> na página do projeto no GitHub.",
         "description": "The description of service error"
     },
-    "serviceErrorButton": {
-        "message": "Abrir página de opções",
-        "description": "Button label"
-    },
     "disabledSiteHeader": {
         "message": "Este site foi desativado.",
         "description": "The header of 'disabled' popup"
@@ -359,6 +395,10 @@
         "message": "O Web Scrobbler não é compatível com scrobbles deste site.",
         "description": "The description of 'unsupported' popup"
     },
+    "unsupportedWebsiteDesc2": {
+        "message": "Alguns sites do Google com suporte (como o Google Play Music e YouTube) podem estar bloqueados por causa da política ExtensionSettings.",
+        "description": "The description of 'unsupported' popup"
+    },
     "infoLove": {
         "message": "Marcar como preferida",
         "description": "Label of love/unlove button"
@@ -367,69 +407,49 @@
         "message": "Desmarcar como preferida",
         "description": "Label of love/unlove button"
     },
-    "infoEdit": {
-        "message": "Editar",
-        "description": "Label of edit button"
-    },
     "infoEditTitle": {
         "message": "Editar metadados da faixa",
         "description": "Title of edit button"
     },
     "infoEditUnableTitle": {
-        "message": "Você não pode editar uma faixa com scrobble efetuado",
+        "message": "Você não pode editar esta faixa",
         "description": "Title of edit button"
-    },
-    "infoEditSkippedTitle": {
-        "message": "Você não pode editar uma faixa pulada",
-        "description": "Title of edit button"
-    },
-    "infoSwap": {
-        "message": "Trocar",
-        "description": "Label of swap button"
     },
     "infoSwapTitle": {
         "message": "Trocar título e artista",
         "description": "Title of swap button"
     },
     "infoSwapUnableTitle": {
-        "message": "Você não pode trocar uma faixa com scrobble efetuado",
+        "message": "Você não pode trocar dados em branco",
         "description": "Title of swap button"
     },
-    "infoSwapSkippedTitle": {
-        "message": "Você não pode trocar uma faixa pulada",
-        "description": "Title of swap button"
+    "infoSubmitTitle": {
+        "message": "Salvar alterações",
+        "description": "Title of submit button"
     },
-    "infoSubmit": {
-        "message": "Enviar",
-        "description": "Label of submit button"
-    },
-    "infoRevert": {
-        "message": "Reverter",
-        "description": "Label of revert button"
+    "infoSubmitUnableTitle": {
+        "message": "Você não pode enviar dados em branco",
+        "description": "Title of submit button"
     },
     "infoRevertTitle": {
         "message": "Reverter alterações",
         "description": "Title of revert button"
     },
     "infoRevertUnableTitle": {
-        "message": "Você não pode reverter uma faixa com scrobble efetuado",
+        "message": "Você não pode reverter as alterações desta faixa",
         "description": "Title of revert button"
-    },
-    "infoSkip": {
-        "message": "Pular",
-        "description": "Label of skip button"
     },
     "infoSkipTitle": {
         "message": "Não fazer scrobble da faixa atual",
         "description": "Title of skip button"
     },
     "infoSkipUnableTitle": {
-        "message": "Você não pode pular uma faixa com scrobble efetuado",
+        "message": "Você não pode pular esta faixa",
         "description": "Title of skip button"
     },
-    "infoSkipAlreadyTitle": {
-        "message": "Você já pulou essa faixa",
-        "description": "Title of skip button"
+    "infoSkippedTitle": {
+        "message": "Você pulou esta faixa",
+        "description": "Title of unskip button"
     },
     "infoOpenAlbumArt": {
         "message": "Abrir capa do álbum em uma nova aba",
@@ -447,17 +467,25 @@
         "message": "Álbum (opcional)",
         "description": "Placeholder of album input"
     },
+    "infoAlbumArtistPlaceholder": {
+        "message": "Artista do álbum (opcional)",
+        "description": "Placeholder of album artist input"
+    },
     "infoViewArtistPage": {
-        "message": "Ver página do artista",
+        "message": "Ver página do artista: $1",
         "description": "Placeholder of album input"
     },
     "infoViewAlbumPage": {
-        "message": "Ver página do álbum",
+        "message": "Ver página do álbum: $1",
         "description": "Placeholder of album input"
     },
     "infoViewTrackPage": {
-        "message": "Ver página da faixa",
+        "message": "Ver página da faixa: $1",
         "description": "Placeholder of album input"
+    },
+    "infoYourScrobbles": {
+        "message": "Total de scrobbles: $1",
+        "description": "Label for user play count"
     },
     "pageActionBase": {
         "message": "Este site é compatível com scrobbles",
@@ -467,9 +495,9 @@
         "message": "Buscando por $1",
         "description": "`loading` page action title"
     },
-    "pageActionRecognized": {
+    "pageActionPlaying": {
         "message": "Reproduzindo $1",
-        "description": "`recognized` page action title"
+        "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
         "message": "Feito scrobble de $1",
@@ -499,6 +527,14 @@
         "message": "O Web Scrobbler não é compatível com este site.",
         "description": "`unsupported` page action title"
     },
+    "pageActionLoved": {
+        "message": "A faixa \"$1\" foi marcada como preferida",
+        "description": "`unsupported` page action title"
+    },
+    "pageActionUnloved": {
+        "message": "A faixa \"$1\" foi removida das faixas preferidas",
+        "description": "`unsupported` page action title"
+    },
     "menuDisableConnector": {
         "message": "Desativar conector para $1",
         "description": "Context menu item"
@@ -508,7 +544,7 @@
         "description": "Context menu item"
     },
     "menuDisableUntilTabClosed": {
-        "message": "Desativar conector até a guia ser fechada",
+        "message": "Desativar conector para $1 até a guia ser fechada",
         "description": "Context menu item"
     },
     "notificationConnectAccounts": {
@@ -534,6 +570,18 @@
     "notificationNotRecognizedText": {
         "message": "Clique no ícone na barra de extensões para corrigir e enviar dados da faixa.",
         "description": "Notification text"
+    },
+    "hotkeyToggleConnector": {
+        "message": "Alternar scrobble para o site atual",
+        "description": "Hotkey label"
+    },
+    "hotkeyLoveSong": {
+        "message": "Marcar faixa como preferida",
+        "description": "Hotkey label"
+    },
+    "hotkeyUnloveSong": {
+        "message": "Remover das faixas preferidas",
+        "description": "Hotkey label"
     },
     "extDescription": {
         "message": "Faça scrobble de músicas por toda a internet!",

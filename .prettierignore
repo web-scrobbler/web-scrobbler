@@ -1,0 +1,10 @@
+build/**
+coverage/**
+node_modules/**
+src/_locales/**
+.xcode/**
+
+package.json
+package-lock.json
+
+**/*.md

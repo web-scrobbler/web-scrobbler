@@ -8,19 +8,27 @@
         "description": "'General' section"
     },
     "optionUseNotifications": {
-        "message": "Уведомлять о проигрываемом треке",
+        "message": "Уведомлять о проигрываемой композиции",
         "description": "Option label"
     },
     "optionUseNotificationsTitle": {
-        "message": "Показывать уведомления о проигрываемом треке для всех поддерживаемых сайтов",
+        "message": "Показывать уведомления о проигрываемой композиции для всех поддерживаемых сайтов",
         "description": "Option title"
     },
     "optionUnrecognizedNotifications": {
-        "message": "Уведомлять, если трек не распознан",
+        "message": "Уведомлять, если композиция не распознана",
         "description": "Option label"
     },
     "optionUnrecognizedNotificationsTitle": {
-        "message": "Показывать уведомление, если расширение не смогло распознать трек",
+        "message": "Показывать уведомление, если расширение не смогло распознать композицию",
+        "description": "Option title"
+    },
+    "optionScrobblePodcasts": {
+        "message": "Скробблить подкасты",
+        "description": "Option label"
+    },
+    "optionScrobblePodcastsTitle": {
+        "message": "Разрешить приложению скробблить подкасты",
         "description": "Option title"
     },
     "optionForceRecognize": {
@@ -28,35 +36,51 @@
         "description": "Option label"
     },
     "optionForceRecognizeTitle": {
-        "message": "Принудительное распознавание треков",
+        "message": "Принудительное распознавание композиций",
         "description": "Option title"
     },
-    "optionDisableGa": {
-        "message": "Отключить Google Analytics",
+    "optionScrobbleRecognizedTracks": {
+        "message": "Скробблить распознанные или отредактированные треки (по-умолчанию)",
         "description": "Option label"
     },
-    "optionDisableGaTitle": {
-        "message": "Отключить отправку анонимной статистики использования расширения",
+    "optionScrobbleRecognizedTracksTitle": {
+        "message": "Скробблить только те треки, которые были распознаны расширением, либо отредактированы вами",
         "description": "Option title"
     },
-    "optionGmPodcasts": {
-        "message": "Скроблить подкасты Google Play Music",
-        "description": "Option title"
-    },
-    "optionGmPodcastsTitle": {
-        "message": "Скроблить подкасты Google Play Music",
+    "optionScrobbleEditedTracksOnly": {
+        "message": "Скробблить только отредактированные треки",
         "description": "Option label"
+    },
+    "optionScrobbleEditedTracksOnlyTitle": {
+        "message": "Скробблить только те треки, которые были отредактированы вами",
+        "description": "Option title"
+    },
+    "optionsHidden": {
+        "message": "Скрытые",
+        "description": "'Hidden' section"
+    },
+    "optionScrobblePercent": {
+        "message": "Скробблить на",
+        "description": "Option title"
+    },
+    "optionScrobblePercentSuffix": {
+        "message": "композиции",
+        "description": "Option title"
     },
     "optionYtDesc": {
-        "message": "Если вы отключите обе настройки. расширение будет скробблить видео из всех категорий.",
-        "description": "Description of Youtube options"
+        "message": "Если вы отключите обе настройки, расширение будет скробблить видео из всех категорий.",
+        "description": "Description of YouTube options"
+    },
+    "optionPercentDesc": {
+        "message": "Примечание: композиция будет заскробблена, если она играет более 4 минут, независимо от значения данной настройки.",
+        "description": "Description of scrobble percent option"
     },
     "optionYtMusicOnly": {
         "message": "Скробблить видео только из категории \"Музыка\"",
         "description": "Option title"
     },
     "optionYtMusicOnlyTitle": {
-        "message": "Игнорировать треки, которые не в категории \"Музыка\"",
+        "message": "Игнорировать видео, которые не в категории \"Музыка\"",
         "description": "Option label"
     },
     "optionYtEntertainmentOnly": {
@@ -64,8 +88,28 @@
         "description": "Option label"
     },
     "optionYtEntertainmentOnlyTitle": {
-        "message": "Игнорировать треки, которые не в категории \"Развлечения\"",
+        "message": "Игнорировать видео, которые не в категории \"Развлечения\"",
         "description": "Option title"
+    },
+    "optionYtGetTrackInfoFromYtMusic": {
+        "message": "Использовать YouTube Music для получения информации о треках",
+        "description": "Option label"
+    },
+    "optionYtGetTrackInfoFromYtMusicTitle": {
+        "message": "Использовать YouTube Music для получения информации о треках; если отключено, то будут использованы данные из заголовка и описания видео",
+        "description": "Option title"
+    },
+    "optionTheme": {
+        "message": "Тема",
+        "description": "Option label"
+    },
+    "optionThemeLight": {
+        "message": "Светлая",
+        "description": "Option label"
+    },
+    "optionThemeDark": {
+        "message": "Тёмная",
+        "description": "Option label"
     },
     "optionsAccounts": {
         "message": "Аккаунты",
@@ -91,20 +135,44 @@
         "message": "Войти",
         "description": "Button label"
     },
+    "accountsScrobblerProps": {
+        "message": "Свойства",
+        "description": "Button label"
+    },
+    "accountsScrobblerPropsTitle": {
+        "message": "Свойства $1",
+        "description": "Button label"
+    },
+    "accountsUserApiUrl": {
+        "message": "API URL",
+        "description": "Input label"
+    },
+    "accountsUserApiUrlPlaceholder": {
+        "message": "Пользовательский API URL",
+        "description": "Input label"
+    },
+    "accountsUserToken": {
+        "message": "Токен",
+        "description": "Input label"
+    },
+    "accountsUserTokenPlaceholder": {
+        "message": "Пользовательский токен",
+        "description": "Input label"
+    },
     "optionsOptions": {
         "message": "Настройки",
         "description": "'Options' section"
     },
     "optionsEditedTracks": {
-        "message": "Сохранённая информация о треках",
+        "message": "Сохранённая информация о композициях",
         "description": "'Edited tracks' header"
     },
     "optionsEditedTracksDesc": {
-        "message": "Расширение хранит редактированную вами информацию о треках.",
+        "message": "Расширение хранит редактированную вами информацию о композициях.",
         "description": "Description of edited tracks"
     },
     "optionsEditedTracksPopupTitle": {
-        "message": "$1 сохранённых треков",
+        "message": "Сохранённых композиций: $1 ",
         "description": "'Edited tracks' header"
     },
     "optionsViewEdited": {
@@ -112,19 +180,23 @@
         "description": "Button to view edited tracks"
     },
     "optionsExportEdited": {
-        "message": "Эскпорт",
+        "message": "Экспорт",
         "description": "Button to export edited tracks"
     },
     "optionsImportEdited": {
         "message": "Импорт",
         "description": "Button to import edited tracks"
     },
+    "optionsConnectors": {
+        "message": "Коннекторы",
+        "description": "'Connectors' section"
+    },
     "optionsEnableDisableHint": {
         "message": "Поставьте или снимите галочку, чтобы включить или выключить коннекторы.",
         "description": "Enable/disable hint"
     },
     "optionsCustomPatternsHint": {
-        "message": "Кликните на иконку с шестерёнкой, чтобы настроить пользовательские шаблоны URL для коннекторов. <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>Узнать больше</a>",
+        "message": "Кликните на иконку с шестерёнкой, чтобы настроить пользовательские шаблоны URL для коннекторов.",
         "description": "Description of how to configure custom URL patterns"
     },
     "optionsSupportedWebsites": {
@@ -135,12 +207,20 @@
         "message": "Переключить",
         "description": "Label of toggle button"
     },
+    "optionsLoadingConnectorOptions": {
+        "message": "Загрузка настроек коннекторов…",
+        "description": "Loading connector options message"
+    },
+    "learnMoreLabel": {
+        "message": "Узнать больше",
+        "description": "Learn more label"
+    },
     "contactTitle": {
         "message": "Контакты",
         "description": "'Contact' section"
     },
     "contactGitHubDesc": {
-        "message": "Сообщить об ошибке или поучаствовать в проекте",
+        "message": "Поучаствовать в развитии проекта",
         "description": "Description for GitHub section"
     },
     "contactTwitterDesc": {
@@ -180,23 +260,23 @@
         "description": "Answer #2"
     },
     "faqQuestion3": {
-        "message": "Трек не распознан. Вы можете исправить это?",
+        "message": "Композиция не распознана. Вы можете исправить это?",
         "description": "Question #3"
     },
     "faqAnswer3a": {
-        "message": "Когда расширение не может распознать трек, справа от адресной строки появляется иконка со знаком вопроса. Кликнув на эту иконку, вы можете скорректировать данные о треке в появившемся всплывающем окне.",
+        "message": "Когда расширение не может распознать композицию, справа от адресной строки появляется иконка со знаком вопроса. Кликнув на эту иконку, вы можете скорректировать данные о композиции в появившемся всплывающем окне.",
         "description": "Answer #3"
     },
     "faqAnswer3b": {
-        "message": "Также, есть опция \"Принудительное распознавание\", включение которой позволяет скробблить треки, которые расширение не смогло распознать.",
+        "message": "Также, есть опция \"Принудительное распознавание\", включение которой позволяет скробблить композиции, которые расширение не смогло распознать.",
         "description": "Answer #3"
     },
     "faqQuestion4": {
-        "message": "Некоторые треки на Bandcamp не скробблятся. Это возможно исправить?",
+        "message": "Некоторые композиции на Bandcamp не скробблятся. Это возможно исправить?",
         "description": "Question #4"
     },
     "faqAnswer4a": {
-        "message": "Похоже, треки расположены на нестандартном домене, и расширение не может определить, что это Bandcamp.",
+        "message": "Похоже, композиции расположены на нестандартном домене, и расширение не может определить, что это Bandcamp.",
         "description": "Answer #4"
     },
     "faqAnswer4b": {
@@ -244,7 +324,7 @@
         "description": "Question #7"
     },
     "faqAnswer7": {
-        "message": "Первоначальный автор этого расширения — David Šabata. На данный момент расширение разрабатывает так называемая команда \"Web Scrobbler\".",
+        "message": "Первоначальный автор этого расширения — David Šabata. На данный момент расширение разрабатывает команда \"Web Scrobbler\".",
         "description": "Answer #7"
     },
     "optionsAbout": {
@@ -267,17 +347,33 @@
         "message": "Вы можете посмотреть список участников проекта на <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">странице проекта</a> на GitHub.",
         "description": "'About' section text"
     },
+    "contributorsContribute": {
+        "message": "Если вы хотите поучаствовать в разработке, вы можете ознакомиться со способами внести вклад в проект <a href=\"https://web-scrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">на нашем сайте</a>.",
+        "description": "'About' section text"
+    },
     "showSomeLoveTitle": {
         "message": "Пожертвования",
         "description": "'Show some love' section"
+    },
+    "showSomeLoveFundingCampaign": {
+        "message": "Со временем в нашем багтрекере накопилось большое количество багрепортов. Начиная с середины августа 2023 и до середины марта 2024 один из наших ключевых разработчиков проекта будет доступен для фултайм работы над расширением на пониженной ставке. Если мы соберём $$1,500, то сможем покрыть один месяц фултайм разработки, и так до 9-10 тысяч долларов. Если вы хотите поддержать эту кампанию, чтобы помочь нам разгрести список багрепортов и сделать Web Scrobbler ещё лучше, используйте кнопку ниже. Мы по-прежнему намерены оставить расширение и все его функции бесплатными. Пожалуйста, помогите распространить эту информацию.",
+        "description": "Temporary funding campaign"
     },
     "showSomeLoveText1": {
         "message": "В отличие от других расширений, это не содержит рекламные баннеры.",
         "description": ""
     },
     "showSomeLoveText2": {
-        "message": "Я разрабатываю это расширение в свободное время, и я делаю и буду делать это безвозмездно. Однако, вы можете сделать пожертвование, чтобы убедиться, что у меня достаточно кофе и пиццы для ночного кодинга.",
+        "message": "Расширение бесплатно, и всегда будет бесплатным. Если вы хотите поддержать разработку расширения, вы можете воспользоваться кнопкой ниже.",
         "description": ""
+    },
+    "donationButtonLabel": {
+        "message": "Поддержать нас на OpenCollective",
+        "description": "The donation button label"
+    },
+    "customPatterns": {
+        "message": "Шаблоны URL",
+        "description": "'URL patterns' section"
     },
     "customPatternsHint": {
         "message": "Добавьте необходимые шаблоны URL для коннектора.",
@@ -286,10 +382,6 @@
     "customPatternsAdd": {
         "message": "Добавить шаблон",
         "description": "Add button"
-    },
-    "editedTracksTitle": {
-        "message": "Сохранённая информация о треках",
-        "description": "Popup title"
     },
     "albumTooltip": {
         "message": "Из альбома \"$1\"",
@@ -316,7 +408,7 @@
         "description": "Popup hint"
     },
     "getStartedHeader": {
-        "message": "Включите любой трек для начала",
+        "message": "Для начала включите любую композицию",
         "description": "The header of 'Get started' popup"
     },
     "getStartedSubheader": {
@@ -336,12 +428,8 @@
         "description": "The header of 'error' popup"
     },
     "serviceErrorDesc": {
-        "message": "Похоже, что-то произошло не так во время скробблинга трека. Пожалуйста, откройте страницу с настройками и попробуйте авторизоваться заново. Если это не помогает, пожалуйста, <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">сообщите о проблеме</a> на странице проекта на GitHub.",
+        "message": "Похоже, что-то произошло не так во время скробблинга. Пожалуйста, откройте страницу с настройками и попробуйте авторизоваться заново. Если это не помогает, пожалуйста, <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">сообщите о проблеме</a> на странице проекта на GitHub.",
         "description": "The description of service error"
-    },
-    "serviceErrorButton": {
-        "message": "Открыть настройки",
-        "description": "Button label"
     },
     "disabledSiteHeader": {
         "message": "Вы отключили этот сайт",
@@ -363,6 +451,10 @@
         "message": "Web Scrobbler не поддерживает скробблинг с этого сайта.",
         "description": "The description of 'unsupported' popup"
     },
+    "unsupportedWebsiteDesc2": {
+        "message": "Некоторые сайты Google, поддерживаемые расширением (например, Google Play Music, YouTube), могут быть заблокированы политикой ExtensionSettings. ",
+        "description": "The description of 'unsupported' popup"
+    },
     "infoLove": {
         "message": "Нравится",
         "description": "Label of love/unlove button"
@@ -371,69 +463,49 @@
         "message": "Не нравится",
         "description": "Label of love/unlove button"
     },
-    "infoEdit": {
-        "message": "Изменить",
-        "description": "Label of edit button"
-    },
     "infoEditTitle": {
-        "message": "Изменить информацию о треке",
+        "message": "Изменить информацию о композиции",
         "description": "Title of edit button"
     },
     "infoEditUnableTitle": {
-        "message": "Вы не можете изменить информацию о треке, который был заскробблен",
+        "message": "Вы не можете изменить информацию об этой композиции",
         "description": "Title of edit button"
-    },
-    "infoEditSkippedTitle": {
-        "message": "Вы не можете редактировать информацию о треке, который пропустили",
-        "description": "Title of edit button"
-    },
-    "infoSwap": {
-        "message": "Поменять",
-        "description": "Label of swap button"
     },
     "infoSwapTitle": {
-        "message": "Поменять исполнителя и название трека местами",
+        "message": "Поменять исполнителя и название композиции местами",
         "description": "Title of swap button"
     },
     "infoSwapUnableTitle": {
-        "message": "Вы не можете изменить заскробленный трек",
+        "message": "Вы не можете изменить неполную информацию о композиции",
         "description": "Title of swap button"
     },
-    "infoSwapSkippedTitle": {
-        "message": "Вы не можете изменить пропущенный трек",
-        "description": "Title of swap button"
+    "infoSubmitTitle": {
+        "message": "Принять изменения",
+        "description": "Title of submit button"
     },
-    "infoSubmit": {
-        "message": "Принять",
-        "description": "Label of submit button"
-    },
-    "infoRevert": {
-        "message": "Отменить",
-        "description": "Label of revert button"
+    "infoSubmitUnableTitle": {
+        "message": "Вы не можете применить неполную информацию о композиции",
+        "description": "Title of submit button"
     },
     "infoRevertTitle": {
         "message": "Отменить изменения",
         "description": "Title of revert button"
     },
     "infoRevertUnableTitle": {
-        "message": "Вы не можете сбросить информацию о треке, который был заскробблен",
+        "message": "Вы не можете сбросить информацию об этой композиции",
         "description": "Title of revert button"
     },
-    "infoSkip": {
-        "message": "Пропустить",
-        "description": "Label of skip button"
-    },
     "infoSkipTitle": {
-        "message": "Не скробблить текущий трек",
+        "message": "Не скробблить текущую композицию",
         "description": "Title of skip button"
     },
     "infoSkipUnableTitle": {
-        "message": "Вы не можете пропустить треки, которые уже заскробблены",
+        "message": "Вы не можете пропустить эту композицию",
         "description": "Title of skip button"
     },
-    "infoSkipAlreadyTitle": {
-        "message": "Вы уже пропустили этот трек",
-        "description": "Title of skip button"
+    "infoSkippedTitle": {
+        "message": "Вы пропустили эту композицию",
+        "description": "Title of unskip button"
     },
     "infoOpenAlbumArt": {
         "message": "Открыть обложку альбома в новой вкладке",
@@ -451,17 +523,41 @@
         "message": "Альбом (необязательно)",
         "description": "Placeholder of album input"
     },
+    "infoAlbumArtistPlaceholder": {
+        "message": "Исполнитель альбома (необязательно)",
+        "description": "Placeholder of album artist input"
+    },
+    "infoArtistLabel": {
+        "message": "Исполнитель",
+        "description": "Label of artist input row"
+    },
+    "infoTrackLabel": {
+        "message": "Трек",
+        "description": "Label of track input row"
+    },
+    "infoAlbumLabel": {
+        "message": "Альбом",
+        "description": "Label of album input row"
+    },
+    "infoAlbumArtistLabel": {
+        "message": "Исполнитель альбома",
+        "description": "Label of album artist input row"
+    },
     "infoViewArtistPage": {
-        "message": "Посмотреть страницу исполнителя",
+        "message": "Посмотреть страницу исполнителя: $1",
         "description": "Placeholder of album input"
     },
     "infoViewAlbumPage": {
-        "message": "Посмотреть страницу альбома",
+        "message": "Посмотреть страницу альбома: $1",
         "description": "Placeholder of album input"
     },
     "infoViewTrackPage": {
-        "message": "Посмотреть страницу трека",
+        "message": "Посмотреть страницу композиции: $1",
         "description": "Placeholder of album input"
+    },
+    "infoYourScrobbles": {
+        "message": "Прослушиваний: $1",
+        "description": "Label for user play count"
     },
     "pageActionBase": {
         "message": "Этот сайт поддерживается расширением",
@@ -471,9 +567,9 @@
         "message": "Поиск $1",
         "description": "`loading` page action title"
     },
-    "pageActionRecognized": {
+    "pageActionPlaying": {
         "message": "Сейчас играет $1",
-        "description": "`recognized` page action title"
+        "description": "`playing` page action title"
     },
     "pageActionScrobbled": {
         "message": "Заскробблено $1",
@@ -492,7 +588,7 @@
         "description": "`disabled` page action title"
     },
     "pageActionUnknown": {
-        "message": "Трек не распознан. Кликните, чтобы ввести верные данные.",
+        "message": "Композиция не распознана. Кликните, чтобы ввести верные данные.",
         "description": "`unknown` page action title"
     },
     "pageActionError": {
@@ -501,6 +597,14 @@
     },
     "pageActionUnsupported": {
         "message": "Web Scrobbler не поддерживает этот сайт.",
+        "description": "`unsupported` page action title"
+    },
+    "pageActionLoved": {
+        "message": "Вы отметили композицию $1 как любимую",
+        "description": "`unsupported` page action title"
+    },
+    "pageActionUnloved": {
+        "message": "Вы удалили композицию $1 из списка любимых",
         "description": "`unsupported` page action title"
     },
     "menuDisableConnector": {
@@ -512,7 +616,7 @@
         "description": "Context menu item"
     },
     "menuDisableUntilTabClosed": {
-        "message": "Отключить коннектор, пока открыта вкладка",
+        "message": "Отключить $1, пока открыта вкладка",
         "description": "Context menu item"
     },
     "notificationConnectAccounts": {
@@ -532,36 +636,24 @@
         "description": "Notification text"
     },
     "notificationNotRecognized": {
-        "message": "Трек не распознан",
+        "message": "Композиция не распознана",
         "description": "Notification title"
     },
     "notificationNotRecognizedText": {
-        "message": "Кликните на иконку справа от адресной строки, чтобы скорректировать информацию о треке.",
+        "message": "Кликните на иконку справа от адресной строки, чтобы скорректировать информацию о композиции.",
         "description": "Notification text"
     },
-    "startupTitle": {
-        "message": "Добро пожаловать в Web Scrobbler!",
-        "description": "Title for startup page"
+    "hotkeyToggleConnector": {
+        "message": "Включить/выключить скробблинг для текущего сайта",
+        "description": "Hotkey label"
     },
-    "startupIntroTitle": {
-        "message": "Благодарим за установку Web Scrobbler!",
-        "description": "Startup intro title"
+    "hotkeyLoveSong": {
+        "message": "Добавить композицию в список любимых",
+        "description": "Hotkey label"
     },
-    "startupIntroText": {
-        "message": "Прежде, чем мы начнём скробблить ваши композиции, вам следует ознакомиться с нашей политикой конфиденциальности и принять или отклонить её.",
-        "description": "Startup intro text"
-    },
-    "startupFinished": {
-        "message": "Спасибо! Если вы захотите изменить свой выбор, вы можете сделать это в настройках расширения.",
-        "description": "Startup finished text"
-    },
-    "optIn": {
-        "message": "Принять",
-        "description": "Opt in"
-    },
-    "optOut": {
-        "message": "Отклонить",
-        "description": "Opt out"
+    "hotkeyUnloveSong": {
+        "message": "Удалить композицию из списка любимых",
+        "description": "Hotkey label"
     },
     "extDescription": {
         "message": "Скробблите музыку со всего Интернета!",

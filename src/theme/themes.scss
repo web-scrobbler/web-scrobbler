@@ -1,0 +1,49 @@
+$themes: (
+	light: (
+		always-light: #fff,
+		always-last-fm: #d82323,
+		always-last-fm-hover: #fc3434,
+		background: #fff,
+		checkbox-inactive: #8e8e8e,
+		sidebar-bg: rgb(250 235 235 / 70%),
+		context-bg: rgb(250 235 235 / 95%),
+		modal-bg: rgb(255 255 255 / 95%),
+		last-fm-bg: #faebeb,
+		muted-text: #555,
+		text: #222,
+		last-fm: #d82323,
+		confirm: #00b300,
+		site-image: url('../img/main/site-light.jpg'),
+		invert-filter: invert(0%),
+	),
+	dark: (
+		always-light: #fff,
+		always-last-fm: #d82323,
+		always-last-fm-hover: #fc3434,
+		background: #1e1e1e,
+		checkbox-inactive: #8e8e8e,
+		sidebar-bg: rgb(194 57 55 / 70%),
+		context-bg: rgb(194 57 55 / 95%),
+		modal-bg: rgb(40 40 40 / 95%),
+		last-fm-bg: #c23937,
+		muted-text: #bbb,
+		text: #eee,
+		last-fm: #fc3434,
+		confirm: #00b300,
+		site-image: url('../img/main/site-dark.jpg'),
+		invert-filter: invert(100%),
+	),
+);
+
+@each $name, $map in $themes {
+	.theme-#{$name} {
+		@each $key, $value in $map {
+			--#{$key}: #{$value};
+		}
+	}
+}
+
+body {
+	// Avoid animation flickering in iOS
+	-webkit-transform: translate3d(0, 0, 0);
+}

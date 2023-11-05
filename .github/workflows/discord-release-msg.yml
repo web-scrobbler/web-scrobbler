@@ -1,0 +1,16 @@
+name: 'Release messages to #news announcement channel'
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  send_release_message:
+    runs-on: ubuntu-latest
+    name: Sends release message
+    steps:
+      - name: Sending message
+        uses: nhevia/discord-styled-releases@v1.2.3
+        with:
+          webhook_id: ${{ secrets.DISCORD_WEBHOOK_ID }}
+          webhook_token: ${{ secrets.DISCORD_WEBHOOK_TOKEN }}

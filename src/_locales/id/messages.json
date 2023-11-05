@@ -1,0 +1,778 @@
+{
+    "optionsTitle": {
+        "message": "Opsi Web Scrobbler",
+        "description": "Title of options page"
+    },
+    "optionsGeneral": {
+        "message": "General",
+        "description": "'General' section"
+    },
+    "optionsPermissionsLabel": {
+        "message": "You have not granted Web Scrobbler the permission to access all sites, which means you have to click the extension icon to start scrobbling every time. Click here to grant the permission. Note that in safari the permission will not automatically be granted, but the next time you visit a supported site you will be able to click \"Always Allow on Every Website...\" to grant the permission.",
+        "description": "Label for permissions button"
+    },
+    "optionUseNotifications": {
+        "message": "Gunakan notifikasi sedang dimainkan",
+        "description": "Option label"
+    },
+    "optionUseNotificationsTitle": {
+        "message": "Tampilkan notifikasi untuk semua situs yang didukung",
+        "description": "Option title"
+    },
+    "optionUnrecognizedNotifications": {
+        "message": "Berikan notifikasi bila trek tidak dikenal",
+        "description": "Option label"
+    },
+    "optionUnrecognizedNotificationsTitle": {
+        "message": "Berikan notifikasi bila trek tidak dikenali oleh ekstensi",
+        "description": "Option title"
+    },
+    "optionScrobblePodcasts": {
+        "message": "Scrobble podcast",
+        "description": "Option label"
+    },
+    "optionScrobblePodcastsTitle": {
+        "message": "Scrobble episode podcast",
+        "description": "Option title"
+    },
+    "optionsScrobbleBehavior": {
+        "message": "Scrobble behavior",
+        "description": "'Scrobble behavior' section"
+    },
+    "optionForceRecognize": {
+        "message": "Paksa pengenal trek",
+        "description": "Option label"
+    },
+    "optionForceRecognizeTitle": {
+        "message": "Paksa pengenalan trek tidak dikenal",
+        "description": "Option title"
+    },
+    "optionScrobbleRecognizedTracks": {
+        "message": "Scrobble recognized or edited tracks (default)",
+        "description": "Option label"
+    },
+    "optionScrobbleRecognizedTracksTitle": {
+        "message": "Only scrobble tracks if they are recognized or edited",
+        "description": "Option title"
+    },
+    "optionScrobbleEditedTracksOnly": {
+        "message": "Scrobble edited tracks only",
+        "description": "Option label"
+    },
+    "optionScrobbleEditedTracksOnlyTitle": {
+        "message": "Only scrobble tracks if they are edited",
+        "description": "Option title"
+    },
+    "optionsHidden": {
+        "message": "Hidden",
+        "description": "'Hidden' section"
+    },
+    "optionScrobblePercent": {
+        "message": "Scrobble at",
+        "description": "Option title"
+    },
+    "optionScrobblePercentSuffix": {
+        "message": "of song duration",
+        "description": "Option title"
+    },
+    "optionYtDesc": {
+        "message": "If you turn off both options, the extension will scrobble YouTube videos from all categories.",
+        "description": "Description of YouTube options"
+    },
+    "optionPercentDesc": {
+        "message": "Note that a track will be scrobbled anyway, if it has been played for 4 minutes, regardless of the option value.",
+        "description": "Description of scrobble percent option"
+    },
+    "optionYtMusicOnly": {
+        "message": "Scrobble video dari kategori \"Musik\"",
+        "description": "Option title"
+    },
+    "optionYtMusicOnlyTitle": {
+        "message": "Abaikan video yang tidak di kategori Musik",
+        "description": "Option label"
+    },
+    "optionYtEntertainmentOnly": {
+        "message": "Scrobble video dari kategori \"Hiburan\"",
+        "description": "Option label"
+    },
+    "optionYtEntertainmentOnlyTitle": {
+        "message": "Abaikan video yang tidak di kategori Hiburan",
+        "description": "Option title"
+    },
+    "optionYtGetTrackInfoFromYtMusic": {
+        "message": "Use Youtube Music to get track info",
+        "description": "Option label"
+    },
+    "optionYtGetTrackInfoFromYtMusicTitle": {
+        "message": "Use Youtube Music to get track info, if disabled defaults to using description and video title",
+        "description": "Option title"
+    },
+    "optionYtMusicRecognisedOnly": {
+        "message": "Scrobble only videos that are recognized by YouTube Music as music",
+        "description": "Option label"
+    },
+    "optionYtMusicRecognisedOnlyTitle": {
+        "message": "Ignore videos that are not recognised by YouTube Music as music",
+        "description": "Option title"
+    },
+    "optionTheme": {
+        "message": "Theme",
+        "description": "Option label"
+    },
+    "optionThemeTitle": {
+        "message": "Choose the theme of the extension",
+        "description": "Option title"
+    },
+    "optionThemeLight": {
+        "message": "Light",
+        "description": "Option label"
+    },
+    "optionThemeDark": {
+        "message": "Dark",
+        "description": "Option label"
+    },
+    "optionThemeSystem": {
+        "message": "System",
+        "description": "Option label"
+    },
+    "optionsAccounts": {
+        "message": "Akun",
+        "description": "'Accounts' section"
+    },
+    "accountsSignedInAs": {
+        "message": "Kamu masuk sebagai $1",
+        "description": "'Signed in' label"
+    },
+    "accountsNotSignedIn": {
+        "message": "Kamu belum masuk.",
+        "description": "'Signed in' label"
+    },
+    "accountsProfile": {
+        "message": "Profil",
+        "description": "'Signed in' label"
+    },
+    "accountsSignOut": {
+        "message": "Keluar",
+        "description": "Button label"
+    },
+    "accountsSignIn": {
+        "message": "Masuk",
+        "description": "Button label"
+    },
+    "accountsScrobblerProps": {
+        "message": "Properties",
+        "description": "Button label"
+    },
+    "accountsScrobblerPropsTitle": {
+        "message": "$1 properties",
+        "description": "Button label"
+    },
+    "accountsUserApiUrl": {
+        "message": "API URL",
+        "description": "Input label"
+    },
+    "accountsUserApiUrlPlaceholder": {
+        "message": "Custom API URL",
+        "description": "Input label"
+    },
+    "accountsUserToken": {
+        "message": "Token",
+        "description": "Input label"
+    },
+    "accountsUserTokenPlaceholder": {
+        "message": "Custom token",
+        "description": "Input label"
+    },
+    "optionsOptions": {
+        "message": "Opsi",
+        "description": "'Options' section"
+    },
+    "optionsEdits": {
+        "message": "Edits",
+        "description": "'Edits' section"
+    },
+    "optionsEditedTracks": {
+        "message": "Trek tersunting",
+        "description": "'Edited tracks' header"
+    },
+    "optionsEditedTracksDesc": {
+        "message": "This extension stores edited tracks.",
+        "description": "Description of edited tracks"
+    },
+    "optionsEditedTracksPopupTitle": {
+        "message": "$1 edited tracks",
+        "description": "'Edited tracks' header"
+    },
+    "optionsRegexEdits": {
+        "message": "Regex/Bulk edits",
+        "description": "'Regex/Bulk edits' header"
+    },
+    "optionsRegexEditsDesc": {
+        "message": "This extension stores regex/bulk edits.",
+        "description": "Description of regex/bulk edits"
+    },
+    "optionsRegexEditsPopupTitle": {
+        "message": "$1 regex/bulk edits",
+        "description": "'Regex/Bulk edits' header"
+    },
+    "optionsViewEdited": {
+        "message": "Lihat",
+        "description": "Button to view edited tracks"
+    },
+    "optionsExportEdited": {
+        "message": "Ekspor",
+        "description": "Button to export edited tracks"
+    },
+    "optionsImportEdited": {
+        "message": "Impor",
+        "description": "Button to import edited tracks"
+    },
+    "optionsConnectors": {
+        "message": "Connectors",
+        "description": "'Connectors' section"
+    },
+    "optionsEnableDisableHint": {
+        "message": "Click on the checkbox to enable/disable connectors.",
+        "description": "Enable/disable hint"
+    },
+    "optionsCustomPatternsHint": {
+        "message": "Click on the gear icon to configure custom URL patterns for connectors.",
+        "description": "Description of how to configure custom URL patterns"
+    },
+    "optionsSupportedWebsites": {
+        "message": "Situs yang didukung",
+        "description": "'Supported websites' header"
+    },
+    "optionsToggle": {
+        "message": "Toggle",
+        "description": "Label of toggle button"
+    },
+    "optionsLoadingConnectorOptions": {
+        "message": "Loading connector options...",
+        "description": "Loading connector options message"
+    },
+    "learnMoreLabel": {
+        "message": "Learn more",
+        "description": "Learn more label"
+    },
+    "contactTitle": {
+        "message": "Kontak",
+        "description": "'Contact' section"
+    },
+    "contactGitHubDesc": {
+        "message": "Laporkan masalah dan kontribusi",
+        "description": "Description for GitHub section"
+    },
+    "contactTwitterDesc": {
+        "message": "Cek permbaruan terkini atau sekedar bercakap ria",
+        "description": "Description for Twitter section"
+    },
+    "contactPrivacyPolicyDesc": {
+        "message": "View the privacy policy",
+        "description": "Description for privacy section"
+    },
+    "faqTitle": {
+        "message": "FAQ",
+        "description": "'FAQ' section"
+    },
+    "faqQuestion1": {
+        "message": "Bagaimana cara menggunakan ektensi ini?",
+        "description": "Question #1"
+    },
+    "faqAnswer1a": {
+        "message": "You should click on a notification that is shown when the extension is loaded the first time. Then, you should grant access to your accounts.",
+        "description": "Answer #1"
+    },
+    "faqAnswer1b": {
+        "message": "Note: In some cases, the notification won't be shown, e.g. on Mac OS if Chrome is running in full-screen mode; the extension will open a tab where you can grant access to your accounts.",
+        "description": "Answer #1"
+    },
+    "faqQuestion2": {
+        "message": "Bagaimana cara menghentikan scrobbling sementara?",
+        "description": "Question #2"
+    },
+    "faqAnswer2a": {
+        "message": "You can do that by right-clicking on the green extension icon in the extension bar. Using the context menu you can disable the connector for the current web service.",
+        "description": "Answer #2"
+    },
+    "faqAnswer2b": {
+        "message": "Use the checkboxes on the options page to disable certain connectors, or the \"Toggle\" checkbox to disable scrobbling globally.",
+        "description": "Answer #2"
+    },
+    "faqQuestion3": {
+        "message": "Trek lagu ini tidak dikenali! Bisakah ini diperbaiki?",
+        "description": "Question #3"
+    },
+    "faqAnswer3a": {
+        "message": "When a track cannot be recognized, a gray icon with question mark appears in the extension bar. You can click on this icon and input correct data in the opened popup window.",
+        "description": "Answer #3"
+    },
+    "faqAnswer3b": {
+        "message": "Also, there's an option called \"Force track recognition\" that makes the extension force scrobbling the track even if the track is not validated by Last.fm.",
+        "description": "Answer #3"
+    },
+    "faqQuestion4": {
+        "message": "Some music on Bandcamp cannot be scrobbled. Is it possible to fix this?",
+        "description": "Question #4"
+    },
+    "faqAnswer4a": {
+        "message": "Looks like the music is hosted on a custom domain and the extension cannot detect whether it’s Bandcamp or not.",
+        "description": "Answer #4"
+    },
+    "faqAnswer4b": {
+        "message": "As a workaround, configure the extension to work with custom domains as follows:",
+        "description": "Answer #4"
+    },
+    "faqAnswer4b1": {
+        "message": "Open the extension setting page and expand the “Options” section.",
+        "description": "Answer #4"
+    },
+    "faqAnswer4b2": {
+        "message": "Find the Bandcamp connector in the list of supported services.",
+        "description": "Answer #4"
+    },
+    "faqAnswer4b3": {
+        "message": "Click on the gear icon near the connector label.",
+        "description": "Answer #4"
+    },
+    "faqAnswer4b4": {
+        "message": "Add URL pattern that matches the Bandcamp custom domain URL and apply the changes.",
+        "description": "Answer #4"
+    },
+    "faqAnswer4c": {
+        "message": "You can learn more about the custom URL patterns <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/wiki/Custom-URL-patterns'>here</a>.",
+        "description": "Answer #4"
+    },
+    "faqQuestion5": {
+        "message": "Apakah ektensi ini akan mendukung situs ____ ?",
+        "description": "Question #5"
+    },
+    "faqAnswer5": {
+        "message": "Open a <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">new issue</a> on GitHub with your request, and we'll tell you if we can add support for the website or not. Also, you can add support for the website by forking the <a href=\"http://github.com/web-scrobbler/web-scrobbler\">GitHub repository</a> and sending us a pull request.",
+        "description": "Answer #5"
+    },
+    "faqQuestion6": {
+        "message": "Apakah fitur X akan ditambahkan?",
+        "description": "Question #6"
+    },
+    "faqAnswer6": {
+        "message": "Tergantung, selama masih masuk akal. Kalau kamu ingin fitur yang keren tapi tidak terlalu berguna, kamu mungkin akan kecewa.",
+        "description": "Answer #6"
+    },
+    "faqQuestion7": {
+        "message": "Siapakah pembuatnya?",
+        "description": "Question #7"
+    },
+    "faqAnswer7": {
+        "message": "The original author of this extension is David Šabata. Now this extension is developed and maintained by the Web Scrobbler Team.",
+        "description": "Answer #7"
+    },
+    "optionsAbout": {
+        "message": "Tentang",
+        "description": "'About' section"
+    },
+    "aboutChangelog": {
+        "message": "The changelog of current version is available <a id='latest-release' target='_blank' href='#'>here</a>. For the full changelog please visit <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>this page</a>.",
+        "description": "'About' section text"
+    },
+    "aboutExtensionDesc": {
+        "message": "Web Scrobbler is a browser extension created for people who listen to music online through their browser, and would like to keep an updated playback history using scrobbling services, such as Last.fm, Libre.fm and ListenBrainz.",
+        "description": "'About' section text"
+    },
+    "contributorsTitle": {
+        "message": "Kontributor",
+        "description": "'Contributors' header"
+    },
+    "contributorsText": {
+        "message": "Kamu bisa menemukan daftar kontributor melalui <a href=\"https://github.com/web-scrobbler/web-scrobbler/graphs/contributors\">GitHub.</a>",
+        "description": "'About' section text"
+    },
+    "contributorsContribute": {
+        "message": "Want to contribute? See all the ways you can contribute to the project at <a href=\"https://web-scrobbler.com#contributing\" target=\"_blank\" rel=\"noopener noreferrer\">our website</a>.",
+        "description": "'About' section text"
+    },
+    "showSomeLoveTitle": {
+        "message": "Berikan dukungan",
+        "description": "'Show some love' section"
+    },
+    "showSomeLoveFundingCampaign": {
+        "message": "Over time a significant backlog of issues has been built up in the Web Scrobbler repository. From mid-August 2023 until mid-March 2024 one of our main developers will be available to work full-time on the project at a reduced rate. Roughly speaking, for every $$1500 we raise, we can pay for one month of full-time work, up to around $$9-10k. If you want to support this campaign and help us run through our backlog and make Web Scrobbler even better than it has ever been, you can use the button below. We remain committed to keeping Web Scrobbler and all of its features completely free forever. Please help spread the word.",
+        "description": "Temporary funding campaign"
+    },
+    "showSomeLoveText1": {
+        "message": "Unlike other extensions, this one does not contain any flashing banners or sneaky ads.",
+        "description": ""
+    },
+    "showSomeLoveText2": {
+        "message": "The extension is free, and will always be free. But if you want to support development of the extension, you can use the button below.",
+        "description": ""
+    },
+    "donationButtonLabel": {
+        "message": "Support us on OpenCollective",
+        "description": "The donation button label"
+    },
+    "customPatterns": {
+        "message": "URL patterns",
+        "description": "'URL patterns' section"
+    },
+    "customPatternsHint": {
+        "message": "Add URL patterns that the connector should match below.",
+        "description": "Popup hint"
+    },
+    "customPatternsAdd": {
+        "message": "Add pattern",
+        "description": "Add button"
+    },
+    "albumTooltip": {
+        "message": "From \"$1\" album",
+        "description": "Tooltip text"
+    },
+    "buttonOk": {
+        "message": "OK",
+        "description": "OK button label"
+    },
+    "buttonCancel": {
+        "message": "Batal",
+        "description": "Cancel button label"
+    },
+    "buttonReset": {
+        "message": "Atur ulang",
+        "description": "Reset button label"
+    },
+    "buttonClear": {
+        "message": "Hapus",
+        "description": "Clear button label"
+    },
+    "noItemsInCache": {
+        "message": "No items in cache.",
+        "description": "Popup hint"
+    },
+    "getStartedHeader": {
+        "message": "Play some music to get started",
+        "description": "The header of 'Get started' popup"
+    },
+    "getStartedSubheader": {
+        "message": "Is it already playing?",
+        "description": "The subheader of 'Get started' popup"
+    },
+    "getStartedSiteChanged": {
+        "message": "In most cases this means the site has changed somehow. The change does not have to be visible to user, but means a lot to the extension.",
+        "description": "Description of why track is not recognized"
+    },
+    "getStartedSubmitIssue": {
+        "message": "The connector code for this specific website needs to be updated. You can navigate to the <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">list of issues</a> and see if this website is already reported. If it is not, you can submit a new issue describing what's wrong, what's expected behavior and what's happening instead.",
+        "description": "Description of how to submit new issue"
+    },
+    "serviceErrorHeader": {
+        "message": "Service error",
+        "description": "The header of 'error' popup"
+    },
+    "serviceErrorDesc": {
+        "message": "Looks like something went wrong while scrobbling the music. Please open the options page and try to reauthenticate with services. If reauthentication doesn't help, and you still see this message, please create <a href=\"https://github.com/web-scrobbler/web-scrobbler/issues\" target=\"_blank\">a new issue</a> at the GitHub project page.",
+        "description": "The description of service error"
+    },
+    "serviceErrorAdblock": {
+        "message": "Note that some adblockers may interfere with the extension. If you have any adblocker installed, try to disable it and see if it helps. If you are using uBlock Origin, you can add an exception for last.fm by adding <code>@@||ws.audioscrobbler.com</code> under \"My filters\" tab. Other adblockers may have similar functionality.",
+        "description": "The description of service error"
+    },
+    "disabledSiteHeader": {
+        "message": "This website is turned off",
+        "description": "The header of 'disabled' popup"
+    },
+    "disabledSiteDesc": {
+        "message": "The extension won't scrobble music from this website until you turn it on in the extension options.",
+        "description": "The description of 'disabled' popup"
+    },
+    "disabledSiteButton": {
+        "message": "Open options page",
+        "description": "Button label"
+    },
+    "unsupportedWebsiteHeader": {
+        "message": "Situs ini tidak didukung",
+        "description": "The header of 'unsupported' popup"
+    },
+    "unsupportedWebsiteDesc": {
+        "message": "Web Scrobbling tidak mendukung situs ini.",
+        "description": "The description of 'unsupported' popup"
+    },
+    "unsupportedWebsiteDesc2": {
+        "message": "Some Google websites supported by the extension (e.g. Google Play Music, YouTube) can be blocked due to an ExtensionSettings policy.",
+        "description": "The description of 'unsupported' popup"
+    },
+    "unsupportedWebsiteUpdateNote": {
+        "message": "If the extension recently updated sites may show as unsupported until you refresh the page.",
+        "description": "The description of 'unsupported' popup"
+    },
+    "infoLove": {
+        "message": "Love track",
+        "description": "Label of love/unlove button"
+    },
+    "infoUnlove": {
+        "message": "Unlove track",
+        "description": "Label of love/unlove button"
+    },
+    "infoEditTitle": {
+        "message": "Sunting metadata trek",
+        "description": "Title of edit button"
+    },
+    "infoEditUnableTitle": {
+        "message": "You cannot edit this track",
+        "description": "Title of edit button"
+    },
+    "infoEditTitleShort": {
+        "message": "Edit",
+        "description": "Title of edit button, should be short for mobile button label"
+    },
+    "infoEditUnableTitleShort": {
+        "message": "Can't Edit",
+        "description": "Title of edit button, should be short for mobile button label"
+    },
+    "infoSwapTitle": {
+        "message": "Swap title and artist",
+        "description": "Title of swap button"
+    },
+    "infoSwapUnableTitle": {
+        "message": "You cannot swap empty track info",
+        "description": "Title of swap button"
+    },
+    "infoSwapTitleShort": {
+        "message": "Swap title/artist",
+        "description": "Title of swap button, should be short for mobile button label"
+    },
+    "infoSwapUnableTitleShort": {
+        "message": "Can't swap info",
+        "description": "Title of swap button, should be short for mobile button label"
+    },
+    "infoRegexTitle": {
+        "message": "Regex/Bulk edit mode",
+        "description": "Title of regex/bulk edit button"
+    },
+    "infoRegexTitleShort": {
+        "message": "Regex/Bulk edit",
+        "description": "Title of regex/bulk edit button, should be short for mobile button label"
+    },
+    "infoEditedWarning": {
+        "message": "This track has been edited. Regex edits are not applied to edited tracks, and the preview you see here may be inaccurate.",
+        "description": "Warning message to user if bulk editing on a previously edited track"
+    },
+    "infoSubmitTitle": {
+        "message": "Submit changes",
+        "description": "Title of submit button"
+    },
+    "infoSubmitUnableTitle": {
+        "message": "You cannot submit empty track info",
+        "description": "Title of submit button"
+    },
+    "infoSubmitTitleShort": {
+        "message": "Submit",
+        "description": "Title of submit button, should be short for mobile button label"
+    },
+    "infoSubmitUnableTitleShort": {
+        "message": "Can't submit",
+        "description": "Title of submit button, should be short for mobile button label"
+    },
+    "infoRevertTitle": {
+        "message": "Revert changes",
+        "description": "Title of revert button"
+    },
+    "infoRevertUnableTitle": {
+        "message": "You cannot revert this track",
+        "description": "Title of revert button"
+    },
+    "infoRevertTitleShort": {
+        "message": "Revert",
+        "description": "Title of revert button, should be short for mobile button label"
+    },
+    "infoRevertUnableTitleShort": {
+        "message": "Can't Revert",
+        "description": "Title of revert button, should be short for mobile button label"
+    },
+    "infoSkipTitle": {
+        "message": "Don't scrobble current track",
+        "description": "Title of skip button"
+    },
+    "infoSkipUnableTitle": {
+        "message": "You cannot skip this track",
+        "description": "Title of skip button"
+    },
+    "infoSkippedTitle": {
+        "message": "You skipped this track",
+        "description": "Title of unskip button"
+    },
+    "infoSkipTitleShort": {
+        "message": "Skip",
+        "description": "Title of skip button, should be short for mobile button label"
+    },
+    "infoSkipUnableTitleShort": {
+        "message": "Can't Skip",
+        "description": "Title of skip button, should be short for mobile button label"
+    },
+    "infoSkippedTitleShort": {
+        "message": "Skipped",
+        "description": "Title of unskip button, should be short for mobile button label"
+    },
+    "infoOpenAlbumArt": {
+        "message": "Open album art in new tab",
+        "description": "Title of album image"
+    },
+    "infoArtistPlaceholder": {
+        "message": "Artis",
+        "description": "Placeholder of artist input"
+    },
+    "infoTrackPlaceholder": {
+        "message": "Trek",
+        "description": "Placeholder of track input"
+    },
+    "infoAlbumPlaceholder": {
+        "message": "Album (opsional)",
+        "description": "Placeholder of album input"
+    },
+    "infoAlbumArtistPlaceholder": {
+        "message": "Album artist (optional)",
+        "description": "Placeholder of album artist input"
+    },
+    "infoSearchLabel": {
+        "message": "Search",
+        "description": "Label of regex edit search input"
+    },
+    "infoReplaceLabel": {
+        "message": "Replace",
+        "description": "Label of regex edit replace input"
+    },
+    "infoPreviewLabel": {
+        "message": "Preview",
+        "description": "Label of regex edit preview output"
+    },
+    "infoArtistLabel": {
+        "message": "Artist",
+        "description": "Label of artist input row"
+    },
+    "infoTrackLabel": {
+        "message": "Track",
+        "description": "Label of track input row"
+    },
+    "infoAlbumLabel": {
+        "message": "Album",
+        "description": "Label of album input row"
+    },
+    "infoAlbumArtistLabel": {
+        "message": "Album artist",
+        "description": "Label of album artist input row"
+    },
+    "infoViewArtistPage": {
+        "message": "View artist page: $1",
+        "description": "Placeholder of album input"
+    },
+    "infoViewAlbumPage": {
+        "message": "View album page: $1",
+        "description": "Placeholder of album input"
+    },
+    "infoViewTrackPage": {
+        "message": "View track page: $1",
+        "description": "Placeholder of album input"
+    },
+    "infoYourScrobbles": {
+        "message": "Your scrobbles: $1",
+        "description": "Label for user play count"
+    },
+    "pageActionBase": {
+        "message": "This site is supported for scrobbling",
+        "description": "`base` page action title"
+    },
+    "pageActionLoading": {
+        "message": "Looking up $1",
+        "description": "`loading` page action title"
+    },
+    "pageActionPlaying": {
+        "message": "Now playing $1",
+        "description": "`playing` page action title"
+    },
+    "pageActionScrobbled": {
+        "message": "Scrobbled $1",
+        "description": "`scrobbled` page action title"
+    },
+    "pageActionSkipped": {
+        "message": "Lewati $1",
+        "description": "`skipped` page action title"
+    },
+    "pageActionIgnored": {
+        "message": "Ignored $1",
+        "description": "`ignored` page action title"
+    },
+    "pageActionDisabled": {
+        "message": "This site is supported for scrobbling, but you disabled it",
+        "description": "`disabled` page action title"
+    },
+    "pageActionUnknown": {
+        "message": "Trek ini tidak dikenal. Klik untuk membetulkan informasi.",
+        "description": "`unknown` page action title"
+    },
+    "pageActionError": {
+        "message": "A service error occurred. Click for more information.",
+        "description": "`loading` page action title"
+    },
+    "pageActionUnsupported": {
+        "message": "Web Scrobbler does not support this website.",
+        "description": "`unsupported` page action title"
+    },
+    "pageActionLoved": {
+        "message": "You loved $1",
+        "description": "`unsupported` page action title"
+    },
+    "pageActionUnloved": {
+        "message": "You unloved $1",
+        "description": "`unsupported` page action title"
+    },
+    "menuDisableConnector": {
+        "message": "Disable $1 connector",
+        "description": "Context menu item"
+    },
+    "menuEnableConnector": {
+        "message": "Enable $1 connector",
+        "description": "Context menu item"
+    },
+    "menuDisableUntilTabClosed": {
+        "message": "Disable $1 connector until tab is closed",
+        "description": "Context menu item"
+    },
+    "notificationConnectAccounts": {
+        "message": "Sambungkan akunmu",
+        "description": "Notification title"
+    },
+    "notificationConnectAccountsText": {
+        "message": "Click the notification to connect your accounts.",
+        "description": "Notification text"
+    },
+    "notificationAuthError": {
+        "message": "Otentikasi galat",
+        "description": "Notification title"
+    },
+    "notificationUnableSignIn": {
+        "message": "Unable to sign in to $1. Please try later.",
+        "description": "Notification text"
+    },
+    "notificationNotRecognized": {
+        "message": "Trek ini tidak dikenal",
+        "description": "Notification title"
+    },
+    "notificationNotRecognizedText": {
+        "message": "Click on the icon in the extensions bar to correct and submit track info.",
+        "description": "Notification text"
+    },
+    "hotkeyToggleConnector": {
+        "message": "Toggle scrobbling for current website",
+        "description": "Hotkey label"
+    },
+    "hotkeyLoveSong": {
+        "message": "Love now playing song",
+        "description": "Hotkey label"
+    },
+    "hotkeyUnloveSong": {
+        "message": "Unlove now playing song",
+        "description": "Hotkey label"
+    },
+    "extDescription": {
+        "message": "Scrobble musik dari berbagai situs!",
+        "description": "Description of the extension"
+    }
+}

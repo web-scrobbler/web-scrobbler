@@ -1,0 +1,449 @@
+@mixin ios-text-input {
+	appearance: none;
+	background-color: var(--last-fm-bg);
+	border: none;
+	box-sizing: border-box;
+	color: var(--text);
+	font-size: 1.2em;
+}
+
+.alertPopup,
+.widePopup {
+	padding: 15px;
+	text-align: center;
+
+	p,
+	ul {
+		text-align: left;
+	}
+}
+
+.alertPopup {
+	width: 300px;
+}
+
+.widePopup {
+	width: 400px;
+}
+
+.bigIcon:not(table) {
+	font-size: 64px;
+}
+
+body {
+	background-color: var(--background);
+	color: var(--text);
+	font-family: Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	color: var(--last-fm);
+	text-decoration: none;
+
+	&.notRedAnchor {
+		color: var(--text);
+	}
+}
+
+.alreadyPlaying {
+	summary {
+		align-items: center;
+		cursor: pointer;
+		display: flex;
+		gap: 0.5em;
+		width: 100%;
+	}
+
+	.expandVector {
+		transition: transform 0.2s ease-in-out;
+	}
+
+	&[open] {
+		.expandVector {
+			transform: rotate(-180deg);
+		}
+	}
+}
+
+.nowPlayingPopup {
+	background-color: transparent;
+	display: flex;
+	overflow: hidden;
+	width: max-content;
+
+	.coverArtWrapper {
+		// set a very low height here. This prevents image from expanding uncontrollably.
+		// The entire image still remains clickable link (overflow).
+		height: 10px;
+
+		.coverArtBackground {
+			background-size: cover;
+
+			.coverArt {
+				aspect-ratio: 1 / 1;
+				backdrop-filter: blur(5px);
+				object-fit: contain;
+				width: 100vh;
+			}
+		}
+	}
+
+	.songDetails {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25em;
+		max-width: 50ch;
+		min-width: 30ch;
+		overflow: hidden;
+		padding: 0.5em 1em;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+
+		a {
+			white-space: nowrap;
+			width: fit-content;
+		}
+
+		@supports (-webkit-touch-callout: none) {
+			.editField {
+				@include ios-text-input;
+			}
+		}
+	}
+
+	.playDetails {
+		display: flex;
+		gap: 0.5em;
+	}
+
+	.playCount {
+		align-items: center;
+		display: flex;
+		gap: 0.25em;
+
+		svg {
+			fill: var(--always-light);
+			height: 1.2em;
+			width: 1.2em;
+		}
+	}
+
+	.label {
+		background-color: var(--last-fm);
+		border-radius: 0.25em;
+		color: var(--always-light);
+		padding: 0.25em 0.5em;
+	}
+
+	.controlButtons {
+		display: flex;
+		margin-top: 0.5em;
+
+		.controlButton {
+			background-color: transparent;
+			border: none;
+			color: var(--text);
+			cursor: pointer;
+			padding: 0.25em 0.5em;
+
+			&:hover,
+			&.active {
+				color: var(--last-fm);
+			}
+
+			&:not(:hover) .hover {
+				display: none;
+			}
+
+			&:hover .nonHover {
+				display: none;
+			}
+
+			&[disabled] {
+				cursor: not-allowed;
+
+				&:not(.hiddenDisabled) {
+					color: var(--checkbox-inactive);
+				}
+			}
+		}
+	}
+}
+
+.bold {
+	font-weight: bold;
+}
+
+.settingsIcon {
+	bottom: 0.75em;
+	color: var(--text);
+	position: absolute;
+	right: 0.75em;
+
+	&:hover,
+	&:active {
+		color: var(--last-fm);
+	}
+}
+
+.regexContainer {
+	align-items: center;
+	box-sizing: border-box;
+	display: grid;
+	gap: 0.5em 1em;
+	grid-template:
+		'. search replace preview' 2em
+		'track tracksearch trackreplace trackpreview' 2em
+		'artist artistsearch artistreplace artistpreview' 2em
+		'album albumsearch albumreplace albumpreview' 2em
+		'albumartist albumartistsearch albumartistreplace albumartistpreview' 2em
+		'footer footer footer footer' auto / auto 1fr 1fr 1fr;
+	padding: 1em;
+	width: 800px;
+
+	.entryLabel {
+		justify-self: right;
+	}
+
+	.searchWrapper {
+		align-self: center;
+		position: relative;
+
+		.searchField {
+			box-sizing: border-box;
+			width: 100%;
+		}
+
+		.regexTest {
+			position: absolute;
+			right: 0.1em;
+			top: 50%;
+			transform: translateY(-50%);
+
+			&.regexSuccess {
+				color: var(--confirm);
+			}
+
+			&.regexFailure {
+				color: var(--last-fm);
+			}
+		}
+	}
+
+	.editWarning {
+		color: var(--last-fm);
+	}
+
+	input {
+		padding: 0.25em 0.5em;
+	}
+
+	.regexFooter {
+		display: flex;
+		flex-direction: column;
+		grid-area: footer;
+	}
+
+	/**
+	 * assign grid areas
+	 */
+
+	.searchLabel {
+		grid-area: search;
+	}
+
+	.replaceLabel {
+		grid-area: replace;
+	}
+
+	.previewLabel {
+		grid-area: preview;
+	}
+
+	.trackLabel {
+		grid-area: track;
+	}
+
+	.artistLabel {
+		grid-area: artist;
+	}
+
+	.albumLabel {
+		grid-area: album;
+	}
+
+	.albumArtistLabel {
+		grid-area: albumartist;
+	}
+
+	.trackSearch {
+		grid-area: tracksearch;
+	}
+
+	.artistSearch {
+		grid-area: artistsearch;
+	}
+
+	.albumSearch {
+		grid-area: albumsearch;
+	}
+
+	.albumArtistSearch {
+		grid-area: albumartistsearch;
+	}
+
+	.trackReplace {
+		grid-area: trackreplace;
+	}
+
+	.artistReplace {
+		grid-area: artistreplace;
+	}
+
+	.albumReplace {
+		grid-area: albumreplace;
+	}
+
+	.albumArtistReplace {
+		grid-area: albumartistreplace;
+	}
+
+	.trackPreview {
+		grid-area: trackpreview;
+	}
+
+	.artistPreview {
+		grid-area: artistpreview;
+	}
+
+	.albumPreview {
+		grid-area: albumpreview;
+	}
+
+	.albumArtistPreview {
+		grid-area: albumartistpreview;
+	}
+}
+
+@supports (-webkit-touch-callout: none) {
+	.root {
+		display: flex;
+		flex-direction: column-reverse;
+		// stylelint-disable-next-line unit-no-unknown
+		height: 100dvh;
+		width: 100vw;
+	}
+
+	.nowPlayingPopup,
+	.alertPopup {
+		align-items: center;
+		box-sizing: border-box;
+		flex: 1 1 auto;
+		flex-direction: column;
+		margin: 0 auto;
+		overflow: auto;
+		overflow-y: auto;
+		padding-bottom: 1.5em;
+		width: 100%;
+	}
+
+	.nowPlayingPopup {
+		.coverArtWrapper {
+			filter: drop-shadow(0 0.25em 0.5em var(--text));
+			flex: 0 0 auto;
+			height: min(30vh, 30vw);
+			margin: 1em 0;
+			position: relative;
+
+			&::after {
+				background-color: var(--background);
+				clip-path: url('#coverArtClip');
+				content: '';
+				inset: 0;
+				position: absolute;
+				z-index: -100;
+			}
+
+			.coverArtBackground {
+				clip-path: url('#coverArtClip');
+				display: inline-block;
+			}
+
+			.coverArt,
+			.coverArtBackground {
+				max-height: min(30vh, 30vw);
+				max-width: min(30vh, 30vw);
+			}
+
+			.coverArt {
+				background-color: rgb(0 0 0 / 50%);
+			}
+		}
+
+		.songDetails {
+			align-items: center;
+		}
+
+		.iosLoveButton {
+			background-color: transparent;
+			border: none;
+			color: var(--text);
+			cursor: pointer;
+			padding: 0.25em 0.5em;
+
+			&.active {
+				color: var(--last-fm);
+			}
+
+			svg {
+				height: 2em;
+				width: 2em;
+			}
+		}
+	}
+
+	.regexContainer {
+		align-items: center;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+
+		.iosSearchLabel,
+		.iosReplaceLabel,
+		.iosPreviewLabel {
+			margin-top: 0.5em;
+		}
+
+		input {
+			@include ios-text-input;
+			width: 100%;
+		}
+
+		.entryWrapper {
+			align-items: center;
+			border: 1px solid var(--last-fm-bg);
+			border-radius: 1em;
+			display: flex;
+			flex-direction: column;
+
+			.entryWrapperLegend {
+				padding: 0 1em;
+			}
+		}
+
+		.searchWrapper {
+			align-items: center;
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+
+			.regexTest {
+				bottom: -0.3em; // I have no idea why this works - and I honestly don't want to know either
+				top: auto;
+			}
+		}
+	}
+}

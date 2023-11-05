@@ -1,0 +1,31 @@
+.sidebarWrapper {
+	background-color: var(--sidebar-bg);
+	flex-shrink: 0;
+	height: 100vh;
+	overflow-y: auto;
+
+	.sidebar {
+		.sidebarButton {
+			align-items: center;
+			background-color: transparent;
+			border: none;
+			color: var(--text);
+			cursor: pointer;
+			display: flex;
+			font-size: 1.2em;
+			padding: 1em 2em;
+			width: 100%;
+
+			svg {
+				margin-bottom: 3px;
+				margin-right: 0.2em;
+			}
+
+			&.active,
+			&:hover {
+				background-color: var(--last-fm);
+				color: var(--always-light);
+			}
+		}
+	}
+}

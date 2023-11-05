@@ -1,0 +1,24 @@
+name: Resources
+on:
+  release:
+    types: [edited]
+
+jobs:
+  resources:
+    name: Request updating `updates.json`
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the extension version from ref
+        run: echo "EXT_VERSION=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
+
+      - name: Request updating `updates.json` for Firefox
+        run: |
+          curl -X POST \
+              -H "Authorization: token ${GH_FA_TOKEN}" \
+              -H "Accept: application/vnd.github.everest-preview+json" \
+              -d "{\"event_type\":\"${VERSION}\"}" \
+              https://api.github.com/repos/${REPOSITORY}/dispatches
+        env:
+          GH_FA_TOKEN: ${{ secrets.GH_FA_TOKEN }}
+          REPOSITORY: web-scrobbler/updates.json
+          VERSION: ${{ env.EXT_VERSION }}

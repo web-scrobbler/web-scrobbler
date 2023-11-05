@@ -1,0 +1,615 @@
+.tripleCheckboxOption {
+	$size: 0.5em;
+
+	span {
+		align-items: center;
+		display: flex;
+		font-size: 1.2em;
+		gap: $size;
+		justify-content: space-between;
+		padding: $size 0;
+	}
+
+	.tripleCheckboxWrapper {
+		border-radius: $size;
+		display: flex;
+		overflow: hidden;
+
+		.tripleCheckboxLabel {
+			--btn-color: var(--last-fm);
+			--btn-active-color: var(--always-light);
+			--btn-active-background-color: var(--last-fm);
+			align-items: center;
+			background-color: var(--background);
+			color: var(--btn-color);
+			cursor: pointer;
+			display: flex;
+			height: 3.5 * $size;
+			justify-content: center;
+			margin: 0;
+			width: 4.5 * $size;
+
+			&.activeBox,
+			&:hover {
+				background-color: var(--btn-active-background-color);
+				color: var(--btn-active-color);
+			}
+
+			&.checked {
+				--btn-color: var(--confirm);
+				--btn-active-background-color: var(--confirm);
+			}
+
+			&.indeterminate {
+				--btn-color: var(--text);
+				--btn-active-background-color: var(--checkbox-inactive);
+			}
+		}
+
+		.tripleCheckbox {
+			-webkit-appearance: none;
+			background-color: #fff;
+			height: 0;
+			margin: 0;
+			width: 0;
+		}
+	}
+}
+
+.deleteListing {
+	align-items: center;
+	display: flex;
+
+	&:not(:last-child) {
+		margin-bottom: 0.5em;
+	}
+
+	span {
+		font-size: 1.2em;
+	}
+}
+
+.buttonContainer {
+	display: flex;
+	gap: 0.5em;
+}
+
+.button {
+	align-items: center;
+	background-color: var(--always-last-fm);
+	border: none;
+	border-radius: 3px;
+	color: var(--always-light);
+	cursor: pointer;
+	display: flex;
+	font-size: 1.2em;
+	padding: 0.5em 1em;
+	white-space: nowrap;
+	width: min-content;
+
+	svg {
+		margin-right: 0.2em;
+	}
+
+	&:hover {
+		background-color: var(--always-last-fm-hover);
+	}
+
+	span {
+		white-space: nowrap;
+	}
+
+	&.noRadius {
+		border-radius: 0;
+	}
+
+	&.marginRight {
+		margin-right: 0.5em;
+	}
+
+	&.marginTop {
+		margin-top: 0.5em;
+	}
+
+	&.centered {
+		margin: 0 auto;
+	}
+
+	&.openCollective {
+		margin-bottom: 4px;
+	}
+
+	&.small {
+		padding: 1px 7px 2px;
+
+		svg {
+			margin-right: 0;
+		}
+	}
+
+	&.shiftLeft svg {
+		margin-left: -5px;
+	}
+}
+
+.contactList {
+	padding-left: 0;
+
+	.contactEntry {
+		--entry-color: var(--text);
+		--entry-margin-top: 5px;
+		align-items: center;
+		color: var(--entry-color);
+		display: flex;
+		padding: 0.5em 0;
+
+		.invertImg {
+			filter: var(--invert-filter);
+		}
+
+		.desc {
+			margin-top: var(--entry-margin-top);
+		}
+
+		span {
+			font-size: 1.2em;
+
+			&:not(.brandText) {
+				margin-left: 0.4em;
+			}
+		}
+
+		svg {
+			height: 32px;
+			width: 32px;
+		}
+
+		&.contactTwitter {
+			--entry-color: #1c9bef;
+		}
+
+		&.contactGithub {
+			--entry-margin-top: 4px;
+		}
+
+		.brandText {
+			font-size: 1.7em;
+			font-stretch: ultra-condensed;
+			font-weight: bold;
+			margin-left: 5px;
+		}
+	}
+}
+
+.optionList {
+	list-style-type: none;
+	padding-left: 0;
+	width: max-content;
+}
+
+.selectOption {
+	$size: 0.5em;
+
+	.bigLabel {
+		align-items: center;
+		cursor: pointer;
+		display: flex;
+		font-size: 1.2em;
+		gap: $size;
+		padding: $size 0;
+	}
+
+	select {
+		background-color: var(--background);
+		border: none;
+		border-radius: $size;
+		color: var(--text);
+		display: inline-block;
+		font-size: 2 * $size;
+		margin-left: auto;
+		padding: (0.5 * $size) $size;
+	}
+}
+
+.checkboxOption {
+	$tick-size: 1.05em;
+	$checkbox-size: 1.4em;
+	$tick-width: 2.5em;
+	$tick-offset: calc(($checkbox-size - $tick-size) / 2);
+	$animation-duration: 0.2s;
+
+	--checkbox-background: var(--checkbox-inactive);
+	--checkbox-offset: #{$tick-offset};
+
+	input {
+		-webkit-appearance: none;
+		appearance: none;
+	}
+
+	.checkboxWrapper {
+		background-color: var(--checkbox-background);
+		border-radius: $checkbox-size;
+		display: inline-block;
+		height: $checkbox-size;
+		margin-left: auto;
+		position: relative;
+		width: $tick-width;
+		z-index: -1;
+
+		.checkbox {
+			background-color: var(--always-light);
+			border-radius: $tick-size;
+			display: inline-block;
+			height: $tick-size;
+			left: var(--checkbox-offset);
+			position: absolute;
+			top: $tick-offset;
+			transition: left $animation-duration ease-in-out;
+			width: $tick-size;
+		}
+	}
+
+	input:checked ~ .checkboxWrapper {
+		--checkbox-background: var(--always-last-fm);
+		--checkbox-offset: calc(
+			#{$tick-width} - #{$tick-offset} - #{$tick-size}
+		);
+	}
+
+	.bigLabel,
+	.summarySpan {
+		align-items: center;
+		cursor: pointer;
+		display: flex;
+		font-size: 1.2em;
+		gap: 0.5em;
+		padding: 0.5em 0;
+	}
+
+	&.summaryCheckbox .summarySpan {
+		justify-content: space-between;
+
+		label {
+			cursor: pointer;
+		}
+	}
+
+	.bigLabel:hover,
+	&.summaryCheckbox .checkboxWrapper:hover {
+		filter: brightness(1.1);
+	}
+}
+
+.muted {
+	color: var(--muted-text);
+	max-width: 50vw;
+}
+
+summary {
+	list-style: none;
+
+	&::-webkit-details-marker {
+		display: none;
+	}
+}
+
+.radioButtons {
+	li {
+		margin-bottom: 1em;
+	}
+
+	input {
+		-webkit-appearance: none;
+		appearance: none;
+		margin: 0;
+	}
+
+	.radioLabel {
+		background-color: var(--background);
+		border-radius: 0.5em;
+		color: var(--text);
+		cursor: pointer;
+		display: inline-block;
+		font-size: 1.2em;
+		padding: 0.5em 1em;
+	}
+
+	.radioLabel:hover,
+	input:checked + .radioLabel {
+		background-color: var(--last-fm);
+		color: var(--always-light);
+	}
+}
+
+.connectorOptionsList {
+	$animation-duration: 0.2s;
+
+	summary,
+	& > li:first-child {
+		align-items: center;
+		display: flex;
+		gap: 0.5em;
+		width: 100%;
+
+		.checkboxOption {
+			flex-grow: 1;
+		}
+	}
+
+	summary {
+		cursor: pointer;
+	}
+
+	.expandVector {
+		transition: transform $animation-duration ease-in-out;
+	}
+
+	details[open] {
+		.expandVector {
+			transform: rotate(-180deg);
+		}
+	}
+}
+
+.patternWrapper {
+	$size: 0.5em;
+	border-radius: $size;
+	display: flex;
+	margin-bottom: $size;
+	overflow: hidden;
+	width: max-content;
+
+	.patternInput {
+		background-color: var(--background);
+		border: none;
+		color: var(--text);
+		font-size: 1.2em;
+	}
+}
+
+.propLabel {
+	$size: 0.5em;
+	display: block;
+	font-size: 1em;
+	margin-bottom: $size;
+}
+
+.propInput {
+	$size: 0.5em;
+	background-color: var(--background);
+	border: none;
+	border-radius: $size;
+	color: var(--text);
+	font-size: 1em;
+	margin-left: $size;
+	padding: (0.5 * $size) $size;
+}
+
+.permissionsPopup {
+	background-color: var(--sidebar-bg);
+	color: var(--text);
+	margin: 0;
+	text-align: center;
+
+	button {
+		background: none;
+		border: none;
+		cursor: pointer;
+		font-size: 1.25em;
+		margin: 0;
+		padding: 1em 15vw;
+	}
+}
+
+.attentionWindow {
+	background-color: var(--sidebar-bg);
+	color: var(--text);
+	font-size: 1.2em;
+	line-height: 1.25;
+	margin: 0 auto;
+	padding: 1em;
+	text-align: center;
+	width: 80%;
+}
+
+.arrayPropWrapper {
+	margin-bottom: 1rem;
+	margin-top: 0.5rem;
+
+	.arrayProps {
+		align-items: center;
+		display: flex;
+		margin-bottom: 0.2rem;
+	}
+
+	.arrayProp:not(:last-child) {
+		margin-right: 2rem;
+	}
+}
+
+.regexDeleteContent {
+	align-items: center;
+	background: repeating-linear-gradient(
+		var(--last-fm-bg) 0 2.5em,
+		transparent 2.5em 5em
+	);
+	display: grid;
+	gap: 0.5em 2em;
+	grid-template:
+		'. search replace' 2em
+		'track tracksearch trackreplace' 2em
+		'artist artistsearch artistreplace' 2em
+		'album albumsearch albumreplace' 2em
+		'albumartist albumartistsearch albumartistreplace' 2em / auto 1fr 1fr;
+	margin: 0.75em 0;
+	padding: 0.25em 1em;
+	width: 100%;
+
+	/**
+	 * Set grid areas
+	 */
+	.regexDeleteSearchLabel {
+		grid-area: search;
+	}
+
+	.regexDeleteReplaceLabel {
+		grid-area: replace;
+	}
+
+	.regexDeleteTrackLabel {
+		grid-area: track;
+	}
+
+	.regexDeleteTrackSearch {
+		grid-area: tracksearch;
+	}
+
+	.regexDeleteTrackReplace {
+		grid-area: trackreplace;
+	}
+
+	.regexDeleteArtistLabel {
+		grid-area: artist;
+	}
+
+	.regexDeleteArtistSearch {
+		grid-area: artistsearch;
+	}
+
+	.regexDeleteArtistReplace {
+		grid-area: artistreplace;
+	}
+
+	.regexDeleteAlbumLabel {
+		grid-area: album;
+	}
+
+	.regexDeleteAlbumSearch {
+		grid-area: albumsearch;
+	}
+
+	.regexDeleteAlbumReplace {
+		grid-area: albumreplace;
+	}
+
+	.regexDeleteAlbumArtistLabel {
+		grid-area: albumartist;
+	}
+
+	.regexDeleteAlbumArtistSearch {
+		grid-area: albumartistsearch;
+	}
+
+	.regexDeleteAlbumArtistReplace {
+		grid-area: albumartistreplace;
+	}
+}
+
+.saveIcon {
+	transform: rotate(0deg);
+
+	&.savingSaveIcon {
+		transform: rotate(360deg);
+		transform-origin: 41% 42.5%;
+		transition: transform 600ms ease-in-out;
+	}
+}
+
+.rangeInput {
+	margin-top: 0.25em;
+
+	.rangeInputLabel {
+		font-size: 1.2em;
+	}
+
+	.rangeSelection {
+		-webkit-appearance: none;
+		appearance: none;
+		background: transparent;
+		cursor: pointer;
+		margin: 1rem auto;
+		width: 15rem;
+
+		&::-webkit-slider-runnable-track {
+			background: var(--checkbox-inactive);
+			border-radius: 0.5rem;
+			height: 0.5rem;
+		}
+
+		&::-moz-range-track {
+			background: var(--checkbox-inactive);
+			border-radius: 0.5rem;
+			height: 0.5rem;
+		}
+
+		&::-moz-range-thumb {
+			background-color: var(--always-last-fm);
+			border: none;
+			border-radius: 0.25rem;
+			height: 1.5rem;
+			width: 1rem;
+		}
+
+		&::-webkit-slider-thumb {
+			-webkit-appearance: none;
+			appearance: none;
+			background-color: var(--always-last-fm);
+			border-radius: 0.25rem;
+			height: 1.5rem;
+			margin-top: -0.5rem;
+			width: 1rem;
+		}
+
+		&:hover,
+		&:focus {
+			&::-webkit-slider-thumb {
+				background-color: var(--always-last-fm-hover);
+				outline: none;
+			}
+
+			&::-moz-range-thumb {
+				background-color: var(--always-last-fm-hover);
+				outline: none;
+			}
+		}
+	}
+
+	.inputWrapper {
+		--suffix: '';
+		display: inline-block;
+		margin: auto 0.5em;
+		position: relative;
+
+		&::after {
+			color: var(--text);
+			content: var(--suffix);
+			font-size: 1.2em;
+			pointer-events: none;
+			position: absolute;
+			right: 0.5em;
+			top: calc(2px + 0.125em);
+			transition: all 0.05s ease-in-out;
+		}
+
+		&.percent {
+			--suffix: '%';
+		}
+
+		.rangeNumberInput {
+			&::-webkit-outer-spin-button,
+			&::-webkit-inner-spin-button {
+				-webkit-appearance: none;
+				margin: 0;
+			}
+			-moz-appearance: textfield;
+			appearance: textfield;
+			background-color: var(--background);
+			border: none;
+			border-radius: 0.5em;
+			color: var(--text);
+			font-size: 1.2em;
+			padding: 0.25em 1.5em 0.25em 0.5em;
+			width: 3ch;
+		}
+	}
+}
