@@ -1,9 +1,18 @@
 export {};
 
-Connector.playerSelector = '[class^="Controls__wrapper___"]';
+Connector.playerSelector = '#root';
 
-Connector.trackSelector = `${Connector.playerSelector} [class^="Controls__brainState___"]`;
+Connector.pauseButtonSelector = '[data-testid="playPauseButton"] > div > img';
 
-Connector.pauseButtonSelector = `${Connector.playerSelector} svg[class^=PlayControl__pause___]`;
+Connector.trackArtSelector =
+	'[data-testid="currentTrackInformationCard"] > img';
+
+Connector.getTrack = () => {
+	const elements = Util.queryElements('[data-testid="currentTrackTitle"]');
+	if (!elements) {
+		return null;
+	}
+	return elements[0]?.firstChild?.textContent;
+};
 
 Connector.getArtist = () => 'Brain.fm';
