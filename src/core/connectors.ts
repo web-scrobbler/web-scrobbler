@@ -1579,7 +1579,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Brain.fm',
-		matches: ['*://www.brain.fm/*'],
+		matches: ['*://my.brain.fm/*'],
 		js: 'brainfm.js',
 		id: 'brainfm',
 	},
