@@ -1180,7 +1180,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: '9128.live',
-		matches: ['*://9128.live/*'],
+		matches: ['*://9128.live/*', '*://embed.radio.co/player/*'],
 		js: 'radioco.js',
 		id: '9128.live',
 		allFrames: true,
