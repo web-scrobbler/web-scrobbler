@@ -1,4 +1,3 @@
-
 export {};
 
 const playerBar = '#webplayer-region';
@@ -55,13 +54,16 @@ Connector.getOriginUrl = () => {
 	if (ta !== null) {
 		ta = ta.trim();
 		if (ta.endsWith(' -')) {
-			ta = ta.substring(0, ta.length-2);
+			ta = ta.substring(0, ta.length - 2);
 		}
 	}
 	// 	compare with player to make sure we are still on the page where the track originates
-	if (ta === pta && tt === ptt){
+	if (ta === pta && tt === ptt) {
 		const url = new URL(document.location.href);
-		return url.origin + Util.getAttrFromSelectors('.now-playing-component__title', 'href');
+		return (
+			url.origin +
+			Util.getAttrFromSelectors('.now-playing-component__title', 'href')
+		);
 	}
 	return document.location.href;
 	// for testing:
