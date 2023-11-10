@@ -48,21 +48,22 @@ function removeTrailingDash(text: string) {
 }
 
 Connector.getOriginUrl = () => {
-	var ta = Util.getTextFromSelectors(artistSelector);
-	var tt = Util.getTextFromSelectors(trackSelector);
+	let ta = Util.getTextFromSelectors(artistSelector);
+	let tt = Util.getTextFromSelectors(trackSelector);
 	const pta = Util.getTextFromSelectors('.now-playing-component__artist');
 	const ptt = Util.getTextFromSelectors('.now-playing-component__title');
-	if (ta != null) {
+	if (ta !== null) {
 		ta = ta.trim();
 		if (ta.endsWith(' -')) {
 			ta = ta.substring(0, ta.length-2);
 		}
 	}
 	// 	compare with player to make sure we are still on the page where the track originates
-	if (ta == pta && tt == ptt){
+	if (ta === pta && tt === ptt){
 		const url = new URL(document.location.href);
 		return url.origin + Util.getAttrFromSelectors('.now-playing-component__title', 'href');
-	};
+	}
 	return document.location.href;
-	// + ta + tt + (ta == pta && tt == ptt) + pta + ptt;
+	// for testing:
+	// + ta + tt + (ta === pta && tt === ptt) + pta + ptt;
 };
