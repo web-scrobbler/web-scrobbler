@@ -1665,7 +1665,11 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'deep-cut.fm',
-		matches: ['*://deepcut.fm/*', '*://turntable.fm/*', '*://deep-cut.fm/*'],
+		matches: [
+			'*://deepcut.fm/*',
+			'*://turntable.fm/*',
+			'*://deep-cut.fm/*',
+		],
 		js: 'deep-cut.fm.js',
 		id: 'deep-cut.fm',
 	},
