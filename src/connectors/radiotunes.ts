@@ -49,7 +49,7 @@ function removeTrailingDash(text: string) {
 
 Connector.getOriginUrl = () => {
 	let ta = Util.getTextFromSelectors(artistSelector);
-	let tt = Util.getTextFromSelectors(trackSelector);
+	const tt = Util.getTextFromSelectors(trackSelector);
 	const pta = Util.getTextFromSelectors('.now-playing-component__artist');
 	const ptt = Util.getTextFromSelectors('.now-playing-component__title');
 	if (ta !== null) {
