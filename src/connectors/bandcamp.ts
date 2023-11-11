@@ -21,12 +21,36 @@ let bandcampFilter = MetadataFilter.createFilter(
 	),
 );
 
-setupConnector();
+if (document.querySelector('main#p-tralbum-page') === null) {
+	setupDesktopConnector();
+} else {
+	setupMobileConnector();
+}
 
-/**
- * Entry point.
- */
-function setupConnector() {
+function setupMobileConnector() {
+	Connector.playerSelector = '#player';
+
+	Connector.isPlaying = () =>
+		document.querySelector('.playbutton.playing') !== null;
+
+	Connector.artistSelector = '.tralbum-artist';
+
+	Connector.albumArtistSelector = '.tralbum-artist';
+
+	Connector.trackSelector = '.current-track > span:nth-child(2)';
+
+	Connector.albumSelector = '.tralbum-name';
+
+	Connector.durationSelector = '.duration-text';
+
+	Connector.currentTimeSelector = '.progress-text';
+
+	Connector.trackArtSelector = '#tralbum-art-carousel img';
+
+	Connector.getOriginUrl = () => document.location.href.split('?')[0];
+}
+
+function setupDesktopConnector() {
 	initEventListeners();
 	initGenericProperties();
 
