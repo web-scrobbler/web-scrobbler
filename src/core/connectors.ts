@@ -2144,7 +2144,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Telegram',
-		matches: ['*://web.telegram.org/a/*'],
+		matches: ['*://web.telegram.org/a/*', '*://web.telegram.org/k/*'],
 		js: 'telegram.js',
 		id: 'telegram',
 	},

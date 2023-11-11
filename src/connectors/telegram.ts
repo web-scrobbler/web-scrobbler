@@ -1,13 +1,20 @@
 export {};
 
-Connector.playerSelector = '.header-tools';
+const PAUSE_ICON = 59802;
 
-Connector.artistSelector = '.AudioPlayer-content > .subtitle';
+Connector.playerSelector = '.header-tools, .pinned-audio';
 
-Connector.trackSelector = '.AudioPlayer-content > .title';
+Connector.artistSelector =
+	'.AudioPlayer-content > .subtitle, .pinned-audio-subtitle';
+
+Connector.trackSelector = '.AudioPlayer-content > .title, .pinned-audio-title';
 
 Connector.isPlaying = () =>
-	Util.hasElementClass('.toggle-play.player-button', 'pause');
+	Util.hasElementClass('.toggle-play.player-button', 'pause') ||
+	Util.getTextFromSelectors('.pinned-audio-ico')?.charCodeAt(0) ===
+		PAUSE_ICON;
 
 Connector.isStateChangeAllowed = () =>
-	Connector.getArtist() !== 'Voice message';
+	!Util.isElementVisible(
+		'.playback-button-inner, .pinned-audio-wrapper-utils button:nth-child(2) span',
+	);
