@@ -1671,7 +1671,7 @@ export default <ConnectorMeta[]>[
 			'*://deep-cut.fm/*',
 		],
 		js: 'deep-cut.fm.js',
-		id: 'deep-cut.fm',
+		id: 'deepcut.fm',
 	},
 	{
 		label: 'Burntable',
