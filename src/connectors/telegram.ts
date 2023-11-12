@@ -2,17 +2,30 @@ export {};
 
 const PAUSE_ICON = 59802;
 
-Connector.playerSelector = '.header-tools, .pinned-audio';
+const ARTIST_SELECTORS = [
+	// Version A
+	'.AudioPlayer-content .subtitle',
+	// Version K
+	'.pinned-audio-subtitle',
+];
 
-Connector.artistSelector =
-	'.AudioPlayer-content > .subtitle, .pinned-audio-subtitle';
+const TRACK_SELECTORS = [
+	// Version A
+	'.AudioPlayer-content .title',
+	// Version K
+	'.pinned-audio-title',
+];
 
 Connector.trackSelector = '.AudioPlayer-content > .title, .pinned-audio-title';
 
-Connector.isPlaying = () =>
-	Util.hasElementClass('.toggle-play.player-button', 'pause') ||
-	Util.getTextFromSelectors('.pinned-audio-ico')?.charCodeAt(0) ===
-		PAUSE_ICON;
+Connector.getArtistTrack = () => {
+	const artist = Util.getTextFromSelectors(ARTIST_SELECTORS);
+	const track = Util.getTextFromSelectors(TRACK_SELECTORS);
+	if (artist === null || artist.startsWith('Unknown')) {
+		return Util.splitArtistTrack(track);
+	}
+	return { artist, track };
+};
 
 Connector.isStateChangeAllowed = () =>
 	!Util.isElementVisible(
