@@ -50,8 +50,12 @@ Connector.getOriginUrl = () => {
 	let playerArtist = Util.getTextFromSelectors(artistSelector);
 	const playerTitle = Util.getTextFromSelectors(trackSelector);
 	// track info from page area
-	const pageArtist = Util.getTextFromSelectors('.now-playing-component__artist');
-	const pageTitle = Util.getTextFromSelectors('.now-playing-component__title');
+	const pageArtist = Util.getTextFromSelectors(
+		'.now-playing-component__artist',
+	);
+	const pageTitle = Util.getTextFromSelectors(
+		'.now-playing-component__title',
+	);
 	if (playerArtist !== null) {
 		playerArtist = playerArtist.trim();
 		if (playerArtist.endsWith(' -')) {
