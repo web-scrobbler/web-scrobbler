@@ -31,3 +31,15 @@ Connector.isStateChangeAllowed = () =>
 	!Util.isElementVisible(
 		'.playback-button-inner, .pinned-audio-wrapper-utils button:nth-child(2) span',
 	);
+
+const filter = MetadataFilter.createFilter({
+	track: trimTrackSuffix,
+});
+
+Connector.applyFilter(filter);
+
+function trimTrackSuffix(track: string): string {
+	const index = track.lastIndexOf('.');
+	if (index === -1) return track;
+	return track.substring(0, index);
+}
