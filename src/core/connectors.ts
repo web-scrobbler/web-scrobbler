@@ -2237,4 +2237,10 @@ export default <ConnectorMeta[]>[
 		js: 'wdr.js',
 		id: 'wdr',
 	},
+	{
+		label: 'radio.de',
+		matches: ['*://www.radio.de/*'],
+		js: 'radio.de.js',
+		id: 'radio.de',
+	},
 ];
