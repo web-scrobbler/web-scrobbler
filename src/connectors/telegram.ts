@@ -16,7 +16,12 @@ const TRACK_SELECTORS = [
 	'.pinned-audio-title',
 ];
 
-Connector.trackSelector = '.AudioPlayer-content > .title, .pinned-audio-title';
+Connector.playerSelector = [
+	// Version A
+	'.header-tools',
+	// Version K
+	'.pinned-audio-content',
+];
 
 Connector.getArtistTrack = () => {
 	const artist = Util.getTextFromSelectors(ARTIST_SELECTORS);
