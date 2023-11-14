@@ -40,6 +40,8 @@ Connector.applyFilter(filter);
 
 function trimTrackSuffix(track: string): string {
 	const index = track.lastIndexOf('.');
-	if (index === -1) return track;
+	if (index === -1) {
+		return track;
+	}
 	return track.substring(0, index);
 }
