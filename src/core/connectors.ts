@@ -1242,7 +1242,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'RadioJavan',
-		matches: ['*://www.radiojavan.com/*'],
+		matches: ['*://play.radiojavan.com/*'],
 		js: 'radiojavan.js',
 		id: 'radiojavan',
 	},
