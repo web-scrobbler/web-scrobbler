@@ -2,10 +2,8 @@ export {};
 
 Connector.playerSelector = 'div.player-nav-holder';
 
-Connector.artistTrackSelector = 'span';
-
 Connector.getArtistTrack = () => {
-	const text = Util.getTextFromSelectors(Connector.artistTrackSelector);
+	const text = Util.getTextFromSelectors('span');
 	const m = text?.match(/(.*?) - (.*?) auf (.*?)/);
 	if (m && m.length === 4) {
 		return { artist: m[1], track: m[2] };
