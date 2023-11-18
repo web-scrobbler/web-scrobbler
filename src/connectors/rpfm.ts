@@ -22,13 +22,7 @@ Connector.getCurrentTime = () =>
 Connector.isPlaying = () =>
 	Util.getDataFromSelectors('.app-player', 'status') === 'play';
 
-Connector.isStateChangeAllowed = () => {
-	const artist = Connector.getArtist();
-	if (artist === null) {
-		return false;
-	}
-	return true;
-};
+Connector.isStateChangeAllowed = () => Connector.getArtist() !== null;
 
 function getPlayerSelector(): string {
 	const single = Util.hasElementClass(
