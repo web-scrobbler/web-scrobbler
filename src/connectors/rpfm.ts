@@ -13,9 +13,11 @@ Connector.getTrackArt = () =>
 		`${getPlayerSelector()} .radio-current-cover`,
 	);
 
-Connector.durationSelector = '.track-time-duration';
+Connector.getDuration = () =>
+	Util.getSecondsFromSelectors(`${getPlayerSelector()} .track-time-duration`);
 
-Connector.currentTimeSelector = '.track-time-position';
+Connector.getCurrentTime = () =>
+	Util.getSecondsFromSelectors(`${getPlayerSelector()} .track-time-position`);
 
 Connector.isPlaying = () =>
 	Util.getDataFromSelectors('.app-player', 'status') === 'play';
