@@ -151,6 +151,12 @@ export default <ConnectorMeta[]>[
 		id: 'radioplus',
 	},
 	{
+		label: 'RPFM',
+		matches: ['*://rpfm.ru/*'],
+		js: 'rpfm.js',
+		id: 'rpfm',
+	},
+	{
 		label: 'Douban.FM',
 		matches: ['*://douban.fm/*', '*://fm.douban.fm/*'],
 		js: 'douban.fm.js',
