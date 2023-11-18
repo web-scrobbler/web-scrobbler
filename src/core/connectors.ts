@@ -480,8 +480,8 @@ export default <ConnectorMeta[]>[
 	{
 		label: 'Beeline Music',
 		matches: ['*://music.beeline.ru/*'],
-		js: 'beeline.js',
-		id: 'beeline',
+		js: 'beeline-music.js',
+		id: 'beeline-music',
 	},
 	{
 		label: 'wavo',
