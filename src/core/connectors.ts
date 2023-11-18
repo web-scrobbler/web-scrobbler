@@ -2237,4 +2237,10 @@ export default <ConnectorMeta[]>[
 		js: 'wdr.js',
 		id: 'wdr',
 	},
+	{
+		label: 'Radio Student',
+		matches: ['*://www.radiostudent.hr/*'],
+		js: 'radiostudent.js',
+		id: 'radiostudent',
+	},
 ];
