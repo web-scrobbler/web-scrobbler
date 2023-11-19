@@ -8,6 +8,8 @@ Connector.trackSelector = `${Connector.playerSelector} h2`;
 
 Connector.trackArtSelector = `${Connector.playerSelector} .fullart`;
 
+Connector.playButtonSelector = '#playpausebutton_playicon';
+
 Connector.currentTimeSelector = '#timeelapsed';
 
 Connector.remainingTimeSelector = '#timeremaining';
