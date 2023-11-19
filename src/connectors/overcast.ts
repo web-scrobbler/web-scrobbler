@@ -11,3 +11,5 @@ Connector.trackArtSelector = `${Connector.playerSelector} .fullart`;
 Connector.currentTimeSelector = '#timeelapsed';
 
 Connector.remainingTimeSelector = '#timeremaining';
+
+Connector.isPodcast = () => true;
