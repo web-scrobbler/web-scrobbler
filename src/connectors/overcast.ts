@@ -15,3 +15,20 @@ Connector.currentTimeSelector = '#timeelapsed';
 Connector.remainingTimeSelector = '#timeremaining';
 
 Connector.isPodcast = () => true;
+
+const filter = MetadataFilter.createFilter({
+	track: trimPodcaster,
+});
+
+Connector.applyFilter(filter);
+
+function trimPodcaster(track: string) {
+	const separator = ': ';
+	const chunks = track.split(separator);
+	const artist = Connector.getArtist();
+	const trackArtist = chunks.shift();
+	if (artist?.toLowerCase() === trackArtist?.toLowerCase()) {
+		return chunks.join(separator);
+	}
+	return track;
+}
