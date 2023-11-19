@@ -245,6 +245,12 @@ export default <ConnectorMeta[]>[
 		id: 'odnoklassniki',
 	},
 	{
+		label: 'Overcast',
+		matches: ['*://overcast.fm/*'],
+		js: 'overcast.js',
+		id: 'overcast',
+	},
+	{
 		label: 'Online Radio Box',
 		matches: ['*://onlineradiobox.com/*'],
 		js: 'onlineradiobox.js',
