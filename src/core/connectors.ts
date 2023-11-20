@@ -2237,4 +2237,10 @@ export default <ConnectorMeta[]>[
 		js: 'wdr.js',
 		id: 'wdr',
 	},
+	{
+		label: 'FMSpins',
+		matches: ['*://*.fmspins.com/*'],
+		js: 'fmspins.js',
+		id: 'fmspins',
+	},
 ];
