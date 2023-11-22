@@ -15,3 +15,6 @@ Connector.getArtistTrack = () => {
 	const track = Util.getTextFromSelectors('section > div.Line > p > span');
 	return Util.splitArtistTrack(track, [' \u2022 ']);
 };
+
+Connector.getTrackArt = () =>
+	Util.getAttrFromSelectors('.Cover picture source', 'srcset');
