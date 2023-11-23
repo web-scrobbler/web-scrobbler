@@ -1168,6 +1168,12 @@ export default <ConnectorMeta[]>[
 		id: 'pretzel',
 	},
 	{
+		label: 'Primordial Radio',
+		matches: ['*://primordialradio.com/*'],
+		js: 'primordialradio.js',
+		id: 'primordialradio',
+	},
+	{
 		label: 'Radio Kyivstar',
 		matches: ['*://radio.kyivstar.ua/*'],
 		js: 'kyivstar.js',
