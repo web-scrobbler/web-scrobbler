@@ -36,7 +36,7 @@
     "webextension-polyfill": "0.10.0"
   },
   "devDependencies": {
-    "@types/archiver": "6.0.0",
+    "@types/archiver": "6.0.2",
     "@types/blueimp-md5": "2.18.2",
     "@types/fs-extra": "11.0.3",
     "@types/imagemin": "8.0.4",
