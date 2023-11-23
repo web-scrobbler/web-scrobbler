@@ -40,7 +40,7 @@
     "@types/blueimp-md5": "2.18.2",
     "@types/fs-extra": "11.0.3",
     "@types/imagemin": "8.0.4",
-    "@types/imagemin-jpegtran": "5.0.2",
+    "@types/imagemin-jpegtran": "5.0.4",
     "@types/node": "20.8.10",
     "@types/react": "18.2.38",
     "@types/webextension-polyfill": "0.10.4",
