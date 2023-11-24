@@ -18,3 +18,7 @@ Connector.getArtistTrack = () => {
 
 Connector.getTrackArt = () =>
 	Util.getAttrFromSelectors('.Cover picture source', 'srcset');
+
+Connector.currentTimeSelector = '.time span:nth-child(1)';
+
+Connector.durationSelector = '.time span:nth-child(3)';
