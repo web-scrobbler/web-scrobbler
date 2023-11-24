@@ -1,19 +1,19 @@
 export {};
 
-const PLAY_BUTTON = '[data-testid="mainButton"]';
-
-const BUTTON_STATE_TEXT = 'STOP';
-
 Connector.playerSelector = '#player';
 
-Connector.playButtonSelector = PLAY_BUTTON;
-
-Connector.isPlaying = () =>
-	Util.getTextFromSelectors(PLAY_BUTTON) === BUTTON_STATE_TEXT;
+Connector.isPlaying = () => {
+	const text = Util.getTextFromSelectors('[data-testid="mainButton"]') ?? '';
+	return ['STOP', 'PAUSE'].includes(text);
+};
 
 Connector.getArtistTrack = () => {
 	const track = Util.getTextFromSelectors('section > div.Line > p > span');
-	return Util.splitArtistTrack(track, [' \u2022 ']);
+	if (track) return Util.splitArtistTrack(track, [' \u2022 ']);
+	return {
+		artist: Util.getTextFromSelectors('.Metadata .firstline'),
+		track: Util.getTextFromSelectors('.Metadata .secondline'),
+	};
 };
 
 Connector.getTrackArt = () =>
