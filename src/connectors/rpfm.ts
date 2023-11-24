@@ -26,6 +26,8 @@ for (const prop in props) {
 	});
 }
 
+Connector.isTrackArtDefault = (url) => url?.includes('no-cover');
+
 Connector.isPlaying = () =>
 	Util.getDataFromSelectors('.app-player', 'status') === 'play';
 
