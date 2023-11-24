@@ -29,17 +29,6 @@ Connector.currentTimeSelector = '.time span:nth-child(1)';
 
 Connector.durationSelector = '.time span:nth-child(3)';
 
-const filter = MetadataFilter.createFilter({
-	artist: trimPrefix,
-});
-
-Connector.applyFilter(filter);
-
-function trimPrefix(artist: string): string {
-	const chunks = artist.split(' \u2022 ');
-	return chunks[chunks.length - 1];
-}
-
 function hasSeparator(text: string | null): boolean {
 	return Boolean(text?.includes(SEPARATOR));
 }
