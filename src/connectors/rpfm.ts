@@ -29,6 +29,11 @@ for (const prop in props) {
 Connector.isPlaying = () =>
 	Util.getDataFromSelectors('.app-player', 'status') === 'play';
 
+Connector.isStateChangeAllowed = () => {
+	const artist = Connector.getArtist();
+	return artist !== null && artist !== 'Реклама';
+};
+
 function getCurrentContext(): string {
 	const single = Util.hasElementClass(
 		Connector.playerSelector,
