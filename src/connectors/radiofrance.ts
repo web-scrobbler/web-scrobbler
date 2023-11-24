@@ -1,5 +1,7 @@
 export {};
 
+const SEPARATOR = ' \u2022 ';
+
 Connector.playerSelector = '#player';
 
 Connector.isPlaying = () => {
@@ -8,12 +10,16 @@ Connector.isPlaying = () => {
 };
 
 Connector.getArtistTrack = () => {
-	const track = Util.getTextFromSelectors('section > div.Line > p > span');
-	if (track) return Util.splitArtistTrack(track, [' \u2022 ']);
-	return {
-		artist: Util.getTextFromSelectors('.Metadata .firstline'),
-		track: Util.getTextFromSelectors('.Metadata .secondline'),
-	};
+	const artist = Util.getTextFromSelectors('.Metadata .firstline');
+	const track = Util.getTextFromSelectors('.Metadata .secondline');
+	if (!hasSeparator(artist) && !hasSeparator(track)) {
+		return { artist, track };
+	}
+	if (hasSeparator(track)) {
+		return Util.splitArtistTrack(track, [SEPARATOR]);
+	}
+	const [trackAsArtist] = Util.splitString(artist, [SEPARATOR], true);
+	return { artist: track, track: trackAsArtist };
 };
 
 Connector.getTrackArt = () =>
@@ -32,4 +38,8 @@ Connector.applyFilter(filter);
 function trimPrefix(artist: string): string {
 	const chunks = artist.split(' \u2022 ');
 	return chunks[chunks.length - 1];
+}
+
+function hasSeparator(text: string | null): boolean {
+	return Boolean(text?.includes(SEPARATOR));
 }
