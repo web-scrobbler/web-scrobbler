@@ -9,6 +9,8 @@ Connector.isPlaying = () => {
 	return ['STOP', 'PAUSE'].includes(text);
 };
 
+Connector.isPodcast = () => Util.isElementVisible('.Seekbar input');
+
 Connector.getArtistTrack = () => {
 	const artist = Util.getTextFromSelectors('.Metadata .firstline');
 	const track = Util.getTextFromSelectors('.Metadata .secondline');
