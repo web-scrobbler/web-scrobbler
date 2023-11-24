@@ -18,8 +18,8 @@ Connector.getArtistTrack = () => {
 	if (hasSeparator(track)) {
 		return Util.splitArtistTrack(track, [SEPARATOR]);
 	}
-	const [trackAsArtist] = Util.splitString(artist, [SEPARATOR], true);
-	return { artist: track, track: trackAsArtist };
+	const [artistAsTrack] = Util.splitString(artist, [SEPARATOR], true);
+	return { artist: track, track: artistAsTrack };
 };
 
 Connector.getTrackArt = () =>
