@@ -1,10 +1,6 @@
 export {};
 
-interface TrackInfo {
-	[key: string]: string | number | null | undefined;
-}
-
-interface Field {
+interface Property {
 	[key: string]: [
 		string,
 		(
@@ -13,25 +9,22 @@ interface Field {
 	];
 }
 
-const fields: Field = {
-	track: ['.radio-current-track', Util.getTextFromSelectors],
-	artist: ['.radio-current-artist', Util.getTextFromSelectors],
-	duration: ['.track-time-duration', Util.getSecondsFromSelectors],
-	currentTime: ['.track-time-position', Util.getSecondsFromSelectors],
-	trackArt: ['.radio-current-cover', Util.extractImageUrlFromSelectors],
+const props: Property = {
+	getTrack: ['.radio-current-track', Util.getTextFromSelectors],
+	getArtist: ['.radio-current-artist', Util.getTextFromSelectors],
+	getDuration: ['.track-time-duration', Util.getSecondsFromSelectors],
+	getCurrentTime: ['.track-time-position', Util.getSecondsFromSelectors],
+	getTrackArt: ['.radio-current-cover', Util.extractImageUrlFromSelectors],
 };
 
 Connector.playerSelector = '.app-player';
 
-Connector.getTrackInfo = () => {
-	const data: TrackInfo = {};
-	const context = getCurrentContext();
-	for (const field in fields) {
-		const [selector, fn] = fields[field];
-		data[field] = fn(`${context} ${selector}`);
-	}
-	return data;
-};
+for (const prop in props) {
+	const [selector, fn] = props[prop];
+	Object.defineProperty(Connector, prop, {
+		value: () => fn(`${getCurrentContext()} ${selector}`),
+	});
+}
 
 Connector.isPlaying = () =>
 	Util.getDataFromSelectors('.app-player', 'status') === 'play';
