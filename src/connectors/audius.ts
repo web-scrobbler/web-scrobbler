@@ -1,16 +1,16 @@
 export {};
 
-Connector.playerSelector = '._playBarContentWrapper_1sp1c_10';
+Connector.playerSelector = '[class*="playBarContentWrapper"]';
 
-Connector.playButtonSelector = '[aria-label="play track"]';
+Connector.playButtonSelector = `${Connector.playerSelector} [aria-label="play track"]`;
 
-Connector.artistSelector = '._artistName_1nv4o_48';
+Connector.artistSelector = `${Connector.playerSelector} [class*="_artistName_"]`;
 
-Connector.trackSelector = '._trackTitle_1nv4o_47';
+Connector.trackSelector = `${Connector.playerSelector} [class*="_trackTitle_"]`;
 
-Connector.durationSelector = '.Scrubber-module_timestampEnd__yPsor';
+Connector.durationSelector = `${Connector.playerSelector} [class*="timestampEnd"]`;
 
-Connector.currentTimeSelector = '.Scrubber-module_timestampStart__a43VN';
+Connector.currentTimeSelector = `${Connector.playerSelector} [class*="timestampStart"]`;
 
 Connector.trackArtSelector =
 	'[aria-label="View currently playing track"] div div:nth-child(2)';
