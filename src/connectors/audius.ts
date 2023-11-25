@@ -14,3 +14,20 @@ Connector.currentTimeSelector = `${Connector.playerSelector} [class*="timestampS
 
 Connector.trackArtSelector =
 	'[aria-label="View currently playing track"] div div:nth-child(2)';
+
+const filter = MetadataFilter.createFilter({
+	track: trimArtist,
+});
+
+Connector.applyFilter(filter);
+
+function trimArtist(track: string): string {
+	const separator = ' - ';
+	const chunks = track.split(separator);
+	const artist = Connector.getArtist();
+	const trackArtist = chunks.shift();
+	if (artist?.toLowerCase() === trackArtist?.toLowerCase()) {
+		return chunks.join(separator);
+	}
+	return track;
+}
