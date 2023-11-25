@@ -19,8 +19,6 @@ const fields: Field = {
 	trackArt: ['img', Util.extractImageUrlFromSelectors],
 };
 
-const PAUSE_ICONS = ['#icon-pause', '#icon-stop'];
-
 Connector.playerSelector = '#playbar';
 
 Connector.getTrackInfo = () => {
@@ -39,7 +37,7 @@ Connector.isPlaying = () => {
 			'[data-player-target="playButtonIcon"]',
 			'href',
 		) ?? '';
-	return PAUSE_ICONS.includes(href);
+	return ['#icon-pause', '#icon-stop'].includes(href);
 };
 
 Connector.isPodcast = () => Util.isElementVisible('[role="navigation"]');
