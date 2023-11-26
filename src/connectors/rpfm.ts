@@ -1,28 +1,23 @@
 export {};
 
 interface Property {
-	[key: string]: [
-		string,
-		(
-			selectors: string | string[],
-		) => (string | null) | (number | undefined),
-	];
+	[key: string]: string;
 }
 
 const props: Property = {
-	getTrack: ['.radio-current-track', Util.getTextFromSelectors],
-	getArtist: ['.radio-current-artist', Util.getTextFromSelectors],
-	getDuration: ['.track-time-duration', Util.getSecondsFromSelectors],
-	getCurrentTime: ['.track-time-position', Util.getSecondsFromSelectors],
-	getTrackArt: ['.radio-current-cover', Util.extractImageUrlFromSelectors],
+	trackSelector: '.radio-current-track',
+	artistSelector: '.radio-current-artist',
+	trackArtSelector: '.radio-current-cover',
+	durationSelector: '.track-time-duration',
+	currentTimeSelector: '.track-time-position',
 };
 
 Connector.playerSelector = '.app-player';
 
 for (const prop in props) {
-	const [selector, fn] = props[prop];
+	const selector = props[prop];
 	Object.defineProperty(Connector, prop, {
-		value: () => fn(`${getCurrentContext()} ${selector}`),
+		get: () => `${getCurrentContext()} ${selector}`,
 	});
 }
 
