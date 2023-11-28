@@ -2275,8 +2275,8 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.radiostudent.hr/*'],
 		js: 'radiostudent.js',
 		id: 'radiostudent',
-  },
-  {
+	},
+	{
 		label: 'FMSpins',
 		matches: ['*://*.fmspins.com/*'],
 		js: 'fmspins.js',
