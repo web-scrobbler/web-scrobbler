@@ -371,6 +371,12 @@ export default <ConnectorMeta[]>[
 		id: 'audacy',
 	},
 	{
+		label: 'Audius',
+		matches: ['*://audius.co/*'],
+		js: 'audius.js',
+		id: 'audius',
+	},
+	{
 		label: 'GetWorkDoneMusic',
 		matches: ['*://*.getworkdonemusic.com/*'],
 		js: 'getworkdonemusic.js',
