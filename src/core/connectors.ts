@@ -293,6 +293,15 @@ export default <ConnectorMeta[]>[
 		id: 'radionomy',
 	},
 	{
+		label: 'J1 Radio',
+		matches: [
+			'*://www.j1fm.tokyo/player/*',
+			'*://www.j1fm.tokyo/michi/player/*',
+		],
+		js: 'aiircom.js',
+		id: 'j1-radio',
+	},
+	{
 		label: 'JazzAndRain',
 		matches: ['*://*.jazzandrain.com/*'],
 		js: 'jazzandrain.js',
