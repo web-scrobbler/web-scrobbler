@@ -671,6 +671,12 @@ export default <ConnectorMeta[]>[
 		id: 'qcbeats',
 	},
 	{
+		label: 'Q-Dance',
+		matches: ['*://www.q-dance.com/*'],
+		js: 'q-dance.js',
+		id: 'q-dance',
+	},
+	{
 		label: 'Sawdust City Sounds',
 		matches: ['*://sawdustcitysounds.org/*'],
 		js: 'musicat.js',
