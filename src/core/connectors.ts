@@ -2192,6 +2192,12 @@ export default <ConnectorMeta[]>[
 		id: 'technobase.fm',
 	},
 	{
+		label: 'Telegram K',
+		matches: ['*://web.telegram.org/k/*'],
+		js: 'telegram-k.js',
+		id: 'telegram-k',
+	},
+	{
 		label: 'TuneGenieEmbed',
 		matches: ['*://b3.tunegenie.com/*'],
 		js: 'tunegenie-embed.js',
