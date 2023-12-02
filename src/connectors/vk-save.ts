@@ -11,4 +11,4 @@ Connector.currentTimeSelector = '.durations_wrap > .durations_start';
 
 Connector.remainingTimeSelector = '.durations_wrap > .durations_end';
 
-Connector.playButtonSelector = '.buttons_wrap > .popup_play';
+Connector.playButtonSelector = '.footer_player > .footer_play';
