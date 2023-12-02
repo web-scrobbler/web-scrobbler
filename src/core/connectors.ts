@@ -2276,4 +2276,10 @@ export default <ConnectorMeta[]>[
 		js: 'fmspins.js',
 		id: 'fmspins',
 	},
+	{
+		label: 'vk-save',
+		matches: ['*://*.vk-save.com/*'],
+		js: 'vk-save.js',
+		id: 'vk-save',
+	},
 ];
