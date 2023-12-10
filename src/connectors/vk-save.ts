@@ -1,6 +1,5 @@
 export {};
 
-
 Connector.playerSelector = '.popup_player_wrapper > .popup_player_content';
 
 Connector.artistSelector = '.info_wr > .author > a';
