@@ -324,7 +324,7 @@ export function RangeOptionEntry(props: {
 						}
 						const newOptions = {
 							...o,
-							[key]: e.currentTarget.value,
+							[key]: parseInt(e.currentTarget.value),
 						};
 						return newOptions;
 					});
@@ -338,7 +338,7 @@ export function RangeOptionEntry(props: {
 						}
 						const newOptions = {
 							...o,
-							[key]: e.currentTarget.value,
+							[key]: parseInt(e.currentTarget.value),
 						};
 						globalOptions.set(newOptions);
 						return newOptions;
