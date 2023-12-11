@@ -151,7 +151,7 @@ export default <ConnectorMeta[]>[
 		id: 'radioplus',
 	},
 	{
-		label: 'RPFM',
+		label: 'Радио Premium',
 		matches: ['*://rpfm.ru/*'],
 		js: 'rpfm.js',
 		id: 'rpfm',
