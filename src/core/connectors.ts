@@ -151,6 +151,12 @@ export default <ConnectorMeta[]>[
 		id: 'radioplus',
 	},
 	{
+		label: 'Радио Premium',
+		matches: ['*://rpfm.ru/*'],
+		js: 'rpfm.js',
+		id: 'rpfm',
+	},
+	{
 		label: 'Douban.FM',
 		matches: ['*://douban.fm/*', '*://fm.douban.fm/*'],
 		js: 'douban.fm.js',
@@ -243,6 +249,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://odnoklassniki.ru/*', '*://ok.ru/*'],
 		js: 'odnoklassniki.js',
 		id: 'odnoklassniki',
+	},
+	{
+		label: 'Overcast',
+		matches: ['*://overcast.fm/*'],
+		js: 'overcast.js',
+		id: 'overcast',
 	},
 	{
 		label: 'Online Radio Box',
@@ -2271,15 +2283,27 @@ export default <ConnectorMeta[]>[
 		id: 'wdr',
 	},
 	{
-		label: 'Radio Student',
-		matches: ['*://www.radiostudent.hr/*'],
-		js: 'radiostudent.js',
-		id: 'radiostudent',
+		label: 'radio.de',
+		matches: ['*://www.radio.de/*'],
+		js: 'radio.de.js',
+		id: 'radiode',
 	},
 	{
 		label: 'FMSpins',
 		matches: ['*://*.fmspins.com/*'],
 		js: 'fmspins.js',
 		id: 'fmspins',
+	},
+	{
+		label: 'vk-save',
+		matches: ['*://*.vk-save.com/*'],
+		js: 'vk-save.js',
+		id: 'vk-save',
+	},
+	{
+		label: 'Radio Student',
+		matches: ['*://www.radiostudent.hr/*'],
+		js: 'radiostudent.js',
+		id: 'radiostudent',
 	},
 ];

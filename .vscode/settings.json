@@ -1,9 +1,8 @@
 {
   "eslint.format.enable": true,
   "editor.formatOnSave": true,
-
   "[typescript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -14,7 +13,6 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-
   "better-comments.tags": [
     {
       "tag": "!",
