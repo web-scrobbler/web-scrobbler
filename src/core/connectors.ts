@@ -145,6 +145,17 @@ export default <ConnectorMeta[]>[
 		id: '8tracks',
 	},
 	{
+		label: 'Radio Cidade',
+		matches: [
+			'*://radiocidade.fm/player/*',
+			'*://play.radiomania.com.br/*',
+			'*://*.melodia.com.br/*',
+			'*://jb.fm/player/*',
+		],
+		js: 'radiocidade.js',
+		id: 'radiocidade',
+	},
+	{
 		label: 'Radio Nova',
 		matches: ['*://www.nova.fr/*'],
 		js: 'nova.js',
