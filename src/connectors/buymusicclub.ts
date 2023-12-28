@@ -1,5 +1,7 @@
 export {};
 
+Connector.playerSelector = '#player';
+
 Connector.playButtonSelector = '#play-button';
 
 Connector.artistSelector = '#track-artist';
