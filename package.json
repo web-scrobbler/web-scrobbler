@@ -71,7 +71,7 @@
     "typescript": "5.3.3",
     "vite-plugin-conditional-compiler": "0.2.1",
     "vite-plugin-solid": "2.8.0",
-    "vite-plugin-static-copy": "0.17.0",
+    "vite-plugin-static-copy": "0.17.1",
     "vitest": "0.34.6"
   },
   "engines": {
