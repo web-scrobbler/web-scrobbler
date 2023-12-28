@@ -2317,4 +2317,10 @@ export default <ConnectorMeta[]>[
 		js: 'vk-save.js',
 		id: 'vk-save',
 	},
+	{
+		label: 'Radio Student',
+		matches: ['*://www.radiostudent.hr/*'],
+		js: 'radiostudent.js',
+		id: 'radiostudent',
+	},
 ];
