@@ -40,6 +40,12 @@ export default <ConnectorMeta[]>[
 		allFrames: true,
 	},
 	{
+		label: 'Buy Music Club',
+		matches: ['*://www.buymusic.club/*'],
+		js: 'buymusicclub.js',
+		id: 'buymusicclub',
+	},
+	{
 		label: 'Pandora',
 		matches: ['*://www.pandora.com/*'],
 		js: 'pandora.js',
@@ -137,6 +143,17 @@ export default <ConnectorMeta[]>[
 		matches: ['*://8tracks.com/*'],
 		js: '8tracks.js',
 		id: '8tracks',
+	},
+	{
+		label: 'Radio Cidade',
+		matches: [
+			'*://radiocidade.fm/player/*',
+			'*://play.radiomania.com.br/*',
+			'*://*.melodia.com.br/*',
+			'*://jb.fm/player/*',
+		],
+		js: 'radiocidade.js',
+		id: 'radiocidade',
 	},
 	{
 		label: 'Radio Nova',
