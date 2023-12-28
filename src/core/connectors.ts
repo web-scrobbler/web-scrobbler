@@ -40,6 +40,12 @@ export default <ConnectorMeta[]>[
 		allFrames: true,
 	},
 	{
+		label: 'Buy Music Club',
+		matches: ['*://www.buymusic.club/*'],
+		js: 'buymusicclub.js',
+		id: 'buymusicclub',
+	},
+	{
 		label: 'Pandora',
 		matches: ['*://www.pandora.com/*'],
 		js: 'pandora.js',
