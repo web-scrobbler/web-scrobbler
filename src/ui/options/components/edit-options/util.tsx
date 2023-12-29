@@ -138,7 +138,7 @@ function pushEdits(
 						: {
 								...oldEdits,
 								...edits,
-						  };
+							};
 				editWrapper.set(newEdits);
 				mutate(newEdits);
 			})(arg),

@@ -75,9 +75,8 @@ function Options() {
 	document.addEventListener('click', onclick);
 	onCleanup(() => document.removeEventListener('click', onclick));
 
-	const [shouldShowContextMenu, setShouldShowContextMenu] = createSignal(
-		contextMenuQuery(),
-	);
+	const [shouldShowContextMenu, setShouldShowContextMenu] =
+		createSignal(contextMenuQuery());
 	const resizeListener = () => setShouldShowContextMenu(contextMenuQuery());
 	window.addEventListener('resize', resizeListener);
 
