@@ -4,7 +4,7 @@ import { ServiceCallResult } from '@/core/object/service-call-result';
 import { BaseSong } from '@/core/object/song';
 import { timeoutPromise } from '@/util/util';
 import BaseScrobbler, { SessionData } from '@/core/scrobbler/base-scrobbler';
-import { PleromaTrackMetadata } from '@/core/scrobbler/pleroma/pleroma.types';
+import { PleromaTrackMetadata, PleromaUser } from '@/core/scrobbler/pleroma/pleroma.types';
 
 /**
  * Module for communication with Pleroma
@@ -13,6 +13,7 @@ import { PleromaTrackMetadata } from '@/core/scrobbler/pleroma/pleroma.types';
 export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
 	public userToken!: string;
 	public userApiUrl!: string;
+	public isLocalOnly = false;
 
 	/** @override */
 	protected getStorageName(): 'Pleroma' {
@@ -66,23 +67,26 @@ export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
 		const requestInfo = {
 			method: 'GET',
 			headers: {
-				'Authorization': 'Bearer ' + this.userToken,
+				'Authorization': `Bearer ${this.userToken}`,
 			},
 		};
 
-		const verifyCredentialsUrl = 'https://' + this.userApiUrl + '/api/v1/accounts/verify_credentials';
+		const verifyCredentialsUrl = `https://${this.userApiUrl}/api/v1/accounts/verify_credentials`;
 		const promise = fetch(verifyCredentialsUrl, requestInfo);
 		const timeout = this.REQUEST_TIMEOUT;
 		let response = null;
 		try {
 			response = await timeoutPromise(timeout, promise);
 			if (response.status !== 200) {
-				return ServiceCallResult.ERROR_AUTH;
+				throw ServiceCallResult.ERROR_AUTH;
 			}
-			return Promise.resolve({ sessionID: this.userToken, sessionName: (await response.json()).fqn });
+
+			const json = (await response.json()) as PleromaUser | null;
+			const fqn = json ? json.fqn : '';
+			return { sessionID: this.userToken, sessionName: fqn };
 		} catch (e) {
 			this.debugLog('Error while sending request', 'error');
-			return ServiceCallResult.ERROR_AUTH;
+			throw ServiceCallResult.ERROR_AUTH;
 		}
 	}
 
@@ -98,6 +102,16 @@ export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
 	}
 
 	/** @override */
+	async sendResumedPlaying(): Promise<ServiceCallResult> {
+		return Promise.resolve(ServiceCallResult.RESULT_OK);
+	}
+
+	/** @override */
+	async sendPaused(): Promise<ServiceCallResult> {
+		return Promise.resolve(ServiceCallResult.RESULT_OK);
+	}
+
+	/** @override */
 	public async scrobble(song: BaseSong): Promise<ServiceCallResult> {
 		const songData = this.makeTrackMetadata(song);
 
@@ -105,8 +119,6 @@ export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
 	}
 
 	/** Private methods */
-
-	async()
 
 	async sendRequest(
 		params: PleromaTrackMetadata,
@@ -116,12 +128,12 @@ export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				'Authorization': 'Bearer ' + userToken,
+				'Authorization': `Bearer ${userToken}`,
 			},
 			body: JSON.stringify(params),
 		};
 
-		const scrobbleUrl = 'https://' + this.userApiUrl + '/api/v1/pleroma/scrobble';
+		const scrobbleUrl = `https://${this.userApiUrl}/api/v1/pleroma/scrobble`;
 
 		const promise = fetch(scrobbleUrl, requestInfo);
 
@@ -146,7 +158,7 @@ export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
 			artist: song.getArtist() ?? '',
 			title: song.getTrack() ?? '',
 			length: song.getDuration(),
-			url: song.parsed.originUrl,
+			url: song.parsed.originUrl ?? '',
 		};
 
 		const album = song.getAlbum();
