@@ -15,20 +15,19 @@ const filter = MetadataFilter.createFilter({
 	track: [removeYear, removeCover, removeExclusive],
 });
 
-Connector.playerSelector = '.sxm-player-controls';
-Connector.artistSelector = '.sxm-player-controls .artist-name';
-Connector.trackSelector = '.sxm-player-controls .track-name';
+Connector.playerSelector = "*[class^='_playbackControls_']";
 
-Connector.isPlaying = () => {
-	return (
-		Util.getAttrFromSelectors(
-			'.sxm-player-controls .play-pause-btn',
-			'title',
-		) === 'Pause'
-	);
-};
+Connector.artistTrackSelector =
+	"*[class^='_playbackControls_'] *[class*='_title_']";
 
-Connector.trackArtSelector = '.album-image-cell img.album-image';
+Connector.trackArtSelector =
+	"*[class^='_playbackControls_'] *[class^='_trackImage_'] img[class^='_image-image']";
+
+Connector.playButtonSelector =
+	"*[class^='_playbackControls_'] button[aria-label='Play']";
+
+Connector.pauseButtonSelector =
+	"*[class^='_playbackControls_'] button[aria-label='Pause']";
 
 Connector.isScrobblingAllowed = () => {
 	const artist = Connector.getArtist()?.toLowerCase();

@@ -3,6 +3,7 @@ import * as Options from '@/core/storage/options';
 import {
 	areAllResults,
 	DebugLogType,
+	parseScrobblePercent,
 	getSecondsToScrobble,
 	isAnyResult,
 } from '@/util/util';
@@ -879,13 +880,11 @@ export default class Controller {
 			return;
 		}
 
-		const percent = await Options.getOption(
+		const rawPercent = await Options.getOption(
 			Options.SCROBBLE_PERCENT,
 			this.connector.meta.id,
 		);
-		if (typeof percent !== 'number') {
-			return;
-		}
+		const percent = parseScrobblePercent(rawPercent);
 
 		const secondsToScrobble = getSecondsToScrobble(duration, percent);
 

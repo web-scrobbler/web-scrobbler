@@ -104,12 +104,14 @@ Connector.isPlaying = () => {
 };
 
 Connector.getUniqueID = () => {
-	const videoUrl = Util.getAttrFromSelectors('.yt-uix-sessionlink', 'href');
+	const uniqueId = new URLSearchParams(window.location.search).get('v');
 
-	if (videoUrl) {
-		return Util.getYtVideoIdFromUrl(videoUrl);
+	if (uniqueId) {
+		return uniqueId;
 	}
-	return null;
+
+	const videoUrl = Util.getAttrFromSelectors('.yt-uix-sessionlink', 'href');
+	return Util.getYtVideoIdFromUrl(videoUrl);
 };
 
 Connector.isScrobblingAllowed = () => !Util.isElementVisible(adSelector);

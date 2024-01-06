@@ -7,6 +7,10 @@
         "message": "Общие",
         "description": "'General' section"
     },
+    "optionsPermissionsLabel": {
+        "message": "Вы не предоставили Web Scrobbler разрешения на доступ ко всем сайтам, что означает, что Вам каждый раз нужно нажимать на иконку расширения для начала скробблинга. Нажмите здесь чтобы предоставить разрешения. Примечание: в Safari разрешение не будем автоматически предоставлено, но в следующий раз, при посещении поддерживаемого сайта, Вы сможете нажать \"Всегда разрешать на каждом сайте\" для предоставления разрешения.",
+        "description": "Label for permissions button"
+    },
     "optionUseNotifications": {
         "message": "Уведомлять о проигрываемой композиции",
         "description": "Option label"
@@ -23,6 +27,14 @@
         "message": "Показывать уведомление, если расширение не смогло распознать композицию",
         "description": "Option title"
     },
+    "optionUseInfobox": {
+        "message": "Показать инфобокс",
+        "description": "Option label"
+    },
+    "optionUseInfoboxTitle": {
+        "message": "Показывать инфобокс Web Scrobbler на поддерживаемых сайтах",
+        "description": "Option title"
+    },
     "optionScrobblePodcasts": {
         "message": "Скробблить подкасты",
         "description": "Option label"
@@ -30,6 +42,18 @@
     "optionScrobblePodcastsTitle": {
         "message": "Разрешить приложению скробблить подкасты",
         "description": "Option title"
+    },
+    "optionDebugLoggingEnabled": {
+        "message": "Включить отладочное логирование",
+        "description": "Option label"
+    },
+    "optionDebugLoggingEnabledTitle": {
+        "message": "Позволить расширению логировать отладочную информацию в консоль браузера",
+        "description": "Option title"
+    },
+    "optionsScrobbleBehavior": {
+        "message": "Режим скробблинга",
+        "description": "'Scrobble behavior' section"
     },
     "optionForceRecognize": {
         "message": "Принудительное распознавание",
@@ -99,9 +123,21 @@
         "message": "Использовать YouTube Music для получения информации о треках; если отключено, то будут использованы данные из заголовка и описания видео",
         "description": "Option title"
     },
+    "optionYtMusicRecognisedOnly": {
+        "message": "Скробблить только те видео, которые распознаны сервисом YouTube Music как музыка",
+        "description": "Option label"
+    },
+    "optionYtMusicRecognisedOnlyTitle": {
+        "message": "Игнорировать видео, которые не распознаны сервисом YouTube Music как музыка",
+        "description": "Option title"
+    },
     "optionTheme": {
         "message": "Тема",
         "description": "Option label"
+    },
+    "optionThemeTitle": {
+        "message": "Выберите тему расширения",
+        "description": "Option title"
     },
     "optionThemeLight": {
         "message": "Светлая",
@@ -109,6 +145,10 @@
     },
     "optionThemeDark": {
         "message": "Тёмная",
+        "description": "Option label"
+    },
+    "optionThemeSystem": {
+        "message": "Система",
         "description": "Option label"
     },
     "optionsAccounts": {
@@ -159,9 +199,25 @@
         "message": "Пользовательский токен",
         "description": "Input label"
     },
+    "accountsApplicationName": {
+        "message": "Название приложения",
+        "description": "Input label"
+    },
+    "accountsApplicationNamePlaceholder": {
+        "message": "Пользовательское название вебхука",
+        "description": "Input label"
+    },
+    "accountsAddWebhook": {
+        "message": "Добавить вебхук",
+        "description": "Button label"
+    },
     "optionsOptions": {
         "message": "Настройки",
         "description": "'Options' section"
+    },
+    "optionsEdits": {
+        "message": "Правки",
+        "description": "'Edits' section"
     },
     "optionsEditedTracks": {
         "message": "Сохранённая информация о композициях",
@@ -174,6 +230,18 @@
     "optionsEditedTracksPopupTitle": {
         "message": "Сохранённых композиций: $1 ",
         "description": "'Edited tracks' header"
+    },
+    "optionsRegexEdits": {
+        "message": "Regex/Массовые правки",
+        "description": "'Regex/Bulk edits' header"
+    },
+    "optionsRegexEditsDesc": {
+        "message": "Это расширение хранит regex/массовые правки.",
+        "description": "Description of regex/bulk edits"
+    },
+    "optionsRegexEditsPopupTitle": {
+        "message": "$1 regex/массовых правок",
+        "description": "'Regex/Bulk edits' header"
     },
     "optionsViewEdited": {
         "message": "Посмотреть",
@@ -332,7 +400,7 @@
         "description": "'About' section"
     },
     "aboutChangelog": {
-        "message": "Список изменений текущей версии доступен <a id='latest-release' target='_blank' href='#'>здесь</a>. Полный список изменений вы можете посмотреть на <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>этой странице</a>.",
+        "message": "Список изменений текущей версии доступен <a id='latest-release' target='_blank' href='$1'>здесь</a>. Полный список изменений вы можете посмотреть на <a target='_blank' href='https://github.com/web-scrobbler/web-scrobbler/releases'>этой странице</a>.",
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
@@ -443,6 +511,66 @@
         "message": "Открыть настройки",
         "description": "Button label"
     },
+    "disallowedHeader": {
+        "message": "Эта песня не была заскробблена",
+        "description": "The header of 'disallowed' popup"
+    },
+    "disallowedDesc1": {
+        "message": "Web Scrobbler определил песню \"$2\" исполнителя \"$1\", но не будет скробблить её.",
+        "description": "The description of 'disallowed' popup on all sites including youtube. $1 is the artist detected. $2 is the track detected"
+    },
+    "disallowedDescYoutube": {
+        "message": "На Youtube наиболее частыми причинами являются:",
+        "description": "The description of 'disallowed' popup on youtube."
+    },
+    "disallowedDescYoutubePoint1": {
+        "message": "При включённой опции \"Скробблить видео только из категории \"Музыка/Развлечения\"\" и воспроизведении видео с другой категории.",
+        "description": "Point 1 in example list on youtube"
+    },
+    "disallowedDescYoutubePoint2": {
+        "message": "При включённой опции \"Скробблить только те видео, которые распознаны сервисом YouTube Music как музыка\" и воспроизведении песни, не распознанной сервисом YouTube Music как музыка.",
+        "description": "Point 2 in example list on youtube"
+    },
+    "disallowedDescYoutubePoint3": {
+        "message": "Рекламные объявления (даже заблокированные рекламные объявления могут временно показывать это)",
+        "description": "Point 3 in example list on youtube"
+    },
+    "disallowedDesc2": {
+        "message": "Это потому что коннектор сайта полагает, что это не является песней, чтобы её заскробблить. Некоторыми возможными причинами могут быть:",
+        "description": "The description of 'disallowed' popup on sites except youtube"
+    },
+    "disallowedDesc2Point1": {
+        "message": "Web Scrobbler вероятно определяет это как рекламу.",
+        "description": "Point 1 in example list on sites except youtube"
+    },
+    "disallowedDesc2Point2": {
+        "message": "Web Scrobbler вероятно определяет, что эта песня воспроизводилась на другом устройстве.",
+        "description": "Point 2 in example list on sites except youtube"
+    },
+    "disallowedDesc2Point3": {
+        "message": "Web Scrobbler, по каким то другим причинам, полагает что это не то, что должно быть заскробблено.",
+        "description": "Point 3 in example list on sites except youtube"
+    },
+    "disallowedDesc3": {
+        "message": "Web Scrobbler всё ещё должен скробблить музыку с других мест на этом сайте.",
+        "description": "The description of 'disallowed' popup on all sites including youtube"
+    },
+    "disallowedButton": {
+        "message": "Скробблить всё равно",
+        "description": "Button label"
+    },
+    "ignoredHeader": {
+        "message": "Этот скроббл был игнорирован",
+        "description": "The header of 'ignored' popup"
+    },
+    "ignoredDesc": {
+        "message": "Web Scrobbler попытался скробблить композицию \"$2\" исполнителя \"$1\", но тэги были игнорированы Last.FM",
+        "description": "The description of 'ignored' popup. $1 is artist name, and $2 is track name"
+    },
+    "ignoredDescReadMore": {
+        "message": "Прочитайте подробнее и запросите, чтобы композиция была разрешена здесь.",
+        "description": "The description of 'ignored' popup, links to support.last.fm thread"
+    },
     "unsupportedWebsiteHeader": {
         "message": "Этот сайт не поддерживается",
         "description": "The header of 'unsupported' popup"
@@ -453,6 +581,10 @@
     },
     "unsupportedWebsiteDesc2": {
         "message": "Некоторые сайты Google, поддерживаемые расширением (например, Google Play Music, YouTube), могут быть заблокированы политикой ExtensionSettings. ",
+        "description": "The description of 'unsupported' popup"
+    },
+    "unsupportedWebsiteUpdateNote": {
+        "message": "Если расширение было недавно обновлено, то сайты могут отображаться как неподдерживаемые, пока Вы не обновите страницу.",
         "description": "The description of 'unsupported' popup"
     },
     "infoLove": {
@@ -471,6 +603,14 @@
         "message": "Вы не можете изменить информацию об этой композиции",
         "description": "Title of edit button"
     },
+    "infoEditTitleShort": {
+        "message": "Ред-ть",
+        "description": "Title of edit button, should be short for mobile button label"
+    },
+    "infoEditUnableTitleShort": {
+        "message": "Не отред-ть",
+        "description": "Title of edit button, should be short for mobile button label"
+    },
     "infoSwapTitle": {
         "message": "Поменять исполнителя и название композиции местами",
         "description": "Title of swap button"
@@ -478,6 +618,26 @@
     "infoSwapUnableTitle": {
         "message": "Вы не можете изменить неполную информацию о композиции",
         "description": "Title of swap button"
+    },
+    "infoSwapTitleShort": {
+        "message": "Поменять назв-е/исп-я",
+        "description": "Title of swap button, should be short for mobile button label"
+    },
+    "infoSwapUnableTitleShort": {
+        "message": "Не поменять инф-ю",
+        "description": "Title of swap button, should be short for mobile button label"
+    },
+    "infoRegexTitle": {
+        "message": "Regex/Массовый режим редактирования",
+        "description": "Title of regex/bulk edit button"
+    },
+    "infoRegexTitleShort": {
+        "message": "Regex/Массовая правка",
+        "description": "Title of regex/bulk edit button, should be short for mobile button label"
+    },
+    "infoEditedWarning": {
+        "message": "Эта композиция была отредактирована. Regex правки не применяются к отредактированным композициям, и предпросмотр, который Вы видите здесь, может быть не точным.",
+        "description": "Warning message to user if bulk editing on a previously edited track"
     },
     "infoSubmitTitle": {
         "message": "Принять изменения",
@@ -487,6 +647,14 @@
         "message": "Вы не можете применить неполную информацию о композиции",
         "description": "Title of submit button"
     },
+    "infoSubmitTitleShort": {
+        "message": "Отправить",
+        "description": "Title of submit button, should be short for mobile button label"
+    },
+    "infoSubmitUnableTitleShort": {
+        "message": "Не отправить",
+        "description": "Title of submit button, should be short for mobile button label"
+    },
     "infoRevertTitle": {
         "message": "Отменить изменения",
         "description": "Title of revert button"
@@ -494,6 +662,14 @@
     "infoRevertUnableTitle": {
         "message": "Вы не можете сбросить информацию об этой композиции",
         "description": "Title of revert button"
+    },
+    "infoRevertTitleShort": {
+        "message": "Отменить",
+        "description": "Title of revert button, should be short for mobile button label"
+    },
+    "infoRevertUnableTitleShort": {
+        "message": "Не отменить",
+        "description": "Title of revert button, should be short for mobile button label"
     },
     "infoSkipTitle": {
         "message": "Не скробблить текущую композицию",
@@ -506,6 +682,18 @@
     "infoSkippedTitle": {
         "message": "Вы пропустили эту композицию",
         "description": "Title of unskip button"
+    },
+    "infoSkipTitleShort": {
+        "message": "Пропуск",
+        "description": "Title of skip button, should be short for mobile button label"
+    },
+    "infoSkipUnableTitleShort": {
+        "message": "Не проп-ть",
+        "description": "Title of skip button, should be short for mobile button label"
+    },
+    "infoSkippedTitleShort": {
+        "message": "Пропущено",
+        "description": "Title of unskip button, should be short for mobile button label"
     },
     "infoOpenAlbumArt": {
         "message": "Открыть обложку альбома в новой вкладке",
@@ -526,6 +714,18 @@
     "infoAlbumArtistPlaceholder": {
         "message": "Исполнитель альбома (необязательно)",
         "description": "Placeholder of album artist input"
+    },
+    "infoSearchLabel": {
+        "message": "Найти",
+        "description": "Label of regex edit search input"
+    },
+    "infoReplaceLabel": {
+        "message": "Заменить на",
+        "description": "Label of regex edit replace input"
+    },
+    "infoPreviewLabel": {
+        "message": "Предпросмотр",
+        "description": "Label of regex edit preview output"
     },
     "infoArtistLabel": {
         "message": "Исполнитель",
@@ -561,31 +761,31 @@
     },
     "pageActionBase": {
         "message": "Этот сайт поддерживается расширением",
-        "description": "`base` page action title"
+        "description": "`base` page action title, also used for infobox"
     },
     "pageActionLoading": {
         "message": "Поиск $1",
-        "description": "`loading` page action title"
+        "description": "`loading` page action title, also used for infobox"
     },
     "pageActionPlaying": {
         "message": "Сейчас играет $1",
-        "description": "`playing` page action title"
+        "description": "`playing` page action title, also used for infobox"
     },
     "pageActionScrobbled": {
         "message": "Заскробблено $1",
-        "description": "`scrobbled` page action title"
+        "description": "`scrobbled` page action title, also used for infobox"
     },
     "pageActionSkipped": {
         "message": "Пропущено $1",
-        "description": "`skipped` page action title"
+        "description": "`skipped` page action title, also used for infobox"
     },
     "pageActionIgnored": {
         "message": "Проигнорировано $1",
-        "description": "`ignored` page action title"
+        "description": "`ignored` page action title, also used for infobox"
     },
     "pageActionDisabled": {
         "message": "Расширение поддерживает этот сайт, но вы отключили его",
-        "description": "`disabled` page action title"
+        "description": "`disabled` page action title, also used for infobox"
     },
     "pageActionUnknown": {
         "message": "Композиция не распознана. Кликните, чтобы ввести верные данные.",
@@ -654,6 +854,18 @@
     "hotkeyUnloveSong": {
         "message": "Удалить композицию из списка любимых",
         "description": "Hotkey label"
+    },
+    "infoBoxStateDisallowed": {
+        "message": "Скробблинг не позволен. Кликните на иконке расширения Web Scrobbler для подробностей.",
+        "description": "Infobox text when an option is disallowing scrobbling"
+    },
+    "infoBoxStateError": {
+        "message": "Произошла служебная ошибка. Кликните на иконке расширения Web Scrobbler для подробностей.",
+        "description": "Infobox text when an error occured"
+    },
+    "infoBoxStateUnknown": {
+        "message": "Композиция не распознана. Кликните на иконке расширения Web Scrobbler, чтобы ввести верные данные.",
+        "description": "Infobox track is not recognized"
     },
     "extDescription": {
         "message": "Скробблите музыку со всего Интернета!",

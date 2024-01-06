@@ -12,9 +12,11 @@ const filter = MetadataFilter.createFilter({ artist: removeTrailingDash });
 
 Connector.playerSelector = playerBar;
 
-Connector.artistSelector = '.artist-name';
+const artistSelector = '.artist-name';
+Connector.artistSelector = artistSelector;
 
-Connector.trackSelector = '.track-name';
+const trackSelector = '.track-name';
+Connector.trackSelector = trackSelector;
 
 Connector.playButtonSelector = '.icon-play';
 
@@ -43,3 +45,32 @@ Connector.applyFilter(filter);
 function removeTrailingDash(text: string) {
 	return text.replace(/\s-\s$/, '');
 }
+
+Connector.getOriginUrl = () => {
+	let playerArtist = Util.getTextFromSelectors(artistSelector);
+	const playerTitle = Util.getTextFromSelectors(trackSelector);
+	// track info from page area
+	const pageArtist = Util.getTextFromSelectors(
+		'.now-playing-component__artist',
+	);
+	const pageTitle = Util.getTextFromSelectors(
+		'.now-playing-component__title',
+	);
+	if (playerArtist !== null) {
+		playerArtist = playerArtist.trim();
+		if (playerArtist.endsWith(' -')) {
+			playerArtist = playerArtist.substring(0, playerArtist.length - 2);
+		}
+	}
+	// 	compare with player to make sure we are still on the page where the track originates
+	if (playerArtist === pageArtist && playerTitle === pageTitle) {
+		const url = new URL(document.location.href);
+		return (
+			url.origin +
+			Util.getAttrFromSelectors('.now-playing-component__title', 'href')
+		);
+	}
+	return document.location.href;
+	// for testing:
+	// + playerArtist + playerTitle + (playerArtist === pageArtist && playerTitle === pageTitle) + pageArtist + pageTitle;
+};

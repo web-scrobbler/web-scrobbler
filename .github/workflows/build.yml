@@ -13,9 +13,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -23,12 +24,6 @@ jobs:
       - name: Build the extension
         run: |
           npm run build chrome
-
-      - name: Upload the extension as an artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: web-scrobbler-chrome
-          path: build/chrome
 
   build-firefox:
     name: Build the extension for Firefox
@@ -42,9 +37,10 @@ jobs:
         run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -52,12 +48,6 @@ jobs:
       - name: Build the extension
         run: |
           npm run build firefox
-
-      - name: Upload the extension as an artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: web-scrobbler-firefox
-          path: build/firefox
 
   build-safari:
     name: Build the extension for Safari
@@ -67,9 +57,10 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
@@ -77,9 +68,3 @@ jobs:
       - name: Build the extension
         run: |
           npm run build safari
-
-      - name: Upload the extension as an artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: web-scrobbler-safari
-          path: build/safari

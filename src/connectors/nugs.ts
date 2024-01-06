@@ -1,17 +1,19 @@
 export {};
 
-Connector.playerSelector = 'div[app-player] .player-wrapper';
+Connector.playerSelector = '#audio-player.audio-player';
 
-Connector.pauseButtonSelector = '.player-controls .pause-toggle';
+Connector.pauseButtonSelector = 'i.icon-pause';
 
-Connector.artistSelector = '.player-info .artist-name';
+Connector.trackSelector = 'main[class^="_about_"] div.fs-16';
 
-Connector.trackSelector = '.player-info .track-title';
+Connector.artistSelector = 'main[class^="_about_"] > div.fs-14.ellipsis';
 
-Connector.albumSelector = '.player-info .recording-title';
+Connector.albumSelector = 'main[class^="_about_"] > div[markuee]';
 
-Connector.currentTimeSelector = '.scrubber-time .player-time';
+Connector.currentTimeSelector =
+	'div[class^="_controls_"] + div > span.align-right';
 
-Connector.durationSelector = '.scrubber-time .track-time';
+Connector.remainingTimeSelector =
+	'div[class^="_controls_"] + div span:last-child';
 
-Connector.trackArtSelector = '.player-cover img';
+Connector.trackArtSelector = 'div[class^="_header_"] > img[class=^"_cover_"]';
