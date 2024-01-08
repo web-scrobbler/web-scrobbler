@@ -1,4 +1,7 @@
-import StorageWrapper, { BlockedTags, Blocklists } from '@/core/storage/wrapper';
+import StorageWrapper, {
+	BlockedTags,
+	Blocklists,
+} from '@/core/storage/wrapper';
 import * as Options from '@/core/storage/options';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import Visibility from '@suid/icons-material/VisibilityOutlined';
@@ -279,7 +282,6 @@ function pushEdits(
 	);
 	reader.readAsText(file);
 }
-
 
 function isSavedEdits(
 	edits: BlockedTags | Record<string, Options.SavedEdit> | RegexEdit[] | null,

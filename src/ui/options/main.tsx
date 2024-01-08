@@ -55,7 +55,7 @@ const modalMap = {
 	savedEdits: EditsModal,
 	regexEdits: RegexEditsModal,
 	blocklist: BlocklistModal,
-  blockedTags: BlockedTagsModal,
+	blockedTags: BlockedTagsModal,
 	'': () => <div>Loading...</div>,
 };
 

@@ -77,15 +77,6 @@ export default class Controller {
 
 	private forceScrobble = false;
 	private shouldHaveScrobbled = false;
-	private shouldScrobble = () => {
-		if (this.forceScrobble) {
-			return true;
-		}
-		return (
-			this.currentSong?.parsed.isScrobblingAllowed &&
-			this.currentSong.flags.hasBlockedTag
-		);
-	};
 
 	private isEditing = false;
 	private setNotEditingTimeout = setTimeout(() => {
@@ -104,6 +95,10 @@ export default class Controller {
 		if (this.forceScrobble) {
 			return true;
 		}
+		if (this.currentSong?.flags.hasBlockedTag) {
+			return false;
+		}
+
 		return (
 			this.currentSong?.parsed.isScrobblingAllowed &&
 			(await this.blocklist.shouldScrobbleChannel(

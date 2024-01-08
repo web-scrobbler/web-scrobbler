@@ -32,7 +32,12 @@ import AdvancedOptionsComponent from './advanced-settings';
 /**
  * Type indicating possible states for modal
  */
-export type ModalType = 'savedEdits' | 'regexEdits' | 'blockedTags' | 'blocklist' | '';
+export type ModalType =
+	| 'savedEdits'
+	| 'regexEdits'
+	| 'blockedTags'
+	| 'blocklist'
+	| '';
 
 /**
  * Singular navigator button

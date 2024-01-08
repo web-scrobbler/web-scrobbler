@@ -140,7 +140,7 @@ export function hideObjectValue(
 		| WebhookModel
 		| StateManagement
 		| RegexEdit[]
-		| BlockedTags[],
+		| BlockedTags[]
 		| Blocklists,
 ): string {
 	if (!keyValue) {
