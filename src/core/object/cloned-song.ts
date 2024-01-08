@@ -18,6 +18,7 @@ export default class ClonedSong extends BaseSong {
 	public flags: Flags;
 	public metadata: Metadata;
 	public connectorLabel: string;
+	public connectorId: string;
 	public controllerTabId: number;
 
 	constructor(song: CloneableSong, controllerTabId: number) {
@@ -28,6 +29,7 @@ export default class ClonedSong extends BaseSong {
 		this.flags = song.flags;
 		this.metadata = song.metadata;
 		this.connectorLabel = song.connectorLabel;
+		this.connectorId = song.connectorId;
 		this.controllerTabId = controllerTabId;
 	}
 

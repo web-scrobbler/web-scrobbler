@@ -12,6 +12,7 @@ import {
 	REGEX_EDITS,
 	STATE_MANAGEMENT,
 	StorageNamespace,
+	BLOCKLISTS,
 } from '@/core/storage/browser-storage';
 import {
 	ConnectorOptions,
@@ -83,6 +84,10 @@ export interface StateManagement {
 	browserPreferredTheme: 'light' | 'dark';
 }
 
+export type Blocklists = Record<string, Blocklist>;
+
+export type Blocklist = Record<string, true>;
+
 export interface DataModels extends ScrobblerModels {
 	/* sync options */
 	[CUSTOM_PATTERNS]: CustomPatterns;
@@ -95,6 +100,7 @@ export interface DataModels extends ScrobblerModels {
 	[CORE]: { appVersion: string };
 	[LOCAL_CACHE]: { [key: string]: SavedEdit };
 	[REGEX_EDITS]: RegexEdit[];
+	[BLOCKLISTS]: Blocklists;
 
 	/* state management */
 	[STATE_MANAGEMENT]: StateManagement;

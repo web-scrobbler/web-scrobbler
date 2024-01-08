@@ -63,6 +63,12 @@ export const NOTIFICATIONS = 'Notifications';
 export const LOCAL_CACHE = 'LocalCache';
 
 /**
+ * This storage contains the blocklist of each connector.
+ * Each blocklist is an object with channel IDs as keys.
+ */
+export const BLOCKLISTS = 'Blocklists';
+
+/**
  * This storage contains the options values.
  * @see DEFAULT_OPTIONS_MAP object in `config` module.
  */
@@ -128,6 +134,7 @@ const storageTypeMap = {
 	Maloja: LOCAL,
 	Webhook: LOCAL,
 
+	[BLOCKLISTS]: LOCAL,
 	[LOCAL_CACHE]: LOCAL,
 	[REGEX_EDITS]: LOCAL,
 	[CORE]: LOCAL,

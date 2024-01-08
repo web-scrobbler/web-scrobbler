@@ -10,6 +10,7 @@ import {
 	WebhookModel,
 	Properties,
 	StateManagement,
+	Blocklists,
 } from '@/core/storage/wrapper';
 import { RegexEdit } from './regex';
 
@@ -137,7 +138,8 @@ export function hideObjectValue(
 		| ListenBrainzModel
 		| WebhookModel
 		| StateManagement
-		| RegexEdit[],
+		| RegexEdit[]
+		| Blocklists,
 ): string {
 	if (!keyValue) {
 		if (keyValue === null) {

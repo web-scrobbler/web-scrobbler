@@ -1,8 +1,8 @@
-import { render } from 'solid-js/web';
+import { Dynamic, render } from 'solid-js/web';
 import styles from './settings.module.scss';
 import { initializeThemes } from '@/theme/themes';
 import '@/theme/themes.scss';
-import { Match, Show, Switch, createSignal, onCleanup } from 'solid-js';
+import { Show, createSignal, onCleanup } from 'solid-js';
 import Close from '@suid/icons-material/CloseOutlined';
 import Sidebar from './sidebar/sidebar';
 import { EditsModal } from './components/edit-options/edited-tracks';
@@ -18,6 +18,7 @@ import {
 	showSomeLoveItem,
 } from './components/navigator';
 import ContextMenu from '../components/context-menu/context-menu';
+import { BlocklistModal } from './components/edit-options/blocked-channels';
 
 /**
  * Media query for detecting whether to use context menu or sidebar
@@ -48,6 +49,13 @@ function getDefaultSetting(): NavigatorNavigationButton {
 }
 
 const defaultSetting = getDefaultSetting();
+
+const modalMap = {
+	savedEdits: EditsModal,
+	regexEdits: RegexEditsModal,
+	blocklist: BlocklistModal,
+	'': () => <div>Loading...</div>,
+};
 
 /**
  * Preferences component, with a sidebar and several different options and info pages
@@ -111,14 +119,7 @@ function Options() {
 				onClose={() => setActiveModal('')}
 			>
 				<div class={styles.modalContent}>
-					<Switch fallback={<div>Loading...</div>}>
-						<Match when={activeModal() === 'savedEdits'}>
-							<EditsModal />
-						</Match>
-						<Match when={activeModal() === 'regexEdits'}>
-							<RegexEditsModal />
-						</Match>
-					</Switch>
+					<Dynamic component={modalMap[activeModal()]} />
 				</div>
 				<button
 					class={styles.modalClose}
