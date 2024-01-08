@@ -300,7 +300,7 @@ export default class Controller {
 				type: 'getChannelDetails',
 				fn: () => ({
 					connector: this.connector.meta,
-					channelID: this.connector.getChannelId?.(),
+					channelId: this.connector.getChannelId?.(),
 				}),
 			}),
 			contentListener({

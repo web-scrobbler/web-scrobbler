@@ -91,7 +91,7 @@ async function updateMenus(tab: ManagerTab): Promise<void> {
 	const channelDetails = await getChannelDetails(tab.tabId);
 	if (
 		!channelDetails ||
-		!channelDetails.channelID ||
+		!channelDetails.channelId ||
 		!channelDetails.connector
 	) {
 		browser.contextMenus?.update(contextMenus.DISABLE_CHANNEL, {
@@ -102,7 +102,7 @@ async function updateMenus(tab: ManagerTab): Promise<void> {
 		});
 	} else if (
 		await isChannelBlocklisted(
-			channelDetails.channelID,
+			channelDetails.channelId,
 			channelDetails.connector,
 		)
 	) {
@@ -111,12 +111,12 @@ async function updateMenus(tab: ManagerTab): Promise<void> {
 		});
 		browser.contextMenus?.update(contextMenus.ENABLE_CHANNEL, {
 			visible: true,
-			title: t('menuEnableChannel', channelDetails.channelID),
+			title: t('menuEnableChannel', channelDetails.channelId),
 		});
 	} else {
 		browser.contextMenus?.update(contextMenus.DISABLE_CHANNEL, {
 			visible: true,
-			title: t('menuDisableChannel', channelDetails.channelID),
+			title: t('menuDisableChannel', channelDetails.channelId),
 		});
 		browser.contextMenus?.update(contextMenus.ENABLE_CHANNEL, {
 			visible: false,

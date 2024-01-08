@@ -168,7 +168,7 @@ interface BackgroundCommunications {
 		payload: undefined;
 		response: {
 			connector: ConnectorMeta;
-			channelID: string | null | undefined;
+			channelId: string | null | undefined;
 		};
 	};
 }

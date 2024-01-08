@@ -79,16 +79,16 @@ export async function getChannelDetails(tabId: number) {
 /**
  * Is current channel blocklisted
  *
- * @param channelID - ID of the channel to check
+ * @param channelId - ID of the channel to check
  * @param connector - Details about the connector to check
  * @returns true if current channel is blocklisted; false otherwise
  */
 export async function isChannelBlocklisted(
-	channelID: string,
+	channelId: string,
 	connector: ConnectorMeta,
 ): Promise<boolean> {
 	const blocklist = await blocklistStorage.get();
-	return blocklist?.[connector.id]?.[channelID] ?? false;
+	return blocklist?.[connector.id]?.[channelId] ?? false;
 }
 
 /**
