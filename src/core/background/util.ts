@@ -6,13 +6,17 @@ import * as BrowserStorage from '@/core/storage/browser-storage';
 import { isPrioritizedMode } from '@/core/object/controller/controller';
 import { performUpdateAction } from './action';
 import { sendBackgroundMessage } from '@/util/communication';
+import { ConnectorMeta } from '../connectors';
 
 const state = BrowserStorage.getStorage(BrowserStorage.STATE_MANAGEMENT);
+const blocklistStorage = BrowserStorage.getStorage(BrowserStorage.BLOCKLISTS);
 
 export const contextMenus = {
 	ENABLE_CONNECTOR: 'enableConnector',
 	DISABLE_CONNECTOR: 'disableConnector',
 	DISABLE_UNTIL_CLOSED: 'disableUntilClosed',
+	ENABLE_CHANNEL: 'enableChannel',
+	DISABLE_CHANNEL: 'disableChannel',
 };
 
 /**
@@ -59,6 +63,32 @@ export async function filterInactiveTabs(activeTabs: ManagerTab[]) {
 			return false;
 		}
 	});
+}
+
+/**
+ * @param tabId - tab to get song from
+ * @returns the details about the channel of the currently playing song in tab
+ */
+export async function getChannelDetails(tabId: number) {
+	return sendBackgroundMessage(tabId, {
+		type: 'getChannelDetails',
+		payload: undefined,
+	});
+}
+
+/**
+ * Is current channel blocklisted
+ *
+ * @param channelId - ID of the channel to check
+ * @param connector - Details about the connector to check
+ * @returns true if current channel is blocklisted; false otherwise
+ */
+export async function isChannelBlocklisted(
+	channelId: string,
+	connector: ConnectorMeta,
+): Promise<boolean> {
+	const blocklist = await blocklistStorage.get();
+	return blocklist?.[connector.id]?.[channelId] ?? false;
 }
 
 /**
@@ -233,6 +263,30 @@ export function enableConnector(tabId: number) {
 	sendBackgroundMessage(tabId, {
 		type: 'setConnectorState',
 		payload: true,
+	});
+}
+
+/**
+ * Disables scrobbling current channel for a tab
+ *
+ * @param tabId - tab id of tab to disable scrobbling channel for
+ */
+export function addToBlocklist(tabId: number) {
+	sendBackgroundMessage(tabId, {
+		type: 'addToBlocklist',
+		payload: undefined,
+	});
+}
+
+/**
+ * Enables scrobbling current channel for a tab
+ *
+ * @param tabId - tab id of tab to disable scrobbling channel for
+ */
+export function removeFromBlocklist(tabId: number) {
+	sendBackgroundMessage(tabId, {
+		type: 'removeFromBlocklist',
+		payload: undefined,
 	});
 }
 

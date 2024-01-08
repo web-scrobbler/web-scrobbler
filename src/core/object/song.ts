@@ -61,6 +61,7 @@ export interface CloneableSong {
 	flags: Flags;
 	metadata: Metadata;
 	connectorLabel: string;
+	connectorId: string;
 }
 
 export abstract class BaseSong {
@@ -70,6 +71,7 @@ export abstract class BaseSong {
 	public abstract flags: Flags;
 	public abstract metadata: Metadata;
 	public abstract connectorLabel: string;
+	public abstract connectorId: string;
 
 	/**
 	 * Get song artist.
@@ -227,6 +229,7 @@ export abstract class BaseSong {
 			metadata: this.metadata,
 			flags: this.flags,
 			connectorLabel: this.connectorLabel,
+			connectorId: this.connectorId,
 		};
 	}
 
@@ -303,6 +306,7 @@ export default class Song extends BaseSong {
 	public flags: Flags;
 	public metadata: Metadata;
 	public connectorLabel: string;
+	public connectorId: string;
 	/**
 	 * @param parsedData - Current state received from connector
 	 * @param connector - Connector match object
@@ -366,6 +370,7 @@ export default class Song extends BaseSong {
 		};
 
 		this.connectorLabel = connector.label;
+		this.connectorId = connector.id;
 
 		this.initSongData();
 	}

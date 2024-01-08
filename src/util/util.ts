@@ -11,6 +11,7 @@ import {
 	Properties,
 	StateManagement,
 	BlockedTags,
+	Blocklists,
 } from '@/core/storage/wrapper';
 import { RegexEdit } from './regex';
 
@@ -140,6 +141,7 @@ export function hideObjectValue(
 		| StateManagement
 		| RegexEdit[]
 		| BlockedTags[],
+		| Blocklists,
 ): string {
 	if (!keyValue) {
 		if (keyValue === null) {
