@@ -255,6 +255,18 @@
         "message": "$1 regex/bulk edits",
         "description": "'Regex/Bulk edits' header"
     },
+    "optionsBlockedSources": {
+        "message": "Blocked sources",
+        "description": "'Edited tracks' header"
+    },
+    "optionsBlockedSourcesDesc": {
+        "message": "You can block scrobbling from specific sources such as channels on this website.",
+        "description": "Description of blocked sources"
+    },
+    "optionsBlockedSourcesPopupTitle": {
+        "message": "$1 blocked sources",
+        "description": "'Blocked sources' header"
+    },
     "optionsViewEdited": {
         "message": "View",
         "description": "Button to view edited tracks"
@@ -829,6 +841,14 @@
     },
     "menuDisableUntilTabClosed": {
         "message": "Disable $1 connector until tab is closed",
+        "description": "Context menu item"
+    },
+    "menuDisableChannel": {
+        "message": "Disable scrobbling from $1",
+        "description": "Context menu item"
+    },
+    "menuEnableChannel": {
+        "message": "Enable scrobbling from $1",
         "description": "Context menu item"
     },
     "notificationConnectAccounts": {

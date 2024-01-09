@@ -1,4 +1,4 @@
-import StorageWrapper from '@/core/storage/wrapper';
+import StorageWrapper, { Blocklists } from '@/core/storage/wrapper';
 import * as Options from '@/core/storage/options';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import Visibility from '@suid/icons-material/VisibilityOutlined';
@@ -9,6 +9,7 @@ import { t } from '@/util/i18n';
 import { Setter, createSignal } from 'solid-js';
 import { RegexEdit } from '@/util/regex';
 import { ModalType } from '../navigator';
+import { ConnectorMeta } from '@/core/connectors';
 
 type EditWrapper = StorageWrapper<
 	typeof BrowserStorage.REGEX_EDITS | typeof BrowserStorage.LOCAL_CACHE
@@ -26,6 +27,29 @@ type EditSetter = Setter<
  * Button that allows the user to open the modal that shows them their track edits
  */
 export function ViewEdits(props: {
+	setActiveModal: Setter<ModalType>;
+	modal: HTMLDialogElement | undefined;
+	type: ModalType;
+}) {
+	return (
+		<button
+			class={`${styles.button} ${styles.shiftLeft}`}
+			onClick={(e) => {
+				e.stopImmediatePropagation();
+				props.setActiveModal(props.type);
+				props.modal?.showModal();
+			}}
+		>
+			<Visibility />
+			{t('optionsViewEdited')}
+		</button>
+	);
+}
+
+/**
+ * Button that allows the user to open the modal that shows them their track edits
+ */
+export function ViewBlocklist(props: {
 	setActiveModal: Setter<ModalType>;
 	modal: HTMLDialogElement | undefined;
 	type: ModalType;
@@ -66,6 +90,52 @@ export function ExportEdits(props: {
 }
 
 /**
+ * Button that exports blocklist for the user
+ */
+export function ExportBlocklist(props: {
+	blocklistWrapper: StorageWrapper<typeof BrowserStorage.BLOCKLISTS>;
+	connector: ConnectorMeta;
+	filename: string;
+}) {
+	return (
+		<button
+			class={`${styles.button} ${styles.shiftLeft}`}
+			onClick={() =>
+				void downloadBlocklist(
+					props.blocklistWrapper,
+					props.connector,
+					props.filename,
+				)
+			}
+		>
+			<Upload />
+			{t('optionsExportEdited')}
+		</button>
+	);
+}
+
+/**
+ * Compiles all the users track edits from storage and downloads them
+ */
+async function downloadBlocklist(
+	blocklistWrapper: StorageWrapper<typeof BrowserStorage.BLOCKLISTS>,
+	connector: ConnectorMeta,
+	filename: string,
+) {
+	const blocklists = await blocklistWrapper.get();
+	if (!blocklists || !blocklists[connector.id]) {
+		return;
+	}
+	const data = `data:text/json;charset=UTF-8,${encodeURIComponent(
+		JSON.stringify(blocklists[connector.id]),
+	)}`;
+	const a = document.createElement('a');
+	a.download = filename;
+	a.href = data;
+	a.click();
+}
+
+/**
  * Compiles all the users track edits from storage and downloads them
  */
 async function downloadEdits(editWrapper: EditWrapper, filename: string) {
@@ -80,6 +150,40 @@ async function downloadEdits(editWrapper: EditWrapper, filename: string) {
 	a.download = filename;
 	a.href = data;
 	a.click();
+}
+
+/**
+ * Button that allows the user to upload a .json file and get blocklist from it.
+ */
+export function ImportBlocklist(props: {
+	blocklistWrapper: StorageWrapper<typeof BrowserStorage.BLOCKLISTS>;
+	connector: ConnectorMeta;
+	mutate: Setter<Blocklists | null | undefined>;
+}) {
+	const [ref, setRef] = createSignal<HTMLInputElement>();
+	return (
+		<button
+			class={`${styles.button} ${styles.shiftLeft}`}
+			onClick={() => ref()?.click()}
+		>
+			<Download />
+			{t('optionsImportEdited')}
+			<input
+				hidden={true}
+				ref={setRef}
+				type="file"
+				accept=".json"
+				onChange={(e) =>
+					pushBlocklist(
+						e,
+						props.blocklistWrapper,
+						props.connector,
+						props.mutate,
+					)
+				}
+			/>
+		</button>
+	);
 }
 
 /**
@@ -141,6 +245,48 @@ function pushEdits(
 							};
 				editWrapper.set(newEdits);
 				mutate(newEdits);
+			})(arg),
+	);
+	reader.readAsText(file);
+}
+
+/**
+ * Reads an imported .json file and import the blocklist to storage
+ */
+function pushBlocklist(
+	e: Event & {
+		currentTarget: HTMLInputElement;
+		target: Element;
+	},
+	blocklistWrapper: StorageWrapper<typeof BrowserStorage.BLOCKLISTS>,
+	connector: ConnectorMeta,
+	mutate: Setter<Blocklists | null | undefined>,
+) {
+	const file = e.currentTarget.files?.[0];
+	if (!file) {
+		return;
+	}
+	const reader = new FileReader();
+	reader.addEventListener(
+		'load',
+		(arg) =>
+			void (async (e) => {
+				const newBlocklist = JSON.parse(
+					e.target?.result as string,
+				) as Record<string, true>;
+				let blocklists = await blocklistWrapper.get();
+				if (!blocklists) {
+					blocklists = {};
+				}
+				if (!blocklists[connector.id]) {
+					blocklists[connector.id] = {};
+				}
+				blocklists[connector.id] = {
+					...blocklists[connector.id],
+					...newBlocklist,
+				};
+				blocklistWrapper.set(blocklists);
+				mutate(blocklists);
 			})(arg),
 	);
 	reader.readAsText(file);

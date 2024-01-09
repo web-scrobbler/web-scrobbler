@@ -4,6 +4,11 @@ export interface ConnectorMeta {
 	js: string;
 	id: string;
 	allFrames?: true;
+
+	/**
+	 * true if connector uses blocklist. Connector must implement {@link Connector.getChannelId}
+	 */
+	usesBlocklist?: true;
 }
 
 export default <ConnectorMeta[]>[
@@ -12,6 +17,7 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.youtube.com/*', '*://m.youtube.com/*'],
 		js: 'youtube.js',
 		id: 'youtube',
+		usesBlocklist: true,
 	},
 	{
 		label: 'MySpace',
