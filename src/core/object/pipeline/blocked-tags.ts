@@ -14,7 +14,7 @@ import BlockedTags from '@/core/storage/blocked-tags';
 export async function process(song: Song): Promise<void> {
 	const blockedTags = new BlockedTags();
 	try {
-		song.flags.hasBlockedTag = await blockedTags.shouldScrobbleSong(song);
+		song.flags.hasBlockedTag = await blockedTags.hasBlockedTag(song);
 	} catch (err) {
 		debugLog(err, 'error');
 	}

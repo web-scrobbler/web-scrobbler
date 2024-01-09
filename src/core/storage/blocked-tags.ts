@@ -174,10 +174,10 @@ export default class BlockedTags {
 	/**
 	 * @param song - song to check
 	 *
-	 * @returns true if song isn't blocklisted; false if it is
+	 * @returns true if song is blocklisted; false if it isn't
 	 */
-	public async shouldScrobbleSong(song: BaseSong): Promise<boolean> {
+	public async hasBlockedTag(song: BaseSong): Promise<boolean> {
 		const res = await this.getBlockedTypes(song);
-		return !(res.artist || res.album || res.track);
+		return res.artist || res.album || res.track;
 	}
 }
