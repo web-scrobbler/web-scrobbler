@@ -183,6 +183,15 @@ Connector.getUniqueID = () => {
 	return null;
 };
 
+// href is like this: href="//space.bilibili.com/1459104794"
+Connector.getChannelId = () =>
+	new URL(
+		(document.querySelector(uploaderSelector) as HTMLAnchorElement)?.href ??
+			'https://bilibili.com/',
+	).pathname
+		.split('/')
+		.pop();
+
 Connector.isScrobblingAllowed = () => {
 	const tags = videoInfo.tags;
 

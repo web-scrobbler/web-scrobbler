@@ -2334,5 +2334,6 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.bilibili.com/*'],
 		js: 'bilibili.js',
 		id: 'bilibili',
+		usesBlocklist: true,
 	},
 ];
