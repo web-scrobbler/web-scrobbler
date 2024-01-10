@@ -208,7 +208,7 @@
         "description": "Input label"
     },
     "instanceDomainPlaceholder": {
-        "message": "ex. iddqd.social",
+        "message": "just domain: example.com",
         "description": "Input label"
     },
     "accountsUserToken": {
