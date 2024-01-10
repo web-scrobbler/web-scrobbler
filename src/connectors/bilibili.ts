@@ -331,23 +331,19 @@ function grepSongInfo() {
 	}
 
 	artistLeftSeparators.forEach((separator) => {
-		if (titleWithoutDecoration.includes(separator)) {
-			const result = extractText(title, separator);
-			if (result) {
-				const [leftPart, rightPart] = result;
-				possibleTrack.push(rightPart);
-				possibleArtist.push(leftPart);
-			}
+		const result = extractText(titleWithoutDecoration, separator);
+		if (result) {
+			const [leftPart, rightPart] = result;
+			possibleTrack.push(rightPart);
+			possibleArtist.push(leftPart);
 		}
 	});
 	artistRightSeparators.forEach((separator) => {
-		if (titleWithoutDecoration.includes(separator)) {
-			const result = extractText(title, separator);
-			if (result) {
-				const [leftPart, rightPart] = result;
-				possibleTrack.push(leftPart);
-				possibleArtist.push(rightPart);
-			}
+		const result = extractText(titleWithoutDecoration, separator);
+		if (result) {
+			const [leftPart, rightPart] = result;
+			possibleTrack.push(leftPart);
+			possibleArtist.push(rightPart);
 		}
 	});
 
@@ -419,7 +415,7 @@ Filtered tags: ${filteredTags.toString()}`,
 }
 
 /**
- * extract text using separators and remove other
+ * extract text using separators
  * @param text - text that needs to be separated
  * @param separator - separator that used to separate the text
  * @returns [left part of the separator, right part of the separator]
@@ -429,16 +425,8 @@ function extractText(text: string, separator: string): [string, string] | null {
 	const match = text.match(regex);
 
 	if (match) {
-		const leftPart = match[1]
-			.replace(trackPattern, '')
-			.replace(artistPattern, '')
-			.replace(decorationPattern, '');
-
-		const rightPart = match[2]
-			.replace(trackPattern, '')
-			.replace(artistPattern, '')
-			.replace(decorationPattern, '');
-
+		const leftPart = match[1];
+		const rightPart = match[2];
 		return [leftPart, rightPart];
 	}
 
