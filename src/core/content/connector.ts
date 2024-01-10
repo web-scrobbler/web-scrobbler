@@ -3,6 +3,7 @@ import browser from 'webextension-polyfill';
 import { ArtistTrackInfo, BaseState, State, TimeInfo } from '@/core/types';
 import * as Util from '@/core/content/util';
 import { ConnectorMeta } from '../connectors';
+import type { DisallowedReason } from '../object/disallowed-reason';
 
 export default class BaseConnector {
 	/**
@@ -346,14 +347,18 @@ export default class BaseConnector {
 	public isStateChangeAllowed: () => boolean | null | undefined = () => true;
 
 	/**
-	 * Default implementation of a check to see if a scrobbling is allowed.
-	 * The connector resets current state if this function returns falsy result.
+	 * Default implementation of a check to see if scrobbling is allowed.
+	 * The connector resets current state if this function returns non-falsy state.
+	 * The string content of non-falsy state determines the reason to show user for non-scrobbling.
 	 *
 	 * Override this method to allow certain states to be reset.
 	 *
-	 * @returns True if state change is allowed; false otherwise
+	 * @returns null/undefined if state change is allowed; {@link DisallowedReason} otherwise
 	 */
-	public isScrobblingAllowed: () => boolean | null | undefined = () => true;
+	public scrobblingDisallowedReason: () =>
+		| DisallowedReason
+		| null
+		| undefined = () => null;
 
 	/**
 	 * Function that will be called when the connector is injected and
@@ -518,7 +523,7 @@ export default class BaseConnector {
 		trackArt: null,
 		isPodcast: false,
 		originUrl: null,
-		isScrobblingAllowed: true,
+		scrobblingDisallowedReason: null,
 	};
 
 	// #v-ifdef VITE_DEV
@@ -752,7 +757,7 @@ export default class BaseConnector {
 				isPlaying: this.isPlaying(),
 				isPodcast: this.isPodcast(),
 				originUrl: this.getOriginUrl(),
-				isScrobblingAllowed: this.isScrobblingAllowed(),
+				scrobblingDisallowedReason: this.scrobblingDisallowedReason(),
 			};
 
 			let mediaSessionInfo = null;

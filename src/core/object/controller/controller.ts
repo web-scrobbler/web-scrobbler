@@ -26,6 +26,7 @@ import { debugLog } from '@/core/content/util';
 import browser from 'webextension-polyfill';
 import BaseConnector from '@/core/content/connector';
 import Blocklist from '@/core/storage/blocklist';
+import { DisallowedReason } from '../disallowed-reason';
 
 /**
  * List of song fields used to check if song is changed. If any of
@@ -89,18 +90,30 @@ export default class Controller {
 	});
 
 	/**
+	 * Mutates this.currentSong to sync disallowed reason, and returns whether song should scrobble
+	 *
 	 * @returns true if song should scrobble; false if disallowed.
 	 */
-	private async shouldScrobble() {
+	private async shouldScrobble(): Promise<boolean> {
 		if (this.forceScrobble) {
 			return true;
 		}
-		return (
-			this.currentSong?.parsed.isScrobblingAllowed &&
-			(await this.blocklist.shouldScrobbleChannel(
+		if (!this.currentSong) {
+			return false;
+		}
+		if (this.currentSong.parsed.scrobblingDisallowedReason) {
+			return false;
+		}
+		if (
+			!(await this.blocklist.shouldScrobbleChannel(
 				this.connector.getChannelId?.(),
 			))
-		);
+		) {
+			this.currentSong.parsed.scrobblingDisallowedReason =
+				'ForbiddenChannel';
+			return false;
+		}
+		return true;
 	}
 
 	/**
@@ -707,7 +720,7 @@ export default class Controller {
 			isPlaying,
 			trackArt,
 			duration,
-			isScrobblingAllowed,
+			scrobblingDisallowedReason,
 		} = newState;
 		const isPlayingStateChanged =
 			this.currentSong.parsed.isPlaying !== isPlaying;
@@ -715,7 +728,8 @@ export default class Controller {
 		this.currentSong.parsed.currentTime = currentTime;
 		this.currentSong.parsed.isPlaying = isPlaying;
 		this.currentSong.parsed.trackArt = trackArt;
-		this.currentSong.parsed.isScrobblingAllowed = isScrobblingAllowed;
+		this.currentSong.parsed.scrobblingDisallowedReason =
+			scrobblingDisallowedReason;
 
 		if (this.isNeedToUpdateDuration(newState) && duration) {
 			this.updateSongDuration(duration);

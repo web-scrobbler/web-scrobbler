@@ -29,7 +29,7 @@ Connector.playButtonSelector =
 Connector.pauseButtonSelector =
 	"*[class^='_playbackControls_'] button[aria-label='Pause']";
 
-Connector.isScrobblingAllowed = () => {
+Connector.scrobblingDisallowedReason = () => {
 	const artist = Connector.getArtist()?.toLowerCase();
 	const track = Connector.getTrack()?.toLowerCase();
 	const filteredTerms = [
@@ -50,9 +50,11 @@ Connector.isScrobblingAllowed = () => {
 		'bdcast',
 	];
 
-	return !filteredTerms.some(
+	return filteredTerms.some(
 		(term) => artist?.includes(term) || track?.includes(term),
-	);
+	)
+		? 'FilteredTag'
+		: null;
 };
 
 Connector.applyFilter(filter);

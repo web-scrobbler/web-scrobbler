@@ -16,5 +16,7 @@ Connector.isPlaying = () => {
 	);
 };
 
-Connector.isScrobblingAllowed = () =>
-	!Connector.getArtistTrack()?.artist?.startsWith('KINK');
+Connector.scrobblingDisallowedReason = () =>
+	Connector.getArtistTrack()?.artist?.startsWith('KINK')
+		? 'FilteredTag'
+		: null;

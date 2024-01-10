@@ -1,5 +1,6 @@
 import type { ConnectorMeta } from '@/core/connectors';
 import { State } from '@/core/types';
+import type { DisallowedReason } from './disallowed-reason';
 
 export interface ProcessedSongData {
 	artist?: string | null;
@@ -16,7 +17,7 @@ export interface ParsedSongData extends ProcessedSongData {
 	isPodcast?: boolean | null;
 	isPlaying?: boolean | null;
 	currentTime?: number | null;
-	isScrobblingAllowed?: boolean | null;
+	scrobblingDisallowedReason?: DisallowedReason | null;
 }
 
 export type Flags =

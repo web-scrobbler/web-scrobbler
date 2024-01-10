@@ -37,7 +37,8 @@ Connector.pauseButtonSelector = `${oldPauseButtonSelector}, ${newPauseButtonSele
 
 Connector.applyFilter(MetadataFilter.createSpotifyFilter());
 
-Connector.isScrobblingAllowed = () => Boolean(isMusicPlaying() && isMainTab());
+Connector.scrobblingDisallowedReason = () =>
+	isMusicPlaying() && isMainTab() ? null : 'IsPlayingElsewhere';
 
 Connector.isPodcast = () => isPodcastPlaying();
 

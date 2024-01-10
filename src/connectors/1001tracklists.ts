@@ -45,7 +45,7 @@ Connector.getDuration = () => {
 Connector.isPlaying = () =>
 	Util.hasElementClass('#playerWidgetPause', 'fa-pause');
 
-Connector.isScrobblingAllowed = () => {
+Connector.scrobblingDisallowedReason = () => {
 	nextCue = parseInt(
 		Util.getAttrFromSelectors('.cPlay ~ .tlpTog input', 'value') ?? '',
 	);
@@ -57,5 +57,5 @@ Connector.isScrobblingAllowed = () => {
 		'mashupTrack',
 	);
 
-	return noIDs <= 0 && (cue > 0 || nextCue > 0) && !mashup;
+	return noIDs <= 0 && (cue > 0 || nextCue > 0) && !mashup ? null : 'Other';
 };

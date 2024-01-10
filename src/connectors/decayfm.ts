@@ -11,7 +11,13 @@ Connector.trackArtSelector = '.qtmplayer__covercontainer img';
 Connector.isPlaying = () =>
 	Util.getTextFromSelectors('#qtmplayerPlay .material-icons') === 'pause';
 
-Connector.isScrobblingAllowed = () => {
+Connector.scrobblingDisallowedReason = () => {
 	const artist = Connector.getArtist();
-	return Boolean(artist && !artist.match(/^DKFM|^ID\/PSA|^Advert:/));
+	if (!artist) {
+		return 'Other';
+	}
+	if (artist.match(/^DKFM|^ID\/PSA|^Advert:/)) {
+		return 'IsAd';
+	}
+	return null;
 };

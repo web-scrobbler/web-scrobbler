@@ -1,3 +1,5 @@
+import type { DisallowedReason } from './object/disallowed-reason';
+
 export interface TimeInfo {
 	/**
 	 * Currentime in seconds
@@ -75,5 +77,5 @@ export interface State extends BaseState {
 	/**
 	 * Is scrobbling allowed
 	 */
-	isScrobblingAllowed?: boolean | null;
+	scrobblingDisallowedReason?: DisallowedReason | null;
 }
