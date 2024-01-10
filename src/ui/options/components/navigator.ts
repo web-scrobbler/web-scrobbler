@@ -1,24 +1,28 @@
 import { Component, Setter } from 'solid-js';
-import Info from '@suid/icons-material/InfoOutlined';
-import Help from '@suid/icons-material/HelpOutlined';
-import Contacts from '@suid/icons-material/ContactsOutlined';
-import Settings from '@suid/icons-material/SettingsOutlined';
-import Edit from '@suid/icons-material/EditOutlined';
-import Extension from '@suid/icons-material/ExtensionOutlined';
-import ManageAccounts from '@suid/icons-material/ManageAccountsOutlined';
+import {
+	InfoOutlined,
+	HelpOutlined,
+	ContactsOutlined,
+	SettingsOutlined,
+	EditOutlined,
+	ExtensionOutlined,
+	ManageAccountsOutlined,
+	TuneOutlined,
+	ToggleOnOutlined,
+	ToggleOffOutlined,
+	TimerOutlined,
+	FavoriteOutlined,
+} from '@/ui/components/icons';
+
 import InfoComponent from '@/ui/options/components/info';
 import ShowSomeLove from '@/ui/options/components/showSomeLove';
 import FAQ from '@/ui/options/components/faq';
 import ContactComponent from '@/ui/options/components/contact';
 import OptionsComponent from '@/ui/options/components/options/options';
 import Accounts from '@/ui/options/components/accounts';
-import Tune from '@suid/icons-material/TuneOutlined';
-import ToggleOn from '@suid/icons-material/ToggleOnOutlined';
-import ToggleOff from '@suid/icons-material/ToggleOffOutlined';
-import Timer from '@suid/icons-material/TimerOutlined';
+
 import ConnectorOverrideOptions from '@/ui/options/components/connector-override';
 import EditOptions from '@/ui/options/components/edit-options/edit-options';
-import Favorite from '@suid/icons-material/FavoriteOutlined';
 import browser from 'webextension-polyfill';
 import {
 	disableConnector,
@@ -39,7 +43,7 @@ export type ModalType = 'savedEdits' | 'regexEdits' | 'blocklist' | '';
  */
 export type NavigatorNavigationButton = {
 	namei18n: string;
-	icon: typeof ManageAccounts;
+	icon: typeof ManageAccountsOutlined;
 	element: Component<{
 		setActiveModal: Setter<ModalType>;
 		modal: HTMLDialogElement | undefined;
@@ -51,7 +55,7 @@ export type NavigatorNavigationButton = {
  */
 export type NavigatorActionButton = {
 	namei18n: string;
-	icon: typeof ManageAccounts;
+	icon: typeof ManageAccountsOutlined;
 	action: () => void;
 };
 
@@ -62,7 +66,7 @@ export type NavigatorButton = NavigatorNavigationButton | NavigatorActionButton;
  */
 export type NavigatorButtonGroup = {
 	namei18n: string;
-	icon: typeof ManageAccounts;
+	icon: typeof ManageAccountsOutlined;
 	group: NavigatorButton[];
 };
 
@@ -73,37 +77,37 @@ export type Navigator = (NavigatorButton | NavigatorButtonGroup)[];
 
 export const accountItem: NavigatorNavigationButton = {
 	namei18n: 'optionsAccounts',
-	icon: ManageAccounts,
+	icon: ManageAccountsOutlined,
 	element: Accounts,
 };
 
 export const optionsItem: NavigatorNavigationButton = {
 	namei18n: 'optionsOptions',
-	icon: Settings,
+	icon: SettingsOutlined,
 	element: OptionsComponent,
 };
 
 export const editOptionsItem: NavigatorNavigationButton = {
 	namei18n: 'optionsEdits',
-	icon: Edit,
+	icon: EditOutlined,
 	element: EditOptions,
 };
 
 export const connectorOverrideOptionsItem: NavigatorNavigationButton = {
 	namei18n: 'optionsConnectors',
-	icon: Extension,
+	icon: ExtensionOutlined,
 	element: ConnectorOverrideOptions,
 };
 
 export const advancedOptionsItem: NavigatorNavigationButton = {
 	namei18n: 'optionsAdvanced',
-	icon: Tune,
+	icon: TuneOutlined,
 	element: AdvancedOptionsComponent,
 };
 
 export const optionsGroup: NavigatorButtonGroup = {
 	namei18n: 'optionsOptions',
-	icon: Settings,
+	icon: SettingsOutlined,
 	group: [
 		optionsItem,
 		editOptionsItem,
@@ -114,31 +118,31 @@ export const optionsGroup: NavigatorButtonGroup = {
 
 export const contactItem: NavigatorNavigationButton = {
 	namei18n: 'contactTitle',
-	icon: Contacts,
+	icon: ContactsOutlined,
 	element: ContactComponent,
 };
 
 export const faqItem: NavigatorNavigationButton = {
 	namei18n: 'faqTitle',
-	icon: Help,
+	icon: HelpOutlined,
 	element: FAQ,
 };
 
 export const aboutItem: NavigatorNavigationButton = {
 	namei18n: 'optionsAbout',
-	icon: Info,
+	icon: InfoOutlined,
 	element: InfoComponent,
 };
 
 export const aboutGroup: NavigatorButtonGroup = {
 	namei18n: 'optionsAbout',
-	icon: Info,
+	icon: InfoOutlined,
 	group: [contactItem, faqItem, aboutItem],
 };
 
 export const showSomeLoveItem: NavigatorNavigationButton = {
 	namei18n: 'showSomeLoveTitle',
-	icon: Favorite,
+	icon: FavoriteOutlined,
 	element: ShowSomeLove,
 };
 
@@ -165,7 +169,7 @@ async function getToggleNavigators(): Promise<NavigatorActionButton[]> {
 		return [
 			{
 				namei18n: 'menuEnableConnector',
-				icon: ToggleOn,
+				icon: ToggleOnOutlined,
 				action: () => {
 					enableConnector(tab.tabId);
 				},
@@ -176,14 +180,14 @@ async function getToggleNavigators(): Promise<NavigatorActionButton[]> {
 	return [
 		{
 			namei18n: 'menuDisableConnector',
-			icon: ToggleOff,
+			icon: ToggleOffOutlined,
 			action: () => {
 				disableConnector(tab.tabId);
 			},
 		},
 		{
 			namei18n: 'menuDisableUntilTabClosed',
-			icon: Timer,
+			icon: TimerOutlined,
 			action: () => {
 				disableUntilClosed(tab.tabId);
 			},
@@ -194,11 +198,11 @@ async function getToggleNavigators(): Promise<NavigatorActionButton[]> {
 export async function getMobileNavigatorGroup(): Promise<NavigatorButtonGroup> {
 	const group: NavigatorButtonGroup = {
 		namei18n: 'optionsOptions',
-		icon: Settings,
+		icon: SettingsOutlined,
 		group: [
 			{
 				namei18n: 'optionsOptions',
-				icon: Settings,
+				icon: SettingsOutlined,
 				action: () => {
 					browser.tabs.create({
 						url: browser.runtime.getURL(

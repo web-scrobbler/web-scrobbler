@@ -18,7 +18,7 @@ import Disabled from './disabled';
 import Err from './err';
 import NowPlaying from './nowplaying';
 import Edit from './edit';
-import Settings from '@suid/icons-material/SettingsOutlined';
+import { SettingsOutlined } from '@/ui/components/icons';
 import browser from 'webextension-polyfill';
 import styles from './popup.module.scss';
 import { t } from '@/util/i18n';
@@ -131,7 +131,7 @@ function Popup() {
 					class={styles.settingsIcon}
 					title={t('disabledSiteButton')}
 				>
-					<Settings />
+					<SettingsOutlined />
 				</PopupAnchor>
 			</Show>
 		</>

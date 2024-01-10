@@ -3,7 +3,7 @@ import { For, Setter, createResource } from 'solid-js';
 import * as Options from '@/core/storage/options';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
-import Delete from '@suid/icons-material/DeleteOutlined';
+import { DeleteOutlined } from '@/ui/components/icons';
 import { ExportEdits, ImportEdits, ViewEdits } from './util';
 import { ModalType } from '../navigator';
 
@@ -94,7 +94,7 @@ function TrackInfo(props: {
 					});
 				}}
 			>
-				<Delete />
+				<DeleteOutlined />
 			</button>
 			<span>
 				{props.track.artist} - {props.track.track}
