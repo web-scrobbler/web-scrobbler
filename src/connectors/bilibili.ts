@@ -101,6 +101,7 @@ const filterKeyWords = [
 	'MV',
 	'音乐',
 	'hires',
+	'无损',
 	'hdr',
 	'翻唱',
 	'原创',
@@ -122,6 +123,8 @@ const filterKeyWords = [
 	'开口跪',
 	'op',
 	'ed',
+	'片尾曲',
+	'片头曲',
 ];
 
 /**
