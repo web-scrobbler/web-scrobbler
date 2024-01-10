@@ -4,7 +4,10 @@ import { ServiceCallResult } from '@/core/object/service-call-result';
 import { BaseSong } from '@/core/object/song';
 import { timeoutPromise } from '@/util/util';
 import BaseScrobbler, { SessionData } from '@/core/scrobbler/base-scrobbler';
-import { PleromaTrackMetadata, PleromaUser } from '@/core/scrobbler/pleroma/pleroma.types';
+import {
+	PleromaTrackMetadata,
+	PleromaUser,
+} from '@/core/scrobbler/pleroma/pleroma.types';
 
 /**
  * Module for communication with Pleroma
@@ -67,7 +70,7 @@ export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
 		const requestInfo = {
 			method: 'GET',
 			headers: {
-				'Authorization': `Bearer ${this.userToken}`,
+				Authorization: `Bearer ${this.userToken}`,
 			},
 		};
 
@@ -122,13 +125,13 @@ export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
 
 	async sendRequest(
 		params: PleromaTrackMetadata,
-		userToken: string
+		userToken: string,
 	): Promise<ServiceCallResult> {
 		const requestInfo = {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
-				'Authorization': `Bearer ${userToken}`,
+				Authorization: `Bearer ${userToken}`,
 			},
 			body: JSON.stringify(params),
 		};
