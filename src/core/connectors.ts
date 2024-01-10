@@ -2329,4 +2329,10 @@ export default <ConnectorMeta[]>[
 		js: 'radiostudent.js',
 		id: 'radiostudent',
 	},
+	{
+		label: 'jam.coop',
+		matches: ['*://jam.coop/*'],
+		js: 'jam.coop.js',
+		id: 'jam.coop',
+	},
 ];
