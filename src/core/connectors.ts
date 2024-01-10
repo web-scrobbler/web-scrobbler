@@ -2336,4 +2336,10 @@ export default <ConnectorMeta[]>[
 		id: 'bilibili',
 		usesBlocklist: true,
 	},
+	{
+		label: 'jam.coop',
+		matches: ['*://jam.coop/*'],
+		js: 'jam.coop.js',
+		id: 'jam.coop',
+	},
 ];
