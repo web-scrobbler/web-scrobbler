@@ -13,6 +13,7 @@ import {
 	STATE_MANAGEMENT,
 	StorageNamespace,
 	BLOCKLISTS,
+	NATIVE_SCROBBLER_NOTIFICATION,
 } from '@/core/storage/browser-storage';
 import {
 	ConnectorOptions,
@@ -109,6 +110,9 @@ export interface DataModels extends ScrobblerModels {
 		[key: number]: {
 			[key in (typeof connectors)[number]['id']]: true;
 		};
+	};
+	[NATIVE_SCROBBLER_NOTIFICATION]: {
+		[key in (typeof connectors)[number]['id']]: true;
 	};
 }
 

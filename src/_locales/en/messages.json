@@ -867,6 +867,14 @@
         "message": "Click the notification to connect your accounts.",
         "description": "Notification text"
     },
+    "notificationNativeScrobbler": {
+      "message": "$1 has a built-in scrobbler!",
+      "description": "Notification title, $1 denotes the name of the website."
+    },
+    "notificationNativeScrobblerText": {
+        "message": "Make sure to turn off either Web Scrobbler or the built-in scrobbler!",
+        "description": "Notification text"
+    },
     "notificationAuthError": {
         "message": "Authentication error",
         "description": "Notification title"
