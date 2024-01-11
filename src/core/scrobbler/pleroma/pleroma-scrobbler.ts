@@ -115,10 +115,10 @@ export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
 	}
 
 	/** @override */
-	public async scrobble(song: BaseSong): Promise<ServiceCallResult> {
-		const songData = this.makeTrackMetadata(song);
+	public async scrobble(songs: BaseSong[]): Promise<ServiceCallResult[]> {
+		const songData = this.makeTrackMetadata(songs[0]);
 
-		return this.sendRequest(songData, this.userToken);
+		return [await this.sendRequest(songData, this.userToken)];
 	}
 
 	/** Private methods */

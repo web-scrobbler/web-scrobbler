@@ -788,7 +788,7 @@ export default class Controller {
 		 */
 		if (!this.currentSong.isValid()) {
 			this.setSongNotRecognized();
-		} else if (!this.shouldScrobble()) {
+		} else if (!(await this.shouldScrobble())) {
 			this.setMode(ControllerMode.Disallowed);
 		} else if (this.currentSong.parsed.isPlaying) {
 			/*
@@ -804,13 +804,16 @@ export default class Controller {
 					* to set song as now playing. We should dispatch
 					a "now playing" event, though.
 					*/
-			if (!this.playbackTimer.isExpired()) {
-				void this.setSongNowPlaying();
+				if (!this.playbackTimer.isExpired()) {
+					void this.setSongNowPlaying();
+				} else {
+					this.dispatchEvent(ControllerEvents.SongNowPlaying);
+				}
 			} else {
-				this.dispatchEvent(ControllerEvents.SongNowPlaying);
+				this.setMode(ControllerMode.Base);
 			}
 		} else {
-			this.setMode(ControllerMode.Base);
+			this.setSongNotRecognized();
 		}
 
 		this.onSongUpdated();
@@ -1061,7 +1064,7 @@ export default class Controller {
 			return true;
 		}
 
-		if (!this.shouldScrobble()) {
+		if (!(await this.shouldScrobble())) {
 			this.scrobbleCacheId = await scrobbleCache.pushScrobble({
 				song: this.currentSong.getCloneableData(),
 				status: ScrobbleStatus.DISALLOWED,

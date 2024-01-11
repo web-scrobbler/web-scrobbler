@@ -614,7 +614,7 @@ async function editCacheScrobbles(
 					SavedEditsModel.getSongId(
 						new ClonedSong(scrobble.song, -1),
 					) === songId,
-		  )
+			)
 		: scrobbles()?.filter((scrobble) => scrobble.id === id);
 	const editedScrobbles = filteredScrobbles?.map((scrobble) => {
 		scrobble.song.processed.track = track;
