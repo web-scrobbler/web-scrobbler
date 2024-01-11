@@ -37,8 +37,13 @@ export default class Blocklist {
 	 *
 	 * @param id - ID of channel to add
 	 */
-	public async addToBlocklist(id: string): Promise<void> {
-		if (!id) {
+	public async addToBlocklist(
+		channelInfo: {
+			id: string;
+			label: string;
+		} | null,
+	): Promise<void> {
+		if (!channelInfo?.id) {
 			return;
 		}
 		await this.isReady;
@@ -49,7 +54,7 @@ export default class Blocklist {
 		}
 		data[this.connectorId] = {
 			...data[this.connectorId],
-			[id]: true,
+			[channelInfo.id]: channelInfo.label || channelInfo.id,
 		};
 		await this.storage.setLocking(data);
 	}
@@ -76,20 +81,20 @@ export default class Blocklist {
 	/**
 	 * @param id - ID of channel to check
 	 *
-	 * @returns true if channel isn't blocklisted; false if it is
+	 * @returns label if channel is blocklisted; null if it isn't
 	 */
-	public async shouldScrobbleChannel(
+	public async getChannelLabel(
 		id: string | undefined | null,
-	): Promise<boolean> {
+	): Promise<string | null> {
 		if (!id) {
-			return true;
+			return null;
 		}
 		await this.isReady;
 		const data = await this.storage.get();
 		if (!data || !(this.connectorId in data) || !data[this.connectorId]) {
-			return true;
+			return null;
 		}
 
-		return data[this.connectorId][id] !== true;
+		return data[this.connectorId][id];
 	}
 }

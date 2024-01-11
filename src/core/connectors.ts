@@ -6,7 +6,7 @@ export interface ConnectorMeta {
 	allFrames?: true;
 
 	/**
-	 * true if connector uses blocklist. Connector must implement {@link Connector.getChannelId}
+	 * true if connector uses blocklist. Connector must implement {@link Connector.getChannelID}
 	 */
 	usesBlocklist?: true;
 }

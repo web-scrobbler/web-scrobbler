@@ -150,7 +150,51 @@ export default class BaseConnector {
 	 * Has to be specified if usesBlocklist is set to true in connectors.ts.
 	 * If connectors.ts does not have usesBlocklist set to true, this should be null.
 	 */
-	public getChannelId: (() => string | null | undefined) | null = null;
+	public getChannelID: (() => string | null | undefined) | null = null;
+
+	/**
+	 * Selector of an element containing channel label.
+	 *
+	 * Only applies when default implementation of
+	 * {@link getChannelLabel} is used.
+	 */
+	public channelLabelSelector: string | string[] | null = null;
+
+	/**
+	 * Function that gets a label for the channel of ID fetched by getChannelID.
+	 *
+	 * This is the name that will be displayed to the user, and has no bearing on internal logic.
+	 * If not specified, {@link getChannelID} will be used.
+	 */
+	public getChannelLabel: (() => string | null | undefined) | null = () =>
+		Util.getTextFromSelectors(this.channelLabelSelector);
+
+	/**
+	 * Function that gets ID and label for a channel.
+	 *
+	 * A connector can specify this in lieu of {@link getChannelID}, as this is basically combo of
+	 * both {@link getChannelID} and {@link getChannelLabel}
+	 *
+	 * You may return null in this function, but if you return a result for one property,
+	 * you must return a result for both properties, even if the label is just
+	 * a duplicate of the id.
+	 */
+	public getChannelInfo: () =>
+		| {
+				id: string;
+				label: string;
+		  }
+		| null
+		| undefined = () => {
+		const id = this.getChannelID?.();
+		if (!id) {
+			return null;
+		}
+		return {
+			id,
+			label: this.getChannelLabel?.() || id,
+		};
+	};
 
 	/**
 	 * Selector of element contains a track art of now playing song.

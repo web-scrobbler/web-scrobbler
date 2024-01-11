@@ -3,7 +3,7 @@ import {
 	contextMenus,
 	getBrowserPreferredTheme,
 	getChannelDetails,
-	isChannelBlocklisted,
+	getChannelBlocklistLabel,
 } from './util';
 import { sendPopupMessage } from '@/util/communication';
 import { ManagerTab } from '@/core/storage/wrapper';
@@ -91,7 +91,7 @@ async function updateMenus(tab: ManagerTab): Promise<void> {
 	const channelDetails = await getChannelDetails(tab.tabId);
 	if (
 		!channelDetails ||
-		!channelDetails.channelId ||
+		!channelDetails.channelInfo?.id ||
 		!channelDetails.connector
 	) {
 		browser.contextMenus?.update(contextMenus.DISABLE_CHANNEL, {
@@ -101,8 +101,8 @@ async function updateMenus(tab: ManagerTab): Promise<void> {
 			visible: false,
 		});
 	} else if (
-		await isChannelBlocklisted(
-			channelDetails.channelId,
+		await getChannelBlocklistLabel(
+			channelDetails.channelInfo.id,
 			channelDetails.connector,
 		)
 	) {
@@ -111,12 +111,12 @@ async function updateMenus(tab: ManagerTab): Promise<void> {
 		});
 		browser.contextMenus?.update(contextMenus.ENABLE_CHANNEL, {
 			visible: true,
-			title: t('menuEnableChannel', channelDetails.channelId),
+			title: t('menuEnableChannel', channelDetails.channelInfo.label),
 		});
 	} else {
 		browser.contextMenus?.update(contextMenus.DISABLE_CHANNEL, {
 			visible: true,
-			title: t('menuDisableChannel', channelDetails.channelId),
+			title: t('menuDisableChannel', channelDetails.channelInfo.label),
 		});
 		browser.contextMenus?.update(contextMenus.ENABLE_CHANNEL, {
 			visible: false,
