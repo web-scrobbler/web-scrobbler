@@ -155,6 +155,10 @@
         "message": "Dark",
         "description": "Option label"
     },
+    "optionThemeHighContrastDark": {
+        "message": "High Contrast Dark",
+        "description": "Option label"
+    },
     "optionThemeSystem": {
         "message": "System",
         "description": "Option label"

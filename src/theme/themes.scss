@@ -5,16 +5,21 @@ $themes: (
 		always-last-fm-hover: #fc3434,
 		background: #fff,
 		checkbox-inactive: #8e8e8e,
+		checkbox-active: #d82323,
 		sidebar-bg: rgb(250 235 235 / 70%),
 		context-bg: rgb(250 235 235 / 95%),
 		modal-bg: rgb(255 255 255 / 95%),
 		last-fm-bg: #faebeb,
 		muted-text: #555,
+		active-text: #fff,
 		text: #222,
 		last-fm: #d82323,
 		confirm: #00b300,
+		reject: #d82323,
+		indeterminate: #8e8e8e,
 		site-image: url('../img/main/site-light.jpg'),
 		invert-filter: invert(0%),
+		interactable-border: none
 	),
 	dark: (
 		always-light: #fff,
@@ -22,17 +27,44 @@ $themes: (
 		always-last-fm-hover: #fc3434,
 		background: #1e1e1e,
 		checkbox-inactive: #8e8e8e,
+		checkbox-active: #d82323,
 		sidebar-bg: rgb(194 57 55 / 70%),
 		context-bg: rgb(194 57 55 / 95%),
 		modal-bg: rgb(40 40 40 / 95%),
 		last-fm-bg: #c23937,
 		muted-text: #bbb,
+		active-text: #fff,
 		text: #eee,
 		last-fm: #fc3434,
 		confirm: #00b300,
+		reject: #fc3434,
+		indeterminate: #8e8e8e,
 		site-image: url('../img/main/site-dark.jpg'),
 		invert-filter: invert(100%),
+		interactable-border: none
 	),
+	high-contrast-dark: (
+		always-light: yellow,
+		always-last-fm: black,
+		always-last-fm-hover: lavender,
+		background: black,
+		checkbox-inactive: black,
+		checkbox-active: #8e8e8e,
+		sidebar-bg: black,
+		context-bg: black,
+		modal-bg: black,
+		last-fm-bg: black,
+		muted-text: yellow,
+		text: yellow,
+		active-text: black,
+		last-fm: lavender,
+		confirm: lime,
+		reject: red,
+		indeterminate: #8e8e8e,
+		site-image: url('../img/main/site-dark.jpg'),
+		invert-filter: invert(100%),
+		interactable-border: 1px solid yellow
+	)
 );
 
 @each $name, $map in $themes {
@@ -41,6 +73,11 @@ $themes: (
 			--#{$key}: #{$value};
 		}
 	}
+}
+
+// stylelint-disable-next-line
+.theme-high-contrast-dark a {
+	border: var(--interactable-border);
 }
 
 body {

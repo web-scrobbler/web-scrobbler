@@ -51,10 +51,15 @@ function processTheme(theme: string) {
 	return theme;
 }
 
-type Theme = 'system' | 'dark' | 'light';
+type Theme = 'system' | 'dark' | 'light' | 'high-contrast-dark';
 export type ModifiedTheme = `theme-${Theme}`;
 
-export const themeList: Theme[] = ['system', 'dark', 'light'];
+export const themeList: Theme[] = [
+	'system',
+	'dark',
+	'light',
+	'high-contrast-dark',
+];
 export const modifiedThemeList = themeList.map(
 	(theme) => `theme-${theme}`,
 ) as ModifiedTheme[];

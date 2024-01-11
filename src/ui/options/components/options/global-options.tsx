@@ -5,7 +5,7 @@ import browser from 'webextension-polyfill';
 import { GlobalOptionEntry } from '../inputs';
 import styles from '../components.module.scss';
 import { t } from '@/util/i18n';
-import { capitalizeFirstLetter, debugLog } from '@/util/util';
+import { debugLog, kebabCaseToPascalCase } from '@/util/util';
 import {
 	ModifiedTheme,
 	getTheme,
@@ -105,7 +105,7 @@ function ThemeSelector() {
 						{(themeName) => (
 							<option value={`theme-${themeName}`}>
 								{t(
-									`optionTheme${capitalizeFirstLetter(
+									`optionTheme${kebabCaseToPascalCase(
 										themeName,
 									)}`,
 								)}
