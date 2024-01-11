@@ -282,9 +282,8 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		}
 
 		if (sessionID && requestInfo.headers) {
-			(
-				requestInfo.headers as Record<string, string>
-			).Authorization = `Token ${sessionID}`;
+			(requestInfo.headers as Record<string, string>).Authorization =
+				`Token ${sessionID}`;
 		}
 		const promise = fetch(url, requestInfo);
 		const timeout = this.REQUEST_TIMEOUT;
@@ -358,7 +357,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 					payload: {
 						url,
 					},
-			  });
+				});
 		const timeout = this.REQUEST_TIMEOUT;
 
 		// @ts-expect-error typescript is confused by the combination of ternary and promise wrapped promise. It's a skill issue on typescript's part.

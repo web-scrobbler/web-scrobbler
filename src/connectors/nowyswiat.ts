@@ -1,22 +1,23 @@
 export {};
 
-Connector.playerSelector = '.qtmplayer__controllayer';
+Connector.playerSelector = '#player';
 
-Connector.trackSelector = '.qtmplayer__title .marquee';
+Connector.trackSelector = '#neoplayer-title';
 
-Connector.artistSelector = '.qtmplayer__artist .marquee';
+Connector.artistSelector = '#neoplayer-subtitle';
 
-Connector.trackArtSelector = '.qtmplayer__cover > img';
+Connector.trackArtSelector = '#neoplayer-image';
 
 Connector.isPlaying = () => {
-	return (
-		Util.getTextFromSelectors('#qtmplayerPlay > .material-icons') ===
-		'pause'
+	const visibility = Util.getCSSPropertyFromSelectors(
+		'#neoplayer-play',
+		'visibility',
 	);
+	return visibility === 'hidden';
 };
 
 Connector.isStateChangeAllowed = () => {
-	const artist = Util.getTextFromSelectors('.qtmplayer__artist');
+	const artist = Util.getTextFromSelectors('#neoplayer-subtitle');
 	return artist !== 'Radio Nowy Świat';
 };
 

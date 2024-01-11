@@ -381,7 +381,8 @@ export default abstract class BaseScrobbler<K extends keyof ScrobblerModels> {
 		| 'ListenBrainz'
 		| 'Maloja'
 		| 'Libre.fm'
-		| 'Webhook';
+		| 'Webhook'
+		| 'Pleroma';
 
 	/**
 	 * Get URL to profile page.

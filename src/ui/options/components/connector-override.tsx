@@ -3,6 +3,7 @@ import * as Options from '@/core/storage/options';
 import {
 	Accessor,
 	For,
+	Setter,
 	Show,
 	Suspense,
 	createEffect,
@@ -23,6 +24,8 @@ import {
 } from './inputs';
 import browser from 'webextension-polyfill';
 import { t } from '@/util/i18n';
+import BlockedChannels from './edit-options/blocked-channels';
+import { ModalType } from './navigator';
 
 const globalOptions = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 const connectorOverrideOptions = BrowserStorage.getStorage(
@@ -45,7 +48,10 @@ const [customPatternOptions, setCustomPatternOptions] = createResource(
 /**
  * Component that shows the override options for all connectors
  */
-export default function ConnectorOverrideOptions() {
+export default function ConnectorOverrideOptions(props: {
+	setActiveModal: Setter<ModalType>;
+	modal: HTMLDialogElement | undefined;
+}) {
 	return (
 		<>
 			<h1>{t('optionsSupportedWebsites')}</h1>
@@ -95,7 +101,10 @@ export default function ConnectorOverrideOptions() {
 					/>
 				</li>
 
-				<ConnectorOptions />
+				<ConnectorOptions
+					setActiveModal={props.setActiveModal}
+					modal={props.modal}
+				/>
 			</ul>
 		</>
 	);
@@ -104,11 +113,20 @@ export default function ConnectorOverrideOptions() {
 /**
  * Connector Override Options list
  */
-function ConnectorOptions() {
+function ConnectorOptions(props: {
+	setActiveModal: Setter<ModalType>;
+	modal: HTMLDialogElement | undefined;
+}) {
 	return (
 		<Suspense fallback={<p>{t('optionsLoadingConnectorOptions')}</p>}>
 			<For each={connectors}>
-				{(connector) => <ConnectorOption connector={connector} />}
+				{(connector) => (
+					<ConnectorOption
+						setActiveModal={props.setActiveModal}
+						modal={props.modal}
+						connector={connector}
+					/>
+				)}
 			</For>
 		</Suspense>
 	);
@@ -117,7 +135,11 @@ function ConnectorOptions() {
 /**
  * The connector override options for one connector
  */
-function ConnectorOption(props: { connector: ConnectorMeta }) {
+function ConnectorOption(props: {
+	connector: ConnectorMeta;
+	setActiveModal: Setter<ModalType>;
+	modal: HTMLDialogElement | undefined;
+}) {
 	const [ref, setRef] = createSignal<HTMLDetailsElement>();
 	const [active, setActive] = createSignal(false);
 	createEffect(() => {
@@ -167,6 +189,8 @@ function ConnectorOption(props: { connector: ConnectorMeta }) {
 					/>
 				</summary>
 				<ConnectorOverrideOptionDetails
+					setActiveModal={props.setActiveModal}
+					modal={props.modal}
 					connector={props.connector}
 					active={active}
 				/>
@@ -181,6 +205,8 @@ function ConnectorOption(props: { connector: ConnectorMeta }) {
 function ConnectorOverrideOptionDetails(props: {
 	connector: ConnectorMeta;
 	active: Accessor<boolean>;
+	setActiveModal: Setter<ModalType>;
+	modal: HTMLDialogElement | undefined;
 }) {
 	return (
 		<Show when={props.active()}>
@@ -313,6 +339,13 @@ function ConnectorOverrideOptionDetails(props: {
 			<h3>{t('customPatterns')}</h3>
 			<p>{t('customPatternsHint')}</p>
 			<EditCustomPatterns connector={props.connector} />
+			<Show when={props.connector.usesBlocklist}>
+				<BlockedChannels
+					setActiveModal={props.setActiveModal}
+					modal={props.modal}
+					connector={props.connector}
+				/>
+			</Show>
 		</Show>
 	);
 }

@@ -1,6 +1,7 @@
 import connectors, { ConnectorMeta } from '@/core/connectors';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import { debugLog } from '../content/util';
+import { DEFAULT_SCROBBLE_PERCENT } from '@/util/util';
 
 const options = BrowserStorage.getStorage(BrowserStorage.OPTIONS);
 const connectorsOptions = BrowserStorage.getStorage(
@@ -87,7 +88,7 @@ const DEFAULT_OPTIONS: GlobalOptions = {
 	[SCROBBLE_RECOGNIZED_TRACKS]: true,
 	[SCROBBLE_EDITED_TRACKS_ONLY]: false,
 	[DEBUG_LOGGING_ENABLED]: false,
-	[SCROBBLE_PERCENT]: 50,
+	[SCROBBLE_PERCENT]: DEFAULT_SCROBBLE_PERCENT,
 	[USE_INFOBOX]: true,
 	[DISABLED_CONNECTORS]: {},
 };

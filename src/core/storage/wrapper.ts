@@ -13,6 +13,7 @@ import {
 	SCROBBLE_CACHE,
 	STATE_MANAGEMENT,
 	StorageNamespace,
+	BLOCKLISTS,
 } from '@/core/storage/browser-storage';
 import {
 	ConnectorOptions,
@@ -72,6 +73,7 @@ export interface ScrobblerModels {
 	ListenBrainz?: ListenBrainzModel;
 	Maloja?: Properties;
 	Webhook?: WebhookModel;
+	Pleroma?: Properties;
 }
 
 export interface ManagerTab {
@@ -119,6 +121,9 @@ export interface CacheScrobbleData {
 export interface CacheScrobble extends CacheScrobbleData {
 	id: number;
 }
+export type Blocklists = Record<string, Blocklist>;
+
+export type Blocklist = Record<string, true>;
 
 export interface DataModels extends ScrobblerModels {
 	/* sync options */
@@ -133,6 +138,7 @@ export interface DataModels extends ScrobblerModels {
 	[LOCAL_CACHE]: { [key: string]: SavedEdit };
 	[REGEX_EDITS]: RegexEdit[];
 	[SCROBBLE_CACHE]: CacheScrobble[];
+	[BLOCKLISTS]: Blocklists;
 
 	/* state management */
 	[STATE_MANAGEMENT]: StateManagement;

@@ -2,7 +2,7 @@ import { Dynamic, render } from 'solid-js/web';
 import styles from './settings.module.scss';
 import { initializeThemes } from '@/theme/themes';
 import '@/theme/themes.scss';
-import { Match, Show, Switch, createSignal, onCleanup } from 'solid-js';
+import { Show, createSignal, onCleanup } from 'solid-js';
 import Close from '@suid/icons-material/CloseOutlined';
 import Sidebar from './sidebar/sidebar';
 import { EditsModal } from './components/edit-options/edited-tracks';
@@ -19,6 +19,7 @@ import {
 } from './components/navigator';
 import ContextMenu from '../components/context-menu/context-menu';
 import { CacheEditModal } from './components/scrobble-cache';
+import { BlocklistModal } from './components/edit-options/blocked-channels';
 
 /**
  * Media query for detecting whether to use context menu or sidebar
@@ -53,6 +54,7 @@ const defaultSetting = getDefaultSetting();
 const modals = {
 	savedEdits: EditsModal,
 	regexEdits: RegexEditsModal,
+	blocklist: BlocklistModal,
 	cacheEdit: CacheEditModal,
 	'': () => <div>Loading...</div>,
 };
@@ -83,9 +85,8 @@ function Options() {
 	document.addEventListener('click', onclick);
 	onCleanup(() => document.removeEventListener('click', onclick));
 
-	const [shouldShowContextMenu, setShouldShowContextMenu] = createSignal(
-		contextMenuQuery(),
-	);
+	const [shouldShowContextMenu, setShouldShowContextMenu] =
+		createSignal(contextMenuQuery());
 	const resizeListener = () => setShouldShowContextMenu(contextMenuQuery());
 	window.addEventListener('resize', resizeListener);
 
