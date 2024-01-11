@@ -33,7 +33,7 @@ const bgmTagSelector = '.bgm-tag .tag-link .tag-txt';
  */
 const PlayerSelector = '.bpx-player-container';
 const currentTimeSelector = '.bpx-player-ctrl-time-current';
-const durationSelector = 'bpx-player-ctrl-time-duration';
+const durationSelector = '.bpx-player-ctrl-time-duration';
 /**
  * patterns that used to match possible song info
  */
