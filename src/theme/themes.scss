@@ -61,7 +61,7 @@ $themes: (
 		confirm: lime,
 		reject: red,
 		indeterminate: #8e8e8e,
-		site-image: url('../img/main/site-dark.jpg'),
+		site-image: black,
 		invert-filter: invert(100%),
 		interactable-border: 1px solid yellow
 	),
@@ -83,7 +83,7 @@ $themes: (
 		confirm: lime,
 		reject: red,
 		indeterminate: #8e8e8e,
-		site-image: url('../img/main/site-light.jpg'),
+		site-image: seashell,
 		invert-filter: invert(0%),
 		interactable-border: 1px solid black
 	)
@@ -110,4 +110,8 @@ $themes: (
 body {
 	// Avoid animation flickering in iOS
 	-webkit-transform: translate3d(0, 0, 0);
+}
+
+* {
+	-ms-high-contrast-adjust: none;
 }
