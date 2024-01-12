@@ -548,19 +548,19 @@
         "description": "The description of 'disallowed' popup."
     },
     "disallowedDescForbiddenYouTubeCategory": {
-      "message": "You have disabled scrobbling youtube video categories other than music and/or entertainment, and this video belongs to a category other than these. We have no way to impact this, but you can choose to scrobble any video category by disabling both \"Scrobble videos from \"Music\" category\" and \"Scrobble videos from \"Entertainment\" category\" in Web Scrobbler settings.",
+      "message": "You have disabled scrobbling youtube video categories other than music and/or entertainment, and this video is marked by the uploader as a different category. You can choose to scrobble any video category by disabling both \"Scrobble videos from \"Music\" category\" and \"Scrobble videos from \"Entertainment\" category\" in Web Scrobbler settings.",
       "description": "The description of 'disallowed' popup."
     },
     "disallowedDescForbiddenTag": {
-      "message": "You have disabled scrobbling this artist, album, and/or track. You can reenable the tags in settings, or by hitting \"Scrobble anyway\" and reenabling the tags in regex editing.",
+      "message": "You have disabled scrobbling this artist, album, and/or track. You can re-enable tags in settings, or by hitting \"Scrobble anyway\" and re-enabling the tags in regex editing.",
       "description": "The description of 'disallowed' popup."
     },
     "disallowedDescForbiddenChannel": {
-      "message": "You have disabled scrobbling this channel. You can reenable it in connector settings, or by right clicking the extension icon and clicking \"Enable scrobbling from <ID>\".",
+      "message": "You have disabled scrobbling this channel. You can re-enable it in connector settings, or by right clicking the extension icon and clicking \"Enable scrobbling from <ID>\".",
       "description": "The description of 'disallowed' popup."
     },
     "disallowedDescNotOnYouTubeMusic": {
-      "message": "YouTube Music does not recognize this video as being music, and you have enabled the option \"Scrobble only videos that are recognized by YouTube Music as music\" in settings.",
+      "message": "YouTube Music does not recognize this video as music, and you have enabled the option \"Scrobble only videos that are recognized by YouTube Music as music\" in settings.",
       "description": "The description of 'disallowed' popup."
     },
     "disallowedDescIsPlayingElsewhere": {
@@ -580,7 +580,7 @@
       "description": "The description of 'disallowed' popup."
     },
     "disallowedDescOther": {
-      "message": "For some unknown reason, the connector has determined this should not scrobble. This is not related to any setting you have set. If you believe this is an error, please report it.",
+      "message": "For some unknown reason, Web Scrobbler has determined this should not scrobble. This is not related to any setting you have set. If you believe this is an error, please report it.",
       "description": "The description of 'disallowed' popup."
     },
     "disallowedDesc3": {
