@@ -64,6 +64,28 @@ $themes: (
 		site-image: url('../img/main/site-dark.jpg'),
 		invert-filter: invert(100%),
 		interactable-border: 1px solid yellow
+	),
+	high-contrast-light: (
+		always-light: black,
+		always-last-fm: seashell,
+		always-last-fm-hover: saddlebrown,
+		background: seashell,
+		checkbox-inactive: seashell,
+		checkbox-active: #8e8e8e,
+		sidebar-bg: seashell,
+		context-bg: seashell,
+		modal-bg: seashell,
+		last-fm-bg: seashell,
+		muted-text: black,
+		text: black,
+		active-text: seashell,
+		last-fm: saddlebrown,
+		confirm: lime,
+		reject: red,
+		indeterminate: #8e8e8e,
+		site-image: url('../img/main/site-light.jpg'),
+		invert-filter: invert(0%),
+		interactable-border: 1px solid black
 	)
 );
 
@@ -77,6 +99,11 @@ $themes: (
 
 // stylelint-disable-next-line
 .theme-high-contrast-dark a {
+	border: var(--interactable-border);
+}
+
+// stylelint-disable-next-line
+.theme-high-contrast-light a {
 	border: var(--interactable-border);
 }
 
