@@ -51,6 +51,18 @@ const scrobblerPropertiesMap = {
 			placeholder: 'accountsUserTokenPlaceholder',
 		},
 	},
+	Pleroma: {
+		userApiUrl: {
+			type: 'text',
+			title: 'instanceDomain',
+			placeholder: 'instanceDomainPlaceholder',
+		},
+		userToken: {
+			type: 'password',
+			title: 'accountsUserToken',
+			placeholder: 'accountsUserTokenPlaceholder',
+		},
+	},
 };
 
 /**
@@ -83,6 +95,7 @@ export default function Accounts() {
 			<ScrobblerDisplay label="ListenBrainz" />
 			<ScrobblerDisplay label="Maloja" />
 			<ScrobblerDisplay label="Webhook" />
+			<ScrobblerDisplay label="Pleroma" />
 		</>
 	);
 }

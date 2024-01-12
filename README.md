@@ -25,6 +25,7 @@ Web Scrobbler helps online music listeners to scrobble their playback history.
 -   [Libre.fm][LibreFm]
 -   [ListenBrainz][ListenBrainz]
 -   [Maloja][Maloja]
+-   [Pleroma][Pleroma]
 
 ## Installation
 
@@ -147,6 +148,7 @@ Licensed under the [MIT License][License].
 [LibreFm]: https://libre.fm/
 [ListenBrainz]: https://listenbrainz.org/
 [Maloja]: https://github.com/krateng/maloja
+[Pleroma]: https://pleroma.social/
 
 <!-- Wiki pages -->
 
