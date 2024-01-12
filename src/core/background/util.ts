@@ -79,7 +79,7 @@ export async function getChannelDetails(tabId: number) {
 /**
  * Checks if current channel is blocklisted and returns its label if so
  *
- * @param channelId - ID of the channel to check
+ * @param channelID - ID of the channel to check
  * @param connector - Details about the connector to check
  * @returns string label of channel if current channel is blocklisted; null otherwise
  */
