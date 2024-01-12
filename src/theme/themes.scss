@@ -19,7 +19,7 @@ $themes: (
 		indeterminate: #8e8e8e,
 		site-image: url('../img/main/site-light.jpg'),
 		invert-filter: invert(0%),
-		interactable-border: none
+		interactable-border: none,
 	),
 	dark: (
 		always-light: #fff,
@@ -41,7 +41,7 @@ $themes: (
 		indeterminate: #8e8e8e,
 		site-image: url('../img/main/site-dark.jpg'),
 		invert-filter: invert(100%),
-		interactable-border: none
+		interactable-border: none,
 	),
 	high-contrast-dark: (
 		always-light: yellow,
@@ -63,7 +63,7 @@ $themes: (
 		indeterminate: #8e8e8e,
 		site-image: black,
 		invert-filter: invert(100%),
-		interactable-border: 1px solid yellow
+		interactable-border: 1px solid yellow,
 	),
 	high-contrast-light: (
 		always-light: black,
@@ -85,8 +85,8 @@ $themes: (
 		indeterminate: #8e8e8e,
 		site-image: seashell,
 		invert-filter: invert(0%),
-		interactable-border: 1px solid black
-	)
+		interactable-border: 1px solid black,
+	),
 );
 
 @each $name, $map in $themes {
