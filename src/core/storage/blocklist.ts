@@ -97,4 +97,15 @@ export default class Blocklist {
 
 		return data[this.connectorId][id];
 	}
+
+	/**
+	 * @param id - ID of channel to check
+	 *
+	 * @returns true if channel isn't blocklisted; false if it is.
+	 */
+	public async shouldScrobbleChannel(
+		id: string | undefined | null,
+	): Promise<boolean> {
+		return !(await this.getChannelLabel(id));
+	}
 }

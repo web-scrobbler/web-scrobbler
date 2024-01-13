@@ -97,7 +97,7 @@ export default class Controller {
 		}
 		return (
 			this.currentSong?.parsed.isScrobblingAllowed &&
-			!(await this.blocklist.getChannelLabel(
+			(await this.blocklist.shouldScrobbleChannel(
 				this.connector.getChannelInfo?.()?.id,
 			))
 		);
