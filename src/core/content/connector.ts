@@ -150,7 +150,7 @@ export default class BaseConnector {
 	 * Has to be specified if usesBlocklist is set to true in connectors.ts.
 	 * If connectors.ts does not have usesBlocklist set to true, this should be null.
 	 */
-	public getChannelID: (() => string | null | undefined) | null = null;
+	public getChannelId: (() => string | null | undefined) | null = null;
 
 	/**
 	 * Selector of an element containing channel label.
@@ -161,10 +161,10 @@ export default class BaseConnector {
 	public channelLabelSelector: string | string[] | null = null;
 
 	/**
-	 * Function that gets a label for the channel of ID fetched by getChannelID.
+	 * Function that gets a label for the channel of ID fetched by {@link getChannelId}.
 	 *
 	 * This is the name that will be displayed to the user, and has no bearing on internal logic.
-	 * If not specified, {@link getChannelID} will be used.
+	 * If not specified, {@link getChannelId} will be used.
 	 */
 	public getChannelLabel: (() => string | null | undefined) | null = () =>
 		Util.getTextFromSelectors(this.channelLabelSelector);
@@ -172,15 +172,15 @@ export default class BaseConnector {
 	/**
 	 * Function that gets ID and label for a channel.
 	 *
-	 * A connector can specify this in lieu of {@link getChannelID}, as this is basically combo of
-	 * both {@link getChannelID} and {@link getChannelLabel}
+	 * A connector can specify this in lieu of {@link getChannelId}, as this is basically combo of
+	 * both {@link getChannelId} and {@link getChannelLabel}
 	 *
 	 * You may return null in this function, but if you return a result for one property,
 	 * you must return a result for both properties, even if the label is just
 	 * a duplicate of the id.
 	 */
 	public getChannelInfo: () => Util.ChannelInfo | null | undefined = () => {
-		const id = this.getChannelID?.();
+		const id = this.getChannelId?.();
 		if (!id) {
 			return null;
 		}

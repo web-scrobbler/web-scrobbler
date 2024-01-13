@@ -93,7 +93,7 @@ Connector.scrobbleInfoStyle = {
 	fontWeight: '700',
 };
 
-Connector.getChannelID = () =>
+Connector.getChannelId = () =>
 	new URL(
 		(
 			document.querySelector(
