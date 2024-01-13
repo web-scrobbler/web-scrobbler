@@ -62,7 +62,7 @@ export default class Blocklist {
 	 *
 	 * @param id - ID of channel to remove
 	 */
-	public async removeFromBlocklist(id: string) {
+	public async removeFromBlocklist(id: string | null) {
 		if (!id) {
 			return;
 		}

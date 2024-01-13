@@ -317,7 +317,7 @@ export default class Controller {
 				type: 'removeFromBlocklist',
 				fn: async () => {
 					await this.blocklist.removeFromBlocklist(
-						this.connector.getChannelInfo?.()?.id ?? '',
+						this.connector.getChannelInfo?.()?.id ?? null,
 					);
 					if (this.shouldHaveScrobbled) {
 						void this.scrobbleSong();
