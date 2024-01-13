@@ -1,4 +1,5 @@
 import * as BrowserStorage from '@/core/storage/browser-storage';
+import type { ChannelInfo } from '../content/util';
 
 export default class Blocklist {
 	private storage = BrowserStorage.getStorage(BrowserStorage.BLOCKLISTS);
@@ -38,10 +39,7 @@ export default class Blocklist {
 	 * @param id - ID of channel to add
 	 */
 	public async addToBlocklist(
-		channelInfo: {
-			id: string;
-			label: string;
-		} | null,
+		channelInfo: ChannelInfo | null,
 	): Promise<void> {
 		if (!channelInfo?.id) {
 			return;

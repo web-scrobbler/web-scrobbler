@@ -179,13 +179,7 @@ export default class BaseConnector {
 	 * you must return a result for both properties, even if the label is just
 	 * a duplicate of the id.
 	 */
-	public getChannelInfo: () =>
-		| {
-				id: string;
-				label: string;
-		  }
-		| null
-		| undefined = () => {
+	public getChannelInfo: () => Util.ChannelInfo | null | undefined = () => {
 		const id = this.getChannelID?.();
 		if (!id) {
 			return null;

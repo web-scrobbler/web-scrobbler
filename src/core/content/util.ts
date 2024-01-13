@@ -1067,3 +1067,8 @@ export function getInfoBoxText(
 			return t(`pageAction${mode}`, trackInfo);
 	}
 }
+
+export interface ChannelInfo {
+	id: string;
+	label: string;
+}
