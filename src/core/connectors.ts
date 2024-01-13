@@ -2342,4 +2342,10 @@ export default <ConnectorMeta[]>[
 		js: 'jam.coop.js',
 		id: 'jam.coop',
 	},
+	{
+		label: 'Zing MP3',
+		matches: ['*://zingmp3.vn/*'],
+		js: 'zingmp3.js',
+		id: 'zingmp3',
+	}
 ];
