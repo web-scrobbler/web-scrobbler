@@ -26,37 +26,3 @@ Connector.durationSelector = `${playerBar} .time.right`;
 
 Connector.pauseButtonSelector = `${playerBar} .ic-pause-circle-outline`;
 
-Connector.getUniqueID = () => getUniqueID();
-
-Connector.getOriginUrl = () => getOriginUrl();
-
-
-function getUniqueID() : string {
-	const songTitleElement = document.querySelector(
-		'.song-title-item a',
-	);
-
-	if (songTitleElement) {
-		const url = songTitleElement.getAttribute('href');
-		if (url) {
-			const match = url.match(/\/bai-hat\/(.*)\/[0-9]{8}\.html/);
-			if (match) {
-				return match[1];
-			}
-		}
-	}
-
-	return '';
-}
-
-function getOriginUrl() :string {
-	const songTitleElement = document.querySelector(
-		'.song-title-item a',
-	);
-
-	if (songTitleElement) {
-		return songTitleElement.getAttribute('href') || '';
-	}
-
-	return '';
-}
