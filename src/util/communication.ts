@@ -1,4 +1,5 @@
 import { ConnectorMeta } from '@/core/connectors';
+import type { ChannelInfo } from '@/core/content/util';
 import { ControllerModeStr } from '@/core/object/controller/controller';
 import { ServiceCallResult } from '@/core/object/service-call-result';
 import { CloneableSong } from '@/core/object/song';
@@ -168,7 +169,7 @@ interface BackgroundCommunications {
 		payload: undefined;
 		response: {
 			connector: ConnectorMeta;
-			channelId: string | null | undefined;
+			channelInfo: ChannelInfo | null | undefined;
 		};
 	};
 }

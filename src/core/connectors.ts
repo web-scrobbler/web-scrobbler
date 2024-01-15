@@ -2329,4 +2329,17 @@ export default <ConnectorMeta[]>[
 		js: 'radiostudent.js',
 		id: 'radiostudent',
 	},
+	{
+		label: 'BiliBili',
+		matches: ['*://www.bilibili.com/*'],
+		js: 'bilibili.js',
+		id: 'bilibili',
+		usesBlocklist: true,
+	},
+	{
+		label: 'jam.coop',
+		matches: ['*://jam.coop/*'],
+		js: 'jam.coop.js',
+		id: 'jam.coop',
+	},
 ];

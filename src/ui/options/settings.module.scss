@@ -86,7 +86,7 @@ a {
 
 .modal {
 	background-color: var(--modal-bg);
-	border: none;
+	border: var(--interactable-border);
 	border-radius: 3em;
 	color: var(--text);
 	height: 80vh;
@@ -116,7 +116,10 @@ a {
 
 	.modalClose {
 		background-color: var(--always-last-fm);
-		border: none;
+		border-bottom: var(--interactable-border);
+		border-left: var(--interactable-border);
+		border-right: none;
+		border-top: none;
 		color: var(--always-light);
 		cursor: pointer;
 		padding: 0.75em 1.75em 0.5em 1em;

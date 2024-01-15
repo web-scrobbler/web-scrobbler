@@ -11,13 +11,14 @@
 	}
 
 	.tripleCheckboxWrapper {
+		border: var(--interactable-border);
 		border-radius: $size;
 		display: flex;
 		overflow: hidden;
 
 		.tripleCheckboxLabel {
 			--btn-color: var(--last-fm);
-			--btn-active-color: var(--always-light);
+			--btn-active-color: var(--active-text);
 			--btn-active-background-color: var(--last-fm);
 			align-items: center;
 			background-color: var(--background);
@@ -35,6 +36,11 @@
 				color: var(--btn-active-color);
 			}
 
+			&.unchecked {
+				--btn-color: var(--reject);
+				--btn-active-background-color: var(--reject);
+			}
+
 			&.checked {
 				--btn-color: var(--confirm);
 				--btn-active-background-color: var(--confirm);
@@ -42,7 +48,12 @@
 
 			&.indeterminate {
 				--btn-color: var(--text);
-				--btn-active-background-color: var(--checkbox-inactive);
+				--btn-active-background-color: var(--indeterminate);
+			}
+
+			&:nth-child(2) {
+				border-left: var(--interactable-border);
+				border-right: var(--interactable-border);
 			}
 		}
 
@@ -78,7 +89,7 @@
 	$icon-color: var(--always-light);
 	align-items: center;
 	background-color: var(--always-last-fm);
-	border: none;
+	border: var(--interactable-border);
 	border-radius: 3px;
 	color: $icon-color;
 	cursor: pointer;
@@ -98,6 +109,7 @@
 
 	&:hover {
 		background-color: var(--always-last-fm-hover);
+		color: var(--active-text);
 	}
 
 	span {
@@ -144,6 +156,7 @@
 		--entry-color: var(--text);
 		--entry-margin-top: 5px;
 		align-items: center;
+		border: var(--interactable-border);
 		color: var(--entry-color);
 		display: flex;
 		padding: 0.5em 0;
@@ -206,7 +219,7 @@
 
 	select {
 		background-color: var(--background);
-		border: none;
+		border: var(--interactable-border);
 		border-radius: $size;
 		color: var(--text);
 		display: inline-block;
@@ -233,6 +246,7 @@
 
 	.checkboxWrapper {
 		background-color: var(--checkbox-background);
+		border: var(--interactable-border);
 		border-radius: $checkbox-size;
 		display: inline-block;
 		height: $checkbox-size;
@@ -255,7 +269,7 @@
 	}
 
 	input:checked ~ .checkboxWrapper {
-		--checkbox-background: var(--always-last-fm);
+		--checkbox-background: var(--checkbox-active);
 		--checkbox-offset: calc(
 			#{$tick-width} - #{$tick-offset} - #{$tick-size}
 		);
@@ -291,6 +305,7 @@
 }
 
 summary {
+	border: var(--interactable-border);
 	list-style: none;
 
 	&::-webkit-details-marker {
@@ -311,6 +326,7 @@ summary {
 
 	.radioLabel {
 		background-color: var(--background);
+		border: var(--interactable-border);
 		border-radius: 0.5em;
 		color: var(--text);
 		cursor: pointer;
@@ -322,7 +338,7 @@ summary {
 	.radioLabel:hover,
 	input:checked + .radioLabel {
 		background-color: var(--last-fm);
-		color: var(--always-light);
+		color: var(--active-text);
 	}
 }
 
@@ -358,6 +374,7 @@ summary {
 
 .patternWrapper {
 	$size: 0.5em;
+	border: var(--interactable-border);
 	border-radius: $size;
 	display: flex;
 	margin-bottom: $size;
@@ -369,6 +386,11 @@ summary {
 		border: none;
 		color: var(--text);
 		font-size: 1.2em;
+	}
+
+	.button {
+		border: none;
+		border-left: var(--interactable-border);
 	}
 }
 
@@ -382,7 +404,7 @@ summary {
 .propInput {
 	$size: 0.5em;
 	background-color: var(--background);
-	border: none;
+	border: var(--interactable-border);
 	border-radius: $size;
 	color: var(--text);
 	font-size: 1em;
@@ -392,13 +414,14 @@ summary {
 
 .permissionsPopup {
 	background-color: var(--sidebar-bg);
-	color: var(--text);
+	border-bottom: var(--interactable-border);
 	margin: 0;
 	text-align: center;
 
 	button {
 		background: none;
 		border: none;
+		color: var(--text);
 		cursor: pointer;
 		font-size: 1.25em;
 		margin: 0;
@@ -408,6 +431,7 @@ summary {
 
 .attentionWindow {
 	background-color: var(--sidebar-bg);
+	border: var(--interactable-border);
 	color: var(--text);
 	font-size: 1.2em;
 	line-height: 1.25;
@@ -537,19 +561,21 @@ summary {
 
 		&::-webkit-slider-runnable-track {
 			background: var(--checkbox-inactive);
+			border: var(--interactable-border);
 			border-radius: 0.5rem;
 			height: 0.5rem;
 		}
 
 		&::-moz-range-track {
 			background: var(--checkbox-inactive);
+			border: var(--interactable-border);
 			border-radius: 0.5rem;
 			height: 0.5rem;
 		}
 
 		&::-moz-range-thumb {
 			background-color: var(--always-last-fm);
-			border: none;
+			border: var(--interactable-border);
 			border-radius: 0.25rem;
 			height: 1.5rem;
 			width: 1rem;
@@ -559,6 +585,7 @@ summary {
 			-webkit-appearance: none;
 			appearance: none;
 			background-color: var(--always-last-fm);
+			border: var(--interactable-border);
 			border-radius: 0.25rem;
 			height: 1.5rem;
 			margin-top: -0.5rem;
@@ -609,7 +636,7 @@ summary {
 			-moz-appearance: textfield;
 			appearance: textfield;
 			background-color: var(--background);
-			border: none;
+			border: var(--interactable-border);
 			border-radius: 0.5em;
 			color: var(--text);
 			font-size: 1.2em;
