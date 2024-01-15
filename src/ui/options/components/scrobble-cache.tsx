@@ -13,7 +13,7 @@ import {
 	onMount,
 } from 'solid-js';
 import styles from './components.module.scss';
-import ExpandMore from '@suid/icons-material/ExpandMoreOutlined';
+import { ExpandMoreOutlined } from '@/ui/components/icons';
 import ClonedSong from '@/core/object/cloned-song';
 import browser from 'webextension-polyfill';
 import { sendContentMessage } from '@/util/communication';
@@ -351,7 +351,7 @@ function ScrobbleList(props: {
 		<Show when={filteredScrobbles()?.length}>
 			<details>
 				<summary>
-					<ExpandMore class={styles.expandVector} />
+					<ExpandMoreOutlined class={styles.expandVector} />
 					<span class={styles.summarySpan}>{t(props.title)}</span>
 				</summary>
 				<For each={filteredScrobbles()}>

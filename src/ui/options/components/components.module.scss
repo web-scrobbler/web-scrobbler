@@ -269,6 +269,15 @@
 	gap: 1rem;
 }
 
+summary {
+	border: var(--interactable-border);
+	list-style: none;
+
+	&::-webkit-details-marker {
+		display: none;
+	}
+}
+
 .scrobbleCacheList {
 	summary {
 		padding: 0.5rem 0;
@@ -353,15 +362,6 @@
 .muted {
 	color: var(--muted-text);
 	max-width: 50vw;
-}
-
-summary {
-	border: var(--interactable-border);
-	list-style: none;
-
-	&::-webkit-details-marker {
-		display: none;
-	}
 }
 
 .radioButtons {
