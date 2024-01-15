@@ -1,11 +1,11 @@
 import { t } from '@/util/i18n';
-import { For, Match, Setter, createMemo, createResource } from 'solid-js';
+import { For, Setter, createMemo, createResource } from 'solid-js';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
-import Delete from '@suid/icons-material/DeleteOutlined';
+import { DeleteOutlined } from '@/ui/components/icons';
 import { ExportEdits, ImportEdits, ViewEdits } from './util';
 import { ModalType } from '../navigator';
-import { BlockedTags, BlockedTagsReference } from '@/core/storage/wrapper';
+import { BlockedTagsReference } from '@/core/storage/wrapper';
 import { Dynamic } from 'solid-js/web';
 
 const blocklist = BrowserStorage.getStorage(BrowserStorage.BLOCKED_TAGS);
@@ -142,7 +142,7 @@ function BlockedTagInfo(props: { tag: BlockedTagsReference }) {
 					});
 				}}
 			>
-				<Delete />
+				<DeleteOutlined />
 			</button>
 			<Dynamic component={() => getTagSpan(props.tag)} />
 		</li>

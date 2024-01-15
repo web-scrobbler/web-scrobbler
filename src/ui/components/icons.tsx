@@ -1,5 +1,7 @@
 import { JSXElement, createMemo } from 'solid-js';
 import styles from './icons.module.scss';
+import popupStyles from '@/ui/popup/popup.module.scss';
+import componentStyles from '@/ui/options/components/components.module.scss';
 
 function createMaterialIcon(Path: () => JSXElement) {
 	const Component = (props: { class?: string }) => {
@@ -28,6 +30,81 @@ function createMaterialIcon(Path: () => JSXElement) {
 
 export const AddOutlined = createMaterialIcon(() => (
 	<path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+));
+
+export const Album = createMaterialIcon(() => (
+	<>
+		<path d="M0 0h24v24H0z" fill="none" />
+		<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 14.5c-2.49 0-4.5-2.01-4.5-4.5S9.51 7.5 12 7.5s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-5.5c-.55 0-1 .45-1 1s.45 1 1 1 1-.45 1-1-.45-1-1-1z" />
+	</>
+));
+
+export const AlbumOff = createMaterialIcon(() => (
+	<>
+		<defs id="defs138">
+			<mask
+				maskUnits="userSpaceOnUse"
+				id="mask-powermask-path-effect3728"
+			>
+				<path
+					id="mask-powermask-path-effect3728_box"
+					style={{ fill: '#ffffff', 'fill-opacity': '1' }}
+					d="M 1,1 H 23 V 23 H 1 Z"
+				/>
+				<g id="g3726">
+					<rect
+						class={`${popupStyles.applyFill} ${componentStyles.applyFill}`}
+						style={{
+							'fill-opacity': '1',
+							stroke: 'none',
+						}}
+						id="rect3722"
+						width="27.407948"
+						height="1.5774385"
+						x="-12.412281"
+						y="-0.70559257"
+						ry="0"
+						transform="rotate(41.317859)"
+					/>
+					<rect
+						class={`${popupStyles.applyFill} ${componentStyles.applyFill}`}
+						style={{
+							'fill-opacity': '1',
+							stroke: 'none',
+						}}
+						id="rect3724"
+						width="27.407948"
+						height="1.5774385"
+						x="18.354237"
+						y="-0.67120558"
+						ry="0"
+						transform="rotate(41.317859)"
+					/>
+				</g>
+			</mask>
+		</defs>
+		<path
+			d="M 12,2 C 6.48,2 2,6.48 2,12 2,17.52 6.48,22 12,22 17.52,22 22,17.52 22,12 22,6.48 17.52,2 12,2 Z m 0,14.5 C 9.51,16.5 7.5,14.49 7.5,12 7.5,9.51 9.51,7.5 12,7.5 c 2.49,0 4.5,2.01 4.5,4.5 0,2.49 -2.01,4.5 -4.5,4.5 z M 12,11 c -0.55,0 -1,0.45 -1,1 0,0.55 0.45,1 1,1 0.55,0 1,-0.45 1,-1 0,-0.55 -0.45,-1 -1,-1 z"
+			id="path132"
+			class={`${popupStyles.applyFill} ${componentStyles.applyFill}`}
+			style={{ display: 'inline' }}
+			mask="url(#mask-powermask-path-effect3728)"
+		/>
+		<rect
+			class={`${popupStyles.applyFill} ${componentStyles.applyFill}`}
+			style={{
+				'fill-opacity': '1',
+				stroke: 'none',
+			}}
+			id="rect413"
+			width="27.407948"
+			height="1.5774385"
+			x="3.194612"
+			y="0.87523758"
+			ry="0"
+			transform="rotate(41.317859)"
+		/>
+	</>
 ));
 
 export const AutorenewOutlined = createMaterialIcon(() => (
@@ -140,12 +217,42 @@ export const ManageAccountsOutlined = createMaterialIcon(() => (
 	</>
 ));
 
+export const MusicNote = createMaterialIcon(() => (
+	<>
+		<path d="M0 0h24v24H0z" fill="none" />
+		<path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+	</>
+));
+
 export const MusicNoteOutlined = createMaterialIcon(() => (
 	<path d="M12 3l.01 10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4.01 4S14 19.21 14 17V7h4V3h-6zm-1.99 16c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
 ));
 
+export const MusicOff = createMaterialIcon(() => (
+	<>
+		<path d="M0 0h24v24H0z" fill="none" />
+		<path d="M4.27 3L3 4.27l9 9v.28c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4v-1.73L19.73 21 21 19.73 4.27 3zM14 7h4V3h-6v5.18l2 2z" />
+	</>
+));
+
 export const MusicOffOutlined = createMaterialIcon(() => (
 	<path d="M14 7h4V3h-6v4.61l2 2zm-2 3.44L4.41 2.86 3 4.27l9 9v.28c-.94-.54-2.1-.75-3.33-.32-1.34.48-2.37 1.67-2.61 3.07-.46 2.74 1.86 5.08 4.59 4.65 1.96-.31 3.35-2.11 3.35-4.1v-1.58L19.73 21l1.41-1.41L12 10.44zM10 19c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z" />
+));
+
+export const Person = createMaterialIcon(() => (
+	<>
+		<path d="M0 0h24v24H0z" fill="none" />
+		<path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+	</>
+));
+
+export const PersonOff = createMaterialIcon(() => (
+	<>
+		<rect fill="none" height="24" width="24" />
+		<g>
+			<path d="M8.65,5.82C9.36,4.72,10.6,4,12,4c2.21,0,4,1.79,4,4c0,1.4-0.72,2.64-1.82,3.35L8.65,5.82z M20,17.17 c-0.02-1.1-0.63-2.11-1.61-2.62c-0.54-0.28-1.13-0.54-1.77-0.76L20,17.17z M21.19,21.19L2.81,2.81L1.39,4.22l8.89,8.89 c-1.81,0.23-3.39,0.79-4.67,1.45C4.61,15.07,4,16.1,4,17.22V20h13.17l2.61,2.61L21.19,21.19z" />
+		</g>
+	</>
 ));
 
 export const PersonOffOutlined = createMaterialIcon(() => (

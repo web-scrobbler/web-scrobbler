@@ -1,6 +1,15 @@
 import ClonedSong from '@/core/object/cloned-song';
 import styles from './popup.module.scss';
-import { Album, AlbumOff, CheckOutlined, CloseOutlined, MusicOff, Music, PersonOff, Person } from '@/ui/components/icons';
+import {
+	Album,
+	AlbumOff,
+	CheckOutlined,
+	CloseOutlined,
+	MusicOff,
+	MusicNote,
+	PersonOff,
+	Person,
+} from '@/ui/components/icons';
 
 import { t } from '@/util/i18n';
 import {
@@ -87,7 +96,7 @@ export default function Regex(props: {
 				tabId={props.tab()?.tabId}
 				clonedSong={props.clonedSong}
 				type="track"
-				UnblockIcon={() => <Music />}
+				UnblockIcon={() => <MusicNote />}
 				BlockIcon={() => <MusicOff />}
 			/>
 			<Entry
@@ -455,7 +464,7 @@ function Footer(props: {
 									type="track"
 									tabId={props.tab()?.tabId}
 									clonedSong={props.clonedSong}
-									UnblockIcon={() => <Music />}
+									UnblockIcon={() => <MusicNote />}
 									BlockIcon={() => <MusicOff />}
 								/>
 							</>
