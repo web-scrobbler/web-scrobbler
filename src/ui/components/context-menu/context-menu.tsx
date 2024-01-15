@@ -130,7 +130,9 @@ function ContextMenuItem(props: {
 				}}
 			>
 				<props.item.icon />
-				<label>{t(props.item.namei18n)}</label>
+				<label>
+					{t(props.item.namei18n, props.item.i18nSubstitution)}
+				</label>
 			</button>
 			<Show when={!itemIsSingular(props.item)}>
 				<dialog
