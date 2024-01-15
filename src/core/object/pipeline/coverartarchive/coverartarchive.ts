@@ -1,6 +1,12 @@
 import Song from '@/core/object/song';
 import { MusicBrainzSearch } from './coverartarchive.types';
 import { debugLog } from '@/core/content/util';
+import { timeoutPromise } from '@/util/util';
+
+/**
+ * How long to wait before giving up on musicbrainz request.
+ */
+const REQUEST_TIMEOUT = 5000;
 
 /**
  * Fetch coverart from MusicBrainz archive.
@@ -65,7 +71,7 @@ async function getMusicBrainzId(endpoint: string, song: Song) {
 		`title:+"${track ?? ''}"^3 ${track ?? ''} artistname:+"${
 			artist ?? ''
 		}"^4${artist ?? ''}`;
-	const response = await fetch(url);
+	const response = await timeoutPromise(REQUEST_TIMEOUT, fetch(url));
 	if (!response.ok) {
 		throw new Error('Unable to fetch MusicBrainz ID');
 	}
@@ -91,7 +97,10 @@ async function getMusicBrainzId(endpoint: string, song: Song) {
  */
 async function checkCoverArt(mbid: string) {
 	const coverArtUrl = `https://coverartarchive.org/release/${mbid}/front-500`;
-	const response = await fetch(coverArtUrl, { method: 'HEAD' });
+	const response = await timeoutPromise(
+		REQUEST_TIMEOUT,
+		fetch(coverArtUrl, { method: 'HEAD' }),
+	);
 	if (response.ok) {
 		return coverArtUrl;
 	}
