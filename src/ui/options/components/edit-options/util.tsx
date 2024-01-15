@@ -44,7 +44,6 @@ export function ViewEdits(props: {
 		>
 			<VisibilityOutlined />
 			{t('optionsViewEdited')}
-			aaaaa
 		</button>
 	);
 }

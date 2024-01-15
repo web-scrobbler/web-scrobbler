@@ -12,8 +12,8 @@ import {
 	ToggleOffOutlined,
 	TimerOutlined,
 	FavoriteOutlined,
-  PersonOutlined,
-  PersonOffOutlined,
+	PersonOutlined,
+	PersonOffOutlined,
 } from '@/ui/components/icons';
 
 import InfoComponent from '@/ui/options/components/info';
@@ -22,7 +22,6 @@ import FAQ from '@/ui/options/components/faq';
 import ContactComponent from '@/ui/options/components/contact';
 import OptionsComponent from '@/ui/options/components/options/options';
 import Accounts from '@/ui/options/components/accounts';
-import Tune from '@suid/icons-material/TuneOutlined';
 import ConnectorOverrideOptions from '@/ui/options/components/connector-override';
 import EditOptions from '@/ui/options/components/edit-options/edit-options';
 import browser from 'webextension-polyfill';
@@ -49,7 +48,7 @@ export type ModalType = 'savedEdits' | 'regexEdits' | 'blocklist' | '';
  */
 interface NavigatorButtonBase {
 	namei18n: string;
- 	i18nSubstitution?: string | string[];
+	i18nSubstitution?: string | string[];
 	icon: typeof ManageAccountsOutlined;
 }
 
@@ -178,7 +177,7 @@ async function getToggleNavigators(): Promise<NavigatorActionButton[]> {
 	if (tab.mode === ControllerMode.Disabled) {
 		navigators.push({
 			namei18n: 'menuEnableConnector',
-			icon: ToggleOn,
+			icon: ToggleOnOutlined,
 			action: () => {
 				enableConnector(tab.tabId);
 			},
@@ -194,7 +193,7 @@ async function getToggleNavigators(): Promise<NavigatorActionButton[]> {
 			},
 			{
 				namei18n: 'menuDisableUntilTabClosed',
-				icon: Timer,
+				icon: TimerOutlined,
 				action: () => {
 					disableUntilClosed(tab.tabId);
 				},
