@@ -295,6 +295,22 @@
         "message": "Import",
         "description": "Button to import edited tracks"
     },
+    "optionsDelete": {
+        "message": "Delete $1",
+        "desciption": "Option label"
+    },
+    "optionsEnabled": {
+        "message": "Enabled",
+        "description": "Option label"
+    },
+    "optionsDisabled": {
+        "message": "Disabled",
+        "description": "Option label"
+    },
+    "optionsIndeterminate": {
+        "message": "Same as global option",
+        "description": "Option label"
+    },
     "optionsConnectors": {
         "message": "Connectors",
         "description": "'Connectors' section"

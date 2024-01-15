@@ -78,6 +78,7 @@ export function SummaryCheckbox(props: {
 							currentTarget: checkbox,
 						});
 					}}
+					title={t('menuEnableConnector', props.label)}
 				>
 					<input
 						id={props.id}
@@ -119,12 +120,17 @@ export function RadioButtons(props: {
 			target: Element;
 		},
 	) => void;
+	labelledby: string;
 }) {
 	return (
-		<ul class={`${styles.radioButtons} ${styles.optionList}`}>
+		<div
+			class={`${styles.radioButtons} ${styles.optionList}`}
+			role="radiogroup"
+			aria-labelledby={props.labelledby}
+		>
 			<For each={props.buttons}>
 				{(button) => (
-					<li>
+					<div class={styles.radioButton}>
 						<input
 							type="radio"
 							id={`${props.name}-${button.value}`}
@@ -141,11 +147,11 @@ export function RadioButtons(props: {
 						>
 							{button.label}
 						</label>
-					</li>
+					</div>
 				)}
 			</For>
 			<Show when={props.reset}>
-				<li>
+				<div class={styles.radioButton}>
 					<button
 						class={`${styles.button} ${styles.shiftLeft}`}
 						onClick={(e) => {
@@ -155,9 +161,9 @@ export function RadioButtons(props: {
 						<RestartAlt />
 						{t('buttonReset')}
 					</button>
-				</li>
+				</div>
 			</Show>
-		</ul>
+		</div>
 	);
 }
 
@@ -268,7 +274,13 @@ export function RangeOptionEntry(props: {
 	key: keyof Options.GlobalOptions;
 }) {
 	return (
-		<li class={styles.rangeInput}>
+		<li
+			class={styles.rangeInput}
+			role="group"
+			aria-label={`${t(props.prefixi18n)} ${
+				props.options()?.[props.key] as number
+			}% ${t(props.suffixi18n)}`}
+		>
 			<div>
 				<span class={styles.rangeInputLabel}>
 					{t(props.prefixi18n)}
@@ -303,6 +315,9 @@ export function RangeOptionEntry(props: {
 								return newOptions;
 							});
 						}}
+						title={`${t(props.prefixi18n)} ${
+							props.options()?.[props.key] as number
+						}% ${t(props.suffixi18n)}`}
 					/>
 				</div>
 				<span class={styles.rangeInputLabel}>
@@ -344,6 +359,9 @@ export function RangeOptionEntry(props: {
 						return newOptions;
 					});
 				}}
+				title={`${t(props.prefixi18n)} ${
+					props.options()?.[props.key] as number
+				}% ${t(props.suffixi18n)}`}
 			/>
 		</li>
 	);
@@ -374,7 +392,11 @@ export function TripleCheckbox(props: {
 		<div class={styles.tripleCheckboxOption}>
 			<span title={props.title}>
 				{props.label}
-				<div class={styles.tripleCheckboxWrapper}>
+				<div
+					class={styles.tripleCheckboxWrapper}
+					role="radiogroup"
+					aria-label={props.label}
+				>
 					<label
 						class={`${styles.tripleCheckboxLabel} ${
 							styles.unchecked
@@ -383,6 +405,7 @@ export function TripleCheckbox(props: {
 								? ` ${styles.activeBox}`
 								: ''
 						}`}
+						title={t('optionsDisabled')}
 					>
 						<input
 							class={styles.tripleCheckbox}
@@ -406,6 +429,7 @@ export function TripleCheckbox(props: {
 								? ` ${styles.activeBox}`
 								: ''
 						}`}
+						title={t('optionsIndeterminate')}
 					>
 						<input
 							class={styles.tripleCheckbox}
@@ -430,6 +454,7 @@ export function TripleCheckbox(props: {
 								? ` ${styles.activeBox}`
 								: ''
 						}`}
+						title={t('optionsEnabled')}
 					>
 						<input
 							class={styles.tripleCheckbox}
