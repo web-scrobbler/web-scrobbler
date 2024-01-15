@@ -1,8 +1,7 @@
 import { t } from '@/util/i18n';
-import Error from '@suid/icons-material/ErrorOutlined';
+import { ErrorOutlined, SettingsOutlined } from '@/ui/components/icons';
 import styles from './popup.module.scss';
 import browser from 'webextension-polyfill';
-import Settings from '@suid/icons-material/SettingsOutlined';
 import optionComponentStyles from '../options/components/components.module.scss';
 import { PopupAnchor, TPopupAnchor } from '../components/util';
 
@@ -12,7 +11,7 @@ import { PopupAnchor, TPopupAnchor } from '../components/util';
 export default function Err() {
 	return (
 		<div class={styles.alertPopup}>
-			<Error class={styles.bigIcon} />
+			<ErrorOutlined class={styles.bigIcon} />
 			<h1>{t('serviceErrorHeader')}</h1>
 			<p>
 				<TPopupAnchor messageName="serviceErrorDesc" />
@@ -23,7 +22,7 @@ export default function Err() {
 				)}
 				class={`${optionComponentStyles.button} ${optionComponentStyles.centered}`}
 			>
-				<Settings />
+				<SettingsOutlined />
 				{t('disabledSiteButton')}
 			</PopupAnchor>
 		</div>

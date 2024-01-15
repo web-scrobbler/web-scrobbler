@@ -3,7 +3,7 @@ import { Resource, createMemo } from 'solid-js';
 import styles from './popup.module.scss';
 import { t } from '@/util/i18n';
 import { PopupAnchor } from '../components/util';
-import CancelScheduleSend from '@suid/icons-material/CancelScheduleSendOutlined';
+import { CancelScheduleSendOutlined } from '@/ui/components/icons';
 import ClonedSong from '@/core/object/cloned-song';
 
 export default function Ignored(props: { tab: Resource<ManagerTab> }) {
@@ -15,7 +15,7 @@ export default function Ignored(props: { tab: Resource<ManagerTab> }) {
 	});
 	return (
 		<div class={styles.alertPopup}>
-			<CancelScheduleSend class={styles.bigIcon} />
+			<CancelScheduleSendOutlined class={styles.bigIcon} />
 			<h1>{t('ignoredHeader')}</h1>
 			<p>
 				{t('ignoredDesc', [

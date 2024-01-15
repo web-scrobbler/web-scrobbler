@@ -4,9 +4,11 @@ import StorageWrapper, {
 } from '@/core/storage/wrapper';
 import * as Options from '@/core/storage/options';
 import * as BrowserStorage from '@/core/storage/browser-storage';
-import Visibility from '@suid/icons-material/VisibilityOutlined';
-import Upload from '@suid/icons-material/UploadOutlined';
-import Download from '@suid/icons-material/DownloadOutlined';
+import {
+	VisibilityOutlined,
+	UploadOutlined,
+	DownloadOutlined,
+} from '@/ui/components/icons';
 import styles from '../components.module.scss';
 import { t } from '@/util/i18n';
 import { Setter, createSignal } from 'solid-js';
@@ -46,7 +48,7 @@ export function ViewEdits(props: {
 				props.modal?.showModal();
 			}}
 		>
-			<Visibility />
+			<VisibilityOutlined />
 			{t('optionsViewEdited')}
 		</button>
 	);
@@ -69,7 +71,7 @@ export function ViewBlocklist(props: {
 				props.modal?.showModal();
 			}}
 		>
-			<Visibility />
+			<VisibilityOutlined />
 			{t('optionsViewEdited')}
 		</button>
 	);
@@ -89,7 +91,7 @@ export function ExportEdits(props: {
 				void downloadEdits(props.editWrapper, props.filename)
 			}
 		>
-			<Upload />
+			<UploadOutlined />
 			{t('optionsExportEdited')}
 		</button>
 	);
@@ -114,7 +116,7 @@ export function ExportBlocklist(props: {
 				)
 			}
 		>
-			<Upload />
+			<UploadOutlined />
 			{t('optionsExportEdited')}
 		</button>
 	);
@@ -172,7 +174,7 @@ export function ImportBlocklist(props: {
 			class={`${styles.button} ${styles.shiftLeft}`}
 			onClick={() => ref()?.click()}
 		>
-			<Download />
+			<DownloadOutlined />
 			{t('optionsImportEdited')}
 			<input
 				hidden={true}
@@ -205,7 +207,7 @@ export function ImportEdits(props: {
 			class={`${styles.button} ${styles.shiftLeft}`}
 			onClick={() => ref()?.click()}
 		>
-			<Download />
+			<DownloadOutlined />
 			{t('optionsImportEdited')}
 			<input
 				hidden={true}

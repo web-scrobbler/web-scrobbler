@@ -8,7 +8,7 @@ import {
 } from 'solid-js';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
-import Delete from '@suid/icons-material/DeleteOutlined';
+import { DeleteOutlined } from '@/ui/components/icons';
 import { ExportBlocklist, ImportBlocklist, ViewBlocklist } from './util';
 import { ModalType } from '../navigator';
 import { ConnectorMeta } from '@/core/connectors';
@@ -121,7 +121,7 @@ function ChannelInfo(props: {
 					});
 				}}
 			>
-				<Delete />
+				<DeleteOutlined />
 			</button>
 			<span>{props.channelLabel}</span>
 		</li>

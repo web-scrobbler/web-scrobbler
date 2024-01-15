@@ -2,7 +2,7 @@ import { t } from '@/util/i18n';
 import { For, Setter, createResource } from 'solid-js';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
-import Delete from '@suid/icons-material/DeleteOutlined';
+import { DeleteOutlined } from '@/ui/components/icons';
 import { FieldType, RegexEdit, pascalCaseField } from '@/util/regex';
 import { ExportEdits, ImportEdits, ViewEdits } from './util';
 import { ModalType } from '../navigator';
@@ -86,7 +86,7 @@ function EditInfo(props: {
 					});
 				}}
 			>
-				<Delete />
+				<DeleteOutlined />
 			</button>
 			<div class={styles.regexDeleteContent}>
 				<span class={styles.regexDeleteSearchLabel}>
