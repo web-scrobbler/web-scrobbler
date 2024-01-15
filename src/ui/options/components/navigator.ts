@@ -12,6 +12,8 @@ import {
 	ToggleOffOutlined,
 	TimerOutlined,
 	FavoriteOutlined,
+  PersonOutlined,
+  PersonOffOutlined,
 } from '@/ui/components/icons';
 
 import InfoComponent from '@/ui/options/components/info';
@@ -20,15 +22,19 @@ import FAQ from '@/ui/options/components/faq';
 import ContactComponent from '@/ui/options/components/contact';
 import OptionsComponent from '@/ui/options/components/options/options';
 import Accounts from '@/ui/options/components/accounts';
-
+import Tune from '@suid/icons-material/TuneOutlined';
 import ConnectorOverrideOptions from '@/ui/options/components/connector-override';
 import EditOptions from '@/ui/options/components/edit-options/edit-options';
 import browser from 'webextension-polyfill';
 import {
+	addToBlocklist,
 	disableConnector,
 	disableUntilClosed,
 	enableConnector,
+	getChannelBlocklistLabel,
+	getChannelDetails,
 	getCurrentTab,
+	removeFromBlocklist,
 } from '@/core/background/util';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import AdvancedOptionsComponent from './advanced-settings';
@@ -39,36 +45,39 @@ import AdvancedOptionsComponent from './advanced-settings';
 export type ModalType = 'savedEdits' | 'regexEdits' | 'blocklist' | '';
 
 /**
+ * Mutual base button
+ */
+interface NavigatorButtonBase {
+	namei18n: string;
+ 	i18nSubstitution?: string | string[];
+	icon: typeof ManageAccountsOutlined;
+}
+
+/**
  * Singular navigator button
  */
-export type NavigatorNavigationButton = {
-	namei18n: string;
-	icon: typeof ManageAccountsOutlined;
+export interface NavigatorNavigationButton extends NavigatorButtonBase {
 	element: Component<{
 		setActiveModal: Setter<ModalType>;
 		modal: HTMLDialogElement | undefined;
 	}>;
-};
+}
 
 /**
  * Singular navigator button that performs an action rather than opening a page
  */
-export type NavigatorActionButton = {
-	namei18n: string;
-	icon: typeof ManageAccountsOutlined;
+export interface NavigatorActionButton extends NavigatorButtonBase {
 	action: () => void;
-};
+}
 
 export type NavigatorButton = NavigatorNavigationButton | NavigatorActionButton;
 
 /**
  * Group of navigator buttons
  */
-export type NavigatorButtonGroup = {
-	namei18n: string;
-	icon: typeof ManageAccountsOutlined;
+export interface NavigatorButtonGroup extends NavigatorButtonBase {
 	group: NavigatorButton[];
-};
+}
 
 /**
  * A navigator consisting of a list of buttons and button groups
@@ -164,35 +173,67 @@ async function getToggleNavigators(): Promise<NavigatorActionButton[]> {
 	if (tab.mode === ControllerMode.Unsupported) {
 		return [];
 	}
+	const navigators: NavigatorActionButton[] = [];
 
 	if (tab.mode === ControllerMode.Disabled) {
-		return [
+		navigators.push({
+			namei18n: 'menuEnableConnector',
+			icon: ToggleOn,
+			action: () => {
+				enableConnector(tab.tabId);
+			},
+		});
+	} else {
+		navigators.push(
 			{
-				namei18n: 'menuEnableConnector',
-				icon: ToggleOnOutlined,
+				namei18n: 'menuDisableConnector',
+				icon: ToggleOffOutlined,
 				action: () => {
-					enableConnector(tab.tabId);
+					disableConnector(tab.tabId);
 				},
 			},
-		];
+			{
+				namei18n: 'menuDisableUntilTabClosed',
+				icon: Timer,
+				action: () => {
+					disableUntilClosed(tab.tabId);
+				},
+			},
+		);
 	}
 
-	return [
-		{
-			namei18n: 'menuDisableConnector',
-			icon: ToggleOffOutlined,
+	const channelDetails = await getChannelDetails(tab.tabId);
+	if (
+		!channelDetails ||
+		!channelDetails.channelInfo?.id ||
+		!channelDetails.connector
+	) {
+		return navigators;
+	} else if (
+		await getChannelBlocklistLabel(
+			channelDetails.channelInfo.id,
+			channelDetails.connector,
+		)
+	) {
+		navigators.push({
+			namei18n: 'menuEnableChannel',
+			i18nSubstitution: channelDetails.channelInfo.label,
+			icon: PersonOutlined,
 			action: () => {
-				disableConnector(tab.tabId);
+				removeFromBlocklist(tab.tabId);
 			},
-		},
-		{
-			namei18n: 'menuDisableUntilTabClosed',
-			icon: TimerOutlined,
+		});
+	} else {
+		navigators.push({
+			namei18n: 'menuDisableChannel',
+			i18nSubstitution: channelDetails.channelInfo.label,
+			icon: PersonOffOutlined,
 			action: () => {
-				disableUntilClosed(tab.tabId);
+				addToBlocklist(tab.tabId);
 			},
-		},
-	];
+		});
+	}
+	return navigators;
 }
 
 export async function getMobileNavigatorGroup(): Promise<NavigatorButtonGroup> {

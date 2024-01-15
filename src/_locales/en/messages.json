@@ -155,6 +155,14 @@
         "message": "Dark",
         "description": "Option label"
     },
+    "optionThemeHighContrastDark": {
+        "message": "High Contrast Dark",
+        "description": "Option label"
+    },
+    "optionThemeHighContrastLight": {
+        "message": "High Contrast Light",
+        "description": "Option label"
+    },
     "optionThemeSystem": {
         "message": "System",
         "description": "Option label"
@@ -201,6 +209,14 @@
     },
     "accountsUserApiUrlPlaceholder": {
         "message": "Custom API URL",
+        "description": "Input label"
+    },
+    "instanceDomain": {
+        "message": "Instance Domain",
+        "description": "Input label"
+    },
+    "instanceDomainPlaceholder": {
+        "message": "just domain: example.com",
         "description": "Input label"
     },
     "accountsUserToken": {
@@ -428,7 +444,7 @@
         "description": "'About' section text"
     },
     "aboutExtensionDesc": {
-        "message": "Web Scrobbler is a browser extension created for people who listen to music online through their browser, and would like to keep an updated playback history using scrobbling services, such as Last.fm, Libre.fm and ListenBrainz.",
+        "message": "Web Scrobbler is a browser extension created for people who listen to music online through their browser, and would like to keep an updated playback history using scrobbling services, such as Last.fm, Libre.fm, ListenBrainz, and Pleroma.",
         "description": "'About' section text"
     },
     "contributorsTitle": {

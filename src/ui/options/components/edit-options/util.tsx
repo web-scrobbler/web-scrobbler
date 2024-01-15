@@ -276,7 +276,7 @@ function pushBlocklist(
 			void (async (e) => {
 				const newBlocklist = JSON.parse(
 					e.target?.result as string,
-				) as Record<string, true>;
+				) as Record<string, string>;
 				let blocklists = await blocklistWrapper.get();
 				if (!blocklists) {
 					blocklists = {};

@@ -36,6 +36,20 @@ export async function updateTheme(theme: ModifiedTheme) {
 }
 
 /**
+ * @returns true if user has dark theme enabled on system/browser level; false otherwise
+ */
+const prefersDarkTheme = () =>
+	window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+/**
+ * @returns true if user has high contrast mode enabled on system/browser level; false otherwise
+ */
+const usesHighContrast = () =>
+	window.matchMedia(
+		'(forced-colors: active), (prefers-contrast: more), (-ms-high-contrast: active)',
+	).matches;
+
+/**
  * Process the current theme, to get the correct display theme for themes that have multiple possibilities
  *
  * @param theme - current theme
@@ -43,18 +57,28 @@ export async function updateTheme(theme: ModifiedTheme) {
  */
 function processTheme(theme: string) {
 	if (theme === 'theme-system') {
-		if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-			return 'theme-dark';
-		}
-		return 'theme-light';
+		const themeColor = prefersDarkTheme() ? 'dark' : 'light';
+		const highContrastString = usesHighContrast() ? 'high-contrast-' : '';
+		return `theme-${highContrastString}${themeColor}`;
 	}
 	return theme;
 }
 
-type Theme = 'system' | 'dark' | 'light';
+type Theme =
+	| 'system'
+	| 'dark'
+	| 'light'
+	| 'high-contrast-dark'
+	| 'high-contrast-light';
 export type ModifiedTheme = `theme-${Theme}`;
 
-export const themeList: Theme[] = ['system', 'dark', 'light'];
+export const themeList: Theme[] = [
+	'system',
+	'dark',
+	'light',
+	'high-contrast-dark',
+	'high-contrast-light',
+];
 export const modifiedThemeList = themeList.map(
 	(theme) => `theme-${theme}`,
 ) as ModifiedTheme[];
