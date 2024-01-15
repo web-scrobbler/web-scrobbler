@@ -1,8 +1,8 @@
 export {};
 
 /*
-	Since BiliBili is a video site, accurately scrobbling song information from the title can be challenging. 
-	However, people often include the artist's name and track title in the video tags. 
+	Since BiliBili is a video site, accurately scrobbling song information from the title can be challenging.
+	However, people often include the artist's name and track title in the video tags.
 
 	Therefore, this connector uses tags to identify artist and track information and determines whether we should scrobble this video.
 	The video title is then used to determine which tag is most likely to contain the artist or track name.
@@ -195,6 +195,8 @@ Connector.getChannelId = () =>
 		.split('/')
 		.pop();
 
+Connector.channelLabelSelector = '.up-name';
+
 Connector.isScrobblingAllowed = () => {
 	const tags = videoInfo.tags;
 
@@ -216,7 +218,7 @@ Connector.getArtistTrack = () => {
 };
 
 /*
-	helper functions	
+	helper functions
 */
 
 /**
@@ -349,7 +351,7 @@ function grepSongInfo() {
 
 	// select
 	Util.debugLog(
-		`PossibleTrack: ${possibleTrack.toString()} 
+		`PossibleTrack: ${possibleTrack.toString()}
 PossibleArtist: ${possibleArtist.toString()}
 FilteredTags: ${filteredTags.toString()}`,
 		'log',

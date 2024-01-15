@@ -314,14 +314,14 @@ export default class Controller {
 				type: 'getChannelDetails',
 				fn: () => ({
 					connector: this.connector.meta,
-					channelId: this.connector.getChannelId?.(),
+					channelInfo: this.connector.getChannelInfo?.(),
 				}),
 			}),
 			contentListener({
 				type: 'addToBlocklist',
 				fn: async () => {
 					await this.blocklist.addToBlocklist(
-						this.connector.getChannelId?.() ?? '',
+						this.connector.getChannelInfo?.() ?? null,
 					);
 					this.setMode(ControllerMode.Disallowed);
 				},
@@ -330,7 +330,7 @@ export default class Controller {
 				type: 'removeFromBlocklist',
 				fn: async () => {
 					await this.blocklist.removeFromBlocklist(
-						this.connector.getChannelId?.() ?? '',
+						this.connector.getChannelInfo?.()?.id ?? null,
 					);
 					if (this.shouldHaveScrobbled) {
 						void this.scrobbleSong();

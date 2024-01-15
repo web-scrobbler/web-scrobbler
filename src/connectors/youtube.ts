@@ -96,11 +96,17 @@ Connector.scrobbleInfoStyle = {
 Connector.getChannelId = () =>
 	new URL(
 		(
-			document.querySelector(
+			Util.queryElements([
 				'#upload-info .ytd-channel-name .yt-simple-endpoint',
-			) as HTMLAnchorElement
-		)?.href ?? 'https://youtube.com/',
-	).pathname.slice(2);
+				'.slim-owner-icon-and-title',
+			]) as NodeListOf<HTMLAnchorElement>
+		)?.[0]?.href ?? 'https://youtube.com/',
+	).pathname.slice(1);
+
+Connector.channelLabelSelector = [
+	'#primary #title+#top-row ytd-channel-name .yt-formatted-string',
+	'.slim-owner-icon-and-title .yt-core-attributed-string',
+];
 
 Connector.getTrackInfo = () => {
 	const trackInfo: TrackInfoWithAlbum = {};
