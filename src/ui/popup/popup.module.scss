@@ -1,7 +1,6 @@
 @mixin ios-text-input {
 	appearance: none;
 	background-color: var(--last-fm-bg);
-	border: none;
 	box-sizing: border-box;
 	color: var(--text);
 	font-size: 1.2em;
@@ -107,6 +106,10 @@ a {
 			width: fit-content;
 		}
 
+		.editField {
+			border: var(--interactable-border);
+		}
+
 		@supports (-webkit-touch-callout: none) {
 			.editField {
 				@include ios-text-input;
@@ -125,7 +128,7 @@ a {
 		gap: 0.25em;
 
 		svg {
-			fill: var(--always-light);
+			fill: var(--active-text);
 			height: 1.2em;
 			width: 1.2em;
 		}
@@ -134,7 +137,7 @@ a {
 	.label {
 		background-color: var(--last-fm);
 		border-radius: 0.25em;
-		color: var(--always-light);
+		color: var(--active-text);
 		padding: 0.25em 0.5em;
 	}
 
@@ -144,7 +147,7 @@ a {
 
 		.controlButton {
 			background-color: transparent;
-			border: none;
+			border: var(--interactable-border);
 			color: var(--text);
 			cursor: pointer;
 			padding: 0.25em 0.5em;
@@ -213,6 +216,7 @@ a {
 		position: relative;
 
 		.searchField {
+			border: var(--interactable-border);
 			box-sizing: border-box;
 			width: 100%;
 		}
@@ -238,6 +242,7 @@ a {
 	}
 
 	input {
+		border: var(--interactable-border);
 		padding: 0.25em 0.5em;
 	}
 
@@ -389,7 +394,7 @@ a {
 
 		.iosLoveButton {
 			background-color: transparent;
-			border: none;
+			border: var(--interactable-border);
 			color: var(--text);
 			cursor: pointer;
 			padding: 0.25em 0.5em;
@@ -418,8 +423,9 @@ a {
 		}
 
 		input {
-			@include ios-text-input;
 			width: 100%;
+
+			@include ios-text-input;
 		}
 
 		.entryWrapper {
