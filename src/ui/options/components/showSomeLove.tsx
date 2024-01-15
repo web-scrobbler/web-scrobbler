@@ -1,5 +1,5 @@
 import { t } from '@/util/i18n';
-import VolunteerActivism from '@suid/icons-material/VolunteerActivismOutlined';
+import { VolunteerActivismOutlined } from '@/ui/components/icons';
 import styles from './components.module.scss';
 
 /**
@@ -20,7 +20,7 @@ export default function ShowSomeLove() {
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				<VolunteerActivism />
+				<VolunteerActivismOutlined />
 				<span>{t('donationButtonLabel')}</span>
 			</a>
 		</>

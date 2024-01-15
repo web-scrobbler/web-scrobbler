@@ -1,7 +1,7 @@
 import browser from 'webextension-polyfill';
 import githubIcon from './icons/github-mark.svg';
 import twitterBird from './icons/twitter-logo.svg';
-import Lock from '@suid/icons-material/LockOutlined';
+import { LockOutlined } from '@/ui/components/icons';
 import { t } from '@/util/i18n';
 import styles from './components.module.scss';
 
@@ -68,7 +68,7 @@ export default function ContactComponent() {
 					<li
 						class={`${styles.contactEntry} ${styles.contactPrivacy}`}
 					>
-						<Lock />
+						<LockOutlined />
 						<span class={styles.brandText}>Privacy</span>
 						<span class={styles.desc}>
 							{t('contactPrivacyPolicyDesc')}

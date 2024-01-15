@@ -11,11 +11,13 @@ import {
 	createSignal,
 } from 'solid-js';
 import styles from './components.module.scss';
-import Settings from '@suid/icons-material/SettingsOutlined';
-import ExpandMore from '@suid/icons-material/ExpandMoreOutlined';
-import Delete from '@suid/icons-material/DeleteOutlined';
+import {
+	SettingsOutlined,
+	ExpandMoreOutlined,
+	DeleteOutlined,
+	AddOutlined,
+} from '@/ui/components/icons';
 import connectors, { ConnectorMeta } from '@/core/connectors';
-import Add from '@suid/icons-material/AddOutlined';
 import {
 	Checkbox,
 	ConnectorTripleCheckbox,
@@ -60,7 +62,7 @@ export default function ConnectorOverrideOptions(props: {
 			<p innerHTML={t('optionsCustomPatternsHint')} />
 			<ul class={`${styles.connectorOptionsList} ${styles.optionList}`}>
 				<li>
-					<Settings />
+					<SettingsOutlined />
 					<Checkbox
 						title={t('optionsToggle')}
 						label={t('optionsToggle')}
@@ -151,7 +153,7 @@ function ConnectorOption(props: {
 		<li>
 			<details ref={setRef}>
 				<summary>
-					<ExpandMore class={styles.expandVector} />
+					<ExpandMoreOutlined class={styles.expandVector} />
 					<SummaryCheckbox
 						title={props.connector.label}
 						label={props.connector.label}
@@ -407,7 +409,7 @@ function EditCustomPatterns(props: { connector: ConnectorMeta }) {
 								});
 							}}
 						>
-							<Delete />
+							<DeleteOutlined />
 						</button>
 					</div>
 				)}
@@ -430,7 +432,7 @@ function EditCustomPatterns(props: { connector: ConnectorMeta }) {
 					});
 				}}
 			>
-				<Add />
+				<AddOutlined />
 				{t('customPatternsAdd')}
 			</button>
 		</>

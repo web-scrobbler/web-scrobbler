@@ -16,9 +16,11 @@ import {
 import { ManagerTab } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
 import ClonedSong from '@/core/object/cloned-song';
-import Check from '@suid/icons-material/CheckOutlined';
-import Code from '@suid/icons-material/CodeOutlined';
-import PublishedWithChanges from '@suid/icons-material/PublishedWithChangesOutlined';
+import {
+	CheckOutlined,
+	CodeOutlined,
+	PublishedWithChangesOutlined,
+} from '@/ui/components/icons';
 import { sendBackgroundMessage } from '@/util/communication';
 import savedEdits from '@/core/storage/saved-edits';
 import Regex, { RegexEditContextMenu } from './regex';
@@ -237,7 +239,7 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 											});
 										}}
 									>
-										<Check />
+										<CheckOutlined />
 									</button>
 									<button
 										class={styles.controlButton}
@@ -270,7 +272,7 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 											});
 										}}
 									>
-										<PublishedWithChanges />
+										<PublishedWithChangesOutlined />
 									</button>
 									<button
 										class={styles.controlButton}
@@ -284,7 +286,7 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 											setIsRegex(true);
 										}}
 									>
-										<Code />
+										<CodeOutlined />
 									</button>
 								</div>
 							</Show>
@@ -313,7 +315,7 @@ function EditContextMenu(props: {
 					!props.track() || !props.artist()
 						? 'infoSubmitUnableTitleShort'
 						: 'infoSubmitTitleShort',
-				icon: Check,
+				icon: CheckOutlined,
 				action: () =>
 					void saveEdit(props.tab, props.clonedSong, {
 						artist: props.artist(),
@@ -327,7 +329,7 @@ function EditContextMenu(props: {
 					!props.track() || !props.artist()
 						? 'infoSwapUnableTitleShort'
 						: 'infoSwapTitleShort',
-				icon: PublishedWithChanges,
+				icon: PublishedWithChangesOutlined,
 				action: () =>
 					void saveEdit(props.tab, props.clonedSong, {
 						artist: props.track(),
@@ -338,7 +340,7 @@ function EditContextMenu(props: {
 			},
 			{
 				namei18n: 'infoRegexTitleShort',
-				icon: Code,
+				icon: CodeOutlined,
 				action: () => props.setIsRegex(true),
 			},
 		];

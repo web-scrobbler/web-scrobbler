@@ -20,11 +20,13 @@ import browser from 'webextension-polyfill';
 import ClonedSong from '@/core/object/cloned-song';
 import Base from './base';
 import { LastFMIcon } from '@/util/icons';
-import Edit from '@suid/icons-material/EditOutlined';
-import Block from '@suid/icons-material/BlockOutlined';
-import Favorite from '@suid/icons-material/FavoriteOutlined';
-import HeartBroken from '@suid/icons-material/HeartBrokenOutlined';
-import RestartAlt from '@suid/icons-material/RestartAltOutlined';
+import {
+	EditOutlined,
+	BlockOutlined,
+	FavoriteOutlined,
+	HeartBrokenOutlined,
+	RestartAltOutlined,
+} from '@/ui/components/icons';
 import { sendBackgroundMessage } from '@/util/communication';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import EditComponent from './edit';
@@ -168,7 +170,7 @@ function NowPlayingContextMenu(props: {
 					props.tab()?.mode === ControllerMode.Playing
 						? 'infoEditTitleShort'
 						: 'infoEditUnableTitleShort',
-				icon: Edit,
+				icon: EditOutlined,
 				action: () => props.setIsEditing(true),
 			},
 		];
@@ -178,13 +180,13 @@ function NowPlayingContextMenu(props: {
 					props.tab()?.mode === ControllerMode.Playing
 						? 'infoRevertTitleShort'
 						: 'infoRevertUnableTitleShort',
-				icon: RestartAlt,
+				icon: RestartAltOutlined,
 				action: () => actionResetSongData(props.tab),
 			});
 		}
 		items.push({
 			namei18n: getSkipLabel(props.tab, true),
-			icon: Block,
+			icon: BlockOutlined,
 			action: () => actionSkipCurrentSong(props.tab),
 		});
 		if (!navigatorResource.loading) {
@@ -244,7 +246,7 @@ function IOSLoveTrack(props: {
 					: t('infoLove')
 			}
 		>
-			<Favorite />
+			<FavoriteOutlined />
 		</button>
 	);
 }
@@ -345,7 +347,7 @@ function TrackControls(props: {
 				}
 				onClick={() => props.setIsEditing(true)}
 			>
-				<Edit />
+				<EditOutlined />
 			</button>
 			<Show when={props.song()?.flags.isCorrectedByUser}>
 				<button
@@ -358,7 +360,7 @@ function TrackControls(props: {
 					}
 					onClick={() => actionResetSongData(props.tab)}
 				>
-					<RestartAlt />
+					<RestartAltOutlined />
 				</button>
 			</Show>
 			<button
@@ -375,7 +377,7 @@ function TrackControls(props: {
 				onClick={() => actionSkipCurrentSong(props.tab)}
 				title={t(getSkipLabel(props.tab, false))}
 			>
-				<Block />
+				<BlockOutlined />
 			</button>
 			<button
 				class={`${styles.controlButton}${
@@ -389,14 +391,14 @@ function TrackControls(props: {
 				}
 			>
 				<span class={styles.nonHover}>
-					<Favorite />
+					<FavoriteOutlined />
 				</span>
 				<span class={styles.hover}>
 					<Show
 						when={props.song()?.metadata.userloved}
-						fallback={<Favorite />}
+						fallback={<FavoriteOutlined />}
 					>
-						<HeartBroken />
+						<HeartBrokenOutlined />
 					</Show>
 				</span>
 			</button>

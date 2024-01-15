@@ -4,10 +4,12 @@ import * as Options from '@/core/storage/options';
 import { t } from '@/util/i18n';
 import StorageWrapper from '@/core/storage/wrapper';
 import * as BrowserStorage from '@/core/storage/browser-storage';
-import Check from '@suid/icons-material/CheckOutlined';
-import Close from '@suid/icons-material/CloseOutlined';
-import RestartAlt from '@suid/icons-material/RestartAltOutlined';
-import IndeterminateCheckBox from '@suid/icons-material/IndeterminateCheckBoxOutlined';
+import {
+	CheckOutlined,
+	CloseOutlined,
+	RestartAltOutlined,
+	IndeterminateCheckBoxOutlined,
+} from '@/ui/components/icons';
 import { ConnectorMeta } from '@/core/connectors';
 import { clamp } from '@/util/util';
 
@@ -158,7 +160,7 @@ export function RadioButtons(props: {
 							props.reset?.(e);
 						}}
 					>
-						<RestartAlt />
+						<RestartAltOutlined />
 						{t('buttonReset')}
 					</button>
 				</div>
@@ -419,7 +421,7 @@ export function TripleCheckbox(props: {
 								props.onInput(TripleCheckboxState.Unchecked)
 							}
 						/>
-						<Close />
+						<CloseOutlined />
 					</label>
 					<label
 						class={`${styles.tripleCheckboxLabel} ${
@@ -444,7 +446,7 @@ export function TripleCheckbox(props: {
 								props.onInput(TripleCheckboxState.Indeterminate)
 							}
 						/>
-						<IndeterminateCheckBox />
+						<IndeterminateCheckBoxOutlined />
 					</label>
 					<label
 						class={`${styles.tripleCheckboxLabel} ${
@@ -468,7 +470,7 @@ export function TripleCheckbox(props: {
 								props.onInput(TripleCheckboxState.Checked)
 							}
 						/>
-						<Check />
+						<CheckOutlined />
 					</label>
 				</div>
 			</span>

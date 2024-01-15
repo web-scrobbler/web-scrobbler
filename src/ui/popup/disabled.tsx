@@ -1,8 +1,7 @@
 import { t } from '@/util/i18n';
-import MusicOff from '@suid/icons-material/MusicOffOutlined';
+import { MusicOffOutlined, SettingsOutlined } from '@/ui/components/icons';
 import styles from './popup.module.scss';
 import browser from 'webextension-polyfill';
-import Settings from '@suid/icons-material/SettingsOutlined';
 import optionComponentStyles from '../options/components/components.module.scss';
 import { PopupAnchor } from '../components/util';
 
@@ -12,7 +11,7 @@ import { PopupAnchor } from '../components/util';
 export default function Disabled() {
 	return (
 		<div class={styles.alertPopup}>
-			<MusicOff class={styles.bigIcon} />
+			<MusicOffOutlined class={styles.bigIcon} />
 			<h1>{t('disabledSiteHeader')}</h1>
 			<p>{t('disabledSiteDesc')}</p>
 			<PopupAnchor
@@ -21,7 +20,7 @@ export default function Disabled() {
 				)}
 				class={`${optionComponentStyles.button} ${optionComponentStyles.centered}`}
 			>
-				<Settings />
+				<SettingsOutlined />
 				{t('disabledSiteButton')}
 			</PopupAnchor>
 		</div>
