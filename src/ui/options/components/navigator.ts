@@ -1,31 +1,40 @@
 import { Component, Setter } from 'solid-js';
-import Info from '@suid/icons-material/InfoOutlined';
-import Help from '@suid/icons-material/HelpOutlined';
-import Contacts from '@suid/icons-material/ContactsOutlined';
-import QueueMusic from '@suid/icons-material/QueueMusicOutlined';
-import Settings from '@suid/icons-material/SettingsOutlined';
-import Edit from '@suid/icons-material/EditOutlined';
-import Extension from '@suid/icons-material/ExtensionOutlined';
-import ManageAccounts from '@suid/icons-material/ManageAccountsOutlined';
+import {
+	InfoOutlined,
+	HelpOutlined,
+	ContactsOutlined,
+	SettingsOutlined,
+	EditOutlined,
+	ExtensionOutlined,
+	ManageAccountsOutlined,
+	TuneOutlined,
+	ToggleOnOutlined,
+	ToggleOffOutlined,
+	TimerOutlined,
+	FavoriteOutlined,
+	PersonOutlined,
+	PersonOffOutlined,
+	QueueMusicOutlined,
+} from '@/ui/components/icons';
+
 import InfoComponent from '@/ui/options/components/info';
 import ShowSomeLove from '@/ui/options/components/show-some-love';
 import FAQ from '@/ui/options/components/faq';
 import ContactComponent from '@/ui/options/components/contact';
 import OptionsComponent from '@/ui/options/components/options/options';
 import Accounts from '@/ui/options/components/accounts';
-import Tune from '@suid/icons-material/TuneOutlined';
-import ToggleOn from '@suid/icons-material/ToggleOnOutlined';
-import ToggleOff from '@suid/icons-material/ToggleOffOutlined';
-import Timer from '@suid/icons-material/TimerOutlined';
 import ConnectorOverrideOptions from '@/ui/options/components/connector-override';
 import EditOptions from '@/ui/options/components/edit-options/edit-options';
-import Favorite from '@suid/icons-material/FavoriteOutlined';
 import browser from 'webextension-polyfill';
 import {
+	addToBlocklist,
 	disableConnector,
 	disableUntilClosed,
 	enableConnector,
+	getChannelBlocklistLabel,
+	getChannelDetails,
 	getCurrentTab,
+	removeFromBlocklist,
 } from '@/core/background/util';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import ScrobbleCache from './scrobble-cache';
@@ -42,36 +51,39 @@ export type ModalType =
 	| '';
 
 /**
+ * Mutual base button
+ */
+interface NavigatorButtonBase {
+	namei18n: string;
+	i18nSubstitution?: string | string[];
+	icon: typeof ManageAccountsOutlined;
+}
+
+/**
  * Singular navigator button
  */
-export type NavigatorNavigationButton = {
-	namei18n: string;
-	icon: typeof ManageAccounts;
+export interface NavigatorNavigationButton extends NavigatorButtonBase {
 	element: Component<{
 		setActiveModal: Setter<ModalType>;
 		modal: HTMLDialogElement | undefined;
 	}>;
-};
+}
 
 /**
  * Singular navigator button that performs an action rather than opening a page
  */
-export type NavigatorActionButton = {
-	namei18n: string;
-	icon: typeof ManageAccounts;
+export interface NavigatorActionButton extends NavigatorButtonBase {
 	action: () => void;
-};
+}
 
 export type NavigatorButton = NavigatorNavigationButton | NavigatorActionButton;
 
 /**
  * Group of navigator buttons
  */
-export type NavigatorButtonGroup = {
-	namei18n: string;
-	icon: typeof ManageAccounts;
+export interface NavigatorButtonGroup extends NavigatorButtonBase {
 	group: NavigatorButton[];
-};
+}
 
 /**
  * A navigator consisting of a list of buttons and button groups
@@ -80,43 +92,43 @@ export type Navigator = (NavigatorButton | NavigatorButtonGroup)[];
 
 export const accountItem: NavigatorNavigationButton = {
 	namei18n: 'optionsAccounts',
-	icon: ManageAccounts,
+	icon: ManageAccountsOutlined,
 	element: Accounts,
 };
 
 export const optionsItem: NavigatorNavigationButton = {
 	namei18n: 'optionsOptions',
-	icon: Settings,
+	icon: SettingsOutlined,
 	element: OptionsComponent,
 };
 
 export const scrobbleCache: NavigatorNavigationButton = {
 	namei18n: 'optionsScrobbleCache',
-	icon: QueueMusic,
+	icon: QueueMusicOutlined,
 	element: ScrobbleCache,
 };
 
 export const editOptionsItem: NavigatorNavigationButton = {
 	namei18n: 'optionsEdits',
-	icon: Edit,
+	icon: EditOutlined,
 	element: EditOptions,
 };
 
 export const connectorOverrideOptionsItem: NavigatorNavigationButton = {
 	namei18n: 'optionsConnectors',
-	icon: Extension,
+	icon: ExtensionOutlined,
 	element: ConnectorOverrideOptions,
 };
 
 export const advancedOptionsItem: NavigatorNavigationButton = {
 	namei18n: 'optionsAdvanced',
-	icon: Tune,
+	icon: TuneOutlined,
 	element: AdvancedOptionsComponent,
 };
 
 export const optionsGroup: NavigatorButtonGroup = {
 	namei18n: 'optionsOptions',
-	icon: Settings,
+	icon: SettingsOutlined,
 	group: [
 		optionsItem,
 		scrobbleCache,
@@ -128,31 +140,31 @@ export const optionsGroup: NavigatorButtonGroup = {
 
 export const contactItem: NavigatorNavigationButton = {
 	namei18n: 'contactTitle',
-	icon: Contacts,
+	icon: ContactsOutlined,
 	element: ContactComponent,
 };
 
 export const faqItem: NavigatorNavigationButton = {
 	namei18n: 'faqTitle',
-	icon: Help,
+	icon: HelpOutlined,
 	element: FAQ,
 };
 
 export const aboutItem: NavigatorNavigationButton = {
 	namei18n: 'optionsAbout',
-	icon: Info,
+	icon: InfoOutlined,
 	element: InfoComponent,
 };
 
 export const aboutGroup: NavigatorButtonGroup = {
 	namei18n: 'optionsAbout',
-	icon: Info,
+	icon: InfoOutlined,
 	group: [contactItem, faqItem, aboutItem],
 };
 
 export const showSomeLoveItem: NavigatorNavigationButton = {
 	namei18n: 'showSomeLoveTitle',
-	icon: Favorite,
+	icon: FavoriteOutlined,
 	element: ShowSomeLove,
 };
 
@@ -174,45 +186,77 @@ async function getToggleNavigators(): Promise<NavigatorActionButton[]> {
 	if (tab.mode === ControllerMode.Unsupported) {
 		return [];
 	}
+	const navigators: NavigatorActionButton[] = [];
 
 	if (tab.mode === ControllerMode.Disabled) {
-		return [
+		navigators.push({
+			namei18n: 'menuEnableConnector',
+			icon: ToggleOnOutlined,
+			action: () => {
+				enableConnector(tab.tabId);
+			},
+		});
+	} else {
+		navigators.push(
 			{
-				namei18n: 'menuEnableConnector',
-				icon: ToggleOn,
+				namei18n: 'menuDisableConnector',
+				icon: ToggleOffOutlined,
 				action: () => {
-					enableConnector(tab.tabId);
+					disableConnector(tab.tabId);
 				},
 			},
-		];
+			{
+				namei18n: 'menuDisableUntilTabClosed',
+				icon: TimerOutlined,
+				action: () => {
+					disableUntilClosed(tab.tabId);
+				},
+			},
+		);
 	}
 
-	return [
-		{
-			namei18n: 'menuDisableConnector',
-			icon: ToggleOff,
+	const channelDetails = await getChannelDetails(tab.tabId);
+	if (
+		!channelDetails ||
+		!channelDetails.channelInfo?.id ||
+		!channelDetails.connector
+	) {
+		return navigators;
+	} else if (
+		await getChannelBlocklistLabel(
+			channelDetails.channelInfo.id,
+			channelDetails.connector,
+		)
+	) {
+		navigators.push({
+			namei18n: 'menuEnableChannel',
+			i18nSubstitution: channelDetails.channelInfo.label,
+			icon: PersonOutlined,
 			action: () => {
-				disableConnector(tab.tabId);
+				removeFromBlocklist(tab.tabId);
 			},
-		},
-		{
-			namei18n: 'menuDisableUntilTabClosed',
-			icon: Timer,
+		});
+	} else {
+		navigators.push({
+			namei18n: 'menuDisableChannel',
+			i18nSubstitution: channelDetails.channelInfo.label,
+			icon: PersonOffOutlined,
 			action: () => {
-				disableUntilClosed(tab.tabId);
+				addToBlocklist(tab.tabId);
 			},
-		},
-	];
+		});
+	}
+	return navigators;
 }
 
 export async function getMobileNavigatorGroup(): Promise<NavigatorButtonGroup> {
 	const group: NavigatorButtonGroup = {
 		namei18n: 'optionsOptions',
-		icon: Settings,
+		icon: SettingsOutlined,
 		group: [
 			{
 				namei18n: 'optionsOptions',
-				icon: Settings,
+				icon: SettingsOutlined,
 				action: () => {
 					browser.tabs.create({
 						url: browser.runtime.getURL(

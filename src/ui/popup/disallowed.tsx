@@ -4,8 +4,7 @@ import { Resource, Show, createMemo, createSignal } from 'solid-js';
 import styles from './popup.module.scss';
 import optionComponentStyles from '../options/components/components.module.scss';
 import { t } from '@/util/i18n';
-import MusicOff from '@suid/icons-material/MusicOffOutlined';
-import Send from '@suid/icons-material/Send';
+import { MusicOffOutlined, Send } from '@/ui/components/icons';
 import { sendBackgroundMessage } from '@/util/communication';
 
 export default function Disallowed(props: { tab: Resource<ManagerTab> }) {
@@ -25,7 +24,7 @@ export default function Disallowed(props: { tab: Resource<ManagerTab> }) {
 	return (
 		<Show when={!isLoading()}>
 			<div class={styles.widePopup}>
-				<MusicOff class={styles.bigIcon} />
+				<MusicOffOutlined class={styles.bigIcon} />
 				<h1>{t('disallowedHeader')}</h1>
 				<p>
 					{t('disallowedDesc1', [

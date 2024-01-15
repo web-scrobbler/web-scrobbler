@@ -8,7 +8,7 @@
 		.sidebarButton {
 			align-items: center;
 			background-color: transparent;
-			border: none;
+			border: var(--interactable-border);
 			color: var(--text);
 			cursor: pointer;
 			display: flex;
@@ -24,7 +24,7 @@
 			&.active,
 			&:hover {
 				background-color: var(--last-fm);
-				color: var(--always-light);
+				color: var(--active-text);
 			}
 		}
 	}

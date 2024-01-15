@@ -1,7 +1,6 @@
 import ClonedSong from '@/core/object/cloned-song';
 import styles from './popup.module.scss';
-import Check from '@suid/icons-material/CheckOutlined';
-import Close from '@suid/icons-material/CloseOutlined';
+import { CheckOutlined, CloseOutlined } from '@/ui/components/icons';
 
 import { t } from '@/util/i18n';
 import {
@@ -172,7 +171,7 @@ function SearchField(props: {
 			/>
 			<Switch
 				fallback={
-					<Close
+					<CloseOutlined
 						class={`${styles.regexTest} ${styles.regexFailure}`}
 					/>
 				}
@@ -186,7 +185,7 @@ function SearchField(props: {
 						getSongFieldNoRegex(props.clonedSong, props.type),
 					)}
 				>
-					<Check
+					<CheckOutlined
 						class={`${styles.regexTest} ${styles.regexSuccess}`}
 					/>
 				</Match>
@@ -269,7 +268,7 @@ function Footer(props: {
 							saveEdit(props.tab);
 						}}
 					>
-						<Check />
+						<CheckOutlined />
 					</button>
 				</div>
 			</Show>
@@ -286,7 +285,7 @@ export function RegexEditContextMenu(props: { tab: Resource<ManagerTab> }) {
 		const items: Navigator = [
 			{
 				namei18n: 'infoSubmitTitleShort',
-				icon: Check,
+				icon: CheckOutlined,
 				action: () => void saveEdit(props.tab),
 			},
 		];

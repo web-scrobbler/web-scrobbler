@@ -5,6 +5,7 @@ $themes: (
 		always-last-fm-hover: #fc3434,
 		background: #fff,
 		checkbox-inactive: #8e8e8e,
+		checkbox-active: #d82323,
 		sidebar-bg: rgb(250 235 235 / 70%),
 		context-bg: rgb(250 235 235 / 95%),
 		modal-bg: rgb(255 255 255 / 95%),
@@ -12,15 +13,19 @@ $themes: (
 		last-fm-bg-light: #faebeb,
 		last-fm-bg-weak: rgb(250 235 235 / 50%),
 		muted-text: #555,
+		active-text: #fff,
 		text: #222,
 		last-fm: #d82323,
 		confirm: #00b300,
+		reject: #d82323,
+		indeterminate: #8e8e8e,
 		site-image: url('../img/main/site-light.jpg'),
 		invert-filter: invert(0%),
 		neuomorphic-bottom: 10px 10px 30px #bbb,
 		neuomorphic-top: -10px -10px 30px #fff9f9,
 		neuomorphic-small-bottom: 5px 5px 15px #bbb,
 		neuomorphic-small-top: -5px -5px 15px #fff9f9,
+		interactable-border: none,
 	),
 	dark: (
 		always-light: #fff,
@@ -28,6 +33,7 @@ $themes: (
 		always-last-fm-hover: #fc3434,
 		background: #1e1e1e,
 		checkbox-inactive: #8e8e8e,
+		checkbox-active: #d82323,
 		sidebar-bg: rgb(194 57 55 / 70%),
 		context-bg: rgb(194 57 55 / 95%),
 		modal-bg: rgb(40 40 40 / 95%),
@@ -35,15 +41,71 @@ $themes: (
 		last-fm-bg-light: #faebeb,
 		last-fm-bg-weak: rgb(194 57 55 / 10%),
 		muted-text: #bbb,
+		active-text: #fff,
 		text: #eee,
 		last-fm: #fc3434,
 		confirm: #00b300,
+		reject: #fc3434,
+		indeterminate: #8e8e8e,
 		site-image: url('../img/main/site-dark.jpg'),
 		invert-filter: invert(100%),
 		neuomorphic-bottom: 10px 10px 30px #111,
 		neuomorphic-top: -10px -10px 30px #333,
 		neuomorphic-small-bottom: 5px 5px 15px #111,
 		neuomorphic-small-top: -5px -5px 15px #333,
+		interactable-border: none,
+	),
+	high-contrast-dark: (
+		always-light: yellow,
+		always-last-fm: black,
+		always-last-fm-hover: lavender,
+		background: black,
+		checkbox-inactive: black,
+		checkbox-active: #8e8e8e,
+		sidebar-bg: black,
+		context-bg: black,
+		modal-bg: black,
+		last-fm-bg: black,
+		muted-text: yellow,
+		text: yellow,
+		active-text: black,
+		last-fm: lavender,
+		confirm: lime,
+		reject: red,
+		indeterminate: #8e8e8e,
+		site-image: black,
+		invert-filter: invert(100%),
+		neuomorphic-bottom: 10px 10px 30px #111,
+		neuomorphic-top: -10px -10px 30px #333,
+		neuomorphic-small-bottom: 5px 5px 15px #111,
+		neuomorphic-small-top: -5px -5px 15px #333,
+		interactable-border: 1px solid yellow,
+	),
+	high-contrast-light: (
+		always-light: black,
+		always-last-fm: seashell,
+		always-last-fm-hover: saddlebrown,
+		background: seashell,
+		checkbox-inactive: seashell,
+		checkbox-active: #8e8e8e,
+		sidebar-bg: seashell,
+		context-bg: seashell,
+		modal-bg: seashell,
+		last-fm-bg: seashell,
+		muted-text: black,
+		text: black,
+		active-text: seashell,
+		last-fm: saddlebrown,
+		confirm: lime,
+		reject: red,
+		indeterminate: #8e8e8e,
+		site-image: seashell,
+		invert-filter: invert(0%),
+		neuomorphic-bottom: 10px 10px 30px #bbb,
+		neuomorphic-top: -10px -10px 30px #fff9f9,
+		neuomorphic-small-bottom: 5px 5px 15px #bbb,
+		neuomorphic-small-top: -5px -5px 15px #fff9f9,
+		interactable-border: 1px solid black,
 	),
 );
 
@@ -55,7 +117,21 @@ $themes: (
 	}
 }
 
+// stylelint-disable-next-line
+.theme-high-contrast-dark a {
+	border: var(--interactable-border);
+}
+
+// stylelint-disable-next-line
+.theme-high-contrast-light a {
+	border: var(--interactable-border);
+}
+
 body {
 	// Avoid animation flickering in iOS
 	-webkit-transform: translate3d(0, 0, 0);
+}
+
+* {
+	-ms-high-contrast-adjust: none;
 }

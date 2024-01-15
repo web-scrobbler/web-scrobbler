@@ -123,7 +123,7 @@ export interface CacheScrobble extends CacheScrobbleData {
 }
 export type Blocklists = Record<string, Blocklist>;
 
-export type Blocklist = Record<string, true>;
+export type Blocklist = Record<string, string>;
 
 export interface DataModels extends ScrobblerModels {
 	/* sync options */
