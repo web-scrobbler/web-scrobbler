@@ -1,7 +1,6 @@
 import { t } from '@/util/i18n';
-import MusicNote from '@suid/icons-material/MusicNoteOutlined';
+import { ExpandMoreOutlined, MusicNoteOutlined } from '@/ui/components/icons';
 import styles from './popup.module.scss';
-import ExpandMore from '@suid/icons-material/ExpandMoreOutlined';
 import { TPopupAnchor } from '../components/util';
 
 /**
@@ -10,11 +9,11 @@ import { TPopupAnchor } from '../components/util';
 export default function Base() {
 	return (
 		<div class={styles.alertPopup}>
-			<MusicNote class={styles.bigIcon} />
+			<MusicNoteOutlined class={styles.bigIcon} />
 			<h1>{t('getStartedHeader')}</h1>
 			<details class={styles.alreadyPlaying}>
 				<summary>
-					<ExpandMore class={styles.expandVector} />
+					<ExpandMoreOutlined class={styles.expandVector} />
 					{t('getStartedSubheader')}
 				</summary>
 				<p>{t('getStartedSiteChanged')}</p>
