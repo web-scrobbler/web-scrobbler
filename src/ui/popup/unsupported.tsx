@@ -1,5 +1,5 @@
 import { t } from '@/util/i18n';
-import SentimentDissatisfied from '@suid/icons-material/SentimentDissatisfiedOutlined';
+import { SentimentDissatisfiedOutlined } from '@/ui/components/icons';
 import styles from './popup.module.scss';
 import { PopupAnchor } from '../components/util';
 
@@ -9,7 +9,7 @@ import { PopupAnchor } from '../components/util';
 export default function Unsupported() {
 	return (
 		<div class={styles.alertPopup}>
-			<SentimentDissatisfied class={styles.bigIcon} />
+			<SentimentDissatisfiedOutlined class={styles.bigIcon} />
 			<h1>{t('unsupportedWebsiteHeader')}</h1>
 			<p>{t('unsupportedWebsiteDesc')}</p>
 			<p>{t('unsupportedWebsiteUpdateNote')}</p>

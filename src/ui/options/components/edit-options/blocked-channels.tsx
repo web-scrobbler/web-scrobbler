@@ -8,7 +8,7 @@ import {
 } from 'solid-js';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
-import Delete from '@suid/icons-material/DeleteOutlined';
+import { DeleteOutlined } from '@/ui/components/icons';
 import { ExportBlocklist, ImportBlocklist, ViewBlocklist } from './util';
 import { ModalType } from '../navigator';
 import { ConnectorMeta } from '@/core/connectors';
@@ -78,9 +78,10 @@ export function BlocklistModal() {
 						blocklists()?.[connector()?.id ?? ''] ?? {},
 					)}
 				>
-					{([channel]) => (
+					{([channelId, channelLabel]) => (
 						<ChannelInfo
-							channel={channel}
+							channelId={channelId}
+							channelLabel={channelLabel}
 							connector={connector()}
 							mutate={mutate}
 						/>
@@ -95,7 +96,8 @@ export function BlocklistModal() {
  * Component that shows a blocked channel and allows the user to delete it.
  */
 function ChannelInfo(props: {
-	channel: string;
+	channelId: string;
+	channelLabel: string;
 	connector: ConnectorMeta | undefined;
 	mutate: Setter<Blocklists | null | undefined>;
 }) {
@@ -105,13 +107,13 @@ function ChannelInfo(props: {
 				class={`${styles.button} ${styles.small} ${styles.marginRight}`}
 				onClick={(event) => {
 					event.stopPropagation();
-					const channel = props.channel;
+					const channelId = props.channelId;
 					const connector = props.connector;
 					props.mutate((e) => {
 						if (!e || !connector || !e[connector.id]) {
 							return e;
 						}
-						delete e[connector.id][channel];
+						delete e[connector.id][channelId];
 						blocklistStorage.set(e);
 						return {
 							...e,
@@ -119,9 +121,9 @@ function ChannelInfo(props: {
 					});
 				}}
 			>
-				<Delete />
+				<DeleteOutlined />
 			</button>
-			<span>{props.channel}</span>
+			<span>{props.channelLabel}</span>
 		</li>
 	);
 }

@@ -3,7 +3,7 @@ import styles from './settings.module.scss';
 import { initializeThemes } from '@/theme/themes';
 import '@/theme/themes.scss';
 import { Show, createSignal, onCleanup } from 'solid-js';
-import Close from '@suid/icons-material/CloseOutlined';
+import { CloseOutlined } from '@/ui/components/icons';
 import Sidebar from './sidebar/sidebar';
 import { EditsModal } from './components/edit-options/edited-tracks';
 import Permissions from './components/permissions';
@@ -125,7 +125,7 @@ function Options() {
 					class={styles.modalClose}
 					onClick={() => modal?.close()}
 				>
-					<Close />
+					<CloseOutlined />
 				</button>
 			</dialog>
 		</>
