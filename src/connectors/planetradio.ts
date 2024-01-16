@@ -8,5 +8,4 @@ Connector.trackSelector = '#playbar-play-button + div p:last-child';
 
 Connector.trackArtSelector = '#playbar-play-button + div picture img';
 
-Connector.isPlaying = () =>
-	Util.getDataFromSelectors('#playbar-play-button svg', 'icon') !== 'play';
+Connector.playButtonSelector = '#playbar-play-button svg[data-icon="play"]';
