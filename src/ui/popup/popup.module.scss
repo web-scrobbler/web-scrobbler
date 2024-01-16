@@ -1,9 +1,11 @@
 @mixin ios-text-input {
 	appearance: none;
 	background-color: var(--last-fm-bg);
+	border-radius: 0.25em;
 	box-sizing: border-box;
 	color: var(--text);
 	font-size: 1.2em;
+	padding: 0.25em 0.5em;
 }
 
 .alertPopup,
@@ -110,12 +112,6 @@ a {
 			border: 1px solid var(--text);
 			border-radius: 3px;
 			padding: 0.15em 0.25em;
-		}
-
-		@supports (-webkit-touch-callout: none) {
-			.editField {
-				@include ios-text-input;
-			}
 		}
 	}
 
@@ -316,6 +312,12 @@ a {
 
 		.songDetails {
 			align-items: center;
+
+			.editField {
+				border: var(--interactable-border);
+
+				@include ios-text-input;
+			}
 		}
 
 		.iosLoveButton {
@@ -340,7 +342,7 @@ a {
 		align-items: center;
 		display: flex;
 		flex-direction: column;
-		width: 100%;
+		width: 70%;
 
 		.iosSearchLabel,
 		.iosReplaceLabel,
@@ -349,6 +351,7 @@ a {
 		}
 
 		input {
+			border: var(--interactable-border);
 			width: 100%;
 
 			@include ios-text-input;
@@ -360,6 +363,7 @@ a {
 			border-radius: 1em;
 			display: flex;
 			flex-direction: column;
+			gap: 0;
 
 			.entryWrapperLegend {
 				padding: 0 1em;
