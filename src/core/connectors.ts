@@ -151,6 +151,12 @@ export default <ConnectorMeta[]>[
 		id: 'radioplus',
 	},
 	{
+		label: 'Радио Premium',
+		matches: ['*://rpfm.ru/*'],
+		js: 'rpfm.js',
+		id: 'rpfm',
+	},
+	{
 		label: 'Douban.FM',
 		matches: ['*://douban.fm/*', '*://fm.douban.fm/*'],
 		js: 'douban.fm.js',
@@ -245,6 +251,12 @@ export default <ConnectorMeta[]>[
 		id: 'odnoklassniki',
 	},
 	{
+		label: 'Overcast',
+		matches: ['*://overcast.fm/*'],
+		js: 'overcast.js',
+		id: 'overcast',
+	},
+	{
 		label: 'Online Radio Box',
 		matches: ['*://onlineradiobox.com/*'],
 		js: 'onlineradiobox.js',
@@ -291,6 +303,15 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.radionomy.com/*'],
 		js: 'radionomy.js',
 		id: 'radionomy',
+	},
+	{
+		label: 'J1 Radio',
+		matches: [
+			'*://www.j1fm.tokyo/player/*',
+			'*://www.j1fm.tokyo/michi/player/*',
+		],
+		js: 'aiircom.js',
+		id: 'j1-radio',
 	},
 	{
 		label: 'JazzAndRain',
@@ -369,6 +390,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.audacy.com/*'],
 		js: 'audacy.js',
 		id: 'audacy',
+	},
+	{
+		label: 'Audius',
+		matches: ['*://audius.co/*'],
+		js: 'audius.js',
+		id: 'audius',
 	},
 	{
 		label: 'GetWorkDoneMusic',
@@ -476,6 +503,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://www.beatport.com/*'],
 		js: 'beatport.js',
 		id: 'beatport',
+	},
+	{
+		label: 'Beeline Music',
+		matches: ['*://music.beeline.ru/*'],
+		js: 'beeline-music.js',
+		id: 'beeline-music',
 	},
 	{
 		label: 'wavo',
@@ -663,6 +696,12 @@ export default <ConnectorMeta[]>[
 		matches: ['*://qcbeats.org/*'],
 		js: 'musicat.js',
 		id: 'qcbeats',
+	},
+	{
+		label: 'Q-Dance',
+		matches: ['*://www.q-dance.com/*'],
+		js: 'q-dance.js',
+		id: 'q-dance',
 	},
 	{
 		label: 'Sawdust City Sounds',
@@ -1168,6 +1207,12 @@ export default <ConnectorMeta[]>[
 		id: 'pretzel',
 	},
 	{
+		label: 'Primordial Radio',
+		matches: ['*://primordialradio.com/*'],
+		js: 'primordialradio.js',
+		id: 'primordialradio',
+	},
+	{
 		label: 'Radio Kyivstar',
 		matches: ['*://radio.kyivstar.ua/*'],
 		js: 'kyivstar.js',
@@ -1180,7 +1225,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: '9128.live',
-		matches: ['*://9128.live/*'],
+		matches: ['*://9128.live/*', '*://embed.radio.co/player/*'],
 		js: 'radioco.js',
 		id: '9128.live',
 		allFrames: true,
@@ -1242,7 +1287,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'RadioJavan',
-		matches: ['*://www.radiojavan.com/*'],
+		matches: ['*://play.radiojavan.com/*'],
 		js: 'radiojavan.js',
 		id: 'radiojavan',
 	},
@@ -1579,7 +1624,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Brain.fm',
-		matches: ['*://www.brain.fm/*'],
+		matches: ['*://my.brain.fm/*'],
 		js: 'brainfm.js',
 		id: 'brainfm',
 	},
@@ -1664,9 +1709,13 @@ export default <ConnectorMeta[]>[
 		id: 'navidrome',
 	},
 	{
-		label: 'deepcut.fm',
-		matches: ['*://deepcut.fm/*', '*://turntable.fm/*'],
-		js: 'deepcut.fm.js',
+		label: 'deep-cut.fm',
+		matches: [
+			'*://deepcut.fm/*',
+			'*://turntable.fm/*',
+			'*://deep-cut.fm/*',
+		],
+		js: 'deep-cut.fm.js',
 		id: 'deepcut.fm',
 	},
 	{
@@ -2144,9 +2193,15 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'Telegram',
-		matches: ['*://web.telegram.org/a/*', '*://web.telegram.org/k/*'],
+		matches: ['*://web.telegram.org/a/*'],
 		js: 'telegram.js',
 		id: 'telegram',
+	},
+	{
+		label: 'Telegram K',
+		matches: ['*://web.telegram.org/k/*'],
+		js: 'telegram-k.js',
+		id: 'telegram-k',
 	},
 	{
 		label: 'TuneGenieEmbed',
@@ -2238,5 +2293,23 @@ export default <ConnectorMeta[]>[
 		matches: ['*://*.wdr.de/radio/*'],
 		js: 'wdr.js',
 		id: 'wdr',
+	},
+	{
+		label: 'radio.de',
+		matches: ['*://www.radio.de/*'],
+		js: 'radio.de.js',
+		id: 'radiode',
+	},
+	{
+		label: 'FMSpins',
+		matches: ['*://*.fmspins.com/*'],
+		js: 'fmspins.js',
+		id: 'fmspins',
+	},
+	{
+		label: 'vk-save',
+		matches: ['*://*.vk-save.com/*'],
+		js: 'vk-save.js',
+		id: 'vk-save',
 	},
 ];
