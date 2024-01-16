@@ -107,7 +107,9 @@ a {
 		}
 
 		.editField {
-			border: var(--interactable-border);
+			border: 1px solid var(--text);
+			border-radius: 3px;
+			padding: 0.15em 0.25em;
 		}
 
 		@supports (-webkit-touch-callout: none) {
@@ -195,20 +197,25 @@ a {
 .regexContainer {
 	align-items: center;
 	box-sizing: border-box;
-	display: grid;
-	gap: 0.5em 1em;
-	grid-template:
-		'. search replace preview' 2em
-		'track tracksearch trackreplace trackpreview' 2em
-		'artist artistsearch artistreplace artistpreview' 2em
-		'album albumsearch albumreplace albumpreview' 2em
-		'albumartist albumartistsearch albumartistreplace albumartistpreview' 2em
-		'footer footer footer footer' auto / auto 1fr 1fr 1fr;
+	display: flex;
+	flex-direction: column;
+	gap: 0.5em;
 	padding: 1em;
 	width: 800px;
 
+	--max-cell-width: 1fr;
+
+	.entryWrapper {
+		align-items: center;
+		display: grid;
+		gap: 1em;
+		grid-template: 2em / var(--max-cell-width) 1fr 1fr 1fr;
+		width: 100%;
+	}
+
 	.entryLabel {
 		justify-self: right;
+		white-space: nowrap;
 	}
 
 	.searchWrapper {
@@ -216,7 +223,6 @@ a {
 		position: relative;
 
 		.searchField {
-			border: var(--interactable-border);
 			box-sizing: border-box;
 			width: 100%;
 		}
@@ -242,94 +248,14 @@ a {
 	}
 
 	input {
-		border: var(--interactable-border);
+		border: 1px solid var(--text);
+		border-radius: 3px;
 		padding: 0.25em 0.5em;
 	}
 
 	.regexFooter {
 		display: flex;
-		flex-direction: column;
-		grid-area: footer;
-	}
-
-	/**
-	 * assign grid areas
-	 */
-
-	.searchLabel {
-		grid-area: search;
-	}
-
-	.replaceLabel {
-		grid-area: replace;
-	}
-
-	.previewLabel {
-		grid-area: preview;
-	}
-
-	.trackLabel {
-		grid-area: track;
-	}
-
-	.artistLabel {
-		grid-area: artist;
-	}
-
-	.albumLabel {
-		grid-area: album;
-	}
-
-	.albumArtistLabel {
-		grid-area: albumartist;
-	}
-
-	.trackSearch {
-		grid-area: tracksearch;
-	}
-
-	.artistSearch {
-		grid-area: artistsearch;
-	}
-
-	.albumSearch {
-		grid-area: albumsearch;
-	}
-
-	.albumArtistSearch {
-		grid-area: albumartistsearch;
-	}
-
-	.trackReplace {
-		grid-area: trackreplace;
-	}
-
-	.artistReplace {
-		grid-area: artistreplace;
-	}
-
-	.albumReplace {
-		grid-area: albumreplace;
-	}
-
-	.albumArtistReplace {
-		grid-area: albumartistreplace;
-	}
-
-	.trackPreview {
-		grid-area: trackpreview;
-	}
-
-	.artistPreview {
-		grid-area: artistpreview;
-	}
-
-	.albumPreview {
-		grid-area: albumpreview;
-	}
-
-	.albumArtistPreview {
-		grid-area: albumartistpreview;
+		width: 100%;
 	}
 }
 

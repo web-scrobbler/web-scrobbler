@@ -259,7 +259,7 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 											});
 										}}
 										onKeyDown={(event) => {
-											if (event.key !== 'enter') {
+											if (event.key !== 'Enter') {
 												return;
 											}
 											event.stopImmediatePropagation();
@@ -279,7 +279,7 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 										title={t('infoRegexTitle')}
 										onClick={() => setIsRegex(true)}
 										onKeyDown={(event) => {
-											if (event.key !== 'enter') {
+											if (event.key !== 'Enter') {
 												return;
 											}
 											event.stopImmediatePropagation();

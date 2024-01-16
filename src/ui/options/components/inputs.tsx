@@ -47,6 +47,35 @@ export function Checkbox(props: {
 }
 
 /**
+ * Handles clicks and keyboard inputs for {@link SummaryCheckbox}.
+ *
+ * @param e - input event that triggered checkbox change.
+ * @param id - id of checkbox element.
+ * @param onInput - input event to run for checkbox.
+ */
+function handleSummaryCheckboxInput(
+	event: Event & {
+		currentTarget: HTMLLabelElement;
+		target: Element;
+	},
+	id: string,
+	onInput: (
+		e: Event & {
+			currentTarget: HTMLInputElement;
+			target: Element;
+		},
+	) => void,
+) {
+	event.preventDefault();
+	const checkbox = document.getElementById(id) as HTMLInputElement;
+	checkbox.checked = !checkbox.checked;
+	onInput({
+		...event,
+		currentTarget: checkbox,
+	});
+}
+
+/**
  * Checkbox option component made for being inside detail summary element.
  * Safari does not behave well with just a typical old checkbox, so we have to do some working around that.
  */
@@ -70,15 +99,15 @@ export function SummaryCheckbox(props: {
 					onClick={(e) => {
 						// Safari doesn't like labeled checkboxes in detail summaries
 						// hacky but it works, hopefully it doesnt stop working
-						e.preventDefault();
-						const checkbox = document.getElementById(
-							props.id,
-						) as HTMLInputElement;
-						checkbox.checked = !checkbox.checked;
-						props.onInput({
-							...e,
-							currentTarget: checkbox,
-						});
+						handleSummaryCheckboxInput(e, props.id, props.onInput);
+					}}
+					onKeyUp={(e) => {
+						// keyboard navigation does not like checkbox being inside summary.
+						// handle this behavior ourselves.
+						if (e.key !== ' ') {
+							return;
+						}
+						handleSummaryCheckboxInput(e, props.id, props.onInput);
 					}}
 					title={t('menuEnableConnector', props.label)}
 				>
