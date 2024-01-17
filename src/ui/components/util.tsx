@@ -46,6 +46,7 @@ export function PopupAnchor(props: {
 		<a
 			href={props.href}
 			title={props.title}
+			aria-label={props.title}
 			class={props.class}
 			onClick={(e) => {
 				e.preventDefault();

@@ -258,6 +258,19 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 													albumArtist() || null,
 											});
 										}}
+										onKeyDown={(event) => {
+											if (event.key !== 'Enter') {
+												return;
+											}
+											event.stopImmediatePropagation();
+											saveEdit(props.tab, clonedSong(), {
+												artist: track(),
+												track: artist(),
+												album: album() || null,
+												albumArtist:
+													albumArtist() || null,
+											});
+										}}
 									>
 										<PublishedWithChangesOutlined />
 									</button>
@@ -265,6 +278,13 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 										class={styles.controlButton}
 										title={t('infoRegexTitle')}
 										onClick={() => setIsRegex(true)}
+										onKeyDown={(event) => {
+											if (event.key !== 'Enter') {
+												return;
+											}
+											event.stopImmediatePropagation();
+											setIsRegex(true);
+										}}
 									>
 										<CodeOutlined />
 									</button>
