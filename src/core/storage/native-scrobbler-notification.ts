@@ -28,11 +28,8 @@ export default class NativeScrobblerNotification {
 	 * @returns true if notification has not been given for connector; false otherwise
 	 */
 	public async shouldNotifyAboutNativeScrobbler(
-		id: string | undefined | null,
+		id: string,
 	): Promise<boolean> {
-		if (!id) {
-			return false;
-		}
 		const data = await this.storage.get();
 		if (!data) {
 			return true;
