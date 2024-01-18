@@ -3,6 +3,7 @@ import { test } from '@/util/url-match';
 
 import { getAllPatterns } from '@/core/storage/custom-patterns';
 import { sendBackgroundMessage } from './communication';
+import { connectorRules } from '@/core/connectors-dynamic';
 
 /**
  * Calls getConnector from background script.
@@ -100,15 +101,3 @@ export function getSortedConnectors(): ConnectorMeta[] {
 		return a.label.localeCompare(b.label);
 	});
 }
-
-const metaHasContentRule = (name: string, content: string) => () =>
-	Boolean(
-		document.head.querySelector(
-			`meta[name="${name}"][content="${content}"]`,
-		),
-	);
-
-const connectorRules = {
-	funkwhale: metaHasContentRule('generator', 'Funkwhale'),
-	bandcamp: metaHasContentRule('generator', 'Bandcamp'),
-};
