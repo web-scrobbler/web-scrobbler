@@ -4,7 +4,7 @@
 
 export {};
 
-const playerBar = '.player-controls__container'
+const playerBar = '.player-controls__container';
 
 const artistSelector = `${playerBar} .is-one-line.is-truncate.subtitle`;
 
@@ -25,4 +25,3 @@ Connector.currentTimeSelector = `${playerBar} .time.left`;
 Connector.durationSelector = `${playerBar} .time.right`;
 
 Connector.pauseButtonSelector = `${playerBar} .ic-pause-circle-outline`;
-

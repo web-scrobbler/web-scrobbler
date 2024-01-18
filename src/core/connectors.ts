@@ -2347,5 +2347,5 @@ export default <ConnectorMeta[]>[
 		matches: ['*://zingmp3.vn/*'],
 		js: 'zingmp3.js',
 		id: 'zingmp3',
-	}
+	},
 ];
