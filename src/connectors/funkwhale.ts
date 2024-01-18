@@ -39,9 +39,9 @@ function setupNewPlayer() {
 
 	Connector.trackSelector = '.content .track';
 
-	Connector.artistSelector = '.meta > a:first';
+	Connector.artistSelector = '.meta > a:first-child';
 
-	Connector.albumSelector = '.meta > a:last';
+	Connector.albumSelector = '.meta > a:last-child';
 
 	Connector.currentTimeSelector = '.timer .start';
 

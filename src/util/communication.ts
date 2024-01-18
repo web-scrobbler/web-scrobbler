@@ -142,6 +142,10 @@ interface BackgroundCommunications {
 		payload: boolean;
 		response: void;
 	};
+	getConnector: {
+		payload: undefined;
+		response: ConnectorMeta | null;
+	};
 	getConnectorDetails: {
 		payload: undefined;
 		response: {

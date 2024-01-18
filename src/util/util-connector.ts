@@ -2,6 +2,53 @@ import connectors, { ConnectorMeta } from '@/core/connectors';
 import { test } from '@/util/url-match';
 
 import { getAllPatterns } from '@/core/storage/custom-patterns';
+import { sendBackgroundMessage } from './communication';
+
+/**
+ * Calls getConnector from background script.
+ * @param tabId - tab ID of content script to get connector for.
+ * @returns connector corresponding to the tab provided.
+ */
+export async function getConnectorFromBackgroundScript(
+	tabId: number,
+): Promise<ConnectorMeta | null> {
+	return sendBackgroundMessage(tabId, {
+		type: 'getConnector',
+		payload: undefined,
+	});
+}
+
+/**
+ * Check for a connector that fits the current page.
+ * Only usable from content script.
+ *
+ * @returns connector to be used on current page.
+ */
+export async function getConnectorFromContentScript(): Promise<ConnectorMeta | null> {
+	const connector = await getConnectorByUrl(window.location.href);
+	if (connector) {
+		return connector;
+	}
+	const connectorFromDom = getConnectorFromDom();
+	if (connectorFromDom) {
+		return connectorFromDom;
+	}
+	return null;
+}
+
+/**
+ * Get the connector corresponding to DOM content, if there is one.
+ * Only usable from content script.
+ * @returns connector corresponding to current DOM content
+ */
+export function getConnectorFromDom(): ConnectorMeta | null {
+	for (const [id, rule] of Object.entries(connectorRules)) {
+		if (rule()) {
+			return getConnectorById(id);
+		}
+	}
+	return null;
+}
 
 /**
  * Get the connector corresponding to a url, if there is one
@@ -53,3 +100,15 @@ export function getSortedConnectors(): ConnectorMeta[] {
 		return a.label.localeCompare(b.label);
 	});
 }
+
+const metaHasContentRule = (name: string, content: string) => () =>
+	Boolean(
+		document.head.querySelector(
+			`meta[name="${name}"][content="${content}"]`,
+		),
+	);
+
+const connectorRules = {
+	funkwhale: metaHasContentRule('generator', 'Funkwhale'),
+	bandcamp: metaHasContentRule('generator', 'Bandcamp'),
+};
