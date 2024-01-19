@@ -16,6 +16,7 @@ export const USE_UNRECOGNIZED_SONG_NOTIFICATIONS =
 	'useUnrecognizedSongNotifications';
 export const USE_INFOBOX = 'showInfobox';
 export const SCROBBLE_PODCASTS = 'scrobblePodcasts';
+export const AUTO_TOGGLE_LOVE = 'autoToggleLove';
 export const FORCE_RECOGNIZE = 'forceRecognize';
 export const SCROBBLE_RECOGNIZED_TRACKS = 'scrobbleRecognizedTracks';
 export const SCROBBLE_EDITED_TRACKS_ONLY = 'scrobbleEditedTracksOnly';
@@ -75,6 +76,11 @@ export interface GlobalOptions {
 	 * Allow debug messages to be logged to the browser console.
 	 */
 	[DEBUG_LOGGING_ENABLED]: boolean;
+
+	/**
+	 * Automatically toggle love on scrobbling service when doing so on website.
+	 */
+	[AUTO_TOGGLE_LOVE]: boolean;
 }
 
 /**
@@ -90,6 +96,7 @@ const DEFAULT_OPTIONS: GlobalOptions = {
 	[DEBUG_LOGGING_ENABLED]: false,
 	[SCROBBLE_PERCENT]: DEFAULT_SCROBBLE_PERCENT,
 	[USE_INFOBOX]: true,
+	[AUTO_TOGGLE_LOVE]: true,
 	[DISABLED_CONNECTORS]: {},
 };
 
@@ -101,6 +108,7 @@ const OVERRIDE_CONTENT = {
 	[USE_NOTIFICATIONS]: true,
 	[USE_UNRECOGNIZED_SONG_NOTIFICATIONS]: false,
 	[USE_INFOBOX]: true,
+	[AUTO_TOGGLE_LOVE]: true,
 };
 
 export interface ConnectorOptions {
@@ -129,6 +137,7 @@ export interface ConnectorsOverrideOptionValues {
 	[USE_NOTIFICATIONS]?: boolean;
 	[USE_INFOBOX]?: boolean;
 	[SCROBBLE_PODCASTS]?: boolean;
+	[AUTO_TOGGLE_LOVE]?: boolean;
 	[USE_UNRECOGNIZED_SONG_NOTIFICATIONS]?: boolean;
 	[SCROBBLE_RECOGNIZED_TRACKS]?: boolean;
 	[SCROBBLE_EDITED_TRACKS_ONLY]?: boolean;
