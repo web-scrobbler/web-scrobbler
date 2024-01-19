@@ -19,12 +19,12 @@ const state: State = {
 };
 
 for (const prop in state) {
-  if (prop.startsWith('_')) {
-    continue;
-  }
-  Object.defineProperty(Connector, prop, {
-    value: () => state[prop as keyof State],
-  });
+	if (prop.startsWith('_')) {
+		continue;
+	}
+	Object.defineProperty(Connector, prop, {
+		value: () => state[prop as keyof State],
+	});
 }
 
 Connector.onScriptEvent = (event) => {
