@@ -2192,10 +2192,10 @@ export default <ConnectorMeta[]>[
 		id: 'technobase.fm',
 	},
 	{
-		label: 'Telegram',
+		label: 'Telegram A',
 		matches: ['*://web.telegram.org/a/*'],
-		js: 'telegram.js',
-		id: 'telegram',
+		js: 'telegram-a.js',
+		id: 'telegram-a',
 	},
 	{
 		label: 'Telegram K',
