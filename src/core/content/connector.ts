@@ -646,16 +646,22 @@ export default class BaseConnector {
 	/**
 	 * Callback set by the controller to listen on state changes of this connector.
 	 */
-	private _isLovedCallback: ((isLoved: boolean | null) => void) | null = null;
+	private _isLovedCallback:
+		| ((isLoved: boolean | null) => Promise<void>)
+		| null = null;
 
 	/**
 	 * Callback set by the controller to listen on state changes of this connector.
 	 */
-	public get isLovedCallback(): ((isLoved: boolean | null) => void) | null {
+	public get isLovedCallback():
+		| ((isLoved: boolean | null) => Promise<void>)
+		| null {
 		return this._isLovedCallback;
 	}
 
-	public set isLovedCallback(callback: (isLoved: boolean | null) => void) {
+	public set isLovedCallback(
+		callback: (isLoved: boolean | null) => Promise<void>,
+	) {
 		callback(this.isLoved() ?? null);
 		this._isLovedCallback = callback;
 	}
