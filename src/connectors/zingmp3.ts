@@ -1,22 +1,14 @@
-/**
- * Connector for Zing MP3 - https://zingmp3.vn
- */
-
 export {};
 
 const playerBar = '.player-controls__container';
-
-const artistSelector = `${playerBar} .is-one-line.is-truncate.subtitle`;
-
-const tractSelector = `${playerBar} .song-title-item`;
 
 Connector.useMediaSessionApi();
 
 Connector.playerSelector = playerBar;
 
-Connector.artistSelector = artistSelector;
+Connector.artistSelector = `${playerBar} .is-one-line.is-truncate.subtitle`;
 
-Connector.trackSelector = tractSelector;
+Connector.trackSelector = `${playerBar} .song-title-item`;
 
 Connector.trackArtSelector = '.thumbnail-wrapper .thumbnail .image';
 
