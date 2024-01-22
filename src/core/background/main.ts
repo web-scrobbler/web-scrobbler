@@ -32,6 +32,7 @@ import { CloneableSong } from '@/core/object/song';
 import {
 	clearNowPlaying,
 	showAuthNotification,
+	showLovedNotification,
 	showNowPlaying,
 	showSongNotRecognized,
 } from '@/util/notifications';
@@ -411,10 +412,9 @@ setupBackgroundListeners(
 	backgroundListener({
 		type: 'toggleLove',
 		fn: (payload, sender) => {
-			return toggleLove(
-				new ClonedSong(payload.song, sender.tab?.id ?? -1),
-				payload.isLoved,
-			);
+			const song = new ClonedSong(payload.song, sender.tab?.id ?? -1);
+			showLovedNotification(song, payload.isLoved);
+			return toggleLove(song, payload.isLoved);
 		},
 	}),
 

@@ -407,6 +407,42 @@ export async function showAuthNotification(): Promise<void> {
 }
 
 /**
+ * Show 'Loved' notification when song is love toggled by a custom hotkey.
+ * @param song - Copy of song isntance
+ * @param isLoved - whether a song is loved or not
+ */
+export async function showLovedNotification(
+	song: BaseSong,
+	isLoved: boolean,
+): Promise<void> {
+	// Don't show notification if extension popup is open
+	const windows = browser.extension.getViews();
+
+	for (const extensionWindow of windows) {
+		if (extensionWindow.location.href.includes('popup')) {
+			return;
+		}
+	}
+
+	// TODO: i18n
+	// TODO: firefox/chrome/edge/safari specific formatting?
+	const title = isLoved ? 'Loved' : 'Unloved';
+	const iconUrl = song.getTrackArt() || defaultTrackArtUrl;
+
+	const options = {
+		iconUrl,
+		title,
+		message: `${song.getTrack()}\n${song.getArtist()}`,
+	};
+	try {
+		await showNotification(options, null);
+	} catch (err) {
+		debugLog('Unable to show loved notification: ', 'warn');
+		debugLog(err, 'warn');
+	}
+}
+
+/**
  * Completely remove notification.
  * Do nothing if ID does not match any existing notification.
  *
