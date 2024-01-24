@@ -204,7 +204,8 @@ Connector.isScrobblingAllowed = () => {
 		if (!tags.includes('音乐')) {
 			return false;
 		}
-	} else if (useScrobbleTagFilter) {
+	}
+	if (useScrobbleTagFilter) {
 		if (tags.some((tag) => isIncludeElems(tag, tagFilterKeyWords))) {
 			return false;
 		}
