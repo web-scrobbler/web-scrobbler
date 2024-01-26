@@ -1,3 +1,5 @@
+@use '../components/util';
+
 body {
 	background-color: var(--background);
 	color: var(--text);
@@ -95,7 +97,7 @@ a {
 	position: relative;
 	width: 80vw;
 
-	@supports (-webkit-touch-callout: none) {
+	@supports #{util.$mobile-supports} {
 		border-radius: 0;
 		// stylelint-disable-next-line unit-no-unknown
 		height: 100dvh;
@@ -127,7 +129,7 @@ a {
 		right: 0;
 		top: 0;
 
-		@supports (-webkit-touch-callout: none) {
+		@supports #{util.$mobile-supports} {
 			padding: 0.75em 1em 0.5em;
 		}
 

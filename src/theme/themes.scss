@@ -19,6 +19,7 @@ $themes: (
 		indeterminate: #8e8e8e,
 		site-image: url('../img/main/site-light.jpg'),
 		invert-filter: invert(0%),
+		interactable-border-color: transparent,
 		interactable-border: none,
 	),
 	dark: (
@@ -41,6 +42,7 @@ $themes: (
 		indeterminate: #8e8e8e,
 		site-image: url('../img/main/site-dark.jpg'),
 		invert-filter: invert(100%),
+		interactable-border-color: transparent,
 		interactable-border: none,
 	),
 	high-contrast-dark: (
@@ -63,7 +65,8 @@ $themes: (
 		indeterminate: #8e8e8e,
 		site-image: black,
 		invert-filter: invert(100%),
-		interactable-border: 1px solid yellow,
+		interactable-border-color: yellow,
+		interactable-border: 1px solid var(--interactable-border-color),
 	),
 	high-contrast-light: (
 		always-light: black,
@@ -85,7 +88,8 @@ $themes: (
 		indeterminate: #8e8e8e,
 		site-image: seashell,
 		invert-filter: invert(0%),
-		interactable-border: 1px solid black,
+		interactable-border-color: black,
+		interactable-border: 1px solid var(--interactable-border-color),
 	),
 );
 

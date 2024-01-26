@@ -779,6 +779,10 @@
         "message": "Replace",
         "description": "Label of regex edit replace input"
     },
+    "infoDeleteLabel": {
+        "message": "Delete",
+        "description": "Label of regex edit delete button"
+    },
     "infoPreviewLabel": {
         "message": "Preview",
         "description": "Label of regex edit preview output"
@@ -798,6 +802,18 @@
     "infoAlbumArtistLabel": {
         "message": "Album artist",
         "description": "Label of album artist input row"
+    },
+    "infoUseRegex": {
+        "message": "Use regex",
+        "description": "Title of checkbox to toggle bulk edit flag"
+    },
+    "infoMatchCase": {
+        "message": "Match case",
+        "description": "Title of checkbox to toggle bulk edit flag"
+    },
+    "infoMatchWholeTag": {
+        "message": "Match entire tag",
+        "description": "Title of checkbox to toggle bulk edit flag"
     },
     "infoViewArtistPage": {
         "message": "View artist page: $1",
