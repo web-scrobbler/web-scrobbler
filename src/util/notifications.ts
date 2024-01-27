@@ -415,12 +415,10 @@ export async function showLovedNotification(
 	song: BaseSong,
 	isLoved: boolean,
 ): Promise<void> {
-	// TODO: i18n
-	// TODO: firefox/chrome/edge/safari specific formatting?
 	const iconUrl = song.getTrackArt() || defaultTrackArtUrl;
-	let message = `${song.getTrack()}\n${song.getArtist()}`;
+	const message = `${song.getTrack()}\n${song.getArtist()}`;
 
-	let title = isLoved
+	const title = isLoved
 		? browser.i18n.getMessage('pageActionLoved', message)
 		: browser.i18n.getMessage('pageActionUnloved', message);
 	const options = {

@@ -257,8 +257,8 @@ export default class Controller {
 			}),
 			contentListener({
 				type: 'toggleLove',
-				fn: ({ isLoved }) => {
-					this.toggleLove(isLoved);
+				fn: ({ isLoved, isCommand }) => {
+					this.toggleLove(isLoved, isCommand);
 				},
 			}),
 			contentListener({
@@ -575,13 +575,13 @@ export default class Controller {
 	/**
 	 * Send request to love or unlove current song.
 	 * @param isLoved - Flag indicated song is loved
+	 * @param isCommand - Flag indicating hotkey command was used
 	 */
-	async toggleLove(isLoved: boolean): Promise<void> {
+	async toggleLove(isLoved: boolean, isCommand: boolean): Promise<void> {
 		this.assertSongIsPlaying();
 		if (!assertSongNotNull(this.currentSong)) {
 			return;
 		}
-
 		if (!this.currentSong.isValid()) {
 			throw new Error('No valid song is now playing');
 		}
@@ -595,6 +595,7 @@ export default class Controller {
 				payload: {
 					song: this.currentSong.getCloneableData(),
 					isLoved,
+					isCommand,
 				},
 			});
 		} catch (err) {

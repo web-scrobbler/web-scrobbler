@@ -486,6 +486,7 @@ function toggleLove(
 		type: 'toggleLove',
 		payload: {
 			isLoved: !song()?.metadata.userloved,
+			isCommand: false,
 		},
 	});
 }

@@ -87,10 +87,10 @@ async function commandHandler(command: string) {
 			}
 			break;
 		case 'love-song':
-			setLoveStatus(tab.tabId, true);
+			setLoveStatus(tab.tabId, true, true);
 			break;
 		case 'unlove-song':
-			setLoveStatus(tab.tabId, false);
+			setLoveStatus(tab.tabId, false, true);
 			break;
 	}
 }
@@ -100,13 +100,15 @@ async function commandHandler(command: string) {
  *
  * @param tabId	- Tab ID of the tab to update
  * @param isLoved - Whether the song is loved
+ * @param isCommand - Whether the song is (un)loved by hotkey command
  *
  */
-function setLoveStatus(tabId: number, isLoved: boolean) {
+function setLoveStatus(tabId: number, isLoved: boolean, isCommand: boolean) {
 	sendBackgroundMessage(tabId ?? -1, {
 		type: 'toggleLove',
 		payload: {
 			isLoved,
+			isCommand: true,
 		},
 	});
 }
@@ -413,7 +415,9 @@ setupBackgroundListeners(
 		type: 'toggleLove',
 		fn: (payload, sender) => {
 			const song = new ClonedSong(payload.song, sender.tab?.id ?? -1);
-			showLovedNotification(song, payload.isLoved);
+			if (payload.isCommand) {
+				showLovedNotification(song, payload.isLoved);
+			}
 			return toggleLove(song, payload.isLoved);
 		},
 	}),
