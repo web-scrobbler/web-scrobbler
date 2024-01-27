@@ -26,6 +26,7 @@ jobs:
           npm run build chrome
 
       - name: Upload the extension as an artifact
+        if: github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v3
         with:
           name: web-scrobbler-chrome
@@ -56,6 +57,7 @@ jobs:
           npm run build firefox
 
       - name: Upload the extension as an artifact
+        if: github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v3
         with:
           name: web-scrobbler-firefox
@@ -82,6 +84,7 @@ jobs:
           npm run build safari
 
       - name: Upload the extension as an artifact
+        if: github.ref == 'refs/heads/main'
         uses: actions/upload-artifact@v3
         with:
           name: web-scrobbler-safari
