@@ -36,7 +36,11 @@ export default function BlockedChannels(props: {
 		<>
 			<h3>{t('optionsBlockedSources')}</h3>
 			<p>{t('optionsBlockedSourcesDesc')}</p>
-			<div class={styles.buttonContainer}>
+			<div
+				class={styles.buttonContainer}
+				role="group"
+				aria-label={t('optionsBlockedSources')}
+			>
 				<ViewBlocklist
 					setActiveModal={props.setActiveModal}
 					modal={props.modal}
@@ -120,6 +124,7 @@ function ChannelInfo(props: {
 						};
 					});
 				}}
+				title={t('optionsDelete', props.channelLabel)}
 			>
 				<DeleteOutlined />
 			</button>

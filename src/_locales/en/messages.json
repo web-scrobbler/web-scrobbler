@@ -307,6 +307,22 @@
         "message": "Import",
         "description": "Button to import edited tracks"
     },
+    "optionsDelete": {
+        "message": "Delete $1",
+        "desciption": "Option label"
+    },
+    "optionsEnabled": {
+        "message": "Enabled",
+        "description": "Option label"
+    },
+    "optionsDisabled": {
+        "message": "Disabled",
+        "description": "Option label"
+    },
+    "optionsIndeterminate": {
+        "message": "Same as global option",
+        "description": "Option label"
+    },
     "optionsConnectors": {
         "message": "Connectors",
         "description": "'Connectors' section"
@@ -909,6 +925,14 @@
     },
     "notificationConnectAccountsText": {
         "message": "Click the notification to connect your accounts.",
+        "description": "Notification text"
+    },
+    "notificationNativeScrobbler": {
+      "message": "$1 has a built-in scrobbler!",
+      "description": "Notification title, $1 denotes the name of the website."
+    },
+    "notificationNativeScrobblerText": {
+        "message": "Make sure to turn off either Web Scrobbler or the built-in scrobbler!",
         "description": "Notification text"
     },
     "notificationAuthError": {

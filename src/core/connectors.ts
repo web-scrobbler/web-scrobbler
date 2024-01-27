@@ -9,6 +9,11 @@ export interface ConnectorMeta {
 	 * true if connector uses blocklist. Connector must implement {@link Connector.getChannelId}
 	 */
 	usesBlocklist?: true;
+
+	/**
+	 * true if website has its own scrobbling system the user needs to be aware of.
+	 */
+	hasNativeScrobbler?: true;
 }
 
 export default <ConnectorMeta[]>[
@@ -125,6 +130,7 @@ export default <ConnectorMeta[]>[
 		matches: ['*://open.spotify.com/*'],
 		js: 'spotify.js',
 		id: 'spotify',
+		hasNativeScrobbler: true,
 	},
 	{
 		label: 'plug.dj',
@@ -2341,5 +2347,11 @@ export default <ConnectorMeta[]>[
 		matches: ['*://jam.coop/*'],
 		js: 'jam.coop.js',
 		id: 'jam.coop',
+	},
+	{
+		label: 'Zing MP3',
+		matches: ['*://zingmp3.vn/*'],
+		js: 'zingmp3.js',
+		id: 'zingmp3',
 	},
 ];

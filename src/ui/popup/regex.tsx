@@ -16,6 +16,7 @@ import {
 	JSXElement,
 	Match,
 	Resource,
+	Setter,
 	Show,
 	Switch,
 	createEffect,
@@ -77,6 +78,15 @@ export default function Regex(props: {
 	const [blockedTypes] = createResource(() =>
 		blockedTags.getBlockedTypes(song()),
 	);
+	const [maxCellWidth, setMaxCellWidth] = createSignal(0);
+	const [regexContainer, setRegexContainer] = createSignal<HTMLDivElement>();
+	createEffect(() => {
+		regexContainer()?.style.setProperty(
+			'--max-cell-width',
+			`${maxCellWidth()}px`,
+		);
+	});
+
 	return (
 		<div
 			class={styles.regexContainer}
@@ -85,15 +95,26 @@ export default function Regex(props: {
 					saveEdit(props.tab);
 				}
 			}}
+			ref={setRegexContainer}
 		>
 			<Show when={!isIos()}>
-				<span class={styles.searchLabel}>{t('infoSearchLabel')}</span>
-				<span class={styles.replaceLabel}>{t('infoReplaceLabel')}</span>
-				<span class={styles.previewLabel}>{t('infoPreviewLabel')}</span>
+				<div class={styles.entryWrapper}>
+					<span />
+					<span class={styles.searchLabel}>
+						{t('infoSearchLabel')}
+					</span>
+					<span class={styles.replaceLabel}>
+						{t('infoReplaceLabel')}
+					</span>
+					<span class={styles.previewLabel}>
+						{t('infoPreviewLabel')}
+					</span>
+				</div>
 			</Show>
 			<Entry
 				blockedTypes={blockedTypes}
 				tabId={props.tab()?.tabId}
+				setMaxCellWidth={setMaxCellWidth}
 				clonedSong={props.clonedSong}
 				type="track"
 				UnblockIcon={() => <MusicNote />}
@@ -102,6 +123,7 @@ export default function Regex(props: {
 			<Entry
 				blockedTypes={blockedTypes}
 				tabId={props.tab()?.tabId}
+				setMaxCellWidth={setMaxCellWidth}
 				clonedSong={props.clonedSong}
 				type="artist"
 				UnblockIcon={() => <Person />}
@@ -110,6 +132,7 @@ export default function Regex(props: {
 			<Entry
 				blockedTypes={blockedTypes}
 				tabId={props.tab()?.tabId}
+				setMaxCellWidth={setMaxCellWidth}
 				clonedSong={props.clonedSong}
 				type="album"
 				UnblockIcon={() => <Album />}
@@ -118,6 +141,7 @@ export default function Regex(props: {
 			<Entry
 				blockedTypes={blockedTypes}
 				tabId={props.tab()?.tabId}
+				setMaxCellWidth={setMaxCellWidth}
 				clonedSong={props.clonedSong}
 				type="albumArtist"
 				UnblockIcon={() => <Person />}
@@ -146,6 +170,7 @@ function Entry(props: {
 	UnblockIcon: () => JSXElement;
 	BlockIcon: () => JSXElement;
 	type: FieldType;
+	setMaxCellWidth: Setter<number>;
 }) {
 	onMount(() => {
 		const type = props.type;
@@ -166,6 +191,12 @@ function Entry(props: {
 		);
 	});
 
+	const [pcLabel, setPcLabel] = createSignal<HTMLSpanElement>();
+	createEffect(() => {
+		const curWidth = pcLabel()?.clientWidth ?? 0;
+		props.setMaxCellWidth((prevMax) => Math.max(prevMax, curWidth));
+	});
+
 	return (
 		<EntryWrapper
 			blockedTypes={props.blockedTypes}
@@ -176,11 +207,7 @@ function Entry(props: {
 			type={props.type}
 		>
 			<Show when={!isIos()}>
-				<span
-					class={`${styles[`${props.type}Label`]} ${
-						styles.entryLabel
-					}`}
-				>
+				<span class={styles.entryLabel} ref={setPcLabel}>
 					{t(`info${pascalCaseField(props.type)}Label`)}
 				</span>
 			</Show>
@@ -285,7 +312,18 @@ function EntryWrapper(props: {
 	children: JSXElement;
 }) {
 	return (
-		<Show when={isIos()} fallback={props.children}>
+		<Show
+			when={isIos()}
+			fallback={
+				<div
+					class={styles.entryWrapper}
+					role="group"
+					aria-label={t(`info${pascalCaseField(props.type)}Label`)}
+				>
+					{props.children}
+				</div>
+			}
+		>
 			<fieldset class={styles.entryWrapper}>
 				<legend class={styles.entryWrapperLegend}>
 					{t(`info${pascalCaseField(props.type)}Label`)}
@@ -312,7 +350,7 @@ function SearchField(props: {
 	clonedSong: ClonedSong | undefined;
 }) {
 	return (
-		<div class={`${styles[`${props.type}Search`]} ${styles.searchWrapper}`}>
+		<div class={styles.searchWrapper}>
 			<Show when={isIos()}>
 				<label
 					for={`${props.type}SearchInput`}
@@ -331,6 +369,7 @@ function SearchField(props: {
 						[props.type]: e.currentTarget.value || null,
 					}))
 				}
+				title={t('infoSearchLabel')}
 			/>
 			<Switch
 				fallback={
@@ -374,13 +413,13 @@ function ReplaceField(props: { type: FieldType }) {
 			<input
 				id={`${props.type}ReplaceInput`}
 				type="text"
-				class={styles[`${props.type}Replace`]}
 				onInput={(e) =>
 					setReplaces((prev) => ({
 						...prev,
 						[props.type]: e.currentTarget.value || null,
 					}))
 				}
+				title={t('infoReplaceLabel')}
 			/>
 		</>
 	);
@@ -402,7 +441,7 @@ function PreviewOutput(props: { type: FieldType }) {
 			</Show>
 			<output
 				id={`${props.type}PreviewOutput`}
-				class={styles[`${props.type}Preview`]}
+				title={t('infoPreviewLabel')}
 			>
 				{previews()[props.type]}
 			</output>

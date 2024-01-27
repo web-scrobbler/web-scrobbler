@@ -28,8 +28,13 @@ export function isIos() {
  *
  * @param url - The url to open in a new tab.
  */
-function openInNewTabFromPopup(url: string) {
-	browser.tabs.create({ url });
+async function openInNewTabFromPopup(url: string) {
+	try {
+		const tab = await browser.tabs.query({ active: true });
+		browser.tabs.create({ url, index: tab[0].index + 1 });
+	} catch {
+		browser.tabs.create({ url });
+	}
 }
 
 /**
@@ -46,10 +51,11 @@ export function PopupAnchor(props: {
 		<a
 			href={props.href}
 			title={props.title}
+			aria-label={props.title}
 			class={props.class}
 			onClick={(e) => {
 				e.preventDefault();
-				openInNewTabFromPopup(props.href);
+				void openInNewTabFromPopup(props.href);
 			}}
 		>
 			{props.children}

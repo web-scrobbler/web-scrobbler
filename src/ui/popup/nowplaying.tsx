@@ -322,7 +322,7 @@ function TrackMetadata(props: { song: Accessor<ClonedSong | null> }) {
 				<LastFMIcon />
 				{props.song()?.metadata.userPlayCount || 0}
 			</PopupLink>
-			<span class={styles.label}>{props.song()?.connectorLabel}</span>
+			<span class={styles.label}>{props.song()?.connector.label}</span>
 		</div>
 	);
 }

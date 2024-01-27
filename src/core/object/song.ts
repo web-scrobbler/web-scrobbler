@@ -60,8 +60,7 @@ export interface CloneableSong {
 	noRegex: ProcessedSongData;
 	flags: Flags;
 	metadata: Metadata;
-	connectorLabel: string;
-	connectorId: string;
+	connector: ConnectorMeta;
 }
 
 export abstract class BaseSong {
@@ -70,8 +69,7 @@ export abstract class BaseSong {
 	public abstract noRegex: ProcessedSongData;
 	public abstract flags: Flags;
 	public abstract metadata: Metadata;
-	public abstract connectorLabel: string;
-	public abstract connectorId: string;
+	public abstract connector: ConnectorMeta;
 
 	/**
 	 * Get song artist.
@@ -228,8 +226,7 @@ export abstract class BaseSong {
 			processed: this.processed,
 			metadata: this.metadata,
 			flags: this.flags,
-			connectorLabel: this.connectorLabel,
-			connectorId: this.connectorId,
+			connector: this.connector,
 		};
 	}
 
@@ -305,8 +302,7 @@ export default class Song extends BaseSong {
 	public noRegex: ProcessedSongData;
 	public flags: Flags;
 	public metadata: Metadata;
-	public connectorLabel: string;
-	public connectorId: string;
+	public connector: ConnectorMeta;
 	/**
 	 * @param parsedData - Current state received from connector
 	 * @param connector - Connector match object
@@ -369,8 +365,7 @@ export default class Song extends BaseSong {
 			/* Filled in `initMetadata` method */
 		};
 
-		this.connectorLabel = connector.label;
-		this.connectorId = connector.id;
+		this.connector = connector;
 
 		this.initSongData();
 	}
@@ -458,7 +453,7 @@ export default class Song extends BaseSong {
 			 */
 			startTimestamp: Math.floor(Date.now() / 1000),
 
-			label: this.connectorLabel,
+			label: this.connector.label,
 		};
 	}
 
