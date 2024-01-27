@@ -407,7 +407,7 @@ export async function showAuthNotification(): Promise<void> {
 }
 
 /**
- * Show 'Loved' notification when song is love toggled by a custom hotkey.
+ * Show 'Loved'/'Unloved' notification when song is love/unlove toggled by a custom hotkey.
  * @param song - Copy of song isntance
  * @param isLoved - whether a song is loved or not
  */
@@ -415,24 +415,18 @@ export async function showLovedNotification(
 	song: BaseSong,
 	isLoved: boolean,
 ): Promise<void> {
-	// Don't show notification if extension popup is open
-	const windows = browser.extension.getViews();
-
-	for (const extensionWindow of windows) {
-		if (extensionWindow.location.href.includes('popup')) {
-			return;
-		}
-	}
-
 	// TODO: i18n
 	// TODO: firefox/chrome/edge/safari specific formatting?
-	const title = isLoved ? 'Loved' : 'Unloved';
 	const iconUrl = song.getTrackArt() || defaultTrackArtUrl;
+	let message = `${song.getTrack()}\n${song.getArtist()}`;
 
+	let title = isLoved
+		? browser.i18n.getMessage('pageActionLoved', message)
+		: browser.i18n.getMessage('pageActionUnloved', message);
 	const options = {
 		iconUrl,
 		title,
-		message: `${song.getTrack()}\n${song.getArtist()}`,
+		message,
 	};
 	try {
 		await showNotification(options, null);
