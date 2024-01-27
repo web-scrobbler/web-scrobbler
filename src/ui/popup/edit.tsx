@@ -18,7 +18,7 @@ import browser from 'webextension-polyfill';
 import ClonedSong from '@/core/object/cloned-song';
 import {
 	CheckOutlined,
-	CodeOutlined,
+	EditNoteOutlined,
 	PublishedWithChangesOutlined,
 } from '@/ui/components/icons';
 import { sendBackgroundMessage } from '@/util/communication';
@@ -286,7 +286,7 @@ export default function Edit(props: { tab: Resource<ManagerTab> }) {
 											setIsRegex(true);
 										}}
 									>
-										<CodeOutlined />
+										<EditNoteOutlined />
 									</button>
 								</div>
 							</Show>
@@ -340,7 +340,7 @@ function EditContextMenu(props: {
 			},
 			{
 				namei18n: 'infoRegexTitleShort',
-				icon: CodeOutlined,
+				icon: EditNoteOutlined,
 				action: () => props.setIsRegex(true),
 			},
 		];
