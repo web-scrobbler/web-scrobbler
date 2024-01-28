@@ -1,8 +1,8 @@
-import { JSXElement, createMemo } from 'solid-js';
+import { JSXElement, Show, createMemo } from 'solid-js';
 import styles from './icons.module.scss';
 
 function createMaterialIcon(Path: () => JSXElement) {
-	const Component = (props: { class?: string }) => {
+	const Component = (props: { class?: string; title?: string }) => {
 		const className = createMemo(() =>
 			props.class
 				? `${styles.materialIcon} ${props.class}`
@@ -19,6 +19,9 @@ function createMaterialIcon(Path: () => JSXElement) {
 				{...props}
 				class={className()}
 			>
+				<Show when={props.title}>
+					<title>{props.title}</title>
+				</Show>
 				<Path />
 			</svg>
 		);
