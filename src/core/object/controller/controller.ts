@@ -605,7 +605,7 @@ export default class Controller {
 		}
 
 		/**
-		 * song already had fetched a definitive loved state,
+		 * Song already had fetched a definitive loved state,
 		 * and this one is different.
 		 * This means user has actively changed it.
 		 * Change if option suggests so.
