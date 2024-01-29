@@ -35,6 +35,7 @@ export type Flags =
 			isSkipped: boolean;
 			isReplaying: boolean;
 			hasBlockedTag: boolean;
+			isLovedInService: boolean | null;
 	  }
 	| Record<string, never>;
 
@@ -438,6 +439,14 @@ export default class Song extends BaseSong {
 			 * Flag means song has blocked tag
 			 */
 			hasBlockedTag: false,
+
+			/**
+			 * Flag means song has been liked/loved in the scrobbling service.
+			 * Is null until value has been read from the service page.
+			 * This is because we do not want to do anything when first setting from page,
+			 * but we do want to do something if the value changes afterwards.
+			 */
+			isLovedInService: null,
 		};
 	}
 
