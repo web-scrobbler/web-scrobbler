@@ -568,6 +568,60 @@ export default class Controller {
 	}
 
 	/**
+	 * React on love/unlove.
+	 * @param isLoved - Whether song is now liked or unliked
+	 */
+	async onLoveChanged(isLoved: boolean | null): Promise<void> {
+		if (!this.currentSong) {
+			return;
+		}
+
+		/**
+		 * If there has not been definitive state before,
+		 * just change state without sending anything to service.
+		 * We dont want the extension to randomly unlove songs
+		 * on scrobbling service because user didnt do it on
+		 * streaming service.
+		 */
+		if (this.currentSong.flags.isLovedInService === null) {
+			this.currentSong.flags.isLovedInService = isLoved;
+			return;
+		}
+
+		/**
+		 * If suddenly we are not receiving definitive state anymore
+		 * be safe and reset the isloved state
+		 */
+		if (isLoved === null) {
+			this.currentSong.flags.isLovedInService = null;
+			return;
+		}
+
+		/**
+		 * State did not change, don't do anything.
+		 */
+		if (this.currentSong.flags.isLovedInService === isLoved) {
+			return;
+		}
+
+		/**
+		 * Song already had fetched a definitive loved state,
+		 * and this one is different.
+		 * This means user has actively changed it.
+		 * Change if option suggests so.
+		 */
+		this.currentSong.flags.isLovedInService = isLoved;
+		if (
+			await Options.getOption(
+				Options.AUTO_TOGGLE_LOVE,
+				this.connector.meta.id,
+			)
+		) {
+			this.toggleLove(isLoved);
+		}
+	}
+
+	/**
 	 * React on state change.
 	 * @param newState - State of connector
 	 */

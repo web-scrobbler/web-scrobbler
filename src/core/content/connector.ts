@@ -373,6 +373,35 @@ export default class BaseConnector {
 	) => boolean | null | undefined = () => false;
 
 	/**
+	 * Button to love/like a song on listening service.
+	 */
+	public loveButtonSelector: string | string[] | null = null;
+
+	/**
+	 * Button to unlove/unlike a song on listening service.
+	 */
+	public unloveButtonSelector: string | string[] | null = null;
+
+	/**
+	 * A check to see if song is loved or not.
+	 * If this changes from false to true or vice-versa the song
+	 * will be loved/unloved on scrobbling services.
+	 *
+	 * @returns True if song is liked; false otherwise
+	 */
+	public isLoved: () => boolean | null | undefined = () => {
+		if (this.loveButtonSelector) {
+			return !Util.isElementVisible(this.loveButtonSelector);
+		}
+
+		if (this.unloveButtonSelector) {
+			return Util.isElementVisible(this.unloveButtonSelector);
+		}
+
+		return null;
+	};
+
+	/**
 	 * Default implementation of a check to see if a state change is allowed.
 	 * MutationObserver will ignore mutations while this function returns false.
 	 *
@@ -615,6 +644,29 @@ export default class BaseConnector {
 	}
 
 	/**
+	 * Callback set by the controller to listen on state changes of this connector.
+	 */
+	private _isLovedCallback:
+		| ((isLoved: boolean | null) => Promise<void>)
+		| null = null;
+
+	/**
+	 * Callback set by the controller to listen on state changes of this connector.
+	 */
+	public get isLovedCallback():
+		| ((isLoved: boolean | null) => Promise<void>)
+		| null {
+		return this._isLovedCallback;
+	}
+
+	public set isLovedCallback(
+		callback: (isLoved: boolean | null) => Promise<void>,
+	) {
+		callback(this.isLoved() ?? null);
+		this._isLovedCallback = callback;
+	}
+
+	/**
 	 * Function for all the hard work around detecting and updating state.
 	 */
 	private stateChangedWorker: () => void;
@@ -779,6 +831,12 @@ export default class BaseConnector {
 				}
 				// #v-endif
 			}
+
+			/**
+			 * Finally, handle state change to isLoved,
+			 * which is completely independent of other state.
+			 */
+			this.isLovedCallback?.(this.isLoved() ?? null);
 		};
 
 		this.getCurrentState = () => {

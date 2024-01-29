@@ -93,6 +93,7 @@ async function setupStateListening(): Promise<void> {
 function createController(isEnabled: boolean) {
 	const controller = new Controller(Connector, isEnabled);
 	Connector.controllerCallback = controller.onStateChanged.bind(controller);
+	Connector.isLovedCallback = controller.onLoveChanged.bind(controller);
 }
 
 /**
