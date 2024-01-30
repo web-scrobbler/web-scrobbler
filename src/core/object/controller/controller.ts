@@ -475,6 +475,8 @@ export default class Controller {
 		this.setMode(ControllerMode.Skipped);
 
 		this.currentSong.flags.isSkipped = true;
+		this.shouldHaveScrobbled = false;
+		this.forceScrobble = false;
 
 		this.playbackTimer.reset();
 		this.replayDetectionTimer.reset();
@@ -800,6 +802,8 @@ export default class Controller {
 
 		this.playbackTimer.reset();
 		this.replayDetectionTimer.reset();
+		this.shouldHaveScrobbled = false;
+		this.forceScrobble = false;
 
 		this.currentSong = null;
 	}
@@ -811,6 +815,8 @@ export default class Controller {
 		if (!assertSongNotNull(this.currentSong)) {
 			return;
 		}
+		this.shouldHaveScrobbled = false;
+		this.forceScrobble = false;
 
 		if (await this.shouldScrobble()) {
 			this.setMode(ControllerMode.Loading);
@@ -878,6 +884,9 @@ export default class Controller {
 		this.debugLog('Clearing playback timer destination time');
 
 		this.currentSong.resetData();
+
+		this.shouldHaveScrobbled = false;
+		this.forceScrobble = false;
 
 		this.playbackTimer.update(null);
 		this.replayDetectionTimer.update(null);
