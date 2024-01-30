@@ -15,6 +15,7 @@ export default abstract class ScrobbleCacheModel extends CustomStorage<K> {
 	public abstract saveScrobbleCacheToStorageLocking(
 		data: T[K],
 	): Promise<void>;
+	private MAX_SCROBBLE_CACHE_SIZE = 1000;
 
 	/**
 	 * Replace the data for a scrobble in the scrobble cache
@@ -68,7 +69,9 @@ export default abstract class ScrobbleCacheModel extends CustomStorage<K> {
 		});
 
 		// limit how much we store
-		await this.saveScrobbleCacheToStorageLocking(storageData.slice(-1000));
+		await this.saveScrobbleCacheToStorageLocking(
+			storageData.slice(-this.MAX_SCROBBLE_CACHE_SIZE),
+		);
 		return id;
 	}
 
