@@ -100,15 +100,19 @@ async function commandHandler(command: string) {
  *
  * @param tabId	- Tab ID of the tab to update
  * @param isLoved - Whether the song is loved
- * @param isCommand - Whether the song is (un)loved by hotkey command
+ * @param shouldShowNotification - Whether the song is (un)loved by hotkey command
  *
  */
-function setLoveStatus(tabId: number, isLoved: boolean, isCommand: boolean) {
+function setLoveStatus(
+	tabId: number,
+	isLoved: boolean,
+	shouldShowNotification: boolean,
+) {
 	sendBackgroundMessage(tabId ?? -1, {
 		type: 'toggleLove',
 		payload: {
 			isLoved,
-			isCommand: true,
+			shouldShowNotification,
 		},
 	});
 }
@@ -415,7 +419,7 @@ setupBackgroundListeners(
 		type: 'toggleLove',
 		fn: (payload, sender) => {
 			const song = new ClonedSong(payload.song, sender.tab?.id ?? -1);
-			if (payload.isCommand) {
+			if (payload.shouldShowNotification) {
 				showLovedNotification(song, payload.isLoved);
 			}
 			return toggleLove(song, payload.isLoved);
