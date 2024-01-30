@@ -1015,6 +1015,19 @@ export default class Controller {
 		) {
 			return;
 		}
+
+		/**
+		 * Sometimes a song may change state before processing is done.
+		 * This can cause race condition especially with the blocked tags pipeline
+		 * which decides whether a song should be allowed to be played asynchronously.
+		 * For this reason we must check again here if the song is loading.
+		 */
+		if (!this.currentSong.flags.finishedProcessing) {
+			this.debugLog('Song set as loading');
+			this.setMode(ControllerMode.Loading);
+			return;
+		}
+
 		this.currentSong.flags.isMarkedAsPlaying = true;
 
 		const results = await sendContentMessage({

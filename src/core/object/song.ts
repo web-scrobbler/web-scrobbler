@@ -36,6 +36,7 @@ export type Flags =
 			isReplaying: boolean;
 			hasBlockedTag: boolean;
 			isLovedInService: boolean | null;
+			finishedProcessing: boolean;
 	  }
 	| Record<string, never>;
 
@@ -447,6 +448,12 @@ export default class Song extends BaseSong {
 			 * but we do want to do something if the value changes afterwards.
 			 */
 			isLovedInService: null,
+
+			/**
+			 * finishedProcessing is set to true after done processing in pipelines.
+			 * While false don't set the song as playing while we wait for pipelines to finish.
+			 */
+			finishedProcessing: false,
 		};
 	}
 

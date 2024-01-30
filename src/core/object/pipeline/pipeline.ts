@@ -30,9 +30,17 @@ export default class Pipeline {
 	async process(song: Song, connector: ConnectorMeta): Promise<boolean> {
 		// FIXME: Use another lock way
 		this.song = song;
+		this.song.flags.finishedProcessing = false;
 
-		for (const processor of this.processors) {
-			await processor.process(song, connector);
+		try {
+			for (const processor of this.processors) {
+				await processor.process(song, connector);
+			}
+			this.song.flags.finishedProcessing = true;
+		} catch (err) {
+			// mark as done even though it errored.
+			this.song.flags.finishedProcessing = true;
+			throw err;
 		}
 
 		// Return false if this call is not relevant, e.g. when
