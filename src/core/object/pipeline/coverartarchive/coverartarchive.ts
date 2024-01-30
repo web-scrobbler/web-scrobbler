@@ -28,6 +28,12 @@ export async function process(song: Song): Promise<void> {
 		let mbId = song.metadata.albumMbId;
 		let coverArtUrl = null;
 
+		// If scrobbling is disabled for this song/site, don't try to fetch cover art as it would never be viewed.
+		if (!song.parsed.isScrobblingAllowed) {
+			debugLog('Scrobbling is not allowed, skipping cover art');
+			return;
+		}
+
 		try {
 			if (!mbId) {
 				mbId = await getMusicBrainzId(endpoint, song);
