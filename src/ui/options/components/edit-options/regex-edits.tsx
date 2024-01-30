@@ -1,5 +1,5 @@
 import { t } from '@/util/i18n';
-import { For, Setter, createResource } from 'solid-js';
+import { For, Setter, createMemo, createResource } from 'solid-js';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
 import { DeleteOutlined } from '@/ui/components/icons';
@@ -21,7 +21,11 @@ export default function RegexEdits(props: {
 		<>
 			<h2>{t('optionsRegexEdits')}</h2>
 			<p>{t('optionsRegexEditsDesc')}</p>
-			<div class={styles.buttonContainer}>
+			<div
+				class={styles.buttonContainer}
+				role="group"
+				aria-label={t('optionsRegexEdits')}
+			>
 				<ViewEdits
 					setActiveModal={props.setActiveModal}
 					modal={props.modal}
@@ -69,6 +73,10 @@ function EditInfo(props: {
 	edit: RegexEdit;
 	mutate: Setter<RegexEdit[] | null | undefined>;
 }) {
+	const label = createMemo(
+		() =>
+			`${props.edit.search.track} → ${props.edit.replace.track};${props.edit.search.artist} → ${props.edit.replace.artist};${props.edit.search.album} → ${props.edit.replace.album};${props.edit.search.albumArtist} → ${props.edit.replace.albumArtist}`,
+	);
 	return (
 		<li class={styles.deleteListing}>
 			<button
@@ -85,6 +93,7 @@ function EditInfo(props: {
 						return o;
 					});
 				}}
+				title={label()}
 			>
 				<DeleteOutlined />
 			</button>

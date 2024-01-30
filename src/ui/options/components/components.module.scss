@@ -57,6 +57,10 @@
 			}
 		}
 
+		&:has(input:focus-visible) {
+			outline: 2px solid var(--text) !important;
+		}
+
 		.tripleCheckbox {
 			-webkit-appearance: none;
 			background-color: #fff;
@@ -354,8 +358,15 @@ summary {
 	}
 
 	.bigLabel:hover,
-	&.summaryCheckbox .checkboxWrapper:hover {
+	&.summaryCheckbox .checkboxWrapper:hover,
+	.bigLabel input:focus-visible + .checkboxWrapper,
+	.summarySpan input:focus-visible + .checkboxWrapper {
 		filter: brightness(1.1);
+	}
+
+	.bigLabel input:focus-visible + .checkboxWrapper,
+	.summarySpan input:focus-visible + .checkboxWrapper {
+		outline: 2px solid var(--text);
 	}
 }
 
@@ -365,8 +376,8 @@ summary {
 }
 
 .radioButtons {
-	li {
-		margin-bottom: 1em;
+	.radioButton {
+		margin-bottom: 0.75em;
 	}
 
 	input {
@@ -390,6 +401,10 @@ summary {
 	input:checked + .radioLabel {
 		background-color: var(--last-fm);
 		color: var(--active-text);
+	}
+
+	input:focus-visible + .radioLabel {
+		outline: 2px solid var(--text);
 	}
 }
 

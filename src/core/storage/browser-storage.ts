@@ -64,6 +64,12 @@ export const NOTIFICATIONS = 'Notifications';
 export const LOCAL_CACHE = 'LocalCache';
 
 /**
+ * This storage contains the list of websites with native scrobbling
+ * for which a notification has already been sent to the user before.
+ */
+export const NATIVE_SCROBBLER_NOTIFICATION = 'NativeScrobblerNotification';
+
+/**
  * This storage contains the blocklist of each connector.
  * Each blocklist is an object with channel IDs as keys.
  */
@@ -147,6 +153,7 @@ const storageTypeMap = {
 	Webhook: LOCAL,
 	Pleroma: LOCAL,
 
+	[NATIVE_SCROBBLER_NOTIFICATION]: LOCAL,
 	[BLOCKLISTS]: LOCAL,
 	[LOCAL_CACHE]: LOCAL,
 	[REGEX_EDITS]: LOCAL,

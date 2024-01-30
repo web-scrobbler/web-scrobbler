@@ -65,6 +65,14 @@ export default function GlobalOptionsList(props: {
 					i18nlabel="optionScrobblePodcasts"
 					key={Options.SCROBBLE_PODCASTS}
 				/>
+				<GlobalOptionEntry
+					options={props.options}
+					setOptions={props.setOptions}
+					globalOptions={globalOptions}
+					i18ntitle="optionAutoToggleLoveTitle"
+					i18nlabel="optionAutoToggleLove"
+					key={Options.AUTO_TOGGLE_LOVE}
+				/>
 			</ul>
 		</>
 	);

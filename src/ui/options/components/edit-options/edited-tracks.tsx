@@ -1,5 +1,5 @@
 import { t } from '@/util/i18n';
-import { For, Setter, createResource } from 'solid-js';
+import { For, Setter, createMemo, createResource } from 'solid-js';
 import * as Options from '@/core/storage/options';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
@@ -21,7 +21,11 @@ export default function EditedTracks(props: {
 		<>
 			<h2>{t('optionsEditedTracks')}</h2>
 			<p>{t('optionsEditedTracksDesc')}</p>
-			<div class={styles.buttonContainer}>
+			<div
+				class={styles.buttonContainer}
+				role="group"
+				aria-label={t('optionsEditedTracks')}
+			>
 				<ViewEdits
 					setActiveModal={props.setActiveModal}
 					modal={props.modal}
@@ -75,6 +79,9 @@ function TrackInfo(props: {
 		| undefined
 	>;
 }) {
+	const label = createMemo(
+		() => `${props.track.artist} - ${props.track.track}`,
+	);
 	return (
 		<li class={styles.deleteListing}>
 			<button
@@ -93,12 +100,11 @@ function TrackInfo(props: {
 						};
 					});
 				}}
+				title={t('optionsDelete', label())}
 			>
 				<DeleteOutlined />
 			</button>
-			<span>
-				{props.track.artist} - {props.track.track}
-			</span>
+			<span>{label()}</span>
 		</li>
 	);
 }
