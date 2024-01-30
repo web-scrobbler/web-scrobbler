@@ -658,7 +658,7 @@ export default class Controller {
 				this.connector.meta.id,
 			)
 		) {
-			this.toggleLove(isLoved);
+			this.toggleLove(isLoved, true);
 		}
 	}
 
