@@ -8,19 +8,19 @@ Connector.isPlaying = () => {
 
 // Maintain last played track on each channel so that if a user is switching back and forth between the same channels, it doesn't scrobble the same track twice.
 // This would be better if we could only add it when the track is actually scrobbled, i.e. at half way point or whenever it happens.
-let channelTracks: { [key: string]: string | null } = {};
+// let channelTracks: { [key: string]: string | null } = {};
 
 Connector.getArtistTrack = () => {
-	let channel = null;
+	// let channel = null;
 	let artist = null;
 	let track = null;
 
-	const selectElement = document.querySelector(
-		'.page-live-tracks__select',
-	) as HTMLSelectElement;
-	if (selectElement) {
-		channel = selectElement.value;
-	}
+	// const selectElement = document.querySelector(
+	// 	'.page-live-tracks__select',
+	// ) as HTMLSelectElement;
+	// if (selectElement) {
+	// 	channel = selectElement.value;
+	// }
 
 	const trackinfo = document.querySelector(
 		'.page-live-tracks__list li:first-child',
@@ -41,13 +41,18 @@ Connector.getArtistTrack = () => {
 		}
 	}
 
-	if (channel && track === channelTracks[channel]) {
-		return null;
-	} else if (channel) {
-		channelTracks[channel] = track;
-	}
-
-	console.log(channelTracks);
+	// if (channel && track === channelTracks[channel]) {
+	// 	return null;
+	// } else if (channel) {
+	// 	channelTracks[channel] = track;
+	// }
 
 	return { artist, track };
+};
+
+Connector.scrobbleInfoLocationSelector = '.page-live-tracks__title';
+Connector.scrobbleInfoStyle = {
+	...Connector.scrobbleInfoStyle,
+	fontSize: '0.7em',
+	marginTop: '0.7em',
 };
