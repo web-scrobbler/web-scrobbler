@@ -2355,12 +2355,6 @@ export default <ConnectorMeta[]>[
 		id: 'zingmp3',
 	},
 	{
-		label: 'NTS DEV',
-		matches: ['*://*nts.live/dev/*'],
-		js: 'ntsdev.js',
-		id: 'ntsdev',
-	},
-	{
 		label: 'NTS',
 		matches: ['*://*nts.live/live-tracklist/*'],
 		js: 'nts.js',
