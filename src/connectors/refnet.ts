@@ -20,6 +20,5 @@ Connector.isPlaying = () => {
 	return Util.hasElementClass(Connector.playerSelector, 'playing');
 };
 
-Connector.isScrobblingAllowed = () => {
-	return Util.hasElementClass('#slots > .live', 'music');
-};
+Connector.scrobblingDisallowedReason = () =>
+	Util.hasElementClass('#slots > .live', 'music') ? null : 'Other';

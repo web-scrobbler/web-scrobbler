@@ -39,7 +39,7 @@ function setupPropertiesForNewPlayer() {
 		return { artist, track, trackArt };
 	};
 
-	Connector.isScrobblingAllowed = () => {
+	Connector.scrobblingDisallowedReason = () => {
 		const trackLink = Util.getAttrFromSelectors(
 			trackContainerSelector,
 			'primary-href',
@@ -47,7 +47,7 @@ function setupPropertiesForNewPlayer() {
 
 		// NOTE Regular tracks have no link
 		// Check this condition first if the connector does not work
-		return trackLink === '#';
+		return trackLink === '#' ? null : 'IsAd';
 	};
 
 	Connector.pauseButtonSelector = `${playerBarSelector} music-button[icon-name=pause]`;

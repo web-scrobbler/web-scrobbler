@@ -593,43 +593,51 @@
     },
     "disallowedDesc1": {
         "message": "Web Scrobbler has detected the song \"$2\" by \"$1\", but will not scrobble it.",
-        "description": "The description of 'disallowed' popup on all sites including youtube. $1 is the artist detected. $2 is the track detected"
+        "description": "The description of 'disallowed' popup. $1 is the artist detected. $2 is the track detected"
     },
-    "disallowedDescYoutube": {
-        "message": "On YouTube, the most common causes include:",
-        "description": "The description of 'disallowed' popup on youtube."
+    "disallowedDescIsAd": {
+        "message": "The reason is that Web Scrobbler has detected this as being an ad.",
+        "description": "The description of 'disallowed' popup."
     },
-    "disallowedDescYoutubePoint1": {
-        "message": "Having \"Scrobble videos from \"Music/Entertainment\" category\" enabled and playing a video with a different category.",
-        "description": "Point 1 in example list on youtube"
+    "disallowedDescForbiddenYouTubeCategory": {
+      "message": "You have disabled scrobbling youtube video categories other than music and/or entertainment, and this video is marked by the uploader as a different category. You can choose to scrobble any video category by disabling both \"Scrobble videos from \"Music\" category\" and \"Scrobble videos from \"Entertainment\" category\" in Web Scrobbler settings.",
+      "description": "The description of 'disallowed' popup."
     },
-    "disallowedDescYoutubePoint2": {
-        "message": "Having \"Scrobble only videos that are recognized by YouTube Music as music\" enabled and playing a song not recognized by YouTube Music as music.",
-        "description": "Point 2 in example list on youtube"
+    "disallowedDescForbiddenTag": {
+      "message": "You have disabled scrobbling this artist, album, and/or track. You can re-enable tags in settings, or by hitting \"Scrobble anyway\" and re-enabling the tags in regex editing.",
+      "description": "The description of 'disallowed' popup."
     },
-    "disallowedDescYoutubePoint3": {
-        "message": "Ads (even ads being blocked may temporarily show this.)",
-        "description": "Point 3 in example list on youtube"
+    "disallowedDescForbiddenChannel": {
+      "message": "You have disabled scrobbling this channel. You can re-enable it in connector settings, or by right clicking the extension icon and clicking \"Enable scrobbling from <ID>\".",
+      "description": "The description of 'disallowed' popup."
     },
-    "disallowedDesc2": {
-        "message": "This is because the website connector has deemed this not a song to scrobble. Some potential reasons include:",
-        "description": "The description of 'disallowed' popup on sites except youtube"
+    "disallowedDescNotOnYouTubeMusic": {
+      "message": "YouTube Music does not recognize this video as music, and you have enabled the option \"Scrobble only videos that are recognized by YouTube Music as music\" in settings.",
+      "description": "The description of 'disallowed' popup."
     },
-    "disallowedDesc2Point1": {
-        "message": "Web Scrobbler might be interpreting this as an ad.",
-        "description": "Point 1 in example list on sites except youtube"
+    "disallowedDescIsPlayingElsewhere": {
+      "message": "The reason is that Web Scrobbler thinks this track is playing elsewhere and should not be scrobbled.",
+      "description": "The description of 'disallowed' popup."
     },
-    "disallowedDesc2Point2": {
-        "message": "Web Scrobbler might be identifying this song as being played on a different device.",
-        "description": "Point 2 in example list on sites except youtube"
+    "disallowedDescElementMissing": {
+      "message": "The reason is that some element Web Scrobbler relies on is not in the page. This probably means that either you are not playing music, or there is a bug in the connector.",
+      "description": "The description of 'disallowed' popup."
     },
-    "disallowedDesc2Point3": {
-        "message": "Web Scrobbler, for some other reason, believes this is not something that should be scrobbled.",
-        "description": "Point 3 in example list on sites except youtube"
+    "disallowedDescFilteredTag": {
+      "message": "Either the artist, album, or track has been filtered by the connector as something that should not be scrobbled. This is not due to any setting you have set in your settings.",
+      "description": "The description of 'disallowed' popup."
+    },
+    "disallowedDescIsLoading": {
+      "message": "Something Web Scrobbler relies on for finding the track details is loading. Please wait a few seconds. If this message persists, please report it, as something is wrong.",
+      "description": "The description of 'disallowed' popup."
+    },
+    "disallowedDescOther": {
+      "message": "For some unknown reason, Web Scrobbler has determined this should not scrobble. This is not related to any setting you have set. If you believe this is an error, please report it.",
+      "description": "The description of 'disallowed' popup."
     },
     "disallowedDesc3": {
-        "message": "Web Scrobbler should still scrobble music from elsewhere on this website.",
-        "description": "The description of 'disallowed' popup on all sites including youtube"
+      "message": "Web Scrobbler should still scrobble music from elsewhere on this website.",
+      "description": "The description of 'disallowed' popup on all sites including youtube"
     },
     "disallowedButton": {
         "message": "Scrobble anyway",

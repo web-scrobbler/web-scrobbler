@@ -20,6 +20,5 @@ Connector.currentTimeSelector = '#played';
 
 Connector.durationSelector = '#duration';
 
-Connector.isScrobblingAllowed = () => {
-	return Connector.getDuration() !== 0;
-};
+Connector.scrobblingDisallowedReason = () =>
+	Connector.getDuration() === 0 ? 'Other' : null;

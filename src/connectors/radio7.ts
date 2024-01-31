@@ -6,6 +6,5 @@ Connector.artistTrackSelector = '#dziesma';
 
 Connector.pauseButtonSelector = '.amazingaudioplayer-pause';
 
-Connector.isScrobblingAllowed = () => {
-	return Connector.getArtist() !== 'Radio7';
-};
+Connector.scrobblingDisallowedReason = () =>
+	Connector.getArtist() === 'Radio7' ? 'FilteredTag' : null;

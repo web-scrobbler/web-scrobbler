@@ -25,9 +25,11 @@ Connector.durationSelector = '.player-PlayerProgress__timeTotal--3aHlj span';
 Connector.isPlaying = () =>
 	Util.getTextFromSelectors(pauseButtonSelector)?.toUpperCase() === 'PAUSE';
 
-Connector.isScrobblingAllowed = () =>
-	Util.getTextFromSelectors('.player-PlayerInfo__recordingInfo--15VMv') !==
-	'Sponsor message';
+Connector.scrobblingDisallowedReason = () =>
+	Util.getTextFromSelectors('.player-PlayerInfo__recordingInfo--15VMv') ===
+	'Sponsor message'
+		? 'IsAd'
+		: null;
 
 function getCurrentTrack() {
 	/*
