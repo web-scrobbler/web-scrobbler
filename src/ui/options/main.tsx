@@ -18,6 +18,7 @@ import {
 	showSomeLoveItem,
 } from './components/navigator';
 import ContextMenu from '../components/context-menu/context-menu';
+import { BlockedTagsModal } from './components/edit-options/blocked-tags';
 import { BlocklistModal } from './components/edit-options/blocked-channels';
 
 /**
@@ -54,6 +55,7 @@ const modalMap = {
 	savedEdits: EditsModal,
 	regexEdits: RegexEditsModal,
 	blocklist: BlocklistModal,
+	blockedTags: BlockedTagsModal,
 	'': () => <div>Loading...</div>,
 };
 

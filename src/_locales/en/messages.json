@@ -47,6 +47,14 @@
         "message": "Scrobble podcast episodes",
         "description": "Option title"
     },
+    "optionAutoToggleLove": {
+        "message": "Love/unlove tracks through players",
+        "description": "Option label"
+    },
+    "optionAutoToggleLoveTitle": {
+        "message": "When you like or dislike a track on a website, the track will also be loved/unloved in your scrobbler",
+        "description": "Option label"
+    },
     "optionDebugLoggingEnabled": {
         "message": "Enable debug logging",
         "description": "Option label"
@@ -270,6 +278,18 @@
     "optionsRegexEditsPopupTitle": {
         "message": "$1 regex/bulk edits",
         "description": "'Regex/Bulk edits' header"
+    },
+    "optionsBlockedTags": {
+        "message": "Blocked tags",
+        "description": "'Blocked tags' header"
+    },
+    "optionsBlockedTagsDesc": {
+        "message": "This extension stores blocked artist/album/track tags.",
+        "description": "Description of blocked tags"
+    },
+    "optionsBlockedTagsPopupTitle": {
+        "message": "$1 blocked tags",
+        "description": "'Blocked tags' header"
     },
     "optionsBlockedSources": {
         "message": "Blocked sources",
@@ -750,6 +770,30 @@
     "infoSkippedTitleShort": {
       "message": "Skipped",
       "description": "Title of unskip button, should be short for mobile button label"
+    },
+    "infoBlockArtist": {
+      "message": "Never scrobble this artist",
+      "description": "Title of button to block scrobbling artist"
+    },
+    "infoUnblockArtist": {
+      "message": "Scrobble this artist",
+      "description": "Title of button to unblock scrobbling artist"
+    },
+    "infoBlockAlbum": {
+      "message": "Never scrobble this album",
+      "description": "Title of button to block scrobbling album"
+    },
+    "infoUnblockAlbum": {
+      "message": "Scrobble this album",
+      "description": "Title of button to unblock scrobbling album"
+    },
+    "infoBlockTrack": {
+      "message": "Never scrobble this track",
+      "description": "Title of button to block scrobbling track"
+    },
+    "infoUnblockTrack": {
+      "message": "Scrobble this track",
+      "description": "Title of button to unblock scrobbling track"
     },
     "infoOpenAlbumArt": {
         "message": "Open album art in new tab",

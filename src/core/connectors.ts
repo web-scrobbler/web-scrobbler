@@ -891,7 +891,7 @@ export default <ConnectorMeta[]>[
 	},
 	{
 		label: 'QQ Music',
-		matches: ['*://y.qq.com/portal/*'],
+		matches: ['*://y.qq.com/*'],
 		js: 'qq-music.js',
 		id: 'qq-music',
 	},

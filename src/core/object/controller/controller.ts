@@ -95,6 +95,10 @@ export default class Controller {
 		if (this.forceScrobble) {
 			return true;
 		}
+		if (this.currentSong?.flags.hasBlockedTag) {
+			return false;
+		}
+
 		return (
 			this.currentSong?.parsed.isScrobblingAllowed &&
 			(await this.blocklist.shouldScrobbleChannel(
@@ -471,6 +475,8 @@ export default class Controller {
 		this.setMode(ControllerMode.Skipped);
 
 		this.currentSong.flags.isSkipped = true;
+		this.shouldHaveScrobbled = false;
+		this.forceScrobble = false;
 
 		this.playbackTimer.reset();
 		this.replayDetectionTimer.reset();
@@ -565,6 +571,60 @@ export default class Controller {
 		}
 
 		this.onSongUpdated();
+	}
+
+	/**
+	 * React on love/unlove.
+	 * @param isLoved - Whether song is now liked or unliked
+	 */
+	async onLoveChanged(isLoved: boolean | null): Promise<void> {
+		if (!this.currentSong) {
+			return;
+		}
+
+		/**
+		 * If there has not been definitive state before,
+		 * just change state without sending anything to service.
+		 * We dont want the extension to randomly unlove songs
+		 * on scrobbling service because user didnt do it on
+		 * streaming service.
+		 */
+		if (this.currentSong.flags.isLovedInService === null) {
+			this.currentSong.flags.isLovedInService = isLoved;
+			return;
+		}
+
+		/**
+		 * If suddenly we are not receiving definitive state anymore
+		 * be safe and reset the isloved state
+		 */
+		if (isLoved === null) {
+			this.currentSong.flags.isLovedInService = null;
+			return;
+		}
+
+		/**
+		 * State did not change, don't do anything.
+		 */
+		if (this.currentSong.flags.isLovedInService === isLoved) {
+			return;
+		}
+
+		/**
+		 * Song already had fetched a definitive loved state,
+		 * and this one is different.
+		 * This means user has actively changed it.
+		 * Change if option suggests so.
+		 */
+		this.currentSong.flags.isLovedInService = isLoved;
+		if (
+			await Options.getOption(
+				Options.AUTO_TOGGLE_LOVE,
+				this.connector.meta.id,
+			)
+		) {
+			this.toggleLove(isLoved);
+		}
 	}
 
 	/**
@@ -742,6 +802,8 @@ export default class Controller {
 
 		this.playbackTimer.reset();
 		this.replayDetectionTimer.reset();
+		this.shouldHaveScrobbled = false;
+		this.forceScrobble = false;
 
 		this.currentSong = null;
 	}
@@ -753,6 +815,8 @@ export default class Controller {
 		if (!assertSongNotNull(this.currentSong)) {
 			return;
 		}
+		this.shouldHaveScrobbled = false;
+		this.forceScrobble = false;
 
 		if (await this.shouldScrobble()) {
 			this.setMode(ControllerMode.Loading);
@@ -820,6 +884,9 @@ export default class Controller {
 		this.debugLog('Clearing playback timer destination time');
 
 		this.currentSong.resetData();
+
+		this.shouldHaveScrobbled = false;
+		this.forceScrobble = false;
 
 		this.playbackTimer.update(null);
 		this.replayDetectionTimer.update(null);
@@ -957,6 +1024,19 @@ export default class Controller {
 		) {
 			return;
 		}
+
+		/**
+		 * Sometimes a song may change state before processing is done.
+		 * This can cause race condition especially with the blocked tags pipeline
+		 * which decides whether a song should be allowed to be played asynchronously.
+		 * For this reason we must check again here if the song is loading.
+		 */
+		if (!this.currentSong.flags.finishedProcessing) {
+			this.debugLog('Song set as loading');
+			this.setMode(ControllerMode.Loading);
+			return;
+		}
+
 		this.currentSong.flags.isMarkedAsPlaying = true;
 
 		const results = await sendContentMessage({

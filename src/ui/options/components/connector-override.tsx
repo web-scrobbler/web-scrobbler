@@ -252,6 +252,16 @@ function ConnectorOverrideOptionDetails(props: {
 					setOverrideOptions={setOverrideOptions}
 					connectorOverrideOptions={connectorOverrideOptions}
 				/>
+				<ConnectorTripleCheckbox
+					title={t('optionAutoToggleLoveTitle')}
+					label={t('optionAutoToggleLove')}
+					connector={props.connector}
+					option={Options.AUTO_TOGGLE_LOVE}
+					overrideOptions={overrideOptions}
+					setOverrideOptions={setOverrideOptions}
+					connectorOverrideOptions={connectorOverrideOptions}
+				/>
+
 				<h3 id={`${props.connector.id}-scrobble-behavior`}>
 					{t('optionsScrobbleBehavior')}
 				</h3>
