@@ -256,7 +256,13 @@ a {
 
 	.regexFooter {
 		display: flex;
+		flex-direction: column;
 		width: 100%;
+
+		.regexFooterButtons {
+			display: flex;
+			width: 100%;
+		}
 	}
 }
 
