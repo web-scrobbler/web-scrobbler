@@ -2,10 +2,6 @@ export {};
 
 Connector.playerSelector = '.page-live-tracks__body';
 
-Connector.isPlaying = () => {
-	return true;
-};
-
 Connector.getArtistTrack = () => {
 	let artist = null;
 	let track = null;
