@@ -181,19 +181,23 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 	}
 
 	/** @override */
-	public async scrobble(song: BaseSong): Promise<ServiceCallResult> {
+	public async scrobble(
+		songs: BaseSong[],
+		currentlyPlaying: boolean,
+	): Promise<ServiceCallResult[]> {
 		const { sessionID } = await this.getSession();
 
 		const params = {
-			listen_type: 'single',
-			payload: [
-				{
-					listened_at: song.metadata.startTimestamp,
-					track_metadata: this.makeTrackMetadata(song),
-				},
-			],
+			listen_type: currentlyPlaying ? 'single' : 'import',
+			payload: songs.slice(0, 50).map((song) => ({
+				listened_at: song.metadata.startTimestamp,
+				track_metadata: this.makeTrackMetadata(song),
+			})),
 		} as ListenBrainzParams;
-		return this.sendScrobbleRequest(params, sessionID);
+		const res = await this.sendScrobbleRequest(params, sessionID);
+		return new Array<ServiceCallResult>(Math.min(songs.length, 50)).fill(
+			res,
+		);
 	}
 
 	/** @override */

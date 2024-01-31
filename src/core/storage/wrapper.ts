@@ -11,6 +11,7 @@ import {
 	NOTIFICATIONS,
 	OPTIONS,
 	REGEX_EDITS,
+	SCROBBLE_CACHE,
 	STATE_MANAGEMENT,
 	StorageNamespace,
 	BLOCKLISTS,
@@ -28,6 +29,7 @@ import EventEmitter from '@/util/emitter';
 import connectors from '@/core/connectors';
 import { RegexEdit } from '@/util/regex';
 import { debugLog } from '../content/util';
+import { ServiceCallResult } from '../object/service-call-result';
 
 export interface CustomPatterns {
 	[connectorId: string]: string[];
@@ -113,6 +115,40 @@ export interface StateManagement {
 	browserPreferredTheme: 'light' | 'dark';
 }
 
+export enum ScrobbleStatus {
+	SUCCESSFUL = 'success',
+	IGNORED = 'ignored',
+	ERROR = 'error',
+	DISALLOWED = 'disallowed',
+	INVALID = 'invalid',
+}
+
+export function getScrobbleStatus(
+	resultArr: ServiceCallResult[][],
+	index: number,
+): ScrobbleStatus {
+	// RESULT_IGNORE definitely requires action - prioritize it.
+	for (const res of resultArr) {
+		if (res[index] === ServiceCallResult.RESULT_IGNORE) {
+			return ScrobbleStatus.IGNORED;
+		}
+	}
+	for (const res of resultArr) {
+		if (res[index] !== ServiceCallResult.RESULT_OK) {
+			return ScrobbleStatus.ERROR;
+		}
+	}
+	return ScrobbleStatus.SUCCESSFUL;
+}
+
+export interface CacheScrobbleData {
+	song: CloneableSong;
+	status: ScrobbleStatus;
+}
+
+export interface CacheScrobble extends CacheScrobbleData {
+	id: number;
+}
 export type Blocklists = Record<string, Blocklist>;
 
 export type Blocklist = Record<string, string>;
@@ -129,6 +165,7 @@ export interface DataModels extends ScrobblerModels {
 	[CORE]: { appVersion: string };
 	[LOCAL_CACHE]: { [key: string]: SavedEdit };
 	[REGEX_EDITS]: RegexEdit[];
+	[SCROBBLE_CACHE]: CacheScrobble[];
 	[BLOCKED_TAGS]: BlockedTags;
 	[BLOCKLISTS]: Blocklists;
 

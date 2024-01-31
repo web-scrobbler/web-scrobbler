@@ -88,10 +88,13 @@ export default class MalojaScrobbler extends BaseScrobbler<'Maloja'> {
 	}
 
 	/** @override */
-	public async scrobble(song: BaseSong): Promise<ServiceCallResult> {
-		const songData = this.makeTrackMetadata(song);
-
-		return this.sendRequest(songData, this.userToken);
+	public async scrobble(songs: BaseSong[]): Promise<ServiceCallResult[]> {
+		const resultArray: Promise<ServiceCallResult>[] = [];
+		for (const song of songs.slice(0, 50)) {
+			const songData = this.makeTrackMetadata(song);
+			resultArray.push(this.sendRequest(songData, this.userToken));
+		}
+		return Promise.all(resultArray);
 	}
 
 	/** Private methods */

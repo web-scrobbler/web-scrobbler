@@ -13,7 +13,6 @@ import { ExportEdits, ImportEdits, ViewEdits } from './util';
 import { ModalType } from '../navigator';
 
 const regexEdits = BrowserStorage.getStorage(BrowserStorage.REGEX_EDITS);
-const [edits, { mutate }] = createResource(regexEdits.get.bind(regexEdits));
 
 /**
  * Component that allows the user to see, import, and export track metadata edits.
@@ -40,7 +39,7 @@ export default function RegexEdits(props: {
 					editWrapper={regexEdits}
 					filename="regex-edits.json"
 				/>
-				<ImportEdits editWrapper={regexEdits} mutate={mutate} />
+				<ImportEdits editWrapper={regexEdits} />
 			</div>
 		</>
 	);
@@ -51,6 +50,7 @@ export default function RegexEdits(props: {
  * To be displayed in a modal.
  */
 export function RegexEditsModal() {
+	const [edits, { mutate }] = createResource(regexEdits.get.bind(regexEdits));
 	return (
 		<>
 			<h1>

@@ -5,11 +5,10 @@ import styles from '../components.module.scss';
 import { DeleteOutlined } from '@/ui/components/icons';
 import { ExportEdits, ImportEdits, ViewEdits } from './util';
 import { ModalType } from '../navigator';
-import { BlockedTagsReference } from '@/core/storage/wrapper';
+import { BlockedTags, BlockedTagsReference } from '@/core/storage/wrapper';
 import { Dynamic } from 'solid-js/web';
 
 const blocklist = BrowserStorage.getStorage(BrowserStorage.BLOCKED_TAGS);
-const [edits, { mutate }] = createResource(blocklist.get.bind(blocklist));
 
 /**
  * Component that allows the user to see, import, and export track metadata edits.
@@ -30,9 +29,9 @@ export default function BlockedTagsElement(props: {
 				/>
 				<ExportEdits
 					editWrapper={blocklist}
-					filename="regex-edits.json"
+					filename="blocked-tags.json"
 				/>
-				<ImportEdits editWrapper={blocklist} mutate={mutate} />
+				<ImportEdits editWrapper={blocklist} />
 			</div>
 		</>
 	);
@@ -43,6 +42,7 @@ export default function BlockedTagsElement(props: {
  * To be displayed in a modal.
  */
 export function BlockedTagsModal() {
+	const [edits, { mutate }] = createResource(blocklist.get.bind(blocklist));
 	const formattedEdits = createMemo<BlockedTagsReference[]>(() => {
 		const rawEdits = edits();
 		const res: BlockedTagsReference[] = [];
@@ -83,7 +83,9 @@ export function BlockedTagsModal() {
 			</h1>
 			<ul class={styles.optionList}>
 				<For each={formattedEdits()}>
-					{(blockedTag) => <BlockedTagInfo tag={blockedTag} />}
+					{(blockedTag) => (
+						<BlockedTagInfo tag={blockedTag} mutate={mutate} />
+					)}
 				</For>
 			</ul>
 		</>
@@ -116,7 +118,10 @@ function getTagSpan(tag: BlockedTagsReference) {
 	}
 }
 
-function BlockedTagInfo(props: { tag: BlockedTagsReference }) {
+function BlockedTagInfo(props: {
+	tag: BlockedTagsReference;
+	mutate: Setter<BlockedTags | null | undefined>;
+}) {
 	return (
 		<li class={styles.deleteListing}>
 			<button
@@ -124,7 +129,7 @@ function BlockedTagInfo(props: { tag: BlockedTagsReference }) {
 				onClick={(event) => {
 					event.stopPropagation();
 					const tag = props.tag;
-					mutate((e) => {
+					props.mutate((e) => {
 						if (!e) {
 							return e;
 						}

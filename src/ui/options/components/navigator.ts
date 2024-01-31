@@ -14,10 +14,11 @@ import {
 	FavoriteOutlined,
 	PersonOutlined,
 	PersonOffOutlined,
+	QueueMusicOutlined,
 } from '@/ui/components/icons';
 
 import InfoComponent from '@/ui/options/components/info';
-import ShowSomeLove from '@/ui/options/components/showSomeLove';
+import ShowSomeLove from '@/ui/options/components/show-some-love';
 import FAQ from '@/ui/options/components/faq';
 import ContactComponent from '@/ui/options/components/contact';
 import OptionsComponent from '@/ui/options/components/options/options';
@@ -36,6 +37,7 @@ import {
 	removeFromBlocklist,
 } from '@/core/background/util';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
+import ScrobbleCache from './scrobble-cache';
 import AdvancedOptionsComponent from './advanced-settings';
 
 /**
@@ -44,6 +46,7 @@ import AdvancedOptionsComponent from './advanced-settings';
 export type ModalType =
 	| 'savedEdits'
 	| 'regexEdits'
+	| 'cacheEdit'
 	| 'blockedTags'
 	| 'blocklist'
 	| '';
@@ -100,6 +103,12 @@ export const optionsItem: NavigatorNavigationButton = {
 	element: OptionsComponent,
 };
 
+export const scrobbleCache: NavigatorNavigationButton = {
+	namei18n: 'optionsScrobbleCache',
+	icon: QueueMusicOutlined,
+	element: ScrobbleCache,
+};
+
 export const editOptionsItem: NavigatorNavigationButton = {
 	namei18n: 'optionsEdits',
 	icon: EditOutlined,
@@ -123,6 +132,7 @@ export const optionsGroup: NavigatorButtonGroup = {
 	icon: SettingsOutlined,
 	group: [
 		optionsItem,
+		scrobbleCache,
 		editOptionsItem,
 		connectorOverrideOptionsItem,
 		advancedOptionsItem,

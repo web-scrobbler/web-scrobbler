@@ -44,21 +44,21 @@ a {
 	}
 }
 
+.settingsContentWrapper {
+	flex: 1 1 auto;
+	overflow-y: auto;
+	padding: 0 1.5rem;
+	padding-bottom: 1.5rem;
+}
+
 @media only screen and (width <= 700px) {
 	.settings {
 		flex-direction: column-reverse;
 	}
 
 	.settingsContentWrapper {
-		padding: 0 1em;
+		padding: 0 1rem;
 	}
-}
-
-.settingsContentWrapper {
-	flex: 1 1 auto;
-	overflow-y: auto;
-	padding: 0 1.5em;
-	padding-bottom: 1.5em;
 }
 
 .settingsContent {

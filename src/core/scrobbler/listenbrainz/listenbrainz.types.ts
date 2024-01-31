@@ -26,7 +26,7 @@ export type ListenBrainzParams =
 			];
 	  }
 	| {
-			listen_type: 'single';
+			listen_type: 'single' | 'import';
 			payload: [
 				{
 					listened_at: number;
