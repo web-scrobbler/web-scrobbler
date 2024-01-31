@@ -98,15 +98,15 @@ export default class Controller {
 		if (this.forceScrobble) {
 			return true;
 		}
-    
+
 		if (!this.currentSong) {
 			return false;
 		}
-    
+
 		if (this.currentSong.parsed.scrobblingDisallowedReason) {
 			return false;
 		}
-    
+
 		if (
 			!(await this.blocklist.shouldScrobbleChannel(
 				this.connector.getChannelId?.(),
@@ -116,10 +116,9 @@ export default class Controller {
 				'ForbiddenChannel';
 			return false;
 		}
-    
+
 		if (this.currentSong?.flags.hasBlockedTag) {
-      this.currentSong.parsed.scrobblingDisallowedReason =
-				'ForbiddenTag';
+			this.currentSong.parsed.scrobblingDisallowedReason = 'ForbiddenTag';
 			return false;
 		}
 
