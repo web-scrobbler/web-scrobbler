@@ -11,6 +11,7 @@ import {
 	Properties,
 	StateManagement,
 	CacheScrobble,
+	BlockedTags,
 	Blocklists,
 } from '@/core/storage/wrapper';
 import { RegexEdit } from './regex';
@@ -141,6 +142,7 @@ export function hideObjectValue(
 		| StateManagement
 		| RegexEdit[]
 		| CacheScrobble[]
+		| BlockedTags[]
 		| Blocklists,
 ): string {
 	if (!keyValue) {

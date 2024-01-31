@@ -148,15 +148,20 @@ a {
 		margin-top: 0.5em;
 
 		.controlButton {
+			--icon-color: var(--text);
 			background-color: transparent;
 			border: var(--interactable-border);
-			color: var(--text);
+			color: var(--icon-color);
 			cursor: pointer;
 			padding: 0.25em 0.5em;
 
+			.applyFill {
+				fill: var(--icon-color);
+			}
+
 			&:hover,
 			&.active {
-				color: var(--last-fm);
+				--icon-color: var(--last-fm);
 			}
 
 			&:not(:hover) .hover {
@@ -171,7 +176,7 @@ a {
 				cursor: not-allowed;
 
 				&:not(.hiddenDisabled) {
-					color: var(--checkbox-inactive);
+					--icon-color: var(--checkbox-inactive);
 				}
 			}
 		}

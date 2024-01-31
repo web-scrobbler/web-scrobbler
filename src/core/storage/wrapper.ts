@@ -6,6 +6,7 @@ import {
 	CORE,
 	CUSTOM_PATTERNS,
 	DISABLED_TABS,
+	BLOCKED_TAGS,
 	LOCAL_CACHE,
 	NOTIFICATIONS,
 	OPTIONS,
@@ -83,6 +84,32 @@ export interface ManagerTab {
 	song: CloneableSong | null;
 }
 
+export type BlockedTagType = 'artist' | 'album' | 'track';
+
+export type BlockedTagsArtist = {
+	disabled?: true;
+	albums: Record<string, true>;
+	tracks: Record<string, true>;
+};
+
+export type BlockedTags = Record<string, BlockedTagsArtist>;
+
+export type BlockedTagsReference =
+	| {
+			type: 'artist';
+			artist: string;
+	  }
+	| {
+			type: 'album';
+			artist: string;
+			album: string;
+	  }
+	| {
+			type: 'track';
+			artist: string;
+			track: string;
+	  };
+
 export interface StateManagement {
 	activeTabs: ManagerTab[];
 	browserPreferredTheme: 'light' | 'dark';
@@ -139,6 +166,7 @@ export interface DataModels extends ScrobblerModels {
 	[LOCAL_CACHE]: { [key: string]: SavedEdit };
 	[REGEX_EDITS]: RegexEdit[];
 	[SCROBBLE_CACHE]: CacheScrobble[];
+	[BLOCKED_TAGS]: BlockedTags;
 	[BLOCKLISTS]: Blocklists;
 
 	/* state management */

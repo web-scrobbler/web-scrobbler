@@ -19,6 +19,7 @@ import {
 } from './components/navigator';
 import ContextMenu from '../components/context-menu/context-menu';
 import { CacheEditModal } from './components/scrobble-cache';
+import { BlockedTagsModal } from './components/edit-options/blocked-tags';
 import { BlocklistModal } from './components/edit-options/blocked-channels';
 
 /**
@@ -56,6 +57,7 @@ const modals = {
 	regexEdits: RegexEditsModal,
 	blocklist: BlocklistModal,
 	cacheEdit: CacheEditModal,
+	blockedTags: BlockedTagsModal,
 	'': () => <div>Loading...</div>,
 };
 

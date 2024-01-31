@@ -98,6 +98,10 @@ export default class Controller {
 		if (this.forceScrobble) {
 			return true;
 		}
+		if (this.currentSong?.flags.hasBlockedTag) {
+			return false;
+		}
+
 		return (
 			this.currentSong?.parsed.isScrobblingAllowed &&
 			(await this.blocklist.shouldScrobbleChannel(
@@ -475,6 +479,8 @@ export default class Controller {
 		this.setMode(ControllerMode.Skipped);
 
 		this.currentSong.flags.isSkipped = true;
+		this.shouldHaveScrobbled = false;
+		this.forceScrobble = false;
 
 		this.playbackTimer.reset();
 		this.replayDetectionTimer.reset();
@@ -800,6 +806,8 @@ export default class Controller {
 
 		this.playbackTimer.reset();
 		this.replayDetectionTimer.reset();
+		this.shouldHaveScrobbled = false;
+		this.forceScrobble = false;
 
 		this.currentSong = null;
 	}
@@ -811,6 +819,8 @@ export default class Controller {
 		if (!assertSongNotNull(this.currentSong)) {
 			return;
 		}
+		this.shouldHaveScrobbled = false;
+		this.forceScrobble = false;
 
 		if (await this.shouldScrobble()) {
 			this.setMode(ControllerMode.Loading);
@@ -886,6 +896,9 @@ export default class Controller {
 		this.debugLog('Clearing playback timer destination time');
 
 		this.currentSong.resetData();
+
+		this.shouldHaveScrobbled = false;
+		this.forceScrobble = false;
 
 		this.playbackTimer.update(null);
 		this.replayDetectionTimer.update(null);
@@ -1022,6 +1035,19 @@ export default class Controller {
 		) {
 			return;
 		}
+
+		/**
+		 * Sometimes a song may change state before processing is done.
+		 * This can cause race condition especially with the blocked tags pipeline
+		 * which decides whether a song should be allowed to be played asynchronously.
+		 * For this reason we must check again here if the song is loading.
+		 */
+		if (!this.currentSong.flags.finishedProcessing) {
+			this.debugLog('Song set as loading');
+			this.setMode(ControllerMode.Loading);
+			return;
+		}
+
 		this.currentSong.flags.isMarkedAsPlaying = true;
 
 		const results = await sendContentMessage({
