@@ -260,7 +260,13 @@ a {
 
 	.regexFooter {
 		display: flex;
+		flex-direction: column;
 		width: 100%;
+
+		.regexFooterButtons {
+			display: flex;
+			width: 100%;
+		}
 	}
 }
 
@@ -274,7 +280,8 @@ a {
 	}
 
 	.nowPlayingPopup,
-	.alertPopup {
+	.alertPopup,
+	.widePopup {
 		align-items: center;
 		box-sizing: border-box;
 		flex: 1 1 auto;

@@ -181,14 +181,14 @@ Connector.getUniqueID = () => {
 	return getVideoId();
 };
 
-Connector.isScrobblingAllowed = () => {
+Connector.scrobblingDisallowedReason = () => {
 	if (document.querySelector('.ad-showing')) {
-		return false;
+		return 'IsAd';
 	}
 
 	// Workaround to prevent scrobbling the video opened in a background tab.
 	if (!isVideoStartedPlaying()) {
-		return false;
+		return 'Other';
 	}
 
 	if (scrobbleMusicRecognisedOnly) {
@@ -198,21 +198,21 @@ Connector.isScrobblingAllowed = () => {
 		if (!ytMusicCache) {
 			// start loading getTrackInfoFromYoutubeMusic
 			getTrackInfoFromYoutubeMusic();
-			return false;
+			return 'IsLoading';
 		}
 
 		if (!ytMusicCache.done) {
 			// not done loading yet
-			return false;
+			return 'IsLoading';
 		}
 
 		if (!ytMusicCache.recognisedByYtMusic) {
 			// not recognised!
-			return false;
+			return 'NotOnYouTubeMusic';
 		}
 	}
 
-	return isVideoCategoryAllowed();
+	return isVideoCategoryAllowed() ? null : 'ForbiddenYouTubeCategory';
 };
 
 Connector.applyFilter(
