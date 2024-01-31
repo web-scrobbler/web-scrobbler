@@ -120,6 +120,12 @@
 		white-space: nowrap;
 	}
 
+	&:disabled {
+		background-color: var(--last-fm-bg);
+		color: var(--muted-text);
+		cursor: default;
+	}
+
 	&.noRadius {
 		border-radius: 0;
 	}
@@ -233,6 +239,65 @@
 	}
 }
 
+.editTable {
+	margin-bottom: 1rem;
+
+	label {
+		padding-right: 1rem;
+	}
+
+	label,
+	input {
+		font-size: 1rem;
+	}
+
+	input {
+		appearance: none;
+		background-color: var(--last-fm-bg-weak);
+		border: none;
+		border-radius: 0.5rem;
+		color: var(--text);
+		padding: 0.25rem 0.5rem;
+		width: 30ch;
+	}
+}
+
+.saveIcon {
+	transform: rotate(0deg);
+
+	&.savingSaveIcon {
+		transform: rotate(360deg);
+		transform-origin: 41% 42.5%;
+		transition: transform 600ms ease-in-out;
+	}
+}
+
+.scrobbleButtonsWrapper {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+
+summary {
+	border: var(--interactable-border);
+	list-style: none;
+
+	&::-webkit-details-marker {
+		display: none;
+	}
+}
+
+.scrobbleCacheList {
+	summary {
+		padding: 0.5rem 0;
+	}
+
+	.summarySpan {
+		font-size: 1.5em;
+		font-weight: bold;
+	}
+}
+
 .checkboxOption {
 	$tick-size: 1.05em;
 	$checkbox-size: 1.4em;
@@ -315,15 +380,6 @@
 	max-width: 50vw;
 }
 
-summary {
-	border: var(--interactable-border);
-	list-style: none;
-
-	&::-webkit-details-marker {
-		display: none;
-	}
-}
-
 .radioButtons {
 	.radioButton {
 		margin-bottom: 0.75em;
@@ -357,7 +413,8 @@ summary {
 	}
 }
 
-.connectorOptionsList {
+.connectorOptionsList,
+.scrobbleCacheList {
 	$animation-duration: 0.2s;
 
 	summary,
@@ -374,6 +431,10 @@ summary {
 
 	summary {
 		cursor: pointer;
+
+		&::-webkit-details-marker {
+			display: none;
+		}
 	}
 
 	.expandVector {
@@ -549,13 +610,135 @@ summary {
 	}
 }
 
-.saveIcon {
-	transform: rotate(0deg);
+.scrobble {
+	align-items: center;
+	background-color: var(--last-fm-bg-weak);
+	border-radius: 1em;
+	box-shadow: var(--neuomorphic-small-bottom), var(--neuomorphic-small-top);
+	display: flex;
+	gap: 0.5em;
+	height: 7em;
+	margin-bottom: 1em;
+	overflow: hidden;
+	padding-right: 1em;
 
-	&.savingSaveIcon {
-		transform: rotate(360deg);
-		transform-origin: 41% 42.5%;
-		transition: transform 600ms ease-in-out;
+	.scrobbleCheckbox {
+		border: none;
+	}
+
+	.coverArt {
+		height: 7em;
+		object-fit: cover;
+		width: 7em;
+	}
+
+	.scrobbleDetails {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+		flex-shrink: 1;
+		justify-content: space-between;
+		min-height: 6em;
+		overflow: hidden;
+
+		.scrobbleMetadata {
+			display: flex;
+			flex-direction: column;
+
+			span {
+				white-space: nowrap;
+			}
+
+			.trackName {
+				font-size: 1rem;
+				font-weight: bold;
+			}
+
+			.artistName,
+			.albumName,
+			.albumArtistName {
+				font-size: 0.7rem;
+			}
+		}
+
+		.scrobbleActions {
+			display: flex;
+			gap: 0.5rem;
+
+			.scrobbleActionButton {
+				background-color: var(--always-last-fm);
+				border: none;
+				border-radius: 3px;
+				color: var(--always-light);
+				cursor: pointer;
+
+				&:hover {
+					background-color: var(--always-last-fm-hover);
+				}
+
+				&:disabled {
+					background-color: var(--last-fm-bg);
+					color: var(--text);
+				}
+			}
+		}
+	}
+
+	&:has(:checked) {
+		background-color: var(--always-last-fm);
+		color: var(--always-light);
+
+		.scrobbleDetails .scrobbleActions .scrobbleActionButton {
+			background-color: var(--last-fm-bg-light);
+			color: var(--always-last-fm);
+		}
+	}
+
+	&.selectingScrobble {
+		cursor: pointer;
+
+		&:hover:not(:has(:checked)) {
+			background-color: var(--last-fm-bg);
+			color: var(--text);
+
+			.scrobbleDetails .scrobbleActions .scrobbleActionButton {
+				background-color: var(--always-last-fm);
+				color: var(--always-light);
+			}
+		}
+	}
+
+	@media only screen and (width <= 500px) {
+		.scrobbleDetails .scrobbleMetadata {
+			.trackName {
+				font-size: 0.8rem;
+			}
+
+			.artistName,
+			.albumName,
+			.albumArtistName {
+				font-size: 0.6rem;
+			}
+		}
+
+		.scrobbleDate {
+			font-size: 0.8rem;
+		}
+	}
+
+	@media only screen and (width <= 400px) {
+		border-radius: 0;
+		box-sizing: border-box;
+		margin-left: -1rem;
+		width: 100vw;
+	}
+
+	@media only screen and (width <= 300px) {
+		padding-right: 0.5rem;
+
+		.scrobbleDate {
+			font-size: 0.7rem;
+		}
 	}
 }
 

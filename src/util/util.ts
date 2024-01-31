@@ -10,6 +10,7 @@ import {
 	WebhookModel,
 	Properties,
 	StateManagement,
+	CacheScrobble,
 	BlockedTags,
 	Blocklists,
 } from '@/core/storage/wrapper';
@@ -140,6 +141,7 @@ export function hideObjectValue(
 		| WebhookModel
 		| StateManagement
 		| RegexEdit[]
+		| CacheScrobble[]
 		| BlockedTags[]
 		| Blocklists,
 ): string {

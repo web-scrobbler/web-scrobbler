@@ -4,26 +4,26 @@ interface AudioScrobblerScrobbleEntry {
 	'#text'?: string;
 }
 
+interface AudioScrobblerScrobble {
+	artist: AudioScrobblerScrobbleEntry;
+	ignoredMessage: {
+		code: string;
+		message: string;
+	};
+	albumArtist: AudioScrobblerScrobbleEntry;
+	timestamp: string;
+	album: AudioScrobblerScrobbleEntry;
+	track: AudioScrobblerScrobbleEntry;
+}
+
 export interface AudioScrobblerTrackScrobbleResponse
 	extends Record<string, unknown> {
 	scrobbles: {
 		'@attr': {
-			accepted: string;
-			ignored: string;
+			accepted: number | string;
+			ignored: number | string;
 		};
-		scrobble: {
-			scrobbles: {
-				artist: AudioScrobblerScrobbleEntry;
-				ignoredMessage: {
-					code: string;
-					message: string;
-				};
-				albumArtist: AudioScrobblerScrobbleEntry;
-				timestamp: string;
-				album: AudioScrobblerScrobbleEntry;
-				track: AudioScrobblerScrobbleEntry;
-			}[];
-		};
+		scrobble: AudioScrobblerScrobble | AudioScrobblerScrobble[];
 	};
 }
 

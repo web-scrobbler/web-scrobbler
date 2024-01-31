@@ -1,14 +1,13 @@
 import { t } from '@/util/i18n';
 import { For, Setter, createMemo, createResource } from 'solid-js';
 import * as Options from '@/core/storage/options';
-import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
 import { DeleteOutlined } from '@/ui/components/icons';
 import { ExportEdits, ImportEdits, ViewEdits } from './util';
 import { ModalType } from '../navigator';
+import * as BrowserStorage from '@/core/storage/browser-storage';
 
 const localCache = BrowserStorage.getStorage(BrowserStorage.LOCAL_CACHE);
-const [edits, { mutate }] = createResource(localCache.get.bind(localCache));
 
 /**
  * Component that allows the user to see, import, and export track metadata edits.
@@ -35,7 +34,7 @@ export default function EditedTracks(props: {
 					editWrapper={localCache}
 					filename="local-cache.json"
 				/>
-				<ImportEdits editWrapper={localCache} mutate={mutate} />
+				<ImportEdits editWrapper={localCache} />
 			</div>
 		</>
 	);
@@ -46,6 +45,7 @@ export default function EditedTracks(props: {
  * To be displayed in a modal.
  */
 export function EditsModal() {
+	const [edits, { mutate }] = createResource(localCache.get.bind(localCache));
 	return (
 		<>
 			<h1>

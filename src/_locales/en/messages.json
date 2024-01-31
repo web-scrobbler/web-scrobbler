@@ -251,6 +251,54 @@
         "message": "Options",
         "description": "'Options' section"
     },
+    "optionsScrobbleCache": {
+        "message": "Cache",
+        "description": "'Scrobble Cache' section"
+    },
+    "optionsScrobbleCacheSelectAll": {
+        "message": "Select All",
+        "description": "Select All button label"
+    },
+    "optionsScrobbleCacheUnselectAll": {
+        "message": "Unselect All",
+        "description": "Unselect All button label"
+    },
+    "optionsScrobbleCacheSelectScrobbles": {
+        "message": "Select Scrobbles",
+        "description": "Select Scrobbles button label"
+    },
+    "optionsScrobbleCacheScrobbleSelected": {
+        "message": "Scrobble Selected",
+        "description": "Scrobble Selected button label"
+    },
+    "optionsScrobbleCacheEditAll": {
+        "message": "Edit and scrobble all unscrobbled instances of this song",
+        "description": "Label for checkbox to apply cache edit to all unscrobbled instances of the same track in cache."
+    },
+    "optionsScrobbleCacheLoading": {
+        "message": "Loading scrobble cache...",
+        "description": "'Scrobble Cache' section"
+    },
+    "optionsScrobbleCacheSuccess": {
+        "message": "Successful Scrobbles",
+        "description": "'Scrobble Cache' successful scrobbles section header"
+    },
+    "optionsScrobbleCacheError": {
+        "message": "Errored Scrobbles",
+        "description": "'Scrobble Cache' errored scrobbles section header"
+    },
+    "optionsScrobbleCacheIgnored": {
+        "message": "Ignored Scrobbles",
+        "description": "'Scrobble Cache' ignored scrobbles section header"
+    },
+    "optionsScrobbleCacheDisallowed": {
+        "message": "Disallowed Scrobbles",
+        "description": "'Scrobble Cache' disallowed scrobbles section header"
+    },
+    "optionsScrobbleCacheUnrecognized": {
+        "message": "Unrecognized Scrobbles",
+        "description": "'Scrobble Cache' unrecognized scrobbles section header"
+    },
     "optionsEdits": {
         "message": "Edits",
         "description": "'Edits' section"
@@ -531,6 +579,10 @@
         "message": "From \"$1\" album",
         "description": "Tooltip text"
     },
+    "buttonScrobble": {
+        "message": "Scrobble",
+        "description": "Scrobble button label"
+    },
     "buttonOk": {
         "message": "OK",
         "description": "OK button label"
@@ -546,6 +598,10 @@
     "buttonClear": {
         "message": "Clear",
         "description": "Clear button label"
+    },
+    "buttonRemove": {
+        "message": "Remove",
+        "description": "Remove button label, for removing a single scrobble from the cache"
     },
     "noItemsInCache": {
         "message": "No items in cache.",
