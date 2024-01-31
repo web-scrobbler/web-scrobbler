@@ -191,10 +191,7 @@ export function ImportBlocklist(props: {
 /**
  * Button that allows the user to upload a .json file and get edits from it.
  */
-export function ImportEdits(props: {
-	editWrapper: EditWrapper;
-	mutate: EditSetter;
-}) {
+export function ImportEdits(props: { editWrapper: EditWrapper }) {
 	const [ref, setRef] = createSignal<HTMLInputElement>();
 	return (
 		<button
@@ -208,7 +205,7 @@ export function ImportEdits(props: {
 				ref={setRef}
 				type="file"
 				accept=".json"
-				onChange={(e) => pushEdits(e, props.editWrapper, props.mutate)}
+				onChange={(e) => pushEdits(e, props.editWrapper)}
 			/>
 		</button>
 	);
@@ -223,7 +220,6 @@ function pushEdits(
 		target: Element;
 	},
 	editWrapper: EditWrapper,
-	mutate: EditSetter,
 ) {
 	const file = e.currentTarget.files?.[0];
 	if (!file) {
@@ -246,7 +242,6 @@ function pushEdits(
 								...edits,
 							};
 				editWrapper.set(newEdits);
-				mutate(newEdits);
 			})(arg),
 	);
 	reader.readAsText(file);
