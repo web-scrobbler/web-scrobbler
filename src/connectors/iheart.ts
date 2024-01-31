@@ -11,7 +11,9 @@ Connector.artistSelector = `${playerBar} [data-test=line-text]:nth-child(3)`;
 
 Connector.trackSelector = `${playerBar} [data-test=line-text]:nth-child(2)`;
 
-Connector.isScrobblingAllowed = () => {
+Connector.scrobblingDisallowedReason = () => {
 	const track = Connector.getTrack();
-	return Boolean(track && !track.startsWith('Thanks for listening'));
+	return track && !track.startsWith('Thanks for listening')
+		? null
+		: 'FilteredTag';
 };

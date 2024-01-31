@@ -12,9 +12,8 @@ Connector.playButtonSelector =
 	'button[data-testid="play-pause-button"][aria-pressed="false"]';
 Connector.trackArtSelector = 'div[class^="style_showInfoCard"] img.current-img';
 
-Connector.isScrobblingAllowed = () => {
-	return Connector.getTrack() !== getShowName();
-};
+Connector.scrobblingDisallowedReason = () =>
+	Connector.getTrack() === getShowName() ? 'FilteredTag' : null;
 
 function getShowName() {
 	return Util.getTextFromSelectors(showNameSelector);

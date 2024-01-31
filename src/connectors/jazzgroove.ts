@@ -22,7 +22,8 @@ Connector.isTrackArtDefault = () => {
 };
 
 // station bumpers and other spoken messages play with default images
-Connector.isScrobblingAllowed = () => !Connector.isTrackArtDefault();
+Connector.scrobblingDisallowedReason = () =>
+	Connector.isTrackArtDefault() ? 'Other' : null;
 
 Connector.isPlaying = () =>
 	!Util.hasElementClass(Connector.playerSelector, 'jg-player--paused');

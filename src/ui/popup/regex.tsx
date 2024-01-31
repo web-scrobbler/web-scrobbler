@@ -531,50 +531,54 @@ function Footer(props: {
 			<Show when={props.clonedSong?.flags.isCorrectedByUser}>
 				<span class={styles.editWarning}>{t('infoEditedWarning')}</span>
 			</Show>
-			<Show when={!isIos()}>
-				<div class={styles.controlButtons}>
-					<button
-						class={styles.controlButton}
-						title={t('infoSubmitTitle')}
-						onClick={() => void saveEdit(props.tab)}
-					>
-						<CheckOutlined />
-					</button>
-					<Flags />
-					<Show when={props.blockedTypes()}>
-						{(blockedTypesLoaded) => (
-							<>
-								<BlockTagButton
-									isBlocked={blockedTypesLoaded().artist}
-									type="artist"
-									tabId={props.tab()?.tabId}
-									clonedSong={props.clonedSong}
-									UnblockIcon={() => <Person />}
-									BlockIcon={() => <PersonOff />}
-								/>
-								<Show when={props.clonedSong?.getAlbum()}>
+			<div class={styles.regexFooterButtons}>
+				<Show when={!isIos()}>
+					<div class={styles.controlButtons}>
+						<button
+							class={styles.controlButton}
+							title={t('infoSubmitTitle')}
+							onClick={() => void saveEdit(props.tab)}
+						>
+							<CheckOutlined />
+						</button>
+						<Flags />
+						<Show when={props.blockedTypes()}>
+							{(blockedTypesLoaded) => (
+								<>
 									<BlockTagButton
-										isBlocked={blockedTypesLoaded().album}
-										type="album"
+										isBlocked={blockedTypesLoaded().artist}
+										type="artist"
 										tabId={props.tab()?.tabId}
 										clonedSong={props.clonedSong}
-										UnblockIcon={() => <Album />}
-										BlockIcon={() => <AlbumOff />}
+										UnblockIcon={() => <Person />}
+										BlockIcon={() => <PersonOff />}
 									/>
-								</Show>
-								<BlockTagButton
-									isBlocked={blockedTypesLoaded().track}
-									type="track"
-									tabId={props.tab()?.tabId}
-									clonedSong={props.clonedSong}
-									UnblockIcon={() => <MusicNote />}
-									BlockIcon={() => <MusicOff />}
-								/>
-							</>
-						)}
-					</Show>
-				</div>
-			</Show>
+									<Show when={props.clonedSong?.getAlbum()}>
+										<BlockTagButton
+											isBlocked={
+												blockedTypesLoaded().album
+											}
+											type="album"
+											tabId={props.tab()?.tabId}
+											clonedSong={props.clonedSong}
+											UnblockIcon={() => <Album />}
+											BlockIcon={() => <AlbumOff />}
+										/>
+									</Show>
+									<BlockTagButton
+										isBlocked={blockedTypesLoaded().track}
+										type="track"
+										tabId={props.tab()?.tabId}
+										clonedSong={props.clonedSong}
+										UnblockIcon={() => <MusicNote />}
+										BlockIcon={() => <MusicOff />}
+									/>
+								</>
+							)}
+						</Show>
+					</div>
+				</Show>
+			</div>
 		</div>
 	);
 }

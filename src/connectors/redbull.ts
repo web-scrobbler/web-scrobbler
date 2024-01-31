@@ -49,7 +49,7 @@ Connector.getArtistTrack = () => {
 
 Connector.playButtonSelector = 'rbPlyr-playPause:not(.rbPlyr-pause)';
 
-Connector.isScrobblingAllowed = () => {
+Connector.scrobblingDisallowedReason = () => {
 	const pageType = Util.getAttrFromSelectors(
 		'meta[property="og:type"]',
 		'content',
@@ -57,12 +57,12 @@ Connector.isScrobblingAllowed = () => {
 
 	const categoryLink = Util.getAttrFromSelectors('a[href*="/tags/"]', 'href');
 
-	return Boolean(
-		pageType &&
-			ALLOWED_TYPES.includes(pageType) &&
-			categoryLink &&
-			'music' === categoryLink.split('/').pop(),
-	);
+	return pageType &&
+		ALLOWED_TYPES.includes(pageType) &&
+		categoryLink &&
+		'music' === categoryLink.split('/').pop()
+		? null
+		: 'Other';
 };
 
 function getArtistTrackFrom(getter: string) {
