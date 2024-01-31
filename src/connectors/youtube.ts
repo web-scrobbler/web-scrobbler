@@ -93,6 +93,9 @@ Connector.scrobbleInfoStyle = {
 	fontWeight: '700',
 };
 
+Connector.loveButtonSelector =
+	'ytd-watch-metadata like-button-view-model button[aria-pressed="false"]';
+
 Connector.getChannelId = () =>
 	new URL(
 		(

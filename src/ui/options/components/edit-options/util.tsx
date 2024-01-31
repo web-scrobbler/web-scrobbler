@@ -1,9 +1,14 @@
-import StorageWrapper, { Blocklists } from '@/core/storage/wrapper';
+import StorageWrapper, {
+	BlockedTags,
+	Blocklists,
+} from '@/core/storage/wrapper';
 import * as Options from '@/core/storage/options';
 import * as BrowserStorage from '@/core/storage/browser-storage';
-import Visibility from '@suid/icons-material/VisibilityOutlined';
-import Upload from '@suid/icons-material/UploadOutlined';
-import Download from '@suid/icons-material/DownloadOutlined';
+import {
+	VisibilityOutlined,
+	UploadOutlined,
+	DownloadOutlined,
+} from '@/ui/components/icons';
 import styles from '../components.module.scss';
 import { t } from '@/util/i18n';
 import { Setter, createSignal } from 'solid-js';
@@ -12,13 +17,16 @@ import { ModalType } from '../navigator';
 import { ConnectorMeta } from '@/core/connectors';
 
 type EditWrapper = StorageWrapper<
-	typeof BrowserStorage.REGEX_EDITS | typeof BrowserStorage.LOCAL_CACHE
+	| typeof BrowserStorage.REGEX_EDITS
+	| typeof BrowserStorage.LOCAL_CACHE
+	| typeof BrowserStorage.BLOCKED_TAGS
 >;
 type EditSetter = Setter<
 	| {
 			[key: string]: Options.SavedEdit;
 	  }
 	| RegexEdit[]
+	| BlockedTags
 	| null
 	| undefined
 >;
@@ -40,7 +48,7 @@ export function ViewEdits(props: {
 				props.modal?.showModal();
 			}}
 		>
-			<Visibility />
+			<VisibilityOutlined />
 			{t('optionsViewEdited')}
 		</button>
 	);
@@ -63,7 +71,7 @@ export function ViewBlocklist(props: {
 				props.modal?.showModal();
 			}}
 		>
-			<Visibility />
+			<VisibilityOutlined />
 			{t('optionsViewEdited')}
 		</button>
 	);
@@ -83,7 +91,7 @@ export function ExportEdits(props: {
 				void downloadEdits(props.editWrapper, props.filename)
 			}
 		>
-			<Upload />
+			<UploadOutlined />
 			{t('optionsExportEdited')}
 		</button>
 	);
@@ -108,7 +116,7 @@ export function ExportBlocklist(props: {
 				)
 			}
 		>
-			<Upload />
+			<UploadOutlined />
 			{t('optionsExportEdited')}
 		</button>
 	);
@@ -166,7 +174,7 @@ export function ImportBlocklist(props: {
 			class={`${styles.button} ${styles.shiftLeft}`}
 			onClick={() => ref()?.click()}
 		>
-			<Download />
+			<DownloadOutlined />
 			{t('optionsImportEdited')}
 			<input
 				hidden={true}
@@ -199,7 +207,7 @@ export function ImportEdits(props: {
 			class={`${styles.button} ${styles.shiftLeft}`}
 			onClick={() => ref()?.click()}
 		>
-			<Download />
+			<DownloadOutlined />
 			{t('optionsImportEdited')}
 			<input
 				hidden={true}
@@ -232,22 +240,83 @@ function pushEdits(
 		'load',
 		(arg) =>
 			void (async (e) => {
-				const edits = JSON.parse(
-					e.target?.result as string,
-				) as RegexEdit[];
+				const edits = JSON.parse(e.target?.result as string) as
+					| RegexEdit[]
+					| BlockedTags
+					| Record<string, Options.SavedEdit>;
+
 				const oldEdits = await editWrapper.get();
-				const newEdits =
-					oldEdits instanceof Array
-						? [...(oldEdits ?? []), ...edits]
-						: {
-								...oldEdits,
-								...edits,
-							};
-				editWrapper.set(newEdits);
-				mutate(newEdits);
+
+				if (oldEdits instanceof Array && edits instanceof Array) {
+					const newEdits = [...(oldEdits ?? []), ...edits];
+					editWrapper.set(newEdits);
+					mutate(newEdits);
+				} else if (isSavedEdits(oldEdits) && isSavedEdits(edits)) {
+					const newEdits = { ...(oldEdits || {}), ...edits };
+					editWrapper.set(newEdits);
+					mutate(newEdits);
+				} else if (isBlockedTags(oldEdits) && isBlockedTags(edits)) {
+					const newEdits = { ...oldEdits };
+					for (const [artist, value] of Object.entries(edits)) {
+						if (!(artist in newEdits)) {
+							newEdits[artist] = value;
+							continue;
+						}
+						newEdits[artist].albums = {
+							...newEdits[artist].albums,
+							...edits[artist].albums,
+						};
+						newEdits[artist].tracks = {
+							...newEdits[artist].tracks,
+							...edits[artist].tracks,
+						};
+						if (
+							newEdits[artist].disabled ||
+							edits[artist].disabled
+						) {
+							newEdits[artist].disabled = true;
+						}
+					}
+					editWrapper.set(newEdits);
+					mutate(newEdits);
+				}
 			})(arg),
 	);
 	reader.readAsText(file);
+}
+
+function isSavedEdits(
+	edits: BlockedTags | Record<string, Options.SavedEdit> | RegexEdit[] | null,
+): edits is Record<string, Options.SavedEdit> {
+	if (edits === null || edits instanceof Array) {
+		return false;
+	}
+	const keys = Object.keys(edits);
+	// if no keys we cannot know which it is but it also doesn't matter, just allow it to be both, it won't error
+	if (keys.length === 0) {
+		return true;
+	}
+	if ('artist' in edits[keys[0]]) {
+		return true;
+	}
+	return false;
+}
+
+function isBlockedTags(
+	edits: BlockedTags | Record<string, Options.SavedEdit> | RegexEdit[] | null,
+): edits is BlockedTags {
+	if (edits === null || edits instanceof Array) {
+		return false;
+	}
+	const keys = Object.keys(edits);
+	// if no keys we cannot know which it is but it also doesn't matter, just allow it to be both, it won't error
+	if (keys.length === 0) {
+		return true;
+	}
+	if ('albums' in edits[keys[0]]) {
+		return true;
+	}
+	return false;
 }
 
 /**

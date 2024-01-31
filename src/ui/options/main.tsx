@@ -3,7 +3,7 @@ import styles from './settings.module.scss';
 import { initializeThemes } from '@/theme/themes';
 import '@/theme/themes.scss';
 import { Show, createSignal, onCleanup } from 'solid-js';
-import Close from '@suid/icons-material/CloseOutlined';
+import { CloseOutlined } from '@/ui/components/icons';
 import Sidebar from './sidebar/sidebar';
 import { EditsModal } from './components/edit-options/edited-tracks';
 import Permissions from './components/permissions';
@@ -18,6 +18,7 @@ import {
 	showSomeLoveItem,
 } from './components/navigator';
 import ContextMenu from '../components/context-menu/context-menu';
+import { BlockedTagsModal } from './components/edit-options/blocked-tags';
 import { BlocklistModal } from './components/edit-options/blocked-channels';
 
 /**
@@ -54,6 +55,7 @@ const modalMap = {
 	savedEdits: EditsModal,
 	regexEdits: RegexEditsModal,
 	blocklist: BlocklistModal,
+	blockedTags: BlockedTagsModal,
 	'': () => <div>Loading...</div>,
 };
 
@@ -125,7 +127,7 @@ function Options() {
 					class={styles.modalClose}
 					onClick={() => modal?.close()}
 				>
-					<Close />
+					<CloseOutlined />
 				</button>
 			</dialog>
 		</>

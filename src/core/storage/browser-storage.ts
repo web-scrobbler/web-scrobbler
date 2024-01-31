@@ -49,6 +49,24 @@ export const CUSTOM_PATTERNS = 'customPatterns';
 export const NOTIFICATIONS = 'Notifications';
 
 /**
+ * This storage contains the tags blocked for scrobbling by the user.
+ * This can be artists, albums, or tracks.
+ * The format of the storage data is as follows:
+ * \{
+ *     artist_name: \{
+ *         disabled: true, // true if artist blocked
+ *         albums: \{
+ *             album_name: true, // true if album blocked
+ *         \},
+ *         tracks: \{
+ *             track_name: true, // true if track blocked
+ *         \},
+ *     \}
+ * \}
+ */
+export const BLOCKED_TAGS = 'BlockedTags';
+
+/**
  * This storage contains the song data saved by an user.
  * The format of storage data is following:
  * \{
@@ -61,6 +79,12 @@ export const NOTIFICATIONS = 'Notifications';
  * \}
  */
 export const LOCAL_CACHE = 'LocalCache';
+
+/**
+ * This storage contains the list of websites with native scrobbling
+ * for which a notification has already been sent to the user before.
+ */
+export const NATIVE_SCROBBLER_NOTIFICATION = 'NativeScrobblerNotification';
 
 /**
  * This storage contains the blocklist of each connector.
@@ -135,9 +159,11 @@ const storageTypeMap = {
 	Webhook: LOCAL,
 	Pleroma: LOCAL,
 
+	[NATIVE_SCROBBLER_NOTIFICATION]: LOCAL,
 	[BLOCKLISTS]: LOCAL,
 	[LOCAL_CACHE]: LOCAL,
 	[REGEX_EDITS]: LOCAL,
+	[BLOCKED_TAGS]: LOCAL,
 	[CORE]: LOCAL,
 	[STATE_MANAGEMENT]: LOCAL,
 	[DISABLED_TABS]: LOCAL,

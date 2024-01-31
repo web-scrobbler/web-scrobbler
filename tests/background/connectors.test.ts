@@ -8,6 +8,7 @@ import * as UrlMatch from '@/util/url-match';
 
 const PROP_TYPES: {
 	usesBlocklist: 'boolean';
+	hasNativeScrobbler: 'boolean';
 	allFrames: 'boolean';
 	matches: 'array';
 	label: 'string';
@@ -15,6 +16,7 @@ const PROP_TYPES: {
 	id: 'string';
 } = {
 	usesBlocklist: 'boolean',
+	hasNativeScrobbler: 'boolean',
 	allFrames: 'boolean',
 	matches: 'array',
 	label: 'string',

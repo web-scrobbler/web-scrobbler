@@ -204,7 +204,8 @@ Connector.scrobblingDisallowedReason = () => {
 		if (!tags.includes('音乐')) {
 			return 'FilteredTag';
 		}
-	} else if (useScrobbleTagFilter) {
+	}
+	if (useScrobbleTagFilter) {
 		if (tags.some((tag) => isIncludeElems(tag, tagFilterKeyWords))) {
 			return 'FilteredTag';
 		}

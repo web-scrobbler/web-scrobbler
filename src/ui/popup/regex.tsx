@@ -1,13 +1,22 @@
 import ClonedSong from '@/core/object/cloned-song';
 import styles from './popup.module.scss';
-import Check from '@suid/icons-material/CheckOutlined';
-import Close from '@suid/icons-material/CloseOutlined';
+import {
+	Album,
+	AlbumOff,
+	CheckOutlined,
+	CloseOutlined,
+	MusicOff,
+	MusicNote,
+	PersonOff,
+	Person,
+} from '@/ui/components/icons';
 
 import { t } from '@/util/i18n';
 import {
 	JSXElement,
 	Match,
 	Resource,
+	Setter,
 	Show,
 	Switch,
 	createEffect,
@@ -26,7 +35,7 @@ import {
 	replaceFields,
 	searchMatches,
 } from '@/util/regex';
-import { ManagerTab } from '@/core/storage/wrapper';
+import { BlockedTagType, ManagerTab } from '@/core/storage/wrapper';
 import regexEdits from '@/core/storage/regex-edits';
 import { sendBackgroundMessage } from '@/util/communication';
 import ContextMenu from '../components/context-menu/context-menu';
@@ -35,6 +44,8 @@ import {
 	getMobileNavigatorGroup,
 } from '../options/components/navigator';
 import { isIos } from '../components/util';
+import BlockedTags from '@/core/storage/blocked-tags';
+import componentStyles from '@/ui/options/components/components.module.scss';
 
 const [searches, setSearches] = createSignal({
 	track: null,
@@ -54,6 +65,7 @@ const [previews, setPreviews] = createSignal({
 	album: '',
 	albumArtist: '',
 } as EditedFields);
+const blockedTags = new BlockedTags();
 
 /**
  * Regex editing popup
@@ -62,6 +74,19 @@ export default function Regex(props: {
 	clonedSong: ClonedSong | undefined;
 	tab: Resource<ManagerTab>;
 }) {
+	const song = createMemo(() => props.clonedSong);
+	const [blockedTypes] = createResource(() =>
+		blockedTags.getBlockedTypes(song()),
+	);
+	const [maxCellWidth, setMaxCellWidth] = createSignal(0);
+	const [regexContainer, setRegexContainer] = createSignal<HTMLDivElement>();
+	createEffect(() => {
+		regexContainer()?.style.setProperty(
+			'--max-cell-width',
+			`${maxCellWidth()}px`,
+		);
+	});
+
 	return (
 		<div
 			class={styles.regexContainer}
@@ -70,17 +95,63 @@ export default function Regex(props: {
 					saveEdit(props.tab);
 				}
 			}}
+			ref={setRegexContainer}
 		>
 			<Show when={!isIos()}>
-				<span class={styles.searchLabel}>{t('infoSearchLabel')}</span>
-				<span class={styles.replaceLabel}>{t('infoReplaceLabel')}</span>
-				<span class={styles.previewLabel}>{t('infoPreviewLabel')}</span>
+				<div class={styles.entryWrapper}>
+					<span />
+					<span class={styles.searchLabel}>
+						{t('infoSearchLabel')}
+					</span>
+					<span class={styles.replaceLabel}>
+						{t('infoReplaceLabel')}
+					</span>
+					<span class={styles.previewLabel}>
+						{t('infoPreviewLabel')}
+					</span>
+				</div>
 			</Show>
-			<Entry clonedSong={props.clonedSong} type="track" />
-			<Entry clonedSong={props.clonedSong} type="artist" />
-			<Entry clonedSong={props.clonedSong} type="album" />
-			<Entry clonedSong={props.clonedSong} type="albumArtist" />
-			<Footer tab={props.tab} clonedSong={props.clonedSong} />
+			<Entry
+				blockedTypes={blockedTypes}
+				tabId={props.tab()?.tabId}
+				setMaxCellWidth={setMaxCellWidth}
+				clonedSong={props.clonedSong}
+				type="track"
+				UnblockIcon={() => <MusicNote />}
+				BlockIcon={() => <MusicOff />}
+			/>
+			<Entry
+				blockedTypes={blockedTypes}
+				tabId={props.tab()?.tabId}
+				setMaxCellWidth={setMaxCellWidth}
+				clonedSong={props.clonedSong}
+				type="artist"
+				UnblockIcon={() => <Person />}
+				BlockIcon={() => <PersonOff />}
+			/>
+			<Entry
+				blockedTypes={blockedTypes}
+				tabId={props.tab()?.tabId}
+				setMaxCellWidth={setMaxCellWidth}
+				clonedSong={props.clonedSong}
+				type="album"
+				UnblockIcon={() => <Album />}
+				BlockIcon={() => <AlbumOff />}
+			/>
+			<Entry
+				blockedTypes={blockedTypes}
+				tabId={props.tab()?.tabId}
+				setMaxCellWidth={setMaxCellWidth}
+				clonedSong={props.clonedSong}
+				type="albumArtist"
+				UnblockIcon={() => <Person />}
+				BlockIcon={() => <PersonOff />}
+			/>
+			<Footer
+				blockedTypes={blockedTypes}
+				tab={props.tab}
+				clonedSong={props.clonedSong}
+			/>
 		</div>
 	);
 }
@@ -88,7 +159,19 @@ export default function Regex(props: {
 /**
  * Label, inputs, and preview for a single song field.
  */
-function Entry(props: { clonedSong: ClonedSong | undefined; type: FieldType }) {
+function Entry(props: {
+	blockedTypes: Resource<{
+		artist: boolean;
+		album: boolean;
+		track: boolean;
+	}>;
+	tabId: number | undefined;
+	clonedSong: ClonedSong | undefined;
+	UnblockIcon: () => JSXElement;
+	BlockIcon: () => JSXElement;
+	type: FieldType;
+	setMaxCellWidth: Setter<number>;
+}) {
 	onMount(() => {
 		const type = props.type;
 		const clonedSong = props.clonedSong;
@@ -108,14 +191,23 @@ function Entry(props: { clonedSong: ClonedSong | undefined; type: FieldType }) {
 		);
 	});
 
+	const [pcLabel, setPcLabel] = createSignal<HTMLSpanElement>();
+	createEffect(() => {
+		const curWidth = pcLabel()?.clientWidth ?? 0;
+		props.setMaxCellWidth((prevMax) => Math.max(prevMax, curWidth));
+	});
+
 	return (
-		<EntryWrapper type={props.type}>
+		<EntryWrapper
+			blockedTypes={props.blockedTypes}
+			tabId={props.tabId}
+			clonedSong={props.clonedSong}
+			UnblockIcon={props.UnblockIcon}
+			BlockIcon={props.BlockIcon}
+			type={props.type}
+		>
 			<Show when={!isIos()}>
-				<span
-					class={`${styles[`${props.type}Label`]} ${
-						styles.entryLabel
-					}`}
-				>
+				<span class={styles.entryLabel} ref={setPcLabel}>
 					{t(`info${pascalCaseField(props.type)}Label`)}
 				</span>
 			</Show>
@@ -126,17 +218,125 @@ function Entry(props: { clonedSong: ClonedSong | undefined; type: FieldType }) {
 	);
 }
 
+function BlockTagButtonIOS(props: {
+	blockedTypes: Resource<{
+		artist: boolean;
+		album: boolean;
+		track: boolean;
+	}>;
+	type: FieldType;
+	tabId: number | undefined;
+	clonedSong: ClonedSong | undefined;
+	UnblockIcon: () => JSXElement;
+	BlockIcon: () => JSXElement;
+}) {
+	const transformedType = createMemo(() => {
+		if (props.type === 'albumArtist') {
+			return 'artist';
+		}
+		return props.type;
+	});
+	return (
+		<Show when={props.blockedTypes()}>
+			{(loadedBlockedTypes) => (
+				<button
+					class={componentStyles.button}
+					title={t(
+						loadedBlockedTypes()[transformedType()]
+							? `infoUnblock${pascalCaseField(transformedType())}`
+							: `infoBlock${pascalCaseField(transformedType())}`,
+					)}
+					onClick={() => {
+						const tabId = props.tabId;
+						loadedBlockedTypes()[transformedType()]
+							? blockedTags
+									.removeFromBlocklist(
+										transformedType(),
+										props.clonedSong,
+									)
+									.then(() =>
+										sendBackgroundMessage(tabId ?? -1, {
+											type: 'reprocessSong',
+											payload: undefined,
+										}),
+									)
+							: blockedTags
+									.addToBlocklist(
+										transformedType(),
+										props.clonedSong,
+									)
+									.then(() =>
+										sendBackgroundMessage(tabId ?? -1, {
+											type: 'reprocessSong',
+											payload: undefined,
+										}),
+									);
+					}}
+				>
+					<Show
+						when={loadedBlockedTypes()[transformedType()]}
+						fallback={
+							<>
+								<props.BlockIcon />
+								{t(
+									`infoBlock${pascalCaseField(
+										transformedType(),
+									)}`,
+								)}
+							</>
+						}
+					>
+						<props.UnblockIcon />
+						{t(`infoUnblock${pascalCaseField(transformedType())}`)}
+					</Show>
+				</button>
+			)}
+		</Show>
+	);
+}
+
 /**
  * Wrapper for an entry that shows a fieldset on iOS and just the inputs on other platforms.
  */
-function EntryWrapper(props: { type: FieldType; children: JSXElement }) {
+function EntryWrapper(props: {
+	blockedTypes: Resource<{
+		artist: boolean;
+		album: boolean;
+		track: boolean;
+	}>;
+	tabId: number | undefined;
+	clonedSong: ClonedSong | undefined;
+	UnblockIcon: () => JSXElement;
+	BlockIcon: () => JSXElement;
+	type: FieldType;
+	children: JSXElement;
+}) {
 	return (
-		<Show when={isIos()} fallback={props.children}>
+		<Show
+			when={isIos()}
+			fallback={
+				<div
+					class={styles.entryWrapper}
+					role="group"
+					aria-label={t(`info${pascalCaseField(props.type)}Label`)}
+				>
+					{props.children}
+				</div>
+			}
+		>
 			<fieldset class={styles.entryWrapper}>
 				<legend class={styles.entryWrapperLegend}>
 					{t(`info${pascalCaseField(props.type)}Label`)}
 				</legend>
 				{props.children}
+				<BlockTagButtonIOS
+					blockedTypes={props.blockedTypes}
+					tabId={props.tabId}
+					clonedSong={props.clonedSong}
+					UnblockIcon={props.UnblockIcon}
+					BlockIcon={props.BlockIcon}
+					type={props.type}
+				/>
 			</fieldset>
 		</Show>
 	);
@@ -150,7 +350,7 @@ function SearchField(props: {
 	clonedSong: ClonedSong | undefined;
 }) {
 	return (
-		<div class={`${styles[`${props.type}Search`]} ${styles.searchWrapper}`}>
+		<div class={styles.searchWrapper}>
 			<Show when={isIos()}>
 				<label
 					for={`${props.type}SearchInput`}
@@ -169,10 +369,11 @@ function SearchField(props: {
 						[props.type]: e.currentTarget.value || null,
 					}))
 				}
+				title={t('infoSearchLabel')}
 			/>
 			<Switch
 				fallback={
-					<Close
+					<CloseOutlined
 						class={`${styles.regexTest} ${styles.regexFailure}`}
 					/>
 				}
@@ -186,7 +387,7 @@ function SearchField(props: {
 						getSongFieldNoRegex(props.clonedSong, props.type),
 					)}
 				>
-					<Check
+					<CheckOutlined
 						class={`${styles.regexTest} ${styles.regexSuccess}`}
 					/>
 				</Match>
@@ -212,13 +413,13 @@ function ReplaceField(props: { type: FieldType }) {
 			<input
 				id={`${props.type}ReplaceInput`}
 				type="text"
-				class={styles[`${props.type}Replace`]}
 				onInput={(e) =>
 					setReplaces((prev) => ({
 						...prev,
 						[props.type]: e.currentTarget.value || null,
 					}))
 				}
+				title={t('infoReplaceLabel')}
 			/>
 		</>
 	);
@@ -240,7 +441,7 @@ function PreviewOutput(props: { type: FieldType }) {
 			</Show>
 			<output
 				id={`${props.type}PreviewOutput`}
-				class={styles[`${props.type}Preview`]}
+				title={t('infoPreviewLabel')}
 			>
 				{previews()[props.type]}
 			</output>
@@ -254,6 +455,11 @@ function PreviewOutput(props: { type: FieldType }) {
 function Footer(props: {
 	tab: Resource<ManagerTab>;
 	clonedSong: ClonedSong | undefined;
+	blockedTypes: Resource<{
+		artist: boolean;
+		album: boolean;
+		track: boolean;
+	}>;
 }) {
 	return (
 		<div class={styles.regexFooter}>
@@ -269,11 +475,87 @@ function Footer(props: {
 							saveEdit(props.tab);
 						}}
 					>
-						<Check />
+						<CheckOutlined />
 					</button>
+					<Show when={props.blockedTypes()}>
+						{(blockedTypesLoaded) => (
+							<>
+								<BlockTagButton
+									isBlocked={blockedTypesLoaded().artist}
+									type="artist"
+									tabId={props.tab()?.tabId}
+									clonedSong={props.clonedSong}
+									UnblockIcon={() => <Person />}
+									BlockIcon={() => <PersonOff />}
+								/>
+								<Show when={props.clonedSong?.getAlbum()}>
+									<BlockTagButton
+										isBlocked={blockedTypesLoaded().album}
+										type="album"
+										tabId={props.tab()?.tabId}
+										clonedSong={props.clonedSong}
+										UnblockIcon={() => <Album />}
+										BlockIcon={() => <AlbumOff />}
+									/>
+								</Show>
+								<BlockTagButton
+									isBlocked={blockedTypesLoaded().track}
+									type="track"
+									tabId={props.tab()?.tabId}
+									clonedSong={props.clonedSong}
+									UnblockIcon={() => <MusicNote />}
+									BlockIcon={() => <MusicOff />}
+								/>
+							</>
+						)}
+					</Show>
 				</div>
 			</Show>
 		</div>
+	);
+}
+
+function BlockTagButton(props: {
+	isBlocked: boolean;
+	type: BlockedTagType;
+	tabId: number | undefined;
+	clonedSong: ClonedSong | undefined;
+	UnblockIcon: () => JSXElement;
+	BlockIcon: () => JSXElement;
+}) {
+	return (
+		<button
+			class={styles.controlButton}
+			title={t(
+				props.isBlocked
+					? `infoUnblock${pascalCaseField(props.type)}`
+					: `infoBlock${pascalCaseField(props.type)}`,
+			)}
+			onClick={() => {
+				const tabId = props.tabId;
+				props.isBlocked
+					? blockedTags
+							.removeFromBlocklist(props.type, props.clonedSong)
+							.then(() =>
+								sendBackgroundMessage(tabId ?? -1, {
+									type: 'reprocessSong',
+									payload: undefined,
+								}),
+							)
+					: blockedTags
+							.addToBlocklist(props.type, props.clonedSong)
+							.then(() =>
+								sendBackgroundMessage(tabId ?? -1, {
+									type: 'reprocessSong',
+									payload: undefined,
+								}),
+							);
+			}}
+		>
+			<Show when={props.isBlocked} fallback={<props.BlockIcon />}>
+				<props.UnblockIcon />
+			</Show>
+		</button>
 	);
 }
 
@@ -286,7 +568,7 @@ export function RegexEditContextMenu(props: { tab: Resource<ManagerTab> }) {
 		const items: Navigator = [
 			{
 				namei18n: 'infoSubmitTitleShort',
-				icon: Check,
+				icon: CheckOutlined,
 				action: () => void saveEdit(props.tab),
 			},
 		];

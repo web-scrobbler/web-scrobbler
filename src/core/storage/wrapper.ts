@@ -6,6 +6,7 @@ import {
 	CORE,
 	CUSTOM_PATTERNS,
 	DISABLED_TABS,
+	BLOCKED_TAGS,
 	LOCAL_CACHE,
 	NOTIFICATIONS,
 	OPTIONS,
@@ -13,6 +14,7 @@ import {
 	STATE_MANAGEMENT,
 	StorageNamespace,
 	BLOCKLISTS,
+	NATIVE_SCROBBLER_NOTIFICATION,
 } from '@/core/storage/browser-storage';
 import {
 	ConnectorOptions,
@@ -80,6 +82,32 @@ export interface ManagerTab {
 	song: CloneableSong | null;
 }
 
+export type BlockedTagType = 'artist' | 'album' | 'track';
+
+export type BlockedTagsArtist = {
+	disabled?: true;
+	albums: Record<string, true>;
+	tracks: Record<string, true>;
+};
+
+export type BlockedTags = Record<string, BlockedTagsArtist>;
+
+export type BlockedTagsReference =
+	| {
+			type: 'artist';
+			artist: string;
+	  }
+	| {
+			type: 'album';
+			artist: string;
+			album: string;
+	  }
+	| {
+			type: 'track';
+			artist: string;
+			track: string;
+	  };
+
 export interface StateManagement {
 	activeTabs: ManagerTab[];
 	browserPreferredTheme: 'light' | 'dark';
@@ -101,6 +129,7 @@ export interface DataModels extends ScrobblerModels {
 	[CORE]: { appVersion: string };
 	[LOCAL_CACHE]: { [key: string]: SavedEdit };
 	[REGEX_EDITS]: RegexEdit[];
+	[BLOCKED_TAGS]: BlockedTags;
 	[BLOCKLISTS]: Blocklists;
 
 	/* state management */
@@ -109,6 +138,9 @@ export interface DataModels extends ScrobblerModels {
 		[key: number]: {
 			[key in (typeof connectors)[number]['id']]: true;
 		};
+	};
+	[NATIVE_SCROBBLER_NOTIFICATION]: {
+		[key in (typeof connectors)[number]['id']]: true;
 	};
 }
 

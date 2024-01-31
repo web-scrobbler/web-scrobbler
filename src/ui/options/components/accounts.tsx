@@ -15,10 +15,12 @@ import {
 } from 'solid-js';
 import styles from './components.module.scss';
 import browser from 'webextension-polyfill';
-import Delete from '@suid/icons-material/DeleteOutlined';
-import Save from '@suid/icons-material/SaveOutlined';
-import AutoRenew from '@suid/icons-material/AutorenewOutlined';
-import Check from '@suid/icons-material/CheckOutlined';
+import {
+	DeleteOutlined,
+	SaveOutlined,
+	AutorenewOutlined,
+	CheckOutlined,
+} from '@/ui/components/icons';
 import { debugLog } from '@/util/util';
 import { sendContentMessage } from '@/util/communication';
 import { Dynamic } from 'solid-js/web';
@@ -141,10 +143,11 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 	};
 	window.addEventListener('focus', onFocusWrapper);
 	onCleanup(() => window.removeEventListener('focus', onFocusWrapper));
+	const scrobblerLabel = createMemo(() => rawScrobbler()?.getLabel());
 
 	return (
-		<>
-			<h2>{rawScrobbler()?.getLabel()}</h2>
+		<div role="group" aria-label={scrobblerLabel()}>
+			<h2>{scrobblerLabel()}</h2>
 			<Switch
 				fallback={
 					<Show when={!showLocalProps()}>
@@ -214,7 +217,7 @@ function ScrobblerDisplay(props: { label: ScrobblerLabel }) {
 					<ArrayProperties scrobbler={rawScrobbler()} />
 				</Match>
 			</Switch>
-		</>
+		</div>
 	);
 }
 
@@ -257,9 +260,9 @@ function SaveButton() {
 	const [state, setState] = createSignal(SaveState.BASE);
 
 	const icons = {
-		[SaveState.BASE]: Save,
-		[SaveState.SAVING]: AutoRenew,
-		[SaveState.SAVED]: Check,
+		[SaveState.BASE]: SaveOutlined,
+		[SaveState.SAVING]: AutorenewOutlined,
+		[SaveState.SAVED]: CheckOutlined,
 	};
 
 	return (
@@ -404,7 +407,7 @@ function ArrayProperties(props: { scrobbler: Scrobbler | null }) {
 											});
 										}}
 									>
-										<Delete />
+										<DeleteOutlined />
 									</button>
 									<For each={Object.values(item)}>
 										{(val) => (

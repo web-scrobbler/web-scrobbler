@@ -8,7 +8,7 @@ import {
 } from 'solid-js';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
-import Delete from '@suid/icons-material/DeleteOutlined';
+import { DeleteOutlined } from '@/ui/components/icons';
 import { ExportBlocklist, ImportBlocklist, ViewBlocklist } from './util';
 import { ModalType } from '../navigator';
 import { ConnectorMeta } from '@/core/connectors';
@@ -36,7 +36,11 @@ export default function BlockedChannels(props: {
 		<>
 			<h3>{t('optionsBlockedSources')}</h3>
 			<p>{t('optionsBlockedSourcesDesc')}</p>
-			<div class={styles.buttonContainer}>
+			<div
+				class={styles.buttonContainer}
+				role="group"
+				aria-label={t('optionsBlockedSources')}
+			>
 				<ViewBlocklist
 					setActiveModal={props.setActiveModal}
 					modal={props.modal}
@@ -120,8 +124,9 @@ function ChannelInfo(props: {
 						};
 					});
 				}}
+				title={t('optionsDelete', props.channelLabel)}
 			>
-				<Delete />
+				<DeleteOutlined />
 			</button>
 			<span>{props.channelLabel}</span>
 		</li>

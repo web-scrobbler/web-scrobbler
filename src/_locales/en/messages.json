@@ -47,6 +47,14 @@
         "message": "Scrobble podcast episodes",
         "description": "Option title"
     },
+    "optionAutoToggleLove": {
+        "message": "Love/unlove tracks through players",
+        "description": "Option label"
+    },
+    "optionAutoToggleLoveTitle": {
+        "message": "When you like or dislike a track on a website, the track will also be loved/unloved in your scrobbler",
+        "description": "Option label"
+    },
     "optionDebugLoggingEnabled": {
         "message": "Enable debug logging",
         "description": "Option label"
@@ -271,6 +279,18 @@
         "message": "$1 regex/bulk edits",
         "description": "'Regex/Bulk edits' header"
     },
+    "optionsBlockedTags": {
+        "message": "Blocked tags",
+        "description": "'Blocked tags' header"
+    },
+    "optionsBlockedTagsDesc": {
+        "message": "This extension stores blocked artist/album/track tags.",
+        "description": "Description of blocked tags"
+    },
+    "optionsBlockedTagsPopupTitle": {
+        "message": "$1 blocked tags",
+        "description": "'Blocked tags' header"
+    },
     "optionsBlockedSources": {
         "message": "Blocked sources",
         "description": "'Edited tracks' header"
@@ -294,6 +314,22 @@
     "optionsImportEdited": {
         "message": "Import",
         "description": "Button to import edited tracks"
+    },
+    "optionsDelete": {
+        "message": "Delete $1",
+        "desciption": "Option label"
+    },
+    "optionsEnabled": {
+        "message": "Enabled",
+        "description": "Option label"
+    },
+    "optionsDisabled": {
+        "message": "Disabled",
+        "description": "Option label"
+    },
+    "optionsIndeterminate": {
+        "message": "Same as global option",
+        "description": "Option label"
     },
     "optionsConnectors": {
         "message": "Connectors",
@@ -743,6 +779,30 @@
       "message": "Skipped",
       "description": "Title of unskip button, should be short for mobile button label"
     },
+    "infoBlockArtist": {
+      "message": "Never scrobble this artist",
+      "description": "Title of button to block scrobbling artist"
+    },
+    "infoUnblockArtist": {
+      "message": "Scrobble this artist",
+      "description": "Title of button to unblock scrobbling artist"
+    },
+    "infoBlockAlbum": {
+      "message": "Never scrobble this album",
+      "description": "Title of button to block scrobbling album"
+    },
+    "infoUnblockAlbum": {
+      "message": "Scrobble this album",
+      "description": "Title of button to unblock scrobbling album"
+    },
+    "infoBlockTrack": {
+      "message": "Never scrobble this track",
+      "description": "Title of button to block scrobbling track"
+    },
+    "infoUnblockTrack": {
+      "message": "Scrobble this track",
+      "description": "Title of button to unblock scrobbling track"
+    },
     "infoOpenAlbumArt": {
         "message": "Open album art in new tab",
         "description": "Title of album image"
@@ -881,6 +941,14 @@
     },
     "notificationConnectAccountsText": {
         "message": "Click the notification to connect your accounts.",
+        "description": "Notification text"
+    },
+    "notificationNativeScrobbler": {
+      "message": "$1 has a built-in scrobbler!",
+      "description": "Notification title, $1 denotes the name of the website."
+    },
+    "notificationNativeScrobblerText": {
+        "message": "Make sure to turn off either Web Scrobbler or the built-in scrobbler!",
         "description": "Notification text"
     },
     "notificationAuthError": {

@@ -35,6 +35,9 @@ export type Flags =
 			isMarkedAsPlaying: boolean;
 			isSkipped: boolean;
 			isReplaying: boolean;
+			hasBlockedTag: boolean;
+			isLovedInService: boolean | null;
+			finishedProcessing: boolean;
 	  }
 	| Record<string, never>;
 
@@ -60,8 +63,7 @@ export interface CloneableSong {
 	noRegex: ProcessedSongData;
 	flags: Flags;
 	metadata: Metadata;
-	connectorLabel: string;
-	connectorId: string;
+	connector: ConnectorMeta;
 }
 
 export abstract class BaseSong {
@@ -70,8 +72,7 @@ export abstract class BaseSong {
 	public abstract noRegex: ProcessedSongData;
 	public abstract flags: Flags;
 	public abstract metadata: Metadata;
-	public abstract connectorLabel: string;
-	public abstract connectorId: string;
+	public abstract connector: ConnectorMeta;
 
 	/**
 	 * Get song artist.
@@ -228,8 +229,7 @@ export abstract class BaseSong {
 			processed: this.processed,
 			metadata: this.metadata,
 			flags: this.flags,
-			connectorLabel: this.connectorLabel,
-			connectorId: this.connectorId,
+			connector: this.connector,
 		};
 	}
 
@@ -305,8 +305,7 @@ export default class Song extends BaseSong {
 	public noRegex: ProcessedSongData;
 	public flags: Flags;
 	public metadata: Metadata;
-	public connectorLabel: string;
-	public connectorId: string;
+	public connector: ConnectorMeta;
 	/**
 	 * @param parsedData - Current state received from connector
 	 * @param connector - Connector match object
@@ -369,8 +368,7 @@ export default class Song extends BaseSong {
 			/* Filled in `initMetadata` method */
 		};
 
-		this.connectorLabel = connector.label;
-		this.connectorId = connector.id;
+		this.connector = connector;
 
 		this.initSongData();
 	}
@@ -438,6 +436,25 @@ export default class Song extends BaseSong {
 			 * Flag means song is replaying again.
 			 */
 			isReplaying: false,
+
+			/**
+			 * Flag means song has blocked tag
+			 */
+			hasBlockedTag: false,
+
+			/**
+			 * Flag means song has been liked/loved in the scrobbling service.
+			 * Is null until value has been read from the service page.
+			 * This is because we do not want to do anything when first setting from page,
+			 * but we do want to do something if the value changes afterwards.
+			 */
+			isLovedInService: null,
+
+			/**
+			 * finishedProcessing is set to true after done processing in pipelines.
+			 * While false don't set the song as playing while we wait for pipelines to finish.
+			 */
+			finishedProcessing: false,
 		};
 	}
 
@@ -453,7 +470,7 @@ export default class Song extends BaseSong {
 			 */
 			startTimestamp: Math.floor(Date.now() / 1000),
 
-			label: this.connectorLabel,
+			label: this.connector.label,
 		};
 	}
 

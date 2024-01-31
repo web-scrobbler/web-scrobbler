@@ -4,10 +4,12 @@ import * as Options from '@/core/storage/options';
 import { t } from '@/util/i18n';
 import StorageWrapper from '@/core/storage/wrapper';
 import * as BrowserStorage from '@/core/storage/browser-storage';
-import Check from '@suid/icons-material/CheckOutlined';
-import Close from '@suid/icons-material/CloseOutlined';
-import RestartAlt from '@suid/icons-material/RestartAltOutlined';
-import IndeterminateCheckBox from '@suid/icons-material/IndeterminateCheckBoxOutlined';
+import {
+	CheckOutlined,
+	CloseOutlined,
+	RestartAltOutlined,
+	IndeterminateCheckBoxOutlined,
+} from '@/ui/components/icons';
 import { ConnectorMeta } from '@/core/connectors';
 import { clamp } from '@/util/util';
 
@@ -45,6 +47,35 @@ export function Checkbox(props: {
 }
 
 /**
+ * Handles clicks and keyboard inputs for {@link SummaryCheckbox}.
+ *
+ * @param e - input event that triggered checkbox change.
+ * @param id - id of checkbox element.
+ * @param onInput - input event to run for checkbox.
+ */
+function handleSummaryCheckboxInput(
+	event: Event & {
+		currentTarget: HTMLLabelElement;
+		target: Element;
+	},
+	id: string,
+	onInput: (
+		e: Event & {
+			currentTarget: HTMLInputElement;
+			target: Element;
+		},
+	) => void,
+) {
+	event.preventDefault();
+	const checkbox = document.getElementById(id) as HTMLInputElement;
+	checkbox.checked = !checkbox.checked;
+	onInput({
+		...event,
+		currentTarget: checkbox,
+	});
+}
+
+/**
  * Checkbox option component made for being inside detail summary element.
  * Safari does not behave well with just a typical old checkbox, so we have to do some working around that.
  */
@@ -68,16 +99,17 @@ export function SummaryCheckbox(props: {
 					onClick={(e) => {
 						// Safari doesn't like labeled checkboxes in detail summaries
 						// hacky but it works, hopefully it doesnt stop working
-						e.preventDefault();
-						const checkbox = document.getElementById(
-							props.id,
-						) as HTMLInputElement;
-						checkbox.checked = !checkbox.checked;
-						props.onInput({
-							...e,
-							currentTarget: checkbox,
-						});
+						handleSummaryCheckboxInput(e, props.id, props.onInput);
 					}}
+					onKeyUp={(e) => {
+						// keyboard navigation does not like checkbox being inside summary.
+						// handle this behavior ourselves.
+						if (e.key !== ' ') {
+							return;
+						}
+						handleSummaryCheckboxInput(e, props.id, props.onInput);
+					}}
+					title={t('menuEnableConnector', props.label)}
 				>
 					<input
 						id={props.id}
@@ -119,12 +151,17 @@ export function RadioButtons(props: {
 			target: Element;
 		},
 	) => void;
+	labelledby: string;
 }) {
 	return (
-		<ul class={`${styles.radioButtons} ${styles.optionList}`}>
+		<div
+			class={`${styles.radioButtons} ${styles.optionList}`}
+			role="radiogroup"
+			aria-labelledby={props.labelledby}
+		>
 			<For each={props.buttons}>
 				{(button) => (
-					<li>
+					<div class={styles.radioButton}>
 						<input
 							type="radio"
 							id={`${props.name}-${button.value}`}
@@ -141,23 +178,23 @@ export function RadioButtons(props: {
 						>
 							{button.label}
 						</label>
-					</li>
+					</div>
 				)}
 			</For>
 			<Show when={props.reset}>
-				<li>
+				<div class={styles.radioButton}>
 					<button
 						class={`${styles.button} ${styles.shiftLeft}`}
 						onClick={(e) => {
 							props.reset?.(e);
 						}}
 					>
-						<RestartAlt />
+						<RestartAltOutlined />
 						{t('buttonReset')}
 					</button>
-				</li>
+				</div>
 			</Show>
-		</ul>
+		</div>
 	);
 }
 
@@ -268,7 +305,13 @@ export function RangeOptionEntry(props: {
 	key: keyof Options.GlobalOptions;
 }) {
 	return (
-		<li class={styles.rangeInput}>
+		<li
+			class={styles.rangeInput}
+			role="group"
+			aria-label={`${t(props.prefixi18n)} ${
+				props.options()?.[props.key] as number
+			}% ${t(props.suffixi18n)}`}
+		>
 			<div>
 				<span class={styles.rangeInputLabel}>
 					{t(props.prefixi18n)}
@@ -303,6 +346,9 @@ export function RangeOptionEntry(props: {
 								return newOptions;
 							});
 						}}
+						title={`${t(props.prefixi18n)} ${
+							props.options()?.[props.key] as number
+						}% ${t(props.suffixi18n)}`}
 					/>
 				</div>
 				<span class={styles.rangeInputLabel}>
@@ -344,6 +390,9 @@ export function RangeOptionEntry(props: {
 						return newOptions;
 					});
 				}}
+				title={`${t(props.prefixi18n)} ${
+					props.options()?.[props.key] as number
+				}% ${t(props.suffixi18n)}`}
 			/>
 		</li>
 	);
@@ -374,7 +423,11 @@ export function TripleCheckbox(props: {
 		<div class={styles.tripleCheckboxOption}>
 			<span title={props.title}>
 				{props.label}
-				<div class={styles.tripleCheckboxWrapper}>
+				<div
+					class={styles.tripleCheckboxWrapper}
+					role="radiogroup"
+					aria-label={props.label}
+				>
 					<label
 						class={`${styles.tripleCheckboxLabel} ${
 							styles.unchecked
@@ -383,6 +436,7 @@ export function TripleCheckbox(props: {
 								? ` ${styles.activeBox}`
 								: ''
 						}`}
+						title={t('optionsDisabled')}
 					>
 						<input
 							class={styles.tripleCheckbox}
@@ -396,7 +450,7 @@ export function TripleCheckbox(props: {
 								props.onInput(TripleCheckboxState.Unchecked)
 							}
 						/>
-						<Close />
+						<CloseOutlined />
 					</label>
 					<label
 						class={`${styles.tripleCheckboxLabel} ${
@@ -406,6 +460,7 @@ export function TripleCheckbox(props: {
 								? ` ${styles.activeBox}`
 								: ''
 						}`}
+						title={t('optionsIndeterminate')}
 					>
 						<input
 							class={styles.tripleCheckbox}
@@ -420,7 +475,7 @@ export function TripleCheckbox(props: {
 								props.onInput(TripleCheckboxState.Indeterminate)
 							}
 						/>
-						<IndeterminateCheckBox />
+						<IndeterminateCheckBoxOutlined />
 					</label>
 					<label
 						class={`${styles.tripleCheckboxLabel} ${
@@ -430,6 +485,7 @@ export function TripleCheckbox(props: {
 								? ` ${styles.activeBox}`
 								: ''
 						}`}
+						title={t('optionsEnabled')}
 					>
 						<input
 							class={styles.tripleCheckbox}
@@ -443,7 +499,7 @@ export function TripleCheckbox(props: {
 								props.onInput(TripleCheckboxState.Checked)
 							}
 						/>
-						<Check />
+						<CheckOutlined />
 					</label>
 				</div>
 			</span>
