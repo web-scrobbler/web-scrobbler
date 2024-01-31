@@ -32,7 +32,7 @@ export default function BlockedTagsElement(props: {
 					editWrapper={blocklist}
 					filename="regex-edits.json"
 				/>
-				<ImportEdits editWrapper={blocklist} mutate={mutate} />
+				<ImportEdits editWrapper={blocklist} />
 			</div>
 		</>
 	);
