@@ -3,7 +3,7 @@ export {};
 Connector.playerSelector = '.episode-player-wrapper';
 
 Connector.isPlaying = () => {
-	let title = document.querySelector('.soundcloud-player__play-icon title');
+	const title = document.querySelector('.soundcloud-player__play-icon title');
 	if (title && title.textContent === 'Play') {
 		return false;
 	}
