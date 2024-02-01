@@ -24,5 +24,5 @@ Connector.scrobbleInfoLocationSelector = '.soundcloud-player__content';
 Connector.scrobbleInfoStyle = {
 	...Connector.scrobbleInfoStyle,
 	fontSize: '0.5em',
-	marginLeft: '1em',
+	marginLeft: '2em',
 };
