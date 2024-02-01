@@ -3,12 +3,17 @@ import styles from './popup.module.scss';
 import {
 	Album,
 	AlbumOff,
+	CaseSensitiveOutlined,
 	CheckOutlined,
 	CloseOutlined,
+	DeleteForeverOutlined,
+	DeleteOutlined,
 	MusicOff,
 	MusicNote,
 	PersonOff,
 	Person,
+	RegexOutlined,
+	WholeWordOutlined,
 } from '@/ui/components/icons';
 
 import { t } from '@/util/i18n';
@@ -25,13 +30,16 @@ import {
 	createSignal,
 	onMount,
 } from 'solid-js';
+import { createStore } from 'solid-js/store';
 import {
 	EditedFields,
 	FieldType,
 	RegexFields,
+	RegexFlags,
 	getProcessedFieldsNoRegex,
 	getSongFieldNoRegex,
 	pascalCaseField,
+	processRegexFlags,
 	replaceFields,
 	searchMatches,
 } from '@/util/regex';
@@ -47,24 +55,29 @@ import { isIos } from '../components/util';
 import BlockedTags from '@/core/storage/blocked-tags';
 import componentStyles from '@/ui/options/components/components.module.scss';
 
-const [searches, setSearches] = createSignal({
+const [searches, setSearches] = createStore<RegexFields>({
 	track: null,
 	artist: null,
 	album: null,
 	albumArtist: null,
-} as RegexFields);
-const [replaces, setReplaces] = createSignal({
+});
+const [replaces, setReplaces] = createStore<RegexFields>({
 	track: null,
 	artist: null,
 	album: null,
 	albumArtist: null,
-} as RegexFields);
-const [previews, setPreviews] = createSignal({
+});
+const [previews, setPreviews] = createStore<EditedFields>({
 	track: '',
 	artist: '',
 	album: '',
 	albumArtist: '',
-} as EditedFields);
+});
+const [flags, setFlags] = createStore<Record<keyof RegexFlags, boolean>>({
+	isRegexDisabled: true,
+	isCaseInsensitive: true,
+	isGlobal: false,
+});
 const blockedTags = new BlockedTags();
 
 /**
@@ -97,6 +110,9 @@ export default function Regex(props: {
 			}}
 			ref={setRegexContainer}
 		>
+			<Show when={isIos()}>
+				<Flags />
+			</Show>
 			<Show when={!isIos()}>
 				<div class={styles.entryWrapper}>
 					<span />
@@ -156,6 +172,36 @@ export default function Regex(props: {
 	);
 }
 
+function Flags() {
+	return (
+		<div
+			class={styles.regexFlagsWrapper}
+			role="group"
+			aria-label={t('optionsOptions')}
+		>
+			<span>{t('optionsOptions')}</span>
+			<RegexFlagCheckbox
+				i18nTitle="infoUseRegex"
+				icon={RegexOutlined}
+				isInverted={true}
+				flag="isRegexDisabled"
+			/>
+			<RegexFlagCheckbox
+				i18nTitle="infoMatchCase"
+				icon={CaseSensitiveOutlined}
+				isInverted={true}
+				flag="isCaseInsensitive"
+			/>
+			<RegexFlagCheckbox
+				i18nTitle="infoMatchWholeTag"
+				icon={WholeWordOutlined}
+				isInverted={true}
+				flag="isGlobal"
+			/>
+		</div>
+	);
+}
+
 /**
  * Label, inputs, and preview for a single song field.
  */
@@ -173,19 +219,18 @@ function Entry(props: {
 	setMaxCellWidth: Setter<number>;
 }) {
 	onMount(() => {
-		const type = props.type;
-		const clonedSong = props.clonedSong;
-		setPreviews((prev) => ({
-			...prev,
-			[type]: getSongFieldNoRegex(clonedSong, type),
-		}));
+		setPreviews({
+			[props.type]: getSongFieldNoRegex(props.clonedSong, props.type),
+		});
 	});
-
 	createEffect(() => {
 		setPreviews(() =>
 			replaceFields(
-				searches(),
-				replaces(),
+				{
+					search: searches,
+					replace: replaces,
+					...processRegexFlags(flags),
+				},
 				getProcessedFieldsNoRegex(props.clonedSong),
 			),
 		);
@@ -350,7 +395,7 @@ function SearchField(props: {
 	clonedSong: ClonedSong | undefined;
 }) {
 	return (
-		<div class={styles.searchWrapper}>
+		<div class={styles.regexFieldWrapper}>
 			<Show when={isIos()}>
 				<label
 					for={`${props.type}SearchInput`}
@@ -362,33 +407,33 @@ function SearchField(props: {
 			<input
 				id={`${props.type}SearchInput`}
 				type="text"
-				class={styles.searchField}
+				class={styles.regexFieldInput}
 				onInput={(e) =>
-					setSearches((prev) => ({
-						...prev,
+					setSearches({
 						[props.type]: e.currentTarget.value || null,
-					}))
+					})
 				}
 				title={t('infoSearchLabel')}
 			/>
 			<Switch
 				fallback={
 					<CloseOutlined
-						class={`${styles.regexTest} ${styles.regexFailure}`}
+						class={`${styles.regexFieldItem} ${styles.regexFailure}`}
 					/>
 				}
 			>
-				<Match when={!searches()[props.type]}>
+				<Match when={!searches[props.type]}>
 					<></>
 				</Match>
 				<Match
 					when={searchMatches(
-						searches()[props.type],
+						searches[props.type],
 						getSongFieldNoRegex(props.clonedSong, props.type),
+						processRegexFlags(flags),
 					)}
 				>
 					<CheckOutlined
-						class={`${styles.regexTest} ${styles.regexSuccess}`}
+						class={`${styles.regexFieldItem} ${styles.regexSuccess}`}
 					/>
 				</Match>
 			</Switch>
@@ -400,28 +445,53 @@ function SearchField(props: {
  * A single replace input for a single song property.
  */
 function ReplaceField(props: { type: FieldType }) {
+	const [shouldDelete, setShouldReplace] = createSignal(false);
+	const [curReplace, setCurReplace] = createSignal('');
+
+	createEffect(() => {
+		setReplaces({
+			[props.type]: shouldDelete() ? '' : curReplace() || null,
+		});
+	});
+
 	return (
-		<>
-			<Show when={isIos()}>
-				<label
-					for={`${props.type}ReplaceInput`}
-					class={styles.iosReplaceLabel}
-				>
-					{t('infoReplaceLabel')}
-				</label>
-			</Show>
-			<input
-				id={`${props.type}ReplaceInput`}
-				type="text"
-				onInput={(e) =>
-					setReplaces((prev) => ({
-						...prev,
-						[props.type]: e.currentTarget.value || null,
-					}))
+		<div class={styles.regexFieldWrapper}>
+			<Switch>
+				<Match when={shouldDelete()}>
+					<span>{t('infoDeleteLabel')}</span>
+				</Match>
+				<Match when={!shouldDelete()}>
+					<Show when={isIos()}>
+						<label
+							for={`${props.type}ReplaceInput`}
+							class={styles.iosReplaceLabel}
+						>
+							{t('infoReplaceLabel')}
+						</label>
+					</Show>
+					<input
+						id={`${props.type}ReplaceInput`}
+						type="text"
+						onInput={(e) => setCurReplace(e.currentTarget.value)}
+						class={styles.regexFieldInput}
+						title={t('infoReplaceLabel')}
+					/>
+				</Match>
+			</Switch>
+			<button
+				class={`${styles.regexFieldItem} ${styles.button}`}
+				title={
+					shouldDelete()
+						? t('infoReplaceLabel')
+						: t('infoDeleteLabel')
 				}
-				title={t('infoReplaceLabel')}
-			/>
-		</>
+				onClick={() => setShouldReplace((cur) => !cur)}
+			>
+				<Show when={shouldDelete()} fallback={<DeleteOutlined />}>
+					<DeleteForeverOutlined />
+				</Show>
+			</button>
+		</div>
 	);
 }
 
@@ -443,7 +513,7 @@ function PreviewOutput(props: { type: FieldType }) {
 				id={`${props.type}PreviewOutput`}
 				title={t('infoPreviewLabel')}
 			>
-				{previews()[props.type]}
+				{previews[props.type]}
 			</output>
 		</>
 	);
@@ -466,15 +536,14 @@ function Footer(props: {
 			<Show when={props.clonedSong?.flags.isCorrectedByUser}>
 				<span class={styles.editWarning}>{t('infoEditedWarning')}</span>
 			</Show>
-			<div class={styles.regexFooterButtons}>
-				<Show when={!isIos()}>
+			<Show when={!isIos()}>
+				<Flags />
+				<div class={styles.regexFooterButtons}>
 					<div class={styles.controlButtons}>
 						<button
 							class={styles.controlButton}
 							title={t('infoSubmitTitle')}
-							onClick={() => {
-								saveEdit(props.tab);
-							}}
+							onClick={() => void saveEdit(props.tab)}
 						>
 							<CheckOutlined />
 						</button>
@@ -513,8 +582,8 @@ function Footer(props: {
 							)}
 						</Show>
 					</div>
-				</Show>
-			</div>
+				</div>
+			</Show>
 		</div>
 	);
 }
@@ -595,9 +664,46 @@ export function RegexEditContextMenu(props: { tab: Resource<ManagerTab> }) {
  * @param data - the new song data to edit to
  */
 async function saveEdit(tab: Resource<ManagerTab>) {
-	await regexEdits.saveRegexEdit(searches(), replaces());
+	await regexEdits.saveRegexEdit({
+		search: searches,
+		replace: replaces,
+		...processRegexFlags(flags),
+	});
 	sendBackgroundMessage(tab()?.tabId ?? -1, {
 		type: 'reprocessSong',
 		payload: undefined,
 	});
+}
+
+/**
+ * Regex flag checkbox
+ */
+function RegexFlagCheckbox(props: {
+	i18nTitle: string;
+	icon: typeof RegexOutlined;
+	isInverted?: true;
+	flag: keyof RegexFlags;
+}) {
+	return (
+		<label title={t(props.i18nTitle)} class={styles.regexToggleWrapper}>
+			<input
+				type="checkbox"
+				checked={
+					props.isInverted ? !flags[props.flag] : flags[props.flag]
+				}
+				class={styles.regexToggleInput}
+				onChange={() =>
+					setFlags((f) => ({
+						[props.flag]: !f[props.flag],
+					}))
+				}
+			/>
+			<props.icon />
+			<Show when={isIos()}>
+				<span class={styles.regexToggleLabel}>
+					{t(props.i18nTitle)}
+				</span>
+			</Show>
+		</label>
+	);
 }

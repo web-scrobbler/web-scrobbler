@@ -1,10 +1,10 @@
-import { JSXElement, createMemo } from 'solid-js';
+import { JSXElement, Show, createMemo } from 'solid-js';
 import styles from './icons.module.scss';
 import popupStyles from '@/ui/popup/popup.module.scss';
 import componentStyles from '@/ui/options/components/components.module.scss';
 
 function createMaterialIcon(Path: () => JSXElement) {
-	const Component = (props: { class?: string }) => {
+	const Component = (props: { class?: string; title?: string }) => {
 		const className = createMemo(() =>
 			props.class
 				? `${styles.materialIcon} ${props.class}`
@@ -21,6 +21,9 @@ function createMaterialIcon(Path: () => JSXElement) {
 				{...props}
 				class={className()}
 			>
+				<Show when={props.title}>
+					<title>{props.title}</title>
+				</Show>
 				<Path />
 			</svg>
 		);
@@ -124,16 +127,16 @@ export const CancelScheduleSendOutlined = createMaterialIcon(() => (
 	</g>
 ));
 
+export const CaseSensitiveOutlined = createMaterialIcon(() => (
+	<path d="M20.06 18a3.99 3.99 0 0 1-.2-.89c-.67.7-1.48 1.05-2.41 1.05c-.83 0-1.52-.24-2.05-.71c-.53-.45-.8-1.06-.8-1.79c0-.88.33-1.56 1-2.05c.67-.49 1.61-.73 2.83-.73h1.4v-.64c0-.49-.15-.88-.45-1.17c-.3-.29-.75-.43-1.33-.43c-.52 0-.95.12-1.3.36c-.35.25-.52.54-.52.89h-1.46c0-.43.15-.84.45-1.24c.28-.4.71-.71 1.22-.94c.51-.21 1.06-.35 1.69-.35c.98 0 1.74.24 2.29.73s.84 1.16.86 2.02V16c0 .8.1 1.42.3 1.88V18zm-2.4-1.12c.45 0 .88-.11 1.29-.32c.4-.21.7-.49.88-.83v-1.57H18.7c-1.77 0-2.66.47-2.66 1.41c0 .43.15.73.46.96c.3.23.68.35 1.16.35m-12.2-3.17h4.07L7.5 8.29zM6.64 6h1.72l4.71 12h-1.93l-.97-2.57H4.82L3.86 18H1.93z" />
+));
+
 export const CheckOutlined = createMaterialIcon(() => (
 	<path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z" />
 ));
 
 export const CloseOutlined = createMaterialIcon(() => (
 	<path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z" />
-));
-
-export const CodeOutlined = createMaterialIcon(() => (
-	<path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z" />
 ));
 
 export const ContactsOutlined = createMaterialIcon(() => (
@@ -144,12 +147,20 @@ export const DeleteOutlined = createMaterialIcon(() => (
 	<path d="M16 9v10H8V9h8m-1.5-6h-5l-1 1H5v2h14V4h-3.5l-1-1zM18 7H6v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7z" />
 ));
 
+export const DeleteForeverOutlined = createMaterialIcon(() => (
+	<path d="M14.12 10.47L12 12.59l-2.13-2.12-1.41 1.41L10.59 14l-2.12 2.12 1.41 1.41L12 15.41l2.12 2.12 1.41-1.41L13.41 14l2.12-2.12zM15.5 4l-1-1h-5l-1 1H5v2h14V4zM6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM8 9h8v10H8V9z" />
+));
+
 export const DownloadOutlined = createMaterialIcon(() => (
 	<path d="M19 9h-4V3H9v6H5l7 7 7-7zm-8 2V5h2v6h1.17L12 13.17 9.83 11H11zm-6 7h14v2H5z" />
 ));
 
 export const EditOutlined = createMaterialIcon(() => (
 	<path d="M14.06 9.02l.92.92L5.92 19H5v-.92l9.06-9.06M17.66 3c-.25 0-.51.1-.7.29l-1.83 1.83 3.75 3.75 1.83-1.83c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.2-.2-.45-.29-.71-.29zm-3.6 3.19L3 17.25V21h3.75L17.81 9.94l-3.75-3.75z" />
+));
+
+export const EditNoteOutlined = createMaterialIcon(() => (
+	<path d="M3 10h11v2H3zm0-2h11V6H3zm0 8h7v-2H3zm15.01-3.13.71-.71c.39-.39 1.02-.39 1.41 0l.71.71c.39.39.39 1.02 0 1.41l-.71.71zm-.71.71-5.3 5.3V21h2.12l5.3-5.3z" />
 ));
 
 export const ErrorOutlined = createMaterialIcon(() => (
@@ -273,6 +284,10 @@ export const PublishedWithChangesOutlined = createMaterialIcon(() => (
 	</>
 ));
 
+export const RegexOutlined = createMaterialIcon(() => (
+	<path d="M16 16.92c-.33.05-.66.08-1 .08c-.34 0-.67-.03-1-.08v-3.51l-2.5 2.48c-.5-.39-1-.89-1.39-1.39l2.48-2.5H9.08c-.05-.33-.08-.66-.08-1c0-.34.03-.67.08-1h3.51l-2.48-2.5c.19-.25.39-.5.65-.74c.24-.26.49-.46.74-.65L14 8.59V5.08c.33-.05.66-.08 1-.08c.34 0 .67.03 1 .08v3.51l2.5-2.48c.5.39 1 .89 1.39 1.39L17.41 10h3.51c.05.33.08.66.08 1c0 .34-.03.67-.08 1h-3.51l2.48 2.5c-.19.25-.39.5-.65.74c-.24.26-.49.46-.74.65L16 13.41zM5 19a2 2 0 0 1 2-2a2 2 0 0 1 2 2a2 2 0 0 1-2 2a2 2 0 0 1-2-2" />
+));
+
 export const QueueMusicOutlined = createMaterialIcon(() => (
 	<g>
 		<path d="M22,6h-5v8.18C16.69,14.07,16.35,14,16,14c-1.66,0-3,1.34-3,3s1.34,3,3,3s3-1.34,3-3V8h3V6z M15,6H3v2h12V6z M15,10H3v2h12 V10z M11,14H3v2h8V14z" />
@@ -359,4 +374,8 @@ export const VolunteerActivismOutlined = createMaterialIcon(() => (
 			</g>
 		</g>
 	</g>
+));
+
+export const WholeWordOutlined = createMaterialIcon(() => (
+	<path d="M11.14 4L6.43 16h1.93l.96-2.57h5.35l.97 2.57h1.93L12.86 4M12 6.29l2.03 5.42H9.96M20 14v4H4v-3H2v5h20v-6Z" />
 ));

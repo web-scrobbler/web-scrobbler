@@ -545,14 +545,26 @@ summary {
 		'track tracksearch trackreplace' 2em
 		'artist artistsearch artistreplace' 2em
 		'album albumsearch albumreplace' 2em
-		'albumartist albumartistsearch albumartistreplace' 2em / auto 1fr 1fr;
-	margin: 0.75em 0;
+		'albumartist albumartistsearch albumartistreplace' 2em
+		'flags flags flags' 2em / auto 1fr 1fr;
+	margin-bottom: 1.5em;
+	margin-top: 0.75em;
 	padding: 0.25em 1em;
 	width: 100%;
+
+	.regexEditEntry {
+		border: var(--interactable-border);
+	}
 
 	/**
 	 * Set grid areas
 	 */
+	.regexDeleteFlags {
+		display: flex;
+		gap: 0.5em;
+		grid-area: flags;
+	}
+
 	.regexDeleteSearchLabel {
 		grid-area: search;
 	}
@@ -613,6 +625,7 @@ summary {
 .scrobble {
 	align-items: center;
 	background-color: var(--last-fm-bg-weak);
+	border: var(--interactable-border);
 	border-radius: 1em;
 	box-shadow: var(--neuomorphic-small-bottom), var(--neuomorphic-small-top);
 	display: flex;
@@ -667,13 +680,14 @@ summary {
 
 			.scrobbleActionButton {
 				background-color: var(--always-last-fm);
-				border: none;
+				border: var(--interactable-border);
 				border-radius: 3px;
 				color: var(--always-light);
 				cursor: pointer;
 
 				&:hover {
 					background-color: var(--always-last-fm-hover);
+					color: var(--active-text);
 				}
 
 				&:disabled {
@@ -686,7 +700,7 @@ summary {
 
 	&:has(:checked) {
 		background-color: var(--always-last-fm);
-		color: var(--always-light);
+		color: var(--active-text);
 
 		.scrobbleDetails .scrobbleActions .scrobbleActionButton {
 			background-color: var(--last-fm-bg-light);
@@ -703,7 +717,7 @@ summary {
 
 			.scrobbleDetails .scrobbleActions .scrobbleActionButton {
 				background-color: var(--always-last-fm);
-				color: var(--always-light);
+				color: var(--active-text);
 			}
 		}
 	}
