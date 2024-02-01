@@ -29,7 +29,7 @@ export default function minifyImages(options: {
 	isDev: boolean;
 }): PluginOption {
 	return {
-		name: 'compile-connectors',
+		name: 'minify-images',
 		buildEnd: async () => {
 			if (options.isDev) {
 				colorLog('Skipping image minification for dev build', 'info');
