@@ -13,7 +13,7 @@ import chokidar from 'chokidar';
 function generateConnectors() {
 	return new Promise<void>((resolve, reject) => {
 		exec(
-			'esbuild src/connectors/*.ts --bundle --outdir=build/connectorraw',
+			'esbuild src/connectors/*.ts --bundle --outdir=build/connectorraw --tsconfig=tsconfig.connectors.json',
 			(err, stdout, stderr) => {
 				if (err) {
 					colorLog(err, 'error');
