@@ -23,6 +23,9 @@ export const SCROBBLE_EDITED_TRACKS_ONLY = 'scrobbleEditedTracksOnly';
 export const SCROBBLE_PERCENT = 'scrobblePercent';
 export const DISABLED_CONNECTORS = 'disabledConnectors';
 export const DEBUG_LOGGING_ENABLED = 'debugLoggingEnabled';
+export const ALBUM_GUESSING_DISABLED = 'albumGuessingDisabled';
+export const ALBUM_GUESSING_UNEDITED_ONLY = 'albumGuessingUneditedOnly';
+export const ALBUM_GUESSING_ALL_TRACKS = 'albumGuessingAllTracks';
 
 export interface GlobalOptions {
 	/**
@@ -81,6 +84,21 @@ export interface GlobalOptions {
 	 * Automatically toggle love on scrobbling service when doing so on website.
 	 */
 	[AUTO_TOGGLE_LOVE]: boolean;
+
+	/**
+	 * Disable guessing of albums
+	 */
+	[ALBUM_GUESSING_DISABLED]: boolean;
+
+	/**
+	 * Only guess albums of unedited tracks
+	 */
+	[ALBUM_GUESSING_UNEDITED_ONLY]: boolean;
+
+	/**
+	 * Guess albums for all albumless tracks including edited ones
+	 */
+	[ALBUM_GUESSING_ALL_TRACKS]: boolean;
 }
 
 /**
@@ -97,6 +115,9 @@ const DEFAULT_OPTIONS: GlobalOptions = {
 	[SCROBBLE_PERCENT]: DEFAULT_SCROBBLE_PERCENT,
 	[USE_INFOBOX]: true,
 	[AUTO_TOGGLE_LOVE]: true,
+	[ALBUM_GUESSING_DISABLED]: false,
+	[ALBUM_GUESSING_UNEDITED_ONLY]: true,
+	[ALBUM_GUESSING_ALL_TRACKS]: false,
 	[DISABLED_CONNECTORS]: {},
 };
 
