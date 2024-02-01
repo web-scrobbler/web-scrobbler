@@ -10,33 +10,15 @@ Connector.isPlaying = () => {
 	return true;
 };
 
-Connector.getTrack = () => {
-	let track = null;
-
-	const trackElement = document.querySelector(
+Connector.getTrack = () =>
+	document.querySelector(
 		'.episode-player-tracklist__track--is-playing .episode-player-tracklist__title',
-	);
+	)?.textContent;
 
-	if (trackElement) {
-		track = trackElement.textContent;
-	}
-
-	return track;
-};
-
-Connector.getArtist = () => {
-	let artist = null;
-
-	const artistElement = document.querySelector(
+Connector.getArtist = () =>
+	document.querySelector(
 		'.episode-player-tracklist__track--is-playing .episode-player-tracklist__artist',
-	);
-
-	if (artistElement) {
-		artist = artistElement.textContent;
-	}
-
-	return artist;
-};
+	)?.textContent;
 
 Connector.scrobbleInfoLocationSelector = '.soundcloud-player__content';
 Connector.scrobbleInfoStyle = {
