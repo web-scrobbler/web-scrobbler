@@ -528,7 +528,15 @@ export default class Controller {
 	 * @returns Controller mode
 	 */
 	getMode(): (typeof ControllerMode)[keyof typeof ControllerMode] {
-		return this.isPaused ? ControllerMode.Paused : this.mode;
+		const pausableModes = [
+			ControllerMode.Playing,
+			ControllerMode.Scrobbled,
+		];
+		if (pausableModes.includes(this.mode) && this.isPaused) {
+			return ControllerMode.Paused;
+		}
+
+		return this.mode;
 	}
 
 	/**
