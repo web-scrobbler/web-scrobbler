@@ -2372,4 +2372,10 @@ export default <ConnectorMeta[]>[
 		js: 'nts.js',
 		id: 'nts',
 	},
+	{
+		label: 'NTS Shows',
+		matches: ['*://*nts.live/shows/*'],
+		js: 'nts-shows.js',
+		id: 'nts-shows',
+	},
 ];
