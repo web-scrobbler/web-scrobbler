@@ -10,36 +10,32 @@ Connector.isPlaying = () => {
 	return true;
 };
 
-// Connector.artistSelector =
-// 	'.episode-player-tracklist__track--is-playing .episode-player-tracklist__artist';
-
-// Connector.trackSelector =
-// 	'.episode-player-tracklist__track--is-playing .episode-player-tracklist__title';
-
-Connector.getArtistTrack = () => {
-	let artist = null;
+Connector.getTrack = () => {
 	let track = null;
 
-	const trackinfo = document.querySelector(
-		'.episode-player-tracklist__track--is-playing',
+	const trackElement = document.querySelector(
+		'.episode-player-tracklist__track--is-playing .episode-player-tracklist__title',
 	);
 
-	if (trackinfo) {
-		const artistElement = trackinfo.querySelector(
-			'.episode-player-tracklist__artist',
-		);
-		const trackElement = trackinfo.querySelector(
-			'.episode-player-tracklist__title',
-		);
-		if (artistElement) {
-			artist = artistElement.textContent;
-		}
-		if (trackElement) {
-			track = trackElement.textContent;
-		}
+	if (trackElement) {
+		track = trackElement.textContent;
 	}
 
-	return { artist, track };
+	return track;
+};
+
+Connector.getArtist = () => {
+	let artist = null;
+
+	const artistElement = document.querySelector(
+		'.episode-player-tracklist__track--is-playing .episode-player-tracklist__artist',
+	);
+
+	if (artistElement) {
+		artist = artistElement.textContent;
+	}
+
+	return artist;
 };
 
 Connector.scrobbleInfoLocationSelector = '.soundcloud-player__content';
