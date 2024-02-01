@@ -34,6 +34,11 @@ export const Loading = 'Loading';
 export const Playing = 'Playing';
 
 /**
+ * A song is paused.
+ */
+export const Paused = 'Paused';
+
+/**
  * A song is scrobbled.
  */
 export const Scrobbled = 'Scrobbled';
