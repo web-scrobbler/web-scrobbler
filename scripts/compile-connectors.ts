@@ -8,7 +8,7 @@ import chokidar from 'chokidar';
 /**
  * Sends the actual command to typescript to compile connectors, and places them where they should be.
  *
- * @returns A promise that resolves when the conenctors are compiled
+ * @returns A promise that resolves when the connectors are compiled
  */
 function generateConnectors() {
 	return new Promise<void>((resolve, reject) => {
