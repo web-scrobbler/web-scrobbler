@@ -3,7 +3,11 @@ export {};
 Connector.playerSelector = '.episode-player-wrapper';
 
 Connector.isPlaying = () => {
-	return document.querySelector('.icon-pause') !== null;
+	let title = document.querySelector('.soundcloud-player__play-icon title');
+	if (title && title.textContent === 'Play') {
+		return false;
+	}
+	return true;
 };
 
 // Connector.artistSelector =
@@ -38,10 +42,9 @@ Connector.getArtistTrack = () => {
 	return { artist, track };
 };
 
-Connector.scrobbleInfoLocationSelector = '.bio__title__subtitle';
+Connector.scrobbleInfoLocationSelector = '.soundcloud-player__content';
 Connector.scrobbleInfoStyle = {
 	...Connector.scrobbleInfoStyle,
-	fontSize: '0.7em',
-	marginTop: '1em',
-	marginBottom: '-0.5em',
+	fontSize: '0.5em',
+	marginLeft: '1em',
 };
