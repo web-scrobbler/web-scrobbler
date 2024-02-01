@@ -174,7 +174,12 @@ export default function Regex(props: {
 
 function Flags() {
 	return (
-		<div class={styles.regexFlagsWrapper}>
+		<div
+			class={styles.regexFlagsWrapper}
+			role="group"
+			aria-label={t('optionsOptions')}
+		>
+			<span>{t('optionsOptions')}</span>
 			<RegexFlagCheckbox
 				i18nTitle="infoUseRegex"
 				icon={RegexOutlined}
@@ -531,8 +536,9 @@ function Footer(props: {
 			<Show when={props.clonedSong?.flags.isCorrectedByUser}>
 				<span class={styles.editWarning}>{t('infoEditedWarning')}</span>
 			</Show>
-			<div class={styles.regexFooterButtons}>
-				<Show when={!isIos()}>
+			<Show when={!isIos()}>
+				<Flags />
+				<div class={styles.regexFooterButtons}>
 					<div class={styles.controlButtons}>
 						<button
 							class={styles.controlButton}
@@ -541,7 +547,6 @@ function Footer(props: {
 						>
 							<CheckOutlined />
 						</button>
-						<Flags />
 						<Show when={props.blockedTypes()}>
 							{(blockedTypesLoaded) => (
 								<>
@@ -577,8 +582,8 @@ function Footer(props: {
 							)}
 						</Show>
 					</div>
-				</Show>
-			</div>
+				</div>
+			</Show>
 		</div>
 	);
 }

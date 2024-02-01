@@ -272,7 +272,14 @@ a {
 	}
 
 	.regexFlagsWrapper {
+		align-items: center;
 		display: flex;
+		margin: 0.5em 0;
+
+		span {
+			font-size: 1.1em;
+			margin-right: 0.5em;
+		}
 	}
 
 	.regexToggleWrapper {
@@ -285,7 +292,7 @@ a {
 
 		&:has(.regexToggleInput:checked) {
 			background-color: var(--last-fm);
-			color: var(--background);
+			color: var(--active-text);
 		}
 
 		/**
@@ -297,7 +304,7 @@ a {
 			&:hover,
 			&:has(.regexToggleInput:focus-visible) {
 				background-color: var(--last-fm);
-				color: var(--background);
+				color: var(--active-text);
 			}
 
 			&:hover:has(.regexToggleInput:checked),
