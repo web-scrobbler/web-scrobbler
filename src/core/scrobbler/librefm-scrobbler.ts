@@ -1,9 +1,8 @@
 'use strict';
 
 import { createQueryString } from '@/util/util-browser';
-import AudioScrobbler, {
-	AudioScrobblerParams,
-} from '@/core/scrobbler/audio-scrobbler/audio-scrobbler';
+import type { AudioScrobblerParams } from '@/core/scrobbler/audio-scrobbler/audio-scrobbler';
+import AudioScrobbler from '@/core/scrobbler/audio-scrobbler/audio-scrobbler';
 
 /**
  * Module for all communication with libre.fm

@@ -2,10 +2,11 @@ import MD5 from 'blueimp-md5';
 
 import { hideStringInText, timeoutPromise } from '@/util/util';
 import { createQueryString } from '@/util/util-browser';
-import BaseScrobbler, { SessionData } from '@/core/scrobbler/base-scrobbler';
+import type { SessionData } from '@/core/scrobbler/base-scrobbler';
+import BaseScrobbler from '@/core/scrobbler/base-scrobbler';
 import { ServiceCallResult } from '@/core/object/service-call-result';
-import { BaseSong } from '@/core/object/song';
-import {
+import type { BaseSong } from '@/core/object/song';
+import type {
 	AudioScrobblerSessionResponse,
 	AudioScrobblerTrackScrobbleResponse,
 } from '@/core/scrobbler/audio-scrobbler/audio-scrobbler.types';

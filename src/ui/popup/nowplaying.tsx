@@ -1,11 +1,8 @@
 import { t } from '@/util/i18n';
 import styles from './popup.module.scss';
+import type { Accessor, JSXElement, Resource, Setter } from 'solid-js';
 import {
-	Accessor,
-	JSXElement,
 	Match,
-	Resource,
-	Setter,
 	Show,
 	Switch,
 	createEffect,
@@ -15,7 +12,7 @@ import {
 	onCleanup,
 	onMount,
 } from 'solid-js';
-import { ManagerTab } from '@/core/storage/wrapper';
+import type { ManagerTab } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
 import ClonedSong from '@/core/object/cloned-song';
 import Base from './base';
@@ -37,13 +34,11 @@ import {
 	createTrackURL,
 } from '@/util/util';
 import scrobbleService from '@/core/object/scrobble-service';
-import { SessionData } from '@/core/scrobbler/base-scrobbler';
+import type { SessionData } from '@/core/scrobbler/base-scrobbler';
 import { PopupAnchor, Squircle, isIos } from '../components/util';
 import ContextMenu from '../components/context-menu/context-menu';
-import {
-	Navigator,
-	getMobileNavigatorGroup,
-} from '../options/components/navigator';
+import type { Navigator } from '../options/components/navigator';
+import { getMobileNavigatorGroup } from '../options/components/navigator';
 
 /**
  * Component showing info for currently playing song if there is one

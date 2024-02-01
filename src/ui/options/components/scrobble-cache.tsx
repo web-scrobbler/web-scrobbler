@@ -1,9 +1,10 @@
 import scrobbleCache from '@/core/storage/scrobble-cache';
-import { CacheScrobble, ScrobbleStatus } from '@/core/storage/wrapper';
+import type { CacheScrobble } from '@/core/storage/wrapper';
+import { ScrobbleStatus } from '@/core/storage/wrapper';
 import { t } from '@/util/i18n';
+import type { Setter } from 'solid-js';
 import {
 	For,
-	Setter,
 	Show,
 	Suspense,
 	createMemo,
@@ -17,9 +18,9 @@ import { ExpandMoreOutlined } from '@/ui/components/icons';
 import ClonedSong from '@/core/object/cloned-song';
 import browser from 'webextension-polyfill';
 import { sendContentMessage } from '@/util/communication';
-import { ModalType } from './navigator';
+import type { ModalType } from './navigator';
 import savedEdits from '@/core/storage/saved-edits';
-import { CloneableSong } from '@/core/object/song';
+import type { CloneableSong } from '@/core/object/song';
 import { debugLog } from '@/core/content/util';
 import SavedEditsModel from '@/core/storage/saved-edits.model';
 
@@ -339,12 +340,11 @@ function ScrobbleList(props: {
 	setActiveModal: Setter<ModalType>;
 	modal: HTMLDialogElement | undefined;
 }) {
-	const filteredScrobbles = createMemo(
-		() =>
-			scrobbles()
-				?.slice()
-				.reverse()
-				.filter((e) => e.status === props.type),
+	const filteredScrobbles = createMemo(() =>
+		scrobbles()
+			?.slice()
+			.reverse()
+			.filter((e) => e.status === props.type),
 	);
 
 	return (

@@ -1,11 +1,11 @@
-import {
+import type {
 	ConnectorOptions,
 	ConnectorsOverrideOptions,
 	ConnectorsOverrideOptionValues,
 	GlobalOptions,
 	SavedEdit,
 } from '@/core/storage/options';
-import {
+import type {
 	ListenBrainzModel,
 	WebhookModel,
 	Properties,
@@ -14,7 +14,7 @@ import {
 	BlockedTags,
 	Blocklists,
 } from '@/core/storage/wrapper';
-import { RegexEdit } from './regex';
+import type { RegexEdit } from './regex';
 
 /**
  * Module that contains some useful helper functions for background scripts.

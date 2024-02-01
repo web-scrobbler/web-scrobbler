@@ -1,6 +1,6 @@
 import * as BrowserStorage from '@/core/storage/browser-storage';
-import { BaseSong } from '../object/song';
-import { BlockedTagType } from './wrapper';
+import type { BaseSong } from '../object/song';
+import type { BlockedTagType } from './wrapper';
 
 export default class BlockedTags {
 	private storage = BrowserStorage.getStorage(BrowserStorage.BLOCKED_TAGS);

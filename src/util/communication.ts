@@ -1,10 +1,10 @@
-import { ConnectorMeta } from '@/core/connectors';
+import type { ConnectorMeta } from '@/core/connectors';
 import type { ChannelInfo } from '@/core/content/util';
-import { ControllerModeStr } from '@/core/object/controller/controller';
-import { ServiceCallResult } from '@/core/object/service-call-result';
-import { CloneableSong } from '@/core/object/song';
-import { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
-import { ManagerTab } from '@/core/storage/wrapper';
+import type { ControllerModeStr } from '@/core/object/controller/controller';
+import type { ServiceCallResult } from '@/core/object/service-call-result';
+import type { CloneableSong } from '@/core/object/song';
+import type { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
+import type { ManagerTab } from '@/core/storage/wrapper';
 import browser from 'webextension-polyfill';
 
 /**

@@ -3,7 +3,7 @@ import { createCanvas, loadImage } from 'canvas';
 import { resolve } from 'path';
 import { getBrowser, releaseTarget, releaseTargets } from './util';
 import colorLog from './log';
-import { PluginOption } from 'vite';
+import type { PluginOption } from 'vite';
 
 /**
  * Get the name of the main icon based on the release target.
