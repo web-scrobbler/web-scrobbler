@@ -16,7 +16,7 @@ import {
 export default class PleromaScrobbler extends BaseScrobbler<'Pleroma'> {
 	public userToken!: string;
 	public userApiUrl!: string;
-	public isLocalOnly = false;
+	public isLocalOnly = true;
 
 	/** @override */
 	protected getStorageName(): 'Pleroma' {
