@@ -2,9 +2,9 @@
  * This pipeline stage loads song info from external services.
  */
 import * as Options from '@/core/storage/options';
-import Song from '@/core/object/song';
-import { ConnectorMeta } from '@/core/connectors';
-import { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
+import type Song from '@/core/object/song';
+import type { ConnectorMeta } from '@/core/connectors';
+import type { ScrobblerSongInfo } from '@/core/scrobbler/base-scrobbler';
 import { sendContentMessage } from '@/util/communication';
 
 const INFO_TO_COPY: ['duration', 'artist', 'track'] = [

@@ -13,7 +13,7 @@ import type { DebugLogType } from '@/util/util';
 
 import { t } from '@/util/i18n';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
-import Song from '../object/song';
+import type Song from '../object/song';
 
 const BrowserStorage = (async () => {
 	return import('@/core/storage/browser-storage');
@@ -960,8 +960,8 @@ export function parseYtVideoDescription(
 	} else {
 		[track, artist, ...featArtists] = trackInfo;
 
-		const areFeatArtistPresent = featArtists.some(
-			(artist) => track?.includes(artist),
+		const areFeatArtistPresent = featArtists.some((artist) =>
+			track?.includes(artist),
 		);
 		if (!areFeatArtistPresent) {
 			const featArtistsStr = featArtists.join(ARTIST_SEPARATOR);

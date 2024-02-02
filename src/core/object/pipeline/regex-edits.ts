@@ -1,5 +1,5 @@
 import { debugLog } from '@/core/content/util';
-import Song from '@/core/object/song';
+import type Song from '@/core/object/song';
 import RegexEdits from '@/core/storage/regex-edits';
 
 /**

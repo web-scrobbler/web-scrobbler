@@ -1,4 +1,4 @@
-import { UserConfig } from 'vite';
+import type { UserConfig } from 'vite';
 import * as manifests from './manifest.config';
 import solid from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';

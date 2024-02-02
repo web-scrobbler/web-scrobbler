@@ -1,11 +1,12 @@
 import { t } from '@/util/i18n';
-import { For, Setter, createMemo, createResource } from 'solid-js';
+import type { Setter } from 'solid-js';
+import { For, createMemo, createResource } from 'solid-js';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import styles from '../components.module.scss';
 import { DeleteOutlined } from '@/ui/components/icons';
 import { ExportEdits, ImportEdits, ViewEdits } from './util';
-import { ModalType } from '../navigator';
-import { BlockedTags, BlockedTagsReference } from '@/core/storage/wrapper';
+import type { ModalType } from '../navigator';
+import type { BlockedTags, BlockedTagsReference } from '@/core/storage/wrapper';
 import { Dynamic } from 'solid-js/web';
 
 const blocklist = BrowserStorage.getStorage(BrowserStorage.BLOCKED_TAGS);

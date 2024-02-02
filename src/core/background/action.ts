@@ -6,7 +6,7 @@ import {
 	getChannelBlocklistLabel,
 } from './util';
 import { sendPopupMessage } from '@/util/communication';
-import { ManagerTab } from '@/core/storage/wrapper';
+import type { ManagerTab } from '@/core/storage/wrapper';
 import * as ControllerMode from '@/core/object/controller/controller-mode';
 import { getConnectorByUrl } from '@/util/util-connector';
 import { t } from '@/util/i18n';

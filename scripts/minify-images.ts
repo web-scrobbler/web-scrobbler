@@ -1,7 +1,7 @@
 import imagemin from 'imagemin';
 import imageminJpegtran from 'imagemin-jpegtran';
 import imageminPngquant from 'imagemin-pngquant';
-import { PluginOption } from 'vite';
+import type { PluginOption } from 'vite';
 import { getBrowser, releaseTarget, releaseTargets } from './util';
 import colorLog from './log';
 

@@ -1,10 +1,11 @@
 'use strict';
 
 import { ServiceCallResult } from '@/core/object/service-call-result';
-import { BaseSong } from '@/core/object/song';
+import type { BaseSong } from '@/core/object/song';
 import { timeoutPromise } from '@/util/util';
-import BaseScrobbler, { SessionData } from '@/core/scrobbler/base-scrobbler';
-import { MalojaTrackMetadata } from '@/core/scrobbler/maloja/maloja.types';
+import type { SessionData } from '@/core/scrobbler/base-scrobbler';
+import BaseScrobbler from '@/core/scrobbler/base-scrobbler';
+import type { MalojaTrackMetadata } from '@/core/scrobbler/maloja/maloja.types';
 
 /**
  * Module for communication with Maloja
