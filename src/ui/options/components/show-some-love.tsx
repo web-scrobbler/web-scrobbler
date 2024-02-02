@@ -9,9 +9,6 @@ export default function ShowSomeLove() {
 	return (
 		<>
 			<h1>{t('showSomeLoveTitle')}</h1>
-			<div class={styles.attentionWindow}>
-				<strong>{t('showSomeLoveFundingCampaign')}</strong>
-			</div>
 			<p>{t('showSomeLoveText1')}</p>
 			<p>{t('showSomeLoveText2')}</p>
 			<a

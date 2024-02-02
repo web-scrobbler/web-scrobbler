@@ -547,10 +547,6 @@
         "message": "Show some love",
         "description": "'Show some love' section"
     },
-    "showSomeLoveFundingCampaign": {
-        "message": "Over time a significant backlog of issues has been built up in the Web Scrobbler repository. From mid-August 2023 until mid-March 2024 one of our main developers will be available to work full-time on the project at a reduced rate. Roughly speaking, for every $$1500 we raise, we can pay for one month of full-time work, up to around $$9-10k. If you want to support this campaign and help us run through our backlog and make Web Scrobbler even better than it has ever been, you can use the button below. We remain committed to keeping Web Scrobbler and all of its features completely free forever. Please help spread the word.",
-        "description": "Temporary funding campaign"
-    },
     "showSomeLoveText1": {
         "message": "Unlike other extensions, this one does not contain any flashing banners or sneaky ads.",
         "description": ""
