@@ -77,6 +77,7 @@ browser.commands?.onCommand.addListener(
  */
 async function commandHandler(command: string) {
 	const tab = await getCurrentTab();
+	const alreadyLoved = tab.song?.metadata.userloved;
 
 	switch (command) {
 		case 'toggle-connector':
@@ -87,10 +88,18 @@ async function commandHandler(command: string) {
 			}
 			break;
 		case 'love-song':
-			setLoveStatus(tab.tabId, true, true);
+			// only set love status if song is not yet loved, ignore if song is already loved
+			// only send notification when song is unloved but will be loved
+			if (!alreadyLoved) {
+				setLoveStatus(tab.tabId, true, true);
+			}
 			break;
 		case 'unlove-song':
-			setLoveStatus(tab.tabId, false, true);
+			// only set unlove status if song is loved, ignore if song is unloved
+			// only send notification when song is loved but will be unloved
+			if (alreadyLoved) {
+				setLoveStatus(tab.tabId, false, true);
+			}
 			break;
 	}
 }
@@ -100,7 +109,7 @@ async function commandHandler(command: string) {
  *
  * @param tabId	- Tab ID of the tab to update
  * @param isLoved - Whether the song is loved
- * @param shouldShowNotification - Whether the song is (un)loved by hotkey command
+ * @param shouldShowNotification - Whether the song should show notification when (un)loved
  *
  */
 function setLoveStatus(

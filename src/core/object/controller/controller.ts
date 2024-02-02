@@ -658,6 +658,16 @@ export default class Controller {
 				this.connector.meta.id,
 			)
 		) {
+			if (
+				// do not show notification if:
+				// 1. song is already loved and is being toggled to love status
+				// 2. song is already unloved and is being toggled to unlove status
+				(this.currentSong.metadata.userloved === true && isLoved) ||
+				(this.currentSong.metadata.userloved === false && !isLoved)
+			) {
+				return;
+			}
+			// do send notification if song has not yet been (un)loved toggled yet
 			this.toggleLove(isLoved, true);
 		}
 	}

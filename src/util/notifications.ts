@@ -8,7 +8,6 @@ import { Scrobbler } from '@/core/object/scrobble-service';
 import { debugLog } from '@/core/content/util';
 import * as BrowserStorage from '@/core/storage/browser-storage';
 import NativeScrobblerNotification from '@/core/storage/native-scrobbler-notification';
-import { Console } from 'console';
 
 /**
  * Notification service.
@@ -416,6 +415,7 @@ export async function showLovedNotification(
 	song: BaseSong,
 	isLoved: boolean,
 ): Promise<void> {
+	// do not show the notification when user has them disabled
 	if (!(await isAllowed(song.connector))) {
 		return;
 	}
