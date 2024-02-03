@@ -42,4 +42,11 @@ export type ListenBrainzParams =
 export type MetadataLookup = {
 	recording_mbid?: string;
 };
+
+export interface ListenBrainzHTMLReactProps {
+	current_user: {
+		name: string;
+		auth_token: string;
+	};
+}
 /* eslint-enable camelcase */
