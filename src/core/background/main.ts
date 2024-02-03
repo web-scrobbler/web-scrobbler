@@ -467,6 +467,26 @@ setupBackgroundListeners(
 			});
 		},
 	}),
+
+	/**
+	 * Listener called by a content script to fetch through background script.
+	 */
+	backgroundListener({
+		type: 'fetch',
+		fn: async ({ url, init }) => {
+			const res = await fetch(url, init);
+			if (!res.ok) {
+				return {
+					ok: false,
+					content: '',
+				};
+			}
+			return {
+				ok: true,
+				content: await res.text(),
+			};
+		},
+	}),
 );
 
 /**

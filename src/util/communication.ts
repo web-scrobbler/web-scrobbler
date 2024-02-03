@@ -104,6 +104,16 @@ interface ContentCommunications {
 		payload: undefined;
 		response: void;
 	};
+	fetch: {
+		payload: {
+			url: string;
+			init?: RequestInit | undefined;
+		};
+		response: Promise<{
+			ok: boolean;
+			content: string;
+		}>;
+	};
 }
 
 interface BackgroundCommunications {
