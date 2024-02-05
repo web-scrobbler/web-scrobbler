@@ -51,6 +51,8 @@ const contextMenuModes = [
 	ControllerMode.Scrobbled,
 	ControllerMode.Loading,
 	ControllerMode.Unknown,
+	ControllerMode.Loved,
+	ControllerMode.Unloved,
 ];
 
 /**
@@ -94,6 +96,8 @@ function Popup() {
 		[ControllerMode.Paused]: () => <NowPlaying tab={tab} />,
 		[ControllerMode.Skipped]: () => <NowPlaying tab={tab} />,
 		[ControllerMode.Scrobbled]: () => <NowPlaying tab={tab} />,
+		[ControllerMode.Loved]: () => <NowPlaying tab={tab} />,
+		[ControllerMode.Unloved]: () => <NowPlaying tab={tab} />,
 		[ControllerMode.Disallowed]: () => <Disallowed tab={tab} />,
 		[ControllerMode.Unknown]: () => <Edit tab={tab} />,
 		[ControllerMode.Unsupported]: () => <Unsupported />,

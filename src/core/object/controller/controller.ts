@@ -53,6 +53,8 @@ export const isPrioritizedMode: Partial<Record<ControllerModeStr, true>> = {
 	[ControllerMode.Unknown]: true,
 	[ControllerMode.Ignored]: true,
 	[ControllerMode.Err]: true,
+	[ControllerMode.Loved]: true,
+	[ControllerMode.Unloved]: true,
 };
 
 type updateEvent = {
@@ -68,6 +70,8 @@ export default class Controller {
 	public connector: BaseConnector;
 	public isEnabled: boolean;
 	public mode: ControllerModeStr;
+	private tempMode: ControllerModeStr | null;
+	private timeoutId: NodeJS.Timeout | undefined = undefined;
 
 	private pipeline = new Pipeline();
 	private playbackTimer = new Timer();
@@ -233,6 +237,7 @@ export default class Controller {
 		this.isEnabled = isEnabled;
 		this.mode = isEnabled ? ControllerMode.Base : ControllerMode.Disabled;
 		this.onModeChanged();
+		this.tempMode = null; // temporary default setting for now
 		Options.getOption(Options.SCROBBLE_PODCASTS, connector.meta.id)
 			.then((shouldScrobblePodcasts) => {
 				if (typeof shouldScrobblePodcasts !== 'boolean') {
@@ -593,6 +598,13 @@ export default class Controller {
 		this.currentSong.setLoveStatus(isLoved, true);
 		this.onSongUpdated();
 		try {
+			const pastMode = this.getMode();
+			if (isLoved) {
+				this.setTempMode(pastMode, ControllerMode.Loved);
+			} else {
+				this.setTempMode(pastMode, ControllerMode.Unloved);
+			}
+
 			await sendContentMessage({
 				type: 'toggleLove',
 				payload: {
@@ -732,6 +744,41 @@ export default class Controller {
 
 		this.mode = mode;
 		this.onModeChanged();
+	}
+
+	/**
+	 * Checks if the temp icon/mode is visible.
+	 */
+	private isTempIconVisible() {
+		return this.timeoutId !== undefined;
+	}
+
+	/**
+	 * Temporarily set the mode of the controller,
+	 * then returns to previous mode after 5 seconds.
+	 *
+	 * @param pastMode - past controller mode
+	 * @param newMode - new controller mode to be set
+	 *
+	 */
+	private setTempMode(
+		pastMode: ControllerModeStr,
+		newMode: ControllerModeStr,
+	) {
+		if (this.isTempIconVisible()) {
+			clearTimeout(this.timeoutId);
+			this.timeoutId = undefined;
+		} else {
+			this.tempMode = newMode;
+			this.mode = this.tempMode;
+		}
+		const TEMP_ICON_DISPLAY_DURATION = 5000;
+		this.setMode(newMode);
+		this.timeoutId = setTimeout(() => {
+			this.timeoutId = undefined;
+			this.setMode(pastMode);
+			this.tempMode = null;
+		}, TEMP_ICON_DISPLAY_DURATION);
 	}
 
 	private dispatchEvent(event: string): void {
