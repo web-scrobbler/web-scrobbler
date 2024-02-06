@@ -69,7 +69,7 @@ const disabledTabs = BrowserStorage.getStorage(BrowserStorage.DISABLED_TABS);
 export default class Controller {
 	public connector: BaseConnector;
 	public isEnabled: boolean;
-	public mode: ControllerModeStr;
+	private mode: ControllerModeStr;
 	private tempMode: ControllerModeStr | null;
 	private timeoutId: NodeJS.Timeout | undefined = undefined;
 
@@ -537,10 +537,12 @@ export default class Controller {
 			ControllerMode.Playing,
 			ControllerMode.Scrobbled,
 		];
+		if (this.tempMode !== null) {
+			return this.tempMode;
+		}
 		if (pausableModes.includes(this.mode) && this.isPaused) {
 			return ControllerMode.Paused;
 		}
-
 		return this.mode;
 	}
 
@@ -598,13 +600,11 @@ export default class Controller {
 		this.currentSong.setLoveStatus(isLoved, true);
 		this.onSongUpdated();
 		try {
-			const pastMode = this.getMode();
 			if (isLoved) {
-				this.setTempMode(pastMode, ControllerMode.Loved);
+				this.setTempMode(ControllerMode.Loved);
 			} else {
-				this.setTempMode(pastMode, ControllerMode.Unloved);
+				this.setTempMode(ControllerMode.Unloved);
 			}
-
 			await sendContentMessage({
 				type: 'toggleLove',
 				payload: {
@@ -757,27 +757,21 @@ export default class Controller {
 	 * Temporarily set the mode of the controller,
 	 * then returns to previous mode after 5 seconds.
 	 *
-	 * @param pastMode - past controller mode
 	 * @param newMode - new controller mode to be set
 	 *
 	 */
-	private setTempMode(
-		pastMode: ControllerModeStr,
-		newMode: ControllerModeStr,
-	) {
+	private setTempMode(newMode: ControllerModeStr) {
 		if (this.isTempIconVisible()) {
 			clearTimeout(this.timeoutId);
 			this.timeoutId = undefined;
-		} else {
-			this.tempMode = newMode;
-			this.mode = this.tempMode;
 		}
 		const TEMP_ICON_DISPLAY_DURATION = 5000;
-		this.setMode(newMode);
+		this.tempMode = newMode;
+		this.onModeChanged();
 		this.timeoutId = setTimeout(() => {
 			this.timeoutId = undefined;
-			this.setMode(pastMode);
 			this.tempMode = null;
+			this.onModeChanged();
 		}, TEMP_ICON_DISPLAY_DURATION);
 	}
 
