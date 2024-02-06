@@ -138,8 +138,21 @@ function Popup() {
 	);
 }
 
-// render the popup
+// prepare observer to communicate when popup running as iframe.
 const body = document.body;
+const resizeObserver = new ResizeObserver(() => {
+	window.parent.postMessage(
+		{
+			sender: 'web-scrobbler-popup',
+			width: body.scrollWidth,
+			height: body.scrollHeight,
+		},
+		'*',
+	);
+});
+resizeObserver.observe(body);
+
+// render the popup
 const root = document.createElement('div');
 root.id = 'root';
 root.classList.add(styles.root);

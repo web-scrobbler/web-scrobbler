@@ -159,10 +159,11 @@ Connector.durationSelector = durationSelector;
 // scrobble info is shown beside the video info
 Connector.scrobbleInfoLocationSelector = '.video-info-detail';
 Connector.scrobbleInfoStyle = {
-	...Connector.scrobbleInfoStyle,
-	fontSize: '13px',
-	fontWeight: '400',
-	marginLeft: '10px',
+	'#scrobbler-infobox-expand-button': {
+		fontSize: '13px',
+		fontWeight: '400',
+		marginLeft: '10px',
+	},
 };
 
 Connector.isPlaying = () => {

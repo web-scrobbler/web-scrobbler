@@ -32,6 +32,10 @@ export const common: Manifest.WebExtensionManifest = {
 			resources: ['icons/*'],
 			matches: ['<all_urls>'],
 		},
+		{
+			resources: ['src/ui/popup/index.html'],
+			matches: ['<all_urls>'],
+		},
 	],
 
 	options_ui: {

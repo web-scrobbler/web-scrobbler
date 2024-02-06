@@ -114,6 +114,10 @@ interface ContentCommunications {
 			content: string;
 		}>;
 	};
+	openEditMenu: {
+		payload: undefined;
+		response: void;
+	};
 }
 
 interface BackgroundCommunications {

@@ -92,11 +92,15 @@ setupEventListener();
 
 Connector.playerSelector = ['#content', '#player'];
 
-Connector.scrobbleInfoLocationSelector = '#primary #title.ytd-watch-metadata';
+Connector.scrobbleInfoLocationSelector = [
+	'#primary #title.ytd-watch-metadata',
+	'.slim-video-information-title-and-badges',
+];
 Connector.scrobbleInfoStyle = {
-	...Connector.scrobbleInfoStyle,
-	fontSize: '1.17em',
-	fontWeight: '700',
+	'#scrobbler-infobox-expand-button': {
+		fontSize: '1.17em',
+		fontWeight: '700',
+	},
 };
 
 Connector.loveButtonSelector =

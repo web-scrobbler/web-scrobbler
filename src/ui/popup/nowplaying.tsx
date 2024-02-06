@@ -101,6 +101,12 @@ export default function NowPlaying(props: { tab: Resource<ManagerTab> }) {
 		}
 	});
 
+	// immediately edit with param, this is used by infobox to instantly go to edit.
+	const params = new URLSearchParams(window.location.search);
+	if (params.get('action') === 'edit') {
+		setIsEditing(true);
+	}
+
 	return (
 		<Switch fallback={<Base />}>
 			<Match when={isEditing()}>
