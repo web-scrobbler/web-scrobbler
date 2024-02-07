@@ -165,6 +165,8 @@ export default class BaseConnector {
 	 *
 	 * This setter only overrides where there is conflict with what has already been set before,
 	 * similar to how regular CSS would work.
+	 *
+	 * As such, there is no need to respecify any styles in {@link DEFAULT_SCROBBLE_INFO_STYLE}, they will be automatically applied even if you add to it.
 	 */
 	public set scrobbleInfoStyle(override: InfoBoxCSS) {
 		for (const [selector, cssProperties] of Object.entries(override)) {
