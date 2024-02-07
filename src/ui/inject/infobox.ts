@@ -18,6 +18,12 @@ import { t } from '@/util/i18n';
  * injected into page. We do not want to load all of solid for that.
  */
 
+/**
+ * Props for button
+ * Details all we need to know.
+ * isLastItem is needed, as we add bottom border for separation to all other elements.
+ * shouldKeepDialogOpen will cause {@link closeDialog} to fail when the button is pressed.
+ */
 interface infoBoxButtonProps {
 	onClick: (ev: MouseEvent) => void;
 	label: string;
@@ -26,16 +32,30 @@ interface infoBoxButtonProps {
 	shouldKeepDialogOpen?: true;
 }
 
+/**
+ * Props for button as it gets appended.
+ * Includes the wrapper element for the append function to know where to append to.
+ */
 interface infoBoxAppendProps extends infoBoxButtonProps {
 	wrapper: HTMLUListElement;
 }
 
+/**
+ * The current dialog state.
+ * We need to keep track of this as we may replace the entire
+ * dialog content with an iframe. See {@link editSongButton}
+ */
 let currentDialog: {
 	wrapper: HTMLDivElement;
 	buttons: infoBoxButtonProps[];
 	connector: BaseConnector;
 } | null = null;
 
+/**
+ * Opens the infobox dialog.
+ *
+ * @param e - the mouse event that triggered openDialog
+ */
 function openDialog(e: MouseEvent) {
 	e.stopPropagation();
 	const dialog = document.querySelector<HTMLDialogElement>(
@@ -52,6 +72,11 @@ function openDialog(e: MouseEvent) {
 	}
 }
 
+/**
+ * Opens the infobox dialog.
+ *
+ * @param e - the mouse event that triggered openDialog
+ */
 function closeDialog(e: MouseEvent) {
 	if (
 		e.target &&
@@ -64,6 +89,13 @@ function closeDialog(e: MouseEvent) {
 	document.querySelector<HTMLDialogElement>(`#${infoBoxIds.dialog}`)?.close();
 }
 
+/**
+ * Automatically resizes iframe to match size of iframe content.
+ * Called by event listener to window message event, which listens
+ * for message posted by extension popup iframe.
+ *
+ * @param e - The message event
+ */
 function resizeIframe(e: MessageEvent<unknown>) {
 	if (
 		!e.data ||
@@ -91,6 +123,13 @@ function resizeIframe(e: MessageEvent<unknown>) {
 	iframe.height = e.data.height.toString();
 }
 
+/**
+ * Applies the appropriate styles from the connector to the element.
+ *
+ * @param element - Element to apply styles to
+ * @param connector - Connector currently being used
+ * @param selector - The selector to apply styles for
+ */
 function applyStyles(
 	element: HTMLElement,
 	connector: BaseConnector,
@@ -104,6 +143,12 @@ function applyStyles(
 	}
 }
 
+/**
+ * Crates an infobox dialog.
+ * Mutates {@link currentDialog}.
+ *
+ * @param props - Properties of the dialog
+ */
 function createInfoBoxDialog(props: {
 	wrapper: HTMLDivElement;
 	buttons: infoBoxButtonProps[];
@@ -149,6 +194,11 @@ function createInfoBoxDialog(props: {
 	window.addEventListener('message', resizeIframe);
 }
 
+/**
+ * Appends an infobox button to the dialog list.
+ *
+ * @param props - {@link infoBoxAppendProps} for the button.
+ */
 function appendInfoBoxButton(props: infoBoxAppendProps) {
 	const item = document.createElement('li');
 	item.classList.add(infoBoxClasses.listItem);
@@ -208,9 +258,11 @@ function appendInfoBoxButton(props: infoBoxAppendProps) {
 }
 
 /**
- * Function that handles updating the scrobble info box
+ * Fetches the infobox element, or creates it if it doesn't exist.
+ *
+ * @param connector - the current connector
  */
-export async function getInfoBoxElementUnsafe(
+async function getInfoBoxElementUnsafe(
 	connector: BaseConnector,
 ): Promise<HTMLDivElement | null> {
 	if (
@@ -253,6 +305,13 @@ export async function getInfoBoxElementUnsafe(
 	return infoBoxElement;
 }
 
+/**
+ * Fetches the infobox element, or creates it if it doesn't exist.
+ * Has some additional cleanup logic to be safer.
+ *
+ * @param connector - Current connector.
+ * @returns The infobox element.
+ */
 async function getInfoBoxElementSafe(
 	connector: BaseConnector,
 ): Promise<HTMLDivElement | null> {
@@ -270,6 +329,12 @@ async function getInfoBoxElementSafe(
 	return infoBoxElement;
 }
 
+/**
+ * Updates the infobox details
+ *
+ * @param props - Props for the infobox
+ * @returns
+ */
 export async function updateInfoBox(props: {
 	mode: ControllerModeStr;
 	song: Song | null;
@@ -350,6 +415,12 @@ export async function updateInfoBox(props: {
 	}
 }
 
+/**
+ * Prepare a button for disabling infobox for a website.
+ *
+ * @param connector - current connector
+ * @returns {@link infoBoxButtonProps} for a disable infobox button.
+ */
 const disableInfoBoxButton = (
 	connector: BaseConnector,
 ): infoBoxButtonProps => ({
@@ -369,6 +440,12 @@ const disableInfoBoxButton = (
 	isLastItem: true,
 });
 
+/**
+ * Prepare a button for enabling connector for a website.
+ *
+ * @param connector - current connector
+ * @returns {@link infoBoxButtonProps} for a enable connector button.
+ */
 const enableConnectorButton = (
 	connector: BaseConnector,
 ): infoBoxButtonProps => ({
@@ -379,6 +456,12 @@ const enableConnectorButton = (
 	connector,
 });
 
+/**
+ * Prepare a button for disabling connector for a website.
+ *
+ * @param connector - current connector
+ * @returns {@link infoBoxButtonProps} for a disable connector button.
+ */
 const disableConnectorButton = (
 	connector: BaseConnector,
 ): infoBoxButtonProps => ({
@@ -389,6 +472,12 @@ const disableConnectorButton = (
 	connector,
 });
 
+/**
+ * Prepare a button for forcing scrobbling current song
+ *
+ * @param connector - current connector
+ * @returns {@link infoBoxButtonProps} for a force scrobble button.
+ */
 const forceScrobbleButton = (connector: BaseConnector): infoBoxButtonProps => ({
 	onClick: () => {
 		connector.controller?.forceScrobbleSong();
@@ -397,6 +486,12 @@ const forceScrobbleButton = (connector: BaseConnector): infoBoxButtonProps => ({
 	connector,
 });
 
+/**
+ * Prepare a button for skipping current song.
+ *
+ * @param connector - current connector
+ * @returns {@link infoBoxButtonProps} for a skip song button.
+ */
 const skipSongButton = (connector: BaseConnector): infoBoxButtonProps => ({
 	onClick: () => {
 		connector.controller?.skipCurrentSong();
@@ -424,6 +519,7 @@ const editSongButton = (connector: BaseConnector): infoBoxButtonProps => ({
 		frame.src = browser.runtime.getURL(
 			'src/ui/popup/index.html?action=edit',
 		);
+		frame.style.display = 'block';
 		infoBoxDialog.appendChild(frame);
 	},
 	label: t('infoEditTitle'),
@@ -431,6 +527,9 @@ const editSongButton = (connector: BaseConnector): infoBoxButtonProps => ({
 	shouldKeepDialogOpen: true,
 });
 
+/**
+ * Default styling of scrobble info elements.
+ */
 export const DEFAULT_SCROBBLE_INFO_STYLE: InfoBoxCSS = {
 	'#scrobbler-infobox-wrapper': {
 		position: 'relative',
@@ -456,13 +555,16 @@ export const DEFAULT_SCROBBLE_INFO_STYLE: InfoBoxCSS = {
 	'#scrobbler-infobox-dialog': {
 		padding: '0',
 		borderRadius: '0.5em',
-		backgroundColor: '#d82323',
+		background: 'transparent',
 		position: 'absolute',
 		zIndex: '10000000',
 		left: '0',
 		bottom: '0',
 		margin: '0',
 		transform: 'translateY(100%)',
+	},
+	'.scrobbler-infobox-list-item': {
+		backgroundColor: '#d82323',
 	},
 	'.scrobbler-infobox-button': {
 		appearance: 'none',
