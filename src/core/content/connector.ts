@@ -156,6 +156,16 @@ export default class BaseConnector {
 		return this._scrobbleInfoStyle;
 	}
 
+	/**
+	 * Set styling for scrobble infobox.
+	 *
+	 * Styles are in the form of an object of selectors and styles.
+	 *
+	 * See {@link DEFAULT_SCROBBLE_INFO_STYLE} for an example.
+	 *
+	 * This setter only overrides where there is conflict with what has already been set before,
+	 * similar to how regular CSS would work.
+	 */
 	public set scrobbleInfoStyle(override: InfoBoxCSS) {
 		for (const [selector, cssProperties] of Object.entries(override)) {
 			if (!isValidInfoBoxSelector(selector)) {
