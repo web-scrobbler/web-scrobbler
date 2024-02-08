@@ -60,7 +60,9 @@ export async function process(
 			}
 
 			if (!song.getAlbum() || song.flags.isAlbumFetched) {
+				song.processed.albumArtist = songInfo.albumArtist;
 				song.processed.album = songInfo.album;
+				song.noRegex.albumArtist = songInfo.albumArtist;
 				song.noRegex.album = songInfo.album;
 				song.flags.isAlbumFetched = true;
 			}

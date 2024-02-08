@@ -137,6 +137,7 @@ export default class LastFmScrobbler extends AudioScrobbler {
 
 		if (albumInfo) {
 			songInfo.album = albumInfo.title;
+			songInfo.albumArtist = albumInfo.artist;
 			songInfo.albumUrl = albumInfo.url;
 			songInfo.albumMbId = albumInfo.mbid;
 
