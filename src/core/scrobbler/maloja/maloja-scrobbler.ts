@@ -127,7 +127,7 @@ export default class MalojaScrobbler extends BaseScrobbler<'Maloja'> {
 			// try to automatically prepend https://
 			url = new URL(`https://${this.userApiUrl}`);
 		}
-		url.pathname = url.pathname.split('/apis/mlj_1/')[0];
+		url.pathname = url.pathname.split('/apis/mlj_1')[0];
 		if (url.pathname.endsWith('/')) {
 			url.pathname = url.pathname.slice(0, -1);
 		}

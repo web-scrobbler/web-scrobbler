@@ -278,6 +278,9 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 			url = new URL(`https://${this.userApiUrl}`);
 		}
 		url.pathname = url.pathname.split('/1/')[0];
+		if (url.pathname.endsWith('/1')) {
+			url.pathname = url.pathname.slice(0, -2);
+		}
 		if (url.pathname.endsWith('/')) {
 			url.pathname = url.pathname.slice(0, -1);
 		}
