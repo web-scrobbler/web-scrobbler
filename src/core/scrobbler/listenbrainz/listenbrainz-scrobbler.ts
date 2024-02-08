@@ -6,6 +6,7 @@ import * as Util from '@/util/util';
 import { getExtensionVersion } from '@/util/util-browser';
 import BaseScrobbler, { SessionData } from '@/core/scrobbler/base-scrobbler';
 import {
+	ListenBrainzHTMLReactProps,
 	ListenBrainzParams,
 	ListenBrainzTrackMeta,
 	MetadataLookup,
@@ -16,7 +17,7 @@ import { sendContentMessage } from '@/util/communication';
  * Module for all communication with LB
  */
 
-const listenBrainzTokenPage = 'https://listenbrainz.org/profile/';
+const listenBrainzTokenPage = 'https://listenbrainz.org/settings/';
 const baseUrl = 'https://api.listenbrainz.org/1';
 const apiUrl = `${baseUrl}/submit-listens`;
 export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'> {
@@ -46,7 +47,7 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 			await this.storage.set({ isAuthStarted: true });
 		}
 
-		return 'https://listenbrainz.org/login/musicbrainz?next=%2Fprofile%2F';
+		return 'https://listenbrainz.org/login/musicbrainz?next=%2Fsettings%2F';
 	}
 
 	/** @override */
@@ -364,21 +365,20 @@ export default class ListenBrainzScrobbler extends BaseScrobbler<'ListenBrainz'>
 		const rawHtml = await Util.timeoutPromise(timeout, promise);
 
 		if (rawHtml !== null) {
-			const parser = new DOMParser();
+			let globalReactPropsJSON: ListenBrainzHTMLReactProps | null = null;
 
-			const doc = parser.parseFromString(rawHtml, 'text/html');
+			const globalReactPropsHTML = rawHtml.match(
+				/<script id="global-react-props" type="application\/json">(.*?)<\/script>/,
+			)?.[1];
 
-			let sessionName = null;
-			let sessionID = null;
-			const sessionNameEl = doc.querySelector('.page-title');
-			const sessionIdEl = doc.querySelector('#auth-token');
-
-			if (sessionNameEl) {
-				sessionName = sessionNameEl.textContent;
+			if (globalReactPropsHTML) {
+				globalReactPropsJSON = JSON.parse(
+					globalReactPropsHTML,
+				) as ListenBrainzHTMLReactProps;
 			}
-			if (sessionIdEl) {
-				sessionID = sessionIdEl.getAttribute('value');
-			}
+
+			const sessionName = globalReactPropsJSON?.current_user.name;
+			const sessionID = globalReactPropsJSON?.current_user.auth_token;
 
 			if (sessionID && sessionName) {
 				return { sessionID, sessionName };
