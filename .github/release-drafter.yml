@@ -11,6 +11,7 @@ categories:
     label: 'maintenance'
 exclude-labels:
   - 'skip-changelog'
+  - 'chore'
 version-resolver:
   major:
     labels:
